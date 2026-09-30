@@ -1554,14 +1554,17 @@ def controls(defs_all, sites_all, extern_data, by_text, name_layouts):
         return None
     m32, m48 = size_of("MATRIX"), size_of("MATRIX_L48")
     out["matrix_layouts"] = dict(ok=(m32 == 32 and m48 == 48), detail=f"MATRIX={m32} MATRIX_L48={m48}")
-    # 3. Prim_8016E7C8 (defined in ~1,192 .c files under two spellings): ONE layout class covers every definition
+    # 3. Prim_8016E7C8: ONE canonical definition, 64 B. Was (pre-T5.1.c2): "defined in ~1,192 .c files under two
+    #    spellings, ONE layout class covers every definition" (prim_files > 1000); the census relocation left one canon
+    #    def, so the multi-spelling case now lives in the selftest ("Prim spellings one layout 64").
     prim_defs = [d for d in defs_all if "Prim_8016E7C8" in d["names"] or d["tag"] == "Prim_8016E7C8"]
     prim_files = len({d["file"] for d in prim_defs})
     prim_lh = collections.Counter(d["lhash"] for d in prim_defs)
     prim_texts = len({d["text_hash"] for d in prim_defs})
     top_lh, top_n = (prim_lh.most_common(1)[0] if prim_lh else (None, 0))
-    out["prim_layout_class"] = dict(ok=(prim_files > 1000 and top_n == len(prim_defs) and top_lh is not None),
-                                    detail=f"defs in {prim_files} files, {prim_texts} spellings, {top_n}/{len(prim_defs)} in one layout ({prim_defs[0]['size'] if prim_defs else None} B)")
+    out["prim_layout_class"] = dict(ok=(len(prim_defs) == 1 and prim_defs[0]["is_canon"] and prim_defs[0]["size"] == 64),
+                                    detail=f"defs in {prim_files} files, {prim_texts} spellings, {top_n}/{len(prim_defs)} in one layout ({prim_defs[0]['size'] if prim_defs else None} B)"
+                                           + ("" if all(d["is_canon"] for d in prim_defs) else " (non-canon def present)"))
     # 4. a TU-CONFLICT ledger row reproduced: D_800A651C is declared with more than one type across TUs
     types = collections.Counter(e["type"] + e["dims"] for e in extern_data if e["name"] == "D_800A651C")
     out["tu_conflict_D_800A651C"] = dict(ok=(len(types) > 1), detail=" | ".join(f"{t}:{n}" for t, n in types.most_common(5)))
@@ -1690,6 +1693,20 @@ void f(void) {
     fr.a = 0;
 }
 '''
+PRIM_FIXTURES = (r'''typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8016E7C8;
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8;
+''', r'''typedef struct { short vx; short vy; short vz; short pad; } SVECTOR_8016E7C8;
+typedef struct {
+    SVECTOR_8016E7C8 v[4];
+    s32 f0; s32 f1; s32 f2; s32 f3; s32 f4; s32 f5;
+    u8 f6; u8 pad[7];
+} Prim_8016E7C8;
+''')   # the pre-T5.1.c2 live control: two spellings of Prim_8016E7C8 in two files, one layout class, 64 B
 TWINS_FIXTURE = '''# Struct twins
 ## Twins
 ### aaaa:opaque
@@ -1735,6 +1752,12 @@ def selftest():
     checks.append(("K&R-empty extern", any(e["name"] == "func_80002000" and e["params"] == "" for e in res["extern_fns"])))
     checks.append(("typedef alias fnptr", any(a["name"] == "Handler" and a["fnptr"] for a in res["typedef_aliases"])))
     checks.append(("params of f1", res["fndefs"][0]["pnames"] == ["a0", "b", "c"]))
+    prim = []
+    for i, txt in enumerate(PRIM_FIXTURES):
+        pres = walk_file(txt, f"src/ov_TEST/p{i}.c")
+        pr = Resolver({n: d for d in pres["definitions"] for n in d["names"] + ([d["tag"]] if d["tag"] else [])}).resolve_name("Prim_8016E7C8")
+        prim.append((pres["definitions"][-1]["text_hash"], pr[0], layout_hash(pr)))
+    checks.append(("Prim spellings one layout 64", prim[0][0] != prim[1][0] and prim[0][1] == prim[1][1] == 64 and prim[0][2] == prim[1][2]))
     # T5.1: the --check-structs reading (liveness, allowlists, block frames)
     cres = walk_file(CANON_FIXTURE, "src/shared/engine_types.h")
     ures = walk_file(USE_FIXTURE, "src/ov_TEST/u.c")

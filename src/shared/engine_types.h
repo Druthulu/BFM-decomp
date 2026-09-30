@@ -7379,7 +7379,7 @@ typedef struct {
     s16 f4;
     s16 f6;
 } D_80195AF6_t;
-struct Ent_SC07_010_8017AE2C { u8 pad[0xDC]; s32 unkDC; u8 pad2[0x1C]; u16 unkFC; };
+struct Ent_SC07_010_8017AE2C { u8 pad[0xDC]; s32 unkDC; u8 pad_E0[0x1C]; u16 unkFC; };
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_CF90;
 typedef struct {
     u8 pad_00[0x20];
@@ -7821,7 +7821,7 @@ struct Cnt {
 struct Cnt_80187DE4 {
     s32 c;
 };
-struct EntA { u8 pad[0xDC]; s32 unkDC; u8 pad2[0x1C]; u16 unkFC; };
+struct EntA { u8 pad[0xDC]; s32 unkDC; u8 pad_E0[0x1C]; u16 unkFC; };
 typedef struct {
     u8 pad00[4];
     u32 flags;               /* 0x04 */
@@ -7998,7 +7998,7 @@ typedef struct {
     u8  r3, g3, b3, p3;             /* 0x1C..0x1F */
     s16 x3, y3;                     /* 0x20, 0x22 */
 } PG4_8018C960_80189EA0;
-typedef struct { u8 pad0[3]; u8 len; u8 pad1[3]; u8 code; } PHdr_80189340;
+typedef struct { u8 pad0[3]; u8 len; u8 pad_4[3]; u8 code; } PHdr_80189340;
 typedef struct { u32 addr : 24; u32 len : 8; } PTag_8017DD28;
 typedef struct { u32 addr : 24; u32 len : 8; } PTag_8018C960;
 typedef struct { u32 addr : 24; u32 len : 8; } PTag_8018C960_801895C8;
@@ -8198,26 +8198,26 @@ struct St80180ACC { s16 a[3]; u16 b[3]; };
 typedef struct {
     u8 pad0[2];
     union { s16 s; u16 u; } f02;
-    u8 pad1[0xD8];
+    u8 pad_4[0xD8];
     union { s16 s; u16 u; } fDC;
-    u8 pad2[4];
+    u8 pad_DE[4];
     s16 fE2;
-    u8 pad3[2];
+    u8 pad_E4[2];
     s16 fE6;
-    u8 pad4[4];
+    u8 pad_E8[4];
     u16 fEC;
     u16 fEE;
 } St_SC03_118_801833C4;
 typedef struct {
     u8 pad0[2];
     union { s16 s; u16 u; } f02;
-    u8 pad1[0xD8];
+    u8 pad_4[0xD8];
     union { s16 s; u16 u; } fDC;
-    u8 pad2[4];
+    u8 pad_DE[4];
     s16 fE2;
-    u8 pad3[2];
+    u8 pad_E4[2];
     s16 fE6;
-    u8 pad4[4];
+    u8 pad_E8[4];
     s16 fEC;
     s16 fEE;
 } St_SC03_118_801834DC;
