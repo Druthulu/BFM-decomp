@@ -2,3 +2,4 @@
 <!-- T<n> | <status> | <title> | <tags> | tasks/T<n>.md | logs/T<n>.md | <research ids, comma-separated> -->
 T1 | done | phase-start health and baselines | - | tasks/T1.md | logs/T1.md | -
 T2 | done | --check-structs instrument and actor-struct fix | - | tasks/T2.md | logs/T2.md | -
+T3 | done | head-type layouts and canonical files | - | tasks/T3.md | logs/T3.md | -
