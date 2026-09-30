@@ -255,7 +255,7 @@ extern u8 D_800AA60C[];
 #define ADDPRIMB(ot, p) setaddr_((p), getaddr_(ot)); setaddr_((ot), (p));
 
 extern S16_800CF3E8 sD800B9A02 __asm__("D_800B9A02");
-#define OTIDX ((fr = sD800B9A02), fr.v)
+#define OTIDX ((fr = sD800B9A02), fr.h)
 extern Sprt24 D_800EC7C8[];
 extern Sprt24 D_800EC7F8[];
 extern Sprt24 D_800EC828[];

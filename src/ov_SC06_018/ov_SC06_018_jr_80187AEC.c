@@ -6555,7 +6555,7 @@ void func_8018CC88(void *a0) {
 }
 
 
-#define RD16(p) (((Unkstruct_8018CD04 *)(p))->v)
+#define RD16(p) (((Unkstruct_8018CD04 *)(p))->h)
 #define RW32(p) (((Unkstruct_8018CD04_2 *)(p))->v)
 
 void func_8018CD04(void *a0)

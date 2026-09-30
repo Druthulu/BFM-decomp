@@ -6457,7 +6457,7 @@ void func_80187E60(void *a0) {
 }
 
 
-#define RD16(p) (((Unkstruct_80187EDC *)(p))->v)
+#define RD16(p) (((Unkstruct_80187EDC *)(p))->h)
 #define RW32(p) (((Unkstruct_80187EDC_2 *)(p))->v)
 
 void func_80187EDC(void *a0)

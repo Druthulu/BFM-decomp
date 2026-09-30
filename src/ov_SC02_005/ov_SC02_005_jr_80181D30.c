@@ -4837,7 +4837,7 @@ void func_80184A8C(void *a0) {
             s32 tmp[3];
 
             timer -= 1;
-            ((struct S34_80184A8C *)(s0 + 0x34))->v = timer;
+            ((S34_80184A8C *)(s0 + 0x34))->h = timer;
 
             tmp[0] = (*(s16 *)(s0 + 0xDC) - *(s32 *)(*(s32 *)(s0 + 0x20) + 0x48)) >> 2;
 

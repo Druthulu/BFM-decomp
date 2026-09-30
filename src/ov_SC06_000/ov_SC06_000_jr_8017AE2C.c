@@ -11012,9 +11012,9 @@ void func_80187314(s32 a0) {
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
         ((PTag_8018B23C_80187314 *)q)->addr =
-            ((PTag_8018B23C_80187314 *)(D_800A651C[bp->f].a + 0x40))->addr;
-        ((PTag_8018B23C_80187314 *)(D_800A651C[bp->f].a + 0x40))->addr = (u32)q;
-        func_80016638(&D_800A6518[bp->f * 20], 0x10, 1);
+            ((PTag_8018B23C_80187314 *)(D_800A651C[bp->h].a + 0x40))->addr;
+        ((PTag_8018B23C_80187314 *)(D_800A651C[bp->h].a + 0x40))->addr = (u32)q;
+        func_80016638(&D_800A6518[bp->h * 20], 0x10, 1);
     }
 }
 
@@ -11283,7 +11283,7 @@ void func_80187AB8(void *a0) {
 }
 
 
-#define RD16(p) (((Unkstruct_80187B34 *)(p))->v)
+#define RD16(p) (((Unkstruct_80187B34 *)(p))->h)
 #define RW32(p) (((Unkstruct_80187B34_2 *)(p))->v)
 
 void func_80187B34(void *a0)

@@ -5220,7 +5220,7 @@ void func_801815DC(void *a0) {
 }
 
 
-#define RD16(p) (((Unkstruct_80181658 *)(p))->v)
+#define RD16(p) (((Unkstruct_80181658 *)(p))->h)
 #define RW32(p) (((Unkstruct_80181658_2 *)(p))->v)
 
 void func_80181658(void *a0)

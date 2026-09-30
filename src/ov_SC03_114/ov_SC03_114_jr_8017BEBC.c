@@ -3625,7 +3625,7 @@ void func_8017E270(void *a0) {
 
 
 
-#define RD16(p) (((Unkstruct_8017E2EC *)(p))->v)
+#define RD16(p) (((Unkstruct_8017E2EC *)(p))->h)
 #define RW32(p) (((Unkstruct_8017E2EC_2 *)(p))->v)
 
 void func_8017E2EC(void *a0)

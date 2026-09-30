@@ -3077,7 +3077,7 @@ void func_8017F82C(void *a0) {
 }
 
 
-#define RD16(p) (((Unkstruct_8017F8A8 *)(p))->v)
+#define RD16(p) (((Unkstruct_8017F8A8 *)(p))->h)
 #define RW32(p) (((Unkstruct_8017F8A8_2 *)(p))->v)
 
 void func_8017F8A8(void *a0)

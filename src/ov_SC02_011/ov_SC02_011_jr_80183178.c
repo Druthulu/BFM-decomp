@@ -2586,7 +2586,7 @@ void func_80186868(s32 a0)
         }
         if ((*(s32 *)(self + 0x1C) & 0x1F) >= 8) {
             if (func_80186B1C((void *)self, D_80195D30) != 0) {
-                ((Unkstruct_80126B96 *)&D_80126B96)->w |= 0x4000;
+                ((Unkstruct_80126B96 *)&D_80126B96)->h |= 0x4000;
                 D_80126B98 = 0xC;
             }
         }

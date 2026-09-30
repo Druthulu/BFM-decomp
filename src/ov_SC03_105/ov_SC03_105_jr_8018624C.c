@@ -285,7 +285,7 @@ void func_801867D0(s32 a0)
         if (func_8012E544(0x222) == 0) {
             func_8012A828(s0, D_801B2E28);
             func_8012A828(*(s32 *)(s0 + 0x6C), D_801B2FC0);
-            ((struct Ctr34 *)(s0 + 0x34))->h = ((struct Ctr34 *)(s0 + 0x34))->h + 1;
+            ((Ctr34 *)(s0 + 0x34))->h = ((Ctr34 *)(s0 + 0x34))->h + 1;
             D_801BCBBC = D_801BCBBC + 1;
             return;
         }

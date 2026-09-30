@@ -1090,7 +1090,8 @@ typedef struct {
 } S1254;
 typedef struct { s32 f10, f14, f18; } S12_801AD700;
 typedef struct { s32 f10, f14, f18; } S12_801AD914;
-typedef struct { u16 v; } S16_800CF3E8;
+typedef struct { u16 h; } H16;
+typedef H16 S16_800CF3E8;
 typedef struct { s32 w[4]; } S16_md_MAIN_014_800CB254;
 typedef struct {
     s8 pad00[4];
@@ -1382,7 +1383,7 @@ typedef struct {
 typedef struct { u32 a; u32 b; } U8x __attribute__((packed, aligned(1)));
 struct UnkS1 { s32 pad0; s32 f4; s32 pad8; s32 fC; s32 pad10; s32 pad14; s32 f18; u32 f1C; };
 typedef struct {char c [ 4 ] ;} Unkstruct_801A01E8;
-typedef struct { u16 v; } Unkstruct_801AF368;
+typedef H16 Unkstruct_801AF368;
 typedef struct { u32 v; } Unkstruct_801AF368_2;
 typedef struct { s16 h; } Unkstruct_8017D2A4;
 typedef Unkstruct_8017D2A4 Unkstruct_801E3C1C;
@@ -2757,7 +2758,7 @@ typedef struct Ent30D80 {
     /* 0x51 */ u8 unk51;
 } Ent30D80;
 typedef struct { u8 _0[0x12]; u16 f12; } F20T;
-typedef struct { u16 f0; } H2;
+typedef H16 H2;
 typedef struct {                 /* func_801457A4 buffer (hdr) */
     s16 f0, f2, f4, f6, f8, fA;
     u8  fC, fD, fE, _F;

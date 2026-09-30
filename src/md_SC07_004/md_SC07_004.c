@@ -10404,7 +10404,7 @@ void func_801AF2EC(void *a0) {
 
 
 
-#define RD16(p) (((Unkstruct_801AF368 *)(p))->v)
+#define RD16(p) (((Unkstruct_801AF368 *)(p))->h)
 #define RW32(p) (((Unkstruct_801AF368_2 *)(p))->v)
 
 void func_801AF368(void *a0)

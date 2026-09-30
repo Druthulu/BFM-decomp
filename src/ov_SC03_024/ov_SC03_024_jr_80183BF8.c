@@ -5129,9 +5129,9 @@ void func_801865DC(s32 a0) {
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
         ((PTag_8018B23C_801865DC *)q)->addr =
-            ((PTag_8018B23C_801865DC *)(D_800A651C[bp->f].a + 0x40))->addr;
-        ((PTag_8018B23C_801865DC *)(D_800A651C[bp->f].a + 0x40))->addr = (u32)q;
-        func_80016638(&D_800A6518[bp->f * 20], 0x10, 1);
+            ((PTag_8018B23C_801865DC *)(D_800A651C[bp->h].a + 0x40))->addr;
+        ((PTag_8018B23C_801865DC *)(D_800A651C[bp->h].a + 0x40))->addr = (u32)q;
+        func_80016638(&D_800A6518[bp->h * 20], 0x10, 1);
     }
 }
 
