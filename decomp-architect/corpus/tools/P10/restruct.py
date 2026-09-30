@@ -371,7 +371,8 @@ def judge_text(tu, text, tag):
 # the ledger (R48/R114: a unit is (rung, tu, unit, body hash); the latest row per unit is the verdict, R70) and the in-flight snapshot
 # ----------------------------------------------------------------------------------------------------------------------
 DONE_VERDICTS = {"IDENTICAL", "MEMBERS", "S2", "S+A", "UNCHANGED", "NO-SITE", "REFUSED", "KEPT-ALL", "DECL-CANON", "DECL-PROMOTED",
-                 "DECL-KEPT", "FOLDED", "FOLD-REFUSED", "NO-EDIT", "TYPE-NOT-CANONICAL", "TYPE-NOT-VISIBLE"}
+                 "DECL-KEPT", "DECL-NONE", "ALIAS-TYPED", "ALIAS-KEPT", "BUILTIN-ABS", "BUILTIN-KEPT", "UNALIAS-DONE", "UNALIAS-KEPT", "UNALIAS-REFUSED",
+                 "FOLDED", "FOLD-REFUSED", "NO-EDIT", "TYPE-NOT-CANONICAL", "TYPE-NOT-VISIBLE"}
 REDRAW_VERDICTS = {"COMBINATION-FAILED", "NO-RECIPE", "TOOL-ERROR"}
 
 
@@ -474,7 +475,13 @@ def ladder_units(units, compose, judge, tag, log=None):
     per, compiles, secs = {}, 0, 0.0
     if not units:
         return [], per, 0, 0.0, None
-    r = judge(compose(units), tag + "A")
+
+    def safe(acc, t):
+        try:
+            return judge(compose(acc), t)
+        except Refuse as ex:                 # two units' edits overlap: the combination is REFUSED, never a file-level TOOL-ERROR (R43)
+            return dict(verdict="REFUSED", seconds=0.0, err=f"overlapping edits: {ex}", compiles=0, linked=[], cand0=None)
+    r = safe(units, tag + "A")
     compiles += r["compiles"]; secs += r["seconds"]
     if r["verdict"] == "IDENTICAL":
         for i in range(len(units)):
@@ -485,7 +492,7 @@ def ladder_units(units, compose, judge, tag, log=None):
         return [], per, compiles, secs, "A"
     accepted = []
     for i, u in enumerate(units):
-        r2 = judge(compose(accepted + [u]), tag + f"B{i}")
+        r2 = safe(accepted + [u], tag + f"B{i}")
         compiles += r2["compiles"]; secs += r2["seconds"]
         if r2["verdict"] == "IDENTICAL":
             accepted.append(u)
@@ -1314,7 +1321,14 @@ def defs_visible(tu):
             pass
     files = [tu] + sorted(h for h in headers_of(tu) if h in results)
     for d_ in sorted(dirs):
-        files += [rel for rel in _files_in_dir(d_) if rel != tu]
+        for rel in _files_in_dir(d_):
+            if rel == tu:
+                continue
+            # the sibling TU AND the shared headers it includes: since P35 every shared body is a header included by ONE member TU of
+            # the binary, so a definition visible to a sibling is a definition this binary links (t4_D21: 10,495 "external" rows were
+            # func_80147514-shaped — defined in src/shared/ov/, included by the binary's *_after.c, invisible here)
+            files.append(rel)
+            files += sorted(h for h in headers_of(rel) if h in results)
     out = collections.defaultdict(list)
     seen = set()
     for rel in files:
@@ -1326,7 +1340,30 @@ def defs_visible(tu):
     for name, lst in _fallback_defs().items():
         if name not in out:
             out[name] = list(lst)
+    for name, lst in _fleet_unique_defs().items():
+        # the third level (T4, 2026-09-12): a callee no member TU defines and main/resident do not either — a module calling an
+        # overlay-region function — has the fleet's ONE signature when every definition of the name agrees (723 "no visible definition"
+        # rows were this; a name with two bodies stays unresolved: the caller's binary decides, R48)
+        if name not in out:
+            out[name] = list(lst)
     return out
+
+
+_fleet_unique = None
+
+
+def _fleet_unique_defs():
+    """{name: [(def_tu, ret, params, kr)]} for every name whose definitions across the fleet share ONE (ret, params) — computed once."""
+    global _fleet_unique
+    if _fleet_unique is None:
+        results = walk()["results"]
+        by = collections.defaultdict(list)
+        for rel in sorted(results):
+            if rel.endswith((".c", ".h")) and results[rel]:
+                for f in _defs_of_file(rel):
+                    by[f[0]].append(f[1:])
+        _fleet_unique = {n: [l[0]] for n, l in by.items() if len({(x[1], sl._norm_type(re.sub(r"\s+", " ", x[2]))) for x in l}) == 1}
+    return _fleet_unique
 
 
 _dir_files = {}
@@ -1398,17 +1435,39 @@ def call_arg_counts(masked, callee, decl_spans):
         inner, close = tc._paren_body(masked, m.end() - 1)
         if inner is None:
             continue
-        tail = masked[close + 1:close + 3]
-        if "{" in masked[close + 1:masked.find("\n", close) if masked.find("\n", close) != -1 else len(masked)] and not tail.strip().startswith((";", ",", ")")):
-            continue                                            # the definition's head
+        # the definition's head: `) {` (whitespace/newlines only) or a K&R head (`) int a; s32 b; {`). The first form of this test
+        # skipped any match whose LINE held a later `{` — `if (func_80161B18() != 0) {` read as a definition (t4_D27: `[]`, `? of 1 args`)
+        rest = masked[close + 1:close + 400]
+        if re.match(r"\s*\{", rest) or re.match(r"(\s*[A-Za-z_][\w\s*,\[\]]*;)+\s*\{", rest):
+            continue
         inner = inner.strip()
         counts.add(0 if inner in ("", "void") else len(sl._split_top(inner, ",")))
     return sorted(counts)
 
 
-def d_units(tu, text, callees=None):
+def unit_call_counts(tu, masked, unit):
+    """(counts, where): the distinct argument counts every call in the TU's COMPILATION passes to the callee — the TU's own text plus
+    every shared body it includes — and the headers the counts came from. t4_D23 read `[]` for `func_801483E8` while the 0-argument call
+    that made the ANSI form a COMPILE-ERROR sat in shared/ov/func_80161124.h:19: the marker said `? of 1 args` for a known count."""
+    counts = set(call_arg_counts(masked, unit["callee"], [(s, e) for (s, e, *_) in unit["decls"]]))
+    where = []
+    results = walk()["results"]
+    for h in sorted(headers_of(tu)):
+        if h not in results or not h.endswith(".h") or not (REPO / h).exists():
+            continue
+        hm = dl.same_len_mask((REPO / h).read_text())
+        hc = call_arg_counts(hm, unit["callee"], [(s, e) for (s, e, *_) in decl_sites(hm, unit["callee"])])
+        if hc:
+            counts.update(hc)
+            where.append(h)
+    return sorted(counts), where
+
+
+def d_units(tu, text, callees=None, skipped=None):
     """The TU's declaration units: [dict(callee, decls[(s,e,line,ext,ret,params)], ret, ansi, promoted, defn_tu, kr_def, ambiguous)] —
-    every callee with >=1 declaration whose spelling is not the canonical one."""
+    every callee with >=1 declaration whose spelling is not the canonical one. `skipped` (a dict) receives {callee: reason} for every
+    requested callee that yields NO unit — the planner's rows the engine cannot act on, settled in the ledger with that reason so a
+    batch never draws them again (t4_D21 drew 300 TUs for 0 units on exactly these)."""
     masked = dl.same_len_mask(text)
     vis = defs_visible(tu)
     names = set(callees) if callees else set(vis)
@@ -1416,10 +1475,16 @@ def d_units(tu, text, callees=None):
     for callee in sorted(names):
         cands = vis.get(callee)
         if not cands:
+            if skipped is not None:
+                al = _alias_of_real().get(callee)
+                skipped[callee] = (f"no visible definition — the body is still alias-defined as {al} (an UNALIAS-KEPT class)" if al
+                                   else "no visible definition (external to this TU's binary, or argcheck's alias-resolved row)")
             continue
         sigs = {(r, sl._norm_type(re.sub(r"\s+", " ", p))) for (_, r, p, _) in cands}
         decls = decl_sites(masked, callee)
         if not decls:
+            if skipped is not None:
+                skipped[callee] = "no declaration the engine's regex reads (a typedef'd pointer / a K&R-form the census counts)"
             continue
         if len(sigs) > 1:
             units.append(dict(callee=callee, decls=decls, ambiguous=sorted(sigs)[:4], defn_tu=cands[0][0]))
@@ -1429,10 +1494,14 @@ def d_units(tu, text, callees=None):
         canon = {sl._norm_type(re.sub(r"\s+", " ", p)) if p.strip() not in ("",) else "void" for (_, _, _, _, r, p) in decls}
         rets = {r for (_, _, _, _, r, _) in decls}
         if canon == {params_n} and rets == {ret}:
+            if skipped is not None:
+                skipped[callee] = "already canonical"
             continue
         # a byte-proven K&R site already stands: every declaration `()` and marked `// K&R:` on its line — settled, not drawn again
         ls_ = dl.line_starts(masked)
         if all(p.strip() == "" and KR_MARK in text[ls_[ln - 1]:(ls_[ln] - 1 if ln < len(ls_) else len(text))] for (_, _, ln, _, _, p) in decls):
+            if skipped is not None:
+                skipped[callee] = "a marked K&R site already"
             continue
         units.append(dict(callee=callee, decls=decls, ret=ret, ansi=params_n, promoted=promoted_params(params_n), defn_tu=cands[0][0],
                           kr_def=cands[0][3], ambiguous=None))
@@ -1473,23 +1542,96 @@ def kr_marker_edits(text, unit, counts, label):
     return out
 
 
+ALIAS_RX = re.compile(r"(?<![\w.])extern\s+((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*[\s*]*?)\s*\b([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*__asm__\s*\(\s*\"(\w+)\"\s*\)\s*;")
+PLAIN_EXTERN_T = r"(?<![\w.])extern\s+((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*[\s*]*?)\s*\b{name}\s*((?:\[[^\]]*\])*)\s*;"
+
+
+def e_units(tu, text, masked):
+    """Class E: `extern T aD_x __asm__("D_x");` — a second NAME for one symbol. The unit per alias name: the declaration becomes
+    `extern T D_x;` (or is deleted when the TU already declares D_x with the same type) and every use is renamed to the real symbol.
+    A TU that declares D_x with ANOTHER type keeps the alias: the compile refuses the conflict — the symbol is an aggregate in truth
+    (a union / array / struct: a18, f3), T6's."""
+    units = {}
+    all_decl_spans = []
+    for m in ALIAS_RX.finditer(masked):
+        T = sl._norm_type(m.group(1)) + (m.group(3) or "")
+        aname, real = m.group(2), m.group(4)
+        u = units.setdefault(aname, dict(kind="alias", callee=aname, real=real, type=T, decl_spans=[], edits=[], uses=0, conflict=None))
+        u["decl_spans"].append((m.start(), m.end(), T))
+        all_decl_spans.append((m.start(), m.end()))
+    for aname, u in units.items():
+        real = u["real"]
+        if aname == real:
+            # a same-name alias (`extern u8 D_x __asm__("D_x");`): the label says nothing the name does not — the declaration loses its
+            # `__asm__`, no use is renamed (src/800.c's `D_80078E7C`; batch t4_D9's overlap with the `_w` alias's declaration)
+            for (a, b, T) in u["decl_spans"]:
+                u["edits"].append((a, b, f"extern {T.replace('[]', '')} {real}{'[]' if T.endswith('[]') else ''};"))
+            u["edits"].sort()
+            continue
+        plain = [(mm.start(), mm.end(), sl._norm_type(mm.group(1)) + (mm.group(2) or "")) for mm in re.finditer(PLAIN_EXTERN_T.format(name=re.escape(real)), masked)]
+        same = {t for (_, _, t) in plain} == {u["type"]} if plain else None
+        if plain and not same:
+            u["conflict"] = sorted({t for (_, _, t) in plain})
+        spans = [(a, b) for (a, b, _) in u["decl_spans"]]
+        for (a, b, T) in u["decl_spans"]:
+            if plain and same:
+                # the real symbol is declared with this very type already: the alias declaration goes (its line when alone)
+                le = masked.find("\n", b)
+                le = len(masked) if le < 0 else le
+                ls_ = masked.rfind("\n", 0, a) + 1
+                if masked[ls_:a].strip() == "" and masked[b:le].strip() == "":
+                    u["edits"].append((ls_, le + 1 if le < len(masked) else le, ""))
+                else:
+                    u["edits"].append((a, b, ""))
+            else:
+                u["edits"].append((a, b, f"extern {T.replace('[]', '')} {real}{'[]' if T.endswith('[]') else ''};"))
+        for mm in re.finditer(r"(?<![\w.])" + re.escape(aname) + r"\b", masked):
+            if any(a <= mm.start() < b for (a, b) in all_decl_spans):
+                continue                     # inside ANY alias declaration (its `__asm__("…")` label names the real symbol)
+            u["edits"].append((mm.start(), mm.end(), real))
+            u["uses"] += 1
+        u["edits"].sort()
+    return [u for _, u in sorted(units.items())]
+
+
+def b_units(tu, text, masked):
+    """`__builtin_abs(x)` -> `abs(x)`: gcc 2.7.2 declares `abs` as BUILT_IN_ABS itself when -fno-builtin is absent (c-decl.c
+    init_decl_processing), so the spelling is the compiler's own — the oracle decides. One unit per TU."""
+    sites = list(re.finditer(r"\b__builtin_abs\s*\(", masked))
+    if not sites:
+        return []
+    return [dict(kind="builtin", callee="abs", n=len(sites), edits=[(m.start(), m.start() + len("__builtin_abs"), "abs") for m in sites])]
+
+
 def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozenset()):
     path = REPO / tu
     st = path.stat()
     raw = path.read_text(errors="surrogateescape")
     is_hdr = tu.endswith(".h")
     short = hashlib.sha1(tu.encode()).hexdigest()[:6]
-    rows, out = [], dict(tu=tu, rows=[], written=False, final="", compiles=0, seconds=0.0, canon=0, promoted=0, kept=0, kr=0, units=0)
+    rows, out = [], dict(tu=tu, rows=[], written=False, final="", compiles=0, seconds=0.0, canon=0, promoted=0, kept=0, kr=0, units=0, alias=0, builtin=0)
     out["rows"] = rows
     if not recs_for(tu) and JUDGE_STUB is None:
         out["final"] = "NO-RECIPE"
         return out
-    units = d_units(tu, raw, callees)
-    out["units"] = len(units)
+    skipped = {}
+    units = d_units(tu, raw, callees, skipped=skipped if callees else None)
     masked = dl.same_len_mask(raw)
+    for callee, why in sorted(skipped.items()):
+        h_ = hashlib.sha1("|".join(f"{ln}:{r}:{p}" for (_, _, ln, _, r, p) in decl_sites(masked, callee)).encode()).hexdigest()[:12]
+        if ("D", tu, "decl:" + callee, h_) in done:
+            continue
+        rows.append(dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=tu, unit="decl:" + callee, callee=callee,
+                         header=is_hdr, nhash_before=h_, nhash_after=h_, verdict="DECL-NONE", cause=why, sites=[]))
+    extra = e_units(tu, raw, masked) + b_units(tu, raw, masked)
 
     def unit_hash(u):
+        if u.get("kind") in ("alias", "builtin"):
+            return hashlib.sha1("|".join(f"{a}:{b}:{r}" for (a, b, r) in u["edits"]).encode()).hexdigest()[:12]
         return hashlib.sha1("|".join(f"{ln}:{r}:{p}" for (_, _, ln, _, r, p) in u["decls"]).encode()).hexdigest()[:12]
+
+    def unit_key(u):
+        return {"alias": "alias:", "builtin": "builtin:"}.get(u.get("kind"), "decl:") + u["callee"]
     live = []
     for u in units:
         if ("D", tu, "decl:" + u["callee"], unit_hash(u)) in done:
@@ -1501,23 +1643,50 @@ def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozense
             out["kept"] += 1
             continue
         live.append(u)
-    if not live:
+    extra_live = [u for u in extra if ("D", tu, unit_key(u), unit_hash(u)) not in done and u["edits"]]
+    out["units"] = len(live) + len(extra_live)
+    out["settled"] = len(skipped)
+    if not live and not extra_live:
         out["final"] = "UNCHANGED"
         return out
 
     def compose(acc_units):
         edits = []
         for (u, params, marks) in acc_units:
+            if u.get("kind") in ("alias", "builtin"):
+                edits += u["edits"]
+                continue
             edits += d_edits(u, params) if params is not None else []
             edits += marks
         return {tu: compose_text(raw, edits)}
-    # rung A: every unit's ANSI at once
-    ansi_units = [(u, u["ansi"], []) for u in live]
+    # rung A: every unit's ANSI at once (the alias and builtin units ride along as their own edits)
+    ansi_units = [(u, u["ansi"], []) for u in live] + [(u, None, []) for u in extra_live]
     accepted, per, compiles, secs, rung = ladder_units(ansi_units, compose, lambda files, tag: judge_files(files, tag, pool=pool), f"{short}D", log=log)
     out["compiles"] += compiles; out["seconds"] += secs
     acc_ids = {id(x[0]) for x in accepted}
     final_units = list(accepted)
     for i, (u, _, _) in enumerate(ansi_units):
+        if u.get("kind") in ("alias", "builtin"):
+            row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=tu, unit=unit_key(u), callee=u["callee"],
+                       header=is_hdr, kind=u["kind"], real=u.get("real"), type=u.get("type"), n=(u.get("uses") if u["kind"] == "alias" else u.get("n")),
+                       nhash_before=unit_hash(u), nhash_after=None, sites=[])
+            if id(u) in acc_ids:
+                row["verdict"] = "ALIAS-TYPED" if u["kind"] == "alias" else "BUILTIN-ABS"
+                out["alias" if u["kind"] == "alias" else "builtin"] += 1
+            else:
+                v, err, _ = per[i]
+                row["first"] = dict(verdict=v, err=err[:200])
+                row["verdict"] = "ALIAS-KEPT" if u["kind"] == "alias" else "BUILTIN-KEPT"
+                if u["kind"] == "alias" and (u.get("conflict") or "conflicting types" in err):
+                    row["cause"] = f"second typed view of {u['real']}: the TU also declares it as {u.get('conflict') or '?'} vs the alias's {u['type']} — an aggregate in truth (T6)"
+                elif u["kind"] == "alias" and v == "DIFFERS":
+                    row["cause"] = (f"load-bearing alias of {u['real']}: one symbol under two names is two objects the compiler may not merge "
+                                    f"(a18's MEM_IN_STRUCT alias escape) — renaming moves bytes; the shape is an aggregate (T6)")
+                else:
+                    row["cause"] = f"{v}: {err[:160]}"
+                out["kept"] += 1
+            rows.append(row)
+            continue
         row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=tu, unit="decl:" + u["callee"], callee=u["callee"],
                    header=is_hdr, defn_tu=u["defn_tu"], decls=len(u["decls"]), lines=[ln for (_, _, ln, _, _, _) in u["decls"]], ansi=u["ansi"],
                    nhash_before=unit_hash(u), nhash_after=None, sites=[])
@@ -1539,13 +1708,14 @@ def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozense
                     rows.append(row)
                     continue
             if "too few arguments" in err or "too many arguments" in err:
-                counts = call_arg_counts(masked, u["callee"], [(s, e) for (s, e, *_) in u["decls"]])
+                counts, where = unit_call_counts(tu, masked, u)
                 marks = kr_marker_edits(raw, u, counts, label)
+                infrom = f" (in {', '.join(w.split('src/', 1)[-1] for w in where)})" if where else ""
                 empties = [d_ for d_ in u["decls"] if d_[5] == ""]
                 if empties and len(empties) == len(u["decls"]):
                     final_units.append((u, None, marks))
                     row["verdict"] = "DECL-KEPT"
-                    row["cause"] = f"K&R site: the calls pass {counts} arguments, the definition takes {u['ansi']} — kept `()`, marked"
+                    row["cause"] = f"K&R site: the calls pass {counts} arguments{infrom}, the definition takes {u['ansi']} — kept `()`, marked"
                     row["kr"] = True
                     out["kr"] += 1
                 else:
@@ -1557,7 +1727,7 @@ def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozense
                     if r3["verdict"] == "IDENTICAL":
                         final_units.append((u, "", marks))
                         row["verdict"] = "DECL-KEPT"
-                        row["cause"] = f"K&R site: the calls pass {counts} arguments, the definition takes {u['ansi']} — every declaration `()`, marked"
+                        row["cause"] = f"K&R site: the calls pass {counts} arguments{infrom}, the definition takes {u['ansi']} — every declaration `()`, marked"
                         row["kr"] = True
                         out["kr"] += 1
                     else:
@@ -1608,15 +1778,37 @@ def work_file_D(tu, label, calib_id, log, pool=None, callees=None, done=frozense
     out["written"] = True
     out["final_text"] = text
     masked2 = dl.same_len_mask(text)
+    extra2 = {unit_key(u): unit_hash(u) for u in e_units(tu, text, masked2) + b_units(tu, text, masked2)}
     for row in rows:
+        if row.get("kind") in ("alias", "builtin"):
+            row["nhash_after"] = extra2.get(row["unit"], "gone")
+            continue
         decls2 = decl_sites(masked2, row["callee"])
         row["nhash_after"] = hashlib.sha1("|".join(f"{ln}:{r}:{p}" for (_, _, ln, _, r, p) in decls2).encode()).hexdigest()[:12]
     return out
 
 
-def signature_change(callee, signature, label, calib_id, log, pool=None):
-    """A DEFINITION-side change (`--callee F --signature "ret F(params)"`): the definition's head in its TU + every declaration of F in
-    every TU of F's scope, ONE judged unit — every recipe IDENTICAL or nothing is written. Returns (rows, verdict, files_written)."""
+def _ordered_syms(text, rx=re.compile(r"\bD_[0-9A-F]{8}\w*")):
+    out = []
+    for m in rx.finditer(text):
+        if m.group(0) not in out:
+            out.append(m.group(0))
+    return out
+
+
+def signature_change(callee, signature, label, calib_id, log, pool=None, body_file=None, all_defs=False, only_tu=None, with_files=None,
+                     map_data=False):
+    """A DEFINITION-side change (`--callee F --signature "ret F(params)"`, or `--callee F --body FILE` — the pack's lever-free function text
+    replaces the whole definition and the new signature is read from ITS head): the definition in its TU + every declaration of F in every
+    TU of F's scope, ONE judged unit — every recipe IDENTICAL or nothing is written. Returns (rows, verdict, files_written)."""
+    body_text = None
+    if body_file:
+        body_text = pathlib.Path(body_file).read_text(errors="surrogateescape")
+        bm = dl.same_len_mask(body_text)
+        heads = [m for m in re.finditer(r"(?m)^([A-Za-z_][\w \t*]*?)\b" + re.escape(callee) + r"\s*\(([^{;]*)\)\s*\{", bm)]
+        if len(heads) != 1:
+            sys.exit(f"restruct: --body {body_file} must define {callee} exactly once (found {len(heads)})")
+        signature = f"{heads[0].group(1).strip()} {callee}({heads[0].group(2)})"
     m = re.match(r"^\s*(.+?)\s*\b" + re.escape(callee) + r"\s*\((.*)\)\s*;?\s*$", signature, re.S)
     if not m:
         sys.exit(f"restruct: --signature must read `ret {callee}(params)`")
@@ -1624,44 +1816,94 @@ def signature_change(callee, signature, label, calib_id, log, pool=None):
     w = walk()
     results = w["results"]
     def_files = [rel for rel, r in results.items() if r and any(f["fn"] == callee for f in r["fndefs"])]
-    if len(def_files) != 1:
-        sys.exit(f"restruct: {callee} has {len(def_files)} definitions ({def_files[:4]}) — a signature change needs exactly one (R43)")
+    if only_tu:
+        def_files = [d_ for d_ in def_files if d_ == only_tu]
+    if body_text is not None and all_defs:
+        # a definition carried by a shared HEADER is a variant body (`__<hash>.h`: different bytes for its binaries) or a shared exemplar
+        # — not "the same body for every same-address copy": left as is, its includers keep their declarations (t4_sig12b: the pack body
+        # written into func_80157D20__99380536.h, its 3 binaries' declarations untouched -> `conflicting types`)
+        hdr = [d_ for d_ in def_files if d_.endswith(".h")]
+        for h_ in hdr:
+            log(f"signature {callee}: {h_} defines {callee} as a shared/variant header — left as is with its includers' declarations")
+        def_files = [d_ for d_ in def_files if not d_.endswith(".h")]
+    if not def_files or (len(def_files) != 1 and not all_defs):
+        sys.exit(f"restruct: {callee} has {len(def_files)} definitions ({def_files[:4]}) — a signature change needs exactly one, or --all-defs "
+                 f"(the same body for every same-address copy) or --tu <TU> (R43)")
     def_tu = def_files[0]
     files = {}
-    dtext = (REPO / def_tu).read_text(errors="surrogateescape")
-    dmask = dl.same_len_mask(dtext)
-    fd = next(f for f in results[def_tu]["fndefs"] if f["fn"] == callee)
-    ls = dl.line_starts(dmask)
-    head_start = ls[fd["line"] - 1]
-    brace = dmask.find("{", head_start)
-    hm = re.search(r"([A-Za-z_][\w \t*]*?)\b" + re.escape(callee) + r"\s*\(([^{;]*)\)\s*(?=\{)", dmask[head_start:brace + 1])
-    if not hm:
-        sys.exit(f"restruct: cannot read {callee}'s definition head in {def_tu}:{fd['line']}")
-    edits = [(head_start + hm.start(1), head_start + hm.end(2) + 1, f"{ret} {callee}({params})")]
-    files[def_tu] = compose_text(dtext, edits)
+    for dtu in def_files:
+        dtext = (REPO / dtu).read_text(errors="surrogateescape")
+        dmask = dl.same_len_mask(dtext)
+        fd = next(f for f in results[dtu]["fndefs"] if f["fn"] == callee)
+        ls = dl.line_starts(dmask)
+        head_start = ls[fd["line"] - 1]
+        if body_text is not None:
+            # the WHOLE definition (its head line through its closing brace line) replaced by the pack's text
+            span_end = ls[fd["fn_end"]] if fd.get("fn_end") and fd["fn_end"] < len(ls) else len(dtext)
+            btext = body_text
+            if map_data:
+                # `--map-data`: the same code over PER-OVERLAY data — the pack body's `D_` symbols renamed to this copy's own, matched by
+                # order of first appearance in the copy's current definition (t4_sig12: `D_80192768` in ov_SC04_011 is `D_801806BC` in
+                # ov_MAIN_012, 133 copies); a count mismatch REFUSES the unit (the copy is not the same code over renamed data, R43)
+                cur = dl.same_len_mask(dtext)[head_start:span_end]
+                ps, cs = _ordered_syms(dl.same_len_mask(body_text)), _ordered_syms(cur)
+                if len(ps) != len(cs):
+                    log(f"signature {callee}: --map-data REFUSED at {dtu} — the pack body names {len(ps)} D_ symbols {ps[:4]}, this copy's "
+                        f"definition {len(cs)} {cs[:4]}")
+                    return [], "REFUSED", []
+                for a_, b_ in zip(ps, cs):
+                    if a_ != b_:
+                        btext = re.sub(r"\b" + re.escape(a_) + r"\b", b_, btext)
+            edits = [(head_start, span_end, btext if btext.endswith("\n") else btext + "\n")]
+        else:
+            brace = dmask.find("{", head_start)
+            hm = re.search(r"([A-Za-z_][\w \t*]*?)\b" + re.escape(callee) + r"\s*\(([^{;]*)\)\s*(?=\{)", dmask[head_start:brace + 1])
+            if not hm:
+                sys.exit(f"restruct: cannot read {callee}'s definition head in {dtu}:{fd['line']}")
+            edits = [(head_start + hm.start(1), head_start + hm.end(2) + 1, f"{ret} {callee}({params})")]
+        files[dtu] = compose_text(dtext, edits)
+    # the declarations: every TU/header of the definitions' binaries (a same-address function is one function per binary); for a
+    # main/resident definition the whole fleet declares it
+    import corpus
+    for rel_, path_ in (with_files or {}).items():
+        # `--with REL=FILE`: a caller-body edit that is part of the SAME judged unit (the P36 f1 shape: the pin was the missing call
+        # ARGUMENT — func_80029D3C's one caller must pass it, the declaration change alone is `too few arguments`); its declarations of
+        # the callee are rewritten on top below
+        if rel_ in files:
+            sys.exit(f"restruct: --with {rel_} is a definition TU of {callee} — give the body with --body instead (R43)")
+        files[rel_] = pathlib.Path(path_).read_text(errors="surrogateescape")
+        log(f"signature {callee}: {rel_} carries a caller-body edit from {path_} (part of this unit)")
+    def_bins = set()
+    for dtu in def_files:
+        for a_ in w["tu_aliases"].get(dtu, ()):
+            def_bins.add(a_)
+    fleet_wide = any(d_.count("/") == 1 or d_.startswith("src/resident/") or d_.startswith("src/shared/main") for d_ in def_files)
     n_decl = 0
     for rel, r in results.items():
-        if not r or rel == def_tu:
+        if not r:
             continue
-        if not any(e["name"] == callee for e in r.get("extern_fns", [])):
+        if not any(e["name"] == callee for e in r.get("extern_fns", [])) and rel not in files:
             continue
-        text = (REPO / rel).read_text(errors="surrogateescape")
+        if not fleet_wide and rel not in files:
+            rb = set(w["tu_aliases"].get(rel, ()))
+            if rel.startswith("src/shared/"):
+                rb = {t.split("/")[1] for t in dl.includers().get(rel, []) if t.count("/") >= 2}
+            if not rb or not rb <= def_bins:
+                if rb & def_bins:
+                    log(f"signature {callee}: {rel} reaches binaries outside the definitions' ({sorted(rb - def_bins)[:3]}) — left as is")
+                continue
+        text = files.get(rel) or (REPO / rel).read_text(errors="surrogateescape")
         ds_ = decl_sites(dl.same_len_mask(text), callee)
         if not ds_:
             continue
         files[rel] = compose_text(text, [(s, e, f"{'extern ' if ext else ''}{ret} {callee}({params});") for (s, e, ln, ext, r_, p) in ds_])
         n_decl += len(ds_)
-    # the definition TU's own declarations too
-    ds0 = decl_sites(dl.same_len_mask(files[def_tu]), callee)
-    if ds0:
-        files[def_tu] = compose_text(files[def_tu], [(s, e, f"{'extern ' if ext else ''}{ret} {callee}({params});") for (s, e, ln, ext, r_, p) in ds0])
-        n_decl += len(ds0)
-    log(f"signature {callee}: `{ret} {callee}({params})` — definition in {def_tu}, {n_decl} declarations in {len(files) - 1} other files")
+    log(f"signature {callee}: `{ret} {callee}({params})` — {len(def_files)} definition(s) in {def_files[:3]}, {n_decl} declarations in {len(files) - len(def_files)} other files")
     r = judge_files(files, "sig" + hashlib.sha1(callee.encode()).hexdigest()[:6], pool=pool)
     rows = []
     for rel in files:
         rows.append(dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=rel, unit="def:" + callee, callee=callee,
-                         signature=f"{ret} {callee}({params})", definition=(rel == def_tu), verdict=("DECL-CANON" if r["verdict"] == "IDENTICAL" else "REFUSED"),
+                         signature=f"{ret} {callee}({params})", definition=(rel in def_files), verdict=("DECL-CANON" if r["verdict"] == "IDENTICAL" else "REFUSED"),
                          err=r["err"][:200], nhash_before=None, nhash_after=None, sites=[]))
     if r["verdict"] == "IDENTICAL":
         for rel, text in files.items():
@@ -1670,6 +1912,330 @@ def signature_change(callee, signature, label, calib_id, log, pool=None):
     else:
         log(f"signature {callee}: {r['verdict']} {r['err'][:200]} — nothing written")
     return rows, r["verdict"], (list(files) if r["verdict"] == "IDENTICAL" else [])
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# rung D — the FUNCTION alias class (`s32 aF8012EFB8(param_1, param_2) __asm__("func_8012EFB8")`): a body defined under an alias C name
+# because the fleet's declarations of its real name lied about it. The unit puts the definition back under its real name with its
+# byte-true ANSI signature, deletes the alias prototype lines, renames every alias declaration/call, and canonicalises the real
+# name's declarations in the TUs that carry the alias — one fleet-wide job, IDENTICAL on every object or nothing written. The real
+# name's OTHER callers (declared `extern void func_X(s32)` in TUs that never used the alias) are then ordinary rung-D units: once
+# the definition is visible under its real name, argcheck sees them and the cycle draws them.
+# ----------------------------------------------------------------------------------------------------------------------
+AF_DEF_RX = re.compile(r"(?m)^([A-Za-z_][\w \t*]*?)\b(aF[0-9A-F]{8})\s*\(([^;{)]*)\)\s*((?:\n[^{;\n]*;)*)\s*\{")
+AF_PROTO_RX_T = r"(?m)^[ \t]*(extern\s+)?([A-Za-z_][\w \t*]*?)\b{name}\s*\(([^;{{)]*)\)\s*(__asm__\s*\(\s*\"(\w+)\"\s*\))?\s*;[ \t]*\n?"
+
+
+_alias_real_cache = None
+
+
+def _alias_of_real():
+    global _alias_real_cache
+    if _alias_real_cache is None:
+        _alias_real_cache = {v["real"]: k for k, v in fn_alias_index().items()}
+    return _alias_real_cache
+
+
+def fn_alias_index():
+    """{aF name: dict(file, real, ret, params_ansi, head_start, head_end)} over every .c and shared .h — the alias DEFINITIONS."""
+    import argcheck
+    out = {}
+    for f in sorted(list((REPO / "src").glob("**/*.c")) + list((REPO / "src" / "shared").glob("**/*.h"))):
+        rel = f.relative_to(REPO).as_posix()
+        text = f.read_text(errors="surrogateescape")
+        if "aF" not in text:
+            continue
+        masked = dl.same_len_mask(text)
+        for m in AF_DEF_RX.finditer(masked):
+            aname = m.group(2)
+            real = None
+            pm = re.search(AF_PROTO_RX_T.format(name=aname), masked)
+            for pm2 in re.finditer(AF_PROTO_RX_T.format(name=aname), masked):
+                if pm2.group(5):
+                    real = pm2.group(5)
+                    break
+            if real is None:
+                continue
+            ret = sl._norm_type(m.group(1)) or "int"
+            inner = m.group(3).strip()
+            kr_block = m.group(4) or ""
+            if inner and re.fullmatch(r"[A-Za-z_]\w*(\s*,\s*[A-Za-z_]\w*)*", inner) and inner != "void":
+                # a K&R head: the names in the parens, the types in the block before `{` (argcheck.kr_params: default-promoted)
+                names = [n.strip() for n in inner.split(",")]
+                types = argcheck.kr_params(names, kr_block)
+                params = ", ".join((f"{t}{n}" if t.endswith("*") else f"{t} {n}") for t, n in zip(types, names))
+            else:
+                params = re.sub(r"\s+", " ", inner) or "void"
+            out.setdefault(aname, dict(file=rel, real=real, ret=ret, params=params, head_start=m.start(), head_end=m.end() - 1, aname=aname))
+    return out
+
+
+def unalias_function(aname, label, calib_id, log, pool=None):
+    """The unit for one alias-defined function. Returns (rows, verdict, files_written)."""
+    idx = fn_alias_index()
+    if aname not in idx:
+        # accept the real name too
+        cands = [k for k, v in idx.items() if v["real"] == aname]
+        if len(cands) != 1:
+            sys.exit(f"restruct --unalias: {aname} is not an alias-defined function ({len(cands)} candidates) (R43)")
+        aname = cands[0]
+    d = idx[aname]
+    real, ret, params, def_file = d["real"], d["ret"], d["params"], d["file"]
+    canon = f"extern {ret} {real}({params});"
+    _, _, inc = recipes()
+    scope = set()
+    if def_file.endswith(".h"):
+        scope.update(inc.get(def_file, []))
+    scope.add(def_file)
+    def bins(tus):
+        return {t.split("/")[1] for t in tus if t.count("/") >= 2}
+    members = bins(inc.get(def_file, [])) if def_file.endswith(".h") else bins([def_file])
+    real_decl_rx = re.compile(DECL_RX_T.format(name=re.escape(real)))
+    hoist, non_member_files = {}, set()
+    for f in list((REPO / "src").glob("**/*.c")) + list((REPO / "src" / "shared").glob("**/*.h")):
+        rel = f.relative_to(REPO).as_posix()
+        if rel in scope:
+            continue
+        t = f.read_text(errors="surrogateescape")
+        if re.search(r"(?<![\w.])" + re.escape(aname) + r"\b", t):
+            scope.add(rel)
+            continue
+        # a SHARED HEADER that declares the real name reaches every one of its includers: it joins the unit only if all of them are
+        # members of this body (the same function at that address) — otherwise the canonical prototype would lie to a non-member
+        # binary in a way no byte can show, and the unit REFUSES (R43)
+        if rel.startswith("src/shared/") and rel.endswith(".h") and real_decl_rx.search(dl.same_len_mask(t)):
+            others = bins(inc.get(rel, [])) - members
+            if others:
+                # the header declares the real name for binaries where that address is ANOTHER function: the declaration is HOISTED out of the
+                # header into every includer (the same text, before the #include — byte-neutral by construction); the members' copies then
+                # go canonical with the unit, the non-members keep the hoisted text (their own function's prototype is theirs to settle)
+                hoist[rel] = sorted(inc.get(rel, []))
+                non_member_files.update(t_ for t_ in inc.get(rel, []) if t_.split("/")[1] not in members)
+                log(f"unalias {aname}: {rel} declares {real} for non-member binaries {sorted(others)[:4]} — its declaration is hoisted into {len(hoist[rel])} includers")
+            scope.add(rel)
+            scope.update(inc.get(rel, []))          # its includers: their own declarations of the real name must agree with the header's
+    proto_rx_a = re.compile(AF_PROTO_RX_T.format(name=aname))
+    proto_rx_r = re.compile(DECL_RX_T.format(name=re.escape(real)))
+    data_decl_rx = re.compile(r"(?<![\w.])extern\s+((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*[\s*]*)\b" + re.escape(real) + r"\s*(?:\[\s*\])?\s*;")
+    m_ = 0 if params == "void" else len(sl._split_top(params, ","))
+    kr_files = set()          # files whose calls pass another count: their declarations stay `()` (K&R) with the marker
+
+    def kr_head():
+        """`RET real(a, b, c)\n    u16 a;\n    s32 b; …` — the definition spelled K&R-style with its narrow parameter types in the block."""
+        parts = [x.strip() for x in sl._split_top(params, ",")] if params != "void" else []
+        names, decls = [], []
+        for x in parts:
+            mm = PARAM_DECL.match(x)
+            if not mm:
+                return None
+            names.append(mm.group(3))
+            decls.append(f"    {sl._norm_type(mm.group(1))} {mm.group(2)}{mm.group(3)};")
+        return f"{ret} {real}({', '.join(names)})\n" + "\n".join(decls) + ("\n" if decls else "")
+    promoted = promoted_params(params)
+    canon_promoted = f"extern {ret} {real}({promoted});"
+
+    promoted_files = set()    # pure callers whose bytes carry NO narrowing: the default-promoted prototype (a K&R-era call against a narrow definition)
+    untouched_files = set()   # pure callers that differ under every prototype form: left as they are (their lie is load-bearing — a rung-D KEPT row later)
+
+    def build(kr_files, mode="ansi"):
+        """mode 'ansi': the definition's exact head; 'krdef': the definition spelled K&R-style (its own types in the block — the last resort
+        when callers pass another argument count and the definition is visible to them)."""
+        files, per_file = {}, {}
+        # the hoisted declaration text per header (its first declaration line of the real name, verbatim)
+        hoisted_text = {}
+        for h in hoist:
+            ht = (REPO / h).read_text(errors="surrogateescape")
+            hm = real_decl_rx.search(dl.same_len_mask(ht))
+            hoisted_text[h] = ht[hm.start():hm.end()] if hm else None
+        for rel in sorted(scope):
+            if rel in untouched_files:
+                continue
+            text = (REPO / rel).read_text(errors="surrogateescape")
+            masked = dl.same_len_mask(text)
+            edits, n_decl_a, n_decl_r, n_calls = [], 0, 0, 0
+            spans = []
+            kr = rel in kr_files
+            if kr:
+                counts = call_arg_counts(masked, real, []) + call_arg_counts(masked, aname, [])
+                decl_text = f"extern {ret} {real}();  {KR_MARK} {'/'.join(str(c) for c in sorted(set(counts))) or '?'} of {m_} args (P37 unalias {label})"
+            elif rel in promoted_files:
+                decl_text = canon_promoted
+            else:
+                decl_text = canon
+            if rel in hoist:
+                # the header loses its declaration line(s) of the real name (hoisted into the includers below)
+                for m in real_decl_rx.finditer(masked):
+                    le = masked.find("\n", m.end())
+                    edits.append((m.start(), (le + 1) if le >= 0 and masked[m.end():le].strip() == "" else m.end(), ""))
+                    spans.append((m.start(), m.end()))
+            for h, incs in hoist.items():
+                if rel in incs and hoisted_text.get(h) and not real_decl_rx.search(masked):
+                    im = re.search(r"(?m)^[ \t]*#include\s*\"[^\"]*" + re.escape(pathlib.Path(h).name) + r"\"", masked)
+                    if im:
+                        edits.append((im.start(), im.start(), hoisted_text[h] + "\n"))
+            if rel in non_member_files:
+                # a non-member includer: the hoisted text only — its own declarations of the real name are not this unit's to change
+                if edits:
+                    files[rel] = compose_text(text, sorted(edits))
+                    per_file[rel] = dict(alias_decls=0, real_decls=0, renames=0, kr=False, hoisted=True)
+                continue
+            if rel == def_file:
+                # the definition head: `RET aF(params) [K&R block] {` -> `RET real(params) {` (or the K&R-style head under 'krdef')
+                m = None
+                for mm in AF_DEF_RX.finditer(masked):
+                    if mm.group(2) == aname:
+                        m = mm
+                        break
+                head_text = f"{ret} {real}({params})\n" if mode == "ansi" else (kr_head() or f"{ret} {real}({params})\n")
+                edits.append((m.start(), m.end() - 1, head_text))
+                spans.append((m.start(), m.end()))
+            for m in proto_rx_a.finditer(masked):
+                if any(a <= m.start() < b for (a, b) in spans):
+                    continue
+                edits.append((m.start(), m.end(), ""))          # the alias prototype (with or without its __asm__ label) goes
+                spans.append((m.start(), m.end()))
+                n_decl_a += 1
+            for m in proto_rx_r.finditer(masked):
+                if any(a <= m.start() < b for (a, b) in spans):
+                    continue
+                edits.append((m.start(), m.end(), decl_text))
+                spans.append((m.start(), m.end()))
+                n_decl_r += 1
+            # a DATA declaration of the real name — `extern s32 func_X;` written by a drafter whose caller takes the function's address as
+            # a plain pointer (`f(&func_X)`) — becomes the prototype too: under the real name it is "redeclared as different kind of
+            # symbol" (t4_ua10: 11 of the 19 compile refusals; the `&func_X` use is a function designator's address, the same relocation)
+            for m in data_decl_rx.finditer(masked):
+                if any(a <= m.start() < b for (a, b) in spans):
+                    continue
+                edits.append((m.start(), m.end(), decl_text))
+                spans.append((m.start(), m.end()))
+                n_decl_r += 1
+            if n_decl_a and not n_decl_r and rel != def_file:
+                # a TU that only knew the alias: one declaration under the real name where the first alias prototype stood
+                first = min(e for e in edits if e[2] == "")
+                edits.remove(first)
+                edits.append((first[0], first[1], decl_text + "\n"))
+            for m in re.finditer(r"(?<![\w.])" + re.escape(aname) + r"\b", masked):
+                if any(a <= m.start() < b for (a, b) in spans):
+                    continue
+                edits.append((m.start(), m.end(), real))
+                n_calls += 1
+            if not edits:
+                continue
+            files[rel] = compose_text(text, sorted(edits))
+            per_file[rel] = dict(alias_decls=n_decl_a, real_decls=n_decl_r, renames=n_calls, kr=kr, promoted=(rel in promoted_files))
+        return files, per_file
+    mode = "ansi"
+    try:
+        files, per_file = build(kr_files, mode)
+    except Refuse as ex:
+        return [dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=def_file, unit="unalias:" + real, callee=real,
+                     verdict="UNALIAS-REFUSED", err=f"overlapping edits: {ex}", sites=[])], "REFUSED", []
+    log(f"unalias {aname} -> {real}: `{ret} {real}({params})` defined in {def_file}; {len(files)} files ({sum(v['alias_decls'] for v in per_file.values())} alias "
+        f"prototypes, {sum(v['real_decls'] for v in per_file.values())} real-name declarations, {sum(v['renames'] for v in per_file.values())} renames)")
+    r = judge_files(files, "ua" + hashlib.sha1(aname.encode()).hexdigest()[:6], pool=pool)
+    # THE FALLBACKS (per file, bounded; the definition keeps its exact ANSI head unless the last resort):
+    #   DIFFERS at a PURE caller F (no definition in its includes): F's callers carry no narrowing -> the promoted prototype; still DIFFERS -> `()`.
+    #   DIFFERS at a MEMBER TU (the definition visible): its callers' bytes disagree with the definition's head in one TU — the original was
+    #     separate translation units (a jr merge): KEPT, cause named.
+    #   `too few/many arguments` at F: F (and the in-scope headers it includes) go `()` + the marker; a second such file -> every declaration
+    #     of the unit goes `()`; still an arity error (the definition's head is what the TU sees) -> the definition spelled K&R-style (krdef).
+    #   `conflicting types` / `previous declaration` at F outside the unit: F joins the unit (canonical).
+    _, by_src_all, _ = recipes()
+    obj_to_src = {r_["obj"]: r_["src"] for rs_ in by_src_all.values() for r_ in rs_}
+    tried = collections.Counter()
+    cause = None
+    for _ in range(20):
+        v, err = r["verdict"], r["err"]
+        bad, kind = None, None
+        if v == "COMPILE-ERROR":
+            fm = (re.search(r"(src/[^\s:]+):\d+: too (?:few|many) arguments to function `" + re.escape(real) + "'", err)
+                  or re.search(r"(src/[^\s:]+):\d+: conflicting types for `" + re.escape(real) + "'", err)
+                  or re.search(r"(src/[^\s:]+):\d+: previous declaration of `" + re.escape(real) + "'", err))
+            if fm:
+                bad = os.path.normpath(fm.group(1))
+                kind = "arity" if "arguments" in fm.group(0) else "conflict"
+        elif v == "DIFFERS":
+            om = re.search(r"\[(build/\S+\.o)\]", err)
+            if om and om.group(1) in obj_to_src:
+                bad, kind = obj_to_src[om.group(1)], "differs"
+        if bad is None:
+            break
+        tried[(bad, kind)] += 1
+        if tried[(bad, kind)] > 3:
+            break
+        if bad not in scope:
+            scope.add(bad)
+        members_of_bad = def_file == bad or def_file in headers_of(bad)
+        if kind == "differs":
+            if members_of_bad:
+                cause = f"the callers in {bad} disagree with the definition's head inside one TU (a jr merge of separate original units) — KEPT"
+                log(f"unalias {aname}: {cause}")
+                break
+            if bad not in promoted_files and bad not in kr_files:
+                promoted_files.add(bad)
+                log(f"unalias {aname}: {bad} differs under the exact prototype (no narrowing in its bytes) — the promoted prototype for this file; re-judging")
+            elif bad not in kr_files:
+                kr_files.add(bad)
+                log(f"unalias {aname}: {bad} still differs — `()` (K&R, marked) for this file; re-judging")
+            elif bad not in untouched_files:
+                # a pure caller whose bytes need a prototype none of the three forms spells: its text is left exactly as it is — its own
+                # `aF… __asm__("func_X")` prototype (if any) still binds to the same symbol, so the unit lands without it; rung D records
+                # the load-bearing lie as DECL-KEPT on its own pass
+                untouched_files.add(bad)
+                log(f"unalias {aname}: {bad} differs under every prototype form — left untouched (its declaration is load-bearing); re-judging without it")
+            else:
+                cause = f"{bad} differs under every prototype form — KEPT"
+                log(f"unalias {aname}: {cause}")
+                break
+        elif kind == "arity":
+            all_kr = all(f_ in kr_files for f_ in scope if f_ not in hoist and f_ not in non_member_files)
+            if all_kr:
+                if mode == "ansi" and kr_head():
+                    mode = "krdef"
+                    log(f"unalias {aname}: {bad} still passes another count with every declaration `()` — the definition itself goes K&R-style (last resort); re-judging")
+                else:
+                    cause = f"{bad} passes another argument count even against a K&R-style definition — KEPT"
+                    log(f"unalias {aname}: {cause}")
+                    break
+            elif sum(n_ for (f_, k_), n_ in tried.items() if k_ == "arity") >= 2:
+                # a second arity ERROR (the same file again counts: t4_ua10/12 — one shared body raised the same error three times and the
+                # ladder never escalated, because this test counted distinct files)
+                kr_files.update(f_ for f_ in scope if f_ not in hoist and f_ not in non_member_files)
+                log(f"unalias {aname}: a second arity caller ({bad}) — every declaration of the unit goes `()` (K&R, marked); re-judging")
+            else:
+                kr_files.add(bad)                    # the definition TU's own DECLARATIONS may go `()` too (its head is governed by `mode`)
+                for h in headers_of(bad):
+                    if h in scope and h not in hoist:
+                        kr_files.add(h)
+                if bad.endswith(".h"):
+                    # the short call is in a shared BODY: the declaration it sees is the INCLUDING TU's — those TUs (in the unit) go `()`
+                    # (t4_ua10: func_80162CCC/func_8016BF50/func_8016F0E4 — `too few arguments` at shared/ov/*.h, the header holds no
+                    # declaration to respell, three tries, KEPT)
+                    _, _, inc_ = recipes()
+                    for t_ in inc_.get(bad, ()):
+                        if t_ in scope and t_ not in non_member_files:
+                            kr_files.add(t_)
+                log(f"unalias {aname}: {bad} passes another argument count — its declaration (and the in-scope headers it includes) stays `()`, a K&R site, marked; re-judging")
+        else:
+            log(f"unalias {aname}: {bad} declares {real} another way — joining the unit (canonical); re-judging")
+        try:
+            files, per_file = build(kr_files, mode)
+        except Refuse as ex:
+            r = dict(verdict="REFUSED", err=f"overlapping edits: {ex}", compiles=0, seconds=0.0, linked=[])
+            break
+        r = judge_files(files, "ua" + hashlib.sha1((aname + str(sum(tried.values()))).encode()).hexdigest()[:6], pool=pool)
+    rows = [dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="D", calib=calib_id, tu=rel, unit="unalias:" + real, callee=real, alias=aname,
+                 signature=f"{ret} {real}({params})", mode=mode, definition=(rel == def_file), **per_file[rel],
+                 verdict=("UNALIAS-DONE" if r["verdict"] == "IDENTICAL" else "UNALIAS-KEPT"), cause=cause, err=r["err"][:300], nhash_before=None, nhash_after=None, sites=[])
+            for rel in files]
+    if r["verdict"] == "IDENTICAL":
+        for rel, text in files.items():
+            (REPO / rel).write_text(text, errors="surrogateescape")
+        log(f"unalias {aname}: IDENTICAL on every recipe ({r['compiles']} objects, {r['seconds']:.1f} s) — {len(files)} files written")
+        return rows, "IDENTICAL", list(files)
+    log(f"unalias {aname}: {r['verdict']} {r['err'][:300]} — nothing written")
+    return rows, r["verdict"], []
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -1885,8 +2451,10 @@ def plan_S(headers, batch, only, done):
     return [(tu, files[tu]) for tu in ordered[:batch]], len(ordered), skipped
 
 
-def plan_D(headers, batch, only):
-    """[(tu, callees)] — TUs with lying declarations (argcheck's set widened to every callee spelled other than its definition), most first."""
+def plan_D(headers, batch, only, settled=frozenset()):
+    """[(tu, callees)] — TUs with lying declarations (argcheck's set widened to every callee spelled other than its definition), most first.
+    `settled` = {(tu, callee)} the ledger has judged (any DONE verdict, latest row): a TU whose every lying callee is settled is not drawn
+    again (batches t4_D2–D9 re-drew done TUs whose KEPT rows kept them ranked high — 300 files for 6 written at D9); `--redraw` lifts it."""
     import argcheck
     cache_p = RUN / "argcheck_cache.json"
     stamp = lc.src_stamp()
@@ -1909,9 +2477,25 @@ def plan_D(headers, batch, only):
             continue
         if only and not matches_only(only, r["tu"], r["callee"]):
             continue
+        if (r["tu"], r["callee"]) in settled:
+            continue
         by_tu[r["tu"]].add(r["callee"])
     ordered = sorted(by_tu, key=lambda t: (-len(by_tu[t]), t))
     return [(tu, sorted(by_tu[tu])) for tu in ordered[:batch]], len(ordered)
+
+
+def settled_units(rows, redraw=()):
+    """{(tu, callee)} whose LATEST rung-D row is a DONE verdict not lifted by `redraw` (R70: the last row is the verdict). A redraw key is a
+    verdict (`DECL-KEPT`) or `VERDICT:cause-substring` (`DECL-NONE:no visible definition` — the 667 rows settled before defs_visible's
+    fleet-unique level; the plain `DECL-NONE` key redraws every "already canonical"/external pair too, the t4_D21–D36 REDRAW's cost)."""
+    latest = {}
+    for r in rows:
+        if r.get("rung") == "D" and r.get("unit", "").startswith("decl:"):
+            latest[(r["tu"], r["callee"])] = (r.get("verdict"), r.get("cause") or "")
+    keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in redraw]
+    def lifted(v, c):
+        return any(v == kv and (ks is None or ks in c) for kv, ks in keys)
+    return {k for k, (v, c) in latest.items() if v in DONE_VERDICTS and not lifted(v, c)}
 
 
 def plan_L(headers, batch, only):
@@ -1962,7 +2546,17 @@ def apply_batch(a):
     rows = load_ledger()
     done, latest = ledger_index(rows)
     if a.redraw:
-        done = {k for k in done if latest.get(k[:3]) not in set(a.redraw)}
+        # the same VERDICT[:cause-substring] keys as settled_units (the planner's side): the engine's `done` filter must lift the same
+        # rows, or a redrawn TU is drawn and then skipped as done — "rows 0" (t4_D49/D56 on the `DECL-NONE:visible` key)
+        vc = {}
+        for r in rows:
+            if r.get("rung") == "D" and r.get("unit"):
+                vc[(r["tu"], r["unit"])] = (r.get("verdict"), r.get("cause") or "")
+        keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in a.redraw]
+        def lifted(k):
+            v, c = vc.get((k[1], k[2]), (None, ""))
+            return any(v == kv and (ks is None or ks in c) for kv, ks in keys)
+        done = {k for k in done if not lifted(k)}
     log_p = RUN / f"apply_{a.label}.log"
     log_f = open(log_p, "a")
 
@@ -1972,9 +2566,29 @@ def apply_batch(a):
             print(line, flush=True)
             log_f.write(line + "\n"); log_f.flush()
     recipes()
+    if a.unalias is not None:
+        pool = ThreadPoolExecutor(max_workers=a.jobs)
+        names = a.unalias if a.unalias and a.unalias != ["ALL"] else sorted(fn_alias_index())
+        done_n, kept_n, all_written = 0, 0, []
+        for nm in names:
+            if not dl.src_clean()[0] and not all_written:
+                sys.exit("restruct --unalias: src/ is dirty (R42)")
+            rows_, v, written = unalias_function(nm, a.label, calib_id, log, pool=pool)
+            ledger_append(rows_)
+            if v == "IDENTICAL":
+                done_n += 1; all_written += written
+            else:
+                kept_n += 1
+        pool.shutdown(wait=True)
+        line = f"restruct: unalias {a.label} — {len(names)} alias-defined functions: {done_n} back under their real name / {kept_n} kept · {len(all_written)} files written"
+        log(line)
+        log_f.close()
+        return 0
     if a.callee:
         pool = ThreadPoolExecutor(max_workers=a.jobs)
-        rows_, v, written = signature_change(a.callee, a.signature, a.label, calib_id, log, pool=pool)
+        with_files = dict(w_.split("=", 1) for w_ in (a.with_files or []))
+        rows_, v, written = signature_change(a.callee, a.signature, a.label, calib_id, log, pool=pool, body_file=a.body, all_defs=a.all_defs, only_tu=a.tu,
+                                             with_files=with_files, map_data=a.map_data)
         pool.shutdown(wait=True)
         ledger_append(rows_)
         line = f"restruct: signature {a.callee} — {v} · {len(written)} files written"
@@ -1985,7 +2599,7 @@ def apply_batch(a):
         plan, total, skipped = plan_S(a.headers, a.batch, a.only, done)
         print(describe_plan("S", plan, total, skipped), flush=True)
     elif a.rung == "D":
-        plan, total = plan_D(a.headers, a.batch, a.only)
+        plan, total = plan_D(a.headers, a.batch, a.only, settled_units(rows, a.redraw))
         print(describe_plan("D", plan, total), flush=True)
     else:
         plan, total = plan_L(a.headers, a.batch, a.only)
@@ -2026,7 +2640,7 @@ def apply_batch(a):
         ledger_append(r["rows"])
         log(f"  {tu}: {r['final']} · rows {len(r['rows'])} · compiles {r['compiles']} · {r['seconds']:.1f} s" +
             (f" · members {r.get('members', 0)} kept {r.get('kept', 0)} skipped {r.get('skipped', 0)} levers off {r.get('levers_off', 0)}" if a.rung == "S" else "") +
-            (f" · canon {r.get('canon', 0)} promoted {r.get('promoted', 0)} K&R {r.get('kr', 0)} kept {r.get('kept', 0)}" if a.rung == "D" else "") +
+            (f" · canon {r.get('canon', 0)} promoted {r.get('promoted', 0)} K&R {r.get('kr', 0)} aliases {r.get('alias', 0)} abs {r.get('builtin', 0)} kept {r.get('kept', 0)}" if a.rung == "D" else "") +
             (f" · folded {r.get('folded', 0)} refused {r.get('refused', 0)} renames {r.get('renames', 0)}" if a.rung == "L" else ""))
         return r
     if a.headers:
@@ -2038,7 +2652,7 @@ def apply_batch(a):
     wall = time.time() - t0
     agg = collections.Counter()
     for r in results:
-        for k in ("compiles", "members", "kept", "skipped", "levers_off", "canon", "promoted", "kr", "folded", "refused", "renames", "units", "bodies"):
+        for k in ("compiles", "members", "kept", "skipped", "levers_off", "canon", "promoted", "kr", "alias", "builtin", "folded", "refused", "renames", "units", "bodies"):
             agg[k] += r.get(k, 0)
         agg["seconds"] += r["seconds"]
         agg["rows"] += len(r["rows"])
@@ -2053,7 +2667,8 @@ def apply_batch(a):
     if a.rung == "S":
         detail = (f"{agg['bodies']} bodies: {agg['members']} sites → members / {agg['kept']} kept / {agg['skipped']} skipped · levers off {agg['levers_off']}")
     elif a.rung == "D":
-        detail = f"{agg['units']} declaration units: {agg['canon']} canonical / {agg['promoted']} promoted / {agg['kr']} K&R marked / {agg['kept']} kept"
+        detail = (f"{agg['units']} declaration units: {agg['canon']} canonical / {agg['promoted']} promoted / {agg['kr']} K&R marked / "
+                  f"{agg['alias']} aliases typed / {agg['builtin']} __builtin_abs → abs / {agg['kept']} kept")
     else:
         detail = f"{agg['units']} definitions: {agg['folded']} folded ({agg['renames']} member renames) / {agg['refused']} refused"
     line = (f"restruct: batch {a.label} rung {a.rung} — {len(plan)} files ({'headers' if a.headers else 'TUs'}; {total} drawable) · {detail} · "
@@ -2708,6 +3323,9 @@ extern s16 D_801F8872;
 extern s16 D_801F8874;
 extern void fx_callee(s16 a0, s32 a1);
 extern s32 fx_kr();
+extern u16 aD_80078E10 __asm__("D_80078E10");
+extern s32 D_80078E30;
+extern u16 aD_80078E30 __asm__("D_80078E30");
 typedef struct { s16 a; s16 b; s32 c; } Loc8;
 typedef struct { s16 q; s16 r; s32 s; } Loc8b;
 
@@ -2735,6 +3353,8 @@ void fx_a(s32 a0, Unkstruct_TEST *a1) {
     fx_callee(1, 2);
     fx_kr(3, 4);
     D_801F8872 = D_801F8870 + D_801F8874;
+    aD_80078E10 = aD_80078E10 + 1;
+    p = __builtin_abs(p) + aD_80078E30;
 }
 
 void fx_b(s32 a0) {
@@ -2891,10 +3511,26 @@ def selftest(real=False):
     ok("call_arg_counts reads the call's arity", counts == [2], str(counts))
     marks = kr_marker_edits(text, byc["fx_kr"], counts, "st")
     ok("K&R marker text", marks and "// K&R: 2 of 2 args (P37 rung D st)" in marks[0][2], marks[0][2] if marks else "")
-    # the D ladder under stubs: all-at-once IDENTICAL -> both DECL-CANON
+    # the alias and builtin units
+    eu = e_units(tu, text, masked)
+    bye = {u["callee"]: u for u in eu}
+    ok("E units: two aliases found", set(bye) == {"aD_80078E10", "aD_80078E30"}, str(sorted(bye)))
+    ok("E: an alias with no plain declaration becomes `extern u16 D_80078E10;` + 2 renamed uses",
+       any(e[2] == "extern u16 D_80078E10;" for e in bye["aD_80078E10"]["edits"]) and bye["aD_80078E10"]["uses"] == 2, str(bye["aD_80078E10"]["edits"][:3]))
+    ok("E: an alias whose symbol the TU declares with ANOTHER type carries the conflict", bye["aD_80078E30"]["conflict"] == ["s32"], str(bye["aD_80078E30"]["conflict"]))
+    bu = b_units(tu, text, masked)
+    ok("B unit: one __builtin_abs -> abs", len(bu) == 1 and bu[0]["n"] == 1 and bu[0]["edits"][0][2] == "abs")
+    # the D ladder under stubs: all-at-once IDENTICAL -> both DECL-CANON (+ the alias and builtin units)
     JUDGE_STUB = lambda files, tag: ("IDENTICAL", "")
     rD = work_file_D(tu, "st", dict(head="x"), logs.append)
     ok("work_file_D: both units DECL-CANON on an IDENTICAL stub", rD["canon"] == 2 and rD["final"] == "IDENTICAL", f"{rD['canon']} {rD['final']}")
+    ok("work_file_D: the aliases typed and the builtin respelled ride along", rD["alias"] == 2 and rD["builtin"] == 1 and "abs(p)" in rD["final_text"] and "D_80078E10 = D_80078E10 + 1;" in rD["final_text"], f"{rD['alias']} {rD['builtin']}")
+    def stub_e(files, tag):
+        return ("COMPILE-ERROR", "fx.c:9: conflicting types for `D_80078E30'") if "extern u16 D_80078E30;" in files[tu] else ("IDENTICAL", "")
+    JUDGE_STUB = stub_e
+    rE = work_file_D(tu, "st", dict(head="x"), logs.append)
+    ve = {row["callee"]: (row["verdict"], row.get("cause", "")) for row in rE["rows"] if row.get("kind") == "alias"}
+    ok("work_file_D: the conflicting alias is ALIAS-KEPT with the second-typed-view cause, the other typed", ve["aD_80078E30"][0] == "ALIAS-KEPT" and "second typed view" in ve["aD_80078E30"][1] and ve["aD_80078E10"][0] == "ALIAS-TYPED", str(ve))
     # ANSI DIFFERS for fx_callee only -> promoted (equal here) is skipped -> DECL-KEPT(width); fx_kr's ANSI arity error -> K&R marked
     def stub_d(files, tag):
         t = files[tu]
@@ -2998,6 +3634,12 @@ def main():
     ap.add_argument("--try-file", nargs="+", metavar="TU_OR_FN", help="rung S on one TU's named bodies with the REAL oracle, local types allowed, NOTHING written")
     ap.add_argument("--callee", help="rung D: a DEFINITION-side signature change for this function (with --signature)")
     ap.add_argument("--signature", help='rung D: the new signature, e.g. "void func_800385C0(s32 a0)"')
+    ap.add_argument("--body", help="rung D with --callee: a file whose function text REPLACES the definition (the signature is read from its head)")
+    ap.add_argument("--all-defs", action="store_true", help="rung D with --callee: apply the body/signature to EVERY same-address definition (copies of one function)")
+    ap.add_argument("--map-data", action="store_true", help="rung D --callee --body --all-defs: rename the body's D_ symbols to each copy's own (by order of first appearance); a count mismatch refuses")
+    ap.add_argument("--with", dest="with_files", action="append", metavar="REL=FILE", help="rung D --callee: a caller TU's edited text that is part of the same judged unit (repeatable)")
+    ap.add_argument("--tu", help="rung D with --callee: restrict to the definition in this TU")
+    ap.add_argument("--unalias", nargs="*", help="rung D: put alias-defined functions (aF<addr> __asm__(\"func_<addr>\")) back under their real names; names or ALL")
     ap.add_argument("--restore", action="store_true")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--check-ledger", action="store_true")
@@ -3059,7 +3701,7 @@ def main():
             plan, total, skipped = plan_S(a.headers, a.batch, a.only, done)
             print(describe_plan("S", plan, total, skipped))
         elif a.rung == "D":
-            plan, total = plan_D(a.headers, a.batch, a.only)
+            plan, total = plan_D(a.headers, a.batch, a.only, settled_units(load_ledger(), a.redraw))
             print(describe_plan("D", plan, total))
         else:
             plan, total = plan_L(a.headers, a.batch, a.only)
@@ -3068,8 +3710,10 @@ def main():
             print(f"   {tu}  " + (f"{len(payload)} bodies" if a.rung == "S" else f"{len(payload)} callees" if a.rung == "D" else ""))
         return
     if a.apply:
-        if a.callee and not a.signature:
-            sys.exit("restruct --apply --callee needs --signature")
+        if a.callee and not (a.signature or a.body):
+            sys.exit("restruct --apply --callee needs --signature or --body")
+        if a.unalias is not None and a.unalias == []:
+            sys.exit("restruct --apply --unalias needs names or ALL")
         sys.exit(apply_batch(a))
     if a.probe:
         run_probe(a)

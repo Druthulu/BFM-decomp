@@ -8,8 +8,8 @@ behaviour; yours will be about your compiler. The machine that builds it is what
 
 | Layer | BFM's instance | What it holds |
 |---|---|---|
-| **The cookbook** | [`docs/matching-cookbook.md`](../matching-cookbook.md) (3.5 MB; grep it by section, never read it whole) | one section per idiom or law, each **byte-proven** on a named function with the diff before and after; the compiler-internals laws; the integration classes; the wall proofs and their later refutations |
-| **The symptom index** | [`docs/cookbook-index.md`](../cookbook-index.md), derived by a self-asserting tool | *symptom → section*: what a residual looks like in the diff, and where the lever is |
+| **The cookbook** | [`cookbook/INDEX.md`](../../cookbook/INDEX.md) (3.5 MB; grep it by section, never read it whole) | one section per idiom or law, each **byte-proven** on a named function with the diff before and after; the compiler-internals laws; the integration classes; the wall proofs and their later refutations |
+| **The symptom index** | [`cookbook/INDEX.md`](../../cookbook/INDEX.md), derived by a self-asserting tool | *symptom → section*: what a residual looks like in the diff, and where the lever is |
 | **The codegen map** | [`docs/gcc-2.7.2-map/`](../gcc-2.7.2-map/) by compiler pass | pass → residual pattern → C-level lever, from reading the compiler's source ([chapter 07](07-compiler-source.md)) |
 | **The pinned triple and the permuter recipes** | the build, `tools/permuter/` | the executable form of the same knowledge: what the tools try before an agent is asked |
 | **The journal** | per-function past-attempt notes | what every earlier agent tried on *this* function — pack fuel |

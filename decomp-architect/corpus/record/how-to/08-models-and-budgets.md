@@ -46,7 +46,7 @@ differently.
 ## The orchestrator's effort — depth vs. breadth
 
 The orchestrating agent's reasoning depth is a human-controlled setting, and it maps onto two axes
-([`docs/effort-map.md`](../effort-map.md)):
+([`docs/retired/effort-map.md`](../retired/effort-map.md)):
 
 | | Depth — how hard one agent thinks | Breadth — how many angles at once |
 |---|---|---|

@@ -992,3 +992,39 @@ cross-address copies produce IDENTICAL probe bodies, and a hash-keyed scratch fi
 4. **A selftest's scratch is never the tool's live path.** The inflight probe deleted a real batch's restore snapshot (R57).
 5. **Typed signatures come AFTER the body's sites are members** — pointer arithmetic scales. Plan the declaration layer as widths/arity first
    and the typed form as a per-callee unit (sites → parameter type → callers) once the types exist.
+6. **A planner's denominator must be rows the engine can ACT on.** argcheck's "lying declaration" rows included callees with no visible
+   definition; the cycle re-drew 300 TUs for 0 units twice before every such row was settled in the ledger with its reason (`DECL-NONE`).
+7. **Stop a detached judge with SIGINT, never SIGTERM** — the in-place compile's `finally` restores the file only on an exception; and
+   `pkill -f` with a literal from your own command line kills your own shell (R79, hit again at 14:20).
+8. **A fallback ladder that re-judges hundreds of objects per step needs an escalation rule** (a second caller of the same kind → all
+   callers), or a 20-file chain costs 20 × 20 s per unit.
+
+## P37 S108 (2026-09-12) — the declaration layer's day of instrument findings: five ways a census was blind to its own population
+
+The session ran rung D over the fleet for ~9 h and landed ≈90,000 declarations canonical — and almost every jump came from finding a
+class the instruments could not see, not from the engine getting better. Each of these would have paid on day one of T4:
+
+1. **A definitions index must follow the sibling TUs' includes.** Since Phase 35 every shared body is a header included by ONE member TU;
+   an index that reads the sibling `.c` files but not the headers they include sees a binary's own shared functions as "external".
+   `t4_D21` drew 300 TUs for 0 units on exactly this; the fix was one loop, and the next batch put 10,123 declarations canonical.
+2. **A function's identity is (binary, definition), never the bare name (R48, again).** `argcheck.definitions()` kept one signature per
+   name with `setdefault`; 6,419 names carry more than one body; 2,832 correct declarations read as lies for two sessions. Resolve per
+   declaring binary: one fleet-wide signature → it; else the TU's own binary's; else main/resident; else "cross-binary", counted apart.
+3. **A `^`-anchored definition regex misses INDENTED file-scope definitions** — 116 "disagreements" were this, and the fix (leading blanks
+   allowed) surfaced ~2,200 more drawable TUs whose lying declarations had never been rows at all: the census's denominator grew by
+   ~10,000 after the instrument was repaired (`t4_D50`–`D52`: 7,208 canonical in three batches).
+4. **A call-arity counter must read the included bodies too, and "a `{` later on the line" is not a definition head.** 306 K&R markers read
+   `? of N args` for a known count (the short call sat in a shared body the TU includes), two read `[]` for `if (f() != 0) {`.
+5. **An empty or shrunken `build/` is a refusal, not a snapshot (R68).** The snapshot tool stamped "HEAD, 0 objects" over 7,428 objects of
+   another tree; a stopped R22 (`make clean` done, fleet run not) is the ordinary way to get there.
+6. **After `kill -INT` on a judge, WAIT for its exit before `--restore`** — it honours the signal only after its in-flight units (~2 min);
+   a restore run 8 s later consumed `inflight.json` and left six files with no tool-side restore. And `pgrep -f`/`pkill -f` with a literal
+   your own command line contains kills your own shell (R79 — hit twice more; the safe spelling brackets a character: `restruct_cycl[e]`).
+7. **A flat-yield stop is an inference; bucket the remainder by ledger verdict before stopping.** Two low-yield batches read as "the rest is
+   non-actionable" while 3,700 (TU, callee) pairs had never been judged — they were the `md_*` modules, ranked low by the planner.
+8. **Same code over per-overlay data is one body with a symbol map, not 133 bodies.** `--map-data` (the pack body's `D_` symbols renamed to each
+   copy's own, by order of first appearance; a count mismatch refuses) landed the 132-copy class in one judged unit — 264 pins.
+9. **"The pin was the missing argument" needs the CALLERS in the same judged unit as the definition** (`--with REL=FILE`): a declaration change
+   alone is `too few arguments` at every zero-argument caller, and the pack's "one caller" was three once the fleet was grepped.
+10. **A definition in a shared header whose short callers sit in other shared bodies lands as a K&R-style DEFINITION** — no per-TU `()`
+    declaration can hide a prototype that is in scope before the call; the ladder must count ATTEMPTS to escalate there (it counted files).

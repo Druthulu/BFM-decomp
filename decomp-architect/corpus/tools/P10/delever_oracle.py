@@ -228,7 +228,20 @@ def snapshot_baseline():
     import shutil, subprocess as sp
     n, changed = 0, []
     BASELINE.mkdir(parents=True, exist_ok=True)
-    for src in sorted((REPO / "build").glob("**/*.o")):
+    # THE EMPTY/PARTIAL GUARD (T4, 2026-09-12; R68): an empty or shrunken build/ (a `make clean` with no fleet run behind it — S107's
+    # stopped t4_D21 left exactly that) is REFUSED before anything is written. The first form of this function stamped TAKEN_AT.txt
+    # with HEAD and "0 objects" over a snapshot whose objects were another tree's — a false "fresh".
+    found = sorted((REPO / "build").glob("**/*.o"))
+    prev_n = None
+    stamp = BASELINE / "TAKEN_AT.txt"
+    if stamp.exists():
+        m = re.search(r"^(\d+) objects", stamp.read_text(), re.M)
+        prev_n = int(m.group(1)) if m else None
+    if not found or (prev_n and len(found) < prev_n):
+        print(f"delever_oracle --snapshot-baseline: REFUSED — build/ holds {len(found)} object(s), the previous snapshot {prev_n}: "
+              f"not a complete fleet run (run the clean fleet gate first, R22/R56); nothing written")
+        return 0
+    for src in found:
         rel = src.relative_to(REPO / "build")
         dst = BASELINE / rel
         dst.parent.mkdir(parents=True, exist_ok=True)

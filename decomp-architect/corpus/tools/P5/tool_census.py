@@ -11,7 +11,7 @@ two verbatim corpora, all from one hand-kept dictionary (P33.5 task 13.5; `--che
 
 Two kinds of fact, deliberately separated (R33):
   DERIVED on every run from the tree — the file set (two independent enumerations that must agree: `find` and `git ls-files`,
-    R34), each tool's docstring line, its SETUP row (`docs/SETUP.md`, matched by file name), its CONSUMERS (Makefile + config/*.mk
+    R34), each tool's docstring line, its SETUP row (`docs/ops/tooling-inventory.md`, matched by file name), its CONSUMERS (Makefile + config/*.mk
     targets, the CI workflows, the wave playbook, and every other tool that imports it or names it), and hence its class:
     LIVE (a runtime consumer), REFERENCED (only a SETUP/doc row), ORPHAN (neither).
   AUTHORED once, in `config/tool_dictionary.tsv` (tab-separated, LF line endings, the eight columns below) — the ladder phase, the portability (PORTABLE / ADAPT / PROJECT-ONLY), the NEED
@@ -39,17 +39,21 @@ KIT = REPO / "decomp-architect"
 MANIFEST = KIT / "tools" / "MANIFEST.md"
 CORPUS_TOOLS = KIT / "corpus" / "tools"
 CORPUS_COOK = KIT / "corpus" / "cookbook"
-COOKBOOK_SOURCES = ["docs/matching-cookbook.md", "docs/cookbook-index.md"] + [p.relative_to(REPO).as_posix() for p in sorted((REPO / "docs" / "gcc-2.7.2-map").glob("*")) if p.is_file()]
+# the two cookbook files moved to docs/retired/ at the PA3 migration (b8a6cbc54, bytes unchanged); the corpus keeps their old names
+COOKBOOK_SOURCES = ["docs/retired/matching-cookbook.md", "docs/retired/cookbook-index.md"] +[p.relative_to(REPO).as_posix() for p in sorted((REPO / "docs" / "gcc-2.7.2-map").glob("*")) if p.is_file()]
 # P33.5 task 14.5 (Drew: "the whole of our experience"): the RECORD as the third dictionary — the distilled records and the
 # phase-by-phase record, verbatim. The phase worklogs (phase-ends/logs/) are deliberately NOT here (R19: on-demand archives, 30k
 # lines); their distillation is the task-14.5 mining pass, banked into the kernels/accelerators. Layout under corpus/record/:
 # how-to/<chapter>, docs/<file>, phase-ends/<file>; the authored front page is corpus/record/README.md.
 CORPUS_RECORD = KIT / "corpus" / "record"
-RECORD_SOURCES = ([p.relative_to(REPO).as_posix() for p in sorted((REPO / "docs" / "how-to-ai-decomp").glob("*.md"))]
+# git-tracked only: an uncommitted draft (e.g. an unapproved PhaseEnd) must never enter the kit (P38 T1.c2)
+TRACKED = set(subprocess.run(["git", "ls-files", "-z"], cwd=REPO, capture_output=True, text=True).stdout.split("\0"))
+COOKBOOK_SOURCES = [s for s in COOKBOOK_SOURCES if s in TRACKED]
+RECORD_SOURCES = [s for s in ([p.relative_to(REPO).as_posix() for p in sorted((REPO / "docs" / "how-to-ai-decomp").glob("*.md"))]
                   + ["docs/decision-log.md", "docs/accelerators.md", "docs/retrospective.md", "docs/story.md", "docs/wave-playbook.md",
-                     "docs/effort-map.md", "docs/gen3-standards.md", "docs/gen3-handoff.md", "phase-ends/DIGEST.md"]
+                     "docs/retired/effort-map.md", "docs/gen3-standards.md", "docs/gen3-handoff.md", "phase-ends/DIGEST.md"]
                   + [p.relative_to(REPO).as_posix() for p in sorted((REPO / "phase-ends").glob("PhaseEnd_Phase*.md"),
-                                                                     key=lambda q: [float(x) if x.replace(".", "").isdigit() else x for x in re.split(r"(\d+(?:\.\d+)?)", q.stem)])])
+                                                                     key=lambda q: [float(x) if x.replace(".", "").isdigit() else x for x in re.split(r"(\d+(?:\.\d+)?)", q.stem)])]) if s in TRACKED]
 
 
 RECORD_BUILD = CORPUS_RECORD / "build" / "tools-health.mk"   # P33.5 task 14.5 addendum (Drew: "is make tools-health set up for the kit?")
@@ -139,7 +143,7 @@ def docstring_line(path):
 def setup_rows():
     """file name -> the SETUP row's purpose cell (first 160 chars)."""
     out = {}
-    for ln in (REPO / "docs" / "SETUP.md").read_text(encoding="utf-8", errors="replace").splitlines():
+    for ln in (REPO / "docs" / "ops" / "tooling-inventory.md").read_text(encoding="utf-8", errors="replace").splitlines():
         if not ln.startswith("|"):
             continue
         cells = [c.strip() for c in ln.strip().strip("|").split("|")]
@@ -327,7 +331,7 @@ def corpus_plan(recs):
         dest = CORPUS_TOOLS / r["phase"] / r["path"].removeprefix("tools/")
         copies.append((REPO / r["path"], dest))
     for s in COOKBOOK_SOURCES:
-        copies.append((REPO / s, CORPUS_COOK / pathlib.Path(s).relative_to("docs")))
+        copies.append((REPO / s, CORPUS_COOK / pathlib.Path(s.replace("docs/retired/", "docs/", 1)).relative_to("docs")))
     for s in RECORD_SOURCES:
         copies.append((REPO / s, record_dest(s)))
     return copies, pointers

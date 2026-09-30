@@ -6,7 +6,7 @@ that moves it — each lever **byte-proven** on a named function with the diff b
 Phase 23 by four frontier-class agents reading the gcc 2.7.2 passes directly, after six phases in which the same
 residuals had been called "unsteerable"; it is the artifact that lets a mid-tier agent, or a local model, apply
 compiler-internal levers without reading 80,000 lines of source. The index and triage table live in the cookbook
-([`docs/matching-cookbook.md`](../matching-cookbook.md) §31); the method is chapter 07 of the how-to
+([`cookbook/INDEX.md`](../../cookbook/INDEX.md) §31); the method is chapter 07 of the how-to
 ([`docs/how-to-ai-decomp/07-compiler-source.md`](../how-to-ai-decomp/07-compiler-source.md)).
 
 ## The files

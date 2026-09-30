@@ -86,7 +86,7 @@ The last thirty sessions of the project resumed from the digest and the checkpoi
 ## Effort, and who toggles it
 
 The orchestrating agent's reasoning depth is a setting the human controls, and the project mapped it per task
-([`docs/effort-map.md`](../effort-map.md)): the deepest setting for phase plans, PhaseEnds, architectural forks and
+([`docs/retired/effort-map.md`](../retired/effort-map.md)): the deepest setting for phase plans, PhaseEnds, architectural forks and
 non-obvious debugging; the highest *persistent* setting for execution whose design is already settled; multi-agent
 breadth (many independent items) for surveys, audits and bulk matching. The rule that made this workable is R27:
 **every transition is prompted and waited for** — the agent never launches a fan-out on a verbal yes, and never rolls

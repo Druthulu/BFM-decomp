@@ -46,11 +46,14 @@ COOKBOOK_SOURCES = ["docs/retired/matching-cookbook.md", "docs/retired/cookbook-
 # lines); their distillation is the task-14.5 mining pass, banked into the kernels/accelerators. Layout under corpus/record/:
 # how-to/<chapter>, docs/<file>, phase-ends/<file>; the authored front page is corpus/record/README.md.
 CORPUS_RECORD = KIT / "corpus" / "record"
-RECORD_SOURCES = ([p.relative_to(REPO).as_posix() for p in sorted((REPO / "docs" / "how-to-ai-decomp").glob("*.md"))]
+# git-tracked only: an uncommitted draft (e.g. an unapproved PhaseEnd) must never enter the kit (P38 T1.c2)
+TRACKED = set(subprocess.run(["git", "ls-files", "-z"], cwd=REPO, capture_output=True, text=True).stdout.split("\0"))
+COOKBOOK_SOURCES = [s for s in COOKBOOK_SOURCES if s in TRACKED]
+RECORD_SOURCES = [s for s in ([p.relative_to(REPO).as_posix() for p in sorted((REPO / "docs" / "how-to-ai-decomp").glob("*.md"))]
                   + ["docs/decision-log.md", "docs/accelerators.md", "docs/retrospective.md", "docs/story.md", "docs/wave-playbook.md",
                      "docs/retired/effort-map.md", "docs/gen3-standards.md", "docs/gen3-handoff.md", "phase-ends/DIGEST.md"]
                   + [p.relative_to(REPO).as_posix() for p in sorted((REPO / "phase-ends").glob("PhaseEnd_Phase*.md"),
-                                                                     key=lambda q: [float(x) if x.replace(".", "").isdigit() else x for x in re.split(r"(\d+(?:\.\d+)?)", q.stem)])])
+                                                                     key=lambda q: [float(x) if x.replace(".", "").isdigit() else x for x in re.split(r"(\d+(?:\.\d+)?)", q.stem)])]) if s in TRACKED]
 
 
 RECORD_BUILD = CORPUS_RECORD / "build" / "tools-health.mk"   # P33.5 task 14.5 addendum (Drew: "is make tools-health set up for the kit?")

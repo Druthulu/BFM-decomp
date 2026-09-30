@@ -170,8 +170,8 @@ def candidates(cen):
     """(extend, new): the classes this tool shares. Same-vram only; twin-covered and excepted classes are satisfied already."""
     extend, new = [], []
     for c in cen["classes"]:
-        if c["verdict"] == "A" or "E" in c["flags"] or "F" in c["flags"] or "TWIN-COVERED" in c["flags"] or c["excepted"]:
-            continue
+        if c["verdict"] == "A" or "E" in c["flags"] or "F" in c["flags"] or "TWIN-COVERED" in c["flags"] or (c["excepted"] and not RETRY_EXCEPTED):
+            continue                         # `--retry-excepted` (P37 T4): a ledgered class re-enters the plan; this run's verdict replaces its row
         priv = [i for i in c["insts"] if i["form"] == "def"]
         if c["verdict"] == "B":
             extend.append(c)
@@ -392,6 +392,18 @@ def restore(tus, tu_snap):
         (REPO / tu).write_text(tu_snap[tu])
 
 
+RETRY_EXCEPTED = False
+
+
+def ledger_drop(h):
+    """Drop every ledger row of class `h` (a retried exception: the row this run writes — or does not — is the verdict now)."""
+    lines = LEDGER.read_text().split("\n")
+    kept = [ln for ln in lines if not ln.startswith(h)]
+    if len(kept) != len(lines):
+        LEDGER.write_text("\n".join(kept))
+    return len(lines) - len(kept)
+
+
 def ledger_row(h, reason, nins, instances, note):
     with open(LEDGER, "a") as f:
         f.write(f"{h}\t{reason}\t{nins}\t{instances}\t{note}\n")
@@ -492,6 +504,12 @@ def run_batch(orc, cen, classes, label):
         results[a] = (ok3, det3 + f" (after bisect: {len(good)} classes kept, {len(by_class) - len(good)} rejected)")
         if not ok3:
             sys.exit(f"share_body: {a} still red after the bisect ({det3}) — stopping (R43)")
+    if RETRY_EXCEPTED:
+        for c in classes:
+            if c.get("excepted"):
+                n_ = ledger_drop(c["h"])
+                if n_:
+                    log(f"  [{label}] retry: {n_} previous ledger row(s) of {c['h'][:10]} dropped — this run's verdict replaces them")
     # register: new groups with the members that passed; extensions likewise; ledger the rejected
     reg_entries = []
     for gid, h, src, fn, vram, bins in b.register:
@@ -714,7 +732,9 @@ def rejected_in(b, h, cen):
 
 # ----------------------------------------------------------------------------------------------------------------------------
 def main():
+    global RETRY_EXCEPTED
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--retry-excepted", action="store_true", help="let the classes ledgered in config/dedup_exceptions.tsv back into the plan; a class that shares loses its row, a rejection re-ledgers it with the fresh diagnostic (P37 T4)")
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--apply", action="store_true")
     ap.add_argument("--bucket", choices=["extend", "new", "text"], default="new")
@@ -732,6 +752,7 @@ def main():
                          "then share its private copies (the class's ledger row is dropped when anything shares)")
     ap.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
     a = ap.parse_args()
+    RETRY_EXCEPTED = bool(getattr(a, "retry_excepted", False))
     RUN.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     cen = census(a.jobs)

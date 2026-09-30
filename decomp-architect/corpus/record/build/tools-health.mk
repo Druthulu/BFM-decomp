@@ -60,7 +60,12 @@ tools-health:
 	$(MAKE) --no-print-directory audit-digest
 	# The cookbook index is DERIVED (R33) and self-asserts its coverage (R32). Stale = agents can't
 	# find documented idioms and re-derive them at full token cost (measured, P30 wave 1).
-	$(VENV_PY) tools/cookbook_index.py --check
+	# DISABLED: cookbook_index.py --check — 2026-09-29 / Phase 38 T1
+	#   Original intent: assert docs/cookbook-index.md is fresh against docs/matching-cookbook.md.
+	#   Why disabled: both files moved to docs/retired/ at the PA3 migration (b8a6cbc54); the check crashed on the missing
+	#   source. Successor: cookbook/INDEX.md, kept by tools/cookbook_add.sh.
+	#   Re-enable if: docs/matching-cookbook.md becomes a live source again.
+	# $(VENV_PY) tools/cookbook_index.py --check
 	$(VENV_PY) tools/gccmap_cites.py --check
 	# P33 B5: the Ghidra roster is DERIVED from config/ghidra/*.jsonl (R33); a stale roster misreports
 	# which programs' RE work is tracked as text. Pure text check, no Ghidra needed.

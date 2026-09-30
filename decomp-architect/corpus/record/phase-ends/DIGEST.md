@@ -1,3 +1,4 @@
+<!-- frozen at the PA3 migration 2026-09-29; not maintained -->
 # phase-ends/DIGEST.md — the session-start digest (every PhaseEnd in one page + every rule in full)
 
 > **Purpose (R64 candidate, Drew 2026-09-05).** The Session Start Protocol used to read all 32 PhaseEnd files (~510 KB,
@@ -53,7 +54,16 @@ permuter rung, an object-scored guided search and ~200 agent readings of gcc 2.7
 the last session) took them to **4,010** (−92.5 %), every survivor marked with its pass and its instrument, 218/218 at every step; the
 milestone AMENDED at S104 by Drew (the unclosed sites named for the structs phase: signatures with patches, struct types, a carve, one GTE
 spelling, 1,548 singleton sites); 16,759 lying call declarations repaired; the lever and readability series published; the doctrine "ban
-the silence, not the lever". R100–R106 ratified; candidates (a)–(k) proposed. **Gen3 continues at Phase 37 — the structs phase.** The
+the silence, not the lever". R100–R106 ratified; candidates (a)–(k) proposed. **Gen3 continues at Phase 37 — the structs phase.**
+**Phase 37 CLOSED 2026-09-29 (v2.3.0; `PhaseEnd_Phase37.md`) — RE-SCOPED by Drew to T0–T4 at the T4/T5 boundary** so the repository moves
+to ProjectArchitect 3.0 between phases: three sessions (S106–S108, 2026-09-11 → 09-13) / 115 commits; the type census + the fleet-wide struct
+map (503,016 raw cast dereferences, 7,255 definitions, 18,760 clusters explaining 99.2 % of sites), the probe (struct spelling 90.6 %
+identical → 100 % keeping 3.8 % of sites as casts; declarations 92.6 % identical, 0 differing), `tools/restruct.py` with a LINKED oracle, and the
+declaration layer to its floor — lying declarations **98,648 → 1,796** (≈107,000 canonical, 5,262 K&R sites marked apart, 133/149 alias
+functions back, 10/12 parked signatures landed, levers 4,010 → 3,730), every survivor ledgered by cause; 218/218 at every step and at the
+close. R107–R117 ratified; candidates (a)–(g) proposed. **Phase 38 = the structs phase continued: T5–T10 carried verbatim** (struct
+unification at Max first); names follows it. The seed is `PhaseEnd_Phase37.md` §"Carried to Phase 38" + the archived S108 checkpoint
+(`phase-ends/logs/Phase37.md`, items 1–8). The
 Phase-35 open paragraph:
 *Phase 35 OPEN (2026-09-08, S94; gate 1 in plan mode at Max)*
 Drew set the Gen3 order dedup → pins → structs → names (one phase each, planned one at a time). The phase converts the 3,516 distinct
@@ -228,6 +238,17 @@ repaired; the baseline snapshot; the burst of 20), S103 (→ 5,097; 56 draws; `d
 draws in TU batches; Drew's four rulings read against sotn-decomp; the milestone amended), S105 (→ 4,010; 56/56 closes; generators
 R44–R46; R22 found blind three ways; caps 2 → 1 → none); T8 the census rung in tools-health + attribution 4,026/4,026; T9 the record
 (cookbook §454–§457, METHOD steps 1–25, 30,138 stale `@stuck:` notes retagged). Rules: R100–R106 ratified; candidates (a)–(k).
+
+**P37 (2026-09-29, v2.3.0) THE STRUCTS PHASE, PART ONE — RE-SCOPED to T0–T4 by Drew (the PA 3.0 upgrade between phases).** 3 sessions
+(S106–S108) / 115 commits. T0 baseline + oracle (147/147 calibration); T1 `tools/type_census.py` (six cast forms, the declaration layer,
+K&R/cross-binary apart, controls 4/4) + **the struct map** (Drew's gate-1 addition; five runs from a 297,668-site over-merge to 18,760 clusters
+/ 99.2 %); T2 the probe (rung S 126/139 identical, S2 closes 13/13 keeping 27 of 716 sites — the `/s` per-access dial; declarations 4,473/4,828
+identical, 0 DIFFERS; opaque folds rename members; the layout engine = cc1 on 29,248 fields; the relocation-spelling control → a linked
+oracle); T3 `tools/restruct.py` (rungs S/S2/S+A/X/R/D/L), `tools/struct_layout.py`, `delever_oracle`'s LINKED mode + a snapshot that refuses
+what it cannot reproduce, `restruct_cycle.sh`, the reinterpret macros in `common.h`; T4 the declaration layer — D1–D59 + HD1–HD8, `--unalias`
+(133/149), ten parked signatures (`func_80157D20` ×132 `--map-data`, `func_80029D3C` + callers `--with`), 3,546 banner blocks removed,
+`share_body --retry-excepted` (51 → 45 TU-CONFLICT rows): **98,648 → 1,796 lying declarations**, five census blind spots repaired at their
+cause (cookbook §458–§459). T5–T10 carried to P38. Rules: R107–R117 ratified; candidates (a)–(g).
 
 ## 3. Every rule, in full (transcribe these at session start; P/G/H/X are in PROJECT_CONTEXT.md)
 - **R1 — H1 relaxed while private.** ROM-derived content (`asm/`, `assets/`, `extracted/`, decompressed `.CD`) MAY be
@@ -422,6 +443,36 @@ never from its last line; a step that hands a file to a third party is proven th
 before the owner's browser session, and the proving tool writes the paste; what a public tree carries is decided before the flip, and a
 retired document gets its Archive-index row and is deleted in the same commit).
 
+**R107–R117 — RATIFIED at Phase 37 gate 1 (Drew, 2026-09-11, by the plan approval; the PhaseEnd_Phase36 candidates (a)–(k), operated through P36):**
+- **R107 — Ban the silence, not the lever:** a compiler-forcing construct is allowed in a banked body only marked, ledgered and published
+  from the first bank, with a one-compile bank-time trial of the body without it. 37 % of 53,234 sites came off with no understanding once
+  tried; the levers propagated with every family remap because nothing ever asked (`docs/levers.md` §5).
+- **R108 — A generator ships with a negative-control corpus of real bodies where it must fire, and a regen pass reports its refusal reasons
+  as a histogram.** R22 refused three ways for two sessions; every `NO-CANDIDATE` had been read as a property of the population.
+- **R109 — At every landing, run every registered family on the agent's START text before banking** — a close by a move the registry claims
+  is the cheapest instrument check in the loop. It found all three R22 defects.
+- **R110 — A scorer's target is the tree's own bytes compiled by the build's own tail, never a disassembly — a known-true case (the tree's
+  body scores 0) before any campaign.** Two permuter campaigns scored 28 for a byte-identical body (§454).
+- **R111 — Scratch is keyed by the unit of work, never by a worker tag or a file** (R48 extended). Nine burst agents shared one scratch
+  object; the search's `g0.o` was keyed by a worker index.
+- **R112 — A gate's baseline is a snapshot, not the build directory — a clean rebuild never runs where a live scorer reads `build/`.**
+  `--try` scored against half-written objects during a fleet gate until `--snapshot-baseline`.
+- **R113 — A lever's marker names its PASS and its INSTRUMENT** (R65 for markers), **asserted by an attribution check at the close.** 4,026
+  of 4,026 P36 sites attributed.
+- **R114 — A ledger's "done" is per body (unit, function, after-hash), never by text alone.** The P36 T4 preflight drew 2,204 files where
+  2,583 were owed.
+- **R115 — A long unattended run is DETACHED with a progress log, never a harness background task** (R55 operated). The harness's
+  low-memory guard killed a batch cycle mid-apply; a SIGKILL skips a restore.
+- **R116 — A marked ordinary-C fake (do-while, dead initialiser) is counted apart from levers and never an orphan; an invented condition, a
+  dead store or a dummy reassignment is never banked.** Drew's S104 ruling (a), read against sotn's `docs/STYLE.md`.
+- **R117 — A "stalling?" question is answered with the residue bucketed by what each bucket needs before any plan is proposed.** P36 S105:
+  the close decision took one message once the residue was bucketed.
+**Phase 37 proposed candidates (a)–(g) for Phase 38 gate 1** (the table in `PhaseEnd_Phase37.md` §Rules: a settling "none/external/done"
+verdict is checked on one known-opposite case first; a function is keyed by its definition (binary, address, body), never its bare name; a
+"done" filter is one function used by every side; a cycle stops only after its remainder is bucketed by ledger verdict; a tool's stop is
+SIGINT → wait → restore; a snapshot helper refuses empty input and stamps "fresh" only after proof; a signature change is one judged unit —
+definition, declarations and the callers whose bytes carried the missing piece).
+
 **R100–R106 — RATIFIED at Phase 36 gate 1 (Drew, 2026-09-09; the PhaseEnd_Phase35 candidates (a)–(g), operated through P35):**
 - **R100 — A shared body has exactly one source; a duplicate copy is a defect the health chain asserts, and its count is published with
   its rule.** The P35 invariant (S1), a `tools-health` gate; 1,099 classes / 4,755 copies → 51 / 160, every remainder ledgered.
@@ -470,6 +521,6 @@ the need it answers; generated) · **Phase 35:** `docs/wiki/The-dedup-engine.md`
 census and gate), `tools/share_body.py` (the share tool), `config/dedup_exceptions.tsv` (the ledger), cookbook §453 · **Phase 36:** `docs/levers.md` + `docs/lever-progress.tsv` (the lever series), `docs/readability.md` + `docs/readability-progress.tsv`
 (the readability series), `tools/lever_census.py` (the census, a tools-health rung), `tools/delever.py` (the engine + the generator registry
 R2–R46), `tools/delever_search.py --try` (the agents' scorer), `.run/P36/agents/METHOD_S103.md` (the agents' method), cookbook §454–§457,
-`include/gte_inline.h`, `config/verbatim_manifest.json` (49 rows) · **`decomp-architect/`** (the day-one kit: three dictionaries, DK-1–81, G1–67; its wiki page
+`include/gte_inline.h`, `config/verbatim_manifest.json` (49 rows) · **Phase 37:** `tools/type_census.py` (the type census) + `docs/struct-map.md` (the struct map, generated), `tools/restruct.py` (the rewrite engine, rungs S/S2/S+A/X/R/D/L; ledger `.run/P37/restruct/ledger.jsonl`), `tools/struct_layout.py`, `tools/delever_oracle.py` LINKED mode, `tools/restruct_cycle.sh`, cookbook §458–§459, `phase-ends/logs/Phase37.md` (the S108 checkpoint = the T5 seed) · **`decomp-architect/`** (the day-one kit: three dictionaries, DK-1–81, G1–67; its wiki page
 `docs/wiki/Start-a-new-decomp-project.md`; `make kit-corpus` regenerates, tools-health asserts) · `config/wave_exclude.txt` (pinned walls) · `config/verbatim_manifest.json` · `phase-ends/logs/` (on demand only, R19) · `.run/`
 (scratch; allowlisted subtrees are tracked — e.g. `.run/P32/t3/` drafts/ledger; the rules are on the conventions page).

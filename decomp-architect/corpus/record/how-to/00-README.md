@@ -67,7 +67,7 @@ the machine that builds it is universal.** That is the whole point of these chap
 - [`docs/accelerators.md`](../accelerators.md) — what was learned late that day one should know, each entry dated with when it *could* have been found
 - [`docs/retrospective.md`](../retrospective.md) and [`docs/story.md`](../story.md) — what we believed, what failed, what it cost; and the narrative
 - [`docs/wave-playbook.md`](../wave-playbook.md) — the running procedure, each guard paired with the measurement that earned it
-- [`docs/decision-log.md`](../decision-log.md) — every pivot with its measurement and hindsight; [`docs/effort-map.md`](../effort-map.md) — the reasoning-effort doctrine
+- [`docs/decision-log.md`](../decision-log.md) — every pivot with its measurement and hindsight; [`docs/retired/effort-map.md`](../retired/effort-map.md) — the reasoning-effort doctrine
 - [`phase-ends/DIGEST.md`](../../phase-ends/DIGEST.md) — every phase's synopsis and the full text of every rule cited here as `R<n>`
 
 The framework the governance chapter describes is published separately as
