@@ -3451,9 +3451,9 @@ void func_8017DFE8(void *a0) {
  * Struct tags are FUNCTION-UNIQUE (…_8017E024) so this draft pastes into the TU with zero
  * declaration reconciliation (wave law 8).
  * ------------------------------------------------------------------------------------------ */
-struct Mtx_8017E024  { s16 m[3][3]; s32 t[3]; };   /* 32 bytes -- PsyQ MATRIX  */
-struct SVec_8017E024 { s16 vx, vy, vz, pad; };     /*  8 bytes -- PsyQ SVECTOR */
-struct Vec_8017E024  { s32 vx, vy, vz, pad; };     /* 16 bytes -- PsyQ VECTOR  */
+   /* 32 bytes -- PsyQ MATRIX  */
+     /*  8 bytes -- PsyQ SVECTOR */
+     /* 16 bytes -- PsyQ VECTOR  */
 
 /* callees -- every name read off the target .s relocation lines (law 1 / 1c) */
 extern void RotMatrixZ(s32 a0, void *a1);
@@ -3574,12 +3574,6 @@ void func_8017E25C(s32 a0)
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 
-typedef struct {
-    u16 x; /* 0x0 */
-    u16 y; /* 0x2 */
-    u16 z; /* 0x4 */
-    u16 w; /* 0x6 */
-} Vec4h_8017E2F4;
 
 s32 func_8017E2F4(s32 a0, s32 a1) {
     Vec4h_8017E2F4 p1;
@@ -3852,9 +3846,6 @@ void func_8017E794(void *a0)
  * then override on flag<0" -- not an if/else.
  */
 
-typedef struct { s32 w[8]; } Mat32_8017E910;
-typedef struct { s16 a, b, c, d; } SV4_8017E910;
-typedef struct { s32 flag; u16 xy[2]; s32 sp1c; } Out_8017E910;
 
 void func_8017E910(void *a0)
 {
@@ -4041,7 +4032,6 @@ extern u16  D_8019B5EA[][4];   /* == D_8019B5E4 + 6 : lhu, stride 0x8         */
 
 /* field ORDER (not the call-arg order) reproduces sp+0x18/0x1C/0x20, exactly
  * as in the func_8017E910 sibling two definitions up in this TU. */
-typedef struct { u16 xy[2]; s32 sp1c; s32 flag; } Out_8017EC34;
 
 void func_8017EC34(s32 param_1)
 {

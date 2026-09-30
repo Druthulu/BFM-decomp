@@ -3535,13 +3535,11 @@ void func_8017C18C(s32 a0) {
 
 #include "../shared/ov/func_8017C230.h"
 
-typedef struct { s16 vx, vy; } DVEC2_C59C;
 
 
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_BEBC;
 
 extern s32 func_800491EC(void);
 extern void func_8017C66C(u16 *a0, void *a1);
@@ -3582,16 +3580,7 @@ extern void func_8017C908(s32 a0, s32 a1);
  * cell $t3 naturally once the bbox block allocates right.
  */
 
-typedef struct { u32 w0, w1, w2; } PrimC974;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimC974 *prim, *end; } CellC974;
 
-typedef struct { s16 vx, vy; } DVEC2_C974;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_C974;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_C974;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_C974;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_C974;
 
 
 
@@ -4124,53 +4113,7 @@ s32 func_8017DACC(s32 a0) {
 //   Decls are the TU canon: u16 globals (s16 would be `conflicting types`), s32
 //   func_80012C6C via the (s16 (*)()) call-site cast, s32 func_8017DAEC(s32).
 
-typedef struct {
-    s8 pad00[8];
-    s16 f08;
-    s16 pad0a;
-    s16 f0c;
-    s16 pad0e;
-    s16 f10;
-    s16 pad12;
-    s16 f14;
-    s16 pad16;
-    s16 f18;
-    s16 f1a;
-    s16 f1c;
-    s8 pad1e[2];
-    s16 f20;
-    s16 f22;
-    s16 f24;
-    s8 pad26[2];
-    s16 f28;
-    s16 f2a;
-    s16 f2c;
-    s16 f2e;
-    s16 f30;
-    s16 f32;
-    s8 pad34[8];
-    s32 f3c;
-    s32 f40;
-    s32 f44;
-    s32 f48;
-    s32 f4c;
-    s32 f50;
-} St_8017DAEC;
 
-typedef struct {
-    s8 pad00[0x14];
-    s32 t0;
-    s32 t1;
-    s32 t2;
-    s16 z0;
-    s16 z1;
-    s16 v;
-    s16 pad36;
-    s16 o0;
-    s16 o1;
-    s16 o2;
-    s16 pad3e;
-} Loc_8017DAEC;
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s16 func_80012ABC(s32 a0, s32 a1, s32 a2);
@@ -4451,7 +4394,6 @@ s32 func_8017E210(u8 *a0) {
     return v;
 }
 
-typedef struct { u8 c[8]; } Blk8_8017E224;
 
 void func_8017E224(s32 param_1)
 {

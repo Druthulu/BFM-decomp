@@ -4503,13 +4503,11 @@ void func_8017D878(s32 a0) {
 }
 
 
-typedef struct { s16 vx, vy; } DVEC2_C59C;
 
 
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_BEBC;
 
 extern s32 func_800491EC(void);
 extern void func_8017DC90(u16 *a0, void *a1);

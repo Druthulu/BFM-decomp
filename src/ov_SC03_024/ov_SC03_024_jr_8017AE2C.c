@@ -3896,7 +3896,6 @@ void func_8017CE54(void *a0) {
  * may DROP this local typedef and reuse the TU's own `B4` when banking into the host TU.
  */
 
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017CE90;
 
 extern void func_801465C0(void);
 extern void func_8001CD04(void *a0, void *a1);
@@ -4001,13 +4000,6 @@ void func_8017D0DC(void *a0) {
 #include "../shared/ov/func_8017D194__b55f2b3b.h"
 
 
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017D1E0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D1E0;
 
 
 
@@ -4396,7 +4388,6 @@ extern s16 D_8011F9C8;
 extern void func_80174684(void *);
 extern void func_8017DB00(void *a0);
 
-struct S8_8017DA98 { s16 m[4]; };
 
 #include "../shared/ov/func_8017DA98.h"
 

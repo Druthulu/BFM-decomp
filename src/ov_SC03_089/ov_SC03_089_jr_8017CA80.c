@@ -3830,7 +3830,6 @@ extern s32 D_80126B58;
 extern u16 func_80148800(s32 *a0);
 extern void func_80181BCC(s32 param_1, s16 *param_2);
 
-typedef struct { s16 w[4]; } V4_801817E0;
 
 void func_801817E0(s32 param_1) {
     extern s16 D_8018D358[];
@@ -3850,7 +3849,6 @@ void func_801817E0(s32 param_1) {
 }
 
 
-typedef struct { s16 w[4]; } V4_88;
 
 extern s32 D_80126B58;
 extern s32 *D_80126B78;
@@ -3921,7 +3919,6 @@ extern s32 D_80126B58;
 extern u16 func_80148800(s32 *a0);
 extern void func_80181BCC(s32 param_1, s16 *param_2);
 
-typedef struct { s16 w[4]; } V4_80181A68;
 
 void func_80181A68(s32 param_1) {
     extern s16 D_8018D360[];
@@ -3941,7 +3938,6 @@ void func_80181A68(s32 param_1) {
 }
 
 
-typedef struct { s16 w[4]; } V4_80181B14;
 extern s32 D_80126B58;
 extern u16 func_80148800(s32 *a0);
 extern void func_80181BCC(s32 param_1, s16 *param_2);
@@ -5328,8 +5324,6 @@ void func_80184138(s32 arg0)
 }
 
 
-typedef struct { s16 a, b, c; } SV3x_80184B30_801841E8;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_801841E8;
 
 /* func_801841E8 — ov_SC03_090, 82 ins.
  * Banked twin (seed_ref): ov_SC02_035:func_801834BC (0.7356 sim) — same opening block
@@ -5597,8 +5591,6 @@ void func_801844C8(s32 a0) {
 }
 
 
-typedef struct { s16 a, b, c; } SV3x_80184B30_80184730;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80184730;
 
 /* Declarations copied VERBATIM from the destination TU (src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c)
  * where they are already established for the near-identical sibling func_801841A4's case 2
@@ -5684,8 +5676,6 @@ void func_80184880(s32 arg0) {
 }
 
 
-typedef struct { s16 a, b, c; } SV3x_80184B30_801848AC;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_801848AC;
 
 /* Declarations conformed to this TU's existing canonical forms (§193-B law 2):
  *   func_8012BEE8   ov_SC03_090_jr_8017CA80.c:5640  `extern s32  func_8012BEE8(s32 a0);`
@@ -5840,7 +5830,6 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
     }
 
 
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4;
 
 
 extern s16 D_80126CBA;
@@ -5982,8 +5971,6 @@ void func_80184D7C(s32 param_1)
 
 
 
-typedef struct { s16 a, b, c; } SV3x_80184B30_80184E54;
-typedef struct { s16 a, b, c, d; } SV4x_80184B30_80184E54;
 
 extern void func_8012B23C(void *a0);
 extern void func_80185144(s32 param_1);
@@ -6026,10 +6013,6 @@ void func_80184E54(void *a0)
 }
 
 
-typedef struct {
-    u32 field0;
-    u32 field1;
-} __attribute__((packed, aligned(1))) Block8_80184F98;
 
 extern Block8_80184F98 D_801C53F8;
 /* Canonical shared engine-core spelling (return read via call-site cast,
@@ -6139,10 +6122,6 @@ void func_8018517C(void* arg0)
  *     stolen `lui $v1,0x7fff` in the slot — 7 wrong instructions. Pin-free.
  */
 
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8;
-typedef struct { short vx, vy, vz, pad; } SV_801851A8;
-typedef struct { long vx, vy, vz, pad; } LV_801851A8;
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_801851A8;
 
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
@@ -6403,10 +6382,6 @@ void func_80185678(s32 ent) {
 }
 
 
-typedef struct { s16 a, b, c; } SV3x_80184B30;
-typedef struct { s32 vx, vy, vz; } V32_801875E4;
-typedef struct { s16 a, b, c, d; } SV4x_80184B30;
-typedef struct { short vx, vy, vz, pad; } SV_801851A8_801839C4;
 
 
 

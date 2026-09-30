@@ -3570,7 +3570,6 @@ extern void func_8012A018(s32 a0, s32 a1);
 extern void func_8012A094(s32 a0);
 extern void func_8017D648(void *a0);
 
-typedef struct { s16 x0, x1, x2, x3; } UnalignedShortBlock;
 
 void func_8017D4E4(void) {
     extern u8 D_80126948[];
@@ -3958,9 +3957,6 @@ void func_8017DF5C(s32 a0, s32 a1) {
 }
 
 
-typedef struct {
-    s16 d0, d1, d2, d3;
-} Blk8U;
 
 s32 func_8017DF74(s32 a0, s32 a1)
 {
@@ -5528,10 +5524,6 @@ extern void func_801813EC(s32 a0);
 extern s32 func_8012AD50(void*);
 extern void func_8018272C(void *a0);
 
-typedef struct {
-    void (*fn)(void *);
-    u8 unk4[0x14];
-} S_801C7808_Entry;
 
 extern s32 D_801C7808;
 

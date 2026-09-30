@@ -4169,9 +4169,6 @@ void func_8017EB38(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017EB74;
 
 void func_8017EB74(s32 a0) {
 
@@ -4266,10 +4263,6 @@ extern void func_8012BE54(s32 a0);
 extern void func_8012C218(void *a0);
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern s32 func_8014CB8C(void);
-typedef struct {
-    u16 f0;
-    u8  pad[14];
-} Stride16_801BA59C_8017EE0C;
 
 void func_8017EE0C(s32 a0)
 {
@@ -4476,7 +4469,6 @@ void func_8017F130(void *a0) {
 }
 
 
-typedef struct { u8 b[0x6C]; } Blk6C_80184CB0;
 
 /* §193-A banked twin: ov_SC06_018:func_8018AF88 (sim 0.708) establishes the
  * `local = D_800AE620;` whole-struct-copy idiom for this exact symbol, with
@@ -4498,8 +4490,6 @@ typedef struct { u8 b[0x6C]; } Blk6C_80184CB0;
  * fits, ruling that guess out).
  */
 
-typedef struct { s32 w[8]; } Mat32_80186C20;
-typedef struct { s16 a, b, c, d; } SV4_80186C20;
 
 void func_8017F16C(void *a0)
 {

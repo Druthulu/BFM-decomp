@@ -2855,7 +2855,6 @@ void func_8017D0E4(void * arg0) {
     }
 
 
-typedef struct { s16 v[8]; s32 w; } Blk20_8017D110;
 
 extern s32 func_8012C51C(void *a0, s32 a1);
 extern void func_8012C1B8(void);
@@ -3307,9 +3306,6 @@ void func_8017DC38(void *a0) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } V_8017DCC0;
-typedef struct { u8 r, g, b, code; } C_8017DCC0;
-typedef struct { V_8017DCC0 v[4]; C_8017DCC0 c[4]; u32 flags; } Q_8017DCC0;
 
 extern void func_80017738(void *a0, s32 a1);
 

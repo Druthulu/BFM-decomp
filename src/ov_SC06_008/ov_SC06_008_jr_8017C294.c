@@ -2879,9 +2879,6 @@ void func_8017D4E8(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D524;
 
 void func_8017D524(s32 a0) {
     extern Blk8_80126940_8017D524 D_80126940;
@@ -2959,12 +2956,6 @@ void func_8017D5A4(s32 param_1, s16 *param_2) {
  *      `lhu $a2, 0x36($s3)` at both call sites, not caught by the site-diff card).
  */
 
-typedef struct {
-    u16 x; /* 0x00 */
-    u16 y; /* 0x02 */
-    u16 z; /* 0x04 */
-    u16 w; /* 0x06 */
-} V4_8017D73C;
 
 extern u16 D_80126B62;
 extern u16 D_80126B96;
@@ -3468,21 +3459,8 @@ extern void func_8017EBAC(int param_1);
 extern u8 * func_801290DC(s32 a0, u8 *a1);
 
 /* 0x10-byte spawn record built on the stack at sp+0x10 */
-typedef struct {
-    s16 x;    /* 0x00 */
-    s16 y;    /* 0x02 */
-    s16 z;    /* 0x04 */
-    u16 ang;  /* 0x06 */
-    s16 f8;   /* 0x08 */
-    s16 fA;   /* 0x0A */
-    s16 fC;   /* 0x0C */
-    s16 fE;   /* 0x0E */
-} Cfg_8017E37C;
 
 /* 0x10-byte VECTOR at sp+0x20 (pad needed: it fixes s0/ra at 0x30/0x34) */
-typedef struct {
-    s32 vx, vy, vz, pad;
-} Vec_8017E37C;
 
 s32 func_8017E37C(void *a0, s32 a1, s32 a2)
 {

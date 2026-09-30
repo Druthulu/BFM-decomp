@@ -2853,7 +2853,7 @@ extern void func_801859A0(void *a0);
 // body) using a locally-named struct type — block-scope externs don't collide with another
 // function's block-scope externs for the same symbol (§S38/D2).
 
-typedef struct { s32 w[4]; } LBlk16; /* 16-byte record, block-scoped local name only */
+ /* 16-byte record, block-scoped local name only */
 
 void func_801859DC(void *a0)
 {
@@ -2941,7 +2941,6 @@ void func_80185BD0(void *a0) {
 
 #include "common.h"
 
-typedef struct { s32 w[4]; } B16_local;
 
 extern B16_local D_800A5EA8;
 extern B16_local D_801C97FC;

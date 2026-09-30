@@ -3410,7 +3410,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_BEBC;
 
 extern s32 func_800491EC(void);
 extern void func_8017C294(u16 *a0, void *a1);
@@ -3450,16 +3449,7 @@ extern void func_8017C530(s32 a0, s32 a1);
  * cell $t3 naturally once the bbox block allocates right.
  */
 
-typedef struct { u32 w0, w1, w2; } PrimC59C;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimC59C *prim, *end; } CellC59C;
 
-typedef struct { s16 vx, vy; } DVEC2_C59C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_C59C;
 
 
 
@@ -4662,9 +4652,6 @@ extern void func_80015954(s32 a0, s32 a1);
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern s32 rand(void);
 
-struct S6C { u8 pad[8]; };
-struct S72 { s16 unk0; u8 pad[6]; };
-struct S9E { u16 unk0; u16 pad; };
 struct Ent { u8 pad[0xDC]; s32 unkDC; u8 pad2[0x1C]; u16 unkFC; };
 
 extern struct S6C D_80185D6C[];
@@ -5426,21 +5413,6 @@ void func_8017F798(void *arg0) {
 }
 
 
-typedef struct {
-    s16 state;   /* 0x00 */
-    s16 timer;   /* 0x02 */
-    s16 unk4;    /* 0x04 */
-    s16 unk6;    /* 0x06 */
-    s16 unk8;    /* 0x08 */
-    s16 unkA;    /* 0x0A */
-    s16 unkC;    /* 0x0C */
-    s16 unkE;    /* 0x0E */
-    s16 unk10;   /* 0x10 */
-    s16 unk12;   /* 0x12 */
-    s32 unk14;   /* 0x14 */
-    u16 unk18;   /* 0x18 */
-    u16 unk1A;   /* 0x1A */
-} Blk1C;
 
 extern void func_8017FA24(void *a0);
 extern void func_8017FA50(s32 a0, void *s0);
@@ -5518,7 +5490,6 @@ void func_8017FA50(s32 a0, void *s0)
 
 
 
-typedef struct { Blk8 m[4]; } Quad;
 
 extern Blk8 D_80185E68;
 extern Blk8 D_80185E70;
@@ -5706,16 +5677,6 @@ void func_8017FF68(s32 a0, void *a1) {
  * D_* data-symbol addresses differ (D_80194DD0/DD8/DE0/DE8 -> D_80185EB8/
  * ED4/EDC/EE4).
  */
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_80182800;
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_80182800;
-typedef struct {
-    SVECTOR_80182800 v[4];             /* 0x00 */
-    s32 k30, k34, k38, k3c;            /* 0x20 */
-    u32 bcast;                         /* 0x30 */
-    s32 tag;                           /* 0x34 */
-    u8  code;                          /* 0x38 */
-    u8  pad39[7];                      /* -> 0x40 */
-} Prim_80182800;
 
 extern SVECTOR_80182800 D_80185EB8;
 extern SVECTOR_80182800 D_80185EC0;

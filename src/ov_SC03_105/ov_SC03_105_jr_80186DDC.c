@@ -9,56 +9,9 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8_8017D7EC; /* 0x1C */
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8_8017D7EC subs[16];
-} GroupRec_801EB5C8_8017D7EC; /* 0x1D0 */
-typedef struct {
-    u16 f0;
-    u16 f1;
-    u16 f2;
-    u16 f3;
-    u16 f4;
-    u16 f5;
-    u16 f6;
-    u16 f7;
-    s32 f8;
-} Local_8017EE34;
-typedef struct {
-    s16 a, b, c;
-} Vec3s16_8018388C;
-typedef struct { s16 vx, vy, vz, pad; } SVec_80183F84;
-typedef struct {
-    SVec_80183F84 v[4];                       /* 0x00 */
-    s16 u0, t0, u1, t1, u2, t2, u3, t3;       /* 0x20 */
-    u32 bcast;                                /* 0x30 */
-    s32 tag;                                  /* 0x34 */
-    u8  code;                                 /* 0x38 */
-    u8  pad39[7];                             /* 0x39 -> 0x40 */
-} Prim_80183F84;
+ /* 0x1C */
+ /* 0x1D0 */
 struct vec;
-typedef struct { s16 vx, vy, vz, pad; } SVEC_801BA5A8;
-typedef struct {
-    u16 f0, f1, f2, f3;
-} Vec4x16;
-typedef struct { s16 x, y, z, w; } V4_80185480;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80185480;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3491,18 +3444,8 @@ void func_80187928(void *a0) {
 
 
 
-typedef struct { s16 vx; u16 vy; s16 vz; s16 pad; } SV_80187A30;
 
-typedef struct {
-    SV_80187A30 v[4];                       /* 0x00 */
-    u16 u0, t0, u1, t1, u2, t2, u3, t3;     /* 0x20 */
-    u8  r, g, b, cd;                        /* 0x30 */
-    s32 tag;                                /* 0x34 */
-    u8  code;                               /* 0x38 */
-    u8  pad39[7];                           /* 0x39 -> 0x40 */
-} Prim_80187A30;
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_80187A30;
 extern u8 D_800AF648;
 extern u16 D_800B99DA;
 extern s32 func_80047948(s32 a0);
@@ -3731,17 +3674,8 @@ void func_8018807C(s32 a0) {
  * these two typedefs and use the TU's MATRIX / SVECTOR verbatim (law 2/8: same
  * body, so the rename is byte-neutral). */
 
-typedef struct { short vx, vy, vz, pad; } SVECTOR_80188114;
 
 /* sp+0x10 aggregate handed to func_800176F0: 4 SVECTORs + 5 words. */
-typedef struct {
-    SVECTOR_80188114 v[4];   /* 0x00 */
-    s32 f0;         /* 0x20 */
-    s32 f1;         /* 0x24 */
-    s32 f2;         /* 0x28 */
-    s32 f3;         /* 0x2C */
-    s32 f4;         /* 0x30 */
-} Prim_80188114;
 
 extern void RotMatrixZ(s32 a0, void *a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);

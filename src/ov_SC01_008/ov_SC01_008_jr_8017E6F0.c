@@ -2704,12 +2704,6 @@ extern s32  *func_8017E93C(s32 *, void *, s32, void *, s32);
 extern s32   func_8017E4D8(void *, s32, s32, s32, s32 *);
 extern s32 * func_8017E30C(s32 *ot, Panel_8017E978_8017E30C *w0, s16 idx);
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017E6F0;
 
 /* func_8017E6F0  (ov_SC01_005 / ov_SC01_005_jr_8017C340, 147 ins)  -- MATCH
  *

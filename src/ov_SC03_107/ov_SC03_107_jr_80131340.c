@@ -532,7 +532,6 @@ extern void func_80131170(s32 p, s32 b, s32 c);
 extern s32 func_801312D0(s32 param_1, void *param_2);
 
 
-            typedef struct { s8 c[8]; } Blk8_80131340;
 
 
 // @class: plumbing
@@ -874,7 +873,6 @@ extern void func_8012B23C(s32 a0);
 extern void func_8012B2CC(s32 a0);
 extern void func_8016AA50(int, int);
 extern s32 func_8016B428(s32);
-            typedef struct { s8 c[8]; } Blk8_80131B14;
 
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (89 ins). Reconcile: TU canonical decl is `void func_80131B14(void)`
@@ -946,7 +944,6 @@ void func_80131B14(void) {
 #include "../shared/ov/func_80131C78.h"
 
 
-            typedef struct { s8 c[8]; } Blk8_80131CA8;
 
 /* func_80131CA8 — RECONCILE (§37/§124 asm-label alias)
  *
@@ -976,7 +973,6 @@ extern s32 func_80131CF4();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
 #include "../shared/ov/func_80131CA8.h"
 
 
-            typedef struct { s8 c[8]; } Blk8_80131CF4;
 
 
 /* func_80131CF4 — table lookup: walk (key, value) pairs; key 0xD chains to the
@@ -1247,7 +1243,6 @@ void func_8013277C(void) {
 #include "../shared/ov/func_80132EF4.h"
 
 
-            typedef struct { s8 c[8]; } Blk8_80132F40;
 
 /* func_80132F40 — ov_SC01_077 (jr_8012ACE0 region), 72 ins, -O2.  *** MATCH ***
  *
@@ -2030,7 +2025,6 @@ int func_80134A74(int param_1, s16 param_2, s16 param_3, int param_4)
 }
 
 
-            typedef struct { s8 c[8]; } Blk8_80134C20;
 
 // @class: regalloc-order
 // @try: variant B — direct pins m=$s5($21), c=$s6($22)
@@ -2123,7 +2117,6 @@ block_14:
 #include "../shared/ov/func_80134FB8.h"
 
 
-            typedef struct { s8 c[8]; } Blk8_80135004;
 
 // @class: plumbing
 // @stuck: MATCH (89 ins). To BANK: retype aD80182A3C_80135004 + aD80182A38_80135004 (u8 -> s16*) in sibling func_80135168's externs (src/ov_SC01_077/ov_SC01_077_a.c ~L1879); they hold pointers double-referenced across a call, so only a 4-byte/pointer decl folds %lo (u8 &-cast CSE's the address into a saved reg). Retype is byte-NEUTRAL for the sibling (verified: identical objdump bytes u8 vs s16*).
@@ -2234,7 +2227,6 @@ int func_80135168(u16 arg0, u16 *p1, u16 *p2)
 }
 
 
-            typedef struct { s8 c[8]; } Blk8_80135260;
 
 
 /* func_80135260 — "is <target> reachable/hittable" gate (136 ins, ov_SC01_077 jr_8012ACE0).

@@ -9,10 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_80185D2C;
-typedef struct { short vx, vy, vz, pad; } SV_801851A8_80185D2C;
-typedef struct { long vx, vy, vz, pad; } LV_801851A8_80185D2C;
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_801851A8_80185D2C;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -2887,7 +2883,7 @@ extern void func_8018C3F8(void *a0);
 // body) using a locally-named struct type — block-scope externs don't collide with another
 // function's block-scope externs for the same symbol (§S38/D2).
 
-typedef struct { s32 w[4]; } LBlk16; /* 16-byte record, block-scoped local name only */
+ /* 16-byte record, block-scoped local name only */
 
 void func_8018C434(void *a0)
 {
@@ -2975,7 +2971,6 @@ void func_8018C628(void *a0) {
 
 #include "common.h"
 
-typedef struct { s32 w[4]; } B16_local;
 
 extern B16_local D_800A5EA8;
 extern B16_local D_801CF7D0;

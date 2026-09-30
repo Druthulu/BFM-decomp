@@ -2888,7 +2888,6 @@ void func_8017EAB0(void *a0) {
  */
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct { s16 v[4]; } Blk8_80126940_8017D6D0_8017EAEC;
 
 extern u16  func_80148800(s32 *a0);
 extern s32  func_8004787C(s32 a0);
@@ -3690,7 +3689,6 @@ void func_8017FD44(s32 a0) {
 }
 
 
-typedef struct { s16 h[3]; } SV3L;
 extern s32 func_80180C0C(s32 a0, s32 a1, s32 a2);
 extern void func_80180F3C(void *a0);
 extern s32 func_801809F0(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -3755,7 +3753,6 @@ void func_8017FEC8(void *a0) {
 }
 
 
-struct vecr { int _m; };
 
 extern void func_8012AD80(struct vec*);
 extern void func_80180F3C(void *a0);
@@ -4907,12 +4904,6 @@ void func_80181984(void *a0) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801819C0;
 
 extern s32 rand(void);
 extern void func_80049CAC(s32 a0, s32 a1);

@@ -3568,7 +3568,6 @@ void func_8017ED50(s32 a0)
 }
 
 
-typedef struct { u16 f0; u16 f2; u16 f4; s16 f6; } Rec_EDC0;
 extern Rec_EDC0 D_801AAD6C[];
 extern Rec_EDC0 D_80185094[];
 extern Rec_EDC0 D_80185098[];
@@ -3855,8 +3854,6 @@ void func_8017F470(void *a0)
 }
 
 
-typedef struct { s32 w0, w4, w8, wC; s16 h10, hpad; s32 t0, t1, t2; } Mat32_8017F4E4;
-typedef struct { s16 x, y, z; } V3_8017F4E4;
 
 extern void RotMatrixY(s32 a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
@@ -3914,15 +3911,6 @@ void func_8017F4E4(u8 *a0)
  *       frame with 6 callee-saves (s0-s4, ra).
  * Same shape as func_80183F84 (ov_SC03_105) / func_8018DA64 (ov_SC04_011).
  */
-typedef struct { s16 vx, vy, vz, pad; } SVec_801A4680_8017F668;
-typedef struct {
-    SVec_801A4680_8017F668 v[4];                  /* 0x00 */
-    s16 u0, t0, u1, t1, u2, t2, u3, t3;  /* 0x20 */
-    u32 bcast;                           /* 0x30 */
-    s32 tag;                             /* 0x34 */
-    u8  code;                            /* 0x38 */
-    u8  pad39[7];                        /* -> 0x40 */
-} Prim_801A4680_8017F668;
 
 extern void func_80016EF8(void *a0, void *a1);
 

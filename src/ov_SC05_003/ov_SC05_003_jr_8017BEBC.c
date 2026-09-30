@@ -3269,9 +3269,6 @@ void func_8017E0F4(void *a0) {
 extern s32 D_80126B58;
 extern u16 func_80148800(s32 *a0);
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017E130;
 
 void func_8017E130(void *a0) {
     extern Blk8_80126940_8017E130 D_80126940;
@@ -5045,7 +5042,6 @@ s32 func_80180834(void *a0) {
 
 extern void func_8012AD80(struct vec *a0);
 extern s32 func_80133784(s32, void *, s32);
-struct SV3_801808E8 { u16 vx, vy, vz; u8 pad; };
 
 s32 func_801808E8(s32 a0, void *a1, s32 a2, s32 a3) {
     struct SV3_801808E8 sp10;
@@ -5148,7 +5144,6 @@ s32 func_80180B04(s32 a0, s32 a1, s32 a2) {
 
 
 extern s32 func_80133784(s32, void *, s32);
-struct SV3_8012CC88 { u16 vx, vy, vz; u8 pad; };
 
 s32 func_80180C44(s32 a0, void *a1, s32 a2) {
     struct SV3_8012CC88 sp10;
@@ -5832,10 +5827,6 @@ s32 func_80181AAC(s32 a0, s32 a1, s32 a2) {
 }
 
 
-typedef struct {
-    s16 f0, f2, f4, f6, f8, fA, fC, fE;
-    s32 f10;
-} S80190C84L;
 
 extern s32 func_8012BE54(s32 a0);
 extern s32 func_8012C51C(void *a0, s32 a1);

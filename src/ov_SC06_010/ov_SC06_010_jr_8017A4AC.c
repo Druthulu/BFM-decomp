@@ -4962,9 +4962,6 @@ void func_8017E510(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017E54C;
 
 extern void func_8017E5CC(s32 param_1, s16 *param_2);
 
@@ -5670,38 +5667,7 @@ void func_8017F978(s32 a0)
 }
 
 
-typedef struct SubFAAC {
-    char pad0[0x4];
-    s32 f4;         /* 0x04 */
-    u16 f8;         /* 0x08 */
-    u16 fA;         /* 0x0A */
-    u16 fC;         /* 0x0C */
-    char padE[2];
-    u16 f10;        /* 0x10 */
-    u16 f12;        /* 0x12 */
-    u16 f14;        /* 0x14 */
-} SubFAAC;
 
-typedef struct EntFAAC {
-    u16 f0;         /* 0x00 */
-    char pad2[0x6 - 0x2];
-    s16 f6;         /* 0x06 */
-    char pad8[0xA - 0x8];
-    s16 fA;         /* 0x0A */
-    char padC[0xE - 0xC];
-    s16 fE;         /* 0x0E */
-    s32 f10;        /* 0x10 */
-    s32 f14;        /* 0x14 */
-    s32 f18;        /* 0x18 */
-    char pad1C[4];
-    SubFAAC *f20;       /* 0x20 */
-    char pad24[0xCC - 0x24];
-    SubFAAC *fCC;       /* 0xCC */
-    SubFAAC *fD0;       /* 0xD0 */
-    char padD4[0xFC - 0xD4];
-    u16 fFC;        /* 0xFC */
-    u16 fFE;        /* 0xFE */
-} EntFAAC;
 
 extern void func_8012ADE4(s32);
 
@@ -7108,12 +7074,6 @@ void func_80181AD8(s32 param_1)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80181D80;
 
 
 

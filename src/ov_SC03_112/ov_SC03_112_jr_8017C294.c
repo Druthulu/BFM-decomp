@@ -3159,7 +3159,6 @@ void func_8017E124(void *a0) {
 }
 
 
-typedef struct { u16 f0, f1, f2, f3; } Unk_80126940;
 
 extern s32 D_80126B58;
 extern s32 *D_80126B78;
@@ -3679,9 +3678,9 @@ void func_8017EBA8(void *a0) {
  * may swap them for those names, but nothing breaks if it doesn't.  (Wave law 8: keeping my own
  * name is safe; adopting a name while keeping my own layout is not.)
  * ------------------------------------------------------------------------------------------ */
-struct Mtx_8017EBE4  { s16 m[3][3]; s32 t[3]; };   /* 32 bytes -- PsyQ MATRIX  */
-struct SVec_8017EBE4 { s16 vx, vy, vz, pad; };     /*  8 bytes -- PsyQ SVECTOR */
-struct Vec_8017EBE4  { s32 vx, vy, vz, pad; };     /* 16 bytes -- PsyQ VECTOR  */
+   /* 32 bytes -- PsyQ MATRIX  */
+     /*  8 bytes -- PsyQ SVECTOR */
+     /* 16 bytes -- PsyQ VECTOR  */
 
 /* callees -- every name read off the target .s relocation lines (law 1 / 1c) */
 extern void RotMatrixZ(s32 a0, void *a1);               /* project-dominant spelling (void *) */
@@ -3862,12 +3861,6 @@ writereg:
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 
-typedef struct {
-    u16 x; /* 0x0 */
-    u16 y; /* 0x2 */
-    u16 z; /* 0x4 */
-    u16 w; /* 0x6 */
-} Vec4h_8017EFAC;
 
 s32 func_8017EFAC(s32 a0, s32 a1) {
     Vec4h_8017EFAC p1;
@@ -4497,7 +4490,6 @@ extern s32 func_8012BEE8(s32 arg);
 
 
     
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974_8017BA3C;
 
 
 extern u8 D_80078E78[];
@@ -4602,12 +4594,6 @@ void func_8017FF70(s32 a0)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017FFB8;
 
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
@@ -5152,10 +5138,6 @@ int func_80180A78(int a0) {
 }
 
 
-typedef struct {
-    s32 a;
-    s32 b;
-} Pair_801B5E30_80180AE4;
 
 extern u16 D_80126B5E;
 extern u16 D_80126B66;
@@ -5741,12 +5723,6 @@ end:
 }
 
 
-typedef struct {
-    u8 r;   /* 0x00 */
-    u8 g;   /* 0x01 */
-    u8 b;   /* 0x02 */
-    u8 cd;  /* 0x03 (never written; the block move copies it anyway) */
-} Col4_80181574;
 
 extern u16 D_80126B5E;
 extern u16 D_80126B62;

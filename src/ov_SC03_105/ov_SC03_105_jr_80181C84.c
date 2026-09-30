@@ -9,40 +9,8 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8_8017D7EC; /* 0x1C */
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8_8017D7EC subs[16];
-} GroupRec_801EB5C8_8017D7EC; /* 0x1D0 */
-typedef struct {
-    u16 f0;
-    u16 f1;
-    u16 f2;
-    u16 f3;
-    u16 f4;
-    u16 f5;
-    u16 f6;
-    u16 f7;
-    s32 f8;
-} Local_8017EE34;
-typedef struct { u16 vx, vy, vz, pad; } UVEC_8017F234;
-typedef struct { u16 vx, vy, vz, pad; } UVEC_8017F55C;
-typedef struct { s16 vx, vy, vz, pad; } SVec_8017FAE8;
+ /* 0x1C */
+ /* 0x1D0 */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -2914,17 +2882,6 @@ extern void func_80183F0C(void *a0);
 extern void func_801843DC();
 extern void func_80184604(s32 arg0);
 
-typedef struct {
-    u16 f0;
-    u16 f1;
-    u16 f2;
-    u16 f3;
-    u16 f4;
-    u16 f5;
-    u16 f6;
-    u16 f7;
-    s32 f8;
-} Local_80181C84;
 
 void func_80181C84(s32 a0)
 {
@@ -3220,11 +3177,6 @@ typedef struct { u8 b[20]; } Stk;
 
 /* f1 is SIGNED: `vec.f1 = -4` / `-0x10` must materialise as `addiu $v0,$zero,-K`.
  * A u16 field converts the constant to 0xFFFC/0xFFF0 and emits `ori` instead. */
-typedef struct {
-    u16 f0;
-    s16 f1;
-    u16 f2;
-} Vec3x16;
 
 extern s32 rand(void);
 extern u16 D_800B99DA;
@@ -3395,7 +3347,6 @@ extern u8   D_8018E47C[];
 
 /* the func_8012F14C in/out vectors are read back with `lhu`, so u16 fields
  * (TU:4309 house note on func_8017F234) */
-typedef struct { u16 vx, vy, vz, pad; } UVEC_80182BD8;
 
 void func_80182BD8(s32 a0, u16 *a1, s32 a2, s32 a3)
 {
@@ -3836,9 +3787,6 @@ void func_8018383C(s32 a0, s32 a1)
  * globals-into-locals shape, different callee (AABB test func_8013361C
  * instead of func_800132BC). */
 
-typedef struct {
-    s16 a, b, c;
-} Vec3s16_8018388C;
 
 extern u16 D_80126B5E;
 extern u16 D_80126B62;
@@ -4085,7 +4033,6 @@ void func_80183D38(void *a0, s16 a1, s32 a2) {
 extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80183DA0;
 
 void func_80183DA0(s32 a0) {
     SVec_80183DA0 pos;
@@ -4165,15 +4112,6 @@ void func_80183F0C(void *a0) {
  *       padded to 0x40                       (frame 0x10..0x4F).
  * flag (s32) @0x70.  var_size = 0x40+0x20+8 = 0x68  ->  frame 0x98 w/ 7 saves.
  */
-typedef struct { s16 vx, vy, vz, pad; } SVec_80183F84;
-typedef struct {
-    SVec_80183F84 v[4];                       /* 0x00 */
-    s16 u0, t0, u1, t1, u2, t2, u3, t3;       /* 0x20 */
-    u32 bcast;                                /* 0x30 */
-    s32 tag;                                  /* 0x34 */
-    u8  code;                                 /* 0x38 */
-    u8  pad39[7];                             /* 0x39 -> 0x40 */
-} Prim_80183F84;
 
 extern MATRIX_80188114 D_800AE620;
 
@@ -4263,12 +4201,6 @@ void func_80183F84(void *a0, void *a1) {
 
 /* 8 bytes, align 2 -> the `pos = vec` / `out = vec` assignments become the
  * lwl/lwr/swl/swr movstrsi_internal pair (align != UNITS_PER_WORD). */
-typedef struct {
-    u16 f0;
-    s16 f1;
-    u16 f2;
-    u16 f3;
-} Vec4s16_8018423C;
 
 extern s32 rand(void);
 extern u16 D_800B99DA;
@@ -4557,7 +4489,6 @@ extern void func_80185810(s32 a0);
 extern s32 func_80185480(void *a0, void *a1);
 
 extern s32 func_80047D3C(s32 a0);
-typedef struct { s16 vx, vy, vz, pad; } SVEC_801BA5A8;
 extern s32 VectorNormalSS(void *a0, void *a1);
 extern SVEC_801BA5A8 D_801BA5A8[];
 
@@ -4968,9 +4899,6 @@ void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3)
 
 #include "common.h"
 
-typedef struct {
-    u16 f0, f1, f2, f3;
-} Vec4x16;
 
 extern s32 func_801851E0(void);
 extern void func_80185660(s32 *a0, s32 *a1, s32 a2);
@@ -5077,9 +5005,6 @@ s32 func_8018526C(s32 a0, s32 a1, s32 a2, s32 a3) {
 
 #include "common.h"
 
-typedef struct {
-    s16 a, b, c;
-} Vec3s16_80185380;
 
 extern u16 D_80126B5E;
 extern u16 D_80126B62;
@@ -5115,8 +5040,6 @@ s32 func_80185380(s32 a0, s16 *a1, s32 a2) {
 }
 
 
-typedef struct { s16 x, y, z, w; } V4_80185480;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80185480;
 
 extern void func_80185FB4(s32, s32, s32);
 extern void func_8012F14C(s32, s32, s32);

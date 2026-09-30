@@ -171,7 +171,6 @@ void func_801890C8(s32 a0) {
 
 /* match_one's standalone common.h does not reach src/shared/engine_types.h where the
  * real TU's SV3 {short a,b,c} lives (via ../shared/engine_core.h); function-local name. */
-typedef struct { s16 a, b, c; } SV3_801891E8;
 
 extern u16 D_80126B5E;
 extern u16 D_80126B66;
@@ -250,9 +249,6 @@ extern void (*D_80196058[])(void);
 extern short D_801D3B74;
 extern u8 D_801D3CBC[];
 
-typedef struct {
-    s32 vx, vy, vz;
-} Vec3_189324;
 
 void func_80189324(s32 a0) {
     s32 idx;
@@ -886,7 +882,6 @@ extern s32 D_801269E4;
 
 void func_8018A284(void *a0);
 
-typedef struct { u16 a, b, c, d; } __attribute__((aligned(2))) DataBlock;
 
 void func_8018A1A4(void *a0) {
     u8 *s1;
@@ -4730,16 +4725,10 @@ extern u32 D_801DF7F8[];
 extern u8  D_801DF85C[];
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVec8_8018E8A0;          /* 0x08 */
-typedef struct { s32 vx, vy, vz, pad; } Vec16_8018E8A0;          /* 0x10 */
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } Mtx_8018E8A0; /* 0x20 */
-typedef struct { s16 f[0x86]; } Cnt_8018E8A0;
-typedef struct {
-    SVec8_8018E8A0 v[4];   /* 0x00 */
-    u32            c[4];   /* 0x20 */
-    s32            code;   /* 0x30 */
-    s32            pad;    /* 0x34 */
-} Prim_8018E8A0;           /* 0x38 */
+          /* 0x08 */
+          /* 0x10 */
+ /* 0x20 */
+           /* 0x38 */
 
 void func_8018E8A0(void *a0)
 {

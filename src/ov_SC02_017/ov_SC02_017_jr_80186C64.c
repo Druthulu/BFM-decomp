@@ -9,25 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-struct Rec801806C8_s {
-    s32 f0;
-    s32 f1;
-    s32 f2;
-} __attribute__((packed, aligned(1)));
-typedef struct Rec801806C8_s Rec801806C8;
-typedef struct {
-    u16 x, y, z, w;
-} Blk8_801807DC;
-typedef struct { s16 vx, vy, vz, pad; } SV_8018209C;
-typedef struct { s16 x, y; s32 flag; } RES_8018209C;
-typedef struct { u8 b[8]; } Blk8_801827C4;
-typedef struct { s16 a, b, c; } SV3_8018287C;
-typedef struct { s32 w[8]; } Blk32_8018287C;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80182938;
-typedef struct { s16 a, b, c; } SV3_80182938;
-typedef struct { s16 a, b, c, d; } SV4x_80184754;
-typedef struct { s16 a, b, c; } SV3_8018495C;
-typedef struct { u8 b[8]; } Blk8_8018495C;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3465,15 +3446,6 @@ extern s16 D_801E1264;
 extern s16 D_801E1AFC;
 extern s16 D_801E11DC;
 
-typedef struct {
-    u16 x;
-    u16 pad0;
-    u16 z;
-    u16 pad1;
-    s32 vx;
-    s32 vy;
-    s32 vz;
-} D_87298;
 
 void func_80187298(s32 a0) {
     D_87298 d;
@@ -3576,9 +3548,6 @@ extern void (*D_801D6158[])(void);
 extern short D_801E0FEC;
 extern short D_801E1134;
 
-typedef struct {
-    s32 vx, vy, vz;
-} Vec3_874E8;
 
 void func_801874E8(s32 a0) {
     s32 idx;

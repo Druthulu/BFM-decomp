@@ -2759,7 +2759,7 @@ void func_8017CE3C(s32 a0) {
 }
 
 
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
 typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_8017CEF4;   /*  8 bytes, align 2 */
 
 /* Callee externs — spellings copied from src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c
@@ -2782,10 +2782,6 @@ extern void func_80165718(s32 a0);
 
 /* 16-byte-stride table at D_801887C0, indexed by the actor's 0xF2 animation/state id
  * (signed s16); only the table row's first word (offset 0) is read. */
-typedef struct {
-    s32 f0;
-    u8 pad[12];
-} Tbl16_8018BDE4_8017CEF4;
 
 void func_8017CEF4(s32 a0) {
 
@@ -2959,7 +2955,7 @@ void func_8017D294(void *a0) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C;   /*  8 bytes, align 2 */
+   /*  8 bytes, align 2 */
 
 
 extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
@@ -3112,9 +3108,9 @@ void func_8017D784(void *a0) {
  * Vec32 (:1098) -- byte-identical layouts. Renamed here only because match_one
  * compiles standalone with -Iinclude (engine_core.h is not on that path); on bank,
  * drop these three typedefs and use the TU's own names. */
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0;   /*  8 bytes, align 2 */
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0; /* 0x20 bytes, align 4 */
-typedef struct { s32 vx, vy, vz, pad; } V32_8017D7C0;  /* 16 bytes, align 4 */
+   /*  8 bytes, align 2 */
+ /* 0x20 bytes, align 4 */
+  /* 16 bytes, align 4 */
 
 /* ov_SC02_041 func_8017D7C0 -- 181 ins, zero-crack family exemplar (reach x4:
  * ov_SC04_002:8017f19c, ov_SC04_004:8017f65c, ov_SC04_011:8017f340).
@@ -3352,7 +3348,7 @@ void func_8017DB58(s32 a0)
  * out of plain sequential C.
  */
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017DB80; /* 0x20 bytes, align 4 --
+ /* 0x20 bytes, align 4 --
     byte-identical restatement of this TU's own MTX_8017D7C0 (:3334); renamed only
     because match_one compiles standalone (-Iinclude, no engine_core.h on that
     path). On bank, drop this typedef and reuse the TU's own MTX_8017D7C0 name. */
@@ -3694,9 +3690,6 @@ void func_8017E27C(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017E2B8;
 
 void func_8017E2B8(s32 a0) {
 
@@ -4715,9 +4708,8 @@ void func_8017F314(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
 
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8017F690; /* 0x20 bytes, align 4 */
+ /* 0x20 bytes, align 4 */
 
-typedef struct { u16 x, y, z, w; } V8_80181368_8017F690;
 
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
@@ -4757,7 +4749,7 @@ s32 func_8017F690(s32 a0, s32 a1) {
 }
 
 
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017F81C;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
 
 /* Declarations conform VERBATIM to the ones already present in this TU
  * (src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c, lines 6342-6344 / 845 / 2190-2191)
@@ -4765,9 +4757,8 @@ typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017F81C;   /* == the TU
  * template as this function (same offsets, callees, mask constants) except
  * for the tail control flow after the second func_80133784 call. */
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_80182728_8017F81C; /* 0x20 bytes, align 4 */
+ /* 0x20 bytes, align 4 */
 
-typedef struct { u16 x, y, z, w; } V8_80181368_80182728_8017F81C;
 
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
@@ -5210,18 +5201,7 @@ void func_80180228(s32 *a0) {
     }
 
 
-typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784_80185DA8_8018023C;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_8018023C;   /*  8 bytes, align 2 */
-typedef struct {
-    s32 f0;
-    u8 pad[12];
-} Tbl16_8018BDE4_8018023C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018023C;
+   /*  8 bytes, align 2 */
 
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -5629,8 +5609,8 @@ void func_80180A5C(int param_1)
 
 
 
-typedef struct { s16 a, b, c; } SV3x_80180ACC;          /* 6-byte, align-2 triple of s16 */
-typedef struct { s16 a, b, c, d; } SV4x_80180ACC;       /* 8-byte, align-2 quad of s16 */
+          /* 6-byte, align-2 triple of s16 */
+       /* 8-byte, align-2 quad of s16 */
 
 extern void func_8012C218(void *a0);
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
@@ -6580,7 +6560,6 @@ void func_80181FFC(void *arg0) {
  *                in this TU via engine_core.h; on banking it may be replaced by that name.)
  */
 
-typedef struct { u16 x, y, z, w; } V8_80182044;
 
 extern s32 D_80126B58;
 extern s32 D_80126B84;
@@ -6982,7 +6961,6 @@ extern void func_8012A828(s32, void*);
 /* Layout-identical to `struct S80190C84` (src/shared/engine_types.h:1337), which IS
  * visible in the destination TU via ../shared/engine_core.h; a fresh tag is used here
  * only so the standalone match_one compile (no engine_core.h on its -I path) works. */
-typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784;
 
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -7154,7 +7132,6 @@ void func_80182B38(s32 a0) {
  * lines 6969-6988): same D_80126B78/D_80126B90/D_801152A8 globals, same
  * func_8012F14C / func_80135888 / func_8012F568 call chain. */
 
-typedef struct { short vx, vy, vz, pad; } SVec_801861D0_80182BAC;
 
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
@@ -7255,9 +7232,9 @@ s32 func_80182CCC(s32 arg0) {
  * (TU:5690) by the already-matched func_80182044 -- confirming the agreed signature.
  */
 
-typedef struct { short vx, vy, vz, pad; } SV_80182D80;   /*  8 bytes, align 2 */
-typedef struct { short m[3][3]; long t[3]; } MTX_80182D80; /* 0x20 bytes, align 4 */
-typedef struct { s32 vx, vy, vz, pad; } V32_80182D80;  /* 16 bytes, align 4 */
+   /*  8 bytes, align 2 */
+ /* 0x20 bytes, align 4 */
+  /* 16 bytes, align 4 */
 
 extern s32 D_80126B58;
 extern s32 D_80126B68;
@@ -7434,7 +7411,7 @@ void func_80183014(s32 a0) {
 
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
-typedef struct { short a, b, c; } SV3_80181D44_8018317C;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 rand(void);
@@ -8234,7 +8211,7 @@ void func_80183FE0(s32 a0, s32 a1, s32 a2)
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_8018428C;   /*  8 bytes, align 2 */
+   /*  8 bytes, align 2 */
 
 /* func_8018428C (ov_SC04_002, ov_SC04_002_jr_8017BEBC, 83 ins)
  *
@@ -8314,7 +8291,6 @@ void func_8018428C(s32 a0, s32 a1, s32 a2, void *a3)
 
 #include "common.h"
 
-typedef struct { u32 addr : 24; u32 len : 8; } PTag_801843D8;
 
 extern u8 *D_800A5E60;
 extern u8 D_800A6610[];

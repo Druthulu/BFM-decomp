@@ -9,14 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_8017D5C8_8017D5C8;
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8017D5C8_8017D5C8;
-typedef struct {
-    u16 x; /* 0x0 */
-    u16 y; /* 0x2 */
-    u16 z; /* 0x4 */
-    u16 w; /* 0x6 */
-} Vec4h_8017E608;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3001,18 +2993,7 @@ void func_8017F264(s32 a0)
 }
 
 
-typedef struct {
-    u8 r;   /* 0x00 */
-    u8 g;   /* 0x01 */
-    u8 b;   /* 0x02 */
-    u8 cd;  /* 0x03 */
-} Col4_8017F2FC;
 
-typedef struct {
-    s32 unk0;   /* 0x00 */
-    s16 unk4;   /* 0x04 */
-    s16 unk6;   /* 0x06 */
-} Gte8_8017F2FC;
 
 extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80015954(s32 a0, s32 a1);
@@ -3123,20 +3104,8 @@ void func_8017F5CC(void *a0) {
     }
 
 
-typedef struct {
-    u16 vx;     /* +0x0 */
-    u16 vy;     /* +0x2 */
-    u16 vz;     /* +0x4 */
-    u16 pad;    /* +0x6 */
-} Sxy_8017DC24;                     /* 0x08 */
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8017D5C8;
-typedef struct {
-    s16 x;      /* +0x0 */
-    s16 y;      /* +0x2 */
-    s16 c;      /* +0x4 */
-    s16 pad;    /* +0x6 */
-} Vtx_8017DC24;                     /* 0x08 */
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_8017D5C8;
+                     /* 0x08 */
+                     /* 0x08 */
 
 
 extern void func_8017F6A8(s32);
@@ -3191,38 +3160,15 @@ extern s16 D_80183968;
 
 
 
-typedef struct {
-    s16 x;      /* +0x0 */
-    s16 y;      /* +0x2 */
-    s16 c;      /* +0x4 */
-    s16 pad;    /* +0x6 */
-} Vtx_8017F6A8;                     /* 0x08 */
+                     /* 0x08 */
 
-typedef struct {
-    Vtx_8017F6A8 v[3];              /* +0x00 +0x08 +0x10 */
-    u8 r0, g0, b0, code;            /* +0x18 .. +0x1B */
-    u8 r1, g1, b1, pad1;            /* +0x1C .. +0x1F */
-    u8 r2, g2, b2, pad2;            /* +0x20 .. +0x23 */
-    u32 color;                      /* +0x24 */
-} Prim_8017F6A8;                    /* 0x28 */
+                    /* 0x28 */
 
-typedef struct {
-    u16 x;      /* +0x0 */
-    u16 y;      /* +0x2 */
-    u16 z;      /* +0x4 */
-} Pos_8017F6A8;                     /* 0x06 -> 8-byte frame stride */
+                     /* 0x06 -> 8-byte frame stride */
 
-typedef struct {
-    u16 vx;     /* +0x0 */
-    u16 vy;     /* +0x2 */
-    u16 vz;     /* +0x4 */
-    u16 pad;    /* +0x6 */
-} Sxy_8017F6A8;                     /* 0x08 */
+                     /* 0x08 */
 
-typedef struct {
-    s16 m[3][3];                    /* +0x00, padded to 0x14 */
-    s32 t[3];                       /* +0x14 +0x18 +0x1C */
-} Mtx_8017F6A8;                     /* 0x20 */
+                     /* 0x20 */
 
 void func_8017F6A8(s32 arg0)
 {

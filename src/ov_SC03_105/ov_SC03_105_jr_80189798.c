@@ -9,26 +9,8 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8_8017D7EC; /* 0x1C */
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8_8017D7EC subs[16];
-} GroupRec_801EB5C8_8017D7EC; /* 0x1D0 */
+ /* 0x1C */
+ /* 0x1D0 */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -2812,7 +2794,7 @@ extern void func_8018975C(void *a0);
 // body) using a locally-named struct type — block-scope externs don't collide with another
 // function's block-scope externs for the same symbol (§S38/D2).
 
-typedef struct { s32 w[4]; } LBlk16; /* 16-byte record, block-scoped local name only */
+ /* 16-byte record, block-scoped local name only */
 
 void func_80189798(void *a0)
 {

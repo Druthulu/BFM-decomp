@@ -1,119 +1,7 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-typedef struct {
-    /* 0x00 */ s16 a30;
-    /* 0x02 */ s16 a2e;
-    /* 0x04 */ s16 a2c;
-    /* 0x06 */ s16 pad06;
-    /* 0x08 */ s32 buf[2];
-    /* 0x10 */ s16 a20;
-    /* 0x12 */ s16 a1e;
-    /* 0x14 */ s16 a1c;
-} Loc_8014A048;
-typedef struct {
-    u16 f0, f2, f4;
-    s16 f6;
-} Blk801539F8;
-typedef struct {
-    u16 f00;
-    u16 f02;
-    u16 f04;
-    u16 pad06;
-    u16 f08;
-    u16 f0A;
-    u16 f0C;
-    u16 pad0E;
-    u8  f10;
-    u8  f11;
-    u8  f12;
-    u8  pad13;
-    u8  f14;
-    u8  f15;
-    u8  f16;
-    u8  pad17;
-    u32 f18;
-} S1_80168F40;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016B6BC;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016B9F8;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016C2C4;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016CBC0;
 typedef void (*Handler)(struct Entry *);
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016EB3C;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016EC0C;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016F1C4;
-typedef struct { u32 a; u32 b; } __attribute__((packed, aligned(1))) Unaligned8;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80175DA8;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80176218;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80176734;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80177B5C;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80177DA8;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80178970;
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -3653,7 +3541,6 @@ extern s32 func_8017ADE8(s32 a0);
 extern s32 func_8017AE08(void);
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974;
 
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
@@ -3800,7 +3687,6 @@ void func_8017B1D8(void) {
 
 
 extern void func_8012A018(s32 a, s32 b);
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_8017B238;
 
 // @class: regalloc-order — simplified sibling of matched func_8017B614.
 // @unstuck(P36): none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
@@ -4158,9 +4044,6 @@ void func_8017B940(void)
 }
 
 
-typedef struct { s16 vx, vy; } DVEC2_C974_8017BA3C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_8017BA3C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974_8017BA3C;
 
 
 // @class: struct
@@ -4214,7 +4097,6 @@ void func_8017BA3C(s32 param_1, s32 param_2)
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
 extern void func_80049CAC(s32 a0, s32 a1);
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_8017BB34;
 
 
 
@@ -4985,12 +4867,6 @@ void func_8017CD10(void *a0) {
 #include "../shared/ov/func_8017CDF8__6241b634.h"
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017CE7C;
 
 
 /* func_8017CE7C — entity tick with a two-mode "hit/shake" arm.
@@ -5022,12 +4898,6 @@ void func_8017CFE4(int param_1)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D030;
 
 
 /* func_8017D030 — 4-point primitive sweep driven by the 44-byte curve table
@@ -5152,12 +5022,6 @@ void func_8017D030(int param_1);
 #include "../shared/ov/func_8017D428__db524090.h"
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D4B4;
 
 /* §71 sibling-first: the state-machine "tick" shape of func_8017C610 / func_8017F2E0
  * (src/ov_SC03_119/ov_SC03_119_jr_8017AE2C.c L3712) — read the frame counter at
@@ -5250,12 +5114,6 @@ void func_8017D6CC(void *a0)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D728;
 
 
 #include "../shared/ov/func_8017D728__81ba1d70.h"
@@ -5946,27 +5804,6 @@ void func_8017ED68(s32 arg0) {
 
 extern s16 D_80126940;
 
-typedef struct {
-    s16 pad00[4];
-    s32 f08;
-    s32 f0C;
-    s32 f10;
-    s32 f14;
-    s16 f18;
-    s16 f1A;
-    s16 f1C;
-    s16 pad1E;
-    s16 f20;
-    s16 f22;
-    s16 f24;
-    s16 pad26;
-    s16 f28;
-    s16 f2A;
-    s16 f2C;
-    s16 f2E;
-    s16 f30;
-    s16 f32;
-} St_8017ED90;
 
 extern s32 func_8017EEC4(s32 arg0, void *arg1);
 extern s32 func_800130D0(s32 arg0, s32 arg1, s32 arg2);
@@ -6627,15 +6464,6 @@ void func_8017F9C8(void *a0) {
     }
 }
 
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_8017FBEC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017FBEC;
 
 /* func_8017FBEC — ov_SC02_026 / ov_SC02_026_jr_8017C180.c   MATCH (237 ins)
  *
@@ -6841,15 +6669,6 @@ void func_8017FBEC(s32 a0) {
 }
 
 
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_8017FFA0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017FFA0;
 
 /* Declarations copied VERBATIM from the TU (ov_SC02_026_jr_8017C180.c):
  *   func_8012B1B4  TU:3931/4008/4455/4529
@@ -6947,12 +6766,6 @@ void func_8017FFA0(s32 a0) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801801E0;
 
 /* func_801801E0 — ov_SC02_026 jr_8017C180 family exemplar (15 members).
  *
@@ -7108,15 +6921,6 @@ void func_801801E0(s32 a0) {
 }
 
 
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_80180448;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80180448;
 
 extern void func_8012B1B4(s32 a0, s32 a1);
 extern s32 func_8012B8E4(s32 a0, s32 a1);
@@ -7180,12 +6984,6 @@ void func_80180448(s32 a0) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801805F0;
 
 /* Declarations copied VERBATIM from the TU (ov_SC02_026_jr_8017C180.c) where they
  * already exist, so the splice introduces no conflicting types:
@@ -8085,12 +7883,6 @@ void func_801816E8(s32 a0) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80181784;
 
 
 extern void func_8012CBCC(s32 a0);
@@ -8951,12 +8743,6 @@ void func_80182E18(s32 *a0) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80182E54;
 
 
 void func_80182E54(void *a0)
@@ -8973,12 +8759,6 @@ void func_80182E54(void *a0)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80182E84;
 
 
 extern void func_8012CBCC(s32 a0);
@@ -9342,7 +9122,7 @@ void func_801836D4(void *a0) {
 // body) using a locally-named struct type — block-scope externs don't collide with another
 // function's block-scope externs for the same symbol (§S38/D2).
 
-typedef struct { s32 w[4]; } LBlk16; /* 16-byte record, block-scoped local name only */
+ /* 16-byte record, block-scoped local name only */
 
 void func_80183710(void *a0)
 {
@@ -9429,7 +9209,6 @@ void func_80183904(void *a0) {
 
 #include "common.h"
 
-typedef struct { s32 w[4]; } B16_local;
 
 extern struct B16 D_800A5EA8;
 extern B16_local D_801C6C2C;

@@ -3603,9 +3603,6 @@ extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern u8 D_801202A0[];
 extern u16 D_80126B98[];
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SV_80192CB4;
 
 void func_80192CB4(s32 arg0) {
     s32 e;

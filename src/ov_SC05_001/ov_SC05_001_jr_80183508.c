@@ -3694,7 +3694,6 @@ extern u8 D_801AE3A0[];
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8004787C(s32 a0);
 
-typedef struct { s16 a, b, c, d; } V8x_8018466C;
 
 s32 func_8018466C(void *arg0)
 {

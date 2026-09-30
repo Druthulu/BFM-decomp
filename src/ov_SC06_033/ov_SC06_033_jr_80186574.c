@@ -3747,9 +3747,7 @@ void func_80187818(s32 param_1) {
  * before sweeping (§56b — carry the TU's types, not this draft's).
  */
 
-typedef struct { u16 x, y, z, w; } V4_80188E10_80187898;
 
-typedef Unkstruct_800B5CB8 Ent_80188E10_80187898;
 
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -3875,7 +3873,6 @@ void func_80187A88(s32 a0, s32 a1) {
 }
 
 
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_8018C334;
 
 
 s32 func_80187D0C(void *a0, s32 a1, s32 a2) {
@@ -3900,17 +3897,6 @@ s32 func_80187D0C(void *a0, s32 a1, s32 a2) {
 
 extern s32 func_8012C51C(void *a0, s32 a1);
 
-typedef struct {
-    u16 f10; /* 0x10 */
-    u16 f12; /* 0x12 */
-    u16 f14; /* 0x14 */
-    s16 f16; /* 0x16 */
-    s16 f18; /* 0x18 */
-    s16 f1a; /* 0x1A */
-    s16 f1c; /* 0x1C */
-    u16 f1e; /* 0x1E */
-    s32 f20; /* 0x20 */
-} buf_80187DA4;
 
 void func_80187DA4(a0, a1, a2, a3, a4, a5)
 s32 a0;
@@ -4290,15 +4276,8 @@ void func_801886B0(void *a0)
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C_8018BCC4_801887EC;   /* 8 bytes, align 2 -> lwl/lwr block move */
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C_801887EC;   /* == engine_types.h OtBlk (0x14) */
-typedef Unkstruct_800B5CB8 Ent_80188E10_801887EC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801887EC;
+   /* 8 bytes, align 2 -> lwl/lwr block move */
+   /* == engine_types.h OtBlk (0x14) */
 
 /* TU-canonical declarations (law 2) — verbatim from
  * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c (L2761/2988/etc for func_8012C218,
@@ -4863,33 +4842,6 @@ void func_80189250(s32 arg0) {
 }
 
 
-typedef struct {
-    u16 f0;                     /* 0x00  kind; 0 = dead, 0x318 = skipped     */
-    u8  p02[0x04 - 0x02];
-    s16 f4;                     /* 0x04  x, fractional half                  */
-    s16 f6;                     /* 0x06  x                                   */
-    u8  p08[0x0C - 0x08];
-    s16 fC;                     /* 0x0C  y, fractional half                  */
-    s16 fE;                     /* 0x0E  y   (*(s32 *)&fC is the whole fixed) */
-    s32 f10;                    /* 0x10  velocity, zeroed on reset           */
-    u8  p14[0x18 - 0x14];
-    s32 f18;                    /* 0x18  velocity, zeroed on reset           */
-    u8  p1C[0x20 - 0x1C];
-    s32 f20;                    /* 0x20  -> sub object (0x12 = busy bits)    */
-    u8  p24[0x38 - 0x24];
-    s16 f38;                    /* 0x38  home x, fractional half             */
-    s16 f3A;                    /* 0x3A  home x                              */
-    s32 f3C;                    /* 0x3C  "has a home" flag                   */
-    s16 f40;                    /* 0x40  home y, fractional half             */
-    s16 f42;                    /* 0x42  home y                              */
-    u8  p44[0x5E - 0x44];
-    u8  f5E;                    /* 0x5E  kind tag; 0x25 is excluded          */
-    u8  p5F[0x70 - 0x5F];
-    s16 f70;                    /* 0x70  band: 4 = left, 5 = right           */
-    u8  p72[0x76 - 0x72];
-    s16 f76;                    /* 0x76  budget                              */
-    u8  p78[0x10C - 0x78];      /* stride 0x10C, 0x60 entries                */
-} Ent_8018D654;
 
 extern s32 D_80126B58;
 extern u16 D_80126B5E;
@@ -5884,7 +5836,7 @@ void func_8018A6F8(void *arg) {
 }
 
 
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018AAF4;   /* == engine_types.h OtBlk (0x14) */
+   /* == engine_types.h OtBlk (0x14) */
 
 /* func_8018AAF4 — ov_SC06_018 / ov_SC06_018_jr_80187AEC
  *
@@ -6073,10 +6025,8 @@ void func_8018AAF4(void *arg) {
 
 #include "common.h"
 
-typedef struct { u16 vx, vy, vz, pad; } SVEC_8018AD9C;          /* u16 source vec -> lhu */
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8018AD9C;
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_8018AD9C;
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_8018AD9C;  /* 8 bytes, align 2 */
+          /* u16 source vec -> lhu */
+  /* 8 bytes, align 2 */
 
 
 #define DRAW() \
@@ -6478,7 +6428,7 @@ void func_8018B3D0(void)
  *   `void func_80016638(void *a0, s32 a1, s32 a2)`.
  */
 
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018BB48;   /* == engine_types.h OtBlk (0x14) */
+   /* == engine_types.h OtBlk (0x14) */
 
 void func_8018BB48(s32 arg0, s32 arg1, s32 arg2)
 {

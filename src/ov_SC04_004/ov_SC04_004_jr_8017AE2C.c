@@ -5166,9 +5166,9 @@ void func_8017F620(void *a0) {
  * Vec32 (:1098) -- byte-identical layouts. Renamed here only because match_one
  * compiles standalone with -Iinclude (engine_core.h is not on that path); on bank,
  * drop these three typedefs and use the TU's own names. */
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F65C;   /*  8 bytes, align 2 */
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F65C; /* 0x20 bytes, align 4 */
-typedef struct { s32 vx, vy, vz, pad; } V32_8017D7C0_8017F65C;  /* 16 bytes, align 4 */
+   /*  8 bytes, align 2 */
+ /* 0x20 bytes, align 4 */
+  /* 16 bytes, align 4 */
 
 /* ov_SC02_041 func_8017F65C -- 181 ins, zero-crack family exemplar (reach x4:
  * ov_SC04_002:8017f19c, ov_SC04_004:8017f65c, ov_SC04_011:8017f340).
@@ -5319,7 +5319,7 @@ void func_8017F9F4(s32 param_1)
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017FA1C;   /* 0x20 bytes: m@0, t@0x14 */
+   /* 0x20 bytes: m@0, t@0x14 */
 
 extern s32  func_80017DC4(void *a0, void *a1);
 extern void func_80017DF8(s16 *a0, void *a1);
@@ -5759,7 +5759,6 @@ extern s32 func_80180C74(s32 a0);
 extern void func_80181130(s32 a0, s32 a1);
 extern s32 func_80180AF0(s32 a0, s32 a1, s32 *a2);
 
-typedef struct { short a, b, c; } SV3_801802D0;
 
 extern M2C_UNK D_8019A00C;
 extern M2C_UNK D_80199AF4;
@@ -5851,15 +5850,6 @@ void func_80180530(void *arg0) {
 }
 
 
-typedef struct {
-    u8  pad0[0x2];
-    u16 unk2;
-    u8  pad2[0x1C];
-    s32 *unk20;
-    u8  pad3[0xDA];
-    u16 unkFE;
-    u16 unk100;
-} S_8018056C;
 
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -5935,7 +5925,6 @@ void func_8018070C(void *arg0) {
 }
 
 
-typedef struct { s32 w[8]; } MTX8L_80180750;
 
 s32 func_80180750(s32 a0)
 {
@@ -6869,7 +6858,6 @@ extern void func_8012B21C(void *a0);
     }
 
 
-typedef struct { s32 w[8]; } MTX8L_80181BD4;
 
 void func_80181BD4(s32 a0)
 {
@@ -6908,8 +6896,7 @@ void func_80181C9C(void *a0) {
 }
 
 
-typedef struct { s32 m[5]; s32 t[3]; } MtxW;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C; /* 0x20 bytes, align 4 */
+ /* 0x20 bytes, align 4 */
 
 
 s32 func_80181D1C(s32 arg0) {
@@ -6991,8 +6978,6 @@ s32 a2;
 }
 
 
-typedef struct { s32 w[8]; } Blk20_80181EE8;
-typedef struct { s16 vx, vy, vz, pad; } Svec_80181EE8;
 
 extern Blk20_80181EE8 D_800AE620;
 extern s32 func_8012B8A4(s16 *a0);
@@ -7118,8 +7103,6 @@ void func_80182170(s32 a0, s32 a1)
 }
 
 
-typedef struct { s32 w[5]; s32 p5; s32 p6; s32 p7; } MTX8L_801821E0;
-typedef struct { s16 a, b, c, pad; } SV_801821E0;
 
 void func_801821E0(s32 param_1)
 {
@@ -7198,12 +7181,7 @@ void func_80182320(void *a0)
 }
 
 
-typedef struct { s32 f0, f1, f2; } S_80182618;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C;   /*  8 bytes, align 2 */
-typedef struct {
-    s32 f0;
-    u8 pad[12];
-} Tbl16_8018BDE4;
+   /*  8 bytes, align 2 */
 
 
 
@@ -7500,7 +7478,6 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
-typedef struct { u16 x, y, z, w; } V8_801829BC;
 
 s32 func_801829BC(s32 a0, s32 a1) {
     V8_801829BC sp10;
@@ -8028,18 +8005,7 @@ void func_80183588(void *a0) {
     }
 
 
-typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784_80185DA8_8018359C;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_8018359C;   /*  8 bytes, align 2 */
-typedef struct {
-    s32 f0;
-    u8 pad[12];
-} Tbl16_8018BDE4_8018359C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018359C;
+   /*  8 bytes, align 2 */
 
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -8448,8 +8414,8 @@ void func_80183DBC(int param_1)
 
 
 
-typedef struct { s16 a, b, c; } SV3x_80183E2C;          /* 6-byte, align-2 triple of s16 */
-typedef struct { s16 a, b, c, d; } SV4x_80183E2C;       /* 8-byte, align-2 quad of s16 */
+          /* 6-byte, align-2 triple of s16 */
+       /* 8-byte, align-2 quad of s16 */
 
 extern void func_8012C218(void *a0);
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);

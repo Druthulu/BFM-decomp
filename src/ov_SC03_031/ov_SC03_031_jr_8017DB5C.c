@@ -3282,8 +3282,6 @@ void func_8017EDF8(s32 param_1) {
  * therefore already has the real MATRIX/SVECTOR in scope; these local names exist ONLY to let this
  * file compile standalone under match_one and carry zero risk of colliding with the host's globals
  * at integration time). Layout: m[3][3] (18B) + 2B pad + t[3] s32 (12B) = 0x20; vx/vy/vz/pad s16 = 8B. */
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_8017D5C8_8017EE98;
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8017D5C8_8017EE98;
 
 extern u16 func_80148800(s32 *a0);
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
@@ -3479,7 +3477,6 @@ void func_8017F394(void *a0) {
 }
 
 
-typedef struct { s16 x, y, z, p; } V3_F428;
 
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012F568(s32, s32, s32, s32, s32, s32);
@@ -4508,7 +4505,6 @@ void func_80180E98(s32 arg0) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV_;
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void func_8012B23C(s32 a0);
 extern void func_80180FE4(s32 a0);

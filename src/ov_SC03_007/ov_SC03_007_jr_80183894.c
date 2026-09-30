@@ -9,27 +9,7 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { u32 w0, w1, w2; } PrimC59C;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimC59C *prim, *end; } CellC59C;
-typedef struct { s16 vx, vy; } DVEC2_C59C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_C59C;
-typedef struct { char c[8]; } Blk8_8017DCF4;
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017DE40;
-typedef struct { s16 a, b, c, d; } SV4_8017DE40;
-typedef struct { s16 vx, vy, vz, pad; } SVEC_E83C;
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017EA48;
-typedef struct { s16 a, b, c, d; } SV4_8017EA48;
-typedef struct { s16 a, b, c, d; } SV4_FC6C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC_80064;
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8018256C;  /* 0x20 */
-typedef struct { s16 a, b, c, d; } SV4_8018256C;
-typedef struct { s16 a, b, c, d; } SV4_801836B8;
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_801836B8;
+  /* 0x20 */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3619,14 +3599,9 @@ void func_80184278(int param_1)
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_8017D9CC;
-typedef struct { s16 vx, vy; } DVEC2_C59C_8017D9CC;
 
 
 
-typedef struct {
-    s16 vx, vy, vz;
-} UVec_8017DB64;
 
 void func_80184410(int param_1)
 {
@@ -3683,7 +3658,6 @@ join:
 }
 
 
-typedef struct { s16 vx, vy; } DVEC2_C59C_8017DBEC;
 
 
 
@@ -3691,9 +3665,6 @@ extern s32 rand(void);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
 extern s32 D_801EB138;
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} UVec_8017DED4;
 
 void func_80184560(s32 param_1)
 {

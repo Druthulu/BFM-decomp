@@ -242,9 +242,6 @@ void func_8018676C(s32 a0) {
  * `sh 0x34($s0)` store.  A plain `*(u16 *)(s0 + 0x34)` cast denies `/s`, the
  * true_dependence drop clause never fires, and the block costs two load-delay
  * nops (the whole function's LENGTH-DRIFT/2). */
-struct Ctr34 {
-    u16 h;
-};
 
 extern void func_8013C9C4(void *a0);
 extern void func_801871C0(void *a0, s32 a1, s32 a2);

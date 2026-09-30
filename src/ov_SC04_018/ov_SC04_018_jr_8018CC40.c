@@ -3339,13 +3339,6 @@ extern s32 D_801E3D60;
 extern u32 D_801E3D74;
 extern s32 D_801E3EA4;
 
-typedef struct {
-    s16 unk00;   /* 0x00 */
-    s16 pad02;   /* 0x02 */
-    s32 unk04;   /* 0x04 */
-    s32 unk08;   /* 0x08 */
-    s32 unk0C;   /* 0x0C */
-} Struct801E79D8;
 
 extern Struct801E79D8 D_801E79D8;
 

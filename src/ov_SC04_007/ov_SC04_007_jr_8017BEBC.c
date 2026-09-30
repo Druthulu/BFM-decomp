@@ -4686,7 +4686,7 @@ void func_8017F548(int param_1)
 
 extern void func_8001CF00(s32 a0);
 extern void func_8012C194(void);
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017F634;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
 extern void func_8001CF00(s32 a0);          /* canonical def: src/800.c:6059 void func_8001CF00(s32 a0) */
 extern void func_8012C1B8(void);            /* already declared this way + cast-called elsewhere in this TU */
 extern s32  func_80029178(s32 arg);         /* already declared this way in this TU */
@@ -4930,8 +4930,8 @@ void func_8017FA90(void *a0, s32 a1) {
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C_8017FB1C; /* 0x20 bytes, align 4 */
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017FB1C;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+ /* 0x20 bytes, align 4 */
+   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
 
 /* Declarations copied verbatim from the destination TU
  * (src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c lines 861, 5865(none), 347, 57, 1628, 1630). */
@@ -5594,13 +5594,7 @@ void func_80180E34(void *arg0) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_80180E78;   /*  8 bytes, align 2 */
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80180E78;
+   /*  8 bytes, align 2 */
 
 extern s32 func_8012BCCC(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
@@ -5737,7 +5731,6 @@ void *arg0;
  *                in this TU via engine_core.h; on banking it may be replaced by that name.)
  */
 
-typedef struct { u16 x, y, z, w; } V8_80182044_801810A4;
 
 
 extern void func_8012A828(s32, s32);
@@ -6061,7 +6054,6 @@ extern void func_8012A828(s32 a0, s32 a1);
 /* Layout-identical to `struct S80190C84` (src/shared/engine_types.h:1337), which IS
  * visible in the destination TU via ../shared/engine_core.h; a fresh tag is used here
  * only so the standalone match_one compile (no engine_core.h on its -I path) works. */
-typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784_801817E4;
 
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -6212,7 +6204,7 @@ extern void func_8002A04C(s32 arg0);
     }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0; /* 0x20 bytes, align 4 */
+ /* 0x20 bytes, align 4 */
 
 
 extern void func_80182DD8(s32 a0, void *a1, s32 a2);
@@ -6238,7 +6230,6 @@ void func_80181B98(s32 a0) {
  * lines 6969-6988): same D_80126B78/D_80126B90/D_801152A8 globals, same
  * func_8012F14C / func_80135888 / func_8012F568 call chain. */
 
-typedef struct { short vx, vy, vz, pad; } SVec_801861D0_80181C0C;
 
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
@@ -6293,12 +6284,6 @@ s32 func_80181D2C(s32 arg0) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80181DE0;
 
 
 /* func_80181DE0 -- ov_SC02_041, TU ov_SC02_041_jr_8017BEBC.c
@@ -6349,9 +6334,9 @@ typedef struct {
  * (TU:5690) by the already-matched func_80182044 -- confirming the agreed signature.
  */
 
-typedef struct { short vx, vy, vz, pad; } SV_80182D80_80181DE0;   /*  8 bytes, align 2 */
-typedef struct { short m[3][3]; long t[3]; } MTX_80182D80_80181DE0; /* 0x20 bytes, align 4 */
-typedef struct { s32 vx, vy, vz, pad; } V32_80182D80_80181DE0;  /* 16 bytes, align 4 */
+   /*  8 bytes, align 2 */
+ /* 0x20 bytes, align 4 */
+  /* 16 bytes, align 4 */
 
 
 extern s32 VectorNormalSS(void *a0, void *a1);
@@ -6516,7 +6501,7 @@ void func_80182074(s32 a0) {
 
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
-typedef struct { short a, b, c; } SV3_80181D44_801821DC;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 rand(void);
@@ -6674,14 +6659,8 @@ void func_801825AC(void *a0) {
     }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_801825C0; /* 0x20 bytes, align 4 */
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_801825C0;   /*  8 bytes, align 2 */
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801825C0;
+ /* 0x20 bytes, align 4 */
+   /*  8 bytes, align 2 */
 
 /* func_801825C0 — ov_SC02_041, TU ov_SC02_041_jr_8017BEBC.c (132 ins).
  *
@@ -7195,7 +7174,7 @@ void func_80183040(s32 a0, s32 a1, s32 a2)
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_801832EC;   /*  8 bytes, align 2 */
+   /*  8 bytes, align 2 */
 
 /* func_801832EC (ov_SC04_002, ov_SC04_002_jr_8017BEBC, 83 ins)
  *
@@ -7273,7 +7252,6 @@ void func_801832EC(s32 a0, s32 a1, s32 a2, void *a3)
 }
 
 
-typedef struct { u32 addr : 24; u32 len : 8; } PTag_801843D8_80183438;
 
 void func_80183438(void *a0)
 {
@@ -7369,7 +7347,6 @@ void func_801836CC(s32 a0) {
 }
 
 
-typedef struct { u16 x, y, z, w; } V8_8018370C;
 
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
@@ -7565,7 +7542,6 @@ void func_80183BEC(s32 a0) {
 }
 
 
-typedef struct { u16 x, y, z, w; } V8_80183C24;
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
@@ -7741,18 +7717,8 @@ void func_80183F4C(s32 a0) {
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C_80183FF8; /* 0x20 bytes, align 4 */
-typedef struct {
-    s32 f0;
-    u8 pad[12];
-} Tbl16_8018BDE4_8017CEF4_80183FF8;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_8017CEF4_80183FF8;   /*  8 bytes, align 2 */
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80183FF8;
+ /* 0x20 bytes, align 4 */
+   /*  8 bytes, align 2 */
 
 /* func_80183FF8 (ov_SC04_005, jr_8017BEBC TU) — fresh crack from the target .s.
  *
@@ -7767,7 +7733,6 @@ typedef struct {
  *  D) scale the sub-prim at *(s32*)(self+0x6C)+0xCC by the clamped height delta.
  */
 
-typedef struct { s16 x, y, z, w; } V8_80182E54_80183FF8;
 
 extern void func_8012CBCC(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);

@@ -40,7 +40,6 @@ typedef struct {
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry *);
 struct vec;
-struct PrimBE4 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;

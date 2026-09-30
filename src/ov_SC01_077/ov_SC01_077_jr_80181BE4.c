@@ -3083,7 +3083,6 @@ extern u8   D_801B0E48[];
 extern s32  D_801B0D50;
 extern char D_801AFFC0[];
 
-struct PrimBE4 { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
 
 void func_80181BE4(s32 p)
 {

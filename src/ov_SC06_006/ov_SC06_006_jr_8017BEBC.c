@@ -2944,8 +2944,8 @@ extern s32 D_801F8AEC;
 /* local shapes for the sp-frame locals (mirrors shared/engine_types.h's
    MATRIX / SVECTOR layouts; declared locally since common.h here doesn't
    pull in engine_types.h) */
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_8017D278;   /* 0x20; .t @ +0x14 */
-typedef struct { s16 vx, vy, vz, pad; } Sv_8017D278;      /* 0x08 */
+   /* 0x20; .t @ +0x14 */
+      /* 0x08 */
 
 void func_8017D278(s32 param_1, s16 *param_2)
 {

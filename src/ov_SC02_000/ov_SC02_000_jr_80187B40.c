@@ -9,67 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { short m[3][3]; long t[3]; } Mtx_8017DECC;
-typedef struct { short vx, vy, vz, pad; } Sv_8017DECC;
-typedef struct {
-    s32 w[0x29];
-} Blk_0xA4;
-typedef struct { u8 b[8]; } St_801E6C9C;
-typedef struct {
-    void (*fn[3])(void *);
-} Tbl_801E6CA4;
-typedef struct {
-    s16 f0;
-    s16 f1, f2, f3, f4, f5;
-} Elem_8018F086;
-typedef struct { s16 vx, vy, vz, pad; } SVEC_80184358;
-typedef struct { u16 x, y, z, w; } Blk8_8018453C;
-typedef struct { s32 f0, f1, f2, f3, f4, f5, f6, f7; } Blk32_801E8788;
-typedef struct {
-    s16 f0, f2, f4, f6, f8, fA, fC, fE;
-    s32 f10;
-} S80190C84_8018483C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC_84BD8;
-typedef struct { s16 vx, vy, vz, pad; } SVEC_801855D4;
-typedef struct { u32 addr:24; u32 len:8; } PTAG_85910;
-typedef struct { s16 x, y, z, pad; } Vec3s16;
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-    s16 f8;
-    s16 flag;
-} Entry8018F07C;
-typedef struct {
-    short f0;
-    short f2;
-    short f4;
-    short f6;
-    short f8;
-    short fa;
-    short fc;
-    short fe;
-    int   f10;
-} Sprite8_801861D8;
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-    s16 f4;
-    s16 f5;
-    s16 f6;
-    s16 f7;
-    s32 f8;
-} Pkt_8018626C;
-typedef struct {
-    u16 f0;
-    u16 f2;
-} Ent_80186AE4;
-typedef struct {
-    s32 w[0x95];
-} Blk254_80186AE4;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3475,7 +3414,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
  * ==================================================================== */
 
              /* == engine_types.h:472 */
-typedef struct { s32 f0, f1, f2; } Rec12_801888F4;   /* 12-byte stride */
+   /* 12-byte stride */
 
 extern Blk20 D_800AE620;
 extern Rec12_801888F4 D_8018F560[];
@@ -4222,26 +4161,11 @@ void func_80189A00(s32 param_1) {
 
 
 
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-    s16 f4;
-    s16 f5;
-    s16 f6;
-    s16 f7;
-    s32 f8;
-} Pkt_801861D8;
 
 
 
 
 
-typedef struct {
-    s16 start;
-    s16 end;
-} Range_80189A70;
 
 extern u8 D_8018F71C[];
 extern s16 D_8018F71E;
@@ -4275,23 +4199,7 @@ void func_80189A70(s32 *a0)
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-typedef struct {
-    s16 start;
-    s16 end;
-} Range_80189B1C;
 
-typedef struct {
-    SVECTOR t0;
-    SVECTOR t1;
-    SVECTOR v0;
-    SVECTOR v1;
-    void *p0;
-    void *p1;
-    s32 zero1;
-    s32 zero2;
-    s32 tag;
-    u8 pad[16];
-} LinePrim_80189B1C;
 
 extern u16 D_801E82A0[];
 extern s32 func_80017758(void *a0, void *a1);
@@ -4702,16 +4610,7 @@ void func_8018A3C8(void *arg0) {
 }
 
 
-typedef struct {
-    s16 unk00;
-} Sub_8018A3FC;
 
-typedef struct {
-    s16 unk00;
-    s16 unk02;
-    s16 unk04[8];
-    Sub_8018A3FC *unk14[8];
-} S_8018A3FC;
 
 void func_8018A3FC(S_8018A3FC *arg0) {
     s32 i;

@@ -2946,7 +2946,6 @@ void func_8017EBE4(s32 a0) {
 }
 
 
-typedef struct { s16 v[4]; } Blk8_80126940_8017EC84;
 
 void func_8017EC84(s32 a0) {
 

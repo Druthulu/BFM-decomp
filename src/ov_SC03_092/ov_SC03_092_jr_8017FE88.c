@@ -9,18 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-} Tbl8_8017FC44;
-typedef struct {
-    s8 pad00[0x68];
-    s32 f68;    /* 0x68 */
-} T68_8017FC44;
-typedef struct {
-    s8 pad00[0xC];
-    s16 f0C;    /* 0x0C */
-} TC_8017FC44;
 extern s32 func_800491EC(void);
 extern void func_800547D8(s32, MATRIX2 *);
 extern void func_80052E38(MATRIX2 *);
@@ -3234,9 +3222,6 @@ extern void func_8018074C(s32 a0, s32 a1);
 
 #include "common.h"
 
-typedef struct {
-    s32 w[4];
-} Rec16_8018066C;
 
 void func_8018066C(void *a0)
 {
@@ -3483,11 +3468,6 @@ void func_80180B28(void *a0) {
 void func_80180BF4(void) {
 }
 
-    typedef struct { u8 b[8]; } Blk8_80180BFC;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180BFC;
 
 /* Sibling shape in the SAME TU: func_80182244 (already banked, line ~3980)
  * uses the identical idiom for the same actor kind: void *a0, raw
@@ -3632,22 +3612,11 @@ s32 func_80180EC8(u8 *a0)
 
 
 /* 8-byte, align-4 pair record: the per-index slot pair at D_801B2EB0/D_801B2EB4 */
-typedef struct {
-    s32 a;      /* 0x00 -> D_801B2EB0 */
-    s32 b;      /* 0x04 -> D_801B2EB4 */
-} Pair8_8017DDC4_80180F08;
 
 /* 8-byte, align-2 record: forces move_by_pieces onto the lwl/lwr + swl/swr
  * unaligned block-move path (cookbook §48-C2) for the 0x10..0x18 copy. */
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_80180F08;
 
 /* 16-byte stride table indexed by *(s16*)(obj+0x70) */
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_80180F08;
 
 
 extern void func_8012C1B8(void);

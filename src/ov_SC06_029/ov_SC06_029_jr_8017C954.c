@@ -3315,27 +3315,9 @@ void func_8017DBFC(void *a0) {
 
 extern s32 rand(void);
 
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8_8017DC38; /* 0x1C */
+ /* 0x1C */
 
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8_8017DC38 subs[16];
-} GroupRec_801EB5C8_8017DC38; /* 0x1D0 */
+ /* 0x1D0 */
 
 
 void func_8017DC38(s32 param_1)
@@ -3876,7 +3858,6 @@ void func_8017E83C(s32 a0) {
 }
 
 
-typedef struct { s16 v[4]; } Blk8_80126940_8017E8DC;
 
 extern void func_8017E95C(s32 param_1, s16 *param_2, s16 *param_3, s32 param_4);
 
@@ -3899,10 +3880,6 @@ extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_8018ABC0(u16 *r, s16 *m);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_8017E95C;
-typedef struct { s16 vx, vy, vz, pad; } SIn_8017E95C;
-typedef struct { u16 vx, vy, vz, pad; } SOut_8017E95C;
-typedef struct { u16 vx, vy, vz, pad; } Ang_8017E95C;
 
 void func_8017E95C(s32 param_1, s16 *param_2, s16 *param_3, s32 param_4) {
     Mtx_8017E95C mtx;
@@ -3963,10 +3940,6 @@ void func_8017EB24(void *a0) {
 
 #include "common.h"
 
-typedef struct Sub8017EBC4 {
-    /* 0x00 */ u8 pad000[0x12];
-    /* 0x12 */ s16 unk_012;
-} Sub8017EBC4;
 
 typedef struct Obj8017EBC4 {
     /* 0x000 */ u8 pad000[0x02];
@@ -5414,10 +5387,6 @@ extern D80190448_t D_80190448;
 extern s32 D_801DDB2C[5]; /* §183 TYPE-adopted-TU */
 extern void *D_801DDBF0;
 
-typedef struct {
-    void *tag;
-    s16 flag;
-} Rec_80181170;
 
 void func_80181170(void) {
     s32 i;
@@ -5929,7 +5898,6 @@ extern s32 D_801DFDC8[];
  * +4..+7 refs become a single combine_givs address giv ($s0 = $s2 + 4), which
  * is exactly the target's two-induction-variable shape.  A second explicit
  * `cur = p + 4` source variable makes gcc build a THIRD iv ($s2+6). */
-typedef struct { void *tag; s16 flag; u8 b6; u8 b7; } Rec_80181DF8;
 
 s32 func_80181DF8(s32 param_1)
 {
@@ -6269,7 +6237,6 @@ void func_8018280C(s32 param_1) {
 /* §160a — align-1 8-byte block: struct assignment emits lwl/lwr + swl/swr.
  * NOTE: uniquely named — src/shared/engine_types.h already typedefs `Blk8`
  * (same layout) and the destination TU includes it via engine_core.h. */
-typedef struct { char c[8]; } Blk8_801828E4;
 
 extern Blk8_801828E4 D_801DDB48;
 extern s32 D_8019EA7C[];
@@ -6382,22 +6349,9 @@ void func_801828E4(s32 param_1) {
 extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
 extern void RotTransSV(void *a0, void *a1, void *a2);
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVector_80182BC8;
 
 /* the struct reached via (entity->0x58 & 0xFFFFFFF) | 0x80000000; only the min/max box fields
  * (+4/+6/+8/+0xA/+0xC/+0xE) are touched by this function. */
-typedef struct {
-    s16 unused0;  /* 0x0 */
-    s16 unused2;  /* 0x2 */
-    s16 min_x;    /* 0x4 */
-    s16 max_x;    /* 0x6 */
-    s16 min_y;    /* 0x8 */
-    s16 max_y;    /* 0xA */
-    s16 min_z;    /* 0xC */
-    s16 max_z;    /* 0xE */
-} Box_80182BC8;
 
 void func_80182BC8(s32 a0) {
     if (*(u16 *)(a0 + 0x5C) != 0) {
@@ -6846,8 +6800,6 @@ void func_801834D8(void *a0, s32 a1) {
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_80183534;
-typedef struct { u16 vx, vy, vz, pad; } DVEC_80183534;
 
 void func_80183534(s32 arg0, SVEC_80183534 *arg1, SVEC_80183534 *arg2, s32 *arg3)
 {
@@ -7156,9 +7108,6 @@ void func_80183D48(void *a0) {
 
 #include "common.h"
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} Vec8_80183D84;
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -7496,20 +7445,9 @@ done:
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80184564;
 
 /* (entity->0x58 & 0xFFFFFFF) | 0x80000000 -- see func_80182BC8's Box_80182BC8:
  * the %lo(D_8000000N) tokens in the .s are plain byte offsets, not real symbols. */
-typedef struct {
-    s16 unused0;  /* 0x0 */
-    s16 unused2;  /* 0x2 */
-    s16 min_x;    /* 0x4 */
-    s16 max_x;    /* 0x6 */
-    s16 min_y;    /* 0x8 */
-    s16 max_y;    /* 0xA */
-    s16 min_z;    /* 0xC */
-    s16 max_z;    /* 0xE */
-} Box_80184564;
 
 extern Blk8_801828E4 D_801DDB48;
 extern Vec8_80183D84 D_801DFE94[];
@@ -7951,21 +7889,8 @@ skip:
 
 extern void func_80017910(void *a0, s32 a1);
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVec_80185214;
 
-typedef struct {
-    s16 u, v;
-} UV_80185214;
 
-typedef struct {
-    SVec_80185214 v[4];  /* 0x00-0x1F */
-    UV_80185214 uv[4];   /* 0x20-0x2F */
-    u32 rgb[4];          /* 0x30-0x3F */
-    u32 flags;           /* 0x40 */
-    u8 clut;             /* 0x44 */
-} Prim_80185214;
 
 void func_80185214(s32 a0)
 {
@@ -8012,7 +7937,6 @@ void func_80185214(s32 a0)
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV;
 
 extern void func_8012C218(void *a0);
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
@@ -8214,26 +8138,10 @@ void func_801856C0(s32 *a0)
 
 
 /* 8-byte vertex (SVECTOR); the caller hands over four of them. */
-typedef struct { s16 vx, vy, vz, pad; } SV_801857A4;
 
 /* POLY_FT4, 0x28 bytes -- byte-level field view (the TU's shared PolyFT4
  * packs u/v/clut into words, which cannot express the sb 0xC/0xD/0x14/...). */
-typedef struct {
-    /* 0x00 */ u32 tag;
-    /* 0x04 */ u8  r0, g0, b0, code;
-    /* 0x08 */ s16 x0, y0;
-    /* 0x0C */ u8  u0, v0;
-    /* 0x0E */ u16 clut;
-    /* 0x10 */ s16 x1, y1;
-    /* 0x14 */ u8  u1, v1;
-    /* 0x16 */ u16 tpage;
-    /* 0x18 */ s16 x2, y2;
-    /* 0x1C */ u8  u2, v2;
-    /* 0x1E */ u16 pad2;
-    /* 0x20 */ s16 x3, y3;
-    /* 0x24 */ u8  u3, v3;
-    /* 0x26 */ u16 pad3;
-} FT4_801857A4; /* 0x28 */
+ /* 0x28 */
 
 void func_801857A4(vtx, x, y, cx, cy, w, h, zoff, tp)
     SV_801857A4 *vtx;   /* 4 SVECTORs to project              */
@@ -8425,8 +8333,6 @@ void func_801857A4(vtx, x, y, cx, cy, w, h, zoff, tp)
  * The TU carries no prototype for func_801859F4, so this signature is free.
  */
 
-typedef struct { s16 vx, vy; } DVec_59F4;
-typedef struct { s16 vx, vy, vz, pad; } SVec_59F4;
 
 /* Same spellings as the TU's own copies (ov_SC06_029_jr_8017C954.c) — kept
  * #ifndef-free because they are token-identical, but if the banking pass hits a
@@ -8950,7 +8856,6 @@ void func_8018653C(s32 *a0, s32 *a1) {
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8018656C;
 
 extern void func_8012BE54(s32 a0);
 extern s32 func_8012E544(s32 a0);

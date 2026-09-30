@@ -4003,7 +4003,6 @@ void func_8017DEC4(void) {
 }
 
 
-typedef struct { u16 vx, vy, vz, pad; } SVEC_8017DF68;
 
 void func_8017DF68(SVEC_8017DF68 *p0, SVEC_8017DF68 *p1, s32 a2)
 {
@@ -4315,7 +4314,6 @@ void func_8017E464(s32 param_1) {
 // lwl/lwr+swl/swr pair is a delay-slot SPONGE) -> LENGTH-DRIFT/-1. The fence keeps the
 // nop and costs no bytes.
 
-typedef struct { u8 b[8]; } Blk8_8017E6A4;
 
 extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012B370(s32);
@@ -4501,8 +4499,6 @@ void func_8017EB7C(void *a0) {
 }
 
 
-typedef struct { u8 b[8]; } Blk8_EBB8;
-typedef struct { u16 x, y, z, p0, p1, p2; } Rec12_EBB8;
 extern s32 D_801151D4;
 extern s32 D_80186558[];
 extern s32 D_8019E64C;
@@ -5194,7 +5190,6 @@ void func_8017FF30(s32 param_1) {
 
 extern void func_8012C098(void *param_1);
 
-typedef struct { char c[8]; } Blk8_8017FF80;
 
 void func_8017FF80(void *a0) {
     void *a1 = *(void **)((s32)a0 + 0x64);

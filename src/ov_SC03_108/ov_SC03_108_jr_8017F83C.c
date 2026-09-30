@@ -3526,7 +3526,6 @@ extern void func_80016714(void *a0, s32 a1);
 
 
 
-typedef struct { s16 a, b, c, d; } V8x_80180D2C;
 
 extern u8 D_800AF630[];
 extern s32 D_8019E6FC;

@@ -10,8 +10,8 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { short m[3][3]; long t[3]; } Mtx_8017DECC;   /* 0x20; .t @ +0x14 */
-typedef struct { short vx, vy, vz, pad; } Sv_8017DECC;       /* 0x08 */
+   /* 0x20; .t @ +0x14 */
+       /* 0x08 */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -2969,8 +2969,8 @@ void func_8017FBD4(void *a0) {
  * house style at func_8017DECC (§183.1 law 8): match_one's standalone compile
  * cannot reach src/shared/, so keep uniquely-named local structs of the same
  * layout instead of colliding with the TU's real typedef names. */
-typedef struct { short m[3][3]; long t[3]; } Mtx_8017FC10;   /* 0x20; .t @ +0x14 */
-typedef struct { short vx, vy, vz, pad; } Sv_8017FC10;       /* 0x08 */
+   /* 0x20; .t @ +0x14 */
+       /* 0x08 */
 
 /* TU-verified declarations (src/ov_SC01_084/ov_SC01_084_jr_8017CA80.c) */
 extern s32 ratan2(s32 a0, s32 a1);
@@ -3621,14 +3621,9 @@ s32 func_801807D8(s16 *arg0) {
  *     (position in the source is irrelevant — verified at 4 sites).
  */
 
-typedef struct { s32 a; s32 b[4]; } OtBlk_801809C4;      /* 0x14 stride */
-typedef struct { s16 x, y, z, pad; } SVec_801809C4;      /* 0x08 stride */
+      /* 0x14 stride */
+      /* 0x08 stride */
 
-typedef struct {
-    s16 unk0;      /* 0x00 — the shared vy of every generated vertex */
-    s16 unk2;      /* 0x02 — base angle                              */
-    u32 unk4;      /* 0x04 — packed colour (b in bits 16..23)        */
-} Obj_801809C4;
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void func_8012E32C(void);

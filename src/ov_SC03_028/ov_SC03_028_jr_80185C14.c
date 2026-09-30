@@ -9,41 +9,8 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { u32 w0, w1, w2; } PrimDF98;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimDF98 *prim, *end; } CellDF98;
-typedef struct { s16 vx, vy; } DVEC2_DF98;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_DF98;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_DF98;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_DF98;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_DF98;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_DF98;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_DF98;
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8; /* 0x1C */
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8 subs[16];
-} GroupRec_801EB5C8; /* 0x1D0 */
-typedef struct { u16 x, y, z, w; } __attribute__((aligned(2))) V;
-typedef struct { s16 vx, vy, vz, pad; } SV_80182494;
-typedef struct {
-    u8 pad_0[0xCC];
-    void *arr[4];
-} D_801EC450_t;
+ /* 0x1C */
+ /* 0x1D0 */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -4416,11 +4383,6 @@ void func_80187AB0(void *a0) {
 
 #include "common.h"
 
-typedef struct {
-    u8  pad[8]; /* 0x00 */
-    u16 f8;     /* 0x08 */
-    u16 fa;     /* 0x0a */
-} MatEntry_80187B04;
 
 extern MatEntry D_80190078[];
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);

@@ -3736,14 +3736,6 @@ void func_80186668(s32 a0)
 }
 
 
-    typedef struct { u8 b[8]; } Blk8_80186740;
-    typedef struct {
-        u8 c[8];
-    } Blk8_80186594_80186740;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80186740;
 
 /* func_80186740 -- ov_SC02_027, subseg ov_SC02_027_jr_8017D898 (106 ins).
  * Mass-lane fresh crack. Nearest exemplar ov_SC02_026:func_8017E72C is still
@@ -4243,9 +4235,6 @@ void func_80187140(s32 a0) {
 }
 
 
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_80187190;
 
 /* func_80187190 -- ov_SC02_026, subseg ov_SC02_026_jr_8017C180 (133 ins). */
 
@@ -4487,10 +4476,6 @@ void func_801876C4(void *a0, s32 a1) {
 }
 
 
-typedef struct {
-    s32 a;      /* 0x00 -> D_801D0120 */
-    s32 b;      /* 0x04 -> D_801D0124 */
-} Pair8_8017DDC4_80187780;
 
 /* func_80187780 (ov_SC02_026, 154 ins) — spawns a type-0x3B object at *a0,
  * seeds its sub-record (0x20 handler table / 0x27 / 0x28 / 0x2A), picks a
@@ -4607,7 +4592,7 @@ extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern s32 rand(void);
 
-typedef struct { s32 w[8]; } Blk32_8017F76C_80187780;   /* 32 bytes, align 4 */
+   /* 32 bytes, align 4 */
 
 s32 func_80187780(s16 *a0, s32 a1, s32 a2, s32 a3) {
 
@@ -4818,11 +4803,6 @@ void func_80187C6C(void *arg0) {
 }
 
 
-    typedef struct { u8 b[8]; } Blk8_80187DE4;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80187DE4;
 
 /* func_80187DE4 — ov_SC02_027 / ov_SC02_027_jr_8017D898.c   MATCH (249 ins)
  *

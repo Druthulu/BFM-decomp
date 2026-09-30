@@ -2887,17 +2887,6 @@ extern unsigned char D_801A6B04;
 extern unsigned char D_801A6B05;
 extern unsigned char D_801A6B06;
 
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-    s16 f4;
-    s16 f5;
-    s16 f6;
-    s16 f7;
-    s32 f8;
-} St_8017D118;
 
 void func_8017D118(s32 a0) {
     St_8017D118 st;
@@ -3477,7 +3466,6 @@ extern s16 D_80184D0A;
 extern u16 D_800B99DC;
 extern void func_8017E960(s32 param_1, s32 param_2, s32 *param_3);
 
-typedef struct { s32 x, y, z; } Vec3_8017DF8C;
 
 void func_8017DF8C(void *a0)
 {
@@ -4157,17 +4145,6 @@ extern void func_8012A828(s32 a0, void * a1);
 
 extern s32 func_8012C51C(void *arg0, s32 arg1);
 
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-    s16 f4;
-    s16 f5;
-    s16 f6;
-    s16 f7;
-    s32 f8;
-} St_8017EDC4;
 
 void func_8017EDC4(s32 arg0) {
     St_8017EDC4 st;

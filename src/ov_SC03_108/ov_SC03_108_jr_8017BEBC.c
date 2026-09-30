@@ -3177,9 +3177,6 @@ void func_8017DAD0(void *a0) {
 }
 
 
-struct Mtx_8017DB0C  { s16 m[3][3]; s32 t[3]; };
-struct SVec_8017DB0C { s16 vx, vy, vz, pad; };
-struct Vec_8017DB0C  { s32 vx, vy, vz, pad; };
 
 extern void RotMatrixZ(s32 a0, void *a1);
 extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);
@@ -3531,7 +3528,6 @@ void func_8017E27C(void *a0)
 }
 
 
-typedef struct { s32 w[8]; } Blk20_8017E3F8;
 
 void func_8017E3F8(void *a0)
 {
@@ -3577,8 +3573,6 @@ void func_8017E3F8(void *a0)
 }
 
 
-typedef struct { s32 flag; u16 xy[2]; s32 sp1c; } Out_8017E910_8017E508;
-typedef struct { s16 a, b, c, d; } SV4_8017E910_8017E508;
 
 /* --- callees (spelled from asm/ov_SC02_039/nonmatchings/.../func_8017E508.s) --- */
 extern void func_8012C1B8(void);
@@ -3803,13 +3797,6 @@ void func_8017E9C0(s32 arg0) {
 }
 
 
-typedef struct { s32 w[8]; } Mat32_8017E910;
-typedef struct {
-    u16 x; /* 0x0 */
-    u16 y; /* 0x2 */
-    u16 z; /* 0x4 */
-    u16 w; /* 0x6 */
-} Vec4h_8017E2F4;
 
 /* func_8012DEB8: shared engine-core collision-probe routine, verified sig at
  * src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:3492 (also used TU:375,6408,6479). */
@@ -4397,12 +4384,6 @@ void func_8017F2E8(s32 param_1)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F640;
 
 extern s32 func_8012BCCC(s32 a0);
 extern s32 func_8004787C(s32 a0);
@@ -4465,12 +4446,6 @@ end:
 }
 
 
-typedef struct {
-    u8 r;   /* 0x00 */
-    u8 g;   /* 0x01 */
-    u8 b;   /* 0x02 */
-    u8 cd;  /* 0x03 (never written; the block move copies it anyway) */
-} Col4_80181574;
 
 extern u16 D_80126B5E;
 extern u16 D_80126B62;

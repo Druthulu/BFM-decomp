@@ -2845,9 +2845,6 @@ void func_8017D464(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D4A0;
 
 extern s32 D_80126B58;
 extern s16 D_80196DDC[];
@@ -3142,19 +3139,6 @@ extern void func_800178EC(s32 a0);
  * match_one: MATCH, closeness 0, 78/78 instructions.
  */
 
-typedef struct {
-    s16 vx0, vy0, vz0, pad0;
-    s16 vx1, vy1, vz1, pad1;
-    s16 vx2, vy2, vz2, pad2;
-    s16 vx3, vy3, vz3, pad3;
-    s16 u0, v0;
-    s16 u1, v1;
-    s16 u2, v2;
-    s16 u3, v3;
-    s32 rgb0, rgb1, rgb2, rgb3;
-    s32 flags;
-    u8  clut;
-} Quad_8017DABC;
 
 void func_8017DABC(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6)
 {
@@ -4430,12 +4414,6 @@ void func_8017F6A8(s32 param_1)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F6E8;
 
 extern s32  func_8012BCCC(s32 a0);
 extern s32  func_8012B8E4(s32 a0, s32 a1);
@@ -4512,12 +4490,6 @@ s32 p;
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F8A0;
 
 extern s32  func_8012BCCC(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);

@@ -3575,10 +3575,6 @@ extern u8 *func_8012913C(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void func_801292C8(u8 *a0);
 
-typedef struct {
-    u16 x, y, z;
-    u8 flag;
-} V8_80187968_8018321C;
 
 void func_8018321C(s32 a0) {
     u32 v0;

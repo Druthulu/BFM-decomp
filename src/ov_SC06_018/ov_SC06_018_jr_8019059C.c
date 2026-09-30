@@ -3247,9 +3247,6 @@ void func_80191020(s32 a0) {
  */
 
 
-typedef struct { u8 b[4]; } Blk4_80191320;
-typedef struct { u8 b[8]; } Blk8_80191320;
-typedef struct { s16 vx, vy, vz, pad; } SV_80191320;
 
 extern void func_80016714(void *a0, s32 a1);
 extern s32  func_8012C194(void);

@@ -4103,9 +4103,6 @@ void func_8017E36C(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017E3A8;
 
 extern void func_8017E440(s32 param_1, s16 *param_2);
 
@@ -4286,7 +4283,6 @@ extern void func_8001D074(s32 a0, s32 a1);
 extern void func_800233CC(void *a0, unsigned short a1);
 extern void func_8001CD9C(int a0, void *a1);
 
-typedef struct { u8 d[4]; } Blk4_8017E808;
 extern Blk4_8017E808 D_8019EFF8;
 extern Blk4_8017E808 D_8019EFFC;
 extern Blk4_8017E808 D_8019DBF8;

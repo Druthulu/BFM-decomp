@@ -9,9 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017DB94;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -2847,8 +2844,6 @@ void func_8017F65C(s32 a0)
  * (that TU pulls ../shared/engine_core.h -> engine_types.h). Layouts identical:
  *   MATRIX  0x20: m@0x00 (3x3 shorts), pad@0x12, t@0x14 (3 longs)
  *   SVECTOR 0x08: vx,vy,vz,pad                                            */
-typedef struct { short m[3][3]; long t[3]; } MATRIX_8017F98C;
-typedef struct { short vx, vy, vz, pad; } SVECTOR_8017F98C;
 
 extern void func_8001C2C4(s32 a0);
 extern void func_80049CAC(s32 a0, s32 a1);
@@ -3180,14 +3175,6 @@ void func_801801E8(s32 a0) {
 
 extern u8 D_800AF630[];   /* TU line 53, verbatim */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_80180228;
-typedef struct { u8 r, g, b, cd; } CV_80180228;
-typedef struct {
-    SV_80180228 v[4];    /* +0x00 : sxy0..3 (v[0].vz doubles as the otz slot) */
-    CV_80180228 rgb[4];  /* +0x20 */
-    u32 code;            /* +0x30 */
-    u32 pad;             /* +0x34 */
-} PKT_80180228;
 
 /* every macro is suffixed: this TU already #defines the unsuffixed gte_* family
  * (func_8017C8D0 region), so an unsuffixed name would clash. */

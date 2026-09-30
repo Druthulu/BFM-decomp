@@ -1,68 +1,7 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-typedef struct {
-    u16 f00;
-    u16 f02;
-    u16 f04;
-    u16 pad06;
-    u16 f08;
-    u16 f0A;
-    u16 f0C;
-    u16 pad0E;
-    u8  f10;
-    u8  f11;
-    u8  f12;
-    u8  pad13;
-    u8  f14;
-    u8  f15;
-    u8  f16;
-    u8  pad17;
-    u32 f18;
-} S1_80168F40;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016B6BC;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016B9F8;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016C2C4;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016CBC0;
 typedef void (*Handler)(struct Entry *);
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016EB3C;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016EC0C;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016F1C4;
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -4163,12 +4102,6 @@ void func_80175AB8(param_1)
 }
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80175DA8;
 
    /* size 0x0C */
 extern u32 *func_8017742C(u32 *a0, s32 a1, s32 a2);
@@ -4304,12 +4237,6 @@ void func_80175DA8(param_1)
 #include "../shared/ov/func_80176144.h"
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80176218;
 
 
 // @class: regalloc-order
@@ -4545,12 +4472,6 @@ L63C:
 }
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80176734;
 
 void func_80176734(s32 param_1)
 {
@@ -4832,12 +4753,6 @@ Ltail:
 #include "../shared/ov/func_80177AD4.h"
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80177B5C;
 
 /* func_80177B5C - MATCH (147/147 ins), wave23.
  *
@@ -4998,12 +4913,6 @@ s16 y;
 }
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80177DA8;
 
 
 void func_80177DA8(p, v, idx)
@@ -5133,12 +5042,6 @@ void func_80178840(int param_1)
 #include "../shared/ov/func_801788B8.h"
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80178970;
 
 // @class: regalloc-order
 // @stuck: none — MATCH (result pinned to $v0 forces call-result copy to $v1 + delay-slot zero)

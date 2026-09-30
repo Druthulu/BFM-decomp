@@ -1534,13 +1534,6 @@ void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__(
 
 
 extern s32 func_80146B9C(void * arg0);
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4_80146AFC;
 
 /* func_80146AFC — ASCENDING twin of the byte-proven DEFINE_func_80146B9C()
  * in src/shared/engine_core.h (cookbook §71: find the already-matched sibling first).
@@ -2332,16 +2325,6 @@ extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
 extern u8 D_801202A0[];
 
-typedef struct {
-    /* 0x00 */ s16 a30;
-    /* 0x02 */ s16 a2e;
-    /* 0x04 */ s16 a2c;
-    /* 0x06 */ s16 pad06;
-    /* 0x08 */ s32 buf[2];
-    /* 0x10 */ s16 a20;
-    /* 0x12 */ s16 a1e;
-    /* 0x14 */ s16 a1c;
-} Loc_8014A048;
 
 #include "../shared/ov/func_8014A048.h"
 
@@ -2400,13 +2383,6 @@ typedef struct {
 #include "../shared/ov/func_8014A71C.h"
 
 
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4_8014A738;
 
 
 
@@ -2969,14 +2945,6 @@ void func_8014D738(void)
 #include "../shared/ov/func_8014D790.h"
 
 
-  typedef Unkstruct_800B5CB8 Ent_8014D820;
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4_8014D820;
 
 // @class: schedule
 // @unstuck(P36): none — MATCH (304/304), symcheck SYMS-OK 12/12, and the whole-TU cc1 stage now compiles CLEAN
@@ -3872,13 +3840,6 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
 #include "../shared/ov/func_801508F8.h"
 
 
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4_8015094C;
 
 extern s32 func_80021174(s32 a0, s32 a1);
 
@@ -4596,10 +4557,6 @@ extern void *memcpy(void *dst, const void *src, u32 n);
 
 extern s32 func_80133784(s32 arg0, void *arg1, s32 arg2);
 
-typedef struct {
-    u16 f0, f2, f4;
-    s16 f6;
-} Blk801539F8;
 
 #include "../shared/ov/func_801539F8.h"
 

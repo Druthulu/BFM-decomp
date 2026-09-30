@@ -3117,27 +3117,9 @@ void func_8017DFF0(void *a0) {
 
 extern s32 rand(void);
 
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8_8017E02C; /* 0x1C */
+ /* 0x1C */
 
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8_8017E02C subs[16];
-} GroupRec_801EB5C8_8017E02C; /* 0x1D0 */
+ /* 0x1D0 */
 
 
 void func_8017E02C(s32 param_1)
@@ -4549,15 +4531,6 @@ void func_8018060C(s32 param_1)
 }
 
 
-typedef struct {
-    u8 unk00[0x70];
-    s16 unk70;
-    s16 unk72;
-    s16 unk74;
-    s16 unk76;
-    u8 pad78[0x84];
-    s16 unkFC;
-} Work;
 
 extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern u8 D_801925C4[];

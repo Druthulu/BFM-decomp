@@ -3759,7 +3759,6 @@ void func_8017F63C(void *a0) {
 
 
 /* identical layout to SVECTOR_8016E7C8 (src/shared/engine_types.h) */
-typedef struct { short vx, vy, vz, pad; } SVEC_8017EC98_8017F704;
 
 void func_8017F704(SVEC_8017EC98_8017F704 *p0, SVEC_8017EC98_8017F704 *p1) {
     /* conform to the TU's file-scope canon (`extern void func_8012EF70(s32, s32);`)

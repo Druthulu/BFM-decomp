@@ -3278,7 +3278,6 @@ void func_8017F27C(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct { s16 v[4]; } Blk8_80126940_8017D6D0_8017F2B8;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017F918(s32 param_1, s16 *param_2);
@@ -3353,7 +3352,6 @@ void func_8017F3E8(s32 a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct { s16 v[4]; } Blk8_80126940_8017D6D0_8017F498;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017F918(s32 param_1, s16 *param_2);
@@ -3457,7 +3455,6 @@ void func_8017F624(s32 a0) {
 }
 
 
-typedef struct { s16 v[4]; } Blk8_80126940_8017D6D0_8017F6D4;
 
 void func_8017F6D4(s32 a0) {
 
@@ -3832,7 +3829,6 @@ extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s32 func_8014A454(s32 a0);
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
 
-typedef struct { s32 w[8]; } Mtx32_80180088;
 
 
 void func_80180088(s32 param_1)
@@ -4071,7 +4067,6 @@ extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_80180A54(void *a0, s32 a1, s32 a2);
 
-typedef struct { s32 w[8]; } Blk32_80180770;
 
 s32 func_80180770(void *a0)
 {
@@ -4136,7 +4131,6 @@ void func_801808CC(void *a0) {
 }
 
 
-typedef struct { s32 w[8]; } Blk32_80180908;
 
 void func_80180908(s32 *a0) {
     extern u8 D_801DA130[];
@@ -4175,16 +4169,6 @@ void func_801809A8(void) {
 }
 
 
-typedef struct {
-    s16 id;
-    s16 flag;
-    s16 x;
-    s16 y;
-    s16 size;
-    s16 pad;
-    s32 param;
-    s32 ptr;
-} Sub_80180A54;
 
 void func_80180A54(void *a0, s32 a1, s32 a2)
 {
@@ -4223,25 +4207,6 @@ epilogue:
 
 /* Blk32_80180908 is already declared in this TU (ov_SC02_027_jr_8017D898.c:4623). */
 
-typedef struct { u32 addr : 24; u32 len : 8; } PTag_80180B3C;
-typedef struct {
-    PTag_80180B3C tag;
-    u8 r0, g0, b0, code;
-    u16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    u16 x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    u16 x2, y2;
-    u8 u2, v2;
-    u16 pad2;
-    u16 x3, y3;
-    u8 u3, v3;
-    u16 pad3;
-} Ft4_80180B3C;
-typedef struct { s16 vx, vy, vz, pad; } SV_80180B3C;
-typedef struct { s16 vx, vy; } DV_80180B3C;
 
 #define ADDPRIM_80180B3C(o, p)                                       \
     (((PTag_80180B3C *)(p))->addr = ((PTag_80180B3C *)(o))->addr,   \
@@ -4429,15 +4394,6 @@ void func_8018102C(void *a0)
 }
 
 
-typedef struct {
-    u8 pad0[0x20];
-    s32 f20;
-    u8 pad24[0x10];
-    u16 f34;
-    u8 pad36[0xC6];
-    s16 fFC;
-    s16 fFE;
-} W_801810A0;
 
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_8018152C(s32 a0, s16 a1);
@@ -4733,7 +4689,6 @@ void func_801815E8(s32 a0)
 }
 
 
-typedef struct { u16 x, y, z, pad; } SV_80181740;
 
 extern s32 *D_80126B78;
 extern u8 D_8018F458[];
@@ -5192,22 +5147,11 @@ s32 func_80182204(u8 *a0)
 
 
 /* 8-byte, align-4 pair record: the per-index slot pair at D_801DA750/D_801DA754 */
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244;
 
 /* 8-byte, align-2 record: forces move_by_pieces onto the lwl/lwr + swl/swr
  * unaligned block-move path (cookbook §48-C2) for the 0x10..0x18 copy. */
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_80182244;
 
 /* 16-byte stride table indexed by *(s16*)(obj+0x70) */
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_80182244;
 
 
 extern void func_8012C1B8(void);
@@ -5461,8 +5405,6 @@ void func_80182828(void) {
  * this function; each is a SEPARATE relocation symbol in the target .s
  * (D_801AB670/672/674/676 are 2/4/6/8 bytes apart but referenced as four
  * independently-based arrays, never as one array + constant offset). */
-typedef struct { u16 v; u16 pad[3]; } Stride8_u16_80182868;
-typedef struct { s16 v; s16 pad[3]; } Stride8_s16_80182868;
 
 void func_80182868(void *a0)
 {
@@ -6040,12 +5982,6 @@ void func_8018339C(s32 s0) {
 }
 
 
-typedef struct {
-    u16 x; /* 0x00 */
-    u16 y; /* 0x02 */
-    u16 z; /* 0x04 */
-    u16 w; /* 0x06 */
-} V4_8017FAC0_80183418;
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 
@@ -7521,7 +7457,6 @@ extern u8 D_801B4380;
 extern u8 D_801AF86C[];
 extern u8 D_801AF87C[];
 
-typedef struct { u8 c[8]; } Blk8_801859DC;
 
 void func_801859DC(s32 a0) {
     s16 buf[3];
@@ -7931,36 +7866,6 @@ s32 func_801862A8(s32 arg0)
 }
 
 
-typedef struct {
-    u8  pad00[0x02];
-    u16 f02;
-    u8  pad04[0x02];
-    u16 f06;
-    u8  pad08[0x02];
-    u16 f0A;
-    u8  pad0C[0x02];
-    u16 f0E;
-    u8  pad10[0x08];
-    u16 f18;
-    u16 f1A;
-    u16 f1C;
-    u8  pad1E[0x02];
-    void *f20;
-    u8  pad24[0x08];
-    u16 f2C;
-    u8  pad2E[0x2E];
-    u16 f5C;
-    u8  pad5E[0x12];
-    u16 f70;
-    u8  pad72[0x06];
-    void *f78;
-    u8  pad7C[0x0C];
-    u16 f88;
-    u16 f8A;
-    u16 f8C;
-    u8  pad8E[0x72];
-    u16 f100;
-} Str_8018633C;
 
 void func_8018633C(Str_8018633C *arg0) {
     u16 a;
@@ -8007,9 +7912,6 @@ extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern u8 D_801B30B0;
 
-typedef struct {
-    u16 a, b, c, d;
-} Rec8_801863EC;
 
 void func_801863EC(s32 a0)
 {
@@ -8167,9 +8069,6 @@ void func_8018675C(s32 a0)
 }
 
 
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_801867AC;
 
 /* func_801867AC -- ov_SC02_026, subseg ov_SC02_026_jr_8017C180 (133 ins). */
 
@@ -8400,10 +8299,6 @@ s32 a1;
 }
 
 
-typedef struct {
-    s32 a;      /* 0x00 -> D_801D0120 */
-    s32 b;      /* 0x04 -> D_801D0124 */
-} Pair8_8017DDC4_80186D9C;
 
 /* func_80186D9C (ov_SC02_026, 154 ins) — spawns a type-0x3B object at *a0,
  * seeds its sub-record (0x20 handler table / 0x27 / 0x28 / 0x2A), picks a
@@ -8520,7 +8415,7 @@ extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern s32 rand(void);
 
-typedef struct { s32 w[8]; } Blk32_8017F76C_80186D9C;   /* 32 bytes, align 4 */
+   /* 32 bytes, align 4 */
 
 s32 func_80186D9C(s16 *a0, s32 a1, s32 a2, s32 a3) {
 

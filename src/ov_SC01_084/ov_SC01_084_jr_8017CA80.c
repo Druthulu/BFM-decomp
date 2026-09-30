@@ -2979,8 +2979,8 @@ void func_8017DE84(s32 param_1) {
  * Uniquely named on purpose (§183.1 law 8): match_one's standalone -Iinclude compile cannot
  * reach src/shared/, and the destination TU already pulls the canonical typedefs in via
  * "../shared/engine_core.h" — identical layout, so keeping our own name collides with nothing. */
-typedef struct { short m[3][3]; long t[3]; } Mtx_8017DECC;   /* 0x20; .t @ +0x14 */
-typedef struct { short vx, vy, vz, pad; } Sv_8017DECC;       /* 0x08 */
+   /* 0x20; .t @ +0x14 */
+       /* 0x08 */
 
 /* TU-verified declarations (src/ov_SC01_084/ov_SC01_084_jr_8017CA80.c) */
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);

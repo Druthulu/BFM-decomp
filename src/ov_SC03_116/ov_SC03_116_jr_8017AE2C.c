@@ -4459,15 +4459,6 @@ void func_80181204(s32 a0)
 extern s32 func_80017758(void *a0, void *a1);
 extern s32 func_80017DC4(void *a0, void *a1);
 
-typedef struct { s16 vx, vy, vz, pad; } SVec8_801812AC;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_801812AC;
-typedef struct { s16 x, y, z; } V3_801812AC;
-typedef struct { u8 b[8]; } Blk8_801812AC;
-typedef struct {
-    SVec8_801812AC v[4];
-    s32            c[4];
-    s32            code;
-} Prim_801812AC;
 
 extern V3_801812AC D_80194EEC[];
 extern V3_801812AC D_80194FC0[];
@@ -5169,7 +5160,7 @@ void func_80182378(void *a0) {
 // body) using a locally-named struct type — block-scope externs don't collide with another
 // function's block-scope externs for the same symbol (§S38/D2).
 
-typedef struct { s32 w[4]; } LBlk16; /* 16-byte record, block-scoped local name only */
+ /* 16-byte record, block-scoped local name only */
 
 void func_801823B4(void *a0)
 {

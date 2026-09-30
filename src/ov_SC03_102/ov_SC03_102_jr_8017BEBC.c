@@ -4125,8 +4125,8 @@ void func_80180BFC(void *a0) {
 
 struct vec;
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80180C38;   /* 0x8 */
-typedef struct { s32 w[8]; } Mtx_80180C38;               /* 0x20 */
+   /* 0x8 */
+               /* 0x20 */
 
 extern u16 D_801270C0;
 extern u8 D_801152A8[];
@@ -4258,7 +4258,6 @@ kill:
 
 struct vec;
 
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_80181030;
 
 extern void func_8012931C(struct vec *a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
@@ -4378,7 +4377,6 @@ extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixY(s32 a0, void *a1);
 
-typedef struct { s32 w[8]; } Blk20_80181260;
 
 s32 func_80181260(s32 param_1, s16 param_2)
 {
@@ -4545,7 +4543,6 @@ void func_8018153C(void *a0)
 
 
 
-typedef struct { u8 b0, b1, b2, b3; } Blk4_801815D4;
 
 void func_801815D4(void *a0)
 {

@@ -2864,9 +2864,6 @@ void func_8017EAD8(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017EB14;
 
 void func_8017EB14(s32 a0) {
 
@@ -3512,12 +3509,6 @@ void func_8017F674(s32 param_1)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F9CC;
 
 extern s32 func_8012BCCC(s32 a0);
 extern s32 func_8004787C(s32 a0);
@@ -3580,12 +3571,6 @@ end:
 }
 
 
-typedef struct {
-    u8 r;   /* 0x00 */
-    u8 g;   /* 0x01 */
-    u8 b;   /* 0x02 */
-    u8 cd;  /* 0x03 (never written; the block move copies it anyway) */
-} Col4_80181574;
 
 extern u16 D_80126B5E;
 extern u16 D_80126B62;

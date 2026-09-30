@@ -2710,7 +2710,6 @@ extern void func_80181B58(int param_1);
 extern void func_8018282C(void *a0);
 extern void func_80181B60(void *a0);
 
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8;
 
 /* func_80182038 — ov_SC03_089 (ov_SC03_089_jr_8017CA80), 154 ins, jtbl_801C53E4 (5 entries,
  * minval 0 / maxval 4 — `lhu` + `sltiu 5`, so the switch expression is UNSIGNED and neither
@@ -2835,8 +2834,6 @@ void func_80182038(s32 a0) {
     }
 }
 
-typedef struct { s16 a, b, c; } SV3x_80184B30_801822A0;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_801822A0;
 
 /* Declarations copied VERBATIM from the destination TU (src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c)
  * where they are already established for the near-identical sibling func_801841A4's case 2
@@ -2920,8 +2917,6 @@ void func_801823F0(s32 a0) {
 }
 
 
-typedef struct { s16 a, b, c; } SV3x_80184B30_8018241C;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_8018241C;
 
 /* Declarations conformed to this TU's existing canonical forms (§193-B law 2):
  *   func_8012BEE8   ov_SC03_090_jr_8017CA80.c:5640  `extern s32  func_8012BEE8(s32 a0);`
@@ -3226,8 +3221,6 @@ void func_801828EC(s32 param_1)
 
 
 
-typedef struct { s16 a, b, c; } SV3x_80184B30_801829C4;
-typedef struct { s16 a, b, c, d; } SV4x_80184B30_801829C4;
 
 extern void func_8012B23C(void *a0);
 extern void func_80182CB4(s32 param_1);
@@ -3271,9 +3264,6 @@ void func_801829C4(void *a0)
 
 
 /* banked twin ov_SC03_090:func_80184C74 formulation, file-scope decls */
-typedef struct {
-    u8 b[8];
-} Blk8_80182B08;
 
 extern Blk8_80182B08 D_801BED04;
 extern void func_8012CC64(s32 a0, s32 a1);
@@ -3380,10 +3370,6 @@ s32 arg0;
  *     stolen `lui $v1,0x7fff` in the slot — 7 wrong instructions. Pin-free.
  */
 
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_80182D18;
-typedef struct { short vx, vy, vz, pad; } SV_801851A8_80182D18;
-typedef struct { long vx, vy, vz, pad; } LV_801851A8_80182D18;
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_801851A8_80182D18;
 
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
@@ -3635,10 +3621,6 @@ void func_801831E8(s32 ent) {
 }
 
 
-typedef struct { s16 a, b, c; } SV3x_80184B30;
-typedef struct { s32 vx, vy, vz; } V32_801875E4;
-typedef struct { s16 a, b, c, d; } SV4x_80184B30;
-typedef struct { short vx, vy, vz, pad; } SV_801851A8_801839C4;
 
 
 
@@ -3868,10 +3850,6 @@ void func_801837C8(s32 param_1) {
 }
 
 
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180040_8018383C;
 
 extern s32 func_8012C354(s32 a0, s32 a1);
 extern s32 func_80029178(s32 arg);
@@ -3886,7 +3864,6 @@ extern s32 func_8012AD50(void *a0);
  * matches the sibling idiom at ov_SC02_005:func_8018CE04). */
 /* 4-byte, align-4 unaligned block: forces lwl/lwr + swl/swr (cookbook §48-C2 /
  * matches the sibling idiom at ov_SC02_005:func_8018CE04). */
-typedef struct { u8 b[4]; } Blk4_80181EDC_8018383C;
 
 /* §183 TYPE-adopted-sibling: func_80182060 / func_80182688 land in this same TU
  * and spell D_801C00B0 as a plain `u8` (byte lbu/sb arithmetic).  This function
@@ -4027,7 +4004,6 @@ void func_801839C0(void *a0)
 }
 
 
-typedef struct { u8 b[4]; } Blk4_80183AF4;
 
 extern s32 rand(void);
 extern void func_80185400(void *a0, void *a1, void *a2);
@@ -4158,14 +4134,6 @@ s32 func_80183D98(s32 a0)
 }
 
 
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_8018034C_80183DEC;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180040_80183DEC;
 
 /* local mirrors of the TU's shared engine_types.h structs (Blk8_80183DEC @497, Blk32_8018AA98_80183D30_80183DEC
  * @1413) — match_one compiles this draft standalone without the shared header chain, so the
@@ -4174,17 +4142,6 @@ typedef struct {
  * then a trailing s32 "extra" field copied out of *(a0+0xDC). §193-I: this aggregate's frame
  * slot rounds up to 24 (ceil(20,8)), which is exactly the 4-byte gap between it and `vec`
  * below in the target's stack layout (sp+0x24-0x27 unused). */
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 type;
-    s16 sub;
-    s16 pad1;
-    s16 flag;
-    s16 pad2;
-    s32 extra;
-} Msg_8018248C_80183DEC;
 
 extern void RotMatrixY(s32 a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);

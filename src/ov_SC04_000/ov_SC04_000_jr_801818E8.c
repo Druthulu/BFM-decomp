@@ -3497,16 +3497,6 @@ void func_801827B4(s32 a0, void *a1) {
  * D_* data-symbol addresses differ (D_80194DD0/DD8/DE0/DE8 -> D_801A6ECC/
  * ED4/EDC/EE4).
  */
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_80182800;
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_80182800;
-typedef struct {
-    SVECTOR_80182800 v[4];             /* 0x00 */
-    s32 k30, k34, k38, k3c;            /* 0x20 */
-    u32 bcast;                         /* 0x30 */
-    s32 tag;                           /* 0x34 */
-    u8  code;                          /* 0x38 */
-    u8  pad39[7];                      /* -> 0x40 */
-} Prim_80182800;
 
 extern SVECTOR_80182800 D_801A6ECC;
 extern SVECTOR_80182800 D_801A6ED4;

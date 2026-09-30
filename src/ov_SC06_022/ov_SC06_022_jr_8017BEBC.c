@@ -2737,7 +2737,6 @@ extern s16 D_800B9B00;
 extern u8 *D_801274C8;
 extern void *D_801274CC;
 
-struct B16_8017CDE4 { s32 w[4]; };
 
 void func_8017CDE4(void)
 {
@@ -2960,9 +2959,6 @@ void func_8017D29C(void) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D348;
 
 void func_8017D348(void) {
     extern u8 D_80126948[];
@@ -3079,9 +3075,6 @@ void func_8017D59C(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D5D8;
 
 void func_8017D5D8(s32 a0) {
     extern s32 D_80126B58;
@@ -3124,9 +3117,6 @@ void func_8017D5D8(s32 a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D6E0;
 
 void func_8017D6E0(s32 a0) {
     extern s32 D_80126B58;
@@ -3165,9 +3155,6 @@ void func_8017D6E0(s32 a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D7CC;
 
 void func_8017D7CC(s32 a0) {
     extern s32 D_80126B58;
@@ -3469,8 +3456,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
-typedef struct { s16 h0, h1, h2, h3; } Q_8017DF28;   /* 8 bytes, align 2 -> lwl/lwr copy */
-typedef struct { s32 x, y, z; } VEC_8017DF28;
+   /* 8 bytes, align 2 -> lwl/lwr copy */
 
 void func_8017DF28(s32 param_1)
 {
@@ -4210,12 +4196,6 @@ void func_8017F2D0(void *a0) {
 }
 
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-} Vec4h_8017F30C;
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 extern u16 D_8019104C;

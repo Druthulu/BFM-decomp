@@ -2747,16 +2747,7 @@ extern void func_8017DF2C(s32 a0, s32 a1);
  * cell $t3 naturally once the bbox block allocates right.
  */
 
-typedef struct { u32 w0, w1, w2; } PrimDF98;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimDF98 *prim, *end; } CellDF98;
 
-typedef struct { s16 vx, vy; } DVEC2_DF98;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_DF98;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_DF98;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_DF98;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_DF98;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_DF98;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_DF98;
 
 
 
@@ -3237,27 +3228,9 @@ void func_8017F094(void *a0) {
 
 extern s32 rand(void);
 
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8; /* 0x1C */
+ /* 0x1C */
 
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8 subs[16];
-} GroupRec_801EB5C8; /* 0x1D0 */
+ /* 0x1D0 */
 
 extern GroupRec_801EB5C8 D_801EB5C8[8];
 
@@ -3796,7 +3769,6 @@ extern s16 D_80126940;
 extern s16 D_80126942;
 extern s16 D_80126944;
 
-typedef struct { u16 x, y, z, w; } __attribute__((aligned(2))) V;
 
 extern s32 func_8012E544(s32 a0);
 extern void func_80015978(s32 a0, s32 *a1);
@@ -4393,7 +4365,6 @@ extern u8  D_801ADD34[];
 extern u8  D_801AE08C[];
 extern u8  D_801AE824[];
 
-typedef struct { s16 vx, vy, vz, pad; } SV_80181000;
 
 void func_80181000(s32 a0)
 {
@@ -4629,7 +4600,6 @@ extern s32 rand(void);
 extern u16 D_80126B96;
 extern u8 D_801ADC24[];
 
-typedef struct { s16 vx, vy, vz, pad; } SV_8018150C;
 
 void func_8018150C(s32 a0) {
     s32 s1 = a0;
@@ -4745,7 +4715,6 @@ extern s16 D_8018F978;
 extern s8  D_8018F980[];
 extern s16 D_8018F988;
 
-typedef struct { s16 vx, vy, vz, pad; } SV_80181850;
 
 void func_80181850(s32 a0) {
     SV_80181850 sp10;
@@ -5135,7 +5104,6 @@ void func_8018222C(s32 a0) {
  *     kept it live across the branch, and stole $a3 from the threshold const.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_80182494;
 
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012CBCC(s32 a0);
@@ -5265,10 +5233,6 @@ extern s16 D_8018FA0C;
 extern s16 D_8018FA0E;
 extern s16 D_8018FA10;
 
-typedef struct {
-    u8 pad_0[0xCC];
-    void *arr[4];
-} D_801EC450_t;
 extern s32 D_801EC450;
 
 void func_80182780(s32 a0) {

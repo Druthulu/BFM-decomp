@@ -4134,12 +4134,6 @@ extern u16 D_800B99DA;
 extern u8 D_801E04E0[];
 extern void func_8018A2E0(u16 *a0, s32 a1);
 
-typedef struct {
-    u16 f0;
-    u16 f1;
-    u16 f2;
-    s16 f3;
-} Ent_8018A224;
 
 s32 func_8018A224(Ent_8018A224 *arg0, s32 arg1)
 {

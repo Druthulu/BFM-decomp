@@ -3695,7 +3695,6 @@ void func_80181440(s32 a0) {
 }
 
 
-typedef struct { s16 h[4]; } S16x4;
 
 extern s32 D_80126B58;
 extern u16 func_80148800(s32 *a0);
@@ -3812,8 +3811,6 @@ void func_80181800(s32 a0) {
 }
 
 
-typedef struct { short vx, vy, vz, pad; } SV_801851A8_80181858;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_80181858;
 
 extern void func_8013B7AC(s32 a0);
 extern s32 func_8012BD14(s32 a0);
@@ -4011,8 +4008,6 @@ void func_80181CA8(s32 arg0)
 }
 
 
-typedef struct { s16 a, b, c; } SV3x_80184B30_80181D58;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80181D58;
 
 /* func_80181D58 — ov_SC03_090, 82 ins.
  * Banked twin (seed_ref): ov_SC02_035:func_801834BC (0.7356 sim) — same opening block

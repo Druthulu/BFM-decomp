@@ -2917,7 +2917,6 @@ void func_8017DBF8(void *a0) {
 }
 
 
-typedef struct { s16 v[4]; } Blk8_80126940_8017DC34;
 
 extern s32 func_8012E544(s32 a0);
 extern void func_8017DD14(s32 param_1, s16 *param_2);
@@ -4044,9 +4043,6 @@ extern void func_800183E0(s32 a0);
 
 /* 8-byte, 2-aligned vector: alignment < 4 is what makes gcc emit the
    lwl/lwr + swl/swr unaligned block move for the 0x8 and 0x18 copies. */
-typedef struct {
-    s16 a, b, c, d;
-} SVec8_8017F694;
 
 void func_8017F694(s32 arg0) {
 
@@ -4287,7 +4283,7 @@ void func_8017FE54(void *a0) {
  * twin ov_SC04_011:func_80187B40 uses.
  */
 
-typedef struct { u8 c[4]; } Blk4_8017FE90;   /* 4 bytes, align 1 -> lwl/lwr + swl/swr copy */
+   /* 4 bytes, align 1 -> lwl/lwr + swl/swr copy */
 
 extern void func_800233CC(void *, unsigned short);
 extern void func_8001CD9C(int, void *);
@@ -4422,8 +4418,8 @@ loop:
  * must stay an explicit variable there.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_801800E0;   /* 8 bytes, align 2 -> lwl/lwr copy */
-typedef struct { u8 c[4]; } Blk4_801800E0;             /* 4 bytes, align 1 -> lwl/lwr copy */
+   /* 8 bytes, align 2 -> lwl/lwr copy */
+             /* 4 bytes, align 1 -> lwl/lwr copy */
 
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
@@ -4569,22 +4565,11 @@ void func_801803FC(void)
 
 /* §160a: the lwl/lwr + swl/swr pairs are emit_block_move on struct types whose
  * TYPE_ALIGN is 1 byte (all-char members) — 4 bytes and 8 bytes here. */
-typedef struct { char c[4]; } Blk4_8018048C;
-typedef struct { char c[8]; } Blk8_8018048C;
 
 /* §30 / §162q1: every store through these pointers must be a COMPONENT_REF so
  * it carries MEM_IN_STRUCT_P at a varying address — that is what lets sched1
  * drop the dependence against the FIXED-address D_8019FB6x halfwords and hoist
  * their loads above the pointer stores (sched.c true/output_dependence). */
-typedef struct {
-    s32 unk00;              /* 0x00 */
-    s32 flags;              /* 0x04 */
-    Blk8_8018048C blk;      /* 0x08 */
-    s16 unk10;              /* 0x10 */
-    s16 unk12;              /* 0x12 */
-    s16 unk14[5];           /* 0x14 */
-    s16 unk1E;              /* 0x1E */
-} Obj_8018048C;
 
 extern void *D_8019FB58;    /* object A */
 extern void *D_8019FB5C;    /* object B */
@@ -4673,7 +4658,6 @@ void func_8018048C(void *a0) {
 }
 
 
-typedef struct { char c[4]; } Blk4_fc;
 
 extern void func_800233CC(void *, unsigned short);
 extern s32 func_8012C194(void);
@@ -4709,7 +4693,6 @@ void func_801806FC(void *a0)
 }
 
 
-typedef struct { s16 a, b, c, d; } SV4L;
 
 void func_801807C4(void *a0)
 {
@@ -4746,9 +4729,7 @@ void func_801807C4(void *a0)
 extern s32 aF8012EF70(s32 a0, void *a1) __asm__("func_8012EF70");
 
    /* 4 bytes -> lwl/lwr + swl/swr copy */
-typedef struct { s16 vx, vy; } DVec_80180894;
-typedef struct { s16 vx, vy, vz, pad; } SVec_80180894;
-typedef struct { s32 a; s32 b[4]; } OtBlk_80180894;   /* stride 0x14 */
+   /* stride 0x14 */
 
 extern void *func_80010A08(s32 a0);
 extern s32 AddPrim(s32 a0, void *a1);
@@ -4834,7 +4815,6 @@ void func_80180894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
  * direct 3-field lhu (not the 0x64/0x20/0x48 triple-indirect chain), and only ONE z-band
  * (v10.z=-0x280, v18.z=0 fixed) with 3 inner y-values, not the twin's 6-call/2-band form. */
 
-typedef struct { s16 x, y, z, w; } Vec4S16_80180BF0;
 
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern s32 func_80180D24(s32 arg0, s32 arg1, s32 arg2, s16 arg3);
@@ -5317,7 +5297,6 @@ extern s16 D_8019FD70[];
 extern s32 D_8019FEF8;
 extern u8 D_8019FB68[];
 
-typedef struct { u8 c[8]; } Blk8_801813B0;
 
 void func_801813B0(s32 param_1) {
     u8 *dst;

@@ -2956,7 +2956,6 @@ extern s16 D_800B9A02;
  * still at offset 0, zero codegen difference.  The array-of-struct form is load-bearing:
  * the raw-word `extern s32 D_800A651C;` + &-arithmetic spelling costs the %lo fold
  * (lui $at/addu/lw %lo -> la + addu + lw) inside a loop. */
-typedef struct { s32 a; s32 b[4]; } OtBlk_8017D3A0;
 
 extern OtBlk_8017D3A0 D_800A651C[];
 

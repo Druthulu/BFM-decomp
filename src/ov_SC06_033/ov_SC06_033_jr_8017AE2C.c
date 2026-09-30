@@ -3313,12 +3313,6 @@ void func_8017BEBC(void *a0) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017BEF8;
 
 
 extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);

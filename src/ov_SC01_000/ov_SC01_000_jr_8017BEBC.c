@@ -3435,12 +3435,6 @@ void func_8017DD04(s32 arg0, s32 arg1)
  * the zero-byte dial (§349/§350 "a second assignment to a pseudo is a
  * first-class dial"), here reached by plain variable reuse — no asm re-tie.
  */
-typedef struct {
-    s16 x;      /* 0x00 — source point */
-    s16 y;      /* 0x02 */
-    s16 sx;     /* 0x04 — scaled result */
-    s16 sy;     /* 0x06 */
-} Pt_8017E1A8;
 
 void func_8017E1A8(Pt_8017E1A8 *p, s32 arg1, s32 arg2, s32 arg3) {
     s32 i;

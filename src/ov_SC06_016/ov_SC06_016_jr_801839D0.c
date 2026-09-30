@@ -9,7 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { s16 x, y, z, w; } Vec4S16_80180BF0;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3861,12 +3860,6 @@ void func_80184918(s32 a0) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80184BFC;
 
 /* func_80184BFC (ov_SC03_117, ov_SC03_117_jr_8017BEBC) — MATCH (148 ins)
  *
@@ -3943,8 +3936,7 @@ typedef struct {
  * do not collide with any name in the TU.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_1A30_80184BFC;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_1A30_80184BFC;   /* 0x20 bytes */
+   /* 0x20 bytes */
 
 void func_80184BFC(s16 *arg0)
 {

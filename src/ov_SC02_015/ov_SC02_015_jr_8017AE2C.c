@@ -3552,8 +3552,6 @@ void func_8017D500(void *a0) {
  * therefore already has the real MATRIX/SVECTOR in scope; these local names exist ONLY to let this
  * file compile standalone under match_one and carry zero risk of colliding with the host's globals
  * at integration time). Layout: m[3][3] (18B) + 2B pad + t[3] s32 (12B) = 0x20; vx/vy/vz/pad s16 = 8B. */
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_8017D5C8;
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8017D5C8;
 
 extern s32 D_80126B58;
 extern s16 D_80181CEC[];
@@ -3638,12 +3636,6 @@ void func_8017D7E0(s32 param_1) {
 #include "common.h"
 
 /* 4 bytes, alignment 1 -> struct assignment lowers to lwl/lwr + swl/swr */
-typedef struct {
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 cd;
-} Col4_8017D878;
 
 extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80015954(s32 a0, s32 a1);
@@ -3799,38 +3791,15 @@ extern void func_8001739C(void *a0);
 
 
 
-typedef struct {
-    s16 x;      /* +0x0 */
-    s16 y;      /* +0x2 */
-    s16 c;      /* +0x4 */
-    s16 pad;    /* +0x6 */
-} Vtx_8017DC24;                     /* 0x08 */
+                     /* 0x08 */
 
-typedef struct {
-    Vtx_8017DC24 v[3];              /* +0x00 +0x08 +0x10 */
-    u8 r0, g0, b0, code;            /* +0x18 .. +0x1B */
-    u8 r1, g1, b1, pad1;            /* +0x1C .. +0x1F */
-    u8 r2, g2, b2, pad2;            /* +0x20 .. +0x23 */
-    u32 color;                      /* +0x24 */
-} Prim_8017DC24;                    /* 0x28 */
+                    /* 0x28 */
 
-typedef struct {
-    u16 x;      /* +0x0 */
-    u16 y;      /* +0x2 */
-    u16 z;      /* +0x4 */
-} Pos_8017DC24;                     /* 0x06 -> 8-byte frame stride */
+                     /* 0x06 -> 8-byte frame stride */
 
-typedef struct {
-    u16 vx;     /* +0x0 */
-    u16 vy;     /* +0x2 */
-    u16 vz;     /* +0x4 */
-    u16 pad;    /* +0x6 */
-} Sxy_8017DC24;                     /* 0x08 */
+                     /* 0x08 */
 
-typedef struct {
-    s16 m[3][3];                    /* +0x00, padded to 0x14 */
-    s32 t[3];                       /* +0x14 +0x18 +0x1C */
-} Mtx_8017DC24;                     /* 0x20 */
+                     /* 0x20 */
 
 extern u16 D_80181D9C[];
 extern s16 D_80181DA0;

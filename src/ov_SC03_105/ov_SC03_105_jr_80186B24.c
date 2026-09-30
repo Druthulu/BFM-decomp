@@ -9,60 +9,9 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8_8017D7EC; /* 0x1C */
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8_8017D7EC subs[16];
-} GroupRec_801EB5C8_8017D7EC; /* 0x1D0 */
-typedef struct {
-    u16 f0;
-    u16 f1;
-    u16 f2;
-    u16 f3;
-    u16 f4;
-    u16 f5;
-    u16 f6;
-    u16 f7;
-    s32 f8;
-} Local_8017EE34;
-typedef struct { u16 vx, vy, vz, pad; } UVEC_8017F234;
-typedef struct {
-    s16 a, b, c;
-} Vec3s16_8018388C;
-typedef struct { s16 vx, vy, vz, pad; } SVec_80183F84;
-typedef struct {
-    SVec_80183F84 v[4];                       /* 0x00 */
-    s16 u0, t0, u1, t1, u2, t2, u3, t3;       /* 0x20 */
-    u32 bcast;                                /* 0x30 */
-    s32 tag;                                  /* 0x34 */
-    u8  code;                                 /* 0x38 */
-    u8  pad39[7];                             /* 0x39 -> 0x40 */
-} Prim_80183F84;
+ /* 0x1C */
+ /* 0x1D0 */
 struct vec;
-typedef struct { s16 vx, vy, vz, pad; } SVEC_801BA5A8;
-typedef struct {
-    u16 f0, f1, f2, f3;
-} Vec4x16;
-typedef struct {
-    s16 a, b, c;
-} Vec3s16_80185380;
-typedef struct { s16 x, y, z, w; } V4_80185480;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80185480;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;

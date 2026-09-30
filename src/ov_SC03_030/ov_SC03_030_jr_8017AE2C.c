@@ -3420,13 +3420,11 @@ void func_8017C18C(s32 a0) {
 
 #include "../shared/ov/func_8017C230.h"
 
-typedef struct { s16 vx, vy; } DVEC2_C59C;
 
 
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_BEBC;
 
 extern s32 func_800491EC(void);
 extern void func_8017C66C(u16 *a0, void *a1);
@@ -3468,16 +3466,7 @@ extern void func_8017C908(s32 a0, s32 a1);
  * cell $t3 naturally once the bbox block allocates right.
  */
 
-typedef struct { u32 w0, w1, w2; } PrimC974;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimC974 *prim, *end; } CellC974;
 
-typedef struct { s16 vx, vy; } DVEC2_C974;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_C974;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_C974;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_C974;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_C974;
 
 
 
@@ -3988,7 +3977,6 @@ void func_8017DA9C(s32 a0) {
 }
 
 
-typedef struct { u8 b[8]; } Blk8_8017DAFC;
 extern Blk8_8017DAFC D_801E06BC;
 extern u8 D_801858EC;
 extern void func_80019064(void *a0);
@@ -4549,7 +4537,6 @@ extern s32 D_801E0704[];
 extern s32 D_801E0724[];
 extern s32 D_801E0744[];
 
-typedef struct { s32 w[8]; } Copy32;
 
 void func_8017E7D4(void) {
     Copy32 b0;
@@ -4726,7 +4713,6 @@ L_end:
 
 /* 8-byte, 2-byte-aligned blob: the plain struct assignment below is what emits the
    target's lwl/lwr + swl/swr block move (cookbook §48-C2 / §160a). */
-typedef struct { u16 unk0, unk2, unk4, unk6; } Blk8_801E0764;
 
 extern Blk8_801E0764 D_801E0764;
 extern u16 D_800B99DA;
@@ -4780,7 +4766,6 @@ void func_8017EDD4(s32 a0) {
 
 #include "common.h"
 
-typedef struct { u16 unk0, unk2, unk4, unk6; } Blk8_801E076C;
 
 extern Blk8_801E076C D_801E076C;
 extern s32 func_8012CBCC(s32 a0);
@@ -5129,12 +5114,6 @@ void func_8017F6E0(int param_1)
 
 /* 4-byte colour record, alignment 1 -> struct assignment lowers to
  * lwl/lwr + swl/swr (§160a block move) */
-typedef struct {
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 cd;
-} Col4_8017F8BC;
 
 void func_8017F8BC(s32 a0) {
     Col4_8017F8BC col;
@@ -5456,7 +5435,6 @@ extern Blk8 D_80126CAC;
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80180054;
 
 s32 func_80180054(SVec_80180054 *p, s32 dist)
 {
@@ -6016,7 +5994,6 @@ void func_80180DAC(void *a0) {
 }
 
 
-typedef struct { s32 f0; s32 f1; } __attribute__((packed, aligned(1))) Bc8_80180E0C;
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
@@ -6347,7 +6324,6 @@ extern u8 D_801869E8[];
 
 /* gte_Set{Rot,Trans}Matrix — same macro form already used in this TU (ov_SC03_028 twin func_801808CC). */
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_80181708;
 
 /* param type is void* to agree with the TU's own forward decls of this function
  * (lines 5041/5058: `extern void func_80181708(void *a0);`) — an s32-param def
@@ -6376,8 +6352,6 @@ void func_80181708(void *param_1)
 }
 
 
-typedef struct { short m[3][3]; long t[3]; } MTX_80181824;
-typedef struct { short vx, vy, vz, pad; } SV_80181824;
 
 extern void func_80020DA4(s32 a0, s32 a1);
 
@@ -6536,15 +6510,6 @@ s32 func_80181824(s32 param_1, s32 param_2)
  */
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80181A60;
-typedef struct { s32 a; s32 b[4]; } OtBlk_80181A60;
-typedef struct {
-    u8  addr[3];
-    u8  len;
-    u8  r0, g0, b0, code;
-    s16 x0, y0;
-    s16 x1, y1;
-} LineF2_80181A60;
 
 /* PSY-Q GTE macros — same forms already used in this TU (func_80181708/func_80181824). */
 

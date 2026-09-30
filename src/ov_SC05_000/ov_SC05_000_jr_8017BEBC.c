@@ -3357,9 +3357,6 @@ void func_8017D464(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D4A0;
 
 extern void func_8017D538(s32 param_1, s16 *param_2);
 

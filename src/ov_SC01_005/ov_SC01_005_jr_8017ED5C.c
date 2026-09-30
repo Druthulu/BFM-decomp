@@ -3224,7 +3224,6 @@ extern s32 func_8012C51C(void *, s32);
 extern void func_80028394(s32, s32, s32, s32);
 extern void func_80028428(s32, s32, s32, s32);
 
-typedef struct { s16 f10, f12, f14, f16, f18, f1A, f1C, f1E; s32 f20; } PrimF790;
 
 s32 func_8017F790(s32 a0) {
     u8 c;
@@ -3419,19 +3418,6 @@ void func_8017FBCC(s32 arg0) {
 }
 
 
-typedef struct { u32 addr : 24; u32 len : 8; } PTag_8017FD50;
-typedef struct { u32 *ot; u32 pad[4]; } Env_8017FD50;
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u8 r1, g1, b1, p1;
-    s16 x1, y1;
-    u8 r2, g2, b2, p2;
-    s16 x2, y2;
-    u8 r3, g3, b3, p3;
-    s16 x3, y3;
-} PG4_8017FD50;
 
 extern void *func_80010A08(s32);
 extern s16 D_800B9A02;
@@ -3569,7 +3555,6 @@ extern void func_80178D18(void);
 extern void func_801746A4(void);
 extern void func_800D1724(s32);
 
-typedef struct { s16 a; s16 b; s16 c; } Trio;
 
 void func_801800C0(s32 arg0)
 {
@@ -3998,7 +3983,6 @@ void func_801809F4(s32 *a0) {
 
 extern s32 func_8012C51C(void *, s32);
 
-typedef struct { s16 f10, f12, f14, f16, f18, f1A, f1C, f1E; s32 f20; } Prim80180A38;
 
 void func_80180A38(s32 a0)
 {
@@ -4896,8 +4880,6 @@ void func_8018203C(s32 a0, s32 a1) {
 }
 
 
-typedef struct { u8 b[12]; } Blk12_820F8;
-typedef struct { u8 b[8]; } Blk8_820F8;
 
 extern s32 D_801C36F8[];
 extern s32 D_801CDD30;

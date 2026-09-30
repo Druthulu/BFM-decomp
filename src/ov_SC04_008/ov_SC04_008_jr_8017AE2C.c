@@ -3482,9 +3482,6 @@ void func_8017D12C(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D168;
 
 void func_8017D168(s32 a0) {
 
@@ -3604,7 +3601,6 @@ extern void func_8013CB84(void);
  *    first insn the target steals into a delay slot.)
  */
 
-typedef struct { s32 a; s32 b[4]; } OtBlk_8017D3F8;
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 rand(void);
@@ -3827,14 +3823,6 @@ void func_8017D990(void *a0) {
 }
 
 
-typedef struct { s16 vx, vy; } DVEC2_C59C_8017D9CC;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_8017D9CC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D9CC;
 
 extern void func_8001CD9C(int, void *);
 extern void func_800233CC(void *, unsigned short);
@@ -3901,9 +3889,6 @@ void func_8017D9CC(int param_1)
 }
 
 
-typedef struct {
-    s16 vx, vy, vz;
-} UVec_8017DB64;
 
 void func_8017DB64(int param_1)
 {
@@ -3962,7 +3947,6 @@ join:
 }
 
 
-typedef struct { s16 vx, vy; } DVEC2_C59C_8017DBEC;
 
 
 
@@ -3970,9 +3954,6 @@ extern s32 rand(void);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
 extern s32 D_80193348;
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} UVec_8017DED4;
 
 void func_8017DCB4(s32 param_1)
 {

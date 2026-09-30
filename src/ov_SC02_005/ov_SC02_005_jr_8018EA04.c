@@ -28,101 +28,13 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { u32 w0, w1, w2; } PrimCF90;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimCF90 *prim, *end; } CellCF90;
-typedef struct { s16 vx, vy; } DVEC2_CF90;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_CF90;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_CF90;
-typedef struct { u8 b[4]; } Blk4_80183FCC;
-typedef struct { s32 w[8]; } Blk20_8018454C;
-typedef struct { s16 vx, vy, vz, pad; } SVec3_8018454C;
 typedef struct {
     s16 f0;
     s16 f2;
     s16 f4;
     s16 f6;
 } D_80195AF4_t;
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVec_80184828;
-struct S0E_80184828 { s16 v; };
-struct S34_80184A8C { u16 v; };
-typedef struct {
-    u8 pad[0x34];
-} D_80195D74_Entry;
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-} TBL_80186144;
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 val;
-} Entry_80186A04;
-typedef struct {
-    u8 pad[0x5C];
-    u16 f5C;
-} F5C_S;
-typedef struct {
-    s16 v;
-    u8 pad[14];
-} Row16_t;
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-} Vec4h_801873FC;
-typedef struct {
-    /* 0x0 */ u16 x;
-    /* 0x2 */ u16 y;
-    /* 0x4 */ u16 z;
-    /* 0x6 */ u16 w;
-} Vec4h_80187560;
-typedef struct { char b[8]; } Blob8_80187664;
-typedef struct { char b[8]; } Blob8_801876B0;
-typedef struct { s16 a, b, c, d; } SV892CC;
-typedef struct { s32 w[4]; } Blk16_801E2F08;
-typedef struct { s32 w[4]; } Blk16_8018A1D8;
-typedef struct { char b[8]; } Blob8_8018A4C4;
-typedef struct { s32 w[4]; } Blk16_8018A4C4;
-typedef struct { s32 w[8]; } Blk20_8018A4C4;
-typedef struct {
-    s16 field_0;
-    s16 field_2;
-    s16 field_4;
-    s16 field_6;
-    s16 field_8;
-    s16 field_A;
-    s16 field_C;
-    s16 field_E;
-    s32 field_10;
-} LocalStruct_8018A968;
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx8_8018AF58;
-typedef struct { s32 vx, vy, vz, pad; } Vec32_8018AF58;
-typedef struct { char b[8]; } Blob8_8018B058;
-typedef struct { s32 vx, vy, vz, pad; } Vec32_8018B058;
-typedef struct { u8 b[4]; } Blk4_8018BDD0;
-typedef struct { u8 b[4]; } Blk4_8018CC28;
-struct imgrect { u16 x; u16 y; u16 w; u16 h; };
-typedef struct {
-    s16 field_0;
-    s16 field_2;
-    s16 field_4;
-    s16 field_6;
-    s16 field_8;
-    s16 field_A;
-    s16 field_C;
-    s16 field_E;
-    s32 field_10;
-} LocalStruct;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -4397,7 +4309,6 @@ void func_8018FB8C(void *a0) {
  * which defines `struct B16 { s32 w[4]; };` at line 295, so a file-scope `struct B16`
  * contributed by this draft is a hard "redefinition of `struct B16'" at cc1.  A unique
  * per-function tag is the sanctioned spelling. */
-struct B16_8018FC38 { s32 w[4]; };
 
 /* §183 TYPE-adopted-TU: the destination TU already declares this symbol
  * `extern s32 D_800A5E88;` at file scope ABOVE this insertion offset (the
@@ -4874,7 +4785,6 @@ extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a
 extern void func_80165718(s32 a0);
 extern s32 D_801270C8;
 
-typedef struct { s32 vx, vy, vz, pad; } Vec_80190538;
 
 void func_80190538(s32 arg0) {
     s32 s0 = arg0;

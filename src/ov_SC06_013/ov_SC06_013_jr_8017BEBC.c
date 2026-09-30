@@ -3199,9 +3199,6 @@ extern u16 D_80126B5E;
 extern u16 D_80126B62;
 extern u16 D_80126B66;
 
-typedef struct {
-    u16 x, y, z, w;
-} Pt_8017D87C;
 
 void func_8017D87C(void *a0)
 {

@@ -3743,24 +3743,10 @@ s32 func_8018AEE8(void) {
  *    `extern short D_800B9A02` canon (§37); 864 sites already use that spelling.
  */
 
-typedef struct { u32 addr : 24; u32 len : 8; } PTag_S40_8018B238;
-typedef struct { u32 w; }                      W_S40_8018B238;
-typedef struct { u32 *ot; u32 pad[4]; }        Env_S40_8018B238;   /* 0x14 stride */
-typedef struct { s16 v; }                      Flag_S40_8018B238;  /* 0x02 stride */
+   /* 0x14 stride */
+  /* 0x02 stride */
 
-typedef struct Panel_S40_8018B238 {
-    s16   f0;    /* 0x00 */
-    s16   f2;    /* 0x02 */
-    void *f4;    /* 0x04 */
-    void *f8;    /* 0x08 */
-    s16   fC;    /* 0x0C */
-    s16   fE;    /* 0x0E */
-    s16   f10;   /* 0x10 */
-    s16   f12;   /* 0x12 */
-    void *f14;   /* 0x14 */
-    void *f18;   /* 0x18 */
-    void *f1C;   /* 0x1C */
-} Panel_S40_8018B238;                                              /* 0x20 stride */
+                                              /* 0x20 stride */
 
 
 

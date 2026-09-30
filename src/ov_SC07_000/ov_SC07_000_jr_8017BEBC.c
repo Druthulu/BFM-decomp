@@ -3787,7 +3787,6 @@ void func_8017E804(s32 *a0, s32 a1, s32 a2) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV3_8017E830;
 
 extern s16 D_80186248;
 extern s16 D_8018624A;

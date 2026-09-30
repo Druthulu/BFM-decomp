@@ -3515,9 +3515,6 @@ void func_801809D4(void *a0) {
  * D_80126B58 :55).
  */
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_80180A10;
 
 extern s32 ratan2(s32 a0, s32 a1);
 extern u16 func_80148800(s32 *a0);
@@ -3566,34 +3563,6 @@ void func_80180A10(s32 a0) {
 }
 
 
-typedef struct {
-    u8 pad0[8];
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-    s32 unk14;
-    u16 unk18;
-    u16 unk1A;
-    u16 unk1C;
-    u8 pad1E[2];
-    u16 unk20;
-    u16 unk22;
-    u16 unk24;
-    u8 pad26[2];
-    s16 unk28;
-    s16 unk2A;
-    s16 unk2C;
-    s16 unk2E;
-    s16 unk30;
-    s16 unk32;
-    u8 pad34[8];
-    s32 unk3C;
-    s32 unk40;
-    s32 unk44;
-    s32 unk48;
-    s32 unk4C;
-    s32 unk50;
-} S;
 
 void func_80180B80(S* arg0, s16* arg1, u16 arg2) {
     s16 sp0x10[16];
@@ -3963,18 +3932,8 @@ extern void func_80181574(s16 *arg0, s32 arg1, s32 arg2);
 #ifndef gte_stsxy3
 #endif
 
-typedef struct { s16 vx, vy, vz, pad; } SV_80181574;
-typedef struct { u16 vx, vy, vz, pad; } SXY_80181574;
-typedef struct { u16 u, v; } UV_80181574;
-typedef struct {
-    SV_80181574 v[4];  /* 0x00 */
-    UV_80181574 uv[4]; /* 0x20 */
-    u32 rgb[4];        /* 0x30 */
-    u32 flags;         /* 0x40 */
-    u8  clut;          /* 0x44 */
-} Desc_80181574;       /* 0x48 */
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_80181574;  /* 0x20 */
-typedef struct { u16 f0, f1, f2, f3; } Tbl_80181574;
+       /* 0x48 */
+  /* 0x20 */
 
 extern void func_80017D98(void *a0);
 extern void func_80017E8C(s32 a0);
@@ -5106,10 +5065,6 @@ extern u8 *func_8012913C(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void func_801292C8(u8 *a0);
 
-typedef struct {
-    u16 x, y, z;
-    u8 flag;
-} V8_80187968_80183280;
 
 void func_80183280(s32 a0) {
     u32 v0;
@@ -5428,13 +5383,6 @@ void func_801839EC(void *a0) {
 
 
     
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974_8017BA3C;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016B6BC;
 
 
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);

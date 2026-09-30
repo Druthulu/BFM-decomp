@@ -6056,9 +6056,6 @@ void func_80181A4C(void)
 /* §246-2: every parallel global spelled as an array of one 0x50-byte record type so
  * gcc fuses all their address computations onto ONE scaled-offset giv. §200 aliases
  * keep the TU's own `extern s32 D_801EDA4C[]` spellings untouched. */
-typedef struct { u32 addr:24; u32 len:8; } PTag_80181E04;
-typedef struct { s32 v; u8 pad[0x4C]; } W50_80181E04;
-typedef struct { u16 h; u8 pad[0x4E]; } H50_80181E04;
 
 extern W50_80181E04 wD801EDA44[] __asm__("D_801EDA44");
 extern W50_80181E04 wD801EDA48[] __asm__("D_801EDA48");
@@ -6225,13 +6222,6 @@ extern s32 aD_801EDA34 __asm__("D_801EDA34");
    purpose: gcc-2.7.2's alias oracle (alias.c true_/output_dependence) disambiguates a
    MEM_IN_STRUCT_P + varying-address reference against a fixed-address non-struct global, which
    is what lets the `D_801F3044` store schedule up into the `lhu` shadow, ahead of the `sh 0xC`. */
-typedef struct {
-    s32 unk0;   /* 0x0 */
-    u32 unk4;   /* 0x4 */
-    u16 unk8;   /* 0x8 */
-    u16 unkA;   /* 0xA */
-    u16 unkC;   /* 0xC */
-} Obj_80182284;
 
 s32 func_80182284(void) {
     s32 i;
@@ -6351,7 +6341,6 @@ s32 func_80182284(void) {
  * its `void func_8001D074(s32,s32)` prototype stay untouched.
  */
 
-typedef struct { u8 d[4]; } Blk4_801EC660;
 
 extern u32 aD801F2A44[][19] __asm__("D_801F2A44");
 extern u32 aD801F2A48[][19] __asm__("D_801F2A48");

@@ -3399,7 +3399,6 @@ extern u16 func_80148800(s32 *a0);
 extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8017F9AC(s32 param_1, s16 *param_2);
 
-typedef struct { s16 v[4]; } Blk8_80126940_8017F608;
 
 void func_8017F608(void *arg0) {
     extern s32 D_80126B58;
@@ -3799,11 +3798,6 @@ s32 func_8017FFC8(void) {
 
 
 
-    typedef struct { u8 b[8]; } Blk8_80180040;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180040;
 
 /* Sibling shape in the SAME TU: func_80182244 (already banked, line ~3980)
  * uses the identical idiom for the same actor kind: void *a0, raw
@@ -3948,22 +3942,11 @@ s32 func_8018030C(u8 *a0)
 
 
 /* 8-byte, align-4 pair record: the per-index slot pair at D_801D30D8/D_801D30DC */
-typedef struct {
-    s32 a;      /* 0x00 -> D_801D30D8 */
-    s32 b;      /* 0x04 -> D_801D30DC */
-} Pair8_8017DDC4_8018034C;
 
 /* 8-byte, align-2 record: forces move_by_pieces onto the lwl/lwr + swl/swr
  * unaligned block-move path (cookbook §48-C2) for the 0x10..0x18 copy. */
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_8018034C;
 
 /* 16-byte stride table indexed by *(s16*)(obj+0x70) */
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_8018034C;
 
 
 extern void func_8012C1B8(void);
@@ -4220,18 +4203,11 @@ void func_80180930(void) {
 }
 
 
-    typedef struct { u8 b[8]; } Blk8_80180970;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80180970;
 
 /* stride-8 tables, only the field-0 short of each record is ever read by
  * this function; each is a SEPARATE relocation symbol in the target .s
  * (D_801A4D0C/672/674/676 are 2/4/6/8 bytes apart but referenced as four
  * independently-based arrays, never as one array + constant offset). */
-typedef struct { u16 v; u16 pad[3]; } Stride8_u16_80182868_80180970;
-typedef struct { s16 v; s16 pad[3]; } Stride8_s16_80182868_80180970;
 
 void func_80180970(void *a0)
 {
@@ -4940,14 +4916,6 @@ void func_801817B8(void *arg0)
 }
 
 
-    typedef struct { u8 b[8]; } Blk8_80181824;
-    typedef struct {
-        u8 c[8];
-    } Blk8_80186594_80181824;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_80181824;
 
 /* Declarations copied VERBATIM from the destination TU
  * (src/ov_SC02_027/ov_SC02_027_jr_8017D898.c):
@@ -5284,7 +5252,6 @@ extern s32 func_8012AD50(void *a0);
  * matches the sibling idiom at ov_SC02_005:func_8018CE04). */
 /* 4-byte, align-4 unaligned block: forces lwl/lwr + swl/swr (cookbook §48-C2 /
  * matches the sibling idiom at ov_SC02_005:func_8018CE04). */
-typedef struct { u8 b[4]; } Blk4_80181EDC;
 
 extern u8 D_801A4E3C;
 extern u8 D_801A4E70;
@@ -5477,8 +5444,6 @@ void func_80182060(void *a0)
 extern s32 rand(void);
 extern void func_80183AA0(void *a0, void *a1, void *a2);
 
-typedef struct { u8 b[4]; } Blk4_80182194;
-typedef struct { u16 f00, f02, f04, f06; } Args_80182194;
 
 extern Blk4_80182194 D_801D1A94;
 extern Blk4_80182194 D_801D1A98;
@@ -5620,17 +5585,6 @@ s32 func_80182438(s32 a0) {
  * then a trailing s32 "extra" field copied out of *(a0+0xDC). §193-I: this aggregate's frame
  * slot rounds up to 24 (ceil(20,8)), which is exactly the 4-byte gap between it and `vec`
  * below in the target's stack layout (sp+0x24-0x27 unused). */
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 type;
-    s16 sub;
-    s16 pad1;
-    s16 flag;
-    s16 pad2;
-    s32 extra;
-} Msg_8018248C;
 
 extern void RotMatrixY(s32 a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);

@@ -6332,8 +6332,6 @@ void func_80181378(s32 param_1)
  * therefore already has the real MATRIX/SVECTOR in scope; these local names exist ONLY to let this
  * file compile standalone under match_one and carry zero risk of colliding with the host's globals
  * at integration time). Layout: m[3][3] (18B) + 2B pad + t[3] s32 (12B) = 0x20; vx/vy/vz/pad s16 = 8B. */
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_8017D5C8_801814E4;
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8017D5C8_801814E4;
 
 extern u16 func_80148800(s32 *a0);
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
@@ -6554,7 +6552,6 @@ void func_80181A44(void) {
 }
 
 
-typedef struct { s32 w[8]; } Copy32;
 
 extern s16 D_80126CB4;
 
@@ -6614,7 +6611,6 @@ void func_80181BB4(void *a0) {
 }
 
 
-typedef struct { u8 c[4]; } W4;
 
 extern s32 func_80181EF0(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -6705,18 +6701,8 @@ void func_80181DEC(s16 *param_1) {
 
 extern void func_80016A3C(void *a0);
 
-typedef struct { u8 c[4]; } W4_80181E88;
 
-typedef struct {
-    W4_80181E88 f00;   /* 0x00 */
-    u16 f04;           /* 0x04 */
-    u16 f06;           /* 0x06 */
-    W4_80181E88 f08;   /* 0x08 */
-    u32 f0c;           /* 0x0c */
-    u32 f10;           /* 0x10 */
-    u32 f14;           /* 0x14 */
-    u32 f18;           /* 0x18 */
-} Prim_80181E88;       /* 0x1c */
+       /* 0x1c */
 
 void func_80181E88(void *a0) {
     Prim_80181E88 p;
@@ -7047,7 +7033,6 @@ ret0:
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 
-typedef struct { u16 x, y, z, w; } Vec8_80182674;
 
 void func_80182674(s32 a0, s16 *vec, s32 count, s32 flag) {
     s32 i;
@@ -7092,12 +7077,6 @@ void func_80182674(s32 a0, s16 *vec, s32 count, s32 flag) {
 }
 
 
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-} Spawn8_80182848;
 
 void func_80182848(void *a0, u8 *a1, s32 a2, s32 a3, s32 a4) {
     Spawn8_80182848 sp;
@@ -7957,12 +7936,6 @@ void func_80183D84(void *a0) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80183DC0;
 extern void func_8012931C(struct vec *a0);
 extern void func_801292C8(u8 *a0);
 extern s32 func_8012EFB8(void *param_1, void *param_2);   /* TU spelling (line 329) — cast at use */

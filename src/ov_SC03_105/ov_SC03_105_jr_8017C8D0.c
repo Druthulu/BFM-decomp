@@ -2730,27 +2730,9 @@ void func_8017D7B0(void *a0) {
 
 extern s32 rand(void);
 
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8_8017D7EC; /* 0x1C */
+ /* 0x1C */
 
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8_8017D7EC subs[16];
-} GroupRec_801EB5C8_8017D7EC; /* 0x1D0 */
+ /* 0x1D0 */
 
 
 void func_8017D7EC(s32 param_1)
@@ -3658,17 +3640,6 @@ extern s32 func_8017F018(s32 a0);
 extern void func_8017F0C8(s32 a0, s32 a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-typedef struct {
-    u16 f0;
-    u16 f1;
-    u16 f2;
-    u16 f3;
-    u16 f4;
-    u16 f5;
-    u16 f6;
-    u16 f7;
-    s32 f8;
-} Local_8017EE34;
 
 void func_8017EE34(s32 a0) {
     s32 s0 = a0;
@@ -3872,7 +3843,6 @@ extern u8  D_8018E158[];   /* 12-byte-stride table indexed by ((0x70 & 0xFF0) >>
 
 /* the func_8012F14C in/out vectors are read back with `lhu`, so u16 fields (an SVECTOR's
  * s16 vx would emit `lh` and miss by 3 instructions) */
-typedef struct { u16 vx, vy, vz, pad; } UVEC_8017F234;
 
 void func_8017F234(s32 a0) {
     s32 m1[8];                          /* MATRIX-sized scratch at sp+0x10 */
@@ -3958,7 +3928,6 @@ extern s32  func_80047948(s32 a0);
 extern s32  func_8017FA90(s32 a0, s16 a1, s32 a2);
 extern void func_8017FAE8(s32 a0);
 
-typedef struct { u16 vx, vy, vz, pad; } UVEC_8017F55C;
 
 void func_8017F55C(s32 a0) {
     s32 m1[8];
@@ -4173,7 +4142,6 @@ s32 func_8017FA90(s32 a0, s16 a1, s32 a2) {
 extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_8017FAE8;
 
 void func_8017FAE8(s32 a0) {
     SVec_8017FAE8 pos;
@@ -4774,7 +4742,6 @@ extern s32 D_801BA5A0;
 extern s32 D_801BA5A2;
 extern u8  D_801BA6B0;
 
-typedef struct { u8 pad34[0x34]; u16 st; } Ent34;
 
 void func_801806F8(s32 a0)
 {
@@ -4936,17 +4903,6 @@ extern u8 D_8018E61C[];
 extern u8 D_8018E7E0[];
 extern u8 D_8018E7C0[];
 
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-    s16 f4;
-    s16 f5;
-    s16 f6;
-    s16 f7;
-    s32 f8;
-} Local_80180ABC;
 
 
 /* Only the +0xE0 flag word needs a STRUCT spelling (cookbook 439 row 1): the sb to the
@@ -4954,7 +4910,6 @@ typedef struct {
  * MEM_IN_STRUCT_P is what lets true_dependence declare them non-conflicting.  Written as
  * `*(s32 *)(s1 + 0xE0)` the load stays pinned BELOW the sb (4 rows off).  Every other
  * object access keeps the TU's cast house style -- measured inert, both ways. */
-typedef struct { u8 p[0xE0]; s32 xE0; } ObjE0_80180ABC;
 
 void func_80180ABC(s32 a0)
 {

@@ -9,20 +9,10 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { short m[3][3]; long t[3]; } Mtx_8017E3F0;   /* 0x20; .t @ +0x14 */
-typedef struct { short vx, vy, vz, pad; } Sv_8017E3F0;       /* 0x08 */
-typedef struct { s32 w[8]; } Blk32_8017ECD4;
-typedef struct { s32 w[4]; } Blk16_8017ECD4;
-typedef struct { u16 f0, f2, f4; s16 f6; } Rec_8017ECD4;
-typedef struct {
-    /* 0x0 */ u16 x;
-    /* 0x2 */ u16 y;
-    /* 0x4 */ u16 z;
-    /* 0x6 */ u16 w;
-} Vec4h_8017F14C;
-typedef struct { s32 w[8]; } Mtx_8017F370;         /* 0x20 */
-typedef struct { s32 f0, f4, f8; } Vec12_8017F370; /* 0x0C */
-typedef struct { u32 w0; u32 w1; } __attribute__((packed, aligned(1))) Blk8_801800F8;
+   /* 0x20; .t @ +0x14 */
+       /* 0x08 */
+         /* 0x20 */
+ /* 0x0C */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;

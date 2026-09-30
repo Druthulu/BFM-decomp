@@ -6259,7 +6259,6 @@ s32 func_80180CC8(void *arg0)
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SV3_80180D48;
 
 void func_80180D48(void)
 {

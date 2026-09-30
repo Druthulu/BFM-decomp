@@ -3059,7 +3059,6 @@ void func_8017D560(s32 a0) {
 }
 
 
-typedef struct { u8 b[4]; } Blk4_8017D5DC;
 
 extern void func_8001D074(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);

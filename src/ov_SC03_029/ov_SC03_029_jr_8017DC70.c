@@ -3498,9 +3498,6 @@ extern s16 D_8012697A;
 extern s16 D_80126940;
 extern s16 D_801274E8;
 
-struct UShortBlk_F4C4 {
-    s16 x0, x1, x2, x3;
-};
 
 void func_8017F4C4(void) {
     D_80126954 = 0x190;
@@ -3533,9 +3530,6 @@ extern s16 D_8012697A;
 extern s16 D_80126940;
 extern s16 D_801274E8;
 
-typedef struct {
-    s16 x0, x1, x2, x3;
-} UnalignedShortBlock;
 
 void func_8017F590(void) {
     D_80126954 = 0x190;
@@ -3594,9 +3588,6 @@ void func_8017F724(void *a0) {
 
 #include "common.h"
 
-typedef struct {
-    s16 x0, x1, x2, x3;
-} UShortBlk_F760;
 
 extern s16 D_801D8028;
 extern s32 D_80126B58;

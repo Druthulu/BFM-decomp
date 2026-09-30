@@ -33,6 +33,39 @@ def norm(body):
     return re.sub(r"\s+", " ", body.strip())
 
 
+def brace_depths(text, offsets):
+    """{offset: brace depth} over the comment-blanked text. A def at depth > 0 is BLOCK-scope (a
+    function-local typedef/struct): it is not a fleet type — two functions may legally define the
+    same name differently, and one may reference another block-local type (T5: `Locs` lifted while
+    its member type `Blk8L` stayed local -> parse error in every TU)."""
+    b = bet.blank_comments(text)
+    out, want = {}, sorted(set(offsets))
+    depth, wi = 0, 0
+    for m in re.finditer(r"[{}]", b):
+        while wi < len(want) and want[wi] <= m.start():
+            out[want[wi]] = depth
+            wi += 1
+        depth += 1 if m.group() == "{" else -1
+    for o in want[wi:]:
+        out[o] = depth
+    return out
+
+
+def declares_object(raw):
+    """True when a struct/union def also DECLARES an object: `struct T {...} var;`. Lifting it would
+    define the variable in every TU and stripping it deletes the TU's variable (T5: Ctr34)."""
+    tail = raw[raw.rfind("}") + 1:]
+    tail = re.sub(r"__attribute__\s*\(\(.*\)\)", "", tail, flags=re.S)
+    return tail.strip() not in ("", ";")
+
+
+def common_typedefs():
+    """Typedef names include/common.h already provides (u8/s32/...): never lifted — engine_types.h
+    includes common.h, so a second typedef is a redefinition error."""
+    return {n for n, _b, _s, _e in bet.find_typedefs(
+        bet.blank_comments(open(os.path.join(REPO, "include/common.h")).read()))}
+
+
 def scan(names=None):
     """Return (hits, carried_tags).  names=None collects EVERY type (the --candidates sweep).
          hits          {(kind, name): {norm_def: {file: [(s, e, raw), ...]}}}
@@ -55,10 +88,16 @@ def scan(names=None):
                   f"def/typedef overlap(s), skipped: {[d[1] for d in partial[:3]]}")
         for _kind, tag, alias in carried:
             carried_tags[tag].add(alias)
+        # file scope only (the lift's contract): block-scope defs and object-declaring defs never enter
+        depth = brace_depths(text, [s for _n, _b, s, _e in tdefs] + [s for _k, _n, s, _e in defs])
         for name, _body, s, e in tdefs:
+            if depth[s]:
+                continue
             if names is None or name in names:
                 hits[("typedef", name)][norm(text[s:e])][f].append((s, e, text[s:e]))
         for kind, name, s, e in defs:
+            if depth[s] or declares_object(text[s:e]):
+                continue
             if names is None or name in names:
                 hits[(kind, name)][norm(text[s:e])][f].append((s, e, text[s:e]))
     return hits, carried_tags
@@ -133,6 +172,21 @@ def main():
         ap.error("--types is required (or use --candidates to derive it)")
     names = set(t.strip() for t in args.types.split(",") if t.strip())
     names -= set(t.strip() for t in args.exclude.split(",") if t.strip())
+    provided = names & common_typedefs()
+    if provided:
+        print(f"  SKIP (include/common.h provides): {', '.join(sorted(provided))}")
+        names -= provided
+    # an overlay-LOCAL header (src/ov_*/*.h, src/md_*/*.h) that defines the same name collides with
+    # the lifted copy in every TU including both (T5: ov_SC02_005_shared.h -> `conflicting types`)
+    in_local_h = collections.defaultdict(set)
+    for h in sorted(glob.glob(os.path.join(REPO, "src/ov_*/*.h")) + glob.glob(os.path.join(REPO, "src/md_*/*.h"))):
+        d, t, _c, _p = bet.resolve_type_defs(open(h).read())
+        for n in {n for _k, n, _s, _e in d} | {n for n, _b, _s, _e in t}:
+            if n in names:
+                in_local_h[n].add(os.path.relpath(h, REPO))
+    for n, hs in sorted(in_local_h.items()):
+        print(f"  SKIP {n}: also defined in overlay-local header {', '.join(sorted(hs))}")
+    names -= set(in_local_h)
 
     hits, carried_tags = scan(names)
     # what the header ALREADY defines — derived by parsing it, not guessed by a regex (R33)

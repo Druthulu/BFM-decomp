@@ -3569,7 +3569,6 @@ extern void func_80181C78(int param_1, short *param_2, short *param_3);
 extern s32 D_80126B58;
 extern s16 D_8018DDF4[];
 
-typedef struct { s16 v[4]; } Blk8_80126940_80181B44;
 
 void func_80181B44(s32 a0) {
     extern Blk8_80126940_80181B44 D_80126940;

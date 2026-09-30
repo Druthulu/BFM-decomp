@@ -1,39 +1,6 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-typedef struct {
-    /* 0x00 */ s16 a30;
-    /* 0x02 */ s16 a2e;
-    /* 0x04 */ s16 a2c;
-    /* 0x06 */ s16 pad06;
-    /* 0x08 */ s32 buf[2];
-    /* 0x10 */ s16 a20;
-    /* 0x12 */ s16 a1e;
-    /* 0x14 */ s16 a1c;
-} Loc_8014A048;
-typedef struct {
-    u16 f0, f2, f4;
-    s16 f6;
-} Blk801539F8;
-typedef struct {
-    u16 f00;
-    u16 f02;
-    u16 f04;
-    u16 pad06;
-    u16 f08;
-    u16 f0A;
-    u16 f0C;
-    u16 pad0E;
-    u8  f10;
-    u8  f11;
-    u8  f12;
-    u8  pad13;
-    u8  f14;
-    u8  f15;
-    u8  f16;
-    u8  pad17;
-    u32 f18;
-} S1_80168F40;
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);

@@ -5110,8 +5110,6 @@ void func_8018396C(s32 a0) {
 }
 
 
-typedef struct { short vx, vy, vz, pad; } SV_801851A8_801839C4;
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4;
 
 extern void func_8013B7AC(s32 a0);
 extern s32 func_8012BD14(s32 a0);
@@ -5447,7 +5445,6 @@ void func_801840C0(s32 a0) {
 }
 
 
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8;
 
 /* func_801841A4 — ov_SC03_089 (ov_SC03_089_jr_8017CA80), 154 ins, jtbl_801C53E4 (5 entries,
  * minval 0 / maxval 4 — `lhu` + `sltiu 5`, so the switch expression is UNSIGNED and neither
@@ -5952,8 +5949,6 @@ void func_80184A58(s32 param_1)
 
 #include "common.h"
 
-typedef struct { s16 a, b, c; } SV3x_80184B30;
-typedef struct { s16 a, b, c, d; } SV4x_80184B30;
 
 extern s32 D_801A3040;
 extern void func_8012B23C(void *a0);
@@ -5999,10 +5994,6 @@ void func_80184B30(void *a0)
 
 /* Packed struct to trigger lwl/lwr unaligned block copy (same idiom as the
  * banked twin ov_SC02_011:func_8018754C's BlockData). */
-typedef struct {
-    u32 field0;
-    u32 field1;
-} __attribute__((packed, aligned(1))) Block8_80184C74;
 
 extern Block8_80184C74 D_801CA864;
 /* Canonical shared engine-core spelling (return read via call-site cast,
@@ -6114,10 +6105,6 @@ s32 arg0;
  *     stolen `lui $v1,0x7fff` in the slot — 7 wrong instructions. Pin-free.
  */
 
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_80184E84;
-typedef struct { short vx, vy, vz, pad; } SV_801851A8_80184E84;
-typedef struct { long vx, vy, vz, pad; } LV_801851A8_80184E84;
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_801851A8_80184E84;
 
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
@@ -7253,13 +7240,6 @@ void func_80186874(s32 arg0, s32 arg1) {
 
 
 extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_80186944;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_80186944;
 
 /* func_80186944 -- ov_SC02_026 / ov_SC02_026_jr_8017C180
  * Same TU declares this at line 4712 (extern void func_80186944(s32 a0);) and
@@ -7570,17 +7550,6 @@ void func_80186FF8(s32 arg0) {
 }
 
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 type;
-    u16 sub;
-    s16 pad1;
-    s16 flag;
-    s16 pad2;
-    s32 extra;
-} Msg_80187050;
 
 extern void func_80187318(s32 a0);
 extern void func_801292C8(u8 *a0);
@@ -7899,9 +7868,6 @@ void func_80187598(s32 a0)
  * (%hi+%lo -> $a1) / func_8012B70C x2 / func_80187D70 / func_80187CBC.
  */
 
-typedef struct { short vx, vy, vz, pad; } SV_801875E4;
-typedef struct { short m[3][3]; long t[3]; } MTX_801875E4;
-typedef struct { s32 vx, vy, vz; } V32_801875E4;
 
 extern void func_80187B44(s32 a0, s32 a1);
 extern void func_80187C64(s32 a0, s32 a1);
@@ -8220,8 +8186,6 @@ s32 a1;
 }
 
 
-typedef struct { short m[3][3]; long t[3]; } MTX_80187C64;
-typedef struct { s32 vx, vy, vz; } V32_80187C64;
 
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);

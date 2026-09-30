@@ -2889,9 +2889,6 @@ void func_8017DB58(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017DB94;
 
 void func_8017DB94(s32 a0) {
 

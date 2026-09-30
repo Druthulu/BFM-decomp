@@ -2895,9 +2895,6 @@ void func_8017D170(void *a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D1AC;
 
 void func_8017D1AC(s32 a0) {
 

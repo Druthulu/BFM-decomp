@@ -4744,7 +4744,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void func_80184938(s32 a0, s32 a1);
 
 
-typedef struct { s16 x, y, z, w; } V8_80184F90;
 
 extern V8_80184F90 D_801C5E68[];
 extern V8_80184F90 D_801C5E88[];
@@ -4844,10 +4843,6 @@ s32 func_80184F90(s32 a0) {
 }
 
 
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_801815C4_80185344;
 
 /* func_80185344 (ov_SC03_094, jr_8017BEBC TU) — fresh crack from the target .s.
  *
@@ -4858,7 +4853,6 @@ typedef struct {
  * 0x4004 grids and func_8017EC9C's table-driven variant of the same idiom).
  */
 
-typedef struct { s16 x, y, z, w; } V8_8018487C_80185344;
 
 extern void func_8012CBCC(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);

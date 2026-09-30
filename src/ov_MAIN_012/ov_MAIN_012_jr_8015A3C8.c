@@ -8241,25 +8241,6 @@ void func_80168D94(int a0) {
 
 
 
-typedef struct {
-    u16 f00;
-    u16 f02;
-    u16 f04;
-    u16 pad06;
-    u16 f08;
-    u16 f0A;
-    u16 f0C;
-    u16 pad0E;
-    u8  f10;
-    u8  f11;
-    u8  f12;
-    u8  pad13;
-    u8  f14;
-    u8  f15;
-    u8  f16;
-    u8  pad17;
-    u32 f18;
-} S1_80168F40;
 
 extern s32 func_80016A5C();
 

@@ -2954,8 +2954,6 @@ void func_8017EB34(s32 a0) {
 
 /* §41a-4 / §203: the ambient Blk8 (engine_types) and the TU's own file-scope Blk4
  * (below the splice point) both collide with a plain spelling -> address-suffixed. */
-typedef struct { u8 b[4]; } Blk4_8017EBCC;
-typedef struct { u8 b[8]; } Blk8_8017EBCC;
 
 extern void (*D_801885FC)(void);
 extern s16 D_801885FE[];
@@ -3000,7 +2998,6 @@ void func_8017EBCC(s32 a0)
 }
 
 
-typedef void (*Fn8017ECC4)(void);
 
 extern void func_80181A30(s16 *arg0);
 
@@ -3411,9 +3408,6 @@ void func_8017F750(void *a0) {
 }
 
 
-typedef struct {
-    u16 x, y, z, w;
-} Vec4h_F78C;
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 extern u16 D_801887A8;
@@ -3869,38 +3863,15 @@ extern void func_8001739C(void *a0);
 
 
 
-typedef struct {
-    s16 x;      /* +0x0 */
-    s16 y;      /* +0x2 */
-    s16 c;      /* +0x4 */
-    s16 pad;    /* +0x6 */
-} Vtx_8018012C;                     /* 0x08 */
+                     /* 0x08 */
 
-typedef struct {
-    Vtx_8018012C v[3];              /* +0x00 +0x08 +0x10 */
-    u8 r0, g0, b0, code;            /* +0x18 .. +0x1B */
-    u8 r1, g1, b1, pad1;            /* +0x1C .. +0x1F */
-    u8 r2, g2, b2, pad2;            /* +0x20 .. +0x23 */
-    u32 color;                      /* +0x24 */
-} Prim_8018012C;                    /* 0x28 */
+                    /* 0x28 */
 
-typedef struct {
-    u16 x;      /* +0x0 */
-    u16 y;      /* +0x2 */
-    u16 z;      /* +0x4 */
-} Pos_8018012C;                     /* 0x06 -> 8-byte frame stride */
+                     /* 0x06 -> 8-byte frame stride */
 
-typedef struct {
-    u16 vx;     /* +0x0 */
-    u16 vy;     /* +0x2 */
-    u16 vz;     /* +0x4 */
-    u16 pad;    /* +0x6 */
-} Sxy_8018012C;                     /* 0x08 */
+                     /* 0x08 */
 
-typedef struct {
-    s16 m[3][3];                    /* +0x00, padded to 0x14 */
-    s32 t[3];                       /* +0x14 +0x18 +0x1C */
-} Mtx_8018012C;                     /* 0x20 */
+                     /* 0x20 */
 
 void func_8018012C(s32 arg0)
 {
@@ -4890,8 +4861,7 @@ void func_801819C4(void *a0) {
  * do not collide with any name in the TU.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_1A30;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_1A30;   /* 0x20 bytes */
+   /* 0x20 bytes */
 
 void func_80181A30(s16 *arg0)
 {

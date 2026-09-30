@@ -1,25 +1,6 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-typedef struct {
-    u16 f00;
-    u16 f02;
-    u16 f04;
-    u16 pad06;
-    u16 f08;
-    u16 f0A;
-    u16 f0C;
-    u16 pad0E;
-    u8  f10;
-    u8  f11;
-    u8  f12;
-    u8  pad13;
-    u8  f14;
-    u8  f15;
-    u8  f16;
-    u8  pad17;
-    u32 f18;
-} S1_80168F40;
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -2971,12 +2952,6 @@ LOOP:
 }
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016B6BC;
 
 // @class: schedule
 // @unstuck(P36): none — MATCH (94/94 ins, match_one relocation-masked)
@@ -3098,12 +3073,6 @@ int func_8016B834(int param_1, int param_2) {
 #include "../shared/ov/func_8016B984.h"
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016B9F8;
 
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (result is func_8012EFB8's return saved in $s0 across the func_80015954 call; the save-move fills the 2nd call's delay slot. func_80015954's return is discarded.)
@@ -3451,12 +3420,6 @@ void func_8016C188(s32 param)
 }
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016C2C4;
 
 // @class: schedule
 // @unstuck(P36): none — MATCH (44 ins; pins $s0/$s1 + hoist call-arg into a temp so its load fills the buf-store delay slot)
@@ -3672,12 +3635,6 @@ void func_8016CB84(void *a0) {
 }
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016CBC0;
 
 extern s32 func_80017758(void *a0, void *a1);
 short func_8016CBC0(void)
@@ -4598,12 +4555,6 @@ void func_8016EAC0(Wave *param_1)
 }
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016EB3C;
 
 // @class: loose-typing
 // @unstuck(P36): none — MATCH (u8 v + 0xFF emits addiu 0xFF; v-1 would emit -1/0xffff)
@@ -4650,12 +4601,6 @@ void func_8016EBA8(u8 *param_1)
 }
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016EC0C;
 
 extern void func_80017B98(void *a0);
 
@@ -4785,12 +4730,6 @@ void func_8016ED6C(void) {
 #include "../shared/ov/func_8016F1AC.h"
 
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016F1C4;
 
 // @class: schedule
 // @unstuck(P36): none — MATCH

@@ -6347,8 +6347,6 @@ extern s32 func_80181228();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
  * scratch dir. These local names exist ONLY to let this file compile standalone under
  * match_one; the host TU already includes engine_core.h and has the real MATRIX/SVECTOR types.
  * Layout: m[3][3] (18B) + 2B pad + t[3] s32 (12B) = 0x20; vx/vy/vz/pad s16 = 8B. */
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_80181228;
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_80181228;
 
 extern s32 D_80126B58;
 extern s16 D_80190814[];
@@ -6582,12 +6580,6 @@ void func_8018189C(void *a0) {
 
 #include "common.h"
 
-typedef struct {
-    /* 0x0 */ u16 x;
-    /* 0x2 */ u16 y;
-    /* 0x4 */ u16 z;
-    /* 0x6 */ u16 w;
-} Vec4h_801818D8;
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 
@@ -6976,16 +6968,6 @@ void func_80181FC4(void *arg0) {
    Statement order `q = &prim;` then `vz = 3;` is what puts the `li` after
    `sw $s0` / `addiu $s0,$sp,0x10`; swapping them costs 3 instructions. */
 
-typedef struct {
-    s16 v[4][4];
-    s16 t[4][2];
-    s32 f30;
-    s32 f34;
-    s32 f38;
-    s32 f3C;
-    s32 f40;
-    u8 f44;
-} Prim_80182080;
 
 extern void func_800178EC(s32 a0);
 
@@ -10516,19 +10498,11 @@ extern s32 func_80047948(s32 a0);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012B414(int a0);
 extern void func_8012C218(void *a0);
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C_801869CC;
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_801869CC;
 
-typedef struct { s16 vx, vy, vz, pad; } SVec8_8018E8A0_801869CC;          /* 0x08 */
-typedef struct { s32 vx, vy, vz, pad; } Vec16_8018E8A0_801869CC;          /* 0x10 */
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } Mtx_8018E8A0_801869CC; /* 0x20 */
-typedef struct { s16 f[0x86]; } Cnt_8018E8A0_801869CC;
-typedef struct {
-    SVec8_8018E8A0_801869CC v[4];   /* 0x00 */
-    u32            c[4];   /* 0x20 */
-    s32            code;   /* 0x30 */
-    s32            pad;    /* 0x34 */
-} Prim_8018E8A0_801869CC;           /* 0x38 */
+          /* 0x08 */
+          /* 0x10 */
+ /* 0x20 */
+           /* 0x38 */
 
 void func_801869CC(void *a0)
 {
@@ -11279,7 +11253,6 @@ void func_801879C4(void *a0) {
 }
 
 
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_80184FF0_80187A9C;
 
 
 extern s32  func_80047D3C(s32 a0);
@@ -11551,9 +11524,7 @@ void func_801880A8(s32 param_1) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVec8_8018E8A0_80184FF0_80188134;          /* 0x08 */
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_80184FF0_80188134;
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C_80184FF0_80188134;
+          /* 0x08 */
 
 /* ov_SC03_029 :: func_80188134 (0x80186758, 183 ins)
  *
@@ -12070,8 +12041,6 @@ s32 func_80188A94(s32 a0) {
 /* match_one's standalone common.h does not reach src/shared/engine_types.h, where the
  * real TU's Blk20 { s32 w[8]; } and Vec32 { s32 vx, vy, vz, pad; } live. Local copies here;
  * integrator may drop these and reuse the TU's own (engine_types.h:472, :1098). */
-typedef struct { s32 w[8]; } Blk20_80188AF4;
-typedef struct { s32 vx, vy, vz, pad; } Vec32_80188AF4;
 
 void func_80188AF4(s32 a0, s32 a1) {
     extern s32  func_8012B864(s32 a0);
@@ -12382,12 +12351,6 @@ void func_80189194(s32 a0)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801891DC;
 
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
@@ -13402,7 +13365,6 @@ s32 func_8018A698(s32 a0) {
 
 
     
-typedef struct { s16 a, b, c; } SV3_80184C98;
 
 /* func_8018A6F4 -- same-class neighbour push-away over the 0x60-entry /
  * 0x10C-stride entity table D_801202A0. Banked twin: ov_SC06_018:func_80187320

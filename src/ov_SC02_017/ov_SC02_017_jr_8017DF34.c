@@ -4158,12 +4158,6 @@ extern s32 D_8018E338[];
  * a0+0xFC is actually 4-aligned at runtime -- codegen goes off the type's
  * declared alignment, not the runtime address; cookbook §48-C2). Same
  * pattern as ov_SC03_029:func_80182744's Rec80182744. */
-struct Rec801806C8_s {
-    s32 f0;
-    s32 f1;
-    s32 f2;
-} __attribute__((packed, aligned(1)));
-typedef struct Rec801806C8_s Rec801806C8;
 extern Rec801806C8 D_8018E344[];
 
 void func_801806C8(void *a0) {
@@ -4204,9 +4198,6 @@ extern s32 func_8018096C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
 extern void func_8012B2CC(s32 a0);
 extern Rec801806C8 D_8018E344[];
 
-typedef struct {
-    u16 x, y, z, w;
-} Blk8_801807DC;
 
 void func_801807DC(int param_1)
 {
@@ -5248,8 +5239,6 @@ s32 func_80181E98_impl(void *arg)
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV_8018209C;
-typedef struct { s16 x, y; s32 flag; } RES_8018209C;
 
 
 extern u8 D_800AF648;
@@ -5545,7 +5534,6 @@ extern s32 func_8018287C();  // K&R: 0/1 of 1 args (P37 rung D t4_D1)
     }
 
 
-typedef struct { u8 b[8]; } Blk8_801827C4;
 
 extern Blk8_801827C4 D_801EE3F4;
 extern u16 D_800B99DA;
@@ -5580,8 +5568,6 @@ void func_80182844(s32 a0) {
 }
 
 
-typedef struct { s16 a, b, c; } SV3_8018287C;
-typedef struct { s32 w[8]; } Blk32_8018287C;
 
 extern u8 D_8018E61C[];
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
@@ -5606,8 +5592,6 @@ s32 func_8018287C(void *param_1)
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80182938;
-typedef struct { s16 a, b, c; } SV3_80182938;
 
 extern s32 *D_80126B78;
 extern u8 D_8018E61C[];
@@ -6927,7 +6911,6 @@ void func_801846B8(void *arg0)
  * ov_SC03_089:func_80184E54 (0.6883 sim) which uses the identical
  * `{s16 a,b,c,d;}` 8-byte struct-copy idiom for the lwl/lwr blocks. */
 
-typedef struct { s16 a, b, c, d; } SV4x_80184754;
 
 extern void func_8012C218(void *a0);
 extern void func_80132288(s32 *param_1, s32 *param_2, s32 param_3);
@@ -7009,8 +6992,6 @@ void func_801848B4(s32 param_1) {
 
 #include "common.h"
 
-typedef struct { s16 a, b, c; } SV3_8018495C;
-typedef struct { u8 b[8]; } Blk8_8018495C;
 
 extern void func_8012C218(void *a0);
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);

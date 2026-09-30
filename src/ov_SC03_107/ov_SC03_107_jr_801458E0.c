@@ -1528,13 +1528,6 @@ void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__(
 
 
 extern s32 func_80146B9C(void * arg0);
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4_80146AFC;
 
 /* func_80146AFC — ASCENDING twin of the byte-proven DEFINE_func_80146B9C()
  * in src/shared/engine_core.h (cookbook §71: find the already-matched sibling first).
@@ -2357,13 +2350,6 @@ s32 func_80149FB0(s32 a0) {
 #include "../shared/ov/func_8014A71C.h"
 
 
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4_8014A738;
 
 
 
@@ -2923,14 +2909,6 @@ void func_8014D738(void)
 #include "../shared/ov/func_8014D790.h"
 
 
-  typedef Unkstruct_800B5CB8 Ent_8014D820;
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4_8014D820;
 
 // @class: schedule
 // @unstuck(P36): none — MATCH (304/304), symcheck SYMS-OK 12/12, and the whole-TU cc1 stage now compiles CLEAN
@@ -3826,13 +3804,6 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
 #include "../shared/ov/func_801508F8.h"
 
 
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-  } V4_8015094C;
 
 extern s32 func_80021174(s32 a0, s32 a1);
 

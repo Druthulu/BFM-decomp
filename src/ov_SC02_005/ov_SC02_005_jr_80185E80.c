@@ -137,12 +137,6 @@ s32 func_801860F4(s16 *arg0) {
 }
 
 
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-} TBL_80186144;
 
 extern TBL_80186144 D_80195AF8[];
 
@@ -592,12 +586,6 @@ extern u16 D_80195B4C[];
 extern s32 D_801961B8;
 extern s32 D_801961E0;
 
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 val;
-} Entry_80186A04;
 
 void func_80186A04(s32 arg0) {
     s16 idx;
@@ -735,10 +723,6 @@ void func_80186C0C(void *a0) {
 }
 
 
-typedef struct {
-    u8 pad[0x5C];
-    u16 f5C;
-} F5C_S;
 
 extern F5C_S *D_801E43CC[];
 
@@ -951,10 +935,6 @@ extern void func_8018A7D8(u16 *a0, u16 *a1, s16 *a2, s32 a3);
  * function indexes each with a 16-byte runtime stride (sll ...,4). Model each as an array
  * of a 16-byte-stride row so gcc emits the shift and keeps the relocation on the symbol
  * itself rather than folding an offset into a neighbour's %lo. */
-typedef struct {
-    s16 v;
-    u8 pad[14];
-} Row16_t;
 extern Row16_t D_80195B78[];
 extern Row16_t D_80195B7A[];
 extern Row16_t D_80195B7C[];
@@ -1116,12 +1096,6 @@ void func_80187348(s32 a0, s32 a1) {
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-} Vec4h_801873FC;
 
 s32 func_801873FC(s32 a0) {
     Vec4h_801873FC p1;
@@ -1177,12 +1151,6 @@ s32 func_80187508(s32 param_1)
 
 #include "common.h"
 
-typedef struct {
-    /* 0x0 */ u16 x;
-    /* 0x2 */ u16 y;
-    /* 0x4 */ u16 z;
-    /* 0x6 */ u16 w;
-} Vec4h_80187560;
 
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 
@@ -1223,7 +1191,6 @@ save:
 
 extern void func_8018B16C(s32 a0, s32 a1, s32 a2);
 
-typedef struct { char b[8]; } Blob8_80187664;
 
 extern Blob8_80187664 D_801E2EF0;
 
@@ -1241,7 +1208,6 @@ void func_80187664(s32 arg0)
 /* D_801E2EF8: 8-byte, alignment-1 blob -- copied with lwl/lwr + swl/swr
  * (gcc's emit_block_move for align < 4), same idiom as the banked twin
  * func_8018A47C's D_801E2F28. */
-typedef struct { char b[8]; } Blob8_801876B0;
 
 extern Blob8_801876B0 D_801E2EF8;
 extern u8 D_801202A0[];
@@ -2536,7 +2502,6 @@ extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-typedef struct { s16 a, b, c, d; } SV892CC;
 
 s32 func_801892CC(s32 arg0)
 {
@@ -2762,7 +2727,6 @@ extern void func_80189B30(s32 a0);
 extern u8 D_801E44F0[];
 extern u8 D_801E44F8[];
 
-typedef struct { u32 w[8]; } Blk32_801898F4;
 
 void func_801898F4(void *a0) {
     s32 i;
@@ -3007,7 +2971,6 @@ extern void func_80129350(s32 a0, s32 a1);
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
-typedef struct { s32 w[4]; } Blk16_801E2F08;
 
 extern Blk16_801E2F08 D_801E2F08;
 extern Blk20 D_800AE620;
@@ -3087,7 +3050,6 @@ void func_8018A174(s32 arg0) {
  * against the pinned cc1).  canon_sig_reconcile strips a draft typedef whose
  * name AND body match engine_types.h, so the duplicate definition disappears
  * at bank time and the ambient Blk20 is used. */
-typedef struct { s32 w[4]; } Blk16_8018A1D8;
 
 
 extern Blk16_8018A1D8 D_801E2F18;
@@ -3194,14 +3156,11 @@ void func_8018A47C(s32 a0) {
 
 /* D_801E2F30: 8-byte, alignment-1 blob -- copied with lwl/lwr + swl/swr
  * (gcc's emit_block_move for align < 4). Holds 3 x u16 (+ pad). */
-typedef struct { char b[8]; } Blob8_8018A4C4;
 
 /* D_801E2F38: 16-byte, word-aligned blob -- copied with plain lw/sw. */
-typedef struct { s32 w[4]; } Blk16_8018A4C4;
 
 /* (*(Blk20_8018A4C4 *)&D_800AE620): 32-byte MATRIX-shaped blob (9 x s16 rot + pad + 3 x s32 trans),
  * copied with plain lw/sw -- same shape as the TU's existing Blk20. */
-typedef struct { s32 w[8]; } Blk20_8018A4C4;
 
 extern Blob8_8018A4C4 D_801E2F30;
 extern Blk16_8018A4C4 D_801E2F38;
@@ -3344,17 +3303,6 @@ extern s16 D_80195AC6[];
 extern u16 D_80195AD6;
 extern s32 D_801E4A58[];
 
-typedef struct {
-    s16 field_0;
-    s16 field_2;
-    s16 field_4;
-    s16 field_6;
-    s16 field_8;
-    s16 field_A;
-    s16 field_C;
-    s16 field_E;
-    s32 field_10;
-} LocalStruct_8018A968;
 
 /* register pins reproduce the target's density-priority regalloc order (cookbook, banked
  * twin md_SC07_004:func_801AD7EC): pos/idx are read+written every iteration (highest density)
@@ -3671,8 +3619,6 @@ void func_8018AEB4(s32 a0, s32 a1)
 
 /* Local idiom types (mirrors the TU's own MTX_CF90 pattern / shared Vec32,
  * kept file-local since match_one compiles standalone with -Iinclude only). */
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx8_8018AF58;
-typedef struct { s32 vx, vy, vz, pad; } Vec32_8018AF58;
 
 extern Blk20 D_800AE620;
 extern Blk16_801E2F08 D_801E2F08;
@@ -3712,12 +3658,10 @@ void func_8018AF58(s32 a0)
  * globals (func_8018A4C4's D_801E2F30). Holds 3 x s16 angle (+ pad); the
  * middle field is overwritten right after the copy and re-biased each
  * loop iteration below. */
-typedef struct { char b[8]; } Blob8_8018B058;
 extern Blob8_8018B058 D_801E2F00;
 
 /* Vec32-shape local (matches the TU's Vec32_8018AF58 pattern): 3 x s32 +
  * pad, passed by address to func_800484EC as its translation-vector arg. */
-typedef struct { s32 vx, vy, vz, pad; } Vec32_8018B058;
 
 extern u8 D_80196870[];
 
@@ -4362,7 +4306,6 @@ extern u8 D_801E2F54;
 
 /* align-1 4-byte block: lowers via emit_block_move (unaligned lwl/lwr + swl/swr)
  * with ZERO memcpy-symbol reference (house idiom, cf. func_8018CE04) */
-typedef struct { u8 b[4]; } Blk4_8018BDD0;
 
 void func_8018BDD0(s32 param_1)
 {
@@ -5057,7 +5000,6 @@ extern void func_8012C218(void *a0);
 
 #include "common.h"
 
-typedef struct { u8 b[4]; } Blk4_8018CC28;
 
 /* ---- externs ------------------------------------------------------------ */
 extern void func_8001CD50(s32 a0, s32 a1);
@@ -5450,7 +5392,6 @@ extern u16 D_800B99DA;
 extern s32 D_801270C8;
 extern void MoveImage(void *a0, s32 a1, s32 a2);
 
-struct imgrect { u16 x; u16 y; u16 w; u16 h; };
 
 void func_8018D4D8(void *param_1)
 {
@@ -5508,17 +5449,6 @@ void func_8018D574(void *a0)
 extern s32 func_8012C750(s32 a0);
 extern s32 func_8012C51C(void *a0, s32 a1);
 
-typedef struct {
-    s16 field_0;
-    s16 field_2;
-    s16 field_4;
-    s16 field_6;
-    s16 field_8;
-    s16 field_A;
-    s16 field_C;
-    s16 field_E;
-    s32 field_10;
-} LocalStruct;
 
 void func_8018D608(s32 a0)
 {
@@ -6236,7 +6166,6 @@ extern u32 D_801F01D4[];
 extern u8 D_801F0220[];
 extern u8 D_80196C00[];
 
-typedef struct { u32 f0; u32 f4; } E8_8018E450;
 extern E8_8018E450 D_801E499C[];
 extern E8_8018E450 D_801E4998[];
 

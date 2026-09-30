@@ -3730,7 +3730,6 @@ void func_80184BB4(int param_1)
 // @class: struct
 // @unstuck(P36): none — MATCH (array-of-struct %lo-fold for &D_8018AEB8[idx], stride 0x34)
 
-typedef struct { unsigned char b[0x34]; } S_8018AEB8;
 extern S_8018AEB8 D_8018AEB8[];
 extern unsigned char D_8018AF20[];
 extern u8 D_8019731C;
@@ -4472,7 +4471,6 @@ extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012B21C(void *a0);
 extern s32 rand(void);
 
-typedef struct { u8 b[12]; } Blk12_80185E68;
 
 
 void func_80185E68(s32 arg0) {
@@ -4545,7 +4543,6 @@ extern void func_8012C218(void *a0);
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern void func_80186330(void *arg0);
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C59C_80186078;
 
 void func_80186078(s32 arg0) {
 
@@ -4758,14 +4755,6 @@ void func_80186574(int param_1)
     }
 }
 
-typedef struct { s16 vx, vy; } DVEC2_C59C_801865EC;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_801865EC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_801865EC;
 
 /* Declarations copied verbatim from src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c (law 2) */
 extern s32 rand(void);

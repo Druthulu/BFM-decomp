@@ -3856,7 +3856,6 @@ void func_8017CE54(void *a0) {
  * may DROP this local typedef and reuse the TU's own `B4` when banking into the host TU.
  */
 
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017CE90;
 
 extern void func_801465C0(void);
 extern void func_8001CD04(s32, s32);
@@ -3959,13 +3958,6 @@ void func_8017D0DC(void *a0) {
 #include "../shared/ov/func_8017D194__b55f2b3b.h"
 
 
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017D1E0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017D1E0;
 
 
 
@@ -4351,7 +4343,6 @@ extern s16 D_8011F9C8;
 extern void func_80174684(void *);
 extern void func_8017DB00(void *);
 
-struct S8_8017DA98 { s16 m[4]; };
 
 #include "../shared/ov/func_8017DA98.h"
 
@@ -6749,7 +6740,6 @@ void func_801816AC(void) {
 }
 
 
-typedef struct { u8 b[8]; } Blk8_80181774;
 
 void func_80181774(void) {
     extern Blk8_80181774 D_8018C0E8;
@@ -6894,8 +6884,6 @@ void func_80181A78(void *a0) {
 }
 
 
-typedef struct { s16 v[4]; } Blk8_80126940_8017D474;
-typedef struct { s16 v[8]; } Blk16_80126940;
 
 void func_80181AB4(s32 a0) {
 
@@ -8168,7 +8156,6 @@ void func_80183BC4(s32 a0)
 }
 
 
-typedef struct { s16 m[16]; } Mat_80183C9C;
 
 extern void func_8004978C(s16 *a0, void *a1);
 extern u16 D_8018C7BC[];
@@ -8244,7 +8231,6 @@ void func_80183DAC(void *arg0)
 }
 
 
-typedef struct { s32 w[8]; } Mat32L;
 
 void func_80183E48(void *a0)
 {
@@ -9343,27 +9329,9 @@ void func_80185520(void *a0) {
 }
 
 
-typedef struct {
-    u16 h0, h1, h2, h3;
-} Q_8018562C;
 
-typedef struct {
-    Q_8018562C rot;
-    s32 t0, t1, t2, t3;
-} ROW_8018562C;
 
-typedef struct {
-    Q_8018562C head;
-    Q_8018562C tail;
-    ROW_8018562C row;
-} BIG_8018562C;
 
-typedef struct {
-    s16 m[10];
-    s32 x;
-    s32 y;
-    s32 z;
-} MB_8018562C;
 
 void func_8018562C(void *a0, void *a1) {
     BIG_8018562C b;
@@ -9427,12 +9395,6 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_801858E8(void *arg0);
 extern s32 rand(void);
 
-typedef struct {
-    s16 m[10];
-    s32 x;
-    s32 y;
-    s32 z;
-} MB_80185764;
 
 void func_80185764(s32 a0, s32 *a1)
 {
@@ -9556,24 +9518,8 @@ void func_80185A5C(s32 param_1, s32 param_2)
 }
 
 
-typedef struct {
-    u16 h0, h1, h2, h3;
-} QB_80185B04;
 
-typedef struct {
-    s16 m[10];
-    s32 x;
-    s32 y;
-    s32 z;
-} MB_80185B04;
 
-typedef struct {
-    QB_80185B04 a;
-    QB_80185B04 b;
-    s32 c;
-    s32 d;
-    s32 e;
-} BIG_80185B04;
 
 void func_80185B04(void *a0, void *a1)
 {

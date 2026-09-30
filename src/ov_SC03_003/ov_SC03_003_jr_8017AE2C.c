@@ -3352,13 +3352,11 @@ extern void func_80146C3C(u8 *a0);
 #include "../shared/ov/func_8017BFA4.h"
 
 
-typedef struct { s16 vx, vy; } DVEC2_C59C;
 
 
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_BEBC;
 
 extern s32 func_800491EC(void);
 extern void func_8017C3EC(u16 *a0, void *a1);
@@ -3406,15 +3404,6 @@ void func_8017C688(s32 a0, s32 a1) {
 }
 
 
-typedef struct { u32 w0, w1, w2; } Prim126;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; Prim126 *prim, *end; } Cell126;
-typedef struct { s16 vx, vy; } DVEC2_C6F4;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C6F4;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C6F4;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_C6F4;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_C6F4;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_C6F4;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_C6F4;
 
 
 void func_8017C6F4(s32 arg0)

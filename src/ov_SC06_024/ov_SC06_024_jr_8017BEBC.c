@@ -3030,9 +3030,6 @@ void func_8017D388(s32 a0) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D474;
 
 void func_8017D474(s32 a0) {
 
@@ -3990,8 +3987,6 @@ void func_8017EADC(s32 a0) {
  */
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SV_8017EC4C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MT_8017EC4C;
 
 extern void func_8012EC04(s32, s32, s32 *);
 extern void func_8012F14C(s32, s32, s32);

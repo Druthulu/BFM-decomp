@@ -4158,7 +4158,6 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 
 /* 8 bytes, align 2 -> the lwl/lwr + swl/swr unaligned block copy at 8017EB54 */
-typedef struct { s16 f0, f1, f2, f3; } Blk8_80126940_8017EAEC;
 extern Blk8_80126940_8017EAEC D_80126940;
 
 extern s16 D_8018970C[];
@@ -4253,14 +4252,6 @@ extern u32 func_8017F040(s16 *param_1, s16 *param_2, s16 *param_3);
 extern u32 func_8017F0F8(s16 *param_1, s16 *param_2, s16 *param_3);
 extern s32 ratan2(s32 a0, s32 a1);
 
-struct ZnRec {
-    u8 kind;
-    u8 mode;
-    s16 opA[2];
-    s16 opB[2];
-    s16 ax;
-    s16 az;
-};
 
 s32 func_8017EE08(struct ZnRec *param_1, s16 *param_2, s16 *param_3) {
     u32 a3;
@@ -4602,12 +4593,6 @@ extern s32 D_80189838;
 
 /* Row shape shared by all three tables: u16 at +0x0/+0x2/+0x4/+0x6, stride 8.
  * Used only as a *cast target*, never as the declared type of a global. */
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-} SC05_F3E4_Tbl8;
 
 void func_8017F3E4(void *a0) {
     s32 p;
@@ -4773,7 +4758,6 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8017F88C(s32 a0);
 
-typedef struct { s16 f0; s16 pad[3]; } Rec_801897BC;
 extern Rec_801897BC D_801897BC[];
 
 void func_8017F744(s32 param_1)
@@ -4951,15 +4935,6 @@ extern s32 (*D_80189ACC[])();
 
 /* 12-byte record, stride 0xC — written by the two identical fill loops below
  * (halfword at +0x0, byte at +0x3, halfwords at +0x6 and +0xA). */
-typedef struct {
-    s16 f0;
-    u8  f2;
-    u8  f3;
-    s16 f4;
-    s16 f6;
-    s16 f8;
-    s16 fA;
-} SC05_FBB0_Rec;
 
 void func_8017FBB0(s32 a0) {
     /* Overlay-local data, read off this .s's own relocation lines (law 1).
@@ -5424,10 +5399,6 @@ extern s32 func_8012AD50(void *a0);
 
 extern s32 D_801A82B4[];
 
-typedef struct {
-    s32 a;
-    s32 b;
-} Pair_801B5E30;
 extern Pair_801B5E30 D_801B5E30[];
 
 void func_80180600(s32 a0) {
@@ -5472,10 +5443,6 @@ void func_80180710(s32 param_1) {
 }
 
 
-typedef struct {
-    void (*fp)(void);
-    s32 pad;
-} TblEntry_80189854;
 
 extern u16 D_80189854[];
 extern void func_8012AD80(s32 a0);
@@ -6127,20 +6094,9 @@ void func_801814E4(s32 param_1) {
  */
 
 /* 4 bytes, alignment 1 -> struct assignment lowers to lwl/lwr + swl/swr */
-typedef struct {
-    u8 r;   /* 0x00 */
-    u8 g;   /* 0x01 */
-    u8 b;   /* 0x02 */
-    u8 cd;  /* 0x03 (never written; the block move copies it anyway) */
-} Col4_80181574;
 
 /* func_8012EF70's out-parameter: 8 bytes, s16 OTZ at +4 (see
  * DEFINE_func_8012EF70 in src/shared/engine_core.h) */
-typedef struct {
-    s32 unk0;   /* 0x00 */
-    s16 otz;    /* 0x04 */
-    s16 unk6;   /* 0x06 */
-} Gte8_80181574;
 
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void func_80015954(s32 a0, s32 a1);
@@ -6461,12 +6417,6 @@ void func_80181C98(s32 a0)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80181CE0;
 
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BEE8(s32 a0);
@@ -7107,7 +7057,6 @@ void func_80182944(s32 a0) {
 
 struct Vec;
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_29B0;
 
 s32 func_801829B0(s32 arg0) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains
@@ -7509,12 +7458,6 @@ void func_80182FB4(s32 param_1)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018330C;
 
 extern s32 func_8012BCCC(s32 a0);
 extern s32 func_8004787C(s32 a0);

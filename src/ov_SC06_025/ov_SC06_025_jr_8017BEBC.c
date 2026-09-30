@@ -3058,12 +3058,6 @@ void func_8017D4B4(void *a0) {
 
 #include "common.h"
 
-typedef struct {
-    s16 x;   /* 0x0 */
-    s16 y;   /* 0x2 */
-    s16 z;   /* 0x4 */
-    s16 pad; /* 0x6 */
-} Buf8_8017D4F0;
 
 extern s16 D_80126940;
 extern s32 D_801270C8;
@@ -3128,9 +3122,6 @@ void func_8017D4F0(void *param_1) {
 }
 
 
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D654;
 
 extern void func_8017D730(s32 param_1, s16 *param_2);
 
@@ -3385,15 +3376,6 @@ void func_8017DB6C(s32 a0) {
  * re-walked against the .s).  func_800599B8 is spelled with the fleet-modal
  * `void func_800599B8(u16 *)` (n=1066); the TU does not declare it.
  * ------------------------------------------------------------------------- */
-typedef struct {
-    u16 tag;      /* 0x00 */
-    u16 unk02;    /* 0x02 */
-    u16 x;        /* 0x04 */
-    u16 y;        /* 0x06 */
-    s16 n;        /* 0x08 */
-    u16 h;        /* 0x0A */
-    u16 *base;    /* 0x0C */
-} Rec8017DB98;
 
 extern void func_800599B8(u16 *);
 
@@ -4060,10 +4042,6 @@ void func_8017E6C0(void *a0) {
 
 extern void func_80016714(void *a0, s32 a1);
 
-typedef struct {
-    s16 unk0;                /* 0x00 */
-    u8 pad[0x102];           /* -> 0x104 */
-} St_8017E95C_r;
 
 extern St_8017E95C_r D_801B12F0[4];
 extern St_8017E95C_r D_801B12F8[4];
@@ -4109,13 +4087,9 @@ void func_8017E9B8(void) {
 
 #include "common.h"
 
-typedef struct {
-    u16 v[4];
-} Tbl8_801AFF3C;              /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+              /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
 
-typedef struct {
-    u16 a, b, c, d;
-} Ent8_80188;                 /* 8-byte stride record */
+                 /* 8-byte stride record */
 
 extern Tbl8_801AFF3C D_801AFF3C;
 extern Ent8_80188 D_801888CC[];

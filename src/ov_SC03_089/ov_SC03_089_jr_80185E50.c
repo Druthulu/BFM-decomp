@@ -9,10 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { short m[3][3]; long t[3]; } MTX_801851A8;
-typedef struct { short vx, vy, vz, pad; } SV_801851A8;
-typedef struct { long vx, vy, vz, pad; } LV_801851A8;
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_801851A8;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;

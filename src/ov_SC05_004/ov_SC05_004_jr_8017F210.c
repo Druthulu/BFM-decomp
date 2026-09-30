@@ -3535,10 +3535,6 @@ extern u8 *func_8012913C(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void func_801292C8(u8 *a0);
 
-typedef struct {
-    u16 x, y, z;
-    u8 flag;
-} V8_80187968_801807AC;
 
 void func_801807AC(s32 a0) {
     u32 v0;
@@ -3840,7 +3836,6 @@ void *a0;
     }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974;
 
 
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
@@ -3866,13 +3861,6 @@ void func_80180F18(void *a0) {
 
 
     
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974_8017BA3C;
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016B6BC;
 
 
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);

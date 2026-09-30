@@ -4441,14 +4441,6 @@ void func_80180644(s32 arg0)
 }
 
 
-typedef struct {
-    u8 pad0[0x18];
-    u16 f18;
-    u16 f1A;
-    u16 f1C;
-    u8 pad1[0xE];
-    u16 f2C;
-} Act_8018069C;
 
 void func_8018069C(s32 a0) {
     extern s32 D_801E6748;
@@ -4642,7 +4634,6 @@ void func_80180ACC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 }
 
 
-typedef struct { u8 b[12]; } Blk12_80180BE0;
 
 void func_80180BE0(s32 arg0, s32 arg1, s16 *arg2)
 {
@@ -4725,16 +4716,6 @@ void func_80180D40(void *a0)
  * rooted at 2 (li 2 / beq first, 192 ins) and an if/else-if chain inlines arm 1
  * (187 ins); only the goto ladder reproduces the root-at-1 linear chain. */
 
-typedef struct {
-    s16 state; /* 0x0 */
-    s16 cnt;   /* 0x2 */
-    s16 x;     /* 0x4 */
-    s16 y;     /* 0x6 */
-    s16 lim;   /* 0x8 */
-    s16 velo;  /* 0xA */
-    s16 spd;   /* 0xC */
-    s16 flag;  /* 0xE */
-} Ent_801E650C;
 
 extern s16 D_8018A9FC;
 extern s16 D_8018A9FE;
@@ -4958,7 +4939,6 @@ void func_801812FC(void) {
 }
 
 
-typedef struct { u8 b[8]; } Blk8_80181324;
 
 extern Blk8_80181324 D_8018AA14;
 extern u16 D_8018AA1C[];
@@ -5924,7 +5904,6 @@ extern s32 func_8012AD50(void *a0);
     }
 
 
-typedef struct { u8 b[8]; } Blk8_80182844;
 
 extern Blk8_80182844 D_801E4F60;
 extern Blk8_80182844 D_801E4F68;
@@ -5951,7 +5930,6 @@ void func_80182844(void *a0)
 
 
 /* identical layout to SVECTOR_8016E7C8 (src/shared/engine_types.h) */
-typedef struct { short vx, vy, vz, pad; } SVEC_8017EC98_8018290C;
 
 void func_8018290C(SVEC_8017EC98_8018290C *p0, SVEC_8017EC98_8018290C *p1) {
     /* conform to the TU's file-scope canon (`extern void func_8012EF70(s32, s32);`)

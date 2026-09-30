@@ -3606,7 +3606,6 @@ void func_80184B80(s32 param_1, s32 param_2)
 }
 
 
-typedef struct { u8 b[0x6C]; } Blk6C_80184CB0;
 
 extern s32 func_8012C354(s32 a0, s32 a1);
 extern void func_8001C810(s32 a0, s32 a1);
@@ -5158,10 +5157,6 @@ extern s32  D_80126B58;                    /* TU L4463/5371 (raw scalar, law 4) 
 
 /* 16-byte-stride table; only the leading u16 field is read here.
    No prior declaration exists anywhere in src/, so the shape is free. */
-typedef struct {
-    u16 f0;
-    u8  pad[14];
-} Stride16_801BA59C;
 
 void func_801868C0(s32 a0)
 {
@@ -5388,8 +5383,6 @@ void func_80186BE4(void *a0) {
  * fits, ruling that guess out).
  */
 
-typedef struct { s32 w[8]; } Mat32_80186C20;
-typedef struct { s16 a, b, c, d; } SV4_80186C20;
 
 void func_80186C20(void *a0)
 {

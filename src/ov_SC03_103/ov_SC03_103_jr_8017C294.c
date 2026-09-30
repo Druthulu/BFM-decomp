@@ -6839,7 +6839,6 @@ void func_80183580(void *a0)
 }
 
 
-typedef struct { s32 w[8]; } Mtx32_80180088;
 
 
 extern s32 rand(void);

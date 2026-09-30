@@ -9,8 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { u16 x, y, z, w; } V4_80188E10_80187898;
-typedef Unkstruct_800B5CB8 Ent_80188E10_80187898;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3028,7 +3026,6 @@ extern void func_8018B3D0(void);
 
 /* align-1 4-byte block (cookbook §160a): the lwl/lwr + swl/swr pair is emit_block_move
  * on a type whose alignment is 1. */
-typedef struct { u8 d[4]; } Blk4_8018FF98;
 
 extern s32 func_8012C354(s32 a0, s32 a1);
 extern void func_8001C214(s32 a0, s32 a1);

@@ -2703,16 +2703,8 @@ extern void func_8017CF24(s32 a0, s32 a1);
  * cell $t3 naturally once the bbox block allocates right.
  */
 
-typedef struct { u32 w0, w1, w2; } PrimCF90;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimCF90 *prim, *end; } CellCF90;
 
-typedef struct { s16 vx, vy; } DVEC2_CF90;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_CF90;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_CF90;
 
 
 
@@ -3858,8 +3850,6 @@ extern void func_80012558(s32 a0, s32 a1);
 extern void func_800126C4(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_EDF8;
-typedef struct { s16 vx, vy, vz, pad; } SVEC_EDF8;
 
 void func_8017EDF8(s32 param_1, s32 param_2)
 {
@@ -4593,7 +4583,6 @@ void func_8017FF8C(void *a0) {
 }
 
 
-typedef struct { u8 b[8]; } Blk8x;
 
 void func_8017FFF0(s32 arg0) {
     extern Blk8x D_801E2DE8;
@@ -5207,7 +5196,6 @@ void func_80180DB8(void *a0) {
 }
 
 
-typedef struct { u8 b[8]; } Blk8_E08;
 
 extern s32 D_80126950;
 extern s32 D_80126954;

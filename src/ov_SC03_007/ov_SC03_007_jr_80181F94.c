@@ -9,23 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { u32 w0, w1, w2; } PrimC59C;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimC59C *prim, *end; } CellC59C;
-typedef struct { s16 vx, vy; } DVEC2_C59C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_C59C;
-typedef struct { char c[8]; } Blk8_8017DCF4;
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017DE40;
-typedef struct { s16 a, b, c, d; } SV4_8017DE40;
-typedef struct { s16 vx, vy, vz, pad; } SVEC_E83C;
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017EA48;
-typedef struct { s16 a, b, c, d; } SV4_8017EA48;
-typedef struct { s16 a, b, c, d; } SV4_FC6C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC_80064;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3292,8 +3275,7 @@ void func_80182558(void *a0) {
  * every $sp displacement was uniformly short by 0x20 until this 32-byte aggregate
  * was declared ahead of them.  gcc-2.7.2 assigns a stack slot in expand_decl for
  * every declared aggregate, used or not.  Do not delete it. */
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8018256C;  /* 0x20 */
-typedef struct { s16 a, b, c, d; } SV4_8018256C;
+  /* 0x20 */
 
 extern void func_8004914C(void *a0);                                   /* TU:3117 verbatim */
 extern void func_800491AC(void *a0);                                   /* TU:3118 verbatim */
@@ -4063,14 +4045,12 @@ void func_80183670(s32 a0, s32 a1, s32 a2, void *a3) {
 
 #include "common.h"
 
-typedef struct { s16 a, b, c, d; } SV4_801836B8;
 /* MATRIX_L48 shape, same as the twin func_8017EA48's MTX local (0x20 bytes). Declared but
  * NEVER read/written here -- the frame reserves it (empirically required: dropping it shifts
  * every local $sp offset down by 0x20 and shrinks the frame by 0x20, both wrong) but no
  * instruction touches it. A leftover from the same source template as func_8017EA48, which
  * DOES build and use a local MTX; this sibling calls func_8004914C/func_800491AC on the
  * object's own field pointer instead and simply never deleted the now-dead local. */
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_801836B8;
 
 extern s32 D_801270C8[];
 extern SV4_801836B8 D_8018C524[];

@@ -3463,11 +3463,6 @@ extern SV4 D_80190478;
 extern SV4 D_801EAC70;
 extern SV4 D_801EAC78;
 
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MtxLocal;
 
 /* The target's stack frame (0xC8) is bigger than the visible locals below account
  * for on their own: two byte-ranges (sp+0x28..0x44 and sp+0x64..0x98) never surface
@@ -3480,12 +3475,6 @@ typedef struct {
  * of each dead region getting its own independent 8-round (which cannot land on
  * mtx's true 0x44 start -- 0x44-0x20=0x24, not a multiple of 8).
  */
-typedef struct {
-    s16 a, b, c, d;    /* sp+0x20 : func_80049CAC arg0 (SV4; only a,b,c written) */
-    u8 _gap1[28];      /* sp+0x28..0x44 : never referenced by an instruction */
-    MtxLocal mtx;      /* sp+0x44 : MATRIX out, t[] at sp+0x58 */
-    u8 _gap2[52];      /* sp+0x64..0x98 : never referenced by an instruction */
-} Frame1;
 
 void func_80185A0C(s32 arg0)
 {
@@ -4282,9 +4271,6 @@ void func_80186C4C(s32 a0) {
  * extended by 0x18 (6 words) and tail20 moved to 0xc1370; it is a clean append, no reorder.
  */
 
-typedef struct {
-    u16 vx, vy, vz, pad;
-} V8_801874C0;
 
 extern s32 func_8004787C(s32 a0);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
@@ -4672,14 +4658,6 @@ void func_80187EA8(s32 a0) {
 
 extern u8 D_800AF630[];   /* TU line 46, verbatim */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_80187EE8;
-typedef struct { u8 r, g, b, cd; } CV_80187EE8;
-typedef struct {
-    SV_80187EE8 v[4];    /* +0x00 : sxy0..3 (v[0].vz doubles as the otz slot) */
-    CV_80187EE8 rgb[4];  /* +0x20 */
-    u32 code;            /* +0x30 */
-    u32 pad;             /* +0x34 */
-} PKT_80187EE8;
 
 /* every macro is suffixed: this TU already #defines gte_SetRotMatrix (line 4315),
  * BELOW this function's splice point (3649), so an unsuffixed name would clash. */
@@ -5525,7 +5503,6 @@ s32 a0;
 
 
     
-    typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_801863B8;
 
 
 extern int func_80178970(void);
@@ -6207,7 +6184,6 @@ s32 aF8018A224(param_1)
 }
 
 
-typedef struct { s16 x; u16 y; u16 z; s16 w; } Rec8_8018A31C;
 void func_8018A31C(s32 a0) {
     extern Rec8_8018A31C D_801E3990[];
     s32 i = 0;

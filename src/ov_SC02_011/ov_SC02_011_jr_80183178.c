@@ -27,15 +27,7 @@ extern void func_80178D18(void);
 extern void func_80184918(s32 arg0, s32 arg1);
 
 
-typedef struct Sub83178 {
-    char pad0[0x10];
-    s16 unk10;
-} Sub83178;
 
-typedef struct Ent83178 {
-    char pad0[0x20];
-    Sub83178 *unk20;
-} Ent83178;
 
 void func_80183178(s32 a0) {
 
@@ -1113,7 +1105,6 @@ void func_80184C0C(s32 param_1) {
 }
 
 
-typedef struct { s16 a, b, c; } SV3_80184C98;
 extern void func_8012B23C(s32 a0);
 extern void func_80185098(s32 a0, s32 a1);
 extern void func_8012B14C(s32 a0, s32 a1);
@@ -1141,7 +1132,6 @@ void func_80184C98(s32 param_1) {
 }
 
 
-typedef struct { s16 a, b, c; } SV3_80184D50;
 
 extern u16 D_80126B5E;
 extern u16 D_80126B62;
@@ -1183,7 +1173,6 @@ void func_80184D50(s32 param_1) {
 /* match_one's standalone common.h does not reach src/shared/engine_types.h, where the
  * real TU's SV3 {short a,b,c} lives (via ../shared/engine_core.h). Function-scoped local
  * name so it collides with nothing; integrator may drop this and reuse the TU's own SV3. */
-typedef struct { s16 a, b, c; } SV3_80184E00;
 
 extern u16 D_80126B5E;
 extern u16 D_80126B62;
@@ -1240,7 +1229,6 @@ void func_80184E00(s32 param_1)
 }
 
 
-typedef struct { s16 a, b, c; } SV3_80184F48;
 extern u8 D_801957DC;
 extern void func_80185098(s32 a0, s32 a1);
 extern s32 func_8012CBCC(s32 a0);
@@ -3156,10 +3144,6 @@ L_end:
 #include "common.h"
 
 /* Packed struct to trigger lwl/lwr unaligned block copy */
-typedef struct {
-    u32 field0;
-    u32 field1;
-} __attribute__((packed, aligned(1))) BlockData;
 
 extern u8 func_8014BF6C(void);
 extern void func_8012B23C(s32 a0);
@@ -3208,8 +3192,6 @@ void func_80187614(s32 a0) {
 
 #include "common.h"
 
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80187654;
-typedef struct { s16 a, b, c; } SV3_80187654;
 
 extern s32 *D_80126B78;
 extern s32 D_80195DB0[];
@@ -4004,9 +3986,6 @@ extern void func_8012A828(s32 a0, void *a1);
 extern void Square0(s32 *a0, s32 *a1);
 extern u8 D_801D3CBC[];
 
-typedef struct {
-    s32 vx, vy, vz;
-} Vec3_1887F8;
 
 void func_801887F8(s32 a0) {
     Vec3_1887F8 d;

@@ -2834,28 +2834,7 @@ s32 func_80184028(void) {
 
 /* 16.16 fixed-point view: unkE0 is a 32-bit accumulator whose HIGH half is the s16
  * unkE2 the rest of the function reads (little-endian overlay). */
-typedef struct {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ u8  pad04[0xD8];
-    /* 0xDC */ s16 unkDC;
-    /* 0xDE */ s16 unkDE;
-    /* 0xE0 */ s32 unkE0;
-} Ent58_fx;
 
-typedef struct {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ u8  pad04[0xD8];
-    /* 0xDC */ s16 unkDC;
-    /* 0xDE */ s16 unkDE;
-    /* 0xE0 */ s16 unkE0;
-    /* 0xE2 */ s16 unkE2;
-    /* 0xE4 */ s16 unkE4;
-    /* 0xE6 */ s16 unkE6;
-    /* 0xE8 */ s16 unkE8;
-    /* 0xEA */ s16 unkEA;
-} Ent_80184058;
 
 extern s32 D_801EAFD0;
 extern s32 D_8018F858[];

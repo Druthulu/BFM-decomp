@@ -2857,10 +2857,6 @@ void func_8017DAAC(void) {
 }
 
 
-typedef struct {
-    s32 unk00;
-    s32 unk04;
-} Struct_80184C18;
 
 extern Struct_80184C18 D_80184C18[];
 extern s32 func_80171CC4(void *a0, void *a1);
@@ -3518,12 +3514,6 @@ s32 func_8017EA08(void *a0) {
 
 #include "common.h"
 
-typedef struct {
-    /* 0x0 */ s16 x;
-    /* 0x2 */ s16 y;
-    /* 0x4 */ s16 z;
-    /* 0x6 */ s16 w;
-} Vec4h_8017EAB0;
 
 extern s32 func_8017EE28(s32 a0, s32 a1, s32 a2);
 extern s8 D_80184CCC[];

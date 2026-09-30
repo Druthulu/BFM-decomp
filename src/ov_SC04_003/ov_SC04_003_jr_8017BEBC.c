@@ -3341,7 +3341,7 @@ void func_8017DB34(int param_1)
 
 extern void func_8001CF00(s32 a0);
 extern void func_8012C194(void);
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017DC20;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
 extern void func_8001CF00(s32 a0);          /* canonical def: src/800.c:6059 void func_8001CF00(s32 a0) */
 extern void func_8012C1B8(void);            /* already declared this way + cast-called elsewhere in this TU */
 extern s32  func_80029178(s32 arg);         /* already declared this way in this TU */
@@ -3571,8 +3571,8 @@ void func_8017E07C(void *a0, s32 a1) {
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C_8017E108; /* 0x20 bytes, align 4 */
-typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017E108;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+ /* 0x20 bytes, align 4 */
+   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
 
 /* Declarations copied verbatim from the destination TU
  * (src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c lines 861, 5865(none), 347, 57, 1628, 1630). */
@@ -4641,8 +4641,7 @@ s32 func_8017FC18(s32 arg0) {
 }
 
 
-typedef struct { s32 m[5]; s32 t[3]; } MtxW;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C; /* 0x20 bytes, align 4 */
+ /* 0x20 bytes, align 4 */
 
 
 extern s32 func_80132E6C(s16 *a0);
@@ -5272,7 +5271,6 @@ void func_80180B44(s32 a0) {
 }
 
 
-typedef struct { s32 w[8]; } Blk20_80180B78;
 extern Blk20_80180B78 aAE620_80180B78[1] __asm__("D_800AE620");
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
@@ -5312,7 +5310,7 @@ void func_80180C40(void *a0) {
 
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C; /* 0x20 bytes, align 4 */
+ /* 0x20 bytes, align 4 */
 
 
 s32 func_80180CC0(s32 arg0) {
@@ -5386,8 +5384,6 @@ s32 func_80180E34(s32 a0, s32 a1, u16 a2) {
 }
 
 
-typedef struct { s32 w[8]; } Blk32_80180E8C;
-typedef struct { s16 vx, vy, vz, pad; } Vec_80180E8C;
 
 extern Blk32_80180E8C aAE620_80180E8C[1] __asm__("D_800AE620");
 extern s32 func_8012B8A4(void *a0);
@@ -5422,8 +5418,7 @@ void func_80180E8C(u8 *a0)
 
 
 
-typedef struct { short a, b, c; } SV3_801802D0;
-typedef struct { s16 a, b, c, d; } SV4x_80183E2C;       /* 8-byte, align-2 quad of s16 */
+       /* 8-byte, align-2 quad of s16 */
 
 
 extern s32 D_80126B58;

@@ -4488,9 +4488,7 @@ void func_801892FC(s32 param_1)
  * before sweeping (§56b — carry the TU's types, not this draft's).
  */
 
-typedef struct { u16 x, y, z, w; } V4_80188E10_8018937C;
 
-typedef Unkstruct_800B5CB8 Ent_80188E10_8018937C;
 
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -5022,15 +5020,8 @@ void func_8018A194(void *a0)
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C_8018BCC4_8018A2D0;   /* 8 bytes, align 2 -> lwl/lwr block move */
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C_8018A2D0;   /* == engine_types.h OtBlk (0x14) */
-typedef Unkstruct_800B5CB8 Ent_80188E10_8018A2D0;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018A2D0;
+   /* 8 bytes, align 2 -> lwl/lwr block move */
+   /* == engine_types.h OtBlk (0x14) */
 
 /* TU-canonical declarations (law 2) — verbatim from
  * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c (L2761/2988/etc for func_8012C218,
@@ -7937,12 +7928,6 @@ void func_8018E764(s32 param_1)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018EA0C;
 
 
 

@@ -3682,7 +3682,6 @@ extern s32 D_801269E4;
 extern s16 D_80126940;
 extern s16 D_801274E8;
 
-typedef struct { s16 v[4]; } Blk8_dc3c;
 
 void func_8017DC3C(void) {
     D_80126954 = 0x190;
@@ -3712,7 +3711,6 @@ void func_8017DD1C(void *a0) {
 
 #include "common.h"
 
-typedef struct { s16 v[4]; } Blk8_dd58;
 
 extern void func_8017DE88(s32 param_1, s16 *param_2);
 extern s16 D_80126940;
@@ -3836,7 +3834,6 @@ extern s32 func_8012AD50(void *a0);
    own-address-tag convention for the identical reason (see its comment).
    Same layout, disjoint name -> no clash either standalone (match_one) or
    in-TU. */
-typedef struct { short vx, vy, vz, pad; } SVEC_8017E07C;
 
 extern SVEC_8017E07C D_8019A8B0;
 extern SVEC_8017E07C D_8019A8B8;
@@ -3876,7 +3873,6 @@ void func_8017E07C(s32 param_1) {
 
 /* identical layout to SVECTOR_8016E7C8 (src/shared/engine_types.h);
    own tag so this draft compiles standalone via match_one (no shared TU). */
-typedef struct { short vx, vy, vz, pad; } SVEC_8017E158;
 
 void func_8017E158(SVEC_8017E158 *p0, SVEC_8017E158 *p1) {
     /* conform to the sibling TU's canon (`extern void func_8012EF70(s32, s32);`)

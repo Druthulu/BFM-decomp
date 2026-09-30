@@ -3273,7 +3273,6 @@ void func_8017DAB8(void *a0) {
 }
 
 
-typedef struct { u16 x, y, z, w; } V_8017DAF4;
 
 extern void func_8012C1B8(void);
 extern void func_8001C214(s32 a0, s32 a1);
@@ -3453,10 +3452,6 @@ extern void func_8012BE54(s32 a0);
 extern void func_8012C218(void *a0);
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern s32 func_8014CB8C(void);
-typedef struct {
-    u16 f0;
-    u8  pad[14];
-} Stride16_801BA59C_8017DF5C;
 
 void func_8017DF5C(s32 a0)
 {
@@ -3662,8 +3657,6 @@ void func_8017E280(void *a0) {
 }
 
 
-typedef struct { s32 w[8]; } Mat32_8017E2BC;
-typedef struct { s16 a, b, c, d; } SV4_8017E2BC;
 
 void func_8017E2BC(void *a0)
 {

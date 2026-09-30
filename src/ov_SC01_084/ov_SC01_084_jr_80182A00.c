@@ -1094,22 +1094,11 @@ void func_80183D38(void *a0) {
  * lhu/addu/sh-clut/sh-tpage quartet.  The reverse source order flips that pair.
  */
 
-typedef struct { s32 a; s32 b[4]; } OtBlk_80183DA4;        /* 0x14 stride */
-typedef struct { u16 vx, vy, vz, pad; } SVec_80183DA4;     /* 0x08 stride */
-typedef struct { u16 vx, vy; } DVec_80183DA4;              /* read through a cast */
+        /* 0x14 stride */
+     /* 0x08 stride */
+              /* read through a cast */
 
-typedef struct {
-    u32 tag;                    /* 0x00 */
-    u8  r0, g0, b0, code;       /* 0x04 */
-    s16 x0, y0;                 /* 0x08 */
-    u8  u0, v0;  u16 clut;      /* 0x0C */
-    s16 x1, y1;                 /* 0x10 */
-    u8  u1, v1;  u16 tpage;     /* 0x14 */
-    s16 x2, y2;                 /* 0x18 */
-    u8  u2, v2;  u16 pad2;      /* 0x1C */
-    s16 x3, y3;                 /* 0x20 */
-    u8  u3, v3;  u16 pad3;      /* 0x24 */
-} Ft4_80183DA4;                 /* 0x28 */
+                 /* 0x28 */
 
 extern u16 D_801270C0;
 extern u8  D_800AF648;
@@ -1262,22 +1251,11 @@ void func_801840FC(void *a0) {
  *      the one true loop.c movable, landing last.
  */
 
-typedef struct { s32 a; s32 b[4]; } OtBlk_80184138;        /* 0x14 stride */
-typedef struct { u16 vx, vy, vz, pad; } SVec_80184138;     /* 0x08 stride */
-typedef struct { u16 vx, vy; } DVec_80184138;              /* read through a cast */
+        /* 0x14 stride */
+     /* 0x08 stride */
+              /* read through a cast */
 
-typedef struct {
-    u32 tag;                    /* 0x00 */
-    u8  r0, g0, b0, code;       /* 0x04 */
-    s16 x0, y0;                 /* 0x08 */
-    u8  u0, v0;  u16 clut;      /* 0x0C */
-    s16 x1, y1;                 /* 0x10 */
-    u8  u1, v1;  u16 tpage;     /* 0x14 */
-    s16 x2, y2;                 /* 0x18 */
-    u8  u2, v2;  u16 pad2;      /* 0x1C */
-    s16 x3, y3;                 /* 0x20 */
-    u8  u3, v3;  u16 pad3;      /* 0x24 */
-} Ft4_80184138;                 /* 0x28 */
+                 /* 0x28 */
 
 
 extern void func_8004914C(void *a0);
@@ -1520,8 +1498,6 @@ void func_801845A0(void *arg0) {
 }
 
 
-struct S845EC_in { s16 f00, f02, f04, f06, f08, f0A, f0C, f0E; s32 f10; };
-struct S845EC_out { s16 a, b, c; };
 
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012C51C(void *a0, s32 a1);
@@ -1569,12 +1545,7 @@ s32 func_801845EC(s32 a0, s32 a1)
  * re-declared locally here per the md_SC07_003.c precedent since this standalone
  * draft can't reach the src/shared/ include path. */
 
-struct S80190C84_846B4 {
-    s16 f0, f2, f4, f6, f8, fA, fC, fE;
-    s32 f10;
-};
 
-typedef struct { short a, b, c; } SV3_846B4;
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
@@ -2646,38 +2617,15 @@ extern s16 D_8018AC6C;   /* vert2 .vz        */
 
 
 
-typedef struct {
-    s16 x;      /* +0x0 */
-    s16 y;      /* +0x2 */
-    s16 c;      /* +0x4 */
-    s16 pad;    /* +0x6 */
-} Vtx_80185C0C;                     /* 0x08 */
+                     /* 0x08 */
 
-typedef struct {
-    Vtx_80185C0C v[3];              /* +0x00 +0x08 +0x10 */
-    u8 r0, g0, b0, code;            /* +0x18 .. +0x1B */
-    u8 r1, g1, b1, pad1;            /* +0x1C .. +0x1F */
-    u8 r2, g2, b2, pad2;            /* +0x20 .. +0x23 */
-    u32 color;                      /* +0x24 */
-} Prim_80185C0C;                    /* 0x28 */
+                    /* 0x28 */
 
-typedef struct {
-    u16 x;      /* +0x0 */
-    u16 y;      /* +0x2 */
-    u16 z;      /* +0x4 */
-} Pos_80185C0C;                     /* 0x06 -> 8-byte frame stride, §193-I */
+                     /* 0x06 -> 8-byte frame stride, §193-I */
 
-typedef struct {
-    u16 vx;     /* +0x0 */
-    u16 vy;     /* +0x2 */
-    u16 vz;     /* +0x4 */
-    u16 pad;    /* +0x6 */
-} Sxy_80185C0C;                     /* 0x08 */
+                     /* 0x08 */
 
-typedef struct {
-    s16 m[3][3];                    /* +0x00, padded to 0x14 */
-    s32 t[3];                       /* +0x14 +0x18 +0x1C */
-} Mtx_80185C0C;                     /* 0x20 */
+                     /* 0x20 */
 
 void func_80185C0C(s32 arg0)
 {

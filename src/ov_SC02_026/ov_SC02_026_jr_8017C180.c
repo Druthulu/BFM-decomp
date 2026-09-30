@@ -3171,11 +3171,6 @@ Lend:
 }
 
 
-    typedef struct { u8 b[8]; } Blk8_8017DAB8;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_8017DAB8;
 
 /* Sibling shape in the SAME TU: func_80182244 (already banked, line ~3980)
  * uses the identical idiom for the same actor kind: void *a0, raw
@@ -3315,22 +3310,11 @@ s32 func_8017DD84(s32 a0)
 #include "common.h"
 
 /* 8-byte, align-4 pair record: the per-index slot pair at D_801D0120/D_801D0124 */
-typedef struct {
-    s32 a;      /* 0x00 -> D_801D0120 */
-    s32 b;      /* 0x04 -> D_801D0124 */
-} Pair8_8017DDC4;
 
 /* 8-byte, align-2 record: forces move_by_pieces onto the lwl/lwr + swl/swr
  * unaligned block-move path (cookbook §48-C2) for the 0x10..0x18 copy. */
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4;
 
 /* 16-byte stride table indexed by *(s16*)(obj+0x70) */
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4;
 
 extern Pair8_8017DDC4 D_801D0120[];
 extern Rec16_8017DDC4 D_801A42B8[];
@@ -3577,7 +3561,6 @@ extern u8 D_801A9C08[];
 extern u8 D_801A50F4[];
 extern u8 D_801A5104[];
 
-typedef struct { u8 b[8]; } Blk8_func_8017E3AC;
 
 void func_8017E3AC(s32 a0) {
     Blk8_func_8017E3AC sp10;
@@ -3688,14 +3671,6 @@ s32 a0;
 }
 
 
-    typedef struct { u8 b[8]; } Blk8_8017E72C;
-    typedef struct {
-        u8 c[8];
-    } Blk8_80186594_8017E72C;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244_8017E72C;
 
 /* func_8017E72C -- ov_SC02_027, subseg ov_SC02_027_jr_8017D898 (106 ins).
  * Mass-lane fresh crack. Nearest exemplar ov_SC02_026:func_8017E72C is still
@@ -4025,11 +4000,6 @@ void func_8017ED80(void *a0) {
 
 
     
-typedef struct { u8 c[8]; } Blk8_801859DC;
-typedef struct {
-    s32 a;      /* 0x00 -> D_801DA750 */
-    s32 b;      /* 0x04 -> D_801DA754 */
-} Pair8_8017DDC4_80182244;
 
 
 extern void func_8012C1B8(void);
@@ -4037,9 +4007,6 @@ extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern u8 D_801A8938;
 
-typedef struct {
-    u16 a, b, c, d;
-} Rec8_801863EC;
 
 void func_8017EDBC(s32 a0)
 {
@@ -4547,7 +4514,7 @@ extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern s32 rand(void);
 extern s32 D_801A5488[];
 
-typedef struct { s32 w[8]; } Blk32_8017F76C;   /* 32 bytes, align 4 */
+   /* 32 bytes, align 4 */
 extern Blk32_8017F76C D_800AE620;
 
 s32 func_8017F76C(s16 *a0, s32 a1, s32 a2, s32 a3) {
@@ -6526,11 +6493,6 @@ extern void func_80182DBC(s32 a0);
 extern s32 func_8012C51C(void *a0, s32 a1);
 extern void func_801292C8(u8 *a0);
 
-typedef struct {
-    u16 vx, vy, vz;
-    u16 f6, f8, fA, fC, fE;
-    s32 f10;
-} SV3L2;
 
 void func_80182AF4(s32 a0) {
     SV3L2 sp10;

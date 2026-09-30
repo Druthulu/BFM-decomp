@@ -3019,10 +3019,6 @@ void func_8017DAAC(void) {
 
 
 
-typedef struct {
-    s32 unk00;
-    s32 unk04;
-} Struct_80184C18;
 
 extern Struct_80184C18 D_80183B84[];
 extern s32 func_80171CC4(void *a0, void *a1);
@@ -3638,7 +3634,6 @@ void func_8017E8B0(void *a0) {
 
 
 
-typedef struct { u8 c[4]; } Blk4_80180518;
 
 extern u8 D_8019FFA0;
 extern Blk4_80180518 D_8019FFA4[1];

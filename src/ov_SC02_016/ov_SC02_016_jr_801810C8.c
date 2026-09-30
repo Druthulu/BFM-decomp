@@ -3139,9 +3139,6 @@ extern u8 D_80078EB1;
 extern short D_801AF9CC;
 extern u8 D_801AFB14[];
 
-typedef struct {
-    s32 vx, vy, vz;
-} Vec3_1818F8;
 
 void func_801818F8(s32 a0) {
     s32 idx;

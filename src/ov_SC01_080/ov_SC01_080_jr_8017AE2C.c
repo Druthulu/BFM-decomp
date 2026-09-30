@@ -3309,7 +3309,6 @@ void func_8017BE60(void *a0) {
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_BEBC;
 
 extern s32 func_800491EC(void);
 extern void func_8017C294(u16 *a0, void *a1);
@@ -3349,16 +3348,7 @@ extern void func_8017C530(s32 a0, s32 a1);
  * cell $t3 naturally once the bbox block allocates right.
  */
 
-typedef struct { u32 w0, w1, w2; } PrimC59C;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimC59C *prim, *end; } CellC59C;
 
-typedef struct { s16 vx, vy; } DVEC2_C59C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_C59C;
 
 
 
@@ -3833,7 +3823,6 @@ extern s32 rand(void);
 
 /* §160a: the lwl/lwr + swl/swr 12-byte block move is an ALIGN-1 struct
  * assignment.  A u32/u16 copy loop gives aligned lw/sw and is wrong. */
-typedef struct { char c[12]; } Blk12_801C5A30;
 
 void func_8017D72C(s32 arg0) {
 
@@ -4640,8 +4629,8 @@ extern u16 D_80126B5E;
 extern u16 D_80126B62;
 extern u16 D_80126B66;
 
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_8017E8A0;   /* 0x20; .t @ +0x14 */
-typedef struct { s16 vx, vy, vz, pad; } Sv_8017E8A0;      /* 0x08 */
+   /* 0x20; .t @ +0x14 */
+      /* 0x08 */
 
 void func_8017E8A0(s32 param_1, s32 param_2)
 {
@@ -5309,13 +5298,6 @@ void func_8017F7D0(s32 arg0) {
 #include "common.h"
 
 
-typedef struct {
-    u8 pad0[8];
-    s32 f08;
-    s32 f0C;
-    u8 pad10[0x20];
-    s16 f30;
-} Work_80126948;
 extern Blk8 D_801C46E8;
 extern u8 D_80126948[];
 extern s32 D_8012718C;
@@ -5514,17 +5496,6 @@ void func_8017FCFC(u16 *a0) {
  * D_801C7600 is declared with the TU's own file-scope spelling (`u16 []`, :5486) and cast;
  * a block-scope `SVEC_FD64 []` re-declaration would be a hard C89 conflict there.
  */
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_FD64;
-typedef struct { u16 vx, vy, vz; s16 pad; } SVEC_FD64;
-typedef struct { u32 addr : 24; u32 len : 8; } P_TAG_FD64;
-typedef struct {
-    u8  b0, b1, b2, len;
-    u8  r, g, b, code;
-    u16 x0, y0; u32 uv0;
-    u16 x1, y1; u32 uv1;
-    u16 x2, y2; u32 uv2;
-    u16 x3, y3; u32 uv3;
-} PFT4_FD64;
 
 
 
@@ -6686,7 +6657,6 @@ void func_801816E4(void *a0)
 }
 
 
-typedef struct { s32 q[16]; } Str_801C5B00;
 extern Str_801C5B00 D_801C5B00[];
 extern void func_801292C8(u8 *arg0);
 
@@ -6809,7 +6779,6 @@ void func_80181918(s32 arg0) {
 extern void func_800D20C0(void *a0, void *a1, s32 a2);
 extern void func_800D23D0(void *a0);
 
-typedef struct { u8 b[8]; } Copy8;
 
 void func_801819D0(s32 a0) {
     u16 sp10[3];
@@ -6966,10 +6935,6 @@ void func_80181CA4(void)
  * asm/ov_SC01_080/data/tail.data.s). `dist` is read three ways -- lh for the
  * sentinel (combine folds (s16)u16 -> lh), lhu+sll/sra for the slt against
  * D_801270D0, and lhu again for the +0x500 store (the call kills the CSE). */
-typedef struct {
-    u16 dist;
-    s16 kind;
-} SpotDef_8018A278;
 
 extern s32 D_80126D50;
 extern u16 D_80126B66;
@@ -7419,7 +7384,6 @@ void func_801827B4(void *a0) {
 }
 
 
-typedef struct { u16 x, y, z, w; } V4_8018287C;
 
 extern s32 D_80126B58;
 extern s32 D_8018A30C[][2];
@@ -7568,23 +7532,12 @@ void func_80182B30(int param_1)
  * "gate" table: index i and index (i+1)&3 must both be non-zero before the
  * record at index i is forwarded to func_80182CB8. */
 
-typedef struct {
-    u8 raw[8];
-} S8Blob;
 
-typedef struct {
-    S8Blob a;
-    S8Blob b;
-} Entry16;
 
 extern Entry16 D_8018A414[];
 extern s32 D_801C7550[];
 extern void func_80182CB8(void *a0, S8Blob *a1, S8Blob *a2, s16 a3, s16 a4);
 
-typedef union {
-    s32 plain;
-    struct { s32 idx : 15; } bf;
-} LoopVar;
 
 void func_80182B90(void *a0, s32 a1, s16 a2) {
     LoopVar i;
@@ -7621,8 +7574,6 @@ void func_80182B90(void *a0, s32 a1, s16 a2) {
 //   func_8004787C(angle<<9) / 4096, and pushes the previous/current joint pair into the global
 //   prim D_801C7560 as two quads (±10 in y) through func_80017758. a4 is passed by
 //   func_80182B90 but never read.
-typedef struct { s16 vx, vy, vz, pad; } SV_80182CB8;
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_80182CB8;
 
 extern void func_80017D98(void *a0);
 extern s32 rand(void);

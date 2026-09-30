@@ -3074,27 +3074,9 @@ void func_8017E374(void *a0) {
 
 extern s32 rand(void);
 
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8_8017E3B0; /* 0x1C */
+ /* 0x1C */
 
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8_8017E3B0 subs[16];
-} GroupRec_801EB5C8_8017E3B0; /* 0x1D0 */
+ /* 0x1D0 */
 
 
 void func_8017E3B0(s32 param_1)
@@ -3666,9 +3648,9 @@ void func_8017F304(void *a0) {
  * Vec32 (:1098) -- byte-identical layouts. Renamed here only because match_one
  * compiles standalone with -Iinclude (engine_core.h is not on that path); on bank,
  * drop these three typedefs and use the TU's own names. */
-typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F340;   /*  8 bytes, align 2 */
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F340; /* 0x20 bytes, align 4 */
-typedef struct { s32 vx, vy, vz, pad; } V32_8017D7C0_8017F340;  /* 16 bytes, align 4 */
+   /*  8 bytes, align 2 */
+ /* 0x20 bytes, align 4 */
+  /* 16 bytes, align 4 */
 
 /* ov_SC02_041 func_8017F340 -- 181 ins, zero-crack family exemplar (reach x4:
  * ov_SC04_002:8017f19c, ov_SC04_004:8017f65c, ov_SC04_011:8017f340).
@@ -3818,7 +3800,6 @@ void func_8017F6D8(s32 arg0) {
 }
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017F700;
 
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32  func_80017DC4(void *a0, void *a1);
@@ -4740,15 +4721,6 @@ s32 func_80180A20(s32 *param_1) {
 }
 
 
-struct Ent_80180AB4 {
-    /* 0x00 */ u8  pad00[0x34];
-    /* 0x34 */ u16 unk34;
-    /* 0x36 */ u8  pad36[0xAA];
-    /* 0xE0 */ u16 unkE0;
-    /* 0xE2 */ u8  padE2[0x10];
-    /* 0xF2 */ s16 unkF2;
-    /* 0xF4 */ s16 unkF4;
-};
 
 void func_80180AB4(struct Ent_80180AB4 *arg0) {
     extern u8 D_80194470[];
@@ -4771,13 +4743,6 @@ void func_80180AB4(struct Ent_80180AB4 *arg0) {
 /* func_80180B24 — S71a_1 fable. Body = .run/pool_1/opus (standalone MATCH 215/215);
  * integration fix: D_80126B58 spelled through the TU's house __asm__ alias (the TU also
  * declares it `u8 []` at block scope in func_80184978, so a file-scope `s32` decl conflicts). */
-struct Ent_80180B24 {
-    /* 0x00 */ u8  pad00[0x34];
-    /* 0x34 */ u16 unk34;
-    /* 0x36 */ u8  pad36[0xBC];
-    /* 0xF2 */ u16 unkF2;
-    /* 0xF4 */ u16 unkF4;
-};
 extern u16 D_801EFD20;
 extern u16 D_801EFD40;
 extern s32 aB58_80180B24[1] __asm__("D_80126B58");
@@ -5454,14 +5419,6 @@ void func_80181948(s32 a0) {
  * to 0xF2.  Only COMPONENT_REFs of distinct members let sched.c prove the two
  * MEMs do not alias and hoist the `lh` above the `sh`; the `*(s16 *)(a0 + off)`
  * spelling keeps them dependent and emits the store first. */
-struct Ent_80181B30 {
-    /* 0x00 */ u8  pad00[0x1C];
-    /* 0x1C */ s32 unk1C;
-    /* 0x20 */ u8  pad20[0xD2];
-    /* 0xF2 */ s16 unkF2;
-    /* 0xF4 */ u8  padF4[0x2];
-    /* 0xF6 */ s16 unkF6;
-};
 
 void func_80181B30(struct Ent_80181B30 *a0) {
     extern void func_80183CF4(void *);
@@ -5495,31 +5452,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
    sched.c true_dependence drops the edge between a (IN_STRUCT && varying) member MEM and the
    (!IN_STRUCT && !varying) SYMBOL_REF global D_801EFD40 -- that is what lets the target hoist
    every `lhu D_801EFD40` above the entity stores (cookbook line 14831). */
-struct Sub_80181BA0 {
-    /* 0x00 */ u8  pad00[0x12];
-    /* 0x12 */ s16 unk12;
-};
 
-struct Ent_80181BA0 {
-    /* 0x00 */ u8  pad00[0x6];
-    /* 0x06 */ s16 unk06;
-    /* 0x08 */ u8  pad08[0x2];
-    /* 0x0A */ s16 unk0A;
-    /* 0x0C */ u8  pad0C[0x2];
-    /* 0x0E */ s16 unk0E;
-    /* 0x10 */ u8  pad10[0xC];
-    /* 0x1C */ s32 unk1C;
-    /* 0x20 */ struct Sub_80181BA0 *unk20;
-    /* 0x24 */ u8  pad24[0x10];
-    /* 0x34 */ u16 unk34;
-    /* 0x36 */ u8  pad36[0x5E];
-    /* 0x94 */ s32 unk94;
-    /* 0x98 */ s16 unk98;
-    /* 0x9A */ u8  pad9A[0x58];
-    /* 0xF2 */ s16 unkF2;
-    /* 0xF4 */ u8  padF4[0x2];
-    /* 0xF6 */ s16 unkF6;
-};
 
 void func_80181BA0(struct Ent_80181BA0 *a0) {
     extern u16 D_801EFD20;
@@ -5643,12 +5576,6 @@ void func_80181BA0(struct Ent_80181BA0 *a0) {
    between an (IN_STRUCT && varying) member MEM and the (!IN_STRUCT && !varying)
    SYMBOL_REF global D_801EFD40, and that is what hoists `lhu D_801EFD40` above
    `sh $v1, 0xF2($a0)` (this TU's own note @L5275, cookbook line 14831). */
-struct Ent_80181EA0 {
-    /* 0x00 */ u8  pad00[0x1C];
-    /* 0x1C */ s32 unk1C;
-    /* 0x20 */ u8  pad20[0xD2];
-    /* 0xF2 */ s16 unkF2;
-};
 
 /* Parameter is s32: the TU declares `extern void func_80181EA0(s32);` inside
    func_80181BA0 (L5332) and calls it as `func_80181EA0((s32)a0)` (L5398). */
@@ -5684,10 +5611,6 @@ void func_80181EA0(s32 a0) {
    `sh %lo(D_801EFD40)` (this TU's own note @L5275, cookbook line 14831).  Every OTHER
    entity access stays a raw cast, because cases 0/1 need the OPPOSITE: the D_801EFD40
    load must stay BELOW `sw 0x1C($s0)`. */
-struct EntF2_80181F0C {
-    /* 0x00 */ u8  pad00[0xF2];
-    /* 0xF2 */ s16 unkF2;
-};
 
 void func_80181F0C(s32 a0) {
     extern void func_8012BEE8(u8 *a0);
@@ -5818,11 +5741,6 @@ extern s32 D_801EFC48;
 extern s32 aFC4C[] __asm__("D_801EFC4C");
 extern u16 D_801EFD20;
 
-typedef struct {
-    s32 f0;
-    s32 f1;
-    s32 f2;
-} Rec801944E8;
 extern Rec801944E8 D_801944E8[];
 
 extern void func_80185960(s32 target, u16 *cur, s32 step);
@@ -5956,23 +5874,6 @@ void func_801823C0(void *a0)
  * Field layout: offsets 0x1C/0x34/0x94/0x98/0xF2/0xF6 agree with this TU's own
  * `struct Ent_80181BA0` (L5265); 0x72 and 0xE2 come from this target's own loads.
  * A fresh tag name is used because Ent_80181BA0 lacks those two members. */
-struct Ent_80182420 {
-    /* 0x00 */ u8  pad00[0x1C];
-    /* 0x1C */ s32 unk1C;
-    /* 0x20 */ u8  pad20[0x14];
-    /* 0x34 */ u16 unk34;
-    /* 0x36 */ u8  pad36[0x3C];
-    /* 0x72 */ u16 unk72;
-    /* 0x74 */ u8  pad74[0x20];
-    /* 0x94 */ s32 unk94;
-    /* 0x98 */ s16 unk98;
-    /* 0x9A */ u8  pad9A[0x48];
-    /* 0xE2 */ s16 unkE2;
-    /* 0xE4 */ u8  padE4[0xE];
-    /* 0xF2 */ u16 unkF2;
-    /* 0xF4 */ u8  padF4[0x2];
-    /* 0xF6 */ s16 unkF6;
-};
 
 void func_80182420(struct Ent_80182420 *a0)
 {
@@ -7197,7 +7098,7 @@ void func_80183880(s32 a0)
  * identical. Renamed here only because match_one compiles standalone with
  * -Iinclude (engine_core.h is not on that path); on bank, drop this typedef
  * and use the TU's own MATRIX name. */
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80183A28; /* 0x20 bytes, align 4 */
+ /* 0x20 bytes, align 4 */
 
 extern u16 D_801EFD20;
 /* §183: the TU spells these symbols differently at file scope, so reach them through
@@ -7418,7 +7319,6 @@ void func_80183EA8(void) {
 
 #include "common.h"
 
-typedef struct { s32 w[8]; } Blk32_80183F10;
 
 extern s32 D_801EFC54;
 /* §183: the TU spells these symbols differently at file scope, so reach them through
@@ -8350,9 +8250,6 @@ void func_80185214(s32 a0)
 extern s32 aFC4C[] __asm__("D_801EFC4C");
 extern void func_80049CAC(s32 a0, s32 a1);
 
-typedef struct {
-    s32 a, b, c, d, e, f, g, h;
-} Oct_801852BC;
 
 void func_801852BC(s32 id)
 {
@@ -8389,9 +8286,6 @@ extern void func_80049CAC(s32 a0, s32 a1);
 
 
 
-typedef struct {
-    s32 w[8];
-} Oct_801853D0;
 
 void func_801853D0(s32 id)
 {
@@ -8442,7 +8336,6 @@ void func_801853D0(s32 id)
 
 
 
-typedef struct { s32 a, b, c, d, e, f, g, h; } MTX8_80185648;
 
 void func_80185648(u32 a0)
 {
@@ -9989,7 +9882,6 @@ void func_801876A0(s32 a0) {
 
 #include "common.h"
 
-typedef struct { s16 x, y, z, w; } Vec4S16_8018778C;
 
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern s32 func_80187940(s32 arg0, s32 arg1, s32 arg2, s16 arg3);
@@ -10143,7 +10035,6 @@ extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern void func_80188B78(u8 *a0);
 extern u8 D_801202A0[];
 
-typedef struct { s16 vx, vy, vz, pad; } SV_80187A04;
 
 void func_80187A04(void *a0)
 {
@@ -10339,8 +10230,8 @@ loop:
  *     `lh 0xC($s0)`); the intervening `sw 0x4($s0)` is what keeps the reload.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_80187D68;   /* 8 bytes, align 2 -> lwl/lwr copy */
-typedef struct { u8 c[4]; } Blk4_80187D68;             /* 4 bytes, align 1 -> lwl/lwr copy */
+   /* 8 bytes, align 2 -> lwl/lwr copy */
+             /* 4 bytes, align 1 -> lwl/lwr copy */
 
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
@@ -10887,7 +10778,7 @@ void func_80188AC4(s32 *param_1) {
  * V32_8017D7C0_8017F340 -- byte identical. Renamed/redeclared here only because
  * match_one compiles standalone with -Iinclude (engine_core.h is not on that
  * path); on bank, drop these typedefs and use the TU's own names. */
-typedef struct { s32 w0, w4, w8, wC; s16 h10, hpad; s32 t0, t1, t2; } Mat32_80188B78; /* 0x20 bytes */
+ /* 0x20 bytes */
    /* 8 bytes, align 2 */
   /* 16 bytes, align 4 */
 
@@ -11445,8 +11336,6 @@ void func_80189764(void *a0) {
 
 
 
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_8018985C;
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8018985C;
 
 extern u16 D_80126B5E;
 extern u16 D_80126B66;
@@ -11540,10 +11429,6 @@ extern void func_8018A42C(void *a0, void *a1);
 extern void func_8012B23C(s32 a0);
 extern s32 func_8012AD50(void *a0);
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-} Rec_80189AEC;
 
 extern s32 D_801E4928[];
 extern s32 D_801E57E4[];
@@ -11670,10 +11555,6 @@ void func_80189D38(void *a0)
 
 #include "common.h"
 
-typedef struct {
-    u16 value;
-    u8 pad[14];
-} Entry_D_801949C8;
 
 extern void (*D_80194A04[])(void *);
 extern Entry_D_801949C8 D_801949C8[];
@@ -12139,12 +12020,6 @@ void func_8018A7E8(s32 a0)
 
 #include "common.h"
 
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    u16 f6;
-} TableRec_80194A10;
 
 extern TableRec_80194A10 D_80194A10[];
 extern s32 D_801948F0[];
@@ -12773,7 +12648,6 @@ void func_8018B2F8(s32 *arg0, s32 arg1)
 
 #include "common.h"
 
-typedef struct { u8 c[4]; } Blk4_8018B4E0;
 
 extern void func_800233CC(void *a0, unsigned short a1);
 extern s32 func_8012C194(void);
@@ -12824,7 +12698,6 @@ extern void func_800233CC(void *a0, unsigned short a1);
 
 /* Same align-1 4-byte block-move idiom used elsewhere in this TU for
  * D_801ED994 (func_8018C764, L6200-6217): lwl/lwr + swl/swr, not memcpy. */
-typedef struct { u8 d[4]; } Blk4_8018B5E4;
 /* §183: the TU spells these symbols differently at file scope, so reach them through
    __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
    same assembler symbol, private type, zero declaration surface. */
@@ -12983,7 +12856,6 @@ extern u8 D_801EFEA0[];
  * which does not match the target's inline copy at all (TU note at
  * func_8018E1F0, L5311-5327). Route it through an align-1 struct assign
  * instead -- block-scoped so it cannot collide with anything file-scope. */
-typedef struct { u8 c[4]; } Blk4_8018B948;
 extern Blk4_8018B948 D_801ED9B4;
 
 s32 func_8018B948(void) {
@@ -14598,16 +14470,6 @@ void func_8018DA18(s32 a0, void *a1) {
  * confirmed via normalized asm diff (only the D_* data-symbol addresses and
  * instruction addresses differ).
  */
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8018DA64;
-typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_8018DA64;
-typedef struct {
-    SVECTOR_8018DA64 v[4];             /* 0x00 */
-    s32 k30, k34, k38, k3c;            /* 0x20: each a packed pair of s16 UV/coord fields */
-    u32 bcast;                         /* 0x30 */
-    s32 tag;                           /* 0x34 */
-    u8  code;                          /* 0x38 */
-    u8  pad39[7];                      /* -> 0x40 */
-} Prim_8018DA64;
 
 extern SVECTOR_8018DA64 D_80194DD0;
 extern SVECTOR_8018DA64 D_80194DD8;
@@ -16148,12 +16010,6 @@ int func_8018F68C(short *pos, int a1, int a2)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018F734;
 
 /* func_8018F734 (ov_SC03_117, ov_SC03_117_jr_8017BEBC) — MATCH (148 ins)
  *
@@ -16230,8 +16086,7 @@ typedef struct {
  * do not collide with any name in the TU.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_1A30_8018F734;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_1A30_8018F734;   /* 0x20 bytes */
+   /* 0x20 bytes */
 
 void func_8018F734(s16 *arg0)
 {
@@ -16570,12 +16425,9 @@ void func_8018FD38(s32 arg0) {
  * func_80017D98, func_8004787C, func_80190174, D_800B99DA, D_801F1500.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_8018FE20;        /* 8 bytes, align 2 */
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8018FE20;     /* 0x20 */
-typedef struct {
-    SV_8018FE20 v[4];           /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-} PRIM_8018FE20;                /* 0x38 */
+        /* 8 bytes, align 2 */
+     /* 0x20 */
+                /* 0x38 */
 
 extern u16  D_800B99DA;
 extern s8   D_801F1500[];
@@ -16677,10 +16529,7 @@ void func_8018FE20(arg0, arg1, arg2, arg3)
 
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];  /* 0x00, 0x20 bytes */
-    s32 f0, f1, f2, f3, f4; /* 0x20 - 0x33 */
-} Prim34_80190174;          /* sizeof == 0x34 */
+          /* sizeof == 0x34 */
 
 void func_80190174(Prim34_80190174 *arg0, void *arg1, s32 arg2)
 {

@@ -4046,7 +4046,6 @@ void func_801802C8(u8 *a0, u8 *a1) {
 
 
     
-typedef struct { s16 a, b, c; } SV3_80184C98;
 
 /* func_8018035C -- same-class neighbour push-away over the 0x60-entry /
  * 0x10C-stride entity table D_801202A0. Banked twin: ov_SC06_018:func_80187320

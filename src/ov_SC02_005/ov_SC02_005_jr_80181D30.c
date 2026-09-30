@@ -13,15 +13,7 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { u32 w0, w1, w2; } PrimCF90;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimCF90 *prim, *end; } CellCF90;
-typedef struct { s16 vx, vy; } DVEC2_CF90;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_CF90;
 /* MTX_CF90 moved to ov_SC02_005_shared.h (S74 §431 split). */
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_CF90;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_CF90;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -4300,7 +4292,6 @@ void func_80183D90(void *arg0) {
 
 #include "common.h"
 
-typedef struct { u8 b[4]; } Blk4_80183FCC;
 
 extern void func_8001C924(s32 a0, void *a1);
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
@@ -4554,8 +4545,6 @@ void func_801844D4(s32 arg0) {
 /* File-local mirror types: match_one compiles standalone with -Iinclude
  * only, so the TU's real Blk20 (src/shared/engine_types.h) is not
  * reachable here. These mirror its exact byte layout. */
-typedef struct { s32 w[8]; } Blk20_8018454C;
-typedef struct { s16 vx, vy, vz, pad; } SVec3_8018454C;
 
 extern Blk20 D_800AE620;
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
@@ -4710,11 +4699,7 @@ void func_801846CC(void *a0)
  */
 #include "common.h"
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVec_80184828;
 
-struct S0E_80184828 { s16 v; };
 
 extern void func_8012AD80(s32 a0);
 extern s32 func_80187508(s32 param_1);
@@ -4835,7 +4820,6 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8012B200(u8 *a0);
 extern s32 D_801963FC;
 
-struct S34_80184A8C { u16 v; };
 
 void func_80184A8C(void *a0) {
     s32 s0;
@@ -5052,9 +5036,6 @@ extern s32 func_8012AD50(void *a0);
 extern u16 D_80195B4C[];
 extern u16 D_80195B68[];
 
-typedef struct {
-    u8 pad[0x34];
-} D_80195D74_Entry;
 extern D_80195D74_Entry D_80195D74[];
 
 extern void (*D_80196490[])(void);

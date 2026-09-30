@@ -2810,10 +2810,6 @@ extern u8 D_801EE4F8[], D_801EE528[], D_801EE580[], D_801EE6B8[];
 #define H70(p)  (*(s16 *)((s32)(p) + 0x70))
 #define H108(p) (*(s16 *)((s32)(p) + 0x108))
 
-typedef struct {
-    s16 a, b, c, d, e, f, g, h;
-    s32 w;
-} Blk8018057C;
 
 u8 *func_8018057C(void *arg0) {
     Blk8018057C blk;

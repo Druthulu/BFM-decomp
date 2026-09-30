@@ -1053,7 +1053,6 @@ void func_8012BF4C(s32 *a0, s32 a1) {
 #include "../shared/ov/func_8012C820.h"
 
 
-            typedef struct { s8 c[8]; } Blk8_8012C890;
 
 // @class: schedule
 // @unstuck(P36): none — MATCH (149 ins). Counter (*(u16 *)&D_801270C4): gcc CSE's the two reads (store to
@@ -1376,7 +1375,6 @@ void func_8012E284(void) {
 #include "../shared/ov/func_8012E32C.h"
 
 
-            typedef struct { s8 c[8]; } Blk8_8012E364;
 
 /* func_8012E364 (ov_SC01_077_jr_8012ACE0) — MATCH, 67/67 ins, 0 mismatched (reloc-masked).
  *
@@ -1597,7 +1595,6 @@ void func_8012E9C0(int param_1)
 #include "../shared/ov/func_8012EF70.h"
 
 
-            typedef struct { s8 c[8]; } Blk8_8012EFB8;
 
 /* §37/§124 asm-label alias: the fleet canon declares this `extern void
  * func_8012EFB8(s32 a0);` inside the DEFINE_func_* macros in
@@ -1716,7 +1713,6 @@ void func_8012F8C8(int param_1)
 #include "../shared/ov/func_8012FCA4.h"
 
 
-            typedef struct { s8 c[8]; } Blk8_8012FCC4;
 
 // @class: schedule
 // @unstuck(P36): none — MATCH (57 ins), byte-exact via rtu_match on the real TU.
@@ -2020,7 +2016,6 @@ extern s32 func_8012BCCC(s32 a0);
 extern s32 func_80131A34(s32, s32);
 extern s32 func_80131AC8(void *a0);
 extern void func_80131B14(void);
-            typedef struct { s8 c[8]; } Blk8_80131170;
 
 
 // @class: loop-guard

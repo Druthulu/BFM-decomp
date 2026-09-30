@@ -3306,11 +3306,6 @@ extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 /* The camera x/y pair at D_80126B5E / D_80126B5E+4 (== D_80126B62).  The target
  * reads BOTH through the one `la $s1, D_80126B5E` (`lh 0x0($s1)` / `lh 0x4($s1)`),
  * so they must be reached through a pointer — see the launder below. */
-typedef struct {
-    u16 x;      /* 0x00  D_80126B5E */
-    u16 unk2;   /* 0x02 */
-    u16 y;      /* 0x04  D_80126B62 */
-} Cam183098;
 
 void func_80183098(s32 param_1) {
     u16 sp18[3];
@@ -3788,7 +3783,6 @@ void func_80183C84(void *a0) {
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV83;
 
 void func_80183D5C(s32 arg0)
 {

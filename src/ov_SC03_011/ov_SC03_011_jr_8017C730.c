@@ -3684,8 +3684,8 @@ extern void func_8017E3F0();  // K&R: 0 of 1 args (P37 rung D t4_D2)
  * do NOT adopt the seed's typedef names, only their layout; the destination TU's
  * shared headers ("../shared/engine_core.h") carry identical-layout types but under
  * different names, so a locally-scoped name collides with nothing. */
-typedef struct { short m[3][3]; long t[3]; } Mtx_8017E3F0;   /* 0x20; .t @ +0x14 */
-typedef struct { short vx, vy, vz, pad; } Sv_8017E3F0;       /* 0x08 */
+   /* 0x20; .t @ +0x14 */
+       /* 0x08 */
 
 /* TU-verified declarations (src/ov_SC03_011/ov_SC03_011_jr_8017C730.c) */
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
@@ -4135,9 +4135,7 @@ void func_8017EB88(s32 arg0) {
 #include "common.h"
 
 /* 0x20-byte matrix block (MATRIX-shaped) copied wholesale from D_800AE620 */
-typedef struct { s32 w[8]; } Blk32_8017ECD4;
 /* 0x10-byte vector block (VECTOR-shaped) */
-typedef struct { s32 w[4]; } Blk16_8017ECD4;
 
 /* 8-byte record x4 @0x801853A8 (tail.data.s 8192-8215).  The data split gave each
  * halfword of record 0 its own dlabel (D_801853A8/AA/AC/AE), so the target's .s shows
@@ -4146,7 +4144,6 @@ typedef struct { s32 w[4]; } Blk16_8017ECD4;
  * loop.c strength-reduce the i*8 offset into the single giv the target keeps in $s1 --
  * four separate `extern u16 D_8018.. []` arrays produce an ADDRESS giv for the first
  * access plus an inline `sll a0,i,3` for the rest (-1 ins, wrong preheader). */
-typedef struct { u16 f0, f2, f4; s16 f6; } Rec_8017ECD4;
 
 extern Blk32_8017ECD4 D_800AE620;
 extern Blk16_8017ECD4 D_801A0E44;
@@ -4285,12 +4282,6 @@ void func_8017F110(void *a0) {
 
 #include "common.h"
 
-typedef struct {
-    /* 0x0 */ u16 x;
-    /* 0x2 */ u16 y;
-    /* 0x4 */ u16 z;
-    /* 0x6 */ u16 w;
-} Vec4h_8017F14C;
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 
@@ -4385,8 +4376,8 @@ extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 /* Local stack-frame shapes declared under this function's own address (law 1b).
  * sp+0x10: 0x20-byte matrix block, filled by func_80049CAC, consumed by func_800484EC.
  * sp+0x30: 12-byte vector block -- the target emits word stores only, so s32 members. */
-typedef struct { s32 w[8]; } Mtx_8017F370;         /* 0x20 */
-typedef struct { s32 f0, f4, f8; } Vec12_8017F370; /* 0x0C */
+         /* 0x20 */
+ /* 0x0C */
 
 void func_8017F370(s32 arg0) {
     Mtx_8017F370 m;    /* sp+0x10 */
@@ -4948,7 +4939,6 @@ void func_8018009C(u8 *a0) {
 }
 
 
-typedef struct { u32 w0; u32 w1; } __attribute__((packed, aligned(1))) Blk8_801800F8;
 extern Blk8_801800F8 D_801A0E64;
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);

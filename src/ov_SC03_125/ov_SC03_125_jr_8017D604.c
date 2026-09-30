@@ -3745,7 +3745,6 @@ void func_8017F554(void *a0) {
 }
 
 
-    typedef struct { short vx, vy, vz, pad; } SVFD98;
 
 
 
@@ -4000,11 +3999,6 @@ void func_8017FACC(void *a0) {
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 
-typedef struct {
-    /* 0x0 */ u16 x;
-    /* 0x2 */ u16 y;
-    /* 0x4 */ u16 z;
-} Vec4h_8017FB08;
 
 s32 func_8017FB08(s32 a0, s32 a1) {
     Vec4h_8017FB08 p1;
@@ -4145,7 +4139,6 @@ void func_8017FD98(void *a0) {
 
 
 /* identical layout to SVECTOR_8016E7C8 (src/shared/engine_types.h) */
-typedef struct { short vx, vy, vz, pad; } SVEC_8017EC98_8017FE60;
 
 void func_8017FE60(SVEC_8017EC98_8017FE60 *p0, SVEC_8017EC98_8017FE60 *p1) {
     /* conform to the TU's file-scope canon (`extern void func_8012EF70(s32, s32);`)

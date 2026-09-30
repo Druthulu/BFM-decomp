@@ -9,8 +9,8 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_8017D278;   /* 0x20; .t @ +0x14 */
-typedef struct { s16 vx, vy, vz, pad; } Sv_8017D278;      /* 0x08 */
+   /* 0x20; .t @ +0x14 */
+      /* 0x08 */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -2825,21 +2825,8 @@ void func_8017DD28(void *a0) {
  */
 
 /* 12 bytes, align 2 -> struct copies come out as lwl/lwr + swl/swr triples */
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-    s16 f8;
-    s16 fA;
-} Key12_8017DD64;
 
 /* 8-byte stride track record */
-typedef struct {
-    void *f0;
-    s16   f4;
-    s16   f6;
-} Rec8_8017DD64;
 
 extern s32 D_801F8088;
 extern void func_8017E078(Key12_8017DD64 *dst, void *src, s32 idx);  /* (Key12_8017DD64 *dst, void *src, s32 idx) — unspecified list keeps this compatible with any slate-mate prototype */
@@ -3001,57 +2988,16 @@ void func_8017E168(s32 a0) {
  * (src/ov_SC06_006/ov_SC06_006_jr_8017BEBC.c) declares none of these symbols. */
 
 /* 8 bytes, align 2 -> the +0x18 rotation copy emits lwl/lwr + swl/swr */
-typedef struct {
-    s16 x, y, z, pad;
-} Rot_8017E330;
 
 /* the coordinate/model record hung off +0x20 of both the actor and the driver */
-typedef struct {
-    u8            pad00[0x10];
-    u16           f10;          /* 0x10 */
-    u16           f12;          /* 0x12 */
-    u16           f14;          /* 0x14 */
-    u8            pad16[0x02];
-    Rot_8017E330  rot;          /* 0x18 */
-    s32           align;        /* keeps align 4 so the +0x20 pointer loads with lw */
-} Coord_8017E330;
 
-typedef struct {
-    u8              pad00[0x06];
-    s16             f06;        /* 0x06 */
-    u8              pad08[0x02];
-    s16             f0A;        /* 0x0A */
-    u8              pad0C[0x02];
-    s16             f0E;        /* 0x0E */
-    u8              pad10[0x10];
-    Coord_8017E330 *f20;        /* 0x20 */
-    u8              pad24[0x4C];
-    u8              f70;        /* 0x70 — pose index */
-    u8              pad71[0x27];
-    s16             f98;        /* 0x98 */
-    u8              pad9A[0x42];
-    s32             fDC;        /* 0xDC */
-} Actor_8017E330;
 
-typedef struct {
-    u8              pad00[0x02];
-    u16             f02;        /* 0x02 */
-    u8              pad04[0x1C];
-    Coord_8017E330 *f20;        /* 0x20 */
-    u8              pad24[0x10];
-    u16             f34;        /* 0x34 */
-} Drv_8017E330;
 
 /* 12-byte stride pose table based at D_801F8428.
  * +0/+2/+4 are read signed (lh, they feed a mult); +6/+8/+A are plain HI moves
  * (D_801F842E / D_801F8430 / D_801F8432). */
-typedef struct {
-    s16 x, y, z;                /* D_801F8428 / D_801F842A / D_801F842C */
-    u16 a, b, c;                /* D_801F842E / D_801F8430 / D_801F8432 */
-} Pose_8017E330;
 
 /* 16 bytes: the frame's var region is 0x10..0x1F (only x/y/z are ever touched) */
-typedef struct { s16 x, y, z; s16 pad[5]; } Work_8017E330;
 
 extern void *D_801F80E4;
 extern s32   D_801F8090;
@@ -3124,52 +3070,11 @@ void func_8017E330(Actor_8017E330 *a0) {
 }
 
 
-typedef struct {
-    s16 x, y, z, pad;
-} Rot_8017E550;
 
-typedef struct {
-    u8            pad00[0x10];
-    u16           f10;
-    u16           f12;
-    u16           f14;
-    u8            pad16[0x02];
-    Rot_8017E550  rot;
-    s32           align;
-} Coord_8017E550;
 
-typedef struct {
-    u8              pad00[0x06];
-    s16             f06;
-    u8              pad08[0x02];
-    s16             f0A;
-    u8              pad0C[0x02];
-    s16             f0E;
-    u8              pad10[0x10];
-    Coord_8017E550 *f20;
-    u8              pad24[0x40];
-    s32             f64;
-    u8              pad68[0x08];
-    u8              f70;
-    u8              pad71[0x27];
-    s16             f98;
-} Actor_8017E550;
 
-typedef struct {
-    u8              pad00[0x02];
-    u16             f02;
-    u8              pad04[0x1C];
-    Coord_8017E550 *f20;
-    u8              pad24[0x10];
-    u16             f34;
-} Drv_8017E550;
 
-typedef struct {
-    s16 x, y, z;
-    u16 a, b, c;
-} Pose_8017E550;
 
-typedef struct { s16 x, y, z; s16 pad[5]; } Work_8017E550;
 
 extern void *D_80185F6C[];
 extern s32   D_801F8090;
@@ -3235,7 +3140,6 @@ extern s16 D_80185F7A;
 extern s16 D_80185F7C;
 extern s16 D_80185F7E;
 extern u8 D_80185F80[];
-typedef struct { u16 x, y, z, w; } V4_8017E734;
 
 void func_8017E734(void* a0)
 {
@@ -3280,55 +3184,14 @@ body:
 }
 
 
-typedef struct {
-    s16 x, y, z, pad;
-} Rot_8017E878;
 
 /* the coordinate/model record hung off +0x20 of both the actor and the driver */
-typedef struct {
-    u8            pad00[0x10];
-    u16           f10;          /* 0x10 */
-    u16           f12;          /* 0x12 */
-    u16           f14;          /* 0x14 */
-    u8            pad16[0x02];
-    Rot_8017E878  rot;          /* 0x18 */
-    s32           align;        /* keeps align 4 so the +0x20 pointer loads with lw */
-} Coord_8017E878;
 
-typedef struct {
-    u8              pad00[0x06];
-    s16             f06;        /* 0x06 */
-    u8              pad08[0x02];
-    s16             f0A;        /* 0x0A */
-    u8              pad0C[0x02];
-    s16             f0E;        /* 0x0E */
-    u8              pad10[0x10];
-    Coord_8017E878 *f20;        /* 0x20 */
-    u8              pad24[0x40];
-    s32             f64;        /* 0x64 — driver record pointer */
-    u8              pad68[0x08];
-    u8              f70;        /* 0x70 — pose index */
-    u8              pad71[0x27];
-    s16             f98;        /* 0x98 */
-} Actor_8017E878;
 
-typedef struct {
-    u8              pad00[0x02];
-    u16             f02;        /* 0x02 */
-    u8              pad04[0x1C];
-    Coord_8017E878 *f20;        /* 0x20 */
-    u8              pad24[0x10];
-    u16             f34;        /* 0x34 */
-} Drv_8017E878;
 
 /* 12-byte stride pose table based at D_801F82A8 */
-typedef struct {
-    s16 x, y, z;
-    u16 a, b, c;
-} Pose_8017E878;
 
 /* 16 bytes: the frame's var region is 0x10..0x1F (only x/y/z are ever touched) */
-typedef struct { s16 x, y, z; s16 pad[5]; } Work_8017E878;
 
 extern s32   D_801F8090;
 extern void *D_801F8118;
@@ -3572,7 +3435,6 @@ void func_8017ECE8(void *a0) {
 
 extern int rand(void);
 
-typedef struct { u8 b[4]; } Col4;
 
 u32 func_8017ED24(u32 param_1, u32 param_2)
 {
@@ -3805,18 +3667,8 @@ void func_8017EEA4(void *arg)
 
 
 /* align-1 4-byte colour word => struct assignment lowers to lwl/lwr+swl/swr (§160a) */
-typedef struct { u8 r, g, b, c; } Cv_8017F074;
 
 /* D_801860AC — overlay-private 20-byte flash-script record (stride 0x14) */
-typedef struct {
-    /* 0x00 */ s16 f0;
-    /* 0x02 */ s16 f2;          /* OT depth */
-    /* 0x04 */ s16 f4;          /* first active frame - 1 */
-    /* 0x06 */ s16 f6;          /* ramp-in end frame */
-    /* 0x08 */ s16 f8;          /* last active frame */
-    /* 0x0A */ s16 fA, fC, fE;
-    /* 0x10 */ Cv_8017F074 col; /* per-frame colour delta */
-} Fade_8017F074;
 
 extern Fade_8017F074 D_801860AC[];
 extern short D_800B9A02;                    /* DROP WHEN BANKING (already in the TU) */
@@ -4187,13 +4039,6 @@ void func_8017F934(void) {
  *  - `s16 i` gives the addiu/move/sll/sra/slti counter idiom on both do-whiles.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } Sv_8017FA2C;
-typedef struct { u8 r, g, b, cd; } Cv_8017FA2C;
-typedef struct {
-    Sv_8017FA2C v[4];   /* 0x00 */
-    Cv_8017FA2C c[4];   /* 0x20 */
-    u32         code;   /* 0x30 */
-} Prim_8017FA2C;
 
 extern u16 D_800B99DA;
 extern s32 D_801F8090;
@@ -4386,20 +4231,8 @@ void func_8017FFA8(void) {
 #include "common.h"
 
 /* 8-byte script command record */
-typedef struct {
-/* 0x0 */ s16 kind;   /* slot index; -1 terminates */
-/* 0x2 */ s16 cmd;    /* opcode 0..3 */
-/* 0x4 */ s32 arg;
-} Cmd801800B8;
 
 /* argument block (&D_80185A80 &c.) */
-typedef struct {
-/* 0x00 */ Cmd801800B8 *cmds;
-/* 0x04 */ s32 unk04;
-/* 0x08 */ s32 unk08;
-/* 0x0C */ s32 unk0C;
-/* 0x10 */ s32 unk10;
-} Ctl801800B8;
 
 extern void func_801802E0(s32 *);
 extern void func_8017F5D0(void);
@@ -4877,14 +4710,6 @@ void func_80180A44(void *a0) {
 }
 
 
-typedef struct {
-    u8 mode;                 /* 0x00 */
-    u8 pad01;
-    u16 f02;                 /* 0x02 */
-    u16 f04, f06, f08;
-    u16 f0A;                 /* 0x0A */
-    u8 pad0C[0x14 - 0x0C];
-} Rec_80180AE8;
 
 extern Rec_80180AE8 D_80185FA0[];
 extern s32 D_80185F9C;

@@ -3305,7 +3305,6 @@ void func_8017BE60(void *a0) {
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_BEBC;
 
 extern s32 func_800491EC(void);
 extern void func_8017C294(u16 *a0, void *a1);
@@ -3348,16 +3347,7 @@ extern void func_8017C530(s32 a0, s32 a1);
  * cell $t3 naturally once the bbox block allocates right.
  */
 
-typedef struct { u32 w0, w1, w2; } PrimC59C;
-typedef struct { u8 *vtx; u32 f4; u32 xx, yy, zz; PrimC59C *prim, *end; } CellC59C;
 
-typedef struct { s16 vx, vy; } DVEC2_C59C;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PF3_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PF4_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PFT3_C59C;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PFT4_C59C;
 
 
 
@@ -4158,7 +4148,6 @@ void func_8017DCA4(void) {
 }
 
 
-typedef struct { char c[8]; } Blk8_8017DCF4;
 extern s16 D_801274E8;
 extern s16 D_8018BC30;
 
@@ -4212,8 +4201,6 @@ extern void func_8017DE40();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
     }
 
 
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017DE40;
-typedef struct { s16 a, b, c, d; } SV4_8017DE40;
 
 extern s32 D_80126B58;
 extern s16 D_8018BC3C[];
@@ -4706,7 +4693,6 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern void func_8017EC90(s32 a0, s32 a1);
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_E83C;
 
 s32 func_8017E83C(s32 arg0) {
     extern u8 D_801202A0[];
@@ -4802,8 +4788,6 @@ s32 func_8017EA04(s32 arg0) {
 
 /* bodies identical to engine_types.h's MTX / SV4; per-function names per the
  * *_<addr> house convention (law 8: same name => same body, else a new name). */
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017EA48;
-typedef struct { s16 a, b, c, d; } SV4_8017EA48;
 
 extern MTX_8017EA48 D_800AE620;
 extern SV4_8017EA48 D_8018BD34[];
@@ -5615,7 +5599,6 @@ void func_8017FBA0(s32 a0) {
 
 #include "common.h"
 
-typedef struct { s16 a, b, c, d; } SV4_FC6C;
 
 extern s32 *D_80126B78;
 extern u8 D_8018BE48[];
@@ -5823,7 +5806,6 @@ tail:
  * decl_prior modal fleet spelling is used directly.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_80064;
 
 extern s32  func_8012BC60(void *a0, void *a1);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);

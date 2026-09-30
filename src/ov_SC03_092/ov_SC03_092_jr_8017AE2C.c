@@ -5545,20 +5545,8 @@ void func_8017FA74(s32 arg0)
 }
 
 
-typedef struct {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-} Tbl8_8017FC44;
 
-typedef struct {
-    s8 pad00[0x68];
-    s32 f68;    /* 0x68 */
-} T68_8017FC44;
 
-typedef struct {
-    s8 pad00[0xC];
-    s16 f0C;    /* 0x0C */
-} TC_8017FC44;
 
 extern s32 func_80029504(void);
 extern void func_8012CAE4(void *a0);

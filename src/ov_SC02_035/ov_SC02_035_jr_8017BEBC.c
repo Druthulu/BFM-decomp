@@ -4724,13 +4724,6 @@ s32 func_80182318_def(s32 a0, s32 a1)
 
 
 extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_8018023C;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_8018023C;
 
 /* func_8018023C -- ov_SC02_026 / ov_SC02_026_jr_8017C180
  * Same TU declares this at line 4712 (extern void func_8018023C(s32 a0);) and
@@ -5049,11 +5042,6 @@ extern void func_80180C10(s32 a0);
 extern s32 func_8012C51C(void *a0, s32 a1);
 extern void func_801292C8(u8 *a0);
 
-typedef struct {
-    u16 vx, vy, vz;
-    u16 f6, f8, fA, fC, fE;
-    s32 f10;
-} SV3L2;
 
 void func_80180948(s32 a0) {
     SV3L2 sp10;
@@ -5121,7 +5109,6 @@ s32 func_801809E4(s32 a0, s32 a1, s32 a2) {
 }
 
 
-typedef struct { s32 w[8]; } Blk20_80180B38;
 
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void RotMatrixY(s32 a0, void *a1);

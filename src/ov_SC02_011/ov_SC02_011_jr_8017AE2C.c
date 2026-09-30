@@ -5720,7 +5720,6 @@ void func_8017F2F0(void *a0) {
  * may DROP this local typedef and reuse the TU's own `B4` when banking into the host TU.
  */
 
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C;
 
 extern void func_801465C0(void);
 extern void func_8001CD04(void *a0, void *a1);
@@ -5857,13 +5856,6 @@ void func_8017F630(void *a0) {
 }
 
 
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017F67C;
 
 
 
@@ -6285,7 +6277,6 @@ void func_8017FE64(s32 a0) {
 }
 
 
-typedef struct { s16 m[4]; } S8_FF34;
 
 void func_8017FF34(s16 a0, void *a1, void *a2) {
     extern s16 D_80126B30;
@@ -7097,14 +7088,6 @@ void func_80180E74(void *a0)
  * local typedefs can be dropped.
  */
 
-typedef struct { s16 vx, vy; } DVEC80180FE4;
-typedef struct { s16 vx, vy, vz, pad; } SVEC80180FE4;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX80180FE4;
-typedef struct { u32 xx, yy, zz; u32 nprim; u32 *prim; } Part80180FE4;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1;
-                 s16 x2, y2; u16 uv2, p2; } PolyFT3_80180FE4;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1;
-                 s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PolyFT4_80180FE4;
 
 
 
@@ -7867,9 +7850,6 @@ extern s16 D_80126940;
 extern s16 D_801274E8;
 extern s16 D_801269E8;
 
-typedef struct {
-    s16 x0, x1, x2, x3;
-} UnalignedShortBlock;
 
 void func_80182488(void) {
     D_80126954 = 0x190;

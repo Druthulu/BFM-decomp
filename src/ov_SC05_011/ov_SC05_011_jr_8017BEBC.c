@@ -2907,17 +2907,6 @@ void func_8017D174(void)
 }
 
 
-typedef struct {
-    s16 unk00;
-    s16 unk02;
-    s16 unk04;
-    s16 unk06;
-    s16 unk08;
-    s16 unk0A;
-    s16 unk0C;
-    s16 unk0E;
-    s32 unk10;
-} Struct_8017D25C;
 
 extern void func_8012C1B8(void);
 extern s32 func_8012C51C(void *a0, s32 a1);

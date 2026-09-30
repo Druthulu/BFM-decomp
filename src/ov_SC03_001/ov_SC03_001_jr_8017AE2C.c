@@ -3991,7 +3991,6 @@ extern s32 func_8012B744(void *a0, void *a1);
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
 extern s16 D_80191020;
 
-typedef struct { s16 vx, vy, vz, pad; } TmpVec_8017DCE4;
 
 void func_8017DCE4(s32 a0)
 {

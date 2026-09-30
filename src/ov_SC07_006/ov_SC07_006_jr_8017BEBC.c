@@ -3342,11 +3342,6 @@ void func_8017CFA4(void) {
 }
 
 
-typedef struct {
-    s16 off00; s16 off02; s16 off04; s16 off06;
-    u16 off08; s16 off0A; u16 off0C;
-    u8 pad0E[0x12];
-} Ent8018DE64;
 
 extern s32 D_80126954;
 extern s32 D_8012695C;
@@ -3519,8 +3514,6 @@ void func_8017D4E4(s32 param_1, s16 *param_2) {
 }
 
 
-typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec8017D67C;
-typedef struct { SVec8017D67C v[2]; s32 col[2]; s32 tag; s32 pad; } Prim8017D67C;
 
 extern void func_8012C218(void *a0);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);

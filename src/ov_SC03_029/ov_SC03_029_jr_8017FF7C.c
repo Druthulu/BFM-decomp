@@ -9,12 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-struct UShortBlk_F4C4 {
-    s16 x0, x1, x2, x3;
-};
-typedef struct {
-    s16 x0, x1, x2, x3;
-} UnalignedShortBlock;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3774,10 +3768,6 @@ extern u16 D_800B99DA;
 
 /* Packed struct to trigger lwl/lwr unaligned block copy (same idiom as the
  * banked twin ov_SC02_011:func_8018754C's BlockData). */
-typedef struct {
-    u32 w0;
-    u32 w1;
-} __attribute__((packed, aligned(1))) Block8_80181600;
 
 extern Block8_80181600 D_801D80B0;
 
@@ -4468,11 +4458,6 @@ extern s32 D_8018BCCC[];
  * table read and the write into a0+0xFC (matching the target even though
  * a0+0xFC is actually 4-aligned at runtime -- codegen goes off the type's
  * declared alignment, not the runtime address; cookbook §48-C2). */
-struct Rec80182744_s {
-    s32 f0;
-    s32 f1;
-    s32 f2;
-} __attribute__((packed, aligned(1)));
 
 extern Rec80182744 D_8018BCD8[];
 
@@ -4747,7 +4732,6 @@ void func_80182CA4(s32 param_1) {
 
 #include "common.h"
 
-typedef struct { s32 w[8]; } Blk20_80182D70;
 
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
@@ -5525,7 +5509,6 @@ void func_80183C7C(void *a0) {
 
 
     
-typedef struct { s16 a, b, c; } SV3_80184C98;
 
 /* func_80183CC4 — ov_SC02_011 (TU: src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c)
  *
@@ -5702,7 +5685,6 @@ u8 *func_80183F70(s32 a0, s32 a1, s32 a2) {
  * match_one's isolated compile only has -Iinclude and cannot resolve
  * ../shared/engine_types.h; the host TU already has Blk20 via engine_core.h.
  * When banking, prefer `extern Blk20 D_800AE620;` + `Blk20 m;`. */
-struct Mtx32_80184008 { s32 w[8]; };
 
 extern void func_8012B23C(s32 a0);
 extern s32  func_80184520(s32 a0);
@@ -6057,8 +6039,6 @@ void func_80184658(void *a0) {
  *   @6592); D_80078EAE is block-scoped (house style: func_801862B8).
  * - VecL_80184694 is 12 bytes (libgpu VECTOR layout: 3 longs); the asm
  *   stores words (sw zero,0x30/0x34, sw v0,0x38) and never touches a pad. */
-typedef struct { s32 w[8]; } Blk20_80184694;
-typedef struct { s32 vx, vy, vz; } VecL_80184694;
 
 extern u8 D_80078EAE;
 extern void RotMatrixY(s32 a0, void *a1);
@@ -6497,19 +6477,12 @@ extern s32 func_80047948(s32 a0);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012B414(int a0);
 extern void func_8012C218(void *a0);
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C_80184FF0;
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_80184FF0;
 
-typedef struct { s16 vx, vy, vz, pad; } SVec8_8018E8A0_80184FF0;          /* 0x08 */
-typedef struct { s32 vx, vy, vz, pad; } Vec16_8018E8A0_80184FF0;          /* 0x10 */
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } Mtx_8018E8A0_80184FF0; /* 0x20 */
+          /* 0x08 */
+          /* 0x10 */
+ /* 0x20 */
 typedef struct { s16 f[0x86]; } Cnt_8018E8A0_80184FF0;
-typedef struct {
-    SVec8_8018E8A0_80184FF0 v[4];   /* 0x00 */
-    u32            c[4];   /* 0x20 */
-    s32            code;   /* 0x30 */
-    s32            pad;    /* 0x34 */
-} Prim_8018E8A0_80184FF0;           /* 0x38 */
+           /* 0x38 */
 
 void func_80184FF0(void *a0)
 {

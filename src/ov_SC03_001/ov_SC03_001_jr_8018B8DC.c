@@ -9,23 +9,9 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { u32 addr : 24; u32 len : 8; } PTag_S40_8018B238;
-typedef struct { u32 w; }                      W_S40_8018B238;
-typedef struct { u32 *ot; u32 pad[4]; }        Env_S40_8018B238;   /* 0x14 stride */
-typedef struct { s16 v; }                      Flag_S40_8018B238;  /* 0x02 stride */
-typedef struct Panel_S40_8018B238 {
-    s16   f0;    /* 0x00 */
-    s16   f2;    /* 0x02 */
-    void *f4;    /* 0x04 */
-    void *f8;    /* 0x08 */
-    s16   fC;    /* 0x0C */
-    s16   fE;    /* 0x0E */
-    s16   f10;   /* 0x10 */
-    s16   f12;   /* 0x12 */
-    void *f14;   /* 0x14 */
-    void *f18;   /* 0x18 */
-    void *f1C;   /* 0x1C */
-} Panel_S40_8018B238;                                              /* 0x20 stride */
+   /* 0x14 stride */
+  /* 0x02 stride */
+                                              /* 0x20 stride */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3172,12 +3158,6 @@ extern s32  *func_8018BCD4(s32 *, void *, s32, void *, s32);
 extern s32   func_8018B644(void *, s32, s32, s32, s32 *);
 extern s32 * func_8018B478(s32 *ot, Panel_8017E978_8018B478 *w0, s16 idx);
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018B8DC;
 
 /* func_8018B8DC — ov_SC04_018 / ov_SC04_018_jr_801878E8, 254 ins, jtbl_801E599C (8 entries,
  * minval 7 -> `addiu $a0,$a0,-7` + HImode re-extension, so the switch index type is short).
@@ -4301,13 +4281,6 @@ extern s32 D_801EB594;
 extern u32 D_801EB5A8;
 extern s32 D_801EB6D8;
 
-typedef struct {
-    s16 field_0;
-    s16 field_2;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-} Struct801EF318;
 
 extern Struct801EF318 D_801EF318;
 

@@ -3032,7 +3032,6 @@ void func_8017D3B8(s32 a0) {
 }
 
 
-typedef struct { s16 v[4]; } Blk8_80126940_8017D458;
 
 void func_8017D458(s32 a0) {
 
@@ -3216,22 +3215,8 @@ int func_8017D868(int param_1)
  * the only thing that references +2 and +4.  Loads are `lhu` -> u16 fields.
  */
 
-typedef struct {
-    u16 x, y, z, w;                 /* stride 8, +0/+2/+4 used */
-} Tbl8_8017D898;
 
-typedef struct {
-    s16 x, y, z, w;                 /* 8-byte stack vector (sh stores, lh reads) */
-} V8_8017D898;
 
-typedef struct {
-    u16 f0;                         /* 0x00 */
-    u8  p2[4];
-    s16 x;                          /* 0x06 */
-    u8  p8[6];
-    s16 z;                          /* 0x0E */
-    u8  p10[0x10C - 0x10];          /* stride 0x10C */
-} Ent_8017D898;
 
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
@@ -3448,7 +3433,6 @@ extern s32 func_8017D898(s32 a0, s32 a1);
 
 /* 8-byte probe endpoint, same shape as the neighbouring func_801844C8's
  * V8_80184F90_801844C8 (s16 x,y,z,w). */
-typedef struct { s16 x, y, z, w; } V8_8017DEBC;
 
 void func_8017DEBC(s32 a0) {
     V8_8017DEBC src;
@@ -3716,7 +3700,6 @@ void func_8017E3B0(s32 a0) {
 
 /* Entity slot of the global D_801202A0 table: 0x10C stride, 0x60 entries.
  * Only the three fields this function touches are named. */
-typedef Unkstruct_800B5CB8 Ent_8017FD58_8017E52C;
 
 extern s32 func_8017D898(s32 a0, s32 a1);
 extern s32 func_80029178(s32 arg);
@@ -5542,13 +5525,6 @@ s32 func_801814F4(s32 arg0, s32 arg1)
 
 
 extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_801815C4;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_801815C4;
 
 /* func_801815C4 -- ov_SC02_026 / ov_SC02_026_jr_8017C180
  * Same TU declares this at line 4712 (extern void func_801815C4(s32 a0);) and
@@ -5609,7 +5585,6 @@ void func_801815C4(s32 a0) {
 }
 
 
-typedef Unkstruct_800B5CB8 Ent_8018172C_tab;
 
 s32 func_8018172C(void) {
     extern u8 D_801202A0[];
@@ -5866,17 +5841,6 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 extern void func_801292C8(u8 *a0);
 extern void func_80181F98(s32 a0);
 
-typedef struct {
-    s16 f00;
-    s16 f02;
-    s16 f04;
-    s16 f06;
-    u16 f08;
-    s16 f0A;
-    s16 f0C;
-    s16 f0E;
-    s32 f10;
-} Tmp80181CD0;
 
 void func_80181CD0(s32 a0) {
     Tmp80181CD0 sp10;
@@ -7398,7 +7362,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void func_80183E70(s32 a0, s32 a1);
 
 
-typedef struct { s16 x, y, z, w; } V8_80184F90_801844C8;
 
 
 s32 func_801844C8(s32 a0) {
@@ -7507,7 +7470,6 @@ s32 func_801844C8(s32 a0) {
  * 0x4004 grids and func_8017EC9C's table-driven variant of the same idiom).
  */
 
-typedef struct { s16 x, y, z, w; } V8_8018487C;
 
 extern void func_8012CBCC(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);

@@ -3739,9 +3739,7 @@ void func_80183B34(s32 param_1) {
  * before sweeping (§56b — carry the TU's types, not this draft's).
  */
 
-typedef struct { u16 x, y, z, w; } V4_80188E10_80183BB4;
 
-typedef Unkstruct_800B5CB8 Ent_80188E10_80183BB4;
 
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -3867,7 +3865,6 @@ void func_80183DA4(s32 a0, s32 a1) {
 }
 
 
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_8018C334;
 
 
 s32 func_80184028(void *a0, s32 a1, s32 a2) {
@@ -3892,17 +3889,6 @@ s32 func_80184028(void *a0, s32 a1, s32 a2) {
 
 extern s32 func_8012C51C(void *a0, s32 a1);
 
-typedef struct {
-    u16 f10; /* 0x10 */
-    u16 f12; /* 0x12 */
-    u16 f14; /* 0x14 */
-    s16 f16; /* 0x16 */
-    s16 f18; /* 0x18 */
-    s16 f1a; /* 0x1A */
-    s16 f1c; /* 0x1C */
-    u16 f1e; /* 0x1E */
-    s32 f20; /* 0x20 */
-} buf_801840C0;
 
 void func_801840C0(a0, a1, a2, a3, a4, a5)
 s32 a0;
@@ -5025,7 +5011,7 @@ body:
 }
 
 
-typedef struct { s32 a; s32 b[4]; } OtBlk_80185B4C;   /* == engine_types.h OtBlk (0x14) */
+   /* == engine_types.h OtBlk (0x14) */
 
 void func_80185B4C(s32 arg0, s32 arg1, s32 arg2)
 {
@@ -5076,7 +5062,6 @@ void func_80185B4C(s32 arg0, s32 arg1, s32 arg2)
  * two align-1 4-byte block moves (cookbook §160a idiom, cf. ov_SC02_005
  * func_8018CE04 / func_8018BDD0). */
 
-typedef struct { u8 d[4]; } Blk4_80185CD8;
 
 void func_80185CD8(void) {
     extern u8 D_801D0D80;
@@ -5091,7 +5076,6 @@ void func_80185CD8(void) {
 }
 
 
-typedef struct { u8 b[4]; } Blk4_80185D4C;
 
 extern Blk4_80185D4C D_801D0D80;
 extern Blk4_80185D4C D_801CF0E4;
@@ -5764,8 +5748,8 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
 
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C_8018BCC4;   /* 8 bytes, align 2 -> lwl/lwr block move */
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C;   /* == engine_types.h OtBlk (0x14) */
+   /* 8 bytes, align 2 -> lwl/lwr block move */
+   /* == engine_types.h OtBlk (0x14) */
 
 
 extern u16 D_80126B96;
@@ -5898,15 +5882,9 @@ extern void func_800491AC(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
 extern void func_80187268(void *a0);
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C;   /* 8 bytes, align 2 -> lwl/lwr block move */
-typedef struct { u8 r, g, b, cd; } CVec_80186E9C;        /* 4 bytes, align 1 */
-typedef struct {
-    /* 0x00 */ SVec_80186E9C v[4];
-    /* 0x20 */ CVec_80186E9C col;
-    /* 0x24 */ u32 code;
-} Quad_80186E9C;
+   /* 8 bytes, align 2 -> lwl/lwr block move */
+        /* 4 bytes, align 1 */
 
-typedef struct { u8 pad00[0x20]; /* 0x20 */ u8 *mtx; } Ent_80186E9C;
 
 extern SVec_80186E9C D_801BEF94[];
 
@@ -6048,15 +6026,6 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 
 extern u8 D_801BEF7C[];
 
-struct Fr_80187368 {
-    s16 mtx[10];   /* sp+0x10, only its address is used (func_80049CAC out) */
-    s32 pos[3];    /* sp+0x24 */
-    s16 sv[4];     /* sp+0x30 (RotTransSV out) */
-    s16 sv2[4];    /* sp+0x38 (unused, layout filler) */
-    s16 buf40[4];  /* sp+0x40 (func_8012F038 out) */
-    s16 rot[4];    /* sp+0x48 */
-    s32 flg[4];    /* sp+0x50 (RotTransSV flag out) */
-};
 
 void func_80187368(s32 param_1) {
     struct Fr_80187368 fr;
@@ -6121,8 +6090,6 @@ void func_801874E8(void)
 
 
 
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_8018750C;
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_8018750C;
 
 void func_8018750C(u8 *param_1, B4_8018750C param_2) {
     extern Blip_8018F694 D_801D0B80[];
@@ -9084,12 +9051,6 @@ void func_8018C11C(s32 param_1)
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8018C3C4;
 
 
 
@@ -9843,33 +9804,6 @@ void func_8018D264(s32 arg0) {
 }
 
 
-typedef struct {
-    u16 f0;                     /* 0x00  kind; 0 = dead, 0x318 = skipped     */
-    u8  p02[0x04 - 0x02];
-    s16 f4;                     /* 0x04  x, fractional half                  */
-    s16 f6;                     /* 0x06  x                                   */
-    u8  p08[0x0C - 0x08];
-    s16 fC;                     /* 0x0C  y, fractional half                  */
-    s16 fE;                     /* 0x0E  y   (*(s32 *)&fC is the whole fixed) */
-    s32 f10;                    /* 0x10  velocity, zeroed on reset           */
-    u8  p14[0x18 - 0x14];
-    s32 f18;                    /* 0x18  velocity, zeroed on reset           */
-    u8  p1C[0x20 - 0x1C];
-    s32 f20;                    /* 0x20  -> sub object (0x12 = busy bits)    */
-    u8  p24[0x38 - 0x24];
-    s16 f38;                    /* 0x38  home x, fractional half             */
-    s16 f3A;                    /* 0x3A  home x                              */
-    s32 f3C;                    /* 0x3C  "has a home" flag                   */
-    s16 f40;                    /* 0x40  home y, fractional half             */
-    s16 f42;                    /* 0x42  home y                              */
-    u8  p44[0x5E - 0x44];
-    u8  f5E;                    /* 0x5E  kind tag; 0x25 is excluded          */
-    u8  p5F[0x70 - 0x5F];
-    s16 f70;                    /* 0x70  band: 4 = left, 5 = right           */
-    u8  p72[0x76 - 0x72];
-    s16 f76;                    /* 0x76  budget                              */
-    u8  p78[0x10C - 0x78];      /* stride 0x10C, 0x60 entries                */
-} Ent_8018D3A4;
 
 extern s32 D_80126B58;
 extern u16 D_80126B5E;
@@ -10827,7 +10761,7 @@ void func_8018E70C(void *arg) {
 }
 
 
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08;   /* == engine_types.h OtBlk (0x14) */
+   /* == engine_types.h OtBlk (0x14) */
 
 /* func_8018EB08 — ov_SC06_018 / ov_SC06_018_jr_80187AEC
  *

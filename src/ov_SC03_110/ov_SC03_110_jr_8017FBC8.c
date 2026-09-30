@@ -3519,7 +3519,6 @@ extern void func_80016714(void *a0, s32 a1);
     }
 
 
-typedef struct { s16 a, b, c, d; } V8x_80180D2C;
 
 extern u8 D_800AF630[];
 extern s32 D_8019BFFC;
@@ -3555,17 +3554,6 @@ void func_80180D2C(void *arg0) {
 }
 
 
-typedef struct {
-    s16 f00;
-    s16 f02;
-    s16 f04;
-    s16 f06;
-    s16 f08;
-    s16 f0A;
-    s16 f0C;
-    s16 f0E;
-    s32 f10;
-} Loc_80180E10;
 
 extern s32 rand(void);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);

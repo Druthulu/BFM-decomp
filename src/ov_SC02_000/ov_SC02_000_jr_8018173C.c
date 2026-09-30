@@ -2915,8 +2915,6 @@ void func_80181DE8(s32 param_1)
 }
 
 
-typedef struct { short m[3][3]; long t[3]; } Mtx_8017DECC;
-typedef struct { short vx, vy, vz, pad; } Sv_8017DECC;
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32, s32, s32);
@@ -3348,9 +3346,6 @@ void func_80182B74(s32 param_1) {
 extern u8 D_80126948[];
 extern s32 D_80126E60[];
 
-typedef struct {
-    s32 w[0x29];
-} Blk_0xA4;
 
 void func_80182BD0(u8 *a0) {
     u8 *t0 = D_80126948;
@@ -3540,7 +3535,6 @@ void func_80183018(u8 *a0) {
 }
 
 
-typedef struct { u8 b[8]; } St_801E6C9C;
 extern St_801E6C9C D_801E6C9C;
 extern void func_801473EC(s32 *a0);
 extern void func_80147460(s32 a0);
@@ -3930,9 +3924,6 @@ void func_80183C9C(s32 a0) {
 }
 
 
-typedef struct {
-    void (*fn[3])(void *);
-} Tbl_801E6CA4;
 
 extern Tbl_801E6CA4 D_801E6CA4;
 
@@ -4036,10 +4027,6 @@ extern s16 D_800B9A0E;
 extern s32 D_801E8010;
 extern s32 D_801E8820;
 
-typedef struct {
-    s16 f0;
-    s16 f1, f2, f3, f4, f5;
-} Elem_8018F086;
 extern Elem_8018F086 D_8018F086[];
 
 extern u8 D_801AF280[];
@@ -4120,7 +4107,6 @@ void func_80183FC8(s32 param_1) {
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_80184358;
 
 extern void func_8012B2CC(s32 a0);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
@@ -4189,8 +4175,6 @@ void func_80184358(s32 p) {
 }
 
 
-typedef struct { u16 x, y, z, w; } Blk8_8018453C;
-typedef struct { s32 f0, f1, f2, f3, f4, f5, f6, f7; } Blk32_801E8788;
 
 extern s32 D_801E8738;
 extern void (*D_8018F044)(void);
@@ -4290,10 +4274,6 @@ void func_801847B8(s32 a0) {
 
 /* Same layout as the shared `struct S80190C84` (src/shared/engine_types.h) — kept as a
    uniquely-named local typedef so banking cannot redefine that tag. */
-typedef struct {
-    s16 f0, f2, f4, f6, f8, fA, fC, fE;
-    s32 f10;
-} S80190C84_8018483C;
 
 extern s32 D_801E86BC;
 extern s16 D_801E87B2;
@@ -4407,7 +4387,6 @@ void func_8018483C(s32 a0) {
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_84BD8;
 
 extern s32 D_801E873C;
 extern s32 D_801E874C;
@@ -4709,7 +4688,6 @@ void func_8018545C(s32 a0) {
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC_801855D4;
 
 extern void func_8012B2CC(s32 a0);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
@@ -4839,7 +4817,6 @@ void func_80185840(s32 param_1) {
 
 
 
-typedef struct { u32 addr:24; u32 len:8; } PTAG_85910;
 
 extern s32 D_800A5E60;
 extern u8  D_800AF648[];
@@ -4966,7 +4943,6 @@ void func_80185BF0(int param_1) {
 
 #include "common.h"
 
-typedef struct { s16 x, y, z, pad; } Vec3s16;
 
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
@@ -5095,21 +5071,9 @@ extern s32 func_8012E504(s32 a0, s32 a1);
 
 extern s32 func_8012C51C(void *a0, s32 a1);
 
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-    s16 f8;
-    s16 flag;
-} Entry8018F07C;
 
 extern Entry8018F07C D_8018F07C[26];
 
-typedef struct {
-    s16 f0, f2, f4, f6, f8, fA, fC, fE;
-    s32 f10;
-} S80190C84;
 
 void func_80185F8C(s32 a0) {
     u32 i;
@@ -5170,17 +5134,6 @@ void func_8018618C(s32 param_1)
 }
 
 
-typedef struct {
-    short f0;
-    short f2;
-    short f4;
-    short f6;
-    short f8;
-    short fa;
-    short fc;
-    short fe;
-    int   f10;
-} Sprite8_801861D8;
 
 extern s32 func_8012C51C(void *a0, s32 a1);
 
@@ -5217,17 +5170,6 @@ extern s32 ratan2(s32 a0, s32 a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern s32 func_8012C51C(void *a0, s32 a1);
 
-typedef struct {
-    s16 f0;
-    s16 f1;
-    s16 f2;
-    s16 f3;
-    s16 f4;
-    s16 f5;
-    s16 f6;
-    s16 f7;
-    s32 f8;
-} Pkt_8018626C;
 
 void func_8018626C(void) {
     s32 *ctr = &D_801270D0;
@@ -5484,18 +5426,11 @@ extern s32 func_8012BD14(s32 a0);
 /* the 0x10C-byte entity-table record type (only the two u16 fields this function
    actually touches are named; matches the D_801202A0..D_80126720 table walked by
    the sibling MATCHed loop in ov_SC03_099_after.c). */
-typedef struct {
-    u16 f0;
-    u16 f2;
-} Ent_80186AE4;
 
 /* the 0x254-byte struct snapshot copied from D_80126B58 to D_801E801C
    (aligned 4-word block copy, see cookbook: "aligned 16-byte field-block copy
    -> one struct assignment"; here the struct is bigger than one Blk16, so gcc
    emits the movstrsi loop: 37 x 16-byte chunks + a 4-byte remainder = 0x254). */
-typedef struct {
-    s32 w[0x95];
-} Blk254_80186AE4;
 
 void func_80186AE4(s32 self)
 {

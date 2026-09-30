@@ -9,37 +9,11 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-struct UShortBlk_F4C4 {
-    s16 x0, x1, x2, x3;
-};
-typedef struct {
-    s16 x0, x1, x2, x3;
-} UnalignedShortBlock;
-typedef struct {
-    u32 w0;
-    u32 w1;
-} __attribute__((packed, aligned(1))) Block8_80181600;
-struct Rec80182744_s {
-    s32 f0;
-    s32 f1;
-    s32 f2;
-} __attribute__((packed, aligned(1)));
-typedef struct { s32 w[8]; } Blk20_80182D70;
-typedef struct { s16 a, b, c; } SV3_80184C98;
-struct Mtx32_80184008 { s32 w[8]; };
-typedef struct { s32 w[8]; } Blk20_80184694;
-typedef struct { s32 vx, vy, vz; } VecL_80184694;
-typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_80184FF0;
-typedef struct { s16 vx, vy, vz, pad; } SVec8_8018E8A0_80184FF0;          /* 0x08 */
-typedef struct { s32 vx, vy, vz, pad; } Vec16_8018E8A0_80184FF0;          /* 0x10 */
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } Mtx_8018E8A0_80184FF0; /* 0x20 */
+          /* 0x08 */
+          /* 0x10 */
+ /* 0x20 */
 typedef Unkstruct_800B5CB8 Cnt_8018E8A0_80184FF0;
-typedef struct {
-    SVec8_8018E8A0_80184FF0 v[4];   /* 0x00 */
-    u32            c[4];   /* 0x20 */
-    s32            code;   /* 0x30 */
-    s32            pad;    /* 0x34 */
-} Prim_8018E8A0_80184FF0;           /* 0x38 */
+           /* 0x38 */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3169,7 +3143,6 @@ extern s32 D_801C92DC;
 extern void func_80186758(s32 a0);
 
 
-typedef struct { s32 w[8]; } Mtx32_80186A34;
 
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012B2CC(s32 a0);
@@ -3519,14 +3492,11 @@ s32 func_801870B8(s32 a0) {
 }
 
 
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C_801869CC;
     
 
 /* match_one's standalone common.h does not reach src/shared/engine_types.h, where the
  * real TU's Blk20 { s32 w[8]; } and Vec32 { s32 vx, vy, vz, pad; } live. Local copies here;
  * integrator may drop these and reuse the TU's own (engine_types.h:472, :1098). */
-typedef struct { s32 w[8]; } Blk20_80188AF4;
-typedef struct { s32 vx, vy, vz, pad; } Vec32_80188AF4;
 
 s32 func_80187118(s32 a0, s32 a1)
 {

@@ -3127,11 +3127,6 @@ void func_8017D4C4(s32 param_1, s16 *param_2) {
 extern s16 D_80185CAC[];
 extern s32 func_801343C4(s32 angle, s32 p1, s32 p2);
 
-typedef struct {
-    s16 a;
-    s16 b;
-    s16 c;
-} Pt6_8017D65C;
 
 s32 func_8017D65C(s32 a0) {
     Pt6_8017D65C p1;

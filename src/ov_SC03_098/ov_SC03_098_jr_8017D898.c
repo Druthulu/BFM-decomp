@@ -4816,13 +4816,6 @@ s32 func_80181CFC(s32 arg0, s32 arg1)
 
 
 extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
-typedef struct {
-    s32 w[4];
-} Rec16_8017DDC4_80181DCC;
-typedef struct {
-    u16 x, y, z;
-    s16 w;
-} Rec8_8017DDC4_80181DCC;
 
 /* func_80181DCC -- ov_SC02_026 / ov_SC02_026_jr_8017C180
  * Same TU declares this at line 4712 (extern void func_80181DCC(s32 a0);) and

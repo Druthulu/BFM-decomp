@@ -3891,7 +3891,6 @@ void func_8017CE54(void *a0) {
  * may DROP this local typedef and reuse the TU's own `B4` when banking into the host TU.
  */
 
-typedef struct { u8 d[4]; } Blk4_8017CE90;
 
 extern void func_801465C0(void);
 extern void func_8001CD04(void *a0, void *a1);
@@ -4456,7 +4455,6 @@ extern s16 D_8011F9C8;
 extern void func_80174684(void *);
 extern void func_8017DB00(void *);
 
-struct S8_8017DA98 { s16 m[4]; };
 
 #include "../shared/ov/func_8017DA98.h"
 

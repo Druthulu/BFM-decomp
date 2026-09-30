@@ -9,7 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { s16 v[4]; } Blk8_80126940_80181B44;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -2894,7 +2893,6 @@ s32 func_80183228(void) {
 }
 
 
-typedef struct { u8 unk0[2]; u16 unk2; } Ent_80183280;
 
 extern void (*D_8018E14C[])(Ent_80183280 *);
 
@@ -2907,20 +2905,6 @@ extern void func_8013C0F8(s32 arg0);
 extern s32 func_80029178(s32 arg0);
 extern void func_8013373C(s32 a0);
 
-typedef struct {
-    u8  pad0[2];
-    u16 f002;
-    u8  pad1[0xD8];
-    struct {
-        s16 f0DC;
-        u16 f0DE;
-        union {
-            struct { s32 f0E0; s32 f0E4; } l;
-            struct { u8 p[2]; s16 f0E2; u8 q[2]; s16 f0E6; } h;
-        } u;
-        u16 f0E8;
-    } f;
-} Work_801832E0;
 
 void func_801832E0(Work_801832E0 *work)
 {
@@ -3022,20 +3006,6 @@ extern s32 D_801B86B4;
 extern s32 D_801270C8;
 extern void func_8013373C(s32 a0);
 
-typedef struct {
-    u8  pad0[2];
-    u16 f002;
-    u8  pad1[0xD8];
-    struct {
-        s16 f0DC;
-        u16 f0DE;
-        union {
-            struct { s32 f0E0; s32 f0E4; } l;
-            struct { u8 p[2]; s16 f0E2; u8 q[2]; s16 f0E6; } h;
-        } u;
-        u16 f0E8;
-    } f;
-} Work_80183634;
 
 void func_80183634(Work_80183634 *work)
 {

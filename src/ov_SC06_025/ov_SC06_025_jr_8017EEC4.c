@@ -9,16 +9,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct {
-    s16 x;   /* 0x0 */
-    s16 y;   /* 0x2 */
-    s16 z;   /* 0x4 */
-    s16 pad; /* 0x6 */
-} Buf8_8017D4F0;
-typedef struct {
-    s16 unk0;                /* 0x00 */
-    u8 pad[0x102];           /* -> 0x104 */
-} St_8017E95C_r;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -2799,9 +2789,6 @@ extern void func_8017ED5C(s32 a0);
 
 extern s16 D_801B1738;
 
-typedef struct {
-    s16 x, y, z, pad;
-} V_8017EEC4;
 
 extern void func_8017EF94(V_8017EEC4 *a0, s32 a1);
 
@@ -2882,12 +2869,6 @@ s32 func_8017EEC4(void) {
 extern void func_8012EF70(s32 a0, s32 a1);
 
 
-typedef struct { s16 vx, vy; } DV_8017EF94;
-typedef struct { s16 vx, vy, vz, pad; } SV_8017EF94;
-typedef struct {
-    s16 x, y, w, h;
-    union { DV_8017EF94 d; s32 w32; } v[4];
-} Quad_8017EF94;
 
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
 extern s32 func_8017F424(s16 *);
@@ -3145,12 +3126,6 @@ void func_8017F580(void) {
  * always emits lwl/lwr+swl/swr on this compiler (§48-C2 — align 1 AND align 2 both
  * fall through to the unaligned move; only align>=4 gets lw/sw). Individual field
  * accesses stay plain lhu/sh because each u16 field is itself naturally 2-aligned. */
-typedef struct {
-    u16 unk0;
-    s16 unk2;
-    u16 unk4;
-    u16 unk6;
-} V16x4;
 
 extern V16x4 D_80188984[];
 extern u16 D_80188994[];
@@ -3192,12 +3167,6 @@ void func_8017F664(s32 a0, s32 a1) {
 
 
 /* LINE_F2 packet, 0x10 bytes: tag(4) + rgb/code(4, code byte at +3) + xy0(4) + xy1(4). */
-typedef struct {
-    s32 tag;   /* 0x00 */
-    s32 rgb;   /* 0x04   code byte lives at +3 of this word */
-    s32 xy0;   /* 0x08 */
-    s32 xy1;   /* 0x0C */
-} LineF2;
 
 extern void *func_80010A08(s32);
 extern void func_8012E32C(void);
@@ -3359,7 +3328,6 @@ void func_8017F9D8(s32 param_1) {
  * real TU's SVECTOR {short vx,vy,vz,pad;} and OtBlk {s32 a; s32 b[4];} live (via
  * ../shared/engine_core.h). Function-scoped local names so they collide with nothing;
  * integrator should drop these and use the TU's own SVECTOR/OtBlk when banking. */
-typedef struct { short vx, vy, vz, pad; } SVEC_8017FB50;
 /* engine_types.h:525 `OtBlk` VERBATIM (typedef struct { s32 a; s32 b[4]; } OtBlk;).  The real TU
  * reaches it through engine_core.h -> engine_types.h, so the bank driver strips this local copy;
  * match_one's standalone -Iinclude compile cannot see that header, hence the restatement.  Spelled
@@ -3563,7 +3531,6 @@ void func_8017FF4C(s32 arg0, s16 *arg1, s32 arg2) {
 
 
 
-typedef struct { u8 b[16]; } Blk16A1;
 
 extern s16 D_801B1B8C;
 extern s16 D_801B1B88;
@@ -4374,10 +4341,6 @@ void func_80180F34(void *a0) {
  * D_801891F4 and D_801891F6 are two independent relocation symbols 2 bytes
  * apart; both tables are walked with the same 4-byte stride, so the second is
  * reached through a pointer cast of &D_801891F6 (the target's `la $v1` form). */
-typedef struct {
-    s16 v;
-    s16 pad;
-} Rec4_801891F4;
 
 extern Rec4_801891F4 D_801891F4[];
 extern s16 D_801891F6;
@@ -4917,7 +4880,6 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
 /* 8-byte unaligned vector: forces lwl/lwr + swl/swr for the two tail copies
  * (an aligned struct would emit lw/sw and lose the match). */
-typedef struct { u16 x, y, z, pad; } Vec8_80181CA4;
 
 /* a0: dest struct ptr. a1: src1 struct ptr (Vec8_80181CA4-shaped: x,y,z,pad).
  * a2: scalar, call1's 3rd func_8012B0B4 arg. a3: scalar, stored to a0+0xEC.

@@ -3949,14 +3949,6 @@ void func_8017DBB0(void *a0) {
 }
 
 
-typedef struct { s16 vx, vy; } DVEC2_C59C_8017DBEC;
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_8017DBEC;
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8017DBEC;
 
 extern void func_8001CD9C(int, void *);
 extern void func_800233CC(void *, unsigned short);
@@ -4023,14 +4015,9 @@ void func_8017DBEC(int param_1)
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_8017D9CC;
-typedef struct { s16 vx, vy; } DVEC2_C59C_8017D9CC;
 
 
 
-typedef struct {
-    s16 vx, vy, vz;
-} UVec_8017DB64;
 
 void func_8017DD84(int param_1)
 {
@@ -4086,9 +4073,6 @@ extern s32 rand(void);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
 extern s32 D_801930C8;
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} UVec_8017DED4;
 
 void func_8017DED4(s32 param_1)
 {

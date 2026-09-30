@@ -9,27 +9,9 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { s16 v[4]; } Blk8_80126940_8017DC34;
-typedef struct {
-    s16 a, b, c, d;
-} SVec8_8017F694;
-typedef struct { u8 c[4]; } Blk4_8017FE90;   /* 4 bytes, align 1 -> lwl/lwr + swl/swr copy */
-typedef struct { s16 vx, vy, vz, pad; } SV_801800E0;   /* 8 bytes, align 2 -> lwl/lwr copy */
-typedef struct { u8 c[4]; } Blk4_801800E0;             /* 4 bytes, align 1 -> lwl/lwr copy */
-typedef struct { char c[4]; } Blk4_8018048C;
-typedef struct { char c[8]; } Blk8_8018048C;
-typedef struct {
-    s32 unk00;              /* 0x00 */
-    s32 flags;              /* 0x04 */
-    Blk8_8018048C blk;      /* 0x08 */
-    s16 unk10;              /* 0x10 */
-    s16 unk12;              /* 0x12 */
-    s16 unk14[5];           /* 0x14 */
-    s16 unk1E;              /* 0x1E */
-} Obj_8018048C;
-typedef struct { char c[4]; } Blk4_fc;
-typedef struct { s16 a, b, c, d; } SV4L;
-typedef struct { s16 x, y, z, w; } Vec4S16_80180BF0;
+   /* 4 bytes, align 1 -> lwl/lwr + swl/swr copy */
+   /* 8 bytes, align 2 -> lwl/lwr copy */
+             /* 4 bytes, align 1 -> lwl/lwr copy */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -4030,13 +4012,6 @@ extern s32 func_80013328(s32 a0, s32 a1);
 extern void func_800D1724(s32 a0);
 extern void func_80171928(void *a0);
 
-typedef struct {
-    u16 f_00;
-    u8 pad_02[0x5A];
-    u16 f_5C;
-    u8 pad_5E[0x7E];
-    s32 f_DC;
-} Ent_80182E64;
 
 void func_80182E64(void *arg0)
 {

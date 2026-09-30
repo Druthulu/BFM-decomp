@@ -2824,11 +2824,6 @@ u8 param_5;
 extern void func_8017E5D4(s32);
 extern void func_8017DC80(void);
 
-typedef union {
-    u8 b;
-    u16 h[0x1C];
-    s16 s[0x1C];
-} R38;
 
 extern R38 A_B8[0xC0] __asm__("D_8019B7B8");
 extern R38 A_BA[0xC0] __asm__("D_8019B7BA");
@@ -2986,17 +2981,6 @@ extern s32 D_8019B7B8;
  * non-`/s` scalars at a FIXED address, and sched.c's `/s` drop clause (§30 lattice)
  * therefore lets each `lw` rise past the previous group's `sh`.  LINE_G2 is the
  * first 0x14 bytes of the same layout. */
-typedef struct {
-    u8  t0, t1, t2, len;   /* 0x00  P_TAG      */
-    u8  r0, g0, b0, code;  /* 0x04             */
-    s16 x0, y0;            /* 0x08             */
-    u8  r1, g1, b1, p1;    /* 0x0C             */
-    s16 x1, y1;            /* 0x10             */
-    u8  r2, g2, b2, p2;    /* 0x14             */
-    s16 x2, y2;            /* 0x18             */
-    u8  r3, g3, b3, p3;    /* 0x1C             */
-    s16 x3, y3;            /* 0x20 -> 0x24     */
-} PRIM_8017DC80;
 
 void func_8017DC80(void)
 {
@@ -3348,7 +3332,6 @@ void func_8017E37C(u8 *dst, u8 *src1, u8 *src2, u8 *src3)
 }
 
 
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017E4D8;
 
 extern void func_8004978C(s16 *a0, void *a1);
 extern void func_80048D9C(void *a0, void *a1);
@@ -3406,27 +3389,9 @@ void func_8017E604(void *a0) {
 
 extern s32 rand(void);
 
-typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8_8017E640; /* 0x1C */
+ /* 0x1C */
 
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8_8017E640 subs[16];
-} GroupRec_801EB5C8_8017E640; /* 0x1D0 */
+ /* 0x1D0 */
 
 
 void func_8017E640(s32 param_1)
@@ -4746,7 +4711,6 @@ void func_80180248(s32 s0)
 }
 
 
-typedef struct { u16 w[4]; } __attribute__((aligned(2))) DBlock_8019F04C;
 
 extern s16 D_8019F048;
 extern s16 D_8019F04A;
@@ -4867,7 +4831,6 @@ extern s32 func_8018094C();  // K&R: 0/1 of 1 args (P37 rung D t4_D1)
     }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVfbd0;
 
 s32 func_8018094C(s32 s1)
 {
@@ -5042,7 +5005,6 @@ extern s32 func_80180DAC();  // K&R: 0/1 of 1 args (P37 rung D t4_D1)
     }
 
 
-typedef struct { s16 m0, m1, m2, m3; } Pos;
 
 extern s16 D_80126940[4];
 extern void func_80180F7C(s32 a0, void *a1);
@@ -5109,8 +5071,7 @@ s32 func_80180DAC(s32 a0)
  * `sll 16` (not `andi 0xffff`) test => separate s16 temp, `t = D - 1; D = t; if (t == 0)`.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_80180F7C;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_80180F7C;   /* 0x20: m@0, pad@0x12, t@0x14 */
+   /* 0x20: m@0, pad@0x12, t@0x14 */
 
 void func_80180F7C(s32 a0, void *a1)
 {
@@ -5204,9 +5165,7 @@ void func_80180F7C(s32 a0, void *a1)
  * differs: func_80185848 + ApplyMatrixSV, and the results are `<< 16 >> 19`.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_80181394;
-typedef struct { u16 vx, vy, vz, pad; } UV_80181394;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_80181394;   /* 0x20 */
+   /* 0x20 */
 
 void func_80181394(s32 a0, s16 *param_2, s32 a2)
 {
@@ -5414,11 +5373,9 @@ extern void (*D_8018A3D4[])(void);
 extern u8 D_80196C04[];
 extern s32 D_80196BEC[];
 
-typedef struct { u16 v; u16 pad; } Rec4;
 extern Rec4 D_8018A3C0[];
 extern Rec4 D_8018A3C2[];
 
-typedef struct { s32 v; s32 pad; } Rec8;
 extern Rec8 D_8019F074[];
 extern Rec8 D_8019F078[];
 
@@ -5922,7 +5879,6 @@ void func_801827DC(void *a0) {
 }
 
 
-typedef struct { s16 a, b, c, d; } SV4_80182818;
 
 void func_80182818(void *a0)
 {
@@ -6330,7 +6286,6 @@ void func_80183078(int param_1)
 }
 
 
-typedef struct { s32 a[14]; } Blk38;
 extern Blk38 D_8018A4F0;
 
 void func_801830D8(s32 *a0)
@@ -8011,12 +7966,6 @@ void func_80185150(s32 a0) {
 }
 
 
-typedef struct {
-    SVECTOR_8016E7C8 v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_80185434;
 
 /* func_80185434 (ov_SC03_117, ov_SC03_117_jr_8017BEBC) — MATCH (148 ins)
  *
@@ -8093,8 +8042,7 @@ typedef struct {
  * do not collide with any name in the TU.
  */
 
-typedef struct { s16 vx, vy, vz, pad; } SV_1A30_80185434;
-typedef struct { s16 m[3][3]; s32 t[3]; } MTX_1A30_80185434;   /* 0x20 bytes */
+   /* 0x20 bytes */
 
 void func_80185434(s16 *arg0)
 {
