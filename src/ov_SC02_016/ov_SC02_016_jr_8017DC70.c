@@ -4109,16 +4109,16 @@ s32 func_80188250_body(s32 a0) {
                 v18[2] = *(u16 *)(p + 0xE);
                 v18[0] += sp20[0];
                 v18[2] += sp20[0] >> 16;
-                v10[0] = *(u16 *)(a0 + 0x3A);
-                v10[1] = *(u16 *)(a0 + 0x3E);
-                v10[2] = *(u16 *)(a0 + 0x42);
+                v10[0] = CAST_NONSTRUCT(u16, a0, 0x3A);
+                v10[1] = CAST_NONSTRUCT(u16, a0, 0x3E);
+                v10[2] = CAST_NONSTRUCT(u16, a0, 0x42);
                 if ((func_8012CEB0((s32)&v10[0], (s32)&v18[0], 0) & 0x2000) == 0) {
                     func_8012ADE4((u8 *)a0);
                     return 1;
                 }
-                *(u16 *)(a0 + 6) = v18[0];
-                *(u16 *)(a0 + 0xA) = v18[1];
-                do { *(u16 *)(a0 + 0xE) = v18[2]; } while (0);
+                CAST_NONSTRUCT(u16, a0, 6) = v18[0];
+                CAST_NONSTRUCT(u16, a0, 0xA) = v18[1];
+                do { CAST_NONSTRUCT(u16, a0, 0xE) = v18[2]; } while (0);
                 return 1;
             }
         }
