@@ -4959,12 +4959,12 @@ void func_80181E50(s32 a0) {
 
 void func_80181E90(void *a0)
 {
-    CAST_NONSTRUCT(u16, (s32) *(void **)((s32)a0 + 0x20), 0x10) =
-        CAST_NONSTRUCT(u16, (s32) *(void **)((s32)a0 + 0x20), 0x10) + CAST_SIGN(u16, (s32)a0, 0xFC);
-    CAST_NONSTRUCT(u16, (s32) *(void **)((s32)a0 + 0x20), 0x12) =
-        CAST_NONSTRUCT(u16, (s32) *(void **)((s32)a0 + 0x20), 0x12) + CAST_SIGN(u16, (s32)a0, 0xFE);
-    CAST_NONSTRUCT(u16, (s32) *(void **)((s32)a0 + 0x20), 0x14) =
-        CAST_NONSTRUCT(u16, (s32) *(void **)((s32)a0 + 0x20), 0x14) + CAST_SIGN(u16, (s32)a0, 0x100);
+    CAST_NONSTRUCT(u16, (s32) CAST_SIGN(void *, (s32)a0, 0x20), 0x10) =
+        CAST_NONSTRUCT(u16, (s32) CAST_SIGN(void *, (s32)a0, 0x20), 0x10) + CAST_SIGN(u16, (s32)a0, 0xFC);
+    CAST_NONSTRUCT(u16, (s32) CAST_SIGN(void *, (s32)a0, 0x20), 0x12) =
+        CAST_NONSTRUCT(u16, (s32) CAST_SIGN(void *, (s32)a0, 0x20), 0x12) + CAST_SIGN(u16, (s32)a0, 0xFE);
+    CAST_NONSTRUCT(u16, (s32) CAST_SIGN(void *, (s32)a0, 0x20), 0x14) =
+        CAST_NONSTRUCT(u16, (s32) CAST_SIGN(void *, (s32)a0, 0x20), 0x14) + CAST_SIGN(u16, (s32)a0, 0x100);
 }
 
 
@@ -8243,11 +8243,11 @@ void func_80186C0C(s32 a0) {
     vol = 0x2F;
     ret = func_8012BD14(a0);
     if (ret <= 0x40000) {
-        t = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) * 3 >> 9;
+        t = *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1A) * 3 >> 9;
         t = t * t;
         vol = 127 - ret / ((0x40000 - t) / 80);
     }
-    do { func_8002D59C(0x64E, vol | 0x5000, *(u16 *)(a0 + 0x104)); } while (0);  // !FAKE: do-while — flow.c:2067 loop-depth ref weight: vol 3->4 refs outranks a0 for $s0 (allocno_compare global.c:594-607) (P36 S105 f9)
+    do { func_8002D59C(0x64E, vol | 0x5000, CAST_SIGN(u16, a0, 0x104)); } while (0);  // !FAKE: do-while — flow.c:2067 loop-depth ref weight: vol 3->4 refs outranks a0 for $s0 (allocno_compare global.c:594-607) (P36 S105 f9)
 }
 
 

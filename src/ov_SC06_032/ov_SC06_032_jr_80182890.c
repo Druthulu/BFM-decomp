@@ -4823,7 +4823,7 @@ void func_80185464(s32 param_1) {
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8018564C(void *arg0) {
-        *(s16 *)((u8 *)arg0 + 0x108) = 0;
+        ((Unkstruct_800B5CB8 *)arg0)->unk108 = 0;
         ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 0x2);
     }
 
@@ -4982,25 +4982,25 @@ s32 func_80185A44(s32 a0) {
     s16 sp10[4], sp18[4];
 
     if (func_8012BE54(a0) > 0x24000) goto ret0;
-    diff = (s16)((*(u16 *)(a0 + 0x106) & 0xFFF) - (*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF));
+    diff = (s16)((CAST_SIGN(u16, a0, 0x106) & 0xFFF) - (((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF));
     adiff = diff;
     if (diff < 0) adiff = -diff;
     if (adiff < 0x181) goto body;
 ret0:
-    *(u16 *)(a0 + 0x108) = 0;
+    ((Unkstruct_800B5CB8 *)a0)->unk108 = 0;
     return 0;
 body:
-    func_8004914C((void *)(*(s32 *)(a0 + 0x20) + 0x34));
-    func_800491AC((void *)(*(s32 *)(a0 + 0x20) + 0x34));
+    func_8004914C((void *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34));
+    func_800491AC((void *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34));
     RotTransSV(&D_801BEF0C, sp10, sp18);
     a2 = 0x202080;
     if (D_800B99D8 & 1) a2 = 0xE0;
     func_80185B4C(sp10, (void *)(a0 + 0xE0), a2);
-    if (*(s16 *)(a0 + 0x108) == 0) {
+    if (CAST_SIGN(s16, a0, 0x108) == 0) {
         func_8002D4C8(0xAE3, 0);
     }
-    v1 = *(u16 *)(a0 + 0x108) + 1;
-    *(u16 *)(a0 + 0x108) = v1;
+    v1 = ((Unkstruct_800B5CB8 *)a0)->unk108 + 1;
+    ((Unkstruct_800B5CB8 *)a0)->unk108 = v1;
     return 0x270000 < (v1 << 16);
 }
 
@@ -5129,12 +5129,12 @@ void func_80185E30(s32 param_1)
         u16 f6;
     } local;
 
-    local.f0 = *(u16 *)(param_1 + 0x6);
-    local.f2 = *(u16 *)(param_1 + 0xA) - 0x60;
-    local.f4 = *(u16 *)(param_1 + 0xE);
+    local.f0 = ((Unkstruct_800B5CB8 *)param_1)->unk6;
+    local.f2 = ((Unkstruct_800B5CB8 *)param_1)->unkA - 0x60;
+    local.f4 = ((Unkstruct_800B5CB8 *)param_1)->unkE;
     local.f6 = 0x3800;
     func_801437D8(param_1 + 0x100, (s32)&local, (s32)D_801BEF14, 0);
-    if ((*(u16 *)(param_1 + 0x100) & 3) == 0) {
+    if ((CAST_SIGN(u16, param_1, 0x100) & 3) == 0) {
         func_8002D4C8(0xA9F, 0);
     }
 }
@@ -5234,12 +5234,12 @@ void func_80185F4C(s32 a0, s32 a1, s32 a2, s32 a3)
     do { } while (0);  // !FAKE: do-while — its NOTE_INSN_LOOP_END ends cse1's extended block (cse.c:8054), so m below is not folded onto the struct copy's address pseudo (cse.c:846-862) and is set AFTER e's copy: sched1 then ranks it last by LUID (sched.c:2428) (P36 S104 e5 minimum-lever)
     m = &local;
     if (e != 0) {
-        *(u16 *)(e + 0xA) = *(u16 *)(e + 0xA) - 0x80;
+        ((Unkstruct_800B5CB8 *)e)->unkA = ((Unkstruct_800B5CB8 *)e)->unkA - 0x80;
         RotMatrixY((s16)a3, m);
         func_800484EC((s32)m, (s32)&D_801BEF1C, (s32)vec);
-        *(s32 *)(e + 0x10) = vec[0];
-        *(s32 *)(e + 0x14) = 0xFFD80000;
-        *(s32 *)(e + 0x18) = vec[2];
+        CAST_WIDTH(s32, e, 0x10) = vec[0];
+        ((Unkstruct_800B5CB8 *)e)->unk14 = 0xFFD80000;
+        CAST_WIDTH(s32, e, 0x18) = vec[2];
     }
 }
 
@@ -6653,17 +6653,17 @@ int func_8018853C(short *pos, int a1, int a2)
     v1 = func_801290DC(0x55, (u8 *)pos);
 
     if (v1 != 0) {
-        *(s32 *)(v1 + 0x1C) = pos[3];
+        ((Unkstruct_800B5CB8 *)v1)->unk1C = pos[3];
 
         if (a1 != 0) {
-            *(s32 *)(v1 + 0x10) = *(s32 *)(a1 + 0x0);
-            *(s32 *)(v1 + 0x14) = *(s32 *)(a1 + 0x4);
-            *(s32 *)(v1 + 0x18) = *(s32 *)(a1 + 0x8);
-            *(s32 *)(v1 + 0x34) = *(s32 *)(a1 + 0xC);
+            CAST_WIDTH(s32, v1, 0x10) = *(s32 *)(a1 + 0x0);
+            ((Unkstruct_800B5CB8 *)v1)->unk14 = *(s32 *)(a1 + 0x4);
+            CAST_WIDTH(s32, v1, 0x18) = *(s32 *)(a1 + 0x8);
+            CAST_WIDTH(s32, v1, 0x34) = *(s32 *)(a1 + 0xC);
         }
 
         if (a2 != 0) {
-            u8 *ptr = *(u8 **)(v1 + 0x20);
+            u8 *ptr = CAST_SIGN(u8 *, v1, 0x20);
             CAST_WIDTH(s32, ptr, 0x24) = a2;
         }
     }
