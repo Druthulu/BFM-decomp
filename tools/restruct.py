@@ -803,17 +803,19 @@ def s_body_edits(tu, fn, raw, masked, d, sites, bases, allow_local, local_types,
     for base_key, ent in sorted(bases.items(), key=lambda kv: -kv[1]["sites"]):
         tname = ent["type"]
         t = struct_map().get(tname)
-        if not t:
+        can = canon_types().get(tname)
+        # T3.c3: a canonical type needs only its field map; the map lookup gates the LOCAL path alone (was: checked first — the
+        # per-batch census drops the pinned names from struct_map.json, so t3_S6..S18 ledgered every pinned base NO-TYPE-IN-MAP)
+        if not t and not can:
             per_base.append((base_key, tname, "NO-TYPE-IN-MAP", [], {}))
             continue
-        can = canon_types().get(tname)
         if can and type_visible(tu, tname):
             fields = can[2] or {}
             edits, skips = s_edits(raw, masked, d, sites, tname, fields, base_key, fn_head_inner, why=why)
             per_base.append((base_key, tname, "CANONICAL", edits, skips))
         elif can:
             per_base.append((base_key, tname, "TYPE-NOT-VISIBLE", [], {}))
-        elif allow_local:
+        elif allow_local and t:
             ctypes_by_off = collections.defaultdict(list)
             for s in sites:
                 if s.get("bclass") + ":" + str(s.get("base")) == base_key and s.get("ctype"):
@@ -1144,11 +1146,11 @@ _bbt_cache = None
 
 
 def typed_bases_of(tu, fn, bases):
-    """{base_key: reason} — the bases body_base_type.json types for this body that `bases` (the drawn ones) leaves out."""
+    """{base_key: reason} — the bases body_base_type.json types for this body that `bases` (the drawn ones) leaves out.
+    T3.c3: read through bbt() — the same pinned merge plan_S draws from (was: the live file, unpinned)."""
     global _bbt_cache
     if _bbt_cache is None:
-        p = CENSUS / "body_base_type.json"
-        _bbt_cache = json.loads(p.read_text()) if p.exists() else {}
+        _bbt_cache = bbt() if (CENSUS / "body_base_type.json").exists() else {}
     out = {}
     for bk, ent in (_bbt_cache.get(f"{tu}|{fn}") or {}).items():
         if bk not in bases:
@@ -3293,8 +3295,12 @@ def matches_only(only, tu, unit, extra=()):
 
 def s_finished(tu, fns, latest):
     """True when every body in fns has a latest ("S", tu, fn) ledger row whose nhash_after is the body's CURRENT nhash (T3.c2: t3_S1–S5
-    re-drew finished files — drawable stayed ~2088 after 250 files done)."""
+    re-drew finished files — drawable stayed ~2088 after 250 files done).
+    T3.c3: a latest row none of whose bases was judged (no CANONICAL/LOCAL status: every base NO-TYPE-IN-MAP in t3_S6..S14, S16..S18)
+    is not a judgement — the body stays drawable."""
     if not all((latest.get(("S", tu, fn)) or {}).get("nhash_after") for fn in fns):
+        return False
+    if not all(any(b.get("status") in ("CANONICAL", "LOCAL") for b in latest[("S", tu, fn)].get("bases") or []) for fn in fns):
         return False
     path = REPO / tu
     if not path.exists():
@@ -4763,12 +4769,25 @@ def selftest(real=False):
        plan_S(False, 50, None, set(), {}, cur_)[1] == 0 and plan_S(False, 50, None, set(), {}, mg_)[1] == 1)
     m_, defs_, _, _, _ = file_view(tu, text)
     nh_ = body_nhash(m_, next(x for x in defs_ if x["name"] == "fx_a"))
-    fin_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after=nh_)])
-    old_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after=nh_),
-                          dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after="stale")])
+    b_can_ = [dict(base="param:a0", type="Unkstruct_TEST", status="CANONICAL")]
+    fin_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after=nh_, bases=b_can_)])
+    old_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after=nh_, bases=b_can_),
+                          dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after="stale", bases=b_can_)])
     p_fin, p_old = plan_S(False, 50, None, set(), fin_, mg_), plan_S(False, 50, None, set(), old_, mg_)
     ok("plan_S: a file whose bodies' latest S rows are at the current nhash is not drawn; a stale latest hash draws it",
        p_fin[1] == 0 and p_fin[2]["file-finished"] == 1 and p_old[1] == 1, f"{p_fin[1:]} {p_old[1:]}")
+    unj_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", verdict="NO-SITE", nhash_after=nh_,
+                               bases=[dict(base="param:a0", type="Unkstruct_TEST", status="NO-TYPE-IN-MAP")])])
+    ok("plan_S (T3.c3): a current-hash row with no judged base (every base NO-TYPE-IN-MAP) leaves the file drawable",
+       plan_S(False, 50, None, set(), unj_, mg_)[1] == 1)
+    # T3.c3: plan and apply agree on a pinned base even when the (drifted) struct map lacks its name
+    map_keep_, _map_cache = _map_cache, {}
+    d_a_ = next(x for x in defs_ if x["name"] == "fx_a")
+    pb_ = s_body_edits(tu, "fx_a", text, m_, d_a_, [s_ for s_ in file_view(tu, text)[4] if s_.get("fn") == "fx_a"],
+                       plan_S(False, 50, None, set(), {}, mg_)[0][0][1]["fx_a"], False, {})
+    _map_cache = map_keep_
+    ok("apply: the planned pinned base is CANONICAL with edits though the struct map lacks the name",
+       [(b_[0], b_[1], b_[2]) for b_ in pb_] == [("param:a0", "Unkstruct_TEST", "CANONICAL")] and len(pb_[0][3]) > 0, f"{[b_[:3] for b_ in pb_]}")
     ok("the selftest never touches the live inflight.json", True)
     ok("struct_layout selftest", sl.selftest() == 0)
     JUDGE_STUB = None
