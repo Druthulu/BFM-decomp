@@ -4474,7 +4474,7 @@ void func_8018A128(int param_1)
 
     if (*(unsigned short *)(param_1 + 0x34) == 0) {
         *(short *)(*(int *)(param_1 + 0x20) + 0x12) =
-            *(short *)(*(int *)(*(int *)(param_1 + 0x64) + 0x20) + 0x12);
+            CAST_NONSTRUCT(short, *(int *)(*(int *)(param_1 + 0x64) + 0x20), 0x12);
         ((void (*)(void))func_8012B2CC)();
         func_8012B23C(param_1);
         ((void (*)(int, void *))func_8012B14C)(param_1, &D_801A7820);

@@ -2708,9 +2708,9 @@ s32 func_8016C49C(s32 param_1_arg) {
     short sVar1;
 
     iVar5 = *(int *)(param_1 + 0x18);
-    iVar6 = *(int *)(param_1 + 0x1a);
+    iVar6 = CAST_MISALIGNED(int, param_1, 0x1a);
     param_1[0x14] = *(u16 *)(iVar5 + 0x36);
-    if ((*(u32 *)(param_1 + 0x16) & 0x8000) == 0) {
+    if ((CAST_MISALIGNED(u32, param_1, 0x16) & 0x8000) == 0) {
         short iVar4 = 0;
         u16 *psVar3 = (u16 *)&D_8011D030;
         do {
@@ -2765,9 +2765,9 @@ s32 func_8016C49C(s32 param_1_arg) {
         param_1[0xb] = sv[1];
         param_1[0xd] = sv[2];
         *(int *)(param_1 + 0x10) = iVar5b;
-        *(int *)(param_1 + 0xe) = 8;
+        CAST_MISALIGNED(int, param_1, 0xe) = 8;
         func_8016CF04((s32)param_1, 0);
-        *(int *)(param_1 + 0x16) = 0;
+        CAST_MISALIGNED(int, param_1, 0x16) = 0;
         sVar1 = param_1[1] + 1;
     }
     do { param_1[1] = sVar1; } while (0);
