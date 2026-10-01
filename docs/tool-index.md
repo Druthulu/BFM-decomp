@@ -5,7 +5,7 @@ freshness). The derived columns come from the tree on every run; the authored on
 dictionary, whose coverage is asserted both ways. Read it by NEED: find the phrase that matches what you are trying to do, then the tool,
 then what proved it. The same data generates the day-one kit's manifest and its verbatim tool corpus.*
 
-**Coverage:** 337 tool files in scope (submodules, vendored and downloaded code excluded; `find` and `git ls-files` agree) + 38 retired under `tools/sunset/`. Classes: LIVE 267 (a runtime consumer), REFERENCED 27 (a SETUP row only), ORPHAN 43 (neither) — of 337. Portability: PORTABLE 23, ADAPT 275, PROJECT-ONLY 39.
+**Coverage:** 338 tool files in scope (submodules, vendored and downloaded code excluded; `find` and `git ls-files` agree) + 38 retired under `tools/sunset/`. Classes: LIVE 267 (a runtime consumer), REFERENCED 27 (a SETUP row only), ORPHAN 44 (neither) — of 338. Portability: PORTABLE 23, ADAPT 275, PROJECT-ONLY 40.
 
 ## P1 — extraction + manifest
 
@@ -387,6 +387,7 @@ then what proved it. The same data generates the day-one kit's manifest and its 
 | outline a large file so it is read by range | `outline.py` | Table of contents for source files | _credit.py | Project Architect harness | LIVE |
 | parse a bespoke archive-chain header format | `bfm_extract/pac.py` | Parser for one game's bespoke archive-chain header format | crosscheck.py, extract.py | project-only | LIVE |
 | parse the generation plan's phase lines once for every consumer | `_genplan.py` | Shared GENERATION_PLAN.md phase-line parser | discussion.py, genend_index.py, plan_edit.py, research_add.py (+1) | Project Architect harness | LIVE |
+| pick the cache TTL for a task's expert | `expert_ttl.py` | Prints 1h or 5m, the cache TTL twin the router spawns for a task's expert | — | Project Architect harness | ORPHAN |
 | read a bespoke container's table of contents to locate its files | `bfm_extract/cd_archive.py` | Reader for one game's bespoke container table-of-contents format | crosscheck.py, extract.py | project-only | LIVE |
 | record credit notes for the governance scripts | `_credit.py` | Writes credit note files for the governance scripts | card.py, cookbook_add.sh, curate.py, discussion.py (+7) | Project Architect harness | LIVE |
 | record which files the harness manages | `managed.py` | The managed-file record .claude/pa3-managed.json | — | Project Architect harness | ORPHAN |

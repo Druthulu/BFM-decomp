@@ -49,7 +49,7 @@
   "deferred_same_address_texts": 377,
   "deferred_same_address_copies": 1645,
   "levers": {
-   "date": "2026-09-30",
+   "date": "2026-10-01",
    "what": "compiler-forcing constructs left in the C: register pins + asm statements (the classes Phase 36 drives to 0; GTE coprocessor ops and whole-body hand-asm routines excluded), with the volatile/register qualifiers censused",
    "sites": 3729,
    "pins": 1868,
@@ -66,9 +66,9 @@
   },
   "types": {
    "date": "2026-10-01",
-   "head": "c5591de124",
-   "snapshot": "P38",
-   "census": ".run/P38/census/type_census.json",
+   "head": "6ea94447d7",
+   "snapshot": "P39",
+   "census": ".run/P39/census/type_census.json",
    "what": "the structs phases' counters: raw pointer-cast dereferences in four forms (P *(T*)(\u2026), I *(T*)ident, X ((T*)e)[i], M M2C_FIELD), struct definitions and their duplicate classes, lying call declarations, and the struct map's types",
    "definitions_include": 326,
    "definitions_block_scope": 600,

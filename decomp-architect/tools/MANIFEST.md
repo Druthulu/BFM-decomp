@@ -8,8 +8,8 @@
 > its platform SDK need the marked adaptation. The last table lists the tools that are project-only in code (their *shape* is a task;
 > their code does not transfer). *TODO(platform): the MIPS and PlayStation SDK hard-codes are the ones another platform replaces first.*
 >
-> **Coverage:** 337 tool files in scope (submodules, vendored and downloaded code excluded), of which 337 live rows
-> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 26 · P6 51 · P7 20 · P8 86 · P9 27 · P10 35 · PROJECT-ONLY 38. Superseded tools appear only as pointers to their successor (30 pointer rows); one-offs are omitted. Table rows in all: 367 (the installer checks its copy against this figure).
+> **Coverage:** 338 tool files in scope (submodules, vendored and downloaded code excluded), of which 338 live rows
+> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 26 · P6 51 · P7 20 · P8 86 · P9 27 · P10 35 · PROJECT-ONLY 39. Superseded tools appear only as pointers to their successor (30 pointer rows); one-offs are omitted. Table rows in all: 368 (the installer checks its copy against this figure).
 
 ## P1 — extraction + manifest
 
@@ -391,6 +391,7 @@
 | `outline.py` | outline a large file so it is read by range | Table of contents for source files | Project Architect harness |
 | `bfm_extract/pac.py` | parse a bespoke archive-chain header format | Parser for one game's bespoke archive-chain header format | project-only |
 | `_genplan.py` | parse the generation plan's phase lines once for every consumer | Shared GENERATION_PLAN.md phase-line parser | Project Architect harness |
+| `expert_ttl.py` | pick the cache TTL for a task's expert | Prints 1h or 5m, the cache TTL twin the router spawns for a task's expert | Project Architect harness |
 | `bfm_extract/cd_archive.py` | read a bespoke container's table of contents to locate its files | Reader for one game's bespoke container table-of-contents format | project-only |
 | `_credit.py` | record credit notes for the governance scripts | Writes credit note files for the governance scripts | Project Architect harness |
 | `managed.py` | record which files the harness manages | The managed-file record .claude/pa3-managed.json | Project Architect harness |

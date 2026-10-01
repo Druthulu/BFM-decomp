@@ -5,6 +5,7 @@
     tools/restruct.py --apply --rung S|D|L --batch N --label <lbl> [--headers] [--only X …] [-j N]
                                                                                        # judge every unit of the batch's files, KEEP the winning
                                                                                        # texts in place (the outer gate — R22 — follows), ledger every site
+      (rung D with `--redraw KEY`: lifted decl units with no lying declaration left get a superseding DECL-NONE row; --plan reports them, P3.39 T1)
     tools/restruct.py --apply --rung D --callee F --signature "void F(s32 a)" --label <lbl>   # a definition-side signature change: the definition's
                                                                                        # TU + every TU declaring F, one judged unit (the 24 parked patches)
     tools/restruct.py --restore                                                        # every in-flight file back from inflight.json (never git checkout, R102)
@@ -3144,10 +3145,8 @@ def plan_S(headers, batch, only, done):
     return [(tu, files[tu]) for tu in ordered[:batch]], len(ordered), skipped
 
 
-def plan_D(headers, batch, only, settled=frozenset()):
-    """[(tu, callees)] — TUs with lying declarations (argcheck's set widened to every callee spelled other than its definition), most first.
-    `settled` = {(tu, callee)} the ledger has judged (any DONE verdict, latest row): a TU whose every lying callee is settled is not drawn
-    again (batches t4_D2–D9 re-drew done TUs whose KEPT rows kept them ranked high — 300 files for 6 written at D9); `--redraw` lifts it."""
+def argcheck_rows():
+    """argcheck's lying-declaration rows [{tu, callee, …}] (every callee spelled other than its definition), cached on the src stamp."""
     import argcheck
     cache_p = RUN / "argcheck_cache.json"
     stamp = lc.src_stamp()
@@ -3164,6 +3163,14 @@ def plan_D(headers, batch, only, settled=frozenset()):
         rows = argcheck.scan(defs, only_needed_argpins=False)              # ~2.4 min over the fleet: cached on the src stamp
         RUN.mkdir(parents=True, exist_ok=True)
         cache_p.write_text(json.dumps(dict(stamp=stamp, rows=rows)))
+    return rows
+
+
+def plan_D(headers, batch, only, settled=frozenset()):
+    """[(tu, callees)] — TUs with lying declarations (argcheck's set widened to every callee spelled other than its definition), most first.
+    `settled` = {(tu, callee)} the ledger has judged (any DONE verdict, latest row): a TU whose every lying callee is settled is not drawn
+    again (batches t4_D2–D9 re-drew done TUs whose KEPT rows kept them ranked high — 300 files for 6 written at D9); `--redraw` lifts it."""
+    rows = argcheck_rows()
     by_tu = collections.defaultdict(set)
     for r in rows:
         if r["tu"].endswith(".h") != headers:
@@ -3187,6 +3194,32 @@ def settled_units(rows, redraw=()):
     def lifted(v, c):
         return any(v == kv and (ks is None or ks in c) for kv, ks in keys)
     return {k for k, (v, c) in latest.items() if v in DONE_VERDICTS and not lifted(v, c)}
+
+
+def stale_lifted(rows, lying, redraw, headers, only):
+    """[latest rung-D `decl:` row] lifted by `redraw` (settled_units' keys) whose (tu, callee) has NO lying declaration left in `lying`
+    (argcheck_rows; hand-fixed TUs): never drawn again, so the stale row would stay latest forever (P3.39 T1) — superseded instead."""
+    keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in redraw]
+    have = {(r["tu"], r["callee"]) for r in lying}
+    out = []
+    for (rung, tu, unit), r in ledger_latest(rows).items():
+        if rung != "D" or not unit.startswith("decl:") or tu.endswith(".h") != headers:
+            continue
+        v, c = r.get("verdict"), r.get("cause") or ""
+        if v not in DONE_VERDICTS or not any(v == kv and (ks is None or ks in c) for kv, ks in keys):
+            continue
+        if only and not matches_only(only, tu, r["callee"]):
+            continue
+        if (tu, r["callee"]) not in have:
+            out.append(r)
+    return out
+
+
+def supersede_rows(stale, label):
+    """One DECL-NONE row per stale_lifted row (no source touched, no compile)."""
+    keep = ("rung", "tu", "unit", "callee", "header", "defn_tu", "nhash_before", "nhash_after")
+    return [dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, **{k: r.get(k) for k in keep}, verdict="DECL-NONE",
+                 cause=f"already canonical: no lying declaration left (stale {r.get('verdict')} row superseded)") for r in stale]
 
 
 def plan_HF(headers, batch, heads, rest, settled=frozenset()):
@@ -3343,6 +3376,10 @@ def apply_batch(a):
         plan, total, skipped = plan_S(a.headers, a.batch, a.only, done)
         print(describe_plan("S", plan, total, skipped), flush=True)
     elif a.rung == "D":
+        if a.redraw:
+            sup = supersede_rows(stale_lifted(rows, argcheck_rows(), a.redraw, a.headers, a.only), a.label)
+            ledger_append(sup)
+            print(f"restruct --apply D: superseded {len(sup)} stale lifted rows (no lying declaration left)", flush=True)
         plan, total = plan_D(a.headers, a.batch, a.only, settled_units(rows, a.redraw))
         print(describe_plan("D", plan, total), flush=True)
     else:
@@ -4461,6 +4498,17 @@ def selftest(real=False):
                              dict(st_rows[1], label="other")]
     ok("HF settled: a TOOL-ERROR <file> row in the unit's label unsettles it (either order); other labels unaffected",
        hf_settled(te_rows) == {(hf_c, "fold:Bad@hf_b")} and hf_settled([te_rows[1], te_rows[0]]) == set(), f"{hf_settled(te_rows)}")
+    sl_led = [dict(rung="D", tu="src/a.c", unit="decl:f1", callee="f1", verdict="DECL-KEPT", cause="conflicting x"),
+              dict(rung="D", tu="src/a.c", unit="decl:f2", callee="f2", verdict="DECL-KEPT", cause="conflicting y"),
+              dict(rung="D", tu="src/b.c", unit="decl:f1", callee="f1", verdict="DECL-KEPT", cause="other"),
+              dict(rung="D", tu="src/c.h", unit="decl:f1", callee="f1", verdict="DECL-KEPT", cause="conflicting z"),
+              dict(rung="D", tu="src/d.c", unit="decl:f3", callee="f3", verdict="DECL-KEPT", cause="conflicting w"),
+              dict(rung="D", tu="src/d.c", unit="decl:f3", callee="f3", verdict="DECL-CANON")]
+    st_ = stale_lifted(sl_led, [dict(tu="src/a.c", callee="f2")], ["DECL-KEPT:conflicting"], False, None)
+    sup_ = supersede_rows(st_, "st")
+    ok("rung D supersede: only lifted latest rows with no lying declaration left (.c only; cause key; latest row)",
+       [(r["tu"], r["unit"]) for r in st_] == [("src/a.c", "decl:f1")] and sup_[0]["verdict"] == "DECL-NONE" and "stale DECL-KEPT" in sup_[0]["cause"]
+       and stale_lifted(sl_led, [], ["DECL-KEPT:conflicting"], True, None)[0]["tu"] == "src/c.h", f"{st_}")
     ok("the selftest never touches the live inflight.json", True)
     ok("struct_layout selftest", sl.selftest() == 0)
     JUDGE_STUB = None
@@ -4500,7 +4548,7 @@ def main():
     ap.add_argument("--headers", action="store_true", help="the batch draws shared headers (serial; judged on every includer)")
     ap.add_argument("--only", nargs="*", help="aliases / TUs / functions / type names to restrict the batch to")
     ap.add_argument("--no-sa", action="store_true", help="rung S without the struct-hypothesis lever pass")
-    ap.add_argument("--redraw", nargs="*", default=[], help="draw again the units whose latest ledger verdict is one of these (e.g. DECL-KEPT after T5)")
+    ap.add_argument("--redraw", nargs="*", default=[], help="draw again the units whose latest ledger verdict is one of these (e.g. DECL-KEPT after T5); rung D: lifted units with no lying declaration left are superseded (DECL-NONE; --plan reports)")
     ap.add_argument("--try-file", nargs="+", metavar="TU_OR_FN", help="rung S on one TU's named bodies with the REAL oracle, local types allowed, NOTHING written")
     ap.add_argument("--callee", help="rung D: a DEFINITION-side signature change for this function (with --signature)")
     ap.add_argument("--signature", help='rung D: the new signature, e.g. "void func_800385C0(s32 a0)"')
@@ -4573,6 +4621,11 @@ def main():
             plan, total, skipped = plan_S(a.headers, a.batch, a.only, done)
             print(describe_plan("S", plan, total, skipped))
         elif a.rung == "D":
+            if a.redraw:
+                st = stale_lifted(load_ledger(), argcheck_rows(), a.redraw, a.headers, a.only)
+                print(f"restruct --plan D: {len(st)} stale lifted rows (no lying declaration left; --apply supersedes them)")
+                for r in st:
+                    print(f"   stale {r['tu']}  {r['unit']}  {r.get('verdict')}")
             plan, total = plan_D(a.headers, a.batch, a.only, settled_units(load_ledger(), a.redraw))
             print(describe_plan("D", plan, total))
         else:
