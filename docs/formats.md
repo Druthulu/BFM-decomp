@@ -144,7 +144,7 @@ Also note: the table covers LIST.CD, MAIN.CD, SC01–SC07.CD and ten of the STR 
 
 ## 2. .CD container format
 
-### 2.1 TOC structure (verified-local for MAIN.CD; brave.c is the reference parser)
+### 2.1 TOC structure (verified-local US, all 8 `.CD` files; brave.c is the reference parser)
 
 A `.CD` file begins with a table of contents at offset 0:
 
@@ -153,7 +153,7 @@ A `.CD` file begins with a table of contents at offset 0:
 | +0x00 | u32 LE | `count` — number of sub-files (MAIN.CD: 0x31 = 49) |
 | +0x04 | u32 LE | zero |
 | +0x08 + 8*i | u32 LE | sub-file *i* start, **in 2048-byte sectors relative to the start of the .CD file** |
-| +0x0C + 8*i | u32 LE | sub-file *i* length in bytes (unpadded) |
+| +0x0C + 8*i | u32 LE | sub-file *i* length in bytes. **Not the unpadded size:** in SC01–SC07.CD every length is a multiple of 0x800 (398 of 398 entries); in MAIN.CD 48 of 49 are and one is not |
 
 - **The first field of each entry is NOT a disc LBA.** `brave.txt` calls it "LBA", but the
   code in `brave.c::Extract()` proves it is file-relative (`buffer + entry_sector * 0x800`).
@@ -164,11 +164,29 @@ A `.CD` file begins with a table of contents at offset 0:
   no per-file special-casing (brave.c; confirmed by jywjyw's `Conf.java` rebuilding all 8
   with the same `CdRebuilder`).
 
+**Runtime reader (verified, `src/800.c`).** The game does not parse these TOC headers at
+runtime; it builds its file table from LIST.CD (§2.3) and the ISO directory.
+`LoaderInitFileTable` (0x8001971C) resolves the ISO files with `CdSearchFile`, reads the first
+**0xE40 bytes** of LIST.CD into a staging buffer at 0x80180000, then walks the 8 tables in
+order (MAIN, SC01 … SC07). For each table it takes that `.CD` file's disc position from the
+ISO directory (`CdPosToInt`), and for every entry with a non-zero start it writes
+`{CdlLOC = .CD start + entry start; u32 length}` into **`cdFileLocTable` (0x800AE830)**,
+8 bytes per sub-file, numbered across the 8 tables in order. Loads look entries up there:
+`ResourceGetCdLoc` (0x8001B788) maps a resource id through `resourceIdMap` to a
+`cdFileLocTable` row and returns its position.
+
+> **Repacking.** Positions and lengths reach the game only through LIST.CD and the ISO
+> directory, so a sub-file that changes size or moves requires rebuilding the `.CD` file's
+> own TOC (for tools), **LIST.CD** (what the game reads) and the **ISO 9660 directory
+> records** (extent and size) of every `.CD` file that moved or grew. When patching a raw
+> 2352-byte sector image directly, every rewritten sector also needs its **EDC/ECC**
+> recomputed.
+
 ### 2.2 Roles of each .CD file
 
 | File | Role | Sub-file count | Provenance |
 |---|---|---|---|
-| LIST.CD | Concatenated TOCs of the other 8 `.CD`s (§2.3) — **not itself a normal container** | n/a | jywjyw (JP) + partial local check |
+| LIST.CD | Concatenated TOCs of the other 8 `.CD`s (§2.3) — **not itself a normal container**; the game's runtime file table is built from it (§2.1) | n/a | verified-local US (§2.3) |
 | MAIN.CD | Global/resident archive: loader-resident script blob (`FILE_010` PAC entry index 1, type 1), fonts, shared assets | **49** (0x31, verified-local US; same count in JP) | local + jywjyw |
 | SC01.CD | Chapter 1 scenario archive (per-location PAC chains: scripts/overlays, graphics, VAB audio, SQV music) | **86** (0x56, **verified-local US 2026-06-13**; == JP) | local + jywjyw |
 | SC02.CD | Chapter 2 scenario archive | **43** (**verified-local US 2026-06-13** — corrects the "45" Auryn hearsay) | local |
@@ -196,15 +214,16 @@ all the CD archives). The exact structure, per jywjyw's `ListCdWriter.java` +
   exactly `8 + 8*N` bytes (u32 count + u32 zero + N entries — i.e. the TOC without its
   sector padding), **concatenated back-to-back with no alignment between tables**, written
   into a fixed 0x1000-byte (2-sector) buffer.
-- Purpose (jywjyw `note.md`): loaded into RAM at game start so the engine can locate any
-  sub-file in any `.CD` without re-reading each archive's header sector. US RAM cache
-  location **TBD** (memory-map §3.2 `listCd_ramCache`, open question #3).
+- Purpose: the game builds its runtime file table from LIST.CD at boot instead of reading
+  each archive's header sector (§2.1, `LoaderInitFileTable`). It is read into a staging
+  buffer at 0x80180000 (only the first 0xE40 bytes) and resolved into `cdFileLocTable`
+  (0x800AE830).
 
-**Verification status:** locally confirmed only that LIST.CD *begins with* an exact copy of
-MAIN.CD's TOC (first bytes identical to MAIN.CD sector 0). The full
-trimmed-concatenation layout (SC01–SC07 portions, their order, the no-alignment packing) is
-from the JP repacker and is **UNVERIFIED against the US disc** — verify by recomputing the
-8 trimmed TOCs from the US `.CD` files and diffing against LIST.CD (cheap Phase-2 check).
+**Verification status: verified-local US (2026-09-30).** Recomputing the 8 trimmed TOCs
+from the US `.CD` files (MAIN, SC01 … SC07, in that order, each `8 + 8*N` bytes, back to back
+with no alignment) gives 3,640 bytes (0xE38) that are identical to LIST.CD's first 3,640
+bytes; the remaining bytes of the 4,096-byte file are zero. The loader reads the first 0xE40
+bytes, which covers all 8 tables.
 
 ⚠️ CUE's BRAVE tool does **not** special-case LIST.CD. Because LIST.CD *starts* with a valid
 TOC, running BRAVE on it parses MAIN.CD's table and then reads garbage sector offsets inside
@@ -288,7 +307,7 @@ is reconciled from both plus Vehek's findings in romhacking thread 15730.
 | `N` (ring size) | 1024 bytes (`1 << 10`) | Game keeps the ring in **scratchpad 0x1F800000** (memory-map §3.1) |
 | `THRESHOLD` | 1 (CUE's naming) | jywjyw's encoder calls it 2 — naming difference only; both agree real match length = 6-bit field + 2 |
 | Max match `F` | 65 bytes (`(1 << 6) + 1` + the loop's `<=`) | Copy lengths range **2..65** |
-| Ring initial state | Zero-filled, write index `r = 0` | Encoder-side origin is index **1** (§4.3, §4.6) |
+| Ring initial state | **Game: not cleared** (contents undefined, §4.4); write index starts at **1** (`LzssDecodeSector` state 1). brave.c: zero-filled global, `r = 0` | Encoder-side origin is index **1** (§4.3, §4.6) |
 | Decompressed size | **No size field anywhere** | CUE grows the output buffer dynamically (start 128 KB, +64 KB steps); the game decodes until the terminator |
 
 ### 4.2 Flag engine (LSB-first with 0xFF00 sentinel)
@@ -356,8 +375,14 @@ of the terminator/padding. Our game-semantics output is the correct one. No reta
 found where the two diverge *within* the payload.
 
 Additional tool caveat: `brave.c`'s `ring[]` is a global that is never re-zeroed between
-files (only `r` resets), so CUE's tool is not a strict oracle for streams that reference
-ring positions not yet written; the game expects a zero-filled ring at stream start.
+files (only `r` resets). **The game does not zero its ring either.** In `LzssDecodeSector`
+(0x80018730, `src/800.c`) state 1 sets only the write index (1), the flag mask and the first
+flag byte; the ring is the 1 KB at scratchpad 0x1F800000, which other engine code also uses
+as scratch (GTE matrix and rect work in `src/800.c`), so its contents at stream start are
+undefined. The game does **not** expect a zero-filled ring: a valid stream must never read a
+ring slot it has not itself written. All 138 US type-4 streams satisfy this (zero reads of an
+unwritten slot, verified-local 2026-09-30). Neither decoder is an oracle for a stream that
+breaks the rule.
 
 ### 4.5 Game-side streaming state machine (resumable, sector-fed)
 
@@ -391,6 +416,19 @@ boundary.
   2013 attempt); (b) terminate the stream with a `pos == 0` pair; (c) start its ring origin
   at index 1 (jywjyw's `Compresser.java` does exactly this — it also documents the encoded
   byte order: byte0 = `pos & 0xFF`, byte1 = `(len-2) << 2 | pos >> 8`).
+- **Terminator sector rule (game loader, verified `src/800.c`).** The PAC header length is
+  not used to find the end of a type-4 payload. `CdReadSectorReadyCB` feeds each 0x800-byte
+  payload sector to `LzssDecodeSector`; when the decoder reaches the terminator it returns 0
+  and the rest of that sector is dropped. Unless the entry is the last in its chain, the
+  loader then reads the **next sector as a PAC header** and aborts the load if it does not
+  start with `PAC\0`. So the terminator (the sector holding its second byte) must fall in the
+  entry's **last payload sector**; for an in-place replacement that keeps the layout, that is
+  the same 2048-byte sector as in the retail file. A stream that ends a sector early makes the
+  loader read payload as a header; one that runs a sector long decodes the next header as
+  stream data. Example: SC01.CD sub-file 1 (0-based TOC index) starts with a type-4 entry
+  whose payload spans 200 sectors, so a replacement stream, terminator included, must be
+  **407,553–409,600 bytes**. All 138 US type-4 streams end in their last payload sector
+  (verified-local 2026-09-30).
 
 ---
 
