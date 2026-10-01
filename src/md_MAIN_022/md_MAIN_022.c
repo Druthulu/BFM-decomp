@@ -525,7 +525,7 @@ void func_800CBA30(void *a0) {
 }
 
 
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 void func_800CBAA4(s32 a0) {

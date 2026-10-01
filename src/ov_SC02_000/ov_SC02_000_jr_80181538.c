@@ -10,7 +10,7 @@ extern s32 func_80161CD0(s32 a0, s32 a1);
 
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
-extern void func_8012C098(void);
+extern void func_8012C098(void *param_1);
 extern void func_8012C218(void *a0);
 extern s32 D_801270CC;
 

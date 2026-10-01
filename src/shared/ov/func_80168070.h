@@ -1,7 +1,7 @@
 /* func_80168070 — shared body (overlay slot 0x80128158, h_exact 0d18ee0d). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80149350(s32 arg0);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);

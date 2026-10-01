@@ -2723,7 +2723,7 @@ extern void func_80146C3C(u8 *a0);
 extern void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void func_8016706C(s32 param_1);
 extern void func_80149350(s32);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
@@ -2816,7 +2816,7 @@ s32 func_8016AB6C(s32 arg0) {
     extern s32 rand(void);
     extern void func_801465C0(void);
     extern void func_80146C3C(u8 *a0);
-    extern void func_800D20C0(void *a0, void *a1, s32 a2);
+    extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
     extern u8 D_801814AC[];
     extern u8 D_80184668[];
     extern u8 D_801814BC[];

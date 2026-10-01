@@ -141,7 +141,7 @@ void func_800CB138(s32 arg0) {
     extern u8 D_800CB88C[];
     extern s32 rand(void);
     extern u8 *func_800D222C(s32 a0, s32 a1, s32 a2);
-    extern void func_800D20C0(void *a0, void *a1, s32 a2);
+    extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
     extern void func_800D23D0(void *a0);
     extern void RotMatrixYXZ();
     extern void RotMatrixZ(s32 a0, void *a1);

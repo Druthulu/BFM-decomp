@@ -7518,7 +7518,7 @@ extern void func_80146C3C(u8 *a0);
 
 
 extern void func_80149350(s32);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
@@ -7904,7 +7904,7 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
 
 
 extern void func_80149350(s32 arg0);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyMatrixSV(void*, Svec_801372B0*, Svec_801372B0*);
@@ -8332,7 +8332,7 @@ void func_8016901C(void *a0) {
 }
 
 
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
@@ -8401,7 +8401,7 @@ extern s32 rand(void);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern void ApplyMatrixSV(void*, Svec_801372B0*, Svec_801372B0*);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void func_80169584(s32 param_1);
 void func_80169408(s32 a0) {
@@ -8455,7 +8455,7 @@ void func_80169830(void *a0) {
 }
 
 
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
@@ -8680,7 +8680,7 @@ void func_8016A020(void *a0) {
 
 extern s32 func_80017758(void *a0, void *a1);
 extern void func_80017E68(void *a0, void *a1);
-extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void func_80149350(s32 arg0);
 
