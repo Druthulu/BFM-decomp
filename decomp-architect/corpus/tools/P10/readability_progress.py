@@ -59,13 +59,20 @@ def counts():
     # Phase 37 T1 (2026-09-12): the type census's columns — the four dereference forms (the CAST regex above sees one of them, over raw
     # text), the typed cast-member accesses (the MEMBER regex counts these as members — they are the rewrite's rung 1, not finished
     # members), the struct definitions and their duplicate classes, the struct map. A snapshot REFUSES a stale census (R43/R51).
-    cj = REPO / ".run/P37/census/type_census.json"
+    # P38 T10: the CURRENT phase's census — the newest .run/P<N>/census/type_census.json by numeric N (was: a P37 literal)
+    cjs = sorted((int(m.group(1)), q) for q in REPO.glob(".run/P*/census/type_census.json")
+                 if (m := re.fullmatch(r"P(\d+)", q.parent.parent.name)))
     head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
-    if not cj.exists():
+    if not cjs:
         sys.exit("readability_progress: no type census — run `tools/type_census.py -j 16` first (its columns are part of the row)")
+    cj = cjs[-1][1]
+    print(f"readability_progress: census {cj.relative_to(REPO)}", file=sys.stderr)
     ts = json.loads(cj.read_text())["summary"]
-    if not head.startswith(ts.get("head", "?")):
-        sys.exit(f"readability_progress: the type census is STALE (census {ts.get('head')} vs HEAD {head[:9]}) — rerun tools/type_census.py")
+    # fresh = taken at HEAD, or over the same src/ tree (lever_census.src_stamp: path|size|mtime of every .c/.h) — a docs-only commit
+    # after the census does not stale it
+    import lever_census
+    if not head.startswith(ts.get("head", "?")) and ts.get("src_stamp") != lever_census.src_stamp():
+        sys.exit(f"readability_progress: the type census is STALE (census {ts.get('head')} vs HEAD {head[:9]}, src stamp differs) — rerun tools/type_census.py")
     c, d, sm = ts["casts"], ts["definitions"], ts["struct_map"]
     out.update(deref_all=c["deref_total"], form_P=c["by_form"].get("P", 0), form_I=c["by_form"].get("I", 0), form_X=c["by_form"].get("X", 0),
                form_M=c["by_form"].get("M", 0), addr_form=c["addr_form"], typed_cast_member=c["typed_cast_member"],

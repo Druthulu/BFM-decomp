@@ -53,7 +53,7 @@
   },
   "kinds": {
    "asm-body/direct": 13,
-   "barrier/direct": 240,
+   "barrier/direct": 239,
    "gte-lever/direct": 356,
    "gte-lever/via-macro": 94,
    "gte-unsigned/direct": 270,
@@ -71,46 +71,46 @@
  "cfake_markers": {
   "count": 53,
   "sample": [
-   "src/800.c:12543",
-   "src/800_b_2.c:2948",
-   "src/800_b_2.c:2965",
-   "src/800_b_2.c:3087",
-   "src/md_SC07_003/md_SC07_003.c:3577",
+   "src/800.c:11949",
+   "src/800_b_2.c:2910",
+   "src/800_b_2.c:2927",
+   "src/800_b_2.c:3049",
+   "src/md_SC07_003/md_SC07_003.c:3501",
    "src/md_SC07_004/md_SC07_004.c:280",
-   "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c:3564",
-   "src/ov_SC01_009/ov_SC01_009_jr_8017E590.c:4265",
-   "src/ov_SC01_077/ov_SC01_077_jr_80183CF4.c:3973",
-   "src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:5172",
-   "src/ov_SC02_011/ov_SC02_011_jr_80183178.c:2138",
-   "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:4521",
-   "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:8363",
-   "src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:5455",
-   "src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c:7548",
-   "src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:5019",
-   "src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:5067",
-   "src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5467",
-   "src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5519",
-   "src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5858",
-   "src/ov_SC03_024/ov_SC03_024_jr_80183BF8.c:3101",
-   "src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c:3790",
-   "src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c:4106",
-   "src/ov_SC03_121/ov_SC03_121_jr_8017E1D0.c:4562",
-   "src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c:6567",
-   "src/ov_SC03_124/ov_SC03_124_jr_80188544.c:4416",
-   "src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c:10063",
-   "src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c:9319",
-   "src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c:6624",
-   "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7464",
-   "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:10267",
-   "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:13405",
-   "src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5808",
-   "src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c:4809",
-   "src/ov_SC05_005/ov_SC05_005_jr_8017D898.c:4019",
-   "src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3329",
-   "src/ov_SC05_018/ov_SC05_018_jr_8017D604.c:4936",
-   "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8438",
-   "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8478",
-   "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8805"
+   "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c:3551",
+   "src/ov_SC01_009/ov_SC01_009_jr_8017E590.c:4242",
+   "src/ov_SC01_077/ov_SC01_077_jr_80183CF4.c:3964",
+   "src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:5148",
+   "src/ov_SC02_011/ov_SC02_011_jr_80183178.c:2126",
+   "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:4471",
+   "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:8250",
+   "src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:5414",
+   "src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c:7519",
+   "src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:4990",
+   "src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:5038",
+   "src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5460",
+   "src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5512",
+   "src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5851",
+   "src/ov_SC03_024/ov_SC03_024_jr_80183BF8.c:3095",
+   "src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c:3782",
+   "src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c:4098",
+   "src/ov_SC03_121/ov_SC03_121_jr_8017E1D0.c:4551",
+   "src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c:6559",
+   "src/ov_SC03_124/ov_SC03_124_jr_80188544.c:4384",
+   "src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c:10026",
+   "src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c:9288",
+   "src/ov_SC04_007/ov_SC04_007_jr_8017BEBC.c:6602",
+   "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7354",
+   "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:10147",
+   "src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:13264",
+   "src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:5768",
+   "src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c:4800",
+   "src/ov_SC05_005/ov_SC05_005_jr_8017D898.c:4010",
+   "src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c:3322",
+   "src/ov_SC05_018/ov_SC05_018_jr_8017D604.c:4909",
+   "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8409",
+   "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8449",
+   "src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:8776"
   ]
  },
  "classes": {
@@ -128,13 +128,13 @@
    "unmarked": 0
   },
   "B": {
-   "bodies": 4587,
-   "distinct_bodies": 654,
+   "bodies": 4586,
+   "distinct_bodies": 827,
    "file_scope": 13,
-   "in_bodies": 11248,
+   "in_bodies": 11247,
    "kinds": {
     "asm-body": 13,
-    "barrier": 240,
+    "barrier": 239,
     "gte": 6447,
     "gte-lever": 450,
     "gte-unsigned": 270,
@@ -143,8 +143,8 @@
     "launder": 613,
     "verbatim-body": 2682
    },
-   "marked": 2346,
-   "sites": 11261,
+   "marked": 2345,
+   "sites": 11260,
    "tus": 1425,
    "unmarked": 8915
   },
@@ -178,21 +178,21 @@
    "unmarked": 50
   },
   "E": {
-   "bodies": 734,
-   "distinct_bodies": 131,
-   "file_scope": 5094,
-   "in_bodies": 902,
+   "bodies": 730,
+   "distinct_bodies": 127,
+   "file_scope": 5088,
+   "in_bodies": 898,
    "kinds": {
-    "asm-label": 5996
+    "asm-label": 5986
    },
    "marked": 0,
-   "sites": 5996,
-   "tus": 2013,
-   "unmarked": 5996
+   "sites": 5986,
+   "tus": 2010,
+   "unmarked": 5986
   },
   "F": {
    "bodies": 285,
-   "distinct_bodies": 24,
+   "distinct_bodies": 25,
    "file_scope": 0,
    "in_bodies": 302,
    "kinds": {
@@ -204,17 +204,17 @@
    "unmarked": 302
   },
   "G": {
-   "bodies": 1,
-   "distinct_bodies": 1,
-   "file_scope": 75,
-   "in_bodies": 1,
+   "bodies": 0,
+   "distinct_bodies": 0,
+   "file_scope": 26,
+   "in_bodies": 0,
    "kinds": {
-    "attribute": 76
+    "attribute": 26
    },
    "marked": 0,
-   "sites": 76,
-   "tus": 40,
-   "unmarked": 76
+   "sites": 26,
+   "tus": 2,
+   "unmarked": 26
   }
  },
  "controls": [
@@ -250,15 +250,15 @@
  "coverage": {
   "asm": {
    "comment_dead": 6781,
-   "live": 12886,
+   "live": 12875,
    "macro_block": 194,
-   "raw": 19861
+   "raw": 19850
   },
   "attribute": {
    "comment_dead": 0,
-   "live": 76,
+   "live": 26,
    "macro_block": 0,
-   "raw": 76
+   "raw": 26
   },
   "builtin": {
    "comment_dead": 154,
@@ -280,8 +280,8 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 36.7,
- "generated": "2026-09-29",
+ "elapsed_s": 23.3,
+ "generated": "2026-09-30",
  "gte_levers": {
   "direct": 356,
   "marked": 450,
@@ -291,15 +291,15 @@
   "via_macro": 94,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "465d915bd",
+ "head": "6980aed89f",
  "headers": 3181,
  "levers_AB": {
-  "asm": 1862,
-  "bodies": 1838,
-  "distinct_bodies": 662,
-  "marked": 3730,
+  "asm": 1861,
+  "bodies": 1837,
+  "distinct_bodies": 661,
+  "marked": 3729,
   "pins": 1868,
-  "sites": 3730,
+  "sites": 3729,
   "unmarked": 0,
   "what": "register pins + asm statements excluding GTE ops: the classes the phase drives to 0"
  },
@@ -473,21 +473,21 @@
   "volatile_qualified": 0,
   "zero": 54
  },
- "src_stamp": "a777e79c16d8d251",
+ "src_stamp": "287e6f521d908e6d",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
-  "bodies": 5604,
+  "bodies": 5603,
   "by_kind": {
    "main": 120,
    "md": 105,
-   "ov": 5215,
+   "ov": 5214,
    "resident": 6,
    "shared": 158
   },
-  "copies_in_multi": 4721,
-  "distinct_bodies": 995,
-  "multi_copy_classes": 112
+  "copies_in_multi": 4542,
+  "distinct_bodies": 1168,
+  "multi_copy_classes": 107
  },
  "verbatim_excluded": {
   "functions": 13,

@@ -9,6 +9,8 @@
                                                                                        # TU + every TU declaring F, one judged unit (the 24 parked patches)
     tools/restruct.py --restore                                                        # every in-flight file back from inflight.json (never git checkout, R102)
     tools/restruct.py --status                                                         # the ledger's totals per rung
+    tools/restruct.py --status --rung L --only <CanonType> …                           # the HEAD-FOLD rows (latest per unit): verdict -> cause -> units
+      (rung L with `--only <CanonType> …` = HEAD-FOLD mode, P38 T4: same-size other-layout definitions -> `typedef <Canon> <Local>;` + renames)
     tools/restruct.py --check-ledger                                                   # every MEMBER site still a leaf of its (current) canonical type
     tools/restruct.py --audit-types                                                    # the naming invariant over the canonical type files (struct_layout.audit_definition)
     tools/restruct.py --write-types --top N | --type NAME … [--space ov]               # the WRITER: canonical definitions rendered from the struct map (a preview)
@@ -50,6 +52,10 @@ outer gate (the clean fleet run, R22) which tools/restruct_cycle.sh runs before 
 """
 import argparse
 import collections
+import contextlib
+import difflib
+import fcntl
+import fnmatch
 import hashlib
 import json
 import os
@@ -84,6 +90,7 @@ TYPE_OF = sl.TYPE_OF
 CANON_HEADERS = tc.CANON_HEADERS
 KR_MARK = "// K&R:"
 _LOCK = threading.Lock()
+_APPLY_LOCK_F = None               # the --apply process lock's open file (held for the process's life)
 
 
 class Refuse(Exception):
@@ -392,15 +399,22 @@ def ledger_append(rows):
             f.write(json.dumps(r) + "\n")
 
 
+def ledger_latest(rows):
+    """{(rung, tu, unit): row} — the LATEST row per unit (R70: the last row is the verdict). The one latest-row filter; its callers read
+    verdict/cause from the row (ledger_index, settled_units, type_census --check-structs)."""
+    latest = {}
+    for r in rows:
+        latest[(r.get("rung"), r["tu"], r["unit"])] = r
+    return latest
+
+
 def ledger_index(rows):
     """done: {(rung, tu, unit, nhash_after)}; latest: {(rung, tu, unit): verdict}."""
-    done, latest = set(), {}
+    done = set()
     for r in rows:
-        key = (r.get("rung"), r["tu"], r["unit"])
-        latest[key] = r.get("verdict")
         if r.get("verdict") in DONE_VERDICTS and r.get("nhash_after"):
-            done.add(key + (r["nhash_after"],))
-    return done, latest
+            done.add((r.get("rung"), r["tu"], r["unit"], r["nhash_after"]))
+    return done, {k: r.get("verdict") for k, r in ledger_latest(rows).items()}
 
 
 def body_nhash(masked, d):
@@ -410,11 +424,45 @@ def body_nhash(masked, d):
     return lc.norm_hash(masked[s0:s1])
 
 
+@contextlib.contextmanager
+def _inflight_lock(path=None, shared=False):
+    """inflight.json is read and written only under this lock: the thread lock (workers of one process) AND an fcntl lock on
+    <path>.lock (other processes). T4.c2: batch t38_4L1 ran twice concurrently under one label; one process's plain write_text
+    (truncate, then write) was read EMPTY by the other's workers — 5 file-level TOOL-ERROR JSONDecodeError."""
+    path = path or INFLIGHT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with _LOCK, open(path.with_name(path.name + ".lock"), "a") as lf:
+        fcntl.flock(lf, fcntl.LOCK_SH if shared else fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(lf, fcntl.LOCK_UN)
+
+
+def _inflight_write(d, path=None):
+    """Atomic: a tmp file beside it, then os.replace (a reader sees the old or the new record, never a truncated one). Caller holds
+    _inflight_lock."""
+    path = path or INFLIGHT
+    tmp = path.with_name(f"{path.name}.tmp{os.getpid()}")
+    tmp.write_text(json.dumps(d))
+    os.replace(tmp, path)
+
+
+def inflight_update(fn, path=None):
+    """Read-modify-write of inflight.json, serialised across threads and processes; fn(d) mutates d in place."""
+    path = path or INFLIGHT
+    with _inflight_lock(path):
+        d = json.loads(path.read_text())
+        fn(d)
+        _inflight_write(d, path)
+
+
 def load_inflight(path=None):
     path = path or INFLIGHT
     if not path.exists():
         return None, "no inflight.json — nothing was in flight"
-    raw = path.read_text()
+    with _inflight_lock(path, shared=True):
+        raw = path.read_text() if path.exists() else ""
     if not raw.strip():
         return None, "inflight.json is EMPTY (a kill landed mid-write): reconcile every dirty file with the oracle (IDENTICAL = a bank, DIFFERS = a leftover)"
     try:
@@ -515,8 +563,12 @@ def pass_hint(residual):
     if not residual or residual.get("kind") in (None, "UNSCORED"):
         return "UNSCORED"
     kind = residual["kind"]
-    mn = [(p[1].split()[1] if len(p[1].split()) > 1 else "") for p in residual.get("pairs", []) if p[1] != "--"]
-    tg = [(p[2].split()[1] if len(p[2].split()) > 1 else "") for p in residual.get("pairs", []) if p[2] != "--"]
+    # `pairs` = the aligned differing rows (k, "<word> <mnem …>" | "--", same) from classify_residual; a register-pair row
+    # (x, y, count — delever_search.classify's `pairs`, what classify_residual emitted before T3.c3: `.split()` on an int crashed)
+    # carries no mnemonic and is skipped here (T3.c3)
+    rows = [p for p in residual.get("pairs", []) if len(p) == 3 and isinstance(p[1], str) and isinstance(p[2], str)]
+    mn = [(p[1].split()[1] if len(p[1].split()) > 1 else "") for p in rows if p[1] != "--"]
+    tg = [(p[2].split()[1] if len(p[2].split()) > 1 else "") for p in rows if p[2] != "--"]
     words = set(mn) | set(tg)
     if words & {"lwl", "lwr", "swl", "swr"}:
         return "ALIGNMENT"
@@ -532,7 +584,7 @@ def pass_hint(residual):
         return "COUNT-OTHER"
     if kind == "REG":
         return "REGALLOC"
-    ims = [p for p in residual.get("pairs", []) if p[1] != "--" and p[2] != "--" and p[1].split()[1:2] == p[2].split()[1:2]]
+    ims = [p for p in rows if p[1] != "--" and p[2] != "--" and p[1].split()[1:2] == p[2].split()[1:2]]
     if ims and all(x[1].split()[1] in ("addiu", "lui", "ori") for x in ims):
         return "ADDRESS-FOLD"
     return "OTHER"
@@ -683,6 +735,20 @@ def compose_text(raw, edits, inserts=()):
     return "".join(out)
 
 
+def drop_overlaps(edits):
+    """(kept, dropped) over one body's edits of ALL its bases: s_edits drops overlaps within one base, but a `nested:` base's site
+    CONTAINS its parent base's site (`*(s16 *)(*(s32 *)(s0 + 0x20) + 0x18)` holds `*(s32 *)(s0 + 0x20)`, base param:s0). The
+    earlier-starting edit stays (the longer one on a tie), the ones starting inside it drop — deterministic, source order.
+    was: compose_text raised Refuse on them and the whole --try-file run crashed (T3.c3)."""
+    kept, dropped, last = [], [], 0
+    for e in sorted(edits, key=lambda e: (e[0], -e[1], e[2])):
+        if e[0] < last:
+            dropped.append(e)
+            continue
+        kept.append(e); last = e[1]
+    return kept, dropped
+
+
 def greedy_kept(judge_cands, edits, tag):
     """Rung S2 on an edit list: judge_cands(sub_edits, tag) -> verdict. leave-one-out (n), else cumulative revert in source order
     until IDENTICAL, then minimise. Returns (kept_edits, compiles, verdict)."""
@@ -810,7 +876,18 @@ def classify_residual(tu, fn, cand_bytes):
     if not mine or not tgt:
         return dict(kind="UNSCORED", err="function not found in one object")
     c = ds.classify(mine, tgt)
-    return dict(kind=c["kind"], score=c["score"], n_mine=c["n_mine"], n_tgt=c["n_tgt"], pairs=c["pairs"][:4])
+    # pairs = the aligned differing rows pass_hint reads (k, "<word> <mnem>" | "--", …), delever_search --explain's alignment;
+    # regs = classify's register pairs (x, y, n). was: pairs=c["pairs"][:4] (the register pairs — pass_hint crashed on the int, T3.c3)
+    aa, bb = [ds.masked_word(i) for i in mine], [ds.masked_word(i) for i in tgt]
+    rows = []
+    for t, i1, i2, j1, j2 in difflib.SequenceMatcher(None, aa, bb, autojunk=False).get_opcodes():
+        if t == "equal":
+            continue
+        for k in range(max(i2 - i1, j2 - j1)):
+            m_ = f"{mine[i1 + k]['word']:08x} {mine[i1 + k]['mnem']}" if i1 + k < i2 else "--"
+            t_ = f"{tgt[j1 + k]['word']:08x} {tgt[j1 + k]['mnem']}" if j1 + k < j2 else "--"
+            rows.append((i1 + k, m_, t_))
+    return dict(kind=c["kind"], score=c["score"], n_mine=c["n_mine"], n_tgt=c["n_tgt"], pairs=rows[:8], regs=c["pairs"][:4])
 
 # ----------------------------------------------------------------------------------------------------------------------
 # rung 1 on one body
@@ -979,9 +1056,13 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
         bsites = [s for s in sites if s.get("fn") == fn]
         per_base = s_body_edits(tu, fn, text_acc, masked, d2, bsites, bodies[fn], allow_local, local_types)
         edits = [e for (_, _, status, es, _) in per_base for e in es]
+        _, overlapped = drop_overlaps(edits)                       # a nested base's site holds its parent's (T3.c3)
+        edits = [e for e in edits if not any(e is o for o in overlapped)]      # per_base order kept for the S2 search
         skips = collections.Counter()
         for (_, _, _, _, sk) in per_base:
             skips.update(sk)
+        if overlapped:
+            skips["overlap-edit"] += len(overlapped)
         row = dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="S", calib=calib_id, tu=tu, unit=fn, fn=fn, addr=dl.fn_addr(fn, tu),
                    header=is_hdr, nhash_before=nh0, nhash_after=nh0,
                    bases=[dict(base=bk, type=tn, status=stt, edits=len(es), skips=dict(sk)) for (bk, tn, stt, es, sk) in per_base],
@@ -997,7 +1078,7 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
         base_text = text_acc
         # a LOCAL type (try mode) travels with its body: its typedef is inserted at file scope right before this function; a
         # typedef already placed below (an earlier, lower body of the same type) is moved up so both bodies see it (bottom-up order)
-        needed = {tn for (_, tn, stt, es, _) in per_base if stt == "LOCAL" and es}
+        needed = {tn for (_, tn, stt, es, _) in per_base if stt == "LOCAL" and any(any(e is x for x in edits) for e in es)}   # was: `and es` (T3.c3)
         ls_acc = dl.line_starts(base_text)
         ins_pos = ls_acc[d2["line"] - 1]
         inserts = []
@@ -1036,8 +1117,10 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
             s = e[3]
             v = "MEMBER" if any(e is a for a in accepted) else ("KEPT(" + row.get("hint", "?") + ")" if row.get("verdict") in ("S2", "KEPT-ALL") else "REFUSED")
             row["sites"].append(site_row(s, v, tname_of.get(id(e)), e[2].rsplit("->", 1)[-1].rsplit(".", 1)[-1]))
+        for e in overlapped:                                       # the dropped nested/parent edit stays a cast (T3.c3)
+            row["sites"].append(site_row(e[3], "KEPT(overlap-edit)", tname_of.get(id(e)), e[2].rsplit("->", 1)[-1].rsplit(".", 1)[-1]))
         out["members"] += len(accepted)
-        out["kept"] += len(kept)
+        out["kept"] += len(kept) + len(overlapped)
         if accepted:
             text_acc = compose_text(base_text, list(accepted) + inserts)
             for tn in sorted(needed):
@@ -2405,6 +2488,616 @@ def work_file_L(tu, label, calib_id, log, pool=None, done=frozenset()):
     return out
 
 # ----------------------------------------------------------------------------------------------------------------------
+# rung L HEAD-FOLD mode (P38 T4): `--only <canonical type> …` folds every SAME-SIZE, OTHER-LAYOUT struct definition (file or block
+# scope, .c and — with --headers — src/**/*.h) onto the named canonical type: the definition becomes `typedef <Canon> <Local>;`, `struct
+# <Tag>` uses become the typedef name, and member accesses on bases OF THE LOCAL TYPE (typed vars/params/arrays, `((Local *)e)->f`,
+# `v[i].f`, chains through self-typed fields) are renamed by offset. A header unit's renames reach its includer TUs (one judged unit).
+# Width/sign/pointer mismatches are not refused up front: the judge decides.
+# ----------------------------------------------------------------------------------------------------------------------
+HEAD_FOLD_EXCLUDE = {"Blk152*": "struct-copy blob, 800_b.c:311", "Fr_*": "stack frame"}    # name glob -> cause (never a candidate)
+HF_INCLUDERS_OVERRIDE = None     # the selftest sets {header: [tu]}; None = delever.includers() through recipes()
+_HF_STATS = {}                   # plan_L's head-fold counts for describe_plan
+HF_DECLARATOR = re.compile(r"^\s*(\**)\s*(?:const\s+|volatile\s+)*([A-Za-z_]\w*)\s*((?:\[[^\]]*\]\s*)*)$")
+HF_ACCESS = re.compile(r"(->|\.)\s*([A-Za-z_]\w*)")
+HF_DEFINE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+(\w+)(\([^)\n]*\))?((?:[^\n]*\\\n)*[^\n]*)", re.M)
+
+
+def head_split(only):
+    """(heads, rest): the --only items naming a canonical type (head-fold mode) and the others (file/alias filters as today)."""
+    if not only:
+        return [], []
+    can = canon_types()
+    return [o for o in only if o in can], [o for o in only if o not in can]
+
+
+def head_info(heads):
+    """{head: dict(size, lhash, file, cf{off: (name, size)})} — the canonical side of a head fold."""
+    can = canon_types()
+    out = {}
+    for h in heads:
+        d, res, fm = can[h]
+        lay = res.layout_of_fields(d["fields"], d["kind"], packed=("packed" in (d.get("attrs") or "")))
+        if not lay:
+            continue
+        cf = {}
+        for nm, off in sl.field_offsets(res, d):
+            cf.setdefault(off, (nm, ((fm or {}).get(off) or {}).get("width")))
+        out[h] = dict(size=lay[0], lhash=sl.layout_hash(lay), file=d["file"], cf=cf)
+    return out
+
+
+def hf_names(d):
+    return d["names"] + ([d["tag"]] if d["tag"] else [])
+
+
+def hf_cands(rel, defs, hinfo):
+    """[(d, head, resolver, excluded_cause | None)] — the definitions of one file sized like a head with another layout."""
+    if rel.startswith("include/") or not hinfo or rel in {hi["file"] for hi in hinfo.values()}:      # plan_HF draws src/ only
+        return []
+    can = canon_types()
+    scope = dict(next(iter(can.values()))[1].defs)
+    for d in defs:
+        for n in hf_names(d):
+            scope.setdefault(n, d)
+    res = sl.Resolver(scope)
+    out = []
+    for d in defs:
+        if d["kind"] == "enum" or not d["fields"]:
+            continue
+        lay = res.layout_of_fields(d["fields"], d["kind"], packed=("packed" in (d.get("attrs") or "")))
+        if not lay:
+            continue
+        for h, hi in hinfo.items():
+            if lay[0] == hi["size"] and sl.layout_hash(lay) != hi["lhash"]:
+                ex = next((c for g, c in HEAD_FOLD_EXCLUDE.items() if any(fnmatch.fnmatchcase(n, g) for n in hf_names(d))), None)
+                out.append((d, h, res, ex))
+                break
+    return out
+
+
+def hf_keys(cands):
+    """The ledger unit key per candidate: `fold:<name>@<function|file>` (#k on a repeat) — stable across line shifts."""
+    seen, keys = collections.Counter(), []
+    for d, *_ in cands:
+        k = "fold:" + (hf_names(d) or ["?"])[0] + "@" + (d["fn"] or "file")
+        seen[k] += 1
+        keys.append(k if seen[k] == 1 else f"{k}#{seen[k]}")
+    return keys
+
+
+def hf_settled(rows, redraw=()):
+    """{(tu, unit)} whose LATEST head-fold row is FOLDED / FOLD-REFUSED, minus the --redraw keys (VERDICT[:cause-substring] or a
+    definition name). A unit is NOT settled when its label also holds a file-level row (<file>) for its TU that is TOOL-ERROR /
+    COMBINATION-FAILED, before OR after it (T4.c2: t38_4L1 ran twice concurrently, so row order within a label is not causal —
+    ov_SC06_029_jr_801898CC's FOLDED row lands after its <file> TOOL-ERROR row, and the file was restored by hand)."""
+    keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in redraw]
+    bad = {(r.get("label"), r["tu"]) for r in rows
+           if r.get("rung") == "L" and r.get("unit") == "<file>" and r.get("verdict") in ("TOOL-ERROR", "COMBINATION-FAILED")}
+    out = set()
+    for (rung, tu, unit), r in ledger_latest(rows).items():
+        if rung != "L" or not r.get("head") or r.get("verdict") not in ("FOLDED", "FOLD-REFUSED"):
+            continue
+        if (r.get("label"), tu) in bad:
+            continue
+        v, c = r.get("verdict"), r.get("cause") or ""
+        if any((v == kv and (ks is None or ks in c)) or r.get("defn") == kv for kv, ks in keys):
+            continue
+        out.add((tu, unit))
+    return out
+
+
+def _fn_spans(text, rel, masked):
+    ls = dl.line_starts(masked)
+    out = []
+    for r in sc.scan_text(text, rel, shared_defs=None):
+        if r["form"] == "def":
+            out.append((r["name"], ls[r["line"] - 1], ls[r["end"]] if r["end"] < len(ls) else len(masked)))
+    return out
+
+
+def _match_close(s, i):
+    """s[i] in '([' -> the index of its closer (depth over both kinds), -1 if none."""
+    depth = 0
+    for k in range(i, len(s)):
+        if s[k] in "([":
+            depth += 1
+        elif s[k] in ")]":
+            depth -= 1
+            if depth == 0:
+                return k
+    return -1
+
+
+def _match_open(s, j):
+    """s[j] in ')]' -> the index of its opener, -1 if none."""
+    depth = 0
+    for k in range(j, -1, -1):
+        if s[k] in ")]":
+            depth += 1
+        elif s[k] in "([":
+            depth -= 1
+            if depth == 0:
+                return k
+    return -1
+
+
+def _typed_vars(masked, spans, trx, params):
+    """{name: level} of the declarators spelled with the local type in the spans (level = pointer stars + array dims; 0 = a value).
+    `params`: also a type right after `(`/`,` (a parameter; its first declarator only) — never at file level (prototypes)."""
+    V = {}
+    for lo, hi in spans:
+        for m in trx.finditer(masked, lo, hi):
+            prev = masked[lo:m.start()].rstrip()[-1:]
+            as_param = prev in ("(", ",")
+            if as_param and not params:
+                continue
+            depth, k, cur, parts = 0, m.end(), m.end(), []
+            while k < hi:
+                c = masked[k]
+                if c in "([":
+                    depth += 1
+                elif c in ")]":
+                    if depth == 0:
+                        break
+                    depth -= 1
+                elif c in ";{" and depth == 0:
+                    break
+                elif c == "," and depth == 0:
+                    parts.append(masked[cur:k]); cur = k + 1
+                    if as_param:
+                        break
+                k += 1
+            parts.append(masked[cur:k])
+            for p in (parts[:1] if as_param else parts):
+                dm = HF_DECLARATOR.match(p.split("=", 1)[0])
+                if dm:
+                    V[dm.group(2)] = len(dm.group(1)) + dm.group(3).count("[")
+    return V
+
+
+def _postfix_start(s, i):
+    """The start of the postfix expression that ends right before s[i] (the base of a `->`/`.` at i)."""
+    k = i
+    while True:
+        j = k - 1
+        while j >= 0 and s[j] in " \t\r\n":
+            j -= 1
+        if j < 0:
+            return k
+        c = s[j]
+        if c.isalnum() or c == "_":
+            st = j
+            while st > 0 and (s[st - 1].isalnum() or s[st - 1] == "_"):
+                st -= 1
+            p = st - 1
+            while p >= 0 and s[p] in " \t\r\n":
+                p -= 1
+            if p >= 0 and s[p] == ".":
+                k = p; continue
+            if p >= 1 and s[p - 1:p + 1] == "->":
+                k = p - 1; continue
+            return st
+        if c in ")]":
+            o = _match_open(s, j)
+            if o < 0:
+                return k
+            if c == "]":
+                k = o; continue
+            p = o - 1
+            while p >= 0 and s[p] in " \t\r\n":
+                p -= 1
+            if p >= 0 and (s[p].isalnum() or s[p] == "_"):
+                k = o; continue                  # a call: its callee continues the expression (judged None below)
+            return o
+        return k
+
+
+def _split_binary(t):
+    """The operands of t's top-level binary + / - (None when another top-level binary operator is present)."""
+    depth, parts, cur, prevc = 0, [], 0, ""
+    k = 0
+    while k < len(t):
+        c = t[k]
+        if c in "([":
+            depth += 1
+        elif c in ")]":
+            depth -= 1
+        elif depth == 0 and not c.isspace():
+            nxt = t[k + 1:k + 2]
+            binary = bool(prevc) and (prevc.isalnum() or prevc in "_)]")
+            if c == "-" and nxt == ">":
+                prevc = ">"; k += 2; continue
+            if c in "+-" and nxt == c:
+                prevc = ")"; k += 2; continue            # ++ / -- (postfix keeps the operand's level)
+            if c in "+-" and binary:
+                parts.append(t[cur:k]); cur = k + 1
+            elif c in "*/%&|^<>=!?:" and binary:
+                return None
+        if not c.isspace():
+            prevc = c if depth == 0 or c in ")]" else prevc
+        k += 1
+    parts.append(t[cur:])
+    return parts
+
+
+def _lvl(t, V, crx, lself):
+    """The local-type level of expression text t (1 = a pointer to the local type, 0 = a value), None when not the local type."""
+    t = t.strip()
+    if not t:
+        return None
+    parts = _split_binary(t)
+    if parts is None:
+        return None
+    if len(parts) > 1:
+        ls_ = [_lvl(p, V, crx, lself) for p in parts]
+        ptr = [x for x in ls_ if x]
+        return ptr[0] if len(ptr) == 1 and ls_[0] else None
+    t = re.sub(r"(\+\+|--)\s*$", "", t).strip()
+    if t.startswith(("++", "--")):
+        return _lvl(t[2:], V, crx, lself)
+    if t[0] == "*":
+        x = _lvl(t[1:], V, crx, lself)
+        return x - 1 if x else None
+    if t[0] == "&":
+        x = _lvl(t[1:], V, crx, lself)
+        return x + 1 if x is not None else None
+    cm = crx.match(t)
+    if cm and t[cm.end():].strip():
+        return len(cm.group(1))
+    if t[0] == "(":
+        c = _match_close(t, 0)
+        if c < 0:
+            return None
+        rest = t[c + 1:].lstrip()
+        if rest and not rest.startswith(("[", ".", "->", "(")):
+            return None                                   # a cast to another type
+        lvl, rest = _lvl(t[1:c], V, crx, lself), t[c + 1:]
+    else:
+        m = re.match(r"[A-Za-z_]\w*", t)
+        if not m:
+            return None
+        lvl, rest = V.get(m.group(0)), t[m.end():]
+    while True:
+        rest = rest.lstrip()
+        if not rest or lvl is None:
+            return lvl
+        if rest[0] == "[":
+            c = _match_close(rest, 0)
+            if c < 0:
+                return None
+            lvl, rest = (lvl - 1 if lvl else None), rest[c + 1:]
+        elif rest.startswith("->") or rest[0] == ".":
+            need = 1 if rest.startswith("->") else 0
+            m = re.match(r"(?:->|\.)\s*([A-Za-z_]\w*)", rest)
+            if not m:
+                return None
+            lvl, rest = (lself.get(m.group(1)) if lvl == need else None), rest[m.end():]
+        else:
+            return None
+
+
+def _hf_file_edits(masked, lo_hi_fns, glob_spans, lnames, tag, lfields, lself, block):
+    """(accesses[(start, end, local field)], tag_edits[(start, end, repl)], refusals[cause]) over one file's view of the local type.
+    lo_hi_fns: the function spans judged (a block unit: the one span after its definition); glob_spans: file-level text (the
+    globals of the type; empty for a block unit)."""
+    alts = [re.escape(n) for n in lnames] + ([r"struct\s+" + re.escape(tag)] if tag else [])
+    trx = re.compile(r"(?<![\w])(?:" + "|".join(alts) + r")(?![\w])")
+    crx = re.compile(r"^\(\s*(?:(?:const|volatile)\s+)*(?:" + "|".join(alts) + r")\s*(\**)\s*\)")
+    G = {} if block else _typed_vars(masked, glob_spans, trx, params=False)
+    acc = []
+    for lo, hi in lo_hi_fns:
+        V = dict(G)
+        V.update(_typed_vars(masked, [(lo, hi)], trx, params=not block))
+        for m in HF_ACCESS.finditer(masked, lo, hi):
+            if m.group(2) not in lfields:
+                continue
+            base = masked[_postfix_start(masked, m.start()):m.start()]
+            if _lvl(base, V, crx, lself) == (1 if m.group(1) == "->" else 0):
+                acc.append((m.start(2), m.end(2), m.group(2)))
+    # file-scope #define bodies (T4.c3: ov_SC05_010_jr_80181CDC.c's AIM macro reads `obj->x`, `obj` a parameter of the functions that
+    # expand it): the base is typed by the file's globals, else by every expanding function's locals — all agree or the unit is refused.
+    refusals = []
+    for lo, hi in ([] if block else glob_spans):
+        for mm in HF_DEFINE.finditer(masked, lo, hi):
+            mname, mparams = mm.group(1), set(re.findall(r"\w+", mm.group(2) or ""))
+            urx = re.compile(r"(?<![\w])" + re.escape(mname) + r"(?![\w])")
+            users = [(a, b) for a, b in lo_hi_fns if urx.search(masked, a, b)]
+            for m in HF_ACCESS.finditer(masked, mm.start(3), mm.end(3)):
+                if m.group(2) not in lfields:
+                    continue
+                base = masked[_postfix_start(masked, m.start()):m.start()]
+                if set(re.findall(r"[A-Za-z_]\w*", base)) & mparams:
+                    continue                                  # a macro parameter's base: typed at each expansion (left to the judge)
+                need = 1 if m.group(1) == "->" else 0
+                if _lvl(base, G, crx, lself) == need:
+                    acc.append((m.start(2), m.end(2), m.group(2))); continue
+                got = set()
+                for a, b in users:
+                    V = dict(G)
+                    V.update(_typed_vars(masked, [(a, b)], trx, params=True))
+                    got.add(_lvl(base, V, crx, lself))
+                if got == {need}:
+                    acc.append((m.start(2), m.end(2), m.group(2)))
+                elif need in got:
+                    refusals.append(f"macro `{mname}` access `{base.strip()}{m.group(1)}{m.group(2)}` is the local type in only some of its expansions")
+    tag_edits = []
+    if tag:
+        for lo, hi in list(lo_hi_fns) + list(glob_spans):
+            for m in re.compile(r"\bstruct\s+" + re.escape(tag) + r"\b(\s*;)?").finditer(masked, lo, hi):
+                tag_edits.append((m.start(), m.end(), "" if m.group(1) else lnames[0]))
+    return acc, tag_edits, refusals
+
+
+def _complement(spans, n):
+    out, last = [], 0
+    for a, b in sorted(spans):
+        if a > last:
+            out.append((last, a))
+        last = max(last, b)
+    if last < n:
+        out.append((last, n))
+    return out
+
+
+def hf_unit(rel, text, masked, d, head, hi, res, fns, defs):
+    """One head-fold unit: dict(defn, line, fn, kind, canon, edits{rel: [(s, e, repl)]}, renames, refused)."""
+    defn = (hf_names(d) or ["?"])[0]
+    u = dict(defn=defn, line=d["line"], fn=d["fn"], kind="head-fold", canon=head, edits={}, renames=0, refused=None)
+
+    def refuse(cause):
+        u["refused"] = cause
+        return u
+    ls = dl.line_starts(masked)
+    lim = ls[d["line"]] if d["line"] < len(ls) else len(masked)
+    m = sl.DEF_START.search(masked, ls[d["line"] - 1])
+    if not m or m.start() >= lim:
+        return refuse("the definition was not found at its line")
+    close = sl._match_brace(masked, m.end() - 1)
+    semi = masked.find(";", close) if close != -1 else -1
+    if semi == -1:
+        return refuse("the definition's end was not found")
+    tag = d["tag"]
+    if d["typedef"]:
+        if d["ptr_names"]:
+            return refuse(f"the typedef also declares pointer/array names {d['ptr_names'][:3]}")
+        if not d["names"]:
+            return refuse("a typedef without a plain name")
+        lnames = d["names"]
+    else:
+        if ATTR_STRIP.sub("", masked[close + 1:semi]).strip():
+            return refuse("the definition declares variables (struct T {…} v;)")
+        if not tag:
+            return refuse("an anonymous definition without a name")
+        lnames = [tag]
+    lf = dict(sl.field_offsets(res, d))
+    lsize, lself = {}, {}
+    self_types = {re.sub(r"\s+", " ", n) for n in lnames} | ({f"struct {tag}"} if tag else set())
+    for f in d["fields"]:
+        if not f["name"] or f["name"] not in lf:
+            continue
+        if f.get("nested"):
+            nd = f["nested"]
+            r = res.layout_of_fields(nd["fields"], nd["kind"], packed=("packed" in (nd.get("attrs") or ""))) if nd["kind"] != "enum" else (4, 4, [])
+        else:
+            r = res.layout(f["type"], f["stars"], f["dims"])
+            if re.sub(r"\s+", " ", f["type"] or "").strip() in self_types:
+                lself[f["name"]] = f["stars"] + len(f["dims"] or [])
+        lsize[f["name"]] = (r[0] if r else None, bool(f.get("dims")))
+    span = (m.start(), semi + 1)
+    edits = collections.defaultdict(list)
+    edits[rel].append((span[0], span[1], " ".join(f"typedef {head} {n};" for n in lnames)))
+    views = []                      # (rel, masked, fn spans, global spans, block?)
+    if d["scope"] == "block":
+        fs = next(((lo, hi_) for (nm, lo, hi_) in fns if nm == d["fn"] and lo <= span[0] < hi_), None)
+        if fs is None:
+            return refuse(f"the enclosing function {d['fn']} was not found")
+        views.append((rel, masked, [(span[1], fs[1])], [], True))
+    else:
+        def file_view_hf(r_, msk, fns_, defs_, skip):
+            shadow = {x["fn"] for x in defs_ if x["scope"] == "block" and set(hf_names(x)) & set(lnames)}
+            fsp = [(lo, hi_) for (nm, lo, hi_) in fns_ if nm not in shadow]
+            glob = _complement([(lo, hi_) for (_, lo, hi_) in fns_] + ([skip] if skip else []), len(msk))
+            return (r_, msk, fsp, glob, False)
+        views.append(file_view_hf(rel, masked, fns, defs, span))
+        if rel.endswith(".h"):
+            imap = HF_INCLUDERS_OVERRIDE if HF_INCLUDERS_OVERRIDE is not None else recipes()[2]
+            incs = sorted(i for i in set(imap.get(rel) or ()) if i != rel and i.endswith(".c") and (REPO / i).exists())
+            incset = set(incs)
+            # T4.c3: the OTHER src/ headers those includers see (the per-function headers of engine_types.h's types) spell the
+            # local type's members too — every one in the includers' include closure (delever.includers' -I order) joins the unit.
+            sibs = {h for h, tus in imap.items() if h != rel and not h.startswith("include/") and h.endswith(".h") and not incset.isdisjoint(tus)}
+            pat = re.compile(r"\b(?:" + "|".join(re.escape(n) for n in lnames + ([tag] if tag else [])) + r")\b")
+            for inc in incs + sorted(h for h in sibs if (REPO / h).exists()):
+                itext = (REPO / inc).read_text(errors="surrogateescape")
+                if not pat.search(itext):
+                    continue
+                imask = dl.same_len_mask(itext)
+                views.append(file_view_hf(inc, imask, _fn_spans(itext, inc, imask), tc.walk_file(itext, inc)["definitions"], None))
+    renames = {}
+    for r_, msk, fsp, glob, block in views:
+        acc, tag_edits, why = _hf_file_edits(msk, fsp, glob, lnames, tag, set(lf), lself, block)
+        if why:
+            return refuse(f"{r_}: {why[0]}")
+        for (s, e, nm) in acc:
+            if nm not in renames:
+                off = lf[nm]
+                c = hi["cf"].get(off)
+                if c is None or re.match(r"^pad[0-9A-F]+$", c[0]):
+                    return refuse(f"no canonical field at {off:#x} for local `{nm}`" + (f" (only {c[0]})" if c else ""))
+                sz, is_arr = lsize.get(nm, (None, False))
+                if is_arr and sz and c[1] and sz > c[1]:
+                    return refuse(f"indexed local array field `{nm}` [{off:#x}+{sz:#x}] spans several canonical fields (`{c[0]}` is {c[1]:#x})")
+                renames[nm] = c[0]
+            if renames[nm] != nm:
+                edits[r_].append((s, e, renames[nm]))
+                u["renames"] += 1
+        edits[r_].extend(tag_edits)
+    u["edits"] = {k: sorted(v) for k, v in edits.items() if v}
+    u["fields"] = {k: v for k, v in renames.items() if k != v}
+    return u
+
+
+ATTR_STRIP = re.compile(r"__attribute__\s*\(\((?:[^()]|\([^()]*\))*\)\)")
+
+
+def hf_units(tu, text, heads, settled=frozenset()):
+    """The TU's head-fold units (the excluded and the settled left out), in source order."""
+    hinfo = head_info(heads)
+    w = tc.walk_file(text, tu)
+    cands = hf_cands(tu, w["definitions"], hinfo)
+    if not cands:
+        return []
+    masked = dl.same_len_mask(text)
+    fns = _fn_spans(text, tu, masked)
+    units = []
+    for (d, h, res, ex), key in zip(cands, hf_keys(cands)):
+        if ex or (tu, key) in settled:
+            continue
+        u = hf_unit(tu, text, masked, d, h, hinfo[h], res, fns, w["definitions"])
+        u["key"] = key
+        units.append(u)
+    return units
+
+
+def _inflight_add(files):
+    """Extra files a header unit writes (its includers) join inflight.json BEFORE the write, so --restore reaches them (R102)."""
+    if JUDGE_STUB is not None or not INFLIGHT.exists():
+        return
+
+    def add(d):
+        for rel, raw in files.items():
+            d["files"].setdefault(rel, raw)
+    inflight_update(add)
+
+
+def _selftest_inflight_worker(path, wid, n=25):
+    """Selftest: n read-modify-writes + n reads of a scratch inflight.json; returns the number of failed reads (0 = serialised)."""
+    path, bad = pathlib.Path(path), 0
+    for i in range(n):
+        inflight_update(lambda d: d["files"].setdefault(f"w{wid}_{i}", "x" * 256), path)
+        d, _why = load_inflight(path)
+        bad += d is None
+    return bad
+
+
+def _run_threads(path, p, k=4):
+    """Selftest: k threads of _selftest_inflight_worker in one process (ids p*k..p*k+k-1); returns the failed reads."""
+    with ThreadPoolExecutor(k) as ex:
+        return sum(ex.map(lambda t: _selftest_inflight_worker(path, p * k + t), range(k)))
+
+
+def tool_error_restore(tu, text, log=None):
+    """A worker that crashed (TOOL-ERROR) puts its file back to the batch's original text: its edit, if any, was never judged."""
+    p = REPO / tu
+    if p.exists() and p.read_text(errors="surrogateescape") != text:
+        p.write_text(text, errors="surrogateescape")
+        if log:
+            log(f"  {tu}: TOOL-ERROR — restored to its original text")
+        return True
+    return False
+
+
+def work_file_HF(tu, label, calib_id, log, pool=None, heads=(), settled=frozenset()):
+    """Rung L head-fold on one file (a .c or a header whose units reach its includers): the ladder over its units, the winners written."""
+    path = REPO / tu
+    raw = path.read_text(errors="surrogateescape")
+    short = hashlib.sha1(tu.encode()).hexdigest()[:6]
+    rows, out = [], dict(tu=tu, rows=[], written=False, final="", compiles=0, seconds=0.0, folded=0, refused=0, renames=0, units=0)
+    out["rows"] = rows
+    if not recs_for(tu) and JUDGE_STUB is None:
+        out["final"] = "NO-RECIPE"
+        return out
+    units = hf_units(tu, raw, heads, settled)
+    out["units"] = len(units)
+
+    def row(u, verdict, **kw):
+        return dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="L", calib=calib_id, tu=tu, unit=u["key"], defn=u["defn"], kind=u["kind"],
+                    head=u["canon"], canon=u["canon"], fn=u["fn"], renames=u["renames"], fields=u.get("fields", {}), files=sorted(u["edits"]),
+                    verdict=verdict, nhash_before="-", nhash_after="-", sites=[], **kw)
+    live = []
+    for u in units:
+        if u["refused"]:
+            rows.append(row(u, "FOLD-REFUSED", cause=u["refused"]))
+            out["refused"] += 1
+        else:
+            live.append(u)
+    if not live:
+        out["final"] = "UNCHANGED"
+        return out
+    raws = {tu: (raw, path.stat())}
+    for u in live:
+        for rel in u["edits"]:
+            if rel not in raws:
+                p = REPO / rel
+                raws[rel] = (p.read_text(errors="surrogateescape"), p.stat())
+
+    def compose(acc):
+        per = collections.defaultdict(list)
+        for u in acc:
+            for rel, es in u["edits"].items():
+                per[rel].extend(es)
+        return {rel: compose_text(raws[rel][0], es) for rel, es in per.items()}
+    accepted, per, compiles, secs, rung = ladder_units(live, compose, lambda files, tag: judge_files(files, tag, pool=pool), f"{short}H", log=log)
+    out["compiles"] += compiles; out["seconds"] += secs
+    acc_ids = {id(u) for u in accepted}
+    for i, u in enumerate(live):
+        if id(u) in acc_ids:
+            rows.append(row(u, "FOLDED"))
+            out["folded"] += 1; out["renames"] += u["renames"]
+        else:
+            v, err, _ = per[i]
+            rows.append(row(u, "FOLD-REFUSED", cause=f"{v}: {err[:160]}"))
+            out["refused"] += 1
+    if not accepted:
+        out["final"] = "UNCHANGED"
+        return out
+    files = compose(accepted)
+    if rung == "A":
+        fr = dict(verdict="IDENTICAL", compiles=0, seconds=0.0, err="", linked=[])
+    else:
+        fr = judge_files(files, f"{short}HF", pool=pool)
+        out["compiles"] += fr["compiles"]; out["seconds"] += fr["seconds"]
+    if fr["verdict"] != "IDENTICAL":
+        for rel, (r0, st) in raws.items():
+            dl.restore_file(REPO / rel, r0, st)
+        out["final"] = f"COMBINATION-FAILED ({fr['verdict']})"
+        for r_ in rows:
+            r_["verdict"] = "COMBINATION-FAILED"
+        out["folded"] = 0
+        return out
+    out["final"] = "IDENTICAL"
+    if JUDGE_STUB is None:
+        _inflight_add({rel: raws[rel][0] for rel in files if rel != tu})
+        for rel, t in files.items():
+            (REPO / rel).write_text(t, errors="surrogateescape")
+    out["written"] = True
+    out["final_text"] = files.get(tu, raw)
+    out["final_texts"] = files
+    return out
+
+
+def _norm_cause(c):
+    c = re.sub(r"`[^`]*`", "`…`", c)
+    c = re.sub(r"\[[^\]]*\]", "[…]", c)
+    c = re.sub(r"0x[0-9a-fA-F]+", "0x…", c)
+    return re.sub(r"\b(src/\S+?):\d+", r"\1:…", c)[:120]
+
+
+def fold_report(heads):
+    """--status --rung L --only <heads>: the head-fold rows (latest per unit) bucketed verdict -> cause -> units."""
+    lat = [r for (rung, _, _), r in ledger_latest(load_ledger()).items() if rung == "L" and r.get("head") in heads]
+    by = collections.defaultdict(lambda: collections.defaultdict(list))
+    for r in lat:
+        cause = r.get("cause") or (f"onto {r.get('canon')}" if r.get("verdict") == "FOLDED" else "-")
+        by[r.get("verdict")][_norm_cause(cause)].append(f"{r['tu']}:{r['unit']}")
+    print(f"restruct --status L head-fold {' '.join(heads)}: {len(lat)} units (latest row each)")
+    for v, causes in sorted(by.items(), key=lambda x: -sum(len(u) for u in x[1].values())):
+        print(f"   {v:20s} {sum(len(u) for u in causes.values())}")
+        for c, us in sorted(causes.items(), key=lambda x: -len(x[1])):
+            print(f"      {len(us):5d}  {c}  e.g. {', '.join(us[:2])}")
+    return 0
+
+# ----------------------------------------------------------------------------------------------------------------------
 # planning and --apply (the batch: files in leverage order, workers own whole TUs, headers serial and last)
 # ----------------------------------------------------------------------------------------------------------------------
 def bbt():
@@ -2488,17 +3181,48 @@ def settled_units(rows, redraw=()):
     """{(tu, callee)} whose LATEST rung-D row is a DONE verdict not lifted by `redraw` (R70: the last row is the verdict). A redraw key is a
     verdict (`DECL-KEPT`) or `VERDICT:cause-substring` (`DECL-NONE:no visible definition` — the 667 rows settled before defs_visible's
     fleet-unique level; the plain `DECL-NONE` key redraws every "already canonical"/external pair too, the t4_D21–D36 REDRAW's cost)."""
-    latest = {}
-    for r in rows:
-        if r.get("rung") == "D" and r.get("unit", "").startswith("decl:"):
-            latest[(r["tu"], r["callee"])] = (r.get("verdict"), r.get("cause") or "")
+    latest = {(r["tu"], r["callee"]): (r.get("verdict"), r.get("cause") or "")
+              for (rung, _tu, unit), r in ledger_latest(rows).items() if rung == "D" and unit.startswith("decl:")}
     keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in redraw]
     def lifted(v, c):
         return any(v == kv and (ks is None or ks in c) for kv, ks in keys)
     return {k for k, (v, c) in latest.items() if v in DONE_VERDICTS and not lifted(v, c)}
 
 
-def plan_L(headers, batch, only):
+def plan_HF(headers, batch, heads, rest, settled=frozenset()):
+    """Head-fold mode: [(rel, [unit keys])] — the files holding same-size, other-layout definitions of the heads, most first."""
+    global _HF_STATS
+    hinfo = head_info(heads)
+    w = walk()
+    cands, excl, kinds, n_settled = [], collections.Counter(), collections.Counter(), 0
+    for rel, r in sorted(w["results"].items()):
+        if not r or rel.endswith(".h") != headers or not rel.startswith("src/"):
+            continue
+        if rest and not matches_only(rest, rel, ""):
+            continue
+        cs = hf_cands(rel, r["definitions"], hinfo)
+        keys = []
+        for (d, h, _, ex), key in zip(cs, hf_keys(cs)):
+            if ex:
+                excl[ex] += 1
+                continue
+            if (rel, key) in settled:
+                n_settled += 1
+                continue
+            keys.append(key)
+            kinds[f"{h}/{d['scope']}"] += 1
+        if keys:
+            cands.append((len(keys), rel, keys))
+    cands.sort(key=lambda x: (-x[0], x[1]))
+    plan = [(rel, keys) for _, rel, keys in cands[:batch]]
+    _HF_STATS = dict(heads=heads, defs=sum(n for n, _, _ in cands), excluded=dict(excl), kinds=dict(kinds), settled=n_settled)
+    return plan, len(cands)
+
+
+def plan_L(headers, batch, only, rows=None, redraw=()):
+    heads, rest = head_split(only)
+    if heads:
+        return plan_HF(headers, batch, heads, rest, hf_settled(rows if rows is not None else load_ledger(), redraw))
     w = walk()
     by_l = _canon_by_layout()
     cands = []
@@ -2526,11 +3250,34 @@ def describe_plan(rung, plan, total, skipped=None):
                 + (f" · skipped bases {dict(skipped)}" if skipped else ""))
     if rung == "D":
         return f"restruct --plan D: {len(plan)} of {total} TUs with lying declarations · {sum(len(c) for _, c in plan)} callees"
+    if plan and plan[0][1] is not None:
+        s = _HF_STATS
+        return (f"restruct --plan L head-fold {' '.join(s['heads'])}: {len(plan)} of {total} files · {sum(len(k) for _, k in plan)} of {s['defs']} "
+                f"definitions · by head/scope {s['kinds']} · excluded {s['excluded']} · settled {s['settled']}")
     return f"restruct --plan L: {len(plan)} of {total} files with file-scope definitions"
+
+
+def _apply_exclusive(path=None):
+    """One --apply per RUN dir at a time: a non-blocking fcntl lock held for the process's life (T4.c2 — t38_4L1 was started twice
+    11 s apart; the second unlinked and rewrote the first's inflight.json and both edited the same 150 files). Returns the open
+    lock file (keep it referenced), or None when another process holds it."""
+    path = path or RUN / "apply.lock"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    f = open(path, "a")
+    try:
+        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        f.close()
+        return None
+    return f
 
 
 def apply_batch(a):
     RUN.mkdir(parents=True, exist_ok=True)
+    global _APPLY_LOCK_F
+    _APPLY_LOCK_F = _apply_exclusive()
+    if _APPLY_LOCK_F is None:
+        sys.exit(f"restruct --apply: another restruct --apply holds {RUN / 'apply.lock'} — one batch at a time (T4.c2)")
     clean, dirty = dl.src_clean()
     if not clean:
         sys.exit(f"restruct --apply: src/ is dirty — commit, or `tools/restruct.py --restore` if a batch is in flight (R42/R102):\n{dirty[:600]}")
@@ -2548,10 +3295,7 @@ def apply_batch(a):
     if a.redraw:
         # the same VERDICT[:cause-substring] keys as settled_units (the planner's side): the engine's `done` filter must lift the same
         # rows, or a redrawn TU is drawn and then skipped as done — "rows 0" (t4_D49/D56 on the `DECL-NONE:visible` key)
-        vc = {}
-        for r in rows:
-            if r.get("rung") == "D" and r.get("unit"):
-                vc[(r["tu"], r["unit"])] = (r.get("verdict"), r.get("cause") or "")
+        vc = {(tu, unit): (r.get("verdict"), r.get("cause") or "") for (rung, tu, unit), r in ledger_latest(rows).items() if rung == "D" and unit}
         keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in a.redraw]
         def lifted(k):
             v, c = vc.get((k[1], k[2]), (None, ""))
@@ -2602,8 +3346,10 @@ def apply_batch(a):
         plan, total = plan_D(a.headers, a.batch, a.only, settled_units(rows, a.redraw))
         print(describe_plan("D", plan, total), flush=True)
     else:
-        plan, total = plan_L(a.headers, a.batch, a.only)
+        plan, total = plan_L(a.headers, a.batch, a.only, rows, a.redraw)
         print(describe_plan("L", plan, total), flush=True)
+    hf_heads = head_split(a.only)[0] if a.rung == "L" else []
+    hf_set = hf_settled(rows, a.redraw) if hf_heads else frozenset()
     if not plan:
         print(f"restruct --apply {a.rung}: nothing to do (no drawable file)")
         return 0
@@ -2615,7 +3361,9 @@ def apply_batch(a):
     v, dt, err = oracle.judge(r0, None, tag="ctl")
     if v != "IDENTICAL":
         sys.exit(f"restruct --apply: the negative control FAILED — {ctl} untouched compiles {v} vs the snapshot ({err[:200]}); the baseline is stale (R56)")
-    INFLIGHT.write_text(json.dumps(dict(label=a.label, rung=a.rung, files={tu: (REPO / tu).read_text(errors="surrogateescape") for tu, _ in plan})))
+    orig = {tu: (REPO / tu).read_text(errors="surrogateescape") for tu, _ in plan}
+    with _inflight_lock():
+        _inflight_write(dict(label=a.label, rung=a.rung, files=dict(orig)))
     if a.rung in ("D", "L"):
         walk()                      # the fleet walk forks a process pool: it must run BEFORE any worker thread exists (a fork from a
         _fallback_defs()            # threaded process deadlocked batch t3d1 at 0 % CPU); the shared definition tables likewise
@@ -2630,11 +3378,14 @@ def apply_batch(a):
                 r = work_file_S(tu, payload, a.label, calib_id, log, pool=hdr_pool, allow_local=False, want_sa=not a.no_sa, want_recipes=a.recipes, done=done)
             elif a.rung == "D":
                 r = work_file_D(tu, a.label, calib_id, log, pool=hdr_pool, callees=payload, done=done)
+            elif hf_heads:
+                r = work_file_HF(tu, a.label, calib_id, log, pool=hdr_pool, heads=hf_heads, settled=hf_set)
             else:
                 r = work_file_L(tu, a.label, calib_id, log, pool=hdr_pool, done=done)
         except Exception as ex:      # noqa: BLE001 — a worker's crash is a row, never a silent gap (R55)
             import traceback
             log(f"  {tu}: TOOL-ERROR {ex!r}\n{traceback.format_exc()[-600:]}")
+            tool_error_restore(tu, orig[tu], log)      # never an unjudged edit left behind (T4.c2)
             r = dict(tu=tu, rows=[dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=a.label, rung=a.rung, calib=calib_id, tu=tu, unit="<file>", verdict="TOOL-ERROR",
                                        err=repr(ex)[:300], sites=[])], written=False, final="TOOL-ERROR", compiles=0, seconds=0.0)
         ledger_append(r["rows"])
@@ -2725,8 +3476,9 @@ def write_types(a):
     return 0
 
 
-def audit_types(a=None, quiet=False):
-    """struct_layout.audit_definition over every canonical type file's definitions (with their raw text for the comment/trailer checks)."""
+def audit_type_violations():
+    """struct_layout.audit_definition over every canonical type file's definitions (with their raw text for the comment/trailer checks):
+    (n definitions audited, [violation strings]). Shared by --audit-types and type_census --check-structs."""
     viol, n = [], 0
     for h in CANON_HEADERS:
         if not (REPO / h).exists():
@@ -2748,6 +3500,12 @@ def audit_types(a=None, quiet=False):
             text = raw[ls[d["line"] - 1]:ls[d["end"]] if d["end"] < len(ls) else len(raw)]
             for v in sl.audit_definition(d, res, text):
                 viol.append(f"{h}:{d['line']} {v}")
+    return n, viol
+
+
+def audit_types(a=None, quiet=False):
+    """--audit-types: print audit_type_violations(); exit 1 on any."""
+    n, viol = audit_type_violations()
     if not quiet:
         print(f"restruct --audit-types: {n} canonical definitions audited; {len(viol)} naming/offset violation(s)")
         for v in viol[:40]:
@@ -3362,6 +4120,47 @@ void fx_b(s32 a0) {
 }
 '''
 
+HF_FIX_H = '''typedef struct { s32 h0; s32 h4; u32 h8; s32 hC; } HdrT;
+'''
+
+HF_FIX_SIB = '''#define HS(v) { hp->hC = (v); }
+void hf_s(HdrT *hp) {
+    hp->h8 = 5;
+    HS(6);
+}
+'''
+
+HF_FIX_TU = '''#include "common.h"
+#include "hf.h"
+typedef struct { s32 f4; } Oth;
+typedef struct { s32 w0; s32 w4; s32 w8; s32 wC; } Fr_TEST;
+extern HdrT D_80078E50;
+extern Oth D_80078E60;
+
+void hf_a(s32 a0) {
+    typedef struct EntT { s16 f0; s16 f2; s32 f4; u16 f8; u16 fA; struct EntT *fC; } Ent;
+    Ent *e;
+    Ent v, arr[2];
+    struct EntT *q;
+    Oth o;
+    e = (Ent *)a0;
+    e->f0 = 1;
+    v.f4 = e->f8;
+    arr[1].f8 = ((Ent *)a0)->f4;
+    q = e->fC->fC;
+    q->f4 = 0;
+    o.f4 = 2;
+    D_80078E60.f4 = 3;
+    D_80078E50.h4 = 4;
+}
+
+void hf_b(s32 a0) {
+    typedef struct { s16 g0; s16 g2; s32 g4; s32 g8; s32 gC; } Bad;
+    Bad *b = (Bad *)a0;
+    b->g2 = 1;
+}
+'''
+
 FIXTURE_BASES = {"param:a0": dict(type="Unkstruct_TEST", sites=12), "param:a1": dict(type="Unkstruct_TEST", sites=1),
                  "gaddr:D_80078E20": dict(type="Unkstruct_TEST", sites=1), "global:D_80078E40": dict(type="Unkstruct_TEST", sites=1)}
 
@@ -3427,7 +4226,7 @@ def macro_probe():
 
 
 def selftest(real=False):
-    global JUDGE_STUB, DEFS_OVERRIDE, _canon, _map_cache, VISIBLE_OVERRIDE
+    global JUDGE_STUB, DEFS_OVERRIDE, _canon, _map_cache, VISIBLE_OVERRIDE, HF_INCLUDERS_OVERRIDE
     checks = []
 
     def ok(name, cond, note=""):
@@ -3498,6 +4297,10 @@ def selftest(real=False):
     ok("hint CSE-KILL", pass_hint(dict(kind="COUNT", pairs=[(3, "3c020000 lui", "--")])) == "CSE-KILL")
     ok("hint WIDTH", pass_hint(dict(kind="MIXED", pairs=[(3, "3042ffff andi", "00021400 sll")])) == "WIDTH")
     ok("hint REGALLOC", pass_hint(dict(kind="REG", pairs=[(3, "00431021 addu", "00431821 addu")])) == "REGALLOC")
+    ok("hint: a register-pair row (int count) is skipped, not split (T3.c3)", pass_hint(dict(kind="REG", pairs=[("v0", "v1", 2)])) == "REGALLOC")
+    ov_k, ov_d = drop_overlaps([(20, 30, "b", {}), (10, 40, "a", {}), (10, 15, "c", {}), (40, 45, "d", {})])
+    ok("drop_overlaps: the earlier/longer edit stays, the nested ones drop (T3.c3)", [e[2] for e in ov_k] == ["a", "d"] and sorted(e[2] for e in ov_d) == ["b", "c"],
+       f"{[e[2] for e in ov_k]} {[e[2] for e in ov_d]}")
     # ---- rung D on the fixture
     DEFS_OVERRIDE = {"fx_callee": [("src/ov/fx_defs.c", "void", "s32 a0, s32 a1", False)], "fx_kr": [("src/ov/fx_defs.c", "s32", "s32 a, s32 b", True)]}
     units = d_units(tu, text)
@@ -3556,6 +4359,48 @@ def selftest(real=False):
     ok("work_file_L: folds land under an IDENTICAL stub", rL["folded"] >= 1 and rL["final"] == "IDENTICAL", f"{rL['folded']} {rL['refused']} {rL['final']}")
     if rL.get("final_text"):
         ok("work_file_L: the alias replaces the definition", "typedef Blk8_TEST Loc8;" in rL["final_text"] or "typedef Twin_TEST Loc8;" in rL["final_text"])
+    # ---- rung L HEAD-FOLD (P38 T4): block-scope fold with type-aware renames, a header unit reaching its includer, a refusal, an exclusion
+    (dirp / "ov" / "hf.h").write_text(HF_FIX_H)
+    (dirp / "ov" / "hf.c").write_text(HF_FIX_TU)
+    (dirp / "ov" / "hf_sib.h").write_text(HF_FIX_SIB)
+    hf_h, hf_c = (dirp / "ov" / "hf.h").relative_to(REPO).as_posix(), (dirp / "ov" / "hf.c").relative_to(REPO).as_posix()
+    hf_s = (dirp / "ov" / "hf_sib.h").relative_to(REPO).as_posix()
+    HF_INCLUDERS_OVERRIDE = {hf_h: [hf_c], hf_s: [hf_c]}
+    ok("head_split: a canonical name is a head, an alias filters", head_split(["Unkstruct_TEST", "ov_SC01_000"]) == (["Unkstruct_TEST"], ["ov_SC01_000"]))
+    hf_text = HF_FIX_TU
+    cands = hf_cands(hf_c, tc.walk_file(hf_text, hf_c)["definitions"], head_info(["Unkstruct_TEST"]))
+    cby = {(hf_names(d_) or ["?"])[0]: ex for (d_, _, _, ex) in cands}
+    ok("HF candidates: same size other layout (Ent, Bad, Fr_TEST); Oth (0x4) not", set(cby) == {"Ent", "Bad", "Fr_TEST"}, str(cby))
+    ok("HF exclusion: Fr_* carries its cause and makes no unit", cby.get("Fr_TEST") == "stack frame" and all(u_["defn"] != "Fr_TEST" for u_ in hf_units(hf_c, hf_text, ["Unkstruct_TEST"])))
+    hu = {u_["defn"]: u_ for u_ in hf_units(hf_c, hf_text, ["Unkstruct_TEST"])}
+    ok("HF refusal: a referenced field with no canonical field at its offset", (hu["Bad"]["refused"] or "").startswith("no canonical field at 0x2 for local `g2`"), str(hu["Bad"]["refused"]))
+    ok("HF block unit: 8 member renames, key by function", hu["Ent"]["refused"] is None and hu["Ent"]["renames"] == 8 and hu["Ent"]["key"] == "fold:Ent@hf_a", f"{hu['Ent']['renames']} {hu['Ent'].get('key')}")
+    JUDGE_STUB = lambda files, tag: ("IDENTICAL", "")
+    rH = work_file_HF(hf_c, "st", dict(head="x"), logs.append, heads=["Unkstruct_TEST"])
+    ft = rH.get("final_text", "")
+    ok("work_file_HF: Ent FOLDED, Bad FOLD-REFUSED", rH["folded"] == 1 and rH["refused"] == 1 and rH["final"] == "IDENTICAL", f"{rH['folded']} {rH['refused']} {rH['final']}")
+    ok("HF text: the definition becomes the typedef, struct Tag uses the name",
+       "typedef Unkstruct_TEST Ent;" in ft and "Ent *q;" in ft and "struct EntT" not in ft)
+    ok("HF text: renames on every typed base form (ptr var, value, array index, cast, self-typed chain)",
+       all(s_ in ft for s_ in ("e->unk0 = 1;", "v.unk4 = e->unk8;", "arr[1].unk8 = ((Ent *)a0)->unk4;", "q = e->unkC->unkC;", "q->unk4 = 0;")),
+       ft[ft.find("e->"):][:200])
+    ok("HF text: same-named fields of OTHER types untouched (type-aware, not textual)", "o.f4 = 2;" in ft and "D_80078E60.f4 = 3;" in ft and "b->g2 = 1;" in ft)
+    ok("HF: the stub never writes the tree", (REPO / hf_c).read_text() == hf_text)
+    rHh = work_file_HF(hf_h, "st", dict(head="x"), logs.append, heads=["Unkstruct_TEST"])
+    fts = rHh.get("final_texts", {})
+    ok("HF header unit: the header folds and its includer's access is renamed in the same unit",
+       rHh["folded"] == 1 and "typedef Unkstruct_TEST HdrT;" in fts.get(hf_h, "") and "D_80078E50.unk4 = 4;" in fts.get(hf_c, ""), f"{rHh['folded']} {sorted(fts)}")
+    ok("HF header unit: a sibling header in the includers' closure is renamed too (its #define body by the expanding function's type)",
+       "hp->unk8 = 5;" in fts.get(hf_s, "") and "hp->unkC = (v);" in fts.get(hf_s, ""), fts.get(hf_s, "")[:120])
+    JUDGE_STUB = lambda files, tag: ("DIFFERS", "") if "typedef Unkstruct_TEST Ent;" in files.get(hf_c, "") else ("IDENTICAL", "")
+    rHd = work_file_HF(hf_c, "st", dict(head="x"), logs.append, heads=["Unkstruct_TEST"])
+    ok("HF: a DIFFERS judgement is FOLD-REFUSED with the verdict as cause", any(r_["verdict"] == "FOLD-REFUSED" and r_["cause"].startswith("DIFFERS") and r_["defn"] == "Ent" for r_ in rHd["rows"]))
+    st_rows = [dict(rung="L", tu=hf_c, unit="fold:Ent@hf_a", verdict="FOLDED", head="Unkstruct_TEST", defn="Ent"),
+               dict(rung="L", tu=hf_c, unit="fold:Bad@hf_b", verdict="FOLD-REFUSED", cause="no canonical field at 0x2", head="Unkstruct_TEST", defn="Bad")]
+    ok("HF settled: FOLDED/FOLD-REFUSED settle; --redraw FOLD-REFUSED lifts", hf_settled(st_rows) == {(hf_c, "fold:Ent@hf_a"), (hf_c, "fold:Bad@hf_b")}
+       and hf_settled(st_rows, ["FOLD-REFUSED"]) == {(hf_c, "fold:Ent@hf_a")})
+    ok("HF settled units make no unit", [u_["defn"] for u_ in hf_units(hf_c, hf_text, ["Unkstruct_TEST"], hf_settled(st_rows))] == [])
+    HF_INCLUDERS_OVERRIDE = None
     # ---- recipes (text transforms)
     site_glob = next(s for s in bsites if s.get("bclass") == "global")
     r1 = recipe_ptr_global_member(text, tu, "fx_a", site_glob)
@@ -3591,6 +4436,31 @@ def selftest(real=False):
     d_, why = load_inflight(probe_inflight)
     ok("an EMPTY inflight is refused loudly", d_ is None and "EMPTY" in why)
     probe_inflight.unlink()
+    # T4.c2: parallel writers/readers (4 processes x 4 threads) on a scratch inflight under .run/P38/ — every read parses, no write lost
+    import multiprocessing
+    par = REPO / ".run/P38/restruct_selftest"
+    par.mkdir(parents=True, exist_ok=True)
+    par_inf = par / "inflight.json"
+    with _inflight_lock(par_inf):
+        _inflight_write(dict(label="selftest-par", files={}), par_inf)
+    with ProcessPoolExecutor(4, mp_context=multiprocessing.get_context("fork")) as pp:
+        futs = [pp.submit(_run_threads, str(par_inf), p) for p in range(4)]
+        torn = sum(f_.result() for f_ in futs)
+    d_, why = load_inflight(par_inf)
+    ok("inflight: 16 parallel writers/readers — no torn read, no lost write", torn == 0 and d_ is not None and len(d_["files"]) == 16 * 25,
+       f"torn {torn} files {len(d_['files']) if d_ else why}")
+    ok("inflight: no tmp file left behind", not list(par.glob("inflight.json.tmp*")))
+    lk1 = _apply_exclusive(par / "apply.lock")
+    lk2 = _apply_exclusive(par / "apply.lock")
+    ok("apply lock: a second --apply is refused while the first holds it", lk1 is not None and lk2 is None)
+    lk1.close()
+    # a TOOL-ERROR worker restores its file; its label's unit rows stop counting as settled
+    scratch.write_text("unjudged edit\n")
+    ok("TOOL-ERROR restores the file's original text", tool_error_restore(rel_s, "original\n") and scratch.read_text() == "original\n")
+    te_rows = st_rows[:1] + [dict(rung="L", tu=hf_c, unit="<file>", verdict="TOOL-ERROR", label=None),
+                             dict(st_rows[1], label="other")]
+    ok("HF settled: a TOOL-ERROR <file> row in the unit's label unsettles it (either order); other labels unaffected",
+       hf_settled(te_rows) == {(hf_c, "fold:Bad@hf_b")} and hf_settled([te_rows[1], te_rows[0]]) == set(), f"{hf_settled(te_rows)}")
     ok("the selftest never touches the live inflight.json", True)
     ok("struct_layout selftest", sl.selftest() == 0)
     JUDGE_STUB = None
@@ -3666,6 +4536,8 @@ def main():
     if a.restore:
         sys.exit(restore())
     if a.status:
+        if a.rung == "L" and head_split(a.only)[0]:
+            sys.exit(fold_report(head_split(a.only)[0]))
         sys.exit(status())
     if a.check_ledger:
         sys.exit(check_ledger(a))
@@ -3704,10 +4576,11 @@ def main():
             plan, total = plan_D(a.headers, a.batch, a.only, settled_units(load_ledger(), a.redraw))
             print(describe_plan("D", plan, total))
         else:
-            plan, total = plan_L(a.headers, a.batch, a.only)
+            plan, total = plan_L(a.headers, a.batch, a.only, None, a.redraw)
             print(describe_plan("L", plan, total))
         for tu, payload in plan[:40]:
-            print(f"   {tu}  " + (f"{len(payload)} bodies" if a.rung == "S" else f"{len(payload)} callees" if a.rung == "D" else ""))
+            print(f"   {tu}  " + (f"{len(payload)} bodies" if a.rung == "S" else f"{len(payload)} callees" if a.rung == "D" else
+                                  f"{len(payload)} definitions {payload[:3]}" if payload is not None else ""))
         return
     if a.apply:
         if a.callee and not (a.signature or a.body):

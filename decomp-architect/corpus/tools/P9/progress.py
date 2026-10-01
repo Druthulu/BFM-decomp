@@ -1174,16 +1174,29 @@ def fleet():
     except Exception:
         _lev = None
     # Phase 37 T1: the type census (tools/type_census.py) — the struct debt, the declaration debt and the struct map, published until 0 (R75)
+    # P38 T10: read the CURRENT phase's census — the newest .run/P<N>/census/type_census.json by numeric N (was: a P37 literal)
     _typ = None
     try:
         import json as _jt
-        _tj = ROOT / ".run/P37/census/type_census.json"
-        if _tj.exists():
+        _tjs = sorted((int(m.group(1)), q) for q in ROOT.glob(".run/P*/census/type_census.json")
+                      if (m := re.fullmatch(r"P(\d+)", q.parent.parent.name)))
+        _tj = _tjs[-1][1] if _tjs else None
+        if _tj is not None:
+            print(f"progress.py: types from {_tj.relative_to(ROOT)}", file=sys.stderr)
             _ts = _jt.loads(_tj.read_text())["summary"]
-            _d, _c, _dc, _sm = _ts["definitions"], _ts["casts"], _ts["decls"], _ts["struct_map"]
+            _d, _c, _dc, _sm, _st = _ts["definitions"], _ts["casts"], _ts["decls"], _ts["struct_map"], _ts.get("structs") or {}
+            # pad<SIZE> names + parse-error declarations are --check-structs' inputs (restruct's audit + ledger), not in the json
+            import type_census as _tcm
+            _pad, _, _perr, _, _ = _tcm.check_structs_inputs()
             _typ = {"date": _ts.get("when", "")[:10], "head": _ts.get("head"),
-                    "what": "the structs phase's counters: raw pointer-cast dereferences in four forms (P *(T*)(…), I *(T*)ident, X ((T*)e)[i], M M2C_FIELD), "
-                            "struct definitions and their duplicate classes, lying call declarations, and the struct map's types (Phase 37 drives the first three to 0)",
+                    "snapshot": _tj.parent.parent.name, "census": str(_tj.relative_to(ROOT)),
+                    "what": "the structs phases' counters: raw pointer-cast dereferences in four forms (P *(T*)(…), I *(T*)ident, X ((T*)e)[i], M M2C_FIELD), "
+                            "struct definitions and their duplicate classes, lying call declarations, and the struct map's types",
+                    "definitions_include": _d["in_include"], "definitions_block_scope": _d["in_c_block_scope"],
+                    "definitions_fn_headers": _d["in_shared_fn_headers"], "distinct_names": _d["distinct_names"],
+                    "duplicate_classes_gating": _st.get("dup_classes"), "duplicate_classes_listed": _st.get("twins_listed"),
+                    "dead_names": _st.get("dead"), "dead_names_kept": _st.get("dead_kept"),
+                    "pad_names": _pad, "parse_error_declarations": _perr,
                     "raw_cast_sites": _c["deref_total"], "raw_cast_forms": _c["by_form"], "raw_cast_bodies": _c["bodies"],
                     "address_of_sites": _c["addr_form"], "typed_cast_member_sites": _c["typed_cast_member"], "absolute_address_casts": _c["abs_casts"],
                     "struct_definitions": _d["total"], "canonical_definitions": _d["canon"], "definitions_in_c_files": _d["in_c_file_scope"] + _d["in_c_block_scope"],
@@ -1306,13 +1319,18 @@ def readme_block(d):
                   f"{c['levers']['register_keyword_sites']:,} bare `register` keywords are censused; {c['levers']['gte_sites']:,} GTE coprocessor "
                   f"operations and {c['levers']['hand_asm_routines_in_c_shells']} whole-body assembly routines kept inside C shells "
                   f"({c['levers']['hand_asm_routine_sites']:,} sites; the original's scratchpad stack-switch trampolines, one copy per "
-                  f"overlay, listed in the verbatim manifest) are not levers and are excluded."] if c.get("levers") else []) + ([f"", f"Types (Phase 37, snapshot {c['types']['date']}): {c['types']['raw_cast_sites']:,} raw pointer-cast dereferences remain in "
+                  f"overlay, listed in the verbatim manifest) are not levers and are excluded."] if c.get("levers") else []) + ([f"", f"Types (snapshot {c['types'].get('snapshot', 'P37')}, {c['types']['date']}): {c['types']['raw_cast_sites']:,} raw pointer-cast dereferences remain in "
                   f"{c['types']['raw_cast_bodies']:,} functions (four forms; {c['types']['typed_cast_member_sites']:,} typed cast-member accesses and "
                   f"{c['types']['address_of_sites']:,} address-of casts counted apart); {c['types']['struct_definitions']:,} struct definitions "
-                  f"({c['types']['canonical_definitions']:,} in the canonical header, {c['types']['definitions_in_c_files']:,} inside `.c` files) over "
-                  f"{c['types']['distinct_layouts']:,} distinct layouts, {c['types']['duplicate_classes']:,} duplicate classes covering "
-                  f"{c['types']['duplicate_names']:,} names; {c['types']['lying_declarations']:,} call declarations narrower than their callee's "
-                  f"definition over {c['types']['lying_callees']:,} callees; the struct map clusters the cast sites into {c['types']['struct_map_types']:,} "
+                  f"({c['types']['canonical_definitions']:,} in the canonical header, {c['types']['definitions_include']:,} in `include/`, "
+                  f"{c['types']['definitions_block_scope']:,} block-scope frames inside `.c` functions, {c['types']['definitions_fn_headers']:,} in per-function "
+                  f"shared headers, {c['types']['definitions_in_c_files'] - c['types']['definitions_block_scope']:,} at `.c` file scope) over "
+                  f"{c['types']['distinct_names']:,} names and {c['types']['distinct_layouts']:,} distinct layouts; {c['types']['duplicate_classes']:,} duplicate classes covering "
+                  f"{c['types']['duplicate_names']:,} names, {c['types']['duplicate_classes_listed']:,} of them listed with a cause in `docs/struct-twins.md` "
+                  f"({c['types']['duplicate_classes_gating']:,} gating); {c['types']['variant_names']:,} variant camps, {c['types']['dead_names']:,} dead names "
+                  f"({c['types']['dead_names_kept']:,} kept with a cause), {c['types']['pad_names']:,} `pad<SIZE>` names, {c['types']['parse_error_declarations']:,} "
+                  f"parse-error declarations; {c['types']['lying_declarations']:,} lying call declarations (an empty K&R list or a type narrower than the callee's "
+                  f"definition) over {c['types']['lying_callees']:,} callees; the struct map clusters the cast sites into {c['types']['struct_map_types']:,} "
                   f"types by evidence ({c['types']['struct_map_explained_pct']} % of sites assigned)."] if c.get("types") else []) + [
             "", f"_Generated by `tools/progress.py --readme` from `docs/progress.json` — numbers are never typed by hand._",
             README_END]

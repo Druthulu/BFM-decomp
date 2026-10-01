@@ -152,10 +152,12 @@ hand-offs to be replayed; and keep the game's bytes out of the repository from t
 binaries, the 363,214 functions, the 4,000 commits — follows from those, at a cost that is mostly the diagnosis of
 one's own instruments.
 
-## 7. After 100 % — what the readability generation has taught so far (Gen3, Phases 35–37; advanced at the end of every session)
+## 7. After 100 % — what the readability generation has taught so far (Gen3, Phases 35–38; advanced by every phase's closing work, R121)
 
-*From `PhaseEnd_Phase35.md` and `PhaseEnd_Phase36.md` (their "what we believed, what failed, what we would do sooner" sections) and
-decision log "P35", "P36 S99/S101/S104/S105", "P37 S106". Same four questions as §1–§4, for the work that began when the bytes were done.*
+*From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md` and `PhaseEnd_Phase37.md` (their "what we believed, what failed, what we would do
+sooner" sections), decision log "P35", "P36 S99/S101/S104/S105", "P37 S106"; for the migration and Phase 38, the Phase 38 plan's change
+lines, task summaries and logs, and git. Same four questions as §1–§4, for the work that began when the bytes were done. Where the
+record is thin it says so; inferences are marked.*
 
 **What we believed, and what was true.** (P35) That sotn writes duplicate functions explicitly, so ~12,000 duplicate copies were the normal
 end state — read from its tree, sotn shares stage code once by an include; the belief rested on one remembered parenthetical (→ R106).
@@ -170,6 +172,13 @@ same tree said the opposite, and a 165-body probe measured it: 91 % neutral, the
 could carry the mapped parameter types "in one pass" — a parameter cannot be typed while its body still adds offsets to it (pointer
 arithmetic scales), so widths and arity come first and the typed signature is a per-callee unit after the sites are members. That a new base
 symbol wanted a linker fragment — the binary's splat symbol file is the one curated source (R15) and already feeds the link.
+(P37 close) That the lying-declaration count measured the work — it went 13,832 → 8,830 → 2,367 → 2,171 → 1,796 through instrument
+repairs as much as rewrites. (Migration) That moving to a new working method was a harness change — the product's own tools read four of
+the documents it retired, and 36 links pointed at them. (P38) That the milestone's counts were reachable as written — the census defined
+a zero duplicate count as one name per layout (293 opaque eight-byte structs would have become one), a zero outside-canon count as moving
+1,774 function-local stack frames, and a zero dead count as deleting 114 of 134 names that live types use as members. That equal layout
+hashes meant one type — attributes, member-type twins and same-name members at other offsets all break it. That classes with matching
+names would fold without respelling members — true only where the names were meaningful, not placeholders.
 
 **What failed, and why it looked right.** A session died at 91 % context with 35 minutes of state only in its transcript, after refreshing
 its checkpoint five times — two bank commits inside a task had no log line (→ R101). A tool's restore path was `git checkout`, which wiped
@@ -184,12 +193,33 @@ in `build/`, and the snapshot refresh copied it in; the fix is a refresh that re
 forked from inside a worker thread deadlocked a batch at 0 % CPU with no message. A selftest's inflight probe used the live path and deleted
 a real batch's restore snapshot. And the first audit of the legacy type header read 1,013 violations, 987 of them the audit's own — it paired
 a trailing comment with the next field.
+(P37 close) A judge stopped with `kill` and restored eight seconds later consumed its own snapshot and left six files with no restore —
+it looked stopped; it was finishing its in-flight units. (Migration) The new launcher's PhaseEnd sort crashed on the id `3_5`, filed with
+an underscore beside `33.5` and `37.5`: the migration copied the ids without normalising them, and the sort met a number and a string
+only when a plan was approved. A bare `.run/` line in the new ignore file overrode the older re-includes, so per-phase evidence under
+`.run/` could from then on be committed only by force. And the duty to advance story §10 and this section at every session end lived in
+the old method's memory and checkpoint routine, which the migration did not carry; neither document moved between 09-12 and 09-30, and
+R121 restored the duty on 09-30. (P38) The phase gate asked for counts its own census defined as impossible, found only at T5, after
+the work was planned; it looked right because T2's known-true case passed — the gate failed on the starting tree with exactly the
+baseline counts — but that case proved the instrument reads, not that the target is reachable. The census counted a struct's tag and its
+typedef as two names, and T5 split nine pairs to satisfy the instrument before T5.1 fixed the instrument. The layout hash ignored
+`packed`/`aligned`, so two definitions looked like one type; the byte gate proved packed is not natural twice, 142 and 148 of 218
+binaries red, before the hash learned the attributes. Eighteen "conflicting types" rows outlived their fix because the engine writes no
+row for a unit with nothing left to do, so the census over-counted from a stale ledger. The reasoning behind the gate-reading decision
+was spoken, not written: the plan holds one change line and the discussion record opened that day is an empty template.
 
 **What it cost.** P35: three sessions (one a recovery) and ~2.5 h of gates; no model tokens beyond the coordinator and three gate-1 agents.
 P36: nine sessions, 575 commits, ~200 agent draws, roughly 15–20 M agent tokens — the mechanical rungs took 37 % of the sites for ~20
 CPU-hours and no tokens, the search another 6 % for ~5 CPU-hours, the agents the rest, at 1 close per agent rising to 4–7 as the TU batch and
 the method file matured. P37 so far: two sessions; four reconnaissance agents (~1 M tokens), a fleet census that runs in 3.5 minutes, and an
 engine of ~2,300 new lines built in one session with no agents — three clean fleet runs and two byte-gated batches on the way.
+P37 in all: three sessions and 115 commits; the kill/restore race was its one real incident. The migration: one commit, then a day of
+repairs inside the next phase's first task. P38: planned, worked and gated in about a day and a half (09-29 → 09-30); T5 stopped once on
+the gate question and was reopened as T5.1, which took two expert attempts and ten coder runs (one red and reverted); every batch passed
+the 218-binary gate before its commit. Start to end: struct definitions 7,255 → 1,650; duplicate classes 206 → 53, all listed twins;
+file-scope definitions in `.c` files 4,085 → 0; variant camps 40 → 0; dead canonical names 141 → 0 (3 kept with cause); padding names
+26 → 0; hidden-type declarations ~1,106 → 0; lying declarations 1,796 / 76 callees → 229 / 24 (the census's `decls.lying`, printed by the
+gate as `types_floor_lying` — not the 98,648-based Phase 37 series, nor the plan's 1,537 "types floor"); levers 3,730, flat.
 
 **What we would do sooner.** Read the target project's TREE before setting a policy on its precedent. Make every commit that advances a task
 carry its log line, and checkpoint before any long wait past ~85 % context. Price a residue by distinct SHAPES, never by bodies. Put a
@@ -205,4 +235,9 @@ that skips a sibling's includes, a name where an identity was needed, an anchore
 snapshot that stamps an empty build), and every repair moved the count by thousands while no rung got smarter — so a "stalling" number is
 first a question about the instrument, then about the population, and only then about the method; and the stop rule for a mechanical
 campaign is the remainder bucketed by its recorded cause, never the yield of the last two batches. In one line, the
-generation's rule so far: *the byte gate is still the only judge, and after 100 % it judges spelling.*
+generation's rule so far: *the byte gate is still the only judge, and after 100 % it judges spelling.* From the migration and
+Phase 38: in the migration itself, grep the tools and the build for every path it retires, and normalise every id it inherits; keep a
+published narrative's duty in a rule a task executes, not in a session habit. Test each milestone count against its instrument on the
+planning tree before approval — both directions: the starting tree fails it, and the target the plan describes can pass it — and write
+the gate's reading into the plan rather than discovering it at the fifth task. Put every attribute the compiler reads into a layout
+hash before the first fold, and let the byte gate, not a hash, say two types are one.

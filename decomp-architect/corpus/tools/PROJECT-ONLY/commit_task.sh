@@ -44,6 +44,12 @@ case "$MSG" in
   "$TASK:"*|"$TASK "*) FULL="$MSG";;
   *) FULL="$TASK: $MSG";;
 esac
+# R120: reply drafts to an issue/PR/reporter are never mentioned in a commit message, and
+# reply-drafting discussion records (`Outward: yes`, or a reply/reporter topic) are never committed.
+# A fix that cites an issue number or URL is fine.
+REPLY='(\b(draft(ed|s)?|post(ed|s)?)\b.{0,40}\b(repl(y|ies)|comment|response)\b|\b(repl(y|ies)|response)\b.{0,40}\b(issue|PR|pull request|reporter)\b|\bissue[-_ ]?#?[0-9]*[-_ ]repl(y|ies)\b)'
+OUTWARD="(^Outward: *yes|^# D[0-9]+ .*\b(repl(y|ies)|reporter)\b|$REPLY)"
+printf '%s' "$FULL" | grep -qiE "$REPLY" && refuse "message mentions a drafted/posted reply (R120)"
 
 ROOT="$(find_root)"
 cd "$ROOT" || refuse "cannot cd to $ROOT"
@@ -99,6 +105,14 @@ for f in $(git diff --cached --name-only -- "$PE/current/logs" "$PE/current/task
   if [ -f "$f" ] && grep -qE '\{\{AUTHORED:[A-Za-z_]+\}\}' -- "$f"; then   # the exact placeholder, not prose about it
     git reset -q -- "$f" || refuse "git reset $f failed"
     echo "left out: $f (unfilled {{AUTHORED}} placeholder; fill it before committing)"
+  fi
+done
+
+# R120: a reply-drafting discussion record stays unstaged in the tree (see OUTWARD above).
+for f in $(git diff --cached --name-only --diff-filter=AM -- "$PE/current/discussions"); do
+  if [ -f "$f" ] && grep -qiE "$OUTWARD" -- "$f"; then
+    git reset -q -- "$f" || refuse "git reset $f failed"
+    echo "left out: $f (reply-drafting discussion record; R120 keeps it local)"
   fi
 done
 

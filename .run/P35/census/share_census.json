@@ -31,7 +31,7 @@
  },
  "duplicate_text_classes": 6396,
  "duplicate_text_sites": 17732,
- "elapsed_s": 28.7,
+ "elapsed_s": 24.1,
  "flags": {
   "ALIAS": 17,
   "E": 3826,
@@ -56,6 +56,14 @@
  },
  "macro_sites": 0,
  "multi_form": 0,
+ "same_address_text_duplicates_deferred": {
+  "sites": 1645,
+  "texts": 377
+ },
+ "same_address_text_duplicates_pending": {
+  "sites": 0,
+  "texts": 0
+ },
  "same_vram_unregistered": {
   "classes": 41,
   "collapsible": 98,
