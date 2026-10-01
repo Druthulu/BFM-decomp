@@ -3642,6 +3642,18 @@ def apply_batch(a):
         if a.redraw:                                               # a lifted body is not finished (s_finished) either (T3.c4)
             lat_ = {k: r for k, r in lat_.items() if not lifted(k)}
         plan, total, skipped = plan_S(a.headers, a.batch, a.only, done, lat_)
+        if a.redraw:
+            # T3.c4: a lifted `TU:FN` body with no drawable base left (only macro / residual sites) is re-walked with no bases: its rows
+            # re-classify the raw sites and carry the macro sites' KEPT rows (s_macro_rows); plan_S never draws it (no usable base)
+            have = {(tu, fn) for tu, bs in plan for fn in bs}
+            for o in a.only or []:
+                tu, _, fn = o.rpartition(":")
+                if (tu.startswith("src/") and fn and (tu, fn) not in have and (REPO / tu).exists() and tu.endswith(".h") == a.headers
+                        and lifted(("S", tu, fn))):
+                    ent = next((bs for t_, bs in plan if t_ == tu), None)
+                    if ent is None:
+                        plan.append((tu, ent := {}))
+                    ent[fn] = {}
         print(describe_plan("S", plan, total, skipped), flush=True)
     elif a.rung == "D":
         if a.redraw:
