@@ -4,6 +4,7 @@
     tools/timeline.py            # writes docs/story-timeline.md + docs/story-timeline.svg; exit 1 if the last row
                                  # disagrees with docs/progress.json (the self-check)
     tools/timeline.py --check    # regenerate in memory and exit 1 if either committed file is stale
+                                 # (the latest row's Commits cell is not compared: committing the file bumps it)
 
 Sources (all in the repository, keyed by DATE — never by commit hash, which the public-flip rewrite changed):
   * every commit that touched docs/progress.fleet.md (the fleet digest, since 2026-06-16): the June single-metric
@@ -402,7 +403,10 @@ def main(argv):
     selfcheck(rows)
     md, svg = render_md(rows), render_svg(rows)
     if a.check:
-        stale = [p.name for p, t in ((OUT_MD, md), (OUT_SVG, svg)) if not p.exists() or p.read_text() != t]
+        # mask the latest row's Commits cell on both sides: committing the regenerated file bumps today's count
+        last = re.compile(r"^(\| " + re.escape(rows[-1]["date"]) + r" \| )\d+( \|)", re.M)
+        mask = lambda t: last.sub(r"\1#\2", t)
+        stale = [p.name for p, t in ((OUT_MD, md), (OUT_SVG, svg)) if not p.exists() or mask(p.read_text()) != mask(t)]
         if stale:
             sys.exit(f"timeline --check: STALE {stale} — run tools/timeline.py")
         print(f"timeline --check: fresh ({len(rows)} rows)")
