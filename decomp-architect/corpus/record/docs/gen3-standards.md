@@ -59,6 +59,17 @@ failure modes are different:
 4. **Types come from the code, names from observation.** Structure is recovered from access patterns the compiler locked into
    the bytes (many functions reading a `u16` at one offset from one base); meaning comes from observation. The 1,232 struct
    definitions are unified before any field is named; a duplicate type is a defect, a wrong name is a worse one.
+5. **Every raw cast goes, or names its cause.** (Phase 39 T2, 2026-10-01.) A `*(T *)(p + k)` is a member access the drafter
+   could not spell; finished code spells it as the member. Where the byte gate refuses the member (cookbook §458: `/s` moves
+   the scheduler), the cast is kept through ONE of the kept-cast macros in `include/common.h`, each expanding to the identical
+   cast and naming one cause class — `CAST_ALIAS` SCHED-ALIAS, `CAST_SIGN` SIGN, `CAST_WIDTH` WIDTH (overlap loser),
+   `CAST_MISALIGNED` MISALIGNED, `CAST_NONSTRUCT` NON-STRUCT base, and `LOBU/LOH/HIH/LOHU/HIHU/LOW/LOWU` REINTERP (an lvalue
+   read at another width or sign). A macro site is honest only with its restruct ledger row (rung S, site verdict
+   `KEPT(<class>)`, keyed tu + function per R99); `tools/type_census.py --check-casts` counts raw sites by form, macro sites
+   by name against the ledger, and lying declarations against `config/lying_exceptions.tsv`, and fails on any raw site, any
+   unbacked macro site or any unledgered lie. `M2C_FIELD` is a raw form, never a kept spelling. Each macro's byte proof (one
+   kept site respelled, `make check` BYTE-IDENTICAL) is recorded in the Phase 39 T2 summary. Levers follow the same reading:
+   `tools/lever_census.py --strict --residue config/lever_residue.tsv` is the gate, the residue file the ledger of what stays.
 
 Every step is checked the only way this project checks anything: 218 binaries rebuild identical.
 
@@ -109,7 +120,8 @@ The order, each step gated by the 218 hashes and each sized by a probe before it
    every residual.
 
 **Definition of done for Gen3 (proposed; the Gen3 plan ratifies):** 0 pins or each one `// !FAKE:`-marked with its reason; 0
-macro bodies (**met at Phase 35**); one definition per structure; every renamed symbol with a recorded basis; clang-format clean; and, unchanged,
+macro bodies (**met at Phase 35**); one definition per structure; 0 raw casts, every kept cast a `CAST_*`/`REINTERP` macro
+site with its ledger row (`type_census --check-casts` green, Phase 39 T2); every renamed symbol with a recorded basis; clang-format clean; and, unchanged,
 218 of 218 byte-identical from a clean rebuild.
 
 ## 5. Related

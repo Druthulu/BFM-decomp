@@ -280,7 +280,7 @@
   }
  },
  "coverage_ok": true,
- "elapsed_s": 25.4,
+ "elapsed_s": 31.7,
  "generated": "2026-10-01",
  "gte_levers": {
   "direct": 356,
@@ -291,7 +291,7 @@
   "via_macro": 94,
   "what": "GTE ops whose clobbers exceed the canonical macro's (a scheduling steer): class-B levers INSIDE the headline number since T5 (2026-09-09), marked, 0 at the close"
  },
- "head": "b5e18e5f83",
+ "head": "7845da8f03",
  "headers": 3181,
  "levers_AB": {
   "asm": 1861,
@@ -473,7 +473,7 @@
   "volatile_qualified": 0,
   "zero": 54
  },
- "src_stamp": "287e6f521d908e6d",
+ "src_stamp": "64f7b70e3eb5b45d",
  "tus": 4121,
  "unclassified": 0,
  "union_AD": {
