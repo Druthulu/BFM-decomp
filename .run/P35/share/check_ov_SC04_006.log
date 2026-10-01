@@ -1,2 +1,42 @@
+  CC      build/src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.o
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:1516: warning: conflicting types for built-in function `memcpy'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c: In function `func_8017D67C':
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3015: warning: passing arg 1 of `func_8012AD50' makes integer from pointer without a cast
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c: At top level:
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3096: warning: type mismatch with previous external decl
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3050: warning: previous external decl of `func_8017D800'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3096: warning: type mismatch with previous implicit declaration
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3050: warning: previous implicit declaration of `func_8017D800'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3096: warning: `func_8017D800' was previously implicitly declared to return `int'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3392: warning: type mismatch with previous external decl
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:2946: warning: previous external decl of `func_8017DD28'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3392: warning: type mismatch with previous implicit declaration
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:2946: warning: previous implicit declaration of `func_8017DD28'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3392: warning: `func_8017DD28' was previously implicitly declared to return `int'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3457: warning: type mismatch with previous external decl
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3309: warning: previous external decl of `func_8017DF0C'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3457: warning: type mismatch with previous implicit declaration
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3404: warning: previous implicit declaration of `func_8017DF0C'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3457: warning: `func_8017DF0C' was previously implicitly declared to return `int'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c: In function `func_8017EAE0':
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4052: warning: passing arg 2 of `func_8012A828' makes integer from pointer without a cast
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c: In function `func_8017F180':
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4406: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4406: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c: In function `func_8017F354':
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4464: warning: passing arg 1 of `func_8012C098' makes pointer from integer without a cast
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c: In function `func_8017F5EC':
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4601: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c: In function `func_8017F87C':
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4642: warning: passing arg 1 of `func_80128ED8' makes integer from pointer without a cast
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c: At top level:
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4744: warning: type mismatch with previous external decl
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4219: warning: previous external decl of `func_8017FB28'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4744: warning: type mismatch with previous implicit declaration
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4219: warning: previous implicit declaration of `func_8017FB28'
+src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:4744: warning: `func_8017FB28' was previously implicitly declared to return `int'
+  LD      build/ov_SC04_006/ov_SC04_006.elf
+  OBJCOPY build/ov_SC04_006/ov_SC04_006
+  TRIM    build/ov_SC04_006/ov_SC04_006 (-1 B linker end-align pad)
 [ OK ] build/ov_SC04_006/ov_SC04_006
        sha1 607f522f47a8d897568671535079ce99a392c720 == config/check.ov_SC04_006.sha  (BYTE-IDENTICAL)
