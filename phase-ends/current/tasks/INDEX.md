@@ -8,3 +8,4 @@ T5 | question | long tail: one definition per type (partial; question) | - | tas
 T5.1 | done | long tail: one definition per type (gate reading fixed) | - | tasks/T5.1.md | logs/T5.1.md | R3.38-002,R3.38-003
 T6 | done | declaration layer on the canonical types | - | tasks/T6.md | logs/T6.md | -
 T7 | done | milestone gate and record | - | tasks/T7.md | logs/T7.md | -
+T8 | done | docs/formats.md: LIST.CD verified on US, runtime reader, repack note, LZSS ring + terminator rules | - | tasks/T8.md | logs/T8.md | -
