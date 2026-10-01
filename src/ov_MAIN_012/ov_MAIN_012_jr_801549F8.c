@@ -2086,7 +2086,7 @@ s32 func_80155458(s32 param_1)
 void func_80155580(void *a0) {
 
     extern void (*D_801801F0[])(void);
-    D_801801F0[*(u16 *)((s32)a0 + 0x2)]();
+    D_801801F0[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
