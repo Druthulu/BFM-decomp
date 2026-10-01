@@ -5235,16 +5235,16 @@ void func_8017F714_impl(int param_1)
     int iVar1;
 
     func_8012A828(param_1, &D_80186E48);
-    *(short *)(param_1 + 2) = 2;
-    *(short *)(param_1 + 0x34) = 0;
+    CAST_NONSTRUCT(short, param_1, 2) = 2;
+    CAST_NONSTRUCT(short, param_1, 0x34) = 0;
     func_8012B23C(param_1);
-    *(int *)(param_1 + 0x44) = 0;
-    *(int *)(param_1 + 0x48) = 0;
+    CAST_NONSTRUCT(int, param_1, 0x44) = 0;
+    CAST_NONSTRUCT(int, param_1, 0x48) = 0;
     iVar1 = D_8018A928;
-    *(short *)(param_1 + 0x5c) = 0;
-    *(int *)(param_1 + 0x1c) = 0x100;
-    *(short *)(param_1 + 0x84) = 0;
-    *(int *)(param_1 + 0x4c) = -iVar1;
+    CAST_NONSTRUCT(short, param_1, 0x5c) = 0;
+    CAST_NONSTRUCT(int, param_1, 0x1c) = 0x100;
+    CAST_NONSTRUCT(short, param_1, 0x84) = 0;
+    CAST_NONSTRUCT(int, param_1, 0x4c) = -iVar1;
 }
 
 
