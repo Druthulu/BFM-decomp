@@ -2871,9 +2871,9 @@ void func_8017FAA8(s32 param_1) {
             ptr = (s32 *)func_80143C74(param_1, 0);
             if (ptr != 0) {
                 *(s32 *)(ptr + 4) = (rand() - 0x4000) * 0x10;
-                *(s32 *)(ptr + 6) = (rand() - 0x4000) * 0x10;
+                CAST_MISALIGNED(s32, ptr, 6) = (rand() - 0x4000) * 0x10;
                 *(u16 *)((s32)ptr + 0x16) = -(rand() & 0x1F);
-                *(s32 *)(ptr + 0x12) = -(*(s32 *)(ptr + 5) >> 4);
+                CAST_MISALIGNED(s32, ptr, 0x12) = -(CAST_MISALIGNED(s32, ptr, 5) >> 4);
                 sv.x = p[0x17] - *(s16 *)((s32)ptr + 6);
                 sv.y = p[0x18] - *(s16 *)((s32)ptr + 0xA);
                 sv.z = p[0x19] - *(s16 *)((s32)ptr + 0xE);
@@ -2902,9 +2902,9 @@ void func_8017FAA8(s32 param_1) {
             ptr = (s32 *)func_80143C74(param_1, 0);
             if (ptr != 0) {
                 *(s32 *)(ptr + 4) = (rand() - 0x4000) * 0x10;
-                *(s32 *)(ptr + 6) = (rand() - 0x4000) * 0x10;
+                CAST_MISALIGNED(s32, ptr, 6) = (rand() - 0x4000) * 0x10;
                 *(u16 *)((s32)ptr + 0x16) = -(rand() & 0x1F);
-                *(s32 *)(ptr + 0x12) = -(*(s32 *)(ptr + 5) >> 4);
+                CAST_MISALIGNED(s32, ptr, 0x12) = -(CAST_MISALIGNED(s32, ptr, 5) >> 4);
                 sv.x = p[0x17] - *(s16 *)((s32)ptr + 6);
                 sv.y = p[0x18] - *(s16 *)((s32)ptr + 0xA);
                 sv.z = p[0x19] - *(s16 *)((s32)ptr + 0xE);
