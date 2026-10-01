@@ -137,6 +137,13 @@ FORM_X = re.compile(r"\(\s*\(\s*" + TYPE_IN_CAST + r"\s*\)\s*([^()\[\]]+?)\s*\)\
 FORM_M = re.compile(r"\bM2C_FIELD\s*\(")
 FORM_A = re.compile(r"(?<![\w\)\]\*])\(\s*" + TYPE_IN_CAST + r"\s*\)\s*\((?=[^()]*[+-])")     # (T *)(… + …)  not deref'd
 FORM_C = re.compile(r"\(\s*\(\s*" + TYPE_IN_CAST + r"\s*\)\s*([^()\[\]]+?)\s*\)\s*->\s*([A-Za-z_]\w*)")   # ((T *)e)->f  (cast-then-member)
+# K: a kept-cast / reinterpretation macro site (P39 T2; include/common.h): counted by name, never raw — --check-casts demands its
+# restruct ledger row (rung S, site verdict KEPT(<class>)). Not in RAW_FORMS: by_form P/I/X/M and deref_total are unchanged.
+KEPT_MACROS = {"CAST_ALIAS": "SCHED-ALIAS", "CAST_SIGN": "SIGN", "CAST_WIDTH": "WIDTH", "CAST_MISALIGNED": "MISALIGNED",
+               "CAST_NONSTRUCT": "NON-STRUCT", **{n: "REINTERP" for n in ("LOBU", "LOH", "HIH", "LOHU", "HIHU", "LOW", "LOWU")}}
+FORM_K = re.compile(r"\b(" + "|".join(KEPT_MACROS) + r")\s*\(")
+DEFLINE_FILE = "include/common.h"          # the macros' own `#define` lines there are definitions, not sites (--check-casts drops them)
+DEFLINE_RX = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)")
 ABS_ADDR = re.compile(r"^0x80[0-9A-Fa-f]{6}$")
 ASSIGN_OP = re.compile(r"^\s*(?:(?:\+|-|\*|/|%|&|\||\^|<<|>>)?=(?!=)|\+\+|--)")
 IDENT = re.compile(r"^[A-Za-z_]\w*$")
@@ -364,6 +371,25 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
                            access=_store_kind(_after(masked, close + 1)))
                 if k is None:
                     rec["index"] = _strip_parens(args[2])[:60]
+        sites.append(rec)
+    # K: CAST_*(T, p, k) / LOBU..LOWU(x) — a kept-cast macro site, by name and class (3-arg split as M; REINTERP keyed on its line)
+    for m in FORM_K.finditer(masked):
+        raw_counts["K"] += 1
+        inner, close = _paren_body(masked, m.end() - 1)
+        ln, d = fn_ctx(m.start())
+        name = m.group(1)
+        rec = dict(form="K", tu=rel, fn=(d["name"] if d else None), line=ln, pos=m.start(), end=(close + 1 if inner is not None else m.end()),
+                   name=name, cls=KEPT_MACROS[name], ctype=None, stars=0, base=None, bclass="other", off=0)
+        args = _split_top(inner, ",") if inner is not None else []
+        if name.startswith("CAST_") and len(args) == 3:
+            b = parse_base(args[1])
+            b["bclass"] = classify(b["bclass"], b.get("base"), d)
+            k = _int(_strip_parens(args[2]))
+            ctype = _norm_type(args[0])
+            rec.update(base=b.get("base"), bclass=b["bclass"], text=b.get("text"), ctype=ctype, stars=1,
+                       off=(b.get("off") or 0) + (k if k is not None else 0), access=_store_kind(_after(masked, close + 1)))
+            if k is None:
+                rec["index"] = _strip_parens(args[2])[:60]
         sites.append(rec)
     # A: (T *)(base + k)  — an address, not a dereference
     for m in FORM_A.finditer(masked):
@@ -602,8 +628,14 @@ def walk_file(raw, rel):
     definitions, aliases_td, fwd = find_definitions(masked, rel, span_of_line, line_of)
     fndefs, extern_fns, extern_data, asm_aliases, builtins, attrs, flows, params_of = find_decls_and_flows(masked, rel, defs, span_of_line, line_of)
     sites, raw_counts = find_sites(masked, rel, span_of_line, line_of, params_of)
+    if rel == DEFLINE_FILE:            # P39 T2: a macro's own `#define` line (kept-cast set, M2C_FIELD) is a definition, not a site
+        deflines = {i + 1 for i, ln in enumerate(raw.split("\n"))
+                    if (mdl := DEFLINE_RX.match(ln)) and (mdl.group(1) in KEPT_MACROS or mdl.group(1) == "M2C_FIELD")}
+        for s in sites:
+            if s["line"] in deflines:
+                s["defline"] = True
     # every site records the classification of its base in the function's parameter list
-    abs_casts = sum(1 for s in sites if s.get("bclass") == "abs")
+    abs_casts = sum(1 for s in sites if s.get("bclass") == "abs" and s["form"] != "K")
     # identifier counts for the dead-name test (type names are identifiers; the canonical header is excluded by the caller)
     ident_counts = collections.Counter(m.group(0) for m in re.finditer(r"\b[A-Za-z_]\w*\b", masked))
     # T5.1: the tokens the filter below drops, kept apart so the --check-structs dead test drops no identifier by length or prefix
@@ -1168,6 +1200,14 @@ def def_layout_hash(res, d, lay):
     return hashlib.sha1(json.dumps([lay[0], lay[2], "align", al]).encode()).hexdigest()[:12]
 
 
+def check_casts_counts(sites, raw_counts):
+    """P39 T2: the --check-casts inputs — ({P,I,X,M: raw count}, [macro sites]) without include/common.h's own `#define` lines."""
+    deflined = collections.Counter(s["form"] for s in sites if s.get("defline"))
+    check_raw = {f: raw_counts.get(f, 0) - deflined[f] for f in ("P", "I", "X", "M")}
+    macro_sites = [dict(tu=s["tu"], fn=s["fn"], line=s["line"], pos=s["pos"], name=s["name"], cls=s["cls"], base=s.get("base"),
+                        bclass=s.get("bclass"), off=s.get("off")) for s in sites if s["form"] == "K" and not s.get("defline")]
+    return check_raw, macro_sites
+
 def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     t0 = time.time()
     w = walk_all(jobs, use_cache=use_cache, out_dir=out_dir)
@@ -1324,6 +1364,8 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     top_bases = collections.Counter((s["bclass"], s["base"]) for s in sites_all if s["form"] in RAW_FORMS and s.get("base")).most_common(40)
     deref_sites = [s for s in sites_all if s["form"] in RAW_FORMS]
     bodies_with_sites = len({(s["tu"], s["fn"]) for s in deref_sites if s.get("fn")})
+    check_raw, macro_sites = check_casts_counts(sites_all, raw_counts)
+    macros = collections.Counter(s["name"] for s in macro_sites)
     # the readability series' own regex over the RAW text (continuity with docs/readability-progress.tsv)
     import readability_progress as rp
     raw_readability = 0
@@ -1424,12 +1466,14 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
         casts=dict(by_form=dict(by_form), raw_counts=dict(raw_counts), coverage_ok=coverage_ok, refused=len(refused),
                    deref_total=len(deref_sites), addr_form=by_form["A"], typed_cast_member=by_form["C"], bodies=bodies_with_sites,
                    by_bclass=dict(by_bclass), by_width=dict(by_width.most_common()), readability_raw_regex=raw_readability,
-                   abs_casts=by_bclass.get("abs", 0), top_bases=[[bc, b, n] for ((bc, b), n) in top_bases]),
+                   abs_casts=by_bclass.get("abs", 0), top_bases=[[bc, b, n] for ((bc, b), n) in top_bases],
+                   macros=dict(macros), check_raw=check_raw, macro_sites=macro_sites),
         decls=dict(fn_definitions=len(fndefs), kr_definitions=sum(1 for f in fndefs if f["kr"]), extern_fn_decls=len(extern_fns),
                    extern_data_decls=len(extern_data), declared_fn_names=len(spellings), multi_spelled_callees=multi_spelled,
                    multi_body_names=multi_body, data_symbols_declared=len(data_types), multi_typed_data_symbols=multi_typed_data,
                    asm_label_aliases=len(asm_aliases), asm_label_alias_names=len({a["name"] for a in asm_aliases}),
                    builtins=dict(builtins), attributes=dict(attrs),
+                   lying_rows=[dict(callee=r["callee"], defined_in=r.get("defined_in"), kind=r["kind"]) for r in lying],
                    lying=len(lying), lying_callees=lying_callees, lying_kinds=dict(lying_kinds),
                    kr_sites=len(kr_sites), kr_callees=kr_callees,
                    cross_binary=len(cross), cross_callees=len({r["callee"] for r in cross})),
@@ -1838,6 +1882,43 @@ def selftest():
     bad_ctrl = dict(zero, controls=dict(a=dict(ok=False), ok=0, n=1))
     rc2, l2 = check_structs_verdict(bad_ctrl, 0, 0)
     checks.append(("check-structs controls a<b FAIL", rc2 == 1 and "controls 0/1" in l2[0] and "a=FAIL" in l2[2]))
+    # P39 T2: --check-casts — each raw form counted (positive) and its near-miss not (negative); the macro sites; the define lines
+    def cc(body, rel="src/ov_TEST/k.c"):
+        w = walk_file("void g(s32 a0, s32 *p, s32 *q, s32 k, s32 x) {\n    " + body + "\n}\n", rel)
+        return w, check_casts_counts(w["sites"], w["raw_counts"])
+    for f, pos, negs in (("P", "*(u16 *)(a0 + 4) = 1;", ("p->f = 0;", "CAST_ALIAS(u16, a0, 4) = 2;")),
+                         ("I", "*(u8 *)D_80078EB4 = 1;", ("k = (u8)x;",)),
+                         ("X", "((s16 *)a0)[2] = 0;", ("q[k] = 0;",)),
+                         ("M", "M2C_FIELD(a0, u8 *, 1) = 0;", ("CAST_ALIAS(u16, a0, 4) = 2;",))):
+        checks.append((f"check-casts {f} counted", cc(pos)[1][0] == {g: int(g == f) for g in ("P", "I", "X", "M")}))
+        for ng in negs:
+            checks.append((f"check-casts {f} near-miss {ng!r} not counted", cc(ng)[1][0] == dict(P=0, I=0, X=0, M=0)))
+    _, (_, ks) = cc("CAST_ALIAS(u16, a0, 4) = 2;\n    LOH(x) = 1;")
+    checks.append(("check-casts K sites", [(s["name"], s["cls"]) for s in ks] == [("CAST_ALIAS", "SCHED-ALIAS"), ("LOH", "REINTERP")]
+                   and (ks[0]["bclass"], ks[0]["base"], ks[0]["off"]) == ("param", "a0", 4)))
+    defs_txt = ("#define CAST_ALIAS(T, p, k)      (*(T *)((p) + (k)))\n#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))\n"
+                "#define LOH(x)  (*(s16 *)&(x))\n")
+    dw = walk_file(defs_txt, DEFLINE_FILE)
+    dr, dk = check_casts_counts(dw["sites"], dw["raw_counts"])
+    ow = walk_file(defs_txt, "src/ov_TEST/d.c")
+    orw, ok_ = check_casts_counts(ow["sites"], ow["raw_counts"])
+    checks.append(("check-casts common.h #define lines dropped", dr == dict(P=0, I=0, X=0, M=0) and dk == []
+                   and orw["P"] == 1 and orw["M"] == 1 and len(ok_) == 2))
+    site = dict(tu="src/ov_TEST/k.c", fn="g", line=2, pos=0, name="CAST_ALIAS", cls="SCHED-ALIAS", base="a0", bclass="param", off=4)
+    row = {("S", "src/ov_TEST/k.c", "g"): dict(verdict="KEPT", sites=[dict(form="P", line=2, base="param:a0", off=4, verdict="KEPT(SCHED-ALIAS)")])}
+    wrong = {("S", "src/ov_TEST/k.c", "g"): dict(verdict="KEPT", sites=[dict(form="P", line=2, base="param:a0", off=4, verdict="KEPT(SIGN)")])}
+    z = dict(P=0, I=0, X=0, M=0)
+    checks.append(("check-casts macro backed", check_casts_verdict(z, [site], row, [], set())[1].endswith("macros CAST_ALIAS=1 (unbacked 0); lying=0 (ledgered 0)")
+                   and check_casts_verdict(z, [site], row, [], set())[0] == 0))
+    checks.append(("check-casts macro unbacked", check_casts_verdict(z, [site], {}, [], set()) [0] == 1 and "(unbacked 1)" in check_casts_verdict(z, [site], {}, [], set())[1]))
+    checks.append(("check-casts macro wrong class", "(unbacked 1)" in check_casts_verdict(z, [site], wrong, [], set())[1]))
+    lie = [dict(callee="func_80001000", defined_in="src/ov_TEST/k.c", kind="arity")]
+    rl1, ll1 = check_casts_verdict(z, [], {}, lie, {("func_80001000", "src/ov_TEST/k.c", "arity")})
+    rl0, ll0 = check_casts_verdict(z, [], {}, lie, set())
+    checks.append(("check-casts lying ledgered", rl1 == 0 and ll1.endswith("lying=1 (ledgered 1)") and rl0 == 1 and ll0.endswith("lying=1 (ledgered 0)")))
+    rz, lz = check_casts_verdict(z, [], {}, [], set())
+    checks.append(("check-casts all-zero OK + line", rz == 0 and lz == "check-casts: raw P=0 I=0 X=0 M=0; macros none (unbacked 0); lying=0 (ledgered 0)"))
+    checks.append(("check-casts raw FAIL", check_casts_verdict(dict(z, X=1), [], {}, [], set())[0] == 1))
     bad = [n for n, ok in checks if not ok]
     print(f"type_census --selftest: {len(checks) - len(bad)}/{len(checks)} checks OK" + (f"; FAILED: {bad}" if bad else ""))
     return 0 if not bad else 1
@@ -1875,6 +1956,56 @@ def check_structs_verdict(summary, pad_names, parse_error_decls):
              + f" doc_disputed={sum(v.get('detail', '').count('[doc-disputed') for v in c.values() if isinstance(v, dict))}"]
     return (1 if viol else 0), lines
 
+
+# --check-casts (P39 T2): the cast-and-lying gate. A macro site is backed only by its restruct ledger row (rung S, read through
+# restruct.ledger_latest — R100: no second done-filter); a lying row only by a config/lying_exceptions.tsv row.
+LYING_EXCEPTIONS = "config/lying_exceptions.tsv"
+BACKED_S_VERDICTS = ("KEPT", "S2", "KEPT-ALL")
+
+
+def check_casts_inputs():
+    """(latest ledger {(rung, tu, unit): row}, {(callee, def_file, kind)} exceptions). Lazy import: restruct imports this module."""
+    import restruct as rs
+    latest = rs.ledger_latest(rs.load_ledger())
+    exc = set()
+    p = REPO / LYING_EXCEPTIONS
+    if p.exists():
+        for ln in p.read_text().splitlines():
+            if not ln.strip() or ln.startswith("#") or ln.startswith("callee\t"):
+                continue
+            f = ln.split("\t")
+            if len(f) >= 3:
+                exc.add((f[0], f[1], f[2]))
+    return latest, exc
+
+
+def check_casts_verdict(raw_by_form, macro_sites, latest, lying_rows, exceptions):
+    """(rc, line) — rc 1 iff any raw form > 0, any macro site unbacked, or any lying row not ledgered in the exceptions TSV."""
+    unbacked = 0
+    for s in macro_sites:
+        row = latest.get(("S", s["tu"], s["fn"]))
+        ok = False
+        if row and row.get("verdict") in BACKED_S_VERDICTS:
+            want = f"KEPT({s['cls']})"
+            for e in row.get("sites") or []:
+                if e.get("verdict") != want:
+                    continue
+                if s["cls"] == "REINTERP" and e.get("line") == s["line"]:
+                    ok = True
+                elif s["cls"] != "REINTERP" and e.get("off") == s["off"] and e.get("base") == f"{s['bclass']}:{s['base']}":
+                    ok = True
+                if ok:
+                    break
+        unbacked += not ok
+    lying = len(lying_rows)
+    unledgered = sum(1 for r in lying_rows if (r["callee"], r.get("defined_in"), r["kind"]) not in exceptions)
+    macros = collections.Counter(s["name"] for s in macro_sites)
+    mtxt = " ".join(f"{n}={macros[n]}" for n in KEPT_MACROS if macros[n] > 0) or "none"
+    raw = [raw_by_form.get(f, 0) for f in ("P", "I", "X", "M")]
+    line = (f"check-casts: raw P={raw[0]} I={raw[1]} X={raw[2]} M={raw[3]}; macros {mtxt} (unbacked {unbacked}); "
+            f"lying={lying} (ledgered {lying - unledgered})")
+    return (1 if any(raw) or unbacked or unledgered else 0), line
+
 # ----------------------------------------------------------------------------------------------------------------------
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
@@ -1884,6 +2015,7 @@ def main():
     ap.add_argument("--sites", action="store_true", help="also write sites.jsonl")
     ap.add_argument("--check", action="store_true", help="T8's gate (the invariants; exit 1 on a violation)")
     ap.add_argument("--check-structs", action="store_true", help="the struct-unification gate (P38 T2; exit 1 on a violation)")
+    ap.add_argument("--check-casts", action="store_true", help="the cast-and-lying gate (P39 T2; exit 1 on a raw cast, an unbacked macro site or an unledgered lie)")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--quiet", action="store_true")
     a = ap.parse_args()
@@ -1924,6 +2056,12 @@ def main():
         print(f"conflicting_types={conflicting} tu_conflict={tu_conflict} types_floor_lying={summary['decls']['lying']} audit_other={other} "
               f"twins_listed={st['twins_listed']} dead_kept={st['dead_kept']} block_frames={st['block_frames']}  (not gating)")
         rc = rc or rc_s
+    if a.check_casts:
+        latest, exc = check_casts_inputs()
+        rc_c, line = check_casts_verdict(summary["casts"]["check_raw"], summary["casts"]["macro_sites"], latest,
+                                         summary["decls"]["lying_rows"], exc)
+        print(line)
+        rc = rc or rc_c
     sys.exit(rc)
 
 if __name__ == "__main__":

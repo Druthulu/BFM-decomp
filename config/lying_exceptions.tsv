@@ -1,0 +1,2 @@
+# lying_exceptions.tsv (P39 T2): a lying declaration (argcheck row) the --check-casts gate accepts; one row per (callee, def_file, kind), keyed exactly; cause = the byte evidence why the lie stays; task = the task that ledgered it.
+callee	def_file	kind	cause	task
