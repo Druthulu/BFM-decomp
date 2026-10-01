@@ -121,6 +121,8 @@ def gen3_series():
                 out[v["date"]]["casts_form"] = "four forms" if v.get("deref_all") else "one form"
             if v.get("narrow_decls", "").isdigit():
                 out.setdefault(v["date"], {})["decls"] = int(v["narrow_decls"])
+            if v.get("struct_defs", "").isdigit():     # P38 T10: struct definitions (the type census's count, P37 T2 →)
+                out.setdefault(v["date"], {})["struct_defs"] = int(v["struct_defs"])
     return out
 
 
@@ -145,7 +147,8 @@ def build():
                      "binaries": f.get("binaries"), "fn": f.get("fn"), "instr": f.get("instr"), "distinct": f.get("distinct"),
                      "main": f.get("main"), "main_included": f.get("main_included"), "stubs": f.get("stubs"),
                      "main_real": m.get("real"), "main_stubs": m.get("stubs"), "main_matchable": m.get("matchable"),
-                     "levers": g.get("levers"), "casts": g.get("casts"), "casts_form": g.get("casts_form"), "decls": g.get("decls")})
+                     "levers": g.get("levers"), "casts": g.get("casts"), "casts_form": g.get("casts_form"), "decls": g.get("decls"),
+                     "struct_defs": g.get("struct_defs")})
     return rows
 
 
@@ -183,17 +186,19 @@ def render_md(rows):
              "  debts the readability phases pay down — **levers** (register pins + asm statements, `docs/lever-progress.tsv`, Phase 36 →)",
              "  and **raw casts** (pointer-cast dereferences, `docs/readability-progress.tsv`; the one-form regex count until the",
              "  Phase-37 census's four-form count takes over on 2026-09-12 — the step up on that day is the counting, not the code).",
-             "  The chart's lower panel draws them.",
+             "  The chart's lower panel draws them. **Struct definitions** (`struct_defs` in `docs/readability-progress.tsv`, the",
+             "  type census's count, 2026-09-12 →) is the structs phases' series: one definition per layout is the goal.",
              "",
-             "| Date | Commits | Phase closed (version) | Binaries | fn-count | instr-weighted | distinct code | main game code | Stubs | main REAL / matchable | levers | raw casts |",
-             "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
+             "| Date | Commits | Phase closed (version) | Binaries | fn-count | instr-weighted | distinct code | main game code | Stubs | main REAL / matchable | levers | raw casts | struct definitions |",
+             "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for r in rows:
         ph = ", ".join(f"P{p} (v{v})" for p, v in r["phase_end"]) or ""
         mr = f"{r['main_real']} / {r['main_matchable']}" if r["main_real"] is not None and r["main_matchable"] else "—"
         lv = f"{r['levers']:,}" if r.get("levers") is not None else "—"
         cs = f"{r['casts']:,}" if r.get("casts") is not None else "—"
+        sd = f"{r['struct_defs']:,}" if r.get("struct_defs") is not None else "—"
         lines.append(f"| {r['date']} | {r['commits']} | {ph} | {r['binaries'] or '—'} | {pct(r['fn'])} | {pct(r['instr'])} | "
-                     f"{pct(r['distinct'])} | {pct(r['main']) if r['main'] else '—'} | {r['stubs'] if r['stubs'] is not None else '—'} | {mr} | {lv} | {cs} |")
+                     f"{pct(r['distinct'])} | {pct(r['main']) if r['main'] else '—'} | {r['stubs'] if r['stubs'] is not None else '—'} | {mr} | {lv} | {cs} | {sd} |")
     lines += ["", f"{len(rows)} dated rows · phase ticks from the {sum(len(v) for v in phase_ends().values())} PhaseEnds · "
                   "the chart: `docs/story-timeline.svg`.", ""]
     return "\n".join(lines)
