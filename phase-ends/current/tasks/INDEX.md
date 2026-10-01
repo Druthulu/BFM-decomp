@@ -9,3 +9,4 @@ T5.1 | done | long tail: one definition per type (gate reading fixed) | - | task
 T6 | done | declaration layer on the canonical types | - | tasks/T6.md | logs/T6.md | -
 T7 | done | milestone gate and record | - | tasks/T7.md | logs/T7.md | -
 T8 | done | docs/formats.md: LIST.CD verified on US, runtime reader, repack note, LZSS ring + terminator rules | - | tasks/T8.md | logs/T8.md | -
+T9 | review | story §10 + retrospective §7 for P37 T5-close, PA3 migration and P38 | - | tasks/T9.md | logs/T9.md | -

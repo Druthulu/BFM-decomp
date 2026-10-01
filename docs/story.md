@@ -170,11 +170,13 @@ revision, old hashes in historical documents replaced by inert tokens and mapped
 would have corrupted history), proven pair by pair, and force-pushed. This document, the retrospective, the wiki and the
 tooling releases are the last block; the visibility flip waits for GitHub to purge the old objects.
 
-## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 2026-09-08 →)
+## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 2026-09-08 →)
 
-*From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md`, `phase-ends/CURRENT_PHASE.md` (Phase 37), decision log "P35", "P36 S99/S101/S104/S105",
-"P37 S106", `docs/levers.md`, `docs/readability.md`. This chapter is advanced at the end of every session (the owner's rule, 2026-09-12); the
-numbers are the two Gen3 series'.*
+*From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md`, `PhaseEnd_Phase37.md` and its log (`phase-ends/logs/Phase37.md`), decision log "P35",
+"P36 S99/S101/S104/S105", "P37 S106", `docs/levers.md`, `docs/readability.md`; for the migration and Phase 38, the Phase 38 plan's change
+lines, its task summaries (T1, T5, T5.1, T6, T7) and logs, and git. This chapter was advanced at the end of every session (the owner's rule,
+2026-09-12) until the migration of 2026-09-29 dropped that duty; since 2026-09-30 it is advanced by every phase's closing work (rule R121).
+The numbers are the two Gen3 series'.*
 
 A hundred percent is a byte statement, not a code statement. The tree that rebuilt 218 binaries byte for byte was still the tree a machine had
 drafted at speed: every shared engine function lived as a macro instantiated per level, tens of thousands of register pins and inline-asm
@@ -268,6 +270,87 @@ register. A third needed nothing but its return type: a function that falls off 
 compiler from stealing an instruction into a branch's delay slot. The levers count fell from four thousand and ten to three thousand seven
 hundred and thirty. One mistake of the day was mine: a restore run against a judge that had not yet finished stopping, which split a
 batch's bookkeeping — erased cleanly, and the rule written down: wait for the exit.
+
+That night the declaration layer was called at its floor and the phase's fourth task closed: about 107,000 declarations made to say
+what their definitions say, 1,796 lying declarations left over 76 callees (98,648 over 1,609 at the phase's start), 5,262 call sites
+counted apart as the original's own calling convention and 418 as cross-binary calls, 133 of 149 alias-defined functions back under
+their names, ten of twelve parked signatures landed, and the levers at 3,730. Of the 1,796, 1,537 were judged a floor only the types
+could lower: a declaration cannot name a type its file cannot see. The checkpoint said the next task — one definition per struct type —
+would open in a fresh session. It did not open for seventeen days. The record says only that the phase sat at that boundary with a clean
+tree; it does not say why. On 2026-09-29 the owner re-scoped Phase 37 to the work already done (its tasks T0–T4) and carried the six
+unstarted tasks to the next phase word for word, so that the repository could change its working method between phases rather than in
+the middle of one. Phase 37 closed as v2.3.0 with the 218-binary gate green, and no tag.
+
+**The migration (2026-09-29, recorded as Phase 37.5).** The new method, Project Architect 3.0, replaced the long session-start reading with
+a written plan per phase, tasks that each run in a fresh context and end in a log and a short summary, and a one-page card of standing
+facts. One commit of 777 files installed it and moved the old operating documents — the setup reference, the 3.5-megabyte matching
+cookbook and its index, the effort map — into `docs/retired/`, where nothing loads them. Four things broke, and each was found only when
+something used it. The project's own tools still read the retired documents: the health chain's tool census took its tool table from the
+old setup file, a link checker and the wiki renderer pointed at it, and 36 links in the wiki, the README and the how-to pages led nowhere;
+the next phase's first task found four red health items with this one cause and repaired them as one defect. The new launcher, which
+sorts the closing reports by phase number, crashed: the half-phase from the first week is filed as `3_5`, with an underscore, beside
+`33.5` and `37.5` with dots, and the sort ended up comparing a number with a string. The migration had normalised none of the ids; the
+router could not build its starting state after the next plan was approved, and the fix — a sort that splits every id the same way — was
+made outside the task loop and reported upstream. The migration's ignore file gained a bare `.run/` line, which overrides the older lines
+that let chosen per-phase evidence under `.run/` be committed; from then on a census snapshot could be committed only by forcing it
+(the next phase met this as a commit helper's refusal). And the duty to advance this chapter and the retrospective at the end of every
+session had lived in the old method's memory and checkpoint routine; the migration carried it nowhere, and the next phase ran to its
+milestone with neither document touched. It came back the day after as rule R121, which hands it to every phase's closing work; this
+part of the chapter was written under it.
+
+**Phase 38 (2026-09-29 → 09-30) took up the carried task: one canonical definition per struct type.** Its first task repaired the
+migration (above), proved the gate green, re-took the byte oracle's baseline and measured the ground: 7,255 struct definitions — 1,179
+in the canonical header, 4,085 at file scope in `.c` files, 1,904 inside functions, 87 in other headers — in 206 classes of duplicates
+over 2,823 names, 40 "variant camps" (one name, several layouts), 141 canonical names nothing used, 26 legacy padding names, and the
+1,796 lying declarations. The second built the instrument the milestone would be read by, a `--check-structs` mode of the census, and
+its known-true case was that the starting tree fails with exactly those counts; it did, adding 1,106 declarations the engine had kept
+because a type was not visible. The third and fourth designed the three largest types — the entity, a 0x10C-byte block and the player
+block — into a new canonical header and folded their local copies onto it, every batch judged on the bytes.
+
+The fifth task, the long tail, did the mechanical part in one night — 1,308 types lifted into the canonical header, the padding names to
+0, the 40 variant camps to 0 by renaming each divergent local copy, 314 dead definitions deleted — and then stopped and asked, because
+three of the gate's counts could not reach zero without breaking the plan's own words. The duplicate count included every opaque layout
+twin: two placeholder-named structs with the same shape and no evidence that they are the same thing. Reaching 0 would have meant
+folding, for one example, 293 opaque eight-byte structs into one — "one name per layout", which the project's naming law forbids — while
+the same task said such twins stay apart and are listed. The outside-the-canonical-files count included 1,774 structs declared together
+with a variable inside one function (a stack frame, local by nature), and the lifting tool could reach only one kind of file scope. The
+dead-name count ignored uses inside the canonical header itself, so 114 of its 134 "dead" names were members of live types; deleting one
+single-letter type had broken a level. The census defined the milestone's zero as impossible, and the plan had asked for it anyway: the
+second task's known-true case had proved that the gate fails on the starting tree, and no one had asked whether it could pass on the
+intended one.
+
+The question went to the plan's critic, which reopened the task as T5.1 with the gate reading fixed, and the owner set that reading on
+09-30: a duplicate class still counts if its names are meaningful, or if it is a placeholder class not listed in a new record,
+`docs/struct-twins.md`, with per-class evidence from the struct map; a stack frame declared with its variable is reported, not counted;
+a canonical type used only inside another canonical type is alive. The milestone's own line stayed as written. The reasoning between the
+question and the answer was spoken rather than written: the plan keeps the decision as one change line, the fifth task's log keeps the
+conflict, and the discussion record opened that day is an empty template. What is said here is what those support.
+
+T5.1 took two attempts (the first handed off without leaving its progress file on disk) and ten coder runs, one of them red and
+reverted, and three things that had looked right failed on the way. The census counted a struct's tag and its typedef as two names,
+because C keeps them in two namespaces; the fifth task had split nine such pairs to satisfy it, and T5.1 taught the census that one
+definition's tag and typedef are one name. The layout hash that defines "the same layout" ignored alignment attributes, and the gate
+said so twice: folding a class whose members differed only by `packed` or `aligned` turned 142 of the 218 binaries red, and folding a
+packed four-byte struct onto its natural twin turned 148 red; the hash now carries those attributes, and two definitions that differ only
+in them are different types. And a fold by layout alone was not safe even then: a member name the canonical type spells at another
+offset compiles without a word from the compiler and reads the wrong field — a trial fold of that kind failed 142 binaries, and only the
+byte gate saw it. At the close every definition outside the canonical files had moved in (1,684 to 0), every meaningful-name class was
+folded, 942 placeholder names whose uses showed them to be one type were folded, and 53 placeholder classes were listed — 44 with
+evidence that they are separate, 9 with no use-site evidence either way, among them the shapes of Sony's `RECT`, `SVECTOR` and `DVECTOR`.
+Six layouts took Sony's own SDK names, three unused names were kept with their reason, and the 0x10C block's split was confirmed, with no
+unions.
+
+The sixth task put the declarations on the canonical types: nine redraw cycles, each through the gate, took the 1,106 hidden-type
+declarations to 0 and the "conflicting types" from 160 to 18 — all 18 stale rows of the engine's ledger whose source is already right,
+because the engine writes no new row for a unit it finds nothing to fix in. The shared-body conflicts went from 44 (the plan's 45 had
+counted a header line) to 40, each with its diagnostic. The seventh ran the gate on a fresh census on 09-30: exit 0, and 218 of 218
+binaries identical. From the phase's start to its end, struct definitions went from 7,255 to 1,650; duplicate classes from 206 to 53, all
+of them listed twins; file-scope definitions in `.c` files from 4,085 to 0; variant camps from 40 to 0; dead canonical names from 141 to 0
+(three kept with their cause); legacy padding names from 26 to 0; hidden-type declarations from about 1,106 to 0. Lying declarations fell
+from 1,796 over 76 callees to 229 over 24 — the census's `decls.lying` field at both ends, which the new gate prints as
+`types_floor_lying`; it is not the 98,648-to-1,796 series quoted above for Phase 37, nor the plan's 1,537 "types floor", and it is a
+different count from the hidden-type declarations, which are read from the engine's ledger. The levers stayed at 3,730: the phase moved no
+compiler pins, and none was asked of it.
 
 ## 11. By the numbers
 
