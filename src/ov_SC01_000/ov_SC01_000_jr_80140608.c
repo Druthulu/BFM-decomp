@@ -2296,7 +2296,7 @@ void func_8014477C(void *param_1) {
         uVar2 = *(s32 *)(*(s32 *)((s32)param_1 + 0x64) + 0x58);
         if (uVar2 != 0) {
             addr = uVar2 & 0xFFFFFFF;
-            gv = *(u16 *)((addr | 0x80000000) + 8);
+            gv = CAST_NONSTRUCT(u16, (addr | 0x80000000), 8);
             fv = *(u16 *)((s32)param_1 + 0xA) - 0x30;
             *(u16 *)((s32)param_1 + 0xA) = gv + fv;
         } else {

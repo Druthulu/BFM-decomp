@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "9ef32da698",
-  "src_stamp": "018db0959fa08217",
+  "head": "d476f3c92e",
+  "src_stamp": "4a0decae54ef8ec6",
   "tool_stamp": "e17c5fa676",
-  "when": "2026-10-01T20:18:43Z",
+  "when": "2026-10-01T20:46:59Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -36,50 +36,50 @@
   },
   "casts": {
    "by_form": {
-    "P": 344648,
+    "P": 344628,
     "I": 56575,
     "X": 13792,
     "A": 18890,
     "C": 91453,
     "M": 19491,
-    "K": 9147
+    "K": 9167
    },
    "raw_counts": {
-    "P": 344648,
+    "P": 344628,
     "I": 56575,
     "X": 13792,
     "A": 18890,
     "C": 91453,
     "M": 19491,
-    "K": 9147
+    "K": 9167
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 434506,
+   "deref_total": 434486,
    "addr_form": 18890,
    "typed_cast_member": 91453,
    "bodies": 62086,
    "by_bclass": {
-    "local": 141385,
+    "local": 141369,
     "param": 225593,
     "global": 8812,
     "gaddr": 40115,
     "nested": 15368,
     "ident": 161,
-    "other": 1734,
+    "other": 1730,
     "addr-of": 1338
    },
    "by_width": {
-    "s4": 121994,
+    "s4": 121982,
     "s2": 117086,
-    "u2": 116561,
+    "u2": 116557,
     "u1": 40665,
     "agg": 13421,
     "p4": 11381,
-    "u4": 10360,
+    "u4": 10356,
     "s1": 3038
    },
-   "readability_raw_regex": 347485,
+   "readability_raw_regex": 347465,
    "abs_casts": 0,
    "top_bases": [
     [
@@ -170,7 +170,7 @@
     [
      "local",
      "param_1",
-     2790
+     2774
     ],
     [
      "local",
@@ -284,19 +284,30 @@
     ]
    ],
    "macros": {
+    "CAST_NONSTRUCT": 124,
     "CAST_WIDTH": 3484,
     "CAST_SIGN": 4923,
     "CAST_ALIAS": 528,
-    "CAST_NONSTRUCT": 120,
-    "CAST_MISALIGNED": 80
+    "CAST_MISALIGNED": 96
    },
    "check_raw": {
-    "P": 344643,
+    "P": 344623,
     "I": 56575,
     "X": 13792,
     "M": 19490
    },
    "macro_sites": [
+    {
+     "tu": "src/ov_MAIN_012/ov_MAIN_012_jr_8013F350.c",
+     "fn": "func_8014477C",
+     "line": 3056,
+     "pos": 94531,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
     {
      "tu": "src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c",
      "fn": "func_8015B858",
@@ -463,6 +474,61 @@
      "off": 92
     },
     {
+     "tu": "src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c",
+     "fn": "func_8016C49C",
+     "line": 3500,
+     "pos": 127121,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 26
+    },
+    {
+     "tu": "src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c",
+     "fn": "func_8016C49C",
+     "line": 3502,
+     "pos": 127211,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 22
+    },
+    {
+     "tu": "src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c",
+     "fn": "func_8016C49C",
+     "line": 3557,
+     "pos": 129391,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 14
+    },
+    {
+     "tu": "src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c",
+     "fn": "func_8016C49C",
+     "line": 3559,
+     "pos": 129479,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 22
+    },
+    {
+     "tu": "src/ov_SC01_000/ov_SC01_000_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2299,
+     "pos": 72304,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
      "tu": "src/ov_SC01_000/ov_SC01_000_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1744,
@@ -516,6 +582,61 @@
      "base": "s2",
      "bclass": "local",
      "off": 4
+    },
+    {
+     "tu": "src/ov_SC01_000/ov_SC01_000_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2711,
+     "pos": 97734,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 26
+    },
+    {
+     "tu": "src/ov_SC01_000/ov_SC01_000_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2713,
+     "pos": 97824,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 22
+    },
+    {
+     "tu": "src/ov_SC01_000/ov_SC01_000_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2768,
+     "pos": 100004,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 14
+    },
+    {
+     "tu": "src/ov_SC01_000/ov_SC01_000_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2770,
+     "pos": 100092,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 22
+    },
+    {
+     "tu": "src/ov_SC01_001/ov_SC01_001_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2310,
+     "pos": 72204,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
     },
     {
      "tu": "src/ov_SC01_001/ov_SC01_001_jr_8015C32C.c",
@@ -573,6 +694,61 @@
      "off": 4
     },
     {
+     "tu": "src/ov_SC01_001/ov_SC01_001_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2709,
+     "pos": 97637,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 26
+    },
+    {
+     "tu": "src/ov_SC01_001/ov_SC01_001_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2711,
+     "pos": 97727,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 22
+    },
+    {
+     "tu": "src/ov_SC01_001/ov_SC01_001_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2766,
+     "pos": 99907,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 14
+    },
+    {
+     "tu": "src/ov_SC01_001/ov_SC01_001_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2768,
+     "pos": 99995,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 22
+    },
+    {
+     "tu": "src/ov_SC01_004/ov_SC01_004_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2294,
+     "pos": 72188,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
      "tu": "src/ov_SC01_004/ov_SC01_004_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1743,
@@ -626,6 +802,50 @@
      "base": "s2",
      "bclass": "local",
      "off": 4
+    },
+    {
+     "tu": "src/ov_SC01_004/ov_SC01_004_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2709,
+     "pos": 97633,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 26
+    },
+    {
+     "tu": "src/ov_SC01_004/ov_SC01_004_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2711,
+     "pos": 97723,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 22
+    },
+    {
+     "tu": "src/ov_SC01_004/ov_SC01_004_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2766,
+     "pos": 99903,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 14
+    },
+    {
+     "tu": "src/ov_SC01_004/ov_SC01_004_jr_8016AB6C.c",
+     "fn": "func_8016C49C",
+     "line": 2768,
+     "pos": 99991,
+     "name": "CAST_MISALIGNED",
+     "cls": "MISALIGNED",
+     "base": "param_1",
+     "bclass": "local",
+     "off": 22
     },
     {
      "tu": "src/ov_SC01_005/ov_SC01_005_jr_8015C32C.c",
@@ -101963,71 +102183,71 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 18532,
-   "explained_sites": 430420,
-   "deref_sites": 434506,
+   "types": 18982,
+   "explained_sites": 430404,
+   "deref_sites": 434486,
    "explained_pct": 99.1,
-   "unassigned_sites": 4086,
-   "conflicts": 850,
-   "suspect": 11,
+   "unassigned_sites": 4082,
+   "conflicts": 865,
+   "suspect": 10,
    "evidence": {
-    "param": 39802,
-    "assign": 18569,
-    "assign&": 1279,
+    "param": 39810,
+    "assign": 18590,
+    "assign&": 1251,
+    "ret-of": 5358,
+    "arg": 11238,
     "return": 1534,
-    "ret-of": 5440,
-    "arg": 11506,
-    "arg&": 321,
-    "field": 7995,
+    "arg&": 255,
+    "field": 8023,
     "nested": 9
    },
    "vetoed": {
-    "assign&-multisource": 12212,
-    "arg-conduit": 126081,
-    "field-multisource": 6200,
+    "arg-conduit": 126097,
     "ret-of-multisource": 6568,
     "assign-multisource": 33173,
+    "assign&-multisource": 12212,
     "arg&-conduit": 14637,
-    "arg&-no-overlap": 3158,
-    "assign": 349,
-    "arg-no-overlap": 20179,
-    "ret-of": 436,
-    "arg": 211,
-    "assign&": 308,
-    "return": 10,
-    "field": 1232
+    "arg-no-overlap": 22950,
+    "arg&-no-overlap": 3223,
+    "field-multisource": 6200,
+    "ret-of": 512,
+    "assign": 318,
+    "return": 7,
+    "assign&": 337,
+    "arg": 234,
+    "field": 1140
    },
-   "singletons": 14556,
-   "multi_body": 3976,
-   "sites_in_multi_body": 376242,
+   "singletons": 14944,
+   "multi_body": 4038,
+   "sites_in_multi_body": 373956,
    "top": [
     {
      "name": "Unkstruct_800D3888",
-     "sites": 120166,
-     "bodies": 20192,
+     "sites": 115047,
+     "bodies": 18778,
      "size_hint": 588,
      "fields": 231,
      "conflicts": 50,
-     "sign_mixed": 75,
+     "sign_mixed": 81,
      "merges": {
-      "arg&": 158,
-      "param": 12468,
-      "arg": 8534,
-      "assign": 7744,
-      "ret-of": 2493,
-      "return": 745,
-      "assign&": 109,
-      "field": 2026
+      "arg&": 225,
+      "param": 12176,
+      "arg": 8612,
+      "assign": 8597,
+      "return": 727,
+      "ret-of": 2341,
+      "assign&": 122,
+      "field": 1923
      },
      "globals_at": [
       "D_800D3888",
       "D_80126B58",
-      "D_80126CB4"
+      "D_80181E74"
      ],
      "globals_ptr": [
+      "D_8006386C",
       "D_80074778",
-      "D_80074780",
-      "D_80074784"
+      "D_80074780"
      ]
     },
     {
@@ -102114,31 +102334,6 @@
      "globals_ptr": []
     },
     {
-     "name": "Unkstruct_80126948",
-     "sites": 3304,
-     "bodies": 1103,
-     "size_hint": 164,
-     "fields": 35,
-     "conflicts": 1,
-     "sign_mixed": 11,
-     "merges": {
-      "arg&": 2,
-      "param": 18,
-      "arg": 19,
-      "assign": 103,
-      "assign&": 4
-     },
-     "globals_at": [
-      "D_80126948",
-      "D_80126E60"
-     ],
-     "globals_ptr": [
-      "D_80114EE8",
-      "D_801151D4",
-      "D_80126948"
-     ]
-    },
-    {
      "name": "Unkstruct_57a28935",
      "sites": 3271,
      "bodies": 196,
@@ -102176,6 +102371,31 @@
      "merges": {},
      "globals_at": [],
      "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80126948",
+     "sites": 3034,
+     "bodies": 848,
+     "size_hint": 164,
+     "fields": 34,
+     "conflicts": 0,
+     "sign_mixed": 10,
+     "merges": {
+      "arg&": 1,
+      "assign": 103,
+      "param": 6,
+      "arg": 14,
+      "assign&": 4
+     },
+     "globals_at": [
+      "D_80126948",
+      "D_80126E60"
+     ],
+     "globals_ptr": [
+      "D_80114EE8",
+      "D_801151D4",
+      "D_80126948"
+     ]
     },
     {
      "name": "Unkstruct_198fc7cc",
@@ -102405,8 +102625,8 @@
    "block_frames": 629
   },
   "global_blocks": {
-   "n": 2127,
-   "members": 14262,
+   "n": 2124,
+   "members": 14253,
    "top": [
     {
      "base": "0x800cf10c",
@@ -102584,9 +102804,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 42.7,
-   "decls_s": 190.9,
-   "total_s": 200.5
+   "walk_s": 49.4,
+   "decls_s": 200.9,
+   "total_s": 210.9
   }
  },
  "dup_layout_classes": [
@@ -103767,10 +103987,10 @@
    "tier": 3,
    "camps": [
     [
-     "SVECTOR"
+     "RECT"
     ],
     [
-     "RECT"
+     "SVECTOR"
     ],
     [
      "Vtx_8016B6BC"
@@ -104067,10 +104287,10 @@
    ],
    "tier": 3,
    "camps": [
+    [],
     [
      "Vec32"
     ],
-    [],
     [],
     [
      "LineF2"
@@ -104650,30 +104870,6 @@
    ]
   },
   {
-   "lhash": "ac91ae2d8aa0",
-   "size": 28,
-   "n_names": 3,
-   "n_defs": 72,
-   "canon": 3,
-   "in_c": 59,
-   "names": [
-    "G3",
-    "S800D22E4",
-    "vec"
-   ],
-   "tier": 3,
-   "camps": [
-    [],
-    [
-     "G3"
-    ]
-   ],
-   "opaque_names": [
-    "S800D22E4",
-    "vec"
-   ]
-  },
-  {
    "lhash": "9568f57fb00f",
    "size": 20,
    "n_names": 3,
@@ -104721,6 +104917,30 @@
    ],
    "opaque_names": [
     "Blk32_801898F4"
+   ]
+  },
+  {
+   "lhash": "ac91ae2d8aa0",
+   "size": 28,
+   "n_names": 3,
+   "n_defs": 72,
+   "canon": 3,
+   "in_c": 59,
+   "names": [
+    "G3",
+    "S800D22E4",
+    "vec"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "G3"
+    ]
+   ],
+   "opaque_names": [
+    "S800D22E4",
+    "vec"
    ]
   },
   {
