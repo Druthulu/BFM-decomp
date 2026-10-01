@@ -4093,13 +4093,13 @@ s32 func_80180770(void *a0)
 
     sub = *(u8 **)(obj + 0x20);
     func_8001CB6C(sub, (s32)&D_8018F120, 0x320, 0x100);
-    *(u8 *)(sub + 0x27) = 0x4E;
-    *(u16 *)(sub + 0x18) = 0x1800;
-    *(u16 *)(sub + 0x1A) = 0x3800;
-    *(u16 *)(sub + 0x10) = 0x400;
+    ((Unkstruct_800B5CB8 *)sub)->unk27 = 0x4E;
+    ((Unkstruct_800B5CB8 *)sub)->unk18 = 0x1800;
+    ((Unkstruct_800B5CB8 *)sub)->unk1A = 0x3800;
+    ((Unkstruct_800B5CB8 *)sub)->unk10 = 0x400;
 
     v0 = *(u16 *)(*(s32 *)((s32)a0 + 0x68) + 0xC);
-    *(u16 *)(sub + 0x14) = v0;
+    CAST_WIDTH(u16, sub, 0x14) = v0;
     *(u16 *)(obj + 0x28) = v0;
 
     RotMatrixY(*(s16 *)(*(s32 *)((s32)a0 + 0x68) + 0xC), &mtx);
@@ -5893,23 +5893,23 @@ void func_801831F4(s32 arg)
     s32 a0;
 
     a0 = arg;
-    switch (*(s16 *)((s32)a0 + 0x70)) {
+    switch (((Unkstruct_800B5CB8 *)a0)->unk70) {
     case 1:
-        if (*(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0xFE) == *(s16 *)((s32)a0 + 0x70)) {
-            s32 *base = (s32 *)(*(s32 *)((s32)a0 + 0x20));
+        if (((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkFE == ((Unkstruct_800B5CB8 *)a0)->unk70) {
+            s32 *base = (s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20);
             s32 r = *(base + 1) & 0x7FFFFFFF;
             *(base + 1) = r;
-            *(u16 *)((s32)a0 + 0x5C) = 0xCC00;
+            ((Unkstruct_800B5CB8 *)a0)->unk5C = 0xCC00;
             func_80182AA4((void *)a0);   /* direct call: the retail bytes `j .L80183298` land on the shared jal (cross-jump), not on the recheck */
         }
         break;
     case 3:
         if (*(s16 *)&D_80126B5E >= 0x281) {
-            *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) = 0;
+            ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk10 = 0;
         }
         /* fall through */
     default:
-        if (*(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0xFE) == *(s16 *)((s32)a0 + 0x70)) {
+        if (((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkFE == ((Unkstruct_800B5CB8 *)a0)->unk70) {
             func_80182AA4((void *)a0);
         }
         break;
@@ -8153,7 +8153,7 @@ s32 aF801869C0(s32 param_1) {
     s32 p;
     u16 val;
 
-    if (func_8012D624(param_1, (CAST_SIGN(s16, *(s32 *)(param_1 + 0x20), 0x18) * 3) >> 9, 0x21) == 1) {
+    if (func_8012D624(param_1, (CAST_SIGN(s16, CAST_NONSTRUCT(s32, param_1, 0x20), 0x18) * 3) >> 9, 0x21) == 1) {
         p = CAST_NONSTRUCT(s32, param_1, 0x20);
         val = *(u16 *)(p + 0x12);
         D_80126B96 = 0x4002;
@@ -8420,10 +8420,10 @@ s32 func_80186D9C(s16 *a0, s32 a1, s32 a2, s32 a3) {
         return 0;
     }
     sub = *(s32 *)(obj + 0x20);
-    *(s32 *)(sub + 0x20) = (s32) D_801AFC00;
-    *(u8 *)(sub + 0x27) = 0x56;
-    *(u16 *)(sub + 0x28) = 0x2A0;
-    *(u16 *)(sub + 0x2A) = 0x1A0;
+    ((Unkstruct_800B5CB8 *)sub)->unk20 = (s32) D_801AFC00;
+    ((Unkstruct_800B5CB8 *)sub)->unk27 = 0x56;
+    ((Unkstruct_800B5CB8 *)sub)->unk28 = 0x2A0;
+    ((Unkstruct_800B5CB8 *)sub)->unk2A = 0x1A0;
 
     base = rand() % 200;
     if ((rand() & 1) == 0) {
@@ -8431,8 +8431,8 @@ s32 func_80186D9C(s16 *a0, s32 a1, s32 a2, s32 a3) {
     } else {
         spd = base + 0x400;
     }
-    *(u16 *)(sub + 0x1A) = spd;
-    *(u16 *)(sub + 0x18) = spd;
+    ((Unkstruct_800B5CB8 *)sub)->unk1A = spd;
+    ((Unkstruct_800B5CB8 *)sub)->unk18 = spd;
 
     if (a3 == 0) {
         s32 sign;

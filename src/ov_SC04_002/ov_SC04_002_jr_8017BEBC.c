@@ -5225,7 +5225,7 @@ void func_8018047C(void *a0) {
     default:
         p = D_801202A0;
         for (i = 0; i < 0x60; i++) {
-            if (*(u16 *)p == *(s16 *)(r + 6)) {
+            if (((Unkstruct_800B5CB8 *)p)->unk0 == *(s16 *)(r + 6)) {
                 ((void (*)(void *, void *, void *))func_8012F214)(p, r, out);
                 func_801290DC(0x56, (u8 *)out);
             }
@@ -5862,8 +5862,8 @@ void func_80180E88(s32 param_1) {
     s32 i;
     s32 j;
 
-    basep = D_80198D50[*(s32 *)(param_1 + 0x30)];
-    *(s16 *)(param_1 + 0x10) = *(s32 *)(param_1 + 0x2c);
+    basep = D_80198D50[((Unkstruct_80126B58 *)param_1)->unk30];
+    CAST_WIDTH(s16, param_1, 0x10) = ((Unkstruct_80126B58 *)param_1)->unk2C;
     func_80015978(param_1 + 4, buf);
     for (j = 0; j < 4; j++) {
         *(s16 *)&A = 0;
@@ -6742,15 +6742,15 @@ extern void func_80182CBC(s32 a0, void *a1);
 
 void func_801823BC(s32 arg0) {
     s32 ret;
-    if (*(u8 *)(arg0 + 0xC2) == 2) {
+    if (((Unkstruct_800B5CB8 *)arg0)->unkC2 == 2) {
         *(s16 *)(arg0 + 0x52) = -0x18;
     }
     ret = func_801826E8(arg0);
     if (ret != 0) {
-        *(s32 *)(arg0 + 0x10) = 0;
-        *(s32 *)(arg0 + 0x18) = 0;
-        *(s32 *)(arg0 + 0x4) = *(s32 *)(arg0 + 0x38);
-        *(s32 *)(arg0 + 0xC) = *(s32 *)(arg0 + 0x40);
+        CAST_WIDTH(s32, arg0, 0x10) = 0;
+        CAST_WIDTH(s32, arg0, 0x18) = 0;
+        CAST_WIDTH(s32, arg0, 0x4) = CAST_WIDTH(s32, arg0, 0x38);
+        CAST_WIDTH(s32, arg0, 0xC) = *(s32 *)(arg0 + 0x40);
         ((void (*)())func_80182CBC)(arg0, ret);
     }
 }
@@ -7735,7 +7735,7 @@ s32 func_80183820(s32 arg0) {
         if ((s32)pe == arg0) {
             continue;
         }
-        switch (*(u16 *)pe) {
+        switch (((Unkstruct_800B5CB8 *)pe)->unk0) {
         case 0x1FC:
             t = (*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) * 9u) >> 9;
             if (func_80183904((s16 *)arg0, (s16 *)(pe + 4), t) != 0) {
@@ -7743,7 +7743,7 @@ s32 func_80183820(s32 arg0) {
             }
             break;
         case 0x239:
-            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + *(s16 *)(*(s32 *)(pe + 0x20) + 0x18)) >> 6;
+            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + *(s16 *)(((Unkstruct_800B5CB8 *)pe)->unk20 + 0x18)) >> 6;
             if (func_80183904((s16 *)arg0, (s16 *)(pe + 4), t) != 0) {
                 return (s32)pe;
             }
@@ -9665,8 +9665,8 @@ s32 func_801862F0(s32 arg0) {
 
     ((void (*)(s32, s32, s32))func_8012F14C)((s32)D_80126B78 + 0x34, (s32)D_801B50F8, (s32)buf1);
     ((void (*)(s32, s32, s32))func_8012F14C)((s32)D_80126B78 + 0x34, (s32)(D_801B50F8 + 8), (s32)buf2);
-    if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58), (s32)buf1, (s32)buf2) != 0) {
-        func_8012F568(1, 0x18, *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12), 0x18, (s32)buf2, (s32)D_801152A8);
+    if (func_80135888(((Unkstruct_800B5CB8 *)arg0)->unk20, ((Unkstruct_800B5CB8 *)arg0)->unk58, (s32)buf1, (s32)buf2) != 0) {
+        func_8012F568(1, 0x18, *(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x12), 0x18, (s32)buf2, (s32)D_801152A8);
         return 1;
     }
     return 0;
@@ -9916,7 +9916,7 @@ s32 func_801867A0(s32 a0) {
         return 0;
     }
 
-    *(s16 *)(s2 + 0xA) = *(u16 *)(s2 + 0xA) - 0x28;
+    ((Unkstruct_800B5CB8 *)s2)->unkA = ((Unkstruct_800B5CB8 *)s2)->unkA - 0x28;
 
     /* NOTE (this is the whole match, do not "tidy" it): each block MUST own its
      * own r/val/base locals.  With one shared `r` across all three blocks, the
@@ -9929,39 +9929,39 @@ s32 func_801867A0(s32 a0) {
     {
         s32 r, val, base;
         r = rand() % 28;
-        base = *(s16 *)(s2 + 0x6);
+        base = CAST_SIGN(s16, s2, 0x6);
         val = (rand() & 1) ? (base + r) : (base - r);
-        *(s16 *)(s2 + 0x6) = val;
+        ((Unkstruct_800B5CB8 *)s2)->unk6 = val;
     }
     {
         s32 r, val, base;
         r = rand() % 32;
-        base = *(s16 *)(s2 + 0xA);
+        base = CAST_SIGN(s16, s2, 0xA);
         val = (rand() & 1) ? (base + r) : (base - r);
-        *(s16 *)(s2 + 0xA) = val;
+        ((Unkstruct_800B5CB8 *)s2)->unkA = val;
     }
     {
         s32 r, val, base;
         r = rand() % 28;
-        base = *(s16 *)(s2 + 0xE);
+        base = CAST_SIGN(s16, s2, 0xE);
         val = (rand() & 1) ? (base + r) : (base - r);
-        *(s16 *)(s2 + 0xE) = val;
+        ((Unkstruct_800B5CB8 *)s2)->unkE = val;
     }
 
     {
         s32 v0, v1;
 
         if (rand() & 1) {
-            v1 = *(s32 *)(s2 + 0x20);
+            v1 = ((Unkstruct_800B5CB8 *)s2)->unk20;
             v0 = -0x2000;
-            *(s16 *)(v1 + 0x1C) = v0;
+            CAST_WIDTH(s16, v1, 0x1C) = v0;
         } else {
-            v1 = *(s32 *)(s2 + 0x20);
+            v1 = ((Unkstruct_800B5CB8 *)s2)->unk20;
             v0 = 0x2000;
-            *(s16 *)(v1 + 0x1C) = v0;
+            CAST_WIDTH(s16, v1, 0x1C) = v0;
         }
-        *(s16 *)(v1 + 0x1A) = v0;
-        do { *(s16 *)(v1 + 0x18) = v0; } while (0);
+        ((Unkstruct_800B5CB8 *)v1)->unk1A = v0;
+        do { ((Unkstruct_800B5CB8 *)v1)->unk18 = v0; } while (0);
     }
 
     /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2
