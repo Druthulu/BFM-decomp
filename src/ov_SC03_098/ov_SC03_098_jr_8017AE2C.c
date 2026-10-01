@@ -1665,7 +1665,7 @@ extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern void func_80146C3C();
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t6c1_D1)
 extern void func_80166438(u8 *a0);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_800D22E4(s32 a0);
@@ -1683,7 +1683,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t6c1_D1)
 extern void func_801678F0(s32 a0);
 extern void (*D_801882FC[])(void);
 extern void func_80167A9C(void *a0);
