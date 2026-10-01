@@ -128,6 +128,8 @@ def body_sites(tu, fn):
         brace = masked.find("{", head_start)
         head = masked[head_start:brace] if brace != -1 else ""
         m = re.search(r"\b" + re.escape(d["name"]) + r"\s*\(", head)
+        if not m:      # an alias-named def (`f_impl(…) __asm__("f")`): the first ident( — the census's rule (T3.c4: was local:param_N)
+            m = re.search(r"\b(" + tc.NAME + r")\s*\((?=[^;]*\))", head)
         if m:
             inner, close = tc._paren_body(head, m.end() - 1)
             params_of[d["name"]] = tc._param_names(inner or "", head[close + 1:] if close != -1 else "")
@@ -1037,6 +1039,8 @@ def file_view(tu, text):
         brace = masked.find("{", head_start)
         head = masked[head_start:brace] if brace != -1 else ""
         m = re.search(r"\b" + re.escape(d["name"]) + r"\s*\(", head)
+        if not m:      # an alias-named def (`f_impl(…) __asm__("f")`): the first ident( — the census's rule (T3.c4: was local:param_N)
+            m = re.search(r"\b(" + tc.NAME + r")\s*\((?=[^;]*\))", head)
         if m:
             inner, close = tc._paren_body(head, m.end() - 1)
             params_of[d["name"]] = tc._param_names(inner or "", head[close + 1:] if close != -1 else "")
@@ -1162,6 +1166,57 @@ def typed_bases_of(tu, fn, bases):
         if bk not in bases:
             out[bk] = "type-not-canonical" if ent.get("type") not in canon_types() else "type-not-visible"
     return out
+
+
+S_PRIOR = None     # {(tu, fn): [rung-S ledger rows, oldest first]} — loaded once per process; the selftest installs its own
+
+
+def s_prior_rows(tu, fn):
+    global S_PRIOR
+    with _LOCK:
+        if S_PRIOR is None:
+            idx = collections.defaultdict(list)
+            for r in load_ledger():
+                if r.get("rung") == "S":
+                    idx[(r["tu"], r["unit"])].append(r)
+            S_PRIOR = idx
+    return S_PRIOR.get((tu, fn), [])
+
+
+S_NO_EDIT_VERDICTS = ("NO-SITE", "TYPE-NOT-VISIBLE", "TYPE-NOT-CANONICAL")
+
+
+def s_macro_rows(tu, text, rows):
+    """T3.c4: every kept-cast macro site (census form K) of a drawn body in the FINAL text gets its own KEPT(<class>) row in the
+    census's key (base `<bclass>:<base>` and off parsed from the macro, type_census.check_casts_verdict) — the respell's row was keyed
+    on the pre-respell text (a nested base respelled inside it changes) and a re-judged body's macro sites are not raw (no row: the
+    latest row dropped the earlier backing). Backed only by a judgement: an entry KEPT(<class>) of this row or of an earlier rung-S
+    row of the body with the same off and (the same base or the same line); REINTERP by line. `macro_of` = the backing row's label.
+    A no-edit row (NO-SITE / TYPE-NOT-*) that carries one becomes KEPT (as a respelled-only body)."""
+    _, _, _, _, sites = file_view(tu, text)
+    by_fn = collections.defaultdict(list)
+    for s in sites:
+        if s.get("form") == "K" and s.get("fn"):
+            by_fn[s["fn"]].append(s)
+    for row in rows:
+        ks = by_fn.get(row.get("fn"))
+        if not ks or row.get("verdict") in ("TOOL-ERROR", "COMBINATION-FAILED"):
+            continue
+        cands = [(row.get("label"), e) for e in row.get("sites") or []]
+        cands += [(r.get("label"), e) for r in reversed(s_prior_rows(tu, row["fn"])) for e in r.get("sites") or []]
+        n = 0
+        for s in ks:
+            want, key = f"KEPT({s['cls']})", f"{s['bclass']}:{s['base']}"
+            src = next((lb for lb, e in cands if e.get("verdict") == want and (e.get("line") == s["line"] if s["cls"] == "REINTERP" else
+                        e.get("off") == s["off"] and (e.get("base") == key or e.get("line") == s["line"]))), None)
+            if src is None:
+                continue
+            e_ = site_row(s, want, cause=s["cls"])
+            e_["macro_of"] = src
+            row["sites"].append(e_)
+            n += 1
+        if n and row.get("verdict") in S_NO_EDIT_VERDICTS:
+            row["verdict"] = "KEPT"
 
 
 def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, want_sa=True, want_recipes=False, done=frozenset(), write=True):
@@ -1309,6 +1364,7 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
                 hit.pop("text", None)
         rows.append(row)
         out["compiles"] += row["compiles"]; out["seconds"] += row["seconds"]; out["linked"] += row["linked"]
+    s_macro_rows(tu, text_acc, rows)                               # T3.c4: the macro sites in the census's key
     if text_acc == raw:
         out["final"] = "UNCHANGED"
         return out
@@ -3533,10 +3589,12 @@ def apply_batch(a):
     if a.redraw:
         # the same VERDICT[:cause-substring] keys as settled_units (the planner's side): the engine's `done` filter must lift the same
         # rows, or a redrawn TU is drawn and then skipped as done — "rows 0" (t4_D49/D56 on the `DECL-NONE:visible` key)
-        vc = {(tu, unit): (r.get("verdict"), r.get("cause") or "") for (rung, tu, unit), r in ledger_latest(rows).items() if rung == "D" and unit}
+        # T3.c4: rung S too (was: D only) — `--rung S --only <fns> --redraw KEPT MEMBERS …` re-judges finished bodies
+        vc = {(rung, tu, unit): (r.get("verdict"), r.get("cause") or "") for (rung, tu, unit), r in ledger_latest(rows).items()
+              if rung == a.rung and rung in ("D", "S") and unit}
         keys = [(k.split(":", 1)[0], k.split(":", 1)[1] if ":" in k else None) for k in a.redraw]
         def lifted(k):
-            v, c = vc.get((k[1], k[2]), (None, ""))
+            v, c = vc.get((k[0], k[1], k[2]), (None, ""))
             return any(v == kv and (ks is None or ks in c) for kv, ks in keys)
         done = {k for k in done if not lifted(k)}
     log_p = RUN / f"apply_{a.label}.log"
@@ -3578,7 +3636,10 @@ def apply_batch(a):
         log_f.close()
         return 0 if v == "IDENTICAL" else 1
     if a.rung == "S":
-        plan, total, skipped = plan_S(a.headers, a.batch, a.only, done, ledger_latest(rows))
+        lat_ = ledger_latest(rows)
+        if a.redraw:                                               # a lifted body is not finished (s_finished) either (T3.c4)
+            lat_ = {k: r for k, r in lat_.items() if not lifted(k)}
+        plan, total, skipped = plan_S(a.headers, a.batch, a.only, done, lat_)
         print(describe_plan("S", plan, total, skipped), flush=True)
     elif a.rung == "D":
         if a.redraw:
@@ -4424,6 +4485,23 @@ void fx_c(s32 a0) {
 FIXTURE_BASES = {"param:a0":dict(type="Unkstruct_TEST", sites=12), "param:a1": dict(type="Unkstruct_TEST", sites=1),
                  "gaddr:D_80078E20": dict(type="Unkstruct_TEST", sites=1), "global:D_80078E40": dict(type="Unkstruct_TEST", sites=1)}
 
+# T3.c4: the real cases — func_8017DD0C (ov_SC02_026) re-judged after its respell: the outer macro's base is the inner macro (census
+# `other:None`), its t3_S1 row keyed `nested:*(s32 **)(a0 + 0x20)`, the latest row NO-SITE; func_8017F714 (ov_SC01_077) an alias-named def
+FIXTURE_TU_S3 = '''#include "common.h"
+#include "../shared/engine_types.h"
+
+void fx_e(s32 a0) {
+    s32 saved;
+    saved = CAST_WIDTH(s32, CAST_SIGN(s32 *, a0, 0x20), 8);
+}
+
+void func_8FF00000_impl(s32 param_1) __asm__("func_8FF00000");
+
+void func_8FF00000_impl(s32 param_1) {
+    *(s32 *)(param_1 + 0x10) = 1;
+}
+'''
+
 
 def _install_fixture(dirp):
     """The fixture tree under .run/P37/restruct/selftest/ (R12) with the canonical header and the TU; the module's caches pointed at it."""
@@ -4486,8 +4564,9 @@ def macro_probe():
 
 
 def selftest(real=False):
-    global JUDGE_STUB, DEFS_OVERRIDE, _canon, _map_cache, VISIBLE_OVERRIDE, HF_INCLUDERS_OVERRIDE
+    global JUDGE_STUB, DEFS_OVERRIDE, _canon, _map_cache, VISIBLE_OVERRIDE, HF_INCLUDERS_OVERRIDE, S_PRIOR
     checks = []
+    S_PRIOR = {}                                                   # T3.c4: no live ledger in the fixture runs
 
     def ok(name, cond, note=""):
         checks.append((name, bool(cond), note))
@@ -4589,6 +4668,29 @@ def selftest(real=False):
     ok("respell: type_census backs every respelled macro (unbacked 0)", len(mk3) == 5 and "(unbacked 0)" in line3, line3)
     rc4, line4 = tc.check_casts_verdict({}, mk3, {("S", tu2, "fx_c"): dict(row3, verdict="NO-SITE")}, [], set())
     ok("negative: a row verdict outside the backed set backs nothing", "(unbacked 5)" in line4, line4)
+    # ---- T3.c4: macro sites in the census's key; a re-judged body carries its earlier KEPT rows; alias-named defs see their params
+    fx3 = dirp / "ov" / "fx3.c"
+    fx3.write_text(FIXTURE_TU_S3)
+    tu3 = fx3.relative_to(REPO).as_posix()
+    v3 = file_view(tu3, FIXTURE_TU_S3)[4]
+    ok("alias-named def: param_1 is a param base (census rule; was local:param_1)", [s_["bclass"] for s_ in v3 if s_.get("fn") == "func_8FF00000" and s_["form"] == "P"] == ["param"],
+       str([(s_.get("fn"), s_["form"], s_["bclass"]) for s_ in v3]))
+    mk5 = [s_ for s_ in v3 if s_["form"] == "K"]
+    prior5 = dict(rung="S", tu=tu3, unit="fx_e", label="t3_S1", verdict="KEPT", sites=[
+        dict(base="nested:*(s32 **)(a0 + 0x20)", off=8, line=mk5[0]["line"], verdict="KEPT(WIDTH)"),
+        dict(base="param:a0", off=0x20, line=mk5[0]["line"], verdict="KEPT(SIGN)")])
+    JUDGE_STUB = lambda files, tag: ("IDENTICAL", "")
+    S_PRIOR = {}
+    r5n = work_file_S(tu3, {"fx_e": {"param:a0": dict(type="Unkstruct_TEST", sites=1)}}, "st", dict(head="x"), logs.append, want_sa=False)
+    line5n = tc.check_casts_verdict({}, mk5, {("S", tu3, "fx_e"): r5n["rows"][0]}, [], set())[1]
+    ok("negative: a re-judged macro body with no earlier KEPT row stays unbacked", len(mk5) == 2 and "(unbacked 2)" in line5n, line5n)
+    S_PRIOR = {(tu3, "fx_e"): [prior5]}
+    r5 = work_file_S(tu3, {"fx_e": {"param:a0": dict(type="Unkstruct_TEST", sites=1)}}, "st", dict(head="x"), logs.append, want_sa=False)
+    row5 = r5["rows"][0]
+    line5 = tc.check_casts_verdict({}, mk5, {("S", tu3, "fx_e"): row5}, [], set())[1]
+    ok("re-judge carries the earlier KEPT rows in the census key: KEPT, unbacked 0", row5["verdict"] == "KEPT" and "(unbacked 0)" in line5
+       and {e["macro_of"] for e in row5["sites"] if e.get("macro_of")} == {"t3_S1"}, f"{row5['verdict']} {line5}")
+    S_PRIOR = {}
     ok("respell_edit: a lower-precedence p or a non-literal k stays raw", respell_edit("*(s32 *)(a << 2 + 4)", "*(s32 *)(a << 2 + 4)",
        dict(form="P", pos=0, end=20, base=None, off=4), "SIGN") is None and respell_edit("*(s32 *)(a + i)", "*(s32 *)(a + i)", dict(form="P", pos=0, end=15, base="a", off=0), "SIGN") is None)
     ok("--only glob: ov_* matches the src dir, not main", matches_only(["ov_*"], "src/ov_SC05_010/x.c", "f") and not matches_only(["ov_*"], "src/main/x.c", "f")
