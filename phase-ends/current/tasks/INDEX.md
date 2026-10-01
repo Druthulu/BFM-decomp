@@ -10,3 +10,4 @@ T6 | done | declaration layer on the canonical types | - | tasks/T6.md | logs/T6
 T7 | done | milestone gate and record | - | tasks/T7.md | logs/T7.md | -
 T8 | done | docs/formats.md: LIST.CD verified on US, runtime reader, repack note, LZSS ring + terminator rules | - | tasks/T8.md | logs/T8.md | -
 T9 | review | story §10 + retrospective §7 for P37 T5-close, PA3 migration and P38 | - | tasks/T9.md | logs/T9.md | -
+T10 | done | publish the P38 type census in README and timeline | - | tasks/T10.md | logs/T10.md | -

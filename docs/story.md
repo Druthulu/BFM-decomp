@@ -363,7 +363,7 @@ compiler pins, and none was asked of it.
 | Instructions | 13,492,113 / 13,492,113 (100.0%); distinct code 5,820,205 / 5,820,205; main game code 45,150 / 45,150 |
 | Knowledge base | the matching cookbook (§1–§501 and sub-sections, 3.5 MB), the gcc-2.7.2 codegen map, 79 decision-log entries, 73 numbered rules (+ the constitution's 25) |
 | Tooling | ≈235 Python tools, 25 shell tools, 12 Ghidra scripts — the extractor, the byte gate, the dedup engine, the family engine, the atlas, the lanes, the rewrite package |
-| **After 100 % (Gen3, snapshot 2026-09-12)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35) · levers: 53,234 → 4,010 marked sites, +6,717 inline GTE statements counted from P37 (`docs/levers.md`) · struct debt: 503,016 raw dereferences in 69,497 functions, 7,255 struct definitions over 527 layouts, 98,648 lying declarations (`docs/readability.md`) · the chart's lower panel |
+| **After 100 % (Gen3, snapshot at the P38 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35) · levers: 53,234 → 3,729 marked sites, +6,717 inline GTE statements counted from P37 (`docs/levers.md`) · struct debt (the P38 type census): 502,983 raw dereferences in 69,492 functions, 1,650 struct definitions (7,255 at the P38 start) over 523 layouts, 53 duplicate classes all listed with a cause in `docs/struct-twins.md`, 229 lying declarations over 24 callees (1,796 at the P37 T4 close) · the chart's lower panel |
 
 *Every number above is generated or counted from the repository; the timeline behind the chart is
 [`docs/story-timeline.md`](story-timeline.md).*
