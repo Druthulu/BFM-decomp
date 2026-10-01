@@ -963,3 +963,4 @@ C0510 | §396(a) correction: a zero-byte barrier CAN fence an slti;beqz cross-ju
 C0511 | Type-census instrument pitfalls: attrs in layout hash, tag+typedef one name, intra-canon liveness, stale ledger rows | census,structs,types,gate,ledger | 2026-09-30 | 38/T7 | P38 T2-T6 summaries
 C0512 | Folding duplicate struct definitions onto one canonical type, byte-safely | structs,fold,types,restruct,lift_types | 2026-09-30 | 38/T7 | P38 T4-T6 summaries
 C0513 | Makefile health-gate traps: make -n on .ONESHELL executes; health needs a complete build/ | make,tools-health,oneshell,build | 2026-09-30 | 38/T7 | P38 T1
+C0514 | Run a repo-wide check on unedited HEAD first; mirrored edits need make kit-corpus | docs,doc_links,tools-health,kit-corpus,baseline | 2026-09-30 | 38/PE | P38 T8, T10 summaries

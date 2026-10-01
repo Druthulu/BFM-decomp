@@ -147,3 +147,5 @@ R119 | Snapshot/refresh helpers refuse empty or shrunken input | - | active | Ph
 R120 | Issue reply drafts are never committed or mentioned in commit text | - | active | developer 2026-09-30
 
 R121 | Phases name the counts they move and publish them at close | - | active | developer 2026-09-30
+
+R122 | Tier-2 struct twins are folded on evidence or listed with a cause | structs,census,twins | active | PhaseEnd_Phase3.38 binding (T5.1)

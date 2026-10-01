@@ -43,6 +43,9 @@ PY = /usr/bin/python3
 ## Skills <!-- roles: expert planner -->
 <!-- one line per captured workflow; the SKILL.md is the canonical text -->
 - <!-- TODO SKILL_NAME: no source found --> — <what it automates, when to invoke it>
+- restruct-cycle-watch — Launch, find, wake on and stop a detached restruct_cycle.sh without racing inflight.json
+- retire-doc-consumers — Grep and repoint tools, Makefile and docs that read a doc being retired, in the same task
+- commit-task-autostage — Commit logs and research deliberately; force-add ignored tracked paths before commit_task.sh
 
 ## Paths <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - Oracles (the ground truth X3 names): <!-- TODO ORACLES: no source found -->

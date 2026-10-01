@@ -30,6 +30,13 @@
 - Why split, not union: the head is `suspect` (a merge of real types through argument conduits, line 15); every refused unit is a whole coherent layout disagreeing at several offsets, which is the signature of a separate type (G62 "per type"), and a union would give one name two types. The byte judge refusing the fold is the evidence that these sites belong to another type.
 - Consequence: `Ent_8017FD58` and `Ent_8018D3A4` stay distinct canonical types (their own same-layout copies fold onto them in T5.1); unions stay deferred (binding line 13) until a unit is found whose single field is read at two widths in one body.
 
+## Long-tail rules (P38 T5, T5.1; recorded at the phase close)
+
+- binding: a divergent-layout local of a VARIANT name is renamed `<Name>_<suffix>` (TU suffix); the canonical or most-used layout keeps the name (T5).
+- binding: a struct tag and a typedef of one name with different layouts are split `N_tag` / `N_td`; a tag and typedef of ONE definition count as one name (T5, T5.1).
+- binding: the census layout hash includes alignment attributes (`packed`, `aligned`); two definitions differing only in attributes are different types (T5.1; cookbook C0511).
+- binding: a tier-2 (all-placeholder) duplicate layout is either folded on SHARED use-site evidence or listed in `docs/struct-twins.md` with its per-class cause; `tools/struct_twins.py --write` regenerates that list after every fold (T5.1; rule R122).
+
 ## Per-offset records
 
 Written by `tools/head_types.py` (max-site split). Losers' sites keep their casts; the byte oracle judges them later.
