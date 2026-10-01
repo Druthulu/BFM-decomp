@@ -1960,7 +1960,7 @@ def check_structs_verdict(summary, pad_names, parse_error_decls):
 # --check-casts (P39 T2): the cast-and-lying gate. A macro site is backed only by its restruct ledger row (rung S, read through
 # restruct.ledger_latest — R100: no second done-filter); a lying row only by a config/lying_exceptions.tsv row.
 LYING_EXCEPTIONS = "config/lying_exceptions.tsv"
-BACKED_S_VERDICTS = ("KEPT", "S2", "KEPT-ALL")
+BACKED_S_VERDICTS = ("KEPT", "S2", "KEPT-ALL", "MEMBERS", "S+A")    # was ("KEPT", "S2", "KEPT-ALL"); P39 T3: an IDENTICAL body (MEMBERS) and an S+A body respell their skipped sites too
 
 
 def check_casts_inputs():

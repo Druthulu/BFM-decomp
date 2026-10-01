@@ -674,10 +674,11 @@ def member_spelling(tname, base_expr, bclass, decl, fname):
     return f"(({tname} *){base_expr})->{fname}"
 
 
-def s_edits(raw, masked, d, sites, tname, fields, base_key, fn_head_inner, allow_pointee_void=False):
+def s_edits(raw, masked, d, sites, tname, fields, base_key, fn_head_inner, allow_pointee_void=False, why=None):
     """Rung S's positional edits for one body/base with a FIELD MAP {off: dict(name,width,sign,type,stars,dims)}: [(pos, end, repl, site)],
     skips{reason: n}. The rules T2 fixed: width must match; a load's sign must match (a store may not care, R: a store's signedness
-    leaves no byte); a pointer field's pointee must be the site's; indexed / negative / refused sites stay."""
+    leaves no byte); a pointer field's pointee must be the site's; indexed / negative / refused sites stay. `why` (P39 T3): a dict
+    filled {id(site): skip reason} for the per-site class (s_site_rows)."""
     edits, skips = [], collections.Counter()
     bcls, bname = base_key.split(":", 1)
     decl = declared_type(masked, d, bname, bcls, fn_head_inner)
@@ -686,30 +687,44 @@ def s_edits(raw, masked, d, sites, tname, fields, base_key, fn_head_inner, allow
             continue
         if s.get("index") is not None or s.get("refused"):
             skips["index"] += 1
+            if why is not None:
+                why[id(s)] = "index"
             continue
         off = s.get("off") or 0
         if off < 0:
             skips["negative-offset"] += 1
+            if why is not None:
+                why[id(s)] = "negative-offset"
             continue
         f = fields.get(off)
         if f is None:
             skips["no-field"] += 1
+            if why is not None:
+                why[id(s)] = "no-field"
             continue
         if f["sign"] == "agg":
             skips["aggregate-field"] += 1
+            if why is not None:
+                why[id(s)] = "aggregate-field"
             continue
         if s.get("width") != f["width"]:
             skips["width"] += 1
+            if why is not None:
+                why[id(s)] = "width"
             continue
         sg = f["sign"]
         if s.get("sign") != sg and not (s.get("access") == "store" and {s.get("sign"), sg} <= {"s", "u"}):
             skips["sign"] += 1
+            if why is not None:
+                why[id(s)] = "sign"
             continue
         if sg == "p":
             site_pointee = (s.get("ctype") or "").rstrip("* ").strip() + " *"
             ftype = sl._norm_type(f["type"]) + " " + "*" * f["stars"] if f["stars"] else sl._norm_type(f["type"])
             if site_pointee != ftype and not (allow_pointee_void and ftype == "void *"):
                 skips["pointee"] += 1
+                if why is not None:
+                    why[id(s)] = "pointee"
                 continue
         base_expr = ("&" + bname) if bcls == "gaddr" else bname
         edits.append((s["pos"], s["end"], member_spelling(tname, base_expr, bcls, decl, f["name"]), s))
@@ -718,6 +733,8 @@ def s_edits(raw, masked, d, sites, tname, fields, base_key, fn_head_inner, allow
     for e in edits:
         if e[0] < last:
             skips["overlap"] += 1
+            if why is not None:
+                why[id(e[3])] = "overlap"
             continue
         kept.append(e); last = e[1]
     return kept, skips
@@ -778,7 +795,7 @@ def greedy_kept(judge_cands, edits, tag):
     return [edits[i] for i in K], compiles, "IDENTICAL"
 
 
-def s_body_edits(tu, fn, raw, masked, d, sites, bases, allow_local, local_types):
+def s_body_edits(tu, fn, raw, masked, d, sites, bases, allow_local, local_types, why=None):
     """Every typed base of the body: [(edits, skips, base_key, tname, canonical?)] + the inserts (local typedefs). `bases` =
     body_base_type.json's {base_key: {type, sites}}; `local_types` accumulates the file's local typedef texts (T2 form)."""
     fn_head_inner, _ = _head_parts(masked, d, fn)
@@ -792,7 +809,7 @@ def s_body_edits(tu, fn, raw, masked, d, sites, bases, allow_local, local_types)
         can = canon_types().get(tname)
         if can and type_visible(tu, tname):
             fields = can[2] or {}
-            edits, skips = s_edits(raw, masked, d, sites, tname, fields, base_key, fn_head_inner)
+            edits, skips = s_edits(raw, masked, d, sites, tname, fields, base_key, fn_head_inner, why=why)
             per_base.append((base_key, tname, "CANONICAL", edits, skips))
         elif can:
             per_base.append((base_key, tname, "TYPE-NOT-VISIBLE", [], {}))
@@ -804,7 +821,7 @@ def s_body_edits(tu, fn, raw, masked, d, sites, bases, allow_local, local_types)
             local_name = f"P37S_{hashlib.sha1(tname.encode()).hexdigest()[:8]}"
             ttext, fields_t2, skipped = build_type(local_name, t["layout"], ctypes_by_off)
             fields = {off: dict(name=nm, width=w, sign=sg, type=ft.rstrip("* ").strip(), stars=ft.count("*"), dims=[]) for off, (w, sg, nm, ft) in fields_t2.items()}
-            edits, skips = s_edits(raw, masked, d, sites, local_name, fields, base_key, fn_head_inner)
+            edits, skips = s_edits(raw, masked, d, sites, local_name, fields, base_key, fn_head_inner, why=why)
             if edits and local_name not in local_types:
                 local_types[local_name] = ttext
             per_base.append((base_key, local_name, "LOCAL", edits, skips))
@@ -1019,9 +1036,124 @@ def file_view(tu, text):
     return masked, defs, span_of_line, params_of, sites
 
 
-def site_row(s, verdict, tname=None, field=None):
+def site_row(s, verdict, tname=None, field=None, cause=None):
     return dict(form=s.get("form"), line=s.get("line"), base=f"{s.get('bclass')}:{s.get('base')}", off=s.get("off"), width=s.get("width"),
-                sign=s.get("sign"), access=s.get("access"), type=tname, field=field, verdict=verdict)
+                sign=s.get("sign"), access=s.get("access"), type=tname, field=field, verdict=verdict, cause=cause)
+
+
+# P39 T3: every raw site of a drawn body gets its own class (was: the body's pass hint on its kept edits only). The five macro classes
+# (type_census.KEPT_MACROS) are KEPT(<class>) and a KEPT P-form site is respelled with its macro (include/common.h, the identical cast);
+# every other cause is RESIDUAL(<CAUSE>) and stays raw.
+S_KEPT_MACRO = {"SCHED-ALIAS": "CAST_ALIAS", "SIGN": "CAST_SIGN", "WIDTH": "CAST_WIDTH", "MISALIGNED": "CAST_MISALIGNED",
+                "NON-STRUCT": "CAST_NONSTRUCT"}
+S_RESPELL_VERDICTS = ("MEMBERS", "S2", "KEPT-ALL", "KEPT")      # the body verdicts whose kept sites are respelled (type_census backs them)
+
+
+def site_class(s, why=None, kept=False, typed=True):
+    """The class of one non-member site, in the fixed order: off % width != 0 -> MISALIGNED; s_edits' sign skip -> SIGN; its width
+    skip or an overlap loser -> WIDTH; a kept (S2 / KEPT-ALL) edit -> SCHED-ALIAS; a base with no struct type -> NON-STRUCT (an
+    indexed / negative one -> INDEX / NEGATIVE-OFFSET); any other skip -> that reason uppercased (a residual)."""
+    w, off = s.get("width"), s.get("off") or 0
+    if w and off % w:
+        return "MISALIGNED"
+    if why == "sign":
+        return "SIGN"
+    if why in ("width", "overlap", "overlap-edit"):
+        return "WIDTH"
+    if kept:
+        return "SCHED-ALIAS"
+    if not typed:
+        if s.get("index") is not None or s.get("refused"):
+            return "INDEX"
+        return "NEGATIVE-OFFSET" if off < 0 else "NON-STRUCT"
+    return (why or "no-edit").upper()
+
+
+_LOWER_PREC = re.compile(r"<<|>>|<|>|\||\^|\?|=|,|(?<=[\w\]])\s*&")
+
+
+def respell_edit(raw, masked, s, cls):
+    """(pos, end, `CAST_<X>(T, p, k)`, s) for a P-form site `*(T *)(p + k)` — the same expression tree (the macro expands to
+    `(*(T *)((p) + (k)))`) — or None when the site is not that shape (no literal `+ k`, a lower-precedence operator in p, a comment
+    inside, or p/k not reparsing to the site's base and offset)."""
+    if s.get("form") != "P" or cls not in S_KEPT_MACRO:
+        return None
+    m = tc.FORM_P.match(masked, s["pos"])
+    if not m:
+        return None
+    inner, close = tc._paren_body(masked, m.end() - 1)
+    if inner is None or close + 1 != s["end"] or raw[m.end():close] != inner:
+        return None
+    sp = tc._split_plus(tc._strip_parens(inner))
+    if not sp or sp[1] != "+":
+        return None
+    p, k = sp[0].strip(), tc._strip_parens(sp[2])
+    kv = tc._int(k)
+    top = re.sub(r"\([^()]*\)", "()", p)
+    while top != (top2 := re.sub(r"\([^()]*\)", "()", top)):
+        top = top2
+    if kv is None or _LOWER_PREC.search(top.replace("->", "")):
+        return None
+    b = tc.parse_base(p)
+    if str(b.get("base")) != str(s.get("base")) or (b.get("off") or 0) + kv != (s.get("off") or 0):
+        return None
+    T = re.sub(r"\s+", " ", m.group(1)) + (" " + "*" * (len(m.group(2)) - 1) if len(m.group(2)) > 1 else "")
+    return (s["pos"], s["end"], f"{S_KEPT_MACRO[cls]}({T}, {p}, {k})", s)
+
+
+def s_site_rows(raw, masked, bsites, per_base, why, edits, accepted, overlapped, kept_ok, refused, typed_other, respell, tname_of):
+    """(site rows, respell edits) over EVERY raw site of one drawn body, in source order. kept_ok: the body is S2/KEPT-ALL (its
+    unaccepted edits are kept casts); refused: its candidate did not build (edit sites stay REFUSED); typed_other {base_key: reason}:
+    bases the struct map types but this run does not draw (type-not-canonical / type-not-visible); respell: write the KEPT P-form
+    sites as their macros. The respell edits never overlap an accepted edit or each other (the outer one stays)."""
+    acc = {id(e[3]) for e in accepted}
+    ovl = {id(e[3]) for e in overlapped}
+    edit_of = {id(e[3]): e for e in list(edits) + list(overlapped)}
+    status_of = {bk: stt for (bk, _, stt, _, _) in per_base}
+    rows_, resp = [], []
+    for s in sorted((x for x in bsites if x["form"] in RAW_FORMS), key=lambda x: x.get("pos", 0)):
+        e = edit_of.get(id(s))
+        tn = tname_of.get(id(e)) if e is not None else None
+        fld = e[2].rsplit("->", 1)[-1].rsplit(".", 1)[-1] if e is not None else None
+        if id(s) in acc:
+            rows_.append(site_row(s, "MEMBER", tn, fld, "MEMBER"))
+            continue
+        if e is not None and refused and id(s) not in ovl:
+            rows_.append(site_row(s, "REFUSED", tn, fld, "REFUSED"))
+            continue
+        bk = f"{s.get('bclass')}:{s.get('base')}"
+        reason = "overlap-edit" if id(s) in ovl else why.get(id(s))
+        if reason is None and e is None:
+            st_ = status_of.get(bk)
+            reason = st_ if st_ not in (None, "CANONICAL", "LOCAL") else typed_other.get(bk)
+        typed = bk in status_of or bk in typed_other
+        c = site_class(s, reason, kept=(e is not None and kept_ok and id(s) not in ovl), typed=typed)
+        if c in S_KEPT_MACRO:
+            rows_.append(site_row(s, f"KEPT({c})", tn, fld, c))
+            r_ = respell_edit(raw, masked, s, c) if respell else None
+            if r_ is not None:
+                resp.append(r_)
+        else:
+            rows_.append(site_row(s, f"RESIDUAL({c})", tn, fld, c))
+    resp = [r_ for r_ in resp if not any(r_[0] < a[1] and a[0] < r_[1] for a in accepted)]
+    resp, _ = drop_overlaps(resp)
+    return rows_, resp
+
+
+_bbt_cache = None
+
+
+def typed_bases_of(tu, fn, bases):
+    """{base_key: reason} — the bases body_base_type.json types for this body that `bases` (the drawn ones) leaves out."""
+    global _bbt_cache
+    if _bbt_cache is None:
+        p = CENSUS / "body_base_type.json"
+        _bbt_cache = json.loads(p.read_text()) if p.exists() else {}
+    out = {}
+    for bk, ent in (_bbt_cache.get(f"{tu}|{fn}") or {}).items():
+        if bk not in bases:
+            out[bk] = "type-not-canonical" if ent.get("type") not in canon_types() else "type-not-visible"
+    return out
 
 
 def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, want_sa=True, want_recipes=False, done=frozenset(), write=True):
@@ -1039,7 +1171,7 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
     local_types, local_pos = {}, {}
     rows = []
     out = dict(tu=tu, rows=rows, written=False, final="", compiles=0, seconds=0.0, members=0, kept=0, skipped=0, levers_off=0,
-               bodies=len(bodies), linked=0)
+               bodies=len(bodies), linked=0, respelled=0)
     masked0, defs0, _, _, _ = file_view(tu, raw)
     order = sorted([d for d in defs0 if d["name"] in bodies], key=lambda d: -d["line"])           # bottom-up
     first_line = min((d["line"] for d in order), default=None)
@@ -1055,7 +1187,9 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
         if ("S", tu, fn, nh0) in done:
             continue
         bsites = [s for s in sites if s.get("fn") == fn]
-        per_base = s_body_edits(tu, fn, text_acc, masked, d2, bsites, bodies[fn], allow_local, local_types)
+        why = {}
+        per_base = s_body_edits(tu, fn, text_acc, masked, d2, bsites, bodies[fn], allow_local, local_types, why=why)
+        typed_other = typed_bases_of(tu, fn, bodies[fn])
         edits = [e for (_, _, status, es, _) in per_base for e in es]
         _, overlapped = drop_overlaps(edits)                       # a nested base's site holds its parent's (T3.c3)
         edits = [e for e in edits if not any(e is o for o in overlapped)]      # per_base order kept for the S2 search
@@ -1073,6 +1207,13 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
             statuses = {stt for (_, _, stt, _, _) in per_base}
             row["verdict"] = ("TYPE-NOT-VISIBLE" if statuses == {"TYPE-NOT-VISIBLE"} else "TYPE-NOT-CANONICAL" if "TYPE-NOT-CANONICAL" in statuses
                               and not statuses & {"CANONICAL", "LOCAL"} else "NO-SITE")
+            row["sites"], resp = s_site_rows(text_acc, masked, bsites, per_base, why, [], [], [], False, False, typed_other,
+                                             not want_recipes, {})
+            if resp:                                               # kept-class sites only: the body is KEPT, its casts respelled (P39 T3)
+                row["verdict"] = "KEPT"
+                row["respelled"] = len(resp)
+                text_acc = compose_text(text_acc, resp)
+                out["respelled"] += len(resp)
             rows.append(row)
             continue
         tname_of = {id(e): tn for (_, tn, _, es, _) in per_base for e in es}
@@ -1114,16 +1255,17 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
             row["verdict"] = "REFUSED"
             row["err"] = f"{r['verdict']}: {r['err'][:200]}"
             accepted, kept = [], list(edits)
-        for e in edits:
-            s = e[3]
-            v = "MEMBER" if any(e is a for a in accepted) else ("KEPT(" + row.get("hint", "?") + ")" if row.get("verdict") in ("S2", "KEPT-ALL") else "REFUSED")
-            row["sites"].append(site_row(s, v, tname_of.get(id(e)), e[2].rsplit("->", 1)[-1].rsplit(".", 1)[-1]))
-        for e in overlapped:                                       # the dropped nested/parent edit stays a cast (T3.c3)
-            row["sites"].append(site_row(e[3], "KEPT(overlap-edit)", tname_of.get(id(e)), e[2].rsplit("->", 1)[-1].rsplit(".", 1)[-1]))
+        # every raw site its own class (P39 T3; was: the body hint on the kept edits, KEPT(overlap-edit) on the dropped nested ones)
+        row["sites"], resp = s_site_rows(base_text, masked, bsites, per_base, why, edits, accepted, overlapped,
+                                         row.get("verdict") in ("S2", "KEPT-ALL"), row.get("verdict") == "REFUSED", typed_other,
+                                         row.get("verdict") in S_RESPELL_VERDICTS and not want_recipes, tname_of)
+        if resp:
+            row["respelled"] = len(resp)
+            out["respelled"] += len(resp)
         out["members"] += len(accepted)
         out["kept"] += len(kept) + len(overlapped)
         if accepted:
-            text_acc = compose_text(base_text, list(accepted) + inserts)
+            text_acc = compose_text(base_text, list(accepted) + resp + inserts)
             for tn in sorted(needed):
                 local_pos[tn] = ins_pos + sum(len(local_types[t_]) for t_ in sorted(needed) if t_ < tn)
             # S+A: the struct hypothesis on a lever-bearing body
@@ -1145,6 +1287,8 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
                         dl.ledger_append([dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=f"P37-{label}", rung="S+A", calib=calib_id, tu=tu, fn=fn,
                                                addr=dl.fn_addr(fn, tu), aliases=[], header=is_hdr, nhash_before=nh0, nhash_after=None,
                                                verdict=lres["verdict"], sites=lres["sites"], compiles=lres["compiles"], seconds=round(lres["seconds"], 3))])
+        elif resp:                                                 # KEPT-ALL: only the respelled casts change (P39 T3)
+            text_acc = compose_text(base_text, resp)
         if want_recipes and kept:
             row["recipes"] = run_recipes(tu, fn, text_acc, kept, lambda text, tag, reloc=False: judge_files({tu: text}, tag, pool=pool, reloc=reloc), f"{short}{d['line']}r")
             for hit in row["recipes"]:
@@ -1169,7 +1313,7 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
         for row in rows:
             row["verdict"] = "COMBINATION-FAILED"
             row["nhash_after"] = None
-        out["members"] = out["kept"] = out["levers_off"] = 0
+        out["members"] = out["kept"] = out["levers_off"] = out["respelled"] = 0
         return out
     out["final"] = "IDENTICAL" + (" (linked)" if fr["linked"] else "")
     if JUDGE_STUB is None and write:
@@ -3112,6 +3256,9 @@ def matches_only(only, tu, unit, extra=()):
     if not only:
         return True
     hay = [tu, unit] + list(extra)
+    globs = [o for o in only if any(c in o for c in "*?[")]       # P39 T3: `ov_*` against the alias / src dir (and the path)
+    if globs and tu and any(fnmatch.fnmatchcase(tu, o) or (tu.startswith("src/") and fnmatch.fnmatchcase(tu.split("/")[1], o)) for o in globs):
+        return True
     return any(o == h or h.endswith("/" + o) or h.startswith("src/" + o + "/") or ("/" + o + "/") in h
                or (o in h and o.startswith(("Unkstruct_", "func_", "D_"))) for o in only for h in hay if h)
 
@@ -4198,7 +4345,25 @@ void hf_b(s32 a0) {
 }
 '''
 
-FIXTURE_BASES = {"param:a0": dict(type="Unkstruct_TEST", sites=12), "param:a1": dict(type="Unkstruct_TEST", sites=1),
+FIXTURE_TU_S2 = '''#include "common.h"
+#include "../shared/engine_types.h"
+extern s32 D_80078E00;
+
+void fx_c(s32 a0) {
+    *(s16 *)(a0 + 0x0) = 1;
+    if (*(u16 *)(a0 + 0x0)) {
+        a0 = 0;
+    }
+    *(s32 *)(a0 + 0x4) = 7;
+    *(s16 *)(a0 + 0x5) = 2;
+    *(s16 *)(a0 + 0x6) = 5;
+    *(s16 *)((u8 *)&D_80078E00 + 0x2) = 4;
+    *(u8 *)(a0 + 0x8) = 3;
+    *(s16 *)(a0 - 2) = 6;
+}
+'''
+
+FIXTURE_BASES = {"param:a0":dict(type="Unkstruct_TEST", sites=12), "param:a1": dict(type="Unkstruct_TEST", sites=1),
                  "gaddr:D_80078E20": dict(type="Unkstruct_TEST", sites=1), "global:D_80078E40": dict(type="Unkstruct_TEST", sites=1)}
 
 
@@ -4326,7 +4491,7 @@ def selftest(real=False):
     ok("work_file_S: MEMBERS, 8 members, final IDENTICAL", r["final"] == "IDENTICAL" and r["members"] == 8 and r["rows"][0]["verdict"] == "MEMBERS", f"{r['final']} {r['members']} {r['rows'][0]['verdict']}")
     ok("work_file_S: every site row has a verdict and the skips are counted", all(s_["verdict"] for s_ in r["rows"][0]["sites"]) and r["rows"][0]["skips"]["no-field"] == 1)
     ok("work_file_S: the stub never writes the tree", (REPO / tu).read_text() == text)
-    JUDGE_STUB = lambda files, tag: ("DIFFERS", "")
+    JUDGE_STUB = lambda files, tag: ("IDENTICAL", "") if tag.endswith("F") else ("DIFFERS", "")   # was: always DIFFERS (P39 T3: the respelled-only final text is judged)
     r2 = work_file_S(tu, {"fx_a": FIXTURE_BASES}, "st", dict(head="x"), logs.append, allow_local=False, want_sa=False)
     ok("work_file_S: an all-DIFFERS body is KEPT-ALL with S2 NO-SET named", r2["rows"][0]["verdict"] == "KEPT-ALL" and "NO-SET" in r2["rows"][0].get("err", ""), r2["rows"][0].get("err", "")[:60])
     # ---- pass hints
@@ -4338,6 +4503,38 @@ def selftest(real=False):
     ov_k, ov_d = drop_overlaps([(20, 30, "b", {}), (10, 40, "a", {}), (10, 15, "c", {}), (40, 45, "d", {})])
     ok("drop_overlaps: the earlier/longer edit stays, the nested ones drop (T3.c3)", [e[2] for e in ov_k] == ["a", "d"] and sorted(e[2] for e in ov_d) == ["b", "c"],
        f"{[e[2] for e in ov_k]} {[e[2] for e in ov_d]}")
+    # ---- P39 T3: the per-site class order, the macro respell, the census backing, the --only glob
+    ok("class order: misaligned beats sign / width / kept / untyped", site_class(dict(width=2, off=5), "sign", True, False) == "MISALIGNED"
+       and site_class(dict(width=2, off=4), "sign", True) == "SIGN" and site_class(dict(width=4, off=4), "width", True) == "WIDTH"
+       and site_class(dict(width=4, off=4), "overlap-edit", True) == "WIDTH" and site_class(dict(width=4, off=4), None, True, False) == "SCHED-ALIAS"
+       and site_class(dict(width=4, off=4), None, False, False) == "NON-STRUCT" and site_class(dict(width=4, off=4, index="i"), None, False, False) == "INDEX"
+       and site_class(dict(width=4, off=4), "no-field") == "NO-FIELD" and site_class(dict(width=4, off=4), "pointee") == "POINTEE")
+    fx2 = dirp / "ov" / "fx2.c"
+    fx2.write_text(FIXTURE_TU_S2)
+    tu2 = fx2.relative_to(REPO).as_posix()
+    JUDGE_STUB = lambda files, tag: ("DIFFERS", "") if "->unk4" in files[tu2] else ("IDENTICAL", "")
+    r3 = work_file_S(tu2, {"fx_c": {"param:a0": dict(type="Unkstruct_TEST", sites=7)}}, "st", dict(head="x"), logs.append, allow_local=False, want_sa=False)
+    row3 = r3["rows"][0] if r3["rows"] else {}
+    cls3 = {(s_["off"], s_["access"], s_["base"]): s_["verdict"] for s_ in row3.get("sites", [])}
+    ok("site classes: S2 body, one class per raw site", row3.get("verdict") == "S2" and cls3 == {
+        (0, "store", "param:a0"): "MEMBER", (0, "load", "param:a0"): "KEPT(SIGN)", (4, "store", "param:a0"): "KEPT(SCHED-ALIAS)",
+        (5, "store", "param:a0"): "KEPT(MISALIGNED)", (6, "store", "param:a0"): "RESIDUAL(NO-FIELD)", (2, "store", "gaddr:D_80078E00"): "KEPT(NON-STRUCT)",
+        (8, "store", "param:a0"): "KEPT(WIDTH)", (-2, "store", "param:a0"): "RESIDUAL(NEGATIVE-OFFSET)"}, f"{row3.get('verdict')} {sorted(cls3.items())}")
+    ok("site cause on every site", all(s_.get("cause") for s_ in row3.get("sites", [])))
+    ft3 = r3.get("final_text", "")
+    want3 = ["((Unkstruct_TEST *)a0)->unk0 = 1;", "if (CAST_SIGN(u16, a0, 0x0))", "CAST_ALIAS(s32, a0, 0x4) = 7;", "CAST_MISALIGNED(s16, a0, 0x5) = 2;",
+             "*(s16 *)(a0 + 0x6) = 5;", "CAST_NONSTRUCT(s16, (u8 *)&D_80078E00, 0x2) = 4;", "CAST_WIDTH(u8, a0, 0x8) = 3;", "*(s16 *)(a0 - 2) = 6;"]
+    ok("respell: KEPT P-forms become their macros, residuals stay raw, final IDENTICAL", r3["final"] == "IDENTICAL" and all(w_ in ft3 for w_ in want3)
+       and r3["respelled"] == 5, f"{r3['final']} {r3['respelled']} missing={[w_ for w_ in want3 if w_ not in ft3]}")
+    mk3 = [s_ for s_ in file_view(tu2, ft3)[4] if s_["form"] == "K"] if ft3 else []
+    rc3, line3 = tc.check_casts_verdict({}, mk3, {("S", tu2, "fx_c"): row3}, [], set())
+    ok("respell: type_census backs every respelled macro (unbacked 0)", len(mk3) == 5 and "(unbacked 0)" in line3, line3)
+    rc4, line4 = tc.check_casts_verdict({}, mk3, {("S", tu2, "fx_c"): dict(row3, verdict="NO-SITE")}, [], set())
+    ok("negative: a row verdict outside the backed set backs nothing", "(unbacked 5)" in line4, line4)
+    ok("respell_edit: a lower-precedence p or a non-literal k stays raw", respell_edit("*(s32 *)(a << 2 + 4)", "*(s32 *)(a << 2 + 4)",
+       dict(form="P", pos=0, end=20, base=None, off=4), "SIGN") is None and respell_edit("*(s32 *)(a + i)", "*(s32 *)(a + i)", dict(form="P", pos=0, end=15, base="a", off=0), "SIGN") is None)
+    ok("--only glob: ov_* matches the src dir, not main", matches_only(["ov_*"], "src/ov_SC05_010/x.c", "f") and not matches_only(["ov_*"], "src/main/x.c", "f")
+       and matches_only(["src/ov_SC05_010/x.c"], "src/ov_SC05_010/x.c", "f"))
     # ---- rung D on the fixture
     DEFS_OVERRIDE = {"fx_callee": [("src/ov/fx_defs.c", "void", "s32 a0, s32 a1", False)], "fx_kr": [("src/ov/fx_defs.c", "s32", "s32 a, s32 b", True)]}
     units = d_units(tu, text)
