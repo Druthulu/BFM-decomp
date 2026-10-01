@@ -60,6 +60,23 @@ typedef s64 M2C_UNK64;
 #define LOW(x)  (*(s32 *)&(x))
 #define LOWU(x) (*(u32 *)&(x))
 
+/* Kept-cast macros (Phase 39 T2, 2026-10-01): the cast campaign's ONLY spelling for a `*(T *)(p + k)` the byte gate
+ * refuses as a member. Each expands to the identical cast (same expression tree, same bytes; one make-check IDENTICAL
+ * per macro recorded in phase-ends/current/tasks/T2.md) and names ONE cause class. `type_census --check-casts` counts a
+ * site by macro name and demands its restruct ledger row (rung S, site verdict KEPT(<class>), R99/R100); a cast outside
+ * this set is raw and fails the gate. M2C_FIELD above stays raw (form M). The lvalue reinterpretations LOBU..LOWU above
+ * are the set's sixth class, REINTERP.
+ *   CAST_ALIAS       SCHED-ALIAS   member spelling (/s) moves the scheduler or cse (cookbook §458)
+ *   CAST_SIGN        SIGN          the access's sign differs from the field the layout holds
+ *   CAST_WIDTH       WIDTH         overlap loser: a second width at an offset whose layout holds another width
+ *   CAST_MISALIGNED  MISALIGNED    the offset is not a multiple of the access width
+ *   CAST_NONSTRUCT   NON-STRUCT    the base is arithmetic, not an object the struct map explains */
+#define CAST_ALIAS(T, p, k)      (*(T *)((p) + (k)))
+#define CAST_SIGN(T, p, k)       (*(T *)((p) + (k)))
+#define CAST_WIDTH(T, p, k)      (*(T *)((p) + (k)))
+#define CAST_MISALIGNED(T, p, k) (*(T *)((p) + (k)))
+#define CAST_NONSTRUCT(T, p, k)  (*(T *)((p) + (k)))
+
 #include "gte_inline.h"   /* Phase 36 T5: the GTE coprocessor macros, one definition each */
 #include "struct_types.h" /* Phase 38 T3: the struct map's canonical layouts, one definition each, visible to every space */
 #endif /* COMMON_H */
