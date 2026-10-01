@@ -1,0 +1,16 @@
+# P39 cast/lever/lying-decl instruments
+task: find instruments for phase 3.39
+agent: retriever-code
+tags: type_census, lever_census, argcheck, gte_inline
+
+## Answer
+- Four forms = tools/type_census.py:134-137 FORM_P `*(T *)(`, FORM_I `*(T *)ident|&D|0x80..`, FORM_X `((T *)e)[`, FORM_M `M2C_FIELD(`. 503,016 = P 409,007 + I 60,666 + X 13,800 + M 19,543 (tools/progress.py:1248; docs/readability-progress.tsv:4).
+- Apart: FORM_A (:138) address-of casts 18,912; FORM_C (:139) cast-member 36,681. ABS_ADDR (:140) marks 0x80xxxxxx literals in FORM_I.
+- Entry: find_sites(masked, rel, span_of_line, line_of, params_of) :275; parse_base(expr) :189; run_census(jobs,use_cache,out_dir,want_sites) :1171; main :1879.
+- Flags: -j --out-dir (.run/P37/census) --no-cache --sites --check --check-structs --selftest --quiet.
+- No M2C_FIELD reinterpret macro beyond include/common.h:43 (form M). No other reinterpret macro found in include/.
+- lever_census: main :1159; --check = unmarked (no `// !FAKE:` on line or line above) pins/asm, GTE header excluded; --strict = any pin/asm, direct GTE stmt in bodies, per-TU asm macro def. Output .run/P36/census; run_census :774; classify_asm_body :176; walk_file :434.
+- Lying: type_census.py:1354-1362 via argcheck.definitions() :71 / scan() :164 (tools/argcheck.py); kr_marked and cross_binary excluded. Gate :1914 in --check-structs. Exceptions: config/dedup_exceptions.tsv (41 TU-CONFLICT matches).
+- GTE: include/gte_inline.h (51 #defines; `_m` clobber variants noted line 6, per-TU in src/ov_*/..._jr_801380E0.c). tools/gte_consolidate.py: main :1115, flags --inventory --header --apply --sweep --remark --status --selftest --batch --label --only --rejudge --dirty-ok -j.
+
+sources: tools/type_census.py, tools/lever_census.py, tools/gte_consolidate.py, tools/argcheck.py, include/common.h, include/gte_inline.h
