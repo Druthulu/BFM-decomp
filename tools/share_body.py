@@ -743,7 +743,7 @@ def main():
     ap.add_argument("--batches", type=int, default=1,
                     help="batches per invocation (default 1: every batch's edit positions come from THIS run's census, which read "
                          "committed text; commit between runs — a later batch would edit TUs the earlier one already changed)")
-    ap.add_argument("--only", default="")
+    ap.add_argument("--only", default="", help="h_exact prefix(es), comma-separated: restrict the --apply pool to these classes")
     ap.add_argument("--label", default="", help="the batch label for the log lines and batch_<label>.json (default <bucket><n>)")
     ap.add_argument("--repair-registry", action="store_true",
                     help="remove every listed member whose site is still a private definition (derived from the census), then exit")
@@ -781,7 +781,7 @@ def main():
     if a.bucket == "text":
         log(f"share_body: text tier — {len(pool)} same-address text classes / {sum(len(c['insts']) for c in pool):,} private sites")
     if a.only:
-        pool = [c for c in pool if c["h"].startswith(a.only)]
+        pool = [c for c in pool if c["h"].startswith(tuple(a.only.split(",")))]  # comma-separated prefixes (P38 T6.c2)
     if a.limit:
         pool = pool[:a.limit]
     all_ok = True
