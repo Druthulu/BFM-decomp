@@ -3348,7 +3348,9 @@ def matches_only(only, tu, unit, extra=()):
     if not only:
         return True
     hay = [tu, unit] + list(extra)
-    globs = [o for o in only if any(c in o for c in "*?[")]       # P39 T3: `ov_*` against the alias / src dir (and the path)
+    if tu and unit and f"{tu}:{unit}" in only:                     # T3.c4: `TU:FN` names one body (overlay fn names repeat)
+        return True
+    globs =[o for o in only if any(c in o for c in "*?[")]       # P39 T3: `ov_*` against the alias / src dir (and the path)
     if globs and tu and any(fnmatch.fnmatchcase(tu, o) or (tu.startswith("src/") and fnmatch.fnmatchcase(tu.split("/")[1], o)) for o in globs):
         return True
     return any(o == h or h.endswith("/" + o) or h.startswith("src/" + o + "/") or ("/" + o + "/") in h
@@ -4694,7 +4696,8 @@ def selftest(real=False):
     ok("respell_edit: a lower-precedence p or a non-literal k stays raw", respell_edit("*(s32 *)(a << 2 + 4)", "*(s32 *)(a << 2 + 4)",
        dict(form="P", pos=0, end=20, base=None, off=4), "SIGN") is None and respell_edit("*(s32 *)(a + i)", "*(s32 *)(a + i)", dict(form="P", pos=0, end=15, base="a", off=0), "SIGN") is None)
     ok("--only glob: ov_* matches the src dir, not main", matches_only(["ov_*"], "src/ov_SC05_010/x.c", "f") and not matches_only(["ov_*"], "src/main/x.c", "f")
-       and matches_only(["src/ov_SC05_010/x.c"], "src/ov_SC05_010/x.c", "f"))
+       and matches_only(["src/ov_SC05_010/x.c"], "src/ov_SC05_010/x.c", "f")
+       and matches_only(["src/a/x.c:func_1"], "src/a/x.c", "func_1") and not matches_only(["src/a/x.c:func_1"], "src/b/y.c", "func_1"))
     # ---- rung D on the fixture
     DEFS_OVERRIDE = {"fx_callee": [("src/ov/fx_defs.c", "void", "s32 a0, s32 a1", False)], "fx_kr": [("src/ov/fx_defs.c", "s32", "s32 a, s32 b", True)]}
     units = d_units(tu, text)
