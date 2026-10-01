@@ -1,0 +1,13 @@
+<!-- Task index for one phase. One line per task, written by tools/task_log.py finish; the cumulative copy is phase-ends/TASK_INDEX.md, prefixed with the phase. Grep to find which task touched a subject. -->
+<!-- T<n> | <status> | <title> | <tags> | tasks/T<n>.md | logs/T<n>.md | <research ids, comma-separated> -->
+T1 | done | phase-start health and baselines | - | tasks/T1.md | logs/T1.md | -
+T2 | done | --check-structs instrument and actor-struct fix | - | tasks/T2.md | logs/T2.md | -
+T3 | done | head-type layouts and canonical files | - | tasks/T3.md | logs/T3.md | -
+T4 | done | fold the head types fleet-wide (rung L) | - | tasks/T4.md | logs/T4.md | -
+T5 | question | long tail: one definition per type (partial; question) | - | tasks/T5.md | logs/T5.md | -
+T5.1 | done | long tail: one definition per type (gate reading fixed) | - | tasks/T5.1.md | logs/T5.1.md | R3.38-002,R3.38-003
+T6 | done | declaration layer on the canonical types | - | tasks/T6.md | logs/T6.md | -
+T7 | done | milestone gate and record | - | tasks/T7.md | logs/T7.md | -
+T8 | done | docs/formats.md: LIST.CD verified on US, runtime reader, repack note, LZSS ring + terminator rules | - | tasks/T8.md | logs/T8.md | -
+T9 | review | story §10 + retrospective §7 for P37 T5-close, PA3 migration and P38 | - | tasks/T9.md | logs/T9.md | -
+T10 | done | publish the P38 type census in README and timeline | - | tasks/T10.md | logs/T10.md | -

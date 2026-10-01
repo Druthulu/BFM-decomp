@@ -8,7 +8,7 @@ version-pin-summary.md | Version pin summary | 20
 69-running-a-matching-wave-see-docswave-playbookmd.md | §6.9 Running a matching wave — see `docs/wave-playbook.md` | 14
 7-session-start-ritual.md | §7 Session-start ritual | 25
 8-model-strategy-per-phase.md | §8 Model strategy per phase | 18
-tooling-inventory.md | Tooling inventory | 208
+tooling-inventory.md | Tooling inventory | 209
 backup-repository-posture-rules-r20r21-public-since-2026-09-08-phase-34.md | Backup & repository posture (rules R20/R21) — PUBLIC since 2026-09-08 (Phase 34) | 35
 disc-provenance-redump-canonical-integrity-reference.md | Disc provenance (redump — canonical integrity reference) | 15
 known-unverified-ledger-recheck-and-update-in-place.md | Known-unverified ledger (recheck and update in place) | 19
