@@ -2921,7 +2921,7 @@ void func_80183A74(s32 arg0) {
     switch (*(s16 *)(arg0 + 0x70)) {
     case 0:
         *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) =
-            *(u16 *)(*(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20) + 0x12) + (rand() & 0x3FF) - 0xA00;
+            CAST_NONSTRUCT(u16, *(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20), 0x12) + (rand() & 0x3FF) - 0xA00;
         func_8012B2CC(arg0);
         func_8012B14C(arg0, (s32)&D_8019029C);
         *(u16 *)(arg0 + 0x16) = -(rand() & 0xF) - 4;
@@ -2943,27 +2943,27 @@ void func_80183A74(s32 arg0) {
         break;
     case 4:
         *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) =
-            *(u16 *)(*(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20) + 0x12) + (rand() & 0x3FF) - 0xA00;
+            CAST_NONSTRUCT(u16, *(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20), 0x12) + (rand() & 0x3FF) - 0xA00;
         func_8012B2CC(arg0);
         func_8012B14C(arg0, (s32)&D_8019029C);
         *(u16 *)(arg0 + 0x16) = -(rand() & 7) - 4;
         *(u16 *)(arg0 + 0xA) -= 0x40;
         *(s32 *)(arg0 + 4) += func_8004787C(
-            *(s16 *)(*(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20) + 0x12) + 0xD00) << 10;
+            CAST_NONSTRUCT(s16, *(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20), 0x12) + 0xD00) << 10;
         *(s32 *)(arg0 + 0xC) += func_80047948(
-            *(s16 *)(*(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20) + 0x12) + 0xD00) << 10;
+            CAST_NONSTRUCT(s16, *(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20), 0x12) + 0xD00) << 10;
         break;
     case 5:
         *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) =
-            *(u16 *)(*(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20) + 0x12) + (rand() & 0x3FF) - 0xA00;
+            CAST_NONSTRUCT(u16, *(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20), 0x12) + (rand() & 0x3FF) - 0xA00;
         func_8012B2CC(arg0);
         func_8012B14C(arg0, (s32)&D_8019029C);
         *(u16 *)(arg0 + 0x16) = -(rand() & 7) - 4;
         *(u16 *)(arg0 + 0xA) -= 0x40;
         *(s32 *)(arg0 + 4) += func_8004787C(
-            *(s16 *)(*(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20) + 0x12) + 0x300) << 10;
+            CAST_NONSTRUCT(s16, *(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20), 0x12) + 0x300) << 10;
         *(s32 *)(arg0 + 0xC) += func_80047948(
-            *(s16 *)(*(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20) + 0x12) + 0x300) << 10;
+            CAST_NONSTRUCT(s16, *(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20), 0x12) + 0x300) << 10;
         break;
     }
 

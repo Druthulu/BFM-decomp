@@ -3396,12 +3396,12 @@ s32 func_80186ECC_def(s32 a0, s32 a1) {
     s32 ptr;
 
     if (a1 & 1) {
-        if ((*(u16 *)(a0 + 0xDC) & 2) == 0) {
+        if ((CAST_NONSTRUCT(u16, a0, 0xDC) & 2) == 0) {
             return 1;
         }
         ptr = (s32)&D_801CA248;
     } else if (a1 & 2) {
-        if ((*(u16 *)(a0 + 0xDC) & 1) == 0) {
+        if ((CAST_NONSTRUCT(u16, a0, 0xDC) & 1) == 0) {
             return 1;
         }
         ptr = (s32)&D_801CA418;
@@ -3409,7 +3409,7 @@ s32 func_80186ECC_def(s32 a0, s32 a1) {
         return 1;
     }
     func_800183E0(ptr);
-    *(u16 *)(a0 + 0xDC) = a1;
+    CAST_NONSTRUCT(u16, a0, 0xDC) = a1;
     return 0;
 }
 
