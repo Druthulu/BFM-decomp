@@ -30,14 +30,24 @@
       "sha": "739f49bdc3796b02635867e541bcea0e9fa5c4990e328d763533cd4ba5a0ad12",
       "user": null
     },
+    ".claude/agents/expert-fable-5m.md": {
+      "base": "3.15.1",
+      "sha": "5df7e2aee0c57bc44278b9f45cc324ae4880e41ff990a0757459364ef0f95275",
+      "user": null
+    },
     ".claude/agents/expert-fable.md": {
-      "base": "3.11.6",
-      "sha": "afbbdad5dbc722a3261a9b5debd4909b6c5c1871e2401daa1e0ad0c9eb822f24",
+      "base": "3.15.8",
+      "sha": "4801539f708906d2343f3b4d06665127ea24c63846a175e066729d740740593c",
+      "user": null
+    },
+    ".claude/agents/expert-opus55-5m.md": {
+      "base": "3.15.1",
+      "sha": "8fa218f94d013992e33169381027bb11a44e7773c4ce0cc328d40ecad9e05c70",
       "user": null
     },
     ".claude/agents/expert-opus55.md": {
-      "base": "3.11.6",
-      "sha": "dd302edec5c95bdf2e6126c697ff92c90160c029057fb9159a9470cd1c7aa7d1",
+      "base": "3.15.8",
+      "sha": "51d66a903819e689d4f6336e053ba385e6fc5c24be38f03cfa3f8c438dd7bd38",
       "user": null
     },
     ".claude/agents/memory-curator.md": {
@@ -46,8 +56,8 @@
       "user": null
     },
     ".claude/agents/pa-session.md": {
-      "base": "3.14.23",
-      "sha": "9eceebc93ffcc6ed18e9f94735caee2bce5b6e2b0defce920463872f04fb555d",
+      "base": "3.15.26",
+      "sha": "a5696730416f65cd9d3e1ec57ccb3c96a779aaf162f51d593eb82cd4af03250b",
       "user": null
     },
     ".claude/agents/plain.md": {
@@ -61,8 +71,8 @@
       "user": null
     },
     ".claude/agents/planner-phase.md": {
-      "base": "3.10.6.5",
-      "sha": "5fd45cf0146989c02a2f627dfc7cf9329d298b56a695bd4e7303454769c5d4a5",
+      "base": "3.15.6",
+      "sha": "3768cf2302c67ca1135a0d2f13981a4b5dec6bb7fbc97a5818fb282f0b123a33",
       "user": null
     },
     ".claude/agents/retriever-code.md": {
@@ -92,7 +102,7 @@
     },
     ".claude/commands/discuss.md": {
       "base": null,
-      "sha": "414e2cddc07c2a4ab1adc2f00859d171b9c8234c5b0133a2f715db3058ff878b",
+      "sha": "283dfb06850ee5eb81f803f8425f1adaf1ac3cf74347096d698897317d5caeae",
       "user": null
     },
     ".claude/commands/plangen.md": {
@@ -142,7 +152,7 @@
     },
     "templates/HOW_WE_WORK.template.md": {
       "base": null,
-      "sha": "ffcca49ae9d0f6136b52720067270e1e807125bf6d73cd33700159e9b4bbfa50",
+      "sha": "d2f95a5f6f793d46b52b0552179fa9e3670dcdeb793881db3700c58889c552ad",
       "user": null
     },
     "templates/INBOX.template.md": {
@@ -177,7 +187,7 @@
     },
     "templates/PHASE_PLAN.template.md": {
       "base": null,
-      "sha": "735f34cd261afd083224c6fe1347c96c950c05caf35bd250a5dd307bb9721ae2",
+      "sha": "fdc13ad5be5acb5cc58f072bc22ae0127d924cd5aa344aae67b2b07e2a4fd1c1",
       "user": null
     },
     "templates/PROJECT_CONTEXT.skeleton.md": {
@@ -285,6 +295,11 @@
       "sha": "1e234fa854472f05d89cb06b5179179a229005e62ef6e8b163d4c54cc5817e2f",
       "user": null
     },
+    "tools/expert_ttl.py": {
+      "base": null,
+      "sha": "b5487b49c3fc1a29f9fdeb2c38282c795270547a448c778a6575175c3fea6126",
+      "user": null
+    },
     "tools/genend_index.py": {
       "base": null,
       "sha": "912779e06396703ac6124f6db86fbf383a47e9449f1a1ed04915a1b9b0568438",
@@ -292,13 +307,8 @@
     },
     "tools/launch.py": {
       "base": null,
-      "sha": "218bb5600dfbda8fbcd890e17a38fd979fe27b7dc8cdb30a5faec33b363b404d",
-      "user": {
-        "at": "2026-09-30T01:31:34Z",
-        "mark": null,
-        "sha": "93a2b5e94e25f5c035497d126512e452c3e5f95bd8dbd3416de7ed8b25b690ea",
-        "state": "declined"
-      }
+      "sha": "768a301210fe9c66229be1e58513e44664222bc3cd1a2426ea418bce4a50b137",
+      "user": null
     },
     "tools/managed.py": {
       "base": null,
@@ -317,12 +327,12 @@
     },
     "tools/phaseend_index.py": {
       "base": null,
-      "sha": "1e2edfb75d879a2da57a888b6d6680fe48b953986f1dd7fb7c87f2178d9520d0",
+      "sha": "5e7f4e48937b7dac0de20edad19ab24120cef0d8b04cecf30eee1294f2d4a833",
       "user": null
     },
     "tools/plan_edit.py": {
       "base": null,
-      "sha": "cf5e06089f7471705098dca198d64f9a388abe676d686c0f0095b06aaf46e8ff",
+      "sha": "f8db2c6c826c8efd24aa4ce3608bd0bd77be20d3e6cbd7df792c7b0ac3cb16bf",
       "user": null
     },
     "tools/research_add.py": {
@@ -362,9 +372,9 @@
     }
   },
   "format": 1,
-  "git": "0fe24a6",
-  "installed": "2026-09-30T00:53:41Z",
+  "git": "88c9cb7",
+  "installed": "2026-10-01T15:57:36Z",
   "package": null,
-  "phase": "3.14",
-  "upstream_version": "3.14"
+  "phase": "3.15",
+  "upstream_version": "3.15"
 }
