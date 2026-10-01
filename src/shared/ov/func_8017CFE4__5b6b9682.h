@@ -1,7 +1,7 @@
 /* func_8017CFE4 — shared body (overlay slot 0x80128158, h_exact 5b6b9682). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8017D030(int);
-extern void func_80146C3C(void);
+extern void func_80146C3C();  // K&R: ? of 1 args (P37 rung D t6_hD1)
 void func_8017CFE4(int param_1)
 {
     unsigned short uVar1;

@@ -3,7 +3,7 @@
 extern u8 D_80078EBF;
 extern void func_80147324(s32 arg0);
 extern void func_80147364(u16 param_1, u16 param_2);
-extern void func_80146C3C();
+extern void func_80146C3C(u8 *a0);
 void func_8016A1CC(int param_1)
 {
     int iVar1;
