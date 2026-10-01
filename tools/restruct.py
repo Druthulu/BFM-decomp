@@ -4807,7 +4807,13 @@ def main():
         pool.shutdown(wait=True)
         for row in r["rows"]:
             print(json.dumps({k: v for k, v in row.items() if k not in ("sites",)}, indent=1))
-            print("   sites:", collections.Counter(s_["verdict"].split("(")[0] for s_ in row["sites"]))
+            print("   sites:", dict(collections.Counter(s_["verdict"] for s_ in row["sites"])))     # was: verdict.split("(")[0] (P39 T3: the class shows)
+            for s_ in row["sites"]:
+                if s_["verdict"] != "MEMBER":
+                    print(f"     line {s_['line']} {s_['base']}+{s_['off']:#x} {s_['access']} {s_['verdict']}")
+        for ln in (r.get("final_text") or "").splitlines():
+            if re.search(r"\bCAST_[A-Z]+\s*\(", ln):
+                print("   respelled:", ln.strip()[:140])
         print(f"restruct --try-file: final {r['final']} · members {r['members']} kept {r['kept']} skipped {r['skipped']} levers off {r['levers_off']} · "
               f"compiles {r['compiles']} in {r['seconds']:.1f} s · NOTHING written")
         return
