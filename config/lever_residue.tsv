@@ -1,0 +1,2 @@
+# lever residue (reading A, Phase 39 T2): rows are excluded from lever_census.py --strict's failures, still counted; match on (file, func, kind)
+file	func	kind	pass	instrument	cause

@@ -1106,6 +1106,46 @@ void func_80128500(void) {
 '''
 
 
+RESIDUE_COLS = ("file", "func", "kind", "pass", "instrument", "cause")
+
+
+def load_residue(path):
+    """rows of the residue TSV (config/lever_residue.tsv; reading A, Phase 39 T2): `#` lines, blank lines and the header row skipped."""
+    rows = []
+    for ln in (REPO / path).read_text().splitlines():
+        if not ln.strip() or ln.lstrip().startswith("#"):
+            continue
+        f = ln.split("\t")
+        if f[0] == "file":
+            continue
+        rows.append(dict(zip(RESIDUE_COLS, f + [""] * (len(RESIDUE_COLS) - len(f)))))
+    return rows
+
+
+def strict_failures(sites, pt, gte_header, residue_rows):
+    """The --strict failure set. Returns (fails, residue_hit, counts).
+    P37 (S106): --strict reads its own words — "0 asm statements outside the GTE header" — so a DIRECT GTE statement in a body
+    (kind gte / gte-unsigned: Sony's idiom spelled inline instead of as the header's macro call) is a violation here, while the
+    --check headline keeps the P36 definition (the series' continuity). verbatim-body stays excluded by the manifest.
+    P39 T2 (reading A): a site matching a residue row on (file==tu, func==fn, kind) leaves the failures but stays in every count.
+    Per-TU asm macro definitions arrive as a count only (pt): they fail as one synthetic entry and no residue row can match them."""
+    ab = [x for x in sites if x["cls"] in "AB" and x["kind"] not in NON_LEVER_KINDS and x["tu"] != gte_header]
+    direct_gte = [x for x in sites if x["cls"] == "B" and x["kind"] in ("gte", "gte-unsigned") and x["tu"] != gte_header]
+    keys = {(r["file"], r["func"], r["kind"]) for r in residue_rows}
+    used, fails, residue_hit = set(), [], 0
+    for x in ab + direct_gte:
+        k = (x["tu"], x["fn"], x["kind"])
+        if k in keys:
+            used.add(k); residue_hit += 1
+        else:
+            fails.append(x)
+    if pt:
+        fails.append(dict(tu="(per-TU asm macro definitions)", fn="", line=0, cls="B", kind="asm-macro", detail=f"{pt} definition(s)", marked=False))
+    counts = dict(asm=sum(1 for x in ab if x["cls"] == "B" and x["kind"] != GTE_LEVER_KIND), direct_gte=len(direct_gte), ab=len(ab), pt=pt,
+                  residue_unused=[r for r in residue_rows if (r["file"], r["func"], r["kind"]) not in used])
+    return fails, residue_hit, counts
+
+
 def selftest():
     r = walk_file(FIXTURE, "src/fx/x.c", False, global_names={"ENGINE_SHB": "launder"})
     got = collections.Counter((s["cls"], s["kind"]) for s in r["sites"])
@@ -1151,6 +1191,22 @@ def selftest():
         print("selftest: instruction mnemonics not recorded"); ok = False
     if sorted(d["name"] for d in r["defs"]) != ["func_80128218", "func_80128500"]:
         print(f"selftest: defs {[d['name'] for d in r['defs']]}"); ok = False
+    # strict_failures (P39 T2, reading A): residue rows leave the failures, unmatched rows are reported
+    pin = dict(tu="src/fx/x.c", fn="func_1", line=3, cls="A", kind="pin", detail="$16", marked=True)
+    gte = dict(tu="src/fx/x.c", fn="func_2", line=9, cls="B", kind="gte", detail="rtps", marked=False)
+    row = lambda f, fn, k: dict(file=f, func=fn, kind=k, **{"pass": "sched2", "instrument": "pin", "cause": "fx"})
+    f1, h1, c1 = strict_failures([pin], 0, GTE_HEADER_DEFAULT, [])
+    if f1 != [pin] or h1 != 0:
+        print("selftest: strict (i) pin without residue not in fails"); ok = False
+    f2, h2, c2 = strict_failures([pin], 0, GTE_HEADER_DEFAULT, [row("src/fx/x.c", "func_1", "pin")])
+    if f2 or h2 != 1 or c2["residue_unused"]:
+        print(f"selftest: strict (ii) residue row did not exclude the pin ({len(f2)} fails, hit {h2})"); ok = False
+    f3, h3, c3 = strict_failures([], 0, GTE_HEADER_DEFAULT, [row("src/fx/y.c", "func_9", "pin")])
+    if f3 or h3 or len(c3["residue_unused"]) != 1:
+        print(f"selftest: strict (iii) residue-unused {len(c3['residue_unused'])} (want 1)"); ok = False
+    f4, h4, c4 = strict_failures([gte], 0, GTE_HEADER_DEFAULT, [row("src/fx/x.c", "func_1", "pin")])
+    if f4 != [gte] or h4 or len(c4["residue_unused"]) != 1:
+        print("selftest: strict (iv) direct gte statement escaped the failures"); ok = False
     print(f"selftest: {'OK' if ok else 'FAIL'} — {len(r['sites'])} sites, {len(r['defs'])} defs, {len(r['macro_defs'])} asm macros")
     return ok
 
@@ -1160,6 +1216,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--check", action="store_true", help="exit 1 if any pin / asm statement (GTE excluded) lacks a `// !FAKE:` marker")
     ap.add_argument("--strict", action="store_true", help="with --check: exit 1 if ANY pin / asm statement remains outside the GTE header")
+    ap.add_argument("--residue", default=None, metavar="PATH",
+                    help="with --strict: TSV (file, func, kind, pass, instrument, cause) of sites excluded from the failures, still counted")
     ap.add_argument("--gte-header", default=GTE_HEADER_DEFAULT)
     ap.add_argument("--out-dir", default=OUT_DIR_DEFAULT)
     ap.add_argument("--sites", action="store_true", help="also write every site to lever_sites.jsonl (scratch)")
@@ -1188,18 +1246,19 @@ def main():
         ab = [x for x in sites if x["cls"] in "AB" and x["kind"] not in NON_LEVER_KINDS and x["tu"] != a.gte_header]
         un = [x for x in ab if not x["marked"]]
         if a.strict:
-            # P37 (S106): --strict reads its own words — "0 asm statements outside the GTE header" — so a DIRECT GTE statement in a body
-            # (kind gte / gte-unsigned: Sony's idiom spelled inline instead of as the header's macro call) is a violation here, while the
-            # --check headline keeps the P36 definition (the series' continuity). verbatim-body stays excluded by the manifest.
-            direct_gte = [x for x in sites if x["cls"] == "B" and x["kind"] in ("gte", "gte-unsigned") and x["tu"] != a.gte_header]
+            residue_rows = load_residue(a.residue) if a.residue else []
             pt = s.get("per_tu_asm_macro_definitions", {}).get("total", 0)
+            fails, residue_hit, c = strict_failures(sites, pt, a.gte_header, residue_rows)
             gl = s.get("gte_levers", {}).get("sites", 0)
-            print(f"lever_census --check --strict: pins {s['pins']['sites']}, asm {sum(1 for x in ab if x['cls'] == 'B' and x['kind'] != GTE_LEVER_KIND)}, "
-                  f"gte-levers {gl}, direct GTE statements in bodies {len(direct_gte)}, per-TU asm macro definitions {pt}, "
-                  f"volatile-needed {s['classes']['C']['sites']}, register-needed {s['classes']['D']['sites']} — "
-                  f"{'OK' if not ab and not pt and not direct_gte else 'FAIL'}")
-            if ab or pt or direct_gte:
-                for x in (ab + direct_gte)[:10]:
+            print(f"lever_census --check --strict: pins {s['pins']['sites']}, asm {c['asm']}, "
+                  f"gte-levers {gl}, direct GTE statements in bodies {c['direct_gte']}, per-TU asm macro definitions {pt}, "
+                  f"volatile-needed {s['classes']['C']['sites']}, register-needed {s['classes']['D']['sites']}, "
+                  f"residue {residue_hit}, residue-unused {len(c['residue_unused'])} — "
+                  f"{'OK' if not fails else 'FAIL'}")
+            for r in c["residue_unused"][:10]:
+                print(f"  residue-unused: {r['file']} {r['func']} {r['kind']}")
+            if fails:
+                for x in fails[:10]:
                     print(f"  {x['tu']}:{x['line']} {x['fn']} {x['cls']}/{x['kind']} {x['detail']}")
                 rc = 1
         else:
