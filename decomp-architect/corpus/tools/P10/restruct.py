@@ -413,9 +413,15 @@ def ledger_index(rows):
     """done: {(rung, tu, unit, nhash_after)}; latest: {(rung, tu, unit): verdict}."""
     done = set()
     for r in rows:
-        if r.get("verdict") in DONE_VERDICTS and r.get("nhash_after"):
+        if r.get("verdict") in DONE_VERDICTS and r.get("nhash_after") and (r.get("rung") != "S" or s_judged(r)):
             done.add((r.get("rung"), r["tu"], r["unit"], r["nhash_after"]))
     return done, {k: r.get("verdict") for k, r in ledger_latest(rows).items()}
+
+
+def s_judged(r):
+    """A rung-S row judged at least one base (CANONICAL/LOCAL). T3.c3: t3_S6..S14, S16..S18 ledgered every pinned base NO-TYPE-IN-MAP
+    (no compile): those rows are not judgements — neither done (ledger_index) nor finished (s_finished)."""
+    return any(b.get("status") in ("CANONICAL", "LOCAL") for b in r.get("bases") or [])
 
 
 def body_nhash(masked, d):
@@ -3300,7 +3306,7 @@ def s_finished(tu, fns, latest):
     is not a judgement — the body stays drawable."""
     if not all((latest.get(("S", tu, fn)) or {}).get("nhash_after") for fn in fns):
         return False
-    if not all(any(b.get("status") in ("CANONICAL", "LOCAL") for b in latest[("S", tu, fn)].get("bases") or []) for fn in fns):
+    if not all(s_judged(latest[("S", tu, fn)]) for fn in fns):
         return False
     path = REPO / tu
     if not path.exists():
@@ -4701,7 +4707,7 @@ def selftest(real=False):
     r3 = recipe_walked_pointer(text, tu, "fx_a", fake3)
     ok("R3 walks the three carved halves through one pointer (reloc flagged)", r3 and "s16 *p37w = &D_801F8870;" in r3[0][0] and "p37w[1] = p37w[0] + p37w[2];" in r3[0][0] and r3[0][2] is True, (r3[0][0][r3[0][0].find("p37w"):][:80] if r3 else "none"))
     # ---- ledger + inflight
-    rows = [dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after="h1", label="st"), dict(rung="S", tu=tu, unit="fx_a", verdict="COMBINATION-FAILED", nhash_after=None, label="st2")]
+    rows = [dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after="h1", label="st", bases=[dict(status="CANONICAL")]), dict(rung="S", tu=tu, unit="fx_a", verdict="COMBINATION-FAILED", nhash_after=None, label="st2")]
     done, latest = ledger_index(rows)
     ok("ledger: done keyed per unit+hash, latest verdict wins", ("S", tu, "fx_a", "h1") in done and latest[("S", tu, "fx_a")] == "COMBINATION-FAILED")
     # the in-flight snapshot's parser and restore core, on a SCRATCH path — never the real inflight.json (the first selftest run
@@ -4779,7 +4785,8 @@ def selftest(real=False):
     unj_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", verdict="NO-SITE", nhash_after=nh_,
                                bases=[dict(base="param:a0", type="Unkstruct_TEST", status="NO-TYPE-IN-MAP")])])
     ok("plan_S (T3.c3): a current-hash row with no judged base (every base NO-TYPE-IN-MAP) leaves the file drawable",
-       plan_S(False, 50, None, set(), unj_, mg_)[1] == 1)
+       plan_S(False, 50, None, set(), unj_, mg_)[1] == 1 and ledger_index(list(unj_.values()))[0] == set()
+       and ledger_index(list(fin_.values()))[0] == {("S", tu, "fx_a", nh_)})
     # T3.c3: plan and apply agree on a pinned base even when the (drifted) struct map lacks its name
     map_keep_, _map_cache = _map_cache, {}
     d_a_ = next(x for x in defs_ if x["name"] == "fx_a")
