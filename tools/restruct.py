@@ -3245,11 +3245,39 @@ def fold_report(heads):
 # ----------------------------------------------------------------------------------------------------------------------
 # planning and --apply (the batch: files in leverage order, workers own whole TUs, headers serial and last)
 # ----------------------------------------------------------------------------------------------------------------------
+BBT_PIN = os.environ.get("RESTRUCT_BBT") or None      # P3.39 T3.c2: a pinned body_base_type.json (--bbt / RESTRUCT_BBT)
+
+
+def merge_bbt(cur, pin, can):
+    """cur with each base whose type is NOT canonical replaced by the pinned entry for the same (body, base) when that one is canonical.
+    T3.c2: the cycle's per-batch census rewrites body_base_type.json and the map's names drift as sites become members (after t3_S5 the
+    ov bases' top type was Unkstruct_800D3888, not in a canonical header: 0 of 103469 ov bases canonical, plan_S drew 0 files)."""
+    out, n = {}, 0
+    for key, bases in cur.items():
+        pb = pin.get(key, {})
+        nb = {}
+        for bk, ent in bases.items():
+            pe = pb.get(bk)
+            if ent["type"] not in can and pe and pe["type"] in can:
+                nb[bk], n = pe, n + 1
+            else:
+                nb[bk] = ent
+        out[key] = nb
+    return out, n
+
+
 def bbt():
     p = CENSUS / "body_base_type.json"
     if not p.exists():
         sys.exit("restruct: no body_base_type.json — run `tools/type_census.py -j 16 --sites` first (R43)")
-    return json.loads(p.read_text())
+    cur = json.loads(p.read_text())
+    if BBT_PIN:
+        pp = pathlib.Path(BBT_PIN)
+        pp = pp if pp.is_absolute() else REPO / pp
+        if not pp.exists():
+            sys.exit(f"restruct: the pinned body_base_type ({BBT_PIN}) does not exist")
+        cur, _ = merge_bbt(cur, json.loads(pp.read_text()), canon_types())
+    return cur
 
 
 def matches_only(only, tu, unit, extra=()):
@@ -3263,14 +3291,28 @@ def matches_only(only, tu, unit, extra=()):
                or (o in h and o.startswith(("Unkstruct_", "func_", "D_"))) for o in only for h in hay if h)
 
 
-def plan_S(headers, batch, only, done):
-    """[(tu, {fn: bases})] — files with typed bases whose type is a CANONICAL definition (visible), ordered by the map's leverage."""
+def s_finished(tu, fns, latest):
+    """True when every body in fns has a latest ("S", tu, fn) ledger row whose nhash_after is the body's CURRENT nhash (T3.c2: t3_S1–S5
+    re-drew finished files — drawable stayed ~2088 after 250 files done)."""
+    if not all((latest.get(("S", tu, fn)) or {}).get("nhash_after") for fn in fns):
+        return False
+    path = REPO / tu
+    if not path.exists():
+        return False
+    masked, defs, _, _, _ = file_view(tu, path.read_text(errors="surrogateescape"))
+    cur = {d["name"]: body_nhash(masked, d) for d in defs if d["name"] in fns}
+    return all(cur.get(fn) == latest[("S", tu, fn)]["nhash_after"] for fn in fns)
+
+
+def plan_S(headers, batch, only, done, latest=None, data=None):
+    """[(tu, {fn: bases})] — files with typed bases whose type is a CANONICAL definition (visible), ordered by the map's leverage.
+    latest = ledger_latest(rows): files whose every body is finished at its current text (s_finished) are not drawn; data: a bbt() dict (selftest)."""
     smap = struct_map()
     can = canon_types()
     files = collections.defaultdict(dict)
     weight = collections.Counter()
     skipped = collections.Counter()
-    for key, bases in bbt().items():
+    for key, bases in (bbt() if data is None else data).items():
         tu, fn = key.split("|", 1)
         if tu.endswith(".h") != headers:
             continue
@@ -3288,6 +3330,10 @@ def plan_S(headers, batch, only, done):
             weight[tu] += smap.get(ent["type"], {}).get("sites", 0)
         if usable:
             files[tu][fn] = usable
+    if latest:
+        for tu in [t for t in files if s_finished(t, set(files[t]), latest)]:
+            del files[tu]
+            skipped["file-finished"] += 1
     ordered = sorted(files, key=lambda t: (-weight[t], t))
     return [(tu, files[tu]) for tu in ordered[:batch]], len(ordered), skipped
 
@@ -3520,7 +3566,7 @@ def apply_batch(a):
         log_f.close()
         return 0 if v == "IDENTICAL" else 1
     if a.rung == "S":
-        plan, total, skipped = plan_S(a.headers, a.batch, a.only, done)
+        plan, total, skipped = plan_S(a.headers, a.batch, a.only, done, ledger_latest(rows))
         print(describe_plan("S", plan, total, skipped), flush=True)
     elif a.rung == "D":
         if a.redraw:
@@ -4706,6 +4752,23 @@ def selftest(real=False):
     ok("rung D supersede: only lifted latest rows with no lying declaration left (.c only; cause key; latest row)",
        [(r["tu"], r["unit"]) for r in st_] == [("src/a.c", "decl:f1")] and sup_[0]["verdict"] == "DECL-NONE" and "stale DECL-KEPT" in sup_[0]["cause"]
        and stale_lifted(sl_led, [], ["DECL-KEPT:conflicting"], True, None)[0]["tu"] == "src/c.h", f"{st_}")
+    # T3.c2: the pinned base→type fallback, and finished files left out of the plan
+    key_ = f"{tu}|fx_a"
+    cur_ = {key_: {"param:a0": dict(type="Unkstruct_DRIFT", sites=12), "param:a1": dict(type="Unkstruct_DRIFT2", sites=1)}}
+    pin_ = {key_: {"param:a0": dict(type="Unkstruct_TEST", sites=12), "param:a1": dict(type="Unkstruct_GONE", sites=1)}}
+    mg_, nfb_ = merge_bbt(cur_, pin_, _canon)
+    ok("bbt pin: a drifted non-canonical type falls back to the pinned canonical one; a non-canonical pin is not taken",
+       nfb_ == 1 and mg_[key_]["param:a0"]["type"] == "Unkstruct_TEST" and mg_[key_]["param:a1"]["type"] == "Unkstruct_DRIFT2", f"{mg_}")
+    ok("plan_S: drifted bbt draws nothing; the pinned merge draws the file",
+       plan_S(False, 50, None, set(), {}, cur_)[1] == 0 and plan_S(False, 50, None, set(), {}, mg_)[1] == 1)
+    m_, defs_, _, _, _ = file_view(tu, text)
+    nh_ = body_nhash(m_, next(x for x in defs_ if x["name"] == "fx_a"))
+    fin_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after=nh_)])
+    old_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after=nh_),
+                          dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after="stale")])
+    p_fin, p_old = plan_S(False, 50, None, set(), fin_, mg_), plan_S(False, 50, None, set(), old_, mg_)
+    ok("plan_S: a file whose bodies' latest S rows are at the current nhash is not drawn; a stale latest hash draws it",
+       p_fin[1] == 0 and p_fin[2]["file-finished"] == 1 and p_old[1] == 1, f"{p_fin[1:]} {p_old[1:]}")
     ok("the selftest never touches the live inflight.json", True)
     ok("struct_layout selftest", sl.selftest() == 0)
     JUDGE_STUB = None
@@ -4774,8 +4837,11 @@ def main():
     ap.add_argument("--rerun-differs", action="store_true", help="re-run only the DIFFERS rows of the last probe (with S2) and re-render")
     ap.add_argument("--probe-decls", action="store_true", help="probe (ii): the definition's signature as the in-scope declaration, per TU x callee")
     ap.add_argument("--probe-defs", action="store_true", help="probe (iii): fold a TU's duplicate file-scope definitions onto the canonical header")
+    ap.add_argument("--bbt", help="a pinned body_base_type.json: a base whose current type is not canonical falls back to its pinned entry (env RESTRUCT_BBT)")
     ap.add_argument("-j", "--jobs", type=int, default=16)
     a = ap.parse_args()
+    global BBT_PIN
+    BBT_PIN = a.bbt or BBT_PIN
     if a.selftest:
         sys.exit(selftest(real=a.real))
     if a.restore:
@@ -4819,9 +4885,10 @@ def main():
         return
     if a.plan:
         recipes()
-        done, _ = ledger_index(load_ledger())
+        led = load_ledger()
+        done, _ = ledger_index(led)
         if a.rung == "S":
-            plan, total, skipped = plan_S(a.headers, a.batch, a.only, done)
+            plan, total, skipped = plan_S(a.headers, a.batch, a.only, done, ledger_latest(led))
             print(describe_plan("S", plan, total, skipped))
         elif a.rung == "D":
             if a.redraw:
