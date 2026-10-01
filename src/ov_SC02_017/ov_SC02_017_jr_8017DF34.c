@@ -7454,10 +7454,10 @@ extern void func_801859C4(s32 a0);
 extern s32 func_80185B5C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
 
 void func_80185364(s32 a0) {
-    if (*(s32 *)(a0 + 0x1C) == *(s32 *)(a0 + 0x1C) / 5 * 5) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk1C == ((Unkstruct_800B5CB8 *)a0)->unk1C / 5 * 5) {
         func_801859C4(a0);
     }
-    if (*(s32 *)(a0 + 0x1C) >= 0xB) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk1C >= 0xB) {
         ((void (*)(s32))func_80185B5C)(a0);
     }
 }
@@ -7501,21 +7501,21 @@ extern void func_801859C4(s32 a0);
 void func_80185494(s32 a0) {
     s32 p;
 
-    if (--*(s32 *)(a0 + 0x1C) == 0xE) {
+    if (--((Unkstruct_800B5CB8 *)a0)->unk1C == 0xE) {
         func_801859C4(a0);
     }
-    if ((u32)(*(s32 *)(a0 + 0x1C) - 4) < 8) {
+    if ((u32)(((Unkstruct_800B5CB8 *)a0)->unk1C - 4) < 8) {
         ((void (*)(s32))func_80185B5C)(a0);
     }
-    if (*(s16 *)(a0 + 0xFE) != 0) {
-        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) += 0x40;
-        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A) += 0x40;
-        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1C) += 0x40;
-        p = *(s32 *)(a0 + 0x20);
-        if (*(s16 *)(p + 0x18) >= 0x1800) {
-            *(s16 *)(p + 0x1C) = 0x1800;
-            *(s16 *)(p + 0x1A) = 0x1800;
-            *(s16 *)(p + 0x18) = 0x1800;
+    if (((Unkstruct_800B5CB8 *)a0)->unkFE != 0) {
+        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 += 0x40;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A += 0x40;
+        *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1C) += 0x40;
+        p = ((Unkstruct_800B5CB8 *)a0)->unk20;
+        if (CAST_SIGN(s16, p, 0x18) >= 0x1800) {
+            CAST_WIDTH(s16, p, 0x1C) = 0x1800;
+            ((Unkstruct_800B5CB8 *)p)->unk1A = 0x1800;
+            ((Unkstruct_800B5CB8 *)p)->unk18 = 0x1800;
         }
     }
 }
@@ -7796,7 +7796,7 @@ void func_801859C4(s32 arg0) {
     u32 buf[2];
     s32 v;
 
-    if (*(s16 *)(arg0 + 0xAA) <= 0) {
+    if (((Unkstruct_800B5CB8 *)arg0)->unkAA <= 0) {
         for (i = 0; i < 10; i++) {
             q = func_80132EF4(arg0, 0x22);
             if (q != 0) {
@@ -7819,13 +7819,13 @@ extern char D_801D0DA8;
 
 s32 func_80185AF0(s32 arg0)
 {
-    if (*(s32 *)(arg0 + 0xDC) & 1) {
+    if (((Unkstruct_800B5CB8 *)arg0)->unkDC & 1) {
         return 0;
     }
     if (func_8012D5E4(arg0, (s32)&D_801D0DA8, (s32)&D_801D0DA8 + 8, 0xB) != 1) {
         return 0;
     }
-    *(s32 *)(arg0 + 0xDC) |= 1;
+    ((Unkstruct_800B5CB8 *)arg0)->unkDC |= 1;
     return 1;
 }
 

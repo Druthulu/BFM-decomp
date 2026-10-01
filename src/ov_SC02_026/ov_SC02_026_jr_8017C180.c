@@ -3279,12 +3279,12 @@ extern s32 D_801A4264;
 void func_8017DD0C(s32 a0) {
     s32 saved;
     s32 i;
-    saved = CAST_WIDTH(s32, *(s32 **)(a0 + 0x20), 8);
-    CAST_WIDTH(s32, *(s32 **)(a0 + 0x20), 8) = D_801A4264;
+    saved = CAST_WIDTH(s32, CAST_SIGN(s32 *, a0, 0x20), 8);
+    CAST_WIDTH(s32, CAST_SIGN(s32 *, a0, 0x20), 8) = D_801A4264;
     for (i = 0; i < 5; i++) {
         func_8012C658(0x150, i, a0);
     }
-    CAST_WIDTH(s32, *(s32 **)(a0 + 0x20), 8) = saved;
+    CAST_WIDTH(s32, CAST_SIGN(s32 *, a0, 0x20), 8) = saved;
 }
 
 
@@ -4516,10 +4516,10 @@ s32 func_8017F76C(s16 *a0, s32 a1, s32 a2, s32 a3) {
         return 0;
     }
     sub = *(s32 *)(obj + 0x20);
-    *(s32 *)(sub + 0x20) = (s32) D_801A5488;
-    *(u8 *)(sub + 0x27) = 0x56;
-    *(u16 *)(sub + 0x28) = 0x2A0;
-    *(u16 *)(sub + 0x2A) = 0x1A0;
+    ((Unkstruct_800B5CB8 *)sub)->unk20 = (s32) D_801A5488;
+    ((Unkstruct_800B5CB8 *)sub)->unk27 = 0x56;
+    ((Unkstruct_800B5CB8 *)sub)->unk28 = 0x2A0;
+    ((Unkstruct_800B5CB8 *)sub)->unk2A = 0x1A0;
 
     base = rand() % 200;
     if ((rand() & 1) == 0) {
@@ -4527,8 +4527,8 @@ s32 func_8017F76C(s16 *a0, s32 a1, s32 a2, s32 a3) {
     } else {
         spd = base + 0x400;
     }
-    *(u16 *)(sub + 0x1A) = spd;
-    *(u16 *)(sub + 0x18) = spd;
+    ((Unkstruct_800B5CB8 *)sub)->unk1A = spd;
+    ((Unkstruct_800B5CB8 *)sub)->unk18 = spd;
 
     if (a3 == 0) {
         s32 sign;
@@ -6279,24 +6279,24 @@ s32 func_801825A4(void *a0, s32 a1, s32 a2, s32 a3) {
         rvA = rand();
         rvB = rvA;
         sub = *(s32 *)(obj + 0x20);
-        *(s32 *)(sub + 0x20) = (s32) D_801AC2E4;
+        ((Unkstruct_800B5CB8 *)sub)->unk20 = (s32) D_801AC2E4;
         idx = a3 & 0xF;
         {
             u16 *tbl = D_801AC2F0[idx];
-            *(u8 *)(sub + 0x27) = (u8) tbl[2];
-            *(u16 *)(sub + 0x28) = tbl[0];
-            *(u16 *)(sub + 0x2A) = tbl[1];
+            ((Unkstruct_800B5CB8 *)sub)->unk27 = (u8) tbl[2];
+            ((Unkstruct_800B5CB8 *)sub)->unk28 = tbl[0];
+            ((Unkstruct_800B5CB8 *)sub)->unk2A = tbl[1];
         }
 
         if ((a3 & 0x8000) != 0) {
             s16 spd = (rvA * 0x10000 >> 0x10) % 0x200 + 0x400;
-            *(u16 *)(sub + 0x1A) = spd;
-            *(u16 *)(sub + 0x18) = spd;
+            ((Unkstruct_800B5CB8 *)sub)->unk1A = spd;
+            ((Unkstruct_800B5CB8 *)sub)->unk18 = spd;
             *(s32 *)(obj + 0x34) = spd;
         } else {
             s16 spd = (rvA * 0x10000 >> 0x10) % 0xC00 + 0x400;
-            *(u16 *)(sub + 0x1A) = spd;
-            *(u16 *)(sub + 0x18) = spd;
+            ((Unkstruct_800B5CB8 *)sub)->unk1A = spd;
+            ((Unkstruct_800B5CB8 *)sub)->unk18 = spd;
             *(s32 *)(obj + 0x34) = spd;
         }
 
