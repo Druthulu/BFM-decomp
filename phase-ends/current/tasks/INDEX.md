@@ -6,3 +6,4 @@ T3 | done | head-type layouts and canonical files | - | tasks/T3.md | logs/T3.md
 T4 | done | fold the head types fleet-wide (rung L) | - | tasks/T4.md | logs/T4.md | -
 T5 | question | long tail: one definition per type (partial; question) | - | tasks/T5.md | logs/T5.md | -
 T5.1 | done | long tail: one definition per type (gate reading fixed) | - | tasks/T5.1.md | logs/T5.1.md | R3.38-002,R3.38-003
+T6 | done | declaration layer on the canonical types | - | tasks/T6.md | logs/T6.md | -
