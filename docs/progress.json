@@ -66,7 +66,7 @@
   },
   "types": {
    "date": "2026-10-01",
-   "head": "6ea94447d7",
+   "head": "313ee50403",
    "snapshot": "P39",
    "census": ".run/P39/census/type_census.json",
    "what": "the structs phases' counters: raw pointer-cast dereferences in four forms (P *(T*)(\u2026), I *(T*)ident, X ((T*)e)[i], M M2C_FIELD), struct definitions and their duplicate classes, lying call declarations, and the struct map's types",
@@ -80,14 +80,15 @@
    "dead_names_kept": 3,
    "pad_names": 0,
    "parse_error_declarations": 0,
-   "raw_cast_sites": 502983,
+   "raw_cast_sites": 502988,
    "raw_cast_forms": {
-    "P": 408974,
+    "P": 408979,
     "I": 60666,
     "X": 13800,
     "A": 18892,
     "C": 36853,
-    "M": 19543
+    "M": 19543,
+    "K": 12
    },
    "raw_cast_bodies": 69492,
    "address_of_sites": 18892,
@@ -105,7 +106,7 @@
    "lying_callees": 24,
    "asm_label_aliases": 5148,
    "multi_spelled_callees": 3773,
-   "struct_map_types": 19122,
+   "struct_map_types": 19123,
    "struct_map_explained_pct": 99.2
   }
  },
