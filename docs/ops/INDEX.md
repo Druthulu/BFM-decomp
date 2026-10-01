@@ -52,3 +52,4 @@ mcp-renames-dont-persist-use-applysymbols.md | mcp-renames-dont-persist-use-appl
 ops-setup-decomp.md | extract the medium and verify against the committed manifest | 68
 wsl-disk-capped-75gb.md | wsl-disk-capped-75gb | 34
 p38-t4-2026-09-29-restruct-head-fold-mode.md | §P38 T4 — 2026-09-29: restruct rung L head-fold mode | 9
+p39-t1-2026-10-01-restruct-stale-supersede-timeline-check.md | §P39 T1 — 2026-10-01: restruct stale-row supersede; timeline --check | 5
