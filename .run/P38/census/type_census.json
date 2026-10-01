@@ -1,0 +1,3636 @@
+{
+ "summary": {
+  "head": "c5591de124",
+  "src_stamp": "287e6f521d908e6d",
+  "tool_stamp": "17a2928ffd",
+  "when": "2026-10-01T01:07:38Z",
+  "files": 7306,
+  "tus": 4121,
+  "headers": 3181,
+  "functions": 99109,
+  "definitions": {
+   "total": 1650,
+   "enums": 0,
+   "canon": 1021,
+   "in_c_file_scope": 0,
+   "in_c_block_scope": 600,
+   "in_shared_fn_headers": 29,
+   "in_include": 326,
+   "other_headers": 0,
+   "distinct_names": 1024,
+   "distinct_layouts": 523,
+   "unknown_layout": 0,
+   "dup_layout_classes": 53,
+   "dup_layout_names": 496,
+   "dup_tier1": 0,
+   "dup_tier2": 53,
+   "layout_twin_classes": 44,
+   "layout_twin_names": 472,
+   "exact_classes": 42,
+   "exact_copies": 546,
+   "variant_names": 0,
+   "dead_canon_names": 56,
+   "shadowed_canon_names": 0,
+   "typedef_aliases": 4300,
+   "forward_decls": 145
+  },
+  "casts": {
+   "by_form": {
+    "P": 408974,
+    "I": 60666,
+    "X": 13800,
+    "A": 18892,
+    "C": 36853,
+    "M": 19543
+   },
+   "raw_counts": {
+    "P": 408974,
+    "I": 60666,
+    "X": 13800,
+    "A": 18892,
+    "C": 36853,
+    "M": 19543
+   },
+   "coverage_ok": true,
+   "refused": 0,
+   "deref_total": 502983,
+   "addr_form": 18892,
+   "typed_cast_member": 36853,
+   "bodies": 69492,
+   "by_bclass": {
+    "local": 149900,
+    "param": 276840,
+    "global": 8861,
+    "gaddr": 40123,
+    "nested": 24076,
+    "ident": 156,
+    "other": 1677,
+    "addr-of": 1350
+   },
+   "by_width": {
+    "s4": 145146,
+    "u2": 142772,
+    "s2": 131805,
+    "u1": 43174,
+    "agg": 13475,
+    "p4": 12018,
+    "u4": 11164,
+    "s1": 3429
+   },
+   "readability_raw_regex": 411816,
+   "abs_casts": 0,
+   "top_bases": [
+    [
+     "param",
+     "a0",
+     92255
+    ],
+    [
+     "param",
+     "param_1",
+     81578
+    ],
+    [
+     "param",
+     "arg0",
+     67704
+    ],
+    [
+     "local",
+     "p",
+     18039
+    ],
+    [
+     "param",
+     "p",
+     11784
+    ],
+    [
+     "local",
+     "s0",
+     10368
+    ],
+    [
+     "local",
+     "cach",
+     8246
+    ],
+    [
+     "local",
+     "s1",
+     7137
+    ],
+    [
+     "local",
+     "buf",
+     7060
+    ],
+    [
+     "local",
+     "flag",
+     5453
+    ],
+    [
+     "nested",
+     "*(s32 *)(a0 + 0x20)",
+     5215
+    ],
+    [
+     "local",
+     "iVar2",
+     5160
+    ],
+    [
+     "local",
+     "dst",
+     4874
+    ],
+    [
+     "local",
+     "iVar1",
+     4836
+    ],
+    [
+     "local",
+     "iVar3",
+     4693
+    ],
+    [
+     "local",
+     "e",
+     3918
+    ],
+    [
+     "local",
+     "obj",
+     3681
+    ],
+    [
+     "local",
+     "cur",
+     3375
+    ],
+    [
+     "local",
+     "param_1",
+     2832
+    ],
+    [
+     "param",
+     "a1",
+     2667
+    ],
+    [
+     "local",
+     "base",
+     2632
+    ],
+    [
+     "local",
+     "src",
+     2599
+    ],
+    [
+     "local",
+     "L",
+     2261
+    ],
+    [
+     "local",
+     "ent",
+     2253
+    ],
+    [
+     "param",
+     "param_2",
+     2248
+    ],
+    [
+     "local",
+     "s2",
+     2188
+    ],
+    [
+     "local",
+     "s",
+     2167
+    ],
+    [
+     "param",
+     "arg1",
+     2030
+    ],
+    [
+     "nested",
+     "*(s32 *)(param_1 + 0x20)",
+     1967
+    ],
+    [
+     "local",
+     "iVar5",
+     1906
+    ],
+    [
+     "global",
+     "D_801151D4",
+     1896
+    ],
+    [
+     "param",
+     "p2",
+     1876
+    ],
+    [
+     "local",
+     "pv",
+     1847
+    ],
+    [
+     "local",
+     "self",
+     1818
+    ],
+    [
+     "local",
+     "r",
+     1787
+    ],
+    [
+     "local",
+     "puVar10",
+     1742
+    ],
+    [
+     "local",
+     "puVar1",
+     1730
+    ],
+    [
+     "local",
+     "st",
+     1729
+    ],
+    [
+     "local",
+     "v1",
+     1561
+    ],
+    [
+     "local",
+     "q",
+     1393
+    ]
+   ]
+  },
+  "decls": {
+   "fn_definitions": 99109,
+   "kr_definitions": 1894,
+   "extern_fn_decls": 4279260,
+   "extern_data_decls": 1078766,
+   "declared_fn_names": 12088,
+   "multi_spelled_callees": 3773,
+   "multi_body_names": 6413,
+   "data_symbols_declared": 55542,
+   "multi_typed_data_symbols": 18498,
+   "asm_label_aliases": 5148,
+   "asm_label_alias_names": 159,
+   "builtins": {
+    "memcpy": 301,
+    "abs": 1
+   },
+   "attributes": {
+    "packed": 26,
+    "aligned": 6
+   },
+   "lying": 229,
+   "lying_callees": 24,
+   "lying_kinds": {
+    "K&R-empty": 216,
+    "narrow": 13
+   },
+   "kr_sites": 5293,
+   "kr_callees": 200,
+   "cross_binary": 418,
+   "cross_callees": 96
+  },
+  "struct_map": {
+   "types": 19122,
+   "explained_sites": 498863,
+   "deref_sites": 502983,
+   "explained_pct": 99.2,
+   "unassigned_sites": 4120,
+   "conflicts": 857,
+   "suspect": 11,
+   "evidence": {
+    "param": 38862,
+    "assign": 16777,
+    "ret-of": 4334,
+    "arg": 10823,
+    "return": 1524,
+    "assign&": 1183,
+    "arg&": 270,
+    "field": 9896
+   },
+   "vetoed": {
+    "arg-conduit": 115274,
+    "ret-of-multisource": 6678,
+    "assign-multisource": 33062,
+    "arg&-conduit": 14636,
+    "field-multisource": 7008,
+    "ret-of": 675,
+    "assign&-multisource": 12102,
+    "arg&-no-overlap": 3455,
+    "assign": 347,
+    "arg-no-overlap": 43617,
+    "assign&": 337,
+    "arg": 182,
+    "return": 12,
+    "field": 3224
+   },
+   "singletons": 15076,
+   "multi_body": 4046,
+   "sites_in_multi_body": 440088,
+   "top": [
+    {
+     "name": "Unkstruct_800B5CB8",
+     "sites": 107580,
+     "bodies": 11184,
+     "size_hint": 268,
+     "fields": 134,
+     "conflicts": 50,
+     "sign_mixed": 55,
+     "merges": {
+      "arg&": 249,
+      "param": 9704,
+      "arg": 7080,
+      "assign": 8078,
+      "return": 713,
+      "ret-of": 1477,
+      "assign&": 18,
+      "field": 2622
+     },
+     "globals_at": [
+      "D_800B5CB8",
+      "D_800D3888",
+      "D_80181448"
+     ],
+     "globals_ptr": [
+      "D_8006386C",
+      "D_80074778",
+      "D_80074780"
+     ]
+    },
+    {
+     "name": "Unkstruct_80126B58",
+     "sites": 65397,
+     "bodies": 17047,
+     "size_hint": 588,
+     "fields": 175,
+     "conflicts": 50,
+     "sign_mixed": 60,
+     "merges": {
+      "assign&": 106,
+      "param": 2102,
+      "arg": 1087,
+      "assign": 43,
+      "field": 51
+     },
+     "globals_at": [
+      "D_80126B58"
+     ],
+     "globals_ptr": [
+      "D_80126B58"
+     ]
+    },
+    {
+     "name": "Unkstruct_cb638a45",
+     "sites": 6477,
+     "bodies": 381,
+     "size_hint": 16,
+     "fields": 6,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {
+      "param": 10,
+      "arg": 4
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_dac960ce",
+     "sites": 4464,
+     "bodies": 124,
+     "size_hint": 588,
+     "fields": 13,
+     "conflicts": 0,
+     "sign_mixed": 2,
+     "merges": {
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_0caecd54",
+     "sites": 4340,
+     "bodies": 124,
+     "size_hint": 254,
+     "fields": 23,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {
+      "param": 2,
+      "assign": 1,
+      "return": 1
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_f8ed2b9f",
+     "sites": 4061,
+     "bodies": 4061,
+     "size_hint": 535,
+     "fields": 1,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_a32b99a1",
+     "sites": 3936,
+     "bodies": 123,
+     "size_hint": 75,
+     "fields": 8,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_8e3dbe51",
+     "sites": 3930,
+     "bodies": 131,
+     "size_hint": 76,
+     "fields": 5,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_8014A1B0",
+     "sites": 3778,
+     "bodies": 542,
+     "size_hint": 254,
+     "fields": 13,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {
+      "field": 13,
+      "arg": 10,
+      "param": 10,
+      "return": 1
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80128EA8",
+     "sites": 3311,
+     "bodies": 632,
+     "size_hint": 56,
+     "fields": 18,
+     "conflicts": 0,
+     "sign_mixed": 13,
+     "merges": {
+      "field": 7,
+      "arg": 23,
+      "ret-of": 19,
+      "assign": 1,
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_57a28935",
+     "sites": 3271,
+     "bodies": 196,
+     "size_hint": 164,
+     "fields": 26,
+     "conflicts": 3,
+     "sign_mixed": 9,
+     "merges": {
+      "param": 268,
+      "arg": 133
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_1fa9e810",
+     "sites": 3144,
+     "bodies": 131,
+     "size_hint": 73,
+     "fields": 3,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_30b21035",
+     "sites": 3100,
+     "bodies": 124,
+     "size_hint": 84,
+     "fields": 13,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80126948",
+     "sites": 2986,
+     "bodies": 832,
+     "size_hint": 164,
+     "fields": 34,
+     "conflicts": 0,
+     "sign_mixed": 10,
+     "merges": {
+      "arg&": 1,
+      "assign": 99,
+      "param": 6,
+      "arg": 14,
+      "assign&": 4
+     },
+     "globals_at": [
+      "D_80126948",
+      "D_80126E60"
+     ],
+     "globals_ptr": [
+      "D_80114EE8",
+      "D_801151D4",
+      "D_80126948"
+     ]
+    },
+    {
+     "name": "Unkstruct_adc0bee4",
+     "sites": 2646,
+     "bodies": 126,
+     "size_hint": 52,
+     "fields": 8,
+     "conflicts": 0,
+     "sign_mixed": 3,
+     "merges": {
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_198fc7cc",
+     "sites": 2580,
+     "bodies": 129,
+     "size_hint": 56,
+     "fields": 16,
+     "conflicts": 3,
+     "sign_mixed": 1,
+     "merges": {
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_801439FC",
+     "sites": 2489,
+     "bodies": 981,
+     "size_hint": 268,
+     "fields": 57,
+     "conflicts": 9,
+     "sign_mixed": 22,
+     "merges": {
+      "field": 102
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80130D48",
+     "sites": 2382,
+     "bodies": 587,
+     "size_hint": 100,
+     "fields": 25,
+     "conflicts": 6,
+     "sign_mixed": 3,
+     "merges": {
+      "field": 1,
+      "assign": 119
+     },
+     "globals_at": [],
+     "globals_ptr": [
+      "D_80072C84",
+      "D_80078E78"
+     ]
+    },
+    {
+     "name": "Unkstruct_ed8f1335",
+     "sites": 2356,
+     "bodies": 124,
+     "size_hint": 36,
+     "fields": 18,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_8016B4F8",
+     "sites": 2140,
+     "bodies": 535,
+     "size_hint": 48,
+     "fields": 5,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {
+      "param": 26,
+      "arg": 12
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80139C7C",
+     "sites": 2111,
+     "bodies": 265,
+     "size_hint": 68,
+     "fields": 14,
+     "conflicts": 0,
+     "sign_mixed": 3,
+     "merges": {
+      "param": 12,
+      "arg": 5
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_b047cdf2",
+     "sites": 2108,
+     "bodies": 124,
+     "size_hint": 32,
+     "fields": 6,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_2729e670",
+     "sites": 2091,
+     "bodies": 123,
+     "size_hint": 75,
+     "fields": 6,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_dd542e54",
+     "sites": 2016,
+     "bodies": 126,
+     "size_hint": 24,
+     "fields": 7,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_f49880fd",
+     "sites": 2000,
+     "bodies": 125,
+     "size_hint": 84,
+     "fields": 6,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {
+      "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    }
+   ]
+  },
+  "controls": {
+   "player_block_widths": {
+    "ok": true,
+    "detail": "D_80078E8C:4/4 D_80078EB2:2/2 D_80078EB4:2/2 D_80078EB6:2/2 D_80078EB8:2/2 D_80078F08:4/4 D_80078F0C:4/4"
+   },
+   "matrix_layouts": {
+    "ok": true,
+    "detail": "MATRIX=32 MATRIX_L48=48"
+   },
+   "prim_layout_class": {
+    "ok": true,
+    "detail": "defs in 1 files, 1 spellings, 1/1 in one layout (64 B)"
+   },
+   "tu_conflict_D_800A651C": {
+    "ok": true,
+    "detail": "s32:1202 | u8[]:9 | OtBlk[]:9 | OtBlk_80016450[]:8 | s32[]:7"
+   },
+   "ok": 4,
+   "n": 4
+  },
+  "structs": {
+   "dup_classes": 0,
+   "outside_canon": 0,
+   "dead": 0,
+   "twins_stale": 0,
+   "twins_listed": 53,
+   "dead_kept": 3,
+   "block_frames": 629
+  },
+  "global_blocks": {
+   "n": 2124,
+   "members": 14253,
+   "top": [
+    {
+     "base": "0x800cf10c",
+     "size": 52,
+     "members": 29,
+     "first": "D_800CF10C",
+     "last": "D_800CF13C",
+     "widths": {
+      "3": 2,
+      "1": 14,
+      "4": 3,
+      "2": 10
+     }
+    },
+    {
+     "base": "0x800a6580",
+     "size": 58,
+     "members": 27,
+     "first": "D_800A6580",
+     "last": "D_800A65B8",
+     "widths": {
+      "4": 2,
+      "2": 25
+     }
+    },
+    {
+     "base": "0x801998a4",
+     "size": 87,
+     "members": 24,
+     "first": "D_801998A4",
+     "last": "D_801998FA",
+     "widths": {
+      "4": 21,
+      "1": 3
+     }
+    },
+    {
+     "base": "0x80199840",
+     "size": 86,
+     "members": 23,
+     "first": "D_80199840",
+     "last": "D_80199895",
+     "widths": {
+      "4": 21,
+      "1": 2
+     }
+    },
+    {
+     "base": "0x801a9608",
+     "size": 80,
+     "members": 22,
+     "first": "D_801A9608",
+     "last": "D_801A9654",
+     "widths": {
+      "4": 18,
+      "2": 4
+     }
+    },
+    {
+     "base": "0x801ab708",
+     "size": 84,
+     "members": 21,
+     "first": "D_801AB708",
+     "last": "D_801AB758",
+     "widths": {
+      "4": 21
+     }
+    },
+    {
+     "base": "0x801b0df0",
+     "size": 75,
+     "members": 21,
+     "first": "D_801B0DF0",
+     "last": "D_801B0E3A",
+     "widths": {
+      "4": 18,
+      "1": 3
+     }
+    },
+    {
+     "base": "0x801b83a0",
+     "size": 78,
+     "members": 21,
+     "first": "D_801B83A0",
+     "last": "D_801B83ED",
+     "widths": {
+      "4": 19,
+      "1": 2
+     }
+    },
+    {
+     "base": "0x801b8710",
+     "size": 84,
+     "members": 21,
+     "first": "D_801B8710",
+     "last": "D_801B8760",
+     "widths": {
+      "4": 21
+     }
+    },
+    {
+     "base": "0x801c1e60",
+     "size": 84,
+     "members": 21,
+     "first": "D_801C1E60",
+     "last": "D_801C1EB0",
+     "widths": {
+      "4": 21
+     }
+    },
+    {
+     "base": "0x801c4278",
+     "size": 84,
+     "members": 21,
+     "first": "D_801C4278",
+     "last": "D_801C42C8",
+     "widths": {
+      "4": 21
+     }
+    },
+    {
+     "base": "0x801cb090",
+     "size": 84,
+     "members": 21,
+     "first": "D_801CB090",
+     "last": "D_801CB0E0",
+     "widths": {
+      "4": 21
+     }
+    },
+    {
+     "base": "0x801cf298",
+     "size": 82,
+     "members": 21,
+     "first": "D_801CF298",
+     "last": "D_801CF2E8",
+     "widths": {
+      "4": 20,
+      "2": 1
+     }
+    },
+    {
+     "base": "0x801e05a8",
+     "size": 81,
+     "members": 21,
+     "first": "D_801E05A8",
+     "last": "D_801E05F8",
+     "widths": {
+      "4": 20,
+      "1": 1
+     }
+    },
+    {
+     "base": "0x80190a20",
+     "size": 80,
+     "members": 20,
+     "first": "D_80190A20",
+     "last": "D_80190A6C",
+     "widths": {
+      "4": 20
+     }
+    }
+   ]
+  },
+  "parked": {
+   "classes": 24,
+   "bodies": 453,
+   "sites": 691,
+   "needs": {
+    "signature": 13,
+    "struct": 7,
+    "?": 4
+   },
+   "minimum_lever_banks": 22,
+   "path": ".run/P38/census/parked.tsv"
+  },
+  "timing": {
+   "walk_s": 43.7,
+   "decls_s": 220.5,
+   "total_s": 232.7
+  }
+ },
+ "dup_layout_classes": [
+  {
+   "lhash": "4cc70dd1aeae:opaque",
+   "size": 4,
+   "n_names": 56,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "B4_80165140",
+    "B4_8017F154",
+    "B4_8018750C",
+    "B4_8018AD9C",
+    "B4_8018C334",
+    "B4_CB578",
+    "B4_SC03_014_8018A860",
+    "BYTES_800CFAD0",
+    "Blk4_8017CE90_8017CE90",
+    "Blk4_8017D5DC",
+    "Blk4_8017D7A0",
+    "Blk4_8017E808",
+    "Blk4_80180518",
+    "Blk4_801815D4",
+    "Blk4_80181EDC",
+    "Blk4_80181EDC_8017FEA0",
+    "Blk4_80182194",
+    "Blk4_80183AF4",
+    "Blk4_80183FCC",
+    "Blk4_80185D4C",
+    "Blk4_8018B4E0",
+    "Blk4_8018B5E4",
+    "Blk4_8018B948",
+    "Blk4_8018BDD0",
+    "Blk4_8018CC28",
+    "Blk4_8018CE04_80186D40",
+    "Blk4_8018CE04_80188C34",
+    "Blk4_8018CE04_8018A724",
+    "Blk4_8018FF98",
+    "Blk4_80191320_80191070",
+    "Blk4_801EC660",
+    "Blk4_9B4",
+    "Blk4_E960",
+    "Blk4_SC06_018_8018AB00",
+    "Blk4_SC07_000_8017F8B8",
+    "Block4",
+    "Col4",
+    "EffectSlot4",
+    "EffectSlot4_8017E32C",
+    "EffectSlot4_801811D4"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "64533110def7:opaque",
+   "size": 8,
+   "n_names": 46,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk8S16",
+    "Blk8_80126940",
+    "Blk8_80180A38",
+    "D_80195AF4_t",
+    "D_80195AF6_t",
+    "ElemK",
+    "Elem_801347A0",
+    "Entry_80186A04",
+    "M8012AF0C",
+    "Node_80189244",
+    "P16",
+    "Rec_801897BC",
+    "Rec_8018A6A4",
+    "S8",
+    "S8_80172780",
+    "SV4L",
+    "SV4_8017DE40",
+    "SV4_8017E910",
+    "SV4_8017EA48",
+    "SV4_8018256C",
+    "SV4_80182818",
+    "SV4_801836B8",
+    "SV4_80186C20",
+    "SV4_8018A86C",
+    "SV4_FC6C",
+    "SV4_L_8017BEBC",
+    "SV4x_80180ACC",
+    "SV4x_80184754",
+    "SV4x_80184B30",
+    "SV4x_80184B30_801829C4",
+    "SV892CC",
+    "SV_801821E0",
+    "SVec801A8E34",
+    "SVec8_8017F694",
+    "Spawn8_80182848",
+    "Stk801395D4",
+    "Stride8_s16_80182868",
+    "Stride8_s16_80182868_80180970",
+    "TBL_80186144",
+    "V4s80147514"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "b53d46e36006:opaque",
+   "size": 8,
+   "n_names": 45,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "B8",
+    "B8_17F474",
+    "B8_80165140",
+    "B8_801851A8",
+    "B8_8018750C",
+    "B8_8018C334",
+    "B8_8018F060",
+    "B8_801AEB04",
+    "B8_CB578",
+    "Blk8L",
+    "Blk8_8017B238_8017B238",
+    "Blk8_8017B614",
+    "Blk8_8017DAFC",
+    "Blk8_8017E224",
+    "Blk8_8017E6A4",
+    "Blk8_801809B0",
+    "Blk8_801812AC",
+    "Blk8_80181324",
+    "Blk8_801813B0",
+    "Blk8_801827C4",
+    "Blk8_80182844",
+    "Blk8_80182B08",
+    "Blk8_8018495C",
+    "Blk8_801859DC",
+    "Blk8_80186594",
+    "Blk8_801867AC",
+    "Blk8_801870AC",
+    "Blk8_8018B1B4",
+    "Blk8_80191320",
+    "Blk8_80191320_8018D05C",
+    "Blk8_820F8",
+    "Blk8_E08",
+    "Blk8_EBB8",
+    "Blk8_FE08",
+    "Blk8_func_8017E3AC",
+    "Blk8x",
+    "Copy8",
+    "ImgRect8",
+    "M8_tag",
+    "S6C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "8d605044e3bf:opaque",
+   "size": 8,
+   "n_names": 34,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Args_80182194",
+    "Blk8017FD54",
+    "Blk8_801A6AD0",
+    "Blk8_801AD914",
+    "Blk8_801E0764",
+    "Blk8_801E076C",
+    "Blk8_md_SC07_004_801AA9D4",
+    "Blk_80178D40",
+    "DBlock_8019F04C",
+    "D_801D0630_s",
+    "DataBlock",
+    "Data_t_80181CE0",
+    "Ent8_80188",
+    "Entry8_801A5D68",
+    "Rec8_801863EC",
+    "Rec8_801A57E8",
+    "SC05_F3E4_Tbl8",
+    "SV4U",
+    "SVec_801347A0",
+    "Stride8_u16_80182868",
+    "Stride8_u16_80182868_80180970",
+    "Tbl8_801AFF3C",
+    "Tbl_80181574",
+    "Tbl_80184F18",
+    "U16x4",
+    "UAlign8_80181F40",
+    "UAlign8_8018833C",
+    "Unk_80126940",
+    "V4U_8014C4AC",
+    "V8_SC07_002_8017C8D0",
+    "Vec4x16",
+    "Vec8_801A0E28",
+    "Vec8_801A1924",
+    "Vec8_md_SC07_003_801A3334"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "5f4b599a9ffa:opaque",
+   "size": 20,
+   "n_names": 32,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk20_8017D110",
+    "Buf8017BF34_8017BF34",
+    "Buf8017BF50_8017C234",
+    "Loc_80180E10",
+    "LocalStruct",
+    "LocalStruct_8018A968",
+    "Local_80180ABC",
+    "Pkt_8018626C",
+    "Prim293C",
+    "Prim80180A38",
+    "PrimBE4",
+    "PrimF790",
+    "PrimSpec80182A6C",
+    "Prim_80180BDC",
+    "Prim_SC01_077_80182268",
+    "Rec8017F39C",
+    "Rec_SC06_029_80180A70",
+    "S80143BDC",
+    "S80190C84",
+    "S80190C84L",
+    "S80190C84_8018483C",
+    "S80190C84_846B4",
+    "S845EC_in",
+    "Spawn801A143C",
+    "Sprite8_801861D8",
+    "St_8017D118",
+    "St_8017EDC4",
+    "St_80182784",
+    "St_80182784_801817E4",
+    "Struct_8017D25C",
+    "buf_8017F5BC",
+    "sprite8"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "d4b0395bb0af:opaque",
+   "size": 16,
+   "n_names": 28,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk16X",
+    "Blk16_8017ECD4",
+    "Blk16_8018A4C4",
+    "Blk16_8018A8B8",
+    "Blk16_801E2F08",
+    "Blk16_956C",
+    "Blk16_SC01_084_8017DAF8",
+    "Blk16_md_MAIN_016",
+    "Blk_800CBAD0",
+    "CB4A4_V4",
+    "DStruct",
+    "M16",
+    "Q16",
+    "Quad",
+    "Quad_8018797C",
+    "Quad_8018797C_8017F26C",
+    "Rec16_8017DDC4",
+    "Rec16_8017DDC4_8018034C",
+    "Rec16_8017DDC4_80180F08",
+    "Rec16_8017DDC4_80182244",
+    "Rec16_8018066C",
+    "S16_md_MAIN_014_800CB254",
+    "Struct16",
+    "Vec801A8E34",
+    "func_800CB0B0_Blk16",
+    "func_800CB164_Blk16",
+    "func_800CB188_Blk16",
+    "func_800CB4D8_Blk16"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "c1767d5293b8:opaque",
+   "size": 6,
+   "n_names": 25,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "D80190448_t",
+    "Pt6_8017D65C",
+    "ResMapCol",
+    "S6",
+    "S8012D664_8012D664",
+    "S845EC_out",
+    "SV3",
+    "SV3_801802D0",
+    "SV3_8018287C",
+    "SV3_80182938",
+    "SV3_8018495C",
+    "SV3_80184C98",
+    "SV3_80184D50",
+    "SV3_80184E00",
+    "SV3_80184F48",
+    "SV3_80187654",
+    "SV3_801891E8",
+    "SV3_846B4",
+    "SV3x_80180ACC",
+    "SV3x_80184B30",
+    "SV3x_80184B30_801829C4",
+    "Trio",
+    "Vec3s16_8018388C",
+    "Vec3s16_80185380",
+    "VecB"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "b85caab442ac:opaque",
+   "size": 32,
+   "n_names": 25,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk20_8016DF5C",
+    "Blk20_80180B78",
+    "Blk20_80184694",
+    "Blk32L_80133298",
+    "Blk32_80017E8C",
+    "Blk32_80180E8C",
+    "Blk32_8018287C",
+    "Blk32_80183F10",
+    "Blk32_801A5194",
+    "Blk32_801E8788",
+    "Blk32_998",
+    "Block32",
+    "Copy32",
+    "D_800D942C_entry",
+    "MTX8L_80180750",
+    "MTX8L_80181BD4",
+    "MTX8L_801821E0",
+    "MTX_L1",
+    "Mat_80167540",
+    "Mtx8_8017C910_8017E924",
+    "Mtx_8017F370",
+    "Oct_801853D0",
+    "S_md_MAIN_033_800CB3D8",
+    "Vec8",
+    "W8__md_MAIN_044"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "846e0acadd6a",
+   "size": 8,
+   "n_names": 22,
+   "n_defs": 22,
+   "canon": 22,
+   "in_c": 0,
+   "names": [
+    "B8014",
+    "Blk8_80133CD4",
+    "Blk8_801463A0",
+    "Blk8_8017FF80",
+    "Blk8_8018048C",
+    "Blk8_801828E4",
+    "Blk8_SC01_077_801842C8",
+    "Blk8_SC03_001_80186B54",
+    "Blk8_SC07_007_8017D288",
+    "Blk8_SC07_007_8017D684",
+    "Blk8_md_MAIN_031",
+    "Blk8_md_SC07_003_801A3638",
+    "Blob8_80187664",
+    "Blob8_801876B0",
+    "Blob8_80189B30",
+    "Blob8_8018A47C",
+    "Blob8_8018A47C_8017DEA4",
+    "Blob8_8018A4C4",
+    "M8_801312D0",
+    "M8_8014C6F4",
+    "U8",
+    "V8"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "ce8acea75f2c",
+   "size": 12,
+   "n_names": 19,
+   "n_defs": 19,
+   "canon": 19,
+   "in_c": 0,
+   "names": [
+    "Blk12",
+    "Prim126",
+    "PrimC59C",
+    "PrimC974",
+    "PrimCF90",
+    "PrimD538",
+    "PrimDF98",
+    "Prim_8017C710_t3f3d6beb",
+    "Prim_8017CD9C",
+    "Prim_8017CDF0",
+    "Prim_8017FB38",
+    "Prim_SC02_011_80180FE4",
+    "Prim_SC02_031_8017F5B4",
+    "Prim_SC03_014_8017FA5C",
+    "Prim_SC03_092_8017CE58",
+    "Prim_SC03_116_8017BF14",
+    "Prim_SC06_000_8017E35C",
+    "Prim_SC06_000_8017EF68",
+    "Prim_SC06_029_8017C954"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "6c480babe175:opaque",
+   "size": 8,
+   "n_names": 14,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "CdFileLoc",
+    "Cmd_801805C8",
+    "M8_8016B6BC",
+    "Pair8_8017DDC4",
+    "Pair8_8017DDC4_8018034C",
+    "Pair8_8017DDC4_80180F08",
+    "Pair8_8017DDC4_80182244",
+    "Pair_801B5E30",
+    "Rec8",
+    "Rec_80189AEC",
+    "S_D2394B",
+    "Struct_8017E784",
+    "Struct_80184C18",
+    "Tbl8_8017FC44"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "142564f85464:opaque",
+   "size": 4,
+   "n_names": 14,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "D_801D0660_s",
+    "Ent_80186AE4",
+    "P4",
+    "Pair4_801B02DC",
+    "Prim4_8017DD28",
+    "Prim4_801E46A0",
+    "Prim4_801E9BE0",
+    "Prim4_801EFA40",
+    "Rec4",
+    "S9E",
+    "U16x2",
+    "U16x2L",
+    "U16x2N",
+    "UV_80181574"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "03b738d15c44",
+   "size": 4,
+   "n_names": 12,
+   "n_defs": 12,
+   "canon": 12,
+   "in_c": 0,
+   "names": [
+    "Unkstruct_8017E2EC_2",
+    "Unkstruct_8017F8A8_2",
+    "Unkstruct_80181658_2",
+    "Unkstruct_80187B34_2",
+    "Unkstruct_80187EDC_2",
+    "Unkstruct_8018CD04_2",
+    "Unkstruct_8018F02C_2",
+    "Unkstruct_801AF368_2",
+    "VMask",
+    "W_8018893C",
+    "W_S40_8018B238",
+    "W_S40_8018B238_80187EA0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "245ecac205e6:opaque",
+   "size": 12,
+   "n_names": 9,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "MainSlot",
+    "Rec12",
+    "Rec12_801888F4",
+    "Rec801944E8",
+    "S12_801AD700",
+    "S12_801AD914",
+    "S801563EC",
+    "S_80182618",
+    "Vec12_8017F370"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "7db7d8817dcc",
+   "size": 4,
+   "n_names": 8,
+   "n_defs": 8,
+   "canon": 8,
+   "in_c": 0,
+   "names": [
+    "Blk4_80029774",
+    "Blk4_8018048C",
+    "Blk4_801A40CC",
+    "Blk4_SC03_097_8017D898",
+    "Blk4_md_SC07_004_801ACE5C",
+    "S4_800CD054",
+    "Unkstruct_801A01E8",
+    "W_8016BFD0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "8da756678e6d",
+   "size": 8,
+   "n_names": 6,
+   "n_defs": 6,
+   "canon": 6,
+   "in_c": 0,
+   "names": [
+    "Bc8_80180E0C",
+    "Packed8",
+    "S80126B38",
+    "S80172C50",
+    "UnalignedPair",
+    "up"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "92bd6306b11d",
+   "size": 12,
+   "n_names": 6,
+   "n_defs": 6,
+   "canon": 6,
+   "in_c": 0,
+   "names": [
+    "Blk12_80180BE0",
+    "Blk12_801854C4",
+    "Blk12_80185E68",
+    "Blk12_820F8",
+    "Elm12",
+    "Rsc12"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "a0f7100333b8:opaque",
+   "size": 4,
+   "n_names": 4,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Prim4_8017E978",
+    "Prim4_8017E978_8018B478",
+    "Rec4_801891F4",
+    "UV_80185214"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "ceca4ea3ade1:opaque",
+   "size": 6,
+   "n_names": 4,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Cam8012E138",
+    "SV3_SC07_002_801829F0",
+    "Src_8013B598_8013B598",
+    "Src_8013B6A0_8013B6A0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "6ef8724a7464",
+   "size": 20,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 4,
+   "in_c": 0,
+   "names": [
+    "Obj20_80178D40",
+    "S801593E4",
+    "Sub_80155800_80155800",
+    "Sub_8015CD20"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "f1dcb3a42fc8",
+   "size": 20,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 4,
+   "in_c": 0,
+   "names": [
+    "Rec_801825D8",
+    "Rec_80184FF8",
+    "S8012C658",
+    "S8017FF9C_sp"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "afc6a8e495a5:opaque",
+   "size": 8,
+   "n_names": 4,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Box_80133784",
+    "Ent_8018A224",
+    "Rec_8017ECD4",
+    "Rec_EDC0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "ff66866c62b0",
+   "size": 4,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 4,
+   "in_c": 0,
+   "names": [
+    "Ent_80183280",
+    "Unkstruct_801824D4",
+    "Unkstruct_80182560",
+    "Unkstruct_801E5894"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "9865e09a793d",
+   "size": 3,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 4,
+   "in_c": 0,
+   "names": [
+    "Blk3_8017D730",
+    "Blk3_801E40A8",
+    "Blk3_801E95E8",
+    "Blk3_801EF448"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "313fe9a920e0",
+   "size": 26,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 4,
+   "in_c": 0,
+   "names": [
+    "A098Rec",
+    "Struct800D2E20",
+    "Struct800D2E6C",
+    "Struct800D3104"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "9568f57fb00f:opaque",
+   "size": 20,
+   "n_names": 3,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "OtBlk_80180894",
+    "OtBlk_80182890_8018FB5C",
+    "OtBlk_8018FE0C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "b519bad67107:opaque",
+   "size": 20,
+   "n_names": 3,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Local_8017EE34",
+    "Local_80181C84",
+    "Local_801870E8"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "a5b3b6c549ea",
+   "size": 32,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "Blk32u",
+    "Entry_8016E95C",
+    "Quad_td"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "f39ecda931df:opaque",
+   "size": 12,
+   "n_names": 3,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Rec_md_MAIN_047_800CCBC0",
+    "UAlign12_80181F40",
+    "UAlign12_8018833C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "9ba0ae408dd4",
+   "size": 56,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "Drv_8017E330",
+    "Drv_8017E550",
+    "Drv_8017E878"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "8944ddcbe454:opaque",
+   "size": 36,
+   "n_names": 3,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk36_800296F8",
+    "Blob36",
+    "SW20"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "c2ba48790859",
+   "size": 1,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "W8",
+    "W8_",
+    "func_8002EE64_b"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "ac91ae2d8aa0:opaque",
+   "size": 28,
+   "n_names": 2,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "S800D22E4",
+    "vec"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "5f9112725d5b",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Src80172E20",
+    "StructB58_8017FAFC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "82c6e3650290:opaque",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Gte8_8017F2FC",
+    "Rec_80180808"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "aa66418d079c:opaque",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Blk16_80126940",
+    "Pos16_8018743C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "1dd90dc86138",
+   "size": 236,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Ent80183F28",
+    "Ent_80184058"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "00bfd8673c28",
+   "size": 32,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Panel_8017E978_8017E1AC",
+    "Panel_801E46A0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "a3d1be6495e4",
+   "size": 12,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Rec027",
+    "Rec_8017C738"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "9c8d61900c8d",
+   "size": 56,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "PRIM_8018FE20",
+    "Prim_8017DAC4"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "1f2e73d77112",
+   "size": 12,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Rec801806C8_s",
+    "Rec80182744_s"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "d60a32e09c91",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "P8",
+    "S72"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "08944be666a1",
+   "size": 20,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Sub8017EBC4",
+    "Sub_80181BA0"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "c80fac242f04",
+   "size": 32,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Mat801A8E34",
+    "Mat_80183C9C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "474e1fa40ab6",
+   "size": 156,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Actor_8017E550",
+    "Actor_8017E878"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "12fe36cd7e07",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Struct801E79D8",
+    "Struct801EF318"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "f94245c68571",
+   "size": 108,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "S_8013BC7C_8013BC7C",
+    "T68_8017FC44"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "c6e867e46e6f",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "V16x4",
+    "Vec4s16_8018423C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "64db0612c4d4",
+   "size": 236,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Work_801832E0",
+    "Work_80183634"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "cc89b444f3c5",
+   "size": 256,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "EntA",
+    "Ent_SC07_010_8017AE2C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "927525df50d4",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "E_13BD74",
+    "E_13C08C_8013C08C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "2816963b1259",
+   "size": 44,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Obj800D302C",
+    "Struct800D2FEC"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "2e57efa3d051",
+   "size": 72,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Voice336A8",
+    "VoiceF80"
+   ],
+   "tier": 2
+  }
+ ],
+ "layout_twins": [
+  {
+   "lhash": "4cc70dd1aeae",
+   "size": 4,
+   "n_names": 58,
+   "n_defs": 58,
+   "canon": 58,
+   "in_c": 0,
+   "names": [
+    "B4_80165140",
+    "B4_8017F154",
+    "B4_8018750C",
+    "B4_8018AD9C",
+    "B4_8018C334",
+    "B4_CB578",
+    "B4_SC03_014_8018A860",
+    "BYTES_800CFAD0",
+    "Blk4_8017CE90_8017CE90",
+    "Blk4_8017D5DC",
+    "Blk4_8017D7A0",
+    "Blk4_8017E808",
+    "Blk4_80180518",
+    "Blk4_801815D4",
+    "Blk4_80181EDC",
+    "Blk4_80181EDC_8017FEA0",
+    "Blk4_80182194",
+    "Blk4_80183AF4",
+    "Blk4_80183FCC",
+    "Blk4_80185D4C",
+    "Blk4_8018B4E0",
+    "Blk4_8018B5E4",
+    "Blk4_8018B948",
+    "Blk4_8018BDD0",
+    "Blk4_8018CC28",
+    "Blk4_8018CE04_80186D40",
+    "Blk4_8018CE04_80188C34",
+    "Blk4_8018CE04_8018A724",
+    "Blk4_8018FF98",
+    "Blk4_80191320_80191070",
+    "Blk4_801EC660",
+    "Blk4_9B4",
+    "Blk4_E960",
+    "Blk4_SC06_018_8018AB00",
+    "Blk4_SC07_000_8017F8B8",
+    "Block4",
+    "CVECTOR",
+    "C_8017DCC0",
+    "Col4",
+    "EffectSlot4"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "CVECTOR"
+    ],
+    [
+     "C_8017DCC0"
+    ]
+   ],
+   "opaque_names": [
+    "B4_80165140",
+    "B4_8017F154",
+    "B4_8018750C",
+    "B4_8018AD9C",
+    "B4_8018C334",
+    "B4_CB578",
+    "B4_SC03_014_8018A860",
+    "BYTES_800CFAD0",
+    "Blk4_8017CE90_8017CE90",
+    "Blk4_8017D5DC"
+   ]
+  },
+  {
+   "lhash": "64533110def7",
+   "size": 8,
+   "n_names": 53,
+   "n_defs": 64,
+   "canon": 53,
+   "in_c": 11,
+   "names": [
+    "Blk8S16",
+    "Blk8_80126940",
+    "Blk8_80180A38",
+    "D_80195AF4_t",
+    "D_80195AF6_t",
+    "ElemK",
+    "Elem_801347A0",
+    "Entry_80186A04",
+    "M8012AF0C",
+    "Node_80189244",
+    "P16",
+    "Pt_8017E1A8",
+    "Q_8017DF28",
+    "RECT",
+    "Rec_801897BC",
+    "Rec_8018A6A4",
+    "S16x4",
+    "S8",
+    "S8_80172780",
+    "SV4L",
+    "SV4_8017DE40",
+    "SV4_8017E910",
+    "SV4_8017EA48",
+    "SV4_8018256C",
+    "SV4_80182818",
+    "SV4_801836B8",
+    "SV4_80186C20",
+    "SV4_8018A86C",
+    "SV4_FC6C",
+    "SV4_L_8017BEBC",
+    "SV4x_80180ACC",
+    "SV4x_80184754",
+    "SV4x_80184B30",
+    "SV4x_80184B30_801829C4",
+    "SV892CC",
+    "SVECTOR",
+    "SV_801821E0",
+    "SVec801A8E34",
+    "SVec8_8017F694",
+    "Spawn8_80182848"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "RECT"
+    ],
+    [
+     "SVECTOR"
+    ],
+    [
+     "Vtx_8016B6BC"
+    ],
+    [
+     "Pt_8017E1A8"
+    ],
+    [
+     "Q_8017DF28"
+    ],
+    [
+     "S16x4"
+    ],
+    [
+     "V8_80184F90_801844C8"
+    ]
+   ],
+   "opaque_names": [
+    "Blk8S16",
+    "Blk8_80126940",
+    "Blk8_80180A38",
+    "D_80195AF4_t",
+    "D_80195AF6_t",
+    "ElemK",
+    "Elem_801347A0",
+    "Entry_80186A04",
+    "M8012AF0C",
+    "Node_80189244"
+   ]
+  },
+  {
+   "lhash": "b53d46e36006",
+   "size": 8,
+   "n_names": 47,
+   "n_defs": 48,
+   "canon": 47,
+   "in_c": 1,
+   "names": [
+    "B8",
+    "B8_17F474",
+    "B8_80165140",
+    "B8_801851A8",
+    "B8_8018750C",
+    "B8_8018C334",
+    "B8_8018F060",
+    "B8_801AEB04",
+    "B8_CB578",
+    "Blk8L",
+    "Blk8_8017B238_8017B238",
+    "Blk8_8017B614",
+    "Blk8_8017DAFC",
+    "Blk8_8017E224",
+    "Blk8_8017E6A4",
+    "Blk8_801809B0",
+    "Blk8_801812AC",
+    "Blk8_80181324",
+    "Blk8_801813B0",
+    "Blk8_801827C4",
+    "Blk8_80182844",
+    "Blk8_80182B08",
+    "Blk8_8018495C",
+    "Blk8_801859DC",
+    "Blk8_80186594",
+    "Blk8_801867AC",
+    "Blk8_801870AC",
+    "Blk8_8018B1B4",
+    "Blk8_80191320",
+    "Blk8_80191320_8018D05C",
+    "Blk8_820F8",
+    "Blk8_E08",
+    "Blk8_EBB8",
+    "Blk8_FE08",
+    "Blk8_func_8017E3AC",
+    "Blk8x",
+    "Copy8",
+    "ImgRect8",
+    "M8_tag",
+    "PHdr_80189340"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "S8Blob"
+    ],
+    [
+     "PHdr_80189340"
+    ]
+   ],
+   "opaque_names": [
+    "B8",
+    "B8_17F474",
+    "B8_80165140",
+    "B8_801851A8",
+    "B8_8018750C",
+    "B8_8018C334",
+    "B8_8018F060",
+    "B8_801AEB04",
+    "B8_CB578",
+    "Blk8L"
+   ]
+  },
+  {
+   "lhash": "8d605044e3bf",
+   "size": 8,
+   "n_names": 40,
+   "n_defs": 58,
+   "canon": 40,
+   "in_c": 18,
+   "names": [
+    "Args_80182194",
+    "Blk8017FD54",
+    "Blk8_8018A314",
+    "Blk8_801A6AD0",
+    "Blk8_801AD914",
+    "Blk8_801E0764",
+    "Blk8_801E076C",
+    "Blk8_md_SC07_004_801AA9D4",
+    "Blk_80178D40",
+    "DBlock_8019F04C",
+    "D_801D0630_s",
+    "DataBlock",
+    "Data_t_80181CE0",
+    "Ent8_80188",
+    "Entry8_801A5D68",
+    "Rec8_801863EC",
+    "Rec8_801A57E8",
+    "Row8_8018367C",
+    "SC05_F3E4_Tbl8",
+    "SV4U",
+    "SV4_801AAB28",
+    "SVECTOR_8017E6D8",
+    "SVec_801347A0",
+    "SpadRect_800184F0",
+    "Stride8_u16_80182868",
+    "Stride8_u16_80182868_80180970",
+    "Tbl8_801AFF3C",
+    "Tbl_80181574",
+    "Tbl_80184F18",
+    "U16x4",
+    "UAlign8_80181F40",
+    "UAlign8_8018833C",
+    "Unk_80126940",
+    "V",
+    "V4U_8014C4AC",
+    "V8_SC07_002_8017C8D0",
+    "Vec4x16",
+    "Vec8_801A0E28",
+    "Vec8_801A1924",
+    "Vec8_md_SC07_003_801A3334"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "V"
+    ],
+    [
+     "Blk8_8018A314"
+    ],
+    [
+     "Row8_8018367C"
+    ],
+    [
+     "SpadRect_800184F0"
+    ],
+    [
+     "SV4_801AAB28"
+    ],
+    [
+     "SVECTOR_8017E6D8"
+    ]
+   ],
+   "opaque_names": [
+    "Args_80182194",
+    "Blk8017FD54",
+    "Blk8_801A6AD0",
+    "Blk8_801AD914",
+    "Blk8_801E0764",
+    "Blk8_801E076C",
+    "Blk8_md_SC07_004_801AA9D4",
+    "Blk_80178D40",
+    "DBlock_8019F04C",
+    "D_801D0630_s"
+   ]
+  },
+  {
+   "lhash": "5f4b599a9ffa",
+   "size": 20,
+   "n_names": 35,
+   "n_defs": 46,
+   "canon": 36,
+   "in_c": 10,
+   "names": [
+    "Blk20_8017D110",
+    "Blk80182030",
+    "Buf8017BF34_8017BF34",
+    "Buf8017BF50_8017C234",
+    "Loc_80180E10",
+    "LocalStruct",
+    "LocalStruct_8018A968",
+    "Local_80180ABC",
+    "Msg_8018248C",
+    "Pkt_8018626C",
+    "Prim293C",
+    "Prim80180A38",
+    "Prim801A2014",
+    "PrimBE4",
+    "PrimF790",
+    "PrimSpec80182A6C",
+    "Prim_80180BDC",
+    "Prim_SC01_077_80182268",
+    "Rec8017F39C",
+    "Rec_SC06_029_80180A70",
+    "S80143BDC",
+    "S80190C84",
+    "S80190C84L",
+    "S80190C84_8018483C",
+    "S80190C84_846B4",
+    "S845EC_in",
+    "Spawn801A143C",
+    "Sprite8_801861D8",
+    "St_8017D118",
+    "St_8017EDC4",
+    "St_80182784",
+    "St_80182784_801817E4",
+    "Struct_8017D25C",
+    "buf_8017F5BC",
+    "sprite8"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Blk80182030"
+    ],
+    [
+     "Msg_8018248C"
+    ],
+    [
+     "Prim801A2014"
+    ]
+   ],
+   "opaque_names": [
+    "Blk20_8017D110",
+    "Buf8017BF34_8017BF34",
+    "Buf8017BF50_8017C234",
+    "Loc_80180E10",
+    "LocalStruct",
+    "LocalStruct_8018A968",
+    "Local_80180ABC",
+    "Pkt_8018626C",
+    "Prim293C",
+    "Prim80180A38"
+   ]
+  },
+  {
+   "lhash": "d4b0395bb0af",
+   "size": 16,
+   "n_names": 32,
+   "n_defs": 40,
+   "canon": 32,
+   "in_c": 8,
+   "names": [
+    "Blk16X",
+    "Blk16_8017ECD4",
+    "Blk16_8018A4C4",
+    "Blk16_8018A8B8",
+    "Blk16_801E2F08",
+    "Blk16_956C",
+    "Blk16_SC01_084_8017DAF8",
+    "Blk16_md_MAIN_016",
+    "Blk_800CBAD0",
+    "CB4A4_V4",
+    "DStruct",
+    "LineF2",
+    "M16",
+    "Q16",
+    "Quad",
+    "Quad_8018797C",
+    "Quad_8018797C_8017F26C",
+    "Rec16_8017DDC4",
+    "Rec16_8017DDC4_8018034C",
+    "Rec16_8017DDC4_80180F08",
+    "Rec16_8017DDC4_80182244",
+    "Rec16_8018066C",
+    "S16_md_MAIN_014_800CB254",
+    "Struct16",
+    "V32_800CB4E4",
+    "Vec32",
+    "Vec4_800128EC",
+    "Vec801A8E34",
+    "func_800CB0B0_Blk16",
+    "func_800CB164_Blk16",
+    "func_800CB188_Blk16",
+    "func_800CB4D8_Blk16"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "Vec32"
+    ],
+    [],
+    [
+     "LineF2"
+    ],
+    [
+     "V32_800CB4E4"
+    ],
+    [
+     "Vec4_800128EC"
+    ]
+   ],
+   "opaque_names": [
+    "Blk16X",
+    "Blk16_8017ECD4",
+    "Blk16_8018A4C4",
+    "Blk16_8018A8B8",
+    "Blk16_801E2F08",
+    "Blk16_956C",
+    "Blk16_SC01_084_8017DAF8",
+    "Blk16_md_MAIN_016",
+    "Blk_800CBAD0",
+    "CB4A4_V4"
+   ]
+  },
+  {
+   "lhash": "c1767d5293b8",
+   "size": 6,
+   "n_names": 28,
+   "n_defs": 41,
+   "canon": 28,
+   "in_c": 12,
+   "names": [
+    "D80190448_t",
+    "Pt6_8017D65C",
+    "ResMapCol",
+    "S6",
+    "S8012D664_8012D664",
+    "S845EC_out",
+    "SV3",
+    "SV3L",
+    "SV3_801802D0",
+    "SV3_8018287C",
+    "SV3_80182938",
+    "SV3_8018495C",
+    "SV3_80184C98",
+    "SV3_80184D50",
+    "SV3_80184E00",
+    "SV3_80184F48",
+    "SV3_80187654",
+    "SV3_801891E8",
+    "SV3_846B4",
+    "SV3x_80180ACC",
+    "SV3x_80184B30",
+    "SV3x_80184B30_801829C4",
+    "Trio",
+    "UVec_8017DB64",
+    "Vec3s",
+    "Vec3s16_8018388C",
+    "Vec3s16_80185380",
+    "VecB"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Vec3s"
+    ],
+    [
+     "UVec_8017DB64"
+    ],
+    [
+     "SV3L"
+    ]
+   ],
+   "opaque_names": [
+    "D80190448_t",
+    "Pt6_8017D65C",
+    "ResMapCol",
+    "S6",
+    "S8012D664_8012D664",
+    "S845EC_out",
+    "SV3",
+    "SV3_801802D0",
+    "SV3_8018287C",
+    "SV3_80182938"
+   ]
+  },
+  {
+   "lhash": "b85caab442ac",
+   "size": 32,
+   "n_names": 28,
+   "n_defs": 29,
+   "canon": 28,
+   "in_c": 1,
+   "names": [
+    "ARG_80187714",
+    "Blk20_8016DF5C",
+    "Blk20_80180B78",
+    "Blk20_80184694",
+    "Blk32L_80133298",
+    "Blk32_80017E8C",
+    "Blk32_80180E8C",
+    "Blk32_8018287C",
+    "Blk32_80183F10",
+    "Blk32_801A5194",
+    "Blk32_801E8788",
+    "Blk32_998",
+    "Block32",
+    "Copy32",
+    "D_800D942C_entry",
+    "MTX8L_80180750",
+    "MTX8L_80181BD4",
+    "MTX8L_801821E0",
+    "MTX8_80185648",
+    "MTX_L1",
+    "Mat_80167540",
+    "Mtx8_8017C910_8017E924",
+    "Mtx_8017F370",
+    "Oct_801853D0",
+    "RView",
+    "S_md_MAIN_033_800CB3D8",
+    "Vec8",
+    "W8__md_MAIN_044"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "ARG_80187714"
+    ],
+    [
+     "MTX8_80185648"
+    ],
+    [
+     "RView"
+    ]
+   ],
+   "opaque_names": [
+    "Blk20_8016DF5C",
+    "Blk20_80180B78",
+    "Blk20_80184694",
+    "Blk32L_80133298",
+    "Blk32_80017E8C",
+    "Blk32_80180E8C",
+    "Blk32_8018287C",
+    "Blk32_80183F10",
+    "Blk32_801A5194",
+    "Blk32_801E8788"
+   ]
+  },
+  {
+   "lhash": "142564f85464",
+   "size": 4,
+   "n_names": 17,
+   "n_defs": 19,
+   "canon": 17,
+   "in_c": 2,
+   "names": [
+    "DVec_80183DA4",
+    "D_801D0660_s",
+    "Ent_80186AE4",
+    "P4",
+    "Pair4_801B02DC",
+    "Prim4_8017DD28",
+    "Prim4_801E46A0",
+    "Prim4_801E9BE0",
+    "Prim4_801EFA40",
+    "Pt_80015F04",
+    "Rec4",
+    "S80153CCC",
+    "S9E",
+    "U16x2",
+    "U16x2L",
+    "U16x2N",
+    "UV_80181574"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "S80153CCC"
+    ],
+    [
+     "DVec_80183DA4"
+    ],
+    [
+     "Pt_80015F04"
+    ]
+   ],
+   "opaque_names": [
+    "D_801D0660_s",
+    "Ent_80186AE4",
+    "P4",
+    "Pair4_801B02DC",
+    "Prim4_8017DD28",
+    "Prim4_801E46A0",
+    "Prim4_801E9BE0",
+    "Prim4_801EFA40",
+    "Rec4",
+    "S9E"
+   ]
+  },
+  {
+   "lhash": "6c480babe175",
+   "size": 8,
+   "n_names": 14,
+   "n_defs": 23,
+   "canon": 14,
+   "in_c": 9,
+   "names": [
+    "CdFileLoc",
+    "Cmd_801805C8",
+    "M8_8016B6BC",
+    "Pair8_8017DDC4",
+    "Pair8_8017DDC4_8018034C",
+    "Pair8_8017DDC4_80180F08",
+    "Pair8_8017DDC4_80182244",
+    "Pair_801B5E30",
+    "Rec8",
+    "Rec_80189AEC",
+    "S_D2394B",
+    "Struct_8017E784",
+    "Struct_80184C18",
+    "Tbl8_8017FC44"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [],
+    []
+   ],
+   "opaque_names": [
+    "CdFileLoc",
+    "Cmd_801805C8",
+    "M8_8016B6BC",
+    "Pair8_8017DDC4",
+    "Pair8_8017DDC4_8018034C",
+    "Pair8_8017DDC4_80180F08",
+    "Pair8_8017DDC4_80182244",
+    "Pair_801B5E30",
+    "Rec8",
+    "Rec_80189AEC"
+   ]
+  },
+  {
+   "lhash": "245ecac205e6",
+   "size": 12,
+   "n_names": 12,
+   "n_defs": 17,
+   "canon": 12,
+   "in_c": 5,
+   "names": [
+    "MainSlot",
+    "Rec12",
+    "Rec12_801888F4",
+    "Rec801944E8",
+    "S12_801AD700",
+    "S12_801AD914",
+    "S801563EC",
+    "S_80182618",
+    "S_AF634",
+    "VECTOR",
+    "VEC_8017DF28",
+    "Vec12_8017F370"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "S_AF634"
+    ],
+    [
+     "VEC_8017DF28"
+    ],
+    [
+     "VECTOR"
+    ]
+   ],
+   "opaque_names": [
+    "MainSlot",
+    "Rec12",
+    "Rec12_801888F4",
+    "Rec801944E8",
+    "S12_801AD700",
+    "S12_801AD914",
+    "S801563EC",
+    "S_80182618",
+    "Vec12_8017F370"
+   ]
+  },
+  {
+   "lhash": "a0f7100333b8",
+   "size": 4,
+   "n_names": 8,
+   "n_defs": 11,
+   "canon": 8,
+   "in_c": 3,
+   "names": [
+    "DVECTOR",
+    "Entry",
+    "Pair_8013AD38",
+    "Prim4_8017E978",
+    "Prim4_8017E978_8018B478",
+    "Range_80189A70",
+    "Rec4_801891F4",
+    "UV_80185214"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Range_80189A70"
+    ],
+    [
+     "Pair_8013AD38"
+    ],
+    [
+     "Entry"
+    ],
+    [
+     "DVECTOR"
+    ]
+   ],
+   "opaque_names": [
+    "Prim4_8017E978",
+    "Prim4_8017E978_8018B478",
+    "Rec4_801891F4",
+    "UV_80185214"
+   ]
+  },
+  {
+   "lhash": "ceca4ea3ade1",
+   "size": 6,
+   "n_names": 7,
+   "n_defs": 11,
+   "canon": 7,
+   "in_c": 4,
+   "names": [
+    "Cam183098",
+    "Cam8012E138",
+    "Col6_801A2E20",
+    "Pos_8017DC24",
+    "SV3_SC07_002_801829F0",
+    "Src_8013B598_8013B598",
+    "Src_8013B6A0_8013B6A0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Pos_8017DC24"
+    ],
+    [
+     "Cam183098"
+    ],
+    [
+     "Col6_801A2E20"
+    ]
+   ],
+   "opaque_names": [
+    "Cam8012E138",
+    "SV3_SC07_002_801829F0",
+    "Src_8013B598_8013B598",
+    "Src_8013B6A0_8013B6A0"
+   ]
+  },
+  {
+   "lhash": "aa66418d079c",
+   "size": 16,
+   "n_names": 7,
+   "n_defs": 8,
+   "canon": 7,
+   "in_c": 0,
+   "names": [
+    "Blk16_80126940",
+    "Box_80182BC8",
+    "Buf",
+    "Ent_801E650C",
+    "Pair16",
+    "Pos16_8018743C",
+    "Work_8017E330"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Pair16"
+    ],
+    [
+     "Buf"
+    ],
+    [
+     "Box_80182BC8"
+    ],
+    [
+     "Ent_801E650C"
+    ],
+    [
+     "Work_8017E330"
+    ]
+   ],
+   "opaque_names": [
+    "Blk16_80126940",
+    "Pos16_8018743C"
+   ]
+  },
+  {
+   "lhash": "afc6a8e495a5",
+   "size": 8,
+   "n_names": 6,
+   "n_defs": 6,
+   "canon": 6,
+   "in_c": 0,
+   "names": [
+    "Box_80133784",
+    "Ent_8018A224",
+    "Rec8_8018A390_8018523C",
+    "Rec_8017ECD4",
+    "Rec_EDC0",
+    "SVEC_FD64"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Rec8_8018A390_8018523C"
+    ],
+    [
+     "SVEC_FD64"
+    ]
+   ],
+   "opaque_names": [
+    "Box_80133784",
+    "Ent_8018A224",
+    "Rec_8017ECD4",
+    "Rec_EDC0"
+   ]
+  },
+  {
+   "lhash": "699932e6421d",
+   "size": 52,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 5,
+   "in_c": 0,
+   "names": [
+    "Frame_80166690_80166690",
+    "Poly_8016CBC0",
+    "Prim_8017C218_8017C218",
+    "Prim_md_MAIN_047_800CCBC0",
+    "Str_8017DA50"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Frame_80166690_80166690"
+    ],
+    [
+     "Poly_8016CBC0"
+    ],
+    [
+     "Prim_8017C218_8017C218"
+    ],
+    [
+     "Str_8017DA50"
+    ],
+    [
+     "Prim_md_MAIN_047_800CCBC0"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "f39ecda931df",
+   "size": 12,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 5,
+   "in_c": 0,
+   "names": [
+    "Rec12_EBB8",
+    "Rec_80166690_80166690",
+    "Rec_md_MAIN_047_800CCBC0",
+    "UAlign12_80181F40",
+    "UAlign12_8018833C"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Rec_80166690_80166690"
+    ],
+    [
+     "Rec12_EBB8"
+    ]
+   ],
+   "opaque_names": [
+    "Rec_md_MAIN_047_800CCBC0",
+    "UAlign12_80181F40",
+    "UAlign12_8018833C"
+   ]
+  },
+  {
+   "lhash": "8944ddcbe454",
+   "size": 36,
+   "n_names": 5,
+   "n_defs": 5,
+   "canon": 5,
+   "in_c": 0,
+   "names": [
+    "Blk36_800296F8",
+    "Blob36",
+    "G4",
+    "SW20",
+    "Unkstruct_8018637C"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "G4"
+    ],
+    [
+     "Unkstruct_8018637C"
+    ]
+   ],
+   "opaque_names": [
+    "Blk36_800296F8",
+    "Blob36",
+    "SW20"
+   ]
+  },
+  {
+   "lhash": "b519bad67107",
+   "size": 20,
+   "n_names": 4,
+   "n_defs": 7,
+   "canon": 4,
+   "in_c": 3,
+   "names": [
+    "Local_8017EE34",
+    "Local_80181C84",
+    "Local_801870E8",
+    "SV3L2"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "SV3L2"
+    ]
+   ],
+   "opaque_names": [
+    "Local_8017EE34",
+    "Local_80181C84",
+    "Local_801870E8"
+   ]
+  },
+  {
+   "lhash": "82c6e3650290",
+   "size": 8,
+   "n_names": 4,
+   "n_defs": 4,
+   "canon": 4,
+   "in_c": 0,
+   "names": [
+    "Elem_8012ACE0",
+    "Gte8_8017F2FC",
+    "Gte8_80181574",
+    "Rec_80180808"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Elem_8012ACE0"
+    ],
+    [
+     "Gte8_80181574"
+    ]
+   ],
+   "opaque_names": [
+    "Gte8_8017F2FC",
+    "Rec_80180808"
+   ]
+  },
+  {
+   "lhash": "9568f57fb00f",
+   "size": 20,
+   "n_names": 3,
+   "n_defs": 13,
+   "canon": 3,
+   "in_c": 10,
+   "names": [
+    "OtBlk_80180894",
+    "OtBlk_80182890_8018FB5C",
+    "OtBlk_8018FE0C"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [],
+    []
+   ],
+   "opaque_names": [
+    "OtBlk_80180894",
+    "OtBlk_80182890_8018FB5C",
+    "OtBlk_8018FE0C"
+   ]
+  },
+  {
+   "lhash": "25f49f5ba77e",
+   "size": 32,
+   "n_names": 3,
+   "n_defs": 4,
+   "canon": 3,
+   "in_c": 1,
+   "names": [
+    "Blk32_801898F4",
+    "Buf32",
+    "LineG3_80016B60"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "Buf32"
+    ],
+    [
+     "LineG3_80016B60"
+    ]
+   ],
+   "opaque_names": [
+    "Blk32_801898F4"
+   ]
+  },
+  {
+   "lhash": "ac91ae2d8aa0",
+   "size": 28,
+   "n_names": 3,
+   "n_defs": 72,
+   "canon": 3,
+   "in_c": 59,
+   "names": [
+    "G3",
+    "S800D22E4",
+    "vec"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "G3"
+    ]
+   ],
+   "opaque_names": [
+    "S800D22E4",
+    "vec"
+   ]
+  },
+  {
+   "lhash": "355775b26f45",
+   "size": 20,
+   "n_names": 3,
+   "n_defs": 4,
+   "canon": 3,
+   "in_c": 1,
+   "names": [
+    "F3P_800CB1F8",
+    "F3_80017168",
+    "LineG2_80016A7C"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "F3P_800CB1F8"
+    ],
+    [
+     "F3_80017168"
+    ],
+    [
+     "LineG2_80016A7C"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "59d779d0e67a",
+   "size": 8,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "DrMode_80021284",
+    "DrTpage",
+    "Drm_801833F0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Drm_801833F0"
+    ],
+    [
+     "DrMode_80021284"
+    ],
+    [
+     "DrTpage"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "65c3c6fd5cf3",
+   "size": 4,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "Ang2_8012B77C_8012B77C",
+    "PrimTag",
+    "Rot1CDC"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Ang2_8012B77C_8012B77C"
+    ],
+    [
+     "PrimTag"
+    ]
+   ],
+   "opaque_names": [
+    "Rot1CDC"
+   ]
+  },
+  {
+   "lhash": "decfa4933e51",
+   "size": 8,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "Cmd801800B8",
+    "RES_8018209C",
+    "Rec8_801A026C"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Cmd801800B8"
+    ],
+    [
+     "RES_8018209C"
+    ]
+   ],
+   "opaque_names": [
+    "Rec8_801A026C"
+   ]
+  },
+  {
+   "lhash": "858542a6caf7",
+   "size": 28,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "FaceGT3",
+    "FaceT3",
+    "TPRIM_80025818"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "FaceGT3"
+    ],
+    [
+     "TPRIM_80025818"
+    ]
+   ],
+   "opaque_names": [
+    "FaceT3"
+   ]
+  },
+  {
+   "lhash": "c261a2c483d3",
+   "size": 40,
+   "n_names": 3,
+   "n_defs": 3,
+   "canon": 3,
+   "in_c": 0,
+   "names": [
+    "Ft4_800CBA18",
+    "LineG4",
+    "PktGT3"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Ft4_800CBA18"
+    ],
+    [
+     "LineG4"
+    ],
+    [
+     "PktGT3"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "f138a69b30cd",
+   "size": 16,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Blip_8018F694",
+    "LineF2_80015F04"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Blip_8018F694"
+    ],
+    [
+     "LineF2_80015F04"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "d97bdca0dba1",
+   "size": 196,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Blk_8016CF04_8016CF04",
+    "Trail"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Blk_8016CF04_8016CF04"
+    ],
+    [
+     "Trail"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "dc04bfb9dfa0",
+   "size": 196,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Blk_8016CBC0",
+    "Trail_md_MAIN_047_800CCBC0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Blk_8016CBC0"
+    ],
+    [
+     "Trail_md_MAIN_047_800CCBC0"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "241a3665d293",
+   "size": 40,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Prim_8016B6BC",
+    "Src_80016B60"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Prim_8016B6BC"
+    ],
+    [
+     "Src_80016B60"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "6f0428152b9e",
+   "size": 64,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Prim_8017F40C",
+    "Prim_80183F84"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Prim_8017F40C"
+    ],
+    [
+     "Prim_80183F84"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "0029a68fa4fc",
+   "size": 64,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Poly12Obj",
+    "Src_80182FD4"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Src_80182FD4"
+    ],
+    [
+     "Poly12Obj"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "db33e2cfb9f1",
+   "size": 8,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "SV3_8012CC88_tag",
+    "V8_80187968"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "SV3_8012CC88_tag"
+    ],
+    [
+     "V8_80187968"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "ab244e47ddd7",
+   "size": 52,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Prim_8017FA2C",
+    "Q_8017DCC0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Prim_8017FA2C"
+    ],
+    [
+     "Q_8017DCC0"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "978935850105",
+   "size": 12,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Bar",
+    "T3Reloc"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Bar"
+    ],
+    [
+     "T3Reloc"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "0fb1d3def821",
+   "size": 20,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Face2",
+    "Prim_800"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Face2"
+    ],
+    [
+     "Prim_800"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "400c14f38ee9",
+   "size": 32,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Prim20",
+    "TPRIM_800275BC"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Prim20"
+    ],
+    [
+     "TPRIM_800275BC"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "14018f91f8d9",
+   "size": 24,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "F4_80017294",
+    "PktF4_800CB3C0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "PktF4_800CB3C0"
+    ],
+    [
+     "F4_80017294"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "0bc2946999e5",
+   "size": 28,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "G3_800173DC",
+    "Prim1C_800CB5D0"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Prim1C_800CB5D0"
+    ],
+    [
+     "G3_800173DC"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "923553d9bdbc",
+   "size": 12,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Cell_EA14",
+    "RecDA34"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Cell_EA14"
+    ],
+    [
+     "RecDA34"
+    ]
+   ],
+   "opaque_names": []
+  },
+  {
+   "lhash": "9ac749ecf0eb",
+   "size": 52,
+   "n_names": 2,
+   "n_defs": 2,
+   "canon": 2,
+   "in_c": 0,
+   "names": [
+    "Src_80016C28",
+    "Src_80017778"
+   ],
+   "tier": 3,
+   "camps": [
+    [
+     "Src_80016C28"
+    ],
+    [
+     "Src_80017778"
+    ]
+   ],
+   "opaque_names": []
+  }
+ ],
+ "variants": [],
+ "dead": [
+  "A",
+  "A098Rec",
+  "ARG_80187714",
+  "B",
+  "CVECTOR",
+  "C_8017DCC0",
+  "Coord_8017E330",
+  "DVECTOR",
+  "D_800D942C_entry",
+  "D_80195AF4_t",
+  "D_80195AF6_t",
+  "D_801D0630_s",
+  "D_801D0660_s",
+  "D_801EC450_t",
+  "D_87298",
+  "Elem_8012ACE0",
+  "LineF2_8018F694",
+  "MTX2_8001FC08",
+  "Mat_80167540",
+  "Node_80189244",
+  "Obj20_80178D40",
+  "P",
+  "POLY_FT4",
+  "POLY_G3",
+  "POLY_G4",
+  "RECT",
+  "ROW_8018562C",
+  "Rec027",
+  "Rec801806C8_s",
+  "Rec80182744_s",
+  "Rec_800",
+  "S",
+  "Snd54Sub",
+  "Src_80167540",
+  "Sub20_1CDC",
+  "Sub2_80167540",
+  "Sub64_1CDC",
+  "Sub83178",
+  "SubA_8016A73C",
+  "SubB_8016A73C",
+  "SubEnt8018B390",
+  "Sub_80155800_80155800",
+  "UV16D78",
+  "UV_80181574",
+  "UV_80185214",
+  "Unkstruct_80126B58",
+  "V",
+  "V16F18",
+  "Vtx_8016B6BC",
+  "actor4c",
+  "func_8002EE64_b",
+  "func_8003A234_Ctx",
+  "func_800CB0B0_Blk16",
+  "func_800CB164_Blk16",
+  "func_800CB188_Blk16",
+  "func_800CB4D8_Blk16"
+ ],
+ "shadow": [],
+ "structs_dead": [],
+ "structs_stale": [],
+ "refused": []
+}
