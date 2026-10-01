@@ -3640,7 +3640,7 @@ void func_80187994(s32 a0, s32 a1, s32 a2, s32 a3) {
     result = func_8012B744((void*)(a0 + 4), vals);
 
     v1 = (s32*)(a0 + 0x20);
-    *(u16*)(*v1 + 0x12) = (u16)result;
+    CAST_NONSTRUCT(u16, *v1, 0x12) = (u16)result;
     func_8012B200((u8*)a0);
 }
 

@@ -3951,11 +3951,11 @@ void func_8017EA20(s32 param_1) {
     if (*(s16 *)(param_1 + 0x102) != 2) {
         s32 r = rand() & 0xFF;
         *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
-            *(u16 *)(*(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x12) + r - 0x80;
+            CAST_NONSTRUCT(u16, *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20), 0x12) + r - 0x80;
     } else {
         s32 r = rand() & 1;
         *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
-            *(u16 *)(*(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x12) + r * 0x1C0 - 0xE0;
+            CAST_NONSTRUCT(u16, *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20), 0x12) + r * 0x1C0 - 0xE0;
     }
 
     func_8012B2CC(param_1);
