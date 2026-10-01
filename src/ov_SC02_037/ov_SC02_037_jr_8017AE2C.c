@@ -4885,17 +4885,7 @@ void func_8017CD10(void *a0) {
 
 extern void func_8017D030(int);
 extern void func_80146C3C(u8 *a0);
-void func_8017CFE4(int param_1)
-{
-    unsigned short uVar1;
-    uVar1 = *(unsigned short *)(param_1 + 0x12) - 0x100;
-    *(unsigned short *)(param_1 + 0x12) = uVar1;
-    if ((short)uVar1 > 0) {
-        func_8017D030(param_1);
-    } else {
-        ((void (*)(int))func_80146C3C)(param_1);
-    }
-}
+#include "../shared/ov/func_8017CFE4__5b6b9682.h"
 
 
 
@@ -5099,19 +5089,7 @@ void func_800D22E4(s32 a0);
 void func_8017D728(void *a0);
 void func_80146C3C(u8 *a0);
 
-void func_8017D6CC(void *a0)
-{
-    s32 *ptr = (s32 *)((u8 *)a0 + 0x1C);
-    s32 v0 = *ptr;
-    *ptr = v0 + 1;
-
-    if (v0 < 0xA) {
-        func_800D22E4((s32)a0);
-        func_8017D728(a0);
-    } else {
-        func_80146C3C((u8 *)a0);
-    }
-}
+#include "../shared/ov/func_8017D6CC__86843ed5.h"
 
 
 

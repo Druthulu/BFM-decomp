@@ -1,10 +1,10 @@
   CC      build/src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.o
-src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c:1527: warning: conflicting types for built-in function `memcpy'
+src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c:1521: warning: conflicting types for built-in function `memcpy'
 src/ov_SC03_126/../shared/ov/func_8017EA78__afb31368.h: In function `func_8017EA78':
-In file included from src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c:2919:
+In file included from src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c:2913:
 src/ov_SC03_126/../shared/ov/func_8017EA78__afb31368.h:6: warning: passing arg 1 of `func_8017EC2C' makes integer from pointer without a cast
 src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c: At top level:
-src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c:3011: warning: type mismatch with previous external decl
+src/ov_SC03_126/ov_SC03_126_jr_8017D5C0.c:3005: warning: type mismatch with previous external decl
 src/ov_SC03_126/../shared/ov/func_8017EDB8__3df94c9c.h:15: warning: previous external decl of `func_8012A094'
   LD      build/ov_SC03_126/ov_SC03_126.elf
   OBJCOPY build/ov_SC03_126/ov_SC03_126
