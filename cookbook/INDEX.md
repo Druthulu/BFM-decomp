@@ -959,3 +959,7 @@
 - **§499** — ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT (P32 T2a/T2b: the parked five onboarded, 213 → 218 binaries, 0 UNCLAIMED)  <sub>L36758</sub>
 - **§500** — ★★★ — THE T3 WAVE HARVEST (P32 T3, 2026-09-05): 31 one-agent-per-function drafters → 20 MATCH / 9 NEAR / 2 FAIL, every closer, two NEW named gcc mechanisms, and the wave-process defects  <sub>L36799</sub>
 C0509 | fleet-tool-parallelism-defaults | legacy,memory | 2026-09-29 | - | legacy memory fleet-tool-parallelism-defaults.md
+C0510 | §396(a) correction: a zero-byte barrier CAN fence an slti;beqz cross-jump when placed between beqz and j | cross-jump,barrier,reorg,cond-expr,correction | 2026-09-30 | 38/T7 | P36 S104 ov_SC03_110/func_801800F0 mechanism.md; corrects C0442
+C0511 | Type-census instrument pitfalls: attrs in layout hash, tag+typedef one name, intra-canon liveness, stale ledger rows | census,structs,types,gate,ledger | 2026-09-30 | 38/T7 | P38 T2-T6 summaries
+C0512 | Folding duplicate struct definitions onto one canonical type, byte-safely | structs,fold,types,restruct,lift_types | 2026-09-30 | 38/T7 | P38 T4-T6 summaries
+C0513 | Makefile health-gate traps: make -n on .ONESHELL executes; health needs a complete build/ | make,tools-health,oneshell,build | 2026-09-30 | 38/T7 | P38 T1
