@@ -3429,7 +3429,7 @@ void func_801888F4(void *arg0)
     func_8001CC3C((s32)p, (s32)&D_8018F560[rand() & 3], 0x3F0, 0x100);
     *(u8  *)((s32)p + 0x27) = 0x9D;
     *(s16 *)((s32)p + 0x1A) = 0x1000;
-    *(s16 *)((s32)p + 0x18) = 0x1000;
+    CAST_WIDTH(s16, (s32)p, 0x18) = 0x1000;
 
     *(s32 *)((s32)a0 + 0x10) = 0;
     *(s32 *)((s32)a0 + 0x14) = 0x20000;
@@ -4021,7 +4021,7 @@ void func_80189750(s32 param_1)
     p0 = param_1;
     t = ((s32 (*)(void))func_8012C1B8)();
     iVar1 = t;
-    *(s32 *)(p0 + 0x20) = t;
+    ((Unkstruct_80126B58 *)p0)->unk20 = t;
     if (t == 0 || func_80189888() != 0) {
         func_8012CAE4(p0);
         return;
@@ -4030,7 +4030,7 @@ void func_80189750(s32 param_1)
     func_8001C214(iVar1, (s32)&D_801965CC);
     func_8012A828(p0, &D_801A629C);
 
-    *(s32 *)(*(s32 *)(p0 + 0x20) + 4) |= 0x80000000;
+    *(s32 *)(((Unkstruct_80126B58 *)p0)->unk20 + 4) |= 0x80000000;
     func_80188F30(p0);
 }
 
@@ -4473,8 +4473,8 @@ void func_8018A128(int param_1)
     short c;
 
     if (*(unsigned short *)(param_1 + 0x34) == 0) {
-        *(short *)(*(int *)(param_1 + 0x20) + 0x12) =
-            CAST_NONSTRUCT(short, *(int *)(*(int *)(param_1 + 0x64) + 0x20), 0x12);
+        *(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12) =
+            CAST_NONSTRUCT(short, ((Unkstruct_80126B58 *)*(int *)(param_1 + 0x64))->unk20, 0x12);
         ((void (*)(void))func_8012B2CC)();
         func_8012B23C(param_1);
         ((void (*)(int, void *))func_8012B14C)(param_1, &D_801A7820);
@@ -4482,19 +4482,19 @@ void func_8018A128(int param_1)
         in.b = 0;
         in.c = 0x10;
         ((void (*)(int, void *, void *))func_8012F214)(param_1, &in, &out);
-        *(short *)(param_1 + 6) = out.a;
-        *(short *)(param_1 + 0xa) = out.b;
+        ((Unkstruct_80126B58 *)param_1)->unk6 = out.a;
+        ((Unkstruct_80126B58 *)param_1)->unkA = out.b;
         c = out.c;
-        *(int *)(param_1 + 0x1c) = 0x5a;
-        *(short *)(param_1 + 0x34) = 1;
-        *(short *)(param_1 + 0xe) = c;
+        ((Unkstruct_80126B58 *)param_1)->unk1C = 0x5a;
+        CAST_WIDTH(short, param_1, 0x34) = 1;
+        ((Unkstruct_80126B58 *)param_1)->unkE = c;
     }
-    *(short *)(*(int *)(param_1 + 0x20) + 0x10) =
-        *(short *)(*(int *)(param_1 + 0x20) + 0x10) - 0x80;
-    *(short *)(*(int *)(param_1 + 0x20) + 0x12) =
-        *(short *)(*(int *)(param_1 + 0x20) + 0x12) + 4;
-    *(short *)(*(int *)(param_1 + 0x20) + 0x14) =
-        *(short *)(*(int *)(param_1 + 0x20) + 0x14) + 5;
+    *(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x10) =
+        *(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x10) - 0x80;
+    *(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12) =
+        *(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12) + 4;
+    *(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x14) =
+        *(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x14) + 5;
     func_8012AD80(param_1);
     if (func_8012BEE8(param_1) != 0) {
         ((void (*)(int))func_8012C218)(param_1);
@@ -4626,7 +4626,7 @@ s32 func_8018A440(s16 id, void *rec, s16 x, s16 y, u8 p)
         if (obj != 0) {
             func_8001CB00(obj, rec, x, y);
             *(u8 *)(obj + 0x27) = p;
-            *(u32 *)(obj + 4) |= 0xD0000000;
+            CAST_WIDTH(u32, obj, 4) |= 0xD0000000;
             *(s32 *)(D_801E8844 + i * 4) = obj;
             *(s16 *)((u8 *)D_801E8844 + i * 2 - 0x10) = id;
             return i;

@@ -5955,12 +5955,12 @@ void func_80184B30(void *a0)
     s32 s1;
     SV3x_80184B30 out;
 
-    s1 = *(s32 *)(s0 + 0x64);
+    s1 = CAST_WIDTH(s32, s0, 0x64);
 
-    if (*(s16 *)(s0 + 0xFC) != 0) {
-        *(s16 *)(s0 + 0x2) = 2;
+    if (((Unkstruct_80126B58 *)s0)->unkFC != 0) {
+        ((Unkstruct_80126B58 *)s0)->unk2 = 2;
         func_8012B23C((void *)s0);
-        *(s32 *)(s0 + 0x1C) = 0x5A;
+        ((Unkstruct_80126B58 *)s0)->unk1C = 0x5A;
         return;
     }
 
@@ -5970,16 +5970,16 @@ void func_80184B30(void *a0)
     }
 
     func_8012F214(s1, (s32)&D_801A3040, (s32)&out);
-    *(s16 *)(s0 + 0x6) = out.a;
-    *(s16 *)(s0 + 0xA) = out.b;
-    *(s16 *)(s0 + 0xE) = out.c;
+    ((Unkstruct_80126B58 *)s0)->unk6 = out.a;
+    ((Unkstruct_80126B58 *)s0)->unkA = out.b;
+    ((Unkstruct_80126B58 *)s0)->unkE = out.c;
     func_80184E84(s0);
 
-    *(s32 *)(*(s32 *)(s0 + 0x20) + 0x20) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x20);
-    do { *(SV4x_80184B30 *)(*(s32 *)(s0 + 0x20) + 0x10) = *(SV4x_80184B30 *)(*(s32 *)(s1 + 0x20) + 0x10); } while (0);
-    *(SV4x_80184B30 *)(*(s32 *)(s0 + 0x20) + 0x18) = *(SV4x_80184B30 *)(*(s32 *)(s1 + 0x20) + 0x18);
-    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = *(s16 *)(*(s32 *)(s1 + 0x20) + 0x2C) | 0x20;
-    *(s32 *)(*(s32 *)(s0 + 0x20) + 0x4) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x4);
+    ((Unkstruct_80126B58 *)*(s32 *)(s0 + 0x20))->unk20 = ((Unkstruct_80126B58 *)*(s32 *)(s1 + 0x20))->unk20;
+    do { *(SV4x_80184B30 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x10) = *(SV4x_80184B30 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x10); } while (0);
+    *(SV4x_80184B30 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x18) = *(SV4x_80184B30 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x18);
+    *(s16 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x2C) = *(s16 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x2C) | 0x20;
+    *(s32 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x4) = *(s32 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x4);
 }
 
 

@@ -3751,7 +3751,7 @@ void func_8017EBAC(int param_1)
         v = (r1 & 3) * 1024;
         v += (r2 & 3) * 250;
         v += (r3 & 3) * 68;
-        *(s16 *)(p + 0x10) = v;
+        CAST_WIDTH(s16, p, 0x10) = v;
     }
 }
 
@@ -7766,7 +7766,7 @@ void func_801848F0(s32 a0)
     func_8014F3E8(s0);
     func_8018494C(s0);
     func_80147324(0x92F);
-    *(u16 *)(s0 + 0xA) += 0x10;
+    CAST_SIGN(u16, s0, 0xA) += 0x10;
     func_80146CA0((void *)s0);
 }
 

@@ -4293,12 +4293,12 @@ void func_801859D8(void *a0)
     s32 s1;
     SV3x_80184B30_801859D8 out;
 
-    s1 = *(s32 *)(s0 + 0x64);
+    s1 = CAST_WIDTH(s32, s0, 0x64);
 
-    if (*(s16 *)(s0 + 0xFC) != 0) {
-        *(s16 *)(s0 + 0x2) = 2;
+    if (((Unkstruct_80126B58 *)s0)->unkFC != 0) {
+        ((Unkstruct_80126B58 *)s0)->unk2 = 2;
         func_8012B23C((void *)s0);
-        *(s32 *)(s0 + 0x1C) = 0x5A;
+        ((Unkstruct_80126B58 *)s0)->unk1C = 0x5A;
         return;
     }
 
@@ -4308,16 +4308,16 @@ void func_801859D8(void *a0)
     }
 
     do { func_8012F214(s1, (s32)&D_801A606C, (s32)&out); } while (0);
-    *(s16 *)(s0 + 0x6) = out.a;
-    *(s16 *)(s0 + 0xA) = out.b;
-    *(s16 *)(s0 + 0xE) = out.c;
+    ((Unkstruct_80126B58 *)s0)->unk6 = out.a;
+    ((Unkstruct_80126B58 *)s0)->unkA = out.b;
+    ((Unkstruct_80126B58 *)s0)->unkE = out.c;
     func_80185D2C(s0);
 
-    *(s32 *)(*(s32 *)(s0 + 0x20) + 0x20) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x20);
-    *(SV4x_80184B30_801859D8 *)(*(s32 *)(s0 + 0x20) + 0x10) = *(SV4x_80184B30_801859D8 *)(*(s32 *)(s1 + 0x20) + 0x10);
-    *(SV4x_80184B30_801859D8 *)(*(s32 *)(s0 + 0x20) + 0x18) = *(SV4x_80184B30_801859D8 *)(*(s32 *)(s1 + 0x20) + 0x18);
-    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = *(s16 *)(*(s32 *)(s1 + 0x20) + 0x2C) | 0x20;
-    *(s32 *)(*(s32 *)(s0 + 0x20) + 0x4) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x4);
+    ((Unkstruct_80126B58 *)*(s32 *)(s0 + 0x20))->unk20 = ((Unkstruct_80126B58 *)*(s32 *)(s1 + 0x20))->unk20;
+    *(SV4x_80184B30_801859D8 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x10) = *(SV4x_80184B30_801859D8 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x10);
+    *(SV4x_80184B30_801859D8 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x18) = *(SV4x_80184B30_801859D8 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x18);
+    *(s16 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x2C) = *(s16 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x2C) | 0x20;
+    *(s32 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x4) = *(s32 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x4);
 }
 
 
@@ -5971,7 +5971,7 @@ s32 func_801880E8(s32 param_1, s32 arg1)
     s16 *spt;
 
     spt = CAST_WIDTH(s16 *, param_1, 0x2C);
-    if (*(u16 *)spt == 0) {
+    if (((Unkstruct_80126B58 *)spt)->unk0 == 0) {
         return 0;
     }
     m = D_800AE620;

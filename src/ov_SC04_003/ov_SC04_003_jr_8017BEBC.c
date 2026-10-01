@@ -3187,7 +3187,7 @@ void func_8017D8BC(void *a0) {
     default:
         p = D_801202A0;
         for (i = 0; i < 0x60; i++) {
-            if (*(u16 *)p == *(s16 *)(r + 6)) {
+            if (((Unkstruct_80126B58 *)p)->unk0 == *(s16 *)(r + 6)) {
                 ((void (*)(void *, void *, void *))func_8012F214)(p, r, out);
                 func_801290DC(0x56, (u8 *)out);
             }
@@ -3668,7 +3668,7 @@ s32 func_8017E278(void)
     count = 0;
     p = D_801202A0;
     for (i = 0; i < 0x60; i++) {
-        h = *(u16 *)p;
+        h = ((Unkstruct_80126B58 *)p)->unk0;
         switch (h) {
         case 0x1FC:
         case 0x1DC:
@@ -3691,7 +3691,7 @@ void func_8017E2E8(void) {
     p = D_801202A0;
     i = 0;
     do {
-        switch (*(u16 *)p) {
+        switch (((Unkstruct_80126B58 *)p)->unk0) {
         case 0x1DC:
         case 0x1FC:
         case 0x210:
@@ -5339,7 +5339,7 @@ s32 func_80180D50(s32 arg0) {
         if ((s32)pe == arg0) {
             continue;
         }
-        switch (*(u16 *)pe) {
+        switch (((Unkstruct_80126B58 *)pe)->unk0) {
         case 0x1FC:
             t = (*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) * 9u) >> 9;
             if (((s32 (*)(s16 *, s16 *, s32))func_80180E34)((s16 *)arg0, (s16 *)(pe + 4), t) != 0) {
@@ -5347,7 +5347,7 @@ s32 func_80180D50(s32 arg0) {
             }
             break;
         case 0x239:
-            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + *(s16 *)(*(s32 *)(pe + 0x20) + 0x18)) >> 6;
+            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + *(s16 *)(((Unkstruct_80126B58 *)pe)->unk20 + 0x18)) >> 6;
             if (((s32 (*)(s16 *, s16 *, s32))func_80180E34)((s16 *)arg0, (s16 *)(pe + 4), t) != 0) {
                 return (s32)pe;
             }
@@ -5608,15 +5608,15 @@ void func_80181398(s32 param_1) {
 
     ret = ((s32 (*)(s32))func_8012CBF4)(param_1);
     s0 = param_1;
-    h = *(s16 *)(s0 + 0xA);
-    p = *(s32 *)(s0 + 0xD0);
+    h = ((Unkstruct_80126B58 *)s0)->unkA;
+    p = ((Unkstruct_80126B58 *)s0)->unkD0;
     if (h >= 0x81) {
         if (p != 0) {
             func_801439C0((u8 *)p);
         }
         func_8012C218((void *)s0);
     } else {
-        q = *(s32 *)(p + 0xCC);
+        q = CAST_SIGN(s32, p, 0xCC);
         v = (h << 4) + 0x5800;
         *(s16 *)(q + 0x18) = v;
         *(s16 *)(q + 0x1A) = v;
