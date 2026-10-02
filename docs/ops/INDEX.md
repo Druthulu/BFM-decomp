@@ -53,3 +53,4 @@ ops-setup-decomp.md | extract the medium and verify against the committed manife
 wsl-disk-capped-75gb.md | wsl-disk-capped-75gb | 34
 p38-t4-2026-09-29-restruct-head-fold-mode.md | §P38 T4 — 2026-09-29: restruct rung L head-fold mode | 9
 p39-t1-2026-10-01-restruct-stale-supersede-timeline-check.md | §P39 T1 — 2026-10-01: restruct stale-row supersede; timeline --check | 5
+p39-t3-2026-10-02-restruct-rung-s-residue-head-types-add-pads.md | §P39 T3 — 2026-10-02: restruct rung S residue/check-residue; head_types --add-pads | 6
