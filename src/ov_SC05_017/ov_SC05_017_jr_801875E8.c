@@ -2947,7 +2947,7 @@ extern s32 func_80185A10(void *a0);
 extern s32 func_80185FA8(void *a0);
 extern void * func_8018596C(void *a0);
 extern void func_80185C20(void *a0);
-extern void aF80185EEC();
+extern void aF80185EEC(s32 a0);
 extern void func_80185C54(void *a0, s32 a1, s32 a2);
 extern void func_80185CB8(s32 a0, s32 a1, s32 a2);
 extern void (*D_801B89F8[])(void);
