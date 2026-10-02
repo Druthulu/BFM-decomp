@@ -1041,7 +1041,7 @@ extern void func_80143B30(void *a0);
 extern s32 func_80143B6C(s32 arg0, s32 arg1);
 extern void func_80143BDC(u16 *a0);
 extern void func_80143C38(void *a0);
-extern void func_80143C74(s32 a0, s32 a1);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern void func_80143C98(void *a0);
 extern void ApplyMatrixSV(void*, Svec_801372B0*, Svec_801372B0*);
 extern void func_80143D28(s32 param_1);
@@ -7160,7 +7160,7 @@ void func_80180988(u8 *s0) {
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012C218(void *a0);
-extern void func_80143C74(s32, s32);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32 rand(void);
 
 void func_80180A40(s32 param_1)

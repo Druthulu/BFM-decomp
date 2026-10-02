@@ -4556,7 +4556,7 @@ s32 a0;
 }
 
 
-extern int func_80143C74(short*, int);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32 rand(void);
 extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
@@ -5977,7 +5977,7 @@ extern void func_8012C098(void *a0);
 /* func_80143C74: the TU's decl `extern int func_80143C74(short *, int);` is at L5082 — BELOW this
    splice point (§17a-1 D2), so dropping our own left it undeclared. Declare it in the TU's EXACT
    shape (compatible with the later decl) and cast at the use — codegen-neutral. */
-extern int func_80143C74(short *, int);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32 rand(void);
 
 extern u8 D_800AF648;
@@ -6309,7 +6309,7 @@ void func_801823F0(s32 a0) {
 // @unstuck(P36): none — MATCH
 
 extern int rand(void);
-extern int func_80143C74(short *, int);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern int func_80047948(int);
 extern int func_8004787C(int);
 
@@ -6506,7 +6506,7 @@ void func_80182A48(s32 a0) {
 
 
 extern s32 rand(void);
-extern s32 func_80143C74();
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32 func_80047948(s32 a0);
 extern s32 func_8004787C(s32 a0);
 

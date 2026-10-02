@@ -1063,7 +1063,7 @@ extern void func_80143B30(void *a0);
 extern s32 func_80143B6C(s32 arg0, s32 arg1);
 extern void func_80143BDC(u16 *a0);
 extern void func_80143C38(void *a0);
-extern void func_80143C74(s32 a0, s32 a1);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern void func_80143C98(void *a0);
 extern void ApplyMatrixSV(void*, Svec_801372B0*, Svec_801372B0*);
 extern void func_80143D28(s32 param_1);

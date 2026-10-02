@@ -3253,7 +3253,7 @@ extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32  func_80133784(s32 a0, void *a1, s32 a2);
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern s32  func_80132EF4(s32 a0, s32 a1);
-extern s32  func_80143C74(s32 a0, s32 a1);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32  rand(void);
 extern void func_8012C218(void *a0);
 extern void func_8018F694(void);

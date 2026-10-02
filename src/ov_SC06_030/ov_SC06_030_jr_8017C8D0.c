@@ -3601,7 +3601,7 @@ extern s32  func_8012BA10(s32 a0, s32 a1);
 extern s32  func_8012BD14(s32 a0);
 extern s32  func_8012B8A4(s32 a0);
 extern s32  func_8012D624(s32 a0, s32 a1, s32 a2);
-extern s32  func_80143C74(s32 a0, s32 a1);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32  func_8012C658(s32 a0, s32 a1, s32 a2);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 

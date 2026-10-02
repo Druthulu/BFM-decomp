@@ -4581,7 +4581,7 @@ void func_8017FBE8(s32 a0) {
 
 
 
-extern int func_80143C74(short*, int);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32 rand(void);
 extern void func_8017ED60();  // K&R: 0 of 1 args (P37 rung D t4_D1)
 
@@ -5952,7 +5952,7 @@ L_end:
 extern s32 func_8012C044(s32 a0);
 extern void func_8012C098(void *param_1);
 extern void func_8012C218(void *a0);
-extern int func_80143C74(short *, int);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32 rand(void);
 
 extern void func_8004914C(void *a0);
@@ -6286,7 +6286,7 @@ void func_801821FC(s32 a0) {
 // @unstuck(P36): none — MATCH
 
 extern int rand(void);
-extern int func_80143C74(short *, int);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern int func_80047948(int);
 extern int func_8004787C(int);
 extern void (*D_801AD568[])(short *);
@@ -6491,7 +6491,7 @@ void func_80182854(s32 a0) {
 
 extern s32 rand(void);
 extern void (*D_801AD5E0[])(s32);
-extern s32 func_80143C74();
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32 func_80047948(s32 a0);
 extern s32 func_8004787C(s32 a0);
 

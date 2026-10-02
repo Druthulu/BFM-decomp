@@ -969,7 +969,7 @@ extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 extern s32 func_80143B6C(s32 arg0, s32 arg1);
 extern void func_80143BDC(u16 *a0);
 extern void func_80143C38(void *a0);
-extern void func_80143C74(s32 a0, s32 a1);
+extern s32 func_80143C74(s32 a0, s32 a1);
 extern void func_80143C98(void *a0);
 extern void func_80143E68(void *a0);
 extern void func_80143EA4(void);
