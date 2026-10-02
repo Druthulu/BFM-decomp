@@ -11,7 +11,8 @@
 # still in place: inspect, then `tools/restruct.py --restore` (never git checkout, R102). Stops cleanly when nothing is drawable.
 # With CENSUS=0 too: a final X/Y with X != Y exits 1 BEFORE R22/commit and the tree stays exactly as restruct left it (no auto-revert) —
 # the OPERATOR must restore it (`tools/restruct.py --restore`, or revert the named files) before the next cycle (T4.c2).
-# Usage: [LABEL_PREFIX=t4_] [TASK=T4] [REDRAW="DECL-KEPT"] [CENSUS=0] [RESTRUCT_BBT=.run/P39/census/body_base_type.json] tools/restruct_cycle.sh START END [BATCH=50] [RUNG=D|S|L] [ONLY="alias1 alias2 …"] [HEADERS=1]
+# Usage: [LABEL_PREFIX=t4_] [TASK=T4] [REDRAW="DECL-KEPT"] [CENSUS=0] [RESTRUCT_BBT=.run/P39/census/body_base_type.json] [RECIPES=1] [FORMS=I,M] tools/restruct_cycle.sh START END [BATCH=50] [RUNG=D|S|L] [ONLY="alias1 alias2 …"] [HEADERS=1]
+#   RECIPES=1 -> --recipes; FORMS=I,M (rung S) -> --forms I,M: only bodies with uncovered I/M global-base sites, the R ladder only (P39 T5.c2)
 #   RUN IT DETACHED from the Claude Code harness (R115 — its low-memory guard kills a long BACKGROUND task; a SIGKILL skips a restore):
 #     setsid nohup bash -c 'TASK=T4 tools/restruct_cycle.sh 1 8 50 D; echo "cycle exit=$?"' > .run/P37/restruct/cycle_<x>.log 2>&1 &
 #   and watch the log (`until grep -q 'cycle exit=' <log>; do sleep 60; done`). A killed batch: `tools/restruct.py --restore`.
@@ -26,6 +27,8 @@ ONLYFLAG=""; [ -n "$ONLY" ] && ONLYFLAG="--only $ONLY"
 REDRAWFLAG=""; [ -n "${REDRAW:-}" ] && REDRAWFLAG="--redraw $REDRAW"
 HFLAG=""; [ -n "${HEADERS:-}" ] && HFLAG="--headers"
 BBTFLAG=""; [ -n "${RESTRUCT_BBT:-}" ] && BBTFLAG="--bbt $RESTRUCT_BBT"   # T3.c2: a pinned body_base_type.json (the census rewrites the live one)
+RECFLAG=""; [ -n "${RECIPES:-}" ] && RECFLAG="--recipes"                     # P39 T5.c2
+FORMSFLAG=""; [ -n "${FORMS:-}" ] && FORMSFLAG="--forms $FORMS"
 FLEET=$(ls config/check.*.sha | wc -l)
 PY=.venv/bin/python
 MARKER='## 🛑 SESSION CHECKPOINT'
@@ -42,7 +45,7 @@ for k in $(seq "$START" "$END"); do
     $PY tools/delever_oracle.py --calibrate ov_SC04_011 ov_SC03_015 md_SC07_004 main -j 16 > .run/P37/restruct/calibrate_${label}.log 2>&1 \
       || { echo "cycle: calibration FAILED"; tail -5 .run/P37/restruct/calibrate_${label}.log; exit 1; }
   }
-  { /usr/bin/time -f "$label wall=%e s" $PY tools/restruct.py --apply --rung "$RUNG" --batch "$BATCH" --label "$label" $HFLAG $ONLYFLAG $REDRAWFLAG $BBTFLAG -j 12; echo "exit=$?"; } > "$log" 2>&1
+  { /usr/bin/time -f "$label wall=%e s" $PY tools/restruct.py --apply --rung "$RUNG" --batch "$BATCH" --label "$label" $HFLAG $ONLYFLAG $REDRAWFLAG $BBTFLAG $RECFLAG $FORMSFLAG -j 12; echo "exit=$?"; } > "$log" 2>&1
   grep -q '^exit=0$' "$log" || { echo "cycle: batch $label — restruct exited non-zero"; tail -4 "$log"; exit 1; }
   if grep -qE 'nothing to do' "$log"; then echo "cycle: nothing drawable at $label — done"; exit 0; fi
   vline=$(grep -oE "restruct: batch .*" "$log" | tail -1)

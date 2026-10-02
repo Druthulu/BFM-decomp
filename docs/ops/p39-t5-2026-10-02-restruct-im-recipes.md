@@ -1,0 +1,8 @@
+# §P39 T5 — 2026-10-02: restruct rung S I/M recipe ladder (`--forms I,M`)
+
+- `restruct.py --apply|--plan --rung S --forms I,M [--only X …]`: draws ONLY bodies with census I/M sites on a global base (bclass `gaddr`/`global`) that `residue_match` leaves uncovered; files with the most such sites first. Runs only the R ladder (R1/R2/R3, registry order) on those sites — no struct spelling, the done filter bypassed; implies `--recipes`.
+- Row: the body's latest S row merged (MEMBER/KEPT/macro entries kept, a same-key RESIDUAL entry replaced, `im_of` = prior label), else a new no-base row (verdict `R:<recipe>` or `RESIDUAL`); `im` = {drawn{recipe: n}, residual{cause: n}, compiles, seconds}. A drawn site's entry is `R:<recipe>`; a site left raw gets `RESIDUAL(<Rn-CAUSE>)` (covered by `--check-casts --residue`).
+- Causes (most specific refusal; rank NOT-GLOBAL/NOT-CARVED < STILL-RAW < HEADER-EXTERN/NO-SCALAR-EXTERN/NO-BODY < MISALIGNED/WIDTH/NOT-CONTIGUOUS/NO-EDIT/REKEYS < judged verdict; ties registry order). STILL-RAW: the candidate respells the cast instead of removing it (R1, R3 on I/M). REKEYS: the candidate changes the census key of another raw/macro site of the TU (R2's `&D_x` -> `D_x` on another body's covered site) — refused before any compile.
+- `--rung S --recipes` (no `--forms`) also runs the ladder on every drawn body's I/M global-base sites.
+- `residue_cause_im`: `gaddr` -> `GADDR` (was ABS-ADDR); `ABS-ADDR` only for bclass `abs`.
+- Cycle: `RECIPES=1 FORMS=I,M RUNG=S LABEL_PREFIX=t5_im TASK=T5 bash tools/restruct_cycle.sh 1 1 50 S <overlay>` (pass-through env, usage line :14).

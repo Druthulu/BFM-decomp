@@ -20,7 +20,15 @@
                                                                                        # per site (form, normalised base, off; multiset) by a RESIDUAL
                                                                                        # entry of the body's latest S row; exit 1 if any
       residue causes: FILE-SCOPE, NO-TYPE-IN-MAP, TYPE-NOT-CANONICAL, TYPE-NOT-VISIBLE, else site_class's (MISALIGNED, NO-EDIT, …);
-      I/M forms add ABS-ADDR (base bclass abs/gaddr: a fixed/symbol address) and GLOBAL (bclass global: a global's storage reinterpreted)
+      I/M forms add ABS-ADDR (bclass abs: a fixed address), GADDR (bclass gaddr: `&D_x` reinterpreted) and GLOBAL (bclass global: a
+      global's storage reinterpreted)
+    tools/restruct.py --plan|--apply --rung S --forms I,M [--only X …] --batch N --label <lbl>   # T5.c2: ONLY the bodies with uncovered
+                                                                                       # I/M sites on a global base (gaddr/global); the R ladder
+                                                                                       # on them (no struct spelling); the body's latest S row merged
+      I/M ladder causes (RESIDUAL(<Rn-CAUSE>), the most specific refusal): R1/R2/R3-NOT-GLOBAL, R3-NOT-CARVED, R<n>-STILL-RAW (the cast
+      respelled, not removed), R2-HEADER-EXTERN (no extern in the TU), R2/R3-NO-SCALAR-EXTERN, R3-NO-BODY, R2-MISALIGNED, R2-WIDTH
+      (the site's width != the extern's), R3-NOT-CONTIGUOUS, R<n>-NO-EDIT, R<n>-REKEYS (another raw/macro site's key would move),
+      R<n>-<verdict> (judged: DIFFERS, COMPILE-ERROR …)
     tools/restruct.py --audit-types                                                    # the naming invariant over the canonical type files (struct_layout.audit_definition)
     tools/restruct.py --write-types --top N | --type NAME … [--space ov]               # the WRITER: canonical definitions rendered from the struct map (a preview)
     tools/restruct.py --selftest [--real]                                              # the fixture (a stub oracle); --real adds the calibration + known-true controls
@@ -1244,8 +1252,12 @@ def s_macro_rows(tu, text, rows):
             row["verdict"] = "KEPT"
 
 
-def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, want_sa=True, want_recipes=False, done=frozenset(), write=True):
-    """bodies = {fn: bases}. Returns dict(rows, written, final, compiles, seconds, …)."""
+def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, want_sa=True, want_recipes=False, done=frozenset(), write=True,
+                im_only=False, latest=None):
+    """bodies = {fn: bases}. Returns dict(rows, written, final, compiles, seconds, …).
+    T5.c2: want_recipes also runs im_recipe_pass on each body's I/M global-base sites; im_only (`--forms I,M`) runs ONLY that pass —
+    no struct spelling, the done filter bypassed — and the body's row is a merged copy of its latest S row (`latest`; `im_of` = its
+    label) or a new no-base row (verdict `R:<recipe>` / RESIDUAL)."""
     path = REPO / tu
     st = path.stat()
     raw = path.read_text(errors="surrogateescape")
@@ -1259,7 +1271,12 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
     local_types, local_pos = {}, {}
     rows = []
     out = dict(tu=tu, rows=rows, written=False, final="", compiles=0, seconds=0.0, members=0, kept=0, skipped=0, levers_off=0,
-               bodies=len(bodies), linked=0, respelled=0)
+               bodies=len(bodies), linked=0, respelled=0, im_drawn=0, im_residual=0)
+    judge_r = lambda text, tag, reloc=False: judge_files({tu: text}, tag, pool=pool, reloc=reloc)
+
+    def im_count(st):
+        out["im_drawn"] += sum(st["drawn"].values())
+        out["im_residual"] += sum(st["residual"].values())
     masked0, defs0, _, _, _ = file_view(tu, raw)
     order = sorted([d for d in defs0 if d["name"] in bodies], key=lambda d: -d["line"])           # bottom-up
     first_line = min((d["line"] for d in order), default=None)
@@ -1272,6 +1289,22 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
                              err="body not found in the accumulated text", sites=[]))
             continue
         nh0 = body_nhash(masked, d2)
+        if im_only:                                                # T5.c2 `--forms I,M`: the recipe ladder only, the prior row merged
+            text_acc, ents, ist = im_recipe_pass(tu, fn, text_acc, judge_r, f"{short}{d['line']}m")
+            prior = (latest or {}).get(("S", tu, fn))
+            now = time.strftime("%Y-%m-%d %H:%M:%S")
+            if prior is not None:
+                row = json.loads(json.dumps(prior))
+                row.update(ts=now, label=label, calib=calib_id, im_of=prior.get("label"), nhash_before=nh0, nhash_after=nh0, compiles=0, seconds=0.0)
+            else:
+                row = dict(ts=now, label=label, rung="S", calib=calib_id, tu=tu, unit=fn, fn=fn, addr=dl.fn_addr(fn, tu), header=is_hdr,
+                           nhash_before=nh0, nhash_after=nh0, bases=[], skips={}, sites=[], compiles=0, seconds=0.0, linked=0,
+                           verdict=("R:" + sorted(ist["drawn"])[0]) if ist["drawn"] else "RESIDUAL")
+            im_row_merge(row, ents, ist, fresh=prior is None)
+            im_count(ist)
+            rows.append(row)
+            out["compiles"] += row["compiles"]; out["seconds"] += row["seconds"]
+            continue
         if ("S", tu, fn, nh0) in done:
             continue
         bsites = [s for s in sites if s.get("fn") == fn]
@@ -1302,7 +1335,13 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
                 row["respelled"] = len(resp)
                 text_acc = compose_text(text_acc, resp)
                 out["respelled"] += len(resp)
+            if want_recipes:                                       # T5.c2: the I/M global-base sites through the R ladder
+                text_acc, ents, ist = im_recipe_pass(tu, fn, text_acc, judge_r, f"{short}{d['line']}m")
+                if ents:
+                    im_row_merge(row, ents, ist, fresh=True)
+                    im_count(ist)
             rows.append(row)
+            out["compiles"] += row["compiles"]; out["seconds"] += row["seconds"]     # T5.c2: 0 before the ladder (no judgement here)
             continue
         tname_of = {id(e): tn for (_, tn, _, es, _) in per_base for e in es}
         base_text = text_acc
@@ -1387,9 +1426,15 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
                     break
             for hit in row["recipes"]:
                 hit.pop("text", None)
+        if want_recipes:                                           # T5.c2: then every I/M global-base site through the R ladder
+            text_acc, ents, ist = im_recipe_pass(tu, fn, text_acc, judge_r, f"{short}{d['line']}m")
+            if ents:
+                im_row_merge(row, ents, ist, fresh=True)
+                im_count(ist)
         rows.append(row)
         out["compiles"] += row["compiles"]; out["seconds"] += row["seconds"]; out["linked"] += row["linked"]
-    s_macro_rows(tu, text_acc, rows)                               # T3.c4: the macro sites in the census's key
+    s_macro_rows(tu, text_acc, [r for r in rows if "im_of" not in r])   # T3.c4: the macro sites in the census's key (T5.c2: a merged
+                                                                        # I/M row keeps its prior's macro entries as they are)
     if text_acc == raw:
         out["final"] = "UNCHANGED"
         return out
@@ -1402,7 +1447,7 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
         for row in rows:
             row["verdict"] = "COMBINATION-FAILED"
             row["nhash_after"] = None
-        out["members"] = out["kept"] = out["levers_off"] = out["respelled"] = 0
+        out["members"] = out["kept"] = out["levers_off"] = out["respelled"] = out["im_drawn"] = 0
         return out
     out["final"] = "IDENTICAL" + (" (linked)" if fr["linked"] else "")
     if JUDGE_STUB is None and write:
@@ -1426,36 +1471,48 @@ def work_file_S(tu, bodies, label, calib_id, log, pool=None, allow_local=False, 
 NARROW_TYPES = {"s8", "u8", "s16", "u16", "char", "short", "unsigned char", "signed char", "unsigned short", "signed short"}
 
 
-def recipe_ptr_global_member(text, tu, fn, site):
+def _refuse(why, cause):
+    """T5.c2: a recipe's refusal — the cause (`R<n>-<WHY>`) appended to `why` when the caller asks (the I/M ladder); always []."""
+    if why is not None:
+        why.append(cause)
+    return []
+
+
+def recipe_ptr_global_member(text, tu, fn, site, why=None):
     """R1 (§458): a KEPT site on a POINTER GLOBAL base read by value — the pointer's own read spelled as a struct member so both sides
     of the pair carry /s: `*(u16 *)(D_x + 0x34)` -> `((S *)(((struct { PT p; } *)&D_x)->p))->…` needs the member type; the recipe
     keeps the SITE's cast and only respells the base: `*(u16 *)((((struct { PT p; } *)&D_x)->p) + 0x34)`."""
     if site.get("bclass") != "global":
-        return []
+        return _refuse(why, "R1-NOT-GLOBAL")
     base = site["base"]
     m = re.search(r"\bextern\s+((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*\s*\**)\s*" + re.escape(base) + r"\s*;", dl.same_len_mask(text))
     ptype = sl._norm_type(m.group(1)) if m else "void *"
     span = text[site["pos"]:site["end"]]
     new = re.sub(r"(?<![\w.])" + re.escape(base) + r"\b", f"(((struct {{ {ptype} p; }} *)&{base})->p)", span, count=1)
     if new == span:
-        return []
+        return _refuse(why, "R1-NO-EDIT")
     return [(text[:site["pos"]] + new + text[site["end"]:], f"R1 pointer global {base} read as a struct member ({ptype})", False)]
 
 
-def recipe_extern_array(text, tu, fn, site):
+def recipe_extern_array(text, tu, fn, site, why=None):
     """R2 (a18): a KEPT site on a SCALAR GLOBAL base (`&D_x + k` / `D_x` by value): the TU's `extern T D_x;` becomes `extern T D_x[];`,
     every mention follows (`D_x` -> `D_x[0]`, `&D_x` -> `D_x`), the site becomes `D_x[k / w]` — the MEM_IN_STRUCT alias escape."""
     if site.get("bclass") not in ("gaddr", "global"):
-        return []
+        return _refuse(why, "R2-NOT-GLOBAL")
     base = site["base"]
     masked = dl.same_len_mask(text)
     dm = re.search(r"\bextern\s+((?:(?:const|volatile|unsigned|signed)\s+)*[A-Za-z_]\w*)\s+" + re.escape(base) + r"\s*;", masked)
-    if not dm:
-        return []
+    if not dm:      # no declaration in the TU: the symbol's extern is an included header's (not this TU's to respell)
+        return _refuse(why, "R2-NO-SCALAR-EXTERN" if re.search(r"\bextern\b[^;{}]*(?<![\w.])" + re.escape(base) + r"\b", masked)
+                       else "R2-HEADER-EXTERN")
     T = sl._norm_type(dm.group(1))
     w = sl.scalar_of(T)
-    if not w or w[0] == 0 or (site.get("off") or 0) % w[0] != 0 or site.get("width") != w[0]:
-        return []
+    if not w or w[0] == 0:
+        return _refuse(why, "R2-NO-SCALAR-EXTERN")
+    if (site.get("off") or 0) % w[0] != 0:
+        return _refuse(why, "R2-MISALIGNED")
+    if site.get("width") != w[0]:
+        return _refuse(why, "R2-WIDTH")
     k = (site.get("off") or 0) // w[0]
     out = []
     edits = [(dm.start(), dm.end(), f"extern {T} {base}[];")]
@@ -1472,28 +1529,30 @@ def recipe_extern_array(text, tu, fn, site):
     try:
         cand = compose_text(text, edits)
     except Refuse:
-        return []
+        return _refuse(why, "R2-NO-EDIT")
     out.append((cand, f"R2 {base} declared extern {T} {base}[] (a18)", False))
     return out
 
 
-def recipe_walked_pointer(text, tu, fn, site):
+def recipe_walked_pointer(text, tu, fn, site, why=None):
     """R3 (f3): consecutive carved words `D_A, D_(A+w), D_(A+2w)…` of one width mentioned in the body, walked through one pointer:
     `T *p37w = &D_A;` at the body's declarations, every `D_(A+kw)` -> `p37w[k]`. Changes the relocation spelling -> linked mode."""
     base = site.get("base") or ""
     mm = re.fullmatch(r"D_([0-9A-Fa-f]{8})", base)
-    if not mm or site.get("bclass") not in ("gaddr", "global"):
-        return []
+    if site.get("bclass") not in ("gaddr", "global"):
+        return _refuse(why, "R3-NOT-GLOBAL")
+    if not mm:
+        return _refuse(why, "R3-NOT-CARVED")
     masked = dl.same_len_mask(text)
     decls = {m.group(2): sl._norm_type(m.group(1)) for m in re.finditer(r"\bextern\s+((?:(?:const|volatile|unsigned|signed)\s+)*[A-Za-z_]\w*)\s+(D_[0-9A-Fa-f]{8})\s*;", masked)}
     T = decls.get(base)
     w = sl.scalar_of(T) if T else None
     if not w or w[0] == 0:
-        return []
+        return _refuse(why, "R3-NO-SCALAR-EXTERN")
     A = int(mm.group(1), 16)
     ds_ = [r for r in sc.scan_text(text, tu, shared_defs=None) if r["form"] == "def" and r["name"] == fn]
     if not ds_:
-        return []
+        return _refuse(why, "R3-NO-BODY")
     d = ds_[0]
     ls = dl.line_starts(masked)
     s0, s1 = ls[d["line"] - 1], (ls[d["end"]] if d["end"] < len(ls) else len(masked))
@@ -1507,7 +1566,7 @@ def recipe_walked_pointer(text, tu, fn, site):
             break
         run.append(name); k += 1
     if len(run) < 2:
-        return []
+        return _refuse(why, "R3-NOT-CONTIGUOUS")
     edits = []
     for i, name in enumerate(run):
         for m in re.finditer(r"(&\s*)?(?<![\w.])" + name + r"\b", body):
@@ -1528,7 +1587,7 @@ def recipe_walked_pointer(text, tu, fn, site):
     try:
         cand = compose_text(text, edits)
     except Refuse:
-        return []
+        return _refuse(why, "R3-NO-EDIT")
     return [(cand, f"R3 {run[0]}..{run[-1]} ({len(run)} x {T}) walked through one pointer (f3)", True)]
 
 
@@ -1571,6 +1630,119 @@ def run_recipes(tu, fn, text, kept_edits, judge, tag):
                 if r["verdict"] == "IDENTICAL":
                     return hits
     return hits
+
+
+# T5.c2: the R ladder on EVERY raw I/M site whose base is a global (not only S2's kept casts). A site no recipe draws keeps the most
+# specific refusal as RESIDUAL(<Rn-CAUSE>) (rank below; a judged verdict — DIFFERS, COMPILE-ERROR … — ranks 4; ties: registry order).
+IM_FORMS = ("I", "M")
+IM_BCLASS = ("gaddr", "global")
+RECIPE_CAUSE_RANK = {"NOT-GLOBAL": 0, "NOT-CARVED": 0, "TOOL-ERROR": 0, "STILL-RAW": 1, "HEADER-EXTERN": 2, "NO-SCALAR-EXTERN": 2,
+                     "NO-BODY": 2, "MISALIGNED": 3, "WIDTH": 3, "NOT-CONTIGUOUS": 3, "NO-EDIT": 3, "REKEYS": 3}
+
+
+def _site_key(s):
+    return _residue_key(s.get("form"), f"{s.get('bclass')}:{s.get('base')}", s.get("off"))
+
+
+def _is_im_global(s, fn):
+    return s.get("fn") == fn and s.get("form") in IM_FORMS and s.get("bclass") in IM_BCLASS
+
+
+def _im_guard(sites0, sites1, fn):
+    """None when a recipe candidate (census view sites1) draws one I/M global-base site of `fn` and moves nothing else; else the
+    cause: STILL-RAW (the TU's raw + macro site count did not drop: the cast was respelled, not removed) or REKEYS (another raw / macro
+    site of the TU — outside fn's I/M global-base set — changed its census key: e.g. R2's `&D_x` -> `D_x` on a covered P site)."""
+    allf = RAW_FORMS + ("K",)
+    if sum(1 for s in sites1 if s.get("form") in allf) >= sum(1 for s in sites0 if s.get("form") in allf):
+        return "STILL-RAW"
+    rest = lambda ss: collections.Counter(_site_key(s) + (s.get("fn"),) for s in ss if s.get("form") in allf and not _is_im_global(s, fn))
+    if rest(sites1) != rest(sites0):
+        return "REKEYS"
+    if sum(1 for s in sites1 if _is_im_global(s, fn)) >= sum(1 for s in sites0 if _is_im_global(s, fn)):
+        return "STILL-RAW"
+    return None
+
+
+def im_recipe_pass(tu, fn, text, judge, tag):
+    """T5.c2: RECIPES (registry order) on every raw I/M site of body `fn` whose bclass is gaddr/global. Per site each recipe's
+    candidates pass _im_guard (else `<Rn>-STILL-RAW` / `<Rn>-REKEYS`, never judged), then `judge`; the first IDENTICAL is adopted and the
+    file re-walked (positions re-derived, R114). Returns (text, entries, stats): entries = site_row per drawn site (`R:<name>`, its
+    pre-draw key) and per site left raw in the FINAL text (RESIDUAL(<cause>), the most specific refusal: RECIPE_CAUSE_RANK, ties
+    registry order); stats = dict(drawn{recipe: n}, residual{cause: n}, compiles, seconds)."""
+    refused, cause_of = collections.Counter(), {}
+    st = dict(drawn=collections.Counter(), residual=collections.Counter(), compiles=0, seconds=0.0)
+    ents = []
+    sites = file_view(tu, text)[4]
+    for it in range(4 * len(sites) + 8):                          # a bound: every pass draws a site or refuses one occurrence
+        seen, s = collections.Counter(), None
+        for x in sorted((x for x in sites if _is_im_global(x, fn)), key=lambda x: x.get("pos", 0)):
+            k = _site_key(x)
+            if seen[k] >= refused[k]:
+                s = x
+                break
+            seen[k] += 1
+        if s is None:
+            break
+        best, adopted = None, None
+        for i, (name, gen) in enumerate(RECIPES.items()):
+            rn = name.split("-", 1)[0]
+            why = []
+            try:
+                cands = gen(text, tu, fn, s, why=why)
+            except Exception as ex:     # noqa: BLE001 — a generator crash is a refusal, never a lost site
+                cands, why = [], [f"{rn}-TOOL-ERROR"]
+            causes = list(why)
+            for j, (cand, note, reloc) in enumerate(cands):
+                sites1 = file_view(tu, cand)[4]
+                g = _im_guard(sites, sites1, fn)
+                if g is None:
+                    r = judge(cand, f"{tag}{it}{i}{j}", reloc)
+                    st["compiles"] += r.get("compiles", 0); st["seconds"] += r.get("seconds", 0.0)
+                    if r["verdict"] == "IDENTICAL":
+                        adopted = (name, cand, sites1)
+                        break
+                    g = r["verdict"]
+                causes.append(f"{rn}-{g}")
+            if adopted:
+                break
+            for c in causes:
+                rk = RECIPE_CAUSE_RANK.get(c.split("-", 1)[1], 4)
+                if best is None or rk > best[0]:
+                    best = (rk, c)
+        if adopted:
+            name, text, sites = adopted
+            st["drawn"][name] += 1
+            ents.append(site_row(s, f"R:{name}", cause=name))
+            continue
+        k = _site_key(s)
+        refused[k] += 1
+        cause_of[k] = best[1] if best else "R-NONE"
+    for x in sorted((x for x in sites if _is_im_global(x, fn)), key=lambda x: x.get("pos", 0)):
+        c = cause_of.get(_site_key(x), "R-UNTRIED")
+        st["residual"][c] += 1
+        ents.append(site_row(x, f"RESIDUAL({c})", cause=c))
+    st["drawn"], st["residual"] = dict(st["drawn"]), dict(st["residual"])
+    st["seconds"] = round(st["seconds"], 3)
+    return text, ents, st
+
+
+def im_row_merge(row, ents, st, fresh):
+    """T5.c2: the I/M ladder's entries into a rung-S row. Per entry ONE same-key entry (form, normalised base, off) is replaced: any
+    non-MEMBER, non-macro entry when the row was walked in this run (`fresh`: s_site_rows' class of that site), else only a RESIDUAL
+    one (a prior row's MEMBER / KEPT entries are kept — the T10 binding)."""
+    sites = list(row.get("sites") or [])
+    for e in ents:
+        k = _residue_key(e["form"], e["base"], e["off"])
+        for i, x in enumerate(sites):
+            v = str(x.get("verdict") or "")
+            if _residue_key(x.get("form"), x.get("base"), x.get("off")) == k and (
+                    v.startswith("RESIDUAL(") or (fresh and v != "MEMBER" and not v.startswith("R:") and not x.get("macro_of"))):
+                del sites[i]
+                break
+    row["sites"] = sites + ents
+    row["im"] = st
+    row["compiles"] = row.get("compiles", 0) + st["compiles"]
+    row["seconds"] = row.get("seconds", 0.0) + st["seconds"]
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -3463,11 +3635,13 @@ RESIDUE_FORMS = ("P", "X")               # T10.c1: --forms default; I and M acce
 
 
 def residue_cause_im(s, can=None):
-    """T10.c1: why a raw I/M census site stays raw: ABS-ADDR (base bclass abs/gaddr: a fixed or symbol address, no base pointer to
-    type), GLOBAL (bclass global: a global's own storage reinterpreted), else residue_cause (FILE-SCOPE / NO-TYPE-IN-MAP / TYPE-NOT-*
-    / site_class)."""
-    if s.get("bclass") in ("abs", "gaddr"):
+    """T10.c1: why a raw I/M census site stays raw: ABS-ADDR (base bclass abs: a fixed address literal), GADDR (bclass gaddr: `&D_x`,
+    a symbol's address reinterpreted — T5.c2: not an absolute address), GLOBAL (bclass global: a global's own storage reinterpreted),
+    else residue_cause (FILE-SCOPE / NO-TYPE-IN-MAP / TYPE-NOT-* / site_class)."""
+    if s.get("bclass") == "abs":
         return "ABS-ADDR"
+    if s.get("bclass") == "gaddr":
+        return "GADDR"
     if s.get("bclass") == "global":
         return "GLOBAL"
     return residue_cause(s, can)
@@ -3576,6 +3750,50 @@ def residue_forms(a):
     if bad or not fs:
         sys.exit(f"restruct: --forms takes P,I,X,M (got {bad or fs})")
     return fs
+
+
+def im_mode(a):
+    """T5.c2: True when --plan/--apply --rung S carries `--forms I,M` (the I/M recipe-ladder sweep; it implies --recipes)."""
+    if getattr(a, "forms", None) is None or a.rung != "S":
+        return False
+    if set(residue_forms(a)) != set(IM_FORMS):
+        sys.exit("restruct --plan/--apply --rung S --forms takes I,M (the recipe ladder on I/M global-base sites)")
+    return True
+
+
+def plan_S_im(headers, batch, only, latest, path=None):
+    """T5.c2 `--plan/--apply --rung S --forms I,M`: ([(tu, {fn: {}})], drawable files, skipped, {(tu, fn): n}) — ONLY the bodies with an
+    uncovered (residue_match) census I/M site on a global base (bclass gaddr/global; never file scope), files with the most such sites
+    first (ties by path); a body whose latest S row carries `im` (an I/M ladder ran) at its current nhash is finished (a stale census)."""
+    pre = tuple(f'{{"form": "{f}"' for f in IM_FORMS)
+    cand = []
+    with open(path or CENSUS / "sites.jsonl") as f:
+        for l in f:
+            if not l.startswith(pre):
+                continue
+            s = json.loads(l)
+            if (s.get("bclass") in IM_BCLASS and s.get("fn") and s["tu"].endswith(".h") == headers
+                    and matches_only(only, s["tu"], s["fn"])):
+                cand.append(s)
+    per = collections.defaultdict(collections.Counter)
+    for s in residue_match(latest, cand, IM_FORMS)[1]:
+        per[s["tu"]][s["fn"]] += 1
+    plan, skipped, nsites = [], collections.Counter(), {}
+    for tu in sorted(per, key=lambda t: (-sum(per[t].values()), t)):
+        if len(plan) >= batch:
+            break
+        if not (REPO / tu).exists():
+            skipped["file-gone"] += 1
+            continue
+        masked, defs, _, _, _ = file_view(tu, (REPO / tu).read_text(errors="surrogateescape"))
+        cur = {d["name"]: body_nhash(masked, d) for d in defs}
+        fns = [fn for fn in sorted(per[tu]) if fn in cur and not ((latest.get(("S", tu, fn)) or {}).get("im") is not None
+                                                                     and latest[("S", tu, fn)].get("nhash_after") == cur[fn])]
+        skipped["body-finished"] += len(per[tu]) - len(fns)
+        if fns:
+            plan.append((tu, {fn: {} for fn in fns}))
+            nsites.update({(tu, fn): per[tu][fn] for fn in fns})
+    return plan, len(per), skipped, nsites
 
 
 def residue(a):
@@ -3753,6 +3971,11 @@ def describe_plan(rung, plan, total, skipped=None):
     return f"restruct --plan L: {len(plan)} of {total} files with file-scope definitions"
 
 
+def describe_plan_im(plan, total, skipped, nsites):
+    return (f"restruct --plan S --forms I,M: {len(plan)} of {total} drawable files · {sum(len(bs) for _, bs in plan)} bodies · "
+            f"{sum(nsites.values())} uncovered I/M global-base sites" + (f" · skipped {dict(skipped)}" if skipped else ""))
+
+
 def _apply_exclusive(path=None):
     """One --apply per RUN dir at a time: a non-blocking fcntl lock held for the process's life (T4.c2 — t38_4L1 was started twice
     11 s apart; the second unlinked and rewrote the first's inflight.json and both edited the same 150 files). Returns the open
@@ -3837,7 +4060,13 @@ def apply_batch(a):
         log(line)
         log_f.close()
         return 0 if v == "IDENTICAL" else 1
-    if a.rung == "S":
+    im = im_mode(a)
+    lat_ = None
+    if a.rung == "S" and im:                                       # T5.c2: only bodies with uncovered I/M global-base sites
+        lat_ = ledger_latest(rows)
+        plan, total, skipped, n_im = plan_S_im(a.headers, a.batch, a.only, lat_)
+        print(describe_plan_im(plan, total, skipped, n_im), flush=True)
+    elif a.rung == "S":
         lat_ = ledger_latest(rows)
         if a.redraw:                                               # a lifted body is not finished (s_finished) either (T3.c4)
             lat_ = {k: r for k, r in lat_.items() if not lifted(k)}
@@ -3892,7 +4121,8 @@ def apply_batch(a):
         tu, payload = item
         try:
             if a.rung == "S":
-                r = work_file_S(tu, payload, a.label, calib_id, log, pool=hdr_pool, allow_local=False, want_sa=not a.no_sa, want_recipes=a.recipes, done=done)
+                r = work_file_S(tu, payload, a.label, calib_id, log, pool=hdr_pool, allow_local=False, want_sa=not a.no_sa, want_recipes=a.recipes or im,
+                                done=done, im_only=im, latest=lat_)
             elif a.rung == "D":
                 r = work_file_D(tu, a.label, calib_id, log, pool=hdr_pool, callees=payload, done=done)
             elif hf_heads:
@@ -3908,6 +4138,7 @@ def apply_batch(a):
         ledger_append(r["rows"])
         log(f"  {tu}: {r['final']} · rows {len(r['rows'])} · compiles {r['compiles']} · {r['seconds']:.1f} s" +
             (f" · members {r.get('members', 0)} kept {r.get('kept', 0)} skipped {r.get('skipped', 0)} levers off {r.get('levers_off', 0)}" if a.rung == "S" else "") +
+            (f" · I/M drawn {r.get('im_drawn', 0)} residual {r.get('im_residual', 0)}" if a.rung == "S" and (im or a.recipes) else "") +
             (f" · canon {r.get('canon', 0)} promoted {r.get('promoted', 0)} K&R {r.get('kr', 0)} aliases {r.get('alias', 0)} abs {r.get('builtin', 0)} kept {r.get('kept', 0)}" if a.rung == "D" else "") +
             (f" · folded {r.get('folded', 0)} refused {r.get('refused', 0)} renames {r.get('renames', 0)}" if a.rung == "L" else ""))
         return r
@@ -3919,9 +4150,16 @@ def apply_batch(a):
     pool.shutdown(wait=True)
     wall = time.time() - t0
     agg = collections.Counter()
+    im_by = dict(drawn=collections.Counter(), residual=collections.Counter())
     for r in results:
-        for k in ("compiles", "members", "kept", "skipped", "levers_off", "canon", "promoted", "kr", "alias", "builtin", "folded", "refused", "renames", "units", "bodies"):
+        for k in ("compiles", "members", "kept", "skipped", "levers_off", "canon", "promoted", "kr", "alias", "builtin", "folded", "refused", "renames", "units", "bodies",
+                  "im_drawn", "im_residual"):
             agg[k] += r.get(k, 0)
+        for row in r["rows"]:                                      # T5.c2: the I/M ladder per recipe / per cause
+            for nm, n in ((row.get("im") or {}).get("drawn") or {}).items():
+                im_by["drawn"][nm] += n if r["final"].startswith(("IDENTICAL", "UNCHANGED")) else 0
+            for c, n in ((row.get("im") or {}).get("residual") or {}).items():
+                im_by["residual"][c] += n
         agg["seconds"] += r["seconds"]
         agg["rows"] += len(r["rows"])
         agg["written"] += bool(r.get("written"))
@@ -3930,10 +4168,14 @@ def apply_batch(a):
         agg["no_recipe"] += r["final"] == "NO-RECIPE"
     summary = dict(label=a.label, rung=a.rung, generated=time.strftime("%Y-%m-%d %H:%M"), headers=a.headers, batch=a.batch, only=a.only, files=len(plan),
                    drawable_files=total, wall_s=round(wall, 1), calib=calib_id, **{k: agg[k] for k in agg},
-                   per_file=[dict(tu=r["tu"], final=r["final"], written=bool(r.get("written")), rows=len(r["rows"]), compiles=r["compiles"]) for r in results])
+                   per_file=[dict(tu=r["tu"], final=r["final"], written=bool(r.get("written")), rows=len(r["rows"]), compiles=r["compiles"]) for r in results],
+                   im_by_recipe=dict(sorted(im_by["drawn"].items())), im_by_cause=dict(sorted(im_by["residual"].items())))
     (RUN / f"batch_{a.label}.json").write_text(json.dumps(summary, indent=1) + "\n")
     if a.rung == "S":
         detail = (f"{agg['bodies']} bodies: {agg['members']} sites → members / {agg['kept']} kept / {agg['skipped']} skipped · levers off {agg['levers_off']}")
+        if im or a.recipes:
+            detail += (f" · I/M recipes drawn {agg['im_drawn']} {dict(sorted(im_by['drawn'].items()))} / residual {agg['im_residual']} "
+                       f"{dict(sorted(im_by['residual'].items()))}")
     elif a.rung == "D":
         detail = (f"{agg['units']} declaration units: {agg['canon']} canonical / {agg['promoted']} promoted / {agg['kr']} K&R marked / "
                   f"{agg['alias']} aliases typed / {agg['builtin']} __builtin_abs → abs / {agg['kept']} kept")
@@ -4716,6 +4958,23 @@ void func_8FF00000_impl(s32 param_1) {
 }
 '''
 
+# T5.c2: the I/M ladder — `&D_x` scalar sites (one R2 can draw, one of another width) and a param I site the sweep never touches
+FIXTURE_TU_IM = '''#include "common.h"
+
+extern s32 D_80078F00;
+extern s16 D_80078F10;
+
+void fx_im(s32 a0) {
+    *(s32 *)&D_80078F00 = 1;
+    *(s32 *)&D_80078F10 = 2;
+    *(u16 *)a0 = 3;
+}
+
+void fx_par(s32 a0) {
+    *(u16 *)a0 = 5;
+}
+'''
+
 
 def _install_fixture(dirp):
     """The fixture tree under .run/P37/restruct/selftest/ (R12) with the canonical header and the TU; the module's caches pointed at it."""
@@ -5169,10 +5428,47 @@ def selftest(real=False):
        and [len(x) for x in mq_([dict(e_, verdict="KEPT(SIGN)", cause="SIGN")], 1)] == [0, 1])
     rim_ = residue_rows(residue_sites([tu], lat2_, rs_p, ("I", "M")), "rtest_im", {}, lat2_)
     im_e = {(r["unit"], x["form"], x["cause"]) for r in rim_ for x in r["sites"] if x["form"] in ("I", "M")}
-    ok("--residue --forms I,M (T10.c1): I and M entries written with non-empty causes (ABS-ADDR, NO-TYPE-IN-MAP); then covered",
-       im_e == {("fx_b", "I", "ABS-ADDR"), ("fx_d", "M", "NO-TYPE-IN-MAP")}
+    ok("--residue --forms I,M (T10.c1): I and M entries written with non-empty causes (GADDR — T5.c2, was ABS-ADDR — NO-TYPE-IN-MAP); then covered",
+       im_e == {("fx_b", "I", "GADDR"), ("fx_d", "M", "NO-TYPE-IN-MAP")}
        and residue_sites([tu], ledger_latest(list(lat2_.values()) + rim_), rs_p, ("I", "M")) == {}
        and residue_sites([tu], ledger_latest(list(lat2_.values()) + rim_), rs_p) == {}, f"{im_e}")
+    # T5.c2: the I/M recipe ladder (`--forms I,M`): a drawn &D_x site (R2), a refused one (RESIDUAL(R2-…), covered), the param site untouched
+    fxi = dirp / "ov" / "fx_im.c"
+    fxi.write_text(FIXTURE_TU_IM)
+    tui = fxi.relative_to(REPO).as_posix()
+    vi_ = [dict(form=s_["form"], **{k: v for k, v in s_.items() if k not in ("form", "tu")}, tu=tui) for s_ in file_view(tui, FIXTURE_TU_IM)[4]]
+    ip_ = dirp / "im_sites.jsonl"
+    ip_.write_text("".join(json.dumps(x) + "\n" for x in vi_))
+    pim_, tot_, _, nim_ = plan_S_im(False, 10, None, {}, ip_)
+    ok("--forms I,M plan: only the body with I/M global-base sites (fx_im, 2 sites); fx_par's param I site draws nothing",
+       pim_ == [(tui, {"fx_im": {}})] and nim_ == {(tui, "fx_im"): 2} and tot_ == 1, f"{pim_} {nim_}")
+    w_ent = dict(form="I", line=8, base="gaddr:D_80078F10", off=0, verdict="RESIDUAL(GADDR)", cause="GADDR")
+    lat_i = {("S", tui, "fx_im"): dict(rung="S", tu=tui, unit="fx_im", fn="fx_im", label="sprior", verdict="MEMBERS", bases=b_can_,
+                                      nhash_after="h0", sites=[kept_e_, w_ent])}
+    JUDGE_STUB = lambda files, tag: ("IDENTICAL", "")
+    ri_ = work_file_S(tui, {"fx_im": {}}, "st_im", dict(head="x"), logs.append, want_sa=False, want_recipes=True, im_only=True, latest=lat_i)
+    rwi = ri_["rows"][0] if ri_["rows"] else {}
+    fti = ri_.get("final_text") or ""
+    vfi = {(e["base"], e["verdict"]) for e in rwi.get("sites", [])[1:]}
+    ok("--forms I,M: the s32 &D_x site drawn by R2 (extern array), the s16 one RESIDUAL(R2-WIDTH), the param site untouched",
+       ri_["final"] == "IDENTICAL" and "extern s32 D_80078F00[];" in fti and "D_80078F00[0] = 1;" in fti and "*(s32 *)&D_80078F10 = 2;" in fti
+       and "*(u16 *)a0 = 3;" in fti and vfi == {("gaddr:D_80078F00", "R:R2-extern-array"), ("gaddr:D_80078F10", "RESIDUAL(R2-WIDTH)")}
+       and rwi.get("im", {}).get("drawn") == {"R2-extern-array": 1} and ri_["im_drawn"] == 1 and ri_["im_residual"] == 1, f"{ri_['final']} {vfi}")
+    ok("--forms I,M: the prior row merged (verdict, bases, KEPT entry kept; its RESIDUAL entry for the site replaced; im_of)",
+       rwi.get("verdict") == "MEMBERS" and rwi.get("bases") == b_can_ and rwi.get("im_of") == "sprior" and rwi["sites"][0] == kept_e_
+       and len(rwi["sites"]) == 3 and lat_i[("S", tui, "fx_im")]["sites"] == [kept_e_, w_ent], f"{rwi.get('sites')}")
+    vf2 = [dict(s_, tu=tui) for s_ in file_view(tui, fti)[4]]
+    cov_i, unc_i = residue_match(ledger_latest([rwi]), vf2, IM_FORMS)
+    ok("--forms I,M: the refused site is covered by its RESIDUAL(R2-WIDTH) entry; only the param sites stay uncovered",
+       [s_["base"] for s_ in cov_i] == ["D_80078F10"] and [(s_["fn"], s_["bclass"]) for s_ in unc_i] == [("fx_im", "param"), ("fx_par", "param")],
+       f"{cov_i} {unc_i}")
+    JUDGE_STUB = lambda files, tag: ("IDENTICAL", "") if tag.endswith("F") else ("DIFFERS", "")
+    rd_ = work_file_S(tui, {"fx_im": {}}, "st_im", dict(head="x"), logs.append, want_sa=False, want_recipes=True, im_only=True, latest={})
+    rdw = rd_["rows"][0] if rd_["rows"] else {}
+    ok("--forms I,M: a DIFFERS judgement is RESIDUAL(R2-DIFFERS); nothing written (UNCHANGED); a new no-base row RESIDUAL",
+       rd_["final"] == "UNCHANGED" and rdw.get("verdict") == "RESIDUAL" and rdw.get("bases") == []
+       and [e["verdict"] for e in rdw.get("sites", [])] == ["RESIDUAL(R2-DIFFERS)", "RESIDUAL(R2-WIDTH)"], f"{rd_['final']} {rdw.get('sites')}")
+    ok("--forms I,M: the stub never writes the tree", fxi.read_text() == FIXTURE_TU_IM)
     ok("the selftest never touches the live inflight.json", True)
     ok("struct_layout selftest", sl.selftest() == 0)
     JUDGE_STUB = None
@@ -5203,7 +5499,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--try", dest="try_", nargs=2, metavar=("TU", "FN"))
     ap.add_argument("--base", help="bclass:name (default: the body's largest typed base)")
-    ap.add_argument("--recipes", action="store_true", help="also run the R recipes on the kept casts")
+    ap.add_argument("--recipes", action="store_true", help="also run the R recipes on the kept casts and (T5.c2, rung S) on every I/M site with a global base (gaddr/global)")
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--apply", action="store_true")
     ap.add_argument("--rung", choices=("S", "D", "L"), default="S")
@@ -5229,7 +5525,8 @@ def main():
                     "a body with a latest rung-S row gets a merged copy of it plus one RESIDUAL(<cause>) entry per uncovered site")
     ap.add_argument("--check-residue", action="store_true", help="census sites of --forms (--only, default ov_*) not covered PER SITE by a RESIDUAL(<cause>) entry "
                     "(same form, normalised base, off; one entry per site) of their body's latest rung-S row; exit 1 if any")
-    ap.add_argument("--forms", default="P,X", help="--residue/--check-residue: raw census forms, comma list of P,I,X,M (default P,X)")
+    ap.add_argument("--forms", default=None, help="--residue/--check-residue: raw census forms, comma list of P,I,X,M (default P,X); "
+                    "--plan/--apply --rung S --forms I,M (T5.c2): only bodies with uncovered I/M global-base sites, the R ladder only (implies --recipes)")
     ap.add_argument("--audit-types", action="store_true")
     ap.add_argument("--write-types", action="store_true")
     ap.add_argument("--type", nargs="*")
@@ -5302,7 +5599,10 @@ def main():
         recipes()
         led = load_ledger()
         done, _ = ledger_index(led)
-        if a.rung == "S":
+        if im_mode(a):
+            plan, total, skipped, n_im = plan_S_im(a.headers, a.batch, a.only, ledger_latest(led))
+            print(describe_plan_im(plan, total, skipped, n_im))
+        elif a.rung == "S":
             plan, total, skipped = plan_S(a.headers, a.batch, a.only, done, ledger_latest(led))
             print(describe_plan("S", plan, total, skipped))
         elif a.rung == "D":
