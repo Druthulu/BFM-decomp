@@ -4442,12 +4442,12 @@ void func_8017F940(s32 arg0) {
     s32 s0 = arg0;
 
     if (func_8012C354(s0, (s32)D_80199F38) != 0) {
-        *(u8 *)(s0 + 0xC0) = 1;
+        ((Unkstruct_800B5CB8 *)s0)->unkC0 = 1;
         func_8012A828((s32 *)s0, (s32)D_8018025C);
-        *(u16 *)(s0 + 2) = *(u16 *)(s0 + 2) + 1;
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) | 0x10;
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x18) = 0xAAA;
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0xAAA;
+        ((Unkstruct_800B5CB8 *)s0)->unk2 = CAST_SIGN(u16, s0, 2) + 1;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C | 0x10;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk18 = 0xAAA;
+        *(u16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x1C) = 0xAAA;
     }
 }
 

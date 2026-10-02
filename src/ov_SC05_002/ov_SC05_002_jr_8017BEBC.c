@@ -3887,17 +3887,17 @@ void func_8017F200(void *arg0) {
     s32 a0r;
     s32 pad[4];
 
-    a1 = *(u32 *)(s0 + 0x20);
+    a1 = CAST_SIGN(u32, s0, 0x20);
 
-    v0 = *(s16 *)(s0 + 0x70);
+    v0 = ((Unkstruct_800B5CB8 *)s0)->unk70;
     v0 = v0 * 2;
     at = (s32)D_8019C7D4 + v0;
     v0 = *(u16 *)at;
-    v1 = *(u16 *)(a1 + 0x30);
+    v1 = CAST_WIDTH(u16, a1, 0x30);
     v1 = v1 + v0;
-    *(u16 *)(a1 + 0x30) = v1;
+    CAST_WIDTH(u16, a1, 0x30) = v1;
     if ((s32)(v0 << 16) < 0) {
-        v0 = *(s16 *)(s0 + 0x70);
+        v0 = ((Unkstruct_800B5CB8 *)s0)->unk70;
         v1 = (s16)v1;
         v0 = v0 * 2;
         at = (s32)D_8019C7CC + v0;
@@ -3905,11 +3905,11 @@ void func_8017F200(void *arg0) {
         a0r = v0;
         v0 = v0 - 0x30;
         if (v0 >= v1) {
-            *(u16 *)(a1 + 0x30) = a0r;
+            CAST_WIDTH(u16, a1, 0x30) = a0r;
         }
     } else {
         v1 = (s16)v1;
-        v0 = *(s16 *)(s0 + 0x70);
+        v0 = ((Unkstruct_800B5CB8 *)s0)->unk70;
         v0 = v0 * 2;
         at = (s32)D_8019C7CC + v0;
         v0 = *(s16 *)at;
@@ -3919,21 +3919,21 @@ void func_8017F200(void *arg0) {
         if (v1 != 0) {
             goto JOIN;
         }
-        *(u16 *)(a1 + 0x30) = a0r;
+        CAST_WIDTH(u16, a1, 0x30) = a0r;
     }
 JOIN:
     if (!func_8012BEE8((s32)s0)) {
         goto K;
     }
-    v0 = *(s16 *)(s0 + 0x70);
+    v0 = ((Unkstruct_800B5CB8 *)s0)->unk70;
     v0 = v0 * 2;
     at = (s32)D_8019C7DC + v0;
     v0 = *(u16 *)at;
-    *(u32 *)(s0 + 0x1C) = v0;
+    ((Unkstruct_800B5CB8 *)s0)->unk1C = v0;
     func_8012C588(0x1A4, (s32)s0);
 
 K:
-    v0 = *(s16 *)(s0 + 0x70);
+    v0 = ((Unkstruct_800B5CB8 *)s0)->unk70;
     if (v0 == 0) {
         func_8017F348((s32)s0);
     }

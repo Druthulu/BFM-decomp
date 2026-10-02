@@ -3195,13 +3195,13 @@ void func_8017E26C(s32 arg0) {
     s0 = arg0;
     ptr = &D_80126B58;
 
-    v0 = *(u16 *)(s0 + 0x84);
-    *(u16 *)(s0 + 0x84) = v0 + 1;
+    v0 = CAST_SIGN(u16, s0, 0x84);
+    ((Unkstruct_800B5CB8 *)s0)->unk84 = v0 + 1;
     if ((s16)(v0 + 1) == 0x1E) {
         func_8002D4C8(0x97F, 0);
     }
 
-    v1 = *(u16 *)(s0 + 0x34);
+    v1 = ((Unkstruct_800B5CB8 *)s0)->unk34;
     switch (v1) {
     case 0:
         v0 = *(u16 *)&D_8019F6FC + 1;
@@ -3209,7 +3209,7 @@ void func_8017E26C(s32 arg0) {
         if ((s16)v0 < D_80188A22[0]) {
             break;
         }
-        *(u16 *)(s0 + 0x34) = 1;
+        ((Unkstruct_800B5CB8 *)s0)->unk34 = 1;
         D_8019F6FC = 0x10;
         break;
     case 1:
@@ -3253,7 +3253,7 @@ void func_8017E26C(s32 arg0) {
                 D_8019F704 = (s16)s1;
             }
         }
-        a0 = *(s32 *)(s0 + 0x20);
+        a0 = ((Unkstruct_800B5CB8 *)s0)->unk20;
         v1 = D_8019F702;
         v0 = *(u16 *)(a0 + 0x12);
         *(u16 *)(a0 + 0x12) = v0 + v1;
