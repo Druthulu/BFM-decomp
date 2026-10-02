@@ -3958,7 +3958,7 @@ void func_80181D00(void * arg0) {
 }
 
 
-extern void func_80181E0C();
+extern s32 func_80181E0C(void *a0);
 
 void func_80181D50(void *a0) {
 
