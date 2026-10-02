@@ -3557,18 +3557,18 @@ void func_801831E0(s32 arg0, s32 arg1) {
     case 0:
         ctr = 0x17;
         do {
-            w[0] = *(u16 *)(arg0 + 6);
-            w[1] = *(u16 *)(arg0 + 0xA);
-            w[2] = *(u16 *)(arg0 + 0xE);
+            w[0] = ((Unkstruct_800B5CB8 *)arg0)->unk6;
+            w[1] = ((Unkstruct_800B5CB8 *)arg0)->unkA;
+            w[2] = ((Unkstruct_800B5CB8 *)arg0)->unkE;
             ctr--;
             w -= 4;
         } while (ctr >= 0);
         break;
     case 1:
     case 3:
-        D_801BA5E8 = *(u16 *)(arg0 + 6);
-        D_801BA5EA = *(u16 *)(arg0 + 0xA);
-        D_801BA5EC = *(u16 *)(arg0 + 0xE);
+        D_801BA5E8 = ((Unkstruct_800B5CB8 *)arg0)->unk6;
+        D_801BA5EA = CAST_ALIAS(u16, arg0, 0xA);
+        D_801BA5EC = CAST_ALIAS(u16, arg0, 0xE);
         ctr = 0x17;
         do {
             m = w + 1;
@@ -4079,18 +4079,18 @@ void func_80183F0C(void *a0) {
     *(s16 *)&D_801BA5A0 = 0;
     *(s16 *)&D_801BA5A2 = 0;
     *(s16 *)&D_801BA5A4 = 0;
-    t = *(void **)((char *)a0 + 0x78);
-    *(s16 *)((char *)a0 + 2) = 3;
-    *(s16 *)((char *)a0 + 0x34) = 0;
-    *(s32 *)((char *)a0 + 0x1C) = 30;
-    *(u16 *)((char *)a0 + 0x5C) = *(u16 *)((char *)t + 2);
-    t = *(void **)((char *)a0 + 0x20);
+    t = CAST_SIGN(void *, (char *)a0, 0x78);
+    ((Unkstruct_800B5CB8 *)a0)->unk2 = 3;
+    ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+    ((Unkstruct_800B5CB8 *)a0)->unk1C = 30;
+    ((Unkstruct_800B5CB8 *)a0)->unk5C = *(u16 *)((char *)t + 2);
+    t = CAST_SIGN(void *, (char *)a0, 0x20);
     *(u16 *)((char *)t + 0x1A) = 0x1800;
     *(u16 *)((char *)t + 0x18) = 0x1800;
-    vp = *(void **)((char *)a0 + 0x20);
-    *(u16 *)((char *)vp + 0x14) = 0;
-    *(u16 *)((char *)vp + 0x12) = 0;
-    *(u16 *)((char *)vp + 0x10) = 0;
+    vp = CAST_SIGN(void *, (char *)a0, 0x20);
+    CAST_WIDTH(u16, (char *)vp, 0x14) = 0;
+    ((Unkstruct_800B5CB8 *)vp)->unk12 = 0;
+    ((Unkstruct_800B5CB8 *)vp)->unk10 = 0;
     func_80184604(0);
 }
 

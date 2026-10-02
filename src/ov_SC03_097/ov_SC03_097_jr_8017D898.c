@@ -4011,16 +4011,16 @@ void func_80180304(s32 arg0) {
     Blk4_80181EDC_8017FEA0 sp10;
     s32 s0 = arg0;
 
-    *(u8 *)(s0 + 0xC1) = 0;
-    *(s16 *)(s0 + 0x5E) = 0;
-    *(s16 *)(s0 + 0x5C) = 0x800;
+    ((Unkstruct_800B5CB8 *)s0)->unkC1 = 0;
+    CAST_WIDTH(s16, s0, 0x5E) = 0;
+    ((Unkstruct_800B5CB8 *)s0)->unk5C = 0x800;
     *(Blk4_80181EDC_8017FEA0 *)&D_801AAAE0 = *(Blk4_80181EDC_8017FEA0 *)&D_801A94BC;
     func_801818DC();
     func_801819A0((s32)&sp10, 0x1000, 0);
     func_8012B2CC(s0);
     func_801819D0(s0 + 4);
-    *(s16 *)(s0 + 0xFC) = 0;
-    *(s32 *)(s0 + 0x1C) = 0x40;
+    ((Unkstruct_800B5CB8 *)s0)->unkFC = 0;
+    ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x40;
     func_80178B18(s0, (s32)&D_8019AEC4);
     func_8012AD44((s32 *)s0, 2);
     func_8002D4C8(0x700, 0);

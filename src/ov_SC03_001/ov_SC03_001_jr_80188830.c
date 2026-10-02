@@ -3496,7 +3496,7 @@ s32 func_80188E74(s32 a0) {
     p = D_801C0E24;
     v = *p;
     if (*p != -1) {
-        x = *(u16 *)a0;
+        x = ((Unkstruct_800B5CB8 *)a0)->unk0;
         do {
             if (x == v) {
                 return 1;

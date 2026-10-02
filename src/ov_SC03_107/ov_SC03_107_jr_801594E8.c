@@ -2332,7 +2332,7 @@ mask:
 void func_80159B70(void *a0) {
 
     extern void (*D_80184C8C[])(void);
-    D_80184C8C[*(u16 *)((s32)a0 + 0x2)]();
+    D_80184C8C[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -2369,8 +2369,8 @@ void func_80159BE4(s32 arg0)
         func_80154150(arg0, 4);
         func_80154A74(arg0, 0x11);
     }
-    *(int *)(arg0 + 0x234) = 0;
-    *(int *)(arg0 + 0x238) = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk234 = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk238 = 0;
     func_801553C0(arg0);
     ((void (*)(int))func_801553A8)(arg0);
     ((void (*)(int))func_80172590)(arg0);

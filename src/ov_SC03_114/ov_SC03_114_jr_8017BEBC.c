@@ -3087,15 +3087,15 @@ void func_8017D740(void *arg0) {
     s16 hval;
     s32 temp;
 
-    hval = *(s16 *)((char *)arg0 + 0x10A);
+    hval = ((Unkstruct_800B5CB8 *)arg0)->unk10A;
     if (hval & 0x8000) {
-        *(s16 *)(*(s32 *)((char *)arg0 + 0x20) + 0x12) =
-            func_80012ABC(*(s16 *)(*(s32 *)((char *)arg0 + 0x20) + 0x12), hval & 0xFFF, 4);
+        ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk12 =
+            func_80012ABC(*(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x12), hval & 0xFFF, 4);
     }
-    temp = *(s32 *)((char *)arg0 + 0xF8);
-    if (temp != 0 && *(s32 *)((char *)arg0 + 0x90) != temp) {
+    temp = ((Unkstruct_800B5CB8 *)arg0)->unkF8;
+    if (temp != 0 && ((Unkstruct_800B5CB8 *)arg0)->unk90 != temp) {
         ((void (*)(s32, s32))func_8012A828)((s32)arg0, temp);
-        *(s32 *)((char *)arg0 + 0xF8) = 0;
+        ((Unkstruct_800B5CB8 *)arg0)->unkF8 = 0;
     }
 }
 

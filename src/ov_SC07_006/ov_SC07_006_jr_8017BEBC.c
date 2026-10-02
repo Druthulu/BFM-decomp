@@ -3529,38 +3529,38 @@ void func_8017D67C(s32 arg0) {
     s32 p;
 
     e = arg0;
-    if (*(s16 *)(e + 0xA) >= 0x10) {
+    if (CAST_SIGN(s16, e, 0xA) >= 0x10) {
         func_8012C218((void *)e);
         return;
     }
 
-    switch (*(u16 *)(e + 0x34)) {
+    switch (((Unkstruct_800B5CB8 *)e)->unk34) {
     case 0:
-        p = *(s32 *)(e + 0x64);
+        p = ((Unkstruct_800B5CB8 *)e)->unk64;
         if (*(u16 *)p != 0) {
-            func_8012EC04(p, *(s16 *)(e + 0xFC), buf);
-            func_8012F14C((s32)buf, *(s32 *)(e + 0xDC), (s32)out);
-            *(u16 *)(e + 0x6) = out[0];
-            *(u16 *)(e + 0xA) = out[1];
-            *(u16 *)(e + 0xE) = out[2];
+            func_8012EC04(p, ((Unkstruct_800B5CB8 *)e)->unkFC, buf);
+            func_8012F14C((s32)buf, ((Unkstruct_800B5CB8 *)e)->unkDC, (s32)out);
+            ((Unkstruct_800B5CB8 *)e)->unk6 = out[0];
+            ((Unkstruct_800B5CB8 *)e)->unkA = out[1];
+            ((Unkstruct_800B5CB8 *)e)->unkE = out[2];
         }
-        *(s32 *)(e + 0xE4) += *(s32 *)(e + 0xE8);
-        if (*(s32 *)(e + 0xE4) >= *(s32 *)(e + 0xE0)) {
-            *(s32 *)(e + 0xE4) = *(s32 *)(e + 0xE0);
-            *(u16 *)(e + 0x34) += 1;
+        ((Unkstruct_800B5CB8 *)e)->unkE4 += ((Unkstruct_800B5CB8 *)e)->unkE8;
+        if (((Unkstruct_800B5CB8 *)e)->unkE4 >= ((Unkstruct_800B5CB8 *)e)->unkE0) {
+            ((Unkstruct_800B5CB8 *)e)->unkE4 = ((Unkstruct_800B5CB8 *)e)->unkE0;
+            ((Unkstruct_800B5CB8 *)e)->unk34 += 1;
         }
         break;
     case 1:
         out[2] = 0;
         out[0] = 0;
-        out[1] = *(s32 *)(e + 0xE4);
+        out[1] = ((Unkstruct_800B5CB8 *)e)->unkE4;
         if (((s32 (*)(s32, u16 *))func_8012CC40)(e, out) & 0x2000) {
-            *(u16 *)(e + 0x34) += 1;
+            ((Unkstruct_800B5CB8 *)e)->unk34 += 1;
         }
         break;
     case 2:
-        *(s32 *)(e + 0xEC) += 0x10;
-        if (*(s32 *)(e + 0xEC) >= *(s32 *)(e + 0xE4)) {
+        CAST_WIDTH(s32, e, 0xEC) += 0x10;
+        if (CAST_WIDTH(s32, e, 0xEC) >= ((Unkstruct_800B5CB8 *)e)->unkE4) {
             func_8012C218((void *)e);
             return;
         }
@@ -3572,17 +3572,17 @@ void func_8017D67C(s32 arg0) {
     prim.v[0].z = 0;
     prim.v[0].x = 0;
     prim.tag = 0x50000000;
-    st = *(u16 *)(e + 0x34);
+    st = ((Unkstruct_800B5CB8 *)e)->unk34;
     prim.col[0] = 0x808080;
     prim.col[1] = 0x101010;
     if (st < 2) {
-        prim.v[0].y = *(s32 *)(e + 0xE4);
+        prim.v[0].y = ((Unkstruct_800B5CB8 *)e)->unkE4;
         prim.v[1].y = 0;
     } else {
-        prim.v[0].y = *(s32 *)(e + 0xE4);
-        prim.v[1].y = *(s32 *)(e + 0xEC);
+        prim.v[0].y = ((Unkstruct_800B5CB8 *)e)->unkE4;
+        prim.v[1].y = CAST_WIDTH(s32, e, 0xEC);
     }
-    func_80016A5C(&prim, *(s32 *)(e + 0x20) + 0x34);
+    func_80016A5C(&prim, ((Unkstruct_800B5CB8 *)e)->unk20 + 0x34);
 }
 
 

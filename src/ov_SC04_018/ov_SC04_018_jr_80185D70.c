@@ -3344,13 +3344,13 @@ s32 func_801862A8(void *a0) {
     end = p + 0x6480;
     if (p != end) {
         do {
-            tag = *(u16 *)p;
+            tag = ((Unkstruct_800B5CB8 *)p)->unk0;
             if (tag != 0 && tag != 0x61 && func_801863B4((s32)p) != 0) {
-                t = *(s32 *)(p + 0x20);
-                if (t != 0 && *(s32 *)(t + 0x24) != 0 && *(s32 *)(t + 0x4) >= 0) {
-                    in[0] = *(u16 *)(p + 0x6);
-                    in[1] = *(u16 *)(p + 0xA);
-                    in[2] = *(u16 *)(p + 0xE);
+                t = ((Unkstruct_800B5CB8 *)p)->unk20;
+                if (t != 0 && CAST_WIDTH(s32, t, 0x24) != 0 && CAST_WIDTH(s32, t, 0x4) >= 0) {
+                    in[0] = ((Unkstruct_800B5CB8 *)p)->unk6;
+                    in[1] = ((Unkstruct_800B5CB8 *)p)->unkA;
+                    in[2] = ((Unkstruct_800B5CB8 *)p)->unkE;
                     func_8012F2E8((s32)a0, (s32)in, (s32)out);
                     if (func_8012CB64((s32)out, -0xA0, 0x80, -0xC0, 0x80) != 0) {
                         __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
