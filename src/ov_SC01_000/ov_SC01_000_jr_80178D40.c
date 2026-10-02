@@ -3131,7 +3131,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         if (((s32 (*)(s32))((Cmd_80178D40 *)arg1)->a.w)(((Actor_80178D40 *)arg0)) == 0) {
             break;
         }
-        D_801A5260 = *(s32 *)(D_801A5260 + 4);
+        D_801A5260 = CAST_WIDTH(s32, D_801A5260, 4);
         return;
     case 0x37:
         (*(s16*)&D_801A58E4) = 3;
