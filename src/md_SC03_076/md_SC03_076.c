@@ -66,7 +66,7 @@ s32 func_801EF800(s32 a0, s32 a1) {
     extern u16 D_80115112;
     extern s16 D_80115126;
     extern s16 D_801F9ABC;
-    extern s16 D_801F9AB8;
+    extern s16 D_801F9AB8[];
     extern void *D_8011DB24;
     extern s32 func_8002D4C8(s32 a0, s32 a1);
     extern void func_801EF878(void);
@@ -79,7 +79,7 @@ s32 func_801EF800(s32 a0, s32 a1) {
     D_80115112 = 0;
     D_80115126 = (s16)a0;
     D_801F9ABC = (s16)a1;
-    D_801F9AB8 = (s16)a1;
+    D_801F9AB8[0] = (s16)a1;
     D_8011DB24 = func_ptr;
     return func_8002D4C8(0x1E, 0);
 }
@@ -120,7 +120,7 @@ void func_801EF8D4(void) {
 void func_801EF918(void) {
 
     extern s16 D_801F9AB4;
-    extern s16 D_801F9AB8;
+    extern s16 D_801F9AB8[0];
     extern s16 D_801F9AC0;
     extern s32 D_801F9DA0;
     extern u8 D_801F9DB0[];
@@ -143,7 +143,7 @@ void func_801EF918(void) {
     D_801F9AB4 = 0;
     D_801F9AC0 = 0;
     D_80115118 = 0;
-    if (D_801F9AB8 == 0) {
+    if (D_801F9AB8[0] == 0) {
         D_8011512C = 0;
         D_801F32E0 = D_801F3248;
     } else {
@@ -198,7 +198,7 @@ void func_801EFA60(void)
     extern s32 D_801F9DA4;
     extern u8 D_801F9DA8[];
     extern s32 D_801F9DB8;
-    extern s16 D_801F9AB8;
+    extern s16 D_801F9AB8[0];
     extern s16 D_801F9AB4;
     extern u8 D_800B9A15;
     extern unsigned short D_80115112;
@@ -218,7 +218,7 @@ void func_801EFA60(void)
 
     idx = *(u16 *)&D_800B9A02;
     D_801151D0 = *(s32 *)(D_801151C8 + (idx << 2));
-    if (*(s16 *)&D_801F9AB8 == 0) {
+    if (D_801F9AB8[0] == 0) {
         D_801F9DB8 = func_8002B0B4(D_801F9DA0, D_801F9DA4, D_801F9DA8);
         if (D_80115126 == 0) {
             func_801F0734();
@@ -296,7 +296,7 @@ INCLUDE_RODATA("asm/md_SC03_076/nonmatchings/md_SC03_076", D_801EF540);
 s32 func_801EFBB4(void) {
     extern s16 D_80115126;
     extern s16 D_8011512C;
-    extern s16 D_801F9AB8;
+    extern s16 D_801F9AB8[0];
     extern s16 D_801F9ABC;
     extern s16 D_801F9AC0;
     extern s16 func_8014168C(s16 a0);
@@ -385,7 +385,7 @@ s32 func_801EFBB4(void) {
             if (*p == 0x1D || *p == 0x21) {
                 goto Lmsg473ret1;
             }
-            D_801F9AB8 = 0;
+            D_801F9AB8[0] = 0;
             D_801F9AC0 = 1;
             D_8011512C = 0;
             *p = D_801F3248;
@@ -453,7 +453,7 @@ s32 func_801EFBB4(void) {
                     func_8002D4C8(0x45D, 0);
                     return 0;
                 }
-                D_801F9AB8 = 0;
+                D_801F9AB8[0] = 0;
                 D_8011512C = 0;
                 *p2 = D_801F3248;
                 func_8002AF18();
@@ -514,7 +514,7 @@ Ltail:
                 D_8011512C = t;
                 t = 0xFF;
             Lstore:
-                D_801F9AB8 = sv;
+                D_801F9AB8[0] = sv;
                 D_801F9DB1 = t;
                 return r;
             }

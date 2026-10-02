@@ -4486,7 +4486,7 @@ extern u8 D_801A7404[];
 extern u16 D_80126B62;
 extern u16 D_80126BE2;
 extern u16 D_80126B5E;
-extern u16 D_80126BE0;
+extern u16 D_80126BE0[];
 extern u16 D_80126B66;
 extern u16 D_80126BE4;
 
@@ -4511,7 +4511,7 @@ void func_801A6038(void *a0) {
     *(s16 *)&D_80126B62 = -0x120;
     *(s16 *)&D_80126BE2 = -0x120;
     *(s16 *)&D_80126B5E = 0;
-    *(s16 *)&D_80126BE0 = 0;
+    D_80126BE0[0] = 0;
     *(s16 *)(s0 + 0xE) = -0x462;
     *(s16 *)&D_80126B66 = -0x462;
     *(s16 *)&D_80126BE4 = -0x462;

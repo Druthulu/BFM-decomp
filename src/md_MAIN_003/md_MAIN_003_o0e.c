@@ -106,7 +106,7 @@ extern void func_80015310(void);
 extern void func_8002D858(void);
 extern u8 D_800D93FC[];
 extern void func_800183E0(s32 a0);
-extern s16 D_800EC894;
+extern s16 D_800EC894[];
 extern s32 func_800D1E18(void);
 extern s32 D_800EC8B0;
 extern void func_800118AC(void);
@@ -119,7 +119,7 @@ void func_800D0174(void) {
     func_80015310();
     func_8002D858();
     func_800183E0((s32)&D_800D93FC[0]);
-    D_800EC894 = 0;
+    D_800EC894[0] = 0;
     D_800EC8B0 = func_800D1E18();
     func_800118AC();
 }
@@ -146,7 +146,7 @@ void func_800D0204(void) {
 extern s32 func_800149E0(s32 arg0);
 extern u8 D_800AF630[];
 extern void func_8002D4C8(s32 arg0, s32 arg1);
-extern s16 D_800EC894;
+extern s16 D_800EC894[0];
 extern void func_800167B8(s32 arg0);
 extern void func_800118AC(void);
 extern void func_800D0D6C(void);
@@ -158,18 +158,18 @@ void func_800D0268(void) {
     sp10 = func_800149E0(0);
     if (sp10 & 0x4000) {
         func_8002D4C8(0x9C1, 0);
-        D_800EC894++;
-        if (D_800EC894 >= 3) {
-            D_800EC894 = 0;
+        D_800EC894[0]++;
+        if (D_800EC894[0] >= 3) {
+            D_800EC894[0] = 0;
         }
     } else if (sp10 & 0x1000) {
         func_8002D4C8(0x9C1, 0);
-        D_800EC894--;
-        if (D_800EC894 < 0) {
-            D_800EC894 = 2;
+        D_800EC894[0]--;
+        if (D_800EC894[0] < 0) {
+            D_800EC894[0] = 2;
         }
     }
-    switch (D_800EC894) {
+    switch (D_800EC894[0]) {
     case 0:
         if (sp10 & 0x800) {
             func_8002D4C8(0x9C0, 0);
@@ -192,7 +192,7 @@ void func_800D0268(void) {
 
 extern s32 func_800167F0(s32 arg0);
 extern u8 D_800AF630[];
-extern s16 D_800EC894;
+extern s16 D_800EC894[0];
 extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
 extern void func_800D0D6C(void);
 
@@ -201,7 +201,7 @@ void func_800D0440(void) {
     u16 rect[4];
 
     if ((u16) func_800167F0(4) != 0) {
-        switch (D_800EC894) {
+        switch (D_800EC894[0]) {
         case 0:
             *(u16 *) (p + 0xA3B6) = 1;
             *(u16 *) (p + 0xA3B8) = 2;
@@ -263,7 +263,7 @@ void func_800D05B4(void) {
     extern s32 D_800D4E6C;
     extern u32 D_800EC890;
     extern u32 D_800EC8A0;
-    extern s32 D_800EC88C;
+    extern s32 D_800EC88C[];
     int sp20;
     int sp1c;
     int sp18;
@@ -280,8 +280,8 @@ void func_800D05B4(void) {
     D_800EC8A0 = 1;
     func_800183E0((s32)&D_800D4E6C);
     func_800183E0((s32)&D_800D52BC);
-    (*(u16 *)&D_800EC894) = 0;
-    (*(u32 *)&D_800EC88C) = -1;
+    (D_800EC894[0]) = 0;
+    (D_800EC88C[0]) = -1;
     *(u16 *)(s0 + 0xA3B8) = 0;
     func_800118AC();
 }
@@ -418,9 +418,9 @@ void func_800D06BC(void) {
  */
 
 extern u16 D_800EC888;
-extern s16 D_800EC894;
+extern s16 D_800EC894[0];
 extern s16 D_800EC898;
-extern s32 D_800EC88C;
+extern s32 D_800EC88C[0];
 extern u8 D_800AF630[];
 
 extern void func_800D12D0(void);
@@ -439,20 +439,20 @@ void func_800D0740(void) {
     if (D_800EC888 & 0x4000) {
         func_8002D4C8(0x9C1, 0);
         sp10 = 1;
-        D_800EC894++;
-        if (D_800EC894 >= 3) {
-            D_800EC894 = 0;
+        D_800EC894[0]++;
+        if (D_800EC894[0] >= 3) {
+            D_800EC894[0] = 0;
         }
     } else if (D_800EC888 & 0x1000) {
         func_8002D4C8(0x9C1, 0);
         sp10 = 1;
-        D_800EC894--;
-        if (D_800EC894 < 0) {
-            D_800EC894 = 2;
+        D_800EC894[0]--;
+        if (D_800EC894[0] < 0) {
+            D_800EC894[0] = 2;
         }
     }
     D_800EC898 = 0;
-    switch (D_800EC894) {
+    switch (D_800EC894[0]) {
     case 0:
         if (D_800EC888 & 0x800) {
             func_8002D4C8(0x9C0, 0);
@@ -469,10 +469,10 @@ void func_800D0740(void) {
         }
         break;
     }
-    if (D_800EC88C > 0) {
-        if (--D_800EC88C == 0) {
+    if (D_800EC88C[0] > 0) {
+        if (--D_800EC88C[0] == 0) {
             func_800167B8(4);
-            D_800EC894 = 4;
+            D_800EC894[0] = 4;
             func_800118AC();
         }
     }
@@ -481,7 +481,7 @@ void func_800D0740(void) {
 
 extern void func_800D12D0(void);
 extern s16 D_800EC898;
-extern s16 D_800EC894;
+extern s16 D_800EC894[0];
 extern void func_800D1D14(s32, s32);
 extern void func_800118AC();
 extern u8 D_800AF630[];
@@ -492,9 +492,9 @@ void func_800D09A0(void) {
     func_800D12D0();
     D_800EC898++;
     if ((s16)(D_800EC898 & 4)) {
-        func_800D1D14(D_800EC894, 1);
+        func_800D1D14(D_800EC894[0], 1);
     } else {
-        func_800D1D14(D_800EC894, 0);
+        func_800D1D14(D_800EC894[0], 0);
     }
     if (D_800EC898 >= 0x21) {
         func_800118AC();
@@ -579,14 +579,14 @@ void func_800D0A7C(void) {
  */
 extern u8 D_800AF630[];
 extern s32 D_800D4E6C;
-extern s16 D_800EC894;
+extern s16 D_800EC894[0];
 
 extern void func_800183E0(s32 a0);
 
 void func_800D0B1C(void) {
     register u8 *s0 = D_800AF630;
     func_800183E0((s32)&D_800D4E6C);
-    switch (D_800EC894) {
+    switch (D_800EC894[0]) {
     case 0:
         *(u16 *)(s0 + 0xA3B6) = 1;
         *(u16 *)(s0 + 0xA3B8) = 2;
@@ -608,7 +608,7 @@ void func_800D0B1C(void) {
 
 
 
-extern s16 D_800EC894;
+extern s16 D_800EC894[0];
 extern void func_800599B8(u16 *, u16 *);
 extern void func_80011928(s32);
 
@@ -617,8 +617,8 @@ void func_800D0C50(void) {
     u16 *addr2;
     u16 *addr1;
 
-    addr1 = (u16 *)(D_800EC894 * 307744 + 0x80114014);
-    addr2 = (u16 *)(D_800EC894 * 307744 + 0x80114220);
+    addr1 = (u16 *)(D_800EC894[0] * 307744 + 0x80114014);
+    addr2 = (u16 *)(D_800EC894[0] * 307744 + 0x80114220);
     sp10[0] = 0;
     sp10[1] = 0x1E0;
     sp10[2] = 0x100;

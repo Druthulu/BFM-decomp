@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "299b1c1b4e",
-  "src_stamp": "bc74dd164ff701c5",
+  "head": "05b01fb549",
+  "src_stamp": "0a749717ac40dc09",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-02T19:28:37Z",
+  "when": "2026-10-02T19:40:00Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -37,7 +37,7 @@
   "casts": {
    "by_form": {
     "P": 257469,
-    "I": 49845,
+    "I": 49836,
     "X": 13790,
     "K": 20975,
     "A": 18889,
@@ -46,7 +46,7 @@
    },
    "raw_counts": {
     "P": 257469,
-    "I": 49845,
+    "I": 49836,
     "X": 13790,
     "K": 20975,
     "A": 18889,
@@ -55,28 +55,28 @@
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 336233,
+   "deref_total": 336224,
    "addr_form": 18889,
    "typed_cast_member": 173103,
    "bodies": 50866,
    "by_bclass": {
     "local": 124536,
     "param": 152069,
-    "global": 21787,
-    "gaddr": 25280,
+    "global": 21790,
+    "gaddr": 25268,
     "nested": 9446,
     "ident": 161,
     "other": 1616,
     "addr-of": 1338
    },
    "by_width": {
-    "s2": 102252,
-    "u2": 83923,
-    "s4": 81430,
+    "s2": 102249,
+    "u2": 83920,
+    "s4": 81428,
     "u1": 34807,
     "agg": 13409,
     "p4": 10957,
-    "u4": 7574,
+    "u4": 7573,
     "s1": 1881
    },
    "readability_raw_regex": 260306,
@@ -292,7 +292,7 @@
    },
    "check_raw": {
     "P": 257464,
-    "I": 49845,
+    "I": 49836,
     "X": 13790,
     "M": 15128
    },
@@ -4052,7 +4052,7 @@
      "tu": "src/md_SC07_003/md_SC07_003.c",
      "fn": "func_801A6138",
      "line": 4552,
-     "pos": 141446,
+     "pos": 141442,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "arg0",
@@ -4063,7 +4063,7 @@
      "tu": "src/md_SC07_003/md_SC07_003.c",
      "fn": "func_801A623C",
      "line": 4613,
-     "pos": 143224,
+     "pos": 143220,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -230901,7 +230901,7 @@
    "multi_spelled_callees": 3773,
    "multi_body_names": 6423,
    "data_symbols_declared": 55542,
-   "multi_typed_data_symbols": 19140,
+   "multi_typed_data_symbols": 19146,
    "asm_label_aliases": 5148,
    "asm_label_alias_names": 159,
    "builtins": {
@@ -232071,66 +232071,66 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 17976,
-   "explained_sites": 332322,
-   "deref_sites": 336233,
+   "types": 18002,
+   "explained_sites": 332313,
+   "deref_sites": 336224,
    "explained_pct": 98.8,
    "unassigned_sites": 3911,
-   "conflicts": 813,
+   "conflicts": 815,
    "suspect": 11,
    "evidence": {
-    "param": 39294,
-    "arg": 10510,
-    "ret-of": 6019,
-    "assign": 19442,
+    "param": 39296,
+    "assign": 19411,
+    "ret-of": 6001,
+    "assign&": 1401,
     "return": 1535,
-    "assign&": 1275,
-    "arg&": 257,
-    "field": 6557,
+    "arg": 10512,
+    "arg&": 253,
+    "field": 6555,
     "nested": 9
    },
    "vetoed": {
-    "arg-conduit": 144268,
+    "arg-conduit": 144266,
     "arg&-conduit": 14762,
-    "assign&-multisource": 12094,
-    "assign-multisource": 33804,
+    "arg&-no-overlap": 3379,
+    "assign&-multisource": 12093,
+    "assign-multisource": 33805,
+    "arg-no-overlap": 32778,
     "ret-of-multisource": 6714,
     "field-multisource": 5264,
-    "ret-of": 507,
-    "arg&-no-overlap": 3375,
-    "assign": 324,
-    "arg-no-overlap": 32778,
-    "assign&": 336,
+    "assign": 344,
+    "ret-of": 656,
+    "assign&": 79,
     "return": 5,
     "arg": 60,
     "field": 136
    },
-   "singletons": 14052,
-   "multi_body": 3924,
-   "sites_in_multi_body": 278245,
+   "singletons": 14075,
+   "multi_body": 3927,
+   "sites_in_multi_body": 278102,
    "top": [
     {
      "name": "Unkstruct_800D3888",
-     "sites": 19188,
-     "bodies": 4304,
+     "sites": 19185,
+     "bodies": 4303,
      "size_hint": 268,
      "fields": 122,
      "conflicts": 50,
      "sign_mixed": 46,
      "merges": {
-      "arg&": 236,
+      "arg&": 232,
       "param": 9432,
-      "arg": 6767,
-      "assign": 7576,
+      "arg": 6769,
+      "assign": 7566,
       "return": 734,
-      "ret-of": 2211,
-      "assign&": 19,
+      "ret-of": 2209,
+      "assign&": 18,
       "field": 816
      },
      "globals_at": [
       "D_800D3888",
-      "D_801805AC",
-      "D_80181280"
+      "D_80181538",
+      "D_801818AC"
      ],
      "globals_ptr": [
       "D_8006386C",
@@ -232520,8 +232520,8 @@
    "block_frames": 629
   },
   "global_blocks": {
-   "n": 2123,
-   "members": 14247,
+   "n": 2121,
+   "members": 14243,
    "top": [
     {
      "base": "0x800cf10c",
@@ -232699,9 +232699,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 56.8,
-   "decls_s": 266.3,
-   "total_s": 280.0
+   "walk_s": 57.1,
+   "decls_s": 270.4,
+   "total_s": 287.2
   }
  },
  "dup_layout_classes": [
@@ -233387,20 +233387,6 @@
    "tier": 2
   },
   {
-   "lhash": "9568f57fb00f:opaque",
-   "size": 20,
-   "n_names": 3,
-   "n_defs": 0,
-   "canon": 0,
-   "in_c": 0,
-   "names": [
-    "OtBlk_80180894",
-    "OtBlk_80182890_8018FB5C",
-    "OtBlk_8018FE0C"
-   ],
-   "tier": 2
-  },
-  {
    "lhash": "b519bad67107:opaque",
    "size": 20,
    "n_names": 3,
@@ -233411,6 +233397,20 @@
     "Local_8017EE34",
     "Local_80181C84",
     "Local_801870E8"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "9568f57fb00f:opaque",
+   "size": 20,
+   "n_names": 3,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "OtBlk_80180894",
+    "OtBlk_80182890_8018FB5C",
+    "OtBlk_8018FE0C"
    ],
    "tier": 2
   },

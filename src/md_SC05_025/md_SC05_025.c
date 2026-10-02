@@ -522,8 +522,8 @@ extern s32 func_80178B18(s32 a0, s32 a1);
 
 void func_801EE680(void *a0) {
 
-    extern s32 D_801F5204;
-    extern s32 D_801F5200;
+    extern s32 D_801F5204[];
+    extern s32 D_801F5200[];
     extern s32 D_801EEB98[];
     extern s32 D_801EEB80[][2];
     extern s32 D_801EEBB0[];
@@ -538,8 +538,8 @@ void func_801EE680(void *a0) {
     }
 
     if (((Unkstruct_800B5CB8 *)a0)->unk70 == 0) {
-        D_801F5204 = func_8012C658(0x1C1, 1, 0);
-        D_801F5200 = func_8012C658(0x1C1, 2, 0);
+        D_801F5204[0] = func_8012C658(0x1C1, 1, 0);
+        D_801F5200[0] = func_8012C658(0x1C1, 2, 0);
     }
 
     v0 = func_8012C1B8();
@@ -579,10 +579,10 @@ void func_801EE7D8(void *a0) {
 
 void func_801EE814(void *a0) {
 
-    extern s32 D_801F5200;
-    extern s32 D_801F5204;
-    s32 p0 = D_801F5200;
-    s32 p1 = D_801F5204;
+    extern s32 D_801F5200[0];
+    extern s32 D_801F5204[0];
+    s32 p0 = D_801F5200[0];
+    s32 p1 = D_801F5204[0];
 
     *(s16 *)((s32)a0 + 0xFC) = 1;
     ((Unkstruct_800B5CB8 *)p0)->unkFC = 0;
@@ -592,14 +592,14 @@ void func_801EE814(void *a0) {
 
 void func_801EE838(void *a0) {
 
-    extern s32 D_801F5200;
-    extern s32 D_801F5204;
+    extern s32 D_801F5200[0];
+    extern s32 D_801F5204[0];
     s32 p0;
     s32 p2;
 
-    do { p0 = D_801F5200; } while (0);
+    do { p0 = D_801F5200[0]; } while (0);
     *(s16 *)((s32)a0 + 0xFC) = 0;
-    p2 = D_801F5204;
+    p2 = D_801F5204[0];
     ((Unkstruct_800B5CB8 *)p0)->unkFC = 1;
     ((Unkstruct_800B5CB8 *)p2)->unkFC = 0;
 }
@@ -607,27 +607,27 @@ void func_801EE838(void *a0) {
 
 void func_801EE85C(void *arg0) {
 
-    extern s32 D_801F5200;
-    extern s32 D_801F5204;
+    extern s32 D_801F5200[0];
+    extern s32 D_801F5204[0];
     s32 p1;
     s32 p2;
 
-    do { p1 = *(s32 *)&D_801F5200; } while (0);
+    do { p1 = D_801F5200[0]; } while (0);
     *(u16 *)((s32)arg0 + 0xFC) = 0;
-    p2 = *(s32 *)&D_801F5204;
+    p2 = D_801F5204[0];
     *(u16 *)(p1 + 0xFC) = 2;
     *(u16 *)(p2 + 0xFC) = 0;
 }
 
 
 void func_801EE880(void *a0) {
-    extern s32 D_801F5204;
-    extern s32 D_801F5200;
+    extern s32 D_801F5204[0];
+    extern s32 D_801F5200[0];
     s32 b;
     s32 a;
 
-    a = D_801F5200;
-    b = D_801F5204;
+    a = D_801F5200[0];
+    b = D_801F5204[0];
     *(s16 *)((s32)a0 + 0xFC) = 0;
     ((Unkstruct_800B5CB8 *)a)->unkFC = 0;
     ((Unkstruct_800B5CB8 *)b)->unkFC = 1;
@@ -635,10 +635,10 @@ void func_801EE880(void *a0) {
 
 
 void func_801EE8A4(void *a0) {
-    extern s32 D_801F5200;
-    extern s32 D_801F5204;
-    s32 p0 = D_801F5200;
-    s32 p1 = D_801F5204;
+    extern s32 D_801F5200[0];
+    extern s32 D_801F5204[0];
+    s32 p0 = D_801F5200[0];
+    s32 p1 = D_801F5204[0];
 
     *(s16 *)((s32)a0 + 0xFC) = 0;
     ((Unkstruct_800B5CB8 *)p0)->unkFC = 0;
@@ -647,11 +647,11 @@ void func_801EE8A4(void *a0) {
 
 
 void func_801EE8C4(s32 arg0) {
-    extern s32 D_801F5200;
-    extern s32 D_801F5204;
-    register s32 p1 __asm__("$3") = D_801F5200;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    extern s32 D_801F5200[0];
+    extern s32 D_801F5204[0];
+    register s32 p1 __asm__("$3") = D_801F5200[0];  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
     ((Unkstruct_800B5CB8 *)arg0)->unkFC = 1;
-    arg0 = D_801F5204;
+    arg0 = D_801F5204[0];
     {
         register s32 c __asm__("$2") = 3;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
         *(s16 *)(p1 + 0xFC) = c;
