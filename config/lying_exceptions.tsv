@@ -1,2 +1,6 @@
 # lying_exceptions.tsv (P39 T2): a lying declaration (argcheck row) the --check-casts gate accepts; one row per (callee, def_file, kind), keyed exactly; cause = the byte evidence why the lie stays; task = the task that ledgered it.
 callee	def_file	kind	cause	task
+func_8012BD14	src/shared/ov/func_8012BD14.h	narrow	ZERO-ARG-CALLERS void value used: s32 def+(s32 a0) decls -> too few arguments ov_SC04_015_jr_8017AE2C.c:4566 F()	T6
+func_8012BD14	src/shared/ov/func_8012BD14.h	K&R-empty	ZERO-ARG-CALLERS void value used: s32 def+(s32 a0) decls -> too few arguments ov_SC04_015_jr_8017AE2C.c:4566 F()	T6
+func_8012CBF4	src/shared/ov/func_8012CBF4.h	narrow	ZERO-ARG-CALLERS void value used: s32 def+(s32 a0) decls -> too few arguments ov_SC03_111_jr_8017EC58.c:5422 F()	T6
+func_80014CF8	src/800.c	K&R-empty	PROTO-DIFFERS ov_MAIN_012 jr_801458E0.o: (u32 a0, u32 a1) u8 return changes the s32 r4/r5 call sites	T6
