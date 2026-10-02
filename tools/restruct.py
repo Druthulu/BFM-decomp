@@ -1122,10 +1122,11 @@ def s_site_rows(raw, masked, bsites, per_base, why, edits, accepted, overlapped,
     ovl = {id(e[3]) for e in overlapped}
     edit_of = {id(e[3]): e for e in list(edits) + list(overlapped)}
     status_of = {bk: stt for (bk, _, stt, _, _) in per_base}
+    type_of = {bk: tn_ for (bk, tn_, _, _, _) in per_base}           # T3.c5: every site carries its base's type (was: edit sites only)
     rows_, resp = [], []
     for s in sorted((x for x in bsites if x["form"] in RAW_FORMS), key=lambda x: x.get("pos", 0)):
         e = edit_of.get(id(s))
-        tn = tname_of.get(id(e)) if e is not None else None
+        tn = (tname_of.get(id(e)) if e is not None else None) or type_of.get(f"{s.get('bclass')}:{s.get('base')}")
         fld = e[2].rsplit("->", 1)[-1].rsplit(".", 1)[-1] if e is not None else None
         if id(s) in acc:
             rows_.append(site_row(s, "MEMBER", tn, fld, "MEMBER"))
@@ -1211,7 +1212,7 @@ def s_macro_rows(tu, text, rows):
                         e.get("off") == s["off"] and (e.get("base") == key or e.get("line") == s["line"]))), None)
             if src is None:
                 continue
-            e_ = site_row(s, want, cause=s["cls"])
+            e_ = site_row(s, want, tname=next((b.get("type") for b in row.get("bases") or [] if b.get("base") == key), None), cause=s["cls"])
             e_["macro_of"] = src
             row["sites"].append(e_)
             n += 1
@@ -3357,21 +3358,23 @@ def matches_only(only, tu, unit, extra=()):
                or (o in h and o.startswith(("Unkstruct_", "func_", "D_"))) for o in only for h in hay if h)
 
 
-def s_finished(tu, fns, latest):
+def s_finished(tu, fns, latest, done=frozenset()):
     """True when every body in fns has a latest ("S", tu, fn) ledger row whose nhash_after is the body's CURRENT nhash (T3.c2: t3_S1–S5
     re-drew finished files — drawable stayed ~2088 after 250 files done).
     T3.c3: a latest row none of whose bases was judged (no CANONICAL/LOCAL status: every base NO-TYPE-IN-MAP in t3_S6..S14, S16..S18)
-    is not a judgement — the body stays drawable."""
-    if not all((latest.get(("S", tu, fn)) or {}).get("nhash_after") for fn in fns):
-        return False
-    if not all(s_judged(latest[("S", tu, fn)]) for fn in fns):
-        return False
+    is not a judgement — the body stays drawable.
+    T3.c5: a body apply skips as done (("S", tu, fn, current nhash) in `done`, ledger_index) is finished too — t3_S55..S61 drew 6 files
+    whose only unfinished bodies had an unjudged latest KEPT row (t3c4_rejudge) over an earlier judged row at the same hash: rows 0."""
     path = REPO / tu
     if not path.exists():
         return False
     masked, defs, _, _, _ = file_view(tu, path.read_text(errors="surrogateescape"))
     cur = {d["name"]: body_nhash(masked, d) for d in defs if d["name"] in fns}
-    return all(cur.get(fn) == latest[("S", tu, fn)]["nhash_after"] for fn in fns)
+
+    def fin(fn):
+        r = latest.get(("S", tu, fn)) or {}
+        return ("S", tu, fn, cur.get(fn)) in done or (r.get("nhash_after") and s_judged(r) and cur.get(fn) == r["nhash_after"])
+    return all(fin(fn) for fn in fns)
 
 
 def plan_S(headers, batch, only, done, latest=None, data=None):
@@ -3401,7 +3404,7 @@ def plan_S(headers, batch, only, done, latest=None, data=None):
         if usable:
             files[tu][fn] = usable
     if latest:
-        for tu in [t for t in files if s_finished(t, set(files[t]), latest)]:
+        for tu in [t for t in files if s_finished(t, set(files[t]), latest, done)]:
             del files[tu]
             skipped["file-finished"] += 1
     ordered = sorted(files, key=lambda t: (-weight[t], t))
