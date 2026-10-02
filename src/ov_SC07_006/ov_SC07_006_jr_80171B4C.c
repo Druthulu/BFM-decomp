@@ -4170,7 +4170,7 @@ void func_80176218(s32 param_1) {
     extern u16 D_80078EB2;
     extern u16 D_8011F82A;
     extern u16 D_8011F82C;
-    extern s16 D_80078EB4;
+    extern s16 D_80078EB4[];
     extern u16 D_8011F8C4;
     extern u8  D_8011F7A8;   /* st base  ($s3) */
     extern u8 D_80078E78[];   /* cur base ($s5) */
@@ -4188,11 +4188,11 @@ void func_80176218(s32 param_1) {
     /* ---- block 1: raw-global pair 0x3A/0x3C ---- */
     sA = D_80078EB2;
     t = (sA != D_8011F82A);
-    if (D_8011F82C == (*(u16 *)&D_80078EB4)) {
+    if (D_8011F82C == (*(u16 *)D_80078EB4)) {
         ne = t;
         if (ne == 0 && D_8011F8C4 == 0) goto L340;
     } else {
-        s32 d = (s16)(D_8011F82C - (*(u16 *)&D_80078EB4));
+        s32 d = (s16)(D_8011F82C - (D_80078EB4[0]));
         u16 nv;
         if (d < 0) {
             if (d < -10) nv = D_8011F82C + 2;
