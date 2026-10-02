@@ -6383,12 +6383,12 @@ void func_8018A6A4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 extern s16 D_801EADE4;
     extern s16 D_801EADE6;
     extern s16 D_801EADE8;
-    extern s16 D_801EADEA;
+    extern s16 D_801EADEA[];
     void func_8018A744(s32 arg0, s32 arg1, s32 arg2) {
         D_801EADE4 = *(u16 *)((s32)arg0 + 0x0);
         D_801EADE6 = *(u16 *)((s32)arg0 + 0x2);
         D_801EADE8 = arg1;
-        D_801EADEA = arg2;
+        D_801EADEA[0] = arg2;
     }
 
 
@@ -6417,9 +6417,9 @@ void func_8018A774(s32 a0) {
 }
 
 
-extern s16 D_801EADEA;
+extern s16 D_801EADEA[0];
     void func_8018A7EC(s32 arg0) {
-        M2C_FIELD(&D_801EADEA, s16 *, 0) += arg0;
+        D_801EADEA[0] += arg0;
     }
 
 
@@ -6729,7 +6729,7 @@ void func_8018AA98(s32 arg0)
     extern s16 D_801EADE4;
     extern s16 D_801EADE6;
     extern s16 D_801EADE8;
-    extern s16 D_801EADEA;
+    extern s16 D_801EADEA[0];
     extern s16 D_801EADEC;
     extern void RotMatrixZ(s32 a0, void *a1);
     extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
@@ -6770,7 +6770,7 @@ void func_8018AA98(s32 arg0)
     p[0x15] = ent[0xB];
     p[0x16] = ent[0xC];
 
-    ang = D_801EADEA;
+    ang = D_801EADEA[0];
     bx = (u16)D_801EADE4;
     by = (u16)D_801EADE6;
     RotMatrixZ(ang, mp);

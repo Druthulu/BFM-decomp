@@ -1767,7 +1767,7 @@ extern void func_8016A700(void *a0);
 extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
-extern u16 D_80126B5E;
+extern u16 D_80126B5E[];
 extern u16 D_80126B62;
 extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
@@ -4009,14 +4009,14 @@ void func_80189000(s32 a0, s32 a1) {
 
 
 s32 func_80189284(void *a0, s32 a1, s32 a2) {
-    extern u16 D_80126B5E;
+    extern u16 D_80126B5E[0];
     extern u16 D_80126B62;
     extern u16 D_80126B66;
     extern s32 func_8012B70C(s16 *a0, s16 *a1);
     u16 buf[3];
     s32 d;
 
-    buf[0] = D_80126B5E;
+    buf[0] = D_80126B5E[0];
     buf[1] = D_80126B62;
     buf[2] = D_80126B66;
     d = (func_8012B70C((s16 *)a0, (s16 *)buf) - (s16)a1) & 0xFFF;
@@ -6363,7 +6363,7 @@ extern void func_8012B2CC(s32 a0);
 extern s32  func_8018A86C(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern s32  func_8012C588(s32 a0, s32 a1);
-extern u16 D_80126B5E;
+extern u16 D_80126B5E[0];
 extern u16 D_80126B62;
 extern u16 D_80126B66;
 
@@ -6381,7 +6381,7 @@ void func_8018C88C(s32 param_1)
         ((Unkstruct_800B5CB8 *)ent)->unk106 = t;
         func_8018ABD4(t, (u16 *)(((Unkstruct_800B5CB8 *)ent)->unk20 + 0x12), 0x20);
         func_8012B2CC(ent);
-        CAST_WIDTH(u16, ent, 0xE0) = D_80126B5E;
+        CAST_WIDTH(u16, ent, 0xE0) = D_80126B5E[0];
         *(u16 *)(ent + 0xE2) = D_80126B62 - 0x38;
         CAST_WIDTH(u16, ent, 0xE4) = D_80126B66;
         if (func_8018A86C(ent) != 0) {
@@ -6992,7 +6992,7 @@ void func_8018D514(s32 arg0) {
 
 
 extern s32 D_80126B58;
-extern u16 D_80126B5E;
+extern u16 D_80126B5E[0];
 extern u16 D_80126B62;
 extern u8  D_801202A0[];
 
@@ -7016,8 +7016,8 @@ void func_8018D654(Ent_8018D654 *self) {
 
         if (*lim >= *(s32 *)&self->fC - 0x800000) {
             if (func_8014CB8C() != 0 && self->f5E != 0x25 && self->f76 > 0) {
-                i = self->f6 - *(s16 *)&D_80126B5E;             /* L3, L4 */
-                v[0] = *(s16 *)&D_80126B5E;                     /* L4 */
+                i = self->f6 - *(s16 *)D_80126B5E;             /* L3, L4 */
+                v[0] = D_80126B5E[0];                     /* L4 */
                 v[1] = D_80126B62 - 0x40;
                 v[2] = self->fE - 0x30;
                 v[3] = 0;

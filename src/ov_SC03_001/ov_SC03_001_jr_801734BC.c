@@ -465,7 +465,7 @@ extern void func_8014B768(s32 a0, s32 a1);
 extern void func_8014B944(s32 a0, s32 a1, s32 a2);
 extern s32 D_80078EA4;
 extern u16 D_80078EB2;
-extern s16 D_80078EB4;
+extern s16 D_80078EB4[];
 extern void func_8014BB0C(void);
 extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
 extern void func_8014BC0C(s32 a0, s32 a1);
@@ -3057,7 +3057,7 @@ void func_80175DA8(param_1)
 //        target(i4) != op1(sum) at EXPAND time so no swap; cse then folds sum back and deletes the copy.
 //        => `addu $a1,$s0,$v0`.  MATCH.
 extern u16 D_80078EB2;
-extern s16 D_80078EB4;
+extern s16 D_80078EB4[0];
 /* cur base ($s5) */
 
 extern void  func_80176FF4(s32);
@@ -3095,11 +3095,11 @@ void func_80176218(s32 param_1)
     /* ---- block 1: raw-global pair 0x3A/0x3C ---- */
     sA = D_80078EB2;
     t = (sA != D_8011F82A);
-    if (D_8011F82C == (*(u16 *)&D_80078EB4)) {
+    if (D_8011F82C == (*(u16 *)D_80078EB4)) {
         ne = t;
         if (ne == 0 && D_8011F8C4 == 0) goto L340;
     } else {
-        s32 d = (s16)(D_8011F82C - (*(u16 *)&D_80078EB4));
+        s32 d = (s16)(D_8011F82C - (D_80078EB4[0]));
         u16 nv;
         if (d < 0) {
             if (d < -10) nv = D_8011F82C + 2;

@@ -1378,7 +1378,7 @@ extern void func_80028620(s32, void *);
 
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
-extern u16 D_801270C0;
+extern u16 D_801270C0[];
 extern u8 D_800AF630[];
 extern u32 D_800AFAE8[];
 extern char D_801847BC[];
@@ -1413,7 +1413,7 @@ s32 func_801596F0(s32 param_1) {
             } while (q < (u32 *)(base + 0x65AC));
         }
 
-        (*(s16 *)&D_801270C0) = 3;
+        (D_801270C0[0]) = 3;
         ((void (*)(s32))func_80129248)(0);
         func_8013C938();
         func_8013CB20();
