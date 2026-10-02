@@ -1572,9 +1572,9 @@ extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C3D0(void *a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C43C(void * a0, s32 a1, s32 a2, s32 a3, s16 a4);
 extern s32 func_8014C5FC(s32 a0, s32 a1, void *a2);
-extern s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("");  // !FAKE: barrier — NEEDED COMPILE-ERROR (P36 rung B tus11)
+extern s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, int a4);  // !FAKE: barrier — NEEDED COMPILE-ERROR (P36 rung B tus11)
 s16 func_8014C5D0(s32 a0, s32 a1);
-extern s32 aF8014C4AC();
+extern s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, int a4);
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern s32 func_8014C5FC(s32 a0, s32 a1, void * a2);
 extern u8 D_80126D17;

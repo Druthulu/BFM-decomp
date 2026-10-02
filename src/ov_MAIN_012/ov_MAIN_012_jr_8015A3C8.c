@@ -1541,7 +1541,7 @@ extern s32 func_8014C43C(void *a0, s32 a1, s32 a2, s32 a3, s16 a5);
 extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C3D0(void *a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C43C(void * a0, s32 a1, s32 a2, s32 a3, s16 a4);
-extern s32 aF8014C4AC();
+extern s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, int a4);
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern s32 ratan2(s32 dx, s32 dy);
 extern s32 func_8014C5FC(s32 a0, s32 a1, void *a2);
