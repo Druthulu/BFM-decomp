@@ -6681,7 +6681,7 @@ void func_801813D0(s32 a0) {
     dur = 0xB4;
     ((Unkstruct_80126B58 *)s0)->unk100 = (rand() & 3) + 1;
     CAST_WIDTH(s32, s0, 0xE0) = dur;
-    *(u16 *)(s0 + 0x84) = 1;
+    ((Unkstruct_80126B58 *)s0)->unk84 = 1;
 
     if ((rand() & 3) != 0) {
         v1 = func_800291B4(0xCC) & 0xFF;
@@ -6707,10 +6707,10 @@ void func_801813D0(s32 a0) {
             v0 = 4;
         }
         *(u8 *)(s0 + 0xFE) = v0;
-        *(u8 *)(s0 + 0xFF) = 1;
+        ((Unkstruct_80126B58 *)s0)->unkFF = 1;
     } else {
         *(u8 *)(s0 + 0xFE) = rand() & 3;
-        *(u8 *)(s0 + 0xFF) = 0;
+        ((Unkstruct_80126B58 *)s0)->unkFF = 0;
     }
 
 end:
@@ -6808,11 +6808,11 @@ void func_801816EC(s32 a0) {
     *(u16 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x2C) |= 0x10;
     CAST_WIDTH(s16, s0, 0x34) = 0;
     ((Unkstruct_80126B58 *)s0)->unk1C = 0x1E;
-    *(s16 *)(s0 + 0x98) = 0;
+    ((Unkstruct_80126B58 *)s0)->unk98 = 0;
     func_8002D4C8(0x526, 0);
 
     p = s0;
-    *(u16 *)(p + 0x7C) = CAST_SIGN(u16, p, 6);
+    ((Unkstruct_80126B58 *)p)->unk7C = CAST_SIGN(u16, p, 6);
     ((Unkstruct_80126B58 *)p)->unk7E = CAST_SIGN(u16, p, 0xA);
     *(u16 *)(p + 0x80) = CAST_SIGN(u16, p, 0xE);
     func_8016AA50(p, 0xA);
@@ -6913,8 +6913,8 @@ void func_80181954(s32 a0) {
         goto end;
     }
 
-    flag = *(u8 *)(s0 + 0xFF) ^ 1;
-    *(u8 *)(s0 + 0xFF) = flag;
+    flag = ((Unkstruct_80126B58 *)s0)->unkFF ^ 1;
+    ((Unkstruct_80126B58 *)s0)->unkFF = flag;
     if (flag != 0) {
         ((Unkstruct_80126B58 *)s0)->unk1C = 5;
         func_8012A828(s0, D_801B0DA4);
@@ -6953,7 +6953,7 @@ void func_80181A44(s32 a0) {
         *(s16 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x12) = 0;
     }
 
-    *(s16 *)(s0 + 0x84) = 0xA;
+    ((Unkstruct_80126B58 *)s0)->unk84 = 0xA;
     ((Unkstruct_80126B58 *)s0)->unk102 = 1;
     func_800291A0(0xCC, 1);
 

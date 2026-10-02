@@ -3722,9 +3722,9 @@ void func_8017EF24(void *arg0) {
                 ((Unkstruct_80126B58 *)arg0)->unk2 = (t == 0) ? 1 : 3;
             }
             CAST_WIDTH(s16, (char *)arg0, 0x5C) =
-                *(u16 *)(*(s32 *)((char *)arg0 + 0x78) + 0x2);
-            *(s16 *)((char *)arg0 + 0x76) =
-                *(u16 *)(*(s32 *)((char *)arg0 + 0x78));
+                *(u16 *)(((Unkstruct_800B5CB8 *)arg0)->unk78 + 0x2);
+            ((Unkstruct_800B5CB8 *)arg0)->unk76 =
+                *(u16 *)(((Unkstruct_800B5CB8 *)arg0)->unk78);
             *(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x18) =
                 *(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x1A) =
                 *(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x1C) = 0x1000;
@@ -3767,7 +3767,7 @@ void func_8017EFE0(void *arg0) {
 extern void func_8012A828(s32 *a0, s32 a1);
     extern u8 D_8019C4C4[];
     void func_8017F06C(void *arg0) {
-        s32 temp_v1 = *(s32 *)((char *)arg0 + 0x78);
+        s32 temp_v1 = ((Unkstruct_800B5CB8 *)arg0)->unk78;
         ((Unkstruct_80126B58 *)arg0)->unk2 = 1;
         CAST_WIDTH(s16, (char *)arg0, 0x5c) = *(u16 *)(temp_v1 + 0x2);
         func_8012A828(arg0, (s32)&D_8019C4C4);

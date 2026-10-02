@@ -7427,8 +7427,8 @@ void func_801840F8(void *a0) {
         s32 row;
 
         func_8001C1E4(CAST_SIGN(void *, (s32)ent, 0x20),
-                      ((Unkstruct_80126B58 *)*(s32 *)((s32)ent + 0x64))->unk20);
-        *(u16 *)((s32)ent + 0x86) |= 8;
+                      ((Unkstruct_80126B58 *)CAST_WIDTH(s32, (s32)ent, 0x64))->unk20);
+        ((Unkstruct_80126B58 *)ent)->unk86 |= 8;
 
         row = n * 12 + tbl;
         ((Unkstruct_80126B58 *)ent)->unk6 = *(u16 *)(row + 0) - *(u16 *)(row - 0xC);
@@ -11003,12 +11003,12 @@ void func_80188E88(void *a0)
         func_8018A42C((void *)ent, &D_801E798C[i * 12]);
         func_8012B23C(ent);
         ((Unkstruct_80126B58 *)ent)->unk10 =
-            (((Unkstruct_80126B58 *)ent)->unk6 - ((Unkstruct_80126B58 *)*(s32 *)(ent + 0x64))->unk6) << 13;
-        t = (((Unkstruct_80126B58 *)ent)->unkA - ((Unkstruct_80126B58 *)*(s32 *)(ent + 0x64))->unkA) << 15;
+            (((Unkstruct_80126B58 *)ent)->unk6 - ((Unkstruct_80126B58 *)CAST_WIDTH(s32, ent, 0x64))->unk6) << 13;
+        t = (((Unkstruct_80126B58 *)ent)->unkA - ((Unkstruct_80126B58 *)CAST_WIDTH(s32, ent, 0x64))->unkA) << 15;
         ((Unkstruct_80126B58 *)ent)->unk14 = t;
         CAST_WIDTH(s32, ent, 0xE0) = t;
         ((Unkstruct_80126B58 *)ent)->unk18 =
-            (((Unkstruct_80126B58 *)ent)->unkE - ((Unkstruct_80126B58 *)*(s32 *)(ent + 0x64))->unkE) << 13;
+            (((Unkstruct_80126B58 *)ent)->unkE - ((Unkstruct_80126B58 *)CAST_WIDTH(s32, ent, 0x64))->unkE) << 13;
         break;
     default:
         func_8001C214(((Unkstruct_80126B58 *)ent)->unk20, D_801948F0[CAST_SIGN(u16, ent, 0x70) & 3]);
@@ -11023,7 +11023,7 @@ void func_80188E88(void *a0)
     }
 
     *(u16 *)(ent + 0x106) = rand() & 0xF0;
-    *(u16 *)(ent + 0x108) = rand() & 0xF0;
+    ((Unkstruct_80126B58 *)ent)->unk108 = rand() & 0xF0;
     ((Unkstruct_80126B58 *)ent)->unk1C = ((Unkstruct_80126B58 *)ent)->unk70;
 done:
     func_8012AD50((void *)ent);

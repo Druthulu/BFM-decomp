@@ -5625,12 +5625,12 @@ void func_80161C24(int param_1, int param_2)
     extern unsigned short D_80180E3A[];
 
     if ((unsigned int)param_2 < 8) {
-        if (*(u8 *)(param_1 + 0xDA) != 0) {
+        if (((Unkstruct_80126B58 *)param_1)->unkDA != 0) {
             func_80147324(D_80180E38[(unsigned int)param_2 * 2]);
-            *(u8 *)(param_1 + 0xDA) = 0;
+            ((Unkstruct_80126B58 *)param_1)->unkDA = 0;
         } else {
             func_80147324(D_80180E3A[(unsigned int)param_2 * 2]);
-            *(u8 *)(param_1 + 0xDA) = 1;
+            ((Unkstruct_80126B58 *)param_1)->unkDA = 1;
         }
     }
 }

@@ -26,7 +26,7 @@ s16 func_80185E80(s32 arg0) {
     if (CAST_SIGN(s16, arg0, 0x100) != 0) {
         goto ret0;
     }
-    if (*(s32 *)(arg0 + 0xE8) & 0x200) {
+    if (((Unkstruct_800B5CB8 *)arg0)->unkE8 & 0x200) {
         goto ret0;
     }
     var = p[CAST_SIGN(s16, arg0, 0x102) * 2 + 1];
@@ -64,20 +64,20 @@ s16 func_80185E80(s32 arg0) {
         }
         break;
     case 3:
-        if (*(s32 *)(arg0 + 0xE8) & 0x408) {
+        if (((Unkstruct_800B5CB8 *)arg0)->unkE8 & 0x408) {
             var = 0;
         }
         break;
     case 4:
     case 5:
-        if ((*(s32 *)(arg0 + 0xE8) & 0x800) == 0) {
-            if (*(s16 *)(arg0 + 0x76) < 0x81) {
+        if ((((Unkstruct_800B5CB8 *)arg0)->unkE8 & 0x800) == 0) {
+            if (((Unkstruct_800B5CB8 *)arg0)->unk76 < 0x81) {
                 var = 0;
             }
         }
         break;
     case 6:
-        flags = *(s32 *)(arg0 + 0xE8);
+        flags = ((Unkstruct_800B5CB8 *)arg0)->unkE8;
         if (flags & 0x800) {
             var = 0;
             break;
@@ -86,7 +86,7 @@ s16 func_80185E80(s32 arg0) {
             if ((flags & 0xA) != 2) {
                 goto ret0;
             }
-            *(u16 *)(arg0 + 0xFE) = *(u16 *)(arg0 + 0xFE) + 1;
+            ((Unkstruct_800B5CB8 *)arg0)->unkFE = CAST_SIGN(u16, arg0, 0xFE) + 1;
             goto ret0;
         }
         res = func_80186144((void *)arg0, 8);
@@ -108,8 +108,8 @@ s16 func_80185E80(s32 arg0) {
         ((Unkstruct_80126B58 *)arg0)->unk100 = nxt;
     }
     if (flag != 0) {
-        if ((*(s32 *)(arg0 + 0xE8) & 0xA) == 2) {
-            *(u16 *)(arg0 + 0xFE) = *(u16 *)(arg0 + 0xFE) + 1;
+        if ((((Unkstruct_800B5CB8 *)arg0)->unkE8 & 0xA) == 2) {
+            ((Unkstruct_800B5CB8 *)arg0)->unkFE = CAST_SIGN(u16, arg0, 0xFE) + 1;
         }
     }
     return var;

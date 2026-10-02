@@ -3788,7 +3788,7 @@ void func_801830C0(s32 param_1) {
 
     func_8012B178(pv, D_8018C50C);
 
-    if ((*(u16 *)(pv + 0x86) & 1) != 0) {
+    if ((((Unkstruct_80126B58 *)pv)->unk86 & 1) != 0) {
         s32 mask = ((s32 (*)(s32))func_8012CBA4)(pv) & 0x2000;
         if (mask == 0) {
             func_8012ADE4((u8 *)pv);
@@ -3796,14 +3796,14 @@ void func_801830C0(s32 param_1) {
     } else {
         s32 mask = func_8012CBCC(pv) & 0x2000;
         if (mask != 0) {
-            *(u16 *)(pv + 0x86) |= 1;
+            ((Unkstruct_80126B58 *)pv)->unk86 |= 1;
         }
     }
 
     func_80182D88(pv);
 
     if (func_8012BEE8(pv) != 0) {
-        if ((*(u16 *)(pv + 0x86) & 1) != 0) {
+        if ((((Unkstruct_80126B58 *)pv)->unk86 & 1) != 0) {
             func_80183284((short *)pv);
             return;
         }
@@ -3836,9 +3836,9 @@ void func_801830C0(s32 param_1) {
         }
 
         if (func_8012CE2C(pv) != 0) {
-            *(u16 *)(pv + 0x86) |= 1;
+            ((Unkstruct_80126B58 *)pv)->unk86 |= 1;
         } else {
-            *(u16 *)(pv + 0x86) &= 0xFFFE;
+            ((Unkstruct_80126B58 *)pv)->unk86 &= 0xFFFE;
         }
 
         func_8012A828(pv, (void *)D_801E3AE0);
