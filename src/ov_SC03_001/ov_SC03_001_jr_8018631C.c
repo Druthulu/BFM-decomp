@@ -3531,25 +3531,25 @@ s32 func_80186CD0(s32 arg0) {
 s32 func_80186D18(void)
 {
 
-    extern u16 D_80126B5E;
-    extern u16 D_80126B66;
-    extern u16 D_80126B62;
+    extern u16 D_80126B5E[];
+    extern u16 D_80126B66[];
+    extern u16 D_80126B62[];
     s16 v1;
     s32 result;
 
-    v1 = *(s16 *)&D_80126B5E;
+    v1 = D_80126B5E[0];
     if (v1 < 0x400) {
         result = 0;
     } else if (v1 >= 0x501) {
         result = 0;
     } else {
-        v1 = *(s16 *)&D_80126B66;
+        v1 = D_80126B66[0];
         if (v1 < 0x580) {
             result = 0;
         } else if (v1 >= 0x601) {
             result = 0;
         } else {
-            v1 = *(s16 *)&D_80126B62;
+            v1 = D_80126B62[0];
             result = (v1 >= -0x200);
         }
     }

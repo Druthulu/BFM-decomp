@@ -3465,7 +3465,7 @@ void func_8017EA4C(s32 param_1) {
 extern u16 D_80126B5E;
 extern u16 D_80126B62;
 extern u16 D_80126B66;
-extern s16 D_801C7748;
+extern s16 D_801C7748[];
 extern s16 D_8018A6D4;
 extern s16 D_8018A6D6;
 extern u8 D_8018A6C8[];
@@ -3490,7 +3490,7 @@ void func_8017EA98(s32 a0) {
     }
 
     off = 0;
-    ang = D_801C7748;
+    ang = D_801C7748[0];
     for (i = 0; i < 3; i++) {
         if (ang >= *(s16 *)((s32)&D_8018A6D4 + off) && ang < *(s16 *)((s32)&D_8018A6D6 + off)) {
             break;
@@ -3604,7 +3604,7 @@ extern s32 func_80180720(s32 a0);
 extern void func_8017EEF4(u8 *a0);
 
 /* globals — raw access-width form (law 2 fallback: no existing decl in this TU) */
-extern s16 D_801C7748;
+extern s16 D_801C7748[0];
 extern s16 D_8018A6E0;
 extern s16 D_8018A6E2;
 extern s16 D_801C774A;
@@ -3618,7 +3618,7 @@ void func_8017EDBC(u8 *a0) {
     s32 base;
     s32 ret;
 
-    base = D_801C7748 + D_8018A6E0 + (*(u8 *)(a0 + 0x70) - 1) * D_8018A6EA;
+    base = D_801C7748[0] + D_8018A6E0 + (*(u8 *)(a0 + 0x70) - 1) * D_8018A6EA;
     func_8018072C(base, D_801C774A + D_8018A6E2, buf);
 
     buf[1] -= D_8018A6E4 + D_8018A6E8 * *(s32 *)(a0 + 0x1C);
@@ -3643,14 +3643,14 @@ void func_8017EDBC(u8 *a0) {
 
 
 void func_8017EEF4(u8 *a0) {
-    extern s16 D_801C7748;
+    extern s16 D_801C7748[0];
     s32 frame_pad[2];
     u16 temp;
 
     (void)&frame_pad;
 
     *(s16 *)(a0 + 2) = 2;
-    temp = *(u16 *)&D_801C7748;
+    temp = D_801C7748[0];
     *(s32 *)(a0 + 0x1C) = 0;
     *(s16 *)(a0 + 0x34) = 0;
     *(s16 *)(a0 + 0xE0) = 0;

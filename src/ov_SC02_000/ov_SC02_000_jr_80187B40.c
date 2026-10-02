@@ -3044,7 +3044,7 @@ extern u8 D_801E828E;
 extern u8 D_801E829E;
 extern u8 D_801E82AC;
 extern u8 D_801DD528;
-extern M2C_UNK D_8018AF28;
+extern M2C_UNK D_8018AF28[];
 extern s32 D_801270C8;
 extern void func_80186764(s32 param_1);
 extern void (*D_8018F31C[])(void);
@@ -4732,7 +4732,7 @@ extern s32 func_80134510(s32 arg);
 
 s32 func_8018A690(s32 param_1) {
 
-    extern M2C_UNK D_8018AF28;
+    extern M2C_UNK D_8018AF28[0];
     extern s32 func_8012C354(s32 a0, s32 a1);
     extern void RotMatrixZ(s32, void *);
     extern void MulMatrix0(s32, void *, s32);
@@ -4751,7 +4751,7 @@ s32 func_8018A690(s32 param_1) {
     if (((s32 (*)(s32, void *))func_8012C354)(param_1, &D_801A7AF0) == 0) {
         ((void (*)(s32))func_8012C218)(param_1);
     }
-    ((void(*)(s32, void *))func_8012A828)(param_1, &(*(s32 *)&D_8018AF28));
+    ((void(*)(s32, void *))func_8012A828)(param_1, &(D_8018AF28[0]));
     iVar5 = *(s32 *)(param_1 + 0x20);
     *(s16 *)(param_1 + 0x70) = 0x80;
     *(s32 *)(iVar5 + 4) |= 0x50000040;

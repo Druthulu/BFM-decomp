@@ -5575,7 +5575,7 @@ s32 func_8018C2FC(void)
 
     extern u16 D_80126B5E;
     extern u16 D_80126B66;
-    extern u16 D_80126B62;
+    extern u16 D_80126B62[];
     s16 v1;
     s32 result;
 
@@ -5591,7 +5591,7 @@ s32 func_8018C2FC(void)
         } else if (v1 >= 0x601) {
             result = 0;
         } else {
-            v1 = *(s16 *)&D_80126B62;
+            v1 = D_80126B62[0];
             result = (v1 >= -0x200);
         }
     }

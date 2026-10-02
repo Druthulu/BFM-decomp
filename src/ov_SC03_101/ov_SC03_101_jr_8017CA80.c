@@ -5463,7 +5463,7 @@ void func_80181E60(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     extern s16 D_8019DE86;
     extern s16 D_8019DE88;
-    extern s16 D_8019DE8A;
+    extern s16 D_8019DE8A[];
     void func_80181F00(s32 arg0, s32 arg1, s32 arg2) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
@@ -5472,7 +5472,7 @@ void func_80181E60(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         D_8019DE84 = *(u16 *)((s32)arg0 + 0x0);
         D_8019DE86 = *(u16 *)((s32)arg0 + 0x2);
         D_8019DE88 = arg1;
-        D_8019DE8A = arg2;
+        D_8019DE8A[0] = arg2;
     }
 
 
@@ -5504,9 +5504,9 @@ void func_80181F30(s32 a0) {
 }
 
 
-extern s16 D_8019DE8A;
+extern s16 D_8019DE8A[0];
     void func_80181FA8(s32 arg0) {
-        M2C_FIELD(&D_8019DE8A, s16 *, 0) += arg0;
+        D_8019DE8A[0] += arg0;
     }
 
 
@@ -5861,7 +5861,7 @@ void func_80182254(s32 arg0)
     p[0x15] = ent[0xB];
     p[0x16] = ent[0xC];
 
-    ang = D_8019DE8A;
+    ang = D_8019DE8A[0];
     bx = (u16)D_8019DE84;
     by = (u16)D_8019DE86;
     RotMatrixZ(ang, mp);

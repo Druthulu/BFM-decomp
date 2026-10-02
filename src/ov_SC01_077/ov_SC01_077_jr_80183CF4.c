@@ -2968,7 +2968,7 @@ extern int D_801D1CBC;
 extern int D_8018A8A4;
 extern int D_8018A8B4;
 extern int D_8018A8C4;
-extern M2C_UNK D_80186E48;
+extern M2C_UNK D_80186E48[];
 extern void func_80180590(int param_1);
 extern s32 D_801270C8;
 extern void func_8017F714(void *a0);
@@ -3883,7 +3883,7 @@ s32 func_80184F08(s32 param_1) {
     if (((s32 (*)(s32, void *))func_8012C354)(param_1, &D_8019918C) == 0) {
         ((void (*)(s32))func_8012C218)(param_1);
     }
-    ((void(*)(s32, void *))func_8012A828)(param_1, &(*(s32 *)&D_80186E48));
+    ((void(*)(s32, void *))func_8012A828)(param_1, &(D_80186E48[0]));
     iVar5 = *(s32 *)(param_1 + 0x20);
     *(s16 *)(param_1 + 0x70) = 0x80;
     *(s32 *)(iVar5 + 4) |= 0x50000040;
@@ -4631,14 +4631,14 @@ void func_80186078(s32 arg0) {
 
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
-extern M2C_UNK D_80186E48;
+extern M2C_UNK D_80186E48[0];
 extern M2C_UNK D_801D77A8;
 
 void func_80186330(void *arg0) {
     void *temp_v1;
 
     func_8001C214(M2C_FIELD(arg0, void **, 0x20), &D_801D77A8);
-    func_8012A828(arg0, &D_80186E48);
+    func_8012A828(arg0, D_80186E48);
     ((Unkstruct_800B5CB8 *)arg0)->unk2 = 3;
     ((Unkstruct_800B5CB8 *)arg0)->unk6 = (u16) M2C_FIELD(arg0, u16 *, 0xDC);
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
@@ -4654,12 +4654,12 @@ void func_80186330(void *arg0) {
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_80174784(void);
-extern M2C_UNK D_80186E48;
+extern M2C_UNK D_80186E48[0];
 
 void func_801863B4(int param_1) {
     unsigned short uVar1;
 
-    func_8012A828(param_1, &D_80186E48);
+    func_8012A828(param_1, D_80186E48);
     ((Unkstruct_800B5CB8 *)param_1)->unk2 = 4;
     ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
     ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x1e;
@@ -4791,7 +4791,7 @@ void func_801865EC(s32 arg0) {
         CAST_WIDTH(u16, obj, 0x1C) = 0x2000;
         ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x2000;
         ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x2000;
-        func_8012A828(arg0, &D_80186E48);
+        func_8012A828(arg0, D_80186E48);
         ((Unkstruct_800B5CB8 *)arg0)->unk2 = 1;
         func_8012B21C((void *)arg0);
         ((Unkstruct_800B5CB8 *)arg0)->unk48 = 0x18000;
@@ -4871,7 +4871,7 @@ void func_80186860(int param_1) {
 extern s32 D_801270C8;
 extern s32 D_801270CC;
 extern u8 D_801D7A4C;
-extern M2C_UNK D_80186E48;
+extern M2C_UNK D_80186E48[0];
 
 extern void func_80185BA4(void *arg0);
 extern s32 func_8012BEE8(s32 a0);
@@ -4892,7 +4892,7 @@ void func_80186938(s32 arg0) {
         if (((s32 (*)(void *))func_8012BEE8)((void *)arg0) != 0) {
             *(s16 *)(arg0 + 0x34) = 1;
             ((void (*)(s32, void *))func_8001C214)(*(s32 *)(arg0 + 0x20), &D_801D7A4C);
-            ((void (*)(void *, void *))func_8012A828)((void *)arg0, &D_80186E48);
+            ((void (*)(void *, void *))func_8012A828)((void *)arg0, D_80186E48);
             ((void (*)(void))func_801747AC)();
             p = &D_801270C8;
             *p += 1;

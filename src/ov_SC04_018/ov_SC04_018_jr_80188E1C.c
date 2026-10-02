@@ -2950,7 +2950,7 @@ extern s32 func_801847BC(void *a0, void *a1);
 extern void func_80184858(void *a0);
 extern void func_80184884(void *a0);
 extern void func_801848B0(void *a0);
-extern u16 D_80126B62;
+extern u16 D_80126B62[];
 extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CB64(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern s32 aF801848DC();
@@ -5723,7 +5723,7 @@ L860:
 
 extern u16 D_80126B5E;
 extern u16 D_80126B66;
-extern u16 D_80126B62;
+extern u16 D_80126B62[0];
 
 s32 func_8018C8A8(void)
 {
@@ -5742,7 +5742,7 @@ s32 func_8018C8A8(void)
         } else if (v1 >= 0x601) {
             result = 0;
         } else {
-            v1 = *(s16 *)&D_80126B62;
+            v1 = D_80126B62[0];
             result = (v1 >= -0x200);
         }
     }

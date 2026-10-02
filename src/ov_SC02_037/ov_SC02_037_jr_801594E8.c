@@ -232,7 +232,7 @@ extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
 extern u8 D_801202A0[];
-extern u16 D_801270C0;
+extern u16 D_801270C0[];
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
 extern s32 func_8012ACE0(void *a0);
@@ -2180,7 +2180,7 @@ s32 func_801596F0(s32 param_1) {
 
     extern s16 D_800B9AAC[];
     extern s16 D_800B9B00;
-    extern u16 D_801270C0;
+    extern u16 D_801270C0[0];
     extern u8 D_800AF630[];
     extern u32 D_800AFAE8[];
     extern char D_80186018[];
@@ -2213,7 +2213,7 @@ s32 func_801596F0(s32 param_1) {
             } while (q < (u32 *)(base + 0x65AC));
         }
 
-        (*(s16 *)&D_801270C0) = 3;
+        (D_801270C0[0]) = 3;
         ((void (*)(s32))func_80129248)(0);
         func_8013C938();
         func_8013CB20();
