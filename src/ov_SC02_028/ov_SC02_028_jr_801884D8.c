@@ -2763,7 +2763,7 @@ extern void func_80183A0C(s32 a0);
 extern s16 D_801D3292;
 extern void func_80183A84(s32 arg0);
 extern s32 rand(void);      /* TU L951, verbatim */
-extern void aF8018A860();
+extern void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3);
 extern s32 func_80183BCC(void);
 extern void func_80183C08(s32 a0, s32 a1);
 extern void func_80183D30(s32 arg0);

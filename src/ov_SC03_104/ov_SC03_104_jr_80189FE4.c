@@ -2752,7 +2752,7 @@ extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_8018536C(s32 a0);
 extern void func_801853E4(s32 arg0);
 extern s32 rand(void);      /* TU L951, verbatim */
-extern void aF8018A860();
+extern void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3);
 extern s32 func_8018552C(void);
 extern void func_80185568(s32 a0, s32 a1);
 extern void func_80185690(s32 arg0);
