@@ -1911,6 +1911,8 @@ def decl_sites(masked, callee):
         ret = sl._norm_type(m.group(2))
         if ret in ("return", "goto", "else", "case") or not ret:
             continue
+        if "__asm__" in m.group(3):
+            continue        # `T f(params) __asm__("sym");` — an asm-label declaration names the symbol; its rewrite would drop the label (P3.39 T6)
         out.append((m.start(), m.end(), masked.count("\n", 0, m.start()) + 1, bool(m.group(1)), ret, re.sub(r"\s+", " ", m.group(3)).strip()))
     return out
 
@@ -2285,6 +2287,13 @@ def _ordered_syms(text, rx=re.compile(r"\bD_[0-9A-F]{8}\w*")):
     return out
 
 
+def _sig_key(r_, p_):
+    """(ret, parameter TYPES) — names dropped, so a K&R head's promoted list and the ANSI signature compare (P3.39 T6)."""
+    ts = [(lambda m_: m_.group(1) + " " + m_.group(2) if m_ else x)(re.search(r"[\s*]", x.strip()) and PARAM_DECL.match(x))
+          for x in sl._split_top(p_, ",")]
+    return sl._norm_type(r_), tuple(sl._norm_type(t) for t in ts) if p_.strip() not in ("", "void") else ("void",)
+
+
 def signature_change(callee, signature, label, calib_id, log, pool=None, body_file=None, all_defs=False, only_tu=None, with_files=None,
                      map_data=False):
     """A DEFINITION-side change (`--callee F --signature "ret F(params)"`, or `--callee F --body FILE` — the pack's lever-free function text
@@ -2304,7 +2313,18 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
     ret, params = sl._norm_type(m.group(1)), re.sub(r"\s+", " ", m.group(2)).strip() or "void"
     w = walk()
     results = w["results"]
-    def_files = [rel for rel, r in results.items() if r and any(f["fn"] == callee for f in r["fndefs"])]
+    def_name = {rel: callee for rel, r in results.items() if r and any(f["fn"] == callee for f in r["fndefs"])}
+    if not def_name:
+        # an ALIAS-defined callee (`T aF<addr>(…) __asm__("func_<x>")`): the walk names its definition by the asm label (P3.39 T6)
+        for rel, r in results.items():
+            if not r or not r["fndefs"] or callee not in (txt_ := (REPO / rel).read_text(errors="surrogateescape")):
+                continue
+            mk_ = dl.same_len_mask(txt_)
+            pm = [m_.group(5) for m_ in re.finditer(AF_PROTO_RX_T.format(name=callee), mk_) if m_.group(5)]
+            if pm and any(f["fn"] == pm[0] for f in r["fndefs"]) \
+                    and re.search(r"(?m)^[A-Za-z_][\w \t*]*?\b" + callee + r"\s*\([^;{]*\)\s*(?:\n[^{;\n]*;)*\s*\{", mk_):
+                def_name[rel] = pm[0]
+    def_files = list(def_name)
     if only_tu:
         def_files = [d_ for d_ in def_files if d_ == only_tu]
     if body_text is not None and all_defs:
@@ -2321,9 +2341,14 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
     def_tu = def_files[0]
     files = {}
     for dtu in def_files:
+        if body_text is None and any(f[0] == def_name[dtu] and _sig_key(f[2], (f[4] and kr_ansi_params(dtu, {"fn": callee})) or f[3]) == _sig_key(ret, params) for f in _defs_of_file(dtu)):
+            # a CALLER-ONLY declaration unit (P3.39 T6): the definition already reads the signature — not rewritten, not judged; it
+            # still scopes the declarations below (its binaries)
+            log(f"signature {callee}: {dtu} already defines `{ret} {callee}({params})` — definition left as is")
+            continue
         dtext = (REPO / dtu).read_text(errors="surrogateescape")
         dmask = dl.same_len_mask(dtext)
-        fd = next(f for f in results[dtu]["fndefs"] if f["fn"] == callee)
+        fd = next(f for f in results[dtu]["fndefs"] if f["fn"] == def_name[dtu])
         ls = dl.line_starts(dmask)
         head_start = ls[fd["line"] - 1]
         if body_text is not None:
@@ -2366,6 +2391,9 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
     for dtu in def_files:
         for a_ in w["tu_aliases"].get(dtu, ()):
             def_bins.add(a_)
+        if dtu.startswith("src/shared/"):
+            # a definition in a shared header: its binaries are its includers' (a header has no tu_aliases; P3.39 T6)
+            def_bins |= {t.split("/")[1] for t in dl.includers().get(dtu, []) if t.count("/") >= 2}
     fleet_wide = any(d_.count("/") == 1 or d_.startswith("src/resident/") or d_.startswith("src/shared/main") for d_ in def_files)
     n_decl = 0
     for rel, r in results.items():
@@ -2385,7 +2413,10 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
         ds_ = decl_sites(dl.same_len_mask(text), callee)
         if not ds_:
             continue
-        files[rel] = compose_text(text, [(s, e, f"{'extern ' if ext else ''}{ret} {callee}({params});") for (s, e, ln, ext, r_, p) in ds_])
+        new_ = compose_text(text, [(s, e, f"{'extern ' if ext else ''}{ret} {callee}({params});") for (s, e, ln, ext, r_, p) in ds_])
+        if new_ == text and rel not in files:
+            continue                    # already spelled so: nothing to judge (P3.39 T6 — a fleet-wide callee's 2,000 canonical TUs)
+        files[rel] = new_
         n_decl += len(ds_)
     log(f"signature {callee}: `{ret} {callee}({params})` — {len(def_files)} definition(s) in {def_files[:3]}, {n_decl} declarations in {len(files) - len(def_files)} other files")
     r = judge_files(files, "sig" + hashlib.sha1(callee.encode()).hexdigest()[:6], pool=pool)
@@ -5191,12 +5222,19 @@ def selftest(real=False):
     ok("D units: the two lying callees found", set(byc) == {"fx_callee", "fx_kr"}, str(sorted(byc)))
     ok("D: fx_callee's narrow decl vs the definition's s32", byc["fx_callee"]["ansi"] == "s32 a0, s32 a1" and byc["fx_callee"]["promoted"] == "s32 a0, s32 a1")
     ok("promoted_params widens narrow ints", promoted_params("s16 a0, u8 b, void *c, s32 d") == "s32 a0, s32 b, void *c, s32 d")
+    ok("--callee caller-only unit: _sig_key drops parameter names (a definition already spelled so is left as is)",
+       _sig_key("s32", "s32, s32, s32, s16 *, int") == _sig_key("s32", "s32 a0, s32 a1, s32 a2, s16 *a3, int a4")
+       and _sig_key("void", "") == _sig_key("void", "void") and _sig_key("void", "s32 a0") != _sig_key("s32", "s32 a0")
+       and _sig_key("void", "s32 *a0") != _sig_key("void", "s32 a0"))
     ed = d_edits(byc["fx_kr"], byc["fx_kr"]["ansi"])
     ok("d_edits rewrites the `()` declaration", ed[0][2] == "extern s32 fx_kr(s32 a, s32 b);", ed[0][2])
     counts = call_arg_counts(masked, "fx_kr", [(s_, e_) for (s_, e_, *_) in byc["fx_kr"]["decls"]])
     ok("call_arg_counts reads the call's arity", counts == [2], str(counts))
     marks = kr_marker_edits(text, byc["fx_kr"], counts, "st")
     ok("K&R marker text", marks and "// K&R: 2 of 2 args (P37 rung D st)" in marks[0][2], marks[0][2] if marks else "")
+    _asm_t = 'extern s32 aF1(void *) __asm__("func_1");\nextern s32 aF1();\n'
+    ok("decl_sites skips an asm-label declaration (its rewrite would drop the label)",
+       [d_[2] for d_ in decl_sites(dl.same_len_mask(_asm_t), "aF1")] == [2])
     # the alias and builtin units
     eu = e_units(tu, text, masked)
     bye = {u["callee"]: u for u in eu}
