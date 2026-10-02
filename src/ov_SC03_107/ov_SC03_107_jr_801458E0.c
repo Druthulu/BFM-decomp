@@ -621,7 +621,7 @@ extern s32 func_8013767C(s32 a0);
 extern void func_801376E8(int a0, int a1);
 extern void func_801376C8(int a0);
 extern void func_80139BE0(s32 a0);
-extern void * aF801376E8();
+extern void * aF801376E8(int a0, int a1);
 extern s32 D_80127524;
 extern s32 D_80127528;
 extern void func_80137840(s32 a0);
