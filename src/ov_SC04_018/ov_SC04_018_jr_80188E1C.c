@@ -2953,7 +2953,7 @@ extern void func_801848B0(void *a0);
 extern u16 D_80126B62[];
 extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CB64(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
-extern s32 aF801848DC();
+extern s32 aF801848DC(void *a0);
 extern s32 D_801E7998;
 extern s16 D_801B86BC[];
 extern s16 D_801B86F0[];

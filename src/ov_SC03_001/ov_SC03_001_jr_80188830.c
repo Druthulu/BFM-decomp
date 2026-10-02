@@ -3036,7 +3036,7 @@ extern void func_80187344(void *a0);
 extern void func_80187370(void *a0);
 extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CB64(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
-extern s32 aF801848DC();
+extern s32 aF801848DC(void *a0);
 extern s32 func_801875C4(s32 arg0);
 extern s32 func_80187420(s32 a0);
 extern s32 func_80187420(s32 arg);
