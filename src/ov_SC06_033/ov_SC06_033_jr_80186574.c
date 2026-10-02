@@ -1761,7 +1761,7 @@ extern void func_8016A700(void *a0);
 extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
-extern u16 D_80126B5E;
+extern u16 D_80126B5E[];
 extern u16 D_80126B62;
 extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
@@ -3870,14 +3870,14 @@ void func_80187A88(s32 a0, s32 a1) {
 
 
 s32 func_80187D0C(void *a0, s32 a1, s32 a2) {
-    extern u16 D_80126B5E;
+    extern u16 D_80126B5E[0];
     extern u16 D_80126B62;
     extern u16 D_80126B66;
     extern s32 func_8012B70C(s16 *a0, s16 *a1);
     u16 buf[3];
     s32 d;
 
-    buf[0] = D_80126B5E;
+    buf[0] = D_80126B5E[0];
     buf[1] = D_80126B62;
     buf[2] = D_80126B66;
     d = (func_8012B70C((s16 *)a0, (s16 *)buf) - (s16)a1) & 0xFFF;
@@ -4552,7 +4552,7 @@ extern s32 func_80134510(s32 arg);
 
 s32 func_80188C28(s32 param_1) {
 
-    extern M2C_UNK D_80191B60;
+    extern M2C_UNK D_80191B60[];
     extern s32 func_8012C354(s32 a0, s32 a1);
     extern void RotMatrixZ(s32, void *);
     extern void MulMatrix0(s32, void *, s32);
@@ -4571,7 +4571,7 @@ s32 func_80188C28(s32 param_1) {
     if (((s32 (*)(s32, void *))func_8012C354)(param_1, &D_801C7BD8) == 0) {
         ((void (*)(s32))func_8012C218)(param_1);
     }
-    ((void(*)(s32, void *))func_8012A828)(param_1, &(*(s32 *)&D_80191B60));
+    ((void(*)(s32, void *))func_8012A828)(param_1, &(D_80191B60[0]));
     iVar5 = *(s32 *)(param_1 + 0x20);
     *(s16 *)(param_1 + 0x70) = 0x80;
     *(s32 *)(iVar5 + 4) |= 0x50000040;
@@ -4838,7 +4838,7 @@ void func_80189250(s32 arg0) {
 
 
 extern s32 D_80126B58;
-extern u16 D_80126B5E;
+extern u16 D_80126B5E[0];
 extern u16 D_80126B62;
 extern u8  D_801202A0[];
 
@@ -4863,8 +4863,8 @@ void func_80189390(void *arg) {
 
         if (*lim >= *(s32 *)&self->fC - 0x800000) {
             if (func_8014CB8C() != 0 && self->f5E != 0x25 && self->f76 > 0) {
-                i = self->f6 - *(s16 *)&D_80126B5E;             /* L3, L4 */
-                v[0] = *(s16 *)&D_80126B5E;                     /* L4 */
+                i = self->f6 - *(s16 *)D_80126B5E;             /* L3, L4 */
+                v[0] = D_80126B5E[0];                     /* L4 */
                 v[1] = D_80126B62 - 0x40;
                 v[2] = self->fE - 0x30;
                 v[3] = 0;
