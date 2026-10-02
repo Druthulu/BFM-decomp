@@ -3390,7 +3390,7 @@ s32 func_801863B4(s32 a0) {
 
 extern void func_8012F214(s32 arg0, s32 arg1, s32 arg2);
 extern s32 D_801B87D8;
-extern s32 D_801E7AAC;
+extern s32 D_801E7AAC[];
 
 void func_80186410(void) {
     s32 a0;
@@ -3402,7 +3402,7 @@ void func_80186410(void) {
 
     val = buffer[0] | (((s16)buffer[2]) << 16);
 
-    p = *(s32**)&D_801E7AAC;
+    p = D_801E7AAC[0];
     p[1] = val;
 }
 

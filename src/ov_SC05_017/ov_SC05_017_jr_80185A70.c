@@ -3373,7 +3373,7 @@ extern void func_8012F214(s32 arg0, s32 arg1, s32 arg2);
 void func_80186110(void) {
 
     extern s32 D_801B8794;
-    extern s32 D_801ED90C;
+    extern s32 D_801ED90C[];
     s32 a0;
     u16 buffer[4];
     s32 val;
@@ -3383,7 +3383,7 @@ void func_80186110(void) {
 
     val = buffer[0] | (((s16)buffer[2]) << 16);
 
-    p = *(s32**)&D_801ED90C;
+    p = D_801ED90C[0];
     p[1] = val;
 }
 

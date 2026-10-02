@@ -886,7 +886,7 @@ extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; calle
 extern s16 func_8014168C(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
-extern short D_80115128;
+extern short D_80115128[];
 extern s16 D_8011512A;
 extern unsigned char D_80189604;
 extern void func_8013EB7C(void);
@@ -903,7 +903,7 @@ extern void func_80141C0C(s32);
 extern u16 D_8011511C;
 extern u16 D_80115120;
 extern u16 D_80115122;
-extern s16 D_80115128;
+extern s16 D_80115128[0];
 extern u16 D_8011512E;
 extern s16 D_8011514E;
 extern u8  D_80115152;
@@ -933,7 +933,7 @@ extern s32   func_800D27DC(s32, s32 *, void *, s32, s32);
 extern s32  *func_800D29F8(s32, s32, void *, s32, s32);
 extern void func_8013FAF8(s16 arg0, s16 arg1);
 
-extern short D_80115128;
+extern short D_80115128[0];
 extern u8 D_80189324[];
 extern u8 D_8018933C[];
 extern s32 func_80029178(s32 arg);
@@ -983,7 +983,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         result = D_801893A8[((short)param_2)];
         break;
     case 2:
-        switch ((*(s16*)&D_80115128)) {
+        switch ((D_80115128[0])) {
         case 0:
             if (D_8018966C[((short)param_2)]() == 0) {
                 ((short)param_2) = 5;
