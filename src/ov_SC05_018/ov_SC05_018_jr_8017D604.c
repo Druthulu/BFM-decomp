@@ -4580,18 +4580,18 @@ void func_801809B8(s32 arg0, s32 arg1, s32 arg2)
     if (res == 0) {
         return;
     }
-    if (*(s32 *)(res + 0x20) != 0) {
-        *(u16 *)(*(s32 *)(res + 0x20) + 0x2C) = 0xC010;
+    if (((Unkstruct_800B5CB8 *)res)->unk20 != 0) {
+        ((Unkstruct_800B5CB8 *)*(s32 *)(res + 0x20))->unk2C = 0xC010;
     }
-    *(s32 *)(res + 0x10) = (rand() & 0x7FFF) * 8 - 0x20000;
-    *(s32 *)(res + 0x14) = (rand() & 0x7FFF) * 4 - 0x60000;
-    *(s32 *)(res + 0x18) = (rand() & 0x7FFF) * 8 - 0x20000;
-    *(s16 *)(res + 0x34) = 0x3001;
-    *(s32 *)(*(s32 *)(res + 0x20) + 4) |= 0x50000000;
+    CAST_WIDTH(s32, res, 0x10) = (rand() & 0x7FFF) * 8 - 0x20000;
+    ((Unkstruct_800B5CB8 *)res)->unk14 = (rand() & 0x7FFF) * 4 - 0x60000;
+    CAST_WIDTH(s32, res, 0x18) = (rand() & 0x7FFF) * 8 - 0x20000;
+    ((Unkstruct_800B5CB8 *)res)->unk34 = 0x3001;
+    *(s32 *)(((Unkstruct_800B5CB8 *)res)->unk20 + 4) |= 0x50000000;
     tbl = (s32)D_8018A9A4 + arg1 * 8;
-    *(s16 *)(res + 0x06) = *(u16 *)(tbl + 0);
-    *(s16 *)(res + 0x0A) = *(u16 *)(tbl + 2);
-    *(s16 *)(res + 0x0E) = *(u16 *)(tbl + 4);
+    ((Unkstruct_800B5CB8 *)res)->unk6 = *(u16 *)(tbl + 0);
+    ((Unkstruct_800B5CB8 *)res)->unkA = *(u16 *)(tbl + 2);
+    ((Unkstruct_800B5CB8 *)res)->unkE = *(u16 *)(tbl + 4);
     if (arg2 == 0) {
         func_8002D4C8((arg1 == 3) ? 0xBE1 : 0xC2C, 0);
     }

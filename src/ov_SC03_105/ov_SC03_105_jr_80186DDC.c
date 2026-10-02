@@ -4406,7 +4406,7 @@ void func_801892CC(void *a0) {
 
 
 s32 func_80189308(void *a0, s32 *p) {
-    s32 cur = *(s32 *)((s32)a0 + 0xDC);
+    s32 cur = ((Unkstruct_800B5CB8 *)a0)->unkDC;
 
     if (p[0] != cur) {
         p += 2;
@@ -4459,7 +4459,7 @@ extern s32 func_80029504(void);
 void func_801893BC(void *a0) {
     if (func_80029504() == 0x258) {
         if ((func_80029178(0x132) & 0xFF) == 0) {
-            *(s32 *)((s32)a0 + 0xDC) = func_80189308(a0, &D_8018F2F4);
+            ((Unkstruct_800B5CB8 *)a0)->unkDC = func_80189308(a0, &D_8018F2F4);
         }
     }
 }

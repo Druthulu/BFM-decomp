@@ -6736,7 +6736,7 @@ void func_80181F20(void *a0) {
 
 
 s32 func_80181F5C(void *a0, s32 *p) {
-    s32 cur = *(s32 *)((s32)a0 + 0xDC);
+    s32 cur = ((Unkstruct_800B5CB8 *)a0)->unkDC;
 
     if (p[0] != cur) {
         p += 2;
@@ -7059,12 +7059,12 @@ void func_80182674(s32 a0, s16 *vec, s32 count, s32 flag) {
 
         ent = func_80132EF4(a0, 0x22);
         if (ent != 0) {
-            *(u16 *)(ent + 6) = sp10.x;
-            *(u16 *)(ent + 0xA) = sp10.y;
-            *(u16 *)(ent + 0xE) = sp10.z;
+            ((Unkstruct_800B5CB8 *)ent)->unk6 = sp10.x;
+            ((Unkstruct_800B5CB8 *)ent)->unkA = sp10.y;
+            ((Unkstruct_800B5CB8 *)ent)->unkE = sp10.z;
             r1 = rand();
             r2 = rand();
-            *(u16 *)(ent + 0x34) = ((((r1 % 0x2000) + 0x3000) & ~0xF) | (r2 % 3));
+            ((Unkstruct_800B5CB8 *)ent)->unk34 = ((((r1 % 0x2000) + 0x3000) & ~0xF) | (r2 % 3));
         }
     }
 }

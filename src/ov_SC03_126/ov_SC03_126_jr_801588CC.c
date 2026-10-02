@@ -1293,7 +1293,7 @@ extern void func_8014900C(int *a0);
 extern void (*D_80181A5C[])(void);
 
 void func_80159B70(void *a0) {
-    D_80181A5C[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181A5C[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

@@ -4909,11 +4909,11 @@ s32 func_80181C4C(s32 a0) {
     func_8002D4C8(0xA26, 0);
     e = func_80132EF4(a0, 0x22);
     if (e != 0) {
-        *(u16 *)(e + 0x34) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) | 2;
-        *(s32 *)(e + 0x14) = -0x80000 - ((rand() % 3) << 16);
-        *(u16 *)(e + 6) = *(u16 *)(a0 + 0x7C);
-        *(u16 *)(e + 0xA) = *(u16 *)(a0 + 0x7E);
-        *(u16 *)(e + 0xE) = *(u16 *)(a0 + 0x80);
+        ((Unkstruct_800B5CB8 *)e)->unk34 = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) | 2;
+        ((Unkstruct_800B5CB8 *)e)->unk14 = -0x80000 - ((rand() % 3) << 16);
+        ((Unkstruct_800B5CB8 *)e)->unk6 = *(u16 *)(a0 + 0x7C);
+        ((Unkstruct_800B5CB8 *)e)->unkA = *(u16 *)(a0 + 0x7E);
+        ((Unkstruct_800B5CB8 *)e)->unkE = *(u16 *)(a0 + 0x80);
     }
     return 1;
 }

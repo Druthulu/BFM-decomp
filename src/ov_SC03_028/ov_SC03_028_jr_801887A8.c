@@ -4679,7 +4679,7 @@ void func_8018AE14(void *a0) {
 
 
 s32 func_8018AE50(void *a0, s32 *p) {
-    s32 cur = *(s32 *)((s32)a0 + 0xDC);
+    s32 cur = ((Unkstruct_800B5CB8 *)a0)->unkDC;
 
     if (p[0] != cur) {
         p += 2;
@@ -4732,7 +4732,7 @@ extern s32 D_80190C8C;
 void func_8018AF04(void *a0) {
     if (func_80029504() == 0xC8) {
         if ((func_80029178(0x118) & 0xFF) == 0) {
-            *(s32 *)((s32)a0 + 0xDC) = func_8018AE50(a0, &D_80190C8C);
+            ((Unkstruct_800B5CB8 *)a0)->unkDC = func_8018AE50(a0, &D_80190C8C);
         }
     }
 }

@@ -3660,7 +3660,7 @@ void func_8017E4B0(void *a0) {
 
 
 s32 func_8017E4EC(void *a0, s32 *p) {
-    s32 cur = *(s32 *)((s32)a0 + 0xDC);
+    s32 cur = ((Unkstruct_800B5CB8 *)a0)->unkDC;
 
     if (p[0] != cur) {
         p += 2;

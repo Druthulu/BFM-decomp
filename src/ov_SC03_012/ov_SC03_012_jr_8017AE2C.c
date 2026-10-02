@@ -4145,8 +4145,8 @@ void func_8017DCB4(s32 a0) {
                 *(u16 *)(ptr + 0x1C) = magv;
                 *(u16 *)(ptr + 0x1A) = magv;
                 *(u16 *)(ptr + 0x18) = magv;
-                *(s16 *)(result + 6) = (s16)s4;
-                *(s16 *)(result + 0xE) = (s16)s2;
+                ((Unkstruct_800B5CB8 *)result)->unk6 = (s16)s4;
+                ((Unkstruct_800B5CB8 *)result)->unkE = (s16)s2;
             }
             s1 = s1 + s6;
             s6 = s6 + 1;

@@ -2079,18 +2079,18 @@ s32 func_80185FA0(s32 param_1)
         q = func_80132EF4(param_1, 0x22);
         if (q != 0) {
             iVar4 = iVar5 + (D_800B99D8 & 4) * 3 - 0x2A;
-            *(s16 *)(q + 6) = *(u16 *)(q + 6) + iVar4;
-            *(s16 *)(q + 0xA) = *(u16 *)(q + 0xA) - 0x20;
-            *(s16 *)(q + 0xE) = *(u16 *)(q + 0xE) - 0x28;
+            ((Unkstruct_800B5CB8 *)q)->unk6 = ((Unkstruct_800B5CB8 *)q)->unk6 + iVar4;
+            ((Unkstruct_800B5CB8 *)q)->unkA = ((Unkstruct_800B5CB8 *)q)->unkA - 0x20;
+            ((Unkstruct_800B5CB8 *)q)->unkE = ((Unkstruct_800B5CB8 *)q)->unkE - 0x28;
             iVar4 = iVar4 << 16;
             if ((iVar4 >> 16) >= 0) {
                 sVar1 = (s16)((iVar4 >> 16) << 7);
             } else {
                 sVar1 = (s16)(-((iVar4 >> 16) << 7));
             }
-            *(s16 *)(q + 0x34) = sVar1 + 0x1000;
-            *(s32 *)(q + 0x14) = 0xFFFE0000;
-            *(s32 *)(q + 0x18) = 0xFFFD0000;
+            ((Unkstruct_800B5CB8 *)q)->unk34 = sVar1 + 0x1000;
+            ((Unkstruct_800B5CB8 *)q)->unk14 = 0xFFFE0000;
+            CAST_WIDTH(s32, q, 0x18) = 0xFFFD0000;
         }
         iVar5 += 0x18;
     } while (iVar5 < 0x49);

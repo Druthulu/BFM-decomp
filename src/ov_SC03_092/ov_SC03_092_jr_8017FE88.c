@@ -3400,7 +3400,7 @@ void func_80180AA4(void *a0) {
 
 
 s32 func_80180AE0(void *a0, s32 *p) {
-    s32 cur = *(s32 *)((s32)a0 + 0xDC);
+    s32 cur = ((Unkstruct_800B5CB8 *)a0)->unkDC;
 
     if (p[0] != cur) {
         p += 2;

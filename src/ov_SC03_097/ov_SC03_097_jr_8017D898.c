@@ -3510,7 +3510,7 @@ void func_8017F7E4(void *a0) {
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8017F994(void *arg0) {
-        *(s16 *)((char *)arg0 + 0xfc) = 1;
+        ((Unkstruct_800B5CB8 *)arg0)->unkFC = 1;
         ((void (*)(s32 *, s32))func_8012AD44)(arg0, 2);
     }
 
@@ -3626,15 +3626,15 @@ void func_8017FB78(void *a0) {
 extern void func_80016224(s32 a0, s32 a1);
 
 void func_8017FBB4(void *a0) {
-    s16 v = *(s16 *)((s32)a0 + 0xFE);
+    s16 v = ((Unkstruct_800B5CB8 *)a0)->unkFE;
     if (v != 0) {
         s16 t;
         func_80016224(v & 0xFF, 4);
-        *(s16 *)((s32)a0 + 0x2A) = -2;
-        t = 0x80 - *(s16 *)((s32)a0 + 0xFE) * 3;
-        *(s16 *)((s32)a0 + 0x28) = t;
-        *(s16 *)((s32)a0 + 0x26) = t;
-        *(s16 *)((s32)a0 + 0x24) = t;
+        CAST_ALIAS(s16, (s32)a0, 0x2A) = -2;
+        t = 0x80 - ((Unkstruct_800B5CB8 *)a0)->unkFE * 3;
+        ((Unkstruct_800B5CB8 *)a0)->unk28 = t;
+        CAST_WIDTH(s16, (s32)a0, 0x26) = t;
+        CAST_WIDTH(s16, (s32)a0, 0x24) = t;
     }
 }
 

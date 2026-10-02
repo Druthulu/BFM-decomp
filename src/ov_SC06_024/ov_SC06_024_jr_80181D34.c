@@ -3795,12 +3795,12 @@ void func_80183598(s32 self)
     obj = func_80132EF4(self, 0x23);
     if (obj != 0) {
         u16 c;
-        *(u16 *)(obj + 0x6) = sv[0];
-        *(u16 *)(obj + 0xA) = sv[1];
+        ((Unkstruct_800B5CB8 *)obj)->unk6 = sv[0];
+        ((Unkstruct_800B5CB8 *)obj)->unkA = sv[1];
         c = sv[2];
-        *(u16 *)(obj + 0x34) = 0x4001;
-        *(u16 *)(obj + 0xE) = c;
-        *(u16 *)(*(s32 *)(obj + 0x20) + 0x2C) = 0xC008;
+        ((Unkstruct_800B5CB8 *)obj)->unk34 = 0x4001;
+        ((Unkstruct_800B5CB8 *)obj)->unkE = c;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk2C = 0xC008;
     }
 }
 
@@ -3949,17 +3949,17 @@ s32 func_80183940(s32 a0, s32 a1) {
             s0 = func_80132EF4(a0, 0x22);
             if (s0 != 0) {
                 rr = rand();
-                x1 = *(u16 *)(s0 + 0x6);
+                x1 = ((Unkstruct_800B5CB8 *)s0)->unk6;
                 x1 = x1 - 0x10;
-                *(u16 *)(s0 + 0x6) = x1 + (rr & 0x1F);
+                ((Unkstruct_800B5CB8 *)s0)->unk6 = x1 + (rr & 0x1F);
                 rr = rand();
-                *(s32 *)(s0 + 0x14) = -0x40000;
-                x2 = *(u16 *)(s0 + 0xE);
+                ((Unkstruct_800B5CB8 *)s0)->unk14 = -0x40000;
+                x2 = ((Unkstruct_800B5CB8 *)s0)->unkE;
                 x2 = x2 - 0x10;
-                *(u16 *)(s0 + 0xE) = x2 + (rr & 0x1F);
-                *(s16 *)(s0 + 0x34) = a1;
-                *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = 0xC010;
-                *(u32 *)(*(s32 *)(s0 + 0x20) + 0x4) |= 0x40000000;
+                ((Unkstruct_800B5CB8 *)s0)->unkE = x2 + (rr & 0x1F);
+                ((Unkstruct_800B5CB8 *)s0)->unk34 = a1;
+                ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = 0xC010;
+                *(u32 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x4) |= 0x40000000;
             }
             return 1;
         }

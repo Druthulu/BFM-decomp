@@ -3117,9 +3117,9 @@ void func_8018A3B4(void *a0) {
         for (j = 0; j < 2; j++) {
             v1 = (u8 *)func_80132EF4((s32)a0, 0xC);
             if (v1 != NULL) {
-                *(u16 *)(v1 + 6) = (i != 0) ? *(u16 *)(v1 + 6) + 0x68 : *(u16 *)(v1 + 6) - 0x68;
-                *(u16 *)(v1 + 0xE) = (j != 0) ? *(u16 *)(v1 + 0xE) + 0x82 : *(u16 *)(v1 + 0xE) - 0x1A;
-                *(u16 *)(v1 + 0xA) -= 0x10;
+                ((Unkstruct_800B5CB8 *)v1)->unk6 = (i != 0) ? ((Unkstruct_800B5CB8 *)v1)->unk6 + 0x68 : ((Unkstruct_800B5CB8 *)v1)->unk6 - 0x68;
+                ((Unkstruct_800B5CB8 *)v1)->unkE = (j != 0) ? ((Unkstruct_800B5CB8 *)v1)->unkE + 0x82 : ((Unkstruct_800B5CB8 *)v1)->unkE - 0x1A;
+                ((Unkstruct_800B5CB8 *)v1)->unkA -= 0x10;
             }
         }
     }

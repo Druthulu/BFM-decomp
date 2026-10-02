@@ -7769,14 +7769,14 @@ void func_8018325C(s32 a0, void *a1, void *a2)
 
     rec = func_80132EF4(a0, 0x22);
     if (rec != 0) {
-        *(u16 *)(rec + 0x34) = 0x3002;
+        ((Unkstruct_800B5CB8 *)rec)->unk34 = 0x3002;
         gte_SetRotMatrix(a1);
         gte_ldv0(a2);
         gte_rtv0();
         gte_stsv(out);
-        *(u16 *)(rec + 0x6) = *(u16 *)(rec + 0x6) + out[0];
-        *(u16 *)(rec + 0xA) = *(u16 *)(rec + 0xA) + out[1];
-        *(u16 *)(rec + 0xE) = *(u16 *)(rec + 0xE) + out[2];
+        ((Unkstruct_800B5CB8 *)rec)->unk6 = ((Unkstruct_800B5CB8 *)rec)->unk6 + out[0];
+        ((Unkstruct_800B5CB8 *)rec)->unkA = ((Unkstruct_800B5CB8 *)rec)->unkA + out[1];
+        ((Unkstruct_800B5CB8 *)rec)->unkE = ((Unkstruct_800B5CB8 *)rec)->unkE + out[2];
     }
 }
 
@@ -8401,27 +8401,27 @@ void func_801842CC(s32 arg0)
             s32 d;
             s32 z;
             t = *(u16 *)(arg0 + 0x84) & 4;
-            z = *(u16 *)(e + 0xE);
+            z = ((Unkstruct_800B5CB8 *)e)->unkE;
             d = i + t * 3 - 0x2A;
             do {  // !FAKE: do-while — its LOOP notes are sched1 barriers (sched.c:2053-2080): the +6 load stays after d, the +E store before the sign extension (P36 S104 e28)
-                v = *(u16 *)(e + 0x6);
+                v = ((Unkstruct_800B5CB8 *)e)->unk6;
                 z += 0x28;
-                *(u16 *)(e + 0xE) = z;
+                ((Unkstruct_800B5CB8 *)e)->unkE = z;
             } while (0);
             v -= d;
-            *(u16 *)(e + 0x6) = v;
-            v = *(u16 *)(e + 0xA);
+            ((Unkstruct_800B5CB8 *)e)->unk6 = v;
+            v = ((Unkstruct_800B5CB8 *)e)->unkA;
             v -= 0x20;
-            *(u16 *)(e + 0xA) = v;
+            ((Unkstruct_800B5CB8 *)e)->unkA = v;
             v = (s16)d;
             if (v >= 0) {
                 v = v << 7;
             } else {
                 v = -(v << 7);
             }
-            *(u16 *)(e + 0x34) = v + 0x1000;
-            *(s32 *)(e + 0x14) = 0xFFFE0000;
-            *(s32 *)(e + 0x18) = 0x30000;
+            ((Unkstruct_800B5CB8 *)e)->unk34 = v + 0x1000;
+            ((Unkstruct_800B5CB8 *)e)->unk14 = 0xFFFE0000;
+            CAST_WIDTH(s32, e, 0x18) = 0x30000;
         }
     }
 }

@@ -4985,27 +4985,27 @@ void func_801889B4(s32 arg0)
             s32 d;
             s32 z;
             t = *(u16 *)(arg0 + 0x84) & 4;
-            z = *(u16 *)(e + 0xE);
+            z = ((Unkstruct_800B5CB8 *)e)->unkE;
             d = i + t * 3 - 0x2A;
             do {  // !FAKE: do-while — its LOOP notes are sched1 barriers (sched.c:2053-2080): the +6 load stays after d, the +E store before the sign extension (P36 S104 e28)
-                v = *(u16 *)(e + 0x6);
+                v = ((Unkstruct_800B5CB8 *)e)->unk6;
                 z -= 0x28;
-                *(u16 *)(e + 0xE) = z;
+                ((Unkstruct_800B5CB8 *)e)->unkE = z;
             } while (0);
             v -= d;
-            *(u16 *)(e + 0x6) = v;
-            v = *(u16 *)(e + 0xA);
+            ((Unkstruct_800B5CB8 *)e)->unk6 = v;
+            v = ((Unkstruct_800B5CB8 *)e)->unkA;
             v -= 0x20;
-            *(u16 *)(e + 0xA) = v;
+            ((Unkstruct_800B5CB8 *)e)->unkA = v;
             v = (s16)d;
             if (v >= 0) {
                 v = v << 7;
             } else {
                 v = -(v << 7);
             }
-            *(u16 *)(e + 0x34) = v + 0x1000;
-            *(s32 *)(e + 0x14) = 0xFFFE0000;
-            *(s32 *)(e + 0x18) = 0xFFFD0000;
+            ((Unkstruct_800B5CB8 *)e)->unk34 = v + 0x1000;
+            ((Unkstruct_800B5CB8 *)e)->unk14 = 0xFFFE0000;
+            CAST_WIDTH(s32, e, 0x18) = 0xFFFD0000;
         }
     }
 }
@@ -5703,7 +5703,7 @@ void func_80189970(void *a0) {
 
 
 s32 func_801899AC(void *a0, s32 *p) {
-    s32 cur = *(s32 *)((s32)a0 + 0xDC);
+    s32 cur = ((Unkstruct_800B5CB8 *)a0)->unkDC;
 
     if (p[0] != cur) {
         p += 2;
@@ -5761,7 +5761,7 @@ void func_80189A60(void *a0) {
     if (func_80029504() == 0x2DA) {
         if ((func_80029178(0x11F) & 0xFF) == 0) {
             func_80029124(0x11F, 1);
-            *(s32 *)((s32)a0 + 0xDC) = func_801899AC(a0, (s32 *)&D_80191BEC);
+            ((Unkstruct_800B5CB8 *)a0)->unkDC = func_801899AC(a0, (s32 *)&D_80191BEC);
         }
     }
 }

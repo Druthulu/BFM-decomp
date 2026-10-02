@@ -3727,21 +3727,21 @@ void func_8018219C(s32 arg0)
     do {
         obj = func_80132EF4(owner, 0x22);
         if (obj != 0) {
-            a = *(u16 *)(obj + 6) - 0x28;
-            *(u16 *)(obj + 6) = a;
-            b = *(u16 *)(obj + 0xA) - 0x20;
-            *(u16 *)(obj + 0xA) = b;
+            a = ((Unkstruct_800B5CB8 *)obj)->unk6 - 0x28;
+            CAST_ALIAS(u16, obj, 6) = a;
+            b = ((Unkstruct_800B5CB8 *)obj)->unkA - 0x20;
+            CAST_ALIAS(u16, obj, 0xA) = b;
             d = (i + (D_800B99D8 & 4) * 3) - 0x2A;
-            *(u16 *)(obj + 0xE) = *(u16 *)(obj + 0xE) + d;
+            ((Unkstruct_800B5CB8 *)obj)->unkE = ((Unkstruct_800B5CB8 *)obj)->unkE + d;
             d = (s16)d;
             if (d >= 0) {
                 d = d << 7;
             } else {
                 d = -(d << 7);
             }
-            *(u16 *)(obj + 0x34) = d + 0x1000;
-            *(s32 *)(obj + 0x14) = 0xFFFE0000;
-            *(s32 *)(obj + 0x10) = 0xFFFD0000;
+            ((Unkstruct_800B5CB8 *)obj)->unk34 = d + 0x1000;
+            ((Unkstruct_800B5CB8 *)obj)->unk14 = 0xFFFE0000;
+            CAST_WIDTH(s32, obj, 0x10) = 0xFFFD0000;
         }
         i += 0x18;
     } while (i < 0x49);

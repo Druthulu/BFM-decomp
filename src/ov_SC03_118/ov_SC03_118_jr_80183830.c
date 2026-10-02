@@ -2937,7 +2937,7 @@ void func_80183A60(void *a0)
 
 
 s32 func_80183B3C(void *a0, s32 *p) {
-    s32 cur = *(s32 *)((s32)a0 + 0xDC);
+    s32 cur = ((Unkstruct_800B5CB8 *)a0)->unkDC;
 
     if (p[0] != cur) {
         p += 2;

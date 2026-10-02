@@ -3961,14 +3961,14 @@ void func_80189000(s32 a0, s32 a1) {
     do {
         e = func_80132EF4(a0, 0x23);
         if (e != 0) {
-            *(s16 *)(e + 0x34) = rand() % 0x4000 + 0x1000;
-            *(u16 *)(*(s32 *)(e + 0x20) + 0x2c) = 0xc008;
+            ((Unkstruct_800B5CB8 *)e)->unk34 = rand() % 0x4000 + 0x1000;
+            ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xc008;
 
             func_8012B0B4(p48, rand() % 0x1000, rand() % 0x58);
 
             tmp = *(s32 *)buf48;
-            *(s16 *)(e + 6) = *(s16 *)(e + 6) + (s16)tmp;
-            *(s16 *)(e + 0xe) = *(s16 *)(e + 0xe) + (s16)(tmp >> 16);
+            ((Unkstruct_800B5CB8 *)e)->unk6 = CAST_SIGN(s16, e, 6) + (s16)tmp;
+            ((Unkstruct_800B5CB8 *)e)->unkE = CAST_SIGN(s16, e, 0xe) + (s16)(tmp >> 16);
 
             tmp = rand();
             scratch = tmp % 0x80;
@@ -3993,9 +3993,9 @@ void func_80189000(s32 a0, s32 a1) {
 
     e = func_80132EF4(a0, 0x23);
     if (e != 0) {
-        *(u16 *)(e + 0x34) = 0x7ff1;
-        *(u16 *)(*(s32 *)(e + 0x20) + 0x2c) = 0xc004;
-        *(s32 *)(e + 0x14) = 0xfffb0000;
+        ((Unkstruct_800B5CB8 *)e)->unk34 = 0x7ff1;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xc004;
+        ((Unkstruct_800B5CB8 *)e)->unk14 = 0xfffb0000;
     }
 
     i = 0;
@@ -5913,13 +5913,13 @@ void func_8018BC40(s32 param_1)
 
     result = func_80132EF4(param_1, 0x23);
     if (result != 0) {
-        *(u16 *)(result + 0x6) = *(u16 *)(param_1 + 0xE0);
-        *(u16 *)(result + 0xA) = *(u16 *)(param_1 + 0xE2);
+        ((Unkstruct_800B5CB8 *)result)->unk6 = *(u16 *)(param_1 + 0xE0);
+        ((Unkstruct_800B5CB8 *)result)->unkA = *(u16 *)(param_1 + 0xE2);
         val_e4 = *(u16 *)(param_1 + 0xE4);
-        *(u16 *)(result + 0x34) = 0x3001;
-        *(u16 *)(result + 0xE) = val_e4;
-        *(u16 *)(*(s32 *)(result + 0x20) + 0x2C) = 0xC008;
-        *(u32 *)(*(s32 *)(result + 0x20) + 0x4) |= 0x50000000;
+        ((Unkstruct_800B5CB8 *)result)->unk34 = 0x3001;
+        ((Unkstruct_800B5CB8 *)result)->unkE = val_e4;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(result + 0x20))->unk2C = 0xC008;
+        *(u32 *)(((Unkstruct_800B5CB8 *)result)->unk20 + 0x4) |= 0x50000000;
     }
 }
 
