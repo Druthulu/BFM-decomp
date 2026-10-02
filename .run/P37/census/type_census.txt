@@ -1,4 +1,4 @@
-type_census — 2026-10-02T07:34:40Z at debcd58764 (src stamp 61641c90bea72ae5, tool e17c5fa676); 7306 files (4121 TUs + 3181 headers), 99109 function definitions; walk 37.6 s, total 193.4 s
+type_census — 2026-10-02T07:43:15Z at fbc4d646b9 (src stamp 61641c90bea72ae5, tool e17c5fa676); 7306 files (4121 TUs + 3181 headers), 99109 function definitions; walk 37.1 s, total 192.1 s
 
 DEFINITIONS  1650 struct/union bodies (+0 enums): canonical header 1021 · .c file-scope 0 · .c block-scope 600 · per-function shared headers 29 · other headers 0 · include/ 326
              1024 distinct names · 523 distinct layouts (0 unresolved) · 53 duplicate classes covering 496 names (tier 1 0 same-named, tier 2 53 opaque; 44 layout-twin classes / 472 names kept apart) · 42 exact-text classes / 546 copies · 0 VARIANT names (>1 layout) · 55 dead canonical names · 0 canonical names redefined in .c · 4300 scalar/alias typedefs · 145 forward decls
