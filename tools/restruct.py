@@ -1188,6 +1188,20 @@ def s_prior_rows(tu, fn):
 
 S_NO_EDIT_VERDICTS = ("NO-SITE", "TYPE-NOT-VISIBLE", "TYPE-NOT-CANONICAL")
 
+_NB_DEREF = re.compile(r"\*\s*\(\s*[A-Za-z_][\w\s]*\*+\s*\)\s*\(\s*([^()]*?)\s*\+\s*0x([0-9A-Fa-f]+)\s*\)")
+_NB_MEMBER = re.compile(r"\(\s*\(\s*[A-Za-z_]\w*\s*\*\s*\)\s*([^()]*?)\s*\)\s*->\s*unk([0-9A-Fa-f]+)")
+
+
+def s_base_norm(key):
+    """T3.c8: a site base key with its offset accesses spelling-normalised — `*(T *)(X + 0xNN)` and `((S *)X)->unkNN` both become
+    `@[X+NN]` (innermost first) — so a KEPT entry keyed on the pre-respell text still matches the base the census spells after a
+    respell of a nested base inside the macro (t3_S28 func_8017EA20: `*(s32 *)(param_1 + 0x64)` → `((Unkstruct_800B5CB8 *)param_1)->unk64`)."""
+    hx = lambda m: f"@[{m.group(1).strip()}+{int(m.group(2), 16):x}]"
+    prev = None
+    while prev != key:
+        prev, key = key, _NB_MEMBER.sub(hx, _NB_DEREF.sub(hx, key))
+    return re.sub(r"\s+", "", key)
+
 
 def s_macro_rows(tu, text, rows):
     """T3.c4: every kept-cast macro site (census form K) of a drawn body in the FINAL text gets its own KEPT(<class>) row in the
@@ -1210,8 +1224,10 @@ def s_macro_rows(tu, text, rows):
         n = 0
         for s in ks:
             want, key = f"KEPT({s['cls']})", f"{s['bclass']}:{s['base']}"
+            nkey = s_base_norm(key)                                # T3.c8: a respelled nested base still matches (was: exact base or line)
             src = next((lb for lb, e in cands if e.get("verdict") == want and (e.get("line") == s["line"] if s["cls"] == "REINTERP" else
-                        e.get("off") == s["off"] and (e.get("base") == key or e.get("line") == s["line"]))), None)
+                        e.get("off") == s["off"] and (e.get("base") == key or e.get("line") == s["line"]
+                                                      or s_base_norm(e.get("base") or "") == nkey))), None)
             if src is None:
                 continue
             e_ = site_row(s, want, tname=next((b.get("type") for b in row.get("bases") or [] if b.get("base") == key), None), cause=s["cls"])
@@ -4804,6 +4820,18 @@ def selftest(real=False):
     line5 = tc.check_casts_verdict({}, mk5, {("S", tu3, "fx_e"): row5}, [], set())[1]
     ok("re-judge carries the earlier KEPT rows in the census key: KEPT, unbacked 0", row5["verdict"] == "KEPT" and "(unbacked 0)" in line5
        and {e["macro_of"] for e in row5["sites"] if e.get("macro_of")} == {"t3_S1"}, f"{row5['verdict']} {line5}")
+    # T3.c8: func_8017EA20 shape — the earlier KEPT(NON-STRUCT) row keyed the pre-respell nested base on another line
+    txt6 = FIXTURE_TU_S3.replace("void func_8FF00000_impl(s32 param_1) __asm__", "void fx_f(s32 a0) {\n    s32 v;\n"
+                                 "    v = CAST_NONSTRUCT(u16, *(s32 *)(((Unkstruct_TEST *)a0)->unk4 + 0x20), 0x12);\n}\n\n"
+                                 "void func_8FF00000_impl(s32 param_1) __asm__", 1)
+    mk6 = [s_ for s_ in file_view(tu3, txt6)[4] if s_["form"] == "K" and s_.get("fn") == "fx_f"]
+    S_PRIOR = {(tu3, "fx_f"): [dict(rung="S", tu=tu3, unit="fx_f", label="t3_S13", verdict="KEPT", sites=[
+        dict(base="nested:*(s32 *)(*(s32 *)(a0 + 0x4) + 0x20)", off=0x12, line=999, verdict="KEPT(NON-STRUCT)")])]}
+    row6 = dict(fn="fx_f", verdict="MEMBERS", sites=[], bases=[])
+    s_macro_rows(tu3, txt6, [row6])
+    line6 = tc.check_casts_verdict({}, mk6, {("S", tu3, "fx_f"): row6}, [], set())[1]
+    ok("carry: a nested base respelled under a kept macro still matches its earlier KEPT row (unbacked 0)", len(mk6) == 1
+       and "(unbacked 0)" in line6 and [e.get("macro_of") for e in row6["sites"]] == ["t3_S13"], f"{[(s_['bclass'], s_['base']) for s_ in mk6]} {line6}")
     S_PRIOR = {}
     ok("respell_edit: a lower-precedence p or a non-literal k stays raw", respell_edit("*(s32 *)(a << 2 + 4)", "*(s32 *)(a << 2 + 4)",
        dict(form="P", pos=0, end=20, base=None, off=4), "SIGN") is None and respell_edit("*(s32 *)(a + i)", "*(s32 *)(a + i)", dict(form="P", pos=0, end=15, base="a", off=0), "SIGN") is None)
