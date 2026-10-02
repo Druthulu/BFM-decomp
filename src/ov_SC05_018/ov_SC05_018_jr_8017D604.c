@@ -7828,7 +7828,7 @@ void func_80184EA8(s32 a0) {
     case 10:
     case 12:
         func_8001C810(v0, D_801E0254[*p][0]);
-        *(s32 *)(v0 + 4) |= 0x8040;
+        CAST_WIDTH(s32, v0, 4) |= 0x8040;
         break;
     default:
         func_8001C214(v0, D_801E0254[*p][0]);

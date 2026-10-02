@@ -3587,11 +3587,11 @@ void func_8017E330(s32 param_1)
     p = *(s32 *)(param_1 + 0x20);
     func_8001CB6C((u8 *)p, (s32)&D_80190F30, 0x2E0, 0x100);
 
-    *(u8 *)(p + 0x27) = 0x4F;
-    *(s16 *)(p + 0x1A) = -0x8000;
-    *(s16 *)(p + 0x18) = -0x8000;
-    *(s16 *)(p + 0x10) = 0x400;
-    *(u32 *)(p + 4) = *(u32 *)(p + 4) | 0x50000000;
+    ((Unkstruct_800B5CB8 *)p)->unk27 = 0x4F;
+    CAST_ALIAS(s16, p, 0x1A) = -0x8000;
+    CAST_ALIAS(s16, p, 0x18) = -0x8000;
+    ((Unkstruct_800B5CB8 *)p)->unk10 = 0x400;
+    CAST_WIDTH(u32, p, 4) = CAST_WIDTH(u32, p, 4) | 0x50000000;
 
     func_80128EA8(p, param_1 + 0x24, (s32)&D_80190F3C);
 

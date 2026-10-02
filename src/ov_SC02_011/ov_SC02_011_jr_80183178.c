@@ -1972,10 +1972,10 @@ L_ce4:
     func_8001CB6C((u8 *)obj, (s32)&D_8019595C, 0x2F0, 0x138);
     func_801865B0(self);
 
-    *(u16 *)(obj + 0x18) = 0x2200;
-    *(u16 *)(obj + 0x1A) = 0x1600;
-    *(u8 *)(obj + 0x27) = 0xED;
-    *(u32 *)(obj + 4) |= 0x51000000;
+    ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x2200;
+    ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1600;
+    ((Unkstruct_800B5CB8 *)obj)->unk27 = 0xED;
+    CAST_WIDTH(u32, obj, 4) |= 0x51000000;
     func_80128EA8(obj, (s32)&(*(u8 *)&D_801EB518), (s32)&D_80195968);
 
     *(u8 *)(self + 0xC0) = 1;
@@ -3337,10 +3337,10 @@ void func_8018797C(s32 a0) {
     *(s32 *)(a0 + 0x1c) = count;
     if (count == -1) {
         func_8001CC3C(effect, (s32)D_80195DD0, 0, 0);
-        *(u8 *)(effect + 0x27) = 0x9c;
-        *(u16 *)(effect + 0x1a) = 0x4000;
-        *(u16 *)(effect + 0x18) = 0x4000;
-        *(u32 *)(effect + 4) = *(u32 *)(effect + 4) | 0x50000040;
+        ((Unkstruct_800B5CB8 *)effect)->unk27 = 0x9c;
+        ((Unkstruct_800B5CB8 *)effect)->unk1A = 0x4000;
+        ((Unkstruct_800B5CB8 *)effect)->unk18 = 0x4000;
+        CAST_WIDTH(u32, effect, 4) = CAST_WIDTH(u32, effect, 4) | 0x50000040;
 
         idx = *(s32 *)(a0 + 0x2c);
         entry = &D_80195EFC[idx * 3];

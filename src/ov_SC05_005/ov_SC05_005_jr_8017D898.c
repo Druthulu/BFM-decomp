@@ -5249,15 +5249,15 @@ void func_801822E8(void *a0)
     } else {
         *(s32 *)(a0 + 0x14) += -0x8000;
         *(s32 *)(a0 + 0x8) += *(s32 *)(a0 + 0x14);
-        *(u16 *)(obj + 0x18) += 0x500;
+        ((Unkstruct_800B5CB8 *)obj)->unk18 += 0x500;
         if (*(s32 *)(a0 + 0x2C) == 0) {
-            *(u16 *)(obj + 0x1A) += 0x300;
+            ((Unkstruct_800B5CB8 *)obj)->unk1A += 0x300;
         } else {
-            *(u16 *)(obj + 0x1A) += 0x600;
+            ((Unkstruct_800B5CB8 *)obj)->unk1A += 0x600;
         }
-        *(u8 *)(obj + 0x26) -= 4;
-        *(u8 *)(obj + 0x24) = *(u8 *)(obj + 0x26);
-        *(u8 *)(obj + 0x25) -= 8;
+        ((Unkstruct_800B5CB8 *)obj)->unk26 -= 4;
+        ((Unkstruct_800B5CB8 *)obj)->unk24 = ((Unkstruct_800B5CB8 *)obj)->unk26;
+        ((Unkstruct_800B5CB8 *)obj)->unk25 -= 8;
     }
 }
 

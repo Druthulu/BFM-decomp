@@ -5063,19 +5063,19 @@ void func_8017FDB0(void *a0)
 
     s0 = a02;
 
-    if (*(s16 *)((s32)s0 + 0x70) & 0x8000) {
-        p = *(void **)((s32)s0 + 0x64);
+    if (((Unkstruct_800B5CB8 *)s0)->unk70 & 0x8000) {
+        p = CAST_SIGN(void *, (s32)s0, 0x64);
         if (*(u16 *)((s32)p + 0x2) == 3) {
             func_8012C218(s0);
         } else {
             p = *(void **)((s32)p + 0xCC);
             if (*(s16 *)((s32)p + 0x18) != 0) {
                 s16 v1 = *(s16 *)((s32)p + 0x18);
-                s0 = *(void **)((s32)s0 + 0xCC);
-                *(s16 *)((s32)s0 + 0x18) = v1;
-                *(u16 *)((s32)s0 + 0x1A) = *(u16 *)((s32)p + 0x1A);
+                s0 = CAST_SIGN(void *, (s32)s0, 0xCC);
+                ((Unkstruct_800B5CB8 *)s0)->unk18 = v1;
+                ((Unkstruct_800B5CB8 *)s0)->unk1A = *(u16 *)((s32)p + 0x1A);
                 func_8017FF08(s0, D_80197F64);
-                *(u16 *)((s32)s0 + 0x14) -= 4;
+                CAST_WIDTH(u16, (s32)s0, 0x14) -= 4;
                 {
                     s16 v0 = *(u16 *)&D_80197F68 + 1;
                     D_80197F68 = v0;
