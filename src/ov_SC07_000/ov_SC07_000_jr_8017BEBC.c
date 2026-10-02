@@ -1779,8 +1779,8 @@ extern void func_8016A700(void *a0);
 extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
+extern u16 D_80126B5E[];
+extern u16 D_80126B62[];
 extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_801857E8[])(void);
@@ -3782,8 +3782,8 @@ extern s16 D_80186248;
 extern s16 D_8018624A;
 extern s16 D_8018624C;
 extern s16 D_8018624E;
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
+extern u16 D_80126B5E[0];
+extern u16 D_80126B62[0];
 extern u16 D_80126B66;
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;
@@ -3797,18 +3797,18 @@ void func_8017E830(void *arg0)
     SV3_8017E830 localA; /* sp+0x18 */
     SV3_8017E830 localB; /* sp+0x20 */
 
-    if ((*(s16 *)&D_80126B62) <= *(s16 *)((u8 *)arg0 + 0xA) + D_80186248 ||
-        (*(s16 *)&D_80126B62) >= *(s16 *)((u8 *)arg0 + 0xA) + D_8018624A ||
+    if ((*(s16 *)D_80126B62) <= *(s16 *)((u8 *)arg0 + 0xA) + D_80186248 ||
+        (*(s16 *)D_80126B62) >= *(s16 *)((u8 *)arg0 + 0xA) + D_8018624A ||
         (*(s16 *)&D_80126B66) <= *(s16 *)((u8 *)arg0 + 0xE) + D_8018624C ||
         (*(s16 *)&D_80126B66) >= *(s16 *)((u8 *)arg0 + 0xE) + D_8018624E) {
         return;
     }
 
     localA.vx = *(u16 *)((u8 *)arg0 + 0x6);
-    localA.vy = (*(s16 *)&D_80126B62) - 0x20;
+    localA.vy = (D_80126B62[0]) - 0x20;
     localA.vz = *(u16 *)((u8 *)arg0 + 0xE);
-    localB.vx = (*(s16 *)&D_80126B5E);
-    localB.vy = (*(s16 *)&D_80126B62) - 0x20;
+    localB.vx = (D_80126B5E[0]);
+    localB.vy = (*(s16 *)D_80126B62) - 0x20;
     localB.vz = (*(s16 *)&D_80126B66);
 
     if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&localA, (s32)&localB) != 0) {
