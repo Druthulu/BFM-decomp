@@ -3157,16 +3157,16 @@ void func_8017E1D8(s32 arg0)
     s32 v1;
 
     func_8017EEFC(arg0, 5, 0, &D_801963EC);
-    *(s16 *)(arg0 + 0x34) = 0;
+    CAST_ALIAS(s16, arg0, 0x34) = 0;
     D_8019F6FC = 0;
-    *(s32 *)(arg0 + 0x1C) = D_80188A16;
+    ((Unkstruct_800B5CB8 *)arg0)->unk1C = D_80188A16;
     ret = func_8017EEB4(arg0);
     D_8019F704 = ret;
     v1 = (ret == 0) ? 1 : -1;
     D_8019F700 = v1;
     func_8002D4C8(0x97E, 0);
     func_8002D4C8(0xA92, 0);
-    *(s16 *)(arg0 + 0x84) = 0;
+    ((Unkstruct_800B5CB8 *)arg0)->unk84 = 0;
 }
 
 
@@ -3688,8 +3688,8 @@ s32 func_8017EEB4(s32 arg0)
     s16 delta;
 
     dist = func_8012B8A4((s16 *)arg0);
-    val = *(s32 *)(arg0 + 0x20);
-    delta = *(s16 *)(val + 0x12);
+    val = ((Unkstruct_800B5CB8 *)arg0)->unk20;
+    delta = CAST_SIGN(s16, val, 0x12);
     return ((dist - delta) & 0xFFF) >= 0x800;
 }
 
