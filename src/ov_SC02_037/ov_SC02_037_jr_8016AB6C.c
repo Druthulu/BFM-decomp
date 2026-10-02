@@ -2499,7 +2499,7 @@ extern void func_80161034(void *a0);
 extern void func_80161094(s32 a0);
 extern void func_801610FC(void);
 extern s32 func_8016130C(void *a0, s32 a1);
-extern void aF80161208();
+extern void aF80161208(void *a0);
 extern s32 func_8016130C(void *a0, s32 a1);
 extern int func_80161374(int param_1, unsigned int param_2);
 extern s32 func_801612B8(void * a0, s32 a1);
