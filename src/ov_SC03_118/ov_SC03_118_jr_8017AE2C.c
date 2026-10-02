@@ -3877,14 +3877,14 @@ void func_8017CE90(void *a0)
         s2 = &D_801D4228;
         func_8001CD04(s1, s2);
 
-        *(s32 *)((u8 *)s1 + 4) |= 0x50000000;
+        CAST_WIDTH(s32, (u8 *)s1, 4) |= 0x50000000;
         func_800233CC(s2, 0x50);
 
         *(s32 *)((u8 *)a0 + 0x10) = 0;
         if (*(s32 *)((u8 *)a0 + 0x30) & 0x80) {
             *(u32 *)s2 = 0xFFFFFF;
-            *(s16 *)((u8 *)s1 + 0x1A) = 0x80;
-            *(s16 *)((u8 *)s1 + 0x18) = 0x80;
+            ((Unkstruct_800B5CB8 *)s1)->unk1A = 0x80;
+            ((Unkstruct_800B5CB8 *)s1)->unk18 = 0x80;
             *(s32 *)((u8 *)a0 + 0x14) = 0x80;
         } else {
             *s2 = D_8018D380[*(s32 *)((u8 *)a0 + 0x2C)];
@@ -3896,7 +3896,7 @@ void func_8017CE90(void *a0)
         D_801D422E = 0;
 
         *(s32 *)((u8 *)a0 + 0x30) = *(s32 *)((u8 *)a0 + 0x30) & 0x7F;
-        *(s16 *)((u8 *)s1 + 0x2C) = *(u16 *)((u8 *)a0 + 0xE) + 0x10;
+        ((Unkstruct_800B5CB8 *)s1)->unk2C = *(u16 *)((u8 *)a0 + 0xE) + 0x10;
         *(u16 *)((u8 *)a0 + 0x2) = *(u16 *)((u8 *)a0 + 0x2) + 1;
     } else {
         ((void (*)(void *))func_80146C3C)(a0);
@@ -4944,12 +4944,12 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 void func_8017E8D4(s32 a0, s16 a1, s16 a2) {
     u32 xz;
 
-    func_8012B0B4(&xz, *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), a1 << 4);
+    func_8012B0B4(&xz, *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), a1 << 4);
 
-    *(s32 *)(a0 + 0x10) = (s16)xz << 12;
-    *(s32 *)(a0 + 0x18) = ((s32)xz >> 16) << 12;
+    CAST_WIDTH(s32, a0, 0x10) = (s16)xz << 12;
+    CAST_WIDTH(s32, a0, 0x18) = ((s32)xz >> 16) << 12;
     if (a2 != 0) {
-        *(s32 *)(a0 + 0x1C) = a2;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = a2;
     }
 }
 
@@ -4981,11 +4981,11 @@ void func_8017E948(s16 *a0) {
     /* The struct reads are plain INDIRECT_REFs, not ARRAY_REFs: an `a0[0x46]` here sets
        MEM_IN_STRUCT_P, which lets gcc-2.7.2's true_dependence() drop the dependence against
        the constant-address store and hoist the second `lh` above `sw D_801D42EC`. */
-    x = *(s16 *)((s32)a0 + 0x88) + *(s16 *)((u8 *)D_8018D86C + off) - 0x100;
+    x = CAST_SIGN(s16, (s32)a0, 0x88) + *(s16 *)((u8 *)D_8018D86C + off) - 0x100;
     x += (r & 0x7F) << 2;
     D_801D42EC = x << 16;
 
-    y = *(s16 *)((s32)a0 + 0x8C) + *(s16 *)((u8 *)D_8018D86E + off) - 0x100;
+    y = CAST_SIGN(s16, (s32)a0, 0x8C) + *(s16 *)((u8 *)D_8018D86E + off) - 0x100;
     y += (unsigned)(r & 0x7F00) >> 6;
     D_801D42F4 = y << 16;
 }
@@ -5317,13 +5317,13 @@ void func_8017EFA8(s32 param_1) {
         CAST_WIDTH(u32, node, 4) = CAST_WIDTH(u32, node, 4) | 0x5D000100;
         ((void (*)(void *))func_8001CF30)((void *)node);
         CAST_WIDTH(s16, node, 0x18) = 0x4000;
-        *(s16 *)(node + 0x1A) = 0x200;
+        ((Unkstruct_800B5CB8 *)node)->unk1A = 0x200;
         *(s16 *)(param_1 + 0x16) = 0x200;
         *(s16 *)(param_1 + 0x14) = 0x1000;
         CAST_WIDTH(s16, node, 0x28) = 0x240;
-        *(s16 *)(node + 0x2A) = 0x180;
+        ((Unkstruct_800B5CB8 *)node)->unk2A = 0x180;
         CAST_WIDTH(s16, node, 0x10) = w.vx;
-        *(s16 *)(node + 0x12) = w.vy;
+        ((Unkstruct_800B5CB8 *)node)->unk12 = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
     } else {
         ((void (*)(s32))func_80146C3C)(param_1);
@@ -5385,9 +5385,9 @@ void func_8017F23C(s32 a0) {
         func_8001CF30((void *)r);
         CAST_WIDTH(s16, r, 0x10) = 0x400;
         CAST_WIDTH(s16, r, 0x18) = 0x3000;
-        *(s16 *)(r + 0x1A) = 0x3000;
+        ((Unkstruct_800B5CB8 *)r)->unk1A = 0x3000;
         CAST_WIDTH(s16, r, 0x28) = 0x248;
-        *(s16 *)(r + 0x2A) = 0x180;
+        ((Unkstruct_800B5CB8 *)r)->unk2A = 0x180;
         *(s16 *)(a0 + 2) = *(s16 *)(a0 + 2) + 1;
     } else {
         ((void (*)(s32))func_80146C3C)(a0);

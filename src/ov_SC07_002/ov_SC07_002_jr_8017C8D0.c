@@ -6258,10 +6258,10 @@ extern void func_8012931C(struct vec *a0);
 
 void func_80183078(int param_1)
 {
-    if (*(int *)(param_1 + 0x1c) != 0) {
-        *(int *)(param_1 + 0x1c) = *(int *)(param_1 + 0x1c) - 1;
+    if (((Unkstruct_800B5CB8 *)param_1)->unk1C != 0) {
+        ((Unkstruct_800B5CB8 *)param_1)->unk1C = ((Unkstruct_800B5CB8 *)param_1)->unk1C - 1;
         func_8012931C((struct vec *)param_1);
-        CAST_WIDTH(short, *(int *)(param_1 + 0x20), 0x14) = CAST_WIDTH(short, *(int *)(param_1 + 0x20), 0x14) + 0x40;
+        CAST_WIDTH(short, ((Unkstruct_800B5CB8 *)param_1)->unk20, 0x14) = CAST_WIDTH(short, ((Unkstruct_800B5CB8 *)param_1)->unk20, 0x14) + 0x40;
     } else {
         func_801292C8((u8 *)param_1);
     }
@@ -8782,8 +8782,8 @@ void func_80186494(void *a0) {
         idx = *(s32 *)((s32)a0 + 0x2C);
         func_8001CBDC((s32)s1, (s32)D_80198A90, D_80198A2C[idx][0], D_80198A2C[idx][1]);
         uVar1 = D_80198A58[*(s32 *)((s32)a0 + 0x2C)];
-        *(s16 *)((s32)s1 + 0x2C) = 3;
-        *(u8 *)((s32)s1 + 0x27) = uVar1;
+        ((Unkstruct_800B5CB8 *)s1)->unk2C = 3;
+        ((Unkstruct_800B5CB8 *)s1)->unk27 = uVar1;
         *(s16 *)((s32)a0 + 0x6) = 0;
         *(s16 *)((s32)a0 + 0xA) = 0x50;
 

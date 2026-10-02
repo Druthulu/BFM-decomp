@@ -8842,19 +8842,19 @@ extern M2C_UNK D_801BE3DC;
 void func_8018540C(void *a0) {
     func_80185448(a0);
     ((void (*)(s32 *, s32))func_8012A828)(a0, &D_801BE3DC);
-    *(s16 *)((u8 *)a0 + 0x98) = 0;
+    ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
 }
 
 
 extern u8 D_801B80B0[];
 void func_80185448(s32 a0) {
-    if (*(s32 *)(a0 + 0xE0) & 1) {
-        func_8001C924(*(s32 *)(a0 + 0x20), D_801B80B0);
-        if (*(s32 *)(a0 + 0xCC) != 0) {
-            func_8012C218(*(void **)(a0 + 0xCC));
-            *(s32 *)(a0 + 0xCC) = 0;
+    if (((Unkstruct_800B5CB8 *)a0)->unkE0 & 1) {
+        func_8001C924(((Unkstruct_800B5CB8 *)a0)->unk20, D_801B80B0);
+        if (((Unkstruct_800B5CB8 *)a0)->unkCC != 0) {
+            func_8012C218(CAST_SIGN(void *, a0, 0xCC));
+            ((Unkstruct_800B5CB8 *)a0)->unkCC = 0;
         }
-        *(s32 *)(a0 + 0xE0) &= ~3;
+        ((Unkstruct_800B5CB8 *)a0)->unkE0 &= ~3;
     }
     func_8018552C(a0);
 }
@@ -8887,10 +8887,10 @@ void func_8018552C(s32 a0) {
     extern void func_8018676C(s32 a0, void *a1, s32 a2);
     extern void func_801869D4(s32 a0, s32 a1, s32 a2);
 
-    if (*(s32 *)(a0 + 0xF4) != 0) {
-        *(s32 *)(a0 + 0xF4) = *(s32 *)(a0 + 0xF4) - 1;
+    if (((Unkstruct_800B5CB8 *)a0)->unkF4 != 0) {
+        ((Unkstruct_800B5CB8 *)a0)->unkF4 = ((Unkstruct_800B5CB8 *)a0)->unkF4 - 1;
     } else {
-        if (!(*(s32 *)(a0 + 0xE0) & 1)) {
+        if (!(((Unkstruct_800B5CB8 *)a0)->unkE0 & 1)) {
             func_8018676C(a0, D_801B59D0, 7);
         }
         func_801869D4(a0, (s32)D_801B59F0, 6);
@@ -8949,8 +8949,8 @@ s32 func_801856C0(s32 arg0) {
 
     ((void (*)(s32, s32, s32))func_8012F14C)((s32)D_80126B78 + 0x34, (s32)D_801B5B84, (s32)buf1);
     ((void (*)(s32, s32, s32))func_8012F14C)((s32)D_80126B78 + 0x34, (s32)(D_801B5B84 + 8), (s32)buf2);
-    if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58), (s32)buf1, (s32)buf2) != 0) {
-        func_8012F568(1, 0x18, *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12), 0x18, (s32)buf2, (s32)D_801152A8);
+    if (func_80135888(((Unkstruct_800B5CB8 *)arg0)->unk20, ((Unkstruct_800B5CB8 *)arg0)->unk58, (s32)buf1, (s32)buf2) != 0) {
+        func_8012F568(1, 0x18, *(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x12), 0x18, (s32)buf2, (s32)D_801152A8);
         return 1;
     }
     return 0;

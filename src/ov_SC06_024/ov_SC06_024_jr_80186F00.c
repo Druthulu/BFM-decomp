@@ -5202,22 +5202,22 @@ void func_8018A624(s32 param_1) {
 
     q = *(s32 *)(param_1 + 0x20);
 
-    a = *(u8 *)(q + 0x24) - 0x20;
-    *(u8 *)(q + 0x24) = a;
+    a = ((Unkstruct_800B5CB8 *)q)->unk24 - 0x20;
+    ((Unkstruct_800B5CB8 *)q)->unk24 = a;
     if (a < 0x80) {
-        *(u8 *)(q + 0x24) = 0x80;
+        ((Unkstruct_800B5CB8 *)q)->unk24 = 0x80;
     }
 
-    b = *(u8 *)(q + 0x25) + 0x20;
-    *(u8 *)(q + 0x25) = b;
+    b = ((Unkstruct_800B5CB8 *)q)->unk25 + 0x20;
+    ((Unkstruct_800B5CB8 *)q)->unk25 = b;
     if (b > 0x80) {
-        *(u8 *)(q + 0x25) = 0x80;
+        ((Unkstruct_800B5CB8 *)q)->unk25 = 0x80;
     }
 
-    h = *(u16 *)(q + 0x1A) + 0x400;
-    *(u8 *)(q + 0x26) = *(u8 *)(q + 0x25);
-    *(u16 *)(q + 0x1A) = h;
-    *(u16 *)(q + 0x18) = h;
+    h = ((Unkstruct_800B5CB8 *)q)->unk1A + 0x400;
+    ((Unkstruct_800B5CB8 *)q)->unk26 = ((Unkstruct_800B5CB8 *)q)->unk25;
+    ((Unkstruct_800B5CB8 *)q)->unk1A = h;
+    ((Unkstruct_800B5CB8 *)q)->unk18 = h;
 
     func_8012931C(param_1);
 

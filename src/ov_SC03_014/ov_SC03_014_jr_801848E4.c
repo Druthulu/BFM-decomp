@@ -5396,11 +5396,11 @@ void func_801891E8(s32 *a0) {
     s32 a1;
 
     s0 = a0;
-    a1 = *(s32 *)((u8 *)s0 + 0x34);
+    a1 = CAST_WIDTH(s32, (u8 *)s0, 0x34);
     func_80129350(s0, a1);
 
     a1 = (s32)((u8 *)s0 + 0x4);
-    *(s16 *)((u8 *)s0 + 0xA) = *(u16 *)((u8 *)s0 + 0xA) + *(u16 *)((u8 *)s0 + 0x2C);
+    ((Unkstruct_800B5CB8 *)s0)->unkA = ((Unkstruct_800B5CB8 *)s0)->unkA + ((Unkstruct_800B5CB8 *)s0)->unk2C;
     func_80133060((s32 *)((u8 *)s0 + 0x4), a1, -0x180);
 }
 

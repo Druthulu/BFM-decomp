@@ -5778,11 +5778,11 @@ void func_8018DB40(void *a0) {
     func_8001C97C((s32 *)s0);
     func_8001C214((s32)s2, (s32)s0);
 
-    *(s16 *)((u8 *)s2 + 0x12) = -0x200;
+    CAST_ALIAS(s16, (u8 *)s2, 0x12) = -0x200;
     ((void (*)(s32, s32))func_8001C1E4)((s32)s2, *(s32 *)((u8 *)s1 + 0x20));
 
-    *(s32 *)((u8 *)s2 + 0x20) = (s32)&D_800636C8;
-    *(s16 *)((u8 *)s2 + 0xA) = -0x38;
+    ((Unkstruct_800B5CB8 *)s2)->unk20 = (s32)&D_800636C8;
+    CAST_ALIAS(s16, (u8 *)s2, 0xA) = -0x38;
     *(void **)((u8 *)s1 + 0xD0) = s2;
     func_8012A828((s32)s1, (void *)&D_80190C0C);
 
