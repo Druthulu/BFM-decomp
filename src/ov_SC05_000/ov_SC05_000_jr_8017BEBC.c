@@ -3920,9 +3920,9 @@ extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a
 
 void func_8017E1E8(void *a0)
 {
-    func_80146A6C(3, a0, *(s16 *)((u8 *)a0 + 6),
-                  (s16)(*(u16 *)((u8 *)a0 + 0xA) - 0x10),
-                  *(s16 *)((u8 *)a0 + 0xE), 0x80FFFF8, 0xE000B000);
+    func_80146A6C(3, a0, ((Unkstruct_80126B58 *)a0)->unk6,
+                  (s16)(CAST_SIGN(u16, (u8 *)a0, 0xA) - 0x10),
+                  ((Unkstruct_80126B58 *)a0)->unkE, 0x80FFFF8, 0xE000B000);
 }
 
 

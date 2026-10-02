@@ -4436,7 +4436,7 @@ extern void func_80147060(u8 *a0);
 extern void func_80171A1C(u8 *a0);
 
     void func_80180AA4(void *a0) {
-        if (*(u16 *)(a0 + 0xB8) & 0x8000) {
+        if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
             func_80147060((u8 *)a0);
             func_80171A1C((u8 *)a0);
             func_80174650((s32)a0);
