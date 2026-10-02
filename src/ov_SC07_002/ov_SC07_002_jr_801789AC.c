@@ -2698,7 +2698,7 @@ s32 func_80178BF8()
     extern short D_8019B654;
     extern int D_8019FF7C;
     extern int D_8019B668;
-    extern s16 D_8019B648;
+    extern s16 D_8019B648[];
     extern short D_8019B640;
     extern short D_8019B644;
     extern int D_801A0030;
@@ -2719,7 +2719,7 @@ s32 func_80178BF8()
     D_8019B654 = 0;
     D_8019FF7C = 1;
     D_8019B668 = 0;
-    (*(short *)&D_8019B648) = 0;
+    (D_8019B648[0]) = 0;
     do {
         *puVar3 = 0;
         iVar2 = iVar2 + -1;

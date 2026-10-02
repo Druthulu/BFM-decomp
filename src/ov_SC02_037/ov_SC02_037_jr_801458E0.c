@@ -595,7 +595,7 @@ extern void func_80136C54(void);
 extern void func_80136D00(void);
 extern void SetLineG2(void *);
 extern void func_80136D08(s32 arg0, s32 arg1);
-extern u16 D_80126CC4;
+extern u16 D_80126CC4[];
 extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
@@ -2772,11 +2772,11 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 #include "../shared/ov/func_8014CBD8.h"
 
 
-extern u16 D_80126CC4;
+extern u16 D_80126CC4[0];
 
 void func_8014CBE8(void)
 {
-    (*(s16 *)&D_80126CC4) = 0;
+    (D_80126CC4[0]) = 0;
 }
 
 

@@ -64,7 +64,7 @@ extern void func_80146360(void);
 extern void func_801463A0();
 extern void func_8014607C(void);
 extern s32 *D_80126B78;
-extern u8 D_80078EC1;
+extern u8 D_80078EC1[];
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
 extern s32 D_8011F730;
@@ -5879,9 +5879,9 @@ void func_80184998(void *a0) {
 }
 
 
-extern u8 D_80078EC1;
+extern u8 D_80078EC1[0];
     s32 func_80184A04(void) {
-        return *(u8 *)&D_80078EC1 == 0x15;
+        return D_80078EC1[0] == 0x15;
     }
 
 
