@@ -5843,12 +5843,12 @@ void func_80169BBC(s32 arg0) {
         vec[1] = -0x400;
         vec[2] = 0;
         RotMatrixYXZ(vec, mtx);
-        *(s32 *)(s2 + 0x34) = (s32)D_8019AB10;
+        CAST_WIDTH(s32, s2, 0x34) = (s32)D_8019AB10;
         RotMatrixYXZ(rot, D_8019AB10);
         func_80048D9C(D_8019AB10, mtx);
-        *(u16 *)(s2 + 0x18) = 0x5000;
-        *(u16 *)(s2 + 0x1A) = 0x2000;
-        *(s32 *)(s2 + 4) = *(s32 *)(s2 + 4) | 0xC000140;
+        ((Unkstruct_800B5CB8 *)s2)->unk18 = 0x5000;
+        ((Unkstruct_800B5CB8 *)s2)->unk1A = 0x2000;
+        CAST_WIDTH(s32, s2, 4) = CAST_WIDTH(s32, s2, 4) | 0xC000140;
         func_80128EA8(s2, arg0 + 0x24, (s32)D_80181328);
         *(u16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
     } else {
