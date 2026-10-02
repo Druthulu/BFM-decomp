@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "4da554f70a",
-  "src_stamp": "5593af070c8efd9a",
+  "head": "ceb2633385",
+  "src_stamp": "4423b2a31851b43b",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-02T20:30:40Z",
+  "when": "2026-10-02T20:39:40Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -37,7 +37,7 @@
   "casts": {
    "by_form": {
     "P": 257469,
-    "I": 49833,
+    "I": 49831,
     "X": 13790,
     "K": 20975,
     "A": 18889,
@@ -46,7 +46,7 @@
    },
    "raw_counts": {
     "P": 257469,
-    "I": 49833,
+    "I": 49831,
     "X": 13790,
     "K": 20975,
     "A": 18889,
@@ -55,24 +55,24 @@
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 336221,
+   "deref_total": 336219,
    "addr_form": 18889,
    "typed_cast_member": 173103,
-   "bodies": 50866,
+   "bodies": 50865,
    "by_bclass": {
     "local": 124536,
     "param": 152069,
     "global": 21794,
-    "gaddr": 25261,
+    "gaddr": 25259,
     "nested": 9446,
     "ident": 161,
     "other": 1616,
     "addr-of": 1338
    },
    "by_width": {
-    "s2": 102249,
+    "s2": 102248,
     "u2": 83918,
-    "s4": 81427,
+    "s4": 81426,
     "u1": 34807,
     "agg": 13409,
     "p4": 10957,
@@ -292,7 +292,7 @@
    },
    "check_raw": {
     "P": 257464,
-    "I": 49833,
+    "I": 49831,
     "X": 13790,
     "M": 15128
    },
@@ -230901,7 +230901,7 @@
    "multi_spelled_callees": 3773,
    "multi_body_names": 6423,
    "data_symbols_declared": 55542,
-   "multi_typed_data_symbols": 19148,
+   "multi_typed_data_symbols": 19150,
    "asm_label_aliases": 5148,
    "asm_label_alias_names": 159,
    "builtins": {
@@ -232071,9 +232071,9 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 17967,
-   "explained_sites": 332310,
-   "deref_sites": 336221,
+   "types": 17965,
+   "explained_sites": 332308,
+   "deref_sites": 336219,
    "explained_pct": 98.8,
    "unassigned_sites": 3911,
    "conflicts": 813,
@@ -232091,10 +232091,10 @@
    },
    "vetoed": {
     "arg-conduit": 144266,
+    "field-multisource": 5264,
     "ret-of-multisource": 6714,
     "assign-multisource": 33805,
     "arg&-conduit": 14762,
-    "field-multisource": 5264,
     "ret-of": 507,
     "assign&-multisource": 12093,
     "arg&-no-overlap": 3379,
@@ -232105,7 +232105,7 @@
     "arg": 60,
     "field": 136
    },
-   "singletons": 14043,
+   "singletons": 14041,
    "multi_body": 3924,
    "sites_in_multi_body": 278242,
    "top": [
@@ -232699,9 +232699,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 46.6,
-   "decls_s": 217.9,
-   "total_s": 229.6
+   "walk_s": 43.2,
+   "decls_s": 207.3,
+   "total_s": 218.6
   }
  },
  "dup_layout_classes": [
