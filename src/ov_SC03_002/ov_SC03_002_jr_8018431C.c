@@ -3692,15 +3692,16 @@ void func_801851A0(void *a0) {
  * ORACLE: .venv/bin/python tools/match_one.py func_801851DC \
  *           --c .run/s7/ov_SC04_018/func_801851DC.c \
  *           --asm-subdir asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C  -> MATCH (31 ins)
+ *
+ * P39 T6.c2: alias removed; this TU's decl (`extern s32 func_801851DC(void *a0)`) now
+ * agrees, so the def carries its own name (make check ov_SC03_002 rc=0).
  */
 
 extern s32 func_80184F6C(void);
 extern s32 func_80178BF8();      /* TU-canonical (ov_SC04_018_jr_8017AE2C.c L2539) */
 extern void func_80172710(void); /* TU-canonical (ov_SC04_018_jr_8017AE2C.c L2231) */
 
-s32 aF8018CB18(void *a0) __asm__("func_801851DC");
-
-s32 aF8018CB18(void *a0)
+s32 func_801851DC(void *a0)
 {
     if (*(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) != 1) {
         return 0;

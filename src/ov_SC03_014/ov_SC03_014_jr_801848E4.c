@@ -5808,7 +5808,7 @@ extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8012CAE4(void *a0);
 extern void func_8012A828(s32 a0, void *a1);
 /* not declared anywhere in the TU */
-extern s32 func_8018A224(param_1);
+extern s32 func_8018A224(void *param_1);
 extern u8 D_801E2F88[];
 extern u8 D_8018B898[];
 
@@ -6135,8 +6135,10 @@ void func_8018A0F4(void *a0) {
  * alias aF8018A224 with an asm label emits the identical `func_8018A224`
  * symbol while leaving the TU's own declaration untouched — zero blast
  * radius, zero emitted-instruction change.
+ * P39 T6.c2: alias removed; the TU decl is now `extern s32 func_8018A224(void *param_1)`,
+ * so the def carries its own name (make check ov_SC03_014 rc=0).
  */
-extern s32 *D_80126B78;                                          /* TU L72 */
+extern s32 *D_80126B78;                                         /* TU L72 */
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);        /* TU L585 */
 extern void func_80172710(void);                                 /* TU L2226 */
 extern s32 func_80178BF8();                                      /* TU L2534 */
@@ -6145,9 +6147,7 @@ extern s32 func_8012BDBC(s32 a0, s32 a1);                        /* not in TU */
 extern u8 D_801E32B0[];                                          /* not in TU */
 
 
-s32 aF8018A224() __asm__("func_8018A224");
-
-s32 aF8018A224(param_1)
+s32 func_8018A224(param_1)
     void *param_1;
 {
     s32 *m;
