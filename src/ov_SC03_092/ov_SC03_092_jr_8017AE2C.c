@@ -3241,9 +3241,9 @@ extern s32 D_80114F2C;
 
 extern u8  D_8012694C;
 extern s16 D_801B2DCC;
-extern short D_801B2E54;
-extern short D_801B2E56;
-extern short D_801B2E58;
+extern short D_801B2E54[];
+extern short D_801B2E56[];
+extern short D_801B2E58[];
 extern s16 D_801B2E44;
 extern s16 D_801B2E46;
 extern s16 D_801B2E48;
@@ -3263,9 +3263,9 @@ void func_8017B940(void)
     buf[0] = (*(s16 *)&D_80126B5E) - (*(s16 *)&D_801B2E4C);
     buf[1] = (*(s16 *)&D_80126B62) - (*(s16 *)&D_801B2E4E);
     buf[2] = (*(s16 *)&D_80126B66) - (*(s16 *)&D_801B2E50);
-    (*(s16 *)&D_801B2E54) = buf[0];
-    (*(s16 *)&D_801B2E56) = buf[1];
-    (*(s16 *)&D_801B2E58) = buf[2];
+    (D_801B2E54[0]) = buf[0];
+    (D_801B2E56[0]) = buf[1];
+    (D_801B2E58[0]) = buf[2];
     D_801B2E44 = D_80114F30 + buf[0];
     D_801B2DCC = 0;
     D_801B2E46 = D_80114F34 + buf[1];
@@ -3438,9 +3438,9 @@ extern void func_8012A4BC(void);
 
 extern s16 D_801B2DCC;
 extern void (*D_801B2E10)(void);
-extern short D_801B2E54;
-extern short D_801B2E56;
-extern short D_801B2E58;
+extern short D_801B2E54[0];
+extern short D_801B2E56[0];
+extern short D_801B2E58[0];
 extern s16 D_801B3010;
 
 extern s32 D_80114F24;
@@ -3458,12 +3458,12 @@ void func_8017BD50(int param_1)
         if (D_801B2E10 != 0) {
             (*D_801B2E10)();
         } else {
-            D_80114F30 = D_80114F30 + D_801B2E54;
-            D_80114F34 = D_80114F34 + D_801B2E56;
-            D_80114F38 = D_80114F38 + D_801B2E58;
-            D_80114F24 = D_80114F24 + D_801B2E54;
-            D_80114F28 = D_80114F28 + D_801B2E56;
-            D_80114F2C = D_80114F2C + D_801B2E58;
+            D_80114F30 = D_80114F30 + D_801B2E54[0];
+            D_80114F34 = D_80114F34 + D_801B2E56[0];
+            D_80114F38 = D_80114F38 + D_801B2E58[0];
+            D_80114F24 = D_80114F24 + D_801B2E54[0];
+            D_80114F28 = D_80114F28 + D_801B2E56[0];
+            D_80114F2C = D_80114F2C + D_801B2E58[0];
             func_8012A4BC();
         }
         D_801B3010 = 0;
@@ -4537,7 +4537,7 @@ extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80013294(void*, void*);
-extern s16 D_801889EA;
+extern s16 D_801889EA[];
 
 void func_8017E2FC(s32 param_1, s16 *param_2) {
     MATRIX m1;
@@ -4568,8 +4568,8 @@ void func_8017E2FC(s32 param_1, s16 *param_2) {
     svec_in.vz = *(s32 *)(param_1 + 0x10);
     ((void (*)(s32, s32, s32))func_8012F14C)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
 
-    *(u16 *)&D_801889EA = *(u16 *)&svec_out.vy;
-    ret = ((s32 (*)(s32, s32))func_80013294)(&svec_out, &D_801889EA - 1);
+    D_801889EA[0] = *(u16 *)&svec_out.vy;
+    ret = ((s32 (*)(s32, s32))func_80013294)(&svec_out, D_801889EA - 1);
     if ((s16)ret < 0x300) {
         var = ret - 0x80;
         if (var < 0) {

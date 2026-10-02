@@ -3052,9 +3052,9 @@ extern s32 D_80114F2C;
 
 extern u8  D_8012694C;
 extern s16 D_801F30DC;
-extern short D_801F3164;
-extern short D_801F3166;
-extern short D_801F3168;
+extern short D_801F3164[];
+extern short D_801F3166[];
+extern short D_801F3168[];
 extern s16 D_801F3154;
 extern s16 D_801F3156;
 extern s16 D_801F3158;
@@ -3070,9 +3070,9 @@ void func_8017B940(void)
     buf[0] = (*(s16 *)&D_80126B5E) - (*(s16 *)&D_801F315C);
     buf[1] = (*(s16 *)&D_80126B62) - (*(s16 *)&D_801F315E);
     buf[2] = (*(s16 *)&D_80126B66) - (*(s16 *)&D_801F3160);
-    (*(s16 *)&D_801F3164) = buf[0];
-    (*(s16 *)&D_801F3166) = buf[1];
-    (*(s16 *)&D_801F3168) = buf[2];
+    (D_801F3164[0]) = buf[0];
+    (D_801F3166[0]) = buf[1];
+    (D_801F3168[0]) = buf[2];
     D_801F3154 = D_80114F30 + buf[0];
     D_801F30DC = 0;
     D_801F3156 = D_80114F34 + buf[1];
@@ -3245,9 +3245,9 @@ extern void func_8012A4BC(void);
 
 extern s16 D_801F30DC;
 extern void (*D_801F3120)(void);
-extern short D_801F3164;
-extern short D_801F3166;
-extern short D_801F3168;
+extern short D_801F3164[0];
+extern short D_801F3166[0];
+extern short D_801F3168[0];
 extern s16 D_801F33E8;
 
 extern s32 D_80114F24;
@@ -3265,12 +3265,12 @@ void func_8017BD50(int param_1)
         if (D_801F3120 != 0) {
             (*D_801F3120)();
         } else {
-            D_80114F30 = D_80114F30 + D_801F3164;
-            D_80114F34 = D_80114F34 + D_801F3166;
-            D_80114F38 = D_80114F38 + D_801F3168;
-            D_80114F24 = D_80114F24 + D_801F3164;
-            D_80114F28 = D_80114F28 + D_801F3166;
-            D_80114F2C = D_80114F2C + D_801F3168;
+            D_80114F30 = D_80114F30 + D_801F3164[0];
+            D_80114F34 = D_80114F34 + D_801F3166[0];
+            D_80114F38 = D_80114F38 + D_801F3168[0];
+            D_80114F24 = D_80114F24 + D_801F3164[0];
+            D_80114F28 = D_80114F28 + D_801F3166[0];
+            D_80114F2C = D_80114F2C + D_801F3168[0];
             func_8012A4BC();
         }
         D_801F33E8 = 0;

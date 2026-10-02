@@ -3464,7 +3464,7 @@ extern void func_8017AE2C(s32 a0);
 extern s32 func_801399F0(s32 a0);
 extern void func_80178CBC(s32 arg0, s32 arg1);
 
-extern short D_8019BD3C;
+extern short D_8019BD3C[];
 extern s32 D_8019B9A8;
 extern s32 D_8019BBE4;
 extern s32 D_8019B594;
@@ -3479,7 +3479,7 @@ s32 func_801789AC(s32 arg0)
     func_8017A4AC();
     func_8017AE2C(arg0);
 
-    switch ((s16)(D_8019BD3C - 1)) {
+    switch ((s16)(D_8019BD3C[0] - 1)) {
     case 0:
         ret = func_801399F0(D_8019B9A8);
         D_8019BBE4 = ret;
@@ -3582,7 +3582,7 @@ extern void func_80016714(void *a0, s32 a1);
 void func_80178BF8(s32 _unused0, s32 _unused1)
 {
     extern void func_8017B1D8(void);
-    extern short D_8019BD3C;
+    extern short D_8019BD3C[0];
     extern int D_8019B9A8;
     extern short D_8019B9B8;
     extern short D_8019B9B4;
@@ -3590,7 +3590,7 @@ void func_80178BF8(s32 _unused0, s32 _unused1)
     extern short D_8019B9AC;
     extern int D_8019BBE4;
     extern int D_8019B9C0;
-    extern s16 D_8019B9A0;
+    extern s16 D_8019B9A0[];
     extern short D_8019B998;
     extern short D_8019B99C;
     extern int D_8019BC98;
@@ -3603,7 +3603,7 @@ void func_80178BF8(s32 _unused0, s32 _unused1)
 
     iVar2 = 9;
     puVar3 = &D_8019BA10;
-    D_8019BD3C = 0;
+    D_8019BD3C[0] = 0;
     D_8019B9A8 = 0;
     D_8019B9B8 = 0;
     D_8019B9B4 = 0;
@@ -3611,7 +3611,7 @@ void func_80178BF8(s32 _unused0, s32 _unused1)
     D_8019B9AC = 0;
     D_8019BBE4 = 1;
     D_8019B9C0 = 0;
-    (*(short *)&D_8019B9A0) = 0;
+    (D_8019B9A0[0]) = 0;
     do {
         *puVar3 = 0;
         iVar2 = iVar2 + -1;
@@ -3636,11 +3636,11 @@ extern M2C_UNK func_80178D40(s32 arg0, s32 arg1);
 void func_80178CBC(s32 arg0, s32 arg1) {
 
     extern s32 D_8019B590;
-    extern short D_8019BD3C;
+    extern short D_8019BD3C[0];
     D_8019B590 = arg1;
     do {
         func_80178D40(arg0, D_8019B590);
-    } while (D_8019BD3C == 3);
+    } while (D_8019BD3C[0] == 3);
 }
 
 
@@ -3649,8 +3649,8 @@ extern void func_80174714(void);
 
 void func_80178D18(void) {
 
-    extern short D_8019BD3C;
-    D_8019BD3C = 0;
+    extern short D_8019BD3C[0];
+    D_8019BD3C[0] = 0;
     func_80174714();
 }
 
@@ -3754,7 +3754,7 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
 
     extern s32 D_80126B58;
     extern s32 D_8019B590;
-    extern short D_8019BD3C;
+    extern short D_8019BD3C[0];
     extern void func_80179B28(s32);
     extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
     extern void func_8012F214(s32, s32, s32);
@@ -3840,49 +3840,49 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
     case 1:
         func_80179B28(D_8019B9A8);
         D_8019B9A8 = ((s32 (*)(s32, s32, s32))func_80137614)(((Cmd_80178D40 *)arg1)->a.w, D_8019B9B4, D_8019B9B8 ? 0x48 : 0x40);
-        (*(s16*)&D_8019BD3C) = 2;
+        (D_8019BD3C[0]) = 2;
         break;
     case 0:
         func_80179B28(D_8019B9A8);
         D_8019B9A8 = ((s32 (*)(s32, s32, s32))func_80137614)(((Cmd_80178D40 *)arg1)->a.w, D_8019B9AC, D_8019B9B0 ? 0x48 : 0x40);
-        (*(s16*)&D_8019BD3C) = 1;
+        (*(s16*)D_8019BD3C) = 1;
         break;
     case 0x45:
         ((void (*)(s32))((Cmd_80178D40 *)arg1)->a.w)(((Actor_80178D40 *)arg0));
         if (D_8019BBE0 != 0) {
             func_80179B28(D_8019B9A8);
             D_8019B9A8 = ((s32 (*)(s32, s32, s32))func_80137614)(((Actor_80178D40 *)arg0)->unkDC[1], D_8019B9AC, D_8019B9B0 ? 0x48 : 0x40);
-            (*(s16*)&D_8019BD3C) = 1;
+            (*(s16*)D_8019BD3C) = 1;
         } else {
-            (*(s16*)&D_8019BD3C) = 3;
+            (*(s16*)D_8019BD3C) = 3;
         }
         break;
     case 0x32:
         func_80179B28(D_8019B9A8);
         D_8019B9A8 = ((s32 (*)(s32, s32, s32))func_80137614)(((Actor_80178D40 *)arg0)->unkDC[((Cmd_80178D40 *)arg1)->a.w], D_8019B9AC,
                                    D_8019B9B0 ? 0x48 : 0x40);
-        (*(s16*)&D_8019BD3C) = 1;
+        (*(s16*)D_8019BD3C) = 1;
         break;
     case 2:
         func_80179B28(D_8019B9A8);
         if (D_8019B9C0 != 0) {
             D_8019B590 = D_8019B9C0;
             D_8019B9C0 = 0;
-            (*(s16*)&D_8019BD3C) = 3;
+            (*(s16*)D_8019BD3C) = 3;
             return;
         }
-        (*(s16*)&D_8019BD3C) = 6;
+        (*(s16*)D_8019BD3C) = 6;
         break;
     case 6:
         func_80179DF8();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 3:
         v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
         v10.vy = 0;
         v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
         ((void (*)(void *))func_80179D30)(&v10);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 4:
         v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
@@ -3890,11 +3890,11 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
         ((void (*)(void *, void *, void *))func_8012F214)(((Actor_80178D40 *)arg0), &v10, &v18);
         ((void (*)(void *))func_80179D30)(&v18);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x4C:
         ((void (*)(void *))func_80179D78)((void *)((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x4D:
         v10.vx = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f0;
@@ -3903,7 +3903,7 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         ((void (*)(void *, void *, void *))func_8012F214)(((Actor_80178D40 *)arg0), &v10, &v18);
         v18.pad = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f6;
         ((void (*)(void *))func_80179D78)(&v18);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x15:
         v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
@@ -3911,33 +3911,33 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
         ((void (*)(void *, void *, void *))func_8012F214)(((Actor_80178D40 *)arg0)->unkD4, &v10, &v18);
         ((void (*)(void *))func_80179D30)(&v18);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 5:
         ((void (*)(s32))func_80179DCC)(((Cmd_80178D40 *)arg1)->a.h[0]);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 7:
         ((void (*)(s32))func_80179E1C)(((Cmd_80178D40 *)arg1)->a.h[0]);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 8:
         ((void (*)(s32))func_80179E74)(((Cmd_80178D40 *)arg1)->a.h[0]);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 9:
         v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
         v10.vy = 0;
         v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
         ((void (*)(void *))func_80179EA0)(&v10);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0xA:
         v10.vx = ((Actor_80178D40 *)arg0)->unk6;
         v10.vy = ((Actor_80178D40 *)arg0)->unkA;
         v10.vz = ((Actor_80178D40 *)arg0)->unkE;
         ((void (*)(void *))func_80179EA0)(&v10);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x16: {
         Actor_80178D40 *p = ((Actor_80178D40 *)arg0)->unkD4;
@@ -3945,155 +3945,155 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         v10.vy = p->unkA;
         v10.vz = p->unkE;
         ((void (*)(void *))func_80179EA0)(&v10);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     }
     case 0xB:
         func_8017A0F4();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0xC:
         func_8017A11C();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0xD:
         func_8017A180();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0xE:
         func_8017A1A8();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x10:
         func_8017A1D0();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x46:
         func_8017A1F8();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x59:
         func_8017A220();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x5A:
         func_8017A248();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x49:
         func_8017A144(((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x47:
         func_8017A270();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x17:
         ((void (*)(s32))func_80179EE8)(((Cmd_80178D40 *)arg1)->a.h[0]);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x18:
         ((void (*)(s32, s32))func_80179F14)(((Cmd_80178D40 *)arg1)->a.h[0], ((Cmd_80178D40 *)arg1)->a.h[1]);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x19:
         ((void (*)(s32))func_80179F6C)(((Cmd_80178D40 *)arg1)->a.h[0]);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x1A:
         ((void (*)(s32))func_80179F98)(((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x51:
         ((void (*)(s32))func_8017A040)(((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x1B:
         D_8019B9E0 = ((Cmd_80178D40 *)arg1)->a.w;
         func_80179F44();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x1C:
         func_8017A338();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x52:
         func_8017A360();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x1D:
         func_8017A388();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x3B:
         func_8017A094(((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x3C:
         func_8017A0C4(((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0xF:
     case 0x3F:
-        (*(s16*)&D_8019BD3C) = 4;
+        (*(s16*)D_8019BD3C) = 4;
         D_8019B594 = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x3E:
-        (*(s16*)&D_8019BD3C) = 5;
+        (*(s16*)D_8019BD3C) = 5;
         D_8019B9D4 = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x40:
         D_8019B9D4 = (s32)func_8017A3B0;
-        (*(s16*)&D_8019BD3C) = 5;
+        (*(s16*)D_8019BD3C) = 5;
         break;
     case 0x23:
         ((void (*)(void *, s32))func_8012A828)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x31:
         ((void (*)(void *, s32))func_8012A828)(((Actor_80178D40 *)arg0), ((Actor_80178D40 *)arg0)->unkDC[((Cmd_80178D40 *)arg1)->a.w]);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x24:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         ((Actor_80178D40 *)arg0)->unk20->unk12 = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x25:
         g[0] = 1;
         g[2] = ((Actor_80178D40 *)arg0)->unk20->unk12 + ((Cmd_80178D40 *)arg1)->a.uh[0];
         g[1] = 0x1E;
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         g[3] = ((Cmd_80178D40 *)arg1)->a.uh[1];
         break;
     case 0x48:
         g[0] = 1;
         g[2] = ((Cmd_80178D40 *)arg1)->a.uh[0];
         g[1] = 0x1E;
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         g[3] = ((Cmd_80178D40 *)arg1)->a.uh[1];
         break;
     case 0x26:
         g[0] = 1;
         g[2] = ((s32 (*)(void *))func_8012B8A4)(((Actor_80178D40 *)arg0));
         g[1] = 0x1E;
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         g[3] = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x3D:
         ((void(*)(void *, s32))func_8012E8E0)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x27:
         g[0] = 2;
         g[4] = ((Cmd_80178D40 *)arg1)->a.uh[0];
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         g[1] = ((Cmd_80178D40 *)arg1)->a.uh[1];
         break;
     case 0x4F:
         g[5] = 1;
         g[0] = 3;
         g[6] = ((Cmd_80178D40 *)arg1)->a.uh[0];
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         g[7] = ((Actor_80178D40 *)arg0)->unkA;
         g[8] = ((Cmd_80178D40 *)arg1)->a.uh[1];
         g[1] = 0x10;
@@ -4103,7 +4103,7 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         g[5] = 0;
         g[0] = 3;
         g[6] = ((Cmd_80178D40 *)arg1)->a.uh[0];
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         g[7] = ((Actor_80178D40 *)arg0)->unkA;
         g[8] = ((Cmd_80178D40 *)arg1)->a.uh[1];
         g[1] = 0x10;
@@ -4119,7 +4119,7 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         *(SV3_80178D40 *)(g + 6) = v28;
         g[1] = 0x10;
         g[3] = 4;
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x50:
         v30.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
@@ -4131,129 +4131,129 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         *(SV3_80178D40 *)(g + 6) = v38;
         g[1] = 0x10;
         g[3] = 4;
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x2A:
         g[0] = 4;
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         g[1] = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x1E:
         ((void (*)(void *, s32))func_8017B238)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x21:
         ((void (*)(void *, s32))func_8017BA3C)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
         ((void (*)(void *, s32))func_8017B238)(((Actor_80178D40 *)arg0), (s32)&D_8019B9C4);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x54:
         ((void (*)(void *, s32))func_8017BB34)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
         ((void (*)(void *, s32))func_8017B238)(((Actor_80178D40 *)arg0), (s32)&D_8019B9C4);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x1F:
         ((void (*)(void *, s32))func_8017B614)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x22:
         ((void (*)(void *, s32))func_8017BA3C)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
         ((void (*)(void *, s32))func_8017B614)(((Actor_80178D40 *)arg0), (s32)&D_8019B9C4);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x55:
         ((void (*)(void *, s32))func_8017BB34)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
         ((void (*)(void *, s32))func_8017B614)(((Actor_80178D40 *)arg0), (s32)&D_8019B9C4);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x20:
         func_8017B7A8(((Actor_80178D40 *)arg0));
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x4E:
         D_8019B9E8 = ((Cmd_80178D40 *)arg1)->a.w;
         func_8017B940(((Actor_80178D40 *)arg0));
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x57:
         func_8017B824();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x58:
         func_8017B880();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x2B:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         ((Actor_80178D40 *)arg0)->unk2 = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x2C:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         ((Actor_80178D40 *)arg0)->unk34 = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x2D:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         ((Actor_80178D40 *)arg0)->unkD8 = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x2F:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         ((Actor_80178D40 *)arg0)->unk10A = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x2E:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         ((Actor_80178D40 *)arg0)->unkF8 = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x11:
         func_8017A298();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x12:
         func_8017A2C0();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x13:
         func_8017A2E8();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x14:
         func_8017A310();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x33: {
         void (*f)(Actor_80178D40 *) = (void (*)(Actor_80178D40 *))((Cmd_80178D40 *)arg1)->a.w;
         D_8019BCC4 = (s32)&((Cmd_80178D40 *)arg1)[1];
         f(((Actor_80178D40 *)arg0));
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     }
     case 0x30:
         if (((Cmd_80178D40 *)arg1)->a.w == 0) {
             ((void (*)(void *))func_8012E8A8)(((Actor_80178D40 *)arg0));
-            (*(s16*)&D_8019BD3C) = 3;
+            (*(s16*)D_8019BD3C) = 3;
         } else {
             ((void (*)(void *))func_8012E88C)(((Actor_80178D40 *)arg0));
-            (*(s16*)&D_8019BD3C) = 3;
+            (*(s16*)D_8019BD3C) = 3;
         }
         break;
     case 0x4A:
         ((void(*)())func_80175414)();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x4B:
         func_80175454();
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x34:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         D_8019B590 = ((Cmd_80178D40 *)arg1)->a.w;
         return;
     case 0x35:
         D_8019B9C0 = (s32)&((Cmd_80178D40 *)arg1)[1];
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         D_8019B590 = ((Cmd_80178D40 *)arg1)->a.w;
         return;
     case 0x36:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         D_8019B590 += 8;
         if (((s32 (*)(s32))((Cmd_80178D40 *)arg1)->a.w)(((Actor_80178D40 *)arg0)) == 0) {
             break;
@@ -4261,12 +4261,12 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         D_8019B590 = *(s32 *)(D_8019B590 + 4);
         return;
     case 0x37:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         D_8019B9AC = ((Cmd_80178D40 *)arg1)->a.uh[0];
         D_8019B9B0 = ((Cmd_80178D40 *)arg1)->a.uh[1];
         break;
     case 0x38:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         D_8019B9B4 = ((Cmd_80178D40 *)arg1)->a.uh[0];
         D_8019B9B8 = ((Cmd_80178D40 *)arg1)->a.uh[1];
         break;
@@ -4282,7 +4282,7 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         w1 = out50[0];
         ((void (*)(void *, void *))func_8012F40C)(out50, &v48);
         w2 = out50[0];
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         D_8019B9AC = w1;
         D_8019B9B0 = (s16)w1 >= (s16)w2;
         break;
@@ -4299,42 +4299,42 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         w1 = out50[0];
         ((void (*)(void *, void *))func_8012F40C)(out50, &v60);
         w2 = out50[0];
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         D_8019B9B4 = w2;
         D_8019B9B8 = (s16)w1 < (s16)w2;
         break;
     }
     case 0x41:
         ((void(*)(s32, s32))func_8002D4C8)(((Cmd_80178D40 *)arg1)->a.uh[0], ((Cmd_80178D40 *)arg1)->a.uh[1]);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x42:
         ((void (*)(s32))func_8017AD0C)(((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x43:
         D_8019B9D4 = (s32)func_8017A3D8;
         D_8019B9DC = 0;
-        (*(s16*)&D_8019BD3C) = 5;
+        (*(s16*)D_8019BD3C) = 5;
         D_8019B9D8 = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x44:
         func_8001AAD0(((Cmd_80178D40 *)arg1)->a.h[0], ((Cmd_80178D40 *)arg1)->a.h[1]);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x53:
         ((void (*)(s32))func_80179E48)(((Cmd_80178D40 *)arg1)->a.h[0]);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x56:
         ((void (*)(s32))func_80179FEC)(((Cmd_80178D40 *)arg1)->a.w);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     L5B_found:
         fp5b = ((Cmd_80178D40 *)arg1)->a.w;
         *q5b = fp5b;
         ((void (*)(Actor_80178D40 *))fp5b)(((Actor_80178D40 *)arg0));
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     case 0x5B:
         i5b = 0;
@@ -4346,7 +4346,7 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
             }
             q5b++;
         } while (i5b < 10);
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     L5C_found1:
         *q5c = 0;
@@ -4365,7 +4365,7 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
             } while (i5c < 10);
         L5C_join:
             if (i5c != 10) {
-                (*(s16*)&D_8019BD3C) = 3;
+                (*(s16*)D_8019BD3C) = 3;
                 break;
             }
             i5c = 0;
@@ -4376,7 +4376,7 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
                 }
                 i5c++;
             } while (i5c < 10);
-            (*(s16*)&D_8019BD3C) = 3;
+            (*(s16*)D_8019BD3C) = 3;
             break;
         L5C_found2:
             *p5c = 0;
@@ -4394,7 +4394,7 @@ M2C_UNK func_80178D40(s32 arg0, s32 arg1)
         /* fallthrough */
     case 0x5D:
     L5D:
-        (*(s16*)&D_8019BD3C) = 3;
+        (*(s16*)D_8019BD3C) = 3;
         break;
     default:
         break;
@@ -4623,8 +4623,8 @@ void func_8017A144(s32 a0) {
 
 s32 func_8017A3B0(void) {
 
-    extern s16 D_8019B9A0;
-    switch (D_8019B9A0) {
+    extern s16 D_8019B9A0[0];
+    switch (D_8019B9A0[0]) {
     case 0:
         return 1;
     case 1:
@@ -4718,7 +4718,7 @@ extern s32 func_80174754(void);
 void func_8017A4AC(void) {
 
     extern s32 D_80126B58;
-    extern s16 D_8019B9A0;
+    extern s16 D_8019B9A0[0];
     extern s32 D_8019B9BC;
     extern s32 D_8019B9E4;
     u16 sp18[4];
@@ -4730,13 +4730,13 @@ void func_8017A4AC(void) {
 
     if (D_8019B998 == D_8019B99C) {
         if (func_80174754() != 0) {
-            D_8019B9A0 = 0;
+            D_8019B9A0[0] = 0;
         } else {
-            D_8019B9A0 = 1;
+            D_8019B9A0[0] = 1;
         }
         return;
     }
-    D_8019B9A0 = 1;
+    D_8019B9A0[0] = 1;
     if (func_80174754() == 0) {
         return;
     }
@@ -5335,9 +5335,9 @@ void func_8017B940(void)
     extern s32 D_80114F2C;
     extern u8  D_8012694C;
     extern s16 D_8019B9A4;
-    extern short D_8019BA2C;
-    extern short D_8019BA2E;
-    extern short D_8019BA30;
+    extern short D_8019BA2C[];
+    extern short D_8019BA2E[];
+    extern short D_8019BA30[];
     extern s16 D_8019BA1C;
     extern s16 D_8019BA1E;
     extern s16 D_8019BA20;
@@ -5350,9 +5350,9 @@ void func_8017B940(void)
     buf[0] = (*(s16 *)&D_80126B5E) - (*(s16 *)&D_8019BA24);
     buf[1] = (*(s16 *)&D_80126B62) - (*(s16 *)&D_8019BA26);
     buf[2] = (*(s16 *)&D_80126B66) - (*(s16 *)&D_8019BA28);
-    (*(s16 *)&D_8019BA2C) = buf[0];
-    (*(s16 *)&D_8019BA2E) = buf[1];
-    (*(s16 *)&D_8019BA30) = buf[2];
+    (D_8019BA2C[0]) = buf[0];
+    (D_8019BA2E[0]) = buf[1];
+    (D_8019BA30[0]) = buf[2];
     D_8019BA1C = D_80114F30 + buf[0];
     D_8019B9A4 = 0;
     D_8019BA1E = D_80114F34 + buf[1];
@@ -5535,9 +5535,9 @@ void func_8017BD50(int param_1)
 
     extern s16 D_8019B9A4;
     extern void (*D_8019B9E8)(void);
-    extern short D_8019BA2C;
-    extern short D_8019BA2E;
-    extern short D_8019BA30;
+    extern short D_8019BA2C[0];
+    extern short D_8019BA2E[0];
+    extern short D_8019BA30[0];
     extern s16 D_8019BCC8;
     extern s32 aD80114F24 __asm__("D_80114F24");
     extern s32 D_80114F28;
@@ -5551,12 +5551,12 @@ void func_8017BD50(int param_1)
         if (D_8019B9E8 != 0) {
             (*D_8019B9E8)();
         } else {
-            D_80114F30 = D_80114F30 + D_8019BA2C;
-            D_80114F34 = D_80114F34 + D_8019BA2E;
-            D_80114F38 = D_80114F38 + D_8019BA30;
-            aD80114F24 = aD80114F24 + D_8019BA2C;
-            D_80114F28 = D_80114F28 + D_8019BA2E;
-            D_80114F2C = D_80114F2C + D_8019BA30;
+            D_80114F30 = D_80114F30 + D_8019BA2C[0];
+            D_80114F34 = D_80114F34 + D_8019BA2E[0];
+            D_80114F38 = D_80114F38 + D_8019BA30[0];
+            aD80114F24 = aD80114F24 + D_8019BA2C[0];
+            D_80114F28 = D_80114F28 + D_8019BA2E[0];
+            D_80114F2C = D_80114F2C + D_8019BA30[0];
             func_8012A4BC();
         }
         D_8019BCC8 = 0;

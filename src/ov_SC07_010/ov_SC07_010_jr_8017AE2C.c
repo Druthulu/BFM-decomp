@@ -3152,9 +3152,9 @@ void func_8017B940(void)
     extern s32 D_80114F2C;
     extern u8  D_8012694C;
     extern s16 D_801A7C54;
-    extern short D_801A7CDC;
-    extern short D_801A7CDE;
-    extern short D_801A7CE0;
+    extern short D_801A7CDC[];
+    extern short D_801A7CDE[];
+    extern short D_801A7CE0[];
     extern s16 D_801A7CCC;
     extern s16 D_801A7CCE;
     extern s16 D_801A7CD0;
@@ -3167,9 +3167,9 @@ void func_8017B940(void)
     buf[0] = (*(s16 *)&D_80126B5E) - (*(s16 *)&D_801A7CD4);
     buf[1] = (*(s16 *)&D_80126B62) - (*(s16 *)&D_801A7CD6);
     buf[2] = (*(s16 *)&D_80126B66) - (*(s16 *)&D_801A7CD8);
-    (*(s16 *)&D_801A7CDC) = buf[0];
-    (*(s16 *)&D_801A7CDE) = buf[1];
-    (*(s16 *)&D_801A7CE0) = buf[2];
+    (D_801A7CDC[0]) = buf[0];
+    (D_801A7CDE[0]) = buf[1];
+    (D_801A7CE0[0]) = buf[2];
     D_801A7CCC = D_80114F30 + buf[0];
     D_801A7C54 = 0;
     D_801A7CCE = D_80114F34 + buf[1];
@@ -3352,9 +3352,9 @@ void func_8017BD50(int param_1)
 
     extern s16 D_801A7C54;
     extern void (*D_801A7C98)(void);
-    extern short D_801A7CDC;
-    extern short D_801A7CDE;
-    extern short D_801A7CE0;
+    extern short D_801A7CDC[0];
+    extern short D_801A7CDE[0];
+    extern short D_801A7CE0[0];
     extern s16 D_801A94D0;
     extern s32 D_80114F24;
     extern s32 D_80114F28;
@@ -3368,12 +3368,12 @@ void func_8017BD50(int param_1)
         if (D_801A7C98 != 0) {
             (*D_801A7C98)();
         } else {
-            D_80114F30 = D_80114F30 + D_801A7CDC;
-            D_80114F34 = D_80114F34 + D_801A7CDE;
-            D_80114F38 = D_80114F38 + D_801A7CE0;
-            D_80114F24 = D_80114F24 + D_801A7CDC;
-            D_80114F28 = D_80114F28 + D_801A7CDE;
-            D_80114F2C = D_80114F2C + D_801A7CE0;
+            D_80114F30 = D_80114F30 + D_801A7CDC[0];
+            D_80114F34 = D_80114F34 + D_801A7CDE[0];
+            D_80114F38 = D_80114F38 + D_801A7CE0[0];
+            D_80114F24 = D_80114F24 + D_801A7CDC[0];
+            D_80114F28 = D_80114F28 + D_801A7CDE[0];
+            D_80114F2C = D_80114F2C + D_801A7CE0[0];
             func_8012A4BC();
         }
         D_801A94D0 = 0;
