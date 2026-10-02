@@ -2393,7 +2393,9 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
             def_bins.add(a_)
         if dtu.startswith("src/shared/"):
             # a definition in a shared header: its binaries are its includers' (a header has no tu_aliases; P3.39 T6)
-            def_bins |= {t.split("/")[1] for t in dl.includers().get(dtu, []) if t.count("/") >= 2}
+            # (an includer TU built into several binaries — ov_SC01_005 sources build ov_SC01_006 too — gives all its tu_aliases)
+            def_bins |= {a_ for t in dl.includers().get(dtu, []) if t.count("/") >= 2
+                         for a_ in (w["tu_aliases"].get(t) or (t.split("/")[1],))}
     fleet_wide = any(d_.count("/") == 1 or d_.startswith("src/resident/") or d_.startswith("src/shared/main") for d_ in def_files)
     n_decl = 0
     for rel, r in results.items():
@@ -2404,7 +2406,8 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
         if not fleet_wide and rel not in files:
             rb = set(w["tu_aliases"].get(rel, ()))
             if rel.startswith("src/shared/"):
-                rb = {t.split("/")[1] for t in dl.includers().get(rel, []) if t.count("/") >= 2}
+                rb = {a_ for t in dl.includers().get(rel, []) if t.count("/") >= 2
+                      for a_ in (w["tu_aliases"].get(t) or (t.split("/")[1],))}
             if not rb or not rb <= def_bins:
                 if rb & def_bins:
                     log(f"signature {callee}: {rel} reaches binaries outside the definitions' ({sorted(rb - def_bins)[:3]}) — left as is")
