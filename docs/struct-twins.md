@@ -721,6 +721,5 @@ cause: 2 names (108 B, all members placeholders) bound to 2 distinct objects, no
 - `T68_8017FC44`: 1 obj — ov_SC03_092/0x8017FC44:a0
 
 ## Dead kept
-- Unkstruct_80126B58 — defined in the generated `head_types` block of include/struct_types.h; `--fold-dead` never edits generated text (T5.1.c3b)
 - LineF2_8018F694 — used only inside a multi-line macro body in ov_SC06_018/032/033 (census cannot see it); deleting it broke cc1 (`undeclared`), T5.1.c3b
 - actor4c — tag of Actor4C, named only by its own self-pointer member `unk20`; the self-reference needs the tag
