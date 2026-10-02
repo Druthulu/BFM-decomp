@@ -4567,7 +4567,7 @@ void func_80161E08(s32 param_1) {
     extern void func_801622C4(void);
     extern u16 D_800AF7BC;
     extern u16 D_800AF7BE;
-    extern s16 D_80078EB0;
+    extern s16 D_80078EB0[];
     extern u16 D_800B5BD8;
     extern s16 D_800B5C04;
     extern u8 D_800B5BFF;
@@ -4630,7 +4630,7 @@ void func_80161E08(s32 param_1) {
         }
 
         func_800242D0((s16)func_801620C4(), &D_8018F28C, 0x84);
-        if ((a2 & 0x7FFF) == (s32)D_80078EB0) {
+        if ((a2 & 0x7FFF) == (s32)D_80078EB0[0]) {
             func_801622C4();
         }
     }
@@ -4676,7 +4676,7 @@ extern s32 func_800291DC(s32);
 s32 func_801621CC(s32 arg0) {
 
     extern u8 D_80078E78[];
-    extern u8 D_80078EB0;
+    extern u8 D_80078EB0[0];
     extern u8 D_80078EB1;
     extern s32 D_801811BC;
     s32 s0 = arg0;       /* $s0: arg0, crosses the call */
@@ -4692,7 +4692,7 @@ s32 func_801621CC(s32 arg0) {
         return 0;
     }
     a2 &= 0x7FFF;
-    if (((a2 >> 8) == D_80078EB1) && ((a2 & 0xFF) <= (u32)D_80078EB0)) {
+    if (((a2 >> 8) == D_80078EB1) && ((a2 & 0xFF) <= (u32)D_80078EB0[0])) {
         return (s32)&D_801811BC;
     }
     d = s1[0x39] - 1;
@@ -4779,7 +4779,7 @@ extern s32 func_800291DC(s32);
 
 
 s32 func_80162438(s32 _unused0) {
-    extern s16 D_80078EB0;
+    extern s16 D_80078EB0[0];
     extern u8 D_800AF630[];
     extern void func_80024054(void *, void *);
     extern void func_8001CE28(void *, void *);
@@ -4847,7 +4847,7 @@ s32 func_80162438(s32 _unused0) {
             D_800B5C52 = -D_800AF7BE / 2 + 0x10;
         }
         func_800242D0((s16)func_801626B8(), D_8018F2E8, 0x84);
-        if ((uVar2 & 0x7FFF) == (s32)(*(s16 *)&D_80078EB0)) {
+        if ((uVar2 & 0x7FFF) == (s32)(D_80078EB0[0])) {
             func_80162760();
         }
     }

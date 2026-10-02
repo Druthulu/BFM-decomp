@@ -1690,7 +1690,7 @@ extern void func_8012B2CC(s32 a0);
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern void func_8005C2C8(s32 a0, s32 a1);
 extern u8 D_801BE010[];
-extern s32 D_80186B78;
+extern s32 D_80186B78[];
 extern u8 D_8018A9C0[];
 extern s16 D_8018A91A;
 extern s16 D_801C7748;
@@ -1710,7 +1710,7 @@ void func_801849E4(s32 param_1) {
     ((Unkstruct_800B5CB8 *)param_1)->unk58 = (s32)D_8018A9C0;
     CAST_ALIAS(u16, param_1, 0x5C) |= 0x8000;
     D_8018A91A = -1;
-    func_8012A828(param_1, &D_80186B78);
+    func_8012A828(param_1, D_80186B78);
     ((Unkstruct_800B5CB8 *)param_1)->unk2 = 1;
     ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x14;
     ((Unkstruct_800B5CB8 *)param_1)->unkE0 = 0;
@@ -2734,7 +2734,7 @@ extern s32 func_80134510(s32 arg);
 
 s32 func_80185E98(s32 param_1) {
 
-    extern M2C_UNK D_80186B78;
+    extern M2C_UNK D_80186B78[0];
     extern s32 func_8012C354(s32 a0, s32 a1);
     extern void RotMatrixZ(s32, void *);
     extern void MulMatrix0(s32, void *, s32);
@@ -2753,7 +2753,7 @@ s32 func_80185E98(s32 param_1) {
     if (((s32 (*)(s32, void *))func_8012C354)(param_1, &D_8018AC84) == 0) {
         ((void (*)(s32))func_8012C218)(param_1);
     }
-    ((void(*)(s32, void *))func_8012A828)(param_1, &(*(s32 *)&D_80186B78));
+    ((void(*)(s32, void *))func_8012A828)(param_1, &(D_80186B78[0]));
     iVar5 = *(s32 *)(param_1 + 0x20);
     *(s16 *)(param_1 + 0x70) = 0x80;
     *(s32 *)(iVar5 + 4) |= 0x50000040;

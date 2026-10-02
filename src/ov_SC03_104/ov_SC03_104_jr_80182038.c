@@ -4331,7 +4331,7 @@ void func_8018428C(void *a0)
     extern void func_8012CAE4(void *a0);
     extern void func_8001C2C4(s32 a0);
     extern s16 D_8019CA60;
-    extern s32 D_8019CA14;
+    extern s32 D_8019CA14[];
     extern s32 func_8012AD50(void *a0);
 
     void *s0;
@@ -4349,7 +4349,7 @@ void func_8018428C(void *a0)
     *(s32 *)((u8 *)s0 + 0x58) = (s32)&D_8019CA60 | 0x40000000;
     *(s16 *)((u8 *)s0 + 0x5C) = 0x800;
     *(u16 *)((u8 *)s0 + 0x72) |= 0x1000;
-    *(s32 *)&D_8019CA14 = *(s32 *)((u8 *)s0 + 0xDC);
+    D_8019CA14[0] = *(s32 *)((u8 *)s0 + 0xDC);
     func_8012AD50((void *)s0);
 }
 

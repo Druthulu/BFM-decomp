@@ -5551,11 +5551,11 @@ void func_80180874(s32 a0) {
 }
 
 
-extern s32 D_80126CD4;
+extern s32 D_80126CD4[];
     extern void func_8018029C(s32);
     void func_8018098C(s32 arg0) {
-        if (*(s32 *)&D_80126CD4 == arg0) {
-            ((void (*)(s32))func_8018029C)(*(s32 *)&D_80126CD4);
+        if (D_80126CD4[0] == arg0) {
+            ((void (*)(s32))func_8018029C)(*(s32 *)D_80126CD4);
         }
     }
 

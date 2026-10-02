@@ -915,7 +915,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     extern unsigned char D_80180BDC[];
     extern char *D_80180B98;
     extern u16 D_80180BAC;
-    extern M2C_UNK D_80180C1C;
+    extern M2C_UNK D_80180C1C[];
     extern u16 D_80180C20[];
     extern u8 D_80180C2C[];
     extern s32 D_8010F3C4[];
@@ -1005,7 +1005,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 }
                 ret = D_8010F3C4[s0];
             } else {
-                ret = (*(s32 *)&D_80180C1C);
+                ret = (D_80180C1C[0]);
             }
         }
         break;

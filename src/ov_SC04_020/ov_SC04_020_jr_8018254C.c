@@ -3232,7 +3232,7 @@ extern void func_8012F214(s32 arg0, s32 arg1, s32 arg2);
 void func_80182BEC(void) {
 
     extern s32 D_801B5F4C;
-    extern s32 D_801BC734;
+    extern s32 D_801BC734[];
     s32 a0;
     u16 buffer[4];
     s32 val;
@@ -3242,7 +3242,7 @@ void func_80182BEC(void) {
 
     val = buffer[0] | (((s16)buffer[2]) << 16);
 
-    p = *(s32**)&D_801BC734;
+    p = D_801BC734[0];
     p[1] = val;
 }
 
@@ -3347,25 +3347,25 @@ void *a0;
 s32 func_80182DBC(void)
 {
 
-    extern u16 D_80126B5E;
-    extern u16 D_80126B66;
-    extern u16 D_80126B62;
+    extern u16 D_80126B5E[];
+    extern u16 D_80126B66[];
+    extern u16 D_80126B62[];
     s16 v1;
     s32 result;
 
-    v1 = *(s16 *)&D_80126B5E;
+    v1 = D_80126B5E[0];
     if (v1 < 0x400) {
         result = 0;
     } else if (v1 >= 0x501) {
         result = 0;
     } else {
-        v1 = *(s16 *)&D_80126B66;
+        v1 = D_80126B66[0];
         if (v1 < 0x580) {
             result = 0;
         } else if (v1 >= 0x601) {
             result = 0;
         } else {
-            v1 = *(s16 *)&D_80126B62;
+            v1 = D_80126B62[0];
             result = (v1 >= -0x200);
         }
     }
