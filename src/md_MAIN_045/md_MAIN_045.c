@@ -211,12 +211,12 @@ void func_800CD010(s32 param_1)
     *(s32 *)(p1 + 0x20) = iVar1;
     if (iVar1 != 0) {
         func_8001CC3C(iVar1, (s32)&D_800CD66C, 0x220, 0x168);
-        *(u8 *)(iVar1 + 0x27) = 0x24;
-        *(u8 *)(iVar1 + 0x24) = 0xFF;
-        *(u8 *)(iVar1 + 0x25) = 0x40;
-        *(u8 *)(iVar1 + 0x26) = 0x40;
-        *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
-        *(s16 *)(iVar1 + 0x10) = *(s32 *)(p1 + 0x50) << 10;
+        ((Unkstruct_800B5CB8 *)iVar1)->unk27 = 0x24;
+        ((Unkstruct_800B5CB8 *)iVar1)->unk24 = 0xFF;
+        ((Unkstruct_800B5CB8 *)iVar1)->unk25 = 0x40;
+        ((Unkstruct_800B5CB8 *)iVar1)->unk26 = 0x40;
+        CAST_WIDTH(u32, iVar1, 4) = CAST_WIDTH(u32, iVar1, 4) | 0x50000000;
+        ((Unkstruct_800B5CB8 *)iVar1)->unk10 = *(s32 *)(p1 + 0x50) << 10;
         *(s16 *)(p1 + 0x60) = *(s32 *)(p1 + 0x50) << 10;
         ((void (*)(s32))func_800CD204)(p1);
         ((void (*)(void *))func_80146CA0)((void *)p1);

@@ -6205,8 +6205,8 @@ s32 func_801A93F4(void *a0)
 
     s0 = func_80132EF4(a0, 0x2D);
     if (s0 != 0) {
-        *(s32 *)(s0 + 0x14) = *(s32 *)(a0 + 0x14) >> 1;
-        *(u16 *)(s0 + 0x2C) = rand() & 1;
+        ((Unkstruct_800B5CB8 *)s0)->unk14 = *(s32 *)(a0 + 0x14) >> 1;
+        ((Unkstruct_800B5CB8 *)s0)->unk2C = rand() & 1;
     }
     return s0;
 }

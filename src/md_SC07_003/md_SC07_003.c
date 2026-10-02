@@ -1046,13 +1046,13 @@ void func_801A143C(s32 a0) {
             vin.vx = t;
             func_800484EC(*(s32 *)(a0 + 0x20) + 0x34, (s32)&vin, (s32)&vout);
 
-            *(s32 *)(obj + 0x4) += vout.vx;
-            *(s32 *)(obj + 0x8) += vout.vy;
-            *(s32 *)(obj + 0xC) += vout.vz;
+            CAST_WIDTH(s32, obj, 0x4) += vout.vx;
+            CAST_WIDTH(s32, obj, 0x8) += vout.vy;
+            CAST_WIDTH(s32, obj, 0xC) += vout.vz;
 
             r = rand();
-            *(u16 *)(obj + 0x34) = (((r % 8192) + 0x5000) & ~0xF) | (rand() & 1);
-            *(u16 *)(*(s32 *)(obj + 0x20) + 0x2C) = 0xC004;
+            ((Unkstruct_800B5CB8 *)obj)->unk34 = (((r % 8192) + 0x5000) & ~0xF) | (rand() & 1);
+            ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk2C = 0xC004;
 
             if (pick != i) {
                 continue;

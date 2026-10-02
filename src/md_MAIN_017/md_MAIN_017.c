@@ -140,10 +140,10 @@ void func_800CB1CC(void *arg0) {
             return;
         }
         func_8001CC3C(obj, D_800CB324, 0, 0);
-        *(u16 *)(obj + 0x1A) = 0x1C00;
-        *(u16 *)(obj + 0x18) = 0x1C00;
-        *(u8 *)(obj + 0x27) = 0x19;
-        *(s32 *)(obj + 4) |= 0xC0000000;
+        ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1C00;
+        ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x1C00;
+        ((Unkstruct_800B5CB8 *)obj)->unk27 = 0x19;
+        CAST_WIDTH(s32, obj, 4) |= 0xC0000000;
         func_80128EA8(obj, (s32)arg0 + 0x24, (s32)D_800CB330);
         result = 2;
         *(s32 *)((s32)arg0 + 0x20) = obj;
