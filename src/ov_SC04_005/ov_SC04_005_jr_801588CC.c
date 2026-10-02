@@ -1171,8 +1171,8 @@ void func_80158BB0(void *arg0) {
     func_80147324(0x456);
     func_80154274(arg0, &D_800D58D8);
     func_80154A74(arg0, 0x16);
-    M2C_FIELD(arg0, s32 *, 0x234) = 0xE30000;
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x20), s16 *, 0x10) = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk234 = 0xE30000;
+    ((Unkstruct_800B5CB8 *)M2C_FIELD(arg0, void **, 0x20))->unk10 = 0;
     func_801474EC(arg0);
     func_801474D8(arg0);
     func_801472C8(arg0);
@@ -1284,7 +1284,7 @@ void func_8015934C(void *arg0) {
         D_800AE6BD += 1;
     }
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
-    M2C_FIELD(temp_v1, u16 *, 0x12) = (u16) ((M2C_FIELD(temp_v1, u16 *, 0x12) + 0x16) & 0xFFF);
+    ((Unkstruct_800B5CB8 *)temp_v1)->unk12 = (u16) ((((Unkstruct_800B5CB8 *)temp_v1)->unk12 + 0x16) & 0xFFF);
 }
 
 
@@ -1489,9 +1489,9 @@ void func_80159A20(unsigned char *param_1)
     func_80158638(param_1);
     ((void (*)(u8 *))func_8015126C)(param_1);
     ((void (*)(u8 *))func_8014900C)(param_1);
-    D_8018A234[*(u16 *)param_1 & 0x7fff](param_1);
-    *(u32 *)(param_1 + 0x44) |= 0x8000000;
-    switch (*(u16 *)param_1) {
+    D_8018A234[((Unkstruct_80126B58 *)param_1)->unk0 & 0x7fff](param_1);
+    ((Unkstruct_80126B58 *)param_1)->unk44 |= 0x8000000;
+    switch (((Unkstruct_80126B58 *)param_1)->unk0) {
     case 2:
     case 3:
     case 0xb:
@@ -1506,13 +1506,13 @@ void func_80159A20(unsigned char *param_1)
             }
             return;
         }
-        if (*(u16 *)(param_1 + 2) == 3) {
+        if (((Unkstruct_80126B58 *)param_1)->unk2 == 3) {
             goto mask;
         }
         return;
     }
 mask:
-    *(u32 *)(param_1 + 0x44) &= 0xf7ffffff;
+    ((Unkstruct_80126B58 *)param_1)->unk44 &= 0xf7ffffff;
 }
 
 #include "../shared/ov/func_80159B08.h"
@@ -1523,7 +1523,7 @@ mask:
 extern void (*D_8018A2D8[])(void);
 
 void func_80159B70(void *a0) {
-    D_8018A2D8[*(u16 *)((s32)a0 + 0x2)]();
+    D_8018A2D8[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -1558,8 +1558,8 @@ void func_80159BE4(s32 arg0)
         func_80154150(arg0, 4);
         func_80154A74(arg0, 0x11);
     }
-    *(int *)(arg0 + 0x234) = 0;
-    *(int *)(arg0 + 0x238) = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk234 = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk238 = 0;
     func_801553C0(arg0);
     ((void (*)(int))func_801553A8)(arg0);
     ((void (*)(int))func_80172590)(arg0);

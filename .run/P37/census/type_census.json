@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "bf60f0cc9f",
-  "src_stamp": "5fa3182497cfe8f2",
+  "head": "f0bd054100",
+  "src_stamp": "231e3e89d338671e",
   "tool_stamp": "e17c5fa676",
-  "when": "2026-10-02T05:30:18Z",
+  "when": "2026-10-02T05:41:06Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -36,66 +36,66 @@
   },
   "casts": {
    "by_form": {
-    "P": 284995,
-    "I": 54655,
+    "P": 284707,
+    "I": 54567,
     "X": 13790,
     "A": 18889,
-    "C": 144976,
-    "M": 15488,
-    "K": 19201
+    "C": 145477,
+    "M": 15312,
+    "K": 19208
    },
    "raw_counts": {
-    "P": 284995,
-    "I": 54655,
+    "P": 284707,
+    "I": 54567,
     "X": 13790,
     "A": 18889,
-    "C": 144976,
-    "M": 15488,
-    "K": 19201
+    "C": 145477,
+    "M": 15312,
+    "K": 19208
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 368928,
+   "deref_total": 368376,
    "addr_form": 18889,
-   "typed_cast_member": 144976,
-   "bodies": 52562,
+   "typed_cast_member": 145477,
+   "bodies": 52422,
    "by_bclass": {
-    "local": 126915,
-    "param": 178790,
+    "local": 126825,
+    "param": 178372,
     "global": 8738,
     "gaddr": 40113,
-    "nested": 11259,
+    "nested": 11215,
     "ident": 161,
     "other": 1614,
     "addr-of": 1338
    },
    "by_width": {
-    "s2": 105532,
-    "s4": 99674,
-    "u2": 92268,
-    "u1": 36124,
+    "s2": 105478,
+    "s4": 99537,
+    "u2": 91996,
+    "u1": 36123,
     "agg": 13415,
     "p4": 11126,
-    "u4": 8883,
+    "u4": 8795,
     "s1": 1906
    },
-   "readability_raw_regex": 287832,
+   "readability_raw_regex": 287544,
    "abs_casts": 0,
    "top_bases": [
     [
      "param",
      "param_1",
-     58622
+     58394
     ],
     [
      "param",
      "arg0",
-     49286
+     49147
     ],
     [
      "param",
      "a0",
-     42632
+     42581
     ],
     [
      "local",
@@ -115,7 +115,7 @@
     [
      "local",
      "s0",
-     6961
+     6959
     ],
     [
      "param",
@@ -284,17 +284,17 @@
     ]
    ],
    "macros": {
-    "CAST_SIGN": 7832,
-    "CAST_WIDTH": 9352,
+    "CAST_SIGN": 7836,
+    "CAST_WIDTH": 9355,
     "CAST_NONSTRUCT": 312,
     "CAST_ALIAS": 1070,
     "CAST_MISALIGNED": 623
    },
    "check_raw": {
-    "P": 284990,
-    "I": 54655,
+    "P": 284702,
+    "I": 54567,
     "X": 13790,
-    "M": 15487
+    "M": 15311
    },
    "macro_sites": [
     {
@@ -47793,6 +47793,83 @@
      "cls": "SIGN",
      "base": "p",
      "bclass": "local",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c",
+     "fn": "func_8018CE60",
+     "line": 4119,
+     "pos": 146956,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "a0",
+     "bclass": "param",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c",
+     "fn": "func_8018CE60",
+     "line": 4119,
+     "pos": 146983,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "a0",
+     "bclass": "param",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c",
+     "fn": "func_8018CE60",
+     "line": 4119,
+     "pos": 147010,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "a0",
+     "bclass": "param",
+     "off": 16
+    },
+    {
+     "tu": "src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c",
+     "fn": "func_8018CE60",
+     "line": 4120,
+     "pos": 147045,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "a0",
+     "bclass": "param",
+     "off": 6
+    },
+    {
+     "tu": "src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c",
+     "fn": "func_8018CEA8",
+     "line": 4147,
+     "pos": 147557,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "arg0",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c",
+     "fn": "func_8018CEA8",
+     "line": 4149,
+     "pos": 147646,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "arg0",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c",
+     "fn": "func_8018CEA8",
+     "line": 4150,
+     "pos": 147728,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "arg0",
+     "bclass": "param",
      "off": 2
     },
     {
@@ -212557,48 +212634,48 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 18832,
-   "explained_sites": 365007,
-   "deref_sites": 368928,
+   "types": 18834,
+   "explained_sites": 364455,
+   "deref_sites": 368376,
    "explained_pct": 98.9,
    "unassigned_sites": 3921,
    "conflicts": 855,
    "suspect": 11,
    "evidence": {
-    "param": 39440,
-    "arg": 10937,
-    "assign": 19231,
-    "ret-of": 5699,
+    "param": 39434,
     "return": 1532,
-    "assign&": 1269,
-    "arg&": 277,
+    "assign&": 1270,
+    "assign": 19230,
+    "ret-of": 5699,
+    "arg": 10933,
+    "arg&": 275,
     "field": 6995,
     "nested": 9
    },
    "vetoed": {
-    "arg&-conduit": 14638,
-    "arg-conduit": 137834,
+    "arg-conduit": 138512,
     "assign-multisource": 33221,
-    "arg&-no-overlap": 3404,
     "ret-of-multisource": 6622,
+    "assign&-multisource": 12223,
+    "arg&-conduit": 14638,
+    "arg&-no-overlap": 3406,
     "field-multisource": 5696,
     "ret-of": 606,
-    "assign&-multisource": 12223,
     "assign": 361,
-    "arg-no-overlap": 39063,
-    "assign&": 337,
+    "arg-no-overlap": 38659,
+    "assign&": 336,
     "arg": 136,
     "return": 6,
     "field": 32
    },
-   "singletons": 14827,
-   "multi_body": 4005,
-   "sites_in_multi_body": 308541,
+   "singletons": 14828,
+   "multi_body": 4006,
+   "sites_in_multi_body": 307988,
    "top": [
     {
      "name": "Unkstruct_80126B58",
-     "sites": 27639,
-     "bodies": 3701,
+     "sites": 27240,
+     "bodies": 3566,
      "size_hint": 588,
      "fields": 168,
      "conflicts": 49,
@@ -212619,19 +212696,19 @@
     },
     {
      "name": "Unkstruct_800B5CB8",
-     "sites": 21703,
-     "bodies": 4569,
+     "sites": 21637,
+     "bodies": 4551,
      "size_hint": 268,
      "fields": 128,
      "conflicts": 50,
      "sign_mixed": 57,
      "merges": {
-      "arg&": 256,
+      "arg&": 254,
       "assign&": 20,
-      "assign": 8579,
-      "param": 9124,
+      "assign": 8578,
+      "param": 9116,
       "ret-of": 2395,
-      "arg": 6960,
+      "arg": 6956,
       "return": 706,
       "field": 1196
      },
@@ -213185,9 +213262,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 41.2,
-   "decls_s": 202.9,
-   "total_s": 212.5
+   "walk_s": 63.0,
+   "decls_s": 215.8,
+   "total_s": 225.6
   }
  },
  "dup_layout_classes": [
