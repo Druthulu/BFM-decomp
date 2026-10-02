@@ -11,4 +11,3 @@
      or an earlier phase, or an id not in GENERATION_PLAN.md, routes now. -->
 
 - <note, correction, priority change, or question>
-- Phase 3.39 first task: regenerate the timeline and README after the 3.38 close (tools/timeline.py; tools/progress.py --readme). timeline.py --check currently reports story-timeline.md STALE; README Levers should read 3,729. Commit via tools/commit_task.sh. Carried from the 3.38 close (R121).
