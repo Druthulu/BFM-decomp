@@ -2788,7 +2788,7 @@ extern void (*D_801901D0[])(void);
 extern void func_801819E0(void *a0);
 extern s32 func_80178BF8();      /* TU-canonical (ov_SC04_018_jr_8017AE2C.c L2539) */
 extern void func_80172710(void); /* TU-canonical (ov_SC04_018_jr_8017AE2C.c L2231) */
-extern s32 aF8018CB18();
+extern s32 aF8018CB18(void *a0);
 extern s32 func_8012E57C(s32 a0, s32 a1);
 extern void func_80181A98(void *a0);
 extern s32 func_80181B08(void *a0);
