@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "55ae3dd42b",
-  "src_stamp": "d26f83ff6c900eec",
+  "head": "d81005dc35",
+  "src_stamp": "c6a355bcd018a69e",
   "tool_stamp": "e17c5fa676",
-  "when": "2026-10-02T05:09:52Z",
+  "when": "2026-10-02T05:19:37Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -36,66 +36,66 @@
   },
   "casts": {
    "by_form": {
-    "P": 286389,
-    "I": 54917,
+    "P": 285288,
+    "I": 54737,
     "X": 13790,
     "A": 18889,
-    "C": 143210,
-    "M": 15684,
-    "K": 19181
+    "C": 144486,
+    "M": 15652,
+    "K": 19193
    },
    "raw_counts": {
-    "P": 286389,
-    "I": 54917,
+    "P": 285288,
+    "I": 54737,
     "X": 13790,
     "A": 18889,
-    "C": 143210,
-    "M": 15684,
-    "K": 19181
+    "C": 144486,
+    "M": 15652,
+    "K": 19193
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 370780,
+   "deref_total": 369467,
    "addr_form": 18889,
-   "typed_cast_member": 143210,
-   "bodies": 52780,
+   "typed_cast_member": 144486,
+   "bodies": 52713,
    "by_bclass": {
-    "local": 127018,
-    "param": 180459,
-    "global": 8745,
+    "local": 126999,
+    "param": 179204,
+    "global": 8738,
     "gaddr": 40113,
-    "nested": 11332,
+    "nested": 11300,
     "ident": 161,
     "other": 1614,
     "addr-of": 1338
    },
    "by_width": {
-    "s2": 105618,
-    "s4": 100667,
-    "u2": 92868,
-    "u1": 36149,
+    "s2": 105576,
+    "s4": 99804,
+    "u2": 92549,
+    "u1": 36125,
     "agg": 13415,
-    "p4": 11129,
-    "u4": 9024,
-    "s1": 1910
+    "p4": 11127,
+    "u4": 8965,
+    "s1": 1906
    },
-   "readability_raw_regex": 289226,
+   "readability_raw_regex": 288125,
    "abs_casts": 0,
    "top_bases": [
     [
      "param",
      "param_1",
-     58900
+     58832
     ],
     [
      "param",
      "arg0",
-     50297
+     49411
     ],
     [
      "param",
      "a0",
-     42763
+     42711
     ],
     [
      "local",
@@ -120,7 +120,7 @@
     [
      "param",
      "p",
-     6922
+     6673
     ],
     [
      "local",
@@ -250,7 +250,7 @@
     [
      "local",
      "pv",
-     1607
+     1601
     ],
     [
      "param",
@@ -284,17 +284,17 @@
     ]
    ],
    "macros": {
-    "CAST_SIGN": 7825,
-    "CAST_WIDTH": 9339,
+    "CAST_SIGN": 7827,
+    "CAST_WIDTH": 9349,
     "CAST_NONSTRUCT": 312,
     "CAST_ALIAS": 1070,
     "CAST_MISALIGNED": 623
    },
    "check_raw": {
-    "P": 286384,
-    "I": 54917,
+    "P": 285283,
+    "I": 54737,
     "X": 13790,
-    "M": 15683
+    "M": 15651
    },
    "macro_sites": [
     {
@@ -34013,6 +34013,17 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC02_026/ov_SC02_026_jr_80185440.c",
+     "fn": "func_8018592C",
+     "line": 3121,
+     "pos": 112570,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "a0",
+     "bclass": "param",
+     "off": 220
+    },
+    {
      "tu": "src/ov_SC02_027/ov_SC02_027_after.c",
      "fn": "func_801523F4",
      "line": 2692,
@@ -34431,6 +34442,17 @@
      "off": 4
     },
     {
+     "tu": "src/ov_SC02_027/ov_SC02_027_jr_8015AE2C.c",
+     "fn": "func_8015B950",
+     "line": 1699,
+     "pos": 68833,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "arg0",
+     "bclass": "param",
+     "off": 36
+    },
+    {
      "tu": "src/ov_SC02_027/ov_SC02_027_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1743,
@@ -34539,6 +34561,17 @@
      "base": "param_1",
      "bclass": "local",
      "off": 22
+    },
+    {
+     "tu": "src/ov_SC02_027/ov_SC02_027_jr_80178D40.c",
+     "fn": "func_80178D40",
+     "line": 3132,
+     "pos": 114688,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "D_801D99D8",
+     "bclass": "global",
+     "off": 4
     },
     {
      "tu": "src/ov_SC02_027/ov_SC02_027_jr_8017AE2C.c",
@@ -37005,6 +37038,17 @@
      "off": 220
     },
     {
+     "tu": "src/ov_SC02_027/ov_SC02_027_jr_8018A564.c",
+     "fn": "func_8018AA50",
+     "line": 3102,
+     "pos": 112356,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "a0",
+     "bclass": "param",
+     "off": 220
+    },
+    {
      "tu": "src/ov_SC02_028/ov_SC02_028_after.c",
      "fn": "func_801523F4",
      "line": 2692,
@@ -37423,6 +37467,17 @@
      "off": 4
     },
     {
+     "tu": "src/ov_SC02_028/ov_SC02_028_jr_8015AE2C.c",
+     "fn": "func_8015B950",
+     "line": 1699,
+     "pos": 68833,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "arg0",
+     "bclass": "param",
+     "off": 36
+    },
+    {
      "tu": "src/ov_SC02_028/ov_SC02_028_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1743,
@@ -37531,6 +37586,17 @@
      "base": "param_1",
      "bclass": "local",
      "off": 22
+    },
+    {
+     "tu": "src/ov_SC02_028/ov_SC02_028_jr_80178D40.c",
+     "fn": "func_80178D40",
+     "line": 3132,
+     "pos": 114689,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "D_801D2978",
+     "bclass": "global",
+     "off": 4
     },
     {
      "tu": "src/ov_SC02_028/ov_SC02_028_jr_8017AE2C.c",
@@ -39799,6 +39865,17 @@
      "off": 4
     },
     {
+     "tu": "src/ov_SC02_031/ov_SC02_031_jr_8015AE2C.c",
+     "fn": "func_8015B950",
+     "line": 1699,
+     "pos": 68833,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "arg0",
+     "bclass": "param",
+     "off": 36
+    },
+    {
      "tu": "src/ov_SC02_031/ov_SC02_031_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1743,
@@ -39907,6 +39984,17 @@
      "base": "param_1",
      "bclass": "local",
      "off": 22
+    },
+    {
+     "tu": "src/ov_SC02_031/ov_SC02_031_jr_80178D40.c",
+     "fn": "func_80178D40",
+     "line": 3132,
+     "pos": 114688,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "D_801B70F0",
+     "bclass": "global",
+     "off": 4
     },
     {
      "tu": "src/ov_SC02_031/ov_SC02_031_jr_8017AE2C.c",
@@ -41251,6 +41339,17 @@
      "off": 4
     },
     {
+     "tu": "src/ov_SC02_035/ov_SC02_035_jr_8015AE2C.c",
+     "fn": "func_8015B950",
+     "line": 1699,
+     "pos": 68833,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "arg0",
+     "bclass": "param",
+     "off": 36
+    },
+    {
      "tu": "src/ov_SC02_035/ov_SC02_035_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1743,
@@ -41359,6 +41458,17 @@
      "base": "param_1",
      "bclass": "local",
      "off": 22
+    },
+    {
+     "tu": "src/ov_SC02_035/ov_SC02_035_jr_80178D40.c",
+     "fn": "func_80178D40",
+     "line": 3132,
+     "pos": 114688,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "D_801BE420",
+     "bclass": "global",
+     "off": 4
     },
     {
      "tu": "src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c",
@@ -44617,6 +44727,17 @@
      "off": 4
     },
     {
+     "tu": "src/ov_SC02_039/ov_SC02_039_jr_8015AE2C.c",
+     "fn": "func_8015B950",
+     "line": 1699,
+     "pos": 68833,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "arg0",
+     "bclass": "param",
+     "off": 36
+    },
+    {
      "tu": "src/ov_SC02_039/ov_SC02_039_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1743,
@@ -44725,6 +44846,17 @@
      "base": "param_1",
      "bclass": "local",
      "off": 22
+    },
+    {
+     "tu": "src/ov_SC02_039/ov_SC02_039_jr_80178D40.c",
+     "fn": "func_80178D40",
+     "line": 3132,
+     "pos": 114688,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "D_801A07D0",
+     "bclass": "global",
+     "off": 4
     },
     {
      "tu": "src/ov_SC02_039/ov_SC02_039_jr_8017BEBC.c",
@@ -212337,66 +212469,88 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 18513,
-   "explained_sites": 366859,
-   "deref_sites": 370780,
+   "types": 18825,
+   "explained_sites": 365546,
+   "deref_sites": 369467,
    "explained_pct": 98.9,
    "unassigned_sites": 3921,
-   "conflicts": 847,
-   "suspect": 11,
+   "conflicts": 853,
+   "suspect": 12,
    "evidence": {
-    "param": 39434,
-    "arg": 11150,
-    "assign": 19192,
-    "ret-of": 5765,
-    "assign&": 1279,
+    "param": 39438,
+    "arg": 10943,
+    "assign": 19231,
+    "ret-of": 5698,
     "return": 1532,
-    "arg&": 309,
-    "field": 7019,
-    "nested": 10
+    "assign&": 1268,
+    "arg&": 275,
+    "field": 6998,
+    "nested": 9
    },
    "vetoed": {
-    "arg-conduit": 137086,
-    "field-multisource": 5711,
-    "arg&-conduit": 14638,
-    "ret-of-multisource": 6617,
-    "arg-no-overlap": 11527,
-    "arg&-no-overlap": 2849,
+    "arg-conduit": 137211,
     "assign&-multisource": 12223,
-    "assign-multisource": 33198,
-    "assign": 331,
-    "ret-of": 206,
-    "arg": 427,
-    "assign&": 327,
+    "arg&-conduit": 14638,
+    "assign-multisource": 33221,
+    "ret-of-multisource": 6622,
+    "field-multisource": 5696,
+    "arg-no-overlap": 41561,
+    "arg&-no-overlap": 3406,
+    "ret-of": 606,
+    "assign": 359,
+    "assign&": 338,
+    "arg": 136,
     "return": 6,
-    "field": 48
+    "field": 32
    },
-   "singletons": 14558,
-   "multi_body": 3955,
-   "sites_in_multi_body": 311619,
+   "singletons": 14818,
+   "multi_body": 4007,
+   "sites_in_multi_body": 309150,
    "top": [
     {
-     "name": "Unkstruct_800D3888",
-     "sites": 54701,
-     "bodies": 8776,
+     "name": "Unkstruct_80126B58",
+     "sites": 28076,
+     "bodies": 3862,
      "size_hint": 588,
-     "fields": 223,
-     "conflicts": 50,
-     "sign_mixed": 77,
+     "fields": 167,
+     "conflicts": 49,
+     "sign_mixed": 53,
      "merges": {
-      "arg&": 287,
-      "param": 11740,
-      "arg": 8504,
-      "assign": 8635,
-      "ret-of": 2816,
-      "return": 735,
-      "assign&": 134,
-      "field": 1473
+      "assign&": 104,
+      "param": 2236,
+      "arg": 1163,
+      "assign": 43,
+      "field": 44
      },
      "globals_at": [
+      "D_80126B58"
+     ],
+     "globals_ptr": [
+      "D_80126B58"
+     ]
+    },
+    {
+     "name": "Unkstruct_800B5CB8",
+     "sites": 21654,
+     "bodies": 4557,
+     "size_hint": 268,
+     "fields": 128,
+     "conflicts": 50,
+     "sign_mixed": 57,
+     "merges": {
+      "arg&": 254,
+      "assign&": 18,
+      "assign": 8578,
+      "param": 9120,
+      "ret-of": 2394,
+      "arg": 6959,
+      "return": 706,
+      "field": 1196
+     },
+     "globals_at": [
+      "D_800B5CB8",
       "D_800D3888",
-      "D_800DE5A0",
-      "D_801269F0"
+      "D_80181448"
      ],
      "globals_ptr": [
       "D_8006386C",
@@ -212405,18 +212559,22 @@
      ]
     },
     {
-     "name": "Unkstruct_cb638a45",
-     "sites": 6477,
-     "bodies": 381,
+     "name": "Unkstruct_80184154",
+     "sites": 5251,
+     "bodies": 255,
      "size_hint": 16,
-     "fields": 6,
+     "fields": 7,
      "conflicts": 0,
      "sign_mixed": 0,
      "merges": {
-      "param": 10,
-      "arg": 4
+      "assign&": 2,
+      "arg": 142,
+      "param": 8
      },
-     "globals_at": [],
+     "globals_at": [
+      "D_80184154",
+      "D_801B3F7C"
+     ],
      "globals_ptr": []
     },
     {
@@ -212503,31 +212661,6 @@
      "globals_ptr": []
     },
     {
-     "name": "Unkstruct_80126948",
-     "sites": 3252,
-     "bodies": 1057,
-     "size_hint": 164,
-     "fields": 34,
-     "conflicts": 1,
-     "sign_mixed": 10,
-     "merges": {
-      "assign&": 4,
-      "arg&": 2,
-      "param": 8,
-      "assign": 103,
-      "arg": 14
-     },
-     "globals_at": [
-      "D_80126948",
-      "D_80126E60"
-     ],
-     "globals_ptr": [
-      "D_80114EE8",
-      "D_801151D4",
-      "D_80126948"
-     ]
-    },
-    {
      "name": "Unkstruct_1fa9e810",
      "sites": 3144,
      "bodies": 131,
@@ -212550,6 +212683,31 @@
      "merges": {},
      "globals_at": [],
      "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80126948",
+     "sites": 3034,
+     "bodies": 848,
+     "size_hint": 164,
+     "fields": 34,
+     "conflicts": 0,
+     "sign_mixed": 10,
+     "merges": {
+      "arg&": 1,
+      "assign": 103,
+      "param": 6,
+      "arg": 14,
+      "assign&": 4
+     },
+     "globals_at": [
+      "D_80126948",
+      "D_80126E60"
+     ],
+     "globals_ptr": [
+      "D_80114EE8",
+      "D_801151D4",
+      "D_80126948"
+     ]
     },
     {
      "name": "Unkstruct_a2c8734a",
@@ -212589,7 +212747,7 @@
      "sign_mixed": 3,
      "merges": {
       "field": 1,
-      "assign": 132
+      "assign": 133
      },
      "globals_at": [],
      "globals_ptr": [
@@ -212731,21 +212889,6 @@
      },
      "globals_at": [],
      "globals_ptr": []
-    },
-    {
-     "name": "Unkstruct_cd1bacd2",
-     "sites": 1764,
-     "bodies": 126,
-     "size_hint": 56,
-     "fields": 10,
-     "conflicts": 0,
-     "sign_mixed": 0,
-     "merges": {
-      "param": 2,
-      "assign": 2
-     },
-     "globals_at": [],
-     "globals_ptr": []
     }
    ]
   },
@@ -212764,7 +212907,7 @@
    },
    "tu_conflict_D_800A651C": {
     "ok": true,
-    "detail": "s32:1202 | OtBlk[]:9 | u8[]:9 | OtBlk_80016450[]:8 | s32[]:7"
+    "detail": "s32:1202 | u8[]:9 | OtBlk[]:9 | OtBlk_80016450[]:8 | s32[]:7"
    },
    "ok": 4,
    "n": 4
@@ -212779,8 +212922,8 @@
    "block_frames": 629
   },
   "global_blocks": {
-   "n": 2123,
-   "members": 14241,
+   "n": 2124,
+   "members": 14254,
    "top": [
     {
      "base": "0x800cf10c",
@@ -212958,9 +213101,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 45.2,
-   "decls_s": 206.7,
-   "total_s": 217.6
+   "walk_s": 44.3,
+   "decls_s": 208.7,
+   "total_s": 218.7
   }
  },
  "dup_layout_classes": [
@@ -213526,21 +213669,6 @@
    "tier": 2
   },
   {
-   "lhash": "ceca4ea3ade1:opaque",
-   "size": 6,
-   "n_names": 4,
-   "n_defs": 0,
-   "canon": 0,
-   "in_c": 0,
-   "names": [
-    "Cam8012E138",
-    "SV3_SC07_002_801829F0",
-    "Src_8013B598_8013B598",
-    "Src_8013B6A0_8013B6A0"
-   ],
-   "tier": 2
-  },
-  {
    "lhash": "a0f7100333b8:opaque",
    "size": 4,
    "n_names": 4,
@@ -213552,6 +213680,21 @@
     "Prim4_8017E978_8018B478",
     "Rec4_801891F4",
     "UV_80185214"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "ceca4ea3ade1:opaque",
+   "size": 6,
+   "n_names": 4,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Cam8012E138",
+    "SV3_SC07_002_801829F0",
+    "Src_8013B598_8013B598",
+    "Src_8013B6A0_8013B6A0"
    ],
    "tier": 2
   },
@@ -215024,30 +215167,6 @@
    ]
   },
   {
-   "lhash": "ac91ae2d8aa0",
-   "size": 28,
-   "n_names": 3,
-   "n_defs": 72,
-   "canon": 3,
-   "in_c": 59,
-   "names": [
-    "G3",
-    "S800D22E4",
-    "vec"
-   ],
-   "tier": 3,
-   "camps": [
-    [],
-    [
-     "G3"
-    ]
-   ],
-   "opaque_names": [
-    "S800D22E4",
-    "vec"
-   ]
-  },
-  {
    "lhash": "9568f57fb00f",
    "size": 20,
    "n_names": 3,
@@ -215095,6 +215214,30 @@
    ],
    "opaque_names": [
     "Blk32_801898F4"
+   ]
+  },
+  {
+   "lhash": "ac91ae2d8aa0",
+   "size": 28,
+   "n_names": 3,
+   "n_defs": 72,
+   "canon": 3,
+   "in_c": 59,
+   "names": [
+    "G3",
+    "S800D22E4",
+    "vec"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "G3"
+    ]
+   ],
+   "opaque_names": [
+    "S800D22E4",
+    "vec"
    ]
   },
   {

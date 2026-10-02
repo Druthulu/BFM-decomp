@@ -2931,10 +2931,10 @@ void func_8018A564(void *a0)
 
     extern Blk16_8018A8B8 D_800A5E88;
 
-    s32 v1 = *(s16 *)((s32)a0 + 0xFC);
+    s32 v1 = ((Unkstruct_800B5CB8 *)a0)->unkFC;
     LBlk16 *s0;
 
-    *(s16 *)((s32)a0 + 0xFE) = 0;
+    ((Unkstruct_800B5CB8 *)a0)->unkFE = 0;
 
     switch (v1) {
     case 0:
@@ -3066,7 +3066,7 @@ void func_8018A970(s32 a0) {
 extern void (*D_801D6D64[])(void);
 
 void func_8018AA14(void *a0) {
-    D_801D6D64[*(u16 *)((s32)a0 + 0x2)]();
+    D_801D6D64[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -3099,7 +3099,7 @@ void func_8018AA50(void *a0) {
         return;
     }
 
-    ptr = *(void **)((s32)a0 + 0xDC);
+    ptr = CAST_SIGN(void *, (s32)a0, 0xDC);
     idx = *(u16 *)((s32)ptr + 0xA);
     arr_elem = D_801D6ABC[idx];
 
@@ -3107,21 +3107,21 @@ void func_8018AA50(void *a0) {
 
     if ((res1 & 0xFF) == 0) {
         res2 = func_801788B8((s32)a0, (s32)func_8018B0FC);
-        *(s32 *)((s32)a0 + 0xCC) = res2;
+        ((Unkstruct_800B5CB8 *)a0)->unkCC = res2;
     } else {
-        val = *(s16 *)((s32)a0 + 0x70);
+        val = ((Unkstruct_800B5CB8 *)a0)->unk70;
         val |= 0x4000;
-        *(s16 *)((s32)a0 + 0x70) = val;
+        ((Unkstruct_800B5CB8 *)a0)->unk70 = val;
     }
 
-    res2 = func_8012C658(0x8F, *(s16 *)((s32)a0 + 0x70), (s32)a0);
-    *(s32 *)((s32)a0 + 0x6C) = res2;
+    res2 = func_8012C658(0x8F, ((Unkstruct_800B5CB8 *)a0)->unk70, (s32)a0);
+    ((Unkstruct_800B5CB8 *)a0)->unk6C = res2;
 
     if (res2 == 0) {
         func_8012CAE4(a0);
     } else {
         ((void (*)(s32, void *))func_8012A828)((s32)a0, D_8018B56C);
-        *(u16 *)((s32)a0 + 0x2) = 1;
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
     }
 }
 
@@ -3332,7 +3332,7 @@ s32 func_8018AEA4(void) {
 extern void (*D_801D6D8C[])(void);
 
 void func_8018AF08(void *a0) {
-    D_801D6D8C[*(u16 *)((s32)a0 + 0x2)]();
+    D_801D6D8C[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -3354,7 +3354,7 @@ void func_8018AF44(void *a0) {
         return;
     }
 
-    ptr = *(s32 *)((s32)a0 + 0x64);
+    ptr = ((Unkstruct_800B5CB8 *)a0)->unk64;
     v1 = *(unsigned short *)(ptr + 0x36);
     v0 = *(unsigned short *)((s32)a0 + 0x70);
     *(unsigned short *)((s32)a0 + 0xFC) = v1;
