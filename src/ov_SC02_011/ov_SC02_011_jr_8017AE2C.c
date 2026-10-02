@@ -3350,16 +3350,16 @@ void func_8017BEF8(s32 param_1) {
     node = func_800D222C(param_1, &D_8019471C, 0xFD);
     if (node != 0) {
         *(s32 *)(param_1 + 0x20) = node;
-        *(u32 *)(node + 4) = *(u32 *)(node + 4) | 0x5D000100;
+        CAST_WIDTH(u32, node, 4) = CAST_WIDTH(u32, node, 4) | 0x5D000100;
         ((void (*)(void *))func_8001CF30)((void *)node);
-        *(s16 *)(node + 0x18) = 0x4000;
-        *(s16 *)(node + 0x1A) = 0x200;
+        ((Unkstruct_800B5CB8 *)node)->unk18 = 0x4000;
+        ((Unkstruct_800B5CB8 *)node)->unk1A = 0x200;
         *(s16 *)(param_1 + 0x16) = 0x200;
         *(s16 *)(param_1 + 0x14) = 0x1000;
-        *(s16 *)(node + 0x28) = 0x240;
-        *(s16 *)(node + 0x2A) = 0x180;
-        *(s16 *)(node + 0x10) = w.vx;
-        *(s16 *)(node + 0x12) = w.vy;
+        ((Unkstruct_800B5CB8 *)node)->unk28 = 0x240;
+        ((Unkstruct_800B5CB8 *)node)->unk2A = 0x180;
+        ((Unkstruct_800B5CB8 *)node)->unk10 = w.vx;
+        ((Unkstruct_800B5CB8 *)node)->unk12 = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
     } else {
         ((void (*)(s32))func_80146C3C)(param_1);
@@ -3394,13 +3394,13 @@ void func_8017C18C(s32 a0) {
     r = func_800D222C(a0, &D_80194728, 0x18);
     if (r != 0) {
         *(s32 *)(a0 + 0x20) = r;
-        *(u32 *)(r + 4) = *(u32 *)(r + 4) | 0x5C000140;
+        CAST_WIDTH(u32, r, 4) = CAST_WIDTH(u32, r, 4) | 0x5C000140;
         func_8001CF30((void *)r);
-        *(s16 *)(r + 0x10) = 0x400;
-        *(s16 *)(r + 0x18) = 0x3000;
-        *(s16 *)(r + 0x1A) = 0x3000;
-        *(s16 *)(r + 0x28) = 0x248;
-        *(s16 *)(r + 0x2A) = 0x180;
+        ((Unkstruct_800B5CB8 *)r)->unk10 = 0x400;
+        ((Unkstruct_800B5CB8 *)r)->unk18 = 0x3000;
+        ((Unkstruct_800B5CB8 *)r)->unk1A = 0x3000;
+        ((Unkstruct_800B5CB8 *)r)->unk28 = 0x248;
+        ((Unkstruct_800B5CB8 *)r)->unk2A = 0x180;
         *(s16 *)(a0 + 2) = *(s16 *)(a0 + 2) + 1;
     } else {
         ((void (*)(s32))func_80146C3C)(a0);
@@ -7745,7 +7745,7 @@ void func_801822F4(s32 param_1) {
 extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
 
 void func_80182344(s32 param_1) {
-    *(s16 *)(param_1 + 6) = func_80012F74(*(s16 *)(param_1 + 6), -0xE0, 10, 1);
+    ((Unkstruct_80126B58 *)param_1)->unk6 = func_80012F74(((Unkstruct_80126B58 *)param_1)->unk6, -0xE0, 10, 1);
 }
 
 

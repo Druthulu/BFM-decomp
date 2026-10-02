@@ -5359,8 +5359,8 @@ void func_80181254(s32 p)
     ((void (*)(s32))func_801511E0)(p);
     ((void (*)(s32, s32))func_80154274)(p, (s32)D_801937E8);
     ((void (*)(s32))func_80149020)(p);
-    *(u8 *)(p + 0xDE) = 0x1E;
-    *(u8 *)(p + 0xDF) = 0;
+    ((Unkstruct_80126B58 *)p)->unkDE = 0x1E;
+    ((Unkstruct_80126B58 *)p)->unkDF = 0;
     func_80181468();
     ((void (*)(s32))func_80172630)(p);
     ((void (*)(s32))func_80146CA0)(p);

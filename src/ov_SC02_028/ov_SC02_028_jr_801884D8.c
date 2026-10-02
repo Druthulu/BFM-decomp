@@ -4901,7 +4901,7 @@ void func_8018AE00(s32 a0)
     s32 t;
     s32 id;
 
-    switch (*(s16 *)(a0 + 0x70)) {
+    switch (((Unkstruct_800B5CB8 *)a0)->unk70) {
     case 0:
         func_8002D4C8(0x6D5, 0);
         return;

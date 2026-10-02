@@ -4695,8 +4695,8 @@ void func_801801D4(s32 arg0, s32 arg1) {
     u16 *src;
     if (arg0 != 0) {
         src = (u16 *)&D_80193AA4[arg1];
-        *(u16 *)(arg0 + 0x28) = src[0];
-        *(u16 *)(arg0 + 0x2A) = src[1];
+        ((Unkstruct_800B5CB8 *)arg0)->unk28 = src[0];
+        ((Unkstruct_800B5CB8 *)arg0)->unk2A = src[1];
     }
 }
 

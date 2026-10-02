@@ -3852,12 +3852,12 @@ void func_8017FAD4(void *a0, void *a1, s16 a2, s16 a3)
                 rot[2] = 0;
                 RotMatrixYXZ(rot, mtx);
                 ApplyMatrixSV(mtx, a1, rot);
-                *(s16 *)(ent + 6) = *(s16 *)a0 + rot[0];
-                *(s16 *)(ent + 10) = *(s16 *)((s8 *)a0 + 2) + rot[1];
-                *(s16 *)(ent + 14) = *(s16 *)((s8 *)a0 + 4) + rot[2];
-                *(s32 *)(ent + 0x10) = (s32)rot[0] << 12;
-                *(s32 *)(ent + 0x14) = (s32)rot[1] << 12;
-                *(s32 *)(ent + 0x18) = (s32)rot[2] << 12;
+                ((Unkstruct_800B5CB8 *)ent)->unk6 = *(s16 *)a0 + rot[0];
+                ((Unkstruct_800B5CB8 *)ent)->unkA = *(s16 *)((s8 *)a0 + 2) + rot[1];
+                ((Unkstruct_800B5CB8 *)ent)->unkE = *(s16 *)((s8 *)a0 + 4) + rot[2];
+                CAST_WIDTH(s32, ent, 0x10) = (s32)rot[0] << 12;
+                ((Unkstruct_800B5CB8 *)ent)->unk14 = (s32)rot[1] << 12;
+                CAST_WIDTH(s32, ent, 0x18) = (s32)rot[2] << 12;
             }
             i = i + 1;
         } while (i < a3);
@@ -3903,10 +3903,10 @@ void func_8017FCFC(void *a0)
     s32 c;
     u8 *prim;
 
-    t = *(u16 *)((s32)a0 + 0x2C);
-    prim = *(u8 **)((s32)a0 + 0x20);
+    t = ((Unkstruct_800B5CB8 *)a0)->unk2C;
+    prim = CAST_SIGN(u8 *, (s32)a0, 0x20);
     t = t - 1;
-    *(u16 *)((s32)a0 + 0x2C) = t;
+    ((Unkstruct_800B5CB8 *)a0)->unk2C = t;
     if ((s16)t == -1) {
         func_801292C8(a0);
         return;
@@ -3994,8 +3994,8 @@ s32 *a0;
     extern void func_8012931C(struct vec *a0);
     s32 p;
 
-    p = *(s32 *)((s32)a0 + 0x20);
-    if ((s16)--*(u16 *)((s32)a0 + 0x2C) == -1) {
+    p = ((Unkstruct_800B5CB8 *)a0)->unk20;
+    if ((s16)--((Unkstruct_800B5CB8 *)a0)->unk2C == -1) {
         func_801292C8((u8 *)a0);
         return;
     }

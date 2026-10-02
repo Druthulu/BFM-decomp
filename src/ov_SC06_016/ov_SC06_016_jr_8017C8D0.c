@@ -3623,17 +3623,17 @@ void func_8017ECE0(s32 arg0) {
         if (sp1C == 0) {
             break;
         }
-        tmp = *(s32 *)(sp1C + 0x20);
+        tmp = ((Unkstruct_800B5CB8 *)sp1C)->unk20;
         if (tmp != 0) {
-            *(u16 *)(tmp + 0x2C) = 0xC040;
+            ((Unkstruct_800B5CB8 *)tmp)->unk2C = 0xC040;
         }
         var_s0 = i * 0x200;
         a = func_8004787C(var_s0);
         b = func_80047948(var_s0);
-        *(u16 *)(sp1C + 0x34) = 0x2001;
-        *(s32 *)(sp1C + 0x14) = -0x80000;
-        *(s32 *)(sp1C + 4) += a * 0x200;
-        *(s32 *)(sp1C + 0xC) += b * 0x200;
+        ((Unkstruct_800B5CB8 *)sp1C)->unk34 = 0x2001;
+        ((Unkstruct_800B5CB8 *)sp1C)->unk14 = -0x80000;
+        CAST_WIDTH(s32, sp1C, 4) += a * 0x200;
+        CAST_WIDTH(s32, sp1C, 0xC) += b * 0x200;
     }
 }
 
@@ -3651,18 +3651,18 @@ void func_8017EDA0(s32 arg0) {
         if (sp1C == 0) {
             break;
         }
-        tmp = *(s32 *)(sp1C + 0x20);
+        tmp = ((Unkstruct_800B5CB8 *)sp1C)->unk20;
         if (tmp != 0) {
-            *(u16 *)(tmp + 0x2C) = 0xC040;
+            ((Unkstruct_800B5CB8 *)tmp)->unk2C = 0xC040;
         }
         var_s0 = i * 0x80;
         a = func_8004787C(var_s0);
         b = func_80047948(var_s0);
-        *(u16 *)(sp1C + 0x34) = 0x2002;
-        *(s32 *)(sp1C + 0x10) = a * 112;
-        *(s32 *)(sp1C + 0x18) = b * 112;
-        *(s32 *)(sp1C + 4) += a * 256;
-        *(s32 *)(sp1C + 0xC) += b * 256;
+        ((Unkstruct_800B5CB8 *)sp1C)->unk34 = 0x2002;
+        CAST_WIDTH(s32, sp1C, 0x10) = a * 112;
+        CAST_WIDTH(s32, sp1C, 0x18) = b * 112;
+        CAST_WIDTH(s32, sp1C, 4) += a * 256;
+        CAST_WIDTH(s32, sp1C, 0xC) += b * 256;
     }
 }
 
