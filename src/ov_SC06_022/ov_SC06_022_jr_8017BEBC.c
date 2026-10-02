@@ -3602,7 +3602,7 @@ void func_8017E330(s32 param_1)
 extern void func_801292C8(u8 *a0);
 
 void func_8017E3C8(void *arg0) {
-    if (func_80128ED8(*(s32 *)(((s32)arg0) + 0x20), (s32 *)(((s32)arg0) + 0x24)) == 1) {
+    if (func_80128ED8(((Unkstruct_800B5CB8 *)arg0)->unk20, (s32 *)(((s32)arg0) + 0x24)) == 1) {
         func_801292C8((u8 *)arg0);
     }
 }
@@ -5008,15 +5008,15 @@ void func_80180700(s32 a0, s16 *a1, s16 a2, s16 a3)
     m = D_800AE620;
     self = func_8012C658(a2, a3, a0);
     if (self != 0) {
-        *(s16 *)(self + 6) += *a1 + (rand() & 0x3F) - 0x1F;
-        *(s16 *)(self + 10) += a1[1] + (rand() & 0x3F) - 0x1F;
-        *(s16 *)(self + 14) += a1[2];
+        CAST_SIGN(s16, self, 6) += *a1 + (rand() & 0x3F) - 0x1F;
+        CAST_SIGN(s16, self, 10) += a1[1] + (rand() & 0x3F) - 0x1F;
+        CAST_SIGN(s16, self, 14) += a1[2];
         RotMatrixY(a1[3], &m);
         func_800484EC((s32)&m, (s32)&D_801AD3CC, (s32)out);
         t = out[0];
-        *(s32 *)(self + 0x14) = -0x100000;
-        *(s32 *)(self + 0x10) = t;
-        *(s32 *)(self + 0x18) = out[2];
+        ((Unkstruct_800B5CB8 *)self)->unk14 = -0x100000;
+        CAST_WIDTH(s32, self, 0x10) = t;
+        CAST_WIDTH(s32, self, 0x18) = out[2];
     }
 }
 

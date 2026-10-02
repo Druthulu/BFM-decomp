@@ -4817,7 +4817,7 @@ s32 func_80181C1C(s16 *a0) {
 
 extern void func_8012A828();  // K&R: 0/2 of 2 args (P37 rung D t4_D22)
 void func_80181C74(s32 *a0, s32 a1) {
-    if (*(s32 *)((s32)a0 + 0x90) != a1) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk90 != a1) {
         func_8012A828();
     }
 }

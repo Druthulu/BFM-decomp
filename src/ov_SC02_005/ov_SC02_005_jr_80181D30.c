@@ -2863,14 +2863,14 @@ extern void func_80186304(void * param_1, s32 param_2, int param_3);
 s32 func_80181F70(void *arg0)
 {
     func_80186304((u8 *)arg0, 0x10, 0);
-    *(u16 *)((s32)arg0 + 0x34) = 1;
+    ((Unkstruct_800B5CB8 *)arg0)->unk34 = 1;
 }
 
 
 void func_80181FA8(u8 *arg0) {
     func_80186304(arg0, 0x11, 0);
     func_80186C70(arg0);
-    *(u16 *)((s32)arg0 + 0x34) = 2;
+    ((Unkstruct_800B5CB8 *)arg0)->unk34 = 2;
 }
 
 
@@ -3884,12 +3884,12 @@ void func_80183584(void *arg0) {
     func_80186304((u8 *)arg0, 0xC, 2);
     func_8012B200((u8 *)s0);
     func_80132DC4(s0, (s32)&D_80195ADC[D_801E4BBC * 4], 0x300);
-    *(u8 *)(s0 + 0xC1) = 4;
-    *(u8 *)(s0 + 0xC2) = 0;
+    ((Unkstruct_800B5CB8 *)s0)->unkC1 = 4;
+    ((Unkstruct_800B5CB8 *)s0)->unkC2 = 0;
     t = D_801E4BBC;
-    *(u16 *)(s0 + 0x5C) &= ~1;
+    ((Unkstruct_800B5CB8 *)s0)->unk5C &= ~1;
     if (t == 0) {
-        func_8018A968(*(s32 *)(s0 + 0xCC));
+        func_8018A968(((Unkstruct_800B5CB8 *)s0)->unkCC);
     }
 }
 
@@ -4925,14 +4925,14 @@ s32 func_80184CA4(void *arg0)
 {
     s32 s0 = (s32)arg0;
 
-    *(s16 *)(s0 + 6) = *(s32 *)(*(s32 *)(s0 + 0x20) + 0x48);
-    *(s16 *)(s0 + 0xA) = *(s32 *)(*(s32 *)(s0 + 0x20) + 0x4C);
-    *(s16 *)(s0 + 0xE) = *(s32 *)(*(s32 *)(s0 + 0x20) + 0x50);
+    ((Unkstruct_800B5CB8 *)s0)->unk6 = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk48;
+    ((Unkstruct_800B5CB8 *)s0)->unkA = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk4C;
+    ((Unkstruct_800B5CB8 *)s0)->unkE = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk50;
     func_8012B23C(s0);
-    *(s32 *)(s0 + 0x10) = 0x00040000;
-    *(s32 *)(s0 + 0x14) = 0xFFF80000;
-    *(s32 *)(s0 + 0x18) = 0xFFFC0000;
-    *(s32 *)(s0 + 0x78) = (s32)&D_80196414;
+    CAST_WIDTH(s32, s0, 0x10) = 0x00040000;
+    ((Unkstruct_800B5CB8 *)s0)->unk14 = 0xFFF80000;
+    CAST_WIDTH(s32, s0, 0x18) = 0xFFFC0000;
+    ((Unkstruct_800B5CB8 *)s0)->unk78 = (s32)&D_80196414;
     func_8012AD44((s32 *)s0, 6);
 }
 

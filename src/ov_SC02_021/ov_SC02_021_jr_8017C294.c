@@ -2893,7 +2893,7 @@ void func_8017D7A4(void) {
 extern void (*D_80183594[])(void);
 
 void func_8017D7E0(void *a0) {
-    D_80183594[*(u16 *)((s32)a0 + 0x2)]();
+    D_80183594[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -2934,7 +2934,7 @@ void func_8017D81C(void *a0)
     register s32 z asm("a0");  // !FAKE: pin a0 — NEEDED DIFFERS (P36 rung B tus10)
 
     v = func_8012C1B8();
-    *(s32 *)((s32)a0 + 0x20) = v;
+    ((Unkstruct_800B5CB8 *)a0)->unk20 = v;
     if (v == 0) {
         func_8012CAE4((void *)a0);
         return;
@@ -2974,7 +2974,7 @@ void func_8017D81C(void *a0)
         s1++;
         p += 0x40;
     } while (s1 < 0x20);
-    *(u16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
+    ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 2) + 1;
 }
 
 
@@ -3498,12 +3498,12 @@ void func_8017E734(s32 arg0) {
             ptr = func_8012913C(0x22);
             if (ptr != NULL) {
                 t = (*(s16 *)(arg0 + 0x12) - *(s16 *)(arg0 + 0x10)) * scale >> 12;
-                *(s16 *)(ptr + 6) = *(s16 *)(arg0 + 0x10) + t;
-                *(s16 *)(ptr + 0xA) = *(s32 *)(arg0 + 8);
+                ((Unkstruct_800B5CB8 *)ptr)->unk6 = *(s16 *)(arg0 + 0x10) + t;
+                ((Unkstruct_800B5CB8 *)ptr)->unkA = *(s32 *)(arg0 + 8);
                 t = (*(s16 *)(arg0 + 0x16) - *(s16 *)(arg0 + 0x14)) * scale >> 12;
-                *(s16 *)(ptr + 0xE) = *(s16 *)(arg0 + 0x14) + t;
-                *(s16 *)(ptr + 0x34) = (rand() & 0x7F0) + 0x2C00;
-                *(u16 *)(*(s32 *)(ptr + 0x20) + 0x2C) = 0xC010;
+                ((Unkstruct_800B5CB8 *)ptr)->unkE = *(s16 *)(arg0 + 0x14) + t;
+                ((Unkstruct_800B5CB8 *)ptr)->unk34 = (rand() & 0x7F0) + 0x2C00;
+                ((Unkstruct_800B5CB8 *)*(s32 *)(ptr + 0x20))->unk2C = 0xC010;
             }
             scale += 0x400;
         }
@@ -3523,14 +3523,14 @@ void func_8017E824(s32 arg0) {
     if ((D_800B99D8 & 3) == 0) {
         ptr = func_8012913C(0x37);
         if (ptr != NULL) {
-            *(s16 *)(ptr + 0x6) = (*(s16 *)(arg0 + 0x10) + *(s16 *)(arg0 + 0x12)) >> 1;
-            *(s16 *)(ptr + 0xA) = *(s32 *)(arg0 + 0x8);
-            *(s16 *)(ptr + 0xE) = (*(s16 *)(arg0 + 0x14) + *(s16 *)(arg0 + 0x16)) >> 1;
+            ((Unkstruct_800B5CB8 *)ptr)->unk6 = (*(s16 *)(arg0 + 0x10) + *(s16 *)(arg0 + 0x12)) >> 1;
+            ((Unkstruct_800B5CB8 *)ptr)->unkA = *(s32 *)(arg0 + 0x8);
+            ((Unkstruct_800B5CB8 *)ptr)->unkE = (*(s16 *)(arg0 + 0x14) + *(s16 *)(arg0 + 0x16)) >> 1;
             diff = *(u16 *)(arg0 + 0x10) - *(u16 *)(arg0 + 0x12);
             if (diff < 0) {
                 diff = -diff;
             }
-            *(s16 *)(ptr + 0x2C) = diff;
+            ((Unkstruct_800B5CB8 *)ptr)->unk2C = diff;
         }
     }
 }
@@ -3540,7 +3540,7 @@ void func_8017E824(s32 arg0) {
 extern void (*D_8018359C[])(void);
 
 void func_8017E8CC(void *a0) {
-    D_8018359C[*(u16 *)((s32)a0 + 0x2)]();
+    D_8018359C[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -3572,21 +3572,21 @@ void func_8017E940(s32 a0) {
     s1 = (s32 *)a0;
     s0 = (u8 *)func_8017E908();
     if (s0 != 0) {
-        func_8001CD50(*(s32 *)((s32)s1 + 0x20), (s32)s0);
+        func_8001CD50(((Unkstruct_800B5CB8 *)s1)->unk20, (s32)s0);
         *(Block4 *)(s0 + 0) = D_80191968;
         *(Block4 *)(s0 + 4) = D_8019196C;
 
-        p1 = *(s32 **)((s32)s1 + 0x20);
-        *(s16 *)((s8 *)p1 + 0x10) = 0x400;
-        p2 = *(s32 **)((s32)s1 + 0x20);
-        *(s16 *)((s8 *)p2 + 0x18) = (*(s16 *)((s32)s1 + 0x2C) << 12) / 96;
-        p3 = *(s32 **)((s32)s1 + 0x20);
-        *(s16 *)((s8 *)p3 + 0x1A) = (*(s16 *)((s8 *)p3 + 0x18) >> 2) * 3;
-        p4 = *(s32 **)((s32)s1 + 0x20);
-        *(s32 *)((s8 *)p4 + 0x4) |= 0x50000000;
-        p5 = *(s32 **)((s32)s1 + 0x20);
+        p1 = CAST_SIGN(s32 *, (s32)s1, 0x20);
+        ((Unkstruct_800B5CB8 *)p1)->unk10 = 0x400;
+        p2 = CAST_SIGN(s32 *, (s32)s1, 0x20);
+        ((Unkstruct_800B5CB8 *)p2)->unk18 = (CAST_SIGN(s16, (s32)s1, 0x2C) << 12) / 96;
+        p3 = CAST_SIGN(s32 *, (s32)s1, 0x20);
+        ((Unkstruct_800B5CB8 *)p3)->unk1A = (CAST_SIGN(s16, (s8 *)p3, 0x18) >> 2) * 3;
+        p4 = CAST_SIGN(s32 *, (s32)s1, 0x20);
+        CAST_WIDTH(s32, (s8 *)p4, 0x4) |= 0x50000000;
+        p5 = CAST_SIGN(s32 *, (s32)s1, 0x20);
         *(s16 *)((s8 *)p5 + 0x1E) = 0xC00;
-        *(u16 *)((s32)s1 + 2) += 1;
+        CAST_SIGN(u16, (s32)s1, 2) += 1;
     } else {
         func_801292C8((u8 *)a0);
     }
@@ -3598,18 +3598,18 @@ extern void func_801292C8(u8 *a0);
 void func_8017EA5C(s32 a0) {
     s32 *p1, *p2, *p3;
 
-    p1 = *(s32 **)((s32)a0 + 0x20);
-    *(u16 *)((s8 *)p1 + 0x18) = *(u16 *)((s8 *)p1 + 0x18) + 0x280;
-    p2 = *(s32 **)((s32)a0 + 0x20);
-    p3 = *(s32 **)((s32)p1 + 0x20);
-    *(u16 *)((s8 *)p2 + 0x1A) = *(u16 *)((s8 *)p2 + 0x1A) + 0x280;
+    p1 = CAST_SIGN(s32 *, (s32)a0, 0x20);
+    ((Unkstruct_800B5CB8 *)p1)->unk18 = ((Unkstruct_800B5CB8 *)p1)->unk18 + 0x280;
+    p2 = CAST_SIGN(s32 *, (s32)a0, 0x20);
+    p3 = CAST_SIGN(s32 *, (s32)p1, 0x20);
+    ((Unkstruct_800B5CB8 *)p2)->unk1A = ((Unkstruct_800B5CB8 *)p2)->unk1A + 0x280;
     if (*(u8 *)((s8 *)p3 + 1) >= 8) {
         *(u8 *)((s8 *)p3 + 1) = *(u8 *)((s8 *)p3 + 1) - 8;
     }
-    if (*(u8 *)((s8 *)p3 + 2) >= 8) {
-        *(u8 *)((s8 *)p3 + 2) = *(u8 *)((s8 *)p3 + 2) - 8;
+    if (CAST_WIDTH(u8, (s8 *)p3, 2) >= 8) {
+        CAST_WIDTH(u8, (s8 *)p3, 2) = CAST_WIDTH(u8, (s8 *)p3, 2) - 8;
     }
-    if ((s16)*(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x18) > 0x3800) {
+    if ((s16)((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk18 > 0x3800) {
         *(u8 *)((s8 *)p3 + 3) = 0;
         func_801292C8((u8 *)a0);
     }
