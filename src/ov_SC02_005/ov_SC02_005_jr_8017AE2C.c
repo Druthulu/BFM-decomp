@@ -2619,34 +2619,34 @@ void func_8017AE2C(s32 param_1) {
     case 1:
         g[1] = (u16)g[1] - 1;
         if (g[1] <= 0) {
-            *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) = (u16)g[2];
+            ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 = (u16)g[2];
             goto reset_both;
         }
         {
-            s32 r = func_8012B608(*(s16 *)(*(s32 *)(pv + 0x20) + 0x12), g[2], 6);
-            *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) =
-                *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) + r;
+            s32 r = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), g[2], 6);
+            ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
+                ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
         }
         return;
     case 2:
         func_8012B178(pv, (s32)g[4] << 8);
         func_8012AD80(pv);
-        *(u16 *)(pv + 0xA) -= 8;
+        ((Unkstruct_800B5CB8 *)pv)->unkA -= 8;
         func_8012B030((u8 *)pv);
         break;
     case 3:
         if (g[1] != 0) {
             if (g[5] != 0) {
                 void *p = (void *)(pv + 4);
-                if ((s16)func_80012A60(*(s16 *)(*(s32 *)(pv + 0x20) + 0x12),
+                if ((s16)func_80012A60(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12),
                                        (s16)func_8012B744(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
-                *(s16 *)(*(s32 *)(pv + 0x20) + 0x12) =
+                ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
                     func_8012B744(p, &D_801E4BB4);
                 func_8012B178(pv, 0xFFFA0000);
                 func_8012AD80(pv);
-                *(u16 *)(pv + 0xA) -= 8;
+                ((Unkstruct_800B5CB8 *)pv)->unkA -= 8;
                 func_8012B030((u8 *)pv);
                 /* &D_801E4BA8+0xC == &D_801E4BB4; distinct rtx defeats gcc's address-CSE
                    so BE98's arg rematerializes instead of sharing the store's reg (byte-gate). */
@@ -2657,9 +2657,9 @@ void func_8017AE2C(s32 param_1) {
             }
             {
                 s32 t = func_8012B744((void *)(pv + 4), &g[6]);
-                s32 r = func_8012B608(*(s16 *)(*(s32 *)(pv + 0x20) + 0x12), t, g[3]);
-                *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) =
-                    *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) + r;
+                s32 r = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), t, g[3]);
+                ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
+                    ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
             }
             g[1] = (u16)g[1] - 1;
             if (g[1] > 0) {
@@ -2668,11 +2668,11 @@ void func_8017AE2C(s32 param_1) {
             g[1] = 0;
             return;
         }
-        *(s16 *)(*(s32 *)(pv + 0x20) + 0x12) =
+        ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
             func_8012B744((void *)(pv + 4), &D_801E4BB4);
         func_8012B178(pv, 0xFFFA0000);
         func_8012AD80(pv);
-        *(u16 *)(pv + 0xA) -= 8;
+        ((Unkstruct_800B5CB8 *)pv)->unkA -= 8;
         func_8012B030((u8 *)pv);
         /* see note above: distinct rtx for the same address defeats address-CSE. */
         if (func_8012BE98(pv, (u16 *)((s32)&D_801E4BA8 + 0xC)) < 0x101) {
@@ -3339,9 +3339,9 @@ void func_8017BF9C(s32 a0, s32 a1) {
 
     p = D_801202A0;
     for (i = 0; i < 0x60; i++) {
-        if (*(u16 *)p == 0x6B) {
-            *(s32 *)(p + 0xD4) = a0;
-            *(s32 *)(p + 0xD8) = a1;
+        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x6B) {
+            ((Unkstruct_800B5CB8 *)p)->unkD4 = a0;
+            ((Unkstruct_800B5CB8 *)p)->unkD8 = a1;
             return;
         }
         p += 0x10C;
@@ -3358,10 +3358,10 @@ void func_8017BFF0(s32 a0, s32 a1, s32 a2) {
 
     p = D_801202A0;
     for (i = 0; i < 0x60; i++) {
-        if (*(u16 *)p == 0x6B) {
-            *(s16 *)(p + 0x70) = a2;
-            *(s32 *)(p + 0xD4) = a0;
-            *(s32 *)(p + 0xD8) = a1;
+        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x6B) {
+            ((Unkstruct_800B5CB8 *)p)->unk70 = a2;
+            ((Unkstruct_800B5CB8 *)p)->unkD4 = a0;
+            ((Unkstruct_800B5CB8 *)p)->unkD8 = a1;
             return;
         }
         p += 0x10C;
@@ -3380,12 +3380,12 @@ void func_8017C048(void) {
 
     p = D_801202A0;
     for (i = 0; i < 0x60; i++) {
-        if (*(u16 *)p == 0x6B) {
-            if (*(s32 *)(p + 0xCC) != 0) {
-                func_80016714(*(void **)(p + 0xCC), 0x38);
+        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x6B) {
+            if (((Unkstruct_800B5CB8 *)p)->unkCC != 0) {
+                func_80016714(CAST_SIGN(void *, p, 0xCC), 0x38);
             }
-            if (*(s32 *)(p + 0xD0) != 0) {
-                func_80016714(*(void **)(p + 0xD0), 0x38);
+            if (((Unkstruct_800B5CB8 *)p)->unkD0 != 0) {
+                func_80016714(CAST_SIGN(void *, p, 0xD0), 0x38);
             }
             func_8012C218(p);
             return;
@@ -3399,7 +3399,7 @@ void func_8017C048(void) {
 extern void (*D_80194320[])(void);
 
 void func_8017C0F4(void *a0) {
-    D_80194320[*(u16 *)((s32)a0 + 0x2)]();
+    D_80194320[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -3542,12 +3542,12 @@ void func_8017C130(void *a0) {
         bank = D_801E42D0;
         func_80024054(*(void **)((s32)a0 + 0xDC), bank);
         func_8001CE28((void *)obj, bank);
-        *(s16 *)(obj + 0x8) = *(u16 *)((s32)a0 + 0x6) + 6;
+        ((Unkstruct_800B5CB8 *)obj)->unk8 = *(u16 *)((s32)a0 + 0x6) + 6;
         {
             s32 y = *(u16 *)((s32)a0 + 0xA);
-            *(s16 *)(obj + 0x2C) = 3;
-            *(u8 *)(obj + 0x27) = 1;
-            *(s16 *)(obj + 0xA) = y + 9;
+            ((Unkstruct_800B5CB8 *)obj)->unk2C = 3;
+            ((Unkstruct_800B5CB8 *)obj)->unk27 = 1;
+            ((Unkstruct_800B5CB8 *)obj)->unkA = y + 9;
         }
         *(s32 *)((s32)a0 + 0xD0) = obj;
     }
