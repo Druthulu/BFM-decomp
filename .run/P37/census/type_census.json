@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "22569e1cdd",
+  "head": "debcd58764",
   "src_stamp": "61641c90bea72ae5",
   "tool_stamp": "e17c5fa676",
-  "when": "2026-10-02T07:26:16Z",
+  "when": "2026-10-02T07:34:40Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -225515,66 +225515,66 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 18579,
+   "types": 18674,
    "explained_sites": 337444,
    "deref_sites": 341364,
    "explained_pct": 98.9,
    "unassigned_sites": 3920,
-   "conflicts": 846,
-   "suspect": 10,
+   "conflicts": 850,
+   "suspect": 11,
    "evidence": {
     "param": 39256,
-    "arg": 10984,
-    "assign": 19249,
-    "ret-of": 5795,
-    "assign&": 1282,
-    "return": 1532,
-    "arg&": 303,
-    "field": 6815,
+    "assign": 19239,
+    "ret-of": 5757,
+    "arg": 10951,
+    "return": 1530,
+    "assign&": 1263,
+    "arg&": 276,
+    "field": 6812,
     "nested": 9
    },
    "vetoed": {
-    "arg-no-overlap": 22662,
-    "arg&-no-overlap": 3053,
     "arg-conduit": 140239,
-    "assign&-multisource": 12225,
+    "ret-of-multisource": 6715,
     "assign-multisource": 33664,
     "arg&-conduit": 14638,
     "field-multisource": 5316,
-    "ret-of-multisource": 6715,
-    "assign&": 320,
-    "assign": 300,
-    "ret-of": 218,
-    "arg": 139,
-    "return": 4,
+    "ret-of": 563,
+    "assign&-multisource": 12225,
+    "arg&-no-overlap": 3404,
+    "assign": 315,
+    "arg-no-overlap": 38742,
+    "assign&": 338,
+    "arg": 132,
+    "return": 6,
     "field": 32
    },
-   "singletons": 14636,
-   "multi_body": 3943,
-   "sites_in_multi_body": 282144,
+   "singletons": 14704,
+   "multi_body": 3970,
+   "sites_in_multi_body": 281608,
    "top": [
     {
-     "name": "Unkstruct_800D3888",
-     "sites": 25914,
-     "bodies": 7076,
-     "size_hint": 588,
-     "fields": 221,
+     "name": "Unkstruct_800B5CB8",
+     "sites": 18324,
+     "bodies": 4259,
+     "size_hint": 268,
+     "fields": 128,
      "conflicts": 50,
-     "sign_mixed": 75,
+     "sign_mixed": 54,
      "merges": {
-      "arg&": 282,
-      "param": 11206,
-      "arg": 8162,
-      "assign": 8656,
-      "ret-of": 2459,
-      "return": 710,
-      "assign&": 148,
-      "field": 1298
+      "arg&": 255,
+      "assign&": 18,
+      "assign": 8588,
+      "param": 9074,
+      "ret-of": 2429,
+      "arg": 7025,
+      "return": 705,
+      "field": 1122
      },
      "globals_at": [
+      "D_800B5CB8",
       "D_800D3888",
-      "D_800DE5A0",
-      "D_801269F0"
+      "D_80181448"
      ],
      "globals_ptr": [
       "D_8006386C",
@@ -225596,6 +225596,28 @@
      },
      "globals_at": [],
      "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_80126B58",
+     "sites": 5683,
+     "bodies": 2651,
+     "size_hint": 588,
+     "fields": 165,
+     "conflicts": 48,
+     "sign_mixed": 50,
+     "merges": {
+      "assign&": 104,
+      "param": 2110,
+      "arg": 1099,
+      "assign": 43,
+      "field": 43
+     },
+     "globals_at": [
+      "D_80126B58"
+     ],
+     "globals_ptr": [
+      "D_80126B58"
+     ]
     },
     {
      "name": "Unkstruct_dac960ce",
@@ -225666,31 +225688,6 @@
      "globals_ptr": []
     },
     {
-     "name": "Unkstruct_80126948",
-     "sites": 3284,
-     "bodies": 1098,
-     "size_hint": 164,
-     "fields": 34,
-     "conflicts": 0,
-     "sign_mixed": 10,
-     "merges": {
-      "arg&": 1,
-      "assign": 103,
-      "param": 8,
-      "arg": 15,
-      "assign&": 4
-     },
-     "globals_at": [
-      "D_80126948",
-      "D_80126E60"
-     ],
-     "globals_ptr": [
-      "D_80114EE8",
-      "D_801151D4",
-      "D_80126948"
-     ]
-    },
-    {
      "name": "Unkstruct_57a28935",
      "sites": 3271,
      "bodies": 196,
@@ -225730,6 +225727,31 @@
      "globals_ptr": []
     },
     {
+     "name": "Unkstruct_80126948",
+     "sites": 3034,
+     "bodies": 848,
+     "size_hint": 164,
+     "fields": 34,
+     "conflicts": 0,
+     "sign_mixed": 10,
+     "merges": {
+      "arg&": 1,
+      "assign": 103,
+      "param": 6,
+      "arg": 14,
+      "assign&": 4
+     },
+     "globals_at": [
+      "D_80126948",
+      "D_80126E60"
+     ],
+     "globals_ptr": [
+      "D_80114EE8",
+      "D_801151D4",
+      "D_80126948"
+     ]
+    },
+    {
      "name": "Unkstruct_a2c8734a",
      "sites": 2646,
      "bodies": 126,
@@ -225759,15 +225781,15 @@
     },
     {
      "name": "Unkstruct_80130D48",
-     "sites": 2374,
-     "bodies": 586,
+     "sites": 2382,
+     "bodies": 587,
      "size_hint": 100,
-     "fields": 24,
-     "conflicts": 5,
+     "fields": 25,
+     "conflicts": 6,
      "sign_mixed": 3,
      "merges": {
       "field": 1,
-      "assign": 122
+      "assign": 123
      },
      "globals_at": [],
      "globals_ptr": [
@@ -225909,21 +225931,6 @@
      },
      "globals_at": [],
      "globals_ptr": []
-    },
-    {
-     "name": "Unkstruct_cd1bacd2",
-     "sites": 1764,
-     "bodies": 126,
-     "size_hint": 56,
-     "fields": 10,
-     "conflicts": 0,
-     "sign_mixed": 0,
-     "merges": {
-      "param": 2,
-      "assign": 2
-     },
-     "globals_at": [],
-     "globals_ptr": []
     }
    ]
   },
@@ -225957,8 +225964,8 @@
    "block_frames": 629
   },
   "global_blocks": {
-   "n": 2123,
-   "members": 14249,
+   "n": 2124,
+   "members": 14253,
    "top": [
     {
      "base": "0x800cf10c",
@@ -226136,9 +226143,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 45.9,
-   "decls_s": 194.6,
-   "total_s": 204.2
+   "walk_s": 37.6,
+   "decls_s": 184.2,
+   "total_s": 193.4
   }
  },
  "dup_layout_classes": [
@@ -228202,30 +228209,6 @@
    ]
   },
   {
-   "lhash": "ac91ae2d8aa0",
-   "size": 28,
-   "n_names": 3,
-   "n_defs": 72,
-   "canon": 3,
-   "in_c": 59,
-   "names": [
-    "G3",
-    "S800D22E4",
-    "vec"
-   ],
-   "tier": 3,
-   "camps": [
-    [],
-    [
-     "G3"
-    ]
-   ],
-   "opaque_names": [
-    "S800D22E4",
-    "vec"
-   ]
-  },
-  {
    "lhash": "9568f57fb00f",
    "size": 20,
    "n_names": 3,
@@ -228273,6 +228256,30 @@
    ],
    "opaque_names": [
     "Blk32_801898F4"
+   ]
+  },
+  {
+   "lhash": "ac91ae2d8aa0",
+   "size": 28,
+   "n_names": 3,
+   "n_defs": 72,
+   "canon": 3,
+   "in_c": 59,
+   "names": [
+    "G3",
+    "S800D22E4",
+    "vec"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "G3"
+    ]
+   ],
+   "opaque_names": [
+    "S800D22E4",
+    "vec"
    ]
   },
   {
