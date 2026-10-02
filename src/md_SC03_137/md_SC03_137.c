@@ -253,7 +253,7 @@ s32 func_801E2D14(void) {
 void func_801E2D1C(void *a0) {
 
     extern void (*D_801E30FC[])(void);
-    D_801E30FC[*(u16 *)((s32)a0 + 0x2)]();
+    D_801E30FC[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

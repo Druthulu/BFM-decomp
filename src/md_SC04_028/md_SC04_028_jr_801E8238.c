@@ -112,7 +112,7 @@ void func_801E8238(void *arg0) {
 void func_801E8394(void *a0) {
 
     extern void (*D_801E8B00[])(void);
-    D_801E8B00[*(u16 *)((s32)a0 + 0x2)]();
+    D_801E8B00[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

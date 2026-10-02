@@ -242,6 +242,6 @@ void func_800CB1EC(void *a0) {
 void func_800CB41C(void *a0) {
 
     extern void (*D_800CB490[])(void);
-    D_800CB490[*(u16 *)((s32)a0 + 0x2)]();
+    D_800CB490[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 

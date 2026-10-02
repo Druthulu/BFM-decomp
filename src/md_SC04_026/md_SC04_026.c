@@ -249,7 +249,7 @@ void func_801E805C(s32 param_1, s16 *param_2) {
 void func_801E8284(void *a0) {
 
     extern void (*D_801E8CF0[])(void);
-    D_801E8CF0[*(u16 *)((s32)a0 + 0x2)]();
+    D_801E8CF0[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -570,7 +570,7 @@ void func_801E87F8(void *a0) {
 void func_801E8950(void *a0) {
 
     extern void (*D_801E8EEC[])(void);
-    D_801E8EEC[*(u16 *)((s32)a0 + 0x2)]();
+    D_801E8EEC[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

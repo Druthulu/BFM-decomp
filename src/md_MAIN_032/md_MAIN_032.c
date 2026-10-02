@@ -50,13 +50,13 @@ void func_800CAF60(void *a0) {
     extern s32  func_80161418(void *a0);
     extern s32  func_80155FD4(s32 a0, s32 a1);
 
-    *(u32 *)((u8 *)a0 + 0x44) |= 2;
+    ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
     func_80147A84((s32)a0);
     func_801473EC((s32 *)a0);
     func_80148038((s32)a0, 0x20000);
     func_80147460((s32)a0);
     if (func_80161418(a0) == 0) {
-        func_80155FD4((s32)a0, *(u8 *)((u8 *)a0 + 0x1AA));
+        func_80155FD4((s32)a0, ((Unkstruct_80126B58 *)a0)->unk1AA);
     }
 }
 
@@ -112,14 +112,14 @@ void func_800CB0B0(void *arg0) {
 
     s2 = *(s32 *)((s32)arg0 + 0x4C);
     s0 = ((s32 (*)(void))func_8014659C)();
-    *(s32 *)((s32)arg0 + 0x20) = s0;
+    ((Unkstruct_80126B58 *)arg0)->unk20 = s0;
     if (s0 != 0) {
         func_8001C810(s0, (s32)&D_800CC3C4);
         flag = *(s32 *)(s0 + 4);
         flag |= 0x50000000;
         *(s32 *)(s0 + 4) = flag;
         func_80149374(s2, (s32)arg0 + 4);
-        src = *(s32 *)(s2 + 0x20);
+        src = ((Unkstruct_80126B58 *)s2)->unk20;
         *(func_800CB0B0_Blk16 *)(s0 + 0x34) = *(func_800CB0B0_Blk16 *)(src + 0x34);
         *(func_800CB0B0_Blk16 *)(s0 + 0x44) = *(func_800CB0B0_Blk16 *)(src + 0x44);
         func_80146CA0(arg0);

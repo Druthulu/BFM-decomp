@@ -34,7 +34,7 @@ void *a0;
 void func_800CCB84(void *a0) {
 
     extern void (*D_800CD6C8[])(void);
-    D_800CD6C8[*(u16 *)((s32)a0 + 0x2)]();
+    D_800CD6C8[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -278,7 +278,7 @@ void func_800CD314(void *arg0) {
 void func_800CD458(void *a0) {
 
     extern void (*D_800CD6D0[])(void);
-    D_800CD6D0[*(u16 *)((s32)a0 + 0x2)]();
+    D_800CD6D0[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -287,7 +287,7 @@ void func_800CD458(void *a0) {
 void func_800CD494(void *a0) {
 
     extern void (*D_800CD6D8[])(void);
-    D_800CD6D8[*(u16 *)((s32)a0 + 0x2)]();
+    D_800CD6D8[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

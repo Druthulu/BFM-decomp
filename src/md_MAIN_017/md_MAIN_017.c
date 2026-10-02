@@ -111,7 +111,7 @@ void func_800CAFA0(void *a0) {
 void func_800CB190(void *a0) {
 
     extern void (*D_800CB350[])(void);
-    D_800CB350[*(u16 *)((s32)a0 + 0x2)]();
+    D_800CB350[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

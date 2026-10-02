@@ -253,7 +253,7 @@ void func_801EDED4(s32 param_1, s16 *param_2) {
 void func_801EE10C(void *a0) {
 
     extern void (*D_801EE678[])(void);
-    D_801EE678[*(u16 *)((s32)a0 + 0x2)]();
+    D_801EE678[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

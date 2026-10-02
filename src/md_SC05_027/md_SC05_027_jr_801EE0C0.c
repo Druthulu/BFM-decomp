@@ -111,7 +111,7 @@ void func_801EE0C0(void *param_1) {
 void func_801EE21C(void *a0) {
 
     extern void (*D_801EE988[])(void);
-    D_801EE988[*(u16 *)((s32)a0 + 0x2)]();
+    D_801EE988[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

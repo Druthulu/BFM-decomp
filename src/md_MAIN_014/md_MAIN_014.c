@@ -57,7 +57,7 @@ void func_800CAF4C(void) {
 void func_800CAF54(void *a0) {
 
     extern void (*D_800CB5DC[])(void);
-    D_800CB5DC[*(u16 *)((s32)a0 + 0x2)]();
+    D_800CB5DC[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
