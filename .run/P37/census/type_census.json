@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "acd5997bda",
-  "src_stamp": "4415230c19eed892",
+  "head": "1ca64370c6",
+  "src_stamp": "1dffd499013188d4",
   "tool_stamp": "e17c5fa676",
-  "when": "2026-10-02T02:06:17Z",
+  "when": "2026-10-02T02:19:46Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -36,66 +36,66 @@
   },
   "casts": {
    "by_form": {
-    "P": 319858,
+    "P": 317113,
     "I": 55319,
     "X": 13790,
     "A": 18890,
-    "C": 114028,
-    "M": 17803,
-    "K": 13421
+    "C": 116773,
+    "M": 17488,
+    "K": 13691
    },
    "raw_counts": {
-    "P": 319858,
+    "P": 317113,
     "I": 55319,
     "X": 13790,
     "A": 18890,
-    "C": 114028,
-    "M": 17803,
-    "K": 13421
+    "C": 116773,
+    "M": 17488,
+    "K": 13691
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 406770,
+   "deref_total": 403710,
    "addr_form": 18890,
-   "typed_cast_member": 114028,
-   "bodies": 57839,
+   "typed_cast_member": 116773,
+   "bodies": 57434,
    "by_bclass": {
-    "local": 135699,
-    "param": 205960,
+    "local": 134394,
+    "param": 204430,
     "global": 8760,
     "gaddr": 40114,
-    "nested": 13071,
+    "nested": 12891,
     "ident": 161,
-    "other": 1667,
+    "other": 1622,
     "addr-of": 1338
    },
    "by_width": {
-    "s4": 113428,
-    "s2": 111402,
-    "u2": 105442,
-    "u1": 39379,
+    "s4": 112708,
+    "s2": 110682,
+    "u2": 103912,
+    "u1": 39289,
     "agg": 13417,
     "p4": 11228,
     "u4": 9947,
     "s1": 2527
    },
-   "readability_raw_regex": 322695,
+   "readability_raw_regex": 319950,
    "abs_casts": 0,
    "top_bases": [
     [
      "param",
      "param_1",
-     64724
+     63734
     ],
     [
      "param",
      "a0",
-     56513
+     56153
     ],
     [
      "param",
      "arg0",
-     54004
+     53824
     ],
     [
      "local",
@@ -154,13 +154,13 @@
     ],
     [
      "local",
-     "iVar3",
-     3345
+     "e",
+     3258
     ],
     [
      "local",
-     "e",
-     3258
+     "iVar3",
+     2625
     ],
     [
      "local",
@@ -184,11 +184,6 @@
     ],
     [
      "local",
-     "obj",
-     2549
-    ],
-    [
-     "local",
      "L",
      2261
     ],
@@ -196,6 +191,11 @@
      "param",
      "param_2",
      2248
+    ],
+    [
+     "local",
+     "obj",
+     2189
     ],
     [
      "local",
@@ -284,17 +284,17 @@
     ]
    ],
    "macros": {
-    "CAST_SIGN": 6753,
-    "CAST_WIDTH": 5202,
-    "CAST_NONSTRUCT": 248,
+    "CAST_SIGN": 6798,
+    "CAST_WIDTH": 5382,
+    "CAST_NONSTRUCT": 293,
     "CAST_ALIAS": 947,
     "CAST_MISALIGNED": 259
    },
    "check_raw": {
-    "P": 319853,
+    "P": 317108,
     "I": 55319,
     "X": 13790,
-    "M": 17802
+    "M": 17487
    },
    "macro_sites": [
     {
@@ -88573,6 +88573,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC03_125/ov_SC03_125_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC03_125/ov_SC03_125_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC03_125/ov_SC03_125_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC03_125/ov_SC03_125_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC03_125/ov_SC03_125_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC03_125/ov_SC03_125_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC03_125/ov_SC03_125_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -90564,6 +90630,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC04_002/ov_SC04_002_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_002/ov_SC04_002_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_002/ov_SC04_002_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_002/ov_SC04_002_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_002/ov_SC04_002_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_002/ov_SC04_002_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC04_002/ov_SC04_002_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -91928,6 +92060,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC04_003/ov_SC04_003_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_003/ov_SC04_003_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_003/ov_SC04_003_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_003/ov_SC04_003_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_003/ov_SC04_003_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_003/ov_SC04_003_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC04_003/ov_SC04_003_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -92531,6 +92729,72 @@
      "base": "param_1",
      "bclass": "param",
      "off": 14
+    },
+    {
+     "tu": "src/ov_SC04_004/ov_SC04_004_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_004/ov_SC04_004_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_004/ov_SC04_004_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_004/ov_SC04_004_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_004/ov_SC04_004_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_004/ov_SC04_004_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC04_004/ov_SC04_004_jr_8015C32C.c",
@@ -93534,6 +93798,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC04_005/ov_SC04_005_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_005/ov_SC04_005_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_005/ov_SC04_005_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_005/ov_SC04_005_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_005/ov_SC04_005_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_005/ov_SC04_005_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC04_005/ov_SC04_005_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -94304,6 +94634,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC04_006/ov_SC04_006_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_006/ov_SC04_006_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_006/ov_SC04_006_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_006/ov_SC04_006_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_006/ov_SC04_006_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_006/ov_SC04_006_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC04_006/ov_SC04_006_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -94753,6 +95149,72 @@
      "base": "param_1",
      "bclass": "param",
      "off": 14
+    },
+    {
+     "tu": "src/ov_SC04_007/ov_SC04_007_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_007/ov_SC04_007_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_007/ov_SC04_007_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_007/ov_SC04_007_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_007/ov_SC04_007_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_007/ov_SC04_007_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC04_007/ov_SC04_007_jr_8015C32C.c",
@@ -95492,6 +95954,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC04_009/ov_SC04_009_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_009/ov_SC04_009_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_009/ov_SC04_009_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_009/ov_SC04_009_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_009/ov_SC04_009_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_009/ov_SC04_009_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC04_009/ov_SC04_009_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -95688,6 +96216,72 @@
      "base": "param_1",
      "bclass": "param",
      "off": 14
+    },
+    {
+     "tu": "src/ov_SC04_010/ov_SC04_010_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_010/ov_SC04_010_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_010/ov_SC04_010_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_010/ov_SC04_010_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_010/ov_SC04_010_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_010/ov_SC04_010_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC04_010/ov_SC04_010_jr_8015C32C.c",
@@ -95908,6 +96502,72 @@
      "base": "param_1",
      "bclass": "param",
      "off": 14
+    },
+    {
+     "tu": "src/ov_SC04_011/ov_SC04_011_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_011/ov_SC04_011_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_011/ov_SC04_011_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_011/ov_SC04_011_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_011/ov_SC04_011_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_011/ov_SC04_011_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC04_011/ov_SC04_011_jr_8015C32C.c",
@@ -98176,6 +98836,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC04_012/ov_SC04_012_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_012/ov_SC04_012_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_012/ov_SC04_012_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_012/ov_SC04_012_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_012/ov_SC04_012_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_012/ov_SC04_012_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC04_012/ov_SC04_012_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -98295,6 +99021,72 @@
      "base": "param_1",
      "bclass": "param",
      "off": 14
+    },
+    {
+     "tu": "src/ov_SC04_015/ov_SC04_015_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2116,
+     "pos": 66245,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_015/ov_SC04_015_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2137,
+     "pos": 67169,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_015/ov_SC04_015_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2189,
+     "pos": 68494,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_015/ov_SC04_015_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2217,
+     "pos": 69281,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_015/ov_SC04_015_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2308,
+     "pos": 72676,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_015/ov_SC04_015_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2352,
+     "pos": 74134,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC04_015/ov_SC04_015_jr_8015C32C.c",
@@ -99208,6 +100000,72 @@
      "base": "param_1",
      "bclass": "param",
      "off": 14
+    },
+    {
+     "tu": "src/ov_SC04_016/ov_SC04_016_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_016/ov_SC04_016_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_016/ov_SC04_016_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_016/ov_SC04_016_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_016/ov_SC04_016_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_016/ov_SC04_016_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC04_016/ov_SC04_016_jr_8015C32C.c",
@@ -100827,6 +101685,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC04_020/ov_SC04_020_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC04_020/ov_SC04_020_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC04_020/ov_SC04_020_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC04_020/ov_SC04_020_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC04_020/ov_SC04_020_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC04_020/ov_SC04_020_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC04_020/ov_SC04_020_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -101850,6 +102774,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC05_000/ov_SC05_000_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2102,
+     "pos": 66311,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_000/ov_SC05_000_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2123,
+     "pos": 67235,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_000/ov_SC05_000_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2175,
+     "pos": 68560,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_000/ov_SC05_000_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2203,
+     "pos": 69347,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_000/ov_SC05_000_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2294,
+     "pos": 72742,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_000/ov_SC05_000_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2338,
+     "pos": 74200,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC05_000/ov_SC05_000_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1740,
@@ -102046,6 +103036,72 @@
      "base": "param_1",
      "bclass": "param",
      "off": 14
+    },
+    {
+     "tu": "src/ov_SC05_001/ov_SC05_001_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_001/ov_SC05_001_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_001/ov_SC05_001_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_001/ov_SC05_001_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_001/ov_SC05_001_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_001/ov_SC05_001_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC05_001/ov_SC05_001_jr_8015C32C.c",
@@ -103258,6 +104314,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC05_002/ov_SC05_002_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_002/ov_SC05_002_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_002/ov_SC05_002_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_002/ov_SC05_002_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_002/ov_SC05_002_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_002/ov_SC05_002_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC05_002/ov_SC05_002_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -104094,6 +105216,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC05_003/ov_SC05_003_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_003/ov_SC05_003_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_003/ov_SC05_003_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_003/ov_SC05_003_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_003/ov_SC05_003_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_003/ov_SC05_003_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC05_003/ov_SC05_003_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -104851,6 +106039,72 @@
      "base": "param_1",
      "bclass": "param",
      "off": 14
+    },
+    {
+     "tu": "src/ov_SC05_004/ov_SC05_004_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2138,
+     "pos": 67792,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_004/ov_SC05_004_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2159,
+     "pos": 68716,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_004/ov_SC05_004_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2211,
+     "pos": 70041,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_004/ov_SC05_004_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2239,
+     "pos": 70828,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_004/ov_SC05_004_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2330,
+     "pos": 74223,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_004/ov_SC05_004_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2374,
+     "pos": 75681,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC05_004/ov_SC05_004_jr_8015C32C.c",
@@ -105744,6 +106998,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC05_005/ov_SC05_005_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_005/ov_SC05_005_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_005/ov_SC05_005_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_005/ov_SC05_005_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_005/ov_SC05_005_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_005/ov_SC05_005_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC05_005/ov_SC05_005_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -106206,6 +107526,72 @@
      "off": 14
     },
     {
+     "tu": "src/ov_SC05_006/ov_SC05_006_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_006/ov_SC05_006_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_006/ov_SC05_006_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_006/ov_SC05_006_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_006/ov_SC05_006_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_006/ov_SC05_006_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC05_006/ov_SC05_006_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -106556,6 +107942,72 @@
      "base": "param_1",
      "bclass": "param",
      "off": 14
+    },
+    {
+     "tu": "src/ov_SC05_007/ov_SC05_007_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_007/ov_SC05_007_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_007/ov_SC05_007_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_007/ov_SC05_007_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_007/ov_SC05_007_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_007/ov_SC05_007_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC05_007/ov_SC05_007_jr_8015C32C.c",
@@ -108162,6 +109614,72 @@
      "base": "param_1",
      "bclass": "param",
      "off": 14
+    },
+    {
+     "tu": "src/ov_SC05_010/ov_SC05_010_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_010/ov_SC05_010_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_010/ov_SC05_010_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_010/ov_SC05_010_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_010/ov_SC05_010_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_010/ov_SC05_010_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC05_010/ov_SC05_010_jr_8015C32C.c",
@@ -110078,6 +111596,72 @@
      "off": 4
     },
     {
+     "tu": "src/ov_SC05_011/ov_SC05_011_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_011/ov_SC05_011_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_011/ov_SC05_011_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_011/ov_SC05_011_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_011/ov_SC05_011_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_011/ov_SC05_011_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC05_011/ov_SC05_011_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -110129,6 +111713,72 @@
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "s2",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_017/ov_SC05_017_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_017/ov_SC05_017_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_017/ov_SC05_017_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_017/ov_SC05_017_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_017/ov_SC05_017_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_017/ov_SC05_017_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
      "bclass": "local",
      "off": 4
     },
@@ -111486,6 +113136,72 @@
      "off": 52
     },
     {
+     "tu": "src/ov_SC05_018/ov_SC05_018_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC05_018/ov_SC05_018_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC05_018/ov_SC05_018_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC05_018/ov_SC05_018_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC05_018/ov_SC05_018_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC05_018/ov_SC05_018_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC05_018/ov_SC05_018_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -112685,6 +114401,72 @@
      "off": 32
     },
     {
+     "tu": "src/ov_SC06_000/ov_SC06_000_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2156,
+     "pos": 67890,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_000/ov_SC06_000_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2177,
+     "pos": 68814,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_000/ov_SC06_000_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2229,
+     "pos": 70139,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_000/ov_SC06_000_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2257,
+     "pos": 70926,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_000/ov_SC06_000_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2348,
+     "pos": 74321,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_000/ov_SC06_000_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2392,
+     "pos": 75779,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC06_000/ov_SC06_000_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -113510,6 +115292,72 @@
      "off": 48
     },
     {
+     "tu": "src/ov_SC06_006/ov_SC06_006_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_006/ov_SC06_006_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_006/ov_SC06_006_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_006/ov_SC06_006_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_006/ov_SC06_006_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_006/ov_SC06_006_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC06_006/ov_SC06_006_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -113563,6 +115411,72 @@
      "base": "iVar1",
      "bclass": "local",
      "off": 36
+    },
+    {
+     "tu": "src/ov_SC06_008/ov_SC06_008_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_008/ov_SC06_008_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_008/ov_SC06_008_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_008/ov_SC06_008_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_008/ov_SC06_008_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_008/ov_SC06_008_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC06_008/ov_SC06_008_jr_8015C32C.c",
@@ -115037,6 +116951,72 @@
      "base": "a0",
      "bclass": "param",
      "off": 220
+    },
+    {
+     "tu": "src/ov_SC06_010/ov_SC06_010_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2138,
+     "pos": 67792,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_010/ov_SC06_010_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2159,
+     "pos": 68716,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_010/ov_SC06_010_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2211,
+     "pos": 70041,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_010/ov_SC06_010_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2239,
+     "pos": 70828,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_010/ov_SC06_010_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2330,
+     "pos": 74223,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_010/ov_SC06_010_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2374,
+     "pos": 75681,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC06_010/ov_SC06_010_jr_8015C32C.c",
@@ -117327,6 +119307,72 @@
      "off": 220
     },
     {
+     "tu": "src/ov_SC06_011/ov_SC06_011_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_011/ov_SC06_011_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_011/ov_SC06_011_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_011/ov_SC06_011_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_011/ov_SC06_011_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_011/ov_SC06_011_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC06_011/ov_SC06_011_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -117668,6 +119714,72 @@
      "off": 112
     },
     {
+     "tu": "src/ov_SC06_013/ov_SC06_013_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2101,
+     "pos": 66234,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_013/ov_SC06_013_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2122,
+     "pos": 67158,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_013/ov_SC06_013_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2174,
+     "pos": 68483,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_013/ov_SC06_013_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2202,
+     "pos": 69270,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_013/ov_SC06_013_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2293,
+     "pos": 72665,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_013/ov_SC06_013_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2337,
+     "pos": 74123,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC06_013/ov_SC06_013_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -117688,6 +119800,72 @@
      "base": "a0",
      "bclass": "param",
      "off": 68
+    },
+    {
+     "tu": "src/ov_SC06_014/ov_SC06_014_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_014/ov_SC06_014_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_014/ov_SC06_014_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_014/ov_SC06_014_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_014/ov_SC06_014_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_014/ov_SC06_014_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC06_014/ov_SC06_014_jr_8015C32C.c",
@@ -118493,6 +120671,72 @@
      "off": 28
     },
     {
+     "tu": "src/ov_SC06_015/ov_SC06_015_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_015/ov_SC06_015_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_015/ov_SC06_015_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_015/ov_SC06_015_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_015/ov_SC06_015_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_015/ov_SC06_015_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC06_015/ov_SC06_015_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -118546,6 +120790,72 @@
      "base": "iVar1",
      "bclass": "local",
      "off": 36
+    },
+    {
+     "tu": "src/ov_SC06_016/ov_SC06_016_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2116,
+     "pos": 66245,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_016/ov_SC06_016_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2137,
+     "pos": 67169,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_016/ov_SC06_016_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2189,
+     "pos": 68494,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_016/ov_SC06_016_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2217,
+     "pos": 69281,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_016/ov_SC06_016_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2308,
+     "pos": 72676,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_016/ov_SC06_016_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2352,
+     "pos": 74134,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC06_016/ov_SC06_016_jr_8015C32C.c",
@@ -119492,6 +121802,72 @@
      "base": "a0",
      "bclass": "param",
      "off": 174
+    },
+    {
+     "tu": "src/ov_SC06_018/ov_SC06_018_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66239,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_018/ov_SC06_018_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67163,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_018/ov_SC06_018_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68488,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_018/ov_SC06_018_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69275,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_018/ov_SC06_018_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72670,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_018/ov_SC06_018_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74128,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC06_018/ov_SC06_018_jr_8015C32C.c",
@@ -124332,6 +126708,72 @@
      "base": "p",
      "bclass": "local",
      "off": 92
+    },
+    {
+     "tu": "src/ov_SC06_020/ov_SC06_020_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_020/ov_SC06_020_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_020/ov_SC06_020_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_020/ov_SC06_020_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_020/ov_SC06_020_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_020/ov_SC06_020_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC06_020/ov_SC06_020_jr_8015C32C.c",
@@ -130219,6 +132661,72 @@
      "off": 10
     },
     {
+     "tu": "src/ov_SC06_024/ov_SC06_024_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2116,
+     "pos": 66245,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_024/ov_SC06_024_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2137,
+     "pos": 67169,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_024/ov_SC06_024_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2189,
+     "pos": 68494,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_024/ov_SC06_024_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2217,
+     "pos": 69281,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_024/ov_SC06_024_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2308,
+     "pos": 72676,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_024/ov_SC06_024_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2352,
+     "pos": 74134,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC06_024/ov_SC06_024_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -134509,6 +137017,72 @@
      "off": 16
     },
     {
+     "tu": "src/ov_SC06_025/ov_SC06_025_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_025/ov_SC06_025_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_025/ov_SC06_025_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_025/ov_SC06_025_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_025/ov_SC06_025_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_025/ov_SC06_025_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC06_025/ov_SC06_025_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -134993,6 +137567,72 @@
      "off": 220
     },
     {
+     "tu": "src/ov_SC06_027/ov_SC06_027_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_027/ov_SC06_027_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_027/ov_SC06_027_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_027/ov_SC06_027_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_027/ov_SC06_027_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_027/ov_SC06_027_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC06_027/ov_SC06_027_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -135046,6 +137686,72 @@
      "base": "iVar1",
      "bclass": "local",
      "off": 36
+    },
+    {
+     "tu": "src/ov_SC06_029/ov_SC06_029_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_029/ov_SC06_029_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_029/ov_SC06_029_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_029/ov_SC06_029_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_029/ov_SC06_029_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_029/ov_SC06_029_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC06_029/ov_SC06_029_jr_8015C32C.c",
@@ -136126,6 +138832,72 @@
      "off": 222
     },
     {
+     "tu": "src/ov_SC06_030/ov_SC06_030_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_030/ov_SC06_030_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_030/ov_SC06_030_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_030/ov_SC06_030_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_030/ov_SC06_030_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_030/ov_SC06_030_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC06_030/ov_SC06_030_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -136366,6 +139138,72 @@
      "base": "a0",
      "bclass": "param",
      "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_032/ov_SC06_032_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_032/ov_SC06_032_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_032/ov_SC06_032_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_032/ov_SC06_032_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_032/ov_SC06_032_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_032/ov_SC06_032_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC06_032/ov_SC06_032_jr_8015C32C.c",
@@ -140722,6 +143560,72 @@
      "base": "p",
      "bclass": "local",
      "off": 130
+    },
+    {
+     "tu": "src/ov_SC06_033/ov_SC06_033_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2100,
+     "pos": 66229,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC06_033/ov_SC06_033_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2121,
+     "pos": 67153,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC06_033/ov_SC06_033_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2173,
+     "pos": 68478,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC06_033/ov_SC06_033_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2201,
+     "pos": 69265,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC06_033/ov_SC06_033_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2292,
+     "pos": 72660,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC06_033/ov_SC06_033_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2336,
+     "pos": 74118,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
     },
     {
      "tu": "src/ov_SC06_033/ov_SC06_033_jr_8015C32C.c",
@@ -145135,6 +148039,72 @@
      "off": 10
     },
     {
+     "tu": "src/ov_SC07_000/ov_SC07_000_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2102,
+     "pos": 66311,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC07_000/ov_SC07_000_jr_80140608.c",
+     "fn": "func_80143D28",
+     "line": 2123,
+     "pos": 67235,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 28
+    },
+    {
+     "tu": "src/ov_SC07_000/ov_SC07_000_jr_80140608.c",
+     "fn": "func_801442F8",
+     "line": 2175,
+     "pos": 68560,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 2
+    },
+    {
+     "tu": "src/ov_SC07_000/ov_SC07_000_jr_80140608.c",
+     "fn": "func_80144364",
+     "line": 2203,
+     "pos": 69347,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "iVar3",
+     "bclass": "local",
+     "off": 4
+    },
+    {
+     "tu": "src/ov_SC07_000/ov_SC07_000_jr_80140608.c",
+     "fn": "func_8014477C",
+     "line": 2294,
+     "pos": 72742,
+     "name": "CAST_NONSTRUCT",
+     "cls": "NON-STRUCT",
+     "base": null,
+     "bclass": "other",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC07_000/ov_SC07_000_jr_80140608.c",
+     "fn": "func_80144880",
+     "line": 2338,
+     "pos": 74200,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "obj",
+     "bclass": "local",
+     "off": 4
+    },
+    {
      "tu": "src/ov_SC07_000/ov_SC07_000_jr_8015C32C.c",
      "fn": "func_8015D1B8",
      "line": 1742,
@@ -148977,55 +151947,55 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 19010,
-   "explained_sites": 402784,
-   "deref_sites": 406770,
+   "types": 19009,
+   "explained_sites": 399769,
+   "deref_sites": 403710,
    "explained_pct": 99.0,
-   "unassigned_sites": 3986,
-   "conflicts": 864,
+   "unassigned_sites": 3941,
+   "conflicts": 860,
    "suspect": 11,
    "evidence": {
     "param": 39634,
     "arg": 10946,
-    "assign&": 1274,
-    "ret-of": 5611,
-    "assign": 19031,
-    "return": 1532,
-    "arg&": 274,
+    "assign&": 1275,
+    "ret-of": 5625,
+    "assign": 19017,
+    "return": 1533,
+    "arg&": 273,
     "field": 7633,
     "nested": 9
    },
    "vetoed": {
     "assign-multisource": 33223,
     "ret-of-multisource": 6602,
-    "arg-conduit": 130812,
+    "arg-conduit": 131037,
     "assign&-multisource": 12213,
     "arg&-conduit": 14638,
     "field-multisource": 6017,
-    "ret-of": 637,
-    "arg&-no-overlap": 3407,
-    "assign": 308,
-    "arg-no-overlap": 41541,
-    "return": 7,
-    "assign&": 337,
-    "arg": 204,
-    "field": 288
+    "ret-of": 623,
+    "arg&-no-overlap": 3408,
+    "assign": 324,
+    "arg-no-overlap": 41741,
+    "assign&": 336,
+    "arg": 183,
+    "return": 6,
+    "field": 108
    },
    "singletons": 14983,
-   "multi_body": 4027,
-   "sites_in_multi_body": 345142,
+   "multi_body": 4026,
+   "sites_in_multi_body": 342042,
    "top": [
     {
      "name": "Unkstruct_800B5CB8",
-     "sites": 44028,
-     "bodies": 5733,
+     "sites": 42454,
+     "bodies": 5598,
      "size_hint": 268,
      "fields": 129,
      "conflicts": 50,
      "sign_mixed": 57,
      "merges": {
-      "arg&": 253,
-      "assign&": 18,
+      "arg&": 252,
+      "assign&": 19,
       "assign": 8579,
       "param": 9164,
       "ret-of": 2389,
@@ -149046,8 +152016,8 @@
     },
     {
      "name": "Unkstruct_80126B58",
-     "sites": 38129,
-     "bodies": 8066,
+     "sites": 37769,
+     "bodies": 7706,
      "size_hint": 588,
      "fields": 171,
      "conflicts": 50,
@@ -149427,7 +152397,7 @@
   },
   "global_blocks": {
    "n": 2127,
-   "members": 14269,
+   "members": 14274,
    "top": [
     {
      "base": "0x800cf10c",
@@ -149508,6 +152478,17 @@
      }
     },
     {
+     "base": "0x801b83a0",
+     "size": 78,
+     "members": 21,
+     "first": "D_801B83A0",
+     "last": "D_801B83ED",
+     "widths": {
+      "4": 19,
+      "1": 2
+     }
+    },
+    {
      "base": "0x801b8710",
      "size": 84,
      "members": 21,
@@ -149578,17 +152559,6 @@
      "widths": {
       "4": 20
      }
-    },
-    {
-     "base": "0x80191a90",
-     "size": 77,
-     "members": 20,
-     "first": "D_80191A90",
-     "last": "D_80191ADC",
-     "widths": {
-      "4": 19,
-      "1": 1
-     }
     }
    ]
   },
@@ -149605,9 +152575,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 52.4,
-   "decls_s": 252.9,
-   "total_s": 266.5
+   "walk_s": 66.1,
+   "decls_s": 262.1,
+   "total_s": 274.7
   }
  },
  "dup_layout_classes": [
