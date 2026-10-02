@@ -6094,10 +6094,10 @@ void func_80184764(void *a0) {
     }
 
     ptr_0x20 = *(void **)(s0 + 0x20);
-    *(u16 *)((s32)ptr_0x20 + 0x18) += 0x100;
+    ((Unkstruct_800B5CB8 *)ptr_0x20)->unk18 += 0x100;
 
     ptr_0x20 = *(void **)(s0 + 0x20);
-    *(u16 *)((s32)ptr_0x20 + 0x1A) += 0x100;
+    ((Unkstruct_800B5CB8 *)ptr_0x20)->unk1A += 0x100;
 
     func_8012931C((struct vec *)s0);
 }
