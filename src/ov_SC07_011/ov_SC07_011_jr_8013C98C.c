@@ -1708,7 +1708,7 @@ void func_8013E6AC(void) {
     extern u16 D_80115110;
     extern s32 D_80115188;
     extern s16 D_8017F9F8;
-    extern s16 D_8017F9FA;
+    extern s16 D_8017F9FA[];
     extern unsigned short D_80115112;
     short i;
 
@@ -1733,12 +1733,12 @@ void func_8013E6AC(void) {
             *(s32 *)((char *)&D_80115188 + (i << 2)) = v;
         }
         D_8017F9F8 = 2;
-        D_8017F9FA = 1;
+        D_8017F9FA[0] = 1;
         { u16 *q = &D_80115112; *q += 1; }
     } else {
         func_8013E83C();
         D_8011511A = 7;
-        D_8017F9FA = 0;
+        D_8017F9FA[0] = 0;
         D_8017F9F8 = 0;
         D_80115112 = 6;
     }
@@ -1760,7 +1760,7 @@ void func_8013E83C() {
     extern void func_8002D4C8(int, int);
     extern void func_80141C0C(int);
     extern unsigned short D_80115118;
-    extern unsigned short D_80115128;
+    extern unsigned short D_80115128[];
     extern unsigned short D_8011512E;
     extern unsigned int D_80115130;
     extern unsigned short D_80115158;
@@ -1796,7 +1796,7 @@ void func_8013E83C() {
     D_8011515E = 0x129;
     D_80115162 = 0x103;
     D_80115166 = 0x105;
-    D_80115128 = 0;
+    D_80115128[0] = 0;
     D_8011512E = 0;
 
     if (D_80115110 == 3) {
@@ -1889,11 +1889,11 @@ void func_8013EB7C(void) {
     extern s32 D_801151D0;
     extern u16 D_8011511A;
     extern u16 D_8011511E;
-    extern short D_80115128;
+    extern short D_80115128[0];
     extern unsigned short D_80115112;
     extern s16 D_8011512A;
     extern s32 D_80115130;
-    extern unsigned char D_8017F9FC;
+    extern unsigned char D_8017F9FC[];
     s32 sp10[2];
     short sVar1;
     s32 iVar4;
@@ -1915,15 +1915,15 @@ void func_8013EB7C(void) {
             if (iVar4 != *p130) {
                 *p130 = iVar4;
                 func_80139954();
-                func_801376E8(iVar4, (s32)&(*(u8 *)&D_8017F9FC));
+                func_801376E8(iVar4, (s32)&(D_8017F9FC[0]));
             }
         }
         func_80137B80();
         if ((D_8011511E & 0x10) != 0 && D_8011511A < 5 && sVar1 == 0) {
-            (*(s16 *)&D_80115128) = 0;
+            (D_80115128[0]) = 0;
             func_8002D4C8(0x466, 0);
             if (D_8011511A != 4) {
-                func_801376E8((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)&D_8017F9FC));
+                func_801376E8((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)D_8017F9FC));
             }
             (*(unsigned short *)&D_80115112) -= 1;
         } else {
@@ -1965,8 +1965,8 @@ s32 func_8013EE10() {
     extern u8 D_801151C8[];
     extern s32 D_801151D0;
     extern s16 D_8017F9F8;
-    extern s16 D_8017F9FA;
-    extern unsigned char D_8017F9FC;
+    extern s16 D_8017F9FA[0];
+    extern unsigned char D_8017F9FC[0];
     extern E4 D_80115188[];
     extern E4 D_80115168[];
     extern unsigned short D_80115118;
@@ -1985,7 +1985,7 @@ s32 func_8013EE10() {
         D_80115188[i].f0 = t;
         D_80115168[i].f0 = D_80115168[i].f0 - t;
     }
-    r = &D_8017F9FA;
+    r = D_8017F9FA;
     if (*r < 3) {
         *r = *r + 1;
     }
@@ -1994,7 +1994,7 @@ s32 func_8013EE10() {
     old = *p;
     *p = old + 1;
     if (old >= 5) {
-        ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), &D_8017F9FC);
+        ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), D_8017F9FC);
         for (i = 0; i < 5; i++) {
             s32 *q = (s32 *)((char *)p - 8);
             *(s32 *)((char *)&q[i] + 0x78) = 0;
@@ -2032,7 +2032,7 @@ void func_8013EF88(void)
     extern u16 D_80115124;
     extern u16 D_80115114;
     extern u16 D_80115112;
-    extern s16 D_8017F9FA;
+    extern s16 D_8017F9FA[0];
     extern s16 D_8017F9F8;
     u16 *p = &D_80115118;
     u16 old = *p;
@@ -2050,7 +2050,7 @@ void func_8013EF88(void)
                 D_80115168[i].f0 = D_80115168[i].f0 + t;
             }
             if (D_80115118 < 3) {
-                u16 *s = &(*(u16 *)&D_8017F9FA);
+                u16 *s = &(D_8017F9FA[0]);
                 *s -= 1;
             }
             {
@@ -2095,12 +2095,12 @@ void func_8013F138(void) {
     extern unsigned short D_80115118;
     extern unsigned short D_80115112;
     extern u16 D_80115110;
-    extern unsigned char D_8017F9FC;
+    extern unsigned char D_8017F9FC[0];
     u16 *p = &D_80115118;
     *p += 0x10;
     if ((u16)*p >= 0x40) {
         if (D_80115110 == 0) {
-            ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), &D_8017F9FC);
+            ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), D_8017F9FC);
         }
         D_80115112 += 1;
     }
