@@ -5917,8 +5917,8 @@ void func_801A8CE0(s32 a0, s16 a1, s32 a2, s32 a3)
 
     var_s1 = func_80132EF4((s32)a0, 0x70);
     if (var_s1 != 0) {
-        *(u16 *)(var_s1 + 0xA) += *(u16 *)((s32)a0 + 0x52);
-        *(s32 *)(var_s1 + 0x1C) = (s16)a3;
+        CAST_ALIAS(u16, var_s1, 0xA) += *(u16 *)((s32)a0 + 0x52);
+        CAST_ALIAS(s32, var_s1, 0x1C) = (s16)a3;
         sp10.x = D_801269A4;
         sp10.y = D_801269A8;
         sp10.z = D_801269AC;
@@ -5930,7 +5930,7 @@ void func_801A8CE0(s32 a0, s16 a1, s32 a2, s32 a3)
         flag[0] = a2;
         flag[1] = flag[2] = 0;
         func_800484EC((s32)&mtx, (s32)flag, var_s1 + 0x10);
-        *(u16 *)(var_s1 + 0x2C) = 0;
+        ((Unkstruct_800B5CB8 *)var_s1)->unk2C = 0;
     }
 }
 
@@ -6218,9 +6218,9 @@ s32 func_801A9454(s32 self, s32 amount) {
 
     obj = func_80132EF4(self, 0x2D);
     if (obj != 0) {
-        v = *(u16 *)(obj + 0xA);
-        *(u16 *)(obj + 0x2C) = 2;
-        *(u16 *)(obj + 0xA) = v + amount;
+        v = ((Unkstruct_800B5CB8 *)obj)->unkA;
+        ((Unkstruct_800B5CB8 *)obj)->unk2C = 2;
+        ((Unkstruct_800B5CB8 *)obj)->unkA = v + amount;
     }
     return obj;
 }
@@ -6741,12 +6741,12 @@ void func_801AA160(s32 arg0, s32 arg1)
     s0 = func_80132EF4(arg0, 0x22);
     if (s0 != 0) {
         ApplyRotMatrix((void *)(D_801B0790 + (s1 << 3)), vec);
-        *(u16 *)(s0 + 0x6) += vec[0];
-        *(u16 *)(s0 + 0xA) += vec[1];
-        *(u16 *)(s0 + 0xE) += vec[2];
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = 0xC020;
+        ((Unkstruct_800B5CB8 *)s0)->unk6 += vec[0];
+        ((Unkstruct_800B5CB8 *)s0)->unkA += vec[1];
+        ((Unkstruct_800B5CB8 *)s0)->unkE += vec[2];
+        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = 0xC020;
         ApplyRotMatrixLV((void *)(D_801B07A0 + (s1 << 4)), (void *)(s0 + 0x10));
-        *(u16 *)(s0 + 0x34) = 0x3400;
+        ((Unkstruct_800B5CB8 *)s0)->unk34 = 0x3400;
     }
 }
 
@@ -6847,9 +6847,9 @@ void func_801AA3CC(s32 arg0)
         rot[1] = -(rand() & 0x3F);
         rot[2] = rand() & 0x3F;
         ApplyRotMatrix(&rot, &vec);
-        *(u16 *)(s1 + 0x6) += vec[0];
-        *(u16 *)(s1 + 0xA) += vec[1];
-        *(u16 *)(s1 + 0xE) += vec[2];
+        ((Unkstruct_800B5CB8 *)s1)->unk6 += vec[0];
+        ((Unkstruct_800B5CB8 *)s1)->unkA += vec[1];
+        ((Unkstruct_800B5CB8 *)s1)->unkE += vec[2];
         vec[2] = 0x40000;
         vec[0] = rot[0] << 14;
         vec[1] = rot[1] << 13;
