@@ -2793,7 +2793,7 @@ extern void func_8018278C(s32 a0, s16 a1, u16 a2);
 extern void func_801826C8(s32 a0);
 extern s32 func_801828A8(s32 a0);
 extern void func_80182740(s32 a0, s32 a1);
-extern void aF8018AFD0();
+extern void aF8018AFD0(s32 a0, s32 a1, s32 a2);
 extern void func_801828E4(void *a0);
 extern void RotMatrixZ(s32 a0, void *a1);
 extern void func_8004901C(void *a0, void *a1);
