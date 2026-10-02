@@ -7464,14 +7464,14 @@ s32 func_8018317C(s32 a0) {
         if (rand() & 1) {
             v1 = *(s32 *)(s2 + 0x20);
             v0 = -0x2000;
-            *(s16 *)(v1 + 0x1C) = v0;
+            CAST_WIDTH(s16, v1, 0x1C) = v0;
         } else {
             v1 = *(s32 *)(s2 + 0x20);
             v0 = 0x2000;
-            *(s16 *)(v1 + 0x1C) = v0;
+            CAST_WIDTH(s16, v1, 0x1C) = v0;
         }
-        *(s16 *)(v1 + 0x1A) = v0;
-        do { *(s16 *)(v1 + 0x18) = v0; } while (0);
+        ((Unkstruct_800B5CB8 *)v1)->unk1A = v0;
+        do { ((Unkstruct_800B5CB8 *)v1)->unk18 = v0; } while (0);
     }
 
     /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2

@@ -148,11 +148,11 @@ void func_801890C8(s32 a0) {
     vec[1] = D_801960CE << 8;
     vec[2] = D_801960D0 << 8;
 
-    func_800484EC(*(s32 *)(a0 + 0x20) + 0x34, (s32)vec, (s32)out);
+    func_800484EC(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34, (s32)vec, (s32)out);
 
-    out[0] += *(s16 *)(a0 + 0x6) << 8;
-    out[1] += *(s16 *)(a0 + 0xA) << 8;
-    out[2] += *(s16 *)(a0 + 0xE) << 8;
+    out[0] += CAST_SIGN(s16, a0, 0x6) << 8;
+    out[1] += CAST_SIGN(s16, a0, 0xA) << 8;
+    out[2] += CAST_SIGN(s16, a0, 0xE) << 8;
 
     sp.unk0 = out[0] / 256;
     sp.unk2 = out[1] / 256;
@@ -3788,7 +3788,7 @@ void func_8018D720(void *param_1)
     s32 flag;
     u16 cnt;
 
-    m = (s32 *)(*(s32 *)((s32)param_1 + 0x20) + 0x34);
+    m = (s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x34);
 
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
@@ -3796,16 +3796,16 @@ void func_8018D720(void *param_1)
     RotTransSV(D_801DF68C, sv0, &flag);
     RotTransSV(D_801DF694, sv1, &flag);
 
-    func_8018D820(*(s16 *)(*(s32 *)((s32)param_1 + 0x20) + 0x12), (s32)sv0,
-                  *(s16 *)((s32)param_1 + 0xDC));
-    func_8018D820(*(s16 *)(*(s32 *)((s32)param_1 + 0x20) + 0x12), (s32)sv1,
-                  *(s16 *)((s32)param_1 + 0xDC));
+    func_8018D820(*(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12), (s32)sv0,
+                  CAST_WIDTH(s16, (s32)param_1, 0xDC));
+    func_8018D820(*(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12), (s32)sv1,
+                  CAST_WIDTH(s16, (s32)param_1, 0xDC));
 
-    cnt = *(u16 *)((s32)param_1 + 0xDC);
+    cnt = CAST_WIDTH(u16, (s32)param_1, 0xDC);
     cnt = cnt + 1;
-    *(u16 *)((s32)param_1 + 0xDC) = cnt;
+    CAST_WIDTH(u16, (s32)param_1, 0xDC) = cnt;
     if ((s16)cnt >= 3) {
-        *(u16 *)((s32)param_1 + 0xDC) = 2;
+        CAST_WIDTH(u16, (s32)param_1, 0xDC) = 2;
     }
 }
 

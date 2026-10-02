@@ -11486,7 +11486,7 @@ int func_80188194(short *pos, int a1, int a2)
 
         if (a2 != 0) {
             u8 *ptr = *(u8 **)(v1 + 0x20);
-            *(s32 *)(ptr + 0x24) = a2;
+            CAST_WIDTH(s32, ptr, 0x24) = a2;
         }
     }
 

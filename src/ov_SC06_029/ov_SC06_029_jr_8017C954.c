@@ -6385,12 +6385,12 @@ void func_80182DB0(void *a0) {
         obj = (void *)func_8012C194();
         if (obj != NULL) {
             func_8001CD9C((int)obj, D_80190900);
-            flags = *(s32 *)((s32)obj + 0x4);
+            flags = CAST_WIDTH(s32, (s32)obj, 0x4);
             flags |= 0x50000000;
-            *(u16 *)((s32)obj + 0x2C) = 0xC030;
-            *(s16 *)((s32)obj + 0x1A) = 0x400;
-            *(s16 *)((s32)obj + 0x18) = 0x400;
-            *(s32 *)((s32)obj + 0x4) = flags;
+            ((Unkstruct_800B5CB8 *)obj)->unk2C = 0xC030;
+            ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x400;
+            ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x400;
+            CAST_WIDTH(s32, (s32)obj, 0x4) = flags;
         }
         *slot = obj;
         slot++;

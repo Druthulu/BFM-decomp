@@ -3449,13 +3449,13 @@ extern void D_80196F3C;
 
 void func_80184594(s32 param) {
     u16 v;
-    *(s16 *)(param + 2) = 3;
+    ((Unkstruct_800B5CB8 *)param)->unk2 = 3;
     ((void (*)(s32, s32))func_8012A828)(param, (s32)&D_80196F3C);
-    v = *(u16 *)(*(s32 *)(param + 0x78) + 2);
-    *(s16 *)(param + 0x5e) = 0;
-    *(s16 *)(param + 0xdc) = 0;
-    *(s32 *)(param + 0x1c) = 0x2d;
-    *(s16 *)(param + 0x5c) = v;
+    v = *(u16 *)(((Unkstruct_800B5CB8 *)param)->unk78 + 2);
+    CAST_WIDTH(s16, param, 0x5e) = 0;
+    CAST_WIDTH(s16, param, 0xdc) = 0;
+    ((Unkstruct_800B5CB8 *)param)->unk1C = 0x2d;
+    ((Unkstruct_800B5CB8 *)param)->unk5C = v;
 }
 
 // @class: schedule
@@ -3504,8 +3504,8 @@ void func_8018469C(s32 param_1) {
 }
 
 void func_801846F8(s32 a0) {
-    *(s16 *)(a0 + 0x2) = 5;
-    *(s32 *)(a0 + 0x1C) = 0x14;
+    ((Unkstruct_800B5CB8 *)a0)->unk2 = 5;
+    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x14;
 }
 
 // @class: regalloc-order
@@ -4279,13 +4279,13 @@ void func_801858AC(s32 param_1, s32 param_2)
     s16 v0;
     int iVar3;
 
-    s0 = D_801B1568[*(short *)(param_1 + 0xfc)];
+    s0 = D_801B1568[((Unkstruct_800B5CB8 *)param_1)->unkFC];
     s3 = param_2;
-    if (((short *)D_801B1568)[*(short *)(param_1 + 0xfc)] == 0) {
-        *(short *)(param_1 + 0xfc) = 0;
+    if (((short *)D_801B1568)[((Unkstruct_800B5CB8 *)param_1)->unkFC] == 0) {
+        ((Unkstruct_800B5CB8 *)param_1)->unkFC = 0;
         s0 = D_801B1568[0];
     }
-    *(short *)(param_1 + 0xfc) = *(short *)(param_1 + 0xfc) + 1;
+    ((Unkstruct_800B5CB8 *)param_1)->unkFC = ((Unkstruct_800B5CB8 *)param_1)->unkFC + 1;
     v0 = (rand() & 3) * 0x400 + 0x1800;
     s1 = (v0 - 0x1000) * 0x20;
     iVar3 = ((int (*)(int))func_8012913C)(4);
@@ -4316,10 +4316,10 @@ extern s32 func_8012AD50(void *a0);
 void func_801859AC(int param_1) {
     short uVar1;
 
-    *(short *)(param_1 + 0xfc) = 0;
-    *(int *)(param_1 + 0x1c) = 1;
+    ((Unkstruct_800B5CB8 *)param_1)->unkFC = 0;
+    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 1;
     uVar1 = *(unsigned short *)(param_1 + 0x70) & 7;
-    *(short *)(param_1 + 0xfe) = (uVar1 < 2) ? 0x1e : 0xf;
+    ((Unkstruct_800B5CB8 *)param_1)->unkFE = (uVar1 < 2) ? 0x1e : 0xf;
     if (uVar1 != 0) {
         func_801858AC(param_1, -0x80);
         func_801858AC(param_1, -0x30);

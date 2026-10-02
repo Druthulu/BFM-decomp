@@ -2875,11 +2875,11 @@ void func_801801AC(s32 a0) {
 
 
 void func_80180234(void *a0) {
-        s32 v1 = *(s32 *)((s32)a0 + 0x20);
-        *(s16 *)((s32)a0 + 0x2) = 1;
-        *(s16 *)((s32)a0 + 0x34) = 0;
-        *(s16 *)(v1 + 0x10) = 0;
-        *(s16 *)((s32)a0 + 0x5E) = 0;
+        s32 v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+        ((Unkstruct_800B5CB8 *)v1)->unk10 = 0;
+        CAST_WIDTH(s16, (s32)a0, 0x5E) = 0;
     }
 
 
@@ -3834,9 +3834,9 @@ void func_80181708(void *a0) {
 void func_801817D8(u8 *a0, u8 *a1) {
     u16 sp0[3];
 
-    sp0[0] = *(u16 *)(a0 + 6);
-    sp0[1] = *(u16 *)(a0 + 0xA);
-    sp0[2] = *(u16 *)(a0 + 0xE);
+    sp0[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
+    sp0[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
+    sp0[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
 
     sp0[0] += *(u16 *)(a1 + 0);
     sp0[1] += *(u16 *)(a1 + 2);
@@ -5623,7 +5623,7 @@ void func_80183E70(void *param_1)
     s32 flag;
     u16 cnt;
 
-    m = (s32 *)(*(s32 *)((s32)param_1 + 0x20) + 0x34);
+    m = (s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x34);
 
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
@@ -5631,16 +5631,16 @@ void func_80183E70(void *param_1)
     RotTransSV(D_801C4830, sv0, &flag);
     RotTransSV(D_801C4838, sv1, &flag);
 
-    func_80183F70(*(s16 *)(*(s32 *)((s32)param_1 + 0x20) + 0x12), (s32)sv0,
-                  *(s16 *)((s32)param_1 + 0xDC));
-    func_80183F70(*(s16 *)(*(s32 *)((s32)param_1 + 0x20) + 0x12), (s32)sv1,
-                  *(s16 *)((s32)param_1 + 0xDC));
+    func_80183F70(*(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12), (s32)sv0,
+                  CAST_WIDTH(s16, (s32)param_1, 0xDC));
+    func_80183F70(*(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12), (s32)sv1,
+                  CAST_WIDTH(s16, (s32)param_1, 0xDC));
 
-    cnt = *(u16 *)((s32)param_1 + 0xDC);
+    cnt = CAST_WIDTH(u16, (s32)param_1, 0xDC);
     cnt = cnt + 1;
-    *(u16 *)((s32)param_1 + 0xDC) = cnt;
+    CAST_WIDTH(u16, (s32)param_1, 0xDC) = cnt;
     if ((s16)cnt >= 3) {
-        *(u16 *)((s32)param_1 + 0xDC) = 2;
+        CAST_WIDTH(u16, (s32)param_1, 0xDC) = 2;
     }
 }
 

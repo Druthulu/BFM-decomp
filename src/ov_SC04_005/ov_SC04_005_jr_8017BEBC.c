@@ -4798,7 +4798,7 @@ void func_8017F894(void *a0) {
     default:
         p = D_801202A0;
         for (i = 0; i < 0x60; i++) {
-            if (*(u16 *)p == *(s16 *)(r + 6)) {
+            if (((Unkstruct_800B5CB8 *)p)->unk0 == *(s16 *)(r + 6)) {
                 ((void (*)(void *, void *, void *))func_8012F214)(p, r, out);
                 func_801290DC(0x56, (u8 *)out);
             }
@@ -9237,15 +9237,15 @@ s32 func_80185B70(s32 a0) {
         if (rand() & 1) {
             v1 = *(s32 *)(s2 + 0x20);
             v0 = -0x2000;
-            *(s16 *)(v1 + 0x1C) = v0;
-            *(s16 *)(v1 + 0x1A) = v0;
-            *(s16 *)(v1 + 0x18) = v0;
+            CAST_WIDTH(s16, v1, 0x1C) = v0;
+            ((Unkstruct_800B5CB8 *)v1)->unk1A = v0;
+            ((Unkstruct_800B5CB8 *)v1)->unk18 = v0;
         } else {
             v1 = *(s32 *)(s2 + 0x20);
             v0 = 0x2000;
-            *(s16 *)(v1 + 0x1C) = v0;
-            *(s16 *)(v1 + 0x1A) = v0;
-            *(s16 *)(v1 + 0x18) = v0;
+            CAST_WIDTH(s16, v1, 0x1C) = v0;
+            ((Unkstruct_800B5CB8 *)v1)->unk1A = v0;
+            ((Unkstruct_800B5CB8 *)v1)->unk18 = v0;
         }
     }
 

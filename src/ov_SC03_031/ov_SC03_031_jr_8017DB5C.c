@@ -3704,15 +3704,15 @@ extern void func_801292C8(u8 *a0);
 void func_8017FB84(void *a0) {
     s32 v0;
 
-    v0 = *(s32 *)((s32)a0 + 0x1C);
+    v0 = ((Unkstruct_800B5CB8 *)a0)->unk1C;
     if (v0 == 0) {
         func_8012931C((struct vec *)a0);
-        v0 = func_80128ED8(*(s32 *)((s32)a0 + 0x20), (s32 *)((s32)a0 + 0x24));
+        v0 = func_80128ED8(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)((s32)a0 + 0x24));
         if (v0 != 0) {
             func_801292C8((u8 *)a0);
         }
     } else {
-        *(s32 *)((s32)a0 + 0x1C) = v0 - 1;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = v0 - 1;
     }
 }
 

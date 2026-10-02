@@ -5616,7 +5616,7 @@ void func_8017FCAC(s32 a0) {
     s32 s1 = a0;
 
     s0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(s1 + 0x20) = s0;
+    ((Unkstruct_800B5CB8 *)s1)->unk20 = s0;
     if (s0 != 0) {
         func_8001C214(s0, (s32)&D_801B5C84);
         *(s32 *)(s0 + 0x28) = 0x7FFF7FFF;
@@ -5958,7 +5958,7 @@ void func_80180324(s32 a0) {
 
     s1 = a0;
     s0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(s1 + 0x20) = s0;
+    ((Unkstruct_800B5CB8 *)s1)->unk20 = s0;
 
     if (s0 != 0) {
         func_8001C214(s0, (s32)&D_801BA63C);
@@ -6183,7 +6183,7 @@ void func_80180730(s32 a0) {
     if (func_80180F84() == 0x11) {
         func_8018122C(s0, D_80188CA4);
         func_8012C588(0x388, s0);
-        *(s16 *)(s0 + 0xFC) = 0;
+        ((Unkstruct_800B5CB8 *)s0)->unkFC = 0;
         func_8012AD50((void *)s0);
     }
 }
@@ -6402,7 +6402,7 @@ void func_80180BC0(void *a0) {
     s32 s0;
 
     s1 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(s2 + 0x20) = s1;
+    ((Unkstruct_800B5CB8 *)s2)->unk20 = s1;
 
     if (!s1) {
         return;
@@ -7857,7 +7857,7 @@ extern void func_80171928(void *a0);
 
 void func_80182BA8(s32 a0) {
     u8 *p = CAST_SIGN(u8 *, a0, 0x20);
-    *(u16 *)(p + 0x12) = *(u16 *)(p + 0x12) - 0x2D;
+    ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 - 0x2D;
     if (func_80171A88(a0) != 0) {
         func_80180F94(0x18);
         func_80171928((void *)a0);

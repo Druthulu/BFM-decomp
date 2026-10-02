@@ -5354,12 +5354,12 @@ void func_8017F0EC(s32 a0) {
     }
     d = (*(s16 *)(a0 + 0x76) * 12288) / 100;
     p = *(s32 *)(a0 + 0xCC);
-    *(u16 *)(p + 0x1A) = d;
-    *(u16 *)(p + 0x18) = d;
+    ((Unkstruct_800B5CB8 *)p)->unk1A = d;
+    ((Unkstruct_800B5CB8 *)p)->unk18 = d;
     p = *(s32 *)(a0 + 0xCC);
-    *(u16 *)(p + 0x8) = *(u16 *)(a0 + 0x6);
-    *(u16 *)(p + 0xA) = *(u16 *)(a0 + 0xA);
-    *(u16 *)(p + 0xC) = *(u16 *)(a0 + 0xE);
+    ((Unkstruct_800B5CB8 *)p)->unk8 = *(u16 *)(a0 + 0x6);
+    ((Unkstruct_800B5CB8 *)p)->unkA = *(u16 *)(a0 + 0xA);
+    ((Unkstruct_800B5CB8 *)p)->unkC = *(u16 *)(a0 + 0xE);
     func_80128ED8(p, (s32 *)(a0 + 0xD0));
 }
 
@@ -7294,7 +7294,7 @@ void func_80181830(s32 a0) {
     case 10:
     case 12:
         func_8001C810(v0, D_801B297C[*p][0]);
-        *(s32 *)(v0 + 4) |= 0x8040;
+        CAST_WIDTH(s32, v0, 4) |= 0x8040;
         break;
     default:
         func_8001C214(v0, D_801B297C[*p][0]);

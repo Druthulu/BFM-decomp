@@ -204,10 +204,10 @@ int param_1;
 
 
 void func_80182DF8(void *a0) {
-        *(short *)((char *)a0 + 0x2) = 0xB;
-        *(short *)((char *)a0 + 0x5C) = 0;
-        *(int *)((char *)a0 + 0x1C) = 0x1E;
-        *(short *)((char *)a0 + 0x98) = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0xB;
+        ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x1E;
+        ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
     }
 
 
@@ -745,8 +745,8 @@ extern M2C_UNK D_8018A568;
 
 void func_801838F0(void *arg0) {
     ((void (*)(void *, void *))func_8012A828)(arg0, &D_8018A568);
-    *(s16 *)((s32)arg0 + 0x2) = 0x3;
-    *(s16 *)((s32)arg0 + 0x34) = 0;
+    ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0x3;
+    ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
 }
 
 

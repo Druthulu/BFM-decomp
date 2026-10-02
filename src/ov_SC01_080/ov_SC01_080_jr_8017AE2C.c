@@ -7234,10 +7234,10 @@ void func_8018230C(s32 arg0) {
 
 void func_801824D0(int param_1)
 {
-    *(short *)(param_1 + 2) = 2;
-    *(int *)(param_1 + 0x1c) = 0x10;
-    *(unsigned int *)(*(int *)(param_1 + 0x20) + 4) =
-        *(unsigned int *)(*(int *)(param_1 + 0x20) + 4) & 0x7fffffff;
+    ((Unkstruct_800B5CB8 *)param_1)->unk2 = 2;
+    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x10;
+    *(unsigned int *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 4) =
+        *(unsigned int *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 4) & 0x7fffffff;
     return;
 }
 

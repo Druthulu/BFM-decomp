@@ -4593,10 +4593,10 @@ s32 func_80187780(s16 *a0, s32 a1, s32 a2, s32 a3) {
         return 0;
     }
     sub = *(s32 *)(obj + 0x20);
-    *(s32 *)(sub + 0x20) = (s32) D_801A9AA0;
-    *(u8 *)(sub + 0x27) = 0x56;
-    *(u16 *)(sub + 0x28) = 0x2A0;
-    *(u16 *)(sub + 0x2A) = 0x1A0;
+    ((Unkstruct_800B5CB8 *)sub)->unk20 = (s32) D_801A9AA0;
+    ((Unkstruct_800B5CB8 *)sub)->unk27 = 0x56;
+    ((Unkstruct_800B5CB8 *)sub)->unk28 = 0x2A0;
+    ((Unkstruct_800B5CB8 *)sub)->unk2A = 0x1A0;
 
     base = rand() % 200;
     if ((rand() & 1) == 0) {
@@ -4604,8 +4604,8 @@ s32 func_80187780(s16 *a0, s32 a1, s32 a2, s32 a3) {
     } else {
         spd = base + 0x400;
     }
-    *(u16 *)(sub + 0x1A) = spd;
-    *(u16 *)(sub + 0x18) = spd;
+    ((Unkstruct_800B5CB8 *)sub)->unk1A = spd;
+    ((Unkstruct_800B5CB8 *)sub)->unk18 = spd;
 
     if (a3 == 0) {
         s32 sign;
