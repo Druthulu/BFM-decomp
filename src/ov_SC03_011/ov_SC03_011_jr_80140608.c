@@ -892,7 +892,7 @@ extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
 extern u16 D_80115112;
 extern void func_8013ED6C(void);
 extern s32 func_8013EE10();
-extern unsigned short D_80115118;
+extern unsigned short D_80115118[];
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
@@ -1401,7 +1401,7 @@ void func_80141874(void) {
 
 extern u16 D_80115110;
 extern u16 D_80115112;
-extern unsigned short D_80115118;
+extern unsigned short D_80115118[0];
 extern volatile u16 D_8011511A;
 extern s16 D_80115128;
 extern u16 D_8011512E;   /* §17a-1: canonical width (jr_8013F350 TUs decl u16); byte-neutral here (only use is store-0) */
@@ -1434,7 +1434,7 @@ void func_801418F8(void)
     func_800D24A0(1);
     D_8011511A = 2;
     t = D_8011511A;
-    (*(s16 *)&D_80115118) = 0;
+    (D_80115118[0]) = 0;
     D_80115130 = 0;
     if (t >= 4) {
         D_8011511A = t - 3;

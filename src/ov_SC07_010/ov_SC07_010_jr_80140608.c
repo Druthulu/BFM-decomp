@@ -105,7 +105,7 @@ extern void func_800D2624(void);
 extern void func_8013EF88(void);
 extern void func_8013F138(void);
 extern unsigned short D_80115114;
-extern unsigned short D_80115118;
+extern unsigned short D_80115118[];
 extern void func_8013F1BC(void);
 extern void func_80141C0C(s32);
 extern u16 D_8011511C;
@@ -690,7 +690,7 @@ void func_801418F8(void)
 {
 
     extern u16 D_80115112;
-    extern unsigned short D_80115118;
+    extern unsigned short D_80115118[0];
     extern s32 D_80115130;
     extern s16 D_8011515A;
     extern s16 D_8011515E;
@@ -709,7 +709,7 @@ void func_801418F8(void)
     func_800D24A0(1);
     D_8011511A = 2;
     t = D_8011511A;
-    (*(s16 *)&D_80115118) = 0;
+    (D_80115118[0]) = 0;
     D_80115130 = 0;
     if (t >= 4) {
         D_8011511A = t - 3;
