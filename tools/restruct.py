@@ -13,8 +13,14 @@
     tools/restruct.py --status --rung L --only <CanonType> …                           # the HEAD-FOLD rows (latest per unit): verdict -> cause -> units
       (rung L with `--only <CanonType> …` = HEAD-FOLD mode, P38 T4: same-size other-layout definitions -> `typedef <Canon> <Local>;` + renames)
     tools/restruct.py --check-ledger                                                   # every MEMBER site still a leaf of its (current) canonical type
-    tools/restruct.py --rung S --residue --label <lbl> [--only X …]                    # T3.c7: a no-edit RESIDUAL(<cause>) row per undrawn body (ledger only)
-    tools/restruct.py --check-residue [--only X …]                                     # P/X census sites (default ov_*) with no latest rung-S row; exit 1 if any
+    tools/restruct.py --rung S --residue --label <lbl> [--only X …] [--forms P,X]      # T3.c7: a no-edit RESIDUAL(<cause>) row per body with uncovered
+                                                                                       # sites (ledger only); T10.c1: a body with a latest S row gets a
+                                                                                       # MERGED copy of it + one RESIDUAL entry per uncovered site
+    tools/restruct.py --check-residue [--only X …] [--forms P,X]                       # census sites (default ov_*, forms P,X; I,M accepted) not covered
+                                                                                       # per site (form, normalised base, off; multiset) by a RESIDUAL
+                                                                                       # entry of the body's latest S row; exit 1 if any
+      residue causes: FILE-SCOPE, NO-TYPE-IN-MAP, TYPE-NOT-CANONICAL, TYPE-NOT-VISIBLE, else site_class's (MISALIGNED, NO-EDIT, …);
+      I/M forms add ABS-ADDR (base bclass abs/gaddr: a fixed/symbol address) and GLOBAL (bclass global: a global's storage reinterpreted)
     tools/restruct.py --audit-types                                                    # the naming invariant over the canonical type files (struct_layout.audit_definition)
     tools/restruct.py --write-types --top N | --type NAME … [--space ov]               # the WRITER: canonical definitions rendered from the struct map (a preview)
     tools/restruct.py --selftest [--real]                                              # the fixture (a stub oracle); --real adds the calibration + known-true controls
@@ -3453,26 +3459,76 @@ def residue_cause(s, can=None):
     return site_class(s, None, typed=True)
 
 
-def residue_sites(only, latest, path=None):
-    """{(tu, unit): [census P/X site]} over the TUs matching `only` (default ov_*) — the bodies with no latest rung-S row (R100)."""
+RESIDUE_FORMS = ("P", "X")               # T10.c1: --forms default; I and M accepted (ledger-only rows, same entry shape)
+
+
+def residue_cause_im(s, can=None):
+    """T10.c1: why a raw I/M census site stays raw: ABS-ADDR (base bclass abs/gaddr: a fixed or symbol address, no base pointer to
+    type), GLOBAL (bclass global: a global's own storage reinterpreted), else residue_cause (FILE-SCOPE / NO-TYPE-IN-MAP / TYPE-NOT-*
+    / site_class)."""
+    if s.get("bclass") in ("abs", "gaddr"):
+        return "ABS-ADDR"
+    if s.get("bclass") == "global":
+        return "GLOBAL"
+    return residue_cause(s, can)
+
+
+def _residue_key(form, base, off):
+    return (form, s_base_norm(base or ""), off)
+
+
+def residue_match(latest, sites, forms=RESIDUE_FORMS):
+    """T10.c1 (pure): (covered, uncovered) census sites of `forms`. A site is covered only when latest[("S", tu, unit)] (ledger_latest,
+    R100; unit = fn or RESIDUE_FILE_UNIT) has a sites[] entry with the same form, s_base_norm'd base `<bclass>:<base>`, off, verdict
+    RESIDUAL(<cause>) and a non-empty cause — a multiset: one entry covers one site. Never by line (lines drift); MEMBER / KEPT / REFUSED
+    entries cover nothing (a raw site under them is still raw)."""
+    pool = {}
+    covered, uncovered = [], []
+    for s in sites:
+        if s.get("form") not in forms:
+            continue
+        unit = s.get("fn") or RESIDUE_FILE_UNIT
+        bk = (s["tu"], unit)
+        if bk not in pool:
+            pool[bk] = collections.Counter(
+                _residue_key(e.get("form"), e.get("base"), e.get("off"))
+                for e in (latest.get(("S", s["tu"], unit)) or {}).get("sites") or []
+                if str(e.get("verdict") or "").startswith("RESIDUAL(") and e.get("cause"))
+        k = _residue_key(s.get("form"), f"{s.get('bclass')}:{s.get('base')}", s.get("off"))
+        if pool[bk][k] > 0:
+            pool[bk][k] -= 1
+            covered.append(s)
+        else:
+            uncovered.append(s)
+    return covered, uncovered
+
+
+def residue_sites(only, latest, path=None, forms=RESIDUE_FORMS):
+    """{(tu, unit): [uncovered census site of `forms`]} over the TUs matching `only` (default ov_*) — per site (residue_match), not per
+    body: a body with a latest rung-S row still lists every raw site no RESIDUAL entry of that row covers."""
     only = only or RESIDUE_DEFAULT_ONLY
-    out = collections.defaultdict(list)
+    pre = tuple(f'{{"form": "{f}"' for f in forms)
+    cand = []
     with open(path or CENSUS / "sites.jsonl") as f:
         for l in f:
-            if not l.startswith(('{"form": "P"', '{"form": "X"')):
+            if not l.startswith(pre):
                 continue
             s = json.loads(l)
-            unit = s.get("fn") or RESIDUE_FILE_UNIT
-            if ("S", s["tu"], unit) in latest or not matches_only(only, s["tu"], unit):
-                continue
-            out[(s["tu"], unit)].append(s)
+            if matches_only(only, s["tu"], s.get("fn") or RESIDUE_FILE_UNIT):
+                cand.append(s)
+    out = collections.defaultdict(list)
+    for s in residue_match(latest, cand, forms)[1]:
+        out[(s["tu"], s.get("fn") or RESIDUE_FILE_UNIT)].append(s)
     return out
 
 
-def residue_rows(groups, label, calib_id):
+def residue_rows(groups, label, calib_id, latest=None):
     """One rung-S no-edit row per (tu, unit) of residue_sites, sorted (tu, unit): nhash_before == nhash_after == the body's current nhash
     (the masked file's for RESIDUE_FILE_UNIT; None when the body is gone); every site RESIDUAL(<cause>); verdict the shared cause when it
-    is TYPE-NOT-CANONICAL / TYPE-NOT-VISIBLE (S_NO_EDIT_VERDICTS), else RESIDUAL. Bases carry the cause as status: never s_judged."""
+    is TYPE-NOT-CANONICAL / TYPE-NOT-VISIBLE (S_NO_EDIT_VERDICTS), else RESIDUAL. Bases carry the cause as status: never s_judged.
+    I/M sites take residue_cause_im. T10.c1: a body with a latest rung-S row (`latest`) gets a MERGED row instead — a copy of that row
+    (verdict, hashes, bases, every MEMBER/KEPT/RESIDUAL entry: macro backing kept) with ts/label/calib renewed, `residue_of` = its label,
+    and one RESIDUAL entry appended per uncovered site."""
     can = canon_types()
     by_tu = collections.defaultdict(list)
     for tu, unit in groups:
@@ -3491,9 +3547,16 @@ def residue_rows(groups, label, calib_id):
         for unit in sorted(by_tu[tu]):
             sites = []
             for s in sorted(groups[(tu, unit)], key=lambda x: (x.get("line") or 0, x.get("pos") or 0)):
-                c = residue_cause(s, can)
+                c = residue_cause_im(s, can) if s.get("form") in ("I", "M") else residue_cause(s, can)
                 sites.append(dict(form=s.get("form"), line=s.get("line"), base=f"{s.get('bclass')}:{s.get('base')}", off=s.get("off"),
                                   type=s.get("type"), verdict=f"RESIDUAL({c})", cause=c))
+            prior = (latest or {}).get(("S", tu, unit))
+            if prior is not None:
+                m_ = json.loads(json.dumps(prior))
+                m_.update(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, calib=calib_id, residue_of=prior.get("label"),
+                          sites=(m_.get("sites") or []) + sites)
+                rows.append(m_)
+                continue
             causes = {x["cause"] for x in sites}
             verdict = next(iter(causes)) if len(causes) == 1 and causes <= set(S_NO_EDIT_VERDICTS) else "RESIDUAL"
             bases = {}
@@ -3507,20 +3570,39 @@ def residue_rows(groups, label, calib_id):
     return rows
 
 
+def residue_forms(a):
+    fs = tuple(x.strip().upper() for x in (getattr(a, "forms", None) or ",".join(RESIDUE_FORMS)).split(",") if x.strip())
+    bad = [x for x in fs if x not in ("P", "I", "X", "M")]
+    if bad or not fs:
+        sys.exit(f"restruct: --forms takes P,I,X,M (got {bad or fs})")
+    return fs
+
+
 def residue(a):
-    """--rung S --residue: append the residue rows (ledger only) and print the per-cause site counts."""
+    """--rung S --residue [--forms P,X]: append the residue rows (ledger only; merged rows for bodies with a latest rung-S row) and print
+    the per-cause counts of the appended sites. Held under the apply lock (no --apply may append between the read and the write)."""
+    lk = _apply_exclusive()
+    if lk is None:
+        sys.exit("restruct --residue: another --apply/--residue holds the apply lock")
+    forms = residue_forms(a)
     calib = json.loads(oracle.CALIB.read_text()) if oracle.CALIB.exists() else {}
-    rows = residue_rows(residue_sites(a.only, ledger_latest(load_ledger())), a.label, dict(head=calib.get("head"), stamp=calib.get("stamp")))
+    latest = ledger_latest(load_ledger())
+    g = residue_sites(a.only, latest, forms=forms)
+    rows = residue_rows(g, a.label, dict(head=calib.get("head"), stamp=calib.get("stamp")), latest)
     ledger_append(rows)
-    cause = collections.Counter(x["cause"] for r in rows for x in r["sites"])
+    new = [x for r in rows for x in r["sites"][-len(g[(r["tu"], r["unit"])]):]]
+    cause = collections.Counter(x["cause"] for x in new)
     verd = collections.Counter(r["verdict"] for r in rows)
-    print(f"restruct --residue {a.label}: {len(rows)} rows · {sum(cause.values())} sites · causes {dict(sorted(cause.items()))} · verdicts {dict(sorted(verd.items()))}")
+    print(f"restruct --residue {a.label} forms {','.join(forms)}: {len(rows)} rows ({sum(1 for r in rows if 'residue_of' in r)} merged) · "
+          f"{len(new)} sites · causes {dict(sorted(cause.items()))} · verdicts {dict(sorted(verd.items()))}")
+    lk.close()
     return 0
 
 
 def check_residue(a):
-    """--check-residue: the P/X census sites (TUs matching --only, default ov_*) whose body has no latest rung-S row; exit 1 if any."""
-    g = residue_sites(a.only, ledger_latest(load_ledger()))
+    """--check-residue [--forms P,X]: the census sites of the forms (TUs matching --only, default ov_*) that no RESIDUAL entry of their
+    body's latest rung-S row covers (residue_match, per site); exit 1 if any."""
+    g = residue_sites(a.only, ledger_latest(load_ledger()), forms=residue_forms(a))
     n = sum(len(v) for v in g.values())
     print(f"uncovered {n} sites / {len(g)} bodies")
     return 1 if n else 0
@@ -5045,25 +5127,52 @@ def selftest(real=False):
     _map_cache = map_keep_
     ok("apply: the planned pinned base is CANONICAL with edits though the struct map lacks the name",
        [(b_[0], b_[1], b_[2]) for b_ in pb_] == [("param:a0", "Unkstruct_TEST", "CANONICAL")] and len(pb_[0][3]) > 0, f"{[b_[:3] for b_ in pb_]}")
-    # T3.c7: --residue rows (ledger only) and --check-residue over a fixture sites.jsonl
+    # T3.c7: --residue rows (ledger only) and --check-residue over a fixture sites.jsonl; T10.c1: per-site match, merged rows, I/M forms
     rs_p = dirp / "residue_sites.jsonl"
     rs_p.write_text("".join(json.dumps(x) + "\n" for x in [
         dict(form="P", tu=tu, fn="fx_a", line=9, base="a0", bclass="param", off=0, type="Unkstruct_TEST"),
         dict(form="X", tu=tu, fn="fx_b", line=20, base="a0", bclass="param", off=4, type=None),
         dict(form="P", tu=tu, fn="fx_z", line=30, base="D_1", bclass="global", off=0, type="Unkstruct_GONE"),
         dict(form="P", tu=tu, fn=None, line=2, base="D_2", bclass="gaddr", off=0, type=None),
+        dict(form="I", tu=tu, fn="fx_b", line=21, base="D_3", bclass="gaddr", off=0, type="Unkstruct_TEST"),
+        dict(form="M", tu=tu, fn="fx_d", line=50, base="a1", bclass="param", off=16, type=None),
         dict(form="K", tu=tu, fn="fx_c", line=40, base="a0", bclass="param", off=0, type=None)]))
-    lat_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", verdict="MEMBERS", nhash_after=nh_, bases=b_can_)])
-    rr_ = residue_rows(residue_sites([tu], lat_, rs_p), "rtest", {})
+    kept_e_ = dict(form="P", line=7, base="param:a0", off=8, type="Unkstruct_TEST", verdict="KEPT(SIGN)", cause="SIGN")
+    lat_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", label="sprior", verdict="MEMBERS", nhash_after=nh_, bases=b_can_,
+                               sites=[kept_e_])])
+    rg_ = residue_sites([tu], lat_, rs_p)
+    rr_ = residue_rows(rg_, "rtest", {}, lat_)
+    new_ = [r for r in rr_ if "residue_of" not in r]
     db_ = next(x for x in defs_ if x["name"] == "fx_b")
     ok("--residue: one no-edit row per undrawn body (sorted), causes FILE-SCOPE/NO-TYPE-IN-MAP/TYPE-NOT-CANONICAL, never judged",
-       [(r["unit"], r["verdict"], r["sites"][0]["verdict"]) for r in rr_] == [("<file-scope>", "RESIDUAL", "RESIDUAL(FILE-SCOPE)"),
+       [(r["unit"], r["verdict"], r["sites"][0]["verdict"]) for r in new_] == [("<file-scope>", "RESIDUAL", "RESIDUAL(FILE-SCOPE)"),
            ("fx_b", "RESIDUAL", "RESIDUAL(NO-TYPE-IN-MAP)"), ("fx_z", "TYPE-NOT-CANONICAL", "RESIDUAL(TYPE-NOT-CANONICAL)")]
-       and rr_[1]["nhash_before"] == rr_[1]["nhash_after"] == body_nhash(m_, db_) and not any(s_judged(r) for r in rr_)
-       and ledger_index(rr_)[0] == set(), f"{[(r['unit'], r['verdict'], r['nhash_after']) for r in rr_]}")
-    ok("--check-residue: the residue rows cover every P/X site; without them 3 bodies / 3 sites stay uncovered",
-       residue_sites([tu], ledger_latest(list(lat_.values()) + rr_), rs_p) == {}
-       and sum(len(v) for v in residue_sites([tu], lat_, rs_p).values()) == 3)
+       and new_[1]["nhash_before"] == new_[1]["nhash_after"] == body_nhash(m_, db_) and not any(s_judged(r) for r in new_)
+       and ledger_index(new_)[0] == set(), f"{[(r['unit'], r['verdict'], r['nhash_after']) for r in new_]}")
+    ok("--check-residue (T10.c1): a MEMBERS body's raw site no RESIDUAL entry lists is uncovered (per site, not per body)",
+       [s_["line"] for s_ in rg_.get((tu, "fx_a"), [])] == [9] and sum(len(v) for v in rg_.values()) == 4, f"{dict(rg_)}")
+    mg_r = next((r for r in rr_ if r["unit"] == "fx_a"), {})
+    ok("--residue (T10.c1): the merged row keeps the prior verdict, bases and KEPT entries and appends one RESIDUAL entry",
+       mg_r.get("verdict") == "MEMBERS" and mg_r.get("bases") == b_can_ and mg_r.get("residue_of") == "sprior"
+       and mg_r.get("sites", [None])[0] == kept_e_ and len(mg_r["sites"]) == 2
+       and mg_r["sites"][1]["verdict"].startswith("RESIDUAL(") and mg_r["sites"][1]["cause"]
+       and lat_[("S", tu, "fx_a")]["sites"] == [kept_e_], f"{mg_r}")
+    lat2_ = ledger_latest(list(lat_.values()) + rr_)
+    ok("--check-residue: the residue rows cover every P/X site; without them 4 bodies / 4 sites stay uncovered",
+       residue_sites([tu], lat2_, rs_p) == {} and sum(len(v) for v in rg_.values()) == 4 and len(rg_) == 4)
+    e_ = dict(form="P", base="param:a0", off=0, verdict="RESIDUAL(X)", cause="X")
+    s1_ = dict(form="P", tu=tu, fn="fx_q", bclass="param", base="a0", off=0, line=1)
+    mq_ = lambda ents, n: residue_match({("S", tu, "fx_q"): dict(sites=ents)}, [dict(s1_, line=i + 1) for i in range(n)])
+    ok("residue_match: a multiset (one entry covers one site); an empty cause or a KEPT entry covers nothing; line never matters",
+       [len(x) for x in mq_([e_], 2)] == [1, 1] and [len(x) for x in mq_([e_, e_], 2)] == [2, 0]
+       and [len(x) for x in mq_([dict(e_, cause="")], 1)] == [0, 1]
+       and [len(x) for x in mq_([dict(e_, verdict="KEPT(SIGN)", cause="SIGN")], 1)] == [0, 1])
+    rim_ = residue_rows(residue_sites([tu], lat2_, rs_p, ("I", "M")), "rtest_im", {}, lat2_)
+    im_e = {(r["unit"], x["form"], x["cause"]) for r in rim_ for x in r["sites"] if x["form"] in ("I", "M")}
+    ok("--residue --forms I,M (T10.c1): I and M entries written with non-empty causes (ABS-ADDR, NO-TYPE-IN-MAP); then covered",
+       im_e == {("fx_b", "I", "ABS-ADDR"), ("fx_d", "M", "NO-TYPE-IN-MAP")}
+       and residue_sites([tu], ledger_latest(list(lat2_.values()) + rim_), rs_p, ("I", "M")) == {}
+       and residue_sites([tu], ledger_latest(list(lat2_.values()) + rim_), rs_p) == {}, f"{im_e}")
     ok("the selftest never touches the live inflight.json", True)
     ok("struct_layout selftest", sl.selftest() == 0)
     JUDGE_STUB = None
@@ -5116,8 +5225,11 @@ def main():
     ap.add_argument("--restore", action="store_true")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--check-ledger", action="store_true")
-    ap.add_argument("--residue", action="store_true", help="rung S: one no-edit row per undrawn body with P/X census sites (ledger only; --only, default ov_*)")
-    ap.add_argument("--check-residue", action="store_true", help="P/X census sites (--only, default ov_*) whose body has no latest rung-S row; exit 1 if any")
+    ap.add_argument("--residue", action="store_true", help="rung S: a no-edit row per body with uncovered census sites of --forms (ledger only; --only, default ov_*); "
+                    "a body with a latest rung-S row gets a merged copy of it plus one RESIDUAL(<cause>) entry per uncovered site")
+    ap.add_argument("--check-residue", action="store_true", help="census sites of --forms (--only, default ov_*) not covered PER SITE by a RESIDUAL(<cause>) entry "
+                    "(same form, normalised base, off; one entry per site) of their body's latest rung-S row; exit 1 if any")
+    ap.add_argument("--forms", default="P,X", help="--residue/--check-residue: raw census forms, comma list of P,I,X,M (default P,X)")
     ap.add_argument("--audit-types", action="store_true")
     ap.add_argument("--write-types", action="store_true")
     ap.add_argument("--type", nargs="*")
