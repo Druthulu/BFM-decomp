@@ -7100,7 +7100,7 @@ void func_801819BC(s32 arg0)
     extern s32 D_801C786C;
     extern s32 D_801C7870;
     extern s32 D_801C79CC;
-    extern s32 func_8018283C();
+    extern s32 func_8018283C(s32 param_1);
 
     D_801887B8[*(u16 *)(arg0 + 2)](arg0);
 
@@ -7704,7 +7704,7 @@ extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern CdFileLoc cdFileLocTable[];
 extern s16 D_801887C4[];
 
-void func_8018283C(s32 param_1) {
+s32 func_8018283C(s32 param_1) {
     func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[D_801887C4[param_1]], 0, 0);
 }
 
