@@ -3544,7 +3544,7 @@ void func_801807AC(s32 a0) {
             V8_80187968_801807AC q;
 
             v0 = *(u16 *)(a0 + 0x10A);
-            *(s32 *)(s1 + 0x2C) = (v0 & 0x18) >> 3;
+            CAST_WIDTH(s32, s1, 0x2C) = (v0 & 0x18) >> 3;
 
             p1.x = *(u16 *)(a0 + 0x6);
             p1.y = *(u16 *)(a0 + 0xA);
@@ -3556,9 +3556,9 @@ void func_801807AC(s32 a0) {
             func_80133784(1, &p1, (s32)&q);
 
             if (q.flag) {
-                *(u16 *)(s1 + 0x6) = *(u16 *)(a0 + 0x6);
-                *(u16 *)(s1 + 0xA) = q.y;
-                *(u16 *)(s1 + 0xE) = *(u16 *)(a0 + 0xE);
+                ((Unkstruct_800B5CB8 *)s1)->unk6 = *(u16 *)(a0 + 0x6);
+                ((Unkstruct_800B5CB8 *)s1)->unkA = q.y;
+                ((Unkstruct_800B5CB8 *)s1)->unkE = *(u16 *)(a0 + 0xE);
             } else {
                 func_801292C8(s1);
             }

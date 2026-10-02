@@ -3580,7 +3580,7 @@ s32 func_801873F4(void) {
 
     ret = func_8012BA10(D_801DFF74, 8);
     a1 = CAST_SIGN(void *, D_801DFF74, 0x20);
-    *(u16 *)(a1 + 0x12) += ret;
+    ((Unkstruct_800B5CB8 *)a1)->unk12 += ret;
     return ret == 0;
 }
 
@@ -4215,13 +4215,13 @@ void func_801885C0(s32 *a0, s32 *a1)
 
     ent = func_8012913C(0x22);
     if (ent != 0) {
-        *(s32 *)(ent + 0x4) = a0[0];
-        *(s32 *)(ent + 0x8) = a0[1];
-        *(s32 *)(ent + 0xC) = a0[2];
-        *(s32 *)(ent + 0x10) = -(a1[0] >> 1);
-        *(s32 *)(ent + 0x18) = -(a1[2] >> 1);
-        *(u16 *)(ent + 0x34) = 0x3000;
-        *(u16 *)(*(s32 *)(ent + 0x20) + 0x2C) = 0xC004;
+        CAST_WIDTH(s32, ent, 0x4) = a0[0];
+        CAST_WIDTH(s32, ent, 0x8) = a0[1];
+        CAST_WIDTH(s32, ent, 0xC) = a0[2];
+        CAST_WIDTH(s32, ent, 0x10) = -(a1[0] >> 1);
+        CAST_WIDTH(s32, ent, 0x18) = -(a1[2] >> 1);
+        ((Unkstruct_800B5CB8 *)ent)->unk34 = 0x3000;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC004;
     }
 }
 

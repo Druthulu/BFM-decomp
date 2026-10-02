@@ -4310,13 +4310,13 @@ void func_801804CC(s32 arg0)
     src = &D_80188140[arg0];
     temp = func_8012913C(0x48);
     if (temp != 0) {
-        *(u32 *)(temp + 0x04) = src->unk00;
-        *(u32 *)(temp + 0x08) = src->unk04;
-        *(u32 *)(temp + 0x0C) = src->unk08;
-        *(u32 *)(temp + 0x10) = src->unk0C;
-        *(u32 *)(temp + 0x14) = src->unk10;
-        *(u32 *)(temp + 0x18) = src->unk14;
-        *(u16 *)(temp + 0x2C) = src->unk18;
+        CAST_WIDTH(u32, temp, 0x04) = src->unk00;
+        CAST_WIDTH(u32, temp, 0x08) = src->unk04;
+        CAST_WIDTH(u32, temp, 0x0C) = src->unk08;
+        CAST_WIDTH(u32, temp, 0x10) = src->unk0C;
+        ((Unkstruct_800B5CB8 *)temp)->unk14 = src->unk10;
+        CAST_WIDTH(u32, temp, 0x18) = src->unk14;
+        ((Unkstruct_800B5CB8 *)temp)->unk2C = src->unk18;
     }
 }
 

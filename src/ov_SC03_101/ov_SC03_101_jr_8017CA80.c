@@ -4450,29 +4450,29 @@ void func_80180584(void *a0)
     u8 c1, c2, c0, nc0;
     u8 *p;
 
-    v0 = *(void **)((u8 *)s0 + 0xCC);
+    v0 = CAST_SIGN(void *, (u8 *)s0, 0xCC);
     if (v0 != NULL) {
         s16 e18, p18;
         /* e18 and p18 must be SEPARATE locals: the re-read at 0x18 below is a
          * distinct cse interval, and merging them costs a spurious reload
          * (twin's finding, ov_SC02_028:func_80182060). */
-        e18 = *(s16 *)((u8 *)v0 + 0x18);
+        e18 = CAST_SIGN(s16, (u8 *)v0, 0x18);
         if (e18 < 0x1C00) {
             t18 = e18 + 0x200;
-            *(s16 *)((u8 *)v0 + 0x18) = t18;
-            t1a = *(u16 *)((u8 *)v0 + 0x1A);
+            ((Unkstruct_800B5CB8 *)v0)->unk18 = t18;
+            t1a = ((Unkstruct_800B5CB8 *)v0)->unk1A;
             t1a = t1a + 0x200;
-            *(u16 *)((u8 *)v0 + 0x1A) = t1a;
+            ((Unkstruct_800B5CB8 *)v0)->unk1A = t1a;
         }
-        p18 = *(s16 *)((u8 *)v0 + 0x18);
+        p18 = CAST_SIGN(s16, (u8 *)v0, 0x18);
         if (p18 >= 0x1001) {
-            tfc = *(s16 *)((u8 *)s0 + 0xFC);
+            tfc = ((Unkstruct_800B5CB8 *)s0)->unkFC;
             val = D_8019A9F8[tfc];
             if (val >= 0) {
                 func_801806B8((void *)(s32)val);
-                nfc = *(u16 *)((u8 *)s0 + 0xFC);
+                nfc = CAST_SIGN(u16, (u8 *)s0, 0xFC);
                 nfc = nfc + 1;
-                *(u16 *)((u8 *)s0 + 0xFC) = nfc;
+                ((Unkstruct_800B5CB8 *)s0)->unkFC = nfc;
             }
         }
     }

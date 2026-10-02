@@ -5380,28 +5380,28 @@ void func_80182060(void *a0)
     u8 c1, c2, c0, nc0;
     u8 *p;
 
-    v0 = *(void **)((u8 *)s0 + 0xCC);
+    v0 = CAST_SIGN(void *, (u8 *)s0, 0xCC);
     if (v0 != NULL) {
         s16 e18, p18;
         /* e18 and p18 must be SEPARATE locals: the re-read at 0x18 below is a
          * distinct cse interval, and merging them costs a spurious reload. */
-        e18 = *(s16 *)((u8 *)v0 + 0x18);
+        e18 = CAST_SIGN(s16, (u8 *)v0, 0x18);
         if (e18 < 0x1C00) {
             t18 = e18 + 0x200;
-            *(s16 *)((u8 *)v0 + 0x18) = t18;
-            t1a = *(u16 *)((u8 *)v0 + 0x1A);
+            ((Unkstruct_800B5CB8 *)v0)->unk18 = t18;
+            t1a = ((Unkstruct_800B5CB8 *)v0)->unk1A;
             t1a = t1a + 0x200;
-            *(u16 *)((u8 *)v0 + 0x1A) = t1a;
+            ((Unkstruct_800B5CB8 *)v0)->unk1A = t1a;
         }
-        p18 = *(s16 *)((u8 *)v0 + 0x18);
+        p18 = CAST_SIGN(s16, (u8 *)v0, 0x18);
         if (p18 >= 0x1001) {
-            tfc = *(s16 *)((u8 *)s0 + 0xFC);
+            tfc = ((Unkstruct_800B5CB8 *)s0)->unkFC;
             val = D_801A4EC0[tfc];
             if (val >= 0) {
                 func_80182194((void *)(s32)val);
-                nfc = *(u16 *)((u8 *)s0 + 0xFC);
+                nfc = CAST_SIGN(u16, (u8 *)s0, 0xFC);
                 nfc = nfc + 1;
-                *(u16 *)((u8 *)s0 + 0xFC) = nfc;
+                ((Unkstruct_800B5CB8 *)s0)->unkFC = nfc;
             }
         }
     }
@@ -5522,16 +5522,16 @@ void func_80182340(void *arg0)
     s32 stack[2];
     s32 s0 = (s32)arg0;
 
-    *(u8 *)(s0 + 0xC1) = 0;
-    *(s16 *)(s0 + 0x5E) = 0;
-    *(s16 *)(s0 + 0x5C) = 0x800;
+    ((Unkstruct_800B5CB8 *)s0)->unkC1 = 0;
+    CAST_WIDTH(s16, s0, 0x5E) = 0;
+    ((Unkstruct_800B5CB8 *)s0)->unk5C = 0x800;
     *(Blk4_80181EDC *)(s32)&D_801D3100 = *(Blk4_80181EDC *)&D_801D1A8C;
     func_80183918();
     func_801839DC((s32)stack, 0x1000, 0);
     func_8012B2CC(s0);
     func_80183A0C(s0 + 4);
-    *(s16 *)(s0 + 0xFC) = 0;
-    *(s32 *)(s0 + 0x1C) = 0x40;
+    ((Unkstruct_800B5CB8 *)s0)->unkFC = 0;
+    ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x40;
     func_80178B18(s0, (s32)&D_801A4E80);
     func_8012AD44((s32 *)s0, 2);
     func_8002D4C8(0x700, 0);

@@ -5978,31 +5978,31 @@ void func_80184E54(void *a0)
     s32 s1;
     SV3x_80184B30_80184E54 out;
 
-    s1 = *(s32 *)(s0 + 0x64);
+    s1 = ((Unkstruct_800B5CB8 *)s0)->unk64;
 
-    if (*(s16 *)(s0 + 0xFC) != 0) {
-        *(s16 *)(s0 + 0x2) = 2;
+    if (((Unkstruct_800B5CB8 *)s0)->unkFC != 0) {
+        ((Unkstruct_800B5CB8 *)s0)->unk2 = 2;
         func_8012B23C((void *)s0);
-        *(s32 *)(s0 + 0x1C) = 0x5A;
+        ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x5A;
         return;
     }
 
-    if (*(s16 *)(s0 + 0xFE) != *(s16 *)(s1 + 0x36)) {
+    if (((Unkstruct_800B5CB8 *)s0)->unkFE != *(s16 *)(s1 + 0x36)) {
         func_80185144(s0);
         return;
     }
 
     do { func_8012F214(s1, (s32)&D_801A3B98, (s32)&out); } while (0);
-    *(s16 *)(s0 + 0x6) = out.a;
-    *(s16 *)(s0 + 0xA) = out.b;
-    *(s16 *)(s0 + 0xE) = out.c;
+    ((Unkstruct_800B5CB8 *)s0)->unk6 = out.a;
+    ((Unkstruct_800B5CB8 *)s0)->unkA = out.b;
+    ((Unkstruct_800B5CB8 *)s0)->unkE = out.c;
     func_801851A8(s0);
 
-    *(s32 *)(*(s32 *)(s0 + 0x20) + 0x20) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x20);
-    *(SV4x_80184B30_80184E54 *)(*(s32 *)(s0 + 0x20) + 0x10) = *(SV4x_80184B30_80184E54 *)(*(s32 *)(s1 + 0x20) + 0x10);
-    *(SV4x_80184B30_80184E54 *)(*(s32 *)(s0 + 0x20) + 0x18) = *(SV4x_80184B30_80184E54 *)(*(s32 *)(s1 + 0x20) + 0x18);
-    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = *(s16 *)(*(s32 *)(s1 + 0x20) + 0x2C) | 0x20;
-    *(s32 *)(*(s32 *)(s0 + 0x20) + 0x4) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x4);
+    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk20 = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x20);
+    *(SV4x_80184B30_80184E54 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x10) = *(SV4x_80184B30_80184E54 *)(*(s32 *)(s1 + 0x20) + 0x10);
+    *(SV4x_80184B30_80184E54 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x18) = *(SV4x_80184B30_80184E54 *)(*(s32 *)(s1 + 0x20) + 0x18);
+    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = *(s16 *)(*(s32 *)(s1 + 0x20) + 0x2C) | 0x20;
+    *(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x4) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x4);
 }
 
 

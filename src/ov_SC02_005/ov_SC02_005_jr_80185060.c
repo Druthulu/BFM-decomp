@@ -619,9 +619,9 @@ u16 func_80185E54(s32 arg0)
     u16 val;
 
     val = D_801E4BBC;
-    *(s16 *)(arg0 + 0x102) = 0;
+    ((Unkstruct_800B5CB8 *)arg0)->unk102 = 0;
     val = *(u16 *)D_801959E0[val];
-    *(u16 *)(arg0 + 0x100) = val;
+    ((Unkstruct_800B5CB8 *)arg0)->unk100 = val;
     return val;
 }
 

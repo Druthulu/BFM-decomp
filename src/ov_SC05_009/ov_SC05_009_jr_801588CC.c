@@ -1193,8 +1193,8 @@ void func_80158BB0(void *arg0) {
     func_80147324(0x456);
     func_80154274(arg0, &D_800D58D8);
     func_80154A74(arg0, 0x16);
-    M2C_FIELD(arg0, s32 *, 0x234) = 0xE30000;
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x20), s16 *, 0x10) = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk234 = 0xE30000;
+    ((Unkstruct_800B5CB8 *)M2C_FIELD(arg0, void **, 0x20))->unk10 = 0;
     func_801474EC(arg0);
     func_801474D8(arg0);
     func_801472C8(arg0);
@@ -1306,7 +1306,7 @@ void func_8015934C(void *arg0) {
         D_800AE6BD += 1;
     }
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
-    M2C_FIELD(temp_v1, u16 *, 0x12) = (u16) ((M2C_FIELD(temp_v1, u16 *, 0x12) + 0x16) & 0xFFF);
+    ((Unkstruct_800B5CB8 *)temp_v1)->unk12 = (u16) ((((Unkstruct_800B5CB8 *)temp_v1)->unk12 + 0x16) & 0xFFF);
 }
 
 
@@ -1440,7 +1440,7 @@ extern void func_8014900C(int *a0);
 extern void (*D_801812A8[])(void);
 
 void func_80159B70(void *a0) {
-    D_801812A8[*(u16 *)((s32)a0 + 0x2)]();
+    D_801812A8[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

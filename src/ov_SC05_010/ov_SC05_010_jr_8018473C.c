@@ -3112,9 +3112,9 @@ void func_80184E4C(s32 a0) {
     func_8012B0B4(&sp10, rand() % 0x1000,
                   rand() % ((*(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) * 3) >> 9));
     t = (s32)sp10;                                 /* packed dx (lo16) / dz (hi16) */
-    *(u16 *)(ent + 6) = *(u16 *)(a0 + 6) + t;      /* X */
-    *(u16 *)(ent + 0xA) = *(u16 *)(a0 + 0xA);      /* Y */
-    *(u16 *)(ent + 0xE) = *(u16 *)(a0 + 0xE) + (t >> 16); /* Z */
+    ((Unkstruct_800B5CB8 *)ent)->unk6 = *(u16 *)(a0 + 6) + t;      /* X */
+    ((Unkstruct_800B5CB8 *)ent)->unkA = *(u16 *)(a0 + 0xA);      /* Y */
+    ((Unkstruct_800B5CB8 *)ent)->unkE = *(u16 *)(a0 + 0xE) + (t >> 16); /* Z */
 
     /* vel X = +/- (rand() % 4) << 16 */
     q = rand();
@@ -3124,7 +3124,7 @@ void func_80184E4C(s32 a0) {
     n = n << 2;
     m = (q - n) << 16;
     if ((rand() & 1) == 0) m = -m;
-    *(s32 *)(ent + 0x10) = m;
+    CAST_WIDTH(s32, ent, 0x10) = m;
 
     /* vel Z = +/- (rand() % 4) << 16 */
     q = rand();
@@ -3134,11 +3134,11 @@ void func_80184E4C(s32 a0) {
     n = n << 2;
     m = (q - n) << 16;
     if ((rand() & 1) == 0) m = -m;
-    *(s32 *)(ent + 0x18) = m;
+    CAST_WIDTH(s32, ent, 0x18) = m;
 
     /* vel Y = (-12 - rand() % 9) << 16   (0x38E38E39 magic /9) */
-    *(s32 *)(ent + 0x14) = -0xC0000 - ((rand() % 9) << 16);
-    *(s32 *)(ent + 0x2C) = a0;                     /* owner backref */
+    ((Unkstruct_800B5CB8 *)ent)->unk14 = -0xC0000 - ((rand() % 9) << 16);
+    CAST_WIDTH(s32, ent, 0x2C) = a0;                     /* owner backref */
 }
 
 
