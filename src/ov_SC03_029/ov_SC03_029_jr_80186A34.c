@@ -3165,7 +3165,7 @@ void func_80186A34(s32 arg0)
     m = *(Mtx32_80186A34 *)&D_800AE620;
     RotMatrixY((func_8012B864(arg0) + 0x800) & 0xFFF, &m);
 
-    switch (*(u16 *)(arg0 + 0x5E) - 1) {
+    switch (CAST_WIDTH(u16, arg0, 0x5E) - 1) {
     case 7:
         p = D_801C92BC;
         break;
@@ -3189,8 +3189,8 @@ void func_80186A34(s32 arg0)
 
     func_800484EC((s32)&m, (s32)p, arg0 + 0x10);
 
-    *(u16 *)(arg0 + 0x34) = 0;
-    *(s32 *)(arg0 + 0x1C) = 0;
+    ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
+    ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0;
 }
 
 
@@ -3331,9 +3331,9 @@ void func_80186D5C(void)
 
 void func_80186D90(s32 a0) {
     extern u8 D_80187B3C[];
-    *(s16 *)(a0 + 0x2) = 1;
+    ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
     func_8012A828(a0, D_80187B3C);
-    *(u16 *)(a0 + 0x5C) = 0xAA10;
+    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0xAA10;
     *(s16 *)(a0 + 0xEA) = 0;
 }
 
@@ -3446,14 +3446,14 @@ void func_80186F9C(s32 a0, s32 a1, s32 a2) {
     func_8012B23C(s1);
     func_80132288(&D_801D98C8, (s32 *)s0, D_801CA0A0);
     s0 = 1;
-    if (*(u16 *)(s1 + 0xDC) & 2) {
+    if (CAST_WIDTH(u16, s1, 0xDC) & 2) {
         func_800183E0((s32)&D_801CA248);
-        *(u16 *)(s1 + 0xDC) = s0;
+        CAST_WIDTH(u16, s1, 0xDC) = s0;
     }
-    *(u16 *)(s1 + 0x5C) &= 0xFFFE;
-    *(s32 *)(s1 + 0x1C) = s2;
-    *(u16 *)(*(s32 *)(s1 + 0x20) + 0x12) = (*(u16 *)(s1 + 0x62) + 0x800) & 0xFFF;
-    p = *(s32 *)(s1 + 0x20);
+    ((Unkstruct_800B5CB8 *)s1)->unk5C &= 0xFFFE;
+    ((Unkstruct_800B5CB8 *)s1)->unk1C = s2;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(s1 + 0x20))->unk12 = (((Unkstruct_800B5CB8 *)s1)->unk62 + 0x800) & 0xFFF;
+    p = ((Unkstruct_800B5CB8 *)s1)->unk20;
     *(s16 *)(p + 0x14) = 0;
     *(s16 *)(p + 0x10) = 0;
 }
@@ -3463,9 +3463,9 @@ extern void func_8012C218(void*);
 
 void func_80187050(void *arg0) {
     int iVar1;
-    if ((*(s16 *)((char *)arg0 + 0x70) & 0x8000) == 0) {
-        iVar1 = *(int *)((char *)arg0 + 0x68);
-        if ((iVar1 != 0) && ((*(s16 *)((char *)arg0 + 0x72) & 0x8000) != 0)) {
+    if ((((Unkstruct_800B5CB8 *)arg0)->unk70 & 0x8000) == 0) {
+        iVar1 = ((Unkstruct_800B5CB8 *)arg0)->unk68;
+        if ((iVar1 != 0) && ((CAST_SIGN(s16, (char *)arg0, 0x72) & 0x8000) != 0)) {
             *(unsigned short *)(iVar1 + 10) = *(unsigned short *)(iVar1 + 10) & 0x7FFF;
         }
     }
@@ -3478,9 +3478,9 @@ extern void Square0(s32 *a0, s32 *a1);
 s32 func_801870B8(s32 a0) {
     s32 sp10[4];
 
-    sp10[0] = *(s16 *)((s32)a0 + 6) - *(s16 *)((s32)a0 + 0x88);
+    sp10[0] = CAST_SIGN(s16, (s32)a0, 6) - CAST_SIGN(s16, (s32)a0, 0x88);
     sp10[1] = 0;
-    sp10[2] = *(s16 *)((s32)a0 + 0xE) - *(s16 *)((s32)a0 + 0x8C);
+    sp10[2] = CAST_SIGN(s16, (s32)a0, 0xE) - CAST_SIGN(s16, (s32)a0, 0x8C);
     Square0(&sp10[0], &sp10[0]);
     return 0x18FFFF >= (sp10[0] + sp10[2]);
 }
@@ -3510,9 +3510,9 @@ s32 func_80187118(s32 a0, s32 a1)
     RotMatrixY(func_8012B864(a0), &m);
     func_800484EC((s32)&m, a1, (s32)&out);
 
-    pos[0] = *(s32 *)(a0 + 0x4) + out.vx;
-    pos[1] = *(s32 *)(a0 + 0x8) + out.vy;
-    pos[2] = *(s32 *)(a0 + 0xC) + out.vz;
+    pos[0] = CAST_WIDTH(s32, a0, 0x4) + out.vx;
+    pos[1] = CAST_WIDTH(s32, a0, 0x8) + out.vy;
+    pos[2] = CAST_WIDTH(s32, a0, 0xC) + out.vz;
 
     {
         u16 rix;
@@ -3520,12 +3520,12 @@ s32 func_80187118(s32 a0, s32 a1)
         u16 roz;
         u16 riz;
 
-        rix = *(u16 *)(a0 + 0x3A);
+        rix = ((Unkstruct_800B5CB8 *)a0)->unk3A;
         roy = *((u16 *)&pos[1] + 1);
         roz = *((u16 *)&pos[2] + 1);
         *(u16 *)(rotIn + 0) = rix;
-        *(u16 *)(rotIn + 2) = *(u16 *)(a0 + 0x3E);
-        riz = *(u16 *)(a0 + 0x42);
+        *(u16 *)(rotIn + 2) = CAST_ALIAS(u16, a0, 0x3E);
+        riz = CAST_ALIAS(u16, a0, 0x42);
         *(u16 *)(rotOut + 0) = *((u16 *)&pos[0] + 1);
         *(u16 *)(rotOut + 2) = roy;
         *(u16 *)(rotOut + 4) = roz;

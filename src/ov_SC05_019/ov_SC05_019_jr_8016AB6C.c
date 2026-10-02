@@ -1924,7 +1924,7 @@ extern void func_80016ED4(void *a0);
 extern void (*D_80182460[])(void);
 
 void func_8016B4BC(void *a0) {
-    D_80182460[*(u16 *)((s32)a0 + 0x2)]();
+    D_80182460[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -2040,7 +2040,7 @@ extern void func_80015954(s32 a0, s32 a1);
 extern void (*D_801824B0[])(void);
 
 void func_8016BBA4(void *a0) {
-    D_801824B0[*(u16 *)((s32)a0 + 0x2)]();
+    D_801824B0[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -2164,7 +2164,7 @@ extern s32 D_80126B9C;
 extern void (*D_801824E8[])(void);
 
 void func_8016CB84(void *a0) {
-    D_801824E8[*(u16 *)((s32)a0 + 0x2)]();
+    D_801824E8[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -2216,7 +2216,7 @@ extern void ApplyMatrixSV(void *a, void *b, void *c);
 extern void (*D_8018250C[])(void);
 
 void func_8016D428(void *a0) {
-    D_8018250C[*(u16 *)((s32)a0 + 0x2)]();
+    D_8018250C[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -2294,7 +2294,7 @@ extern void func_80146C3C();  // K&R: ? of 1 args (P37 rung D t4_D26)
 extern void (*D_801825A8[])(void);
 
 void func_8016DEA4(void *a0) {
-    D_801825A8[*(u16 *)((s32)a0 + 0x2)]();
+    D_801825A8[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

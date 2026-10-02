@@ -3719,8 +3719,8 @@ void func_8017EAD4(void *param_1)
 
     func_8017EFB4(param_1);
     ptr = func_8014C168(&D_80126B58, 0x3D);
-    *(s16 *)&D_801274E8 = *(u16 *)(ptr + 6);
-    D_801274EC = *(u16 *)(ptr + 0xE);
+    *(s16 *)&D_801274E8 = ((Unkstruct_800B5CB8 *)ptr)->unk6;
+    D_801274EC = ((Unkstruct_800B5CB8 *)ptr)->unkE;
     func_8017EDF8(param_1, &D_801274E8);
 }
 
@@ -3790,9 +3790,9 @@ void func_8017ECAC(void *param_1)
     *(u16 *)((u8 *)param_1 + 0x1A) = v;
     *(u16 *)((u8 *)param_1 + 0x22) = v;
     ptr = func_8014C168(&D_80126B58, 0x3D);
-    *(s16 *)&D_801274E8 = *(u16 *)(ptr + 6);
-    D_801274EA = *(u16 *)(ptr + 0xA);
-    D_801274EC = *(u16 *)(ptr + 0xE);
+    *(s16 *)&D_801274E8 = ((Unkstruct_800B5CB8 *)ptr)->unk6;
+    D_801274EA = ((Unkstruct_800B5CB8 *)ptr)->unkA;
+    D_801274EC = CAST_ALIAS(u16, ptr, 0xE);
     func_8017EDF8(param_1, &D_801274E8);
 }
 
@@ -4951,10 +4951,10 @@ void func_8018074C(s32 arg0)
     switch (t) {
     case 0:
     case 1:
-        diff = D_801944F8[t][0] - *(u16 *)(v + 0xE);
+        diff = D_801944F8[t][0] - ((Unkstruct_800B5CB8 *)v)->unkE;
         break;
     case 2:
-        diff = D_8019451C - *(u16 *)(v + 6);
+        diff = D_8019451C - ((Unkstruct_800B5CB8 *)v)->unk6;
         break;
     }
     d = diff;
@@ -5350,9 +5350,9 @@ extern s16 D_801E4C52;
 extern s16 D_801E4C54;
 void func_80181270(s32 a0) {
     s32 v0 = func_8014C168(a0, 0x42);
-    D_801E4C50 = *(u16 *)(v0 + 0x6);
-    D_801E4C52 = *(u16 *)(v0 + 0xA);
-    D_801E4C54 = *(u16 *)(v0 + 0xE);
+    D_801E4C50 = ((Unkstruct_800B5CB8 *)v0)->unk6;
+    D_801E4C52 = CAST_ALIAS(u16, v0, 0xA);
+    D_801E4C54 = CAST_ALIAS(u16, v0, 0xE);
 }
 
 

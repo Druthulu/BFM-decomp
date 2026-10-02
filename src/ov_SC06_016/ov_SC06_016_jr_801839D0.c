@@ -2845,7 +2845,7 @@ void func_801839D0(void *a0) {
 extern void (*D_8019A5A0[])(void);
 
 void func_80183B80(void *a0) {
-    D_8019A5A0[*(u16 *)((s32)a0 + 0x2)]();
+    D_8019A5A0[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -2853,7 +2853,7 @@ void func_80183B80(void *a0) {
 extern void (*D_8019A5DC[])(void);
 
 void func_80183BBC(void *a0) {
-    D_8019A5DC[*(u16 *)((s32)a0 + 0x2)]();
+    D_8019A5DC[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -2866,16 +2866,16 @@ void func_80183BF8(a0)
 void *a0;
 {
     if (func_8012C354((s32)a0, (s32)&D_8019A4F0) != 0) {
-        *(u8 *)((s32)a0 + 0xC0) = 1;
-        *(s16 *)((s32)a0 + 0xAE) = -1;
+        ((Unkstruct_800B5CB8 *)a0)->unkC0 = 1;
+        ((Unkstruct_800B5CB8 *)a0)->unkAE = -1;
         func_8012A828((s32 *)a0, (s32)D_801851C4);
-        *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
-        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10;
-        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) = 0xE00;
-        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = 0xE00;
-        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1C) = 0xE00;
-        *(u16 *)((s32)a0 + 0xFC) = 0x300;
-        *(u8 *)((s32)a0 + 0x75) = 8;
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C |= 0x10;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 = 0xE00;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0xE00;
+        *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1C) = 0xE00;
+        ((Unkstruct_800B5CB8 *)a0)->unkFC = 0x300;
+        ((Unkstruct_800B5CB8 *)a0)->unk75 = 8;
     }
 }
 
@@ -2893,12 +2893,12 @@ s32 arg0;
     s32 s0 = arg0;
 
     if (func_8012C354(s0, (s32)D_8019A5A8) != 0) {
-        *(u8 *)(s0 + 0xC0) = 1;
+        ((Unkstruct_800B5CB8 *)s0)->unkC0 = 1;
         func_8012A828((s32 *)s0, (s32)D_801851C4);
-        *(u16 *)(s0 + 2) = *(u16 *)(s0 + 2) + 1;
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) | 0x10;
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x18) = 0xAAA;
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0xAAA;
+        ((Unkstruct_800B5CB8 *)s0)->unk2 = CAST_SIGN(u16, s0, 2) + 1;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C | 0x10;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk18 = 0xAAA;
+        *(u16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x1C) = 0xAAA;
     }
 }
 

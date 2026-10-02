@@ -2863,36 +2863,36 @@ void func_8017FAA8(s32 param_1) {
     s32 *p = (s32 *)D_801151D4;
     SV3_8017FAA8 sv;
     SV3_8017FAA8 *svp;
-    switch (*(u16 *)(param_1 + 0x34)) {
+    switch (((Unkstruct_800B5CB8 *)param_1)->unk34) {
     case 0:
         break;
     case 1:
         for (i = 0; i < 0x30; i++) {
             ptr = (s32 *)func_80143C74(param_1, 0);
             if (ptr != 0) {
-                *(s32 *)(ptr + 4) = (rand() - 0x4000) * 0x10;
+                CAST_WIDTH(s32, ptr, 4) = (rand() - 0x4000) * 0x10;
                 CAST_MISALIGNED(s32, ptr, 6) = (rand() - 0x4000) * 0x10;
                 *(u16 *)((s32)ptr + 0x16) = -(rand() & 0x1F);
                 CAST_MISALIGNED(s32, ptr, 0x12) = -(CAST_MISALIGNED(s32, ptr, 5) >> 4);
-                sv.x = p[0x17] - *(s16 *)((s32)ptr + 6);
-                sv.y = p[0x18] - *(s16 *)((s32)ptr + 0xA);
-                sv.z = p[0x19] - *(s16 *)((s32)ptr + 0xE);
+                sv.x = p[0x17] - CAST_SIGN(s16, (s32)ptr, 6);
+                sv.y = p[0x18] - CAST_SIGN(s16, (s32)ptr, 0xA);
+                sv.z = p[0x19] - CAST_SIGN(s16, (s32)ptr, 0xE);
                 svp = &sv;
                 VectorNormalSS(svp, svp);
-                *(s16 *)((s32)ptr + 6) += sv.x >> 6;
-                *(s16 *)((s32)ptr + 0xA) += sv.y >> 6;
-                *(s16 *)((s32)ptr + 0xE) += sv.z >> 6;
+                CAST_SIGN(s16, (s32)ptr, 6) += sv.x >> 6;
+                CAST_SIGN(s16, (s32)ptr, 0xA) += sv.y >> 6;
+                CAST_SIGN(s16, (s32)ptr, 0xE) += sv.z >> 6;
             }
         }
-        *(s32 *)(param_1 + 0x1C) = 4;
-        *(s16 *)(param_1 + 0x34) += 1;
+        ((Unkstruct_800B5CB8 *)param_1)->unk1C = 4;
+        CAST_SIGN(s16, param_1, 0x34) += 1;
         func_8002D4C8(0x9E2, 0);
         break;
     case 2:
-        if (--*(s32 *)(param_1 + 0x1C) == 0) {
-            func_8001C214(*(s32 *)(param_1 + 0x20), (s32)&D_801A8C34);
+        if (--((Unkstruct_800B5CB8 *)param_1)->unk1C == 0) {
+            func_8001C214(((Unkstruct_800B5CB8 *)param_1)->unk20, (s32)&D_801A8C34);
             func_8012A828(param_1, &D_801AA66C);
-            *(s16 *)(param_1 + 0x34) = 0;
+            ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
             ((void (*)(s32))func_8001AAA0)(0x62);
             func_8002AC00(0x1C);
         }
@@ -2901,37 +2901,37 @@ void func_8017FAA8(s32 param_1) {
         for (i = 0; i < 0x30; i++) {
             ptr = (s32 *)func_80143C74(param_1, 0);
             if (ptr != 0) {
-                *(s32 *)(ptr + 4) = (rand() - 0x4000) * 0x10;
+                CAST_WIDTH(s32, ptr, 4) = (rand() - 0x4000) * 0x10;
                 CAST_MISALIGNED(s32, ptr, 6) = (rand() - 0x4000) * 0x10;
                 *(u16 *)((s32)ptr + 0x16) = -(rand() & 0x1F);
                 CAST_MISALIGNED(s32, ptr, 0x12) = -(CAST_MISALIGNED(s32, ptr, 5) >> 4);
-                sv.x = p[0x17] - *(s16 *)((s32)ptr + 6);
-                sv.y = p[0x18] - *(s16 *)((s32)ptr + 0xA);
-                sv.z = p[0x19] - *(s16 *)((s32)ptr + 0xE);
+                sv.x = p[0x17] - CAST_SIGN(s16, (s32)ptr, 6);
+                sv.y = p[0x18] - CAST_SIGN(s16, (s32)ptr, 0xA);
+                sv.z = p[0x19] - CAST_SIGN(s16, (s32)ptr, 0xE);
                 svp = &sv;
                 VectorNormalSS(svp, svp);
-                *(s16 *)((s32)ptr + 6) += sv.x >> 6;
-                *(s16 *)((s32)ptr + 0xA) += sv.y >> 6;
-                *(s16 *)((s32)ptr + 0xE) += sv.z >> 6;
+                CAST_SIGN(s16, (s32)ptr, 6) += sv.x >> 6;
+                CAST_SIGN(s16, (s32)ptr, 0xA) += sv.y >> 6;
+                CAST_SIGN(s16, (s32)ptr, 0xE) += sv.z >> 6;
                 func_8002D4C8(0x9E3, 0);
             }
         }
-        *(s32 *)(param_1 + 0x1C) = 4;
-        *(s16 *)(param_1 + 0x34) += 1;
+        ((Unkstruct_800B5CB8 *)param_1)->unk1C = 4;
+        CAST_SIGN(s16, param_1, 0x34) += 1;
         break;
     case 4:
-        if (--*(s32 *)(param_1 + 0x1C) == 0) {
+        if (--((Unkstruct_800B5CB8 *)param_1)->unk1C == 0) {
             ((void (*)(s32))func_8001AAA0)(0x63);
-            func_8001CA1C(*(s32 *)(param_1 + 0x20), (s32)&D_80184F80);
+            func_8001CA1C(((Unkstruct_800B5CB8 *)param_1)->unk20, (s32)&D_80184F80);
             func_8012A828(param_1, &D_80184F8C);
-            *(s16 *)(param_1 + 0x34) += 1;
+            CAST_SIGN(s16, param_1, 0x34) += 1;
         }
         break;
     case 8:
         if (((s32 (*)(void))func_80174774)() != 0) {
-            *(s32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x80000000;
-            *(s16 *)(param_1 + 0xE) = -0x600;
-            *(s16 *)(param_1 + 0x34) += 1;
+            *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 4) |= 0x80000000;
+            CAST_ALIAS(s16, param_1, 0xE) = -0x600;
+            CAST_SIGN(s16, param_1, 0x34) += 1;
         }
         break;
     }
@@ -2947,7 +2947,7 @@ void func_8017FAA8(s32 param_1) {
 extern void (*D_801850F8[])(void);
 
 void func_8017FE4C(void *a0) {
-    D_801850F8[*(u16 *)((s32)a0 + 0x2)]();
+    D_801850F8[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -2971,14 +2971,14 @@ void func_8017FE88(s32 arg0)
         return;
     }
 
-    *(u8 *)((s32)arg0 + 0xC0) = 1;
-    *(s32 *)((s32)arg0 + 0xB4) = -1;
+    ((Unkstruct_800B5CB8 *)arg0)->unkC0 = 1;
+    ((Unkstruct_800B5CB8 *)arg0)->unkB4 = -1;
     func_80143970(arg0);
     func_8012A828(arg0, &D_801A45A8);
-    (*(u16 *)((s32)arg0 + 0x2))++;
+    (CAST_SIGN(u16, (s32)arg0, 0x2))++;
     func_8012B23C(arg0);
-    *(s32 *)((s32)arg0 + 0x1C) = 0x1E;
-    *(s32 *)((s32)arg0 + 0xD4) = (s32)arg0;
+    ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x1E;
+    ((Unkstruct_800B5CB8 *)arg0)->unkD4 = (s32)arg0;
 }
 
 
@@ -3334,7 +3334,7 @@ void func_80180518(s32 a0) {
     for (i = 0, p = D_801A5288; i < 8; i++, p += 8) {
         hit = func_801290DC(0x20, p);
         if (hit != 0) {
-            *(u16 *)(hit + 0x34) = i + 2;
+            ((Unkstruct_800B5CB8 *)hit)->unk34 = i + 2;
         }
     }
 

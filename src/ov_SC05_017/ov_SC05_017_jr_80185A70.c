@@ -3086,10 +3086,10 @@ extern s32 func_8012E57C(s32 a0, s32 a1);
 void func_80185C54(void *a0, s32 a1, s32 a2) {
     s32 v1 = func_8012E57C(0x61, (s32)(s16)a1);
     if (v1 != 0) {
-        s32 v0 = *(s32 *)((char *)v1 + 0xCC);
+        s32 v0 = ((Unkstruct_800B5CB8 *)v1)->unkCC;
         if (v0 == 0) {
-            *(s32 *)((char *)v1 + 0xCC) = a2;
-            *(s32 *)((char *)v1 + 0xD0) = (s32)a0;
+            ((Unkstruct_800B5CB8 *)v1)->unkCC = a2;
+            ((Unkstruct_800B5CB8 *)v1)->unkD0 = (s32)a0;
         }
     }
 }
@@ -3112,14 +3112,14 @@ void func_80185CB8(s32 a0, s32 a1, s32 a2) {
     if (v1 == 0) {
         return;
     }
-    if (*(s32 *)((char *)v1 + 0xCC) != s0) {
+    if (((Unkstruct_800B5CB8 *)v1)->unkCC != s0) {
         return;
     }
-    if (*(s32 *)((char *)v1 + 0xD0) != s1) {
+    if (((Unkstruct_800B5CB8 *)v1)->unkD0 != s1) {
         return;
     }
-    *(s32 *)((char *)v1 + 0xCC) = 0;
-    *(s32 *)((char *)v1 + 0xD0) = 0;
+    ((Unkstruct_800B5CB8 *)v1)->unkCC = 0;
+    ((Unkstruct_800B5CB8 *)v1)->unkD0 = 0;
 }
 
 
@@ -3130,8 +3130,8 @@ extern s32 func_8012E57C(s32 a0, s32 a1);
 void func_80185D2C(s32 a0, s32 a1) {
     s32 v1 = func_8012E57C(0x61, (s32)(s16)a0);
     if (v1 != 0) {
-        if (*(s16 *)(v1 + 0x10A) < a1) {
-            *(s16 *)(v1 + 0x10A) = a1;
+        if (((Unkstruct_800B5CB8 *)v1)->unk10A < a1) {
+            ((Unkstruct_800B5CB8 *)v1)->unk10A = a1;
         }
     }
 }
@@ -3141,7 +3141,7 @@ void func_80185D2C(s32 a0, s32 a1) {
 extern void (*D_801B89F8[])(void);
 
 void func_80185D84(void *a0) {
-    D_801B89F8[*(u16 *)((s32)a0 + 0x2)]();
+    D_801B89F8[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -3323,13 +3323,13 @@ s32 func_80185FA8(void *a0) {
     p = D_801202A0;
     end = p + 0x6480;
     for (; p != end; p += 0x10C) {
-        tag = *(u16 *)p;
+        tag = ((Unkstruct_800B5CB8 *)p)->unk0;
         if (tag != 0 && tag != 0x61 && func_801860B4((s32)p) != 0) {
-            t = *(s32 *)(p + 0x20);
-            if (t != 0 && *(s32 *)(t + 0x24) != 0 && *(s32 *)(t + 0x4) >= 0) {
-                in[0] = *(u16 *)(p + 0x6);
-                in[1] = *(u16 *)(p + 0xA);
-                in[2] = *(u16 *)(p + 0xE);
+            t = ((Unkstruct_800B5CB8 *)p)->unk20;
+            if (t != 0 && CAST_WIDTH(s32, t, 0x24) != 0 && CAST_WIDTH(s32, t, 0x4) >= 0) {
+                in[0] = ((Unkstruct_800B5CB8 *)p)->unk6;
+                in[1] = ((Unkstruct_800B5CB8 *)p)->unkA;
+                in[2] = ((Unkstruct_800B5CB8 *)p)->unkE;
                 func_8012F2E8((s32)a0, (s32)in, (s32)out);
                 if (func_8012CB64((s32)out, -0xA0, 0x80, -0xC0, 0x80) != 0) {
                     return 1;

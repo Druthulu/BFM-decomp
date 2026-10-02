@@ -3463,8 +3463,8 @@ s32 func_8017F434(s32 a0) {
     sp10.vx = D_80126B5E;
     sp10.vy = D_80126B62;
     sp10.vz = D_80126B66;
-    sp18.vx = *(u16 *)(a0 + 6);
-    sp18.vy = *(u16 *)(a0 + 0xA);
+    sp18.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
+    sp18.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
     sp18.vz = 0;
     sp20.vx = D_80126B5E;
     sp20.vy = D_80126B62;
