@@ -1064,7 +1064,7 @@ extern void  func_80016714(void *a0, s32 a1);
 s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
 
     extern s32   D_80181E90;
-    extern s16 D_801270C4;
+    extern s16 D_801270C4[];
     extern u16   D_801274E4[];
     extern s32   D_8011DB08;
     u8 *src = (u8 *)a0;
@@ -1097,7 +1097,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
 
     {
         u16 *pc;
-        pc = &(*(u16 *)&D_801270C4);
+        pc = &(D_801270C4[0]);
         *(u16 *)(dst + 0x36) = *(u16 *)pc;
         count = *(volatile u16 *)pc + 1;
         *pc = count;

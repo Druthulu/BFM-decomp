@@ -113,7 +113,7 @@ extern void func_80141C0C(s32);
 extern u16 D_8011511C;
 extern u16 D_80115120;
 extern u16 D_80115122;
-extern s16 D_80115128;
+extern s16 D_80115128[];
 extern s16 D_8011512A;
 extern u16 D_8011512E;
 extern u8  D_80115140[];
@@ -148,7 +148,7 @@ extern int func_80137D08(int arg0, int arg1, short arg2);
 extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8013FAF8(s16 arg0, s16 arg1);
 
-extern short D_80115128;
+extern short D_80115128[0];
 extern u8 D_8018305C[];
 extern u8 D_80183074[];
 extern s32 func_80029178(s32 arg);
@@ -198,7 +198,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         result = D_801830E0[((short)param_2)];
         break;
     case 2:
-        switch ((*(s16*)&D_80115128)) {
+        switch ((D_80115128[0])) {
         case 0:
             if (D_801833A4[((short)param_2)]() == 0) {
                 ((short)param_2) = 5;

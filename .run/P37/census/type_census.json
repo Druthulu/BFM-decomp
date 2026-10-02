@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "0816ddaf30",
-  "src_stamp": "e29ade807ae23910",
+  "head": "299b1c1b4e",
+  "src_stamp": "bc74dd164ff701c5",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-02T19:16:30Z",
+  "when": "2026-10-02T19:28:37Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -37,7 +37,7 @@
   "casts": {
    "by_form": {
     "P": 257469,
-    "I": 49864,
+    "I": 49845,
     "X": 13790,
     "K": 20975,
     "A": 18889,
@@ -46,7 +46,7 @@
    },
    "raw_counts": {
     "P": 257469,
-    "I": 49864,
+    "I": 49845,
     "X": 13790,
     "K": 20975,
     "A": 18889,
@@ -55,23 +55,23 @@
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 336252,
+   "deref_total": 336233,
    "addr_form": 18889,
    "typed_cast_member": 173103,
-   "bodies": 50869,
+   "bodies": 50866,
    "by_bclass": {
     "local": 124536,
     "param": 152069,
-    "global": 20526,
-    "gaddr": 26560,
+    "global": 21787,
+    "gaddr": 25280,
     "nested": 9446,
     "ident": 161,
     "other": 1616,
     "addr-of": 1338
    },
    "by_width": {
-    "s2": 102268,
-    "u2": 83926,
+    "s2": 102252,
+    "u2": 83923,
     "s4": 81430,
     "u1": 34807,
     "agg": 13409,
@@ -292,7 +292,7 @@
    },
    "check_raw": {
     "P": 257464,
-    "I": 49864,
+    "I": 49845,
     "X": 13790,
     "M": 15128
    },
@@ -196112,7 +196112,7 @@
      "tu": "src/ov_SC06_022/ov_SC06_022_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_801E1AE0",
@@ -200919,7 +200919,7 @@
      "tu": "src/ov_SC06_024/ov_SC06_024_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_801E0C60",
@@ -206177,7 +206177,7 @@
      "tu": "src/ov_SC06_025/ov_SC06_025_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_801B0E28",
@@ -207277,7 +207277,7 @@
      "tu": "src/ov_SC06_027/ov_SC06_027_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_8019CE00",
@@ -207948,7 +207948,7 @@
      "tu": "src/ov_SC06_029/ov_SC06_029_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_801DC720",
@@ -209675,7 +209675,7 @@
      "tu": "src/ov_SC06_030/ov_SC06_030_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_801B9980",
@@ -211116,7 +211116,7 @@
      "tu": "src/ov_SC06_032/ov_SC06_032_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_801D0030",
@@ -216704,7 +216704,7 @@
      "tu": "src/ov_SC06_033/ov_SC06_033_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_801D00F0",
@@ -222314,7 +222314,7 @@
      "tu": "src/ov_SC07_000/ov_SC07_000_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_801CF638",
@@ -223964,7 +223964,7 @@
      "tu": "src/ov_SC07_001/ov_SC07_001_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_801AA6E8",
@@ -224822,7 +224822,7 @@
      "tu": "src/ov_SC07_002/ov_SC07_002_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_8019B238",
@@ -228430,7 +228430,7 @@
      "tu": "src/ov_SC07_008/ov_SC07_008_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3130,
-     "pos": 114627,
+     "pos": 114542,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_80196120",
@@ -229057,7 +229057,7 @@
      "tu": "src/ov_SC07_009/ov_SC07_009_jr_80178D40.c",
      "fn": "func_80178D40",
      "line": 3131,
-     "pos": 114652,
+     "pos": 114567,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "D_801A37B0",
@@ -230901,7 +230901,7 @@
    "multi_spelled_callees": 3773,
    "multi_body_names": 6423,
    "data_symbols_declared": 55542,
-   "multi_typed_data_symbols": 19130,
+   "multi_typed_data_symbols": 19140,
    "asm_label_aliases": 5148,
    "asm_label_alias_names": 159,
    "builtins": {
@@ -232071,66 +232071,66 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 17859,
-   "explained_sites": 332341,
-   "deref_sites": 336252,
+   "types": 17976,
+   "explained_sites": 332322,
+   "deref_sites": 336233,
    "explained_pct": 98.8,
    "unassigned_sites": 3911,
-   "conflicts": 810,
+   "conflicts": 813,
    "suspect": 11,
    "evidence": {
-    "param": 39304,
-    "return": 1534,
-    "assign": 19443,
-    "assign&": 1401,
-    "ret-of": 6009,
-    "arg": 10595,
-    "arg&": 283,
-    "field": 6556,
+    "param": 39294,
+    "arg": 10510,
+    "ret-of": 6019,
+    "assign": 19442,
+    "return": 1535,
+    "assign&": 1275,
+    "arg&": 257,
+    "field": 6557,
     "nested": 9
    },
    "vetoed": {
     "arg-conduit": 144268,
     "arg&-conduit": 14762,
     "assign&-multisource": 12094,
-    "ret-of-multisource": 6714,
     "assign-multisource": 33804,
+    "ret-of-multisource": 6714,
     "field-multisource": 5264,
-    "ret-of": 513,
-    "arg&-no-overlap": 3335,
-    "assign": 351,
-    "arg-no-overlap": 27401,
-    "assign&": 80,
-    "return": 9,
+    "ret-of": 507,
+    "arg&-no-overlap": 3375,
+    "assign": 324,
+    "arg-no-overlap": 32778,
+    "assign&": 336,
+    "return": 5,
     "arg": 60,
-    "field": 144
+    "field": 136
    },
-   "singletons": 13928,
-   "multi_body": 3931,
-   "sites_in_multi_body": 279128,
+   "singletons": 14052,
+   "multi_body": 3924,
+   "sites_in_multi_body": 278245,
    "top": [
     {
      "name": "Unkstruct_800D3888",
-     "sites": 19696,
-     "bodies": 4351,
+     "sites": 19188,
+     "bodies": 4304,
      "size_hint": 268,
-     "fields": 124,
+     "fields": 122,
      "conflicts": 50,
-     "sign_mixed": 50,
+     "sign_mixed": 46,
      "merges": {
-      "arg&": 262,
-      "param": 9538,
-      "arg": 6844,
-      "assign": 7683,
+      "arg&": 236,
+      "param": 9432,
+      "arg": 6767,
+      "assign": 7576,
       "return": 734,
-      "ret-of": 2416,
-      "assign&": 21,
-      "field": 857
+      "ret-of": 2211,
+      "assign&": 19,
+      "field": 816
      },
      "globals_at": [
       "D_800D3888",
-      "D_80180FC4",
-      "D_80181448"
+      "D_801805AC",
+      "D_80181280"
      ],
      "globals_ptr": [
       "D_8006386C",
@@ -232520,8 +232520,8 @@
    "block_frames": 629
   },
   "global_blocks": {
-   "n": 2120,
-   "members": 14239,
+   "n": 2123,
+   "members": 14247,
    "top": [
     {
      "base": "0x800cf10c",
@@ -232567,6 +232567,17 @@
      "widths": {
       "4": 21,
       "1": 2
+     }
+    },
+    {
+     "base": "0x801a9608",
+     "size": 80,
+     "members": 22,
+     "first": "D_801A9608",
+     "last": "D_801A9654",
+     "widths": {
+      "4": 18,
+      "2": 4
      }
     },
     {
@@ -232672,17 +232683,6 @@
      "widths": {
       "4": 20
      }
-    },
-    {
-     "base": "0x80191a90",
-     "size": 77,
-     "members": 20,
-     "first": "D_80191A90",
-     "last": "D_80191ADC",
-     "widths": {
-      "4": 19,
-      "1": 1
-     }
     }
    ]
   },
@@ -232699,9 +232699,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 55.9,
-   "decls_s": 259.0,
-   "total_s": 273.1
+   "walk_s": 56.8,
+   "decls_s": 266.3,
+   "total_s": 280.0
   }
  },
  "dup_layout_classes": [
