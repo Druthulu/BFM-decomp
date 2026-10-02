@@ -4,3 +4,4 @@ T1 | done | phase-start health, carry cleanup and baselines | - | tasks/T1.md | 
 T2 | done | cast and lying gate instruments, reinterpret-macro set | - | tasks/T2.md | logs/T2.md | -
 T3 | done | rung S sweep, overlays (forms P and X) | - | tasks/T3.md | logs/T3.md | -
 T4 | blocked | rung S sweep, md_*, main and shared bodies (forms P and X) | - | tasks/T4.md | logs/T4.md | -
+T10 | done | residue coverage gate (--check-casts --residue) and 3.40 sizing | - | tasks/T10.md | logs/T10.md | -
