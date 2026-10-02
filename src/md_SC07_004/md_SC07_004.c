@@ -6174,7 +6174,7 @@ void func_801A933C(void *a0) {
 void func_801A9378(void *a0) {
     extern u16 D_80126B96;
     extern s16 D_80126B98;
-    extern s32 func_801AAF34();
+    extern s32 func_801AAF34(s32 a0, s32 a1, s16 a2);
     if (func_801AAF34(a0, 0, 0x20)) {
         D_80126B96 = 0x400B;
         D_80126B98 = 0x50;
@@ -6395,7 +6395,7 @@ void func_801A98CC(void *a0) {
 void func_801A9908(void *a0, s32 a1) {
     extern u16 D_80126B96;
     extern s16 D_80126B98;
-    extern s32 func_801AAF34();
+    extern s32 func_801AAF34(s32 a0, s32 a1, s16 a2);
     if (func_801AAF34(a0, 0, (s16)a1)) {
         D_80126B98 = 0x46;
         D_80126B96 |= 0x4000;
@@ -7372,7 +7372,7 @@ void func_801AADA8(s32 arg0, s32 arg1, s32 arg2)
 
 extern s32 func_801AAF8C(SV_801AAF8C *src, SV_801AAF8C *ofs, s32 arg2);
 
-void func_801AAF34(s32 a0, s32 a1, s16 a2)
+s32 func_801AAF34(s32 a0, s32 a1, s16 a2)
 {
     s16 sv[3];
 
