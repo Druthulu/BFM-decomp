@@ -1,4 +1,4 @@
-type_census — 2026-10-02T19:40:00Z at 05b01fb549 (src stamp 0a749717ac40dc09, tool 6041c32d81); 7306 files (4121 TUs + 3181 headers), 99109 function definitions; walk 57.1 s, total 287.2 s
+type_census — 2026-10-02T19:48:12Z at 8a09f83c78 (src stamp 0a749717ac40dc09, tool 6041c32d81); 7306 files (4121 TUs + 3181 headers), 99109 function definitions; walk 60.2 s, total 231.3 s
 
 DEFINITIONS  1650 struct/union bodies (+0 enums): canonical header 1021 · .c file-scope 0 · .c block-scope 600 · per-function shared headers 29 · other headers 0 · include/ 326
              1024 distinct names · 523 distinct layouts (0 unresolved) · 53 duplicate classes covering 496 names (tier 1 0 same-named, tier 2 53 opaque; 44 layout-twin classes / 472 names kept apart) · 42 exact-text classes / 546 copies · 0 VARIANT names (>1 layout) · 55 dead canonical names · 0 canonical names redefined in .c · 4300 scalar/alias typedefs · 145 forward decls
@@ -8,8 +8,8 @@ CAST SITES   deref 336224 = P 257469 + I 49836 + X 13790 + M 15129   (+ A addres
              top bases: param_1(param) 57137 · a0(param) 39555 · arg0(param) 30937 · p(local) 13172 · cach(local) 8246 · buf(local) 7056 · s0(local) 6634 · s1(local) 6388 · flag(local) 5453 · dst(local) 4853 · iVar2(local) 4394 · iVar1(local) 3464 · cur(local) 3375 · p(param) 3036 · e(local) 3002 · src(local) 2599
 DECLARATIONS 99109 function definitions (1894 K&R) · 4279260 extern function declarations over 12088 names (3773 spelled >1 way) · 6423 names with >1 body text · 1078766 data externs over 55542 symbols (19146 typed >1 way) · asm-label aliases 5148 (159 names) · builtins {'memcpy': 301, 'abs': 1} · attributes {'packed': 26, 'aligned': 6}
              lying declarations 229 over 24 callees {'K&R-empty': 216, 'narrow': 13} · K&R sites (marked, counted apart) 5293 over 200 callees · cross-binary (the fleet's definitions disagree, this binary has none) 418 over 96 callees
-STRUCT MAP   18002 types explain 332313/336224 deref sites (98.8 %); unassigned 3911; 3927 types span ≥2 bodies (278102 sites), 14075 single-body; types with conflicts 815, suspect 11
-             merges by evidence {'param': 39296, 'assign': 19411, 'ret-of': 6001, 'assign&': 1401, 'return': 1535, 'arg': 10512, 'arg&': 253, 'field': 6555, 'nested': 9}; vetoed {'arg-conduit': 144266, 'arg&-conduit': 14762, 'arg&-no-overlap': 3379, 'assign&-multisource': 12093, 'assign-multisource': 33805, 'arg-no-overlap': 32778, 'ret-of-multisource': 6714, 'field-multisource': 5264, 'assign': 344, 'ret-of': 656, 'assign&': 79, 'return': 5, 'arg': 60, 'field': 136}
+STRUCT MAP   17967 types explain 332313/336224 deref sites (98.8 %); unassigned 3911; 3923 types span ≥2 bodies (278244 sites), 14044 single-body; types with conflicts 813, suspect 11
+             merges by evidence {'param': 39296, 'assign': 19429, 'ret-of': 6018, 'arg': 10512, 'return': 1535, 'assign&': 1401, 'arg&': 253, 'field': 6555, 'nested': 9}; vetoed {'arg-conduit': 144266, 'ret-of-multisource': 6714, 'assign-multisource': 33805, 'arg&-conduit': 14762, 'field-multisource': 5264, 'ret-of': 507, 'assign&-multisource': 12093, 'arg&-no-overlap': 3379, 'assign': 324, 'arg-no-overlap': 32778, 'assign&': 79, 'return': 5, 'arg': 60, 'field': 136}
              Unkstruct_800D3888     sites   19185 bodies   4303 fields  122 size≥0x10c width-conflicts 50 sign-mixed 46 merges {'param': 9432, 'assign': 7566, 'arg': 6769, 'ret-of': 2209} at D_800D3888,D_80181538,D_801818AC ptr D_8006386C,D_80074778,D_80074780
              Unkstruct_cb638a45     sites    6477 bodies    381 fields    6 size≥0x10 width-conflicts 0 sign-mixed 0 merges {'param': 12, 'arg': 5} 
              Unkstruct_80126B58     sites    5482 bodies   2947 fields  165 size≥0x24c width-conflicts 40 sign-mixed 45 merges {'param': 2120, 'arg': 1118, 'assign&': 104, 'assign': 41} at D_80126B58 ptr D_80126B58
@@ -30,4 +30,4 @@ duplicate-layout classes (top 12): 4B×56 names (0 defs): B4_80165140, B4_8017F1
 VARIANT names (top 12): 
 
 type_census: 1650 definitions (523 layouts, 53 duplicate classes, 0 variant camps) · 336224 cast sites in 50866 bodies over 8 base classes (4 forms + A, coverage OK) · 229 lying declarations / 24 callees (+5293 K&R sites, +418 cross-binary apart) · controls 4/4
-struct_map: 18002 types over 18002 clusters explain 332313/336224 sites (98.8 %); 3911 unassigned sites; 815 types with conflicts
+struct_map: 17967 types over 17967 clusters explain 332313/336224 sites (98.8 %); 3911 unassigned sites; 813 types with conflicts

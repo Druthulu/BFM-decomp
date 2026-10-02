@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "05b01fb549",
+  "head": "8a09f83c78",
   "src_stamp": "0a749717ac40dc09",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-02T19:40:00Z",
+  "when": "2026-10-02T19:48:12Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -232071,43 +232071,43 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 18002,
+   "types": 17967,
    "explained_sites": 332313,
    "deref_sites": 336224,
    "explained_pct": 98.8,
    "unassigned_sites": 3911,
-   "conflicts": 815,
+   "conflicts": 813,
    "suspect": 11,
    "evidence": {
     "param": 39296,
-    "assign": 19411,
-    "ret-of": 6001,
-    "assign&": 1401,
-    "return": 1535,
+    "assign": 19429,
+    "ret-of": 6018,
     "arg": 10512,
+    "return": 1535,
+    "assign&": 1401,
     "arg&": 253,
     "field": 6555,
     "nested": 9
    },
    "vetoed": {
     "arg-conduit": 144266,
-    "arg&-conduit": 14762,
-    "arg&-no-overlap": 3379,
-    "assign&-multisource": 12093,
-    "assign-multisource": 33805,
-    "arg-no-overlap": 32778,
     "ret-of-multisource": 6714,
+    "assign-multisource": 33805,
+    "arg&-conduit": 14762,
     "field-multisource": 5264,
-    "assign": 344,
-    "ret-of": 656,
+    "ret-of": 507,
+    "assign&-multisource": 12093,
+    "arg&-no-overlap": 3379,
+    "assign": 324,
+    "arg-no-overlap": 32778,
     "assign&": 79,
     "return": 5,
     "arg": 60,
     "field": 136
    },
-   "singletons": 14075,
-   "multi_body": 3927,
-   "sites_in_multi_body": 278102,
+   "singletons": 14044,
+   "multi_body": 3923,
+   "sites_in_multi_body": 278244,
    "top": [
     {
      "name": "Unkstruct_800D3888",
@@ -232699,9 +232699,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 57.1,
-   "decls_s": 270.4,
-   "total_s": 287.2
+   "walk_s": 60.2,
+   "decls_s": 221.3,
+   "total_s": 231.3
   }
  },
  "dup_layout_classes": [
@@ -233387,20 +233387,6 @@
    "tier": 2
   },
   {
-   "lhash": "b519bad67107:opaque",
-   "size": 20,
-   "n_names": 3,
-   "n_defs": 0,
-   "canon": 0,
-   "in_c": 0,
-   "names": [
-    "Local_8017EE34",
-    "Local_80181C84",
-    "Local_801870E8"
-   ],
-   "tier": 2
-  },
-  {
    "lhash": "9568f57fb00f:opaque",
    "size": 20,
    "n_names": 3,
@@ -233411,6 +233397,20 @@
     "OtBlk_80180894",
     "OtBlk_80182890_8018FB5C",
     "OtBlk_8018FE0C"
+   ],
+   "tier": 2
+  },
+  {
+   "lhash": "b519bad67107:opaque",
+   "size": 20,
+   "n_names": 3,
+   "n_defs": 0,
+   "canon": 0,
+   "in_c": 0,
+   "names": [
+    "Local_8017EE34",
+    "Local_80181C84",
+    "Local_801870E8"
    ],
    "tier": 2
   },
