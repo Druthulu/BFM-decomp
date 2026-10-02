@@ -2822,7 +2822,7 @@ extern void func_80180D94(void *a0);
 extern void func_80180E54(void *a0);
 extern u8 D_8019D340[];
 extern s32 func_8012BDBC(s32 a0, s32 a1);
-extern s32 aF8018A224();
+extern s32 aF8018A224(void *param_1);
 extern void (*D_801A1380[])(void);
 extern void func_80180FBC(void *a0);
 extern s32 D_801A12E4;
