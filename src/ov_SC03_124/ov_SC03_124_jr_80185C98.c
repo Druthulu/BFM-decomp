@@ -2905,7 +2905,7 @@ extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern void func_80184350(void *a0, s32 a1);
 extern void func_801843D8(void *a0);
 extern void func_8012E8A8(u8 *a0);
-extern void aF801843E0();
+extern void aF801843E0(s32 *a0, s32 a1);
 extern s32 func_80184428(void);
 extern s32 func_80184484(void);
 extern s32 func_801844F8(void * arg0);
