@@ -57,3 +57,4 @@ p39-t3-2026-10-02-restruct-rung-s-residue-head-types-add-pads.md | §P39 T3 — 
 p39-t4-2026-10-02-restruct-only-main.md | §P39 T4 — 2026-10-02: restruct --only main | 5
 p39-t10-2026-10-02-check-casts-residue.md | §P39 T10 — 2026-10-02: type_census --check-casts --residue; restruct --forms per-site residue | 5
 p39-t5-2026-10-02-restruct-im-recipes.md | §P39 T5 — 2026-10-02: restruct rung S --forms I,M recipe ladder; residue GADDR | 6
+| p39-t6-2026-10-02-restruct-rung-d-callers.md | §P39 T6 — 2026-10-02: restruct rung D caller-only units, alias defs, shared-header def scope | 4
