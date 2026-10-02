@@ -4589,7 +4589,7 @@ void func_8015EF9C(void) {
 extern void (*D_80180D18[])(void);
 
 void func_8015F00C(s32 *a0) {
-    D_80180D18[*(u16 *)((s32)a0 + 0x2)]();
+    D_80180D18[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
