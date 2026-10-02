@@ -1919,6 +1919,23 @@ def selftest():
     rz, lz = check_casts_verdict(z, [], {}, [], set())
     checks.append(("check-casts all-zero OK + line", rz == 0 and lz == "check-casts: raw P=0 I=0 X=0 M=0; macros none (unbacked 0); lying=0 (ledgered 0)"))
     checks.append(("check-casts raw FAIL", check_casts_verdict(dict(z, X=1), [], {}, [], set())[0] == 1))
+    # P39 T10: --residue — per form one covered site passes; uncovered three ways (no row; row without the site; RESIDUAL with no cause)
+    for f, pos in (("P", "*(u16 *)(a0 + 4) = 1;"), ("I", "*(u8 *)D_80078EB4 = 1;"), ("X", "((s16 *)a0)[2] = 0;"), ("M", "M2C_FIELD(a0, u8 *, 1) = 0;")):
+        w, (raw1, _) = cc(pos)
+        s1 = [s for s in w["sites"] if s["form"] == f]
+        e = dict(form=f, line=2, base=f"{s1[0]['bclass']}:{s1[0]['base']}", off=s1[0]["off"], verdict="RESIDUAL(GLOBAL)", cause="GLOBAL")
+        key = ("S", "src/ov_TEST/k.c", "g")
+        for name, lat, n_unc in (("covered", {key: dict(verdict="RESIDUAL", sites=[e])}, 0), ("no row", {}, 1),
+                                 ("site absent", {key: dict(verdict="RESIDUAL", sites=[dict(e, off=(e["off"] or 0) + 0x40)])}, 1),
+                                 ("empty cause", {key: dict(verdict="RESIDUAL", sites=[dict(e, cause="")])}, 1)):
+            cov, unc, cause = residue_split(w["sites"], lat)
+            rc_r, l_r = check_casts_verdict(raw1, [], lat, [], set(), uncovered=collections.Counter(s["form"] for s in unc))
+            want = "(uncovered " + " ".join(f"{g}={int(g == f and n_unc)}" for g in ("P", "I", "X", "M")) + ")"
+            checks.append((f"check-casts --residue {f} {name}", len(s1) == 1 and len(unc) == n_unc and len(cov) == 1 - n_unc
+                           and rc_r == n_unc and want in l_r and (n_unc or cause[id(cov[0])] == "GLOBAL")))
+    wk, (_, mk) = cc("CAST_ALIAS(u16, a0, 4) = 2;")
+    covk, unck, _ = residue_split(wk["sites"], {})
+    checks.append(("check-casts --residue KEPT macro under macros", len(mk) == 1 and covk == [] and unck == []))
     bad = [n for n, ok in checks if not ok]
     print(f"type_census --selftest: {len(checks) - len(bad)}/{len(checks)} checks OK" + (f"; FAILED: {bad}" if bad else ""))
     return 0 if not bad else 1
@@ -1979,8 +1996,9 @@ def check_casts_inputs():
     return latest, exc
 
 
-def check_casts_verdict(raw_by_form, macro_sites, latest, lying_rows, exceptions):
-    """(rc, line) — rc 1 iff any raw form > 0, any macro site unbacked, or any lying row not ledgered in the exceptions TSV."""
+def check_casts_verdict(raw_by_form, macro_sites, latest, lying_rows, exceptions, uncovered=None):
+    """(rc, line) — rc 1 iff any raw form > 0, any macro site unbacked, or any lying row not ledgered in the exceptions TSV.
+    P39 T10 (--residue): `uncovered` {form: n} — the line adds `(uncovered P=…)` and the rc tests uncovered instead of raw."""
     unbacked = 0
     for s in macro_sites:
         row = latest.get(("S", s["tu"], s["fn"]))
@@ -2002,9 +2020,80 @@ def check_casts_verdict(raw_by_form, macro_sites, latest, lying_rows, exceptions
     macros = collections.Counter(s["name"] for s in macro_sites)
     mtxt = " ".join(f"{n}={macros[n]}" for n in KEPT_MACROS if macros[n] > 0) or "none"
     raw = [raw_by_form.get(f, 0) for f in ("P", "I", "X", "M")]
-    line = (f"check-casts: raw P={raw[0]} I={raw[1]} X={raw[2]} M={raw[3]}; macros {mtxt} (unbacked {unbacked}); "
+    unc = None if uncovered is None else [uncovered.get(f, 0) for f in ("P", "I", "X", "M")]
+    utxt = "" if unc is None else f" (uncovered P={unc[0]} I={unc[1]} X={unc[2]} M={unc[3]})"
+    line = (f"check-casts: raw P={raw[0]} I={raw[1]} X={raw[2]} M={raw[3]}{utxt}; macros {mtxt} (unbacked {unbacked}); "
             f"lying={lying} (ledgered {lying - unledgered})")
-    return (1 if any(raw) or unbacked or unledgered else 0), line
+    return (1 if any(raw if unc is None else unc) or unbacked or unledgered else 0), line
+
+
+# --check-casts --residue (P39 T10): a raw P/I/X/M site passes only when a rung-S ledger entry RESIDUAL(<cause>) covers it
+# (restruct.residue_match — per site, never re-implemented here).
+RESIDUE_SEGMENTS = (("ov", ["ov_*"]), ("md", ["md_*"]), ("main", ["main"]))    # else "shared" (src/shared/, include/, other dirs)
+
+
+def residue_split(sites, latest):
+    """(covered, uncovered, {id(covered site): ledger cause}) over the raw P/I/X/M census sites (not common.h's #define lines). The cause
+    is read back from the covering body's RESIDUAL entries in ledger order (annotation only; coverage is residue_match's)."""
+    import restruct as rs
+    sites = [s for s in sites if s.get("form") in ("P", "I", "X", "M") and not s.get("defline")]
+    covered, uncovered = rs.residue_match(latest, sites, "P,I,X,M")
+    pools, cause = {}, {}
+    for s in covered:
+        bk = (s["tu"], s.get("fn") or rs.RESIDUE_FILE_UNIT)
+        if bk not in pools:
+            pools[bk] = collections.defaultdict(list)
+            for e in (latest.get(("S",) + bk) or {}).get("sites") or []:
+                if str(e.get("verdict") or "").startswith("RESIDUAL(") and e.get("cause"):
+                    pools[bk][rs._residue_key(e.get("form"), e.get("base"), e.get("off"))].append(e["cause"])
+        q = pools[bk][rs._residue_key(s["form"], f"{s.get('bclass')}:{s.get('base')}", s.get("off"))]
+        cause[id(s)] = q.pop(0) if q else "?"
+    return covered, uncovered, cause
+
+
+def residue_census(covered, uncovered, cause, out_dir):
+    """Write <out_dir>/residue_census.{json,txt}: covered/uncovered by form, by cause, by segment; the top 50 map types by covered sites
+    (sites, bodies); how many map types cover 50/80/95% of the TYPE-NOT-CANONICAL sites. Returns the by-cause Counter."""
+    import restruct as rs
+    forms = ("P", "I", "X", "M")
+    seg_of = lambda s: next((n for n, only in RESIDUE_SEGMENTS if rs.matches_only(only, s["tu"], s.get("fn") or rs.RESIDUE_FILE_UNIT)), "shared")
+    by_form = {f: dict(covered=0, uncovered=0) for f in forms}
+    by_seg = {n: dict(covered=0, uncovered=0) for n in [n for n, _ in RESIDUE_SEGMENTS] + ["shared"]}
+    for k, ss in (("covered", covered), ("uncovered", uncovered)):
+        for s in ss:
+            by_form[s["form"]][k] += 1
+            by_seg[seg_of(s)][k] += 1
+    by_cause = collections.Counter(cause[id(s)] for s in covered)
+    tsites, tbodies = collections.Counter(), collections.defaultdict(set)
+    tnc = collections.Counter()
+    for s in covered:
+        if s.get("type"):
+            tsites[s["type"]] += 1
+            tbodies[s["type"]].add((s["tu"], s.get("fn")))
+            if cause[id(s)] == "TYPE-NOT-CANONICAL":
+                tnc[s["type"]] += 1
+    top = [dict(type=t, sites=n, bodies=len(tbodies[t])) for t, n in sorted(tsites.items(), key=lambda kv: (-kv[1], kv[0]))[:50]]
+    tnc_total, cover, acc, i = sum(tnc.values()), {}, 0, 0
+    ranked = sorted(tnc.values(), reverse=True)
+    for pct in (50, 80, 95):
+        while i < len(ranked) and acc * 100 < pct * tnc_total:
+            acc += ranked[i]
+            i += 1
+        cover[str(pct)] = i
+    doc = dict(by_form=by_form, by_cause=dict(sorted(by_cause.items(), key=lambda kv: (-kv[1], kv[0]))), by_segment=by_seg,
+               top_types=top, tnc=dict(sites=tnc_total, types=len(tnc), types_to_cover_pct=cover))
+    out = REPO / out_dir
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "residue_census.json").write_text(json.dumps(doc, indent=1))
+    L = ["residue census (P39 T10): raw P/I/X/M sites covered by a rung-S RESIDUAL(<cause>) ledger entry", "", "by form (covered / uncovered):"]
+    L += [f"  {f}  {by_form[f]['covered']:>7} / {by_form[f]['uncovered']}" for f in forms]
+    L += ["", "by segment (covered / uncovered):"] + [f"  {n:<7}{v['covered']:>7} / {v['uncovered']}" for n, v in by_seg.items()]
+    L += ["", "by cause (covered sites):"] + [f"  {c:<22}{n:>7}" for c, n in doc["by_cause"].items()]
+    L += ["", "top 50 map types by covered sites (sites  bodies  type):"] + [f"  {r['sites']:>6}  {r['bodies']:>6}  {r['type']}" for r in top]
+    L += ["", f"TYPE-NOT-CANONICAL: {tnc_total} sites over {len(tnc)} distinct map types; types to cover 50%={cover['50']} "
+              f"80%={cover['80']} 95%={cover['95']}"]
+    (out / "residue_census.txt").write_text("\n".join(L) + "\n")
+    return by_cause
 
 # ----------------------------------------------------------------------------------------------------------------------
 def main():
@@ -2016,12 +2105,16 @@ def main():
     ap.add_argument("--check", action="store_true", help="T8's gate (the invariants; exit 1 on a violation)")
     ap.add_argument("--check-structs", action="store_true", help="the struct-unification gate (P38 T2; exit 1 on a violation)")
     ap.add_argument("--check-casts", action="store_true", help="the cast-and-lying gate (P39 T2; exit 1 on a raw cast, an unbacked macro site or an unledgered lie)")
+    ap.add_argument("--residue", action="store_true", help="with --check-casts (P39 T10): a raw P/I/X/M site passes when a rung-S ledger "
+                    "entry RESIDUAL(<cause>) covers it (restruct.residue_match); prints the uncovered counts and a by-cause line, exits 1 on any "
+                    "uncovered site; writes <out-dir>/residue_census.{json,txt} (by form, cause, segment; top 50 map types; TNC 50/80/95%%)")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--quiet", action="store_true")
     a = ap.parse_args()
     if a.selftest:
         sys.exit(selftest())
-    summary, txt = run_census(a.jobs, use_cache=not a.no_cache, out_dir=a.out_dir, want_sites=a.sites)
+    want_residue = a.check_casts and a.residue
+    summary, txt = run_census(a.jobs, use_cache=not a.no_cache, out_dir=a.out_dir, want_sites=a.sites or want_residue)
     if a.quiet:
         print(txt.strip().split("\n")[-2])
         print(txt.strip().split("\n")[-1])
@@ -2058,9 +2151,19 @@ def main():
         rc = rc or rc_s
     if a.check_casts:
         latest, exc = check_casts_inputs()
+        unc, bc_line = None, None
+        if want_residue:
+            with open(REPO / a.out_dir / "sites.jsonl") as fh:
+                sites = [json.loads(l) for l in fh if l.startswith(('{"form": "P"', '{"form": "I"', '{"form": "X"', '{"form": "M"'))]
+            covered, uncovered, cause = residue_split(sites, latest)
+            unc = collections.Counter(s["form"] for s in uncovered)
+            by_cause = residue_census(covered, uncovered, cause, a.out_dir)
+            bc_line = "by-cause: " + (" ".join(f"{c}={n}" for c, n in sorted(by_cause.items(), key=lambda kv: (-kv[1], kv[0]))) or "none")
         rc_c, line = check_casts_verdict(summary["casts"]["check_raw"], summary["casts"]["macro_sites"], latest,
-                                         summary["decls"]["lying_rows"], exc)
+                                         summary["decls"]["lying_rows"], exc, uncovered=unc)
         print(line)
+        if bc_line:
+            print(bc_line)
         rc = rc or rc_c
     sys.exit(rc)
 

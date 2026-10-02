@@ -55,3 +55,4 @@ p38-t4-2026-09-29-restruct-head-fold-mode.md | §P38 T4 — 2026-09-29: restruct
 p39-t1-2026-10-01-restruct-stale-supersede-timeline-check.md | §P39 T1 — 2026-10-01: restruct stale-row supersede; timeline --check | 5
 p39-t3-2026-10-02-restruct-rung-s-residue-head-types-add-pads.md | §P39 T3 — 2026-10-02: restruct rung S residue/check-residue; head_types --add-pads | 6
 p39-t4-2026-10-02-restruct-only-main.md | §P39 T4 — 2026-10-02: restruct --only main | 5
+p39-t10-2026-10-02-check-casts-residue.md | §P39 T10 — 2026-10-02: type_census --check-casts --residue; restruct --forms per-site residue | 5

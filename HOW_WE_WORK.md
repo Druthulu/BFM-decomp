@@ -37,6 +37,7 @@ PY = /usr/bin/python3
 | phaseend_index | `PY tools/phaseend_index.py` | assemble, lint and archive a PhaseEnd |
 | genend_index | `PY tools/genend_index.py` | assemble and lint a GenerationEnd |
 | commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes; auto-stages phase-ends/current/{tasks,logs,research,discussions,RECAP.md,TASK_PROGRESS.md}, but leaves reply-drafting discussion records unstaged and refuses messages mentioning a drafted/posted reply; citing an issue for a fix is fine (R120) |
+| type_census casts | `PY tools/type_census.py --check-casts [--residue]` | cast-and-lying gate; `--residue`: raw P/I/X/M pass only if ledgered RESIDUAL(<cause>) per site; writes residue_census |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
 | Every script under `tools/` (plus the two report make-targets), grouped by purpose — one line each. Deep HOW-TO is **not | `Every script under `tools/` (plus the two report make-targets), grouped by purpose — one line each. Deep HOW-TO is **not` | Every script under `tools/` (plus the two report make-targets), grouped by purpose — one line each. Deep HOW-TO is **not |
 
