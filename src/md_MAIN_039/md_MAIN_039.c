@@ -282,7 +282,7 @@ s32 func_800CB4D4(s32 a0) {
     best = 0x7FFFFFFF;
     p = D_801202A0;
     while (p < D_801202A0 + 0x6480) {
-        if (*(u16 *)(p + 0) != 0x282) {
+        if (((Unkstruct_800B5CB8 *)p)->unk0 != 0x282) {
             q = p + 4;
             func_80015978((s32)q, buf);
             if (func_8012E778((s32)p, 0x8C00B4) == 1) {

@@ -126,7 +126,7 @@ void func_800CB0E8(void *a0) {
 
     v1 = func_80146994(0x15, (s32)a0, 0, 0);
     if (v1 != 0) {
-        *(s32 *)(v1 + 0x30) = *(s16 *)((u8 *)a0 + 0x36);
+        *(s32 *)(v1 + 0x30) = CAST_SIGN(s16, (u8 *)a0, 0x36);
     }
 }
 
@@ -214,9 +214,9 @@ void func_800CB138(s32 arg0) {
               RotMatrixZ(ang2, q); __asm__ __volatile__("" : "=r"(q)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
             MulMatrix0(m, &blk, arg0 + 0x38);
             *(s32 *)(arg0 + 0x20) = (s32)p;
-            *(s32 *)(p + 0x34) = arg0 + 0x38;
-            *(u16 *)(p + 0x1A) = 0x2000;
-            *(u16 *)(p + 0x18) = 0x2000;
+            CAST_WIDTH(s32, p, 0x34) = arg0 + 0x38;
+            ((Unkstruct_800B5CB8 *)p)->unk1A = 0x2000;
+            ((Unkstruct_800B5CB8 *)p)->unk18 = 0x2000;
             func_80128EA8(p, arg0 + 0x24, D_800CB88C);
             *(s16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
         } else {
@@ -272,9 +272,9 @@ void func_800CB3CC(void *arg0) {
     p = func_800D21C4(arg0, D_800CB8FC, 0x19);
     if (p != 0) {
         *(s32 *)((s32)arg0 + 0x20) = p;
-        *(u16 *)(p + 0x1A) = 0x3000;
-        *(u16 *)(p + 0x18) = 0x3000;
-        *(s32 *)(p + 4) |= 0x50000000;
+        ((Unkstruct_800B5CB8 *)p)->unk1A = 0x3000;
+        ((Unkstruct_800B5CB8 *)p)->unk18 = 0x3000;
+        CAST_WIDTH(s32, p, 4) |= 0x50000000;
         func_80128EA8(p, (s32)arg0 + 0x24, D_800CB8BC);
         *(u16 *)((s32)arg0 + 2) = *(u16 *)((s32)arg0 + 2) + 1;
     } else {

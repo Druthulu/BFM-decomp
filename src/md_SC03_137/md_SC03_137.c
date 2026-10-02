@@ -345,10 +345,10 @@ extern void *D_801E3084;
 
 void func_801E2ED8(void *param_1) {
     if (func_80183EE4(param_1, D_801E3004) != 0) {
-        *(s16 *)((s32)param_1 + 0x2) = 1;
+        ((Unkstruct_800B5CB8 *)param_1)->unk2 = 1;
         func_8012A828((s32)param_1, &D_801BF330);
         func_8012E8E0((s32)param_1, (s32)&D_801E2FFC);
-        *(u16 *)((s32)param_1 + 0x34) = 0;
+        ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
         func_80178B18((s32)param_1, (s32)&D_801E3084);
     }
 }

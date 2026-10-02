@@ -361,10 +361,10 @@ void func_801EE2C8(void *param_1) {
     extern s32 D_801EE474;
 
     if (func_801844BC(param_1, &D_801EE3F4) != 0) {
-        *(s16 *)((s32)param_1 + 0x2) = 1;
+        ((Unkstruct_800B5CB8 *)param_1)->unk2 = 1;
         func_8012A828((s32)param_1, &D_801BA244);
         func_8012E8E0((s32)param_1, (s32)&D_801EE3EC);
-        *(s16 *)((s32)param_1 + 0x34) = 0;
+        ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
         func_80178B18((s32)param_1, (s32)&D_801EE474);
     }
 }

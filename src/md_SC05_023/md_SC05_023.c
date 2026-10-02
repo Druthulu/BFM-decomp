@@ -393,17 +393,17 @@ void func_801EE350(void *a0) {
     s32 ptr;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)((s32)a0 + 0x20) = v0;
+    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
     if (v0 == 0) {
         func_8012CAE4(a0);
     } else {
         func_8001C214(v0, (s32)&D_801F4B48);
-        ptr = *(s32 *)((s32)a0 + 0x68);
+        ptr = ((Unkstruct_800B5CB8 *)a0)->unk68;
         *(s16 *)(ptr + 0xC) = 0x7FFF;
-        *(s16 *)((s32)a0 + 0x2) = 1;
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
         func_8012A828((s32)a0, (s32)&D_801B9A0C);
         func_8012E8E0((s32)a0, (s32)&D_801EE49C);
-        *(s16 *)((s32)a0 + 0x34) = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
         func_80178B18((s32)a0, (s32)&D_801EE4A4);
     }
 }
