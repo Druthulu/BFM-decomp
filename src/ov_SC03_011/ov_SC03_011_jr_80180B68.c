@@ -2748,7 +2748,7 @@ extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126940;
 extern s16 D_80126942;
 extern s16 D_80126944;
-extern void aF8017E3F0();
+extern void aF8017E3F0(s32 param_1);
 extern void func_8013CB84(void);
 extern void func_800D06E8(void);
 extern void func_8017E5B8(void);
