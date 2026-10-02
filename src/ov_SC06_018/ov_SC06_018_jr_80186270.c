@@ -3375,9 +3375,9 @@ void func_80186D80(s32 a0, s32 a1)
     V8_SC06_018_80186D80 sp18;
     V8_SC06_018_80186D80 sp20;
 
-    sp10.vx = *(u16 *)(a0 + 0x3A);
-    sp10.vy = *(u16 *)(a0 + 0x3E);
-    sp10.vz = *(u16 *)(a0 + 0x42);
+    sp10.vx = ((Unkstruct_800B5CB8 *)a0)->unk3A;
+    sp10.vy = ((Unkstruct_800B5CB8 *)a0)->unk3E;
+    sp10.vz = ((Unkstruct_800B5CB8 *)a0)->unk42;
     sp18 = sp10;
     sp18.vx += *(u16 *)(a1 + 0x0);
     sp18.vy += *(u16 *)(a1 + 0x2);
@@ -3387,12 +3387,12 @@ void func_80186D80(s32 a0, s32 a1)
     sp18.vx -= *(u16 *)(a1 + 0x0);
     sp18.vy -= *(u16 *)(a1 + 0x2);
     sp18.vz -= *(u16 *)(a1 + 0x4);
-    *(u16 *)(a0 + 0x3A) = sp18.vx;
-    *(u16 *)(a0 + 0x3E) = sp18.vy;
-    *(u16 *)(a0 + 0x42) = sp18.vz;
-    *(u16 *)(a0 + 0x6) = sp18.vx;
-    *(u16 *)(a0 + 0xA) = sp18.vy;
-    *(u16 *)(a0 + 0xE) = sp18.vz;
+    ((Unkstruct_800B5CB8 *)a0)->unk3A = sp18.vx;
+    ((Unkstruct_800B5CB8 *)a0)->unk3E = sp18.vy;
+    ((Unkstruct_800B5CB8 *)a0)->unk42 = sp18.vz;
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.vx;
+    ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.vy;
+    ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.vz;
 }
 
 

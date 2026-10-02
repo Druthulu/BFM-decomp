@@ -3494,13 +3494,13 @@ s32 func_80185CD8(s32 p) {
     s32 buf10[2];
     s32 r;
 
-    if ((*(u32 *)(p + 0xE0) & 1) == 0) {
+    if ((CAST_SIGN(u32, p, 0xE0) & 1) == 0) {
         goto ret0;
     }
-    if (*(u16 *)(p + 2) == 1) {
+    if (CAST_SIGN(u16, p, 2) == 1) {
         goto ret0;
     }
-    if (*(u16 *)(p + 2) == 0xD) {
+    if (CAST_SIGN(u16, p, 2) == 0xD) {
         return 0;
     }
     if ((D_80126B9C & 2) == 0) {
@@ -3514,13 +3514,13 @@ s32 func_80185CD8(s32 p) {
         goto out;
     }
     ((void (*)(s32, void *, void *))func_8012F214)(p, D_801AF988, buf10);
-    if (func_80187D0C(buf10, *(s16 *)(*(s32 *)(p + 0x20) + 0x12), 0x380) != 0) {
+    if (func_80187D0C(buf10, *(s16 *)(((Unkstruct_800B5CB8 *)p)->unk20 + 0x12), 0x380) != 0) {
         goto store;
     }
 ret0:
     return 0;
 store:
-    *(u16 *)(p + 2) = 0xC;
+    ((Unkstruct_800B5CB8 *)p)->unk2 = 0xC;
     r = 1;
 out:
     return r;

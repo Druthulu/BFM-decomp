@@ -3030,7 +3030,7 @@ join:
 extern void func_801849B8(s32 *a0, s32 a1);
     extern short D_80191530;
     void func_80180C30(short *a0) {
-        *(short *)((char *)a0 + 0x2) = 0x5;
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x5;
         func_801849B8((s32 *)a0, (s32)&D_80191530);
     }
 
@@ -3095,7 +3095,7 @@ dispatch:
     switch (v1) {
     case 0:
         v0 = 3;
-        *(u16 *)((u8 *)s0 + 2) = v0;
+        ((Unkstruct_800B5CB8 *)s0)->unk2 = v0;
         func_8012E8E0((s32)s0, (s32)&D_80191538);
         func_8012E88C((s32)s0);
         ((void (*)(s32 *, s32))func_8012A828)((s32 *)s0, (s32)&D_801B9B0C);
@@ -3107,7 +3107,7 @@ dispatch:
     case 2:
         v0 = 1;
     set_and_call:
-        *(u16 *)((u8 *)s0 + 2) = v0;
+        ((Unkstruct_800B5CB8 *)s0)->unk2 = v0;
         func_801849B8((s32 *)s0, (s32)&D_80191530);
         break;
     default:
@@ -3118,14 +3118,14 @@ dispatch:
     {
         void *pv0;
         s32 pv1;
-        pv0 = *(void **)((u8 *)s0 + 0x68);
+        pv0 = CAST_SIGN(void *, (u8 *)s0, 0x68);
         pv1 = 0x7FFF;
         *(s16 *)((u8 *)pv0 + 0xC) = (s16)pv1;
     }
     newEnt = (void *)func_801788B8((s32)s0, (s32)func_80180F3C);
-    *(s32 *)((u8 *)s0 + 0xD4) = (s32)newEnt;
+    ((Unkstruct_800B5CB8 *)s0)->unkD4 = (s32)newEnt;
     func_8012E8E0((s32)newEnt, (s32)&D_80191530);
-    *(s32 *)((u8 *)s0 + 0xD8) = (s32)((void *)func_801788B8((s32)s0, (s32)func_80180FB4));
+    ((Unkstruct_800B5CB8 *)s0)->unkD8 = (s32)((void *)func_801788B8((s32)s0, (s32)func_80180FB4));
 }
 
 
@@ -3198,7 +3198,7 @@ join:
 extern void func_80178CBC(s32 arg0, s32 arg1);
     extern short D_80191568;
     void func_80180ED0(short *a0) {
-        *(short *)((char *)a0 + 0x2) = 0x7;
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x7;
         func_80178CBC((s32 *)a0, (s32)&D_80191568);
     }
 

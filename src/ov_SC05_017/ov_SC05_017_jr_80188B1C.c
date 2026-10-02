@@ -5242,7 +5242,7 @@ extern void func_801849B8(s32 *a0, s32 a1);
     void func_8018BD38(s32 *arg0) {
         s32 *s0 = arg0;
         s32 v0, v1;
-        CAST_NONSTRUCT(s32, (u8 *)(*(s32 **)((u8 *)s0 + 0xCC)), 0xB0) = 2;
+        CAST_NONSTRUCT(s32, (u8 *)(CAST_SIGN(s32 *, (u8 *)s0, 0xCC)), 0xB0) = 2;
         v0 = func_801848AC(6, 0x12);
         if (v0 != 0) {
             v1 = 1;
@@ -5251,7 +5251,7 @@ extern void func_801849B8(s32 *a0, s32 a1);
             v1 = (v0 != 0) ? 2 : 0;
         }
         if (v1 != 2) {
-            *(s16 *)((u8 *)s0 + 2) = 1;
+            ((Unkstruct_800B5CB8 *)s0)->unk2 = 1;
             func_801849B8(s0, (s32)&D_801E6884);
         }
     }
@@ -5313,13 +5313,13 @@ void func_8018BE14(void *arg0) {
         goto tail;
     }
 
-    *(short *)((char *)s0 + 2) = v0;
+    ((Unkstruct_800B5CB8 *)s0)->unk2 = v0;
     func_801849B8((s32 *)s0, (s32)&D_801E6884);
 
 tail:
-    ptr = *(void **)((char *)s0 + 0x68);
+    ptr = CAST_SIGN(void *, (char *)s0, 0x68);
     *(short *)((char *)ptr + 0xC) = 0x7FFF;
-    *(s32 *)((char *)s0 + 0xD4) = func_801788B8((s32)s0, (s32)func_8018BEE0);
+    ((Unkstruct_800B5CB8 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)func_8018BEE0);
 }
 
 
@@ -5369,11 +5369,11 @@ void func_8018BF78(void *arg0) {
     s32 v1;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)((u8 *)s0 + 0x20) = v0;
+    ((Unkstruct_800B5CB8 *)s0)->unk20 = v0;
     if (v0 == 0) {
         func_8012CAE4(s0);
     }
-    func_8001C214(*(s32 *)((u8 *)s0 + 0x20), 0);
+    func_8001C214(((Unkstruct_800B5CB8 *)s0)->unk20, 0);
 
     v1 = func_80029504();
     if (v1 < 0xC8) {
@@ -5401,12 +5401,12 @@ void func_8018BF78(void *arg0) {
         v0 = 1;
     }
 
-    do { *(s16 *)((u8 *)s0 + 0x2) = (s16)v0; } while (0);
+    do { ((Unkstruct_800B5CB8 *)s0)->unk2 = (s16)v0; } while (0);
     func_801849B8((s32 *)s0, (s32)&D_801E6968);
 
-    v1 = *(s32 *)((u8 *)s0 + 0x68);
+    v1 = ((Unkstruct_800B5CB8 *)s0)->unk68;
     *(s16 *)((u8 *)v1 + 0xC) = 0x7FFF;
-    *(s32 *)((u8 *)s0 + 0xD4) = func_801788B8((s32)s0, (s32)&func_8018C0F0);
+    ((Unkstruct_800B5CB8 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_8018C0F0);
 }
 
 
@@ -5422,7 +5422,7 @@ void func_8018C068(void *a0) {
 extern void func_80178CBC(s32 a0, s32 a1);
     extern short D_801E69CC;
     void func_8018C0A4(void * arg0) {
-        *(short *)((char *)arg0 + 0x2) = 4;
+        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 4;
         func_80178CBC((int)arg0, (int)&D_801E69CC);
     }
 

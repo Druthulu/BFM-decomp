@@ -3708,22 +3708,22 @@ s32 func_8017F15C(s32 arg)
 
     s0 = *(s32 *)(arg + 0xD8);
     func_8012AD80(s0);
-    switch (*(u16 *)(s0 + 0x34)) {
+    switch (((Unkstruct_800B5CB8 *)s0)->unk34) {
     case 0:
         timer = *(s32 *)(arg + 0xF8) - 1;
         *(s32 *)(arg + 0xF8) = timer;
         if (timer != 0) {
             return 0;
         }
-        *(s32 *)(s0 + 0x1C) = 0x70;
-        *(s32 *)(s0 + 0x18) = 0;
-        *(s32 *)(s0 + 0x14) = 0xFFFA0000;
-        *(u16 *)(s0 + 0x34) += 1;
+        ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x70;
+        CAST_WIDTH(s32, s0, 0x18) = 0;
+        ((Unkstruct_800B5CB8 *)s0)->unk14 = 0xFFFA0000;
+        ((Unkstruct_800B5CB8 *)s0)->unk34 += 1;
         func_8002D4C8(4, 0xC04);
         return 0;
     case 1:
         func_8002D4C8(0xC04, 0);
-        *(u16 *)(s0 + 0x34) += 1;
+        ((Unkstruct_800B5CB8 *)s0)->unk34 += 1;
         /* fallthrough */
     case 2:
         if (func_8012BEE8(s0) == 0) {

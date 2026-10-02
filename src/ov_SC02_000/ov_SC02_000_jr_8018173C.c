@@ -3696,12 +3696,12 @@ void func_801834EC(s32 arg0)
     func_80147AD4(arg0, 0, 0, 0);
     func_801473EC((s32 *)arg0);
     func_80172414(arg0);
-    if (--*(s32 *)(arg0 + 0x204) == -1) {
-        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) = 0;
+    if (--((Unkstruct_80126B58 *)arg0)->unk204 == -1) {
+        *(u16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x10) = 0;
         func_80146D90(arg0);
-        *(s32 *)(arg0 + 0x204) = 0x10;
-        *(u8 *)(arg0 + 0x4D) -= 1;
-        *(u8 *)(arg0 + 0x214) += 1;
+        ((Unkstruct_80126B58 *)arg0)->unk204 = 0x10;
+        ((Unkstruct_80126B58 *)arg0)->unk4D -= 1;
+        ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
     }
 }
 

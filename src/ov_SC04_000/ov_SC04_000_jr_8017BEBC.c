@@ -6151,7 +6151,7 @@ s32 a0;
 {
     s32 s0 = a0;
 
-    if (*(s16 *)(s0 + 0xAA) > 0) {
+    if (((Unkstruct_800B5CB8 *)s0)->unkAA > 0) {
         func_801818E8(s0, 4);
         return 0;
     }
