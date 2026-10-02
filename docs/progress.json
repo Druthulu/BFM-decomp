@@ -66,7 +66,7 @@
   },
   "types": {
    "date": "2026-10-02",
-   "head": "2407750392",
+   "head": "2992188ecf",
    "snapshot": "P39",
    "census": ".run/P39/census/type_census.json",
    "what": "the structs phases' counters: raw pointer-cast dereferences in four forms (P *(T*)(\u2026), I *(T*)ident, X ((T*)e)[i], M M2C_FIELD), struct definitions and their duplicate classes, lying call declarations, and the struct map's types",
@@ -107,7 +107,36 @@
    "asm_label_aliases": 5148,
    "multi_spelled_callees": 3773,
    "struct_map_types": 17965,
-   "struct_map_explained_pct": 98.8
+   "struct_map_explained_pct": 98.8,
+   "check_casts": {
+    "census": ".run/P37/census/residue_census.json",
+    "date": "2026-10-02",
+    "head": "2992188ecf",
+    "gate_line": "check-casts: raw P=257464 I=49831 X=13790 M=15128 (uncovered P=0 I=0 X=0 M=0); macros CAST_ALIAS=1173 CAST_SIGN=8429 CAST_WIDTH=10410 CAST_MISALIGNED=624 CAST_NONSTRUCT=327 (unbacked 0); lying=229 (ledgered 0)",
+    "what": "type_census --check-casts --residue: raw dereference sites per form, split into covered (a rung-S RESIDUAL(<cause>) ledger entry) and uncovered; reinterpret-macro sites KEPT (backed by a rung-S KEPT entry) and unbacked; lying declarations ledgered",
+    "raw": {
+     "P": 257464,
+     "I": 49831,
+     "X": 13790,
+     "M": 15128
+    },
+    "covered": {
+     "P": 257464,
+     "I": 49831,
+     "X": 13790,
+     "M": 15128
+    },
+    "uncovered": {
+     "P": 0,
+     "I": 0,
+     "X": 0,
+     "M": 0
+    },
+    "macro_sites": 20963,
+    "macro_unbacked": 0,
+    "lying": 229,
+    "lying_ledgered": 0
+   }
   }
  },
  "corrections": [
