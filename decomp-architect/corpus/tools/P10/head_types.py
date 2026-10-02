@@ -8,10 +8,12 @@ write the per-offset decision record. --header / --decisions rewrite only the te
 created with its hand-written skeleton. Flat structs only (the rewriter spells flat members; no unions, no nesting).
 
   .venv/bin/python tools/head_types.py [--type NAME ...] [--map PATH] [--header PATH] [--decisions PATH] [--selftest]
+  .venv/bin/python tools/head_types.py --header PATH --add-pads CANDIDATES.json   # additive: pad splits only (P39 T3.c6)
 """
 import argparse
 import json
 import pathlib
+import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
@@ -186,6 +188,77 @@ def splice(path, skeleton, begin, end, body):
     return True
 
 
+PAD_RE = re.compile(r"^(\s*)/\* (0x[0-9a-f]+) \*/ u8 pad[0-9A-F]+\[(0x[0-9a-f]+)\];$")
+
+
+def add_pads(region, cands):
+    """Additive mode (P39 T3.c6): split pad arrays of the region's typedefs to insert candidate fields; every other line
+    is kept byte-for-byte. cands = [{type, off, width, sign}]. -> (new region, [added], [(cand, why skipped)])."""
+    want = {}
+    for c in cands:
+        want.setdefault(c["type"], []).append(c)
+    out, added, skipped, block = [], [], [], []
+    for line in region.split("\n"):
+        block.append(line)
+        m = re.match(r"^\} (\w+);", line)
+        if not m:
+            continue
+        cs, used = want.pop(m.group(1), []), set()
+        for k, bl in enumerate(block):
+            pm = PAD_RE.match(bl)
+            if not pm:
+                out.append(bl)
+                continue
+            ind, p0, pn = pm.group(1), int(pm.group(2), 16), int(pm.group(3), 16)
+            ins = sorted((c for c in cs if p0 <= c["off"] and c["off"] + c["width"] <= p0 + pn), key=lambda c: c["off"])
+            cur, new = p0, []
+            for c in ins:
+                off, w, sg = c["off"], c["width"], c["sign"]
+                if off < cur or (w, sg) not in sl.TYPE_OF or off % min(w, 4):
+                    skipped.append((c, "overlap" if off < cur else "width/sign/align"))
+                    continue
+                if off > cur:
+                    new.append(f"{ind}/* {cur:#06x} */ u8 pad{cur:X}[{off - cur:#x}];")
+                new.append(f"{ind}/* {off:#06x} */ {sl.TYPE_OF[(w, sg)]} unk{off:X};")
+                added.append(c)
+                used.add(id(c))
+                cur = off + w
+            if cur == p0:
+                out.append(bl)
+                continue
+            if cur < p0 + pn:
+                new.append(f"{ind}/* {cur:#06x} */ u8 pad{cur:X}[{p0 + pn - cur:#x}];")
+            out.extend(new)
+        skipped += [(c, "not in a pad") for c in cs if id(c) not in used and not any(c is s[0] for s in skipped)]
+        block = []
+    out.extend(block)
+    skipped += [(c, "type not in region") for cs in want.values() for c in cs]
+    return "\n".join(out), added, skipped
+
+
+def region_of(path):
+    p = REPO / path if not pathlib.Path(path).is_absolute() else pathlib.Path(path)
+    old = p.read_text()
+    i, j = old.find(C_BEGIN), old.find(C_END)
+    if i < 0 or j < i:
+        sys.exit(f"head_types: {path} lacks the markers {C_BEGIN} … {C_END}")
+    return old[i + len(C_BEGIN) + 1:j]
+
+
+def selftest_add_pads():
+    reg = ("typedef struct {\n    /* c */\n    /* 0x0000 */ u16 unk0;\n    /* 0x0002 */ u8 pad2[0xa];\n"
+           "    /* 0x000c */ s32 unkC;\n} Unkstruct_T; /* size = 0x10 */\n")
+    cands = [dict(type="Unkstruct_T", off=4, width=4, sign="s"), dict(type="Unkstruct_T", off=9, width=1, sign="u"),
+             dict(type="Unkstruct_T", off=0, width=1, sign="u"), dict(type="Unkstruct_T", off=6, width=2, sign="u")]
+    new, added, skipped = add_pads(reg, cands)
+    want = ("typedef struct {\n    /* c */\n    /* 0x0000 */ u16 unk0;\n    /* 0x0002 */ u8 pad2[0x2];\n"
+            "    /* 0x0004 */ s32 unk4;\n    /* 0x0008 */ u8 pad8[0x1];\n    /* 0x0009 */ u8 unk9;\n"
+            "    /* 0x000a */ u8 padA[0x2];\n    /* 0x000c */ s32 unkC;\n} Unkstruct_T; /* size = 0x10 */\n")
+    ok = new == want and len(added) == 2 and sorted(s[1] for s in skipped) == ["not in a pad", "overlap"]
+    print("add_pads OK" if ok else f"add_pads FAIL\n{new}\n{skipped}")
+    return ok
+
+
 def selftest():
     rec = dict(name="Unkstruct_TEST", sites=10, bodies=2, size_hint=10, evidence={}, globals_at=[],
                layout=[[0, 4, "s", 5], [2, 2, "u", 4], [4, 2, "s", 3], [6, 2, "u", 3], [7, 1, "u", 9], [8, 4, "s", 2]],
@@ -195,6 +268,7 @@ def selftest():
     # best: 0:2u3 + 2:2u4 + 4:2s3 + 7:1u9 + 8:4s2 = 21 vs 0:4s5 + 4:2s3 + 7:1u9 + 8:4s2 = 19
     want = "fields=5 kept_sites=21 dropped_sites=10 conflict_offsets=4 overlaps=4 misaligned=2 union_candidates=0"
     ok = summary == want and "/* 0x0007 */ u8 unk7;" in txt and "/* 0x0006 */ u8 pad6[0x1];" in txt and "size = 0xc" in txt
+    ok = selftest_add_pads() and ok
     print("OK" if ok else f"FAIL\n{summary}\n{txt}\n" + "\n".join(lines))
     return 0 if ok else 1
 
@@ -205,10 +279,24 @@ def main():
     ap.add_argument("--map", default=".run/P37/census/struct_map.json")
     ap.add_argument("--header", help="C header to rewrite between /* head_types:begin */ … /* head_types:end */")
     ap.add_argument("--decisions", help="markdown to rewrite between <!-- head_types:begin --> … <!-- head_types:end -->")
+    ap.add_argument("--add-pads", metavar="CANDIDATES.json",
+                    help="additive mode: keep the --header region's fields byte-for-byte, only split pad arrays to insert "
+                         "the candidate fields [{type, off, width, sign}] (no struct map read)")
     ap.add_argument("--selftest", action="store_true")
-    a = ap.parse_args()
+    a =ap.parse_args()
     if a.selftest:
         return selftest()
+    if a.add_pads:
+        if not a.header:
+            sys.exit("head_types: --add-pads needs --header")
+        new, added, skipped = add_pads(region_of(a.header), json.loads((REPO / a.add_pads).read_text()))
+        for c in added:
+            print(f"added {c['type']} 0x{c['off']:X} {c['width']}{c['sign']}")
+        for c, why in skipped:
+            print(f"skipped {c['type']} 0x{c['off']:X} {c['width']}{c['sign']}: {why}")
+        ch = splice(a.header, C_SKELETON, C_BEGIN, C_END, new)
+        print(f"head_types: {a.header} {'written' if ch else 'unchanged'} (add-pads: {len(added)} added, {len(skipped)} skipped)")
+        return 0
     smap = json.loads((REPO / a.map).read_text())
     by = {t["name"]: t for t in smap["types"]}
     chunks, md = [], []

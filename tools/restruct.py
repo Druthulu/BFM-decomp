@@ -3369,11 +3369,13 @@ def matches_only(only, tu, unit, extra=()):
     hay = [tu, unit] + list(extra)
     if tu and unit and f"{tu}:{unit}" in only:                     # T3.c4: `TU:FN` names one body (overlay fn names repeat)
         return True
+    if "main" in only and tu and (tu.count("/") == 1 or tu.startswith("src/resident/")):   # P39 T4: main-executable TUs (as :1718/:4137)
+        return True
     globs =[o for o in only if any(c in o for c in "*?[")]       # P39 T3: `ov_*` against the alias / src dir (and the path)
     if globs and tu and any(fnmatch.fnmatchcase(tu, o) or (tu.startswith("src/") and fnmatch.fnmatchcase(tu.split("/")[1], o)) for o in globs):
         return True
     return any(o == h or h.endswith("/" + o) or h.startswith("src/" + o + "/") or ("/" + o + "/") in h
-               or (o in h and o.startswith(("Unkstruct_", "func_", "D_"))) for o in only for h in hay if h)
+               or (o in h and o.startswith(("Unkstruct_", "func_", "D_"))) for o in only if o != "main" for h in hay if h)   # exact: not src/shared/main/
 
 
 def s_finished(tu, fns, latest, done=frozenset()):
@@ -4838,6 +4840,9 @@ def selftest(real=False):
     ok("--only glob: ov_* matches the src dir, not main", matches_only(["ov_*"], "src/ov_SC05_010/x.c", "f") and not matches_only(["ov_*"], "src/main/x.c", "f")
        and matches_only(["src/ov_SC05_010/x.c"], "src/ov_SC05_010/x.c", "f")
        and matches_only(["src/a/x.c:func_1"], "src/a/x.c", "func_1") and not matches_only(["src/a/x.c:func_1"], "src/b/y.c", "func_1"))
+    ok("--only main: top-level src/*.c and src/resident/, not md_/ov_", matches_only(["main"], "src/800.c", "f") and matches_only(["main"], "src/resident/x.c", "f")
+       and not matches_only(["main"], "src/md_A/x.c", "f") and not matches_only(["main"], "src/ov_A/x.c", "f")
+       and not matches_only(["main"], "src/shared/main/x.h", "f"))
     # ---- rung D on the fixture
     DEFS_OVERRIDE = {"fx_callee": [("src/ov/fx_defs.c", "void", "s32 a0, s32 a1", False)], "fx_kr": [("src/ov/fx_defs.c", "s32", "s32 a, s32 b", True)]}
     units = d_units(tu, text)
