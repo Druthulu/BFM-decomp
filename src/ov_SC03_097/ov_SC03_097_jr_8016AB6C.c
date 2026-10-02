@@ -3245,10 +3245,10 @@ void func_8016DA7C(s32 param_1)
     } else {
         *(s32 *)(param_1 + 0x20) = iVar1;
         ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_80189134, 0x250, 0x100);
-        *(u8 *)(iVar1 + 0x27) = 0x90;
-        *(u16 *)(iVar1 + 0x18) = 0x3000;
-        *(u16 *)(iVar1 + 0x1a) = 0x4000;
-        *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
+        ((Unkstruct_800B5CB8 *)iVar1)->unk27 = 0x90;
+        ((Unkstruct_800B5CB8 *)iVar1)->unk18 = 0x3000;
+        ((Unkstruct_800B5CB8 *)iVar1)->unk1A = 0x4000;
+        CAST_WIDTH(u32, iVar1, 4) = CAST_WIDTH(u32, iVar1, 4) | 0x50000000;
         func_80128EA8(iVar1, param_1 + 0x24, (s32)&D_80189140);
         *(s32 *)(param_1 + 0x10) = 0;
         *(s32 *)(param_1 + 0x14) = 0xfff40000;
@@ -3335,10 +3335,10 @@ ddb0:
         D_801AA35C = *(u16 *)(iVar4 + 0xe);
         func_800D1FC8((s32)param_1, 7);
         *(s32 *)((u8 *)param_1 + 0x20) = iVar2;
-        *(u16 *)(iVar2 + 0x1a) = 0x3000;
-        *(u16 *)(iVar2 + 0x18) = 0x3000;
-        *(u8 *)(iVar2 + 0x26) = 0xff;
-        *(u32 *)(iVar2 + 4) = *(u32 *)(iVar2 + 4) | 0x50000000;
+        ((Unkstruct_800B5CB8 *)iVar2)->unk1A = 0x3000;
+        ((Unkstruct_800B5CB8 *)iVar2)->unk18 = 0x3000;
+        ((Unkstruct_800B5CB8 *)iVar2)->unk26 = 0xff;
+        CAST_WIDTH(u32, iVar2, 4) = CAST_WIDTH(u32, iVar2, 4) | 0x50000000;
         func_80128EA8(iVar2, (s32)param_1 + 0x24, (s32)D_801891A4);
         func_80128ED8((void *)iVar2, (void *)((s32)param_1 + 0x24));
         *(u16 *)((u8 *)param_1 + 2) = *(u16 *)((u8 *)param_1 + 2) + 1;
