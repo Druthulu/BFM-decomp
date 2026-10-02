@@ -656,22 +656,22 @@ void func_80183630(s32 a0) {
     tmp[1] = threshold;
     tmp[2] = (ret * sum2) >> 12;
 
-    cnt1 = *(s32 *)(a0 + 0x1C);
+    cnt1 = ((Unkstruct_800B5CB8 *)a0)->unk1C;
     tmp[1] -= D_8018AB9C + k5 * cnt1;
 
-    *(s16 *)(a0 + 0x6) = tmp[0];
-    *(s16 *)(a0 + 0xA) = tmp[1];
-    *(s16 *)(a0 + 0xE) = tmp[2];
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = tmp[0];
+    ((Unkstruct_800B5CB8 *)a0)->unkA = tmp[1];
+    ((Unkstruct_800B5CB8 *)a0)->unkE = tmp[2];
 
-    ptr = *(s32 *)(a0 + 0x20);
-    *(s16 *)(ptr + 0x12) = ((-sum1) & 0xFFF) + 0x400;
+    ptr = ((Unkstruct_800B5CB8 *)a0)->unk20;
+    ((Unkstruct_800B5CB8 *)ptr)->unk12 = ((-sum1) & 0xFFF) + 0x400;
 
-    cnt2 = *(s32 *)(a0 + 0x1C) + 1;
-    *(s32 *)(a0 + 0x1C) = cnt2;
+    cnt2 = ((Unkstruct_800B5CB8 *)a0)->unk1C + 1;
+    CAST_ALIAS(s32, a0, 0x1C) = cnt2;
 
     if (cnt2 >= D_8018AB9E) {
-        *(s32 *)(a0 + 0x1C) = 0;
-        *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unk34 = ((Unkstruct_800B5CB8 *)a0)->unk34 + 1;
     }
 }
 
@@ -720,22 +720,22 @@ void func_80183790(s32 a0) {
     tmp[1] = threshold;
     tmp[2] = (ret * sum2) >> 12;
 
-    cnt1 = *(s32 *)(a0 + 0x1C);
+    cnt1 = ((Unkstruct_800B5CB8 *)a0)->unk1C;
     tmp[1] -= D_8018ABA8 + k5 * cnt1;
 
-    *(s16 *)(a0 + 0x6) = tmp[0];
-    *(s16 *)(a0 + 0xA) = tmp[1];
-    *(s16 *)(a0 + 0xE) = tmp[2];
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = tmp[0];
+    ((Unkstruct_800B5CB8 *)a0)->unkA = tmp[1];
+    ((Unkstruct_800B5CB8 *)a0)->unkE = tmp[2];
 
-    ptr = *(s32 *)(a0 + 0x20);
-    *(s16 *)(ptr + 0x12) = (-sum1) & 0xFFF;
+    ptr = ((Unkstruct_800B5CB8 *)a0)->unk20;
+    ((Unkstruct_800B5CB8 *)ptr)->unk12 = (-sum1) & 0xFFF;
 
-    cnt2 = *(s32 *)(a0 + 0x1C) + 1;
-    *(s32 *)(a0 + 0x1C) = cnt2;
+    cnt2 = ((Unkstruct_800B5CB8 *)a0)->unk1C + 1;
+    CAST_ALIAS(s32, a0, 0x1C) = cnt2;
 
     if (cnt2 >= D_8018ABAA) {
-        *(s32 *)(a0 + 0x1C) = 0x3C;
-        *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x3C;
+        ((Unkstruct_800B5CB8 *)a0)->unk34 = ((Unkstruct_800B5CB8 *)a0)->unk34 + 1;
     }
 }
 

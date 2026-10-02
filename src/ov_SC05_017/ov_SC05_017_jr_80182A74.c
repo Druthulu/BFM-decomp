@@ -3080,8 +3080,8 @@ extern void func_801828A0(void *arg0);
 void func_80182F04(void *arg0) {
     s32 v1;
 
-    v1 = *(s32 *)((char *)arg0 + 0xCC);
-    *(s32 *)((char *)v1 + 0xB0) = 2;
+    v1 = ((Unkstruct_800B5CB8 *)arg0)->unkCC;
+    ((Unkstruct_800B5CB8 *)v1)->unkB0 = 2;
     if (func_801848AC(6, 0x14) != 0) {
         func_801828A0(arg0);
     }
@@ -3622,7 +3622,7 @@ void func_801838A0(void *a0) {
 extern void func_801849B8(s32*, s32);
     extern short D_80191FD0;
     void func_80183980(void * arg0) {
-        *(short *)((char *)arg0 + 0x2) = 2;
+        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 2;
         ((void (*)(s32, s32))func_801849B8)((int)arg0, (int)&D_80191FD0);
     }
 
@@ -3871,8 +3871,8 @@ extern void func_80183980(void *arg0);
 void func_80183EF8(void *arg0) {
     s32 v1;
 
-    v1 = *(s32 *)((char *)arg0 + 0xCC);
-    *(s32 *)((char *)v1 + 0xB0) = 2;
+    v1 = ((Unkstruct_800B5CB8 *)arg0)->unkCC;
+    ((Unkstruct_800B5CB8 *)v1)->unkB0 = 2;
     if (func_801848AC(8, 0x14) != 0) {
         func_80183980(arg0);
     }
@@ -4948,7 +4948,7 @@ void func_801851C4(s32 a0) {
     case 10:
     case 12:
         func_8001C810(v0, D_801B8704[*p][0]);
-        *(s32 *)(v0 + 4) |= 0x8040;
+        CAST_WIDTH(s32, v0, 4) |= 0x8040;
         break;
     default:
         func_8001C214(v0, D_801B8704[*p][0]);

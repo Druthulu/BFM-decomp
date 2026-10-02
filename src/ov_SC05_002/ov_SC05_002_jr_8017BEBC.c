@@ -2754,8 +2754,8 @@ void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
     pkt = D_800A5E60;
     part = (Part *)(arg1 + 0x14);
-    nparts = *(s32 *)(arg1 + 8);
-    vtx = *(u8 **)(arg1 + 0x10);
+    nparts = CAST_WIDTH(s32, arg1, 8);
+    vtx = CAST_WIDTH(u8 *, arg1, 0x10);
     ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
     ang = arg2;
     half = ang / 2;
@@ -3046,13 +3046,13 @@ void func_8017DA3C(s32 param_1) {
         CAST_WIDTH(u32, node, 4) = CAST_WIDTH(u32, node, 4) | 0x5D000100;
         ((void (*)(void *))func_8001CF30)((void *)node);
         CAST_WIDTH(s16, node, 0x18) = 0x4000;
-        *(s16 *)(node + 0x1A) = 0x200;
+        ((Unkstruct_800B5CB8 *)node)->unk1A = 0x200;
         *(s16 *)(param_1 + 0x16) = 0x200;
         *(s16 *)(param_1 + 0x14) = 0x1000;
         CAST_WIDTH(s16, node, 0x28) = 0x240;
-        *(s16 *)(node + 0x2A) = 0x180;
+        ((Unkstruct_800B5CB8 *)node)->unk2A = 0x180;
         CAST_WIDTH(s16, node, 0x10) = w.vx;
-        *(s16 *)(node + 0x12) = w.vy;
+        ((Unkstruct_800B5CB8 *)node)->unk12 = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
     } else {
         ((void (*)(s32))func_80146C3C)(param_1);
@@ -3093,9 +3093,9 @@ void func_8017DCD0(s32 a0) {
         func_8001CF30((void *)r);
         CAST_WIDTH(s16, r, 0x10) = 0x400;
         CAST_WIDTH(s16, r, 0x18) = 0x3000;
-        *(s16 *)(r + 0x1A) = 0x3000;
+        ((Unkstruct_800B5CB8 *)r)->unk1A = 0x3000;
         CAST_WIDTH(s16, r, 0x28) = 0x248;
-        *(s16 *)(r + 0x2A) = 0x180;
+        ((Unkstruct_800B5CB8 *)r)->unk2A = 0x180;
         *(s16 *)(a0 + 2) = *(s16 *)(a0 + 2) + 1;
     } else {
         ((void (*)(s32))func_80146C3C)(a0);

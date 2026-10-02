@@ -5749,10 +5749,10 @@ void func_80182038(void *a0)
 
     v1 = func_8012913C(0x7C);
     if (v1 != 0) {
-        *(u16 *)(v1 + 6) = *(u16 *)((s32)a0 + 6);
-        *(u16 *)(v1 + 0xA) = *(u16 *)((s32)a0 + 0xA);
-        *(u16 *)(v1 + 0xE) = *(u16 *)((s32)a0 + 0xE);
-        func_8001CD50(*(s32 *)(v1 + 0x20), (s32)D_801A5A40);
+        ((Unkstruct_800B5CB8 *)v1)->unk6 = *(u16 *)((s32)a0 + 6);
+        ((Unkstruct_800B5CB8 *)v1)->unkA = *(u16 *)((s32)a0 + 0xA);
+        ((Unkstruct_800B5CB8 *)v1)->unkE = *(u16 *)((s32)a0 + 0xE);
+        func_8001CD50(((Unkstruct_800B5CB8 *)v1)->unk20, (s32)D_801A5A40);
     }
 }
 

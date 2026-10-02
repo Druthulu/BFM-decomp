@@ -8436,13 +8436,13 @@ extern void (*D_801974FC[])(void);
 extern void func_80049CAC(s32 a0, s32 a1);
 
     void func_80180428(void *a0) {
-        D_801974FC[*(u16 *)(a0 + 2)]();
-        if (*(u16 *)a0 != 0) {
-            if ((*(s16 *)(a0 + 0x70)) == 0 || (*(s16 *)(a0 + 0x70)) == 7) {
-                func_80049CAC(*(s32 *)(a0 + 0x20) + 0x10, *(s32 *)(a0 + 0x20) + 0x34);
+        D_801974FC[CAST_SIGN(u16, a0, 2)]();
+        if (((Unkstruct_800B5CB8 *)a0)->unk0 != 0) {
+            if ((((Unkstruct_800B5CB8 *)a0)->unk70) == 0 || (((Unkstruct_800B5CB8 *)a0)->unk70) == 7) {
+                func_80049CAC(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x10, ((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34);
             }
-            if ((*(s16 *)(a0 + 0x70)) == 0xF) {
-                func_80049CAC(*(s32 *)(a0 + 0x20) + 0x10, *(s32 *)(a0 + 0x20) + 0x34);
+            if ((((Unkstruct_800B5CB8 *)a0)->unk70) == 0xF) {
+                func_80049CAC(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x10, ((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34);
             }
             func_8012B260((u8 *)a0);
         }

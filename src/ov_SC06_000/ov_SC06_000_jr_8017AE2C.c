@@ -8441,9 +8441,9 @@ void func_80184398(s32 a0) {
 
     *(u16 *)(self + 0xA) = *(u16 *)(self + 0xA) - 0xA0;
     *(u16 *)(self + 0xE) = *(u16 *)(self + 0xE) + 0x10;
-    *(u16 *)(obj + 0x18) = 0x2C00;
-    *(u16 *)(obj + 0x1A) = 0x1C00;
-    do { *(u32 *)(obj + 4) = *(u32 *)(obj + 4) | 0x1000000; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
+    ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x2C00;
+    ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1C00;
+    do { CAST_WIDTH(u32, obj, 4) = CAST_WIDTH(u32, obj, 4) | 0x1000000; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
 
     t0 = *(s32 *)(self + 0xCC);
     *(u16 *)(t0) = 0;
@@ -8455,11 +8455,11 @@ void func_80184398(s32 a0) {
     func_8012AD44((s32 *)self, 3);
 
     obj = *(s32 *)(self + 0x64);
-    t1 = *(s32 *)(obj + 0x20);
-    *(u32 *)(t1 + 4) = *(u32 *)(t1 + 4) | 0x80000000;
+    t1 = ((Unkstruct_800B5CB8 *)obj)->unk20;
+    CAST_WIDTH(u32, t1, 4) = CAST_WIDTH(u32, t1, 4) | 0x80000000;
     func_801863F4(obj);
 
-    *(u16 *)(obj + 0x5C) = 0;
+    ((Unkstruct_800B5CB8 *)obj)->unk5C = 0;
     func_8012AD44((s32 *)obj, 2);
 
     t2 = *(s32 *)(self + 0xD0);
@@ -9629,7 +9629,7 @@ void func_80185DE0(int param_1)
     *(int *)(param_1 + 0x20) = v0 = ((int (*)(void))func_8012C1B8)();
     if (v0 != 0) {
         func_8001C810(v0, (s32)D_801AA1C8);
-        *(int *)(v0 + 4) |= 0x50000000;
+        CAST_WIDTH(int, v0, 4) |= 0x50000000;
         ((s32 (*)(void *))func_8012AD50)((void *)param_1);
     }
 }
@@ -11119,8 +11119,8 @@ s32 func_80187798(s16 id, void *rec, s16 x, s16 y, u8 p)
         obj = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
         if (obj != 0) {
             func_8001CB00(obj, rec, x, y);
-            *(u8 *)(obj + 0x27) = p;
-            *(u32 *)(obj + 4) |= 0xD0000000;
+            ((Unkstruct_800B5CB8 *)obj)->unk27 = p;
+            CAST_WIDTH(u32, obj, 4) |= 0xD0000000;
             *(s32 *)(D_801B2164 + i) = obj;
             *(s16 *)((u8 *)D_801B2164 + i * 2 - 0x10) = id;
             return i;

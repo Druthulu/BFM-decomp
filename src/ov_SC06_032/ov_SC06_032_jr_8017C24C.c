@@ -3035,15 +3035,15 @@ void func_8017D8D0(s32 a0) {
     u16 t_70;
 
     s1 = a0;
-    *(u32 *)(s1 + 0xDC) = 0;
-    *(u32 *)(s1 + 0xE0) = 0;
-    *(u32 *)(s1 + 0xE4) = 0;
-    t_FC = *(u16 *)(s1 + 0xFC);
-    t_70 = *(u16 *)(s1 + 0x70);
-    *(u16 *)(s1 + 0x100) = t_FC;
-    *(u16 *)(s1 + 0x102) = t_70;
+    ((Unkstruct_800B5CB8 *)s1)->unkDC = 0;
+    ((Unkstruct_800B5CB8 *)s1)->unkE0 = 0;
+    ((Unkstruct_800B5CB8 *)s1)->unkE4 = 0;
+    t_FC = CAST_SIGN(u16, s1, 0xFC);
+    t_70 = CAST_SIGN(u16, s1, 0x70);
+    ((Unkstruct_800B5CB8 *)s1)->unk100 = t_FC;
+    ((Unkstruct_800B5CB8 *)s1)->unk102 = t_70;
     s0 = ((rand() & 0x1F) + (rand() & 0x1F)) + 0x3C;
-    *(u16 *)(s1 + 0xFE) = (u16)s0;
+    ((Unkstruct_800B5CB8 *)s1)->unkFE = (u16)s0;
     func_8012AD50((void *)s1);
 }
 

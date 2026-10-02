@@ -6534,7 +6534,7 @@ void *a0;
 extern void func_80187778(s32*, s32);
     extern short D_80191B3C;
     void func_8018126C(void * arg0) {
-        *(short *)((char *)arg0 + 0x2) = 2;
+        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 2;
         ((void (*)(s32, s32))func_80187778)((int)arg0, (int)&D_80191B3C);
     }
 

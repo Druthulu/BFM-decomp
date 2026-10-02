@@ -9181,7 +9181,7 @@ s16 func_80186A20(s32 a0, s32 a1)
     s32 d;
     s32 t;
 
-    d = *(u16 *)(a0 + 0x76) - *(u16 *)(a0 + 0x60);
+    d = CAST_SIGN(u16, a0, 0x76) - CAST_SIGN(u16, a0, 0x60);
     t = d - a1;
     if ((s16)d <= 0) {
         return 0;

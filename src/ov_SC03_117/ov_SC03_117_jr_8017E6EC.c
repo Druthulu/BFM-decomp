@@ -3813,16 +3813,16 @@ void func_80180064(s32 arg0) {
 
     func_8018012C(arg0);
     /* velocity add: (0, 0xC000, 0) -- the two zero terms still emit lw/sw */
-    *(s32 *)(arg0 + 0x10) += 0;
-    *(s32 *)(arg0 + 0x14) += 0xC000;
-    *(s32 *)(arg0 + 0x18) += 0;
+    CAST_WIDTH(s32, arg0, 0x10) += 0;
+    ((Unkstruct_800B5CB8 *)arg0)->unk14 += 0xC000;
+    CAST_WIDTH(s32, arg0, 0x18) += 0;
     func_8012931C((struct vec *)arg0);
-    if (*(s16 *)(arg0 + 0x2E) < *(s16 *)(arg0 + 0xA)) {
-        *(s16 *)(arg0 + 0xA) = *(s16 *)(arg0 + 0x2E);
+    if (CAST_SIGN(s16, arg0, 0x2E) < CAST_SIGN(s16, arg0, 0xA)) {
+        ((Unkstruct_800B5CB8 *)arg0)->unkA = CAST_SIGN(s16, arg0, 0x2E);
         func_80015978(arg0 + 4, (s32 *)sp10);
         p = func_801290DC(0x53, (u8 *)sp10);
         if (p != 0) {
-            *(s32 *)(p + 0x2C) = D_801887E4++ & 7;
+            CAST_WIDTH(s32, p, 0x2C) = D_801887E4++ & 7;
         }
         func_8012E5CC((s32)sp10, 0x834, 0);
         func_801292C8((u8 *)arg0);

@@ -3610,7 +3610,7 @@ void func_8017FA84(s32 a0) {
 
     s0 = a0;
     ((void (*)(s32))func_8012CBCC)(a0);
-    if (*(u16 *)(s0 + 0x72) & 0x4000) {
+    if (((Unkstruct_800B5CB8 *)s0)->unk72 & 0x4000) {
         func_80131C78(s0);
     }
 }

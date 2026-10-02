@@ -4450,7 +4450,7 @@ void func_8017E1AC(s32 param_1)
 void func_8017E234(void *a0) {
     s32 *s0 = CAST_SIGN(s32 *, (s32)a0, 0x20);
     if (func_8017DCC8() == 6) {
-        *(s32 *)((s32)s0 + 4) &= 0x7FFFFFFF;
+        CAST_WIDTH(s32, (s32)s0, 4) &= 0x7FFFFFFF;
         func_8012AD50(a0);
     }
 }
@@ -4787,20 +4787,20 @@ void func_8017EAF4(s32 arg0) {
     s32 t;
 
     flag = D_800B99DA;
-    wp = *(s32 *)(pv + 0x20);
+    wp = ((Unkstruct_800B5CB8 *)pv)->unk20;
     if ((flag & 3) == 0) {
         a = func_8012913C(0x75);
         if (a != 0) {
-            *(s32 *)(a + 4) = *(s32 *)(pv + 4);
-            *(s32 *)(a + 8) = *(s32 *)(pv + 8);
-            t = *(s32 *)(pv + 0xC);
+            *(s32 *)(a + 4) = CAST_WIDTH(s32, pv, 4);
+            *(s32 *)(a + 8) = CAST_WIDTH(s32, pv, 8);
+            t = CAST_WIDTH(s32, pv, 0xC);
             *(s32 *)(a + 0x34) = 1;
             *(s32 *)(a + 0xC) = t;
         }
     }
-    *(u16 *)(wp + 0x10) += 0x38;
-    *(u16 *)(wp + 0x12) += 0x71;
-    *(u16 *)(wp + 0x14) += 0x5B;
+    ((Unkstruct_800B5CB8 *)wp)->unk10 += 0x38;
+    ((Unkstruct_800B5CB8 *)wp)->unk12 += 0x71;
+    CAST_WIDTH(u16, wp, 0x14) += 0x5B;
     func_8012AD80(pv);
     if (func_8012BEE8(pv) != 0) {
         func_8012C098((void *)pv);
@@ -5799,8 +5799,8 @@ extern void func_80180674(s32, s16);
 void func_80180378(void *a0) {
     s32 *s0 = CAST_SIGN(s32 *, (s32)a0, 0x20);
     if (func_8017DCC8() == 6) {
-        *(u16 *)((s32)s0 + 0x12) = 0x400;
-        *(s32 *)((s32)s0 + 4) &= 0x7FFFFFFF;
+        ((Unkstruct_800B5CB8 *)s0)->unk12 = 0x400;
+        CAST_WIDTH(s32, (s32)s0, 4) &= 0x7FFFFFFF;
         ((void (*)(void *, s32))func_80180674)(a0, 0x80);
         func_8012AD50(a0);
     }
@@ -6009,7 +6009,7 @@ extern u8 D_801A9290;
 void func_8018078C(void *a0) {
     s32 *s0 = CAST_SIGN(s32 *, (s32)a0, 0x20);
     if (func_8017DCC8() == 6) {
-        *(s32 *)((s32)s0 + 4) &= 0x7FFFFFFF;
+        CAST_WIDTH(s32, (s32)s0, 4) &= 0x7FFFFFFF;
         func_8012AD50(a0);
         D_801A9261 = 0xFF;
         D_801A9282 = 0xFF;
@@ -6231,7 +6231,7 @@ extern s32 func_8012AD50(void *a0);
 void func_80180CD4(void *a0) {
     s32 *s0 = CAST_SIGN(s32 *, (s32)a0, 0x20);
     if (func_8017DCC8() == 8) {
-        *(s32 *)((s32)s0 + 4) &= 0x7FFFFFFF;
+        CAST_WIDTH(s32, (s32)s0, 4) &= 0x7FFFFFFF;
         func_8012AD50(a0);
     }
 }
@@ -6891,15 +6891,15 @@ void func_80181B98(s32 param_1)
 
     work = *(s32 *)(param_1 + 0x20);
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(work, D_800D387C, 0, 0);
-    *(u8 *)(work + 0x27) = 0x9C;
-    *(s32 *)(work + 4) = *(s32 *)(work + 4) | 0x50000000;
+    ((Unkstruct_800B5CB8 *)work)->unk27 = 0x9C;
+    CAST_WIDTH(s32, work, 4) = CAST_WIDTH(s32, work, 4) | 0x50000000;
     val = *(s32 *)(param_1 + 0x2C);
-    *(u8 *)(work + 0x24) = 0xC0;
-    *(u8 *)(work + 0x25) = 0x40;
-    *(u8 *)(work + 0x26) = 0x20;
+    ((Unkstruct_800B5CB8 *)work)->unk24 = 0xC0;
+    ((Unkstruct_800B5CB8 *)work)->unk25 = 0x40;
+    ((Unkstruct_800B5CB8 *)work)->unk26 = 0x20;
     res = ((8 - val) * 3) << 9;
-    *(u16 *)(work + 0x1A) = res;
-    *(u16 *)(work + 0x18) = res;
+    ((Unkstruct_800B5CB8 *)work)->unk1A = res;
+    ((Unkstruct_800B5CB8 *)work)->unk18 = res;
     func_80128EA8(work, param_1 + 0x24, &D_80185FD0);
     *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
 }
@@ -7007,10 +7007,10 @@ void func_80181E5C(s32 param_1)
 
     work = *(s32 *)(param_1 + 0x20);
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(work, D_800D387C, 0, 0);
-    *(u8 *)(work + 0x27) = 0x9C;
-    *(u16 *)(work + 0x1A) = 0x3000;
-    *(u16 *)(work + 0x18) = 0x3000;
-    *(u32 *)(work + 4) = *(u32 *)(work + 4) | 0x50000000;
+    ((Unkstruct_800B5CB8 *)work)->unk27 = 0x9C;
+    ((Unkstruct_800B5CB8 *)work)->unk1A = 0x3000;
+    ((Unkstruct_800B5CB8 *)work)->unk18 = 0x3000;
+    CAST_WIDTH(u32, work, 4) = CAST_WIDTH(u32, work, 4) | 0x50000000;
     func_80128EA8(work, param_1 + 0x24, D_80186020);
     *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
 }
@@ -7025,7 +7025,7 @@ void func_80181EEC(int param_1)
     unsigned short *p;
     unsigned short val;
 
-    base = *(int *)(param_1 + 0x20);
+    base = ((Unkstruct_800B5CB8 *)param_1)->unk20;
     p = (unsigned short *)(base + 0x1A);
     val = *p - 0x100;
     p[0] = val;

@@ -3287,15 +3287,15 @@ void func_8017DBD4(s32 param_1)
     }
     *(s32 *)(param_1 + 0x20) = iVar1;
     func_8001CC3C(iVar1, (s32)D_80190938, 0x270, 0x100);
-    *(u8 *)(iVar1 + 0x27) = 0x9B;
-    *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
+    ((Unkstruct_800B5CB8 *)iVar1)->unk27 = 0x9B;
+    CAST_WIDTH(u32, iVar1, 4) = CAST_WIDTH(u32, iVar1, 4) | 0x50000000;
     if (*(s32 *)(param_1 + 0x2C) == 0) {
-        *(u16 *)(iVar1 + 0x1A) = 0x3000;
-        *(u16 *)(iVar1 + 0x18) = 0x3000;
+        ((Unkstruct_800B5CB8 *)iVar1)->unk1A = 0x3000;
+        ((Unkstruct_800B5CB8 *)iVar1)->unk18 = 0x3000;
     }
-    *(u8 *)(iVar1 + 0x25) = 0xC0;
-    *(u8 *)(iVar1 + 0x26) = 0x40;
-    *(u8 *)(iVar1 + 0x24) = 0x40;
+    ((Unkstruct_800B5CB8 *)iVar1)->unk25 = 0xC0;
+    ((Unkstruct_800B5CB8 *)iVar1)->unk26 = 0x40;
+    ((Unkstruct_800B5CB8 *)iVar1)->unk24 = 0x40;
     func_80128EA8(iVar1, param_1 + 0x24, (s32)D_80190944);
     *(s32 *)(param_1 + 0x14) = 0xfffc0000;
     func_8017DD70(param_1);
@@ -3363,7 +3363,7 @@ extern void func_8017DE70();
 void func_8017DE1C(s32 *a0) {
     func_8014706C(a0);
     func_80154274(a0, (s32)D_8019099C);
-    CAST_NONSTRUCT(s16, (u8 *)(*(s32 **)((u8 *)a0 + 0x20)), 0x12) = 0xC00;
+    CAST_NONSTRUCT(s16, (u8 *)(CAST_SIGN(s32 *, (u8 *)a0, 0x20)), 0x12) = 0xC00;
     func_80171A1C((u8 *)a0);
     func_8017DE70(a0);
 }

@@ -3563,17 +3563,17 @@ void func_8017DA3C(s32 a0) {
     u32 v1;
     u32 (*func_ptr)(void);
 
-    v0 = *(u16 *)((u8 *)s0 + 2);
+    v0 = CAST_SIGN(u16, (u8 *)s0, 2);
     v0 = v0 * 4;
     func_ptr = (u32 (*)(void))D_8018AB80[v0 / 4];
     func_ptr();
 
-    v0 = *(u16 *)s0;
+    v0 = ((Unkstruct_800B5CB8 *)s0)->unk0;
     if (v0 == 0) {
         return;
     }
 
-    v0 = *(u32 *)((u8 *)s0 + 0x20);
+    v0 = CAST_SIGN(u32, (u8 *)s0, 0x20);
     v1 = *(u16 *)((u8 *)v0 + 0x2C);
     v1 = v1 | 0x10;
     *(u16 *)((u8 *)v0 + 0x2C) = v1;
@@ -3583,7 +3583,7 @@ void func_8017DA3C(s32 a0) {
     if (v0 != v1) {
         return;
     }
-    *(u16 *)((u8 *)s0 + 0x102) = (v0 = 1);
+    ((Unkstruct_800B5CB8 *)s0)->unk102 = (v0 = 1);
     func_8017EFB8(a0);
 }
 

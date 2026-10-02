@@ -4977,8 +4977,8 @@ void func_8018208C(void *arg0, s32 arg1)
 {
     if (arg0 != 0) {
         u16 *p = D_801A46AC[arg1];
-        *(u16 *)((s32)arg0 + 0x28) = p[0];
-        *(u16 *)((s32)arg0 + 0x2A) = p[1];
+        ((Unkstruct_800B5CB8 *)arg0)->unk28 = p[0];
+        ((Unkstruct_800B5CB8 *)arg0)->unk2A = p[1];
     }
 }
 

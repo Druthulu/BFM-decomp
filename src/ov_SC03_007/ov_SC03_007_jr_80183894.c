@@ -3560,15 +3560,15 @@ void func_80184278(int param_1)
     *(s32 *)(dst + 0) = (r << 7) | ((r << 23) | (r << 15));
     *(s32 *)(dst + 4) = 0;
 
-    *(s32 *)(p + 4) = *(s32 *)(p + 4) | 0x50000000;
+    CAST_WIDTH(s32, p, 4) = CAST_WIDTH(s32, p, 4) | 0x50000000;
 
     func_80184560(param_1);
 
     r = rand();
     v = (r & 3) * 1365;
     ptr = D_801EB13C;
-    *(s16 *)(p + 0x1A) = v;
-    *(s16 *)(p + 0x18) = v;
+    ((Unkstruct_800B5CB8 *)p)->unk1A = v;
+    ((Unkstruct_800B5CB8 *)p)->unk18 = v;
 
     *(s16 *)(param_1 + 0x12) = *(u16 *)(param_1 + 6) + *(u16 *)(ptr + 2);
     v1a = *(u16 *)(param_1 + 0xE) + *(u16 *)(ptr + 6);
@@ -3582,7 +3582,7 @@ void func_80184278(int param_1)
     c4 = rand();
 
     s0v = ((c1 & 3) << 10) + ((c2 & 0x1F) << 5) + ((c3 & 3) << 8) + (c4 & 0xFF);
-    *(s16 *)(p + 0x12) = s0v;
+    ((Unkstruct_800B5CB8 *)p)->unk12 = s0v;
 
     r = rand();
     *(s16 *)(param_1 + 0x2E) = (r & 7) * 11;
@@ -5502,8 +5502,8 @@ void func_80186BE8(int param_1)
 extern void func_801292C8(u8 *a0);
 
 void func_80186C70(u8 *a0) {
-    *(s32 *)(a0 + 0x4) = *(s32 *)(a0 + 0x4) - *(s32 *)(a0 + 0x10);
-    if (*(s16 *)(a0 + 0x6) < -0x110) {
+    CAST_WIDTH(s32, a0, 0x4) = CAST_WIDTH(s32, a0, 0x4) - CAST_WIDTH(s32, a0, 0x10);
+    if (CAST_SIGN(s16, a0, 0x6) < -0x110) {
         func_801292C8(a0);
     }
 }
