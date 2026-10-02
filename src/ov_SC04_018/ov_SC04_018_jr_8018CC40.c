@@ -3251,37 +3251,37 @@ void func_8018CC40(void *a0)
     s32 *p;
     s32 t;
 
-    switch (*(u16 *)((char *)a0 + 0x34)) {
+    switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
     case 0:
         break;
     case 1:
         if (func_800D0F8C(0x59) == 0) {
             func_80178CBC(a0, D_801E3C2C);
-            *(u16 *)((char *)a0 + 0x34) = 2;
+            ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
         } else {
             func_80178CBC(a0, D_801E3C44);
-            *(u16 *)((char *)a0 + 0x34) = 3;
+            ((Unkstruct_800B5CB8 *)a0)->unk34 = 3;
         }
         break;
     case 2:
         if (((s32 (*)(s32))func_80178970)(a0) != 0) {
             ((void (*)(s32))func_80178D18)(a0);
-            *(u16 *)((char *)a0 + 0x2) = 1;
-            *(u16 *)((char *)a0 + 0x34) = 0;
+            ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+            ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
         }
         break;
     case 3:
         ((s32 (*)(s32))func_80178970)(a0);
-        *(s32 *)((char *)a0 + 0x1C) = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
         break;
     case 4:
         ((s32 (*)(s32))func_80178970)(a0);
-        p = *(s32 **)((char *)a0 + 0x20);
+        p = CAST_SIGN(s32 *, (char *)a0, 0x20);
         *(u16 *)((char *)p + 0x12) = *(u16 *)((char *)p + 0x12) - 0x20;
-        t = *(s32 *)((char *)a0 + 0x1C) + 1;
-        *(s32 *)((char *)a0 + 0x1C) = t;
+        t = ((Unkstruct_800B5CB8 *)a0)->unk1C + 1;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = t;
         if (t >= 0x30) {
-            *(u16 *)((char *)a0 + 0x34) = 5;
+            ((Unkstruct_800B5CB8 *)a0)->unk34 = 5;
         }
         break;
     case 5:
@@ -3300,7 +3300,7 @@ extern void func_8018C93C(void *a0);
 void func_8018CD74(void *a0) {
     u16 v1;
 
-    v1 = *(u16 *)((char *)a0 + 0x34);
+    v1 = ((Unkstruct_800B5CB8 *)a0)->unk34;
     if (v1 == 0) {
         return;
     }
@@ -3308,7 +3308,7 @@ void func_8018CD74(void *a0) {
         return;
     }
     {
-        u16 *p = (u16 *)*(s32 *)((char *)a0 + 0x20);
+        u16 *p = (u16 *)((Unkstruct_800B5CB8 *)a0)->unk20;
 
         *(u16 *)((char *)p + 0x12) = *(u16 *)((char *)p + 0x12) + 0x20;
         if (((s32 (*)(void))func_8012BEE8)()) {

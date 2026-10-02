@@ -2957,8 +2957,8 @@ void func_8017F5D0(void *a0, void *a1)
     s16 tmp;
     s32 ret;
 
-    tmp = *(u16 *)((s32)a0 + 0xFC) + 0x2D;
-    *(u16 *)((s32)a0 + 0xFC) = tmp;
+    tmp = CAST_SIGN(u16, (s32)a0, 0xFC) + 0x2D;
+    ((Unkstruct_800B5CB8 *)a0)->unkFC = tmp;
     ret = func_8004787C(tmp);
     *(s32 *)a1 = ((ret / 64) + 0x80) << 8;
     *(s32 *)((s32)a1 + 4) = 0;

@@ -3176,17 +3176,17 @@ extern s32 D_80190758;
 void func_80182D9C(s32 param_1) {
     int iVar1;
 
-    if (*(u16 *)(param_1 + 2) == 0) {
+    if (CAST_SIGN(u16, param_1, 2) == 0) {
         iVar1 = ((s32 (*)(void))func_8012C1B8)();
-        *(s32 *)(param_1 + 0x20) = iVar1;
+        ((Unkstruct_800B5CB8 *)param_1)->unk20 = iVar1;
         if (iVar1 == 0) {
             func_8012CAE4((void *)param_1);
         } else {
             func_8001C2C4(iVar1);
-            *(u16 *)(param_1 + 0x5c) = 0x40;
-            *(u8 *)(param_1 + 0x75) = 4;
-            *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
-            *(s32 *)(param_1 + 0x58) = (s32)&D_80190758 + (*(s16 *)(param_1 + 0x70) * 0x10);
+            ((Unkstruct_800B5CB8 *)param_1)->unk5C = 0x40;
+            ((Unkstruct_800B5CB8 *)param_1)->unk75 = 4;
+            ((Unkstruct_800B5CB8 *)param_1)->unk2 = CAST_SIGN(u16, param_1, 2) + 1;
+            ((Unkstruct_800B5CB8 *)param_1)->unk58 = (s32)&D_80190758 + (((Unkstruct_800B5CB8 *)param_1)->unk70 * 0x10);
         }
     }
 }
@@ -3237,7 +3237,7 @@ void func_80182E4C(s32 a0) {
     s32 y;
     s32 ret;
 
-    t = *(s16 *)(a0 + 0xA) + 0x20;
+    t = CAST_SIGN(s16, a0, 0xA) + 0x20;
     y = *(s16 *)&D_80126B62 - t;
     if (y < -0x110) {
         y = -0x110;
@@ -3275,18 +3275,18 @@ void func_80182E4C(s32 a0) {
         }
     }
 
-    D_801A3BD0[*(u16 *)(a0 + 0x2)](a0);
+    D_801A3BD0[CAST_SIGN(u16, a0, 0x2)](a0);
 
     ret = func_8012BD14(a0);
     if (ret > 0x3FFFF) {
-        *(s16 *)(a0 + 0xFE) = 1;
-        func_8002D59C(4, 0x609, *(u16 *)(a0 + 0x70));
+        ((Unkstruct_800B5CB8 *)a0)->unkFE = 1;
+        func_8002D59C(4, 0x609, CAST_SIGN(u16, a0, 0x70));
     } else {
-        *(s16 *)(a0 + 0xFE) = *(u16 *)(a0 + 0xFE) - 1;
-        if (*(s16 *)(a0 + 0xFE) == 0) {
-            *(s16 *)(a0 + 0xFE) = 4;
+        ((Unkstruct_800B5CB8 *)a0)->unkFE = CAST_SIGN(u16, a0, 0xFE) - 1;
+        if (((Unkstruct_800B5CB8 *)a0)->unkFE == 0) {
+            ((Unkstruct_800B5CB8 *)a0)->unkFE = 4;
             func_8002D59C(0x609, ((0x40000 - ret) * 127) / 0x40000 | 0x1000,
-                          *(u16 *)(a0 + 0x70));
+                          CAST_SIGN(u16, a0, 0x70));
         }
     }
 }

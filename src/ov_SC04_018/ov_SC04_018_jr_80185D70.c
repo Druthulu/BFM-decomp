@@ -3158,10 +3158,10 @@ extern s32 func_8012E57C(s32 a0, s32 a1);
 void func_80185F54(void *a0, s32 a1, s32 a2) {
     s32 v1 = func_8012E57C(0x61, (s32)(s16)a1);
     if (v1 != 0) {
-        s32 v0 = *(s32 *)((char *)v1 + 0xCC);
+        s32 v0 = ((Unkstruct_800B5CB8 *)v1)->unkCC;
         if (v0 == 0) {
-            *(s32 *)((char *)v1 + 0xCC) = a2;
-            *(s32 *)((char *)v1 + 0xD0) = (s32)a0;
+            ((Unkstruct_800B5CB8 *)v1)->unkCC = a2;
+            ((Unkstruct_800B5CB8 *)v1)->unkD0 = (s32)a0;
         }
     }
 }
@@ -3182,14 +3182,14 @@ void func_80185FB8(s32 a0, s32 a1, s32 a2) {
     if (v1 == 0) {
         return;
     }
-    if (*(s32 *)((char *)v1 + 0xCC) != s0) {
+    if (((Unkstruct_800B5CB8 *)v1)->unkCC != s0) {
         return;
     }
-    if (*(s32 *)((char *)v1 + 0xD0) != s1) {
+    if (((Unkstruct_800B5CB8 *)v1)->unkD0 != s1) {
         return;
     }
-    *(s32 *)((char *)v1 + 0xCC) = 0;
-    *(s32 *)((char *)v1 + 0xD0) = 0;
+    ((Unkstruct_800B5CB8 *)v1)->unkCC = 0;
+    ((Unkstruct_800B5CB8 *)v1)->unkD0 = 0;
 }
 
 
@@ -3198,8 +3198,8 @@ extern s32 func_8012E57C(s32 a0, s32 a1);
 void func_8018602C(s32 a0, s32 a1) {
     s32 v1 = func_8012E57C(0x61, (s32)(s16)a0);
     if (v1 != 0) {
-        if (*(s16 *)(v1 + 0x10A) < a1) {
-            *(s16 *)(v1 + 0x10A) = a1;
+        if (((Unkstruct_800B5CB8 *)v1)->unk10A < a1) {
+            ((Unkstruct_800B5CB8 *)v1)->unk10A = a1;
         }
     }
 }

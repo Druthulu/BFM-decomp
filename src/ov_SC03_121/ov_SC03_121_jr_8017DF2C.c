@@ -2727,16 +2727,16 @@ void func_8017DF2C(s32 a0) {
 
     s0 = a0;
 
-    switch (*(u16 *)(s0 + 0x34)) {
+    switch (((Unkstruct_800B5CB8 *)s0)->unk34) {
     case 0:
-        if ((*(u16 *)(s0 + 0x72) & 0x4000) != 0) {
+        if ((((Unkstruct_800B5CB8 *)s0)->unk72 & 0x4000) != 0) {
             func_8012A828((s32)s0, (s32)D_8018D9F4);
         }
-        if ((*(s32 *)(s0 + 0x94) == 0) || (*(s32 *)(s0 + 0x94) == 0x17)) {
+        if ((((Unkstruct_800B5CB8 *)s0)->unk94 == 0) || (((Unkstruct_800B5CB8 *)s0)->unk94 == 0x17)) {
             func_8002D4C8(0x70A, 0);
         }
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) += func_8012B8E4((s32)s0, 0x10);
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) &= 0xFFF;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 += func_8012B8E4((s32)s0, 0x10);
+        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 &= 0xFFF;
         func_8012CBCC((s32)s0);
         t = func_8012BCCC((s32)s0);
         arr[2] = t * -0x20;
@@ -2747,47 +2747,47 @@ void func_8017DF2C(s32 a0) {
         func_8012B1B4((s32)s0, (s32)arr);
         if (t < 0x1001 && func_8012BDBC((s32)s0, 0x100) == 1) {
             func_8012A828((s32)s0, (s32)D_8018E58C);
-            *(u16 *)(s0 + 0x34) += 1;
+            ((Unkstruct_800B5CB8 *)s0)->unk34 += 1;
             func_8002D4C8(0x713, 0);
         }
-        if (*(s16 *)(s0 + 0x10A) == 2) {
-            *(s16 *)(s0 + 0x2) = 4;
-            *(u16 *)(s0 + 0x34) = 0;
+        if (((Unkstruct_800B5CB8 *)s0)->unk10A == 2) {
+            ((Unkstruct_800B5CB8 *)s0)->unk2 = 4;
+            ((Unkstruct_800B5CB8 *)s0)->unk34 = 0;
         }
         break;
     case 1:
-        if (*(s32 *)(s0 + 0x94) == 0x16) {
+        if (((Unkstruct_800B5CB8 *)s0)->unk94 == 0x16) {
             if (func_8012DEB8((s32)s0, (s32)D_80185DBC, (s32)D_80185DC4) == 1) {
                 D_80126B96 = 0x4010;
                 D_80126B98 = 0;
-                st = *(u16 *)(s0 + 0x34);
+                st = CAST_ALIAS(u16, s0, 0x34);
                 D_80127078 = s0;
-                *(u16 *)(s0 + 0x34) = st + 2;
+                ((Unkstruct_800B5CB8 *)s0)->unk34 = st + 2;
             } else {
-                *(u16 *)(s0 + 0x34) += 1;
+                ((Unkstruct_800B5CB8 *)s0)->unk34 += 1;
             }
         }
         break;
     case 2:
-        if ((*(u16 *)(s0 + 0x72) & 0x4000) != 0) {
-            *(u16 *)(s0 + 0x34) = 0;
+        if ((((Unkstruct_800B5CB8 *)s0)->unk72 & 0x4000) != 0) {
+            ((Unkstruct_800B5CB8 *)s0)->unk34 = 0;
             func_8012A828((s32)s0, (s32)D_8018D9F4);
         }
         break;
     case 3:
         if (D_801151FC != s0) {
-            *(u16 *)(s0 + 0x34) -= 1;
+            ((Unkstruct_800B5CB8 *)s0)->unk34 -= 1;
         } else {
             func_8012A828((s32)s0, (s32)D_8018E684);
-            *(u16 *)(s0 + 0x34) += 1;
+            ((Unkstruct_800B5CB8 *)s0)->unk34 += 1;
         }
         break;
     case 4:
         if (D_801151FC != s0) {
-            *(u16 *)(s0 + 0x34) = 0;
+            ((Unkstruct_800B5CB8 *)s0)->unk34 = 0;
             func_8012A828((s32)s0, (s32)D_8018D9F4);
         }
-        if (*(s32 *)(s0 + 0x94) == 0xD) {
+        if (((Unkstruct_800B5CB8 *)s0)->unk94 == 0xD) {
             func_8012DEB8((s32)s0, (s32)D_80185DBC, (s32)D_80185DC4);
         }
         break;

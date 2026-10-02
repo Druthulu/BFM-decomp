@@ -3330,19 +3330,19 @@ void func_8017BF88(s32 a0) {
         return;
     }
     *(s32 *)(a0 + 0x20) = s0;
-    *(s16 *)(s0 + 0x2A) = 0x1F0;
+    ((Unkstruct_800B5CB8 *)s0)->unk2A = 0x1F0;
     s3 = *(s32 *)(s2 + 0x20) + 0x34;
     r = rand();
     if (*(s32 *)(a0 + 0x2C) == 0) {
         scale = 0x1000;
         sp10[0] = (r & 0xFF) + 0x240;
-        *(s16 *)(s0 + 0x28) = 0x240;
-        *(s16 *)(s0 + 0x18) = scale;
+        ((Unkstruct_800B5CB8 *)s0)->unk28 = 0x240;
+        ((Unkstruct_800B5CB8 *)s0)->unk18 = scale;
     } else {
         scale = 0x200;
         sp10[0] = ((r & 0xFF) << 2) + 0xD00;
-        *(s16 *)(s0 + 0x28) = 0x244;
-        *(s16 *)(s0 + 0x18) = 0x1800;
+        ((Unkstruct_800B5CB8 *)s0)->unk28 = 0x244;
+        ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x1800;
     }
     sp10[1] = ((r & 0x7F00) >> 5) + 0xE00;
     sp10[2] = 0;
