@@ -2743,7 +2743,7 @@ void func_80181698(s32 param_1) {
     if (func_8012BEE8(param_1) == 0) {
         return;
     }
-    switch ((s32)((u32)*(u16 *)(param_1 + 0x70) << 0x10) >> 0x18) {
+    switch ((s32)((u32)CAST_SIGN(u16, param_1, 0x70) << 0x10) >> 0x18) {
     case 0:
     case 1:
     case 2:

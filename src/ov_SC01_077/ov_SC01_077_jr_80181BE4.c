@@ -3083,27 +3083,27 @@ void func_80181BE4(s32 p)
     s32 t;
     s32 c;
 
-    switch (*(u16 *)(p + 0x34)) {
+    switch (((Unkstruct_800B5CB8 *)p)->unk34) {
     case 0:
-        if (*(s32 *)(p + 0x1C) == 7) {
+        if (((Unkstruct_800B5CB8 *)p)->unk1C == 7) {
             s32 base = (s32)&D_8018AAD4;
             func_8012D5E4(p, base, base + 8, 0xB);
         }
         break;
     case 2:
-        if (*(s32 *)(p + 0x1C) == 10) {
+        if (((Unkstruct_800B5CB8 *)p)->unk1C == 10) {
             s32 base = (s32)&D_8018AAD4;
             func_8012D5E4(p, base, base + 8, 0xB);
         }
         break;
     case 3: {
         s32 s1c;
-        if (*(s32 *)(p + 0x1C) >= 0x19) {
+        if (((Unkstruct_800B5CB8 *)p)->unk1C >= 0x19) {
             s32 r = func_8012B8E4(p, 4);
-            s32 o = *(s32 *)(p + 0x20);
-            *(u16 *)(o + 0x12) = *(u16 *)(o + 0x12) + r;
+            s32 o = ((Unkstruct_800B5CB8 *)p)->unk20;
+            ((Unkstruct_800B5CB8 *)o)->unk12 = ((Unkstruct_800B5CB8 *)o)->unk12 + r;
         }
-        s1c = *(s32 *)(p + 0x1C);
+        s1c = ((Unkstruct_800B5CB8 *)p)->unk1C;
         if (s1c == 0xC) {
             struct PrimBE4 sp;
             s16 buf[4];
@@ -3117,10 +3117,10 @@ void func_80181BE4(s32 p)
             sp.f0 = buf[0];
             sp.f2 = buf[1];
             sp.f4 = buf[2];
-            sp.fC = *(u16 *)(*(s32 *)(p + 0x20) + 0x12);
+            sp.fC = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12;
             tv0 = func_8012C51C(&sp, p);
             if (tv0 != 0) {
-                *(u16 *)(*(s32 *)(tv0 + 0x20) + 0x12) = *(u16 *)(*(s32 *)(p + 0x20) + 0x12);
+                ((Unkstruct_800B5CB8 *)*(s32 *)(tv0 + 0x20))->unk12 = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12;
                 func_8012B2CC(tv0);
             }
         } else if (s1c == 0xF) {
@@ -3134,38 +3134,38 @@ void func_80181BE4(s32 p)
         return;
     }
 
-    switch (*(u16 *)(p + 0x34)) {
+    switch (((Unkstruct_800B5CB8 *)p)->unk34) {
     case 0:
-        t = ((s32)(*(u16 *)(p + 0x70) << 16)) >> 24;
+        t = ((s32)(CAST_SIGN(u16, p, 0x70) << 16)) >> 24;
         if (t == 0 || (u32)(t - 3) < 2) {
             if (func_8012BCCC(p) < 0x4001) {
-                *(s16 *)(p + 2) = 2;
-                *(u16 *)(p + 0x34) = 1;
+                ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
+                ((Unkstruct_800B5CB8 *)p)->unk34 = 1;
                 func_8012A828(p, D_801AFD28);
-                *(s32 *)(p + 0x1C) = 0xA;
+                ((Unkstruct_800B5CB8 *)p)->unk1C = 0xA;
                 return;
             }
         }
         goto reset;
     case 1:
-        *(s16 *)(p + 2) = 2;
-        *(u16 *)(p + 0x34) = 2;
+        ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
+        ((Unkstruct_800B5CB8 *)p)->unk34 = 2;
         func_8012A828(p, D_801B01E0);
-        *(s32 *)(p + 0x1C) = 0x18;
+        ((Unkstruct_800B5CB8 *)p)->unk1C = 0x18;
         return;
     case 3:
-        c = *(u8 *)(p + 0x102) + 1;
-        *(u8 *)(p + 0x102) = c;
+        c = CAST_WIDTH(u8, p, 0x102) + 1;
+        CAST_WIDTH(u8, p, 0x102) = c;
         if ((u32)(c & 0xFF) >= 3) {
-            *(u8 *)(p + 0x102) = 0;
-            *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+            CAST_WIDTH(u8, p, 0x102) = 0;
+            ((Unkstruct_800B5CB8 *)p)->unk34 = ((Unkstruct_800B5CB8 *)p)->unk34 + 1;
             func_8012A828(p, D_801B0E48);
         } else {
-            *(s16 *)(p + 2) = 2;
-            *(u16 *)(p + 0x34) = 3;
+            ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
+            ((Unkstruct_800B5CB8 *)p)->unk34 = 3;
             func_8012A828(p, (void *)&D_801B0D50);
         }
-        *(s32 *)(p + 0x1C) = 0x1E;
+        ((Unkstruct_800B5CB8 *)p)->unk1C = 0x1E;
         return;
     case 4:
         if (func_8012BEE8(p) == 0) {
@@ -3174,21 +3174,21 @@ void func_80181BE4(s32 p)
         if (func_8012BCCC(p) > 0x40000) {
             goto reset;
         }
-        *(s16 *)(p + 2) = 2;
-        *(u16 *)(p + 0x34) = 3;
+        ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
+        ((Unkstruct_800B5CB8 *)p)->unk34 = 3;
         func_8012A828(p, (void *)&D_801B0D50);
-        *(s32 *)(p + 0x1C) = 0x1E;
+        ((Unkstruct_800B5CB8 *)p)->unk1C = 0x1E;
         /* fallthrough */
     case 2:
     default:
     reset:
-        *(u16 *)(p + 0x5C) = 0xAA10;
-        *(s16 *)(p + 2) = 1;
-        *(u16 *)(p + 0x34) = 2;
-        *(s16 *)(p + 0x5E) = 0;
-        *(s32 *)(p + 0x1C) = 0x1E;
+        ((Unkstruct_800B5CB8 *)p)->unk5C = 0xAA10;
+        ((Unkstruct_800B5CB8 *)p)->unk2 = 1;
+        ((Unkstruct_800B5CB8 *)p)->unk34 = 2;
+        CAST_WIDTH(s16, p, 0x5E) = 0;
+        ((Unkstruct_800B5CB8 *)p)->unk1C = 0x1E;
         func_8012A828(p, D_801AFFC0);
-        *(s16 *)(p + 0xFC) = 0;
+        ((Unkstruct_800B5CB8 *)p)->unkFC = 0;
         return;
     }
 }

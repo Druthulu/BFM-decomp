@@ -17,11 +17,11 @@ extern unsigned char D_8018E78C[];
 void func_80180A18(int param)
 {
     ((int (*)(int, void *))func_80130740)(param, &D_8018E78C);
-    *(int *)(param + 0x1c) = 0x1e;
-    *(int *)(param + 0x18) = 0;
-    *(int *)(param + 0x10) = 0;
-    *(short *)(param + 0x2) = 0xf;
-    *(short *)(param + 0x5c) = 0;
+    ((Unkstruct_800B5CB8 *)param)->unk1C = 0x1e;
+    CAST_WIDTH(int, param, 0x18) = 0;
+    CAST_WIDTH(int, param, 0x10) = 0;
+    ((Unkstruct_800B5CB8 *)param)->unk2 = 0xf;
+    ((Unkstruct_800B5CB8 *)param)->unk5C = 0;
 }
 
 
@@ -35,14 +35,14 @@ extern unsigned char D_801A6F44;
 
 void func_80180A64(s32 param_1)
 {
-    *(s16 *)(param_1 + 2) = 0x10;
-    *(s16 *)(param_1 + 0x34) = 0;
-    *(s16 *)(param_1 + 0x5c) = 0;
-    *(s32 *)(param_1 + 0x1c) = 0;
+    ((Unkstruct_800B5CB8 *)param_1)->unk2 = 0x10;
+    ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
+    ((Unkstruct_800B5CB8 *)param_1)->unk5C = 0;
+    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
     ((void (*)(s32, u8 *))func_8012A828)(param_1, ((u8 *)&D_801A6F44));
-    *(s16 *)(param_1 + 0x98) = 0;
-    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2c) |= 0x10;
-    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x1a) = 0x100;
+    ((Unkstruct_800B5CB8 *)param_1)->unk98 = 0;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C |= 0x10;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = 0x100;
     func_8002D4C8(0x436, 0);
 }
 
@@ -77,7 +77,7 @@ void func_80180AD4(s32 param_1)
     u16 mode;
     s32 p;
 
-    mode = *(u16 *)(param_1 + 0x70);
+    mode = CAST_SIGN(u16, param_1, 0x70);
     cond = 1;
     if ((u32)(mode - 0x505) >= 2) {
         cond = ((mode & 0xff00) == 0x700);
@@ -87,10 +87,10 @@ void func_80180AD4(s32 param_1)
     } else {
         p = func_8012E544(0x298);
         if (p != 0) {
-            if (*(u16 *)(p + 2) != 2) {
+            if (CAST_SIGN(u16, p, 2) != 2) {
                 flag = 0;
             } else {
-                d = *(s16 *)(p + 0xe) - *(s16 *)(param_1 + 0xe);
+                d = CAST_SIGN(s16, p, 0xe) - CAST_SIGN(s16, param_1, 0xe);
                 if (d < 0) {
                     d = -d;
                 }
@@ -100,47 +100,47 @@ void func_80180AD4(s32 param_1)
     }
 
     if (flag != 0) {
-        *(s16 *)(param_1 + 2) = 0x10;
-        *(s16 *)(param_1 + 0x34) = 0;
-        *(s16 *)(param_1 + 0x5c) = 0;
-        *(s32 *)(param_1 + 0x1c) = 0;
+        ((Unkstruct_800B5CB8 *)param_1)->unk2 = 0x10;
+        ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
+        ((Unkstruct_800B5CB8 *)param_1)->unk5C = 0;
+        ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
         ((void (*)(s32, u8 *))func_8012A828)(param_1, ((u8 *)&D_801A6F44));
-        *(s16 *)(param_1 + 0x98) = 0;
-        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2c) |= 0x10;
-        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x1a) = 0x100;
+        ((Unkstruct_800B5CB8 *)param_1)->unk98 = 0;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C |= 0x10;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = 0x100;
         func_8002D4C8(0x436, 0);
     } else {
-        switch (*(u16 *)(param_1 + 0x34)) {
+        switch (((Unkstruct_800B5CB8 *)param_1)->unk34) {
         case 0:
-            if (*(s16 *)(base + 0xe) > D_8018E794) {
-                *(u16 *)(param_1 + 0x34) = 1;
+            if (((Unkstruct_80126B58 *)base)->unkE > D_8018E794) {
+                ((Unkstruct_800B5CB8 *)param_1)->unk34 = 1;
                 func_8012B178(param_1, 0xfff60000);
             }
             break;
         case 1:
-            t = *(u16 *)(param_1 + 0xfc) - 1;
-            *(u16 *)(param_1 + 0xfc) = t;
+            t = CAST_SIGN(u16, param_1, 0xfc) - 1;
+            ((Unkstruct_800B5CB8 *)param_1)->unkFC = t;
             if ((t << 0x10) <= 0) {
                 func_80143B6C(param_1, 0);
-                *(u16 *)(param_1 + 0xfc) = 8;
+                ((Unkstruct_800B5CB8 *)param_1)->unkFC = 8;
             }
             func_8012CBA4(param_1);
-            y = *(s16 *)(param_1 + 0xe);
-            if ((y < D_8018E796) || ((y - *(s16 *)(base + 0xe)) < 0x80)) {
-                *(u16 *)(param_1 + 0x70) = 0;
-                *(u8 *)(param_1 + 0xc1) = 0;
-                *(u16 *)(param_1 + 0x2) = 1;
-                *(u16 *)(param_1 + 0x34) = 0;
-                *(s32 *)(param_1 + 0x1c) = (rand() & 0x1f) + 0x46;
-                *(u16 *)(param_1 + 0xe0) = 0;
-                *(u16 *)(param_1 + 0xe2) = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
-                switch ((s32)((u32)*(u16 *)(param_1 + 0x70) << 0x10) >> 0x18) {
+            y = CAST_SIGN(s16, param_1, 0xe);
+            if ((y < D_8018E796) || ((y - ((Unkstruct_80126B58 *)base)->unkE) < 0x80)) {
+                ((Unkstruct_800B5CB8 *)param_1)->unk70 = 0;
+                ((Unkstruct_800B5CB8 *)param_1)->unkC1 = 0;
+                ((Unkstruct_800B5CB8 *)param_1)->unk2 = 1;
+                ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
+                ((Unkstruct_800B5CB8 *)param_1)->unk1C = (rand() & 0x1f) + 0x46;
+                CAST_WIDTH(u16, param_1, 0xe0) = 0;
+                *(u16 *)(param_1 + 0xe2) = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12;
+                switch ((s32)((u32)CAST_SIGN(u16, param_1, 0x70) << 0x10) >> 0x18) {
                 case 0:
                 case 1:
                 case 2:
                 case 3:
                 case 7:
-                    if ((*(u16 *)(param_1 + 0xfe) & 2) != 0) {
+                    if ((CAST_SIGN(u16, param_1, 0xfe) & 2) != 0) {
                         *(u16 *)(param_1 + 0xe2) = 0;
                     }
                     goto seq;
@@ -151,9 +151,9 @@ void func_80180AD4(s32 param_1)
                 case 6:
                 default:
                 seq:
-                    *(u16 *)(param_1 + 0xe4) = 0x1e;
-                    *(u16 *)(param_1 + 0x5e) = 0;
-                    *(u16 *)(param_1 + 0x5c) = 0xaa10;
+                    CAST_WIDTH(u16, param_1, 0xe4) = 0x1e;
+                    CAST_WIDTH(u16, param_1, 0x5e) = 0;
+                    ((Unkstruct_800B5CB8 *)param_1)->unk5C = 0xaa10;
                     func_8012B2CC(param_1);
                     func_8012B23C(param_1);
                     func_8012B14C(param_1, (s32)&D_8018E68C);

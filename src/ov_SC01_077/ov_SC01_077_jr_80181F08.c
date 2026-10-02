@@ -3091,23 +3091,23 @@ void func_80181F08(s32 arg0)
     extern St801D9204 D_801D9204;
     St801D9204 local = D_801D9204;
 
-    if (*(u8 *)(arg0 + 0x5E) == 5) {
+    if (((Unkstruct_800B5CB8 *)arg0)->unk5E == 5) {
         func_80019064(&D_80062BDC);
     }
-    if (*(u16 *)(arg0 + 0x5E) == 0x1F) {
+    if (CAST_WIDTH(u16, arg0, 0x5E) == 0x1F) {
         func_8018301C(arg0);
         return;
     }
-    *(u8 *)(arg0 + 0xC1) = 0;
+    ((Unkstruct_800B5CB8 *)arg0)->unkC1 = 0;
     func_8012E9C0(arg0);
-    *(u16 *)(arg0 + 0x76) = *(u16 *)(arg0 + 0x76) - *(u16 *)(arg0 + 0x60);
-    *(u16 *)(arg0 + 0x5C) &= 0xFFFE;
-    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = (*(u16 *)(arg0 + 0x62) + 0x800) & 0xFFF;
+    ((Unkstruct_800B5CB8 *)arg0)->unk76 = CAST_SIGN(u16, arg0, 0x76) - CAST_SIGN(u16, arg0, 0x60);
+    ((Unkstruct_800B5CB8 *)arg0)->unk5C &= 0xFFFE;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = (((Unkstruct_800B5CB8 *)arg0)->unk62 + 0x800) & 0xFFF;
     func_8012B2CC(arg0);
     func_8012B23C(arg0);
-    *(s16 *)(arg0 + 2) = 3;
+    ((Unkstruct_800B5CB8 *)arg0)->unk2 = 3;
     func_80143B6C(arg0, 0);
-    switch (*(u8 *)(arg0 + 0x5E)) {
+    switch (((Unkstruct_800B5CB8 *)arg0)->unk5E) {
     case 13:
         func_80182254(arg0);
         return;
@@ -3127,15 +3127,15 @@ void func_80181F08(s32 arg0)
         func_801822E4(arg0);
         return;
     case 15:
-        if (*(s16 *)(arg0 + 0x76) > 0) {
+        if (((Unkstruct_800B5CB8 *)arg0)->unk76 > 0) {
             func_801827A4(arg0);
             return;
         }
         break;
     default:
-        if (*(s16 *)(arg0 + 0x76) > 0) {
-            *(u16 *)(arg0 + 0x34) = 0;
-            *(s32 *)(arg0 + 0x1C) = 0x10;
+        if (((Unkstruct_800B5CB8 *)arg0)->unk76 > 0) {
+            ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
+            ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x10;
             func_8012A828(arg0, D_801B02A8);
             return;
         }

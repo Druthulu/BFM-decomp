@@ -3087,25 +3087,25 @@ void func_801820DC(int arg0)
     s32 frame_pad[2];
     (void)&frame_pad;
 
-    switch (*(u16 *)(arg0 + 0x34)) {
+    switch (((Unkstruct_800B5CB8 *)arg0)->unk34) {
     case 0:
         func_8012CBCC(arg0);
         if (func_8012BEE8(arg0) != 0) {
-            *(u16 *)(arg0 + 0x5e) = 0;
-            *(u8  *)(arg0 + 0xc1) = 0;
-            *(u16 *)(arg0 + 0x2)  = 1;
-            *(u16 *)(arg0 + 0x34) = 0;
-            *(int *)(arg0 + 0x1c) = (rand() & 0x1f) + 0x46;
-            *(u16 *)(arg0 + 0xe0) = 0;
-            *(u16 *)(arg0 + 0xe2) = *(u16 *)(*(int *)(arg0 + 0x20) + 0x12);
-            idx = (int)((u32)*(u16 *)(arg0 + 0x70) << 16) >> 24;
+            CAST_WIDTH(u16, arg0, 0x5e) = 0;
+            ((Unkstruct_800B5CB8 *)arg0)->unkC1 = 0;
+            ((Unkstruct_800B5CB8 *)arg0)->unk2  = 1;
+            ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
+            ((Unkstruct_800B5CB8 *)arg0)->unk1C = (rand() & 0x1f) + 0x46;
+            CAST_WIDTH(u16, arg0, 0xe0) = 0;
+            *(u16 *)(arg0 + 0xe2) = ((Unkstruct_800B5CB8 *)*(int *)(arg0 + 0x20))->unk12;
+            idx = (int)((u32)CAST_SIGN(u16, arg0, 0x70) << 16) >> 24;
             switch (idx) {
             case 0:
             case 1:
             case 2:
             case 3:
             case 7:
-                if ((*(u16 *)(arg0 + 0xfe) & 2) != 0) {
+                if ((CAST_SIGN(u16, arg0, 0xfe) & 2) != 0) {
                     *(u16 *)(arg0 + 0xe2) = 0;
                 }
                 break;
@@ -3117,9 +3117,9 @@ void func_801820DC(int arg0)
             default:
                 break;
             }
-            *(u16 *)(arg0 + 0xe4) = 0x1e;
-            *(u16 *)(arg0 + 0x5e) = 0;
-            *(u16 *)(arg0 + 0x5c) = 0xaa10;
+            CAST_WIDTH(u16, arg0, 0xe4) = 0x1e;
+            CAST_WIDTH(u16, arg0, 0x5e) = 0;
+            ((Unkstruct_800B5CB8 *)arg0)->unk5C = 0xaa10;
             func_8012B2CC(arg0);
             func_8012B23C(arg0);
             ((void (*)(int, void *))func_8012B14C)(arg0, &(*(char *)D_8018AA8C));
@@ -3128,7 +3128,7 @@ void func_801820DC(int arg0)
         break;
     case 1:
         func_8012CBF4(arg0);
-        if (*(int *)(arg0 + 0x1c) == 0x1e || *(int *)(arg0 + 0x1c) == 0xd) {
+        if (((Unkstruct_800B5CB8 *)arg0)->unk1C == 0x1e || ((Unkstruct_800B5CB8 *)arg0)->unk1C == 0xd) {
             ((void (*)(int, int))func_80143B6C)(arg0, 0);
         }
         if (func_8012BEE8(arg0) != 0) {
