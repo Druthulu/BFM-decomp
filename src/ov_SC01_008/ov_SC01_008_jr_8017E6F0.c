@@ -3079,7 +3079,7 @@ s32 *func_8017E93C(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 s32 func_8017EC68(s32 a0, s32 a1) {
     extern u16 D_8011511A;
     extern u16 D_8011514A;
-    extern s16 D_8011514C;
+    extern s16 D_8011514C[];
     extern s16 D_8011515A;
     extern u8  D_80180858[];
     extern s16 D_801A3320;
@@ -3237,7 +3237,7 @@ s32 func_8017EC68(s32 a0, s32 a1) {
         D_801A3320 = b | 0x100;
         D_801A3324 = b;
         D_801A332C = D_8011514A;
-        D_801A3330 = *(u16 *)&D_8011514C;
+        D_801A3330 = D_8011514C[0];
         return -1;
 
     case 0:
