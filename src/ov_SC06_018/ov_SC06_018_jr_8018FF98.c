@@ -2922,7 +2922,7 @@ extern s32 D_801D55A8;
 extern s32 func_80187844(s32 a0, s32 a1);
 extern void (*D_801B53F4[])(void);
 extern void func_80187924(void *a0);
-extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at use */
+extern s32 func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at use */
 extern s32  func_80143B6C(s32 a0, s32 a1);       /* fleet-canonical */
 extern void func_8012E8C4(u8 *a0);
 extern void func_8012E8A8(u8 *a0);

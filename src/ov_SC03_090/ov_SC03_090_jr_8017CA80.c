@@ -7870,7 +7870,7 @@ extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern u8 D_800D3918[];
 extern s16 D_801152B0;
-extern void func_8012CC40(s32 arg0, s32 arg1);
+extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_80187D70(s32 a0);
 extern s32 func_80187CBC(s32 arg0);
 
@@ -7966,7 +7966,7 @@ void func_801875E4(s32 a0)
 
 extern s32  func_8012B77C(s32 out, s32 from, s32 to);
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
-extern void func_8012CC40(s32 arg0, s32 arg1);
+extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_80187C64(s32 a0, s32 a1);
 extern s32 func_80187CBC(s32 arg0);
 extern void func_80187D70(s32 a0);

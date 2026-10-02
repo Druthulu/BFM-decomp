@@ -2763,7 +2763,7 @@ extern void (*D_8018E254[])(void);
 extern s32 func_8018183C(void *a0);
 extern void func_8017FF48(int param_1);
 extern void func_80180064(void);
-extern void func_8012CC40(s32 arg0, s32 arg1);
+extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_80180410(s32 a0, s32 a1, s32 a2);
 extern s32 func_801804A8(s32 a0, s32 a1, s32 a2);
 extern s32 D_8018E28C;      /* address-taken only */
@@ -2845,7 +2845,7 @@ extern void func_8017DC70(s32 a0, s16 *a1, s16 a2);
 extern void func_80143BDC(u16 *a0);
 extern u16 D_8018E40A;
 extern s32 func_80181294(s32 arg0);
-extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at call site */
+extern s32 func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at call site */
 extern s32 D_8018E408;   /* address-taken only */
 extern s32 D_8018E3F8;   /* address-taken only */
 extern s32 func_80181594(s32 param_1);

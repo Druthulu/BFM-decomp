@@ -15,7 +15,7 @@ extern s32 func_8012BEE8(s32 a0);
 extern void func_8012B23C(s32 a0);
 extern void func_8012B14C(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
-extern void func_8012CC40(s32 arg0, s32 arg1);
+extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_8012B200(u8 *a0);
 extern void func_8012AD80(s32 a0);
 extern void func_8013C9C4(void *a0);
@@ -164,7 +164,7 @@ void func_801834EC(void *a0) {
 #include "common.h"
 
 extern s32 func_8012BEE8(s32 a0);
-extern void func_8012CC40(s32 arg0, s32 arg1);
+extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_8012A828(s32 a0, void *a1);
 
 extern void *D_80195144;

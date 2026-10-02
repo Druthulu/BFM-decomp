@@ -3889,7 +3889,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_800291A0(s32, s32);
 extern void func_8012B2CC(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
-extern void func_8012CC40(s32 arg0, s32 arg1);
+extern s32 func_8012CC40(s32 arg0, s32 arg1);
 
 /* not declared anywhere in the TU */
 extern void func_80180410(s32 a0, s32 a1, s32 a2);
@@ -4764,7 +4764,7 @@ s32 func_80181294(s32 arg0) {
 
 #include "common.h"
 
-extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at call site */
+extern s32 func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at call site */
 extern void func_8013C9C4(void *a0);
 extern void func_80029124(s32, s32);
 extern void func_8002D4C8(s32 a0, s32 a1);

@@ -3447,7 +3447,7 @@ extern void func_8012B200(u8 *a0);
 
 
 void func_8017F394(void *a0) {
-    extern s32 func_8012CC40(s32, s32);
+    extern s32 func_8012CC40(s32 arg0, s32 arg1);
     extern void func_8013C9C4(void *);
     extern void func_80029124(s32, s32);
     extern void func_8002D4C8(s32 a0, s32 a1);

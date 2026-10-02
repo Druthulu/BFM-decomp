@@ -2803,7 +2803,7 @@ extern void func_801826C8(void *a0);
  *     called through a cast (§17a-1) rather than being re-declared.
  */
 
-extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at use */
+extern s32 func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at use */
 extern s32  func_80143B6C(s32 a0, s32 a1);       /* fleet-canonical */
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012BEE8(s32 a0);
@@ -5343,7 +5343,7 @@ void func_80186160(s32 param_1)
 }
 
 
-extern void func_8012CC40(s32 arg0, s32 arg1);
+extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_80186870(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012C218(void *a0);
@@ -5453,7 +5453,7 @@ void func_801863B0(s32 param_1)
 
 #include "common.h"
 
-extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at use */
+extern s32 func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at use */
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012C218(void *a0);
 extern void func_801868EC(s32 a0);

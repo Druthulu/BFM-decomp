@@ -3203,7 +3203,7 @@ void func_80184538(s32 a0)
     extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
     extern void func_8012B1B4(s32 a0, s32 a1);
     extern s32  func_8012BD3C(s32 a0, s32 a1, s32 a2);
-    extern void func_8012CC40(s32 arg0, s32 arg1);
+    extern s32 func_8012CC40(s32 arg0, s32 arg1);
     extern s32  func_8012C0EC(s32 a0);
     extern u8   D_801A8B40[];
     extern s32  D_801A8B5C;

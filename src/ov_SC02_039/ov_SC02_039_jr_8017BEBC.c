@@ -4009,7 +4009,7 @@ void func_8017EA20(s32 param_1) {
  */
 
 extern void func_8012CC64(s32 a0, s32 a1);
-extern void func_8012CC40(s32 a0, s32 a1);
+extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_8012C218(void *a0);
 extern s32  func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 extern s32  func_80132EF4(s32 a0, s32 a1);

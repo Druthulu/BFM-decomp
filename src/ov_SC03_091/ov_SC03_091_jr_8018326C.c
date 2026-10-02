@@ -6192,7 +6192,7 @@ extern s32 func_8004787C(s32 a0);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
-extern void func_8012CC40(s32 arg0, s32 arg1);
+extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_80188C18(s32 a0);
 extern s32 func_80188B64(s32 arg0);
 
@@ -6290,7 +6290,7 @@ void func_8018848C(s32 a0)
 
 extern s32  func_8012B77C(s32 out, s32 from, s32 to);
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
-extern void func_8012CC40(s32 arg0, s32 arg1);
+extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_80188B0C(s32 a0, s32 a1);
 extern s32 func_80188B64(s32 arg0);
 extern void func_80188C18(s32 a0);

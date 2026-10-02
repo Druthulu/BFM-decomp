@@ -3241,7 +3241,7 @@ extern void func_8012B1B4(s32 a0, s32 a1);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012BCCC(s32 a0);
 extern s32 func_8012BDBC(s32 a0, s32 a1);
-extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at call site */
+extern s32 func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at call site */
 
 void func_80182A34(s32 a0)
 {
@@ -3749,7 +3749,7 @@ void func_801835C0(s32 a0)
     extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
     extern void func_8012B1B4(s32 a0, s32 a1);
     extern s32  func_8012BD3C(s32 a0, s32 a1, s32 a2);
-    extern void func_8012CC40(s32 arg0, s32 arg1);
+    extern s32 func_8012CC40(s32 arg0, s32 arg1);
     extern s32  func_8012C0EC(s32 a0);
     extern u8   D_801C368C[];
     extern s32  D_801C36A8;
