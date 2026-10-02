@@ -3429,15 +3429,15 @@ void func_8017F380(int param_1)
     int v0;
 
     v0 = ((int (*)(void))func_8012C1B8)();
-    *(int *)(param_1 + 0x20) = v0;
+    ((Unkstruct_800B5CB8 *)param_1)->unk20 = v0;
     if (v0 != 0) {
         func_8001C214(v0, (int)&D_8019E198);
         func_8012A828(param_1, &D_8019F034);
         func_80143994(param_1, 0x3000);
         *(unsigned short *)(param_1 + 2) += 1;
-        *(int *)(param_1 + 0x1c) = 4;
+        ((Unkstruct_800B5CB8 *)param_1)->unk1C = 4;
         if ((u32)func_80029504() < 5) {
-            *(short *)(param_1 + 0x70) = 1;
+            ((Unkstruct_800B5CB8 *)param_1)->unk70 = 1;
         }
     }
 }
