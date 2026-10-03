@@ -66,6 +66,9 @@ for k in $(seq "$START" "$END"); do
     $PY tools/type_census.py -j 16 --sites > .run/P37/census/census_${label}.log 2>&1 || { echo "cycle: the type census FAILED after batch $label"; tail -3 .run/P37/census/census_${label}.log; exit 1; }
     cline=$(grep -oE "^type_census: .*" .run/P37/census/type_census.txt | tail -1)
     [ -n "$cline" ] || { echo "cycle: the census table carries no type_census line after batch $label"; exit 1; }
+    # readability_progress reads the newest .run/P<N>/census, not P37's: refresh it first (T9.c1, H7)
+    NEWEST=$(ls -d .run/P*/census | sort -V | tail -1)
+    [ "$NEWEST" = ".run/P37/census" ] || $PY tools/type_census.py -j 16 --out-dir "$NEWEST" > .run/P37/census/census_${label}_newest.log 2>&1 || echo "cycle: newest census refresh ($NEWEST) FAILED — continuing"
     $PY tools/readability_progress.py --snapshot "$label" > /dev/null 2>&1 || echo "cycle: readability snapshot refused (a stale census?) — continuing"
   fi
   [ -f phase-ends/CURRENT_PHASE.md ] && { TASK=${TASK:-T4} $PY - "$label" "$vline" "$line" "$cline" "$(grep -oE 'wall=[0-9.]+ s' "$r22" | head -1)" "$MARKER" <<'PYEOF'
