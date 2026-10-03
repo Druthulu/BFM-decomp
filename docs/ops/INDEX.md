@@ -53,10 +53,13 @@ ops-setup-decomp.md | extract the medium and verify against the committed manife
 wsl-disk-capped-75gb.md | wsl-disk-capped-75gb | 34
 p38-t4-2026-09-29-restruct-head-fold-mode.md | §P38 T4 — 2026-09-29: restruct rung L head-fold mode | 9
 p39-t1-2026-10-01-restruct-stale-supersede-timeline-check.md | §P39 T1 — 2026-10-01: restruct stale-row supersede; timeline --check | 5
-p39-t3-2026-10-02-restruct-rung-s-residue-head-types-add-pads.md | §P39 T3 — 2026-10-02: restruct rung S residue/check-residue; head_types --add-pads | 6
+p39-t3-2026-10-02-restruct-rung-s-residue-head-types-add-pads.md | §P39 T3 — 2026-10-02: restruct rung S residue/check-residue; head_types --add-pads | 8
 p39-t4-2026-10-02-restruct-only-main.md | §P39 T4 — 2026-10-02: restruct --only main | 5
-p39-t10-2026-10-02-check-casts-residue.md | §P39 T10 — 2026-10-02: type_census --check-casts --residue; restruct --forms per-site residue | 5
-p39-t5-2026-10-02-restruct-im-recipes.md | §P39 T5 — 2026-10-02: restruct rung S --forms I,M recipe ladder; residue GADDR | 6
+p39-t10-2026-10-02-check-casts-residue.md | §P39 T10 — 2026-10-02: type_census --check-casts --residue; restruct --forms per-site residue | 7
+p39-t5-2026-10-02-restruct-im-recipes.md | §P39 T5 — 2026-10-02: restruct rung S --forms I,M recipe ladder; residue GADDR | 9
+p39-t6-2026-10-02-restruct-rung-d-callers.md | §P39 T6 — 2026-10-02: restruct rung D caller-only units, alias defs, shared-header scope | 6
+p39-t71-2026-10-02-gte-one-spelling.md | §P39 T7.1 — 2026-10-02: GTE to one spelling | 5
+p39-t8-2026-10-02-lever-residue.md | §P39 T8 — 2026-10-02: lever_census --write-residue; config/lever_residue.tsv | 2
 | p39-t6-2026-10-02-restruct-rung-d-callers.md | §P39 T6 — 2026-10-02: restruct rung D caller-only units, alias defs, shared-header def scope | 4
 | p39-t71-2026-10-02-gte-one-spelling.md | §P39 T7.1 — 2026-10-02: lever_census strict via-header filter; gte_consolidate header variants, --keep-levers | 4
 | p39-t8-2026-10-02-lever-residue.md | §P39 T8 — 2026-10-02: lever_census --write-residue; config/lever_residue.tsv columns and cause vocabulary | 2
