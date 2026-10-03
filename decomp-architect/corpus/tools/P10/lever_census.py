@@ -1122,15 +1122,26 @@ def load_residue(path):
     return rows
 
 
-def strict_failures(sites, pt, gte_header, residue_rows):
+def header_macro_names(gte_header):
+    """names #defined in the GTE header (any body): a body's call of one of them is the consolidated spelling, not a direct statement."""
+    p = REPO / gte_header
+    return {name for (_l0, _l1, name, _b) in define_blocks(p.read_text(errors="surrogateescape"))} if p.exists() else set()
+
+
+def strict_failures(sites, pt, gte_header, residue_rows, header_macros=None):
     """The --strict failure set. Returns (fails, residue_hit, counts).
     P37 (S106): --strict reads its own words — "0 asm statements outside the GTE header" — so a DIRECT GTE statement in a body
     (kind gte / gte-unsigned: Sony's idiom spelled inline instead of as the header's macro call) is a violation here, while the
     --check headline keeps the P36 definition (the series' continuity). verbatim-body stays excluded by the manifest.
     P39 T2 (reading A): a site matching a residue row on (file==tu, func==fn, kind) leaves the failures but stays in every count.
-    Per-TU asm macro definitions arrive as a count only (pt): they fail as one synthetic entry and no residue row can match them."""
+    Per-TU asm macro definitions arrive as a count only (pt): they fail as one synthetic entry and no residue row can match them.
+    P39 T7.1: "direct" means what the docstring above says — a site whose `via` is a macro #defined in the GTE header (header_macros;
+    read from gte_header when None) is the header's macro call and passes; inline ('' via) and per-TU-macro sites are direct."""
+    if header_macros is None:
+        header_macros = header_macro_names(gte_header)
     ab = [x for x in sites if x["cls"] in "AB" and x["kind"] not in NON_LEVER_KINDS and x["tu"] != gte_header]
-    direct_gte = [x for x in sites if x["cls"] == "B" and x["kind"] in ("gte", "gte-unsigned") and x["tu"] != gte_header]
+    gte_all = [x for x in sites if x["cls"] == "B" and x["kind"] in ("gte", "gte-unsigned") and x["tu"] != gte_header]
+    direct_gte = [x for x in gte_all if not (x.get("via") and x["via"] in header_macros)]
     keys = {(r["file"], r["func"], r["kind"]) for r in residue_rows}
     used, fails, residue_hit = set(), [], 0
     for x in ab + direct_gte:
@@ -1142,6 +1153,8 @@ def strict_failures(sites, pt, gte_header, residue_rows):
     if pt:
         fails.append(dict(tu="(per-TU asm macro definitions)", fn="", line=0, cls="B", kind="asm-macro", detail=f"{pt} definition(s)", marked=False))
     counts = dict(asm=sum(1 for x in ab if x["cls"] == "B" and x["kind"] != GTE_LEVER_KIND), direct_gte=len(direct_gte), ab=len(ab), pt=pt,
+                  gte_via_header=len(gte_all) - len(direct_gte), gte_via_tu=sum(1 for x in direct_gte if x.get("via")),
+                  gte_inline=sum(1 for x in direct_gte if not x.get("via")),
                   residue_unused=[r for r in residue_rows if (r["file"], r["func"], r["kind"]) not in used])
     return fails, residue_hit, counts
 
@@ -1207,6 +1220,19 @@ def selftest():
     f4, h4, c4 = strict_failures([gte], 0, GTE_HEADER_DEFAULT, [row("src/fx/x.c", "func_1", "pin")])
     if f4 != [gte] or h4 or len(c4["residue_unused"]) != 1:
         print("selftest: strict (iv) direct gte statement escaped the failures"); ok = False
+    # T7.1: a header-macro call passes the GTE clause; an inline statement and a per-TU macro call are direct
+    hdr = dict(gte, fn="func_3", via="gte_rtps")
+    tum = dict(gte, fn="func_4", via="gte_stsxy3_f4")
+    inl = dict(gte, fn="func_5", via="")
+    f5, _, c5 = strict_failures([hdr], 0, GTE_HEADER_DEFAULT, [], header_macros={"gte_rtps"})
+    if f5 or c5["direct_gte"] or c5["gte_via_header"] != 1:
+        print("selftest: strict (v) a header-macro GTE call failed --strict"); ok = False
+    f6, _, c6 = strict_failures([inl], 0, GTE_HEADER_DEFAULT, [], header_macros={"gte_rtps"})
+    if f6 != [inl] or c6["gte_inline"] != 1:
+        print("selftest: strict (vi) an inline GTE statement passed --strict"); ok = False
+    f7, _, c7 = strict_failures([tum], 0, GTE_HEADER_DEFAULT, [], header_macros={"gte_rtps"})
+    if f7 != [tum] or c7["gte_via_tu"] != 1:
+        print("selftest: strict (vii) a per-TU GTE macro call passed --strict"); ok = False
     print(f"selftest: {'OK' if ok else 'FAIL'} — {len(r['sites'])} sites, {len(r['defs'])} defs, {len(r['macro_defs'])} asm macros")
     return ok
 
@@ -1248,10 +1274,12 @@ def main():
         if a.strict:
             residue_rows = load_residue(a.residue) if a.residue else []
             pt = s.get("per_tu_asm_macro_definitions", {}).get("total", 0)
+            ptk = s.get("per_tu_asm_macro_definitions", {}).get("by_kind", {})
             fails, residue_hit, c = strict_failures(sites, pt, a.gte_header, residue_rows)
             gl = s.get("gte_levers", {}).get("sites", 0)
             print(f"lever_census --check --strict: pins {s['pins']['sites']}, asm {c['asm']}, "
-                  f"gte-levers {gl}, direct GTE statements in bodies {c['direct_gte']}, per-TU asm macro definitions {pt}, "
+                  f"gte-levers {gl}, direct GTE statements in bodies {c['direct_gte']} (via-header {c['gte_via_header']}, "
+                  f"via-per-TU {c['gte_via_tu']}, inline {c['gte_inline']}), per-TU asm macro definitions {pt} {ptk}, "
                   f"volatile-needed {s['classes']['C']['sites']}, register-needed {s['classes']['D']['sites']}, "
                   f"residue {residue_hit}, residue-unused {len(c['residue_unused'])} — "
                   f"{'OK' if not fails else 'FAIL'}")
