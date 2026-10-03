@@ -1,0 +1,8 @@
+delever: the census describes another tree (stamp 4a1d93e11ccd0225); rerun tools/lever_census.py --sites -j 16 — running the census now
+delever --plan: 1 of 1 drawable files · 1 bodies (0 in multi-copy classes) · 4 removable sites · 0 deferred asm-bodies
+19:29:41 apply t8_tus3: 1 files, control src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c IDENTICAL (0.05 s), calibration bb84bb1ab5, census 046394d66b5fb8dd
+19:29:41 apply t8_tus3: phase 1 (exemplar files) 0, phase 2 (copies replay) 1
+19:29:41   src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c:<file-scope> A=DIFFERS B: removed 0 needed 2 compiles 3
+19:29:54 delever: batch t8_tus3 — 1 files (TUs; 1 drawable) · 1 bodies: 0 lever-free, 1 residue, 0 refused · sites removed 0 / needed 2 / refused 2 / deferred 0 · replays 0 (0 disagreed) · compiles 4 in 14 s wall · final 1/1 identical · written 1 files
+t8_tus3 wall=43.36 s
+exit=0
