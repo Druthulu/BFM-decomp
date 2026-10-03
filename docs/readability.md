@@ -21,6 +21,7 @@
 | 2026-10-02 | P3.39 T7.1: GTE to one spelling (direct GTE 492 -> 0, per-TU gte defs 150 -> 0) | `72e4c48c8` | 11 | 2 | 9 | 0 | 260306 | 320402 | **336219** | 173103 | 1650 (1021 / 600) | 523 | 53 / 496 | 17878 (98.8 %) | 5293 | 418 |
 | 2026-10-02 | P3.39 T8: lever residue TSV (2433 rows, reading A) | `21f3aee1b` | 11 | 2 | 9 | 0 | 260312 | 320402 | **336225** | 173103 | 1650 (1021 / 600) | 523 | 53 / 496 | 17677 (98.8 %) | 5293 | 418 |
 | 2026-10-02 | P3.39 close: cast campaign, reading A | `3a9377c92` | 11 | 2 | 9 | 0 | 260312 | 320402 | **336225** | 173103 | 1650 (1021 / 600) | 523 | 53 / 496 | 17968 (98.8 %) | 5293 | 418 |
+| 2026-10-02 | P3.39 T12: phase-close docs | `20faec8d4` | 11 | 2 | 9 | 0 | 260312 | 320402 | **336225** | 173103 | 1650 (1021 / 600) | 523 | 53 / 496 | 17968 (98.8 %) | 5293 | 418 |
 
 **How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters
 than the callee's own definition. It is not a style problem: on this processor an argument travels in a

@@ -66,7 +66,7 @@
   },
   "types": {
    "date": "2026-10-03",
-   "head": "3a9377c926",
+   "head": "20faec8d40",
    "snapshot": "P39",
    "census": ".run/P39/census/type_census.json",
    "what": "the structs phases' counters: raw pointer-cast dereferences in four forms (P *(T*)(\u2026), I *(T*)ident, X ((T*)e)[i], M M2C_FIELD), struct definitions and their duplicate classes, lying call declarations, and the struct map's types",
