@@ -152,11 +152,11 @@ hand-offs to be replayed; and keep the game's bytes out of the repository from t
 binaries, the 363,214 functions, the 4,000 commits — follows from those, at a cost that is mostly the diagnosis of
 one's own instruments.
 
-## 7. After 100 % — what the readability generation has taught so far (Gen3, Phases 35–38; advanced by every phase's closing work, R121)
+## 7. After 100 % — what the readability generation has taught so far (Gen3, Phases 35–39; advanced by every phase's closing work, R121)
 
 *From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md` and `PhaseEnd_Phase37.md` (their "what we believed, what failed, what we would do
 sooner" sections), decision log "P35", "P36 S99/S101/S104/S105", "P37 S106"; for the migration and Phase 38, the Phase 38 plan's change
-lines, task summaries and logs, and git. Same four questions as §1–§4, for the work that began when the bytes were done. Where the
+lines, task summaries and logs, and git; for Phase 39, its plan's change lines and task summaries (T1–T11, T7.1). Same four questions as §1–§4, for the work that began when the bytes were done. Where the
 record is thin it says so; inferences are marked.*
 
 **What we believed, and what was true.** (P35) That sotn writes duplicate functions explicitly, so ~12,000 duplicate copies were the normal
@@ -178,7 +178,13 @@ the documents it retired, and 36 links pointed at them. (P38) That the milestone
 a zero duplicate count as one name per layout (293 opaque eight-byte structs would have become one), a zero outside-canon count as moving
 1,774 function-local stack frames, and a zero dead count as deleting 114 of 134 names that live types use as members. That equal layout
 hashes meant one type — attributes, member-type twins and same-name members at other offsets all break it. That classes with matching
-names would fold without respelling members — true only where the names were meaningful, not placeholders.
+names would fold without respelling members — true only where the names were meaningful, not placeholders. (P39) That spelling every
+raw cast dereference (a memory access through a pointer cast where the original wrote a struct field) as a member would take the P and X
+forms to about zero apart from non-struct bases — it drew every base that has a canonical type, and about 88 % of what was left sits on
+struct-map types with no canonical definition (TYPE-NOT-CANONICAL, 291,819 sites at the close): a definitions problem, not a spelling
+problem. That the levers had easy removals left — the oracle judged every one of the 1,868 register pins needed, 0 removed; their floor is
+now a ledger of causes, not a backlog. That a planner keyed by real names saw every lying declaration — 17 of 24 callees were
+`aF<address>` aliases.
 
 **What failed, and why it looked right.** A session died at 91 % context with 35 minutes of state only in its transcript, after refreshing
 its checkpoint five times — two bank commits inside a task had no log line (→ R101). A tool's restore path was `git checkout`, which wiped
@@ -207,6 +213,15 @@ typedef as two names, and T5 split nine pairs to satisfy the instrument before T
 binaries red, before the hash learned the attributes. Eighteen "conflicting types" rows outlived their fix because the engine writes no
 row for a unit with nothing left to do, so the census over-counted from a stale ledger. The reasoning behind the gate-reading decision
 was spoken, not written: the plan holds one change line and the discussion record opened that day is an empty template.
+(P39) The P38 lesson — test each milestone count against its instrument on the planning tree, both directions — was written at the P38
+close and not applied in the P39 plan, and the phase hit it twice: T4's "P and X raw = 0 except non-struct sites" was unreachable as the
+census read it (18,526 map types, 1,650 defined), and the owner's *reading A* (a raw site may stay as residue if the ledger records its
+cause, per site) replanned the gate; T7's "direct GTE statements = 0" counted the header's own macro calls, so zero meant no GTE at all, and
+the critic's T7.1 ruling read the predicate as the census's docstring defines it. Each clause looked right because it described the
+intended code, not what the instrument counts. A coverage check keyed on "the function has any ledger row" hid 14,296 uncovered sites
+until T10 matched per site. Handoffs lost a coder's hand-back (T3) and orphaned a detached batch cycle (T5); the batch script refreshed the
+wrong census directory, so the readability series refused its snapshot for a whole task without a visible error; and one commit took in
+about 794,000 lines of census scratch.
 
 **What it cost.** P35: three sessions (one a recovery) and ~2.5 h of gates; no model tokens beyond the coordinator and three gate-1 agents.
 P36: nine sessions, 575 commits, ~200 agent draws, roughly 15–20 M agent tokens — the mechanical rungs took 37 % of the sites for ~20
@@ -220,6 +235,12 @@ the 218-binary gate before its commit. Start to end: struct definitions 7,255 �
 file-scope definitions in `.c` files 4,085 → 0; variant camps 40 → 0; dead canonical names 141 → 0 (3 kept with cause); padding names
 26 → 0; hidden-type declarations ~1,106 → 0; lying declarations 1,796 / 76 callees → 229 / 24 (the census's `decls.lying`, printed by the
 gate as `types_floor_lying` — not the 98,648-based Phase 37 series, nor the plan's 1,537 "types floor"); levers 3,730, flat.
+P39: 2026-10-01 → 10-03, nine planned tasks and four added mid-phase (T10 from the replan, T11 and T12 from the owner, T7.1 from the
+critic); T3 alone took three expert attempts, two handoffs, about eight coder runs and 61 sweep batches; 218 of 218 binaries identical on
+every batch. Start to end: raw casts 503,016 → 336,219 (P 409,007 → 257,470, I 60,666 → 49,831, X 13,800 → 13,790, M 19,543 → 15,128),
+0 uncovered; 20,963 kept casts, all backed; lying declarations 229 / 24 callees → 11 / 3, all ledgered; levers 3,730 → 3,364, the rest
+in a 2,433-row cause ledger; struct definitions 1,650, flat. The I/M recipe ladder was the cheapest-looking and lowest-yield rung, about
+1,676 sites drawn against about 48,000 left.
 
 **What we would do sooner.** Read the target project's TREE before setting a policy on its precedent. Make every commit that advances a task
 carry its log line, and checkpoint before any long wait past ~85 % context. Price a residue by distinct SHAPES, never by bodies. Put a
@@ -240,4 +261,8 @@ Phase 38: in the migration itself, grep the tools and the build for every path i
 published narrative's duty in a rule a task executes, not in a session habit. Test each milestone count against its instrument on the
 planning tree before approval — both directions: the starting tree fails it, and the target the plan describes can pass it — and write
 the gate's reading into the plan rather than discovering it at the fifth task. Put every attribute the compiler reads into a layout
-hash before the first fold, and let the byte gate, not a hash, say two types are one.
+hash before the first fold, and let the byte gate, not a hash, say two types are one. (P39) Make that test a step of plan approval,
+not a paragraph here: the same failure twice in a row says a written lesson is not applied unless something runs it — put every
+milestone clause through its instrument on both trees before the plan is approved. Size a residue by its recorded cause before planning
+a sweep: T10's concentration table (half of the TYPE-NOT-CANONICAL sites on 81 types) would have predicted T4's wall. Check coverage
+per site from the first residue row, and key a planner by the definitions' names, aliases included.

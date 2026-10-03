@@ -170,11 +170,12 @@ revision, old hashes in historical documents replaced by inert tokens and mapped
 would have corrupted history), proven pair by pair, and force-pushed. This document, the retrospective, the wiki and the
 tooling releases are the last block; the visibility flip waits for GitHub to purge the old objects.
 
-## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 2026-09-08 →)
+## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 2026-09-08 →)
 
 *From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md`, `PhaseEnd_Phase37.md` and its log (`phase-ends/logs/Phase37.md`), decision log "P35",
 "P36 S99/S101/S104/S105", "P37 S106", `docs/levers.md`, `docs/readability.md`; for the migration and Phase 38, the Phase 38 plan's change
-lines, its task summaries (T1, T5, T5.1, T6, T7) and logs, and git. This chapter was advanced at the end of every session (the owner's rule,
+lines, its task summaries (T1, T5, T5.1, T6, T7) and logs, and git; for Phase 39, the Phase 39 plan's change lines and its task summaries
+(T1–T11, with T7.1). This chapter was advanced at the end of every session (the owner's rule,
 2026-09-12) until the migration of 2026-09-29 dropped that duty; since 2026-09-30 it is advanced by every phase's closing work (rule R121).
 The numbers are the two Gen3 series'.*
 
@@ -352,6 +353,75 @@ from 1,796 over 76 callees to 229 over 24 — the census's `decls.lying` field a
 different count from the hidden-type declarations, which are read from the engine's ledger. The levers stayed at 3,730: the phase moved no
 compiler pins, and none was asked of it.
 
+**Phase 39 (2026-10-01 → 10-03), the cast campaign.** With one definition per struct type in place, the phase took up the casts. A *raw
+cast dereference* is a place where the code reads or writes memory through a pointer cast — `*(T *)(p + k)` — where the original
+almost certainly wrote a field of a structure. The census counts four forms: P, pointer arithmetic on a base (`*(T *)(base + k)`); I, a
+cast on a bare name (`*(T *)name`); X, an indexed cast (`((T *)e)[i]`); and M, the decompiler's own `M2C_FIELD(` macro. The first task
+counted 502,983 of them in 69,492 functions — P 408,974, I 60,666, X 13,800, M 19,543 — repaired a red health item it found on the
+first day (a harness tool missing from the tool dictionary), and retired the 18 stale "conflicting types" rows the previous phase had left.
+The second built the gate. Because in gcc 2.7.2 the spelling of a struct access is a per-access byte dial, some casts must stay; a *kept
+cast* is now one the bytes need, spelled by one of five registered macros in `include/common.h` — `CAST_WIDTH`, `CAST_SIGN`, `CAST_ALIAS`,
+`CAST_MISALIGNED`, `CAST_NONSTRUCT`, each proven on the bytes — and backed by a ledger row that names its cause. That pairing was written
+down as binding: a kept cast is a registered macro plus a ledger row, never a bare cast.
+
+The third task ran the struct-spelling rung over the overlays: three expert attempts, two of them handed off, about eight coder runs and 61
+batches, each through the 218-binary gate. Overlay P casts went from 387,001 to 238,399 (−148,602, all now member accesses), 20,390 sites
+took a kept-cast macro, and 34,131 bodies the engine could not redraw were written into the restructuring ledger with their cause. One
+cause grew to dominate: TYPE-NOT-CANONICAL, a base whose type the struct map knows but for which no canonical definition exists, so there
+is no member to spell. It covered 234,400 of the overlay sites. On the way one fan-out added seventeen fields to a single header type, and
+one coder's hand-back was lost with the attempt that had spawned it.
+
+The fourth task met the wall the third had shown. Its done-when asked for P and X raw at zero across the fleet, apart from non-struct
+bases, and the residue was overwhelmingly TYPE-NOT-CANONICAL: the struct map names 18,526 types and 1,650 are defined. The critic sent the
+question to the owner, who chose on 2026-10-02 what the plan now calls *reading A*: a raw site may stay if the ledger records, for that
+site, why — it is *residue*, and the ledger entry is its receipt. The gate became "no uncovered residue" rather than "no raw casts"; the
+literal zero, *reading B*, was deferred to a later phase. This was the failure the Phase 38 close had written down — test each milestone
+count against its instrument on the planning tree, in both directions — met again in the next plan. A new task, T10, made the coverage
+check honest. The old check called a function covered if it had *any* ledger row; matching site by site exposed 14,296 uncovered overlay
+sites in 4,234 functions (plus 281 in code modules and 3 in the executable), all closed with ledger-only rows. It also sized the wall:
+281,252 TYPE-NOT-CANONICAL sites over 13,081 map types, half of them on 81 types, 80 % on 579, 95 % on 4,384. Many of the top types recur
+in 123 to 131 functions, which suggests — an inference, not yet checked — one overlay struct copied into each overlay family under a
+hash name, so the next phase should look for twins before defining each one.
+
+The fifth task took the I and M forms by a recipe ladder that turns globals into typed externs, mostly `extern T X[]`, and its yield was
+low: about 1,676 sites drawn against about 48,000 left as residue, the biggest refusals being a global with no scalar extern to give it
+(18,945) and a width the extern could not carry (10,186). Its first expert handed off with a detached batch cycle still running, and the
+next coder refused to race that orphan rather than kill it. Mid-phase the owner added a rule: every task that moves the census also
+records a readability snapshot, the timeline and the README in its own commit. The catch-up task (T11) found that the batch script had
+been refreshing the wrong census directory, so the readability series had refused its snapshot on every batch of the phase without
+anyone seeing; the closing task repaired the script.
+
+The sixth task took the *lying declarations* — call declarations that do not match their callee's definition, by an empty K&R list or a
+narrower type — from 229 over 24 callees to 11 over 3, and wrote all 11 into the ledger (four rows). Seventeen of the 24 callees had been
+invisible to the planner for the same reason Phase 37 met: they are defined under `aF<address>` assembler-label aliases and the plan had
+keyed them by their real names. The eleven that remain are facts of the source: callers that use the result of a call with no arguments,
+where a prototype would not compile, and one object whose prototype differs.
+
+The seventh task met the same planning failure a second time. It asked for "direct GTE statements = 0" — GTE is the PlayStation's
+geometry coprocessor, whose instructions the code writes as inline assembly — and the lever census, as the plan read it, counted calls of
+the header's own GTE macros as direct, so zero would have meant no GTE in any function at all, against the same task's aim of one spelling
+in the header. The critic reopened it as T7.1 with the predicate the census's own documentation defines (direct means not through a
+`gte_inline.h` macro), leaving the milestone's words unchanged. Read that way the count went from 492 to 0 (477 inline, 15 through
+per-file macros); per-file GTE macro definitions went from 150 to 0; the header grew from 51 to 82 definitions, 68 canonical, 11 variants
+that differ only in what they declare clobbered — a scheduling steer, marked `// !FAKE:` — and 2 aliases. (Counted the unfiltered way,
+"direct" had been 6,733.) The eighth task tried to take the *levers* off again — a lever is a register pin or an asm statement that forces
+the compiler to match, marked `// !FAKE:` — over every function the phase had touched. GTE levers went from 434 to 91 and asm statements
+from 1,409 to 1,405; not one of the 1,868 register pins came off, because the byte oracle judged every one needed. One pass regressed 343
+GTE statements back to inline assembly and was consolidated again. What remains is now a ledger of causes, `config/lever_residue.tsv`,
+2,433 rows over 3,528 sites — a head class of 1,066, 589 singletons with no shared lever, 548 missing parameters, 157 asm macro
+definitions, 60 GTE clobber steers, 13 whole-body asm routines — with 70 rows flagged for an agent in the next phase. The levers count
+(register pins plus asm statements) went from 3,730 to 3,364.
+
+The milestone ran on 3a9377c926 under reading A and was green. From the Phase 37 baseline to the close, raw casts went from 503,016 to
+336,219: P 409,007 → 257,470, I 60,666 → 49,831, X 13,800 → 13,790, M 19,543 → 15,128, with no uncovered site in any form. The X form
+barely moved because its indexed sites sit on bases with no canonical type. Kept casts number 20,963, every one backed — CAST_WIDTH 10,410,
+CAST_SIGN 8,429, CAST_ALIAS 1,173, CAST_MISALIGNED 624, CAST_NONSTRUCT 327. The covered residue is led by TYPE-NOT-CANONICAL at 291,819
+sites, then the I/M extern refusals (18,945 and 10,186). Seven P sites respelled after T10 came up uncovered at the gate and were closed
+with ledger-only rows. Struct definitions stayed at 1,650, and all 218 binaries stayed identical through every batch. Two marks on the
+record: one commit (3f547f1152) took in about 794,000 lines of census scratch, removed from tracking by the next but kept by history; and
+the gate's census and the series' census still disagree by about five P sites (257,470 against 257,475), not investigated. What the
+phase leaves for the next is plain from its residue: the casts that remain are a definitions problem, not a spelling problem.
+
 ## 11. By the numbers
 
 | | |
@@ -363,7 +433,7 @@ compiler pins, and none was asked of it.
 | Instructions | 13,492,113 / 13,492,113 (100.0%); distinct code 5,820,205 / 5,820,205; main game code 45,150 / 45,150 |
 | Knowledge base | the matching cookbook (§1–§501 and sub-sections, 3.5 MB), the gcc-2.7.2 codegen map, 79 decision-log entries, 73 numbered rules (+ the constitution's 25) |
 | Tooling | ≈235 Python tools, 25 shell tools, 12 Ghidra scripts — the extractor, the byte gate, the dedup engine, the family engine, the atlas, the lanes, the rewrite package |
-| **After 100 % (Gen3, snapshot at the P38 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35) · levers: 53,234 → 3,729 marked sites, +6,717 inline GTE statements counted from P37 (`docs/levers.md`) · struct debt (the P38 type census): 502,983 raw dereferences in 69,492 functions, 1,650 struct definitions (7,255 at the P38 start) over 523 layouts, 53 duplicate classes all listed with a cause in `docs/struct-twins.md`, 229 lying declarations over 24 callees (1,796 at the P37 T4 close) · the chart's lower panel |
+| **After 100 % (Gen3, snapshot at the P39 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35) · levers: 53,234 at the P36 start → 3,730 at the P38 close → 3,364 (1,868 register pins + 1,496 asm statements), every survivor in `config/lever_residue.tsv` (2,433 rows over 3,528 sites; `docs/levers.md`) · raw cast dereferences per form, P37 baseline → P39 close: P 409,007 → 257,470, I 60,666 → 49,831, X 13,800 → 13,790, M 19,543 → 15,128 (503,016 → 336,219), every remaining site ledgered with its cause, 291,819 of them TYPE-NOT-CANONICAL (0 uncovered) · 20,963 kept casts in five registered macros, all backed · lying declarations 229 over 24 callees → 11 over 3, all ledgered · 1,650 struct definitions (7,255 at the P38 start; 53 duplicate classes listed in `docs/struct-twins.md` at the P38 close) · the chart's lower panel |
 
 *Every number above is generated or counted from the repository; the timeline behind the chart is
 [`docs/story-timeline.md`](story-timeline.md).*
