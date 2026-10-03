@@ -6636,7 +6636,7 @@ extern u8 D_801B210C, D_801B210D, D_801B210E, D_801B2110, D_801B2111, D_801B2112
 extern int D_801B2114;
 
 
-/* GTE VARIANT `gte_rt_m`: memory beyond Sony's `gte_rt` — a scheduling steer, its uses are marked (P36 T5) */
+/* GTE VARIANT `gte_rtv0tr_m`: memory beyond Sony's `gte_rtv0tr` — a scheduling steer, its uses are marked (P36 T5) */
 
 
 void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
@@ -6682,15 +6682,15 @@ void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
 
     gte_ldv0(c);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rt_m — memory beyond Sony's `gte_rt` (P36 T5 gte2)
+    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
     gte_stsv(r0_00);
 
     gte_ldv0(f);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rt_m — memory beyond Sony's `gte_rt` (P36 T5 gte2)
+    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
     gte_stsv(r0_00 + 1);
 
     gte_ldv0(d);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rt_m — memory beyond Sony's `gte_rt` (P36 T5 gte2)
+    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
     r0 = r0_00 + 2;
     gte_stsv(r0);
 
@@ -6699,7 +6699,7 @@ void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     d->vx = d->vx - (f->pad & r);
 
     gte_ldv0(d);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rt_m — memory beyond Sony's `gte_rt` (P36 T5 gte2)
+    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
@@ -6707,7 +6707,7 @@ void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     func_80017714(r0_00);
 
     gte_ldv0(e);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rt_m — memory beyond Sony's `gte_rt` (P36 T5 gte2)
+    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
     gte_stsv(r0);
 
     *e = *f;
@@ -6715,7 +6715,7 @@ void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     e->vx = e->vx + (f->pad & r);
 
     gte_ldv0(e);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rt_m — memory beyond Sony's `gte_rt` (P36 T5 gte2)
+    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
     gte_stsv(pSVar6);
 
     r0_00->vz = ((u16 *)b)[2];

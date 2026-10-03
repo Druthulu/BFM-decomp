@@ -1003,7 +1003,7 @@ extern s16 D_800D45F4[];   /* src0 (flat: [2*i]=x, [2*i+1]=y) */
 extern u8  D_8018572C[];   /* sign table, alt (when a1 < 0xC00) */
 
 
-/* GTE VARIANT `gte_rt_m`: memory beyond Sony's `gte_rt` — a scheduling steer, its uses are marked (P36 T5) */
+/* GTE VARIANT `gte_rtv0tr_m`: memory beyond Sony's `gte_rtv0tr` — a scheduling steer, its uses are marked (P36 T5) */
 
 
 void func_8013AD38(void *flag, s32 a1, void *out2, void *out3)
@@ -1025,7 +1025,7 @@ void func_8013AD38(void *flag, s32 a1, void *out2, void *out3)
         vec[0] = D_800D45F4[2 * i]     + (((D_800D466C[2 * i]     - D_800D45F4[2 * i])     * ((s16)a1)) >> 12);
         vec[1] = D_800D45F4[2 * i + 1] + (((D_800D466C[2 * i + 1] - D_800D45F4[2 * i + 1]) * ((s16)a1)) >> 12);
         gte_ldv0(vec);
-        gte_rtv0tr_m();  // !FAKE: gte via gte_rt_m — memory beyond Sony's `gte_rt` (P36 T5 gte2)
+        gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
         gte_stlvnl(res);
         ((Pair_8013AD38 *)out2)[i].x = res[0];
         ((Pair_8013AD38 *)out2)[i].y = res[1];
