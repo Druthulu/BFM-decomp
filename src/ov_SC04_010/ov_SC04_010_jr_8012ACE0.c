@@ -748,11 +748,11 @@ void func_8012E364(s32 arg0_)
     extern s32 D_8018E274;
     s32 arg0;
     s32 prev;
-    register u16 flags __asm__("$2");  // !FAKE: pin $2 — holds $2 across the D_8018E270 chain, so the $2 suggestion d's pin gives v (local-alloc.c:1822) fails in block_alloc's suggested-reg pass (:1472) (P36 S103 c51 minimum-lever)
+    register u16 flags __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus1)
     s32 a;
     s32 diff;
     s32 v;
-    register s32 d __asm__("$2");  // !FAKE: pin $2 — combine_regs (local-alloc.c:1722) otherwise ties d into v, which dies at the abs: abssi2 dest==src arm, nop for move (P36 S103 c51 minimum-lever)
+    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus1)
     s32 spd;
     s32 e1;
     s32 e2;

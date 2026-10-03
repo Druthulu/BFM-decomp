@@ -1050,7 +1050,7 @@ void func_8013CF68()
 
     u8 t0, t1, t2;
     u8 *base;
-    __asm__("la %0, D_800A5E94" : "=r"(base));  // !FAKE: instruction la — NEEDED DIFFERS (P36 rung B tus2)
+    __asm__("la %0, D_800A5E94" : "=r"(base));  // !FAKE: instruction la — NEEDED DIFFERS (P36 rung B t8_tus1)
 
     *(s32 *)(base - 0xC) = 0;
     t0 = D_80198C30; t1 = D_80198C31; t2 = D_80198C32;
