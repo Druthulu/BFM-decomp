@@ -9,3 +9,4 @@ T5 | done | globals and absolute addresses to declared symbols (forms I and M, r
 T11 | done | progress snapshot and chart catch-up | - | tasks/T11.md | logs/T11.md | -
 T6 | done | lying declarations to 0 outside the ledger | - | tasks/T6.md | logs/T6.md | -
 T7.1 | done | GTE to one spelling (predicate read as the census documents it) | - | tasks/T7.1.md | logs/T7.1.md | -
+T8 | done | pins and asm the unified types explain; residue ledger | - | tasks/T8.md | logs/T8.md | -
