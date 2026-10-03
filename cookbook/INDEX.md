@@ -967,3 +967,14 @@ C0514 | Run a repo-wide check on unedited HEAD first; mirrored edits need make k
 C0515 | Global I/M casts to typed externs: R ladder and refusal causes | casts,globals,extern,restruct,recipes | 2026-10-02 | 39/T5 | P3.39 T5 summary
 C0516 | Lying declarations: def + all callers; K&R-empty can be load-bearing | lying,decls,K&R,restruct,rung-D | 2026-10-02 | 39/T6 | P3.39 T6 summary
 C0517 | GTE one spelling in gte_inline.h; clobber variants as header-level levers | gte,levers,delever,gte_consolidate | 2026-10-02 | 39/T7.1 | P3.39 T7.1/T8 summaries
+C0518 | Freshness checks mask self-referential report cells | reports,freshness,timeline,check | 2026-10-02 | 39/T1 | P3.39 T1 summary
+C0519 | Text censuses must exclude the registry's own #define lines by name | census,macros,regex,gate | 2026-10-02 | 39/T2 | P3.39 T2 summary
+C0520 | Hash-named bbt types block a rung-S redraw; pin from ledger bases | restruct,rung-S,structs,bbt | 2026-10-02 | 39/T3 | P3.39 T3 summary
+C0521 | Later sweeps unback kept macros; match KEPT on a normalised base | restruct,casts,kept,macros | 2026-10-02 | 39/T3 | P3.39 T3 summary
+C0522 | Dead-kept canonical types go live when a sweep spells members | structs,twins,check-structs | 2026-10-02 | 39/T3 | P3.39 T3 summary
+C0523 | restruct --plan skips .h TUs unless --headers | restruct,headers,globals,cycle | 2026-10-02 | 39/T5 | P3.39 T5 summary
+C0524 | An 'unsigned' census class may mean 'cache never saw it' | census,gte,inventory,planning | 2026-10-02 | 39/T7.1 | P3.39 T7.1 summary
+C0525 | Give fleet-wide consolidation tools an explicit keep filter | gte,gte_consolidate,ownership,fleet | 2026-10-02 | 39/T7.1 | P3.39 T7.1 summary
+C0526 | Read a gate's predicate before planning to zero its total | census,planning,predicate,gate | 2026-10-02 | 39/T7 | P3.39 T7 summary
+C0527 | Rung R recipes bank no-op brace wraps; filter '0 pin(s) gone' | delever,rung-R,pins,recipes | 2026-10-02 | 39/T8 | P3.39 T8 summary
+C0528 | Residue coverage is per site; re-run after any respelling task | residue,ledger,restruct,gate,casts | 2026-10-02 | 39/T10 | P3.39 T10 summary

@@ -149,3 +149,11 @@ R120 | Issue reply drafts are never committed or mentioned in commit text | - | 
 R121 | Phases name the counts they move and publish them at close | - | active | developer 2026-09-30
 
 R122 | Tier-2 struct twins are folded on evidence or listed with a cause | structs,census,twins | active | PhaseEnd_Phase3.38 binding (T5.1)
+
+R123 | Kept casts and lying declarations stay only with a ledger row | casts,lying,ledger,macros | active | PhaseEnd_Phase3.39 binding
+
+R124 | Raw cast residue is covered per site by a cause-named RESIDUAL row | casts,residue,ledger,restruct | active | PhaseEnd_Phase3.39 binding
+
+R125 | GTE asm in bodies is spelled only through gte_inline.h | gte,asm,levers,headers | active | PhaseEnd_Phase3.39 binding
+
+R126 | Lever residue is a ledger, gated by --strict --residue | levers,pins,asm,residue,ledger | active | PhaseEnd_Phase3.39 binding

@@ -47,6 +47,8 @@ PY = /usr/bin/python3
 - restruct-cycle-watch — Launch, find, wake on and stop a detached restruct_cycle.sh without racing inflight.json
 - retire-doc-consumers — Grep and repoint tools, Makefile and docs that read a doc being retired, in the same task
 - commit-task-autostage — Commit logs and research deliberately; force-add ignored tracked paths before commit_task.sh
+- tools-edit-kit-corpus — After any tools/ edit: make kit-corpus, tool_dictionary row for new files, then make tools-health
+- d1-snapshot — D1 readability snapshot: census to newest P dir, snapshot, timeline, progress --readme
 
 ## Paths <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - Oracles (the ground truth X3 names): <!-- TODO ORACLES: no source found -->
