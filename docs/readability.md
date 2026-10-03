@@ -18,6 +18,7 @@
 | 2026-10-02 | P3.39 T5: forms I/M closed | `240775039` | 229 | 216 | 13 | 0 | 260306 | 320402 | **336219** | 173103 | 1650 (1021 / 600) | 523 | 53 / 496 | 17965 (98.8 %) | 5293 | 418 |
 | 2026-10-02 | P3.39 T11: chart catch-up | `e7203a358` | 229 | 216 | 13 | 0 | 260306 | 320402 | **336219** | 173103 | 1650 (1021 / 600) | 523 | 53 / 496 | 17965 (98.8 %) | 5293 | 418 |
 | 2026-10-02 | P3.39 T6: lying declarations ledgered (229 -> 11 ledgered) | `9aa588736` | 11 | 2 | 9 | 0 | 260306 | 320402 | **336219** | 173103 | 1650 (1021 / 600) | 523 | 53 / 496 | 17830 (98.8 %) | 5293 | 418 |
+| 2026-10-02 | P3.39 T7.1: GTE to one spelling (direct GTE 492 -> 0, per-TU gte defs 150 -> 0) | `72e4c48c8` | 11 | 2 | 9 | 0 | 260306 | 320402 | **336219** | 173103 | 1650 (1021 / 600) | 523 | 53 / 496 | 17878 (98.8 %) | 5293 | 418 |
 
 **How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters
 than the callee's own definition. It is not a style problem: on this processor an argument travels in a

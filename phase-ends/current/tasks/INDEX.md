@@ -8,3 +8,4 @@ T10 | done | residue coverage gate (--check-casts --residue) and 3.40 sizing | -
 T5 | done | globals and absolute addresses to declared symbols (forms I and M, residual non-struct bases) | - | tasks/T5.md | logs/T5.md | -
 T11 | done | progress snapshot and chart catch-up | - | tasks/T11.md | logs/T11.md | -
 T6 | done | lying declarations to 0 outside the ledger | - | tasks/T6.md | logs/T6.md | -
+T7.1 | done | GTE to one spelling (predicate read as the census documents it) | - | tasks/T7.1.md | logs/T7.1.md | -
