@@ -318,7 +318,7 @@ def inventory(jobs=12, quiet=False):
                 sg = signature(inner)
             except Exception as ex:   # noqa: BLE001
                 sg = dict(bytes=f"ERROR: {ex}"[:100], ok=False, nout=0, nin=0, clob=[], tmpl="", ins=[], outs=[])
-            direct.append(dict(tu=tu, line=s["line"], col=s["col"], fn=s.get("fn"), inner=inner, sig=sg, marked=s.get("marked", False),
+            direct.append(dict(tu=tu, line=s["line"], col=s["col"], fn=s.get("fn"), inner=inner, sig=sg, marked=s.get("marked", False), kind=s["kind"],
                                kw=re.sub(r"\s+", " ", m[pos:o]).strip()))
     _save_cache()
     inv = dict(generated=time.strftime("%Y-%m-%d %H:%M"), definitions=defs, direct=direct, uses=dict(uses))
@@ -848,8 +848,9 @@ def direct_rewrite(s, canon):
     return "lever", f"{names[0]}+{variant_name(names[1], t2['clob'], vclob)}", extra or sorted(set(clob) - set(sg["clob"]))
 
 
-def file_edits(tu, raw, p, canon, label):
-    """[(start, end, repl)] + the record (per definition / use / direct statement) for one file's consolidation."""
+def file_edits(tu, raw, p, canon, label, keep_levers=False):
+    """[(start, end, repl)] + the record (per definition / use / direct statement) for one file's consolidation.
+    keep_levers (T7.1.c3): a direct lever (census gte-lever, or a statement only a lever variant matches) keeps its text and marker (T8's)."""
     m = dl.same_len_mask(raw)
     ls = dl.line_starts(raw)
     edits, rec = [], dict(deleted=0, renamed_defs=0, use_renames=0, direct_calls=0, direct_levers=0, direct_none=0, marked=0, defs=[], direct=[])
@@ -924,6 +925,9 @@ def file_edits(tu, raw, p, canon, label):
             rec["direct"].append(dict(line=s["line"], action="refused", why="statement not found at the census position"))
             continue
         how, text, name = direct_rewrite(s, canon)
+        if keep_levers and (how == "lever" or s.get("kind") == lc.GTE_LEVER_KIND):
+            rec["direct"].append(dict(line=s["line"], action="lever-kept", how=how))
+            continue
         eol = raw.find("\n", e)
         eol = len(raw) if eol < 0 else eol
         tail = raw[e:eol].strip(" \t\r;")
@@ -1038,7 +1042,7 @@ def apply_batch(a):
             except (Refuse, dl.Refuse) as ex:
                 d["trial"] = f"REFUSED {ex}"
         try:
-            edits, rec = file_edits(tu, raw, plan_tu, canon, a.label)
+            edits, rec = file_edits(tu, raw, plan_tu, canon, a.label, keep_levers=a.keep_levers)
         except Refuse as ex:
             row.update(verdict="REFUSED", why=str(ex))
             log(f"  {tu}: REFUSED {ex}")
@@ -1497,6 +1501,11 @@ def selftest():
     outl = dl.apply_edits(fxl, file_edits("fl.c", fxl, pl, canon2, "self")[0])
     if not re.search(r"\n    gte_ldv0_m\(v\);  // !FAKE: gte via gte_ldv0_m — clobbers memory .*3\.39 T7\.1 self.*\n\}", outl) or "old" in outl:
         fail(f"direct lever respelled to its header variant, marked once:\n{outl}")
+    if dl.apply_edits(fxl, file_edits("fl.c", fxl, pl, canon2, "self", keep_levers=True)[0]) != fxl:
+        fail("--keep-levers: a direct lever must keep its text and marker")
+    pk = dict(defs=[], direct=[dict(pl["direct"][0], kind=lc.GTE_LEVER_KIND)], renames={})
+    if dl.apply_edits(fxl, file_edits("fl.c", fxl, pk, canon2, "self", keep_levers=True)[0]) != fxl:
+        fail("--keep-levers: a census gte-lever statement must keep its text")
     print(f"gte_consolidate --selftest: {'OK' if ok else 'FAIL'} — signatures rtps={s1['bytes'][16:24]} ldv0={s4['bytes'][:16]}; table {len(canon2['canonical'])} canonical / {len(canon2['variants'])} variant; fixture edits {len(edits)}")
     return ok
 
@@ -1514,6 +1523,7 @@ def main():
     ap.add_argument("--label", default=None)
     ap.add_argument("--only", nargs="*", default=None)
     ap.add_argument("--rejudge", action="store_true")
+    ap.add_argument("--keep-levers", action="store_true", help="--apply: leave direct lever statements (census gte-lever) as they are (T8 owns them)")
     ap.add_argument("--dirty-ok", action="store_true", help="--remark on a tree the scrub just modified (one fleet run for both)")
     ap.add_argument("-j", "--jobs", type=int, default=12)
     a = ap.parse_args()

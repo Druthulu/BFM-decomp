@@ -344,31 +344,10 @@ void func_800CB5C8(s32 arg0, s32 arg1) {
 
 
 /* GTE VARIANT `gte_SetRotMatrix_m`: memory beyond Sony's `gte_SetRotMatrix` — a scheduling steer, its uses are marked (P36 T5) */
-#define gte_SetRotMatrix_m(p) __asm__ __volatile__( \
-    "lw $12, 0(%0)\n" \
-    "lw $13, 4(%0)\n" \
-    "ctc2 $12, $0\n" \
-    "ctc2 $13, $1\n" \
-    "lw $12, 8(%0)\n" \
-    "lw $13, 12(%0)\n" \
-    "lw $14, 16(%0)\n" \
-    "ctc2 $12, $2\n" \
-    "ctc2 $13, $3\n" \
-    "ctc2 $14, $4\n" \
-    : : "r"(p) : "$12", "$13", "$14", "memory")
 
 /* GTE VARIANT `gte_ldv0_m`: memory beyond Sony's `gte_ldv0` — a scheduling steer, its uses are marked (P36 T5) */
-#define gte_ldv0_m(p) __asm__ __volatile__( \
-    "lwc2 $0, 0(%0)\n" \
-    "lwc2 $1, 4(%0)\n" \
-    : : "r"(p) : "memory")
 
 /* GTE VARIANT `gte_rtv0_m`: memory beyond Sony's `gte_rtv0` — a scheduling steer, its uses are marked (P36 T5) */
-#define gte_rtv0_m() __asm__ __volatile__( \
-    "nop\n" \
-    "nop\n" \
-    "mvmva 1, 0, 0, 3, 0\n" \
-    : : : "memory")
 
 
 extern s32 func_80017DC4(void *a0, void *a1);

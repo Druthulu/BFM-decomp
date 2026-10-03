@@ -2680,13 +2680,6 @@ extern void func_8017C090(void *a0);
 
 
 
-#define gte_stsxy3_f4(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 12( %0 );"                        \
-    "swc2 $14, 16( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 
 
@@ -3083,14 +3076,7 @@ s32 func_8017DA50(s16 *arg) {
         s32 u = arg[2];
         sp[2] = t - u;
     }
-    __asm__ __volatile__(
-        "lwc2 $9, 0(%0)\n"
-        "lwc2 $10, 4(%0)\n"
-        "lwc2 $11, 8(%0)\n"
-        "nop\n"
-        "nop\n"
-        "sqr 0\n"
-        : : "r"(sp) : "$9", "$10", "$11", "memory");
+    gte_lwc2x3_sqr_e416(sp);
     gte_stlvnl(sp);
 
     return !(0x14FFE < sp[0] + sp[1] + sp[2] + 0xFFF9BFFF);
@@ -3116,14 +3102,7 @@ s32 func_8017DAE4(s16 *arg) {
         s32 u = arg[7];
         sp[2] = t - u;
     }
-    __asm__ __volatile__(
-        "lwc2 $9, 0(%0)\n"
-        "lwc2 $10, 4(%0)\n"
-        "lwc2 $11, 8(%0)\n"
-        "nop\n"
-        "nop\n"
-        "sqr 0\n"
-        : : "r"(sp) : "$9", "$10", "$11", "memory");
+    gte_lwc2x3_sqr_e416(sp);
     gte_stlvnl(sp);
 
     return sp[0] + sp[1] + sp[2] > 0xC3FFF;

@@ -7647,13 +7647,9 @@ void func_80182E38(int param_1)
         }
         *(short *)(sv + 4) = v0;
         func_8004978C((s16 *)(CAST_ALIAS(int, param_1, 0x20) + 0x10), mat);
-        __asm__ __volatile__(                
-            "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
-            "ctc2 $12, $0\n" "ctc2 $13, $1\n"
-            "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-            "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" :  : "r"(mat) : "$12", "$13", "$14" );
-        __asm__ __volatile__("lwc2 $0, 0(%0)\n" "lwc2 $1, 4(%0)\n" :  : "r"(sv) );
-        __asm__ __volatile__("nop\n" "nop\n" "mvmva 1, 0, 0, 3, 0\n" );
+        gte_SetRotMatrix(mat);
+        gte_ldv0(sv);
+        gte_rtv0();
         gte_stsv(sv);
         ((Unkstruct_800B5CB8 *)param_1)->unk6 = *(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 6) + *(unsigned short *)(sv + 0);
         ((Unkstruct_800B5CB8 *)param_1)->unkA = *(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 10) + *(unsigned short *)(sv + 2);
@@ -8156,20 +8152,10 @@ void func_80183C9C(void *a0)
 
     func_8004978C((s16 *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x10), &mat);
 
-    __asm__ __volatile__(                
-        "lw $12, 0(%0)\n"
-        "lw $13, 4(%0)\n"
-        "ctc2 $12, $0\n"
-        "ctc2 $13, $1\n"
-        "lw $12, 8(%0)\n"
-        "lw $13, 12(%0)\n"
-        "lw $14, 16(%0)\n"
-        "ctc2 $12, $2\n"
-        "ctc2 $13, $3\n"
-        "ctc2 $14, $4\n" :  : "r"(&mat) : "$12", "$13", "$14" );
+    gte_SetRotMatrix(&mat);
 
-    __asm__ __volatile__("lwc2 $0, 0(%0)\nlwc2 $1, 4(%0)" :  : "r"(&D_8018C7BC[((Unkstruct_800B5CB8 *)self)->unk70 * 4]) );
-    __asm__ __volatile__("nop\nnop\nmvmva 1, 0, 0, 3, 0" );
+    gte_ldv0(&D_8018C7BC[((Unkstruct_800B5CB8 *)self)->unk70 * 4]);
+    gte_rtv0();
     gte_stsv(res);
 
     ((Unkstruct_800B5CB8 *)self)->unk6 = *(u16 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x6) + res[0];
@@ -9722,71 +9708,7 @@ void func_80185F48(s32 param_1, s32 *param_2)
     *(short *)((s32)matrix_stack + 0x0E) = 0;
     *(short *)((s32)matrix_stack + 0x10) = cos_val;
 
-    __asm__ volatile (
-        "lw $12, 0(%0);"
-        "lw $13, 4(%0);"
-        "ctc2 $12, $0;"
-        "ctc2 $13, $1;"
-        "lw $12, 8(%0);"
-        "lw $13, 12(%0);"
-        "lw $14, 16(%0);"
-        "ctc2 $12, $2;"
-        "ctc2 $13, $3;"
-        "ctc2 $14, $4;"
-        "addiu $2, $sp, 0x10;"
-        "lhu $12, 0($2);"
-        "lhu $13, 6($2);"
-        "lhu $14, 12($2);"
-        "mtc2 $12, $9;"
-        "mtc2 $13, $10;"
-        "mtc2 $14, $11;"
-        "nop;"
-        "nop;"
-        "mvmva 1, 0, 3, 3, 0;"
-        "mfc2 $12, $9;"
-        "mfc2 $13, $10;"
-        "mfc2 $14, $11;"
-        "sh $12, 0(%0);"
-        "sh $13, 6(%0);"
-        "sh $14, 12(%0);"
-        "addiu $2, $sp, 0x12;"
-        "lhu $12, 0($2);"
-        "lhu $13, 6($2);"
-        "lhu $14, 12($2);"
-        "mtc2 $12, $9;"
-        "mtc2 $13, $10;"
-        "mtc2 $14, $11;"
-        "nop;"
-        "nop;"
-        "mvmva 1, 0, 3, 3, 0;"
-        "addiu $2, %0, 0x2;"
-        "mfc2 $12, $9;"
-        "mfc2 $13, $10;"
-        "mfc2 $14, $11;"
-        "sh $12, 0($2);"
-        "sh $13, 6($2);"
-        "sh $14, 12($2);"
-        "addiu $2, $sp, 0x14;"
-        "lhu $12, 0($2);"
-        "lhu $13, 6($2);"
-        "lhu $14, 12($2);"
-        "mtc2 $12, $9;"
-        "mtc2 $13, $10;"
-        "mtc2 $14, $11;"
-        "nop;"
-        "nop;"
-        "mvmva 1, 0, 3, 3, 0;"
-        "addiu %0, %0, 4;"
-        "mfc2 $12, $9;"
-        "mfc2 $13, $10;"
-        "mfc2 $14, $11;"
-        "sh $12, 0(%0);"
-        "sh $13, 6(%0);"
-        "sh $14, 12(%0)"
-        : "=r"(s1)
-        : "0"(s1)
-        : "$12", "$13", "$14", "$2"
-    );
+    gte_lwx2_ctc2x2_lwx3_ctc2x3_2c4d(s1, s1);
 }
 
 

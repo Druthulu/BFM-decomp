@@ -5215,39 +5215,15 @@ void func_8017FB04(s32 s1)
     s2 = s1 + 0xFC;
     v0 = s3 + 0x18;
 
-    __asm__ volatile(
-        "lw %0, 0(%3);"
-        "lw %1, 4(%3);"
-        "ctc2 %0, $0;"
-        "ctc2 %1, $1;"
-        "lw %0, 8(%3);"
-        "lw %1, 12(%3);"
-        "lw %2, 16(%3);"
-        "ctc2 %0, $2;"
-        "ctc2 %1, $3;"
-        "ctc2 %2, $4;"
-        "lw %0, 20(%3);"
-        "lw %1, 24(%3);"
-        "ctc2 %0, $5;"
-        "lw %2, 28(%3);"
-        "ctc2 %1, $6;"
-        "ctc2 %2, $7"
-        : "=&r"(t4), "=&r"(t5), "=&r"(t6)
-        : "r"(v0));
+    gte_lwx2_ctc2x2_lwx3_ctc2x3_42e3(t4, t5, t6, v0);
 
-    __asm__ volatile(                
-        "lwc2 $0, 0(%0);"
-        "lwc2 $1, 4(%0);"
-        "nop;"
-        "nop;"
-        "rtps" :  : "r"(s2) );
+    gte_ldv0(s2); gte_rtps();
 
     a0 = (s32)&stack[0];
     gte_stsxy(a0);
 
     v0 = (s32)&stack[2];
-    __asm__ volatile("cfc2 %0, $31; nop; sw %0, 0(%1)"
-                     : "=&r"(t4) : "r"(v0) : "memory");
+    gte_cfc2_sw_4531(t4, v0);
 
     v1 = 0x80000000;
     if ((s32)stack[2] < 0) {

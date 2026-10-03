@@ -2676,13 +2676,6 @@ extern void func_8017C090(void *a0);
 
 
 
-#define gte_stsxy3_f4(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 12( %0 );"                        \
-    "swc2 $14, 16( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 
 
@@ -2955,19 +2948,8 @@ int func_8017D77C(short *a0) {
     data[0] = D_80126CAC - a0[0];
     data[1] = 0;
     data[2] = D_80126CB0 - a0[2];
-    __asm__ __volatile__(
-        "lwc2 $9, 0($sp)\n"
-        "lwc2 $10, 4($sp)\n"
-        "lwc2 $11, 8($sp)\n"
-        "nop\n"
-        "nop\n"
-        "sqr 0\n"
-        : : : "$9", "$10", "$11", "memory");
-    __asm__ __volatile__(
-        "swc2 $25, 0($sp)\n"
-        "swc2 $26, 4($sp)\n"
-        "swc2 $27, 8($sp)\n"
-        : : : "memory");
+    gte_lwc2x3_sqr_6a00();
+    gte_swc2x3_66ca();
     return (data[0] + data[1] + data[2]) - 0x64001U <= 0x14FFE;
 }
 
