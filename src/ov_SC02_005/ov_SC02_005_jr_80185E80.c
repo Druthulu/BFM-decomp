@@ -4654,12 +4654,7 @@ void func_8018C454(void *a0)
 
     gte_SetRotTransMatrix(&mtx);
 
-    __asm__ __volatile__(                
-        "lwc2 $0, 0(%0)\n"
-        "lwc2 $1, 4(%0)\n"
-        "nop\n"
-        "nop\n"
-        "mvmva 1, 0, 0, 0, 0\n" :  : "r"(vec0) );
+    gte_ldv0(vec0); gte_rtv0tr();
 
     gte_stlvnl(s0 + 4);
 

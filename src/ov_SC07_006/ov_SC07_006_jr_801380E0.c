@@ -1393,11 +1393,7 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
     }
     *(s16 *)((u8 *)L + 2) = D_800D45F6;
 
-    __asm__ __volatile__(                
-        "lwc2 $0, 0(%0)\n"
-        "lwc2 $1, 4(%0)\n"
-        "nop\n" "nop\n"
-        "mvmva 1, 0, 0, 0, 0\n" :  : "r"(L) );
+    gte_ldv0(L); gte_rtv0tr();
     gte_stlvnl((u8 *)L + 8);
 
     if (((s16*)a2)[1] > 0)
@@ -1407,11 +1403,7 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
 
     *(s16 *)L = 9;
     *(s16 *)((u8 *)L + 2) = 9;
-    __asm__ __volatile__(                
-        "lwc2 $0, 0(%0)\n"
-        "lwc2 $1, 4(%0)\n"
-        "nop\n" "nop\n"
-        "mvmva 1, 0, 0, 3, 0\n" :  : "r"(L) );
+    gte_ldv0(L); gte_rtv0();
     gte_stlvnl((u8 *)L + 0x18);
 
     *(s16 *)(p + 8) = *(s32 *)((u8 *)L + 8);

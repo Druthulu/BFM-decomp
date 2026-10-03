@@ -3497,10 +3497,10 @@ void func_80187E08(s32 param_1)
 
     func_80015978(param_1 + 4, (s32 *)sxy);
 
-    __asm__ volatile("lwc2 $0, 0(%0)\n\tlwc2 $1, 4(%0)" :  : "r"(sxy) );
-    __asm__ volatile("nop\n\tnop\n\trtps" );
+    gte_ldv0(sxy);
+    gte_rtps();
     gte_stsxy(sxy);
-    __asm__ volatile("cfc2 $12, $31\n\tnop\n\tsw $12, 0(%0)" :  : "r"(&flag) : "$12", "memory" );
+    gte_stflg(&flag);
 
     xt = sxy[0];
     lim = ((u32)D_800AF7BC >> 1) + 0x20;

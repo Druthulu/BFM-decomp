@@ -26,24 +26,7 @@ void func_8013AA24(s32 a0, s32 a1) {
     *(s32 *)(buf + 0x1C) = 0;                       /* 0x2C */
     {
         s32 *p = (s32 *)(buf + 0x00);
-        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
-            "lw $12, 0(%0)\n"
-            "lw $13, 4(%0)\n"
-            "ctc2 $12, $0\n"
-            "ctc2 $13, $1\n"
-            "lw $12, 8(%0)\n"
-            "lw $13, 12(%0)\n"
-            "lw $14, 16(%0)\n"
-            "ctc2 $12, $2\n"
-            "ctc2 $13, $3\n"
-            "ctc2 $14, $4\n"
-            "lw $12, 20(%0)\n"
-            "lw $13, 24(%0)\n"
-            "ctc2 $12, $5\n"
-            "lw $14, 28(%0)\n"
-            "ctc2 $13, $6\n"
-            "ctc2 $14, $7\n"
-            : : "r"(p) : "$12", "$13", "$14", "memory");
+        gte_SetRotTransMatrix_m(p);  // !FAKE: gte via gte_SetRotTransMatrix_m — clobbers memory vs Sony's (a scheduling steer; 3.39 T7.1 t8_gte1, instrument tools/gte_consolidate.py)
     }
     func_8013AD38((void *)(s0 + 8), *(s16 *)(s0 + 0xC), buf + 0x20, buf + 0xA0);
     func_8013B204(s2, s0);

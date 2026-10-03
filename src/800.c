@@ -696,37 +696,19 @@ void func_8001382C(s16 angle, void *a1, void *a2)
 
     gte_SetRotMatrix(matrix);
 
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0);"
-        "lhu $13, 6(%0);"
-        "lhu $14, 12(%0);"
-        "mtc2 $12, $9;"
-        "mtc2 $13, $10;"
-        "mtc2 $14, $11;" :  : "r"(rotp) : "$12", "$13", "$14" );
+    gte_ldclmv(rotp);
 
     gte_rtir();
 
     gte_stclmv(&matrix[0]);
 
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0);"
-        "lhu $13, 6(%0);"
-        "lhu $14, 12(%0);"
-        "mtc2 $12, $9;"
-        "mtc2 $13, $10;"
-        "mtc2 $14, $11;" :  : "r"(&rot[1]) : "$12", "$13", "$14" );
+    gte_ldclmv(&rot[1]);
 
     gte_rtir();
 
     gte_stclmv(&matrix[1]);
 
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0);"
-        "lhu $13, 6(%0);"
-        "lhu $14, 12(%0);"
-        "mtc2 $12, $9;"
-        "mtc2 $13, $10;"
-        "mtc2 $14, $11;" :  : "r"(&rot[2]) : "$12", "$13", "$14" );
+    gte_ldclmv(&rot[2]);
 
     gte_rtir();
 
@@ -9231,23 +9213,7 @@ void func_8001D70C(s32 param_1)
     *(s32 *)((u8 *)matrix + 0x18) = *(s16 *)(param_1 + 10);
     *(s32 *)((u8 *)matrix + 0x1C) = *(s16 *)(param_1 + 12);
 
-    __asm__ volatile (                
-        "lw $12, 0(%0);"
-        "lw $13, 4(%0);"
-        "ctc2 $12, $0;"
-        "ctc2 $13, $1;"
-        "lw $12, 8(%0);"
-        "lw $13, 12(%0);"
-        "lw $14, 16(%0);"
-        "ctc2 $12, $2;"
-        "ctc2 $13, $3;"
-        "ctc2 $14, $4;"
-        "lw $12, 20(%0);"
-        "lw $13, 24(%0);"
-        "ctc2 $12, $5;"
-        "lw $14, 28(%0);"
-        "ctc2 $13, $6;"
-        "ctc2 $14, $7" :  : "r"((s32)matrix) : "$12", "$13", "$14" );
+    gte_SetRotTransMatrix((s32)matrix);
 }
 
 
@@ -9546,29 +9512,16 @@ void func_8001E094(s32 arg0)
     g = (s32)&D_800AF648;
 
     /* gte_SetRotMatrix(obj->mat) */
-    __asm__ __volatile__(                
-        "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
-        "ctc2 $12, $0\n" "ctc2 $13, $1\n"
-        "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" :  : "r"(*(s32 *)(arg0 + 0x34)) : "$12", "$13", "$14" );
+    gte_SetRotMatrix(*(s32 *)(arg0 + 0x34));
 
     /* res = obj->mat * sc, column by column */
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)sc) : "$12", "$13", "$14" );
+    gte_ldclmv((s32)sc); gte_rtir();
     gte_stclmv((s32)res);
 
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)sc + 2) : "$12", "$13", "$14" );
+    gte_ldclmv((s32)sc + 2); gte_rtir();
     gte_stclmv((s32)res + 2);
 
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)sc + 4) : "$12", "$13", "$14" );
+    gte_ldclmv((s32)sc + 4); gte_rtir();
     gte_stclmv((s32)res + 4);
 
     *(s32 *)((u8 *)res + 0x14) = *(s32 *)(*(s32 *)(arg0 + 0x34) + 0x14);
@@ -9576,54 +9529,27 @@ void func_8001E094(s32 arg0)
     *(s32 *)((u8 *)res + 0x1C) = *(s32 *)(*(s32 *)(arg0 + 0x34) + 0x1C);
 
     /* gte_SetRotMatrix(&D_800AF648) */
-    __asm__ __volatile__(                
-        "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
-        "ctc2 $12, $0\n" "ctc2 $13, $1\n"
-        "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" :  : "r"(g) : "$12", "$13", "$14" );
+    gte_SetRotMatrix(g);
 
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)res) : "$12", "$13", "$14" );
+    gte_ldclmv((s32)res); gte_rtir();
     gte_stclmv((s32)res);
 
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)res + 2) : "$12", "$13", "$14" );
+    gte_ldclmv((s32)res + 2); gte_rtir();
     gte_stclmv((s32)res + 2);
 
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)res + 4) : "$12", "$13", "$14" );
+    gte_ldclmv((s32)res + 4); gte_rtir();
     gte_stclmv((s32)res + 4);
 
     /* gte_SetTransMatrix(&D_800AF648) */
-    __asm__ __volatile__(                
-        "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
-        "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
-        "ctc2 $13, $6\n" "ctc2 $14, $7\n" :  : "r"(g) : "$12", "$13", "$14" );
+    gte_SetTransMatrix(g);
 
     t = (s32)res + 0x14;
-    __asm__ __volatile__(                
-        "lhu $13, 4(%0)\n" "lhu $12, 0(%0)\n"
-        "sll $13, $13, 16\n" "or $12, $12, $13\n"
-        "mtc2 $12, $0\n" "lwc2 $1, 8(%0)\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 0, 0, 0\n" :  : "r"(t) : "$12", "$13" );
+    gte_ldlv0(t); gte_rtv0tr();
     gte_stlvnl(t);
 
     /* gte_SetRotMatrix(res) ; gte_SetTransMatrix(res) */
-    __asm__ __volatile__(                
-        "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
-        "ctc2 $12, $0\n" "ctc2 $13, $1\n"
-        "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" :  : "r"((s32)res) : "$12", "$13", "$14" );
-    __asm__ __volatile__(
-        "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
-        "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
-        "ctc2 $13, $6\n" "ctc2 $14, $7\n" :  : "r"((s32)res) : "$12", "$13", "$14" );
+    gte_SetRotMatrix((s32)res);
+    gte_SetTransMatrix((s32)res);
 }
 
 extern void func_8004978C(s16 *a0, void *a1);

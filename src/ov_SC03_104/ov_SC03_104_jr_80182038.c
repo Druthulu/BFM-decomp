@@ -3400,52 +3400,32 @@ void func_80182D18(s32 param_1)
 
         /* gte_SetRotMatrix(M) */
         M = *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x34;
-        __asm__ __volatile__(                
-            "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
-            "ctc2 $12, $0\n" "ctc2 $13, $1\n"
-            "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-            "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" :  : "r"(M) : "$12", "$13", "$14" );
+        gte_SetRotMatrix(M);
 
         /* column 0 */
-        __asm__ __volatile__(                
-            "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-            "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"(mp) : "$12", "$13", "$14" );
+        gte_ldclmv(mp); gte_rtir();
         dp = (s32)&m2;
         gte_stclmv(dp);
 
         /* column 1 */
         c = (s32)&m1 + 2;
-        __asm__ __volatile__(                
-            "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-            "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"(c) : "$12", "$13", "$14" );
+        gte_ldclmv(c); gte_rtir();
         c = (s32)&m2 + 2;
         gte_stclmv(c);
 
         /* column 2 */
         c = (s32)&m1 + 4;
-        __asm__ __volatile__(                
-            "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-            "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"(c) : "$12", "$13", "$14" );
+        gte_ldclmv(c); gte_rtir();
         c = (s32)&m2 + 4;
         gte_stclmv(c);
 
         /* gte_SetTransMatrix(M) */
         M = *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x34;
-        __asm__ __volatile__(                
-            "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
-            "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
-            "ctc2 $13, $6\n" "ctc2 $14, $7\n" :  : "r"(M) : "$12", "$13", "$14" );
+        gte_SetTransMatrix(M);
 
         /* gte_ldlv0(m1.t) ; gte_rt() ; gte_stlvnl(m2.t) */
         c = (s32)&m1 + 0x14;
-        __asm__ __volatile__(                
-            "lhu $13, 4(%0)\n" "lhu $12, 0(%0)\n"
-            "sll $13, $13, 16\n" "or $12, $12, $13\n"
-            "mtc2 $12, $0\n" "lwc2 $1, 8(%0)\n"
-            "nop\n" "nop\n" "mvmva 1, 0, 0, 0, 0\n" :  : "r"(c) : "$12", "$13" );
+        gte_ldlv0(c); gte_rtv0tr();
         c = (s32)&m2 + 0x14;
         gte_stlvnl(c);
 

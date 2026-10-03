@@ -41,43 +41,23 @@ void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3)
     /* --- GTE tail --- */
     /* gte_SetRotMatrix(M) */
     M = *(s32 *)(param_1 + 0x20) + 0x34;
-    __asm__ __volatile__(                
-        "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
-        "ctc2 $12, $0\n" "ctc2 $13, $1\n"
-        "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" :  : "r"(M) : "$12", "$13", "$14" );
+    gte_SetRotMatrix(M);
     /* column 0: param_3 in place */
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)param_3) : "$12", "$13", "$14" );
+    gte_ldclmv((s32)param_3); gte_rtir();
     gte_stclmv((s32)param_3);
     /* column 1: param_3 + 2 */
     c = (s32)param_3 + 2;
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"(c) : "$12", "$13", "$14" );
+    gte_ldclmv(c); gte_rtir();
     gte_stclmv(c);
     /* column 2: param_3 + 4 */
     c = (s32)param_3 + 4;
-    __asm__ __volatile__(                
-        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
-        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"(c) : "$12", "$13", "$14" );
+    gte_ldclmv(c); gte_rtir();
     gte_stclmv(c);
     /* gte_SetTransMatrix(M) — M reloaded */
     M = *(s32 *)(param_1 + 0x20) + 0x34;
-    __asm__ __volatile__(                
-        "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
-        "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
-        "ctc2 $13, $6\n" "ctc2 $14, $7\n" :  : "r"(M) : "$12", "$13", "$14" );
+    gte_SetTransMatrix(M);
     /* gte_ldlv0(param_3->t) ; gte_rt() ; gte_stlvnl(param_3->t) */
     c = (s32)param_3 + 0x14;
-    __asm__ __volatile__(                
-        "lhu $13, 4(%0)\n" "lhu $12, 0(%0)\n"
-        "sll $13, $13, 16\n" "or $12, $12, $13\n"
-        "mtc2 $12, $0\n" "lwc2 $1, 8(%0)\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 0, 0, 0\n" :  : "r"(c) : "$12", "$13" );
+    gte_ldlv0(c); gte_rtv0tr();
     gte_stlvnl(c);
 }
