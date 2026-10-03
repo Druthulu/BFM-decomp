@@ -1,0 +1,11 @@
+# FIX-rewrite — drop >100MB blobs from unpushed range (D1, developer-approved 2026-10-02)
+- Before: HEAD 09847283bd; origin/main..main = 220 commits; >100MB blobs: 109x `.run/P37/restruct/ledger.jsonl`, 1x `.run/P39/census/cache/walk_cache.json`, 1x `.run/P39/census/sites.jsonl`. Nothing else >100MB.
+- Backup: `.run/keep/p37-ledger.jsonl` (295916518 B, sha256 3e0e5cc5…12b8 == working); `.run/keep/p39-census/` (1505576713 B) + `.run/keep/census.sha`.
+- Stashed dirty `phase-ends/current/discussions/INDEX.md` (filter-branch needs clean tree); popped after. Untracked `.claude/agents/expert-fable-5m.md` untouched.
+- Rewrite: `FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --index-filter 'git rm -r -q --cached --ignore-unmatch .run/P37/restruct/ledger.jsonl .run/P39/census' -- origin/main..main` via run.sh bg (`.run/logs/filter-rewrite.log`), exit 0, ~12 s, 220/220 rewritten.
+- After: HEAD fac631b1d7 (pre-fix-commit); origin/main..main = 220; blobs >100MB in range = 0; largest blob now `.run/P36/delever/ledger.jsonl` 80972738 B (open item D1: untrack later).
+- Tree check: `git diff --name-only old new` = only `.run/P37/restruct/ledger.jsonl` (census was not in old HEAD tree); HEAD:src 5c9132a952 and HEAD:docs e230d86dd8 identical before/after.
+- Restore: ledger copied back, sha256 identical; census on disk unchanged (sha list diff empty). Both `git check-ignore`d.
+- `refs/original/refs/heads/main` deleted (old main still in reflog; no gc run).
+- Keep-out: `tools/restruct_cycle.sh:100` force-add replaced by DISABLED comment; `bash -n` ok; grep found no other `git add -f .run` in tools/.
+- Push: developer runs `git push`.
