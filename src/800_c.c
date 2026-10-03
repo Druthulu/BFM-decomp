@@ -2601,7 +2601,7 @@ void func_800384A8(s32 arg0) {
         p += 0x1A;
     }
     D_800A4F1D = 0;
-    { *(s32 *)entry = *(s32 *)(entry + 4); }
+    *(s32 *)entry = *(s32 *)(entry + 4);
 }
 
 void func_800385C0(s32 a0)

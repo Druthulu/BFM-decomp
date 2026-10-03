@@ -10731,7 +10731,7 @@ s32 func_80188A30(s32 a0) {
         if (CAST_ALIAS(s16, (s32)a0, 0x106) == 0) {
             u16 cnt = D_801F161E;
             ((Unkstruct_800B5CB8 *)a0)->unk106 = 1;
-            { D_801F161E = cnt + 1; }
+            D_801F161E = cnt + 1;
         }
     }
 }

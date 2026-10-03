@@ -5015,7 +5015,7 @@ s32 *func_8017FC5C(s32 *a0, s32 a1, s32 a2) {
     *(s16 *)(a1 + 0x100) = t;
     *(s16 *)((s32)sp10 + 0xA) = p[2] + CAST_SIGN(u16, a2, 4);
     fV((s32)&sp20, a1 + 4, (s32)sp10);
-    { *a0 = sp20; }
+    *a0 = sp20;
     return a0;
 }
 

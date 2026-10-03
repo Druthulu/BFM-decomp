@@ -8517,7 +8517,7 @@ void func_80185FB0(s32 param_1) {
     D_8011DB0C = 0;
     ((Unkstruct_80126B58 *)param_1)->unkDE = 3;
     func_80146E90((s32 *)param_1, 0x20);
-    { func_80146CA0((void *)param_1); }
+    func_80146CA0((void *)param_1);
 }
 
 
