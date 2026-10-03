@@ -37,7 +37,7 @@ void func_8015126C(u16 *p)
     extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
     u8  *r = D_80078E78;     /* $s2 */
     s32 *q = &D_800AE6A8;   /* $s1 */
-    register s32 sh16 __asm__("$2");                 /* $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 sh16 __asm__("$2");                 /* $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_hdr1)
     u16 uVar3;
     s32 angle;
     s32 v;

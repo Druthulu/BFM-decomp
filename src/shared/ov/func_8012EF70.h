@@ -3,10 +3,10 @@
 extern s32 func_8012EFB8();  // K&R: 1 of 2 args (P37 unalias t4_ua1)
 void func_8012EF70(s32 a0, s32 a1) {
     s32 sp10;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_hdr1)
     func_8012EFB8(a0);
     {
-        register s32 *p __asm__("$3") = &sp10;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+        register s32 *p __asm__("$3") = &sp10;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_hdr1)
         gte_stszotz(p);
     }
     v1 = sp10;

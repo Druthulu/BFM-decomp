@@ -1,0 +1,13 @@
+19:35:55 apply t8_hdr1: 15 files, control src/shared/ov/func_8012EC04.h IDENTICAL (0.23 s), calibration 586729bb45, census 85609721614f5921
+19:36:17   src/shared/ov/func_8012EF34.h:func_8012EF34 A=DIFFERS B: removed 0 needed 2 compiles 3
+19:36:22   src/shared/ov/func_8012EF70.h:func_8012EF70 A=DIFFERS B: removed 0 needed 2 compiles 3
+19:36:26   src/shared/ov/func_80131CF4.h:func_80131CF4 A=DIFFERS B: removed 0 needed 1 compiles 2
+19:36:38   src/shared/ov/func_80144B9C.h:func_80144B9C A=DIFFERS B: removed 0 needed 1 compiles 2
+19:36:39   src/shared/ov/func_80146AFC.h:func_80146AFC A=DIFFERS B: removed 0 needed 1 compiles 2
+19:36:45   src/shared/ov/func_8015126C.h:func_8015126C A=DIFFERS B: removed 0 needed 1 compiles 2
+19:36:52   src/shared/ov/func_80166054.h:func_80166054 A=DIFFERS B: removed 0 needed 5 compiles 6
+19:36:57   src/shared/ov/func_80176D94.h:func_80176D94 A=DIFFERS B: removed 0 needed 1 compiles 2
+19:37:00   src/shared/ov/func_801770E0.h:func_801770E0 A=DIFFERS B: removed 0 needed 1 compiles 2
+19:37:03   src/shared/ov/func_8013CF68__94315c4c.h:func_8013CF68 A=DIFFERS B: removed 0 needed 1 compiles 2
+19:37:04   src/shared/ov/func_8017C730__tc0f85567.h:func_8017C730 A=DIFFERS B: removed 0 needed 1 compiles 2
+19:37:04 delever: batch t8_hdr1 — 15 files (headers; 15 drawable) · 15 bodies: 2 lever-free, 13 residue, 0 refused · sites removed 22 / needed 33 / refused 0 / deferred 0 · replays 2 (0 disagreed) · compiles 1739 in 69 s wall · final 15/15 identical · written 14 files

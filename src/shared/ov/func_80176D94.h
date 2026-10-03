@@ -29,7 +29,7 @@ u32 *func_80176D94(void *param_1, u32 param_2, s16 param_3_)
     puVar3 = (u32 *)func_801777BC(u5, sVar1, (s32)((param_2 + 0x38) << 16) >> 16, iVar6, c3, cad, cff);
     dl = ((Unkstruct_8011F82C *)&D_8011F82C)->h;
     { u32 v0m = ((u32)(puVar3 - 5) & 0xffffff) | 0x3000000;
-      register u32 c6000 __asm__("$6") = 0x6000dcff;  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B headers1)
+      register u32 c6000 __asm__("$6") = 0x6000dcff;  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_hdr1)
       puVar3[1] = c6000;
       *puVar3 = v0m; }
     uVar4 = ((iVar6 + 10) << 16) | ((param_2 + 1) & 0xffff);

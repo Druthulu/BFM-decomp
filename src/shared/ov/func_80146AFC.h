@@ -3,7 +3,7 @@
 s32 func_80146AFC(void *arg0)
 {
     u8 *p;
-    register u8 *q __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
+    register u8 *q __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_hdr1)
     u8 *end;
     p = (u8 *)&D_8011D030;
     end = p + 0xA50;

@@ -1,0 +1,181 @@
+{
+ "label": "t8_hdr1",
+ "generated": "2026-10-02 19:37",
+ "headers": true,
+ "batch": 300,
+ "only": null,
+ "files": 15,
+ "drawable_files": 15,
+ "wall_s": 69.1,
+ "calib": {
+  "head": "586729bb45",
+  "stamp": "588cbf38c6e4"
+ },
+ "bodies": 15,
+ "compiles": 1739,
+ "sites_removed": 22,
+ "sites_needed": 33,
+ "sites_refused": 0,
+ "sites_deferred": 0,
+ "lever_free": 2,
+ "residue": 13,
+ "refused_bodies": 0,
+ "replays": 2,
+ "disagreed": 0,
+ "written": 14,
+ "seconds": 563.7380921840668,
+ "final_ok": 15,
+ "final_bad": 0,
+ "per_file": [
+  {
+   "tu": "src/shared/ov/func_8012EC04.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 6,
+   "needed": 0,
+   "refused": 0,
+   "compiles": 283
+  },
+  {
+   "tu": "src/shared/ov/func_8012EF34.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 2,
+   "refused": 0,
+   "compiles": 144
+  },
+  {
+   "tu": "src/shared/ov/func_8012EF70.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 2,
+   "refused": 0,
+   "compiles": 144
+  },
+  {
+   "tu": "src/shared/ov/func_80131CF4.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 1,
+   "refused": 0,
+   "compiles": 143
+  },
+  {
+   "tu": "src/shared/ov/func_80132784.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 12,
+   "needed": 0,
+   "refused": 0,
+   "compiles": 283
+  },
+  {
+   "tu": "src/shared/ov/func_80144B9C.h",
+   "bodies": 1,
+   "final": "UNCHANGED",
+   "written": false,
+   "removed": 0,
+   "needed": 1,
+   "refused": 0,
+   "compiles": 2
+  },
+  {
+   "tu": "src/shared/ov/func_80146AFC.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 1,
+   "refused": 0,
+   "compiles": 143
+  },
+  {
+   "tu": "src/shared/ov/func_8015126C.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 1,
+   "refused": 0,
+   "compiles": 143
+  },
+  {
+   "tu": "src/shared/ov/func_80166054.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 5,
+   "refused": 0,
+   "compiles": 147
+  },
+  {
+   "tu": "src/shared/ov/func_80176D94.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 1,
+   "refused": 0,
+   "compiles": 143
+  },
+  {
+   "tu": "src/shared/ov/func_801770E0.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 1,
+   "refused": 0,
+   "compiles": 143
+  },
+  {
+   "tu": "src/shared/ov/func_8013B274__28562738.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 2,
+   "needed": 8,
+   "refused": 0,
+   "compiles": 7
+  },
+  {
+   "tu": "src/shared/ov/func_8013CF68__94315c4c.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 1,
+   "refused": 0,
+   "compiles": 5
+  },
+  {
+   "tu": "src/shared/ov/func_8013B274__9e44db0b.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 2,
+   "needed": 8,
+   "refused": 0,
+   "compiles": 5
+  },
+  {
+   "tu": "src/shared/ov/func_8017C730__tc0f85567.h",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 1,
+   "refused": 0,
+   "compiles": 4
+  }
+ ]
+}
