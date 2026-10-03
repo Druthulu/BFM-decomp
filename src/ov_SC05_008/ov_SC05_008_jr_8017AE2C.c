@@ -3768,13 +3768,12 @@ void func_8017D7B4(void) {
     func_8012A018((s32)func_8017D8C4, 0);
     func_8012A094((s32)D_80126948);
     D_8012697C = D_801864AC[idx];
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
     (D_80126980[0]) = D_801864B8[idx];
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
     t = D_801864C4[idx];
     D_801269EA = 0;
     D_801269E8 = t;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
     D_801A1274 = D_801864D0[idx];
     func_8017D8C4(D_80126948);
     D_801151D4 = (s32)D_80126948;
@@ -4172,9 +4171,9 @@ void func_8017E464(s32 param_1) {
 
     s32 p;
     s32 *q;
-    register s32 *flag __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 aa __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 nn __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 *flag __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 aa __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 nn __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 pp;
     s32 s0;
     s32 t;
@@ -4187,8 +4186,8 @@ void func_8017E464(s32 param_1) {
        both halves reusing $2/$3 -- fixes schedule and allocation together. */
     u16 b0;
     u16 e0;
-    register u16 c1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
-    register u16 c2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus7)
+    register u16 c1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u16 c2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u16 buf[4];
     u16 d[4];
 
@@ -4264,7 +4263,7 @@ void func_8017E464(s32 param_1) {
             t = rand();
             aa = (s32)(q + 1);
             nn = (s32)buf;
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
             s0 &= 0x1F;
             s0 <<= 2;
             t = (t & 0x1F) - 0x50;
@@ -6812,7 +6811,7 @@ void func_80182560(s32 param_1)
         diff -= *(s16 *)((s32)s0 + 0x2E);
         t = diff << 9;
     }
-    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P37 S+A t3_S1)
+    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
     {
         s32 x2 = *(s16 *)((s32)s0 + 0x2E);
         *(u16 *)((s32)s0 + 0xE) += (x2 << 6);

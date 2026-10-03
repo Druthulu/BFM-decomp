@@ -3881,7 +3881,7 @@ void func_8017CE58(s32 arg0)
     u32 w, extra, mask;
     u32 wx, wy, wz;
     u32 wlo;
-    register u32 wzh __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+    register u32 wzh __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 xa32, xb32, t32;
     s32 xmn1, xmx1, xmn2, xmx2;
     s32 mnc, mxc;
@@ -4049,14 +4049,14 @@ void func_8017CE58(s32 arg0)
                                              * a floor-priority tie (562/561 -> 249==249) so their allocno
                                              * order keeps $s5/$s6 (the first asm alone flips them). Both sit
                                              * between two volatile asms, so no schedule freedom is lost. */
-                                            __asm__ __volatile__("" : : "r"(my));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
-                                            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
+                                            __asm__ __volatile__("" : : "r"(my));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+                                            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
                                             {
                                             s32 za;
                                             u32 *otp;
-                                            register u32 *tp __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus7)
-                                            register u32 cc __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
-                                            register s32 fade __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+                                            register u32 *tp __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
+                                            register u32 cc __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+                                            register s32 fade __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
                                             if (gsz0 > gsz1) {
                                                 za = gsz0;
                                                 if (za < gsz2) za = gsz2;
@@ -4071,7 +4071,7 @@ void func_8017CE58(s32 arg0)
                                             cc = fade << 8;
                                             cc = fade | cc;
                                             cc = cc | (fade << 16);
-                                            __asm__ __volatile__("" : : "r"(fade));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
+                                            __asm__ __volatile__("" : : "r"(fade));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
                                             ((PolyFT3 *)pkt)->rgbc = (tp[0] & 0xFF000000) | cc;
                                             ((PolyFT3 *)pkt)->uvc0 = tp[1];
                                             ((PolyFT3 *)pkt)->uvp1 = tp[2];
@@ -4120,10 +4120,10 @@ void func_8017CE58(s32 arg0)
                                             if (my >= -0x6E && mny < 0x6F) {
                                                 s32 za, zb;
                                                 u32 *otp;
-                                                register u32 *tp __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus7)
-                                                register u32 cc __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+                                                register u32 *tp __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
+                                                register u32 cc __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
                                                 u32 uvw;
-                                                register s32 fade __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+                                                register s32 fade __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
                                                 zb = gsz2;
                                                 if (zb < gsz3) zb = gsz3;
                                                 za = gsz0;
@@ -4139,7 +4139,7 @@ void func_8017CE58(s32 arg0)
                                                 cc = fade << 8;
                                                 cc = fade | cc;
                                                 cc = cc | (fade << 16);
-                                                __asm__ __volatile__("" : : "r"(fade));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
+                                                __asm__ __volatile__("" : : "r"(fade));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
                                                 ((PolyFT4 *)pkt)->rgbc = (tp[0] & 0xFF000000) | cc;
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -4736,7 +4736,7 @@ void func_8017E780(void *arg0) {
         {
             s32 t;
             t = ((Unkstruct_80126B58 *)p)->unk20;
-            __asm__ __volatile__("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+            __asm__ __volatile__("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
             func_8001D0E8(t, 0x140, 0xF0);
         }
         *(u8 *)(p + 0x75) = 0;

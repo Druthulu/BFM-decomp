@@ -4333,7 +4333,7 @@ void func_80180C04(void *arg0)
     extern Stride8_u16_80182868_80180970 D_801A4D0C[];
     extern Stride8_s16_80182868_80180970 D_801A4D12[];
 
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     u8 *base;
     void *s0;

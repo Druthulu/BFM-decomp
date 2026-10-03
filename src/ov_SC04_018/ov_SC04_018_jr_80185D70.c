@@ -3353,7 +3353,7 @@ s32 func_801862A8(void *a0) {
                     in[2] = ((Unkstruct_800B5CB8 *)p)->unkE;
                     func_8012F2E8((s32)a0, (s32)in, (s32)out);
                     if (func_8012CB64((s32)out, -0xA0, 0x80, -0xC0, 0x80) != 0) {
-                        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+                        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
                         return 1;
                     }
                 }

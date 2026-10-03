@@ -2924,7 +2924,7 @@ void func_8017D81C(void *a0)
     u8 *p;
     s32 x;
     s32 y;
-    register s32 z asm("a0");  // !FAKE: pin a0 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 z asm("a0");  // !FAKE: pin a0 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     v = func_8012C1B8();
     ((Unkstruct_800B5CB8 *)a0)->unk20 = v;
@@ -2938,8 +2938,8 @@ void func_8017D81C(void *a0)
     x = -0x680;
     y = -0xE80;
     z = -0x350;
-    __asm__ __volatile__("" : "=r"(x) : "0"(x));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-    __asm__ __volatile__("" : "=r"(y), "=r"(z) : "0"(y), "1"(z));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B tus10)
+    __asm__ __volatile__("" : "=r"(x) : "0"(x));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ __volatile__("" : "=r"(y), "=r"(z) : "0"(y), "1"(z));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B t8_tus2)
     D_80192CF0 = 0x68;
     D_80192CF2 = 0xB;
     D_80192CF4 = 0x36A;
@@ -3191,8 +3191,8 @@ s32 func_8017DC10(s32 *a)
     s32 cull;
     s32 xa, xb, t;
     s32 mx, mn, my, mny;
-    register s32 idx __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
-    register u32 *otp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 idx __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u32 *otp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u32 w;
     u32 msk;
     u32 ot;
@@ -3232,7 +3232,7 @@ s32 func_8017DC10(s32 *a)
         v[0].vy = v[1].vy = z;
         v[2].vy = v[3].vy = *(u16 *)((s32)a + 0x8);
         func_8017E410(mode1, buf);
-        __asm__ __volatile__ ("" :: "r"((a[2] - z) * buf[5]));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__ __volatile__ ("" :: "r"((a[2] - z) * buf[5]));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
 
         gte_ldv3c(&v[0]);
         gte_rtpt();

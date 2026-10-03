@@ -3261,7 +3261,7 @@ void func_80183ACC(s32 a0)
     switch (state) {
     case 0:
         if (((Unkstruct_800B5CB8 *)s0)->unk98 == 0) {
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
             ((Unkstruct_800B5CB8 *)s0)->unk34 = state + 1;
             func_8002D4C8(0x948, 0);
             func_8012C658(0x383, 0, s0);

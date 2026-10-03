@@ -4687,7 +4687,7 @@ extern void func_8017EC90(s32 a0, s32 a1);
 
 s32 func_8017E83C(s32 arg0) {
     extern u8 D_801202A0[];
-    register s32 ret __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 ret __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 v;
     u8 *p;
     s32 i;
@@ -6863,7 +6863,7 @@ void func_8018178C(s32 a0)
         if (func_8012CBCC(a0) != 0) {
             ((Unkstruct_800B5CB8 *)a0)->unk98 = 1;
             {
-                register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+                register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
                 t = CAST_SIGN(u16, a0, 0x76) - 0xA;
                 ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x8810;
                 ((Unkstruct_800B5CB8 *)a0)->unk76 = t;

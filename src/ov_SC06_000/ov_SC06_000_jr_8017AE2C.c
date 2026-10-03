@@ -5299,7 +5299,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
         my = wy >> 16;
         wz = part->zz;
         wq = wz >> 16;
-        __asm__("" : "=r"(wq) : "0"(wq), "r"(wz));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung B tus7)
+        __asm__("" : "=r"(wq) : "0"(wq), "r"(wz));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung B t8_tus2)
         box[0].vx = mn; box[0].vy = mny; box[0].vz = wz;
         box[1].vx = mx; box[1].vy = mny; box[1].vz = wz;
         box[2].vx = mn; box[2].vy = mny; box[2].vz = wq;
@@ -7865,7 +7865,7 @@ void func_801835B0(void *a0, s32 a1)
 
     end = a1 + 8;
     do {
-        __asm__("");__asm__("");__asm__("");__asm__("");__asm__("");__asm__("");__asm__("");  // !FAKE: barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__("");__asm__("");__asm__("");__asm__("");__asm__("");__asm__("");__asm__("");  // !FAKE: barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
         ((Unkstruct_800B5CB8 *)a0)->unkFC = *(u16 *)(a1 + 2);
         ret = func_8012C658(0x268, *(s16 *)(a1 + 0), (s32)a0);
         v1 = ((Unkstruct_800B5CB8 *)a0)->unk70;

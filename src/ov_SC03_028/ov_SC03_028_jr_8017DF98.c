@@ -4902,7 +4902,7 @@ void func_80181EBC(s32 a0)
     s32 type;
     s32 ang;
     s32 e;
-    register s32 pv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 pv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 id;
     s32 r;
 
@@ -4919,7 +4919,7 @@ void func_80181EBC(s32 a0)
             {
                 u8 *q = &D_800AF648;
                 func_8004914C(q);
-                __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
+                __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
             }
             func_800491AC(&D_800AF648);
             do {
@@ -4944,14 +4944,14 @@ void func_80181EBC(s32 a0)
             pv = ((Unkstruct_800B5CB8 *)a0)->unk20;
             w = ((Unkstruct_800B5CB8 *)pv)->unk12;
             r = w & 0xFFF;
-            __asm__("addu %0, %1, $zero" : "=r"(w) : "r"(r));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__("addu %0, %1, $zero" : "=r"(w) : "r"(r));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2)
             if (r >= 0x801) {
                 r = ratan2(CAST_SIGN(s16, a0, 0xE) - 0x3F0, -0x178 - CAST_SIGN(s16, a0, 6));
             } else {
                 r = ratan2(CAST_SIGN(s16, a0, 0xE) - 0x390, 0x178 - CAST_SIGN(s16, a0, 6));
             }
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = (r - 0x400) & 0xFFF;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
             func_8012B2CC(a0);
             func_8012B1B4(a0, (s32)&D_8018F9CC);
             *(s16 *)(a0 + 0x16) = -0x10;
@@ -5399,8 +5399,8 @@ void func_80182B3C(s32 a0)
     s32 pad;
     s32 p;
     s32 v;
-    register s32 w __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 w __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     (void)&pad;
     p = ((Unkstruct_800B5CB8 *)a0)->unk20;

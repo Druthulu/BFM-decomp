@@ -1007,7 +1007,7 @@ void func_801A143C(s32 a0) {
     s32 i;
     s32 pick;
     s32 obj;
-    register s32 t __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 t __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 r;
 
     if (*(s32 *)(a0 + 0x94) == 4) {
@@ -2301,7 +2301,7 @@ void func_801A31CC(void *arg0) {
         a1 = (u8 *)link;
         link = (s32)(a1 + 0x10);
         *(s32 *)a1 = link;
-        __asm__ __volatile__("" : "=r"(link) : "0"(link));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__ __volatile__("" : "=r"(link) : "0"(link));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         *(s32 *)link = 0;
         ((Unkstruct_800B5CB8 *)arg0)->unk5C = 0xC800;
         ((Unkstruct_800B5CB8 *)arg0)->unkAE = -1;

@@ -3327,7 +3327,7 @@ void func_80183098(s32 param_1) {
      * folds `cam->y` back to %hi/%lo(D_80126B5E+4) and emits a SECOND `la`
      * instead of the target's `lh 0x4($s1)`.  Zero bytes. */
     cam = (Cam183098 *)&D_80126B5E;
-    __asm__("" : "=r"(cam) : "0"(cam));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__("" : "=r"(cam) : "0"(cam));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     CAST_WIDTH(s32, param_1, 0x4) += ((Unkstruct_80126B58 *)param_1)->unk10;
     CAST_WIDTH(s32, param_1, 0x8) += ((Unkstruct_80126B58 *)param_1)->unk14;

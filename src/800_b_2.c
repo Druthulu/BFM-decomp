@@ -3679,7 +3679,7 @@ void func_80030F80(void)
                 } else {
                     idx = *(u16 *)(p + 0xA);
                     dsp = sv[idx];
-                    __asm__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+                    __asm__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
                     switch (dsp) {
                     case 3:
                         mask = tbl[*(u16 *)(p + 0xA)];

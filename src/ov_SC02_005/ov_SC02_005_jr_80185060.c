@@ -117,9 +117,9 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_801853CC(s32 a0);
 
 void func_80185214(s32 arg0) {
-    register s32 self __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 state __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 idx __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 self __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 state __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 idx __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 acc;
     s32 lo;
     s32 hi;
@@ -164,7 +164,7 @@ void func_80185214(s32 arg0) {
         p = self;
         acc = lo - hi;
         acc = (acc << 12) + ((CAST_SIGN(u16, p, 0x70) & 7) << 16) + 0x40000;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
         CAST_WIDTH(s32, p, 0x10) = acc;
 
         tgt = CAST_SIGN(void *, p, 0xCC);

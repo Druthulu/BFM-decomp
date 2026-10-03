@@ -3718,7 +3718,7 @@ void func_8018219C(s32 arg0)
     s32 owner;
     s32 i;
     s32 obj;
-    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u16 a;
     u16 b;
 

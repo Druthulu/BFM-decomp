@@ -2996,7 +2996,7 @@ void func_8017D73C(s32 a0) {
         } while (i < n);
     }
 
-    __asm__ ("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ ("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     i = 0;
     if (n != 0) {
         do {
@@ -3011,7 +3011,7 @@ void func_8017D73C(s32 a0) {
         } while (i < n);
     }
 
-    __asm__ ("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ ("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     i = 0;
     if (n != 0) {
         do {
@@ -5728,9 +5728,9 @@ void func_8018165C(s32 a0) {
         idx = ang / 0x100;
         m = (s16)(idx % 0x10);
         if (ang == 0x100) {
-            RTP_SND(0x95F)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
+            RTP_SND(0x95F)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
         } else if (m == 0) {
-            RTP_SND(0x960)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
+            RTP_SND(0x960)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
         }
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk20 = D_8019ED14[m];
         c = CAST_SIGN(u16, a0, 0x100) - 1;

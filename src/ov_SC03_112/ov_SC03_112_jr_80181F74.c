@@ -2819,7 +2819,7 @@ void func_80181F74(s32 param_1)
         if (((Unkstruct_800B5CB8 *)param_1)->unk1C >= 0x10) {
             goto C78;
         }
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
         goto TAIL;
 
     case 4:

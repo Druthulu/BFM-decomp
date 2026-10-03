@@ -3679,13 +3679,12 @@ void func_8017F8C0(void *a0) {
 
     gte_SetRotTransMatrix(&mtx);
 
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lwc2 $0, 0(%0)\n"
         "lwc2 $1, 4(%0)\n"
         "nop\n"
         "nop\n"
-        "mvmva 1, 0, 0, 0, 0\n"
-        : : "r"(vec0) : "memory");
+        "mvmva 1, 0, 0, 0, 0\n" :  : "r"(vec0) );
 
     gte_stlvnl(s0 + 4);
 
@@ -4509,7 +4508,7 @@ void func_80180BD8(s32 a0)
         v = func_8012B8E4(a0, 6);
         b178arg = D_8018861C;
         {
-            register s32 newval __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus8)
+            register s32 newval __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
             p = (unsigned short *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12);
             newval = *p + v;

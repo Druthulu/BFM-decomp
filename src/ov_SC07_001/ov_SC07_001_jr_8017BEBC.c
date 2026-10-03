@@ -3233,7 +3233,7 @@ void func_8017E4DC(s32 arg0)
         func_8012C51C(rp, arg0);
         rp += 1;
         q += 4;
-        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         i++;
         off += 8;
     }
@@ -3443,7 +3443,7 @@ extern u16 D_801AAD68;
 
 void func_8017EA84(s32 param_1)
 {
-    register s32 state __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 state __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     state = ((Unkstruct_800B5CB8 *)param_1)->unk34;
     switch (state & 0xFFFF) {
@@ -4372,7 +4372,7 @@ s32 func_80180570(void *arg0) {
     SVec_80180570 p0;
     SVec_80180570 p1;
     SVec_80180570 p2;   /* never used — holds the target's 8 spare frame bytes (0x40, not 0x38) */
-    register s32 k __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 k __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u16 *p;
 
     if (D_801AAD60 == 0) {

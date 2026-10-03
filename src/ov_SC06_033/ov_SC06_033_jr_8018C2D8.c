@@ -3140,7 +3140,7 @@ void func_8018C2D8(void *arg)
                  * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
                  * table and it SETS m, emptying the symbol's equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
             }
@@ -3169,7 +3169,7 @@ void func_8018C2D8(void *arg)
                  * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
                  * table and it SETS m, emptying the symbol's equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
             }
@@ -3275,7 +3275,7 @@ void func_8018C2D8(void *arg)
                  * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
                  * table and it SETS m, emptying the symbol's equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
             }
@@ -3303,7 +3303,7 @@ void func_8018C2D8(void *arg)
                  * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
                  * table and it SETS m, emptying the symbol's equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
             }
@@ -3385,9 +3385,9 @@ void func_8018C2D8(void *arg)
                  * ($a0 before $a1), which is what the barrier pins. */
                 s32 ms = (s32)D_801C836C;
                 s32 m1;
-                __asm__ __volatile__("" : "=r"(ms) : "0"(ms));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                __asm__ __volatile__("" : "=r"(ms) : "0"(ms));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 m1 = (s32)out1;
-                __asm__ __volatile__("" : "=r"(m1) : "0"(m1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                __asm__ __volatile__("" : "=r"(m1) : "0"(m1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 RotTransSV((void *)ms, (void *)m1, (void *)&out2);
             }
 
@@ -3440,7 +3440,7 @@ void func_8018C2D8(void *arg)
                  * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
                  * table and it SETS m, emptying the symbol's equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
             }
@@ -3468,7 +3468,7 @@ void func_8018C2D8(void *arg)
                  * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
                  * table and it SETS m, emptying the symbol's equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
             }
@@ -3568,13 +3568,13 @@ void func_8018CD5C(s32 a0) {
         L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
         L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
         /* $a0-pinned scopes: rematerialise &D_800AF648 (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
         { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                         && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                        /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5"); /* |X| */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
+            register s32 av __asm__("$5"); /* |X| */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
             s32 vol;
             sx = (s16)L.sxy[0];
             av = sx;
@@ -3583,7 +3583,7 @@ void func_8018CD5C(s32 a0) {
             }
             vol = ((0xA0 - av) * 0x7F) / 0xA0;
             /* sched1 otherwise hoists the PAN multiply ahead of this one */
-            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
             sx = (sx + 0xA0) / 0x14;
             if (sx == 0x10) {
                 sx = 0xF;

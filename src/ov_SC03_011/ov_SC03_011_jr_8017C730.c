@@ -4443,8 +4443,8 @@ void func_8017F584(s32 a0) {
     extern s32 D_80062BC0;
     volatile s32 spacer;
     s32 this = a0;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
-    register s32 tmp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 tmp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     if ((D_801A2270 & 0xFFFF) != 0) {
         func_8017EB88(this);
@@ -4457,12 +4457,12 @@ void func_8017F584(s32 a0) {
             v0 = *(s16 *)(this + 0x104);
             if (v0 != 0) {
                 tmp = v0;
-                __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
+                __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 v0 = tmp - 1;
             } else {
                 func_80019064(&D_80062BC0);
                 v0 = rand() & 3;
-                __asm__ __volatile__("" : "=r"(v0) : "0"(v0) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
+                __asm__ __volatile__("" : "=r"(v0) : "0"(v0) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 v0 = v0 + 8;
             }
             *(s16 *)(this + 0x104) = v0;

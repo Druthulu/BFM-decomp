@@ -3849,9 +3849,9 @@ void func_8018188C(s32 param_1) {
     V4_88 sp10;
     s16 *s1;
     s32 t;
-    register s32 u __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 u __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 a0;
-    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
+    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     if (func_80148800(&D_80126B58) & 3) {
         *(u8 *)(param_1 + 5) = (*(u8 *)(param_1 + 5) + 1) & 1;
@@ -6143,58 +6143,52 @@ void func_801851A8(s32 param_1)
 
         /* gte_SetRotMatrix(M) */
         M = *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x34;
-        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+        __asm__ __volatile__(                
             "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
             "ctc2 $12, $0\n" "ctc2 $13, $1\n"
             "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-            "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
-            : : "r"(M) : "$12", "$13", "$14", "memory");
+            "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" :  : "r"(M) : "$12", "$13", "$14" );
 
         /* column 0 */
-        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+        __asm__ __volatile__(                
             "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
             "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
-            : : "r"(mp) : "$12", "$13", "$14", "memory");
+            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"(mp) : "$12", "$13", "$14" );
         dp = (s32)&m2;
         gte_stclmv(dp);
 
         /* column 1 */
         c = (s32)&m1 + 2;
-        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+        __asm__ __volatile__(                
             "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
             "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
-            : : "r"(c) : "$12", "$13", "$14", "memory");
+            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"(c) : "$12", "$13", "$14" );
         c = (s32)&m2 + 2;
         gte_stclmv(c);
 
         /* column 2 */
         c = (s32)&m1 + 4;
-        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+        __asm__ __volatile__(                
             "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
             "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
-            : : "r"(c) : "$12", "$13", "$14", "memory");
+            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"(c) : "$12", "$13", "$14" );
         c = (s32)&m2 + 4;
         gte_stclmv(c);
 
         /* gte_SetTransMatrix(M) */
         M = *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x34;
-        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+        __asm__ __volatile__(                
             "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
             "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
-            "ctc2 $13, $6\n" "ctc2 $14, $7\n"
-            : : "r"(M) : "$12", "$13", "$14", "memory");
+            "ctc2 $13, $6\n" "ctc2 $14, $7\n" :  : "r"(M) : "$12", "$13", "$14" );
 
         /* gte_ldlv0(m1.t) ; gte_rt() ; gte_stlvnl(m2.t) */
         c = (s32)&m1 + 0x14;
-        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+        __asm__ __volatile__(                
             "lhu $13, 4(%0)\n" "lhu $12, 0(%0)\n"
             "sll $13, $13, 16\n" "or $12, $12, $13\n"
             "mtc2 $12, $0\n" "lwc2 $1, 8(%0)\n"
-            "nop\n" "nop\n" "mvmva 1, 0, 0, 0, 0\n"
-            : : "r"(c) : "$12", "$13", "memory");
+            "nop\n" "nop\n" "mvmva 1, 0, 0, 0, 0\n" :  : "r"(c) : "$12", "$13" );
         c = (s32)&m2 + 0x14;
         gte_stlvnl(c);
 

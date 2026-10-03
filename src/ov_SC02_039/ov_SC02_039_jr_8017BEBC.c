@@ -3227,14 +3227,14 @@ s32 a0p;
     s32 s2;
     s32 v0;
     s32 v1;
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t3_S28)
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P37 S+A t3_S28)
+    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 a2;
 
     s1 = a0p;
     s0 = 0;
     s2 = (s32)D_8019B538;
-    __asm__ __volatile__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P37 S+A t3_S28)
+    __asm__ __volatile__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     a0 = s0 << 10;
     do {
         v0 = s0 << 1;

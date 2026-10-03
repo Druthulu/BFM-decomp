@@ -3597,7 +3597,7 @@ void func_8017BF14(s32 arg0, s32 lim)
     u8 *vd;
     u32 ot;
     u8 *pkt;
-    register s32 f0 __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 f0 __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 f1, f2, f3;
     s16 x3, z3, y3;
     Prim_SC03_116_8017BF14 *prim;
@@ -3630,7 +3630,7 @@ void func_8017BF14(s32 arg0, s32 lim)
     u8 *base;
     s16 x0, y0, z0, x1, y1, z1, x2, y2, z2;
     s32 a0v, a1v, a2v, a3v;
-    register s32 c1 __asm__("$4"); s32 c0, c2, c3;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 c1 __asm__("$4"); s32 c0, c2, c3;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 d;
     u32 *tp;
     u32 uvw;
@@ -3824,7 +3824,7 @@ void func_8017BF14(s32 arg0, s32 lim)
                                         else if (tmpxy[2].vy < mny) mny = tmpxy[2].vy;
                                         if (my >= -0x6E && mny < 0x6F) {
                                             s32 za, zb;
-                                            __asm__ __volatile__ ("" :: "r" (mny));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
+                                            __asm__ __volatile__ ("" :: "r" (mny));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
                                             if (g.sz0 > g.sz1) { za = g.sz0; if (za < g.sz2) za = g.sz2; }
                                             else { za = g.sz1; if (za < g.sz2) za = g.sz2; }
                                             g.opz = za;
@@ -3881,7 +3881,7 @@ void func_8017BF14(s32 arg0, s32 lim)
                                                 ((PolyGT3 *)pkt)->rgb0 = rgbw;
                                                 rgbw = (c1 | cb) | (c1 << 8) | (c1 << 16);
                                                 ((PolyGT3 *)pkt)->rgb1 = rgbw;
-                                                __asm__ __volatile__ ("" :: "r" (c1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
+                                                __asm__ __volatile__ ("" :: "r" (c1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
                                                 rgbw = (c2 | cb) | (c2 << 8) | (c2 << 16);
                                                 ((PolyGT3 *)pkt)->rgb2 = rgbw;
                                                 ((PolyGT3 *)pkt)->uv0 = tp[1];

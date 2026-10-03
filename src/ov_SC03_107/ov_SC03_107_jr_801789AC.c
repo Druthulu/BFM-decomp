@@ -5685,7 +5685,7 @@ void func_8017BEBC(s32 arg0)
          * SETS the pseudo, emptying the address's equivalence class; non-volatile
          * asm so sched2 may still hoist the arg setup above the sv loads. */
         s32 _pm2 = (s32)&m2;
-        __asm__("" : "=r"(_pm2) : "0"(_pm2));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("" : "=r"(_pm2) : "0"(_pm2));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         lv.vx = 0;
         lv.vy = 0;
         lv.vz = 0;
@@ -5698,8 +5698,8 @@ void func_8017BEBC(s32 arg0)
     {
         s32 _a = (s32)&m2;
         s32 _b = (s32)&m3;
-        __asm__("" : "=r"(_a) : "0"(_a));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("" : "=r"(_b) : "0"(_b));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("" : "=r"(_a) : "0"(_a));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__("" : "=r"(_b) : "0"(_b));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         func_8004974C((void *)_a, (void *)_b);
     }
     ApplyMatrixSV((void *)&m3, (void *)&sv, (void *)&outv);
@@ -5834,8 +5834,8 @@ void func_8017BEBC(s32 arg0)
                                              * int(K/L_mny) -> exact allocno tie -> global.c allocno_compare
                                              * falls through to creation order -> mny (created first) takes
                                              * $a2, which is what the target has. Zero bytes (#APP/#NO_APP). */
-                                            __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-                                            __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+                                            __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+                                            __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
                                             mny = ((XFT3 *)pkt)->y1;
                                         } else {
                                             mny = ((XFT3 *)pkt)->y0;
@@ -5890,8 +5890,8 @@ void func_8017BEBC(s32 arg0)
                                     if (tmpxy[0].vy > tmpxy[1].vy) {
                                         my = tmpxy[0].vy;
                                         /* §47 slider x2 — same tie, the FT4 arm's half of it. */
-                                        __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-                                        __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+                                        __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+                                        __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
                                         mny = tmpxy[1].vy;
                                     } else {
                                         mny = tmpxy[0].vy;

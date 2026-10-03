@@ -3362,8 +3362,8 @@ void func_8017E6F4(s32 a0) {
     s32 ang1, ang2;
     short e;
     s32 tmp;
-    register s32 lo __asm__("$4");   /* pin: splits the CSE temp from the select result */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 vol __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 lo __asm__("$4");   /* pin: splits the CSE temp from the select result */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 vol __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 w;
     s32 v;
     s32 r;

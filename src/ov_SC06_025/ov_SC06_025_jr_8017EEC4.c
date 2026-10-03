@@ -3613,7 +3613,7 @@ s32 func_80180284(void)
     extern u8 D_801889F8[];
     extern u8 D_801A01A4[];
 
-    register void *arg0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register void *arg0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     void *s0;
 
     s0 = arg0;
@@ -4932,8 +4932,8 @@ void func_80181E08(s32 arg0) {
      * plain locals the pointers land in $fp/$s6 instead of $s7/$s6: gcc's
      * allocno_compare ranks `zpush` (3 refs, loop-weighted) above them.  Pinning the
      * two pointers frees $fp for `zpush` and reproduces the target exactly. */
-    register s32 *pp __asm__("$23");   /* &p    */  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 *pf __asm__("$22");   /* &flag */  // !FAKE: pin $22 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 *pp __asm__("$23");   /* &p    */  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 *pf __asm__("$22");   /* &flag */  // !FAKE: pin $22 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 zpush;
 
     func_8012E32C();
@@ -4967,7 +4967,7 @@ void func_80181E08(s32 arg0) {
                             &q->xy0, &q->xy1, &q->xy2, &q->xy3, pp, pf);
         /* Zero-byte re-tie: without it combine folds `move $s1,$v0; move $a0,$s1`
          * into a single `move $a0,$v0` (the target keeps both).  §189-C form. */
-        __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         otz = func_801823D4(otz, -0x1A);
         AddPrim(D_800A651C[*(u16 *)&D_800B9A02].a + otz * 4, q);
         func_8012E28C(otz, zpush);
@@ -5978,9 +5978,9 @@ extern void func_8012E8E0(s32 a0, s32 a1);
 extern u8 D_80189408[];
 
 void func_80183490(s32 arg0) {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 v1;
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 h;
 
     v0 = ((Unkstruct_800B5CB8 *)arg0)->unkDC;

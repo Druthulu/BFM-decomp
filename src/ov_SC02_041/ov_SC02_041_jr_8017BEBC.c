@@ -5492,7 +5492,7 @@ extern s32 func_8018011C(s32 a0, s32 a1, s32 a2);
 
 void func_801808E0(s32 param_1)
 {
-    register s32 d __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 d __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 a1, a2;
 
     if (((s32 (*)(void))func_8012BEE8)() == 1) {

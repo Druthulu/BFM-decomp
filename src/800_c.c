@@ -1758,7 +1758,7 @@ void func_80037144(s32 idx) {
          * find_symbolic_term and the two symbols differ), so without this gcc hoists the
          * D_80065438 load above all the slot stores and permutes the head block.
          * Emits zero instructions. */
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
         D_80076244[i].unk0C = 0;
         D_80076244[i].unk0D = one;
         D_80076244[i].unk04 = idx | 0x2000;

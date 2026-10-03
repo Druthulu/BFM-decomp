@@ -7128,7 +7128,7 @@ void func_801821D4(void *a0)
     s32 hp;
     s32 v0;
     s32 v1;
-    register s32 arg0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 arg0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     void *ptr;
 
     if (func_801847BC(a0, (void *)&D_80191C18) != 0) {

@@ -3115,9 +3115,9 @@ void func_8018D98C(s32 a0) {
         ((void (*)(s32))func_800491AC)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34);
         { void *m = &D_801C836C;
           s32 _v;
-          __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+          __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
           _v = (s32)v18;
-          __asm__ __volatile__("" : "=r"(_v) : "0"(_v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+          __asm__ __volatile__("" : "=r"(_v) : "0"(_v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
           RotTransSV(m, (void *)_v, &flag); }
         col = 0x202080;
         if (D_800B99D8 & 1) {

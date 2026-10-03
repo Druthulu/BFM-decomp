@@ -4550,7 +4550,7 @@ void func_801813B4(s32 a0) {
     }
 
     s1 = 0;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
     if (*(s16 *)&D_801270C0 == 2) {
         return;
     }

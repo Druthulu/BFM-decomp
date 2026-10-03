@@ -5944,14 +5944,14 @@ void func_80180728(s32 a0) {
                `s32 j = i;` keeps the sign-extend alive (it is never dead under
                an `sb`, measured) and cse then commons it with the index's own
                extend, costing the copy and the folded `sra 10` (§241). */
-            __asm__("" : "=r"(j) : "0"(i));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+            __asm__("" : "=r"(j) : "0"(i));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
             v1b = j * 4 + 4;
             /* offset-first spelling: the target is `addu $a0,$v0,$s2`, not
                `addu $a0,$s2,$v0` that `&base[i]` produces. */
             elem = (Str_801C5B00 *)(i * 0x40 + (s32)base);
             /* §34 zero-byte fence: without it sched sinks the address below
                `j * 8 + 8` (target order is v1b, address, v0b). */
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
             v0b = j * 8 + 8;
 
             ((u8 *)elem)[1] = v1b;
@@ -5984,15 +5984,15 @@ void func_80180728(s32 a0) {
     sp20[2] = 0;
     sp20[1] = 0;
     sp20[0] = 0;
-    __asm__("" : "=r"(p0) : "0"(p0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
-    __asm__("" : "=r"(p1) : "0"(p1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+    __asm__("" : "=r"(p0) : "0"(p0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__("" : "=r"(p1) : "0"(p1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     func_800D20C0(p0, p1, 1);
     func_800D23D0(sp28);
 
     t = sp28[1];
     /* §34 fence: sched2 otherwise emits the `0x2($s1)` load first, which flips
        both loads' registers ($a0/$v1) as well as their order. */
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
     v1 = *(u16 *)(a0 + 2);
     *(u16 *)(a0 + 0xDC) = 0;
     *(u16 *)(a0 + 0x84) = 8;
@@ -6234,8 +6234,8 @@ void func_80180D54(s32 param_1) {
     sp10[0] = 0;
     p0 = sp10;
     p1 = sp10 + 4;
-    __asm__("" : "=r"(p0) : "0"(p0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
-    __asm__("" : "=r"(p1) : "0"(p1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+    __asm__("" : "=r"(p0) : "0"(p0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__("" : "=r"(p1) : "0"(p1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     func_800D20C0(p0, p1, 1);
     func_800D23D0(sp10 + 4);
     cnt = *(s32 *)(param_1 + 0x1C);
@@ -6393,7 +6393,7 @@ void func_801810E4(void *a0) {
     s16 c;
     /* §136d-1 / RC-12: the `$0`-add opaque copy — keeps `y` a distinct pseudo
        from the temp cse would otherwise canonicalise it onto. */
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     t = D_80127190 - 0x128;
     y = t + zr;
@@ -6441,7 +6441,7 @@ void func_801810E4(void *a0) {
     ((Unkstruct_800B5CB8 *)a0)->unk1C = m;
     /* §5a barrier: without it both sched1 and sched2 sink this store below the
        three &v/&v2 address insns (byte-attributed with -fno-schedule-insns*). */
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     CAST_WIDTH(s32, (u8 *)a0, 0x18) = v.vz << 9;
     func_800D20C0(&v, &v2, 1);
@@ -7066,7 +7066,7 @@ void func_801820AC(s32 arg0) {
     u16 buf[3];
     s32 t, yaw, sn, cs, base, len, rot, sum, ang, d, q;
     s16 mode;
-    register s32 am __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 am __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     d = D_8018A2AC;
     sum = CAST_SIGN(u16, arg0, 0xFC) + d;

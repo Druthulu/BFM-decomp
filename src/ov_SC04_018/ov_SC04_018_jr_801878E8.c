@@ -3711,7 +3711,7 @@ void func_80188778(void) {
     s32 *ot;
     s32 n;      /* lever 2 */
     s32 cnt;
-    register s32 zr __asm__("$0");     /* RC-12 opaque-copy source */  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 zr __asm__("$0");     /* RC-12 opaque-copy source */  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s16 i;
     volatile u16 *pbh;
 
@@ -3745,7 +3745,7 @@ void func_80188778(void) {
         cnt = n;
         do {
             if (D_80115158[i].h != 0) {
-                __asm__("");           /* lever 5 */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+                __asm__("");           /* lever 5 */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ot = ((s32 * (*)(s32 *, Panel_S40_8018B238_80188778 *, s16))func_801889B8)(ot, w, i);
             }
             i++;
@@ -3762,7 +3762,7 @@ void func_80188778(void) {
         ((PTag_S40_8018B238_80188778 *)(D_800AE7BC[*pbh].ot + 2))->addr;
     ((PTag_S40_8018B238_80188778 *)(D_800AE7BC[*pbh].ot + 2))->addr = (u32)ot;
     ot += 10;
-    __asm__ __volatile__("" ::: "memory");   /* lever 6 */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" ::: "memory");   /* lever 6 */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
     D_801151D0 = (s32)ot;
 }
 

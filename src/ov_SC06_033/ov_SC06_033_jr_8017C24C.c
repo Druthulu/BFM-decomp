@@ -3281,7 +3281,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8017DFE8(s32 arg0, s32 arg1, s32 arg2);
 
 void func_8017DF44(s32 a0) {
-    register s32 col asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 col asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 saved;
     s32 ang;
 
@@ -4778,9 +4778,9 @@ void func_8017FEF0(s32 a0) {
         idx = ang / 0x100;
         m = (s16)(idx % 0x10);
         if (ang == 0x100) {
-            RTP_SND(0x95F)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
+            RTP_SND(0x95F)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
         } else if (m == 0) {
-            RTP_SND(0x960)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B tus9)
+            RTP_SND(0x960)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
         }
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk20 = D_801A7B58[m];
         c = CAST_SIGN(u16, a0, 0x100) - 1;

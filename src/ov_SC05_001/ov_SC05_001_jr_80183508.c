@@ -3313,7 +3313,7 @@ void func_80183C9C(s32 param_1)
              * This whole arm is byte-identical to case 1's counter tail; without
              * this line find_cross_jump merges the two and the function comes out
              * 7 instructions short.  Emits no machine code.  See the header. */
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
             goto TAIL;
         }
         goto HITSTUN;

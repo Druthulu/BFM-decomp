@@ -2988,19 +2988,19 @@ void func_8017DC80(void)
 
     u8 *r;
     u8 *arg;
-    register u8 *c  __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus10)
+    register u8 *c  __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u8 *va;
-    register u8 *vb __asm__("$22");  // !FAKE: pin $22 — NEEDED DIFFERS (P36 rung B tus10)
+    register u8 *vb __asm__("$22");  // !FAKE: pin $22 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u32 ot;
     s32 n;
-    register u32 otz __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 otz __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u32 mlo;   /* 0x00FFFFFF — P_TAG addr mask  */
-    register u32 mhi __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 mhi __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     u32 *otp;
     PRIM_8017DC80 *poly;
-    register u8 *q __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    register u32 qt __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
+    register u8 *q __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u32 qt __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u32 ov;
     u32 tp;
     u32 w;
@@ -3011,7 +3011,7 @@ void func_8017DC80(void)
     u32 cc;
 
     arg = &D_800AF648;
-    __asm__("" : "=r"(arg) : "0"(arg));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__("" : "=r"(arg) : "0"(arg));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     r  = (u8 *)&D_8019B7B8;
     mlo = 0xFFFFFF;
     mhi = 0xFF000000;
@@ -3108,7 +3108,7 @@ void func_8017DC80(void)
                         ov = *otp;
                         *otp = (ov & mhi) | ((u32)poly & mlo);
 #line 900 "p.c"
-                        __asm__ ("" : "=r"(n), "=r"(otz) : "0"(n), "1"(otz));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B tus10)
+                        __asm__ ("" : "=r"(n), "=r"(otz) : "0"(n), "1"(otz));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B t8_tus2)
 #line 901 "p.c"
                         if (n < 4) {
                             q = (u8 *)func_80010A08(8);
@@ -3179,7 +3179,7 @@ void func_8017DC80(void)
                         ov = *otp;
                         *otp = (ov & mhi) | ((u32)poly & mlo);
 #line 900 "p.c"
-                        __asm__ ("" : "=r"(n), "=r"(otz) : "0"(n), "1"(otz));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B tus10)
+                        __asm__ ("" : "=r"(n), "=r"(otz) : "0"(n), "1"(otz));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B t8_tus2)
 #line 901 "p.c"
                         if (n < 4) {
                             q = (u8 *)func_80010A08(8);
@@ -4928,7 +4928,7 @@ void func_80180BEC(void) {
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
     extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     s32 s1 = a0v;
     SVfbd0 base;

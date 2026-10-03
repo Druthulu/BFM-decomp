@@ -1447,7 +1447,7 @@ void func_801852B0(s32 a0)
      * `bnez` delay slot above and redirects the branch one insn further on.
      * `stop_search_p` halts that search on an asm insn, so the target's
      * unfilled `nop` (idx 18) survives. Emits nothing. */
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
     v ^= 1;
     ((Unkstruct_800B5CB8 *)s0)->unkDC = v;
     func_8012B200(p);
@@ -1461,16 +1461,16 @@ void func_801852B0(s32 a0)
      * §245 addendum, "the re-tie barrier pins call-arg setup to source order")
      * stops the constant from being rematerialised down at the call. */
     if (((Unkstruct_800B5CB8 *)s0)->unkDC == 0) {
-        register s32 q __asm__("$4") = s0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 q __asm__("$4") = s0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
         s32 r = 0xFFF80000;
-        __asm__ __volatile__("" : "=r"(r) : "0"(r));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("" : "=r"(r) : "0"(r));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         ((Unkstruct_800B5CB8 *)s0)->unk2 = 7;
         func_8012B178(q, r);
         v = 0x20;
     } else {
-        register s32 q2 __asm__("$4") = s0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 q2 __asm__("$4") = s0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
         s32 r2 = 0x100000;
-        __asm__ __volatile__("" : "=r"(r2) : "0"(r2));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("" : "=r"(r2) : "0"(r2));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         ((Unkstruct_800B5CB8 *)s0)->unk2 = 6;
         func_8012B178(q2, r2);
         v = 0x10;
@@ -2533,10 +2533,10 @@ void func_80186868(s32 a0)
     s32 self = a0;
     s32 flags;
     s32 v1;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 dx __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 dy __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 dz __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 dx __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 dy __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 dz __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 t;
     s32 p, q;
     s32 sum;
@@ -3480,8 +3480,8 @@ void func_80187E08(s32 param_1)
     extern s32 *D_80195FC0[];
 
     s32 mtx;
-    register s32 xt __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 ok2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 xt __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 ok2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 *rec;
     s16 sxy[2];     /* sp+0x10 */
     long flag;      /* sp+0x18 */
@@ -3490,7 +3490,6 @@ void func_80187E08(s32 param_1)
     s16 first;
 
     rec = D_80195FC0[*(s16 *)((s8 *)param_1 + 0xFC)];
-    __asm__ volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
 
     mtx = (s32)&D_800AF648;
     gte_SetRotMatrix(mtx);
@@ -3498,10 +3497,10 @@ void func_80187E08(s32 param_1)
 
     func_80015978(param_1 + 4, (s32 *)sxy);
 
-    __asm__ volatile("lwc2 $0, 0(%0)\n\tlwc2 $1, 4(%0)" : : "r"(sxy) : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_ldv0_m) beyond Sony's (P36 T5 gte1)
-    __asm__ volatile("nop\n\tnop\n\trtps" : : : "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_rtps_m) beyond Sony's (P36 T5 gte1)
+    __asm__ volatile("lwc2 $0, 0(%0)\n\tlwc2 $1, 4(%0)" :  : "r"(sxy) );
+    __asm__ volatile("nop\n\tnop\n\trtps" );
     gte_stsxy(sxy);
-    __asm__ volatile("cfc2 $12, $31\n\tnop\n\tsw $12, 0(%0)" : : "r"(&flag) : "$12");  // !FAKE: gte direct — clobbers ['memory'] (gte_stflg_v) beyond Sony's (P36 T5 gte1)
+    __asm__ volatile("cfc2 $12, $31\n\tnop\n\tsw $12, 0(%0)" :  : "r"(&flag) : "$12", "memory" );
 
     xt = sxy[0];
     lim = ((u32)D_800AF7BC >> 1) + 0x20;

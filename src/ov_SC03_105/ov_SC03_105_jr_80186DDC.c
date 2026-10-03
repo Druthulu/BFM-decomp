@@ -3112,7 +3112,7 @@ void func_801871C0(void *arg0, s32 arg1, s32 arg2) {
 extern u8 D_801202A0[];
 
 void func_801873C8(void) {
-    register u8 *q __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *q __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u8 *p;
     s32 i;
     s32 count;

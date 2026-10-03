@@ -3743,7 +3743,7 @@ void func_8017E8D8(s32 *a0, s32 a1, s32 a2) {
     s16 *q;
     u16 *p;
     s16 t;
-    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     q = &D_80126CBA;
     if (*q == 0) {
@@ -3769,7 +3769,7 @@ void func_8017E8D8(s32 *a0, s32 a1, s32 a2) {
     rv = sp20;
     *a0 = rv;
     rv = (s32)a0;
-    __asm__ __volatile__("" : : "r" (rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" : : "r" (rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
 }
 
 
@@ -4005,7 +4005,7 @@ void func_8017ED54(param_1)
      * pins" -- these are loop/local values, never the incoming parameter, so S3 is respected). */
     s32 vVec; /* s1: RotTransSV/Pers vector ptr, then loop counter i */
     s32 vFlag; /* s2: RotTransSV/Pers flag ptr,  then grid anchor     */
-    register u8 *p0     __asm__("$16"); /* s0: D_800AF648 ptr, then prim-write pointer         */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *p0     __asm__("$16"); /* s0: D_800AF648 ptr, then prim-write pointer         */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u8 *cur; /* s3: walking AddPrim arg (s4object+0xC, +=0x24)      */
     void *s4o; /* s4: func_80010A08(0x9C) result                       */
     s32 *ctab; /* s5: &D_80199E34 colour table                          */
@@ -4019,7 +4019,7 @@ void func_8017ED54(param_1)
     {
         s32 *p =
             (s32 *)(*(s32 *)(param_1 + 0x20) + 0x34);
-        __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+        __asm__ __volatile__(                
             "lw $12, 0(%0)\n"
             "lw $13, 4(%0)\n"
             "ctc2 $12, $0\n"
@@ -4035,8 +4035,7 @@ void func_8017ED54(param_1)
             "ctc2 $12, $5\n"
             "lw $14, 28(%0)\n"
             "ctc2 $13, $6\n"
-            "ctc2 $14, $7\n"
-            : : "r"(p) : "$12", "$13", "$14", "memory");
+            "ctc2 $14, $7\n" :  : "r"(p) : "$12", "$13", "$14" );
     }
 
     {
@@ -4046,10 +4045,10 @@ void func_8017ED54(param_1)
          * natural (early) priority instead. */
         void *vecAddr = &D_80199E2C;
         void *arg1;
-        __asm__ __volatile__("" : "=r"(vecAddr) : "0"(vecAddr));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("" : "=r"(vecAddr) : "0"(vecAddr));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         vVec = (s32)(buf + 0x10);
         arg1 = (void *)vVec;
-        __asm__ __volatile__("" : "=r"(arg1) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("" : "=r"(arg1) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         vFlag = (s32)(buf + 0x38);
         RotTransSV(vecAddr, arg1, (void *)vFlag);
     }
@@ -4073,7 +4072,7 @@ void func_8017ED54(param_1)
     cy = *(u16 *)(buf + 0x3E);
 
     {
-        register s32 t1 __asm__("$9") =  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 t1 __asm__("$9") =  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B t8_tus2)
             *(s32 *)((s8 *)&D_800A651C + (u16)D_800B9A02 * 0x14);
         s6 = t1 + zcount;
     }
@@ -4102,7 +4101,7 @@ void func_8017ED54(param_1)
     func_8005A600((s32)s4o, 0, 0, (u16)tpage, 0);
 
     {
-        register s32 t __asm__("$2") = (s32)((u8 *)s4o + 0xC);  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 t __asm__("$2") = (s32)((u8 *)s4o + 0xC);  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
         cur = (u8 *)t;
         ctab = D_80199E34;
         vFlag = (s32)buf;
@@ -4150,7 +4149,7 @@ void func_8017ED54(param_1)
 
             y2 = *(u16 *)(vFlag + D_80199E52[vVec] * 2 + 0x28);
             argA0 = s6;
-            __asm__ __volatile__("" : "=r"(argA0) : "0"(argA0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("" : "=r"(argA0) : "0"(argA0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
             *(u16 *)(p0 - 0x8) = y2;
             argA1 = cur;
             {

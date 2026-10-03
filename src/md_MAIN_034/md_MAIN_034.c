@@ -900,7 +900,7 @@ extern Quad4_800CCB14 D_800CCB14;
 
 void func_800CC4E8(void *a0) {
     void *s1;
-    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     s1 = CAST_SIGN(void *, (u8 *)a0, 0x20);
     func_80146E98((s32)a0);
@@ -929,7 +929,7 @@ void func_800CC4E8(void *a0) {
     }
 
     {
-        register u16 x __asm__("$2") = (*(u16 *)((u8 *)s1 + 0x10) + 0x2d) & 0xfff;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+        register u16 x __asm__("$2") = (*(u16 *)((u8 *)s1 + 0x10) + 0x2d) & 0xfff;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
         u16 y = (*(u16 *)((u8 *)s1 + 0x12) + 0x16) & 0xfff;
         *(u16 *)((u8 *)s1 + 0x10) = x;
         *(u16 *)((u8 *)s1 + 0x12) = y;

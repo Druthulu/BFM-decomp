@@ -3582,7 +3582,7 @@ void func_8017EA24(void *a0)
 
         ((Unkstruct_800B5CB8 *)s0)->unkFE = mode;
         v1 = mode;
-        __asm__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
 
         if (v1 == 1)
             goto case1;
@@ -3608,7 +3608,7 @@ void func_8017EA24(void *a0)
         func_8001C810(((Unkstruct_800B5CB8 *)s0)->unk20, (s32)D_801A20C4);
         callarg0 = 0x19B;
         e = ((Unkstruct_800B5CB8 *)s0)->unk20;
-        __asm__("" : "=r"(e) : "0"(e));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("" : "=r"(e) : "0"(e));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         argmode = 3;
 
     shared:

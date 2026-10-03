@@ -3456,7 +3456,7 @@ extern u8 D_80190C78[];
 void func_8017DE58(void *arg0) {
     u8 *s2 = D_80190C78;
     void *s1 = CAST_SIGN(void *, (s32)arg0, 0xCC);
-    register u16 state __asm__("$4") = ((Unkstruct_800B5CB8 *)arg0)->unk34;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register u16 state __asm__("$4") = ((Unkstruct_800B5CB8 *)arg0)->unk34;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s16 v0;
 
     switch (state) {

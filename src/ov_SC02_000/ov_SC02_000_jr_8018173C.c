@@ -5875,7 +5875,7 @@ void func_80187988(s32 param_1) {
         val = nudge;
     } else {
         val = nudge;
-        __asm__ __volatile__("" : : "r"(val));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__ __volatile__("" : : "r"(val));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
         val = -val;
     }
     CAST_WIDTH(s32, param_1, 0x10) = val;

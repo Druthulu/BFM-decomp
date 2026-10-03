@@ -651,7 +651,7 @@ void func_801E8A1C(void *a0) {
 void func_801E8A3C(void *a0) {
     extern s32 D_801EF37C;
     extern s32 D_801EF378;
-    register s32 p __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 p __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 q;
 
     p = D_801EF378;

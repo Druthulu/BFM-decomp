@@ -4124,7 +4124,7 @@ void func_8017F784(s32 param_1)
         func_8012E88C((u8 *)param_1);
         if (((Unkstruct_800B5CB8 *)param_1)->unk1C == 4) {
             ((Unkstruct_800B5CB8 *)param_1)->unk34 = 2;
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
             k = 0x1000;
             if (((Unkstruct_800B5CB8 *)param_1)->unk20 != 0) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk18 = k;
@@ -4158,7 +4158,7 @@ void func_8017F784(s32 param_1)
         if (CAST_SIGN(u16, (char *)D_8019F6F8, 2) == 6) {
             CAST_ALIAS(u16, param_1, 0x34) = 3;
             ((Unkstruct_800B5CB8 *)param_1)->unk1C = D_80188A18;
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
             k = 0x1000;
             if (((Unkstruct_800B5CB8 *)param_1)->unk20 != 0) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk18 = k;
@@ -5046,7 +5046,7 @@ void func_80180F68(s32 a0)
 {
     {
         s32 *p;
-        register s32 two __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+        register s32 two __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
         p = (s32 *)(CAST_SIGN(u32, (u8 *)a0, 0x20));
         two = 2;
@@ -5079,7 +5079,7 @@ void func_80180F68(s32 a0)
             }
         }
         CAST_WIDTH(s32, (u8 *)a0, 0x10) = v;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
     }
 
     ((Unkstruct_800B5CB8 *)a0)->unk14 = 0x200000;
@@ -5185,7 +5185,7 @@ void func_801810A4(s32 a0) {
              * fence stops sched1 lifting that second load above the sh, where it would overlap the
              * first load's pseudo. */
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0x600;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
             p = ((Unkstruct_800B5CB8 *)a0)->unk20;
             v = 0x1200;
         } else if (*(s32 *)(obj + 0x1C) < 0x11) {
@@ -5194,9 +5194,9 @@ void func_801810A4(s32 a0) {
              * not overlap the obj->0x1C pseudo, which also wants $v1), the second keeps the
              * `+ 0x600` below it -- target order is sll / lw / addiu. */
             v = *(s32 *)(obj + 0x1C) * 3 * 32;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
             p = ((Unkstruct_800B5CB8 *)a0)->unk20;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
             v = v + 0x600;
         } else {
             /* This arm writes its own 0x18 store and skips the shared tail; in the target it lands

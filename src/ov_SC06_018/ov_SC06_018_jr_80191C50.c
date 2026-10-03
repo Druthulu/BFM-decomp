@@ -2868,8 +2868,8 @@ extern u16 D_800B99D8;
 void func_80191C50(s32 _arg0) {
     s32 arg0;
     s32 src;
-    register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 e5;
     s32 r;
     s32 cnt;
@@ -2944,11 +2944,11 @@ void func_80191C50(s32 _arg0) {
         break;
     case 6:
         func_8018D40C(((Unkstruct_800B5CB8 *)arg0)->unkCC);
-        XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
+        XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
         func_8018D514(((Unkstruct_800B5CB8 *)arg0)->unkD0);
-        XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
+        XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
         func_8018D514(((Unkstruct_800B5CB8 *)arg0)->unkD4);
-        XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B tus10)
+        XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B t8_tus2)
         func_8012B77C(sp10, (void *)(arg0 + 4), ((u8 *)&D_80126B5C));
         tmp = *(s32 *)sp10;
         ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk10 = tmp;
@@ -2976,9 +2976,9 @@ void func_80191C50(s32 _arg0) {
             goto L801924AC;
         }
         SCAN()
-        XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
-        XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
-        XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B tus10)
+        XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
+        XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
+        XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B t8_tus2)
         func_8012B77C(sp10, (void *)(arg0 + 4), ((u8 *)&D_80126B5C));
         tmp = *(s32 *)sp10;
         ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk10 = tmp;
@@ -3007,9 +3007,9 @@ void func_80191C50(s32 _arg0) {
         ((void (*)(s32))func_8004914C)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x34);
         ((void (*)(s32))func_800491AC)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x34);
         mm = D_801D1220;
-        __asm__ __volatile__("" : "=r"(mm) : "0"(mm));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__ __volatile__("" : "=r"(mm) : "0"(mm));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         m18 = sp18;
-        __asm__ __volatile__("" : "=r"(m18) : "0"(m18));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__ __volatile__("" : "=r"(m18) : "0"(m18));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         RotTransSV(mm, m18, sp28);
         col = 0x202080;
         if ((D_800B99D8 & 1) != 0) {
@@ -3079,9 +3079,9 @@ void func_80191C50(s32 _arg0) {
         return;
     }
 
-    XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
-    XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B tus10)
-    XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B tus10)
+    XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
+    XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
+    XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B t8_tus2)
 }
 
 #include "common.h"

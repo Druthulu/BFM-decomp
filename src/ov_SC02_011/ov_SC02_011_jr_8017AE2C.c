@@ -7147,7 +7147,7 @@ void func_80180FE4(s32 arg0)
         mx = wx >> 16;
         wy = part->yy;
         mny = wy;
-        __asm__ volatile ("" :: "r"(mny));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ volatile ("" :: "r"(mny));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
         my = wy >> 16;
         wz = part->zz;
         box[0].vx = mn; box[0].vy = mny;

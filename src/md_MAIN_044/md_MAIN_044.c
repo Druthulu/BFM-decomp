@@ -533,7 +533,7 @@ s32 func_800CD894(void *a0) {
     u8 sp10[8];
     s32 sp18;
     s32 i;
-    register s32 tag __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 tag __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     Ent_CD894 *base = (Ent_CD894 *)D_801202A0;
 
     __builtin_memcpy(sp10, (u8 *)a0 + 0x44, 8);

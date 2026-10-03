@@ -4339,7 +4339,7 @@ extern void func_80172710(void);
 
 s32 func_8017E5C4(s32 param_1)
 {
-    register s32 obj __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 obj __asm__("$16") = param_1;  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     if (*(u16 *)(*(s32 *)((char *)obj + 0x64) + 0x2) != 3) {
         return 0;
@@ -6404,7 +6404,7 @@ s32 func_8018107C()
     extern s16 D_801B95F0;
     extern u8 D_80190020;
 
-    register s32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 s0;
     s32 a1v;
     s32 zv;

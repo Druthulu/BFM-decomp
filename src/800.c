@@ -696,46 +696,37 @@ void func_8001382C(s16 angle, void *a1, void *a2)
 
     gte_SetRotMatrix(matrix);
 
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lhu $12, 0(%0);"
         "lhu $13, 6(%0);"
         "lhu $14, 12(%0);"
         "mtc2 $12, $9;"
         "mtc2 $13, $10;"
-        "mtc2 $14, $11;"
-        :
-        : "r"(rotp)
-        : "$12", "$13", "$14", "memory");
+        "mtc2 $14, $11;" :  : "r"(rotp) : "$12", "$13", "$14" );
 
     gte_rtir();
 
     gte_stclmv(&matrix[0]);
 
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lhu $12, 0(%0);"
         "lhu $13, 6(%0);"
         "lhu $14, 12(%0);"
         "mtc2 $12, $9;"
         "mtc2 $13, $10;"
-        "mtc2 $14, $11;"
-        :
-        : "r"(&rot[1])
-        : "$12", "$13", "$14", "memory");
+        "mtc2 $14, $11;" :  : "r"(&rot[1]) : "$12", "$13", "$14" );
 
     gte_rtir();
 
     gte_stclmv(&matrix[1]);
 
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lhu $12, 0(%0);"
         "lhu $13, 6(%0);"
         "lhu $14, 12(%0);"
         "mtc2 $12, $9;"
         "mtc2 $13, $10;"
-        "mtc2 $14, $11;"
-        :
-        : "r"(&rot[2])
-        : "$12", "$13", "$14", "memory");
+        "mtc2 $14, $11;" :  : "r"(&rot[2]) : "$12", "$13", "$14" );
 
     gte_rtir();
 
@@ -9240,7 +9231,7 @@ void func_8001D70C(s32 param_1)
     *(s32 *)((u8 *)matrix + 0x18) = *(s16 *)(param_1 + 10);
     *(s32 *)((u8 *)matrix + 0x1C) = *(s16 *)(param_1 + 12);
 
-    __asm__ volatile (  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ volatile (                
         "lw $12, 0(%0);"
         "lw $13, 4(%0);"
         "ctc2 $12, $0;"
@@ -9256,8 +9247,7 @@ void func_8001D70C(s32 param_1)
         "ctc2 $12, $5;"
         "lw $14, 28(%0);"
         "ctc2 $13, $6;"
-        "ctc2 $14, $7"
-        : : "r"((s32)matrix) : "$12", "$13", "$14", "$2");
+        "ctc2 $14, $7" :  : "r"((s32)matrix) : "$12", "$13", "$14" );
 }
 
 
@@ -9383,7 +9373,7 @@ void func_8001DA34(s32 param_1)
     s32 mode, sh, tp7;
     u16 id;
     u32 x, y;
-    register u32 pxv __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 pxv __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u16 sx, sy;
     s32 tpage;
     s32 tb;
@@ -9395,8 +9385,8 @@ void func_8001DA34(s32 param_1)
     s32 ct;
     s32 idx;
     u16 pp;
-    register u32 m24 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 mFF __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 m24 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u32 mFF __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     rec = *(RecDA34 **)(param_1 + 0x20);
     attr = *(u32 *)(param_1 + 4);
@@ -9437,7 +9427,7 @@ void func_8001DA34(s32 param_1)
         prim = D_800A5E60;
         id = rec->id;
         dxv = rec->dx;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
         pxv = *(u16 *)(param_1 + 0x28);
         x = pxv + (dxv >> sh);
         sx = x;
@@ -9456,7 +9446,7 @@ void func_8001DA34(s32 param_1)
         }
         *(s16 *)(prim + 0x16) = tpage;
         prim[7] |= (attr & 0x40) >> 6;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
         ua = ub = (sx - ((tpage & 0xF) << 6)) << sh;
         ub += rec->w;
         ub -= 1;
@@ -9474,7 +9464,7 @@ void func_8001DA34(s32 param_1)
         if (tc) {
             ua = ub - 0x100;
         } else {
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
             ua = ub;
         }
         ub = ua + rec->h - 1;
@@ -9523,7 +9513,7 @@ void func_8001DA34(s32 param_1)
             if ((u32)idx >= 0x1000) return;
             m24 = 0xFFFFFF;
             ott = (u32 *)(idx * 4 + (s32)ot);
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
             mFF = 0xFF000000;
             *(u32 *)prim = (*(u32 *)prim & mFF) | (*ott & m24);
             *ott = (*ott & mFF) | ((u32)prim & m24);
@@ -9556,33 +9546,29 @@ void func_8001E094(s32 arg0)
     g = (s32)&D_800AF648;
 
     /* gte_SetRotMatrix(obj->mat) */
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
         "ctc2 $12, $0\n" "ctc2 $13, $1\n"
         "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
-        : : "r"(*(s32 *)(arg0 + 0x34)) : "$12", "$13", "$14", "memory");
+        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" :  : "r"(*(s32 *)(arg0 + 0x34)) : "$12", "$13", "$14" );
 
     /* res = obj->mat * sc, column by column */
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
         "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
-        : : "r"((s32)sc) : "$12", "$13", "$14", "memory");
+        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)sc) : "$12", "$13", "$14" );
     gte_stclmv((s32)res);
 
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
         "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
-        : : "r"((s32)sc + 2) : "$12", "$13", "$14", "memory");
+        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)sc + 2) : "$12", "$13", "$14" );
     gte_stclmv((s32)res + 2);
 
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
         "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
-        : : "r"((s32)sc + 4) : "$12", "$13", "$14", "memory");
+        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)sc + 4) : "$12", "$13", "$14" );
     gte_stclmv((s32)res + 4);
 
     *(s32 *)((u8 *)res + 0x14) = *(s32 *)(*(s32 *)(arg0 + 0x34) + 0x14);
@@ -9590,62 +9576,54 @@ void func_8001E094(s32 arg0)
     *(s32 *)((u8 *)res + 0x1C) = *(s32 *)(*(s32 *)(arg0 + 0x34) + 0x1C);
 
     /* gte_SetRotMatrix(&D_800AF648) */
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
         "ctc2 $12, $0\n" "ctc2 $13, $1\n"
         "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
-        : : "r"(g) : "$12", "$13", "$14", "memory");
+        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" :  : "r"(g) : "$12", "$13", "$14" );
 
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
         "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
-        : : "r"((s32)res) : "$12", "$13", "$14", "memory");
+        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)res) : "$12", "$13", "$14" );
     gte_stclmv((s32)res);
 
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
         "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
-        : : "r"((s32)res + 2) : "$12", "$13", "$14", "memory");
+        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)res + 2) : "$12", "$13", "$14" );
     gte_stclmv((s32)res + 2);
 
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
         "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
-        : : "r"((s32)res + 4) : "$12", "$13", "$14", "memory");
+        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n" :  : "r"((s32)res + 4) : "$12", "$13", "$14" );
     gte_stclmv((s32)res + 4);
 
     /* gte_SetTransMatrix(&D_800AF648) */
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
         "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
-        "ctc2 $13, $6\n" "ctc2 $14, $7\n"
-        : : "r"(g) : "$12", "$13", "$14", "memory");
+        "ctc2 $13, $6\n" "ctc2 $14, $7\n" :  : "r"(g) : "$12", "$13", "$14" );
 
     t = (s32)res + 0x14;
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lhu $13, 4(%0)\n" "lhu $12, 0(%0)\n"
         "sll $13, $13, 16\n" "or $12, $12, $13\n"
         "mtc2 $12, $0\n" "lwc2 $1, 8(%0)\n"
-        "nop\n" "nop\n" "mvmva 1, 0, 0, 0, 0\n"
-        : : "r"(t) : "$12", "$13", "memory");
+        "nop\n" "nop\n" "mvmva 1, 0, 0, 0, 0\n" :  : "r"(t) : "$12", "$13" );
     gte_stlvnl(t);
 
     /* gte_SetRotMatrix(res) ; gte_SetTransMatrix(res) */
-    __asm__ __volatile__(  // !FAKE: gte direct — clobbers beyond Sony's macro (a scheduling steer; P36 T5 t5_remark3)
+    __asm__ __volatile__(                
         "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
         "ctc2 $12, $0\n" "ctc2 $13, $1\n"
         "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
-        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
-        : : "r"((s32)res) : "$12", "$13", "$14", "memory");  // !FAKE: gte direct — clobbers ['memory'] (gte_SetRotMatrix_m) beyond Sony's (P36 T5 gte1)
+        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" :  : "r"((s32)res) : "$12", "$13", "$14" );
     __asm__ __volatile__(
         "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
         "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
-        "ctc2 $13, $6\n" "ctc2 $14, $7\n"
-        : : "r"((s32)res) : "$12", "$13", "$14", "memory");
+        "ctc2 $13, $6\n" "ctc2 $14, $7\n" :  : "r"((s32)res) : "$12", "$13", "$14" );
 }
 
 extern void func_8004978C(s16 *a0, void *a1);
@@ -10438,9 +10416,9 @@ void func_8001EFE0(s32 arg0)
     u16 vv2;
     s32 vh;
     s32 vw;
-    register u32 *ot __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 m24 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 mFF __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 *ot __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u32 m24 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u32 mFF __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     attr = *(u32 *)(arg0 + 4);
     c2.super = *(void **)(arg0 + 0x78);
@@ -10542,7 +10520,7 @@ void func_8001EFE0(s32 arg0)
                             }
                         }
                         *(u16 *)(q + 0x16) = tpage;
-                        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+                        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
                         q[7] |= (attr & 0x40) >> 6;
                         q[0x0C] = (sx - ((*(u16 *)(q + 0x16) & 0xF) << 6)) << shift;
                         vv = sy;
@@ -10578,7 +10556,7 @@ void func_8001EFE0(s32 arg0)
                         vh = rec >> 24;
                         v1.vy = vh;
                         v1.vz = sz;
-                        __asm__("" : : "r"(vh), "r"(vv2), "r"(vw));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+                        __asm__("" : : "r"(vh), "r"(vv2), "r"(vw));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
                         gte_ldv3(&v0, &v1, &v1);
                         gte_rtpt();
                         gte_stsxy0(&xy0);
@@ -13750,7 +13728,7 @@ void func_80023BF0(s32 arg0)
     s32 tpage;
     s32 tp;
     u8 *mat;
-    register u32 base __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 base __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     mat = D_800AF630;
     prims = *(u16 **)(arg0 + 0x20);
@@ -13793,19 +13771,19 @@ void func_80023BF0(s32 arg0)
         tpage = tp | 0x10;
     }
     pkt = D_800A5E60;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     if (!(flags & 0x400000)) {
         u16 c;
@@ -13816,7 +13794,7 @@ void func_80023BF0(s32 arg0)
         code = *(u8 *)(arg0 + 0x26) << 16;
         code = code | ((*(u8 *)(arg0 + 0x25) << 8) | base);
         code = code | *(u8 *)(arg0 + 0x24);
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
         c = *prims;
         if (c != 0xFFFF) {
             do {
@@ -13862,7 +13840,7 @@ void func_80023BF0(s32 arg0)
         code = *(u8 *)(arg0 + 0x26) << 16;
         code = code | ((*(u8 *)(arg0 + 0x25) << 8) | base);
         code = code | *(u8 *)(arg0 + 0x24);
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
         c = *prims;
         if (c != 0xFFFF) {
             do {
@@ -14066,11 +14044,11 @@ void func_800242D0(s32 arg0, u16* arg1, s32 arg2) {
     s32 t1;
     s32 v0;
     s32 v1;
-    register s32 a3 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 a3 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s16* t4;
     u16* t2;
     s32 t3;
-    register s32 divisor __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 divisor __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     (void)&frame_pad;
 
     t0 = arg2 & 0xFFAF;
@@ -14081,7 +14059,7 @@ void func_800242D0(s32 arg0, u16* arg1, s32 arg2) {
     }
     v0 = t0 - 1;
     t0 = v0;
-    __asm__ __volatile__("" : "=r"(t0) : "0"(t0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" : "=r"(t0) : "0"(t0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     if ((v0 << 16) >= 0) {
         t4 = D_80063870;
         t2 = &D_80063858;
@@ -14095,7 +14073,7 @@ void func_800242D0(s32 arg0, u16* arg1, s32 arg2) {
             a3 = v0;
             if (((a3 << 16) >> 16) != 0) {
                 v1 = divisor;
-                __asm__ __volatile__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+                __asm__ __volatile__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((Unkstruct_800B5CB8 *)arg1)->unk0 = *(u16*)((((a3 << 16) >> 16) << 1) + (s32)t2);
                 t1 -= a3 * v1;
             } else {
@@ -14111,7 +14089,7 @@ void func_800242D0(s32 arg0, u16* arg1, s32 arg2) {
             }
             v0 = t0 - 1;
             t0 = v0;
-            __asm__ __volatile__("" : "=r"(t0) : "0"(t0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("" : "=r"(t0) : "0"(t0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
             v1 = t1 << 16;
         } while ((v0 << 16) >= 0);
     }

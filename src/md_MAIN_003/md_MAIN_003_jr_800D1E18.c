@@ -674,7 +674,7 @@ void func_800D2D44(s32 arg0) {
 
 INCLUDE_RODATA("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D1E18", D_800CEDF8);
 
-__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
+__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B t8_tus2)
     ".section .rodata\n"
     ".align 2\n"
     ".globl D_800CEE1C\n"
@@ -813,7 +813,7 @@ extern char D_800CEEB8[];
  * INCLUDE_ASM stub; banking the function drops them, shifting every later
  * .rodata symbol.  Carry them as a file-scope __asm__ blob at the exact
  * source position the stub occupied (this TU's own D_800CEE1C house form). */
-__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
+__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B t8_tus2)
     ".section .rodata\n"
     ".align 2\n"
     ".globl D_800CEE58\n"
@@ -861,7 +861,7 @@ s32 func_800D30D0(char *arg0)
     *D_800DB670 = 0x80000000;
     *D_800DB644 = 0;
     *D_800DB650 = 0;
-    __asm__ volatile("" : "=r"(ret) : "0"(0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ volatile("" : "=r"(ret) : "0"(0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     (void)*(volatile s32 *)D_800DB650;
     *D_800DB670 = 0x60000000;
     return ret;

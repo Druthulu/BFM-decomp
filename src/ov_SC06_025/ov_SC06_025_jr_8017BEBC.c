@@ -3863,7 +3863,7 @@ void func_8017E4E0(void *a0)
     u8 *p;
     s32 ot;
     s32 tp;
-    register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     ot = D_800A651C[(u16)D_800B9A02].a;
 

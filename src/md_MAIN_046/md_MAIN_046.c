@@ -459,7 +459,7 @@ void func_800CD494(void *a0) {
     } else {
         rv = 0;
     }
-    __asm__ __volatile__("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__ __volatile__("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
 }
 
 

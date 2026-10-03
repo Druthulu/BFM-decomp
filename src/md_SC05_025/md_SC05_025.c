@@ -649,11 +649,11 @@ void func_801EE8A4(void *a0) {
 void func_801EE8C4(s32 arg0) {
     extern s32 D_801F5200[0];
     extern s32 D_801F5204[0];
-    register s32 p1 __asm__("$3") = D_801F5200[0];  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 p1 __asm__("$3") = D_801F5200[0];  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
     ((Unkstruct_800B5CB8 *)arg0)->unkFC = 1;
     arg0 = D_801F5204[0];
     {
-        register s32 c __asm__("$2") = 3;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+        register s32 c __asm__("$2") = 3;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
         *(s16 *)(p1 + 0xFC) = c;
         ((Unkstruct_800B5CB8 *)arg0)->unkFC = c;
     }

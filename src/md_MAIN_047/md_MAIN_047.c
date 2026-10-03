@@ -235,9 +235,9 @@ void func_800CD314(void *arg0) {
     extern void func_80146C3C(u8 *a0);
 
 
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 t;
-    register s32 tb __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 tb __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 cnt;
     s32 p;
     s32 idx;
@@ -268,7 +268,7 @@ void func_800CD314(void *arg0) {
         *(s32 *)(s0 + 0x1C) = *(s32 *)(s0 + 0x1C) + 1;
         return;
     }
-    __asm__ __volatile__("" ::: "a0");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__ __volatile__("" ::: "a0");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
     ((void (*)(s32))func_80146C3C)(s0);
 }
 

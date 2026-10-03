@@ -5089,7 +5089,7 @@ void func_801895AC(void *arg) {
         }
 
         {
-        register s32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
         t = ((Unkstruct_800B5CB8 *)p)->unkD8;
         d8 = t;
         if (t != 0) {

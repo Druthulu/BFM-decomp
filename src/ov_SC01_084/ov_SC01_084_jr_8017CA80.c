@@ -3494,8 +3494,8 @@ void func_8017EA98(s32 a0) {
     if (i == 3) {
         s32 tmp;
         s32 tmp2;
-        register s32 dx __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-        register s32 dz __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+        register s32 dx __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 dz __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
         s32 dz2;
         s32 sum;
 
@@ -3531,8 +3531,8 @@ void func_8017EA98(s32 a0) {
     } else {
         s32 tmp;
         s32 tmp2;
-        register s32 dx __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-        register s32 dz __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+        register s32 dx __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 dz __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
         s32 dz2;
         s32 sum;
         s32 amt;

@@ -4173,7 +4173,7 @@ zero:
     /* LOAD-BEARING (cookbook §5a): zero-byte cross-jump barrier. Without it
      * find_cross_jump merges this block's trailing `sw $v0,0x1C($s0)` with the
      * identical one ending the `dec:` block -> LENGTH-DRIFT -2. Do not remove. */
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
 }
 
 
@@ -4232,7 +4232,7 @@ void func_801850B4(s32 a0) {
     s32 u;
     s32 t;
     s32 hold;
-    register s32 one __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 one __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 cc;
 
     func_80185B48(a0);
@@ -4248,7 +4248,7 @@ void func_801850B4(s32 a0) {
             goto second;
         }
         func_8012D624((void *)a0, 0xC0, 0x30);
-        __asm__ __volatile__("" : "=r"(cc) : "0"(cc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("" : "=r"(cc) : "0"(cc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         if (cc == one) {
             goto rejoin;
         }

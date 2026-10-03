@@ -3398,7 +3398,7 @@ void func_80185A00(s32 param_1) {
 extern void func_8012A828(s32 a0, void * a1);
 
 void func_80185AC0(void) {
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     extern u8 D_801C6A0C[];
     extern u8 D_801C76E4[];
@@ -3675,7 +3675,7 @@ void func_80185F6C(s32 arg0, s32 arg1) {
     s16 state;
     s32 flags;
 
-    __asm__("addu %0, %1, $zero" : "=r"(y) : "r"(x));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("addu %0, %1, $zero" : "=r"(y) : "r"(x));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2)
     state = CAST_SIGN(u16, arg0, 0x70) & 0xF;
     flags = CAST_SIGN(u32, arg0, 0xE0);
     if (flags & 4) {
@@ -3712,7 +3712,7 @@ void func_80185F6C(s32 arg0, s32 arg1) {
     }
     rv = 1;
 epi:
-    __asm__ volatile("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ volatile("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
 }
 
 

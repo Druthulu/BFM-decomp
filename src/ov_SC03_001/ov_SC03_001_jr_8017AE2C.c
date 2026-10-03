@@ -8059,7 +8059,7 @@ s32 func_80182F3C(s32 a0) {
      * global_alloc and lands in $a0 (costing a `move $v0,$a0` in each of the two
      * delay slots the target leaves as `nop`).  The pin restores the target's
      * $v0 = pointer / $v1 = 0xA2 / $a0 = halfword assignment at zero byte cost. */
-    register s32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 c;
 
     /* +0x0 is a u16 object id; 0xA2 selects the 0xA4 partner lookup. */
@@ -8097,7 +8097,7 @@ s32 func_80182F3C(s32 a0) {
         /* zero-byte re-tie (cookbook §189-C): without it cse folds
          * `(raw & 0xFF) & 1` back onto the raw call result and emits
          * `andi $v0,$v0,1`; the target reads the masked copy, `andi $v0,$a1,1`. */
-        __asm__("" : "=r"(c) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__("" : "=r"(c) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         if (c != 0) {
             result = (s32)&D_80191F80;
             if ((c & 1) != 0) {
@@ -8132,7 +8132,7 @@ s32 func_80182F3C(s32 a0) {
         break;
     case 2:
         c = func_800291B4(0xD9) & 0xFF;
-        __asm__("" : "=r"(c) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__("" : "=r"(c) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         result = (s32)&D_80192190;
         if ((c & 1) != 0) {
             result = (s32)&D_801921E8;
@@ -8144,7 +8144,7 @@ s32 func_80182F3C(s32 a0) {
         break;
     default:
         c = func_800291B4(0xD8) & 0xFF;
-        __asm__("" : "=r"(c) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__("" : "=r"(c) : "0"(c));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         result = (s32)&D_801920C8;
         if ((c & 1) != 0) {
             result = (s32)&D_80192120;

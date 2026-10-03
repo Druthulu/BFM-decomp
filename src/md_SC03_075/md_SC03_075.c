@@ -595,7 +595,7 @@ extern s32 D_801F6CAC;
 extern s32 D_801F6CA8;
 
 void func_801F033C(void *a0) {
-    register s32 a __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 a __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 b;
 
     a = D_801F6CA8;

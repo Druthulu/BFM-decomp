@@ -1659,7 +1659,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
             s32 h;
             h = ((s16 *)pb0)[0];
             s1var = h << 16;
-            __asm__("lh %0, 2(%2)" : "=r"(h) : "0"(h), "r"(pb0) : "memory");  // !FAKE: instruction lh — NEEDED DIFFERS (P36 rung B tus1)
+            __asm__("lh %0, 2(%2)" : "=r"(h) : "0"(h), "r"(pb0) : "memory");  // !FAKE: instruction lh — NEEDED DIFFERS (P36 rung B t8_tus2)
             s0var = h << 16;
         }
         pb0[2] += q3v;
@@ -2123,16 +2123,16 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
     extern s16 *D_801841A4;
     extern u16 D_801C8428;
 
-    register s16 *pb0 __asm__("$9");   /* aD801841A0_80135004 -> $t1 */  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus1)
-    register s16 *pac __asm__("$6");   /* aD8018419C_80135004 -> $a2 */  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus1)
-    register s16 *pb8 __asm__("$8");   /* D_801841A8 -> $t0 */  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus1)
+    register s16 *pb0 __asm__("$9");   /* aD801841A0_80135004 -> $t1 */  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s16 *pac __asm__("$6");   /* aD8018419C_80135004 -> $a2 */  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s16 *pb8 __asm__("$8");   /* D_801841A8 -> $t0 */  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u16 *pb4;
     u16 a, b;
     int id;
     int a1v, a2v, d94;
 
     pb0 = D_801841A0;
-    __asm__ __volatile__("" : : "r"(pb0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus1)
+    __asm__ __volatile__("" : : "r"(pb0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     a = ((u16 *)p2)[0]; pac = D_8018419C; pb0[0] = a; b = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_801841A8); pac[0] = b; pb8[0] = a - b;
     a = ((u16 *)p2)[1]; pb0[1] = a; b = ((u16 *)p1)[1]; pac[1] = b; pb8[1] = a - b;

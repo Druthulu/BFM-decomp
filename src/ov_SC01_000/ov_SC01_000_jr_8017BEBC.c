@@ -3279,7 +3279,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     extern u16 D_80182720, D_80182722, D_80182728, D_8018272A;
     extern u16 D_80182730, D_80182732;
     u8 *pkt;
-    register u8 *ob __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B tus10)
+    register u8 *ob __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B t8_tus2)
     u32 mlo;
     u32 c80;
     u32 cFF;
@@ -3374,7 +3374,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & mlo);
     ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
     pkt += 0x28;
-    __asm__("" :: "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__("" :: "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     *(u8 *)(pkt + 3) = 9;
     *(u8 *)(pkt + 7) = 0x2C;

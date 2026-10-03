@@ -3185,7 +3185,7 @@ void func_8017E178(s32 a0) {
        permutation. */
     raw = ((s32 (*)(s32))func_8012CBA4)(a0);
     flags = raw;
-    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     /* `m` blocks fold_truthop from merging the two bitfield tests below into a single
        `andi $v1,$s1,0xe000` -- the target keeps `& 0x8000` and `& 0x6000` separate. */
@@ -3332,7 +3332,7 @@ void func_8017E178(s32 a0) {
        copies vanish and everything from .L8017CD18 on drifts by 2 instructions. */
     {
         s32 fire = ret;
-        __asm__ __volatile__("" : "=r"(ret) : "0"(ret));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("" : "=r"(ret) : "0"(ret));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         if (fire != 0) {
             func_80146A6C(2, (void *)s0, 0, 0, 0, 2, 0);
         }
@@ -4018,7 +4018,7 @@ void func_8017F394(void *a0) {
 
     s32 s0 = (s32)a0;
     s32 a1;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 v1;
     s32 at;
     s32 a0r;
@@ -4829,7 +4829,7 @@ void func_8018084C(s32 *a0, s32 a1, s32 a2) {
     s16 *q;
     u16 *p;
     s16 t;
-    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     q = &D_80126CBA;
     if (*q == 0) {
@@ -4848,7 +4848,7 @@ void func_8018084C(s32 *a0, s32 a1, s32 a2) {
     rv = sp20;
     *a0 = rv;
     rv = (s32)a0;
-    __asm__ __volatile__("" : : "r" (rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" : : "r" (rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
 }
 
 

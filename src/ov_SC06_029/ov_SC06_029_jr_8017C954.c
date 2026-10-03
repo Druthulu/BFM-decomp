@@ -5990,12 +5990,12 @@ void func_80182388(s32 a0, s32 a1)
     s32 ang;
     s32 p;
     s32 t;
-    register s32 x0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 x1 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 y0 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 x0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 x1 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 y0 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 y1;
     s32 z;
-    register s32 mtx __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 mtx __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     p = ((a1 + *(s16 *)(a0 + 0x70) * 4) << 4) + (s32)D_801DFBF8;
     func_8012F14C((s32)D_801DFD94, p, (s32)sp28);
@@ -8434,7 +8434,7 @@ void func_80185D44(void *a0) {
     }
     func_8001C214(v0, (s32)D_801A0734);
     m = 0x7FFF0000;
-    __asm__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     t = 0x80;
     CAST_WIDTH(s16, (s32)a0, 0xE0) = t;
     *(s16 *)((s32)a0 + 0xDE) = t;
@@ -8811,14 +8811,14 @@ s32 func_8018656C(s32 *a0) {
             s32 diff = *(s16 *)(s1 + 0xA) - sum;
             if (diff >= 0) {
                 if (diff < 0x10) {
-                    __asm__("" : "=r"(diff) : "0"(diff));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                    __asm__("" : "=r"(diff) : "0"(diff));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                     return 1;
                 }
                 return 0;
             } else {
                 diff = sum - *(s16 *)(s1 + 0xA);
                 if (diff < 0x10) {
-                    __asm__("" : "=r"(diff) : "0"(diff));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                    __asm__("" : "=r"(diff) : "0"(diff));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                     return 1;
                 }
                 return 0;

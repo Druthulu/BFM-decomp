@@ -7873,7 +7873,7 @@ void func_80183BB0(s32 a0) {
     s32 t;
     s32 m;
     s32 q;
-    register s32 n __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 n __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
     unsigned int sp10;
 
     p = *(s32 *)(a0 + 0x20);                       /* owner's actor */

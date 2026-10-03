@@ -3554,7 +3554,7 @@ extern s32 func_80189284(void *a0, s32 a1, s32 a2);
  *     const-folds `r` to 0 on the fall-through edge and the merge comes back.) */
 s32 func_80187250(s32 p) {
     s32 buf10[2];
-    register s32 r __asm__("$2");   /* $v0 — see note 2 above */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 r __asm__("$2");   /* $v0 — see note 2 above */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     if ((CAST_SIGN(u32, p, 0xE0) & 1) == 0) {
         goto ret0;
@@ -3737,7 +3737,7 @@ void func_801874E4(s32 arg0, s32 arg1) {
     s16 state;
     s32 flags;
 
-    __asm__("addu %0, %1, $zero" : "=r"(y) : "r"(x));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("addu %0, %1, $zero" : "=r"(y) : "r"(x));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2)
     state = CAST_SIGN(u16, arg0, 0x70) & 0xF;
     flags = CAST_SIGN(u32, arg0, 0xE0);
     if (flags & 4) {
@@ -3774,7 +3774,7 @@ void func_801874E4(s32 arg0, s32 arg1) {
     }
     rv = 1;
 epi:
-    __asm__ volatile("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ volatile("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
 }
 
 

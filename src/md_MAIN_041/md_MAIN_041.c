@@ -150,8 +150,8 @@ extern s16 D_80126B1C;
 void func_800CB118(s32 a0) {
     s32 sp20[2];
     s32 sp28;
-    register s32 ret __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 m __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 ret __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 m __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     func_80162FF4(a0, 0, 0x4000, 0);
     func_80162FC0((s32 *) a0);

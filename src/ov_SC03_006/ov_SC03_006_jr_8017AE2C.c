@@ -9877,9 +9877,9 @@ s32 func_80185BD4(s32 a0, s32 a1) {
                 {
                     s32 t1 = *(s32 *)(p + 4);
                     s32 v1 = buf[0];
-                    register s32 t2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+                    register s32 t2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
                     s32 t3;
-                    register s32 t4 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+                    register s32 t4 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
                     CAST_WIDTH(s32, a0, 4) = t1;
 
@@ -10504,7 +10504,7 @@ void func_801869CC(void *a0)
     s32            *zb;
     SVec8_8018E8A0_801869CC *src;
     SVec8_8018E8A0_801869CC *dst;
-    register s32 d __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 d __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 i, j, k, base, ang, t;
     u32 col;
 
@@ -10523,7 +10523,7 @@ void func_801869CC(void *a0)
     p = (s32 *)((s32)a0 + 0xCC);
     for (i = 0, k = 0; i < ((Cnt_8018E8A0_801869CC *)a0)->f[0x84]; i++, k++, p += 3) {
         zb = (s32 *)((s32)a0 + 0xD4);
-        { register s32 c1 __asm__("$2"); register s32 c2 __asm__("$3");  // !FAKE: pin $2 — NEEDED DIFFERS; pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+        { register s32 c1 __asm__("$2"); register s32 c2 __asm__("$3");  // !FAKE: pin $2 — NEEDED DIFFERS; pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
           c1 = ((Unkstruct_800B5CB8 *)a0)->unk1C; c2 = i * 4; d = c1 - c2; }
         if (d > 0x40) {
             if (i == 4) {
@@ -12294,7 +12294,7 @@ extern void func_8012B178(s32 a0, s32 a1);
 extern s32 func_80189E88(s32 a0);
 
 void func_801890C4(s32 s0) {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 v1;
 
     v0 = func_8012BDBC(s0, 0x400);

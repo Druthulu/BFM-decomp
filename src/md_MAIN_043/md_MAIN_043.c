@@ -50,7 +50,7 @@ void func_800CCBCC(s32 a0)
     func_80147AD4(a0, 0, 0, 0);
     func_801473EC((s32 *)a0);
     {
-        register s32 ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+        register s32 ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
         func_8014ED28(a0);
         if (ret != 0) {
             func_80146D90(a0);
@@ -490,7 +490,7 @@ void func_800CD57C(void *arg0) {
         v1 = v1 * v0;
         adj = v1 / 0x1000;
         {
-            register s32 fld __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+            register s32 fld __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
             fld = ((Unkstruct_80126B58 *)arg0)->unk60;
             v0 = fld - adj;
         }

@@ -2936,8 +2936,8 @@ void func_8017F9F4(void *a0) {
             }
         }
         for (i = 0x180; i < 0x1000; i += 0x400) {
-            __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
-            __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
             p = func_8012913C(6);
             if (p != NULL) {
                 ((Unkstruct_800B5CB8 *)p)->unk6 = (u32)(func_80047948(i) * 3) >> 4;
@@ -3751,7 +3751,7 @@ void func_80180D38(s32 param_1) {
     extern s16 D_801C774C;
 
     s32 v0, v1;
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 dir;
 
     if (((Unkstruct_800B5CB8 *)param_1)->unkE4 > 0) {
@@ -4543,7 +4543,7 @@ void func_80181F80(s32 param_1) {
             /* LOAD-BEARING (cookbook §5a): a zero-byte volatile-asm makes this arm's
              * RTL tail differ from the sibling arm's, so find_cross_jump refuses to
              * merge the two `beqz`+join tails. Removing it costs 4 instructions. */
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
         } else {
             if (d >= 0x201) {
                 goto skip;

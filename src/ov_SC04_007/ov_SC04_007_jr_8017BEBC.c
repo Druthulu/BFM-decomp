@@ -4803,7 +4803,7 @@ extern u8 D_80197F58[];
 void func_8017F86C(void *arg0) {
     u8 *s2 = D_80197F58;
     void *s1 = CAST_SIGN(void *, (s32)arg0, 0xCC);
-    register u16 state __asm__("$4") = ((Unkstruct_800B5CB8 *)arg0)->unk34;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
+    register u16 state __asm__("$4") = ((Unkstruct_800B5CB8 *)arg0)->unk34;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s16 v0;
 
     switch (state) {
@@ -7642,7 +7642,7 @@ void func_80183E80(s32 arg0) {
     s32 s0;
     s32 v0;
     s32 v1;
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 a1;
     s32 a2;
     s32 a3;
@@ -7658,7 +7658,7 @@ void func_80183E80(s32 arg0) {
         func_8012B1B4(s0, (void *)&D_801A1590);
         a0 = s0;
         a1 = (s32)&D_801A15AC;
-        __asm__ __volatile__("" :: "r"(a1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+        __asm__ __volatile__("" :: "r"(a1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
         v0 = 0xFFF60000;
         s0 = 4;
         ((Unkstruct_800B5CB8 *)a0)->unk14 = v0;

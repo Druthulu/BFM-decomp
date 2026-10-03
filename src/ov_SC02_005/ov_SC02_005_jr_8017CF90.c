@@ -4247,7 +4247,7 @@ void func_8017F7CC(s32 param_1)
     S16_SC02_005_8017F7CC loc;
     s32 iVar2;
 
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
     *(s16 *)&loc.a.raw[0] = 0;
     *(s16 *)&loc.a.raw[2] = -0x40;
     *(M8_SC02_005_8017F7CC *)&loc.b.raw[0] = D_801E2DD8;
@@ -4283,7 +4283,7 @@ void func_8017F898(s32 arg0) {
      * promotes the prologue `sw $ra` over the ALU candidates, sinking it to
      * just above the branch. The clobber gives `sw $ra` a successor, so it is
      * only ready after the load is picked and lands back in the prologue. */
-    __asm__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     sp10[1] = -0x40;
     sp10[0] = 0;
@@ -4883,7 +4883,7 @@ void func_80180610(void *a0) {
         *(s32 *)((s32)a0 + 0x1F8) |= 0x1000000;
         func_8017E664();
         v1 = D_801944F4[*(s16 *)((s32)a0 + 0x20C)].f6;
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
         D_80126976 = -0x60;
         *(s16 *)&D_80126970 = -0x60;
         D_8012697A = -0x80;
@@ -5561,9 +5561,9 @@ extern void func_80185E54(s32);
 extern void func_80182D80(s32);
 
 void func_801816FC(MainStruct_SC02_005_8017CF90 *s0) {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 v1;
-    register s32 a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 a1r;
     s32 i;
 

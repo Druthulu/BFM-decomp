@@ -2935,7 +2935,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 s32 func_801820E4(void *arg0)
 {
     s16 idx;
-    register u16 cnt asm("v0");  // !FAKE: pin v0 — NEEDED DIFFERS (P36 rung B tus9)
+    register u16 cnt asm("v0");  // !FAKE: pin v0 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     idx = CAST_WIDTH(s16, (u8 *)arg0, 0xE0);
     if (idx >= 0) {
@@ -4758,7 +4758,7 @@ void func_80184828(void *a0)
             s16 newval = D_80195AF6[((Unkstruct_800B5CB8 *)a0)->unk100].f0;
 
             if (newval >= CAST_SIGN(s16, (u8 *)a0, 0xE)) {
-                __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+                __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 s1 = 1;
                 ((S0E_80184828 *)((u8 *)a0 + 0xE))->h = newval;
                 off = ((Unkstruct_800B5CB8 *)a0)->unk100 * 8;

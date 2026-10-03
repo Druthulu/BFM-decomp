@@ -5097,12 +5097,12 @@ extern s32 D_801C8C64;
 
 void func_8017ED28(void) {
     s16 *p;
-    register s16 *q __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 i __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus7)
+    register s16 *q __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 i __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 c2;
     s16 *s1;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
     Blk8 buf;
 
     p = (s16 *)&D_801C8C64;

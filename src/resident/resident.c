@@ -953,7 +953,7 @@ s32 func_800CFE60(void) {
     extern s32 CdReadRequest(void *, void *, s32, s32);
 
     u8 *base;
-    register s32 mode __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 mode __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 file;
     s32 val;
     s32 st;
@@ -999,7 +999,7 @@ s32 func_800CFE60(void) {
 
     if (func_8002F658() != val || mode >= 0) {
         s32 *q = &D_800C7C60;
-        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         p = q;
         *p = val;
         D_800C7C64 = &D_800A2E20;

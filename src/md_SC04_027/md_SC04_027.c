@@ -856,7 +856,7 @@ void func_801E8DF4(void) {
     if (D_8011512C == 4) {
         return;
     }
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
     if (D_8011512C == 0xA) {
         return;
     }
@@ -1335,7 +1335,7 @@ s32 *func_801E9BE0(s32 *out) {
         ((PTag_801E9BE0 *)(D_800AE7BC[*pb].ot + 2))->addr;
     {
         u32 *op;
-        register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+        register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
         op = D_800AE7BC[*pb].ot;
         v = op[2];
         v = (v & 0xFF000000) | (((u32)out) & 0xFFFFFF);

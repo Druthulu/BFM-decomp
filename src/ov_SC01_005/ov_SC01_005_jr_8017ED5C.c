@@ -3085,7 +3085,7 @@ s32 func_8017F2D4(s32 a0, s32 a1) {
             goto sel_054;
         }
         if (t == 5) {
-            __asm__ ("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ ("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
             if (t != 3) {
                 goto sel_094;
             }
@@ -4095,7 +4095,7 @@ s32 func_80180BDC(s32 a0) {
      * past the now-redundant `lw $v0,0x1C($s1)` -- 2 mismatches (branch offset
      * 0x16 vs 0x14 + a stolen slot the target leaves `nop`). An ASM_INPUT insn at
      * the head of the thread makes reorg.c `stop_search_p` halt the filler. */
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
     ((Unkstruct_800B5CB8 *)a0)->unk1C -= 1;
     func_8012B1B4(a0, a0 + 0xDC);
     func_8012AD80(a0);
@@ -4557,7 +4557,7 @@ extern void func_801820F8(s32 a0);
 
 void func_80181784(s32 a0)
 {
-    register s32 iVar1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 iVar1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 iVar2;
     s32 tmp;
     s32 pad[4];
@@ -4569,7 +4569,7 @@ void func_80181784(s32 a0)
     iVar2 = CAST_SIGN(s16, iVar1, 0x10);
     if (iVar2 != 0) {
         tmp = iVar2;
-        __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         if (iVar2 < 0) {
             tmp += 0x80;
             ((Unkstruct_800B5CB8 *)iVar1)->unk10 = (s16)tmp;
@@ -4589,7 +4589,7 @@ void func_80181784(s32 a0)
     iVar2 = CAST_SIGN(s16, iVar1, 0x12);
     if (iVar2 != 0) {
         tmp = iVar2;
-        __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         if (iVar2 < 0) {
             tmp += 0x80;
             ((Unkstruct_800B5CB8 *)iVar1)->unk12 = (s16)tmp;
