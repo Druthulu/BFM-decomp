@@ -1,0 +1,4 @@
+19:32:50 apply t8_tus4: 1 files, control src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c IDENTICAL (0.09 s), calibration ac3a3b5f8a, census b5c7974b8c971634
+19:32:50 apply t8_tus4: phase 1 (exemplar files) 0, phase 2 (copies replay) 1
+19:32:50   src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c:<file-scope> A=DIFFERS B: removed 0 needed 2 compiles 3
+19:33:04 delever: batch t8_tus4 — 1 files (TUs; 1 drawable) · 1 bodies: 0 lever-free, 1 residue, 0 refused · sites removed 0 / needed 2 / refused 2 / deferred 0 · replays 0 (0 disagreed) · compiles 4 in 14 s wall · final 1/1 identical · written 1 files

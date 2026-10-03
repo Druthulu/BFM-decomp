@@ -1,0 +1,41 @@
+{
+ "label": "t8_tus4",
+ "generated": "2026-10-02 19:33",
+ "headers": false,
+ "batch": 300,
+ "only": null,
+ "files": 1,
+ "drawable_files": 1,
+ "wall_s": 14.1,
+ "calib": {
+  "head": "ac3a3b5f8a",
+  "stamp": "588cbf38c6e4"
+ },
+ "bodies": 1,
+ "compiles": 4,
+ "sites_removed": 0,
+ "sites_needed": 2,
+ "sites_refused": 2,
+ "sites_deferred": 0,
+ "lever_free": 0,
+ "residue": 1,
+ "refused_bodies": 0,
+ "replays": 0,
+ "disagreed": 0,
+ "written": 1,
+ "seconds": 0.27371978759765625,
+ "final_ok": 1,
+ "final_bad": 0,
+ "per_file": [
+  {
+   "tu": "src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c",
+   "bodies": 1,
+   "final": "IDENTICAL",
+   "written": true,
+   "removed": 0,
+   "needed": 2,
+   "refused": 2,
+   "compiles": 4
+  }
+ ]
+}
