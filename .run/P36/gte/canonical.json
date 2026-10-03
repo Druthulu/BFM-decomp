@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02 18:31",
+ "generated": "2026-10-02 18:33",
  "canonical": {
   "08008ce80c008de810008ee8|0|1": {
    "name": "gte_stsxy3_f3",
@@ -8,11 +8,11 @@
    "clob": [
     "memory"
    ],
-   "defs": 80,
-   "files": 80,
+   "defs": 72,
+   "files": 72,
    "synthesized": false,
    "names": {
-    "gte_stsxy3_f4": 81,
+    "gte_stsxy3_f4": 73,
     "gte_stsxy3_f3": 1
    },
    "sony": true,
@@ -54,7 +54,7 @@
    "files": 0,
    "synthesized": false,
    "names": {
-    "gte_SetRotMatrix_m": 4,
+    "gte_SetRotMatrix_m": 3,
     "gte_SetRotMatrix": 1
    },
    "sony": true,
@@ -62,7 +62,7 @@
    "nout": 0,
    "tmpl": "lw $12, 0( %0 );lw $13, 4( %0 );ctc2 $12, $0;ctc2 $13, $1;lw $12, 8( %0 );lw $13, 12( %0 );lw $14, 16( %0 );ctc2 $12, $2;ctc2 $13, $3;ctc2 $14, $4",
    "outs_first": false,
-   "inline": 15
+   "inline": 13
   },
   "14008c8c18008d8c0028cc481c008e8c0030cd480038ce48|0|1": {
    "name": "gte_SetTransMatrix",
@@ -86,44 +86,6 @@
    "tmpl": "lw $12, 20( %0 );lw $13, 24( %0 );ctc2 $12, $5;lw $14, 28( %0 );ctc2 $13, $6;ctc2 $14, $7",
    "outs_first": false,
    "inline": 12
-  },
-  "000080c8040081c8|0|1": {
-   "name": "gte_ldv0",
-   "params": "(r0)",
-   "body": "__asm__ volatile (\n    \"lwc2 $0, 0( %0 );\"\n    \"lwc2 $1, 4( %0 )\"\n    :\n    : \"r\"( r0 ) )",
-   "clob": [],
-   "defs": 0,
-   "files": 0,
-   "synthesized": false,
-   "names": {
-    "gte_ldv0_m": 2,
-    "gte_ldv0": 1
-   },
-   "sony": true,
-   "nin": 1,
-   "nout": 0,
-   "tmpl": "lwc2 $0, 0( %0 );lwc2 $1, 4( %0 )",
-   "outs_first": false,
-   "inline": 3
-  },
-  "00000000000000001260484a|0|0": {
-   "name": "gte_rtv0",
-   "params": "()",
-   "body": "__asm__ __volatile__(\n    \"nop\\n\"\n    \"nop\\n\"\n    \"mvmva 1, 0, 0, 3, 0\\n\" )",
-   "clob": [],
-   "defs": 0,
-   "files": 0,
-   "synthesized": false,
-   "names": {
-    "gte_rtv0_m": 2,
-    "gte_rtv0": 1
-   },
-   "sony": true,
-   "nin": 0,
-   "nout": 0,
-   "tmpl": "nop\\nnop\\nmvmva 1, 0, 0, 3, 0\\n",
-   "outs_first": false,
-   "inline": 2
   },
   "00008c8c04008d8c0000cc480008cd4808008c8c0c008d8c10008e8c0010cc480018cd480020ce4814008c8c18008d8c0028cc481c008e8c0030cd480038ce48|0|1": {
    "name": "gte_SetRotTransMatrix",
@@ -195,6 +157,25 @@
    "outs_first": false,
    "inline": 3
   },
+  "000080c8040081c8|0|1": {
+   "name": "gte_ldv0",
+   "params": "(r0)",
+   "body": "__asm__ volatile (\n    \"lwc2 $0, 0( %0 );\"\n    \"lwc2 $1, 4( %0 )\"\n    :\n    : \"r\"( r0 ) )",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_ldv0": 1,
+    "gte_ldv0_m": 1
+   },
+   "sony": true,
+   "nin": 1,
+   "nout": 0,
+   "tmpl": "lwc2 $0, 0( %0 );lwc2 $1, 4( %0 )",
+   "outs_first": false,
+   "inline": 1
+  },
   "000000000000000012e0494a|0|0": {
    "name": "gte_rtir",
    "params": "()",
@@ -231,6 +212,24 @@
    "tmpl": "nop;nop;rtps",
    "outs_first": false,
    "inline": 1
+  },
+  "00000000000000001260484a|0|0": {
+   "name": "gte_rtv0",
+   "params": "()",
+   "body": "__asm__ __volatile__(\n    \"nop\\n\"\n    \"nop\\n\"\n    \"mvmva 1, 0, 0, 3, 0\\n\" )",
+   "clob": [],
+   "defs": 0,
+   "files": 0,
+   "synthesized": false,
+   "names": {
+    "gte_rtv0": 1,
+    "gte_rtv0_m": 1
+   },
+   "sony": true,
+   "nin": 0,
+   "nout": 0,
+   "tmpl": "nop\\nnop\\nmvmva 1, 0, 0, 3, 0\\n",
+   "outs_first": false
   },
   "00f84c480000000000008cac|0|1": {
    "name": "gte_stflg",
@@ -305,8 +304,7 @@
    "nin": 1,
    "nout": 1,
    "tmpl": "cfc2 %0, $31; nop; sw %0, 0(%1)",
-   "outs_first": true,
-   "inline": 1
+   "outs_first": true
   },
   "00000000000000002900684a|0|0": {
    "name": "gte_dpcl",
@@ -396,8 +394,7 @@
    "nin": 1,
    "nout": 0,
    "tmpl": "lwc2 $9, 0(%0)\\n\\tlwc2 $10, 4(%0)\\n\\tlwc2 $11, 8(%0)",
-   "outs_first": false,
-   "inline": 1
+   "outs_first": false
   },
   "01008d8000008c80006c0d0000640c0002640c0025608d0102008d8000008c4800088d48|0|1": {
    "name": "gte_ldlvl_alt",
@@ -508,7 +505,7 @@
    "nout": 0,
    "tmpl": "lwc2 $9, 0($sp)\\nlwc2 $10, 4($sp)\\nlwc2 $11, 8($sp)\\nnop\\nnop\\nsqr 0\\n",
    "outs_first": false,
-   "inline": 11
+   "inline": 1
   },
   "000089c804008ac808008bc800000000000000002804a84a|0|1": {
    "name": "gte_lwc2x3_sqr_b502",
@@ -554,7 +551,7 @@
    "nout": 0,
    "tmpl": "lwc2 $9, 0(%0)\\nlwc2 $10, 4(%0)\\nlwc2 $11, 8(%0)\\nnop\\nnop\\nsqr 0\\n",
    "outs_first": false,
-   "inline": 141
+   "inline": 139
   },
   "000089c804008ac808008bc800000000000000002804a04a000099e804009ae808009be8|0|1": {
    "name": "gte_lwc2x3_sqr_swc2x3_c9fc",
@@ -577,7 +574,7 @@
    "nout": 0,
    "tmpl": "lwc2 $9, 0( %0 );lwc2 $10, 4( %0 );lwc2 $11, 8( %0 );nop;nop;sqr 0;swc2 $25, 0( %0 );swc2 $26, 4( %0 );swc2 $27, 8( %0 )",
    "outs_first": false,
-   "inline": 2
+   "inline": 1
   },
   "00004c8c04004d8c0000cc480008cd4808004c8c0c004d8c10004e8c0010cc480018cd480020ce481000a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a00480c4800500d4800580e4800004ca406004da40c004ea41200a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a0200422400480c4800500d4800580e4800004ca406004da40c004ea41400a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a0400422400480c4800500d4800580e4800004ca406004da40c004ea4|1|1": {
    "name": "gte_lwx2_ctc2x2_lwx3_ctc2x3_2c4d",
@@ -600,7 +597,7 @@
    "nout": 1,
    "tmpl": "lw $12, 0(%0);lw $13, 4(%0);ctc2 $12, $0;ctc2 $13, $1;lw $12, 8(%0);lw $13, 12(%0);lw $14, 16(%0);ctc2 $12, $2;ctc2 $13, $3;ctc2 $14, $4;addiu $2, $sp, 0x10;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0(%0);sh $13, 6(%0);sh $14, 12(%0);addiu $2, $sp, 0x12;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;addiu $2, %0, 0x2;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0($2);sh $13, 6($2);sh $14, 12($2);addiu $2, $sp, 0x14;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;addiu %0, %0, 4;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0(%0);sh $13, 6(%0);sh $14, 12(%0)",
    "outs_first": true,
-   "inline": 17
+   "inline": 12
   },
   "00008c8c04008d8c0000cc480008cd4808008c8c0c008d8c10008e8c0010cc480018cd480020ce480000ac940600ad940c00ae9400488c4800508d4800588e48000000000000000012e0494a00480c4800500d4800580e4800008ca406008da40c008ea43200a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a1200a22700480c4800500d4800580e4800004ca406004da40c004ea43400a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a1400a22700480c4800500d4800580e4800004ca406004da40c004ea4|0|2": {
    "name": "gte_lwx2_ctc2x2_lwx3_ctc2x3_3eb0",
@@ -621,8 +618,7 @@
    "nin": 2,
    "nout": 0,
    "tmpl": "lw $12, 0(%0);lw $13, 4(%0);ctc2 $12, $0;ctc2 $13, $1;lw $12, 8(%0);lw $13, 12(%0);lw $14, 16(%0);ctc2 $12, $2;ctc2 $13, $3;ctc2 $14, $4;lhu $12, 0(%1);lhu $13, 6(%1);lhu $14, 12(%1);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0(%0);sh $13, 6(%0);sh $14, 12(%0);addiu $2, $sp, 50;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;addiu $2, $sp, 18;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0($2);sh $13, 6($2);sh $14, 12($2);addiu $2, $sp, 52;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;addiu $2, $sp, 20;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0($2);sh $13, 6($2);sh $14, 12($2)",
-   "outs_first": false,
-   "inline": 1
+   "outs_first": false
   },
   "0000828c0400838c0000c2480008c3480800828c0c00838c1000988c0010c2480018c3480020d8481400828c1800838c0028c2481c00988c0030c3480038d848|3|1": {
    "name": "gte_lwx2_ctc2x2_lwx3_ctc2x3_42e3",
@@ -639,8 +635,7 @@
    "nin": 1,
    "nout": 3,
    "tmpl": "lw %0, 0(%3);lw %1, 4(%3);ctc2 %0, $0;ctc2 %1, $1;lw %0, 8(%3);lw %1, 12(%3);lw %2, 16(%3);ctc2 %0, $2;ctc2 %1, $3;ctc2 %2, $4;lw %0, 20(%3);lw %1, 24(%3);ctc2 %0, $5;lw %2, 28(%3);ctc2 %1, $6;ctc2 %2, $7",
-   "outs_first": true,
-   "inline": 1
+   "outs_first": true
   },
   "00008c8c04008d8c0000cc480008cd4808008c8c0c008d8c10008e8c0010cc480018cd480020ce481000a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a00480c4800500d4800580e4800008ca406008da40c008ea41200a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a0200822400480c4800500d4800580e4800004ca406004da40c004ea41400a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a0400822400480c4800500d4800580e4800004ca406004da40c004ea4|0|1": {
    "name": "gte_lwx2_ctc2x2_lwx3_ctc2x3_8b56",
@@ -662,8 +657,7 @@
    "nin": 1,
    "nout": 0,
    "tmpl": "lw $12, 0(%0);lw $13, 4(%0);ctc2 $12, $0;ctc2 $13, $1;lw $12, 8(%0);lw $13, 12(%0);lw $14, 16(%0);ctc2 $12, $2;ctc2 $13, $3;ctc2 $14, $4;addiu $2, $sp, 16;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0(%0);sh $13, 6(%0);sh $14, 12(%0);addiu $2, $sp, 18;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;addiu $2, %0, 2;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0($2);sh $13, 6($2);sh $14, 12($2);addiu $2, $sp, 20;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;addiu $2, %0, 4;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0($2);sh $13, 6($2);sh $14, 12($2)",
-   "outs_first": false,
-   "inline": 3
+   "outs_first": false
   },
   "00008c8c04008d8c0000cc480008cd4808008c8c0c008d8c10008e8c0010cc480018cd480020ce483000a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a00480c4800500d4800580e4800008ca406008da40c008ea43200a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a1200a22700480c4800500d4800580e4800004ca406004da40c004ea43400a22700004c9406004d940c004e9400488c4800508d4800588e48000000000000000012e0494a1400a22700480c4800500d4800580e4800004ca406004da40c004ea4|0|1": {
    "name": "gte_lwx2_ctc2x2_lwx3_ctc2x3_b751",
@@ -686,8 +680,7 @@
    "nin": 1,
    "nout": 0,
    "tmpl": "lw $12, 0(%0);lw $13, 4(%0);ctc2 $12, $0;ctc2 $13, $1;lw $12, 8(%0);lw $13, 12(%0);lw $14, 16(%0);ctc2 $12, $2;ctc2 $13, $3;ctc2 $14, $4;addiu $2, $sp, 0x30;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0(%0);sh $13, 6(%0);sh $14, 12(%0);addiu $2, $sp, 0x32;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;addiu $2, $sp, 0x12;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0($2);sh $13, 6($2);sh $14, 12($2);addiu $2, $sp, 0x34;lhu $12, 0($2);lhu $13, 6($2);lhu $14, 12($2);mtc2 $12, $9;mtc2 $13, $10;mtc2 $14, $11;nop;nop;mvmva 1, 0, 3, 3, 0;addiu $2, $sp, 0x14;mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0($2);sh $13, 6($2);sh $14, 12($2);",
-   "outs_first": false,
-   "inline": 1
+   "outs_first": false
   },
   "00008c8c04008d8c0000cc480008cd4808008c8c0c008d8c10008e8c0010cc480018cd480020ce480000a0c80400a1c800000000000000001260484a0000d9e80400dae80800dbe8|0|0": {
    "name": "gte_lwx2_ctc2x2_lwx3_ctc2x3_fc24",
@@ -709,8 +702,7 @@
    "nin": 0,
    "nout": 0,
    "tmpl": ".set\\tnoreorder\\nlw     $12, 0($4)\\nlw     $13, 4($4)\\nctc2   $12, $0\\nctc2   $13, $1\\nlw     $12, 8($4)\\nlw     $13, 12($4)\\nlw     $14, 16($4)\\nctc2   $12, $2\\nctc2   $13, $3\\nctc2   $14, $4\\nlwc2   $0, 0($5)\\nlwc2   $1, 4($5)\\nnop\\nnop\\nmvmva  1, 0, 0, 3, 0\\nswc2   $25, 0($6)\\nswc2   $26, 4($6)\\nswc2   $27, 8($6)\\n.set\\treorder\\n",
-   "outs_first": false,
-   "inline": 1
+   "outs_first": false
   },
   "2160800000009de9|0|1": {
    "name": "gte_move_swc2_e610",
@@ -731,7 +723,7 @@
    "nout": 0,
    "tmpl": "move $12, %0\\n\\tswc2 $29, 0($12)",
    "outs_first": false,
-   "inline": 134
+   "inline": 107
   },
   "00408048000086c80000bcc8|0|2": {
    "name": "gte_mtc2_lwc2x2_1fc7",
@@ -751,7 +743,7 @@
    "nout": 0,
    "tmpl": "mtc2 $0, $8\\n\\tlwc2 $6, 0(%0)\\n\\tlwc2 $28, 0(%1)",
    "outs_first": false,
-   "inline": 134
+   "inline": 107
   },
   "00008c9406008d940c008e9400488c4800508d4800588e48000000000000000012e0494a00480c4800500d4800580e4800008ca406008da40c008ea4|0|1": {
    "name": "gte_mulcol",
@@ -898,8 +890,7 @@
    "nin": 0,
    "nout": 0,
    "tmpl": "nop\\n\\tnop\\n\\tsqr 0",
-   "outs_first": false,
-   "inline": 1
+   "outs_first": false
   },
   "00009de8|0|1": {
    "name": "gte_stORGB",
@@ -959,8 +950,7 @@
    "nin": 1,
    "nout": 0,
    "tmpl": "swc2 $8, 0( %0 )",
-   "outs_first": false,
-   "inline": 2
+   "outs_first": false
   },
   "000099e804009ae808009be8|0|1": {
    "name": "gte_stlvnl",
@@ -1347,7 +1337,7 @@
    "nout": 0,
    "tmpl": "swc2 $25, 0($sp)\\nswc2 $26, 4($sp)\\nswc2 $27, 8($sp)\\n",
    "outs_first": false,
-   "inline": 11
+   "inline": 1
   }
  },
  "variants": {
@@ -1385,8 +1375,8 @@
     "memory"
    ],
    "fewer": [],
-   "defs": 3,
-   "files": 3,
+   "defs": 2,
+   "files": 2,
    "inline": 12,
    "params": "(r0)",
    "body": "__asm__ __volatile__(\n    \"lw $12, 0(%0)\\n\"\n    \"lw $13, 4(%0)\\n\"\n    \"ctc2 $12, $0\\n\"\n    \"ctc2 $13, $1\\n\"\n    \"lw $12, 8(%0)\\n\"\n    \"lw $13, 12(%0)\\n\"\n    \"lw $14, 16(%0)\\n\"\n    \"ctc2 $12, $2\\n\"\n    \"ctc2 $13, $3\\n\"\n    \"ctc2 $14, $4\\n\"\n    : : \"r\"(r0) : \"$12\", \"$13\", \"$14\", \"memory\")",
@@ -1415,46 +1405,6 @@
    "body": "__asm__ __volatile__(\n    \"lw $12, 20(%0)\\n\"\n    \"lw $13, 24(%0)\\n\"\n    \"ctc2 $12, $5\\n\"\n    \"lw $14, 28(%0)\\n\"\n    \"ctc2 $13, $6\\n\"\n    \"ctc2 $14, $7\\n\"\n    : : \"r\"(r0) : \"$12\", \"$13\", \"$14\", \"memory\")",
    "source": "header",
    "marker": "// !FAKE: gte variant gte_SetTransMatrix_m \u2014 clobbers +memory vs `gte_SetTransMatrix` (a scheduling steer); pass: P36 T5 GTE consolidation (per-TU definitions; moved to this header 3.39 T7.1); instrument: tools/gte_consolidate.py --header",
-   "pass_": "P36 T5 GTE consolidation (per-TU definitions; moved to this header 3.39 T7.1)"
-  },
-  "000080c8040081c8|0|1|memory": {
-   "name": "gte_ldv0_m",
-   "of": "gte_ldv0",
-   "key": "000080c8040081c8|0|1",
-   "clob": [
-    "memory"
-   ],
-   "extra": [
-    "memory"
-   ],
-   "fewer": [],
-   "defs": 1,
-   "files": 1,
-   "inline": 1,
-   "params": "(p)",
-   "body": "__asm__ __volatile__(\n    \"lwc2 $0, 0(%0)\\n\"\n    \"lwc2 $1, 4(%0)\\n\"\n    : : \"r\"(p) : \"memory\")",
-   "source": "header",
-   "marker": "// !FAKE: gte variant gte_ldv0_m \u2014 clobbers +memory vs `gte_ldv0` (a scheduling steer); pass: P36 T5 GTE consolidation (per-TU definitions; moved to this header 3.39 T7.1); instrument: tools/gte_consolidate.py --header",
-   "pass_": "P36 T5 GTE consolidation (per-TU definitions; moved to this header 3.39 T7.1)"
-  },
-  "00000000000000001260484a|0|0|memory": {
-   "name": "gte_rtv0_m",
-   "of": "gte_rtv0",
-   "key": "00000000000000001260484a|0|0",
-   "clob": [
-    "memory"
-   ],
-   "extra": [
-    "memory"
-   ],
-   "fewer": [],
-   "defs": 1,
-   "files": 1,
-   "inline": 133,
-   "params": "()",
-   "body": "__asm__ __volatile__(\n    \"nop\\n\"\n    \"nop\\n\"\n    \"mvmva 1, 0, 0, 3, 0\\n\"\n    : : : \"memory\")",
-   "source": "header",
-   "marker": "// !FAKE: gte variant gte_rtv0_m \u2014 clobbers +memory vs `gte_rtv0` (a scheduling steer); pass: P36 T5 GTE consolidation (per-TU definitions; moved to this header 3.39 T7.1); instrument: tools/gte_consolidate.py --header",
    "pass_": "P36 T5 GTE consolidation (per-TU definitions; moved to this header 3.39 T7.1)"
   },
   "00008c8c04008d8c0000cc480008cd4808008c8c0c008d8c10008e8c0010cc480018cd480020ce4814008c8c18008d8c0028cc481c008e8c0030cd480038ce48|0|1|$12|$13|$14|memory": {
@@ -1526,6 +1476,26 @@
    "marker": "// !FAKE: gte variant gte_ldclmv_m \u2014 clobbers +memory vs `gte_ldclmv` (a scheduling steer); pass: 3.39 T7.1 inline GTE statements (exact clobbers); instrument: tools/gte_consolidate.py --header",
    "pass_": "3.39 T7.1 inline GTE statements (exact clobbers)"
   },
+  "000080c8040081c8|0|1|memory": {
+   "name": "gte_ldv0_m",
+   "of": "gte_ldv0",
+   "key": "000080c8040081c8|0|1",
+   "clob": [
+    "memory"
+   ],
+   "extra": [
+    "memory"
+   ],
+   "fewer": [],
+   "defs": 0,
+   "files": 0,
+   "inline": 1,
+   "params": "(p)",
+   "body": "__asm__ __volatile__(\n    \"lwc2 $0, 0(%0)\\n\"\n    \"lwc2 $1, 4(%0)\\n\"\n    : : \"r\"(p) : \"memory\")",
+   "source": "header",
+   "marker": "// !FAKE: gte variant gte_ldv0_m \u2014 clobbers +memory vs `gte_ldv0` (a scheduling steer); pass: P36 T5 GTE consolidation (per-TU definitions; moved to this header 3.39 T7.1); instrument: tools/gte_consolidate.py --header",
+   "pass_": "3.39 T7.1 inline GTE statements (exact clobbers)"
+  },
   "000000000000000012e0494a|0|0|memory": {
    "name": "gte_rtir_m",
    "of": "gte_rtir",
@@ -1566,6 +1536,26 @@
    "marker": "// !FAKE: gte variant gte_rtps_m \u2014 clobbers +memory vs `gte_rtps` (a scheduling steer); pass: 3.39 T7.1 inline GTE statements (exact clobbers); instrument: tools/gte_consolidate.py --header",
    "pass_": "3.39 T7.1 inline GTE statements (exact clobbers)"
   },
+  "00000000000000001260484a|0|0|memory": {
+   "name": "gte_rtv0_m",
+   "of": "gte_rtv0",
+   "key": "00000000000000001260484a|0|0",
+   "clob": [
+    "memory"
+   ],
+   "extra": [
+    "memory"
+   ],
+   "fewer": [],
+   "defs": 0,
+   "files": 0,
+   "inline": 133,
+   "params": "()",
+   "body": "__asm__ __volatile__(\n    \"nop\\n\"\n    \"nop\\n\"\n    \"mvmva 1, 0, 0, 3, 0\\n\"\n    : : : \"memory\")",
+   "source": "header",
+   "marker": "// !FAKE: gte variant gte_rtv0_m \u2014 clobbers +memory vs `gte_rtv0` (a scheduling steer); pass: P36 T5 GTE consolidation (per-TU definitions; moved to this header 3.39 T7.1); instrument: tools/gte_consolidate.py --header",
+   "pass_": "3.39 T7.1 inline GTE statements (exact clobbers)"
+  },
   "00f84c480000000000008cac|0|1|$12": {
    "name": "gte_stflg_v845d",
    "of": "gte_stflg",
@@ -1597,8 +1587,8 @@
    "clob": [
     "memory"
    ],
-   "defs": 80,
-   "files": 80,
+   "defs": 72,
+   "files": 72,
    "variant": false,
    "marker": null
   },

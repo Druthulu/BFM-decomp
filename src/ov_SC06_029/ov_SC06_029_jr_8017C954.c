@@ -6866,14 +6866,7 @@ void func_801838BC(short *param_1, short *param_2)
     Y = 0x7F;
     v[2] = param_1[2] - *(s16 *)&D_80126B66;
 
-    __asm__ __volatile__(
-        "lwc2 $9, 0(%0)\n"
-        "lwc2 $10, 4(%0)\n"
-        "lwc2 $11, 8(%0)\n"
-        "nop\n"
-        "nop\n"
-        "sqr 0\n"
-        : : "r"(v) : "$9", "$10", "$11", "memory");
+    gte_lwc2x3_sqr_e416(v);
     gte_stlvnl(v);
 
     t = v[0] + v[2] - 0x4000;

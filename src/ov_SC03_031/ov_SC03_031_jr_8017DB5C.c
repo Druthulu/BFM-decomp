@@ -3637,23 +3637,8 @@ void func_8017F95C(s32 a0) {
 
     mat = *(Mat32 *)&D_800AE620;
     RotMatrixX(-0x300, &mat);
-    __asm__ __volatile__(                
-        "lw $12, 0(%0)\n"
-        "lw $13, 4(%0)\n"
-        "ctc2 $12, $0\n"
-        "ctc2 $13, $1\n"
-        "lw $12, 8(%0)\n"
-        "lw $13, 12(%0)\n"
-        "lw $14, 16(%0)\n"
-        "ctc2 $12, $2\n"
-        "ctc2 $13, $3\n"
-        "ctc2 $14, $4\n" :  : "r"(&mat) : "$12", "$13", "$14" );
-    __asm__ __volatile__(
-        "lwc2 $0, 0(%0)\n"
-        "lwc2 $1, 4(%0)\n"
-        "nop\n"
-        "nop\n"
-        "mvmva 1, 0, 0, 3, 0\n" :  : "r"(&D_8018618C) );
+    gte_SetRotMatrix(&mat);
+    gte_ldv0(&D_8018618C); gte_rtv0();
     gte_stsv(buf);
 
     ((Unkstruct_800B5CB8 *)a0)->unk6  += buf[0];

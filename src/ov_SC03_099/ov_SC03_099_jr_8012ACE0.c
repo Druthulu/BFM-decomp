@@ -2405,14 +2405,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         }
         s1var = -ret;
 
-        __asm__ __volatile__(
-            "lwc2 $9, 0(%0)\n"
-            "lwc2 $10, 4(%0)\n"
-            "lwc2 $11, 8(%0)\n"
-            "nop\n"
-            "nop\n"
-            "sqr 0\n"
-            : : "r"(D_801839C4) : "$9", "$10", "$11", "memory");
+        gte_lwc2x3_sqr_e416(D_801839C4);
         gte_stlvnl(D_801839C8);
 
         pc0 = D_801839C4;

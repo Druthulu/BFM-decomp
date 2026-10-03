@@ -7,12 +7,7 @@ void func_8012EF70(s32 a0, s32 a1) {
     func_8012EFB8(a0);
     {
         register s32 *p __asm__("$3") = &sp10;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
-        __asm__ __volatile__(
-            "mfc2 $12, $19\n"
-            "nop\n"
-            "sra $12, $12, 2\n"
-            "sw $12, 0(%0)\n"
-            : : "r"(p) : "memory", "$12");
+        gte_stszotz(p);
     }
     v1 = sp10;
     *(s16 *)(a1 + 4) = v1;

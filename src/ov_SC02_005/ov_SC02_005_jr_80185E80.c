@@ -3181,13 +3181,7 @@ void func_8018A4C4(s32 a0)
      * live at offset 0x34+0x14/0x18/0x1c inside the object pointed to by
      * a0's field 0x20. Written as raw asm: the target's .s marks these ctc2
      * lines "handwritten instruction" (not a normal codegen mnemonic). */
-    __asm__ __volatile__(                
-        "lw $12, 20(%0)\n"
-        "lw $13, 24(%0)\n"
-        "ctc2 $12, $5\n"
-        "lw $14, 28(%0)\n"
-        "ctc2 $13, $6\n"
-        "ctc2 $14, $7\n" :  : "r"((u8 *)*(s32 *)(a0 + 0x20) + 0x34) : "$12", "$13", "$14" );
+    gte_SetTransMatrix((u8 *)*(s32 *)(a0 + 0x20) + 0x34);
 
     for (i = 0; i < 8; i++) {
         s0 = func_8012913C(0xC);

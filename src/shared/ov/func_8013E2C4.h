@@ -9,14 +9,7 @@ int func_8013E2C4(short *a0) {
     in[0] = D_80126CAC - a0[0];
     in[1] = D_80126CAE - a0[1];
     in[2] = D_80126CB0 - a0[2];
-    __asm__ __volatile__(
-        "lwc2 $9, 0(%0)\n"
-        "lwc2 $10, 4(%0)\n"
-        "lwc2 $11, 8(%0)\n"
-        "nop\n"
-        "nop\n"
-        "sqr 0\n"
-        : : "r"(&in[0]) : "$9", "$10", "$11", "memory");
+    gte_lwc2x3_sqr_e416(&in[0]);
     {
         int *pout = &out[0];
         gte_stlvnl(pout);

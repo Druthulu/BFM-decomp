@@ -9,14 +9,7 @@ int func_8013E194(s16 *a0, s16 *a1) {
     d[2] = a0[2] - a1[2];
     {
         s32 *pd = &d[0];
-        __asm__ __volatile__(
-            "lwc2 $9, 0(%0)\n"
-            "lwc2 $10, 4(%0)\n"
-            "lwc2 $11, 8(%0)\n"
-            "nop\n"
-            "nop\n"
-            "sqr 1\n"
-            : : "r"(pd) : "$9", "$10", "$11", "memory");
+        gte_lwc2x3_sqr_b502(pd);
     }
     {
         s32 *pq = &sq[0];

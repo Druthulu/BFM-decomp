@@ -292,30 +292,6 @@ extern u8 D_800CC5B0[];
 extern u8 D_800CC638[];
 
 
-#define gte_rt(p)                                        \
-    __asm__ volatile (                                   \
-        "lhu $12, 0( %0 );"                              \
-        "lhu $13, 6( %0 );"                              \
-        "lhu $14, 12( %0 );"                             \
-        "mtc2 $12, $9;"                                  \
-        "mtc2 $13, $10;"                                 \
-        "mtc2 $14, $11;"                                 \
-        "nop;"                                           \
-        "nop;"                                           \
-        "mvmva 1, 0, 3, 3, 0"                            \
-        :                                                \
-        : "r"( p )                                       \
-        : "$12", "$13", "$14", "memory");                \
-    __asm__ volatile (                                   \
-        "mfc2 $12, $9;"                                  \
-        "mfc2 $13, $10;"                                 \
-        "mfc2 $14, $11;"                                 \
-        "sh $12, 0( %0 );"                               \
-        "sh $13, 6( %0 );"                               \
-        "sh $14, 12( %0 )"                               \
-        :                                                \
-        : "r"( p )                                       \
-        : "$12", "$13", "$14", "memory")
 
 void func_800CB578(void *arg0) {
     u16 pos[4];
@@ -332,9 +308,9 @@ void func_800CB578(void *arg0) {
     func_80013F3C(&mat);
     RotMatrixZ(CAST_SIGN(s16, (u8 *)arg0, 0x64), &mat);
     gte_SetRotMatrix(obj + 0x34);
-    gte_rt((s32)&mat);
-    gte_rt((s32)&mat + 2);
-    gte_rt((s32)&mat + 4);
+    gte_rt_alt2((s32)&mat);
+    gte_rt_alt2((s32)&mat + 2);
+    gte_rt_alt2((s32)&mat + 4);
     mat.t[0] = *(s32 *)(obj + 0x48);
     mat.t[1] = *(s32 *)(obj + 0x4C);
     mat.t[2] = *(s32 *)(obj + 0x50);

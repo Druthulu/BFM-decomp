@@ -2687,13 +2687,6 @@ extern void func_8017BEB4(void);
 
 
 
-#define gte_stsxy3_f4(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 12( %0 );"                        \
-    "swc2 $14, 16( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 
 
@@ -5641,19 +5634,7 @@ s32 func_80181720(void *arg0) {
     v.vz = (s16)D_80126B66 - raw[2];
 
     /* gte SQR on the XZ difference vector (in place) */
-    __asm__ volatile (
-        "lwc2 $9, 0( %0 );"
-        "lwc2 $10, 4( %0 );"
-        "lwc2 $11, 8( %0 );"
-        "nop;"
-        "nop;"
-        "sqr 0;"
-        "swc2 $25, 0( %0 );"
-        "swc2 $26, 4( %0 );"
-        "swc2 $27, 8( %0 )"
-        :
-        : "r"(&v)
-        : "$9", "$10", "$11", "memory");
+    gte_lwc2x3_sqr_swc2x3_c9fc(&v);
 
     if (r * r <= v.vx + v.vz) {
         return 0;

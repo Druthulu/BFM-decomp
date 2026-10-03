@@ -3297,13 +3297,6 @@ extern void (*D_801824A4[])(void);
 
 #include "../shared/ov/func_8017BEB4.h"
 
-#define gte_stsxy3_f4(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 12( %0 );"                        \
-    "swc2 $14, 16( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 #include "../shared/ov/func_8017BEBC__t67f11bf2.h"
 

@@ -3627,13 +3627,6 @@ extern void func_80146C3C();  // K&R: ? of 1 args (P37 rung D t4_D22)
 #include "../shared/ov/func_8017C6AC.h"
 
 
-#define gte_stsxy3_f4(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 12( %0 );"                        \
-    "swc2 $14, 16( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 #include "../shared/ov/func_8017C710__t3f3d6beb.h"
 

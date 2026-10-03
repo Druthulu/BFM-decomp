@@ -2990,19 +2990,8 @@ short *a0;
     data[0] = a0[3] - a0[68];
     data[1] = 0;
     data[2] = a0[7] - a0[70];
-    __asm__ __volatile__(
-        "lwc2 $9, 0($sp)\n"
-        "lwc2 $10, 4($sp)\n"
-        "lwc2 $11, 8($sp)\n"
-        "nop\n"
-        "nop\n"
-        "sqr 0\n"
-        : : : "$9", "$10", "$11", "memory");
-    __asm__ __volatile__(
-        "swc2 $25, 0($sp)\n"
-        "swc2 $26, 4($sp)\n"
-        "swc2 $27, 8($sp)\n"
-        : : : "memory");
+    gte_lwc2x3_sqr_6a00();
+    gte_swc2x3_66ca();
     return (data[0] + data[2]) <= 0x18FFFF;
 }
 

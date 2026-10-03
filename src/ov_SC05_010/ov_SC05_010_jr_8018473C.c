@@ -3201,14 +3201,7 @@ void func_8018505C(void *a0) {
      * in src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c:2737. */
     {
         s32 *p = &d.vx;
-        __asm__ __volatile__(
-            "lwc2 $9, 0(%0)\n"
-            "lwc2 $10, 4(%0)\n"
-            "lwc2 $11, 8(%0)\n"
-            "nop\n"
-            "nop\n"
-            "sqr 0\n"
-            : : "r"(p) : "$9", "$10", "$11", "memory");
+        gte_lwc2x3_sqr_e416(p);
         gte_stlvnl(p);
     }
 

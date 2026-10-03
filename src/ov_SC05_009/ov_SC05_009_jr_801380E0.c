@@ -871,11 +871,6 @@ extern s16 D_800D45F4[];   /* src0 (flat: [2*i]=x, [2*i+1]=y) */
 extern u8  D_8017F194[];   /* sign table, alt (when a1 < 0xC00) */
 
 
-#define gte_mvmva0()  __asm__ __volatile__( \
-    "nop\n" \
-    "nop\n" \
-    "mvmva 1, 0, 0, 0, 0\n" \
-    : : : "memory")
 
 
 #include "../shared/ov/func_8013AD38__06daa24e.h"

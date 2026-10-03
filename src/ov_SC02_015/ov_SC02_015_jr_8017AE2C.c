@@ -3413,13 +3413,6 @@ void func_8017C18C(s32 a0) {
 
 #include "../shared/ov/func_8017C230.h"
 
-#define gte_stsxy3_f4(r0) __asm__ volatile (     \
-    "swc2 $12, 8( %0 );"                         \
-    "swc2 $13, 12( %0 );"                        \
-    "swc2 $14, 16( %0 )"                         \
-    :                                            \
-    : "r"( r0 )                                  \
-    : "memory" )
 
 #include "../shared/ov/func_8017C294__t67f11bf2.h"
 
