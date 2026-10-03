@@ -59,6 +59,7 @@ AS = "mipsel-linux-gnu-as -Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -
 FAKE = dl.FAKE
 DEFINE_LINE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)(\([^)]*\))?[ \t]*(.*)$")
 _LOCK = dl._LOCK
+DIRECT_KINDS = ("gte", "gte-unsigned", "gte-lever")      # the census kinds of an inline GTE statement (lever_census.classify_direct_gte)
 
 
 class Refuse(Exception):
@@ -88,12 +89,15 @@ def parse_asm(inner):
 
 
 def bind_regs(tmpl, nout, nin):
-    regs = ["$2", "$3"][:nout] + ["$4", "$5", "$6", "$7"][:nin]
+    # a third/fourth output binds to $24/$25 (T7.1: `lw %0..%2 ; ctc2` with three outputs left `%3` unbound and unsigned)
+    regs = ["$2", "$3", "$24", "$25"][:nout] + ["$4", "$5", "$6", "$7"][:nin]
     def sub(m):
         k = int(m.group(1))
         return regs[k] if k < len(regs) else m.group(0)
     t = re.sub(r"%(\d+)", sub, tmpl)
-    t = re.sub(r"\\n|\\t", "\n", t)
+    # `\t` is a tab, not a line break (T7.1: `.set\tnoreorder` split into `.set` + `noreorder` and never assembled)
+    t = re.sub(r"\\n", "\n", t)
+    t = re.sub(r"\\t", "\t", t)
     return t
 
 
@@ -195,6 +199,33 @@ def asm_inner(body_masked):
     return body_masked[o + 1:c] if (o >= 0 and c > 0) else None
 
 
+def asm_inners(body_masked):
+    """the text between the parens of EVERY asm statement in a macro body, in order ([] when one does not close)."""
+    out = []
+    for mm in lc.ASM_KW.finditer(body_masked):
+        o = body_masked.find("(", mm.end())
+        c = lc._paren_span(body_masked, o) if o >= 0 else -1
+        if o < 0 or c < 0:
+            return []
+        out.append(body_masked[o + 1:c])
+    return out
+
+
+def body_signature(body_masked):
+    """the signature of a macro body: its one asm statement's, or for a body of several statements (md_MAIN_019's `gte_rt`: a
+    load+mvmva statement, then a store statement — unsigned until T7.1) the statements' bytes joined by '+', operand counts and
+    clobbers summed / united; None when the body holds no asm statement."""
+    inners = asm_inners(body_masked)
+    if not inners:
+        return None
+    sigs = [signature(i) for i in inners]
+    if len(sigs) == 1:
+        return sigs[0]
+    return dict(bytes="+".join(s["bytes"] for s in sigs), nout=sum(s["nout"] for s in sigs), nin=sum(s["nin"] for s in sigs),
+                clob=sorted(set().union(*(s["clob"] for s in sigs))), tmpl=" ; ".join(s["tmpl"] for s in sigs), ok=all(s["ok"] for s in sigs),
+                ins=[e for s in sigs for e in s["ins"]], outs=[e for s in sigs for e in s["outs"]], parts=len(sigs))
+
+
 def define_params(raw, l0):
     m = DEFINE_LINE.match(raw.split("\n")[l0 - 1])
     return (m.group(2) or "") if m else ""
@@ -247,7 +278,9 @@ def inventory(jobs=12, quiet=False):
     """definitions: [{tu, l0, l1, name, params, body, kind, sig}], direct: [{tu, line, col, inner, sig}], uses: Counter(name)."""
     sites = dl.load_sites()
     uses = collections.Counter(s["via"] for s in sites if s.get("via") and s["kind"] == "gte")
-    direct_sites = [s for s in sites if s["kind"] == "gte" and not s.get("via")]
+    # every inline GTE statement, whatever the census called it: an unsigned one is unsigned BECAUSE it was never here (T7.1: 270
+    # gte-unsigned statements stayed unsigned while this read only kind 'gte')
+    direct_sites = [s for s in sites if s["kind"] in DIRECT_KINDS and not s.get("via")]
     defs, direct = [], []
     for p in inventory_files():
         raw = p.read_text(errors="surrogateescape")
@@ -259,13 +292,13 @@ def inventory(jobs=12, quiet=False):
             if not kind:
                 continue
             d = dict(tu=rel, l0=l0, l1=l1, name=name, params=define_params(raw, l0), body=body, kind=kind, sig=None)
+            if rel == HEADER and l0 >= 2 and FAKE in raw.split("\n")[l0 - 2]:
+                d["note"] = raw.split("\n")[l0 - 2]          # a header variant's `// !FAKE:` line (its pass and instrument) survives regeneration
             if kind == "gte":
-                inner = asm_inner(sc.mask_text(body) if ("/*" in body or "//" in body) else body)
-                if inner is not None:
-                    try:
-                        d["sig"] = signature(inner)
-                    except Exception as ex:   # noqa: BLE001
-                        d["sig"] = dict(bytes=f"ERROR: {ex}"[:100], ok=False, nout=0, nin=0, clob=[], tmpl="", ins=[], outs=[])
+                try:
+                    d["sig"] = body_signature(sc.mask_text(body) if ("/*" in body or "//" in body) else body)
+                except Exception as ex:   # noqa: BLE001
+                    d["sig"] = dict(bytes=f"ERROR: {ex}"[:100], ok=False, nout=0, nin=0, clob=[], tmpl="", ins=[], outs=[])
             defs.append(d)
     by_tu = collections.defaultdict(list)
     for s in direct_sites:
@@ -285,7 +318,8 @@ def inventory(jobs=12, quiet=False):
                 sg = signature(inner)
             except Exception as ex:   # noqa: BLE001
                 sg = dict(bytes=f"ERROR: {ex}"[:100], ok=False, nout=0, nin=0, clob=[], tmpl="", ins=[], outs=[])
-            direct.append(dict(tu=tu, line=s["line"], col=s["col"], fn=s.get("fn"), inner=inner, sig=sg, marked=s.get("marked", False)))
+            direct.append(dict(tu=tu, line=s["line"], col=s["col"], fn=s.get("fn"), inner=inner, sig=sg, marked=s.get("marked", False), kind=s["kind"],
+                               kw=re.sub(r"\s+", " ", m[pos:o]).strip()))
     _save_cache()
     inv = dict(generated=time.strftime("%Y-%m-%d %H:%M"), definitions=defs, direct=direct, uses=dict(uses))
     RUN.mkdir(parents=True, exist_ok=True)
@@ -300,17 +334,180 @@ def inventory(jobs=12, quiet=False):
 # ----------------------------------------------------------------------------------------------------------------------
 # the canonical table
 # ----------------------------------------------------------------------------------------------------------------------
-def canonical_table(inv, quiet=False, write=True):
+def _norm_body(body):
+    return re.sub(r"[ \t]+\n", "\n", body).strip()
+
+
+def _param_list(params):
+    p = (params or "").strip()
+    return [x.strip() for x in p[1:-1].split(",") if x.strip()] if p.startswith("(") else []
+
+
+def _outs_first(params, body):
+    """True when a macro with outputs takes them as its leading parameters, then its inputs, each operand exactly a parameter — the
+    order a call of it for an inline statement with outputs is written in (`NAME(outs…, ins…)`)."""
+    inners = asm_inners(sc.mask_text(body) if ("/*" in body or "//" in body) else body)
+    if len(inners) != 1:
+        return False
+    _, outs, ins = dl.parse_asm_operands(inners[0])
+    return bool(outs) and [e for _, e in outs] + [e for _, e in ins] == _param_list(params)
+
+
+def variant_name(base, canon_clob, cs):
+    extra = sorted(set(cs) - set(canon_clob))
+    fewer = sorted(set(canon_clob) - set(cs))
+    return f"{base}_m" if extra == ["memory"] and not fewer else f"{base}_v{hashlib.sha1('|'.join(cs).encode()).hexdigest()[:4]}"
+
+
+def _add_variant(variants, key, t, cs, defs, hdr=None, inline_stmt=None):
+    """one lever variant per (signature, clobber set), with its definition text: the header's own (stable once moved), else the
+    per-TU majority, else the canonical text with the clobbers set (an inline statement's exact-clobber variant). The pass that made
+    the steer is recorded for the header's `// !FAKE:` line (R113)."""
+    vk = f"{key}|{'|'.join(cs)}"
+    v = variants.get(vk)
+    if v is None:
+        extra = sorted(set(cs) - set(t["clob"]))
+        fewer = sorted(set(t["clob"]) - set(cs))
+        v = variants[vk] = dict(name=hdr["name"] if hdr else variant_name(t["name"], t["clob"], cs), of=t["name"], key=key, clob=list(cs),
+                                extra=extra, fewer=fewer, defs=0, files=0, inline=0, params=None, body=None, source=None, marker=None,
+                                pass_="3.39 T7.1 inline GTE statements (exact clobbers)")
+    rank = {"header": 0, "defs": 1, "synth": 2, None: 9}
+    if hdr is not None:
+        v.update(params=hdr["params"], body=_norm_body(hdr["body"]), source="header", marker=hdr.get("note"))
+    if defs:
+        v["defs"] += len(defs)
+        v["files"] += len({d["tu"] for d in defs})
+        v["pass_"] = "P36 T5 GTE consolidation (per-TU definitions; moved to this header 3.39 T7.1)"
+        if rank[v["source"]] > rank["defs"]:
+            (params, body), _ = collections.Counter((d["params"], _norm_body(d["body"])) for d in defs).most_common(1)[0]
+            v.update(params=params, body=body, source="defs")
+    if inline_stmt is not None:
+        v["inline"] += 1
+        if v["body"] is None and len(asm_inners(t["body"])) == 1:
+            v.update(params=t["params"], body=set_clobbers(t["body"], list(cs)), source="synth")
+    return v
+
+
+def _add_aliases(aliases, key, t, ds, bound, names_taken, variants):
+    """a header-bound homonym (a per-TU name a shared header uses, with the expansion of the canonical or of one of its variants) gets
+    its own header definition under that name, so its per-TU definitions can go (80 `gte_stsxy3_f4` with gte_stsxy3_f3's bytes; 5
+    `gte_mvmva0` = gte_rtv0tr_m — an alias of a variant is a lever and carries the variant's `// !FAKE:` line)."""
+    hom = collections.defaultdict(list)
+    for d in ds:
+        cs = tuple(d["sig"]["clob"])
+        v = variants.get(f"{key}|{'|'.join(cs)}") if cs != tuple(t["clob"]) else None
+        if d["tu"] != HEADER and d["name"] in bound.get(d["tu"], ()) and (
+                (cs == tuple(t["clob"]) and d["name"] != t["name"]) or (v and v.get("body") and d["name"] != v["name"])):
+            hom[(d["name"], cs)].append(d)
+    for (n, cs), dd in sorted(hom.items()):
+        a = aliases.get(n)
+        if a is None:
+            if n in names_taken:
+                continue
+            (params, body), _ = collections.Counter((d["params"], _norm_body(d["body"])) for d in dd).most_common(1)[0]
+            v = variants.get(f"{key}|{'|'.join(cs)}") if cs != tuple(t["clob"]) else None
+            a = aliases[n] = dict(name=n, of=(v or t)["name"], key=key, params=params, body=body, clob=list(cs), defs=0, files=0,
+                                  variant=bool(v), marker=None)
+            names_taken.add(n)
+        if a["key"] == key and tuple(a["clob"]) == cs:
+            a["defs"] += len(dd)
+            a["files"] += len({d["tu"] for d in dd})
+
+
+def sony_bytes():
+    """sig key -> Sony's name, for the inline_c.h macros whose template is plain mnemonics (the loads and stores; its `.word` op
+    spellings sign to junk that matches nothing)."""
+    out = {}
+    if not SONY.exists():
+        return out
+    raw = SONY.read_text(errors="surrogateescape")
+    for (l0, l1, name, body) in sorted(lc.define_blocks(raw), key=lambda b: b[2]):
+        inners = asm_inners(sc.mask_text(body) if "/*" in body else body)
+        if len(inners) != 1 or ".word" in inners[0]:
+            continue
+        try:
+            sg = signature(inners[0])
+        except Exception:   # noqa: BLE001
+            continue
+        if sg["ok"]:
+            out.setdefault(sig_key(sg), name)
+    return out
+
+
+def mnemonic_name(tmpl):
+    """`mtc2 $0,$8; lwc2 $6..; lwc2 $28..` -> `mtc2_lwc2x2` (nops and directives dropped, repeats counted, at most four groups)."""
+    ops = [w.split()[0] for w in re.split(r"\\n|;|\n", re.sub(r"\\t", " ", tmpl)) if w.strip() and not w.strip().startswith(".")]
+    ops = [o for o in ops if o != "nop" and re.fullmatch(r"[a-z][a-z0-9]*", o)]
+    groups = []
+    for o in ops:
+        if groups and groups[-1][0] == o:
+            groups[-1][1] += 1
+        else:
+            groups.append([o, 1])
+    return "_".join(o + (f"x{n}" if n > 1 else "") for o, n in groups[:4]) or "seq"
+
+
+def inline_macro(kw, inner):
+    """(params, body) of a macro whose expansion is the inline statement: its template literals and constraints verbatim, each
+    operand expression a parameter r0.. (outputs first), its clobbers."""
+    s = inner.strip()
+    lits, i, n = [], 0, len(s)
+    while i < n:
+        if s[i] in " \t\r\n":
+            i += 1
+            continue
+        mm = lc.STRLIT.match(s, i)
+        if not mm:
+            break
+        lits.append(mm.group(0))
+        i = mm.end()
+    _, outs, ins = dl.parse_asm_operands(inner)
+    clob = parse_asm(inner)[3]
+    k = 0
+    secs = []
+    for grp in (outs, ins):
+        secs.append(", ".join(f'"{c}"( r{k + j} )' for j, (c, _) in enumerate(grp)))
+        k += len(grp)
+    secs.append(", ".join(f'"{c}"' for c in clob))
+    while secs and not secs[-1]:
+        secs.pop()
+    params = "( " + ", ".join(f"r{j}" for j in range(k)) + " )" if k else "()"
+    body = "\n".join([f"{kw} ("] + lits + [f": {x}" for x in secs]) + " )"
+    return params, body
+
+
+def _cat_keys(sg, table):
+    """(k1, k2): the two canonical signatures a signed statement is the concatenation of (a load then an op), else (None, None)."""
+    b = sg["bytes"]
+    for k1, t1 in table.items():
+        b1 = k1.split("|")[0]
+        if not b.startswith(b1) or len(b1) == 0 or len(b1) >= len(b):
+            continue
+        k2 = f"{b[len(b1):]}|0|0"
+        t2 = table.get(k2)
+        if not t2 or t1["nout"] or t1["nin"] != sg["nin"]:
+            continue
+        return k1, k2
+    return None, None
+
+
+def canonical_table(inv, quiet=False, write=True, bound=None):
     """write=False for fixtures: the selftest once overwrote the real table with its two-signature fixture (the census then classified
-    every direct statement against a fixture and 362 levers vanished twice) — a selftest never writes an instrument's real state."""
+    every direct statement against a fixture and 362 levers vanished twice) — a selftest never writes an instrument's real state.
+    T7.1: every entry carries its definition text (params, body), so render_header can emit it — the canonical macros, the lever
+    VARIANTS (a per-TU `_m`/`_v` definition, or an inline statement's exact clobbers) and the ALIASES (a header-bound homonym: a name a
+    shared header uses, bound by `bound` = header_bound_names); a signature only inline statements carry gets its own canonical macro."""
     sony = sony_table()
     incn = inc_names()
+    bound = bound or {}
     groups = collections.defaultdict(list)
     for d in inv["definitions"]:
         if d["kind"] == "gte" and d["sig"] and d["sig"]["ok"]:
             groups[sig_key(d["sig"])].append(d)
     table, variants, unsigned = {}, {}, [d for d in inv["definitions"] if d["kind"] == "gte" and not (d["sig"] and d["sig"]["ok"])]
-    names_taken = set()
+    aliases = {}
+    names_taken = {d["name"] for d in inv["definitions"] if d["tu"] == HEADER}    # the header's names are fixed (a per-TU group took
+                                                                                  # `gte_rt_alt`, already the header's, before T7.1)
     for key, ds in sorted(groups.items(), key=lambda kv: -len(kv[1])):
         names = collections.Counter(d["name"] for d in ds)
         # candidates: the names with their address / variant suffixes stripped (`gte_stsxy01_80181E04` is Sony's gte_stsxy01;
@@ -321,23 +518,34 @@ def canonical_table(inv, quiet=False, write=True):
             base = re.sub(r"_v[0-9a-f]{4}$", "", base)
             stripped[base] += cnt
         nout0, nin0 = ds[0]["sig"]["nout"], ds[0]["sig"]["nin"]
-        from_header = [d for d in ds if d["tu"] == HEADER]
+        from_header = sorted((d for d in ds if d["tu"] == HEADER), key=lambda d: d["l0"])
         if from_header:
-            h = from_header[0]
+            h = from_header[0]                         # render_header writes the canonical first, then its variants, then its aliases
             names_taken.add(h["name"])
             canon_clob = tuple(h["sig"]["clob"])
-            canon_defs = [d for d in ds if tuple(d["sig"]["clob"]) == canon_clob]
-            table[key] = dict(name=h["name"], params=h["params"], body=re.sub(r"[ \t]+\n", "\n", h["body"]).strip(), clob=list(canon_clob),
-                              defs=len(canon_defs) - 1, files=len({d["tu"] for d in canon_defs}) - 1, synthesized=False,
-                              names=dict(collections.Counter(d["name"] for d in ds)), sony=(h["name"] in sony), nin=nin0, nout=nout0, tmpl=h["sig"]["tmpl"])
+            canon_defs = [d for d in ds if tuple(d["sig"]["clob"]) == canon_clob and d["tu"] != HEADER]
+            table[key] = dict(name=h["name"], params=h["params"], body=_norm_body(h["body"]), clob=list(canon_clob),
+                              defs=len(canon_defs), files=len({d["tu"] for d in canon_defs}), synthesized=False,
+                              names=dict(collections.Counter(d["name"] for d in ds)), sony=(h["name"] in sony), nin=nin0, nout=nout0, tmpl=h["sig"]["tmpl"],
+                              outs_first=_outs_first(h["params"], h["body"]))
+            # the header's own variants and aliases stay in the table once their per-TU definitions are gone (T7.1)
+            # (in file order: the first definition of a clobber set is the canonical / the variant, a later one is an alias)
+            seen_cs = {canon_clob}
+            for hd in from_header[1:]:
+                names_taken.add(hd["name"])
+                cs = tuple(hd["sig"]["clob"])
+                if cs in seen_cs:
+                    v = variants.get(f"{key}|{'|'.join(cs)}") if cs != canon_clob else None
+                    aliases[hd["name"]] = dict(name=hd["name"], of=(v or table[key])["name"], key=key, params=hd["params"], body=_norm_body(hd["body"]),
+                                               clob=list(cs), defs=0, files=0, variant=bool(v), marker=hd.get("note"))
+                else:
+                    seen_cs.add(cs)
+                    _add_variant(variants, key, table[key], cs, [], hdr=hd)
             clob_sets = collections.Counter(tuple(d["sig"]["clob"]) for d in ds if d["tu"] != HEADER)
             for cs, cnt in clob_sets.items():
                 if cs != canon_clob:
-                    extra = sorted(set(cs) - set(canon_clob))
-                    fewer = sorted(set(canon_clob) - set(cs))
-                    vname = f"{h['name']}_m" if extra == ["memory"] and not fewer else f"{h['name']}_v{hashlib.sha1('|'.join(cs).encode()).hexdigest()[:4]}"
-                    variants[f"{key}|{'|'.join(cs)}"] = dict(name=vname, of=h["name"], key=key, clob=list(cs), extra=extra, fewer=fewer, defs=cnt,
-                                                           files=len({d["tu"] for d in ds if tuple(d["sig"]["clob"]) == cs and d["tu"] != HEADER}))
+                    _add_variant(variants, key, table[key], cs, [d for d in ds if tuple(d["sig"]["clob"]) == cs and d["tu"] != HEADER])
+            _add_aliases(aliases, key, table[key], ds, bound, names_taken, variants)
             continue
         # a Sony name is taken only when the operand counts agree with Sony's macro (a private compound that borrowed the name is not it)
         sony_named = [n for n, _ in stripped.most_common() if n in sony and (sony[n][0], sony[n][1]) == (nout0, nin0)]
@@ -373,21 +581,66 @@ def canonical_table(inv, quiet=False, write=True):
             synthesized = True
         table[key] = dict(name=name, params=params, body=body, clob=list(canon_clob), defs=len(canon_defs), files=len({d["tu"] for d in canon_defs}),
                           synthesized=synthesized,
-                          names=dict(names), sony=(name in sony), nin=ds[0]["sig"]["nin"], nout=ds[0]["sig"]["nout"], tmpl=ds[0]["sig"]["tmpl"])
+                          names=dict(names), sony=(name in sony), nin=ds[0]["sig"]["nin"], nout=ds[0]["sig"]["nout"], tmpl=ds[0]["sig"]["tmpl"],
+                          outs_first=_outs_first(params, body))
         for cs, cnt in clob_sets.items():
             if cs != canon_clob:
-                extra = sorted(set(cs) - set(canon_clob))
-                fewer = sorted(set(canon_clob) - set(cs))
-                vname = f"{name}_m" if extra == ["memory"] and not fewer else f"{name}_v{hashlib.sha1('|'.join(cs).encode()).hexdigest()[:4]}"
-                variants[f"{key}|{'|'.join(cs)}"] = dict(name=vname, of=name, key=key, clob=list(cs), extra=extra, fewer=fewer, defs=cnt,
-                                                       files=len({d["tu"] for d in ds if tuple(d["sig"]["clob"]) == cs}))
-    out = dict(generated=time.strftime("%Y-%m-%d %H:%M"), canonical=table, variants=variants, unsigned=[dict(tu=d["tu"], name=d["name"], l0=d["l0"]) for d in unsigned])
+                _add_variant(variants, key, table[key], cs, [d for d in ds if tuple(d["sig"]["clob"]) == cs])
+        _add_aliases(aliases, key, table[key], ds, bound, names_taken, variants)
+    # T7.1: a signature only INLINE statements carry (no definition anywhere) gets its own canonical macro, written from the majority
+    # statement (its template, constraints and clobbers verbatim, each operand expression a parameter, outputs first); every
+    # inline statement whose clobbers differ from its canonical's gets its exact-clobber variant
+    taken_all = names_taken | {d["name"] for d in inv["definitions"]}
+    inline = collections.defaultdict(list)
+    for s in inv["direct"]:
+        if s["sig"]["ok"] and canonical_match(s["sig"], dict(canonical=table))[0] is None:
+            inline[sig_key(s["sig"])].append(s)
+    sony_b = sony_bytes() if inline else {}
+    for key, ss in sorted(inline.items(), key=lambda kv: (-len(kv[1]), kv[0])):
+        sg = ss[0]["sig"]
+        clob_sets = collections.Counter(tuple(s["sig"]["clob"]) for s in ss)
+        canon_clob = clob_sets.most_common(1)[0][0]
+        rep = collections.Counter((s.get("kw") or "__asm__ volatile", s["inner"]) for s in ss if tuple(s["sig"]["clob"]) == canon_clob).most_common(1)[0][0]
+        params, body = inline_macro(rep[0], rep[1])
+        name = sony_b.get(key)
+        if not name or name in taken_all:
+            base = incn.get(key)
+            name = f"gte_{base}" if base else f"gte_{mnemonic_name(sg['tmpl'])}_{hashlib.sha1(key.encode()).hexdigest()[:4]}"
+            base_name, k = name, 2
+            while name in taken_all:
+                name, k = f"{base_name}_{k}", k + 1
+        taken_all.add(name)
+        names_taken.add(name)
+        table[key] = dict(name=name, params=params, body=body, clob=list(canon_clob), defs=0, files=0, synthesized=True, inline=0,
+                          names={}, sony=(name in sony), nin=sg["nin"], nout=sg["nout"], tmpl=sg["tmpl"], outs_first=_outs_first(params, body))
+    for s in inv["direct"]:
+        if not s["sig"]["ok"]:
+            continue
+        names, clob = canonical_match(s["sig"], dict(canonical=table))
+        if names is None:
+            continue
+        key = sig_key(s["sig"]) if len(names) == 1 else None
+        if key:
+            table[key]["inline"] = table[key].get("inline", 0) + 1       # counted for every canonical, so a regenerated header is identical
+        if len(names) == 1 and tuple(s["sig"]["clob"]) != tuple(clob):
+            t = table[key]
+            _add_variant(variants, key, t, tuple(s["sig"]["clob"]), [], inline_stmt=s)
+        elif len(names) == 2 and list(s["sig"]["clob"]) != clob:
+            # a concatenation with other clobbers: the steer belongs to the second macro (the op after the load) — its variant
+            # carries the statement's clobbers less the load's own
+            k1, k2 = _cat_keys(s["sig"], table)
+            vclob = tuple(sorted(set(s["sig"]["clob"]) - (set(table[k1]["clob"]) - set(table[k2]["clob"]))))
+            if set(table[k1]["clob"]) <= set(s["sig"]["clob"]) and vclob != tuple(table[k2]["clob"]):
+                _add_variant(variants, k2, table[k2], vclob, [], inline_stmt=s)
+    out = dict(generated=time.strftime("%Y-%m-%d %H:%M"), canonical=table, variants=variants, aliases=aliases,
+               unsigned=[dict(tu=d["tu"], name=d["name"], l0=d["l0"]) for d in unsigned])
     if write:
         CANON.write_text(json.dumps(out, indent=1))
     if not quiet:
         print(f"gte_consolidate: canonical table — {len(table)} signatures ({sum(1 for t in table.values() if t['sony'])} with Sony's name), "
               f"{sum(t['defs'] for t in table.values())} canonical definitions; {len(variants)} lever variants holding {sum(v['defs'] for v in variants.values())} definitions; "
-              f"{len(unsigned)} unsigned definitions")
+              f"{len(unsigned)} unsigned definitions; {sum(1 for t in table.values() if t.get('inline'))} signatures with inline statements, "
+              f"{sum(1 for v in variants.values() if v.get('body'))} variants with a header definition, {len(aliases)} aliases")
         for v in sorted(variants.values(), key=lambda v: -v["defs"])[:12]:
             print(f"   variant {v['name']:24s} of {v['of']:18s} defs {v['defs']:4d} files {v['files']:4d} extra {v['extra']} fewer {v['fewer']}")
         for u in unsigned[:8]:
@@ -401,18 +654,47 @@ def render_header(canon):
          " * Every macro here is the majority spelling the tree already carried in its per-TU definitions (byte-proven in the fleet),",
          " * named by PsyQ's inline_c.h convention; the signature of each (the bytes the build's maspsx → as tail makes of the template,",
          " * its operand counts, its clobbers) was computed by tools/gte_consolidate.py, which also deleted the per-TU duplicates.",
-         " * A definition that differs from the one here only by an extra clobber (a scheduling steer) lives on in its TU as <name>_m",
-         " * and is a marked lever, not a second spelling. Generated: do not edit by hand — regenerate with `tools/gte_consolidate.py --header`.",
+         " * A definition that differs from the one here only by its clobbers (a scheduling steer) is a LEVER VARIANT, <name>_m or",
+         " * <name>_v<hash>: defined here once, right after its canonical, under a `// !FAKE:` line naming the pass that made the steer",
+         " * and this instrument (3.39 T7.1); its uses are marked levers, not a second spelling. A signature only inline statements carried",
+         " * has its own macro (outputs, then inputs, as parameters); a name a shared header uses with a canonical's expansion is an ALIAS.",
+         " * Generated: do not edit by hand — regenerate with `tools/gte_consolidate.py --header`.",
          " */", "#ifndef GTE_INLINE_H", "#define GTE_INLINE_H", ""]
-    for key, t in sorted(canon["canonical"].items(), key=lambda kv: kv[1]["name"]):
-        body_lines = t["body"].split("\n")
-        L.append(f"/* {t['tmpl'][:90]}{' …' if len(t['tmpl']) > 90 else ''}  ({t['defs']} definitions in {t['files']} files{'' if t['sony'] else '; not a PsyQ name'}) */")
+
+    def define(name, params, body):
+        body_lines = body.split("\n")
         if len(body_lines) == 1:
-            L.append(f"#define {t['name']}{t['params']} {body_lines[0]}")
+            L.append(f"#define {name}{params} {body_lines[0]}")
         else:
-            L.append(f"#define {t['name']}{t['params']} \\")
+            L.append(f"#define {name}{params} \\")
             for i, bl in enumerate(body_lines):
                 L.append(f"    {bl.strip()}" + (" \\" if i < len(body_lines) - 1 else ""))
+
+    by_key_v = collections.defaultdict(list)
+    for v in canon.get("variants", {}).values():
+        if v.get("body"):
+            by_key_v[v["key"]].append(v)
+    by_key_a = collections.defaultdict(list)
+    for a in canon.get("aliases", {}).values():
+        by_key_a[a["key"]].append(a)
+    for key, t in sorted(canon["canonical"].items(), key=lambda kv: kv[1]["name"]):
+        where = f"{t['defs']} definitions in {t['files']} files" + (f", {t['inline']} inline statements" if t.get("inline") else "")
+        L.append(f"/* {t['tmpl'][:90]}{' …' if len(t['tmpl']) > 90 else ''}  ({where}{'' if t['sony'] else '; not a PsyQ name'}) */")
+        define(t["name"], t["params"], t["body"])
+        for v in sorted(by_key_v[key], key=lambda v: v["name"]):
+            delta = ", ".join([f"+{c}" for c in v["extra"]] + [f"-{c}" for c in v["fewer"]])
+            L.append(v.get("marker") or f"// !FAKE: gte variant {v['name']} — clobbers {delta} vs `{t['name']}` (a scheduling steer); "
+                                        f"pass: {v['pass_']}; instrument: tools/gte_consolidate.py --header")
+            define(v["name"], v["params"], v["body"])
+        for a in sorted(by_key_a[key], key=lambda a: a["name"]):
+            if a.get("variant"):
+                # an alias of a lever variant is a lever: the variant's marker, under the alias name
+                L.append(a.get("marker") or f"// !FAKE: gte variant alias {a['name']} = `{a['of']}` — clobbers {', '.join(a['clob'])} vs `{t['name']}` "
+                                            f"(a scheduling steer, under the name a shared header uses); pass: P36 T5 GTE consolidation (per-TU "
+                                            f"definitions; moved to this header 3.39 T7.1); instrument: tools/gte_consolidate.py --header")
+            else:
+                L.append(f"/* alias: `{a['name']}` is `{t['name']}` under the name a shared header uses ({a['defs']} definitions in {a['files']} files) */")
+            define(a["name"], a["params"], a["body"])
         L.append("")
     L += ["#endif /* GTE_INLINE_H */", ""]
     return "\n".join(L)
@@ -470,14 +752,26 @@ def plan_files(inv, canon, only=None, bound=None):
         vkey = key + "|" + "|".join(d["sig"]["clob"])
         homonym = d["name"] != t["name"] and d["name"] in bound.get(d["tu"], ())
         if tuple(d["sig"]["clob"]) == tuple(t["clob"]):
-            if homonym:
+            al = canon.get("aliases", {}).get(d["name"])
+            if homonym and al and al["key"] == key:
+                # the header holds the homonym under its own name with this expansion: the per-TU copy goes, its uses stay
+                plan[d["tu"]]["defs"].append(dict(d, action="delete-alias", canonical=d["name"]))
+            elif homonym:
                 plan[d["tu"]]["defs"].append(dict(d, action="keep", canonical=t["name"], why="header-bound homonym"))
             else:
                 plan[d["tu"]]["defs"].append(dict(d, action="delete", canonical=t["name"]))
         elif vkey in var_by:
             v = var_by[vkey]
-            plan[d["tu"]]["defs"].append(dict(d, action="rename", canonical=t["name"], variant=v["name"], extra=v["extra"], fewer=v["fewer"],
-                                              header_bound=(d["name"] in bound.get(d["tu"], ()))))
+            hb = d["name"] in bound.get(d["tu"], ())
+            # the header holds the variant (T7.1): the per-TU definition goes, its uses call the header's variant (still marked); a
+            # header-bound one under another name keeps the old rename (the shared header's use binds to the includer's name)
+            act = "delete-variant" if v.get("body") and not (hb and d["name"] != v["name"]) else "rename"
+            al = canon.get("aliases", {}).get(d["name"])
+            if act == "rename" and hb and al and al["key"] == key and tuple(al["clob"]) == tuple(d["sig"]["clob"]):
+                plan[d["tu"]]["defs"].append(dict(d, action="delete-alias", canonical=d["name"]))
+                continue
+            plan[d["tu"]]["defs"].append(dict(d, action=act, canonical=t["name"], variant=v["name"], extra=v["extra"], fewer=v["fewer"],
+                                              header_bound=hb, target_params=v.get("params") or ""))
     for s in inv["direct"]:
         plan[s["tu"]]["direct"].append(s)
     files = {tu: p for tu, p in plan.items() if p["defs"] or p["direct"]}
@@ -494,19 +788,40 @@ def canonical_match(sg, canon):
     if not sg["ok"]:
         return None, None
     t = canon["canonical"].get(sig_key(sg))
-    if t and sg["nout"] == 0:
+    if t and (sg["nout"] == 0 or t.get("outs_first")):
         return [t["name"]], list(t["clob"])
-    b = sg["bytes"]
-    for k1, t1 in canon["canonical"].items():
-        b1 = k1.split("|")[0]
-        if not b.startswith(b1) or len(b1) == 0 or len(b1) >= len(b):
-            continue
-        k2 = f"{b[len(b1):]}|0|0"
-        t2 = canon["canonical"].get(k2)
-        if not t2 or t1["nout"] or t1["nin"] != sg["nin"]:
-            continue
-        return [t1["name"], t2["name"]], sorted(set(t1["clob"]) | set(t2["clob"]))
-    return None, None
+    k1, k2 = _cat_keys(sg, canon["canonical"])
+    if k1 is None:
+        return None, None
+    t1, t2 = canon["canonical"][k1], canon["canonical"][k2]
+    return [t1["name"], t2["name"]], sorted(set(t1["clob"]) | set(t2["clob"]))
+
+
+def _call_args(sg, t):
+    return ", ".join((sg["outs"] if t.get("outs_first") else []) + sg["ins"])
+
+
+def rewrite_text(s, canon):
+    """(call text, macro name) of the header macro(s) whose expansion is the direct statement — the canonical's for exact clobbers,
+    the exact-clobber variant's for a lever (T7.1) — or (None, why) when the header holds no such macro."""
+    sg = s["sig"]
+    how, text, name = direct_rewrite(s, canon)
+    if how == "call":
+        return text, name
+    if how != "lever":
+        return None, text
+    names, _ = canonical_match(sg, canon)
+    if len(names) == 1:
+        t = canon["canonical"][sig_key(sg)]
+        v = canon["variants"].get(f"{sig_key(sg)}|{'|'.join(sg['clob'])}")
+        return (f"{v['name']}({_call_args(sg, t)});", v["name"]) if v and v.get("body") else (None, "no header variant")
+    k1, k2 = _cat_keys(sg, canon["canonical"])
+    t1, t2 = canon["canonical"][k1], canon["canonical"][k2]
+    vclob = sorted(set(sg["clob"]) - (set(t1["clob"]) - set(t2["clob"])))
+    v = canon["variants"].get(f"{k2}|{'|'.join(vclob)}")
+    if not set(t1["clob"]) <= set(sg["clob"]) or not (v and v.get("body")):
+        return None, "no header variant"
+    return f"{t1['name']}({', '.join(sg['ins'])}); {v['name']}();", f"{t1['name']}+{v['name']}"
 
 
 def direct_rewrite(s, canon):
@@ -519,18 +834,23 @@ def direct_rewrite(s, canon):
         return "none", "no canonical signature", None
     if len(names) == 1:
         if tuple(sg["clob"]) == tuple(clob):
-            return "call", f"{names[0]}({', '.join(sg['ins'])});", names[0]
+            return "call", f"{names[0]}({_call_args(sg, canon['canonical'][sig_key(sg)])});", names[0]
         extra = sorted(set(sg["clob"]) - set(clob))
         fewer = sorted(set(clob) - set(sg["clob"]))
-        return "lever", (f"{names[0]}_m" if extra == ["memory"] and not fewer else f"{names[0]}_v"), extra or fewer
+        v = canon.get("variants", {}).get(f"{sig_key(sg)}|{'|'.join(sg['clob'])}")
+        return "lever", (v["name"] if v else variant_name(names[0], clob, sg["clob"])), extra or fewer
     if clob == list(sg["clob"]):
         return "call", f"{names[0]}({', '.join(sg['ins'])}); {names[1]}();", f"{names[0]}+{names[1]}"
     extra = sorted(set(sg["clob"]) - set(clob))
-    return "lever", f"{names[0]}+{names[1]}_m" if extra == ["memory"] else f"{names[0]}+{names[1]}_v", extra or sorted(set(clob) - set(sg["clob"]))
+    k1, k2 = _cat_keys(sg, canon["canonical"])
+    t1, t2 = canon["canonical"][k1], canon["canonical"][k2]
+    vclob = sorted(set(sg["clob"]) - (set(t1["clob"]) - set(t2["clob"])))
+    return "lever", f"{names[0]}+{variant_name(names[1], t2['clob'], vclob)}", extra or sorted(set(clob) - set(sg["clob"]))
 
 
-def file_edits(tu, raw, p, canon, label):
-    """[(start, end, repl)] + the record (per definition / use / direct statement) for one file's consolidation."""
+def file_edits(tu, raw, p, canon, label, keep_levers=False):
+    """[(start, end, repl)] + the record (per definition / use / direct statement) for one file's consolidation.
+    keep_levers (T7.1.c3): a direct lever (census gte-lever, or a statement only a lever variant matches) keeps its text and marker (T8's)."""
     m = dl.same_len_mask(raw)
     ls = dl.line_starts(raw)
     edits, rec = [], dict(deleted=0, renamed_defs=0, use_renames=0, direct_calls=0, direct_levers=0, direct_none=0, marked=0, defs=[], direct=[])
@@ -542,10 +862,10 @@ def file_edits(tu, raw, p, canon, label):
             rec["kept"] += 1
             rec["defs"].append(dict(name=d["name"], l0=d["l0"], action="kept", canonical=d["canonical"], why=d.get("why", "")))
             continue
-        if d["action"] == "delete":
+        if d["action"] in ("delete", "delete-variant", "delete-alias"):
             edits.append((start, end, ""))
             rec["deleted"] += 1
-            rec["defs"].append(dict(name=d["name"], l0=d["l0"], action="deleted", canonical=d["canonical"]))
+            rec["defs"].append(dict(name=d["name"], l0=d["l0"], action="deleted", canonical=d.get("variant") or d["canonical"]))
         else:
             line = raw[start:ls[d["l0"]] - 1]
             k = line.find(d["name"])
@@ -564,7 +884,7 @@ def file_edits(tu, raw, p, canon, label):
     planned = {(d["name"], d["l0"]): d for d in p["defs"]}
     for (l0, l1, name, body) in lc.define_blocks(raw):
         d = planned.get((name, l0))
-        target = (d["canonical"] if d["action"] == "delete" else d["variant"] if d["action"] == "rename" else name) if d else None
+        target = (d["canonical"] if d["action"] == "delete" else d["variant"] if d["action"] in ("rename", "delete-variant") else name) if d else None
         all_defs[name].append((l0, target, d))
     for name in all_defs:
         all_defs[name].sort()
@@ -585,12 +905,12 @@ def file_edits(tu, raw, p, canon, label):
             if gov is None or gov[1] is None:
                 continue                                   # a use before any definition (the header's), or one of an unplanned definition
             target, d = gov
-            if objlike and d.get("params", "") == "" and d["action"] == "delete":
+            if objlike and d.get("params", "") == "" and (d["action"] == "delete" or (d["action"] == "delete-variant" and d.get("target_params"))):
                 target = target + "()"                     # an object-like use becomes a call of the function-like canonical
             if target != name:
                 edits.append((mm.start(), mm.end(), target))
                 rec["use_renames"] += 1
-            if d["action"] in ("rename", "keep-variant") and ln not in marked_lines:
+            if d["action"] in ("rename", "keep-variant", "delete-variant") and ln not in marked_lines:
                 le = m.find("\n", mm.start())
                 le = len(raw) if le < 0 else le
                 if FAKE not in raw[ls[ln - 1]:le]:
@@ -605,10 +925,29 @@ def file_edits(tu, raw, p, canon, label):
             rec["direct"].append(dict(line=s["line"], action="refused", why="statement not found at the census position"))
             continue
         how, text, name = direct_rewrite(s, canon)
+        if keep_levers and (how == "lever" or s.get("kind") == lc.GTE_LEVER_KIND):
+            rec["direct"].append(dict(line=s["line"], action="lever-kept", how=how))
+            continue
+        eol = raw.find("\n", e)
+        eol = len(raw) if eol < 0 else eol
+        tail = raw[e:eol].strip(" \t\r;")
+        if how == "lever" and tail.startswith("//") and "!FAKE:" in tail:
+            e = eol                                        # the statement's old trailing marker gives way to the call's own
+            tail = ""
         if how == "call":
             edits.append((pos, e, text))
             rec["direct_calls"] += 1
             rec["direct"].append(dict(line=s["line"], action="call", name=name))
+        elif how == "lever" and rewrite_text(s, canon)[0] and not tail:
+            # T7.1: the header holds the exact-clobber variant — the statement becomes its call, still a marked lever (T8's); the
+            # marker ends the line, so only when nothing follows the statement on its last line
+            call, vname = rewrite_text(s, canon)
+            edits.append((pos, e, f"{call}  {FAKE} gte via {vname} — clobbers {', '.join(name)} vs Sony's (a scheduling steer; 3.39 T7.1 {label}, "
+                                  f"instrument tools/gte_consolidate.py)"))
+            marked_lines.add(s["line"])
+            rec["marked"] += 1
+            rec["direct_levers"] += 1
+            rec["direct"].append(dict(line=s["line"], action="lever-call", variant=vname, delta=name))
         elif how == "lever":
             le = m.find("\n", pos)
             le = len(raw) if le < 0 else le
@@ -635,8 +974,9 @@ def apply_batch(a):
         sys.exit("gte_consolidate --apply: the header is not in place (--header first, then the fleet run and its commit)")
     dl.ensure_census(a.jobs)
     inv = inventory(a.jobs, quiet=True)
-    canon = canonical_table(inv, quiet=True)
-    files = plan_files(inv, canon, a.only, bound=header_bound_names(inv))
+    bound = header_bound_names(inv)
+    canon = canonical_table(inv, quiet=True, bound=bound)
+    files = plan_files(inv, canon, a.only, bound=bound)
     order = sorted(files, key=lambda tu: (-len(files[tu]["defs"]) - len(files[tu]["direct"]), tu))
     ledger_rows = [json.loads(l) for l in LEDGER.read_text().splitlines() if l.strip()] if LEDGER.exists() else []
     # a REFUSED file (restored to its original text, its reason in the ledger) is not drawn again without --rejudge
@@ -702,7 +1042,7 @@ def apply_batch(a):
             except (Refuse, dl.Refuse) as ex:
                 d["trial"] = f"REFUSED {ex}"
         try:
-            edits, rec = file_edits(tu, raw, plan_tu, canon, a.label)
+            edits, rec = file_edits(tu, raw, plan_tu, canon, a.label, keep_levers=a.keep_levers)
         except Refuse as ex:
             row.update(verdict="REFUSED", why=str(ex))
             log(f"  {tu}: REFUSED {ex}")
@@ -1047,8 +1387,9 @@ def selftest():
     out = dl.apply_edits(fx, edits)
     if "#define gte_ldv0(" in out or "#define LDV0_DA34" in out:
         fail("canonical/private definitions must be deleted")
-    if "#define gte_ldv0_m( r0 )" not in out or "GTE VARIANT `gte_ldv0_m`" not in out or "!FAKE" in out.split("#define gte_ldv0_m")[0]:
-        fail(f"the variant definition renamed + noted (the note carries no marker token):\n{out}")
+    # T7.1: the header holds the variant's definition, so the per-TU variant definition is deleted (its use calls the header's, marked)
+    if "#define gte_ldv0m" in out or "#define gte_ldv0_m" in out or not any(d["action"] == "delete-variant" for d in plan["fx.c"]["defs"]):
+        fail(f"per-TU variant definition deleted once the header holds it:\n{out}")
     # an object-like macro: `#define MVMVA __asm__ volatile ("nop;nop;rtps")` used as `MVMVA;` -> `gte_rtps();`
     fxo = ('#define MVMVA __asm__ volatile ("nop;nop;rtps")\nvoid h(void) {\n    MVMVA;\n}\n')
     defso = []
@@ -1067,7 +1408,7 @@ def selftest():
         fail(f"the lever variant's use marked:\n{out}")
     if "    gte_ldv0(v);\n}" not in out:
         fail(f"the direct statement rewritten into the canonical call:\n{out}")
-    if rec["deleted"] != 2 or rec["renamed_defs"] != 1 or rec["use_renames"] != 2 or rec["direct_calls"] != 1 or rec["marked"] != 1:
+    if rec["deleted"] != 3 or rec["renamed_defs"] != 0 or rec["use_renames"] != 2 or rec["direct_calls"] != 1 or rec["marked"] != 1:
         fail(f"record: {rec}")
     # 4b. a name redefined in the same file: each use follows the definition above it (a wrong-target rename changed store offsets in T5's first run)
     fx2 = ('#define gte_stsxy3( r0 ) __asm__ volatile ( "swc2 $12, 0( %0 );" "swc2 $13, 4( %0 );" "swc2 $14, 8( %0 )" : : "r"( r0 ) : "memory" )\n'
@@ -1104,10 +1445,67 @@ def selftest():
     out4 = dl.apply_edits(fx, edits4)
     if "#define LDV0_DA34" not in out4 or "    LDV0_DA34(v);\n" not in out4 or rec4["kept"] != 1:
         fail(f"a kept definition and its use untouched:\n{out4}")
-    # 5. the header renders every canonical macro once, with its parameters
+    # 4d. with the homonym bound, the header carries it as an ALIAS and the per-TU copy is deleted, its use untouched
+    canon4 = canonical_table(inv2, quiet=True, write=False, bound={"fx.c": {"LDV0_DA34"}})
+    plan4d = plan_files(inv2, canon4, bound={"fx.c": {"LDV0_DA34"}})
+    out4d = dl.apply_edits(fx, file_edits("fx.c", fx, plan4d["fx.c"], canon4, "self")[0])
+    if "#define LDV0_DA34" in out4d or "    LDV0_DA34(v);\n" not in out4d or render_header(canon4).count("#define LDV0_DA34(") != 1:
+        fail(f"a header-bound homonym with an alias: per-TU copy deleted, use kept, alias in the header:\n{out4d}")
+    # 5. the header renders every canonical macro once, with its parameters, and each variant once, after it, under its !FAKE line
     h = render_header(canon2)
-    if h.count("#define gte_ldv0(") != 1 or "#define gte_ldv0_m" in h:
-        fail("header: one canonical definition, no variant")
+    hl = h.split("\n")
+    vi = [i for i, l in enumerate(hl) if l.startswith("#define gte_ldv0_m(")]
+    if h.count("#define gte_ldv0(") != 1 or len(vi) != 1 or vi[0] < hl.index(next(l for l in hl if l.startswith("#define gte_ldv0("))):
+        fail(f"header: one canonical definition, then its variant once:\n{h}")
+    elif not (hl[vi[0] - 1].startswith("// !FAKE: gte variant gte_ldv0_m") and "pass: P36 T5" in hl[vi[0] - 1] and "instrument: tools/gte_consolidate.py" in hl[vi[0] - 1]):
+        fail(f"header variant marker (pass + instrument): {hl[vi[0] - 1]}")
+    # 6. T7.1 unsigned -> signed: a `\t` is a tab (`.set\tnoreorder`), a third output binds, a two-statement body signs, and the inventory
+    # reads every inline kind the census emits (gte-unsigned was never read, so never signed)
+    if not signature('".set\\tnoreorder\\n" "nop\\n" ".set\\treorder\\n"')["ok"]:
+        fail("`.set\\tnoreorder` must sign")
+    if not signature('"lw %0, 0(%3);" "lw %1, 4(%3);" "lw %2, 8(%3)" : "=r"(a), "=r"(b), "=r"(c) : "r"(p)')["ok"]:
+        fail("three outputs must sign")
+    s2b = body_signature('__asm__ volatile ("lwc2 $0, 0( %0 )" : : "r"( p )); __asm__ volatile ("nop;nop;rtps")')
+    if not (s2b and s2b["ok"] and s2b["bytes"] == f"{s4['bytes'][:8]}+{s1['bytes']}"):
+        fail(f"two-statement body: {s2b}")
+    if "gte-unsigned" not in DIRECT_KINDS or "gte-lever" not in DIRECT_KINDS:
+        fail(f"inventory direct kinds: {DIRECT_KINDS}")
+    # 7. an inline-only signature gets its own macro (expansion = the statement: same bytes, operands, clobbers); a minority clobber set
+    # gets its exact-clobber variant; a statement with an output is called outputs-first; a direct lever is respelled to its variant
+    ist = '"mtc2 $0, $8\\n\\tlwc2 $6, 0(%0)\\n\\tlwc2 $28, 0(%1)" :: "r"(fc), "r"(&g[1]) : "memory"'
+    ist_nm = '"mtc2 $0, $8\\n\\tlwc2 $6, 0(%0)\\n\\tlwc2 $28, 0(%1)" :: "r"(fc), "r"(&g[1])'
+    ost = '"cfc2 %0, $31; nop; sw %0, 0(%1)" : "=&r"(t4) : "r"(v0) : "memory"'
+    dd = [dict(tu="i.c", line=n, col=5, inner=x, kw="__asm__ __volatile__", sig=signature(x)) for n, x in enumerate([ist, ist, ist_nm, ost], start=1)]
+    inv5 = dict(definitions=inv["definitions"], direct=dd, uses={})
+    canon5 = canonical_table(inv5, quiet=True, write=False)
+    ti = canon5["canonical"].get(sig_key(dd[0]["sig"]))
+    if not ti or not ti.get("inline") or ti["clob"] != ["memory"]:
+        fail(f"inline-only signature: {ti}")
+    else:
+        sgi = body_signature(ti["body"])
+        if sig_key(sgi) != sig_key(dd[0]["sig"]) or sgi["clob"] != ["memory"] or render_header(canon5).count(f"#define {ti['name']}(") != 1:
+            fail(f"inline macro expansion must sign as the statement: {ti['body']}")
+        if rewrite_text(dd[0], canon5) != (f"{ti['name']}(fc, &g[1]);", ti["name"]):
+            fail(f"inline call: {rewrite_text(dd[0], canon5)}")
+        vt, vn = rewrite_text(dd[2], canon5)
+        vv = canon5["variants"].get(sig_key(dd[2]["sig"]) + "|")
+        if not vv or vn != vv["name"] or not re.search(r"_v[0-9a-f]{4}$", vn) or body_signature(vv["body"])["clob"] != []:
+            fail(f"inline exact-clobber variant: {vt} {vv}")
+        to = canon5["canonical"].get(sig_key(dd[3]["sig"]))
+        if not to or rewrite_text(dd[3], canon5)[0] != f"{to['name']}(t4, v0);":
+            fail(f"outputs-first call: {to and to['params']} {rewrite_text(dd[3], canon5)}")
+    fxl = ('void k(s32 *v) {\n    __asm__ volatile("lwc2 $0, 0(%0);" "lwc2 $1, 4(%0)" : : "r"(v) : "memory");  // !FAKE: gte direct — old (P36 T5 x)\n}\n')
+    fpl = fxl.find("__asm__")
+    fil = fxl[fxl.find("(", fpl) + 1:lc._paren_span(fxl, fxl.find("(", fpl))]
+    pl = dict(defs=[], direct=[dict(tu="fl.c", line=2, col=5, inner=fil, sig=signature(fil))], renames={})
+    outl = dl.apply_edits(fxl, file_edits("fl.c", fxl, pl, canon2, "self")[0])
+    if not re.search(r"\n    gte_ldv0_m\(v\);  // !FAKE: gte via gte_ldv0_m — clobbers memory .*3\.39 T7\.1 self.*\n\}", outl) or "old" in outl:
+        fail(f"direct lever respelled to its header variant, marked once:\n{outl}")
+    if dl.apply_edits(fxl, file_edits("fl.c", fxl, pl, canon2, "self", keep_levers=True)[0]) != fxl:
+        fail("--keep-levers: a direct lever must keep its text and marker")
+    pk = dict(defs=[], direct=[dict(pl["direct"][0], kind=lc.GTE_LEVER_KIND)], renames={})
+    if dl.apply_edits(fxl, file_edits("fl.c", fxl, pk, canon2, "self", keep_levers=True)[0]) != fxl:
+        fail("--keep-levers: a census gte-lever statement must keep its text")
     print(f"gte_consolidate --selftest: {'OK' if ok else 'FAIL'} — signatures rtps={s1['bytes'][16:24]} ldv0={s4['bytes'][:16]}; table {len(canon2['canonical'])} canonical / {len(canon2['variants'])} variant; fixture edits {len(edits)}")
     return ok
 
@@ -1125,6 +1523,7 @@ def main():
     ap.add_argument("--label", default=None)
     ap.add_argument("--only", nargs="*", default=None)
     ap.add_argument("--rejudge", action="store_true")
+    ap.add_argument("--keep-levers", action="store_true", help="--apply: leave direct lever statements (census gte-lever) as they are (T8 owns them)")
     ap.add_argument("--dirty-ok", action="store_true", help="--remark on a tree the scrub just modified (one fleet run for both)")
     ap.add_argument("-j", "--jobs", type=int, default=12)
     a = ap.parse_args()
@@ -1136,11 +1535,11 @@ def main():
     if a.inventory:
         dl.ensure_census(a.jobs)
         inv = inventory(a.jobs)
-        canonical_table(inv)
+        canonical_table(inv, bound=header_bound_names(inv))
         return
     if a.header:
         inv = json.loads(INVENTORY.read_text()) if INVENTORY.exists() else inventory(a.jobs, quiet=True)
-        canon = canonical_table(inv, quiet=True)
+        canon = canonical_table(inv, quiet=True, bound=header_bound_names(inv))
         write_header(canon)
         return
     if a.apply:

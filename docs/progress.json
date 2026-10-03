@@ -60,7 +60,7 @@
    "unmarked": 0,
    "volatile_sites": 1587,
    "register_keyword_sites": 50,
-   "gte_sites": 6463,
+   "gte_sites": 6735,
    "hand_asm_routines_in_c_shells": 22,
    "hand_asm_routine_sites": 2682
   },
