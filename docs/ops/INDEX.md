@@ -59,3 +59,4 @@ p39-t10-2026-10-02-check-casts-residue.md | §P39 T10 — 2026-10-02: type_censu
 p39-t5-2026-10-02-restruct-im-recipes.md | §P39 T5 — 2026-10-02: restruct rung S --forms I,M recipe ladder; residue GADDR | 6
 | p39-t6-2026-10-02-restruct-rung-d-callers.md | §P39 T6 — 2026-10-02: restruct rung D caller-only units, alias defs, shared-header def scope | 4
 | p39-t71-2026-10-02-gte-one-spelling.md | §P39 T7.1 — 2026-10-02: lever_census strict via-header filter; gte_consolidate header variants, --keep-levers | 4
+| p39-t8-2026-10-02-lever-residue.md | §P39 T8 — 2026-10-02: lever_census --write-residue; config/lever_residue.tsv columns and cause vocabulary | 2

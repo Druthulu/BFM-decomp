@@ -1,7 +1,7 @@
 share_census: 218 binaries · 362,389 sig instances · 362,389 classified · 0 UNACCOUNTED · 10,180 h_exact classes with >=2 instances
-  verdicts (classes): A 2,843 · B 139 · C 5,675 · D 1,521 · M 2
-  instances by verdict: A 238,092 · B 25,325 · C 12,694 · D 4,686 · M 4
-  flags: ALIAS 17 · E 3,826 · F 54 · PINS 57 · TWIN-COVERED 3,748 · TYPEDEF 38
+  verdicts (classes): A 2,843 · B 139 · C 5,650 · D 1,546 · M 2
+  instances by verdict: A 238,092 · B 25,325 · C 12,574 · D 4,806 · M 4
+  flags: ALIAS 16 · E 3,826 · F 54 · PINS 57 · TWIN-COVERED 3,748 · TYPEDEF 38
   SAME-VRAM UNREGISTERED (the phase's backlog): 41 classes · 5,372 instances · 139 private copies · 98 collapsible · 308,953 ins; of which twin-pending 0 classes / 0 instances
   TWIN-COVERED (one source directory per payload, T3): 3,507 classes · 7,040 instances
   CROSS-ADDRESS / CROSS-SPACE (deferred to the names phase): 3,801 classes · 30,347 instances · 11,340 private copies
@@ -37,4 +37,4 @@ share_census: 218 binaries · 362,389 sig instances · 362,389 classified · 0 U
     B E,F                    11852 x     2  0x80014554,0x8001455C,0x8001513C  func_80014554,func_8001455c
     A -                       141 x   167  0x80163C2C  func_80163c2c
     A -                       141 x   165  0x80178004  func_80178004
-  macro sites 0 · duplicate-text classes 6,396 (17,732 sites) · elapsed 34.0 s
+  macro sites 0 · duplicate-text classes 6,374 (17,637 sites) · elapsed 22.8 s

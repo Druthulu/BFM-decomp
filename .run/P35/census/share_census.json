@@ -29,11 +29,11 @@
   "copies": 11340,
   "instances": 30347
  },
- "duplicate_text_classes": 6396,
- "duplicate_text_sites": 17732,
- "elapsed_s": 34.0,
+ "duplicate_text_classes": 6374,
+ "duplicate_text_sites": 17637,
+ "elapsed_s": 22.8,
  "flags": {
-  "ALIAS": 17,
+  "ALIAS": 16,
   "E": 3826,
   "F": 54,
   "PINS": 57,
@@ -43,15 +43,15 @@
  "ins_by_verdict": {
   "A": 7020189,
   "B": 437429,
-  "C": 537913,
-  "D": 84548,
+  "C": 534635,
+  "D": 87826,
   "M": 126
  },
  "instances_by_verdict": {
   "A": 238092,
   "B": 25325,
-  "C": 12694,
-  "D": 4686,
+  "C": 12574,
+  "D": 4806,
   "M": 4
  },
  "macro_sites": 0,
@@ -105,8 +105,8 @@
  "verdicts": {
   "A": 2843,
   "B": 139,
-  "C": 5675,
-  "D": 1521,
+  "C": 5650,
+  "D": 1546,
   "M": 2
  },
  "violations": 0
