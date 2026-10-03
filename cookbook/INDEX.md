@@ -964,3 +964,6 @@ C0511 | Type-census instrument pitfalls: attrs in layout hash, tag+typedef one n
 C0512 | Folding duplicate struct definitions onto one canonical type, byte-safely | structs,fold,types,restruct,lift_types | 2026-09-30 | 38/T7 | P38 T4-T6 summaries
 C0513 | Makefile health-gate traps: make -n on .ONESHELL executes; health needs a complete build/ | make,tools-health,oneshell,build | 2026-09-30 | 38/T7 | P38 T1
 C0514 | Run a repo-wide check on unedited HEAD first; mirrored edits need make kit-corpus | docs,doc_links,tools-health,kit-corpus,baseline | 2026-09-30 | 38/PE | P38 T8, T10 summaries
+C0515 | Global I/M casts to typed externs: R ladder and refusal causes | casts,globals,extern,restruct,recipes | 2026-10-02 | 39/T5 | P3.39 T5 summary
+C0516 | Lying declarations: def + all callers; K&R-empty can be load-bearing | lying,decls,K&R,restruct,rung-D | 2026-10-02 | 39/T6 | P3.39 T6 summary
+C0517 | GTE one spelling in gte_inline.h; clobber variants as header-level levers | gte,levers,delever,gte_consolidate | 2026-10-02 | 39/T7.1 | P3.39 T7.1/T8 summaries

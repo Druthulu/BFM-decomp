@@ -81,3 +81,4 @@ date	milestone	head	sites_AB	pins	asm	bodies_AB	distinct_AB	marked	unmarked	gte_
 2026-09-12	P37 T4 — the declaration layer: func_80157D20 ×132 (--map-data), func_80029D3C + 3 callers (--with), func_80188A30 void→s32, func_80183CC4/8017FC5C/80185578/80188DF4 (--tu); 4,010 → 3,730	274223396	3730	1868	1862	1838	662	3730	0	450	314	1589	50	5996	302	76
 2026-09-12	P37 T4 close — the declaration layer at its floor: 1,796 lying declarations (98,648 at T1), 5,262 K&R sites and 418 cross-binary counted apart; levers 3,730	bd7d32ec2	3730	1868	1862	1838	662	3730	0	450	314	1589	50	5996	302	76
 2026-09-29	P38 T7 close — one canonical definition per type: 1,650 bodies, 0 dup classes outside the 53 listed twins, 0 parse-error declarations, 229 lying declarations	465d915bd	3730	1868	1862	1838	662	3730	0	450	314	1589	50	5996	302	76
+2026-10-02	P3.39 close: reading A (residue 3528)	3a9377c926	3364	1868	1496	1684	643	3364	0	91	164	1581	50	5984	302	26

@@ -10,3 +10,4 @@ T11 | done | progress snapshot and chart catch-up | - | tasks/T11.md | logs/T11.
 T6 | done | lying declarations to 0 outside the ledger | - | tasks/T6.md | logs/T6.md | -
 T7.1 | done | GTE to one spelling (predicate read as the census documents it) | - | tasks/T7.1.md | logs/T7.1.md | -
 T8 | done | pins and asm the unified types explain; residue ledger | - | tasks/T8.md | logs/T8.md | -
+T9 | done | milestone gate and record (Phase 3.39, the cast campaign, reading A) | - | tasks/T9.md | logs/T9.md | -
