@@ -4473,10 +4473,9 @@ void func_80180584(void *a0)
     p = &D_8019DCF8;
     /* Zero-byte second set of `p` — blinds sched.c's reg_known_value alias
      * oracle so `*p = nc0` anti-depends on the D_8019DCF9/A loads. */
-    __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     c0 = *p;
     if (c0 < 0xFF) {
-        nc0 = c0 + 0x10;
+        do { nc0 = c0 + 0x10; } while (0);
         *p = nc0;
         c1 = D_8019DCF9;
         c2 = D_8019DCFA;

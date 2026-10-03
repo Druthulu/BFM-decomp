@@ -7109,7 +7109,7 @@ s32 func_80183CC4(s16 *a0, s32 a1) {
     *(u32 *)(sub + 0x4) |= 0x50000000;
     ((Unkstruct_800B5CB8 *)obj)->unk1C = 1;
     CAST_WIDTH(u32, obj, 0x2C) = a1;
-    *(u8 *)(sub + 0x24) = *(u8 *)(sub + 0x25) = *(u8 *)(sub + 0x26) = a1;
+    { *(u8 *)(sub + 0x24) = *(u8 *)(sub + 0x25) = *(u8 *)(sub + 0x26) = a1; }
     return (s32)obj;
 }
 

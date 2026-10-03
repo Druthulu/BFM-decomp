@@ -3723,7 +3723,6 @@ void func_80180CBC(s32 param_1) {
     extern s16 D_801C774C;
 
     s32 ptr;
-    s32 tmp;
 
     func_8012A828(param_1, &D_80186B78);
     CAST_ALIAS(s16, param_1, 2) = 2;
@@ -3731,9 +3730,8 @@ void func_80180CBC(s32 param_1) {
     ptr = ((Unkstruct_800B5CB8 *)param_1)->unk20;
     CAST_ALIAS(s32, param_1, 0xE0) = D_8018A9D2;
     CAST_ALIAS(s32, param_1, 0xE4) = 0;
-    tmp = *(volatile s32 *)(param_1 + 0xE4);
     ((Unkstruct_800B5CB8 *)param_1)->unkFC = 0x18;
-    ((Unkstruct_800B5CB8 *)ptr)->unk10 = (s16)tmp;
+    ((Unkstruct_800B5CB8 *)ptr)->unk10 = (s16)(*(s32 *)(param_1 + 0xE4));
     ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x12C;
     D_801C774C = 1;
 }

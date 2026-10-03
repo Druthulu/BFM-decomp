@@ -3252,8 +3252,8 @@ void func_80186234(void *arg0) {
     func_8012AD44((s32 *)s0, 3);
     v0 = *(s32 *)(s0 + 0x64);
     p = *(s32 **)(v0 + 0x20);
-    *(volatile s32 *)(p + 1) &= 0x7FFFFFFF;
-    ((Unkstruct_800B5CB8 *)D_801EC450)->unk2 = 0x7;
+    *(s32 *)(p + 1) &= 0x7FFFFFFF;
+    do { ((Unkstruct_800B5CB8 *)D_801EC450)->unk2 = 0x7; } while (0);
     ((Unkstruct_800B5CB8 *)D_801EC450)->unk6 = 0x180;
     CAST_ALIAS(s16, (s32)D_801EC450, 0x0A) = -0x1C8;
     ((Unkstruct_800B5CB8 *)D_801EC450)->unkE = 0x3C0;
@@ -4300,10 +4300,9 @@ void func_801878A8(s32 arg0) {
 void func_80187954(void *a0)
 {
     s32 t1 = ((Unkstruct_800B5CB8 *)a0)->unk64;
-    s32 t2 = *(volatile s32 *)((s32)a0 + 0x64);
 
     CAST_WIDTH(s32, (s32)a0, 0x4) = *(s32 *)(t1 + 0x4);
-    CAST_WIDTH(s32, (s32)a0, 0x8) = *(s32 *)(t2 + 0x8);
+    CAST_WIDTH(s32, (s32)a0, 0x8) = *(s32 *)((*(s32 *)((s32)a0 + 0x64)) + 0x8);
     CAST_WIDTH(s32, (s32)a0, 0xC) = *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xC);
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 =
         *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x12);

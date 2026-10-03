@@ -3312,7 +3312,7 @@ s32 func_80185578(s32 arg0, s32 arg1) {
         CAST_SIGN(u32, arg0, 0xE0) |= 4;
         func_8001C924(((Unkstruct_800B5CB8 *)arg0)->unk20, (void *)D_801BD2FC[state]);
         if (res != 0) {
-            ((Unkstruct_800B5CB8 *)arg0)->unkEC = *(u16 *)(res + 0x36);
+            { ((Unkstruct_800B5CB8 *)arg0)->unkEC = *(u16 *)(res + 0x36); }
         }
         break;
     default:

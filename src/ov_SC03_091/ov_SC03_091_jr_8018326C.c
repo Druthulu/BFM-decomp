@@ -6630,7 +6630,7 @@ s32 func_80188DF4(s32 a0)
     t = p[0];
     CAST_SIGN(s32 *, a0, 0xD0) = p;
     ((Unkstruct_800B5CB8 *)a0)->unkE0 = t;
-    func_800183E0(p[1]);
+    { func_800183E0(p[1]); }
     return 0;
 }
 

@@ -3346,9 +3346,8 @@ void func_80187928(void *a0) {
         }
         break;
     case 1: {
-        s32 v0 = *(volatile u16 *)((s32)a0 + 0x34);
         ((Unkstruct_80126B58 *)a0)->unk1C = 0x40;
-        CAST_WIDTH(u16, (s32)a0, 0x34) = v0 + 1;
+        CAST_WIDTH(u16, (s32)a0, 0x34) = (*(u16 *)((s32)a0 + 0x34)) + 1;
         break;
     }
     case 2:

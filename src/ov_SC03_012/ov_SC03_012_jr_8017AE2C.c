@@ -4139,8 +4139,8 @@ void func_8017DCB4(s32 a0) {
                 }
                 val2c = (s16)((adj >> 2) + 3);
             store_vals:
-                *(volatile s16 *)(result + 0x2C) = val2c;
-                ptr = *(volatile s32 *)(result + 0x20);
+                do { *(s16 *)(result + 0x2C) = val2c; } while (0);
+                ptr = *(s32 *)(result + 0x20);
                 magv = magw;
                 *(u16 *)(ptr + 0x1C) = magv;
                 *(u16 *)(ptr + 0x1A) = magv;

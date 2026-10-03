@@ -8434,13 +8434,11 @@ void func_80185D44(void *a0) {
     }
     func_8001C214(v0, (s32)D_801A0734);
     m = 0x7FFF0000;
-    __asm__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     t = 0x80;
     CAST_WIDTH(s16, (s32)a0, 0xE0) = t;
     *(s16 *)((s32)a0 + 0xDE) = t;
     CAST_WIDTH(s16, (s32)a0, 0xDC) = t;
-    t = -2;
-    *(s16 *)((s32)a0 + 0xE2) = t;
+    *(s16 *)((s32)a0 + 0xE2) = (-2);
     p = (u8 *)D_801DDBF4;
     v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
     ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x80;
