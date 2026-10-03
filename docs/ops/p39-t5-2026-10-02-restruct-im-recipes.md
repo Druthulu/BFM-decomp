@@ -6,3 +6,4 @@
 - `--rung S --recipes` (no `--forms`) also runs the ladder on every drawn body's I/M global-base sites.
 - `residue_cause_im`: `gaddr` -> `GADDR` (was ABS-ADDR); `ABS-ADDR` only for bclass `abs`.
 - Cycle: `RECIPES=1 FORMS=I,M RUNG=S LABEL_PREFIX=t5_im TASK=T5 bash tools/restruct_cycle.sh 1 1 50 S <overlay>` (pass-through env, usage line :14).
+- Cycle (T9.c1, H7): before the per-batch `readability_progress.py --snapshot`, `restruct_cycle.sh` refreshes the newest `.run/P*/census` (`type_census.py -j 16 --out-dir <newest>`, log `.run/P37/census/census_<label>_newest.log`); the P37 census stays the gate input. A refresh failure prints and continues.
