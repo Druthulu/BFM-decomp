@@ -38,6 +38,7 @@
   "todoFeatureEnabled": false,
   "autoCompactEnabled": false,
   "awaySummaryEnabled": false,
+  "promptSuggestionEnabled": false,
   "env": {
     "CLAUDE_CODE_GOAL_CHECKIN_MINUTES": "0",
     "CLAUDE_CODE_TOTAL_TOKENS_REMINDER": "off",
