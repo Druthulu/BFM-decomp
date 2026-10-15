@@ -756,8 +756,8 @@ extern ActorFn D_80188614[];
 int func_80148AFC(void *a0) {
     s32 p = (s32)a0;
     s32 iVar5 = *(s32 *)(p + 0x20);
-    register s32 tmp __asm__("$5") = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
-                        *(s32 *)(D_801151D4 + 0x48) - *(s32 *)(D_801151D4 + 0x3C)) - 0x400) & 0xFFF;
+    register s32 tmp __asm__("$5") = (ratan2(((Unkstruct_80126948 *)D_801151D4)->unk44 - ((Unkstruct_80126948 *)D_801151D4)->unk50,  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+                        ((Unkstruct_80126948 *)D_801151D4)->unk48 - ((Unkstruct_80126948 *)D_801151D4)->unk3C) - 0x400) & 0xFFF;
     s32 sVar3;
     u8 bVar1;
     __asm__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
@@ -842,8 +842,8 @@ s32 func_80148D44(void) {
     s32 d;
 
     p = D_801151D4;
-    a = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
-                  *(s32 *)(p + 0x48) - *(s32 *)(p + 0x3c)) - 0x400) & 0xFFF;
+    a = (ratan2(((Unkstruct_80126948 *)p)->unk44 - ((Unkstruct_80126948 *)p)->unk50,
+                  ((Unkstruct_80126948 *)p)->unk48 - ((Unkstruct_80126948 *)p)->unk3C) - 0x400) & 0xFFF;
     d = (s32)D_80126C01;
     __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
     ang = a;
@@ -883,8 +883,8 @@ s32 func_80148E54(s32 arg0) {
 
     extern s32 D_801151D4;
     extern s16 (*D_80188694[])(s32);
-    s32 tmp = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),
-                      *(s32 *)(D_801151D4 + 0x48) - *(s32 *)(D_801151D4 + 0x3C)) - 0x400) & 0xFFF;
+    s32 tmp = (ratan2(((Unkstruct_80126948 *)D_801151D4)->unk44 - ((Unkstruct_80126948 *)D_801151D4)->unk50,
+                      ((Unkstruct_80126948 *)D_801151D4)->unk48 - ((Unkstruct_80126948 *)D_801151D4)->unk3C) - 0x400) & 0xFFF;
     s32 ang = tmp;
 
     switch (*(u8 *)(arg0 + 0xA9)) {
@@ -2913,7 +2913,7 @@ s32 func_8015094C(s32 param_1) {
         }
         {
             short cur = *(short *)(param_1 + 0xe);
-            s32 diff = *(s32 *)(cam + 0x50) - cur;
+            s32 diff = ((Unkstruct_80126948 *)cam)->unk50 - cur;
             s32 av = (diff < 0) ? -diff : diff;
             if (av >= 5) {
                 *(short *)(param_1 + 0xe) = (diff >= 0) ? cur + 4 : cur - 4;
