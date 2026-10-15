@@ -2983,7 +2983,7 @@ extern s16 D_8019DC56;
 extern s16 D_8019DC58;
 
 void func_8017B824(void) {
-    D_8019DC4C = (s16) M2C_FIELD(D_801151D4, s32 *, 0x48);
+    D_8019DC4C = (s16) ((Unkstruct_80126948 *)D_801151D4)->unk48;
     D_8019DC4E = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
     D_8019DC50 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
     D_8019DC54 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x3C);
