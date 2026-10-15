@@ -3029,17 +3029,17 @@ void func_801815DC(s32 param_1) {
     vec[1] = D_8018864E << 8;
     vec[2] = D_80188650 << 8;
 
-    func_800484EC(*(s32 *)(param_1 + 0x20) + 0x34, (s32)vec, (s32)out);
+    func_800484EC(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x34, (s32)vec, (s32)out);
 
-    out[0] += *(s16 *)(param_1 + 0x6) << 8;
-    out[1] += *(s16 *)(param_1 + 0xA) << 8;
-    out[2] += *(s16 *)(param_1 + 0xE) << 8;
+    out[0] += CAST_SIGN(s16, param_1, 0x6) << 8;
+    out[1] += CAST_SIGN(s16, param_1, 0xA) << 8;
+    out[2] += CAST_SIGN(s16, param_1, 0xE) << 8;
 
     sp.f0 = out[0] / 256;
     sp.f2 = out[1] / 256;
     sp.f4 = out[2] / 256;
     sp.f6 = 0x20;
-    if ((*(u16 *)(param_1 + 0x70) & 0x1000) != 0) {
+    if ((CAST_SIGN(u16, param_1, 0x70) & 0x1000) != 0) {
         sp.f8 = 0x1001;
     } else {
         sp.f8 = 3;

@@ -4162,8 +4162,8 @@ void func_801818E0(void *arg0) {
     extern s32 D_801A18C8;
 
     ((void (*)(void *, void *))func_8012A828)(arg0, &D_801A18C8);
-    *(s16 *)((u8 *)arg0 + 0x2) = 0x2;
-    *(s32 *)((u8 *)arg0 + 0x1C) = 0x28;
+    ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0x2;
+    ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x28;
 }
 
 

@@ -3956,8 +3956,8 @@ void func_80189340(s32 p)
                 xy[0] = xy[2];
                 xy[1] = xy[3];
                 RotTransPers(sv, &xy[2], &rgb, &flag);
-                if ((*(s16 *)(p + 0xA8) & mask) != 0) {
-                    rgb = *(s32 *)(p + 0x1C) << 6;
+                if ((((Unkstruct_800B5CB8 *)p)->unkA8 & mask) != 0) {
+                    rgb = ((Unkstruct_800B5CB8 *)p)->unk1C << 6;
                     for (j = 0; j < 4; j++) {
                         s32 c = rgb;
                         ((PHdr_80189340 *)pp)->len = 8;

@@ -598,7 +598,7 @@ void func_80186A04(s32 arg0) {
     s32 j;
     s16 v0;
 
-    idx = *(s16 *)(arg0 + 0x70);
+    idx = ((Unkstruct_800B5CB8 *)arg0)->unk70;
     if (idx >= 14) {
         return;
     }
@@ -659,7 +659,7 @@ void func_80186B08(s32 param_1)
     int i;
     int j;
 
-    idx = *(s16 *)(param_1 + 0x70);
+    idx = ((Unkstruct_800B5CB8 *)param_1)->unk70;
 
     if (idx >= 14)
         return;
@@ -2056,7 +2056,7 @@ extern u16 D_800B99D8;
 
 void func_801888EC(void *a0)
 {
-    if (*(s16 *)((u8 *)a0 + 0x70) < 12 && (D_800B99D8 & 0xF) == (*(s16 *)((u8 *)a0 + 0x70) & 0xF)) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk70 < 12 && (D_800B99D8 & 0xF) == (((Unkstruct_800B5CB8 *)a0)->unk70 & 0xF)) {
         func_8018A0E4((s32)a0);
     }
 }

@@ -2985,7 +2985,7 @@ void func_8017B824(void) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_801151D4;
-    D_801C119C = (s16) M2C_FIELD(D_801151D4, s32 *, 0x48);
+    D_801C119C = (s16) ((Unkstruct_80126948 *)D_801151D4)->unk48;
     D_801C119E = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
     D_801C11A0 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
     D_801C11A4 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x3C);
