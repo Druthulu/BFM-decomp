@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "e85b50b42d",
+  "head": "f47d32bd94",
   "src_stamp": "8f8df1d2908392c9",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-15T17:06:37Z",
+  "when": "2026-10-15T17:17:43Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -289985,7 +289985,7 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 17566,
+   "types": 17574,
    "explained_sites": 237117,
    "deref_sites": 241020,
    "explained_pct": 98.4,
@@ -289994,57 +289994,57 @@
    "suspect": 11,
    "evidence": {
     "param": 39326,
-    "ret-of": 6204,
     "assign": 19821,
-    "assign&": 1282,
+    "ret-of": 6189,
     "arg": 10487,
     "return": 1539,
-    "arg&": 238,
+    "assign&": 1407,
+    "arg&": 253,
     "field": 6053,
     "nested": 9
    },
    "vetoed": {
     "arg-conduit": 151900,
-    "assign-multisource": 34809,
-    "arg-no-overlap": 27139,
-    "arg&-conduit": 14767,
-    "arg&-no-overlap": 3399,
-    "field-multisource": 4139,
-    "assign&-multisource": 12727,
     "ret-of-multisource": 6835,
-    "ret-of": 196,
+    "assign-multisource": 34809,
+    "arg&-conduit": 14767,
+    "field-multisource": 4139,
+    "ret-of": 499,
+    "assign&-multisource": 12727,
+    "arg&-no-overlap": 3384,
     "assign": 279,
-    "assign&": 335,
+    "arg-no-overlap": 27163,
+    "assign&": 79,
     "arg": 64,
     "return": 5,
     "field": 132
    },
-   "singletons": 13707,
-   "multi_body": 3859,
-   "sites_in_multi_body": 184522,
+   "singletons": 13708,
+   "multi_body": 3866,
+   "sites_in_multi_body": 184509,
    "top": [
     {
      "name": "Unkstruct_800D3888",
-     "sites": 19257,
-     "bodies": 4454,
+     "sites": 19259,
+     "bodies": 4455,
      "size_hint": 268,
      "fields": 120,
      "conflicts": 50,
      "sign_mixed": 44,
      "merges": {
-      "arg&": 217,
+      "arg&": 232,
       "param": 9536,
       "arg": 6923,
       "assign": 7820,
       "return": 742,
       "ret-of": 2549,
-      "assign&": 20,
+      "assign&": 18,
       "field": 676
      },
      "globals_at": [
       "D_800D3888",
-      "D_801818AC",
-      "D_8018192C"
+      "D_80181538",
+      "D_801818AC"
      ],
      "globals_ptr": [
       "D_8006386C",
@@ -290141,20 +290141,6 @@
      "merges": {
       "param": 16,
       "arg": 7
-     },
-     "globals_at": [],
-     "globals_ptr": []
-    },
-    {
-     "name": "Unkstruct_80146A6C",
-     "sites": 1589,
-     "bodies": 440,
-     "size_hint": 44,
-     "fields": 7,
-     "conflicts": 0,
-     "sign_mixed": 3,
-     "merges": {
-      "ret-of": 22
      },
      "globals_at": [],
      "globals_ptr": []
@@ -290418,6 +290404,18 @@
      },
      "globals_at": [],
      "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_77b908eb",
+     "sites": 786,
+     "bodies": 131,
+     "size_hint": 48,
+     "fields": 2,
+     "conflicts": 0,
+     "sign_mixed": 1,
+     "merges": {},
+     "globals_at": [],
+     "globals_ptr": []
     }
    ]
   },
@@ -290451,8 +290449,8 @@
    "block_frames": 629
   },
   "global_blocks": {
-   "n": 2120,
-   "members": 14238,
+   "n": 2121,
+   "members": 14243,
    "top": [
     {
      "base": "0x800cf10c",
@@ -290631,9 +290629,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 57.3,
-   "decls_s": 240.9,
-   "total_s": 251.3
+   "walk_s": 40.8,
+   "decls_s": 200.4,
+   "total_s": 212.1
   }
  },
  "dup_layout_classes": [
