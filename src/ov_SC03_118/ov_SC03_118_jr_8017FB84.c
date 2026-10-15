@@ -3671,28 +3671,28 @@ extern s32 D_801D4300;
 void func_8018201C(s32 a0) {
     s32 self;
     self = a0;
-    if (*(s32 *)(self + 0x1C) == 0x30) {
+    if (((Unkstruct_800B5CB8 *)self)->unk1C == 0x30) {
         func_8013CABC();
-    } else if (*(s32 *)(self + 0x1C) == 0x10) {
-        func_80182904((void *)*(s32 *)(self + 0xD0));
+    } else if (((Unkstruct_800B5CB8 *)self)->unk1C == 0x10) {
+        func_80182904((void *)((Unkstruct_800B5CB8 *)self)->unkD0);
     }
-    if (*(u16 *)(self + 0x102) & 1) {
-        *(u16 *)(*(s32 *)(self + 0x64) + 0xE) =
-            *(u16 *)(*(s32 *)(self + 0x64) + 0xE) - 3;
-        *(u16 *)(*(s32 *)(*(s32 *)(self + 0x64) + 0x20) + 0xC) =
-            *(u16 *)(*(s32 *)(*(s32 *)(self + 0x64) + 0x20) + 0xC) - 3;
-        *(u16 *)(self + 0xE) = *(u16 *)(self + 0xE) - 3;
+    if (CAST_SIGN(u16, self, 0x102) & 1) {
+        *(u16 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xE) =
+            *(u16 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xE) - 3;
+        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x20) + 0xC) =
+            *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x20) + 0xC) - 3;
+        ((Unkstruct_800B5CB8 *)self)->unkE = ((Unkstruct_800B5CB8 *)self)->unkE - 3;
     } else {
-        *(u16 *)(*(s32 *)(self + 0x64) + 0xE) =
-            *(u16 *)(*(s32 *)(self + 0x64) + 0xE) + 3;
-        *(u16 *)(*(s32 *)(*(s32 *)(self + 0x64) + 0x20) + 0xC) =
-            *(u16 *)(*(s32 *)(*(s32 *)(self + 0x64) + 0x20) + 0xC) + 3;
-        *(u16 *)(self + 0xE) = *(u16 *)(self + 0xE) + 3;
+        *(u16 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xE) =
+            *(u16 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xE) + 3;
+        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x20) + 0xC) =
+            *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x20) + 0xC) + 3;
+        ((Unkstruct_800B5CB8 *)self)->unkE = ((Unkstruct_800B5CB8 *)self)->unkE + 3;
     }
     {
         s32 t;
         t = D_801D4300;
-        *(u16 *)(self + 0x102) = *(u16 *)(self + 0x102) + 1;
+        ((Unkstruct_800B5CB8 *)self)->unk102 = CAST_SIGN(u16, self, 0x102) + 1;
         if (t == 0) {
             D_801D4300 = func_80183178();
         }
@@ -3700,8 +3700,8 @@ void func_8018201C(s32 a0) {
     if (func_8012BEE8(self) && D_801D4300) {
         func_8018226C(self);
     } else {
-        if (*(s32 *)(self + 0x1C) < 0x48) {
-            if ((*(s32 *)(self + 0x1C) & 3) == 0) {
+        if (((Unkstruct_800B5CB8 *)self)->unk1C < 0x48) {
+            if ((((Unkstruct_800B5CB8 *)self)->unk1C & 3) == 0) {
                 func_8018219C(self);
             }
         }

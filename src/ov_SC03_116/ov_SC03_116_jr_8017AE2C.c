@@ -4854,16 +4854,16 @@ void func_80181B88(s32 a0) {
     s32 s0 = a0;
     s16 sp10[3];
 
-    *(u16 *)(*(s32 *)(s0 + 0x20) + 0x18) -= 0x80;
-    *(u16 *)(*(s32 *)(s0 + 0x20) + 0x1A) -= 0x80;
-    *(u16 *)(*(s32 *)(s0 + 0x20) + 0x1C) -= 0x80;
-    if (*(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) <= 0) {
-        sp10[0] = *(u16 *)(s0 + 0x6);
-        sp10[1] = *(u16 *)(s0 + 0xA);
-        sp10[2] = *(u16 *)(s0 + 0xE);
+    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk18 -= 0x80;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk1A -= 0x80;
+    *(u16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x1C) -= 0x80;
+    if (*(s16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x18) <= 0) {
+        sp10[0] = ((Unkstruct_800B5CB8 *)s0)->unk6;
+        sp10[1] = ((Unkstruct_800B5CB8 *)s0)->unkA;
+        sp10[2] = ((Unkstruct_800B5CB8 *)s0)->unkE;
         sp10[1] -= 0x10;
         func_80143BDC(sp10);
-        func_8018232C((s16 *)(s32)*(s16 *)(s0 + 0x70));
+        func_8018232C((s16 *)(s32)((Unkstruct_800B5CB8 *)s0)->unk70);
         func_8012C218((void *)s0);
     }
 }

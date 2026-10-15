@@ -3350,7 +3350,7 @@ s32 func_80186DD4(s32 a0) {
     s32 t;
 
     s0 = a0;
-    if (*(s16 *)(s0 + 0xE8) == 0) {
+    if (CAST_WIDTH(s16, s0, 0xE8) == 0) {
         a0 = ((s32 (*)(s32))func_8012CBA4)(a0);
         if ((a0 & 0xFF) == 2) {
             func_80131E00(s0, 0x12);
@@ -3376,13 +3376,13 @@ s32 func_80186DD4(s32 a0) {
 
     a0 = func_8012CBCC(s0);
     if (!(a0 & 0x2000)) {
-        t = *(u16 *)(s0 + 0xE8) + 1;
-        *(u16 *)(s0 + 0xE8) = t;
+        t = CAST_WIDTH(u16, s0, 0xE8) + 1;
+        CAST_WIDTH(u16, s0, 0xE8) = t;
         if ((s16)t >= 0x5A) {
             return -1;
         }
     }
-    *(u16 *)(s0 + 0xE8) = 0;
+    CAST_WIDTH(u16, s0, 0xE8) = 0;
     return 1;
 }
 

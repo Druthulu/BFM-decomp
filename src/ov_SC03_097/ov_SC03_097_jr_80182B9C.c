@@ -4077,9 +4077,9 @@ s32 a0;
 
     r = ((s32 (*)(s32))func_8012CBF4)(a0);
     if (D_800B99DA % 24 == 0) {
-        sp10[0] = *(u16 *)(a0 + 6);
-        sp10[1] = *(u16 *)(a0 + 0xA);
-        sp10[2] = *(u16 *)(a0 + 0xE);
+        sp10[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
+        sp10[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
+        sp10[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
         sp10[1] = sp10[1] + 0x38;
         func_80184FB0(sp10, *(s16 *)(a0 + 0xDE));
     }

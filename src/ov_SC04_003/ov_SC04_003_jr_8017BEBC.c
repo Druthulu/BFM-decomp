@@ -5140,18 +5140,18 @@ extern void func_801800D4(s32 a0, s32 a1);
 void func_8018090C(s32 arg0) {
     s32 s0 = arg0;
 
-    if (*(s16 *)(s0 + 0xAA) != 0) {
+    if (((Unkstruct_800B5CB8 *)s0)->unkAA != 0) {
         return;
     }
 
-    switch (*(u16 *)(s0 + 0x34)) {
+    switch (((Unkstruct_800B5CB8 *)s0)->unk34) {
     case 0:
         if (func_8012BEE8(s0) != 0) {
             if (func_8017F6F4(s0) != 0) {
-                *(s32 *)(s0 + 0x1C) = 0x30;
-                *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+                ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x30;
+                ((Unkstruct_800B5CB8 *)s0)->unk34 = ((Unkstruct_800B5CB8 *)s0)->unk34 + 1;
             } else {
-                *(s32 *)(s0 + 0x1C) = 0x10;
+                ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x10;
             }
         }
         break;
