@@ -3608,7 +3608,7 @@ extern s32 func_8017E05C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua2)  // K&R:
 
 void func_8017E008(void *a0) {
     if (((s32 (*)(void))func_8017E05C)() == 0) {
-        if (*(u16 *)((u8 *)a0 + 0xB8) & 0x8000) {
+        if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
             func_80171A34((s32 *)a0, 1);
         }
     }

@@ -132,7 +132,7 @@ extern void func_801858F8(void *a0);
 void func_801EF6B0(void *a0) {
     u16 v1;
 
-    v1 = *(u16 *)((s32)a0 + 0x34);
+    v1 = ((Unkstruct_800B5CB8 *)a0)->unk34;
 
     switch (v1) {
     case 0:
