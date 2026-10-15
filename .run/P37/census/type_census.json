@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "a1f31010c1",
+  "head": "fd80370fab",
   "src_stamp": "8f8df1d2908392c9",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-15T19:50:31Z",
+  "when": "2026-10-15T20:00:29Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -290629,9 +290629,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 37.1,
-   "decls_s": 182.3,
-   "total_s": 191.3
+   "walk_s": 37.5,
+   "decls_s": 183.6,
+   "total_s": 192.5
   }
  },
  "dup_layout_classes": [
