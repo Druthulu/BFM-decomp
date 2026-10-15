@@ -3541,6 +3541,44 @@ def fold_report(heads):
 # planning and --apply (the batch: files in leverage order, workers own whole TUs, headers serial and last)
 # ----------------------------------------------------------------------------------------------------------------------
 BBT_PIN = os.environ.get("RESTRUCT_BBT") or None      # P3.39 T3.c2: a pinned body_base_type.json (--bbt / RESTRUCT_BBT)
+TYPE_FOLDS_FILE = REPO / "config" / "type_folds.tsv"  # P3.40 T2: the map-type decision table (fold|define|residual)
+_folds = None
+
+
+def type_folds():
+    """P3.40 T2: {map_type: (action, target)} from config/type_folds.tsv (`#` comments, a `map_type action ...` header; action
+    fold|define|residual). Read once per process; a missing file is {}."""
+    global _folds
+    if _folds is None:
+        out = {}
+        if TYPE_FOLDS_FILE.exists():
+            for l in TYPE_FOLDS_FILE.read_text().splitlines():
+                c = l.split("\t")
+                if not l.strip() or l.startswith("#") or c[0] == "map_type" or len(c) < 3:
+                    continue
+                if c[1] in ("fold", "define", "residual"):
+                    out[c[0]] = (c[1], c[2])
+        _folds = out
+    return _folds
+
+
+def fold_type(t, folds=None):
+    """The drawn name of a map type: a fold/define row's target, else the type itself."""
+    r = (type_folds() if folds is None else folds).get(t)
+    return r[1] if r and r[0] in ("fold", "define") else t
+
+
+def fold_bbt(d, folds=None):
+    """A bbt dict with every fold/define entry's `type` renamed to its target (`map_type` keeps the map's name for plan_S's weight)."""
+    folds = type_folds() if folds is None else folds
+    out = {}
+    for key, bases in d.items():
+        nb = {}
+        for bk, ent in bases.items():
+            t = fold_type(ent.get("type"), folds)
+            nb[bk] = ent if t == ent.get("type") else dict(ent, type=t, map_type=ent.get("map_type", ent.get("type")))
+        out[key] = nb
+    return out
 
 
 def merge_bbt(cur, pin, can):
@@ -3565,13 +3603,13 @@ def bbt():
     p = CENSUS / "body_base_type.json"
     if not p.exists():
         sys.exit("restruct: no body_base_type.json — run `tools/type_census.py -j 16 --sites` first (R43)")
-    cur = json.loads(p.read_text())
+    cur = fold_bbt(json.loads(p.read_text()))                  # P3.40 T2: fold/define rows rename before the canonical test
     if BBT_PIN:
         pp = pathlib.Path(BBT_PIN)
         pp = pp if pp.is_absolute() else REPO / pp
         if not pp.exists():
             sys.exit(f"restruct: the pinned body_base_type ({BBT_PIN}) does not exist")
-        cur, _ = merge_bbt(cur, json.loads(pp.read_text()), canon_types())
+        cur, _ = merge_bbt(cur, fold_bbt(json.loads(pp.read_text())), canon_types())
     return cur
 
 
@@ -3632,7 +3670,7 @@ def plan_S(headers, batch, only, done, latest=None, data=None):
                 skipped["type-not-visible"] += 1
                 continue
             usable[bk] = ent
-            weight[tu] += smap.get(ent["type"], {}).get("sites", 0)
+            weight[tu] += smap.get(ent.get("map_type", ent["type"]), {}).get("sites", 0)   # T2: a folded base weighs by its map name
         if usable:
             files[tu][fn] = usable
     if latest:
@@ -3649,15 +3687,27 @@ RESIDUE_FILE_UNIT = "<file-scope>"       # the unit of census sites outside any 
 RESIDUE_DEFAULT_ONLY = ["ov_*"]
 
 
-def residue_cause(s, can=None):
+def residue_cause(s, can=None, latest=None, folds=None):
     """Why an undrawn P/X census site stays raw: FILE-SCOPE (fn null), NO-TYPE-IN-MAP (untyped), TYPE-NOT-CANONICAL, TYPE-NOT-VISIBLE,
-    else site_class's cause for a typed base (MISALIGNED / NO-EDIT: a visible canonical type plan_S's bbt did not pair with the base)."""
+    else site_class's cause for a typed base (MISALIGNED / NO-EDIT: a visible canonical type plan_S's bbt did not pair with the base).
+    P3.40 T2: a non-canonical map type resolves through type_folds() first — a residual row returns its target cause (TYPE-UNION ...),
+    a fold/define row tests its target — then (`latest` given) through the canonical type the body's latest rung-S row drew for the
+    same s_base_norm'd base."""
     can = canon_types() if can is None else can
     t = s.get("type")
     if not s.get("fn"):
         return "FILE-SCOPE"
     if not t:
         return "NO-TYPE-IN-MAP"
+    if t not in can:
+        r = (type_folds() if folds is None else folds).get(t)
+        if r and r[0] == "residual":
+            return r[1]
+        t = fold_type(t, {t: r} if r else {})
+    if t not in can and latest:
+        nk = s_base_norm(f"{s.get('bclass')}:{s.get('base')}")
+        t = next((b["type"] for b in (latest.get(("S", s["tu"], s["fn"])) or {}).get("bases") or []
+                  if b.get("type") in can and s_base_norm(b.get("base") or "") == nk), t)
     if t not in can:
         return "TYPE-NOT-CANONICAL"
     if not type_visible(s["tu"], t):
@@ -3668,7 +3718,7 @@ def residue_cause(s, can=None):
 RESIDUE_FORMS = ("P", "X")               # T10.c1: --forms default; I and M accepted (ledger-only rows, same entry shape)
 
 
-def residue_cause_im(s, can=None):
+def residue_cause_im(s, can=None, latest=None, folds=None):
     """T10.c1: why a raw I/M census site stays raw: ABS-ADDR (base bclass abs: a fixed address literal), GADDR (bclass gaddr: `&D_x`,
     a symbol's address reinterpreted — T5.c2: not an absolute address), GLOBAL (bclass global: a global's own storage reinterpreted),
     else residue_cause (FILE-SCOPE / NO-TYPE-IN-MAP / TYPE-NOT-* / site_class)."""
@@ -3678,7 +3728,7 @@ def residue_cause_im(s, can=None):
         return "GADDR"
     if s.get("bclass") == "global":
         return "GLOBAL"
-    return residue_cause(s, can)
+    return residue_cause(s, can, latest, folds)
 
 
 def _residue_key(form, base, off):
@@ -3711,9 +3761,8 @@ def residue_match(latest, sites, forms=RESIDUE_FORMS):
     return covered, uncovered
 
 
-def residue_sites(only, latest, path=None, forms=RESIDUE_FORMS):
-    """{(tu, unit): [uncovered census site of `forms`]} over the TUs matching `only` (default ov_*) — per site (residue_match), not per
-    body: a body with a latest rung-S row still lists every raw site no RESIDUAL entry of that row covers."""
+def residue_candidates(only, path=None, forms=RESIDUE_FORMS):
+    """The census sites of `forms` in the TUs matching `only` (default ov_*)."""
     only = only or RESIDUE_DEFAULT_ONLY
     pre = tuple(f'{{"form": "{f}"' for f in forms)
     cand = []
@@ -3724,8 +3773,14 @@ def residue_sites(only, latest, path=None, forms=RESIDUE_FORMS):
             s = json.loads(l)
             if matches_only(only, s["tu"], s.get("fn") or RESIDUE_FILE_UNIT):
                 cand.append(s)
+    return cand
+
+
+def residue_sites(only, latest, path=None, forms=RESIDUE_FORMS):
+    """{(tu, unit): [uncovered census site of `forms`]} over the TUs matching `only` (default ov_*) — per site (residue_match), not per
+    body: a body with a latest rung-S row still lists every raw site no RESIDUAL entry of that row covers."""
     out = collections.defaultdict(list)
-    for s in residue_match(latest, cand, forms)[1]:
+    for s in residue_match(latest, residue_candidates(only, path, forms), forms)[1]:
         out[(s["tu"], s.get("fn") or RESIDUE_FILE_UNIT)].append(s)
     return out
 
@@ -3755,7 +3810,7 @@ def residue_rows(groups, label, calib_id, latest=None):
         for unit in sorted(by_tu[tu]):
             sites = []
             for s in sorted(groups[(tu, unit)], key=lambda x: (x.get("line") or 0, x.get("pos") or 0)):
-                c = residue_cause_im(s, can) if s.get("form") in ("I", "M") else residue_cause(s, can)
+                c = residue_cause_im(s, can, latest) if s.get("form") in ("I", "M") else residue_cause(s, can, latest)
                 sites.append(dict(form=s.get("form"), line=s.get("line"), base=f"{s.get('bclass')}:{s.get('base')}", off=s.get("off"),
                                   type=s.get("type"), verdict=f"RESIDUAL({c})", cause=c))
             prior = (latest or {}).get(("S", tu, unit))
@@ -3847,6 +3902,60 @@ def residue(a):
     verd = collections.Counter(r["verdict"] for r in rows)
     print(f"restruct --residue {a.label} forms {','.join(forms)}: {len(rows)} rows ({sum(1 for r in rows if 'residue_of' in r)} merged) · "
           f"{len(new)} sites · causes {dict(sorted(cause.items()))} · verdicts {dict(sorted(verd.items()))}")
+    lk.close()
+    return 0
+
+
+RESTAMP_CAUSE = "TYPE-NOT-CANONICAL"
+
+
+def restamp_rows(latest, sites, label, forms=RESIDUE_FORMS, can=None):
+    """P3.40 T2 (pure): ([merged rows], {"old->new": n}) — for each covered site (residue_match) whose covering RESIDUAL entry (paired
+    per key in ledger order, as type_census.residue_split) has cause TYPE-NOT-CANONICAL and whose live residue_cause(s, can, latest)
+    differs, one row per body: a copy of its latest rung-S row, ts/label renewed, `restamp_of` = the old label, with only those
+    entries' cause/verdict replaced. Entry count, form/base/off — hence coverage — never change; other entries are never touched."""
+    can = canon_types() if can is None else can
+    covered, _ = residue_match(latest, sites, forms)
+    pools, change, moved = {}, collections.defaultdict(dict), collections.Counter()
+    for s in covered:
+        bk = (s["tu"], s.get("fn") or RESIDUE_FILE_UNIT)
+        if bk not in pools:
+            pools[bk] = collections.defaultdict(list)
+            for i, e in enumerate((latest.get(("S",) + bk) or {}).get("sites") or []):
+                if str(e.get("verdict") or "").startswith("RESIDUAL(") and e.get("cause"):
+                    pools[bk][_residue_key(e.get("form"), e.get("base"), e.get("off"))].append(i)
+        q = pools[bk][_residue_key(s.get("form"), f"{s.get('bclass')}:{s.get('base')}", s.get("off"))]
+        if not q:
+            continue
+        i = q.pop(0)
+        old = latest[("S",) + bk]["sites"][i]["cause"]
+        if old != RESTAMP_CAUSE:
+            continue
+        c = residue_cause_im(s, can, latest) if s.get("form") in ("I", "M") else residue_cause(s, can, latest)
+        if c != old:
+            change[bk][i] = c
+            moved[f"{old}->{c}"] += 1
+    rows = []
+    for bk in sorted(change):
+        prior = latest[("S",) + bk]
+        m_ = json.loads(json.dumps(prior))
+        m_.update(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, restamp_of=prior.get("label"))
+        for i, c in change[bk].items():
+            m_["sites"][i].update(cause=c, verdict=f"RESIDUAL({c})")
+        rows.append(m_)
+    return rows, moved
+
+
+def restamp(a):
+    """--rung S --residue --restamp [--only] [--forms]: append restamp_rows (ledger only) under the apply lock; print the moves."""
+    lk = _apply_exclusive()
+    if lk is None:
+        sys.exit("restruct --restamp: another --apply/--residue holds the apply lock")
+    forms = residue_forms(a)
+    latest = ledger_latest(load_ledger())
+    rows, moved = restamp_rows(latest, residue_candidates(a.only, None, forms), a.label, forms)
+    ledger_append(rows)
+    print(f"restamp: {len(rows)} rows, {sum(moved.values())} sites, old->new {dict(sorted(moved.items()))}")
     lk.close()
     return 0
 
@@ -5071,7 +5180,7 @@ def macro_probe():
 
 
 def selftest(real=False):
-    global JUDGE_STUB, DEFS_OVERRIDE, _canon, _map_cache, VISIBLE_OVERRIDE, HF_INCLUDERS_OVERRIDE, S_PRIOR
+    global JUDGE_STUB, DEFS_OVERRIDE, _canon, _map_cache, VISIBLE_OVERRIDE, HF_INCLUDERS_OVERRIDE, S_PRIOR, _folds
     checks = []
     S_PRIOR = {}                                                   # T3.c4: no live ledger in the fixture runs
 
@@ -5509,6 +5618,48 @@ def selftest(real=False):
     ok("--forms I,M: a DIFFERS judgement is RESIDUAL(R2-DIFFERS); nothing written (UNCHANGED); a new no-base row RESIDUAL",
        rd_["final"] == "UNCHANGED" and rdw.get("verdict") == "RESIDUAL" and rdw.get("bases") == []
        and [e["verdict"] for e in rdw.get("sites", [])] == ["RESIDUAL(R2-DIFFERS)", "RESIDUAL(R2-WIDTH)"], f"{rd_['final']} {rdw.get('sites')}")
+    # P3.40 T2: type_folds.tsv decisions — bbt renames, residue_cause branches, --restamp (synthetic; no ledger writes)
+    folds_keep_, _folds = _folds, {"Unkstruct_FOLD": ("fold", "Unkstruct_TEST"), "Unkstruct_UNI": ("residual", "TYPE-UNION"),
+                                   "Unkstruct_DEF": ("define", "Unkstruct_NOPE")}
+    cf_ = {key_: {"param:a0": dict(type="Unkstruct_FOLD", sites=3)}}
+    fb_ = fold_bbt(cf_)
+    pf_ = {key_: {"param:a0": dict(type="Unkstruct_FOLD", sites=3)}}
+    mf_, nf_ = merge_bbt({key_: {"param:a0": dict(type="Unkstruct_DRIFT", sites=3)}}, fold_bbt(pf_), _canon)
+    ok("T2 bbt: a fold row renames the entry (map_type kept) so plan_S draws it; a folded pin is taken by merge_bbt",
+       fb_[key_]["param:a0"]["type"] == "Unkstruct_TEST" and fb_[key_]["param:a0"]["map_type"] == "Unkstruct_FOLD"
+       and cf_[key_]["param:a0"]["type"] == "Unkstruct_FOLD" and plan_S(False, 50, None, set(), {}, cf_)[1] == 0
+       and plan_S(False, 50, None, set(), {}, fb_)[1] == 1 and nf_ == 1 and mf_[key_]["param:a0"]["type"] == "Unkstruct_TEST", f"{fb_} {mf_}")
+    s3_ = dict(form="P", tu=tu, fn="fx_a", bclass="param", base="a0", off=0, width=4)
+    lt3_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", label="l3", bases=[dict(base="param:a0", type="Unkstruct_TEST", status="CANONICAL"),
+                                                                                  dict(base="param:a9", type="Unkstruct_TEST", status="CANONICAL")])])
+    lt3b_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", label="l3", bases=[dict(base="param:a9", type="Unkstruct_TEST", status="CANONICAL")])])
+    rc_ = lambda ty, lat=None: residue_cause(dict(s3_, type=ty), _canon, lat)
+    can_c_ = rc_("Unkstruct_TEST")
+    ok("T2 residue_cause: residual row -> its cause; fold -> the target; define to a non-canonical target -> TNC; the drawn type via latest",
+       rc_("Unkstruct_UNI") == "TYPE-UNION" and rc_("Unkstruct_FOLD") == can_c_ != "TYPE-NOT-CANONICAL"
+       and rc_("Unkstruct_DEF") == "TYPE-NOT-CANONICAL" and rc_("Unkstruct_X") == "TYPE-NOT-CANONICAL"
+       and rc_("Unkstruct_X", lt3_) == can_c_ and rc_("Unkstruct_X", lt3b_) == "TYPE-NOT-CANONICAL"
+       and rc_("Unkstruct_DEF", lt3_) == can_c_
+       and residue_cause_im(dict(s3_, form="I", type="Unkstruct_UNI"), _canon, lt3_) == "TYPE-UNION"
+       and residue_cause_im(dict(s3_, form="I", type="Unkstruct_X"), _canon, lt3_) == can_c_, f"{can_c_}")
+    ent_ = lambda b, off, ty, c: dict(form="P", line=1, base=b, off=off, type=ty, verdict=f"RESIDUAL({c})", cause=c)
+    rs_ents_ = [kept_e_, ent_("param:a0", 0, "Unkstruct_X", "TYPE-NOT-CANONICAL"), ent_("param:a1", 4, "Unkstruct_Y", "TYPE-NOT-CANONICAL"),
+                ent_("param:a2", 8, "Unkstruct_UNI", "MISALIGNED"), ent_("param:a3", 12, "Unkstruct_UNI", "TYPE-NOT-CANONICAL")]
+    rl_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", label="r_old", verdict="MEMBERS", bases=lt3_[("S", tu, "fx_a")]["bases"],
+                              sites=rs_ents_)])
+    rsites_ = [dict(s3_, type="Unkstruct_X"), dict(s3_, base="a1", off=4, type="Unkstruct_Y"), dict(s3_, base="a2", off=8, type="Unkstruct_UNI"),
+               dict(s3_, base="a3", off=12, type="Unkstruct_UNI"), dict(s3_, base="a4", off=16, type="Unkstruct_X")]
+    rrows_, rmoved_ = restamp_rows(rl_, rsites_, "r_new", can=_canon)
+    rr0_ = rrows_[0] if rrows_ else {}
+    cov0_ = [len(x) for x in residue_match(rl_, rsites_)]
+    ok("T2 --restamp: one merged row; only the TNC entries whose live cause differs move; count and coverage unchanged",
+       len(rrows_) == 1 and rr0_.get("restamp_of") == "r_old" and rr0_.get("label") == "r_new" and len(rr0_["sites"]) == len(rs_ents_)
+       and rr0_["sites"][1]["cause"] == can_c_ and rr0_["sites"][1]["verdict"] == f"RESIDUAL({can_c_})"
+       and rr0_["sites"][4]["cause"] == "TYPE-UNION" and [rr0_["sites"][i] for i in (0, 2, 3)] == [rs_ents_[i] for i in (0, 2, 3)]
+       and rmoved_ == {f"TYPE-NOT-CANONICAL->{can_c_}": 1, "TYPE-NOT-CANONICAL->TYPE-UNION": 1}
+       and rl_[("S", tu, "fx_a")]["sites"] == rs_ents_ and cov0_ == [4, 1]
+       and [len(x) for x in residue_match(ledger_latest([rr0_]), rsites_)] == cov0_, f"{rmoved_} {rr0_}")
+    _folds = folds_keep_
     ok("--forms I,M: the stub never writes the tree", fxi.read_text() == FIXTURE_TU_IM)
     ok("the selftest never touches the live inflight.json", True)
     ok("struct_layout selftest", sl.selftest() == 0)
@@ -5564,9 +5715,11 @@ def main():
     ap.add_argument("--check-ledger", action="store_true")
     ap.add_argument("--residue", action="store_true", help="rung S: a no-edit row per body with uncovered census sites of --forms (ledger only; --only, default ov_*); "
                     "a body with a latest rung-S row gets a merged copy of it plus one RESIDUAL(<cause>) entry per uncovered site")
+    ap.add_argument("--restamp", action="store_true", help="with --rung S --residue (P3.40 T2): covered sites stamped RESIDUAL(TYPE-NOT-CANONICAL) whose "
+                    "live cause (type_folds.tsv, the body's drawn canonical type) differs get a merged row with only those entries re-stamped")
     ap.add_argument("--check-residue", action="store_true", help="census sites of --forms (--only, default ov_*) not covered PER SITE by a RESIDUAL(<cause>) entry "
                     "(same form, normalised base, off; one entry per site) of their body's latest rung-S row; exit 1 if any")
-    ap.add_argument("--forms", default=None, help="--residue/--check-residue: raw census forms, comma list of P,I,X,M (default P,X); "
+    ap.add_argument("--forms", default=None, help="--residue/--restamp/--check-residue: raw census forms, comma list of P,I,X,M (default P,X); "
                     "--plan/--apply --rung S --forms I,M (T5.c2): only bodies with uncovered I/M global-base sites, the R ladder only (implies --recipes)")
     ap.add_argument("--audit-types", action="store_true")
     ap.add_argument("--write-types", action="store_true")
@@ -5602,7 +5755,9 @@ def main():
     if a.residue:
         if a.rung != "S":
             sys.exit("restruct --residue is rung S only")
-        sys.exit(residue(a))
+        sys.exit(restamp(a) if a.restamp else residue(a))
+    if a.restamp:
+        sys.exit("restruct --restamp takes --rung S --residue")
     if a.check_residue:
         sys.exit(check_residue(a))
     if a.audit_types:
