@@ -29,6 +29,9 @@
       respelled, not removed), R2-HEADER-EXTERN (no extern in the TU), R2/R3-NO-SCALAR-EXTERN, R3-NO-BODY, R2-MISALIGNED, R2-WIDTH
       (the site's width != the extern's), R3-NOT-CONTIGUOUS, R<n>-NO-EDIT, R<n>-REKEYS (another raw/macro site's key would move),
       R<n>-<verdict> (judged: DIFFERS, COMPILE-ERROR …)
+    tools/restruct.py --freeze-band                                                    # P3.40 T3: config/tnc_band.tsv, once (the 95 % TNC band)
+    tools/restruct.py --decide-band --ranks A-B|tail [--write]                         # P3.40 T3: fold|residual|define per band type (dry run default)
+    tools/restruct.py --rung S --residue --restamp --restamp-no-edit                   # P3.40 T3 one-time: NO-EDIT entries of residual-row types too
     tools/restruct.py --audit-types                                                    # the naming invariant over the canonical type files (struct_layout.audit_definition)
     tools/restruct.py --write-types --top N | --type NAME … [--space ov]               # the WRITER: canonical definitions rendered from the struct map (a preview)
     tools/restruct.py --selftest [--real]                                              # the fixture (a stub oracle); --real adds the calibration + known-true controls
@@ -3972,11 +3975,12 @@ def residue(a):
 RESTAMP_CAUSE = "TYPE-NOT-CANONICAL"
 
 
-def restamp_rows(latest, sites, label, forms=RESIDUE_FORMS, can=None):
+def restamp_rows(latest, sites, label, forms=RESIDUE_FORMS, can=None, no_edit=False):
     """P3.40 T2 (pure): ([merged rows], {"old->new": n}) — for each covered site (residue_match) whose covering RESIDUAL entry (paired
     per key in ledger order, as type_census.residue_split) has cause TYPE-NOT-CANONICAL and whose live residue_cause(s, can, latest)
     differs, one row per body: a copy of its latest rung-S row, ts/label renewed, `restamp_of` = the old label, with only those
-    entries' cause/verdict replaced. Entry count, form/base/off — hence coverage — never change; other entries are never touched."""
+    entries' cause/verdict replaced. Entry count, form/base/off — hence coverage — never change; other entries are never touched.
+    P3.40 T3 `no_edit`: also a NO-EDIT entry whose site's map type has a `residual` type_folds row (live cause = its target)."""
     can = canon_types() if can is None else can
     covered, _ = residue_match(latest, sites, forms)
     pools, change, moved = {}, collections.defaultdict(dict), collections.Counter()
@@ -3992,6 +3996,14 @@ def restamp_rows(latest, sites, label, forms=RESIDUE_FORMS, can=None):
             continue
         i = q.pop(0)
         old = latest[("S",) + bk]["sites"][i]["cause"]
+        if no_edit and old == "NO-EDIT":
+            # P3.40 T3 (--restamp-no-edit): a NO-EDIT site whose map type has a residual type_folds row takes that row's cause
+            r = type_folds().get(s.get("type"))
+            if not r or r[0] != "residual":
+                continue
+            change[bk][i] = r[1]
+            moved[f"{old}->{r[1]}"] += 1
+            continue
         if old != RESTAMP_CAUSE:
             continue
         c = residue_cause_im(s, can, latest) if s.get("form") in ("I", "M") else residue_cause(s, can, latest)
@@ -4010,13 +4022,13 @@ def restamp_rows(latest, sites, label, forms=RESIDUE_FORMS, can=None):
 
 
 def restamp(a):
-    """--rung S --residue --restamp [--only] [--forms]: append restamp_rows (ledger only) under the apply lock; print the moves."""
+    """--rung S --residue --restamp [--restamp-no-edit] [--only] [--forms]: append restamp_rows (ledger only) under the apply lock; print the moves."""
     lk = _apply_exclusive()
     if lk is None:
         sys.exit("restruct --restamp: another --apply/--residue holds the apply lock")
     forms = residue_forms(a)
     latest = ledger_latest(load_ledger())
-    rows, moved = restamp_rows(latest, residue_candidates(a.only, None, forms), a.label, forms)
+    rows, moved = restamp_rows(latest, residue_candidates(a.only, None, forms), a.label, forms, no_edit=a.restamp_no_edit)
     ledger_append(rows)
     print(f"restamp: {len(rows)} rows, {sum(moved.values())} sites, old->new {dict(sorted(moved.items()))}")
     lk.close()
@@ -4392,6 +4404,276 @@ def apply_batch(a):
     log(line)
     log_f.close()
     return 0 if agg["final_bad"] == 0 else 1
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# P3.40 T3: the TNC band — frozen once (--freeze-band -> config/tnc_band.tsv), then a mechanised fold|residual|define decision per band
+# type (--decide-band; rules: docs/ops/p40-t3-band-decisions.md). Rows go to config/type_folds.tsv, define defs to include/struct_types.h.
+# ----------------------------------------------------------------------------------------------------------------------
+TNC_BAND_FILE = REPO / "config" / "tnc_band.tsv"
+BAND_PCT = 95
+T3_RUN = REPO / ".run" / "P40" / "t3"
+STRUCT_TYPES_H = REPO / "include" / "struct_types.h"
+T3_BEGIN, T3_END = "/* T3 (P3.40) band defs:begin — restruct.py --decide-band --write; generated, ordered by band rank */", "/* T3 band defs:end */"
+_T3_DECL = re.compile(r"^\s*(?:(?:extern|static|const|volatile)\s+)*(?:(?:struct|union)\s+)?([A-Za-z_]\w*)\s+([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*(?:;|=|__asm__|__attribute__)")
+
+
+def tnc_sites():
+    """The census's TYPE-NOT-CANONICAL sites: tc.residue_split over sites.jsonl's raw P/I/X/M sites and the ledger's latest rows —
+    covered, typed, cause literally TYPE-NOT-CANONICAL (the residue_census `tnc` set)."""
+    with open(CENSUS / "sites.jsonl") as fh:
+        sites = [json.loads(l) for l in fh if l.startswith(('{"form": "P"', '{"form": "I"', '{"form": "X"', '{"form": "M"'))]
+    covered, _, cause = tc.residue_split(sites, ledger_latest(load_ledger()))
+    return [s for s in covered if s.get("type") and cause[id(s)] == "TYPE-NOT-CANONICAL"]
+
+
+def band_rank(tnc, pct=BAND_PCT):
+    """(pure) ([(rank, map_type, sites, bodies, cum_pct)], band_n, total) — sites desc, bodies desc, name asc; band_n = the shortest
+    prefix with cum*100 >= pct*total (the type_census.residue_census loop)."""
+    ns, bodies = collections.Counter(), collections.defaultdict(set)
+    for s in tnc:
+        ns[s["type"]] += 1
+        bodies[s["type"]].add((s["tu"], s.get("fn")))
+    order = sorted(ns, key=lambda t: (-ns[t], -len(bodies[t]), t))
+    total, acc, i = sum(ns.values()), 0, 0
+    while i < len(order) and acc * 100 < pct * total:
+        acc += ns[order[i]]
+        i += 1
+    rows, cum = [], 0
+    for r, t in enumerate(order, 1):
+        cum += ns[t]
+        rows.append((r, t, ns[t], len(bodies[t]), f"{cum * 100 / total:.3f}" if total else "0"))
+    return rows, i, total
+
+
+def load_band():
+    """(rows [dict(rank, map_type, sites, bodies)], band_n) from config/tnc_band.tsv (header `# … band_n=<n> …`)."""
+    if not TNC_BAND_FILE.exists():
+        sys.exit("restruct: no config/tnc_band.tsv — run --freeze-band first")
+    rows, band_n = [], None
+    for l in TNC_BAND_FILE.read_text().splitlines():
+        if l.startswith("#"):
+            m = re.search(r"\bband_n=(\d+)", l)
+            band_n = int(m.group(1)) if m else band_n
+            continue
+        c = l.split("\t")
+        if len(c) >= 4 and c[0].isdigit():
+            rows.append(dict(rank=int(c[0]), map_type=c[1], sites=int(c[2]), bodies=int(c[3])))
+    return rows, band_n
+
+
+def freeze_band(a):
+    """--freeze-band: write config/tnc_band.tsv once (refuses if present) — every TNC map type ranked, band and tail; the totals must
+    equal the census's residue_census.json `tnc` (sites, types, types to 95 %)."""
+    if TNC_BAND_FILE.exists():
+        sys.exit(f"restruct --freeze-band: {TNC_BAND_FILE.relative_to(REPO)} exists (frozen; never rewritten)")
+    rows, band_n, total = band_rank(tnc_sites())
+    rc_ = json.loads((CENSUS / "residue_census.json").read_text())["tnc"]
+    mine = dict(sites=total, types=len(rows), pct95=band_n)
+    theirs = dict(sites=rc_["sites"], types=rc_["types"], pct95=rc_["types_to_cover_pct"]["95"])
+    print(f"freeze-band: tool  {mine}\nfreeze-band: census residue_census.json tnc {theirs}")
+    if mine != theirs:
+        sys.exit("restruct --freeze-band: MISMATCH with the census (rerun `type_census.py --check-casts --residue` on this HEAD) — nothing written")
+    head = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
+    chead = json.loads((CENSUS / "struct_map.json").read_text()).get("head")
+    bs = sum(r[2] for r in rows[:band_n])
+    L = [f"# P3.40 T3 TNC band — restruct.py --freeze-band; frozen, never rewritten. Source commit {head} (census struct_map head {chead}; "
+         f"TNC = tc.residue_split over sites.jsonl + ledger latest, cause TYPE-NOT-CANONICAL)",
+         f"# sort: sites desc, bodies desc, map_type asc; cutoff: shortest prefix with cum*100 >= {BAND_PCT}*total ({BAND_PCT} %)",
+         f"# band_n={band_n}: band {band_n} types / {bs} sites; tail {len(rows) - band_n} types / {total - bs} sites; total {len(rows)} types / {total} sites",
+         "rank\tmap_type\tsites\tbodies\tcum_pct"] + ["\t".join(map(str, r)) for r in rows]
+    TNC_BAND_FILE.write_text("\n".join(L) + "\n")
+    print(f"freeze-band: {TNC_BAND_FILE.relative_to(REPO)} — band {band_n} types / {bs} sites; tail {len(rows) - band_n} types / {total - bs} sites")
+    return 0
+
+
+def t3_tree_facts(names):
+    """({global: {declared type}} for the `names` declared in src/ or include/ as an object or array — never a pointer —, {every
+    Unkstruct_* identifier in src/ and include/}) via git grep."""
+    g = subprocess.run(["git", "grep", "-h", "-E", r"^\s*(extern\s+|static\s+)?.*\b[A-Za-z_]\w*\s+[A-Za-z_]\w*\s*(\[[^]]*\])*\s*(;|=|__asm__)",
+                        "--", "src", "include"], cwd=REPO, capture_output=True, text=True, errors="surrogateescape").stdout
+    decl = {}
+    for l in g.splitlines():
+        m = _T3_DECL.match(l)
+        if m and m.group(2) in names:
+            decl.setdefault(m.group(2), set()).add(m.group(1))
+    idents = set(subprocess.run(["git", "grep", "-h", "-o", "-E", r"\bUnkstruct_\w+", "--", "src", "include"], cwd=REPO,
+                                capture_output=True, text=True, errors="surrogateescape").stdout.split())
+    return decl, idents
+
+
+def t3_residual(rec):
+    """(cause, evidence) for a map record that cannot be defined, in rule order, else (None, typedef text under the map name)."""
+    lay = rec.get("layout") or []
+    neg = [o for (o, _, _, _) in lay if o < 0]
+    if not rec.get("size_hint"):
+        return "TYPE-NO-LAYOUT", "layout:size_hint=0"
+    if neg:
+        return "TYPE-INTERIOR", f"layout:neg-off={min(neg):#x}"
+    for c in rec.get("conflicts") or []:
+        if c[1] == "overlap":
+            return "TYPE-UNION", f"layout:overlap@{c[0]:#x}"
+        if isinstance(c[1], dict) and len({re.match(r"\d*", k).group(0) for k in c[1]}) > 1:
+            return "TYPE-UNION", f"layout:widths@{c[0]:#x}:{','.join(sorted(c[1]))}"
+    if rec.get("fields") == 1 and lay and lay[0][0] == 0:
+        return "TYPE-SCALAR", "layout:one-field@0"
+    entries, _ = sl.entries_from_layout(lay)
+    if not entries:
+        return ("TYPE-INTERIOR" if neg else "TYPE-NO-LAYOUT"), "layout:no-entry"
+    try:
+        return None, t3_render(rec["name"], rec, entries, "")
+    except ValueError as ex:
+        return ("TYPE-INTERIOR" if neg else "TYPE-NO-LAYOUT"), f"layout:refused({str(ex)[:60]})"
+
+
+def t3_render(name, rec, entries, comment):
+    """sl.render_struct with write_types' size rule (size_hint, else the last field's end; 4-aligned)."""
+    end = max(e[0] + (sl.scalar_of(e[1]) or (4,))[0] for e in entries)
+    size = (max(rec.get("size_hint") or 0, end) + 3) // 4 * 4
+    return sl.render_struct(name, entries, size=size, comment=comment or None)
+
+
+def decide_band(band, smap, tnc, latest, can, folds, decl, idents, addr_of=None):
+    """(pure) ([decision dict(rank, map_type, action, target, evidence, note, facts, text)], [missing map types], n_existing) for the
+    band rows given. Order per type: fold on E1 lineage / E2 anchor (target canonical) -> residual by layout class -> define
+    Unkstruct_<owner addr> (suffix _2, _3 … on collision with `idents`, existing fold targets or an earlier target)."""
+    addr_of = addr_of or dl.fn_addr
+    by_t = collections.defaultdict(list)
+    for s in tnc:
+        by_t[s["type"]].append(s)
+    taken = set(idents) | {v[1] for v in folds.values()}
+    member = {}
+
+    def drawn(s):                                          # the canonical type the body's latest S row drew the site's base as, else None
+        bk = (s["tu"], s.get("fn"))
+        if bk not in member:
+            m_ = collections.defaultdict(collections.Counter)
+            for e in (latest.get(("S",) + bk) or {}).get("sites") or []:
+                if e.get("verdict") == "MEMBER" and e.get("type"):
+                    m_[s_base_norm(e.get("base") or "")][e["type"]] += 1
+            member[bk] = m_
+        ts = member[bk].get(s_base_norm(f"{s.get('bclass')}:{s.get('base')}"))
+        if not ts:
+            return None
+        c, n = sorted(ts.items(), key=lambda kv: (-kv[1], kv[0]))[0]
+        return c if c in can and n * 10 >= 9 * sum(ts.values()) else None
+
+    out, missing, existing = [], [], 0
+    for b in sorted(band, key=lambda r: r["rank"]):
+        t = b["map_type"]
+        if t in folds:
+            existing += 1
+            continue
+        rec = smap.get(t)
+        if rec is None:
+            missing.append(t)
+            continue
+        ss = by_t.get(t, [])
+        lay = rec.get("layout") or []
+        facts = (f"rank={b['rank']} size_hint={rec.get('size_hint', 0):#x} fields={rec.get('fields')} neg={sum(1 for x in lay if x[0] < 0)} "
+                 f"conflicts={len(rec.get('conflicts') or [])} globals_at={','.join((rec.get('globals_at') or [])[:3]) or '-'}")
+        d = dict(rank=b["rank"], map_type=t, facts=facts, text="")
+        per_c = collections.Counter(c for c in map(drawn, ss) if c)
+        best = sorted(per_c.items(), key=lambda kv: (-kv[1], kv[0]))[0] if per_c else None
+        cg = {g: sorted(x for x in decl.get(g) or () if x in can) for g in rec.get("globals_at") or []}
+        anchor = next(((g, cs[0]) for g, cs in cg.items() if len(cs) == 1), None)      # E2: exactly one canonical type among its declarations
+        if best and best[1] * 2 >= len(ss):
+            d.update(action="fold", target=best[0], evidence=f"E1-lineage:{best[1]}/{len(ss)}",
+                     note=f"{best[1]} of {len(ss)} TNC sites sit on bases their body's latest rung-S row drew as {best[0]} (>=90 % per base)")
+        elif anchor:
+            d.update(action="fold", target=anchor[1], evidence=f"E2-anchor:{anchor[0]}", note=f"{anchor[0]} is declared {anchor[1]} in src/ or include/")
+        else:
+            cause, txt = t3_residual(rec)
+            if cause:
+                d.update(action="residual", target=cause, evidence=txt, note=f"layout class {cause} (struct_map record)")
+            else:
+                own = sorted((addr_of(s.get("fn"), s["tu"]), s.get("fn") or "") for s in ss if addr_of(s.get("fn"), s["tu"]) is not None)
+                gad = sorted(int(m.group(1), 16) for g in rec.get("globals_at") or [] for m in [re.match(r"D_([0-9A-Fa-f]{8})", g)] if m)
+                base = f"Unkstruct_{own[0][0]:08X}" if own else f"Unkstruct_{gad[0]:08X}" if gad else t
+                tgt, k = base, 1
+                while tgt in taken:
+                    k += 1
+                    tgt = f"{base}_{k}"
+                taken.add(tgt)
+                entries, _ = sl.entries_from_layout(lay)
+                d.update(action="define", target=tgt, evidence=f"owner:{own[0][1] if own else (rec.get('globals_at') or [t])[0]}",
+                         note=f"no E1/E2 evidence; flat layout of the struct map record; {b['sites']} TNC sites in {b['bodies']} bodies",
+                         text=t3_render(tgt, rec, entries, f"{t}: P3.40 T3 band rank {b['rank']}; {b['sites']} TNC sites in {b['bodies']} bodies; "
+                                        f"struct map {rec.get('sites')} sites; restruct.py --decide-band"))
+        out.append(d)
+    return out, missing, existing
+
+
+def tail_rows(band, smap, folds):
+    """(pure) the tail's `residual TYPE-BELOW-BAND band:<rank>/<sites>` decisions (no existing row, present in the map)."""
+    out, missing = [], []
+    for b in sorted(band, key=lambda r: r["rank"]):
+        if b["map_type"] in folds:
+            continue
+        if b["map_type"] not in smap:
+            missing.append(b["map_type"])
+            continue
+        out.append(dict(rank=b["rank"], map_type=b["map_type"], action="residual", target="TYPE-BELOW-BAND", evidence=f"band:{b['rank']}/{b['sites']}",
+                        note=f"below the {BAND_PCT} % TNC band (config/tnc_band.tsv)", facts=f"rank={b['rank']}", text=""))
+    return out, missing
+
+
+def splice_t3_defs(htext, decisions):
+    """(pure) struct_types.h text with the define decisions' typedefs merged into the marker block before the final #endif (created
+    when absent); the block's defs are kept ordered by the `band rank N` of their comment."""
+    defs = [d for d in decisions if d["action"] == "define"]
+    if T3_BEGIN not in htext:
+        i = htext.rindex("#endif")
+        htext = htext[:i] + f"{T3_BEGIN}\n{T3_END}\n\n" + htext[i:]
+    i, j = htext.index(T3_BEGIN) + len(T3_BEGIN) + 1, htext.index(T3_END)
+    chunks = [c.strip() + "\n" for c in re.split(r"\n(?=typedef )", htext[i:j]) if c.strip()] + [d["text"] for d in defs]
+    rk = lambda c: int(next(iter(re.findall(r"band rank (\d+)", c)), 0))
+    return htext[:i] + "\n".join(sorted(chunks, key=rk)) + htext[j:]
+
+
+def decide_band_cmd(a):
+    """--decide-band --ranks A-B|tail [--write]: dry run prints counts + writes .run/P40/t3/decide_<ranks>.tsv; --write appends the
+    rows to config/type_folds.tsv (one `# T3` block) and the define typedefs to include/struct_types.h."""
+    global _folds
+    band, band_n = load_band()
+    smap, folds = struct_map(), type_folds()
+    if a.ranks == "tail":
+        ds_, missing = tail_rows([b for b in band if b["rank"] > band_n], smap, folds)
+        lo, hi, tag = band_n + 1, len(band), "tail"
+    else:
+        m = re.fullmatch(r"(\d+)-(\d+)", a.ranks or "")
+        if not m:
+            sys.exit("restruct --decide-band: --ranks A-B or tail")
+        lo, hi = int(m.group(1)), min(int(m.group(2)), band_n)
+        tag = f"{lo}-{int(m.group(2))}"
+        sel = [b for b in band if lo <= b["rank"] <= hi]
+        tnc = tnc_sites()
+        names = {g for b in sel if b["map_type"] in smap for g in smap[b["map_type"]].get("globals_at") or []}
+        decl, idents = t3_tree_facts(names)
+        ds_, missing, _ = decide_band(sel, smap, tnc, ledger_latest(load_ledger()), canon_types(), folds, decl, idents)
+    cls = collections.Counter((d["action"], d["evidence"].split(":")[0] if d["action"] == "fold" else d["target"] if d["action"] == "residual" else "-")
+                              for d in ds_)
+    print(f"decide-band {tag}: {len(ds_)} rows; " + " ".join(f"{k[0]}/{k[1]}={n}" for k, n in sorted(cls.items())))
+    print(f"decide-band {tag}: missing from the struct map {len(missing)}" + (f": {' '.join(missing[:20])}{' …' if len(missing) > 20 else ''}" if missing else ""))
+    if not a.write:
+        T3_RUN.mkdir(parents=True, exist_ok=True)
+        p = T3_RUN / f"decide_{tag}.tsv"
+        p.write_text("map_type\taction\ttarget\tevidence\tnote\tfacts\n" + "".join(
+            "\t".join((d["map_type"], d["action"], d["target"], d["evidence"], d["note"], d["facts"])) + "\n" for d in ds_)
+            + "".join(f"# missing-from-map\t{t}\n" for t in missing))
+        print(f"decide-band {tag}: dry run -> {p.relative_to(REPO)}")
+        return 0
+    head = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
+    with open(TYPE_FOLDS_FILE, "a") as fh:
+        fh.write(f"# T3 (P3.40) restruct.py --decide-band --ranks {tag} --write at {head}: {len(ds_)} rows "
+                 + " ".join(f"{k[0]}/{k[1]}={n}" for k, n in sorted(cls.items())) + "; band config/tnc_band.tsv\n")
+        for d in ds_:
+            fh.write("\t".join((d["map_type"], d["action"], d["target"], d["evidence"], d["note"])) + "\n")
+    if any(d["action"] == "define" for d in ds_):
+        STRUCT_TYPES_H.write_text(splice_t3_defs(STRUCT_TYPES_H.read_text(), ds_))
+    _folds = None
+    print(f"decide-band {tag}: appended {len(ds_)} rows to config/type_folds.tsv, {sum(d['action'] == 'define' for d in ds_)} defs to include/struct_types.h")
+    return 0
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -5735,6 +6017,55 @@ def selftest(real=False):
        and rmoved_ == {f"TYPE-NOT-CANONICAL->{can_c_}": 1, "TYPE-NOT-CANONICAL->TYPE-UNION": 1}
        and rl_[("S", tu, "fx_a")]["sites"] == rs_ents_ and cov0_ == [4, 1]
        and [len(x) for x in residue_match(ledger_latest([rr0_]), rsites_)] == cov0_, f"{rmoved_} {rr0_}")
+    # P3.40 T3: --restamp-no-edit, the band freeze, the decide rules (synthetic; nothing written)
+    ne_ents_ = [ent_("param:a0", 0, "Unkstruct_UNI", "NO-EDIT"), ent_("param:a1", 4, "Unkstruct_X", "NO-EDIT")]
+    nl_ = ledger_latest([dict(rung="S", tu=tu, unit="fx_a", label="n_old", verdict="MEMBERS", bases=[], sites=ne_ents_)])
+    ns_ = [dict(s3_, type="Unkstruct_UNI"), dict(s3_, base="a1", off=4, type="Unkstruct_X")]
+    nrows_, nmoved_ = restamp_rows(nl_, ns_, "n_new", can=_canon, no_edit=True)
+    prows_, _ = restamp_rows(nl_, ns_, "n_new", can=_canon)
+    ok("T3 --restamp-no-edit: a NO-EDIT entry of a residual-row type takes the row's cause; one without a row is untouched; "
+       "plain --restamp ignores NO-EDIT", len(nrows_) == 1 and nrows_[0]["sites"][0]["cause"] == "TYPE-UNION"
+       and nrows_[0]["sites"][0]["verdict"] == "RESIDUAL(TYPE-UNION)" and nrows_[0]["sites"][1] == ne_ents_[1]
+       and nmoved_ == {"NO-EDIT->TYPE-UNION": 1} and prows_ == [], f"{nmoved_} {prows_}")
+    bs_ = lambda t, n, nb: [dict(type=t, tu=tu, fn=f"fx_{i % nb}") for i in range(n)]
+    br_, bn_, bt_ = band_rank(bs_("Ta", 35, 1) + bs_("Td", 20, 2) + bs_("Tc", 20, 2) + bs_("Tb", 20, 3) + bs_("Te", 3, 1) + bs_("Tf", 2, 1))
+    ok("T3 band_rank: sites desc, bodies desc, name asc; the band is the shortest prefix reaching exactly 95 %; tail rows ranked too",
+       [r[1] for r in br_] == ["Ta", "Tb", "Tc", "Td", "Te", "Tf"] and bn_ == 4 and bt_ == 100 and br_[3][4] == "95.000"
+       and br_[1][3] == 3, f"{br_} {bn_}")
+    lay1_ = [(0, 4, "s", 3), (4, 2, "u", 2)]
+    mk_ = lambda n, **k: dict(dict(name=n, sites=5, bodies=1, size_hint=8, fields=2, layout=lay1_, conflicts=[], globals_at=[]), **k)
+    smap_ = {"T_e1": mk_("T_e1"), "T_e2": mk_("T_e2", globals_at=["D_80001000"]), "T_nl": mk_("T_nl", size_hint=0, layout=[], fields=0),
+             "T_in": mk_("T_in", layout=[(-4, 4, "s", 1), (0, 4, "s", 1)]), "T_un": mk_("T_un", conflicts=[[0, {"4s": 2, "2s": 1}]]),
+             "T_sc": mk_("T_sc", fields=1, layout=[(0, 4, "s", 3)]), "T_sg": mk_("T_sg", conflicts=[[0, {"4s": 2, "4u": 1}]]),
+             "T_d2": mk_("T_d2"), "T_old": mk_("T_old")}
+    mem_ = lambda b: dict(form="P", line=1, base=b, off=0, type="Unkstruct_TEST", verdict="MEMBER")
+    lat5_ = ledger_latest([dict(rung="S", tu=tu, unit="func_80010000", sites=[mem_("param:a0")] * 9),
+                           dict(rung="S", tu=tu, unit="func_80020000", sites=[mem_("param:a0")])])
+    sit_ = lambda t, fn, b="a0": dict(form="P", tu=tu, fn=fn, bclass="param", base=b, off=0, type=t)
+    tnc5_ = ([sit_("T_e1", "func_80010000")] * 2 + [sit_("T_e1", "func_80030000")] + [sit_("T_e2", "func_80010000", "a5")]
+             + [sit_(t, "func_80010000", "a7") for t in ("T_nl", "T_in", "T_un", "T_sc", "T_sg", "T_d2")])
+    band5_ = [dict(rank=i, map_type=t, sites=3, bodies=1) for i, t in enumerate(["T_e1", "T_e2", "T_nl", "T_in", "T_un", "T_sc", "T_sg",
+                                                                              "T_d2", "T_old", "T_gone"], 1)]
+    dec_, mis_, ex_ = decide_band(band5_, smap_, tnc5_, lat5_, _canon, {"T_old": ("define", "Unkstruct_OLD")},
+                                  {"D_80001000": {"Unkstruct_TEST", "s32", "Blk_local"}}, {"Unkstruct_80010000"}, addr_of=lambda fn, tu_: dl.fn_addr(fn, tu_))
+    dv_ = {d["map_type"]: (d["action"], d["target"], d["evidence"]) for d in dec_}
+    ok("T3 decide: E1 lineage fold, E2 anchor fold, the four residual classes (sign-only conflict is no union), define with collision "
+       "suffixes; an existing row skipped, a map-missing type reported",
+       dv_ == {"T_e1": ("fold", "Unkstruct_TEST", "E1-lineage:2/3"), "T_e2": ("fold", "Unkstruct_TEST", "E2-anchor:D_80001000"),
+               "T_nl": ("residual", "TYPE-NO-LAYOUT", "layout:size_hint=0"), "T_in": ("residual", "TYPE-INTERIOR", "layout:neg-off=-0x4"),
+               "T_un": ("residual", "TYPE-UNION", "layout:widths@0x0:2s,4s"), "T_sc": ("residual", "TYPE-SCALAR", "layout:one-field@0"),
+               "T_sg": ("define", "Unkstruct_80010000_2", "owner:func_80010000"), "T_d2": ("define", "Unkstruct_80010000_3", "owner:func_80010000")}
+       and mis_ == ["T_gone"] and ex_ == 1 and "} Unkstruct_80010000_2;" in next(d["text"] for d in dec_ if d["map_type"] == "T_sg")
+       and "T_sg: P3.40 T3 band rank 7" in next(d["text"] for d in dec_ if d["map_type"] == "T_sg"), f"{dv_} {mis_} {ex_}")
+    tr_, tm_ = tail_rows([dict(rank=9, map_type="T_e1", sites=2, bodies=1), dict(rank=10, map_type="T_old", sites=1, bodies=1),
+                          dict(rank=11, map_type="T_gone", sites=1, bodies=1)], smap_, {"T_old": ("define", "Unkstruct_OLD")})
+    ok("T3 tail: residual TYPE-BELOW-BAND band:<rank>/<sites>; existing rows and map-missing types get none",
+       [(d["map_type"], d["action"], d["target"], d["evidence"]) for d in tr_] == [("T_e1", "residual", "TYPE-BELOW-BAND", "band:9/2")]
+       and tm_ == ["T_gone"], f"{tr_} {tm_}")
+    h_ = splice_t3_defs("x\n#endif /* H */\n", [d for d in dec_ if d["map_type"] == "T_d2"])
+    h_ = splice_t3_defs(h_, [d for d in dec_ if d["map_type"] == "T_sg"])
+    ok("T3 splice: the marker block sits before #endif; defs ordered by band rank across batches",
+       h_.index(T3_BEGIN) < h_.index("Unkstruct_80010000_2;") < h_.index("Unkstruct_80010000_3;") < h_.index(T3_END) < h_.index("#endif"), h_[:200])
     _folds = folds_keep_
     ok("--forms I,M: the stub never writes the tree", fxi.read_text() == FIXTURE_TU_IM)
     ok("the selftest never touches the live inflight.json", True)
@@ -5793,6 +6124,14 @@ def main():
                     "a body with a latest rung-S row gets a merged copy of it plus one RESIDUAL(<cause>) entry per uncovered site")
     ap.add_argument("--restamp", action="store_true", help="with --rung S --residue (P3.40 T2): covered sites stamped RESIDUAL(TYPE-NOT-CANONICAL) whose "
                     "live cause (type_folds.tsv, the body's drawn canonical type) differs get a merged row with only those entries re-stamped")
+    ap.add_argument("--restamp-no-edit", action="store_true", help="with --restamp (P3.40 T3, one-time): also re-stamp NO-EDIT entries whose site's map "
+                    "type has a `residual` type_folds row (live cause = that row's target)")
+    ap.add_argument("--freeze-band", action="store_true", help="P3.40 T3: write config/tnc_band.tsv once (every TNC map type ranked; the 95 %% band "
+                    "cutoff; totals must equal the census's residue_census.json tnc)")
+    ap.add_argument("--decide-band", action="store_true", help="P3.40 T3: decide fold|residual|define for the band rows of --ranks without a "
+                    "type_folds row (dry run: counts + .run/P40/t3/decide_<ranks>.tsv; --write appends type_folds.tsv + struct_types.h)")
+    ap.add_argument("--ranks", help="--decide-band: A-B (band ranks) or tail (residual TYPE-BELOW-BAND rows)")
+    ap.add_argument("--write", action="store_true", help="--decide-band: append the decisions (default: dry run)")
     ap.add_argument("--check-residue", action="store_true", help="census sites of --forms (--only, default ov_*) not covered PER SITE by a RESIDUAL(<cause>) entry "
                     "(same form, normalised base, off; one entry per site) of their body's latest rung-S row; exit 1 if any")
     ap.add_argument("--forms", default=None, help="--residue/--restamp/--check-residue: raw census forms, comma list of P,I,X,M (default P,X); "
@@ -5831,9 +6170,17 @@ def main():
     if a.residue:
         if a.rung != "S":
             sys.exit("restruct --residue is rung S only")
+        if a.restamp_no_edit and not a.restamp:
+            sys.exit("restruct --restamp-no-edit takes --restamp")
         sys.exit(restamp(a) if a.restamp else residue(a))
     if a.restamp:
         sys.exit("restruct --restamp takes --rung S --residue")
+    if a.restamp_no_edit:
+        sys.exit("restruct --restamp-no-edit takes --rung S --residue --restamp")
+    if a.freeze_band:
+        sys.exit(freeze_band(a))
+    if a.decide_band:
+        sys.exit(decide_band_cmd(a))
     if a.check_residue:
         sys.exit(check_residue(a))
     if a.audit_types:

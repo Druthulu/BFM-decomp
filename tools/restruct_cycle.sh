@@ -52,6 +52,11 @@ for k in $(seq "$START" "$END"); do
   [ -n "$vline" ] || { echo "cycle: batch $label — no verify line in $log (R32: an empty line is not a pass)"; tail -3 "$log"; exit 1; }
   final=$(echo "$vline" | grep -oE 'final [0-9]+/[0-9]+' | grep -oE '[0-9]+/[0-9]+')
   [ -n "$final" ] && [ "${final%/*}" = "${final#*/}" ] || { echo "cycle: batch $label — $vline"; exit 1; }
+  # P3.40 T3: a batch that compiled nothing and wrote nothing ends the cycle (before R22/census/commit — no zero-work commits; T2's
+  # t2_rS20/rS21 repeated `final 50/50 · compiles 0 · written 0`; a literal `final 0/0` never reaches here: an empty plan is `nothing to do`)
+  if [ "$(echo "$vline" | grep -oE 'compiles [0-9]+' | tail -1 | grep -oE '[0-9]+')" = "0" ] && [ "$(echo "$vline" | grep -oE 'written [0-9]+' | tail -1 | grep -oE '[0-9]+')" = "0" ]; then
+    echo "cycle: nothing drawable at $label — done ($vline)"; exit 0
+  fi
   if [ "$(echo "$vline" | grep -oE 'written [0-9]+' | grep -oE '[0-9]+')" = "0" ]; then echo "cycle: batch $label wrote no file — $vline"; fi
   if [ -z "$(git status --short -- src)" ]; then
     # no byte can have moved: the previous green fleet run stands (S108: the header cycle spent a 90-s R22 on each 0-file batch)

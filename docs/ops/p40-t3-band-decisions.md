@@ -1,0 +1,22 @@
+# §P40 T3 — the 95 % TNC band and its mechanised type decisions (restruct.py)
+
+## Modes
+- `restruct.py --freeze-band`: writes `config/tnc_band.tsv` once and refuses if the file exists. TNC = `tc.residue_split` over `.run/P37/census/sites.jsonl` (raw P/I/X/M) + `ledger_latest`, typed sites whose cause is literally `TYPE-NOT-CANONICAL`; bodies = distinct (tu, fn). Every map type is ranked: sites desc, bodies desc, name asc. `band_n` = the shortest prefix with cum*100 >= 95*total (the `residue_census` loop, type_census.py:2076-2082). Tail rows are listed too (rank > band_n). The totals must equal `residue_census.json` `tnc` (sites, types, `types_to_cover_pct.95`); on a mismatch nothing is written. Needs a fresh `type_census.py -j 16 --sites` + `--check-casts --residue` on HEAD.
+- `restruct.py --decide-band --ranks A-B|tail [--write]`: one decision per band row in A-B (clipped to band_n) with no `config/type_folds.tsv` row. A dry run (the default) prints counts per action/class and writes `.run/P40/t3/decide_<A-B|tail>.tsv` (`map_type action target evidence note facts`; `# missing-from-map` lines). `--write` appends the rows to `config/type_folds.tsv` under one `# T3 …` comment line per batch, and the define typedefs to the marker block `/* T3 (P3.40) band defs:begin … */ … /* T3 band defs:end */` before the final `#endif` of `include/struct_types.h`, ordered by `band rank N`. `tail` writes only `residual TYPE-BELOW-BAND band:<rank>/<sites>` rows.
+- `restruct.py --rung S --residue --restamp --restamp-no-edit` (one-time): as `--restamp`, plus NO-EDIT entries whose site's map type has a `residual` type_folds row get that row's target as the cause. Plain `--restamp` still ignores NO-EDIT.
+- `restruct_cycle.sh`: a batch with `compiles 0` and `written 0` prints `cycle: nothing drawable at <label> — done` and exits 0 before R22, the census and the commit. `final 0/0` cannot reach that point, because an empty plan is the earlier `nothing to do` exit.
+
+## Decision rules (per band type, in order; T2 policy)
+- (a) fold, only on detected evidence; the target must be in `canon_types()`.
+  - E1 `E1-lineage:<n>/<m>`: at least 50 % of the type's m TNC sites sit on a base whose MEMBER entries, in the same body's latest rung-S row, hold one canonical type C for at least 90 % of the entries (base matched via `s_base_norm`).
+  - E2 `E2-anchor:<global>`: a `globals_at` global with exactly one canonical type among its object/array declarations in src/ or include/ (git grep; never a pointer). Declarations under TU-local types are ignored, and two canonical types mean no anchor.
+  - E3 is not detected separately: cross-cluster field copies already merge in the type_census union-find, and drift is E1.
+- (b) residual, in this order: `size_hint` 0 → `TYPE-NO-LAYOUT`; any layout off < 0 → `TYPE-INTERIOR`; a conflict that is `"overlap"` or whose dict holds more than one distinct width → `TYPE-UNION` (sign-only conflicts are no union); `fields == 1` at off 0 → `TYPE-SCALAR`; `sl.entries_from_layout` keeps no entry, or `render_struct` refuses → `TYPE-INTERIOR` if any off is negative, else `TYPE-NO-LAYOUT`. Evidence `layout:<what>`.
+- (c) define `Unkstruct_<owner>`. The owner is the lowest `dl.fn_addr` over the type's TNC bodies (else the lowest `globals_at` D_ address, else the map name). On a collision with an `Unkstruct_*` identifier in src/ or include/, an existing type_folds target or an earlier target, the suffix is `_2`, `_3` …. The def is the flat `entries_from_layout` layout (write_types' size rule), rendered under the target name; its comment names the map type, band rank, TNC sites/bodies and `P3.40 T3`.
+- A map type missing from the current `struct_map.json` gets no row (count and names printed). Existing type_folds rows are never rewritten.
+
+## After a `--write` (T3.c2)
+- The new defs are dead until drawn, and identical layouts form dup classes. Run `type_census.py --check-structs`: twins regenerate via `tools/struct_twins.py --write`, and dead names go under `## Dead kept` of `docs/struct-twins.md`.
+
+## Files
+- `tools/restruct.py` (`tnc_sites`, `band_rank`, `freeze_band`, `decide_band`, `tail_rows`, `splice_t3_defs`, `restamp_rows(no_edit=)`), `tools/restruct_cycle.sh`, `config/tnc_band.tsv` (frozen), `config/type_folds.tsv`, `include/struct_types.h`, `.run/P40/t3/`.
