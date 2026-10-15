@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "8c554851b0",
-  "src_stamp": "01c3e3e104282853",
+  "head": "0ff1398f06",
+  "src_stamp": "484e6a8f0dc76052",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-15T13:41:47Z",
+  "when": "2026-10-15T13:54:08Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -36,56 +36,56 @@
   },
   "casts": {
    "by_form": {
-    "P": 186695,
+    "P": 186345,
     "I": 49525,
     "X": 12031,
     "K": 26059,
     "A": 18889,
-    "C": 247354,
+    "C": 247704,
     "M": 8240
    },
    "raw_counts": {
-    "P": 186695,
+    "P": 186345,
     "I": 49525,
     "X": 12031,
     "K": 26059,
     "A": 18889,
-    "C": 247354,
+    "C": 247704,
     "M": 8240
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 256491,
+   "deref_total": 256141,
    "addr_form": 18889,
-   "typed_cast_member": 247354,
+   "typed_cast_member": 247704,
    "bodies": 43316,
    "by_bclass": {
     "local": 88663,
-    "param": 111154,
+    "param": 110854,
     "global": 20334,
     "gaddr": 25259,
-    "nested": 7967,
+    "nested": 7917,
     "ident": 161,
     "other": 1615,
     "addr-of": 1338
    },
    "by_width": {
     "s2": 80639,
-    "s4": 64544,
-    "u2": 60114,
+    "s4": 64294,
+    "u2": 60014,
     "u1": 19008,
     "agg": 13401,
     "p4": 10654,
     "u4": 6254,
     "s1": 1877
    },
-   "readability_raw_regex": 189532,
+   "readability_raw_regex": 189182,
    "abs_casts": 0,
    "top_bases": [
     [
      "param",
      "param_1",
-     38114
+     37814
     ],
     [
      "param",
@@ -291,7 +291,7 @@
     "CAST_NONSTRUCT": 331
    },
    "check_raw": {
-    "P": 186690,
+    "P": 186340,
     "I": 49525,
     "X": 12031,
     "M": 8239
@@ -286905,43 +286905,43 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 17598,
-   "explained_sites": 252586,
-   "deref_sites": 256491,
+   "types": 17604,
+   "explained_sites": 252236,
+   "deref_sites": 256141,
    "explained_pct": 98.5,
    "unassigned_sites": 3905,
    "conflicts": 794,
    "suspect": 11,
    "evidence": {
     "param": 39360,
+    "arg": 10512,
+    "assign": 19807,
     "ret-of": 6159,
-    "assign&": 1414,
-    "assign": 19805,
     "return": 1540,
-    "arg": 10514,
-    "arg&": 252,
+    "assign&": 1285,
+    "arg&": 253,
     "field": 6093,
     "nested": 9
    },
    "vetoed": {
-    "assign&-multisource": 12727,
-    "arg&-conduit": 14767,
-    "arg&-no-overlap": 3385,
     "arg-conduit": 151163,
-    "assign-multisource": 34806,
-    "field-multisource": 4179,
     "ret-of-multisource": 6828,
+    "assign-multisource": 34806,
+    "arg&-conduit": 14767,
+    "field-multisource": 4179,
     "ret-of": 499,
+    "assign&-multisource": 12727,
+    "arg&-no-overlap": 3384,
     "assign": 279,
-    "arg-no-overlap": 26296,
-    "assign&": 76,
+    "arg-no-overlap": 26123,
+    "assign&": 336,
     "arg": 64,
     "return": 5,
     "field": 132
    },
-   "singletons": 13708,
-   "multi_body": 3890,
-   "sites_in_multi_body": 199990,
+   "singletons": 13713,
+   "multi_body": 3891,
+   "sites_in_multi_body": 199634,
    "top": [
     {
      "name": "Unkstruct_800D3888",
@@ -286952,13 +286952,13 @@
      "conflicts": 50,
      "sign_mixed": 44,
      "merges": {
-      "arg&": 231,
+      "arg&": 232,
       "param": 9534,
-      "arg": 6925,
-      "assign": 7815,
+      "arg": 6923,
+      "assign": 7817,
       "return": 742,
       "ret-of": 2526,
-      "assign&": 21,
+      "assign&": 19,
       "field": 677
      },
      "globals_at": [
@@ -287324,8 +287324,8 @@
      "merges": {
       "arg&": 1,
       "assign": 102,
-      "arg": 17,
       "param": 8,
+      "arg": 17,
       "assign&": 4
      },
      "globals_at": [
@@ -287370,8 +287370,8 @@
    "block_frames": 629
   },
   "global_blocks": {
-   "n": 2118,
-   "members": 14227,
+   "n": 2120,
+   "members": 14239,
    "top": [
     {
      "base": "0x800cf10c",
@@ -287550,9 +287550,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 38.6,
-   "decls_s": 185.4,
-   "total_s": 194.5
+   "walk_s": 38.4,
+   "decls_s": 183.0,
+   "total_s": 192.1
   }
  },
  "dup_layout_classes": [
