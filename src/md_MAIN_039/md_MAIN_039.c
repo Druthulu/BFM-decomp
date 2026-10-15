@@ -569,13 +569,13 @@ void func_800CBCBC(void *a0)
     if (s0 != NULL) {
         func_8001CC3C((s32)s0, (s32)&D_800D387C, 0, 0);
 
-        *(u8 *)((u8 *)s0 + 0x27) = 0x9C;
-        *(u16 *)((u8 *)s0 + 0x1A) = 0x2000;
-        *(u16 *)((u8 *)s0 + 0x18) = 0x2000;
-        *(u8 *)((u8 *)s0 + 0x24) = 0xFF;
-        *(u8 *)((u8 *)s0 + 0x25) = 0;
-        *(u8 *)((u8 *)s0 + 0x26) = 0;
-        *(s32 *)((u8 *)s0 + 4) |= 0x50000000;
+        ((Unkstruct_800B5CB8 *)s0)->unk27 = 0x9C;
+        ((Unkstruct_800B5CB8 *)s0)->unk1A = 0x2000;
+        ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x2000;
+        ((Unkstruct_800B5CB8 *)s0)->unk24 = 0xFF;
+        ((Unkstruct_800B5CB8 *)s0)->unk25 = 0;
+        ((Unkstruct_800B5CB8 *)s0)->unk26 = 0;
+        CAST_WIDTH(s32, (u8 *)s0, 4) |= 0x50000000;
 
         func_80149374((s32)s1, (s32)((u8 *)a0 + 4));
         func_80128EA8((s32)s0, (s32)((u8 *)a0 + 0x24), (s32)&D_800D3888);

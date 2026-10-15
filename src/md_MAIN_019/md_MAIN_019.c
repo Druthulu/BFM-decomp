@@ -311,9 +311,9 @@ void func_800CB578(void *arg0) {
     gte_rt_alt2((s32)&mat);
     gte_rt_alt2((s32)&mat + 2);
     gte_rt_alt2((s32)&mat + 4);
-    mat.t[0] = *(s32 *)(obj + 0x48);
-    mat.t[1] = *(s32 *)(obj + 0x4C);
-    mat.t[2] = *(s32 *)(obj + 0x50);
+    mat.t[0] = ((Unkstruct_800B5CB8 *)obj)->unk48;
+    mat.t[1] = ((Unkstruct_800B5CB8 *)obj)->unk4C;
+    mat.t[2] = ((Unkstruct_800B5CB8 *)obj)->unk50;
     ((Unkstruct_80126B58 *)arg0)->unk64 = (((Unkstruct_80126B58 *)arg0)->unk64 + 0x71) & 0xFFF;
     *(B8_CB578 *)pos = CAST_WIDTH(B8_CB578, (u8 *)arg0, 0x10);
 
