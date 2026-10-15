@@ -2886,4 +2886,928 @@ typedef Unkstruct_8017D2A4 W16;
 typedef E4 W32;
 typedef struct { u8  v; } W8;
 
+/* --- T2 (P3.40) canonical definitions: one per `define` target of config/type_folds.tsv, flat max-site layout from
+   .run/P37/census/struct_map.json, renamed to the target. Generator: tools/head_types.py --type <map type>
+   --map .run/P37/census/struct_map.json --header .run/P40/t2/per/<map type>.h
+   --decisions .run/P40/t2/per/<map type>.md, one run per type (hand-copied; outside the head_types markers). Order: by name. --- */
+typedef struct {
+    /* Unkstruct_8011F7A8: P37 struct map 1742 sites in 270 bodies; evidence {'L': 18, 'AT': 1}; type_folds.tsv evidence E2-anchor; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x7];
+    /* 0x0007 */ u8 unk7;
+    /* 0x0008 */ u8 unk8;
+    /* 0x0009 */ u8 pad9[0x9];
+    /* 0x0012 */ u16 unk12;
+    /* 0x0014 */ u16 unk14;
+    /* 0x0016 */ u16 unk16;
+    /* 0x0018 */ u8 pad18[0x6a];
+    /* 0x0082 */ u16 unk82;
+    /* 0x0084 */ u8 pad84[0x98];
+    /* 0x011c */ u16 unk11C;
+    /* 0x011e */ u8 pad11E[0x2];
+} Unkstruct_8011F7A8; /* size = 0x120 */
+
+typedef struct {
+    /* Unkstruct_1fa9e810: P37 struct map 3144 sites in 131 bodies; evidence {'L': 1}; type_folds.tsv evidence E2-anchor; merges Unkstruct_1255bbfd (2091 sites, fields disjoint, not rendered); P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2e];
+    /* 0x002e */ s16 unk2E;
+    /* 0x0030 */ u8 pad30[0x17];
+    /* 0x0047 */ u8 unk47;
+    /* 0x0048 */ u8 unk48;
+    /* 0x0049 */ u8 pad49[0x3];
+} Unkstruct_8011F888; /* size = 0x4c */
+
+typedef struct {
+    /* Unkstruct_80126948: P37 struct map 3034 sites in 848 bodies; evidence {'PV': 3, 'PTR': 6, 'L': 115, 'P': 3, 'AT': 2}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ s32 unk0;
+    /* 0x0004 */ u8 unk4;
+    /* 0x0005 */ u8 pad5[0x3];
+    /* 0x0008 */ s32 unk8;
+    /* 0x000c */ s32 unkC;
+    /* 0x0010 */ s32 unk10;
+    /* 0x0014 */ s32 unk14;
+    /* 0x0018 */ s16 unk18;
+    /* 0x001a */ u16 unk1A;
+    /* 0x001c */ u8 pad1C[0x4];
+    /* 0x0020 */ s16 unk20;
+    /* 0x0022 */ u16 unk22;
+    /* 0x0024 */ s16 unk24;
+    /* 0x0026 */ u8 pad26[0x2];
+    /* 0x0028 */ s16 unk28;
+    /* 0x002a */ s16 unk2A;
+    /* 0x002c */ s16 unk2C;
+    /* 0x002e */ s16 unk2E;
+    /* 0x0030 */ s16 unk30;
+    /* 0x0032 */ s16 unk32;
+    /* 0x0034 */ s32 unk34;
+    /* 0x0038 */ u16 unk38;
+    /* 0x003a */ u8 pad3A[0x2];
+    /* 0x003c */ s32 unk3C;
+    /* 0x0040 */ s32 unk40;
+    /* 0x0044 */ s32 unk44;
+    /* 0x0048 */ s32 unk48;
+    /* 0x004c */ s32 unk4C;
+    /* 0x0050 */ s32 unk50;
+    /* 0x0054 */ u8 pad54[0x8];
+    /* 0x005c */ s32 unk5C;
+    /* 0x0060 */ s32 unk60;
+    /* 0x0064 */ s32 unk64;
+    /* 0x0068 */ s32 unk68;
+    /* 0x006c */ s32 unk6C;
+    /* 0x0070 */ s32 unk70;
+    /* 0x0074 */ u8 pad74[0x28];
+    /* 0x009c */ s32 unk9C;
+    /* 0x00a0 */ s16 unkA0;
+    /* 0x00a2 */ s16 unkA2;
+} Unkstruct_80126948; /* size = 0xa4 */
+
+typedef struct {
+    /* Unkstruct_a5d21dec: P37 struct map 4340 sites in 124 bodies; evidence {'L': 2, 'PV': 1, 'P': 1, 'R': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u16 unk4;
+    /* 0x0006 */ u16 unk6;
+    /* 0x0008 */ u16 unk8;
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u16 unkC;
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ u8 pad10[0x10];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x12];
+    /* 0x0036 */ u16 unk36;
+    /* 0x0038 */ u8 pad38[0x18];
+    /* 0x0050 */ u16 unk50;
+    /* 0x0052 */ u16 unk52;
+    /* 0x0054 */ u16 unk54;
+    /* 0x0056 */ u8 pad56[0xe];
+    /* 0x0064 */ s32 unk64;
+    /* 0x0068 */ s32 unk68;
+    /* 0x006c */ u8 pad6C[0x4];
+    /* 0x0070 */ u16 unk70;
+    /* 0x0072 */ u16 unk72;
+    /* 0x0074 */ u8 pad74[0x4];
+    /* 0x0078 */ s32 unk78;
+    /* 0x007c */ u8 pad7C[0xc];
+    /* 0x0088 */ u16 unk88;
+    /* 0x008a */ u16 unk8A;
+    /* 0x008c */ u16 unk8C;
+    /* 0x008e */ u8 pad8E[0x4e];
+    /* 0x00dc */ s32 unkDC;
+    /* 0x00e0 */ u8 padE0[0x1c];
+    /* 0x00fc */ u16 unkFC;
+    /* 0x00fe */ u8 padFE[0x2];
+} Unkstruct_8012C890; /* size = 0x100 */
+
+typedef struct {
+    /* Unkstruct_d12e3a28: P37 struct map 1364 sites in 124 bodies; evidence {'L': 2, 'PV': 1, 'P': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u16 unk4;
+    /* 0x0006 */ u16 unk6;
+    /* 0x0008 */ u16 unk8;
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ s32 unk10;
+} Unkstruct_8012C890_2; /* size = 0x14 */
+
+typedef struct {
+    /* Unkstruct_0b30043d: P37 struct map 1128 sites in 376 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x20];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x34];
+    /* 0x0058 */ s32 unk58;
+    /* 0x005c */ s16 unk5C;
+    /* 0x005e */ u8 pad5E[0x2];
+} Unkstruct_801320D8; /* size = 0x60 */
+
+typedef struct {
+    /* Unkstruct_e505dcd3: P37 struct map 868 sites in 124 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u16 unk4;
+    /* 0x0006 */ u16 unk6;
+} Unkstruct_801343C4; /* size = 0x8 */
+
+typedef struct {
+    /* Unkstruct_23e45db5: P37 struct map 1512 sites in 126 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ s16 unk2;
+    /* 0x0004 */ s16 unk4;
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ s16 unk8;
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ s16 unkE;
+    /* 0x0010 */ s16 unk10;
+    /* 0x0012 */ s16 unk12;
+    /* 0x0014 */ s16 unk14;
+    /* 0x0016 */ u8 pad16[0x2];
+} Unkstruct_80134C20; /* size = 0x18 */
+
+typedef struct {
+    /* Unkstruct_1e86c313: P37 struct map 882 sites in 126 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u16 unk4;
+    /* 0x0006 */ u16 unk6;
+} Unkstruct_80135004; /* size = 0x8 */
+
+typedef struct {
+    /* Unkstruct_80135260: P37 struct map 390 sites in 130 bodies; evidence {'PV': 143, 'P': 143, 'L': 145}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ s16 unk0;
+    /* 0x0002 */ s16 unk2;
+    /* 0x0004 */ s16 unk4;
+    /* 0x0006 */ u8 pad6[0x2];
+} Unkstruct_80135260; /* size = 0x8 */
+
+typedef struct {
+    /* Unkstruct_f49880fd: P37 struct map 2000 sites in 125 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x18];
+    /* 0x0018 */ s16 unk18;
+    /* 0x001a */ s16 unk1A;
+    /* 0x001c */ s16 unk1C;
+    /* 0x001e */ u8 pad1E[0x2a];
+    /* 0x0048 */ s32 unk48;
+    /* 0x004c */ s32 unk4C;
+    /* 0x0050 */ s32 unk50;
+} Unkstruct_80135480; /* size = 0x54 */
+
+typedef struct {
+    /* Unkstruct_cb638a45: P37 struct map 6477 sites in 381 bodies; evidence {'PV': 6, 'P': 6, 'L': 6}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x4];
+    /* 0x0004 */ s16 unk4;
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ s16 unk8;
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ s16 unkE;
+} Unkstruct_80135EB0; /* size = 0x10 */
+
+typedef struct {
+    /* Unkstruct_919ca3ea: P37 struct map 1230 sites in 123 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x4];
+    /* 0x0004 */ s16 unk4;
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ s16 unk8;
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ s16 unkE;
+} Unkstruct_80136824; /* size = 0x10 */
+
+typedef struct {
+    /* Unkstruct_ed8f1335: P37 struct map 2356 sites in 124 bodies; evidence {'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ s32 unk0;
+    /* 0x0004 */ s16 unk4;
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ s16 unk8;
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ u8 unkE;
+    /* 0x000f */ u8 unkF;
+    /* 0x0010 */ s16 unk10;
+    /* 0x0012 */ s16 unk12;
+    /* 0x0014 */ u8 unk14;
+    /* 0x0015 */ u8 unk15;
+    /* 0x0016 */ u8 unk16;
+    /* 0x0017 */ u8 pad17[0x1];
+    /* 0x0018 */ s16 unk18;
+    /* 0x001a */ s16 unk1A;
+    /* 0x001c */ s16 unk1C;
+    /* 0x001e */ s16 unk1E;
+    /* 0x0020 */ s32 unk20;
+} Unkstruct_801397B0; /* size = 0x24 */
+
+typedef struct {
+    /* Unkstruct_4db8cec8: P37 struct map 1240 sites in 124 bodies; evidence {'L': 2, 'PV': 1, 'P': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x1a];
+    /* 0x001a */ u16 unk1A;
+    /* 0x001c */ u8 pad1C[0x4];
+    /* 0x0020 */ u8 unk20;
+    /* 0x0021 */ u8 pad21[0x1];
+    /* 0x0022 */ u8 unk22;
+    /* 0x0023 */ u8 pad23[0x5];
+    /* 0x0028 */ u16 unk28;
+    /* 0x002a */ u16 unk2A;
+    /* 0x002c */ u8 pad2C[0x4];
+    /* 0x0030 */ u16 unk30;
+    /* 0x0032 */ u16 unk32;
+    /* 0x0034 */ u16 unk34;
+    /* 0x0036 */ u8 pad36[0x2];
+} Unkstruct_801397B0_2; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_80139C7C: P37 struct map 2111 sites in 265 bodies; evidence {'PV': 6, 'P': 6, 'L': 6}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x8];
+    /* 0x0008 */ s32 unk8;
+    /* 0x000c */ u8 padC[0xc];
+    /* 0x0018 */ s16 unk18;
+    /* 0x001a */ u8 pad1A[0x2];
+    /* 0x001c */ s16 unk1C;
+    /* 0x001e */ u8 pad1E[0x2];
+    /* 0x0020 */ u8 unk20;
+    /* 0x0021 */ u8 pad21[0x1];
+    /* 0x0022 */ u8 unk22;
+    /* 0x0023 */ u8 pad23[0x1];
+    /* 0x0024 */ u16 unk24;
+    /* 0x0026 */ u16 unk26;
+    /* 0x0028 */ u8 pad28[0x4];
+    /* 0x002c */ s16 unk2C;
+    /* 0x002e */ s16 unk2E;
+    /* 0x0030 */ s16 unk30;
+    /* 0x0032 */ s16 unk32;
+    /* 0x0034 */ s16 unk34;
+    /* 0x0036 */ s16 unk36;
+    /* 0x0038 */ u8 pad38[0x8];
+    /* 0x0040 */ s32 unk40;
+} Unkstruct_80139C7C; /* size = 0x44 */
+
+typedef struct {
+    /* Unkstruct_f896d121: P37 struct map 2108 sites in 124 bodies; evidence {'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ s16 unk0;
+    /* 0x0002 */ s16 unk2;
+    /* 0x0004 */ u8 pad4[0x4];
+    /* 0x0008 */ s32 unk8;
+    /* 0x000c */ s32 unkC;
+    /* 0x0010 */ u8 pad10[0x8];
+    /* 0x0018 */ s32 unk18;
+    /* 0x001c */ s32 unk1C;
+} Unkstruct_8013B274; /* size = 0x20 */
+
+typedef struct {
+    /* Unkstruct_47470ce3: P37 struct map 1404 sites in 117 bodies; evidence {'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x12];
+    /* 0x0012 */ s16 unk12;
+    /* 0x0014 */ s16 unk14;
+    /* 0x0016 */ s16 unk16;
+    /* 0x0018 */ s16 unk18;
+    /* 0x001a */ s16 unk1A;
+    /* 0x001c */ s16 unk1C;
+    /* 0x001e */ u8 pad1E[0x2];
+} Unkstruct_801407F4; /* size = 0x20 */
+
+typedef struct {
+    /* Unkstruct_f0bc3b7a: P37 struct map 1240 sites in 124 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x20];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x40];
+    /* 0x0064 */ s32 unk64;
+    /* 0x0068 */ u8 pad68[0x8];
+    /* 0x0070 */ s16 unk70;
+    /* 0x0072 */ u8 pad72[0x1e];
+    /* 0x0090 */ s32 unk90;
+    /* 0x0094 */ u8 pad94[0x4];
+    /* 0x0098 */ s16 unk98;
+    /* 0x009a */ u8 pad9A[0x62];
+    /* 0x00fc */ s16 unkFC;
+    /* 0x00fe */ s16 unkFE;
+} Unkstruct_80142608; /* size = 0x100 */
+
+typedef struct {
+    /* Unkstruct_301381d4: P37 struct map 1116 sites in 124 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u8 pad4[0x1c];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x10];
+    /* 0x0034 */ u16 unk34;
+    /* 0x0036 */ u8 pad36[0x2];
+} Unkstruct_80143458; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_f9a7989e: P37 struct map 1179 sites in 131 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u8 pad4[0x1c];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x10];
+    /* 0x0034 */ u16 unk34;
+    /* 0x0036 */ u8 pad36[0x2];
+} Unkstruct_8014358C; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_12f4cee2: P37 struct map 786 sites in 131 bodies; evidence {'L': 1, 'FLD': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x4];
+    /* 0x0004 */ s32 unk4;
+    /* 0x0008 */ u8 pad8[0x10];
+    /* 0x0018 */ u16 unk18;
+    /* 0x001a */ u16 unk1A;
+    /* 0x001c */ u8 pad1C[0x4];
+    /* 0x0020 */ u32 unk20;
+    /* 0x0024 */ u8 pad24[0x3];
+    /* 0x0027 */ u8 unk27;
+} Unkstruct_8014358C_2; /* size = 0x28 */
+
+typedef struct {
+    /* Unkstruct_ee756a74: P37 struct map 992 sites in 124 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u8 pad4[0x60];
+    /* 0x0064 */ s32 unk64;
+    /* 0x0068 */ u8 pad68[0x8];
+    /* 0x0070 */ s16 unk70;
+    /* 0x0072 */ u8 pad72[0x5a];
+    /* 0x00cc */ s32 unkCC;
+    /* 0x00d0 */ u8 padD0[0x2c];
+    /* 0x00fc */ u16 unkFC;
+    /* 0x00fe */ u8 padFE[0x2];
+} Unkstruct_80144364; /* size = 0x100 */
+
+typedef struct {
+    /* Unkstruct_4e427c01: P37 struct map 1116 sites in 124 bodies; evidence {'L': 2, 'PV': 1, 'P': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ s16 unk2;
+    /* 0x0004 */ u8 pad4[0x60];
+    /* 0x0064 */ s32 unk64;
+    /* 0x0068 */ u8 pad68[0x8];
+    /* 0x0070 */ s16 unk70;
+    /* 0x0072 */ u8 pad72[0x5a];
+    /* 0x00cc */ s32 unkCC;
+    /* 0x00d0 */ u8 padD0[0x2c];
+    /* 0x00fc */ u16 unkFC;
+    /* 0x00fe */ u8 padFE[0x2];
+} Unkstruct_80144880; /* size = 0x100 */
+
+typedef struct {
+    /* Unkstruct_801463A0: P37 struct map 907 sites in 210 bodies; evidence {'PTR': 1, 'L': 9}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ s32 unk0;
+    /* 0x0004 */ u16 unk4;
+    /* 0x0006 */ u8 pad6[0x2];
+    /* 0x0008 */ s16 unk8;
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ u8 padE[0x2];
+    /* 0x0010 */ s16 unk10;
+    /* 0x0012 */ s16 unk12;
+    /* 0x0014 */ s16 unk14;
+    /* 0x0016 */ u8 pad16[0xa];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x8];
+    /* 0x002c */ u16 unk2C;
+    /* 0x002e */ u8 pad2E[0x1a];
+    /* 0x0048 */ s32 unk48;
+    /* 0x004c */ s32 unk4C;
+    /* 0x0050 */ s32 unk50;
+} Unkstruct_801463A0; /* size = 0x54 */
+
+typedef struct {
+    /* Unkstruct_859b4fab: P37 struct map 910 sites in 130 bodies; evidence {'L': 2, 'PV': 1, 'P': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x20];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x85];
+    /* 0x00a9 */ u8 unkA9;
+    /* 0x00aa */ u16 unkAA;
+    /* 0x00ac */ u8 padAC[0x2];
+    /* 0x00ae */ u16 unkAE;
+} Unkstruct_80148AFC; /* size = 0xb0 */
+
+typedef struct {
+    /* Unkstruct_92677d11: P37 struct map 861 sites in 123 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u8 pad2[0x1e];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x210];
+    /* 0x0234 */ s32 unk234;
+    /* 0x0238 */ s32 unk238;
+    /* 0x023c */ s32 unk23C;
+} Unkstruct_8015C128; /* size = 0x240 */
+
+typedef struct {
+    /* Unkstruct_645b745d: P37 struct map 1548 sites in 258 bodies; evidence {'L': 1}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x6];
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ s16 unkE;
+    /* 0x0010 */ u8 pad10[0x68];
+    /* 0x0078 */ s32 unk78;
+} Unkstruct_8015DCB8; /* size = 0x7c */
+
+typedef struct {
+    /* Unkstruct_dac960ce: P37 struct map 4464 sites in 124 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u8 pad2[0x4];
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ s16 unkE;
+    /* 0x0010 */ u8 pad10[0x34];
+    /* 0x0044 */ u32 unk44;
+    /* 0x0048 */ u8 pad48[0x70];
+    /* 0x00b8 */ u16 unkB8;
+    /* 0x00ba */ u16 unkBA;
+    /* 0x00bc */ u8 padBC[0x102];
+    /* 0x01be */ u8 unk1BE;
+    /* 0x01bf */ u8 pad1BF[0x85];
+    /* 0x0244 */ u8 unk244;
+    /* 0x0245 */ u8 unk245;
+    /* 0x0246 */ u16 unk246;
+    /* 0x0248 */ u16 unk248;
+    /* 0x024a */ u16 unk24A;
+} Unkstruct_8015F448; /* size = 0x24c */
+
+typedef struct {
+    /* Unkstruct_4692fc17: P37 struct map 1612 sites in 124 bodies; evidence {'L': 2, 'FLD': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x12];
+    /* 0x0012 */ s16 unk12;
+    /* 0x0014 */ u8 pad14[0x4];
+    /* 0x0018 */ s16 unk18;
+    /* 0x001a */ u16 unk1A;
+    /* 0x001c */ u16 unk1C;
+    /* 0x001e */ u8 pad1E[0x2];
+} Unkstruct_80164930; /* size = 0x20 */
+
+typedef struct {
+    /* Unkstruct_6d3f3f5d: P37 struct map 889 sites in 127 bodies; evidence {'L': 2}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x4];
+    /* 0x0004 */ s16 unk4;
+    /* 0x0006 */ u8 pad6[0x1a];
+    /* 0x0020 */ u32 unk20;
+    /* 0x0024 */ u32 unk24;
+    /* 0x0028 */ u32 unk28;
+    /* 0x002c */ u32 unk2C;
+    /* 0x0030 */ u8 pad30[0x4];
+    /* 0x0034 */ u32 unk34;
+} Unkstruct_80165240; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_b5c0372a: P37 struct map 1441 sites in 131 bodies; evidence {'L': 2, 'PV': 1, 'P': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x6];
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ s16 unkE;
+    /* 0x0010 */ u8 pad10[0x2];
+    /* 0x0012 */ u8 unk12;
+    /* 0x0013 */ u8 pad13[0x1d];
+    /* 0x0030 */ s32 unk30;
+    /* 0x0034 */ s32 unk34;
+    /* 0x0038 */ u8 pad38[0x14];
+    /* 0x004c */ s32 unk4C;
+    /* 0x0050 */ s32 unk50;
+    /* 0x0054 */ s32 unk54;
+} Unkstruct_801670E4; /* size = 0x58 */
+
+typedef struct {
+    /* Unkstruct_30b21035: P37 struct map 3100 sites in 124 bodies; evidence {'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x20];
+    /* 0x0020 */ s16 unk20;
+    /* 0x0022 */ s16 unk22;
+    /* 0x0024 */ s16 unk24;
+    /* 0x0026 */ u8 pad26[0x2];
+    /* 0x0028 */ s16 unk28;
+    /* 0x002a */ s16 unk2A;
+    /* 0x002c */ s16 unk2C;
+    /* 0x002e */ u8 pad2E[0x2];
+    /* 0x0030 */ s16 unk30;
+    /* 0x0032 */ s16 unk32;
+    /* 0x0034 */ s16 unk34;
+    /* 0x0036 */ u8 pad36[0x2];
+    /* 0x0038 */ s16 unk38;
+    /* 0x003a */ s16 unk3A;
+    /* 0x003c */ s16 unk3C;
+    /* 0x003e */ u8 pad3E[0x12];
+    /* 0x0050 */ s32 unk50;
+} Unkstruct_80167DBC; /* size = 0x54 */
+
+typedef struct {
+    /* Unkstruct_a459e3e5: P37 struct map 1220 sites in 122 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ s16 unk2;
+    /* 0x0004 */ u8 pad4[0x18];
+    /* 0x001c */ s32 unk1C;
+    /* 0x0020 */ u8 pad20[0x8];
+    /* 0x0028 */ s16 unk28;
+    /* 0x002a */ s16 unk2A;
+    /* 0x002c */ s32 unk2C;
+    /* 0x0030 */ s32 unk30;
+} Unkstruct_801681FC; /* size = 0x34 */
+
+typedef struct {
+    /* Unkstruct_ffd2397c: P37 struct map 854 sites in 122 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ s16 unk2;
+    /* 0x0004 */ u8 pad4[0x18];
+    /* 0x001c */ s32 unk1C;
+    /* 0x0020 */ u8 pad20[0xa];
+    /* 0x002a */ s16 unk2A;
+    /* 0x002c */ s32 unk2C;
+    /* 0x0030 */ s32 unk30;
+} Unkstruct_80168430; /* size = 0x34 */
+
+typedef struct {
+    /* Unkstruct_86465c2c: P37 struct map 861 sites in 123 bodies; evidence {'L': 2}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x6];
+    /* 0x0006 */ u16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ u8 pad10[0x2];
+    /* 0x0012 */ u16 unk12;
+    /* 0x0014 */ u8 pad14[0x2];
+    /* 0x0016 */ u16 unk16;
+    /* 0x0018 */ u8 pad18[0x2];
+    /* 0x001a */ u16 unk1A;
+    /* 0x001c */ s32 unk1C;
+} Unkstruct_80168828; /* size = 0x20 */
+
+typedef struct {
+    /* Unkstruct_a2c8734a: P37 struct map 2646 sites in 126 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u8 pad4[0x2];
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ s16 unkE;
+    /* 0x0010 */ u8 pad10[0x2];
+    /* 0x0012 */ u16 unk12;
+    /* 0x0014 */ u8 pad14[0x2];
+    /* 0x0016 */ u16 unk16;
+    /* 0x0018 */ u8 pad18[0x8];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0xc];
+    /* 0x0030 */ s32 unk30;
+} Unkstruct_80169BBC; /* size = 0x34 */
+
+typedef struct {
+    /* Unkstruct_3f697924: P37 struct map 875 sites in 125 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x6];
+    /* 0x0006 */ u16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ u8 pad10[0x20];
+    /* 0x0030 */ s32 unk30;
+    /* 0x0034 */ s32 unk34;
+} Unkstruct_8016A290; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_4e09b6d9: P37 struct map 1572 sites in 131 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x6];
+    /* 0x0006 */ u16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ u8 pad10[0x14];
+    /* 0x0024 */ u8 unk24;
+    /* 0x0025 */ u8 pad25[0x1];
+    /* 0x0026 */ u16 unk26;
+    /* 0x0028 */ s16 unk28;
+    /* 0x002a */ u16 unk2A;
+    /* 0x002c */ s32 unk2C;
+    /* 0x0030 */ u16 unk30;
+    /* 0x0032 */ u8 pad32[0x2];
+} Unkstruct_8016B234; /* size = 0x34 */
+
+typedef struct {
+    /* Unkstruct_8016B4F8: P37 struct map 1 sites in 1 bodies; evidence {'L': 2, 'R': 1}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x1e];
+    /* 0x001e */ s16 unk1E;
+} Unkstruct_8016B4F8; /* size = 0x20 */
+
+typedef struct {
+    /* Unkstruct_4857195e: P37 struct map 1107 sites in 123 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x4];
+    /* 0x0004 */ s16 unk4;
+    /* 0x0006 */ u8 pad6[0x6];
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ u8 padE[0x6];
+    /* 0x0014 */ s16 unk14;
+    /* 0x0016 */ u8 pad16[0x6];
+    /* 0x001c */ s16 unk1C;
+    /* 0x001e */ u8 pad1E[0x12];
+    /* 0x0030 */ u32 unk30;
+} Unkstruct_8016BFD0; /* size = 0x34 */
+
+typedef struct {
+    /* Unkstruct_cd1bacd2: P37 struct map 1764 sites in 126 bodies; evidence {'L': 3, 'PV': 1, 'P': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u8 pad4[0x2];
+    /* 0x0006 */ u16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ s16 unk10;
+    /* 0x0012 */ u16 unk12;
+    /* 0x0014 */ u8 pad14[0x2];
+    /* 0x0016 */ u16 unk16;
+    /* 0x0018 */ u8 pad18[0x2];
+    /* 0x001a */ u16 unk1A;
+    /* 0x001c */ u8 pad1C[0x4];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x10];
+    /* 0x0034 */ s32 unk34;
+} Unkstruct_8016C188; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_a41ec127: P37 struct map 882 sites in 126 bodies; evidence {'L': 2, 'PV': 1, 'P': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x10];
+    /* 0x0010 */ s16 unk10;
+    /* 0x0012 */ u16 unk12;
+    /* 0x0014 */ u8 pad14[0x2];
+    /* 0x0016 */ u16 unk16;
+    /* 0x0018 */ u8 pad18[0x2];
+    /* 0x001a */ u16 unk1A;
+    /* 0x001c */ u8 pad1C[0x4];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x10];
+    /* 0x0034 */ s32 unk34;
+} Unkstruct_8016C2C4; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_85709988: P37 struct map 889 sites in 127 bodies; evidence {'L': 1, 'FLD': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x6];
+    /* 0x0006 */ u16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ u8 pad10[0x26];
+    /* 0x0036 */ u16 unk36;
+} Unkstruct_8016C49C; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_568f7bda: P37 struct map 1875 sites in 125 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ s16 unk2;
+    /* 0x0004 */ u8 pad4[0x2];
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ s16 unkE;
+    /* 0x0010 */ u8 pad10[0x2];
+    /* 0x0012 */ s16 unk12;
+    /* 0x0014 */ u8 pad14[0x8];
+    /* 0x001c */ s32 unk1C;
+    /* 0x0020 */ u8 pad20[0x8];
+    /* 0x0028 */ s16 unk28;
+    /* 0x002a */ u8 pad2A[0x6];
+    /* 0x0030 */ s32 unk30;
+    /* 0x0034 */ void * unk34;
+} Unkstruct_8016C998; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_110cf29e: P37 struct map 1250 sites in 125 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x6];
+    /* 0x0006 */ u16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ s32 unk10;
+    /* 0x0014 */ s32 unk14;
+    /* 0x0018 */ s32 unk18;
+    /* 0x001c */ u8 pad1C[0xe];
+    /* 0x002a */ s16 unk2A;
+} Unkstruct_8016CF04; /* size = 0x2c */
+
+typedef struct {
+    /* Unkstruct_198fc7cc: P37 struct map 2580 sites in 129 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u8 pad4[0x2];
+    /* 0x0006 */ u16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ s32 unk10;
+    /* 0x0014 */ s32 unk14;
+    /* 0x0018 */ s32 unk18;
+    /* 0x001c */ s32 unk1C;
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x4];
+    /* 0x0028 */ u16 unk28;
+    /* 0x002a */ u8 pad2A[0x2];
+    /* 0x002c */ s32 unk2C;
+    /* 0x0030 */ s32 unk30;
+    /* 0x0034 */ s32 unk34;
+} Unkstruct_8016D1D8; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_d292c30d: P37 struct map 1240 sites in 124 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u8 pad4[0x2];
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ s16 unkE;
+    /* 0x0010 */ u8 pad10[0x10];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x10];
+    /* 0x0034 */ s32 unk34;
+} Unkstruct_8016DC20; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_95febbc1: P37 struct map 868 sites in 124 bodies; evidence {'L': 1, 'FLD': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x6];
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ s16 unkE;
+} Unkstruct_8016DC20_2; /* size = 0x10 */
+
+typedef struct {
+    /* Unkstruct_8016DF5C: P37 struct map 5 sites in 1 bodies; evidence {'L': 1}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x4];
+    /* 0x0004 */ u32 unk4;
+    /* 0x0008 */ u8 pad8[0x10];
+    /* 0x0018 */ s16 unk18;
+    /* 0x001a */ s16 unk1A;
+    /* 0x001c */ u8 pad1C[0x18];
+    /* 0x0034 */ s32 unk34;
+} Unkstruct_8016DF5C; /* size = 0x38 */
+
+typedef struct {
+    /* Unkstruct_f8ed2b9f: P37 struct map 4061 sites in 4061 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x216];
+    /* 0x0216 */ u8 unk216;
+    /* 0x0217 */ u8 pad217[0x1];
+} Unkstruct_8016F6E0; /* size = 0x218 */
+
+typedef struct {
+    /* Unkstruct_a8d34bce: P37 struct map 1948 sites in 1948 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x214];
+    /* 0x0214 */ u8 unk214;
+    /* 0x0215 */ u8 pad215[0x3];
+} Unkstruct_801727D0; /* size = 0x218 */
+
+typedef struct {
+    /* Unkstruct_297e7547: P37 struct map 1240 sites in 124 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x4];
+    /* 0x0004 */ u8 unk4;
+    /* 0x0005 */ u8 pad5[0x7];
+    /* 0x000c */ s32 unkC;
+    /* 0x0010 */ u8 pad10[0x4];
+    /* 0x0014 */ s32 unk14;
+    /* 0x0018 */ u8 pad18[0x8];
+    /* 0x0020 */ s16 unk20;
+    /* 0x0022 */ s16 unk22;
+    /* 0x0024 */ s16 unk24;
+    /* 0x0026 */ u8 pad26[0x8];
+    /* 0x002e */ s16 unk2E;
+    /* 0x0030 */ s16 unk30;
+    /* 0x0032 */ s16 unk32;
+    /* 0x0034 */ u8 pad34[0x20];
+    /* 0x0054 */ s32 unk54;
+} Unkstruct_80174BF4; /* size = 0x58 */
+
+typedef struct {
+    /* Unkstruct_0a8f505b: P37 struct map 790 sites in 83 bodies; evidence {'PV': 27, 'P': 27, 'L': 27}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u8 pad4[0x6];
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u8 padC[0x10];
+    /* 0x001c */ s32 unk1C;
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 pad24[0x3a];
+    /* 0x005e */ u16 unk5E;
+    /* 0x0060 */ u8 pad60[0x6c];
+    /* 0x00cc */ s32 unkCC;
+    /* 0x00d0 */ s32 unkD0;
+    /* 0x00d4 */ u8 padD4[0x4];
+    /* 0x00d8 */ void * unkD8;
+    /* 0x00dc */ void * unkDC;
+    /* 0x00e0 */ u8 padE0[0x1c];
+    /* 0x00fc */ u16 unkFC;
+    /* 0x00fe */ u16 unkFE;
+    /* 0x0100 */ u8 pad100[0x6];
+    /* 0x0106 */ s16 unk106;
+    /* 0x0108 */ s16 unk108;
+    /* 0x010a */ s16 unk10A;
+} Unkstruct_8017BEBC; /* size = 0x10c */
+
+typedef struct {
+    /* Unkstruct_57a28935: P37 struct map 3271 sites in 196 bodies; evidence {'PV': 134, 'P': 134, 'L': 134}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x5];
+    /* 0x0005 */ u8 unk5;
+    /* 0x0006 */ u8 pad6[0x2];
+    /* 0x0008 */ s32 unk8;
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ u8 padE[0x2];
+    /* 0x0010 */ s32 unk10;
+    /* 0x0014 */ s32 unk14;
+    /* 0x0018 */ s16 unk18;
+    /* 0x001a */ s16 unk1A;
+    /* 0x001c */ s16 unk1C;
+    /* 0x001e */ u8 pad1E[0x2];
+    /* 0x0020 */ s16 unk20;
+    /* 0x0022 */ s16 unk22;
+    /* 0x0024 */ s16 unk24;
+    /* 0x0026 */ u8 pad26[0x2];
+    /* 0x0028 */ s16 unk28;
+    /* 0x002a */ s16 unk2A;
+    /* 0x002c */ s16 unk2C;
+    /* 0x002e */ s16 unk2E;
+    /* 0x0030 */ s16 unk30;
+    /* 0x0032 */ s16 unk32;
+    /* 0x0034 */ u8 pad34[0x8];
+    /* 0x003c */ s32 unk3C;
+    /* 0x0040 */ s32 unk40;
+    /* 0x0044 */ s32 unk44;
+    /* 0x0048 */ s32 unk48;
+    /* 0x004c */ s32 unk4C;
+    /* 0x0050 */ s32 unk50;
+    /* 0x0054 */ u8 pad54[0x48];
+    /* 0x009c */ s32 unk9C;
+    /* 0x00a0 */ u16 unkA0;
+    /* 0x00a2 */ u16 unkA2;
+} Unkstruct_8017CF48; /* size = 0xa4 */
+
+typedef struct {
+    /* Unkstruct_17738e2c: P37 struct map 876 sites in 33 bodies; evidence {'PV': 25, 'P': 25, 'L': 27}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
+    /* 0x0000 */ u8 pad0[0x5];
+    /* 0x0005 */ u8 unk5;
+    /* 0x0006 */ u8 pad6[0x2];
+    /* 0x0008 */ s16 unk8;
+    /* 0x000a */ u8 padA[0x2];
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ u8 padE[0x2];
+    /* 0x0010 */ s32 unk10;
+    /* 0x0014 */ s16 unk14;
+    /* 0x0016 */ u8 pad16[0x2];
+    /* 0x0018 */ s16 unk18;
+    /* 0x001a */ s16 unk1A;
+    /* 0x001c */ s16 unk1C;
+    /* 0x001e */ u8 pad1E[0x2];
+    /* 0x0020 */ s16 unk20;
+    /* 0x0022 */ s16 unk22;
+    /* 0x0024 */ s16 unk24;
+    /* 0x0026 */ u8 pad26[0x2];
+    /* 0x0028 */ s16 unk28;
+    /* 0x002a */ s16 unk2A;
+    /* 0x002c */ s16 unk2C;
+    /* 0x002e */ s16 unk2E;
+    /* 0x0030 */ s16 unk30;
+    /* 0x0032 */ s16 unk32;
+    /* 0x0034 */ u8 pad34[0x4];
+    /* 0x0038 */ s16 unk38;
+    /* 0x003a */ s16 unk3A;
+    /* 0x003c */ s32 unk3C;
+    /* 0x0040 */ s32 unk40;
+    /* 0x0044 */ s32 unk44;
+    /* 0x0048 */ s32 unk48;
+    /* 0x004c */ s32 unk4C;
+    /* 0x0050 */ s32 unk50;
+    /* 0x0054 */ u8 pad54[0x48];
+    /* 0x009c */ s16 unk9C;
+    /* 0x009e */ s16 unk9E;
+    /* 0x00a0 */ s16 unkA0;
+    /* 0x00a2 */ s16 unkA2;
+} Unkstruct_8017D120; /* size = 0xa4 */
+
 #endif /* STRUCT_TYPES_H */
