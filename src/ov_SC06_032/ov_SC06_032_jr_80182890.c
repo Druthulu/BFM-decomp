@@ -3943,7 +3943,7 @@ s32 func_80184170(s32 a0, s16 a1)
     s32 d;
 
     d = (func_8012B6D4((s16 *)&D_80126B5C, (s16 *)(a0 + 4)) -
-         *(s16 *)((s32)D_80126B78 + 0x12)) & 0xFFF;
+         ((Unkstruct_801463A0 *)D_80126B78)->unk12) & 0xFFF;
     if (d < 0x800) {
         return d < a1;
     } else {

@@ -1806,9 +1806,9 @@ void func_801883C4(void)
 
     if (*(s16 *)&D_801E43BC != 0) {
         p = (s32)D_80126B78;
-        t = *(u16 *)(p + 0x12) + *(u16 *)&D_801E43B8;
+        t = CAST_SIGN(u16, p, 0x12) + *(u16 *)&D_801E43B8;
         *(u16 *)&D_801E43BC = 0;
-        *(u16 *)(p + 0x12) = t;
+        ((Unkstruct_801463A0 *)p)->unk12 = t;
     }
 }
 
@@ -2356,7 +2356,7 @@ void func_80188F38(void)
     func_8012B21C((void *)self);
 
     p = (s32)D_80126B78;
-    RotMatrixY(*(s16 *)(p + 0x12), &m);
+    RotMatrixY(((Unkstruct_801463A0 *)p)->unk12, &m);
     func_800484EC((s32)&m, (s32)&D_801965A0, self + 0x10);
     func_8012AD44((s32 *)self, 3);
 }
@@ -2443,7 +2443,7 @@ extern s32 *D_80126B78;
 void func_80189240(s32 a0)
 {
     *(u16 *)(a0 + 0x5C) &= 0xFFFE;
-    *(u16 *)(a0 + 0x104) = *(u16 *)((s32)D_80126B78 + 0x12);
+    *(u16 *)(a0 + 0x104) = CAST_SIGN(u16, (s32)D_80126B78, 0x12);
 }
 
 
@@ -2454,10 +2454,10 @@ void func_80189268(s32 a0)
     *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = 0;
     if (*(u16 *)(*(s32 *)(a0 + 0x64) + 0x100) & 1) {
         *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) =
-            *(u16 *)(a0 + 0x104) + *(u16 *)((s32)D_80126B78 + 0x12);
+            *(u16 *)(a0 + 0x104) + CAST_SIGN(u16, (s32)D_80126B78, 0x12);
     } else {
         *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) =
-            *(u16 *)(a0 + 0x104) - *(u16 *)((s32)D_80126B78 + 0x12);
+            *(u16 *)(a0 + 0x104) - CAST_SIGN(u16, (s32)D_80126B78, 0x12);
     }
 }
 
@@ -5872,7 +5872,7 @@ void func_8018DE5C(void *a0) {
     if (D_801270C8[0] > 0x15) {
         p = CAST_SIGN(void *, (s32)a0, 0xD0);
         if (p != NULL) {
-            *(s16 *)((s32)p + 0) = 0;
+            ((Unkstruct_800B5CB8 *)p)->unk0 = 0;
         }
         func_801439C0((u8 *)((Unkstruct_800B5CB8 *)a0)->unkCC);
         func_8012C218((void *)a0);

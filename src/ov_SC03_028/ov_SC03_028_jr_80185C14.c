@@ -4302,10 +4302,10 @@ void func_80187954(void *a0)
     s32 t1 = ((Unkstruct_800B5CB8 *)a0)->unk64;
 
     CAST_WIDTH(s32, (s32)a0, 0x4) = *(s32 *)(t1 + 0x4);
-    CAST_WIDTH(s32, (s32)a0, 0x8) = *(s32 *)((*(s32 *)((s32)a0 + 0x64)) + 0x8);
+    CAST_WIDTH(s32, (s32)a0, 0x8) = *(s32 *)((((Unkstruct_800B5CB8 *)a0)->unk64) + 0x8);
     CAST_WIDTH(s32, (s32)a0, 0xC) = *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xC);
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 =
-        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x12);
+    ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 =
+        CAST_NONSTRUCT(u16, *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20), 0x12);
     func_8012B2CC((s32)a0);
 }
 

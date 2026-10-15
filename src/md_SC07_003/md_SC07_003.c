@@ -1190,7 +1190,7 @@ void func_801A1924(s32 arg0) {
     D_80126B5E = sp30.a;
     D_80126B62 = sp30.b;
     D_80126B66 = sp30.c;
-    *(s16 *)(*(s32 *)D_80126B78 + 0x12) = func_8012B70C((s16 *)sp38, (s16 *)&sp30);
+    *(s16 *)(((Unkstruct_801463A0 *)D_80126B78)->unk0 + 0x12) = func_8012B70C((s16 *)sp38, (s16 *)&sp30);
 }
 
 
@@ -1672,7 +1672,7 @@ void func_801A227C(void *arg0) {
     }
     v0 = CAST_SIGN(void *, (u8 *)arg0, 0xD8);
     if (v0 != NULL) {
-        func_80016450(*(u8 *)((u8 *)v0 + 0xFC), 0);
+        func_80016450(CAST_WIDTH(u8, (u8 *)v0, 0xFC), 0);
         func_8012C218(CAST_SIGN(void *, (u8 *)arg0, 0xD8));
     }
     func_8012C218(arg0);
@@ -1908,13 +1908,13 @@ void func_801A27A4(void *a0, void *a1)
     ent = func_8012913C(0x22);
 
     if (ent != NULL) {
-        *(u16 *)((s32)ent + 0x6)  = pos[0];
-        *(u16 *)((s32)ent + 0xA)  = pos[1];
-        *(u16 *)((s32)ent + 0xE)  = pos[2];
-        *(s32 *)((s32)ent + 0x10) = -(CAST_WIDTH(s32, (s32)a0, 0x10));
-        *(s32 *)((s32)ent + 0x18) = -(CAST_WIDTH(s32, (s32)a0, 0x18));
-        *(u16 *)((s32)ent + 0x34) = 0x7001;
-        CAST_NONSTRUCT(u16, (s32)(*(s32 *)((s32)ent + 0x20)), 0x2C) = 0xC002;
+        ((Unkstruct_800B5CB8 *)ent)->unk6  = pos[0];
+        ((Unkstruct_800B5CB8 *)ent)->unkA  = pos[1];
+        ((Unkstruct_800B5CB8 *)ent)->unkE  = pos[2];
+        CAST_WIDTH(s32, (s32)ent, 0x10) = -(CAST_WIDTH(s32, (s32)a0, 0x10));
+        CAST_WIDTH(s32, (s32)ent, 0x18) = -(CAST_WIDTH(s32, (s32)a0, 0x18));
+        ((Unkstruct_800B5CB8 *)ent)->unk34 = 0x7001;
+        CAST_NONSTRUCT(u16, (s32)(((Unkstruct_800B5CB8 *)ent)->unk20), 0x2C) = 0xC002;
     }
 
     tmp.f0 = pos[0];
@@ -4297,11 +4297,11 @@ extern u8 D_801F4448[];
 void func_801A5BBC(s32 arg0) {
     s16 var;
 
-    var = *(s16 *)(arg0 + 0x2C);
+    var = CAST_SIGN(s16, arg0, 0x2C);
     if (var < 0x700) {
-        *(s16 *)(arg0 + 0x2C) = var + 0x30;
+        ((Unkstruct_800B5CB8 *)arg0)->unk2C = var + 0x30;
         func_801A4FB4(D_801F4448, -4);
-        func_800233CC(D_801F4448 - 4, *(u16 *)(arg0 + 0x2C));
+        func_800233CC(D_801F4448 - 4, ((Unkstruct_800B5CB8 *)arg0)->unk2C);
     } else {
         func_801292C8((u8 *)arg0);
     }

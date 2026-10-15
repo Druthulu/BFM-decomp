@@ -3178,8 +3178,8 @@ void func_8017E160(s32 param_1) {
     if ((s16)pos.f2 < -0x3C0) {
         *(s16 *)&pos.f2 = -0x3C0;
     }
-    vec[0] = pos.f0 - func_8004787C(*(s16 *)((s32)D_80126B78 + 0x12)) / 128;
-    vec[2] = pos.f2 - func_80047948(*(s16 *)((s32)D_80126B78 + 0x12)) / 128;
+    vec[0] = pos.f0 - func_8004787C(((Unkstruct_801463A0 *)D_80126B78)->unk12) / 128;
+    vec[2] = pos.f2 - func_80047948(((Unkstruct_801463A0 *)D_80126B78)->unk12) / 128;
     vec[1] = pos.f1;
     h = func_8017E4B4(D_801895D0, (s16 *)&pos, vec);
     /* the D_801ACE50 read must precede the 0xA0 store in the RTL stream:
@@ -4632,9 +4632,9 @@ void func_80180198(int param_1) {
 extern void func_801809A0(s32 a0);
 
 void func_80180228(s32 a0) {
-    *(s32 *)((s32)a0 + 0xDC) &= ~0x10;
+    ((Unkstruct_800B5CB8 *)a0)->unkDC &= ~0x10;
     func_801809A0(a0);
-    *(s32 *)((s32)a0 + 0x1C) = 0xA;
+    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0xA;
 }
 
 
@@ -4669,13 +4669,13 @@ extern void func_801809A0(s32 a0);
 extern void func_80180AE4(s32);
 
 void func_801802FC(s32 a0) {
-    if (*(s32 *)(a0 + 0x1C) == *(s32 *)(a0 + 0x1C) / 5 * 5) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk1C == ((Unkstruct_800B5CB8 *)a0)->unk1C / 5 * 5) {
         func_801809A0(a0);
-        *(s32 *)(a0 + 0xE4) = 0xA;
+        ((Unkstruct_800B5CB8 *)a0)->unkE4 = 0xA;
     }
-    if (*(s32 *)(a0 + 0xE4) != 0) {
+    if (((Unkstruct_800B5CB8 *)a0)->unkE4 != 0) {
         func_80180AE4(a0);
-        *(s32 *)(a0 + 0xE4) = *(s32 *)(a0 + 0xE4) - 1;
+        ((Unkstruct_800B5CB8 *)a0)->unkE4 = ((Unkstruct_800B5CB8 *)a0)->unkE4 - 1;
     }
 }
 
@@ -5027,15 +5027,15 @@ void func_801809A0(s32 arg0) {
     u32 buf[2];
     unsigned int *p;
 
-    if (*(s16 *)(arg0 + 0xAA) <= 0) {
+    if (((Unkstruct_800B5CB8 *)arg0)->unkAA <= 0) {
         i = 0;
         p = buf;
         for (; i < 20; i++) {
             func_8012B0B4(p, rand() % 4096, 0x40);
             v = *(s32 *)buf;
-            pos[0] = *(u16 *)(arg0 + 0x6) + v;
-            pos[1] = *(u16 *)(arg0 + 0xA) - 0x60;
-            pos[2] = *(u16 *)(arg0 + 0xE) + (v >> 16);
+            pos[0] = ((Unkstruct_800B5CB8 *)arg0)->unk6 + v;
+            pos[1] = ((Unkstruct_800B5CB8 *)arg0)->unkA - 0x60;
+            pos[2] = ((Unkstruct_800B5CB8 *)arg0)->unkE + (v >> 16);
             hit = func_80143BDC(pos);
             if (hit != 0) {
                 *(u8 *)(*(s32 *)(hit + 0xCC) + 0x27) = 0x5B;
@@ -5050,13 +5050,13 @@ extern unsigned char D_801A2F40[];
 extern int func_8012D5E4(int a0, int a1, int a2, int a3);
 
 int func_80180A78(int a0) {
-    if ((*(int *)(a0 + 0xDC) & 1) != 0) {
+    if ((((Unkstruct_800B5CB8 *)a0)->unkDC & 1) != 0) {
         return 0;
     }
     if (func_8012D5E4(a0, (int)D_801A2F40, (int)(D_801A2F40 + 8), 0x13) != 1) {
         return 0;
     }
-    *(int *)(a0 + 0xDC) |= 1;
+    ((Unkstruct_800B5CB8 *)a0)->unkDC |= 1;
     return 1;
 }
 
@@ -5083,10 +5083,10 @@ s32 aF8018280C(s32 a0) {
     s16 pointA[3];
     s32 flags;
 
-    if (*(u16 *)(a0 + 0x5E) == 0x1E) {
+    if (CAST_WIDTH(u16, a0, 0x5E) == 0x1E) {
         return 0;
     }
-    if ((*(s32 *)(a0 + 0xDC) & 0x10) != 0) {
+    if ((((Unkstruct_800B5CB8 *)a0)->unkDC & 0x10) != 0) {
         return 0;
     }
     if (((s32 (*)(s32))func_8012BD14)(a0) < 0x2401) {
@@ -5094,18 +5094,18 @@ s32 aF8018280C(s32 a0) {
         pointA[1] = D_80126B62;
         pointA[2] = D_80126B66;
 
-        diff[0] = pointA[0] - *(u16 *)(a0 + 0x6);
-        diff[1] = pointA[1] - *(u16 *)(a0 + 0xA);
-        diff[2] = pointA[2] - *(u16 *)(a0 + 0xE);
+        diff[0] = pointA[0] - ((Unkstruct_800B5CB8 *)a0)->unk6;
+        diff[1] = pointA[1] - ((Unkstruct_800B5CB8 *)a0)->unkA;
+        diff[2] = pointA[2] - ((Unkstruct_800B5CB8 *)a0)->unkE;
 
         VectorNormalSS(diff, diff);
 
         pointA[1] -= 0x20;
         func_8012F568(1, 0x2001, 0, 0, (s32)pointA, (s32)diff);
 
-        flags = *(s32 *)(a0 + 0xDC);
+        flags = ((Unkstruct_800B5CB8 *)a0)->unkDC;
         flags |= 0x10;
-        *(s32 *)(a0 + 0xDC) = flags;
+        ((Unkstruct_800B5CB8 *)a0)->unkDC = flags;
         return 1;
     }
     return 0;
@@ -5335,15 +5335,15 @@ void func_80181054(void *a0)
     s32 result;
 
     s0 = a0;
-    v0 = *(u16 *)((u8 *)s0 + 2);
+    v0 = CAST_SIGN(u16, (u8 *)s0, 2);
     D_801A83E8[v0]();
 
     func_80182944(s0);
-    v0 = *(u16 *)((u8 *)s0 + 0x70);
+    v0 = CAST_SIGN(u16, (u8 *)s0, 0x70);
     if (v0 & 1)
         goto L_end;
 
-    v0 = *(u16 *)s0;
+    v0 = ((Unkstruct_800B5CB8 *)s0)->unk0;
     if (!v0)
         goto L_end;
 

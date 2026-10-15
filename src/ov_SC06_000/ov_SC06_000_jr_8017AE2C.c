@@ -2983,7 +2983,7 @@ void func_8017B824(void) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_801151D4;
-    D_801AE614 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x48);
+    D_801AE614 = (s16) ((Unkstruct_80126948 *)D_801151D4)->unk48;
     D_801AE616 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
     D_801AE618 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
     D_801AE61C = (s16) M2C_FIELD(D_801151D4, s32 *, 0x3C);
@@ -6296,7 +6296,7 @@ s32 func_80180D14(s32 arg0) {
 extern void (*D_8018C070[])(void);
 
 void func_80180D5C(void *a0) {
-    D_8018C070[*(u8 *)((s32)a0 + 0x216)]();
+    D_8018C070[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
@@ -7638,7 +7638,7 @@ void func_80182E38(int param_1)
     if (((Unkstruct_800B5CB8 *)param_1)->unk70 < 4) {
         *(unsigned short *)(sv + 2) = 0;
         *(unsigned short *)(sv + 0) = 0;
-        t1 = *(short *)(CAST_ALIAS(int, param_1, 0x64) + 0x100);
+        t1 = CAST_NONSTRUCT(short, CAST_ALIAS(int, param_1, 0x64), 0x100);
         if (t1 >= -0xd0) {
             v0 = -0x1a0;                          /* retail: -0x1A0 in the j delay slot, jumping PAST the negu */
         } else {
@@ -8147,8 +8147,8 @@ void func_80183C9C(void *a0)
     u16 res[3];
     s32 self = (s32)a0;
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(self + 0x20))->unk12 =
-        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x20) + 0x12) + CAST_SIGN(u16, self, 0xFC);
+    ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)self)->unk20)->unk12 =
+        CAST_NONSTRUCT(u16, *(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x20), 0x12) + CAST_SIGN(u16, self, 0xFC);
 
     func_8004978C((s16 *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x10), &mat);
 
@@ -8533,24 +8533,24 @@ void func_801845CC(int a0)
     s32 val2;
     s32 t2;
 
-    func_801439C0(*(s32 *)(s0 + 0xCC));
+    func_801439C0(((Unkstruct_800B5CB8 *)s0)->unkCC);
     ((void (*)(u8 *))func_8012B200)((u8 *)s0);
 
-    *(s32 *)(s0 + 0x14) = 0x80000;
-    *(u16 *)(s0 + 0x6) = D_80126B5E;
-    *(u16 *)(s0 + 0xE) = D_80126B66;
+    CAST_ALIAS(s32, s0, 0x14) = 0x80000;
+    CAST_ALIAS(u16, s0, 0x6) = D_80126B5E;
+    ((Unkstruct_800B5CB8 *)s0)->unkE = D_80126B66;
 
-    ptr = *(u8 **)(s0 + 0x20);
-    val1 = *(u16 *)(ptr + 0x18);
-    *(s16 *)(s0 + 0xDC) = (val1 << 16) >> 19;
+    ptr = CAST_SIGN(u8 *, s0, 0x20);
+    val1 = ((Unkstruct_800B5CB8 *)ptr)->unk18;
+    CAST_WIDTH(s16, s0, 0xDC) = (val1 << 16) >> 19;
 
-    ptr = *(u8 **)(s0 + 0x20);
-    val2 = *(u16 *)(ptr + 0x1A);
+    ptr = CAST_SIGN(u8 *, s0, 0x20);
+    val2 = ((Unkstruct_800B5CB8 *)ptr)->unk1A;
     *(s16 *)(s0 + 0xDE) = (val2 << 16) >> 19;
 
     func_8012AD44((s32 *)s0, 7);
 
-    t2 = *(s32 *)(s0 + 0xD0);
+    t2 = ((Unkstruct_800B5CB8 *)s0)->unkD0;
     if (t2 != 0) {
         func_801292C8((u8 *)t2);
     }

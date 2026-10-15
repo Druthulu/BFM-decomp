@@ -3209,8 +3209,8 @@ void func_8018505C(void *a0) {
         /* the pointer is re-loaded per statement: each `sh` kills the CSE
          * of `*(s32 *)(a0+0x20)` (§193-E), which is why the target has three
          * `lw $a0,0x20($s0)`. */
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk10 += CAST_WIDTH(u16, (s32)a0, 0x30);
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 += *(u16 *)((s32)a0 + 0x32);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10 += CAST_WIDTH(u16, (s32)a0, 0x30);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 += *(u16 *)((s32)a0 + 0x32);
         *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) += ((Unkstruct_800B5CB8 *)a0)->unk34;
 
         if (d.vx + d.vz > 0x9000) {
@@ -3220,7 +3220,7 @@ void func_8018505C(void *a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk36 += 1;
         }
     } else {
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk10 += 0x80;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10 += 0x80;
         *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) += 0x80;
 
         if (d.vx + d.vz < 0x4001) {

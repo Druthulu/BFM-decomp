@@ -3625,7 +3625,7 @@ extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 extern void (*D_801901D8[])(void);
 
 void func_8017E458(void *a0) {
-    D_801901D8[*(u8 *)((s32)a0 + 0x216)]();
+    D_801901D8[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
