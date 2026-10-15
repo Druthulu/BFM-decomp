@@ -2920,18 +2920,18 @@ void func_80181FD4(void *a0) {
     extern u8 D_8018FF4C;
     char *s0 = (char *)a0;
 
-    switch (*(s16 *)(s0 + 0x70)) {
+    switch (((Unkstruct_800B5CB8 *)s0)->unk70) {
     case 0:
-        *(s32 *)(s0 + 0x1C) = 0x1A;
+        ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x1A;
         break;
     case 1:
         func_8013C9C4(&D_8018FF4C);
         func_8002D4C8(0x950, 0);
         /* fallthrough */
     case 2:
-        *(u16 *)(s0 + 0xAE) = 0x6918;
-        *(u16 *)(s0 + 0x5C) = 0x8000;
-        *(s32 *)(s0 + 0x1C) = 2;
+        ((Unkstruct_800B5CB8 *)s0)->unkAE = 0x6918;
+        ((Unkstruct_800B5CB8 *)s0)->unk5C = 0x8000;
+        ((Unkstruct_800B5CB8 *)s0)->unk1C = 2;
         break;
     }
     func_8012AD44((s32 *)s0, 3);

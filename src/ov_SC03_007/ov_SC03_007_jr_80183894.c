@@ -4840,29 +4840,29 @@ s32 func_80185D3C(void *a0, s16 a1)
     s16 x;
     s16 f;
 
-    x = *(s16 *)((s32)a0 + 6);
+    x = CAST_SIGN(s16, (s32)a0, 6);
     if (x < -381) {
         if (a1 == 0) {
-            *(s16 *)((s32)a0 + 6) = -381;
+            CAST_ALIAS(s16, (s32)a0, 6) = -381;
         }
         ret = 1;
     } else if (x >= 382) {
         if (a1 == 0) {
-            *(s16 *)((s32)a0 + 6) = 381;
+            ((Unkstruct_800B5CB8 *)a0)->unk6 = 381;
         }
         ret = 1;
     }
 
     f = a1;
-    x = *(s16 *)((s32)a0 + 14);
+    x = CAST_SIGN(s16, (s32)a0, 14);
     if (x < -1661) {
         if (f == 0) {
-            *(s16 *)((s32)a0 + 14) = -1661;
+            CAST_ALIAS(s16, (s32)a0, 14) = -1661;
         }
         ret = 1;
     } else if (x >= -898) {
         if (f == 0) {
-            *(s16 *)((s32)a0 + 14) = -899;
+            CAST_ALIAS(s16, (s32)a0, 14) = -899;
         }
         ret = 1;
     }
@@ -4896,7 +4896,7 @@ s32 func_80185DD8(void)
 
 
 void func_80185E30(void *a0) {
-        *(short *)((char *)a0 + 0x2) = *(unsigned short *)((char *)a0 + 0xf8);
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = *(unsigned short *)((char *)a0 + 0xf8);
     }
 
 
@@ -4906,10 +4906,10 @@ void func_80185E3C(void *arg0) {
 
     neg = -2;
     val = 0x4000 - ((neg - (s32)*(unsigned short *)((char *)arg0 + 0xA)) << 4);
-    arg0 = *(void **)((char *)arg0 + 0xCC);
-    arg0 = *(void **)((char *)arg0 + 0xCC);
-    *(short *)((char *)arg0 + 0x1A) = val;
-    *(short *)((char *)arg0 + 0x18) = val;
+    arg0 = CAST_SIGN(void *, (char *)arg0, 0xCC);
+    arg0 = CAST_SIGN(void *, (char *)arg0, 0xCC);
+    ((Unkstruct_800B5CB8 *)arg0)->unk1A = val;
+    ((Unkstruct_800B5CB8 *)arg0)->unk18 = val;
 }
 
 
@@ -4922,7 +4922,7 @@ extern s16 D_80126B9A;
 extern s32 func_8012BE54(s32 a0);
 
 void func_80185E68(s32 a0) {
-    if ((u16)(D_80126B62 - *(u16 *)(a0 + 0xA) + 0x2F) < 0x6F &&
+    if ((u16)(D_80126B62 - ((Unkstruct_800B5CB8 *)a0)->unkA + 0x2F) < 0x6F &&
         func_8012BE54(a0) < 0x3840) {
         D_80126B96 = 0x4002;
         D_80126B94 |= 1;

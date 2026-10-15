@@ -3252,7 +3252,7 @@ void func_80187668(s32 param_1) {
 extern void (*D_8018F148[])(void);
 
 void func_8018774C(void *a0) {
-    D_8018F148[*(u8 *)((s32)a0 + 0x4)]();
+    D_8018F148[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -3336,7 +3336,7 @@ extern void func_8012C218(void *a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_80187928(void *a0) {
-    func_80187A30(a0, *(s16 *)((s32)a0 + 0xFE), CAST_SIGN(s16, (s32)a0, 0x100));
+    func_80187A30(a0, ((Unkstruct_800B5CB8 *)a0)->unkFE, CAST_SIGN(s16, (s32)a0, 0x100));
 
     switch (CAST_WIDTH(u16, (s32)a0, 0x34)) {
     case 0:
@@ -3347,15 +3347,15 @@ void func_80187928(void *a0) {
         break;
     case 1: {
         ((Unkstruct_80126B58 *)a0)->unk1C = 0x40;
-        CAST_WIDTH(u16, (s32)a0, 0x34) = (*(u16 *)((s32)a0 + 0x34)) + 1;
+        CAST_WIDTH(u16, (s32)a0, 0x34) = (((Unkstruct_800B5CB8 *)a0)->unk34) + 1;
         break;
     }
     case 2:
         if (func_8012BEE8((s32)a0) == 0) {
-            *(u16 *)((s32)a0 + 0xFE) = *(u16 *)((s32)a0 + 0xFE) + 8;
+            ((Unkstruct_800B5CB8 *)a0)->unkFE = CAST_SIGN(u16, (s32)a0, 0xFE) + 8;
             ((Unkstruct_80126B58 *)a0)->unk100 = ((Unkstruct_80126B58 *)a0)->unk100 + 8;
         } else {
-            if (((Unkstruct_80126B58 *)*(s32 *)((s32)a0 + 0x64))->unk2 == 9) {
+            if (((Unkstruct_80126B58 *)((Unkstruct_800B5CB8 *)a0)->unk64)->unk2 == 9) {
                 func_8002D4C8(4, 0x775);
             }
             func_8012C218(a0);
@@ -4439,13 +4439,13 @@ void func_80189350(int param_1)
     int v0;
 
     v0 = ((int (*)(void))func_8012C1B8)();
-    *(int *)(param_1 + 0x20) = v0;
+    ((Unkstruct_801320D8 *)param_1)->unk20 = v0;
     if (v0 == 0) {
         ((void (*)(int))func_8012CAE4)(param_1);
     } else {
         func_8001C214(v0, 0);
-        *(int *)(param_1 + 0x58) = (int)&D_8018F304;
-        *(short *)(param_1 + 0x5c) = 0x80;
+        ((Unkstruct_801320D8 *)param_1)->unk58 = (int)&D_8018F304;
+        ((Unkstruct_801320D8 *)param_1)->unk5C = 0x80;
         *(unsigned short *)(param_1 + 2) += 1;
     }
 }

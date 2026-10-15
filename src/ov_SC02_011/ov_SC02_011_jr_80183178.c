@@ -3228,9 +3228,9 @@ void func_80187654(u8 *param_1)
 void func_80187724(u8 *a0, u8 *a1) {
     u16 temp[3];
 
-    temp[0] = *(u16 *)(a0 + 0x6);
-    temp[1] = *(u16 *)(a0 + 0xA);
-    temp[2] = *(u16 *)(a0 + 0xE);
+    temp[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
+    temp[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
+    temp[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
 
     temp[0] += *(u16 *)(a1 + 0x0);
     temp[1] += *(u16 *)(a1 + 0x2);
@@ -4209,7 +4209,7 @@ extern short D_801D4494;
 
 void func_80188D80(s32 a0) {
     s32 a1 = 4;
-    if (*(s16 *)((s32)a0 + 0x100) == 0) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk100 == 0) {
         ((void (*)(s32))func_80188DC8)(a0);
     } else {
         ((void (*)(s32, s32, s32, s32))func_80188DF4)(a0, a1, 0x1E, (s32)&D_801D4494);

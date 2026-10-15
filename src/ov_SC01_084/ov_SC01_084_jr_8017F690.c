@@ -3731,7 +3731,7 @@ void func_80180CBC(s32 param_1) {
     CAST_ALIAS(s32, param_1, 0xE0) = D_8018A9D2;
     CAST_ALIAS(s32, param_1, 0xE4) = 0;
     ((Unkstruct_800B5CB8 *)param_1)->unkFC = 0x18;
-    ((Unkstruct_800B5CB8 *)ptr)->unk10 = (s16)(*(s32 *)(param_1 + 0xE4));
+    ((Unkstruct_800B5CB8 *)ptr)->unk10 = (s16)(((Unkstruct_800B5CB8 *)param_1)->unkE4);
     ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x12C;
     D_801C774C = 1;
 }
@@ -3975,7 +3975,7 @@ void func_80180E74(s32 param_1) {
 extern s16 D_8018A91A;
 
 void func_801812F4(void *a0) {
-    *(s16 *)((s32)a0 + 0x2) = 4;
+    ((Unkstruct_800B5CB8 *)a0)->unk2 = 4;
     *(s16 *)&D_8018A91A = -1;
 }
 

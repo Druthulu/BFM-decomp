@@ -3941,10 +3941,10 @@ void func_80181A30(s32 a0) {
     *(s32 *)(a0 + 0x1c) = count;
     if (count == -1) {
         func_8001CC3C(effect, (s32)D_8018B9C4, 0, 0);
-        *(u8 *)(effect + 0x27) = 0x9c;
-        *(u16 *)(effect + 0x1a) = 0x4000;
-        *(u16 *)(effect + 0x18) = 0x4000;
-        *(u32 *)(effect + 4) = *(u32 *)(effect + 4) | 0x50000040;
+        ((Unkstruct_800B5CB8 *)effect)->unk27 = 0x9c;
+        ((Unkstruct_800B5CB8 *)effect)->unk1A = 0x4000;
+        ((Unkstruct_800B5CB8 *)effect)->unk18 = 0x4000;
+        CAST_WIDTH(u32, effect, 4) = CAST_WIDTH(u32, effect, 4) | 0x50000040;
 
         idx = *(s32 *)(a0 + 0x2c);
         entry = &D_8018BAF0[idx * 3];

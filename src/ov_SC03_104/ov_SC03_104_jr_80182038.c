@@ -4312,7 +4312,7 @@ void func_8018428C(void *a0)
     s32 v0 = ((s32 (*)(void))func_8012C1B8)();
     s0 = a0;
 
-    *(s32 *)((u8 *)s0 + 0x20) = v0;
+    ((Unkstruct_800B5CB8 *)s0)->unk20 = v0;
 
     if (v0 == 0) {
         func_8012CAE4((void *)s0);
@@ -4320,10 +4320,10 @@ void func_8018428C(void *a0)
     }
 
     func_8001C2C4(v0);
-    *(s32 *)((u8 *)s0 + 0x58) = (s32)&D_8019CA60 | 0x40000000;
-    *(s16 *)((u8 *)s0 + 0x5C) = 0x800;
-    *(u16 *)((u8 *)s0 + 0x72) |= 0x1000;
-    D_8019CA14[0] = *(s32 *)((u8 *)s0 + 0xDC);
+    ((Unkstruct_800B5CB8 *)s0)->unk58 = (s32)&D_8019CA60 | 0x40000000;
+    ((Unkstruct_800B5CB8 *)s0)->unk5C = 0x800;
+    ((Unkstruct_800B5CB8 *)s0)->unk72 |= 0x1000;
+    D_8019CA14[0] = ((Unkstruct_800B5CB8 *)s0)->unkDC;
     func_8012AD50((void *)s0);
 }
 

@@ -3142,7 +3142,7 @@ void func_8017E06C(void) {
 extern void (*D_801895CC[])(void);
 
 void func_8017E124(void *a0) {
-    D_801895CC[*(u8 *)((s32)a0 + 0x4)]();
+    D_801895CC[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 

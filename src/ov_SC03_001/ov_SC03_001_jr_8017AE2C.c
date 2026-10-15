@@ -7566,7 +7566,7 @@ void *arg0;
 extern void func_80187778(s32*, s32);
     extern short D_80191D6C;
     void func_8018268C(void * arg0) {
-        *(short *)((char *)arg0 + 0x2) = 9;
+        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 9;
         ((void (*)(s32, s32))func_80187778)((int)arg0, (int)&D_80191D6C);
     }
 
@@ -8063,7 +8063,7 @@ s32 func_80182F3C(s32 a0) {
     s32 c;
 
     /* +0x0 is a u16 object id; 0xA2 selects the 0xA4 partner lookup. */
-    if (*(u16 *)(a0 + 0) == 0xA2) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk0 == 0xA2) {
         e = func_8012E544(0xA4);
         /* if/else STATEMENT, not `&&`/`?:` — fold canonicalises both of those to
          * "non-zero arm first", which emits the [load][zero] block order; the
@@ -8084,7 +8084,7 @@ s32 func_80182F3C(s32 a0) {
 
     if (!cond) {
         v = (s32)&D_801922A0;
-        if (*(u16 *)(a0 + 0) == 0xA2) {
+        if (((Unkstruct_800B5CB8 *)a0)->unk0 == 0xA2) {
             v = (s32)&D_80192278;
         }
         return v;

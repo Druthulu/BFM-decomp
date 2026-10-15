@@ -9649,24 +9649,24 @@ void func_8018584C(s32 a0)
     s32 *mtx;
     s32 t;
 
-    mtx = *(s32 **)(a0 + 0x20) + 13;
+    mtx = CAST_SIGN(s32 *, a0, 0x20) + 13;
     gte_SetRotMatrix(mtx);
     gte_SetTransMatrix(mtx);
 
     RotTransSV(D_801C5A48, out0, &flag);
     RotTransSV(D_801C5A50, out1, &flag);
 
-    func_8018594C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+    func_8018594C(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12),
                   (s32)out0,
-                  *(s16 *)(a0 + 0xDC));
-    func_8018594C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                  CAST_WIDTH(s16, a0, 0xDC));
+    func_8018594C(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12),
                   (s32)out1,
-                  *(s16 *)(a0 + 0xDC));
+                  CAST_WIDTH(s16, a0, 0xDC));
 
-    t = *(u16 *)(a0 + 0xDC) + 1;
-    *(u16 *)(a0 + 0xDC) = t;
+    t = CAST_WIDTH(u16, a0, 0xDC) + 1;
+    CAST_WIDTH(u16, a0, 0xDC) = t;
     if ((s16)t >= 3) {
-        *(u16 *)(a0 + 0xDC) = 2;
+        CAST_WIDTH(u16, a0, 0xDC) = 2;
     }
 }
 

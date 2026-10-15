@@ -3506,7 +3506,7 @@ extern void func_80016714(void *a0, s32 a1);
     extern void func_8012C098(void *param_1);
     void func_80180CF4(s32 arg0) {
         s32 temp_v0;
-        temp_v0 = *(s32 *)(arg0 + 0xd0);
+        temp_v0 = ((Unkstruct_800B5CB8 *)arg0)->unkD0;
         ((void (*)(s32 *, s32))func_80016714)((s32 *)temp_v0, 0x38);
         ((void (*)(void *))func_8012C098)((void *)arg0);
     }

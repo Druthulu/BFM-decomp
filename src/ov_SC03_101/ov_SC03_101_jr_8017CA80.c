@@ -4528,9 +4528,9 @@ void func_80180754(a0)
 void *a0;
 {
     s32 a1;
-    a1 = *(s32 *)((s32)a0 + 0x20);
-    *(s32 *)(a1 + 4) = *(s32 *)(a1 + 4) | 0x80000000;
-    *(s16 *)((s32)a0 + 0xFC) = 0;
+    a1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
+    CAST_WIDTH(s32, a1, 4) = CAST_WIDTH(s32, a1, 4) | 0x80000000;
+    ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
     ((void (*)(s32, s32))func_8012AD44)((s32)a0, 0x3);
 }
 

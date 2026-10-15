@@ -2860,7 +2860,7 @@ void func_8017D194(void) {
 extern void (*D_801836E0[])(void);
 
 void func_8017D22C(void *a0) {
-    D_801836E0[*(u8 *)((s32)a0 + 0x4)]();
+    D_801836E0[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -3115,7 +3115,7 @@ void func_8017D800(void *a0) {
     default:
         p = D_801202A0;
         for (i = 0; i < 0x60; i++) {
-            if (*(u16 *)p == *(s16 *)(r + 6)) {
+            if (((Unkstruct_800B5CB8 *)p)->unk0 == *(s16 *)(r + 6)) {
                 ((void (*)(void *, void *, void *))func_8012F214)(p, r, out);
                 func_801290DC(0x56, (u8 *)out);
             }

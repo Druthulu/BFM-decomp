@@ -3676,7 +3676,7 @@ extern void func_80016714(void *a0, s32 a1);
     extern void func_8012C098(void *a0);
     void func_80184634(s32 param_1) {
         s32 iVar1;
-        iVar1 = *(s32 *)(param_1 + 0xd0);
+        iVar1 = ((Unkstruct_800B5CB8 *)param_1)->unkD0;
         ((void (*)(s32 *, s32))func_80016714)((s32 *)iVar1, 0x38);
         ((void (*)(s32))func_8012C098)(param_1);
     }

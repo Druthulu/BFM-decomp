@@ -1279,23 +1279,23 @@ void func_801877FC(s32 s0) {
         ((void (*)(s32))func_8012CBCC)(s0);
     }
 
-    if (*(u32 *)(s0 + 0xE8) & 0x60000) {
+    if (CAST_SIGN(u32, s0, 0xE8) & 0x60000) {
         ((void (*)(s32))func_80182998)(s0);
         return;
     }
 
     ((void (*)(s32))func_8018655C)(s0);
 
-    if (*(s16 *)(s0 + 0x100) > 0) {
-        *(s16 *)(s0 + 0x100) = *(s16 *)(s0 + 0x100) - 1;
+    if (((Unkstruct_800B5CB8 *)s0)->unk100 > 0) {
+        ((Unkstruct_800B5CB8 *)s0)->unk100 = ((Unkstruct_800B5CB8 *)s0)->unk100 - 1;
     }
 
     if (((s32 (*)(s32))func_8012BEE8)(s0) != 0) {
         ((void (*)(u8 *))func_801838A8)((u8 *)s0);
     }
 
-    if ((*(s32 *)(s0 + 0x94) == 4) || (*(s32 *)(s0 + 0x94) == 0xC)) {
-        if (*(s16 *)(s0 + 0x98) == 1) {
+    if ((((Unkstruct_800B5CB8 *)s0)->unk94 == 4) || (((Unkstruct_800B5CB8 *)s0)->unk94 == 0xC)) {
+        if (((Unkstruct_800B5CB8 *)s0)->unk98 == 1) {
             func_8002D4C8(0x4F7, 0);
         }
     }
