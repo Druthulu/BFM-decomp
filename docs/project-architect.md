@@ -274,7 +274,8 @@ Changes are graded by scope and routed to the agent with the right authority:
   milestone Claude applies itself (the loop applies the edits at a task boundary); a change to
   the milestone or the scope Claude asks the developer about.
 - Structural (milestone or scope change): the developer, through `REPLAN.md`. Claude drafts the
-  phase plan again; its approval archives the old plan and writes the new one.
+  phase plan again; the mod installs it at the next task boundary, with no plan view (Claude tells
+  the developer what changed), archiving the old plan and writing the new one.
 
 Claude judges because the expert's context is deliberately narrow. An expert knows its own
 task, not that another task tests the same thing from the other side. When an expert hits a
