@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "fd80370fab",
+  "head": "e82263a82a",
   "src_stamp": "8f8df1d2908392c9",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-15T20:00:29Z",
+  "when": "2026-10-15T20:10:24Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -290630,8 +290630,8 @@
   },
   "timing": {
    "walk_s": 37.5,
-   "decls_s": 183.6,
-   "total_s": 192.5
+   "decls_s": 180.9,
+   "total_s": 189.8
   }
  },
  "dup_layout_classes": [
