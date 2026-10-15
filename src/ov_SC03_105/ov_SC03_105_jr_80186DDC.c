@@ -4005,17 +4005,17 @@ void func_801889D4(s32 arg0)
     u16 out[4];
     s16 *ptr;
 
-    if (*(s16 *)((s32)arg0 + 0x100) != 0) {
+    if (((Unkstruct_800B5CB8 *)arg0)->unk100 != 0) {
         func_80188B64(arg0);
         return;
     }
-    func_8012EC04(*(s32 *)((s32)arg0 + 0x64), 6, buf);
+    func_8012EC04(((Unkstruct_800B5CB8 *)arg0)->unk64, 6, buf);
     func_8012F14C((s32)buf, (s32)&D_8018F254, (s32)out);
-    *(u16 *)((s32)arg0 + 0x6) = out[0];
-    *(u16 *)((s32)arg0 + 0xA) = out[1];
-    *(u16 *)((s32)arg0 + 0xE) = out[2];
+    ((Unkstruct_800B5CB8 *)arg0)->unk6 = out[0];
+    ((Unkstruct_800B5CB8 *)arg0)->unkA = out[1];
+    ((Unkstruct_800B5CB8 *)arg0)->unkE = out[2];
     func_80188A94(arg0);
-    if ((*(u16 *)((s32)arg0 + 0x5C) & 1) == 0) {
+    if ((((Unkstruct_800B5CB8 *)arg0)->unk5C & 1) == 0) {
         return;
     }
     func_8002D4C8(0xBC1, 0);

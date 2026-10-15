@@ -181,7 +181,7 @@ void func_800CCF68(s32 param_1)
     if (ptr != 0) {
         *(u16 *)(ptr + 0x60) = 1;
     }
-    *(u16 *)(param_1 + 0x1C8) = 0;
+    ((Unkstruct_80126B58 *)param_1)->unk1C8 = 0;
     func_80146A6C(0x39, (void *)param_1, 0, 0, 0, 0, 0);
 }
 

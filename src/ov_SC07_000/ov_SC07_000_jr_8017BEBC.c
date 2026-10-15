@@ -3579,8 +3579,8 @@ extern u16 D_80126B66;
 extern void func_80142454(s32 a0);
 
 void func_8017E3A4(void *a0) {
-    if (*(s16 *)((s32)a0 + 0x100) == 0 && *(s16 *)&D_80126B66 >= 0x2E41) {
-        (*(s16 *)((s32)a0 + 0x100))++;
+    if (((Unkstruct_800B5CB8 *)a0)->unk100 == 0 && *(s16 *)&D_80126B66 >= 0x2E41) {
+        (((Unkstruct_800B5CB8 *)a0)->unk100)++;
         func_80142454(-0x80);
     }
 }
@@ -3753,8 +3753,8 @@ extern s32 func_8004787C(s32 a0);
 void func_8017E7A0(s32 arg0) {
     s16 var_a0;
 
-    var_a0 = *(s16 *)(arg0 + 0x102) + 0x20;
-    *(s16 *)(arg0 + 0x102) = var_a0;
+    var_a0 = ((Unkstruct_800B5CB8 *)arg0)->unk102 + 0x20;
+    ((Unkstruct_800B5CB8 *)arg0)->unk102 = var_a0;
     *(s16 *)(arg0 + 0x52) = func_8004787C(var_a0) >> 8;
 }
 

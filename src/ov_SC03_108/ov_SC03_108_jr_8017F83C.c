@@ -3512,7 +3512,7 @@ void func_801808B4(s32 a0)
 extern void func_80016714(void *a0, s32 a1);
     extern void func_8012C098(void *param_1);
     void func_80180968(s32 param_1) {
-        ((void (*)(s32 *, s32))func_80016714)(*(s32 *)(param_1 + 0xd0), 0x38);
+        ((void (*)(s32 *, s32))func_80016714)(((Unkstruct_800B5CB8 *)param_1)->unkD0, 0x38);
         ((void (*)(s32))func_8012C098)(param_1);
     }
 
@@ -3578,9 +3578,9 @@ void func_80180A84(s32 arg0) {
     for (; i < 5; i++) {
         func_8012B0B4(bp, rand() % 4096, rand() % 64);
         x = *(s32 *)buf;
-        s.f0 = *(u16 *)(arg0 + 6) + x;
-        s.f2 = *(u16 *)(arg0 + 0xA) - 0x60;
-        s.f4 = *(u16 *)(arg0 + 0xE) + (x >> 16);
+        s.f0 = ((Unkstruct_800B5CB8 *)arg0)->unk6 + x;
+        s.f2 = ((Unkstruct_800B5CB8 *)arg0)->unkA - 0x60;
+        s.f4 = ((Unkstruct_800B5CB8 *)arg0)->unkE + (x >> 16);
         func_8012C51C(&s, arg0);
     }
 }

@@ -4780,7 +4780,7 @@ s32 func_801819A4(void) {
     magic = 0x5033A;
     p = D_801202A0;
     while (i < 0x60) {
-        if (*(s32 *)p == magic && *(s16 *)(p + 0x70) == 0) {
+        if (*(s32 *)p == magic && ((Unkstruct_800B5CB8 *)p)->unk70 == 0) {
             return 1;
         }
         i++;

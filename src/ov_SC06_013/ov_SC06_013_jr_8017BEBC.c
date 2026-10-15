@@ -3618,7 +3618,7 @@ void func_8017E30C(void *a0) {
         s32 i;
 
         for (i = 0; i < 0x60; i++, p += 0x10C) {
-            if (*(u16 *)(p + 0) == 0x2E7 && *(u16 *)(p + 2) == 4) {
+            if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x2E7 && CAST_SIGN(u16, p, 2) == 4) {
                 func_8001C214(*(s32 *)((s32)a0 + 0x20), (s32)&D_8019805C);
                 *(u16 *)((s32)a0 + 0x5C) = 0x8800;
                 *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = 0x400;
@@ -3649,7 +3649,7 @@ void func_8017E30C(void *a0) {
         s32 i;
 
         for (i = 0; i < 0x60; i++, p += 0x10C) {
-            if (*(u16 *)(p + 0) == 0x2E7 && *(u16 *)(p + 2) == 4) {
+            if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x2E7 && CAST_SIGN(u16, p, 2) == 4) {
                 func_8001C214(*(s32 *)((s32)a0 + 0x20), (s32)D_801976BC);
                 *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x4) |= 0x60000040;
                 *(u16 *)((s32)a0 + 0x5C) = 0x9000;
@@ -3911,7 +3911,7 @@ void func_8017EA10(void *arg0) {
     D_8019AA90 = 0;
     while (i < 0x60) {
         id = 0x26E;
-        if (*(u16 *)p == id) {
+        if (((Unkstruct_800B5CB8 *)p)->unk0 == id) {
             t = (s16)func_80013328((s32)arg0 + 4, (s32)p + 4);
             if (t < best) {
                 best = t;
