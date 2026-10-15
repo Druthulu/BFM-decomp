@@ -55,7 +55,7 @@ Unkstruct_4e427c01	define	Unkstruct_80144880	single-fn	no entity evidence for an
 Unkstruct_4857195e	define	Unkstruct_8016BFD0	single-fn	no entity evidence for an existing type; 123 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_50a3f6b4	residual	TYPE-NO-LAYOUT	single-fn	no entity evidence for an existing type; 130 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_ee756a74	define	Unkstruct_80144364	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
-Unkstruct_b6c7c603	define	Unkstruct_8013CF68	single-fn	no entity evidence for an existing type; 133 bodies 1 fns; best layout match recorded by T2 only
+Unkstruct_b6c7c603	residual	TYPE-INTERIOR	layout	map layout has a negative offset (-0xc): the base is an interior pointer; T2 render refused (T2.c2)
 Unkstruct_b774eeeb	fold	Sp_80175DA8	E2-anchor	func_80176734 p = *(s32 *)(st + 0x28 + 4i): the D_8011F7A8+0x28 pointer array func_80175DA8 stores as Sp_80175DA8 *
 Unkstruct_859b4fab	define	Unkstruct_80148AFC	single-fn	no entity evidence for an existing type; 130 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_801463A0	define	Unkstruct_801463A0	flow-cluster	no entity evidence for an existing type; 210 bodies 77 fns; best layout match recorded by T2 only
