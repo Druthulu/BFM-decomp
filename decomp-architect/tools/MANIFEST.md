@@ -391,10 +391,10 @@
 | `outline.py` | outline a large file so it is read by range | Table of contents for source files | Project Architect harness |
 | `bfm_extract/pac.py` | parse a bespoke archive-chain header format | Parser for one game's bespoke archive-chain header format | project-only |
 | `_genplan.py` | parse the generation plan's phase lines once for every consumer | Shared GENERATION_PLAN.md phase-line parser | Project Architect harness |
-| `expert_ttl.py` | pick the cache TTL for a task's expert | Prints 1h or 5m, the cache TTL twin the router spawns for a task's expert | Project Architect harness |
 | `bfm_extract/cd_archive.py` | read a bespoke container's table of contents to locate its files | Reader for one game's bespoke container table-of-contents format | project-only |
 | `_credit.py` | record credit notes for the governance scripts | Writes credit note files for the governance scripts | Project Architect harness |
 | `managed.py` | record which files the harness manages | The managed-file record .claude/pa3-managed.json | Project Architect harness |
+| `journal_rollup.py` | roll the agent journal up by month | Rolls dated .claude-state/journal day dirs into the monthly INDEX-<YYYY-MM>.md | Project Architect harness |
 | `run.sh` | run a long or noisy command with its log on disk and only the tail printed | The house pattern for long or noisy commands | Project Architect harness |
 | `card.py` | serve each role its slice of the standing-facts card | Manages the HOW_WE_WORK.md card | Project Architect harness |
 | `launch.py` | start a harness session the one sanctioned way | The only way a PA3 session starts | Project Architect harness |

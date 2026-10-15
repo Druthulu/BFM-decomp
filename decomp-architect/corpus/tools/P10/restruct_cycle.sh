@@ -97,7 +97,9 @@ PYEOF
     sleep 10
   done
   git add -A src && git add .run/P37/restruct .run/P37/census .run/P37/baseline $([ -f phase-ends/CURRENT_PHASE.md ] && echo phase-ends/CURRENT_PHASE.md) docs/readability.md docs/readability-progress.tsv 2>/dev/null; git add .run/P36/delever/calibration.json 2>/dev/null
-  git add -f .run/P37/restruct/ledger.jsonl || exit 1    # tracked under the ignored .run/: the plain add above exits 1 on the ignored dir (T4.c2)
+  # DISABLED: force-add of .run/P37/restruct/ledger.jsonl — 2026-10-02, FIX-rewrite (D1)
+  # Original intent: track the ledger under the ignored .run/ (T4.c2). Why disabled: 109 >100MB versions blocked push;
+  # history rewritten to drop it. Re-enable if: never; the ledger stays an untracked .run/ file (backup .run/keep/).
   git commit -q -m "${TASK:-T4}: batch $label — $vline | R22 $line | $cline (restruct_cycle)" || exit 1
   echo "cycle: batch $label committed $(git log --oneline -1 | cut -c1-9) — $vline | $line"
 done
