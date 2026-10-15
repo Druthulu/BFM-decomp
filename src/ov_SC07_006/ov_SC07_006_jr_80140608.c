@@ -1967,26 +1967,26 @@ void func_8014358C(s32 param_1)
     s32 p;
     u16 v;
 
-    *(u32 *)(*(s32 *)(param_1 + 0x20) + 0x20) = (u32)&D_8018BC18;
+    ((Unkstruct_8014358C_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_8018BC18;
 
-    p = *(s32 *)(param_1 + 0x20);
-    if (*(s32 *)(p + 4) == 0) {
-        *(s32 *)(p + 4) = 0x50000000;
+    p = ((Unkstruct_8014358C *)param_1)->unk20;
+    if (((Unkstruct_8014358C_2 *)p)->unk4 == 0) {
+        ((Unkstruct_8014358C_2 *)p)->unk4 = 0x50000000;
     }
 
-    *(u8 *)(*(s32 *)(param_1 + 0x20) + 0x27) = 0x90;
+    ((Unkstruct_8014358C_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x90;
 
-    v = *(u16 *)(param_1 + 0x34) & 0x7fff;
+    v = ((Unkstruct_8014358C *)param_1)->unk34 & 0x7fff;
     if (v != 0) {
-        p = *(s32 *)(param_1 + 0x20);
-        *(u16 *)(p + 0x1a) = v;
-        *(u16 *)(p + 0x18) = v;
+        p = ((Unkstruct_8014358C *)param_1)->unk20;
+        ((Unkstruct_8014358C_2 *)p)->unk1A = v;
+        ((Unkstruct_8014358C_2 *)p)->unk18 = v;
     }
 
-    func_80128EA8(*(u32 *)(param_1 + 0x20), param_1 + 0x24,
-                  D_8018BD14[*(u16 *)(param_1 + 0x34) & 3]);
+    func_80128EA8(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24,
+                  D_8018BD14[((Unkstruct_8014358C *)param_1)->unk34 & 3]);
 
-    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+    ((Unkstruct_8014358C *)param_1)->unk2 = ((Unkstruct_8014358C *)param_1)->unk2 + 1;
 }
 
 

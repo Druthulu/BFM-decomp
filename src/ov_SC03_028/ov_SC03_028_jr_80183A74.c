@@ -3061,7 +3061,7 @@ void func_80183E04(void *a0)
     s32 i;
     s32 k;
 
-    m = *(s32 *)((s32)a0 + 0x20) + 0x34;
+    m = ((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
 

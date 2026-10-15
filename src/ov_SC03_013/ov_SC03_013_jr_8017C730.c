@@ -3220,7 +3220,7 @@ void func_8017E2F0(void) {
 extern void (*D_80184CA4[])(void);
 
 void func_8017E388(void *a0) {
-    D_80184CA4[*(u8 *)((s32)a0 + 0x4)]();
+    D_80184CA4[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -3653,7 +3653,7 @@ s32 func_8017EEA4(s32 a0, s32 a1, s32 a2)
 
     t = a2;
     base = &D_80126B58;
-    if (a0 != 0 && *(s16 *)(a0 + 0xAA) != 0)
+    if (a0 != 0 && ((Unkstruct_800B5CB8 *)a0)->unkAA != 0)
         return 0;
 
     if (func_80135888(base[8], base[14] | 0x10000000, a1, t) != 0)

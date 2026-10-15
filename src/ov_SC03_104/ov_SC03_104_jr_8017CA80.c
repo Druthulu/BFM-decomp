@@ -3637,7 +3637,7 @@ void func_8018136C(void) {
 extern void (*D_8018E7EC[])(void);
 
 void func_80181404(void *a0) {
-    D_8018E7EC[*(u8 *)((s32)a0 + 0x4)]();
+    D_8018E7EC[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -3877,11 +3877,11 @@ void func_80181858(s32 a0) {
 
 
 s32 func_80181A2C(s32 a0) {
-    if (*(u16 *) a0 == 0x1E8 || *(u16 *) a0 == 0x19E ||
-        (*(u16 *) a0 == 0x178 && *(s32 *) (*(s32 *) (a0 + 0x20) + 4) >= 0)) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk0 == 0x1E8 || ((Unkstruct_800B5CB8 *)a0)->unk0 == 0x19E ||
+        (((Unkstruct_800B5CB8 *)a0)->unk0 == 0x178 && *(s32 *) (((Unkstruct_800B5CB8 *)a0)->unk20 + 4) >= 0)) {
         return 1;
     }
-    return *(u16 *) a0 == 0x1AA;
+    return ((Unkstruct_800B5CB8 *)a0)->unk0 == 0x1AA;
 }
 
 
@@ -3889,7 +3889,7 @@ extern void func_80181AD0(s32 a0, s32 a1);
 extern void func_80181B14(void);
 
 void func_80181A84(s32 a0, s32 a1) {
-    u16 v = *(u16 *)a0;
+    u16 v = ((Unkstruct_800B5CB8 *)a0)->unk0;
     if (v != 0x178 && v != 0x1E8) {
         func_80181AD0(a0 + 4, a1);
     } else {

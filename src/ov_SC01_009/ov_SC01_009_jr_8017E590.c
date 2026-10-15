@@ -3358,7 +3358,7 @@ s32 func_8017EFC4(s32 a0) {
         }
     }
     if ((u16)(t - 0x2DA) < 0x14 && c < 9) {
-        *(s16 *)(a0 + 0x10A) = 0x28;
+        ((Unkstruct_800B5CB8 *)a0)->unk10A = 0x28;
         func_80029514(0x2E4);
         func_800291A0(0x3B, 9);
         *(s16 *)(a0 + 0xFA) = 0xA40;

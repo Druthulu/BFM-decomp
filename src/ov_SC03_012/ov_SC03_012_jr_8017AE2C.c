@@ -2984,7 +2984,7 @@ extern s16 D_80194FE6;
 extern s16 D_80194FE8;
 
 void func_8017B824(void) {
-    D_80194FDC = (s16) M2C_FIELD(D_801151D4, s32 *, 0x48);
+    D_80194FDC = (s16) ((Unkstruct_80126948 *)D_801151D4)->unk48;
     D_80194FDE = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
     D_80194FE0 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
     D_80194FE4 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x3C);
@@ -3288,7 +3288,7 @@ void func_8017BD50(int param_1)
 extern void (*D_80181B28[])(void);
 
 void func_8017BE60(void *a0) {
-    D_80181B28[*(u8 *)((s32)a0 + 0x4)]();
+    D_80181B28[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -3896,7 +3896,7 @@ void func_8017D780(void)
 extern void (*D_80181BB8[])(void);
 
 void func_8017D84C(void *a0) {
-    D_80181BB8[*(u8 *)((s32)a0 + 0x4)]();
+    D_80181BB8[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -4139,12 +4139,12 @@ void func_8017DCB4(s32 a0) {
                 }
                 val2c = (s16)((adj >> 2) + 3);
             store_vals:
-                do { *(s16 *)(result + 0x2C) = val2c; } while (0);
-                ptr = *(s32 *)(result + 0x20);
+                do { ((Unkstruct_800B5CB8 *)result)->unk2C = val2c; } while (0);
+                ptr = ((Unkstruct_800B5CB8 *)result)->unk20;
                 magv = magw;
-                *(u16 *)(ptr + 0x1C) = magv;
-                *(u16 *)(ptr + 0x1A) = magv;
-                *(u16 *)(ptr + 0x18) = magv;
+                CAST_WIDTH(u16, ptr, 0x1C) = magv;
+                ((Unkstruct_800B5CB8 *)ptr)->unk1A = magv;
+                ((Unkstruct_800B5CB8 *)ptr)->unk18 = magv;
                 ((Unkstruct_800B5CB8 *)result)->unk6 = (s16)s4;
                 ((Unkstruct_800B5CB8 *)result)->unkE = (s16)s2;
             }

@@ -178,7 +178,7 @@ extern void func_801E7FF8(void *a0);
 void func_801E7FF8(void *a0) {
 
     extern void (*D_801E8B78[])(void);
-    D_801E8B78[*(u8 *)((s32)a0 + 0x4)]();
+    D_801E8B78[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 

@@ -3295,7 +3295,7 @@ void func_8017BD50(int param_1)
 extern void (*D_80188EDC[])(void);
 
 void func_8017BE60(void *a0) {
-    D_80188EDC[*(u8 *)((s32)a0 + 0x4)]();
+    D_80188EDC[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -4173,11 +4173,11 @@ void func_8017CFE0(s16 *a0) {
     /* The struct reads are plain INDIRECT_REFs, not ARRAY_REFs: an `a0[0x46]` here sets
        MEM_IN_STRUCT_P, which lets gcc-2.7.2's true_dependence() drop the dependence against
        the constant-address store and hoist the second `lh` above `sw D_801CB914`. */
-    x = *(s16 *)((s32)a0 + 0x88) + *(s16 *)((u8 *)D_801891C8 + off) - 0x100;
+    x = CAST_SIGN(s16, (s32)a0, 0x88) + *(s16 *)((u8 *)D_801891C8 + off) - 0x100;
     x += (r & 0x7F) << 2;
     D_801CB914 = x << 16;
 
-    y = *(s16 *)((s32)a0 + 0x8C) + *(s16 *)((u8 *)D_801891CA + off) - 0x100;
+    y = CAST_SIGN(s16, (s32)a0, 0x8C) + *(s16 *)((u8 *)D_801891CA + off) - 0x100;
     y += (unsigned)(r & 0x7F00) >> 6;
     D_801CB91C = y << 16;
 }

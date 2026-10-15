@@ -180,7 +180,7 @@ extern void func_801EDE70(void *a0);
 void func_801EDE70(void *a0) {
 
     extern void (*D_801EEA00[])(void);
-    D_801EEA00[*(u8 *)((s32)a0 + 0x4)]();
+    D_801EEA00[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 

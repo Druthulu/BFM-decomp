@@ -2903,7 +2903,7 @@ void func_8017D190(void) {
 extern void (*D_80181C8C[])(void);
 
 void func_8017D1D4(void *a0) {
-    D_80181C8C[*(u8 *)((s32)a0 + 0x4)]();
+    D_80181C8C[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
