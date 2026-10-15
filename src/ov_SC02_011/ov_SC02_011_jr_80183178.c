@@ -2310,26 +2310,26 @@ void func_80186430(s32 a0) {
     s32 t1;
 
     for (idx = 0; idx < 8; idx++) {
-        if (*(u16 *)(self + 0x5E) == D_80195CF0[idx]) {
+        if (CAST_WIDTH(u16, self, 0x5E) == D_80195CF0[idx]) {
             {
                 u16 tmp;
-                t0 = *(s32 *)(self + 0x64);
+                t0 = ((Unkstruct_800B5CB8 *)self)->unk64;
                 tmp = *(u16 *)(t0 + 6);
                 D_801EB520 = 0;
                 *(u16 *)(t0 + 6) = tmp + 1;
             }
-            *(s32 *)(self + 0x1C) = 0x50;
-            *(u16 *)(self + 0x102) = 0;
-            *(u16 *)(self + 6) = *(u16 *)(self + 6) + 1;
+            ((Unkstruct_800B5CB8 *)self)->unk1C = 0x50;
+            ((Unkstruct_800B5CB8 *)self)->unk102 = 0;
+            ((Unkstruct_800B5CB8 *)self)->unk6 = ((Unkstruct_800B5CB8 *)self)->unk6 + 1;
             func_8012AD44((s32 *)self, 2);
 
             t1 = func_80132EF4(self, 0x32);
-            *(s32 *)(self + 0xD0) = t1;
+            ((Unkstruct_800B5CB8 *)self)->unkD0 = t1;
             if (t1 != 0) {
                 u16 vE;
-                *(u16 *)(t1 + 6) = *(u16 *)(self + 6);
-                *(u16 *)(t1 + 0xA) = *(u16 *)(self + 0xA);
-                vE = *(u16 *)(self + 0xE);
+                *(u16 *)(t1 + 6) = ((Unkstruct_800B5CB8 *)self)->unk6;
+                *(u16 *)(t1 + 0xA) = ((Unkstruct_800B5CB8 *)self)->unkA;
+                vE = ((Unkstruct_800B5CB8 *)self)->unkE;
                 *(s16 *)(t1 + 0x2C) = -0xA0;
                 *(s32 *)(t1 + 0x34) = self;
                 *(u16 *)(t1 + 0xE) = vE;
@@ -2337,16 +2337,16 @@ void func_80186430(s32 a0) {
 
             func_80178B18(self, (s32) D_80195B5C);
 
-            *(u8 *)(self + 0xC1) = 0;
-            *(u16 *)(self + 0x5C) = 0;
-            *(u16 *)(self + 0x5E) = 0;
+            ((Unkstruct_800B5CB8 *)self)->unkC1 = 0;
+            ((Unkstruct_800B5CB8 *)self)->unk5C = 0;
+            CAST_WIDTH(u16, self, 0x5E) = 0;
             func_8002D4C8(0x5EB, 0);
             func_8001AAA0(0x30);
-            *(u16 *)(self + 0x5E) = 0;
+            CAST_WIDTH(u16, self, 0x5E) = 0;
             goto end;
         }
     }
-    *(u16 *)(self + 0x5E) = 0;
+    CAST_WIDTH(u16, self, 0x5E) = 0;
 end:
     func_8002D4C8(0x426, 0);
 }

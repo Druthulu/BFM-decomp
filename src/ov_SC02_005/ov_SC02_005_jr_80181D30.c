@@ -5002,18 +5002,18 @@ void func_80184E30(s32 arg0) {
     s32 p64;
 
     func_8012CBF4(arg0);
-    t = *(s16 *)(s0 + 0x100);
-    if (t < *(s16 *)(s0 + 0xA)) {
-        p64 = *(s32 *)(s0 + 0x64);
-        *(s16 *)(s0 + 0xA) = t;
+    t = ((Unkstruct_800B5CB8 *)s0)->unk100;
+    if (t < CAST_SIGN(s16, s0, 0xA)) {
+        p64 = ((Unkstruct_800B5CB8 *)s0)->unk64;
+        ((Unkstruct_800B5CB8 *)s0)->unkA = t;
         D_801E4398 = 0;
         *(s16 *)(p64 + 0x34) = 4;
         *(s32 *)(p64 + 0x1C) = 0x30;
         *(u16 *)(p64 + 0x76) = 0;
         func_8013C9C4(&D_8019103C);
         func_8012B200((u8 *)s0);
-        *(u8 *)(s0 + 0xC1) = 0;
-        *(u16 *)(s0 + 0x5E) = 0;
+        ((Unkstruct_800B5CB8 *)s0)->unkC1 = 0;
+        CAST_WIDTH(u16, s0, 0x5E) = 0;
         func_8018AF58(s0);
         func_8002D4C8(0x506, 0);
     }

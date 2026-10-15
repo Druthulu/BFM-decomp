@@ -4730,9 +4730,9 @@ void func_8017ED30(s32 a0)
 
     s0 = a0;
     func_8012CBCC(a0);
-    if (((u16)(*(u16 *)(s0 + 6) + 0x300) >= 0x601U) ||
-        (*(s16 *)(s0 + 0xA) < -0x400) ||
-        ((u16)(*(u16 *)(s0 + 0xE) + 0x100) >= 0x701U)) {
+    if (((u16)(((Unkstruct_800B5CB8 *)s0)->unk6 + 0x300) >= 0x601U) ||
+        (CAST_SIGN(s16, s0, 0xA) < -0x400) ||
+        ((u16)(((Unkstruct_800B5CB8 *)s0)->unkE + 0x100) >= 0x701U)) {
         func_8012C218((void *)s0);
     }
 }

@@ -3606,9 +3606,9 @@ void func_80180930(void *a0)
     s32 xy;
     s32 hi;
 
-    trio[0].v = *(s32 *)(D_801151D4 + 0x5C);
-    trio[1].v = *(s32 *)(D_801151D4 + 0x60);
-    trio[2].v = *(s32 *)(D_801151D4 + 0x64);
+    trio[0].v = ((Unkstruct_80126948 *)D_801151D4)->unk5C;
+    trio[1].v = ((Unkstruct_80126948 *)D_801151D4)->unk60;
+    trio[2].v = ((Unkstruct_80126948 *)D_801151D4)->unk64;
 
     func_8012B77C((s32)&xy, (s32)a0 + 4, (s32)trio);
 
@@ -3719,10 +3719,10 @@ void func_80180B50(s32 a0)
     if (((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)anim) >= 0x4000) {
         s32 d = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12),
                               func_8012B744((void *)(a0 + 4), (void *)anim), 0x10);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + d;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 + d;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 & 0xFFF;
         func_8012B1B4(a0, (s32)D_8019AEA4);
     } else {
         if (func_8012BD3C(a0, 0x200, 0x40000) == 1) {

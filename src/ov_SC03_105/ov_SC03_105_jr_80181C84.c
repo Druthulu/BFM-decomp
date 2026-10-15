@@ -3985,17 +3985,17 @@ s32 func_80183CA4(s32 a0) {
     s32 ret;
     s16 sp[7];
 
-    sp[0] = *(u16 *)(s0 + 0x3A);
-    sp[1] = *(u16 *)(s0 + 0x3E);
-    sp[2] = *(u16 *)(s0 + 0x42);
+    sp[0] = ((Unkstruct_800B5CB8 *)s0)->unk3A;
+    sp[1] = ((Unkstruct_800B5CB8 *)s0)->unk3E;
+    sp[2] = ((Unkstruct_800B5CB8 *)s0)->unk42;
     func_8012AD80(s0);
-    sp[4] = *(u16 *)(s0 + 6);
-    sp[5] = *(u16 *)(s0 + 0xA);
-    sp[6] = *(u16 *)(s0 + 0xE);
+    sp[4] = ((Unkstruct_800B5CB8 *)s0)->unk6;
+    sp[5] = ((Unkstruct_800B5CB8 *)s0)->unkA;
+    sp[6] = ((Unkstruct_800B5CB8 *)s0)->unkE;
     ret = func_8012CEB0((s32)&sp[0], (s32)&sp[4], 0x11);
-    *(u16 *)(s0 + 6) = sp[4];
-    *(u16 *)(s0 + 0xA) = sp[5];
-    *(u16 *)(s0 + 0xE) = sp[6];
+    ((Unkstruct_800B5CB8 *)s0)->unk6 = sp[4];
+    ((Unkstruct_800B5CB8 *)s0)->unkA = sp[5];
+    ((Unkstruct_800B5CB8 *)s0)->unkE = sp[6];
     return ret;
 }
 

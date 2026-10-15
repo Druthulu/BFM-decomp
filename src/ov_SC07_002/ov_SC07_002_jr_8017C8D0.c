@@ -6858,17 +6858,17 @@ void func_80183FE0(s32 p)
 
     r0 = (MTX_8017FE38_80183FE0 *)&D_800AF648;
     gte_SetRotMatrix(r0);
-    gte_ldclmv(*(s32 *)(p + 0x20) + 0x34);
+    gte_ldclmv(((Unkstruct_800B5CB8 *)p)->unk20 + 0x34);
     gte_rtir();
     gte_stclmv((s16 *)&mat);
-    gte_ldclmv(*(s32 *)(p + 0x20) + 0x36);
+    gte_ldclmv(((Unkstruct_800B5CB8 *)p)->unk20 + 0x36);
     gte_rtir();
     gte_stclmv((s16 *)&mat + 1);
-    gte_ldclmv(*(s32 *)(p + 0x20) + 0x38);
+    gte_ldclmv(((Unkstruct_800B5CB8 *)p)->unk20 + 0x38);
     gte_rtir();
     gte_stclmv((s16 *)&mat + 2);
     gte_SetTransMatrix(r0);
-    gte_ldlv0(*(s32 *)(p + 0x20) + 0x48);
+    gte_ldlv0(((Unkstruct_800B5CB8 *)p)->unk20 + 0x48);
     gte_rtv0tr();
     gte_stlvnl(&mat.t[0]);
     gte_SetRotMatrix(&mat);
@@ -6886,8 +6886,8 @@ void func_80183FE0(s32 p)
     gte_stotz(&g.otz);
 
     if ((g.flag & ~0x1000) == 0) {
-        x = *(u16 *)(p + 0x104);
-        y = *(u16 *)(p + 0x106);
+        x = CAST_SIGN(u16, p, 0x104);
+        y = CAST_SIGN(u16, p, 0x106);
         x = x + 0x140;
         a = (y & 0x100) >> 4;
         b = ((x & 0x3C0) >> 6) | 0x80;

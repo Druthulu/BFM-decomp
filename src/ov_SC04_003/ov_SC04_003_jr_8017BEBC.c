@@ -5556,7 +5556,7 @@ void func_801812C4(void *param_1)
 
     ent = (s32)param_12;
     v0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(ent + 0x20) = v0;
+    ((Unkstruct_800B5CB8 *)ent)->unk20 = v0;
     if (v0 == 0) {
         func_8012CAE4((void *)ent);
         return;
@@ -5565,23 +5565,23 @@ void func_801812C4(void *param_1)
     func_8001C810(v0, D_8019814C);
 
     {
-        s32 v1 = *(s32 *)(ent + 0x20);
-        *(u16 *)(v1 + 0x2C) |= 0x10;
-        v1 = *(s32 *)(ent + 0x20);
-        *(u32 *)(v1 + 0x4) |= 0x8040;
+        s32 v1 = ((Unkstruct_800B5CB8 *)ent)->unk20;
+        ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x10;
+        v1 = ((Unkstruct_800B5CB8 *)ent)->unk20;
+        CAST_WIDTH(u32, v1, 0x4) |= 0x8040;
     }
 
-    *(u16 *)(ent + 0x5C) = 0xCC00;
+    ((Unkstruct_800B5CB8 *)ent)->unk5C = 0xCC00;
     one = 2;
-    *(u8 *)(ent + 0x75) = one;
+    ((Unkstruct_800B5CB8 *)ent)->unk75 = one;
 
-    *(s32 *)(ent + 0x58) = (s32)&D_80190E5C | 0x20000000;
-    if (*(s16 *)(ent + 0x70) != 0) {
+    ((Unkstruct_800B5CB8 *)ent)->unk58 = (s32)&D_80190E5C | 0x20000000;
+    if (((Unkstruct_800B5CB8 *)ent)->unk70 != 0) {
         func_80180B44((void *)ent);
         return;
     }
     func_80180B10((void *)ent);
-    *(s32 *)(ent + 0xD0) = func_80143994(ent, 0x3000);
+    ((Unkstruct_800B5CB8 *)ent)->unkD0 = func_80143994(ent, 0x3000);
 }
 
 

@@ -4060,12 +4060,12 @@ s32 func_801804A8(s32 a0, s32 a1, s32 a2) {
 
     s0 = a0;
     if (func_8012CEB0(a1, a2, 1) & 0x2000) {
-        *(u16 *)(s0 + 0xFE) = 0;
-        *(s32 *)(s0 + 0x58) = (s32)D_8018E254 | 0x40000000 | 0x20000000;
-        *(u16 *)(s0 + 0xA) = *(u16 *)(s0 + 0xA) + 0x83;
+        ((Unkstruct_800B5CB8 *)s0)->unkFE = 0;
+        ((Unkstruct_800B5CB8 *)s0)->unk58 = (s32)D_8018E254 | 0x40000000 | 0x20000000;
+        ((Unkstruct_800B5CB8 *)s0)->unkA = ((Unkstruct_800B5CB8 *)s0)->unkA + 0x83;
         func_8012B260((u8 *)s0);
-        *(s32 *)(s0 + 0x1C) = 3;
-        *(s32 *)(s0 + 0xE0) = 0;
+        ((Unkstruct_800B5CB8 *)s0)->unk1C = 3;
+        ((Unkstruct_800B5CB8 *)s0)->unkE0 = 0;
         return 1;
     }
     return 0;
@@ -5674,10 +5674,10 @@ void func_80182B44(s32 a0) {
     *(s32 *)(a0 + 0x1c) = count;
     if (count == -1) {
         func_8001CC3C(effect, (s32)D_8018E63C, 0, 0);
-        *(u8 *)(effect + 0x27) = 0x9c;
-        *(u16 *)(effect + 0x1a) = 0x4000;
-        *(u16 *)(effect + 0x18) = 0x4000;
-        *(u32 *)(effect + 4) = *(u32 *)(effect + 4) | 0x50000040;
+        ((Unkstruct_800B5CB8 *)effect)->unk27 = 0x9c;
+        ((Unkstruct_800B5CB8 *)effect)->unk1A = 0x4000;
+        ((Unkstruct_800B5CB8 *)effect)->unk18 = 0x4000;
+        CAST_WIDTH(u32, effect, 4) = CAST_WIDTH(u32, effect, 4) | 0x50000040;
 
         idx = *(s32 *)(a0 + 0x2c);
         entry = &D_8018E768[idx * 3];

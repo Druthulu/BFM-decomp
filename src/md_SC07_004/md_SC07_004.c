@@ -9637,7 +9637,7 @@ void func_801AE138(void *param_1)
     s32 w;
 
     obj = ((s32 (*)(void))func_8012C1B8)();
-    do { *(s32 *)(d + 0x20) = obj; } while (0);
+    do { ((Unkstruct_800B5CB8 *)d)->unk20 = obj; } while (0);
     if (obj == 0) {
         func_8012CAE4((void *)d);
         return;
@@ -9649,11 +9649,11 @@ void func_801AE138(void *param_1)
     *(s16 *)(obj + 0x1C) = w;
     *(s16 *)(obj + 0x1A) = w;
     *(s16 *)(obj + 0x18) = w;
-    *(s16 *)(d + 0xA) -= 0x40;
-    *(s16 *)(d + 0xE) += 0x20;
+    CAST_SIGN(s16, d, 0xA) -= 0x40;
+    CAST_SIGN(s16, d, 0xE) += 0x20;
     obj = ((s32 (*)(void))func_8012C1B8)();
     if (obj != 0) {
-        *(s32 *)(d + 0xCC) = obj;
+        ((Unkstruct_800B5CB8 *)d)->unkCC = obj;
         *(s16 *)(obj + 0x1A) = 0x300;
         *(u16 *)(obj + 0x2C) |= 0x10;
         *(u32 *)(obj + 4) |= 0x40;

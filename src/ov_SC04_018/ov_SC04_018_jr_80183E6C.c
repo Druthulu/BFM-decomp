@@ -4372,8 +4372,8 @@ void func_80185A58(s32 a0, s32 a1)
 
     if (p != end) {
         do {
-            if (*(u16 *)p == 0x61 && *(s16 *)(p + 0x70) == a0) {
-                *(s32 *)(p + 0xB0) = a1;
+            if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x61 && ((Unkstruct_800B5CB8 *)p)->unk70 == a0) {
+                ((Unkstruct_800B5CB8 *)p)->unkB0 = a1;
                 return;
             }
             p += 0x10C;

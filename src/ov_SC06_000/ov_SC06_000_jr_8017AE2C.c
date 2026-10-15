@@ -7551,16 +7551,16 @@ void func_80182C10(s32 a0) {
     } else {
         v1 = 0;
     }
-    if (*(s16 *)(a0 + 0x84) != 0) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk84 != 0) {
         if ((v1 << 0x10) != 0) {
             func_8002D4C8(0xB6A, (v1 | 0x1000) & 0xFFFF);
         } else {
             func_8002D4C8(0xB6A, 0x1000);
-            *(s16 *)(a0 + 0x84) = 0;
+            ((Unkstruct_800B5CB8 *)a0)->unk84 = 0;
         }
     } else if ((v1 << 0x10) != 0) {
         func_8002D4C8(0xB6A, (v1 | 0x1000) & 0xFFFF);
-        *(s16 *)(a0 + 0x84) = 1;
+        ((Unkstruct_800B5CB8 *)a0)->unk84 = 1;
     }
 }
 

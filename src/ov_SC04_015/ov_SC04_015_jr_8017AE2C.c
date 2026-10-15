@@ -6874,7 +6874,7 @@ void func_80180FFC(s32 a0)
 
 
 void func_8018101C(void *a0) {
-        *(s16 *)((s32)a0 + 0x5C) = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
     }
 
 

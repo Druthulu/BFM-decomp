@@ -2977,7 +2977,7 @@ s32 func_80180AEC(s32 a0) {
 
     s32 v;
 
-    if (*(u16 *)a0 == 0x363) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk0 == 0x363) {
         v = func_8012E544(0x365);
         if (v == 0) {
             goto zero;
@@ -2996,7 +2996,7 @@ chk:
     v = (*(u16 *)(v + 2) == 3);
 join:
     if (v == 0) {
-        if (*(u16 *)a0 == 0x363) {
+        if (((Unkstruct_800B5CB8 *)a0)->unk0 == 0x363) {
             return (s32)&D_801917F0;
         }
         return (s32)&D_80191818;

@@ -19,7 +19,7 @@ void func_8017EEEC(void *a0) {
         s32 i;
 
         for (i = 0; i < 0x60; i++, p += 0x10C) {
-            if (*(u16 *)(p + 0) == 0x2E7 && *(u16 *)(p + 2) == 4) {
+            if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x2E7 && CAST_SIGN(u16, p, 2) == 4) {
                 func_8001C214(*(s32 *)((s32)a0 + 0x20), (s32)&D_801A0774);
                 *(u16 *)((s32)a0 + 0x5C) = 0x8800;
                 *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = 0x400;
@@ -50,7 +50,7 @@ void func_8017EEEC(void *a0) {
         s32 i;
 
         for (i = 0; i < 0x60; i++, p += 0x10C) {
-            if (*(u16 *)(p + 0) == 0x2E7 && *(u16 *)(p + 2) == 4) {
+            if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x2E7 && CAST_SIGN(u16, p, 2) == 4) {
                 func_8001C214(*(s32 *)((s32)a0 + 0x20), (s32)D_8019FDD4);
                 *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x4) |= 0x60000040;
                 *(u16 *)((s32)a0 + 0x5C) = 0x9000;
@@ -156,7 +156,7 @@ void func_8017F278(void) {
 extern void (*D_801A0794[])(void);
 
 void func_8017F2A0(void *a0) {
-    D_801A0794[*(u8 *)((s32)a0 + 0x216)]();
+    D_801A0794[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
@@ -217,7 +217,7 @@ void func_8017F364(void) {
 extern void (*D_801A07A8[])(void);
 
 void func_8017F38C(void *a0) {
-    D_801A07A8[*(u8 *)((s32)a0 + 0x216)]();
+    D_801A07A8[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 

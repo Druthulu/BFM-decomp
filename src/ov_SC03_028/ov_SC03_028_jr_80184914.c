@@ -3249,19 +3249,19 @@ void *a0;
     s32 v1;
 
     s0 = (s32)a0;
-    v0 = *(u16 *)(s0 + 0x62);
-    v1 = *(s32 *)(s0 + 0x20);
+    v0 = ((Unkstruct_800B5CB8 *)s0)->unk62;
+    v1 = ((Unkstruct_800B5CB8 *)s0)->unk20;
     v0 = (v0 + 0x800) & 0xFFF;
-    *(u16 *)(v1 + 0x12) = v0;
-    v0 = *(s32 *)(s0 + 0x20);
+    ((Unkstruct_800B5CB8 *)v1)->unk12 = v0;
+    v0 = ((Unkstruct_800B5CB8 *)s0)->unk20;
     *(u16 *)(v0 + 0x14) = 0;
     *(u16 *)(v0 + 0x10) = 0;
     func_8012B2CC(s0);
     func_8012B23C(s0);
-    *(u16 *)(s0 + 0x5C) = 0;
+    ((Unkstruct_800B5CB8 *)s0)->unk5C = 0;
     func_8012B14C(s0, (s32)D_801905CC);
-    *(u8 *)(s0 + 0xC1) = 0;
-    *(u16 *)(s0 + 0x2) = 5;
+    ((Unkstruct_800B5CB8 *)s0)->unkC1 = 0;
+    ((Unkstruct_800B5CB8 *)s0)->unk2 = 5;
 }
 
 

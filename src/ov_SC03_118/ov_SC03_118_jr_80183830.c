@@ -2871,19 +2871,19 @@ void *a0;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();
     s0 = (s32)a0;
-    *(s32 *)(s0 + 0x20) = v0;
+    ((Unkstruct_800B5CB8 *)s0)->unk20 = v0;
     if (v0 == 0) {
         func_8012CAE4((void *)s0);
     } else {
         ((void (*)(s32, void *))func_8001CA1C)(v0, &D_8018E160);
         ((s32 (*)(s32, void *))func_8012A828)(s0, &D_8018E1C0);
-        *(s32 *)(s0 + 0x94) = rand() & 7;
-        *(u16 *)(s0 + 2) = 1;
-        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) = (rand() >> 3) + 0x2000;
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x1A) = 0x2000;
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) |= 0x10;
-        *(u32 *)(*(s32 *)(s0 + 0x20) + 4) |= 0x8000000;
-        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14) = rand() & 0xFFF;
+        ((Unkstruct_800B5CB8 *)s0)->unk94 = rand() & 7;
+        ((Unkstruct_800B5CB8 *)s0)->unk2 = 1;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk18 = (rand() >> 3) + 0x2000;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk1A = 0x2000;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C |= 0x10;
+        *(u32 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 4) |= 0x8000000;
+        *(u16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x14) = rand() & 0xFFF;
     }
 }
 
@@ -3294,7 +3294,7 @@ void func_80184334(int param_1) {
 extern void (*D_8018EC14[])(void);
 
 void func_80184430(void *a0) {
-    D_8018EC14[*(u8 *)((s32)a0 + 0x4)]();
+    D_8018EC14[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
