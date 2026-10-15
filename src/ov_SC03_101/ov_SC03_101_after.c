@@ -640,20 +640,20 @@ int func_80148AFC(void *a0) {
     extern s32 D_801151D4;
     extern s32 (*D_801853C0[])(void *, s32);
     s32 p = (s32)a0;
-    s32 iVar5 = *(s32 *)(p + 0x20);
-    s32 tmp = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),
-                      *(s32 *)(D_801151D4 + 0x48) - *(s32 *)(D_801151D4 + 0x3C)) - 0x400) & 0xFFF;
+    s32 iVar5 = ((Unkstruct_80148AFC *)p)->unk20;
+    s32 tmp = (ratan2(((Unkstruct_80126948 *)D_801151D4)->unk44 - ((Unkstruct_80126948 *)D_801151D4)->unk50,
+                      ((Unkstruct_80126948 *)D_801151D4)->unk48 - ((Unkstruct_80126948 *)D_801151D4)->unk3C) - 0x400) & 0xFFF;
     s32 ang = tmp;
 
-    switch (*(u8 *)(p + 0xA9)) {
+    switch (((Unkstruct_80148AFC *)p)->unkA9) {
     case 0x41:
-        return D_801853C0[*(u16 *)(p + 0xAA) >> 12](a0, tmp) & 0xFF;
+        return D_801853C0[((Unkstruct_80148AFC *)p)->unkAA >> 12](a0, tmp) & 0xFF;
     case 0x53:
     case 0x73:
-        if ((*(u16 *)(p + 0xAE) & 0xFF) == 0x80 && (*(u16 *)(p + 0xAE) >> 8) == 0x80) {
+        if ((((Unkstruct_80148AFC *)p)->unkAE & 0xFF) == 0x80 && (((Unkstruct_80148AFC *)p)->unkAE >> 8) == 0x80) {
             return 0;
         }
-        tmp = ratan2((*(u16 *)(p + 0xAE) & 0xFF) - 0x80, 0x80 - (*(u16 *)(p + 0xAE) >> 8));
+        tmp = ratan2((((Unkstruct_80148AFC *)p)->unkAE & 0xFF) - 0x80, 0x80 - (((Unkstruct_80148AFC *)p)->unkAE >> 8));
         *(u16 *)(iVar5 + 0x12) = (ang + tmp) & 0xFFF;
         return 1;
     }
@@ -705,8 +705,8 @@ s32 func_80148D44(void) {
     extern u16 D_80126C06;
     extern s16 (*D_80185400[])(s32);
     s32 p = D_801151D4;
-    s32 tmp = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
-                      *(s32 *)(p + 0x48) - *(s32 *)(p + 0x3C)) - 0x400) & 0xFFF;
+    s32 tmp = (ratan2(((Unkstruct_80126948 *)p)->unk44 - ((Unkstruct_80126948 *)p)->unk50,
+                      ((Unkstruct_80126948 *)p)->unk48 - ((Unkstruct_80126948 *)p)->unk3C) - 0x400) & 0xFFF;
     s32 ang = tmp;
 
     switch (D_80126C01) {
@@ -732,8 +732,8 @@ s32 func_80148E54(s32 arg0) {
 
     extern s32 D_801151D4;
     extern s16 (*D_80185440[])(s32);
-    s32 tmp = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),
-                      *(s32 *)(D_801151D4 + 0x48) - *(s32 *)(D_801151D4 + 0x3C)) - 0x400) & 0xFFF;
+    s32 tmp = (ratan2(((Unkstruct_80126948 *)D_801151D4)->unk44 - ((Unkstruct_80126948 *)D_801151D4)->unk50,
+                      ((Unkstruct_80126948 *)D_801151D4)->unk48 - ((Unkstruct_80126948 *)D_801151D4)->unk3C) - 0x400) & 0xFFF;
     s32 ang = tmp;
 
     switch (*(u8 *)(arg0 + 0xA9)) {
@@ -2322,7 +2322,7 @@ s32 func_8015094C(s32 param_1) {
         }
         {
             short cur = *(short *)(param_1 + 0xe);
-            s32 diff = *(s32 *)(cam + 0x50) - cur;
+            s32 diff = ((Unkstruct_80126948 *)cam)->unk50 - cur;
             s32 av = (diff < 0) ? -diff : diff;
             if (av >= 5) {
                 *(short *)(param_1 + 0xe) = (diff >= 0) ? cur + 4 : cur - 4;
