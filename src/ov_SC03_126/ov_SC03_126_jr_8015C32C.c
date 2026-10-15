@@ -1354,7 +1354,7 @@ extern void func_80149704(void);
 void func_8015CC74(s32 *a0) {
 
     extern void (*D_80181AB0[])(void);
-    D_80181AB0[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181AB0[CAST_SIGN(u16, (s32)a0, 0x2)]();
 }
 
 
@@ -1383,7 +1383,7 @@ void func_8015CC74(s32 *a0) {
 void func_8015CFC0(s32 *a0) {
 
     extern void (*D_80181AE8[])(void);
-    D_80181AE8[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181AE8[CAST_SIGN(u16, (s32)a0, 0x2)]();
 }
 
 
@@ -1542,7 +1542,7 @@ extern u8 D_80181B58[];
 void func_8015DAF8(s32 *a0) {
 
     extern void (*D_80181B8C[])(void);
-    D_80181B8C[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181B8C[CAST_SIGN(u16, (s32)a0, 0x2)]();
 }
 
 
@@ -1606,7 +1606,7 @@ void func_8015DCB8(s32 param_1) {
 void func_8015DE58(s32 *a0) {
 
     extern void (*D_80181BAC[])(void);
-    D_80181BAC[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181BAC[CAST_SIGN(u16, (s32)a0, 0x2)]();
 }
 
 
@@ -1755,7 +1755,7 @@ extern void (*D_80181914[])(void*);
 void func_8015E8E8(s32 *a0) {
 
     extern void (*D_80181C00[])(void);
-    D_80181C00[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181C00[CAST_SIGN(u16, (s32)a0, 0x2)]();
 }
 
 
@@ -1888,7 +1888,7 @@ extern int func_80155FF8(int arg, int a1);
 void func_8015F324(s32 *a0) {
 
     extern void (*D_80181C18[])(void);
-    D_80181C18[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181C18[CAST_SIGN(u16, (s32)a0, 0x2)]();
 }
 
 
@@ -1974,7 +1974,7 @@ extern s32 func_80161208(void);
 void func_8015FAAC(s32 *a0) {
 
     extern void (*D_80181C5C[])(void);
-    D_80181C5C[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181C5C[CAST_SIGN(u16, (s32)a0, 0x2)]();
 }
 
 
@@ -2086,7 +2086,7 @@ extern void func_8016004C(s32 a0);
 void func_80160138(s32 *a0) {
 
     extern void (*D_80181CEC[])(void);
-    D_80181CEC[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181CEC[CAST_SIGN(u16, (s32)a0, 0x2)]();
 }
 
 
@@ -2119,7 +2119,7 @@ extern s32 func_80161208();
 void func_8016039C(s32 *a0) {
 
     extern void (*D_80181CFC[])(void);
-    D_80181CFC[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181CFC[CAST_SIGN(u16, (s32)a0, 0x2)]();
 }
 
 
