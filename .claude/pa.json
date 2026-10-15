@@ -1,4 +1,8 @@
 {
+  "first_run": {"from": "gen3", "at": "3.28"},
+  "bash": "bash",
+  "upgrade": "auto",
+  "mod": "on",
   "pa_version": "3.11",
   "project": "bfm-decomp",
   "python": "/usr/bin/python3",
@@ -15,7 +19,7 @@
   "discord_webhook": null,
   "rhythm": "autonomous",
   "tier": "max5",
-  "preset": "max20",
+  "preset": "max5",
   "legacy": {
     "phase_naming": "dotted"
   },
