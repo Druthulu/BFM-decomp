@@ -1,10 +1,10 @@
-<!-- R1 | H1 relaxed while private | | active | | -->
+<!-- R1 | H1 relaxed while private | | retired | gen3.2: superseded by G12, repo public since 2026-09-08; text rules/gen3.2/R1.md -->
 <!-- R2 | All-in-WSL (H2 restatement) | | active | | -->
 <!-- R3 | All tooling under `tools/` | | active | | -->
 <!-- R4 | Plan mode every phase | | active | | -->
 <!-- R5 | No `Co-Authored-By` trailer on commits | | active | | -->
 <!-- R6 | Git workflow = Claude commits in WSL, Drew pushes | | active | | -->
-<!-- R7 | Effort-map check | | active | | -->
+<!-- R7 | Effort-map check | | retired | gen3.2: effort toggles retired in PA 3.2; text rules/gen3.2/R7.md -->
 <!-- R10 | Multi-datapoint live-RAM verification | | active | | -->
 <!-- R12 | No `/tmp`; project-local data only | | active | | -->
 <!-- R13 | Proto-provenance & confidence tagging | | active | | -->
@@ -13,7 +13,7 @@
 <!-- R20 | Private-repo backup policy | | active | | -->
 <!-- R23 | Stop the Ghidra MCP before any phase-end/RE-checkpoint commit; commit the DB only if RE work changed it | | active | | -->
 <!-- R24 | Per-binary compiler/SDK provenance | | active | | -->
-<!-- R27 | Effort-transition discipline | | active | | -->
+<!-- R27 | Effort-transition discipline | | retired | gen3.2: effort toggles retired in PA 3.2; text rules/gen3.2/R27.md -->
 <!-- R32 | Assert your COVERAGE | | active | | -->
 <!-- R33 | Derive, don't re-derive | | active | | -->
 <!-- R35 | Fix the measuring instrument before trusting its measurement; a probe from a broken tool is not evidence | | active | | -->
@@ -110,7 +110,7 @@
 <!-- G56 | Provenance → archive → link → compiler | | active | | | source: decomp-architect -->
 <!-- G57 | Nothing is unmatchable before the lever ladder is exhausted | | active | | | source: decomp-architect -->
 <!-- G58 | Published numbers are generated, never typed | | active | | | source: decomp-architect -->
-<!-- G59 | The checkpoint is written to be replayed | | active | | | source: decomp-architect -->
+<!-- G59 | The checkpoint is written to be replayed | | retired | gen3.2: session checkpoint retired; TASK_PROGRESS.md handoff (skill §1); text rules/gen3.2/G59.md | source: decomp-architect -->
 <!-- G60 | The matching flywheel (the decomp instance of X4) | | active | | | source: decomp-architect -->
 <!-- G66 | Consult the tool dictionary before designing or debugging a tool | | active | | | source: decomp-architect -->
 <!-- G67 | Translate an inherited idiom through its pass; never copy the lever | | active | | | source: decomp-architect -->
@@ -157,3 +157,7 @@ R124 | Raw cast residue is covered per site by a cause-named RESIDUAL row | cast
 R125 | GTE asm in bodies is spelled only through gte_inline.h | gte,asm,levers,headers | active | PhaseEnd_Phase3.39 binding
 
 R126 | Lever residue is a ledger, gated by --strict --residue | levers,pins,asm,residue,ledger | active | PhaseEnd_Phase3.39 binding
+
+R127 | A tool change ships with its wiring and docs; no audit fan-outs | tools,docs,wiring | active | legacy memory, Drew 2026-09-02
+
+R128 | Phase records keep the narrative axis for the retrospective | phase-end,logs,retrospective | active | legacy memory, Drew 2026-08-31

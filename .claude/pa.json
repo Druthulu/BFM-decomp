@@ -1,5 +1,4 @@
 {
-  "first_run": {"from": "gen3", "at": "3.28"},
   "bash": "bash",
   "upgrade": "auto",
   "mod": "on",
@@ -61,5 +60,6 @@
   "bench": {
     "window_max_pct": 80
   },
-  "memory_routed": "3.14"
+  "memory_routed": "3.14",
+  "migrated": "3.2"
 }
