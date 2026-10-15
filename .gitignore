@@ -597,3 +597,7 @@ __pycache__/
 
 # R120: outward-thread discussion records stay local (untracked 2026-09-30)
 phase-ends/current/discussions/D1.md
+
+# P40 T1 (D1): both append-only ledgers stay local; gz snapshots in .run/keep/ (the line above already covers .run/)
+/.run/P36/delever/ledger.jsonl
+/.run/P37/restruct/ledger.jsonl
