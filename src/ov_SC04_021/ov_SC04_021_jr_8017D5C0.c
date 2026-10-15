@@ -2945,7 +2945,7 @@ s32 arg0;
 extern void (*D_80182F68[])(void);
 
 void func_8017EC84(void *a0) {
-    D_80182F68[*(u8 *)((s32)a0 + 0x216)]();
+    D_80182F68[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
