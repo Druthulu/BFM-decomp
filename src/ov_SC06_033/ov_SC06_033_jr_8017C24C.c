@@ -2996,7 +2996,7 @@ void func_8017D6CC(void) {
 extern void (*D_801952F4[])(void);
 
 void func_8017D7A4(void *a0) {
-    D_801952F4[*(u8 *)((s32)a0 + 0x4)]();
+    D_801952F4[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -3146,7 +3146,7 @@ void func_8017DA78(s32 param_1, s16 *param_2) {
 
 
 void func_8017DC10(void *a0) {
-        *(short *)((char *)a0 + 0xa0) = 0;
+        ((Unkstruct_80126948 *)a0)->unkA0 = 0;
     }
 
 
@@ -3669,14 +3669,14 @@ extern void func_80146CA0(void *a0);
 void func_8017E82C(s32 p)
 {
     if (currentLocationId == 0x3083) {
-        *(u16 *)(p + 0xA) -= 8;
+        CAST_SIGN(u16, p, 0xA) -= 8;
     }
     func_80147324(0x451);
     ((void (*)(s32))func_801511E0)(p);
     ((void (*)(s32, s32))func_80154274)(p, (s32)D_801953A4);
     ((void (*)(s32))func_80149020)(p);
-    *(u8 *)(p + 0xDE) = 0xA;
-    *(u8 *)(p + 0xDF) = 0;
+    ((Unkstruct_80126B58 *)p)->unkDE = 0xA;
+    ((Unkstruct_80126B58 *)p)->unkDF = 0;
     func_8017EA60();
     ((void (*)(s32))func_80146CA0)((void *)p);
 }

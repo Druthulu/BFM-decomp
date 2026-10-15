@@ -4419,11 +4419,11 @@ void func_801875F0(s32 a0) {
     var_s0 = 0x2F;
     ret = func_8012BD14(a0);
     if (ret <= 0x40000) {
-        t = (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) * 3) >> 9;
+        t = (*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1A) * 3) >> 9;
         t = t * t;
         var_s0 = 0x7F - ret / ((0x40000 - t) / 0x50);
     }
-    do { func_8002D59C(0x64E, var_s0 | 0x5000, *(u16 *)(a0 + 0x104)); } while (0);
+    do { func_8002D59C(0x64E, var_s0 | 0x5000, CAST_SIGN(u16, a0, 0x104)); } while (0);
 }
 
 

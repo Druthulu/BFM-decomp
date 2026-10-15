@@ -3481,7 +3481,7 @@ void func_80185A0C(s32 arg0)
 
     func_8001C2C4((s32)&unused_buf[0]);
 
-    p = (u8 *)(*(s32 *)(*(s32 *)(arg0 + 0x20) + 0x20) & 0xFEFFFFFF);
+    p = (u8 *)(((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk20 & 0xFEFFFFFF);
     p = p + 0x70;
 
     f.a = *(u16 *)(p + 6);
@@ -3500,8 +3500,8 @@ void func_80185A0C(s32 arg0)
     RotTransSV(&D_80190470, &buf1, &buf3);
     RotTransSV(&D_80190478, &buf2, &buf3);
 
-    func_8012F14C(*(s32 *)(arg0 + 0x20) + 0x34, (s32)&buf1, (s32)&D_801EAC70);
-    func_8012F14C(*(s32 *)(arg0 + 0x20) + 0x34, (s32)&buf2, (s32)&D_801EAC78);
+    func_8012F14C(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x34, (s32)&buf1, (s32)&D_801EAC70);
+    func_8012F14C(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x34, (s32)&buf2, (s32)&D_801EAC78);
 }
 
 
@@ -4686,7 +4686,7 @@ void func_80187EE8(s32 a0)
     s16 c, p, q;
     s32 d;
 
-    c = *(s32 *)(a0 + 0x1C) * 15;
+    c = ((Unkstruct_800B5CB8 *)a0)->unk1C * 15;
     base = D_800AF630;
     p = c;
     d = c >> 1;

@@ -3247,7 +3247,7 @@ void func_8017E058(void) {
 extern void (*D_80186404[])(void);
 
 void func_8017E0F4(void *a0) {
-    D_80186404[*(u8 *)((s32)a0 + 0x4)]();
+    D_80186404[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -3950,7 +3950,7 @@ call_notify:
 walk:
     p = D_801202A0;
     for (i = 0; i < 0x60; i++, p += 0x10C) {
-        if (*(u16 *)p != 0 && *(u16 *)obj == *(u16 *)p && obj != (s32)p) {
+        if (((Unkstruct_800B5CB8 *)p)->unk0 != 0 && *(u16 *)obj == ((Unkstruct_800B5CB8 *)p)->unk0 && obj != (s32)p) {
             if (func_8012AF0C(obj, (s32)p) != 0) {
                 if (state != 0) {
                     func_8017F338(obj, 2);

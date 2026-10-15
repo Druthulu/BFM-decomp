@@ -23,6 +23,7 @@
 | 2026-10-02 | P3.39 close: cast campaign, reading A | `3a9377c92` | 11 | 2 | 9 | 0 | 260312 | 320402 | **336225** | 173103 | 1650 (1021 / 600) | 523 | 53 / 496 | 17968 (98.8 %) | 5293 | 418 |
 | 2026-10-02 | P3.39 T12: phase-close docs | `20faec8d4` | 11 | 2 | 9 | 0 | 260312 | 320402 | **336225** | 173103 | 1650 (1021 / 600) | 523 | 53 / 496 | 17968 (98.8 %) | 5293 | 418 |
 | 2026-10-15 | t2_S1 | `bae9df7d7` | 11 | 2 | 9 | 0 | 258490 | 322052 | **334390** | 174750 | 1706 (1077 / 600) | 573 | 57 / 506 | 17842 (98.8 %) | 5293 | 418 |
+| 2026-10-15 | t2_S2 | `7c560ed8d` | 11 | 2 | 9 | 0 | 257409 | 322955 | **333294** | 175600 | 1706 (1077 / 600) | 573 | 57 / 506 | 17765 (98.8 %) | 5293 | 418 |
 
 **How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters
 than the callee's own definition. It is not a style problem: on this processor an argument travels in a

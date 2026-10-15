@@ -3277,7 +3277,7 @@ void func_8017BD50(int param_1)
 extern void (*D_801880A0[])(void);
 
 void func_8017BE60(void *a0) {
-    D_801880A0[*(u8 *)((s32)a0 + 0x4)]();
+    D_801880A0[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -4800,7 +4800,7 @@ void func_8017EB70(void) {
 extern void (*D_8018833C[])(void);
 
 void func_8017EC08(void *a0) {
-    D_8018833C[*(u8 *)((s32)a0 + 0x4)]();
+    D_8018833C[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -5997,15 +5997,15 @@ void func_80180948(s32 arg0) {
     extern void func_80181248(s32 a0, s32 a1);
     s32 pe;
 
-    if (*(u8 *)(arg0 + 0xC2) == 0x2) {
+    if (((Unkstruct_800B5CB8 *)arg0)->unkC2 == 0x2) {
         *(s16 *)(arg0 + 0x52) = -0x18;
     }
     pe = func_80180C74(arg0);
     if (pe != 0) {
-        *(s32 *)(arg0 + 0x10) = 0;
-        *(s32 *)(arg0 + 0x18) = 0;
-        *(s32 *)(arg0 + 0x04) = *(s32 *)(arg0 + 0x38);
-        *(s32 *)(arg0 + 0x0C) = *(s32 *)(arg0 + 0x40);
+        CAST_WIDTH(s32, arg0, 0x10) = 0;
+        CAST_WIDTH(s32, arg0, 0x18) = 0;
+        CAST_WIDTH(s32, arg0, 0x04) = CAST_WIDTH(s32, arg0, 0x38);
+        CAST_WIDTH(s32, arg0, 0x0C) = *(s32 *)(arg0 + 0x40);
         func_80181248(arg0, pe);
     }
 }
@@ -6901,7 +6901,7 @@ s32 func_80181D1C(s32 arg0) {
     register s32 rr asm("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
     register s32 z asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
 
-    if (*(u8 *)(arg0 + 0x74) != 0) {
+    if (((Unkstruct_800B5CB8 *)arg0)->unk74 != 0) {
         asm volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
         return 0;
     }
@@ -6914,10 +6914,10 @@ s32 func_80181D1C(s32 arg0) {
     }
     z = 0;
     asm("" :: "r"(z));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
-    if (*(s16 *)(arg0 + 0xA) < (s16)t) {
+    if (CAST_SIGN(s16, arg0, 0xA) < (s16)t) {
         return z;
     }
-    return *(s16 *)(arg0 + 0xA) - 0x48 <= (s16)t;
+    return CAST_SIGN(s16, arg0, 0xA) - 0x48 <= (s16)t;
 }
 
 
@@ -6934,7 +6934,7 @@ s32 func_80181DAC(s32 arg0) {
         if ((s32)pe == arg0) {
             continue;
         }
-        switch (*(u16 *)pe) {
+        switch (((Unkstruct_800B5CB8 *)pe)->unk0) {
         case 0x1FC:
             t = (*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) * 9u) >> 9;
             if (func_80181E90((s16 *)arg0, (s16 *)(pe + 4), t) != 0) {
@@ -6942,7 +6942,7 @@ s32 func_80181DAC(s32 arg0) {
             }
             break;
         case 0x239:
-            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + *(s16 *)(*(s32 *)(pe + 0x20) + 0x18)) >> 6;
+            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + *(s16 *)(((Unkstruct_800B5CB8 *)pe)->unk20 + 0x18)) >> 6;
             if (func_80181E90((s16 *)arg0, (s16 *)(pe + 4), t) != 0) {
                 return (s32)pe;
             }
@@ -7115,9 +7115,9 @@ void func_801821E0(s32 param_1)
     s32 s0;
     s16 s2;
 
-    m.p5 = *(s16 *)(param_1 + 0x6);
-    m.p6 = *(s16 *)(param_1 + 0xA);
-    m.p7 = *(s16 *)(param_1 + 0xE);
+    m.p5 = CAST_SIGN(s16, param_1, 0x6);
+    m.p6 = CAST_SIGN(s16, param_1, 0xA);
+    m.p7 = CAST_SIGN(s16, param_1, 0xE);
 
     func_800491AC(&m);
 

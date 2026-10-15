@@ -3809,7 +3809,7 @@ void func_8017E770(void) {
 extern void (*D_801901E0[])(void);
 
 void func_8017E800(void *a0) {
-    D_801901E0[*(u8 *)((s32)a0 + 0x4)]();
+    D_801901E0[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -4653,8 +4653,8 @@ void func_8017FE58(void *fp, s32 count)
     p = D_801202A0;
 
     for (i = 0; i < 0x60; i++, p += 0x10C) {
-        if (*(u16 *)(p) == 0x2EF) {
-            have[n] = (u8)(*(u16 *)((*(s32 *)(p + 0x64)) + 0x70));
+        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x2EF) {
+            have[n] = (u8)(*(u16 *)((((Unkstruct_800B5CB8 *)p)->unk64) + 0x70));
             n++;
         }
     }
@@ -5586,7 +5586,7 @@ void func_80181708(int param_1) {
 extern void (*D_8019073C[])(void);
 
 void func_8018180C(void *a0) {
-    D_8019073C[*(u8 *)((s32)a0 + 0x4)]();
+    D_8019073C[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -8427,10 +8427,10 @@ void func_80185D44(void *a0) {
     ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x80;
     v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
     CAST_WIDTH(s32, v1, 0x80) = (s32)a0 + 0xDC;
-    *(s16 *)(p + 0x1A) = 0x800;
-    *(s16 *)(p + 0x18) = 0x800;
+    ((Unkstruct_800B5CB8 *)p)->unk1A = 0x800;
+    ((Unkstruct_800B5CB8 *)p)->unk18 = 0x800;
     m |= 0xFFFF;
-    *(s32 *)(p + 4) &= m;
+    CAST_WIDTH(s32, p, 4) &= m;
     ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 2) + 1;
 }
 

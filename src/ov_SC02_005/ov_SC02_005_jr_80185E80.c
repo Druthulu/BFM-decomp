@@ -3181,14 +3181,14 @@ void func_8018A4C4(s32 a0)
      * live at offset 0x34+0x14/0x18/0x1c inside the object pointed to by
      * a0's field 0x20. Written as raw asm: the target's .s marks these ctc2
      * lines "handwritten instruction" (not a normal codegen mnemonic). */
-    gte_SetTransMatrix((u8 *)*(s32 *)(a0 + 0x20) + 0x34);
+    gte_SetTransMatrix((u8 *)((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34);
 
     for (i = 0; i < 8; i++) {
         s0 = func_8012913C(0xC);
         if (s0 != NULL) {
-            ((Unkstruct_800B5CB8 *)s0)->unk6 = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48) + *(u16 *)&blobA.b[0];
-            ((Unkstruct_800B5CB8 *)s0)->unkA = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C) + *(u16 *)&blobA.b[2];
-            ((Unkstruct_800B5CB8 *)s0)->unkE = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50) + *(u16 *)&blobA.b[4];
+            ((Unkstruct_800B5CB8 *)s0)->unk6 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48 + *(u16 *)&blobA.b[0];
+            ((Unkstruct_800B5CB8 *)s0)->unkA = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C + *(u16 *)&blobA.b[2];
+            ((Unkstruct_800B5CB8 *)s0)->unkE = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50 + *(u16 *)&blobA.b[4];
 
             localMat = (*(Blk20_8018A4C4 *)&D_800AE620);
             RotMatrixY(i << 9, &localMat);
@@ -4361,8 +4361,8 @@ void func_8018BE88(s32 arg0) {
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8018BF88(u8 *a0) {
-        *(s32 *)(a0 + 0x1c) = 0x20;
-        *(s16 *)(a0 + 0x102) |= 2;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x20;
+        ((Unkstruct_800B5CB8 *)a0)->unk102 |= 2;
         ((void (*)(void *, s32))func_8012AD44)(a0, 0x3);
     }
 
@@ -4376,7 +4376,7 @@ void func_8018BFBC(s32 a0) {
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8018BFDC(u8 *a0) {
-        *(u16 *)(a0 + 0x102) |= 0x1;
+        CAST_SIGN(u16, a0, 0x102) |= 0x1;
         ((void (*)(void *, s32))func_8012AD44)(a0, 0x5);
     }
 

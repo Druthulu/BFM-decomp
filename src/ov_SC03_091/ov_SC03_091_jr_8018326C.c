@@ -4183,9 +4183,9 @@ s32 func_80185800(s32 a0)
 {
     u16 sp[3];
     s32 result;
-    sp[0] = *(u16 *)(a0 + 0x6);
-    sp[1] = *(u16 *)(a0 + 0xA);
-    sp[2] = *(u16 *)(a0 + 0xE);
+    sp[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
+    sp[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
+    sp[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
     result = func_80134510((s32)sp);
     return ((u32)result > 0) ? 1 : 0;
 }

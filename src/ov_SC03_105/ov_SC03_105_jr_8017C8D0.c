@@ -3079,7 +3079,7 @@ void func_8017E08C(void) {
 extern void (*D_8018DE58[])(void);
 
 void func_8017E134(void *a0) {
-    D_8018DE58[*(u8 *)((s32)a0 + 0x4)]();
+    D_8018DE58[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -4136,9 +4136,9 @@ void func_8017FAE8(s32 a0) {
     register s32 base __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
     s32 q;
 
-    pos.vx = *(s16 *)(a0 + 0x6);
-    pos.vy = *(s16 *)(a0 + 0xA);
-    pos.vz = *(s16 *)(a0 + 0xE);
+    pos.vx = CAST_SIGN(s16, a0, 0x6);
+    pos.vy = CAST_SIGN(s16, a0, 0xA);
+    pos.vz = CAST_SIGN(s16, a0, 0xE);
     ((void (*)(void *, void *))func_8012EFB8)(&pos, &out);
 
     base = 0x40;
@@ -4347,7 +4347,7 @@ s32 func_8017FEA8(void *a0)
     prim.f28 = 0xF14; prim.f2a = 0x13F;
     prim.f2c = 0xF53; prim.f2e = 0x13F;
 
-    func_80016EF8(&prim, (void *)(*(s32 *)((u8 *)a0 + 0x20) + 0x34));
+    func_80016EF8(&prim, (void *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34));
 }
 
 

@@ -2905,7 +2905,7 @@ void func_8017D434(void) {
 extern void (*D_80189BE4[])(void);
 
 void func_8017D4CC(void *a0) {
-    D_80189BE4[*(u8 *)((s32)a0 + 0x4)]();
+    D_80189BE4[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -4312,11 +4312,11 @@ void func_8017F5DC(s32 a0) {
     var_s0 = 0x2F;
     ret = func_8012BD14(a0);
     if (ret <= 0x40000) {
-        t = (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) * 3) >> 9;
+        t = (*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1A) * 3) >> 9;
         t = t * t;
         var_s0 = 0x7F - ret / ((0x40000 - t) / 0x50);
     }
-    do { func_8002D59C(0x64E, var_s0 | 0x5000, *(u16 *)(a0 + 0x104)); } while (0);
+    do { func_8002D59C(0x64E, var_s0 | 0x5000, CAST_SIGN(u16, a0, 0x104)); } while (0);
 }
 
 
@@ -4346,10 +4346,10 @@ void func_8017F6B0(void *a0, s32 a1) {
     sp10[4] = t4;
     __asm__ __volatile__("" :: "r"(off));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     h = (u16 *)sp10;
-    h[0] = h[0] + *(u16 *)((s32)a0 + 6);
-    h[1] = h[1] + *(u16 *)((s32)a0 + 0xA);
+    h[0] = h[0] + ((Unkstruct_800B5CB8 *)a0)->unk6;
+    h[1] = h[1] + CAST_ALIAS(u16, (s32)a0, 0xA);
     __asm__ __volatile__("" :: "r"(t3));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-    h[2] = h[2] + *(u16 *)((s32)a0 + 0xE);
+    h[2] = h[2] + ((Unkstruct_800B5CB8 *)a0)->unkE;
     func_8012C51C(sp10, (s32)a0);
 }
 
@@ -6132,12 +6132,12 @@ s32 func_80182318_def(s32 a0, s32 a1)
     m = &D_801AC2D4;
     func_8012F14C(D_80126B78 + 0x34, (s32)m, (s32)b1);
     func_8012F14C(D_80126B78 + 0x34, (s32)(m + 2), (s32)b2);
-    if (func_80135888(*(s32 *)(a0 + 0x20), *(s32 *)(a0 + 0x58), (s32)b1, (s32)b2) == 0) {
+    if (func_80135888(((Unkstruct_800B5CB8 *)a0)->unk20, ((Unkstruct_800B5CB8 *)a0)->unk58, (s32)b1, (s32)b2) == 0) {
         return 0;
     }
     func_8012F568(1,
-                  (*(u16 *)(a0 + 0x70) & 0xF) != 0 ? 0x2001 : 1,
-                  *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                  (CAST_SIGN(u16, a0, 0x70) & 0xF) != 0 ? 0x2001 : 1,
+                  *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12),
                   a1,
                   (s32)b2,
                   (s32)D_801152A8);

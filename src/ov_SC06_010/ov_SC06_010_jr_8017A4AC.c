@@ -3457,7 +3457,7 @@ void func_8017BD50(int param_1)
 extern void (*D_8018A3D0[])(void);
 
 void func_8017BE60(void *a0) {
-    D_8018A3D0[*(u8 *)((s32)a0 + 0x4)]();
+    D_8018A3D0[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -4952,7 +4952,7 @@ void func_8017E474(void) {
 extern void (*D_8018A570[])(void);
 
 void func_8017E510(void *a0) {
-    D_8018A570[*(u8 *)((s32)a0 + 0x4)]();
+    D_8018A570[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 

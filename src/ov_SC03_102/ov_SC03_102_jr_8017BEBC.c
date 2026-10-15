@@ -3817,7 +3817,7 @@ void func_80180484(void) {
 extern void (*D_80189BE4[])(void);
 
 void func_8018051C(void *a0) {
-    D_80189BE4[*(u8 *)((s32)a0 + 0x4)]();
+    D_80189BE4[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
