@@ -157,7 +157,7 @@ void func_801EF7F4(u32 arg0) {
 void func_801EF928(void *a0) {
 
     extern void (*D_801EFE88[])(void);
-    D_801EFE88[*(u8 *)((s32)a0 + 0x4)]();
+    D_801EFE88[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -316,10 +316,10 @@ void func_801EFD40(void *a0) {
     s32 s0 = (s32)a0;
 
     if (func_8018727C(a0, D_801EFE9C)) {
-        *(u16 *)(s0 + 2) = 1;
+        ((Unkstruct_800B5CB8 *)s0)->unk2 = 1;
         func_8012A828(s0, D_801C3FC8);
         func_8012E8E0(s0, (s32)D_801EFE94);
-        *(u16 *)(s0 + 0x34) = 0;
+        ((Unkstruct_800B5CB8 *)s0)->unk34 = 0;
         func_80178B18(s0, (s32)D_801EFF1C);
     }
 }

@@ -215,7 +215,7 @@ void func_801E7F2C(void) {
 void func_801E7FF0(void *a0) {
 
     extern void (*D_801E8600[])(void);
-    D_801E8600[*(u8 *)((s32)a0 + 0x4)]();
+    D_801E8600[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 

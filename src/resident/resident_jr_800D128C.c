@@ -1111,12 +1111,12 @@ void func_800D1FC8(void *arg0, int arg1) {
 
     g = (int *)D_801151D4;
 
-    dx = *(int *)((char *)g + 0x5C) - *(unsigned short *)((char *)arg0 + 6);
+    dx = ((Unkstruct_80126948 *)g)->unk5C - *(unsigned short *)((char *)arg0 + 6);
     v[0] = dx;
-    t1 = *(int *)((char *)g + 0x60);
+    t1 = ((Unkstruct_80126948 *)g)->unk60;
     dy = t1 - *(unsigned short *)((char *)arg0 + 10);
     v[1] = dy;
-    t2 = *(int *)((char *)g + 0x64);
+    t2 = ((Unkstruct_80126948 *)g)->unk64;
     dz = t2 - *(unsigned short *)((char *)arg0 + 14);
     v[2] = dz;
     sh = arg1;

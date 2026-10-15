@@ -136,7 +136,7 @@ void func_801EF7F4(u32 arg0) {
 void func_801EF928(void *a0) {
 
     extern void (*D_801EFF38[])(void);
-    D_801EFF38[*(u8 *)((s32)a0 + 0x4)]();
+    D_801EFF38[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 

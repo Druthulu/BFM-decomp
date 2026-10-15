@@ -1812,7 +1812,7 @@ s32 func_8015094C(s32 param_1) {
         }
         {
             short cur = *(short *)(param_1 + 0xe);
-            s32 diff = *(s32 *)(cam + 0x50) - cur;
+            s32 diff = ((Unkstruct_80126948 *)cam)->unk50 - cur;
             s32 av = (diff < 0) ? -diff : diff;
             if (av >= 5) {
                 *(short *)(param_1 + 0xe) = (diff >= 0) ? cur + 4 : cur - 4;

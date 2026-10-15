@@ -2776,7 +2776,7 @@ s32 func_8017CEE0(u8 *a0) {
 extern void (*D_80185804[])(void);
 
 void func_8017CF7C(void *a0) {
-    D_80185804[*(u8 *)((s32)a0 + 0x216)]();
+    D_80185804[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
@@ -2881,7 +2881,7 @@ void func_8017D0FC(void) {
 extern void (*D_80185810[])(void);
 
 void func_8017D19C(void *a0) {
-    D_80185810[*(u8 *)((s32)a0 + 0x4)]();
+    D_80185810[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
