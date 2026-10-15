@@ -118,12 +118,11 @@ session; the harness manages context. Never let an imagined budget shorten a rea
 takes the context it takes. Plain-English recaps at phase end define every term they use.
 
 ## 9. Long compute and harness gotchas
-A command that may run longer than a few minutes (a bake, a backtest, a batch) starts as a job:
-`PY tools/job.py start -- <cmd>` prints its id and returns. Then end your turn and hand back `WAITING: job <id>`;
-the mod keeps you warm and tells you `job <id> finished: exit <n>` (or that it died, with its log's last lines), and
-you pick up from there: its log is `.run/jobs/<id>/log` (a final report refused as already used goes out as plain
-text). Shorter commands run in the foreground with a raised timeout (`BASH_MAX_TIMEOUT_MS` is set). Never
-hand-write a sleep-poll loop; a run that must outlive the agent is a detached process, not a background task. Long gates run
+A command that may run longer than a few minutes (a bake, a backtest, a batch) runs as a background shell (Bash
+`run_in_background: true`). Then hand back `WAITING: shell <what is running>` and stop; the shell's completion notice
+wakes you: read its output, finish, and report to whoever spawned you with `SendMessage` (your hand-back is already
+used). Shorter commands run in the foreground with a raised timeout (`BASH_MAX_TIMEOUT_MS` is set). Never
+hand-write a sleep-poll loop. Long gates run
 in the foreground with a timeout (the low-memory guard kills background jobs mid-report). `pkill -f` with a literal from
 your own command line kills your own shell: kill by pid. Windows: the Python is the one named in `HOW_WE_WORK.md`
 (`python`, not `python3`); PowerShell `Set-Content -Encoding utf8` writes a BOM, use `utf8NoBOM` or Python; write JSON

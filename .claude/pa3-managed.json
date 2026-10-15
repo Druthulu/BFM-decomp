@@ -11,18 +11,18 @@
       "user": null
     },
     ".claude/agents/pa-claude.md": {
-      "base": "3.28.27",
-      "sha": "1936b9484563221cb108d217619b5ec4f9c9ec633abc69a740137cf2a4e9334e",
+      "base": "3.28.28",
+      "sha": "3c0800fb2f36e2b4e201cc5aa8aaf2b30b56e0784dec934f200f6432c58de69a",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
-      "base": "3.28.3",
-      "sha": "20f93319f4993cd31a584fa912e286e32c8e777759fb3c9dcbde846d82822512",
+      "base": "3.28.4",
+      "sha": "da1b3bd7b4880b4d8e57110e5493077b0bcbbceaae39cfb8092b3bdeab4382e2",
       "user": null
     },
     ".claude/agents/pa-expert.md": {
-      "base": "3.28.4",
-      "sha": "ec6d7e0a8816fefa2449be13220ba32e94725d6a649271523b8316b79535901b",
+      "base": "3.28.5",
+      "sha": "81ff3f618481a86047996963af62ca2af819ca7db924ddcdc832440585392822",
       "user": null
     },
     ".claude/agents/pa-planner.md": {
@@ -62,7 +62,7 @@
     },
     ".claude/skills/project-architect/SKILL.md": {
       "base": null,
-      "sha": "7c511c0ccfabe7a83531f6b570313bd75b80cf7c0d1192a6b7f2d10ef2eccbd3",
+      "sha": "d42e43afc957675db0462bdb3eb8388e440cbfb4e703f4f9aec774ca4b4e73b0",
       "user": null
     },
     "docs/project-architect.md": {
@@ -92,7 +92,7 @@
     },
     "templates/HOW_WE_WORK.template.md": {
       "base": null,
-      "sha": "05773492954ef49da0dfad1c16db81f68341bd232b0be5aefe80451a3eeb8674",
+      "sha": "7092b4dd54dcf2269506f2795f82b72ec02e07cf4c1062bd6889304dedeba989",
       "user": null
     },
     "templates/INBOX.template.md": {
@@ -235,11 +235,6 @@
       "sha": "aea4c1291c60f2a22e47e7d8df40944dd622109693faa0ad0dbbb69775f4d023",
       "user": null
     },
-    "tools/job.py": {
-      "base": null,
-      "sha": "c87ed207bf9e3f1846e0d0abcbae327c662f0c5924917b1f5c7422a0c9077247",
-      "user": null
-    },
     "tools/journal_rollup.py": {
       "base": null,
       "sha": "8fff709844d94b805b78b53e067e3fb4b317c6925dff1864900b93dd7bf19f09",
@@ -312,8 +307,8 @@
     }
   },
   "format": 1,
-  "git": "2ab794b6",
-  "installed": "2026-10-15T20:15:39Z",
+  "git": "9743d1e1",
+  "installed": "2026-10-15T21:54:48Z",
   "package": null,
   "phase": "3.28.1",
   "upstream_version": "3.28.1"
