@@ -3413,7 +3413,7 @@ void func_801A5094(void)
 
     p = (s32)func_801290DC(0x2E, (u8 *)&vec0);
     if (p != 0) {
-        *(u16 *)(*(s32 *)(p + 0x20) + 0x2C) = 0xC020;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk2C = 0xC020;
         vec1.vx = 0;
         vec1.vy = 0;
         r = rand();

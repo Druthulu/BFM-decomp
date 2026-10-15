@@ -3322,11 +3322,11 @@ void func_801824DC(s32 a0, s32 a1)
     *((s8 *)&val + 2) = var_v0;
     *((s8 *)&val + 3) = 0;
 
-    if (*(s16 *)(a0 + 6) != -1) {
+    if (CAST_SIGN(s16, a0, 6) != -1) {
         do {
             func_80182598(a0, val);
             a0 += 8;
-        } while (*(s16 *)(a0 + 6) != -1);
+        } while (CAST_SIGN(s16, a0, 6) != -1);
     }
 }
 
