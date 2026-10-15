@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "2e4cd49df7",
-  "src_stamp": "29b1fd92b39e537c",
+  "head": "6a05276819",
+  "src_stamp": "f4376b95ad7a2ef5",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-15T12:25:14Z",
+  "when": "2026-10-15T12:37:46Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -36,33 +36,33 @@
   },
   "casts": {
    "by_form": {
-    "P": 193394,
+    "P": 193344,
     "I": 49525,
     "X": 12059,
     "K": 25706,
     "A": 18889,
-    "C": 240661,
-    "M": 8559
+    "C": 240725,
+    "M": 8545
    },
    "raw_counts": {
-    "P": 193394,
+    "P": 193344,
     "I": 49525,
     "X": 12059,
     "K": 25706,
     "A": 18889,
-    "C": 240661,
-    "M": 8559
+    "C": 240725,
+    "M": 8545
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 263537,
+   "deref_total": 263473,
    "addr_form": 18889,
-   "typed_cast_member": 240661,
-   "bodies": 43751,
+   "typed_cast_member": 240725,
+   "bodies": 43701,
    "by_bclass": {
     "local": 93522,
-    "param": 112199,
-    "global": 21407,
+    "param": 112149,
+    "global": 21393,
     "gaddr": 25259,
     "nested": 8036,
     "ident": 161,
@@ -71,15 +71,15 @@
    },
    "by_width": {
     "s2": 81020,
-    "s4": 67118,
+    "s4": 67104,
     "u2": 61908,
-    "u1": 21305,
+    "u1": 21255,
     "agg": 13401,
     "p4": 10654,
     "u4": 6254,
     "s1": 1877
    },
-   "readability_raw_regex": 196231,
+   "readability_raw_regex": 196181,
    "abs_casts": 0,
    "top_bases": [
     [
@@ -90,7 +90,7 @@
     [
      "param",
      "a0",
-     32224
+     32174
     ],
     [
      "param",
@@ -175,7 +175,7 @@
     [
      "global",
      "D_801151D4",
-     1770
+     1756
     ],
     [
      "local",
@@ -291,10 +291,10 @@
     "CAST_NONSTRUCT": 331
    },
    "check_raw": {
-    "P": 193389,
+    "P": 193339,
     "I": 49525,
     "X": 12059,
-    "M": 8558
+    "M": 8544
    },
    "macro_sites": [
     {
@@ -133192,7 +133192,7 @@
      "tu": "src/ov_SC03_103/ov_SC03_103_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3358,
-     "pos": 115981,
+     "pos": 115991,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -133203,7 +133203,7 @@
      "tu": "src/ov_SC03_103/ov_SC03_103_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3358,
-     "pos": 116008,
+     "pos": 116018,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -133214,7 +133214,7 @@
      "tu": "src/ov_SC03_103/ov_SC03_103_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3402,
-     "pos": 117284,
+     "pos": 117294,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "r",
@@ -133225,7 +133225,7 @@
      "tu": "src/ov_SC03_103/ov_SC03_103_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3402,
-     "pos": 117308,
+     "pos": 117318,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "r",
@@ -149010,7 +149010,7 @@
      "tu": "src/ov_SC03_112/ov_SC03_112_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3357,
-     "pos": 115945,
+     "pos": 115955,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -149021,7 +149021,7 @@
      "tu": "src/ov_SC03_112/ov_SC03_112_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3357,
-     "pos": 115972,
+     "pos": 115982,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -149032,7 +149032,7 @@
      "tu": "src/ov_SC03_112/ov_SC03_112_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3401,
-     "pos": 117248,
+     "pos": 117258,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "r",
@@ -149043,7 +149043,7 @@
      "tu": "src/ov_SC03_112/ov_SC03_112_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3401,
-     "pos": 117272,
+     "pos": 117282,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "r",
@@ -151463,7 +151463,7 @@
      "tu": "src/ov_SC03_113/ov_SC03_113_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3357,
-     "pos": 115945,
+     "pos": 115955,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -151474,7 +151474,7 @@
      "tu": "src/ov_SC03_113/ov_SC03_113_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3357,
-     "pos": 115972,
+     "pos": 115982,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -151485,7 +151485,7 @@
      "tu": "src/ov_SC03_113/ov_SC03_113_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3401,
-     "pos": 117248,
+     "pos": 117258,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "r",
@@ -151496,7 +151496,7 @@
      "tu": "src/ov_SC03_113/ov_SC03_113_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3401,
-     "pos": 117272,
+     "pos": 117282,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "r",
@@ -184056,7 +184056,7 @@
      "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c",
      "fn": "func_8017CC2C",
      "line": 3644,
-     "pos": 124384,
+     "pos": 124394,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "p",
@@ -184067,7 +184067,7 @@
      "tu": "src/ov_SC04_011/ov_SC04_011_jr_8017AE2C.c",
      "fn": "func_8017CC2C",
      "line": 3647,
-     "pos": 124520,
+     "pos": 124530,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "p",
@@ -220939,7 +220939,7 @@
      "tu": "src/ov_SC06_008/ov_SC06_008_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3357,
-     "pos": 115938,
+     "pos": 115955,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -220950,7 +220950,7 @@
      "tu": "src/ov_SC06_008/ov_SC06_008_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3357,
-     "pos": 115965,
+     "pos": 115982,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -220961,7 +220961,7 @@
      "tu": "src/ov_SC06_008/ov_SC06_008_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3401,
-     "pos": 117241,
+     "pos": 117258,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "r",
@@ -220972,7 +220972,7 @@
      "tu": "src/ov_SC06_008/ov_SC06_008_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3401,
-     "pos": 117265,
+     "pos": 117282,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "r",
@@ -283022,85 +283022,85 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 17586,
-   "explained_sites": 259632,
-   "deref_sites": 263537,
+   "types": 17517,
+   "explained_sites": 259568,
+   "deref_sites": 263473,
    "explained_pct": 98.5,
    "unassigned_sites": 3905,
-   "conflicts": 792,
-   "suspect": 12,
+   "conflicts": 798,
+   "suspect": 11,
    "evidence": {
     "param": 39384,
-    "arg": 10517,
-    "assign": 19826,
-    "ret-of": 6174,
-    "return": 1542,
-    "assign&": 1413,
-    "arg&": 253,
-    "field": 6122,
+    "arg": 10522,
+    "assign": 19864,
+    "ret-of": 6190,
+    "return": 1541,
+    "assign&": 1410,
+    "arg&": 188,
+    "field": 6148,
     "nested": 9
    },
    "vetoed": {
-    "arg-no-overlap": 27153,
-    "arg&-no-overlap": 3383,
+    "arg-no-overlap": 25902,
+    "arg&-no-overlap": 3507,
     "arg-conduit": 150807,
     "assign&-multisource": 12727,
     "assign-multisource": 34774,
-    "arg&-conduit": 14767,
     "ret-of-multisource": 6801,
+    "arg&-conduit": 14767,
     "field-multisource": 4287,
-    "assign&": 76,
-    "ret-of": 196,
-    "assign": 277,
-    "arg": 64,
-    "return": 5,
-    "field": 132
+    "ret-of": 160,
+    "assign": 271,
+    "assign&": 82,
+    "arg": 99,
+    "return": 8,
+    "field": 48
    },
-   "singletons": 13696,
-   "multi_body": 3890,
-   "sites_in_multi_body": 207106,
+   "singletons": 13632,
+   "multi_body": 3885,
+   "sites_in_multi_body": 207232,
    "top": [
     {
-     "name": "Unkstruct_800D3888",
-     "sites": 19259,
-     "bodies": 4455,
+     "name": "Unkstruct_80191010",
+     "sites": 17139,
+     "bodies": 4182,
      "size_hint": 268,
-     "fields": 120,
-     "conflicts": 50,
-     "sign_mixed": 44,
+     "fields": 111,
+     "conflicts": 39,
+     "sign_mixed": 45,
      "merges": {
-      "arg&": 232,
-      "arg": 6924,
-      "param": 9534,
-      "assign": 7823,
-      "return": 742,
-      "ret-of": 2525,
-      "assign&": 19,
-      "field": 703
+      "assign&": 5,
+      "arg": 4996,
+      "assign": 3446,
+      "param": 9148,
+      "ret-of": 1853,
+      "return": 168,
+      "arg&": 3,
+      "field": 517
      },
      "globals_at": [
-      "D_800D3888",
-      "D_80181538",
-      "D_801818AC"
+      "D_80191010",
+      "D_80191018",
+      "D_8019125C"
      ],
      "globals_ptr": [
-      "D_8006386C",
-      "D_80074778",
-      "D_80074780"
+      "D_800A5E96",
+      "D_800A5EA4",
+      "D_800A5EB5"
      ]
     },
     {
      "name": "Unkstruct_80126B58",
-     "sites": 4977,
-     "bodies": 2467,
+     "sites": 4975,
+     "bodies": 2466,
      "size_hint": 588,
      "fields": 165,
      "conflicts": 40,
      "sign_mixed": 45,
      "merges": {
       "assign&": 104,
-      "param": 2114,
-      "arg": 1116,
+      "param": 2112,
+      "arg": 1115,
       "assign": 41,
       "field": 33
      },
@@ -283113,17 +283113,17 @@
     },
     {
      "name": "Unkstruct_80126948",
-     "sites": 2767,
-     "bodies": 842,
+     "sites": 2680,
+     "bodies": 769,
      "size_hint": 164,
      "fields": 32,
      "conflicts": 0,
      "sign_mixed": 2,
      "merges": {
       "arg&": 1,
-      "param": 8,
-      "arg": 17,
       "assign": 101,
+      "param": 6,
+      "arg": 16,
       "assign&": 4
      },
      "globals_at": [
@@ -283265,27 +283265,6 @@
      "globals_ptr": []
     },
     {
-     "name": "Unkstruct_8012D3B4",
-     "sites": 1635,
-     "bodies": 187,
-     "size_hint": 38,
-     "fields": 27,
-     "conflicts": 20,
-     "sign_mixed": 8,
-     "merges": {
-      "assign": 82,
-      "param": 18,
-      "return": 6,
-      "arg": 11,
-      "ret-of": 53
-     },
-     "globals_at": [],
-     "globals_ptr": [
-      "D_80074808",
-      "D_800A5E60"
-     ]
-    },
-    {
      "name": "Unkstruct_d77ead3e",
      "sites": 1596,
      "bodies": 133,
@@ -283299,6 +283278,27 @@
      },
      "globals_at": [],
      "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_8012D3B4",
+     "sites": 1592,
+     "bodies": 184,
+     "size_hint": 36,
+     "fields": 23,
+     "conflicts": 16,
+     "sign_mixed": 9,
+     "merges": {
+      "assign": 78,
+      "return": 5,
+      "param": 16,
+      "arg": 10,
+      "ret-of": 53
+     },
+     "globals_at": [],
+     "globals_ptr": [
+      "D_80074808",
+      "D_800A5E60"
+     ]
     },
     {
      "name": "Unkstruct_80146A6C",
@@ -283413,6 +283413,35 @@
      "globals_ptr": []
     },
     {
+     "name": "Unkstruct_800D3888",
+     "sites": 1162,
+     "bodies": 273,
+     "size_hint": 266,
+     "fields": 38,
+     "conflicts": 13,
+     "sign_mixed": 7,
+     "merges": {
+      "arg&": 164,
+      "param": 120,
+      "arg": 1842,
+      "assign": 5095,
+      "assign&": 19,
+      "return": 544,
+      "ret-of": 450,
+      "field": 474
+     },
+     "globals_at": [
+      "D_800D3888",
+      "D_80184070",
+      "D_801845C4"
+     ],
+     "globals_ptr": [
+      "D_8006386C",
+      "D_80074778",
+      "D_80074780"
+     ]
+    },
+    {
      "name": "Unkstruct_8e3dbe51",
      "sites": 1140,
      "bodies": 38,
@@ -283436,18 +283465,6 @@
       "param": 2,
       "assign": 1
      },
-     "globals_at": [],
-     "globals_ptr": []
-    },
-    {
-     "name": "Unkstruct_cedd385d",
-     "sites": 1088,
-     "bodies": 34,
-     "size_hint": 75,
-     "fields": 8,
-     "conflicts": 0,
-     "sign_mixed": 1,
-     "merges": {},
      "globals_at": [],
      "globals_ptr": []
     }
@@ -283484,7 +283501,7 @@
   },
   "global_blocks": {
    "n": 2122,
-   "members": 14248,
+   "members": 14245,
    "top": [
     {
      "base": "0x800cf10c",
@@ -283530,17 +283547,6 @@
      "widths": {
       "4": 21,
       "1": 2
-     }
-    },
-    {
-     "base": "0x801a9608",
-     "size": 80,
-     "members": 22,
-     "first": "D_801A9608",
-     "last": "D_801A9654",
-     "widths": {
-      "4": 18,
-      "2": 4
      }
     },
     {
@@ -283646,6 +283652,17 @@
      "widths": {
       "4": 20
      }
+    },
+    {
+     "base": "0x80191a90",
+     "size": 77,
+     "members": 20,
+     "first": "D_80191A90",
+     "last": "D_80191ADC",
+     "widths": {
+      "4": 19,
+      "1": 1
+     }
     }
    ]
   },
@@ -283663,9 +283680,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 38.4,
-   "decls_s": 184.4,
-   "total_s": 193.7
+   "walk_s": 39.5,
+   "decls_s": 185.6,
+   "total_s": 194.5
   }
  },
  "dup_layout_classes": [
