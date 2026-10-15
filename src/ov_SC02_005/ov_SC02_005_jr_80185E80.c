@@ -249,9 +249,9 @@ void func_8018622C(MainStruct *a0) {
 
 
 void func_801862E0(s32 *a0) {
-        s32 v0 = *(s32 *)((s32)a0 + 0xCC);
-        *(s16 *)((s32)a0 + 0x98) = 0;
-        *(s16 *)(v0 + 0x98) = 0;
+        s32 v0 = ((Unkstruct_800B5CB8 *)a0)->unkCC;
+        ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
+        ((Unkstruct_800B5CB8 *)v0)->unk98 = 0;
     }
 
 
@@ -846,10 +846,10 @@ extern s32 D_801E43A0;
 
 void func_80186F14(void *a0)
 {
-    if (*(s16*)((s32)a0 + 0xFC) == 0 &&
+    if (((Unkstruct_800B5CB8 *)a0)->unkFC == 0 &&
         (D_801E43A0 & 0x1540) != 0x1540) {
-        *(s16*)((s32)a0 + 0xFC) = 8;
-        *(s32*)((s32)a0 + 0xE8) &= ~0x40;
+        ((Unkstruct_800B5CB8 *)a0)->unkFC = 8;
+        ((Unkstruct_800B5CB8 *)a0)->unkE8 &= ~0x40;
     }
 }
 
@@ -1487,8 +1487,8 @@ void func_80187CD4(int param_1)
 
 extern void func_801821C8(s32 *a0);
 void func_80187D0C(s32 *a0) {
-    *(s32 *)((char *)a0 + 0xE8) &= ~0x20;
-    if (*(s32 *)((char *)a0 + 0x94) == 6) {
+    ((Unkstruct_800B5CB8 *)a0)->unkE8 &= ~0x20;
+    if (((Unkstruct_800B5CB8 *)a0)->unk94 == 6) {
         func_801821C8(a0);
     }
 }
@@ -3664,17 +3664,17 @@ void func_8018B058(s32 a0)
 
     angle = D_801E2F00;
 
-    vec.vx = *(s32 *)(a0 + 0x10) >> 2;
+    vec.vx = CAST_WIDTH(s32, a0, 0x10) >> 2;
     vec.vy = (s32)0xFFF40000;
-    vec.vz = *(s32 *)(a0 + 0x18) >> 2;
+    vec.vz = CAST_WIDTH(s32, a0, 0x18) >> 2;
     *(s16 *)&angle.b[2] = -0x100;
 
     for (i = 0; i < 4; i++) {
         s0 = func_8012C658(0x54, D_80196870[i], 0);
         if (s0 != 0) {
-            CAST_WIDTH(s32, s0, 4) = *(s32 *)(a0 + 4);
-            CAST_WIDTH(s32, s0, 8) = *(s32 *)(a0 + 8);
-            CAST_WIDTH(s32, s0, 0xC) = *(s32 *)(a0 + 0xC);
+            CAST_WIDTH(s32, s0, 4) = CAST_WIDTH(s32, a0, 4);
+            CAST_WIDTH(s32, s0, 8) = CAST_WIDTH(s32, a0, 8);
+            CAST_WIDTH(s32, s0, 0xC) = CAST_WIDTH(s32, a0, 0xC);
             func_8004978C((s16 *)&angle, &mtx);
             func_8012B23C(s0);
             func_800484EC((s32)&mtx, (s32)&vec, s0 + 0x10);

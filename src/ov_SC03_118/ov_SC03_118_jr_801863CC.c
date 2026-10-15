@@ -3762,9 +3762,9 @@ void func_80187AEC(s32 a0)
     s32 xy;
     s32 hi;
 
-    trio[0].v = *(s32 *)(D_801151D4 + 0x5C);
-    trio[1].v = *(s32 *)(D_801151D4 + 0x60);
-    trio[2].v = *(s32 *)(D_801151D4 + 0x64);
+    trio[0].v = ((Unkstruct_80126948 *)D_801151D4)->unk5C;
+    trio[1].v = ((Unkstruct_80126948 *)D_801151D4)->unk60;
+    trio[2].v = ((Unkstruct_80126948 *)D_801151D4)->unk64;
 
     func_8012B77C((s32)&xy, a0 + 4, (s32)trio);
 

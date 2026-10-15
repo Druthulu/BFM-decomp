@@ -963,9 +963,9 @@ extern void func_800D0C48(s32 a0);
 
 void func_80184918(s32 arg0, s32 arg1) {
     func_800D0C48(1);
-    *(s16 *)((s32)arg0 + 0x104) = 1;
-    *(s32 *)((s32)arg0 + 0xE4) = 0x1E;
-    *(s32 *)((s32)arg0 + 0xE0) = arg1;
+    ((Unkstruct_800B5CB8 *)arg0)->unk104 = 1;
+    ((Unkstruct_800B5CB8 *)arg0)->unkE4 = 0x1E;
+    ((Unkstruct_800B5CB8 *)arg0)->unkE0 = arg1;
 }
 
 

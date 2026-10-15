@@ -6186,7 +6186,7 @@ void func_8018A2F4(void)
 
     ptr = D_801151D4;
     loc[1] = v = -(func_8012A68C() * 240 / 682);
-    loc[1] = v + 0x500 + *(s32 *)(ptr + 0x4C);
+    loc[1] = v + 0x500 + ((Unkstruct_80126948 *)ptr)->unk4C;
     if ((s16)loc[1] < 0) {
         loc[1] = 0;
     }

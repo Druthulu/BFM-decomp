@@ -3538,9 +3538,9 @@ void func_8017E3AC(s32 a0) {
     s32 pos;
 
     act = a0;
-    if ((*(u32 *)(act + 0xE0) & 1) == 0) {
-        if (func_8012BD3C(act, 0x400, *(s32 *)(act + 0xDC)) == 0) {
-            *(u16 *)(act + 2) = 1;
+    if ((CAST_SIGN(u32, act, 0xE0) & 1) == 0) {
+        if (func_8012BD3C(act, 0x400, ((Unkstruct_800B5CB8 *)act)->unkDC) == 0) {
+            ((Unkstruct_800B5CB8 *)act)->unk2 = 1;
         } else {
             func_8012A828(act, (s32)D_801A9C08);
             if (func_8012E778(act, 0x8C00B4) == 1) {
@@ -3549,12 +3549,12 @@ void func_8017E3AC(s32 a0) {
         }
     }
 
-    if (*(s32 *)(act + 0x94) == 0x19) {
+    if (((Unkstruct_800B5CB8 *)act)->unk94 == 0x19) {
         func_8012F214(act, (s32)D_801A50F4, (s32)&sp10);
         func_8012F214(act, (s32)&D_801A50F4[8], (s32)&sp18);
         i = 0;
         {
-            s32 fv = *(u16 *)(*(s32 *)(act + 0x20) + 0x12);
+            s32 fv = ((Unkstruct_800B5CB8 *)*(s32 *)(act + 0x20))->unk12;
             angp = fv + 0x400;
             angm = fv - 0x400;
         }
@@ -6537,7 +6537,7 @@ s32 func_80182CE4(s32 param_1, s32 param_2)
     s32 ang;
 
     sub = CAST_WIDTH(s32, param_1, 0x2C);
-    if (*(u16 *)sub == 0) {
+    if (((Unkstruct_800B5CB8 *)sub)->unk0 == 0) {
         return 0;
     }
     mat = D_800AE620;

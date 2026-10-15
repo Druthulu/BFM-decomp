@@ -2816,7 +2816,7 @@ void func_8017D01C(void) {
 extern void (*D_8018471C[])(void);
 
 void func_8017D0D4(void *a0) {
-    D_8018471C[*(u8 *)((s32)a0 + 0x4)]();
+    D_8018471C[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -2854,13 +2854,13 @@ void func_8017D110(s32 param_1)
     }
     sp10 = D_80126940;
 
-    r = func_8004787C(((s16 *)D_80126B78)[9]);
+    r = func_8004787C(((Unkstruct_801463A0 *)D_80126B78)->unk12);
     if (r < 0) {
         r += 0x7F;
     }
     sp18.v[0] = sp10.v[0] - (r >> 7);
 
-    r = func_80047948(((s16 *)D_80126B78)[9]);
+    r = func_80047948(((Unkstruct_801463A0 *)D_80126B78)->unk12);
     if (r < 0) {
         r += 0x7F;
     }
@@ -3082,18 +3082,18 @@ void func_8017D96C(void *a0)
     void *s0 = a0;
     s32 v0 = ((s32 (*)(void))func_8012C1B8)();
 
-    *(s32 *)((u8 *)s0 + 0x20) = v0;
+    ((Unkstruct_800B5CB8 *)s0)->unk20 = v0;
 
     if (!v0) {
         func_8012CAE4(s0);
     } else {
-        s32 mode = *(u16 *)((u8 *)s0 + 0x70) & 3;
+        s32 mode = CAST_SIGN(u16, (u8 *)s0, 0x70) & 3;
         s32 v1;
         s32 e;
         s32 argmode;
         s32 callarg0;
 
-        *(s16 *)((u8 *)s0 + 0xFE) = mode;
+        ((Unkstruct_800B5CB8 *)s0)->unkFE = mode;
         v1 = mode;
         __asm__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
 
@@ -3111,45 +3111,45 @@ void func_8017D96C(void *a0)
         goto case23;
 
     case0:
-        func_8001C810(*(s32 *)((u8 *)s0 + 0x20), (s32)D_8019C94C);
+        func_8001C810(((Unkstruct_800B5CB8 *)s0)->unk20, (s32)D_8019C94C);
         callarg0 = 0x199;
-        e = *(s32 *)((u8 *)s0 + 0x20);
+        e = ((Unkstruct_800B5CB8 *)s0)->unk20;
         argmode = 2;
         goto shared;
 
     case1:
-        func_8001C810(*(s32 *)((u8 *)s0 + 0x20), (s32)D_8019D3AC);
+        func_8001C810(((Unkstruct_800B5CB8 *)s0)->unk20, (s32)D_8019D3AC);
         callarg0 = 0x199;
-        e = *(s32 *)((u8 *)s0 + 0x20);
+        e = ((Unkstruct_800B5CB8 *)s0)->unk20;
         __asm__("" : "=r"(e) : "0"(e));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
         argmode = 3;
 
     shared:
         {
-            s32 t = *(s32 *)(e + 4);
+            s32 t = CAST_WIDTH(s32, e, 4);
             t |= 0x8040;
-            *(s32 *)(e + 4) = t;
+            CAST_WIDTH(s32, e, 4) = t;
             func_8012C658(callarg0, argmode, (s32)s0);
         }
         goto tail;
 
     case23:
-        func_8001C2C4(*(s32 *)((u8 *)s0 + 0x20));
-        v0 = *(s32 *)((u8 *)s0 + 0x64);
-        func_8001C1E4(*(s32 *)((u8 *)s0 + 0x20), *(s32 *)(v0 + 0x20));
-        *(s16 *)((u8 *)s0 + 0xA) = 0x90;
-        *(s32 *)((u8 *)s0 + 0x58) = (s32)D_801847B0 | 0x40000000;
-        *(s16 *)((u8 *)s0 + 0x5C) = 0x4400;
-        *(s16 *)((u8 *)s0 + 0x6) = 0;
-        *(s16 *)((u8 *)s0 + 0xE) = 0;
-        *(u8 *)((u8 *)s0 + 0x75) = 4;
+        func_8001C2C4(((Unkstruct_800B5CB8 *)s0)->unk20);
+        v0 = ((Unkstruct_800B5CB8 *)s0)->unk64;
+        func_8001C1E4(((Unkstruct_800B5CB8 *)s0)->unk20, *(s32 *)(v0 + 0x20));
+        ((Unkstruct_800B5CB8 *)s0)->unkA = 0x90;
+        ((Unkstruct_800B5CB8 *)s0)->unk58 = (s32)D_801847B0 | 0x40000000;
+        ((Unkstruct_800B5CB8 *)s0)->unk5C = 0x4400;
+        ((Unkstruct_800B5CB8 *)s0)->unk6 = 0;
+        ((Unkstruct_800B5CB8 *)s0)->unkE = 0;
+        ((Unkstruct_800B5CB8 *)s0)->unk75 = 4;
 
     tail:
-        v0 = *(u16 *)((u8 *)s0 + 0x70) & 0xFF0;
-        *(s16 *)((u8 *)s0 + 0x100) = v0;
-        e = *(s32 *)((u8 *)s0 + 0x20);
-        v0 = *(s32 *)(e + 4) | 0x8000;
-        *(s32 *)(e + 4) = v0;
+        v0 = CAST_SIGN(u16, (u8 *)s0, 0x70) & 0xFF0;
+        ((Unkstruct_800B5CB8 *)s0)->unk100 = v0;
+        e = ((Unkstruct_800B5CB8 *)s0)->unk20;
+        v0 = CAST_WIDTH(s32, e, 4) | 0x8000;
+        CAST_WIDTH(s32, e, 4) = v0;
         func_8012AD50(s0);
     }
 }
@@ -4060,15 +4060,15 @@ void func_8017F0B0(void *a0)
     s32 result;
 
     s0 = a0;
-    v0 = *(u16 *)((u8 *)s0 + 2);
+    v0 = CAST_SIGN(u16, (u8 *)s0, 2);
     D_8019E7AC[v0]();
 
     func_801809A0(s0);
-    v0 = *(u16 *)((u8 *)s0 + 0x70);
+    v0 = CAST_SIGN(u16, (u8 *)s0, 0x70);
     if (v0 & 1)
         goto L_end;
 
-    v0 = *(u16 *)s0;
+    v0 = ((Unkstruct_800B5CB8 *)s0)->unk0;
     if (!v0)
         goto L_end;
 

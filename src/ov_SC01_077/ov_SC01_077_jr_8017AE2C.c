@@ -3123,7 +3123,7 @@ extern s16 D_801DA7B6;
 extern s16 D_801DA7B8;
 
 void func_8017B824(void) {
-    D_801DA7AC = (s16) M2C_FIELD(D_801151D4, s32 *, 0x48);
+    D_801DA7AC = (s16) ((Unkstruct_80126948 *)D_801151D4)->unk48;
     D_801DA7AE = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
     D_801DA7B0 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
     D_801DA7B4 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x3C);
@@ -4065,7 +4065,7 @@ M2C_UNK func_8017D98C(void)
 extern s32 (*D_8018A530[])(void *);
 
 s32 func_8017DA08(void *a0) {
-    return D_8018A530[*(u8 *)((s32)a0 + 4)](a0);
+    return D_8018A530[((Unkstruct_80126948 *)a0)->unk4](a0);
 }
 
 extern s32 func_8004787C(s32 a0);
@@ -4077,12 +4077,12 @@ void func_8017DA44(void *arg0) {
     s32 var_v0;
     s32 var_v0_2;
 
-    var_v0 = -func_8004787C(M2C_FIELD(D_80126B78, s16 *, 0x12));
+    var_v0 = -func_8004787C(((Unkstruct_801463A0 *)D_80126B78)->unk12);
     if (var_v0 < 0) {
         var_v0 += 0x3F;
     }
     M2C_FIELD(arg0, s16 *, 0x2E) = (s16) (var_v0 >> 6);
-    var_v0_2 = -func_80047948(M2C_FIELD(D_80126B78, s16 *, 0x12));
+    var_v0_2 = -func_80047948(((Unkstruct_801463A0 *)D_80126B78)->unk12);
     if (var_v0_2 < 0) {
         var_v0_2 += 0x1F;
     }

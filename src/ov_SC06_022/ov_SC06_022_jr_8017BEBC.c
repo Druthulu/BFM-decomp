@@ -4070,19 +4070,19 @@ void func_8017EFE0(s32 arg0) {
     i = 0;
     p = D_801202A0;
     for (; i < 0x60; i++, p += 0x10C) {
-        kind = *(u16 *)p;
+        kind = ((Unkstruct_800B5CB8 *)p)->unk0;
         if (kind == 0x27A) {
-            buf1[0] = *(u16 *)(p + 0x3A);
-            buf1[1] = *(u16 *)(p + 0x3E);
-            buf1[2] = *(u16 *)(p + 0x42);
-            buf2[0] = *(u16 *)(p + 0x6);
-            buf2[1] = *(u16 *)(p + 0xA);
-            buf2[2] = *(u16 *)(p + 0xE);
+            buf1[0] = ((Unkstruct_800B5CB8 *)p)->unk3A;
+            buf1[1] = ((Unkstruct_800B5CB8 *)p)->unk3E;
+            buf1[2] = ((Unkstruct_800B5CB8 *)p)->unk42;
+            buf2[0] = ((Unkstruct_800B5CB8 *)p)->unk6;
+            buf2[1] = ((Unkstruct_800B5CB8 *)p)->unkA;
+            buf2[2] = ((Unkstruct_800B5CB8 *)p)->unkE;
             if (func_80135A4C(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58),
                               (s32 *)buf1, (s32)buf2) != 0) {
-                *(u16 *)(p + 0x6) = buf2[0];
-                *(u16 *)(p + 0xA) = buf2[1];
-                *(u16 *)(p + 0xE) = buf2[2];
+                ((Unkstruct_800B5CB8 *)p)->unk6 = buf2[0];
+                ((Unkstruct_800B5CB8 *)p)->unkA = buf2[1];
+                ((Unkstruct_800B5CB8 *)p)->unkE = buf2[2];
             }
         }
     }

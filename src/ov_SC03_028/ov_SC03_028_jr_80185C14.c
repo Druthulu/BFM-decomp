@@ -3251,8 +3251,8 @@ void func_80186234(void *arg0) {
     s0 = (s32)arg0;
     func_8012AD44((s32 *)s0, 3);
     v0 = *(s32 *)(s0 + 0x64);
-    p = *(s32 **)(v0 + 0x20);
-    *(s32 *)(p + 1) &= 0x7FFFFFFF;
+    p = CAST_SIGN(s32 *, v0, 0x20);
+    CAST_MISALIGNED(s32, p, 1) &= 0x7FFFFFFF;
     do { ((Unkstruct_800B5CB8 *)D_801EC450)->unk2 = 0x7; } while (0);
     ((Unkstruct_800B5CB8 *)D_801EC450)->unk6 = 0x180;
     CAST_ALIAS(s16, (s32)D_801EC450, 0x0A) = -0x1C8;
@@ -4458,10 +4458,10 @@ void func_80187C28(void *a0)
 extern void func_80183264(s32 a0);
 
 void func_80187CF4(void *a0) {
-    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x1C) += 0xA00;
-    if (*(s16 *)((s32)a0 + 0xFC) == 4) {
-        *(u16 *)((s32)a0 + 0x2) = 2;
-        *(s32 *)((s32)a0 + 0x1C) = 0x79;
+    *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1C) += 0xA00;
+    if (((Unkstruct_800B5CB8 *)a0)->unkFC == 4) {
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x79;
     }
     func_80183264((s32)a0);
 }

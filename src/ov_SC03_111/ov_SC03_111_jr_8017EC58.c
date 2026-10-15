@@ -3477,7 +3477,7 @@ void func_8018093C(void) {
 extern void (*D_80188A48[])(void);
 
 void func_801809D4(void *a0) {
-    D_80188A48[*(u8 *)((s32)a0 + 0x4)]();
+    D_80188A48[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -3790,8 +3790,8 @@ void func_801811E0(s32 param_1)
     *(s32 *)(param_1 + 0xC) =
         func_80047948(*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12)) * *(s32 *)(param_1 + 0xDC) << 4;
     if (*(u8 *)(param_1 + 0x74) != 0) {
-        *(u16 *)((s32)D_80126B78 + 0x12) =
-            *(u16 *)((s32)D_80126B78 + 0x12) + *(u16 *)(param_1 + 0xFC);
+        ((Unkstruct_801463A0 *)D_80126B78)->unk12 =
+            CAST_SIGN(u16, (s32)D_80126B78, 0x12) + *(u16 *)(param_1 + 0xFC);
         func_8012DFD4((u8 *)param_1);
     }
 }
@@ -5069,9 +5069,9 @@ void func_80183404(void *a0) {
     s32 sp20[2];  /* 0x20: the 8-byte out buffer */
     s32 t;
 
-    *(s16 *)((s32)sp10 + 0x2) = *(s32 *)(D_801151D4 + 0x5C);
-    *(s16 *)((s32)sp10 + 0x6) = *(s32 *)(D_801151D4 + 0x60);
-    *(s16 *)((s32)sp10 + 0xA) = *(s32 *)(D_801151D4 + 0x64);
+    *(s16 *)((s32)sp10 + 0x2) = ((Unkstruct_80126948 *)D_801151D4)->unk5C;
+    *(s16 *)((s32)sp10 + 0x6) = CAST_ALIAS(s32, D_801151D4, 0x60);
+    *(s16 *)((s32)sp10 + 0xA) = CAST_ALIAS(s32, D_801151D4, 0x64);
     func_8012B77C((s32)sp20, (s32)a0 + 4, (s32)sp10);
     t = sp20[0];
     *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) = t;
@@ -5179,10 +5179,10 @@ void func_80183624(s32 a0)
     if (((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)anim) >= 0x4000) {
         s32 d = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12),
                               func_8012B744((void *)(a0 + 4), (void *)anim), 0x10);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + d;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 + d;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 & 0xFFF;
         func_8012B1B4(a0, (s32)D_801B1C64);
     } else {
         if (func_8012BD3C(a0, 0x200, 0x40000) == 1) {

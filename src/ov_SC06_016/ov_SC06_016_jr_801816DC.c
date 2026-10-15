@@ -3894,7 +3894,7 @@ void func_80182BCC(void) {
 extern void (*D_8019A47C[])(void);
 
 void func_80182BF4(void *a0) {
-    D_8019A47C[*(u8 *)((s32)a0 + 0x216)]();
+    D_8019A47C[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
@@ -3942,7 +3942,7 @@ void func_80182CB8(void) {
 extern void (*D_8019A490[])(void);
 
 void func_80182CE0(void *a0) {
-    D_8019A490[*(u8 *)((s32)a0 + 0x216)]();
+    D_8019A490[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 

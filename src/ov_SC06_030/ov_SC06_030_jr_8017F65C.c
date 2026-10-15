@@ -3618,7 +3618,7 @@ void func_80180C7C(void) {
 extern void (*D_801B4C84[])(void);
 
 void func_80180CA4(void *a0) {
-    D_801B4C84[*(u8 *)((s32)a0 + 0x216)]();
+    D_801B4C84[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
@@ -3663,7 +3663,7 @@ void func_80180D68(void) {
 extern void (*D_801B4C98[])(void);
 
 void func_80180D90(void *a0) {
-    D_801B4C98[*(u8 *)((s32)a0 + 0x216)]();
+    D_801B4C98[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
@@ -3799,7 +3799,7 @@ void func_80180FF4(void *param_1)
     D_801B9F10 = 0;
     for (; i < 0x60; i++) {
         p = (u8 *)(D_801202A0) + i * 0x10c;
-        if (*(u16 *)p == 0x26E) {
+        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x26E) {
             t = (s16)func_80013328((s32)arg0 + 4, (s32)p + 4);
             if (t < best) {
                 best = t;

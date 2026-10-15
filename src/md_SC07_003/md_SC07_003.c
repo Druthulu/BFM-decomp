@@ -3266,7 +3266,7 @@ void func_801A4268(s32 self)
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_801A43E8(void *a0) {
-    switch (*(u16 *)((s32)a0 + 0x5E)) {
+    switch (CAST_WIDTH(u16, (s32)a0, 0x5E)) {
     case 1:
     case 2:
     case 3:
@@ -3277,7 +3277,7 @@ void func_801A43E8(void *a0) {
     case 8:
     case 35:
         func_8002D4C8(0xC33, 0);
-        *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0xE8) += 0x2000;
+        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) += 0x2000;
         break;
     case 11:
     case 12:
@@ -3291,18 +3291,18 @@ void func_801A43E8(void *a0) {
     case 25:
     case 26:
         func_8002D4C8(0xC33, 0);
-        *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0xE8) += 0x4000;
+        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) += 0x4000;
         break;
     case 36:
         func_8002D4C8(0xC33, 0);
-        *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0xE8) += 0x4000;
+        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) += 0x4000;
         break;
     default:
-        *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0xE8) += 0x2000;
+        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) += 0x2000;
         break;
     }
-    if (*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0xE8) > 0x10000) {
-        *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0xE8) = 0x10000;
+    if (*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) > 0x10000) {
+        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) = 0x10000;
     }
 }
 

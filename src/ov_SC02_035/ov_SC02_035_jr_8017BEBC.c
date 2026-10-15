@@ -4475,19 +4475,19 @@ void func_8017FB1C(s32 a0) {
     ent = a0;
     i = 0;
     base = -0x40000;
-    angle = ((*(u16 *)(ent + 0x70) & 0xF) | -0x8000) << 16;
+    angle = ((CAST_SIGN(u16, ent, 0x70) & 0xF) | -0x8000) << 16;
     while (i < 4) {
         func_801803F8((void *)(ent + 0x7C),
-                      *(s16 *)(*(s32 *)(ent + 0x20) + 0x12),
+                      *(s16 *)(((Unkstruct_800B5CB8 *)ent)->unk20 + 0x12),
                       base - rand() % 4 * 0x10000,
                       angle >> 16);
         i++;
     }
-    *(s32 *)(ent + 0xEC) = 0x40000;
+    CAST_WIDTH(s32, ent, 0xEC) = 0x40000;
     func_8012B23C((void *)ent);
-    func_8012B178(ent, *(s32 *)(ent + 0xEC));
-    *(s32 *)(ent + 0x1C) = 0x10;
-    *(s16 *)(ent + 0x34) = 0;
+    func_8012B178(ent, CAST_WIDTH(s32, ent, 0xEC));
+    ((Unkstruct_800B5CB8 *)ent)->unk1C = 0x10;
+    ((Unkstruct_800B5CB8 *)ent)->unk34 = 0;
 }
 
 
@@ -5111,7 +5111,7 @@ s32 func_80180B38(s32 a0, s32 a1)
     s32 trailing[4];
 
     partner = CAST_WIDTH(s32, a0, 0x2C);
-    if (*(u16 *)partner == 0) {
+    if (((Unkstruct_800B5CB8 *)partner)->unk0 == 0) {
         return 0;
     }
 

@@ -4329,7 +4329,7 @@ void func_8017DBAC(s32 arg0)
 }
 
 void func_8017DBE0(u8 *a0) {
-        *(s8 *)(a0 + 0xA0) = 0x6;
+        CAST_WIDTH(s8, a0, 0xA0) = 0x6;
     }
 
 
