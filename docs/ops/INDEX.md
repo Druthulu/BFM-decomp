@@ -64,3 +64,4 @@ mcp-reconnect-after-restart.md | mcp-reconnect-after-restart | 9
 | p39-t6-2026-10-02-restruct-rung-d-callers.md | §P39 T6 — 2026-10-02: restruct rung D caller-only units, alias defs, shared-header def scope | 4
 | p39-t71-2026-10-02-gte-one-spelling.md | §P39 T7.1 — 2026-10-02: lever_census strict via-header filter; gte_consolidate header variants, --keep-levers | 4
 | p39-t8-2026-10-02-lever-residue.md | §P39 T8 — 2026-10-02: lever_census --write-residue; config/lever_residue.tsv columns and cause vocabulary | 2
+| p40-t1-2026-10-14-census-dirs-ledgers.md | §P40 T1 — 2026-10-14: census dir per tool; P37/P39 gap = defline sites; ledgers local + .run/keep gz | 4
