@@ -3329,8 +3329,8 @@ void func_8017EA44(s32 a0)
 
     a2 = 0;
     a3 = 0;
-    temp = (*(u16 *)(s0 + 0xF4) + 0x800) & 0xFFF;
-    *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) = temp;
+    temp = (CAST_WIDTH(u16, s0, 0xF4) + 0x800) & 0xFFF;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 = temp;
     *(u16 *)(s0 + 0x244) = temp;
     func_80146DE8((s32 *)s0, a2, a3, 0x100000);
 
@@ -10531,8 +10531,8 @@ s32 impl_80188560(s32 a0, s32 a1)
 
     rec = func_80132EF4(a0, 0x5C);
     if (rec != 0) {
-        *(s32 *)((s32)rec + 0x34) = a0;
-        *(s32 *)((s32)rec + 0x30) = a1;
+        CAST_WIDTH(s32, (s32)rec, 0x34) = a0;
+        ((Unkstruct_800B5CB8 *)rec)->unk30 = a1;
     }
     func_8002D4C8(0x88A, 0);
     return rec;
@@ -11703,7 +11703,7 @@ void func_8018A0E0(s32 arg0)
     for (i = 0; i < 6; i++) {
         p = func_80132EF4(arg0, 0x22);
         if (p != 0) {
-            *(s32 *)(p + 0x34) = 0x6002;
+            CAST_WIDTH(s32, p, 0x34) = 0x6002;
             func_800484EC((s32)&m, (s32)D_80194A68, p + 0x10);
         }
         RotMatrixZ(0x100, &m);

@@ -4323,17 +4323,17 @@ void func_8018BE88(s32 arg0) {
     s32 self = arg0;
     s32 i;
 
-    *(s16 *)(self + 0x6) = 0;
-    *(s16 *)(self + 0xA) = 0;
-    *(s16 *)(self + 0xE) = -0x30;
-    func_80132784(self, *(s32 *)(self + 0xCC), *(u16 *)(self + 0x70));
+    ((Unkstruct_800B5CB8 *)self)->unk6 = 0;
+    ((Unkstruct_800B5CB8 *)self)->unkA = 0;
+    CAST_ALIAS(s16, self, 0xE) = -0x30;
+    func_80132784(self, ((Unkstruct_800B5CB8 *)self)->unkCC, CAST_SIGN(u16, self, 0x70));
 
-    *(s16 *)(self + 0x6) = *(s32 *)(*(void **)(self + 0x20) + 0x48);
-    *(s16 *)(self + 0xA) = *(s32 *)(*(void **)(self + 0x20) + 0x4C);
-    *(s16 *)(self + 0xE) = *(s32 *)(*(void **)(self + 0x20) + 0x50);
+    ((Unkstruct_800B5CB8 *)self)->unk6 = ((Unkstruct_800B5CB8 *)*(void **)(self + 0x20))->unk48;
+    ((Unkstruct_800B5CB8 *)self)->unkA = ((Unkstruct_800B5CB8 *)*(void **)(self + 0x20))->unk4C;
+    ((Unkstruct_800B5CB8 *)self)->unkE = ((Unkstruct_800B5CB8 *)*(void **)(self + 0x20))->unk50;
     i = 0;
 
-    *(u32 *)(*(s32 *)(self + 0x20) + 4) |= 0x80000000;
+    *(u32 *)(((Unkstruct_800B5CB8 *)self)->unk20 + 4) |= 0x80000000;
 
     for (; i < 8; i++) {
         func_8012C658(0x55, i, self);
@@ -4343,16 +4343,16 @@ void func_8018BE88(s32 arg0) {
 
     {
         s32 t = *(s16 *)&D_80126B5E;
-        s32 u = *(s16 *)(self + 0x6);
-        *(s32 *)(self + 0x14) = 0;
-        *(s32 *)(self + 0x10) = (t - u) << 13;
+        s32 u = CAST_SIGN(s16, self, 0x6);
+        ((Unkstruct_800B5CB8 *)self)->unk14 = 0;
+        CAST_WIDTH(s32, self, 0x10) = (t - u) << 13;
     }
 
     {
         s32 t = *(s16 *)&D_80126B66;
-        s32 u = *(s16 *)(self + 0xE) + 0x20;
-        *(s32 *)(self + 0x1C) = 4;
-        *(s32 *)(self + 0x18) = (t - u) << 13;
+        s32 u = CAST_SIGN(s16, self, 0xE) + 0x20;
+        CAST_ALIAS(s32, self, 0x1C) = 4;
+        CAST_WIDTH(s32, self, 0x18) = (t - u) << 13;
     }
 
     func_8012AD44((s32 *)self, 2);

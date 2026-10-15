@@ -5897,28 +5897,28 @@ void func_801838B0(s32 a0)
     s16 buf1[3];
     s16 buf2[4];
 
-    *(u8 *)(s0 + 0xC0) = 1;
+    ((Unkstruct_800B5CB8 *)s0)->unkC0 = 1;
     func_8012A828(s0, &D_8018BD04);
 
     v0 = rand();
     i = 0;
-    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12) =
-        *(u16 *)(*(s32 *)(*(s32 *)(s0 + 0x64) + 0x20) + 0x12) + (v0 & 0xFF) - 0x80;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 =
+        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 0x20) + 0x12) + (v0 & 0xFF) - 0x80;
 
-    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) =
-        *(u16 *)(*(s32 *)(*(s32 *)(s0 + 0x64) + 0x20) + 0x10);
+    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk10 =
+        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 0x20) + 0x10);
     func_8012B2CC(s0);
 
     func_8012B14C(s0, (s32)&D_8019024C);
 
-    buf1[0] = *(u16 *)(s0 + 0x6);
-    buf1[1] = *(u16 *)(s0 + 0xA);
-    buf1[2] = *(u16 *)(s0 + 0xE);
+    buf1[0] = ((Unkstruct_800B5CB8 *)s0)->unk6;
+    buf1[1] = ((Unkstruct_800B5CB8 *)s0)->unkA;
+    buf1[2] = ((Unkstruct_800B5CB8 *)s0)->unkE;
 
     do {
-        buf2[0] = (*(s32 *)(s0 + 0x4) + *(s32 *)(s0 + 0x10) * i) >> 16;
-        buf2[1] = (*(s32 *)(s0 + 0x8) + *(s32 *)(s0 + 0x14) * i) >> 16;
-        buf2[2] = (*(s32 *)(s0 + 0xC) + *(s32 *)(s0 + 0x18) * i) >> 16;
+        buf2[0] = (CAST_WIDTH(s32, s0, 0x4) + CAST_WIDTH(s32, s0, 0x10) * i) >> 16;
+        buf2[1] = (CAST_WIDTH(s32, s0, 0x8) + ((Unkstruct_800B5CB8 *)s0)->unk14 * i) >> 16;
+        buf2[2] = (CAST_WIDTH(s32, s0, 0xC) + CAST_WIDTH(s32, s0, 0x18) * i) >> 16;
         if (func_801343C4(1, (s32)buf1, (s32)buf2)) {
             break;
         }
@@ -5928,11 +5928,11 @@ void func_801838B0(s32 a0)
         i++;
     } while (i < 16);
 
-    *(s16 *)(s0 + 0x6) = buf1[0];
-    *(s16 *)(s0 + 0xE) = buf1[2];
+    ((Unkstruct_800B5CB8 *)s0)->unk6 = buf1[0];
+    ((Unkstruct_800B5CB8 *)s0)->unkE = buf1[2];
 
-    v1 = *(s32 *)(s0 + 0x20);
-    *(u16 *)(v1 + 0x2C) |= 0x10;
+    v1 = ((Unkstruct_800B5CB8 *)s0)->unk20;
+    ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x10;
 }
 
 

@@ -5773,7 +5773,7 @@ void func_801801B4(void *arg0) {
 extern void func_801849B8(s32*, s32);
     extern short D_8019142C;
     void func_80180240(void * arg0) {
-        *(short *)((char *)arg0 + 0x2) = 9;
+        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 9;
         ((void (*)(s32, s32))func_801849B8)((int)arg0, (int)&D_8019142C);
     }
 

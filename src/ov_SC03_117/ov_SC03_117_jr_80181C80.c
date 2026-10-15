@@ -3882,13 +3882,13 @@ void func_80183988(s32 arg0) {
 
     func_8012B77C((s32)sp10, arg0 + 4, (s32)&D_80126B5C);
     t = sp10[0];
-    *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = t >> 16;
-    *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x10) = t;
-    w = *(u16 *)(arg0 + 0xA) - 8;
-    *(u16 *)(arg0 + 0xA) = w;
-    if (*(s16 *)(arg0 + 0x8A) - (s16)w >= 0x81) {
-        *(s16 *)(arg0 + 0x2) = 0xA;
-        *(s16 *)(arg0 + 0xFC) = 0xC;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = t >> 16;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk10 = t;
+    w = ((Unkstruct_800B5CB8 *)arg0)->unkA - 8;
+    ((Unkstruct_800B5CB8 *)arg0)->unkA = w;
+    if (CAST_SIGN(s16, arg0, 0x8A) - (s16)w >= 0x81) {
+        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0xA;
+        ((Unkstruct_800B5CB8 *)arg0)->unkFC = 0xC;
     }
     func_8018321C(arg0);
 }
@@ -3919,7 +3919,7 @@ void func_80183A8C(void *a0) {
     u16 *p = (u16 *)a0;
 
     p[0xA / 2] += 8;
-    if (*(s16 *)((u8 *)a0 + 0x8A) - (s16)p[0xA / 2] <= 0) {
+    if (CAST_SIGN(s16, (u8 *)a0, 0x8A) - (s16)p[0xA / 2] <= 0) {
         p[0x2 / 2] = 8;
         p[0xFC / 2] = 0x1E;
     }

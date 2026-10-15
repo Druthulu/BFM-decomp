@@ -445,8 +445,8 @@ void func_8017F8AC(int param_1)
 {
 
     extern unsigned char D_801A8F00[];
-    *(short *)(param_1 + 2) = 5;
-    *(short *)(param_1 + 0x34) = 0;
+    ((Unkstruct_800B5CB8 *)param_1)->unk2 = 5;
+    ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
     *(unsigned short *)(param_1 + 0x5C) = 0xAA10;
     ((void (*)(s32, void *))func_8012A828)(param_1, &D_801A8F00);
     ((void (*)(s32))func_8012B23C)(param_1);
@@ -504,8 +504,8 @@ void func_8017F8F8(void *param_1) {
 extern void func_8012A828(s32*, s32);
     extern short D_801A89A0;
     void func_8017FA00(short *a0) {
-        *(short *)((char *)a0 + 0x2) = 0x2;
-        *(short *)((char *)a0 + 0x34) = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x2;
+        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
         ((void (*)(s32 *, s32))func_8012A828)((s32 *)a0, (s32)&D_801A89A0);
     }
 

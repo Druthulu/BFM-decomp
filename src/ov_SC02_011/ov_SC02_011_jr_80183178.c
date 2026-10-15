@@ -3969,8 +3969,8 @@ void func_80188654(s32 a0)
 extern void func_8012A828(s32, void*);
     extern short D_801D3B74;
     void func_801887C8(short *a0) {
-        *(short *)((char *)a0 + 0x2) = 0x2;
-        *(short *)((char *)a0 + 0x34) = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x2;
+        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
         ((void (*)(s32 *, s32))func_8012A828)((s32 *)a0, (s32)&D_801D3B74);
     }
 

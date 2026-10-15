@@ -7547,7 +7547,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 cv2;
 
     ent = arg0;
-    node = *(s32 *)(ent + 0x34);
+    node = ((Unkstruct_801670E4 *)ent)->unk34;
     f.v[1].z = 0;
     f.v[1].y = 0;
     f.v[1].x = 0;
@@ -7555,7 +7555,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.v[2].z = 0;
     f.v[0].z = 0;
     f.col[1].b = 0x70;
-    cv = *(u8 *)(ent + 0x12);
+    cv = ((Unkstruct_801670E4 *)ent)->unk12;
     f.cx = arg1;
     f.cy = arg2;
     f.col[0].b = 0;
@@ -7574,14 +7574,14 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     ((void (*)(s32, void *, void *))func_80149350)(node, &f.cx, &f.cx);
 
     c = f.cx;
-    *(s16 *)(ent + 0x06) = c;
-    *(s32 *)(ent + 0x4C) = (s16)c;
+    ((Unkstruct_801670E4 *)ent)->unk6 = c;
+    ((Unkstruct_801670E4 *)ent)->unk4C = (s16)c;
     c = f.cy;
-    *(s16 *)(ent + 0x0A) = c;
-    *(s32 *)(ent + 0x50) = (s16)c;
+    ((Unkstruct_801670E4 *)ent)->unkA = c;
+    ((Unkstruct_801670E4 *)ent)->unk50 = (s16)c;
     c = f.cz;
-    *(s16 *)(ent + 0x0E) = c;
-    *(s32 *)(ent + 0x54) = (s16)c;
+    ((Unkstruct_801670E4 *)ent)->unkE = c;
+    ((Unkstruct_801670E4 *)ent)->unk54 = (s16)c;
     func_800D20C0(&f.cx, f.a8, 7);
     func_80017E68(&f.cx, f.m1);
     func_800D23D0(f.a8);
@@ -7621,19 +7621,19 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         func_80017758(f.v, (void *)(ent + 0x38));
     } while ((i = i + 1) < 4);
 
-    if (*(s32 *)(ent + 0x30) > 0) {
+    if (((Unkstruct_801670E4 *)ent)->unk30 > 0) {
         d = (s16)f.a8[0] >> 6;
         f.cx += d;
         f.cy += d;
         f.cz += d;
         func_80017E68(&f.cx, f.m1);
-        f.cx = f.cy = f.cz = ((u32)*(s32 *)(ent + 0x30) >> 1) + D_80126CE0 * 0x20;
+        f.cx = f.cy = f.cz = ((u32)((Unkstruct_801670E4 *)ent)->unk30 >> 1) + D_80126CE0 * 0x20;
         func_80017DC4(&f.cx, f.m2);
         func_80048EAC(f.m2, f.m1);
         f.v[3].z = 0;
         f.v[2].z = 0;
         f.v[0].z = 0;
-        cv2 = *(u8 *)(ent + 0x12);
+        cv2 = ((Unkstruct_801670E4 *)ent)->unk12;
         f.col[1].b = 0x20;
         f.col[1].r = 0x20;
         f.col[3].b = 0;

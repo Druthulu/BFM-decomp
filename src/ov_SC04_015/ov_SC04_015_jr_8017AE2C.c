@@ -7280,13 +7280,13 @@ void func_80181830(s32 a0) {
     s16 *p;
 
     v0 = ((s32 (*)(s32))func_8012C1B8)(a0);
-    *(s32 *)(a0 + 0x20) = v0;
+    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
     if (v0 == 0) {
         ((void (*)(s32))func_8012CAE4)(a0);
         return;
     }
 
-    idx = *(s16 *)(a0 + 0x70);
+    idx = ((Unkstruct_800B5CB8 *)a0)->unk70;
     p = &D_801B29BC[idx];
     switch (idx) {
     case 7:
@@ -7302,15 +7302,15 @@ void func_80181830(s32 a0) {
     }
 
     func_8001C97C(D_801B297C[*p][1]);
-    func_8001D0E8(*(s32 *)(a0 + 0x20), 0xC8, 0xB4);
-    *(s32 *)(a0 + 0x58) = (u32)&D_801B2994 | 0x40000000;
-    *(s16 *)(a0 + 0x5C) = 0x800;
-    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x20) = (s32)&D_801B29B0;
-    *(s16 *)(a0 + 0xE8) = 0;
-    *(Blk12_801854C4_80181830 *)(a0 + 0xEC) = D_801B29A4;
-    *(s16 *)(a0 + 0x10A) = 6;
+    func_8001D0E8(((Unkstruct_800B5CB8 *)a0)->unk20, 0xC8, 0xB4);
+    ((Unkstruct_800B5CB8 *)a0)->unk58 = (u32)&D_801B2994 | 0x40000000;
+    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x800;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk20 = (s32)&D_801B29B0;
+    CAST_WIDTH(s16, a0, 0xE8) = 0;
+    CAST_WIDTH(Blk12_801854C4_80181830, a0, 0xEC) = D_801B29A4;
+    ((Unkstruct_800B5CB8 *)a0)->unk10A = 6;
     func_80181C08(a0);
-    *(s32 *)(a0 + 0xDC) = (s32)func_80181FD8;
+    ((Unkstruct_800B5CB8 *)a0)->unkDC = (s32)func_80181FD8;
 }
 
 
@@ -7428,13 +7428,13 @@ void func_80181C08(s32 a0) {
     extern s16 D_801B29BC[];
     extern s32 D_801B2980[][2];
 
-    *(s16 *)(a0 + 0x2) = 2;
-    *(s16 *)(a0 + 0x34) = 0;
-    *(s16 *)(a0 + 0xFE) = 0;
-    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x24) =
-        D_801B2980[D_801B29BC[*(s16 *)(a0 + 0x70)]][0];
-    *(s16 *)(a0 + 0x5C) = 0x800;
-    *(s32 *)(a0 + 0xB0) = 0;
+    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
+    ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+    ((Unkstruct_800B5CB8 *)a0)->unkFE = 0;
+    *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x24) =
+        D_801B2980[D_801B29BC[((Unkstruct_800B5CB8 *)a0)->unk70]][0];
+    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x800;
+    ((Unkstruct_800B5CB8 *)a0)->unkB0 = 0;
     func_80182258();
 }
 

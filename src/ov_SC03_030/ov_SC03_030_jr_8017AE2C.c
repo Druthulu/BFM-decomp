@@ -4268,14 +4268,14 @@ void func_8017E194(void *a0)
 
 extern void func_8017E1E8(void *a0);
     void func_8017E1BC(u8 *a0) {
-        *(u16 *)(a0 + 0xAE) |= 0xFF00;
+        CAST_SIGN(u16, a0, 0xAE) |= 0xFF00;
         ((void (*)(void))func_8017E1E8)();
     }
 
 
 void func_8017E1E8(void *a0) {
-        *(u16 *)((char *)a0 + 0xaa) &= 0xff00;
-        *(u16 *)((char *)a0 + 0xac) &= 0xff00;
+        CAST_SIGN(u16, (char *)a0, 0xaa) &= 0xff00;
+        CAST_SIGN(u16, (char *)a0, 0xac) &= 0xff00;
     }
 
 
@@ -5815,8 +5815,8 @@ void func_80180960(u8 *param_1) {
     u8 *work;
     s32 snd;
 
-    if (*(s32 *)(param_1 + 0xCC) != 0) {
-        iVar2 = *(s32 *)(*(s32 *)(param_1 + 0xCC) + 0xCC);
+    if (((Unkstruct_800B5CB8 *)param_1)->unkCC != 0) {
+        iVar2 = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0xCC))->unkCC;
         *(u16 *)(iVar2 + 0x18) += 0x300;
         *(u16 *)(iVar2 + 0x1A) += 0x300;
         if (*(s16 *)(iVar2 + 0x18) >= 0x3001) {
@@ -5830,10 +5830,10 @@ void func_80180960(u8 *param_1) {
         func_8002D4C8(0x581, 0);
         snd = 0xF0;
         work = param_1;
-        *(u32 *)(work + 0x1C) = 0xF;
-        *(u32 *)(work + 0x18) = 0;
-        *(u32 *)(work + 0x10) = 0;
-        *(u16 *)(work + 2) = 6;
+        ((Unkstruct_800B5CB8 *)work)->unk1C = 0xF;
+        CAST_WIDTH(u32, work, 0x18) = 0;
+        CAST_WIDTH(u32, work, 0x10) = 0;
+        ((Unkstruct_800B5CB8 *)work)->unk2 = 6;
         ((void (*)(s32 a0, s32 a1))func_8012C588)(snd, param_1);
     } else {
         func_80180B44((s32)param_1);
@@ -5898,11 +5898,11 @@ s32 func_80180B44(void *a0) {
     s0.x = D_80126B5E;
     s0.y = D_80126B62;
     s0.z = D_80126B66;
-    s1.x = *(u16 *)((s32)a0 + 6);
-    s1.y = *(u16 *)((s32)a0 + 0xa);
-    s1.z = *(u16 *)((s32)a0 + 0xe);
+    s1.x = ((Unkstruct_800B5CB8 *)a0)->unk6;
+    s1.y = ((Unkstruct_800B5CB8 *)a0)->unkA;
+    s1.z = ((Unkstruct_800B5CB8 *)a0)->unkE;
     s0.y = D_80126B62 - 0x20;
-    p = (s16 *)((*(s32 *)((s32)a0 + 0x58) & 0x0fffffff) | 0x80000000);
+    p = (s16 *)((((Unkstruct_800B5CB8 *)a0)->unk58 & 0x0fffffff) | 0x80000000);
     if (p[2] + (s16)s1.x > (s16)s0.x || p[3] + (s16)s1.x < (s16)s0.x ||
         p[6] + (s16)s1.z > (s16)s0.z || p[7] + (s16)s1.z < (s16)s0.z ||
         p[4] + (s16)s1.y - 4 > (s16)s0.y || p[5] + (s16)s1.y + 4 < (s16)s0.y) {

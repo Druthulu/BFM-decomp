@@ -4678,7 +4678,7 @@ void func_80189440(s32 arg0, SV_189440 *v)
     v[0].vx = x - *(u16 *)&v[0x35].vy;
     v[1].vx = *(u16 *)&v[0x35].vy + x;
 
-    col = *(s32 *)(arg0 + 0xE0);
+    col = ((Unkstruct_800B5CB8 *)arg0)->unkE0;
     m = *(MTX *)&D_800AE620;
     ot = (u32 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
     RotMatrixZ(v[0x35].vx, &m);
@@ -4763,7 +4763,7 @@ void func_80189440(s32 arg0, SV_189440 *v)
          * delay with it; the target issues `addiu $t1,$t1,1` first and leaves a
          * real `nop` in the load-delay slot (the -1 instruction). */
         i++;
-        col += *(s32 *)(arg0 + 0xE0);
+        col += ((Unkstruct_800B5CB8 *)arg0)->unkE0;
         p += 2;
     }
 }

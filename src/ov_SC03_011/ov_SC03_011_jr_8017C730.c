@@ -4582,14 +4582,14 @@ void func_8017F84C(void *a0)
     s32 buf[4];
 
     r = ((s32 (*)(void))func_8012C1B8)();
-    do { *(s32 *)((u8 *)s0 + 0x20) = r; } while (0);
+    do { ((Unkstruct_800B5CB8 *)s0)->unk20 = r; } while (0);
     if (r == 0) {
         func_8012CAE4(s0);
     } else {
         func_8001C2C4(r);
-        v0 = ratan2( -*(s16 *)((u8 *)s0 + 0xE), *(s16 *)((u8 *)s0 + 0x6) );
-        *(s16 *)(*(s32 *)((u8 *)s0 + 0x20) + 0x12) = (v0 + 0x400) & 0xFFF;
-        *(s16 *)(*(s32 *)((u8 *)s0 + 0x20) + 0x10) = *(u16 *)((u8 *)s0 + 0x70);
+        v0 = ratan2( -CAST_SIGN(s16, (u8 *)s0, 0xE), CAST_SIGN(s16, (u8 *)s0, 0x6) );
+        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s0 + 0x20))->unk12 = (v0 + 0x400) & 0xFFF;
+        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s0 + 0x20))->unk10 = CAST_SIGN(u16, (u8 *)s0, 0x70);
         func_8012B2CC((s32)s0);
         buf[1] = 0;
         buf[0] = 0;
@@ -4599,7 +4599,7 @@ void func_8017F84C(void *a0)
         v0 = func_80132EF4((s32)s0, 0x23);
         if (v0 != 0) {
             *(s16 *)(v0 + 0x34) = 0x4000;
-            *(s32 *)((u8 *)s0 + 0x1C) = 8;
+            ((Unkstruct_800B5CB8 *)s0)->unk1C = 8;
         }
     }
 }

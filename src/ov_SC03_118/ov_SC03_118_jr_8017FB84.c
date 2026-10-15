@@ -3551,7 +3551,7 @@ void func_80181A64(void) {
 extern void (*D_8018DDF0[])(void);
 
 void func_80181B08(void *a0) {
-    D_8018DDF0[*(u8 *)((s32)a0 + 0x4)]();
+    D_8018DDF0[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 
@@ -3772,33 +3772,33 @@ void func_8018226C(s32 a0) {
     s32 t1;
     s32 t2;
 
-    obj = *(s32 *)(self + 0x20);
+    obj = ((Unkstruct_800B5CB8 *)self)->unk20;
     func_8001CA1C(obj, (s32)D_8018DE80);
 
-    *(u16 *)(self + 0x6) = *(u16 *)(self + 0x6) - 0x10;
-    *(u16 *)(self + 0xA) = *(u16 *)(self + 0xA) - 0xA0;
-    *(u16 *)(obj + 0x18) = 0x2C00;
-    *(u16 *)(obj + 0x1A) = 0x1C00;
-    do { *(u32 *)(obj + 4) = *(u32 *)(obj + 4) | 0x1000000; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
+    ((Unkstruct_800B5CB8 *)self)->unk6 = ((Unkstruct_800B5CB8 *)self)->unk6 - 0x10;
+    ((Unkstruct_800B5CB8 *)self)->unkA = ((Unkstruct_800B5CB8 *)self)->unkA - 0xA0;
+    ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x2C00;
+    ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1C00;
+    do { CAST_WIDTH(u32, obj, 4) = CAST_WIDTH(u32, obj, 4) | 0x1000000; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
 
-    t0 = *(s32 *)(self + 0xCC);
+    t0 = ((Unkstruct_800B5CB8 *)self)->unkCC;
     *(u16 *)(t0) = 0;
-    *(s32 *)(self + 0xCC) = func_80143970(self);
+    ((Unkstruct_800B5CB8 *)self)->unkCC = func_80143970(self);
 
-    *(s32 *)(self + 0x14) = 0xFFF80000;
-    *(u16 *)(self + 0x5C) = 0;
-    *(s32 *)(self + 0x1C) = 8;
+    ((Unkstruct_800B5CB8 *)self)->unk14 = 0xFFF80000;
+    ((Unkstruct_800B5CB8 *)self)->unk5C = 0;
+    ((Unkstruct_800B5CB8 *)self)->unk1C = 8;
     func_8012AD44((s32 *)self, 3);
 
-    obj = *(s32 *)(self + 0x64);
-    t1 = *(s32 *)(obj + 0x20);
-    *(u32 *)(t1 + 4) = *(u32 *)(t1 + 4) | 0x80000000;
+    obj = ((Unkstruct_800B5CB8 *)self)->unk64;
+    t1 = ((Unkstruct_800B5CB8 *)obj)->unk20;
+    CAST_WIDTH(u32, t1, 4) = CAST_WIDTH(u32, t1, 4) | 0x80000000;
     func_801851C8(obj);
 
-    *(u16 *)(obj + 0x5C) = 0;
+    ((Unkstruct_800B5CB8 *)obj)->unk5C = 0;
     func_8012AD44((s32 *)obj, 2);
 
-    t2 = *(s32 *)(self + 0xD0);
+    t2 = ((Unkstruct_800B5CB8 *)self)->unkD0;
     if (t2 != 0) {
         *(u16 *)(t2 + 0x2C) = 0;
         func_80182910((void *)t2);
@@ -3879,24 +3879,24 @@ void func_801824A0(int a0)
     s32 val2;
     s32 t2;
 
-    func_801439C0(*(s32 *)(s0 + 0xCC));
+    func_801439C0(((Unkstruct_800B5CB8 *)s0)->unkCC);
     func_8012B200((u8 *)s0);
 
-    *(s32 *)(s0 + 0x14) = 0x80000;
-    *(u16 *)(s0 + 0x6) = D_80126B5E;
-    *(u16 *)(s0 + 0xE) = D_80126B66;
+    CAST_ALIAS(s32, s0, 0x14) = 0x80000;
+    CAST_ALIAS(u16, s0, 0x6) = D_80126B5E;
+    ((Unkstruct_800B5CB8 *)s0)->unkE = D_80126B66;
 
-    ptr = *(u8 **)(s0 + 0x20);
-    val1 = *(u16 *)(ptr + 0x18);
-    *(s16 *)(s0 + 0xDC) = (val1 << 16) >> 19;
+    ptr = CAST_SIGN(u8 *, s0, 0x20);
+    val1 = ((Unkstruct_800B5CB8 *)ptr)->unk18;
+    CAST_WIDTH(s16, s0, 0xDC) = (val1 << 16) >> 19;
 
-    ptr = *(u8 **)(s0 + 0x20);
-    val2 = *(u16 *)(ptr + 0x1A);
+    ptr = CAST_SIGN(u8 *, s0, 0x20);
+    val2 = ((Unkstruct_800B5CB8 *)ptr)->unk1A;
     *(s16 *)(s0 + 0xDE) = (val2 << 16) >> 19;
 
     func_8012AD44((s32 *)s0, 7);
 
-    t2 = *(s32 *)(s0 + 0xD0);
+    t2 = ((Unkstruct_800B5CB8 *)s0)->unkD0;
     if (t2 != 0) {
         func_801292C8((u8 *)t2);
     }

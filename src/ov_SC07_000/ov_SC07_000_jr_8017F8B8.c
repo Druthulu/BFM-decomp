@@ -2988,8 +2988,8 @@ void func_8017FE5C(void *a0) {
 
     obj = func_80132EF4((void *)s0, 0x77);
     if (obj != 0) {
-        *(u16 *)(obj + 0x2C) = 1;
-        *(s32 *)(obj + 0x34) = s0;
+        ((Unkstruct_800B5CB8 *)obj)->unk2C = 1;
+        CAST_WIDTH(s32, obj, 0x34) = s0;
     }
 }
 

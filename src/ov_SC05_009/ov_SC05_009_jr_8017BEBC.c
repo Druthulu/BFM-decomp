@@ -3661,11 +3661,11 @@ void func_8017E2BC(void *a0)
     m = *(Mat32_8017E2BC *)&D_800AE620;
     mp = &m;
 
-    RotMatrixY(*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12), mp);
+    RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), mp);
 
-    m.w[5] = *(s16 *)((s32)a0 + 0xFE);
-    m.w[6] = *(s16 *)((s32)a0 + 0xA);
-    m.w[7] = *(s16 *)((s32)a0 + 0x100);
+    m.w[5] = ((Unkstruct_800B5CB8 *)a0)->unkFE;
+    m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
+    m.w[7] = ((Unkstruct_800B5CB8 *)a0)->unk100;
 
     func_8004914C(mp);
     func_800491AC(mp);
@@ -3676,8 +3676,8 @@ void func_8017E2BC(void *a0)
 
     RotTransSV(&sv, &sv, &out);
 
-    *(s16 *)((s32)a0 + 0x6) = sv.a;
-    *(s16 *)((s32)a0 + 0xE) = sv.c;
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = sv.a;
+    ((Unkstruct_800B5CB8 *)a0)->unkE = sv.c;
 }
 
 

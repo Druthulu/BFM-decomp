@@ -5194,9 +5194,9 @@ s32 func_80188168(s32 a0)
 {
     s32 s0 = a0;
 
-    func_8014BC44(s0, *(s16 *)(s0 + 0xF2));
-    *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0;
-    *(u8 *)(s0 + 0xA8) = 0x20;
+    func_8014BC44(s0, CAST_SIGN(s16, s0, 0xF2));
+    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk10 = 0;
+    CAST_WIDTH(u8, s0, 0xA8) = 0x20;
     ((void (*)(s32))func_80151664)(s0);
 }
 

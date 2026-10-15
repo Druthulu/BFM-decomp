@@ -3989,8 +3989,8 @@ void func_8017F5B4(int a0, int a1)
     int v0;
     v0 = func_80132EF4(a0, 0x62);
     if (v0 != 0) {
-        *(int *)(v0 + 0x34) = a0;
-        *(int *)(v0 + 0x30) = a1;
+        CAST_WIDTH(int, v0, 0x34) = a0;
+        ((Unkstruct_800B5CB8 *)v0)->unk30 = a1;
     }
 }
 
