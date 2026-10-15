@@ -1217,6 +1217,25 @@ def s_base_norm(key):
     return re.sub(r"\s+", "", key)
 
 
+_NB_MACRO = re.compile(r"CAST_[A-Z]+\(\s*[A-Za-z_][\w\s]*\**\s*,\s*([^(),]*?)\s*,\s*0x([0-9A-Fa-f]+)\s*\)")
+_NB_CAST = re.compile(r"\(\s*[A-Za-z_]\w*(?:\s+[A-Za-z_]\w*)*\s*\**\s*\)\s*(?=[A-Za-z_@])")
+_NB_PAREN = re.compile(r"\(\s*(@\[[^\[\]()]*\]|[A-Za-z_]\w*)\s*\)")
+
+
+def s_ptr_norm(expr):
+    """P3.40 T2.c4: a macro's pointer expression with every offset access spelled `@[X+NN]` (as s_base_norm, plus the macro form
+    `CAST_<X>(T, X, 0xNN)`) and the scalar/pointer casts on a name or access dropped, so a `nested:` KEPT entry's expression
+    (`*(s32 *)((s32)a0 + 0x20)`) meets the census's text of the same pointer after the T2 draw (`((Unkstruct_800B5CB8 *)a0)->unk20`,
+    keyed `param:a0`)."""
+    hx = lambda m: f"@[{m.group(1).strip()}+{int(m.group(2), 16):x}]"
+    prev = None
+    while prev != expr:
+        prev = expr
+        expr = _NB_MACRO.sub(hx, _NB_DEREF.sub(hx, _NB_MEMBER.sub(hx, expr)))
+        expr = _NB_PAREN.sub(r"\1", _NB_CAST.sub("", expr))
+    return re.sub(r"\s+", "", expr)
+
+
 def s_macro_rows(tu, text, rows):
     """T3.c4: every kept-cast macro site (census form K) of a drawn body in the FINAL text gets its own KEPT(<class>) row in the
     census's key (base `<bclass>:<base>` and off parsed from the macro, type_census.check_casts_verdict) — the respell's row was keyed
@@ -1239,9 +1258,12 @@ def s_macro_rows(tu, text, rows):
         for s in ks:
             want, key = f"KEPT({s['cls']})", f"{s['bclass']}:{s['base']}"
             nkey = s_base_norm(key)                                # T3.c8: a respelled nested base still matches (was: exact base or line)
+            pkey = s_ptr_norm(s.get("text") or "")                 # T2.c4: the census re-keyed it (param:a0 / other:None) — match the pointer
             src = next((lb for lb, e in cands if e.get("verdict") == want and (e.get("line") == s["line"] if s["cls"] == "REINTERP" else
                         e.get("off") == s["off"] and (e.get("base") == key or e.get("line") == s["line"]
-                                                      or s_base_norm(e.get("base") or "") == nkey))), None)
+                                                      or s_base_norm(e.get("base") or "") == nkey
+                                                      or (str(e.get("base") or "").startswith("nested:") and pkey
+                                                          and s_ptr_norm(e["base"][7:]) == pkey)))), None)
             if src is None:
                 continue
             e_ = site_row(s, want, tname=next((b.get("type") for b in row.get("bases") or [] if b.get("base") == key), None), cause=s["cls"])
@@ -3833,6 +3855,42 @@ def residue_rows(groups, label, calib_id, latest=None):
     return rows
 
 
+def macro_carry_rows(only, latest, label, calib_id, path=None):
+    """P3.40 T2.c4: one merged rung-S row per body (TUs matching `only`, default ov_*) whose latest S row leaves a census macro site
+    (form K) unbacked (type_census.check_casts_verdict) while s_macro_rows finds its KEPT(<class>) judgement in an earlier S row —
+    a copy of the latest row (ts/label/calib renewed, `macro_carry_of` = its label) plus only the newly backed entries (`macro_of`).
+    A re-draw that respelled the base (T2: t2_S1/S7/S12) left nothing to draw, so no draw row could carry them."""
+    only = only or RESIDUE_DEFAULT_ONLY
+    by_body = collections.defaultdict(list)
+    with open(path or CENSUS / "sites.jsonl") as f:
+        for l in f:
+            if not l.startswith('{"form": "K"'):
+                continue
+            s = json.loads(l)
+            if s.get("fn") and matches_only(only, s["tu"], s["fn"]):
+                by_body[(s["tu"], s["fn"])].append(s)
+    rows = []
+    for (tu, fn), ks in sorted(by_body.items()):
+        prior = latest.get(("S", tu, fn))
+        if prior is None or not (REPO / tu).exists():
+            continue
+        unb = {(s["line"], s["off"], s["cls"]) for s in ks if tc.check_casts_verdict({}, [s], latest, [], set())[0]}
+        if not unb:
+            continue
+        m_ = json.loads(json.dumps(prior))
+        m_["sites"] = list(m_.get("sites") or [])
+        n0 = len(m_["sites"])
+        m_.setdefault("fn", fn)
+        s_macro_rows(tu, (REPO / tu).read_text(errors="surrogateescape"), [m_])
+        new = [e for e in m_["sites"][n0:] if (e.get("line"), e.get("off"), e.get("cause")) in unb]
+        if not new:
+            continue                                               # no earlier judgement backs them
+        m_["sites"] = m_["sites"][:n0] + new
+        m_.update(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, calib=calib_id, macro_carry_of=prior.get("label"))
+        rows.append(m_)
+    return rows
+
+
 def residue_forms(a):
     fs = tuple(x.strip().upper() for x in (getattr(a, "forms", None) or ",".join(RESIDUE_FORMS)).split(",") if x.strip())
     bad = [x for x in fs if x not in ("P", "I", "X", "M")]
@@ -3894,6 +3952,11 @@ def residue(a):
     forms = residue_forms(a)
     calib = json.loads(oracle.CALIB.read_text()) if oracle.CALIB.exists() else {}
     latest = ledger_latest(load_ledger())
+    mrows = macro_carry_rows(a.only, latest, a.label, dict(head=calib.get("head"), stamp=calib.get("stamp")))   # T2.c4: before the merge
+    ledger_append(mrows)
+    latest.update({("S", r["tu"], r["unit"]): r for r in mrows})
+    if mrows:
+        print(f"restruct --residue {a.label}: {len(mrows)} macro-carry rows {[(r['tu'], r['unit']) for r in mrows][:8]}")
     g = residue_sites(a.only, latest, forms=forms)
     rows = residue_rows(g, a.label, dict(head=calib.get("head"), stamp=calib.get("stamp")), latest)
     ledger_append(rows)
@@ -5318,6 +5381,19 @@ def selftest(real=False):
     line6 = tc.check_casts_verdict({}, mk6, {("S", tu3, "fx_f"): row6}, [], set())[1]
     ok("carry: a nested base respelled under a kept macro still matches its earlier KEPT row (unbacked 0)", len(mk6) == 1
        and "(unbacked 0)" in line6 and [e.get("macro_of") for e in row6["sites"]] == ["t3_S13"], f"{[(s_['bclass'], s_['base']) for s_ in mk6]} {line6}")
+    # P3.40 T2.c4: func_801AB54C shape — the census keys the respelled pointer `((T *)a0)->unk20` as param:a0; the earlier entry is nested
+    txt7 = FIXTURE_TU_S3.replace("void func_8FF00000_impl(s32 param_1) __asm__", "void fx_g(s32 a0) {\n    s32 v;\n"
+                                 "    v = CAST_SIGN(s16, ((Unkstruct_TEST *)a0)->unk20, 0x18);\n    v += CAST_SIGN(s16, ((Unkstruct_TEST *)a0)->unk20, 0x1C);\n}\n\n"
+                                 "void func_8FF00000_impl(s32 param_1) __asm__", 1)
+    mk7 = [s_ for s_ in file_view(tu3, txt7)[4] if s_["form"] == "K" and s_.get("fn") == "fx_g"]
+    S_PRIOR = {(tu3, "fx_g"): [dict(rung="S", tu=tu3, unit="fx_g", label="t4_md_S2", verdict="KEPT", sites=[
+        dict(base="nested:*(s32 *)((s32)a0 + 0x20)", off=0x18, line=999, verdict="KEPT(SIGN)")])]}
+    row7 = dict(fn="fx_g", verdict="MEMBERS", sites=[], bases=[])
+    s_macro_rows(tu3, txt7, [row7])
+    line7 = tc.check_casts_verdict({}, mk7, {("S", tu3, "fx_g"): row7}, [], set())[1]
+    ok("carry: a census-re-keyed pointer (param:a0) meets its earlier nested KEPT entry by pointer + off; another off stays unbacked",
+       [(s_["bclass"], s_["base"]) for s_ in mk7] == [("param", "a0")] * 2 and "(unbacked 1)" in line7
+       and [e.get("macro_of") for e in row7["sites"]] == ["t4_md_S2"], f"{[(s_['bclass'], s_['base'], s_['off']) for s_ in mk7]} {line7}")
     S_PRIOR = {}
     ok("respell_edit: a lower-precedence p or a non-literal k stays raw", respell_edit("*(s32 *)(a << 2 + 4)", "*(s32 *)(a << 2 + 4)",
        dict(form="P", pos=0, end=20, base=None, off=4), "SIGN") is None and respell_edit("*(s32 *)(a + i)", "*(s32 *)(a + i)", dict(form="P", pos=0, end=15, base="a", off=0), "SIGN") is None)

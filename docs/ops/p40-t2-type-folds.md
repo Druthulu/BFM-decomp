@@ -11,3 +11,7 @@
 ## --restamp
 - `restruct.py --rung S --residue --restamp [--only ...] [--forms P,X]` (ledger only, apply lock): covered sites whose covering RESIDUAL entry (paired per key in ledger order, as `type_census.residue_split`) is `TYPE-NOT-CANONICAL` and whose live cause differs → one merged row per body (copy of the latest row, ts/label renewed, `restamp_of` = old label), only those entries' cause/verdict changed. Entry count, coverage, row verdict, bases and non-TNC entries untouched.
 - Prints `restamp: <rows> rows, <n> sites, old->new {...}`. Commit/back up the ledger (`.run/P37/restruct/ledger.jsonl`) before a real run.
+
+## Macro carry (T2.c4)
+- `s_macro_rows` also backs a census K site from an earlier `nested:` KEPT(<cls>) entry with the same off when `s_ptr_norm` of the entry's expression equals `s_ptr_norm` of the census site's `text` (`*(s32 *)((s32)a0 + 0x20)` = `((T *)a0)->unk20` = `@[a0+20]`); the census keys such respelled pointers `param:a0` / `other:None`. Selftest control "census-re-keyed pointer".
+- `--rung S --residue` first appends `macro_carry_rows`: per body (--only) whose latest S row leaves a K site unbacked and an earlier S row backs it, a merged copy (`macro_carry_of` = old label) + only the newly backed KEPT(<cls>) entries (`macro_of`). No-op when every K site is backed.
