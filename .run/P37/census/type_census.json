@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "7c57353b7d",
-  "src_stamp": "8587ace5d19244e6",
+  "head": "2e4cd49df7",
+  "src_stamp": "29b1fd92b39e537c",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-15T12:11:56Z",
+  "when": "2026-10-15T12:25:14Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -36,66 +36,66 @@
   },
   "casts": {
    "by_form": {
-    "P": 193550,
+    "P": 193394,
     "I": 49525,
     "X": 12059,
-    "K": 25700,
+    "K": 25706,
     "A": 18889,
-    "C": 238902,
-    "M": 10172
+    "C": 240661,
+    "M": 8559
    },
    "raw_counts": {
-    "P": 193550,
+    "P": 193394,
     "I": 49525,
     "X": 12059,
-    "K": 25700,
+    "K": 25706,
     "A": 18889,
-    "C": 238902,
-    "M": 10172
+    "C": 240661,
+    "M": 8559
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 265306,
+   "deref_total": 263537,
    "addr_form": 18889,
-   "typed_cast_member": 238902,
-   "bodies": 43773,
+   "typed_cast_member": 240661,
+   "bodies": 43751,
    "by_bclass": {
-    "local": 93529,
-    "param": 113897,
-    "global": 21467,
+    "local": 93522,
+    "param": 112199,
+    "global": 21407,
     "gaddr": 25259,
-    "nested": 8040,
+    "nested": 8036,
     "ident": 161,
     "other": 1615,
     "addr-of": 1338
    },
    "by_width": {
-    "s2": 82755,
-    "s4": 67127,
-    "u2": 61912,
-    "u1": 21326,
+    "s2": 81020,
+    "s4": 67118,
+    "u2": 61908,
+    "u1": 21305,
     "agg": 13401,
     "p4": 10654,
     "u4": 6254,
     "s1": 1877
    },
-   "readability_raw_regex": 196387,
+   "readability_raw_regex": 196231,
    "abs_casts": 0,
    "top_bases": [
     [
      "param",
      "param_1",
-     38597
+     38560
     ],
     [
      "param",
      "a0",
-     32245
+     32224
     ],
     [
      "param",
      "arg0",
-     22914
+     21361
     ],
     [
      "local",
@@ -105,7 +105,7 @@
     [
      "local",
      "s0",
-     6099
+     6092
     ],
     [
      "local",
@@ -268,11 +268,6 @@
      991
     ],
     [
-     "param",
-     "a2",
-     978
-    ],
-    [
      "local",
      "v1",
      945
@@ -281,20 +276,25 @@
      "local",
      "v0",
      938
+    ],
+    [
+     "param",
+     "a2",
+     891
     ]
    ],
    "macros": {
-    "CAST_WIDTH": 11134,
-    "CAST_SIGN": 11319,
+    "CAST_WIDTH": 11137,
+    "CAST_SIGN": 11322,
     "CAST_ALIAS": 2029,
     "CAST_MISALIGNED": 875,
     "CAST_NONSTRUCT": 331
    },
    "check_raw": {
-    "P": 193545,
+    "P": 193389,
     "I": 49525,
     "X": 12059,
-    "M": 10171
+    "M": 8558
    },
    "macro_sites": [
     {
@@ -12093,7 +12093,7 @@
      "tu": "src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c",
      "fn": "func_8017BF00",
      "line": 3318,
-     "pos": 114638,
+     "pos": 114648,
      "name": "CAST_NONSTRUCT",
      "cls": "NON-STRUCT",
      "base": null,
@@ -12104,7 +12104,7 @@
      "tu": "src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c",
      "fn": "func_8017BF00",
      "line": 3318,
-     "pos": 114665,
+     "pos": 114675,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -12115,7 +12115,7 @@
      "tu": "src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c",
      "fn": "func_8017C0B4",
      "line": 3364,
-     "pos": 115633,
+     "pos": 115643,
      "name": "CAST_NONSTRUCT",
      "cls": "NON-STRUCT",
      "base": null,
@@ -12126,7 +12126,7 @@
      "tu": "src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c",
      "fn": "func_8017C0B4",
      "line": 3364,
-     "pos": 115660,
+     "pos": 115670,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -12137,7 +12137,7 @@
      "tu": "src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3403,
-     "pos": 116498,
+     "pos": 116508,
      "name": "CAST_NONSTRUCT",
      "cls": "NON-STRUCT",
      "base": null,
@@ -12148,7 +12148,7 @@
      "tu": "src/ov_SC01_005/ov_SC01_005_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3403,
-     "pos": 116525,
+     "pos": 116535,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -30936,7 +30936,7 @@
      "tu": "src/ov_SC02_004/ov_SC02_004_jr_8017AE2C.c",
      "fn": "func_8017DA30",
      "line": 4000,
-     "pos": 140125,
+     "pos": 140135,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "sub",
@@ -30947,7 +30947,7 @@
      "tu": "src/ov_SC02_004/ov_SC02_004_jr_8017AE2C.c",
      "fn": "func_8017DB2C",
      "line": 4033,
-     "pos": 141233,
+     "pos": 141243,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -30958,7 +30958,7 @@
      "tu": "src/ov_SC02_004/ov_SC02_004_jr_8017AE2C.c",
      "fn": "func_8017DB2C",
      "line": 4035,
-     "pos": 141323,
+     "pos": 141333,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "a0",
@@ -30969,7 +30969,7 @@
      "tu": "src/ov_SC02_004/ov_SC02_004_jr_8017AE2C.c",
      "fn": "func_8017DB2C",
      "line": 4035,
-     "pos": 141352,
+     "pos": 141362,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "a0",
@@ -30980,7 +30980,7 @@
      "tu": "src/ov_SC02_004/ov_SC02_004_jr_8017AE2C.c",
      "fn": "func_8017DB2C",
      "line": 4037,
-     "pos": 141454,
+     "pos": 141464,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "a0",
@@ -30991,7 +30991,7 @@
      "tu": "src/ov_SC02_004/ov_SC02_004_jr_8017AE2C.c",
      "fn": "func_8017DB2C",
      "line": 4037,
-     "pos": 141483,
+     "pos": 141493,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "a0",
@@ -32047,7 +32047,7 @@
      "tu": "src/ov_SC02_005/ov_SC02_005_jr_8017AE2C.c",
      "fn": "func_8017C048",
      "line": 3385,
-     "pos": 116251,
+     "pos": 116261,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "p",
@@ -32058,7 +32058,7 @@
      "tu": "src/ov_SC02_005/ov_SC02_005_jr_8017AE2C.c",
      "fn": "func_8017C048",
      "line": 3388,
-     "pos": 116387,
+     "pos": 116397,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "p",
@@ -47997,7 +47997,7 @@
      "tu": "src/ov_SC02_021/ov_SC02_021_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3358,
-     "pos": 115981,
+     "pos": 115991,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -48008,7 +48008,7 @@
      "tu": "src/ov_SC02_021/ov_SC02_021_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3358,
-     "pos": 116008,
+     "pos": 116018,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -48019,7 +48019,7 @@
      "tu": "src/ov_SC02_021/ov_SC02_021_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3402,
-     "pos": 117284,
+     "pos": 117294,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "r",
@@ -48030,7 +48030,7 @@
      "tu": "src/ov_SC02_021/ov_SC02_021_jr_8017AE2C.c",
      "fn": "func_8017C18C",
      "line": 3402,
-     "pos": 117308,
+     "pos": 117318,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "r",
@@ -89478,7 +89478,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017C6A0",
      "line": 3629,
-     "pos": 124721,
+     "pos": 124731,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -89489,7 +89489,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017C6A0",
      "line": 3641,
-     "pos": 125099,
+     "pos": 125109,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -89500,7 +89500,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017C6A0",
      "line": 3642,
-     "pos": 125179,
+     "pos": 125189,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -89511,7 +89511,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017C6A0",
      "line": 3643,
-     "pos": 125259,
+     "pos": 125269,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -89522,7 +89522,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017C6A0",
      "line": 3653,
-     "pos": 125583,
+     "pos": 125593,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -89533,7 +89533,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017C8FC",
      "line": 3688,
-     "pos": 126512,
+     "pos": 126522,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -89544,7 +89544,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017CD10",
      "line": 3817,
-     "pos": 131377,
+     "pos": 131387,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -89555,7 +89555,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017CE90",
      "line": 3919,
-     "pos": 135698,
+     "pos": 135708,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "s1",
@@ -89566,7 +89566,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017D1E0",
      "line": 4015,
-     "pos": 138032,
+     "pos": 138042,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "a0",
@@ -89577,7 +89577,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017D1E0",
      "line": 4018,
-     "pos": 138109,
+     "pos": 138119,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "a0",
@@ -89588,7 +89588,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017D1E0",
      "line": 4028,
-     "pos": 138383,
+     "pos": 138393,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "a0",
@@ -89599,7 +89599,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017D1E0",
      "line": 4029,
-     "pos": 138446,
+     "pos": 138456,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "a0",
@@ -89610,7 +89610,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017D1E0",
      "line": 4031,
-     "pos": 138507,
+     "pos": 138517,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "a0",
@@ -89621,7 +89621,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017D1E0",
      "line": 4045,
-     "pos": 138847,
+     "pos": 138857,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "a0",
@@ -89632,7 +89632,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017D318",
      "line": 4115,
-     "pos": 140764,
+     "pos": 140774,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -89643,7 +89643,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017D318",
      "line": 4128,
-     "pos": 140996,
+     "pos": 141006,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -89654,7 +89654,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017D678",
      "line": 4194,
-     "pos": 143831,
+     "pos": 143841,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -89665,7 +89665,7 @@
      "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
      "fn": "func_8017D678",
      "line": 4200,
-     "pos": 143960,
+     "pos": 143970,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "s1",
@@ -163275,9 +163275,42 @@
     },
     {
      "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
+     "fn": "func_8017D4C4",
+     "line": 3084,
+     "pos": 107543,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 8
+    },
+    {
+     "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
+     "fn": "func_8017D4C4",
+     "line": 3085,
+     "pos": 107693,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 16
+    },
+    {
+     "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
+     "fn": "func_8017D4C4",
+     "line": 3085,
+     "pos": 107730,
+     "name": "CAST_WIDTH",
+     "cls": "WIDTH",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 20
+    },
+    {
+     "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
      "fn": "func_8017D65C",
      "line": 3136,
-     "pos": 109562,
+     "pos": 110066,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -163288,7 +163321,7 @@
      "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
      "fn": "func_8017D65C",
      "line": 3140,
-     "pos": 109679,
+     "pos": 110183,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -163299,7 +163332,7 @@
      "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
      "fn": "func_8017D65C",
      "line": 3143,
-     "pos": 109769,
+     "pos": 110273,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -163310,7 +163343,7 @@
      "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
      "fn": "func_8017D65C",
      "line": 3148,
-     "pos": 109919,
+     "pos": 110423,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -163321,7 +163354,7 @@
      "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
      "fn": "func_8017D65C",
      "line": 3156,
-     "pos": 110100,
+     "pos": 110604,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -163332,12 +163365,45 @@
      "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
      "fn": "func_8017DC24",
      "line": 3386,
-     "pos": 118502,
+     "pos": 119006,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "s0",
      "bclass": "local",
      "off": 252
+    },
+    {
+     "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
+     "fn": "func_8017DDB4",
+     "line": 3526,
+     "pos": 123889,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "s0",
+     "bclass": "local",
+     "off": 6
+    },
+    {
+     "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
+     "fn": "func_8017DDB4",
+     "line": 3527,
+     "pos": 123927,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "s0",
+     "bclass": "local",
+     "off": 10
+    },
+    {
+     "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c",
+     "fn": "func_8017DDB4",
+     "line": 3528,
+     "pos": 123973,
+     "name": "CAST_SIGN",
+     "cls": "SIGN",
+     "base": "s0",
+     "bclass": "local",
+     "off": 14
     },
     {
      "tu": "src/ov_SC03_121/ov_SC03_121_jr_8017DF2C.c",
@@ -233116,7 +233182,7 @@
      "tu": "src/ov_SC06_018/ov_SC06_018_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3335,
-     "pos": 115161,
+     "pos": 115171,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -233127,7 +233193,7 @@
      "tu": "src/ov_SC06_018/ov_SC06_018_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3342,
-     "pos": 115355,
+     "pos": 115365,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -233138,7 +233204,7 @@
      "tu": "src/ov_SC06_018/ov_SC06_018_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3351,
-     "pos": 115566,
+     "pos": 115576,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -233149,7 +233215,7 @@
      "tu": "src/ov_SC06_018/ov_SC06_018_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3364,
-     "pos": 115897,
+     "pos": 115907,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -239562,7 +239628,7 @@
      "tu": "src/ov_SC06_020/ov_SC06_020_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3338,
-     "pos": 115184,
+     "pos": 115194,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -239573,7 +239639,7 @@
      "tu": "src/ov_SC06_020/ov_SC06_020_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3345,
-     "pos": 115378,
+     "pos": 115388,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -239584,7 +239650,7 @@
      "tu": "src/ov_SC06_020/ov_SC06_020_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3354,
-     "pos": 115589,
+     "pos": 115599,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -239595,7 +239661,7 @@
      "tu": "src/ov_SC06_020/ov_SC06_020_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3367,
-     "pos": 115920,
+     "pos": 115930,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -259901,7 +259967,7 @@
      "tu": "src/ov_SC06_032/ov_SC06_032_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3338,
-     "pos": 115184,
+     "pos": 115194,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -259912,7 +259978,7 @@
      "tu": "src/ov_SC06_032/ov_SC06_032_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3345,
-     "pos": 115378,
+     "pos": 115388,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -259923,7 +259989,7 @@
      "tu": "src/ov_SC06_032/ov_SC06_032_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3354,
-     "pos": 115589,
+     "pos": 115599,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -259934,7 +260000,7 @@
      "tu": "src/ov_SC06_032/ov_SC06_032_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3367,
-     "pos": 115920,
+     "pos": 115930,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -265973,7 +266039,7 @@
      "tu": "src/ov_SC06_033/ov_SC06_033_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3338,
-     "pos": 115184,
+     "pos": 115194,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -265984,7 +266050,7 @@
      "tu": "src/ov_SC06_033/ov_SC06_033_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3345,
-     "pos": 115378,
+     "pos": 115388,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -265995,7 +266061,7 @@
      "tu": "src/ov_SC06_033/ov_SC06_033_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3354,
-     "pos": 115589,
+     "pos": 115599,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -266006,7 +266072,7 @@
      "tu": "src/ov_SC06_033/ov_SC06_033_jr_8017AE2C.c",
      "fn": "func_8017BEF8",
      "line": 3367,
-     "pos": 115920,
+     "pos": 115930,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "node",
@@ -282956,66 +283022,66 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 17498,
-   "explained_sites": 261401,
-   "deref_sites": 265306,
+   "types": 17586,
+   "explained_sites": 259632,
+   "deref_sites": 263537,
    "explained_pct": 98.5,
    "unassigned_sites": 3905,
-   "conflicts": 797,
-   "suspect": 11,
+   "conflicts": 792,
+   "suspect": 12,
    "evidence": {
-    "param": 39372,
-    "ret-of": 6186,
-    "assign&": 1408,
-    "return": 1538,
-    "assign": 19855,
-    "arg": 10538,
-    "arg&": 259,
-    "field": 6164,
+    "param": 39384,
+    "arg": 10517,
+    "assign": 19826,
+    "ret-of": 6174,
+    "return": 1542,
+    "assign&": 1413,
+    "arg&": 253,
+    "field": 6122,
     "nested": 9
    },
    "vetoed": {
-    "arg&-conduit": 14767,
-    "arg-conduit": 150711,
+    "arg-no-overlap": 27153,
+    "arg&-no-overlap": 3383,
+    "arg-conduit": 150807,
     "assign&-multisource": 12727,
-    "assign-multisource": 34776,
-    "arg-no-overlap": 24478,
+    "assign-multisource": 34774,
+    "arg&-conduit": 14767,
     "ret-of-multisource": 6801,
     "field-multisource": 4287,
-    "arg&-no-overlap": 3334,
-    "ret-of": 171,
-    "assign": 245,
-    "assign&": 83,
-    "arg": 99,
+    "assign&": 76,
+    "ret-of": 196,
+    "assign": 277,
+    "arg": 64,
     "return": 5,
-    "field": 12
+    "field": 132
    },
-   "singletons": 13616,
-   "multi_body": 3882,
-   "sites_in_multi_body": 209288,
+   "singletons": 13696,
+   "multi_body": 3890,
+   "sites_in_multi_body": 207106,
    "top": [
     {
      "name": "Unkstruct_800D3888",
-     "sites": 18592,
-     "bodies": 4376,
+     "sites": 19259,
+     "bodies": 4455,
      "size_hint": 268,
      "fields": 120,
      "conflicts": 50,
-     "sign_mixed": 43,
+     "sign_mixed": 44,
      "merges": {
-      "arg&": 238,
-      "arg": 6854,
-      "param": 9268,
-      "assign": 8417,
-      "return": 711,
-      "ret-of": 2300,
-      "assign&": 18,
-      "field": 978
+      "arg&": 232,
+      "arg": 6924,
+      "param": 9534,
+      "assign": 7823,
+      "return": 742,
+      "ret-of": 2525,
+      "assign&": 19,
+      "field": 703
      },
      "globals_at": [
       "D_800D3888",
-      "D_80181E74",
-      "D_80181E78"
+      "D_80181538",
+      "D_801818AC"
      ],
      "globals_ptr": [
       "D_8006386C",
@@ -283025,16 +283091,16 @@
     },
     {
      "name": "Unkstruct_80126B58",
-     "sites": 4975,
-     "bodies": 2466,
+     "sites": 4977,
+     "bodies": 2467,
      "size_hint": 588,
      "fields": 165,
      "conflicts": 40,
      "sign_mixed": 45,
      "merges": {
       "assign&": 104,
-      "param": 2112,
-      "arg": 1115,
+      "param": 2114,
+      "arg": 1116,
       "assign": 41,
       "field": 33
      },
@@ -283046,33 +283112,18 @@
      ]
     },
     {
-     "name": "Unkstruct_cb638a45",
-     "sites": 4131,
-     "bodies": 243,
-     "size_hint": 16,
-     "fields": 6,
-     "conflicts": 0,
-     "sign_mixed": 0,
-     "merges": {
-      "param": 12,
-      "arg": 5
-     },
-     "globals_at": [],
-     "globals_ptr": []
-    },
-    {
      "name": "Unkstruct_80126948",
-     "sites": 2788,
-     "bodies": 863,
+     "sites": 2767,
+     "bodies": 842,
      "size_hint": 164,
      "fields": 32,
      "conflicts": 0,
      "sign_mixed": 2,
      "merges": {
       "arg&": 1,
-      "assign": 101,
       "param": 8,
       "arg": 17,
+      "assign": 101,
       "assign&": 4
      },
      "globals_at": [
@@ -283095,6 +283146,21 @@
      "sign_mixed": 3,
      "merges": {
       "param": 2
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_cb638a45",
+     "sites": 2601,
+     "bodies": 153,
+     "size_hint": 16,
+     "fields": 6,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {
+      "param": 12,
+      "arg": 5
      },
      "globals_at": [],
      "globals_ptr": []
@@ -283199,6 +283265,27 @@
      "globals_ptr": []
     },
     {
+     "name": "Unkstruct_8012D3B4",
+     "sites": 1635,
+     "bodies": 187,
+     "size_hint": 38,
+     "fields": 27,
+     "conflicts": 20,
+     "sign_mixed": 8,
+     "merges": {
+      "assign": 82,
+      "param": 18,
+      "return": 6,
+      "arg": 11,
+      "ret-of": 53
+     },
+     "globals_at": [],
+     "globals_ptr": [
+      "D_80074808",
+      "D_800A5E60"
+     ]
+    },
+    {
      "name": "Unkstruct_d77ead3e",
      "sites": 1596,
      "bodies": 133,
@@ -283212,27 +283299,6 @@
      },
      "globals_at": [],
      "globals_ptr": []
-    },
-    {
-     "name": "Unkstruct_8012D3B4",
-     "sites": 1595,
-     "bodies": 184,
-     "size_hint": 36,
-     "fields": 23,
-     "conflicts": 16,
-     "sign_mixed": 9,
-     "merges": {
-      "assign": 78,
-      "return": 5,
-      "param": 16,
-      "arg": 10,
-      "ret-of": 53
-     },
-     "globals_at": [],
-     "globals_ptr": [
-      "D_80074808",
-      "D_800A5E60"
-     ]
     },
     {
      "name": "Unkstruct_80146A6C",
@@ -283418,7 +283484,7 @@
   },
   "global_blocks": {
    "n": 2122,
-   "members": 14244,
+   "members": 14248,
    "top": [
     {
      "base": "0x800cf10c",
@@ -283464,6 +283530,17 @@
      "widths": {
       "4": 21,
       "1": 2
+     }
+    },
+    {
+     "base": "0x801a9608",
+     "size": 80,
+     "members": 22,
+     "first": "D_801A9608",
+     "last": "D_801A9654",
+     "widths": {
+      "4": 18,
+      "2": 4
      }
     },
     {
@@ -283569,17 +283646,6 @@
      "widths": {
       "4": 20
      }
-    },
-    {
-     "base": "0x80191a90",
-     "size": 77,
-     "members": 20,
-     "first": "D_80191A90",
-     "last": "D_80191ADC",
-     "widths": {
-      "4": 19,
-      "1": 1
-     }
     }
    ]
   },
@@ -283597,9 +283663,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 39.0,
-   "decls_s": 185.4,
-   "total_s": 194.4
+   "walk_s": 38.4,
+   "decls_s": 184.4,
+   "total_s": 193.7
   }
  },
  "dup_layout_classes": [
