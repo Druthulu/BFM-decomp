@@ -3837,11 +3837,11 @@ s32 func_801839A4(s32 param_1, s32 param_2)
     func_8012F14C((s32)D_80126B78 + 0x34, (s32)&D_8018E8AC, (s32)&out1);
     func_8012F14C((s32)D_80126B78 + 0x34, (s32)&D_8018E8AC + 8, (s32)&out2);
 
-    iVar1 = func_80135888(*(s32 *)(param_1 + 0x20), *(s32 *)(param_1 + 0x58),
+    iVar1 = func_80135888(((Unkstruct_800B5CB8 *)param_1)->unk20, ((Unkstruct_800B5CB8 *)param_1)->unk58,
                            (s32)&out1, (s32)&out2);
 
     if (iVar1 != 0) {
-        func_8012F568(1, 0x4201, *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12),
+        func_8012F568(1, 0x4201, *(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12),
                       param_2, (s32)&out2, (s32)D_801152A8);
         return 1;
     }
@@ -3902,13 +3902,13 @@ s32 func_80183A98(void *a0) {
     flags = func_80183CA4();
     if (flags & 0x2000) {
         if ((rand() & 0xF) != 0) {
-            local.x0 = (s16)(*(s32 *)((u8 *)a0 + 0x10) >> 8);
-            local.x2 = (s16)(*(s32 *)((u8 *)a0 + 0x14) >> 8);
-            *(s32 *)((u8 *)a0 + 0xF0) =
+            local.x0 = (s16)(CAST_WIDTH(s32, (u8 *)a0, 0x10) >> 8);
+            local.x2 = (s16)(((Unkstruct_800B5CB8 *)a0)->unk14 >> 8);
+            CAST_WIDTH(s32, (u8 *)a0, 0xF0) =
                 func_80183C6C(D_800D3918, D_801152A8) * 2 - func_80183C6C(&local, D_800D3918);
         } else {
             s0 = rand() % 512;
-            s1 = *(s32 *)((u8 *)a0 + 0xF0) + 0x800;
+            s1 = CAST_WIDTH(s32, (u8 *)a0, 0xF0) + 0x800;
             {
                 s32 t;
                 if ((rand() & 1) == 0) {
@@ -3918,18 +3918,18 @@ s32 func_80183A98(void *a0) {
                     __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
                     t = s1 + s0;
                 }
-                *(s32 *)((u8 *)a0 + 0xF0) = t;
+                CAST_WIDTH(s32, (u8 *)a0, 0xF0) = t;
             }
         }
     } else if (flags & 0x8000) {
         if ((rand() & 0xF) != 0) {
-            local.x0 = (s16)(*(s32 *)((u8 *)a0 + 0x10) >> 8);
-            local.x2 = (s16)(*(s32 *)((u8 *)a0 + 0x14) >> 8);
-            *(s32 *)((u8 *)a0 + 0xF0) =
+            local.x0 = (s16)(CAST_WIDTH(s32, (u8 *)a0, 0x10) >> 8);
+            local.x2 = (s16)(((Unkstruct_800B5CB8 *)a0)->unk14 >> 8);
+            CAST_WIDTH(s32, (u8 *)a0, 0xF0) =
                 func_80183C6C(D_800D3918, &D_801152B0) * 2 - func_80183C6C(&local, D_800D3918);
         } else {
             s0 = rand() % 512;
-            s1 = *(s32 *)((u8 *)a0 + 0xF0) + 0x800;
+            s1 = CAST_WIDTH(s32, (u8 *)a0, 0xF0) + 0x800;
             {
                 s32 t;
                 if ((rand() & 1) == 0) {
@@ -3940,7 +3940,7 @@ s32 func_80183A98(void *a0) {
                     t = s1 + s0;
                     __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
                 }
-                *(s32 *)((u8 *)a0 + 0xF0) = t;
+                CAST_WIDTH(s32, (u8 *)a0, 0xF0) = t;
             }
         }
     } else {
@@ -4035,9 +4035,9 @@ void func_80183DA0(s32 a0) {
 
     val = 0x7F;
     lvl = 7;
-    pos.vx = *(s16 *)(a0 + 0x6);
-    pos.vy = *(s16 *)(a0 + 0xA);
-    pos.vz = *(s16 *)(a0 + 0xE);
+    pos.vx = CAST_SIGN(s16, a0, 0x6);
+    pos.vy = CAST_SIGN(s16, a0, 0xA);
+    pos.vz = CAST_SIGN(s16, a0, 0xE);
     ((void (*)(void *, void *))func_8012EFB8)(&pos, &out);
 
     if (out.vx >= 0 ? out.vx < 0x140 : -out.vx < 0x140) {

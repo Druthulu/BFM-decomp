@@ -4165,10 +4165,10 @@ void func_8018046C(s32 a0) {
             s3 = 0x325;
             s0 = (u8 *)D_801202A0;
             for (s1 = 0; s1 < 0x60; s1++, s0 += 0x10C) {
-                s32 v = *(u16 *)(s0);
+                s32 v = ((Unkstruct_800B5CB8 *)s0)->unk0;
                 if (v == s4) {
                     func_8012C098((void *)s0);
-                    v = *(u16 *)(s0);
+                    v = ((Unkstruct_800B5CB8 *)s0)->unk0;
                 }
                 if (v == s3) {
                     func_8012C098((void *)s0);
@@ -4178,7 +4178,7 @@ void func_8018046C(s32 a0) {
             s3 = 0x65;
             s0 = (u8 *)D_8011DB30;
             for (s1 = 0; s1 < 0x80; s1++, s0 += 0x38) {
-                s32 v0 = *(u16 *)(s0);
+                s32 v0 = ((Unkstruct_800B5CB8 *)s0)->unk0;
                 if (v0 == s3) {
                     func_801292C8((u8 *)s0);
                 }

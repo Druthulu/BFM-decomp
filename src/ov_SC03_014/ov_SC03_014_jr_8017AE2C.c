@@ -4139,15 +4139,15 @@ void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
     SVECTOR_8017C290 *pSVar6;
 
     D_801EA8F0 = 0x50000000;
-    D_801EA8E0 = D_8018EF98[*(s32 *)(a0 + 0x2C)];
-    D_801EA8E4 = D_8018EFAC[*(s32 *)(a0 + 0x2C)];
-    *(PW8017C290 *)&D_801EA8E8 = D_8018EF98[*(s32 *)(a0 + 0x2C)];
-    *(PW8017C290 *)&D_801EA8EC = D_8018EFAC[*(s32 *)(a0 + 0x2C)];
+    D_801EA8E0 = D_8018EF98[((Unkstruct_80126B58 *)a0)->unk2C];
+    D_801EA8E4 = D_8018EFAC[((Unkstruct_80126B58 *)a0)->unk2C];
+    *(PW8017C290 *)&D_801EA8E8 = D_8018EF98[((Unkstruct_80126B58 *)a0)->unk2C];
+    *(PW8017C290 *)&D_801EA8EC = D_8018EFAC[((Unkstruct_80126B58 *)a0)->unk2C];
 
     func_80013F3C((s32)&m);
     RotMatrixZ((s16)a3, &m);
-    m.t[0] = *(s16 *)(a0 + 0x6);
-    m.t[1] = *(s16 *)(a0 + 0xA);
+    m.t[0] = ((Unkstruct_80126B58 *)a0)->unk6;
+    m.t[1] = ((Unkstruct_80126B58 *)a0)->unkA;
     m.t[2] = 0;
     func_8004914C(&m);
     func_800491AC(&m);
@@ -4174,7 +4174,7 @@ void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
-    r0_00->vz = *(u16 *)(a0 + 0xE);
+    r0_00->vz = CAST_SIGN(u16, a0, 0xE);
     func_80017714(r0_00);
 
     a1->vx = a1->vx + 4;
@@ -4187,7 +4187,7 @@ void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
     gte_rtv0tr();
     gte_stsv(pSVar6);
 
-    r0_00->vz = *(u16 *)(a0 + 0xE);
+    r0_00->vz = CAST_SIGN(u16, a0, 0xE);
     func_80017714(r0_00);
 }
 
