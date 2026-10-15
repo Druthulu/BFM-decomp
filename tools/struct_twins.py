@@ -27,7 +27,8 @@ Objects (the binding a use of the name establishes; scanned from src/**/*.{c,h} 
   AG a global used by the routine at one address, counted only across binaries (per-overlay instances of one table)
   F  a member of an aggregate (no address)
   U  a use site, no object (evidence for UNBOUND only): the using function (<binary>/0x<addr>) or, outside a function, the
-     name the enclosing file-scope declaration defines (a struct naming it as a member, an alias typedef)
+     name the enclosing file-scope declaration defines (a struct naming it as a member, an alias typedef); a T3 band def
+     (config/type_folds.tsv `define` target under a `# T3` line) also cites its map type's <census>/sites.jsonl bodies (T3.c3)
 Each G/L object is joined to its struct_map cluster through <census>/body_base_type.json when present (`--sites` run).
 
 Usage:
@@ -333,10 +334,48 @@ def scan_all(wanted):
     return bind
 
 
+def t3_targets(folds_text):
+    """(pure) {define target: map type} for the config/type_folds.tsv rows under a `# T3` comment line (P3.40 T3 band defs, T3.c3)"""
+    out, t3 = {}, False
+    for line in folds_text.splitlines():
+        if line.startswith("#"):
+            t3 = t3 or line.startswith("# T3")
+            continue
+        p = line.split("\t")
+        if t3 and len(p) >= 3 and p[1] == "define":
+            out[p[2]] = p[0]
+    return out
+
+
+def t3_site_cites(lines, mtypes, cap=3):
+    """(pure) {map type: [<binary>/0x<fn addr>, …]} from census sites.jsonl lines: the distinct addressed bodies using each map type,
+    sorted, capped (a T3 band def is dead until rung S draws it, so its map type's use sites are its only addressed evidence)"""
+    acc = collections.defaultdict(set)
+    for line in lines:
+        i = line.rfind('"type": "')
+        if i < 0 or line[i + 9:line.index('"', i + 9)] not in mtypes:
+            continue
+        s = json.loads(line)
+        ci = f"{binary_of(s['tu'])}/{addr_of(s.get('fn') or '')}"
+        if has_addr(ci):
+            acc[s["type"]].add(ci)
+    return {t: sorted(v)[:cap] for t, v in acc.items()}
+
+
 def collect(census):
     rows = load_rows(census)
     wanted = {nm for r in rows for nm in r["names"]}
     bind = scan_all(wanted)                       # name -> key -> (cite, [where])
+    # T3.c3: an unbound T3 band def (type_folds `define` target) cites its map type's census use sites as U evidence
+    fp = REPO / "config" / "type_folds.tsv"
+    t3 = {nm: mt for nm, mt in (t3_targets(fp.read_text()) if fp.exists() else {}).items()
+          if nm in wanted and not any(k[0] not in ("F", "AG", "U") for k in bind.get(nm, {}))}
+    if t3 and (census / "sites.jsonl").exists():
+        with open(census / "sites.jsonl") as fh:
+            sc_ = t3_site_cites(fh, set(t3.values()))
+        for nm, mt in t3.items():
+            for ci in sc_.get(mt, ()):
+                bind[nm][("U", ci)] = [ci, [f"T3 map type {mt}"]]
     # a type naming an unbound name as a member / alias (U owner): its own bound objects locate the use (one level)
     unb = {nm for nm in wanted if not any(k[0] not in ("F", "AG", "U") for k in bind.get(nm, {}))}
     owners = {k[1] for nm in unb for k in bind.get(nm, {}) if k[0] == "U" and "/" not in k[1]}
@@ -358,7 +397,7 @@ def collect(census):
                   if len({nm for nm, _ in v}) > 1 and (k[0] != "AG" or len({b for _, b in v}) > 1)}
         unbound = [nm for nm in r["names"] if not any(k[0] not in ("F", "AG", "U") for k in bind.get(nm, {}))]
         klass = "SHARED" if shared else "UNBOUND" if unbound else "SEPARATE"
-        out.append(dict(r, klass=klass, sdk=sdk, shared=shared, unbound=unbound, owner_objs=owner_objs,
+        out.append(dict(r, klass=klass, sdk=sdk, shared=shared, unbound=unbound, owner_objs=owner_objs, t3={nm: t3[nm] for nm in unbound if nm in t3},
                         bind={nm: bind.get(nm, {}) for nm in r["names"]}))
     return out
 
@@ -396,8 +435,11 @@ def section(c):
         ua = sorted({u for nm in unb for u in uses(c, nm) if has_addr(u)})
         if not ua and not addr:
             return None
+        t3 = c.get("t3") or {}
+        t3n = (f"; {len(t3)} T3 band def{'s' if len(t3) > 1 else ''}, dead until rung S; map type "
+               + ", ".join(f"{t3[nm]} ({nm})" for nm in sorted(t3))) if t3 else ""
         cause = (f"{head}; {len(unb)} bound to no object (UNBOUND), used only by: {', '.join(ua[:MAX_CITES]) or 'no addressed site'}"
-                 f"{' …' if len(ua) > MAX_CITES else ''}" + (f"; the other {len(names) - len(unb)} {bound}" if len(unb) < len(names) else ""))
+                 f"{' …' if len(ua) > MAX_CITES else ''}" + t3n + (f"; the other {len(names) - len(unb)} {bound}" if len(unb) < len(names) else ""))
     else:
         cause = f"{head} {bound}"
     if c["sdk"]:
@@ -406,7 +448,9 @@ def section(c):
     for nm in names:
         if nm in unb:
             us = uses(c, nm)
-            lines.append(f"- `{nm}`: 0 obj — used by {', '.join(us[:MAX_CITES]) if us else 'nothing outside its definition'}"
+            t3m = (c.get("t3") or {}).get(nm)
+            lines.append(f"- `{nm}`: 0 obj — " + (f"T3 band def, dead until rung S; map type {t3m}; " if t3m else "")
+                         + f"used by {', '.join(us[:MAX_CITES]) if us else 'nothing outside its definition'}"
                          f"{f' (+{len(us) - MAX_CITES})' if len(us) > MAX_CITES else ''}")
             continue
         cs, total = cites(c["bind"][nm])

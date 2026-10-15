@@ -4416,6 +4416,9 @@ T3_RUN = REPO / ".run" / "P40" / "t3"
 STRUCT_TYPES_H = REPO / "include" / "struct_types.h"
 T3_BEGIN, T3_END = "/* T3 (P3.40) band defs:begin — restruct.py --decide-band --write; generated, ordered by band rank */", "/* T3 band defs:end */"
 _T3_DECL = re.compile(r"^\s*(?:(?:extern|static|const|volatile)\s+)*(?:(?:struct|union)\s+)?([A-Za-z_]\w*)\s+([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*(?:;|=|__asm__|__attribute__)")
+TWINS_DOC_FILE = REPO / "docs" / "struct-twins.md"
+# T3.c3: the census's placeholder-name rule (type_census.py run_census name_sig, verbatim; local there, so copied, never changed here)
+_T3_WILD = re.compile(r"^(?:unk|f|field_?|pad|p|a|b|c|d|w|v|m|t|x|s|u|_|arr|buf|data|val|word|byte|half|tmp|r|q|n)?[0-9A-Fa-fx_]*$")
 
 
 def tnc_sites():
@@ -4533,9 +4536,78 @@ def t3_render(name, rec, entries, comment):
     return sl.render_struct(name, entries, size=size, comment=comment or None)
 
 
-def decide_band(band, smap, tnc, latest, can, folds, decl, idents, addr_of=None):
+def t3_sig(d):
+    """The census tier signature of a def: one entry per field, `*` for a placeholder name (type_census.py name_sig/sig_of)."""
+    return tuple("*" if _T3_WILD.match(f.get("name") or "") else f.get("name") or "" for f in d["fields"])
+
+
+def t3_twin_index(texts):
+    """({lhash: {signature: {names}}}, scope defs) over the defs of {rel: text} (the canonical type files), by the census's own
+    parser, Resolver and def_layout_hash; enums and field-less / unknown-layout defs are not in any dup class (run_census)."""
+    defs, g = [], {}
+    for rel, text in texts.items():
+        w = tc.walk_file(text, rel)
+        defs += w["definitions"]
+        for d in w["definitions"]:
+            for n in d["names"] + ([d["tag"]] if d["tag"] else []):
+                g.setdefault(n, d)
+        for al in w["typedef_aliases"]:
+            g.setdefault(al["name"], dict(kind="alias", alias_of=al["alias_of"], alias_stars=al["alias_stars"], alias_dims=al["alias_dims"]))
+    res = tc.Resolver(dict(g))
+    idx = collections.defaultdict(lambda: collections.defaultdict(set))
+    for d in defs:
+        if d["kind"] == "enum" or not d["fields"]:
+            continue
+        lay = res.layout_of_fields(d["fields"], d["kind"], packed=("packed" in d["attrs"]))
+        if lay is None:
+            continue
+        sg = t3_sig(d)
+        idx[tc.def_layout_hash(res, d, lay)][("*",) if all(x == "*" for x in sg) else sg] |= set(d["names"]) | ({d["tag"]} if d["tag"] else set())
+    return idx, g
+
+
+def t3_canon_twin(text, idx, g):
+    """The canonical name a rendered def would form a TIER-1 dup class with (same lhash, exactly one meaningful signature among the
+    class's defs plus this one: type_census.py run_census's tier rule), else None. Tier-2 (all-placeholder) classes are not twins here:
+    struct_twins.py evidences them. G62: layout identity is no entity evidence, so a twin is a residual, never a fold."""
+    ds = tc.walk_file(text, "include/struct_types.h")["definitions"]
+    if len(ds) != 1 or not ds[0]["fields"]:
+        return None
+    d = ds[0]
+    res = tc.Resolver(dict(g))
+    lay = res.layout_of_fields(d["fields"], d["kind"], packed=("packed" in d["attrs"]))
+    ex = idx.get(tc.def_layout_hash(res, d, lay)) if lay else None
+    if not ex:
+        return None
+    sg = t3_sig(d)
+    sigs = set(ex) | {("*",) if all(x == "*" for x in sg) else sg}
+    mean = [s for s in sigs if s != ("*",)]
+    if len(mean) != 1:
+        return None
+    return min(ex.get(mean[0]) or ex[("*",)])
+
+
+def t3_dead_kept(text, decisions):
+    """(pure) docs/struct-twins.md text with one `## Dead kept` bullet per define decision whose target is not listed yet, appended at
+    the section's end (created at the file's end when absent); idempotent."""
+    m = re.search(r"(?m)^## Dead kept[ \t]*\n", text)
+    if not m:
+        text = text.rstrip("\n") + "\n\n## Dead kept\n"
+        m = re.search(r"(?m)^## Dead kept[ \t]*\n", text)
+    rest = re.search(r"(?m)^## ", text[m.end():])
+    end = m.end() + rest.start() if rest else len(text)
+    have = set(re.findall(r"(?m)^\s*[-*]\s+`?([A-Za-z_]\w*)", text[m.end():end]))
+    add = "".join(f"- {d['target']} — P3.40 T3 band def (decide-band define of map type {d['map_type']}, band rank {d['rank']}), "
+                  f"dead until drawn by rung S\n" for d in decisions if d["action"] == "define" and d["target"] not in have)
+    body = text[m.end():end].rstrip("\n")
+    body = (body + "\n" if body else "") + add
+    return text[:m.end()] + body + ("\n" + text[end:] if rest else "")
+
+
+def decide_band(band, smap, tnc, latest, can, folds, decl, idents, addr_of=None, twin_of=None):
     """(pure) ([decision dict(rank, map_type, action, target, evidence, note, facts, text)], [missing map types], n_existing) for the
-    band rows given. Order per type: fold on E1 lineage / E2 anchor (target canonical) -> residual by layout class -> define
+    band rows given. Order per type: fold on E1 lineage / E2 anchor (target canonical) -> residual by layout class -> residual
+    TYPE-CANON-TWIN when `twin_of(rendered def)` names a canonical def it would form a tier-1 dup class with (T3.c3) -> define
     Unkstruct_<owner addr> (suffix _2, _3 … on collision with `idents`, existing fold targets or an earlier target)."""
     addr_of = addr_of or dl.fn_addr
     by_t = collections.defaultdict(list)
@@ -4584,8 +4656,12 @@ def decide_band(band, smap, tnc, latest, can, folds, decl, idents, addr_of=None)
             d.update(action="fold", target=anchor[1], evidence=f"E2-anchor:{anchor[0]}", note=f"{anchor[0]} is declared {anchor[1]} in src/ or include/")
         else:
             cause, txt = t3_residual(rec)
+            tw = None if cause or not twin_of else twin_of(txt)
             if cause:
                 d.update(action="residual", target=cause, evidence=txt, note=f"layout class {cause} (struct_map record)")
+            elif tw:
+                d.update(action="residual", target="TYPE-CANON-TWIN", evidence=f"layout-twin:{tw}",
+                         note=f"the flat def would form a tier-1 dup class with canonical {tw}; no fold (G62: layout identity is no entity evidence)")
             else:
                 own = sorted((addr_of(s.get("fn"), s["tu"]), s.get("fn") or "") for s in ss if addr_of(s.get("fn"), s["tu"]) is not None)
                 gad = sorted(int(m.group(1), 16) for g in rec.get("globals_at") or [] for m in [re.match(r"D_([0-9A-Fa-f]{8})", g)] if m)
@@ -4650,7 +4726,9 @@ def decide_band_cmd(a):
         tnc = tnc_sites()
         names = {g for b in sel if b["map_type"] in smap for g in smap[b["map_type"]].get("globals_at") or []}
         decl, idents = t3_tree_facts(names)
-        ds_, missing, _ = decide_band(sel, smap, tnc, ledger_latest(load_ledger()), canon_types(), folds, decl, idents)
+        tidx, tg = t3_twin_index({h: (REPO / h).read_text(errors="surrogateescape") for h in CANON_HEADERS if (REPO / h).exists()})
+        ds_, missing, _ = decide_band(sel, smap, tnc, ledger_latest(load_ledger()), canon_types(), folds, decl, idents,
+                                      twin_of=lambda txt: t3_canon_twin(txt, tidx, tg))
     cls = collections.Counter((d["action"], d["evidence"].split(":")[0] if d["action"] == "fold" else d["target"] if d["action"] == "residual" else "-")
                               for d in ds_)
     print(f"decide-band {tag}: {len(ds_)} rows; " + " ".join(f"{k[0]}/{k[1]}={n}" for k, n in sorted(cls.items())))
@@ -4671,8 +4749,10 @@ def decide_band_cmd(a):
             fh.write("\t".join((d["map_type"], d["action"], d["target"], d["evidence"], d["note"])) + "\n")
     if any(d["action"] == "define" for d in ds_):
         STRUCT_TYPES_H.write_text(splice_t3_defs(STRUCT_TYPES_H.read_text(), ds_))
+        TWINS_DOC_FILE.write_text(t3_dead_kept(TWINS_DOC_FILE.read_text(), ds_))     # T3.c3: dead until rung S draws them
     _folds = None
-    print(f"decide-band {tag}: appended {len(ds_)} rows to config/type_folds.tsv, {sum(d['action'] == 'define' for d in ds_)} defs to include/struct_types.h")
+    print(f"decide-band {tag}: appended {len(ds_)} rows to config/type_folds.tsv, {sum(d['action'] == 'define' for d in ds_)} defs to include/struct_types.h"
+          f" and to ## Dead kept of docs/struct-twins.md")
     return 0
 
 
@@ -6066,6 +6146,42 @@ def selftest(real=False):
     h_ = splice_t3_defs(h_, [d for d in dec_ if d["map_type"] == "T_sg"])
     ok("T3 splice: the marker block sits before #endif; defs ordered by band rank across batches",
        h_.index(T3_BEGIN) < h_.index("Unkstruct_80010000_2;") < h_.index("Unkstruct_80010000_3;") < h_.index(T3_END) < h_.index("#endif"), h_[:200])
+    # T3.c3: TYPE-CANON-TWIN (tier-1 rule), ## Dead kept append, struct_twins' T3 U evidence
+    tw_h_ = ("typedef struct { s32 hp; u16 kind; u16 unk6; } Named8;\ntypedef struct { s32 hp; u16 tag; u16 unk6; } NamedB8;\n"
+             "typedef struct { s32 hp; s32 mp; } Pair8;\ntypedef struct { s16 unk0; s16 unk2; s32 unk4; } Opaq8;\n")
+    tidx_, tg_ = t3_twin_index({"include/struct_types.h": tw_h_})
+    tw_ = lambda body: t3_canon_twin(f"typedef struct {{ {body} }} T_x;\n", tidx_, tg_)
+    ok("T3.c3 twin: a placeholder def joining a one-camp named class is tier 1 (twin of it); a two-camp class, an all-placeholder "
+       "class and a fresh layout are not", tw_("s32 unk0; s32 unk4;") == "Pair8" and tw_("s32 unk0; u16 unk4; u16 unk6;") is None
+       and tw_("s16 unk0; s16 unk2; s32 unk4;") is None and tw_("u8 unk0; u8 unk1;") is None,
+       f"{tw_('s32 unk0; s32 unk4;')} {tw_('s32 unk0; u16 unk4; u16 unk6;')}")
+    tws_ = {"T_e1": mk_("T_e1", layout=[(0, 4, "s", 3), (4, 4, "s", 2)]), "T_d2": mk_("T_d2", layout=[(0, 1, "u", 1), (4, 1, "u", 1)])}
+    twb_ = [dict(rank=1, map_type="T_e1", sites=3, bodies=1), dict(rank=2, map_type="T_d2", sites=3, bodies=1)]
+    twd_, _, _ = decide_band(twb_, tws_, [sit_("T_e1", "func_80030000"), sit_("T_d2", "func_80030000")], {}, _canon, {}, {}, set(),
+                             addr_of=lambda fn, tu_: dl.fn_addr(fn, tu_), twin_of=lambda txt: t3_canon_twin(txt, tidx_, tg_))
+    ok("T3.c3 decide: a tier-1 twin becomes residual TYPE-CANON-TWIN layout-twin:<canon> and spends no target name",
+       [(d["action"], d["target"], d["evidence"]) for d in twd_] == [("residual", "TYPE-CANON-TWIN", "layout-twin:Pair8"),
+                                                                    ("define", "Unkstruct_80030000", "owner:func_80030000")],
+       str([(d["action"], d["target"], d["evidence"]) for d in twd_]))
+    dk0_ = "# T\n\n## Twins\nx\n\n## Dead kept\n- Old — kept\n"
+    dk1_ = t3_dead_kept(dk0_, twd_ + [dict(action="define", target="Old", map_type="T_o", rank=9)])
+    dk2_ = t3_dead_kept(dk0_.replace("## Dead kept\n- Old — kept\n", "## Dead kept\n- Old — kept\n\n## After\ny\n"), twd_)
+    ok("T3.c3 dead kept: define targets appended at the section's end, listed names skipped, idempotent",
+       dk1_ == dk0_ + "- Unkstruct_80030000 — P3.40 T3 band def (decide-band define of map type T_d2, band rank 2), dead until drawn by rung S\n"
+       and t3_dead_kept(dk1_, twd_) == dk1_ and dk2_.index("Unkstruct_80030000") < dk2_.index("## After") and dk2_.endswith("## After\ny\n"), dk1_)
+    import struct_twins as st_
+    tt_ = st_.t3_targets("map_type\taction\ttarget\nA\tdefine\tUnkstruct_OLD\n# T3 (P3.40) x\nB\tdefine\tUnkstruct_80030000\nC\tresidual\tTYPE-X\n")
+    sl_ = [json.dumps(dict(tu=t_, fn=f_, type=y_)) for t_, f_, y_ in (("src/ov_SC01_000/a.c", "func_80140000", "B"), ("src/800.c", "func_80012000", "B"),
+                                                                     ("src/800.c", "fx_a", "B"), ("src/800.c", "func_80013000", "Z"))]
+    sc3_ = st_.t3_site_cites(sl_, {"B"})
+    cl_ = dict(lhash="abc123", size=8, names=["Unkstruct_80030000", "Unkstruct_80030000_2"], klass="UNBOUND", sdk=[], shared={},
+               unbound=["Unkstruct_80030000", "Unkstruct_80030000_2"], owner_objs={}, t3={"Unkstruct_80030000": "B", "Unkstruct_80030000_2": "B"},
+               bind={n: {("U", ci): [ci, []] for ci in sc3_["B"]} for n in ("Unkstruct_80030000", "Unkstruct_80030000_2")})
+    tl_, _ = tc.load_twins("## Twins\n" + (st_.section(cl_) or "") + "\n")
+    ok("T3.c3 struct_twins: T3 targets only under `# T3`; map-type sites cite addressed bodies; the UNBOUND section's cause carries "
+       "an address and the T3 note", tt_ == {"Unkstruct_80030000": "B"} and sc3_ == {"B": ["main/0x80012000", "ov_SC01_000/0x80140000"]}
+       and "abc123" in tl_ and tc.ADDR_RX.search(tl_["abc123"]["cause"]) and "T3 band defs, dead until rung S; map type B" in tl_["abc123"]["cause"],
+       f"{tt_} {sc3_} {tl_}")
     _folds = folds_keep_
     ok("--forms I,M: the stub never writes the tree", fxi.read_text() == FIXTURE_TU_IM)
     ok("the selftest never touches the live inflight.json", True)
