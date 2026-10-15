@@ -37,7 +37,8 @@ PY = {{PY}}
 | phaseend_index | `PY tools/phaseend_index.py` | assemble and archive a PhaseEnd |
 | genend_index | `PY tools/genend_index.py` | assemble a GenerationEnd |
 | commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes |
-| run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
+| run | `bash tools/run.sh` | any command that may print >40 lines |
+| job | `PY tools/job.py` | `start -- <cmd>`: a command that may run longer than a few minutes, detached; `status <id>` |
 | curate | `PY tools/curate.py` | `memory --route\|--reindex`, `rules --reseed\|--demote`, `cookbook --demote`, `claude-md\|card --refresh`, `how-we-work --retire`; `--dry-run` first |
 | {{PROJECT_TOOL}} | `{{PROJECT_TOOL_COMMAND}}` | {{PROJECT_TOOL_PURPOSE}} |
 

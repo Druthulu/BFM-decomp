@@ -43,9 +43,10 @@ Contracts (≤ 300 tokens each):
 - Coder report: starts with one plain word, `done`, `question` or `blocked`, then what changed and the commit.
 - Retriever brief: `QUESTION · FOR · SCOPE · CAP · REPORT yes|auto · KNOWN`; return: the answer only, `REPORT: pending/<file>`
   first when a report was written (the expert runs `/usr/bin/python3 tools/research_add.py adopt` and cites the id).
-Handoff: when the harness says the context threshold was reached, stabilise within two turns, write `TASK_PROGRESS.md`
-(verbose: done, in flight, hypotheses rejected with evidence, current hypothesis, next five steps, gotchas, state to carry
-verbatim), commit, return `handoff`. The respawn reads it first and archives it to `logs/T<n>.progress<k>.md` when done.
+Handoff: when the harness says the context threshold was reached, finish the change in hand until it builds and its tests
+pass, start nothing new, write `TASK_PROGRESS.md` (verbose: done, in flight, hypotheses rejected with evidence, current
+hypothesis, next five steps, gotchas, state to carry verbatim), commit only what is green (anything mid-way stays
+uncommitted, saved as `TASK_PROGRESS.patch` beside it), return `handoff`. The respawn reads it first and archives it to `logs/T<n>.progress<k>.md` when done.
 
 ## 2. Output and context
 A command that may print more than ~40 lines runs through `bash tools/run.sh <name> -- <cmd>` (log in `.run/logs/`, tail
@@ -117,9 +118,12 @@ session; the harness manages context. Never let an imagined budget shorten a rea
 takes the context it takes. Plain-English recaps at phase end define every term they use.
 
 ## 9. Long compute and harness gotchas
-Long commands: `bash tools/run.sh --bg <name> -- <cmd>` (detached) then `bash tools/run.sh --wait <name> --max <s>` in one
-call; or run in the foreground with a raised timeout (`BASH_MAX_TIMEOUT_MS` is set). Never hand-write a sleep-poll
-loop; a run that must outlive the agent is a detached process, not a background task. Long gates run
+A command that may run longer than a few minutes (a bake, a backtest, a batch) starts as a job:
+`PY tools/job.py start -- <cmd>` prints its id and returns. Then end your turn and hand back `WAITING: job <id>`;
+the mod keeps you warm and tells you `job <id> finished: exit <n>` (or that it died, with its log's last lines), and
+you pick up from there: its log is `.run/jobs/<id>/log` (a final report refused as already used goes out as plain
+text). Shorter commands run in the foreground with a raised timeout (`BASH_MAX_TIMEOUT_MS` is set). Never
+hand-write a sleep-poll loop; a run that must outlive the agent is a detached process, not a background task. Long gates run
 in the foreground with a timeout (the low-memory guard kills background jobs mid-report). `pkill -f` with a literal from
 your own command line kills your own shell: kill by pid. Windows: the Python is the one named in `HOW_WE_WORK.md`
 (`python`, not `python3`); PowerShell `Set-Content -Encoding utf8` writes a BOM, use `utf8NoBOM` or Python; write JSON

@@ -11,18 +11,18 @@
       "user": null
     },
     ".claude/agents/pa-claude.md": {
-      "base": "3.28.25",
-      "sha": "60ff0d0107e79ec4255222620a0d8ba40b0adb398c22460ba1cc2eeaa734cb3e",
+      "base": "3.28.27",
+      "sha": "1936b9484563221cb108d217619b5ec4f9c9ec633abc69a740137cf2a4e9334e",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
-      "base": "3.25.1",
-      "sha": "1c5d2ae461c59f81c5e00f3ef11b658cf4630d55ba05df5624751e5f7e3201f9",
+      "base": "3.28.3",
+      "sha": "20f93319f4993cd31a584fa912e286e32c8e777759fb3c9dcbde846d82822512",
       "user": null
     },
     ".claude/agents/pa-expert.md": {
-      "base": "3.25.2",
-      "sha": "05ee9373b8451faa8002eba88798c478fd1927e160855f51ce0a6c7955a23cd3",
+      "base": "3.28.4",
+      "sha": "ec6d7e0a8816fefa2449be13220ba32e94725d6a649271523b8316b79535901b",
       "user": null
     },
     ".claude/agents/pa-planner.md": {
@@ -62,12 +62,12 @@
     },
     ".claude/skills/project-architect/SKILL.md": {
       "base": null,
-      "sha": "808b003035098e90b8b15e3599627d4709ea79c38f6c77dbef5ae96962cce68f",
+      "sha": "7c511c0ccfabe7a83531f6b570313bd75b80cf7c0d1192a6b7f2d10ef2eccbd3",
       "user": null
     },
     "docs/project-architect.md": {
       "base": null,
-      "sha": "80183e4d90aab10fdbd117660684f45520148eb8d5931236168a746d64e6b74b",
+      "sha": "1ed701ccb64ee0400edf13f4656dccae36b98c6f47a170757a1a68e9e017ac2c",
       "user": null
     },
     "templates/CLAUDE.template.md": {
@@ -92,7 +92,7 @@
     },
     "templates/HOW_WE_WORK.template.md": {
       "base": null,
-      "sha": "2353f4c28ecdbf4942fcbd59e7bd43c5a1cdbf7d11e3e563539757e19d67ff4c",
+      "sha": "05773492954ef49da0dfad1c16db81f68341bd232b0be5aefe80451a3eeb8674",
       "user": null
     },
     "templates/INBOX.template.md": {
@@ -152,7 +152,7 @@
     },
     "templates/TASK_PROGRESS.template.md": {
       "base": null,
-      "sha": "a7fc38193b55208db3ebe48ca199d39580c0bdd14f3a134ee810854a1522a34b",
+      "sha": "4bc4a5a5ab60d5446fed3fc0adf5f8578e001682e14a7b50b1269881452f2fe6",
       "user": null
     },
     "templates/log.template.md": {
@@ -235,6 +235,11 @@
       "sha": "aea4c1291c60f2a22e47e7d8df40944dd622109693faa0ad0dbbb69775f4d023",
       "user": null
     },
+    "tools/job.py": {
+      "base": null,
+      "sha": "c87ed207bf9e3f1846e0d0abcbae327c662f0c5924917b1f5c7422a0c9077247",
+      "user": null
+    },
     "tools/journal_rollup.py": {
       "base": null,
       "sha": "8fff709844d94b805b78b53e067e3fb4b317c6925dff1864900b93dd7bf19f09",
@@ -267,7 +272,7 @@
     },
     "tools/plan_edit.py": {
       "base": null,
-      "sha": "a73a814b8a36cd72b1cdc6d60f7fe9909e82eeda8a9bf33f68f83310d1565870",
+      "sha": "632c1679d83f576f86ed8886108a93b1cb08bde84981d3edd6deb1ef6cf6787e",
       "user": null
     },
     "tools/research_add.py": {
@@ -307,8 +312,8 @@
     }
   },
   "format": 1,
-  "git": "8e3ce5a4",
-  "installed": "2026-10-15T05:28:17Z",
+  "git": "2ab794b6",
+  "installed": "2026-10-15T20:15:39Z",
   "package": null,
   "phase": "3.28.1",
   "upstream_version": "3.28.1"
