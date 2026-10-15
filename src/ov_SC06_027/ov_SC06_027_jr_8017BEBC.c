@@ -3259,10 +3259,10 @@ void func_8017D9E0(void) {
     D_8019D2B8 = 1;
     v1 = D_801202A0;
     for (a0 = 0; a0 < 0x60; a0++, v1 += 0x10C) {
-        v0 = *(u16 *)(v1 + 0x0);
+        v0 = ((Unkstruct_800B5CB8 *)v1)->unk0;
         if (v0 == 0x392) {
             s16 *a1 = &D_80181AA2;
-            v0 = *(u16 *)(v1 + 0xA);
+            v0 = ((Unkstruct_800B5CB8 *)v1)->unkA;
             *a1 = v0 - 0x100;
         }
     }
