@@ -3078,10 +3078,10 @@ void func_8017F3FC(s32 arg0)
 
     obj = func_80132EF4(arg0, 0x22);
     if (obj != 0) {
-        *(s32 *)(obj + 0x34) = 0x2000;
-        *(s32 *)(obj + 0x10) = -(*(s32 *)(arg0 + 0x10) >> 2);
-        *(s32 *)(obj + 0x14) = -0x4000;
-        *(s32 *)(obj + 0x18) = -(*(s32 *)(arg0 + 0x18) >> 2);
+        CAST_WIDTH(s32, obj, 0x34) = 0x2000;
+        CAST_WIDTH(s32, obj, 0x10) = -(*(s32 *)(arg0 + 0x10) >> 2);
+        ((Unkstruct_800B5CB8 *)obj)->unk14 = -0x4000;
+        CAST_WIDTH(s32, obj, 0x18) = -(*(s32 *)(arg0 + 0x18) >> 2);
     }
 }
 

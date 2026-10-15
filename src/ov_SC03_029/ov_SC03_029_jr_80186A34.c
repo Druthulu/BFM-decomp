@@ -3218,31 +3218,31 @@ void func_80186B4C(s32 a0) {
     s32 q;
 
     s0 = a0;
-    v1 = *(u16 *)(s0 + 0x34);
+    v1 = ((Unkstruct_800B5CB8 *)s0)->unk34;
     s1 = 0;
 
     switch (v1) {
     case 0:
-        t = *(s32 *)(s0 + 0x1C) + 1;
-        *(s32 *)(s0 + 0x1C) = t;
+        t = ((Unkstruct_800B5CB8 *)s0)->unk1C + 1;
+        ((Unkstruct_800B5CB8 *)s0)->unk1C = t;
         if (t >= 0x29) {
             goto timeout;
         }
-        q = *(s32 *)(s0 + 0x20);
-        *(u16 *)(q + 0x10) -= 0x100;
+        q = ((Unkstruct_800B5CB8 *)s0)->unk20;
+        ((Unkstruct_800B5CB8 *)q)->unk10 -= 0x100;
         s1 = ((s32 (*)(s32, s32))func_8012CC64)(s0, (s32)&D_801C92DC);
         if (s1 & 0x2000) {
-            *(s32 *)(s0 + 0x1C) = 0xF;
-            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
-            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0;
+            ((Unkstruct_800B5CB8 *)s0)->unk1C = 0xF;
+            ((Unkstruct_800B5CB8 *)s0)->unk34 = ((Unkstruct_800B5CB8 *)s0)->unk34 + 1;
+            ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk10 = 0;
         }
         break;
 
     case 1:
         s1 = ((s32 (*)(s32))func_8012CBA4)(s0);
         if (!(s1 & 0x2000)) {
-            *(u16 *)(s0 + 0x34) = 2;
-            *(s32 *)(s0 + 0x1C) = 0;
+            ((Unkstruct_800B5CB8 *)s0)->unk34 = 2;
+            ((Unkstruct_800B5CB8 *)s0)->unk1C = 0;
             func_8012B23C(s0);
             break;
         }
@@ -3250,8 +3250,8 @@ void func_80186B4C(s32 a0) {
         goto merge2;
 
     case 2:
-        t = *(s32 *)(s0 + 0x1C) + 1;
-        *(s32 *)(s0 + 0x1C) = t;
+        t = ((Unkstruct_800B5CB8 *)s0)->unk1C + 1;
+        ((Unkstruct_800B5CB8 *)s0)->unk1C = t;
         if (t >= 0x29) {
 timeout:
             func_80131E00(s0, 0xD);
@@ -3261,10 +3261,10 @@ timeout:
         v0 = s1 & 0x2000;
 merge2:
         if (v0) {
-            p = *(s32 *)(s0 + 0x20);
-            *(u8 *)(s0 + 0xC1) = 0;
-            *(u16 *)(p + 0x10) = 0;
-            *(s16 *)(s0 + 0x5E) = 0;
+            p = ((Unkstruct_800B5CB8 *)s0)->unk20;
+            ((Unkstruct_800B5CB8 *)s0)->unkC1 = 0;
+            ((Unkstruct_800B5CB8 *)p)->unk10 = 0;
+            CAST_WIDTH(s16, s0, 0x5E) = 0;
             func_80186D90(s0);
         }
         break;

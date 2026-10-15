@@ -2943,7 +2943,7 @@ void func_8017DCDC(s32 arg0)
 extern void (*D_80184C64[])(void);
 
 void func_8017DD5C(void *a0) {
-    D_80184C64[*(u8 *)((s32)a0 + 0x216)]();
+    D_80184C64[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
@@ -3059,7 +3059,7 @@ void func_8017DFB8(void *arg0) {
 extern void (*D_80184C6C[])(void);
 
 void func_8017E014(void *a0) {
-    D_80184C6C[*(u8 *)((s32)a0 + 0x216)]();
+    D_80184C6C[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
@@ -3154,7 +3154,7 @@ void func_8017E1EC(void) {
 extern void (*D_80184C9C[])(void);
 
 void func_8017E214(void *a0) {
-    D_80184C9C[*(u8 *)((s32)a0 + 0x216)]();
+    D_80184C9C[((Unkstruct_8016F6E0 *)a0)->unk216]();
 }
 
 
@@ -3691,36 +3691,36 @@ void func_8017EF9C(void *a0) {
     s32 loc[5];
     register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
     s0 = (s32)a0;
-    *(s32 *)(s0 + 0x20) = ((s32 (*)(void))func_8012C1B8)();
-    if (*(s32 *)(s0 + 0x20) == 0) {
+    ((Unkstruct_800B5CB8 *)s0)->unk20 = ((s32 (*)(void))func_8012C1B8)();
+    if (((Unkstruct_800B5CB8 *)s0)->unk20 == 0) {
         func_8012CAE4((s32 *)s0);
         return;
     }
-    func_8001C2C4(*(s32 *)(s0 + 0x20));
+    func_8001C2C4(((Unkstruct_800B5CB8 *)s0)->unk20);
     {
         register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
         s32 v0;
-        v1 = D_80184CA8[*(s16 *)(s0 + 0x70)];
-        *(s16 *)(s0 + 0xFE) = (v1 & 0xF000) >> 12;
-        *(s16 *)(s0 + 0x100) = v1 & 0xF;
-        v0 = *(s32 *)(s0 + 0x20);
-        *(s16 *)(v0 + 0x12) = v1 & 0xFF0;
-        v1 = *(s16 *)(s0 + 0x100);
+        v1 = D_80184CA8[((Unkstruct_800B5CB8 *)s0)->unk70];
+        ((Unkstruct_800B5CB8 *)s0)->unkFE = (v1 & 0xF000) >> 12;
+        ((Unkstruct_800B5CB8 *)s0)->unk100 = v1 & 0xF;
+        v0 = ((Unkstruct_800B5CB8 *)s0)->unk20;
+        ((Unkstruct_800B5CB8 *)v0)->unk12 = v1 & 0xFF0;
+        v1 = ((Unkstruct_800B5CB8 *)s0)->unk100;
         if (v1 == 2) {
-            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0x400;
+            ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk10 = 0x400;
         }
     }
     func_8012B2CC(s0);
     loc[1] = 0;
     loc[0] = 0;
-    loc[2] = D_80184D0C[*(s16 *)(s0 + 0x100)];
+    loc[2] = D_80184D0C[((Unkstruct_800B5CB8 *)s0)->unk100];
     func_8012B14C(s0, (s32)&loc[0]);
     {
         s32 v0, v1;
         s32 pa0;
         __asm__("" : "=r"(pa0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
         v1 = (s32)&D_80184CCC[0];
-        v0 = (*(s16 *)(s0 + 0x100) << 4) + v1;
+        v0 = (((Unkstruct_800B5CB8 *)s0)->unk100 << 4) + v1;
         v0 |= 0x40000000;
         *(s32 *)(pa0 + 0x58) = v0;
         *(s32 *)(pa0 + 0x1C) = *(s16 *)(pa0 + 0x70);

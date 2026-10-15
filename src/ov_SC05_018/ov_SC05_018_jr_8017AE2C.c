@@ -2983,7 +2983,7 @@ void func_8017B824(void) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_801151D4;
-    D_801E62D4 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x48);
+    D_801E62D4 = (s16) ((Unkstruct_80126948 *)D_801151D4)->unk48;
     D_801E62D6 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
     D_801E62D8 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
     D_801E62DC = (s16) M2C_FIELD(D_801151D4, s32 *, 0x3C);
@@ -3503,9 +3503,9 @@ void func_8017C378(void) {
     s16 diffs[3];
     s32 *ptr = (s32 *)D_801151D4;
 
-    diffs[0] = (s16)(*(s32 *)((u8 *)ptr + 0x68) - *(s32 *)((u8 *)ptr + 0x5C));
-    diffs[1] = (s16)(*(s32 *)((u8 *)ptr + 0x6C) - *(s32 *)((u8 *)ptr + 0x60));
-    diffs[2] = (s16)(*(s32 *)((u8 *)ptr + 0x70) - *(s32 *)((u8 *)ptr + 0x64));
+    diffs[0] = (s16)(((Unkstruct_80126948 *)ptr)->unk68 - ((Unkstruct_80126948 *)ptr)->unk5C);
+    diffs[1] = (s16)(((Unkstruct_80126948 *)ptr)->unk6C - ((Unkstruct_80126948 *)ptr)->unk60);
+    diffs[2] = (s16)(((Unkstruct_80126948 *)ptr)->unk70 - ((Unkstruct_80126948 *)ptr)->unk64);
 
     func_800D23D0(diffs);
 

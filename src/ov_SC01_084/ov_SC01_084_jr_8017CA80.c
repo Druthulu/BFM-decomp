@@ -2738,8 +2738,8 @@ void func_8017DA00(void) {
     u8 *cam = D_80126948;
 
     *(Blk164 *)D_8011F920 = *(Blk164 *)cam;
-    ((s32 *)cam)[2] = 500;
-    ((s32 *)cam)[3] = 500;
+    ((Unkstruct_80126948 *)cam)->unk8 = 500;
+    ((Unkstruct_80126948 *)cam)->unkC = 500;
     func_8012A018((s32)func_8017DD2C, 1);
     func_8017DD2C(cam);
     func_8012A094((s32)cam);
@@ -2782,7 +2782,7 @@ void func_8017DAF8(void)
         src++;
         dst++;
     } while (src != end);
-    *(s32 *)dst = *(s32 *)src;
+    ((Unkstruct_80126948 *)dst)->unk0 = *(s32 *)src;
 }
 
 
@@ -3525,8 +3525,8 @@ void func_8017EA98(s32 a0) {
         if (sum >= 0x80) {
             func_8012B77C(&sp10[16], a0 + 4, &sp10[8]);
             tmp2 = *(s32 *)&sp10[16];
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = tmp2;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), tmp2 >> 16, 3);
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10 = tmp2;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 += func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), tmp2 >> 16, 3);
         }
     } else {
         s32 tmp;
@@ -3563,8 +3563,8 @@ void func_8017EA98(s32 a0) {
         if (sum >= 0x80) {
             func_8012B77C(&sp10[12], a0 + 4, &sp10[4]);
             tmp2 = *(s32 *)&sp10[12];
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = tmp2;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), tmp2 >> 16, amt);
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10 = tmp2;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 += func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), tmp2 >> 16, amt);
         }
         *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 4) &= 0x7FFFFFFF;
     }
@@ -3807,8 +3807,8 @@ void func_8017F218(void *arg0) {
 
 extern void func_8017484C(s32 a0);
     void func_8017F26C(s32 *a0) {
-        *(s16 *)((s32)a0 + 0x2) = 0x3;
-        *(s16 *)((s32)a0 + 0x5c) = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x3;
+        ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
         ((void (*)(void))func_8017484C)();
     }
 

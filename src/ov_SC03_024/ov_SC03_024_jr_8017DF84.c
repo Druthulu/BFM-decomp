@@ -5613,24 +5613,24 @@ void func_80182408(int a0)
     s32 val2;
     s32 t2;
 
-    func_801439C0(*(s32 *)(s0 + 0xCC));
+    func_801439C0(((Unkstruct_800B5CB8 *)s0)->unkCC);
     func_8012B200((u8 *)s0);
 
-    *(s32 *)(s0 + 0x14) = 0x80000;
-    *(u16 *)(s0 + 0x6) = D_80126B5E;
-    *(u16 *)(s0 + 0xE) = D_80126B66;
+    CAST_ALIAS(s32, s0, 0x14) = 0x80000;
+    CAST_ALIAS(u16, s0, 0x6) = D_80126B5E;
+    ((Unkstruct_800B5CB8 *)s0)->unkE = D_80126B66;
 
-    ptr = *(u8 **)(s0 + 0x20);
-    val1 = *(u16 *)(ptr + 0x18);
-    *(s16 *)(s0 + 0xDC) = (val1 << 16) >> 19;
+    ptr = CAST_SIGN(u8 *, s0, 0x20);
+    val1 = ((Unkstruct_800B5CB8 *)ptr)->unk18;
+    CAST_WIDTH(s16, s0, 0xDC) = (val1 << 16) >> 19;
 
-    ptr = *(u8 **)(s0 + 0x20);
-    val2 = *(u16 *)(ptr + 0x1A);
+    ptr = CAST_SIGN(u8 *, s0, 0x20);
+    val2 = ((Unkstruct_800B5CB8 *)ptr)->unk1A;
     *(s16 *)(s0 + 0xDE) = (val2 << 16) >> 19;
 
     func_8012AD44((s32 *)s0, 7);
 
-    t2 = *(s32 *)(s0 + 0xD0);
+    t2 = ((Unkstruct_800B5CB8 *)s0)->unkD0;
     if (t2 != 0) {
         func_801292C8((u8 *)t2);
     }

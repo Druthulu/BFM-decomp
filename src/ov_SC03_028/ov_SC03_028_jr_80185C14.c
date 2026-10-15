@@ -3955,16 +3955,16 @@ void func_801871EC(s32 a0) {
     s0 = a0;
     func_801789AC(a0);
 
-    *(u16 *)(s0 + 0xA) ^= 2;
-    cnt = *(s32 *)(s0 + 0x1C) - 1;
-    *(s32 *)(s0 + 0x1C) = cnt;
+    ((Unkstruct_800B5CB8 *)s0)->unkA ^= 2;
+    cnt = ((Unkstruct_800B5CB8 *)s0)->unk1C - 1;
+    ((Unkstruct_800B5CB8 *)s0)->unk1C = cnt;
 
     if (cnt == 0) {
         func_8017C068();
-        *(s32 *)(s0 + 0x1C) = 0xF;
+        ((Unkstruct_800B5CB8 *)s0)->unk1C = 0xF;
         func_8012C588(0x144, s0);
         func_80132EF4(s0, 0x35);
-        *(u16 *)(s0 + 0x2) = 0x23;
+        ((Unkstruct_800B5CB8 *)s0)->unk2 = 0x23;
         func_8002D4C8(0x565, 0);
     }
 }
