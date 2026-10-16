@@ -2390,7 +2390,7 @@ s32 func_80172B44(void *a0) {
 extern void (*D_80189448[])(void);
 
 void func_80172CA0(void *a0) {
-    D_80189448[*(u8 *)((s32)a0 + 0x214)]();
+    D_80189448[((Unkstruct_80172CA0 *)a0)->unk214]();
 }
 
 
@@ -2470,11 +2470,11 @@ extern M2C_UNK D_8018940C;
 
 void func_80173220(void * arg0)
 {
-    if (M2C_FIELD(arg0, u16 *, 0xB8) & 0x4000) {
+    if (((Unkstruct_80173220 *)arg0)->unkB8 & 0x4000) {
         func_80147324(0x516);
         func_80019064(&D_8018940C);
     }
-    if (M2C_FIELD(arg0, u16 *, 0xB8) & 0x8000) {
+    if (((Unkstruct_80173220 *)arg0)->unkB8 & 0x8000) {
         func_80171A1C(arg0);
         func_80174650(arg0);
     }

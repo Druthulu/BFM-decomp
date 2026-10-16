@@ -2679,7 +2679,7 @@ extern void func_8017BEB4(void);
 extern void (*D_80182668[])(void);
 
 void func_8017CD9C(void *a0) {
-    D_80182668[*(u8 *)((s32)a0 + 0x15)]();
+    D_80182668[((Unkstruct_80159698 *)a0)->unk15]();
 }
 
 
@@ -2695,7 +2695,7 @@ s32 func_8017CDD8(s32 a0)
     func_80019028();
     func_8017CFD4();
     func_800167B8(0);
-    *(u8 *)(a0 + 0x15) += 1;
+    ((Unkstruct_8017CDD8_2 *)a0)->unk15 += 1;
     return 0;
 }
 
@@ -2707,7 +2707,7 @@ s32 func_8017CDD8(s32 a0)
 extern void (*D_80182670[])(void);
 
 void func_8017CE48(void *a0) {
-    D_80182670[*(u8 *)((s32)a0 + 0x15)]();
+    D_80182670[((Unkstruct_80159698 *)a0)->unk15]();
 }
 
 
@@ -2717,8 +2717,8 @@ extern void func_8017CFFC(void);
 
 s32 func_8017CE84(s32 a0) {
     func_8017CFFC();
-    *(s32 *)(a0 + 0x28) = 10;
-    *(u8 *)(a0 + 0x15) += 1;
+    ((Unkstruct_8017CB30 *)a0)->unk28 = 10;
+    ((Unkstruct_8017CB30 *)a0)->unk15 += 1;
     return 0;
 }
 
@@ -2730,13 +2730,13 @@ extern void func_800D0C48(s32 a0);
 extern void func_8017EB28(void);
 
 s32 func_8017CEC4(u8 *a0) {
-    if (--(*(s32 *)(a0 + 0x28)) == -1) {
+    if (--(((Unkstruct_8017CB70 *)a0)->unk28) == -1) {
         func_8002D4C8(0x1C, 0);
         func_8001BFD0();
         func_8002D4C8(0x1D, 0);
         func_800D0C48(1);
         func_8017EB28();
-        *(u8 *)(a0 + 0x15) += 1;
+        ((Unkstruct_8017CB70 *)a0)->unk15 += 1;
     }
     return 0;
 }
@@ -2753,7 +2753,7 @@ s32 func_8017CF40(void) {
 extern void (*D_8018267C[])(void);
 
 void func_8017CF60(void *a0) {
-    D_8018267C[*(u8 *)((s32)a0 + 0x15)]();
+    D_8018267C[((Unkstruct_80159698 *)a0)->unk15]();
 }
 
 
@@ -2951,12 +2951,12 @@ extern s16 D_801826A4;
 
 void func_8017D428(s32 param_1)
 {
-    *(s32 *)(param_1 + 0x3C) = D_80182698;
-    *(s32 *)(param_1 + 0x40) = D_8018269A;
-    *(s32 *)(param_1 + 0x44) = D_8018269C;
-    *(s32 *)(param_1 + 0x48) = D_801826A0;
-    *(s32 *)(param_1 + 0x4C) = D_801826A2;
-    *(s32 *)(param_1 + 0x50) = D_801826A4;
+    CAST_ALIAS(s32, param_1, 0x3C) = D_80182698;
+    CAST_ALIAS(s32, param_1, 0x40) = D_8018269A;
+    CAST_ALIAS(s32, param_1, 0x44) = D_8018269C;
+    CAST_ALIAS(s32, param_1, 0x48) = D_801826A0;
+    CAST_ALIAS(s32, param_1, 0x4C) = D_801826A2;
+    ((Unkstruct_8017D428 *)param_1)->unk50 = D_801826A4;
 }
 
 
@@ -3543,14 +3543,14 @@ void func_8017E3A0(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4, s32 arg5)
     }
     do { prim[5] = 0; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     mlo = 0xFFFFFF;
-    ((u16 *)prim)[5] = a1;
+    ((Unkstruct_8017E3A0 *)prim)->unkA = a1;
     mhi = 0xFF000000;
-    ((u16 *)prim)[4] = a0;
-    ((u16 *)prim)[8] = a2;
-    ((u16 *)prim)[9] = a3;
-    *(u32 *)prim = (*(u32 *)prim & mhi) | (*(u32 *)&D_800AA608[*(u16 *)(fl + 0xA3D2) << 14] & mlo);
+    ((Unkstruct_8017E3A0 *)prim)->unk8 = a0;
+    ((Unkstruct_8017E3A0 *)prim)->unk10 = a2;
+    ((Unkstruct_8017E3A0 *)prim)->unk12 = a3;
+    ((Unkstruct_8017E3A0 *)prim)->unk0 = (((Unkstruct_8017E3A0 *)prim)->unk0 & mhi) | (*(u32 *)&D_800AA608[((Unkstruct_80010178 *)fl)->unkA3D2 << 14] & mlo);
     q = (u32 *)D_800AA608;
-    addrw = (u32 *)((s32)q + (*(u16 *)(fl + 0xA3D2) << 14));
+    addrw = (u32 *)((s32)q + (((Unkstruct_80010178 *)fl)->unkA3D2 << 14));
     v1 = (u32)prim & mlo;
     val = *addrw;
     D_800A5E60 = (prim += 20);

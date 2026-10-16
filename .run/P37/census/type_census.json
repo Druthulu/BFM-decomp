@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "0d5847c097",
-  "src_stamp": "57f406db9641990c",
+  "head": "aa0eb47bcc",
+  "src_stamp": "596066c1c92abd41",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-16T10:08:10Z",
+  "when": "2026-10-16T10:25:29Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -29,73 +29,73 @@
    "exact_classes": 42,
    "exact_copies": 546,
    "variant_names": 0,
-   "dead_canon_names": 2299,
+   "dead_canon_names": 2293,
    "shadowed_canon_names": 0,
    "typedef_aliases": 4300,
    "forward_decls": 145
   },
   "casts": {
    "by_form": {
-    "P": 121878,
-    "I": 46726,
-    "X": 10436,
-    "K": 30061,
+    "P": 121716,
+    "I": 46723,
+    "X": 10432,
+    "K": 30066,
     "A": 18887,
-    "C": 314088,
-    "M": 4514
+    "C": 314446,
+    "M": 4320
    },
    "raw_counts": {
-    "P": 121878,
-    "I": 46726,
-    "X": 10436,
-    "K": 30061,
+    "P": 121716,
+    "I": 46723,
+    "X": 10432,
+    "K": 30066,
     "A": 18887,
-    "C": 314088,
-    "M": 4514
+    "C": 314446,
+    "M": 4320
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 183554,
+   "deref_total": 183191,
    "addr_form": 18887,
-   "typed_cast_member": 314088,
-   "bodies": 31491,
+   "typed_cast_member": 314446,
+   "bodies": 31266,
    "by_bclass": {
-    "local": 64836,
-    "param": 66019,
+    "local": 64819,
+    "param": 65675,
     "global": 20252,
     "gaddr": 24855,
-    "nested": 4735,
+    "nested": 4733,
     "ident": 161,
     "other": 1445,
     "addr-of": 1251
    },
    "by_width": {
-    "s2": 55594,
-    "s4": 47345,
-    "u2": 41535,
+    "s2": 55588,
+    "s4": 47318,
+    "u2": 41332,
     "agg": 13268,
     "p4": 10287,
-    "u1": 9709,
-    "u4": 4085,
+    "u1": 9584,
+    "u4": 4083,
     "s1": 1731
    },
-   "readability_raw_regex": 124715,
+   "readability_raw_regex": 124553,
    "abs_casts": 0,
    "top_bases": [
     [
      "param",
      "param_1",
-     20608
+     20602
     ],
     [
      "param",
      "a0",
-     17364
+     17226
     ],
     [
      "param",
      "arg0",
-     12638
+     12443
     ],
     [
      "local",
@@ -120,7 +120,7 @@
     [
      "local",
      "base",
-     2322
+     2321
     ],
     [
      "local",
@@ -170,7 +170,7 @@
     [
      "param",
      "arg3",
-     1357
+     1352
     ],
     [
      "local",
@@ -286,15 +286,15 @@
    "macros": {
     "CAST_WIDTH": 11408,
     "CAST_SIGN": 12441,
-    "CAST_ALIAS": 3715,
+    "CAST_ALIAS": 3720,
     "CAST_MISALIGNED": 1970,
     "CAST_NONSTRUCT": 515
    },
    "check_raw": {
-    "P": 121873,
-    "I": 46726,
-    "X": 10436,
-    "M": 4513
+    "P": 121711,
+    "I": 46723,
+    "X": 10432,
+    "M": 4319
    },
    "macro_sites": [
     {
@@ -9827,7 +9827,7 @@
      "tu": "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c",
      "fn": "func_8017D290",
      "line": 2917,
-     "pos": 103313,
+     "pos": 103418,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "param_1",
@@ -9838,7 +9838,7 @@
      "tu": "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c",
      "fn": "func_8017D290",
      "line": 2918,
-     "pos": 103463,
+     "pos": 103568,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "param_1",
@@ -9849,12 +9849,67 @@
      "tu": "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c",
      "fn": "func_8017D290",
      "line": 2918,
-     "pos": 103500,
+     "pos": 103605,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "param_1",
      "bclass": "param",
      "off": 20
+    },
+    {
+     "tu": "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c",
+     "fn": "func_8017D428",
+     "line": 2954,
+     "pos": 105695,
+     "name": "CAST_ALIAS",
+     "cls": "SCHED-ALIAS",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 60
+    },
+    {
+     "tu": "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c",
+     "fn": "func_8017D428",
+     "line": 2955,
+     "pos": 105744,
+     "name": "CAST_ALIAS",
+     "cls": "SCHED-ALIAS",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 64
+    },
+    {
+     "tu": "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c",
+     "fn": "func_8017D428",
+     "line": 2956,
+     "pos": 105793,
+     "name": "CAST_ALIAS",
+     "cls": "SCHED-ALIAS",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 68
+    },
+    {
+     "tu": "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c",
+     "fn": "func_8017D428",
+     "line": 2957,
+     "pos": 105842,
+     "name": "CAST_ALIAS",
+     "cls": "SCHED-ALIAS",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 72
+    },
+    {
+     "tu": "src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c",
+     "fn": "func_8017D428",
+     "line": 2958,
+     "pos": 105891,
+     "name": "CAST_ALIAS",
+     "cls": "SCHED-ALIAS",
+     "base": "param_1",
+     "bclass": "param",
+     "off": 76
     },
     {
      "tu": "src/ov_SC01_001/ov_SC01_001_after.c",
@@ -294628,7 +294683,7 @@
      "tu": "src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c",
      "fn": "func_8017D730",
      "line": 3170,
-     "pos": 108957,
+     "pos": 109252,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "param_1",
@@ -294639,7 +294694,7 @@
      "tu": "src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c",
      "fn": "func_8017D730",
      "line": 3171,
-     "pos": 109107,
+     "pos": 109402,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "param_1",
@@ -294650,7 +294705,7 @@
      "tu": "src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c",
      "fn": "func_8017D730",
      "line": 3171,
-     "pos": 109144,
+     "pos": 109439,
      "name": "CAST_WIDTH",
      "cls": "WIDTH",
      "base": "param_1",
@@ -294661,7 +294716,7 @@
      "tu": "src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c",
      "fn": "func_8017E648",
      "line": 3912,
-     "pos": 136304,
+     "pos": 136722,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "a0",
@@ -294672,7 +294727,7 @@
      "tu": "src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c",
      "fn": "func_8017EA74",
      "line": 4107,
-     "pos": 140768,
+     "pos": 141186,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "rec",
@@ -294683,7 +294738,7 @@
      "tu": "src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c",
      "fn": "func_8017EA74",
      "line": 4114,
-     "pos": 140899,
+     "pos": 141317,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "rec",
@@ -294694,7 +294749,7 @@
      "tu": "src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c",
      "fn": "func_8017EA74",
      "line": 4137,
-     "pos": 141698,
+     "pos": 142116,
      "name": "CAST_SIGN",
      "cls": "SIGN",
      "base": "rec",
@@ -330927,71 +330982,93 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 15059,
-   "explained_sites": 180002,
-   "deref_sites": 183554,
+   "types": 15081,
+   "explained_sites": 179639,
+   "deref_sites": 183191,
    "explained_pct": 98.1,
    "unassigned_sites": 3552,
    "conflicts": 783,
-   "suspect": 9,
+   "suspect": 10,
    "evidence": {
     "param": 39566,
-    "arg": 10391,
+    "arg": 10380,
+    "assign": 20953,
     "ret-of": 6383,
-    "assign": 20965,
-    "return": 1543,
-    "assign&": 1473,
-    "arg&": 299,
-    "field": 4308,
+    "assign&": 1450,
+    "return": 1540,
+    "arg&": 276,
+    "field": 4336,
     "nested": 9
    },
    "vetoed": {
-    "arg-conduit": 156219,
-    "arg-no-overlap": 11697,
     "arg&-conduit": 14799,
-    "ret-of-multisource": 6818,
+    "arg-conduit": 156224,
+    "arg&-no-overlap": 3321,
     "assign-multisource": 34567,
+    "assign": 281,
     "field-multisource": 3094,
-    "ret-of": 513,
     "assign&-multisource": 12923,
-    "arg&-no-overlap": 2934,
-    "assign": 261,
-    "assign&": 57,
-    "arg": 77,
-    "return": 4,
-    "field": 340
+    "ret-of-multisource": 6818,
+    "ret-of": 639,
+    "arg-no-overlap": 22870,
+    "return": 7,
+    "assign&": 78,
+    "arg": 63,
+    "field": 172
    },
-   "singletons": 12008,
-   "multi_body": 3051,
-   "sites_in_multi_body": 138040,
+   "singletons": 12019,
+   "multi_body": 3062,
+   "sites_in_multi_body": 137668,
    "top": [
     {
      "name": "Unkstruct_800D3888",
-     "sites": 24793,
-     "bodies": 7051,
-     "size_hint": 588,
-     "fields": 219,
+     "sites": 18634,
+     "bodies": 4441,
+     "size_hint": 268,
+     "fields": 120,
      "conflicts": 50,
-     "sign_mixed": 66,
+     "sign_mixed": 48,
      "merges": {
-      "arg&": 282,
-      "param": 11884,
-      "arg": 8163,
-      "assign": 7952,
-      "return": 742,
-      "ret-of": 2691,
-      "assign&": 149,
-      "field": 698
+      "arg&": 259,
+      "param": 9742,
+      "arg": 7023,
+      "assign": 7912,
+      "assign&": 16,
+      "return": 739,
+      "ret-of": 2690,
+      "field": 609
      },
      "globals_at": [
       "D_800D3888",
-      "D_800DE5A0",
-      "D_801269F0"
+      "D_80180FC4",
+      "D_80181448"
      ],
      "globals_ptr": [
       "D_8006386C",
       "D_80074778",
       "D_80074780"
+     ]
+    },
+    {
+     "name": "Unkstruct_80126B58",
+     "sites": 4984,
+     "bodies": 2468,
+     "size_hint": 588,
+     "fields": 165,
+     "conflicts": 40,
+     "sign_mixed": 45,
+     "merges": {
+      "assign&": 104,
+      "param": 2136,
+      "arg": 1127,
+      "assign": 50,
+      "field": 33
+     },
+     "globals_at": [
+      "D_80126B58"
+     ],
+     "globals_ptr": [
+      "D_80126B58"
      ]
     },
     {
@@ -331066,27 +331143,6 @@
      "globals_ptr": []
     },
     {
-     "name": "Unkstruct_8012D3B4",
-     "sites": 1592,
-     "bodies": 183,
-     "size_hint": 36,
-     "fields": 23,
-     "conflicts": 17,
-     "sign_mixed": 9,
-     "merges": {
-      "assign": 109,
-      "return": 5,
-      "param": 16,
-      "arg": 10,
-      "ret-of": 65
-     },
-     "globals_at": [],
-     "globals_ptr": [
-      "D_80074808",
-      "D_800A5E60"
-     ]
-    },
-    {
      "name": "Unkstruct_645b745d",
      "sites": 1548,
      "bodies": 258,
@@ -331136,6 +331192,20 @@
      "merges": {
       "param": 28,
       "arg": 13
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_d10e56f3",
+     "sites": 1240,
+     "bodies": 124,
+     "size_hint": 36,
+     "fields": 10,
+     "conflicts": 0,
+     "sign_mixed": 0,
+     "merges": {
+      "assign": 1
      },
      "globals_at": [],
      "globals_ptr": []
@@ -331253,6 +331323,20 @@
      "globals_ptr": []
     },
     {
+     "name": "Unkstruct_95febbc1",
+     "sites": 868,
+     "bodies": 124,
+     "size_hint": 16,
+     "fields": 3,
+     "conflicts": 0,
+     "sign_mixed": 2,
+     "merges": {
+      "field": 1
+     },
+     "globals_at": [],
+     "globals_ptr": []
+    },
+    {
      "name": "Unkstruct_80146128",
      "sites": 844,
      "bodies": 166,
@@ -331324,33 +331408,6 @@
      },
      "globals_at": [],
      "globals_ptr": []
-    },
-    {
-     "name": "Unkstruct_d827da45",
-     "sites": 774,
-     "bodies": 258,
-     "size_hint": 18,
-     "fields": 3,
-     "conflicts": 0,
-     "sign_mixed": 0,
-     "merges": {},
-     "globals_at": [],
-     "globals_ptr": []
-    },
-    {
-     "name": "Unkstruct_81debdbd",
-     "sites": 770,
-     "bodies": 252,
-     "size_hint": 16,
-     "fields": 6,
-     "conflicts": 0,
-     "sign_mixed": 0,
-     "merges": {
-      "param": 16,
-      "arg": 7
-     },
-     "globals_at": [],
-     "globals_ptr": []
     }
    ]
   },
@@ -331369,7 +331426,7 @@
    },
    "tu_conflict_D_800A651C": {
     "ok": true,
-    "detail": "s32:1202 | u8[]:9 | OtBlk[]:9 | OtBlk_80016450[]:8 | s32[]:7"
+    "detail": "s32:1202 | OtBlk[]:9 | u8[]:9 | OtBlk_80016450[]:8 | s32[]:7"
    },
    "ok": 4,
    "n": 4
@@ -331378,14 +331435,14 @@
    "dup_classes": 0,
    "outside_canon": 0,
    "dead": 0,
-   "twins_stale": 3057,
+   "twins_stale": 3063,
    "twins_listed": 738,
-   "dead_kept": 2246,
+   "dead_kept": 2240,
    "block_frames": 629
   },
   "global_blocks": {
    "n": 2121,
-   "members": 14255,
+   "members": 14240,
    "top": [
     {
      "base": "0x800cf10c",
@@ -331564,9 +331621,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 42.2,
-   "decls_s": 186.7,
-   "total_s": 194.5
+   "walk_s": 40.5,
+   "decls_s": 184.0,
+   "total_s": 191.7
   }
  },
  "dup_layout_classes": [
@@ -338692,10 +338749,10 @@
    "tier": 3,
    "camps": [
     [
-     "Vec3s"
+     "UVec_8017DB64"
     ],
     [
-     "UVec_8017DB64"
+     "Vec3s"
     ],
     [
      "SV3L"
@@ -339145,6 +339202,30 @@
    ]
   },
   {
+   "lhash": "ac91ae2d8aa0",
+   "size": 28,
+   "n_names": 3,
+   "n_defs": 72,
+   "canon": 3,
+   "in_c": 59,
+   "names": [
+    "G3",
+    "S800D22E4",
+    "vec"
+   ],
+   "tier": 3,
+   "camps": [
+    [],
+    [
+     "G3"
+    ]
+   ],
+   "opaque_names": [
+    "S800D22E4",
+    "vec"
+   ]
+  },
+  {
    "lhash": "9568f57fb00f",
    "size": 20,
    "n_names": 3,
@@ -339192,30 +339273,6 @@
    ],
    "opaque_names": [
     "Blk32_801898F4"
-   ]
-  },
-  {
-   "lhash": "ac91ae2d8aa0",
-   "size": 28,
-   "n_names": 3,
-   "n_defs": 72,
-   "canon": 3,
-   "in_c": 59,
-   "names": [
-    "G3",
-    "S800D22E4",
-    "vec"
-   ],
-   "tier": 3,
-   "camps": [
-    [],
-    [
-     "G3"
-    ]
-   ],
-   "opaque_names": [
-    "S800D22E4",
-    "vec"
    ]
   },
   {
@@ -340573,7 +340630,6 @@
   "Unkstruct_80172ACC",
   "Unkstruct_80172BC8",
   "Unkstruct_80172DAC",
-  "Unkstruct_80173220",
   "Unkstruct_80173220_3",
   "Unkstruct_8017385C",
   "Unkstruct_80173980",
@@ -340751,7 +340807,6 @@
   "Unkstruct_8017D3AC",
   "Unkstruct_8017D3B8",
   "Unkstruct_8017D414",
-  "Unkstruct_8017D428",
   "Unkstruct_8017D428_2",
   "Unkstruct_8017D474",
   "Unkstruct_8017D480",
@@ -340759,7 +340814,6 @@
   "Unkstruct_8017D4B4",
   "Unkstruct_8017D4C8",
   "Unkstruct_8017D4F0",
-  "Unkstruct_8017D4F0_2",
   "Unkstruct_8017D51C",
   "Unkstruct_8017D558",
   "Unkstruct_8017D564",
@@ -340850,7 +340904,6 @@
   "Unkstruct_8017E120",
   "Unkstruct_8017E150_2",
   "Unkstruct_8017E160_2",
-  "Unkstruct_8017E18C_2",
   "Unkstruct_8017E1AC",
   "Unkstruct_8017E1AC_2",
   "Unkstruct_8017E1C8",
@@ -340874,7 +340927,6 @@
   "Unkstruct_8017E354",
   "Unkstruct_8017E380",
   "Unkstruct_8017E394_2",
-  "Unkstruct_8017E3A0",
   "Unkstruct_8017E3B0",
   "Unkstruct_8017E3EC",
   "Unkstruct_8017E404",
@@ -340902,7 +340954,6 @@
   "Unkstruct_8017E710_2",
   "Unkstruct_8017E764",
   "Unkstruct_8017E778_3",
-  "Unkstruct_8017E778_4",
   "Unkstruct_8017E778_5",
   "Unkstruct_8017E784",
   "Unkstruct_8017E78C",
@@ -342251,6 +342302,7 @@
   "Unkstruct_801727D0_3",
   "Unkstruct_80172CA0",
   "Unkstruct_80172CA0_2",
+  "Unkstruct_80173220",
   "Unkstruct_80173220_2",
   "Unkstruct_80174384",
   "Unkstruct_80174384_2",
@@ -342429,6 +342481,7 @@
   "Unkstruct_8017D3F8",
   "Unkstruct_8017D408",
   "Unkstruct_8017D408_2",
+  "Unkstruct_8017D428",
   "Unkstruct_8017D440",
   "Unkstruct_8017D48C",
   "Unkstruct_8017D494",
@@ -342436,6 +342489,7 @@
   "Unkstruct_8017D4CC",
   "Unkstruct_8017D4D0",
   "Unkstruct_8017D4D8",
+  "Unkstruct_8017D4F0_2",
   "Unkstruct_8017D518",
   "Unkstruct_8017D518_2",
   "Unkstruct_8017D528",
@@ -342712,6 +342766,7 @@
   "Unkstruct_8017E17C",
   "Unkstruct_8017E188",
   "Unkstruct_8017E18C",
+  "Unkstruct_8017E18C_2",
   "Unkstruct_8017E1AC_3",
   "Unkstruct_8017E1B4",
   "Unkstruct_8017E1D4",
@@ -342758,6 +342813,7 @@
   "Unkstruct_8017E380_2",
   "Unkstruct_8017E394",
   "Unkstruct_8017E394_3",
+  "Unkstruct_8017E3A0",
   "Unkstruct_8017E3EC_2",
   "Unkstruct_8017E3F0",
   "Unkstruct_8017E3F8",
@@ -342845,6 +342901,7 @@
   "Unkstruct_8017E770",
   "Unkstruct_8017E778",
   "Unkstruct_8017E778_2",
+  "Unkstruct_8017E778_4",
   "Unkstruct_8017E780",
   "Unkstruct_8017E784_2",
   "Unkstruct_8017E78C_2",
