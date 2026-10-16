@@ -6182,6 +6182,10 @@ def selftest(real=False):
        "an address and the T3 note", tt_ == {"Unkstruct_80030000": "B"} and sc3_ == {"B": ["main/0x80012000", "ov_SC01_000/0x80140000"]}
        and "abc123" in tl_ and tc.ADDR_RX.search(tl_["abc123"]["cause"]) and "T3 band defs, dead until rung S; map type B" in tl_["abc123"]["cause"],
        f"{tt_} {sc3_} {tl_}")
+    lr_ = st_.listed_rows({"aa": dict(names={"X1", "X2"}, cause="cause: 2 names (24 B, all members placeholders) …"),
+                           "bb": dict(names={"Y1", "Y2"}, cause="cause: 2 names (8 B, x)"), "cc": dict(names={"Z1"}, cause="(4 B")}, {"bb"}, {"cc"})
+    ok("T3.c3 struct_twins: a listed, non-stale row beyond type_census.json's top-300 cap is kept (size from its cause); seen/stale skipped",
+       lr_ == [dict(lhash="aa", size=24, names=["X1", "X2"])], str(lr_))
     _folds = folds_keep_
     ok("--forms I,M: the stub never writes the tree", fxi.read_text() == FIXTURE_TU_IM)
     ok("the selftest never touches the live inflight.json", True)

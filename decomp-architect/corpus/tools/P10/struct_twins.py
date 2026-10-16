@@ -79,14 +79,30 @@ def load_rows(census):
     sys.path.insert(0, str(REPO / "tools"))
     import type_census as tc
     listed, _ = tc.load_twins(TWINS_DOC.read_text() if TWINS_DOC.exists() else "")
-    for r in json.loads((census / "type_census.json").read_text())["dup_layout_classes"]:
+    tcj = json.loads((census / "type_census.json").read_text())
+    for r in tcj["dup_layout_classes"]:
         if r["tier"] != 2 or r["lhash"] in seen:
             continue
         names = r["names"] if len(r["names"]) == r["n_names"] else sorted((listed.get(r["lhash"]) or {}).get("names") or ())
         if len(names) != r["n_names"]:
             sys.exit(f"struct_twins: tier-2 row {r['lhash']} is neither in dup_gating.tsv nor listed with its {r['n_names']} names")
         rows.append(dict(lhash=r["lhash"], size=r["size"], names=list(names)))
-    return rows
+        seen.add(r["lhash"])
+    return rows + listed_rows(listed, seen, set(tcj.get("structs_stale") or ()))
+
+
+def listed_rows(listed, seen, stale):
+    """(pure) the `## Twins` rows the census took out of dup_gating.tsv (listed, not stale) but type_census.json's top-300
+    dup_layout_classes cap drops (T3.c3); size from the section's own `(<n> B,` cause"""
+    out = []
+    for lh, t in sorted(listed.items()):
+        if lh in seen or lh in stale or not t["names"]:
+            continue
+        m = re.search(r"\((\d+) B\b", t["cause"] or "")
+        if not m:
+            sys.exit(f"struct_twins: listed row {lh} is beyond type_census.json's cap and its cause names no size")
+        out.append(dict(lhash=lh, size=int(m.group(1)), names=sorted(t["names"])))
+    return out
 
 
 def psyq_layouts():
