@@ -1671,7 +1671,7 @@ void func_8013DD68() {
             *(u8 *)((int)puVar10 + -0x15) = c5;
             uVar2 = q[-6];
             *(u8 *)((int)puVar10 + -0xd) = 100;
-            *(u8 *)((int)puVar10 + -0x10) = (u8)(*(int*)&D_8019CA4C);
+            *(u8 *)((int)puVar10 + -0x10) = (u8)(((Unkstruct_80135888 *)&D_8019CA4C)->unk0);
             *(u8 *)((int)puVar10 + -0xf) = (u8)(*(int*)&D_8019CA50);
             uVar5 = (*(int*)&D_8019CA54);
             *(u32 *)((int)puVar10 + -0x14) = uVar2 & 0x9ff | 0xe1000400;
