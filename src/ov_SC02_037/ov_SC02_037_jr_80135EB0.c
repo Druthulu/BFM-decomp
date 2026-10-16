@@ -999,16 +999,16 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     temp_v0 = ac[2] + r;
     b4[2] = temp_v0;
     temp_v1 = b4[0];
-    if (temp_v1 < M2C_FIELD(((void *)arg0), s16 *, 4)) {
+    if (temp_v1 < ((Unkstruct_80136824_3 *)arg0)->unk4) {
         return 0;
     }
-    if (M2C_FIELD(((void *)arg0), s16 *, 6) < temp_v1) {
+    if (((Unkstruct_80136824_3 *)arg0)->unk6 < temp_v1) {
         return 0;
     }
-    if (temp_v0 < M2C_FIELD(((void *)arg0), s16 *, 0xC)) {
+    if (temp_v0 < ((Unkstruct_80136824_3 *)arg0)->unkC) {
         return 0;
     }
-    if (M2C_FIELD(((void *)arg0), s16 *, 0xE) < temp_v0) {
+    if (((Unkstruct_80136824_3 *)arg0)->unkE < temp_v0) {
         return 0;
     }
     if (a1v & 0x8000) {
@@ -1027,8 +1027,8 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
         D_801152AA = -0xFFF;
         b4b[1] = pos - 2;
     }
-    (*(s16 *)D_80126720) = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 4) + M2C_FIELD(((void *)arg0), s16 *, 6)) >> 1);
-    D_80126722 = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 8) + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
+    (*(s16 *)D_80126720) = (s16) ((s32) (((Unkstruct_80136824_3 *)arg0)->unk4 + ((Unkstruct_80136824_3 *)arg0)->unk6) >> 1);
+    D_80126722 = (s16) ((s32) (((Unkstruct_80136824_3 *)arg0)->unk8 + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
     D_80126724 = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 0xC) + M2C_FIELD(((void *)arg0), s16 *, 0xE)) >> 1);
     return 1;
 }
@@ -1073,13 +1073,13 @@ s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
     }
 
     pb4 = *(u16 **)&D_801841A4;
-    *(s16 *)(a2)     = pb4[0] + *(s32 *)(a1 + 0x48);
-    *(s16 *)(a2 + 2) = pb4[1] + *(s32 *)(a1 + 0x4C);
-    *(s16 *)(a2 + 4) = pb4[2] + *(s32 *)(a1 + 0x50);
+    ((Unkstruct_80136A94_2 *)a2)->unk0     = pb4[0] + ((Unkstruct_80136A94 *)a1)->unk48;
+    ((Unkstruct_80136A94_2 *)a2)->unk2 = pb4[1] + ((Unkstruct_80136A94 *)a1)->unk4C;
+    ((Unkstruct_80136A94_2 *)a2)->unk4 = pb4[2] + ((Unkstruct_80136A94 *)a1)->unk50;
 
-    *(u16 *)D_80126720 = *(u16 *)D_80126720 + *(s32 *)(a1 + 0x48);
-    D_80126722 = D_80126722 + *(s32 *)(a1 + 0x4C);
-    D_80126724 = D_80126724 + *(s32 *)(a1 + 0x50);
+    *(u16 *)D_80126720 = *(u16 *)D_80126720 + ((Unkstruct_80136A94 *)a1)->unk48;
+    D_80126722 = D_80126722 + ((Unkstruct_80136A94 *)a1)->unk4C;
+    D_80126724 = D_80126724 + CAST_ALIAS(s32, a1, 0x50);
 }
 
 

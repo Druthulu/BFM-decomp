@@ -1660,7 +1660,7 @@ void func_8015E018(s32 param_1) {
 s32 func_8015E1B8(s32 a0) {
 
     extern void (*D_80181418[])(void);
-    D_80181418[*(u16 *)((s32)a0 + 0x2)]();
+    D_80181418[((Unkstruct_8015E1B8 *)a0)->unk2]();
 }
 
 
@@ -2197,7 +2197,7 @@ extern void (*D_80181160[])(void*);
 s32 func_80160B34(s32 a0) {
 
     extern void (*D_8018155C[])(void);
-    D_8018155C[*(u16 *)((s32)a0 + 0x2)]();
+    D_8018155C[((Unkstruct_8015E1B8 *)a0)->unk2]();
 }
 
 
@@ -2533,7 +2533,7 @@ void func_80161E08(s32 param_1) {
     extern u8 D_80190DD4[];
     extern u8 D_80190DEC[];
 
-    u8 *base = &(*(u8 *)&D_800AF630);
+    u8 *base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
     u8 *p;
     s32 a2;
 
@@ -2714,7 +2714,7 @@ s32 func_80162438(s32 _unused0) {
     u8 *base;
     u8 *item;
 
-    base = &(*(u8 *)&D_800AF630);
+    base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
     uVar2 = func_800291DC(0x12);
     if ((uVar2 & 0x8000) != 0) {
         if (D_800B5BD8 == 0) {
@@ -3189,7 +3189,7 @@ void func_80164BDC(s32 param_1)
     if (iVar1 != 0) {
         func_8001CD50(iVar1, base);
         ((void (*)(s32, s32))func_800233CC)(base, 0x60);
-        *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
+        CAST_ALIAS(u32, iVar1, 4) = ((Unkstruct_80164BDC *)iVar1)->unk4 | 0x50000000;
         D_80190E59 = 0xf0;
         *(u8 *)base = 0xf0;
         D_80190E5A = 0xc0;
@@ -3198,8 +3198,8 @@ void func_80164BDC(s32 param_1)
         D_80190E5C = 0;
         D_80190E5F = 0;
         D_80190E5B = 0;
-        *(s16 *)(iVar1 + 0x1e) = 0xccc;
-        *(s16 *)(iVar1 + 0x10) = 0x400;
+        CAST_ALIAS(s16, iVar1, 0x1e) = 0xccc;
+        ((Unkstruct_80164BDC *)iVar1)->unk10 = 0x400;
         *(s16 *)(param_1 + 0x60) = 0x700;
         *(s16 *)(param_1 + 0x62) = -0x60;
         func_80164DD0(param_1);
@@ -3264,12 +3264,12 @@ void func_80164EE0(int param_1)
     for (i = 7; i >= 0; i--) {
         D_80190EA4[i].f0 = 0;
     }
-    *(short *)(param_1 + 0x2e) = 0x4000;
-    *(short *)(param_1 + 0x2c) = 0x4000;
-    *(short *)(param_1 + 0x60) = 0;
-    *(short *)(param_1 + 0x62) = 0;
+    ((Unkstruct_80164EE0 *)param_1)->unk2E = 0x4000;
+    ((Unkstruct_80164EE0 *)param_1)->unk2C = 0x4000;
+    ((Unkstruct_80164EE0 *)param_1)->unk60 = 0;
+    ((Unkstruct_80164EE0 *)param_1)->unk62 = 0;
     ((void (*)(int))func_80165124)(param_1);
-    *(short *)(param_1 + 0x66) = 0;
+    ((Unkstruct_80164EE0 *)param_1)->unk66 = 0;
     ((void (*)(int))func_80146CA0)(param_1);
 }
 
@@ -3709,7 +3709,7 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
     extern s32 VectorNormalSS(void *a0, void *a1);
 
     Trail *p = &((Trail *)D_80190F18)[param_3];
-    s32 uVar6 = *(s32 *)(param_1 + 0x34);
+    s32 uVar6 = ((Unkstruct_80166994 *)param_1)->unk34;
     s16 v10[4];
     s16 v18[4];
     s16 v20[4];

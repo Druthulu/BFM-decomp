@@ -723,7 +723,7 @@ void func_80138BE0(int p)
     if (*(unsigned short *)(p + 0xe) != 0) {
         *(unsigned short *)(p + 0xe) -= 1;
     }
-    D_8018B844[*(short *)(p + 4)]();
+    D_8018B844[((Unkstruct_80138BE0 *)p)->unk4]();
 }
 
 
@@ -1030,12 +1030,12 @@ void func_8013AD38(void *flag, s32 a1, void *out2, void *out3)
         gte_stlvnl(res);
         ((Pair_8013AD38 *)out2)[i].x = res[0];
         ((Pair_8013AD38 *)out2)[i].y = res[1];
-        if (((s16 *)flag)[0] < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
-        if (((s16 *)flag)[1] < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
+        if (((Unkstruct_8013AD38 *)flag)->unk0 < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
+        if (((Unkstruct_8013AD38 *)flag)->unk2 < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
     }
     ((Pair_8013AD38 *)out2)[i] = ((Pair_8013AD38 *)out2)[0];
-    if (((s16 *)flag)[0] < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
-    if (((s16 *)flag)[1] < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
+    if (((Unkstruct_8013AD38 *)flag)->unk0 < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
+    if (((Unkstruct_8013AD38 *)flag)->unk2 < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
 }
 
 
