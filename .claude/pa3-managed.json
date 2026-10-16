@@ -11,8 +11,8 @@
       "user": null
     },
     ".claude/agents/pa-claude.md": {
-      "base": "3.28.28",
-      "sha": "3c0800fb2f36e2b4e201cc5aa8aaf2b30b56e0784dec934f200f6432c58de69a",
+      "base": "3.28.29",
+      "sha": "54987bfa7bde0441032c8957c179298ca278e62660b1f5a514ede51cf4a39dee",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
@@ -257,7 +257,7 @@
     },
     "tools/pa3_update.py": {
       "base": null,
-      "sha": "4ee2c46d073a7cf92f0610f07d7ed25a5eb414d232813732d9ae0b1b7129852e",
+      "sha": "17904364af9e83b96877dbde9c1abbbcb926d32a5626aca369964bc2516c3df0",
       "user": null
     },
     "tools/phaseend_index.py": {
@@ -307,9 +307,9 @@
     }
   },
   "format": 1,
-  "git": "9743d1e1",
-  "installed": "2026-10-15T21:54:48Z",
+  "git": "f3243ef5",
+  "installed": "2026-10-16T00:38:43Z",
   "package": null,
-  "phase": "3.28.1",
-  "upstream_version": "3.28.1"
+  "phase": "3.28.6",
+  "upstream_version": "3.28.6"
 }
