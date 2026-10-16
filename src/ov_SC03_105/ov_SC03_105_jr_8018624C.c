@@ -87,7 +87,7 @@ void func_8018624C(void *arg0) {
 
     ent = (s32)arg0;
     tbl = D_800AF630;
-    switch (*(u16 *)(ent + 0x34)) {
+    switch (((Unkstruct_8018624C *)ent)->unk34) {
     case 0:
     case 2:
     case 6:
@@ -96,23 +96,23 @@ void func_8018624C(void *arg0) {
     case 12:
         break;
     case 1:
-        if ((*(u16 *)(tbl + 0xA3AA) & 3) == 0) {
+        if ((((Unkstruct_80010178 *)tbl)->unkA3AA & 3) == 0) {
             func_8013C9C4(D_8018EDF4);
             func_801871C0((void *)ent, 1, 1);
         }
         break;
     case 3:
         func_8012A828(ent, D_801B1DC8);
-        func_8012A828(*(s32 *)(ent + 0x6C), D_801B2410);
+        func_8012A828(((Unkstruct_8018624C *)ent)->unk6C, D_801B2410);
         ((void (*)(s32))func_801873C8)(ent);
-        *(u16 *)(ent + 0x34) += 1;
+        ((Unkstruct_8018624C *)ent)->unk34 += 1;
         /* fallthrough */
     case 4:
-        if ((u32)*(s32 *)(ent + 0x94) < 0x2C && (*(u16 *)(tbl + 0xA3AA) & 3) == 0) {
+        if ((u32)((Unkstruct_8018624C *)ent)->unk94 < 0x2C && (((Unkstruct_80010178 *)tbl)->unkA3AA & 3) == 0) {
             func_8013C9C4(D_8018EDF4);
             func_801871C0((void *)ent, 1, 1);
         }
-        if (*(s32 *)(ent + 0x94) == 0x2B) {
+        if (((Unkstruct_8018624C *)ent)->unk94 == 0x2B) {
             for (i = 0; i < 3; i++) {
                 j = 0;
                 off = 0;
@@ -128,56 +128,56 @@ void func_8018624C(void *arg0) {
             func_8002D4C8(0x726, 0);
             func_8002D4C8(4, 0x79F);
         }
-        if (*(s32 *)(ent + 0x94) == 0x4B) {
+        if (((Unkstruct_8018624C *)ent)->unk94 == 0x4B) {
             func_8002D4C8(0x727, 0);
         }
-        if (*(s32 *)(ent + 0x94) == 0x84) {
+        if (((Unkstruct_8018624C *)ent)->unk94 == 0x84) {
             func_8002D4C8(0xC05, 0);
         }
-        if (*(s32 *)(ent + 0x94) == 0x5A) {
+        if (((Unkstruct_8018624C *)ent)->unk94 == 0x5A) {
             func_801871C0((void *)ent, 0xF, 5);
         }
-        if (*(s32 *)(ent + 0x94) > 0x78 && (*(u16 *)(tbl + 0xA3AA) & 0xF) == 0) {
+        if (((Unkstruct_8018624C *)ent)->unk94 > 0x78 && (((Unkstruct_80010178 *)tbl)->unkA3AA & 0xF) == 0) {
             t2 = rand();
             func_801871C0((void *)ent, t2 % 5 + 1, 2);
         }
         break;
     case 5:
-        *(s32 *)(ent + 0x1C) = 0x1E;
-        *(u16 *)(ent + 0x34) += 1;
+        ((Unkstruct_8018624C *)ent)->unk1C = 0x1E;
+        ((Unkstruct_8018624C *)ent)->unk34 += 1;
         func_8002D4C8(0x72D, 0);
         break;
     case 7:
         func_8012A568((void (*)(void))func_8017E08C);
-        *(u16 *)(*(s32 *)(ent + 0xD0) + 0x34) += 1;
+        *(u16 *)(((Unkstruct_8018624C *)ent)->unkD0 + 0x34) += 1;
         func_8002D4C8(4, 0x733);
-        *(u16 *)(ent + 0x34) += 1;
+        ((Unkstruct_8018624C *)ent)->unk34 += 1;
         break;
     case 9:
         tmp = func_8012C658(0x14B, 0, ent);
-        *(s32 *)(ent + 0xCC) = tmp;
+        ((Unkstruct_8018624C *)ent)->unkCC = tmp;
         func_8012C588(0x3BD, tmp);
-        *(u16 *)(ent + 0x34) += 1;
+        ((Unkstruct_8018624C *)ent)->unk34 += 1;
         func_8002D4C8(0x72F, 0);
         break;
     case 11:
-        *(u16 *)(ent + 0x34) += 1;
+        ((Unkstruct_8018624C *)ent)->unk34 += 1;
         func_801870B4();
         break;
     case 13:
         p = &D_8018EE00;
         func_8017BF08(p, p + 1, 2, 0x96);
-        *(u16 *)(ent + 0x34) += 1;
+        ((Unkstruct_8018624C *)ent)->unk34 += 1;
         break;
     }
-    if (*(u16 *)(ent + 0x34) >= 5 && (*(u16 *)(tbl + 0xA3AA) & 0x7F) == 0) {
+    if (((Unkstruct_8018624C *)ent)->unk34 >= 5 && (((Unkstruct_80010178 *)tbl)->unkA3AA & 0x7F) == 0) {
         func_801871C0((void *)ent, 5, 5);
     }
     if (func_801789AC(ent) == 1) {
         ((void (*)(s32))func_80178D18)(ent);
-        *(s16 *)(ent + 0x2) = 3;
-        *(s16 *)(*(s32 *)(ent + 0xCC) + 0x2) = 2;
-        *(s32 *)(ent + 0x1C) = 0x5A;
+        ((Unkstruct_8018624C *)ent)->unk2 = 3;
+        *(s16 *)(((Unkstruct_8018624C *)ent)->unkCC + 0x2) = 2;
+        ((Unkstruct_8018624C *)ent)->unk1C = 0x5A;
         func_80147054(&D_80126B58);
         func_8002D4C8(4, 0x72F);
     }
@@ -353,6 +353,6 @@ void func_80186AE8(void *arg0) {
 
     extern M2C_UNK D_8018EFBC;
     ((void (*)(void *, void *))func_80178B18)(arg0, &D_8018EFBC);
-    *(s16 *)((s32)arg0 + 0x2) = 0x7;
-    *(s16 *)((s32)arg0 + 0x34) = 0;
+    ((Unkstruct_80186AE8 *)arg0)->unk2 = 0x7;
+    ((Unkstruct_80186AE8 *)arg0)->unk34 = 0;
 }

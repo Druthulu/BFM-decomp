@@ -699,25 +699,25 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
     s32 r;
 
     t1 = (*(s16 **)&D_8018A99C)[0];
-    if (t1 < M2C_FIELD(arg0, s16 *, 4)) {
+    if (t1 < ((Unkstruct_80135EB0_2 *)arg0)->unk4) {
         m1 = 1;
     } else {
-        m1 = (M2C_FIELD(arg0, s16 *, 6) < t1) << 1;
+        m1 = (((Unkstruct_80135EB0_2 *)arg0)->unk6 < t1) << 1;
     }
     t2 = (*(s16 **)&D_8018A99C)[2];
-    if (t2 < M2C_FIELD(arg0, s16 *, 0xC)) {
+    if (t2 < ((Unkstruct_80135EB0_2 *)arg0)->unkC) {
         m1 |= 4;
-    } else if (M2C_FIELD(arg0, s16 *, 0xE) < t2) {
+    } else if (((Unkstruct_80135EB0_2 *)arg0)->unkE < t2) {
         m1 |= 8;
     }
     t3 = (*(s16 **)&D_8018A99C)[1];
     /* The do-while(0) is NOT inert: flow.c counts every ref inside it at loop depth 2 (flow.c:2067), which
      * lifts m2 to 11 refs and ranks it above arg1 in global.c allocno_compare -> m2 $s2, arg1 $s3. */
     do {
-        if (t3 < M2C_FIELD(arg0, s16 *, 8)) {
+        if (t3 < ((Unkstruct_80135EB0_2 *)arg0)->unk8) {
             m2 = 0x10;
         } else {
-            m2 = -(M2C_FIELD(arg0, s16 *, 0xA) < t3);
+            m2 = -(((Unkstruct_80135EB0_2 *)arg0)->unkA < t3);
             m2 &= 0x20;
         }
     } while (0);
@@ -733,39 +733,39 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         b4 = D_8018A9A4;
         c0 = ac[0];
         b4[0] = c0;
-        h0 = (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1;
+        h0 = (((Unkstruct_80135EB0_2 *)arg0)->unk4 + ((Unkstruct_80135EB0_2 *)arg0)->unk6) >> 1;
         D_801152AA[0] = 0;
         ((SVECTOR *)D_80126720)->vx = h0;
         (*(s16 *)D_801152A8) = c0 - h0;
         c1 = ac[2];
         b4[2] = c1;
-        h1 = (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1;
+        h1 = (((Unkstruct_80135EB0_2 *)arg0)->unkC + ((Unkstruct_80135EB0_2 *)arg0)->unkE) >> 1;
         D_80126724[0] = h1;
         D_801152AC[0] = c1 - h1;
         b4[1] = ac[1];
-        D_80126722[0] = (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
+        D_80126722[0] = (((Unkstruct_80135EB0_2 *)arg0)->unk8 + ((Unkstruct_80135EB0_2 *)arg0)->unkA) >> 1;
         VectorNormalSS(D_801152A8, D_801152A8);
         D_801150D8 |= 1;
         return 1;
     }
 
     t4 = (*(s16 **)&D_8018A9A0)[0];
-    if (t4 < M2C_FIELD(arg0, s16 *, 4)) {
+    if (t4 < ((Unkstruct_80135EB0_2 *)arg0)->unk4) {
         n1 = 1;
     } else {
-        n1 = (M2C_FIELD(arg0, s16 *, 6) < t4) << 1;
+        n1 = (((Unkstruct_80135EB0_2 *)arg0)->unk6 < t4) << 1;
     }
     t5 = (*(s16 **)&D_8018A9A0)[2];
-    if (t5 < M2C_FIELD(arg0, s16 *, 0xC)) {
+    if (t5 < ((Unkstruct_80135EB0_2 *)arg0)->unkC) {
         n1 |= 4;
-    } else if (M2C_FIELD(arg0, s16 *, 0xE) < t5) {
+    } else if (((Unkstruct_80135EB0_2 *)arg0)->unkE < t5) {
         n1 |= 8;
     }
     t6 = (*(s16 **)&D_8018A9A0)[1];
-    if (t6 < M2C_FIELD(arg0, s16 *, 8)) {
+    if (t6 < ((Unkstruct_80135EB0_2 *)arg0)->unk8) {
         n2 = 0x10;
     } else {
-        n2 = (M2C_FIELD(arg0, s16 *, 0xA) < t6) << 5;
+        n2 = (((Unkstruct_80135EB0_2 *)arg0)->unkA < t6) << 5;
     }
     if (((m1 | m2) & (n1 | n2)) != 0) {
         goto ret0;
@@ -782,35 +782,35 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
 
     switch (m1) {
     case 4:
-        r = func_80136334(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 0xC));
+        r = func_80136334(arg0, (s16) arg1, ((Unkstruct_80135EB0_2 *)arg0)->unkC);
         goto test;
     case 1:
-        if (func_801365B8(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 4)) != 0) goto ret1;
+        if (func_801365B8(arg0, (s16) arg1, ((Unkstruct_80135EB0_2 *)arg0)->unk4) != 0) goto ret1;
         break;
     case 2:
-        if (func_801365B8(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 6)) != 0) goto ret1;
+        if (func_801365B8(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0_2 *)arg0)->unk6) != 0) goto ret1;
         break;
     case 5:
-        if (func_80136334(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 0xC)) != 0) goto ret1;
-        if (func_801365B8(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 4)) != 0) goto ret1;
+        if (func_80136334(arg0, (s16) arg1, ((Unkstruct_80135EB0_2 *)arg0)->unkC) != 0) goto ret1;
+        if (func_801365B8(arg0, (s16) arg1, ((Unkstruct_80135EB0_2 *)arg0)->unk4) != 0) goto ret1;
         break;
     case 6:
-        if (func_80136334(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 0xC)) != 0) goto ret1;
-        if (func_801365B8(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 6)) != 0) goto ret1;
+        if (func_80136334(arg0, (s16) arg1, ((Unkstruct_80135EB0_2 *)arg0)->unkC) != 0) goto ret1;
+        if (func_801365B8(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0_2 *)arg0)->unk6) != 0) goto ret1;
         break;
     case 9:
-        if (func_801365B8(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 4)) != 0) goto ret1;
+        if (func_801365B8(arg0, (s16) arg1, ((Unkstruct_80135EB0_2 *)arg0)->unk4) != 0) goto ret1;
         /* fallthrough */
     case 8:
-        r = func_80136334(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 0xE));
+        r = func_80136334(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0_2 *)arg0)->unkE);
     test:
         if (r != 0) goto ret1;
         break;
     ret0:
         return 0;
     case 10:
-        if (func_801365B8(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 6)) != 0) goto ret1;
-        if (func_80136334(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 0xE)) != 0) goto ret1;
+        if (func_801365B8(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0_2 *)arg0)->unk6) != 0) goto ret1;
+        if (func_80136334(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0_2 *)arg0)->unkE) != 0) goto ret1;
         break;
     case 0:
         break;
@@ -821,11 +821,11 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         goto ret0;
     }
     if (m2 == 0x10) {
-        if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) arg1, M2C_FIELD(arg0, s16 *, 8)) == 0) {
+        if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) arg1, ((Unkstruct_80135EB0_2 *)arg0)->unk8) == 0) {
             goto ret0;
         }
     } else {
-        if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) (arg1 | 1), M2C_FIELD(arg0, s16 *, 0xA)) == 0) {
+        if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0_2 *)arg0)->unkA) == 0) {
             goto ret0;
         }
     }
@@ -877,10 +877,10 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
         b4[2] = ac[2] + dx;
     }
 
-    if (b4[0] < M2C_FIELD(arg0, s16 *, 4)) return 0;
-    if (M2C_FIELD(arg0, s16 *, 6) < b4[0]) return 0;
-    if (b4[1] < M2C_FIELD(arg0, s16 *, 8)) return 0;
-    if (M2C_FIELD(arg0, s16 *, 0xA) < b4[1]) return 0;
+    if (b4[0] < ((Unkstruct_80135EB0_2 *)arg0)->unk4) return 0;
+    if (((Unkstruct_80135EB0_2 *)arg0)->unk6 < b4[0]) return 0;
+    if (b4[1] < ((Unkstruct_80135EB0_2 *)arg0)->unk8) return 0;
+    if (((Unkstruct_80135EB0_2 *)arg0)->unkA < b4[1]) return 0;
     if (a1v & 0x8000) {
         u16 *b0 = *(u16 **)&D_8018A9A0;
         b4[0] = b0[0];
@@ -895,8 +895,8 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
         D_801152AC[0] = -0xFFF;
         D_8018A9A4[2] = a2v - 2;
     }
-    (*(s16 *)D_80126720) = (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1;
-    D_80126722 = (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
+    (*(s16 *)D_80126720) = (((Unkstruct_80135EB0_2 *)arg0)->unk4 + ((Unkstruct_80135EB0_2 *)arg0)->unk6) >> 1;
+    D_80126722 = (((Unkstruct_80135EB0_2 *)arg0)->unk8 + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
     result = 1;
     D_80126724 = (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1;
     return result;
@@ -953,17 +953,17 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     temp_v0 = ac[2] + (temp_a1 * b8[2]) / var_a3;
     b4[2] = temp_v0;
     var_v0 = 0;
-    if (temp_v0 < M2C_FIELD(arg0, s16 *, 0xC)) {
+    if (temp_v0 < ((Unkstruct_80135EB0_2 *)arg0)->unkC) {
         return var_v0;
     }
-    if (M2C_FIELD(arg0, s16 *, 0xE) < temp_v0) {
+    if (((Unkstruct_80135EB0_2 *)arg0)->unkE < temp_v0) {
         return var_v0;
     }
     temp_v1 = b4[1];
-    if (temp_v1 < M2C_FIELD(arg0, s16 *, 8)) {
+    if (temp_v1 < ((Unkstruct_80135EB0_2 *)arg0)->unk8) {
         return var_v0;
     }
-    if (M2C_FIELD(arg0, s16 *, 0xA) < temp_v1) {
+    if (((Unkstruct_80135EB0_2 *)arg0)->unkA < temp_v1) {
         return var_v0;
     }
     if (a1c & 0x8000) {
@@ -979,8 +979,8 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
         *(s16 *)D_801152A8 = -0xFFF;
         M2C_FIELD(D_8018A9A4, s16 *, 0) = a2c - 2;
     }
-    *(s16 *)D_80126720 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1);
-    D_80126722 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
+    *(s16 *)D_80126720 = (s16) ((s32) (((Unkstruct_80135EB0_2 *)arg0)->unk4 + ((Unkstruct_80135EB0_2 *)arg0)->unk6) >> 1);
+    D_80126722 = (s16) ((s32) (((Unkstruct_80135EB0_2 *)arg0)->unk8 + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
     D_80126724 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1);
     return (1);
 }
@@ -1046,16 +1046,16 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     temp_v0 = ac[2] + r;
     b4[2] = temp_v0;
     temp_v1 = b4[0];
-    if (temp_v1 < M2C_FIELD(((void *)arg0), s16 *, 4)) {
+    if (temp_v1 < ((Unkstruct_80136824_6 *)arg0)->unk4) {
         return 0;
     }
-    if (M2C_FIELD(((void *)arg0), s16 *, 6) < temp_v1) {
+    if (((Unkstruct_80136824_6 *)arg0)->unk6 < temp_v1) {
         return 0;
     }
-    if (temp_v0 < M2C_FIELD(((void *)arg0), s16 *, 0xC)) {
+    if (temp_v0 < ((Unkstruct_80136824_6 *)arg0)->unkC) {
         return 0;
     }
-    if (M2C_FIELD(((void *)arg0), s16 *, 0xE) < temp_v0) {
+    if (((Unkstruct_80136824_6 *)arg0)->unkE < temp_v0) {
         return 0;
     }
     if (arg1 & 0x8000) {
@@ -1078,8 +1078,8 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     }
     b4b[1] = var_v0_3;
     __asm__ __volatile__("" :: "r"(pos));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-    (*(s16 *)D_80126720) = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 4) + M2C_FIELD(((void *)arg0), s16 *, 6)) >> 1);
-    D_80126722 = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 8) + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
+    (*(s16 *)D_80126720) = (s16) ((s32) (((Unkstruct_80136824_6 *)arg0)->unk4 + ((Unkstruct_80136824_6 *)arg0)->unk6) >> 1);
+    D_80126722 = (s16) ((s32) (((Unkstruct_80136824_6 *)arg0)->unk8 + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
     D_80126724 = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 0xC) + M2C_FIELD(((void *)arg0), s16 *, 0xE)) >> 1);
     return 1;
 }

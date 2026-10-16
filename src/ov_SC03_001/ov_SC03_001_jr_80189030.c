@@ -3178,7 +3178,7 @@ void func_80189030(void) {
 
     D_801EEB10 = 0;
     base = (u8 *)&D_80115118;
-    *(s16 *)base = 0;
+    ((S115118 *)base)->field0 = 0;
     D_801EF274 = 0;
     iVar5 = func_80029504();
 
@@ -3326,7 +3326,7 @@ void func_80189030(void) {
                 D_801EF254[1] = (s32)rec;
                 break;
             case 2:
-                *(s32 *)((s32)pp + 4) = 3;
+                CAST_ALIAS(s32, (s32)pp, 4) = 3;
                 pp[0] = D_801C1808[(u16)((u32)D_800B99D8 % 5)];
                 D_801EF254[2] = (s32)rec;
                 break;
@@ -3347,7 +3347,7 @@ void func_80189030(void) {
                 break;
             case 4:
                 if (iVar5 < 0x3B6) {
-                    *(s32 *)((s32)pp + 4) = 0xC;
+                    CAST_ALIAS(s32, (s32)pp, 4) = 0xC;
                     pp[0] = D_801C181C[(u16)((u32)D_800B99DA % 5)];
                     D_801EF254[4] = (s32)rec;
                 }

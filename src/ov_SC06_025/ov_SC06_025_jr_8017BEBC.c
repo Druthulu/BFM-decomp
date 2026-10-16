@@ -4189,9 +4189,9 @@ void func_8017ED5C(s32 a0) {
     mode = *(s16 *)(a0 + 0x2);
     switch (mode) {
     case 0:
-        *(s32 *)(a0 + 0x14) = *(s32 *)(rec + 0x4);
-        *(s32 *)(a0 + 0x18) = *(s32 *)(rec + 0x8) + 0xFF000000;
-        *(s32 *)(a0 + 0x1C) = *(s32 *)(rec + 0xC);
+        *(s32 *)(a0 + 0x14) = CAST_WIDTH(s32, rec, 0x4);
+        *(s32 *)(a0 + 0x18) = CAST_WIDTH(s32, rec, 0x8) + 0xFF000000;
+        *(s32 *)(a0 + 0x1C) = CAST_WIDTH(s32, rec, 0xC);
         *(u16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x2) + 1;
         *(s16 *)(a0 + 0xA) = 0;
         break;
@@ -4199,9 +4199,9 @@ void func_8017ED5C(s32 a0) {
         s16 tmp0;
         s32 ret;
 
-        vecA[0] = *(u16 *)(rec + 0x6);
-        vecA[1] = *(u16 *)(rec + 0xA);
-        vecA[2] = *(u16 *)(rec + 0xE);
+        vecA[0] = ((Unkstruct_800B5CB8 *)rec)->unk6;
+        vecA[1] = ((Unkstruct_800B5CB8 *)rec)->unkA;
+        vecA[2] = ((Unkstruct_800B5CB8 *)rec)->unkE;
         tmp0 = *(u16 *)(a0 + 0x16);
         *(s32 *)(a0 + 0xC) = mode;
         vecB[0] = tmp0;
