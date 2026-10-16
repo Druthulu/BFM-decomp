@@ -150,8 +150,8 @@ s32 func_80041354(s32 param_1, u16 *param_2, u16 *param_3)
     *attr = param_1;
     vab = (param_1 & 0xFF00) >> 8;
     base += vab * 0xB0;
-    *param_2 = *(u16 *)(base + 0x58);
-    *param_3 = *(u16 *)(base + 0x5A);
+    *param_2 = ((Unkstruct_80041354 *)base)->unk58;
+    *param_3 = ((Unkstruct_80041354 *)base)->unk5A;
     return *attr;
 }
 

@@ -1290,9 +1290,9 @@ void func_800D2318(s32 *p) {
     s32 s0f = (s32)(((masked >> 4) & 0xFFC0) << 16) >> 19;
     s32 r1 = func_80047D3C(s1f * s1f + s2f * s2f);
 
-    *(s16 *)((u8 *)p + 0x12) = -ratan2(s0f, (s16)r1);
-    *(s16 *)((u8 *)p + 0x16) = ratan2(s1f, s2f);
-    *(s16 *)((u8 *)p + 0x1A) = 0;
+    ((Unkstruct_800D2318 *)p)->unk12 = -ratan2(s0f, (s16)r1);
+    ((Unkstruct_800D2318 *)p)->unk16 = ratan2(s1f, s2f);
+    ((Unkstruct_800D2318 *)p)->unk1A = 0;
 }
 
 extern s32 func_80047D3C(s32 arg0);
@@ -1698,7 +1698,7 @@ u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
     o = ofs;
     q = out;
     p = (PolyG4_800D29F8 *)((u8 *)q + 4);
-    ((u8 *)q)[3] = 1;                       /* setlen(q, 1) */
+    ((Unkstruct_800D29F8 *)q)->unk3 = 1;                       /* setlen(q, 1) */
     p->c0 = 0xE1000000;                     /* GP0 draw-mode: dither off */
     addPrim_800D29F8(&OT_800D29F8[2], q);
     q += 2;
@@ -1737,7 +1737,7 @@ u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
     }
 
     p = (PolyG4_800D29F8 *)((u8 *)q + 4);
-    ((u8 *)q)[3] = 1;
+    ((Unkstruct_800D29F8 *)q)->unk3 = 1;
     p->c0 = 0xE1000200;                     /* GP0 draw-mode: dither on */
     addPrim_800D29F8(&OT_800D29F8[2], q);
     return q + 2;
@@ -2114,18 +2114,18 @@ void func_800D31FC(u8 *arg0) {
 extern void (*D_800D3A98[])();
 
 void func_800D3238(void *arg0) {
-    D_800D3A98[*(u8 *)((u8 *)arg0 + 0x214)](arg0);
+    D_800D3A98[((Unkstruct_800D3238 *)arg0)->unk214](arg0);
 }
 
 extern s32 func_8013767C(s32);
 
 void func_800D3274(u8 *arg0) {
-    s32 w = *(s32 *)(arg0 + 0x198);
+    s32 w = ((Unkstruct_800D3274 *)arg0)->unk198;
     if (w != 0) {
-        *(s32 *)(arg0 + 0x198) = func_8013767C(w);
-        *(u8 *)(arg0 + 0x214) = *(u8 *)(arg0 + 0x214) + 1;
+        ((Unkstruct_800D3274 *)arg0)->unk198 = func_8013767C(w);
+        ((Unkstruct_800D3274 *)arg0)->unk214 = ((Unkstruct_800D3274 *)arg0)->unk214 + 1;
     } else {
-        *(u8 *)(arg0 + 0x214) = *(u8 *)(arg0 + 0x214) + 2;
+        ((Unkstruct_800D3274 *)arg0)->unk214 = ((Unkstruct_800D3274 *)arg0)->unk214 + 2;
     }
 }
 
@@ -2133,9 +2133,9 @@ extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 
 void func_800D32D4(void *arg0) {
-    if (func_801399F0(*(s32 *)((u8 *)arg0 + 0x198)) != 0) {
-        func_80139914(*(s32 *)((u8 *)arg0 + 0x198));
-        *(u8 *)((u8 *)arg0 + 0x214) += 1;
+    if (func_801399F0(((Unkstruct_800D32D4 *)arg0)->unk198) != 0) {
+        func_80139914(((Unkstruct_800D32D4 *)arg0)->unk198);
+        ((Unkstruct_800D32D4 *)arg0)->unk214 += 1;
     }
 }
 

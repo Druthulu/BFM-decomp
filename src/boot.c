@@ -294,35 +294,35 @@ void main(void) {
         func_800191A8();
         func_80010A98();
 
-        while (*(u16 *)(p + 0xA3D4) == 0) {
+        while (((Unkstruct_80010178 *)p)->unkA3D4 == 0) {
             D_800C7C70++;
             D_800C7C70 = D_800C7C70 ? D_800C7C70 : 1;
             D_800C7C74 = !D_800C7C74;
-            *(u16 *)(p + 0xA3D2) = D_800C7C74;
+            ((Unkstruct_80010178 *)p)->unkA3D2 = D_800C7C74;
 
-            D_800A5E60 = (s32)(D_8007BA70 + *(u16 *)(p + 0xA3D2) * 80000);
-            ((struct MainSlot *)(p + ((*(u16 *)(p + 0xA3D2) * 3) << 2)))->unk8 =
-                (s32)(D_800A4F48 + *(u16 *)(p + 0xA3D2) * 1600);
-            ((struct MainSlot *)(p + ((*(u16 *)(p + 0xA3D2) * 3) << 2)))->unk0 = 0x640;
-            ((struct MainSlot *)(p + ((*(u16 *)(p + 0xA3D2) * 3) << 2)))->unk4 = 0;
+            D_800A5E60 = (s32)(D_8007BA70 + ((Unkstruct_80010178 *)p)->unkA3D2 * 80000);
+            ((struct MainSlot *)(p + ((((Unkstruct_80010178 *)p)->unkA3D2 * 3) << 2)))->unk8 =
+                (s32)(D_800A4F48 + ((Unkstruct_80010178 *)p)->unkA3D2 * 1600);
+            ((struct MainSlot *)(p + ((((Unkstruct_80010178 *)p)->unkA3D2 * 3) << 2)))->unk0 = 0x640;
+            ((struct MainSlot *)(p + ((((Unkstruct_80010178 *)p)->unkA3D2 * 3) << 2)))->unk4 = 0;
 
             func_800189A8();
             func_80015208();
 
-            if (*(u8 *)(p + 0xA3E3) == 0) {
-                (*(u16 *)(p + 0xA3A8))++;
-                *(u16 *)(p + 0xA3AC) += *(u16 *)(p + 0xA3A8);
+            if (((Unkstruct_80010178 *)p)->unkA3E3 == 0) {
+                (((Unkstruct_80010178 *)p)->unkA3A8)++;
+                ((Unkstruct_80010178 *)p)->unkA3AC += ((Unkstruct_80010178 *)p)->unkA3A8;
 
-                *(s32 *)((u8 *)&D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
-                    (s32)(D_800A6610 + *(u16 *)(p + 0xA3D2) * 16384);
-                *(s32 *)(D_800A6528 + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
-                    *(u16 *)(p + 0xA3D2) * 16384 + (s32)D_800AA60C;
-                func_80059BFC(*(s32 *)((u8 *)&D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)), 0x1000);
-                *(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
-                    (s32)(D_800BA0D8 + *(u16 *)(p + 0xA3D2) * 16);
-                *(s32 *)((u8 *)&D_800AE7C8 + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
-                    *(u16 *)(p + 0xA3D2) * 16 + (s32)D_800BA0E4;
-                func_80059BFC(*(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)), 4);
+                *(s32 *)((u8 *)&D_800A651C + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
+                    (s32)(D_800A6610 + ((Unkstruct_80010178 *)p)->unkA3D2 * 16384);
+                *(s32 *)(D_800A6528 + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
+                    ((Unkstruct_80010178 *)p)->unkA3D2 * 16384 + (s32)D_800AA60C;
+                func_80059BFC(*(s32 *)((u8 *)&D_800A651C + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)), 0x1000);
+                *(s32 *)((u8 *)&D_800AE7BC + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
+                    (s32)(D_800BA0D8 + ((Unkstruct_80010178 *)p)->unkA3D2 * 16);
+                *(s32 *)((u8 *)&D_800AE7C8 + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
+                    ((Unkstruct_80010178 *)p)->unkA3D2 * 16 + (s32)D_800BA0E4;
+                func_80059BFC(*(s32 *)((u8 *)&D_800AE7BC + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)), 4);
                 GameModeDispatch();
 
                 __asm__ __volatile__(  // !FAKE: instruction lui — REFUSED instruction `lui` has no C spelling in the table (P36 rung B tus9)
@@ -349,11 +349,11 @@ void main(void) {
                     "addiu $sp, $sp, 4\n"
                     "lw    $sp, 0($sp)\n" : : : "memory");
             } else {
-                *(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
-                    (s32)(D_800BA0D8 + *(u16 *)(p + 0xA3D2) * 16);
-                *(s32 *)((u8 *)&D_800AE7C8 + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
-                    *(u16 *)(p + 0xA3D2) * 16 + (s32)D_800BA0E4;
-                func_80059BFC(*(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)), 4);
+                *(s32 *)((u8 *)&D_800AE7BC + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
+                    (s32)(D_800BA0D8 + ((Unkstruct_80010178 *)p)->unkA3D2 * 16);
+                *(s32 *)((u8 *)&D_800AE7C8 + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
+                    ((Unkstruct_80010178 *)p)->unkA3D2 * 16 + (s32)D_800BA0E4;
+                func_80059BFC(*(s32 *)((u8 *)&D_800AE7BC + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)), 4);
 
                 __asm__ __volatile__(  // !FAKE: instruction lui — REFUSED instruction `lui` has no C spelling in the table (P36 rung B tus9)
                     "lui   $a2, 0x1f80\n"
@@ -370,20 +370,20 @@ void main(void) {
 
             func_800184F0();
             func_800596F4(0);
-            VSync(*(s32 *)(p + 0xA3E8));
+            VSync(((Unkstruct_80010178 *)p)->unkA3E8);
 
-            *(u16 *)(p + 0x188) = *(u16 *)(p + 0x18A);
-            (*(u16 *)(p + 0x18A))++;
-            if (*(u16 *)(p + 0x18A) > 1) {
-                *(u16 *)(p + 0x18A) = 0;
+            ((Unkstruct_80010178 *)p)->unk188 = ((Unkstruct_80010178 *)p)->unk18A;
+            (((Unkstruct_80010178 *)p)->unk18A)++;
+            if (((Unkstruct_80010178 *)p)->unk18A > 1) {
+                ((Unkstruct_80010178 *)p)->unk18A = 0;
             }
-            func_80059FC0(&p[*(u16 *)(p + 0x188) * 20 + 0x14C]);
-            func_80059D68(&p[*(u16 *)(p + 0x18A) * 92 + 0x38]);
+            func_80059FC0(&p[((Unkstruct_80010178 *)p)->unk188 * 20 + 0x14C]);
+            func_80059D68(&p[((Unkstruct_80010178 *)p)->unk18A * 92 + 0x38]);
 
-            CatPrim(*(s32 *)((u8 *)&D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) + 0x3FF0,
-                    *(s32 *)((u8 *)&D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) + D_80074778 * 4);
-            func_80059CF4(*(s32 *)((u8 *)&D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) + 0x3FFC);
-            func_80059CF4(*(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) + 0xC);
+            CatPrim(*(s32 *)((u8 *)&D_800A651C + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) + 0x3FF0,
+                    *(s32 *)((u8 *)&D_800A651C + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) + D_80074778 * 4);
+            func_80059CF4(*(s32 *)((u8 *)&D_800A651C + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) + 0x3FFC);
+            func_80059CF4(*(s32 *)((u8 *)&D_800AE7BC + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) + 0xC);
             func_8003500C();
             func_8002D034();
             func_8001AF34();
@@ -405,7 +405,7 @@ extern s32 D_800AE810[];
 
 void func_8001099C(void) {
     register u8 *p = D_800AF630;
-    D_800AE810[*(u16 *)(p + 0xA3D2)] = VSync(1);
+    D_800AE810[((Unkstruct_80010178 *)p)->unkA3D2] = VSync(1);
 }
 
 extern u8 D_800AF630[];
@@ -452,7 +452,7 @@ extern void (*gameModeHandlerTable[])(void);
 extern u8 D_800AF630[];
 void GameModeDispatch(void) {
     register u8 *p = D_800AF630;
-    gameModeHandlerTable[*(u16 *)(p + 0xA3AE)]();
+    gameModeHandlerTable[((Unkstruct_80010178 *)p)->unkA3AE]();
 }
 
 extern u8 D_800AF630[];
@@ -513,7 +513,7 @@ void func_80010CEC(void) {
     register u8 *p = D_800AF630;
 
     func_800CEDFC();
-    if (*(u16 *)(p + 0xA3B6) != 0) {
+    if (((Unkstruct_80010178 *)p)->unkA3B6 != 0) {
         func_8001C044();
         func_80015310();
         func_80011818(3);
@@ -558,7 +558,7 @@ void func_80010E7C(void) {
     register u8 *p = D_800AF630;
 
     func_8002D4C8(2, 0);
-    *(u16 *)(p + 0xA3D4) = 1;
+    ((Unkstruct_80010178 *)p)->unkA3D4 = 1;
 }
 
 extern s32 D_800C7C60;
@@ -602,18 +602,18 @@ void func_80010F80(void) {
     register u8 *p = D_800AF630;
     u8 *sp10 = D_80078E78;
     func_800CEEC8();
-    if (*(u16 *)(p + 0xA3B6) != 0) {
+    if (((Unkstruct_80010178 *)p)->unkA3B6 != 0) {
         func_80011B7C(0);
         func_8001C044();
         func_80015310();
-        if (*(s16 *)(p + 0xA3B8) == 4) {
-            *(u8 *)(p + 0xA434) = 1;
+        if (CAST_SIGN(s16, p, 0xA3B8) == 4) {
+            ((Unkstruct_80010178 *)p)->unkA434 = 1;
             func_80011818(0xF);
-        } else if (*(s16 *)(p + 0xA3B8) < 2) {
-            *(s16 *)(p + 0xA3D8) = 0x3005;
-            *(s16 *)(p + 0xA3DA) = 0x3000;
+        } else if (CAST_SIGN(s16, p, 0xA3B8) < 2) {
+            ((Unkstruct_80010178 *)p)->unkA3D8 = 0x3005;
+            ((Unkstruct_80010178 *)p)->unkA3DA = 0x3000;
             func_80029514(D_800629C8);
-            if (*(s16 *)(p + 0xA3B8) == 1) {
+            if (CAST_SIGN(s16, p, 0xA3B8) == 1) {
                 func_80011818(0xA);
                 func_80011B7C(0xB);
             } else {
@@ -674,7 +674,7 @@ void func_800111BC(void) {
     register u8 *p = D_800AF630;
 
     func_800CEE74();
-    if (*(u16 *)(p + 0xA3B6) != 0) {
+    if (((Unkstruct_80010178 *)p)->unkA3B6 != 0) {
         func_80011818(0xA);
     }
 }
@@ -766,15 +766,15 @@ void func_80011380(void) {
     register u8 *p = D_800AF630;
     Unk *q = (Unk *)&D_800AE6A8;
 
-    switch (*(u16 *)(p + 0xA3B4)) {
+    switch (((Unkstruct_80010178 *)p)->unkA3B4) {
     case 0:
         D_800B99E8 = 0;
         func_800295D4();
         if (D_80074784 >= 5) {
             D_80074784 = 0;
         }
-        *(u16 *)(p + 0xA3D8) = D_800629D4[D_80074784];
-        *(u16 *)(p + 0xA3DA) = (u16)D_800629D4[D_80074784] & 0xF000;
+        ((Unkstruct_80010178 *)p)->unkA3D8 = D_800629D4[D_80074784];
+        ((Unkstruct_80010178 *)p)->unkA3DA = (u16)D_800629D4[D_80074784] & 0xF000;
         q->unk16 = D_800629D6[(D_80074784 * 2 + 1) * 2 - 2];
         D_8007478C = D_800629E8[D_80074784];
         if (D_80074784 == 0) {
@@ -840,14 +840,14 @@ extern u8 D_800AF630[];
 void func_80011778(void) {
     register u8 *p = D_800AF630;
 
-    (*(u16 *)(p + 0xA3AE))++;
-    *(u16 *)(p + 0xA3B4) = 0;
-    *(u16 *)(p + 0xA3BA) = 0;
-    *(u16 *)(p + 0xA3B8) = 0;
-    *(u16 *)(p + 0xA3BE) = 0;
-    *(u16 *)(p + 0xA3B0) = 0;
-    *(u16 *)(p + 0xA3B6) = 0;
-    *(u16 *)(p + 0xA3BC) = 0;
+    (((Unkstruct_80010178 *)p)->unkA3AE)++;
+    ((Unkstruct_80010178 *)p)->unkA3B4 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BA = 0;
+    ((Unkstruct_80010178 *)p)->unkA3B8 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BE = 0;
+    ((Unkstruct_80010178 *)p)->unkA3B0 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3B6 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
 extern u8 D_800AF630[];
@@ -857,14 +857,14 @@ u16 param_1;
 {
     register u8 *p = D_800AF630;
 
-    *(u16 *)(p + 0xA3AE) = param_1;
-    *(u16 *)(p + 0xA3B4) = 0;
-    *(u16 *)(p + 0xA3BA) = 0;
-    *(u16 *)(p + 0xA3B8) = 0;
-    *(u16 *)(p + 0xA3BE) = 0;
-    *(u16 *)(p + 0xA3B0) = 0;
-    *(u16 *)(p + 0xA3B6) = 0;
-    *(u16 *)(p + 0xA3BC) = 0;
+    ((Unkstruct_80010178 *)p)->unkA3AE = param_1;
+    ((Unkstruct_80010178 *)p)->unkA3B4 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BA = 0;
+    ((Unkstruct_80010178 *)p)->unkA3B8 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BE = 0;
+    ((Unkstruct_80010178 *)p)->unkA3B0 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3B6 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
 extern u8 D_800AF630[];
@@ -872,11 +872,11 @@ extern u8 D_800AF630[];
 void func_800118AC(void) {
     register u8 *p = D_800AF630;
 
-    (*(u16 *)(p + 0xA3B4))++;
-    *(u16 *)(p + 0xA3BA) = 0;
-    *(u16 *)(p + 0xA3BE) = 0;
-    *(u16 *)(p + 0xA3B6) = 0;
-    *(u16 *)(p + 0xA3BC) = 0;
+    (((Unkstruct_80010178 *)p)->unkA3B4)++;
+    ((Unkstruct_80010178 *)p)->unkA3BA = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BE = 0;
+    ((Unkstruct_80010178 *)p)->unkA3B6 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
 extern u8 D_800AF630[];
@@ -884,27 +884,27 @@ extern u8 D_800AF630[];
 void func_80011928(u16 arg0) {
     register u8 *p = D_800AF630;
 
-    *(u16 *)(p + 0xA3B4) = arg0;
-    *(u16 *)(p + 0xA3BA) = 0;
-    *(u16 *)(p + 0xA3BE) = 0;
-    *(u16 *)(p + 0xA3B6) = 0;
-    *(u16 *)(p + 0xA3BC) = 0;
+    ((Unkstruct_80010178 *)p)->unkA3B4 = arg0;
+    ((Unkstruct_80010178 *)p)->unkA3BA = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BE = 0;
+    ((Unkstruct_80010178 *)p)->unkA3B6 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
 extern u8 D_800AF630[];
 
 void func_80011998(void) {
     register u8 *p = D_800AF630;
-    (*(u16 *)(p + 0xA3BA))++;
-    *(u16 *)(p + 0xA3BC) = 0;
+    (((Unkstruct_80010178 *)p)->unkA3BA)++;
+    ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
 extern u8 D_800AF630[];
 
 void func_800119F0(u16 arg0) {
     register u8 *p = D_800AF630;
-    *(u16 *)(p + 0xA3BA) = arg0;
-    *(u16 *)(p + 0xA3BC) = 0;
+    ((Unkstruct_80010178 *)p)->unkA3BA = arg0;
+    ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
 extern u8 D_800AF630[];
@@ -913,16 +913,16 @@ void func_80011A3C(void) {
     register u8 *p = D_800AF630;
     register u16 x;
 
-    x = *(u16 *)(p + 0xA3C0);
+    x = ((Unkstruct_80010178 *)p)->unkA3C0;
     x = x + 1;
-    *(u16 *)(p + 0xA3C0) = x;
-    *(u16 *)(p + 0xA3C6) = 0;
-    *(u16 *)(p + 0xA3CC) = 0;
-    *(u16 *)(p + 0xA3CA) = 0;
-    *(u16 *)(p + 0xA3D0) = 0;
-    *(u16 *)(p + 0xA3C2) = 0;
-    *(u16 *)(p + 0xA3C8) = 0;
-    *(u16 *)(p + 0xA3CE) = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C0 = x;
+    ((Unkstruct_80010178 *)p)->unkA3C6 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CC = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CA = 0;
+    ((Unkstruct_80010178 *)p)->unkA3D0 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C2 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C8 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
 extern u8 D_800AF630[];
@@ -930,14 +930,14 @@ extern u8 D_800AF630[];
 void func_80011ADC(void) {
     register u8 *p = D_800AF630;
 
-    --*(u16 *)(p + 0xA3C0);
-    *(u16 *)(p + 0xA3C6) = 0;
-    *(u16 *)(p + 0xA3CC) = 0;
-    *(u16 *)(p + 0xA3CA) = 0;
-    *(u16 *)(p + 0xA3D0) = 0;
-    *(u16 *)(p + 0xA3C2) = 0;
-    *(u16 *)(p + 0xA3C8) = 0;
-    *(u16 *)(p + 0xA3CE) = 0;
+    --((Unkstruct_80010178 *)p)->unkA3C0;
+    ((Unkstruct_80010178 *)p)->unkA3C6 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CC = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CA = 0;
+    ((Unkstruct_80010178 *)p)->unkA3D0 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C2 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C8 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
 extern u8 D_800AF630[];
@@ -946,14 +946,14 @@ void func_80011B7C(arg0)
     u16 arg0;
 {
     register u8 *p = D_800AF630;
-    *(u16 *)(p + 0xA3C0) = arg0;
-    *(u16 *)(p + 0xA3C6) = 0;
-    *(u16 *)(p + 0xA3CC) = 0;
-    *(u16 *)(p + 0xA3CA) = 0;
-    *(u16 *)(p + 0xA3D0) = 0;
-    *(u16 *)(p + 0xA3C2) = 0;
-    *(u16 *)(p + 0xA3C8) = 0;
-    *(u16 *)(p + 0xA3CE) = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C0 = arg0;
+    ((Unkstruct_80010178 *)p)->unkA3C6 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CC = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CA = 0;
+    ((Unkstruct_80010178 *)p)->unkA3D0 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C2 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C8 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
 extern u8 D_800AF630[];
@@ -962,13 +962,13 @@ void func_80011C10(void) {
     register u8 *p = D_800AF630;
     register u16 gameMode;
 
-    gameMode = *(u16 *)(p + 0xA3C6);
+    gameMode = ((Unkstruct_80010178 *)p)->unkA3C6;
     gameMode += 1;
-    *(u16 *)(p + 0xA3C6) = gameMode;
-    *(u16 *)(p + 0xA3CC) = 0;
-    *(u16 *)(p + 0xA3D0) = 0;
-    *(u16 *)(p + 0xA3C8) = 0;
-    *(u16 *)(p + 0xA3CE) = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C6 = gameMode;
+    ((Unkstruct_80010178 *)p)->unkA3CC = 0;
+    ((Unkstruct_80010178 *)p)->unkA3D0 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C8 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
 extern u8 D_800AF630[];
@@ -976,11 +976,11 @@ extern u8 D_800AF630[];
 void func_80011C8C(u16 arg0) {
     register u8 *p = D_800AF630;
 
-    *(u16 *)(p + 0xA3C6) = arg0;
-    *(u16 *)(p + 0xA3CC) = 0;
-    *(s16 *)(p + 0xA3D0) = 0;
-    *(u16 *)(p + 0xA3C8) = 0;
-    *(u16 *)(p + 0xA3CE) = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C6 = arg0;
+    ((Unkstruct_80010178 *)p)->unkA3CC = 0;
+    ((Unkstruct_80010178 *)p)->unkA3D0 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3C8 = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
 extern u8 D_800AF630[];
@@ -988,8 +988,8 @@ extern u8 D_800AF630[];
 void func_80011CFC(void) {
     register u8 *p = D_800AF630;
 
-    (*(u16 *)(p + 0xA3CC))++;
-    *(u16 *)(p + 0xA3CE) = 0;
+    (((Unkstruct_80010178 *)p)->unkA3CC)++;
+    ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
 extern u8 D_800AF630[];
@@ -997,8 +997,8 @@ extern u8 D_800AF630[];
 void func_80011D54(u16 arg0) {
     register u8 *p = D_800AF630;
 
-    *(u16 *)(p + 0xA3CC) = arg0;
-    *(u16 *)(p + 0xA3CE) = 0;
+    ((Unkstruct_80010178 *)p)->unkA3CC = arg0;
+    ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
 extern s32 D_80074780;
@@ -1121,7 +1121,7 @@ void func_8001212C(void) {
     u32 *ot;
 
     p = (Sprt24 *)D_800A5E60;
-    ot = (u32 *)(D_800A6610 + *(u16 *)(base + 0xA3D2) * 0x4000);
+    ot = (u32 *)(D_800A6610 + ((Unkstruct_80010178 *)base)->unkA3D2 * 0x4000);
 
     p->len = 5;
     ((u32 *)p)[1] = 0xE1000018;

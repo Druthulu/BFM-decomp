@@ -122,7 +122,7 @@ void func_800CEFD0(void) {
     extern u8 D_800AF630[];
     extern s32 D_800A651C;
 
-    u8 *base = &(*(u8 *)&D_800AF630);
+    u8 *base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
 
     D_80114E98 = 0;
     D_80114E9C = 0;
@@ -200,8 +200,8 @@ loop:
         return;
     }
     func_800596F4(0);
-    VSync(*(s32 *)(p + 0xA3E8));
-    func_80059CF4(D_800A651C[*(u16 *)(p + 0xA3D2) * 5] + 4);
+    VSync(((Unkstruct_80010178 *)p)->unkA3E8);
+    func_80059CF4(D_800A651C[((Unkstruct_80010178 *)p)->unkA3D2 * 5] + 4);
     func_8001AF34();
     goto loop;
 }
@@ -253,8 +253,8 @@ L25C:
     }
 L2AC:
     func_80128158();
-    if (*(u16 *)(p + 0xA3C2) == 0) {
-        VSync(*(s32 *)(p + 0xA3E8));
+    if (((Unkstruct_80010178 *)p)->unkA3C2 == 0) {
+        VSync(((Unkstruct_80010178 *)p)->unkA3E8);
         func_8001AF34();
         goto L2AC;
     }
@@ -262,8 +262,8 @@ L2AC:
     goto L35C;
 L300:
     func_800596F4(0);
-    VSync(*(s32 *)(p + 0xA3E8));
-    func_80059CF4(*(s32 *)((char *)D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) + 4);
+    VSync(((Unkstruct_80010178 *)p)->unkA3E8);
+    func_80059CF4(*(s32 *)((char *)D_800A651C + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) + 4);
     func_8001AF34();
     goto L25C;
 L35C:
@@ -328,7 +328,7 @@ L3E4:
     if (D_80114E98 != 0) goto L458;
     (*(void (**)(void))((char *)D_800D3488 + (D_800B99F6 << 2)))();
     if (D_80114E98 != 0) goto L458;
-    VSync(*(s32 *)(p + 0xA3E8));
+    VSync(((Unkstruct_80010178 *)p)->unkA3E8);
     func_8001AF34();
     goto L3E4;
 L458:
@@ -977,22 +977,22 @@ s32 func_800CFE60(void) {
 
     cnt = func_80029504();
 
-    if (*(s16 *)(base + 0xA3D8) == 0x300B && *(s16 *)(base + 0xA3DE) != 0) {
+    if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x300B && ((Unkstruct_80010178 *)base)->unkA3DE != 0) {
         val = 8;
         file = 0x8A;
     }
-    if (*(s16 *)(base + 0xA3D8) == 0x3001 && cnt < 5) {
+    if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x3001 && cnt < 5) {
         file = 0x37;
     }
-    if (*(s16 *)(base + 0xA3D8) == 0x304E && (func_80029178(0x17) & 0xFF) != 0) {
+    if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x304E && (func_80029178(0x17) & 0xFF) != 0) {
         file = 0x129;
         val = 0x2F;
     }
-    if (*(s16 *)(base + 0xA3D8) == 0x1077 && cnt >= 0x2A8) {
+    if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x1077 && cnt >= 0x2A8) {
         file = 0x151;
         val = 0x34;
     }
-    if (*(s16 *)(base + 0xA3D8) == 0x3021 && (func_80029178(0xB9) & 0xFF) != 0) {
+    if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x3021 && (func_80029178(0xB9) & 0xFF) != 0) {
         file = 0xC1;
         val = 0x41;
     }
@@ -1014,7 +1014,7 @@ s32 func_800CFE60(void) {
     }
 
     if (mode == 0 && (res & 1)) {
-        func_800D00E4((((u32)D_800D34AC[*(s16 *)(base + 0xA3D8) & 0xFFFF0FFF]) >> 12) & 0xF);
+        func_800D00E4((((u32)D_800D34AC[((Unkstruct_80010178 *)base)->unkA3D8 & 0xFFFF0FFF]) >> 12) & 0xF);
     }
     return res;
 }
