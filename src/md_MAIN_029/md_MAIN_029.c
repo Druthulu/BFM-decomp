@@ -20,8 +20,8 @@ void func_800CAE0C(void) {
 void func_800CAE64(void *a0) {
 
     extern void (*D_800CB49C[])(void);
-    *(u32 *)((s32)a0 + 0x44) |= 8;
-    D_800CB49C[*(u8 *)((s32)a0 + 0x197)]();
+    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    D_800CB49C[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
 
@@ -193,24 +193,24 @@ void func_800CB2AC(void *a0)
     s1 = (u8 *)a0;
     p = *(u8 **)(s1 + 0x20);
     if (D_80078EC1 == 0x14) {
-        *(u32 *)(s1 + 0x2C) += 4;
-        if (*(u32 *)(s1 + 0x2C) < 0x1C1) {
-            t = (*(u32 *)(s1 + 0x1C))++;
-            *(u16 *)(p + 0x18) = *(u16 *)(p + 0x1A) = D_800CB4B4[t & 3];
-            *(u32 *)(s1 + 0x30) += 0xA00000 / (*(u32 *)(s1 + 0x2C) * 804);
+        ((Unkstruct_800CB2AC *)s1)->unk2C += 4;
+        if (((Unkstruct_800CB2AC *)s1)->unk2C < 0x1C1) {
+            t = (((Unkstruct_800CB2AC *)s1)->unk1C)++;
+            ((Unkstruct_800CB2AC_2 *)p)->unk18 = ((Unkstruct_800CB2AC_2 *)p)->unk1A = D_800CB4B4[t & 3];
+            ((Unkstruct_800CB2AC *)s1)->unk30 += 0xA00000 / (((Unkstruct_800CB2AC *)s1)->unk2C * 804);
             m = D_800AE620;
-            RotMatrixY(*(u32 *)(s1 + 0x30), &m);
+            RotMatrixY(((Unkstruct_800CB2AC *)s1)->unk30, &m);
             vec.x = 0;
-            vec.y = -*(u32 *)(s1 + 0x2C);
-            t = *(u32 *)(s1 + 0x2C);
+            vec.y = -((Unkstruct_800CB2AC *)s1)->unk2C;
+            t = ((Unkstruct_800CB2AC *)s1)->unk2C;
             m.w[5] = D_80126B5E;
             m.w[6] = D_80126B62 - 0x1C;
             m.w[7] = D_80126B66;
             vec.z = t - (t >> 2);
             func_8012F14C((s32)&m, (s32)&vec, (s32)&vec);
-            *(u16 *)(s1 + 6) = vec.x;
-            *(u16 *)(s1 + 0xA) = vec.y;
-            *(u16 *)(s1 + 0xE) = vec.z;
+            ((Unkstruct_800CB2AC *)s1)->unk6 = vec.x;
+            ((Unkstruct_800CB2AC *)s1)->unkA = vec.y;
+            ((Unkstruct_800CB2AC *)s1)->unkE = vec.z;
             return;
         }
     }

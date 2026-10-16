@@ -14,8 +14,8 @@ void func_800CAE0C(void) {
 void func_800CAE34(void *a0) {
 
     extern void (*D_800CB29C[])(void);
-    *(u32 *)((s32)a0 + 0x44) |= 8;
-    D_800CB29C[*(u8 *)((s32)a0 + 0x197)]();
+    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    D_800CB29C[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
 
@@ -141,19 +141,19 @@ void func_800CB188(void *arg0) {
     s32 v0;
     s32 v1;
 
-    s0 = *(s32 *)((s32)arg0 + 0x4C);
-    s1 = *(s32 *)((s32)arg0 + 0x20);
-    *(s32 *)((s32)arg0 + 0xC) = 0;
-    *(s32 *)((s32)arg0 + 0x8) = 0;
-    *(s32 *)((s32)arg0 + 0x4) = 0;
+    s0 = ((Unkstruct_800CB188 *)arg0)->unk4C;
+    s1 = ((Unkstruct_800CB188 *)arg0)->unk20;
+    ((Unkstruct_800CB188 *)arg0)->unkC = 0;
+    ((Unkstruct_800CB188 *)arg0)->unk8 = 0;
+    ((Unkstruct_800CB188 *)arg0)->unk4 = 0;
     func_80149374(s0, (s32)arg0 + 4);
     v0 = *(s32 *)(s0 + 0x20);
     *(func_800CB188_Blk16 *)(s1 + 0x34) = *(func_800CB188_Blk16 *)(v0 + 0x34);
     *(func_800CB188_Blk16 *)(s1 + 0x44) = *(func_800CB188_Blk16 *)(v0 + 0x44);
-    v1 = *(s32 *)(s1 + 4) & 0x7FFFFFFF;
-    *(s32 *)(s1 + 4) = v1;
+    v1 = ((Unkstruct_800CB188_2 *)s1)->unk4 & 0x7FFFFFFF;
+    CAST_ALIAS(s32, s1, 4) = v1;
     if (D_800B99DA & 1) {
-        *(s32 *)(s1 + 4) = v1 | 0x80000000;
+        ((Unkstruct_800CB188_2 *)s1)->unk4 = v1 | 0x80000000;
     }
 }
 

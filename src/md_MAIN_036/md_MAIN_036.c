@@ -18,8 +18,8 @@ void func_800CAE0C(void) {
 void func_800CAE54(void *a0) {
 
     extern void (*D_800CBF94[])(void);
-    *(u32 *)((s32)a0 + 0x44) |= 8;
-    D_800CBF94[*(u8 *)((s32)a0 + 0x197)]();
+    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    D_800CBF94[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
 
@@ -72,7 +72,7 @@ void func_800CAFD4(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBFB8[])(void);
     if (D_80078EC1 == 0x17) {
-        u16 v0 = *(u16 *)((u8 *)arg0 + 2);
+        u16 v0 = ((Unkstruct_800CAFD4 *)arg0)->unk2;
         D_800CBFB8[v0]();
     } else {
         func_800CB5A8();
@@ -321,7 +321,7 @@ void func_800CB5D8(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBFD4[])(void);
     if (D_80078EC1 == 0x17) {
-        u16 v0 = *(u16 *)((u8 *)arg0 + 2);
+        u16 v0 = ((Unkstruct_800CAFD4 *)arg0)->unk2;
         D_800CBFD4[v0]();
     } else {
         func_800CB774();
@@ -620,7 +620,7 @@ void func_800CBD54(s32 param_1, s32 *param_2)
     MTX_800CBD54 mtx;
     s16 buf[4];
 
-    p = *(s32 *)(param_1 + 0x20);
+    p = ((Unkstruct_800CBD54 *)param_1)->unk20;
     *(s32 *)((s32)param_2 + 0x34) = 0x50000000;
 
     func_80017DC4((void *)(p + 0x18), &mtx);
@@ -629,21 +629,21 @@ void func_800CBD54(s32 param_1, s32 *param_2)
     func_80017E68((void *)buf, &mtx);
     func_80016EF8((void *)param_2, &mtx);
 
-    mtx.t[0] += *(s16 *)(param_1 + 0x38);
-    mtx.t[1] += *(s16 *)(param_1 + 0x3A);
-    mtx.t[2] += *(s16 *)(param_1 + 0x3C);
+    mtx.t[0] += ((Unkstruct_800CBD54 *)param_1)->unk38;
+    mtx.t[1] += ((Unkstruct_800CBD54 *)param_1)->unk3A;
+    mtx.t[2] += ((Unkstruct_800CBD54 *)param_1)->unk3C;
     func_80016EF8((void *)param_2, &mtx);
     func_80017E68((void *)buf, &mtx);
 
-    mtx.t[0] += *(s16 *)(param_1 + 0x3E);
-    mtx.t[1] += *(s16 *)(param_1 + 0x40);
-    mtx.t[2] += *(s16 *)(param_1 + 0x42);
+    mtx.t[0] += ((Unkstruct_800CBD54 *)param_1)->unk3E;
+    mtx.t[1] += ((Unkstruct_800CBD54 *)param_1)->unk40;
+    mtx.t[2] += ((Unkstruct_800CBD54 *)param_1)->unk42;
     func_80016EF8((void *)param_2, &mtx);
     func_80017E68((void *)buf, &mtx);
 
-    mtx.t[0] += *(s16 *)(param_1 + 0x44);
-    mtx.t[1] += *(s16 *)(param_1 + 0x46);
-    mtx.t[2] += *(s16 *)(param_1 + 0x48);
+    mtx.t[0] += ((Unkstruct_800CBD54 *)param_1)->unk44;
+    mtx.t[1] += ((Unkstruct_800CBD54 *)param_1)->unk46;
+    mtx.t[2] += ((Unkstruct_800CBD54 *)param_1)->unk48;
     func_80016EF8((void *)param_2, &mtx);
 }
 

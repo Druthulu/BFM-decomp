@@ -14,8 +14,8 @@ void func_800CAE0C(void) {
 void func_800CAE34(void *a0) {
 
     extern void (*D_800CBB24[])(void);
-    *(u32 *)((s32)a0 + 0x44) |= 8;
-    D_800CBB24[*(u8 *)((s32)a0 + 0x197)]();
+    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    D_800CBB24[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
 
@@ -143,7 +143,7 @@ void func_800CB1C0(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBB38[])(void);
     if (D_80078EC1 == 0x8) {
-        u16 v0 = *(u16 *)((u8 *)arg0 + 2);
+        u16 v0 = ((Unkstruct_800CB1C0 *)arg0)->unk2;
         D_800CBB38[v0]();
     } else {
         func_800CB474();
@@ -211,17 +211,17 @@ void func_800CB2E0(void *arg0) {
     s32 cmd;
 
     a0v = arg0;
-    fp = *(void **)((u8 *)a0v + 0x20);
+    fp = ((Unkstruct_800CB2E0 *)a0v)->unk20;
 
     if (func_80146E98((s32)a0v)) {
-        do { func_80146A6C(3, a0v, *(s16 *)((u8 *)a0v + 6), *(s16 *)((u8 *)a0v + 0xA), *(s16 *)((u8 *)a0v + 0xE), 0, 0x80001C00); } while (0);
+        do { func_80146A6C(3, a0v, ((Unkstruct_800CB2E0 *)a0v)->unk6, ((Unkstruct_800CB2E0 *)a0v)->unkA, ((Unkstruct_800CB2E0 *)a0v)->unkE, 0, 0x80001C00); } while (0);
     } else {
         u8 *bp;
         bp = buf + 0x20;
         func_80013F3C(bp);
-        func_800126C4((s32)bp, *(s16 *)((u8 *)fp + 0x10));
-        func_800123F0((s32)bp, *(s16 *)((u8 *)fp + 0x14));
-        func_80012558((s32)bp, *(s16 *)((u8 *)fp + 0x12));
+        func_800126C4((s32)bp, ((Unkstruct_800CB2E0_2 *)fp)->unk10);
+        func_800123F0((s32)bp, ((Unkstruct_800CB2E0_2 *)fp)->unk14);
+        func_80012558((s32)bp, ((Unkstruct_800CB2E0_2 *)fp)->unk12);
         func_80163194((s32)a0v, 0, 0, 0, (s32)bp);
         func_80162FC0((s32 *)a0v);
         func_80163408((s32)a0v, 0x10, 0x80, 0x200);
@@ -260,7 +260,7 @@ void func_800CB494(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBB58[])(void);
     if (D_80078EC1 == 0x8) {
-        u16 v0 = *(u16 *)((u8 *)arg0 + 2);
+        u16 v0 = ((Unkstruct_800CB1C0 *)arg0)->unk2;
         D_800CBB58[v0]();
     } else {
         func_80146C3C();
@@ -302,7 +302,7 @@ void func_800CB4F0(void *arg0) {
     sv[2] = *(u16 *)((char *)arg0 + 0xE) - 0x24;
     func_80149350(s3, sv, sv);
 
-    t = *(s32 *)(s3 + 0x20);
+    t = ((Unkstruct_800CB4F0 *)s3)->unk20;
     *(Blk16 *)((char *)arg0 + 0x38) = *(Blk16 *)(t + 0x34);
     *(Blk16 *)((char *)arg0 + 0x48) = *(Blk16 *)(t + 0x44);
 
@@ -317,7 +317,7 @@ void func_800CB4F0(void *arg0) {
     func_80017DC4(sv, mtx);
 
     RotMatrixZ(rand() & 0xFFF, mtx);
-    MulMatrix0(*(s32 *)(s3 + 0x20) + 0x34, mtx, s2 + 0x34);
+    MulMatrix0(((Unkstruct_800CB4F0 *)s3)->unk20 + 0x34, mtx, s2 + 0x34);
 
     func_80146A6C(0x13, arg0,
                   *(short *)((char *)arg0 + 6),
@@ -361,12 +361,12 @@ s32 func_800CB6FC(s32 param_1) {
 
     p = D_800CBB44;
     i = 0;
-    *(short *)(buf + 0x0c) = 0;
-    *(short *)(buf + 0x0a) = 0;
-    *(short *)(buf + 0x08) = 0;
-    *(short *)(buf + 0x1a) = 0;
-    *(short *)(buf + 0x12) = 0;
-    *(short *)(buf + 0x02) = 0;
+    ((Unkstruct_800CB6FC *)buf)->unkC = 0;
+    ((Unkstruct_800CB6FC *)buf)->unkA = 0;
+    ((Unkstruct_800CB6FC *)buf)->unk8 = 0;
+    ((Unkstruct_800CB6FC *)buf)->unk1A = 0;
+    ((Unkstruct_800CB6FC *)buf)->unk12 = 0;
+    ((Unkstruct_800CB6FC *)buf)->unk2 = 0;
     t = *(u8 *)(param_1 + 0x30);
     buf[0x22] = 0;
     buf[0x21] = 0;
@@ -377,17 +377,17 @@ s32 func_800CB6FC(s32 param_1) {
     buf[0x2e] = 0;
     buf[0x2d] = 0;
     buf[0x2c] = 0;
-    *(int *)(buf + 0x30) = 0x50000000;
+    ((Unkstruct_800CB6FC *)buf)->unk30 = 0x50000000;
     buf[0x25] = t;
     buf[0x26] = t;
     buf[0x24] = t;
     do {
-        *(short *)(buf + 0x00) = *p++;
-        *(short *)(buf + 0x04) = *p++;
-        *(short *)(buf + 0x10) = *p++;
-        *(short *)(buf + 0x14) = *p++;
-        *(short *)(buf + 0x18) = *p++;
-        *(short *)(buf + 0x1c) = *p--;
+        ((Unkstruct_800CB6FC *)buf)->unk0 = *p++;
+        ((Unkstruct_800CB6FC *)buf)->unk4 = *p++;
+        ((Unkstruct_800CB6FC *)buf)->unk10 = *p++;
+        ((Unkstruct_800CB6FC *)buf)->unk14 = *p++;
+        ((Unkstruct_800CB6FC *)buf)->unk18 = *p++;
+        ((Unkstruct_800CB6FC *)buf)->unk1C = *p--;
         func_80017758(buf, (void *)((s32)param_1 + 0x38));
         i++;
     } while (i < 4);
@@ -402,7 +402,7 @@ void func_800CB830(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBB60[])(void);
     if (D_80078EC1 == 0x8) {
-        u16 v0 = *(u16 *)((u8 *)arg0 + 2);
+        u16 v0 = ((Unkstruct_800CB1C0 *)arg0)->unk2;
         D_800CBB60[v0]();
     } else {
         func_80146C3C();
@@ -459,12 +459,12 @@ s32 func_800CB988(s32 param_1) {
 
     p = D_800CBB44;
     i = 0;
-    *(short *)(buf + 0x0c) = 0;
-    *(short *)(buf + 0x0a) = 0;
-    *(short *)(buf + 0x08) = 0;
-    *(short *)(buf + 0x1c) = 0;
-    *(short *)(buf + 0x14) = 0;
-    *(short *)(buf + 0x04) = 0;
+    ((Unkstruct_800CB988 *)buf)->unkC = 0;
+    ((Unkstruct_800CB988 *)buf)->unkA = 0;
+    ((Unkstruct_800CB988 *)buf)->unk8 = 0;
+    ((Unkstruct_800CB988 *)buf)->unk1C = 0;
+    ((Unkstruct_800CB988 *)buf)->unk14 = 0;
+    ((Unkstruct_800CB988 *)buf)->unk4 = 0;
     t = *(u8 *)(param_1 + 0x30);
     buf[0x22] = 0;
     buf[0x21] = 0;
@@ -475,17 +475,17 @@ s32 func_800CB988(s32 param_1) {
     buf[0x2e] = 0;
     buf[0x2d] = 0;
     buf[0x2c] = 0;
-    *(int *)(buf + 0x30) = 0x50000000;
+    ((Unkstruct_800CB988 *)buf)->unk30 = 0x50000000;
     buf[0x25] = t;
     buf[0x24] = t;
     buf[0x26] = t >> 1;
     do {
-        *(short *)(buf + 0x00) = *p++;
-        *(short *)(buf + 0x02) = *p++;
-        *(short *)(buf + 0x10) = *p++;
-        *(short *)(buf + 0x12) = *p++;
-        *(short *)(buf + 0x18) = *p++;
-        *(short *)(buf + 0x1a) = *p--;
+        ((Unkstruct_800CB988 *)buf)->unk0 = *p++;
+        ((Unkstruct_800CB988 *)buf)->unk2 = *p++;
+        ((Unkstruct_800CB988 *)buf)->unk10 = *p++;
+        ((Unkstruct_800CB988 *)buf)->unk12 = *p++;
+        ((Unkstruct_800CB988 *)buf)->unk18 = *p++;
+        ((Unkstruct_800CB988 *)buf)->unk1A = *p--;
         func_80017758(buf, (void *)((s32)param_1 + 0x38));
         i++;
     } while (i < 4);

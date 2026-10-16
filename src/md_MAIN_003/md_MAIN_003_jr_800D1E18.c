@@ -211,7 +211,7 @@ void func_800D1E9C(void *arg0) {
                       p[7]);
         if (p[1] != 0) {
             *((u8 *) sp18 + 0x11) = p[1];
-            *(s16 *) ((u8 *) sp18 + 4) = (*(s16 *) ((u8 *) sp18 + 4) * 2) / 3;
+            ((Unkstruct_800D1E9C *)sp18)->unk4 = (((Unkstruct_800D1E9C *)sp18)->unk4 * 2) / 3;
         }
         func_80059FC0((u8 *) sp18);
         func_80059658(1);
@@ -445,11 +445,11 @@ found:
         u16 g;
         ret = sp10[0];
         g = *(u16*)&D_800D9488;
-        *(u16*)(arg0 + 0x24) = t;
-        *(u16*)(arg0 + 0x1C) = t;
-        *(u16*)(arg0 + 0x26) = g;
-        *(u16*)(arg0 + 0x1E) = g;
-        *(u16*)(arg0 + 0x32) = g;
+        CAST_ALIAS(u16, arg0, 0x24) = t;
+        ((Unkstruct_800D27A0 *)arg0)->unk1C = t;
+        ((Unkstruct_800D27A0 *)arg0)->unk26 = g;
+        ((Unkstruct_800D27A0 *)arg0)->unk1E = g;
+        ((Unkstruct_800D27A0 *)arg0)->unk32 = g;
     }
     return ret;
 }

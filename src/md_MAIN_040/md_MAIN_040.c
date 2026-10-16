@@ -18,8 +18,8 @@ void func_800CAE0C(void) {
 void func_800CAE44(void *a0) {
 
     extern void (*D_800CB8C8[])(void);
-    *(u32 *)((s32)a0 + 0x44) |= 8;
-    D_800CB8C8[*(u8 *)((s32)a0 + 0x197)]();
+    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    D_800CB8C8[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
 
@@ -66,7 +66,7 @@ void func_800CAF18(void *a0) {
 
 
 void func_800CAFB0(void *a0) {
-    *(u32 *)((s32)a0 + 0x44) &= ~2;
+    ((Unkstruct_800CAF88 *)a0)->unk44 &= ~2;
 }
 
 
@@ -384,12 +384,12 @@ void func_800CB7B8(s32 param_1) {
     s32 node;
 
     p = param_1;
-    node = *(s32 *)(p + 0x20);
+    node = ((Unkstruct_800CB7B8 *)p)->unk20;
     func_800CB874(param_1);
     func_80128ED8(node, (s32 *)(p + 0x24));
-    *(u8 *)(node + 0x27) = *(u8 *)(p + 0x28) - 0x70;
+    *(u8 *)(node + 0x27) = ((Unkstruct_800CB7B8 *)p)->unk28 - 0x70;
     ((void (*)(s32, s32))func_800CB8A8)((void *)p, 0x40);
-    *(s32 *)(p + 0x14) -= 0x4000;
+    ((Unkstruct_800CB7B8 *)p)->unk14 -= 0x4000;
     func_800CB840(p);
     if (func_80146E98(p) != 0) {
         ((void (*)(s32))func_80146C3C)(p);
@@ -411,7 +411,7 @@ void func_800CB874(s32 arg0)
     s16 d;
     u8 x;
 
-    p = *(u8 **)(arg0 + 0x20);
+    p = CAST_SIGN(u8 *, arg0, 0x20);
     t = p[0x24];
     d = t - 4;
     if (d < 0)

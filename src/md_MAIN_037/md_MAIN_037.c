@@ -38,8 +38,8 @@ void func_800CAE70(void) {
 void func_800CAEC0(void *a0) {
 
     extern void (*D_800CB610[])(void);
-    *(u32 *)((s32)a0 + 0x44) |= 8;
-    D_800CB610[*(u8 *)((s32)a0 + 0x197)]();
+    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    D_800CB610[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
 
@@ -89,7 +89,7 @@ void func_800CAF94(void *a0) {
 
 
 void func_800CB014(void *a0) {
-    *(u32 *)((s32)a0 + 0x44) &= ~2;
+    ((Unkstruct_800CAF88 *)a0)->unk44 &= ~2;
 }
 
 
@@ -240,9 +240,9 @@ extern void func_800CB358(void);
 
 void func_800CB30C(u8 *a0) {
     u8 *p = *(u8 **)(a0 + 0x20);
-    s16 v = *(u16 *)(p + 0x1A) - 0x300;
-    *(u16 *)(p + 0x1A) = v;
-    *(u16 *)(p + 0x18) = v;
+    s16 v = ((Unkstruct_800CB30C *)p)->unk1A - 0x300;
+    ((Unkstruct_800CB30C *)p)->unk1A = v;
+    ((Unkstruct_800CB30C *)p)->unk18 = v;
     if (v < 0) {
         ((void (*)(s32))func_800CB358)(a0);
     }

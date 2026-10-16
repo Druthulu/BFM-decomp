@@ -261,20 +261,20 @@ void func_800CF290(void) {
     }
     c64 = 0x64;
     p0[0xB] = c64;
-    *(s16 *)(p0 + 0xC) = -0x100;
+    CAST_ALIAS(s16, p0, 0xC) = -0x100;
     c = D_800D3C10_b;
     n <<= 14;
     c7840 = 0x7840;
     cm28 = -28;
-    *(s16 *)(p0 + 0x12) = c7840;
-    *(s16 *)(p0 + 0xE) = cm28;
+    ((Unkstruct_800CF290_2 *)p0)->unk12 = c7840;
+    ((Unkstruct_800CF290_2 *)p0)->unkE = cm28;
     c38 = 0x38;
     c256 = 0x100;
     p0[0x10] = 0;
     p0[0x11] = c38;
-    *(s16 *)(p0 + 0x14) = c256;
+    ((Unkstruct_800CF290_2 *)p0)->unk14 = c256;
     c60 = 0x60;
-    *(s16 *)(p0 + 0x16) = c60;
+    ((Unkstruct_800CF290_2 *)p0)->unk16 = c60;
     p0[0xA] = c;
     p0[9] = c;
     p0[8] = c;
@@ -286,16 +286,16 @@ void func_800CF290(void) {
         p1[3] = c5;
         *q1 = e1b;
     }
-    t = *(u32 *)p1;
+    t = ((Unkstruct_800CF290 *)p1)->unk0;
     p1[0xB] = c64;
     c = D_800D3C10_b;
-    *(s16 *)(p1 + 0x12) = c7840;
-    *(s16 *)(p1 + 0xC) = 0;
-    *(s16 *)(p1 + 0xE) = cm28;
+    ((Unkstruct_800CF290 *)p1)->unk12 = c7840;
+    ((Unkstruct_800CF290 *)p1)->unkC = 0;
+    ((Unkstruct_800CF290 *)p1)->unkE = cm28;
     p1[0x10] = 0;
     p1[0x11] = c38;
-    *(s16 *)(p1 + 0x14) = c256;
-    *(s16 *)(p1 + 0x16) = c60;
+    ((Unkstruct_800CF290 *)p1)->unk14 = c256;
+    ((Unkstruct_800CF290 *)p1)->unk16 = c60;
     p1[0xA] = c;
     p1[9] = c;
     p1[8] = c;
@@ -307,9 +307,9 @@ void func_800CF290(void) {
 
         m24 = 0xFFFFFF;
         mFF = 0xFF000000;
-        *(u32 *)p1 = (t & mFF) | (*ot & m24);
+        ((Unkstruct_800CF290 *)p1)->unk0 = (t & mFF) | (*ot & m24);
         *ot = (*ot & mFF) | ((u32)p1 & m24);
-        *(u32 *)p0 = (*(u32 *)p0 & mFF) | (*ot & m24);
+        ((Unkstruct_800CF290_2 *)p0)->unk0 = (((Unkstruct_800CF290_2 *)p0)->unk0 & mFF) | (*ot & m24);
         *ot = (*ot & mFF) | ((u32)p0 & m24);
     }
 }

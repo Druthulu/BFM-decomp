@@ -15,14 +15,14 @@ void func_800CCB20(s32 a0)
 
     s0 = a0;
     func_80154274((s32 *)s0, (s32)&D_800D5360);
-    v0 = *(s32 *)(s0 + 0x20);
-    *(s32 *)(s0 + 0x234) = 0;
-    *(s32 *)(s0 + 0x238) = 0;
+    v0 = ((Unkstruct_800CCB20 *)s0)->unk20;
+    ((Unkstruct_800CCB20 *)s0)->unk234 = 0;
+    ((Unkstruct_800CCB20 *)s0)->unk238 = 0;
     v1 = *(u16 *)(v0 + 0x12);
-    *(s16 *)(s0 + 0x246) = 0;
-    *(s16 *)(s0 + 0x248) = 0x100;
-    *(s32 *)(s0 + 0x23C) = 0;
-    *(s16 *)(s0 + 0x244) = v1;
+    ((Unkstruct_800CCB20 *)s0)->unk246 = 0;
+    ((Unkstruct_800CCB20 *)s0)->unk248 = 0x100;
+    ((Unkstruct_800CCB20 *)s0)->unk23C = 0;
+    ((Unkstruct_800CCB20 *)s0)->unk244 = v1;
     func_80146994(5, s0, 8, 0);
     func_80156648((s32 *)s0);
     func_80147324(0x450);

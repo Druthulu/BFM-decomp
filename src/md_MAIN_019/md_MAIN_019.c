@@ -13,8 +13,8 @@ void func_800CAE0C(void) {
 void func_800CAE34(void *a0) {
 
     extern void (*D_800CC104[])(void);
-    *(u32 *)((s32)a0 + 0x44) |= 8;
-    D_800CC104[*(u8 *)((s32)a0 + 0x197)]();
+    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    D_800CC104[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
 
@@ -175,7 +175,7 @@ void func_800CB2C8(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CC124[])(void);
     if (D_80078EC1 == 0xd) {
-        u16 v0 = *(u16 *)((u8 *)arg0 + 2);
+        u16 v0 = ((Unkstruct_800CB2C8 *)arg0)->unk2;
         D_800CC124[v0]();
     } else {
         func_800CB4A8();
@@ -263,8 +263,8 @@ void func_800CB4C8(void *arg0) {
     u8 *dst;
     s32 i;
 
-    s2 = *(s32 *)(s1 + 0x4C);
-    off = *(s32 *)(s1 + 0x50) * 160;
+    s2 = ((Unkstruct_800CB4C8 *)s1)->unk4C;
+    off = ((Unkstruct_800CB4C8 *)s1)->unk50 * 160;
     dst = D_800CC5B0 + off;
     func_80015978(s1 + 4, (s32 *)(s1 + 0x10));
     for (i = 0; i < 20; i++) {
@@ -272,9 +272,9 @@ void func_800CB4C8(void *arg0) {
         dst += 8;
     }
     func_80149374(s2, s1 + 4);
-    t = *(s32 *)(s1 + 0x50);
-    *(u16 *)(s1 + 0x60) = 0;
-    *(u16 *)(s1 + 0x64) = t << 10;
+    t = ((Unkstruct_800CB4C8 *)s1)->unk50;
+    ((Unkstruct_800CB4C8 *)s1)->unk60 = 0;
+    ((Unkstruct_800CB4C8 *)s1)->unk64 = t << 10;
 }
 
 
@@ -391,8 +391,8 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
     p[3].v[2] = a1[2];
     w[0] = *(s32 *)a3;
     w[1] = *(s32 *)a3;
-    w[2] = *(s32 *)(a3 + 1);
-    w[3] = *(s32 *)(a3 + 1);
+    w[2] = CAST_MISALIGNED(s32, a3, 1);
+    w[3] = CAST_MISALIGNED(s32, a3, 1);
     hdr[0] = 0x50000000;
     func_80017DC4((void *)t, (void *)mat);
     pa = p;
@@ -403,9 +403,9 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
     gte_stclmv((s32)mat + 2);
     gte_ldclmv((s32)mat + 4); gte_rtir();
     gte_stclmv((s32)mat + 4);
-    ((s32 *)mat)[5] = a2[5];
-    ((s32 *)mat)[6] = a2[6];
-    ((s32 *)mat)[7] = a2[7];
+    ((Unkstruct_800CB9F8 *)mat)->unk14 = a2[5];
+    ((Unkstruct_800CB9F8 *)mat)->unk18 = a2[6];
+    ((Unkstruct_800CB9F8 *)mat)->unk1C = a2[7];
     func_80017758(pa, (void *)mat);
 }
 
@@ -458,7 +458,7 @@ void func_800CBD0C(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CC130[])(void);
     if (D_80078EC1 == 0xd) {
-        u16 v0 = *(u16 *)((u8 *)arg0 + 2);
+        u16 v0 = ((Unkstruct_800CB2C8 *)arg0)->unk2;
         D_800CC130[v0]();
     } else {
         func_80162CCC();

@@ -8,8 +8,8 @@ extern FnEntry D_800D4C54[];
 
 void func_800CEE74(void) {
     register u8 *base = (u8 *)D_800AF630;
-    if (*(u16 *)(base + 0xA3B4) < 5u) {
-        D_800D4C54[*(u16 *)(base + 0xA3B4)].fn();
+    if (((Unkstruct_80010178 *)base)->unkA3B4 < 5u) {
+        D_800D4C54[((Unkstruct_80010178 *)base)->unkA3B4].fn();
     }
 }
 
@@ -430,7 +430,7 @@ extern u8 D_800AF630[];
 void func_800D03F8(void) {
     register u8 *v0 = D_800AF630;
 
-    *(u16 *)(v0 + 0xA3B6) = 1;
+    ((Unkstruct_80010178 *)v0)->unkA3B6 = 1;
 }
 
 

@@ -13,8 +13,8 @@ void func_800CAE0C(void) {
 void func_800CAE34(void *a0) {
 
     extern void (*D_800CB4FC[])(void);
-    *(u32 *)((s32)a0 + 0x44) |= 8;
-    D_800CB4FC[*(u8 *)((s32)a0 + 0x197)]();
+    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    D_800CB4FC[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
 
@@ -80,12 +80,12 @@ void func_800CAF94(s32 arg0) {
     s32 v;
     s16 t;
 
-    node = *(s32 *)(arg0 + 0x20);
+    node = ((Unkstruct_800CAF94 *)arg0)->unk20;
     if (D_80078EC1 == 2) {
-        t = *(u16 *)(node + 0x1A) + 0xC0;
-        *(s16 *)(node + 0x1A) = t;
-        *(s16 *)(node + 0x18) = t;
-        ent = *(s32 *)(arg0 + 0x34);
+        t = ((Unkstruct_800CAF94_2 *)node)->unk1A + 0xC0;
+        ((Unkstruct_800CAF94_2 *)node)->unk1A = t;
+        ((Unkstruct_800CAF94_2 *)node)->unk18 = t;
+        ent = ((Unkstruct_800CAF94 *)arg0)->unk34;
         sv[2] = 0x1000;
         sv[1] = 0x1000;
         sv[0] = 0x1000;
@@ -97,9 +97,9 @@ void func_800CAF94(s32 arg0) {
         { void *q0 = sv; void *q1 = rot;
           func_800D20C0(q0, q1, 5);
           __asm__ __volatile__("" : "=r"(q1)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
-        *(s16 *)(arg0 + 6)   = *(u16 *)&sv[0];
-        *(s16 *)(arg0 + 0xA) = *(u16 *)&sv[1];
-        *(s16 *)(arg0 + 0xE) = *(u16 *)&sv[2];
+        CAST_ALIAS(s16, arg0, 6)   = *(u16 *)&sv[0];
+        CAST_ALIAS(s16, arg0, 0xA) = *(u16 *)&sv[1];
+        ((Unkstruct_800CAF94 *)arg0)->unkE = *(u16 *)&sv[2];
         { void *q2 = rot;
           func_800D23D0(q2);
           __asm__ __volatile__("" : "=r"(q2)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
@@ -109,10 +109,10 @@ void func_800CAF94(s32 arg0) {
           __asm__ __volatile__("" : "=r"(m1)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
         func_80048D9C((void *)(arg0 + 0x38), mtx);
 
-        v = *(s32 *)(arg0 + 0x1C) - 1;
-        *(s32 *)(arg0 + 0x1C) = v;
+        v = ((Unkstruct_800CAF94 *)arg0)->unk1C - 1;
+        ((Unkstruct_800CAF94 *)arg0)->unk1C = v;
         if (v == -1) {
-            *(s16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
+            ((Unkstruct_800CAF94 *)arg0)->unk2 = CAST_SIGN(u16, arg0, 2) + 1;
         }
         return;
     }
@@ -148,12 +148,12 @@ void func_800CB0C8(s32 arg0) {
     s16 i;
     s16 t;
 
-    node = *(s32 *)(arg0 + 0x20);
+    node = ((Unkstruct_800CB0C8 *)arg0)->unk20;
     if (D_80078EC1 == 2) {
-        t = *(u16 *)(node + 0x1E) + 0x100;
-        *(s16 *)(node + 0x1E) = t;
+        t = ((Unkstruct_800CB0C8_3 *)node)->unk1E + 0x100;
+        ((Unkstruct_800CB0C8_3 *)node)->unk1E = t;
         if (t < 0x1000) {
-            ent = *(s32 *)(arg0 + 0x34);
+            ent = ((Unkstruct_800CB0C8 *)arg0)->unk34;
             sv[2] = 0x1000;
             sv[1] = 0x1000;
             sv[0] = 0x1000;
@@ -165,9 +165,9 @@ void func_800CB0C8(s32 arg0) {
             { void *q0 = sv; void *q1 = rot;
               func_800D20C0(q0, q1, 5);
               __asm__ __volatile__("" : "=r"(q1)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
-            *(s16 *)(arg0 + 6)   = *(u16 *)&sv[0];
-            *(s16 *)(arg0 + 0xA) = *(u16 *)&sv[1];
-            *(s16 *)(arg0 + 0xE) = *(u16 *)&sv[2];
+            CAST_ALIAS(s16, arg0, 6)   = *(u16 *)&sv[0];
+            CAST_ALIAS(s16, arg0, 0xA) = *(u16 *)&sv[1];
+            ((Unkstruct_800CB0C8 *)arg0)->unkE = *(u16 *)&sv[2];
             { void *q2 = rot;
               func_800D23D0(q2);
               __asm__ __volatile__("" : "=r"(q2)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
@@ -231,7 +231,7 @@ void func_800CB378(s32 arg0) {
         func_80146C3C(arg0);
         return;
     }
-    if ((*(u32 *)(arg0 + 0x2C) & 0x8000) == 0) {
+    if ((((Unkstruct_800CB378 *)arg0)->unk2C & 0x8000) == 0) {
         v1 = &D_800CB559;
         a0p = v1 - 1;
         D_800CB55A = 0xA0;
@@ -241,21 +241,21 @@ void func_800CB378(s32 arg0) {
         D_800CB55C = 0;
         a0p[0] = 0;
         func_800233CC(a0p, 0x60);
-        *(s16 *)(arg0 + 2) = (3);
+        ((Unkstruct_800CB378 *)arg0)->unk2 = (3);
     } else {
         s0 = ((s32 (*)(void))func_801465C0)();
         if (s0 == 0) {
             return;
         }
         func_8001CD50(s0, (s32)&D_800CB558);
-        *(s32 *)(s0 + 0x34) = arg0 + 0x38;
-        *(s16 *)(s0 + 0x1A) = 0;
-        *(s16 *)(s0 + 0x18) = 0;
-        *(u32 *)(s0 + 4) = *(u32 *)(s0 + 4) | 0x50000000;
+        ((Unkstruct_800CB378_2 *)s0)->unk34 = arg0 + 0x38;
+        ((Unkstruct_800CB378_2 *)s0)->unk1A = 0;
+        ((Unkstruct_800CB378_2 *)s0)->unk18 = 0;
+        ((Unkstruct_800CB378_2 *)s0)->unk4 = ((Unkstruct_800CB378_2 *)s0)->unk4 | 0x50000000;
         ten = 0x10;
-        *(s32 *)(arg0 + 0x20) = s0;
-        *(s32 *)(arg0 + 0x1C) = ten;
-        *(s16 *)(arg0 + 2) = (*(u16 *)(arg0 + 2) + 1);
+        ((Unkstruct_800CB378 *)arg0)->unk20 = s0;
+        ((Unkstruct_800CB378 *)arg0)->unk1C = ten;
+        ((Unkstruct_800CB378 *)arg0)->unk2 = (CAST_SIGN(u16, arg0, 2) + 1);
     }
 }
 
@@ -268,13 +268,13 @@ void func_800CB478(s32 param_1)
     s32 a1;
     s32 counter;
 
-    a1 = *(s32 *)(param_1 + 0x34);
+    a1 = ((Unkstruct_800CB478 *)param_1)->unk34;
     if (D_80078EC1 == 2) {
-        counter = *(s32 *)(param_1 + 0x1c) - 1;
-        *(s32 *)(param_1 + 0x1c) = counter;
+        counter = ((Unkstruct_800CB478 *)param_1)->unk1C - 1;
+        ((Unkstruct_800CB478 *)param_1)->unk1C = counter;
         if (counter == -1) {
             func_80146A6C(0x21, (void *)a1, 0, 0, 0, 0x8000, 0);
-            *(s32 *)(param_1 + 0x1c) = 0x20;
+            ((Unkstruct_800CB478 *)param_1)->unk1C = 0x20;
         }
     } else {
         func_80146C3C(param_1);

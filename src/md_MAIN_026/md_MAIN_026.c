@@ -17,8 +17,8 @@ void func_800CAE0C(void)
 void func_800CAE44(void *a0) {
 
     extern void (*D_800CBB10[])(void);
-    *(u32 *)((s32)a0 + 0x44) |= 8;
-    D_800CBB10[*(u8 *)((s32)a0 + 0x197)]();
+    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    D_800CBB10[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
 
@@ -56,14 +56,14 @@ void func_800CAF68(void *arg0) {
     extern void func_800CB098(void *a0);
     u8 *p = D_80078E78;
 
-    if (func_8014C088((s32)arg0, 0xB) == 0 || *(u8 *)((s32)arg0 + 0xBE) != 0) {
+    if (func_8014C088((s32)arg0, 0xB) == 0 || ((Unkstruct_800CAF68 *)arg0)->unkBE != 0) {
         func_800CB098(arg0);
     }
     if (*(s32 *)(p + 0x50) == 0) {
         func_801466F0(0xB, (s32)arg0, 0, 0, 0, 1, 0, 0);
         func_80147324(0x7DE);
-        *(u8 *)((s32)arg0 + 0xBE) = 0;
-        *(u8 *)((s32)arg0 + 0x197) += 1;
+        ((Unkstruct_800CAF68 *)arg0)->unkBE = 0;
+        ((Unkstruct_800CAF68 *)arg0)->unk197 += 1;
     }
 }
 
@@ -129,7 +129,7 @@ void func_800CB134(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBB24[])(void);
     if (D_80078EC1 == 0x16) {
-        u16 v0 = *(u16 *)((u8 *)arg0 + 2);
+        u16 v0 = ((Unkstruct_800CB134 *)arg0)->unk2;
         D_800CBB24[v0]();
     } else {
         func_800CB5D4();
@@ -313,7 +313,7 @@ void func_800CB62C(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBB48[])(void);
     if (D_80078EC1 == 0x16) {
-        u16 v0 = *(u16 *)((u8 *)arg0 + 2);
+        u16 v0 = ((Unkstruct_800CB134 *)arg0)->unk2;
         D_800CBB48[v0]();
     } else {
         func_800CB8A4();
@@ -351,10 +351,10 @@ void func_800CB6E8(void *arg0) {
     s16 w;
     s32 pad[2];
 
-    w = *(u16 *)((u8 *)arg0 + 0x12) + 0x18;
-    *(u16 *)((u8 *)arg0 + 0x12) = w;
+    w = ((Unkstruct_800B5CB8 *)arg0)->unk12 + 0x18;
+    ((Unkstruct_800B5CB8 *)arg0)->unk12 = w;
     if ((s16)w >= -7) {
-        *(s16 *)((u8 *)arg0 + 0x12) = -8;
+        CAST_ALIAS(s16, (u8 *)arg0, 0x12) = -8;
         func_80146CA0(arg0);
     }
     w = CAST_WIDTH(u16, (u8 *)arg0, 0x18) + 0xB;

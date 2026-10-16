@@ -14,8 +14,8 @@ void func_800CAE0C(void) {
 void func_800CAE34(void *a0) {
 
     extern void (*D_800CAF40[])(void);
-    *(u32 *)((s32)a0 + 0x44) |= 8;
-    D_800CAF40[*(u8 *)((s32)a0 + 0x197)]();
+    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    D_800CAF40[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
 

@@ -6,7 +6,7 @@
 extern void func_80178CBC(s32*, s32);
     extern short D_801CC890;
     void func_801CBB54(void * arg0) {
-        *(short *)((char *)arg0 + 0x2) = 10;
+        ((Unkstruct_801834A0 *)arg0)->unk2 = 10;
         ((void (*)(s32, s32))func_80178CBC)((int)arg0, (int)&D_801CC890);
     }
 
