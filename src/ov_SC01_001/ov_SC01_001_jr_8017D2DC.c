@@ -6585,7 +6585,7 @@ s32 func_80182B00(s32 a0) {
 
 
 void func_80182B60(s32 *a0, s32 a1) {
-        *(s32*)((s32)a0 + 0xCC) = a1;
+        ((Unkstruct_800B5CB8 *)a0)->unkCC = a1;
     }
 
 

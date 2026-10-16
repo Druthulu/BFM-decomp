@@ -3209,19 +3209,19 @@ void func_801843FC(s32 param_1)
     extern u8 D_801903C0;
     s32 s0;
 
-    s0 = *(s32 *)(param_1 + 0x20);
+    s0 = ((Unkstruct_801843FC_2 *)param_1)->unk20;
     func_8001CD50(s0, (s32)&D_801903C0);
-    *(s16 *)(s0 + 0x10) = 0x400;
-    *(u32 *)(s0 + 4) |= 0x50000000;
-    *(s16 *)(s0 + 0x1E) = 0;
-    *(s16 *)(s0 + 0x12) = 0;
-    *(s16 *)(s0 + 0x14) = rand() & 0x1FF;
-    *(s16 *)(s0 + 0x14) = *(s16 *)(s0 + 0x14) + *(s32 *)(param_1 + 0x2C);
-    *(s32 *)(param_1 + 0x2C) = 0x100;
-    *(s16 *)(s0 + 0x18) = 0;
-    *(s16 *)(s0 + 0x1A) = 0;
-    *(s16 *)(s0 + 0x1C) = 0;
-    *(u16 *)(param_1 + 2) += 1;
+    ((Unkstruct_801843FC *)s0)->unk10 = 0x400;
+    ((Unkstruct_801843FC *)s0)->unk4 |= 0x50000000;
+    ((Unkstruct_801843FC *)s0)->unk1E = 0;
+    ((Unkstruct_801843FC *)s0)->unk12 = 0;
+    ((Unkstruct_801843FC *)s0)->unk14 = rand() & 0x1FF;
+    ((Unkstruct_801843FC *)s0)->unk14 = ((Unkstruct_801843FC *)s0)->unk14 + ((Unkstruct_801843FC_2 *)param_1)->unk2C;
+    ((Unkstruct_801843FC_2 *)param_1)->unk2C = 0x100;
+    ((Unkstruct_801843FC *)s0)->unk18 = 0;
+    ((Unkstruct_801843FC *)s0)->unk1A = 0;
+    ((Unkstruct_801843FC *)s0)->unk1C = 0;
+    ((Unkstruct_801843FC_2 *)param_1)->unk2 += 1;
 }
 
 
@@ -3229,20 +3229,20 @@ void func_8018449C(s32 param_1) {
     s32 prim;
     s32 var;
 
-    prim = *(s32 *)(param_1 + 0x20);
-    var = *(s32 *)(param_1 + 0x2C);
-    *(s16 *)(prim + 0x18) = *(u16 *)(prim + 0x18) + var;
-    if (*(s16 *)(prim + 0x18) >= 0x2000) {
-        *(u16 *)(param_1 + 2) += 1;
+    prim = ((Unkstruct_8018449C_2 *)param_1)->unk20;
+    var = ((Unkstruct_8018449C_2 *)param_1)->unk2C;
+    ((Unkstruct_8018449C *)prim)->unk18 = CAST_SIGN(u16, prim, 0x18) + var;
+    if (((Unkstruct_8018449C *)prim)->unk18 >= 0x2000) {
+        ((Unkstruct_8018449C_2 *)param_1)->unk2 += 1;
     }
-    var = *(s32 *)(param_1 + 0x2C);
-    *(s16 *)(prim + 0x1A) = *(u16 *)(prim + 0x1A) + var;
-    var = *(s32 *)(param_1 + 0x2C);
+    var = ((Unkstruct_8018449C_2 *)param_1)->unk2C;
+    ((Unkstruct_8018449C *)prim)->unk1A = CAST_SIGN(u16, prim, 0x1A) + var;
+    var = ((Unkstruct_8018449C_2 *)param_1)->unk2C;
     if (var < 0) {
         var += 3;
     }
-    *(s16 *)(prim + 0x1C) = *(u16 *)(prim + 0x1C) + (var >> 2);
-    *(s32 *)(param_1 + 0x2C) += 0x20;
+    ((Unkstruct_8018449C *)prim)->unk1C = CAST_SIGN(u16, prim, 0x1C) + (var >> 2);
+    ((Unkstruct_8018449C_2 *)param_1)->unk2C += 0x20;
 }
 
 

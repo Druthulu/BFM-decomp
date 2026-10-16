@@ -3115,12 +3115,12 @@ void func_8017BA3C(s32 param_1, s32 param_2)
     func_8012F214(param_1, param_2, (s32)&svec);
     D_801E7F84 = svec;
 
-    v0.v[0] = -*(s16 *)(param_2 + 0xc);
-    v0.v[1] = *(u16 *)(param_2 + 8);
+    v0.v[0] = -((Unkstruct_8017BA3C *)param_2)->unkC;
+    v0.v[1] = ((Unkstruct_8017BA3C *)param_2)->unk8;
     v0.v[2] = 0;
     v1.v[0] = 0;
     v1.v[1] = 0;
-    v1.v[2] = -*(s16 *)(param_2 + 0xa);
+    v1.v[2] = -((Unkstruct_8017BA3C *)param_2)->unkA;
     ((void (*)(void *, void *))func_80049CAC)(&v0, &mtx);
 
     mtx.t[0] = (s32)svec.v[0];
@@ -3153,12 +3153,12 @@ s32 func_8017BB34(s32 param_1, s32 param_2)
     svec = *(SV4_8017BB34 *)param_2;
     (*(SV4_8017BB34*)&D_801E7F84) = svec;
 
-    v0.v[0] = -*(s16 *)(param_2 + 0xc);
-    v0.v[1] = *(u16 *)(param_2 + 8);
+    v0.v[0] = -((Unkstruct_8017BB34 *)param_2)->unkC;
+    v0.v[1] = ((Unkstruct_8017BB34 *)param_2)->unk8;
     v0.v[2] = 0;
     v1.v[0] = 0;
     v1.v[1] = 0;
-    v1.v[2] = -*(s16 *)(param_2 + 0xa);
+    v1.v[2] = -((Unkstruct_8017BB34 *)param_2)->unkA;
     ((void (*)(void *, void *))func_80049CAC)(&v0, &mtx);
 
     mtx.t[0] = (s32)svec.v[0];
@@ -3385,15 +3385,15 @@ void func_8017C218(int param_1)
     s16   i;
     s32   c;
 
-    obj = *(s32 *)(param_1 + 0x34);
-    rot.vx = rot.vy = rot.vz = *(u16 *)(param_1 + 0x12);
+    obj = ((Unkstruct_8017C218 *)param_1)->unk34;
+    rot.vx = rot.vy = rot.vz = ((Unkstruct_8017C218 *)param_1)->unk12;
     func_80017DC4(&rot, &mtx);
 
     prim.v[1].vx = prim.v[1].vy = prim.v[1].vz = 0;
     prim.v[0].vy = prim.v[2].vy = prim.v[3].vy = 0;
     prim.c[1].r = prim.c[1].g = prim.c[1].b = 0;
 
-    c = ((s32)(s16)*(u16 *)(param_1 + 0x12) >> 5) + 0x20;
+    c = ((s32)(s16)((Unkstruct_8017C218 *)param_1)->unk12 >> 5) + 0x20;
     prim.c[0].r = prim.c[0].g = prim.c[0].b =
     prim.c[2].r = prim.c[2].g = prim.c[2].b =
     prim.c[3].r = prim.c[3].g = prim.c[3].b = c;
@@ -3402,9 +3402,9 @@ void func_8017C218(int param_1)
     }
 
     prim.code = 0x50000000;
-    rot.vx = *(u16 *)(obj + 0x6);
-    rot.vy = *(u16 *)(obj + 0xA) - 8;
-    rot.vz = *(u16 *)(obj + 0xE);
+    rot.vx = ((Unkstruct_8017C218_2 *)obj)->unk6;
+    rot.vy = ((Unkstruct_8017C218_2 *)obj)->unkA - 8;
+    rot.vz = ((Unkstruct_8017C218_2 *)obj)->unkE;
     func_80017E68(&rot, &mtx);
 
     p = D_8018E5E8;
@@ -3436,7 +3436,7 @@ void func_8017C218(int param_1)
         i++;
     } while (i < 0x14);
 
-    if (*(s16 *)(param_1 + 0x2A) != 0) {
+    if (((Unkstruct_8017C218 *)param_1)->unk2A != 0) {
         p = D_8018E5E8;
         i = 0;
         do {
@@ -3444,7 +3444,7 @@ void func_8017C218(int param_1)
             prim.v[0].vz = prim.v[2].vz = (s8)*p++;
             prim.v[1].vx = prim.v[3].vx = (s8)*p++;
             prim.v[1].vz = prim.v[3].vz = (s8)*p--;
-            prim.v[0].vy = prim.v[1].vy = *(u16 *)(param_1 + 0x2A);
+            prim.v[0].vy = prim.v[1].vy = CAST_SIGN(u16, param_1, 0x2A);
             func_80017758(&prim, &mtx);
             i++;
         } while (i < 0x14);
@@ -3742,10 +3742,10 @@ void func_8017CE58(void *a0, void *a1, s32 a2)
     mxz = u;
     if (mxz < eye.vz) mxz = eye.vz;
 
-    ((s16 *)a1)[0] = mnx;
-    ((s16 *)a1)[1] = mnz;
-    ((s16 *)a1)[2] = mxx - mnx;
-    ((s16 *)a1)[3] = mxz - mnz;
+    ((Unkstruct_8017C8B0 *)a1)->unk0 = mnx;
+    ((Unkstruct_8017C8B0 *)a1)->unk2 = mnz;
+    ((Unkstruct_8017C8B0 *)a1)->unk4 = mxx - mnx;
+    ((Unkstruct_8017C8B0 *)a1)->unk6 = mxz - mnz;
 }
 
 
@@ -3760,9 +3760,9 @@ void func_8017D230(u16 *a0, void *a1) {
     s16 sv[4];
     ReadRotMatrix((void *)mat);
     PushMatrix();
-    sv[0] = (s16)(a0[0] - *(s32 *)((u8 *)mat + 0x14));
-    sv[1] = (s16)(a0[1] - *(s32 *)((u8 *)mat + 0x18));
-    sv[2] = (s16)(a0[2] - *(s32 *)((u8 *)mat + 0x1C));
+    sv[0] = (s16)(a0[0] - ((Unkstruct_8017C3EC *)mat)->unk14);
+    sv[1] = (s16)(a0[1] - ((Unkstruct_8017C3EC *)mat)->unk18);
+    sv[2] = (s16)(a0[2] - ((Unkstruct_8017C3EC *)mat)->unk1C);
     func_8004974C((void *)mat, (void *)buf);
     ApplyMatrixSV((void *)buf, (void *)sv, a1);
     PopMatrix();
