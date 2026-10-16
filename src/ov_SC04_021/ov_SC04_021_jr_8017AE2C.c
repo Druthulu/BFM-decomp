@@ -2933,9 +2933,9 @@ void func_8017C3EC(u16 *a0, void *a1) {
     s16 sv[4];
     ReadRotMatrix((void *)mat);
     PushMatrix();
-    sv[0] = (s16)(a0[0] - *(s32 *)((u8 *)mat + 0x14));
-    sv[1] = (s16)(a0[1] - *(s32 *)((u8 *)mat + 0x18));
-    sv[2] = (s16)(a0[2] - *(s32 *)((u8 *)mat + 0x1C));
+    sv[0] = (s16)(a0[0] - ((Unkstruct_8017C3EC *)mat)->unk14);
+    sv[1] = (s16)(a0[1] - ((Unkstruct_8017C3EC *)mat)->unk18);
+    sv[2] = (s16)(a0[2] - ((Unkstruct_8017C3EC *)mat)->unk1C);
     func_8004974C((void *)mat, (void *)buf);
     ApplyMatrixSV((void *)buf, (void *)sv, a1);
     PopMatrix();

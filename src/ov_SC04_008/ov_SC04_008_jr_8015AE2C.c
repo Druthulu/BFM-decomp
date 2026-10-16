@@ -1386,7 +1386,7 @@ extern s32 func_801725A4(u8*);
 void func_8015BE38(struct Obj *a0) {
 
     extern void (*D_801812D4[])(void);
-    D_801812D4[*(u16 *)((s32)a0 + 0x2)]();
+    D_801812D4[((Unkstruct_8015BE38 *)a0)->unk2]();
 }
 
 

@@ -2939,29 +2939,29 @@ void func_80181BE8(void *a0) {
     s16 v0;
     s32 v1;
 
-    if ((*(u32 *)((s32)s0 + 0xE8) & 0x60000) != 0) {
+    if ((((Unkstruct_80181BE8 *)s0)->unkE8 & 0x60000) != 0) {
         func_80182998();
     } else {
-        state = *(u16 *)((s32)s0 + 0x34);
+        state = ((Unkstruct_80181BE8 *)s0)->unk34;
         switch (state) {
         case 0:
-            v0 = *(s16 *)((s32)s0 + 0x98);
+            v0 = ((Unkstruct_80181BE8 *)s0)->unk98;
             if (v0 == 0) {
                 {
                     u16 ns = state + 1;
-                    *(u16 *)((s32)s0 + 0x34) = ns;
+                    ((Unkstruct_80181BE8 *)s0)->unk34 = ns;
                 }
                 func_80187070(s0);
                 {
-                    u32 e8 = *(u32 *)((s32)s0 + 0xE8);
-                    *(u32 *)((s32)s0 + 0xE8) = e8 & ~1;
+                    u32 e8 = ((Unkstruct_80181BE8 *)s0)->unkE8;
+                    ((Unkstruct_80181BE8 *)s0)->unkE8 = e8 & ~1;
                     if (e8 & 0x2000) {
-                        *(u32 *)((s32)s0 + 0x1C) = 0x80;
+                        ((Unkstruct_80181BE8 *)s0)->unk1C = 0x80;
                     } else {
-                        *(u32 *)((s32)s0 + 0x1C) = 0x90;
+                        ((Unkstruct_80181BE8 *)s0)->unk1C = 0x90;
                     }
                 }
-            } else if (*(s32 *)((s32)s0 + 0x94) == 8 && v0 == 1) {
+            } else if (((Unkstruct_80181BE8 *)s0)->unk94 == 8 && v0 == 1) {
                 func_8002D4C8(0x4FD, 0);
             }
             break;
@@ -2969,12 +2969,12 @@ void func_80181BE8(void *a0) {
             if (func_8012BEE8(s0) != 0) {
                 s32 a0r;
                 a0r = (s32)s0;
-                *(u16 *)((s32)s0 + 0x34) += 1;
+                ((Unkstruct_80181BE8 *)s0)->unk34 += 1;
                 func_80186304((u8 *)s0, 0xF, 2);
             }
             break;
         case 2:
-            if (*(s16 *)((s32)s0 + 0x98) == 0) {
+            if (((Unkstruct_80181BE8 *)s0)->unk98 == 0) {
                 func_801838A8(s0);
             }
             break;

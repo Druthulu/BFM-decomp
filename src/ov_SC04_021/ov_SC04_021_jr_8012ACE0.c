@@ -340,7 +340,7 @@ extern void func_8012ACA0(void *arg0);
 
 
 void func_8012BF4C(s32 *a0, s32 a1) {
-    *(s32*)((s32)a0 + 0x1C) = a1;
+    ((Unkstruct_8012BF4C *)a0)->unk1C = a1;
 }
 
 

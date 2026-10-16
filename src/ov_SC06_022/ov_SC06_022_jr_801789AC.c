@@ -2653,7 +2653,7 @@ s32 func_80178B18(s32 param_1, s32 param_2)
     extern void func_80178CBC(s32 arg0, s32 arg1);
     extern u16 D_80190C54;
 
-    int *p = &(*(int *)&D_80190C54);
+    int *p = &(((Unkstruct_80135888 *)&D_80190C54)->unk0);
     *p = ((int)param_2);
     func_80178BF8();
     func_801746A4();

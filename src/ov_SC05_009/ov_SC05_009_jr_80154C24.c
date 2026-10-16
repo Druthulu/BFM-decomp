@@ -1410,7 +1410,7 @@ void func_8015879C(s32 param_1) {
     D_80195928 = 0;
     D_80195934 = 1;
     D_80195938 = 0;
-    *(u8 *)(param_1 + 0xa8) = 0;
+    ((Unkstruct_8015879C *)param_1)->unkA8 = 0;
     ((void (*)(void))func_80147084)();
     ((void (*)(s32))func_80147098)(param_1);
     ((void (*)(s32))func_801470AC)(param_1);
@@ -1438,7 +1438,7 @@ void func_80158814(void *arg0) {
     D_80195928 = 0;
     D_80195934 = 1;
     D_80195938 = 0;
-    *(s8 *)((s32)arg0 + 0xA8) = 0;
+    ((Unkstruct_80158814 *)arg0)->unkA8 = 0;
     ((void (*)(void))func_80147084)();
     ((void (*)(void *))func_80147098)(arg0);
     ((void (*)(void *))func_801470AC)(arg0);

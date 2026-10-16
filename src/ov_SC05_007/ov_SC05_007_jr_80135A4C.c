@@ -679,8 +679,8 @@ docall:
     } else {
         acc = 0;
         i = 0;
-        *(s16 *)((*(u8 **)&D_80180FEC) + 6) = -0x7FFF;
-        *(s16 *)((*(u8 **)&D_80180FF0) + 6) = 0x7FFF;
+        CAST_NONSTRUCT(s16, (*(u8 **)&D_80180FEC), 6) = -0x7FFF;
+        CAST_NONSTRUCT(s16, (*(u8 **)&D_80180FF0), 6) = 0x7FFF;
         D_8019BA90 = 0;
         D_8019BA8C = 0;
         eq = ((V3 *)a2)->x == ((V3 *)a3)->x && ((V3 *)a2)->y == ((V3 *)a3)->y && ((V3 *)a2)->z == ((V3 *)a3)->z;
