@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "f52485e223",
-  "src_stamp": "50a640f9fcb5818a",
+  "head": "0d5847c097",
+  "src_stamp": "57f406db9641990c",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-16T09:51:10Z",
+  "when": "2026-10-16T10:08:10Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -29,39 +29,39 @@
    "exact_classes": 42,
    "exact_copies": 546,
    "variant_names": 0,
-   "dead_canon_names": 2302,
+   "dead_canon_names": 2299,
    "shadowed_canon_names": 0,
    "typedef_aliases": 4300,
    "forward_decls": 145
   },
   "casts": {
    "by_form": {
-    "P": 122106,
-    "I": 46761,
+    "P": 121878,
+    "I": 46726,
     "X": 10436,
     "K": 30061,
     "A": 18887,
-    "C": 313825,
+    "C": 314088,
     "M": 4514
    },
    "raw_counts": {
-    "P": 122106,
-    "I": 46761,
+    "P": 121878,
+    "I": 46726,
     "X": 10436,
     "K": 30061,
     "A": 18887,
-    "C": 313825,
+    "C": 314088,
     "M": 4514
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 183817,
+   "deref_total": 183554,
    "addr_form": 18887,
-   "typed_cast_member": 313825,
-   "bodies": 31640,
+   "typed_cast_member": 314088,
+   "bodies": 31491,
    "by_bclass": {
     "local": 64836,
-    "param": 66282,
+    "param": 66019,
     "global": 20252,
     "gaddr": 24855,
     "nested": 4735,
@@ -75,27 +75,27 @@
     "u2": 41535,
     "agg": 13268,
     "p4": 10287,
-    "u1": 9915,
+    "u1": 9709,
     "u4": 4085,
-    "s1": 1788
+    "s1": 1731
    },
-   "readability_raw_regex": 124943,
+   "readability_raw_regex": 124715,
    "abs_casts": 0,
    "top_bases": [
     [
      "param",
      "param_1",
-     20779
+     20608
     ],
     [
      "param",
      "a0",
-     17399
+     17364
     ],
     [
      "param",
      "arg0",
-     12695
+     12638
     ],
     [
      "local",
@@ -291,8 +291,8 @@
     "CAST_NONSTRUCT": 515
    },
    "check_raw": {
-    "P": 122101,
-    "I": 46761,
+    "P": 121873,
+    "I": 46726,
     "X": 10436,
     "M": 4513
    },
@@ -330927,43 +330927,43 @@
    "cross_callees": 96
   },
   "struct_map": {
-   "types": 15054,
-   "explained_sites": 180265,
-   "deref_sites": 183817,
+   "types": 15059,
+   "explained_sites": 180002,
+   "deref_sites": 183554,
    "explained_pct": 98.1,
    "unassigned_sites": 3552,
-   "conflicts": 780,
-   "suspect": 10,
+   "conflicts": 783,
+   "suspect": 9,
    "evidence": {
-    "param": 39570,
-    "assign": 20965,
-    "return": 1544,
+    "param": 39566,
+    "arg": 10391,
     "ret-of": 6383,
-    "assign&": 1474,
-    "arg": 10400,
+    "assign": 20965,
+    "return": 1543,
+    "assign&": 1473,
     "arg&": 299,
     "field": 4308,
     "nested": 9
    },
    "vetoed": {
+    "arg-conduit": 156219,
+    "arg-no-overlap": 11697,
     "arg&-conduit": 14799,
-    "assign&-multisource": 12923,
-    "assign-multisource": 34567,
-    "arg-conduit": 156184,
-    "arg&-no-overlap": 2934,
     "ret-of-multisource": 6818,
+    "assign-multisource": 34567,
     "field-multisource": 3094,
     "ret-of": 513,
-    "arg-no-overlap": 12142,
-    "assign": 259,
-    "assign&": 54,
+    "assign&-multisource": 12923,
+    "arg&-no-overlap": 2934,
+    "assign": 261,
+    "assign&": 57,
     "arg": 77,
     "return": 4,
     "field": 340
    },
-   "singletons": 12005,
-   "multi_body": 3049,
-   "sites_in_multi_body": 138346,
+   "singletons": 12008,
+   "multi_body": 3051,
+   "sites_in_multi_body": 138040,
    "top": [
     {
      "name": "Unkstruct_800D3888",
@@ -330975,12 +330975,12 @@
      "sign_mixed": 66,
      "merges": {
       "arg&": 282,
-      "param": 11886,
-      "arg": 8165,
-      "assign": 7949,
-      "return": 743,
+      "param": 11884,
+      "arg": 8163,
+      "assign": 7952,
+      "return": 742,
       "ret-of": 2691,
-      "assign&": 148,
+      "assign&": 149,
       "field": 698
      },
      "globals_at": [
@@ -331051,27 +331051,6 @@
      "globals_ptr": []
     },
     {
-     "name": "Unkstruct_8012D3B4",
-     "sites": 1635,
-     "bodies": 186,
-     "size_hint": 38,
-     "fields": 27,
-     "conflicts": 20,
-     "sign_mixed": 8,
-     "merges": {
-      "assign": 113,
-      "param": 18,
-      "return": 6,
-      "arg": 11,
-      "ret-of": 65
-     },
-     "globals_at": [],
-     "globals_ptr": [
-      "D_80074808",
-      "D_800A5E60"
-     ]
-    },
-    {
      "name": "Unkstruct_d77ead3e",
      "sites": 1596,
      "bodies": 133,
@@ -331085,6 +331064,27 @@
      },
      "globals_at": [],
      "globals_ptr": []
+    },
+    {
+     "name": "Unkstruct_8012D3B4",
+     "sites": 1592,
+     "bodies": 183,
+     "size_hint": 36,
+     "fields": 23,
+     "conflicts": 17,
+     "sign_mixed": 9,
+     "merges": {
+      "assign": 109,
+      "return": 5,
+      "param": 16,
+      "arg": 10,
+      "ret-of": 65
+     },
+     "globals_at": [],
+     "globals_ptr": [
+      "D_80074808",
+      "D_800A5E60"
+     ]
     },
     {
      "name": "Unkstruct_645b745d",
@@ -331217,17 +331217,17 @@
     },
     {
      "name": "Unkstruct_80126948",
-     "sites": 945,
-     "bodies": 220,
+     "sites": 936,
+     "bodies": 217,
      "size_hint": 164,
-     "fields": 33,
+     "fields": 32,
      "conflicts": 0,
-     "sign_mixed": 3,
+     "sign_mixed": 2,
      "merges": {
       "arg&": 1,
       "assign": 101,
-      "param": 10,
-      "arg": 18,
+      "param": 4,
+      "arg": 15,
       "assign&": 4
      },
      "globals_at": [
@@ -331378,14 +331378,14 @@
    "dup_classes": 0,
    "outside_canon": 0,
    "dead": 0,
-   "twins_stale": 3054,
+   "twins_stale": 3057,
    "twins_listed": 738,
-   "dead_kept": 2249,
+   "dead_kept": 2246,
    "block_frames": 629
   },
   "global_blocks": {
    "n": 2121,
-   "members": 14243,
+   "members": 14255,
    "top": [
     {
      "base": "0x800cf10c",
@@ -331564,9 +331564,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 38.3,
-   "decls_s": 183.2,
-   "total_s": 191.4
+   "walk_s": 42.2,
+   "decls_s": 186.7,
+   "total_s": 194.5
   }
  },
  "dup_layout_classes": [
@@ -340338,7 +340338,6 @@
   "Unkstruct_80155150",
   "Unkstruct_801554B8",
   "Unkstruct_801555F4",
-  "Unkstruct_80156044",
   "Unkstruct_80156044_2",
   "Unkstruct_80156B74",
   "Unkstruct_80156ECC",
@@ -340347,8 +340346,6 @@
   "Unkstruct_80157EA4",
   "Unkstruct_801582C0",
   "Unkstruct_80158548",
-  "Unkstruct_8015879C",
-  "Unkstruct_80158814",
   "Unkstruct_80158FA4_5",
   "Unkstruct_80159404",
   "Unkstruct_80159434",
@@ -342092,8 +342089,11 @@
   "Unkstruct_80149FB0_2",
   "Unkstruct_8014C050",
   "Unkstruct_80150B28",
+  "Unkstruct_80156044",
   "Unkstruct_80156044_3",
+  "Unkstruct_8015879C",
   "Unkstruct_8015879C_2",
+  "Unkstruct_80158814",
   "Unkstruct_80158814_2",
   "Unkstruct_80158F00",
   "Unkstruct_80158F00_2",

@@ -848,7 +848,7 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
         D_8019CDD8[i].fC = 0x100;
         D_8019CDD8[i].f18 = 0;
     }
-    switch (*(u8 *)a0) {
+    switch (((Unkstruct_8013B83C *)a0)->unk0) {
     case 0x42:
         if (D_800B9A0E == 0) {
             func_8013BD74(&D_8019CE90, a0);
