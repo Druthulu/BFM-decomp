@@ -369,9 +369,9 @@ void func_800CB758(void *a0) {
 
 
 void func_800CB760(void *a0, s16 a1) {
-    if (*(s16 *)((s32)a0 + 0x60) != a1) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk60 != a1) {
         func_80147324((u16)a1);
-        *(u16 *)((s32)a0 + 0x60) = a1;
+        ((Unkstruct_800B5CB8 *)a0)->unk60 = a1;
     }
 }
 

@@ -2981,7 +2981,7 @@ void func_801A4570(void *arg0)
 
 
 void func_801A46B8(s32 arg0) {
-    *(u16 *)(*(s32 *)(arg0 + 0xD8) + 0x5C) &= 0x7FFF;
+    *(u16 *)(((Unkstruct_800B5CB8 *)arg0)->unkD8 + 0x5C) &= 0x7FFF;
 }
 
 
