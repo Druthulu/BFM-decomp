@@ -2881,10 +2881,10 @@ TAIL:
 void func_8017FF64(param_1)
 s32 param_1;
 {
-    *(s32 *)(param_1 + 0x48) = 0x4000;
-    *(s16 *)(param_1 + 2) = 7;
-    *(s32 *)(param_1 + 0x1C) = 0x50;
-    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x14) = rand() % 0x1000;
+    ((Unkstruct_8017FBD8 *)param_1)->unk48 = 0x4000;
+    ((Unkstruct_8017FBD8 *)param_1)->unk2 = 7;
+    ((Unkstruct_8017FBD8 *)param_1)->unk1C = 0x50;
+    ((Unkstruct_8017FBD8_2 *)*(s32 *)(param_1 + 0x20))->unk14 = rand() % 0x1000;
 }
 
 
@@ -3434,10 +3434,10 @@ void func_80180B54(void *arg0) {
 
 
 void func_80180BA0(void *a0) {
-        s32 v1 = *(s32 *)((s32)a0 + 0x20);
-        *(s32 *)((s32)a0 + 0x1C) = 0x1E;
-        *(s16 *)((s32)a0 + 0x5C) = 0;
-        *(s16 *)(v1 + 0x10) = 0;
+        s32 v1 = ((Unkstruct_80180814 *)a0)->unk20;
+        ((Unkstruct_80180814 *)a0)->unk1C = 0x1E;
+        ((Unkstruct_80180814 *)a0)->unk5C = 0;
+        ((Unkstruct_80180814_2 *)v1)->unk10 = 0;
     }
 
 
@@ -3615,7 +3615,7 @@ s32 arg0;
     D_8019BFBC = col0 - 50;
     D_8019BFBD = col1 - 50;
     D_8019BFBE = col2 - 50;
-    *(s32 *)(arg0 + 0x1C) += 1;
+    CAST_ALIAS(s32, arg0, 0x1C) += 1;
 }
 
 
@@ -3625,10 +3625,10 @@ extern void func_80181CB4(void *a0);
 void func_80180FE0(void *a0) {
 
     extern void (*D_8019C7D0[])(void);
-    D_8019C7D0[*(u16 *)((s32)a0 + 0x2)]();
-    if (*(u16 *)((s32)a0 + 0x0) != 0) {
-        *(s32 *)((s32)a0 + 0xE8) = *(s32 *)((s32)a0 + 0xE8) + 1;
-        if ((*(s32 *)((s32)a0 + 0xE8) & 0xF) == 0) {
+    D_8019C7D0[((Unkstruct_8017E220 *)a0)->unk2]();
+    if (((Unkstruct_8017E220 *)a0)->unk0 != 0) {
+        ((Unkstruct_8017E220 *)a0)->unkE8 = ((Unkstruct_8017E220 *)a0)->unkE8 + 1;
+        if ((((Unkstruct_8017E220 *)a0)->unkE8 & 0xF) == 0) {
             func_80181CB4(a0);
         }
     }

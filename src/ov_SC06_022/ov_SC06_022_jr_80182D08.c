@@ -3069,9 +3069,9 @@ void func_801834D4(s32 p) {
 extern void func_8012A828(s32, void*);
     extern short aD801D42B0_80183554 __asm__("D_801D42B0");
     void func_80183554(short *a0) {
-        *(short *)((char *)a0 + 0x2) = 0x1D;
-        *(short *)((char *)a0 + 0x34) = 0;
-        *(int *)((char *)a0 + 0x1c) = 0xf;
+        ((Unkstruct_80183554 *)a0)->unk2 = 0x1D;
+        ((Unkstruct_80183554 *)a0)->unk34 = 0;
+        ((Unkstruct_80183554 *)a0)->unk1C = 0xf;
         ((void (*)(s32 *, s32))func_8012A828)((s32 *)a0, (int)&aD801D42B0_80183554);
     }
 
@@ -3437,7 +3437,7 @@ void func_80183CC0(s32 p)
 
 extern void func_801850CC(s32 a0);
     void func_80183E3C(s32 arg0) {
-        if (*(s16 *)((char *)arg0 + 0x98) == 0) {
+        if (((Unkstruct_80183E3C *)arg0)->unk98 == 0) {
             ((void (*)(void))func_801850CC)();
         }
     }

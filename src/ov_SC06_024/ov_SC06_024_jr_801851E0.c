@@ -3107,9 +3107,9 @@ void func_801859AC(s32 p) {
 extern void func_8012A828(s32, void*);
     extern short D_801D33F4;
     void func_80185A2C(short *a0) {
-        *(short *)((char *)a0 + 0x2) = 0x1D;
-        *(short *)((char *)a0 + 0x34) = 0;
-        *(int *)((char *)a0 + 0x1c) = 0xf;
+        ((Unkstruct_80185A2C *)a0)->unk2 = 0x1D;
+        ((Unkstruct_80185A2C *)a0)->unk34 = 0;
+        ((Unkstruct_80185A2C *)a0)->unk1C = 0xf;
         ((void (*)(s32 *, s32))func_8012A828)((s32 *)a0, (int)&D_801D33F4);
     }
 

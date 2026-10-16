@@ -3630,13 +3630,13 @@ void func_80192F64(s32 arg0) {
 
 void func_801932EC(void *arg0) {
     extern void (*D_801D12C8[])(void);
-    if (*(u8 *)(arg0 + 0xC2) != 0) {
-        *(u8 *)(arg0 + 0xC2) -= 1;
-        if ((*(u8 *)(arg0 + 0xC2) & 0xFF) == 0) {
-            *(u16 *)(arg0 + 0x5E) = 0;
+    if (((Unkstruct_801932EC *)arg0)->unkC2 != 0) {
+        ((Unkstruct_801932EC *)arg0)->unkC2 -= 1;
+        if ((((Unkstruct_801932EC *)arg0)->unkC2 & 0xFF) == 0) {
+            ((Unkstruct_801932EC *)arg0)->unk5E = 0;
         }
     }
-    D_801D12C8[*(u16 *)(arg0 + 2)]();
+    D_801D12C8[((Unkstruct_801932EC *)arg0)->unk2]();
 }
 
 
