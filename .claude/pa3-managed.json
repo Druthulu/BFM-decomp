@@ -307,9 +307,9 @@
     }
   },
   "format": 1,
-  "git": "f3243ef5",
-  "installed": "2026-10-16T00:38:43Z",
+  "git": "e9e6b590",
+  "installed": "2026-10-16T11:46:16Z",
   "package": null,
-  "phase": "3.28.6",
-  "upstream_version": "3.28.6"
+  "phase": "3.28.7",
+  "upstream_version": "3.28.7"
 }
