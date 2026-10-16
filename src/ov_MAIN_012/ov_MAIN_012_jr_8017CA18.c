@@ -3741,20 +3741,20 @@ s32 func_8017CBC8(s32 ot, u8 *s, s16 c) {
         flag = -(D_8011511A != c) & 0xFF;
     }
 
-    t = *(s32 *)(s + 0x14);
+    t = ((Unkstruct_8017C120 *)s)->unk14;
     if (t < 0) {
         func_80024054((u8 *)t, sp18);
-        ot = func_800D2650(ot, sp18, *(s16 *)(s + 0x10), *(s16 *)(s + 0x12), 1,
+        ot = func_800D2650(ot, sp18, ((Unkstruct_8017C120 *)s)->unk10, ((Unkstruct_8017C120 *)s)->unk12, 1,
                            flag ? 0x585858 : 0x808080);
     } else {
         p = D_801826EC[t];
-        for (k = 0; k < D_80182774[*(s32 *)(s + 0x14)]; k++) {
+        for (k = 0; k < D_80182774[((Unkstruct_8017C120 *)s)->unk14]; k++) {
             bp = sp18;
             dim = flag;
             for (i = 0; i < 5; i++) {
                 if (i == 0) {
-                    sp60[0] = (((s16 *)p)[0] + *(s16 *)(s + 0x10)) & 0xFFFF |
-                              ((((s16 *)p)[1] + *(s16 *)(s + 0x12)) << 16);
+                    sp60[0] = (((Unkstruct_8017CBC8 *)p)->unk0 + ((Unkstruct_8017C120 *)s)->unk10) & 0xFFFF |
+                              ((((Unkstruct_8017CBC8 *)p)->unk2 + ((Unkstruct_8017C120 *)s)->unk12) << 16);
                 } else {
                     *(s32 *)(bp + 0x48 + i * 4) = p[i];
                 }
@@ -3771,7 +3771,7 @@ s32 func_8017CBC8(s32 ot, u8 *s, s16 c) {
     q = *(s16 **)(s + 0x18);
     dim2 = flag;
     for (;;) {
-        r = func_8017CEB8(*(s32 *)(s + 0x1C), *(s16 *)s, c, i++, sp78);
+        r = func_8017CEB8(((Unkstruct_8017C120 *)s)->unk1C, ((Unkstruct_8017C120 *)s)->unk0, c, i++, sp78);
         if (r == 0) {
             break;
         }
@@ -3791,9 +3791,9 @@ s32 func_8017CBC8(s32 ot, u8 *s, s16 c) {
 
     dim3 = flag;
     return func_800D29F8(dim3,
-                         func_800D27DC(dim3 != 0, ot, (void *)*(s32 *)(s + 4),
-                                       *(s16 *)(s + 0xC), 0),
-                         (void *)*(s32 *)(s + 8), *(s16 *)(s + 0xE), 0);
+                         func_800D27DC(dim3 != 0, ot, (void *)((Unkstruct_8017C120 *)s)->unk4,
+                                       ((Unkstruct_8017C120 *)s)->unkC, 0),
+                         (void *)((Unkstruct_8017C120 *)s)->unk8, ((Unkstruct_8017C120 *)s)->unkE, 0);
 }
 
 

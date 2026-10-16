@@ -549,9 +549,9 @@ void func_8012956C(void) {
                 *dst = *src;
                 sp10[5] = (s32)sp0;
                 if (base->f36 == 0) {
-                    GsSortFastBg(sp10, &D_800A6518[(*(u16 *)(afbase + 0xA3D2)) * 0x14], base->f34, dst);
+                    GsSortFastBg(sp10, &D_800A6518[(((Unkstruct_8012956C *)afbase)->unkA3D2) * 0x14], base->f34, dst);
                 } else {
-                    GsSortBg(sp10, &D_800A6518[(*(u16 *)(afbase + 0xA3D2)) * 0x14], base->f34, dst);
+                    GsSortBg(sp10, &D_800A6518[(((Unkstruct_8012956C *)afbase)->unkA3D2) * 0x14], base->f34, dst);
                 }
             }
             break;
@@ -747,9 +747,9 @@ extern M2C_UNK D_8017E300;
 
 void func_8012ACA0(void *arg0) {
     M2C_FIELD(arg0, M2C_UNK **, 0x90) = &D_8017E300;
-    M2C_FIELD(arg0, s32 *, 0x94) = 0;
-    M2C_FIELD(arg0, s32 *, 0x9C) = 0;
-    M2C_FIELD(arg0, s16 *, 0x9A) = 0;
-    M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
+    ((Unkstruct_8012ACA0 *)arg0)->unk94 = 0;
+    ((Unkstruct_8012ACA0 *)arg0)->unk9C = 0;
+    ((Unkstruct_8012ACA0 *)arg0)->unk9A = 0;
+    ((Unkstruct_8012ACA0 *)arg0)->unk72 = (u16) (((Unkstruct_8012ACA0 *)arg0)->unk72 & 0xF9FF);
     ((void (*)(void))func_8012AAAC)();
 }

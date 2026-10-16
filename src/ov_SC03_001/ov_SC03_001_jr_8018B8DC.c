@@ -4098,7 +4098,7 @@ void func_8018CDD8(int param_1)
     unsigned short uVar1;
     int iVar2;
 
-    iVar2 = *(int *)(param_1 + 0x20);
+    iVar2 = ((Unkstruct_801834E4 *)param_1)->unk20;
     func_8001CB00(iVar2, &D_801EB36C, 0x280, 0x100);
     *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar2 + 4) | 0x70000000;
     uVar1 = *(unsigned short *)(param_1 + 0x2c);
@@ -4107,7 +4107,7 @@ void func_8018CDD8(int param_1)
     *(unsigned short *)(iVar2 + 0x1c) = uVar1;
     *(unsigned short *)(iVar2 + 0x1a) = uVar1;
     *(unsigned short *)(iVar2 + 0x18) = uVar1;
-    *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+    ((Unkstruct_801834E4 *)param_1)->unk2 = ((Unkstruct_801834E4 *)param_1)->unk2 + 1;
     return;
 }
 
@@ -4213,10 +4213,10 @@ void func_8018CFFC(s32 *a0)
     extern signed char D_801EB468[];
     s32 v0;
 
-    v0 = *(s16 *)((s32)a0 + 0x70);
+    v0 = ((Unkstruct_80189C64 *)a0)->unk70;
     v0 = v0 * 4;
     func_80178CBC(a0, *(s32 *)((s32)D_801EB468 + v0));
-    *(s16 *)((s32)a0 + 0x2) = 0x3;
+    ((Unkstruct_80189C64 *)a0)->unk2 = 0x3;
 }
 
 
@@ -4227,7 +4227,7 @@ extern void func_80178D18(void);
 void func_8018D048(s32 a0) {
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)(a0);
-        *(s16 *)(a0 + 2) = 1;
+        ((Unkstruct_8017D658 *)a0)->unk2 = 1;
     }
 }
 
@@ -4238,10 +4238,10 @@ extern void func_80172710(void);
 
 s32 func_8018D088(void *a0)
 {
-    if (func_8012BD14(*(s32 *)((s32)a0 + 0x64)) > 0x1000) {
+    if (func_8012BD14(((Unkstruct_80181E30 *)a0)->unk64) > 0x1000) {
         return 0;
     }
-    *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 2;
+    ((Unkstruct_80181E30_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }

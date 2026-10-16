@@ -2145,7 +2145,7 @@ extern void func_801593E4(A801593E4 *a0);
 void func_80159698(void *a0) {
 
     extern void (*D_80184A94[])(void);
-    D_80184A94[*(u8 *)((s32)a0 + 0x15)]();
+    D_80184A94[((Unkstruct_80159698_2 *)a0)->unk15]();
 }
 
 
@@ -2181,13 +2181,13 @@ s32 func_801596F0(s32 param_1) {
     extern u8 D_800AF630[];
     extern u32 D_800AFAE8[];
     extern char D_801848B4[];
-    u8 *base = &(*(u8 *)&D_800AF630);
+    u8 *base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
     s32 v;
     u32 *p;
     u32 *q;
 
-    v = *(s32 *)(param_1 + 0x28) - 1;
-    *(s32 *)(param_1 + 0x28) = v;
+    v = ((Unkstruct_801596F0_2 *)param_1)->unk28 - 1;
+    ((Unkstruct_801596F0_2 *)param_1)->unk28 = v;
     if (v == -1) {
         func_80174B6C();
         (*(s16 *)&D_800B9AAC) = 0x7fff;
@@ -2219,8 +2219,8 @@ s32 func_801596F0(s32 param_1) {
         func_80028620(0, &(*(u8 *)&D_801848B4));
         func_80028620(1, &(*(u8 *)&D_801848B4) + 0x10);
         func_80028620(2, &(*(u8 *)&D_801848B4) + 0x20);
-        *(s32 *)(param_1 + 0x28) = 0xff;
-        *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+        ((Unkstruct_801596F0_2 *)param_1)->unk28 = 0xff;
+        ((Unkstruct_801596F0_2 *)param_1)->unk15 = ((Unkstruct_801596F0_2 *)param_1)->unk15 + 1;
     }
     return 0;
 }
@@ -2243,7 +2243,7 @@ s32 func_801596F0(s32 param_1) {
 void func_80159968(void *a0) {
 
     extern void (*D_80184B38[])(void);
-    D_80184B38[*(u8 *)((s32)a0 + 0x4D)]();
+    D_80184B38[((Unkstruct_80159968_2 *)a0)->unk4D]();
 }
 
 
@@ -2295,9 +2295,9 @@ void func_80159A20(unsigned char *param_1)
     ((void (*)(unsigned char *))func_80158638)(param_1);
     ((void (*)(u8 *))func_8015126C)(param_1);
     ((void (*)(u8 *))func_8014900C)(param_1);
-    D_80184BE8[*(u16 *)param_1 & 0x7fff](param_1);
-    *(u32 *)(param_1 + 0x44) |= 0x8000000;
-    switch (*(u16 *)param_1) {
+    D_80184BE8[((Unkstruct_80159A20 *)param_1)->unk0 & 0x7fff](param_1);
+    ((Unkstruct_80159A20 *)param_1)->unk44 |= 0x8000000;
+    switch (((Unkstruct_80159A20 *)param_1)->unk0) {
     case 2:
     case 3:
     case 0xb:
@@ -2312,13 +2312,13 @@ void func_80159A20(unsigned char *param_1)
             }
             return;
         }
-        if (*(u16 *)(param_1 + 2) == 3) {
+        if (((Unkstruct_80159A20 *)param_1)->unk2 == 3) {
             goto mask;
         }
         return;
     }
 mask:
-    *(u32 *)(param_1 + 0x44) &= 0xf7ffffff;
+    ((Unkstruct_80159A20 *)param_1)->unk44 &= 0xf7ffffff;
 }
 
 #include "../shared/ov/func_80159B08.h"

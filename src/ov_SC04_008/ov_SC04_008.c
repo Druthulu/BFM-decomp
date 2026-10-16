@@ -519,9 +519,9 @@ void func_8012956C(void) {
                 *dst = *src;
                 sp10[5] = (s32)sp0;
                 if (base->f36 == 0) {
-                    GsSortFastBg(sp10, &D_800A6518[(*(u16 *)(afbase + 0xA3D2)) * 0x14], base->f34, dst);
+                    GsSortFastBg(sp10, &D_800A6518[(((Unkstruct_8012956C *)afbase)->unkA3D2) * 0x14], base->f34, dst);
                 } else {
-                    GsSortBg(sp10, &D_800A6518[(*(u16 *)(afbase + 0xA3D2)) * 0x14], base->f34, dst);
+                    GsSortBg(sp10, &D_800A6518[(((Unkstruct_8012956C *)afbase)->unkA3D2) * 0x14], base->f34, dst);
                 }
             }
             break;

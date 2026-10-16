@@ -2827,8 +2827,8 @@ void func_8017F6C0(void *a0)
 
     a1 = a0;
 
-    v0 = *(s32 *)((s32)a1 + 0x1C) - 1;
-    *(s32 *)((s32)a1 + 0x1C) = v0;
+    v0 = ((Unkstruct_8017F6C0 *)a1)->unk1C - 1;
+    ((Unkstruct_8017F6C0 *)a1)->unk1C = v0;
     if (v0 != 0) {
         return;
     }
@@ -2840,55 +2840,55 @@ void func_8017F6C0(void *a0)
 
     switch (v1) {
     case 0: {
-        *(s32 *)((s32)a1 + 0x1C) = 1;
+        ((Unkstruct_8017F6C0 *)a1)->unk1C = 1;
         return;
     }
     case 1: {
         s32 ret;
-        *(s16 *)((s32)a1 + 0x2) = 2;
-        *(s32 *)((s32)a1 + 0xDC) = 0;
+        ((Unkstruct_8017F6C0 *)a1)->unk2 = 2;
+        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0;
         ret = -0x16D;
-        *(s16 *)((s32)a1 + 0xE2) = ret;
+        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
         return;
     }
     case 2: {
         s32 ret;
-        *(s16 *)((s32)a1 + 0x2) = 3;
-        *(s32 *)((s32)a1 + 0xDC) = 0;
+        ((Unkstruct_8017F6C0 *)a1)->unk2 = 3;
+        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0;
         ret = -0x361;
-        *(s16 *)((s32)a1 + 0xE2) = ret;
+        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
         return;
     }
     case 3: {
         s32 ret;
-        *(s16 *)((s32)a1 + 0x2) = 4;
-        *(s32 *)((s32)a1 + 0xDC) = 0;
+        ((Unkstruct_8017F6C0 *)a1)->unk2 = 4;
+        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0;
         ret = -0x561;
-        *(s16 *)((s32)a1 + 0xE2) = ret;
+        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
         return;
     }
     case 4: {
         s32 ret;
-        *(s16 *)((s32)a1 + 0x2) = 7;
-        *(s32 *)((s32)a1 + 0xDC) = 0x800;
+        ((Unkstruct_8017F6C0 *)a1)->unk2 = 7;
+        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0x800;
         ret = -0x16D;
-        *(s16 *)((s32)a1 + 0xE2) = ret;
+        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
         return;
     }
     case 5: {
         s32 ret;
-        *(s16 *)((s32)a1 + 0x2) = 6;
-        *(s32 *)((s32)a1 + 0xDC) = 0x800;
+        ((Unkstruct_8017F6C0 *)a1)->unk2 = 6;
+        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0x800;
         ret = -0x361;
-        *(s16 *)((s32)a1 + 0xE2) = ret;
+        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
         return;
     }
     case 6: {
         s32 ret;
-        *(s16 *)((s32)a1 + 0x2) = 5;
-        *(s32 *)((s32)a1 + 0xDC) = 0x800;
+        ((Unkstruct_8017F6C0 *)a1)->unk2 = 5;
+        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0x800;
         ret = -0x561;
-        *(s16 *)((s32)a1 + 0xE2) = ret;
+        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
         return;
     }
     }
@@ -3203,9 +3203,9 @@ void func_8017FE14(void *a0)
 
 void func_8017FE88(s32 arg0)
 {
-    if (*(u8 *)(arg0 + 0x74) != 0) {
-        *(u16 *)(arg0 + 2) = 1;
-        *(s32 *)(arg0 + 0x1c) = 1;
+    if (((Unkstruct_8017FE88 *)arg0)->unk74 != 0) {
+        ((Unkstruct_8017FE88 *)arg0)->unk2 = 1;
+        ((Unkstruct_8017FE88 *)arg0)->unk1C = 1;
     }
 }
 

@@ -2450,7 +2450,7 @@ extern s32  ratan2(s32 a0, s32 a1);   /* ratan2 */
 extern s32 (*D_8018A09C[])(void *);
 
 s32 func_801727D0(void *a0) {
-    return D_8018A09C[*(u8 *)((s32)a0 + 0x214)](a0);
+    return D_8018A09C[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
 }
 
 #include "../shared/ov/func_8017280C.h"
@@ -2464,7 +2464,7 @@ s32 func_801727D0(void *a0) {
 extern s32 (*D_8018A0A8[])(void *);
 
 s32 func_801728E4(void *a0) {
-    return D_8018A0A8[*(u8 *)((s32)a0 + 0x214)](a0);
+    return D_8018A0A8[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
 }
 
 #include "../shared/ov/func_80172920.h"
@@ -2478,7 +2478,7 @@ s32 func_801728E4(void *a0) {
 extern s32 (*D_8018A0B4[])(void *);
 
 s32 func_801729F0(void *a0) {
-    return D_8018A0B4[*(u8 *)((s32)a0 + 0x214)](a0);
+    return D_8018A0B4[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
 }
 
 // @class: plumbing
@@ -2501,7 +2501,7 @@ extern void func_80174684(void *);
 extern s32 (*D_8018A0C4[])(void *);
 
 s32 func_80172B44(void *a0) {
-    return D_8018A0C4[*(u8 *)((s32)a0 + 0x214)](a0);
+    return D_8018A0C4[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
 }
 
 #include "../shared/ov/func_80172B80.h"
@@ -2524,7 +2524,7 @@ void func_80172C50(struct S80172C50 *a0) {
 extern s32 (*D_8018A0D0[])(void *);
 
 s32 func_80172CA0(void *a0) {
-    return D_8018A0D0[*(u8 *)((s32)a0 + 0x214)](a0);
+    return D_8018A0D0[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
 }
 
 #include "../shared/ov/func_80172CDC.h"
@@ -2538,7 +2538,7 @@ s32 func_80172CA0(void *a0) {
 extern s32 (*D_8018A0DC[])(void *);
 
 s32 func_80172DAC(void *a0) {
-    return D_8018A0DC[*(u8 *)((s32)a0 + 0x214)](a0);
+    return D_8018A0DC[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
 }
 
 #include "../shared/ov/func_80172DE8.h"
@@ -2566,7 +2566,7 @@ s32 func_80172DAC(void *a0) {
 extern s32 (*D_8018A0E8[])(void *);
 
 s32 func_80173078(void *a0) {
-    return D_8018A0E8[*(u8 *)((s32)a0 + 0x214)](a0);
+    return D_8018A0E8[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
 }
 
 // @class: plumbing
@@ -2583,7 +2583,7 @@ s32 func_80173078(void *a0) {
 extern s32 (*D_8018A0F4[])(void *);
 
 s32 func_8017319C(void *a0) {
-    return D_8018A0F4[*(u8 *)((s32)a0 + 0x214)](a0);
+    return D_8018A0F4[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
 }
 
 #include "../shared/ov/func_801731D8.h"
@@ -2596,11 +2596,11 @@ extern M2C_UNK D_8018A094;
 
 void func_80173220(void * arg0)
 {
-    if (M2C_FIELD(arg0, u16 *, 0xB8) & 0x4000) {
+    if (((Unkstruct_80173220 *)arg0)->unkB8 & 0x4000) {
         func_80147324(0x516);
         func_80019064(&D_8018A094);
     }
-    if (M2C_FIELD(arg0, u16 *, 0xB8) & 0x8000) {
+    if (((Unkstruct_80173220 *)arg0)->unkB8 & 0x8000) {
         func_80171A1C(arg0);
         func_80174650(arg0);
     }
