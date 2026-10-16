@@ -1115,13 +1115,13 @@ s32 func_80149FB0(s32 a0) {
         } while (v != 0);
     }
 
-    if ((*(u32 *)(a0 + 0x44) & 0x400) != 0) {
+    if ((((Unkstruct_80149FB0 *)a0)->unk44 & 0x400) != 0) {
         return 0;
     }
-    if (*(s16 *)(a0 + 0x1C8) != 0) {
+    if (((Unkstruct_80149FB0 *)a0)->unk1C8 != 0) {
         return 0;
     }
-    if ((*(u16 *)(a0 + 0xAC) & 0x100) == 0) {
+    if ((((Unkstruct_80149FB0 *)a0)->unkAC & 0x100) == 0) {
     ret0:
         return 0;
     }
