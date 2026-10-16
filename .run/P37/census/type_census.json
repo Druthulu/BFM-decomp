@@ -1,9 +1,9 @@
 {
  "summary": {
-  "head": "2d426c3da2",
-  "src_stamp": "4cce41ccff6eb911",
+  "head": "3a7fad59c1",
+  "src_stamp": "99fe4ffa2bc73ba3",
   "tool_stamp": "6041c32d81",
-  "when": "2026-10-16T08:59:02Z",
+  "when": "2026-10-16T09:15:44Z",
   "files": 7306,
   "tus": 4121,
   "headers": 3181,
@@ -36,32 +36,32 @@
   },
   "casts": {
    "by_form": {
-    "P": 122373,
+    "P": 122173,
     "I": 46871,
     "X": 10436,
     "K": 30036,
     "A": 18887,
-    "C": 312869,
-    "M": 5118
+    "C": 313569,
+    "M": 4618
    },
    "raw_counts": {
-    "P": 122373,
+    "P": 122173,
     "I": 46871,
     "X": 10436,
     "K": 30036,
     "A": 18887,
-    "C": 312869,
-    "M": 5118
+    "C": 313569,
+    "M": 4618
    },
    "coverage_ok": true,
    "refused": 0,
-   "deref_total": 184798,
+   "deref_total": 184098,
    "addr_form": 18887,
-   "typed_cast_member": 312869,
+   "typed_cast_member": 313569,
    "bodies": 31761,
    "by_bclass": {
-    "local": 65055,
-    "param": 67036,
+    "local": 64855,
+    "param": 66536,
     "global": 20252,
     "gaddr": 24861,
     "nested": 4737,
@@ -70,16 +70,16 @@
     "addr-of": 1251
    },
    "by_width": {
-    "s2": 55799,
-    "s4": 47589,
-    "u2": 41937,
+    "s2": 55699,
+    "s4": 47389,
+    "u2": 41537,
     "agg": 13268,
     "p4": 10287,
     "u1": 10041,
     "u4": 4088,
     "s1": 1789
    },
-   "readability_raw_regex": 125210,
+   "readability_raw_regex": 125010,
    "abs_casts": 0,
    "top_bases": [
     [
@@ -95,7 +95,7 @@
     [
      "param",
      "arg0",
-     13299
+     12799
     ],
     [
      "local",
@@ -291,10 +291,10 @@
     "CAST_NONSTRUCT": 515
    },
    "check_raw": {
-    "P": 122368,
+    "P": 122168,
     "I": 46871,
     "X": 10436,
-    "M": 5117
+    "M": 4617
    },
    "macro_sites": [
     {
@@ -330653,20 +330653,20 @@
   },
   "struct_map": {
    "types": 15060,
-   "explained_sites": 181244,
-   "deref_sites": 184798,
+   "explained_sites": 180544,
+   "deref_sites": 184098,
    "explained_pct": 98.1,
    "unassigned_sites": 3554,
-   "conflicts": 785,
+   "conflicts": 781,
    "suspect": 9,
    "evidence": {
     "param": 39542,
-    "assign": 20965,
+    "return": 1544,
+    "assign": 20947,
     "assign&": 1473,
-    "ret-of": 6367,
-    "return": 1540,
-    "arg": 10393,
-    "arg&": 300,
+    "ret-of": 6382,
+    "arg": 10392,
+    "arg&": 299,
     "field": 4312,
     "nested": 9
    },
@@ -330677,18 +330677,18 @@
     "ret-of-multisource": 6818,
     "assign-multisource": 34570,
     "field-multisource": 3094,
-    "ret-of": 528,
-    "arg&-no-overlap": 2933,
-    "assign": 247,
+    "ret-of": 513,
+    "arg&-no-overlap": 2934,
+    "assign": 261,
     "arg-no-overlap": 12149,
-    "return": 5,
     "assign&": 56,
     "arg": 77,
+    "return": 4,
     "field": 340
    },
-   "singletons": 12007,
-   "multi_body": 3053,
-   "sites_in_multi_body": 139371,
+   "singletons": 12009,
+   "multi_body": 3051,
+   "sites_in_multi_body": 138566,
    "top": [
     {
      "name": "Unkstruct_800D3888",
@@ -330699,12 +330699,12 @@
      "conflicts": 50,
      "sign_mixed": 66,
      "merges": {
-      "arg&": 283,
+      "arg&": 282,
       "param": 11884,
-      "arg": 8165,
-      "assign": 7950,
-      "return": 742,
-      "ret-of": 2688,
+      "arg": 8164,
+      "assign": 7946,
+      "return": 745,
+      "ret-of": 2690,
       "assign&": 148,
       "field": 698
      },
@@ -330791,6 +330791,27 @@
      "globals_ptr": []
     },
     {
+     "name": "Unkstruct_8012D3B4",
+     "sites": 1592,
+     "bodies": 183,
+     "size_hint": 36,
+     "fields": 23,
+     "conflicts": 17,
+     "sign_mixed": 9,
+     "merges": {
+      "assign": 109,
+      "return": 5,
+      "param": 16,
+      "arg": 10,
+      "ret-of": 65
+     },
+     "globals_at": [],
+     "globals_ptr": [
+      "D_80074808",
+      "D_800A5E60"
+     ]
+    },
+    {
      "name": "Unkstruct_645b745d",
      "sites": 1548,
      "bodies": 258,
@@ -330799,23 +330820,6 @@
      "conflicts": 0,
      "sign_mixed": 0,
      "merges": {},
-     "globals_at": [],
-     "globals_ptr": []
-    },
-    {
-     "name": "Unkstruct_8012E28C",
-     "sites": 1427,
-     "bodies": 140,
-     "size_hint": 36,
-     "fields": 23,
-     "conflicts": 8,
-     "sign_mixed": 8,
-     "merges": {
-      "ret-of": 52,
-      "assign": 8,
-      "param": 8,
-      "arg": 10
-     },
      "globals_at": [],
      "globals_ptr": []
     },
@@ -331105,8 +331109,8 @@
    "block_frames": 629
   },
   "global_blocks": {
-   "n": 2121,
-   "members": 14243,
+   "n": 2120,
+   "members": 14239,
    "top": [
     {
      "base": "0x800cf10c",
@@ -331285,9 +331289,9 @@
    "path": ".run/P37/census/parked.tsv"
   },
   "timing": {
-   "walk_s": 41.7,
-   "decls_s": 190.7,
-   "total_s": 201.3
+   "walk_s": 40.2,
+   "decls_s": 186.8,
+   "total_s": 195.4
   }
  },
  "dup_layout_classes": [
