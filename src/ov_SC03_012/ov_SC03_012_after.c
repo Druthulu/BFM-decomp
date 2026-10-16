@@ -931,13 +931,13 @@ s32 func_80149FB0(s32 a0) {
         } while (v != 0);
     }
 
-    if ((*(u32 *)(a0 + 0x44) & 0x400) != 0) {
+    if ((((Unkstruct_80149FB0 *)a0)->unk44 & 0x400) != 0) {
         return 0;
     }
-    if (*(s16 *)(a0 + 0x1C8) != 0) {
+    if (((Unkstruct_80149FB0 *)a0)->unk1C8 != 0) {
         return 0;
     }
-    if ((*(u16 *)(a0 + 0xAC) & 0x100) == 0) {
+    if ((((Unkstruct_80149FB0 *)a0)->unkAC & 0x100) == 0) {
     ret0:
         return 0;
     }
@@ -2409,13 +2409,13 @@ void func_80150B28(int param_1) {
     u32 sub;
 
     if ((D_800AE6B0 & 0x80FFFFFF) == 0) {
-        idx = *(u16 *)(param_1 + 0x16C);
+        idx = ((Unkstruct_80150B28 *)param_1)->unk16C;
         if (idx != 0 && idx < 0x26) {
             sub = idx - 1;
             D_8017FDC4[sub]();
         }
     }
-    *(u16 *)(param_1 + 0x16C) = 0;
+    ((Unkstruct_80150B28 *)param_1)->unk16C = 0;
 }
 
 
