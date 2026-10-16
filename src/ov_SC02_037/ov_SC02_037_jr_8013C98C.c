@@ -2093,10 +2093,10 @@ s32 func_8013EF88() {
             (*(int*)&D_801151D0) = D_80115118.arrB0[(*(unsigned short*)&D_800B9A02)];
             ((void(*)(int, int))func_8013FAF8)(0, 5);
             for (i = 0; i < 5; i++) {
-                int a = *(int *)((char *)&(*(int*)&D_80115188) + (i << 2));
+                int a = *(int *)((char *)&(((E4 *)&D_80115188)->f0) + (i << 2));
                 int b = *(int *)((char *)&D_80115168 + (i << 2));
                 int w = a * 3;
-                *(int *)((char *)&(*(int*)&D_80115188) + (i << 2)) = w;
+                *(int *)((char *)&(((E4 *)&D_80115188)->f0) + (i << 2)) = w;
                 *(int *)((char *)&D_80115168 + (i << 2)) = b + w;
             }
             if (D_80115118.field0 < 3) {

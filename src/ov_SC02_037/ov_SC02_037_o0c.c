@@ -851,7 +851,7 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
         D_801DAA08_e[i].fC = 0x100;
         D_801DAA08_e[i].f18 = 0;
     }
-    switch (*(u8 *)a0) {
+    switch (((Unkstruct_8013B83C *)a0)->unk0) {
     case 0x42:
         if (D_800B9A0E == 0) {
             func_8013BD74(&D_801C9A78, a0);
@@ -1026,10 +1026,10 @@ int param_1;
         Bar *local_10;
         Foo *local_c;
         iVar1 = param_1 + 0x14;
-        if (*(char *)(param_1 + 4) == '\0') {
-            iVar2 = iVar1 + *(int *)(param_1 + 0xc);
-            *(int *)(param_1 + 0xc) = iVar2;
-            *(int *)(param_1 + 0x10) = *(int *)(param_1 + 0x10) + iVar1;
+        if (CAST_ALIAS(char, param_1, 4) == '\0') {
+            iVar2 = iVar1 + CAST_ALIAS(int, param_1, 0xc);
+            CAST_ALIAS(int, param_1, 0xc) = iVar2;
+            CAST_ALIAS(int, param_1, 0x10) = CAST_ALIAS(int, param_1, 0x10) + iVar1;
             local_c = (Foo *)iVar1;
             for (local_18 = 0; local_18 < *(unsigned int *)(param_1 + 8); local_18++, local_c++) {
                 local_c->field10 = local_c->field10 + iVar1;
@@ -1077,22 +1077,22 @@ s32 param_2;
         s32 base8;       
         T3Reloc *r;      
         T3Reloc *s;      
-        if (*(s32 *)(param_2 + 4) == 0) {
+        if (CAST_ALIAS(s32, param_2, 4) == 0) {
             base10 = param_2 + 0x10;
             base4008 = param_1 + 0x4008;
-            lo = *(s32 *)(param_2 + 0xC) + base10;
+            lo = CAST_ALIAS(s32, param_2, 0xC) + base10;
             base8 = param_1 + 8;
             p = base10;
-            for (i = 0; i < *(u32 *)(param_2 + 8); i++) {
-                *(s32 *)p = *(s32 *)p + base8;
-                if (*(s32 *)(p + 4) != 0) {
-                    *(s32 *)(p + 4) = *(s32 *)(p + 4) + base10;
-                    q = *(s32 *)(p + 4);
-                    *(s32 *)q = *(s32 *)q + q;
-                    *(s32 *)(q + 0x14) = *(s32 *)(q + 0x14) + q;
-                    r = (T3Reloc *)*(s32 *)(q + 0x14);
-                    *(s32 *)(q + 0x18) = *(s32 *)(q + 0x18) * 0xC + *(s32 *)(q + 0x14);
-                    s = (T3Reloc *)*(s32 *)(q + 0x18);
+            for (i = 0; i < CAST_ALIAS(u32, param_2, 8); i++) {
+                ((Unkstruct_8013C414_2 *)p)->unk0 = ((Unkstruct_8013C414_2 *)p)->unk0 + base8;
+                if (CAST_ALIAS(s32, p, 4) != 0) {
+                    CAST_ALIAS(s32, p, 4) = CAST_ALIAS(s32, p, 4) + base10;
+                    q = CAST_ALIAS(s32, p, 4);
+                    ((Unkstruct_8013C414_3 *)q)->unk0 = ((Unkstruct_8013C414_3 *)q)->unk0 + q;
+                    CAST_ALIAS(s32, q, 0x14) = CAST_ALIAS(s32, q, 0x14) + q;
+                    r = (T3Reloc *)CAST_ALIAS(s32, q, 0x14);
+                    CAST_ALIAS(s32, q, 0x18) = CAST_ALIAS(s32, q, 0x18) * 0xC + CAST_ALIAS(s32, q, 0x14);
+                    s = (T3Reloc *)CAST_ALIAS(s32, q, 0x18);
                     while (r < s) {
                         switch (r->type) {
                         case 0x24:
@@ -1121,18 +1121,18 @@ s32 param_2;
                 }
                 p = p + 0xC;
             }
-            *(s32 *)(param_2 + 4) = 1;
+            CAST_ALIAS(s32, param_2, 4) = 1;
             p = param_2 + 0x10;
-            for (i = 0; i < *(u32 *)(param_2 + 8); i++) {
-                if (*(s32 *)(p + 8) == 0) {
-                    *(s32 *)(p + 8) = *(s32 *)(*(s32 *)p);
+            for (i = 0; i < CAST_ALIAS(u32, param_2, 8); i++) {
+                if (CAST_ALIAS(s32, p, 8) == 0) {
+                    CAST_ALIAS(s32, p, 8) = *(s32 *)(((Unkstruct_8013C414_2 *)p)->unk0);
                 }
                 p = p + 0xC;
             }
         } else {
             p = param_2 + 0x10;
-            for (i = 0; i < *(u32 *)(param_2 + 8); i++) {
-                *(s32 *)(*(s32 *)p) = *(s32 *)(p + 8);
+            for (i = 0; i < CAST_ALIAS(u32, param_2, 8); i++) {
+                *(s32 *)(((Unkstruct_8013C414_2 *)p)->unk0) = CAST_ALIAS(s32, p, 8);
                 p = p + 0xC;
             }
         }
