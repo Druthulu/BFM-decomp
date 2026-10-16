@@ -3213,7 +3213,7 @@ void func_801838CC(s32 a0)
     s32 t2;
     s32 t;
 
-    m = *(s32 *)(a0 + 0x20) + 0x34;
+    m = ((Unkstruct_801838CC *)a0)->unk20 + 0x34;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
     RotTransSV(&D_8018B758, v, &flg);
@@ -3231,19 +3231,19 @@ void func_801838CC(s32 a0)
             *(u8 *)(pr + 0x13) = 0x22;
             *(u16 *)(pr + 0x14) = *(u16 *)&sxy;
             *(u16 *)(pr + 0x16) = *((u16 *)&sxy + 1);
-            t2 = *(u16 *)(pr + 0x14) + (*(s32 *)(a0 + 0x1C) << 4);
+            t2 = *(u16 *)(pr + 0x14) + (((Unkstruct_801838CC *)a0)->unk1C << 4);
             *(u16 *)(pr + 0x18) = t2;
             w = t2;
             q = (u16 *)(pr + 0xC);
             if ((s16)t2 >= 0xB1) {
                 *(u16 *)(pr + 0x18) = 0xA1;
                 *(u16 *)(pr + 0x1C) = 0xA1;
-                *(s32 *)(a0 + 0x1C) -= 1;
+                ((Unkstruct_801838CC *)a0)->unk1C -= 1;
             } else {
                 *(u16 *)(pr + 0x1C) = w;
             }
-            q[7] = q[5] - *(s32 *)(a0 + 0x1C);
-            q[9] = q[5] + ((((*(s32 *)(a0 + 0x1C) << 2) + *(s32 *)(a0 + 0x1C)) << 1));
+            q[7] = q[5] - ((Unkstruct_801838CC *)a0)->unk1C;
+            q[9] = q[5] + ((((((Unkstruct_801838CC *)a0)->unk1C << 2) + ((Unkstruct_801838CC *)a0)->unk1C) << 1));
             AddPrim(otp, q);
             AddPrim(otp, pr);
         }

@@ -2967,12 +2967,12 @@ void func_80180F84(s32 arg0)
 extern void (*D_80192854[])(void);
 
 void func_801813F4(s32 arg0) {
-    D_80192854[*(u16 *)(arg0 + 2)]();
-    if (*(u16 *)arg0 != 0) {
-        *(u16 *)(arg0 + 0xFC) &= 0xFFF;
-        *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) = 0x1000 - (func_80047948(*(s16 *)(arg0 + 0xFC)) >> 3);
-        *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) = (func_80047948(*(s16 *)(arg0 + 0xFC)) >> 3) + 0x1000;
-        *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1C) = (func_80047948(*(s16 *)(arg0 + 0xFC)) >> 3) + 0x1000;
+    D_80192854[((Unkstruct_801813F4 *)arg0)->unk2]();
+    if (((Unkstruct_801813F4 *)arg0)->unk0 != 0) {
+        CAST_SIGN(u16, arg0, 0xFC) &= 0xFFF;
+        ((Unkstruct_801813F4_2 *)*(s32 *)(arg0 + 0x20))->unk18 = 0x1000 - (func_80047948(((Unkstruct_801813F4 *)arg0)->unkFC) >> 3);
+        ((Unkstruct_801813F4_2 *)*(s32 *)(arg0 + 0x20))->unk1A = (func_80047948(((Unkstruct_801813F4 *)arg0)->unkFC) >> 3) + 0x1000;
+        ((Unkstruct_801813F4_2 *)*(s32 *)(arg0 + 0x20))->unk1C = (func_80047948(((Unkstruct_801813F4 *)arg0)->unkFC) >> 3) + 0x1000;
     }
 }
 
@@ -3090,7 +3090,7 @@ void func_80181670(void *a0)
     s32 i;
     s32 k;
 
-    m = *(s32 *)((s32)a0 + 0x20) + 0x34;
+    m = ((Unkstruct_80181670 *)a0)->unk20 + 0x34;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
 
@@ -3101,12 +3101,12 @@ void func_80181670(void *a0)
     if ((ret > 0) && (o.flag >= 0)) {
         sc = D_80192870;
         ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + ret * 4;
-        *(u16 *)((s32)a0 + 0xDE) += 0x100;
-        e = (func_8004787C(*(s16 *)((s32)a0 + 0xDE)) * 3 / 8) - 0x800;
+        CAST_SIGN(u16, (s32)a0, 0xDE) += 0x100;
+        e = (func_8004787C(((Unkstruct_80181670 *)a0)->unkDE) * 3 / 8) - 0x800;
         if (e < 0) {
-            e = 0x800 - (func_8004787C(*(s16 *)((s32)a0 + 0xDE)) * 3 / 8);
+            e = 0x800 - (func_8004787C(((Unkstruct_80181670 *)a0)->unkDE) * 3 / 8);
         } else {
-            e = (func_8004787C(*(s16 *)((s32)a0 + 0xDE)) * 3 / 8) - 0x800;
+            e = (func_8004787C(((Unkstruct_80181670 *)a0)->unkDE) * 3 / 8) - 0x800;
         }
         p = e * sc;
         q = p >> 12;

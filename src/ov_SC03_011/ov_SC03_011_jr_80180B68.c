@@ -3177,7 +3177,7 @@ extern void func_8012E8A8(u8 *a0);
 
 void func_8018107C(s32 arg0) {
     s32 s0 = arg0;
-    if (*(u16 *)((s32)s0 + 0x34) != 0) {
+    if (((Unkstruct_8018107C *)s0)->unk34 != 0) {
         return;
     }
     if (func_801789AC(arg0) == 0) {
@@ -3185,7 +3185,7 @@ void func_8018107C(s32 arg0) {
     }
     ((void (*)(s32))func_80178D18)(s0);
     func_8012A568(&func_8017E170);
-    *(u16 *)((s32)s0 + 0x34) = *(u16 *)((s32)s0 + 0x34) + 1;
+    ((Unkstruct_8018107C *)s0)->unk34 = ((Unkstruct_8018107C *)s0)->unk34 + 1;
     func_8012E8A8((u8 *)s0);
 }
 

@@ -3065,15 +3065,15 @@ void func_8017FFE8(s32 param_1, s32 *param_2)
 
     /* Build rotation matrix on stack */
     v1 = 0x7FF8;
-    *(short *)((s32)matrix_stack + 0x04) = sin_val;
-    *(short *)((s32)matrix_stack + 0x00) = cos_val;
-    *(short *)((s32)matrix_stack + 0x02) = 0;
-    *(short *)((s32)matrix_stack + 0x06) = 0;
-    *(short *)((s32)matrix_stack + 0x08) = v1;
-    *(short *)((s32)matrix_stack + 0x0A) = 0;
-    *(short *)((s32)matrix_stack + 0x0C) = -sin_val;
-    *(short *)((s32)matrix_stack + 0x0E) = 0;
-    *(short *)((s32)matrix_stack + 0x10) = cos_val;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk4 = sin_val;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk0 = cos_val;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk2 = 0;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk6 = 0;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk8 = v1;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unkA = 0;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unkC = -sin_val;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unkE = 0;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk10 = cos_val;
 
     gte_lwx2_ctc2x2_lwx3_ctc2x3_2c4d(s1, s1);
 }
@@ -3288,15 +3288,15 @@ extern void func_8001CD9C(s32, void *);
 extern s32 func_800291B4(s32 arg);
 
 void func_8018063C(s32 arg0) {
-    if (*(u16 *)(arg0 + 2) == 0) {
-        func_8001CD9C(*(s32 *)(arg0 + 0x20), D_801AD358);
-        *(s32 *)(*(s32 *)(arg0 + 0x20) + 4) |= 0x50000000;
-        (*(u16 *)(arg0 + 2))++;
+    if (((Unkstruct_8018063C *)arg0)->unk2 == 0) {
+        func_8001CD9C(((Unkstruct_8018063C *)arg0)->unk20, D_801AD358);
+        ((Unkstruct_8018063C_2 *)*(s32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
+        (((Unkstruct_8018063C *)arg0)->unk2)++;
     } else {
-        if (*(s16 *)(arg0 + 0x34) <= (func_800291B4(0xCE) & 0xFF)) {
-            *(s32 *)(*(s32 *)(arg0 + 0x20) + 0x20) = (s32)D_801AD398;
+        if (((Unkstruct_8018063C *)arg0)->unk34 <= (func_800291B4(0xCE) & 0xFF)) {
+            ((Unkstruct_8018063C_2 *)*(s32 *)(arg0 + 0x20))->unk20 = (s32)D_801AD398;
         } else {
-            *(s32 *)(*(s32 *)(arg0 + 0x20) + 0x20) = (s32)D_801AD358;
+            ((Unkstruct_8018063C_2 *)*(s32 *)(arg0 + 0x20))->unk20 = (s32)D_801AD358;
         }
     }
 }
