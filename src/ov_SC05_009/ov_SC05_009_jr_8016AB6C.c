@@ -2241,14 +2241,14 @@ s32 func_8016BBE0(s32 param_1) {
         ((void (*)(s32))func_8016BF34)(((int)param_1));
         func_8016BF50(((int)param_1));
         func_8001CF00(iVar1);
-        *(s16 *)(iVar1 + 0x10) = 0;
+        ((Unkstruct_8016BBE0_2 *)iVar1)->unk10 = 0;
         temp = *(int *)(((int)param_1) + 0x2c);
-        *(s16 *)(iVar1 + 0x14) = 0;
-        *(s16 *)(iVar1 + 0x1a) = 0;
-        *(s16 *)(iVar1 + 0x18) = 0;
-        *(s16 *)(iVar1 + 0x12) = temp * 0x555;
-        *(s16 *)(((int)param_1) + 0x10) = 0;
-        *(s16 *)(((int)param_1) + 0x14) = 0;
+        ((Unkstruct_8016BBE0_2 *)iVar1)->unk14 = 0;
+        ((Unkstruct_8016BBE0_2 *)iVar1)->unk1A = 0;
+        ((Unkstruct_8016BBE0_2 *)iVar1)->unk18 = 0;
+        ((Unkstruct_8016BBE0_2 *)iVar1)->unk12 = temp * 0x555;
+        CAST_ALIAS(s16, ((int)param_1), 0x10) = 0;
+        CAST_ALIAS(s16, ((int)param_1), 0x14) = 0;
         (*(u8 *)&D_80195E94) = 0x20;
         D_80195E95 = 0x20;
         D_80195E96 = 0;
@@ -2309,7 +2309,7 @@ s32 func_8016BD78(s32 param_1)
     u8 *p1;
     u8 *p2;
 
-    iVar2 = *(s32 *)(param_1 + 0x20);
+    iVar2 = ((Unkstruct_8016BD78_2 *)param_1)->unk20;
     func_8016BF50();
 
     p1 = &(*(u8 *)&D_80195E94);
@@ -2321,13 +2321,13 @@ s32 func_8016BD78(s32 param_1)
     if (D_80195E99 != 0) D_80195E99 -= 4;
     if (D_80195E9A != 0) D_80195E9A -= 4;
 
-    uVar1 = *(u16 *)(iVar2 + 0x18) - 0x80;
-    *(u16 *)(iVar2 + 0x18) = uVar1;
+    uVar1 = ((Unkstruct_8016BD78 *)iVar2)->unk18 - 0x80;
+    ((Unkstruct_8016BD78 *)iVar2)->unk18 = uVar1;
     if ((s32)((unsigned int)uVar1 << 0x10) < 0) {
-        *(u16 *)(iVar2 + 0x18) = 0;
-        *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
+        ((Unkstruct_8016BD78 *)iVar2)->unk18 = 0;
+        ((Unkstruct_8016BD78_2 *)param_1)->unk2 = ((Unkstruct_8016BD78_2 *)param_1)->unk2 + 1;
     }
-    *(u16 *)(iVar2 + 0x12) = (*(u16 *)(iVar2 + 0x12) + 0x22) & 0xfff;
+    ((Unkstruct_8016BD78 *)iVar2)->unk12 = (((Unkstruct_8016BD78 *)iVar2)->unk12 + 0x22) & 0xfff;
 
     ((void (*)(s32, u8 *, u8 *, s32))func_8016BFA8)(param_1, p1, p2, iVar2 + 0x18);
 }
@@ -2344,14 +2344,14 @@ s32 func_8016BEA0(s32 param_1)
     int iVar2;
     unsigned short uVar1;
 
-    iVar2 = *(int *)(((int)param_1) + 0x20);
+    iVar2 = ((Unkstruct_8016BEA0_2 *)param_1)->unk20;
     func_8016BF50();
     uVar1 = *(unsigned short *)(((int)param_1) + 0x10) - 0x18;
     *(unsigned short *)(((int)param_1) + 0x10) = uVar1;
     *(unsigned short *)(iVar2 + 0x1a) = *(unsigned short *)(iVar2 + 0x1a) + uVar1;
     *(unsigned short *)(iVar2 + 0x12) = (*(unsigned short *)(iVar2 + 0x12) + 0x22) & 0xfff;
     ((void (*)(int, void *, void *, int))func_8016BFA8)(((int)param_1), &(*(int *)&D_80195E94), &(*(int *)&D_80195E98), iVar2 + 0x18);
-    if (*(short *)(iVar2 + 0x1a) < 0) {
+    if (((Unkstruct_8016BEA0 *)iVar2)->unk1A < 0) {
         ((void (*)(int))func_80146C3C)(((int)param_1));
     }
 }
@@ -3006,17 +3006,17 @@ void func_8016D688(int param_1)
     D_80195EF0[4] = 0;
     iVar2 = ((int (*)(void))func_801465C0)();
     if (iVar2 != 0) {
-        *(int *)(param_1 + 0x20) = iVar2;
+        ((Unkstruct_8016D688 *)param_1)->unk20 = iVar2;
         ((void (*)(void *, int))func_800233CC)(D_80195EF0, 0x28);
         func_8001CD9C(iVar2, D_80195EF0);
         *(unsigned short *)(iVar2 + 0x1a) = 0x1400;
         *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar2 + 4) | 0x50000000;
-        iVar3 = *(int *)(param_1 + 0x30);
+        iVar3 = ((Unkstruct_8016D688 *)param_1)->unk30;
         *(unsigned short *)(param_1 + 0x28) = *(unsigned short *)(iVar3 + 0x36);
         *(unsigned short *)(param_1 + 0x12) = *(unsigned short *)(iVar3 + 6);
-        *(short *)(param_1 + 0x16) = *(unsigned short *)(iVar3 + 0xa) - 0x28;
+        ((Unkstruct_8016D688 *)param_1)->unk16 = *(unsigned short *)(iVar3 + 0xa) - 0x28;
         *(unsigned short *)(param_1 + 0x1a) = *(unsigned short *)(iVar3 + 0xe);
-        *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+        ((Unkstruct_8016D688 *)param_1)->unk2 = ((Unkstruct_8016D688 *)param_1)->unk2 + 1;
     }
     return;
 }
