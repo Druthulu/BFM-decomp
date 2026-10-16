@@ -3961,12 +3961,12 @@ void func_8017D730(void) {
                 switch (i) {
                 case 0:
                     for (j = 0; j < 5; j++) {
-                        if (*(s16 *)(p + 8) < D_801827A8[j]) {
+                        if (((Unkstruct_8017D730 *)p)->unk8 < D_801827A8[j]) {
                             break;
                         }
                     }
                     if (p[0x4E] != 0) {
-                        j = (*(s32 *)p == 0) ? 0x1A : 0x1C;
+                        j = (((Unkstruct_8017D730 *)p)->unk0 == 0) ? 0x1A : 0x1C;
                     }
                     *(s32 *)arr = j + 4;
                     break;
@@ -3984,7 +3984,7 @@ void func_8017D730(void) {
                                   5, (u8 *)arr[1] + 0x12, 0);
                     break;
                 case 2:
-                    a = *(u16 *)(p + 0x34);
+                    a = ((Unkstruct_8017D730 *)p)->unk34;
                     if (a >= 1000) {
                         a = 999;
                     }
@@ -4010,11 +4010,11 @@ void func_8017D730(void) {
                                   5, (u8 *)arr[2] + 0x18, 0);
                     break;
                 case 3:
-                    a = *(u16 *)(p + 0x3C);
+                    a = ((Unkstruct_8017D730 *)p)->unk3C;
                     if (a >= 1000) {
                         a = 999;
                     }
-                    b = *(u16 *)(p + 0x3A);
+                    b = ((Unkstruct_8017D730 *)p)->unk3A;
                     if (b >= 1000) {
                         b = 999;
                     }
@@ -4025,11 +4025,11 @@ void func_8017D730(void) {
                     func_8017DCB0(r | (func_8017DC48(b, 4) | 0xC0000), 7, (u8 *)arr[3] + 6, 1);
                     break;
                 case 4:
-                    a = *(u16 *)(p + 0x40);
+                    a = ((Unkstruct_8017D730 *)p)->unk40;
                     if (a >= 1000) {
                         a = 999;
                     }
-                    b = *(u16 *)(p + 0x3E);
+                    b = ((Unkstruct_8017D730 *)p)->unk3E;
                     if (b >= 1000) {
                         b = 999;
                     }
@@ -4040,14 +4040,14 @@ void func_8017D730(void) {
                     func_8017DCB0(r | (func_8017DC48(b, 4) | 0xC0000), 7, (u8 *)arr[4] + 6, 1);
                     break;
                 case 5:
-                    a = *(u32 *)(p + 0x14);
+                    a = ((Unkstruct_8017D730 *)p)->unk14;
                     if (a > 99999) {
                         a = 99999;
                     }
                     func_8017DCB0(func_8017DC48(a, 0xC), 5, (u8 *)arr[5] + 2, 1);
                     break;
                 case 6:
-                    a = *(u16 *)(p + 0xC);
+                    a = ((Unkstruct_8017D730 *)p)->unkC;
                     if (a >= 0x24) {
                         a = 0x23;
                     }
@@ -4205,13 +4205,13 @@ s32 *func_8017DD28(s32 *out) {
     *((u8 *)out + 0xD) = 0x10;
     out[1] = 0x64808080;
     pb = (u16 *)&D_800B9A02;
-    *(u16 *)((u8 *)out + 0xE) = 0x4056;
+    ((Unkstruct_8017DD28 *)out)->unkE = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */
-    *(s16 *)((u8 *)out + 0x8) = q->f0 + d;
-    *(s16 *)((u8 *)out + 0xA) = q->f2 - 2;
-    *(s16 *)((u8 *)out + 0x12) = 0x10;
-    *(s16 *)((u8 *)out + 0x10) = 0x10;
+    ((Unkstruct_8017DD28 *)out)->unk8 = q->f0 + d;
+    ((Unkstruct_8017DD28 *)out)->unkA = q->f2 - 2;
+    ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
+    ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 
     ((PTag_8017DD28 *)out)->addr =
         ((PTag_8017DD28 *)(D_800AE7BC[*pb].ot + 2))->addr;

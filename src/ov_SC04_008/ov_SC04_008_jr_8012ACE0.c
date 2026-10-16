@@ -340,7 +340,7 @@ extern void func_8012ACA0(void *arg0);
 
 
 void func_8012BF4C(s32 *a0, s32 a1) {
-    *(s32*)((s32)a0 + 0x1C) = a1;
+    ((Unkstruct_8012BF4C *)a0)->unk1C = a1;
 }
 
 
@@ -643,14 +643,14 @@ void func_8012E364(s32 arg0_)
     s32 e2;
 
     arg0 = arg0_;
-    *(s16 *)(arg0 + 0x5C) = 0;
+    CAST_ALIAS(s16, arg0, 0x5C) = 0;
     a = D_80126CE0;
     if (a == 0) {
         D_80190BC8 = 0x1000;
         D_80190BCC = 0x1000;
     }
     a = ((0x90 - a) << 12) / 0x90;
-    *(s32 *)(arg0 + 0x1C) += 1;
+    ((Unkstruct_8012E364 *)arg0)->unk1C += 1;
     spd = 0x1000;
 
     diff = D_80190BC8 - a;
@@ -661,17 +661,17 @@ void func_8012E364(s32 arg0_)
     }
 
     prev = D_80190BCC;
-    e1 = ((s32 *)arg0)[8];
+    e1 = ((Unkstruct_8012E364 *)arg0)->unk20;
     v = D_80190BC8 - prev + spd;
     D_80190BCC = spd;
-    flags = *(u16 *)(e1 + 0x2C);
+    flags = ((Unkstruct_8012E364_2 *)e1)->unk2C;
     D_80190BC8 = v;
-    *(u16 *)(e1 + 0x2C) = flags | 0x10;
-    e2 = ((s32 *)arg0)[8];
+    ((Unkstruct_8012E364_2 *)e1)->unk2C = flags | 0x10;
+    e2 = ((Unkstruct_8012E364 *)arg0)->unk20;
     d = abs(v);
-    *(s16 *)(e2 + 0x1C) = d;
-    *(s16 *)(e2 + 0x18) = d;
-    *(s16 *)(((s32 *)arg0)[8] + 0x1A) = 0x1000;
+    ((Unkstruct_8012E364_3 *)e2)->unk1C = d;
+    ((Unkstruct_8012E364_3 *)e2)->unk18 = d;
+    *(s16 *)(((Unkstruct_8012E364 *)arg0)->unk20 + 0x1A) = 0x1000;
 }
 
 

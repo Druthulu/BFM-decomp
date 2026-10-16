@@ -2930,13 +2930,13 @@ s32 func_8017F1B4(s32 param_1) {
     s32 ptr2;
     s32 result;
 
-    ptr = *(s32 *)((char *)obj + 0x64);
+    ptr = ((Unkstruct_8017F1B4 *)obj)->unk64;
     if (*(u16 *)((char *)ptr + 0x2) != 1) {
         return 0;
     }
     do { result = func_8012BD14(ptr); } while (0);
     if (result < 0x4001) {
-        ptr2 = *(s32 *)((char *)obj + 0x64);
+        ptr2 = ((Unkstruct_8017F1B4 *)obj)->unk64;
         *(u16 *)((char *)ptr2 + 0x2) = 3;
         func_80178BF8();
         return (s32)func_80172710;
@@ -3093,8 +3093,8 @@ void func_8017F590(void *a0) {
 
 
 void func_8017F5CC(void *a0) {
-        *(short *)((char *)a0 + 0x2) = *(unsigned short *)((char *)a0 + 0x2) + 1;
-        *(int *)((char *)a0 + 0x14) = 0x20000;
+        ((Unkstruct_8017DB48 *)a0)->unk2 = *(unsigned short *)((char *)a0 + 0x2) + 1;
+        ((Unkstruct_8017DB48 *)a0)->unk14 = 0x20000;
     }
 
 
@@ -3242,14 +3242,14 @@ void func_8017F904(void *a0)
     s32 s1;
     u8 *p;
 
-    s1 = *(s32 *)((s32)a0 + 0x20);
-    p = D_80193530 + *(s32 *)((s32)a0 + 0x2C) * 0x40;
+    s1 = ((Unkstruct_8017DE80_2 *)a0)->unk20;
+    p = D_80193530 + ((Unkstruct_8017DE80_2 *)a0)->unk2C * 0x40;
     func_8001CD50(s1, (s32)p);
-    *(s16 *)(s1 + 0x1E) = 0xCCC;
-    *(s16 *)(s1 + 0x10) = 0x400;
-    *(s16 *)(s1 + 0x1A) = 0;
-    *(s16 *)(s1 + 0x18) = 0;
-    *(s32 *)(s1 + 4) = *(s32 *)(s1 + 4) | 0x50000000;
+    ((Unkstruct_8017DE80 *)s1)->unk1E = 0xCCC;
+    ((Unkstruct_8017DE80 *)s1)->unk10 = 0x400;
+    ((Unkstruct_8017DE80 *)s1)->unk1A = 0;
+    ((Unkstruct_8017DE80 *)s1)->unk18 = 0;
+    ((Unkstruct_8017DE80 *)s1)->unk4 = ((Unkstruct_8017DE80 *)s1)->unk4 | 0x50000000;
     func_800233CC(p, 0x80);
     p[2] = 0xFF;
     p[1] = 0xFF;
@@ -3257,8 +3257,8 @@ void func_8017F904(void *a0)
     p[5] = 0x40;
     p[4] = 0x40;
     p[6] = 0x80;
-    *(s32 *)((s32)a0 + 0x1C) = 0x10;
-    *(u16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
+    ((Unkstruct_8017DE80_2 *)a0)->unk1C = 0x10;
+    ((Unkstruct_8017DE80_2 *)a0)->unk2 = ((Unkstruct_8017DE80_2 *)a0)->unk2 + 1;
 }
 
 

@@ -3186,7 +3186,7 @@ extern void func_8018C390(u8*);
 void func_8018C7C8(void *a0) {
     u16 v1;
 
-    v1 = *(u16 *)((char *)a0 + 0x34);
+    v1 = ((Unkstruct_80183CBC_2 *)a0)->unk34;
     if (v1 == 0) {
         return;
     }
@@ -3194,9 +3194,9 @@ void func_8018C7C8(void *a0) {
         return;
     }
     {
-        u16 *p = (u16 *)*(s32 *)((char *)a0 + 0x20);
+        u16 *p = (u16 *)((Unkstruct_80183CBC_2 *)a0)->unk20;
 
-        *(u16 *)((char *)p + 0x12) = *(u16 *)((char *)p + 0x12) + 0x20;
+        ((Unkstruct_80183CBC *)p)->unk12 = ((Unkstruct_80183CBC *)p)->unk12 + 0x20;
         if (((s32 (*)(void))func_8012BEE8)()) {
             ((void (*)(void *))func_8018C390)(a0);
         }
@@ -3271,10 +3271,10 @@ void func_8018C8E8(s32 *a0)
     extern signed char D_801E9A34[];
     s32 v0;
 
-    v0 = *(s16 *)((s32)a0 + 0x70);
+    v0 = ((Unkstruct_8017DD8C *)a0)->unk70;
     v0 = v0 * 4;
     ((void (*)(s32 *, s32))func_80178CBC)(a0, *(s32 *)((s32)D_801E9A34 + v0));
-    *(s16 *)((s32)a0 + 0x2) = 0x3;
+    ((Unkstruct_8017DD8C *)a0)->unk2 = 0x3;
 }
 
 
@@ -3285,7 +3285,7 @@ extern void func_80178D18(void);
 void func_8018C934(s32 a0) {
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)(a0);
-        *(s16 *)(a0 + 2) = 1;
+        ((Unkstruct_8017D658 *)a0)->unk2 = 1;
     }
 }
 
@@ -3297,10 +3297,10 @@ extern void func_80172710(void);
 s32 func_8018C974(a0)
 void *a0;
 {
-    if (func_8012BD14(*(s32 *)((s32)a0 + 0x64)) > 0x1000) {
+    if (func_8012BD14(((Unkstruct_8017DE18 *)a0)->unk64) > 0x1000) {
         return 0;
     }
-    *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 2;
+    ((Unkstruct_8017DE18_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }
@@ -3417,7 +3417,7 @@ void func_8018CC34(int param_1)
     unsigned short uVar1;
     int iVar2;
 
-    iVar2 = *(int *)(param_1 + 0x20);
+    iVar2 = ((Unkstruct_801834E4 *)param_1)->unk20;
     func_8001CB00(iVar2, &D_801E9B28, 0x280, 0x100);
     *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar2 + 4) | 0x70000000;
     uVar1 = *(unsigned short *)(param_1 + 0x2c);
@@ -3426,7 +3426,7 @@ void func_8018CC34(int param_1)
     *(unsigned short *)(iVar2 + 0x1c) = uVar1;
     *(unsigned short *)(iVar2 + 0x1a) = uVar1;
     *(unsigned short *)(iVar2 + 0x18) = uVar1;
-    *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+    ((Unkstruct_801834E4 *)param_1)->unk2 = ((Unkstruct_801834E4 *)param_1)->unk2 + 1;
     return;
 }
 
