@@ -1771,7 +1771,7 @@ join:
 void func_8015BE38(struct Obj *a0) {
 
     extern void (*D_80192C3C[])(void);
-    D_80192C3C[*(u16 *)((s32)a0 + 0x2)]();
+    D_80192C3C[((Unkstruct_8015BE38 *)a0)->unk2]();
 }
 
 
