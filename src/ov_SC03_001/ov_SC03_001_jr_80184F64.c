@@ -3436,7 +3436,7 @@ s32 func_801856A8(void *a0)
 extern void func_80187778(s32 *a0, s32 a1);
     extern short D_80192864;
     void func_80185874(short *param_1) {
-        *(short *)((char *)param_1 + 2) = 0x2;
+        ((Unkstruct_800B5CB8 *)param_1)->unk2 = 0x2;
         ((void (*)(int, int))func_80187778)((int)param_1, (int)&D_80192864);
     }
 
@@ -3635,9 +3635,9 @@ extern void func_8012A828(s32, s32);
 s32 func_80185C9C(a0)
 void *a0;
 {
-    *(short *)((char *)a0 + 0x2) = 0x1;
+    ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x1;
     ((void (*)(s32 *, s32))func_8012A828)((s32 *)a0, (s32)&D_801C37E8);
-    *(short *)((char *)a0 + 0x34) = 0;
+    ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
 }
 
 

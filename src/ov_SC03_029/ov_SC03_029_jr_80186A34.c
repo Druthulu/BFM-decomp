@@ -3418,9 +3418,9 @@ s32 func_80186ECC_def(s32 a0, s32 a1) {
 extern s32 rand(void);
     void func_80186F60(s32 arg0) {
         if ((rand() & 1) != 0) {
-            *(s16*)(arg0 + 0x2) = 0x1;
+            ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0x1;
         } else {
-            *(s16*)(arg0 + 0x2) = 0x3;
+            ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0x3;
         }
     }
 
@@ -3541,9 +3541,9 @@ s32 func_8018723C(void *a0) {
     short b[4];
     s32 pa, pb;
     s32 r;
-    a[0] = *(u16 *)((s32)a0 + 0x6);
-    a[1] = *(u16 *)((s32)a0 + 0xA);
-    a[2] = *(u16 *)((s32)a0 + 0xE);
+    a[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
+    a[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
+    a[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
     pa = (s32)a;
     pb = (s32)b;
     __builtin_memcpy((void *)pb, (void *)pa, 8);
@@ -3595,15 +3595,15 @@ void func_80187318(s32 param_1, s32 *param_2)
 
     /* Build rotation matrix on stack */
     v1 = 0x7FF8;
-    *(short *)((s32)matrix_stack + 0x04) = sin_val;
-    *(short *)((s32)matrix_stack + 0x00) = cos_val;
-    *(short *)((s32)matrix_stack + 0x02) = 0;
-    *(short *)((s32)matrix_stack + 0x06) = 0;
-    *(short *)((s32)matrix_stack + 0x08) = v1;
-    *(short *)((s32)matrix_stack + 0x0A) = 0;
-    *(short *)((s32)matrix_stack + 0x0C) = -sin_val;
-    *(short *)((s32)matrix_stack + 0x0E) = 0;
-    *(short *)((s32)matrix_stack + 0x10) = cos_val;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk4 = sin_val;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk0 = cos_val;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk2 = 0;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk6 = 0;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk8 = v1;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unkA = 0;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unkC = -sin_val;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unkE = 0;
+    ((Unkstruct_8017D7D0 *)matrix_stack)->unk10 = cos_val;
 
     gte_lwx2_ctc2x2_lwx3_ctc2x3_2c4d(s1, s1);
 }
