@@ -6286,7 +6286,7 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
  * (+4/+6/+8/+0xA/+0xC/+0xE) are touched by this function. */
 
 void func_80182BC8(s32 a0) {
-    if (*(u16 *)(a0 + 0x5C) != 0) {
+    if (((Unkstruct_800B5CB8 *)a0)->unk5C != 0) {
         s32 buf[8];
         SVector_80182BC8 svec1;
         SVector_80182BC8 svec2;
@@ -6303,7 +6303,7 @@ void func_80182BC8(s32 a0) {
 
         svec1.vx = -0x3E;
         svec1.vy = -0x1E0;
-        t = *(s32 *)(a0 + 0xF0);
+        t = CAST_WIDTH(s32, a0, 0xF0);
         svec2.vx = 0x3E;
         svec2.vy = -0xA0;
         svec2.vz = -0x1B2;
@@ -6311,7 +6311,7 @@ void func_80182BC8(s32 a0) {
         RotTransSV(&svec1, &svec1, &flag);
         RotTransSV(&svec2, &svec2, &flag);
 
-        box = (Box_80182BC8 *)((*(u32 *)(a0 + 0x58) & 0xFFFFFFF) | 0x80000000);
+        box = (Box_80182BC8 *)((CAST_SIGN(u32, a0, 0x58) & 0xFFFFFFF) | 0x80000000);
 
         if (svec1.vx > svec2.vx) {
             box->max_x = svec1.vx;

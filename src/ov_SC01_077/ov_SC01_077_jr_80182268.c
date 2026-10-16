@@ -3330,10 +3330,10 @@ void func_8018281C(int param_1)
 
 
 void func_8018294C(void *a0) {
-    *(s16 *)((s32)a0 + 0x2) = 7;
-    *(s16 *)((s32)a0 + 0x98) = 0;
-    *(s32 *)((s32)a0 + 0x1C) = 0x1E;
-    *(s16 *)((s32)a0 + 0x5C) = 0;
+    ((Unkstruct_8018294C *)a0)->unk2 = 7;
+    ((Unkstruct_8018294C *)a0)->unk98 = 0;
+    ((Unkstruct_8018294C *)a0)->unk1C = 0x1E;
+    ((Unkstruct_8018294C *)a0)->unk5C = 0;
 }
 
 extern void func_80182988();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
@@ -3568,7 +3568,7 @@ extern void func_8012B23C(s32 a0);
 void func_80182E30(short *param_1)
 {
     param_1[1] = 0xe;
-    *(short *)((char *)param_1 + 0x34) = 0;
+    ((Unkstruct_80180878 *)param_1)->unk34 = 0;
     ((void (*)(void *, void *))func_8012A828)(param_1, &D_801B06E8);
     ((void (*)(void *))func_8012B23C)(param_1);
     *(unsigned short *)((char *)param_1 + 0x5c) = 0xaa10;

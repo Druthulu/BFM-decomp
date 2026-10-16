@@ -3702,15 +3702,15 @@ void func_8019303C(s32 arg0)
 {
     u8 b;
 
-    b = *(u8 *)(arg0 + 0xC2);
+    b = ((Unkstruct_8019303C *)arg0)->unkC2;
     if (b != 0) {
         b = b - 1;
-        *(u8 *)(arg0 + 0xC2) = b;
+        ((Unkstruct_8019303C *)arg0)->unkC2 = b;
         if ((b & 0xFF) == 0) {
-            *(u16 *)(arg0 + 0x5E) = 0;
+            ((Unkstruct_8019303C *)arg0)->unk5E = 0;
         }
     }
-    D_801CC89C[*(u16 *)(arg0 + 2)]();
+    D_801CC89C[((Unkstruct_8019303C *)arg0)->unk2]();
 }
 
 

@@ -2806,7 +2806,7 @@ void func_8017F7A4(s32 arg0) {
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8();  // K&R: 0 of 1 args (P37 rung D t4_D22)
 void func_8017F83C(s32 a0) {
-    if (func_80128ED8((void *)*(s32 *)(a0 + 0x20), (void *)(a0 + 0x24)) != 0) {
+    if (func_80128ED8((void *)((Unkstruct_800CB7F0 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
         ((void (*)(s32))func_801292C8)(a0);
     }
 }
@@ -2980,29 +2980,29 @@ void func_8017FC10(void *a0)
     Sv_8017FC10 svec;   /* sp+0x30 */
     s32 obj;
 
-    obj = *(s32 *)((s8 *)a0 + 0x20);
+    obj = ((Unkstruct_8017FC10 *)a0)->unk20;
     func_8001CD50(obj, (s32)&D_801C7AC0);
 
-    *(s32 *)(obj + 0x34) = D_801C7B80;
-    *(s32 *)(obj + 4) |= 0x50000100;
+    ((Unkstruct_8017FC10_2 *)obj)->unk34 = D_801C7B80;
+    ((Unkstruct_8017FC10_2 *)obj)->unk4 |= 0x50000100;
 
     svec.vx = 0x40;
-    svec.vy = (s16)ratan2(*(s16 *)((s8 *)a0 + 6), *(s16 *)((s8 *)a0 + 0xE));
+    svec.vy = (s16)ratan2(((Unkstruct_8017FC10 *)a0)->unk6, ((Unkstruct_8017FC10 *)a0)->unkE);
     svec.vz = 0;
 
     RotMatrixYXZ(&svec, &mtx);
 
-    mtx.t[0] = *(s16 *)((s8 *)a0 + 6);
-    mtx.t[1] = *(s16 *)((s8 *)a0 + 0xA);
-    mtx.t[2] = *(s16 *)((s8 *)a0 + 0xE);
+    mtx.t[0] = ((Unkstruct_8017FC10 *)a0)->unk6;
+    mtx.t[1] = ((Unkstruct_8017FC10 *)a0)->unkA;
+    mtx.t[2] = ((Unkstruct_8017FC10 *)a0)->unkE;
 
     *(Mtx_8017FC10 *)D_801C7B80 = mtx;
 
     {
         u16 t;
-        t = *(u16 *)((s8 *)a0 + 2) + 1;
+        t = ((Unkstruct_8017FC10 *)a0)->unk2 + 1;
         D_801C7B80 = D_801C7B80 + 0x20;
-        *(u16 *)((s8 *)a0 + 2) = t;
+        ((Unkstruct_8017FC10 *)a0)->unk2 = t;
     }
 }
 
@@ -3026,9 +3026,9 @@ void *param_1;
 {
     s32 obj;
 
-    obj = *(s32 *)((u8 *)param_1 + 0x20);
+    obj = ((Unkstruct_8017FD68 *)param_1)->unk20;
     func_8001CD9C(obj, &D_801C7B00);
-    *(u16 *)((u8 *)param_1 + 2) = *(u16 *)((u8 *)param_1 + 2) + 1;
+    ((Unkstruct_8017FD68 *)param_1)->unk2 = ((Unkstruct_8017FD68 *)param_1)->unk2 + 1;
 }
 
 
@@ -3057,9 +3057,9 @@ extern u8 D_801C7B40;
 void func_8017FE1C(void *param_1) {
     s32 obj;
 
-    obj = *(s32 *)((u8 *)param_1 + 0x20);
+    obj = ((Unkstruct_8017FE1C *)param_1)->unk20;
     func_8001CD9C(obj, &D_801C7B40);
-    *(u16 *)((u8 *)param_1 + 2) = *(u16 *)((u8 *)param_1 + 2) + 1;
+    ((Unkstruct_8017FE1C *)param_1)->unk2 = ((Unkstruct_8017FE1C *)param_1)->unk2 + 1;
 }
 
 
@@ -3094,9 +3094,9 @@ void func_8017FE64(void *a0) {
     func_8004974C((void *)&D_800AF648, (void *)buf);
     ApplyMatrixSV((void *)buf, (void *)sv, (void *)sv);
 
-    *(s16 *)(s0 + 0x6) = sv[0];
-    *(s16 *)(s0 + 0xA) = sv[1];
-    *(s16 *)(s0 + 0xE) = sv[2];
+    ((Unkstruct_8017FE64 *)s0)->unk6 = sv[0];
+    ((Unkstruct_8017FE64 *)s0)->unkA = sv[1];
+    CAST_ALIAS(s16, s0, 0xE) = sv[2];
 
     if (D_801270D8 >= 2) {
         ((void (*)(u8 *))func_801292C8)(s0);
@@ -3465,9 +3465,9 @@ void func_80180650(s32 a0, s32 out) {
     sinVal = func_80047948(angle) * q2 >> 12;
     cosVal = func_8004787C(angle) * q2 >> 12;
 
-    *(s16 *)(out + 0) = sinVal;
-    *(s16 *)(out + 2) = q1;
-    *(s16 *)(out + 4) = cosVal;
+    ((Unkstruct_80180650 *)out)->unk0 = sinVal;
+    ((Unkstruct_80180650 *)out)->unk2 = q1;
+    ((Unkstruct_80180650 *)out)->unk4 = cosVal;
 }
 
 
@@ -3495,9 +3495,9 @@ void func_8018072C(s32 a0, s32 a1, s32 out) {
     sinVal = func_80047948(angle) * a1 >> 12;
     cosVal = func_8004787C(angle) * a1 >> 12;
 
-    *(s16 *)(out + 0) = sinVal;
-    *(s16 *)(out + 2) = q1;
-    *(s16 *)(out + 4) = cosVal;
+    ((Unkstruct_8018072C *)out)->unk0 = sinVal;
+    ((Unkstruct_8018072C *)out)->unk2 = q1;
+    ((Unkstruct_8018072C *)out)->unk4 = cosVal;
 }
 
 

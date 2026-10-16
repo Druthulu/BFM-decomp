@@ -6858,13 +6858,13 @@ s32 func_801827A0(s32 a0)
 {
     extern u8 D_801A8FA8[];
 
-    if ((*(s32 *)(a0 + 0xDC) & 1) != 0) {
+    if ((((Unkstruct_800B5CB8 *)a0)->unkDC & 1) != 0) {
         return 0;
     }
     if (func_8012D5E4(a0, (s32)D_801A8FA8, (s32)(D_801A8FA8 + 8), 0x13) != 1) {
         return 0;
     }
-    *(s32 *)(a0 + 0xDC) |= 1;
+    ((Unkstruct_800B5CB8 *)a0)->unkDC |= 1;
     return 1;
 }
 

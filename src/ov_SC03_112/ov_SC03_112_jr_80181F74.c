@@ -2890,10 +2890,10 @@ extern void func_80182944(void *arg0);
 void func_80182300(s32 param_1) {
     s32 s0 = param_1;
 
-    *(u8 *)(s0 + 0xC2) = 0;
-    *(u8 *)(s0 + 0xC3) = 0;
+    ((Unkstruct_80182300 *)s0)->unkC2 = 0;
+    ((Unkstruct_80182300 *)s0)->unkC3 = 0;
     func_80182708();
-    if (*(u16 *)(s0 + 0x5E) == 9 || *(u16 *)(s0 + 0x5E) == 0x1C) {
+    if (((Unkstruct_80182300 *)s0)->unk5E == 9 || ((Unkstruct_80182300 *)s0)->unk5E == 0x1C) {
         func_8012B14C(s0, (s32)D_801A8440);
     } else {
         func_8012B14C(s0, (s32)D_801A8450);
@@ -3095,10 +3095,10 @@ void func_8018276C(s32 param_1) {
 
 
 void func_801827B8(void *a0) {
-        s32 v1 = *(s32 *)((s32)a0 + 0x20);
-        *(s32 *)((s32)a0 + 0x1C) = 0x1E;
-        *(s16 *)((s32)a0 + 0x5C) = 0;
-        *(s16 *)(v1 + 0x10) = 0;
+        s32 v1 = ((Unkstruct_80180814 *)a0)->unk20;
+        ((Unkstruct_80180814 *)a0)->unk1C = 0x1E;
+        ((Unkstruct_80180814 *)a0)->unk5C = 0;
+        ((Unkstruct_80180814_2 *)v1)->unk10 = 0;
     }
 
 
@@ -3280,7 +3280,7 @@ s32 arg0;
     D_801A82F8 = col0 - 50;
     D_801A82F9 = col1 - 50;
     D_801A82FA = col2 - 50;
-    *(s32 *)(arg0 + 0x1C) += 1;
+    CAST_ALIAS(s32, arg0, 0x1C) += 1;
 }
 
 

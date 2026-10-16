@@ -3513,7 +3513,7 @@ void func_80184170(s32 a0) {
         obj = func_801290DC(0x61, (u8 *)buf);
         if (obj != 0) {
             *(&D_801E9CE0 + slot) = 1;
-            *(s32 *)(obj + 0x34) = slot;
+            ((Unkstruct_80129010 *)obj)->unk34 = slot;
         }
     }
 }

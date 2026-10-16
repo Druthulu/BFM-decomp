@@ -2945,10 +2945,10 @@ void func_80183B3C(void *a0) {
 
 
 void func_80183C1C(s32 a0) {
-    s16 v = *(s16 *)(a0 + 0x54);
+    s16 v = ((Unkstruct_80183C1C *)a0)->unk54;
 
     if (v != 0) {
-        *(s16 *)(a0 + 0x54) = v - 0x10;
+        ((Unkstruct_80183C1C *)a0)->unk54 = v - 0x10;
     } else {
         func_80182EAC(a0);
     }
@@ -3006,21 +3006,21 @@ void func_80183CB0(s32 a0) {
     s16 tmp;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(a0 + 0x20) = v0;
+    ((Unkstruct_801817D8 *)a0)->unk20 = v0;
     if (v0 == 0) {
         ((void (*)(s32))func_8012CAE4)(a0);
     } else {
         ((void (*)(s32, s32))func_8001CA1C)(v0, (s32)&D_801AC57C);
 
-        obj = *(s32 *)(a0 + 0x20);
+        obj = ((Unkstruct_801817D8 *)a0)->unk20;
         *(u32 *)(obj + 4) |= 0x50000000;
 
         /* facing-direction delta -> RotMatrixY angle: (angle-3)*7, then *32,
          * narrowed to s16 as ONE expression (matches the target's fused
          * sll21/sra16 shift pair — see the wave-P31V index_gap note). */
-        tmp = ((*(s16 *)(a0 + 0x70) - 3) * 7) << 5;
-        objData = *(s32 *)(a0 + 0x64);
-        matSrc = *(s32 *)(objData + 0x20);
+        tmp = ((((Unkstruct_801817D8 *)a0)->unk70 - 3) * 7) << 5;
+        objData = ((Unkstruct_801817D8 *)a0)->unk64;
+        matSrc = ((Unkstruct_801817D8_3 *)objData)->unk20;
         m = *(MATRIX *)(matSrc + 0x54);
         RotMatrixY(tmp, &m);
 
@@ -3030,7 +3030,7 @@ void func_80183CB0(s32 a0) {
         vec.vz = 0xFFF60000;
         func_800484EC((s32)&m, (s32)&vec, a0 + 0x10);
 
-        *(s32 *)(a0 + 0x1C) = 0x80;
+        ((Unkstruct_801817D8 *)a0)->unk1C = 0x80;
         ((void (*)(void *))func_8012AD50)((void *)a0);
     }
 }
@@ -3104,7 +3104,7 @@ extern s32 rand(void);
 
 void func_80183F24(s32 a0) {
     if (func_80183940(a0, 0x2001)) {
-        *(u16 *)(a0 + 0xE6) = (rand() & 0x7F) + 0x10;
+        ((Unkstruct_80183940 *)a0)->unkE6 = (rand() & 0x7F) + 0x10;
     }
 }
 

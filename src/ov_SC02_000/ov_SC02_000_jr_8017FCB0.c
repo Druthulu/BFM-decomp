@@ -3251,7 +3251,7 @@ extern void func_8012B23C(s32 a0);
 void func_80180878(short *param_1)
 {
     param_1[1] = 0xe;
-    *(short *)((char *)param_1 + 0x34) = 0;
+    ((Unkstruct_80180878 *)param_1)->unk34 = 0;
     ((void (*)(void *, void *))func_8012A828)(param_1, &D_801A6C5C);
     ((void (*)(void *))func_8012B23C)(param_1);
     *(unsigned short *)((char *)param_1 + 0x5c) = 0xaa10;

@@ -4849,7 +4849,7 @@ void func_8018A28C(s32 param_1) {
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8018A474(void *arg0) {
-        *(s16 *)((char *)arg0 + 0x108) = 0;
+        ((Unkstruct_800B5CB8 *)arg0)->unk108 = 0;
         ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 2);
     }
 

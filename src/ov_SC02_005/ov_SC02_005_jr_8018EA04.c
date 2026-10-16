@@ -3552,17 +3552,17 @@ extern u8 D_800D387C[];
 void func_8018ECF4(s32 arg0) {
     s32 iVar1;
 
-    iVar1 = *(s32 *)(arg0 + 0x20);
+    iVar1 = ((Unkstruct_8018ECF4_2 *)arg0)->unk20;
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_800D387C, 0x270, 0x120);
-    *(u8 *)(iVar1 + 0x27) = 0x9C;
-    *(u16 *)(iVar1 + 0x1A) = 0x7000;
-    *(u16 *)(iVar1 + 0x18) = 0x7000;
-    *(u8 *)(iVar1 + 0x26) = 0x90;
-    *(u8 *)(iVar1 + 0x25) = 0x90;
-    *(u8 *)(iVar1 + 0x24) = 0x90;
-    *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
-    *(s16 *)(arg0 + 0x2C) = 0x46;
-    *(s16 *)(arg0 + 0x2) += 1;
+    ((Unkstruct_8018ECF4 *)iVar1)->unk27 = 0x9C;
+    ((Unkstruct_8018ECF4 *)iVar1)->unk1A = 0x7000;
+    ((Unkstruct_8018ECF4 *)iVar1)->unk18 = 0x7000;
+    ((Unkstruct_8018ECF4 *)iVar1)->unk26 = 0x90;
+    ((Unkstruct_8018ECF4 *)iVar1)->unk25 = 0x90;
+    ((Unkstruct_8018ECF4 *)iVar1)->unk24 = 0x90;
+    ((Unkstruct_8018ECF4 *)iVar1)->unk4 = ((Unkstruct_8018ECF4 *)iVar1)->unk4 | 0x50000000;
+    ((Unkstruct_8018ECF4_2 *)arg0)->unk2C = 0x46;
+    ((Unkstruct_8018ECF4_2 *)arg0)->unk2 += 1;
 }
 
 
@@ -4130,13 +4130,13 @@ void func_8018F944(void *a0)
     s32 *s0;
     s32 *p;
 
-    v0 = *(s32 *)((u8 *)a0 + 0x1C) - 1;
-    *(s32 *)((u8 *)a0 + 0x1C) = v0;
+    v0 = ((Unkstruct_8018F944 *)a0)->unk1C - 1;
+    ((Unkstruct_8018F944 *)a0)->unk1C = v0;
     if (v0 != 0) {
         return;
     }
 
-    *(s16 *)((u8 *)a0 + 0x2) = 4;
+    ((Unkstruct_8018F944 *)a0)->unk2 = 4;
     s0 = &D_800A5E88;
     s0[0] = 0;
     D_800A5E8C = -4;
@@ -4686,7 +4686,7 @@ void func_80190408(void) {
 
     t = func_8014C050((s32)&D_80126B58, 0x28);
     if (t != 0) {
-        *(u16 *)(t + 2) += 1;
+        ((Unkstruct_8014C050 *)t)->unk2 += 1;
     }
 }
 
@@ -4763,10 +4763,10 @@ void func_80190538(s32 arg0) {
 
     func_80149020((s32 *)s0);
 
-    *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) = (*(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) + 0x5B) & 0xFFF;
-    *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) = (*(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) - 0x16) & 0xFFF;
-    if (*(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) < 0xC00) {
-        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = -0x400;
+    *(u16 *)(((Unkstruct_80190538 *)s0)->unk20 + 0x12) = (*(u16 *)(((Unkstruct_80190538 *)s0)->unk20 + 0x12) + 0x5B) & 0xFFF;
+    *(u16 *)(((Unkstruct_80190538 *)s0)->unk20 + 0x10) = (*(u16 *)(((Unkstruct_80190538 *)s0)->unk20 + 0x10) - 0x16) & 0xFFF;
+    if (*(s16 *)(((Unkstruct_80190538 *)s0)->unk20 + 0x10) < 0xC00) {
+        *(s16 *)(((Unkstruct_80190538 *)s0)->unk20 + 0x10) = -0x400;
     }
 
     t = func_8014C168((s32 *)s0, 0x3D);
@@ -4774,10 +4774,10 @@ void func_80190538(s32 arg0) {
     if (D_801270C8 < 0x1B) {
         s32 dx, dz, q;
 
-        dx = CAST_SIGN(s16, t, 6) - *(s16 *)(s0 + 6);
+        dx = CAST_SIGN(s16, t, 6) - ((Unkstruct_80190538 *)s0)->unk6;
         d.vx = dx;
         v.vx = dx;
-        q = *(s16 *)(s0 + 0xE) + 0x180;
+        q = ((Unkstruct_80190538 *)s0)->unkE + 0x180;
         dz = CAST_SIGN(s16, t, 0xE) - q;
         d.vz = dz;
         v.vz = dz;
@@ -4797,10 +4797,10 @@ void func_80190538(s32 arg0) {
     } else {
         s32 dx, dz, q;
 
-        dz = CAST_SIGN(s16, t, 0xE) - *(s16 *)(s0 + 0xE);
+        dz = CAST_SIGN(s16, t, 0xE) - ((Unkstruct_80190538 *)s0)->unkE;
         d.vz = dz;
         v.vz = dz;
-        q = *(s16 *)(s0 + 6) - 0x180;
+        q = ((Unkstruct_80190538 *)s0)->unk6 - 0x180;
         dx = CAST_SIGN(s16, t, 6) - q;
         d.vx = dx;
         v.vx = dx;
@@ -4824,9 +4824,9 @@ void func_80190538(s32 arg0) {
     func_80148038(s0, 0x18000);
     func_80147460(s0);
 
-    if (*(s32 *)(s0 + 0x234) == 0 && *(s32 *)(s0 + 0x34) >= 0 && (*(u16 *)(s0 + 0xB8) & 0x8000)) {
-        *(u16 *)(s0 + 0xB8) = *(u16 *)(s0 + 0xBA);
-        *(s32 *)(s0 + 0x234) += 1;
+    if (((Unkstruct_80190538 *)s0)->unk234 == 0 && ((Unkstruct_80190538 *)s0)->unk34 >= 0 && (((Unkstruct_80190538 *)s0)->unkB8 & 0x8000)) {
+        ((Unkstruct_80190538 *)s0)->unkB8 = ((Unkstruct_80190538 *)s0)->unkBA;
+        ((Unkstruct_80190538 *)s0)->unk234 += 1;
     }
 
     r = func_801535F4((void *)s0);

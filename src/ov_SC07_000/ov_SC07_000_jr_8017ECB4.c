@@ -3092,7 +3092,7 @@ void func_8017F464(s32 a0)
 {
     s16 v1;
 
-    v1 = *(s16 *)(a0 + 0x100);
+    v1 = ((Unkstruct_8017F464 *)a0)->unk100;
     switch (v1) {
     case 0x3c:
         func_8017F4F8(1);
@@ -3101,10 +3101,10 @@ void func_8017F464(s32 a0)
         func_8017F4F8(0);
         break;
     case 0x60:
-        *(s16 *)(a0 + 0x100) = 0;
+        ((Unkstruct_8017F464 *)a0)->unk100 = 0;
         break;
     }
-    *(u16 *)(a0 + 0x100) = *(u16 *)(a0 + 0x100) + 1;
+    ((Unkstruct_8017F464 *)a0)->unk100 = CAST_SIGN(u16, a0, 0x100) + 1;
 }
 
 
