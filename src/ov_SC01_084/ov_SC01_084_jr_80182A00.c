@@ -3008,7 +3008,7 @@ void func_8018656C(void *a0) {
 
 
 extern void func_8012B14C(s32 a0, s32 a1);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);

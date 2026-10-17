@@ -2206,7 +2206,7 @@ void func_8014FCFC(void)
 #include "../shared/ov/func_80150460.h"
 
 
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 
 s32 func_80150480(s32 _arg0)
 {

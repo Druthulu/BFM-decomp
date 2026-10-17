@@ -626,7 +626,7 @@ extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
@@ -3280,7 +3280,7 @@ void func_80161034(void *a0)
 
 extern s32 func_801612B8(void *a0, s32 a1);
 extern s32 func_8016130C(void *a0, s32 a1);
-void aF80161208(void *a0) __asm__("func_80161208");
+s32 aF80161208(void *a0) __asm__("func_80161208");
 #include "../shared/ov/func_80161208.h"
 
 

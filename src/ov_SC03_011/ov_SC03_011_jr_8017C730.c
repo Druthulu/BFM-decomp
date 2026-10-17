@@ -640,7 +640,7 @@ extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
@@ -5352,7 +5352,7 @@ extern s32 func_8018094C_bank(void) __asm__("func_8018094C");
 
 s32 func_8018094C_bank(void)
 {
-    extern void func_8012BD14(s32 a0);
+    extern s32 func_8012BD14(s32 a0);
     extern s32 func_80178BF8();
     extern void func_80172710(void);
 

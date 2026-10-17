@@ -634,7 +634,7 @@ extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
@@ -5338,7 +5338,7 @@ void func_80183EC4(s32 a0)
     extern s32 * func_80184888(s32 *a0, s32 a1, s32 a2);
     extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
     extern void func_8012B178(s32 a0, s32 a1);
-    extern void func_8012CBF4(s32 a0);
+    extern s32 func_8012CBF4(s32 a0);
     extern s32  func_8012BEE8(s32 a0);
     extern s32  func_80184A04();
     extern s32  func_80184958(s32 a0);
@@ -5372,7 +5372,7 @@ void func_80183EC4(s32 a0)
 }
 
 
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern s32 func_80013478(s32 a0, s32 a1);
 
 void func_8018400C(s32 a0) {
@@ -5459,7 +5459,7 @@ void func_801840C0(s32 a0) {
  * the compiler makes exactly the target's merge. Cf. §162h's floor law read from the other side:
  * here the source-level factoring is what has to be REMOVED. */
 
-extern void func_8012CBF4(s32 a0);   /* canonical `void`; $v0 is used in case 0 -> cast at the site */
+extern s32 func_8012CBF4(s32 a0);   /* canonical `void`; $v0 is used in case 0 -> cast at the site */
 extern s32  func_8012B8E4(s32 a0, s32 a1);
 extern s32  func_8012BEE8(s32 a0);
 extern void func_8012B200(u8 *a0);
@@ -5663,7 +5663,7 @@ extern s32  func_8012BEE8(s32 a0);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B2CC(s32 a0);
 extern s32  func_8012B77C(s32 out, s32 from, s32 to);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void func_8012E8A8(u8 *a0);
@@ -6988,7 +6988,7 @@ void func_80186224(s32 param_1) {
 
 extern s32 func_80047948(s32 a0);
 extern void func_8012CBA4(s32 a0);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern void func_8012B23C(void *a0);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_80143B6C(s32 a0, s32 a1);

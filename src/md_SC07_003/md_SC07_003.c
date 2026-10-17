@@ -275,7 +275,7 @@ void func_801A060C(s32 arg0) {
 
 
 extern s32 func_8012BEE8(s32 a0);
-extern void func_8012BD14(s32);
+extern s32 func_8012BD14(s32);
 
 void func_801A0648(s32 arg0) {
     if (func_8012BEE8(arg0) != 0) {
@@ -409,7 +409,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012CBA4(s32 a0); /* canonical void; return read via fn-ptr cast */
 extern void func_8012ADE4(u8 *a0);
 extern void func_801A24E8(s32 a0);
-extern void func_8012BD14(s32 a0); /* canonical void; return read via fn-ptr cast */
+extern s32 func_8012BD14(s32 a0); /* canonical void; return read via fn-ptr cast */
 extern s32  func_8012BDBC(s32 a0, s32 a1);
 extern s32  func_8012BEE8(s32 a0);
 
@@ -675,7 +675,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012C51C(void *a0, s32 a1);
-extern void func_8012BD14(s32 a0);
+extern s32 func_8012BD14(s32 a0);
 extern void func_8012EC04(s32 a0, s32 a1, s32 *a2);
 extern s32 func_8012BA10(s32 a0, s32 a1);
 extern void func_80184E20(void *a0);

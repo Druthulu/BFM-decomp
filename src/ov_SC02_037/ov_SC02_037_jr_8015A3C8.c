@@ -293,9 +293,9 @@ extern void Square0(s32 *a0, s32 *a1);
 extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
 extern s16 D_80126CBA;
 extern s32 func_8012BCCC(s32 a0);
-extern void func_80013350(s32 a0, void *a1);
+extern s32 func_80013350(s32 a0, void *a1);
 extern u8 D_80126B5C;
-extern void func_8012BD14(s32 a0);
+extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern void func_8012BE98(s32 a0, u16 *a1);
@@ -347,7 +347,7 @@ extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
 extern u8 D_800D3918[];
 extern void func_8012CBA4(s32 a0);
 extern void func_8012CBCC(s32 a0);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern void func_8012CC1C(s32 arg0, s32 arg1);
 extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_8012CC64(s32 a0, s32 a1);
@@ -508,7 +508,7 @@ extern int func_8012BEE8(int);
 extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 extern void func_80130514(int param_1);
 extern void func_801305CC(u8 *a0);
-extern void func_8012CBF4(s32);
+extern s32 func_8012CBF4(s32);
 extern s32 func_80131D68(s32 a0, s32 a1);
 extern void func_80130650(s32 a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -631,10 +631,10 @@ extern void func_801375EC(s32 a0, s16 a1);
 extern s32 func_801399A8(void);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 extern s32 func_8013767C(s32 a0);
-extern void func_801376E8(int a0, int a1);
+extern s32 func_801376E8(int a0, int a1);
 extern void func_801376C8(int a0);
 extern void func_80139BE0(s32 a0);
-extern void * aF801376E8(int a0, int a1);
+extern s32 aF801376E8(int a0, int a1);
 extern s32 D_80127524;
 extern s32 D_80127528;
 extern void func_80137840(s32 a0);
@@ -1686,7 +1686,7 @@ extern s32 func_80150460(s32 e, s32 a1);
 extern s32 func_80150170(void *e);
 extern s32 func_80150460(s32 a, s32 b);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
 extern s32 func_801506A4(s32 arg0, s32 arg1);
 extern void func_80147324(s32 arg0);
@@ -5492,7 +5492,7 @@ void func_80161124(void *a0)
 
 extern s32 func_801612B8(void *a0, s32 a1);
 extern s32 func_8016130C(void *a0, s32 a1);
-void aF80161208(void *a0) __asm__("func_80161208");
+s32 aF80161208(void *a0) __asm__("func_80161208");
 #include "../shared/ov/func_80161208.h"
 
 

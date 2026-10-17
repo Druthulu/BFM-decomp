@@ -624,7 +624,7 @@ extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
@@ -2766,7 +2766,7 @@ extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
 extern s32  func_80187BC8(s32 a0);
-extern void func_80013350(s32 a0, void *a1);
+extern s32 func_80013350(s32 a0, void *a1);
 extern void func_80184AE8(s32 p);
 extern s32  func_8012BDBC(s32 a0, s32 a1);
 extern void func_80142414(s32 a0, s16 a1);
@@ -2937,7 +2937,7 @@ void func_801851E0(s32 p)
 
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);
-extern void func_80013350(s32 a0, void *a1); /* loose proto, real TU decl (line 6647); cast at call site per §161c */
+extern s32 func_80013350(s32 a0, void *a1); /* loose proto, real TU decl (line 6647); cast at call site per §161c */
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
@@ -3243,7 +3243,7 @@ extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
 extern s32  func_80187BC8(s32 a0);
-extern void func_80013350(s32 a0, void *a1);
+extern s32 func_80013350(s32 a0, void *a1);
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012C218(s32);
 extern void func_8001C924(s32 a0, void *a1);
@@ -3425,7 +3425,7 @@ extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
 extern s32  func_80187BC8(s32 a0);
-extern void func_80013350(s32 a0, void *a1);
+extern s32 func_80013350(s32 a0, void *a1);
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012C218(s32);
 extern void func_8001C924(s32 a0, void *a1);

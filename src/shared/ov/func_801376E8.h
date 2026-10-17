@@ -1,7 +1,7 @@
 /* func_801376E8 — shared body (overlay slot 0x80128158, h_exact 7529ad8f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-void * aF801376E8(int a0, int a1) __asm__("func_801376E8");
-void *aF801376E8(int a0, int a1)
+s32 aF801376E8(int a0, int a1) __asm__("func_801376E8");
+s32 aF801376E8(int a0, int a1)
 {
     extern s32 D_801269F0;
     extern u8 D_801269FD;
@@ -23,5 +23,5 @@ void *aF801376E8(int a0, int a1)
     func_80139BE0(obj);
     D_80126A20 = (D_80126A14[0] + 0x28) - ((D_80126A24 + 0x28) >> 1);
     D_80126A22 = D_80126A14[1] - ((s16)D_80126A26 >> 1);
-    return (void *)obj;
+    return obj;
 }

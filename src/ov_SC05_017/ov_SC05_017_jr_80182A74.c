@@ -626,7 +626,7 @@ extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
@@ -4080,7 +4080,7 @@ extern s32 func_801844BC(void *a0, void *a1);
 extern s32 func_801848AC(s32 arg0, s32 arg1);
 extern void func_801849B8(s32 *a0, s32 a1);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
-extern void func_801843E0(void *a0, s32 a1);
+extern s32 func_801843E0(void *a0);
 
 void func_80184360(void *arg0) {
     extern short D_80192160;
@@ -4117,10 +4117,9 @@ extern s32 func_80185F5C(void *a0);
  * TU's house fix: define under an alias with an __asm__ label so the emitted
  * symbol is still func_801843E0.  If the banking chain instead rewrites the
  * L4097 decl, the alias can be dropped for `s32 func_801843E0(void *a0)` —
- * both spellings are byte-identical (match_one MATCH, 47 ins). */
-s32 aF801843E0(void *a0) __asm__("func_801843E0");
-
-s32 aF801843E0(void *a0)
+ * both spellings are byte-identical (match_one MATCH, 47 ins).
+ * T6.c3: that decl now reads `s32 (void *)`, so the alias is dropped. */
+s32 func_801843E0(void *a0)
 {
     void *p;
     void *arg;

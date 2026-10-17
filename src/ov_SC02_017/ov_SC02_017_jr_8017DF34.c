@@ -636,7 +636,7 @@ extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
@@ -6354,7 +6354,7 @@ void func_80183B9C(u8 *arg0) {
 void func_80183C30(void)
 {
     extern s32 D_801270C8;
-    extern void func_8012BD14(s32 a0);
+    extern s32 func_8012BD14(s32 a0);
 
     D_801270C8 = 0;
     if (((s32 (*)(void))func_8012BD14)() < 0x5100) {
@@ -6549,7 +6549,7 @@ void func_80183FA8(int param_1) {
 }
 
 
-extern void func_8012BD14(s32 a0);
+extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
 
@@ -7833,7 +7833,7 @@ s32 func_80185AF0(s32 arg0)
 #include "common.h"
 
 extern s32 func_8014CB0C(void);
-extern void func_8012BD14(s32 a0);
+extern s32 func_8012BD14(s32 a0);
 extern s32 VectorNormalSS(void *a0, void *a1);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern u16 D_80126B5E;

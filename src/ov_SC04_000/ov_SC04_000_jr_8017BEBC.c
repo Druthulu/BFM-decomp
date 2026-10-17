@@ -636,7 +636,7 @@ extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
@@ -3348,7 +3348,7 @@ extern s32 rand(void);
 extern void func_801746A4(void);
 extern s32 func_80178B18(s32 param_1, s32 param_2);
 extern void func_8017CD9C(s32 a0, s32 a1);
-extern void func_8012BD14(s32 a0);
+extern s32 func_8012BD14(s32 a0);
 
 void func_8017D258(s32 a0) {
 
@@ -5810,7 +5810,7 @@ void func_80180FF8(s32 param_1) {
 
 void func_801810B0(s32 arg0)
 {
-    extern void func_8012BD14(s32);
+    extern s32 func_8012BD14(s32);
     extern void func_80143970(s32);
     s32 v;
     u16 *p;

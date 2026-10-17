@@ -96,7 +96,7 @@ extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; calle
 extern s16 func_8014168C(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern void func_80139954(void);
-extern void func_801376E8(int a0, int a1);
+extern s32 func_801376E8(int a0, int a1);
 extern unsigned char *func_80141CA4(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
@@ -333,7 +333,7 @@ extern void func_801439C0(u8 *a0);
 extern void func_8012C098(void *param_1);
 extern void func_80142BB4(s32 * param_1, s32 param_2, s32 param_3);
 extern void func_80142C7C(void);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern void func_80142C9C(s32 * arg0);
 extern void func_80142DC4(int param_1);
 extern void func_80142E38(int param_1);
@@ -1074,7 +1074,7 @@ extern s32 func_80150460(s32 e, s32 a1);
 extern s32 func_80150170(void *e);
 extern s32 func_80150460(s32 a, s32 b);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
 extern s32 func_801506A4(s32 arg0, s32 arg1);
 extern s32 func_801505FC(s32 a0);

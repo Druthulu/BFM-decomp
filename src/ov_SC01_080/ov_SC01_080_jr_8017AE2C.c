@@ -638,7 +638,7 @@ extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
@@ -4240,7 +4240,7 @@ void func_8017E0E0(s32 a0) {
 
 // @class: struct
 // @unstuck(P36): none — MATCH; int *p=&D_801270DC + deref for both load AND store forces addiu-base in $s1 (callee-saved), reused via 0x0($s1) — direct global ref re-materializes lui per access
-extern void func_8012BD14(s32 a0);
+extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012E544(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8017DC78(int param_1);
@@ -7057,7 +7057,7 @@ extern s16 D_80126B98;
 extern s16 D_80126B9A;
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
-extern void func_8012BD14(s32 a0);
+extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012D714(s32 a0, u32 a1);
 extern void func_80181FAC(s32 a0);
 extern void func_80182290(u8 *a0);

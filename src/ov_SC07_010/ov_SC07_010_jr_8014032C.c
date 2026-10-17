@@ -95,7 +95,7 @@ extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; calle
 extern s16 func_8014168C(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern void func_80139954(void);
-extern void func_801376E8(int a0, int a1);
+extern s32 func_801376E8(int a0, int a1);
 extern unsigned char *func_80141CA4(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */

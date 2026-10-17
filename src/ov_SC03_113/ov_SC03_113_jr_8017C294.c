@@ -634,7 +634,7 @@ extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
@@ -3348,7 +3348,7 @@ extern s32 func_801439C0(s32 a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern int func_80178970(void);
 extern void func_8012CBA4(s32 a0);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern void func_8012B200(void*);
 
 
@@ -4474,7 +4474,7 @@ void func_8017FD78(void *a0) {
 extern void func_8018084C(s32 *a0, s32 a1, s32 a2);
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_801808F8(void);
 extern s32 rand(void);
@@ -4554,7 +4554,7 @@ void func_80180010(s32 a0) {
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern s32 rand(void);
@@ -4657,7 +4657,7 @@ void func_801803F8(s32 a0) {
 extern void func_8018084C(s32 *a0, s32 a1, s32 a2);
 extern s32 func_8012B8E4(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern void func_8012B200(void *a0);
 extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -6031,7 +6031,7 @@ void func_80182788(s32 param_1) {
 
 extern s32 D_8019F2B0;
 extern s32 D_8019F2B8;
-extern void func_8012CBF4(s32);
+extern s32 func_8012CBF4(s32);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012C218(void *a0);
 extern void func_80182038(void *a0);

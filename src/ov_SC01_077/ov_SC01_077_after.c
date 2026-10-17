@@ -2794,7 +2794,7 @@ void func_8014FCFC(void)
 // @unstuck(P36): none — MATCH (fully-handwritten scratchpad-stack-switch sequencer; manipulates $sp directly around a call — no normal C produces this; modeled verbatim on the byte-proven func_8014CCB4 inline-asm precedent in this same overlay)
 #include "common.h"
 
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 
 s32 func_80150480(s32 _arg0)
 {

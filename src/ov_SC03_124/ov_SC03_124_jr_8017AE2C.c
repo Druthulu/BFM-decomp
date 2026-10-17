@@ -630,7 +630,7 @@ extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
-extern void func_801504D8(u16 *a0);
+extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
@@ -4929,7 +4929,7 @@ extern void func_80172710(void);
 
 s32 func_8017F1A0(void *param_1)
 {
-    extern void func_8012BD14(s32 a0);
+    extern s32 func_8012BD14(s32 a0);
     s32 ptr;
 
     ptr = *(s32 *)((char *)param_1 + 0x64);
@@ -5344,7 +5344,7 @@ void func_8017FA84(void) {
 }
 
 
-extern void func_8012BD14(s32 a0);
+extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
 
@@ -6219,7 +6219,7 @@ void func_80180C0C(void *a0) {
 }
 
 
-extern void func_8012BD14(s32);
+extern s32 func_8012BD14(s32);
 extern s32 func_80178BF8();      /* TU-canonical */
 extern void func_80172710(void); /* TU-canonical */
 
@@ -6714,7 +6714,7 @@ void func_80181644(void *a0)
  *           --asm-subdir asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C  -> MATCH (57 ins)
  */
 
-extern void func_8012BD14(s32);
+extern s32 func_8012BD14(s32);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
 extern u8 D_801202A0[];

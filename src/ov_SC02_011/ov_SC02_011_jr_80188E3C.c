@@ -471,7 +471,7 @@ void func_8018974C(s32 a0) {
 #include "common.h"
 
 extern s32 func_8002A04C();  // K&R: 0 of 1 args (P37 rung D t4_D31)
-extern void func_8012CBF4(s32);
+extern s32 func_8012CBF4(s32);
 extern void func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D31)
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80188554(s32 a0);
@@ -501,7 +501,7 @@ void func_801897A4(s32 a0) {
 }
 
 
-extern void func_8012CBF4(s32);
+extern s32 func_8012CBF4(s32);
 extern void func_80188554(s32 a0);
 
 void func_8018983C(s32 a0) {
@@ -2556,7 +2556,7 @@ void func_8018C11C(u8 *a0) {
 }
 
 
-extern void func_8012CBF4(s32);
+extern s32 func_8012CBF4(s32);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012C218(void *a0);
 
@@ -2909,7 +2909,7 @@ void func_8018C7B8(s32 a0) {
 
 extern s32 func_8012E778(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
-extern void func_8012BD14(s32 a0);
+extern s32 func_8012BD14(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern s32 func_8004787C(s32 a0);
 extern void func_80143994(s32 a0, s32 a1);
@@ -4502,7 +4502,7 @@ void func_8018E5E4(s32 a0) {
 
 extern s32 func_80047948(s32 a0);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
-extern void func_8012CBF4(s32);
+extern s32 func_8012CBF4(s32);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012C218(void *a0);
 
@@ -5516,7 +5516,7 @@ void func_8018FB8C(void *a0) {
 
 
 extern void func_8012B14C(s32 a0, s32 a1);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);

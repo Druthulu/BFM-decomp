@@ -287,9 +287,9 @@ extern void Square0(s32 *a0, s32 *a1);
 extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
 extern s16 D_80126CBA;
 extern s32 func_8012BCCC(s32 a0);
-extern void func_80013350(s32 a0, void *a1);
+extern s32 func_80013350(s32 a0, void *a1);
 extern u8 D_80126B5C;
-extern void func_8012BD14(s32 a0);
+extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern void func_8012BE98(s32 a0, u16 *a1);
@@ -340,7 +340,7 @@ extern s32 func_8012CC88(s32 a, s32 b, s32 c);
 extern u8 D_800D3918[];
 extern void func_8012CBA4(s32 a0);
 extern void func_8012CBCC(s32 a0);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern void func_8012CC1C(s32 arg0, s32 arg1);
 extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
@@ -621,7 +621,7 @@ extern void func_801375EC(s32 a0, s16 a1);
 extern s32 func_801399A8(void);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 extern s32 func_8013767C(s32 a0);
-extern void func_801376E8(int a0, int a1);
+extern s32 func_801376E8(int a0, int a1);
 extern void func_801376C8(int a0);
 extern s32 D_80127524;
 extern s32 D_80127528;
@@ -1147,7 +1147,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern s16 func_8014168C(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern void func_80139954(void);
-extern void func_801376E8(int a0, int a1);
+extern s32 func_801376E8(int a0, int a1);
 extern void func_80137B80(void);
 extern unsigned char *func_80141CA4(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -1176,7 +1176,7 @@ extern s32 D_801151D0;
 extern s16 D_801805F0;
 extern s16 D_801805F2;
 extern unsigned char D_801805F4;
-extern void func_801376E8(int a0, int a1);
+extern s32 func_801376E8(int a0, int a1);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern unsigned char *func_80141CA4(void);
 
@@ -1233,7 +1233,7 @@ extern u16 D_80115110;
 extern unsigned char D_801805F4;
 
 extern unsigned char *func_80141CA4(void);
-extern void func_801376E8(int a0, int a1);
+extern s32 func_801376E8(int a0, int a1);
 
 #include "../shared/ov/func_8013F138__67cef5a4.h"
 

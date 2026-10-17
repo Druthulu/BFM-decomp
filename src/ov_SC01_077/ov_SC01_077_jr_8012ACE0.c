@@ -1306,7 +1306,7 @@ void func_8012FCC4(int param_1) {
 // @unstuck(P36): clean control-flow fn; expecting MATCH from direct structural reconstruction
 
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 void func_801319E0(int);
 void func_80131C78(int);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
@@ -1714,7 +1714,7 @@ extern int func_80131D68(int, int);
 extern s32 func_80143B6C(s32 a0, s32 a1);
 extern void func_8012B23C(s32 a0);
 extern void func_8012CBA4(s32 a0);
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)

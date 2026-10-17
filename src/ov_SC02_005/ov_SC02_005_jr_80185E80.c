@@ -1570,7 +1570,7 @@ void func_80187E18(u8 *arg0) {
 
 
 
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
     extern void func_80182E04(s32 arg0);
     void func_80187F1C(void *a0) {
         if ((((s32 (*)(s32))func_8012CBF4)((s32)a0) & 0x2000) != 0) {
@@ -1595,7 +1595,7 @@ void func_80187F88(void) {
 
 
 
-extern void func_8012CBF4(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
     extern void func_80182EB0(void);
     void func_80187F90(void *a0) {
         if ((((s32 (*)(s32))func_8012CBF4)((s32)a0) & 0x2000) != 0) {
