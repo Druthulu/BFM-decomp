@@ -50,6 +50,11 @@ failure modes are different:
    cross-reference chain, the debug menu, a live-RAM datapoint (R10), a community label with provenance (G5). The evidence is
    recorded the way addresses are recorded in `docs/memory-map.md`. No evidence, no name: it stays `func_80xxxxxx` /
    `D_80xxxxxx`, which is honest and greppable. A model may *propose* a name; it may never *assert* one.
+   **Amended 2026-10-17 (developer): best guesses are named, marked.** A name without that evidence is allowed as a
+   best guess under the `guess_` prefix (`guess_MutateHp`, `guess_PlayerState`, field `guess_hp`), each with a names-ledger
+   row giving its basis and confidence. `guess_` always means "our best guess so far"; `unk`/`Unkstruct_`/`func_` keep
+   meaning "nothing known". A guess loses the prefix only when evidence above is recorded, and is renamed freely as the
+   picture grows. This keeps the baseline rule: a marked guess does not claim to be sure.
 2. **Every register pin goes.** `register … __asm__("$N")` was a matching lever; in finished code each one is either removed
    (the body re-shaped so the compiler allocates naturally — P32 showed every pin in the last drafts came off) or, if a body
    genuinely cannot be shaped, kept with a `// !FAKE:` line that names the residual. The count is a published metric until it is 0.
