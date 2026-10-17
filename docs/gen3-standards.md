@@ -52,7 +52,9 @@ failure modes are different:
    `D_80xxxxxx`, which is honest and greppable. A model may *propose* a name; it may never *assert* one.
    **Amended 2026-10-17 (developer): best guesses are named, marked.** A name without that evidence is allowed as a
    best guess under the `guess_` prefix (`guess_MutateHp`, `guess_PlayerState`, field `guess_hp`), each with a names-ledger
-   row giving its basis and confidence. `guess_` always means "our best guess so far"; `unk`/`Unkstruct_`/`func_` keep
+   row: basis, confidence (low/medium/high), evidence kind (code inference, string, xref chain, debug menu, live RAM,
+   community label), a conflict flag naming any contradicting evidence, and the name's history. Confidence lives in the
+   ledger, never in extra name prefixes. `guess_` always means "our best guess so far"; `unk`/`Unkstruct_`/`func_` keep
    meaning "nothing known". A guess loses the prefix only when evidence above is recorded, and is renamed freely as the
    picture grows. This keeps the baseline rule: a marked guess does not claim to be sure.
 2. **Every register pin goes.** `register … __asm__("$N")` was a matching lever; in finished code each one is either removed
