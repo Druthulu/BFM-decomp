@@ -16,13 +16,13 @@
       "user": null
     },
     ".claude/agents/pa-coder.md": {
-      "base": "3.28.4",
-      "sha": "da1b3bd7b4880b4d8e57110e5493077b0bcbbceaae39cfb8092b3bdeab4382e2",
+      "base": "3.28.5",
+      "sha": "ea4d773766eee622b55451cf53f35a946efd0847d37c0c546258cef9438ccd55",
       "user": null
     },
     ".claude/agents/pa-expert.md": {
-      "base": "3.28.5",
-      "sha": "81ff3f618481a86047996963af62ca2af819ca7db924ddcdc832440585392822",
+      "base": "3.28.7",
+      "sha": "1ca6022c90a70d1b22c31b83bd91e3758a64c673fcd0299de7be5ead5bdb154a",
       "user": null
     },
     ".claude/agents/pa-planner.md": {
@@ -62,7 +62,7 @@
     },
     ".claude/skills/project-architect/SKILL.md": {
       "base": null,
-      "sha": "d42e43afc957675db0462bdb3eb8388e440cbfb4e703f4f9aec774ca4b4e73b0",
+      "sha": "8dc0add1e21abc870b79c0ab647cb27f6ccd0a782c2dee59eff65a508989a48a",
       "user": null
     },
     "docs/project-architect.md": {
@@ -307,9 +307,9 @@
     }
   },
   "format": 1,
-  "git": "e9e6b590",
-  "installed": "2026-10-16T11:46:16Z",
+  "git": "605b1fc8",
+  "installed": "2026-10-17T04:01:29Z",
   "package": null,
-  "phase": "3.28.7",
-  "upstream_version": "3.28.7"
+  "phase": "3.28.8",
+  "upstream_version": "3.28.8"
 }
