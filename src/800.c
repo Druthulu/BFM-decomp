@@ -8244,7 +8244,7 @@ void func_8001C1E4(void* a0, s32 a1) {
 
 void func_8001C214(s32 a0, s32 a1)
 {
-    extern void func_8001C9D0();
+    extern void func_8001C9D0(s32 a0v);
     extern void func_80052D90(s32 a0, void *a1);
     extern void func_80054514(s32 a0, s32 a1);
     extern void GsMapModelingData(u32 *p);
@@ -8270,7 +8270,7 @@ void func_8001C214(s32 a0, s32 a1)
 }
 
 
-extern void func_8001C9D0();
+extern void func_8001C9D0(s32 a0v);
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8293,7 +8293,7 @@ void func_8001C2C4(s32 a0) {
 
 void func_8001C320(s32 a0, s32 a1)
 {
-    extern void func_8001C9D0();
+    extern void func_8001C9D0(s32 a0v);
     extern void func_80052D90(s32 a0, void *a1);
     extern void func_80054514(s32 a0, s32 a1);
     extern void GsMapModelingData(u32 *p);
@@ -8341,7 +8341,7 @@ void func_8001C320(s32 a0, s32 a1)
 }
 
 
-extern void func_8001C9D0();
+extern void func_8001C9D0(s32 a0v);
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8364,7 +8364,7 @@ void func_8001C448(s32 a0) {
 
 void func_8001C4A4(s32 a0, u32 *a1)
 {
-    extern void func_8001C9D0();
+    extern void func_8001C9D0(s32 a0v);
     extern void func_80052D90(s32 a0, void *a1);
     extern void func_80054514(s32 a0, s32 a1);
     extern void GsMapModelingData(u32 *p);
@@ -8390,7 +8390,7 @@ void func_8001C4A4(s32 a0, u32 *a1)
 }
 
 
-extern void func_8001C9D0();
+extern void func_8001C9D0(s32 a0v);
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8407,7 +8407,7 @@ void func_8001C558(s32 a0) {
 
 void func_8001C5B8(s32 a0, s32 a1)
 {
-    extern void func_8001C9D0();
+    extern void func_8001C9D0(s32 a0v);
     extern void func_80052D90(s32 a0, void *a1);
     extern void func_80054514(s32 a0, s32 a1);
     extern void GsMapModelingData(unsigned long *p);
@@ -8455,7 +8455,7 @@ void func_8001C5B8(s32 a0, s32 a1)
 }
 
 
-extern void func_8001C9D0();
+extern void func_8001C9D0(s32 a0v);
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8474,7 +8474,7 @@ void func_8001C6E4(void *a0) {
 }
 
 
-extern void func_8001C9D0();
+extern void func_8001C9D0(s32 a0v);
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8493,7 +8493,7 @@ void func_8001C744(s32 a0, s32 a1) {
 }
 
 
-extern void func_8001C9D0();
+extern void func_8001C9D0(s32 a0v);
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8515,7 +8515,7 @@ void func_8001C7B0(void *arg0) {
     ((Unkstruct_8001C7B0 *)arg0)->unk24 = 0;
 }
 
-extern void func_8001C9D0();
+extern void func_8001C9D0(s32 a0v);
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 extern void GsMapModelingData(unsigned long *p);
@@ -8546,7 +8546,7 @@ void func_8001C810(s32 a0, s32 *a1) {
 }
 
 
-extern void func_8001C9D0();
+extern void func_8001C9D0(s32 a0v);
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8599,8 +8599,7 @@ void func_8001C97C(s32 *a0) {
     }
 }
 
-void func_8001C9D0() {
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+void func_8001C9D0(s32 a0v) {
     s32 v;
 
     v = 0x1000;
@@ -8624,7 +8623,7 @@ void func_8001C9D0() {
 }
 
 
-extern void func_8001C9D0();
+extern void func_8001C9D0(s32 a0v);
 extern void func_80052D90(s32, void *);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8651,7 +8650,7 @@ void func_8001CA1C(void *a0, void *a1)
     ((Unkstruct_8001CA1C *)s0)->unk20 = (s32)s2;
 }
 
-extern void func_8001C9D0();
+extern void func_8001C9D0(s32 a0v);
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
