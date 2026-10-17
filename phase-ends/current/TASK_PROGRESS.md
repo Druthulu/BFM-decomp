@@ -10,7 +10,9 @@
 - Cast gate `type_census.py --check-casts --residue` rc 1: uncovered P=3 (ov), unbacked 7, lying 0 (.run/logs/t7_casts2.log). T5 close had both 0, so the cause is T7 body rewrites: the ledger site keys (`bclass:base`, e.g. local:aN → param:aN; type_census.py:1998-2027) no longer match.
 
 ## In flight
-- T7.c3 (pa-coder, background): list the 3 + 7 sites, back them with restruct's own rung-S writers (apply/residue, scoped), no hand-written ledger rows; log logs/T7.c3.md; commits as T7.c3 if src changes. Check `git log --grep T7.c3` and logs/T7.c3.md.
+- none. T7.c3 returned blocked (logs/T7.c3.md): `restruct.py --rung S --residue --forms P,I,X,M --label t7c3_S --only func_80182998 func_8018094C func_801811A8 func_80185AC0` (.run/logs/t7c3_residue.log) backed 5/10 → gate `(uncovered P=0 …)`, `(unbacked 5)`, lying 0 (.run/logs/t7c3_casts.log). Ledger-only, no src change.
+- Wall: 5 CAST_SIGN sites (func_80182998 ov_SC02_005 lines 3343/3350/3354 off 232 param:arg0; func_80185AC0 ov_SC06_033 lines 3430/3434 off 112 param:a0) have old KEPT(SIGN) entries keyed `local:<name>` at line+2. `s_macro_rows` restruct.py:1242 needs off + (base key | line | s_base_norm | nested ptr); none hold. Redraw does not help (80185AC0 absent from body_base_type.json; --try-file 80182998 IDENTICAL, kept 0).
+- Pending question to coordinator: allow a tools/ edit (s_macro_rows accepts local:/param: of the same name at same off + KEPT class), then re-run the t7c3 --residue command and the gate.
 
 ## Next five steps
 1. Read the T7.c3 outcome (log). If blocked, record the sites as refusals/causes in the summary; that is a done-when gap → question/blocked.
