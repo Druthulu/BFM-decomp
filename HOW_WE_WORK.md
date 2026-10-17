@@ -21,6 +21,7 @@ The developer pushes; agents never do. They ratify rules at the next planner ses
 - A new tool or dependency: what it does, what ours already does, the delta. Environment needs stated plainly.
 - Live co-op: end the turn with the answer he waits on before any long work; say plainly when his part is done.
 - The agent cap is his live dial; the latest word binds from the next spawn.
+- Names: a prefixed best guess beats a bare placeholder; he wants structs-as-you-go and pure C taught as rules for new projects.
 - After a Ghidra MCP restart or program switch, ask him to run `/mcp` first (`docs/ops/mcp-reconnect-after-restart.md`).
 
 ## Rhythm <!-- roles: planner review auditor curator -->
