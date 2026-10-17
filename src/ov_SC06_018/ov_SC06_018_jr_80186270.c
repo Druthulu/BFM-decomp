@@ -2894,7 +2894,7 @@ extern void func_80189380(s32, void*, void*, s32);
 extern void func_8018931C(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
 extern void func_8018598C(s32 param_1);
-extern void func_80187038();
+extern void func_80187038(s32 e);
 extern void func_80185DA8(s32 arg0);
 
 #include "common.h"
@@ -3425,7 +3425,7 @@ void func_80186EF4(s32 a0) {
 
 #include "common.h"
 
-extern void func_80187038();
+extern void func_80187038(s32 e);
 extern void func_801874E4(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void * a1);
 extern s32 D_801CD170;
@@ -3456,14 +3456,12 @@ void func_80186F78(s32 param_1) {
 }
 
 
-extern void func_80187038();
-void func_80187038() {
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+extern void func_80187038(s32 e);
+void func_80187038(s32 e) {
     extern u8 D_801CCEC0[];
     extern u8 D_801CC1E8[];
     extern s32 D_801B51FC[];
     extern s32 D_801B520C[];
-    s32 e = a0v;
     s32 flags;
 
     flags = ((Unkstruct_80187038 *)e)->unkE0;
