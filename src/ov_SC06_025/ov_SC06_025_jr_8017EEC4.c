@@ -2721,7 +2721,7 @@ extern void func_8017DF50(void *arg0);
 extern void func_8017E008(void *a0);
 extern void func_8017E054(void);
 extern u16 func_80148800(s32 *);
-extern s32 func_80180ED4();
+extern s32 func_80180ED4(s32 a0);
 extern s32 D_801B12E8;
 extern s32 D_801B12E0;
 extern void func_8017E18C(s32 arg0, s16 *arg1, s32 arg2, s32 arg3);
@@ -4259,9 +4259,8 @@ void func_80180E98(void *a0) {
 
 extern void (*D_801890A4[])(void);
 
-s32 func_80180ED4()
+s32 func_80180ED4(s32 a0)
 {
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     return (s32)&D_801890A4[a0 * 2];
 }
 
