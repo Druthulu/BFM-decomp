@@ -1922,7 +1922,7 @@ extern void func_8016BADC(void *a0, s32 a1, s32 a2);
 extern void (*D_80189D54[])(void);
 extern void func_8016BBA4(void *a0);
 extern s32 func_8016BBE0(s32 param_1);
-M2C_UNK func_8016BF50();                            /* extern */
+extern s32 func_8016BF50(s32 param);
 extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
 extern M2C_UNK D_801D9BC4;
 extern M2C_UNK D_801D9BC8;

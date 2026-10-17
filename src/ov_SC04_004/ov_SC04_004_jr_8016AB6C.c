@@ -2358,7 +2358,7 @@ void func_8016BBA4(void *a0) {
 
 s32 func_8016BBE0(s32 param_1) {
     extern void func_8016BF34(void *a0);
-    extern s32 func_8016BF50();  // K&R: 0/1 of 1 args (P37 rung D t4_D8)
+    extern s32 func_8016BF50(s32 param);
     extern void func_8001CF00(s32);
     extern M2C_UNK D_801B2BE4;
     extern u8 D_801B2BE5;
@@ -2408,7 +2408,7 @@ void func_8016BCC0(void *arg0) {
     void *temp_s0;
 
     temp_s0 = M2C_FIELD(arg0, void **, 0x20);
-    func_8016BF50();
+    func_8016BF50((s32)arg0);
     temp_a2 = M2C_FIELD(arg0, u16 *, 0x10) + 0x60;
     M2C_FIELD(arg0, u16 *, 0x10) = temp_a2;
     temp_v0 = ((Unkstruct_800B5CB8 *)temp_s0)->unk1A + temp_a2;
@@ -2433,7 +2433,7 @@ void func_8016BCC0(void *arg0) {
 
 s32 func_8016BD78(s32 param_1)
 {
-    extern s32 func_8016BF50();  // K&R: 0/1 of 1 args (P37 rung D t4_D8)
+    extern s32 func_8016BF50(s32 param);
     extern u8 D_801B2BE5;
     extern u8 D_801B2BE6;
     extern u8 D_801B2BE9;
@@ -2445,7 +2445,7 @@ s32 func_8016BD78(s32 param_1)
     u8 *p2;
 
     iVar2 = ((Unkstruct_8016BD78_2 *)param_1)->unk20;
-    func_8016BF50();
+    func_8016BF50(param_1);
 
     p1 = &(*(u8 *)&D_801B2BE4);
     if (*p1 != 0) *p1 -= 4;
@@ -2474,13 +2474,13 @@ s32 func_8016BD78(s32 param_1)
 
 s32 func_8016BEA0(s32 param_1)
 {
-    extern s32 func_8016BF50();  // K&R: 0/1 of 1 args (P37 rung D t4_D8)
+    extern s32 func_8016BF50(s32 param);
 
     int iVar2;
     unsigned short uVar1;
 
     iVar2 = ((Unkstruct_8016BEA0_2 *)param_1)->unk20;
-    func_8016BF50();
+    func_8016BF50(param_1);
     uVar1 = *(unsigned short *)(((int)param_1) + 0x10) - 0x18;
     *(unsigned short *)(((int)param_1) + 0x10) = uVar1;
     *(unsigned short *)(iVar2 + 0x1a) = *(unsigned short *)(iVar2 + 0x1a) + uVar1;

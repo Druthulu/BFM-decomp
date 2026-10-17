@@ -2,13 +2,13 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8016BEA0(s32 param_1)
 {
-    extern s32 func_8016BF50();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
+    extern s32 func_8016BF50(s32 param);
 
     int iVar2;
     unsigned short uVar1;
 
     iVar2 = *(int *)(((int)param_1) + 0x20);
-    func_8016BF50();
+    func_8016BF50(param_1);
     uVar1 = *(unsigned short *)(((int)param_1) + 0x10) - 0x18;
     *(unsigned short *)(((int)param_1) + 0x10) = uVar1;
     *(unsigned short *)(iVar2 + 0x1a) = *(unsigned short *)(iVar2 + 0x1a) + uVar1;
