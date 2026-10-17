@@ -2322,7 +2322,7 @@ void func_80188D1C(s32 a0)
 }
 
 
-extern void func_80188F38();
+extern void func_80188F38(s32 a0);
     void func_80188F08(u8 *a0) {
         ((Unkstruct_80188F08 *)a0)->unkC1 = 0;
         ((Unkstruct_80188F08 *)a0)->unkC2 = 0;
@@ -2343,9 +2343,8 @@ extern void RotMatrixY(s32 a0, void *a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern void func_8012AD44(s32 *a0, s16 a1);
 
-void func_80188F38()
+void func_80188F38(s32 a0)
 {
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     s32 self;
     Blk20 m;
     s32 p;
