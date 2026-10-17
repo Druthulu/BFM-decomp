@@ -3422,9 +3422,7 @@ void func_80180F00(void *a0) {
 
 extern u8 *func_8012913C(s32 a0);
 
-void func_80180F3C() {
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    s32 s0 = a0v;
+void func_80180F3C(s32 s0) {
     u8 *v1 = func_8012913C(0x2B);
     if (v1 != 0) {
         u16 v0 = ((Unkstruct_80180F3C *)s0)->unk106 + 1;
@@ -3515,7 +3513,7 @@ void func_801810BC(void *a0) {
 
 #include "common.h"
 
-extern void func_80180F3C();
+extern void func_80180F3C(s32 s0);
 extern s32 func_8012B030(void *a0);
 extern void func_800291C8(s32, s32);
 

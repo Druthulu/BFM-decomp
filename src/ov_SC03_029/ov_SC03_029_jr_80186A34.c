@@ -2809,7 +2809,7 @@ extern void func_80180E94(void *a0);
 extern void (*D_8018B92C[])(void);
 extern void func_80180F00(void *a0);
 extern u8 *func_8012913C(s32 a0);
-extern void func_80180F3C();
+extern void func_80180F3C(s32 s0);
 extern void (*D_8018B934[])(void);
 extern void func_80180FB0(void *a0);
 extern void func_80180FEC(s32 a0);
