@@ -3098,18 +3098,7 @@ extern void func_80149350(s32 arg0);
 extern void func_80015954(s32 a0, s32 a1);
 
 s32 aF8016BF50(s32 param) __asm__("func_8016BF50");
-s32 aF8016BF50(s32 param)
-{
-    u16 buf[3];
-    s32 arg;
-
-    arg = *(s32 *)(param + 0x34);
-    buf[0] = CAST_SIGN(u16, param, 0x12);
-    buf[1] = *(u16 *)(param + 0x16);
-    buf[2] = CAST_SIGN(u16, param, 0x1a);
-    ((void (*)(s32, void *, void *))func_80149350)(arg, buf, buf);
-    ((void (*)(void *, s32))func_80015954)(buf, param + 4);
-}
+#include "../shared/ov/func_8016BF50.h"
 
 
 
