@@ -274,7 +274,10 @@ void func_800CD674(s32 x, s32 y, s32 c) {
     *(s16 *)(p + 0x16) = 0x100;
     ot = (u32 *)((u8 *)D_800ABA24 + (D_800BAE22 << 14));
     *(u32 *)p = (*(u32 *)p & mff) | (*ot & m24);
-    ot = (u32 *)((u8 *)D_800ABA24 + (D_800BAE22 << 14));
+    pm3 = D_800BAE22;
+    pm3 <<= 14;
+    pm3 += (u32)D_800ABA24;
+    ot = (u32 *)pm3;
     pm = (u32)p & m24;
     otv = *ot;
     p += 0x18;
@@ -318,7 +321,6 @@ void func_800CD674(s32 x, s32 y, s32 c) {
     p += 0x18;
     D_800A71D0 = p;
     *ot = (otv & mff) | pm2;
-    __asm__ volatile("" : "=r"(pm3));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
 }
 
 

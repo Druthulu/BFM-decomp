@@ -4147,7 +4147,8 @@ extern u8 D_8011DB30[];
 void func_8018046C(s32 a0) {
     s32 s2 = a0;
     s32 s1;
-    register s32 s3 __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus8)
+    s32 s3;
+    s32 s5;
     s32 s4;
     u8 *s0;
 
@@ -4175,11 +4176,11 @@ void func_8018046C(s32 a0) {
                 }
             }
             s1 = 0;
-            s3 = 0x65;
+            s5 = 0x65;
             s0 = (u8 *)D_8011DB30;
             for (s1 = 0; s1 < 0x80; s1++, s0 += 0x38) {
                 s32 v0 = ((Unkstruct_800B5CB8 *)s0)->unk0;
-                if (v0 == s3) {
+                if (v0 == s5) {
                     func_801292C8((u8 *)s0);
                 }
             }

@@ -13807,7 +13807,7 @@ extern s16 D_80063870[];
 
 void func_800242D0(s32 arg0, u16* arg1, s32 arg2) {
     s32 frame_pad[1];
-    s32 t0;
+    s16 t0;
     s32 t1;
     s32 v0;
     s32 v1;
@@ -13824,23 +13824,19 @@ void func_800242D0(s32 arg0, u16* arg1, s32 arg2) {
     if (arg2 != 0) {
         t0 = 4;
     }
-    v0 = t0 - 1;
-    t0 = v0;
-    __asm__ __volatile__("" : "=r"(t0) : "0"(t0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
-    if ((v0 << 16) >= 0) {
+    t0--;
+    if (t0 >= 0) {
         t4 = D_80063870;
         t2 = &D_80063858;
         t3 = 2;
         v1 = t1 << 16;
         do {
-            v0 = (t0 << 16) >> 15;
-            divisor = *(s16*)(v0 + (s32)t4);
+            divisor = t4[t0];
             v1 = v1 >> 16;
             v0 = v1 / divisor;
             a3 = v0;
+            v1 = divisor;
             if (((a3 << 16) >> 16) != 0) {
-                v1 = divisor;
-                __asm__ __volatile__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((Unkstruct_800B5CB8 *)arg1)->unk0 = *(u16*)((((a3 << 16) >> 16) << 1) + (s32)t2);
                 t1 -= a3 * v1;
             } else {
@@ -13848,17 +13844,14 @@ void func_800242D0(s32 arg0, u16* arg1, s32 arg2) {
             }
             arg1 += 1;
             if (arg2 != 0) {
-                v0 = (t0 << 16) >> 16;
-                if (v0 == t3) {
+                if (t0 == t3) {
                     *(u16*)arg1 = D_8006386C;
                     arg1 += 1;
                 }
             }
-            v0 = t0 - 1;
-            t0 = v0;
-            __asm__ __volatile__("" : "=r"(t0) : "0"(t0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+            t0--;
             v1 = t1 << 16;
-        } while ((v0 << 16) >= 0);
+        } while (t0 >= 0);
     }
     *(s16*)arg1 = -1;
 }

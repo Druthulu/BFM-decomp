@@ -2918,11 +2918,12 @@ extern s32 D_80126B58;
 
 void func_80186DDC(void *arg0)
 {
-    /* LOAD-BEARING register pins: ent=$s1 / tbl=$s0 reproduce the target's
-     * save order (sw s1 BEFORE sw ra/s0) and let the case-2 0xCC reload land
-     * back in $s0 ahead of func_8013C9C4. Do NOT "simplify" to plain locals. */
+    /* Plain locals, no register pins (T11 G04): the case-2 0xCC reload goes
+     * into its own local `t2` instead of reusing `tbl`; that alone gives the
+     * target's save order (sw s1 BEFORE sw ra/s0) and register choice. */
     s32 ent;
-    register u8 *tbl __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *tbl;
+    u8 *t2;
     /* dead-local frame pads (§162i1): 8+64 bytes -> vars=72 => frame 0x48 */
     s32 pad[2];
     s32 pad2[8];
@@ -2952,11 +2953,11 @@ void func_80186DDC(void *arg0)
             func_8002D4C8(0xC30, 0);
         }
         if (((Unkstruct_80186DDC *)ent)->unk94 == 0x85) {
-            tbl = *(u8 **)(ent + 0xCC);
+            t2 = *(u8 **)(ent + 0xCC);
             func_8013C9C4(D_8018AAA4);
             func_80187434((void *)ent);
-            ((Unkstruct_80186DDC_2 *)tbl)->unk2 = 0xC;
-            *(u32 *)(((Unkstruct_80186DDC_2 *)tbl)->unk20 + 4) |= 0x80000000;
+            ((Unkstruct_80186DDC_2 *)t2)->unk2 = 0xC;
+            *(u32 *)(((Unkstruct_80186DDC_2 *)t2)->unk20 + 4) |= 0x80000000;
             func_8002D4C8(0xC2F, 0);
             ((Unkstruct_80186DDC *)ent)->unkFE = 1;
         }

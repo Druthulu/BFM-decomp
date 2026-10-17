@@ -840,7 +840,6 @@ __asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` bloc
 
 s32 func_800D30D0(char *arg0)
 {
-    s32 ret;
     s32 s0;
 
     func_8005C604(D_800CEEB8, arg0);
@@ -850,7 +849,7 @@ s32 func_800D30D0(char *arg0)
         (*(volatile u32 *)D_800DB650 >> 24) & 1,
         *D_800DB63C,
         *D_800DB648);
-    func_8005C604(D_800CEE80,
+    ((s32 (*)())func_8005C604)(D_800CEE80,
         ((u32)~s0 >> 31),
         ((u32)s0 >> 30) & 1,
         ((u32)s0 >> 29) & 1,
@@ -861,10 +860,9 @@ s32 func_800D30D0(char *arg0)
     *D_800DB670 = 0x80000000;
     *D_800DB644 = 0;
     *D_800DB650 = 0;
-    __asm__ volatile("" : "=r"(ret) : "0"(0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     (void)*(volatile s32 *)D_800DB650;
     *D_800DB670 = 0x60000000;
-    return ret;
+    return 0;
 }
 
 

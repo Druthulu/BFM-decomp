@@ -2694,14 +2694,11 @@ extern s32 func_800CF854(s32);
 
 s32 func_80185E38(void)
 {
-    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v;
-
     v = ((s32 (*)(void))func_800CF854)();
-    r = 3;
-    if (v != 0)
-        r = 4;
-    return r;
+    if (v == 0)
+        return 3;
+    return 4;
 }
 
 

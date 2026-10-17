@@ -2935,13 +2935,11 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 s32 func_801820E4(void *arg0)
 {
     s16 idx;
-    register u16 cnt asm("v0");  // !FAKE: pin v0 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     idx = CAST_WIDTH(s16, (u8 *)arg0, 0xE0);
     if (idx >= 0) {
-        cnt = D_801E43B4;
         D_801270C8 = *(s16 *)((u8 *)D_80195AFA + idx * 8);
-        D_801E43B4 = cnt + 1;
+        D_801E43B4++;
         ((Unkstruct_800B5CB8 *)arg0)->unkE8 = (CAST_SIGN(u32, (u8 *)arg0, 0xE8) & ~0x400) | 0x800;
     }
     func_8018A1D8((s32)arg0);

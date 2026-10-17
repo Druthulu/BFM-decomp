@@ -5398,7 +5398,7 @@ extern u8 D_801A4784[];
 void func_801812AC(s32 a0) {
     s32 obj = a0;
     s16 v1;
-    s16 *s1;
+    s16 *s1 = 0;
     s32 s0;
     s32 i;
     s32 pad[2]; /* dead-local frame pad (cookbook §162i1); target frame is 8
@@ -5409,8 +5409,6 @@ void func_801812AC(s32 a0) {
         return;
     }
 
-    s1 = 0;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
     if (*(s16 *)&D_801270C0 == 2) {
         return;
     }

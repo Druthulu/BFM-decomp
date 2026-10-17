@@ -7062,24 +7062,24 @@ void func_80183748(u8 *param_1)
     extern u8 D_800A5E8C;
     extern u8 D_800A5E90;
     s32 j;
-    s32 m;
     s32 k;
+    u8 *p;
 
     j = 0;
-    m = 0;
-    do {
-        k = j * 16;
-        __asm__("" : :);  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        (&D_800A5E94)[k] = param_1[m];
-        (&D_800A5E95)[k] = param_1[m + 1];
-        (&D_800A5E96)[k] = param_1[m + 2];
-        *(s32 *)(&D_800A5E88 + k) = *(s16 *)(param_1 + m + 4);
-        *(s32 *)(&D_800A5E8C + k) = *(s16 *)(param_1 + m + 6);
-        *(s32 *)(&D_800A5E90 + k) = *(s16 *)(param_1 + m + 8);
-        func_80028620(j, (void *)(&D_800A5E88 + k));
-        j++;
-        m += 10;
-    } while (j < 3);
+    p = param_1;
+    k = 0;
+loop:
+    (&D_800A5E94)[k] = p[0];
+    (&D_800A5E95)[k] = p[1];
+    (&D_800A5E96)[k] = p[2];
+    *(s32 *)(&D_800A5E88 + k) = *(s16 *)(p + 4);
+    *(s32 *)(&D_800A5E8C + k) = *(s16 *)(p + 6);
+    *(s32 *)(&D_800A5E90 + k) = *(s16 *)(p + 8);
+    func_80028620(j, (void *)(&D_800A5E88 + k));
+    j++;
+    p += 10;
+    k += 16;
+    if (j < 3) goto loop;
 }
 
 

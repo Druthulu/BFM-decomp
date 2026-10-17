@@ -5190,11 +5190,8 @@ void func_8017FB04(s32 s1)
     extern s16 D_80126CB0;
     extern Blk8 D_80126CAC;
     s32 s3;
-    register s32 s2 asm("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 s2;
     s32 stack[6];
-    register s32 t4 asm("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 t5 asm("$13");  // !FAKE: pin $13 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 t6 asm("$14");  // !FAKE: pin $14 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 v0;
     s32 v1;
     s32 a0;
@@ -5208,14 +5205,15 @@ void func_8017FB04(s32 s1)
         return;
     }
 
-    if (func_80013294(&D_80126CAC, (void *)(s1 + 0xFC)) >= 0x500) {
+    s2 = s1 + 0xFC;
+    if (func_80013294(&D_80126CAC, (void *)s2) >= 0x500) {
         goto setbit;
     }
 
-    s2 = s1 + 0xFC;
     v0 = s3 + 0x18;
 
-    gte_lwx2_ctc2x2_lwx3_ctc2x3_42e3(t4, t5, t6, v0);
+    gte_SetRotMatrix(v0);
+    gte_SetTransMatrix(v0);
 
     gte_ldv0(s2); gte_rtps();
 
@@ -5223,7 +5221,7 @@ void func_8017FB04(s32 s1)
     gte_stsxy(a0);
 
     v0 = (s32)&stack[2];
-    gte_cfc2_sw_4531(t4, v0);
+    gte_stflg(v0);
 
     v1 = 0x80000000;
     if ((s32)stack[2] < 0) {

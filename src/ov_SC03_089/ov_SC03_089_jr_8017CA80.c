@@ -3846,12 +3846,13 @@ extern void func_80181BCC(s32 param_1, s16 *param_2);
 void func_8018188C(s32 param_1) {
     extern s16 D_8018D35C[];
     extern s16 D_80126940;
+    s32 w;
+    s32 w2;
     V4_88 sp10;
     s16 *s1;
     s32 t;
-    register s32 u __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    s32 a0;
-    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s16 u;
+    s16 a0;
 
     if (func_80148800(&D_80126B58) & 3) {
         ((Unkstruct_8017CF48 *)param_1)->unk5 = (((Unkstruct_8017CF48 *)param_1)->unk5 + 1) & 1;
@@ -3873,27 +3874,27 @@ void func_8018188C(s32 param_1) {
     ((Unkstruct_8017CF48 *)param_1)->unk32 = t >> 5;
 
     t = -0x120 - CAST_SIGN(u16, param_1, 0x28);
-    a0 = t + zr;
+    a0 = t;
     if ((t << 16) >> 16 > sp10.v[0]) {
         sp10.v[0] = a0;
     }
     u = 0x120 - CAST_SIGN(u16, param_1, 0x28);
-    a0 = u + zr;
+    a0 = u;
     if ((u << 16) >> 16 < sp10.v[0]) {
         sp10.v[0] = a0;
     }
-    u = -0x700 - CAST_SIGN(u16, param_1, 0x2A);
-    a0 = u + zr;
-    if ((u << 16) >> 16 > sp10.v[1]) {
+    w = -0x700 - CAST_SIGN(u16, param_1, 0x2A);
+    a0 = w;
+    if ((w << 16) >> 16 > sp10.v[1]) {
         sp10.v[1] = a0;
     }
-    u = -0x6C0 - CAST_SIGN(u16, param_1, 0x2C);
-    a0 = u + zr;
-    if ((u << 16) >> 16 > sp10.v[2]) {
+    w2 = -0x6C0 - CAST_SIGN(u16, param_1, 0x2C);
+    a0 = w2;
+    if ((w2 << 16) >> 16 > sp10.v[2]) {
         sp10.v[2] = a0;
     }
     u = 0xC0 - CAST_SIGN(u16, param_1, 0x2C);
-    a0 = u + zr;
+    a0 = u;
     if ((u << 16) >> 16 < sp10.v[2]) {
         sp10.v[2] = a0;
     }

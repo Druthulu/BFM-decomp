@@ -9873,26 +9873,12 @@ s32 func_80185BD4(s32 a0, s32 a1) {
 
                 ang = func_8012B6D4((s16 *)(a0 + 4), (s16 *)(p + 4));
                 func_8012B0B4((unsigned int *)buf, ang, 0x41);
-
                 {
-                    s32 t1 = *(s32 *)(p + 4);
                     s32 v1 = buf[0];
-                    register s32 t2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-                    s32 t3;
-                    register s32 t4 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-
-                    CAST_WIDTH(s32, a0, 4) = t1;
-
-                    t2 = ((Unkstruct_800B5CB8 *)a0)->unk6;
-                    t3 = *(s32 *)(p + 0xC);
-                    t2 = t2 + v1;
-                    CAST_WIDTH(s32, a0, 0xC) = t3;
-                    ((Unkstruct_800B5CB8 *)a0)->unk6 = t2;
-
-                    t4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
-                    v1 = v1 >> 16;
-                    t4 = t4 + v1;
-                    ((Unkstruct_800B5CB8 *)a0)->unkE = t4;
+                    CAST_WIDTH(s32, a0, 4) = *(s32 *)(p + 4);
+                    CAST_WIDTH(s32, a0, 0xC) = *(s32 *)(p + 0xC);
+                    ((Unkstruct_800B5CB8 *)a0)->unk6 += v1;
+                    ((Unkstruct_800B5CB8 *)a0)->unkE += v1 >> 16;
                 }
                 goto found;
             }
@@ -12294,15 +12280,14 @@ extern void func_8012B178(s32 a0, s32 a1);
 extern s32 func_80189E88(s32 a0);
 
 void func_801890C4(s32 s0) {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 v0;
     s32 v1;
 
     v0 = func_8012BDBC(s0, 0x400);
     if (v0 == 1) {
         v0 = func_8012BCCC(s0);
         if (v0 >= 0x3001) {
-            v0 = rand();
-            v0 = func_8012B8E4(s0, (s16)(v0 - v0 / 5 * 5 + 4));
+            v0 = func_8012B8E4(s0, (s16)(rand() % 5 + 4));
             v1 = ((Unkstruct_800B5CB8 *)s0)->unk20;
             *(s16 *)(v1 + 0x12) = (s16)(*(u16 *)(v1 + 0x12) + v0);
             func_8012B178(s0, 0xFFFC0000);

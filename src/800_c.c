@@ -3685,7 +3685,8 @@ void func_80039B20(s32 *arg0, s16 arg1) {
     t1 = (s32)arg0 + arg1 * 26;
     c = *(u8 *)((*arg0)++);
     off = 0;
-    do {
+loop:
+    {
         if (*(u8 *)(t1 + i + 0x23) != 0 && (*(s16 *)(D_800C6DD4 + off) == c)) {
             u8 *p = D_800C6DD0 + (s16)i * 0x60;
             if (p[0x5A] != 0) {
@@ -3697,7 +3698,6 @@ void func_80039B20(s32 *arg0, s16 arg1) {
             }
             {
                 s32 base1 = (s32)D_80073140;
-                __asm__ __volatile__("" : "=r"(base1) : "0"(base1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
                 D_800C7D20 &= ~((s32 *)base1)[i];
                 D_800A2B98 |= ((s32 *)base1)[i];
             }
@@ -3706,7 +3706,8 @@ void func_80039B20(s32 *arg0, s16 arg1) {
         }
         i++;
         off += 0x60;
-    } while (i < 0x10);
+    }
+    if (i < 0x10) goto loop;
 }
 
 void func_80039C5C(s32 *param_1) {

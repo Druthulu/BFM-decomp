@@ -3480,12 +3480,14 @@ void func_80187E08(s32 param_1)
     extern s32 *D_80195FC0[];
 
     s32 mtx;
-    register s32 xt __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 ok2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 xt;
+    s32 ok2;
     s32 *rec;
     s16 sxy[2];     /* sp+0x10 */
     long flag;      /* sp+0x18 */
     s32 lim;
+    s32 lim2;
+    s32 yt;
     s32 v;
     s16 first;
 
@@ -3508,11 +3510,11 @@ void func_80187E08(s32 param_1)
     if (ok2) {
         ok2 = xt < lim;
         if (ok2) {
-            xt = sxy[1];
-            lim = ((u32)D_800AF7BE >> 1) + 0x20;
-            ok2 = -(s32)lim < xt;
+            yt = sxy[1];
+            lim2 = ((u32)D_800AF7BE >> 1) + 0x20;
+            ok2 = -(s32)lim2 < yt;
             if (ok2) {
-                ok2 = xt < lim;
+                ok2 = yt < lim2;
                 if (ok2 && flag >= 0) {
                     v = ((Unkstruct_80187E08 *)param_1)->unk1C;
                     if (v == 0) {

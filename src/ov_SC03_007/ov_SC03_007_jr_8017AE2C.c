@@ -4687,7 +4687,7 @@ extern void func_8017EC90(s32 a0, s32 a1);
 
 s32 func_8017E83C(s32 arg0) {
     extern u8 D_801202A0[];
-    register s32 ret __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 ret;
     s32 v;
     u8 *p;
     s32 i;
@@ -4731,7 +4731,7 @@ s32 func_8017E83C(s32 arg0) {
                 in.vz = ((Unkstruct_800B5CB8 *)arg0)->unk42;
                 if ((func_8012CEB0((s32)&in, (s32)&out, 0) & 0x2000) == 0) {
                     func_8012ADE4((u8 *)arg0);
-                    return ret;
+                    goto done;
                 }
                 ((Unkstruct_800B5CB8 *)arg0)->unk6 = out.vx;
                 ((Unkstruct_800B5CB8 *)arg0)->unkA = out.vy;
@@ -4740,6 +4740,7 @@ s32 func_8017E83C(s32 arg0) {
             }
         }
     }
+done:
     return ret;
 }
 
@@ -5378,9 +5379,10 @@ extern void func_8017FC6C(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 
 void func_8017F794(s32 a0) {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 s0;
     s32 v0;
     s32 v1;
+    s32 t;
 
     s0 = a0;
     if (((Unkstruct_800B5CB8 *)s0)->unk1C > 0x15) {
@@ -5388,8 +5390,8 @@ void func_8017F794(s32 a0) {
         v1 = ((Unkstruct_800B5CB8 *)s0)->unk20;
         ((Unkstruct_800B5CB8 *)v1)->unk12 = ((Unkstruct_800B5CB8 *)v1)->unk12 + v0;
     }
-    v0 = ((Unkstruct_800B5CB8 *)s0)->unk1C;
-    if ((v0 == 0x15 && (func_8002D4C8(0x522, 0), ((Unkstruct_800B5CB8 *)s0)->unk1C == v0)) ||
+    t = ((Unkstruct_800B5CB8 *)s0)->unk1C;
+    if ((t == 0x15 && (func_8002D4C8(0x522, 0), ((Unkstruct_800B5CB8 *)s0)->unk1C == t)) ||
         ((Unkstruct_800B5CB8 *)s0)->unk1C == 0xB || ((Unkstruct_800B5CB8 *)s0)->unk1C == 1) {
         func_8017FC6C(s0);
     }
@@ -6854,14 +6856,10 @@ void func_8018178C(s32 a0)
     case 2:
         if (func_8012CBCC(a0) != 0) {
             ((Unkstruct_800B5CB8 *)a0)->unk98 = 1;
-            {
-                register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-                t = CAST_SIGN(u16, a0, 0x76) - 0xA;
-                ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x8810;
-                ((Unkstruct_800B5CB8 *)a0)->unk76 = t;
-            }
+            ((Unkstruct_800B5CB8 *)a0)->unk76 -= 0xA;
             ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
             ((Unkstruct_800B5CB8 *)a0)->unk1C = 1;
+            ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x8810;
             ((Unkstruct_800B5CB8 *)a0)->unkB4 &= ~1;
             ((Unkstruct_800B5CB8 *)a0)->unkC4 |= 2;
             if (((Unkstruct_800B5CB8 *)a0)->unk76 < 0x370) {

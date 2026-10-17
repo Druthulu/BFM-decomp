@@ -3647,7 +3647,7 @@ void func_801809C4(Obj_801809C4 *obj) {
     s32 otz;
     s32 cy;
     s32 ang;
-    register u32 c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    u32 c2;
     u32 col;
     u16 *pb;
     SVec_801809C4 *base;
@@ -3658,6 +3658,8 @@ void func_801809C4(Obj_801809C4 *obj) {
     ang = obj->unk2;
     base = v;
     for (i = 0; i < 3; i++) {
+        u32 c;
+        u32 d;
         func_8012B0B4(buf, ang - D_8018A998[i], D_8018A9A4[0]);
         c = buf[0];
         base[i].x = c;
@@ -3665,13 +3667,13 @@ void func_801809C4(Obj_801809C4 *obj) {
         c = (s32)c >> 16;
         base[i].z = c;
         func_8012B0B4(buf, ang - D_8018A998[i + 3], D_8018A9A6[0]);
-        c = buf[0];
+        d = buf[0];
         k = (i + 3) * 8;
         e = (SVec_801809C4 *)((u8 *)base + k);
-        e->x = c;
+        e->x = d;
         e->y = cy;
-        c = (s32)c >> 16;
-        e->z = c;
+        d = (s32)d >> 16;
+        e->z = d;
     }
 
     func_8012E32C();
@@ -3689,10 +3691,11 @@ void func_801809C4(Obj_801809C4 *obj) {
     *(s32 *)(p[0] + 0x0C) = *(s32 *)(p[1] + 0x0C) = 0;   /* rgb1 */
 
     /* rgb2 = colour with the top byte scaled 7/8; rgb3 = rgb2 >> 2 (masked) */
-    c = ((((col >> 16) * 7) / 8) << 16) | (col & 0xFFFF);
-    *(s32 *)(p[0] + 0x14) = *(s32 *)(p[1] + 0x14) = c;
-    c = (c & 0xFCFCFC) >> 2;
-    *(s32 *)(p[0] + 0x1C) = *(s32 *)(p[1] + 0x1C) = c;
+    c2 = ((((col >> 16) * 7) / 8) << 16) | (col & 0xFFFF);
+    *(s32 *)(p[0] + 0x14) = *(s32 *)(p[1] + 0x14) = c2;
+    c2 &= 0xFCFCFC;
+    c2 >>= 2;
+    *(s32 *)(p[0] + 0x1C) = *(s32 *)(p[1] + 0x1C) = c2;
 
     p[0][7] = 0x3A;                          /* POLY_G4 | semi-trans */
     *(s32 *)(p[0] + 0x00) = 0x8000000;       /* tag: len 8           */

@@ -3911,26 +3911,12 @@ s32 func_8018DAA8(s32 a0, s32 a1) {
 
                 ang = func_8012B6D4((s16 *)(a0 + 4), (s16 *)(p + 4));
                 func_8012B0B4((unsigned int *)buf, ang, 0x41);
-
                 {
-                    s32 t1 = *(s32 *)(p + 4);
                     s32 v1 = buf[0];
-                    register s32 t2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-                    s32 t3;
-                    register s32 t4 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-
-                    CAST_WIDTH(s32, a0, 4) = t1;
-
-                    t2 = ((Unkstruct_800B5CB8 *)a0)->unk6;
-                    t3 = *(s32 *)(p + 0xC);
-                    t2 = t2 + v1;
-                    CAST_WIDTH(s32, a0, 0xC) = t3;
-                    ((Unkstruct_800B5CB8 *)a0)->unk6 = t2;
-
-                    t4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
-                    v1 = v1 >> 16;
-                    t4 = t4 + v1;
-                    ((Unkstruct_800B5CB8 *)a0)->unkE = t4;
+                    CAST_WIDTH(s32, a0, 4) = *(s32 *)(p + 4);
+                    CAST_WIDTH(s32, a0, 0xC) = *(s32 *)(p + 0xC);
+                    ((Unkstruct_800B5CB8 *)a0)->unk6 += v1;
+                    ((Unkstruct_800B5CB8 *)a0)->unkE += v1 >> 16;
                 }
                 goto found;
             }
