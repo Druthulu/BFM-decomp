@@ -756,11 +756,11 @@ extern ActorFn D_80188614[];
 int func_80148AFC(void *a0) {
     s32 p = (s32)a0;
     s32 iVar5 = *(s32 *)(p + 0x20);
-    register s32 tmp __asm__("$5") = (ratan2(((Unkstruct_80126948 *)D_801151D4)->unk44 - ((Unkstruct_80126948 *)D_801151D4)->unk50,  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 tmp __asm__("$5") = (ratan2(((Unkstruct_80126948 *)D_801151D4)->unk44 - ((Unkstruct_80126948 *)D_801151D4)->unk50,  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_rj0)
                         ((Unkstruct_80126948 *)D_801151D4)->unk48 - ((Unkstruct_80126948 *)D_801151D4)->unk3C) - 0x400) & 0xFFF;
     s32 sVar3;
     u8 bVar1;
-    __asm__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+    __asm__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_rj0)
     sVar3 = tmp;
     bVar1 = *(u8 *)(p + 0xA9);
 
@@ -770,10 +770,10 @@ int func_80148AFC(void *a0) {
     case 0x53:
     case 0x73:
         {
-            register u32 bb __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
-            register s32 c80 __asm__("$2") = 0x80;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+            register u32 bb __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_rj0)
+            register s32 c80 __asm__("$2") = 0x80;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_rj0)
             s32 lo;
-            register s32 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+            register s32 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_rj0)
             bb = *(u16 *)(p + 0xAE);
             lo = bb & 0xFF;
             if (lo != c80 || (hi = bb >> 8) != 0x80) {
@@ -836,7 +836,7 @@ extern s32 D_80188654[];
 
 s32 func_80148D44(void) {
     s32 ang;
-    register s32 a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_rj0)
     s32 p;
     s32 res;
     s32 d;
@@ -845,7 +845,7 @@ s32 func_80148D44(void) {
     a = (ratan2(((Unkstruct_80126948 *)p)->unk44 - ((Unkstruct_80126948 *)p)->unk50,
                   ((Unkstruct_80126948 *)p)->unk48 - ((Unkstruct_80126948 *)p)->unk3C) - 0x400) & 0xFFF;
     d = (s32)D_80126C01;
-    __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
+    __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_rj0)
     ang = a;
     if (d == 0x53) {
         goto final;
