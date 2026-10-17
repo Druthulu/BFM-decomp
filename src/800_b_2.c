@@ -972,7 +972,7 @@ int func_8002D8D4(void) {
 extern void func_8002EE64(void);
 extern s32  func_80038210(s32, s16, s32);
 extern void func_8003819C(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80038308(s16 a0);
+extern void func_80038308(s32 arg0);
 extern void func_8003834C(s32, s16);
 extern void func_80038638(s32, s32);
 
@@ -1789,7 +1789,7 @@ void func_8002EA10(void) {
 
 extern u16   D_800A4E8E;
 extern s16   D_800A4E86;
-extern void func_80038308(s16 a0);
+extern void func_80038308(s32 arg0);
 
 void func_8002EAB0(void) {
     u16 *s0;
@@ -1835,7 +1835,7 @@ void func_8002EB10(void) {
 
 
 extern void func_80036D58(s16);
-extern void func_80038308(s16 arg0);
+extern void func_80038308(s32 arg0);
 extern u16 D_800A4E8E;
 extern s16 D_800A4E86;
 
