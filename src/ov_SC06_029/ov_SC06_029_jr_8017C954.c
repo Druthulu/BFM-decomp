@@ -6298,7 +6298,7 @@ void func_80182BC8(s32 a0) {
 
         {
             s32 *p = buf;
-            gte_SetRotTransMatrix_m(p);  // !FAKE: gte via gte_SetRotTransMatrix_m — clobbers memory vs Sony's (a scheduling steer; 3.39 T7.1 t8_gte1, instrument tools/gte_consolidate.py)
+            gte_SetRotTransMatrix(p);
         }
 
         svec1.vx = -0x3E;

@@ -374,30 +374,30 @@ void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3) {
     vin[2] = 0;
     vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 - 0x30;
     vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 - 0x20;
-    gte_SetRotMatrix_m(mat);  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte1)
-    gte_ldv0_m(vin);  // !FAKE: gte via gte_ldv0_m — memory beyond Sony's `gte_ldv0` (P36 T5 gte1)
-    gte_rtv0_m();  // !FAKE: gte via gte_rtv0_m — memory beyond Sony's `gte_rtv0` (P36 T5 gte1)
+    gte_SetRotMatrix(mat);
+    gte_ldv0(vin);
+    gte_rtv0();
     gte_stsv(o0);
 
     vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 + 0x30;
     vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 - 0x20;
-    gte_SetRotMatrix_m(mat);  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte1)
-    gte_ldv0_m(vin);  // !FAKE: gte via gte_ldv0_m — memory beyond Sony's `gte_ldv0` (P36 T5 gte1)
-    gte_rtv0_m();  // !FAKE: gte via gte_rtv0_m — memory beyond Sony's `gte_rtv0` (P36 T5 gte1)
+    gte_SetRotMatrix(mat);
+    gte_ldv0(vin);
+    gte_rtv0();
     gte_stsv(vec[1]);
 
     vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 - 0x30;
     vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 + 0x20;
-    gte_SetRotMatrix_m(mat);  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte1)
-    gte_ldv0_m(vin);  // !FAKE: gte via gte_ldv0_m — memory beyond Sony's `gte_ldv0` (P36 T5 gte1)
-    gte_rtv0_m();  // !FAKE: gte via gte_rtv0_m — memory beyond Sony's `gte_rtv0` (P36 T5 gte1)
+    gte_SetRotMatrix(mat);
+    gte_ldv0(vin);
+    gte_rtv0();
     gte_stsv(vec[2]);
 
     vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 + 0x30;
     vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 + 0x20;
-    gte_SetRotMatrix_m(mat);  // !FAKE: gte via gte_SetRotMatrix_m — memory beyond Sony's `gte_SetRotMatrix` (P36 T5 gte1)
-    gte_ldv0_m(vin);  // !FAKE: gte via gte_ldv0_m — memory beyond Sony's `gte_ldv0` (P36 T5 gte1)
-    gte_rtv0_m();  // !FAKE: gte via gte_rtv0_m — memory beyond Sony's `gte_rtv0` (P36 T5 gte1)
+    gte_SetRotMatrix(mat);
+    gte_ldv0(vin);
+    gte_rtv0();
     gte_stsv(vec[3]);
 
     tc[0] = tp[0];

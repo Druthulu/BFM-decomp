@@ -2786,11 +2786,11 @@ extern u16 D_800B99D8;
 
 void func_8019059C(s32 _arg0) {
     s32 arg0;
-    register s32 src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_mac1)
+    register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_mac1)
     s32 r;
     s32 iv;
-    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_mac1)
     s32 col;
     s32 n34;
     s32 sv;
@@ -2907,7 +2907,7 @@ void func_8019059C(s32 _arg0) {
         src = *(s32 *)(arg0 + 0xCC);
         func_8012B2CC(src);
         mp = D_801D11F8;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
         dst = *(s32 *)(arg0 + 0xD0);
         *(u16 *)(dst + 6) = sp10[0];
@@ -2921,7 +2921,7 @@ void func_8019059C(s32 _arg0) {
         src = *(s32 *)(arg0 + 0xD0);
         func_8012B2CC(src);
         mp = D_801D11F8;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
         dst = *(s32 *)(arg0 + 0xD4);
         *(u16 *)(dst + 6) = sp10[0];
@@ -2935,7 +2935,6 @@ void func_8019059C(s32 _arg0) {
         src = *(s32 *)(arg0 + 0xD4);
         func_8012B2CC(src);
         mp = D_801D11F8;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFERLAST (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
         *(u16 *)(arg0 + 6) = sp10[0];
         *(u16 *)(arg0 + 0xA) = sp10[1];
@@ -2970,7 +2969,7 @@ void func_8019059C(s32 _arg0) {
         src = *(s32 *)(arg0 + 0xCC);
         func_8012B2CC(src);
         mp = D_801D11F8;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
         dst = *(s32 *)(arg0 + 0xD0);
         *(u16 *)(dst + 6) = sp10[0];
@@ -2983,7 +2982,7 @@ void func_8019059C(s32 _arg0) {
         src = *(s32 *)(arg0 + 0xD0);
         func_8012B2CC(src);
         mp = D_801D11F8;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
         dst = *(s32 *)(arg0 + 0xD4);
         *(u16 *)(dst + 6) = sp10[0];
@@ -2996,7 +2995,6 @@ void func_8019059C(s32 _arg0) {
         src = *(s32 *)(arg0 + 0xD4);
         func_8012B2CC(src);
         mp = D_801D11F8;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFERLAST (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
         *(u16 *)(arg0 + 6) = sp10[0];
         *(u16 *)(arg0 + 0xA) = sp10[1];
@@ -3029,9 +3027,9 @@ void func_8019059C(s32 _arg0) {
         ((void (*)(s32))func_8004914C)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x34);
         ((void (*)(s32))func_800491AC)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x34);
         mm = D_801D1220;
-        __asm__ __volatile__("" : "=r"(mm) : "0"(mm));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" : "=r"(mm) : "0"(mm));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         m18 = sp18;
-        __asm__ __volatile__("" : "=r"(m18) : "0"(m18));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" : "=r"(m18) : "0"(m18));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         RotTransSV(mm, m18, sp28);
         col = 0x202080;
         if ((D_800B99D8 & 1) != 0) {
@@ -3055,7 +3053,7 @@ void func_8019059C(s32 _arg0) {
     src = *(s32 *)(arg0 + 0xCC);
     func_8012B2CC(src);
     mp = D_801D11F8;
-    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
     ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
     dst = *(s32 *)(arg0 + 0xD0);
     *(u16 *)(dst + 6) = sp10[0];
@@ -3068,7 +3066,7 @@ void func_8019059C(s32 _arg0) {
     src = *(s32 *)(arg0 + 0xD0);
     func_8012B2CC(src);
     mp = D_801D11F8;
-    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
     ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
     dst = *(s32 *)(arg0 + 0xD4);
     *(u16 *)(dst + 6) = sp10[0];
@@ -3081,7 +3079,6 @@ void func_8019059C(s32 _arg0) {
     src = *(s32 *)(arg0 + 0xD4);
     func_8012B2CC(src);
     mp = D_801D11F8;
-    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFERLAST (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
     ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
     *(u16 *)(arg0 + 6) = sp10[0];
     *(u16 *)(arg0 + 0xA) = sp10[1];
@@ -3153,13 +3150,13 @@ void func_80191020(s32 a0) {
         L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
         L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
         /* $a0-pinned scopes: rematerialise &D_800AF648 (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
         { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                         && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                        /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5"); /* |X| */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s32 av __asm__("$5"); /* |X| */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_mac1)
             s32 vol;
             sx = (s16)L.sxy[0];
             av = sx;
@@ -3168,7 +3165,7 @@ void func_80191020(s32 a0) {
             }
             vol = ((0xA0 - av) * 0x7F) / 0xA0;
             /* sched1 otherwise hoists the PAN multiply ahead of this one */
-            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
             sx = (sx + 0xA0) / 0x14;
             if (sx == 0x10) {
                 sx = 0xF;

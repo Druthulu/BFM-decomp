@@ -3493,15 +3493,15 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017C290 *c, SVECTOR_8017C290 *d,
     { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
 
     gte_ldv0(c);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte1)
+    gte_rtv0tr();
     gte_stsv(r0_00);
 
     gte_ldv0(f);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte1)
+    gte_rtv0tr();
     gte_stsv(r0_00 + 1);
 
     gte_ldv0(d);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte1)
+    gte_rtv0tr();
     r0 = r0_00 + 2;
     gte_stsv(r0);
 
@@ -3510,7 +3510,7 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017C290 *c, SVECTOR_8017C290 *d,
     d->vx = d->vx - (f->pad & r);
 
     gte_ldv0(d);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte1)
+    gte_rtv0tr();
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
@@ -3518,7 +3518,7 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017C290 *c, SVECTOR_8017C290 *d,
     func_80017714(r0_00);
 
     gte_ldv0(e);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte1)
+    gte_rtv0tr();
     gte_stsv(r0);
 
     *e = *f;
@@ -3526,7 +3526,7 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017C290 *c, SVECTOR_8017C290 *d,
     e->vx = e->vx + (f->pad & r);
 
     gte_ldv0(e);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte1)
+    gte_rtv0tr();
     gte_stsv(pSVar6);
 
     r0_00->vz = ((Unkstruct_80015954 *)b)->unk4;

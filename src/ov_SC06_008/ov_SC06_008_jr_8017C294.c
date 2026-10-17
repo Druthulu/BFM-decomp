@@ -2996,7 +2996,7 @@ void func_8017D73C(s32 a0) {
         } while (i < n);
     }
 
-    __asm__ ("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ ("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
     i = 0;
     if (n != 0) {
         do {
@@ -3011,7 +3011,7 @@ void func_8017D73C(s32 a0) {
         } while (i < n);
     }
 
-    __asm__ ("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ ("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
     i = 0;
     if (n != 0) {
         do {
@@ -3357,7 +3357,7 @@ extern s32 func_8017E37C(void *a0, s32 a1, s32 a2);
 
 void func_8017E204(u8 *s1)
 {
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_mac1)
     s32 v0, v1, s0;
     s32 pad[8];
     v0 = ((Unkstruct_8017E204 *)s1)->unkDC;
@@ -5703,8 +5703,8 @@ void func_8018165C(s32 a0) {
             L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
             L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
             L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
                             && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
@@ -5715,7 +5715,6 @@ void func_8018165C(s32 a0) {
                     ax = -x;
                 }
                 ax = ((0xF0 - ax) * 0x7F) / 0xF0;
-                __asm__("" : "=r"(ax) : "0"(ax));  // !FAKE: launder expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
                 x = (x + 0xF0) / 0x1E;
                 if (x == 0x10) {
                     x = 0xF;
@@ -5730,8 +5729,8 @@ void func_8018165C(s32 a0) {
             L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
             L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
             L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
                             && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
@@ -5742,7 +5741,6 @@ void func_8018165C(s32 a0) {
                     ax = -x;
                 }
                 ax = ((0xF0 - ax) * 0x7F) / 0xF0;
-                __asm__("" : "=r"(ax) : "0"(ax));  // !FAKE: launder expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
                 x = (x + 0xF0) / 0x1E;
                 if (x == 0x10) {
                     x = 0xF;

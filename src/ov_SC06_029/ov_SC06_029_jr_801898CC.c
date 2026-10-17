@@ -3590,13 +3590,13 @@ void func_8018A180(s32 a0) {
     prim.tag = 0x60000000;
     {
         s32 ang = 0xE;
-        __asm__("" : "=r"(ang) : "0"(ang));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-        func_8012EA90(a0, ang, (s32 *)({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }));  // !FAKE: launder expanded from per-TU macro LAUNDER_8018A180 (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        __asm__("" : "=r"(ang) : "0"(ang));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
+        func_8012EA90(a0, ang, (s32 *)({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
     }
-    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921E8, (s32)&prim.v[0]);  // !FAKE: launder expanded from per-TU macro LAUNDER_8018A180 (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921F0, (s32)&prim.v[1]);  // !FAKE: launder expanded from per-TU macro LAUNDER_8018A180 (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921F8, (s32)&prim.v[2]);  // !FAKE: launder expanded from per-TU macro LAUNDER_8018A180 (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_80192200, (s32)&prim.v[3]);  // !FAKE: launder expanded from per-TU macro LAUNDER_8018A180 (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921E8, (s32)&prim.v[0]);  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
+    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921F0, (s32)&prim.v[1]);  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
+    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921F8, (s32)&prim.v[2]);  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
+    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_80192200, (s32)&prim.v[3]);  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
 
     prim.v[0].vy = 0;
     prim.v[1].vy = 0;
@@ -4889,15 +4889,15 @@ void func_8018BA5C(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
 
     gte_ldv0(c);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
+    gte_rtv0tr();
     gte_stsv(r0_00);
 
     gte_ldv0(f);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
+    gte_rtv0tr();
     gte_stsv(r0_00 + 1);
 
     gte_ldv0(d);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
+    gte_rtv0tr();
     r0 = r0_00 + 2;
     gte_stsv(r0);
 
@@ -4906,7 +4906,7 @@ void func_8018BA5C(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     d->vx = d->vx - (f->pad & r);
 
     gte_ldv0(d);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
+    gte_rtv0tr();
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
@@ -4914,7 +4914,7 @@ void func_8018BA5C(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     func_80017714(r0_00);
 
     gte_ldv0(e);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
+    gte_rtv0tr();
     gte_stsv(r0);
 
     *e = *f;
@@ -4922,7 +4922,7 @@ void func_8018BA5C(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     e->vx = e->vx + (f->pad & r);
 
     gte_ldv0(e);
-    gte_rtv0tr_m();  // !FAKE: gte via gte_rtv0tr_m — memory beyond Sony's `gte_rtv0tr` (P36 T5 gte2)
+    gte_rtv0tr();
     gte_stsv(pSVar6);
 
     r0_00->vz = ((u16 *)b)[2];

@@ -39,7 +39,7 @@ s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3) {
     *(s32 *)(buf + 0xDC) = 0;                       /* 0xEC */
     {
         s32 *p = (s32 *)(buf + 0xC0);
-        gte_SetRotTransMatrix_m(p);  // !FAKE: gte via gte_SetRotTransMatrix_m — clobbers memory vs Sony's (a scheduling steer; 3.39 T7.1 t8_gte1, instrument tools/gte_consolidate.py)
+        gte_SetRotTransMatrix(p);
     }
     func_8013AD38(buf + 0xE0, 0, buf + 0x00, buf + 0x80);
     D_800A5E60 = a0;

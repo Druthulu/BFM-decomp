@@ -2974,7 +2974,7 @@ s32 func_8017DE08(s32 a0)
     u8 *p;
     s32 ot;
     s32 tp;
-    register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_mac1)
 
     ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14));
 
@@ -3236,8 +3236,8 @@ void func_8017E120(s32 a0) {
         L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
         L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                         && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
@@ -3261,8 +3261,8 @@ void func_8017E120(s32 a0) {
             L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
             L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
             L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                             && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
@@ -3323,8 +3323,8 @@ void func_8017E120(s32 a0) {
             L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
             L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
             L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                             && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
@@ -3359,8 +3359,8 @@ void func_8017E120(s32 a0) {
             L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
             L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
             L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                             && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
@@ -3416,8 +3416,8 @@ void func_8017E120(s32 a0) {
             L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
             L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
             L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                             && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
@@ -3467,8 +3467,8 @@ void func_8017E120(s32 a0) {
             L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
             L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
             L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                             && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
@@ -3496,8 +3496,8 @@ void func_8017E120(s32 a0) {
             L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
             L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
             L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                             && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
@@ -3728,8 +3728,8 @@ void func_8017F268(s32 a0) {
         L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
         L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
         L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                         && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
