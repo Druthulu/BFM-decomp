@@ -1,7 +1,7 @@
 /* func_8013F350 — shared body (overlay slot 0x80128158, h_exact ac64fadf). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8013F350(void) {
-    register u16 *pd __asm__("$5") = &D_8011511C;  // !FAKE: pin $5 — global.c allocno_compare (:594-603) ranks pd (6 refs/9 insns = 13333) ahead of the pad zext (7500) and pad (6154), so find_reg gives pd $v1; pinned, the zext takes $v1 and pad $a0 as in the target, and no zero-byte set_preference (global.c:1535) source for $a1 exists (P36 S103 c49 minimum-lever)
+    u16 *pd = &D_8011511C;
     u16 *ps;
     u16 *pf;
     u16 *pg;
@@ -21,24 +21,25 @@ s32 func_8013F350(void) {
     u8 m;
     s32 chg;
 
-    __asm__("" : "=r"(pd) : "0"(pd));  // !FAKE: launder pd — keeps &D_8011511C out of cse so find_best_addr cannot fold pd[2] (cse.c:2663) on either .cse2 path (cse.c:8098-8124); proved irreducible in plain C (S103 c28) (P36 S103 c49 minimum-lever)
     pad = *pd;
     chg = 0;
+    pf = pd + 2;
     if (pad != 0) {
-        if (pad == pd[2]) {
+        if (pad == *pf) {
             D_80115122 = D_80115122 - 1;
             if (D_80115122 == 0) {
                 D_8011511E = pad & 0xF000;
                 D_80115122 = 3;
             }
         } else {
-            pd[2] = pad;
+            *pf = pad;
             D_80115122 = 6;
         }
     } else {
         D_80115120 = 0;
         D_80115122 = 0xC;
     }
+
 
     i = 0;
     do {
