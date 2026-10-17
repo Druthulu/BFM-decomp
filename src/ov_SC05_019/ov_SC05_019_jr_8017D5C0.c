@@ -365,7 +365,7 @@ extern s32 func_80029178(s32 a0);
 extern s32 func_80149C08(s32 arg0);
 extern void func_801577C8(s32 arg0);
 extern void func_80149C94(void);
-extern void func_80157D20();
+extern void func_80157D20(void *param_1, s32 param_2);
 extern void func_80149CB4();
 extern s32 func_80149CD4(s32 a0);
 extern u8 func_8014B5B8(s32 *a0);
