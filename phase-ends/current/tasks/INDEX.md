@@ -7,3 +7,4 @@ T4 | done | rung S re-sweep, overlays, onto the new canonical types | - | tasks/
 T5 | done | rung S re-sweep, md_*, main and shared | - | tasks/T5.md | logs/T5.md | R3.40-008
 T6 | done | legacy-T7 declaration items and the ledgered lying decls | - | tasks/T6.md | logs/T6.md | -
 T7 | done | missing-parameter pins become declared parameters | - | tasks/T7.md | logs/T7.md | R3.40-001
+T8 | done | oracle re-judge and the mechanical lever classes | - | tasks/T8.md | logs/T8.md | R3.40-001
