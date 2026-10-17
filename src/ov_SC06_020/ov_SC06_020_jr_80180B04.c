@@ -2717,7 +2717,7 @@ extern void func_801834F0(s32, void*, void*, s32);
 extern void func_8018348C(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
 extern void func_8017FAFC(s32 param_1);
-extern void func_801811A8(void);
+extern void func_801811A8();
 extern void func_8017FF18(s32 arg0);
 
 #include "common.h"
@@ -2946,7 +2946,7 @@ void func_80181064(s32 a0) {
 
 
 
-extern void func_801811A8(void);
+extern void func_801811A8();
 extern void func_80181654(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
 
@@ -2958,7 +2958,7 @@ void func_801810E8(s32 param_1) {
 
     ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
     if ((CAST_SIGN(u32, param_1, 0xe0) & 8) == 0) {
-        func_801811A8();
+        func_801811A8(param_1);
     } else {
         if ((CAST_SIGN(u32, param_1, 0xe0) & 0x20) != 0) {
             func_80181654(param_1, -0x8000);
@@ -2978,7 +2978,7 @@ void func_801810E8(s32 param_1) {
 }
 
 
-void func_801811A8(void) {
+void func_801811A8() {
     extern void func_8012A828(s32 a0, void *a1);
     extern u8 D_801B66F0[];
     extern u8 D_801B5A18[];

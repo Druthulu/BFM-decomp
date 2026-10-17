@@ -2826,7 +2826,7 @@ extern void func_80187E08(s32, void*, void*, s32);
 extern void func_80187DA4(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
 extern void func_80184414(s32 param_1);
-extern void func_80185AC0(void);
+extern void func_80185AC0();
 extern void func_80184830(s32 *param);
 
 
@@ -3363,7 +3363,7 @@ void func_8018597C(s32 a0) {
 
 
 
-extern void func_80185AC0(void);
+extern void func_80185AC0();
 extern void func_80185F6C(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void * a1);
 
@@ -3375,7 +3375,7 @@ void func_80185A00(s32 param_1) {
 
     ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
     if ((CAST_SIGN(u32, param_1, 0xe0) & 8) == 0) {
-        func_80185AC0();
+        func_80185AC0(param_1);
     } else {
         if ((CAST_SIGN(u32, param_1, 0xe0) & 0x20) != 0) {
             func_80185F6C(param_1, -0x8000);
@@ -3397,7 +3397,7 @@ void func_80185A00(s32 param_1) {
 
 extern void func_8012A828(s32 a0, void * a1);
 
-void func_80185AC0(void) {
+void func_80185AC0() {
     register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     extern u8 D_801C6A0C[];

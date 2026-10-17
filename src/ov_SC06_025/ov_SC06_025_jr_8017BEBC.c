@@ -3655,7 +3655,7 @@ void func_8017E0F0(s32 arg0)
 
 
 extern u16 func_80148800(s32 *);
-extern s32 func_80180ED4(void);
+extern s32 func_80180ED4();
 extern s32 D_801B12E8;
 extern s32 D_801B12E0;
 
@@ -3674,7 +3674,7 @@ void func_8017E100(void) {
     }
 
     if (var_a0 >= 0) {
-        D_801B12E8 = func_80180ED4();
+        D_801B12E8 = func_80180ED4(var_a0);
         D_801B12E0 = 1;
     }
 }

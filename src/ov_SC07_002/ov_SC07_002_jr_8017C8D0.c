@@ -4892,9 +4892,9 @@ void func_80180B0C(s32 s1) {
 }
 
 
-extern void func_80180BEC(void);
-void func_80180BCC(void) {
-    func_80180BEC();
+extern void func_80180BEC();
+void func_80180BCC(s32 a0) {
+    func_80180BEC(a0);
 }
 
 
@@ -4922,7 +4922,7 @@ void func_80180BCC(void) {
  * VERIFIED: match_one MATCH (48/48), AND a real-TU compile of the spliced
  * ov_SC07_002_jr_8017C8D0.c is cc1 rc=0 with 0 masked diffs for this function.
  */
-void func_80180BEC(void) {
+void func_80180BEC() {
     extern s16 D_80126940[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);

@@ -178,7 +178,7 @@ void func_800CCF84(void) {
 
 extern s32 func_80161A00(s32 a0);
 extern void (*D_800CD6B0[])(void);
-extern void func_800CD1A8(void);
+extern void func_800CD1A8();
 
 void func_800CCFA8(s32 param_1)
 {
@@ -195,7 +195,7 @@ extern void func_80146578(void);
 extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80146CA0(void *a0);
 extern void func_800CD204();  // K&R: 0 of 1 args (P37 rung D t4_D40)
-extern void func_800CD1A8(void);
+extern void func_800CD1A8();
 
 extern u8 D_800CD66C;
 
@@ -260,7 +260,7 @@ void func_800CD0CC(s32 param_1)
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
-void func_800CD1A8(void) {
+void func_800CD1A8() {
     register void *a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     void *arg0 = a0r;
 

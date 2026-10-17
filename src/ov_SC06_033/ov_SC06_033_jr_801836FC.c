@@ -3497,10 +3497,10 @@ void func_801846B4(s32 p)
 }
 
 
-extern void func_80185AC0(void);
+extern void func_80185AC0();
     void func_80184830(s32 *param) {
         if (*(s16 *)((char *)param + 0x98) == 0) {
-            ((void (*)(void))func_80185AC0)();
+            func_80185AC0((s32)param);
         }
     }
 

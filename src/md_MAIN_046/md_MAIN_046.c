@@ -40,7 +40,7 @@ void func_800CCB78(void *a0) {
 
 
 extern void func_80147078(s32 *a0, s16 a1);
-extern void func_800CCD50(void);
+extern void func_800CCD50();
 void func_800CCC8C(s32 *a0) {
     func_80147078(a0, 33);
     ((void (*)(void *))func_800CCD50)(a0);
@@ -64,13 +64,13 @@ void func_800CCCF4(void *a0) {
 }
 
 
-extern void func_800CCD50(void);
-void func_800CCD30(void) {
-    func_800CCD50();
+extern void func_800CCD50();
+void func_800CCD30(void *a0) {
+    func_800CCD50(a0);
 }
 
 
-void func_800CCD50(void) {
+void func_800CCD50() {
     register void *a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
     extern void func_80154274(s32 *a0, s32 a1);
     extern void func_80146D90(s32 a0);

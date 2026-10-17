@@ -2721,7 +2721,7 @@ extern void func_8017DF50(void *arg0);
 extern void func_8017E008(void *a0);
 extern void func_8017E054(void);
 extern u16 func_80148800(s32 *);
-extern s32 func_80180ED4(void);
+extern s32 func_80180ED4();
 extern s32 D_801B12E8;
 extern s32 D_801B12E0;
 extern void func_8017E18C(s32 arg0, s16 *arg1, s32 arg2, s32 arg3);
@@ -3602,7 +3602,7 @@ void func_80180020(void) {
  * arguments behind a no-prototype decl -- a file-scope prototype turns that
  * call into a hard `too few arguments` error and fails the whole-binary gate
  * even though this function itself is byte-identical. */
-s32 func_80180284(void)
+s32 func_80180284()
 {
     extern void func_8012E8E0(s32 a0, s32 a1);
     extern void func_8012A828();  // K&R: 0/2 of 2 args (P37 rung D t4_D22)
@@ -4260,7 +4260,7 @@ void func_80180E98(void *a0) {
 
 extern void (*D_801890A4[])(void);
 
-s32 func_80180ED4(void)
+s32 func_80180ED4()
 {
     register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     return (s32)&D_801890A4[a0 * 2];
@@ -5165,11 +5165,11 @@ extern void func_80146D90(s32 a0);
     }
 
 
-void func_80182470(void) {
+void func_80182470(void *a0) {
     extern s16 D_80126B66;
-    extern s32 func_80180284(void);
+    extern s32 func_80180284();
     if (D_80126B66 >= 0xC0) {
-        func_80180284();
+        func_80180284(a0);
     }
 }
 

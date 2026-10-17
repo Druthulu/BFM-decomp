@@ -772,9 +772,9 @@ void func_800CBF28(s32 p1)
 }
 
 
-extern void func_800CC024(void);
-void func_800CBFE4(void) {
-    func_800CC024();
+extern void func_800CC024();
+void func_800CBFE4(s32 a0) {
+    func_800CC024(a0);
 }
 
 

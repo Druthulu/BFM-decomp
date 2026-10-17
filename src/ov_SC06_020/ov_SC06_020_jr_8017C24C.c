@@ -4605,10 +4605,10 @@ void func_8017FD9C(s32 p)
 }
 
 
-extern void func_801811A8(void);
+extern void func_801811A8();
     void func_8017FF18(s32 arg0) {
         if (((Unkstruct_8017FF18 *)arg0)->unk98 == 0) {
-            ((void (*)(void))func_801811A8)();
+            func_801811A8(arg0);
         }
     }
 
