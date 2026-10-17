@@ -3264,17 +3264,15 @@ void func_8017D1F8(void *a0) {
 }
 
 
-extern void func_8017D254();
+extern void func_8017D254(s32 param_1);
     void func_8017D234(void *a0) {
         func_8017D254((s32)a0);
     }
 
 
-void func_8017D254() {
+void func_8017D254(s32 param_1) {
     extern s32 D_80126B58;
     extern s16 D_80182E10[];
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
-    s32 param_1 = a0v;
     u8 t;
     s32 pad[12];
 
