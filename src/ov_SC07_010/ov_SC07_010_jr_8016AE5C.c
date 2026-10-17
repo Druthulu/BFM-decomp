@@ -2372,7 +2372,7 @@ extern void func_80146C3C(u8 *a0);
 
 s32 func_8016BBE0(s32 param_1) {
     extern void func_8016BF34(void *a0);
-    extern void func_8016BF50(s32);
+    extern s32 func_8016BF50(s32 param);
     extern void func_8001CF00(s32);
     extern M2C_UNK D_801A70FC;
     extern u8 D_801A70FD;
@@ -2422,7 +2422,7 @@ extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
         u16 temp_v0;
         void *temp_s0;
         temp_s0 = M2C_FIELD(arg0, void **, 0x20);
-        func_8016BF50();
+        func_8016BF50((s32)arg0);
         temp_a2 = M2C_FIELD(arg0, u16 *, 0x10) + 0x60;
         M2C_FIELD(arg0, u16 *, 0x10) = temp_a2;
         temp_v0 = ((Unkstruct_800B5CB8 *)temp_s0)->unk1A + temp_a2;
@@ -2439,7 +2439,7 @@ extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
     }
 
 
-extern void func_8016BF50(s32);
+extern s32 func_8016BF50(s32 param);
 extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 // @class: struct
@@ -2464,7 +2464,7 @@ s32 func_8016BD78(s32 param_1)
     u8 *p2;
 
     iVar2 = ((Unkstruct_8016BD78_4 *)param_1)->unk20;
-    ((void(*)())func_8016BF50)();
+    func_8016BF50(param_1);
 
     p1 = &(*(u8 *)&D_801A70FC);
     if (*p1 != 0) *p1 -= 4;
@@ -2488,7 +2488,7 @@ s32 func_8016BD78(s32 param_1)
 
 
 extern void func_80146C3C(u8 *a0);
-extern void func_8016BF50(s32);
+extern s32 func_8016BF50(s32 param);
 extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 
@@ -2504,7 +2504,7 @@ s32 func_8016BEA0(s32 param_1)
     unsigned short uVar1;
 
     iVar2 = ((Unkstruct_8016BEA0_4 *)param_1)->unk20;
-    ((void(*)())func_8016BF50)();
+    func_8016BF50(param_1);
     uVar1 = *(unsigned short *)(((int)param_1) + 0x10) - 0x18;
     *(unsigned short *)(((int)param_1) + 0x10) = uVar1;
     *(unsigned short *)(iVar2 + 0x1a) = *(unsigned short *)(iVar2 + 0x1a) + uVar1;
