@@ -6231,7 +6231,6 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
 
 extern void func_80016714(void *a0, s32 a1);
 extern void func_80146C3C(u8 *a0);
-#define SHB(x) __asm__("" : "=r"(x) : "0"(x))
 
 void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 {

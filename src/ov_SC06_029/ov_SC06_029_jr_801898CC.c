@@ -3580,8 +3580,6 @@ extern SVec_8018A180 D_801921F8;
 extern SVec_8018A180 D_80192200;
 
 /* §153 address launder — NON-volatile on purpose (see key (2) above). */
-#define LAUNDER_8018A180(p) \
-    ({ s32 _m = (s32)(p); __asm__("" : "=r"(_m) : "0"(_m)); _m; })
 
 void func_8018A180(s32 a0) {
     Prim_8018A180 prim;
@@ -3593,12 +3591,12 @@ void func_8018A180(s32 a0) {
     {
         s32 ang = 0xE;
         __asm__("" : "=r"(ang) : "0"(ang));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-        func_8012EA90(a0, ang, (s32 *)LAUNDER_8018A180(&buf));  // !FAKE: launder via LAUNDER_8018A180 — NEEDED DIFFERS (P36 rung B tus9)
+        func_8012EA90(a0, ang, (s32 *)({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }));  // !FAKE: launder expanded from per-TU macro LAUNDER_8018A180 (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
     }
-    func_8012F14C(LAUNDER_8018A180(&buf), (s32)&D_801921E8, (s32)&prim.v[0]);  // !FAKE: launder via LAUNDER_8018A180 — NEEDED DIFFERS (P36 rung B tus9)
-    func_8012F14C(LAUNDER_8018A180(&buf), (s32)&D_801921F0, (s32)&prim.v[1]);  // !FAKE: launder via LAUNDER_8018A180 — NEEDED DIFFERS (P36 rung B tus9)
-    func_8012F14C(LAUNDER_8018A180(&buf), (s32)&D_801921F8, (s32)&prim.v[2]);  // !FAKE: launder via LAUNDER_8018A180 — NEEDED DIFFERS (P36 rung B tus9)
-    func_8012F14C(LAUNDER_8018A180(&buf), (s32)&D_80192200, (s32)&prim.v[3]);  // !FAKE: launder via LAUNDER_8018A180 — NEEDED DIFFERS (P36 rung B tus9)
+    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921E8, (s32)&prim.v[0]);  // !FAKE: launder expanded from per-TU macro LAUNDER_8018A180 (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921F0, (s32)&prim.v[1]);  // !FAKE: launder expanded from per-TU macro LAUNDER_8018A180 (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921F8, (s32)&prim.v[2]);  // !FAKE: launder expanded from per-TU macro LAUNDER_8018A180 (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_80192200, (s32)&prim.v[3]);  // !FAKE: launder expanded from per-TU macro LAUNDER_8018A180 (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
 
     prim.v[0].vy = 0;
     prim.v[1].vy = 0;

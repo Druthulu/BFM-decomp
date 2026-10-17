@@ -7182,33 +7182,6 @@ extern void func_8004914C();
 extern void func_800491AC();
 extern u8 * func_8012913C(s32 arg0);
 extern void func_8012A828(s32 a0, void * a1);
-#define RTP_SND(sndid)                                                        \
-    L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);                            \
-    L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);                            \
-    L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);                            \
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); } \
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); } \
-    RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);                        \
-    if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF              \
-                    && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {           \
-        s32 x = (s16)L.sxy[0];                                                \
-        s32 ax;                                                               \
-        ax = x;                                                               \
-        if (x < 0) {                                                          \
-            ax = -x;                                                          \
-        }                                                                     \
-        ax = ((0xF0 - ax) * 0x7F) / 0xF0;                                     \
-        __asm__("" : "=r"(ax) : "0"(ax));                                     \
-        x = (x + 0xF0) / 0x1E;                                                \
-        if (x == 0x10) {                                                      \
-            x = 0xF;                                                          \
-        }                                                                     \
-        x = x << 8;                                                           \
-        {                                                                     \
-            s32 flg = 0x3000;                                                 \
-            func_8002D4C8(sndid, ((ax | flg) | x) & 0xFFFF);                  \
-        }                                                                     \
-    }
 
 void func_801891A8(s32 a0) {
 
@@ -7250,9 +7223,59 @@ void func_801891A8(s32 a0) {
         idx = ang / 0x100;
         m = (s16)(idx % 0x10);
         if (ang == 0x100) {
-            RTP_SND(0x95F)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
+            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+            if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
+                            && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
+                s32 x = (s16)L.sxy[0];
+                s32 ax;
+                ax = x;
+                if (x < 0) {
+                    ax = -x;
+                }
+                ax = ((0xF0 - ax) * 0x7F) / 0xF0;
+                __asm__("" : "=r"(ax) : "0"(ax));  // !FAKE: launder expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+                x = (x + 0xF0) / 0x1E;
+                if (x == 0x10) {
+                    x = 0xF;
+                }
+                x = x << 8;
+                {
+                    s32 flg = 0x3000;
+                    func_8002D4C8(0x95F, ((ax | flg) | x) & 0xFFFF);
+                }
+            }
         } else if (m == 0) {
-            RTP_SND(0x960)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
+            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+            if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
+                            && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
+                s32 x = (s16)L.sxy[0];
+                s32 ax;
+                ax = x;
+                if (x < 0) {
+                    ax = -x;
+                }
+                ax = ((0xF0 - ax) * 0x7F) / 0xF0;
+                __asm__("" : "=r"(ax) : "0"(ax));  // !FAKE: launder expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+                x = (x + 0xF0) / 0x1E;
+                if (x == 0x10) {
+                    x = 0xF;
+                }
+                x = x << 8;
+                {
+                    s32 flg = 0x3000;
+                    func_8002D4C8(0x960, ((ax | flg) | x) & 0xFFFF);
+                }
+            }
         }
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk20 = D_801C2B50[m];
         c = CAST_SIGN(u16, a0, 0x100) - 1;
@@ -10942,38 +10965,6 @@ extern u8 D_800A651C[];
 extern u8 D_800AE610[];
 extern u8 D_800AF630[];
 
-
-#define DRAW() \
-    mb = (u8 *)&D_800AF630; \
-    __asm__("" : "=r"(mb) : "0"(mb)); \
-    func_8004914C(mb + 0x18); \
-    __asm__("" : "=r"(mb) : "0"(mb)); \
-    func_800491AC(mb + 0x18); \
-    pc = (long *)&pkt[0]; \
-    p1 = (long *)&pkt[2]; \
-    p2 = (long *)&pkt[4]; \
-    p3 = (long *)&pkt[6]; \
-    pfl = &flag1; \
-    p0 = pc; \
-    gte_ldv3(p0, p1, p2); \
-    gte_rtpt(); \
-    gte_stflg(pfl); \
-    __asm__ __volatile__("" :: "r"(pfl)); \
-    gte_stsxy3(p0, p1, p2); \
-    gte_ldv0(p3); \
-    gte_rtps(); \
-    gte_stflg(&flag2); \
-    flag1 |= flag2; \
-    gte_stsxy(p3); \
-    gte_avsz4(); \
-    gte_stotz(&otz); \
-    oz = otz; \
-    *(s16 *)((u8 *)pkt + 4) = (s16)oz; \
-    if (oz > 0 && flag1 >= 0 && \
-        !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C \
-            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) { \
-        func_80017254(pc); \
-    }
 
 void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     u8      dead[0x20];   /* 0x10 : reserved, never referenced (holds the frame at 0xC8) */

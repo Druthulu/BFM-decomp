@@ -6023,38 +6023,6 @@ void func_8018AAF4(void *arg) {
   /* 8 bytes, align 2 */
 
 
-#define DRAW() \
-    mb = (u8 *)&D_800AF630; \
-    __asm__("" : "=r"(mb) : "0"(mb)); \
-    func_8004914C(mb + 0x18); \
-    __asm__("" : "=r"(mb) : "0"(mb)); \
-    func_800491AC(mb + 0x18); \
-    pc = (long *)&pkt[0]; \
-    p1 = (long *)&pkt[2]; \
-    p2 = (long *)&pkt[4]; \
-    p3 = (long *)&pkt[6]; \
-    pfl = &flag1; \
-    p0 = pc; \
-    gte_ldv3(p0, p1, p2); \
-    gte_rtpt(); \
-    gte_stflg(pfl); \
-    __asm__ __volatile__("" :: "r"(pfl)); \
-    gte_stsxy3(p0, p1, p2); \
-    gte_ldv0(p3); \
-    gte_rtps(); \
-    gte_stflg(&flag2); \
-    flag1 |= flag2; \
-    gte_stsxy(p3); \
-    gte_avsz4(); \
-    gte_stotz(&otz); \
-    oz = otz; \
-    *(s16 *)((u8 *)pkt + 4) = (s16)oz; \
-    if (oz > 0 && flag1 >= 0 && \
-        !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C \
-            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) { \
-        func_80017254(pc); \
-    }
-
 void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     extern void func_8004914C(void *a0);
     extern void func_800491AC(void *a0);

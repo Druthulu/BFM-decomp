@@ -2827,31 +2827,6 @@ extern u16 D_80126B62;
 extern u16 D_80126B66;
 extern u16 D_800B99D8;
 
-#define XFER(SRCOFF, DSTOFF)                                                                      \
-    src = *(s32 *)(arg0 + SRCOFF);                                                                \
-    func_8012B2CC(src);                                                                           \
-    mp = D_801D11F8;                                                                              \
-    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));                                                \
-    ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);        \
-    dst = *(s32 *)(arg0 + DSTOFF);                                                                \
-    *(u16 *)(dst + 6) = sp10[0];                                                                  \
-    *(u16 *)(dst + 0xA) = sp10[1];                                                                \
-    *(u16 *)(dst + 0xE) = sp10[2];                                                                \
-    *(u16 *)(*(s32 *)(dst + 0x20) + 0x10) =                                                       \
-        *(u16 *)(dst + 0xFC) + *(u16 *)(*(s32 *)(src + 0x20) + 0x10);                             \
-    *(u16 *)(*(s32 *)(dst + 0x20) + 0x12) =                                                       \
-        *(u16 *)(dst + 0xFE) + *(u16 *)(*(s32 *)(src + 0x20) + 0x12);
-
-#define XFERLAST(SRCOFF)                                                                          \
-    src = *(s32 *)(arg0 + SRCOFF);                                                                \
-    func_8012B2CC(src);                                                                           \
-    mp = D_801D11F8;                                                                              \
-    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));                                                \
-    ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);        \
-    *(u16 *)(arg0 + 6) = sp10[0];                                                                 \
-    *(u16 *)(arg0 + 0xA) = sp10[1];                                                               \
-    *(u16 *)(arg0 + 0xE) = sp10[2];
-
 #define SCAN()                                                                                    \
     p = (u8 *)D_801202A0;                                                                         \
     i = 0;                                                                                        \
@@ -2944,11 +2919,42 @@ void func_80191C50(s32 _arg0) {
         break;
     case 6:
         func_8018D40C(((Unkstruct_800B5CB8 *)arg0)->unkCC);
-        XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
+        src = *(s32 *)(arg0 + 0xCC);
+        func_8012B2CC(src);
+        mp = D_801D11F8;
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        dst = *(s32 *)(arg0 + 0xD0);
+        *(u16 *)(dst + 6) = sp10[0];
+        *(u16 *)(dst + 0xA) = sp10[1];
+        *(u16 *)(dst + 0xE) = sp10[2];
+        *(u16 *)(*(s32 *)(dst + 0x20) + 0x10) =
+            *(u16 *)(dst + 0xFC) + *(u16 *)(*(s32 *)(src + 0x20) + 0x10);
+        *(u16 *)(*(s32 *)(dst + 0x20) + 0x12) =
+            *(u16 *)(dst + 0xFE) + *(u16 *)(*(s32 *)(src + 0x20) + 0x12);
         func_8018D514(((Unkstruct_800B5CB8 *)arg0)->unkD0);
-        XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
+        src = *(s32 *)(arg0 + 0xD0);
+        func_8012B2CC(src);
+        mp = D_801D11F8;
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        dst = *(s32 *)(arg0 + 0xD4);
+        *(u16 *)(dst + 6) = sp10[0];
+        *(u16 *)(dst + 0xA) = sp10[1];
+        *(u16 *)(dst + 0xE) = sp10[2];
+        *(u16 *)(*(s32 *)(dst + 0x20) + 0x10) =
+            *(u16 *)(dst + 0xFC) + *(u16 *)(*(s32 *)(src + 0x20) + 0x10);
+        *(u16 *)(*(s32 *)(dst + 0x20) + 0x12) =
+            *(u16 *)(dst + 0xFE) + *(u16 *)(*(s32 *)(src + 0x20) + 0x12);
         func_8018D514(((Unkstruct_800B5CB8 *)arg0)->unkD4);
-        XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B t8_tus2)
+        src = *(s32 *)(arg0 + 0xD4);
+        func_8012B2CC(src);
+        mp = D_801D11F8;
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFERLAST (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        *(u16 *)(arg0 + 6) = sp10[0];
+        *(u16 *)(arg0 + 0xA) = sp10[1];
+        *(u16 *)(arg0 + 0xE) = sp10[2];
         func_8012B77C(sp10, (void *)(arg0 + 4), ((u8 *)&D_80126B5C));
         tmp = *(s32 *)sp10;
         ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk10 = tmp;
@@ -2976,9 +2982,40 @@ void func_80191C50(s32 _arg0) {
             goto L801924AC;
         }
         SCAN()
-        XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
-        XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
-        XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B t8_tus2)
+        src = *(s32 *)(arg0 + 0xCC);
+        func_8012B2CC(src);
+        mp = D_801D11F8;
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        dst = *(s32 *)(arg0 + 0xD0);
+        *(u16 *)(dst + 6) = sp10[0];
+        *(u16 *)(dst + 0xA) = sp10[1];
+        *(u16 *)(dst + 0xE) = sp10[2];
+        *(u16 *)(*(s32 *)(dst + 0x20) + 0x10) =
+            *(u16 *)(dst + 0xFC) + *(u16 *)(*(s32 *)(src + 0x20) + 0x10);
+        *(u16 *)(*(s32 *)(dst + 0x20) + 0x12) =
+            *(u16 *)(dst + 0xFE) + *(u16 *)(*(s32 *)(src + 0x20) + 0x12);
+        src = *(s32 *)(arg0 + 0xD0);
+        func_8012B2CC(src);
+        mp = D_801D11F8;
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        dst = *(s32 *)(arg0 + 0xD4);
+        *(u16 *)(dst + 6) = sp10[0];
+        *(u16 *)(dst + 0xA) = sp10[1];
+        *(u16 *)(dst + 0xE) = sp10[2];
+        *(u16 *)(*(s32 *)(dst + 0x20) + 0x10) =
+            *(u16 *)(dst + 0xFC) + *(u16 *)(*(s32 *)(src + 0x20) + 0x10);
+        *(u16 *)(*(s32 *)(dst + 0x20) + 0x12) =
+            *(u16 *)(dst + 0xFE) + *(u16 *)(*(s32 *)(src + 0x20) + 0x12);
+        src = *(s32 *)(arg0 + 0xD4);
+        func_8012B2CC(src);
+        mp = D_801D11F8;
+        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFERLAST (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        *(u16 *)(arg0 + 6) = sp10[0];
+        *(u16 *)(arg0 + 0xA) = sp10[1];
+        *(u16 *)(arg0 + 0xE) = sp10[2];
         func_8012B77C(sp10, (void *)(arg0 + 4), ((u8 *)&D_80126B5C));
         tmp = *(s32 *)sp10;
         ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk10 = tmp;
@@ -3079,9 +3116,40 @@ void func_80191C50(s32 _arg0) {
         return;
     }
 
-    XFER(0xCC, 0xD0)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
-    XFER(0xD0, 0xD4)  // !FAKE: launder via XFER — REFUSED macro-carried launder: the lever is inside `#define XFER` with real code around it (T5) (P36 rung B t8_tus2)
-    XFERLAST(0xD4)  // !FAKE: launder via XFERLAST — REFUSED macro-carried launder: the lever is inside `#define XFERLAST` with real code around it (T5) (P36 rung B t8_tus2)
+    src = *(s32 *)(arg0 + 0xCC);
+    func_8012B2CC(src);
+    mp = D_801D11F8;
+    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+    ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+    dst = *(s32 *)(arg0 + 0xD0);
+    *(u16 *)(dst + 6) = sp10[0];
+    *(u16 *)(dst + 0xA) = sp10[1];
+    *(u16 *)(dst + 0xE) = sp10[2];
+    *(u16 *)(*(s32 *)(dst + 0x20) + 0x10) =
+        *(u16 *)(dst + 0xFC) + *(u16 *)(*(s32 *)(src + 0x20) + 0x10);
+    *(u16 *)(*(s32 *)(dst + 0x20) + 0x12) =
+        *(u16 *)(dst + 0xFE) + *(u16 *)(*(s32 *)(src + 0x20) + 0x12);
+    src = *(s32 *)(arg0 + 0xD0);
+    func_8012B2CC(src);
+    mp = D_801D11F8;
+    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFER (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+    ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+    dst = *(s32 *)(arg0 + 0xD4);
+    *(u16 *)(dst + 6) = sp10[0];
+    *(u16 *)(dst + 0xA) = sp10[1];
+    *(u16 *)(dst + 0xE) = sp10[2];
+    *(u16 *)(*(s32 *)(dst + 0x20) + 0x10) =
+        *(u16 *)(dst + 0xFC) + *(u16 *)(*(s32 *)(src + 0x20) + 0x10);
+    *(u16 *)(*(s32 *)(dst + 0x20) + 0x12) =
+        *(u16 *)(dst + 0xFE) + *(u16 *)(*(s32 *)(src + 0x20) + 0x12);
+    src = *(s32 *)(arg0 + 0xD4);
+    func_8012B2CC(src);
+    mp = D_801D11F8;
+    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder expanded from per-TU macro XFERLAST (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+    ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+    *(u16 *)(arg0 + 6) = sp10[0];
+    *(u16 *)(arg0 + 0xA) = sp10[1];
+    *(u16 *)(arg0 + 0xE) = sp10[2];
 }
 
 #include "common.h"

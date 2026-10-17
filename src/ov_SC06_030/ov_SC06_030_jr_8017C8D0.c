@@ -3200,24 +3200,6 @@ extern s16 D_80185B1A[];
 extern u16 D_80126B5E;
 
 /* the repeated RTP + positional-sound block (cookbook §88a: LONGHAND, never factored) */
-#define RTP_SND(sndid)                                                        \
-    L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);                            \
-    L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);                            \
-    L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);                            \
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); } \
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); } \
-    RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);                        \
-    if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F              \
-                    && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {            \
-        s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;                      \
-        if (vol < 0) {                                                        \
-            vol = 0;                                                          \
-        }                                                                     \
-        if (vol >= 0x80) {                                                    \
-            vol = 0x7F;                                                       \
-        }                                                                     \
-        func_8002D4C8(sndid, (vol | 0x2000) & 0xFFFF);                        \
-    }
 
 void func_8017E120(s32 a0) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
@@ -3251,7 +3233,23 @@ void func_8017E120(s32 a0) {
         *(s32 *)(p + 4) = *(s32 *)(p + 4) & 0x7FFFFFFF;
         *(s32 *)(p + 0x20) = D_8019F75C[((Unkstruct_800B5CB8 *)a0)->unk94 * 2];
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 1;
-        RTP_SND(0x942)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
+        L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+        L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+        L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+        if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
+                        && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
+            s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;
+            if (vol < 0) {
+                vol = 0;
+            }
+            if (vol >= 0x80) {
+                vol = 0x7F;
+            }
+            func_8002D4C8(0x942, (vol | 0x2000) & 0xFFFF);
+        }
         ((Unkstruct_800B5CB8 *)a0)->unk84 = 0x1E;
         break;
 
@@ -3260,7 +3258,23 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
+            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+            if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
+                            && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
+                s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;
+                if (vol < 0) {
+                    vol = 0;
+                }
+                if (vol >= 0x80) {
+                    vol = 0x7F;
+                }
+                func_8002D4C8(0x944, (vol | 0x2000) & 0xFFFF);
+            }
         }
         if (((Unkstruct_800B5CB8 *)a0)->unk94 == 0xE) {
             ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
@@ -3306,7 +3320,23 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
+            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+            if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
+                            && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
+                s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;
+                if (vol < 0) {
+                    vol = 0;
+                }
+                if (vol >= 0x80) {
+                    vol = 0x7F;
+                }
+                func_8002D4C8(0x944, (vol | 0x2000) & 0xFFFF);
+            }
         }
         break;
 
@@ -3326,7 +3356,23 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
+            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+            if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
+                            && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
+                s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;
+                if (vol < 0) {
+                    vol = 0;
+                }
+                if (vol >= 0x80) {
+                    vol = 0x7F;
+                }
+                func_8002D4C8(0x944, (vol | 0x2000) & 0xFFFF);
+            }
         }
         if (((Unkstruct_800B5CB8 *)a0)->unk102 <= ((Unkstruct_800B5CB8 *)a0)->unkFE) {
             ((Unkstruct_800B5CB8 *)a0)->unk94 = 0xB;
@@ -3367,7 +3413,23 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
+            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+            if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
+                            && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
+                s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;
+                if (vol < 0) {
+                    vol = 0;
+                }
+                if (vol >= 0x80) {
+                    vol = 0x7F;
+                }
+                func_8002D4C8(0x944, (vol | 0x2000) & 0xFFFF);
+            }
         }
         break;
 
@@ -3402,7 +3464,23 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
+            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+            if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
+                            && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
+                s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;
+                if (vol < 0) {
+                    vol = 0;
+                }
+                if (vol >= 0x80) {
+                    vol = 0x7F;
+                }
+                func_8002D4C8(0x944, (vol | 0x2000) & 0xFFFF);
+            }
         }
         break;
 
@@ -3415,7 +3493,23 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            RTP_SND(0x944)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
+            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+            RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+            if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
+                            && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
+                s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;
+                if (vol < 0) {
+                    vol = 0;
+                }
+                if (vol >= 0x80) {
+                    vol = 0x7F;
+                }
+                func_8002D4C8(0x944, (vol | 0x2000) & 0xFFFF);
+            }
         }
         if (((Unkstruct_800B5CB8 *)a0)->unkFE == 0x5C0) {
             func_8012A828(a0, &D_8019F644);
@@ -3607,24 +3701,6 @@ extern u16 D_80126B96;
 extern s16 D_80126B9A;
 
 /* the repeated RTP + positional-sound block (cookbook §88a: LONGHAND, never factored) */
-#define RTP_SND(sndid)                                                        \
-    L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);                            \
-    L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);                            \
-    L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);                            \
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); } \
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); } \
-    RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);                        \
-    if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F              \
-                    && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {            \
-        s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;                      \
-        if (vol < 0) {                                                        \
-            vol = 0;                                                          \
-        }                                                                     \
-        if (vol >= 0x80) {                                                    \
-            vol = 0x7F;                                                       \
-        }                                                                     \
-        func_8002D4C8(sndid, (vol | 0x2000) & 0xFFFF);                        \
-    }
 
 /* the cross-jumped suffix shared by case 1 and case 3 -- written LONGHAND in both */
 #define CHK_TAIL                                                              \
@@ -3649,7 +3725,23 @@ void func_8017F268(s32 a0) {
         func_8012A828(a0, &D_8019F06C);
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 1;
         func_8002D4C8(0xA8A, 0);
-        RTP_SND(0x93F)  // !FAKE: instruction via RTP_SND — REFUSED macro-carried instruction: the lever is inside `#define RTP_SND` with real code around it (T5) (P36 rung B t8_tus2)
+        L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+        L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+        L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }  // !FAKE: pin expanded from per-TU macro RTP_SND (T8.c3); pass: P40 T8.c3 macro expansion; instrument: delever --rejudge t8_mac
+        RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+        if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
+                        && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
+            s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;
+            if (vol < 0) {
+                vol = 0;
+            }
+            if (vol >= 0x80) {
+                vol = 0x7F;
+            }
+            func_8002D4C8(0x93F, (vol | 0x2000) & 0xFFFF);
+        }
         break;
 
     case 1:

@@ -5089,8 +5089,6 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
 //   param_3's sign-ext (last ordering swap); param_1/param_4 left natural (arg-order saves).
 
 
-#define SHB(x) __asm__("" : "=r"(x) : "0"(x))
-
 s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
