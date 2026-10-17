@@ -6374,7 +6374,7 @@ extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 #include "../shared/ov/func_80169058.h"
 
 
-extern s32 func_80169228(void);
+extern s32 func_80169228();
 extern void func_800D22E4(s32 a0);
 extern void func_80146C3C(u8*);
 #include "../shared/ov/func_801691B8.h"

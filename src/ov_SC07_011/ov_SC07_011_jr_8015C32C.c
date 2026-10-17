@@ -7117,7 +7117,7 @@ void func_80169058(s32 a0) {
 }
 
 
-extern s32 func_80169228(void);
+extern s32 func_80169228();
 extern void func_800D22E4(s32 a0);
 extern void func_80146C3C(u8 *a0);
 #include "../shared/ov/func_801691B8.h"

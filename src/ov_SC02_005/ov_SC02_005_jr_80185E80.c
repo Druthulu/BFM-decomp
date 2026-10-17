@@ -1266,7 +1266,7 @@ void func_80187768(void *a0) {
 }
 
 
-extern void func_80182998(void);
+extern void func_80182998();
 extern void func_8018655C(s32 a0);
 extern void func_801838A8(u8* a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -1323,7 +1323,7 @@ void func_8018791C(void *a0) {
     s32 s0 = (s32)a0;
 
     if (((Unkstruct_8018791C *)s0)->unkE8 & 0x60000) {
-        func_80182998();
+        func_80182998(a0);
         return;
     }
 
@@ -1515,12 +1515,12 @@ void func_80187D90(void *a0) {
 }
 
 
-extern void func_80182998(void);
+extern void func_80182998();
 extern void func_801838A8(u8*);
 
 void func_80187DCC(u8 *arg0) {
     if (CAST_SIGN(u32, arg0, 0xE8) & 0x60000) {
-        func_80182998();
+        func_80182998(arg0);
         return;
     }
 

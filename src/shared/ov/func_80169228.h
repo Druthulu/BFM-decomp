@@ -3,7 +3,7 @@
 extern s32  func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32  func_80017758(void *a0, void *a1);
-s32 func_80169228(void)
+s32 func_80169228()
 {
     register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
     s32 arg0 = a0v;

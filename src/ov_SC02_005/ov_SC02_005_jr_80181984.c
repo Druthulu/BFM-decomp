@@ -1736,7 +1736,7 @@ extern void func_80168F40(void *arg0);
 extern void (*D_801938F4[])(void);
 extern void func_8016901C(void *a0);
 extern void func_80169058(s32 a0);
-extern s32 func_80169228(void);
+extern s32 func_80169228();
 extern void func_801691B8(void *a0);
 extern void (*D_801938FC[])(void);
 extern void func_801693CC(void *a0);
@@ -2870,7 +2870,7 @@ void func_80181984(s32 arg0) {
     s2 = (s32)&D_80126B58;
     s1 = ((Unkstruct_800B5CB8 *)arg0)->unkD0;
     if (CAST_SIGN(u32, arg0, 0xE8) & 0x60000) {
-        func_80182998();
+        func_80182998((void *)arg0);
         return;
     }
     switch (((Unkstruct_800B5CB8 *)arg0)->unk34) {
@@ -2940,7 +2940,7 @@ void func_80181BE8(void *a0) {
     s32 v1;
 
     if ((((Unkstruct_80181BE8 *)s0)->unkE8 & 0x60000) != 0) {
-        func_80182998();
+        func_80182998(a0);
     } else {
         state = ((Unkstruct_80181BE8 *)s0)->unk34;
         switch (state) {

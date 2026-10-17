@@ -1730,7 +1730,7 @@ extern void func_80168F40(void *arg0);
 extern void (*D_8018EA9C[])(void);
 extern void func_8016901C(void *a0);
 extern void func_80169058(s32 a0);
-extern s32 func_80169228(void);
+extern s32 func_80169228();
 extern void func_801691B8(void *a0);
 extern void (*D_8018EAA4[])(void);
 extern void func_801693CC(void *a0);
