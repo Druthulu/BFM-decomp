@@ -652,12 +652,12 @@ void func_801E34B4(s32 param_1) {
 void func_801E34D4(s32 arg0) {
     extern s32 D_801E9E38;
     extern s32 D_801E9E3C;
-    register s32 p __asm__("$3") = D_801E9E38;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    *(s16 *)(arg0 + 0xFC) = 1;
+    Unkstruct_800B5CB8 *p = (Unkstruct_800B5CB8 *)D_801E9E38;
+    ((Unkstruct_800B5CB8 *)arg0)->unkFC = 1;
     {
-        s32 q = D_801E9E3C;
-        *(s16 *)(p + 0xFC) = 3;
-        ((Unkstruct_800B5CB8 *)q)->unkFC = 3;
+        Unkstruct_800B5CB8 *q = (Unkstruct_800B5CB8 *)D_801E9E3C;
+        p->unkFC = 3;
+        q->unkFC = 3;
     }
 }
 

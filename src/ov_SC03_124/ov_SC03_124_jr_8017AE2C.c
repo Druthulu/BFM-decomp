@@ -6311,14 +6311,14 @@ void func_80180E40(void *param_1) {
     extern s32 func_801789AC(s32 arg0);
     extern void func_80178D18(void);
 
-    register void *arg0 __asm__("$19") = param_1;  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus7)
+    void *arg0 = param_1;
     u8 *var_s5;
     s32 var_s2;
     s32 var_s0;
     s16 *var_s1;
     s32 var_a0;
     s32 var_v1;
-    u32 var_s4;
+    u16 var_s4;
     s32 unused[2];
 
     var_s5 = D_80078E78;
@@ -6351,9 +6351,8 @@ void func_80180E40(void *param_1) {
     if (var_s2 == 0) {
         func_80185238(0xE);
     }
-    __asm__ __volatile__("" : "=r"(var_s4) : "0"(var_s4));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
     if ((D_801E1A20 < (s32)*(u16 *)(var_s5 + 0x34)) &&
-        (((var_s4 - 0x1000) & 0xFFFF) < 0x11)) {
+        ((u16)(var_s4 - 0x1000) < 0x11)) {
         D_801E1A20 = *(u16 *)(var_s5 + 0x34);
         {
             s32 v = 0x28;

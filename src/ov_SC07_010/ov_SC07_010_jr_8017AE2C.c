@@ -6406,7 +6406,6 @@ extern u8 D_801A9284[];
 extern u8 D_800A6620[];
 
 void func_801810F8(void *a0) {
-    s32 pad[2];
     u32 *node;
     u32 *ot;
     u32 tmp;
@@ -6420,13 +6419,12 @@ void func_801810F8(void *a0) {
     }
 
     pbase = D_801A9284;
+    obase = D_800A6620;
     lomask = 0xFFFFFF;
 
     node = (u32 *)(((*(u16 *)&D_800B9A02) * 24) + (s32)pbase);
     tmp = (*node & 0xFF000000) |
-          (*(u32 *)&D_800A6620[(*(u16 *)&D_800B9A02) << 14] & lomask);
-    obase = D_800A6620;
-    __asm__ __volatile__("" :: "r"(obase));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+          (*(u32 *)&obase[(*(u16 *)&D_800B9A02) << 14] & lomask);
     *node = tmp;
 
     ot = (u32 *)(((*(u16 *)&D_800B9A02) << 14) + (s32)obase);

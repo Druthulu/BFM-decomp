@@ -15191,7 +15191,7 @@ void func_8018E428(s32 arg0)
     register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t3_tus1)
     volatile u16 *bidx;
     s32 t;
-    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t3_tus1)
+    u32 pv;
 
     m = D_800AE620;
     mp = &m;
@@ -15244,13 +15244,12 @@ void func_8018E428(s32 arg0)
     /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
     bidx = (u16 *)&D_800B9A02;
     pv = *(u32 *)p;
-    *(u32 *)p = (pv & 0xFF000000) |
-                (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
-                                   (*bidx * 20)), 0x40) & 0xFFFFFF);
+    pv &= 0xFF000000;
+    pv |= CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C + (*bidx * 20)), 0x40) & 0xFFFFFF;
+    *(u32 *)p = pv;
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
     *(u32 *)(ot + 0x40) = (*(u32 *)(ot + 0x40) & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
-    __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t3_tus1)
 }
 
 

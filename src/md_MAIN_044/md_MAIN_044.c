@@ -533,24 +533,25 @@ s32 func_800CD894(void *a0) {
     u8 sp10[8];
     s32 sp18;
     s32 i;
-    register s32 tag __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    Ent_CD894 *base = (Ent_CD894 *)D_801202A0;
+    Ent_CD894 *e;
 
     __builtin_memcpy(sp10, (u8 *)a0 + 0x44, 8);
     func_80015978((s32)a0 + 4, &sp18);
-    for (i = 0; i < 0x60; i++) {
-        Ent_CD894 *e = base + i;
-        tag = 0x200;
-        if (e->unk0 == tag) {
-            s32 f58 = e->unk58;
-            if (f58 != 0) {
-                s32 f20 = e->unk20;
-                if (f20 != 0 && func_80135260(f20, f58, sp10, &sp18) != 0) {
-                    return 1;
-                }
+    i = 0;
+    e = (Ent_CD894 *)D_801202A0;
+loop:
+    if (e->unk0 == 0x200) {
+        s32 f58 = e->unk58;
+        if (f58 != 0) {
+            s32 f20 = e->unk20;
+            if (f20 != 0 && func_80135260(f20, f58, sp10, &sp18) != 0) {
+                return 1;
             }
         }
     }
+    i++;
+    e++;
+    if (i < 0x60) goto loop;
     return 0;
 }
 

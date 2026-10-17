@@ -3281,15 +3281,16 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8017DFE8(s32 arg0, s32 arg1, s32 arg2);
 
 void func_8017DF44(s32 a0) {
-    register s32 col asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_mac1)
     s32 saved;
     s32 ang;
+    s32 col;
 
     saved = ((Unkstruct_800B5CB8 *)a0)->unkDC;
     ang = (s16)func_80012F74(CAST_WIDTH(s16, a0, 0xE0), 0, 10, 1);
     ((Unkstruct_800B5CB8 *)a0)->unkE0 = ang;
     col = func_8004787C(ang) * 0x30 / 0x1000;
-    func_8017DFE8(a0, saved, col | ((col << 0x10) | (col << 8)));
+    col = col | ((col << 0x10) | (col << 8));
+    func_8017DFE8(a0, saved, col);
     if (((Unkstruct_800B5CB8 *)a0)->unk104 == 0) {
         func_8012AD44((s32 *)a0, 0);
     }

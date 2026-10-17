@@ -4016,7 +4016,7 @@ s32 func_80184D28(s32 a0)
 SET0:
     v0 = 0;
 END:
-    __asm__ volatile("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    return v0;
 }
 
 
@@ -4121,8 +4121,7 @@ extern s16 D_8019EAD4;
 void func_80184FB0(s16 *a0, s32 a1) {
     u8 *sub;
     register u8 *v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 c;
 
     v0 = func_801290DC(0x44, (u8 *)a0);
     if (v0 != NULL) {
@@ -4135,12 +4134,11 @@ void func_80184FB0(s16 *a0, s32 a1) {
         ((Unkstruct_80184FB0 *)sub)->unk18 = 1;
         ((Unkstruct_80184FB0 *)sub)->unk4 |= 0x50000000;
         ((Unkstruct_80184FB0_2 *)v0)->unk1C = 1;
-        s0 = a1;
-        v1 = s0;
-        ((Unkstruct_80184FB0_2 *)v0)->unk2C = s0;
-        ((Unkstruct_80184FB0 *)sub)->unk26 = v1;
-        ((Unkstruct_80184FB0 *)sub)->unk25 = v1;
-        ((Unkstruct_80184FB0 *)sub)->unk24 = v1;
+        ((Unkstruct_80184FB0_2 *)v0)->unk2C = a1;
+        c = a1;
+        ((Unkstruct_80184FB0 *)sub)->unk26 = c;
+        ((Unkstruct_80184FB0 *)sub)->unk25 = c;
+        ((Unkstruct_80184FB0 *)sub)->unk24 = c;
     } else {
         v0 = NULL;
     }

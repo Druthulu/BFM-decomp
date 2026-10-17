@@ -3043,6 +3043,7 @@ s32 *func_8017E93C(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                     }
                     q[-7] = 0x30;
                     y = D_8019EBFA - 2;
+                    *(s16 *)(q - 10) = y;
                 } else {
                     s32 k2 = k * 2;
                     if ((((s8 *)D_80115158)[k2] - ((s8 *)D_80115140)[k]) < 7) {
@@ -3050,9 +3051,8 @@ s32 *func_8017E93C(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                     }
                     q[-7] = 0x38;
                     y = D_8019EC0E + 1;
+                    *(s16 *)(q - 10) = y;
                 }
-                *(s16 *)(q - 10) = y;
-                __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
                 *((u32 *)ot) = 0x4000000;
                 q[-8] = 0x78;
                 *((u32 *)(q - 0x10)) = 0x64808080;

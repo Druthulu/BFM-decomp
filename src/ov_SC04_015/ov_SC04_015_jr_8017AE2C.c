@@ -5097,69 +5097,43 @@ extern s32 D_801C8C64;
 
 void func_8017ED28(void) {
     s16 *p;
-    register s16 *q __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 i __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    s32 c2;
+    s32 i;
     s16 *s1;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 v0;
     Blk8 buf;
 
     p = (s16 *)&D_801C8C64;
-    i = 0;
-    c2 = 2;
-    q = p + 10;
-    do {
-        v1 = *p;
-        if (v1 != 0) {
-            v0 = 1;
-            s1 = (s16 *)*(s32 *)((u8 *)q - 8);
-            if (v1 == v0) {
-                goto L_case1;
+    for (i = 0; i < 0x20; i++, p += 14) {
+        if (*p != 0) {
+            s1 = (s16 *)*(s32 *)((u8 *)(p + 10) - 8);
+            switch (*p) {
+            case 0:
+                continue;
+            case 1:
+                *(Blk8 *)&buf = *(Blk8 *)((u8 *)(p + 10) - 0x10);
+                func_8017F018((s32)&buf);
+                v0 = *(s16 *)(*(s32 *)((u8 *)(p + 10) - 4) + 0x76);
+                if (v0 == 0) {
+                    *(s16 *)((u8 *)(p + 10) - 0x12) = 0x20;
+                    *p = 2;
+                } else {
+                    s32 tmp = *(s32 *)((u8 *)(p + 10) - 8);
+                    s32 v1 = (v0 << 13) / 100;
+                    ((Unkstruct_800B5CB8 *)tmp)->unk1A = v1;
+                    ((Unkstruct_800B5CB8 *)tmp)->unk18 = v1;
+                }
+                break;
+            case 2:
+                s1[13] = 0;
+                s1[12] = 0;
+                break;
             }
-            v0 = (v1 < 2);
-            if (v0 == 0) {
-                goto L_check2;
-            }
-            if (v1 != 0) {
-                goto L_common;
-            }
-            i++;
-            goto L_bottom;
-        L_check2:
-            if (v1 == c2) {
-                goto L_case2;
-            }
-            goto L_common;
-        L_case1:
-            *(Blk8 *)&buf = *(Blk8 *)((u8 *)q - 0x10);
-            func_8017F018((s32)&buf);
-            v0 = *(s16 *)(*(s32 *)((u8 *)q - 4) + 0x76);
-            if (v0 == 0) {
-                *(s16 *)((u8 *)q - 0x12) = 0x20;
-                *p = c2;
-                goto L_common;
-            } else {
-                s32 tmp = *(s32 *)((u8 *)q - 8);
-                v1 = (v0 << 13) / 100;
-                ((Unkstruct_800B5CB8 *)tmp)->unk1A = v1;
-                ((Unkstruct_800B5CB8 *)tmp)->unk18 = v1;
-                goto L_common;
-            }
-        L_case2:
-            s1[13] = 0;
-            s1[12] = 0;
-        L_common:
-            s1[4] = *(u16 *)((u8 *)q - 0x10);
-            s1[5] = *(u16 *)((u8 *)q - 0xE);
-            s1[6] = *(u16 *)((u8 *)q - 0xC);
-            func_80128ED8((s32)s1, (s32 *)q);
+            s1[4] = *(u16 *)((u8 *)(p + 10) - 0x10);
+            s1[5] = *(u16 *)((u8 *)(p + 10) - 0xE);
+            s1[6] = *(u16 *)((u8 *)(p + 10) - 0xC);
+            func_80128ED8((s32)s1, (s32 *)(p + 10));
         }
-        i++;
-    L_bottom:
-        q += 14;
-        p += 14;
-    } while (i < 0x20);
+    }
 }
 
 

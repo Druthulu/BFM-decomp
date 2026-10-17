@@ -308,8 +308,7 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
             *(Blk152 *)p = *(Blk152 *)&D_80075CC0[0x24];
             D_800760BC = func_8002B064(p);
             cp = (s32)D_80075CC0;
-            __asm__ __volatile__("" : "=r"(cp) : "0"(cp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-            D_800760C0 = func_8002B08C(cp);
+            cp = D_800760C0 = func_8002B08C(cp);
             *(u16 *)&D_80075FC0[4] = D_800760C0;
             *(u16 *)&D_80075FC0[2] = D_800760BC;
             func_80060614(D_80075CC0, idx * 0x300 + 0x480, 0x300);
@@ -346,13 +345,11 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
             break;
           }
         case 21:
-            func_80060614(&D_80075A40, 0x200, 0x80);
-            __asm__ __volatile__("");                 /* §5a zero-byte cross-jump barrier */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+            ((s32 (*)(void *, s32, s32))func_80060614)(&D_80075A40, 0x200, 0x80);
             D_800760AC++;
             break;
         case 23:
-            func_80060614(D_80075FC0, (idx + 5) << 7, 0x80);
-            __asm__ __volatile__("" ::: "memory");    /* §5a barrier, distinct from case 21's */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+            ((s16 (*)(void *, s32, s32))func_80060614)(D_80075FC0, (idx + 5) << 7, 0x80);
             D_800760AC++;
             break;
         case 25:

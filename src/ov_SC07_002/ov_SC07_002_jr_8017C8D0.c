@@ -7483,13 +7483,13 @@ void func_801849AC(s32 arg0)
     /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
     bidx = (u16 *)&D_800B9A02;
     pv = *(u32 *)p;
-    *(u32 *)p = (pv & 0xFF000000) |
+    pv &= 0xFF000000;
+    *(u32 *)p = pv |
                 (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
     *(u32 *)(ot + 0x40) = (*(u32 *)(ot + 0x40) & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
-    __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
 }
 
 

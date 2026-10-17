@@ -3131,20 +3131,21 @@ void func_8018C2D8(void *arg)
             u8 *dv;
             func_8012B2CC((s32)sv);
             {
-                /* §153 address-rematerialisation launder: with the same &SYM used as an
+                /* §153 address-rematerialisation: with the same &SYM used as an
                  * argument 3x inside one cse basic block, cse unifies the three expand-time
                  * pseudos into one 4-ref pseudo which local-alloc.c:1080 then refuses to
                  * rematerialise (it wants reg_n_refs==2), so global.c hands it a CALLEE-SAVED
                  * register -> `la $s1,SYM` + 3x `move $a1,$s1` (3 insns short of the target's
                  * 3x `la $a1,SYM`) AND it steals $s1, pushing the actor pointer to $s2 and the
-                 * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
-                 * table and it SETS m, emptying the symbol's equivalence class. */
+                 * 0x18 loop invariant to $s1.  Fix (T11 W02, was a volatile-asm launder):
+                 * the address goes through block-local m, reused for the next pointer where one
+                 * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                m = (s32)CAST_SIGN(u8 *, s1, 0xD0);
+                dv = (u8 *)m;
             }
-            dv = CAST_SIGN(u8 *, s1, 0xD0);
             *(u16 *)(dv + 0x6) = buf[0];
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
@@ -3160,20 +3161,21 @@ void func_8018C2D8(void *arg)
             u8 *dv;
             func_8012B2CC((s32)sv);
             {
-                /* §153 address-rematerialisation launder: with the same &SYM used as an
+                /* §153 address-rematerialisation: with the same &SYM used as an
                  * argument 3x inside one cse basic block, cse unifies the three expand-time
                  * pseudos into one 4-ref pseudo which local-alloc.c:1080 then refuses to
                  * rematerialise (it wants reg_n_refs==2), so global.c hands it a CALLEE-SAVED
                  * register -> `la $s1,SYM` + 3x `move $a1,$s1` (3 insns short of the target's
                  * 3x `la $a1,SYM`) AND it steals $s1, pushing the actor pointer to $s2 and the
-                 * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
-                 * table and it SETS m, emptying the symbol's equivalence class. */
+                 * 0x18 loop invariant to $s1.  Fix (T11 W02, was a volatile-asm launder):
+                 * the address goes through block-local m, reused for the next pointer where one
+                 * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                m = (s32)CAST_SIGN(u8 *, s1, 0xD4);
+                dv = (u8 *)m;
             }
-            dv = CAST_SIGN(u8 *, s1, 0xD4);
             *(u16 *)(dv + 0x6) = buf[0];
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
@@ -3189,14 +3191,15 @@ void func_8018C2D8(void *arg)
             s32 w;
             func_8012B2CC((s32)sv);
             {
-                /* §153 address-rematerialisation launder: with the same &SYM used as an
+                /* §153 address-rematerialisation: with the same &SYM used as an
                  * argument 3x inside one cse basic block, cse unifies the three expand-time
                  * pseudos into one 4-ref pseudo which local-alloc.c:1080 then refuses to
                  * rematerialise (it wants reg_n_refs==2), so global.c hands it a CALLEE-SAVED
                  * register -> `la $s1,SYM` + 3x `move $a1,$s1` (3 insns short of the target's
                  * 3x `la $a1,SYM`) AND it steals $s1, pushing the actor pointer to $s2 and the
-                 * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
-                 * table and it SETS m, emptying the symbol's equivalence class. */
+                 * 0x18 loop invariant to $s1.  Fix (T11 W02, was a volatile-asm launder):
+                 * the address goes through block-local m, reused for the next pointer where one
+                 * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
@@ -3266,20 +3269,21 @@ void func_8018C2D8(void *arg)
             u8 *dv;
             func_8012B2CC((s32)sv);
             {
-                /* §153 address-rematerialisation launder: with the same &SYM used as an
+                /* §153 address-rematerialisation: with the same &SYM used as an
                  * argument 3x inside one cse basic block, cse unifies the three expand-time
                  * pseudos into one 4-ref pseudo which local-alloc.c:1080 then refuses to
                  * rematerialise (it wants reg_n_refs==2), so global.c hands it a CALLEE-SAVED
                  * register -> `la $s1,SYM` + 3x `move $a1,$s1` (3 insns short of the target's
                  * 3x `la $a1,SYM`) AND it steals $s1, pushing the actor pointer to $s2 and the
-                 * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
-                 * table and it SETS m, emptying the symbol's equivalence class. */
+                 * 0x18 loop invariant to $s1.  Fix (T11 W02, was a volatile-asm launder):
+                 * the address goes through block-local m, reused for the next pointer where one
+                 * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                m = (s32)CAST_SIGN(u8 *, s1, 0xD0);
+                dv = (u8 *)m;
             }
-            dv = CAST_SIGN(u8 *, s1, 0xD0);
             *(u16 *)(dv + 0x6) = buf[0];
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
@@ -3294,20 +3298,21 @@ void func_8018C2D8(void *arg)
             u8 *dv;
             func_8012B2CC((s32)sv);
             {
-                /* §153 address-rematerialisation launder: with the same &SYM used as an
+                /* §153 address-rematerialisation: with the same &SYM used as an
                  * argument 3x inside one cse basic block, cse unifies the three expand-time
                  * pseudos into one 4-ref pseudo which local-alloc.c:1080 then refuses to
                  * rematerialise (it wants reg_n_refs==2), so global.c hands it a CALLEE-SAVED
                  * register -> `la $s1,SYM` + 3x `move $a1,$s1` (3 insns short of the target's
                  * 3x `la $a1,SYM`) AND it steals $s1, pushing the actor pointer to $s2 and the
-                 * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
-                 * table and it SETS m, emptying the symbol's equivalence class. */
+                 * 0x18 loop invariant to $s1.  Fix (T11 W02, was a volatile-asm launder):
+                 * the address goes through block-local m, reused for the next pointer where one
+                 * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                m = (s32)CAST_SIGN(u8 *, s1, 0xD4);
+                dv = (u8 *)m;
             }
-            dv = CAST_SIGN(u8 *, s1, 0xD4);
             *(u16 *)(dv + 0x6) = buf[0];
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
@@ -3322,14 +3327,15 @@ void func_8018C2D8(void *arg)
             s32 w;
             func_8012B2CC((s32)sv);
             {
-                /* §153 address-rematerialisation launder: with the same &SYM used as an
+                /* §153 address-rematerialisation: with the same &SYM used as an
                  * argument 3x inside one cse basic block, cse unifies the three expand-time
                  * pseudos into one 4-ref pseudo which local-alloc.c:1080 then refuses to
                  * rematerialise (it wants reg_n_refs==2), so global.c hands it a CALLEE-SAVED
                  * register -> `la $s1,SYM` + 3x `move $a1,$s1` (3 insns short of the target's
                  * 3x `la $a1,SYM`) AND it steals $s1, pushing the actor pointer to $s2 and the
-                 * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
-                 * table and it SETS m, emptying the symbol's equivalence class. */
+                 * 0x18 loop invariant to $s1.  Fix (T11 W02, was a volatile-asm launder):
+                 * the address goes through block-local m, reused for the next pointer where one
+                 * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
@@ -3380,19 +3386,17 @@ void func_8018C2D8(void *arg)
                  * RotTransSV and func_8018BB48 inside one cse basic block, so cse unifies the
                  * two `addiu $rX,$sp,0x18` pseudos into one that global.c parks in $s0 and
                  * copies per call (`addiu $s0,$sp,24` + 2x `move`) -- one insn short of the
-                 * target's 2x `addiu $aX,$sp,0x18`.  Launder per site; the SYMBOL is laundered
-                 * first at the RotTransSV site so the two `la`/`addiu` land in argument order
-                 * ($a0 before $a1), which is what the barrier pins. */
+                 * target's 2x `addiu $aX,$sp,0x18`.  Fix (T11 W02, was a launder per site): ms
+                 * holds the SYMBOL and m1 holds out1 then is reused for col, so the two
+                 * `la`/`addiu` stay separate and land in argument order ($a0 before $a1). */
                 s32 ms = (s32)D_801C836C;
                 s32 m1;
-                __asm__ __volatile__("" : "=r"(ms) : "0"(ms));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 m1 = (s32)out1;
-                __asm__ __volatile__("" : "=r"(m1) : "0"(m1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 RotTransSV((void *)ms, (void *)m1, (void *)&out2);
+                m1 = 0x202080;
+                if (D_800B99D8 & 1) m1 = 0xE0;
+                col = m1;
             }
-
-            col = 0x202080;
-            if (D_800B99D8 & 1) col = 0xE0;
 
             {
                 s32 m1 = (s32)out1;
@@ -3431,20 +3435,21 @@ void func_8018C2D8(void *arg)
             u8 *dv;
             func_8012B2CC((s32)sv);
             {
-                /* §153 address-rematerialisation launder: with the same &SYM used as an
+                /* §153 address-rematerialisation: with the same &SYM used as an
                  * argument 3x inside one cse basic block, cse unifies the three expand-time
                  * pseudos into one 4-ref pseudo which local-alloc.c:1080 then refuses to
                  * rematerialise (it wants reg_n_refs==2), so global.c hands it a CALLEE-SAVED
                  * register -> `la $s1,SYM` + 3x `move $a1,$s1` (3 insns short of the target's
                  * 3x `la $a1,SYM`) AND it steals $s1, pushing the actor pointer to $s2 and the
-                 * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
-                 * table and it SETS m, emptying the symbol's equivalence class. */
+                 * 0x18 loop invariant to $s1.  Fix (T11 W02, was a volatile-asm launder):
+                 * the address goes through block-local m, reused for the next pointer where one
+                 * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                m = (s32)CAST_SIGN(u8 *, s1, 0xD0);
+                dv = (u8 *)m;
             }
-            dv = CAST_SIGN(u8 *, s1, 0xD0);
             *(u16 *)(dv + 0x6) = buf[0];
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
@@ -3459,20 +3464,21 @@ void func_8018C2D8(void *arg)
             u8 *dv;
             func_8012B2CC((s32)sv);
             {
-                /* §153 address-rematerialisation launder: with the same &SYM used as an
+                /* §153 address-rematerialisation: with the same &SYM used as an
                  * argument 3x inside one cse basic block, cse unifies the three expand-time
                  * pseudos into one 4-ref pseudo which local-alloc.c:1080 then refuses to
                  * rematerialise (it wants reg_n_refs==2), so global.c hands it a CALLEE-SAVED
                  * register -> `la $s1,SYM` + 3x `move $a1,$s1` (3 insns short of the target's
                  * 3x `la $a1,SYM`) AND it steals $s1, pushing the actor pointer to $s2 and the
-                 * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
-                 * table and it SETS m, emptying the symbol's equivalence class. */
+                 * 0x18 loop invariant to $s1.  Fix (T11 W02, was a volatile-asm launder):
+                 * the address goes through block-local m, reused for the next pointer where one
+                 * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
-                __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                m = (s32)CAST_SIGN(u8 *, s1, 0xD4);
+                dv = (u8 *)m;
             }
-            dv = CAST_SIGN(u8 *, s1, 0xD4);
             *(u16 *)(dv + 0x6) = buf[0];
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
@@ -3489,14 +3495,15 @@ void func_8018C2D8(void *arg)
             u8 *sv = CAST_SIGN(u8 *, s1, 0xD4);
             func_8012B2CC((s32)sv);
             {
-                /* §153 address-rematerialisation launder: with the same &SYM used as an
+                /* §153 address-rematerialisation: with the same &SYM used as an
                  * argument 3x inside one cse basic block, cse unifies the three expand-time
                  * pseudos into one 4-ref pseudo which local-alloc.c:1080 then refuses to
                  * rematerialise (it wants reg_n_refs==2), so global.c hands it a CALLEE-SAVED
                  * register -> `la $s1,SYM` + 3x `move $a1,$s1` (3 insns short of the target's
                  * 3x `la $a1,SYM`) AND it steals $s1, pushing the actor pointer to $s2 and the
-                 * 0x18 loop invariant to $s1.  The volatile asm is never entered into cse's
-                 * table and it SETS m, emptying the symbol's equivalence class. */
+                 * 0x18 loop invariant to $s1.  Fix (T11 W02, was a volatile-asm launder):
+                 * the address goes through block-local m, reused for the next pointer where one
+                 * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))func_8012F14C)(
                     ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);

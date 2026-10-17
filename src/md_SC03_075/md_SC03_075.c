@@ -595,14 +595,14 @@ extern s32 D_801F6CAC;
 extern s32 D_801F6CA8;
 
 void func_801F033C(void *a0) {
-    register s32 a __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    s32 b;
+    Unkstruct_800B5CB8 *a;
+    Unkstruct_800B5CB8 *b;
 
-    a = D_801F6CA8;
-    *(s16 *)((s32)a0 + 0xFC) = 1;
-    b = D_801F6CAC;
-    ((Unkstruct_800B5CB8 *)a)->unkFC = 3;
-    ((Unkstruct_800B5CB8 *)b)->unkFC = 3;
+    a = (Unkstruct_800B5CB8 *)D_801F6CA8;
+    ((Unkstruct_800B5CB8 *)a0)->unkFC = 1;
+    b = (Unkstruct_800B5CB8 *)D_801F6CAC;
+    a->unkFC = 3;
+    b->unkFC = 3;
 }
 
 

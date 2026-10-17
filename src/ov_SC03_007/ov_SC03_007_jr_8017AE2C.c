@@ -6120,13 +6120,8 @@ s32 func_801806B8(s32 a0, s32 a1, s32 a2, s32 a3)
             pointA[1] -= 0x20;
             func_8012F568(1, 0x5001, 0, 0, (s32)pointA, (s32)diff);
 
-            {
-                register s32 node __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
-                node = *(s32 *)(s0 + 0x20);
-                node = *(u16 *)(node + 0x12);
-                D_80126B9A = node;
-            }
-            return 1;
+            D_80126B9A = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12);
+            goto ok;
         }
         return 0;
     } else {
@@ -6136,16 +6131,13 @@ s32 func_801806B8(s32 a0, s32 a1, s32 a2, s32 a3)
         if (func_80180838((void *)s0, *(s32 *)(D_801270C8[0] + 0x20), *(s32 *)(D_801270C8[0] + 0x58)) != 0) {
             *(u16 *)(D_801270C8[0] + 0x5C) |= 1;
             *(s16 *)(D_801270C8[0] + 0x5E) = 0x1E;
-            {
-                register s32 node __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
-                node = *(s32 *)(s0 + 0x20);
-                node = *(u16 *)(node + 0x12);
-                *(u16 *)(D_801270C8[0] + 0x62) = node;
-            }
-            return 1;
+            *(u16 *)(D_801270C8[0] + 0x62) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12);
+            goto ok;
         }
         return 0;
     }
+ok:
+    return 1;
 }
 
 

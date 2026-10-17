@@ -5050,13 +5050,12 @@ void func_8017FE0C(s32 a0) {
              * instead of routing the intermediate through a scratch. */
             s2 = n0 + 4;
             s2 = s2 * 32;
-            /* Hoisting the 0x34 load with a §34 fence is what orders `lhu $v0,0x34($a0)`
+            /* Hoisting the 0x34 load in its own do-while(0) block (was a §34 fence) orders `lhu $v0,0x34($a0)`
              * BEFORE `sll $a0,$v1,5`.  Left to sched1 the shift goes first, its live
              * range then overlaps the load's, and the `n0*32` temp steals $v1 — which
              * is the register the target gives n0 itself.  (Also forced by $a0: the
              * target's shift writes the argument register, so the load MUST precede it.) */
-            tt = ((Unkstruct_8017FE0C *)a0)->unk34;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
+            do { tt = ((Unkstruct_8017FE0C *)a0)->unk34; } while (0);  // !FAKE: do-while
             x0 = dw - n0 * 32;
             /* `e = base; e += n0 + 3;` (NOT &base[n0+3]) is what keeps the
              * `addiu $v0,$v0,0x24` + `addiu $a2,$a2,0xC` pair. */
@@ -5084,31 +5083,25 @@ void func_8017FE0C(s32 a0) {
         if (dw != 0) {
             s2 = j;
             if (s2 >= 0) {
-                /* §34 zero-byte fences.  Without them sched1 lifts the whole
+                /* x computed in its own do-while(0) block (was §34 zero-byte fences).  Without it sched1 lifts the whole
                  * `(n+1)*32 - dw` chain to the head of the block, which (a) steals
                  * the `bltz` delay slot from the 0x20 constant, (b) removes the
                  * load-delay `nop` after `lhu 0x34($a0)`, and (c) splits x and
                  * (u8)x across two registers so `sb` and `andi` transpose. */
                 w = 0x20;
-                __asm__ __volatile__("" : "=r"(w) : "0"(w));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
                 e = (SC05_FBB0_Rec *)D_80189A70[((Unkstruct_8017FE0C *)a0)->unk34 & 1];
                 e += s2;
                 e->f0 = 0xFF;
-                __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
-                x = (n + 1) * 32 - dw;
+                    do { x = (n + 1) * 32 - dw; } while (0);  // !FAKE: do-while
                 e->f3 = x;
                 /* §3-C/§158 NUMERATOR lever — the last two registers ($a3 <-> $t0).
                  * global.c:594  pri = floor_log2(refs)*refs/live_length*10000.
                  * Measured from `cc1 -dl`: dw is pseudo 74 (4 refs / 43 insns ->
                  * 1860) and this `n` is pseudo 75 (3 refs / 21 insns -> 1428), so
                  * dw allocated first and took $a3, leaving n on $t0 — the target has
-                 * them the other way round.  This asm carries an "r"(n) operand
-                 * placed AFTER n's last use: +1 ref (3 -> 4, which also lifts
-                 * floor_log2 1 -> 2) and +the crossed gap in length -> pri(n) ~3300
-                 * > pri(dw), so n allocates first and takes $a3.  It replaces the
-                 * plain fence that was already here, so it adds NO new sched/cse
-                 * barrier (§47 placement rule) and emits only #APP/#NO_APP. */
-                __asm__ __volatile__("" :: "r"(n));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+                 * them the other way round.  A dead "r"(n) asm keepalive here once
+                 * lifted pri(n) above pri(dw); T11 WH1: with x and the 0x34 load in
+                 * do-while(0) blocks the order matches with no asm (0 diff). */
                 e->f6 = w - x;
                 e->fA = -(e->f3 + s2 * 32);
             }

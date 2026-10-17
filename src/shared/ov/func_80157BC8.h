@@ -20,18 +20,10 @@ void func_80157BC8(s32 a0) {
     func_801473EC((s32 *)a0);
     func_80148038(a0, 0x1A000);
     func_80147460(a0);
-    {
-        register s32 ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
-        func_8014ED28(a0);
-        if (ret != 0) {
-            func_80146D90(a0);
-        }
+    if (((s32 (*)(s32))func_8014ED28)(a0) != 0) {
+        func_80146D90(a0);
     }
-    {
-        register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
-        func_8016158C((void *)a0);
-        s1 = r;
-    }
+    s1 = ((s32 (*)(void *))func_8016158C)((void *)a0);
     if ((s1 & 5) != 0) {
         func_80161D20(a0, *(u16 *)(a0 + 0x16E));
         func_8014C010(a0, 1);

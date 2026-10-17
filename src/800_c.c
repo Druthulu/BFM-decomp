@@ -3294,16 +3294,14 @@ void func_8003916C(s16 arg0)
 }
 
 /* func_800391D4 (main / src/800_c.c, 75 ins) -- MATCH in match_one AND rtu_match (real TU), Fable T5x 2026-09-05.
- * Levers, all measured (see .run/P32/t5x/reports/func_800391D4.md):
- *  - `register s32 i __asm__("$7")`: a hard reg is not a biv (loop.c:3572), so D_80073140[i] is never a giv ->
- *    the target's per-iteration sll/lui/addu/lw stays (S79).
+ * Shape notes, all measured (see .run/P32/t5x/reports/func_800391D4.md):
+ *  - `goto loop` (T11 W04; replaced the `$7` pin on i and nine `__asm__("")` insn-count pads): no
+ *    NOTE_INSN_LOOP_BEG, so loop.c neither makes D_80073140[i] a giv nor hoists the D_800C6DD0 address ->
+ *    the target's per-iteration sll/lui/addu/lw stays.
  *  - `extern s32 D_80073140[][1]` + `[i][0]`: load-bearing spelling of the table access (S79; the TU now carries it).
  *  - `a1v = arg1;` BEFORE `off = 0;`: the s16 parameter's sign-extend becomes preheader SOURCE code emitted before
  *    off's init. Left implicit, the extend is an in-loop invariant that move_movables splices in front of
  *    NOTE_INSN_LOOP_BEG, i.e. AFTER `off = 0` (loop.c:1652/1708) -- the S79 closeness-3 residual.
- *  - NINE `__asm__("")` pads: insn_count knife-edge. move_movables hoists the D_800C6DD0 address iff
- *    threshold(58) * savings(1) * lifetime(1) >= insn_count (loop.c:1631). The target does NOT hoist it, so the
- *    loop must count >= 59 real insns; moving the extend out of the body cost 2, so 7 pads -> 9.
  */
 void func_800391D4(s32 arg0, s16 arg1, s16 arg2) {
     extern u8 D_800C6DD0[];
@@ -3316,7 +3314,7 @@ void func_800391D4(s32 arg0, s16 arg1, s16 arg2) {
 
     u8 *base;
     u8 *entry;
-    register s32 i __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 i;
     s32 off;
     s32 mask;
     s32 a1v;
@@ -3325,16 +3323,7 @@ void func_800391D4(s32 arg0, s16 arg1, s16 arg2) {
     base = arg0 + arg2 * 0x1A;
     a1v = arg1;
     off = 0;
-    do {
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+loop:
         if (*(base + i + 0x23) != 0 && *(s16 *)&D_800C6DD4[off] == a1v) {
             entry = &D_800C6DD0[(s16)i * 0x60];
             if (entry[0x5A] != 0) {
@@ -3353,7 +3342,7 @@ void func_800391D4(s32 arg0, s16 arg1, s16 arg2) {
         }
         i++;
         off += 0x60;
-    } while (i < 0x10);
+    if (i < 0x10) goto loop;
 }
 
 void func_80039300(void) {

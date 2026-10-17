@@ -257,7 +257,8 @@ extern s32 *func_80140D68(s32 *, Prim4 *, s32, s32, s32);
  *   [L1] `m == i` (not `m == 3`)  -- keeps b[0] a RUNTIME value; `m == 3` let gcc
  *        const-fold it and materialise `li a3,3` / `li t3,12` instead of
  *        `addu a3,v1,zero` / `sll t3,v1,2`.
- *   [L2] one dead `__asm__ volatile("" :: "r"(j))` -- +1 weighted REG_N_REFS on j so
+ *   [L2] `continue` as a goto + `j++` in a nested do-while(0) (T11 WH1; replaced a dead
+ *        `"r"(j)` asm keepalive) -- raises j's weighted REG_N_REFS (15 > k) so
  *        global.c:594 allocno_compare ranks j above k (j -> $a2, k -> $a3).
  *   [L3] `t3v = m * 4` as an EXPLICIT preheader statement (instead of letting loop.c
  *        hoist D_8011516A[m]'s index) -- gives it a LUID *below* the three constant
@@ -350,13 +351,13 @@ u32 mhi;
           pb = (u16 *) (&D_800B9A02);
           m24 = 0xFFFFFF;
           mhi = 0xFF000000;
-          for (; j < 2; j++)
+          for (; j < 2; )
           {
             if (j == 0)
             {
               if (D_80115140[k] == 0)
               {
-                continue;
+                goto next_j;
               }
               q[-7] = 0x30;
               *((s16 *) (q - 10)) = (*e) - 4;
@@ -366,7 +367,7 @@ u32 mhi;
               s32 k2 = k * 2;
               if ((((s8 *) D_80115158)[k2] - ((s8 *) D_80115140)[k]) < 2)
               {
-                continue;
+                goto next_j;
               }
               q[-7] = 0x38;
               *((s16 *) (q - 10)) = (*e) + 3;
@@ -391,7 +392,8 @@ u32 w;
             }
             q += 0x14;
             ot += 5;
-            __asm__ __volatile__("" :: "r"(j));  // !FAKE: keepalive j — +3 depth-3 refs so allocno_compare (global.c:587-609) ranks j 14/76 over k 13/75 and j takes $a2 (P36 S103 c48 minimum-lever)
+          next_j:
+            do { do { j++; } while (0); } while (0);  // !FAKE: do-while
           }
 
         }

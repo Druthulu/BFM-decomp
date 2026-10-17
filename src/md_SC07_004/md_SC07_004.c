@@ -2387,7 +2387,6 @@ void func_801A395C(s32 a0, s32 a1) {
     t = (s16)a1;
     cur = CAST_SIGN(s16, a0, 0xA);
     if (cur == t) {
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
         ret = 1;
     } else {
         if (t < cur) {
@@ -2399,11 +2398,11 @@ void func_801A395C(s32 a0, s32 a1) {
             ((Unkstruct_800B5CB8 *)a0)->unkA = cur;
             overshot = (cur < t);
         }
-        if (overshot) {
-            ret = 0;
-        } else {
+        if (!overshot) {
             ((Unkstruct_800B5CB8 *)a0)->unkA = t;
             ret = 1;
+        } else {
+            ret = 0;
         }
     }
     __asm__ __volatile__("" :: "r"(ret));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)

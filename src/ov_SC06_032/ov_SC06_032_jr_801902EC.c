@@ -3026,8 +3026,9 @@ extern u16 D_800B99D8;
 void func_801902EC(s32 param_1)
 {
     s32 fromX;
+    s32 q1, q2, q3, q4, q5, q6;
     s32 cnt;
-    s32 c4, c6, c7, c8, d6, d7, eNew, r0, to1, to2, to3, to4, to5, to6;
+    s32 c4, c6, c7, c8, d6, d7, eNew, r0;
     s16 sVar1;
     s16 buf10[4];    /* sp+0x10 -- the SVECTOR-ish scratch reused everywhere */
     s16 buf18[4];    /* sp+0x18 -- case 7's RotTransSV out / func_8018FB5C in */
@@ -3138,39 +3139,35 @@ void func_801902EC(s32 param_1)
         func_8018D15C(((Unkstruct_800B5CB8 *)param_1)->unkCC);
 
         {
-            u8 *q;
             fromX = ((Unkstruct_800B5CB8 *)param_1)->unkCC;
             func_8012B2CC(fromX);
-            q = D_801CC7CC;
-            ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, (s32)q, (s32)buf10);
-            __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
+            q1 = (s32)D_801CC7CC;
+            ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, q1, (s32)buf10);
         }
-        to1 = ((Unkstruct_800B5CB8 *)param_1)->unkD0;
-        ((Unkstruct_800B5CB8 *)to1)->unk6 = buf10[0];
-        ((Unkstruct_800B5CB8 *)to1)->unkA = buf10[1];
-        ((Unkstruct_800B5CB8 *)to1)->unkE = buf10[2];
-        ((Unkstruct_800B5CB8 *)*(s32 *)(to1 + 0x20))->unk10 =
-            ((Unkstruct_800B5CB8 *)to1)->unkFC + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(to1 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)to1)->unkFE + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
+        q1 = ((Unkstruct_800B5CB8 *)param_1)->unkD0;
+        ((Unkstruct_800B5CB8 *)q1)->unk6 = buf10[0];
+        ((Unkstruct_800B5CB8 *)q1)->unkA = buf10[1];
+        ((Unkstruct_800B5CB8 *)q1)->unkE = buf10[2];
+        ((Unkstruct_800B5CB8 *)*(s32 *)(q1 + 0x20))->unk10 =
+            ((Unkstruct_800B5CB8 *)q1)->unkFC + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
+        ((Unkstruct_800B5CB8 *)*(s32 *)(q1 + 0x20))->unk12 =
+            ((Unkstruct_800B5CB8 *)q1)->unkFE + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
         func_8018D264(((Unkstruct_800B5CB8 *)param_1)->unkD0);
 
         {
-            u8 *q;
             fromX = ((Unkstruct_800B5CB8 *)param_1)->unkD0;
             func_8012B2CC(fromX);
-            q = D_801CC7CC;
-            ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, (s32)q, (s32)buf10);
-            __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
+            q2 = (s32)D_801CC7CC;
+            ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, q2, (s32)buf10);
         }
-        to2 = ((Unkstruct_800B5CB8 *)param_1)->unkD4;
-        *(s16 *)(to2 + 6) = buf10[0];
-        *(s16 *)(to2 + 0xA) = buf10[1];
-        *(s16 *)(to2 + 0xE) = buf10[2];
-        ((Unkstruct_800B5CB8 *)*(s32 *)(to2 + 0x20))->unk10 =
-            *(s16 *)(to2 + 0xFC) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(to2 + 0x20))->unk12 =
-            *(s16 *)(to2 + 0xFE) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
+        q2 = ((Unkstruct_800B5CB8 *)param_1)->unkD4;
+        *(s16 *)(q2 + 6) = buf10[0];
+        *(s16 *)(q2 + 0xA) = buf10[1];
+        *(s16 *)(q2 + 0xE) = buf10[2];
+        ((Unkstruct_800B5CB8 *)*(s32 *)(q2 + 0x20))->unk10 =
+            *(s16 *)(q2 + 0xFC) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
+        ((Unkstruct_800B5CB8 *)*(s32 *)(q2 + 0x20))->unk12 =
+            *(s16 *)(q2 + 0xFE) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
         func_8018D264(((Unkstruct_800B5CB8 *)param_1)->unkD4);
 
         fromX = ((Unkstruct_800B5CB8 *)param_1)->unkD4;
@@ -3226,38 +3223,34 @@ void func_801902EC(s32 param_1)
             }
 
             {
-                u8 *q;
                 fromX = ((Unkstruct_800B5CB8 *)param_1)->unkCC;
                 func_8012B2CC(fromX);
-                q = D_801CC7CC;
-                ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, (s32)q, (s32)buf10);
-                __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
+                q3 = (s32)D_801CC7CC;
+                ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, q3, (s32)buf10);
             }
-            to3 = ((Unkstruct_800B5CB8 *)param_1)->unkD0;
-            ((Unkstruct_800B5CB8 *)to3)->unk6 = buf10[0];
-            ((Unkstruct_800B5CB8 *)to3)->unkA = buf10[1];
-            ((Unkstruct_800B5CB8 *)to3)->unkE = buf10[2];
-            ((Unkstruct_800B5CB8 *)*(s32 *)(to3 + 0x20))->unk10 =
-                ((Unkstruct_800B5CB8 *)to3)->unkFC + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(to3 + 0x20))->unk12 =
-                ((Unkstruct_800B5CB8 *)to3)->unkFE + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
+            q3 = ((Unkstruct_800B5CB8 *)param_1)->unkD0;
+            ((Unkstruct_800B5CB8 *)q3)->unk6 = buf10[0];
+            ((Unkstruct_800B5CB8 *)q3)->unkA = buf10[1];
+            ((Unkstruct_800B5CB8 *)q3)->unkE = buf10[2];
+            ((Unkstruct_800B5CB8 *)*(s32 *)(q3 + 0x20))->unk10 =
+                ((Unkstruct_800B5CB8 *)q3)->unkFC + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
+            ((Unkstruct_800B5CB8 *)*(s32 *)(q3 + 0x20))->unk12 =
+                ((Unkstruct_800B5CB8 *)q3)->unkFE + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
 
             {
-                u8 *q;
                 fromX = ((Unkstruct_800B5CB8 *)param_1)->unkD0;
                 func_8012B2CC(fromX);
-                q = D_801CC7CC;
-                ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, (s32)q, (s32)buf10);
-                __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
+                q4 = (s32)D_801CC7CC;
+                ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, q4, (s32)buf10);
             }
-            to4 = ((Unkstruct_800B5CB8 *)param_1)->unkD4;
-            *(s16 *)(to4 + 6) = buf10[0];
-            *(s16 *)(to4 + 0xA) = buf10[1];
-            *(s16 *)(to4 + 0xE) = buf10[2];
-            ((Unkstruct_800B5CB8 *)*(s32 *)(to4 + 0x20))->unk10 =
-                *(s16 *)(to4 + 0xFC) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(to4 + 0x20))->unk12 =
-                *(s16 *)(to4 + 0xFE) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
+            q4 = ((Unkstruct_800B5CB8 *)param_1)->unkD4;
+            *(s16 *)(q4 + 6) = buf10[0];
+            *(s16 *)(q4 + 0xA) = buf10[1];
+            *(s16 *)(q4 + 0xE) = buf10[2];
+            ((Unkstruct_800B5CB8 *)*(s32 *)(q4 + 0x20))->unk10 =
+                *(s16 *)(q4 + 0xFC) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
+            ((Unkstruct_800B5CB8 *)*(s32 *)(q4 + 0x20))->unk12 =
+                *(s16 *)(q4 + 0xFE) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
 
             fromX = ((Unkstruct_800B5CB8 *)param_1)->unkD4;
             func_8012B2CC(fromX);
@@ -3289,11 +3282,8 @@ void func_801902EC(s32 param_1)
             buf20[2] = D_80126B66;
             func_8004914C((void *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x34));
             func_800491AC((void *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x34));
-            {
-                s16 *bp = buf18;
-                RotTransSV(D_801CC7F4, bp, buf28);
-                __asm__ __volatile__("" : "=r"(bp));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
-            }
+            flag = (s32)buf18;
+            RotTransSV(D_801CC7F4, (void *)flag, buf28);
             flag = 0x202080;
             if (D_800B99D8 & 1) {
                 flag = 0xE0;
@@ -3325,40 +3315,34 @@ void func_801902EC(s32 param_1)
 
     /* shared trailer (asm .L80190C04) -- reached by `break` fromX cases 4, 5, 8 */
     {
-        u8 *q;
         fromX = ((Unkstruct_800B5CB8 *)param_1)->unkCC;
         func_8012B2CC(fromX);
-        q = D_801CC7CC;
-        __asm__ __volatile__("" :: "r"(fromX));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
-        ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, (s32)q, (s32)buf10);
-        __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
+        q5 = (s32)D_801CC7CC;
+        ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, q5, (s32)buf10);
     }
-    to5 = ((Unkstruct_800B5CB8 *)param_1)->unkD0;
-    ((Unkstruct_800B5CB8 *)to5)->unk6 = buf10[0];
-    ((Unkstruct_800B5CB8 *)to5)->unkA = buf10[1];
-    ((Unkstruct_800B5CB8 *)to5)->unkE = buf10[2];
-    ((Unkstruct_800B5CB8 *)*(s32 *)(to5 + 0x20))->unk10 =
-        ((Unkstruct_800B5CB8 *)to5)->unkFC + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(to5 + 0x20))->unk12 =
-        ((Unkstruct_800B5CB8 *)to5)->unkFE + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
+    q5 = ((Unkstruct_800B5CB8 *)param_1)->unkD0;
+    ((Unkstruct_800B5CB8 *)q5)->unk6 = buf10[0];
+    ((Unkstruct_800B5CB8 *)q5)->unkA = buf10[1];
+    ((Unkstruct_800B5CB8 *)q5)->unkE = buf10[2];
+    ((Unkstruct_800B5CB8 *)*(s32 *)(q5 + 0x20))->unk10 =
+        ((Unkstruct_800B5CB8 *)q5)->unkFC + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
+    ((Unkstruct_800B5CB8 *)*(s32 *)(q5 + 0x20))->unk12 =
+        ((Unkstruct_800B5CB8 *)q5)->unkFE + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
 
     {
-        u8 *q;
         fromX = ((Unkstruct_800B5CB8 *)param_1)->unkD0;
         func_8012B2CC(fromX);
-        q = D_801CC7CC;
-        __asm__ __volatile__("" :: "r"(fromX));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
-        ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, (s32)q, (s32)buf10);
-        __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
+        q6 = (s32)D_801CC7CC;
+        ((void (*)(s32, s32, s32))func_8012F14C)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, q6, (s32)buf10);
     }
-    to6 = ((Unkstruct_800B5CB8 *)param_1)->unkD4;
-    *(s16 *)(to6 + 6) = buf10[0];
-    *(s16 *)(to6 + 0xA) = buf10[1];
-    *(s16 *)(to6 + 0xE) = buf10[2];
-    ((Unkstruct_800B5CB8 *)*(s32 *)(to6 + 0x20))->unk10 =
-        *(s16 *)(to6 + 0xFC) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(to6 + 0x20))->unk12 =
-        *(s16 *)(to6 + 0xFE) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
+    q6 = ((Unkstruct_800B5CB8 *)param_1)->unkD4;
+    *(s16 *)(q6 + 6) = buf10[0];
+    *(s16 *)(q6 + 0xA) = buf10[1];
+    *(s16 *)(q6 + 0xE) = buf10[2];
+    ((Unkstruct_800B5CB8 *)*(s32 *)(q6 + 0x20))->unk10 =
+        *(s16 *)(q6 + 0xFC) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
+    ((Unkstruct_800B5CB8 *)*(s32 *)(q6 + 0x20))->unk12 =
+        *(s16 *)(q6 + 0xFE) + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
 
     fromX = ((Unkstruct_800B5CB8 *)param_1)->unkD4;
     func_8012B2CC(fromX);

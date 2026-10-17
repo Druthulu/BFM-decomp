@@ -3110,33 +3110,32 @@ void func_8017E180(s32 param_1) {
     r = func_8012E544(0x14B);
     if (r != 0) {
         func_80015978(r + 4, (s32*)&arr[1]);
-        if (*(s16*)&arr[1] < -0x200) {
-            *(s16*)&arr[1] = -0x200;
+        if (arr[1].v[0] < -0x200) {
+            arr[1].v[0] = -0x200;
         }
-        if (*(s16*)&arr[1] > 0x200) {
-            *(s16*)&arr[1] = 0x200;
+        if (arr[1].v[0] > 0x200) {
+            arr[1].v[0] = 0x200;
         }
     } else {
         arr[1] = D_80126940;
     }
-    if (*(s16*)&arr[0] < -0x108) {
-        *(s16*)&arr[0] = -0x108;
+    if (arr[0].v[0] < -0x108) {
+        arr[0].v[0] = -0x108;
     }
-    if (*(s16*)&arr[0] > 0x108) {
-        *(s16*)&arr[0] = 0x108;
+    if (arr[0].v[0] > 0x108) {
+        arr[0].v[0] = 0x108;
     }
-    a1 = *(s16*)&arr[0];
-    a0 = *(s16*)&arr[1];
+    a1 = arr[0].v[0];
+    a0 = arr[1].v[0];
     *(s16*)((s32)&arr[0] + 2) = -0x102;
     *(s16*)((s32)&arr[0] + 4) = -0x200;
     v1 = a1 - a0;
     if (v1 < 0) {
         v1 = a0 - a1;
     }
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
     CAST_ALIAS(s32, param_1, 0x14) = (v1 * 0x280) / 0x400 + 0x320;
-    t = *(s16*)&arr[0];
-    *(s16*)&arr[0] = t - t * (s16)(((Unkstruct_8017CF48 *)param_1)->unk10 - 0x320) / 640;
+    t = arr[0].v[0];
+    arr[0].v[0] = t - t * (s16)(((Unkstruct_8017CF48 *)param_1)->unk10 - 0x320) / 640;
     switch (D_801BA588) {
     case 0:
         ((Unkstruct_8017CF48 *)param_1)->unk20 = 0;
@@ -4450,20 +4449,11 @@ void func_80180100(void *a0)
     if (((Unkstruct_80180100 *)s0)->unk0 != 0) {
         s32 v0;
         s32 v1;
-        s32 pad[2]; /* dead local: reserves the target's 8 extra frame bytes, §162i1/§164-05 */
-        (void)pad;
 
-        v0 = ((Unkstruct_80180100 *)s0)->unk5C;
-        v1 = ((Unkstruct_80180100 *)s0)->unkAC;
-        v0 &= 0xFFFE;
-        ((Unkstruct_80180100 *)s0)->unk5C = v0;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
-
-        if (v1 != 0) {
-            v0 = v1;
-            __asm__ __volatile__("" : "=r"(v0) : "0"(v0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-            v0 = v0 - 1;
-            ((Unkstruct_80180100 *)s0)->unkAC = v0;
+        ((Unkstruct_80180100 *)s0)->unk5C &= 0xFFFE;
+        if (((Unkstruct_80180100 *)s0)->unkAC != 0) {
+            ((Unkstruct_80180100 *)s0)->unkAC--;
+            v0 = ((Unkstruct_80180100 *)s0)->unkAC;
             v0 = func_8004787C((s16)v0 << 8);
             v1 = (v0 * 3 << 6) >> 12;
             v1 += 0x40;

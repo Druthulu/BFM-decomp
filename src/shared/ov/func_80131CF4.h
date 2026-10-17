@@ -2,30 +2,17 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80131CF4(s32 *a0, s32 a1)
 {
-    s32 v0;
-    s32 k;
     if (a0 == 0) {
         return 0;
     }
-    goto enter;
-found:
-    return a0[1];
-enter:
-    if (a0[0] == 0) {
-        return 0;
-    }
-    __asm__ __volatile__("" : "=r"(k) : "0"(0xD) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_hdr1)
-    v0 = a0[0];
-    do {
-        if (v0 == k) {
+    while (a0[0] != 0) {
+        if (a0[0] == 0xD) {
             a0 = (s32 *)a0[1];
+        } else if (a0[0] == a1) {
+            return a0[1];
         } else {
-            if (v0 == a1) {
-                goto found;
-            }
             a0 = (s32 *)((u8 *)a0 + 8);
         }
-        v0 = a0[0];
-    } while (v0 != 0);
+    }
     return 0;
 }

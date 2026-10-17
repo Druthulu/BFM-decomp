@@ -7864,16 +7864,15 @@ void func_801835B0(void *a0, s32 a1)
     s16 v1;
 
     end = a1 + 8;
-    do {
-        __asm__("");__asm__("");__asm__("");__asm__("");__asm__("");__asm__("");__asm__("");  // !FAKE: barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS; barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
-        ((Unkstruct_800B5CB8 *)a0)->unkFC = *(u16 *)(a1 + 2);
-        ret = func_8012C658(0x268, *(s16 *)(a1 + 0), (s32)a0);
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk70;
-        if (v1 == 0 && a1 == end) {
-            *(s32 *)&D_801AECB4 = ret;
-        }
-        a1 += 4;
-    } while (*(s16 *)(a1 + 0) != -1);
+loop:
+    ((Unkstruct_800B5CB8 *)a0)->unkFC = *(u16 *)(a1 + 2);
+    ret = func_8012C658(0x268, *(s16 *)(a1 + 0), (s32)a0);
+    v1 = ((Unkstruct_800B5CB8 *)a0)->unk70;
+    if (v1 == 0 && a1 == end) {
+        *(s32 *)&D_801AECB4 = ret;
+    }
+    a1 += 4;
+    if (*(s16 *)(a1 + 0) != -1) goto loop;
 }
 
 
@@ -10429,7 +10428,7 @@ void func_80186B70(s32 arg0)
     register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
     volatile u16 *bidx;
     s32 t;
-    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+    u32 pv;
 
     m = D_800AE620;
     mp = &m;
@@ -10482,13 +10481,12 @@ void func_80186B70(s32 arg0)
     /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
     bidx = (u16 *)&D_800B9A02;
     pv = *(u32 *)p;
-    *(u32 *)p = (pv & 0xFF000000) |
-                (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
+    pv &= 0xFF000000;
+    *(u32 *)p = pv | (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
     *(u32 *)(ot + 0x40) = (*(u32 *)(ot + 0x40) & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
-    __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus7)
 }
 
 

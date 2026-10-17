@@ -2675,12 +2675,12 @@ extern u16 D_80115116;
 extern void (*D_80187F1C[])(void);
 
 void func_80141874(void) {
-    register void (*fp)(void) __asm__("$2"); /* pin fn-ptr to $v0 → store retires early */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_rj1)
+    void (**entry)(void);
     func_801754A8();
     D_8011511E = func_80014ED4(0);
     D_8011511C = func_80015018(0);
-    fp = D_80187F1C[D_80115112];
-    fp();
+    entry = &D_80187F1C[D_80115112];
+    (*entry)();
     func_80141C04();
     D_80115116 += 1;
 }

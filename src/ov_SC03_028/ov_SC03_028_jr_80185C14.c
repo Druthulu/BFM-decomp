@@ -3292,7 +3292,8 @@ void func_80186368(void *a0) {
     u8 **abase;
     u8 *p;
     s16 *q;
-    register u8 bval __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    u8 bval;
+    u8 b2;
     s16 hval;
 
     if (func_8012C354((s32)a0, (s32)D_80190C1C) == 0) {
@@ -3309,7 +3310,8 @@ void func_80186368(void *a0) {
 
     abase = &D_801E6214;
     bval = 0x45;
-    p = *abase + 0x2D; asm("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+    p = *abase;
+    p += 0x2D;
     *p = 0;
     p += 4; 
     *p = 0;
@@ -3326,16 +3328,17 @@ void func_80186368(void *a0) {
     p += 4; 
     *p = bval;
     p += 0x14; 
-    bval = 0xA1;
-    *p = bval;
+    b2 = 0xA1;
+    *p = b2;
     p += 4; 
-    *p = bval;
+    *p = b2;
     p += 4; 
-    *p = bval;
-    p[4] = bval;
+    *p = b2;
+    p[4] = b2;
 
     hval = -0x360;
-    q = (s16 *)(*abase + 0xEA); asm("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+    q = (s16 *)*abase;
+    q = (s16 *)((u8 *)q + 0xEA);
     *q = hval;
     q = (s16 *)((u8 *)q + 8); 
     *q = hval;
@@ -3988,7 +3991,7 @@ extern s32 D_801EC44C;
 void func_8018726C(void *a0)
 {
     s32 *s1;
-    register s32 s2 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 s2;
     s32 cnt;
     s32 ret, sub;
     s32 obj;
@@ -4001,10 +4004,9 @@ void func_8018726C(void *a0)
     ((Unkstruct_800B5CB8 *)a0)->unk1C = cnt;
 
     if (cnt == 0) {
-        s1 = D_8018FA1C;
         func_801439C0(((Unkstruct_800B5CB8 *)a0)->unkCC);
 
-        for (s2 = 0; s2 < 21; s2++, s1++) {
+        for (s2 = 0, s1 = D_8018FA1C; s2 < 21; s2++, s1++) {
             ret = func_8012C588(0xE7, (s32) a0);
             if (ret != 0) {
                 sub = ((Unkstruct_800B5CB8 *)ret)->unk20;

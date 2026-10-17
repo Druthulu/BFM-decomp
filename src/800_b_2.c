@@ -5599,20 +5599,22 @@ void func_80033398(u32 arg0)
      * $a0 (the parm pseudo dies at the srl and local-alloc gives it $a0,
      * deleting the real parm copy).  A plain `s7v = arg0;` makes
      * cse.c make_regs_eqv head-promote s7v to canonical and canon_reg
-     * rewrites the srl to `srl $s6,$s7,16` (the 1-ins residual). */
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
-    u32 s7v;
+     * rewrites the srl to `srl $s6,$s7,16` (the 1-ins residual).
+     * T11 G01: `u16 s7v` does it pin-free (HImode copy escapes the cse equiv);
+     * inner loop as goto (no strength reduction of s0v) and one shared s4v++
+     * (reorg steals it into the default arm's j slot; s3v outranks s4v in greg). */
+    u16 s7v;
     u8 *s5v;
     s32 s4v;
     u32 s6v;
     u8 *fpv;
-    register u8 *s3v __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *s3v;
     u8 *s2v;
     s32 s1v;
-    register u8 *s0v __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    u8 *s0v;
     s32 t0;
 
-    s7v = arg0 + zr;
+    s7v = arg0;
     s5v = (u8 *)D_800A46E8;
     s4v = 0;
     s6v = arg0 >> 16;
@@ -5629,7 +5631,8 @@ void func_80033398(u32 arg0)
             case 1:
                 s1v = 0;
                 s0v = fpv;
-                for (; s1v < 8; s1v++, s0v += 0x54) {
+            inner:
+                {
                     u8 *p = s2v + s1v;
                     if (p[0xE] != 0) {
                         p[0xE] = 0;
@@ -5639,14 +5642,16 @@ void func_80033398(u32 arg0)
                         }
                     }
                 }
+                s1v++;
+                s0v += 0x54;
+                if (s1v < 8) goto inner;
                 *(u16 *)s2v = 0;
                 break;
             case 5:
                 func_80034650(s2v, 0);
                 break;
             default:
-                s4v++;
-                continue;
+                break;
             }
         }
         s4v++;
@@ -6223,9 +6228,8 @@ void func_8003388C(Ent388C *arg, s32 arg1)
     ch->unk10 = bank;
     ch->unk14 = cmd->unk10;
     tmp9 = cmd->unk09;
-    __asm__ __volatile__("" : "=r"(tmp9) : "0"(tmp9));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    ch->unk35 = tmp9;
     lvl = tmp9;
-    ch->unk35 = lvl;
     ch->unk52 = lvl;
     if (e->unk38 != 0 && lvl != 0) {
         sum = lvl + e->unk38;
@@ -6310,10 +6314,9 @@ void func_8003388C(Ent388C *arg, s32 arg1)
         vo->unk08 = v;
         vo->unk0A = v;
     }
-    vo->unk0C = 0;
-    vo->unk0E = 0;
-    vo->unk04 = 0x6009F;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+    *(s16 *)((u8 *)vo + 0xC) = 0;
+    *(s16 *)((u8 *)vo + 0xE) = 0;
+    *(s32 *)((u8 *)vo + 4) = 0x6009F;
     if (D_800A4EF6 > cmd->unk0C) {
         func_8002F064(1, vo->unk00);
     } else {

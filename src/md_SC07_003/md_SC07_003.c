@@ -2308,8 +2308,8 @@ void func_801A31CC(void *arg0) {
         a1 = (u8 *)link;
         link = (s32)(a1 + 0x10);
         *(s32 *)a1 = link;
-        __asm__ __volatile__("" : "=r"(link) : "0"(link));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
-        *(s32 *)link = 0;
+        a1 = (u8 *)link;
+        *(s32 *)a1 = 0;
         ((Unkstruct_800B5CB8 *)arg0)->unk5C = 0xC800;
         ((Unkstruct_800B5CB8 *)arg0)->unkAE = -1;
         ((Unkstruct_800B5CB8 *)arg0)->unk2 = 1;

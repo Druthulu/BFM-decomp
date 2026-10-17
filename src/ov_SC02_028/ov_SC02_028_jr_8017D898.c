@@ -4333,7 +4333,7 @@ void func_80180C04(void *arg0)
     extern Stride8_u16_80182868_80180970 D_801A4D0C[];
     extern Stride8_s16_80182868_80180970 D_801A4D12[];
 
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_tus2)
+
 
     u8 *base;
     void *s0;
@@ -4342,7 +4342,7 @@ void func_80180C04(void *arg0)
     s32 val;
     s32 lim;
     s32 d;
-    s32 flag;
+    s16 flag;
 
     s0 = arg0;
     func_8012AD80((s32)s0);
@@ -4364,7 +4364,7 @@ void func_80180C04(void *arg0)
 
     b = D_801A4D12[id].v;
     val = D_801A4D0C[id].v;
-    flag = 1 + zr;
+    flag = 1;
 
     if (b != 0) {
         if (*(s32 *)((s32)s0 + 0x10) < -0x80000) {
@@ -4378,7 +4378,7 @@ void func_80180C04(void *arg0)
         d = *(u16 *)((s32)s0 + 0x6) - val;
     }
 
-    if ((s16)d >= lim - 0x18 && (flag + zr) != 0 &&
+    if ((s16)d >= lim - 0x18 && flag != 0 &&
         *(s16 *)((s32)s0 + 0xA) + D_801A4D04 <= ((Unkstruct_80126B58 *)base)->unkA) {
         func_8012DB84();
     }

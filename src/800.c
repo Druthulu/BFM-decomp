@@ -5320,18 +5320,16 @@ extern u8 D_800AE834;       /* cdFileLocTable + 4 (the size field) */
 void func_800193B8(s32 arg0) {
     CdlLOC loc;
     u8 hdr[0x90];
-    register s32 sector __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
     s32 rdy;
-    register s32 tmp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register u8 *q __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register u8 *r __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
-    register int i __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 tmp;
+    u8 *q;
+    u8 *r;
+    int i;
     int base;
     int n;
     int fileIdx;
     int bufIdx;
-    register int j __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B tus9)
-    register int outer __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B tus9)
+    int j;
     int locOff;
     u8 *tbl;
     u8 *lbv;
@@ -5343,11 +5341,11 @@ void func_800193B8(s32 arg0) {
     CdlLOC *pp;
 
     LoaderResetReadState();
-    sector = arg0 + 1;
+    arg0 += 1;
     debugBinPresent = 0;
     D_80063074 = 0;
     D_800747D8 = 0;
-    CdIntToPos(sector, &loc);
+    CdIntToPos(arg0, &loc);
     do {
         rdy = CdReadRequest((int *)&loc, (void *)LIST_BUF, 0x800, 0);
         if (rdy != 0) {
@@ -5357,9 +5355,9 @@ void func_800193B8(s32 arg0) {
     } while (1);
 
     memcpy(hdr, (void *)LIST_BUF, 0x88);
-    tmp = sector + 1;
-    sector = tmp + ((*(u32 *)(hdr + 0x1C) + 0x7FF) >> 11);
-    CdIntToPos(sector, &loc);
+    tmp = arg0 + 1;
+    arg0 = tmp + ((*(u32 *)(hdr + 0x1C) + 0x7FF) >> 11);
+    CdIntToPos(arg0, &loc);
     do {
         rdy = CdReadRequest((int *)&loc, (void *)LIST_BUF, 0x800, 0);
         if (rdy != 0) {
@@ -5369,25 +5367,21 @@ void func_800193B8(s32 arg0) {
     } while (1);
     i = 2;
 
-    sector += 1;
+    arg0 += 1;
     q = &D_80062C38;
-    pp = (CdlLOC *)q;
-    /* sched fence: forces the `a1 = q` copy to be scheduled before the loop-pointer
-     * init; without it gcc's list scheduler emits `addiu s1,s0,0x60` first. */
-    __asm__ ("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    CdIntToPos(arg0 + ((Unkstruct_800193B8 *)LIST_BUF)->unk0, (CdlLOC *)q);
     r = q + 0x60;
-    CdIntToPos(sector + ((Unkstruct_800193B8 *)LIST_BUF)->unk0, pp);
-    CdIntToPos(sector + ((Unkstruct_800193B8 *)LIST_BUF)->unk8, (CdlLOC *)(q + 0x30));
+    CdIntToPos(arg0 + ((Unkstruct_800193B8 *)LIST_BUF)->unk8, (CdlLOC *)(q + 0x30));
     do {
         pp = (CdlLOC *)r;
         r += 0x30;
         i++;
-        CdIntToPos(sector + ((Unkstruct_800193B8 *)LIST_BUF)->unk10, pp);
+        CdIntToPos(arg0 + ((Unkstruct_800193B8 *)LIST_BUF)->unk10, pp);
     } while (i < 9);
 
     q = &D_80062DE8;
-    CdIntToPos(sector + ((Unkstruct_800193B8 *)LIST_BUF)->unk18, (CdlLOC *)q);
-    CdIntToPos(sector + ((Unkstruct_800193B8 *)LIST_BUF)->unk20, (CdlLOC *)(q + 0x210));
+    CdIntToPos(arg0 + ((Unkstruct_800193B8 *)LIST_BUF)->unk18, (CdlLOC *)q);
+    CdIntToPos(arg0 + ((Unkstruct_800193B8 *)LIST_BUF)->unk20, (CdlLOC *)(q + 0x210));
 
     do {
         rdy = CdReadRequest((int *)&D_80062C38, (void *)LIST_BUF, 0xE40, 0);
@@ -5401,7 +5395,7 @@ void func_800193B8(s32 arg0) {
     lbv = (u8 *)LIST_BUF;
     fileIdx = 0;
     bufIdx = 0;
-    outer = 0;
+    i = 0;
     locOff = 0;
     pCount = (s32 *)LIST_BUF;
     do {
@@ -5426,13 +5420,13 @@ void func_800193B8(s32 arg0) {
                 bufIdx++;
                 p += 2;
                 dstOff += 8;
-                j++;
+                do { j++; } while (0);  // !FAKE: do-while
                 fileIdx++;
             } while (j < n);
         }
-        outer++;
+        i++;
         locOff += 0x30;
-    } while (outer < 8);
+    } while (i < 8);
 }
 
 #ifdef NON_MATCHING

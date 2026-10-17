@@ -23,14 +23,7 @@ s32 func_801564B0(s32 a0) {
         return 0;
     }
     v1 = rand() % 160 & 0xFFFF;
-    if ((u32)v1 < 0x51) {
-        return 0;
-    }
-    if (v1 >= *(s16 *)(s0 + 0x2E)) {
-        /* LOAD-BEARING: empty volatile asm blocks gcc's noce store-flag
-           if-conversion (it would fold "cond ? 0x8000 : 0" to (slt)<<15);
-           the original kept the slt+branch form. */
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B headers1)
+    if ((u32)v1 < 0x51 || v1 >= *(s16 *)(s0 + 0x2E)) {
         return 0;
     }
     return 0x8000;

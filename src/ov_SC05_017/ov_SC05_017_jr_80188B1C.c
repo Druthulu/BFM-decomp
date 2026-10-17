@@ -3220,7 +3220,6 @@ s32 *func_80188F14(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
             s16 j;
             s32 k;
             u8 *q;
-            s16 y;
             u16 *pb2;
             u32 m24;
             u32 mhi;
@@ -3240,17 +3239,15 @@ s32 *func_80188F14(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                         continue;
                     }
                     q[-7] = 0x30;
-                    y = D_801B8D96 - 2;
+                    *(s16 *)(q - 10) = D_801B8D96 - 2;
                 } else {
                     s32 k2 = k * 2;
                     if ((((s8 *)D_80115158)[k2] - ((s8 *)D_80115140)[k]) < 7) {
                         continue;
                     }
                     q[-7] = 0x38;
-                    y = D_801B8DAA + 1;
+                    *(s16 *)(q - 10) = D_801B8DAA + 1;
                 }
-                *(s16 *)(q - 10) = y;
-                __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
                 *((u32 *)ot) = 0x4000000;
                 q[-8] = 0x78;
                 *((u32 *)(q - 0x10)) = 0x64808080;
