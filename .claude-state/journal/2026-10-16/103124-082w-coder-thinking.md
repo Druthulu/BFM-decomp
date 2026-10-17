@@ -1,0 +1,9 @@
+---
+ts: 2026-10-16T16:31:24.549Z
+session: a4742bc1-12ac-4649-ab77-694e7315677f
+agentId: adedfdbb8f5ba3d6e
+model: claude-opus-5-5[1m]
+effort: medium
+turnId: bf08bef4-164e-4bb8-a2e4-5a6de37b289f
+---
+I don't have per-segment before totals broken out by form, only after-classification segment forms, so I'll report fleet-wide before→after plus per-segment totals and after-forms. The TNC type counts sum slightly higher than the census figure due to overlap across segments, which is expected. I'll go ahead and write the log now rather than waiting on the structure check.
