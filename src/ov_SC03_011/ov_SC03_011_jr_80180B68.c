@@ -2911,7 +2911,7 @@ extern int D_80185818;
 extern int D_8019EC70;
 extern void (*D_80185948)(void);
 extern void func_80180774(void *a0);
-extern void func_8018094C();
+extern s32 func_8018094C(s32 s0);
 extern s32 D_80185820;
 extern s32 D_80185834;
 extern void func_80180830(void *a0);
