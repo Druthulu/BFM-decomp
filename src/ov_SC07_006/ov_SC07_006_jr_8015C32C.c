@@ -6882,7 +6882,7 @@ void func_80168744(void *a0) {
 #include "../shared/ov/func_80168780.h"
 
 
-extern void func_80168828();
+extern void func_80168828(s32 param_1);
 extern void func_80146C3C(u8 *a0);
 #include "../shared/ov/func_801687CC.h"
 
@@ -6892,23 +6892,21 @@ extern void func_80048EAC(void *a0, void *a1);
 
 
 
-void func_80168828() {
+void func_80168828(s32 param_1)
+{
     extern s32 func_80017DC4(void *a0, void *a1);
     extern void func_80049CAC(s32 a0, s32 a1);
     extern void func_800173BC(void *a0, void *a1);
     extern u16 D_8018D3F0[];
 
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus4)
-    s32 param_1 = a0v;
-    Thing_80168828 thing;
+
+    Thing_80168828_80168828 thing;
     s16 matA[16];
     s16 matB[16];
     s16 svec[4];
     u16 *p;
     short i;
-    register s32 c40 __asm__("$3");   /* $v1: hold the CSE'd 0x40 (else gcc folds to $v0 immediate) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus4)
 
-    c40 = 0x40;
     thing.f04 = 2;
     thing.f0c = 0x24;
     thing.f14 = 0x28;
@@ -6918,28 +6916,28 @@ void func_80168828() {
     thing.f00 = 0;
     thing.f12 = 0;
     thing.f0a = 0;
-    thing.f18 = c40;
-    thing.f19 = c40;
-    thing.f22 = c40;
-    thing.f1e = c40;
+    thing.f18 = 0x40;
+    thing.f19 = 0x40;
+    thing.f22 = 0x40;
     thing.f1a = 0x10;
+    thing.f1e = 0x40;
     thing.f20 = 0xff;
     thing.f1c = 0xff;
     thing.f21 = 0xc0;
     thing.f1d = 0xc0;
     thing.f24 = 0x50000000;
 
-    svec[0] = ((Unkstruct_80168828_2 *)param_1)->unk6;
-    svec[1] = ((Unkstruct_80168828_2 *)param_1)->unkA;
-    svec[2] = ((Unkstruct_80168828_2 *)param_1)->unkE;
+    svec[0] = ((Unkstruct_80168828 *)param_1)->unk6;
+    svec[1] = ((Unkstruct_80168828 *)param_1)->unkA;
+    svec[2] = ((Unkstruct_80168828 *)param_1)->unkE;
     func_80017E68(svec, matA);
 
-    svec[0] = svec[1] = svec[2] = (((Unkstruct_80168828_2 *)param_1)->unk1C << 11) + 0x1000;
+    svec[0] = svec[1] = svec[2] = (((Unkstruct_80168828 *)param_1)->unk1C << 11) + 0x1000;
     ((void (*)(void *, void *))func_80017DC4)(svec, matA);
 
-    svec[0] = ((Unkstruct_80168828_2 *)param_1)->unk12;
-    svec[1] = ((Unkstruct_80168828_2 *)param_1)->unk16;
-    svec[2] = ((Unkstruct_80168828_2 *)param_1)->unk1A;
+    svec[0] = ((Unkstruct_80168828 *)param_1)->unk12;
+    svec[1] = ((Unkstruct_80168828 *)param_1)->unk16;
+    svec[2] = ((Unkstruct_80168828 *)param_1)->unk1A;
     RotMatrixYXZ(svec, matB);
 
     func_80048EAC(matA, matB);
