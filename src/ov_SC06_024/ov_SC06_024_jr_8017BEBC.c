@@ -4359,14 +4359,13 @@ extern void func_8012E8A8(u8 *a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017FA1C(s32 arg0) {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 s0;
     s0 = arg0;
 
     if (CAST_SIGN(s16, (u8 *)s0, 0xA) >= 0x10) {
         func_8012C218(s0);
         return;
     }
-    __asm__ __volatile__("" ::: "a0");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
     if (func_8012CBF4(s0) != 0) {
         func_8017FB84(s0);
         {
@@ -4379,33 +4378,21 @@ void func_8017FA1C(s32 arg0) {
         return;
     }
     if (((Unkstruct_800B5CB8 *)s0)->unk34 == 0 && ((Unkstruct_800B5CB8 *)s0)->unk14 >= 0) {
-        s32 t;
-        register s32 u __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
-        t = 0x800;
-        u = ((Unkstruct_800B5CB8 *)s0)->unk20;
-        ((Unkstruct_800B5CB8 *)u)->unk10 = t;
-        t = ((Unkstruct_800B5CB8 *)s0)->unk34 + 1;
-        ((Unkstruct_800B5CB8 *)s0)->unk34 = t;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)s0)->unk20)->unk10 = 0x800;
+        ((Unkstruct_800B5CB8 *)s0)->unk34 = ((Unkstruct_800B5CB8 *)s0)->unk34 + 1;
         func_8002D4C8(0x954, 0);
     }
     {
         s32 a1 = CAST_SIGN(s16, (u8 *)s0, 0xA);
         if (a1 < -0x602) {
-            s32 v0 = -0x900;
-            s32 v1 = ((Unkstruct_800B5CB8 *)s0)->unkCC;
-            s32 a0 = v0 - a1;
-            s32 a2 = ((Unkstruct_800B5CB8 *)v1)->unkCC;
-            if (a0 >= 0) {
-                v0 = a0 << 2;
-                v0 += a0;
-            } else {
-                v1 = a1 + 0x900;
-                v0 = v1 << 2;
-                v0 += v1;
-            }
+            s32 a0 = -0x900 - a1;
+            Unkstruct_800B5CB8 *a2 = (Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)s0)->unkCC)->unkCC;
+            s32 v0;
+            if (a0 >= 0) v0 = a0 * 5;
+            else v0 = (a1 + 0x900) * 5;
             v0 <<= 1;
-            ((Unkstruct_800B5CB8 *)a2)->unk1A = v0;
-            ((Unkstruct_800B5CB8 *)a2)->unk18 = v0;
+            a2->unk1A = v0;
+            a2->unk18 = v0;
         }
     }
 }

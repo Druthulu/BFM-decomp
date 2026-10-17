@@ -5400,9 +5400,11 @@ void func_80180ED8(void *a0) {
  *     from the already-banked SAME-TU sibling func_80183B04 (TU:4468), including the
  *     `s32 r; r = 0x30;` non-const multiplier (T1) and the `V8_801810FC {u16 x,y,z,w}` locals.
  *   - the RotTransPers + positional-sound block follows the byte-proven RTP_SND() macro in
- *     src/ov_SC06_030/ov_SC06_030_jr_8017C8D0.c:3480 — in particular the $a0-PINNED SCOPES on
- *     &D_800AF648, which rematerialise the lui/addiu before EACH call instead of letting CSE
- *     hoist the address into a callee-saved pseudo.
+ *     src/ov_SC06_030/ov_SC06_030_jr_8017C8D0.c:3480 — which used $a0-PINNED SCOPES on
+ *     &D_800AF648 to rematerialise the lui/addiu before EACH call instead of letting CSE
+ *     hoist the address into a callee-saved pseudo.  P40 T10, lever-free: one block-local
+ *     `r4` set to &D_800AF648, then reassigned to `v` before func_800491AC(&D_800AF648);
+ *     r4 then feeds RotTransPers.
  *   - the `*(u16*)(*(s32*)(a0+0x20)+0x12) = *(u16*)(...) + d;` accumulate form is copied from
  *     the SAME-TU sibling func_80180C80 (TU:3936).
  *
@@ -5421,18 +5423,20 @@ void func_80180ED8(void *a0) {
  *     sxy/z/flag into ONE struct.)  `s32 mv[4]` + `V8_801810FC pad[2]` are the 0x10..0x2F filler that
  *     makes vars = 0x48 ⇒ frame 0x68.
  *
- *  3. §21 ZERO-BYTE RE-TIE on `vol`.  Both magic-multiplies write the same match_scratch, so
+ *  3. (was) §21 ZERO-BYTE RE-TIE on `vol`.  Both magic-multiplies write the same match_scratch, so
  *     sched1 (the PRE-reload pass — verified with -fno-schedule-insns/-insns2) is free to swap
  *     them and always hoisted the PAN multiply first, inverting the whole tail schedule and
  *     losing the mfhi→mult hazard nop.  Source statement order does NOT move it (9 spellings
- *     swept, all identical); only the re-tie does.  Worth +2 ins and 33 mismatches.
+ *     swept, all identical); the first pass used a re-tie (+2 ins and 33 mismatches without it).
+ *     P40 T10, lever-free: the volume reuses `av` (`av = ((0xA0 - av) * 0x7F) / 0xA0;`), no
+ *     separate `vol` local; this spelling matches without the re-tie.
  *
  *  4. REUSE ONE VARIABLE FOR X AND PAN.  gcc-2.7.2 has no live-range splitting, so one C local
  *     == one hard register: writing `sx = (sx + 0xA0) / 0x14;` (instead of a fresh `pan`) is
  *     what keeps the pan field in $a2 — a separate `pan` local is a fresh allocno and takes the
  *     dying $v1 instead.  Register PINS on `pan` made it WORSE (6 → 10): a local `register`
- *     var is the hard reg for its whole range and evicts the block's temps.  Only `av` needed
- *     a pin ($a1).
+ *     var is the hard reg for its whole range and evicts the block's temps.  The first pass
+ *     pinned `av` to $a1; P40 T10 dropped that pin (av doubles as the volume, above).
  *     Sub-lever: `pan = pan << 8;` must be an IN-PLACE statement (`sll $a2,$a2,8`), not
  *     `(pan << 8)` in the expression — reorg can only steal the shift into the bne delay slot
  *     when it is dead on the fall-through, i.e. when dest == src.  That is the last +1 ins.
@@ -5562,29 +5566,30 @@ void func_801810FC(s32 a0) {
         v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
         v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
         v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
-        /* $a0-pinned scopes: rematerialise &D_800AF648 (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
-        { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
-        RotTransPers((s32)v, (s32)&sxy, &z, &flag);
+        {
+            void *r4;   /* the matrix, then the input vector: the reassignment ends cse's &D_800AF648 */
+            r4 = &D_800AF648;
+            func_8004914C(r4);
+            r4 = v;
+            func_800491AC(&D_800AF648);
+            RotTransPers((s32)r4, (s32)&sxy, &z, &flag);
+        }
         if (flag >= 0 && (u32)((*(u16 *)&sxy + 0x9F) & 0xFFFF) < 0x13F
                       && (u32)((*((u16 *)&sxy + 1) + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                             /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
-            s32 vol;
+            s32 av;      /* |X|, then the volume */
             sx = (s16)*(u16 *)&sxy;
             av = sx;
             if (sx < 0) {
                 av = -sx;
             }
-            vol = ((0xA0 - av) * 0x7F) / 0xA0;
-            /* lever 3: sched1 otherwise hoists the PAN multiply ahead of this one */
-            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+            av = ((0xA0 - av) * 0x7F) / 0xA0;
             sx = (sx + 0xA0) / 0x14;
             if (sx == 0x10) {
                 sx = 0xF;
             }
             sx = sx << 8;                       /* in place, so reorg can steal it */
-            func_8002D4C8(0xA9B, (vol | (0x3000 | sx)) & 0xFFFF);
+            func_8002D4C8(0xA9B, (av | (0x3000 | sx)) & 0xFFFF);
         }
     }
 

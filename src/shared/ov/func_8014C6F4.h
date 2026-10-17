@@ -7,8 +7,7 @@ void func_8014C6F4(u8 *a) {
     extern void func_80015978(s32 a0, s32 *a1);
     u8 *p = D_80078E78;
     u8 *e;
-    register u8 *lim __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
-    u8 *q;
+    u8 *lim;
     s32 want;
     u8 *src;
     if ((*(u32 *)(a + 0x44) & 2) != 0) {
@@ -25,19 +24,19 @@ void func_8014C6F4(u8 *a) {
     }
     if (p[0x49] == 0x17) {
         want = 0x22;
-        q = (u8 *)&D_8011F9D0;
-        lim = q + 0xC30;
-        for (; q < lim; q += 0x68) {
-            if (*(u16 *)q == want) {
-                e = q;
+        src = (u8 *)&D_8011F9D0;
+        lim = src + 0xC30;
+        for (; src < lim; src += 0x68) {
+            if (*(u16 *)src == want) {
+                e = src;
                 goto found;
             }
         }
         e = 0;
     found:
         if (e != 0) {
-            src = e + 4;
-            goto call;
+            func_80015978((s32)(e + 4), (s32 *)(a + 0x15C));
+            goto done;
         }
     }
     if (*(u16 *)a == 0x19) {

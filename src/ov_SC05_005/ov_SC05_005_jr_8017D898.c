@@ -3027,23 +3027,11 @@ s32 func_8017EE64(u8 *param_1, s16 *param_2, s16 *param_3) {
  * outside the span, else the sign of the NCLIP result (~r >> 31 == r >= 0).
  *
  * LOAD-BEARING CONSTRUCTS — do not "clean up" without re-running match_one:
- *  - s16 locals assigned from the s16 loads: store_expr into a PROMOTE_MODE
- *    pseudo emits `lh <temp>` + `addu <var>,<temp>,$zero`; the compares use the
- *    temp, the packing uses the copy. That copy pair is 6 of the 46 insns.
- *  - `(u16)ay << 16` (not `(s32)ay << 16`): the unsigned conversion of a signed
- *    promoted short forces the widening copy for the y terms too; the signed
- *    form lets combine fold it into the sll and loses 3 insns.
- *  - `do { ... } while (0)` around the tail: the loop note bumps loop_depth, so
- *    flow.c's `reg_n_refs += loop_depth` reweights the K2 density priorities.
- *    A bare `{ ... }` block instead permutes $t1..$t4 (11 mismatches).
- *  - the two zero-byte `__asm__` re-ties (cookbook §30 / gcc-2.7.2-map regalloc):
- *    the first makes the pinned $t0/$a3/$v1 conflict with the cx load temp
- *    (pushing it to $t1); the second keeps the ax/bx/cx copies live past their
- *    own `andi` so the mask does not reuse the dying source register.
- *    They emit no instructions; they only move the allocation.
- *  - the $8/$7/$3 pins on la/lb/lc (cookbook §17): local-alloc otherwise hands
- *    the three masks $v0/$v1/$a3 and the whole global assignment shifts down.
- *  - `s32 pad[2]`: dead locals for the target's 0x50 frame (vars=56).
+ *  - three register unions {struct{s16 x,y} v; s32 sxy} a,b,c: the field
+ *    stores a.v.x = ax .. become the andi/sll/or packing, and the unions give
+ *    the target's 0x50 frame; `return func_800495EC(a.sxy, b.sxy, c.sxy) >= 0;`.
+ *    func_8017F0AC below uses the same spelling (P40 T10: replaced its pins
+ *    $8/$7/$3, two keepalives, `s32 pad[2]` and do-while(0); lever-free).
  */
 
 extern s32 func_800495EC(s32 a0, s32 a1, s32 a2);
@@ -3088,41 +3076,39 @@ u32 func_8017EFF4(s16 *param_1, s16 *param_2, s16 *param_3) {
 extern s32 func_800495EC(s32 a0, s32 a1, s32 a2);
 
 u32 func_8017F0AC(s16 *param_1, s16 *param_2, s16 *param_3) {
+    union {
+        struct {
+            s16 x, y;
+        } v;
+        s32 sxy;
+    } a, b, c;
     s16 ax, ay, bx, by, cx, cy;
-    register s32 la __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 lb __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 lc __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    u32 r;
-    s32 pad[2];
 
     cx = param_3[0];
     bx = param_2[0];
     if (cx < bx) {
         return 0;
     }
-    __asm__ __volatile__("" : : "r"(la), "r"(lb), "r"(lc));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
     ax = param_1[0];
     if (ax < cx) {
         return 1;
     }
-    do {
-        cy = param_3[2];
-        ay = param_1[1];
-        if (cy > ay) {
-            return 0;
-        }
-        by = param_2[1];
-        if (cy >= by) {
-            la = (u16)ax;
-            lb = (u16)bx;
-            lc = (u16)cx;
-            __asm__ __volatile__("" : : "r"(ax), "r"(bx), "r"(cx));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-            r = func_800495EC(la | ((u16)ay << 16), lb | ((u16)by << 16),
-                              lc | ((u16)cy << 16));
-            return ~r >> 31;
-        }
-        return 1;
-    } while (0);
+    cy = param_3[2];
+    ay = param_1[1];
+    if (cy > ay) {
+        return 0;
+    }
+    by = param_2[1];
+    if (cy >= by) {
+        a.v.x = ax;
+        a.v.y = ay;
+        b.v.x = bx;
+        b.v.y = by;
+        c.v.x = cx;
+        c.v.y = cy;
+        return func_800495EC(a.sxy, b.sxy, c.sxy) >= 0;
+    }
+    return 1;
 }
 
 

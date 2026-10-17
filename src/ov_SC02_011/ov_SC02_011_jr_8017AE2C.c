@@ -7063,14 +7063,17 @@ void func_80180E74(void *a0)
  *      target's $a2/$a3, and every later use cascaded (42 mismatched ins).  Writing
  *      `my = wy >> 16;` BEFORE `mny = wy;` fixed the allocation but then transposed
  *      the two defs at emission.  The fix that gets BOTH: keep the natural source
- *      order (`mny` first, correct emission) and add ONE zero-byte
- *      `__asm__ volatile ("" :: "r"(mny));` between the two defs.  It emits nothing
- *      (#APP/#NO_APP only) but adds a REF to `mny`, raising its priority above `my`
- *      so `mny` is granted $a2 first — a *ref-count* slider, complementary to §47's
- *      documented *live-length* slider (`__asm__ volatile ("")`).
+ *      order (`mny` first, correct emission) and give `mny` more refs than `my`.
+ *      The first pass used a zero-byte `__asm__ volatile ("" :: "r"(mny));` between
+ *      the two defs (a ref-count slider); P40 T10 made it lever-free with two plain-C
+ *      moves, each failing alone:
+ *      (a) `do { mny = ...->y0; } while (0);` in the FT3 y-min else-arm: flow's
+ *          REG_N_REFS += loop_depth gives mny 2 loop-weighted refs more (47 > 46);
+ *      (b) `t32 = sxy[2].vx;` duplicated into both arms of the preceding if/else:
+ *          +1 sched1 live-length insn ties &g.sz0/&g.sz1 (262/262, lower allocno
+ *          wins -> $s4/$s5 as target); jump2 cross-jumping merges the copies back.
  *   2. Do NOT also add the twin's §47 live-length slider between gte_ldv3c(&box[4])
- *      and gte_rtpt(): with the ref slider in place, the &g.sz0/&g.sz1 ($s4/$s5)
- *      tie already splits the target's way.  Adding both re-transposes it (6 ins).
+ *      and gte_rtpt(): it re-transposes the &g.sz0/&g.sz1 ($s4/$s5) tie (6 ins).
  *
  * GTE ops are verbatim PsyQ inline_c.h macro bodies; rtps/rtpt/nclip are spelled via
  * the project gas macros in include/gte_macros.inc.  gte_stszotz/gte_stflg MUST list
@@ -7147,7 +7150,6 @@ void func_80180FE4(s32 arg0)
         mx = wx >> 16;
         wy = part->yy;
         mny = wy;
-        __asm__ volatile ("" :: "r"(mny));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
         my = wy >> 16;
         wz = part->zz;
         box[0].vx = mn; box[0].vy = mny;
@@ -7185,8 +7187,7 @@ void func_80180FE4(s32 arg0)
         if (lim >= g.otz) {
             xa32 = sxy[0].vx;
             xb32 = sxy[1].vx;
-            if (xb32 < xa32) { xmx1 = xa32; xmn1 = xb32; } else { xmn1 = xa32; xmx1 = xb32; }
-            t32 = sxy[2].vx;
+            if (xb32 < xa32) { xmx1 = xa32; xmn1 = xb32; t32 = sxy[2].vx; } else { xmn1 = xa32; xmx1 = xb32; t32 = sxy[2].vx; }
             if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
             t32 = sxy[3].vx;
             if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
@@ -7258,7 +7259,7 @@ void func_80180FE4(s32 arg0)
                                             my = ((PolyFT3_80180FE4 *)pkt)->y0;
                                             mny = ((PolyFT3_80180FE4 *)pkt)->y1;
                                         } else {
-                                            mny = ((PolyFT3_80180FE4 *)pkt)->y0;
+                                            do { mny = ((PolyFT3_80180FE4 *)pkt)->y0; } while (0);  // !FAKE: do-while — flow REG_N_REFS += loop_depth: +2 loop-weighted refs on mny beat my in local-alloc (with the duplicated t32 load; replaces the keepalive) (P40 T10)
                                             my = ((PolyFT3_80180FE4 *)pkt)->y1;
                                         }
                                         if (((PolyFT3_80180FE4 *)pkt)->y2 > my) my = ((PolyFT3_80180FE4 *)pkt)->y2;

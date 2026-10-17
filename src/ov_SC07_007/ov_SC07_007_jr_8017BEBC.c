@@ -7409,9 +7409,11 @@ s32 func_80181ED4(s32 a0, s32 a1) {
            sym+3 and every later access pays an extra `addiu` (+22 ins), plus a
            stray `addiu $t0,$t0,-3` where the target has a nop.
 
-   §17     `register u8 *p __asm__("$8")` — local_alloc ranks the D_800B9A02
-           pointer (14 refs) above the D_801C7874 pointer (13 refs), so without
-           the pin the two land in $t1/$t0 swapped (26 residual instructions).
+   §17     local_alloc ranks the D_800B9A02 pointer (14 refs) above the
+           D_801C7874 pointer `p` (13 refs), so plain C lands the two in $t1/$t0
+           swapped (26 residual instructions).  P40 T10 replaced the `$8` pin with
+           `do { r = p + i; } while (0);` in the 0xE store: flow's REG_N_REFS +=
+           loop_depth gives p one loop-weighted ref more (priority 1875 > 1842).
 
    §186b/§226  vars=16 with no saved registers: the dead addressed `pad` array.
            The scheduler drops the resulting `addiu $sp,$sp,-0x10` into the
@@ -7433,7 +7435,7 @@ void func_80181F4C(s32 arg0, s32 arg1) {
     extern u32 D_800A661C[];
 
     s32 n = arg1 & 0xFF;
-    register u8 *p __asm__("$8") = D_801C7874;  // !FAKE: pin $8 — local-alloc qty_compare_1 (local-alloc.c:1598): base 13 refs/222 vs &D_800B9A02 14 refs/226; no plain-C mention adds a 14th (P36 S105 f6 minimum-lever)
+    u8 *p = D_801C7874;
     u8 *p4 = p + 4;
     u8 *q;
     u32 *ot;
@@ -7447,7 +7449,12 @@ void func_80181F4C(s32 arg0, s32 arg1) {
     q[0x9] = arg0;
     q[0x8] = arg0;
     *(s16 *)(p + F4C_IDX + 0xC) = 0;
-    *(s16 *)(p + F4C_IDX + 0xE) = -0x70;
+    {
+        s32 i = n * 0x30 + aB9A02[0] * 0x18;
+        u8 *r;
+        do { r = p + i; } while (0);  // !FAKE: do-while — flow REG_N_REFS += loop_depth: +1 loop-weighted ref on p puts it ahead of &D_800B9A02 in local-alloc (replaces the pin $8) (P40 T10)
+        *(s16 *)(r + 0xE) = -0x70;
+    }
     *(u8 *)(p + F4C_IDX + 0x10) = 0;
     *(u8 *)(p + F4C_IDX + 0x11) = 0;
     *(u16 *)(p + F4C_IDX + 0x12) = (((n * 0x100) >> 4) & 0x3F) | 0x7800;

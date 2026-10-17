@@ -1007,7 +1007,8 @@ void func_801A143C(s32 a0) {
     s32 i;
     s32 pick;
     s32 obj;
-    register s32 t __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 t;
+    s32 m;
     s32 r;
 
     if (*(s32 *)(a0 + 0x94) == 4) {
@@ -1031,20 +1032,26 @@ void func_801A143C(s32 a0) {
             if (obj == 0) {
                 continue;
             }
-            /* The $16 pin on `t` is load-bearing (LENGTH-DRIFT +1 without it).
-               expand_divmod's internal `t1 = copy_to_mode_reg(op0)` (expmed.c:2986)
-               spans basic blocks, so global_alloc owns it and -- crossing 0 calls --
-               prefers a call-clobbered reg, taking $v0 and forcing the rand() result
-               into $v1 via an extra `move`, which also leaves the bgez delay slot a
-               nop.  Pinning the result variable to $16 makes t1/quotient/t3/remainder
-               all land on $16, op0 stays in the raw return reg $v0, and the surviving
-               `t1 = op0` copy fills the delay slot exactly as the target does. */
-            t = (rand() % 64) << 16;
+            /* Lever-free (P40 T10.c1): the `% 64` is written out so `t` is the in-place
+               divmod temp and lands on $16 (it crosses the rand() call).  `m` holds the raw
+               rand() return in $v0; reusing `m` below as the func_800484EC arg makes `m`
+               outlive `t`, so cse keeps `m` canonical (cse.c make_regs_eqv) and the
+               bgez tests $v0 with the `t = m` copy in its delay slot, as the target. */
+            m = rand();
+            t = m;
+            if (m < 0) {
+                t = m + 63;
+            }
+            t >>= 6;
+            t <<= 6;
+            t = m - t;
+            t <<= 16;
             if ((rand() & 1) == 0) {
                 t = -t;
             }
             vin.vx = t;
-            func_800484EC(*(s32 *)(a0 + 0x20) + 0x34, (s32)&vin, (s32)&vout);
+            m = *(s32 *)(a0 + 0x20) + 0x34;
+            func_800484EC(m, (s32)&vin, (s32)&vout);
 
             CAST_WIDTH(s32, obj, 0x4) += vout.vx;
             CAST_WIDTH(s32, obj, 0x8) += vout.vy;

@@ -3038,28 +3038,11 @@ void func_80016224(s32 a0, s32 a1)
  *     gcc-2.7.2 sched.c's BIRTHING BOOST on a single-SET destination (the boost
  *     sinks the load to just before its consumer, and `potential_hazard` breaks
  *     the tie in the load's favour, so it is picked first = placed LAST).
- *     Cure = the func_80185944 recipe, both halves needed:
- *       (a) PIN the tag value (`register u32 pv __asm__("$3")`), and
- *       (b) give `pv` a SECOND SET with a zero-byte
- *           `__asm__ __volatile__("" : "=r"(pv));`  — REG_N_SETS != 1 kills the
- *           boost.  A plain C reassignment does NOT work (cse/flow removes it).
- *     PLACEMENT MATTERS: the dead asm must sit immediately after `pv`'s last
- *     use INSIDE the arm.  Putting it after the func_80016638 call (as the
- *     sibling does, where the call is in the same block) makes gcc keep $v1
- *     live across the jal here and costs +3 instructions (125 ins, 53 diff).
- *     6 -> 0.
- *
- *  PIN-TRIM LOG (all re-scored; three pins are the verified minimum):
- *    drop `m24` $a3 pin (then arm)   — MATCH   (kept as plain `register`)
- *    drop `mFF` $t0 pin (then arm)   — MATCH   (kept as plain `register`)
- *    drop `m24` $a2 pin (else arm)   — MATCH   (kept as plain `register`)
- *    all three dropped together      — MATCH   <= this file
- *    replace the mask LOCALS with bare literals — 3 mismatched (the locals are
- *      load-bearing: a literal is re-materialised per use and reschedules)
- *    drop `i4` $a2 pin               — 2 mismatched
- *    drop `pv` $a0 pin (then arm)    — 4 mismatched
- *    drop `pv` $v1 pin (else arm)    — 7 mismatched
- *    pin `p` to $t1                  — 123 ins, 113 mismatched (never pin p)
+ *     Cure (P40 T10, lever-free; replaces the pins on i4/pv and the zero-byte
+ *     `"=r"(pv)` launder): set `pv` IN PLACE in each arm — `pv = *p; pv &= mFF;
+ *     pv |= x; *p = pv;` — so REG_N_SETS > 1 kills the birthing boost, while its
+ *     single death keeps pv local (local-alloc needs reg_n_deaths == 1); and
+ *     declare i4 before mFF, which fixes the schedule order.  6 -> 0.
  */
 
 /* engine_types.h-style OT block: 0x14 stride, the OT base pointer at +0 */
@@ -3093,20 +3076,23 @@ void func_80016450(s32 a0, s32 a1)
     idx = a1 & 0xFFFF;
     if (idx != 0) {
         u32 m24 = 0x00FFFFFF;
+        s32 i4 = idx * 4;
         u32 mFF = 0xFF000000;
-        register s32 i4 __asm__("$6") = idx * 4;  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
-        register u32 pv __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        u32 pv;
         pv = *(u32 *)p;
-        *(u32 *)p = (pv & mFF) | (*(u32 *)(i4 + D_800A651C[D_800B9A02].a) & m24);
+        pv &= mFF;
+        pv |= *(u32 *)(i4 + D_800A651C[D_800B9A02].a) & m24;
+        *(u32 *)p = pv;
         i4 += D_800A651C[D_800B9A02].a;
         *(u32 *)i4 = (*(u32 *)i4 & mFF) | ((u32)p & m24);
         func_80016638(&D_800A6518[D_800B9A02 * 20], idx, 1);
     } else {
         u32 m24 = 0x00FFFFFF;
-        register u32 pv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+        u32 pv;
         pv = *(u32 *)p;
-        *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)D_800AE7BC[D_800B9A02].a & m24);
-        __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
+        pv &= 0xFF000000;
+        pv |= *(u32 *)D_800AE7BC[D_800B9A02].a & m24;
+        *(u32 *)p = pv;
         ot = (u32 *)D_800AE7BC[D_800B9A02].a;
         *ot = (*ot & 0xFF000000) | ((u32)p & m24);
         func_80016638(&D_800AE7B8[D_800B9A02 * 20], 0, 1);

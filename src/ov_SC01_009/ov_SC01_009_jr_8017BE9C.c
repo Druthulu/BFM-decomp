@@ -4099,7 +4099,7 @@ void func_8017DEF0(void) {
  *     flag != 0 ? 0x585858 : 0x808080   /   sp60[0] += -0x282828
  *     func_800D29F8(flagN, func_800D27DC(flagN != 0, ...), ...)
  *
- * Three levers were needed; all three are byte-verified by tools/match_one.py:
+ * Three moves were needed; all three are byte-verified by tools/match_one.py:
  *
  *  1. The flag is BRANCHLESS here (xor/sltu/negu/andi), unlike the sibling's
  *     if/else — that is `-(a != b) & 0xFF`, i.e. store_flag normalized to -1
@@ -4111,16 +4111,15 @@ void func_8017DEF0(void) {
  *     `flag2 = flag;` is destroyed by cse.c make_regs_eqv head-promotion: the
  *     longer-lived copy becomes canonical and canon_reg rewrites ternary 1 to
  *     read $s4 (the single residual instruction in every plain-C spelling).
- *     `flag2 = flag + zr;` with `register s32 zr __asm__("$0")` is a (plus rA
- *     (reg 0)) — not a reg-reg set, so no qty merge and no canon — and
- *     assembles to the byte-identical `addu $s4, $s0, $zero`.  The same lever
- *     materializes the tail copy `addu $s0, $s4, $zero`.
+ *     The first pass used `flag2 = flag + zr;` with a `$0` pin on zr (a plus
+ *     rA (reg 0), not a reg-reg set).  P40 T10, lever-free: `flag2 = (s16)flag;`
+ *     and `flag4 = (s16)flag2;` — cse cannot fold the sign-extend, combine
+ *     reduces it to the same `addu $s4, $s0, $zero` / `addu $s0, $s4, $zero`.
  *
- *  3. `w` must be pinned to $18: unpinned, global.c's density order hands $s1
- *     to `w` and $s2 to `ot` (the target's grant is the other way round).  The
- *     pin lands on a LOCAL fed from the parameter, never on the parameter
- *     itself (S3).  Pin-free spellings (plain local, $0-add copy, routing `ot`
- *     through a local instead) were all tried and all leave the 22-diff swap.
+ *  3. global.c's density order hands $s1 to `w` and $s2 to `ot` (the target's
+ *     grant is the other way round).  The first pass pinned `w` to $18; P40 T10
+ *     instead routes the tail result through ot (`ot = func_800D27DC(...);`,
+ *     pass `(s32)ot`), which raises ot's priority.
  */
 
 
@@ -4136,10 +4135,9 @@ extern s32   func_8017E378(void *, s32, s32, s32, s32 *);
 s32 *func_8017E1AC(s32 *ot, Panel_8017E978_8017E1AC *w0, s16 idx) {
 
     extern u16 D_8011511A;
-    register Panel_8017E978_8017E1AC *w __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus8)
+    Panel_8017E978_8017E1AC *w;
     u8 sp18[72];
     s32 sp60[2];
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus8)
     s32 flag;
     s32 flag2;
     s32 flag3;
@@ -4151,7 +4149,7 @@ s32 *func_8017E1AC(s32 *ot, Panel_8017E978_8017E1AC *w0, s16 idx) {
     w = w0;
     flag = -(D_8011511A != idx) & 0xFF;
     func_80024054(w->f14, sp18);
-    flag2 = flag + zr;
+    flag2 = (s16)flag;
     ot = func_800D2650(ot, sp18, w->f10, w->f12, 1,
                        flag != 0 ? 0x585858 : 0x808080);
     ot = func_8017E7DC(ot, w->f18, idx, w->f8,
@@ -4173,8 +4171,8 @@ s32 *func_8017E1AC(s32 *ot, Panel_8017E978_8017E1AC *w0, s16 idx) {
         }
         p++;
     }
-    flag4 = flag2 + zr;
-    return func_800D29F8(flag4,
-                         func_800D27DC(flag4 != 0, ot, w->f4, w->fC, 0),
+    flag4 = (s16)flag2;
+    ot = func_800D27DC(flag4 != 0, ot, w->f4, w->fC, 0);
+    return func_800D29F8(flag4, (s32)ot,
                          w->f8, w->fE, 0);
 }
