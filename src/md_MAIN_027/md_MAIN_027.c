@@ -431,7 +431,7 @@ void func_800CB7FC(s32 a0) {
 extern void func_80015978(s32, s32 *);
 extern s32 func_8012EF34(s32, s32);
 extern s32 func_80017DC4(void *, void *);
-extern void func_800CBA44();
+extern s32 func_800CBA44();
 extern void func_800CBBF8(s32 *a0, s32 *a1);
 extern s32 func_80047948(s32);
 
@@ -518,120 +518,39 @@ void func_800CB82C(s32 a0, s32 a1)
 }
 
 
-void func_800CBA44()
+typedef struct { s16 vx, vy, vz, pad; } SV_CBA44_t;
+typedef struct { s16 vx, vy; } P2_CBA44_t;
+typedef struct { s32 w[4]; P2_CBA44_t o; } Base_CBA44_t;
+
+s32 func_800CBA44(SV_CBA44_t *out, P2_CBA44_t *in, Base_CBA44_t *b, P2_CBA44_t *off, s32 *res, s32 *d)
 {
-    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus10)
-        ".set\tnoreorder\n"
-        "lhu    $2, 0($5)\n"
-        "lhu    $3, 16($6)\n"
-        "addu   $8, $4, $0\n"
-        "addu   $2, $2, $3\n"
-        "sh     $2, 0($8)\n"
-        "lhu    $2, 2($5)\n"
-        "lhu    $3, 18($6)\n"
-        "nop\n"
-        "addu   $2, $2, $3\n"
-        "sh     $2, 2($8)\n"
-        "lhu    $2, 4($5)\n"
-        "lhu    $3, 16($6)\n"
-        "nop\n"
-        "addu   $2, $2, $3\n"
-        "sh     $2, 8($8)\n"
-        "lhu    $2, 6($5)\n"
-        "lhu    $3, 18($6)\n"
-        "addiu  $29, $29, -8\n"
-        "addu   $2, $2, $3\n"
-        "sh     $2, 10($8)\n"
-        "lhu    $3, 8($5)\n"
-        "lhu    $4, 16($6)\n"
-        "lhu    $2, 0($7)\n"
-        "addu   $3, $3, $4\n"
-        "addu   $2, $2, $3\n"
-        "sh     $2, 16($8)\n"
-        "lhu    $3, 10($5)\n"
-        "lhu    $4, 18($6)\n"
-        "lhu    $2, 2($7)\n"
-        "addu   $3, $3, $4\n"
-        "addu   $2, $2, $3\n"
-        "sh     $2, 18($8)\n"
-        "lhu    $3, 12($5)\n"
-        "lhu    $4, 16($6)\n"
-        "lhu    $2, 0($7)\n"
-        "addu   $3, $3, $4\n"
-        "addu   $2, $2, $3\n"
-        "sh     $2, 24($8)\n"
-        "lhu    $3, 14($5)\n"
-        "lhu    $4, 18($6)\n"
-        "lhu    $2, 2($7)\n"
-        "addu   $3, $3, $4\n"
-        "addu   $2, $2, $3\n"
-        "addiu  $3, $8, 8\n"
-        "sh     $2, 26($8)\n"
-        "addiu  $2, $8, 16\n"
-        "lw     $5, 24($29)\n"
-        "lw     $4, 28($29)\n"
-        "lwc2   $0, 0($8)\n"
-        "lwc2   $1, 4($8)\n"
-        "lwc2   $2, 0($3)\n"
-        "lwc2   $3, 4($3)\n"
-        "lwc2   $4, 0($2)\n"
-        "lwc2   $5, 4($2)\n"
-        "nop\n"
-        "nop\n"
-        "rtpt\n"
-        "addiu  $2, $5, 16\n"
-        "addiu  $3, $5, 8\n"
-        "swc2   $12, 0($5)\n"
-        "swc2   $13, 0($3)\n"
-        "swc2   $14, 0($2)\n"
-        "cfc2   $12, $31\n"
-        "nop\n"
-        "sw     $12, 0($29)\n"
-        "lw     $2, 0($29)\n"
-        "addiu  $3, $0, -4097\n"
-        "and    $2, $2, $3\n"
-        "bnez   $2, 99f\n"
-        " addiu $2, $0, 1\n"
-        "addiu  $2, $8, 24\n"
-        "lwc2   $0, 0($2)\n"
-        "lwc2   $1, 4($2)\n"
-        "nop\n"
-        "nop\n"
-        "rtps\n"
-        "addiu  $2, $5, 24\n"
-        "swc2   $14, 0($2)\n"
-        "cfc2   $12, $31\n"
-        "nop\n"
-        "sw     $12, 0($29)\n"
-        "lw     $2, 0($29)\n"
-        "nop\n"
-        "and    $2, $2, $3\n"
-        "bnez   $2, 99f\n"
-        " addiu $2, $0, 1\n"
-        "lw     $2, 0($6)\n"
-        "lw     $3, 0($4)\n"
-        "nop\n"
-        "addu   $2, $2, $3\n"
-        "sw     $2, 32($5)\n"
-        "lw     $2, 4($6)\n"
-        "lw     $3, 0($4)\n"
-        "nop\n"
-        "addu   $2, $2, $3\n"
-        "sw     $2, 36($5)\n"
-        "lw     $2, 8($6)\n"
-        "lw     $3, 0($4)\n"
-        "nop\n"
-        "addu   $2, $2, $3\n"
-        "sw     $2, 40($5)\n"
-        "lw     $3, 12($6)\n"
-        "lw     $4, 0($4)\n"
-        "addu   $2, $0, $0\n"
-        "addu   $3, $3, $4\n"
-        "sw     $3, 44($5)\n"
-        "99:\n"
-        "addiu  $29, $29, 8\n"
-        ".set\treorder\n"
-    );
+    long flag;
+
+    out[0].vx = in[0].vx + b->o.vx;
+    out[0].vy = in[0].vy + b->o.vy;
+    out[1].vx = in[1].vx + b->o.vx;
+    out[1].vy = in[1].vy + b->o.vy;
+    out[2].vx = off->vx + (in[2].vx + b->o.vx);
+    out[2].vy = off->vy + (in[2].vy + b->o.vy);
+    out[3].vx = off->vx + (in[3].vx + b->o.vx);
+    out[3].vy = off->vy + (in[3].vy + b->o.vy);
+    gte_ldv3(&out[0], &out[1], &out[2]);
+    gte_rtpt();
+    gte_stsxy3(res, res + 2, res + 4);
+    gte_stflg(&flag);
+    if (flag & ~0x1000)
+        return 1;
+    gte_ldv0(&out[3]);
+    gte_rtps();
+    gte_stsxy(res + 6);
+    gte_stflg(&flag);
+    if (flag & ~0x1000)
+        return 1;
+    res[8] = b->w[0] + *d;
+    res[9] = b->w[1] + *d;
+    res[10] = b->w[2] + *d;
+    res[11] = b->w[3] + *d;
+    return 0;
 }
 
 

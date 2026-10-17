@@ -3421,7 +3421,20 @@ void func_8017DE80(s32 param_1, s16 param_2)
 
 
 
-extern s32 D_801A6B40;
+/* D_801A6B40: 256 x 0x50-byte spark records (layout from func_8017E26C, P40 T8.c4; was
+ * `extern s32`, every other use takes its address). */
+typedef struct {
+    s32 active;
+    s32 cnt;
+    s32 x, y, z;
+    s32 lim;
+    s32 pad[5];
+    s32 x2, y2, z2;
+    s32 vx, vy, vz;
+    s32 ax, ay, az;
+} Spark_8017E26C_t;
+
+extern Spark_8017E26C_t D_801A6B40[256];
     void func_8017DF68(void) {
         s32 i = 0x4FB0;
         do {
@@ -3442,7 +3455,7 @@ extern s32 D_801A6B40;
  * All D_801A6B## relocs are D_801A6B40 + K (the TU's house spelling, cf. func_8017DF68). */
 #include "common.h"
 
-extern s32 D_801A6B40;
+extern Spark_8017E26C_t D_801A6B40[256];
 extern s16 D_80184D08;
 extern s16 D_80184D0A;
 extern u16 D_800B99DC;
@@ -3509,285 +3522,93 @@ void func_8017DF8C(void *a0)
 }
 
 
-void func_8017E26C() {
-    __asm__ __volatile__(".set\tnoreorder\n"  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus10)
-    "addiu      $sp, $sp, -88\n"
-    "lui        $a0, %hi(D_801AC280)\n"
-    "addiu      $a0, $a0, %lo(D_801AC280)\n"
-    "sw         $ra, 80($sp)\n"
-    "jal        func_800547D8\n"
-    " addiu     $a1, $sp, 16\n"
-    "jal        func_80052E38\n"
-    " addiu     $a0, $sp, 16\n"
-    "addiu      $t9, $sp, 48\n"
-    "addiu      $t3, $sp, 56\n"
-    "addiu      $t8, $sp, 68\n"
-    "addiu      $t6, $zero, 32\n"
-    "lui        $t2, 255\n"
-    "ori        $t2, $t2, 65535\n"
-    "lui        $t5, 65280\n"
-    "lui        $t1, %hi(D_801A6B40)\n"
-    "addiu      $t1, $t1, %lo(D_801A6B40)\n"
-    "addu       $a2, $zero, $zero\n"
-    "lui        $v1, %hi(D_800A6610)\n"
-    "addiu      $v1, $v1, %lo(D_800A6610)\n"
-    "lui        $v0, %hi(D_800B9A02)\n"
-    "lhu        $v0, %lo(D_800B9A02)($v0)\n"
-    "lui        $t0, %hi(D_800A5E60)\n"
-    "lw         $t0, %lo(D_800A5E60)($t0)\n"
-    "sll        $v0, $v0, 14\n"
-    "addu       $t7, $v0, $v1\n"
-    "addiu      $a3, $t0, 18\n"
-    ".L8017E2D8:\n"
-    "lw         $v0, 0($t1)\n"
-    "nop\n"
-    "beqz       $v0, .L8017E670\n"
-    " nop\n"
-    "lui        $at, %hi(D_801A6B4A)\n"
-    "addu       $at, $at, $a2\n"
-    "lhu        $v0, %lo(D_801A6B4A)($at)\n"
-    "nop\n"
-    "sh         $v0, 48($sp)\n"
-    "lui        $at, %hi(D_801A6B4E)\n"
-    "addu       $at, $at, $a2\n"
-    "lhu        $v0, %lo(D_801A6B4E)($at)\n"
-    "nop\n"
-    "sh         $v0, 50($sp)\n"
-    "lui        $at, %hi(D_801A6B52)\n"
-    "addu       $at, $at, $a2\n"
-    "lhu        $v0, %lo(D_801A6B52)($at)\n"
-    "nop\n"
-    "sh         $v0, 52($sp)\n"
-    "lui        $at, %hi(D_801A6B6E)\n"
-    "addu       $at, $at, $a2\n"
-    "lhu        $v0, %lo(D_801A6B6E)($at)\n"
-    "nop\n"
-    "sh         $v0, 56($sp)\n"
-    "lui        $at, %hi(D_801A6B72)\n"
-    "addu       $at, $at, $a2\n"
-    "lhu        $v0, %lo(D_801A6B72)($at)\n"
-    "nop\n"
-    "sh         $v0, 58($sp)\n"
-    "lui        $at, %hi(D_801A6B76)\n"
-    "addu       $at, $at, $a2\n"
-    "lhu        $v0, %lo(D_801A6B76)($at)\n"
-    "nop\n"
-    "sh         $v0, 60($sp)\n"
-    "lui        $at, %hi(D_801A6B48)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v0, %lo(D_801A6B48)($at)\n"
-    "lui        $at, %hi(D_801A6B78)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $a0, %lo(D_801A6B78)($at)\n"
-    "lui        $at, %hi(D_801A6B4C)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v1, %lo(D_801A6B4C)($at)\n"
-    "lui        $at, %hi(D_801A6B7C)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $a1, %lo(D_801A6B7C)($at)\n"
-    "addu       $v0, $v0, $a0\n"
-    "lui        $at, %hi(D_801A6B48)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $v0, %lo(D_801A6B48)($at)\n"
-    "lui        $at, %hi(D_801A6B50)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v0, %lo(D_801A6B50)($at)\n"
-    "addu       $v1, $v1, $a1\n"
-    "lui        $at, %hi(D_801A6B4C)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $v1, %lo(D_801A6B4C)($at)\n"
-    "lui        $at, %hi(D_801A6B80)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v1, %lo(D_801A6B80)($at)\n"
-    "lui        $at, %hi(D_801A6B44)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $a0, %lo(D_801A6B44)($at)\n"
-    "addu       $v0, $v0, $v1\n"
-    "lui        $at, %hi(D_801A6B50)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $v0, %lo(D_801A6B50)($at)\n"
-    "bnez       $a0, .L8017E46C\n"
-    " addiu     $v0, $a0, -1\n"
-    "lui        $at, %hi(D_801A6B6C)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v0, %lo(D_801A6B6C)($at)\n"
-    "lui        $at, %hi(D_801A6B78)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v1, %lo(D_801A6B78)($at)\n"
-    "lui        $at, %hi(D_801A6B7C)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $a0, %lo(D_801A6B7C)($at)\n"
-    "lui        $at, %hi(D_801A6B80)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $a1, %lo(D_801A6B80)($at)\n"
-    "addu       $v0, $v0, $v1\n"
-    "lui        $at, %hi(D_801A6B6C)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $v0, %lo(D_801A6B6C)($at)\n"
-    "lui        $at, %hi(D_801A6B70)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v0, %lo(D_801A6B70)($at)\n"
-    "lui        $at, %hi(D_801A6B74)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v1, %lo(D_801A6B74)($at)\n"
-    "addu       $v0, $v0, $a0\n"
-    "addu       $v1, $v1, $a1\n"
-    "lui        $at, %hi(D_801A6B70)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $v0, %lo(D_801A6B70)($at)\n"
-    "lui        $at, %hi(D_801A6B74)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $v1, %lo(D_801A6B74)($at)\n"
-    "j          .L8017E478\n"
-    " nop\n"
-    ".L8017E46C:\n"
-    "lui        $at, %hi(D_801A6B44)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $v0, %lo(D_801A6B44)($at)\n"
-    ".L8017E478:\n"
-    "lui        $at, %hi(D_801A6B78)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v0, %lo(D_801A6B78)($at)\n"
-    "lui        $at, %hi(D_801A6B84)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $a0, %lo(D_801A6B84)($at)\n"
-    "lui        $at, %hi(D_801A6B7C)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v1, %lo(D_801A6B7C)($at)\n"
-    "lui        $at, %hi(D_801A6B88)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $a1, %lo(D_801A6B88)($at)\n"
-    "addu       $v0, $v0, $a0\n"
-    "lui        $at, %hi(D_801A6B78)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $v0, %lo(D_801A6B78)($at)\n"
-    "lui        $at, %hi(D_801A6B80)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v0, %lo(D_801A6B80)($at)\n"
-    "addu       $v1, $v1, $a1\n"
-    "lui        $at, %hi(D_801A6B7C)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $v1, %lo(D_801A6B7C)($at)\n"
-    "lui        $at, %hi(D_801A6B8C)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v1, %lo(D_801A6B8C)($at)\n"
-    "lui        $at, %hi(D_801A6B78)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $a0, %lo(D_801A6B78)($at)\n"
-    "addu       $v0, $v0, $v1\n"
-    "lui        $at, %hi(D_801A6B80)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $v0, %lo(D_801A6B80)($at)\n"
-    "blez       $a0, .L8017E524\n"
-    " nop\n"
-    "lui        $at, %hi(D_801A6B48)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v1, %lo(D_801A6B48)($at)\n"
-    "lui        $at, %hi(D_801A6B54)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v0, %lo(D_801A6B54)($at)\n"
-    "j          .L8017E544\n"
-    " slt       $v0, $v0, $v1\n"
-    ".L8017E524:\n"
-    "lui        $at, %hi(D_801A6B48)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v0, %lo(D_801A6B48)($at)\n"
-    "lui        $at, %hi(D_801A6B54)\n"
-    "addu       $at, $at, $a2\n"
-    "lw         $v1, %lo(D_801A6B54)($at)\n"
-    "nop\n"
-    "slt        $v0, $v0, $v1\n"
-    ".L8017E544:\n"
-    "beqz       $v0, .L8017E558\n"
-    " nop\n"
-    "lui        $at, %hi(D_801A6B40)\n"
-    "addu       $at, $at, $a2\n"
-    "sw         $zero, %lo(D_801A6B40)($at)\n"
-    ".L8017E558:\n"
-    "lw         $v0, 0($t1)\n"
-    "nop\n"
-    "beqz       $v0, .L8017E670\n"
-    " nop\n"
-    "lwc2       $0, 0($t9)\n"
-    "lwc2       $1, 4($t9)\n"
-    "lwc2       $2, 0($t3)\n"
-    "lwc2       $3, 4($t3)\n"
-    "lwc2       $4, 0($t3)\n"
-    "lwc2       $5, 4($t3)\n"
-    "nop\n"
-    "nop\n"
-    "rtpt\n"
-    "addiu      $v0, $sp, 64\n"
-    "cfc2       $t4, $31\n"
-    "nop\n"
-    "sw         $t4, 0($v0)\n"
-    "lui        $v1, 32645\n"
-    "lw         $v0, 64($sp)\n"
-    "ori        $v1, $v1, 57344\n"
-    "and        $v0, $v0, $v1\n"
-    "bnez       $v0, .L8017E670\n"
-    " addiu     $v1, $t0, 12\n"
-    "addiu      $v0, $t0, 20\n"
-    "swc2       $12, 0($v1)\n"
-    "swc2       $13, 0($v0)\n"
-    "addiu      $v1, $sp, 72\n"
-    "addiu      $v0, $sp, 76\n"
-    "swc2       $17, 0($t8)\n"
-    "swc2       $18, 0($v1)\n"
-    "swc2       $19, 0($v0)\n"
-    "lw         $v1, 68($sp)\n"
-    "lw         $v0, 72($sp)\n"
-    "nop\n"
-    "addu       $a1, $v1, $v0\n"
-    "bgez       $a1, .L8017E5F0\n"
-    " lui       $v1, 57600\n"
-    "addiu      $a1, $a1, 7\n"
-    ".L8017E5F0:\n"
-    "ori        $v1, $v1, 32\n"
-    "addiu      $v0, $zero, 5\n"
-    "sb         $v0, -15($a3)\n"
-    "addiu      $v0, $zero, 82\n"
-    "sb         $v0, -7($a3)\n"
-    "addiu      $v0, $zero, 224\n"
-    "sb         $v0, -9($a3)\n"
-    "addiu      $v0, $zero, 128\n"
-    "sb         $v0, -8($a3)\n"
-    "addiu      $v0, $zero, 8\n"
-    "sb         $v0, -2($a3)\n"
-    "addiu      $v0, $zero, 64\n"
-    "sw         $v1, -14($a3)\n"
-    "sb         $t6, -10($a3)\n"
-    "sb         $v0, -1($a3)\n"
-    "sb         $t6, 0($a3)\n"
-    "addiu      $a3, $a3, 24\n"
-    "sra        $v1, $a1, 3\n"
-    "sll        $v1, $v1, 2\n"
-    "addu       $v1, $v1, $t7\n"
-    "lw         $a0, 0($t0)\n"
-    "lw         $v0, 0($v1)\n"
-    "and        $a0, $a0, $t5\n"
-    "and        $v0, $v0, $t2\n"
-    "or         $a0, $a0, $v0\n"
-    "sw         $a0, 0($t0)\n"
-    "and        $a0, $t0, $t2\n"
-    "lw         $v0, 0($v1)\n"
-    "addiu      $t0, $t0, 24\n"
-    "and        $v0, $v0, $t5\n"
-    "or         $v0, $v0, $a0\n"
-    "sw         $v0, 0($v1)\n"
-    ".L8017E670:\n"
-    "addiu      $t1, $t1, 80\n"
-    "lui        $v0, %hi(D_801ABB40)\n"
-    "addiu      $v0, $v0, %lo(D_801ABB40)\n"
-    "slt        $v0, $t1, $v0\n"
-    "bnez       $v0, .L8017E2D8\n"
-    " addiu     $a2, $a2, 80\n"
-    "lui        $at, %hi(D_800A5E60)\n"
-    "sw         $t0, %lo(D_800A5E60)($at)\n"
-    "lw         $ra, 80($sp)\n"
-    "addiu      $sp, $sp, 88\n"
-    ".set\treorder\n"
-    );
+typedef struct { unsigned addr : 24; unsigned len : 8; } PT_8017E26C_t;
+
+typedef struct {
+    u32 tag;
+    u32 mode;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 r1, g1, b1, p1;
+    s16 x1, y1;
+} Line_8017E26C_t;
+
+extern u8 D_801AC280[];
+extern u32 D_800A6610[];
+extern Line_8017E26C_t *D_800A5E60;
+extern void func_800547D8(void *a0, MATRIX *a1);
+extern void func_80052E38(MATRIX *a0);
+
+void func_8017E26C(void)
+{
+    MATRIX m;
+    SVECTOR v0;
+    SVECTOR v1;
+    long flag;
+    long sz0, sz1, sz2;
+    s32 i;
+    s32 z;
+    s32 c;
+    u32 *ot;
+    Line_8017E26C_t *p;
+
+    func_800547D8(D_801AC280, &m);
+    func_80052E38(&m);
+    ot = &D_800A6610[*(u16 *)&D_800B9A02 << 12];
+    p = D_800A5E60;
+    for (i = 0; i < 256; i++) {
+        if (D_801A6B40[i].active == 0)
+            continue;
+        v0.vx = (u32)D_801A6B40[i].x >> 16;
+        v0.vy = (u32)D_801A6B40[i].y >> 16;
+        v0.vz = (u32)D_801A6B40[i].z >> 16;
+        v1.vx = (u32)D_801A6B40[i].x2 >> 16;
+        v1.vy = (u32)D_801A6B40[i].y2 >> 16;
+        v1.vz = (u32)D_801A6B40[i].z2 >> 16;
+        D_801A6B40[i].x += D_801A6B40[i].vx;
+        D_801A6B40[i].y += D_801A6B40[i].vy;
+        D_801A6B40[i].z += D_801A6B40[i].vz;
+        if (D_801A6B40[i].cnt == 0) {
+            D_801A6B40[i].x2 += D_801A6B40[i].vx;
+            D_801A6B40[i].y2 += D_801A6B40[i].vy;
+            D_801A6B40[i].z2 += D_801A6B40[i].vz;
+        } else {
+            D_801A6B40[i].cnt--;
+        }
+        D_801A6B40[i].vx += D_801A6B40[i].ax;
+        D_801A6B40[i].vy += D_801A6B40[i].ay;
+        D_801A6B40[i].vz += D_801A6B40[i].az;
+        if (D_801A6B40[i].vx > 0) {
+            if (D_801A6B40[i].x > D_801A6B40[i].lim)
+                D_801A6B40[i].active = 0;
+        } else {
+            if (D_801A6B40[i].x < D_801A6B40[i].lim)
+                D_801A6B40[i].active = 0;
+        }
+        if (D_801A6B40[i].active == 0)
+            continue;
+        gte_ldv3(&v0, &v1, &v1);
+        gte_rtpt();
+        gte_stflg(&flag);
+        if (flag & 0x7F85E000)
+            continue;
+        gte_stsxy01(&p->x0, &p->x1);
+        gte_stsz3(&sz0, &sz1, &sz2);
+        z = (sz0 + sz1) / 8;
+        ((u8 *)p)[3] = 5;
+        p->code = 0x52;
+        p->g0 = 224;
+        p->b0 = 128;
+        p->r1 = 8;
+        p->mode = 0xE1000020;
+        p->r0 = 32;
+        p->g1 = 64;
+        p->b1 = 32;
+        ((PT_8017E26C_t *)p)->addr = ((PT_8017E26C_t *)&ot[z])->addr;
+        ((PT_8017E26C_t *)&ot[z])->addr = (u32)p;
+        p++;
+    }
+    D_800A5E60 = p;
 }
 
 
@@ -3960,7 +3781,7 @@ void func_8017E960(s32 param_1, s32 param_2, s32 *param_3)
 extern u8 D_801ABB40[];
 extern u8 D_801ABB44[];
 extern void func_80016714(void *a0, s32 a1);
-extern s32 D_801A6B40;
+extern Spark_8017E26C_t D_801A6B40[256];
 
 void func_8017EA74(void) {
     s32 p;    /* s0 */
