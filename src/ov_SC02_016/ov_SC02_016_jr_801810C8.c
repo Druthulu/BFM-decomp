@@ -857,7 +857,7 @@ extern u8 D_8018627C;
 extern void func_80153D7C(s32 param_1);
 extern void func_8015410C();
 extern void func_80153E00(s32 param_1);
-extern void func_80151664();
+extern void func_80151664(s32 a0v);
 extern void func_80154134(u8 *a0);
 extern void func_80154190(u8 *a0, s32 a1);
 extern void func_80154150(s32 a0, s32 a1);
@@ -3720,7 +3720,7 @@ void func_801822E0(s32 param_1)
  * Recompiled with those four prototypes prepended: still MATCH (21 ins).
  */
 
-extern void func_80151664();
+extern void func_80151664(s32 a0v);
 
 void func_80182434(s32 a0)
 {

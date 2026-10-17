@@ -857,7 +857,7 @@ extern u8 D_801898F4;
 extern void func_80153D7C(s32 param_1);
 extern void func_8015410C();
 extern void func_80153E00(s32 param_1);
-extern void func_80151664();
+extern void func_80151664(s32 a0v);
 extern void func_80154134(u8 *a0);
 extern void func_80154190(u8 *a0, s32 a1);
 extern void func_80154150(s32 a0, s32 a1);
@@ -3181,7 +3181,7 @@ L_default:
 }
 
 
-extern void func_80151664();
+extern void func_80151664(s32 a0v);
 #include "../shared/ov/func_8017D098__d560c2de.h"
 
 
@@ -5154,7 +5154,7 @@ extern void func_8014BC44(s32 a0, s32 a1);
  * Recompiled with those four prototypes prepended: still MATCH (21 ins).
  */
 
-extern void func_80151664();
+extern void func_80151664(s32 a0v);
 
 void func_8017FE60(s32 a0)
 {

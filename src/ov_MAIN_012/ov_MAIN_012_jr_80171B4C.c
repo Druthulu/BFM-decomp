@@ -1755,7 +1755,7 @@ extern int func_801511E0(int arg);
 extern int func_80151204(int a0, int a1);
 extern void func_80151238(void *a0);
 extern void func_8015126C(u16 *p);
-extern void func_80151664();
+extern void func_80151664(s32 a0v);
 extern void func_80154A74(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
 extern void func_80153C18();  /* fleet canon: K&R empty prototype — engine_core.h:75/:1682 define it (void); a prototyped (s32) decl would be `conflicting types` here, and the arg still passes in $a0 under default promotions, so codegen is unchanged. */
