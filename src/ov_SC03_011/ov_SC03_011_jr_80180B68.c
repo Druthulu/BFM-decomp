@@ -2915,8 +2915,6 @@ extern s32 func_8018094C(s32 s0);
 extern s32 D_80185820;
 extern s32 D_80185834;
 extern void func_80180830(void *a0);
-extern s32 func_8018094C_bank(void) __asm__("func_8018094C");
-extern s32 func_8018094C_bank(void);
 extern void (*D_80185BDC[])(void);
 extern void func_801809CC(void *a0);
 extern void func_8001C214(s32, s32);
