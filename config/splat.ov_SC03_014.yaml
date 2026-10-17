@@ -122,7 +122,7 @@ segments:
       - [0x52cd4, c, ov_SC03_014_jr_8017AE2C]
       - [0x56a24, c, ov_SC03_014_jr_8017EB7C]
       - [0x5bb98, c, ov_SC03_014_o0c]
-      - [0x5c2e8, c, ov_SC03_014_jr_80184440]
+      - [0x5c2e8, c, ov_SC03_014_o0f]  # -O0 (inside the o0c..o0d region); was jr_80184440 at -O2 for its asm body (P40 T8.c4)
       - [0x5c31c, c, ov_SC03_014_o0d]
       - [0x5c78c, c, ov_SC03_014_jr_801848E4]
       - [0x633c8, data, tail]
