@@ -10414,8 +10414,8 @@ void func_801AF368(void *a0)
     u8 *pkb;
     s32 d;
     u32 *otp;
-    register u32 tv __asm__("$3");       /* twin §137 pin */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 tv2 __asm__("$4");      /* twin §137 pin */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 tv __asm__("$3");       /* twin §137 pin */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_rj5)
+    register u32 tv2 __asm__("$4");      /* twin §137 pin */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_rj5)
 
     u8 *rotm;
 
