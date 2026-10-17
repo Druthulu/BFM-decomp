@@ -6838,7 +6838,7 @@ void func_80168744(void *a0) {
 #include "../shared/ov/func_80168780.h"
 
 
-extern void func_80168828(void);
+extern void func_80168828();
 extern void func_80146C3C(u8 *a0);
 #include "../shared/ov/func_801687CC.h"
 
@@ -6848,7 +6848,7 @@ extern void func_80048EAC(void *a0, void *a1);
 
 
 
-void func_80168828(void) {
+void func_80168828() {
     extern s32 func_80017DC4(void *a0, void *a1);
     extern void func_80049CAC(s32 a0, s32 a1);
     extern void func_800173BC(void *a0, void *a1);

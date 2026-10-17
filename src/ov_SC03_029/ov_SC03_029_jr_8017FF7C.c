@@ -1713,7 +1713,7 @@ extern void func_80168744(void *a0);
 extern void func_80168BDC(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_801687CC(s32 a0);
 extern void func_80168780(s32 a0);
-extern void func_80168828(void);
+extern void func_80168828();
 extern void func_801687CC(s32 param_1);
 extern void func_80168828();
 extern void (*D_8018A80C[])(void);
@@ -3422,7 +3422,7 @@ void func_80180F00(void *a0) {
 
 extern u8 *func_8012913C(s32 a0);
 
-void func_80180F3C(void) {
+void func_80180F3C() {
     register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 s0 = a0v;
     u8 *v1 = func_8012913C(0x2B);
@@ -3515,7 +3515,7 @@ void func_801810BC(void *a0) {
 
 #include "common.h"
 
-extern void func_80180F3C(void);
+extern void func_80180F3C();
 extern s32 func_8012B030(void *a0);
 extern void func_800291C8(s32, s32);
 
@@ -3535,7 +3535,7 @@ void func_8018118C(void *a0) {
     ((Unkstruct_800B5CB8 *)a0)->unkA = v0;
     v1 &= 7;
     if (v1 == 0) {
-        func_80180F3C();
+        func_80180F3C((s32)a0);
     }
 
     if (((Unkstruct_800B5CB8 *)a0)->unk1C == 0) {

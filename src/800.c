@@ -8244,7 +8244,7 @@ void func_8001C1E4(void* a0, s32 a1) {
 
 void func_8001C214(s32 a0, s32 a1)
 {
-    extern void func_8001C9D0(void);
+    extern void func_8001C9D0();
     extern void func_80052D90(s32 a0, void *a1);
     extern void func_80054514(s32 a0, s32 a1);
     extern void GsMapModelingData(u32 *p);
@@ -8252,7 +8252,7 @@ void func_8001C214(s32 a0, s32 a1)
 
     s32 sp10[8];
 
-    func_8001C9D0();
+    func_8001C9D0(a0);
     ((Unkstruct_800B5CB8 *)a0)->unk0 = 1;
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 0;
     func_80052D90(0, (void *)(a0 + 0x30));
@@ -8270,7 +8270,7 @@ void func_8001C214(s32 a0, s32 a1)
 }
 
 
-extern void func_8001C9D0(void);
+extern void func_8001C9D0();
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8278,7 +8278,7 @@ void func_8001C2C4(s32 a0) {
     s32 stack_buf[8];
     s32 *s1;
 
-    func_8001C9D0();
+    func_8001C9D0(a0);
 
     s1 = (s32 *)(a0 + 0x30);
 
@@ -8293,7 +8293,7 @@ void func_8001C2C4(s32 a0) {
 
 void func_8001C320(s32 a0, s32 a1)
 {
-    extern void func_8001C9D0(void);
+    extern void func_8001C9D0();
     extern void func_80052D90(s32 a0, void *a1);
     extern void func_80054514(s32 a0, s32 a1);
     extern void GsMapModelingData(u32 *p);
@@ -8311,7 +8311,7 @@ void func_8001C320(s32 a0, s32 a1)
     u32 *tmd;
     u16 c2;
 
-    ((void (*)(s32))func_8001C9D0)(a0);
+    func_8001C9D0(a0);
     ((Unkstruct_8001C320 *)a0)->unk0 = 1;
     ((Unkstruct_8001C320 *)a0)->unk2 = 1;
     func_80052D90(0, (void *)(a0 + 0x30));
@@ -8341,7 +8341,7 @@ void func_8001C320(s32 a0, s32 a1)
 }
 
 
-extern void func_8001C9D0(void);
+extern void func_8001C9D0();
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8350,7 +8350,7 @@ void func_8001C448(s32 a0) {
     s32 s0_val = a0;
     s32 s1_val;
 
-    func_8001C9D0();
+    func_8001C9D0(a0);
 
     s1_val = s0_val + 0x30;
     ((Unkstruct_8001C448 *)s0_val)->unk0 = 1;
@@ -8364,7 +8364,7 @@ void func_8001C448(s32 a0) {
 
 void func_8001C4A4(s32 a0, u32 *a1)
 {
-    extern void func_8001C9D0(void);
+    extern void func_8001C9D0();
     extern void func_80052D90(s32 a0, void *a1);
     extern void func_80054514(s32 a0, s32 a1);
     extern void GsMapModelingData(u32 *p);
@@ -8372,7 +8372,7 @@ void func_8001C4A4(s32 a0, u32 *a1)
 
     s32 sp10[8];
 
-    func_8001C9D0();
+    func_8001C9D0(a0);
     ((Unkstruct_8001C4A4 *)a0)->unk0 = 1;
     ((Unkstruct_8001C4A4 *)a0)->unk2 = 7;
     func_80052D90(0, (void *)(a0 + 0x30));
@@ -8390,14 +8390,14 @@ void func_8001C4A4(s32 a0, u32 *a1)
 }
 
 
-extern void func_8001C9D0(void);
+extern void func_8001C9D0();
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
 void func_8001C558(s32 a0) {
     u8 local_var[32];
 
-    func_8001C9D0();
+    func_8001C9D0(a0);
     ((Unkstruct_8001C558 *)a0)->unk0 = 1;
     ((Unkstruct_8001C558 *)a0)->unk2 = 7;
     func_80052D90(0, (void *)(a0 + 0x30));
@@ -8407,7 +8407,7 @@ void func_8001C558(s32 a0) {
 
 void func_8001C5B8(s32 a0, s32 a1)
 {
-    extern void func_8001C9D0(void);
+    extern void func_8001C9D0();
     extern void func_80052D90(s32 a0, void *a1);
     extern void func_80054514(s32 a0, s32 a1);
     extern void GsMapModelingData(unsigned long *p);
@@ -8425,7 +8425,7 @@ void func_8001C5B8(s32 a0, s32 a1)
     unsigned long *tmd;
     u16 c2;
 
-    ((void (*)(s32))func_8001C9D0)(a0);
+    func_8001C9D0(a0);
     ((Unkstruct_8001C5B8 *)a0)->unk0 = 1;
     ((Unkstruct_8001C5B8 *)a0)->unk2 = 8;
     func_80052D90(0, (void *)(a0 + 0x30));
@@ -8455,14 +8455,14 @@ void func_8001C5B8(s32 a0, s32 a1)
 }
 
 
-extern void func_8001C9D0(void);
+extern void func_8001C9D0();
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
 void func_8001C6E4(void *a0) {
     s32 sp_buf[8];
 
-    ((void (*)(void *))func_8001C9D0)(a0);
+    func_8001C9D0((s32)a0);
 
     ((Unkstruct_8001C6E4 *)a0)->unk0 = 1;
     ((Unkstruct_8001C6E4 *)a0)->unk2 = 8;
@@ -8474,14 +8474,14 @@ void func_8001C6E4(void *a0) {
 }
 
 
-extern void func_8001C9D0(void);
+extern void func_8001C9D0();
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
 void func_8001C744(s32 a0, s32 a1) {
     char local_buf[32];
 
-    func_8001C9D0();
+    func_8001C9D0(a0);
 
     ((Unkstruct_8001C744 *)a0)->unk0 = 1;
     ((Unkstruct_8001C744 *)a0)->unk2 = 2;
@@ -8493,7 +8493,7 @@ void func_8001C744(s32 a0, s32 a1) {
 }
 
 
-extern void func_8001C9D0(void);
+extern void func_8001C9D0();
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8501,7 +8501,7 @@ void func_8001C7B0(void *arg0) {
     s32 local_s1;
     u8 local_array[0x20];
 
-    ((void (*)(void *))func_8001C9D0)(arg0);
+    func_8001C9D0((s32)arg0);
 
     local_s1 = (s32)((char *)arg0 + 0x30);
 
@@ -8515,7 +8515,7 @@ void func_8001C7B0(void *arg0) {
     ((Unkstruct_8001C7B0 *)arg0)->unk24 = 0;
 }
 
-extern void func_8001C9D0(void);
+extern void func_8001C9D0();
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 extern void GsMapModelingData(unsigned long *p);
@@ -8525,7 +8525,7 @@ void func_8001C810(s32 a0, s32 *a1) {
     s32 local_buf[8];
     s32 base;
 
-    func_8001C9D0();
+    func_8001C9D0(a0);
 
     base = a0 + 0x30;
     ((Unkstruct_800B5CB8 *)a0)->unk0 = 1;
@@ -8546,7 +8546,7 @@ void func_8001C810(s32 a0, s32 *a1) {
 }
 
 
-extern void func_8001C9D0(void);
+extern void func_8001C9D0();
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8554,7 +8554,7 @@ void func_8001C8C4(s32 a0) {
     s32 local_10[4];
     s32 local_20[4];
 
-    ((void (*)(s32))func_8001C9D0)(a0);
+    func_8001C9D0(a0);
     ((Unkstruct_8001C8C4 *)a0)->unk0 = 1;
     ((Unkstruct_8001C8C4 *)a0)->unk2 = 5;
     func_80052D90(0, (void *)(a0 + 0x30));
@@ -8599,7 +8599,7 @@ void func_8001C97C(s32 *a0) {
     }
 }
 
-void func_8001C9D0(void) {
+void func_8001C9D0() {
     register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 v;
 
@@ -8624,7 +8624,7 @@ void func_8001C9D0(void) {
 }
 
 
-extern void func_8001C9D0(void);
+extern void func_8001C9D0();
 extern void func_80052D90(s32, void *);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8638,7 +8638,7 @@ void func_8001CA1C(void *a0, void *a1)
     s0 = a0;
     s2 = a1;
 
-    func_8001C9D0();
+    func_8001C9D0((s32)a0);
 
     s1 = (void *)((s32)s0 + 0x30);
 
@@ -8651,7 +8651,7 @@ void func_8001CA1C(void *a0, void *a1)
     ((Unkstruct_8001CA1C *)s0)->unk20 = (s32)s2;
 }
 
-extern void func_8001C9D0(void);
+extern void func_8001C9D0();
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
@@ -8662,7 +8662,7 @@ void func_8001CA88(s32 a0, s32 a1)
     s32 s2_val = a1;
     s32 s1_val;
 
-    func_8001C9D0();
+    func_8001C9D0(a0);
 
     s1_val = s0_val + 0x30;
     ((Unkstruct_8001CA88 *)s0_val)->unk0 = 1;

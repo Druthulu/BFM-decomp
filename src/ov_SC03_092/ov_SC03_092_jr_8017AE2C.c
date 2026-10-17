@@ -1903,7 +1903,7 @@ extern void func_80168744(void *a0);
 extern void func_80168BDC(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_801687CC(s32 a0);
 extern void func_80168780(s32 a0);
-extern void func_80168828(void);
+extern void func_80168828();
 extern void func_801687CC(s32 param_1);
 extern void func_80168828();
 extern void (*D_80187CFC[])(void);

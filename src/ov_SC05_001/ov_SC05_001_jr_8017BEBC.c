@@ -1718,7 +1718,7 @@ extern void func_80168744(void *a0);
 extern void func_80168BDC(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_801687CC(s32 a0);
 extern void func_80168780(s32 a0);
-extern void func_80168828(void);
+extern void func_80168828();
 extern void func_801687CC(s32 param_1);
 extern void func_80168828();
 extern void (*D_80188A64[])(void);
@@ -4701,7 +4701,7 @@ void func_8017F5A4(s32 a0) {
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern s16 D_801897BE[];
 
-void func_8017F6C4(void)
+void func_8017F6C4()
 {
     register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
     s32 p;
@@ -5336,12 +5336,12 @@ void func_80180434(s32 a0) {
 
 
 void func_80180520(s32 a0) {
-    extern void func_8017F6C4(void);
+    extern void func_8017F6C4();
     extern void func_8017F964(s32 a0);
     extern s32 func_8012BEE8(s32 a0);
 
     if (*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xFE) != 0) {
-        func_8017F6C4();
+        func_8017F6C4(a0);
         return;
     }
     if (((Unkstruct_800B5CB8 *)a0)->unk102 != 0) {
