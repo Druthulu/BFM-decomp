@@ -3524,7 +3524,7 @@ u32 func_8017ED24(u32 param_1, u32 param_2)
 extern s32 rand(void);
 extern void func_8017F4C0(void *a0, u16 a1, s32 a2);
 extern void aF8017ED24(void *, s32) __asm__("func_8017ED24");
-extern void func_8017F258();
+extern void func_8017F258(u8 *q);
 extern u8 D_80185FA0_recs[] __asm__("D_80185FA0");
 extern u8 D_80185F94[];
 
@@ -3743,12 +3743,8 @@ extern void func_80016714(void *a0, s32 a1);
  * argument through a `register __asm__("$4")` pin.  Byte-identical, and the whole
  * spliced TU compiles clean with every other function unchanged.
  */
-void func_8017F258()
+void func_8017F258(u8 *q)
 {
-    register u8 *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    u8 *q;
-
-    q = p;
     if (((Unkstruct_8017F258 *)q)->unk8 != NULL) {
         func_80016714(((Unkstruct_8017F258 *)q)->unk8, 0x38);
     }
@@ -4705,7 +4701,7 @@ void func_80180A44(void *a0) {
 
 extern Rec_80180AE8 D_80185FA0[];
 extern s32 D_80185F9C;
-extern void func_8017F258();
+extern void func_8017F258(u8 *q);
 extern s32 func_8012C194(void);
 extern void func_8017F4C0(void *a0, u16 a1, s32 a2);
 extern void func_8001CD9C(s32 a0, void *a1);
