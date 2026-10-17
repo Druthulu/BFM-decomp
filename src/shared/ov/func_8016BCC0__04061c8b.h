@@ -6,7 +6,7 @@ void func_8016BCC0(void *arg0) {
     void *temp_s0;
 
     temp_s0 = M2C_FIELD(arg0, void **, 0x20);
-    func_8016BF50();
+    func_8016BF50((s32)arg0);
     temp_a2 = M2C_FIELD(arg0, u16 *, 0x10) + 0x60;
     M2C_FIELD(arg0, u16 *, 0x10) = temp_a2;
     temp_v0 = M2C_FIELD(temp_s0, u16 *, 0x1A) + temp_a2;
