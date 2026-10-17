@@ -5606,7 +5606,7 @@ extern s32 func_801788B8(s32 arg0, s32 arg1);
 
 extern M2C_UNK D_801E39E0;
 extern u8 D_8018D540[];
-extern void func_8018C730();
+extern void func_8018C730(s32 a0r);
 
 void func_8018C638(s32 a0) {
     s32 s0 = a0;
@@ -5651,9 +5651,8 @@ extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
 
-void func_8018C730()
+void func_8018C730(s32 a0r)
 {
-    register s32 a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 base;
     s32 ret;
 
