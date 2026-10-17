@@ -7691,7 +7691,7 @@ END:
 #include "common.h"
 
 extern s32 D_801A9058[];
-extern void func_80187F4C(s32);
+extern s32 func_80187F4C(s32);
 
 void func_8018745C(s32 s0) {
     typedef void (*FuncPtr)(void);
@@ -8286,7 +8286,7 @@ void func_80187D70(s32 a0) {
 }
 
 
-void func_80187F4C(s32 a0)
+s32 func_80187F4C(s32 a0)
 {
     s32 v0;
     s32 v1;
@@ -8322,7 +8322,7 @@ void func_80187F4C(s32 a0)
 SET0:
     v0 = 0;
 END:
-    __asm__ volatile("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    return v0;
 }
 
 

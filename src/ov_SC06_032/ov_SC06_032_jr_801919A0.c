@@ -2749,7 +2749,7 @@ extern s32  func_80013478(s32 a0, s32 a1);
 extern void func_80180730(s32 param_1);
 extern void func_80181DDC(s32 a0);
 extern void func_80180B4C(s32 arg0);
-extern void func_80182288(s32 a0, s32 a1);
+extern s32 func_80182288(s32 a0, s32 a1);
 extern void func_80181D1C(s32 param_1);
 extern s32 func_80184170(s32 a0, s16 a1);
 extern s32 func_80181FF4(s32 p);

@@ -6479,7 +6479,7 @@ void func_80182DB0(void *a0) {
 
 extern void (*D_801AE924[])(void);
 extern u8 D_801AE8C4[];
-extern void func_80183A3C(s32 a0);
+extern s32 func_80183A3C(s32 a0);
 
 void func_80182E1C(void *arg0) {
     s32 a2;
@@ -6956,7 +6956,7 @@ void func_801839C4(s32 a0, s32 a1) {
 
 
 
-void func_80183A3C(s32 a0)
+s32 func_80183A3C(s32 a0)
 {
     s32 v0;
     s32 v1;
@@ -6992,7 +6992,7 @@ void func_80183A3C(s32 a0)
 SET0:
     v0 = 0;
 END:
-    __asm__ volatile("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    return v0;
 }
 
 

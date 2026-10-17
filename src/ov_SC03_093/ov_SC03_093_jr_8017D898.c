@@ -4425,7 +4425,7 @@ void func_80181308(s32 a0) {
 
 
 extern void (*D_801A4680[])(void);
-extern void func_80182000(s32 a0);
+extern s32 func_80182000(s32 a0);
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 D_801A4620[];
 
@@ -4923,7 +4923,7 @@ void func_80181F88(s32 param_1, s32 param_2) {
 
 extern void func_800183E0(s32 a0);
 
-void func_80182000(a0)
+s32 func_80182000(a0)
 s32 a0;
 {
     s32 v0;
@@ -4960,7 +4960,7 @@ s32 a0;
 SET0:
     v0 = 0;
 END:
-    __asm__ volatile("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    return v0;
 }
 
 

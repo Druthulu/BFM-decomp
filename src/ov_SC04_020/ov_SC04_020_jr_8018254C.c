@@ -2825,14 +2825,13 @@ void func_8018254C(void *a0) {
     extern s32 D_801B6114;
     extern s32 D_801B612C;
     void *s2 = a0;
-    register u8 *p __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B t8_rj1)
+    u8 *p = D_80078E78;
     void *s0;
     s32 v0;
     s16 v1;
 
     v0 = func_80029504();
     v1 = ((Unkstruct_801820DC_2 *)s2)->unk70;
-    p = D_80078E78;
     s0 = D_801B6144[v1];
     v1 -= 8;
     switch (v1) {

@@ -8681,7 +8681,7 @@ extern void func_80131E00(s32 a0, s32 a1);
 extern void func_8012B2CC(s32 a0);
 extern s32 func_80189E60(s32 arg0, u16 arg1);
 extern void func_8012A828(s32 a0, void * a1);
-extern void func_801874E4(s32 a0, s32 a1);
+extern s32 func_801874E4(s32 a0, s32 a1);
 
 void func_80185F58(s32 p) {
     s32 buf20[2];

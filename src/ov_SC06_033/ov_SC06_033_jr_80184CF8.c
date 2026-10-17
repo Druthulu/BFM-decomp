@@ -3024,7 +3024,7 @@ extern u8 D_801C758C[];
 extern void func_8012A828(s32 a0, void * a1);
 extern void func_8012B14C(s32 a0, s32 a1);
 extern void func_80131B14();
-extern void func_80185F6C(s32 a0, s32 a1);
+extern s32 func_80185F6C(s32 a0, s32 a1);
 
 void func_8018515C(s32 *a0) {
     s32 s0 = a0;
@@ -3364,7 +3364,7 @@ void func_8018597C(s32 a0) {
 
 
 extern void func_80185AC0(s32 a0);
-extern void func_80185F6C(s32 a0, s32 a1);
+extern s32 func_80185F6C(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void * a1);
 
 void func_80185A00(s32 param_1) {
@@ -3655,36 +3655,30 @@ void func_80185DA8(s32 a0) {
 
 
 /* SIMULATION of real-TU context: the TU carries these two rows before the def */
-extern void func_80185F6C(s32 a0, s32 a1);
-extern void func_80185F6C(s32 a0, s32 a1);
+extern s32 func_80185F6C(s32 a0, s32 a1);
+extern s32 func_80185F6C(s32 a0, s32 a1);
 
-void func_80185F6C(s32 arg0, s32 arg1) {
+s32 func_80185F6C(s32 arg0, s32 arg1) {
     extern u8 D_801AF990[];
     extern s32 D_801AFBC8[];
     extern u8 D_800D3918[];
     extern void func_80187E08(s32 a0, void *a1, void *a2, s32 a3);
     extern void func_80187DA4(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern void func_8001C924(s32 a0, void *a1);
-    s32 rv;
     u8 buf[8];
-    s32 x = arg1;
-    s32 y;
     s32 res;
     s16 state;
     s32 flags;
+    s16 y = arg1;
 
-    __asm__("addu %0, %1, $zero" : "=r"(y) : "r"(x));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2)
     state = CAST_SIGN(u16, arg0, 0x70) & 0xF;
     flags = CAST_SIGN(u32, arg0, 0xE0);
-    if (flags & 4) {
-        rv = 0;
-        goto epi;
-    }
+    if (flags & 4) return 0;
     switch (state) {
     case 0:
         if (flags & 1) {
             func_80187E08(arg0, D_801AF990, buf, 0xC);
-            res = ((s32 (*)(s32, void *, s32, s32, s32, s32))func_80187DA4)(arg0, buf, 0x27F, (s16)x, 0, 0);
+            res = ((s32 (*)(s32, void *, s32, s32, s32, s32))func_80187DA4)(arg0, buf, 0x27F, (s16)arg1, 0, 0);
             ((Unkstruct_800B5CB8 *)arg0)->unkD0 = res;
             CAST_SIGN(u32, arg0, 0xE0) &= ~1;
             if (res != 0) {
@@ -3704,13 +3698,8 @@ void func_80185F6C(s32 arg0, s32 arg1) {
             ((Unkstruct_800B5CB8 *)arg0)->unkEC = *(u16 *)(res + 0x36);
         }
         break;
-    default:
-        rv = 1;
-        goto epi;
     }
-    rv = 1;
-epi:
-    __asm__ volatile("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    return 1;
 }
 
 

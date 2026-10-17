@@ -2753,7 +2753,7 @@ extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 extern u8 D_801BE1F8[];
 extern void func_80181014(s32 a0);
-extern void func_80182288(s32 a0, s32 a1);
+extern s32 func_80182288(s32 a0, s32 a1);
 extern void func_80181D1C(s32 param_1);
 extern s32 func_80184170(s32 a0, s16 a1);
 extern s32 func_80181FF4(s32 p);
