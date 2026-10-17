@@ -5018,7 +5018,7 @@ s32 func_80183F10(s32 param_1) {
     /* pool-alloc: gcc routes the loaded pointer through a caller-saved reg ($v0)
        before the callee-saved home ($s1) — pin it to reproduce the extra move. */
     {
-        register char *tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+        register char *tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_rj1)
         tmp = D_801B0A64;
         puVar2 = tmp;
     }
@@ -5038,7 +5038,7 @@ s32 func_80183F10(s32 param_1) {
         (s32)(s16)uVar3 - (s32)CAST_NONSTRUCT(s16, (char *)&s50, 2) < 0x80) {
         CAST_NONSTRUCT(s16, (char *)&s50, 2) = CAST_NONSTRUCT(s16, (char *)&s50, 2) - 4;
         {
-            register char *tmp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+            register char *tmp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_rj1)
             tmp = D_801B0A64;
             puVar2 = tmp;
         }

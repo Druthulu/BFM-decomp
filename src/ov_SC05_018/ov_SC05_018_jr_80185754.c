@@ -2869,7 +2869,7 @@ void func_80185754(void *a0) {
     extern s32 D_801E04AC;
     extern s32 D_801E04C4;
     void *s2 = a0;
-    register u8 *p __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *p __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B t8_rj1)
     void *s0;
     s32 v0;
     s16 v1;

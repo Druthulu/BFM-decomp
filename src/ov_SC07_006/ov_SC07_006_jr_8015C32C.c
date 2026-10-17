@@ -7503,7 +7503,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     u8 *p;
     s32 i;
     s32 t;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus4)
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_rj1)
     s32 flags;
     s32 iVar3;
 

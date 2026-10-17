@@ -1012,8 +1012,8 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     s16 *b8;
     s16 *b4;
     s32 r;
-    register s32 pos __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 a1v __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 pos __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B t8_rj1)
+    register s32 a1v __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_rj1)
     s16 temp_v0;
     s16 temp_v1;
     s32 var_a3;
@@ -1024,7 +1024,7 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     s16 *b4b;
     u16 *p;
 
-    __asm__ ("" : "=r"(a1v) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ ("" : "=r"(a1v) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_rj1)
     pos = arg2;
     if (!(a1v & 1)) {
         var_t0 = (s16) arg2 - (*(s16 **)&D_8018A99C)[1];
@@ -1068,16 +1068,16 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     if (arg1 & 1) {
         b4b = D_8018A9A4;
         D_801152AA = 0xFFF;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_rj1)
         var_v0_3 = pos + 2;
     } else {
         b4b = D_8018A9A4;
         D_801152AA = -0xFFF;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_rj1)
         var_v0_3 = pos - 2;
     }
     b4b[1] = var_v0_3;
-    __asm__ __volatile__("" :: "r"(pos));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" :: "r"(pos));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_rj1)
     (*(s16 *)D_80126720) = (s16) ((s32) (((Unkstruct_80136824_6 *)arg0)->unk4 + ((Unkstruct_80136824_6 *)arg0)->unk6) >> 1);
     D_80126722 = (s16) ((s32) (((Unkstruct_80136824_6 *)arg0)->unk8 + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
     D_80126724 = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 0xC) + M2C_FIELD(((void *)arg0), s16 *, 0xE)) >> 1);
