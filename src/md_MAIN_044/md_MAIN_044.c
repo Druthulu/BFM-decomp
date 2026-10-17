@@ -838,8 +838,7 @@ L_c3c:
 }
 
 
-void func_800CE134() {
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+void func_800CE134(s32 a0v) {
     s32 param_1 = a0v;
 
     ((Unkstruct_800CE134 *)param_1)->unk30 = ((Unkstruct_800CE134 *)param_1)->unk1C * 8;
@@ -858,7 +857,7 @@ void func_800CE188(void *a0) {
 }
 
 
-extern void func_800CE134();
+extern void func_800CE134(s32 a0v);
 void func_800CE1C4(s32 a0) {
     func_800CE134(a0);
 }
