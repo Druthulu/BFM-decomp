@@ -4892,7 +4892,7 @@ void func_80180B0C(s32 s1) {
 }
 
 
-extern void func_80180BEC();
+extern void func_80180BEC(s32 s1);
 void func_80180BCC(s32 a0) {
     func_80180BEC(a0);
 }
@@ -4922,15 +4922,13 @@ void func_80180BCC(s32 a0) {
  * VERIFIED: match_one MATCH (48/48), AND a real-TU compile of the spliced
  * ov_SC07_002_jr_8017C8D0.c is cc1 rc=0 with 0 masked diffs for this function.
  */
-void func_80180BEC() {
+void func_80180BEC(s32 s1) {
     extern s16 D_80126940[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
     extern void func_80181394(s32 a0, s16 *param_2, s32 a2);
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
-    s32 s1 = a0v;
     SVfbd0 base;
     SVfbd0 target;
     s32 ret;
