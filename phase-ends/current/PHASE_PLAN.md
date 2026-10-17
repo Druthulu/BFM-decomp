@@ -154,3 +154,4 @@ R3.40-001 (lever_residue.tsv and lever_census flags/predicates/writer), R3.40-00
 - 2026-10-17 router: T8 next -> done
 - 2026-10-17 router: T9 next -> done
 - 2026-10-17 partner: T10 next -> done — pilot done-when met; projection returned blocked as planned; developer chose (a)
+- 2026-10-17 partner: T10 ruling 2026-10-17, developer chose (a): T11 runs the full singleton wave at the 4-coder cap, 20-30 min per function, per-coder scratch prefix; instruction rows and the func_80188C04 family (11 fns) parked with cause; every survivor's row names its compiler wall. Milestone amendment (literal strict 0 -> survivors walled) via REPLAN.md.
