@@ -1361,7 +1361,6 @@ src/shared/ov/func_8012C2D0.h	func_8012C2D0	launder	delever B headers1	oracle DI
 src/shared/ov/func_8012C750.h	func_8012C750	launder	delever B headers1	oracle DIFFERS on removal	singleton(launder)
 src/shared/ov/func_8012DBD0.h	func_8012DBD0	launder	delever B headers1	oracle DIFFERS on removal	singleton(launder)
 src/shared/ov/func_8012DBD0.h	func_8012DBD0	pin	delever B headers1	oracle DIFFERS on removal	singleton(pin)
-src/shared/ov/func_8012E364__6d96fc6c.h	func_8012E364	pin	delever B t8_rj4	oracle DIFFERS on removal	singleton(pin)
 src/shared/ov/func_8012E688.h	func_8012E688	pin	delever replay headers1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/shared/ov/func_8012EF34.h	func_8012EF34	pin	delever B t8_hdr1	oracle DIFFERS on removal	singleton(pin)
 src/shared/ov/func_8012EF70.h	func_8012EF70	pin	delever B t8_hdr1	oracle DIFFERS on removal	singleton(pin)
