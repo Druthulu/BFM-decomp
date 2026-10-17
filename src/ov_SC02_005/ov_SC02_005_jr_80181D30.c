@@ -2752,7 +2752,7 @@ extern void func_8018166C(s32 a0);
 extern s32 func_8018169C(s32 a0, s32 a1);
 extern s32 func_801816CC(s32 a0, s32 a1);
 
-extern void func_80182998();
+extern void func_80182998(void *arg0);
 extern s32 func_80185D84(s32);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_8018AD8C(s32, s32);
@@ -3336,9 +3336,7 @@ extern void func_8018AAAC(void);
  * `a0r` directly would re-read $4 after every jal).  Byte-identical to the
  * `void func_80182998(void *arg0)` spelling: MATCH (61 ins), so the TU needs
  * no edit and func_80181D30 needs no re-verification. */
-void func_80182998() {
-    register void *a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    void *arg0 = a0r;
+void func_80182998(void *arg0) {
     s32 flags;
 
     func_8012B23C((s32)arg0);

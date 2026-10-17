@@ -1266,7 +1266,7 @@ void func_80187768(void *a0) {
 }
 
 
-extern void func_80182998();
+extern void func_80182998(void *arg0);
 extern void func_8018655C(s32 a0);
 extern void func_801838A8(u8* a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -1515,7 +1515,7 @@ void func_80187D90(void *a0) {
 }
 
 
-extern void func_80182998();
+extern void func_80182998(void *arg0);
 extern void func_801838A8(u8*);
 
 void func_80187DCC(u8 *arg0) {
