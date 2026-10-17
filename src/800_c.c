@@ -2473,9 +2473,8 @@ extern u8 D_800B9CD8[];
 
 typedef s32 a32;
 
-void func_80038308(s16 a0)
+void func_80038308(s32 arg0)
 {
-    register a32 arg0 asm("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 offset;
 
     offset = arg0 * 127;
