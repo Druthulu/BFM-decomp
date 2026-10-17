@@ -3,7 +3,7 @@
 extern s32 func_80029178(s32 arg);
 extern u8 func_8014BEF8(void);
 extern u16 func_80148800(s32 *a0);
-extern void func_80149CB4();
+extern void func_80149CB4(void *a0, s32 a1);
 int func_80155A44(int param_1)
 {
     int x = *(unsigned char *)(param_1 + 0x1AA);
