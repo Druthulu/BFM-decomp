@@ -3792,8 +3792,7 @@ void func_801A5B5C(void *arg0)
 
 extern s32 func_8004787C(s32 a0);
 
-void func_801A5C44() {
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+void func_801A5C44(s32 a0) {
     s32 s0 = a0;
     s32 s2;
     s32 s1;
@@ -4145,7 +4144,7 @@ void func_801A64DC(s32 arg0) {
 
 #include "common.h"
 
-extern void func_801A5C44();
+extern void func_801A5C44(s32 a0);
 extern void func_801A5B5C(void *a0);
 extern void func_801A5D68(void *a0);
 extern void func_801A5CE8(void *a0);
@@ -4632,7 +4631,7 @@ extern u8 D_801F88A8[];
 extern u8 D_801F88B0[];
 extern u8 D_801F8747[];
 
-extern void func_801A5C44();
+extern void func_801A5C44(s32 a0);
 extern void func_801A5B5C(void *a0);
 extern void func_801A5AC0(void *a0);
 extern void func_801A5D68(void *a0);
@@ -4690,7 +4689,7 @@ void func_801A70D0(void *arg0) {
 
 #include "common.h"
 
-extern void func_801A5C44();
+extern void func_801A5C44(s32 a0);
 extern void func_801A5B5C(void *a0);
 extern void func_801A63A8(void *a0);
 extern void func_801A6428(void *a0);

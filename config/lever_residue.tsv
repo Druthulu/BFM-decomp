@@ -150,7 +150,6 @@ src/md_SC07_004/md_SC07_004.c	func_801A1E94	pin	delever R t8_r2	oracle DIFFERS o
 src/md_SC07_004/md_SC07_004.c	func_801A395C	barrier	delever R t8_r2	oracle DIFFERS on removal	singleton(barrier)
 src/md_SC07_004/md_SC07_004.c	func_801A395C	keepalive	delever R t8_r2	oracle DIFFERS on removal	singleton(keepalive)
 src/md_SC07_004/md_SC07_004.c	func_801A5094	barrier	delever R t8_r2	oracle DIFFERS on removal	singleton(barrier)
-src/md_SC07_004/md_SC07_004.c	func_801A5C44	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/md_SC07_004/md_SC07_004.c	func_801A8B64	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/md_SC07_004/md_SC07_004.c	func_801A9C00	instruction	delever - t8_tus2	instruction `addu` has no C spelling in the table	singleton(instruction) [3.40-agent]
 src/md_SC07_004/md_SC07_004.c	func_801AB5D4	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
