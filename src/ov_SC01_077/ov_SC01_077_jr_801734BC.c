@@ -4131,7 +4131,7 @@ s16 y;
     c0 = yt + 1;
     c0 <<= 16;
     w = c0 | x1;
-    __asm__("" : "=r"(w) : "0"(w)); // !FAKE: launder w — a second set of w stops sched1 launching the p[2] `or` at its store (birthing_insn_p, sched.c:2469), so it stays ahead of the cl chain and sched2's equal-priority tie (sched.c:2385) keeps that order; no plain spelling does (S103 c19) (P36 S103 c46 minimum-lever)
+    __asm__("" : "=r"(w) : "0"(w));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_rj2)
     c = v << 6;
     c |= 0x4016;
     cl = c << 16;
