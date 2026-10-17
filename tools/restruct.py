@@ -1239,6 +1239,15 @@ def s_ptr_norm(expr):
     return re.sub(r"\s+", "", expr)
 
 
+def s_lp_swap(base):
+    """T7.c3: `local:X` <-> `param:X` (same name X, nothing else); a pin rewritten as a declared param re-keys its base. Else None."""
+    b = str(base or "")
+    for a, z in (("local:", "param:"), ("param:", "local:")):
+        if b.startswith(a) and len(b) > len(a):
+            return z + b[len(a):]
+    return None
+
+
 def s_macro_rows(tu, text, rows):
     """T3.c4: every kept-cast macro site (census form K) of a drawn body in the FINAL text gets its own KEPT(<class>) row in the
     census's key (base `<bclass>:<base>` and off parsed from the macro, type_census.check_casts_verdict) — the respell's row was keyed
@@ -1265,6 +1274,7 @@ def s_macro_rows(tu, text, rows):
             src = next((lb for lb, e in cands if e.get("verdict") == want and (e.get("line") == s["line"] if s["cls"] == "REINTERP" else
                         e.get("off") == s["off"] and (e.get("base") == key or e.get("line") == s["line"]
                                                       or s_base_norm(e.get("base") or "") == nkey
+                                                      or s_lp_swap(e.get("base")) == key   # T7.c3: pin became a param (local:X == param:X, same name only)
                                                       or (str(e.get("base") or "").startswith("nested:") and pkey
                                                           and s_ptr_norm(e["base"][7:]) == pkey)))), None)
             if src is None:
