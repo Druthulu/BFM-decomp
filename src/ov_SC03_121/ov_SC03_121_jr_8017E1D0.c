@@ -4892,15 +4892,15 @@ s32 func_80181C18(s32 param_1) {
     extern void RotMatrixZ(s32, void *);
     extern void MulMatrix0(s32, void *, s32);
     extern s32 D_801ABC80;
-    extern char * D_801ABCB4;
-    extern char D_801AEE18[];
+    extern MATRIX *D_801ABCB4;
+    extern MATRIX D_801AEE18[];
 
     S8_80184F08 s60;
     SVECTOR_80184F08 sStack_58;
     S8_80184F08 s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
-    char *puVar2, *puVar4;
+    char *puVar2;
     u16 uVar3;
 
     if (((s32 (*)(s32, void *))func_8012C354)(param_1, &D_801ABC80) == 0) {
@@ -4922,18 +4922,10 @@ s32 func_80181C18(s32 param_1) {
     MulMatrix0(iVar8, auStack_48, iVar5 + 0x34);
     ((void (*)(void *, s32))func_80017E68)(&s50, iVar5 + 0x34);
 
-    /* pool-alloc: gcc routes the loaded pointer through a caller-saved reg ($v0)
-       before the callee-saved home ($s1) — pin it to reproduce the extra move. */
-    {
-        register char *tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_rj1)
-        tmp = D_801ABCB4;
-        puVar2 = tmp;
-    }
-    puVar4 = puVar2 + 0x20;
-    D_801ABCB4 = puVar4;
+    puVar2 = (char *)D_801ABCB4++;
     *(char **)(param_1 + 0xcc) = puVar2;
-    if (D_801AEE18 < puVar4) {
-        D_801ABCB4 = D_801AEE18 - 0x120;
+    if (D_801AEE18 < D_801ABCB4) {
+        D_801ABCB4 = D_801AEE18 - 9;
     }
     func_800D20C0(&s60, &sStack_58, 7);
     func_800D23D0(&sStack_58);
@@ -4944,16 +4936,10 @@ s32 func_80181C18(s32 param_1) {
     if (((s32 (*)(void *))func_80134510)(&s50) != 0 &&
         (s32)(s16)uVar3 - (s32)CAST_NONSTRUCT(s16, (char *)&s50, 2) < 0x80) {
         CAST_NONSTRUCT(s16, (char *)&s50, 2) = CAST_NONSTRUCT(s16, (char *)&s50, 2) - 4;
-        {
-            register char *tmp __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_rj1)
-            tmp = D_801ABCB4;
-            puVar2 = tmp;
-        }
-        puVar4 = puVar2 + 0x20;
-        D_801ABCB4 = puVar4;
+        puVar2 = (char *)D_801ABCB4++;
         *(char **)(param_1 + 0xd0) = puVar2;
-        if (D_801AEE18 < puVar4) {
-            D_801ABCB4 = D_801AEE18 - 0x120;
+        if (D_801AEE18 < D_801ABCB4) {
+            D_801ABCB4 = D_801AEE18 - 9;
         }
         func_800D23D0(&(*(s32 *)&D_801152A8));
         ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&D_801152A8), puVar2);

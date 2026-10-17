@@ -3898,7 +3898,6 @@ void func_80189A54(s32 arg0) {
 
 void func_80189AF4(void *a0)
 {
-    register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
     s32 v0;
 
     extern void func_8012C1B8(void);
@@ -3910,34 +3909,31 @@ void func_80189AF4(void *a0)
     extern u8 D_80190898;
     extern u8 D_801907C4;
 
-    s0 = a0;
-
     v0 = ((s32 (*)(void))func_8012C1B8)();
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = v0;
+    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
     if (v0 == 0) {
-        func_8012CAE4(s0);
+        func_8012CAE4(a0);
     } else {
-        register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        s32 t;
 
         func_8001CA1C(v0, (s32)&D_80190800);
-        func_8012A828((s32)s0, (void *)&D_8019080C);
-        ((Unkstruct_800B5CB8 *)s0)->unk2 = 1;
-        ((Unkstruct_800B5CB8 *)s0)->unkC0 = 1;
-        ((Unkstruct_800B5CB8 *)s0)->unkBC = (s32)&D_80190898;
-        ((Unkstruct_800B5CB8 *)s0)->unk5C = 0x8000;
-        __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
-        t = ((Unkstruct_800B5CB8 *)s0)->unkC4;
-        ((Unkstruct_800B5CB8 *)s0)->unk58 = (s32)&D_801907C4;
-        ((Unkstruct_800B5CB8 *)s0)->unkC4 = t | 0x2;
-        ((Unkstruct_800B5CB8 *)s0)->unkC1 = 0;
-        ((Unkstruct_800B5CB8 *)s0)->unkB4 = 0;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x20))->unk18 = 0x4000;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x20))->unk1A = 0x4000;
-        *(s16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x1C) = 0x4000;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x20))->unk2C |= 0x10;
-        *(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x4) = 0x01000000;
-        ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x20;
-        ((Unkstruct_800B5CB8 *)s0)->unk10A = 0x5;
+        func_8012A828((s32)a0, (void *)&D_8019080C);
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_800B5CB8 *)a0)->unkC0 = 1;
+        ((Unkstruct_800B5CB8 *)a0)->unkBC = (s32)&D_80190898;
+        ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x8000;
+        ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unkB4 = 0;
+        t = ((Unkstruct_800B5CB8 *)a0)->unkC4;
+        ((Unkstruct_800B5CB8 *)a0)->unk58 = (s32)&D_801907C4;
+        ((Unkstruct_800B5CB8 *)a0)->unkC4 = t | 0x2;
+        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk18 = 0x4000;
+        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk1A = 0x4000;
+        *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1C) = 0x4000;
+        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk2C |= 0x10;
+        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x4) = 0x01000000;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x20;
+        ((Unkstruct_800B5CB8 *)a0)->unk10A = 0x5;
     }
 }
 
@@ -4227,8 +4223,8 @@ void func_8018A364(s32 arg0) {
 }
 
 
-void func_8018A404(void *a0) {
-    register void *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+void func_8018A404(void *a0)
+{
     s32 v0;
 
     extern void func_8012C1B8(void);
@@ -4240,34 +4236,31 @@ void func_8018A404(void *a0) {
     extern u8 D_80190A20;
     extern u8 D_801907C4;
 
-    s0 = a0;
-
     v0 = ((s32 (*)(void))func_8012C1B8)();
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = v0;
+    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
     if (v0 == 0) {
-        func_8012CAE4(s0);
+        func_8012CAE4(a0);
     } else {
-        register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        s32 t;
 
         func_8001CA1C(v0, (s32)&D_80190988);
-        func_8012A828((s32)s0, (void *)&D_80190994);
-        ((Unkstruct_800B5CB8 *)s0)->unk2 = 1;
-        ((Unkstruct_800B5CB8 *)s0)->unkC0 = 1;
-        ((Unkstruct_800B5CB8 *)s0)->unkBC = (s32)&D_80190A20;
-        ((Unkstruct_800B5CB8 *)s0)->unk5C = 0x8000;
-        __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
-        t = ((Unkstruct_800B5CB8 *)s0)->unkC4;
-        ((Unkstruct_800B5CB8 *)s0)->unk58 = (s32)&D_801907C4;
-        ((Unkstruct_800B5CB8 *)s0)->unkC4 = t | 0x2;
-        ((Unkstruct_800B5CB8 *)s0)->unkC1 = 0;
-        ((Unkstruct_800B5CB8 *)s0)->unkB4 = 0;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x20))->unk18 = 0x4000;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x20))->unk1A = 0x4000;
-        *(s16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x1C) = 0x4000;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x20))->unk2C |= 0x10;
-        *(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x4) = 0x01000000;
-        ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x20;
-        ((Unkstruct_800B5CB8 *)s0)->unk10A = 0x5;
+        func_8012A828((s32)a0, (void *)&D_80190994);
+        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_800B5CB8 *)a0)->unkC0 = 1;
+        ((Unkstruct_800B5CB8 *)a0)->unkBC = (s32)&D_80190A20;
+        ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x8000;
+        ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unkB4 = 0;
+        t = ((Unkstruct_800B5CB8 *)a0)->unkC4;
+        ((Unkstruct_800B5CB8 *)a0)->unk58 = (s32)&D_801907C4;
+        ((Unkstruct_800B5CB8 *)a0)->unkC4 = t | 0x2;
+        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk18 = 0x4000;
+        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk1A = 0x4000;
+        *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1C) = 0x4000;
+        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk2C |= 0x10;
+        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x4) = 0x01000000;
+        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x20;
+        ((Unkstruct_800B5CB8 *)a0)->unk10A = 0x5;
     }
 }
 

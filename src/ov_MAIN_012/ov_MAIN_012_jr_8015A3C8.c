@@ -7185,12 +7185,13 @@ s32 func_80166690(s32 param_1, s32 param_2)
     int i6;
     int lt2;
     int p2;
-    unsigned int uVar7, uVar8, uVar9;
-    int iVar3;
-    unsigned int w9, w7, w, t, w3b;
-    int w3;
+    short uVar8;
+    short uVar7;
+    short uVar9;
+    short iVar3;
+    unsigned int w;
+    unsigned char t;
     short sVar10;
-    register unsigned int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus2)
 
     blk = aD800AE620;
     i6 = (short)param_1;
@@ -7205,13 +7206,12 @@ s32 func_80166690(s32 param_1, s32 param_2)
     uVar8 = rec[3];
     uVar7 = uVar8 >> 1;
     iVar3 = rec[2];
-    w3 = iVar3 - 1;
-    iVar3 = w3 + zr;
-    if (w3 != -1) {
+    iVar3--;
+    if (iVar3 != -1) {
         lt2 = i6 < 2;
         p2 = (short)param_2;
         do {
-            pv = &sub[(short)uVar9];
+            pv = &sub[uVar9];
             c.v0 = pv->h[0];
             c.v1 = pv->h[1];
             c.v2 = pv->h[2];
@@ -7222,64 +7222,61 @@ s32 func_80166690(s32 param_1, s32 param_2)
 
             if (lt2) {
                 if (p2 == 0) {
-                    t = uVar8 + zr;
+                    t = uVar8;
                     c.c12 = t; c.c02 = t;
-                    t = uVar7 + zr;
+                    t = uVar7;
                 } else {
-                    w = ((int)(uVar8 << 16) >> 17) + ((int)(uVar8 << 16) >> 19);
-                    uVar7 = w + zr;
+                    w = (uVar8 >> 1) + (uVar8 >> 3);
+                    uVar7 = w;
                     c.c12 = w; c.c02 = w;
-                    t = uVar8 + zr;
+                    t = uVar8;
                 }
                 c.c11 = t; c.c01 = t; c.c10 = t; c.c00 = t;
             } else {
-                t = uVar8 + zr;
+                t = uVar8;
                 c.c10 = t; c.c00 = t;
-                t = uVar7 + zr;
+                t = uVar7;
                 c.c12 = t; c.c02 = t; c.c11 = t; c.c01 = t;
             }
 
-            w9 = uVar9 - 1;
-            uVar9 = w9 + zr;
-            if ((int)(w9 << 16) < 0) {
+            uVar9--;
+            if (uVar9 < 0) {
                 uVar9 = 0xF;
             }
-            pv = &sub[(short)uVar9];
+            pv = &sub[uVar9];
             c.v3 = pv->h[0];
             c.v4 = pv->h[1];
             c.v5 = pv->h[2];
             c.w3 = pv->h[3];
             c.w4 = pv->h[4];
             uVar8 = uVar8 - 0x10;
-            w7 = uVar7 - 0x10;
-            uVar7 = w7 + zr;
+            uVar7 -= 0x10;
             c.w5 = pv->h[5];
-            if ((int)(w7 << 16) < 0) {
+            if (uVar7 < 0) {
                 uVar7 = 0;
             }
 
             if (lt2) {
                 if (p2 == 0) {
-                    t = uVar8 + zr;
+                    t = uVar8;
                     c.c32 = t; c.c22 = t;
-                    t = uVar7 + zr;
+                    t = uVar7;
                 } else {
-                    t = uVar7 + zr;
+                    t = uVar7;
                     c.c32 = t; c.c22 = t;
-                    t = uVar8 + zr;
+                    t = uVar8;
                 }
                 c.c31 = t; c.c21 = t; c.c30 = t; c.c20 = t;
             } else {
-                t = uVar8 + zr;
+                t = uVar8;
                 c.c30 = t; c.c20 = t;
-                t = uVar7 + zr;
+                t = uVar7;
                 c.c32 = t; c.c22 = t; c.c31 = t; c.c21 = t;
             }
 
             func_80017758(&c, &blk);
-            w3b = iVar3 - 1;
-            iVar3 = w3b + zr;
-        } while ((short)w3b != -1);
+            iVar3--;
+        } while (iVar3 != -1);
     }
     return (short)sVar10;
 }

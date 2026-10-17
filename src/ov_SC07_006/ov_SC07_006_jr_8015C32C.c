@@ -7500,9 +7500,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
 
     struct Fr_8016A290 fr;
     u8 *p;
-    s32 i;
-    s32 t;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_rj1)
+    s16 i;
     s32 flags;
     s32 iVar3;
 
@@ -7570,9 +7568,8 @@ L1:
         fr.v[3].x = (s8)*p++;
         fr.v[3].y = (s8)*p--;
         func_80017758(fr.v, fr.mtx);
-        t = i + 1;
-        i = t + zr;
-        if ((s16)t < 4) goto L1;
+        i++;
+        if (i < 4) goto L1;
 
     fr.v[3].y = 0;
     fr.v[2].y = 0;
@@ -7590,13 +7587,12 @@ L2:
         fr.v[3].x = (s8)*p++;
         fr.v[3].z = (s8)*p--;
         func_80017758(fr.v, fr.mtx);
-        if ((s16)i == 1) {
+        if (i == 1) {
             fr.v[1].z = 0x20;
             p += 2;
         }
-        t = i + 1;
-        i = t + zr;
-        if ((s16)t < 4) goto L2;
+        i++;
+        if (i < 4) goto L2;
 
     p += 2;
     fr.v[0].x = 0;
@@ -7611,9 +7607,8 @@ L3:
         fr.v[3].x = (s8)*p++;
         fr.v[3].z = (s8)*p++;
         func_80017758(fr.v, fr.mtx);
-        t = i + 1;
-        i = t + zr;
-        if ((s16)t < 2) goto L3;
+        i++;
+        if (i < 2) goto L3;
 }
 
 

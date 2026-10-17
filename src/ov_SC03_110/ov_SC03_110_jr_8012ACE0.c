@@ -748,11 +748,11 @@ void func_8012E364(s32 arg0_)
     extern s32 D_801A0DC4;
     s32 arg0;
     s32 prev;
-    register u16 flags __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus1)
+    u16 flags;
     s32 a;
     s32 diff;
     s32 v;
-    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus1)
+    s16 d;
     s32 spd;
     s32 e1;
     s32 e2;

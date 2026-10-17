@@ -7298,16 +7298,13 @@ void func_80183094(s32 a0) {
             if (diff > 0) {
                 s32 dst;
                 s32 v;
-                s32 result;
+                s16 result;
                 v = (diff << 5) + 0x4000;
                 dst = ((Unkstruct_80183094_4 *)obj)->unkCC;
-                if (v < 0x7001) {
-                    result = v;
-                } else {
+                if (v > 0x7000) {
                     v = 0x7000;
-                    __asm__("" : "=r"(v) : "0"(v) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
-                    result = v;
                 }
+                result = v;
                 ((Unkstruct_80183094_3 *)dst)->unk1A = result;
                 ((Unkstruct_80183094_3 *)dst)->unk18 = result;
             }
