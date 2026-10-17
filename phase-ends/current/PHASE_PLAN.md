@@ -149,3 +149,4 @@ R3.40-001 (lever_residue.tsv and lever_census flags/predicates/writer), R3.40-00
 - 2026-10-16 partner: T14 done-when amended (developer 2026-10-15): also carry retrospective §7's after-100% 'sooner' lessons (Phases 35-40) into docs/how-to-ai-decomp/03-bootstrap-order.md as a from-the-start section on reducing post-100% work (canonical types during matching, declarations before pins, debt chart from phase one), with pointers back to §7; doc_links --strict 0/0
 - 2026-10-16 router: T5 next -> done
 - 2026-10-16 router: T6 next -> done
+- 2026-10-17 partner: T7 question 2026-10-17: T7 may edit tools/restruct.py s_macro_rows (~:1242) so a KEPT entry whose base differs only by local:X vs param:X (same name, same off, same KEPT class) backs the site; follow tools-edit-kit-corpus (kit-corpus, tools-health). Source respelling of the 5 CAST_SIGN sites not taken.
