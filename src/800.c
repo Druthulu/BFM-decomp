@@ -9556,196 +9556,58 @@ extern u8 D_800AF648;
 
 void func_8001E378(s32 param_1)
 {
-    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus9)
-        ".set\tnoreorder\n"
-        "addiu $29, $29, -96\n"
-        "sw $16, 80($29)\n"
-        "addu $16, $4, $0\n"
-        "sw $17, 84($29)\n"
-        "addiu $17, $29, 48\n"
-        "addiu $4, $16, 16\n"
-        "sw $31, 88($29)\n"
-        "jal func_8004978C\n"
-        "addu $5, $17, $0\n"
-        "lhu $2, 24($16)\n"
-        "sh $0, 18($29)\n"
-        "sh $0, 20($29)\n"
-        "sh $0, 22($29)\n"
-        "sh $2, 16($29)\n"
-        "lhu $2, 26($16)\n"
-        "sh $0, 26($29)\n"
-        "sh $0, 28($29)\n"
-        "sh $0, 30($29)\n"
-        "sh $2, 24($29)\n"
-        "lhu $2, 28($16)\n"
-        "lui $5, %hi(D_800AF648)\n"
-        "addiu $5, $5, %lo(D_800AF648)\n"
-        "sh $2, 32($29)\n"
-        "lw $12, 0($17)\n"
-        "lw $13, 4($17)\n"
-        "ctc2 $12, $0\n"
-        "ctc2 $13, $1\n"
-        "lw $12, 8($17)\n"
-        "lw $13, 12($17)\n"
-        "lw $14, 16($17)\n"
-        "ctc2 $12, $2\n"
-        "ctc2 $13, $3\n"
-        "ctc2 $14, $4\n"
-        "addiu $2, $29, 16\n"
-        "lhu $12, 0($2)\n"
-        "lhu $13, 6($2)\n"
-        "lhu $14, 12($2)\n"
-        "mtc2 $12, $9\n"
-        "mtc2 $13, $10\n"
-        "mtc2 $14, $11\n"
-        "nop\n"
-        "nop\n"
-        "mvmva 1, 0, 3, 3, 0\n"
-        "mfc2 $12, $9\n"
-        "mfc2 $13, $10\n"
-        "mfc2 $14, $11\n"
-        "sh $12, 0($17)\n"
-        "sh $13, 6($17)\n"
-        "sh $14, 12($17)\n"
-        "addiu $2, $29, 18\n"
-        "lhu $12, 0($2)\n"
-        "lhu $13, 6($2)\n"
-        "lhu $14, 12($2)\n"
-        "mtc2 $12, $9\n"
-        "mtc2 $13, $10\n"
-        "mtc2 $14, $11\n"
-        "nop\n"
-        "nop\n"
-        "mvmva 1, 0, 3, 3, 0\n"
-        "addiu $4, $29, 50\n"
-        "mfc2 $12, $9\n"
-        "mfc2 $13, $10\n"
-        "mfc2 $14, $11\n"
-        "sh $12, 0($4)\n"
-        "sh $13, 6($4)\n"
-        "sh $14, 12($4)\n"
-        "addiu $2, $29, 20\n"
-        "lhu $12, 0($2)\n"
-        "lhu $13, 6($2)\n"
-        "lhu $14, 12($2)\n"
-        "mtc2 $12, $9\n"
-        "mtc2 $13, $10\n"
-        "mtc2 $14, $11\n"
-        "nop\n"
-        "nop\n"
-        "mvmva 1, 0, 3, 3, 0\n"
-        "addiu $3, $29, 52\n"
-        "mfc2 $12, $9\n"
-        "mfc2 $13, $10\n"
-        "mfc2 $14, $11\n"
-        "sh $12, 0($3)\n"
-        "sh $13, 6($3)\n"
-        "sh $14, 12($3)\n"
-        "lh $2, 8($16)\n"
-        "nop\n"
-        "sw $2, 68($29)\n"
-        "lh $2, 10($16)\n"
-        "nop\n"
-        "sw $2, 72($29)\n"
-        "lh $2, 12($16)\n"
-        "nop\n"
-        "sw $2, 76($29)\n"
-        "lw $12, 0($5)\n"
-        "lw $13, 4($5)\n"
-        "ctc2 $12, $0\n"
-        "ctc2 $13, $1\n"
-        "lw $12, 8($5)\n"
-        "lw $13, 12($5)\n"
-        "lw $14, 16($5)\n"
-        "ctc2 $12, $2\n"
-        "ctc2 $13, $3\n"
-        "ctc2 $14, $4\n"
-        "lhu $12, 0($17)\n"
-        "lhu $13, 6($17)\n"
-        "lhu $14, 12($17)\n"
-        "mtc2 $12, $9\n"
-        "mtc2 $13, $10\n"
-        "mtc2 $14, $11\n"
-        "nop\n"
-        "nop\n"
-        "mvmva 1, 0, 3, 3, 0\n"
-        "mfc2 $12, $9\n"
-        "mfc2 $13, $10\n"
-        "mfc2 $14, $11\n"
-        "sh $12, 0($17)\n"
-        "sh $13, 6($17)\n"
-        "sh $14, 12($17)\n"
-        "lhu $12, 0($4)\n"
-        "lhu $13, 6($4)\n"
-        "lhu $14, 12($4)\n"
-        "mtc2 $12, $9\n"
-        "mtc2 $13, $10\n"
-        "mtc2 $14, $11\n"
-        "nop\n"
-        "nop\n"
-        "mvmva 1, 0, 3, 3, 0\n"
-        "mfc2 $12, $9\n"
-        "mfc2 $13, $10\n"
-        "mfc2 $14, $11\n"
-        "sh $12, 0($4)\n"
-        "sh $13, 6($4)\n"
-        "sh $14, 12($4)\n"
-        "lhu $12, 0($3)\n"
-        "lhu $13, 6($3)\n"
-        "lhu $14, 12($3)\n"
-        "mtc2 $12, $9\n"
-        "mtc2 $13, $10\n"
-        "mtc2 $14, $11\n"
-        "nop\n"
-        "nop\n"
-        "mvmva 1, 0, 3, 3, 0\n"
-        "mfc2 $12, $9\n"
-        "mfc2 $13, $10\n"
-        "mfc2 $14, $11\n"
-        "sh $12, 0($3)\n"
-        "sh $13, 6($3)\n"
-        "sh $14, 12($3)\n"
-        "lw $12, 20($5)\n"
-        "lw $13, 24($5)\n"
-        "ctc2 $12, $5\n"
-        "lw $14, 28($5)\n"
-        "ctc2 $13, $6\n"
-        "ctc2 $14, $7\n"
-        "addiu $2, $29, 68\n"
-        "lhu $13, 4($2)\n"
-        "lhu $12, 0($2)\n"
-        "sll $13, $13, 16\n"
-        "or $12, $12, $13\n"
-        "mtc2 $12, $0\n"
-        "lwc2 $1, 8($2)\n"
-        "nop\n"
-        "nop\n"
-        "mvmva 1, 0, 0, 0, 0\n"
-        "swc2 $25, 0($2)\n"
-        "swc2 $26, 4($2)\n"
-        "swc2 $27, 8($2)\n"
-        "lw $12, 0($17)\n"
-        "lw $13, 4($17)\n"
-        "ctc2 $12, $0\n"
-        "ctc2 $13, $1\n"
-        "lw $12, 8($17)\n"
-        "lw $13, 12($17)\n"
-        "lw $14, 16($17)\n"
-        "ctc2 $12, $2\n"
-        "ctc2 $13, $3\n"
-        "ctc2 $14, $4\n"
-        "lw $12, 20($17)\n"
-        "lw $13, 24($17)\n"
-        "ctc2 $12, $5\n"
-        "lw $14, 28($17)\n"
-        "ctc2 $13, $6\n"
-        "ctc2 $14, $7\n"
-        "lw $31, 88($29)\n"
-        "lw $17, 84($29)\n"
-        "lw $16, 80($29)\n"
-        "addiu $29, $29, 96\n"
-        ".set\treorder\n"
-    );
+    s16 sc[16];
+    s16 res[16];
+    s32 g;
+    s32 t;
+
+    func_8004978C((s16 *)(param_1 + 16), res);
+    sc[0] = *(s16 *)(param_1 + 0x18);
+    sc[1] = 0;
+    sc[2] = 0;
+    sc[3] = 0;
+    sc[4] = *(s16 *)(param_1 + 0x1A);
+    sc[5] = 0;
+    sc[6] = 0;
+    sc[7] = 0;
+    sc[8] = *(s16 *)(param_1 + 0x1C);
+
+    g = (s32)&D_800AF648;
+
+    gte_SetRotMatrix((s32)res);
+
+    gte_ldclmv((s32)sc); gte_rtir();
+    gte_stclmv((s32)res);
+
+    gte_ldclmv((s32)sc + 2); gte_rtir();
+    gte_stclmv((s32)res + 2);
+
+    gte_ldclmv((s32)sc + 4); gte_rtir();
+    gte_stclmv((s32)res + 4);
+
+    *(s32 *)((u8 *)res + 0x14) = *(s16 *)(param_1 + 8);
+    *(s32 *)((u8 *)res + 0x18) = *(s16 *)(param_1 + 10);
+    *(s32 *)((u8 *)res + 0x1C) = *(s16 *)(param_1 + 12);
+
+    gte_SetRotMatrix(g);
+
+    gte_ldclmv((s32)res); gte_rtir();
+    gte_stclmv((s32)res);
+
+    gte_ldclmv((s32)res + 2); gte_rtir();
+    gte_stclmv((s32)res + 2);
+
+    gte_ldclmv((s32)res + 4); gte_rtir();
+    gte_stclmv((s32)res + 4);
+
+    gte_SetTransMatrix(g);
+
+    t = (s32)res + 0x14;
+    gte_ldlv0(t); gte_rtv0tr();
+    gte_stlvnl(t);
+
+    gte_SetRotMatrix((s32)res);
+    gte_SetTransMatrix((s32)res);
 }
 
 
@@ -14066,8 +13928,8 @@ extern void *func_80025CBC(void *prims, void *scr, void *cols, void *packets, s3
 extern u32 * func_80025EB8(Prim20 *prim, SVEC8_80025EB8 *verts, SVEC8_80025EB8 *norms, Ft4 *pkt0, s32 n, s32 shift, u32 *ot);
 /* Handwritten-asm stubs, defined `void f()` in the TU; the packet pointer they leave in $v0
  * is consumed here through a no-proto function-pointer cast (§378: folds to a direct jal). */
-extern void func_80026514();
-extern void func_800268D0();
+extern u8 *func_80026514();
+extern u8 *func_800268D0();
 
 #define CNT (*(u16 *)s0)
 #define OT  (*(u32 **)(param_2 + 4))
@@ -14192,10 +14054,10 @@ void func_80024448(int param_1, int param_2, u32 param_3)
 extern s32 D_800A2B78;
 
 /* func_800249F0 — HANDWRITTEN assembly (splat marks it "Handwritten function").
- * Loop-carried state lives in $t1/$t2/$t5/$t6/$t8/$t9 with hand-placed latency
- * nops -- not reachable from gcc-2.7.2 codegen -- so the body is reproduced
- * verbatim as one .set noreorder asm block (same idiom as func_80027200 above);
- * gcc supplies only jr $ra + delay nop.
+ * Was a verbatim .set noreorder asm block (the $t-register loop state looked
+ * hand-written); P40 T8.c4: gcc-2.7.2 emits it from the C below (T8.c2 MATCH 116).
+ * Keys: prim walked as struct ptr `p` with `p++`; `f` as char* cast per field; tag
+ * recompute before `((u8*)d)[3]=1`.
  *
  * Semantics: TMD F3 mesh emitter. Per face: RTPT 3 verts -> GTE flag cull ->
  * NCLIP cull -> store SXY0..2 -> AVSZ3 depth -> NCCS colour from normal p[0]
@@ -14203,130 +14065,53 @@ extern s32 D_800A2B78;
  * written has bit 1 set, append a 2-word semi-transparency primitive
  * (0xE100000A | ((D_800A2B78 & 3) << 5)) into the OT (tag code 0x01).
  * Returns the advanced packet pointer. */
+typedef struct { u32 tag; u8 r0, g0, b0, code; u32 xy0, xy1, xy2; } F3_249F0_t;
+typedef struct { u32 tag; u32 code; } DM_249F0_t;
+typedef struct { u32 pad; u32 rgb; u16 n, v0, v1, v2; } Src_249F0_t;
+
 long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count,
                     s32 shift, s32 ot)
 {
-    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus9)
-        ".set\tnoreorder\n"
-        "addiu $sp, $sp, -8\n"
-        "lw    $t5, 24($sp)\n"
-        "lw    $t9, 28($sp)\n"
-        "lw    $t8, 32($sp)\n"
-        "beq   $t5, $zero, 3f\n"
-        "addu  $t6, $a0, $zero\n"
-        "addiu $t7, $sp, 4\n"
-        "lui   $t3, 0xFF\n"
-        "ori   $t3, $t3, 0xFFFF\n"
-        "addiu $t2, $a0, 8\n"
-        "addiu $t1, $a3, 4\n"
-        "1:\n"
-        "lhu   $a0, 2($t2)\n"
-        "lhu   $v1, 4($t2)\n"
-        "lhu   $v0, 6($t2)\n"
-        "sll   $a0, $a0, 3\n"
-        "addu  $a0, $a1, $a0\n"
-        "sll   $v1, $v1, 3\n"
-        "addu  $v1, $a1, $v1\n"
-        "sll   $v0, $v0, 3\n"
-        "addu  $v0, $a1, $v0\n"
-        "lwc2  $0, 0($a0)\n"
-        "lwc2  $1, 4($a0)\n"
-        "lwc2  $2, 0($v1)\n"
-        "lwc2  $3, 4($v1)\n"
-        "lwc2  $4, 0($v0)\n"
-        "lwc2  $5, 4($v0)\n"
-        "nop\n"
-        "nop\n"
-        "rtpt\n"
-        "cfc2  $t4, $31\n"
-        "nop\n"
-        "sw    $t4, 0($sp)\n"
-        "lw    $v0, 0($sp)\n"
-        "addiu $v1, $zero, -0x1001\n"
-        "and   $v0, $v0, $v1\n"
-        "bne   $v0, $zero, 2f\n"
-        "nop\n"
-        "nop\n"
-        "nop\n"
-        "nclip\n"
-        "swc2  $24, 0($t7)\n"
-        "lw    $v0, 4($sp)\n"
-        "nop\n"
-        "blez  $v0, 2f\n"
-        "nop\n"
-        "swc2  $12, 8($a3)\n"
-        "swc2  $13, 12($a3)\n"
-        "swc2  $14, 16($a3)\n"
-        "nop\n"
-        "nop\n"
-        "avsz3\n"
-        "swc2  $7, 0($t7)\n"
-        "addiu $v0, $t6, 4\n"
-        "lwc2  $6, 0($v0)\n"
-        "lhu   $v0, 0($t2)\n"
-        "nop\n"
-        "sll   $v0, $v0, 3\n"
-        "addu  $v0, $a2, $v0\n"
-        "lwc2  $0, 0($v0)\n"
-        "lwc2  $1, 4($v0)\n"
-        "nop\n"
-        "nop\n"
-        "nccs\n"
-        "swc2  $22, 0($t1)\n"
-        "lw    $v0, 4($sp)\n"
-        "addiu $t1, $t1, 20\n"
-        "srav  $v0, $v0, $t9\n"
-        "sll   $v0, $v0, 2\n"
-        "addu  $t0, $t8, $v0\n"
-        "lw    $v1, 0($t0)\n"
-        "lui   $v0, 0x400\n"
-        "and   $v1, $v1, $t3\n"
-        "or    $v1, $v1, $v0\n"
-        "and   $v0, $a3, $t3\n"
-        "sw    $v1, 0($a3)\n"
-        "sw    $v0, 0($t0)\n"
-        "lui   $v0, %hi(D_800A2B78)\n"
-        "lw    $v0, %lo(D_800A2B78)($v0)\n"
-        "nop\n"
-        "beq   $v0, $zero, 2f\n"
-        "addiu $a3, $a3, 20\n"
-        "lbu   $v0, -17($t1)\n"
-        "nop\n"
-        "andi  $v0, $v0, 0x2\n"
-        "beq   $v0, $zero, 2f\n"
-        "lui   $a0, 0xE100\n"
-        "ori   $a0, $a0, 0xA\n"
-        "lw    $v1, 4($sp)\n"
-        "addiu $v0, $zero, 1\n"
-        "sb    $v0, -1($t1)\n"
-        "lui   $v0, %hi(D_800A2B78)\n"
-        "lw    $v0, %lo(D_800A2B78)($v0)\n"
-        "srav  $v1, $v1, $t9\n"
-        "sll   $v1, $v1, 2\n"
-        "addu  $t0, $t8, $v1\n"
-        "andi  $v0, $v0, 0x3\n"
-        "sll   $v0, $v0, 5\n"
-        "or    $v0, $v0, $a0\n"
-        "sw    $v0, 0($t1)\n"
-        "addiu $t1, $t1, 8\n"
-        "lw    $v1, 0($t0)\n"
-        "lui   $v0, 0x100\n"
-        "and   $v1, $v1, $t3\n"
-        "or    $v1, $v1, $v0\n"
-        "and   $v0, $a3, $t3\n"
-        "sw    $v1, 0($a3)\n"
-        "addiu $a3, $a3, 8\n"
-        "sw    $v0, 0($t0)\n"
-        "2:\n"
-        "addiu $t5, $t5, -1\n"
-        "addiu $t2, $t2, 16\n"
-        "bne   $t5, $zero, 1b\n"
-        "addiu $t6, $t6, 16\n"
-        "3:\n"
-        "addu  $v0, $a3, $zero\n"
-        "addiu $sp, $sp, 8\n"
-        ".set\treorder\n"
-    );
+    long flag;
+    long otz;
+    u32 *tag;
+    F3_249F0_t *p = (F3_249F0_t *)prim;
+    DM_249F0_t *d;
+
+    for (; count != 0; count--, f += 16) {
+        gte_ldv3(verts + (((Src_249F0_t *)f)->v0 << 3),
+                 verts + (((Src_249F0_t *)f)->v1 << 3),
+                 verts + (((Src_249F0_t *)f)->v2 << 3));
+        gte_rtpt();
+        gte_stflg(&flag);
+        if (flag & ~0x1000)
+            continue;
+        gte_nclip();
+        gte_stopz(&otz);
+        if (otz <= 0)
+            continue;
+        gte_stsxy3_f3(p);
+        gte_avsz3();
+        gte_stotz(&otz);
+        gte_ldrgb(&((Src_249F0_t *)f)->rgb);
+        gte_ldv0(norms + (((Src_249F0_t *)f)->n << 3));
+        gte_nccs();
+        gte_strgb(&p->r0);
+        tag = (u32 *)(ot + ((otz >> shift) << 2));
+        p->tag = (*tag & 0xFFFFFF) | 0x04000000;
+        *tag = (u32)p & 0xFFFFFF;
+        p++;
+        if (D_800A2B78 != 0 && (p[-1].code & 2)) {
+            d = (DM_249F0_t *)p;
+            tag = (u32 *)(ot + ((otz >> shift) << 2));
+            ((u8 *)d)[3] = 1;
+            d->code = 0xE100000A | ((D_800A2B78 & 3) << 5);
+            d->tag = (*tag & 0xFFFFFF) | 0x01000000;
+            *tag = (u32)d & 0xFFFFFF;
+            p = (F3_249F0_t *)(d + 1);
+        }
+    }
+    return (long *)p;
 }
 
 
@@ -14957,161 +14742,64 @@ u8 *func_80025A30(u8 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot
 }
 
 
-/* Handwritten GTE polygon-transform loop (cookbook: handwritten inline-asm wrapper form).
- * The whole body is written in asm because the original is hand-written assembly: the
- * loop-carried values live in $t1/$t2/$t3/$t5/$t6/$t7/$t8/$t9 (gcc-2.7.2 would never
- * allocate caller-saved temporaries that way), and the two `lw 0x10($sp)` copies plus the
- * duplicated `sra $v0,$v1,2` on both arms of the min() are hand-scheduled.
- *
- * maspsx notes: `.set noreorder` must be the FIRST line so maspsx stops auto-filling
- * branch-delay slots / load-delay nops (we write every nop ourselves, exactly as in the
- * target), and `.set reorder` must be the LAST so the compiler-emitted `j $31` still gets
- * its delay-slot nop. All memory offsets are DECIMAL: maspsx int()s them.
+/* FT3 GTE polygon-transform loop. Was a verbatim asm block (the $t-register loop state and
+ * the duplicated `lw 0x10($sp)` / `sra $v0,$v1,2` on both arms looked hand-scheduled);
+ * P40 T8.c4: gcc-2.7.2 emits it from the C below (T8.c2 MATCH 127). Key: the max-of-3
+ * written as nested if/else per arm (cross-jumped tail gives the duplicates); sz0..2 scalars.
  */
 
 extern u32 D_8006387C;
 extern s32 D_80078D88[];
 
+typedef struct { u32 tag; u8 r0, g0, b0, code; u32 xy0, uv0, xy1, uv1, xy2, uv2; } FT3_25CBC_t;
+typedef struct { u32 pad; u32 uv0, uv1, uv2; u16 n, v0, v1, v2; } Src_25CBC_t;
+
 void *func_80025CBC(void *prims, void *scr, void *cols, void *packets,
                     s32 count, s32 otshift, u32 *ot)
 {
-    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus9)
-        ".set\tnoreorder\n"
-        "addiu $sp, $sp, -32\n"
-        "lw $11, 48($sp)\n"
-        "sw $17, 28($sp)\n"
-        "lui $17, %hi(D_8006387C)\n"
-        "addiu $17, $17, %lo(D_8006387C)\n"
-        "sw $16, 24($sp)\n"
-        "lw $16, 52($sp)\n"
-        "lw $25, 56($sp)\n"
-        "lwc2 $6, 0($17)\n"
-        "beq $11, $0, .LfnEnd\n"
-        "addu $2, $7, $0\n"
-        "addiu $14, $sp, 4\n"
-        "addiu $24, $sp, 8\n"
-        "addiu $15, $sp, 12\n"
-        "lui $13, 255\n"
-        "ori $13, $13, 65535\n"
-        "addiu $9, $4, 16\n"
-        "addiu $10, $7, 4\n"
-        ".LfnLoop:\n"
-        "lhu $4, 2($9)\n"
-        "lhu $3, 4($9)\n"
-        "lhu $2, 6($9)\n"
-        "sll $4, $4, 3\n"
-        "addu $4, $5, $4\n"
-        "sll $3, $3, 3\n"
-        "addu $3, $5, $3\n"
-        "sll $2, $2, 3\n"
-        "addu $2, $5, $2\n"
-        "lwc2 $0, 0($4)\n"
-        "lwc2 $1, 4($4)\n"
-        "lwc2 $2, 0($3)\n"
-        "lwc2 $3, 4($3)\n"
-        "lwc2 $4, 0($2)\n"
-        "lwc2 $5, 4($2)\n"
-        "nop\n"
-        "nop\n"
-        "rtpt\n"
-        "lw $2, -12($9)\n"
-        "nop\n"
-        "sw $2, 8($10)\n"
-        "lw $2, -8($9)\n"
-        "nop\n"
-        "sw $2, 16($10)\n"
-        "lw $2, -4($9)\n"
-        "nop\n"
-        "sw $2, 24($10)\n"
-        "cfc2 $12, $31\n"
-        "nop\n"
-        "sw $12, 0($sp)\n"
-        "lw $2, 0($sp)\n"
-        "addiu $3, $0, -4097\n"
-        "and $2, $2, $3\n"
-        "bne $2, $0, .LfnNext\n"
-        "nop\n"
-        "nop\n"
-        "nop\n"
-        "nclip\n"
-        "swc2 $24, 0($14)\n"
-        "lw $2, 4($sp)\n"
-        "nop\n"
-        "blez $2, .LfnNext\n"
-        "nop\n"
-        "swc2 $12, 8($7)\n"
-        "swc2 $13, 16($7)\n"
-        "swc2 $14, 24($7)\n"
-        "lui $2, %hi(D_80078D88)\n"
-        "lw $2, %lo(D_80078D88)($2)\n"
-        "nop\n"
-        "andi $2, $2, 32768\n"
-        "beq $2, $0, .LfnAvsz\n"
-        "addiu $2, $sp, 16\n"
-        "swc2 $17, 0($24)\n"
-        "swc2 $18, 0($15)\n"
-        "swc2 $19, 0($2)\n"
-        "lw $8, 8($sp)\n"
-        "lw $3, 12($sp)\n"
-        "nop\n"
-        "slt $2, $3, $8\n"
-        "beq $2, $0, .LfnMinB\n"
-        "nop\n"
-        "lw $4, 16($sp)\n"
-        "j .LfnMinJ\n"
-        "addu $3, $8, $0\n"
-        ".LfnMinB:\n"
-        "lw $4, 16($sp)\n"
-        ".LfnMinJ:\n"
-        "nop\n"
-        "slt $2, $3, $4\n"
-        "beq $2, $0, .LfnMinC\n"
-        "sra $2, $3, 2\n"
-        "addu $3, $4, $0\n"
-        "sra $2, $3, 2\n"
-        ".LfnMinC:\n"
-        "j .LfnJoin\n"
-        "sw $2, 4($sp)\n"
-        ".LfnAvsz:\n"
-        "nop\n"
-        "nop\n"
-        "avsz3\n"
-        "swc2 $7, 0($14)\n"
-        ".LfnJoin:\n"
-        "lhu $2, 0($9)\n"
-        "nop\n"
-        "sll $2, $2, 3\n"
-        "addu $2, $6, $2\n"
-        "lwc2 $0, 0($2)\n"
-        "lwc2 $1, 4($2)\n"
-        "nop\n"
-        "nop\n"
-        "nccs\n"
-        "swc2 $22, 0($10)\n"
-        "lw $4, 4($sp)\n"
-        "addiu $10, $10, 32\n"
-        "srav $4, $4, $16\n"
-        "sll $4, $4, 2\n"
-        "addu $4, $25, $4\n"
-        "lw $3, 0($4)\n"
-        "lui $2, 1792\n"
-        "and $3, $3, $13\n"
-        "or $3, $3, $2\n"
-        "and $2, $7, $13\n"
-        "sw $3, 0($7)\n"
-        "addiu $7, $7, 32\n"
-        "sw $2, 0($4)\n"
-        ".LfnNext:\n"
-        "addiu $11, $11, -1\n"
-        "bne $11, $0, .LfnLoop\n"
-        "addiu $9, $9, 24\n"
-        "addu $2, $7, $0\n"
-        ".LfnEnd:\n"
-        "lw $17, 28($sp)\n"
-        "lw $16, 24($sp)\n"
-        "addiu $sp, $sp, 32\n"
-        ".set\treorder\n"
-    );
+    long flag;
+    long otz;
+    long sz0, sz1, sz2;
+    long m;
+    Src_25CBC_t *s = prims;
+    FT3_25CBC_t *p = packets;
+    u32 *tag;
+
+    gte_ldrgb(&D_8006387C);
+    for (; count != 0; count--, s++) {
+        gte_ldv3((char *)scr + (s->v0 << 3),
+                 (char *)scr + (s->v1 << 3),
+                 (char *)scr + (s->v2 << 3));
+        gte_rtpt();
+        p->uv0 = s->uv0;
+        p->uv1 = s->uv1;
+        p->uv2 = s->uv2;
+        gte_stflg(&flag);
+        if (flag & ~0x1000)
+            continue;
+        gte_nclip();
+        gte_stopz(&otz);
+        if (otz <= 0)
+            continue;
+        gte_stsxy3_ft3(p);
+        if (D_80078D88[0] & 0x8000) {
+            gte_stsz3(&sz0, &sz1, &sz2);
+            if (sz0 > sz1) { m = sz0; if (m < sz2) m = sz2; }
+            else { m = sz1; if (m < sz2) m = sz2; }
+            otz = m >> 2;
+        } else {
+            gte_avsz3();
+            gte_stotz(&otz);
+        }
+        gte_ldv0((char *)cols + (s->n << 3));
+        gte_nccs();
+        gte_strgb(&p->r0);
+        tag = ot + (otz >> otshift);
+        p->tag = (*tag & 0xFFFFFF) | 0x07000000;
+        *tag = (u32)p & 0xFFFFFF;
+        p++;
+    }
+    return p;
 }
 
 
@@ -15372,590 +15060,210 @@ PktGT4 *func_800262D8(FaceGT4 *face, SVEC8_800262D8 *vtx, SVEC8_800262D8 *nrm, P
     return pkt;
 }
 
-/* func_80026514 — main/800 — HANDWRITTEN assembly (splat marks it
- * "Handwritten function"). Textured GT3 triangle emitter, the GT3 sibling of the
- * neighbouring handwritten func_800268D0 (GT4) — same prologue, same D_8006388C /
- * D_8006389C table walk, same D_800A2B78 semi-transparency patch.
+/* func_80026514 — main/800 (splat marks it "Handwritten function"). Textured GT3
+ * triangle emitter, the GT3 sibling of func_800268D0 (GT4) — same prologue, same
+ * D_8006388C / D_8006389C table walk, same D_800A2B78 semi-transparency patch.
  *
- * Not reachable from gcc-2.7.2 codegen: the D_800B99DA fetch is a gas macro
- * expansion of `lbu $v1, 41898($t2)` (lui $at,1 / addu $at,$t2,$at /
- * lbu $v1,-23638($at)) — the compiler never materialises $at, and it would fold
- * symbol+constant into a single %hi/%lo pair instead. Add the hand-placed cop2
- * latency nops and the $t0-$t9 + $s0-$s7 loop-carried discipline and the body is
- * reproduced verbatim as one .set noreorder asm block (same idiom as
- * func_800249F0 / func_80027200 / func_800268D0 in this TU); gcc supplies only
- * the jr $ra + delay nop.
- *
- * Symbols referenced by the block (D_800AF630, D_8006388C, D_8006389C,
- * D_800A2B78, D_80063884) are resolved by gas/ld directly — deliberately NO new
- * C declarations, so this cannot conflict with the TU's existing ones (§376/§378).
+ * Was a verbatim asm block on the belief that the `lui $at,1 / addu $at,$t2,$at /
+ * lbu $v1,-23638($at)` D_800B99DA fetch was hand-written; gcc-2.7.2 emits that
+ * large-offset form itself for `base = D_800AF630; base[41898]`. P40 T8.c4: C below
+ * (T8.c2 MATCH 239). Keys: ou/ov u16 with (u8) casts; uv locals s32; stores in field
+ * order; `u32 rgb[2]`. Returns u8 * to match the TU's K&R-empty `extern u8 *func_80026514();`
+ * (the caller calls through a `u8 *(*)()` cast). D_8006388C / D_8006389C are declared here
+ * (no other declaration in the TU).
  */
-void func_80026514()
+typedef struct { u16 x; u16 y; u32 pad; } Tex_26514_t;
+extern Tex_26514_t D_8006388C[];
+extern u8 D_8006389C[];
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    u16 x0, y0;
+    u8 u0, v0; u16 clut;
+    u8 r1, g1, b1, p1;
+    u16 x1, y1;
+    u8 u1, v1; u16 tpage;
+    u8 r2, g2, b2, p2;
+    u16 x2, y2;
+    u8 u2, v2; u16 pad2;
+} GT3_26514_t;
+typedef struct { u32 pad; u32 rgb; u16 n0, v0, n1, v1, n2, v2; } Face_26514_t;
+
+u8 *func_80026514(Face_26514_t *face, char *verts, char *norms, GT3_26514_t *p, s32 count,
+                     s32 shift, u32 *ot, s32 idx)
 {
-    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus9)
-        ".set\tnoreorder\n"
-        "addiu  $sp, $sp, -0x30\n"
-        "lw     $t6, 64($sp)\n"
-        "lw     $t0, 76($sp)\n"
-        "addu   $t1, $a0, $zero\n"
-        "sw     $s0, 16($sp)\n"
-        "addu   $s0, $a1, $zero\n"
-        "sw     $s6, 40($sp)\n"
-        "lw     $s6, 68($sp)\n"
-        "lui    $t2, %hi(D_800AF630)\n"
-        "addiu  $t2, $t2, %lo(D_800AF630)\n"
-        "sw     $s5, 36($sp)\n"
-        "lw     $s5, 72($sp)\n"
-        "lui    $v0, %hi(D_8006388C)\n"
-        "addiu  $v0, $v0, %lo(D_8006388C)\n"
-        "sw     $s7, 44($sp)\n"
-        "sw     $s4, 32($sp)\n"
-        "sw     $s3, 28($sp)\n"
-        "sw     $s2, 24($sp)\n"
-        "sw     $s1, 20($sp)\n"
-        "sll    $a0, $t0, 3\n"
-        "lui    $at, %hi(D_8006389C)\n"
-        "addu   $at, $at, $t0\n"
-        "lbu    $v1, %lo(D_8006389C)($at)\n"
-        "addu   $t9, $a0, $v0\n"
-        "addiu  $v0, $v1, 0x100\n"
-        "sltiu  $v1, $v1, 0xE0\n"
-        "beqz   $v1, 1f\n"
-        "sll    $v0, $v0, 6\n"
-        "j      2f\n"
-        "ori    $s3, $v0, 0x16\n"
-        "1:\n"
-        "ori    $s3, $v0, 0x10\n"
-        "2:\n"
-        "lui    $a0, %hi(D_800A2B78)\n"
-        "lw     $a0, %lo(D_800A2B78)($a0)\n"
-        "lhu    $a1, 2($t9)\n"
-        "lhu    $v0, 0($t9)\n"
-        "andi   $a0, $a0, 0x3\n"
-        "sll    $a0, $a0, 5\n"
-        "srl    $v1, $a1, 4\n"
-        "andi   $v1, $v1, 0x10\n"
-        "or     $a0, $a0, $v1\n"
-        "andi   $v0, $v0, 0x3FF\n"
-        "srl    $v0, $v0, 6\n"
-        "or     $a0, $a0, $v0\n"
-        "andi   $a1, $a1, 0x200\n"
-        "sll    $a1, $a1, 2\n"
-        "lui    $at, 0x1\n"
-        "addu   $at, $t2, $at\n"
-        "lbu    $v1, -23638($at)\n"
-        "or     $s4, $a0, $a1\n"
-        "bnez   $t0, 3f\n"
-        "addu   $a0, $v1, $zero\n"
-        "lw     $v0, 4($t1)\n"
-        "nop\n"
-        "sw     $v0, 0($sp)\n"
-        "addiu  $v0, $zero, 0x34\n"
-        "sb     $v0, 3($sp)\n"
-        "lwc2   $6, 0($sp)\n"
-        "j      4f\n"
-        "nop\n"
-        "3:\n"
-        "lui    $s7, %hi(D_80063884)\n"
-        "addiu  $s7, $s7, %lo(D_80063884)\n"
-        "lwc2   $6, 0($s7)\n"
-        "4:\n"
-        "beqz   $t6, 5f\n"
-        "addu   $v0, $a3, $zero\n"
-        "addiu  $s2, $sp, 0xC\n"
-        "andi   $t8, $a0, 0xFF\n"
-        "andi   $t7, $v1, 0xFF\n"
-        "lui    $s1, 0xFF\n"
-        "ori    $s1, $s1, 0xFFFF\n"
-        "addiu  $t1, $t1, 0x10\n"
-        "addiu  $t0, $a3, 0x25\n"
-        "6:\n"
-        "lhu    $a0, -6($t1)\n"
-        "lhu    $v1, -2($t1)\n"
-        "lhu    $v0, 2($t1)\n"
-        "sll    $a0, $a0, 3\n"
-        "addu   $a0, $s0, $a0\n"
-        "sll    $v1, $v1, 3\n"
-        "addu   $v1, $s0, $v1\n"
-        "sll    $v0, $v0, 3\n"
-        "addu   $v0, $s0, $v0\n"
-        "lwc2   $0, 0($a0)\n"
-        "lwc2   $1, 4($a0)\n"
-        "lwc2   $2, 0($v1)\n"
-        "lwc2   $3, 4($v1)\n"
-        "lwc2   $4, 0($v0)\n"
-        "lwc2   $5, 4($v0)\n"
-        "nop\n"
-        "nop\n"
-        "rtpt\n"
-        "addiu  $v0, $sp, 0x8\n"
-        "cfc2   $t4, $31\n"
-        "nop\n"
-        "sw     $t4, 0($v0)\n"
-        "lw     $v0, 8($sp)\n"
-        "addiu  $v1, $zero, -0x1001\n"
-        "and    $v0, $v0, $v1\n"
-        "bnez   $v0, 7f\n"
-        "nop\n"
-        "nop\n"
-        "nop\n"
-        "nclip\n"
-        "swc2   $24, 0($s2)\n"
-        "lw     $v0, 12($sp)\n"
-        "nop\n"
-        "blez   $v0, 7f\n"
-        "nop\n"
-        "swc2   $12, 8($a3)\n"
-        "swc2   $13, 20($a3)\n"
-        "swc2   $14, 32($a3)\n"
-        "nop\n"
-        "nop\n"
-        "avsz3\n"
-        "swc2   $7, 0($s2)\n"
-        "lhu    $a0, -8($t1)\n"
-        "lhu    $v1, -4($t1)\n"
-        "lhu    $v0, 0($t1)\n"
-        "sll    $a0, $a0, 3\n"
-        "addu   $a0, $a2, $a0\n"
-        "sll    $v1, $v1, 3\n"
-        "addu   $v1, $a2, $v1\n"
-        "sll    $v0, $v0, 3\n"
-        "addu   $v0, $a2, $v0\n"
-        "lwc2   $0, 0($a0)\n"
-        "lwc2   $1, 4($a0)\n"
-        "lwc2   $2, 0($v1)\n"
-        "lwc2   $3, 4($v1)\n"
-        "lwc2   $4, 0($v0)\n"
-        "lwc2   $5, 4($v0)\n"
-        "nop\n"
-        "nop\n"
-        "ncct\n"
-        "addiu  $a0, $a3, 0x4\n"
-        "addiu  $v1, $a3, 0x10\n"
-        "addiu  $v0, $a3, 0x1C\n"
-        "swc2   $20, 0($a0)\n"
-        "swc2   $21, 0($v1)\n"
-        "swc2   $22, 0($v0)\n"
-        "lhu    $v0, -29($t0)\n"
-        "lbu    $a1, 0($t9)\n"
-        "lhu    $v1, -27($t0)\n"
-        "sll    $v0, $v0, 16\n"
-        "sra    $a0, $v0, 16\n"
-        "srl    $v0, $v0, 31\n"
-        "addu   $a0, $a0, $v0\n"
-        "sra    $a0, $a0, 1\n"
-        "addu   $a0, $t8, $a0\n"
-        "andi   $a0, $a0, 0x1F\n"
-        "sll    $a1, $a1, 2\n"
-        "andi   $a1, $a1, 0xFF\n"
-        "addu   $t5, $a0, $a1\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t7, $v0\n"
-        "andi   $v0, $v0, 0x1F\n"
-        "lhu    $a0, 2($t9)\n"
-        "lhu    $v1, -17($t0)\n"
-        "addu   $t4, $a0, $v0\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t8, $v0\n"
-        "andi   $v0, $v0, 0x1F\n"
-        "lhu    $v1, -15($t0)\n"
-        "addu   $t3, $v0, $a1\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t7, $v0\n"
-        "andi   $v0, $v0, 0x1F\n"
-        "lhu    $v1, -5($t0)\n"
-        "addu   $t2, $a0, $v0\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t8, $v0\n"
-        "andi   $v0, $v0, 0x1F\n"
-        "lhu    $v1, -3($t0)\n"
-        "addu   $a1, $v0, $a1\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t7, $v0\n"
-        "andi   $v0, $v0, 0x1F\n"
-        "lui    $v1, %hi(D_800A2B78)\n"
-        "lw     $v1, %lo(D_800A2B78)($v1)\n"
-        "nop\n"
-        "beqz   $v1, 8f\n"
-        "addu   $a0, $a0, $v0\n"
-        "lbu    $v0, -30($t0)\n"
-        "nop\n"
-        "ori    $v0, $v0, 0x2\n"
-        "sb     $v0, -30($t0)\n"
-        "8:\n"
-        "sb     $t5, -25($t0)\n"
-        "sb     $t4, -24($t0)\n"
-        "sb     $t3, -13($t0)\n"
-        "sb     $t2, -12($t0)\n"
-        "sb     $a1, -1($t0)\n"
-        "sb     $a0, 0($t0)\n"
-        "lw     $a0, 12($sp)\n"
-        "sh     $s3, -23($t0)\n"
-        "sh     $s4, -11($t0)\n"
-        "addiu  $t0, $t0, 0x28\n"
-        "srav   $a0, $a0, $s6\n"
-        "sll    $a0, $a0, 2\n"
-        "addu   $a0, $s5, $a0\n"
-        "lw     $v1, 0($a0)\n"
-        "lui    $v0, 0x900\n"
-        "and    $v1, $v1, $s1\n"
-        "or     $v1, $v1, $v0\n"
-        "and    $v0, $a3, $s1\n"
-        "sw     $v1, 0($a3)\n"
-        "addiu  $a3, $a3, 0x28\n"
-        "sw     $v0, 0($a0)\n"
-        "7:\n"
-        "addiu  $t6, $t6, -0x1\n"
-        "bnez   $t6, 6b\n"
-        "addiu  $t1, $t1, 0x14\n"
-        "addu   $v0, $a3, $zero\n"
-        "5:\n"
-        "lw     $s7, 44($sp)\n"
-        "lw     $s6, 40($sp)\n"
-        "lw     $s5, 36($sp)\n"
-        "lw     $s4, 32($sp)\n"
-        "lw     $s3, 28($sp)\n"
-        "lw     $s2, 24($sp)\n"
-        "lw     $s1, 20($sp)\n"
-        "lw     $s0, 16($sp)\n"
-        "addiu  $sp, $sp, 0x30\n"
-        ".set\treorder\n"
-    );
+    u32 rgb[2];
+    long flag;
+    long otz;
+    Tex_26514_t *tex;
+    u8 c;
+    u16 clut;
+    u16 tpage;
+    u16 ou, ov;
+    s32 u0, v0, u1, v1, u2, v2;
+    u8 *base;
+    u32 *tag;
+
+    base = D_800AF630;
+    tex = &D_8006388C[idx];
+    c = D_8006389C[idx];
+    clut = ((c + 256) << 6) | (c < 224 ? 0x16 : 0x10);
+    tpage = ((D_800A2B78 & 3) << 5) | ((tex->y >> 4) & 0x10) | ((tex->x & 0x3FF) >> 6) | ((tex->y & 0x200) << 2);
+    ou = base[41898];
+    ov = base[41898];
+    if (idx == 0) {
+        rgb[0] = face->rgb;
+        ((u8 *)rgb)[3] = 0x34;
+        gte_ldrgb(rgb);
+    } else {
+        gte_ldrgb(&D_80063884);
+    }
+    for (; count != 0; count--, face++) {
+        gte_ldv3(verts + (face->v0 << 3), verts + (face->v1 << 3), verts + (face->v2 << 3));
+        gte_rtpt();
+        gte_stflg(&flag);
+        if (flag & ~0x1000)
+            continue;
+        gte_nclip();
+        gte_stopz(&otz);
+        if (otz <= 0)
+            continue;
+        gte_stsxy3_gt4(p);
+        gte_avsz3();
+        gte_stotz(&otz);
+        gte_ldv3(norms + (face->n0 << 3), norms + (face->n1 << 3), norms + (face->n2 << 3));
+        gte_ncct();
+        gte_strgb3(&p->r0, &p->r1, &p->r2);
+        u0 = (((u8)ou + (s16)p->x0 / 2) & 0x1F) + (u8)(tex->x << 2);
+        v0 = tex->y + (((u8)ov + (s16)p->y0 / 2) & 0x1F);
+        u1 = (((u8)ou + (s16)p->x1 / 2) & 0x1F) + (u8)(tex->x << 2);
+        v1 = tex->y + (((u8)ov + (s16)p->y1 / 2) & 0x1F);
+        u2 = (((u8)ou + (s16)p->x2 / 2) & 0x1F) + (u8)(tex->x << 2);
+        v2 = tex->y + (((u8)ov + (s16)p->y2 / 2) & 0x1F);
+        if (D_800A2B78 != 0)
+            p->code |= 2;
+        p->u0 = u0;
+        p->v0 = v0;
+        p->clut = clut;
+        p->u1 = u1;
+        p->v1 = v1;
+        p->tpage = tpage;
+        p->u2 = u2;
+        p->v2 = v2;
+        tag = ot + (otz >> shift);
+        p->tag = (*tag & 0xFFFFFF) | 0x09000000;
+        *tag = (u32)p & 0xFFFFFF;
+        p++;
+    }
+    return (u8 *)p;
 }
 
 
-void func_800268D0()
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    u16 x0, y0;
+    u8 u0, v0; u16 clut;
+    u8 r1, g1, b1, p1;
+    u16 x1, y1;
+    u8 u1, v1; u16 tpage;
+    u8 r2, g2, b2, p2;
+    u16 x2, y2;
+    u8 u2, v2; u16 pad2;
+    u8 r3, g3, b3, p3;
+    u16 x3, y3;
+    u8 u3, v3; u16 pad3;
+} GT4_268D0_t;
+typedef struct { u32 pad; u32 rgb; u16 n0, v0, n1, v1, n2, v2, n3, v3; } Face_268D0_t;
+
+u8 *func_800268D0(Face_268D0_t *face, char *verts, char *norms, GT4_268D0_t *p, s32 count,
+                     s32 shift, u32 *ot, s32 idx)
 {
-    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus9)
-        ".set\tnoreorder\n"
-        "addiu  $sp, $sp, -64\n"
-        "addu   $t1, $a0, $zero\n"
-        "addu   $t9, $a1, $zero\n"
-        "lui    $t2, %hi(D_800AF630)\n"
-        "addiu  $t2, $t2, %lo(D_800AF630)\n"
-        "sw     $s1, 28($sp)\n"
-        "lw     $s1, 80($sp)\n"
-        "lw     $t0, 92($sp)\n"
-        "lui    $v0, %hi(D_8006388C)\n"
-        "addiu  $v0, $v0, %lo(D_8006388C)\n"
-        "sw     $fp, 56($sp)\n"
-        "sw     $s7, 52($sp)\n"
-        "sw     $s6, 48($sp)\n"
-        "sw     $s5, 44($sp)\n"
-        "sw     $s4, 40($sp)\n"
-        "sw     $s3, 36($sp)\n"
-        "sw     $s2, 32($sp)\n"
-        "sw     $s0, 24($sp)\n"
-        "sll    $a0, $t0, 3\n"
-        "lui    $at, %hi(D_8006389C)\n"
-        "addu   $at, $at, $t0\n"
-        "lbu    $v1, %lo(D_8006389C)($at)\n"
-        "addu   $s2, $a0, $v0\n"
-        "addiu  $v0, $v1, 256\n"
-        "sltiu  $v1, $v1, 224\n"
-        "beqz   $v1, 1f\n"
-        "sll    $v0, $v0, 6\n"
-        "j      2f\n"
-        "ori    $s6, $v0, 22\n"
-        "1:\n"
-        "ori    $s6, $v0, 16\n"
-        "2:\n"
-        "lui    $a0, %hi(D_800A2B78)\n"
-        "lw     $a0, %lo(D_800A2B78)($a0)\n"
-        "lhu    $a1, 2($s2)\n"
-        "lhu    $v0, 0($s2)\n"
-        "andi   $a0, $a0, 3\n"
-        "sll    $a0, $a0, 5\n"
-        "srl    $v1, $a1, 4\n"
-        "andi   $v1, $v1, 16\n"
-        "or     $a0, $a0, $v1\n"
-        "andi   $v0, $v0, 1023\n"
-        "srl    $v0, $v0, 6\n"
-        "or     $a0, $a0, $v0\n"
-        "andi   $a1, $a1, 512\n"
-        "sll    $a1, $a1, 2\n"
-        "lui    $at, 1\n"
-        "addu   $at, $t2, $at\n"
-        "lbu    $v1, -23638($at)\n"
-        "or     $fp, $a0, $a1\n"
-        "bnez   $t0, 3f\n"
-        "addu   $a0, $v1, $zero\n"
-        "lw     $v0, 4($t1)\n"
-        "nop\n"
-        "sw     $v0, 0($sp)\n"
-        "addiu  $v0, $zero, 60\n"
-        "sb     $v0, 3($sp)\n"
-        "lwc2   $6, 0($sp)\n"
-        "j      4f\n"
-        "nop\n"
-        "3:\n"
-        "lui    $t3, %hi(D_80063888)\n"
-        "addiu  $t3, $t3, %lo(D_80063888)\n"
-        "lwc2   $6, 0($t3)\n"
-        "4:\n"
-        "beqz   $s1, 5f\n"
-        "addu   $v0, $a3, $zero\n"
-        "addiu  $s5, $sp, 8\n"
-        "addiu  $s7, $zero, -4097\n"
-        "addiu  $s4, $sp, 12\n"
-        "andi   $t6, $a0, 255\n"
-        "andi   $t5, $v1, 255\n"
-        "lui    $s3, 255\n"
-        "ori    $s3, $s3, 65535\n"
-        "addiu  $t1, $t1, 20\n"
-        "addiu  $t0, $a3, 49\n"
-        "6:\n"
-        "lhu    $a0, -10($t1)\n"
-        "lhu    $v1, -6($t1)\n"
-        "lhu    $v0, -2($t1)\n"
-        "sll    $a0, $a0, 3\n"
-        "addu   $a0, $t9, $a0\n"
-        "sll    $v1, $v1, 3\n"
-        "addu   $v1, $t9, $v1\n"
-        "sll    $v0, $v0, 3\n"
-        "addu   $v0, $t9, $v0\n"
-        "lwc2   $0, 0($a0)\n"
-        "lwc2   $1, 4($a0)\n"
-        "lwc2   $2, 0($v1)\n"
-        "lwc2   $3, 4($v1)\n"
-        "lwc2   $4, 0($v0)\n"
-        "lwc2   $5, 4($v0)\n"
-        "nop\n"
-        "nop\n"
-        "rtpt\n"
-        "cfc2   $t4, $31\n"
-        "nop\n"
-        "sw     $t4, 0($s5)\n"
-        "lw     $v0, 8($sp)\n"
-        "nop\n"
-        "and    $v0, $v0, $s7\n"
-        "bnez   $v0, 7f\n"
-        "nop\n"
-        "nop\n"
-        "nop\n"
-        "nclip\n"
-        "swc2   $24, 0($s4)\n"
-        "lw     $v0, 12($sp)\n"
-        "nop\n"
-        "blez   $v0, 7f\n"
-        "nop\n"
-        "swc2   $12, 8($a3)\n"
-        "swc2   $13, 20($a3)\n"
-        "swc2   $14, 32($a3)\n"
-        "lhu    $v0, 2($t1)\n"
-        "nop\n"
-        "sll    $v0, $v0, 3\n"
-        "addu   $v0, $t9, $v0\n"
-        "lwc2   $0, 0($v0)\n"
-        "lwc2   $1, 4($v0)\n"
-        "nop\n"
-        "nop\n"
-        "rtps\n"
-        "cfc2   $t4, $31\n"
-        "nop\n"
-        "sw     $t4, 0($s5)\n"
-        "lw     $v0, 8($sp)\n"
-        "nop\n"
-        "and    $v0, $v0, $s7\n"
-        "bnez   $v0, 7f\n"
-        "addiu  $v0, $a3, 44\n"
-        "swc2   $14, 0($v0)\n"
-        "nop\n"
-        "nop\n"
-        "avsz4\n"
-        "swc2   $7, 0($s4)\n"
-        "lhu    $a0, -12($t1)\n"
-        "lhu    $v1, -8($t1)\n"
-        "lhu    $v0, -4($t1)\n"
-        "sll    $a0, $a0, 3\n"
-        "addu   $a0, $a2, $a0\n"
-        "sll    $v1, $v1, 3\n"
-        "addu   $v1, $a2, $v1\n"
-        "sll    $v0, $v0, 3\n"
-        "addu   $v0, $a2, $v0\n"
-        "lwc2   $0, 0($a0)\n"
-        "lwc2   $1, 4($a0)\n"
-        "lwc2   $2, 0($v1)\n"
-        "lwc2   $3, 4($v1)\n"
-        "lwc2   $4, 0($v0)\n"
-        "lwc2   $5, 4($v0)\n"
-        "nop\n"
-        "nop\n"
-        "ncct\n"
-        "addiu  $a0, $a3, 4\n"
-        "addiu  $v1, $a3, 16\n"
-        "addiu  $v0, $a3, 28\n"
-        "swc2   $20, 0($a0)\n"
-        "swc2   $21, 0($v1)\n"
-        "swc2   $22, 0($v0)\n"
-        "lhu    $v0, 0($t1)\n"
-        "nop\n"
-        "sll    $v0, $v0, 3\n"
-        "addu   $v0, $a2, $v0\n"
-        "lwc2   $0, 0($v0)\n"
-        "lwc2   $1, 4($v0)\n"
-        "nop\n"
-        "nop\n"
-        "nccs\n"
-        "addiu  $v0, $a3, 40\n"
-        "swc2   $22, 0($v0)\n"
-        "lhu    $v0, -41($t0)\n"
-        "lbu    $a1, 0($s2)\n"
-        "lhu    $v1, -39($t0)\n"
-        "sll    $v0, $v0, 16\n"
-        "sra    $a0, $v0, 16\n"
-        "srl    $v0, $v0, 31\n"
-        "addu   $a0, $a0, $v0\n"
-        "sra    $a0, $a0, 1\n"
-        "addu   $a0, $t6, $a0\n"
-        "andi   $a0, $a0, 31\n"
-        "sll    $a1, $a1, 2\n"
-        "andi   $a1, $a1, 255\n"
-        "addu   $s0, $a0, $a1\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t5, $v0\n"
-        "andi   $v0, $v0, 31\n"
-        "lhu    $a0, 2($s2)\n"
-        "lhu    $v1, -29($t0)\n"
-        "addu   $t8, $a0, $v0\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t6, $v0\n"
-        "andi   $v0, $v0, 31\n"
-        "lhu    $v1, -27($t0)\n"
-        "addu   $t7, $v0, $a1\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t5, $v0\n"
-        "andi   $v0, $v0, 31\n"
-        "lhu    $v1, -17($t0)\n"
-        "addu   $t4, $a0, $v0\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t6, $v0\n"
-        "andi   $v0, $v0, 31\n"
-        "lhu    $v1, -15($t0)\n"
-        "addu   $v0, $v0, $a1\n"
-        "sh     $v0, 16($sp)\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t5, $v0\n"
-        "andi   $v0, $v0, 31\n"
-        "lhu    $v1, -5($t0)\n"
-        "addu   $t2, $a0, $v0\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t6, $v0\n"
-        "andi   $v0, $v0, 31\n"
-        "lhu    $v1, -3($t0)\n"
-        "addu   $a1, $v0, $a1\n"
-        "sll    $v1, $v1, 16\n"
-        "sra    $v0, $v1, 16\n"
-        "srl    $v1, $v1, 31\n"
-        "addu   $v0, $v0, $v1\n"
-        "sra    $v0, $v0, 1\n"
-        "addu   $v0, $t5, $v0\n"
-        "andi   $v0, $v0, 31\n"
-        "lui    $v1, %hi(D_800A2B78)\n"
-        "lw     $v1, %lo(D_800A2B78)($v1)\n"
-        "nop\n"
-        "beqz   $v1, 8f\n"
-        "addu   $a0, $a0, $v0\n"
-        "lbu    $v0, -42($t0)\n"
-        "nop\n"
-        "ori    $v0, $v0, 2\n"
-        "sb     $v0, -42($t0)\n"
-        "8:\n"
-        "sb     $s0, -37($t0)\n"
-        "sb     $t8, -36($t0)\n"
-        "sb     $t7, -25($t0)\n"
-        "sb     $t4, -24($t0)\n"
-        "lbu    $t3, 16($sp)\n"
-        "sb     $t2, -12($t0)\n"
-        "sb     $a1, -1($t0)\n"
-        "sb     $a0, 0($t0)\n"
-        "sb     $t3, -13($t0)\n"
-        "lw     $a0, 12($sp)\n"
-        "sh     $s6, -35($t0)\n"
-        "sh     $fp, -23($t0)\n"
-        "lw     $t3, 84($sp)\n"
-        "lui    $v0, 3072\n"
-        "srav   $a0, $a0, $t3\n"
-        "lw     $t3, 88($sp)\n"
-        "sll    $a0, $a0, 2\n"
-        "addu   $a0, $t3, $a0\n"
-        "lw     $v1, 0($a0)\n"
-        "addiu  $t0, $t0, 52\n"
-        "and    $v1, $v1, $s3\n"
-        "or     $v1, $v1, $v0\n"
-        "and    $v0, $a3, $s3\n"
-        "sw     $v1, 0($a3)\n"
-        "addiu  $a3, $a3, 52\n"
-        "sw     $v0, 0($a0)\n"
-        "7:\n"
-        "addiu  $s1, $s1, -1\n"
-        "bnez   $s1, 6b\n"
-        "addiu  $t1, $t1, 24\n"
-        "addu   $v0, $a3, $zero\n"
-        "5:\n"
-        "lw     $fp, 56($sp)\n"
-        "lw     $s7, 52($sp)\n"
-        "lw     $s6, 48($sp)\n"
-        "lw     $s5, 44($sp)\n"
-        "lw     $s4, 40($sp)\n"
-        "lw     $s3, 36($sp)\n"
-        "lw     $s2, 32($sp)\n"
-        "lw     $s1, 28($sp)\n"
-        "lw     $s0, 24($sp)\n"
-        "addiu  $sp, $sp, 64\n"
-        ".set\treorder\n"
-    );
+    u32 rgb[2];
+    long flag;
+    long otz;
+    Tex_26514_t *tex;
+    u8 c;
+    u16 clut;
+    u16 tpage;
+    u16 ou, ov;
+    u16 u0, v0, u1, v1, u2, v2, u3, v3;
+    u8 *base;
+    u32 *tag;
+
+    base = D_800AF630;
+    tex = &D_8006388C[idx];
+    c = D_8006389C[idx];
+    clut = ((c + 256) << 6) | (c < 224 ? 0x16 : 0x10);
+    tpage = ((D_800A2B78 & 3) << 5) | ((tex->y >> 4) & 0x10) | ((tex->x & 0x3FF) >> 6) | ((tex->y & 0x200) << 2);
+    ou = base[41898];
+    ov = base[41898];
+    if (idx == 0) {
+        rgb[0] = face->rgb;
+        ((u8 *)rgb)[3] = 0x3C;
+        gte_ldrgb(rgb);
+    } else {
+        gte_ldrgb(&D_80063888);
+    }
+    for (; count != 0; count--, face++) {
+        gte_ldv3(verts + (face->v0 << 3), verts + (face->v1 << 3), verts + (face->v2 << 3));
+        gte_rtpt();
+        gte_stflg(&flag);
+        if (flag & ~0x1000)
+            continue;
+        gte_nclip();
+        gte_stopz(&otz);
+        if (otz <= 0)
+            continue;
+        gte_stsxy3_gt4(p);
+        gte_ldv0(verts + (face->v3 << 3));
+        gte_rtps();
+        gte_stflg(&flag);
+        if (flag & ~0x1000)
+            continue;
+        gte_stsxy(&p->x3);
+        gte_avsz4();
+        gte_stotz(&otz);
+        gte_ldv3(norms + (face->n0 << 3), norms + (face->n1 << 3), norms + (face->n2 << 3));
+        gte_ncct();
+        gte_strgb3(&p->r0, &p->r1, &p->r2);
+        gte_ldv0(norms + (face->n3 << 3));
+        gte_nccs();
+        gte_strgb(&p->r3);
+        u0 = (((u8)ou + (s16)p->x0 / 2) & 0x1F) + (((u8)tex->x << 2) & 0xFF);
+        v0 = tex->y + (((u8)ov + (s16)p->y0 / 2) & 0x1F);
+        u1 = (((u8)ou + (s16)p->x1 / 2) & 0x1F) + (((u8)tex->x << 2) & 0xFF);
+        v1 = tex->y + (((u8)ov + (s16)p->y1 / 2) & 0x1F);
+        u2 = (((u8)ou + (s16)p->x2 / 2) & 0x1F) + (((u8)tex->x << 2) & 0xFF);
+        v2 = tex->y + (((u8)ov + (s16)p->y2 / 2) & 0x1F);
+        u3 = (((u8)ou + (s16)p->x3 / 2) & 0x1F) + (((u8)tex->x << 2) & 0xFF);
+        v3 = tex->y + (((u8)ov + (s16)p->y3 / 2) & 0x1F);
+        if (D_800A2B78 != 0)
+            p->code |= 2;
+        p->u0 = u0;
+        p->v0 = v0;
+        p->clut = clut;
+        p->u1 = u1;
+        p->v1 = v1;
+        p->tpage = tpage;
+        p->u2 = u2;
+        p->v2 = v2;
+        p->u3 = u3;
+        p->v3 = v3;
+        tag = ot + (otz >> shift);
+        p->tag = (*tag & 0xFFFFFF) | 0x0C000000;
+        *tag = (u32)p & 0xFFFFFF;
+        p++;
+    }
+    return (u8 *)p;
 }
 
 
 extern u8 *D_800A5E60;
 
 /* The five packet emitters live LATER in this TU with return types this function
- * cannot spell here (func_80027058/func_80027200 are `void` asm-block wrappers and
+ * cannot spell here (func_80027058/func_80027200 return `long *`, were `void` asm wrappers, and
  * func_800279AC returns `LineG4 *`, a typedef declared below the INCLUDE_ASM site).
  * The §183 __asm__-label alias binds a locally-typed name to the real symbol, so the
  * call site keeps its `u8 *` result with no declaration conflict at the definitions. */
@@ -16068,265 +15376,111 @@ void func_80026D64(s32 arg0, s32 arg1, s32 arg2)
 
 extern s32 D_800A2B78;
 
-void func_80027058()
+typedef struct { u32 tag; u32 rgb; u32 xy0, xy1, xy2; } F3_27058_t;
+typedef struct { u32 tag; u32 code; } DM_27058_t;
+typedef struct { u32 pad; u32 rgb; u16 n, v0, v1, v2; } Src_27058_t;
+
+long *func_80027058(char *f, s32 verts, s32 norms, long *prim, s32 count,
+                    s32 shift, s32 ot)
 {
-    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus9)
-        ".set\tnoreorder\n"
-        "addiu  $29, $29, -8\n"
-        "lw     $11, 24($29)\n"
-        "lw     $15, 28($29)\n"
-        "lw     $14, 32($29)\n"
-        "beqz   $11, 100f\n"
-        "addu   $2, $7, $0\n"
-        "addiu  $13, $29, 4\n"
-        "lui    $10, 0xFF\n"
-        "ori    $10, $10, 0xFFFF\n"
-        "addiu  $9, $4, 4\n"
-        "addiu  $8, $7, 4\n"
-        "98:\n"
-        "lhu    $4, 6($9)\n"
-        "lhu    $3, 8($9)\n"
-        "lhu    $2, 10($9)\n"
-        "sll    $4, $4, 3\n"
-        "addu   $4, $5, $4\n"
-        "sll    $3, $3, 3\n"
-        "addu   $3, $5, $3\n"
-        "sll    $2, $2, 3\n"
-        "addu   $2, $5, $2\n"
-        "lwc2   $0, 0($4)\n"
-        "lwc2   $1, 4($4)\n"
-        "lwc2   $2, 0($3)\n"
-        "lwc2   $3, 4($3)\n"
-        "lwc2   $4, 0($2)\n"
-        "lwc2   $5, 4($2)\n"
-        "nop\n"
-        "nop\n"
-        "rtpt\n"
-        "cfc2   $12, $31\n"
-        "nop\n"
-        "sw     $12, 0($29)\n"
-        "lw     $2, 0($29)\n"
-        "addiu  $3, $0, -4097\n"
-        "and    $2, $2, $3\n"
-        "bnez   $2, 99f\n"
-        "nop\n"
-        "nop\n"
-        "nop\n"
-        "nclip\n"
-        "swc2   $24, 0($13)\n"
-        "lw     $2, 4($29)\n"
-        "nop\n"
-        "blez   $2, 99f\n"
-        "nop\n"
-        "swc2   $12, 8($7)\n"
-        "swc2   $13, 12($7)\n"
-        "swc2   $14, 16($7)\n"
-        "nop\n"
-        "nop\n"
-        "avsz3\n"
-        "swc2   $7, 0($13)\n"
-        "lw     $2, 0($9)\n"
-        "nop\n"
-        "sw     $2, 0($8)\n"
-        "lw     $2, 4($29)\n"
-        "addiu  $8, $8, 20\n"
-        "srav   $2, $2, $15\n"
-        "sll    $2, $2, 2\n"
-        "addu   $6, $14, $2\n"
-        "lw     $3, 0($6)\n"
-        "lui    $2, 0x400\n"
-        "and    $3, $3, $10\n"
-        "or     $3, $3, $2\n"
-        "and    $2, $7, $10\n"
-        "sw     $3, 0($7)\n"
-        "sw     $2, 0($6)\n"
-        "lui    $2, %hi(D_800A2B78)\n"
-        "lw     $2, %lo(D_800A2B78)($2)\n"
-        "nop\n"
-        "beqz   $2, 99f\n"
-        "addiu  $7, $7, 20\n"
-        "lbu    $2, -17($8)\n"
-        "nop\n"
-        "andi   $2, $2, 0x2\n"
-        "beqz   $2, 99f\n"
-        "lui    $4, 0xE100\n"
-        "ori    $4, $4, 0xA\n"
-        "lw     $3, 4($29)\n"
-        "addiu  $2, $0, 1\n"
-        "sb     $2, -1($8)\n"
-        "lui    $2, %hi(D_800A2B78)\n"
-        "lw     $2, %lo(D_800A2B78)($2)\n"
-        "srav   $3, $3, $15\n"
-        "sll    $3, $3, 2\n"
-        "addu   $6, $14, $3\n"
-        "andi   $2, $2, 0x3\n"
-        "sll    $2, $2, 5\n"
-        "or     $2, $2, $4\n"
-        "sw     $2, 0($8)\n"
-        "addiu  $8, $8, 8\n"
-        "lw     $3, 0($6)\n"
-        "lui    $2, 0x100\n"
-        "and    $3, $3, $10\n"
-        "or     $3, $3, $2\n"
-        "and    $2, $7, $10\n"
-        "sw     $3, 0($7)\n"
-        "addiu  $7, $7, 8\n"
-        "sw     $2, 0($6)\n"
-        "99:\n"
-        "addiu  $11, $11, -1\n"
-        "bnez   $11, 98b\n"
-        "addiu  $9, $9, 16\n"
-        "addu   $2, $7, $0\n"
-        "100:\n"
-        "addiu  $29, $29, 8\n"
-        ".set\treorder\n"
-    );
+    long flag;
+    long otz;
+    u32 *tag;
+    F3_27058_t *p = (F3_27058_t *)prim;
+    DM_27058_t *d;
+
+    for (; count != 0; count--, f += 16) {
+        gte_ldv3(verts + (((Src_27058_t *)f)->v0 << 3),
+                 verts + (((Src_27058_t *)f)->v1 << 3),
+                 verts + (((Src_27058_t *)f)->v2 << 3));
+        gte_rtpt();
+        gte_stflg(&flag);
+        if (flag & ~0x1000)
+            continue;
+        gte_nclip();
+        gte_stopz(&otz);
+        if (otz <= 0)
+            continue;
+        gte_stsxy3_f3(p);
+        gte_avsz3();
+        gte_stotz(&otz);
+        *(u32 *)((char *)p + 4) = ((Src_27058_t *)f)->rgb;
+        tag = (u32 *)(ot + ((otz >> shift) << 2));
+        p->tag = (*tag & 0xFFFFFF) | 0x04000000;
+        *tag = (u32)p & 0xFFFFFF;
+        p++;
+        if (D_800A2B78 != 0 && (((u8 *)&p[-1].rgb)[3] & 2)) {
+            d = (DM_27058_t *)p;
+            tag = (u32 *)(ot + ((otz >> shift) << 2));
+            ((u8 *)d)[3] = 1;
+            d->code = 0xE100000A | ((D_800A2B78 & 3) << 5);
+            d->tag = (*tag & 0xFFFFFF) | 0x01000000;
+            *tag = (u32)d & 0xFFFFFF;
+            p = (F3_27058_t *)(d + 1);
+        }
+    }
+    return (long *)p;
 }
 
 
-/* func_80027200 — HANDWRITTEN assembly (splat marks it "Handwritten function").
- * The register discipline (loop counter in $t3, live args in $a0/$a1/$a3, no
- * callee-saved registers at all, raw GTE cop2 ops with hand-placed latency nops)
- * is not reachable from gcc-2.7.2 codegen, so the body is reproduced verbatim as
- * a single .set noreorder asm block.  gcc supplies only the `jr $ra` + delay nop.
+/* func_80027200 (splat marks it "Handwritten function"). F4 unlit emitter. Was a
+ * verbatim asm block (loop counter in $t3, no callee-saved regs looked hand-written);
+ * P40 T8.c4: gcc-2.7.2 emits it from the C below (T8.c2 MATCH 125). Key as func_80027058:
+ * rgb copy through `*(u32 *)((char *)p + 4)` (a non-struct MEM keeps it before the otz load).
  */
 
 extern s32 D_800A2B78;
 
-void func_80027200(void)
+typedef struct { u32 tag; u32 rgb; u32 xy0, xy1, xy2, xy3; } F4_27200_t;
+typedef struct { u32 tag; u32 code; } DM_27200_t;
+typedef struct { u32 pad; u32 rgb; u16 n, v0, v1, v2, v3, pad2; } Src_27200_t;
+
+long *func_80027200(char *f, s32 verts, s32 norms, long *prim, s32 count,
+                    s32 shift, s32 ot)
 {
-    __asm__ __volatile__(  // !FAKE: asm-body .set — DEFERRED T7 (P36 rung B tus9)
-        ".set\tnoreorder\n"
-        
-        "addiu $sp, $sp, -0x8\n"
-        "lw    $t3, 24($sp)\n"
-        "lw    $t8, 28($sp)\n"
-        "lw    $t7, 32($sp)\n"
-        "beq   $t3, $zero, 3f\n"
-        "addu  $v0, $a3, $zero\n"
-        "addiu $t6, $zero, -0x1001\n"
-        "addiu $t5, $sp, 0x4\n"
-        "lui   $t2, 0xFF\n"
-        "ori   $t2, $t2, 0xFFFF\n"
-        "addiu $t1, $a0, 0x4\n"
-        "addiu $t0, $a3, 0x4\n"
-        "1:\n"
-        "lhu   $a0, 6($t1)\n"
-        "lhu   $v1, 8($t1)\n"
-        "lhu   $v0, 10($t1)\n"
-        "sll   $a0, $a0, 3\n"
-        "addu  $a0, $a1, $a0\n"
-        "sll   $v1, $v1, 3\n"
-        "addu  $v1, $a1, $v1\n"
-        "sll   $v0, $v0, 3\n"
-        "addu  $v0, $a1, $v0\n"
-        "lwc2  $0, 0($a0)\n"
-        "lwc2  $1, 4($a0)\n"
-        "lwc2  $2, 0($v1)\n"
-        "lwc2  $3, 4($v1)\n"
-        "lwc2  $4, 0($v0)\n"
-        "lwc2  $5, 4($v0)\n"
-        "nop\n"
-        "nop\n"
-        "rtpt\n"
-        "cfc2  $t4, $31\n"
-        "nop\n"
-        "sw    $t4, 0($sp)\n"
-        "lw    $v0, 0($sp)\n"
-        "nop\n"
-        "and   $v0, $v0, $t6\n"
-        "bne   $v0, $zero, 2f\n"
-        "nop\n"
-        "nop\n"
-        "nop\n"
-        "nclip\n"
-        "swc2  $24, 0($t5)\n"
-        "lw    $v0, 4($sp)\n"
-        "nop\n"
-        "blez  $v0, 2f\n"
-        "nop\n"
-        "swc2  $12, 8($a3)\n"
-        "swc2  $13, 12($a3)\n"
-        "swc2  $14, 16($a3)\n"
-        "lhu   $v0, 12($t1)\n"
-        "nop\n"
-        "sll   $v0, $v0, 3\n"
-        "addu  $v0, $a1, $v0\n"
-        "lwc2  $0, 0($v0)\n"
-        "lwc2  $1, 4($v0)\n"
-        "nop\n"
-        "nop\n"
-        "rtps\n"
-        "cfc2  $t4, $31\n"
-        "nop\n"
-        "sw    $t4, 0($sp)\n"
-        "lw    $v0, 0($sp)\n"
-        "nop\n"
-        "and   $v0, $v0, $t6\n"
-        "bne   $v0, $zero, 2f\n"
-        "addiu $v0, $a3, 0x14\n"
-        "swc2  $14, 0($v0)\n"
-        "nop\n"
-        "nop\n"
-        "avsz4\n"
-        "swc2  $7, 0($t5)\n"
-        "lw    $v0, 0($t1)\n"
-        "nop\n"
-        "sw    $v0, 0($t0)\n"
-        "lw    $v0, 4($sp)\n"
-        "addiu $t0, $t0, 0x18\n"
-        "srav  $v0, $v0, $t8\n"
-        "sll   $v0, $v0, 2\n"
-        "addu  $a2, $t7, $v0\n"
-        "lw    $v1, 0($a2)\n"
-        "lui   $v0, 0x500\n"
-        "and   $v1, $v1, $t2\n"
-        "or    $v1, $v1, $v0\n"
-        "and   $v0, $a3, $t2\n"
-        "sw    $v1, 0($a3)\n"
-        "sw    $v0, 0($a2)\n"
-        "lui   $v0, %hi(D_800A2B78)\n"
-        "lw    $v0, %lo(D_800A2B78)($v0)\n"
-        "nop\n"
-        "beq   $v0, $zero, 2f\n"
-        "addiu $a3, $a3, 0x18\n"
-        "lbu   $v0, -21($t0)\n"
-        "nop\n"
-        "andi  $v0, $v0, 0x2\n"
-        "beq   $v0, $zero, 2f\n"
-        "lui   $a0, 0xE100\n"
-        "ori   $a0, $a0, 0xA\n"
-        "lw    $v1, 4($sp)\n"
-        "addiu $v0, $zero, 0x1\n"
-        "sb    $v0, -1($t0)\n"
-        "lui   $v0, %hi(D_800A2B78)\n"
-        "lw    $v0, %lo(D_800A2B78)($v0)\n"
-        "srav  $v1, $v1, $t8\n"
-        "sll   $v1, $v1, 2\n"
-        "addu  $a2, $t7, $v1\n"
-        "andi  $v0, $v0, 0x3\n"
-        "sll   $v0, $v0, 5\n"
-        "or    $v0, $v0, $a0\n"
-        "sw    $v0, 0($t0)\n"
-        "addiu $t0, $t0, 0x8\n"
-        "lw    $v1, 0($a2)\n"
-        "lui   $v0, 0x100\n"
-        "and   $v1, $v1, $t2\n"
-        "or    $v1, $v1, $v0\n"
-        "and   $v0, $a3, $t2\n"
-        "sw    $v1, 0($a3)\n"
-        "addiu $a3, $a3, 0x8\n"
-        "sw    $v0, 0($a2)\n"
-        "2:\n"
-        "addiu $t3, $t3, -0x1\n"
-        "bne   $t3, $zero, 1b\n"
-        "addiu $t1, $t1, 0x14\n"
-        "addu  $v0, $a3, $zero\n"
-        "3:\n"
-        "addiu $sp, $sp, 0x8\n"
-        
-        ".set\treorder\n"
-    );
+    long flag;
+    long otz;
+    u32 *tag;
+    F4_27200_t *p = (F4_27200_t *)prim;
+    DM_27200_t *d;
+
+    for (; count != 0; count--, f += 20) {
+        gte_ldv3(verts + (((Src_27200_t *)f)->v0 << 3),
+                 verts + (((Src_27200_t *)f)->v1 << 3),
+                 verts + (((Src_27200_t *)f)->v2 << 3));
+        gte_rtpt();
+        gte_stflg(&flag);
+        if (flag & ~0x1000)
+            continue;
+        gte_nclip();
+        gte_stopz(&otz);
+        if (otz <= 0)
+            continue;
+        gte_stsxy3_f3(p);
+        gte_ldv0(verts + (((Src_27200_t *)f)->v3 << 3));
+        gte_rtps();
+        gte_stflg(&flag);
+        if (flag & ~0x1000)
+            continue;
+        gte_stsxy(&p->xy3);
+        gte_avsz4();
+        gte_stotz(&otz);
+        *(u32 *)((char *)p + 4) = ((Src_27200_t *)f)->rgb;
+        tag = (u32 *)(ot + ((otz >> shift) << 2));
+        p->tag = (*tag & 0xFFFFFF) | 0x05000000;
+        *tag = (u32)p & 0xFFFFFF;
+        p++;
+        if (D_800A2B78 != 0 && (((u8 *)&p[-1].rgb)[3] & 2)) {
+            d = (DM_27200_t *)p;
+            tag = (u32 *)(ot + ((otz >> shift) << 2));
+            ((u8 *)d)[3] = 1;
+            d->code = 0xE100000A | ((D_800A2B78 & 3) << 5);
+            d->tag = (*tag & 0xFFFFFF) | 0x01000000;
+            *tag = (u32)d & 0xFFFFFF;
+            p = (F4_27200_t *)(d + 1);
+        }
+    }
+    return (long *)p;
 }
 
 /* ---- PsyQ inline_c.h GTE macros ---- */
