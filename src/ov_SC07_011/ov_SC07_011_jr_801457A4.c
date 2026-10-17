@@ -3969,7 +3969,7 @@ void func_80151130(void) {
  * expands that macro (ov_SC01_077_after.c:3910 does).  Cookbook §73 PARAMS axis / §42:
  * keep the canonical (void) signature and read the incoming argument through a $a0 pin.
  * The decl below is reproduced verbatim so this file compiles the real conflict. */
-extern void func_80151664(void);
+extern void func_80151664();
 
 extern void func_80154A74(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
