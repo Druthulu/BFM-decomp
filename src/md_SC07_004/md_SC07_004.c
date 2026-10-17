@@ -7,7 +7,7 @@ extern s32 func_8012C588(s32 a0, s32 a1);
 extern s32 func_80143970(s32 a0);
 extern void GsMapModelingData(u32 *p);
 extern void func_8017D7B0();
-extern void func_801A1E94(void);
+extern void func_801A1E94();
 extern void func_801A3B08(s32 a0);
 extern s32 func_801A44C4(s32 a0);
 extern void func_801A1E74(s32 a0);
@@ -68,7 +68,7 @@ void func_801A0230(s32 a0) {
         func_8017D7B0();
 
         if (((Unkstruct_800B5CB8 *)a0)->unk64 != 0) {
-            ((void (*)(s32))func_801A1E94)(a0);
+            func_801A1E94(a0);
         } else {
             func_801A1E74(a0);
         }
@@ -1173,11 +1173,10 @@ extern s32 D_801F8724;
 extern s32 D_801AFB58;
 extern s32 D_801AFCF8;
 
-/* Definition is (void) to agree with the pre-existing TU declarations
-   (md_SC07_004.c lines 10/1941). The entity pointer arrives in $a0; the
-   pin-to-local copy forces gcc to home it in a callee-saved reg exactly as
-   the target's `addu $s0,$a0,$zero`. */
-void func_801A1E94(void)
+/* The entity pointer arrives as a0 (was a `register ... __asm__("$4")` pin
+   under a (void) definition until P3.40 T6.c1); the copy to a local homes
+   it in a callee-saved reg exactly as the target's `addu $s0,$a0,$zero`. */
+void func_801A1E94()
 {
     register s32 param_1 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 p;
@@ -3793,7 +3792,7 @@ void func_801A5B5C(void *arg0)
 
 extern s32 func_8004787C(s32 a0);
 
-void func_801A5C44(void) {
+void func_801A5C44() {
     register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 s0 = a0;
     s32 s2;
@@ -4146,7 +4145,7 @@ void func_801A64DC(s32 arg0) {
 
 #include "common.h"
 
-extern void func_801A5C44(void);
+extern void func_801A5C44();
 extern void func_801A5B5C(void *a0);
 extern void func_801A5D68(void *a0);
 extern void func_801A5CE8(void *a0);
@@ -4160,7 +4159,7 @@ extern u8 D_801F88B0[];
 extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_801A6560(s32 arg0) {
-    func_801A5C44();
+    func_801A5C44(arg0);
     func_801A5B5C((void *)arg0);
 
     if (!(D_8019FF8A & 4)) {
@@ -4352,9 +4351,9 @@ void func_801A6908(s32 s0) {
 }
 
 
-extern void func_801A1E94(void);
-void func_801A6A18(void) {
-    func_801A1E94();
+extern void func_801A1E94();
+void func_801A6A18(s32 a0) {
+    func_801A1E94(a0);
 }
 
 
@@ -4633,7 +4632,7 @@ extern u8 D_801F88A8[];
 extern u8 D_801F88B0[];
 extern u8 D_801F8747[];
 
-extern void func_801A5C44(void);
+extern void func_801A5C44();
 extern void func_801A5B5C(void *a0);
 extern void func_801A5AC0(void *a0);
 extern void func_801A5D68(void *a0);
@@ -4646,7 +4645,7 @@ void func_801A6FD4(void *arg0) {
     s32 v0;
 
     s1 = CAST_SIGN(void *, (u8 *)arg0, 0xCC);
-    func_801A5C44();
+    func_801A5C44((s32)arg0);
     func_801A5B5C(arg0);
 
     if ((D_8019FF8A & 4) && ((Unkstruct_800B5CB8 *)arg0)->unkFE == 0xB) {
@@ -4691,7 +4690,7 @@ void func_801A70D0(void *arg0) {
 
 #include "common.h"
 
-extern void func_801A5C44(void);
+extern void func_801A5C44();
 extern void func_801A5B5C(void *a0);
 extern void func_801A63A8(void *a0);
 extern void func_801A6428(void *a0);
@@ -4701,7 +4700,7 @@ void func_801A7184(void *arg0)
     if (((Unkstruct_800B5CB8 *)arg0)->unk104 != *(s16 *)(CAST_SIGN(void *, (u8 *)arg0, 0x64) + 0x36)) {
         func_801A63A8(arg0);
     } else {
-        ((void (*)(void *))func_801A5C44)(arg0);
+        func_801A5C44((s32)arg0);
         func_801A5B5C(arg0);
         if (*(s16 *)(CAST_SIGN(void *, (u8 *)arg0, 0x64) + 0x100) != 0) {
             func_801A6428(arg0);
