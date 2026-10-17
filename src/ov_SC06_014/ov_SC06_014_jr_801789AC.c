@@ -861,7 +861,7 @@ extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80181D30;
 extern void func_80153D7C(s32 param_1);
-extern void func_8015410C();
+extern void func_8015410C(s32 a0);
 extern void func_80153E00(s32 param_1);
 extern void func_80151664(s32 a0v);
 extern void func_80154134(u8 *a0);
