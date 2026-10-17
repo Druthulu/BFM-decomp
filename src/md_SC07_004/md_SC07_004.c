@@ -7,7 +7,7 @@ extern s32 func_8012C588(s32 a0, s32 a1);
 extern s32 func_80143970(s32 a0);
 extern void GsMapModelingData(u32 *p);
 extern void func_8017D7B0();
-extern void func_801A1E94();
+extern void func_801A1E94(s32 a0);
 extern void func_801A3B08(s32 a0);
 extern s32 func_801A44C4(s32 a0);
 extern void func_801A1E74(s32 a0);
@@ -1176,14 +1176,13 @@ extern s32 D_801AFCF8;
 /* The entity pointer arrives as a0 (was a `register ... __asm__("$4")` pin
    under a (void) definition until P3.40 T6.c1); the copy to a local homes
    it in a callee-saved reg exactly as the target's `addu $s0,$a0,$zero`. */
-void func_801A1E94()
+void func_801A1E94(s32 a0)
 {
-    register s32 param_1 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     s32 p;
     s32 *s0;
     s32 *s1;
 
-    p = param_1;
+    p = a0;
     s0 = (s32 *)p;
     s1 = &D_801BF01C;
     func_8001C924(((Unkstruct_801A1E94 *)p)->unk20, s1);
@@ -4350,7 +4349,7 @@ void func_801A6908(s32 s0) {
 }
 
 
-extern void func_801A1E94();
+extern void func_801A1E94(s32 a0);
 void func_801A6A18(s32 a0) {
     func_801A1E94(a0);
 }

@@ -146,7 +146,6 @@ src/md_SC07_003/md_SC07_003.c	func_801A31CC	launder	delever R t8_r2	oracle DIFFE
 src/md_SC07_003/md_SC07_003.c	func_801A3BCC	asm-body	delever - tus10	T7	asm-body-routine [3.40-agent]
 src/md_SC07_004/md_SC07_004.c		instruction	delever B tus11	asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7	singleton(instruction)
 src/md_SC07_004/md_SC07_004.c	func_801A0230	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
-src/md_SC07_004/md_SC07_004.c	func_801A1E94	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/md_SC07_004/md_SC07_004.c	func_801A395C	barrier	delever R t8_r2	oracle DIFFERS on removal	singleton(barrier)
 src/md_SC07_004/md_SC07_004.c	func_801A395C	keepalive	delever R t8_r2	oracle DIFFERS on removal	singleton(keepalive)
 src/md_SC07_004/md_SC07_004.c	func_801A5094	barrier	delever R t8_r2	oracle DIFFERS on removal	singleton(barrier)
