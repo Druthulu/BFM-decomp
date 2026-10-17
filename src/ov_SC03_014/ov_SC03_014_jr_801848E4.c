@@ -2807,12 +2807,12 @@ extern u16 D_8018FE70;
 extern M2C_UNK D_8018F4F8;
 
 void func_80184A08(s32 a0) {
-    extern s32 func_8012BD14();
+    extern s32 func_8012BD14(s32 a0);
     extern s32 func_801842E0();
     extern void func_8002959C();
     u16 t34;
 
-    if (func_8012BD14() < 0x401 || ((Unkstruct_801823B8 *)a0)->unk34 == 1 || ((Unkstruct_801823B8 *)a0)->unk34 == 2) {
+    if (func_8012BD14(a0) < 0x401 || ((Unkstruct_801823B8 *)a0)->unk34 == 1 || ((Unkstruct_801823B8 *)a0)->unk34 == 2) {
         switch (((Unkstruct_801823B8 *)a0)->unk34) {
         case 0:
             if ((func_80029178(0x8B) & 0xFF) == 0) {

@@ -76,7 +76,6 @@ src/md_MAIN_001/md_MAIN_001.c	func_800CF180	pin	delever R t8_r2	oracle DIFFERS o
 src/md_MAIN_001/md_MAIN_001.c	func_800CF290	pin	delever R t8_r2	oracle DIFFERS on removal	singleton(pin)
 src/md_MAIN_003/md_MAIN_003.c	func_800CF3E8	barrier	delever R t8_r2	oracle DIFFERS on removal	singleton(barrier)
 src/md_MAIN_003/md_MAIN_003.c	func_800CF3E8	pin	delever R t8_r2	oracle DIFFERS on removal	singleton(pin)
-src/md_MAIN_003/md_MAIN_003.c	func_800CFC1C	barrier	delever R t8_r2	oracle DIFFERS on removal	singleton(barrier)
 src/md_MAIN_003/md_MAIN_003.c	func_800CFC1C	launder	delever R t8_r2	oracle DIFFERS on removal	singleton(launder)
 src/md_MAIN_003/md_MAIN_003.c	func_800CFC1C	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/md_MAIN_003/md_MAIN_003.c	func_800CFEB4	launder	delever R t8_r2	oracle DIFFERS on removal	singleton(launder)

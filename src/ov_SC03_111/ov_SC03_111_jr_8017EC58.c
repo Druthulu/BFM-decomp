@@ -5347,7 +5347,7 @@ void func_80183AF0(void *a0) {
 
 extern s32 D_801B1C88;
 extern s32 D_801B1C90;
-extern s32 func_8012CBF4(void);
+extern s32 func_8012CBF4(s32 a0);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012C218(void *a0);
 extern void func_801833A0(s32 a0);
@@ -5355,7 +5355,7 @@ extern void func_801833A0(s32 a0);
 void func_80183B40(s32 param_1) {
     s32 v0;
 
-    v0 = func_8012CBF4();
+    v0 = func_8012CBF4(param_1);
     if (v0 != 0) {
         ((void (*)(s32))func_8012C218)(param_1);
         return;

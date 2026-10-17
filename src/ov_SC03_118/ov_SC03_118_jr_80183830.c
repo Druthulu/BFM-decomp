@@ -3044,7 +3044,7 @@ void func_80183C94(s32 param_1)
 
 /* ---- integration surface: every decl below AGREES with the visible file-scope decl in
  * src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c (the destination TU), lines noted. ---- */
-extern s32 func_8012BD14(void);                            /* not in TU */
+extern s32 func_8012BD14(s32 a0);                            /* not in TU */
 extern s32 func_80029178(s32 arg);                         /* TU:65 */
 extern void func_801746DC(void);                           /* TU:1253 */
 extern s32 func_80178B18(s32 param_1, s32 param_2);        /* TU:2538 */
@@ -3088,7 +3088,7 @@ void func_80183D68(s32 a0) {
     s32 p;
     u16 t34;
 
-    if (func_8012BD14() < 0x401 || ((Unkstruct_800B5CB8 *)a0)->unk34 == 1 || ((Unkstruct_800B5CB8 *)a0)->unk34 == 2) {
+    if (func_8012BD14(a0) < 0x401 || ((Unkstruct_800B5CB8 *)a0)->unk34 == 1 || ((Unkstruct_800B5CB8 *)a0)->unk34 == 2) {
         switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
         case 0:
             if ((func_80029178(0x8B) & 0xFF) == 0) {
