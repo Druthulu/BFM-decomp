@@ -1,0 +1,35 @@
+---
+ts: 2026-10-17T12:11:55.992Z
+session: a4742bc1-12ac-4649-ab77-694e7315677f
+agentId: a54c7d32163ae0888
+model: claude-opus-5-5[1m]
+effort: medium
+turnId: 06fcde63-5d28-4e8d-8c65-7414dbf4e61d
+---
+I'm realizing that insn 331 was waiting on 611 since t3v reads k, so it only launches once 611 is scheduled, using that launch priority to get picked first but placed after j=0. That means when the copy has a dependent reading k, it ends up placed right after that dependency resolves.
+
+So the key piece falling into place: I want sched1 to place the copy before j (since k lives longer), which needs the copy ready early with no in-block dependent, while sched2 should place j before the copy. If in sched2 t3v reads k (after reload), the copy launches exactly when t3v is scheduled, landing right before it — meaning j ends up ahead. This implies t3v depends on the copy in sched2 but not in sched1, so t3v must read m in sched1 and k in sched2, which points to local-alloc's optimize_reg_copy_1 rewriting m→k between the two scheduling passes (since m dies right after the copy). So the scenario without K3 involves `k = m; j = 0;` where t3v reads m initially, and cse2 must not rewrite it to a plain copy — suggesting some cast or kk-trick is needed so the copy only becomes "plain" after combine runs.
+
+But tracing through, optimize_reg_copy_1 bumps k's reference count by loop_depth when it rewrites t3v's operand, pushing k's refs from 11 to 13 — enough to beat j's count and ruin the ordering I wanted. The live-length adjustments also favor k. So I need to find a path where this rewrite doesn't happen, or where the ref-count math still favors j despite it — maybe by introducing the cast/andi trick differently so sched1 doesn't trigger optimize_reg_copy_1 in the same way.
+
+Let me try the scenario where k is born with no in-block dependents in sched1, giving k 11 refs against j's 11/74 — the reference-count math (j at 4459 vs k at 4400) favors j, so j wins as long as optimize_reg_copy_1 doesn't kick in and inflate k's count past j's.
+
+But I keep hitting the same wall: for j to be scheduled first and still win, k needs either higher live-range despite being born later, or a lower ref count than 11 — and every variant I try (cast copy, dependent in sched2, m not dying in t3v) fails to produce that combination. I wonder if I'm wrong about j's birth point — maybe j is live-in from function scope rather than born at that point in sched1.
+
+Then I consider whether k's live range extends beyond the loop exit because it's used afterward, specifically in the outer loop's increment as `i = k + 1` — since m equals k and m equals i under certain sign/zero-extension conditions, this could tie k's lifetime to something outside the loop test entirely.
+
+Checking the actual target code, though, the increment after the loop uses s3 (i) directly, not k, so that theory doesn't hold. Instead I return to thinking about allocation priority: since k has higher priority than j, I need to examine regs_someone_prefers[k] as the union of preferences from lower-priority conflicting allocnos — j has a copy preference toward v0, and I'm checking whether q or other allocnos also contribute conflicting preferences.
+
+I'm now tracing which pseudos ever get a preference toward a2 — those copied in as the third call argument, or set from the incoming a2 parameter — to see if k's live range overlaps one of these, since k's other range shows a preference toward a3 instead. This seems tied to the K3 case, where m dying at a copy point causes k to inherit m's preferences, producing the a3 preference specifically.
+
+I'm now considering whether expand_preferences simply doesn't fire because m and k actually conflict — specifically whether m is live during k's K3 range. That would require m's K3-region live range to overlap the loaded a3 range, which only happens for the i*4 temp I tried earlier, and that attempt failed because of instruction scheduling putting the addu earlier than expected.
+
+I'm comparing the instruction ordering between my version and the original, suspecting the discrepancy comes from argument evaluation order — the compiler may be evaluating call arguments last-to-first rather than left-to-right, which would explain why the address computation lands late in the original schedule.
+
+Checking the instruction ordering again, I notice both mine and target compute m before k, but the scheduler still places the addu that consumes m ahead of the lh load in both, giving identical cycle counts despite different source orderings—suggesting the scheduler is reordering based on register liveness rather than strict source order.
+
+Actually the original tree code matches `&D_8019124C[i]` directly, so my i*4 temp is an unnecessary deviation and I should drop it. Now I'm thinking about where a bare label with no code could originate—maybe the end label of an if-statement with no else, the false-branch label of an `&&` condition, or one of the labels generated by a loop structure like the start, continue, or end label.
+
+I'm also considering whether a do-while inner loop could place the copy at its start, or whether a switch with a single case could generate the label, or whether a goto-based implementation of the inner loop (rather than a real for-loop) might explain why the loop wasn't recognized as one. Another possibility is that the label marks the exit of the outer if-block, or that it's a preheader label reached via a jump from somewhere before the bitfield test.
+
+I'm now exploring whether `m` actually exists in the original source at all — maybe instead the condition reuses `i` directly, with `k` assigned from a sign-extended copy of `i` that's already cached in a register, and the comparison and final move instruction reuse that same cached value rather than introducing a separate variable.
