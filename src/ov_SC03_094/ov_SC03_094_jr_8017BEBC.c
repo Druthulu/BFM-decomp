@@ -6063,7 +6063,8 @@ void func_80182218(void *a0) {
 
 
 
-extern void func_80182CEC(s32 *a0, s32 a1, s32 a2);
+typedef union { s32 w; s16 h[2]; } W4;
+extern W4 func_80182CEC(s32 a1, s32 a2);
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
 extern s32 func_8012CBF4(s32 a0);
@@ -6076,7 +6077,7 @@ void func_80182340(s32 a0) {
     s32 t;
     s32 r;
 
-    func_80182CEC(sp10, a0, a0 + 0x102);
+    ((void (*)(s32 *, s32, s32))func_80182CEC)(sp10, a0, a0 + 0x102);
     t = sp10[0];
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = t;
     r = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), t >> 16,
@@ -6212,7 +6213,7 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 /* Declarations conformed VERBATIM to the TU's existing ones
  * (ov_SC02_035_jr_8017BEBC.c:5139 and :5117) — type disagreements are
  * pushed to casts at the use sites below. Zero codegen change. */
-extern void func_80182CEC(s32 *a0, s32 a1, s32 a2);
+extern W4 func_80182CEC(s32 a1, s32 a2);
 extern void func_8012B200(void *a0);
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B178(s32 a0, s32 a1);
@@ -6231,7 +6232,7 @@ void func_80182898(s32 a0) {
     sp10[1] = -0x30;
     sp10[0] = t;
     sp10[2] = t >> 16;
-    func_80182CEC(sp18, a0, (s32)sp10);
+    ((void (*)(s32 *, s32, s32))func_80182CEC)(sp18, a0, (s32)sp10);
 
     u = sp18[0];
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = u;
@@ -6245,7 +6246,7 @@ void func_80182898(s32 a0) {
 
 
 
-extern void func_80182CEC(s32 *a0, s32 a1, s32 a2);
+extern W4 func_80182CEC(s32 a1, s32 a2);
 extern s32 func_8012B8E4(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
@@ -6291,7 +6292,7 @@ void func_801829A4(s32 a0) {
         }
         break;
     case 2:
-        func_80182CEC(sp10, a0, (s32)D_801AC170);
+        ((void (*)(s32 *, s32, s32))func_80182CEC)(sp10, a0, (s32)D_801AC170);
         u = sp10[0];
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = u;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = u >> 16;
@@ -6412,15 +6413,13 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
  * exactly the same 10 diagnostics as the unmodified TU (zero new). */
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 
-void func_80182CEC(s32 *a0, s32 a1, s32 a2) {
+W4 func_80182CEC(s32 a1, s32 a2) {
 
     extern s16 D_80126CBA;
     s32 sp10[4];
-    s32 sp20;
     s16 *q;
     u16 *p;
     s16 t;
-    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     q = &D_80126CBA;
     if (*q == 0) {
@@ -6435,11 +6434,7 @@ void func_80182CEC(s32 *a0, s32 a1, s32 a2) {
     *(s16 *)((s32)sp10 + 0x6) = t;
     *(s16 *)(a1 + 0x100) = t;
     *(s16 *)((s32)sp10 + 0xA) = p[2] + CAST_SIGN(u16, a2, 4);
-    func_8012B77C((s32)&sp20, a1 + 4, (s32)sp10);
-    rv = sp20;
-    *a0 = rv;
-    rv = (s32)a0;
-    __asm__ __volatile__("" : : "r" (rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    return ((W4 (*)(s32, s32))func_8012B77C)(a1 + 4, (s32)sp10);
 }
 
 
