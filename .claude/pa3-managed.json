@@ -12,17 +12,17 @@
     },
     ".claude/agents/pa-claude.md": {
       "base": "3.28.29",
-      "sha": "54987bfa7bde0441032c8957c179298ca278e62660b1f5a514ede51cf4a39dee",
+      "sha": "04f62415ffca807206012468940232c81bb8519f48a38dc0e9ab95578cbaef6e",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
       "base": "3.28.5",
-      "sha": "ea4d773766eee622b55451cf53f35a946efd0847d37c0c546258cef9438ccd55",
+      "sha": "f5627b54f0aacc511103c0e35efbdb8bf4be182cdd3f03b7b11865633dc9c526",
       "user": null
     },
     ".claude/agents/pa-expert.md": {
       "base": "3.28.7",
-      "sha": "1ca6022c90a70d1b22c31b83bd91e3758a64c673fcd0299de7be5ead5bdb154a",
+      "sha": "989a99ac5054633adb9989a55c54b5055277b75ec0775e11b7c126238a84d4bd",
       "user": null
     },
     ".claude/agents/pa-planner.md": {
@@ -57,12 +57,12 @@
     },
     ".claude/skills/pa-planning/SKILL.md": {
       "base": null,
-      "sha": "7604d110973362a9113fc15bfea33abf2fce7f3bd43a69f9fc69bb62919fca4d",
+      "sha": "92b959543f3f33568e2c535f5f623ecac06b5f61f2999aca8aa96c838ad22838",
       "user": null
     },
     ".claude/skills/project-architect/SKILL.md": {
       "base": null,
-      "sha": "8dc0add1e21abc870b79c0ab647cb27f6ccd0a782c2dee59eff65a508989a48a",
+      "sha": "f514f2d3c234068069d4891011022c22bb4729e947aa3912fc80ea54b4b0f0f0",
       "user": null
     },
     "docs/project-architect.md": {
@@ -92,7 +92,7 @@
     },
     "templates/HOW_WE_WORK.template.md": {
       "base": null,
-      "sha": "7092b4dd54dcf2269506f2795f82b72ec02e07cf4c1062bd6889304dedeba989",
+      "sha": "deac5661a33079c75260f6267f9f37892b5cb98bdc2f5f0152d62c73f5628b5c",
       "user": null
     },
     "templates/INBOX.template.md": {
@@ -127,7 +127,7 @@
     },
     "templates/PHASE_PLAN.template.md": {
       "base": null,
-      "sha": "81a182fa99e112e1febdd90831cb71bec64b219bd0f2151912bc039797fe27eb",
+      "sha": "847329c6da3a63b4a823cefb55713d53744a303441ce9f1bc8442dc2b41bfd4e",
       "user": null
     },
     "templates/PROJECT_CONTEXT.skeleton.md": {
@@ -152,12 +152,12 @@
     },
     "templates/TASK_PROGRESS.template.md": {
       "base": null,
-      "sha": "4bc4a5a5ab60d5446fed3fc0adf5f8578e001682e14a7b50b1269881452f2fe6",
+      "sha": "6f8c81f423ca734dda06be4584c8b8f1e99ed6b74a67ab75340f968267d3abf8",
       "user": null
     },
     "templates/log.template.md": {
       "base": null,
-      "sha": "c450845cd0e22eab8210f4a3144a4a938895029b9924d02a9d5dc8f9855f396e",
+      "sha": "7209380123395327818e0fcde798ce59d8beebee72f818506500941e45013cf5",
       "user": null
     },
     "templates/pa.json.template": {
@@ -262,7 +262,7 @@
     },
     "tools/phaseend_index.py": {
       "base": null,
-      "sha": "717e5c146f3ddaf6607708b0c0ccd7bdf28472dbe4a7a2df8944e5ff7c0697f5",
+      "sha": "6f6e69256b748b6b5a320e4eeca04b319f294d4205c0f7304b9745be3cfe29e4",
       "user": null
     },
     "tools/plan_edit.py": {
@@ -287,7 +287,7 @@
     },
     "tools/run.sh": {
       "base": null,
-      "sha": "73ea71f6d253491d2d5d8524496a5abc0da0ed61521b2cf1053d8acb54ccfc10",
+      "sha": "32ca4bd3d65a42129151185b3b6f21cb51515d197b7b57bf0521bd0230d93142",
       "user": null
     },
     "tools/skill_add.py": {
@@ -302,14 +302,14 @@
     },
     "tools/task_log.py": {
       "base": null,
-      "sha": "d4c81ba22a01636454a340dbaf578dfc9868626d3136b7f5faacfa721ef5ce92",
+      "sha": "66e89783cddc4f80fcb39aec5a387d795947a48c4069e13f3ebd5a9d1274dd0f",
       "user": null
     }
   },
   "format": 1,
-  "git": "605b1fc8",
-  "installed": "2026-10-17T04:01:29Z",
+  "git": "ed6a9658",
+  "installed": "2026-10-18T03:36:56Z",
   "package": null,
-  "phase": "3.28.8",
-  "upstream_version": "3.28.8"
+  "phase": "3.29",
+  "upstream_version": "3.29"
 }
