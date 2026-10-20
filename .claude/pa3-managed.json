@@ -307,9 +307,9 @@
     }
   },
   "format": 1,
-  "git": "34fe7dfc",
-  "installed": "2026-10-20T00:41:50Z",
+  "git": "acb23fca",
+  "installed": "2026-10-20T01:02:50Z",
   "package": null,
-  "phase": "3.29.4",
-  "upstream_version": "3.29.4"
+  "phase": "3.29.5",
+  "upstream_version": "3.29.5"
 }
