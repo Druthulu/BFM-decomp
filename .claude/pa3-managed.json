@@ -12,7 +12,7 @@
     },
     ".claude/agents/pa-claude.md": {
       "base": "3.28.29",
-      "sha": "04f62415ffca807206012468940232c81bb8519f48a38dc0e9ab95578cbaef6e",
+      "sha": "1d450e7e9eabb9c927acb77bed106366317c9e7be0b8e137579a90da284034db",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
@@ -307,9 +307,9 @@
     }
   },
   "format": 1,
-  "git": "ed6a9658",
-  "installed": "2026-10-18T03:36:56Z",
+  "git": "34fe7dfc",
+  "installed": "2026-10-20T00:41:50Z",
   "package": null,
-  "phase": "3.29",
-  "upstream_version": "3.29"
+  "phase": "3.29.4",
+  "upstream_version": "3.29.4"
 }
