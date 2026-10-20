@@ -978,3 +978,4 @@ C0525 | Give fleet-wide consolidation tools an explicit keep filter | gte,gte_co
 C0526 | Read a gate's predicate before planning to zero its total | census,planning,predicate,gate | 2026-10-02 | 39/T7 | P3.39 T7 summary
 C0527 | Rung R recipes bank no-op brace wraps; filter '0 pin(s) gone' | delever,rung-R,pins,recipes | 2026-10-02 | 39/T8 | P3.39 T8 summary
 C0528 | Residue coverage is per site; re-run after any respelling task | residue,ledger,restruct,gate,casts | 2026-10-02 | 39/T10 | P3.39 T10 summary
+C0529 | git clean -X with a pathspec inside an untracked ignored dir deletes the whole dir | git,cleanup,trap | 2026-10-19 | 3.40/partner | .run cleanup 2026-10-19

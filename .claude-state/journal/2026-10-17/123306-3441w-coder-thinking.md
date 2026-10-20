@@ -1,0 +1,9 @@
+---
+ts: 2026-10-17T18:33:06.621Z
+session: a4742bc1-12ac-4649-ab77-694e7315677f
+agentId: a0b7566fdaca12346
+model: claude-opus-5-5[1m]
+effort: medium
+turnId: 5fa06e7a-0d54-4425-8d05-7af8227a2b37
+---
+The ok register copy got merged, with the andi staying in a1 since ok's upper bits aren't known to be clean. I want to check the compiler dumps for a1 to understand how it's allocated, so I'll look into using cc1_dumps_tu.sh.

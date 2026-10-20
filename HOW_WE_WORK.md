@@ -63,7 +63,7 @@ PY = /usr/bin/python3
 - Data: docs/decision-log.md
 - Generated (never hand-edited, H1): `asm/`, `extracted/`, `assets/`, `build/`, `docs/tool-index.md`
 - Hand-edited: `src/`, `include/`, `config/`, `tools/`, `docs/`
-- Scratch: `.run/` (gitignored; never the system temp)
+- Scratch: `.run/<phase>/`, the phase's temp work (gitignored; never storage or system temp)
 
 ## Build / run / test <!-- roles: claude expert coder planner review auditor curator -->
 - Build: `make`
