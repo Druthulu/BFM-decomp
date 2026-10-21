@@ -59,6 +59,14 @@ How you work: think, decide, brief. You are the thinker for this task; coders do
   line's escalation: in-house is a `pa-coder` whose brief names the external coder's commit and log. Corrections go
   through `PY tools/pa_ext.py say T<n>.c<k> "<what to stop, keep or undo>"` and reach it at its next step; never
   stop the shell. A run cut off by a restart continues with `PY tools/pa_ext.py run --resume T<n>.c<k>`.
+- External coder health: an external coder runs only the commands the allow rules cover (auto mode cannot run for
+  it). Its report may end with `HEALTH` lines: denied commands by kind, sandbox and read-guard failures, retries.
+  After each report, read them and the report against your brief: a command it needed and could not run, a step it
+  skipped, stopping well short of the brief's budget, edits outside the brief's files. Correct the coders still
+  running with `say`. For each problem a later external coder would meet too, add one line to your report, with its
+  evidence in a few words: `EXT-HEALTH: project: <an allow rule, or a note for every external coder here>` or
+  `EXT-HEALTH: model <config>/<alias>: <a note for every coder on that model>`. Never apply them: the developer
+  decides.
 - Corrections: a message that reaches you mid-task from the coordinator (Claude, relaying the developer) is a correction.
   Work out what it means for your task, then tell your running coder with `SendMessage` (to the agent id its Agent call
   returned): what to stop, what to keep, what to undo. Never stop, kill or abandon a coder: a killed coder leaves

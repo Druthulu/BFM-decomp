@@ -73,6 +73,26 @@ Updates never touch that section or pa.json's `external`.
 A task's `coder:` names `<config>/<alias>`, `in-house` or `none`. With no `coder:`, pa.json's default applies. The
 planner recommends one per task with a reason in `note:`, and the developer changes any of them in the plan view.
 
+## Learning from each run
+Each external model and each codebase brings its own friction: DeepSeek chained `cd` into commands, MiniMax gave up
+early, and bfm's coders needed its disassembler. PA3 learns it run by run:
+1. A finished external coder's report ends with `HEALTH` lines when it met friction: denied commands by kind (no
+   allow rule covered them; auto mode cannot judge for an external coder), sandbox and read-guard failures, retries.
+   `/usr/bin/python3 tools/pa_ext.py health <label>` prints them for any run, running or finished.
+2. The task's expert reads them against its brief, corrects the coders still running, and ends its report with
+   `EXT-HEALTH:` proposals for later coders. The mod sends them to you.
+3. Tell the developer each proposal in plain words with its evidence, and apply only the ones they approve:
+   - `/usr/bin/python3 tools/pa_ext.py set --allow "<rule>"`: an allow rule in the project's `.claude/settings.json`. Prefer a
+     narrow one, a command and its prefix (`Bash(mipsel-linux-gnu-objdump:*)`). A rule that lets coders run scripts
+     they write (`bash .run/…`) is looser than auto mode, which judges each command: say so when they decide.
+   - `/usr/bin/python3 tools/pa_ext.py set --note "<text>"`: a note for every external coder in this project (`set --show` lists
+     them, `--drop-note <n>` removes one).
+   - `/usr/bin/python3 tools/pa_ext.py set --model-note <config>/<alias> "<text>"`: a note for every coder on that model, in
+     every project (`~/.claude/pa3-ext/<config>/notes/<alias>.md`, one line each; the developer may edit it).
+
+   End each note with its evidence and date, e.g. `(T11, 2026-10-21: 6 of 9 walls after 1-2 tries)`, so a later
+   review can drop one that stopped helping. The next coder started gets every note.
+
 ## Costs and safety
 - The launcher pins every model setting to the chosen model, and each run reports any other model it saw (`LEAK:` on
   the report and in red on the statusline).

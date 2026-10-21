@@ -5,12 +5,17 @@ setup   interactive: add or update a backend (URL, key, models); saves only when
 check   one tiny request per config and model, one line per config; exit 0 when every model is ok (and, on
         Linux, bubblewrap and socat are installed)
 run     <config>/<alias> <brief file>: one self-contained headless `claude -p` coder on that backend (3.3 T5);
-        prints its report and one summary line; exit 0 with a report, 3 without, 4 when blocked by a lane/label;
-        `run --resume <label>` restarts a cut-off run (its transcript, else its brief and what it did)
+        prints its report, its HEALTH block when it met friction (3.30) and one summary line; exit 0 with a
+        report, 3 without, 4 when blocked by a lane/label; `run --resume <label>` restarts a cut-off run (its
+        transcript, else its brief and what it did)
 say     <label> <text>: queue a correction for a running external coder
 ask     <question>: inside an external coder, a code lookup through the mod's retriever (prints its answer)
+health  <label>: the HEALTH block of a running or finished external coder, from its transcript (3.30)
 set     the project's pa.json `external` block (3.3 T6): --coder, --lanes, --max-coders, --escalate, --use,
-        --remind; --show (or no flags) prints it; checked, and only that block's text changes
+        --remind, --effort; --show (or no flags) prints it; checked, and only that block's text changes. The
+        approved health proposals (3.30): --note/--drop-note (this project's external coders), --model-note
+        <config>/<alias> <text> (every coder on that model: <folder>/notes/<alias>.md), --allow <rule> (the
+        project's .claude/settings.json)
 
 run shows the coder like an in-house one (3.3 T5.c2): feed records, a facts file, journal entries, a finish card
 and the session's cost file (ext.json), when the parent session's .run/mod/<sid>/ exists.
@@ -615,7 +620,14 @@ def parse_agent(path):
             meta.get("effort") or "medium", body.strip("\n") + "\n")
 
 
-def append_text(proj, py):
+def model_notes_path(folder, alias):
+    """3.30: the notes for every coder on one model of a config, in every project (`set --model-note`)."""
+    return os.path.join(folder, "notes", "%s.md" % alias)
+
+
+def append_text(proj, py, pa_json=None, folder=None, alias=None, name=None):
+    """The child's appended system prompt: the launcher's preamble, HELP_TEXT, this project's and this model's notes
+    (3.30, from approved health proposals), the project-architect skill and CLAUDE.md."""
     parts = ['You run on an external model through tools/pa_ext.py, outside Claude Code\'s subscription. '
              'Your Agent tool is off: for a code lookup run "%s" tools/pa_ext.py ask "<question>"; '
              'a code retriever answers in under 40 lines.\n'
@@ -625,6 +637,12 @@ def append_text(proj, py):
              % py]
     if os.environ.get("PA_EXT_HELP") != "0":
         parts.append(HELP_TEXT)
+    notes = [n for n in _dict(_dict(pa_json).get("external")).get("notes") or [] if isinstance(n, str) and n.strip()]
+    if notes:
+        parts.append("# Notes for external coders in this project\n" + "\n".join("- " + n.strip() for n in notes))
+    mine = fsutil.read_text(model_notes_path(folder, alias), None) if folder and alias else None
+    if mine is not None and mine.strip():
+        parts.append("# Notes for coders on %s\n%s" % (name or alias, mine.replace("\r\n", "\n").strip("\n")))
     skill = fsutil.read_text(os.path.join(proj, ".claude", "skills", "project-architect", "SKILL.md"), None)
     if skill is not None:
         parts.append("# The project-architect skill (binding)\n\n" + _strip_frontmatter(skill)[1].strip("\n"))
@@ -670,8 +688,9 @@ def tool_lists(sets, snippet):
     return list(dict.fromkeys(allow)), list(dict.fromkeys(deny))
 
 
-def write_run_dir(run_dir, proj, pa_json, model_id):
-    """settings.json, agents.json and append.md; returns (agent name, effort, allow, deny)."""
+def write_run_dir(run_dir, proj, pa_json, model_id, folder=None, alias=None, display=None):
+    """settings.json, agents.json and append.md (with the model's notes when `folder` and `alias` are given);
+    returns (agent name, effort, allow, deny)."""
     from pa.install import settings_merge
     py = _py(pa_json)
     snippet = settings_merge.fill(settings_merge.load_snippet(), py, _pa3_dir())
@@ -682,7 +701,7 @@ def write_run_dir(run_dir, proj, pa_json, model_id):
                              json.dumps(child_settings(sets, model_id, snippet), ensure_ascii=False, indent=2) + "\n")
     fsutil.atomic_write_text(os.path.join(run_dir, "agents.json"), json.dumps(
         {name: {"description": desc, "prompt": prompt, "tools": tools}}, ensure_ascii=False, indent=2) + "\n")
-    fsutil.atomic_write_text(os.path.join(run_dir, "append.md"), append_text(proj, py))
+    fsutil.atomic_write_text(os.path.join(run_dir, "append.md"), append_text(proj, py, pa_json, folder, alias, display))
     allow, deny = tool_lists(sets, snippet)
     return name, effort, allow, deny
 
@@ -929,6 +948,84 @@ def _fetch_key(url, key):
     return {"usage": d.get("usage"), "limit_remaining": d.get("limit_remaining")} if "usage" in d else None
 
 
+DENY_RE = re.compile(r"permission[^.\n]{0,40}denied|haven't granted|requires approval", re.I)
+
+
+def _deny_kind(tool, cmd):
+    """A denied call's kind: Bash by the command a rule would have to cover (after any `cd <dir> &&` or `VAR=x`),
+    an interpreter with its script's folder (`python3 .run/…`); any other tool by its name."""
+    if tool != "Bash":
+        return tool or "?"
+    saw_cd = False
+    for seg in re.split(r"&&|\|\||;|\n", cmd):
+        words = [w for w in seg.strip().split() if not re.match(r"[A-Za-z_][A-Za-z0-9_]*=", w)]
+        if words and words[0] == "cd":
+            saw_cd = True
+        if not words or words[0] == "cd":
+            continue
+        head = words[0].rsplit("/", 1)[-1]
+        if head in ("bash", "sh", "python", "python3") and len(words) > 1 and "/" in words[1]:
+            return "%s %s/…" % (head, words[1].split("/", 1)[0])
+        return head
+    return "cd" if saw_cd else tool
+
+
+class Health:
+    """One external coder's friction, for the expert's HEALTH lines (3.30): denied calls by kind, sandbox and
+    read-guard failures, API retries and nudges. Fed the stream's events while it runs, or a transcript's records."""
+
+    def __init__(self):
+        self.uses, self.denied, self.sandbox, self.guard, self.retries, self.nudges = {}, [], 0, 0, 0, 0
+
+    def record(self, rec):
+        t, msg = rec.get("type"), _dict(rec.get("message"))
+        blocks = msg.get("content") if isinstance(msg.get("content"), list) else []
+        if t == "assistant":
+            for b in blocks:
+                b = _dict(b)
+                if b.get("type") == "tool_use":
+                    self.uses[b.get("id")] = (b.get("name") if isinstance(b.get("name"), str) else "", _dict(b.get("input")))
+        elif t == "user":
+            for b in blocks:
+                b = _dict(b)
+                if b.get("type") != "tool_result" or not b.get("is_error"):
+                    continue
+                text = _result_text(b)
+                tool, inp = self.uses.get(b.get("tool_use_id"), ("", {}))
+                if DENY_RE.search(text):
+                    self.denied.append((tool, str(inp.get("command") or inp.get("file_path") or "")))
+                elif "bwrap:" in text:
+                    self.sandbox += 1
+                elif "PreToolUse" in text:
+                    self.guard += 1
+        elif t == "system" and rec.get("subtype") == "api_retry":
+            self.retries += 1
+
+    def lines(self, denials=None):
+        """The HEALTH block, [] for a run without friction. `denials`: the result's permission_denials, Claude Code's
+        own list, over the stream's (a transcript has no result)."""
+        denied = [(_dict(d).get("tool_name") or "", str(_dict(_dict(d).get("tool_input")).get("command")
+                   or _dict(_dict(d).get("tool_input")).get("file_path") or "")) for d in denials] if denials else self.denied
+        out = []
+        if denied:
+            groups = {}
+            for tool, cmd in denied:
+                g = groups.setdefault(_deny_kind(tool, cmd), [0, cmd])
+                g[0] += 1
+            kinds = sorted(groups.items(), key=lambda kv: -kv[1][0])
+            out.append("- denied %d (no allow rule covers them): %s%s" % (len(denied), "; ".join(
+                "%s ×%d%s" % (k, n, ", e.g. `%s`" % re.sub(r"\s+", " ", ex).strip()[:90] if ex.strip() else "")
+                for k, (n, ex) in kinds[:8]),
+                "; +%d more kinds" % (len(kinds) - 8) if len(kinds) > 8 else ""))
+        if self.sandbox:
+            out.append("- sandbox (bwrap) failures %d, each re-run" % self.sandbox)
+        if self.guard:
+            out.append("- read-guard blocks %d (whole reads of big files)" % self.guard)
+        if self.retries or self.nudges:
+            out.append("- API retries %d; nudges after a turn with no report %d" % (self.retries, self.nudges))
+        return ["HEALTH (for the expert: friction a later external coder would hit too):"] + out if out else []
+
+
 class Show:
     """One external coder as the mod shows an in-house one: feed records, the facts file, journal entries, the finish
     card and ext.json. Only the journal is written without <proj>/.run/mod/<psid>/ (no mod session)."""
@@ -941,6 +1038,8 @@ class Show:
         self.agent = "ext-" + label
         self.tools, self.steps, self.note, self.line = {}, [], "", ""
         self.ctx, self.edited, self.texts_in, self.facts_last, self.key_before = 0, False, 0, None, None
+        self.usage = {}   # message id -> (model, usage): the run so far, for ext.json's live tally
+        self.health = Health()
         meta = _dict(fsutil.read_json(os.path.join(folder, "pa3-ext.json")))
         self.url = meta.get("url") if isinstance(meta.get("url"), str) else ""
 
@@ -995,6 +1094,34 @@ class Show:
         if self.on and self.url and "usage_first" not in _dict(_dict(_dict(
                 fsutil.read_json(os.path.join(self.mod, "ext.json"))).get("key")).get(self.config)):
             self.key_before = _fetch_key(self.url, _read_key(self.folder))
+        self.live()
+
+    def live(self):
+        """ext.json `live[<label>]`: this run's tokens and usd so far (pa.prices rates, one usage per message id), at
+        the start and each heartbeat, so the External line shows while coders run (3.30); the key's first reading
+        too, for the line's `left`. cost() moves the run into the totals."""
+        if not self.on:
+            return
+        from pa import prices
+        tok = usd = 0
+        for mid, u in list(self.usage.values()):
+            tok += sum(v for v in (u.get(k) for k in ("input_tokens", "cache_read_input_tokens",
+                                                     "cache_creation_input_tokens", "output_tokens"))
+                       if isinstance(v, int))
+            usd += prices.cost_of(u, mid, ttl_default="5m", ctx=0)[0]
+
+        def fn(data):
+            data = _dict(data)
+            live = _dict(data.get("live"))
+            live[self.label] = {"tokens": tok, "usd": usd, "at": int(time.time())}
+            data["live"] = live
+            keys = _dict(data.get("key"))
+            if self.key_before is not None and self.config not in keys:
+                keys[self.config] = {"usage_first": self.key_before["usage"], "usage": self.key_before["usage"],
+                                     "limit_remaining": self.key_before["limit_remaining"], "at": int(time.time())}
+                data["key"] = keys
+            return data
+        fsutil.locked_update(os.path.join(self.mod, "ext.json"), fn)
 
     def _step(self, tool, inp):
         for k in ("file_path", "command", "pattern", "path", "query", "url", "description"):
@@ -1006,6 +1133,7 @@ class Show:
 
     def event(self, ev):
         """One stdout event: texts and edits to the feed, the approach note to the journal, the facts refreshed."""
+        self.health.record(ev)
         t = ev.get("type")
         if t == "assistant":
             msg = _dict(ev.get("message"))
@@ -1013,6 +1141,9 @@ class Show:
             if u:
                 self.ctx = sum(v for v in (u.get(k) for k in ("input_tokens", "cache_read_input_tokens",
                                                               "cache_creation_input_tokens")) if isinstance(v, int))
+                if isinstance(msg.get("id"), str):   # each content block repeats its message: the last write counts
+                    model = msg.get("model")
+                    self.usage[msg["id"]] = (model if isinstance(model, str) and model else self.model_id, u)
             for b in msg.get("content") if isinstance(msg.get("content"), list) else []:
                 b = _dict(b)
                 if b.get("type") == "text" and isinstance(b.get("text"), str) and b["text"].strip():
@@ -1076,6 +1207,9 @@ class Show:
 
         def fn(data):
             data = _dict(data)
+            live = _dict(data.get("live"))
+            live.pop(self.label, None)
+            data["live"] = live
             data["runs"] = int(data.get("runs") or 0) + 1
             data["tokens"] = int(data.get("tokens") or 0) + sum(t for t, _ in runs.values())
             data["usd"] = float(data.get("usd") or 0) + sum(u for _, u in runs.values())
@@ -1217,6 +1351,7 @@ def drive(proc, run_dir, brief, state, beat):
                 if not _queued(run_dir):
                     if nudged < NUDGES and not _is_report(state["result"]):
                         nudged += 1
+                        state["nudges"] = nudged
                         _send(proc, NUDGE_TEXT)
                     else:
                         try:
@@ -1239,8 +1374,9 @@ def _new_state():
             "wake": threading.Event(), "show": None, "leaks": []}
 
 
-def finish(state, rc, label, name, model_id):
-    """(text to print, has a report)."""
+def finish(state, rc, label, name, model_id, health=None):
+    """(text to print, has a report): the report, its HEALTH block (3.30, for the expert; `state["report"]` keeps the
+    report alone for the journal and the card), the one-line summary."""
     res = state["result"] or {}
     text = res.get("result")
     ok = isinstance(text, str) and bool(text.strip()) and not res.get("is_error")
@@ -1259,6 +1395,10 @@ def finish(state, rc, label, name, model_id):
     u = _dict(res.get("usage"))
     tokens = sum(v for v in (u.get(k) for k in ("input_tokens", "cache_read_input_tokens", "output_tokens"))
                  if isinstance(v, int))
+    state["report"] = "\n".join(lines)
+    if health is not None:
+        health.nudges = state.get("nudges", 0)
+        lines += health.lines(res.get("permission_denials"))
     lines.append("external coder %s: %s · %s turns · %d tokens · denials %d"
                  % (label, name, res.get("num_turns") or 0, tokens, state["denials"]))
     return "\n".join(lines), ok
@@ -1305,7 +1445,7 @@ def run(target, brief_path, out=print, cwd=None, resume=None):
     run_dir = os.path.join(_ext_dir(proj), label)
     status = "blocked"
     try:
-        agent, _, allow, deny = write_run_dir(run_dir, proj, pa_json, model_id)
+        agent, _, allow, deny = write_run_dir(run_dir, proj, pa_json, model_id, folder, alias, name)
         effort = _dict(pa_json.get("external")).get("effort") or EXT_EFFORT   # `set --effort`, else high
         argv = claude_argv(run_dir, agent, model_id, effort, sid, allow, deny, bool(resume_sid))
         kwargs = {"cwd": proj, "env": child_env(folder, "%s/%s" % (config, alias), model_id, psid, label),
@@ -1323,7 +1463,10 @@ def run(target, brief_path, out=print, cwd=None, resume=None):
         readers = [threading.Thread(target=f, args=(proc, state), daemon=True) for f in (_read_stdout, _read_stderr)]
         for t in readers:
             t.start()
-        rc = drive(proc, run_dir, first, state, lambda: _set(proj, label, heartbeat=int(time.time())))
+        def beat():
+            _set(proj, label, heartbeat=int(time.time()))
+            _quiet(show.live)
+        rc = drive(proc, run_dir, first, state, beat)
         for t in readers:
             t.join(10)
         for fh in (proc.stdin, proc.stdout, proc.stderr):
@@ -1331,9 +1474,9 @@ def run(target, brief_path, out=print, cwd=None, resume=None):
                 fh.close()
             except OSError:
                 pass
-        text, ok = finish(state, rc, label, name, model_id)
+        text, ok = finish(state, rc, label, name, model_id, show.health)
         state["show"] = None
-        _quiet(show.finish, text.rsplit("\n", 1)[0], state["result"] or {}, state["leaks"])
+        _quiet(show.finish, state["report"], state["result"] or {}, state["leaks"])
         out(text)
         status = "done" if ok else "blocked"
         return 0 if ok else 3
@@ -1503,10 +1646,43 @@ def _count(v, what):
     return n
 
 
+ALLOW_RE = re.compile(r"[A-Za-z][A-Za-z0-9_]*(\(.+\))?\Z")
+
+
+def _add_allow(proj, rule):
+    """3.30: an approved allow rule into the project's .claude/settings.json (never a bare Bash)."""
+    if not ALLOW_RE.match(rule) or rule.replace(" ", "") in ("Bash", "Bash(*)", "Bash(:*)"):
+        raise Blocked("bad allow rule %s: a tool with a pattern, e.g. Bash(mipsel-linux-gnu-objdump:*)" % rule, 1)
+    path = os.path.join(proj, ".claude", "settings.json")
+    doc = fsutil.read_json(path) if os.path.exists(path) else {}
+    if not isinstance(doc, dict):
+        raise Blocked(".claude/settings.json does not parse", 1)
+    perms = doc.setdefault("permissions", {})
+    allow = perms.setdefault("allow", [])
+    if rule not in allow:
+        allow.append(rule)
+        fsutil.atomic_write_text(path, json.dumps(doc, ensure_ascii=False, indent=2) + "\n")
+
+
+def _add_model_note(target, note):
+    """3.30: an approved note for every coder on `<config>/<alias>`, in every project (one `- ` line each)."""
+    _check_target(target)
+    config, _, alias = target.partition("/")
+    path = model_notes_path(os.path.join(root(), config), alias)
+    old = fsutil.read_text(path, None) or ""
+    line = "- " + " ".join(note.split())
+    if line not in old.splitlines():
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        fsutil.atomic_write_text(path, (old.rstrip("\n") + "\n" if old.strip() else "") + line + "\n")
+    return path
+
+
 def set_external(coder=None, lanes=None, max_coders=None, escalate=None, use=None, remind=None, effort=None, out=print,
-                 cwd=None):
+                 cwd=None, note=None, drop_note=None, model_note=None, allow=None):
     """`set`: change the given keys of pa.json's `external` block (the others stay); no change shows it. Exit 1 with
-    a one-line reason and nothing written on any failed check."""
+    a one-line reason and nothing written on any failed check. 3.30, the approved health proposals: `note` (and
+    `drop_note`, 1-based) for this project's external coders, `model_note` (target, text) for every coder on a model,
+    `allow` a rule in the project's settings."""
     try:
         proj = find_root(cwd)
         path = os.path.join(proj, ".claude", "pa.json")
@@ -1517,7 +1693,8 @@ def set_external(coder=None, lanes=None, max_coders=None, escalate=None, use=Non
         except ValueError:
             raise Blocked(".claude/pa.json does not parse", 1)
         ext = dict(_dict(doc.get("external"))) if isinstance(doc, dict) else {}
-        if all(v is None for v in (coder, lanes, max_coders, escalate, use, remind, effort)):
+        if all(v is None for v in (coder, lanes, max_coders, escalate, use, remind, effort, note, drop_note,
+                                   model_note, allow)):
             if isinstance(doc, dict) and isinstance(doc.get("external"), dict):
                 out(json.dumps(doc["external"], indent=2))
             else:
@@ -1566,13 +1743,32 @@ def set_external(coder=None, lanes=None, max_coders=None, escalate=None, use=Non
             else:
                 raise Blocked("bad effort %s: one of %s, or default" % (effort, ", ".join(EFFORTS)), 1)
             said.append("effort " + effort)
-        new = with_external(text, ext)
-        if new is None:
-            raise Blocked("could not write the external block without changing the rest of .claude/pa.json", 1)
-        tmp = path + ".tmp-%d" % os.getpid()
-        with open(tmp, "wb") as fh:
-            fh.write(new.encode("utf-8"))
-        os.replace(tmp, path)
+        notes = [n for n in ext.get("notes") or [] if isinstance(n, str)]
+        if drop_note is not None:
+            k = _count(drop_note, "drop-note")
+            if not 1 <= k <= len(notes):
+                raise Blocked("no note %s: `set --show` lists %d" % (drop_note, len(notes)), 1)
+            said.append("dropped note %d" % k)
+            notes.pop(k - 1)
+        if note is not None and note.strip():
+            if " ".join(note.split()) not in notes:
+                notes.append(" ".join(note.split()))
+            said.append("note added")
+        if note is not None or drop_note is not None:
+            ext["notes"] = notes
+        if model_note is not None:
+            said.append("model note in %s" % _fwd(_add_model_note(model_note[0], model_note[1])))
+        if allow is not None:
+            _add_allow(proj, allow)
+            said.append("allow %s in .claude/settings.json" % allow)
+        if any(v is not None for v in (coder, lanes, max_coders, escalate, use, remind, effort, note, drop_note)):
+            new = with_external(text, ext)
+            if new is None:
+                raise Blocked("could not write the external block without changing the rest of .claude/pa.json", 1)
+            tmp = path + ".tmp-%d" % os.getpid()
+            with open(tmp, "wb") as fh:
+                fh.write(new.encode("utf-8"))
+            os.replace(tmp, path)
     except Blocked as e:
         out("refused: %s" % e)
         return 1
@@ -1610,7 +1806,38 @@ def _cmd_ask(args):
 def _cmd_set(args):
     if args.show:
         return set_external()
-    return set_external(args.coder, args.lanes, args.max_coders, args.escalate, args.use, args.remind, args.effort)
+    return set_external(args.coder, args.lanes, args.max_coders, args.escalate, args.use, args.remind, args.effort,
+                        note=args.note, drop_note=args.drop_note, model_note=args.model_note, allow=args.allow)
+
+
+def health(label, out=print, cwd=None):
+    """`health <label>` (3.30): the HEALTH block of a running or finished external coder, from its transcript."""
+    try:
+        proj = find_root(cwd)
+        rec = fsutil.read_json(os.path.join(_ext_dir(proj), label + ".json"))
+        if not isinstance(rec, dict) or not rec.get("child_sid"):
+            raise Blocked("no external coder %s in this project" % label, 1)
+        hits = glob.glob(os.path.join(root(), str(rec.get("config") or ""), "projects", "*",
+                                      "%s.jsonl" % rec["child_sid"]))
+        if not hits:
+            raise Blocked("no transcript for %s (session %s)" % (label, rec["child_sid"]), 1)
+        h = Health()
+        with open(hits[0], encoding="utf-8", errors="replace") as fh:
+            for ln in fh:
+                try:
+                    h.record(_dict(json.loads(ln)))
+                except ValueError:
+                    continue
+    except Blocked as e:
+        out("refused: %s" % e)
+        return e.code
+    lines = h.lines()
+    out("\n".join(lines) if lines else "HEALTH: no friction in %s" % label)
+    return 0
+
+
+def _cmd_health(args):
+    return health(args.label)
 
 
 VERBS = {
@@ -1626,7 +1853,10 @@ VERBS = {
             (("--coder", {"metavar": "CONFIG/ALIAS|in-house"}), ("--lanes", {"metavar": "NAME=N[,...]"}),
              ("--max-coders", {"metavar": "N"}), ("--escalate", {"metavar": "A[,B...]"}),
              ("--use", {"choices": ("on", "off")}), ("--remind", {"choices": ("on", "off")}),
-             ("--effort", {"choices": EFFORTS + ("default",)}), ("--show", {"action": "store_true"}))),
+             ("--effort", {"choices": EFFORTS + ("default",)}), ("--show", {"action": "store_true"}),
+             ("--note", {"metavar": "TEXT"}), ("--drop-note", {"metavar": "N"}),
+             ("--model-note", {"nargs": 2, "metavar": ("CONFIG/ALIAS", "TEXT")}), ("--allow", {"metavar": "RULE"}))),
+    "health": (_cmd_health, "the HEALTH block of a running or finished external coder: <label>", (("label", {}),)),
 }
 
 
