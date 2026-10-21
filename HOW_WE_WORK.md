@@ -59,8 +59,8 @@ PY = /usr/bin/python3
 - d1-snapshot — D1 readability snapshot: census to newest P dir, snapshot, timeline, progress --readme
 
 ## External coders <!-- roles: claude expert planner -->
-T11: Haiku-first shards run on openrouter-deepseek/deepseek (max) instead of Haiku; walls get the Opus retry.
-All else in-house.
+All coders: openrouter-deepseek/deepseek (max) until he says otherwise (10-21).
+No Opus/Haiku escalation; failures wait for his OK.
 
 ## Paths <!-- roles: claude expert coder planner review auditor curator -->
 - Oracles (the ground truth X3 names): the Ghidra database (static) and PCSX-Redux (runtime), G1
