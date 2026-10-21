@@ -45,7 +45,7 @@ PY = /usr/bin/python3
 | cookbook_add | `bash tools/cookbook_add.sh` | add a cookbook entry and its index line |
 | phaseend_index | `PY tools/phaseend_index.py` | assemble and archive a PhaseEnd |
 | genend_index | `PY tools/genend_index.py` | assemble a GenerationEnd |
-| commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes; auto-stages phase-ends/current/{tasks,logs,research,discussions,RECAP.md,TASK_PROGRESS.md}, but leaves reply-drafting discussion records unstaged and refuses messages mentioning a drafted/posted reply; citing an issue for a fix is fine (R120) |
+| commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes; auto-staging: `docs/ops/commit-task-autostage.md` |
 | type_census casts | `PY tools/type_census.py --check-casts [--residue]` | cast-and-lying gate; `--residue`: raw P/I/X/M pass only if ledgered RESIDUAL(<cause>) per site; writes residue_census |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
 | every other tool | `docs/tool-index.md` | generated from `config/tool_dictionary.tsv`; read by need |
@@ -57,6 +57,10 @@ PY = /usr/bin/python3
 - commit-task-autostage — Commit logs and research deliberately; force-add ignored tracked paths before commit_task.sh
 - tools-edit-kit-corpus — After any tools/ edit: make kit-corpus, tool_dictionary row for new files, then make tools-health
 - d1-snapshot — D1 readability snapshot: census to newest P dir, snapshot, timeline, progress --readme
+
+## External coders <!-- roles: claude expert planner -->
+T11: Haiku-first shards run on openrouter-deepseek/deepseek (max) instead of Haiku; walls get the Opus retry.
+All else in-house.
 
 ## Paths <!-- roles: claude expert coder planner review auditor curator -->
 - Oracles (the ground truth X3 names): the Ghidra database (static) and PCSX-Redux (runtime), G1
