@@ -62,5 +62,5 @@
   },
   "memory_routed": "3.14",
   "migrated": "3.2",
-  "external": {"lanes": {"openrouter-deepseek": 4}, "max_coders": 4, "escalate": [], "use": true, "remind": false, "effort": "max"}
+  "external": {"lanes": {"openrouter-deepseek": 4}, "max_coders": 4, "escalate": [], "use": true, "remind": false}
 }
