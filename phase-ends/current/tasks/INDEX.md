@@ -10,3 +10,4 @@ T7 | done | missing-parameter pins become declared parameters | - | tasks/T7.md 
 T8 | done | oracle re-judge and the mechanical lever classes | - | tasks/T8.md | logs/T8.md | R3.40-001
 T9 | done | head-class lever cracks with propagation | - | tasks/T9.md | logs/T9.md | R3.40-001
 T10 | blocked | singleton crack pilot and wave projection | - | tasks/T10.md | logs/T10.md | R3.40-010,R3.40-001
+T21 | done | Bank the waiting cookbook lessons (one time, PA3 3.30) | - | tasks/T21.md | logs/T21.md | -

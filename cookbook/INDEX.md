@@ -979,3 +979,7 @@ C0526 | Read a gate's predicate before planning to zero its total | census,plann
 C0527 | Rung R recipes bank no-op brace wraps; filter '0 pin(s) gone' | delever,rung-R,pins,recipes | 2026-10-02 | 39/T8 | P3.39 T8 summary
 C0528 | Residue coverage is per site; re-run after any respelling task | residue,ledger,restruct,gate,casts | 2026-10-02 | 39/T10 | P3.39 T10 summary
 C0529 | git clean -X with a pathspec inside an untracked ignored dir deletes the whole dir | git,cleanup,trap | 2026-10-19 | 3.40/partner | .run cleanup 2026-10-19
+C0530 | Lever-removal moves from 3.40 cracks: in-place RMW, % 2^k, derived-pointer reuse, short counters | levers,delever,pins,birthing-boost,sched1,cse | 2026-10-21 | 3.40/T10 | P3.40 T9/T10 summaries
+C0531 | Residue refresh: --restamp writes no new rows; after rung D re-run all four forms | residue,restruct,restamp,rung-D,casts,gate | 2026-10-21 | 3.40/T7 | P3.40 T2/T7 summaries
+C0532 | A rung-S sweep reshapes map types: hash names drift, frozen bands go stale, twins go SHARED | structs,restruct,rung-S,census,band,twins | 2026-10-21 | 3.40/T4 | P3.40 T2/T4/T5 summaries
+C0533 | Census summary JSONs are capped; never rebuild rows from them | census,json,structs,caps,trap | 2026-10-21 | 3.40/T3 | P3.40 T3 summary
