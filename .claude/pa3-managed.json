@@ -1,8 +1,8 @@
 {
   "files": {
     ".claude/agents/auditor.md": {
-      "base": "3.25.7",
-      "sha": "335811b63b45fb6f5fa286ae84c2f1cd818b4bcefe288947d9903420927d9f21",
+      "base": "3.30.0",
+      "sha": "da0ab9dbe3a7ec6ea95252133fbf2a71ff317d6c4eb9f63c7fbeb1251e3d7a88",
       "user": null
     },
     ".claude/agents/memory-curator.md": {
@@ -12,7 +12,7 @@
     },
     ".claude/agents/pa-claude.md": {
       "base": "3.30.0",
-      "sha": "055991a91ad305c55808d4f79d7790a38db845a3460c401ba78cc3d201bfef5e",
+      "sha": "bd3ba1331d946f323ab279e2563f425d8dc3a31c4c580e68dfec63e184f92b73",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
@@ -22,7 +22,7 @@
     },
     ".claude/agents/pa-expert.md": {
       "base": "3.30.0",
-      "sha": "94eca76393ec63fcd4567b04c85221e6ec3862eca8ca0443fa16fae7b6baef35",
+      "sha": "225f5f0e2179879f573f50db8195a7533afc90b46840bf5f7d5a640a45f954b2",
       "user": null
     },
     ".claude/agents/pa-planner.md": {
@@ -57,7 +57,7 @@
     },
     ".claude/skills/pa-external-agents/SKILL.md": {
       "base": null,
-      "sha": "cb902e27abb29ba311d1bcb37f4c0a968126f611f4a439791d8e1a56a223d8a4",
+      "sha": "5b2dba9df22ae7f4768629cc14831294ec5ac18a1b5616a0a53febeb8d52c741",
       "user": null
     },
     ".claude/skills/pa-planning/SKILL.md": {
@@ -67,7 +67,7 @@
     },
     ".claude/skills/project-architect/SKILL.md": {
       "base": null,
-      "sha": "cbcdc26fdf4ea2e62eda788c72c62c2bd18615c95417f4593757391bb30f9a5f",
+      "sha": "c29415338a18437f507b2bb2d176f7d96ef4c0327ecf8f663b99a041bc0cba09",
       "user": null
     },
     "docs/project-architect.md": {
@@ -267,7 +267,7 @@
     },
     "tools/pa_ext.py": {
       "base": null,
-      "sha": "99e06e282af8c3434ffb0bf8d2bb3a8db9acb34328a5682b158e92ba31545023",
+      "sha": "73e453b74448e3a5ef4ea4d7cdb38fb888704d83e09828e6cf5d0ceff8abdb18",
       "user": null
     },
     "tools/phaseend_index.py": {
@@ -322,9 +322,9 @@
     }
   },
   "format": 1,
-  "git": "61b278ef",
-  "installed": "2026-10-21T21:32:55Z",
+  "git": "e39ac642",
+  "installed": "2026-10-21T23:24:07Z",
   "package": null,
   "phase": "3.30",
-  "upstream_version": "3.29.9"
+  "upstream_version": "3.30"
 }

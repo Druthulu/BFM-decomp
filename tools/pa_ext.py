@@ -11,6 +11,8 @@ run     <config>/<alias> <brief file>: one self-contained headless `claude -p` c
 say     <label> <text>: queue a correction for a running external coder
 ask     <question>: inside an external coder, a code lookup through the mod's retriever (prints its answer)
 health  <label>: the HEALTH block of a running or finished external coder, from its transcript (3.30)
+runs    for the phase-end external review (3.30): the runs ended since the last review and what is in force (notes,
+        the allow rules health proposals added, the settings); --count only the number; --mark stamps the review
 set     the project's pa.json `external` block (3.3 T6): --coder, --lanes, --max-coders, --escalate, --use,
         --remind, --effort; --show (or no flags) prints it; checked, and only that block's text changes. The
         approved health proposals (3.30): --note/--drop-note (this project's external coders), --model-note
@@ -1001,21 +1003,30 @@ class Health:
         elif t == "system" and rec.get("subtype") == "api_retry":
             self.retries += 1
 
-    def lines(self, denials=None):
-        """The HEALTH block, [] for a run without friction. `denials`: the result's permission_denials, Claude Code's
-        own list, over the stream's (a transcript has no result)."""
+    def kinds(self, denials=None):
+        """[(kind, count, an example)] of the denied calls, most first. `denials`: the result's permission_denials,
+        Claude Code's own list, over the stream's (a transcript has no result)."""
         denied = [(_dict(d).get("tool_name") or "", str(_dict(_dict(d).get("tool_input")).get("command")
                    or _dict(_dict(d).get("tool_input")).get("file_path") or "")) for d in denials] if denials else self.denied
+        groups = {}
+        for tool, cmd in denied:
+            g = groups.setdefault(_deny_kind(tool, cmd), [0, cmd])
+            g[0] += 1
+        return [(k, n, ex) for k, (n, ex) in sorted(groups.items(), key=lambda kv: -kv[1][0])]
+
+    def summary(self, denials=None):
+        """What the run record keeps for the phase-end review (3.30): denied calls by kind, and the other counts."""
+        return {"denied": dict((k, n) for k, n, _ in self.kinds(denials)), "sandbox": self.sandbox,
+                "guard": self.guard, "retries": self.retries, "nudges": self.nudges}
+
+    def lines(self, denials=None):
+        """The HEALTH block, [] for a run without friction."""
+        kinds = self.kinds(denials)
         out = []
-        if denied:
-            groups = {}
-            for tool, cmd in denied:
-                g = groups.setdefault(_deny_kind(tool, cmd), [0, cmd])
-                g[0] += 1
-            kinds = sorted(groups.items(), key=lambda kv: -kv[1][0])
-            out.append("- denied %d (no allow rule covers them): %s%s" % (len(denied), "; ".join(
+        if kinds:
+            out.append("- denied %d (no allow rule covers them): %s%s" % (sum(n for _, n, _ in kinds), "; ".join(
                 "%s ×%d%s" % (k, n, ", e.g. `%s`" % re.sub(r"\s+", " ", ex).strip()[:90] if ex.strip() else "")
-                for k, (n, ex) in kinds[:8]),
+                for k, n, ex in kinds[:8]),
                 "; +%d more kinds" % (len(kinds) - 8) if len(kinds) > 8 else ""))
         if self.sandbox:
             out.append("- sandbox (bwrap) failures %d, each re-run" % self.sandbox)
@@ -1040,6 +1051,7 @@ class Show:
         self.ctx, self.edited, self.texts_in, self.facts_last, self.key_before = 0, False, 0, None, None
         self.usage = {}   # message id -> (model, usage): the run so far, for ext.json's live tally
         self.health = Health()
+        self.thought = set()   # (message id, start) of the thinking blocks journaled
         meta = _dict(fsutil.read_json(os.path.join(folder, "pa3-ext.json")))
         self.url = meta.get("url") if isinstance(meta.get("url"), str) else ""
 
@@ -1152,6 +1164,15 @@ class Show:
                         self.note = text
                         self.journal("note", {"agent": self.agent, "label": self.label}, text)
                     self.feed(text, "text")
+                elif b.get("type") == "thinking" and isinstance(b.get("thinking"), str) and b["thinking"].strip():
+                    # 3.30: the reasoning, journaled as pa-watch journals an in-house coder's (its fields), once a block
+                    key = (msg.get("id"), b["thinking"].strip()[:200])
+                    if key not in self.thought:
+                        self.thought.add(key)
+                        self.journal("thinking", {"ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                                                  "session": self.psid, "agentId": self.agent, "model": self.model_id,
+                                                  "effort": self.effort, "turnId": msg.get("id") or ""},
+                                     b["thinking"].strip())
                 elif b.get("type") == "tool_use":
                     tool, inp = b.get("name") if isinstance(b.get("name"), str) else "", _dict(b.get("input"))
                     self.tools[b.get("id")] = (tool, inp)
@@ -1186,8 +1207,10 @@ class Show:
     def finish(self, report, res, leaks):
         """The report's journal entry; with a mod session, the finish card and ext.json."""
         done, commit = report_status(report)
-        self.journal("report", {"agent": self.agent, "label": self.label, "status": "done" if done else "blocked",
-                                "commit": commit}, report)
+        # 3.30: `end`, as the router journals an in-house coder's report (its ts, session, agentId and role fields)
+        self.journal("end", {"ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "session": self.psid,
+                             "agentId": self.agent, "role": "pa-coder", "agent": self.agent, "label": self.label,
+                             "status": "done" if done else "blocked", "commit": commit}, report)
         if not self.on:
             return
         request(self.mod, "card", lambda _id: {"text": finish_card(self.proj, self.label, self.name, report, done,
@@ -1240,7 +1263,7 @@ def resume_context(proj, label):
     """The fresh brief's tail: the label's journal note and report bodies (last 20 lines), its commits (at most 5)."""
     bodies = []
     for p in sorted(glob.glob(os.path.join(proj, ".claude-state", "journal", "*", "*x-coder-*.md"))):
-        if p.endswith(("-note.md", "-report.md")):
+        if p.endswith(("-note.md", "-end.md", "-report.md")):   # 3.30 writes `end`; `report` before
             front, body = _strip_frontmatter(fsutil.read_text(p, ""))
             if "label: " + label in [ln.strip() for ln in front]:
                 bodies.append(body.strip("\n"))
@@ -1338,14 +1361,33 @@ def _is_report(res):
     return bool((res or {}).get("is_error")) or not isinstance(text, str) or bool(REPORT_RE.match(text))
 
 
+def handoff_ask(pa_json, label):
+    """3.30: what an in-house coder is told at its context threshold, for an external one: pa.handoff's threshold (the
+    config's, the project's handoff_ctx, at most 0.8 of EXT_WINDOW) and its text, plus where this coder writes its
+    progress, since several may run at once. The launcher sends it once, the first time the context passes it."""
+    from pa import config as pa_config, handoff
+    cfg = pa_config.load()
+    text = handoff.text(cfg, role="coder", project_cfg=pa_json) + (
+        "\nSeveral coders may run at once: write your progress to phase-ends/current/logs/%s.progress.md, and a patch "
+        "of your own files to phase-ends/current/logs/%s.progress.patch, instead of TASK_PROGRESS.md and "
+        "TASK_PROGRESS.patch; name them in your report." % (label, label))
+    return {"limit": handoff.threshold(cfg, role="coder", project_cfg=pa_json, window=int(EXT_WINDOW)), "text": text,
+            "sent": False}
+
+
 def drive(proc, run_dir, brief, state, beat):
-    """Brief in; relay say files every POLL_S; after a result with nothing queued, a nudge when it is no report (at
-    most NUDGES), else close stdin once; wait for exit."""
+    """Brief in; relay say files every POLL_S; the handoff ask once the context passes its threshold (3.30); after a
+    result with nothing queued, a nudge when it is no report (at most NUDGES), else close stdin once; wait for exit."""
     _send(proc, brief)
     closed, seen, nudged, last_beat = False, 0, 0, time.time()
     while True:
         if not closed:
             _relay(proc, run_dir)
+            h, sh = state.get("handoff"), state.get("show")
+            if h and not h["sent"] and sh is not None and sh.ctx >= h["limit"]:
+                h["sent"] = True
+                _send(proc, h["text"])
+                _quiet(sh.feed, "Context at %dk tokens: asked to hand off" % (sh.ctx // 1000), "text")
             if state["results"] > seen:
                 seen = state["results"]
                 if not _queued(run_dir):
@@ -1460,6 +1502,10 @@ def run(target, brief_path, out=print, cwd=None, resume=None):
         show = Show(proj, psid, label, name, model_id, effort, config, folder)
         _quiet(show.start)
         state["show"] = show
+        try:
+            state["handoff"] = handoff_ask(pa_json, label)
+        except (ImportError, OSError, ValueError, TypeError) as e:   # no handoff ask beats no run
+            state["stderr"].append("handoff threshold not set: %s" % e)
         readers = [threading.Thread(target=f, args=(proc, state), daemon=True) for f in (_read_stdout, _read_stderr)]
         for t in readers:
             t.start()
@@ -1477,6 +1523,9 @@ def run(target, brief_path, out=print, cwd=None, resume=None):
         text, ok = finish(state, rc, label, name, model_id, show.health)
         state["show"] = None
         _quiet(show.finish, state["report"], state["result"] or {}, state["leaks"])
+        res = state["result"] or {}   # 3.30: the record keeps what the phase-end review reads
+        _set(proj, label, ended=int(time.time()), turns=res.get("num_turns") or 0,
+             health=show.health.summary(res.get("permission_denials")))
         out(text)
         status = "done" if ok else "blocked"
         return 0 if ok else 3
@@ -1760,8 +1809,12 @@ def set_external(coder=None, lanes=None, max_coders=None, escalate=None, use=Non
             said.append("model note in %s" % _fwd(_add_model_note(model_note[0], model_note[1])))
         if allow is not None:
             _add_allow(proj, allow)
+            allowed = [a for a in ext.get("allowed") or [] if isinstance(a, dict)]
+            if all(a.get("rule") != allow for a in allowed):   # the review's record: which rules, since when
+                ext["allowed"] = allowed + [{"rule": allow, "at": time.strftime("%Y-%m-%d")}]
             said.append("allow %s in .claude/settings.json" % allow)
-        if any(v is not None for v in (coder, lanes, max_coders, escalate, use, remind, effort, note, drop_note)):
+        if any(v is not None for v in (coder, lanes, max_coders, escalate, use, remind, effort, note, drop_note,
+                                       allow)):
             new = with_external(text, ext)
             if new is None:
                 raise Blocked("could not write the external block without changing the rest of .claude/pa.json", 1)
@@ -1810,6 +1863,22 @@ def _cmd_set(args):
                         note=args.note, drop_note=args.drop_note, model_note=args.model_note, allow=args.allow)
 
 
+def _transcript_health(rec):
+    """A run record's Health from its child's transcript in the config folder, or None without one."""
+    hits = glob.glob(os.path.join(root(), str(rec.get("config") or ""), "projects", "*",
+                                  "%s.jsonl" % rec.get("child_sid"))) if rec.get("child_sid") else []
+    if not hits:
+        return None
+    h = Health()
+    with open(hits[0], encoding="utf-8", errors="replace") as fh:
+        for ln in fh:
+            try:
+                h.record(_dict(json.loads(ln)))
+            except ValueError:
+                continue
+    return h
+
+
 def health(label, out=print, cwd=None):
     """`health <label>` (3.30): the HEALTH block of a running or finished external coder, from its transcript."""
     try:
@@ -1817,17 +1886,9 @@ def health(label, out=print, cwd=None):
         rec = fsutil.read_json(os.path.join(_ext_dir(proj), label + ".json"))
         if not isinstance(rec, dict) or not rec.get("child_sid"):
             raise Blocked("no external coder %s in this project" % label, 1)
-        hits = glob.glob(os.path.join(root(), str(rec.get("config") or ""), "projects", "*",
-                                      "%s.jsonl" % rec["child_sid"]))
-        if not hits:
+        h = _transcript_health(rec)
+        if h is None:
             raise Blocked("no transcript for %s (session %s)" % (label, rec["child_sid"]), 1)
-        h = Health()
-        with open(hits[0], encoding="utf-8", errors="replace") as fh:
-            for ln in fh:
-                try:
-                    h.record(_dict(json.loads(ln)))
-                except ValueError:
-                    continue
     except Blocked as e:
         out("refused: %s" % e)
         return e.code
@@ -1836,8 +1897,72 @@ def health(label, out=print, cwd=None):
     return 0
 
 
+REVIEW_FILE = "review.json"   # <proj>/.run/mod/ext/review.json {"at"}: the last phase-end external review (3.30)
+
+
+def runs(count=False, mark=False, out=print, cwd=None):
+    """`runs` (3.30): for the phase-end external review, the external coder runs ended since the last review (one
+    line each: model, outcome, minutes, turns, health) and what is in force: this project's notes, the allow rules
+    health proposals added (with their dates), each run model's notes. --count prints only the number of runs;
+    --mark stamps the review."""
+    try:
+        proj = find_root(cwd)
+    except Blocked as e:
+        out("refused: %s" % e)
+        return e.code
+    d = _ext_dir(proj)
+    since = _dict(fsutil.read_json(os.path.join(d, REVIEW_FILE))).get("at") or 0
+    recs = []
+    for f in sorted(glob.glob(os.path.join(d, "*.json"))):
+        r = _dict(fsutil.read_json(f)) if os.path.basename(f) != REVIEW_FILE else {}
+        if r.get("status") in ("done", "blocked") and int(r.get("ended") or r.get("heartbeat") or 0) > int(since):
+            recs.append(r)
+    if mark:
+        fsutil.atomic_write_text(os.path.join(d, REVIEW_FILE), json.dumps({"at": int(time.time())}) + "\n")
+        out("external runs reviewed: %d" % len(recs))
+        return 0
+    if count:
+        out(str(len(recs)))
+        return 0
+    out("External coder runs since the last review: %d" % len(recs))
+    for r in recs:
+        h = _dict(r.get("health"))
+        if not h:   # a run from before 3.30's record: from its transcript
+            t = _transcript_health(r)
+            h = t.summary() if t is not None else {}
+        denied = _dict(h.get("denied"))
+        mins = (int(r.get("ended") or r.get("heartbeat") or 0) - int(r.get("started") or 0)) // 60
+        out("- %s · %s · %s · %d min%s · denied %d%s · sandbox %s · read guard %s · retries %s" % (
+            r.get("label"), r.get("name") or r.get("model"), r.get("status"), mins,
+            " · %s turns" % r["turns"] if r.get("turns") else "", sum(denied.values()),
+            " (%s)" % ", ".join("%s %d" % kv for kv in list(denied.items())[:6]) if denied else "",
+            h.get("sandbox", "?"), h.get("guard", "?"), h.get("retries", "?")))
+    pa_json = _dict(fsutil.read_json(os.path.join(proj, ".claude", "pa.json")))
+    ext = _dict(pa_json.get("external"))
+    out("Project notes (pa.json external.notes, `set --note`): %s" % ("none" if not ext.get("notes") else ""))
+    for n in ext.get("notes") or []:
+        out("- %s" % n)
+    out("Allow rules from health proposals (`set --allow`): %s" % ("none" if not ext.get("allowed") else ""))
+    for a in ext.get("allowed") or []:
+        a = _dict(a)
+        out("- %s (added %s)" % (a.get("rule"), a.get("at")))
+    for target in sorted(set("%s/%s" % (r.get("config"), r.get("alias")) for r in recs if r.get("config"))):
+        config, _, alias = target.partition("/")
+        notes = fsutil.read_text(model_notes_path(os.path.join(root(), config), alias), None)
+        out("Model notes for %s: %s" % (target, "none" if not (notes or "").strip() else ""))
+        for ln in (notes or "").splitlines():
+            if ln.strip():
+                out(ln.rstrip())
+    out("Settings: %s" % json.dumps(dict((k, v) for k, v in ext.items() if k not in ("notes", "allowed"))))
+    return 0
+
+
 def _cmd_health(args):
     return health(args.label)
+
+
+def _cmd_runs(args):
+    return runs(count=args.count, mark=args.mark)
 
 
 VERBS = {
@@ -1857,6 +1982,8 @@ VERBS = {
              ("--note", {"metavar": "TEXT"}), ("--drop-note", {"metavar": "N"}),
              ("--model-note", {"nargs": 2, "metavar": ("CONFIG/ALIAS", "TEXT")}), ("--allow", {"metavar": "RULE"}))),
     "health": (_cmd_health, "the HEALTH block of a running or finished external coder: <label>", (("label", {}),)),
+    "runs": (_cmd_runs, "for the phase-end external review: the runs since the last review and what is in force",
+             (("--count", {"action": "store_true"}), ("--mark", {"action": "store_true"}))),
 }
 
 

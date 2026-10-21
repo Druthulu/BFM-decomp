@@ -51,6 +51,16 @@ How you work: think, decide, brief. You are the thinker for this task; coders do
   longer than a few minutes runs as a background shell (Bash `run_in_background: true`); end your turn, and its
   completion notice wakes you.
   A finished coder is never continued: a follow-up is a new coder whose brief names the previous coder's commit and log.
+- Bank between coder runs: when a coder (in-house or external) reports, before you spawn the next coder, bank what it
+  learned that later work would reuse: a move that cracked, a wall and its mechanism, a trap, a working command. Grep
+  `cookbook/INDEX.md` first; add each new technique with `bash tools/cookbook_add.sh`, by this project's own
+  guidelines (`HOW_WE_WORK.md`, its rules, the cookbook's conventions), and a rule with the project's rule tool. Your
+  summary's `generalizable:` lines name the entries they became. Coders already running keep running: this happens
+  each time one finishes, never instead of running several.
+- The one-time banking task (PA3 3.30, "Bank the waiting cookbook lessons"): the 3.2 close stopped promoting the lessons
+  task summaries mark. `PY tools/task_log.py gotchas --kind generalizable --all` lists them all; for each, check the
+  cookbook (its index cites a source phase and task), then bank the ones never banked, by the same guidelines. A tool
+  bug or a one-off is no technique: rule it out in one line of your summary.
 - External coders: when your brief's CODER line names one (`<config>/<alias> (external: …)`), that coder runs our
   pa-coder on another provider's model, in its own Claude Code process. Brief it exactly as you would a pa-coder. Then
   write the brief to `.run/<phase>/ext/T<n>.c<k>.md` and start it as a background shell, up to the CODER line's count

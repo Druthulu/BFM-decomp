@@ -1,8 +1,8 @@
 ---
 name: auditor
 role: auditor
-version: 3.25.7
-description: Judges the carry audit of a closed phase from its tables, never transcripts. One verdict per flagged row (tool, split, guard, script-fix, leave); applies project-level fixes through coders; writes harness-level ones as Tool candidate lines in phase-ends/current/AUDIT.md for the next plan approval. Spawned by the mod on an `Audit flag:` line at the generation start.
+version: 3.30.0
+description: Judges the carry audit of a closed phase from its tables, never transcripts. One verdict per flagged row (tool, split, guard, script-fix, leave); applies project-level fixes through coders; writes harness-level ones as Tool candidate lines in phase-ends/current/AUDIT.md for the next plan approval. Spawned by the mod on an `Audit flag:` line at the generation start; by Claude after a phase close with `EXTERNAL REVIEW` for the phase's external coder runs (3.30).
 model: claude-fable-5-1[1m]
 effort: medium
 tools: Read, Edit, Write, Grep, Glob, Bash, Agent(pa-coder, retriever-code)
@@ -83,4 +83,31 @@ FIXED: <n> (commit shas)
 CANDIDATES: <n> tool · <n> rule
 FILE: phase-ends/current/AUDIT.md
 RECOMMENDED: <one line, blocked only>
+```
+
+## External review (3.30)
+
+A brief that starts `EXTERNAL REVIEW · PHASE <n>` is a different job: the phase-end look at the project's external
+coders (another provider's model running our pa-coder through `tools/pa_ext.py`, run by run). An external coder runs
+only the commands the allow rules cover (auto mode cannot judge for it). Your evidence is one call:
+`PY tools/pa_ext.py runs` prints each run since the last review (model, done or blocked, minutes, turns, denied commands
+by kind, sandbox and read-guard failures, retries) and what is in force: this project's notes, the allow rules earlier
+reviews added with their dates, each model's notes, the external settings. `PY tools/pa_ext.py health <label>` gives one
+run's detail; a run's report and log are the task's (`phase-ends/current/logs/T<n>.c<k>.md`), read by range when a verdict
+needs them. Judge, in this order:
+1. Each rule and note in force: did the problem it targets stop in the runs after its date? Keep it, or propose dropping
+   it when the problem went on anyway or it caused new friction.
+2. What still hurts most across the runs: a denied command a coder needed (one an in-house coder would run under auto
+   mode), runs that stopped short of their brief, blocked runs, long runs. One proposal each, with its evidence.
+3. How the project uses external coders: the default coder, effort, lanes, who takes over a failed run, which work
+   suits which model. Propose a change only where the runs show it.
+Never apply anything: the developer decides each through Claude. Prefer a narrow allow rule (a command and its prefix);
+say when a rule would let coders run scripts they write themselves. Then run `PY tools/pa_ext.py runs --mark` and return
+only (≤ 300 tokens):
+```
+STATUS: done
+REVIEWED: <n> runs (<models>)
+EXT-HEALTH: project: <an allow rule or a note> (<evidence>)
+EXT-HEALTH: model <config>/<alias>: <a note> (<evidence>)
+EXT-SET: <pa_ext.py set flags, e.g. --effort max or --drop-note 2> (<evidence>)
 ```

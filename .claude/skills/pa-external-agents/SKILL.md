@@ -92,6 +92,12 @@ early, and bfm's coders needed its disassembler. PA3 learns it run by run:
 
    End each note with its evidence and date, e.g. `(T11, 2026-10-21: 6 of 9 walls after 1-2 tries)`, so a later
    review can drop one that stopped helping. The next coder started gets every note.
+4. After a phase closes, when external coders ran since the last review, the close notice asks you to start the
+   `auditor` with `EXTERNAL REVIEW · PHASE <n>` (in the background, once the close is released). It reads every run
+   since the last review against the rules and notes in force (`/usr/bin/python3 tools/pa_ext.py runs`): did each fix work, what
+   still hurts, how the project should use its external coders. Its `EXT-HEALTH:` lines are handled as in step 3; an
+   `EXT-SET:` line is a `/usr/bin/python3 tools/pa_ext.py set` change (`--effort max`, `--drop-note 2`, `--lanes …`), asked and
+   applied the same way.
 
 ## Costs and safety
 - The launcher pins every model setting to the chosen model, and each run reports any other model it saw (`LEAK:` on
