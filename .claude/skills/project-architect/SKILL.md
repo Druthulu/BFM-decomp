@@ -90,9 +90,10 @@ A `-` saving on the statusline is repaired in the same session on the next turn 
 ## 6. Hygiene
 Generated files are regenerated from their inputs, never hand-edited. Preserve comments and doc headers on rewrite;
 disabled logic gets `// DISABLED: <name> — <date/phase> / Original intent / Why disabled (evidence) / Re-enable if
-<condition>`; a tuned value keeps its old value in a comment (`= 8; // was 5`). No system temp: a phase's temp work
-lives under `.run/<phase>/` (gitignored), a temp folder only, never storage: what the project needs lives in its proper
-place in the repo, and a tool deletes its own temp folders when it finishes. Determinism and pinning at every boundary:
+<condition>`; a tuned value keeps its old value in a comment (`= 8; // was 5`). No system temp: all of a phase's work
+in `.run/` goes under `.run/<phase>/` (gitignored), nowhere else in `.run/`. It is a temp folder only, never a home for
+long-term content: what the project needs lives in its proper place in the repo, and a tool deletes its own temp folders
+when it finishes. Determinism and pinning at every boundary:
 stable sorts and fixed tie-breaks on gate-crossing metrics, toolchains pinned by evidence, cross-boundary contracts asserted
 at startup. Every imported datum carries source, scope and verification status; unverified data stays quarantined. Raw
 outputs and logs are never edited: analysis writes new files.

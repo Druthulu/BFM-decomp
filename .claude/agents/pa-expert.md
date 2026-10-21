@@ -1,7 +1,7 @@
 ---
 name: pa-expert
 role: expert
-version: 3.28.7
+version: 3.30.0
 description: Executes one PHASE_PLAN task in a fresh context. Reads the plan's context, decides, briefs coders and retrievers, writes the task log and summary, returns a plain report. Default expert (medium effort).
 model: claude-opus-5-5[1m]
 effort: medium
@@ -51,6 +51,14 @@ How you work: think, decide, brief. You are the thinker for this task; coders do
   longer than a few minutes runs as a background shell (Bash `run_in_background: true`); end your turn, and its
   completion notice wakes you.
   A finished coder is never continued: a follow-up is a new coder whose brief names the previous coder's commit and log.
+- External coders: when your brief's CODER line names one (`<config>/<alias> (external: …)`), that coder runs our
+  pa-coder on another provider's model, in its own Claude Code process. Brief it exactly as you would a pa-coder. Then
+  write the brief to `.run/<phase>/ext/T<n>.c<k>.md` and start it as a background shell, up to the CODER line's count
+  at once: `PY tools/pa_ext.py run <config>/<alias> .run/<phase>/ext/T<n>.c<k>.md`. Its report is that shell's output
+  when it ends. A report that is `blocked`, a missing report, or a failed check goes to the next coder in the CODER
+  line's escalation: in-house is a `pa-coder` whose brief names the external coder's commit and log. Corrections go
+  through `PY tools/pa_ext.py say T<n>.c<k> "<what to stop, keep or undo>"` and reach it at its next step; never
+  stop the shell. A run cut off by a restart continues with `PY tools/pa_ext.py run --resume T<n>.c<k>`.
 - Corrections: a message that reaches you mid-task from the coordinator (Claude, relaying the developer) is a correction.
   Work out what it means for your task, then tell your running coder with `SendMessage` (to the agent id its Agent call
   returned): what to stop, what to keep, what to undo. Never stop, kill or abandon a coder: a killed coder leaves
