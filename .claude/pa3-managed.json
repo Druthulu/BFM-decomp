@@ -322,9 +322,9 @@
     }
   },
   "format": 1,
-  "git": "1bc3a71e",
-  "installed": "2026-10-22T04:14:42Z",
+  "git": "9c003728",
+  "installed": "2026-10-22T05:42:55Z",
   "package": null,
-  "phase": "3.30.2",
-  "upstream_version": "3.30.2"
+  "phase": "3.30.3",
+  "upstream_version": "3.30.3"
 }
