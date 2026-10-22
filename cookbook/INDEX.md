@@ -983,3 +983,4 @@ C0530 | Lever-removal moves from 3.40 cracks: in-place RMW, % 2^k, derived-point
 C0531 | Residue refresh: --restamp writes no new rows; after rung D re-run all four forms | residue,restruct,restamp,rung-D,casts,gate | 2026-10-21 | 3.40/T7 | P3.40 T2/T7 summaries
 C0532 | A rung-S sweep reshapes map types: hash names drift, frozen bands go stale, twins go SHARED | structs,restruct,rung-S,census,band,twins | 2026-10-21 | 3.40/T4 | P3.40 T2/T4/T5 summaries
 C0533 | Census summary JSONs are capped; never rebuild rows from them | census,json,structs,caps,trap | 2026-10-21 | 3.40/T3 | P3.40 T3 summary
+C0534 | Dead const-address temp folded by cse: derive the pointer in the loop-test block | cse,const-addr,launder,goto,beq-order | 2026-10-22 | 40/T11 | T11.cG16 func_8012C2D0
