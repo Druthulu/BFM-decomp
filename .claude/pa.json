@@ -62,5 +62,5 @@
   },
   "memory_routed": "3.14",
   "migrated": "3.2",
-  "external": {"lanes": {"openrouter-deepseek": 0, "openrouter-minimax": 4}, "max_coders": 4, "escalate": [], "use": true, "remind": false}
+  "external": {"lanes": {"openrouter-deepseek": 0, "openrouter-minimax": 10}, "max_coders": 10, "escalate": [], "use": true, "remind": false, "notes": ["2026-10-21 T11.cG08c: scratch copies of a src def (orig.c) go stale once later batches bank; diff against the current src at item start and regenerate (G08c found every earlier score in one dir measured against an old body)."]}
 }
