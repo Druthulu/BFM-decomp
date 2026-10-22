@@ -85,14 +85,14 @@ early, and bfm's coders needed its disassembler. PA3 heals it without waiting fo
    folder); `--drop-dir` removes it.
 2. **The judge.** Auto mode cannot run on another provider's model, so a command no rule allows goes to PA3's judge
    (Opus 5.5 at medium, on the subscription): it refuses anything that reaches the network (web needs go to the
-   expert's web retriever) or a path outside the project, and otherwise decides as auto mode would, with auto mode's
-   own rules. What it allows with a narrow rule (`Bash(mipsel-linux-gnu-objdump:*)`) is learned for the project and
+   expert's web retriever) or a path outside the project, and otherwise decides as auto mode would, under PA3's policy
+   for external coders. What it allows with a narrow rule (`Bash(objdump:*)`) is learned for the project and
    never judged again; a refusal is remembered too. `/usr/bin/python3 tools/pa_ext.py runs` lists what it learned; `set --forget
    <rule>` drops one.
 3. **Learning mode.** A model new to the project runs one coder at a time there until a run comes back clean: no
-   denial, nothing learned, no sandbox or read-guard failure, a proper report, no note added after it. Then it gets the
-   project's lanes; a run that meets friction later puts it back to one at a time. A project with one lane sees no
-   change.
+   denial, no sandbox or read-guard failure, a proper report, no note added after it (what the judge allowed or learned
+   doesn't count). Then it gets the project's lanes; a run that meets friction later puts it back to one at a time. A
+   project with one lane sees no change.
 4. **The check-in after each coder.** A finished external coder's report ends with `HEALTH` lines when it met friction
    (`/usr/bin/python3 tools/pa_ext.py health <label>` prints them for any run). The task's expert reads them at once, corrects the
    coders still running, adjusts its next brief, and writes down what later coders need with its evidence and date:
@@ -132,4 +132,4 @@ early, and bfm's coders needed its disassembler. PA3 heals it without waiting fo
 | `blocked: learning mode: …` | the model is new to the project and runs one coder at a time until a run comes back clean | the expert starts it when the running coder reports; nothing to do |
 | `Refused by PA3: no network …` or `… is outside this project` | the judge's fixed rules | none: web needs go to the expert; a folder the tools must read is `set --dir` on the developer's word |
 | `LEAK: requests ran on <id>` | a request named another model | stop external runs and tell the developer; check the key's activity at openrouter.ai |
-| a command refused by PA3's judge | the judge found it outside auto mode's rules or PA3's policy | the expert finds another route; `runs` lists what it refused, and `set --forget <key>` lets it be judged again |
+| a command refused by PA3's judge | the judge found it against PA3's policy | the expert finds another route; `runs` lists what it refused, and `set --forget <key>` lets it be judged again |

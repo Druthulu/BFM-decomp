@@ -784,23 +784,6 @@ def ext_dirs(pa_json):
     return out
 
 
-def capture_auto_mode(run_dir, proj):
-    """3.30.1: `claude auto-mode config` (auto mode's effective rules, the project's included) into
-    <run dir>/auto-mode.json for the judge, run in the user's own environment; False when it fails (the judge then
-    goes by PA3's policy alone)."""
-    from pa.hooks import permission_request as pr
-    try:
-        r = subprocess.run(claude_exe() + ["auto-mode", "config"], cwd=proj, env=pr.judge_env(),
-                           capture_output=True, timeout=30)
-        doc = json.loads(r.stdout.decode("utf-8", "replace")) if r.returncode == 0 else None
-    except (OSError, ValueError, subprocess.TimeoutExpired, Blocked):
-        doc = None
-    if not isinstance(doc, dict):
-        return False
-    fsutil.atomic_write_text(os.path.join(run_dir, pr.RULES_FILE), json.dumps(doc, ensure_ascii=False) + "\n")
-    return True
-
-
 # --------------------------------------------------------------------------- run: records
 
 def _ext_dir(proj):
@@ -828,14 +811,16 @@ def _log_note(proj, kind, target, text):
 
 def run_clean(proj, rec):
     """3.30.1, learning mode: a finished run met no friction: done, its report starting with a status word, no denial
-    of any kind (rules, the fixed rules, the judge), nothing learned, no sandbox or read-guard failure, no nudge, and no
-    note added for it after it ended (the expert's check-in found nothing to teach)."""
+    of any kind (rules, the fixed rules, the judge), no sandbox or read-guard failure, no nudge, and no note added for
+    it after it ended (the expert's check-in found nothing to teach). 3.30.4: what the judge allowed or learned is no
+    friction: a learned rule reaches the coders already running at their next call, a note only those that start
+    after it (bfm: every batch's own scratch scripts were learned, so no run could come back clean)."""
     h = _dict(rec.get("health"))
     if rec.get("status") != "done" or rec.get("report_word") is False or not h:
         return False
     j = _dict(h.get("judge"))
     if any(h.get(k) for k in ("denied", "sandbox", "guard", "nudges")) or any(
-            j.get(k) for k in ("learned", "denied", "network", "outside")):
+            j.get(k) for k in ("denied", "network", "outside")):
         return False
     ended, target = int(rec.get("ended") or 0), "%s/%s" % (rec.get("config"), rec.get("alias"))
     return not any(int(n.get("at") or 0) >= ended and (n.get("kind") == "project" or n.get("target") == target)
@@ -1644,7 +1629,6 @@ def run(target, brief_path, out=print, cwd=None, resume=None):
                 os.remove(os.path.join(run_dir, ext_rules.DECISIONS))
             except OSError:
                 pass
-        capture_auto_mode(run_dir, proj)
         hook_env = {"PA_EXT_PROJECT": proj, "PA_EXT_RUN_DIR": run_dir, "PA_EXT_DIRS": os.pathsep.join(dirs),
                     "PA_EXT_PY": _py(pa_json)}
         if _CLAUDE is None:
