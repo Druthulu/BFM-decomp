@@ -15,7 +15,7 @@ Task: T11 singleton crack wave · Agent: pa-expert · prior notes: logs/T11.prog
 - Unbanked bankable MATCHes: G15 3, RM1 4, RM1x 2 (9). Finished shards since B3: G14b G15b RM1 RM1x RM2 (5).
 
 ## In flight
-- T11.c104 (pa-coder, in-house) bank B4: G14 G15 RM1 RM1x RM2 RM2x, 9 MATCH + 13 WALL rows. Brief .run/P40/T11/bank_B4.txt. Barrier: no ext shard until it reports.
+- DONE c104 → 926e7a64b3: 9 banked, 18 WALL rows rewritten, strict residue 2088 unused 0 OK, gate 218/218, BANKING removed. Was: bank B4: G14 G15 RM1 RM1x RM2 RM2x, 9 MATCH + 13 WALL rows. Brief .run/P40/T11/bank_B4.txt. Barrier: no ext shard until it reports.
 
 ## Hypotheses rejected
 - MiniMax walls shallow: fixed by ≥ 30-tries rule (a7/a8).
@@ -47,3 +47,6 @@ MiniMax cracks ~35-40 % when it spends the budget.
 - Harness forced hand-back while T11.c104 (in-house bank B4) still runs its gate. Respawn: first check `git log --oneline -3` for a `T11.c104:` commit and that `.run/P40/T11/BANKING` is gone; if no commit and no BANKING after its gate, read phase-ends/current/logs/T11.c104.md and re-brief from .run/P40/T11/bank_B4.txt.
 - Then resume the single MiniMax lane at G16 (queue mm_queue_a9.txt; done: G14b G15b RM1 RM1x RM2 RM2x). Learning mode has not lifted after 6 runs (friction every run: denials, judge usage-limit refusals, read-guard): EXT-HEALTH for the developer.
 - a10 tally: 15+5 items finished in 6 shards, 9 MATCH (G15 3, RM1 4, RM1x 2), 12 WALL.
+
+- c104 landed green (926e7a64b3): skip the c104 check; start the MiniMax lane at G16 directly. Next bank K=105, B=5.
+- generalizable: bank_swap.py asserts on macro-call regions (SCAN-style items, no def): bank by exact orig.c→win.c replacement (c104).
