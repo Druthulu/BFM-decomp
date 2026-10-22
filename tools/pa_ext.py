@@ -12,15 +12,23 @@ say     <label> <text>: queue a correction for a running external coder
 ask     <question>: inside an external coder, a code lookup through the mod's retriever (prints its answer)
 health  <label>: the HEALTH block of a running or finished external coder, from its transcript (3.30)
 runs    for the phase-end external review (3.30): the runs ended since the last review and what is in force (notes,
-        the allow rules health proposals added, the settings); --count only the number; --mark stamps the review
+        the allow rules health proposals added, what PA3's judge learned, learning mode, the settings); --count
+        only the number; --mark stamps the review
 set     the project's pa.json `external` block (3.3 T6): --coder, --lanes, --max-coders, --escalate, --use,
-        --remind, --effort; --show (or no flags) prints it; checked, and only that block's text changes. The
-        approved health proposals (3.30): --note/--drop-note (this project's external coders), --model-note
-        <config>/<alias> <text> (every coder on that model: <folder>/notes/<alias>.md), --allow <rule> (the
-        project's .claude/settings.json)
+        --remind, --effort; --show (or no flags) prints it; checked, and only that block's text changes. What a
+        run teaches (3.30, applied by the expert since 3.30.1, each an FYI to Claude with its undo): --note/--drop-note
+        (this project's external coders), --model-note <config>/<alias> <text> / --drop-model-note <config>/<alias> <n>
+        (every coder on that model: <folder>/notes/<alias>.md); --allow <rule> (the project's .claude/settings.json);
+        --forget <rule> (drop what the judge learned); --dir/--drop-dir <path> (a folder outside the project its
+        tools read, given to coders as a working directory)
 
 run shows the coder like an in-house one (3.3 T5.c2): feed records, a facts file, journal entries, a finish card
 and the session's cost file (ext.json), when the parent session's .run/mod/<sid>/ exists.
+
+3.30.1: a coder reads only the project and system folders and writes only inside the project (the read fence and
+project-anchored edit rules); a call no rule approves goes to PA3's judge (pa/hooks/permission_request.py: no network,
+nothing outside the project, the project's learned decisions, then Opus 5.5); a model new to the project runs one
+coder at a time until a run comes back clean (learning mode).
 
 Stdlib only. The key is written only to <folder>/settings.json; it never reaches the output,
 status.json, pa3-ext.json or an exception message.
@@ -62,7 +70,7 @@ def _pa_home():
 
 
 _pa_home()
-from pa import fsutil, paths  # noqa: E402
+from pa import ext_rules, fsutil, paths  # noqa: E402
 
 
 # --------------------------------------------------------------------------- files
@@ -476,8 +484,19 @@ def check(out=print):
 _CLAUDE = None      # tests: the argv prefix in place of the claude executable (as pa3_update.py's _SPAWNER)
 LABEL_RE = re.compile(r"CODER TASK (T\d+(?:\.\d+)*\.c\d+)")
 SAFE_LABEL_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*\Z")
-BASE_ALLOW = ["Read", "Edit", "Write", "MultiEdit", "Grep", "Glob"]
+BASE_ALLOW = ["Read", "Edit", "Write", "MultiEdit", "Grep", "Glob"]   # the bench's coders (tools/bench.py)
+# 3.30.1, the fence: a run's coder edits only inside the project (an Edit rule passed as a flag anchors at the working
+# directory and covers Write and MultiEdit; reads inside need no rule), and the read fence keeps its file tools and
+# its sandboxed commands out of the home folder and other drives. The project's bare or outside file-tool rules are
+# dropped (FILE_RULE_RE). Web tools are off: web needs go to the expert's web retriever.
+CODER_ALLOW = ["Edit(/**)"]
+CODER_DENY = ["Agent", "WebFetch", "WebSearch"]
+FILE_RULE_RE = re.compile(r"(Read|Edit|Write|MultiEdit|NotebookEdit|Grep|Glob|LS)(\((//|~|[A-Za-z]:).*\))?\Z")
 HOOK_EVENTS = ("SessionStart", "PreToolUse", "PostToolUse", "Stop", "SessionEnd")
+# 3.30.1: the judge, in the coder's own settings only (pa/hooks/permission_request.py); its 150 s judge fits.
+PERM_HOOK = {"PermissionRequest": [{"hooks": [{"type": "command", "timeout": 180,
+                                               "command": "\"{{PY_EXE}}\" -I -X utf8 {{PA3}}/pa_hook.py permission_request"}]}]}
+FENCE = {"blockReadsOutsideWorkingDirectories": True}
 EXT_WINDOW = "1000000"      # the context window Claude Code is told for an external model (child_settings)
 EXT_MAX_OUTPUT = "65536"    # output per request (Claude Code's default is 32000): room for max effort's reasoning
 EFFORTS = ("low", "medium", "high", "max")      # `set --effort`; `default` drops it (EXT_EFFORT)
@@ -654,8 +673,9 @@ def append_text(proj, py, pa_json=None, folder=None, alias=None, name=None):
     return "\n\n".join(parts) + "\n"
 
 
-def child_settings(sets, model_id, snippet):
-    """The generated settings.json: the project's env (no ANTHROPIC_*), our model pins, 5 hook events, 4 flags."""
+def child_settings(sets, model_id, snippet, perm_hook=None):
+    """The generated settings.json: the project's env (no ANTHROPIC_*), our model pins, 5 hook events, 4 flags; with
+    `perm_hook` (a run's coder, 3.30.1) the judge's PermissionRequest hook and the read fence too."""
     env = {}
     for s in sets:
         env.update((k, v) for k, v in _dict(s.get("env")).items() if not k.startswith("ANTHROPIC_"))
@@ -669,6 +689,9 @@ def child_settings(sets, model_id, snippet):
                 "CLAUDE_CODE_MAX_OUTPUT_TOKENS": EXT_MAX_OUTPUT})
     hooks = _dict(snippet.get("hooks"))
     out = {"env": env, "hooks": dict((e, hooks[e]) for e in HOOK_EVENTS if e in hooks)}
+    if perm_hook:
+        out["hooks"].update(perm_hook)
+        out["permissions"] = dict(FENCE)
     for k in FLAGS:
         val = False
         for s in sets:
@@ -678,16 +701,20 @@ def child_settings(sets, model_id, snippet):
     return out
 
 
-def tool_lists(sets, snippet):
-    """(--allowedTools, --disallowedTools) lists; never a bare Bash, never pa3_update."""
-    allow, deny = list(BASE_ALLOW), ["Agent"]
+def tool_lists(sets, snippet, learned=()):
+    """(--allowedTools, --disallowedTools) lists; never a bare Bash, never pa3_update. 3.30.1: edits inside the
+    project only (CODER_ALLOW, no bare or outside file-tool rule from the project), no web tools, and what PA3's judge
+    learned for the project (`learned`)."""
+    allow, deny = list(CODER_ALLOW), list(CODER_DENY)
     for s in sets + [snippet]:
         perms = _dict(s.get("permissions"))
         allow += [x for x in perms.get("allow") or [] if isinstance(x, str)]
         if s is not snippet:
             deny += [x for x in perms.get("deny") or [] if isinstance(x, str)]
-    allow = [x for x in allow if "pa3_update" not in x and x.strip() not in ("Bash", "Bash(*)", "Bash(:*)")]
-    return list(dict.fromkeys(allow)), list(dict.fromkeys(deny))
+    allow += [x for x in learned if isinstance(x, str)]
+    allow = [x for x in allow if "pa3_update" not in x and x.strip() not in ("Bash", "Bash(*)", "Bash(:*)")
+             and not FILE_RULE_RE.match(x.strip())]
+    return list(dict.fromkeys(CODER_ALLOW + allow)), list(dict.fromkeys(deny))
 
 
 def write_run_dir(run_dir, proj, pa_json, model_id, folder=None, alias=None, display=None):
@@ -696,41 +723,82 @@ def write_run_dir(run_dir, proj, pa_json, model_id, folder=None, alias=None, dis
     from pa.install import settings_merge
     py = _py(pa_json)
     snippet = settings_merge.fill(settings_merge.load_snippet(), py, _pa3_dir())
+    perm = settings_merge.fill(json.loads(json.dumps(PERM_HOOK)), py, _pa3_dir())
     sets = project_settings(proj)
     name, desc, tools, effort, prompt = parse_agent(os.path.join(proj, ".claude", "agents", "pa-coder.md"))
     os.makedirs(os.path.join(run_dir, "in", "done"), exist_ok=True)
-    fsutil.atomic_write_text(os.path.join(run_dir, "settings.json"),
-                             json.dumps(child_settings(sets, model_id, snippet), ensure_ascii=False, indent=2) + "\n")
+    fsutil.atomic_write_text(os.path.join(run_dir, "settings.json"), json.dumps(
+        child_settings(sets, model_id, snippet, perm), ensure_ascii=False, indent=2) + "\n")
     fsutil.atomic_write_text(os.path.join(run_dir, "agents.json"), json.dumps(
         {name: {"description": desc, "prompt": prompt, "tools": tools}}, ensure_ascii=False, indent=2) + "\n")
     fsutil.atomic_write_text(os.path.join(run_dir, "append.md"), append_text(proj, py, pa_json, folder, alias, display))
-    allow, deny = tool_lists(sets, snippet)
+    allow, deny = tool_lists(sets, snippet, ext_rules.allow_rules(proj))
     return name, effort, allow, deny
 
 
-def claude_argv(run_dir, agent, model_id, effort, sid, allow, deny, resume=False):
+def claude_exe():
+    """The claude to start (tests: _CLAUDE)."""
     if _CLAUDE is not None:
-        exe = list(_CLAUDE)
-    else:
-        c = shutil.which("claude") or os.environ.get("CLAUDE_CODE_EXECPATH")
-        if not c:
-            raise Blocked("claude not found on PATH (and no CLAUDE_CODE_EXECPATH)")
-        exe = [c]
-    return exe + ["-p", "--agent", agent, "--agents", os.path.join(run_dir, "agents.json"), "--model", model_id,
-                  "--effort", effort, "--resume" if resume else "--session-id", sid, "--input-format", "stream-json",
-                  "--output-format", "stream-json", "--verbose", "--replay-user-messages",
-                  "--settings", os.path.join(run_dir, "settings.json"), "--setting-sources", "user",
-                  "--permission-prompts", "none", "--strict-mcp-config", "--allowedTools", ",".join(allow),
-                  "--disallowedTools", ",".join(deny),
-                  "--append-system-prompt-file", os.path.join(run_dir, "append.md")]
+        return list(_CLAUDE)
+    c = shutil.which("claude") or os.environ.get("CLAUDE_CODE_EXECPATH")
+    if not c:
+        raise Blocked("claude not found on PATH (and no CLAUDE_CODE_EXECPATH)")
+    return [c]
 
 
-def child_env(folder, target, model_id, psid, label):
+def claude_argv(run_dir, agent, model_id, effort, sid, allow, deny, resume=False, dirs=()):
+    """The child's argv; 3.30.1: `dirs`, the folders outside the project its tools read (`set --dir`), as
+    working directories."""
+    extra = []
+    for d in dirs:
+        extra += ["--add-dir", d]
+    return claude_exe() + ["-p", "--agent", agent, "--agents", os.path.join(run_dir, "agents.json"), "--model",
+                           model_id, "--effort", effort, "--resume" if resume else "--session-id", sid,
+                           "--input-format", "stream-json", "--output-format", "stream-json", "--verbose",
+                           "--replay-user-messages", "--settings", os.path.join(run_dir, "settings.json"),
+                           "--setting-sources", "user", "--permission-prompts", "none", "--strict-mcp-config",
+                           "--allowedTools", ",".join(allow), "--disallowedTools", ",".join(deny)] + extra + [
+        "--append-system-prompt-file", os.path.join(run_dir, "append.md")]
+
+
+def child_env(folder, target, model_id, psid, label, extra=None):
+    """3.30.1 `extra`: what the judge's hook reads (PA_EXT_PROJECT, PA_EXT_RUN_DIR, PA_EXT_DIRS, PA_EXT_PY,
+    PA_EXT_CLAUDE)."""
     env = dict((k, v) for k, v in os.environ.items()
                if k.upper() not in STRIP_ENV and not k.upper().startswith("ANTHROPIC_"))
     env.update({"CLAUDE_CONFIG_DIR": folder, "PA_EXT": target, "PA_EXT_MODEL": model_id, "PA_EXT_PARENT": psid,
                 "PA_EXT_LABEL": label, "PYTHONIOENCODING": "utf-8"})
+    env.update(extra or {})
     return env
+
+
+def ext_dirs(pa_json):
+    """3.30.1: the project's declared folders outside it (`external.dirs`, `set --dir`), expanded, those that
+    exist."""
+    out = []
+    for d in _dict(pa_json.get("external")).get("dirs") or []:
+        if isinstance(d, str) and d.strip():
+            p = os.path.abspath(os.path.expanduser(d.strip()))
+            if os.path.isdir(p):
+                out.append(p)
+    return out
+
+
+def capture_auto_mode(run_dir, proj):
+    """3.30.1: `claude auto-mode config` (auto mode's effective rules, the project's included) into
+    <run dir>/auto-mode.json for the judge, run in the user's own environment; False when it fails (the judge then
+    goes by PA3's policy alone)."""
+    from pa.hooks import permission_request as pr
+    try:
+        r = subprocess.run(claude_exe() + ["auto-mode", "config"], cwd=proj, env=pr.judge_env(),
+                           capture_output=True, timeout=30)
+        doc = json.loads(r.stdout.decode("utf-8", "replace")) if r.returncode == 0 else None
+    except (OSError, ValueError, subprocess.TimeoutExpired, Blocked):
+        doc = None
+    if not isinstance(doc, dict):
+        return False
+    fsutil.atomic_write_text(os.path.join(run_dir, pr.RULES_FILE), json.dumps(doc, ensure_ascii=False) + "\n")
+    return True
 
 
 # --------------------------------------------------------------------------- run: records
@@ -743,12 +811,66 @@ def _running(rec):
     return isinstance(rec, dict) and rec.get("status") == "running" and fsutil.pid_alive(rec.get("pid"))
 
 
+NOTES_LOG = "notes.json"    # <proj>/.run/mod/ext/notes.json [{at, kind, target, text}]: notes `set` added (3.30.1)
+
+
+def notes_log(proj):
+    d = fsutil.read_json(os.path.join(_ext_dir(proj), NOTES_LOG), [])
+    return [n for n in d if isinstance(n, dict)] if isinstance(d, list) else []
+
+
+def _log_note(proj, kind, target, text):
+    path = os.path.join(_ext_dir(proj), NOTES_LOG)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    fsutil.locked_update(path, lambda d: (d if isinstance(d, list) else []) + [
+        {"at": int(time.time()), "kind": kind, "target": target, "text": text}], default=[])
+
+
+def run_clean(proj, rec):
+    """3.30.1, learning mode: a finished run met no friction: done, its report starting with a status word, no denial
+    of any kind (rules, the fixed rules, the judge), nothing learned, no sandbox or read-guard failure, no nudge, and no
+    note added for it after it ended (the expert's check-in found nothing to teach)."""
+    h = _dict(rec.get("health"))
+    if rec.get("status") != "done" or rec.get("report_word") is False or not h:
+        return False
+    j = _dict(h.get("judge"))
+    if any(h.get(k) for k in ("denied", "sandbox", "guard", "nudges")) or any(
+            j.get(k) for k in ("learned", "denied", "network", "outside")):
+        return False
+    ended, target = int(rec.get("ended") or 0), "%s/%s" % (rec.get("config"), rec.get("alias"))
+    return not any(int(n.get("at") or 0) >= ended and (n.get("kind") == "project" or n.get("target") == target)
+                   for n in notes_log(proj))
+
+
+def last_finished(proj, config, alias):
+    """The model's last finished run record in this project, or None."""
+    best = None
+    for f in glob.glob(os.path.join(_ext_dir(proj), "*.json")):
+        r = fsutil.read_json(f)
+        if (isinstance(r, dict) and r.get("config") == config and r.get("alias") == alias and r.get("ended")
+                and r.get("status") in ("done", "blocked") and (best is None or int(r["ended"]) > int(best["ended"]))):
+            best = r
+    return best
+
+
+def learning(proj, config, alias):
+    """3.30.1: (True, why) while a model learns this project: none of its runs has finished here, or its last one was
+    not clean; (False, the clean run's label) once its last finished run was clean."""
+    last = last_finished(proj, config, alias)
+    if last is None:
+        return True, "no run of it has finished in this project yet"
+    if run_clean(proj, last):
+        return False, last.get("label")
+    return True, "the last one, %s, met friction" % last.get("label")
+
+
 def claim(proj, rec, limit):
-    """Write the running record unless the label already runs (exit 4) or the config's lane is full (exit 4)."""
+    """Write the running record unless the label already runs, the config's lane is full, or (3.30.1, learning mode)
+    the model is still learning this project and one of its coders runs (exit 4 each)."""
     d = _ext_dir(proj)
     os.makedirs(d, exist_ok=True)
     with fsutil.file_lock(os.path.join(d, "lanes")):
-        n = 0
+        n, mine = 0, []
         for f in sorted(os.listdir(d)):
             if not f.endswith(".json"):
                 continue
@@ -759,8 +881,16 @@ def claim(proj, rec, limit):
                 raise Blocked("%s is already running" % rec["label"], 4)
             if other.get("config") == rec["config"]:
                 n += 1
+                if other.get("alias") == rec.get("alias"):
+                    mine.append(other.get("label"))
         if n >= limit:
             raise Blocked("the %s lane is full (%d running)" % (rec["config"], n), 4)
+        if mine:
+            on, why = learning(proj, rec["config"], rec.get("alias"))
+            if on:
+                raise Blocked("learning mode: %s runs one coder at a time in this project until a run comes back "
+                              "clean (%s); start %s again when %s reports" % (
+                                  rec.get("name") or rec.get("model"), why, rec["label"], mine[0]), 4)
         _update(proj, rec["label"], lambda d0: rec)
 
 
@@ -950,7 +1080,8 @@ def _fetch_key(url, key):
     return {"usage": d.get("usage"), "limit_remaining": d.get("limit_remaining")} if "usage" in d else None
 
 
-DENY_RE = re.compile(r"permission[^.\n]{0,40}denied|haven't granted|requires approval", re.I)
+DENY_RE = re.compile(r"permission[^.\n]{0,40}denied|haven't granted|requires approval|refused by pa3|"
+                     r"blocks reads outside", re.I)
 
 
 def _deny_kind(tool, cmd):
@@ -978,6 +1109,7 @@ class Health:
 
     def __init__(self):
         self.uses, self.denied, self.sandbox, self.guard, self.retries, self.nudges = {}, [], 0, 0, 0, 0
+        self.judge = {}     # 3.30.1: ext_rules.tally of the run's decisions.jsonl
 
     def record(self, rec):
         t, msg = rec.get("type"), _dict(rec.get("message"))
@@ -1015,9 +1147,13 @@ class Health:
         return [(k, n, ex) for k, (n, ex) in sorted(groups.items(), key=lambda kv: -kv[1][0])]
 
     def summary(self, denials=None):
-        """What the run record keeps for the phase-end review (3.30): denied calls by kind, and the other counts."""
-        return {"denied": dict((k, n) for k, n, _ in self.kinds(denials)), "sandbox": self.sandbox,
-                "guard": self.guard, "retries": self.retries, "nudges": self.nudges}
+        """What the run record keeps for the phase-end review (3.30): denied calls by kind, and the other counts;
+        3.30.1: the judge's tally (`judge`), when the hook decided anything."""
+        out = {"denied": dict((k, n) for k, n, _ in self.kinds(denials)), "sandbox": self.sandbox,
+               "guard": self.guard, "retries": self.retries, "nudges": self.nudges}
+        if self.judge:
+            out["judge"] = dict((k, v) for k, v in self.judge.items() if k != "examples")
+        return out
 
     def lines(self, denials=None):
         """The HEALTH block, [] for a run without friction."""
@@ -1028,6 +1164,18 @@ class Health:
                 "%s ×%d%s" % (k, n, ", e.g. `%s`" % re.sub(r"\s+", " ", ex).strip()[:90] if ex.strip() else "")
                 for k, n, ex in kinds[:8]),
                 "; +%d more kinds" % (len(kinds) - 8) if len(kinds) > 8 else ""))
+        j = self.judge
+        if j and (j.get("allowed") or j.get("denied") or j.get("network") or j.get("outside")):
+            parts = []
+            if j.get("allowed") or j.get("denied"):
+                parts.append("PA3's judge allowed %d, refused %d" % (j.get("allowed", 0), j.get("denied", 0)))
+            if j.get("learned"):
+                parts.append("learned for this project: %s" % ", ".join("`%s`" % r for r in j["learned"]))
+            if j.get("network") or j.get("outside"):
+                parts.append("refused by the fixed rules: network %d, outside the project %d" % (
+                    j.get("network", 0), j.get("outside", 0)))
+            out.append("- " + "; ".join(parts) + (" (e.g. %s)" % "; ".join(j["examples"][:2]) if j.get("examples")
+                                                 else ""))
         if self.sandbox:
             out.append("- sandbox (bwrap) failures %d, each re-run" % self.sandbox)
         if self.guard:
@@ -1489,8 +1637,19 @@ def run(target, brief_path, out=print, cwd=None, resume=None):
     try:
         agent, _, allow, deny = write_run_dir(run_dir, proj, pa_json, model_id, folder, alias, name)
         effort = _dict(pa_json.get("external")).get("effort") or EXT_EFFORT   # `set --effort`, else high
-        argv = claude_argv(run_dir, agent, model_id, effort, sid, allow, deny, bool(resume_sid))
-        kwargs = {"cwd": proj, "env": child_env(folder, "%s/%s" % (config, alias), model_id, psid, label),
+        dirs = ext_dirs(pa_json)
+        argv = claude_argv(run_dir, agent, model_id, effort, sid, allow, deny, bool(resume_sid), dirs)
+        if old is None:     # 3.30.1: a fresh run's own decisions (a resumed one keeps its earlier ones)
+            try:
+                os.remove(os.path.join(run_dir, ext_rules.DECISIONS))
+            except OSError:
+                pass
+        capture_auto_mode(run_dir, proj)
+        hook_env = {"PA_EXT_PROJECT": proj, "PA_EXT_RUN_DIR": run_dir, "PA_EXT_DIRS": os.pathsep.join(dirs),
+                    "PA_EXT_PY": _py(pa_json)}
+        if _CLAUDE is None:
+            hook_env["PA_EXT_CLAUDE"] = argv[0]
+        kwargs = {"cwd": proj, "env": child_env(folder, "%s/%s" % (config, alias), model_id, psid, label, hook_env),
                   "stdin": subprocess.PIPE, "stdout": subprocess.PIPE, "stderr": subprocess.PIPE}
         if os.name == "nt":
             kwargs["creationflags"] = 0x08000000        # CREATE_NO_WINDOW; never DETACHED_PROCESS
@@ -1520,11 +1679,14 @@ def run(target, brief_path, out=print, cwd=None, resume=None):
                 fh.close()
             except OSError:
                 pass
+        decs = ext_rules.decisions(run_dir)     # 3.30.1: what the judge's hook decided, for HEALTH and the record
+        show.health.judge = ext_rules.tally(decs) if decs else {}
         text, ok = finish(state, rc, label, name, model_id, show.health)
         state["show"] = None
         _quiet(show.finish, state["report"], state["result"] or {}, state["leaks"])
         res = state["result"] or {}   # 3.30: the record keeps what the phase-end review reads
-        _set(proj, label, ended=int(time.time()), turns=res.get("num_turns") or 0,
+        word = isinstance(res.get("result"), str) and bool(REPORT_RE.match(res["result"]))
+        _set(proj, label, ended=int(time.time()), turns=res.get("num_turns") or 0, report_word=word,
              health=show.health.summary(res.get("permission_denials")))
         out(text)
         status = "done" if ok else "blocked"
@@ -1714,24 +1876,70 @@ def _add_allow(proj, rule):
 
 
 def _add_model_note(target, note):
-    """3.30: an approved note for every coder on `<config>/<alias>`, in every project (one `- ` line each)."""
+    """3.30: a note for every coder on `<config>/<alias>`, in every project (one `- ` line each); (path, its number
+    among the notes, added)."""
     _check_target(target)
     config, _, alias = target.partition("/")
     path = model_notes_path(os.path.join(root(), config), alias)
     old = fsutil.read_text(path, None) or ""
     line = "- " + " ".join(note.split())
-    if line not in old.splitlines():
+    added = line not in old.splitlines()
+    if added:
         os.makedirs(os.path.dirname(path), exist_ok=True)
         fsutil.atomic_write_text(path, (old.rstrip("\n") + "\n" if old.strip() else "") + line + "\n")
-    return path
+    lines = [ln for ln in (fsutil.read_text(path, "") or "").splitlines() if ln.startswith("- ")]
+    return path, lines.index(line) + 1, added
+
+
+def _drop_model_note(target, n):
+    """3.30.1: drop a model's note by its number (the `- ` lines in order)."""
+    _check_target(target)
+    config, _, alias = target.partition("/")
+    path = model_notes_path(os.path.join(root(), config), alias)
+    lines = (fsutil.read_text(path, "") or "").splitlines()
+    notes = [i for i, ln in enumerate(lines) if ln.startswith("- ")]
+    k = _count(n, "drop-model-note")
+    if not 1 <= k <= len(notes):
+        raise Blocked("no note %s for %s: it has %d" % (n, target, len(notes)), 1)
+    del lines[notes[k - 1]]
+    fsutil.atomic_write_text(path, "\n".join(lines).rstrip("\n") + "\n" if any(ln.strip() for ln in lines) else "")
+
+
+_SECRET_DIRS = (".claude", ".ssh", ".aws", ".gnupg", ".config", ".azure", ".kube", ".docker")
+
+
+def _check_dir(proj, d):
+    """3.30.1: a folder outside the project its tools read: it exists, is not the home folder, a root, a folder
+    holding them or a secrets folder (.claude, .ssh, …), and is not inside the project."""
+    p = os.path.normpath(os.path.abspath(os.path.expanduser(d)))
+    home = os.path.normpath(paths.home())
+    if not os.path.isdir(p):
+        raise Blocked("no folder %s on this machine" % _fwd(d), 1)
+    if os.path.dirname(p) == p or ext_rules._inside(home, p) or ext_rules._inside(p, proj):
+        raise Blocked("%s is too wide (a root, the home folder or one holding it) or inside the project" % _fwd(d), 1)
+    for s in _SECRET_DIRS:
+        if ext_rules._inside(p, os.path.join(home, s)):
+            raise Blocked("%s holds credentials or settings: never a coder's folder" % _fwd(d), 1)
+
+
+def _fyi(proj, text):
+    """3.30.1: a one-line notice to Claude in the parent session (the mod's inbox), when that session's folder
+    exists."""
+    psid = parent_sid(proj)
+    mod = os.path.join(proj, ".run", "mod", psid) if psid else ""
+    if mod and os.path.isdir(mod):
+        _quiet(request, mod, "notice", lambda i: {"text": text})
 
 
 def set_external(coder=None, lanes=None, max_coders=None, escalate=None, use=None, remind=None, effort=None, out=print,
-                 cwd=None, note=None, drop_note=None, model_note=None, allow=None):
+                 cwd=None, note=None, drop_note=None, model_note=None, allow=None, forget=None, drop_model_note=None,
+                 add_dir=None, drop_dir=None):
     """`set`: change the given keys of pa.json's `external` block (the others stay); no change shows it. Exit 1 with
-    a one-line reason and nothing written on any failed check. 3.30, the approved health proposals: `note` (and
-    `drop_note`, 1-based) for this project's external coders, `model_note` (target, text) for every coder on a model,
-    `allow` a rule in the project's settings."""
+    a one-line reason and nothing written on any failed check. What a run teaches (3.30; since 3.30.1 the expert
+    applies notes itself, each an FYI to Claude with its undo): `note` (and `drop_note`, 1-based) for this project's
+    external coders, `model_note` (target, text) and `drop_model_note` (target, n) for every coder on a model,
+    `allow` a rule in the project's settings, `forget` a rule or refusal PA3's judge learned, `add_dir`/`drop_dir` a
+    folder outside the project its coders' tools read."""
     try:
         proj = find_root(cwd)
         path = os.path.join(proj, ".claude", "pa.json")
@@ -1742,8 +1950,10 @@ def set_external(coder=None, lanes=None, max_coders=None, escalate=None, use=Non
         except ValueError:
             raise Blocked(".claude/pa.json does not parse", 1)
         ext = dict(_dict(doc.get("external"))) if isinstance(doc, dict) else {}
+        py = _py(doc if isinstance(doc, dict) else {})
+        fyis = []
         if all(v is None for v in (coder, lanes, max_coders, escalate, use, remind, effort, note, drop_note,
-                                   model_note, allow)):
+                                   model_note, allow, forget, drop_model_note, add_dir, drop_dir)):
             if isinstance(doc, dict) and isinstance(doc.get("external"), dict):
                 out(json.dumps(doc["external"], indent=2))
             else:
@@ -1800,21 +2010,51 @@ def set_external(coder=None, lanes=None, max_coders=None, escalate=None, use=Non
             said.append("dropped note %d" % k)
             notes.pop(k - 1)
         if note is not None and note.strip():
-            if " ".join(note.split()) not in notes:
-                notes.append(" ".join(note.split()))
+            clean = " ".join(note.split())
+            if clean not in notes:
+                notes.append(clean)
+                fyis.append(("project", "", clean, "‹pa› FYI, nothing to ask: a note was added for every external "
+                             "coder in this project: “%s”. Undo: `%s tools/pa_ext.py set --drop-note %d`. Tell the "
+                             "developer in one line." % (clean, py, notes.index(clean) + 1)))
             said.append("note added")
         if note is not None or drop_note is not None:
             ext["notes"] = notes
         if model_note is not None:
-            said.append("model note in %s" % _fwd(_add_model_note(model_note[0], model_note[1])))
+            mpath, k, added = _add_model_note(model_note[0], model_note[1])
+            if added:
+                fyis.append(("model", model_note[0], " ".join(model_note[1].split()), (
+                    "‹pa› FYI, nothing to ask: a note was added for every coder on %s, in every project: “%s”. Undo: "
+                    "`%s tools/pa_ext.py set --drop-model-note %s %d`. Tell the developer in one line." % (
+                        model_note[0], " ".join(model_note[1].split()), py, model_note[0], k))))
+            said.append("model note in %s" % _fwd(mpath))
+        if drop_model_note is not None:
+            _drop_model_note(drop_model_note[0], drop_model_note[1])
+            said.append("dropped model note %s for %s" % (drop_model_note[1], drop_model_note[0]))
         if allow is not None:
             _add_allow(proj, allow)
             allowed = [a for a in ext.get("allowed") or [] if isinstance(a, dict)]
             if all(a.get("rule") != allow for a in allowed):   # the review's record: which rules, since when
                 ext["allowed"] = allowed + [{"rule": allow, "at": time.strftime("%Y-%m-%d")}]
             said.append("allow %s in .claude/settings.json" % allow)
+        if forget is not None:
+            if not ext_rules.forget(proj, forget):
+                raise Blocked("PA3's judge learned no %s here (`runs` lists what it learned)" % forget, 1)
+            said.append("forgot %s" % forget)
+        dirs = [d for d in ext.get("dirs") or [] if isinstance(d, str)]
+        if add_dir is not None:
+            _check_dir(proj, add_dir)
+            if add_dir not in dirs:
+                dirs.append(add_dir)
+            said.append("folder %s for coders to read" % add_dir)
+        if drop_dir is not None:
+            if drop_dir not in dirs:
+                raise Blocked("no folder %s in external.dirs" % drop_dir, 1)
+            dirs.remove(drop_dir)
+            said.append("dropped folder %s" % drop_dir)
+        if add_dir is not None or drop_dir is not None:
+            ext["dirs"] = dirs
         if any(v is not None for v in (coder, lanes, max_coders, escalate, use, remind, effort, note, drop_note,
-                                       allow)):
+                                       allow, add_dir, drop_dir)):
             new = with_external(text, ext)
             if new is None:
                 raise Blocked("could not write the external block without changing the rest of .claude/pa.json", 1)
@@ -1822,6 +2062,9 @@ def set_external(coder=None, lanes=None, max_coders=None, escalate=None, use=Non
             with open(tmp, "wb") as fh:
                 fh.write(new.encode("utf-8"))
             os.replace(tmp, path)
+        for kind, target, clean, fyi in fyis:   # 3.30.1: learning mode reads when a note came; Claude hears of it
+            _log_note(proj, kind, target, clean)
+            _fyi(proj, fyi)
     except Blocked as e:
         out("refused: %s" % e)
         return 1
@@ -1860,7 +2103,9 @@ def _cmd_set(args):
     if args.show:
         return set_external()
     return set_external(args.coder, args.lanes, args.max_coders, args.escalate, args.use, args.remind, args.effort,
-                        note=args.note, drop_note=args.drop_note, model_note=args.model_note, allow=args.allow)
+                        note=args.note, drop_note=args.drop_note, model_note=args.model_note, allow=args.allow,
+                        forget=args.forget, drop_model_note=args.drop_model_note, add_dir=args.dir,
+                        drop_dir=args.drop_dir)
 
 
 def _transcript_health(rec):
@@ -1892,6 +2137,8 @@ def health(label, out=print, cwd=None):
     except Blocked as e:
         out("refused: %s" % e)
         return e.code
+    decs = ext_rules.decisions(os.path.join(_ext_dir(proj), label))    # 3.30.1: the judge's decisions
+    h.judge = ext_rules.tally(decs) if decs else {}
     lines = h.lines()
     out("\n".join(lines) if lines else "HEALTH: no friction in %s" % label)
     return 0
@@ -1930,22 +2177,36 @@ def runs(count=False, mark=False, out=print, cwd=None):
         if not h:   # a run from before 3.30's record: from its transcript
             t = _transcript_health(r)
             h = t.summary() if t is not None else {}
-        denied = _dict(h.get("denied"))
+        denied, j = _dict(h.get("denied")), _dict(h.get("judge"))
         mins = (int(r.get("ended") or r.get("heartbeat") or 0) - int(r.get("started") or 0)) // 60
-        out("- %s · %s · %s · %d min%s · denied %d%s · sandbox %s · read guard %s · retries %s" % (
+        judged = " · judge allowed %d, refused %d, learned %d" % (j.get("allowed", 0), j.get("denied", 0), len(
+            j.get("learned") or [])) if j else ""
+        out("- %s · %s · %s · %d min%s · denied %d%s · sandbox %s · read guard %s · retries %s%s%s" % (
             r.get("label"), r.get("name") or r.get("model"), r.get("status"), mins,
             " · %s turns" % r["turns"] if r.get("turns") else "", sum(denied.values()),
             " (%s)" % ", ".join("%s %d" % kv for kv in list(denied.items())[:6]) if denied else "",
-            h.get("sandbox", "?"), h.get("guard", "?"), h.get("retries", "?")))
+            h.get("sandbox", "?"), h.get("guard", "?"), h.get("retries", "?"), judged,
+            " · clean" if run_clean(proj, r) else ""))
     pa_json = _dict(fsutil.read_json(os.path.join(proj, ".claude", "pa.json")))
     ext = _dict(pa_json.get("external"))
+    dated = dict((n.get("text"), time.strftime("%Y-%m-%d", time.localtime(int(n.get("at") or 0))))
+                 for n in notes_log(proj) if n.get("kind") == "project")
     out("Project notes (pa.json external.notes, `set --note`): %s" % ("none" if not ext.get("notes") else ""))
     for n in ext.get("notes") or []:
-        out("- %s" % n)
+        out("- %s%s" % (n, " (added %s)" % dated[n] if n in dated else ""))
     out("Allow rules from health proposals (`set --allow`): %s" % ("none" if not ext.get("allowed") else ""))
     for a in ext.get("allowed") or []:
         a = _dict(a)
         out("- %s (added %s)" % (a.get("rule"), a.get("at")))
+    learned = ext_rules.load_learned(proj)     # 3.30.1
+    out("Learned by PA3's judge (`set --forget <rule>` drops one): %s" % ("none" if not learned["allow"] else ""))
+    for e in learned["allow"]:
+        out("- %s (%s, %s%s)" % (e.get("rule"), time.strftime("%Y-%m-%d", time.localtime(int(e.get("at") or 0))),
+                                 e.get("label") or "?", ": `%s`" % e["example"][:80] if e.get("example") else ""))
+    if learned["deny"]:
+        out("Refused by the judge and refused again without asking (`set --forget <key>`): %d, e.g. %s" % (
+            len(learned["deny"]), "; ".join("%s (%s)" % (e.get("key")[:80], e.get("reason") or "?")
+                                            for e in learned["deny"][-3:])))
     for target in sorted(set("%s/%s" % (r.get("config"), r.get("alias")) for r in recs if r.get("config"))):
         config, _, alias = target.partition("/")
         notes = fsutil.read_text(model_notes_path(os.path.join(root(), config), alias), None)
@@ -1953,6 +2214,12 @@ def runs(count=False, mark=False, out=print, cwd=None):
         for ln in (notes or "").splitlines():
             if ln.strip():
                 out(ln.rstrip())
+    models = sorted(set((r.get("config"), r.get("alias")) for r in recs if r.get("config")))
+    if models:
+        out("Learning mode (a model runs one coder at a time in this project until a run comes back clean):")
+        for config, alias in models:
+            on, why = learning(proj, config, alias)
+            out("- %s/%s: %s" % (config, alias, ("learning: " + why) if on else "open (last run %s clean)" % why))
     out("Settings: %s" % json.dumps(dict((k, v) for k, v in ext.items() if k not in ("notes", "allowed"))))
     return 0
 
@@ -1980,7 +2247,9 @@ VERBS = {
              ("--use", {"choices": ("on", "off")}), ("--remind", {"choices": ("on", "off")}),
              ("--effort", {"choices": EFFORTS + ("default",)}), ("--show", {"action": "store_true"}),
              ("--note", {"metavar": "TEXT"}), ("--drop-note", {"metavar": "N"}),
-             ("--model-note", {"nargs": 2, "metavar": ("CONFIG/ALIAS", "TEXT")}), ("--allow", {"metavar": "RULE"}))),
+             ("--model-note", {"nargs": 2, "metavar": ("CONFIG/ALIAS", "TEXT")}),
+             ("--drop-model-note", {"nargs": 2, "metavar": ("CONFIG/ALIAS", "N")}), ("--allow", {"metavar": "RULE"}),
+             ("--forget", {"metavar": "RULE"}), ("--dir", {"metavar": "PATH"}), ("--drop-dir", {"metavar": "PATH"}))),
     "health": (_cmd_health, "the HEALTH block of a running or finished external coder: <label>", (("label", {}),)),
     "runs": (_cmd_runs, "for the phase-end external review: the runs since the last review and what is in force",
              (("--count", {"action": "store_true"}), ("--mark", {"action": "store_true"}))),

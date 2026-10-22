@@ -16,7 +16,10 @@ What differs:
 - Its lookups go through `/usr/bin/python3 tools/pa_ext.py ask "<question>"`. The mod spawns `retriever-code` (Haiku, on the
   subscription) and the answer comes back.
 - Corrections reach it at its next tool break.
-- A command no allow rule covers is denied rather than judged by auto mode.
+- It reads only the project and system folders, writes only inside the project, and has no web: its web needs go to
+  the expert, which has the web retriever (an in-house coder has none either).
+- A command no allow rule covers goes to PA3's judge instead of auto mode, which cannot run on another provider's
+  model (see "Learning from each run").
 - Its tokens are cash on the provider's key. The statusline's External line shows them; they never count as
   subscription usage.
 
@@ -75,29 +78,38 @@ planner recommends one per task with a reason in `note:`, and the developer chan
 
 ## Learning from each run
 Each external model and each codebase brings its own friction: DeepSeek chained `cd` into commands, MiniMax gave up
-early, and bfm's coders needed its disassembler. PA3 learns it run by run:
-1. A finished external coder's report ends with `HEALTH` lines when it met friction: denied commands by kind (no
-   allow rule covered them; auto mode cannot judge for an external coder), sandbox and read-guard failures, retries.
-   `/usr/bin/python3 tools/pa_ext.py health <label>` prints them for any run, running or finished.
-2. The task's expert reads them against its brief, corrects the coders still running, and ends its report with
-   `EXT-HEALTH:` proposals for later coders. The mod sends them to you.
-3. Tell the developer each proposal in plain words with its evidence, and apply only the ones they approve:
-   - `/usr/bin/python3 tools/pa_ext.py set --allow "<rule>"`: an allow rule in the project's `.claude/settings.json`. Prefer a
-     narrow one, a command and its prefix (`Bash(mipsel-linux-gnu-objdump:*)`). A rule that lets coders run scripts
-     they write (`bash .run/…`) is looser than auto mode, which judges each command: say so when they decide.
-   - `/usr/bin/python3 tools/pa_ext.py set --note "<text>"`: a note for every external coder in this project (`set --show` lists
-     them, `--drop-note <n>` removes one).
-   - `/usr/bin/python3 tools/pa_ext.py set --model-note <config>/<alias> "<text>"`: a note for every coder on that model, in
-     every project (`~/.claude/pa3-ext/<config>/notes/<alias>.md`, one line each; the developer may edit it).
-
-   End each note with its evidence and date, e.g. `(T11, 2026-10-21: 6 of 9 walls after 1-2 tries)`, so a later
-   review can drop one that stopped helping. The next coder started gets every note.
-4. After a phase closes, when external coders ran since the last review, the close notice asks you to start the
+early, and bfm's coders needed its disassembler. PA3 heals it without waiting for the developer:
+1. **The fence.** An external coder reads only the project and system folders and writes only inside the project
+   (Claude Code's read fence and project-anchored edit rules). A folder outside the project its tools must read (bfm's
+   Ghidra) is the developer's to allow: `/usr/bin/python3 tools/pa_ext.py set --dir <path>` (never a home, root or secrets
+   folder); `--drop-dir` removes it.
+2. **The judge.** Auto mode cannot run on another provider's model, so a command no rule allows goes to PA3's judge
+   (Opus 5.5 at medium, on the subscription): it refuses anything that reaches the network (web needs go to the
+   expert's web retriever) or a path outside the project, and otherwise decides as auto mode would, with auto mode's
+   own rules. What it allows with a narrow rule (`Bash(mipsel-linux-gnu-objdump:*)`) is learned for the project and
+   never judged again; a refusal is remembered too. `/usr/bin/python3 tools/pa_ext.py runs` lists what it learned; `set --forget
+   <rule>` drops one.
+3. **Learning mode.** A model new to the project runs one coder at a time there until a run comes back clean: no
+   denial, nothing learned, no sandbox or read-guard failure, a proper report, no note added after it. Then it gets the
+   project's lanes; a run that meets friction later puts it back to one at a time. A project with one lane sees no
+   change.
+4. **The check-in after each coder.** A finished external coder's report ends with `HEALTH` lines when it met friction
+   (`/usr/bin/python3 tools/pa_ext.py health <label>` prints them for any run). The task's expert reads them at once, corrects the
+   coders still running, adjusts its next brief, and writes down what later coders need with its evidence and date:
+   `set --note "<text>"` (every external coder in this project) or `set --model-note <config>/<alias> "<text>"` (every
+   coder on that model, in every project). Each note reaches you as a notice, `‹pa› FYI, nothing to ask: …`, with its
+   undo (`set --drop-note <n>` or `set --drop-model-note <config>/<alias> <n>`): tell the developer in one line; ask
+   nothing.
+5. **What only the developer decides** reaches you as `EXT-HEALTH:` lines in an expert's report (a folder outside the
+   project, the lanes, which work suits a model): tell the developer each in plain words with its evidence, and apply
+   only what they approve, with `/usr/bin/python3 tools/pa_ext.py set` (`--dir`, `--lanes …`, `--effort`, or `--allow "<rule>"`
+   for an allow rule they want in `.claude/settings.json`, which in-house agents get too).
+6. After a phase closes, when external coders ran since the last review, the close notice asks you to start the
    `auditor` with `EXTERNAL REVIEW · PHASE <n>` (in the background, once the close is released). It reads every run
-   since the last review against the rules and notes in force (`/usr/bin/python3 tools/pa_ext.py runs`): did each fix work, what
-   still hurts, how the project should use its external coders. Its `EXT-HEALTH:` lines are handled as in step 3; an
-   `EXT-SET:` line is a `/usr/bin/python3 tools/pa_ext.py set` change (`--effort max`, `--drop-note 2`, `--lanes …`), asked and
-   applied the same way.
+   since the last review against what is in force (`/usr/bin/python3 tools/pa_ext.py runs`: notes, learned rules, learning mode,
+   settings): did each fix work, what still hurts, how the project should use its external coders. Its `EXT-HEALTH:`
+   lines are handled as in step 5; an `EXT-SET:` line is a `/usr/bin/python3 tools/pa_ext.py set` change (`--effort max`,
+   `--drop-note 2`, `--forget <rule>`, `--lanes …`), asked and applied the same way.
 
 ## Costs and safety
 - The launcher pins every model setting to the chosen model, and each run reports any other model it saw (`LEAK:` on
@@ -117,5 +129,7 @@ early, and bfm's coders needed its disassembler. PA3 learns it run by run:
 | `need bubblewrap and socat`, `bubblewrap is required` or `socat not installed` | Linux or WSL: the coder's commands run in Claude Code's sandbox, which keeps the key out, and it needs both | the developer runs `sudo apt-get install -y bubblewrap socat` in a terminal; `check` again |
 | `blocked: … without a report` | the run died (host errors, a crash) | the expert escalates; the error is in the report |
 | `blocked: the <config> lane is full` | that many runs are already going | wait for one to finish, or raise `--lanes` |
+| `blocked: learning mode: …` | the model is new to the project and runs one coder at a time until a run comes back clean | the expert starts it when the running coder reports; nothing to do |
+| `Refused by PA3: no network …` or `… is outside this project` | the judge's fixed rules | none: web needs go to the expert; a folder the tools must read is `set --dir` on the developer's word |
 | `LEAK: requests ran on <id>` | a request named another model | stop external runs and tell the developer; check the key's activity at openrouter.ai |
-| a command denied in the report | no allow rule covers it (auto mode cannot run for external coders) | run it through `tools/run.sh`, or the developer adds an allow rule |
+| a command refused by PA3's judge | the judge found it outside auto mode's rules or PA3's policy | the expert finds another route; `runs` lists what it refused, and `set --forget <key>` lets it be judged again |

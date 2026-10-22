@@ -1,8 +1,8 @@
 {
   "files": {
     ".claude/agents/auditor.md": {
-      "base": "3.30.0",
-      "sha": "da0ab9dbe3a7ec6ea95252133fbf2a71ff317d6c4eb9f63c7fbeb1251e3d7a88",
+      "base": "3.30.1",
+      "sha": "c2e7aba3cfff2640615ecfec0eb95b721aee0d73500e02f4f3d1341dc67895d1",
       "user": null
     },
     ".claude/agents/memory-curator.md": {
@@ -11,8 +11,8 @@
       "user": null
     },
     ".claude/agents/pa-claude.md": {
-      "base": "3.30.0",
-      "sha": "bd3ba1331d946f323ab279e2563f425d8dc3a31c4c580e68dfec63e184f92b73",
+      "base": "3.30.1",
+      "sha": "fe25a59b841886162042427e54fec22860e36ea6a238638d3b01921db5081f38",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
@@ -21,8 +21,8 @@
       "user": null
     },
     ".claude/agents/pa-expert.md": {
-      "base": "3.30.0",
-      "sha": "225f5f0e2179879f573f50db8195a7533afc90b46840bf5f7d5a640a45f954b2",
+      "base": "3.30.1",
+      "sha": "cbbf39462c874102360d17f524f54bf3082f8eaa16427a52635f29679eb0ba57",
       "user": null
     },
     ".claude/agents/pa-planner.md": {
@@ -57,7 +57,7 @@
     },
     ".claude/skills/pa-external-agents/SKILL.md": {
       "base": null,
-      "sha": "5b2dba9df22ae7f4768629cc14831294ec5ac18a1b5616a0a53febeb8d52c741",
+      "sha": "0ff0bbf971bbaa7c6aa4843d42b4ce7979e584d4ca6efbc981039e901374a7c3",
       "user": null
     },
     ".claude/skills/pa-planning/SKILL.md": {
@@ -157,7 +157,7 @@
     },
     "templates/TASK_PROGRESS.template.md": {
       "base": null,
-      "sha": "6f8c81f423ca734dda06be4584c8b8f1e99ed6b74a67ab75340f968267d3abf8",
+      "sha": "7cab5e70fd65b1ab732102f724e2574eb01d83d17d3fe8cdddc13a2854d3c786",
       "user": null
     },
     "templates/log.template.md": {
@@ -267,7 +267,7 @@
     },
     "tools/pa_ext.py": {
       "base": null,
-      "sha": "73e453b74448e3a5ef4ea4d7cdb38fb888704d83e09828e6cf5d0ceff8abdb18",
+      "sha": "82693d89c79ac9856806495af8b87da1e3a1c16809cdb864d2a5136a6d58d73f",
       "user": null
     },
     "tools/phaseend_index.py": {
@@ -317,14 +317,14 @@
     },
     "tools/task_log.py": {
       "base": null,
-      "sha": "66e89783cddc4f80fcb39aec5a387d795947a48c4069e13f3ebd5a9d1274dd0f",
+      "sha": "932b378f944bb459d9de9fc071e0cffc341de341f67c35d716ee61be6f219d02",
       "user": null
     }
   },
   "format": 1,
-  "git": "e39ac642",
-  "installed": "2026-10-21T23:24:07Z",
+  "git": "850a44bc",
+  "installed": "2026-10-22T03:14:27Z",
   "package": null,
-  "phase": "3.30",
-  "upstream_version": "3.30"
+  "phase": "3.30.1",
+  "upstream_version": "3.30.1"
 }
