@@ -16,12 +16,8 @@ void func_801581AC(s32 a0) {
     func_80147460(a0);
     func_80147AD4(a0, 0, 0, 0);
     func_801473EC((s32 *)a0);
-    {
-        register s32 ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
-        func_80161418((void *)a0);
-        if (ret != 0) {
-            return;
-        }
+    if (((s32 (*)(void *))func_80161418)((void *)a0) != 0) {
+        return;
     }
     if (*(u16 *)(a0 + 0xB8) == 0x8000) {
         func_801599A4((void *)a0);

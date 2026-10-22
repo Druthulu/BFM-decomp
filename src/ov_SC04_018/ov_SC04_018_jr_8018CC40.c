@@ -3366,7 +3366,7 @@ void func_8018CDEC(void) {
                     register s32 sc __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
                     register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
                     sc = slot;
-                    __asm__("" : "=r"(sc) : "0"(sc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+                    do { } while (0);  // !FAKE: do-while
                     d = rb - 0x14;
                     D_801E79D8.unk04 = (&D_801E3EA4)[d >> 1];
                     ((void (*)(s32))func_800D0F0C)(sc);

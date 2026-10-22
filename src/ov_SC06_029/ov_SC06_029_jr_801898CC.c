@@ -3579,24 +3579,34 @@ extern SVec_8018A180 D_801921F0;
 extern SVec_8018A180 D_801921F8;
 extern SVec_8018A180 D_80192200;
 
-/* §153 address launder — NON-volatile on purpose (see key (2) above). */
+/* §153 address launder (key (2) above) replaced in T11: a plain `pb` local, zeroed after each call. */
 
 void func_8018A180(s32 a0) {
     Prim_8018A180 prim;
     MtxBuf_8018A180 buf;
+    s32 *pb;
     s32 iVar1;
 
     prim.rgb = 0x282828;
     prim.tag = 0x60000000;
     {
         s32 ang = 0xE;
-        __asm__("" : "=r"(ang) : "0"(ang));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-        func_8012EA90(a0, ang, (s32 *)({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
+        pb = (s32 *)&buf;
+        func_8012EA90(a0, ang, pb);
+        pb = 0;
     }
-    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921E8, (s32)&prim.v[0]);  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921F0, (s32)&prim.v[1]);  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_801921F8, (s32)&prim.v[2]);  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-    func_8012F14C(({ s32 _m = (s32)(&buf); __asm__("" : "=r"(_m) : "0"(_m)); _m; }), (s32)&D_80192200, (s32)&prim.v[3]);  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
+    pb = (s32 *)&buf;
+    func_8012F14C(pb, (s32)&D_801921E8, (s32)&prim.v[0]);
+    pb = 0;
+    pb = (s32 *)&buf;
+    func_8012F14C(pb, (s32)&D_801921F0, (s32)&prim.v[1]);
+    pb = 0;
+    pb = (s32 *)&buf;
+    func_8012F14C(pb, (s32)&D_801921F8, (s32)&prim.v[2]);
+    pb = 0;
+    pb = (s32 *)&buf;
+    func_8012F14C(pb, (s32)&D_80192200, (s32)&prim.v[3]);
+    pb = 0;
 
     prim.v[0].vy = 0;
     prim.v[1].vy = 0;

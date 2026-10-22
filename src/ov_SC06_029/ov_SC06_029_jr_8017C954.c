@@ -8792,14 +8792,16 @@ s32 func_8018656C(s32 *a0) {
             s32 diff = *(s16 *)(s1 + 0xA) - sum;
             if (diff >= 0) {
                 if (diff < 0x10) {
-                    __asm__("" : "=r"(diff) : "0"(diff));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+                    do { } while (0);  // !FAKE: do-while
+                    diff = *(s16 *)(s1 + 0xA) - sum;
                     return 1;
                 }
                 return 0;
             } else {
                 diff = sum - *(s16 *)(s1 + 0xA);
                 if (diff < 0x10) {
-                    __asm__("" : "=r"(diff) : "0"(diff));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+                    do { } while (0);  // !FAKE: do-while
+                    diff = sum - *(s16 *)(s1 + 0xA);
                     return 1;
                 }
                 return 0;

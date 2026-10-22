@@ -3718,7 +3718,9 @@ void func_8018219C(s32 arg0)
     s32 owner;
     s32 i;
     s32 obj;
-    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 d1;
+    s32 d2;
+    s32 d3;
     u16 a;
     u16 b;
 
@@ -3731,15 +3733,15 @@ void func_8018219C(s32 arg0)
             CAST_ALIAS(u16, obj, 6) = a;
             b = ((Unkstruct_800B5CB8 *)obj)->unkA - 0x20;
             CAST_ALIAS(u16, obj, 0xA) = b;
-            d = (i + (D_800B99D8 & 4) * 3) - 0x2A;
-            ((Unkstruct_800B5CB8 *)obj)->unkE = ((Unkstruct_800B5CB8 *)obj)->unkE + d;
-            d = (s16)d;
-            if (d >= 0) {
-                d = d << 7;
+            d1 = (i + (D_800B99D8 & 4) * 3) - 0x2A;
+            ((Unkstruct_800B5CB8 *)obj)->unkE = ((Unkstruct_800B5CB8 *)obj)->unkE + d1;
+            d2 = (s16)d1;
+            if (d2 >= 0) {
+                d3 = d2 << 7;
             } else {
-                d = -(d << 7);
+                d3 = -(d2 << 7);
             }
-            ((Unkstruct_800B5CB8 *)obj)->unk34 = d + 0x1000;
+            ((Unkstruct_800B5CB8 *)obj)->unk34 = d3 + 0x1000;
             ((Unkstruct_800B5CB8 *)obj)->unk14 = 0xFFFE0000;
             CAST_WIDTH(s32, obj, 0x10) = 0xFFFD0000;
         }

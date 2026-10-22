@@ -5300,18 +5300,12 @@ void func_801813B0(s32 param_1) {
     for (i = 0; i < 65; i++) {
         *(Blk8_801813B0 *)(dst + i * 8) = *(Blk8_801813B0 *)(src + i * 8);
         v = *(s16 *)((u8 *)src + i * 8 + 2);
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-        __asm__("" : "=r"(v) : "0"(v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        v = (s16)v;
+        v = (s16)v;
+        v = (s16)v;
+        v = (s16)v;
+        v = (s16)v;
+        v = (s16)v;
         if (v == -150) {
             idx[i] = 4;
         } else if (v == -139) {

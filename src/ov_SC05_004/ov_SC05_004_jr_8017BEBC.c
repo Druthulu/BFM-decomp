@@ -4620,7 +4620,7 @@ void func_8017EF0C(s32 a0)
 {
     s32 v0;
     s32 v1;
-    s32 pad;
+    s32 pad[2];
 
     if (func_8012BEE8() != 0) {
         ((Unkstruct_8017EBA0_2 *)a0)->unkFC = ((Unkstruct_8017EBA0_2 *)a0)->unkFC + 4;
@@ -4631,7 +4631,8 @@ void func_8017EF0C(s32 a0)
         v0 = CAST_SIGN(s16, a0, 0xFC);
         if (v0 != 0) {
             v1 = v0;
-            __asm__ volatile("" : "=r"(v0) : "0"(v0), "m"(pad));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung B tus8)
+            do { } while (0);  // !FAKE: do-while
+            v0 = (s16)v0;
             if (v0 < 3) {
                 v0 = *(s16 *)(((Unkstruct_8017EBA0_2 *)a0)->unk20 + 0x12);
                 v0 = (v0 + 2) & 0x3FF;

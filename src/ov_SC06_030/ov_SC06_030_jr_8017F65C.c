@@ -3040,17 +3040,19 @@ void func_8017FE9C(s32 a0) {
             s32 x = (s16)L.sxy[0];
             register s32 ax __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
             s32 vol;
+            s32 vol2;
             ax = x;
             if (x < 0) {
                 ax = -x;
             }
             vol = ((0xA0 - ax) * 0x7F) / 0xA0;
-            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+            vol2 = vol;
             x = (x + 0xA0) / 0x14;
             if (x == 0x10) {
                 x = 0xF;
             }
             x = x << 8;
+            vol = vol | 0x3000;
             {
                 s32 flg = 0x3000;
                 func_8002D4C8(0x93E, ((vol | flg) | x) & 0xFFFF);

@@ -4059,7 +4059,7 @@ void func_80182F44(s32 arg0) {
     s32 best;
     s32 i;
     u8 *p;
-    register s32 kind __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 kind;
     u16 sp10[3];
     s32 t;
 
@@ -4078,6 +4078,7 @@ void func_80182F44(s32 arg0) {
             }
         }
         p += 0x10C;
+        kind = 0x26E;
     }
     *(u16 *)(s3 + 0x208) = 0;
     func_80015978(s3 + 4, sp10);

@@ -2996,7 +2996,7 @@ void func_8017D73C(s32 a0) {
         } while (i < n);
     }
 
-    __asm__ ("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
+    n = (s16)n;
     i = 0;
     if (n != 0) {
         do {
@@ -3011,7 +3011,7 @@ void func_8017D73C(s32 a0) {
         } while (i < n);
     }
 
-    __asm__ ("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
+    n = (s16)n;
     i = 0;
     if (n != 0) {
         do {
@@ -3357,11 +3357,12 @@ extern s32 func_8017E37C(void *a0, s32 a1, s32 a2);
 
 void func_8017E204(u8 *s1)
 {
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_mac1)
     s32 v0, v1, s0;
+    s16 t;
     s32 pad[8];
     v0 = ((Unkstruct_8017E204 *)s1)->unkDC;
-    v1 = v0 + zr;
+    t = (s16)v0;
+    v1 = t;
     if (v0 != 0) goto dec1;
     v0 = func_8017E37C(s1, ((Unkstruct_8017E204 *)s1)->unkFC, 0);
     if (v0 != 0) {
@@ -3383,7 +3384,8 @@ dec1:
     ((Unkstruct_8017E204 *)s1)->unkDC = v1 - 1;
 next1:
     v0 = ((Unkstruct_8017E204 *)s1)->unkDE;
-    v1 = v0 + zr;
+    t = (s16)v0;
+    v1 = t;
     if (v0 != 0) goto dec2;
     v0 = func_8017E37C(s1, ((Unkstruct_8017E204 *)s1)->unkFE, 0x80);
     if (v0 != 0) {
@@ -3405,7 +3407,8 @@ dec2:
     ((Unkstruct_8017E204 *)s1)->unkDE = v1 - 1;
 next2:
     v0 = ((Unkstruct_8017E204 *)s1)->unkE0;
-    v1 = v0 + zr;
+    t = (s16)v0;
+    v1 = t;
     if (v0 != 0) goto dec3;
     v0 = func_8017E37C(s1, ((Unkstruct_8017E204 *)s1)->unk100, 0x100);
     if (v0 != 0) {

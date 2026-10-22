@@ -2738,14 +2738,16 @@ extern s32 func_801472C8(struct S *a0);
 
 s32 func_8017CE7C(void *a0) {
     s32 *base = &D_80126B58;
-    register s32 b __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    u8 b;
     func_8014706C(base);
     func_8014708C(base);
     func_801472C8((void *)base);
     b = ((Unkstruct_8017CE7C_3 *)a0)->unk15;
-    b += 1;
-    ((Unkstruct_8017CE7C_3 *)a0)->unk15 = b;
     ((Unkstruct_8017CE7C_3 *)a0)->unk28 = 10;
+    do {  // !FAKE: do-while
+        b += 1;
+        ((Unkstruct_8017CE7C_3 *)a0)->unk15 = b;
+    } while (0);
     return 0;
 }
 

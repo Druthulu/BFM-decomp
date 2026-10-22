@@ -4006,14 +4006,15 @@ void func_8017EE7C(s32 a0) {
 
 void func_8017EEB0(void *a0)
 {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 v0;
+    s32 w;
     s32 s0 = (s32)a0;
 
     if (func_8012BDBC(s0, 0x300) != 0) {
-        v0 = func_8012BCCC(s0);
-        if (v0 > 0xFFFFF)
+        w = func_8012BCCC(s0);
+        if (w > 0xFFFFF)
             goto lo;
-        v0 = (v0 < 0x6400);
+        v0 = (w < 0x6400);
         if (v0)
             v0 = 8;
         else

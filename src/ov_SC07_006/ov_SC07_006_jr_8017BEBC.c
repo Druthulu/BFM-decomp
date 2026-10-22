@@ -4509,14 +4509,11 @@ void func_80181E64(s32 arg0, s32 arg1)
     s32 t;
     s32 k;
     s32 m;
-    s32 v;
+    s16 v;
 
-    {
-        register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
-        v = (*(u16 *)(arg1 + 0x100) + 0x100) & 0xFFF;
-        t = v + zr;
-    }
-    *(s16 *)(arg1 + 0x100) = t;
+    v = (*(u16 *)(arg1 + 0x100) + 0x100) & 0xFFF;
+    t = v;
+    *(s16 *)(arg1 + 0x100) = v;
 
     mp = D_801BF5CC;
     msb = D_801C1E14;

@@ -5214,12 +5214,9 @@ void func_80181C18(void) {
  *      load is picked first = placed LAST.  TWO edits are needed and neither
  *      works alone:
  *        1. KILL the boost on the load's destination — `pv` gets a second SET
- *           from a zero-byte dead `__asm__ __volatile__("" : "=r"(pv));` at the
- *           end of the function (sched.md S2: a plain C reassignment does not
- *           work, cse/flow removes it; reusing one local across BOTH addPrim
- *           halves does kill the boost but makes `pv` a 2-death GLOBAL allocno
- *           that loses $v1, §136).  With the boost dead, sched1 emits the
- *           target order exactly (proved with -fno-schedule-insns2).
+ *           from `pv &= 0xFF000000;` split out of the store expression (T11
+ *           crack; replaced P36's zero-byte dead `__asm__ __volatile__` on
+ *           `pv`).  With the boost dead, sched1 emits the target order.
  *        2. PIN `pv` to $v1 (`register u32 pv __asm__("$3")`).  Without it,
  *           local-alloc gives $v1 to the shorter, denser index quantity and
  *           `pv` lands in $a1/$t0; sched2 then re-applies rule 5(b) and undoes
@@ -5231,8 +5228,8 @@ void func_80181C18(void) {
  *      Pin-trim log (all re-scored): dropping the $a2 `bidx` pin — MATCH;
  *      dropping the $a3 0xFFFFFF pin — MATCH; dropping `ang` — 4 mismatches
  *      (a dead-volatile boost-kill on `ang` does NOT substitute); dropping
- *      `pv` — 11; dropping the dead `pv` asm — 11.  Two pins are the minimum
- *      found.
+ *      `pv` — 11.  Two pins are the minimum found.  (The dead `pv` asm of
+ *      edit 1 is gone since T11: the `pv &=` split does its job.)
  *
  * ---------------------------------------------------------------------------
  * DECLARATIONS: ApplyMatrixSV, D_800B9A02 and D_801AAC6C/E6/EA/EC are declared
@@ -5330,13 +5327,13 @@ void func_80181CF4(s32 arg0)
     /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
     bidx = (u16 *)&D_800B9A02;
     pv = *(u32 *)p;
-    *(u32 *)p = (pv & 0xFF000000) |
+    pv &= 0xFF000000;
+    *(u32 *)p = pv |
                 (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
     ((Unkstruct_80181CF4_2 *)ot)->unk40 = (((Unkstruct_80181CF4_2 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
-    __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
 }
 
 

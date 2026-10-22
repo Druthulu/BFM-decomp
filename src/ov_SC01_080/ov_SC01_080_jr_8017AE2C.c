@@ -6222,7 +6222,6 @@ extern u8 *func_801291C0(void);
 
 void func_80180D54(s32 param_1) {
     u16 sp10[6];
-    u16 *p0;
     u16 *p1;
     s16 i;
     u8 *p;
@@ -6232,11 +6231,9 @@ void func_80180D54(s32 param_1) {
     sp10[2] = 0;
     sp10[1] = 0;
     sp10[0] = 0;
-    p0 = sp10;
     p1 = sp10 + 4;
-    __asm__("" : "=r"(p0) : "0"(p0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
-    __asm__("" : "=r"(p1) : "0"(p1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
-    func_800D20C0(p0, p1, 1);
+    func_800D20C0(sp10, p1, 1);
+    p1 = 0;
     func_800D23D0(sp10 + 4);
     cnt = *(s32 *)(param_1 + 0x1C);
     D_801C7540 = sp10[5] - 0x400;
@@ -6565,20 +6562,17 @@ extern u8 *func_801291C0(void);
 
 void func_801815D4(s32 param_1) {
     u16 sp10[6];
-    u16 *p0;
     u16 *p1;
     s16 mask;
     s16 i;
     u8 *p;
 
-    p0 = sp10;
     p1 = sp10 + 4;
     sp10[2] = 0;
     sp10[1] = 0;
     sp10[0] = 0;
-    __asm__("" : "=r"(p0) : "0"(p0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
-    __asm__("" : "=r"(p1) : "0"(p1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
-    func_800D20C0(p0, p1, 1);
+    func_800D20C0(sp10, p1, 1);
+    p1 = 0;
     func_800D23D0(sp10 + 4);
     D_801C7540 = sp10[5] - 0x400;
 
