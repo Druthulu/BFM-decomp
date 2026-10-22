@@ -1,0 +1,210 @@
+commit aed899295180adc35c5b6420478725b9bf77499f
+Author: Drew T <50529377+Druthulu@users.noreply.github.com>
+Date:   Thu Oct 22 01:58:04 2026 -0600
+
+    T11.cG15b: shard G15: 3 MATCH (vol|0x3000 2nd set, SCAN dead reset) + 2 WALL, results.tsv rows
+
+diff --git a/phase-ends/current/logs/T11.cG15b.md b/phase-ends/current/logs/T11.cG15b.md
+new file mode 100644
+index 0000000000..b1c7f995cd
+--- /dev/null
++++ b/phase-ends/current/logs/T11.cG15b.md
+@@ -0,0 +1,86 @@
++# T11.cG15b — singleton crack shard G15 (scratch-only)
++
++Shard: `.run/P40/T11/G15/` (items 3-7 of `list.tsv`; items 1-2 had rows already and were
++skipped). Every item is a `launder` row. Score 0 = the function is byte-identical to the
++target object.
++
++## Timeline (dates from `date` at item start/end)
++
++| item | start | end | min | tries | result |
++|---|---|---|---|---|---|
++| func_8018FB5C__ov_SC06_032_jr_80182890 | 00:35 | 01:08 | 33 | 32 | WALL (best 2) |
++| func_80190D70__ov_SC06_032_jr_801902EC | 01:09 | 01:31 | 22 | 26 | MATCH (0) |
++| func_8018CD5C__ov_SC06_033_jr_8018C2D8 | 01:31 | 01:36 | 5 | 2 | MATCH (0) |
++| SCAN__ov_SC06_033_jr_8018D98C | 01:36 | 01:41 | 5 | 2 | MATCH (0) |
++| func_8017E4DC__ov_SC07_001_jr_8017BEBC | 01:41 | 02:26 | 45 | 32 | WALL (best 4) |
++
++All candidates were scored with `bash .run/P40/T11/bin/dt.sh <itemdir> <body>` /
++`sc.sh`; `orig.c` was copied from the current `src/` def at the start of each item
++(no stale copies: every `orig.c` was diffed against the src file, and the two TUs whose
++src moved earlier (`ov_SC06_033_jr_8018C2D8`, `ov_SC06_032_jr_801902EC`) were
++re-extracted from the current tree).
++
++## Moves that cracked
++
++1. **func_80190D70 / func_8018CD5C (twin bodies) — MATCH, 0.** The tree's re-tie
++   `__asm__("" : "=r"(vol) : "0"(vol))` gives `vol` a SECOND set, which kills sched1's
++   `birthing_insn_p` LAUNCH_PRIORITY boost on the quotient's birth (cookbook §350): with
++   one set the quotient's birth is boosted, the VOL multiply is hoisted behind the PAN
++   multiply and the shared magic constant 0x66666667 is materialised in `$v0` late
++   instead of in `$a0` at the top of the case-0 block.
++   Lever-free, plain C: **`vol = vol | 0x3000;` right before the call** — a real second
++   set of `vol` (the G11 "compound assign = a REAL 2nd SET" recipe). The value is
++   unchanged: the call argument ORs 0x3000 again and masks 0xFFFF, and the extra `ori`
++   folds into the target's own `ori a1,a1,0x3000` (192 ins = target). Placement matters:
++   the statement must sit just before the call, after `sx = sx << 8`, or the `bne` delay
++   slot takes the wrong instruction.
++2. **SCAN (ov_SC06_033_jr_8018D98C:3097-3111) — MATCH, 0.** The census scoped the site at
++   line 3102 to a body named `SCAN`; the scorer compares the whole TU object (3991 ins).
++   The tree's re-tie keeps `&D_801C8344` rematerialised at every site instead of hoisted
++   into a callee-saved register. Lever-free: **drop the re-tie and add the §373 DEAD-RESET
++   CSE-BREAKER `_m = 0;` after the call** — cse's forward scan invalidates the address
++   class at the reset, so every site re-derives `la $a1, D_801C8344`; the reset is dead
++   and flow drops it (zero bytes).
++
++## Walls (with evidence)
++
++1. **func_8018FB5C — `sched1-birth-boost-dbr-delay` (best 2, 32 tries).**
++   The re-tie does TWO jobs: (a) it is the second set of the pinned `$16` pseudo, which
++   kills sched1's birthing boost (without it the call's `li a0,16` is hoisted above the
++   `move s0,a2`, score 2); (b) it is a zero-width RTL insn between the birth and the
++   call's argument setup, which keeps the `li a0,16` out of the jal's delay slot. A
++   plain-C loop (`do { rgb = rgb; } while (0);`, `while (0)`, `for (;0;)`) supplies (a) —
++   the copy survives as a second set — but then the `li a0,16` falls into the delay slot
++   (score 4). Every 2nd-set spelling that cse/combine folds away (self copies, casts,
++   `rgb |= 0`, `rgb += 0`, temp copies, `u32`/`s16` widths) leaves the boost alive
++   (score 2). A surviving second set of a *pinned* pseudo needs a mode change, a volatile
++   or an asm — all levers. Evidence: gcc -O2 99 ins = target; the diff is one instruction
++   (`li a0,16` at slot 5 instead of 7).
++2. **func_8017E4DC — `loop-biv-giv-rebase` (best 4, 32 tries).**
++   The re-tie gives `q` a SECOND definition inside the loop body, and loop.c then prints
++   `Reg 75: biv discarded, not induction variable`: `q` is not a basic induction variable,
++   so the giv-combining pass never rewrites the three store addresses as (IV + const) and
++   never re-bases `q`. Lever-free, loop.c prints `biv verified` + `Biv 75 initialized at
++   insn 149: initial value (symbol_ref:SI ("D_801AAD6C"))`, combines the three givs and
++   the new IV starts at D_801AAD6C+2: the stores become `sh zero,4(s0) / 2(s0) / 0(s0)`
++   and q's init becomes `addiu s0,s0,2` (92 ins both, two constants differ).
++   No plain-C spelling gives a pointer a second definition that emits no instruction:
++   a self copy is removed by cse, `q += 0` / `q |= 0` are folded (`|=` is invalid on a
++   pointer), and a mode change is impossible for a pointer. Re-spellings of the stores
++   (`(u8 *)q + 6`, `(s32)q + 6`), of the 4th store (`(u8 *)D_801AAD6C + off` keeps the
++   separate address but does not stop the re-basing), of the increment, of the statement
++   order and of the loop shape (`for`, `do/while`) all stay at 4 or worse.
++
++## Notes for the next agent
++
++- The G15 rows that cracked used two reusable recipes: **a compound assignment that keeps
++  the value (`x = x | K`) as a real second set** (G11's recipe, needs the value to be
++  preserved by the surrounding expression), and **the §373 dead reset (`x = 0;` after the
++  use) to break cse's address class** (G15 item 1's move).
++- `sched1`'s chain is the REVERSE of the launch order: a LAUNCH_PRIORITY boost (7f000001)
++  pushes an insn LATER in the final code. Read from the `.i.sched` trace.
++- The `SCAN` item is not a function: the census gave it a body spanning
++  `src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c:3097-3111`, and `delever_search --try` scores
++  it by comparing the whole TU object.
++- Scratch dumps (`cc1_dumps_tu.sh`) were written under each item dir and deleted right
++  after reading; the shard dir is 832 KB.
+diff --git a/phase-ends/current/logs/T11.cG15b.progress.md b/phase-ends/current/logs/T11.cG15b.progress.md
+new file mode 100644
+index 0000000000..7669312ab3
+--- /dev/null
++++ b/phase-ends/current/logs/T11.cG15b.progress.md
+@@ -0,0 +1,106 @@
++# T11.cG15b — progress (handoff)
++
++Shard G15 (`.run/P40/T11/G15/`) is COMPLETE: all 5 items of my slice (items 3-7 of
++`list.tsv`; items 1-2 already had rows) have exactly one `results.tsv` row, and every
++MATCH row's `win.c` scores 0 (re-verified at the end). Nothing is mid-way.
++
++## Done so far
++
++| item | result | best | tries | wall |
++|---|---|---|---|---|
++| func_8018FB5C__ov_SC06_032_jr_80182890 | WALL | 2 | 32 | sched1-birth-boost-dbr-delay |
++| func_80190D70__ov_SC06_032_jr_801902EC | MATCH | 0 | 26 | - |
++| func_8018CD5C__ov_SC06_033_jr_8018C2D8 | MATCH | 0 | 2 | - |
++| SCAN__ov_SC06_033_jr_8018D98C | MATCH | 0 | 2 | - |
++| func_8017E4DC__ov_SC07_001_jr_8017BEBC | WALL | 4 | 32 | loop-biv-giv-rebase |
++
++Files: `.run/P40/T11/G15/results.tsv` (7 rows + header), per-item `orig.c` / `win.c` /
++`notes.md` / `cand*.c`, one appended line each in `.run/P40/T11/moves.md`, and the log
++`phase-ends/current/logs/T11.cG15b.md`.
++
++The two cracks (both reusable recipes):
++- func_80190D70 / func_8018CD5C (twin bodies): `vol = vol | 0x3000;` right before the
++  call — a REAL second set of `vol` (G11's compound-assign recipe) that kills sched1's
++  `birthing_insn_p` boost; the value is preserved because the call argument ORs 0x3000
++  again and masks 0xFFFF, and the extra `ori` folds into the target's own ori.
++- SCAN (the census body is `ov_SC06_033_jr_8018D98C.c:3097-3111`, scored on the whole TU
++  object): drop the re-tie and add the §373 DEAD RESET `_m = 0;` after the call — cse's
++  address class breaks, so `&D_801C8344` is rematerialised (`la $a1`) at every site.
++
++## In flight
++
++Nothing. The shard's own scratch (candidate bodies, notes) is on disk under
++`.run/P40/T11/G15/` (gitignored: `git status` shows no entry for it).
++
++## Hypotheses rejected with evidence
++
++- func_8018FB5C: "a plain-C second set of the pinned `$16` pseudo" — every folded
++  spelling (self copy, `(s32)`/`(u32)` cast, `|= 0`, `+= 0`, temp copy, `u32` width)
++  leaves the score at 2 (the call's `li a0,16` is hoisted above `move s0,a2`); the only
++  surviving seconds sets are loop-shaped (`do { rgb = rgb; } while (0);` etc., score 4)
++  and they lose the delay slot.
++- func_8018FB5C: "the re-tie only kills the birth boost" — false: the .dbr dump shows it
++  is also the zero-width RTL insn that keeps `li a0,16` out of the jal's delay slot.
++- func_8017E4DC: "the re-tie only breaks cse's address class" — false: the .i.loop dump
++  shows `Reg 75: biv discarded, not induction variable`; lever-free the biv is verified,
++  the three givs combine and `q` re-bases to D_801AAD6C+2 (stores at 4/2/0 instead of
++  6/4/2) — same count, two constants differ.
++- func_8017E4DC: "a pointer can get a surviving second set" — no: `q = q;` is removed by
++  cse, `q += 0` / `q |= 0` are folded (`|=` is invalid on a pointer), and there is no mode
++  change for pointers.
++
++## Current hypothesis
++
++None — the shard is done. The two walls are documented with their mechanism; the next
++agent should treat them as open, not as settled.
++
++## Next 5 steps (for the expert / a follow-up coder)
++
++1. func_8018FB5C: the missing piece is a plain-C construct that supplies BOTH jobs of the
++   re-tie — a second set of the pinned `$16` pseudo AND a zero-width RTL insn between the
++   birth and the call's argument setup. A `do{}while(0)` supplies the first; the second
++   needs an RTL insn that emits nothing (a self copy inside a loop does, but it lands in
++   the delay slot) — worth trying a self copy in a loop placed so the call's `li` is not
++   the jal's immediate predecessor.
++2. func_8018FB5C: try the loop-shaped second set with the `func_80010A08(0x10)` call
++   argument spelled so the `li a0,16` is not adjacent to the jal (e.g. a temp constant
++   `const s32 sz = 0x10;`) and re-check the delay slot.
++3. func_8017E4DC: the biv must be discarded. A plain-C way to give a POINTER a second
++   definition in the loop body that emits nothing is the open question — a copy through a
++   `union`/`volatile` is out (a lever); try the "copy then accumulate on the copy"
++   pattern (cookbook §410) with the pointer, or a `q` update that gcc's `find_simple_iv`
++   does not match (a non-constant increment).
++4. func_8017E4DC: check whether the re-basing can be defeated from the store side (the
++   giv combining picks the smallest offset + 0): if the three stores were at offsets
++   4/2/0 relative to a base that the C spells as `D_801AAD6C + 2`, the init would stay
++   `+0` — but the store addresses must remain the target's `q+6/q+4/q+2`.
++5. Both walls: re-check `orig.c` against the current `src/` def before resuming (the src
++   moves as earlier batches bank — the G08c lesson).
++
++## Gotchas
++
++- `sched1`'s RTL chain is the REVERSE of the launch order: a LAUNCH_PRIORITY boost
++  (7f000001 in the `.i.sched` trace) pushes an insn LATER in the final code.
++- A `do { x = x; } while (0);` survives as a real second set only for a HARD-REG-BOUND
++  variable (a register variable); for a normal local cse removes it (func_80190D70's
++  `vol` case).
++- A compound assign on a value only preserves the value if the surrounding expression
++  already masks it (`vol | 0x3000` then `& 0xFFFF`); otherwise the mask must move and
++  the instruction order changes.
++- The `SCAN` item is a census pseudo-body (a source region), not a function; the scorer
++  compares the whole TU object (3991 ins).
++- `hdump.sh`/`cc1_dumps_tu.sh` need an absolute `DUMP_ROOT` under the item dir; the dumps
++  were deleted after reading (the shard dir is 832 KB).
++
++## State to carry verbatim
++
++- Results: `.run/P40/T11/G15/results.tsv` — rows (dir, file, func, kinds, result, best,
++  tries, wall, evidence) for all 7 G15 items.
++- Per item: `orig.c` (from the current src), `win.c` (score 0 for the 3 MATCHes),
++  `notes.md` (mechanism + the tries), `cand*.c` (every scored candidate).
++- The shard's log: `phase-ends/current/logs/T11.cG15b.md` (timeline, the two cracks, the
++  two walls with evidence).
++- Two lines appended to `.run/P40/T11/moves.md` (one per wall) and three (one per crack).
++- No src/, include/, config/, tools/, build/ or other-shard file was touched; no make, no
++  git operation inside the shard (the brief forbade it); the only git action is this
++  task's commit of the log + this progress file.

@@ -1,0 +1,49 @@
+# TASK_PROGRESS — T11 attempt 10 (handoff)
+
+Task: T11 singleton crack wave · Agent: pa-expert · prior notes: logs/T11.progress1/4/5/7/8/9.md
+
+## Done so far
+- a10 start: archived progress9 (af93bee22e).
+- G14b done (MiniMax): func_80191020 WALL best 2, 531 tries, tag dbr-delay-fill-2ndset. G14 complete 11/11 (6 MATCH banked B3). held_add minimax G14: 1 row.
+- Learning mode still on: G14b met friction (/tmp writes, /home/musashi/.run path typo). Project note added (scratch in shard dir, no /tmp).
+
+- G15b done (aed8992951, coder committed its log): +3 MATCH (func_80190D70, func_8018CD5C, SCAN ov_SC06_033), re-scored 0 by expert; 2 WALL (func_8018FB5C sched1-birth-boost-dbr-delay, func_8017E4DC loop-biv-giv-rebase), held_add 2 rows. G15 complete 7/7. Friction: 1 read-guard block → still learning mode; note added.
+- RM1 done: 4/4 MATCH (func_801880E0, func_80182ED4, func_8017E6EC, func_8018302C), expert re-scored 0, no pin in win.c. Friction (denial 2, /tmp refused 1, read-guard 1) → learning mode stays.
+- 50 unstarted briefs got a SCRATCH line (no /tmp, nothing outside project, outline big files).
+- RM1x done: 2 MATCH (func_801886B8, func_801889B8; re-scored 0), 1 WALL func_801815AC local-alloc-hardregcopy (72 tries). Friction again (denials 5, 2 false 'outside project' on relative ../bin and rm, read-guard 3). Learning mode looks permanent for MiniMax: single lane. EXT-HEALTH line for the report.
+- RM2 done: 0/5, all WALL 54-135 tries (combine-commutative-swap, cse-const-addr-copy, cse-const-holder, sched1-birth-boost, sched1-argcopy-hoist); held_add. Friction: 2 nudges.
+- Unbanked bankable MATCHes: G15 3, RM1 4, RM1x 2 (9). Finished shards since B3: G14b G15b RM1 RM1x RM2 (5).
+
+## In flight
+- T11.c104 (pa-coder, in-house) bank B4: G14 G15 RM1 RM1x RM2 RM2x, 9 MATCH + 13 WALL rows. Brief .run/P40/T11/bank_B4.txt. Barrier: no ext shard until it reports.
+
+## Hypotheses rejected
+- MiniMax walls shallow: fixed by ≥ 30-tries rule (a7/a8).
+
+## Current hypothesis
+MiniMax cracks ~35-40 % when it spends the budget.
+
+## Next 5 steps
+1. G15b reports → sc.sh MATCHes, held_add minimax G15; if clean, learning mode lifts → start RM1 RM1x RM2 RM2x (4).
+2. Ramp +2 per healthy round to ≤ 10 from mm_queue_a9.txt; on 429/stall: stop adding, resume failed.
+3. After each shard: re-score MATCHes (bin/sc.sh), held_add, HEALTH; df -h / > 10 GB.
+4. Bank every 6-8 finished shards: barrier, in-house pa-coder from bank_brief.txt, K=104, B=4.
+5. End: TSV wall causes, strict residue-unused 0, R22 gate, summary.
+
+## Gotchas
+- harness: learning mode refuses a second start (exit 4) while the model is learning; never wrap `pa_ext.py run` in `timeout` (kills the coder).
+- Bank gate wipes build/: barrier before every bank. MiniMax no compaction: ≤ 5 items per shard.
+
+## State to carry verbatim
+- Next bank: K=105, B=5 (B4=c104 in flight). Queue .run/P40/T11/mm_queue_a9.txt (G14b done). Ramp level 1 (learning mode).
+
+## Coder runs so far
+- a1-a9: logs/T11.progress9.md. a10: cG14b, cG15b, cRM1, cRM1x, cRM2, cRM2x, c104 (bank B4).
+
+## Reports commissioned
+- R3.40-013
+
+## Handoff note (a10)
+- Harness forced hand-back while T11.c104 (in-house bank B4) still runs its gate. Respawn: first check `git log --oneline -3` for a `T11.c104:` commit and that `.run/P40/T11/BANKING` is gone; if no commit and no BANKING after its gate, read phase-ends/current/logs/T11.c104.md and re-brief from .run/P40/T11/bank_B4.txt.
+- Then resume the single MiniMax lane at G16 (queue mm_queue_a9.txt; done: G14b G15b RM1 RM1x RM2 RM2x). Learning mode has not lifted after 6 runs (friction every run: denials, judge usage-limit refusals, read-guard): EXT-HEALTH for the developer.
+- a10 tally: 15+5 items finished in 6 shards, 9 MATCH (G15 3, RM1 4, RM1x 2), 12 WALL.
