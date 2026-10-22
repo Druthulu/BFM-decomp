@@ -7662,9 +7662,9 @@ void func_80182E9C(s32 a0) {
 
 
 void func_80182ED4(s32 arg0) {
-    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 u __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
-    register u32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus7)
+    s32 t;
+    s32 u;
+    s16 tmp;
     u16 sp10[10];
     u16 x;
     u16 y;
@@ -7672,6 +7672,8 @@ void func_80182ED4(s32 arg0) {
 
     if ((u32) ((Unkstruct_80182ED4 *)arg0)->unkC2 < 3U) {
         t = ((Unkstruct_80182ED4 *)arg0)->unk84;
+        tmp = (s16)t;
+        u = tmp;
         if (t == 0) {
             x = ((Unkstruct_80182ED4 *)arg0)->unk6;
             sp10[0] = x;
@@ -7689,7 +7691,6 @@ void func_80182ED4(s32 arg0) {
             func_8002D4C8(0x83C, 0);
             t = 0x1E;
         } else {
-            u = t + zr;
             t = u - 1;
         }
         ((Unkstruct_80182ED4 *)arg0)->unk84 = t;

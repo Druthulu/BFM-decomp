@@ -3589,13 +3589,12 @@ void func_8018CD5C(s32 a0) {
                 av = -sx;
             }
             vol = ((0xA0 - av) * 0x7F) / 0xA0;
-            /* sched1 otherwise hoists the PAN multiply ahead of this one */
-            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
             sx = (sx + 0xA0) / 0x14;
             if (sx == 0x10) {
                 sx = 0xF;
             }
             sx = sx << 8; /* in place, so reorg can steal it into the bne delay slot */
+            vol = vol | 0x3000;
             func_8002D4C8(0x9E5, (vol | (0x3000 | sx)) & 0xFFFF);
         }
         return;

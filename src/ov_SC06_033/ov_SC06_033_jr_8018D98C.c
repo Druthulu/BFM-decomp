@@ -3099,8 +3099,8 @@ void func_8018D98C(s32 a0) {
         s0 = *(s32 *)(a0 + (0xCC));
         func_8012B2CC(s0);
         { s32 _m = (s32)&D_801C8344;
-          __asm__ __volatile__("" : "=r"(_m) : "0"(_m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-          ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); }
+          ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10));
+          _m = 0; }
         p = *(s32 *)(a0 + (0xD0));
         *(u16 *)(p + 0x6) = v10[0];
         *(u16 *)(p + 0xA) = v10[1];

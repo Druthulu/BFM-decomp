@@ -4451,7 +4451,7 @@ void func_8018302C(void *a0) {
     extern u8 D_801D4305;
     s32 v;
     s32 c;
-    register s32 z __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus8)
+    s16 tmp;
     u8 *dp;
     s16 *p;
     s32 frame_pad[3];
@@ -4459,13 +4459,19 @@ void func_8018302C(void *a0) {
     (void)&frame_pad;
     p = *(s16 **)((s32)a0 + 0x20);
     v = *(s16 *)(p + 0xC);
-    c = v + z;
+    do {
+        tmp = (s16)v;
+        c = tmp;
+    } while (0);  /* !FAKE: do-while */
     if (v >= 0x801) {
         v = c - 0x200;
         *(s16 *)(p + 0xC) = v;
     }
     v = *(s16 *)(p + 0xD);
-    c = v + z;
+    do {
+        tmp = (s16)v;
+        c = tmp;
+    } while (0);  /* !FAKE: do-while */
     if (v >= 0x801) {
         v = c - 0x200;
         *(s16 *)(p + 0xD) = v;

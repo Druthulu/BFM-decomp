@@ -2737,7 +2737,11 @@ extern u8 D_80185018;
 extern u8 D_801884F4[];
 
 void func_8017E6EC(void *arg0) {
-    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 t1;
+    s32 t2;
+    s32 t3;
+    s32 t4;
+    s32 t5;
     s32 c;
     s32 s0;
 
@@ -2765,20 +2769,23 @@ void func_8017E6EC(void *arg0) {
         }
         c = ((Unkstruct_800B5CB8 *)arg0)->unk94;
         if (c == 0x10) {
-            t = CAST_SIGN(u16, (s32)arg0, 0x106) + 1;
-            ((Unkstruct_800B5CB8 *)arg0)->unk106 = t;
-            if ((t << 16) >> 16 == 2) {
+            t1 = CAST_SIGN(u16, (s32)arg0, 0x106);
+            t1 = t1 + 1;
+            ((Unkstruct_800B5CB8 *)arg0)->unk106 = t1;
+            if ((t1 << 16) >> 16 == 2) {
                 ((Unkstruct_800B5CB8 *)arg0)->unk98 = 0;
-                t = ((Unkstruct_800B5CB8 *)arg0)->unk34 + 1;
-                ((Unkstruct_800B5CB8 *)arg0)->unk34 = t;
+                t2 = ((Unkstruct_800B5CB8 *)arg0)->unk34;
+                t2 = t2 + 1;
+                ((Unkstruct_800B5CB8 *)arg0)->unk34 = t2;
                 func_8002D4C8(0x865, 0);
             }
         }
         if ((CAST_SIGN(u32, (s32)arg0, 0x1C) & 7) == 0) {
             func_8013C9C4(&D_8018503C);
         }
-        t = CAST_SIGN(u32, (s32)arg0, 0x1C) + 1;
-        ((Unkstruct_800B5CB8 *)arg0)->unk1C = t;
+        t3 = CAST_SIGN(u32, (s32)arg0, 0x1C);
+        t3 = t3 + 1;
+        ((Unkstruct_800B5CB8 *)arg0)->unk1C = t3;
         ((void (*)(void *))func_8017EB34)(arg0);
         break;
     case 2:
@@ -2788,8 +2795,9 @@ void func_8017E6EC(void *arg0) {
         if (c != 6) {
             break;
         }
-        t = ((Unkstruct_800B5CB8 *)arg0)->unk34;
-        ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x10;
+        t4 = ((Unkstruct_800B5CB8 *)arg0)->unk34;
+        c = 0x10;
+        ((Unkstruct_800B5CB8 *)arg0)->unk1C = c;
         goto lab_e958;
     case 3:
         func_8017ECC4((s32)arg0, 0);
@@ -2808,8 +2816,9 @@ void func_8017E6EC(void *arg0) {
         if ((CAST_SIGN(u32, (s32)arg0, 0x1C) & 0xF) == 0) {
             func_8013C9C4(&D_80185018);
         }
-        t = CAST_SIGN(u32, (s32)arg0, 0x1C) + 1;
-        ((Unkstruct_800B5CB8 *)arg0)->unk1C = t;
+        t5 = CAST_SIGN(u32, (s32)arg0, 0x1C);
+        t5 = t5 + 1;
+        ((Unkstruct_800B5CB8 *)arg0)->unk1C = t5;
         if (*(s16 *)((s32)arg0 + 0xE2) == 0) {
             break;
         }
@@ -2817,11 +2826,11 @@ void func_8017E6EC(void *arg0) {
         func_8002959C();
         func_8002D4C8(4, 0x868);
         func_80180C78();
-lab_e954:
-        t = ((Unkstruct_800B5CB8 *)arg0)->unk34;
-lab_e958:
-        t = t + 1;
-        ((Unkstruct_800B5CB8 *)arg0)->unk34 = t;
+    lab_e954:
+        t4 = ((Unkstruct_800B5CB8 *)arg0)->unk34;
+    lab_e958:
+        t4 = t4 + 1;
+        ((Unkstruct_800B5CB8 *)arg0)->unk34 = t4;
         break;
     case 5:
         break;

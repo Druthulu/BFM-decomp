@@ -3738,31 +3738,28 @@ extern s32   func_80188884(void *, s32, s32, s32, s32 *);
 s32 *func_801886B8(s32 *ot, Panel_8017E978_801886B8 *w0, s16 idx) {
 
     extern u16 D_8011511A;
-    register Panel_8017E978_801886B8 *w __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
     u8 sp18[72];
     s32 sp60[2];
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s32 flag;
-    s32 flag2;
-    s32 flag3;
-    s32 flag4;
+    s16 flag2;
+    s16 flag3;
+    s16 flag4;
     s16 i;
     Prim4_8017E978_801886B8 *p;
     s32 r;
 
-    w = w0;
     flag = -(D_8011511A != idx) & 0xFF;
-    func_80024054(w->f14, sp18);
-    flag2 = flag + zr;
-    ot = func_800D2650(ot, sp18, w->f10, w->f12, 1,
+    func_80024054(w0->f14, sp18);
+    flag2 = flag;
+    ot = func_800D2650(ot, sp18, w0->f10, w0->f12, 1,
                        flag != 0 ? 0x585858 : 0x808080);
-    ot = func_80188F14(ot, w->f18, idx, w->f8,
+    ot = func_80188F14(ot, w0->f18, idx, w0->f8,
                        flag2 != 0 ? 0x585858 : 0x808080);
     i = 0;
     flag3 = flag2;
-    p = w->f18;
+    p = w0->f18;
     for (;;) {
-        r = func_80188884(w->f1C, w->f0, idx, i++, sp60);
+        r = func_80188884(w0->f1C, w0->f0, idx, i++, sp60);
         if (r == 0) {
             break;
         }
@@ -3775,10 +3772,11 @@ s32 *func_801886B8(s32 *ot, Panel_8017E978_801886B8 *w0, s16 idx) {
         }
         p++;
     }
-    flag4 = flag2 + zr;
-    return func_800D29F8(flag4,
-                         func_800D27DC(flag4 != 0, ot, w->f4, w->fC, 0),
-                         w->f8, w->fE, 0);
+    flag4 = flag2;
+    ot = func_800D29F8(flag4,
+                       func_800D27DC(flag4 != 0, ot, w0->f4, w0->fC, 0),
+                       w0->f8, w0->fE, 0);
+    return ot;
 }
 
 
