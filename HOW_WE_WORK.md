@@ -59,7 +59,7 @@ PY = /usr/bin/python3
 - d1-snapshot — D1 readability snapshot: census to newest P dir, snapshot, timeline, progress --readme
 
 ## External coders <!-- roles: claude expert planner -->
-Func cracking: openrouter-minimax/minimax (high) only.
+Func cracking: openrouter-deepseek/deepseek (high) only.
 Other coder work in-house. No Opus/Haiku escalation; failures wait for his OK.
 
 ## Paths <!-- roles: claude expert coder planner review auditor curator -->
