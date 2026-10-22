@@ -189,3 +189,4 @@ R3.40-001 (lever_residue.tsv and lever_census flags/predicates/writer), R3.40-00
 - 2026-10-21 planner: added T21 — Bank the waiting cookbook lessons (one time, PA3 3.30)
 - 2026-10-21 router: T21 queued -> next — Developer: run the one-time cookbook banking task now, before T11
 - 2026-10-21 router: T21 next -> done
+- 2026-10-22 router: Cracking coders (T11 and later crack waves) switch from openrouter-minimax/minimax to openrouter-deepseek/deepseek at high effort, one lane until learning mode lifts (free MiniMax retired 2026-10-22; developer).
