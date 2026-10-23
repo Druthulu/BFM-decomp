@@ -90,9 +90,9 @@ early, and bfm's coders needed its disassembler. PA3 heals it without waiting fo
    never judged again; a refusal is remembered too. `/usr/bin/python3 tools/pa_ext.py runs` lists what it learned; `set --forget
    <rule>` drops one.
 3. **Learning mode.** A model new to the project runs one coder at a time there until a run comes back clean: no
-   denial, no sandbox or read-guard failure, a proper report, no note added after it (what the judge allowed or learned
-   doesn't count). Then it gets the project's lanes; a run that meets friction later puts it back to one at a time. A
-   project with one lane sees no change.
+   denial, no read-guard failure, a proper report, no note added after it (what the judge allowed or learned, and a
+   sandbox collision between coders, don't count). Then it gets the project's lanes; a run that meets friction later
+   puts it back to one at a time. A project with one lane sees no change.
 4. **The check-in after each coder.** A finished external coder's report ends with `HEALTH` lines when it met friction
    (`/usr/bin/python3 tools/pa_ext.py health <label>` prints them for any run). The task's expert reads them at once, corrects the
    coders still running, adjusts its next brief, and writes down what later coders need with its evidence and date:

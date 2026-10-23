@@ -57,7 +57,7 @@
     },
     ".claude/skills/pa-external-agents/SKILL.md": {
       "base": null,
-      "sha": "e8c56ca6a74e6e2a138c5c610506d070e99049c079af74ba614c46e8d739c929",
+      "sha": "d93321fe6c385fbd2d622ec70420d12a6c72a79f36392f7a781aaae9ef15d852",
       "user": null
     },
     ".claude/skills/pa-planning/SKILL.md": {
@@ -267,7 +267,7 @@
     },
     "tools/pa_ext.py": {
       "base": null,
-      "sha": "98d9820c4001b05709c57d5b32184f5bd769afb937722ad1d860e6a4bde08861",
+      "sha": "fa7f506ac75c8be48eb2b460a9f1fe9d9347f457e6f491389df15e35c5f2975f",
       "user": null
     },
     "tools/phaseend_index.py": {
@@ -322,9 +322,9 @@
     }
   },
   "format": 1,
-  "git": "4ba4004c",
-  "installed": "2026-10-22T20:03:30Z",
+  "git": "8b7299bd",
+  "installed": "2026-10-23T02:25:15Z",
   "package": null,
-  "phase": "3.30.5",
-  "upstream_version": "3.30.5"
+  "phase": "3.30.7",
+  "upstream_version": "3.30.7"
 }

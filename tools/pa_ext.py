@@ -646,9 +646,30 @@ def model_notes_path(folder, alias):
     return os.path.join(folder, "notes", "%s.md" % alias)
 
 
+MEMORY_LINES = 200      # Claude Code gives its agents the first 200 lines of a project's MEMORY.md
+
+
+def memory_index(proj):
+    """3.30.6: the project's auto-memory index (`<home>/.claude/projects/<slug>/memory/MEMORY.md`), which Claude Code
+    attaches to in-house agents at their start, as an appended section: its first lines, and where its linked files
+    are when the coder can read them (a memory folder inside the project); None when there is none."""
+    folder = os.path.join(paths.projects_dir(), paths.project_slug(os.path.abspath(proj)), "memory")
+    text = fsutil.read_text(os.path.join(folder, "MEMORY.md"), None)
+    if text is None or not text.strip():
+        return None
+    lines = text.replace("\r\n", "\n").strip("\n").split("\n")[:MEMORY_LINES]
+    real, root = os.path.realpath(folder), os.path.realpath(proj)
+    if os.path.normcase(real).startswith(os.path.normcase(root) + os.sep):
+        where = "the files it links are in %s/" % _fwd(os.path.relpath(real, root))
+    else:
+        where = "the files it links are outside the project: this index is all you get"
+    return "# The project's memory index (MEMORY.md; %s)\n\n%s" % (where, "\n".join(lines))
+
+
 def append_text(proj, py, pa_json=None, folder=None, alias=None, name=None):
     """The child's appended system prompt: the launcher's preamble, HELP_TEXT, this project's and this model's notes
-    (3.30, from approved health proposals), the project-architect skill and CLAUDE.md."""
+    (3.30, from approved health proposals), the project-architect skill, CLAUDE.md and (3.30.6) the project's memory
+    index, as in-house agents get them."""
     parts = ['You run on an external model through tools/pa_ext.py, outside Claude Code\'s subscription. '
              'Your Agent tool is off: for a code lookup run "%s" tools/pa_ext.py ask "<question>"; '
              'a code retriever answers in under 40 lines.\n'
@@ -670,6 +691,9 @@ def append_text(proj, py, pa_json=None, folder=None, alias=None, name=None):
     cmd = fsutil.read_text(os.path.join(proj, "CLAUDE.md"), None)
     if cmd is not None:
         parts.append("# CLAUDE.md (project instructions)\n\n" + cmd.replace("\r\n", "\n").strip("\n"))
+    mem = memory_index(proj)
+    if mem is not None:
+        parts.append(mem)
     return "\n\n".join(parts) + "\n"
 
 
@@ -811,15 +835,17 @@ def _log_note(proj, kind, target, text):
 
 def run_clean(proj, rec):
     """3.30.1, learning mode: a finished run met no friction: done, its report starting with a status word, no denial
-    of any kind (rules, the fixed rules, the judge), no sandbox or read-guard failure, no nudge, and no note added for
-    it after it ended (the expert's check-in found nothing to teach). 3.30.4: what the judge allowed or learned is no
-    friction: a learned rule reaches the coders already running at their next call, a note only those that start
-    after it (bfm: every batch's own scratch scripts were learned, so no run could come back clean)."""
+    of any kind (rules, the fixed rules, the judge), no read-guard failure, no nudge, and no note added for it after it
+    ended (the expert's check-in found nothing to teach). 3.30.4: what the judge allowed or learned is no friction: a
+    learned rule reaches the coders already running at their next call, a note only those that start after it (bfm:
+    every batch's own scratch scripts were learned, so no run could come back clean). 3.30.7: nor is a sandbox
+    (`bwrap:`) failure, two coders' sandboxes colliding, which the coder just runs again (bfm G18: counted, running
+    side by side would put a model back to one at a time by itself)."""
     h = _dict(rec.get("health"))
     if rec.get("status") != "done" or rec.get("report_word") is False or not h:
         return False
     j = _dict(h.get("judge"))
-    if any(h.get(k) for k in ("denied", "sandbox", "guard", "nudges")) or any(
+    if any(h.get(k) for k in ("denied", "guard", "nudges")) or any(
             j.get(k) for k in ("denied", "network", "outside")):
         return False
     ended, target = int(rec.get("ended") or 0), "%s/%s" % (rec.get("config"), rec.get("alias"))
