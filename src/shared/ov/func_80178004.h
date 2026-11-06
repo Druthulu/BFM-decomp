@@ -72,7 +72,7 @@ s32 func_80178004(uint *param_1, uint param_2, int param_3)
         uint  uVar1;   /* $t0 */
         register uint *q     __asm__("$4");   /* $a0 running ptr in loop */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
         register uint *r     __asm__("$5");   /* $a1 = q + 3 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
-        int   iVar4;   /* $a3 */
+        short iVar4;
         register uint  uVar5 __asm__("$9");   /* $t1 */  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B headers1)
         uint  base6;  /* $t6 0x6D160000 */
         uint  m2;  /* $t2 0xFFFFFF */
@@ -97,7 +97,7 @@ s32 func_80178004(uint *param_1, uint param_2, int param_3)
         c3b = 0x3000000;
         r = q + 3;
         {
-        int  nx;  /* $v0 */
+        short nx;
         do {
             register uint uVar2 __asm__("$6");  /* $a2 */  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B headers1)
             register uint c74v  __asm__("$3");  /* $v1 0x74808080 */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
@@ -113,9 +113,10 @@ s32 func_80178004(uint *param_1, uint param_2, int param_3)
                 uVar5 = 0;
             }
             c74v = 0x74808080;
+            do {
             q[0] = ((uint)(q + -5) & m2) | c3b;
             r[-1] = u6 | (p2 & 0xffff) | uVar5;
-            __asm__ __volatile__("" : : "r"(uVar2));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
+            } while (0);  // !FAKE: do-while
             rval = (uVar2 * 8 + 8) | 0x4000;
             rval = base6 | rval;
             r[-2] = c74v;
@@ -125,7 +126,6 @@ s32 func_80178004(uint *param_1, uint param_2, int param_3)
             p2 = p2 + 8;
             nx = iVar4 + 1;
             iVar4 = nx;
-            __asm__ __volatile__("" : "=r"(nx) : "0"(nx));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
             uVar1 = uVar1 << 4;
         } while (nx * 0x10000 >> 0x10 < 3);
         }

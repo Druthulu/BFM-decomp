@@ -4638,11 +4638,10 @@ void func_80180BE0(s32 arg0, s32 arg1, s16 *arg2)
     u8 *p;
     register s16 *out asm("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus8)
 
-    __asm__("" :: "r"(&pad));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+    (void)&pad;
     v = *(u32 *)(*(s32 *)(arg0 + 0x90) + (*(s32 *)(arg0 + 0x94) << 3));
     if ((v & 0x1000000) != 0) {
         out = arg2;
-        __asm__ __volatile__("" : "=r"(out) : "0"(out));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
         p = (u8 *)((v & 0xFEFFFFFF) + idx * 8);
         out[0] = *(s8 *)(p + 3);
         out[1] = *(s8 *)(p + 4);
@@ -4655,7 +4654,6 @@ void func_80180BE0(s32 arg0, s32 arg1, s16 *arg2)
         out[3] = *(u16 *)(p + 6);
     } else {
         out = arg2;
-        __asm__ __volatile__("" : "=r"(out) : "0"(out));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus8)
         *(Blk12_80180BE0 *)out = *(Blk12_80180BE0 *)(v + idx * 12);
     }
 }

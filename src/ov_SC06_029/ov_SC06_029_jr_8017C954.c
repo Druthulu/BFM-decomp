@@ -8103,16 +8103,16 @@ void func_801857A4(vtx, x, y, cx, cy, w, h, zoff, tp)
 
     if ((flag & ~0x1000) == 0) {
         /* getTPage(tp, 0, x, y) -- the abr term folds away */
+        do {  // !FAKE: do-while
         tpage = ((tpp & 3) << 7) | ((y & 0x100) >> 4) | ((x & 0x3C0) >> 6) |
                 ((y & 0x200) << 2);
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+        } while (0);
         /* getClut(cx, cy) */
         cl = cyy << 6;
         ct = (cx >> 4) & 0x3F;
         cl |= ct;
         pkt->clut = cl;
-        uu = (su - ((tpage & 0xF) << 6)) << (2 - tpp);
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+        do { uu = (su - ((tpage & 0xF) << 6)) << (2 - tpp); } while (0);  // !FAKE: do-while
         vv = sv;
         pkt->tpage = tpage;
         pkt->u0 = uu;

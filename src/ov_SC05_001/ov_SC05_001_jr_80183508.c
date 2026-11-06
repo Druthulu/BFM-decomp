@@ -3187,20 +3187,12 @@ void func_80183BB0(s32 param_1)
  * exit labels — so gcc-2.7.2's `find_cross_jump` merged them (one copy survives,
  * the other arm gets a `j` + delay nop: 18 -> 11, exactly the -7 drift).  The
  * original binary keeps BOTH copies.  There is no `-fno-crossjumping` before gcc
- * 3.3, so the only lever is §5a's zero-byte barrier: `find_cross_jump` sets
- * `lose = 1` on ANY volatile asm, so one empty `__asm__ __volatile__("")` inside
- * one twin makes the two RTL streams unequal and both copies survive.
- *
- * PLACEMENT IS LOAD-BEARING, and this is the part §5a does not spell out.  The
- * barrier must sit at the very END of the twin, immediately before the shared
- * `goto TAIL` — i.e. INSIDE the `if`.  find_cross_jump walks the two streams
- * BACKWARD from the converging `j`, so a barrier at the TOP of the block is walked
- * past: the seven insns below it still match and gcc merges those instead, leaving
- * the drift only slightly smaller.  Put at the bottom the walk fails at offset 0
- * and the suffix never reaches §50-B's `minimum` floor.  Plain `("")` is used, not
- * `("" ::: "memory")` — §5a's own note — because the memory clobber would pin the
- * store ordering in the arms that schedule `sw 0x1c` against `sh 0x34`.
- * Cost: zero bytes.  A future reader WILL try to delete it; it is worth 7 ins.
+ * 3.3.  T11 (B8), lever-free: case 3's guard is inverted to
+ *     if (unk1C >= 0x10) goto HITSTUN;  goto TAIL;
+ * so case 3 no longer ends with case 1's `goto TAIL; goto HITSTUN` tail and
+ * jump2's find_cross_jump finds nothing to merge; both copies survive with no
+ * §5a zero-byte barrier (was: an empty `__asm__ __volatile__("")` before the
+ * `goto TAIL` inside the `if`).  Worth 7 ins: keep the guard's spelling.
  *
  * INTEGRATION SURFACE (§161c) — every block-scope decl below AGREES with this TU:
  *   func_80184580  DEFINED here `void (s32)`  TU:3482 (+ file-scope decl TU:3457)
@@ -3308,15 +3300,10 @@ void func_80183C9C(s32 param_1)
 
     case 3:
         ((Unkstruct_800B5CB8 *)param_1)->unk1C += 1;
-        if (((Unkstruct_800B5CB8 *)param_1)->unk1C < 0x10) {
-            /* §5a ZERO-BYTE CROSS-JUMP BARRIER — LOAD-BEARING, DO NOT DELETE.
-             * This whole arm is byte-identical to case 1's counter tail; without
-             * this line find_cross_jump merges the two and the function comes out
-             * 7 instructions short.  Emits no machine code.  See the header. */
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
-            goto TAIL;
+        if (((Unkstruct_800B5CB8 *)param_1)->unk1C >= 0x10) {
+            goto HITSTUN;
         }
-        goto HITSTUN;
+        goto TAIL;
 
     case 4:
         iVar1 = func_8012CC1C(param_1, &D_801AE3A8);

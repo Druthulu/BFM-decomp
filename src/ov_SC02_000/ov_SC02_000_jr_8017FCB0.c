@@ -3124,9 +3124,10 @@ lab_ab0:
     case 0:
         if (((Unkstruct_800B5CB8 *)arg0)->unk72 & 0x4000) {
             s32 c = CAST_WIDTH(u8, arg0, 0x102) + 1;
+            s32 m;
             CAST_WIDTH(u8, arg0, 0x102) = c;
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
-            if ((((s32(*)())rand)() & 1) < (c & 0xff)) {
+            m = c & 0xff;
+            if ((((s32(*)())rand)() & 1) < m) {
                 ((void(*)(s32))func_801803D0)(arg0);
             }
         }

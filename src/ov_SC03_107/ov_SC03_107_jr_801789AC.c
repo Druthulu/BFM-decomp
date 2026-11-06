@@ -5685,11 +5685,11 @@ void func_8017BEBC(s32 arg0)
          * SETS the pseudo, emptying the address's equivalence class; non-volatile
          * asm so sched2 may still hoist the arg setup above the sv loads. */
         s32 _pm2 = (s32)&m2;
-        __asm__("" : "=r"(_pm2) : "0"(_pm2));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         lv.vx = 0;
         lv.vy = 0;
         lv.vz = 0;
         ReadRotMatrix((void *)_pm2);
+        _pm2 = 0;
     }
     PushMatrix();
     sv.vx = lv.vx - m2.t[0];
@@ -5698,9 +5698,9 @@ void func_8017BEBC(s32 arg0)
     {
         s32 _a = (s32)&m2;
         s32 _b = (s32)&m3;
-        __asm__("" : "=r"(_a) : "0"(_a));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
-        __asm__("" : "=r"(_b) : "0"(_b));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         func_8004974C((void *)_a, (void *)_b);
+        _a = 0;
+        _b = 0;
     }
     ApplyMatrixSV((void *)&m3, (void *)&sv, (void *)&outv);
     PopMatrix();

@@ -1139,13 +1139,11 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     if (arg1 & 1) {
         b4b = D_801909C4;
         D_801152AA = 0xFFF;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_rj1)
-        var_v0_3 = pos + 2;
+        do { var_v0_3 = pos + 2; } while (0);  // !FAKE: do-while
     } else {
         b4b = D_801909C4;
         D_801152AA = -0xFFF;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_rj1)
-        var_v0_3 = pos - 2;
+        do { var_v0_3 = pos - 2; } while (0);  // !FAKE: do-while
     }
     b4b[1] = var_v0_3;
     __asm__ __volatile__("" :: "r"(pos));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_rj1)

@@ -44,8 +44,7 @@ uint *func_80177EA4(uint *param_1, int param_2, uint param_3, int param_4)
             }
             uVar1 = p4s | (param_3 & 0xffff) | uVar5;
         } else { iVar2 = 0; uVar1 = p4s | (param_3 & 0xffff); }
-        puVar3[-1] = uVar1;
-        __asm__ __volatile__("" : : "r"(iVar2) : "memory");  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
+        do { puVar3[-1] = uVar1; } while (0);  // !FAKE: do-while
         {
             register uint c6b __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
             uint r;

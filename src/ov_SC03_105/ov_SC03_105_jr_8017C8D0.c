@@ -5125,19 +5125,17 @@ void func_80180EC0(s32 a0)
         }
         if (func_80183A64((s32 *)s0, 0xC00000, 0xFF400000) != 1) {
             if (*(s16 *)(s0 + 0x6) - ((Unkstruct_80126B58 *)b58)->unk6 >= 0) {
-                if (*(s16 *)(s0 + 0x6) - ((Unkstruct_80126B58 *)b58)->unk6 >= 0x80) {
-                    break;
+                if (*(s16 *)(s0 + 0x6) - ((Unkstruct_80126B58 *)b58)->unk6 < 0x80) {
+                    goto JOIN2;
                 }
-                /* §336 cross-jump barrier at the BOTTOM of the twin: without it
-                 * find_cross_jump merges this arm's `slti; beqz` into the sibling
-                 * arm's and the function is 4 insns short. */
-                __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+                break;
             } else {
                 if (((Unkstruct_80126B58 *)b58)->unk6 - *(s16 *)(s0 + 0x6) >= 0x80) {
                     break;
                 }
             }
         }
+    JOIN2:
         if (*(s16 *)(s0 + 0x6) < ((Unkstruct_80126B58 *)b58)->unk6) {
             *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
         } else {

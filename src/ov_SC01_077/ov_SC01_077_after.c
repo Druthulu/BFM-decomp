@@ -758,9 +758,8 @@ int func_80148AFC(void *a0) {
     s32 iVar5 = *(s32 *)(p + 0x20);
     register s32 tmp __asm__("$5") = (ratan2(((Unkstruct_80126948 *)D_801151D4)->unk44 - ((Unkstruct_80126948 *)D_801151D4)->unk50,  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_rj0)
                         ((Unkstruct_80126948 *)D_801151D4)->unk48 - ((Unkstruct_80126948 *)D_801151D4)->unk3C) - 0x400) & 0xFFF;
-    s32 sVar3;
+    u16 sVar3;
     u8 bVar1;
-    __asm__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_rj0)
     sVar3 = tmp;
     bVar1 = *(u8 *)(p + 0xA9);
 

@@ -261,14 +261,7 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     f.col[1].b = 0x70;
     cv = ((Unkstruct_800CB3BC *)ent)->unk12;
     f.cx = arg1;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
-    va = (u8 *)&f.cx;
-    __asm__ __volatile__("" : "=r"(va) : "0"(va));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
     f.cy = arg2;
-    vb = va;
-    __asm__ __volatile__("" : "=r"(vb) : "0"(vb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
-    p = D_800CB820;
-    i = 0;
     f.col[0].b = 0;
     f.col[0].g = 0;
     f.col[0].r = 0;
@@ -280,9 +273,11 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     f.col[3].r = 0;
     f.code = 0x50000000;
     f.cz = arg3;
-    f.col[1].r = cv;
     f.col[1].g = cv;
-    ((void (*)(s32, void *, void *))func_80149350)(node, va, vb);
+    f.col[1].r = cv;
+    ((void (*)(s32, void *, void *))func_80149350)(node, (u8 *)&f.cx, (u8 *)&f.cx);
+    p = D_800CB820;
+    i = 0;
 
     c = f.cx;
     ((Unkstruct_800CB3BC *)ent)->unk6 = c;

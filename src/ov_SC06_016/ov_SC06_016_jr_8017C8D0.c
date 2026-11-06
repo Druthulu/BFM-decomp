@@ -4123,8 +4123,7 @@ void func_8017F784(s32 param_1)
         }
         func_8012E88C((u8 *)param_1);
         if (((Unkstruct_800B5CB8 *)param_1)->unk1C == 4) {
-            ((Unkstruct_800B5CB8 *)param_1)->unk34 = 2;
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+            do { ((Unkstruct_800B5CB8 *)param_1)->unk34 = 2; } while (0);  // !FAKE: do-while
             k = 0x1000;
             if (((Unkstruct_800B5CB8 *)param_1)->unk20 != 0) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk18 = k;
@@ -4156,9 +4155,10 @@ void func_8017F784(s32 param_1)
         func_8012E88C((u8 *)param_1);
         ((void (*)(void *))func_80180BF0)((void *)param_1);
         if (CAST_SIGN(u16, (char *)D_8019F6F8, 2) == 6) {
+            do {  // !FAKE: do-while
             CAST_ALIAS(u16, param_1, 0x34) = 3;
             ((Unkstruct_800B5CB8 *)param_1)->unk1C = D_80188A18;
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+            } while (0);
             k = 0x1000;
             if (((Unkstruct_800B5CB8 *)param_1)->unk20 != 0) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk18 = k;

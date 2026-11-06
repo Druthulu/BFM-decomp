@@ -2435,7 +2435,7 @@ void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 
     s32 otp;
     u8 *p;
     register u32 mFF __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
-    s32 vx, vy;
+    s16 vx, vy;
     u32 pmask;
     register u32 tag2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
 
@@ -2454,8 +2454,6 @@ void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 
     p[7] = 0x38;
     __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     vy = y;
-    __asm__("" : "=r"(x) : "0"(x));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-    __asm__("" : "=r"(y) : "0"(y));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
     p[4] = c1; p[5] = c2; p[6] = c3;
     p[0xC] = c1; p[0xD] = c2; p[0xE] = c3;
     p[0x14] = c4; p[0x15] = c5; p[0x16] = c6;

@@ -2816,11 +2816,10 @@ void func_80181F74(s32 param_1)
 
     case 3:
         ((Unkstruct_800B5CB8 *)param_1)->unk1C += 1;
-        if (((Unkstruct_800B5CB8 *)param_1)->unk1C >= 0x10) {
-            goto C78;
+        if (((Unkstruct_800B5CB8 *)param_1)->unk1C < 0x10) {
+            goto TAIL;
         }
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
-        goto TAIL;
+        goto C78;
 
     case 4:
         iVar1 = func_8012CC1C(param_1, &D_801A8340);

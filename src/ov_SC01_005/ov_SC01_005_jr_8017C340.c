@@ -4036,10 +4036,9 @@ s32 func_8017E3DC(void) {
  * [5] §137 ALLOCNO PRICING for the $s2/$s3 grant, plus the tail store barrier.
  *     From `cc1 -dl -dg`:  panel = 7 refs / 87 insns -> floor_log2(7)*7*1e4/87
  *     = 1609;  lim = 3 refs / 19 insns -> 1*3*1e4/19 = 1578.  panel wins $s2,
- *     the target wants lim there.  A 2-operand zero-byte asm on `lim` buys +1
- *     ref (a 5-operand one buys +4 — one operand does not count, §48-A), and
- *     floor_log2 is a STEP function: 4 refs -> 2*4*1e4/20 = 4000 > 1609, so lim
- *     is priced above panel and the pair swaps.  Declaration order does NOT
+ *     the target wants lim there.  T11 (B8): no keepalive asm on `lim` any more;
+ *     `do { lim = cnt; } while (0);` raises lim's loop ref weight, so lim is
+ *     priced above panel and the pair swaps (0 on its own).  Declaration order does NOT
  *     move this (all four orderings tried, all 15 mismatches).
  *     Separately, `D_801151D0` is a plain scalar (MEM_IN_STRUCT_P clear) while
  *     `D_800AE7B8[..].f4[2]` is `mem/s`, so sched2 disambiguates them and
@@ -4136,8 +4135,7 @@ void func_8017E6BC(void) {
     cnt = n + zr;                                            /* [3] */
     i = 0;
     if (cnt != 0) {
-        lim = cnt + zr;                                      /* [3] */
-        __asm__ __volatile__("" :: "r"(lim), "r"(lim));      /* [5] +1 ref */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+        do { lim = cnt; } while (0);  // !FAKE: do-while
         do {
             if (*(s16 *)((u8 *)D_80115158 + ((s32)i << 1)) != 0) {   /* [1] */
                 __asm__ __volatile__("");                    /* [4] */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)

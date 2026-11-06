@@ -3532,8 +3532,7 @@ void func_8018340C(void *a0)
         }
         aa = t * m;
         bb = aa >> 12;
-        cc = bb + 8;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+        do { cc = bb + 8; } while (0);  // !FAKE: do-while
         d = cc * (D_80126950 + 500);
         d = d / (ret * 4);
 

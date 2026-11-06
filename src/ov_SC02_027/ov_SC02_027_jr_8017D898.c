@@ -8271,8 +8271,7 @@ s32 a1;
     sp10[2] = z;
     sp10[3] = w;
     t = D_801AFBE8[a1 * 5];
-    sp10[4] = t;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — the `nop` after the fifth `lw` is inside output_block_move's template (mips.c:2444), which the scheduler cannot fill (P36 S105 f9 minimum-lever)
+    do { sp10[4] = t; } while (0);  // !FAKE: do-while
     ((u16 *)sp10)[0] = ((u16 *)sp10)[0] + ((Unkstruct_80186CE0 *)obj)->unk6;
     ((u16 *)sp10)[1] = ((u16 *)sp10)[1] + CAST_ALIAS(u16, obj, 0xA);
     ((u16 *)sp10)[2] = ((u16 *)sp10)[2] + ((Unkstruct_80186CE0 *)obj)->unkE;
