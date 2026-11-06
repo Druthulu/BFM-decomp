@@ -6733,8 +6733,8 @@ void func_80183534(s32 arg0, SVEC_80183534 *arg1, SVEC_80183534 *arg2, s32 *arg3
     s32 i;
     s32 w;
     s32 vv;
-    register s32 w2   __asm__("$2");   /* L4 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 oidx __asm__("$3");   /* L4 */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    s16 w2;
+    s32 oidx;
     s32 mulc;   /* L4 */
 
     i = *arg3;
@@ -6800,9 +6800,11 @@ void func_80183534(s32 arg0, SVEC_80183534 *arg1, SVEC_80183534 *arg2, s32 *arg3
     pkt[0x24] = pkt[0x14];
     pkt[0x25] = pkt[0x1D];
 
+    do {
     *(s16 *)(pkt + 0x08) = sxy[0].vx - w;
     *(s16 *)(pkt + 0x0A) = *(s16 *)(pkt + 0x12) = sxy[0].vy;   /* L1 */
     *(s16 *)(pkt + 0x10) = sxy[0].vx + w;
+    } while (0);  // !FAKE: do-while
     *(s16 *)(pkt + 0x18) = sxy[1].vx - w;
     *(s16 *)(pkt + 0x1A) = *(s16 *)(pkt + 0x22) = sxy[1].vy;   /* L1 */
     *(s16 *)(pkt + 0x20) = sxy[1].vx + w;
@@ -6810,8 +6812,10 @@ void func_80183534(s32 arg0, SVEC_80183534 *arg1, SVEC_80183534 *arg2, s32 *arg3
     oidx = g.otz << 2;                                          /* L2 */
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000)
                 | (*(u32 *)&D_800A6614[oidx + (*(u16 *)(base + 0xA3D2) << 14)] & 0xFFFFFF);
+    do {
     otp = (u32 *)&D_800A6614[oidx + (*(u16 *)(base + 0xA3D2) << 14)];
     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
+    } while (0);  // !FAKE: do-while
 }
 
 

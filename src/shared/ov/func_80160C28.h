@@ -13,9 +13,8 @@ void func_80160C28(void *arg0)
         *(u16 *)((u8 *)p + 0x10) =
             (*(u16 *)((u8 *)p + 0x10) - *(u16 *)((u8 *)arg0 + 0x23a)) & 0xfff;
         q = *(s32 *)((u8 *)arg0 + 0x20);
+        a = arg0;
         if (*(s16 *)((u8 *)q + 0x10) < 0xc00) {
-            a = arg0;
-            __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
             *(u16 *)((u8 *)q + 0x10) = 0xc00;
             *(u16 *)((u8 *)a + 0xb8) = 1;
             func_80146CA0(a);

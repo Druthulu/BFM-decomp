@@ -76,7 +76,6 @@ src/md_MAIN_013/md_MAIN_013.c	func_800CB56C	launder	T11 crack G30	delever_search
 src/md_MAIN_013/md_MAIN_013.c	func_800CB56C	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/md_MAIN_018/md_MAIN_018.c	func_800CB328	pin	T11 crack G01	delever_search --try best 18/3	singleton(pin) wall:greg-pri-refs
 src/md_MAIN_026/md_MAIN_026.c	func_800CB900	keepalive	T11 crack G24	delever_search --try best 5/60	singleton(keepalive) wall:lreg-copy-pref-dying-base
-src/md_MAIN_034/md_MAIN_034.c	func_800CC4E8	pin	delever R t8_r2	oracle DIFFERS on removal	singleton(pin)
 src/md_MAIN_041/md_MAIN_041.c	func_800CB118	pin	T11 crack W47x	delever_search --try best 7/43	singleton(pin) wall:lreg-callresult-copy-pref
 src/md_MAIN_046/md_MAIN_046.c	func_800CD240	launder	T11 crack G09	delever_search --try best 1/6	singleton(launder) wall:dbr-redundant-move
 src/md_MAIN_046/md_MAIN_046.c	func_800CD494	keepalive	T11 crack G24	delever_search --try best 3/160	singleton(keepalive) wall:expand-void-return
@@ -150,8 +149,6 @@ src/ov_SC01_005/ov_SC01_005_jr_8013C98C.c	func_8013CF68	instruction	delever R t8
 src/ov_SC01_005/ov_SC01_005_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC01_005/ov_SC01_005_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC01_005/ov_SC01_005_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
-src/ov_SC01_005/ov_SC01_005_jr_8017C340.c	func_8017E6BC	barrier	T11 crack G31x	delever_search --try partial keeps barrier (5 tries)	singleton(barrier) wall:dbr-delay-fill
-src/ov_SC01_005/ov_SC01_005_jr_8017C340.c	func_8017E6BC	pin	T11 crack G31x	delever_search --try partial keeps pin (5 tries)	singleton(pin) wall:dbr-delay-fill
 src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c	func_8017EFA8	barrier	T11 crack G31	delever_search --try best 21/32	singleton(barrier) wall:global-pri-bank-order
 src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c	func_8017EFA8	keepalive	T11 crack G31	delever_search --try best 21/32	singleton(keepalive) wall:global-pri-bank-order
 src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c	func_8017EFA8	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
@@ -164,8 +161,6 @@ src/ov_SC01_008/ov_SC01_008_jr_8013C98C.c	func_8013CF68	instruction	delever R t8
 src/ov_SC01_008/ov_SC01_008_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC01_008/ov_SC01_008_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC01_008/ov_SC01_008_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
-src/ov_SC01_008/ov_SC01_008_jr_8017BE9C.c	func_8017E050	barrier	T11 crack G31x	delever_search --try partial keeps barrier (5 tries)	singleton(barrier) wall:dbr-delay-fill
-src/ov_SC01_008/ov_SC01_008_jr_8017BE9C.c	func_8017E050	pin	T11 crack G31x	delever_search --try partial keeps pin (5 tries)	singleton(pin) wall:dbr-delay-fill
 src/ov_SC01_008/ov_SC01_008_jr_8017E6F0.c	func_8017E6F0	barrier	delever R t8_r2	oracle DIFFERS on removal	head-class(0062bb6a8852, n=2)
 src/ov_SC01_008/ov_SC01_008_jr_8017E6F0.c	func_8017E6F0	launder	delever R t8_r2	oracle DIFFERS on removal	head-class(0062bb6a8852, n=2)
 src/ov_SC01_008/ov_SC01_008_jr_8017E6F0.c	func_8017E93C	keepalive	T11 crack W05	delever_search --try best 0/14	singleton(keepalive) wall:greg-pri-refs
@@ -176,8 +171,8 @@ src/ov_SC01_009/ov_SC01_009_jr_8013C98C.c	func_8013CF68	instruction	delever R t8
 src/ov_SC01_009/ov_SC01_009_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC01_009/ov_SC01_009_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC01_009/ov_SC01_009_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
-src/ov_SC01_009/ov_SC01_009_jr_8017E590.c	func_8017E590	barrier	delever R t8_r2	oracle DIFFERS on removal	singleton(barrier)
-src/ov_SC01_009/ov_SC01_009_jr_8017E590.c	func_8017E590	launder	delever R t8_r2	oracle DIFFERS on removal	singleton(launder)
+src/ov_SC01_009/ov_SC01_009_jr_8017E590.c	func_8017E590	barrier	T11 crack W50	delever_search --try best 4/33	singleton(barrier) wall:greg-ref-count
+src/ov_SC01_009/ov_SC01_009_jr_8017E590.c	func_8017E590	launder	T11 crack W50	delever_search --try best 4/33	singleton(launder) wall:greg-ref-count
 src/ov_SC01_009/ov_SC01_009_jr_8017E590.c	func_8017E7DC	keepalive	T11 crack W06	delever_search --try best 19/11	singleton(keepalive) wall:greg-pri-refs
 src/ov_SC01_009/ov_SC01_009_jr_8017E590.c	func_8017E7DC	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC01_009/ov_SC01_009_jr_8017E590.c	func_8017EB08	launder	delever R t8_r2	oracle DIFFERS on removal	head-class(eb3ad84974a4, n=2)
@@ -193,7 +188,6 @@ src/ov_SC01_077/ov_SC01_077.c	func_80140958	keepalive	delever B t8_rj3	oracle DI
 src/ov_SC01_077/ov_SC01_077.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC01_077/ov_SC01_077_after.c	func_80148AFC	barrier	T11 crack G30x	delever_search --try partial keeps barrier (37 tries)	singleton(barrier) wall:cse-load-forward
 src/ov_SC01_077/ov_SC01_077_after.c	func_80148AFC	pin	delever B t8_rj0	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
-src/ov_SC01_077/ov_SC01_077_after.c	func_80148D44	keepalive	delever B t8_rj0	oracle DIFFERS on removal	singleton(keepalive)
 src/ov_SC01_077/ov_SC01_077_after.c	func_80148D44	pin	delever B t8_rj0	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC01_077/ov_SC01_077_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
 src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c	func_8017EF50	pin	delever B t8_rj5	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
@@ -247,8 +241,8 @@ src/ov_SC02_011/ov_SC02_011_jr_8013C98C.c	func_8013CF68	instruction	delever R t8
 src/ov_SC02_011/ov_SC02_011_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC02_011/ov_SC02_011_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC02_011/ov_SC02_011_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
-src/ov_SC02_011/ov_SC02_011_jr_80183178.c	func_801852B0	barrier	delever R t8_r2	oracle DIFFERS on removal	singleton(barrier)
-src/ov_SC02_011/ov_SC02_011_jr_80183178.c	func_801852B0	launder	delever R t8_r2	oracle DIFFERS on removal	singleton(launder)
+src/ov_SC02_011/ov_SC02_011_jr_80183178.c	func_801852B0	barrier	T11 crack W49	delever_search --try best 10/45	singleton(barrier) wall:dbr-delay-fill
+src/ov_SC02_011/ov_SC02_011_jr_80183178.c	func_801852B0	launder	T11 crack W49	delever_search --try best 10/45	singleton(launder) wall:dbr-delay-fill
 src/ov_SC02_011/ov_SC02_011_jr_80183178.c	func_801852B0	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC02_011/ov_SC02_011_jr_80183178.c	func_8018567C	pin	T11 crack G03	delever_search --try best 8/25	singleton(pin) wall:lreg-qty-priority
 src/ov_SC02_011/ov_SC02_011_jr_80183178.c	func_8018576C	pin	T11 crack G03	delever_search --try best 7/92	singleton(pin) wall:greg-pri-refs
@@ -414,7 +408,6 @@ src/ov_SC03_024/ov_SC03_024_jr_80140608.c	func_80140958	keepalive	delever B t8_r
 src/ov_SC03_024/ov_SC03_024_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC03_024/ov_SC03_024_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
 src/ov_SC03_024/ov_SC03_024_jr_801830A8.c	func_80183ACC	barrier	T11 crack G18x	delever_search --try best 8/37	singleton(barrier) wall:dbr-delay-fill
-src/ov_SC03_024/ov_SC03_024_jr_80183BF8.c	func_80185E38	launder	delever R t8_r2	oracle DIFFERS on removal	singleton(launder)
 src/ov_SC03_024/ov_SC03_024_jr_80183BF8.c	func_80185E38	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC03_028/ov_SC03_028_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134)
 src/ov_SC03_028/ov_SC03_028_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
@@ -547,7 +540,6 @@ src/ov_SC03_101/ov_SC03_101_jr_80140608.c	func_80140958	pin	delever B t8_rj3	ora
 src/ov_SC03_101/ov_SC03_101_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
 src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c	func_80181914	keepalive	delever R t8_r2	oracle DIFFERS on removal	head-class(0438fbf5646f, n=5)
 src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c	func_80181914	pin	delever R t8_r2	oracle DIFFERS on removal	head-class(0438fbf5646f, n=5)
-src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c	func_80182254	launder	delever R t8_r2	oracle DIFFERS on removal	singleton(launder)
 src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c	func_80182254	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC03_102/ov_SC03_102_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134)
 src/ov_SC03_102/ov_SC03_102_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
@@ -595,8 +587,8 @@ src/ov_SC03_107/ov_SC03_107_jr_801458E0.c	func_80145934	barrier	delever B t8_rj1
 src/ov_SC03_107/ov_SC03_107_jr_8015444C.c		barrier	delever B tus11	1958 | /* ==== end §8b carried decl layer ==== */ | src/ov_SC03_107/ov_SC03_107_jr_8015444C.c:1591: 	singleton(barrier)
 src/ov_SC03_107/ov_SC03_107_jr_80171B4C.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
 src/ov_SC03_107/ov_SC03_107_jr_801789AC.c	func_8017BEBC	barrier	T11 crack G30x	delever_search --try partial keeps barrier (20 tries)	singleton(barrier) wall:global-pri-bank-order
-src/ov_SC03_107/ov_SC03_107_jr_801789AC.c	func_8017CF48	launder	delever R t8_r2	oracle DIFFERS on removal	singleton(launder)
-src/ov_SC03_107/ov_SC03_107_jr_801789AC.c	func_8017CF48	pin	delever R t8_r2	oracle DIFFERS on removal	singleton(pin)
+src/ov_SC03_107/ov_SC03_107_jr_801789AC.c	func_8017CF48	launder	T11 crack W50	delever_search --try best 46/32	singleton(launder) wall:cse-const-addr
+src/ov_SC03_107/ov_SC03_107_jr_801789AC.c	func_8017CF48	pin	T11 crack W50	delever_search --try best 46/32	singleton(pin) wall:cse-const-addr
 src/ov_SC03_108/ov_SC03_108_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134)
 src/ov_SC03_108/ov_SC03_108_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC03_108/ov_SC03_108_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
@@ -611,8 +603,8 @@ src/ov_SC03_110/ov_SC03_110_jr_8013C98C.c	func_8013CF68	instruction	delever R t8
 src/ov_SC03_110/ov_SC03_110_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC03_110/ov_SC03_110_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC03_110/ov_SC03_110_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
-src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c	func_80181BF0	keepalive	delever R t8_r2	oracle DIFFERS on removal	singleton(keepalive)
-src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c	func_80181BF0	pin	delever R t8_r2	oracle DIFFERS on removal	singleton(pin)
+src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c	func_80181BF0	keepalive	T11 crack W49x	delever_search --try best 1/75	singleton(keepalive) wall:expand-void-return
+src/ov_SC03_110/ov_SC03_110_jr_8017FBC8.c	func_80181BF0	pin	T11 crack W49x	delever_search --try best 1/75	singleton(pin) wall:expand-void-return
 src/ov_SC03_111/ov_SC03_111_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134)
 src/ov_SC03_111/ov_SC03_111_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC03_111/ov_SC03_111_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
@@ -662,7 +654,6 @@ src/ov_SC03_121/ov_SC03_121_jr_8013C98C.c	func_8013CF68	instruction	delever R t8
 src/ov_SC03_121/ov_SC03_121_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC03_121/ov_SC03_121_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC03_121/ov_SC03_121_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
-src/ov_SC03_121/ov_SC03_121_jr_8017E1D0.c	func_80180254	pin	delever R t8_r2	oracle DIFFERS on removal	singleton(pin)
 src/ov_SC03_121/ov_SC03_121_jr_8017E1D0.c	func_80180E64	keepalive	T11 crack G26x	delever_search --try best 7/39	singleton(keepalive) wall:greg-ref-count
 src/ov_SC03_121/ov_SC03_121_jr_8017E1D0.c	func_80180E64	pin	T11 crack G26x	delever_search --try best 7/39	singleton(pin) wall:greg-ref-count
 src/ov_SC03_124/ov_SC03_124_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134)
@@ -761,7 +752,7 @@ src/ov_SC04_011/ov_SC04_011_jr_8017D494.c	func_80184978	pin	delever R t8_r2	orac
 src/ov_SC04_011/ov_SC04_011_jr_8017D494.c	func_80184DB8	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC04_011/ov_SC04_011_jr_8017D494.c	func_80186CD8	instruction	delever - t3_tus2	instruction `addu` has no C spelling in the table	singleton(instruction) [3.40-agent]
 src/ov_SC04_011/ov_SC04_011_jr_8017D494.c	func_801873F8	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
-src/ov_SC04_011/ov_SC04_011_jr_8017D494.c	func_8018C14C	pin	delever R t8_r2	oracle DIFFERS on removal	singleton(pin)
+src/ov_SC04_011/ov_SC04_011_jr_8017D494.c	func_8018C14C	pin	T11 crack W49	delever_search --try best 7/53	singleton(pin) wall:cse-copy-merge
 src/ov_SC04_011/ov_SC04_011_jr_8017D494.c	func_8018DBF0	instruction	delever R t8_r2	oracle DIFFERS on removal	singleton(instruction)
 src/ov_SC04_011/ov_SC04_011_jr_8017D494.c	func_8018DBF0	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC04_011/ov_SC04_011_jr_8017D494.c	func_8018E428	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
@@ -818,8 +809,8 @@ src/ov_SC05_002/ov_SC05_002_jr_80140608.c	func_80140958	pin	delever B t8_rj3	ora
 src/ov_SC05_002/ov_SC05_002_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
 src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c	func_8017CD9C	barrier	delever R t8_r2	oracle DIFFERS on removal	head-class(98903885f4ac, n=2)
 src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c	func_8017CD9C	launder	delever R t8_r2	oracle DIFFERS on removal	head-class(98903885f4ac, n=2)
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c	func_8017F0D0	keepalive	delever R t8_r2	oracle DIFFERS on removal	singleton(keepalive)
-src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c	func_8017F0D0	pin	delever R t8_r2	oracle DIFFERS on removal	singleton(pin)
+src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c	func_8017F0D0	keepalive	T11 crack W50x	delever_search --try best 1/135	singleton(keepalive) wall:flow-unused-result
+src/ov_SC05_002/ov_SC05_002_jr_8017BEBC.c	func_8017F0D0	pin	T11 crack W50x	delever_search --try best 1/135	singleton(pin) wall:flow-unused-result
 src/ov_SC05_003/ov_SC05_003_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134)
 src/ov_SC05_003/ov_SC05_003_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC05_003/ov_SC05_003_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
@@ -860,7 +851,7 @@ src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.c	func_80180AA0	barrier	T11 crack W05	de
 src/ov_SC05_010/ov_SC05_010_jr_80180F84.c	func_80181670	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC05_010/ov_SC05_010_jr_80181CDC.c	func_80183098	launder	T11 crack G14	delever_search --try best 10/43	singleton(launder) wall:cse-const-addr
 src/ov_SC05_010/ov_SC05_010_jr_80181CDC.c	func_8018340C	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
-src/ov_SC05_010/ov_SC05_010_jr_8018473C.c	func_80184E4C	pin	delever R t8_r2	oracle DIFFERS on removal	singleton(pin)
+src/ov_SC05_010/ov_SC05_010_jr_8018473C.c	func_80184E4C	pin	T11 crack W50	delever_search --try best 12/30	singleton(pin) wall:global-pri-bank-order
 src/ov_SC05_010/ov_SC05_010_jr_8018473C.c	func_801854B8	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC05_011/ov_SC05_011_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134)
 src/ov_SC05_011/ov_SC05_011_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
@@ -955,10 +946,10 @@ src/ov_SC06_018/ov_SC06_018_jr_80186270.c	func_80187250	pin	T11 crack G06	deleve
 src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c	func_8018C7A8	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c	func_8018D870	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC06_018/ov_SC06_018_jr_8018FF98.c	func_8018FF98	launder	delever R t8_r2	oracle DIFFERS on removal	head-class(26f44577f418, n=2)
-src/ov_SC06_018/ov_SC06_018_jr_8019059C.c	func_8019059C	pin	T11 crack G23	delever_search --try partial keeps pin (9 tries)	singleton(pin) wall:lreg-qty-priority
+src/ov_SC06_018/ov_SC06_018_jr_8019059C.c	func_8019059C	pin	T11 crack RM3	delever_search --try best 31/59	singleton(pin) wall:lreg-qty-priority
 src/ov_SC06_018/ov_SC06_018_jr_8019059C.c	func_80191020	launder	T11 crack G14	delever_search --try best 2/531	singleton(launder) wall:dbr-delay-fill-2ndset
 src/ov_SC06_018/ov_SC06_018_jr_8019059C.c	func_80191020	pin	delever B t8_mac1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
-src/ov_SC06_018/ov_SC06_018_jr_80191C50.c	func_80191C50	pin	T11 crack G23	delever_search --try partial keeps pin (4 tries)	singleton(pin) wall:lreg-qty-priority
+src/ov_SC06_018/ov_SC06_018_jr_80191C50.c	func_80191C50	pin	T11 crack RM3	delever_search --try best 24/58	singleton(pin) wall:lreg-qty-priority
 src/ov_SC06_020/ov_SC06_020_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134)
 src/ov_SC06_020/ov_SC06_020_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC06_020/ov_SC06_020_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
@@ -998,7 +989,6 @@ src/ov_SC06_029/ov_SC06_029_jr_80140608.c	func_80140958	keepalive	delever B t8_r
 src/ov_SC06_029/ov_SC06_029_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC06_029/ov_SC06_029_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
 src/ov_SC06_029/ov_SC06_029_jr_8017C954.c	func_80182388	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
-src/ov_SC06_029/ov_SC06_029_jr_8017C954.c	func_80183534	pin	T11 crack G23	delever_search --try partial keeps pin (18 tries)	singleton(pin) wall:lreg-qty-priority
 src/ov_SC06_029/ov_SC06_029_jr_8017C954.c	func_801857A4	barrier	T11 crack O02	delever_search --try partial keeps barrier (36 tries)	singleton(barrier) wall:sched1-load-delay-fill
 src/ov_SC06_029/ov_SC06_029_jr_8017C954.c	func_801857A4	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC06_029/ov_SC06_029_jr_8017C954.c	func_801859F4	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
@@ -1021,7 +1011,7 @@ src/ov_SC06_032/ov_SC06_032_jr_80182890.c	func_8018EDB0	launder	delever B t8_mac
 src/ov_SC06_032/ov_SC06_032_jr_80182890.c	func_8018FB5C	launder	T11 crack G15	delever_search --try best 2/32	singleton(launder) wall:sched1-birth-boost-dbr-delay
 src/ov_SC06_032/ov_SC06_032_jr_80182890.c	func_8018FB5C	pin	delever B t8_mac1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC06_032/ov_SC06_032_jr_801902EC.c	func_80190D70	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
-src/ov_SC06_032/ov_SC06_032_jr_801919A0.c	func_801919A0	pin	T11 crack G23	delever_search --try partial keeps pin (12 tries)	singleton(pin) wall:lreg-qty-priority
+src/ov_SC06_032/ov_SC06_032_jr_801919A0.c	func_801919A0	pin	T11 crack RM3	delever_search --try best 24/85	singleton(pin) wall:lreg-qty-priority
 src/ov_SC06_033/ov_SC06_033_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134)
 src/ov_SC06_033/ov_SC06_033_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
 src/ov_SC06_033/ov_SC06_033_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129)
@@ -1124,8 +1114,7 @@ src/shared/ov/func_8012B0B4.h	func_8012B0B4	instruction	delever B headers1	oracl
 src/shared/ov/func_8012B0B4.h	func_8012B0B4	pin	delever B headers1	oracle DIFFERS on removal	singleton(pin)
 src/shared/ov/func_8012B4B8.h	func_8012B4B8	launder	T11 crack G16	delever_search --try best 2/71	singleton(launder) wall:reload-hardreg-across-call
 src/shared/ov/func_8012B4B8.h	func_8012B4B8	pin	delever B headers1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
-src/shared/ov/func_8012B8E4.h	func_8012B8E4	keepalive	delever B headers1	oracle DIFFERS on removal	singleton(keepalive)
-src/shared/ov/func_8012B8E4.h	func_8012B8E4	pin	delever B headers1	oracle DIFFERS on removal	singleton(pin)
+src/shared/ov/func_8012B8E4.h	func_8012B8E4	pin	T11 crack W50x	delever_search --try best 25/9+32	singleton(pin) wall:lreg-qty-priority
 src/shared/ov/func_8012BA10.h	func_8012BA10	keepalive	T11 crack G27x	delever_search --try best 21/34	singleton(keepalive) wall:lreg-qty-priority
 src/shared/ov/func_8012BA10.h	func_8012BA10	pin	T11 crack G27x	delever_search --try best 21/34	singleton(pin) wall:lreg-qty-priority
 src/shared/ov/func_8012BB3C.h	func_8012BB3C	keepalive	T11 crack G27x	delever_search --try best 2/44	singleton(keepalive) wall:lreg-qty-priority
@@ -1177,7 +1166,6 @@ src/shared/ov/func_8015126C.h	func_8015126C	pin	T11 crack O05x	delever_search --
 src/shared/ov/func_801535F4.h	func_801535F4	keepalive	T11 crack G27x	delever_search --try best 11/30	singleton(keepalive) wall:global-hardreg-reserve
 src/shared/ov/func_801535F4.h	func_801535F4	pin	T11 crack G27x	delever_search --try best 11/30	singleton(pin) wall:global-hardreg-reserve
 src/shared/ov/func_801536DC.h	func_801536DC	pin	T11 crack G08b	delever_search --try best 9/44	singleton(pin) wall:global-hardreg-reserve
-src/shared/ov/func_80160C28.h	func_80160C28	keepalive	delever B headers1	oracle DIFFERS on removal	singleton(keepalive)
 src/shared/ov/func_80160C28.h	func_80160C28	pin	delever B headers1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/shared/ov/func_8016432C.h	func_8016432C	keepalive	T11 crack G25x	delever_search --try best 2/118	singleton(keepalive) wall:sched1-argcopy-hoist
 src/shared/ov/func_80176D94.h	func_80176D94	pin	delever B t8_hdr1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
@@ -1188,7 +1176,7 @@ src/shared/ov/func_80177940.h	func_80177940	launder	delever B headers1	oracle DI
 src/shared/ov/func_80177940.h	func_80177940	pin	delever B headers1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/shared/ov/func_80177B5C__879ede92.h	func_80177B5C	launder	delever B t8_rj4	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
 src/shared/ov/func_80177B5C__ef97c1ca.h	func_80177B5C	launder	delever B t8_rj4	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133)
-src/shared/ov/func_80177EA4.h	func_80177EA4	launder	T11 crack G31y	delever_search --try partial keeps launder (9 tries)	singleton(launder) wall:retry-kept
+src/shared/ov/func_80177EA4.h	func_80177EA4	launder	T11 crack RM3x	delever_search --try best 4/31	singleton(launder) wall:cse-copy-merge
 src/shared/ov/func_80177EA4.h	func_80177EA4	pin	delever B headers1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/shared/ov/func_80177F84.h	func_80177F84	pin	delever B headers1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/shared/ov/func_80178004.h	func_80178004	pin	delever B headers1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)

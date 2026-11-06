@@ -3957,11 +3957,13 @@ extern s32 D_801AECF0;
 void func_80180254(s32 param_1) {
     s32 *p;
     s32 off;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 v0;
     s32 i;
     s32 q;
     u16 t;
     s32 e;
+    s32 r;
+    s32 a;
 
     switch (((Unkstruct_800B5CB8 *)param_1)->unk34) {
     case 0:
@@ -3980,12 +3982,14 @@ void func_80180254(s32 param_1) {
         p = D_801AECD8;
         off = 0;
         while (i < 5) {
-            v0 = func_8012C588(0x1C5, param_1);
-            *p = v0;
+            r = func_8012C588(0x1C5, param_1);
+            *p = r;
             t = *(u16 *)((s32)&D_8019B928 + off);
-            ((Unkstruct_800B5CB8 *)v0)->unk88 = t;
-            ((Unkstruct_800B5CB8 *)v0)->unk6 = t;
-            CAST_NONSTRUCT(s16, *p, 0xA) = -0x400;
+            ((Unkstruct_800B5CB8 *)r)->unk88 = t;
+            ((Unkstruct_800B5CB8 *)r)->unk6 = t;
+            a = *p;
+            a += 0xA;
+            *(s16 *)a = -0x400;
             e = *p;
             v0 = *(u16 *)((s32)&D_8019B92C + off);
             ((Unkstruct_800B5CB8 *)e)->unk8C = v0;
@@ -3995,7 +3999,9 @@ void func_80180254(s32 param_1) {
             ((Unkstruct_800B5CB8 *)*(s32 *)(v0 + 0x20))->unk12 =
                 *(u16 *)((s32)&D_8019B92E + off);
             off += 8;
-            CAST_NONSTRUCT(s16, *p, 0x8A) = -0x92;
+            a = *p;
+            a += 0x8A;
+            *(s16 *)a = -0x92;
             p++;
         }
         ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;

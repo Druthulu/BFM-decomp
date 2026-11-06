@@ -844,7 +844,6 @@ s32 func_80148D44(void) {
     a = (ratan2(((Unkstruct_80126948 *)p)->unk44 - ((Unkstruct_80126948 *)p)->unk50,
                   ((Unkstruct_80126948 *)p)->unk48 - ((Unkstruct_80126948 *)p)->unk3C) - 0x400) & 0xFFF;
     d = (s32)D_80126C01;
-    __asm__ __volatile__("" : : "r"(a));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_rj0)
     ang = a;
     if (d == 0x53) {
         goto final;
@@ -860,7 +859,7 @@ s32 func_80148D44(void) {
     }
     goto final;
 call:
-    return (s32)(s16)((s16 (*)())(D_80188654[D_80126C02 >> 0xc]))();
+    return (s32)(s16)((s16 (*)(s32))(D_80188654[D_80126C02 >> 0xc]))(a);
 final:
     {
         u32 e = D_80126C06;

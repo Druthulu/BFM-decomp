@@ -10,8 +10,7 @@ s32 func_8012B8E4(s32 arg0, s32 arg1) {
     d = arg1;
     s1ang = *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
     u5 = (ratan2(*(s16 *)(arg0 + 0xE) - D_80126CB8, D_80126CB4 - *(s16 *)(arg0 + 6)) - 0x400) & 0xFFF;
-    __asm__ __volatile__("" : : "r"(u5));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
-    d = (s16)d;
+    do { d = (s16)d; } while (0);  // !FAKE: do-while
     u6 = s1ang & 0xFFF;
     if (u6 == u5) return 0;
     iVar4 = u5 - u6;

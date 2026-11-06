@@ -900,26 +900,31 @@ extern Quad4_800CCB14 D_800CCB14;
 
 void func_800CC4E8(void *a0) {
     void *s1;
-    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 t1;
+    s32 t2;
+    s32 t3;
 
     s1 = CAST_SIGN(void *, (u8 *)a0, 0x20);
     func_80146E98((s32)a0);
     if (((Unkstruct_80126B58 *)a0)->unk1C < 8) {
-        t = CAST_WIDTH(u16, (u8 *)a0, 0x58) - 0x100;
-        CAST_WIDTH(s16, (u8 *)a0, 0x58) = t;
-        if ((t << 16) < 0) {
+        t1 = CAST_WIDTH(u16, (u8 *)a0, 0x58);
+        t1 -= 0x100;
+        CAST_WIDTH(s16, (u8 *)a0, 0x58) = t1;
+        if ((t1 << 16) < 0) {
             CAST_WIDTH(s16, (u8 *)a0, 0x58) = 0;
         }
 
-        t = *(u16 *)((u8 *)a0 + 0x5a) - 0x100;
-        *(s16 *)((u8 *)a0 + 0x5a) = t;
-        if ((t << 16) < 0) {
+        t2 = *(u16 *)((u8 *)a0 + 0x5a);
+        t2 -= 0x100;
+        *(s16 *)((u8 *)a0 + 0x5a) = t2;
+        if ((t2 << 16) < 0) {
             *(s16 *)((u8 *)a0 + 0x5a) = 0;
         }
 
-        t = *(u16 *)((u8 *)s1 + 0x1a) - 0x100;
-        *(s16 *)((u8 *)s1 + 0x1a) = t;
-        *(s16 *)((u8 *)s1 + 0x18) = t;
+        t3 = *(u16 *)((u8 *)s1 + 0x1a);
+        t3 -= 0x100;
+        *(s16 *)((u8 *)s1 + 0x1a) = t3;
+        *(s16 *)((u8 *)s1 + 0x18) = t3;
         if (*(s16 *)((u8 *)s1 + 0x1a) < 0) {
             ((Unkstruct_80126B58 *)a0)->unk60 = 0;
             *(s16 *)((u8 *)s1 + 0x1a) = 0;
@@ -929,8 +934,8 @@ void func_800CC4E8(void *a0) {
     }
 
     {
-        register u16 x __asm__("$2") = (*(u16 *)((u8 *)s1 + 0x10) + 0x2d) & 0xfff;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-        u16 y = (*(u16 *)((u8 *)s1 + 0x12) + 0x16) & 0xfff;
+        s32 x = (*(u16 *)((u8 *)s1 + 0x10) + 0x2d) & 0xfff;
+        s32 y = (*(u16 *)((u8 *)s1 + 0x12) + 0x16) & 0xfff;
         *(u16 *)((u8 *)s1 + 0x10) = x;
         *(u16 *)((u8 *)s1 + 0x12) = y;
         func_800CC6C4(a0, &D_800CCB10, &D_800CCB14, (u8 *)a0 + 0x58);

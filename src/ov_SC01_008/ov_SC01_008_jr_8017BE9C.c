@@ -3981,7 +3981,7 @@ s32 func_8017DD70(void) {
  * pointer-local form for the tail (T6).
  *
  * ---------------------------------------------------------------------------
- * FIVE LEVERS, all byte-measured on the pinned cc1 (do not re-derive):
+ * FIVE FORMS, all byte-measured on the pinned cc1 (do not re-derive):
  *
  * [1] `((s32)i << 1)` NOT `[i]` / `* 2` — the table load.  Target is
  *     `sll $v0,$a2,1 ; lh $v0, D_80115158($v0)` (a gas macro, i.e. the MEM
@@ -4005,34 +4005,30 @@ s32 func_8017DD70(void) {
  *     with nothing in between, i.e. the call has no register argument at all.
  *     Its `$a0 = 2` comes from the shared join constant at 8017DFA8.
  *
- * [3] The `n -> cnt -> lim` chain with RC-12 `+ zr` opaque copies.  The target
- *     spends THREE pseudos on the panel count: constants into $v1, a copy to
- *     $v0 (the `beqz` guard) and a copy to $s2 (the loop bound).  Plain
- *     `cnt = n;` coalesces the pair away; `n + zr` with
- *     `register s32 zr __asm__("$0")` is a `(plus rA (reg 0))`, not a reg-reg
- *     set, so no qty merge — and assembles to the byte-identical
- *     `addu $vX,$vY,$zero`.  (Same lever as func_8017E30C's flag copies.)
+ * [3] The `n -> cnt -> lim` chain.  The target spends THREE pseudos on the
+ *     panel count: constants into $v1, a copy to $v0 (the `beqz` guard) and a
+ *     copy to $s2 (the loop bound).  Plain `cnt = n;` coalesces the pair away
+ *     (score 3, the `move v0,v1` copy merges); `cnt = (s16)n; lim = (s16)cnt;`
+ *     keeps each copy its own pseudo (T11 RM3x, the G31y func_8017DEF0 recipe).
  *
- * [4] The zero-byte `__asm__ __volatile__("")` at the head of the call arm.
+ * [4] The empty `do { } while (0);` as the call arm's last statement.
  *     Without it reorg's fill_eager_delay_slots takes the fall-through's
  *     `addu $a0,$s0,$zero` into the `beqz`'s delay slot; the target instead
  *     copies `addiu $v0,$s1,1` out of the TAKEN thread and redirects the label
- *     one insn forward (hence the increment appearing twice).  The empty asm
- *     makes the fall-through head ineligible, so reorg falls back to the taken
- *     thread.  Emits only #APP/#NO_APP — zero bytes.  Measured: 174 -> 175 ins,
- *     60 mismatches -> 15.
+ *     one insn forward (hence the increment appearing twice).  The empty loop
+ *     stops reorg's fall-through scan, so reorg falls back to the taken thread
+ *     (score 4 without it).
  *
- * [5] §137 ALLOCNO PRICING for the $s2/$s3 grant, plus the tail store barrier.
- *     From `cc1 -dl -dg`:  panel = 7 refs / 87 insns -> floor_log2(7)*7*1e4/87
- *     = 1609;  lim = 3 refs / 19 insns -> 1*3*1e4/19 = 1578.  panel wins $s2,
- *     the target wants lim there.  T11 (B8): no keepalive asm on `lim` any more;
- *     `do { lim = cnt; } while (0);` raises lim's loop ref weight, so lim is
- *     priced above panel and the pair swaps (0 on its own).  Declaration order does NOT
- *     move this (all four orderings tried, all 15 mismatches).
- *     Separately, `D_801151D0` is a plain scalar (MEM_IN_STRUCT_P clear) while
- *     `D_800AE7B8[..].f4[2]` is `mem/s`, so sched2 disambiguates them and
- *     hoists the final store above the OT read-modify-write (cookbook idiom 2,
- *     on the STORE axis).  The `"memory"` clobber re-ties them; zero bytes.
+ * [5] §137 ALLOCNO PRICING for the $s2/$s3 grant, plus the tail store order.
+ *     From `cc1 -dl -dg` (plain chain):  panel = 7 refs / 87 insns ->
+ *     floor_log2(7)*7*1e4/87 = 1609;  lim = 3 refs / 19 insns -> 1*3*1e4/19 =
+ *     1578, so panel wins $s2 where the target wants lim.  The [3] form gets
+ *     the target grant (score 0, 175/175).
+ *     Separately, `D_801151D0` is read and written as
+ *     `((Unkstruct_801151D0 *)&D_801151D0)->f0`: MEM_IN_STRUCT_P like
+ *     `D_800AE7B8[..].f4[2]` (`mem/s`), so sched2 does not disambiguate them
+ *     and the final store stays after the OT read-modify-write (as a plain
+ *     scalar it is hoisted above it: score 4).
  *
  * Declaration surface (one pass over the whole TU + engine_core.h):
  *   - func_8017E30C is DEFINED below the splice point taking a file-local
@@ -4079,14 +4075,13 @@ void func_8017E050(void) {
     s32 *ot;
     s32 panel;
     void *label;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus8)
     s32 n;
     s32 cnt;
     s32 lim;
     s16 i;
     u16 *pb;
 
-    ot = (s32 *)D_801151D0;
+    ot = (s32 *)((Unkstruct_801151D0 *)&D_801151D0)->f0;
     panel = D_80115134;
 
     if (D_80115126 != 4) {
@@ -4121,14 +4116,14 @@ void func_8017E050(void) {
         n = 1;
     }
 
-    cnt = n + zr;                                            /* [3] */
+    cnt = (s16)n;
     i = 0;
     if (cnt != 0) {
-        do { lim = cnt; } while (0);  // !FAKE: do-while
+        lim = (s16)cnt;
         do {
-            if (*(s16 *)((u8 *)D_80115158 + ((s32)i << 1)) != 0) {   /* [1] */
-                __asm__ __volatile__("");                    /* [4] */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
+            if (*(s16 *)((u8 *)D_80115158 + ((s32)i << 1)) != 0) {
                 ot = xf8017E1D4(ot, panel, (s32)i);
+                do { } while (0);  // !FAKE: do-while
             }
             i = i + 1;
             panel = panel + 0x20;
@@ -4143,8 +4138,7 @@ void func_8017E050(void) {
     D_800AE7B8[*pb].f4[2] =
         (D_800AE7B8[*pb].f4[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
     ot += 10;
-    __asm__ __volatile__("" ::: "memory");                   /* [5] store re-tie */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
-    D_801151D0 = (s32)ot;
+    ((Unkstruct_801151D0 *)&D_801151D0)->f0 = (s32)ot;
 }
 
 
