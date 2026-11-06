@@ -1,7 +1,0 @@
----
-ts: 2026-10-21T19:57:59.313Z
-session: 252d32b5-eb3b-4ca8-9931-8e47bb99cd41
-role: loop
----
-
-queued: append-change "Developer 2026-10-21, supersedes the line above: function-cracking coders (the bulk per-function crack work, such as T11's crack shards and any later crack wave) run on openrouter-deepseek/deepseek at max effort only; all other coder work (banking and gates, tools, docs, sweeps) stays on the in-house coder named in coder:. No escalation of a crack to Opus or Haiku: a failed run or wall is listed with its evidence and held for the developer's approval. pa.json external: default coder in-house, escalate none." (it lands at the next task boundary)
