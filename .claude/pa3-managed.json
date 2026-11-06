@@ -12,7 +12,7 @@
     },
     ".claude/agents/pa-claude.md": {
       "base": "3.32.14",
-      "sha": "8c329d6e26b2d89252d4f2ff5890aadbdb8b6537f6fb43253990cd9afca6b9a2",
+      "sha": "7edf09b76d3ac44c4f3abd971a91c4c186af589f95c20e38dd998c1652064ef9",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
@@ -277,7 +277,7 @@
     },
     "tools/pa_ext.py": {
       "base": null,
-      "sha": "fa7f506ac75c8be48eb2b460a9f1fe9d9347f457e6f491389df15e35c5f2975f",
+      "sha": "b30487b656894c97dd7fe950ce31434356fa79d98a112316cc7267df58104091",
       "user": null
     },
     "tools/phaseend_index.py": {
@@ -337,9 +337,9 @@
     }
   },
   "format": 1,
-  "git": "b3adc164",
-  "installed": "2026-11-06T00:52:49Z",
+  "git": "ef65a99d",
+  "installed": "2026-11-06T17:47:41Z",
   "package": null,
-  "phase": "3.32.4",
-  "upstream_version": "3.32.4"
+  "phase": "3.32.7",
+  "upstream_version": "3.32.7"
 }
