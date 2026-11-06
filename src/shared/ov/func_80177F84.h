@@ -14,12 +14,13 @@ void func_80177F84(s32 param_1, s32 param_2) {
     pcVar2 = (u8 *)(param_1 + 0xc);
     do {
         register u32 src __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
-        register u32 byteval __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+        register u8 byteval __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
         register u32 testval __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
         src = (param_2 >> 0x10) & 0xf;
-        byteval = src;
-        __asm__ __volatile__("" : "=r"(byteval) : "0"(byteval));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
-        testval = src;
+        do {
+            byteval = src;
+            testval = src;
+        } while (0);  // !FAKE: do-while — splits cse1's ebb so the $3/$4 copies keep their birth order; emits 0 bytes
         param_2 = param_2 << 4;
         if ((iVar3 == c5) || (testval != 0)) {
             uVar4 = 0;

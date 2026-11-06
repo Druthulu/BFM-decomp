@@ -10,8 +10,10 @@ void func_80149374(s32 arg0, s32 arg1)
     ((void (*)(s32, void*))func_80015978)(arg1, &sp10);
     {
         void *q = &sp18;
+        void *q2;
         ((void (*)(s32, void*, void*))func_8012F14C)(*(s32*)(arg0 + 0x20) + 0x34, &sp10, q);
-        __asm__ __volatile__("" : "=r"(q));  /* LOAD-BEARING: kills the (plus sp 0x18) CSE class reg; emits 0 bytes */  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B headers1)
+        q = 0;
+        q2 = &sp18;
+        ((void (*)(void*, s32))func_80015954)(q2, arg1);
     }
-    ((void (*)(void*, s32))func_80015954)(&sp18, arg1);
 }

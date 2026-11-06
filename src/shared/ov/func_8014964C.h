@@ -17,10 +17,9 @@ void func_8014964C(s32 param_1, s32 param_2) {
     in.f4 = *(s16 *)(p2 + 0xA);
     pin = &in;
     mtx = *(s32 *)(param_1 + 0x20);
-    __asm__ __volatile__("" : "=r"(mtx) : "0"(mtx));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
     m1 = mid;
-    __asm__ __volatile__("" : "=r"(m1) : "0"(m1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
     ((void (*)(s32, Vec3 *, s32 *))func_8012F14C)(mtx + 0x34, pin, m1);
+    m1 = 0;
     m2 = mid;
     ((void (*)(s32 *, Vec3 *))func_8012EFB8)(m2, &out);
     *(s16 *)(p2 + 2) = out.f0;

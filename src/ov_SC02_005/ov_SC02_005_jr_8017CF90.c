@@ -4244,17 +4244,15 @@ void func_8017F7CC(s32 param_1)
     extern s32 D_801270C8[0];
     extern s16 D_801E4C50;
 
-    S16_SC02_005_8017F7CC loc;
+    s16 loc16[2] = {0, -0x40};
+    s32 tail[2];
     s32 iVar2;
 
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
-    *(s16 *)&loc.a.raw[0] = 0;
-    *(s16 *)&loc.a.raw[2] = -0x40;
-    *(M8_SC02_005_8017F7CC *)&loc.b.raw[0] = D_801E2DD8;
+    *(M8_SC02_005_8017F7CC *)((u8 *)loc16 + 8) = D_801E2DD8;
     iVar2 = ((Unkstruct_8017F7CC *)param_1)->unk204 - 1;
     ((Unkstruct_8017F7CC *)param_1)->unk204 = iVar2;
     if (iVar2 == -1) {
-        *(M8_SC02_005_8017F7CC *)&D_801E4C50 = *(M8_SC02_005_8017F7CC *)&loc.b.raw[0];
+        *(M8_SC02_005_8017F7CC *)&D_801E4C50 = *(M8_SC02_005_8017F7CC *)((u8 *)loc16 + 8);
         func_8017E5CC();
         func_8017E0B4();
         func_8002D4C8(0x510, 0x103F);
@@ -4275,18 +4273,12 @@ extern s32 func_8013767C(s32 a0);
 
 void func_8017F898(s32 arg0) {
     s32 s0 = arg0;
-    s16 sp10[2];
+    s16 sp10[2] = {0, -0x40};
 
-    /* Non-volatile memory clobber (cookbook L1835 / §31 sched S7): the two
-     * dead s16 stack stores and the D_801270C8 load are all constant-address
-     * MEMs, so sched2 finds no memory dependence and its potential_hazard rule
-     * promotes the prologue `sw $ra` over the ALU candidates, sinking it to
-     * just above the branch. The clobber gives `sw $ra` a successor, so it is
-     * only ready after the load is picked and lands back in the prologue. */
-    __asm__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+    /* Initialiser at the declaration (T11 G18): the two dead s16 stack stores
+     * sit above the D_801270C8 load, so `sw $ra` keeps its prologue slot
+     * without the old memory clobber (cookbook L1835 / §31 sched S7). */
 
-    sp10[1] = -0x40;
-    sp10[0] = 0;
     if (D_801270C8[0] == 0xA) {
         func_8017E190();
         func_8002D4C8(0x510, 0x107F);

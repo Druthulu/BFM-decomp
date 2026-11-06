@@ -4450,9 +4450,10 @@ void func_801876C4(void *a0, s32 a1) {
     sp10[1] = y;
     sp10[2] = z;
     sp10[3] = w;
-    t = D_801A9A88[a1 * 5];
-    sp10[4] = t;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    do {  // !FAKE: do-while
+        t = D_801A9A88[a1 * 5];
+        sp10[4] = t;
+    } while (0);
     ((u16 *)sp10)[0] = ((u16 *)sp10)[0] + ((Unkstruct_801876C4 *)obj)->unk6;
     ((u16 *)sp10)[1] = ((u16 *)sp10)[1] + CAST_ALIAS(u16, obj, 0xA);
     ((u16 *)sp10)[2] = ((u16 *)sp10)[2] + ((Unkstruct_801876C4 *)obj)->unkE;
