@@ -292,7 +292,7 @@
     },
     "tools/records.py": {
       "base": null,
-      "sha": "5fc5a2db561df54e77df394d5c0ed8aee275dd9c85a3ce4f881c9d0edd1c0421",
+      "sha": "ce3aeb73f558aa2e3d11b9c1308d3fd25ceef8531c5ad7d0be7f71a35b10eaae",
       "user": null
     },
     "tools/research_add.py": {
@@ -337,9 +337,9 @@
     }
   },
   "format": 1,
-  "git": "ef65a99d",
-  "installed": "2026-11-06T17:47:41Z",
+  "git": "aba4436b",
+  "installed": "2026-11-06T19:58:57Z",
   "package": null,
-  "phase": "3.32.7",
-  "upstream_version": "3.32.7"
+  "phase": "3.32.8",
+  "upstream_version": "3.32.8"
 }
