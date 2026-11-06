@@ -33,7 +33,6 @@ s32 func_80139D04(s32 a0, s32 a1) {
             p = p + 1;
         }
         pm = param_2 & 0xffff;
-        __asm__ __volatile__("" : : "r"(pm));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
         dm = div & 0xffff;
         rem = pm % dm;
         div = dm / 10;

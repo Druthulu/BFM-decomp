@@ -5848,6 +5848,7 @@ void func_80187988(s32 param_1) {
     s32 r;
     s32 nudge;
     s32 val;
+    s32 c;
 
     v0 = ((s32 (*)(void))func_8012C1B8)();
     ((Unkstruct_800B5CB8 *)param_1)->unk20 = v0;
@@ -5871,11 +5872,9 @@ void func_80187988(s32 param_1) {
     if (hi == 0) {
         nudge = r << 5;
     }
-    if (rand() & 1) {
-        val = nudge;
-    } else {
-        val = nudge;
-        __asm__ __volatile__("" : : "r"(val));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    c = rand();
+    val = nudge;
+    if (!(c & 1)) {
         val = -val;
     }
     CAST_WIDTH(s32, param_1, 0x10) = val;

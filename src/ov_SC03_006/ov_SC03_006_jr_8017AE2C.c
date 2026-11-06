@@ -12572,10 +12572,8 @@ void func_801896EC(s32 param_1) {
     } else {
         s32 p;
         s32 g;
-        p = ((Unkstruct_801896EC *)self)->unk20;
+        p = *(u16 *)(((Unkstruct_801896EC *)self)->unk20 + 0x18);
         g = ((Unkstruct_801896EC *)self)->unkDC;
-        p = *(u16 *)(p + 0x18);
-        __asm__ __volatile__("" : : "r"(p), "r"(p), "r"(p));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
         g |= 0x80;
         ((Unkstruct_801896EC *)self)->unkDC = g;
         ((Unkstruct_801896EC *)self)->unk104 = p;

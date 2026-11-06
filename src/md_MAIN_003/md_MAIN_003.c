@@ -328,7 +328,6 @@ blk1:
     D_800EC7DA[idx * 12] = 0x7880;
     ADDPRIM2(OTG, pA, mq2, 0xFF000000);
 
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     { Sprt24 *b_ = D_800EC7F8; pC = &b_[idx]; }
     pC->len = q5;
     ((u32 *)&D_800EC7F8[idx])[1] = b1c;
@@ -339,7 +338,6 @@ blk1:
     pC->y0 = 0x54;
     pC->u0 = 0;
     pC->v0 = 0;
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     pC->clut = 0x7800;
     pC->w = w60;
     pC->h = 0x20;
@@ -446,7 +444,6 @@ final:
     p5->y0 = 0;
     p5->u0 = 0;
     p5->v0 = 0;
-    __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
     { Sprt24 *b_ = D_800EC798; p6 = &b_[idx]; }
     p5->clut = 0x78C0;
     p5->w = 0x100;

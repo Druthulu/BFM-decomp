@@ -732,10 +732,8 @@ void func_800CC024(s32 a0p) {
     func_80015954((s32)D_800CC290, obj + 4);
 
     v = ((Unkstruct_800CC024 *)obj)->unk60;
-    m = v & 0x1F;
-    ang = ((m << 8) & 0x7F00) >> 1;
     t = ((Unkstruct_800CC024 *)obj)->unkA;
-    __asm__("" :: "r"(m), "r"(ang));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
+    do { m = v & 0x1F; ang = ((m << 8) & 0x7F00) >> 1; } while (0);  // !FAKE: do-while
     ((Unkstruct_800CC024 *)obj)->unkA = t - 0x10;
     ((Unkstruct_800CC024 *)obj)->unk60 = v + 1;
 

@@ -2273,6 +2273,7 @@ void func_801856D8(int param_1)
     u16 sp10[3];   /* sp+0x10 */
     u16 sp18[10];  /* sp+0x18 .. 0x2B */
     s16 *p;
+    void *a0pin;
 
     if (func_8012BEE8((s32)param_1) != 0) {
         sp10[0] = ((Unkstruct_800B5CB8 *)param_1)->unk6;
@@ -2284,9 +2285,8 @@ void func_801856D8(int param_1)
             func_80183DA4((s32)p - 6);
         }
     }
+    a0pin = sp18;
     if (D_801270C8 != 0) {
-        void *a0pin = sp18;
-        __asm__ __volatile__("" : : "r"(a0pin));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
         if (D_801270CC == 0) {
             D_801270CC = 1;
             sp18[0] = CAST_ALIAS(u16, param_1, 6);
