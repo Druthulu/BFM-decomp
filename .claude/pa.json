@@ -1,4 +1,5 @@
 {
+  "drive": "autopilot",
   "bash": "bash",
   "upgrade": "auto",
   "mod": "on",
@@ -16,7 +17,6 @@
   "warmer": "on",
   "follow_agents": "off",
   "discord_webhook": null,
-  "rhythm": "autonomous",
   "tier": "max5",
   "preset": "max5",
   "legacy": {

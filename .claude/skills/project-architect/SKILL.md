@@ -8,6 +8,8 @@ description: Standing rules, contracts and house style for Project Architect 3.0
 Live plan: `phase-ends/current/PHASE_PLAN.md`, frozen at approval, changed only through `/usr/bin/python3 tools/plan_edit.py`.
 Standing facts, tools, paths, conventions, decisions: `HOW_WE_WORK.md`, the card. Each role reads it as
 `/usr/bin/python3 tools/card.py slice <role>`, never the file whole. Full rule texts: `rules/INDEX.md` → `rules/<id>.md`.
+Outcomes settled in conversation that bind work (`/usr/bin/python3 tools/records.py inforce --binds-work`; the expert brief's
+`OUTCOMES IN FORCE` block) bind experts and planners like the card: an expert raises a conflict as a question, a plan names it.
 Techniques: `cookbook/INDEX.md` → `cookbook/C<nnnn>.md` (grep the index, read one file). Reports: `research/INDEX.md`.
 Constitution: `PROJECT_CONTEXT.md`, never edited; its older wording yields to these rules and to `GENERATION_PLAN.md`.
 Retired files live in `docs/retired/` and are never in the load order.
@@ -124,7 +126,10 @@ takes the context it takes. Plain-English recaps at phase end define every term 
 A command that may run longer than a few minutes (a bake, a backtest, a batch) runs as a background shell (Bash
 `run_in_background: true`). Then end your turn without handing back (a hand-back ends your run); the shell's
 completion notice wakes you: read its output, finish, and hand back your report. Shorter commands run in the
-foreground with a raised timeout (`BASH_MAX_TIMEOUT_MS` is set). Never
+foreground with a raised timeout (`BASH_MAX_TIMEOUT_MS` is set). A command that can wait for input or never ends (an
+interpreter with no script, a server, a watcher) never runs in the foreground: Claude Code keeps it running after the
+time limit, and while it runs your report can't reach whoever briefed you; feed it its input, or run it in the
+background on purpose and stop it (`pkill -f`) before you hand back. Never
 hand-write a sleep-poll loop. Long gates run
 in the foreground with a timeout (the low-memory guard kills background jobs mid-report). `pkill -f` with a literal from
 your own command line kills your own shell: kill by pid. Windows: the Python is the one named in `HOW_WE_WORK.md`

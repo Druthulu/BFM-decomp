@@ -2,32 +2,32 @@
   "files": {
     ".claude/agents/auditor.md": {
       "base": "3.30.1",
-      "sha": "c2e7aba3cfff2640615ecfec0eb95b721aee0d73500e02f4f3d1341dc67895d1",
+      "sha": "662f3dea3575b920b0bf80f8a8ea70a5d023166f31d80701c2a7e1d02cf4f9bb",
       "user": null
     },
     ".claude/agents/memory-curator.md": {
-      "base": "3.24.9",
-      "sha": "ff1ceb0044b4bd9a2b0779a7a92fe5de11b6f711280f4df0489f337c3b05ff13",
+      "base": "3.32.12",
+      "sha": "1c8093b4b19180b757b32bd1a698aa370679b17c2c9bceca50781da4534126df",
       "user": null
     },
     ".claude/agents/pa-claude.md": {
-      "base": "3.30.1",
-      "sha": "fe25a59b841886162042427e54fec22860e36ea6a238638d3b01921db5081f38",
+      "base": "3.32.14",
+      "sha": "8c329d6e26b2d89252d4f2ff5890aadbdb8b6537f6fb43253990cd9afca6b9a2",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
-      "base": "3.28.5",
-      "sha": "f5627b54f0aacc511103c0e35efbdb8bf4be182cdd3f03b7b11865633dc9c526",
+      "base": "3.32.6",
+      "sha": "1c74e13c4785bbbd63e0474ff30b3a95e35183ff13e9779d86a2d19b5dd8380b",
       "user": null
     },
     ".claude/agents/pa-expert.md": {
-      "base": "3.30.1",
-      "sha": "cbbf39462c874102360d17f524f54bf3082f8eaa16427a52635f29679eb0ba57",
+      "base": "3.32.8",
+      "sha": "ca7ca67a494fc4ad90e5d541cee587b367a9cefdbc57f814b7dfc0d8df2b0dbd",
       "user": null
     },
     ".claude/agents/pa-planner.md": {
-      "base": "3.28.3",
-      "sha": "7b9d10cb8bc96cce6317c105a2b3d2dae3201676d5003d18f6927563e1701f49",
+      "base": "3.32.7",
+      "sha": "f0bd27973a63a1121fd610d0dd0cb069b5fc0f85f45cb76b05003a527e008673",
       "user": null
     },
     ".claude/agents/pa-thinker.md": {
@@ -41,8 +41,8 @@
       "user": null
     },
     ".claude/agents/retriever-digest.md": {
-      "base": "3.27.5",
-      "sha": "e82b174ff5596ec640c5ef0fe762daf481c908e33003fa4f56f5a69e8b607dcf",
+      "base": "3.32.6",
+      "sha": "7c8e1c5609a429d025d8c3976208e853146ff3b31c925728da3ac9d926ad8512",
       "user": null
     },
     ".claude/agents/retriever-web.md": {
@@ -55,6 +55,11 @@
       "sha": "8d365bb2312fc5ba88d36fbb538df587ee26caf4029d2072a5e3639ba1b787eb",
       "user": null
     },
+    ".claude/commands/pa-bugreport.md": {
+      "base": null,
+      "sha": "77eb82c1a0b5d348ccbed1061921714fbe014667235837de1f94df3659455371",
+      "user": null
+    },
     ".claude/skills/pa-external-agents/SKILL.md": {
       "base": null,
       "sha": "d93321fe6c385fbd2d622ec70420d12a6c72a79f36392f7a781aaae9ef15d852",
@@ -62,12 +67,12 @@
     },
     ".claude/skills/pa-planning/SKILL.md": {
       "base": null,
-      "sha": "ba85fc5ce980ae06b13ac49d3d753cd328bfbd7f68918430fecb483373838e05",
+      "sha": "e694baaa2cd8f7605c9bc767d12e06b26d99491d9c3080a7a9a29b7e2a670a35",
       "user": null
     },
     ".claude/skills/project-architect/SKILL.md": {
       "base": null,
-      "sha": "c29415338a18437f507b2bb2d176f7d96ef4c0327ecf8f663b99a041bc0cba09",
+      "sha": "fb6dfcfe748d7e618acd33af6a2213cf5f1144e736310ea69acfe0448f98ce3f",
       "user": null
     },
     "docs/project-architect.md": {
@@ -77,7 +82,7 @@
     },
     "templates/CLAUDE.template.md": {
       "base": null,
-      "sha": "b174c8de9a5026b49289cf96e3f7e5f560fa8636a58ead112de248bc5e55bc2b",
+      "sha": "480cb180447529133aa7b8da54cbd40a034fd77f9eb8e6541ea2aa17369d9fc6",
       "user": null
     },
     "templates/GENERATION_PLAN.template.md": {
@@ -92,12 +97,12 @@
     },
     "templates/HISTORY.json": {
       "base": null,
-      "sha": "29ee58204512b780823d48b2bc149a7bd26d1f49e66d64f5e63c5234c5028e08",
+      "sha": "711782f2237c30f68ea28b9b3b9d4211bfe488470e1b295b3234019f62894bf2",
       "user": null
     },
     "templates/HOW_WE_WORK.template.md": {
       "base": null,
-      "sha": "78d476c664bc351bd2273306666ed9b7b76f46bf6c74152e5b5fb21b88eebdba",
+      "sha": "a598abc3d6410c5b218d79842749983b246c409e3196ecb7340ee407e0137a2b",
       "user": null
     },
     "templates/INBOX.template.md": {
@@ -167,7 +172,7 @@
     },
     "templates/pa.json.template": {
       "base": null,
-      "sha": "07df2d5d7a1b7ab7de6c1d4f7a39981498705e7309a29f1a3179add6b2de9f95",
+      "sha": "2bd9cbc2495cc3317af6d0440733adfb5195d5a7e48769f2e170e1c9f7fd7c5f",
       "user": null
     },
     "templates/phase-ends-README.md": {
@@ -197,7 +202,7 @@
     },
     "tools/_genplan.py": {
       "base": null,
-      "sha": "ba8eefadfb9c5a86c8cf5872281f13c2ed9b1eace6a9e29c41e1de1a9ffa1b49",
+      "sha": "5558a4805476aed0ffb605008ca6752b440d3468713a4f07d9825417a05c78a5",
       "user": null
     },
     "tools/bench.py": {
@@ -207,18 +212,13 @@
     },
     "tools/card.py": {
       "base": null,
-      "sha": "0db82e1ff1dd4d6f5d7ba647bdc1139a3df49517dd8b848540497fc9f00f0d41",
+      "sha": "2d1b982d42d193a3427d8d3c8bf36066693ad0954971fe4330fac96bd08af63e",
       "user": null
     },
     "tools/commit_task.sh": {
       "base": null,
-      "sha": "0a76cca414bc3a1fd1b1979ed356389a5b72c402e8ee6c9557cbd66a7c0d8e27",
-      "user": {
-        "at": "2026-10-15T03:24:10Z",
-        "mark": null,
-        "sha": "839c17902419dfe997291e9bd8c8b6e1517da5c2bdd223e0eb3c4ea6c64e96ae",
-        "state": "merged"
-      }
+      "sha": "f50eb4112c2cfff4c0580ff8e62f3af5c009ff1907a0690bb2ebf939a02c923a",
+      "user": null
     },
     "tools/cookbook_add.sh": {
       "base": null,
@@ -227,7 +227,7 @@
     },
     "tools/curate.py": {
       "base": null,
-      "sha": "9f56a6877de66741f90e2b1f50a1a3f263248ba7feea807128f05c5c2c6338a5",
+      "sha": "e8d4fc928050b92f3161234b4158975c8733e6f2283ee4dc14c4717cae26f478",
       "user": null
     },
     "tools/discussion.py": {
@@ -240,6 +240,11 @@
       "sha": "aea4c1291c60f2a22e47e7d8df40944dd622109693faa0ad0dbbb69775f4d023",
       "user": null
     },
+    "tools/history.py": {
+      "base": null,
+      "sha": "b600371cdb958f7c5d62eb184f63420dbb9e59b2ed8203eb437010324368d8ef",
+      "user": null
+    },
     "tools/journal_rollup.py": {
       "base": null,
       "sha": "8fff709844d94b805b78b53e067e3fb4b317c6925dff1864900b93dd7bf19f09",
@@ -247,7 +252,7 @@
     },
     "tools/launch.py": {
       "base": null,
-      "sha": "81969c19a5f40cbd91a3d542ba17115bd76f626acac5091dca6c33eeedec216a",
+      "sha": "f674252e335fc6e4cdae606d1e624130415ef2d009377d57a4504fcccce14521",
       "user": null
     },
     "tools/managed.py": {
@@ -265,6 +270,11 @@
       "sha": "17904364af9e83b96877dbde9c1abbbcb926d32a5626aca369964bc2516c3df0",
       "user": null
     },
+    "tools/pa_bugreport.py": {
+      "base": null,
+      "sha": "19b31b6120f49cf9c43e4caa00419b8bc78dae1d32a9782d9f7f50219f8a6c5f",
+      "user": null
+    },
     "tools/pa_ext.py": {
       "base": null,
       "sha": "fa7f506ac75c8be48eb2b460a9f1fe9d9347f457e6f491389df15e35c5f2975f",
@@ -272,12 +282,17 @@
     },
     "tools/phaseend_index.py": {
       "base": null,
-      "sha": "6f6e69256b748b6b5a320e4eeca04b319f294d4205c0f7304b9745be3cfe29e4",
+      "sha": "3de4121b2ce0b669367c23be0a8da82f48e0d5e3cabadc7a84f303e47b997285",
       "user": null
     },
     "tools/plan_edit.py": {
       "base": null,
-      "sha": "1667a949299311d5e452d7fadf5adfdd07b0e4fd9b83e242baa5f86f04b39b81",
+      "sha": "d9e12f6d5c2dc78231faaf5dcd8d7a9df4212cb1ae6fddd97a4331085515da9d",
+      "user": null
+    },
+    "tools/records.py": {
+      "base": null,
+      "sha": "5fc5a2db561df54e77df394d5c0ed8aee275dd9c85a3ce4f881c9d0edd1c0421",
       "user": null
     },
     "tools/research_add.py": {
@@ -312,19 +327,19 @@
     },
     "tools/status.py": {
       "base": null,
-      "sha": "565badbb4b48c3649f22d6845b77d5d813ae32e37d4954b30c6f34c02443764c",
+      "sha": "a77e8e84fdeb9af37cb6b22add145f359bbcc66341f2db2c3ed306659636e49c",
       "user": null
     },
     "tools/task_log.py": {
       "base": null,
-      "sha": "932b378f944bb459d9de9fc071e0cffc341de341f67c35d716ee61be6f219d02",
+      "sha": "dc9250b23686915a798f35d7834c46bcafb1609ab79c7e7b7b7b78e38679a9aa",
       "user": null
     }
   },
   "format": 1,
-  "git": "8b7299bd",
-  "installed": "2026-10-23T02:25:15Z",
+  "git": "b3adc164",
+  "installed": "2026-11-06T00:52:49Z",
   "package": null,
-  "phase": "3.30.7",
-  "upstream_version": "3.30.7"
+  "phase": "3.32.4",
+  "upstream_version": "3.32.4"
 }
