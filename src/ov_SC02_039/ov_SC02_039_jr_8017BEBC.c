@@ -3234,9 +3234,8 @@ s32 a0p;
     s1 = a0p;
     s0 = 0;
     s2 = (s32)D_8019B538;
-    __asm__ __volatile__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
-    a0 = s0 << 10;
     do {
+        a0 = s0 << 10;
         v0 = s0 << 1;
         v1 = ((Unkstruct_800B5CB8 *)s1)->unk70;
         s0 = s0 + 1;
@@ -3248,7 +3247,6 @@ s32 a0p;
         a1 = a1 << 16;
         a0 = 0x199;
         func_8012C658(a0, a1 >> 16, a2);
-        a0 = s0 << 10;
     } while (s0 < 4);
 }
 

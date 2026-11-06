@@ -3110,8 +3110,7 @@ void func_80181670(void *a0)
         }
         p = e * sc;
         q = p >> 12;
-        n = q + 8;
-        __asm__ __volatile__("" : "=r"(n) : "0"(n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        do { n = q + 8; } while (0);  // !FAKE: do-while
         d = n * (D_80126950 + 0x1F4) / (ret * 4);
 
         x = o.sxy[0];

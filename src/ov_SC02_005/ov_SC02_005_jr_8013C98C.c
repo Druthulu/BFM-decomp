@@ -1325,7 +1325,6 @@ void func_8013D53C(void *arg0v) {
     s32 t9v;
     s32 t8v;
     u8 b0, b1, b2;
-    u8 pad[8];   /* dead BLKmode local: frame 0x10 -> 0x18, zero code */
 
     if (!(D_801E30B0 & 1)) {
         D_801E3098 = 1;
@@ -1382,13 +1381,10 @@ void func_8013D53C(void *arg0v) {
                     n = arg0->w * arg0->h;
                     i = 0;
                     src = arg0->data;
-                    __asm__("" :: "r"(src));  /* +2 refs on src (depth-2): keeps src above i, below the mfhi temp */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_rj1)
                     dst = src + n;
-                    if (n > 0) {
-                        do {
+                    while (i < n) {
                             u16 px;
                             s32 r, g, b, out;
-                            __asm__("" :: "r"(i));  /* +3 refs on i (depth-3): lifts i over dst in the $t2 race */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_rj1)
                             px = *src;
                             r = ((px & 0x1F) * s0v) / 2560;
                             g = (((px & 0x3E0) * t9v) / 2560) & 0x3E0;
@@ -1401,7 +1397,6 @@ void func_8013D53C(void *arg0v) {
                             dst++;
                             i++;
                             src++;
-                        } while (i < n);
                     }
                 }
                 arg0++;

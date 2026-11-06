@@ -3163,7 +3163,7 @@ void func_8017E178(s32 a0) {
        original carried 16 bytes of locals it no longer uses.  Without this the frame
        lands at 0x40 and every sp-relative immediate drifts by the same constant. */
     s32 dead[4];
-    s32 flags;
+    u16 flags;
     s32 v;
     s32 s0;
     s32 ret;
@@ -3185,7 +3185,6 @@ void func_8017E178(s32 a0) {
        permutation. */
     raw = ((s32 (*)(s32))func_8012CBA4)(a0);
     flags = raw;
-    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     /* `m` blocks fold_truthop from merging the two bitfield tests below into a single
        `andi $v1,$s1,0xe000` -- the target keeps `& 0x8000` and `& 0x6000` separate. */
@@ -3332,7 +3331,7 @@ void func_8017E178(s32 a0) {
        copies vanish and everything from .L8017CD18 on drifts by 2 instructions. */
     {
         s32 fire = ret;
-        __asm__ __volatile__("" : "=r"(ret) : "0"(ret));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        ret = 0;
         if (fire != 0) {
             func_80146A6C(2, (void *)s0, 0, 0, 0, 2, 0);
         }

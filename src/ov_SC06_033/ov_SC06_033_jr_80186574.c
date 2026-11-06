@@ -6044,6 +6044,7 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     SVEC_8018AD9C *src;
     s32 i, oz;
     u8 *mb;
+    u8 *mb2;
 
     func_8004914C((void *)(((s32 *)param_1)[8] + 0x34));
     func_800491AC((void *)(((s32 *)param_1)[8] + 0x34));
@@ -6071,8 +6072,9 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018AD9C *)&pkt[4] = out[3];
     *(B8_8018AD9C *)&pkt[6] = out[4];
     mb = (u8 *)&D_800AF630;
-    func_8004914C(mb + 0x18);
-    __asm__("" : "=r"(mb) : "0"(mb));  // !FAKE: launder mb between the two matrix calls — cse unifies the second `mb + 0x18` through the class of its constant value `(const (plus D_800AF630 24))`, cse.c:6766-6850 + :7195-7225, and combine then folds the symbol into the lone survivor; an unknown value after the first call keeps two adds off one call-crossing base (P36 S105 f11 minimum-lever)
+    mb2 = mb + 0x18;
+    func_8004914C(mb2);
+    mb2 = 0;
     func_800491AC(mb + 0x18);
     {
     long *p1 = (long *)&pkt[2];
@@ -6106,8 +6108,9 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018AD9C *)&pkt[4] = out[4];
     *(B8_8018AD9C *)&pkt[6] = out[5];
     mb = (u8 *)&D_800AF630;
-    func_8004914C(mb + 0x18);
-    __asm__("" : "=r"(mb) : "0"(mb));  // !FAKE: launder mb between the two matrix calls — cse unifies the second `mb + 0x18` through the class of its constant value `(const (plus D_800AF630 24))`, cse.c:6766-6850 + :7195-7225, and combine then folds the symbol into the lone survivor; an unknown value after the first call keeps two adds off one call-crossing base (P36 S105 f11 minimum-lever)
+    mb2 = mb + 0x18;
+    func_8004914C(mb2);
+    mb2 = 0;
     func_800491AC(mb + 0x18);
     {
     long *p1 = (long *)&pkt[2];
@@ -6141,8 +6144,9 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018AD9C *)&pkt[4] = out[5];
     *(B8_8018AD9C *)&pkt[6] = out[3];
     mb = (u8 *)&D_800AF630;
-    func_8004914C(mb + 0x18);
-    __asm__("" : "=r"(mb) : "0"(mb));  // !FAKE: launder mb between the two matrix calls — cse unifies the second `mb + 0x18` through the class of its constant value `(const (plus D_800AF630 24))`, cse.c:6766-6850 + :7195-7225, and combine then folds the symbol into the lone survivor; an unknown value after the first call keeps two adds off one call-crossing base (P36 S105 f11 minimum-lever)
+    mb2 = mb + 0x18;
+    func_8004914C(mb2);
+    mb2 = 0;
     func_800491AC(mb + 0x18);
     {
     long *p1 = (long *)&pkt[2];

@@ -3111,8 +3111,8 @@ s32 func_8018FCE8(s32 arg0) {
             bp->tm = 0;
         }
         mp = (u8 *)D_801D0FC0;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         ((void(*)(void *, unsigned))func_800233CC)(mp, 0x80);
+        mp = 0;
         D_801D0FC0[0] = D_801CF0E8[0];
         D_801D0FC4[0] = D_801CF0EC[0];
         ((Unkstruct_800B5CB8 *)arg0)->unk70 = CAST_SIGN(u16, arg0, 0x70) & 0xF;

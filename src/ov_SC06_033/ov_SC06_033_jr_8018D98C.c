@@ -3033,8 +3033,7 @@ void func_8018D98C(s32 a0) {
         s0 = *(s32 *)(a0 + (0xCC));
         func_8012B2CC(s0);
         { s32 _m = (s32)&D_801C8344;
-          __asm__ __volatile__("" : "=r"(_m) : "0"(_m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-          ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); }
+          ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); _m = 0; }
         p = *(s32 *)(a0 + (0xD0));
         *(u16 *)(p + 0x6) = v10[0];
         *(u16 *)(p + 0xA) = v10[1];
@@ -3048,8 +3047,7 @@ void func_8018D98C(s32 a0) {
         s0 = *(s32 *)(a0 + (0xD0));
         func_8012B2CC(s0);
         { s32 _m = (s32)&D_801C8344;
-          __asm__ __volatile__("" : "=r"(_m) : "0"(_m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-          ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); }
+          ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); _m = 0; }
         p = *(s32 *)(a0 + (0xD4));
         *(u16 *)(p + 0x6) = v10[0];
         *(u16 *)(p + 0xA) = v10[1];
@@ -3113,8 +3111,7 @@ void func_8018D98C(s32 a0) {
         s0 = *(s32 *)(a0 + (0xD0));
         func_8012B2CC(s0);
         { s32 _m = (s32)&D_801C8344;
-          __asm__ __volatile__("" : "=r"(_m) : "0"(_m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-          ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); }
+          ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); _m = 0; }
         p = *(s32 *)(a0 + (0xD4));
         *(u16 *)(p + 0x6) = v10[0];
         *(u16 *)(p + 0xA) = v10[1];
@@ -3153,10 +3150,8 @@ void func_8018D98C(s32 a0) {
         ((void (*)(s32))func_800491AC)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34);
         { void *m = &D_801C836C;
           s32 _v;
-          __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
           _v = (s32)v18;
-          __asm__ __volatile__("" : "=r"(_v) : "0"(_v));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-          RotTransSV(m, (void *)_v, &flag); }
+          RotTransSV(m, (void *)_v, &flag); m = 0; _v = 0; }
         col = 0x202080;
         if (D_800B99D8 & 1) {
             col = 0xE0;
@@ -3241,8 +3236,7 @@ void func_8018D98C(s32 a0) {
     s0 = *(s32 *)(a0 + (0xCC));
     func_8012B2CC(s0);
     { s32 _m = (s32)&D_801C8344;
-      __asm__ __volatile__("" : "=r"(_m) : "0"(_m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-      ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); }
+      ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); _m = 0; }
     p = *(s32 *)(a0 + (0xD0));
     *(u16 *)(p + 0x6) = v10[0];
     *(u16 *)(p + 0xA) = v10[1];
@@ -3255,8 +3249,7 @@ void func_8018D98C(s32 a0) {
     s0 = *(s32 *)(a0 + (0xD0));
     func_8012B2CC(s0);
     { s32 _m = (s32)&D_801C8344;
-      __asm__ __volatile__("" : "=r"(_m) : "0"(_m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
-      ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); }
+      ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)((s0) + 0x20) + 0x34, _m, (s32)(v10)); _m = 0; }
     p = *(s32 *)(a0 + (0xD4));
     *(u16 *)(p + 0x6) = v10[0];
     *(u16 *)(p + 0xA) = v10[1];

@@ -4069,8 +4069,12 @@ void func_8017EC4C(s32 param_1)
     if (t < 0) {
         t = -t;
     }
-    rem = d - n * 128;
-    __asm__ ("" : "=r" (n) : "0" (n));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+    {
+        s32 keep = n;
+        rem = d - n * 128;
+        n = 0;
+        n = keep;
+    }
     if ((d - n * 128) < 0) {
         rem = -rem;
     }

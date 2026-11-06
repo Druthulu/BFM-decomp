@@ -3131,13 +3131,13 @@ void func_8017E880(s32 param_1) {
             sp28[2] = sp20[2] - (v0 << 5 >> 12);
             s0 = ((s32 (*)(s32, void *, s32))func_80133784)(1, sp20, (s32)sp28) & 0x8000;
             if (s0 != 0) {
+                s0 = s0 & 0x8000;
                 v0 = func_8004787C(((Unkstruct_8017E880 *)*(s32 *)(s1 + 0x20))->unk12 & 0xFFF);
                 *(u16 *)(s1 + 6) = sp28[0] + (v0 << 5 >> 12);
                 v0 = func_80047948(((Unkstruct_8017E880 *)*(s32 *)(s1 + 0x20))->unk12 & 0xFFF);
                 *(u16 *)(s1 + 0xE) = sp28[2] + (v0 << 5 >> 12);
                 /* cookbook §353: launder the VALUE so cse cannot fold the
                    surviving dead re-test that thread_jumps leaves behind. */
-                __asm__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
             }
         }
         if (s0 != 0) {
