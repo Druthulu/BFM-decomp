@@ -3916,34 +3916,31 @@ void func_8017E9E8(s32 a0) {
 void func_8017EAD8(arg0)
 s32 arg0;
 {
-    s32 self;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
     s32 mask;
     s32 flag;
 
-    self = arg0 + zr;
-    flag = ((Unkstruct_8017EAD8_2 *)self)->unkAA;
-    ((Unkstruct_8017EAD8_2 *)self)->unk5C = 0;
-    ((Unkstruct_8017EAD8_2 *)self)->unk98 = 0;
-    ((Unkstruct_8017EAD8_2 *)self)->unk1C = 0;
+    flag = ((Unkstruct_8017EAD8_2 *)arg0)->unkAA;
+    ((Unkstruct_8017EAD8_2 *)arg0)->unk5C = 0;
+    ((Unkstruct_8017EAD8_2 *)arg0)->unk98 = 0;
+    ((Unkstruct_8017EAD8_2 *)arg0)->unk1C = 0;
     if (flag == 0) {
-        s32 p;
-        register s32 f __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+        s32 t;
+        s32 v;
+        s32 f;
         mask = ~0x80;
-        p = ((Unkstruct_8017EAD8_2 *)self)->unk20;
-        f = ((Unkstruct_8017EAD8_2 *)self)->unkDC;
-        p = *(u16 *)(p + 0x18);
-        ((Unkstruct_8017EAD8_2 *)self)->unkDC = f & mask;
-        ((Unkstruct_8017EAD8_2 *)self)->unk100 = p;
+        t = ((Unkstruct_8017EAD8_2 *)arg0)->unk20;
+        f = ((Unkstruct_8017EAD8_2 *)arg0)->unkDC;
+        v = *(u16 *)(t + 0x18);
+        ((Unkstruct_8017EAD8_2 *)arg0)->unkDC = f & mask;
+        ((Unkstruct_8017EAD8_2 *)arg0)->unk100 = v;
     } else {
         s32 q;
-        register s32 g __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-        q = ((Unkstruct_8017EAD8_2 *)self)->unk20;
-        g = ((Unkstruct_8017EAD8_2 *)self)->unkDC;
-        q = *(u16 *)(q + 0x18);
+        s32 g;
+        q = *(u16 *)(((Unkstruct_8017EAD8_2 *)arg0)->unk20 + 0x18);
+        g = ((Unkstruct_8017EAD8_2 *)arg0)->unkDC;
         g |= 0x80;
-        ((Unkstruct_8017EAD8_2 *)self)->unkDC = g;
-        ((Unkstruct_8017EAD8_2 *)self)->unk104 = q;
+        ((Unkstruct_8017EAD8_2 *)arg0)->unkDC = g;
+        ((Unkstruct_8017EAD8_2 *)arg0)->unk104 = q;
     }
 }
 

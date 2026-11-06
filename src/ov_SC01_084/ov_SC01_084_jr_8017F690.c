@@ -4538,18 +4538,16 @@ void func_80181F80(s32 param_1) {
         CAST_SIGN(u16, param_1, 0x100) |= 1;
     } else if ((CAST_SIGN(u16, param_1, 0x100) & 1) == 0) {
         if (((Unkstruct_800B5CB8 *)param_1)->unk70 == 0) {
-            if (d >= 0x51) {
-                goto skip;
+            if (d < 0x51) {
+                goto docall;
             }
-            /* LOAD-BEARING (cookbook §5a): a zero-byte volatile-asm makes this arm's
-             * RTL tail differ from the sibling arm's, so find_cross_jump refuses to
-             * merge the two `beqz`+join tails. Removing it costs 4 instructions. */
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+            goto skip;
         } else {
             if (d >= 0x201) {
                 goto skip;
             }
         }
+docall:
         func_801822A4((void *)param_1);
         return;
     }

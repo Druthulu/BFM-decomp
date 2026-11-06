@@ -3874,10 +3874,11 @@ void func_8017F200(void *arg0) {
 
     s32 s0 = (s32)arg0;
     s32 a1;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 v0;
+    s32 v0b;
     s32 v1;
     s32 at;
-    s32 a0r;
+    s16 a0r;
     s32 pad[4];
 
     a1 = CAST_SIGN(u32, s0, 0x20);
@@ -3891,7 +3892,8 @@ void func_8017F200(void *arg0) {
     CAST_WIDTH(u16, a1, 0x30) = v1;
     if ((s32)(v0 << 16) < 0) {
         v0 = ((Unkstruct_800B5CB8 *)s0)->unk70;
-        v1 = (s16)v1;
+        v1 <<= 16;
+        v1 >>= 16;
         v0 = v0 * 2;
         at = (s32)D_8019C7CC + v0;
         v0 = *(s16 *)at;
@@ -3901,7 +3903,8 @@ void func_8017F200(void *arg0) {
             CAST_WIDTH(u16, a1, 0x30) = a0r;
         }
     } else {
-        v1 = (s16)v1;
+        v1 <<= 16;
+        v1 >>= 16;
         v0 = ((Unkstruct_800B5CB8 *)s0)->unk70;
         v0 = v0 * 2;
         at = (s32)D_8019C7CC + v0;
@@ -3918,16 +3921,16 @@ JOIN:
     if (!func_8012BEE8((s32)s0)) {
         goto K;
     }
-    v0 = ((Unkstruct_800B5CB8 *)s0)->unk70;
-    v0 = v0 * 2;
-    at = (s32)D_8019C7DC + v0;
-    v0 = *(u16 *)at;
-    ((Unkstruct_800B5CB8 *)s0)->unk1C = v0;
+    v0b = ((Unkstruct_800B5CB8 *)s0)->unk70;
+    v0b = v0b * 2;
+    at = (s32)D_8019C7DC + v0b;
+    v0b = *(u16 *)at;
+    ((Unkstruct_800B5CB8 *)s0)->unk1C = v0b;
     func_8012C588(0x1A4, (s32)s0);
 
 K:
-    v0 = ((Unkstruct_800B5CB8 *)s0)->unk70;
-    if (v0 == 0) {
+    v0b = ((Unkstruct_800B5CB8 *)s0)->unk70;
+    if (v0b == 0) {
         func_8017F348((s32)s0);
     }
 }

@@ -3532,19 +3532,21 @@ void func_8017E9A0(void *arg)
     int s0;
     void *s1;
     void *s2;
-    register int h __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    int h;
     s32 t;
     s32 a;
+    s32 q;
 
     s1 = arg;
     s0 = 0;
     s2 = D_80189644;
     do {
         a = s0 << 9;
-        t = s0 << 1;
         h = *(s16 *)((u8 *)s1 + 0x70);
+        q = (h << 4) + (s32)s2;
+        t = s0 << 1;
         s0 = s0 + 1;
-        func_8012C658(0x19B, (s16)(*(u16 *)(t + ((h << 4) + (s32)s2)) + a), (s32)s1);
+        func_8012C658(0x19B, (s16)(*(u16 *)(t + q) + a), (s32)s1);
     } while (s0 < 8);
 }
 
