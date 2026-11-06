@@ -2786,7 +2786,7 @@ extern u16 D_800B99D8;
 
 void func_8019059C(s32 _arg0) {
     s32 arg0;
-    register s32 src __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_mac1)
+    s32 src;
     register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_mac1)
     s32 r;
     s32 iv;
@@ -2907,8 +2907,8 @@ void func_8019059C(s32 _arg0) {
         src = *(s32 *)(arg0 + 0xCC);
         func_8012B2CC(src);
         mp = D_801D11F8;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        mp = 0;
         dst = *(s32 *)(arg0 + 0xD0);
         *(u16 *)(dst + 6) = sp10[0];
         *(u16 *)(dst + 0xA) = sp10[1];
@@ -2921,8 +2921,8 @@ void func_8019059C(s32 _arg0) {
         src = *(s32 *)(arg0 + 0xD0);
         func_8012B2CC(src);
         mp = D_801D11F8;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        mp = 0;
         dst = *(s32 *)(arg0 + 0xD4);
         *(u16 *)(dst + 6) = sp10[0];
         *(u16 *)(dst + 0xA) = sp10[1];
@@ -2936,6 +2936,7 @@ void func_8019059C(s32 _arg0) {
         func_8012B2CC(src);
         mp = D_801D11F8;
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        mp = 0;
         *(u16 *)(arg0 + 6) = sp10[0];
         *(u16 *)(arg0 + 0xA) = sp10[1];
         *(u16 *)(arg0 + 0xE) = sp10[2];
@@ -2969,8 +2970,8 @@ void func_8019059C(s32 _arg0) {
         src = *(s32 *)(arg0 + 0xCC);
         func_8012B2CC(src);
         mp = D_801D11F8;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        mp = 0;
         dst = *(s32 *)(arg0 + 0xD0);
         *(u16 *)(dst + 6) = sp10[0];
         *(u16 *)(dst + 0xA) = sp10[1];
@@ -2982,8 +2983,8 @@ void func_8019059C(s32 _arg0) {
         src = *(s32 *)(arg0 + 0xD0);
         func_8012B2CC(src);
         mp = D_801D11F8;
-        __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        mp = 0;
         dst = *(s32 *)(arg0 + 0xD4);
         *(u16 *)(dst + 6) = sp10[0];
         *(u16 *)(dst + 0xA) = sp10[1];
@@ -2996,6 +2997,7 @@ void func_8019059C(s32 _arg0) {
         func_8012B2CC(src);
         mp = D_801D11F8;
         ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        mp = 0;
         *(u16 *)(arg0 + 6) = sp10[0];
         *(u16 *)(arg0 + 0xA) = sp10[1];
         *(u16 *)(arg0 + 0xE) = sp10[2];
@@ -3027,10 +3029,9 @@ void func_8019059C(s32 _arg0) {
         ((void (*)(s32))func_8004914C)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x34);
         ((void (*)(s32))func_800491AC)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x34);
         mm = D_801D1220;
-        __asm__ __volatile__("" : "=r"(mm) : "0"(mm));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         m18 = sp18;
-        __asm__ __volatile__("" : "=r"(m18) : "0"(m18));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
         RotTransSV(mm, m18, sp28);
+        m18 = 0;
         col = 0x202080;
         if ((D_800B99D8 & 1) != 0) {
             col = 0xE0;
@@ -3053,8 +3054,8 @@ void func_8019059C(s32 _arg0) {
     src = *(s32 *)(arg0 + 0xCC);
     func_8012B2CC(src);
     mp = D_801D11F8;
-    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
     ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        mp = 0;
     dst = *(s32 *)(arg0 + 0xD0);
     *(u16 *)(dst + 6) = sp10[0];
     *(u16 *)(dst + 0xA) = sp10[1];
@@ -3066,8 +3067,8 @@ void func_8019059C(s32 _arg0) {
     src = *(s32 *)(arg0 + 0xD0);
     func_8012B2CC(src);
     mp = D_801D11F8;
-    __asm__ __volatile__("" : "=r"(mp) : "0"(mp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
     ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        mp = 0;
     dst = *(s32 *)(arg0 + 0xD4);
     *(u16 *)(dst + 6) = sp10[0];
     *(u16 *)(dst + 0xA) = sp10[1];
@@ -3080,6 +3081,7 @@ void func_8019059C(s32 _arg0) {
     func_8012B2CC(src);
     mp = D_801D11F8;
     ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(src + 0x20) + 0x34, mp, sp10);
+        mp = 0;
     *(u16 *)(arg0 + 6) = sp10[0];
     *(u16 *)(arg0 + 0xA) = sp10[1];
     *(u16 *)(arg0 + 0xE) = sp10[2];

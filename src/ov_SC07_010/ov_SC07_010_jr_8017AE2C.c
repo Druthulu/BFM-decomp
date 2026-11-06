@@ -5292,26 +5292,23 @@ s32 func_8017F54C(void *a0, void *a1) {
 
 
 void func_8017F5A4(void *a0, s32 a1) {
-    u8 *p = a0;
     s32 v0;
 
-    v0 = p[0] - a1;
+    v0 = ((u8 *)a0)[0] - a1;
     if (v0 < 0) {
         v0 = 0;
     }
-    p[0] = v0;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    v0 = p[1] - a1;
+    do { ((u8 *)a0)[0] = v0; } while (0);  // !FAKE: do-while
+    v0 = ((u8 *)a0)[1] - a1;
     if (v0 < 0) {
         v0 = 0;
     }
-    p[1] = v0;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    v0 = p[2] - a1;
+    do { ((u8 *)a0)[1] = v0; } while (0);  // !FAKE: do-while
+    v0 = ((u8 *)a0)[2] - a1;
     if (v0 < 0) {
         v0 = 0;
     }
-    p[2] = v0;
+    do { ((u8 *)a0)[2] = v0; } while (0);  // !FAKE: do-while
 }
 
 

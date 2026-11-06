@@ -3767,14 +3767,17 @@ void func_8017D7B4(void) {
     D_8012697A = 0;
     func_8012A018((s32)func_8017D8C4, 0);
     func_8012A094((s32)D_80126948);
-    D_8012697C = D_801864AC[idx];
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
-    (D_80126980[0]) = D_801864B8[idx];
+    t = D_801864AC[idx];
+    D_8012697C = t;
+    t = D_801864B8[idx];
+    (D_80126980[0]) = t;
     t = D_801864C4[idx];
+    do {
     D_801269EA = 0;
+    } while (0);  // !FAKE: do-while
     D_801269E8 = t;
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
-    D_801A1274 = D_801864D0[idx];
+    t = D_801864D0[idx];
+    D_801A1274 = t;
     func_8017D8C4(D_80126948);
     D_801151D4 = (s32)D_80126948;
 }
@@ -6806,11 +6809,13 @@ void func_80182560(s32 param_1)
     }
     func_80182654((s32)s0);
     {
+        s16 x;
         s32 diff = 8;
-        diff -= *(s16 *)((s32)s0 + 0x2E);
+        x = *(s16 *)((s32)s0 + 0x2E);
+        diff -= x;
         t = diff << 9;
+        x = 0;
     }
-    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
     {
         s32 x2 = *(s16 *)((s32)s0 + 0x2E);
         *(u16 *)((s32)s0 + 0xE) += (x2 << 6);

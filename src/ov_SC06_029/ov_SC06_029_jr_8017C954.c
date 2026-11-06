@@ -6769,7 +6769,6 @@ void func_80183534(s32 arg0, SVEC_80183534 *arg1, SVEC_80183534 *arg2, s32 *arg3
     mulc = D_80126950 * 48;
     mulc = mulc / (g.otz * 4);
 
-    __asm__ ("" : "=m"(D_800A5E60) : "r"(mulc));   /* L3 — zero bytes */  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus10)
     pkt = D_800A5E60;
     D_800A5E60 = pkt + 0x28;
     pkt[3] = 9;

@@ -210,8 +210,9 @@ void func_800CB2C8(void *arg0) {
 
     void *s1;
     void *p;
-    register s32 raw __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 raw;
+    s32 t;
+
     s32 r;
     s32 buf[3];
 
@@ -219,12 +220,11 @@ void func_800CB2C8(void *arg0) {
     p = *(void **)((u8 *)arg0 + 0x4C);
     raw = *(u8 *)((u8 *)s1 + 0x24);
     t = raw - 0x10;
+    do { raw = t; } while (0);  // !FAKE: do-while
     if (t < 0) {
         func_80146CA0((s32 *)arg0);
         return;
     }
-    raw = t;
-    __asm__("" : "=r"(raw) : "0"(raw));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     t = raw;
     *(u8 *)((u8 *)s1 + 0x24) = *(u8 *)((u8 *)s1 + 0x25) = *(u8 *)((u8 *)s1 + 0x26) = t;
     r = func_80012ABC(*(s16 *)((u8 *)s1 + 0x12),

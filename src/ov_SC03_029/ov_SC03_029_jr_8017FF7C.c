@@ -3111,8 +3111,9 @@ void func_801804A0(s32 a0) {
                 ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
                 CAST_WIDTH(u16, a0, 0x5E) = 0;
                 ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x30;
-                __asm__("" : "=r"(p) : "0"(&D_801C00D0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+                p = &D_801C00D0;
                 func_8012A828(a0, p);
+                p = 0;
                 func_8002D4C8(0x531, 0);
                 func_8002D4C8(0x526, 0);
                 func_800291C8(0xA, 0x3025);

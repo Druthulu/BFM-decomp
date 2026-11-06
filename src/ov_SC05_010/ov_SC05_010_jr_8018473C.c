@@ -3384,8 +3384,9 @@ void func_801854B8(s32 arg_in)
             p = D_801C7E38[i];
             t = D_801C7E78;
             *(u16 *)(p + 0x10A) = 1;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+            do {
             var = 60 - t * 15;
+            } while (0);  // !FAKE: do-while
         } else {
             ((Unkstruct_801854B8 *)arg0)->unk1C = 90;
             ((Unkstruct_801854B8 *)arg0)->unk2 = 1;

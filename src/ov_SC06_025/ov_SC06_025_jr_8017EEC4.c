@@ -4926,12 +4926,8 @@ void func_80181E08(s32 arg0) {
     s32 c2;
     s32 col;
     s32 v0p, v1p, v2p, v3p;
-    /* Loop 1 hoists both out-param addresses into callee-saved regs.  Written as
-     * plain locals the pointers land in $fp/$s6 instead of $s7/$s6: gcc's
-     * allocno_compare ranks `zpush` (3 refs, loop-weighted) above them.  Pinning the
-     * two pointers frees $fp for `zpush` and reproduces the target exactly. */
-    register s32 *pp __asm__("$23");   /* &p    */  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 *pf __asm__("$22");   /* &flag */  // !FAKE: pin $22 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    s32 *pp;                      /* &p    */
+    s32 *pf;                      /* &flag */
     s32 zpush;
 
     func_8012E32C();
@@ -4961,11 +4957,11 @@ void func_80181E08(s32 arg0) {
             v2p = arg0 + 0xE4;          /* b[11] */
             v3p = arg0 + 0x8C;          /* b[0]  */
         }
-        otz = RotTransPers4(v0p, v1p, v2p, v3p,
+        do {
+            otz = RotTransPers4(v0p, v1p, v2p, v3p,
                             &q->xy0, &q->xy1, &q->xy2, &q->xy3, pp, pf);
-        /* Zero-byte re-tie: without it combine folds `move $s1,$v0; move $a0,$s1`
-         * into a single `move $a0,$v0` (the target keeps both).  §189-C form. */
-        __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        } while (0);  // !FAKE: do-while
+        __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder
         otz = func_801823D4(otz, -0x1A);
         AddPrim(D_800A651C[*(u16 *)&D_800B9A02].a + otz * 4, q);
         func_8012E28C(otz, zpush);

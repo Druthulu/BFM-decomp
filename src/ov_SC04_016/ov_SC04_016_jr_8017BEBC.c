@@ -3241,14 +3241,12 @@ void func_8017DA50(void *arg) {
         if (var_v0 < 0) {
             var_a0 = 0;
         }
-        k40 = -0x40;
-        k50 = -0x50;
-        kF0 = -0xF0;
-        k100 = -0x100;
-        __asm__("" : "=r"(k40) : "0"(k40));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
-        __asm__("" : "=r"(k50) : "0"(k50));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
-        __asm__("" : "=r"(kF0) : "0"(kF0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
-        __asm__("" : "=r"(k100) : "0"(k100));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        do {
+            k40 = -0x40;
+            k50 = -0x50;
+            kF0 = -0xF0;
+            k100 = -0x100;
+        } while (0); // !FAKE: do-while
         var_v0 = var_fp;
         var_t7 = var_s7;
         sp10.b[4] = var_v0;

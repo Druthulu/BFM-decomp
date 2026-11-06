@@ -38,16 +38,14 @@ int func_8014F74C(s32 arg0)
         } else if (ret == 0x4000) {
             __builtin_memcpy((void *)(arg0 + 0x120), (void *)&D_801152B0, 8);
         }
-        if (*(u16 *)(arg0 + 0x16C) != 0x1D) {
-            return ret;
+        if (*(u16 *)(arg0 + 0x16C) == 0x1D) {
+            if ((func_80029178(0x21) & 0xFF) == 0) {
+                ret &= ~0x2000;
+                ret |= 0x4000;
+                __builtin_memcpy((void *)&D_801152B0, (void *)D_801152A8, 8);
+                D_801152BC = 1;
+            }
         }
-        if ((func_80029178(0x21) & 0xFF) == 0) {
-            ret &= ~0x2000;
-            ret |= 0x4000;
-            __builtin_memcpy((void *)&D_801152B0, (void *)D_801152A8, 8);
-            D_801152BC = 1;
-        }
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
         return ret;
     }
     /* ret == 0 */

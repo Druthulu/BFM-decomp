@@ -186,10 +186,10 @@ s32 func_800D0214(s32 arg0) {
     s32 raw = D_800D34AC[idx];
     s32 val = D_800D34AE[idx * 2];
     s32 *p = &D_800C7C60;
+    s32 *q = &D_800A2E20;
     s32 id;
 
-    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus10)
-    D_800C7C64 = &D_800A2E20;
+    do { D_800C7C64 = q; } while (0);  // !FAKE: do-while
     *p = val;
 
     id = raw & 0xFFF;
