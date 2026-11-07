@@ -3983,6 +3983,7 @@ void func_801805EC(s32 a0)
     SVECTOR svec_in;
     SVECTOR svec_out;
     s32 obj;
+    s32 *cam;
 
     svec_in.vx = ((Unkstruct_800B5CB8 *)a0)->unk12;
     svec_in.vy = *(u16 *)(a0 + 0x16);
@@ -3994,10 +3995,10 @@ void func_801805EC(s32 a0)
     ((Unkstruct_800B5CB8 *)a0)->unkE = svec_out.vz;
 
     obj = ((Unkstruct_800B5CB8 *)a0)->unk20;
+    cam = D_80126B78;
     CAST_WIDTH(u16, obj, 0x14) = CAST_WIDTH(u16, obj, 0x14) +
-        (((Unkstruct_800B5CB8 *)a0)->unk2A - *(u16 *)((u8 *)D_80126B78 + 0x12));
-
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+        (((Unkstruct_800B5CB8 *)a0)->unk2A - *(u16 *)((u8 *)cam + 0x12));
+    cam = 0;
     ((Unkstruct_800B5CB8 *)a0)->unk2A = *(u16 *)((u8 *)D_80126B78 + 0x12);
     if (CAST_WIDTH(s32, a0, 0x2C) == 0) {
         if (--((Unkstruct_800B5CB8 *)a0)->unk1C != 0) {

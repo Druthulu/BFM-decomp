@@ -7451,18 +7451,24 @@ void func_801831B4(void) {
     case 0:
         {
             s32 *p;
-            register s32 val __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+            s32 val;
+            s32 one = 1;
 
             func_8013C0F8((s32)&D_801A64C8);
+
             p = &D_801B7930;
+
             func_8017F53C((s32)p);
             val = D_801B7A84;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
-            D_801B7948 = 0;
-            D_801B794C = 0;
-            D_801B7950 = 0;
-            *p = 0;
-            D_801B7988 = 1;
+
+            do { // !FAKE: do-while
+                D_801B7948 = 0;
+                D_801B794C = 0;
+                D_801B7950 = 0;
+                *p = 0;
+            } while (0);
+
+            D_801B7988 = one;
             D_801B7A84 = val + 1;
         }
         break;
