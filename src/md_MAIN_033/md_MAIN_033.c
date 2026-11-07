@@ -217,7 +217,7 @@ void func_800CB2C8(void *arg0) {
     s32 buf[3];
 
     s1 = CAST_SIGN(void *, (u8 *)arg0, 0x20);
-    p = *(void **)((u8 *)arg0 + 0x4C);
+    p = CAST_SIGN(void *, (u8 *)arg0, 0x4C);
     raw = *(u8 *)((u8 *)s1 + 0x24);
     t = raw - 0x10;
     do { raw = t; } while (0);  // !FAKE: do-while

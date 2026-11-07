@@ -1059,7 +1059,7 @@ void func_801A143C(s32 a0) {
 
             r = rand();
             ((Unkstruct_800B5CB8 *)obj)->unk34 = (((r % 8192) + 0x5000) & ~0xF) | (rand() & 1);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk2C = 0xC004;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)obj)->unk20)->unk2C = 0xC004;
 
             if (pick != i) {
                 continue;
@@ -2304,12 +2304,12 @@ void func_801A31CC(void *arg0) {
     case 0: {
         s32 link;
         link = (s32)(a1 + 0x10);
-        *(s32 *)a1 = link;
+        ((Unkstruct_801A31CC *)a1)->unk0 = link;
         a1 = (u8 *)link;
         link = (s32)(a1 + 0x10);
-        *(s32 *)a1 = link;
+        ((Unkstruct_801A31CC *)a1)->unk0 = link;
         a1 = (u8 *)link;
-        *(s32 *)a1 = 0;
+        ((Unkstruct_801A31CC *)a1)->unk0 = 0;
         ((Unkstruct_800B5CB8 *)arg0)->unk5C = 0xC800;
         ((Unkstruct_800B5CB8 *)arg0)->unkAE = -1;
         ((Unkstruct_800B5CB8 *)arg0)->unk2 = 1;
@@ -2334,12 +2334,12 @@ void func_801A31CC(void *arg0) {
         ((Unkstruct_800B5CB8 *)arg0)->unk5C = 0x800;
         ((Unkstruct_800B5CB8 *)arg0)->unkAE = -1;
         ((Unkstruct_800B5CB8 *)arg0)->unk2 = 5;
-        *(s16 *)(a1 + 4) = -0x10;
-        *(s16 *)(a1 + 6) = 0x10;
-        *(s16 *)(a1 + 8) = -0x100;
-        *(s16 *)(a1 + 0xA) = 0;
-        *(s16 *)(a1 + 0xC) = -0x10;
-        *(s16 *)(a1 + 0xE) = 0x10;
+        ((Unkstruct_801A31CC *)a1)->unk4 = -0x10;
+        ((Unkstruct_801A31CC *)a1)->unk6 = 0x10;
+        ((Unkstruct_801A31CC *)a1)->unk8 = -0x100;
+        ((Unkstruct_801A31CC *)a1)->unkA = 0;
+        ((Unkstruct_801A31CC *)a1)->unkC = -0x10;
+        ((Unkstruct_801A31CC *)a1)->unkE = 0x10;
         break;
     }
 }
@@ -2804,14 +2804,14 @@ s32 func_801A3BCC(void *a0)
     MATRIX *r;
     s32 *g;
 
-    obj = *(s32 *)((u8 *)a0 + 100);
+    obj = ((Unkstruct_801A3BCC_3 *)a0)->unk64;
     g = &D_80126B58;
-    rot.vx = *(s16 *)(*(s32 *)(obj + 32) + 16);
-    rot.vy = *(s16 *)(*(s32 *)(obj + 32) + 18);
-    rot.vz = *(s16 *)(*(s32 *)(obj + 32) + 20);
-    m.t[0] = *(s32 *)(*(s32 *)(obj + 32) + 72);
-    m.t[1] = *(s32 *)(*(s32 *)(obj + 32) + 76);
-    m.t[2] = *(s32 *)(*(s32 *)(obj + 32) + 80);
+    rot.vx = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk10;
+    rot.vy = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk12;
+    rot.vz = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk14;
+    m.t[0] = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk48;
+    m.t[1] = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk4C;
+    m.t[2] = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk50;
     func_8012EA90(obj, 10, (s32 *)&src[0]);
     func_8012EA90(obj, 11, (s32 *)&src[1]);
     func_8012EA90(obj, 12, (s32 *)&src[2]);
@@ -2859,7 +2859,7 @@ s32 func_801A3BCC(void *a0)
             func_8012F14C((s32)r, (s32)(tbl + 8), (s32)out);
             if (func_80135888(g[8], g[14], (s32)buf, (s32)out) != 0) {
                 func_8012F568(1, 0x401B,
-                              (*(s16 *)(*(s32 *)((u8 *)a0 + 32) + 18) - (D_801F435C << 10)) & 0xFFF,
+                              (((Unkstruct_801A3BCC_4 *)*(s32 *)((u8 *)a0 + 32))->unk12 - (D_801F435C << 10)) & 0xFFF,
                               128, (s32)out, (s32)D_801152A8);
                 return 1;
             }

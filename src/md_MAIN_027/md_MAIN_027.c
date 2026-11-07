@@ -747,6 +747,6 @@ void func_800CC024(s32 a0p) {
 
     ((Unkstruct_800CC024 *)obj)->unk6 += d[0];
     ((Unkstruct_800CC024 *)obj)->unkA += d[1];
-    *(s32 *)(s3 + 0x18) = *(s32 *)(*(s32 *)(s2 + 0x20) + 0x18);
+    ((Unkstruct_800CC024_3 *)s3)->unk18 = ((Unkstruct_800CC024_4 *)*(s32 *)(s2 + 0x20))->unk18;
 }
 

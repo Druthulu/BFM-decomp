@@ -258,7 +258,7 @@ void func_800CB458(s32 arg0) {
     s32 id;
 
     s1 = ((Unkstruct_800CB458 *)s0)->unk34;
-    v0 = *(s32 *)(s1 + 0x20);
+    v0 = ((Unkstruct_800CB458_2 *)s1)->unk20;
 
     *(Struct16 *)(s0 + 0x38) = *(Struct16 *)(v0 + 0x34);
     *(Struct16 *)(s0 + 0x48) = *(Struct16 *)(v0 + 0x44);

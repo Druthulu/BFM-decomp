@@ -82,7 +82,7 @@ void func_800CCD50(void *a0) {
     s0 = (s32)a0;
     func_80154274((s32 *)s0, (s32)&D_800CE010);
     v0 = ((Unkstruct_800CCD50 *)s0)->unk20;
-    v1 = *(u16 *)(v0 + 0x12);
+    v1 = ((Unkstruct_800CCD50_2 *)v0)->unk12;
     ((Unkstruct_800CCD50 *)s0)->unk246 = 0x200;
     ((Unkstruct_800CCD50 *)s0)->unk244 = v1;
     func_80146D90(s0);

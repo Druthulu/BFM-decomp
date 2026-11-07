@@ -294,7 +294,7 @@ void func_800CB574(void *param_1) {
         arr[2] = (*(u16 *)((s32)param_1 + 0xE)) - 0x24;
         ((void (*)(s32, void *, void *))func_80149350)(src, arr, arr);
 
-        iVar3 = *(s32 *)(src + 0x20);
+        iVar3 = ((Unkstruct_800CB574 *)src)->unk20;
         *(Blk16 *)((s32)param_1 + 0x38) = *(Blk16 *)(iVar3 + 0x34);
         *(Blk16 *)((s32)param_1 + 0x48) = *(Blk16 *)(iVar3 + 0x44);
         *(s32 *)((s32)param_1 + 0x4C) = arr[0];
@@ -307,7 +307,7 @@ void func_800CB574(void *param_1) {
         arr[0] = 0x1800;
         ((void (*)(void *, void *))func_80017DC4)(arr, mat);
         RotMatrixZ(rand() & 0xFFF, mat);
-        MulMatrix0(*(s32 *)(src + 0x20) + 0x34, mat, iVar2 + 0x34);
+        MulMatrix0(((Unkstruct_800CB574 *)src)->unk20 + 0x34, mat, iVar2 + 0x34);
 
         func_80146A6C(0x44, (void *)param_1,
                       *(s16 *)((s32)param_1 + 6),

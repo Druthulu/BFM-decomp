@@ -94,7 +94,7 @@ void func_800CAF94(s32 arg0) {
         sv[2] = 0;
         sv[0] = 0;
         sv[1] = -0x2C;
-        func_8012F14C(*(s32 *)(ent + 0x20) + 0x34, (s32)sv, (s32)sv);
+        func_8012F14C(((Unkstruct_800CAF94_3 *)ent)->unk20 + 0x34, (s32)sv, (s32)sv);
         q = rot;
         func_800D20C0((Pos800D20C0 *)sv, (SVECTOR_800 *)q, 5);
         q = sv;
@@ -162,7 +162,7 @@ void func_800CB0C8(s32 arg0) {
             sv[2] = 0;
             sv[0] = 0;
             sv[1] = -0x2C;
-            func_8012F14C(*(s32 *)(ent + 0x20) + 0x34, (s32)sv, (s32)sv);
+            func_8012F14C(((Unkstruct_800CB0C8_2 *)ent)->unk20 + 0x34, (s32)sv, (s32)sv);
             q = rot;
             func_800D20C0((Pos800D20C0 *)sv, (SVECTOR_800 *)q, 5);
             q = sv;
