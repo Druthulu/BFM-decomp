@@ -220,7 +220,7 @@ F3P_800CB1F8 *func_800CB1F8(Face10_800CB1F8 *f, SVEC8_800CB1F8 *verts,
                     prim->rgb0 = D_800CC9F8;
                 } else {
                     gte_ldrgb(&f->rgb);
-                    gte_ldv0(&norms[f->n0]);
+                    gte_ldv0(&norms[f->n]);
                     gte_nccs();
                     gte_strgb(&prim->rgb0);
                 }

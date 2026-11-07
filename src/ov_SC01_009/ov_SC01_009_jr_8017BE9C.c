@@ -3985,7 +3985,6 @@ s32 func_8017DC10(void) {
  */
 
 void func_8017DEF0(void) {
-    struct S151D0 { s32 v; };
 
              /* 0x14 stride */
 

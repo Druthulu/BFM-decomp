@@ -3421,16 +3421,6 @@ void func_8017DE80(s32 param_1, s16 param_2)
 
 /* D_801A6B40: 256 x 0x50-byte spark records (layout from func_8017E26C, P40 T8.c4; was
  * `extern s32`, every other use takes its address). */
-typedef struct {
-    s32 active;
-    s32 cnt;
-    s32 x, y, z;
-    s32 lim;
-    s32 pad[5];
-    s32 x2, y2, z2;
-    s32 vx, vy, vz;
-    s32 ax, ay, az;
-} Spark_8017E26C_t;
 
 extern Spark_8017E26C_t D_801A6B40[256];
     void func_8017DF68(void) {
@@ -3520,16 +3510,7 @@ void func_8017DF8C(void *a0)
 }
 
 
-typedef struct { unsigned addr : 24; unsigned len : 8; } PT_8017E26C_t;
 
-typedef struct {
-    u32 tag;
-    u32 mode;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u8 r1, g1, b1, p1;
-    s16 x1, y1;
-} Line_8017E26C_t;
 
 extern u8 D_801AC280[];
 extern u32 D_800A6610[];

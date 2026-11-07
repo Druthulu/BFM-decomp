@@ -4534,8 +4534,7 @@ void func_8017F738(void *a0) {
 
 
 
-typedef union { s32 w; s16 h[2]; } W4;
-extern W4 func_8018020C(s32 a1, s32 a2);
+extern W4_8018020C func_8018020C(s32 a1, s32 a2);
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
 extern s32 func_8012CBF4(s32 a0);
@@ -4684,7 +4683,7 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 /* Declarations conformed VERBATIM to the TU's existing ones
  * (ov_SC02_035_jr_8017BEBC.c:5139 and :5117) — type disagreements are
  * pushed to casts at the use sites below. Zero codegen change. */
-extern W4 func_8018020C(s32 a1, s32 a2);
+extern W4_8018020C func_8018020C(s32 a1, s32 a2);
 extern void func_8012B200(void *a0);
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B178(s32 a0, s32 a1);
@@ -4717,7 +4716,7 @@ void func_8017FDB8(s32 a0) {
 
 
 
-extern W4 func_8018020C(s32 a1, s32 a2);
+extern W4_8018020C func_8018020C(s32 a1, s32 a2);
 extern s32 func_8012B8E4(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
@@ -4883,7 +4882,7 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
  * exactly the same 10 diagnostics as the unmodified TU (zero new). */
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 
-W4 func_8018020C(s32 a1, s32 a2) {
+W4_8018020C func_8018020C(s32 a1, s32 a2) {
 
     extern s16 D_80126CBA;
     s32 sp10[4];
@@ -4904,7 +4903,7 @@ W4 func_8018020C(s32 a1, s32 a2) {
     *(s16 *)((s32)sp10 + 0x6) = t;
     ((Unkstruct_800B5CB8 *)a1)->unk100 = t;
     *(s16 *)((s32)sp10 + 0xA) = p[2] + CAST_SIGN(u16, a2, 4);
-    return ((W4 (*)(s32, s32))func_8012B77C)(a1 + 4, (s32)sp10);
+    return ((W4_8018020C (*)(s32, s32))func_8012B77C)(a1 + 4, (s32)sp10);
 }
 
 

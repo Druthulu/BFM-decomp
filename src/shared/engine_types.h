@@ -5423,6 +5423,31 @@ typedef E4 Unkstruct_8014EE14;
 typedef E4 Unkstruct_8014F2E0;
 typedef SVECTOR_8017E6D8 V8_80131340_0021791e;
 
+/* --- lift_types.py --census (P38 T5.1.c2, batch all) --- */
+typedef struct {
+    u32 tag;
+    u32 mode;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 r1, g1, b1, p1;
+    s16 x1, y1;
+} Line_8017E26C_t;
+typedef PrimTag PT_8017E26C_t;
+struct S151D0 { s32 v; };
+typedef H16 S2_800B9A02;
+typedef struct {
+    s32 active;
+    s32 cnt;
+    s32 x, y, z;
+    s32 lim;
+    s32 pad[5];
+    s32 x2, y2, z2;
+    s32 vx, vy, vz;
+    s32 ax, ay, az;
+} Spark_8017E26C_t;
+union U2 { u16 u; s16 s; };
+typedef union { s32 w; s16 h[2]; } W4_8018020C;
+
 #endif /* BFM_ENGINE_TYPES_H */   /* SESSION-19: moved here — 11 typedefs (the
  * Phase-29 crack-wave lift onward) were sitting OUTSIDE the guard, so any TU that
  * included this header twice re-declared them. gcc-2.7.2 rejects a repeated typedef

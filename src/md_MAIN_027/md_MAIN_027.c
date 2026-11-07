@@ -518,9 +518,6 @@ void func_800CB82C(s32 a0, s32 a1)
 }
 
 
-typedef struct { s16 vx, vy, vz, pad; } SV_CBA44_t;
-typedef struct { s16 vx, vy; } P2_CBA44_t;
-typedef struct { s32 w[4]; P2_CBA44_t o; } Base_CBA44_t;
 
 s32 func_800CBA44(SV_CBA44_t *out, P2_CBA44_t *in, Base_CBA44_t *b, P2_CBA44_t *off, s32 *res, s32 *d)
 {

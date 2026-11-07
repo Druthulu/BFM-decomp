@@ -14036,9 +14036,6 @@ extern s32 D_800A2B78;
  * written has bit 1 set, append a 2-word semi-transparency primitive
  * (0xE100000A | ((D_800A2B78 & 3) << 5)) into the OT (tag code 0x01).
  * Returns the advanced packet pointer. */
-typedef struct { u32 tag; u8 r0, g0, b0, code; u32 xy0, xy1, xy2; } F3_249F0_t;
-typedef struct { u32 tag; u32 code; } DM_249F0_t;
-typedef struct { u32 pad; u32 rgb; u16 n, v0, v1, v2; } Src_249F0_t;
 
 long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count,
                     s32 shift, s32 ot)
@@ -14722,8 +14719,6 @@ u8 *func_80025A30(u8 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot
 extern u32 D_8006387C;
 extern s32 D_80078D88[];
 
-typedef struct { u32 tag; u8 r0, g0, b0, code; u32 xy0, uv0, xy1, uv1, xy2, uv2; } FT3_25CBC_t;
-typedef struct { u32 pad; u32 uv0, uv1, uv2; u16 n, v0, v1, v2; } Src_25CBC_t;
 
 void *func_80025CBC(void *prims, void *scr, void *cols, void *packets,
                     s32 count, s32 otshift, u32 *ot)
@@ -15043,23 +15038,9 @@ PktGT4 *func_800262D8(FaceGT4 *face, SVEC8_800262D8 *vtx, SVEC8_800262D8 *nrm, P
  * (the caller calls through a `u8 *(*)()` cast). D_8006388C / D_8006389C are declared here
  * (no other declaration in the TU).
  */
-typedef struct { u16 x; u16 y; u32 pad; } Tex_26514_t;
 extern Tex_26514_t D_8006388C[];
 extern u8 D_8006389C[];
 
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    u16 x0, y0;
-    u8 u0, v0; u16 clut;
-    u8 r1, g1, b1, p1;
-    u16 x1, y1;
-    u8 u1, v1; u16 tpage;
-    u8 r2, g2, b2, p2;
-    u16 x2, y2;
-    u8 u2, v2; u16 pad2;
-} GT3_26514_t;
-typedef struct { u32 pad; u32 rgb; u16 n0, v0, n1, v1, n2, v2; } Face_26514_t;
 
 u8 *func_80026514(Face_26514_t *face, char *verts, char *norms, GT3_26514_t *p, s32 count,
                      s32 shift, u32 *ot, s32 idx)
@@ -15131,22 +15112,6 @@ u8 *func_80026514(Face_26514_t *face, char *verts, char *norms, GT3_26514_t *p, 
 }
 
 
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    u16 x0, y0;
-    u8 u0, v0; u16 clut;
-    u8 r1, g1, b1, p1;
-    u16 x1, y1;
-    u8 u1, v1; u16 tpage;
-    u8 r2, g2, b2, p2;
-    u16 x2, y2;
-    u8 u2, v2; u16 pad2;
-    u8 r3, g3, b3, p3;
-    u16 x3, y3;
-    u8 u3, v3; u16 pad3;
-} GT4_268D0_t;
-typedef struct { u32 pad; u32 rgb; u16 n0, v0, n1, v1, n2, v2, n3, v3; } Face_268D0_t;
 
 u8 *func_800268D0(Face_268D0_t *face, char *verts, char *norms, GT4_268D0_t *p, s32 count,
                      s32 shift, u32 *ot, s32 idx)
@@ -15347,9 +15312,6 @@ void func_80026D64(s32 arg0, s32 arg1, s32 arg2)
 
 extern s32 D_800A2B78;
 
-typedef struct { u32 tag; u32 rgb; u32 xy0, xy1, xy2; } F3_27058_t;
-typedef struct { u32 tag; u32 code; } DM_27058_t;
-typedef struct { u32 pad; u32 rgb; u16 n, v0, v1, v2; } Src_27058_t;
 
 long *func_80027058(char *f, s32 verts, s32 norms, long *prim, s32 count,
                     s32 shift, s32 ot)
@@ -15402,9 +15364,6 @@ long *func_80027058(char *f, s32 verts, s32 norms, long *prim, s32 count,
 
 extern s32 D_800A2B78;
 
-typedef struct { u32 tag; u32 rgb; u32 xy0, xy1, xy2, xy3; } F4_27200_t;
-typedef struct { u32 tag; u32 code; } DM_27200_t;
-typedef struct { u32 pad; u32 rgb; u16 n, v0, v1, v2, v3, pad2; } Src_27200_t;
 
 long *func_80027200(char *f, s32 verts, s32 norms, long *prim, s32 count,
                     s32 shift, s32 ot)
