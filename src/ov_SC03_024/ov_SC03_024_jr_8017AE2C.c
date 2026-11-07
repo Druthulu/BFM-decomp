@@ -3400,7 +3400,7 @@ void func_8017C0C8(void *a0) {
         SVECTOR_8017C290 e;
         SVECTOR_8017C290 f;
         s32 i, j;
-        *(s16 *)((u8 *)a0 + 0x10) = *(s32 *)((u8 *)a0 + 0x30);
+        ((Unkstruct_8017C154_2 *)a0)->unk10 = ((Unkstruct_8017C154_2 *)a0)->unk30;
         func_80015978((s32)a0 + 4, (s32 *)buf20);
         for (j = 0; j < 4; j++) {
             c.vx = 0;
@@ -3410,7 +3410,7 @@ void func_8017C0C8(void *a0) {
             e = c;
             for (i = 0; i < 4; i++) {
                 f = D_8018A9D8[i];
-                *(s16 *)((u8 *)a0 + 0x12) = i + j;
+                ((Unkstruct_8017C154_2 *)a0)->unk12 = i + j;
                 func_8017C290((int)a0, buf20, &c, &d, &e, &f, (s16 *)((u8 *)a0 + 0x10));
             }
         }
