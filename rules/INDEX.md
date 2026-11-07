@@ -161,3 +161,7 @@ R126 | Lever residue is a ledger, gated by --strict --residue | levers,pins,asm,
 R127 | A tool change ships with its wiring and docs; no audit fan-outs | tools,docs,wiring | active | legacy memory, Drew 2026-09-02
 
 R128 | Phase records keep the narrative axis for the retrospective | phase-end,logs,retrospective | active | legacy memory, Drew 2026-08-31
+
+T2 | a decision batch is not done until `--residue`, `--restamp` and `--check-residue` have run on every segment it touched. | - | active | phase 3.41 plan
+
+T3 | a generated block in a hand-edited header carries a marker pair and a provenance line naming the generator and the commit it ran at. | - | active | phase 3.41 plan
