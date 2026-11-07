@@ -2002,6 +2002,15 @@ cause: 5 names (48 B, all members placeholders) bound to 9 distinct objects, non
 - `Unkstruct_801883FC`: 3 obj — ov_SC02_011/0x8018BFBC:temp, ov_SC02_017/0x801883FC:temp, ov_SC03_006/0x8018B280:temp
 - `Unkstruct_8018CD80`: 1 obj — ov_SC02_005/0x8018CD80:param_1
 
+### 3e4f4166f2b3
+names: A801593E4, Unkstruct_800CCE80_2, Unkstruct_8017E738_2, Unkstruct_80182AC0_3, Unkstruct_80184BAC_2
+cause: 5 names (36 B, all members placeholders) bound to 11 distinct objects, none bound to two names: 0x801593E4(arg0), 0x80180D30(arg0), 0x80180DC4(arg0), 0x80181204(arg0), md_MAIN_045/0x800CCE80:s2, ov_SC03_099/0x8017E738:a0, ov_SC03_102/0x80182734:a0, ov_SC04_011/0x80184BAC:a1 …; full list: tools/struct_twins.py --show 3e4f4166f2b3
+- `A801593E4`: 6 obj — 0x801593E4(arg0), 0x80180D30(arg0), 0x80180DC4(arg0), 0x80181204(arg0), ov_SC07_010/0x80180D30:func_80181224, ov_SC07_010/0x80180DC4:func_80181224
+- `Unkstruct_800CCE80_2`: 1 obj — md_MAIN_045/0x800CCE80:s2
+- `Unkstruct_8017E738_2`: 2 obj — ov_SC03_099/0x8017E738:a0, ov_SC03_102/0x80182734:a0
+- `Unkstruct_80182AC0_3`: 1 obj — ov_SC05_010/0x80182AC0:q
+- `Unkstruct_80184BAC_2`: 1 obj — ov_SC04_011/0x80184BAC:a1
+
 ### 4b74ac2fcd37
 names: Unkstruct_8017E750, Unkstruct_801820DC_4, Unkstruct_80187F18, Unkstruct_8018AD9C_2, Unkstruct_8018BAD8
 cause: 5 names (256 B, all members placeholders) bound to 5 distinct objects, none bound to two names: ov_SC02_011/0x8018BAD8:a0, ov_SC02_017/0x80187F18:arg0, ov_SC03_006/0x8018AD9C:a0, ov_SC03_007/0x8017E750:a0, ov_SC03_007/0x801820DC:a0; full list: tools/struct_twins.py --show 4b74ac2fcd37
@@ -2199,14 +2208,6 @@ cause: 4 names (26 B, all members placeholders); 1 bound to no object (UNBOUND),
 - `Struct800D2E20`: 1 obj — 0x800D2E20(arg0)
 - `Struct800D2E6C`: 1 obj — 0x800D2E6C(arg0)
 - `Struct800D3104`: 1 obj — 0x800D3104(arg0)
-
-### 3e4f4166f2b3
-names: A801593E4, Unkstruct_800CCE80_2, Unkstruct_8017E738_2, Unkstruct_80184BAC_2
-cause: 4 names (36 B, all members placeholders) bound to 10 distinct objects, none bound to two names: 0x801593E4(arg0), 0x80180D30(arg0), 0x80180DC4(arg0), 0x80181204(arg0), md_MAIN_045/0x800CCE80:s2, ov_SC03_099/0x8017E738:a0, ov_SC03_102/0x80182734:a0, ov_SC04_011/0x80184BAC:a1 …; full list: tools/struct_twins.py --show 3e4f4166f2b3
-- `A801593E4`: 6 obj — 0x801593E4(arg0), 0x80180D30(arg0), 0x80180DC4(arg0), 0x80181204(arg0), ov_SC07_010/0x80180D30:func_80181224, ov_SC07_010/0x80180DC4:func_80181224
-- `Unkstruct_800CCE80_2`: 1 obj — md_MAIN_045/0x800CCE80:s2
-- `Unkstruct_8017E738_2`: 2 obj — ov_SC03_099/0x8017E738:a0, ov_SC03_102/0x80182734:a0
-- `Unkstruct_80184BAC_2`: 1 obj — ov_SC04_011/0x80184BAC:a1
 
 ### 40deabc7581e
 names: Unkstruct_801E4D7C, Unkstruct_801E5030, Unkstruct_801E5580, Unkstruct_801E5664
@@ -4291,5 +4292,3 @@ cause: 2 names (24 B, all members placeholders) bound to 2 distinct objects, non
 ## Dead kept
 - LineF2_8018F694 — used only inside a multi-line macro body in ov_SC06_018/032/033 (census cannot see it); deleting it broke cc1 (`undeclared`), T5.1.c3b
 - actor4c — tag of Actor4C, named only by its own self-pointer member `unk20`; the self-reference needs the tag
-- Unkstruct_80182AC0_2 — P3.40 T17 drift def (decide-band define of map type Unkstruct_8a49cd6b, drift rank 1), dead until drawn by rung S
-- Unkstruct_80182AC0_3 — P3.40 T17 drift def (decide-band define of map type Unkstruct_c758f14a, drift rank 2), dead until drawn by rung S
