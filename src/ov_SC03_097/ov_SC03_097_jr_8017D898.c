@@ -3434,7 +3434,7 @@ void func_8017F724(void *a0, void *a1, s32 a2) {
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8017F7C0(s32 a0) {
-        *(s16 *)(a0 + 0xFC) = 0;
+        ((Unkstruct_8017F7C0 *)a0)->unkFC = 0;
         ((void (*)(void *, s32))func_8012AD44)((void *)a0, 0x1);
     }
 
@@ -4078,13 +4078,13 @@ void func_80180450(s32 a0, s32 a1) {
     vec = D_801A94CC;
     m = *(Blk32_8018AA98_80183D30_80180450 *)&D_800AE620;
 
-    RotMatrixY(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), &m);
+    RotMatrixY(((Unkstruct_80180450_6 *)*(s32 *)(a0 + 0x20))->unk12, &m);
     ApplyMatrixSV(&m, &vec, &vec);
 
-    if (a0 != 0 && *(u16 *)a0 != 0) {
-        msg.x = *(u16 *)(a0 + 0x6) + CAST_NONSTRUCT(u16, (u8 *)&vec, 0);
-        msg.y = *(u16 *)(a0 + 0xA) + CAST_NONSTRUCT(u16, (u8 *)&vec, 2);
-        msg.z = *(u16 *)(a0 + 0xE) + CAST_NONSTRUCT(u16, (u8 *)&vec, 4);
+    if (a0 != 0 && ((Unkstruct_80180450_3 *)a0)->unk0 != 0) {
+        msg.x = ((Unkstruct_80180450_3 *)a0)->unk6 + CAST_NONSTRUCT(u16, (u8 *)&vec, 0);
+        msg.y = ((Unkstruct_80180450_3 *)a0)->unkA + CAST_NONSTRUCT(u16, (u8 *)&vec, 2);
+        msg.z = ((Unkstruct_80180450_3 *)a0)->unkE + CAST_NONSTRUCT(u16, (u8 *)&vec, 4);
     } else {
         msg.z = 0;
         msg.y = 0;
@@ -4095,7 +4095,7 @@ void func_80180450(s32 a0, s32 a1) {
     msg.sub = (s16)a1;
     msg.pad_A = 0;
     msg.pad_E = 0;
-    msg.extra = *(s32 *)(a0 + 0xDC);
+    msg.extra = ((Unkstruct_80180450_3 *)a0)->unkDC;
     msg.flag = 0x7FFF;
 
     func_8012C51C(&msg, a0);
@@ -4146,20 +4146,20 @@ void func_8018064C(void *arg0) {
     void *s1;
     u8 *p;
 
-    v = *(s16 *)((u8 *)arg0 + 0xFC);
-    s1 = *(void **)((u8 *)arg0 + 0xCC);
+    v = ((Unkstruct_80180450_3 *)arg0)->unkFC;
+    s1 = ((Unkstruct_80180450_3 *)arg0)->unkCC;
 
     if (v < 0x10) {
         func_80181BCC(v, 1);
-        *(u16 *)((u8 *)arg0 + 0xFC) = *(u16 *)((u8 *)arg0 + 0xFC) + 1;
+        ((Unkstruct_80180450_3 *)arg0)->unkFC = CAST_SIGN(u16, (u8 *)arg0, 0xFC) + 1;
     }
 
-    if (*(s16 *)((u8 *)arg0 + 0xFC) >= 9) {
+    if (((Unkstruct_80180450_3 *)arg0)->unkFC >= 9) {
         if (s1 != NULL) {
-            s16 h = *(s16 *)((u8 *)s1 + 0x18);
+            s16 h = ((Unkstruct_8018064C_2 *)s1)->unk18;
             if (h > 0) {
-                *(s16 *)((u8 *)s1 + 0x18) = h - 0x100;
-                *(u16 *)((u8 *)s1 + 0x1A) = *(u16 *)((u8 *)s1 + 0x1A) - 0x100;
+                ((Unkstruct_8018064C_2 *)s1)->unk18 = h - 0x100;
+                ((Unkstruct_8018064C_2 *)s1)->unk1A = ((Unkstruct_8018064C_2 *)s1)->unk1A - 0x100;
             }
         }
 
@@ -4169,8 +4169,8 @@ void func_8018064C(void *arg0) {
             D_801AAAE1 -= 0x10;
             D_801AAAE2 -= 0x10;
         } else {
-            *(s16 *)((u8 *)s1 + 0x0) = 0;
-            *(s32 *)((u8 *)arg0 + 0xCC) = 0;
+            ((Unkstruct_8018064C_2 *)s1)->unk0 = 0;
+            CAST_SIGN(s32, (u8 *)arg0, 0xCC) = 0;
             func_80180450((s32)arg0, 0x4000);
             func_80180230(arg0);
         }
@@ -4248,9 +4248,9 @@ void func_80180864(void *a0) {
 
 void func_801808A4(s32 param_1)
 {
-    if (*(u16 *)(param_1 + 0x34) != 0) {
+    if (((Unkstruct_80180450_3 *)param_1)->unk34 != 0) {
         func_80180450(param_1, 0);
-        *(u16 *)(param_1 + 0x34) -= 1;
+        ((Unkstruct_80180450_3 *)param_1)->unk34 -= 1;
     }
 }
 
@@ -4897,8 +4897,8 @@ void func_801819A0(s32 arg0, s32 arg1, s32 arg2) {
     extern s16 D_801AAC70;
     extern s16 D_801AAC72;
 
-    D_801AAC6C = *(u16 *)((s32)arg0 + 0x0);
-    D_801AAC6E = *(u16 *)((s32)arg0 + 0x2);
+    D_801AAC6C = ((Unkstruct_801819A0 *)arg0)->unk0;
+    D_801AAC6E = CAST_ALIAS(u16, (s32)arg0, 0x2);
     D_801AAC70 = arg1;
     D_801AAC72 = arg2;
 }
@@ -5271,10 +5271,10 @@ void func_80181CF4(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t17_ov_S4)
     volatile u16 *bidx;
     s32 t;
-    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 pv;
 
     m = D_800AE620;
     mp = &m;
@@ -5300,8 +5300,8 @@ void func_80181CF4(s32 arg0)
     by = (u16)D_801AAC6E;
     RotMatrixZ(ang, mp);
 
-    *(s32 *)((u8 *)v + 8) = D_801AAC70;
-    v[1] = *(s32 *)((u8 *)v + 8);
+    ((Unkstruct_80181CF4_3 *)v)->unk8 = D_801AAC70;
+    v[1] = ((Unkstruct_80181CF4_3 *)v)->unk8;
     v[0] = v[1];
     func_8004901C(mp, v);
 

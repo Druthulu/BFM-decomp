@@ -3064,12 +3064,12 @@ void func_8017CD9C(s32 a0) {
 
     func_80052D90(0, (void *)a0);
     func_80054514(a0, (s32)sp10);
-    *(s32 *)(a0 + 0x18) = 0;
-    *(s32 *)(a0 + 0x1C) = 0;
-    *(s32 *)(a0 + 0x20) = 0;
-    *(s16 *)(a0 + 0x50) = 0;
-    *(s16 *)(a0 + 0x52) = 0;
-    *(s16 *)(a0 + 0x54) = 0;
+    ((Unkstruct_8017CD9C_2 *)a0)->unk18 = 0;
+    ((Unkstruct_8017CD9C_2 *)a0)->unk1C = 0;
+    ((Unkstruct_8017CD9C_2 *)a0)->unk20 = 0;
+    ((Unkstruct_8017CD9C_2 *)a0)->unk50 = 0;
+    ((Unkstruct_8017CD9C_2 *)a0)->unk52 = 0;
+    ((Unkstruct_8017CD9C_2 *)a0)->unk54 = 0;
 }
 
 

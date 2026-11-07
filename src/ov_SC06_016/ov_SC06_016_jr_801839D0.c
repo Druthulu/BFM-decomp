@@ -2976,8 +2976,8 @@ void func_80183D80(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801A0014;
-        D_801A0014 = *(u16 *)((s32)arg0 + 0x0);
-        D_801A0016 = *(u16 *)((s32)arg0 + 0x2);
+        D_801A0014 = ((Unkstruct_80181854_2 *)arg0)->unk0;
+        D_801A0016 = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801A0018 = arg1;
         D_801A001A = arg2;
     }
@@ -3371,8 +3371,8 @@ void func_80184174(s32 arg0)
     by = (u16)D_801A0016;
     RotMatrixZ(ang, mp);
 
-    *(s32 *)((u8 *)v + 8) = D_801A0018;
-    v[1] = *(s32 *)((u8 *)v + 8);
+    ((Unkstruct_80184174 *)v)->unk8 = D_801A0018;
+    v[1] = ((Unkstruct_80184174 *)v)->unk8;
     v[0] = v[1];
     func_8004901C(mp, v);
 
