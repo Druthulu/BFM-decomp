@@ -4551,7 +4551,7 @@ s32 func_8017E038(void *s0) {
         return 0;
     }
 
-    a0 = *(s32 *)((u8 *)s0 + 0x64);
+    a0 = ((Unkstruct_8017E038_2 *)s0)->unk64;
     v1 = ((Unkstruct_8017E038 *)a0)->unk2;
     v0 = 0x2;
     if (v1 != v0) {
@@ -4569,8 +4569,8 @@ s32 func_8017E038(void *s0) {
     }
 
     v0 = 0x1;
-    v1 = *(s32 *)((u8 *)s0 + 0x64);
-    *(u16 *)(v1 + 0x34) = v0;
+    v1 = ((Unkstruct_8017E038_2 *)s0)->unk64;
+    ((Unkstruct_8017E038_3 *)v1)->unk34 = v0;
     ((void (*)(void))func_80178BF8)();
     return (s32)&(*(char *)&func_80172710);
 }
@@ -5112,7 +5112,7 @@ void func_8017ED28(void) {
             case 1:
                 *(Blk8 *)&buf = *(Blk8 *)((u8 *)(p + 10) - 0x10);
                 func_8017F018((s32)&buf);
-                v0 = *(s16 *)(*(s32 *)((u8 *)(p + 10) - 4) + 0x76);
+                v0 = ((Unkstruct_8017ED28 *)*(s32 *)((u8 *)(p + 10) - 4))->unk76;
                 if (v0 == 0) {
                     *(s16 *)((u8 *)(p + 10) - 0x12) = 0x20;
                     *p = 2;
@@ -5658,13 +5658,13 @@ s32 func_8017FB40(void *s0) {
     }
 
     a0 = ((Unkstruct_8017FB40 *)s0)->unk64;
-    v1 = *(u16 *)(a0 + 0x2);
+    v1 = ((Unkstruct_8017FB40_2 *)a0)->unk2;
     v0 = 0x1;
     if (v1 != v0) {
         return 0;
     }
 
-    v0 = *(u16 *)(a0 + 0x34);
+    v0 = ((Unkstruct_8017FB40_2 *)a0)->unk34;
     if (v0 != 0) {
         return 0;
     }
@@ -5676,7 +5676,7 @@ s32 func_8017FB40(void *s0) {
 
     v0 = 0x1;
     v1 = ((Unkstruct_8017FB40 *)s0)->unk64;
-    *(u16 *)(v1 + 0x34) = v0;
+    ((Unkstruct_8017FB40_3 *)v1)->unk34 = v0;
     ((void (*)(void))func_80178BF8)();
     return (s32)&(*(char *)&func_80172710);
 }
@@ -5822,7 +5822,7 @@ s32 func_8017FE08(void *s0) {
 
     v0 = 0x1;
     v1 = ((Unkstruct_8017FE08_3 *)s0)->unk64;
-    *(u16 *)(v1 + 0x34) = v0;
+    ((Unkstruct_8017FE08_4 *)v1)->unk34 = v0;
     ((void (*)(void))func_80178BF8)();
     return (s32)&(*(char *)&func_80172710);
 }
@@ -5969,7 +5969,7 @@ s32 func_801800DC(void *s0) {
 
     v0 = 0x1;
     v1 = ((Unkstruct_801800DC *)s0)->unk64;
-    *(u16 *)(v1 + 0x34) = v0;
+    ((Unkstruct_801800DC_3 *)v1)->unk34 = v0;
     ((void (*)(void))func_80178BF8)();
     return (s32)&(*(char *)&func_80172710);
 }

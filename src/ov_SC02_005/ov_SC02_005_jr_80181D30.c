@@ -3340,7 +3340,7 @@ void func_80182998(void *arg0) {
     func_8012B23C((s32)arg0);
     CAST_SIGN(u32, (s32)arg0, 0xE8) &= ~1;
     func_80186F58(arg0);
-    *(s16 *)(((Unkstruct_800B5CB8 *)*(s32 *)((s32)arg0 + 0xCC))->unk20 + 0x12) = 0;
+    *(s16 *)(((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)arg0)->unkCC)->unk20 + 0x12) = 0;
     func_80184C20(((Unkstruct_800B5CB8 *)arg0)->unkD0);
     func_8018AAAC();
     func_8012AD44((s32 *)arg0, 0xB);

@@ -2753,7 +2753,7 @@ void func_80181F74(s32 param_1)
 
     switch (((Unkstruct_800B5CB8 *)param_1)->unk34) {
     case 0:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 -= 0x100;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)param_1)->unk20)->unk10 -= 0x100;
         iVar1 = func_8012CC64(param_1, &D_801A8340);
         if ((iVar1 & 0xff) == 0x1a) {
             goto EXIT;
@@ -2761,13 +2761,13 @@ void func_80181F74(s32 param_1)
         if ((iVar1 & 0x2000) != 0) {
             ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
             ((Unkstruct_800B5CB8 *)param_1)->unk34 += 1;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = 0;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)param_1)->unk20)->unk10 = 0;
             goto TAIL;
         }
         if ((iVar1 & 0x4000) != 0) {
             ((Unkstruct_800B5CB8 *)param_1)->unk34 = 4;
             ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = 0;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)param_1)->unk20)->unk10 = 0;
             func_8012B23C(param_1);
             goto TAIL;
         }

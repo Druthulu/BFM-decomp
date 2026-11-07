@@ -3967,8 +3967,8 @@ void func_80183C20(void *a0) {
 extern s32 ratan2(s32 dx, s32 dy);
     s32 func_80183C6C(void * arg0, void * arg1) {
         return ((s32 (*)(s32, s32))ratan2)(
-            *(s16 *)((u8 *)arg1 + 0x2) - *(s16 *)((u8 *)arg0 + 0x2),
-            *(s16 *)((u8 *)arg1 + 0x0) - *(s16 *)((u8 *)arg0 + 0x0)
+            ((Unkstruct_80183C6C_2 *)arg1)->unk2 - ((Unkstruct_80183C6C *)arg0)->unk2,
+            ((Unkstruct_80183C6C_2 *)arg1)->unk0 - ((Unkstruct_80183C6C *)arg0)->unk0
         ) - 0x400 & 0xFFF;
     }
 

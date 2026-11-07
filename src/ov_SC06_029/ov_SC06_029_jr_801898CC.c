@@ -4875,7 +4875,7 @@ void func_8018BA5C(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     func_800491AC(&m);
 
     r0_00 = &D_801E1EA4[0];
-    if (*(s16 *)(a + 0x12) == 0) {
+    if (CAST_SIGN(s16, a, 0x12) == 0) {
         D_801E1ED4 = 0x50000000;
         D_801E1ECC = 0;
         D_801E1ECD = 0;
@@ -4891,7 +4891,7 @@ void func_8018BA5C(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     f->vy = f->vy + c->vy;
     r = rand();
     mask = f->pad & r;
-    if (*(u16 *)(a + 0x12) & 1)
+    if (((Unkstruct_800B5CB8 *)a)->unk12 & 1)
         f->vx = f->vx + mask;
     else
         f->vx = f->vx - mask;

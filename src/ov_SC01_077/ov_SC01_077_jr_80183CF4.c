@@ -4887,7 +4887,7 @@ void func_80186938(s32 arg0) {
         temp = *(s32 *)(arg0 + 0xE4) + *(s32 *)(arg0 + 0xE0);
         *(s32 *)(arg0 + 0xE8) = *(s32 *)(arg0 + 0xE8) + temp;
         *(s32 *)(arg0 + 0xE4) = temp;
-        *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = *(s16 *)(arg0 + 0xEA);
+        ((Unkstruct_80186938_3 *)*(s32 *)(arg0 + 0x20))->unk12 = *(s16 *)(arg0 + 0xEA);
         func_80185BA4((void *)arg0);
         if (((s32 (*)(void *))func_8012BEE8)((void *)arg0) != 0) {
             *(s16 *)(arg0 + 0x34) = 1;

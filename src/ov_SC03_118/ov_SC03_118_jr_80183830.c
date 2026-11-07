@@ -3136,13 +3136,13 @@ void func_80183D68(s32 a0) {
                     t34 = ((Unkstruct_800B5CB8 *)a0)->unk34 + 1;
                     CAST_SIGN(u16, a0, 0x100) |= 1;
                     ((Unkstruct_800B5CB8 *)a0)->unk34 = t34;
-                    D_801D4348 = *(s32 *)(p + 0x48);
-                    D_801D434A = *(s32 *)(p + 0x4C);
-                    D_801D434C = *(s32 *)(p + 0x50);
-                    D_801D4350 = *(s32 *)(p + 0x3C);
-                    D_801D4352 = *(s32 *)(p + 0x40);
+                    D_801D4348 = ((Unkstruct_80126948 *)p)->unk48;
+                    D_801D434A = CAST_ALIAS(s32, p, 0x4C);
+                    D_801D434C = CAST_ALIAS(s32, p, 0x50);
+                    D_801D4350 = CAST_ALIAS(s32, p, 0x3C);
+                    D_801D4352 = CAST_ALIAS(s32, p, 0x40);
                     D_801D4358 = (s32)D_8018EBD8;
-                    D_801D4354 = *(s32 *)(p + 0x44);
+                    D_801D4354 = CAST_ALIAS(s32, p, 0x44);
                     D_801D435C = (s32)&D_8018EBD8[8];
                     func_8012A018((s32)func_80184430, 0);
                     func_801842DC(p);
@@ -3161,14 +3161,14 @@ void func_80183D68(s32 a0) {
             func_8018416C(a0);
             func_801841C0(a0);
         } else {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x88;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unkCC)->unk27 = 0x88;
             func_801841C0(a0);
         }
     } else {
         if ((func_80029178(0x8B) & 0xFF) == 0) {
             return;
         }
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x88;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unkCC)->unk27 = 0x88;
         func_801841C0(a0);
     }
     if (CAST_SIGN(u16, a0, 0x100) & 1) {
@@ -3185,8 +3185,8 @@ void func_80183D68(s32 a0) {
             func_8016F0AC();
             func_8012C588(0x249, a0);
             ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x88;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0xD0))->unk27 = 0x89;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unkCC)->unk27 = 0x88;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unkD0)->unk27 = 0x89;
             func_8002959C();
         }
     }
@@ -4053,8 +4053,8 @@ void func_80185550(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801D446C;
-        D_801D446C = *(u16 *)((s32)arg0 + 0x0);
-        D_801D446E = *(u16 *)((s32)arg0 + 0x2);
+        D_801D446C = ((Unkstruct_80181854_2 *)arg0)->unk0;
+        D_801D446E = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801D4470 = arg1;
         D_801D4472 = arg2;
     }
@@ -4451,8 +4451,8 @@ void func_80185944(s32 arg0)
     by = (u16)D_801D446E;
     RotMatrixZ(ang, mp);
 
-    *(s32 *)((u8 *)v + 8) = D_801D4470;
-    v[1] = *(s32 *)((u8 *)v + 8);
+    ((Unkstruct_80185944_3 *)v)->unk8 = D_801D4470;
+    v[1] = ((Unkstruct_80185944_3 *)v)->unk8;
     v[0] = v[1];
     func_8004901C(mp, v);
 

@@ -4348,16 +4348,16 @@ void func_80180C04(void *arg0)
     func_8012AD80((s32)s0);
     base = (u8 *)&D_80126B58;
 
-    if (*(u8 *)((s32)s0 + 0x74) != 0) {
+    if (((Unkstruct_800B5CB8 *)s0)->unk74 != 0) {
         func_8012E014((s32)s0);
         func_80180E54((u8 *)s0, (u8 *)D_801A4CFC, -1);
     } else {
         func_80180E54((u8 *)s0, (u8 *)D_801A4CFC,
-                      D_801A4D12[*(s16 *)((s32)s0 + 0x70)].v);
+                      D_801A4D12[((Unkstruct_800B5CB8 *)s0)->unk70].v);
     }
 
     lim = 0x200;
-    id = *(s16 *)((s32)s0 + 0x70);
+    id = ((Unkstruct_800B5CB8 *)s0)->unk70;
     if (id == 1) {
         lim = 0x180;
     }
@@ -4367,19 +4367,19 @@ void func_80180C04(void *arg0)
     flag = 1;
 
     if (b != 0) {
-        if (*(s32 *)((s32)s0 + 0x10) < -0x80000) {
-            *(s32 *)((s32)s0 + 0x44) = 0;
+        if (CAST_WIDTH(s32, (s32)s0, 0x10) < -0x80000) {
+            ((Unkstruct_800B5CB8 *)s0)->unk44 = 0;
         }
-        d = val - *(u16 *)((s32)s0 + 0x6);
+        d = val - ((Unkstruct_800B5CB8 *)s0)->unk6;
     } else {
-        if (0x80000 < *(s32 *)((s32)s0 + 0x10)) {
-            *(s32 *)((s32)s0 + 0x44) = 0;
+        if (0x80000 < CAST_WIDTH(s32, (s32)s0, 0x10)) {
+            ((Unkstruct_800B5CB8 *)s0)->unk44 = 0;
         }
-        d = *(u16 *)((s32)s0 + 0x6) - val;
+        d = ((Unkstruct_800B5CB8 *)s0)->unk6 - val;
     }
 
     if ((s16)d >= lim - 0x18 && flag != 0 &&
-        *(s16 *)((s32)s0 + 0xA) + D_801A4D04 <= ((Unkstruct_80126B58 *)base)->unkA) {
+        CAST_SIGN(s16, (s32)s0, 0xA) + D_801A4D04 <= ((Unkstruct_80126B58 *)base)->unkA) {
         func_8012DB84();
     }
 
@@ -6925,10 +6925,10 @@ void func_80183D30(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t17_ov_S2)
     volatile u16 *bidx;
     s32 t;
-    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 pv;
 
     m = D_800AE620;
     mp = &m;
@@ -6954,8 +6954,8 @@ void func_80183D30(s32 arg0)
     by = (u16)D_801D328E;
     RotMatrixZ(ang, mp);
 
-    *(s32 *)((u8 *)v + 8) = D_801D3290;
-    v[1] = *(s32 *)((u8 *)v + 8);
+    ((Unkstruct_80183D30_3 *)v)->unk8 = D_801D3290;
+    v[1] = ((Unkstruct_80183D30_3 *)v)->unk8;
     v[0] = v[1];
     func_8004901C(mp, v);
 
@@ -6986,7 +6986,7 @@ void func_80183D30(s32 arg0)
                 (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
-    *(u32 *)(ot + 0x40) = (*(u32 *)(ot + 0x40) & 0xFF000000) | ((u32)p & 0xFFFFFF);
+    ((Unkstruct_80183D30_2 *)ot)->unk40 = (((Unkstruct_80183D30_2 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
 }
 

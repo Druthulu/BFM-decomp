@@ -5280,7 +5280,7 @@ s32 func_8017F7E8(s32 a0) {
     extern s16 D_8018A9D0;
     extern s16 D_8018A9D2;
     s32 m = D_8018A9D0;
-    s32 i = *(s16 *)(a0 + 0xFC) & (D_8018A9D2 - 1);
+    s32 i = ((Unkstruct_8017F7E8 *)a0)->unkFC & (D_8018A9D2 - 1);
 
     return (((func_80047948((0x2000 / D_8018A9D2) * i) / 2
               + func_80047948((0x4000 / D_8018A9D2) * i) * 3 / 8 - 0x800) < 0

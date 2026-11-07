@@ -3460,10 +3460,10 @@ lab_ab0:
             sp.f0 = buf[0];
             sp.f2 = buf[1];
             sp.f4 = buf[2];
-            sp.fC = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12;
+            sp.fC = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)arg0)->unk20)->unk12;
             tv0 = func_8012C51C(&sp, arg0);
             if (tv0 != 0) {
-                ((Unkstruct_800B5CB8 *)*(s32 *)(tv0 + 0x20))->unk12 = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12;
+                ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)tv0)->unk20)->unk12 = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)arg0)->unk20)->unk12;
                 func_8012B2CC(tv0);
             }
         } else if (s1c == 0xf) {

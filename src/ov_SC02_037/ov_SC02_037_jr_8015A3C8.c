@@ -7138,7 +7138,7 @@ s32 func_80165FA4(s32 arg0, s32 arg1, s32 arg2)
 {
     s32 buf[8];
     func_80013F3C((s32)buf);
-    func_80020F34((s32)buf, *(s32 *)((u8 *)arg0 + 0x20) + 0x18);
+    func_80020F34((s32)buf, ((Unkstruct_80165FA4_2 *)arg0)->unk20 + 0x18);
     ((void (*)(void *, void *, void *))ApplyMatrixSV)(buf, arg1, arg1);
     ((void (*)(void *, void *, void *))ApplyMatrixSV)(buf, arg2, arg2);
 }
@@ -7359,7 +7359,7 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
     extern s32 VectorNormalSS(void *a0, void *a1);
 
     Trail *p = &((Trail *)D_801C8710)[param_3];
-    s32 uVar6 = *(s32 *)(param_1 + 0x34);
+    s32 uVar6 = ((Unkstruct_80166994_3 *)param_1)->unk34;
     s16 v10[4];
     s16 v18[4];
     s16 v20[4];
@@ -7964,14 +7964,14 @@ void func_8016829C(s32 a0) {
     extern void func_80146C3C(u8 *a0);
     extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3);
     s32 *s0 = (s32 *)a0;
-    if ((*(s32 *)(*(s32 *)(a0 + 0x34) + 0x44) & 0x2) == 0) {
+    if ((((Unkstruct_80165FA4_2 *)*(s32 *)(a0 + 0x34))->unk44 & 0x2) == 0) {
         ((void (*)(void))func_80146C3C)();
     } else {
-        s16 v0 = *(u16 *)(a0 + 0x2A) - 1;
-        *(s16 *)(a0 + 0x2A) = v0;
+        s16 v0 = ((Unkstruct_80166994_3 *)a0)->unk2A - 1;
+        ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
         if (v0 == 0) {
-            func_80166994(a0, 0, *(s16 *)(a0 + 0x2C), 0);
-            *(s16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x2) + 1;
+            func_80166994(a0, 0, ((Unkstruct_80166994_3 *)a0)->unk2C, 0);
+            ((Unkstruct_80166994_3 *)a0)->unk2 = CAST_SIGN(u16, a0, 0x2) + 1;
         }
     }
     (void)s0;
@@ -8007,14 +8007,14 @@ void func_801684B4(s32 a0) {
     extern void func_80146C3C(u8 *a0);
     extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3);
     s32 *s0 = (s32 *)a0;
-    if ((*(s32 *)(*(s32 *)(a0 + 0x34) + 0x44) & 0x2) == 0) {
+    if ((((Unkstruct_80165FA4_2 *)*(s32 *)(a0 + 0x34))->unk44 & 0x2) == 0) {
         ((void (*)(void))func_80146C3C)();
     } else {
-        s16 v0 = *(u16 *)(a0 + 0x2A) - 1;
-        *(s16 *)(a0 + 0x2A) = v0;
+        s16 v0 = ((Unkstruct_80166994_3 *)a0)->unk2A - 1;
+        ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
         if (v0 == 0) {
             func_80166994(a0, 0, 2, 0);
-            *(s16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x2) + 1;
+            ((Unkstruct_80166994_3 *)a0)->unk2 = CAST_SIGN(u16, a0, 0x2) + 1;
         }
     }
     (void)s0;

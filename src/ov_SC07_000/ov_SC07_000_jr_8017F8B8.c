@@ -3974,8 +3974,8 @@ void func_801817B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801D0A7C;
-        D_801D0A7C = *(u16 *)((s32)arg0 + 0x0);
-        D_801D0A7E = *(u16 *)((s32)arg0 + 0x2);
+        D_801D0A7C = ((Unkstruct_80181854_2 *)arg0)->unk0;
+        D_801D0A7E = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801D0A80 = arg1;
         D_801D0A82 = arg2;
     }
@@ -4369,8 +4369,8 @@ void func_80181BA8(s32 arg0)
     by = (u16)D_801D0A7E;
     RotMatrixZ(ang, mp);
 
-    *(s32 *)((u8 *)v + 8) = D_801D0A80;
-    v[1] = *(s32 *)((u8 *)v + 8);
+    ((Unkstruct_80181BA8_3 *)v)->unk8 = D_801D0A80;
+    v[1] = ((Unkstruct_80181BA8_3 *)v)->unk8;
     v[0] = v[1];
     func_8004901C(mp, v);
 
@@ -4401,7 +4401,7 @@ void func_80181BA8(s32 arg0)
                 (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
-    *(u32 *)(ot + 0x40) = (*(u32 *)(ot + 0x40) & 0xFF000000) | ((u32)p & 0xFFFFFF);
+    ((Unkstruct_80181BA8_2 *)ot)->unk40 = (((Unkstruct_80181BA8_2 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
 }
 

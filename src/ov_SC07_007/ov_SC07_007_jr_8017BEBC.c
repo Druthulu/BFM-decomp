@@ -7453,7 +7453,7 @@ void func_80181F4C(s32 arg0, s32 arg1) {
         s32 i = n * 0x30 + aB9A02[0] * 0x18;
         u8 *r;
         do { r = p + i; } while (0);  // !FAKE: do-while — flow REG_N_REFS += loop_depth: +1 loop-weighted ref on p puts it ahead of &D_800B9A02 in local-alloc (replaces the pin $8) (P40 T10)
-        *(s16 *)(r + 0xE) = -0x70;
+        ((Unkstruct_80181F4C *)r)->unkE = -0x70;
     }
     *(u8 *)(p + F4C_IDX + 0x10) = 0;
     *(u8 *)(p + F4C_IDX + 0x11) = 0;

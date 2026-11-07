@@ -4487,7 +4487,7 @@ void func_80181F80(s32 param_1) {
         CAST_WIDTH(s16, param_1, 0xDC) = func_801807D8(sp10);
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 +=
+    ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)param_1)->unk20)->unk12 +=
         func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12),
                       -CAST_WIDTH(s16, param_1, 0xDC) & 0xFFF, 0x10);
 

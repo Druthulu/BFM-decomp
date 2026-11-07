@@ -3231,9 +3231,9 @@ void func_8017E120(s32 a0) {
         *(s32 *)(p + 4) = *(s32 *)(p + 4) & 0x7FFFFFFF;
         *(s32 *)(p + 0x20) = D_8019F75C[((Unkstruct_800B5CB8 *)a0)->unk94 * 2];
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 1;
-        L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
-        L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
-        L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+        L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
+        L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
+        L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
         { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
         { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -3256,9 +3256,9 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
-            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
-            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
+            L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
+            L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
             { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
             { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -3295,8 +3295,8 @@ void func_8017E120(s32 a0) {
         break;
 
     case 2:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12
             + func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12),
                             ((Unkstruct_800B5CB8 *)a0)->unk100, 0x10);
         ((Unkstruct_800B5CB8 *)a0)->unkFE = CAST_SIGN(u16, a0, 0xFE) - 0x40;
@@ -3318,9 +3318,9 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
-            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
-            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
+            L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
+            L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
             { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
             { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -3341,7 +3341,7 @@ void func_8017E120(s32 a0) {
     case 3:
         ((Unkstruct_800B5CB8 *)a0)->unkFE = CAST_SIGN(u16, a0, 0xFE) + 0x20;
         ((Unkstruct_800B5CB8 *)a0)->unk100 = CAST_SIGN(u16, a0, 0x100) + 0x20;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = CAST_SIGN(u16, a0, 0x100);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 = CAST_SIGN(u16, a0, 0x100);
         ((Unkstruct_800B5CB8 *)a0)->unk6 =
             (u32)(func_8004787C(((Unkstruct_800B5CB8 *)a0)->unk100) * 0x160) >> 12;
         ((Unkstruct_800B5CB8 *)a0)->unkE =
@@ -3354,9 +3354,9 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
-            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
-            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
+            L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
+            L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
             { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
             { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -3411,9 +3411,9 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
-            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
-            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
+            L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
+            L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
             { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
             { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -3462,9 +3462,9 @@ void func_8017E120(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
-            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
-            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
+            L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
+            L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
             { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
             { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -3483,17 +3483,17 @@ void func_8017E120(s32 a0) {
         break;
 
     case 6:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + func_8012BA10(a0, 8);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 + func_8012BA10(a0, 8);
         ((Unkstruct_800B5CB8 *)a0)->unkFE = CAST_SIGN(u16, a0, 0xFE) + 0x20;
         *(s32 *)(p + 0x20) = D_8019F89C[((Unkstruct_800B5CB8 *)a0)->unk94 * 2];
         if (((Unkstruct_800B5CB8 *)a0)->unk84 != 0) {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
         } else {
             ((Unkstruct_800B5CB8 *)a0)->unk84 = 0xF;
-            L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
-            L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
-            L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+            L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
+            L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
+            L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
             { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
             { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -3540,8 +3540,8 @@ void func_8017E120(s32 a0) {
     *(s16 *)(p + 0xA) = ((Unkstruct_800B5CB8 *)a0)->unkA;
     *(s16 *)(p + 0xC) = ((Unkstruct_800B5CB8 *)a0)->unkE;
     *(s16 *)(p + 0xA) = *(u16 *)(p + 0xA) + 0x10;
-    *(s16 *)(p + 0x10) = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10;
-    *(s16 *)(p + 0x12) = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12;
+    *(s16 *)(p + 0x10) = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10;
+    *(s16 *)(p + 0x12) = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12;
     *(s16 *)(p + 0x14) = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14);
     t = (s16)(CAST_SIGN(u16, a0, 0x104) + 0x20);
     t = t - (t / 160) * 160;
@@ -3723,9 +3723,9 @@ void func_8017F268(s32 a0) {
         func_8012A828(a0, &D_8019F06C);
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 1;
         func_8002D4C8(0xA8A, 0);
-        L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
-        L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
-        L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+        L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
+        L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
+        L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
         { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
         { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -3754,8 +3754,8 @@ void func_8017F268(s32 a0) {
 
     case 2:
         if (((Unkstruct_800B5CB8 *)a0)->unk94 < 0x31) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + func_8012BA10(a0, 2);
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 =
+                ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 + func_8012BA10(a0, 2);
             break;
         }
         t = func_8012BD14(a0);

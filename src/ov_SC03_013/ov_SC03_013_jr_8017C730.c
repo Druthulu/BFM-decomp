@@ -3706,7 +3706,7 @@ void func_8017EF9C(void *a0) {
         ((Unkstruct_800B5CB8 *)v0)->unk12 = v1w & 0xFF0;
         v1 = ((Unkstruct_800B5CB8 *)(s32)a0)->unk100;
         if (v1 == 2) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk10 = 0x400;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10 = 0x400;
         }
     }
     func_8012B2CC((s32)a0);
@@ -3721,8 +3721,8 @@ void func_8017EF9C(void *a0) {
         pa0 = (s32)a0;
         v1 += (s32)&D_80184CCC[0];
         v0 = v1 | 0x40000000;
-        *(s32 *)(pa0 + 0x58) = v0;
-        *(s32 *)(pa0 + 0x1C) = *(s16 *)(pa0 + 0x70);
+        ((Unkstruct_800B5CB8 *)pa0)->unk58 = v0;
+        ((Unkstruct_800B5CB8 *)pa0)->unk1C = ((Unkstruct_800B5CB8 *)pa0)->unk70;
         func_8012AD50((void *)pa0);
     }
 }

@@ -5349,7 +5349,7 @@ s32 func_8018094C(s32 s0)
     s32 ptr;
     u16 st;
 
-    ptr = *(s32 *)((s32)s0 + 0x64);
+    ptr = ((Unkstruct_8018094C_5 *)s0)->unk64;
     st = ((Unkstruct_8018094C_2 *)ptr)->unk2;
     if (st != 4) {
         return 0;
@@ -5362,7 +5362,7 @@ s32 func_8018094C(s32 s0)
     {
         s32 p;
         u16 st2;
-        p = *(s32 *)((s32)s0 + 0x64);
+        p = ((Unkstruct_8018094C_5 *)s0)->unk64;
         st2 = ((Unkstruct_8018094C_2 *)p)->unk34;
         if (st2 == 0) {
             ((Unkstruct_8018094C_2 *)p)->unk34 = st2 + 1;

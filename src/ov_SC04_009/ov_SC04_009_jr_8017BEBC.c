@@ -3214,7 +3214,7 @@ void func_8017D984(void *a0)
     if (v0 == 0)
         return;
 
-    v1 = *(s16 *)((s32)a0 + 0x70);
+    v1 = ((Unkstruct_8017D6B0_2 *)a0)->unk70;
 
     if (v1 != 0) {
         if (v1 != 1) {
