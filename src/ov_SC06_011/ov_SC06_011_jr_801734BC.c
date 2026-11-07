@@ -2622,7 +2622,7 @@ extern void (*D_80183AD8[])(void*);
 extern s32 func_80175268(s32);
 
 void func_80175184(s32* arg0) {
-    u16 v1 = *(u16*)((u8*)arg0 + 2);
+    u16 v1 = ((Unkstruct_80175184_3 *)arg0)->unk2;
     if (v1 < 2) {
         D_80183AD8[v1](arg0);
     } else {
