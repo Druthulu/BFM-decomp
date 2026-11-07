@@ -3098,26 +3098,26 @@ void func_80182AC0(void *a0) {
 
     D_801929DC[((Unkstruct_80126B58 *)a0)->unk2]();
 
-    if (CAST_NONSTRUCT(u16, (s32)*(void **)((s32)a0 + 0x64), 0x0) != 0) {
-        q = CAST_NONSTRUCT(void *, (s32)*(void **)((s32)a0 + 0x64), 0x20);
-        s0 = *(void **)((s32)q + 0x20);
+    if (CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0x0) != 0) {
+        q = CAST_NONSTRUCT(void *, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0x20);
+        s0 = ((Unkstruct_80182AC0_3 *)q)->unk20;
         s0 = (void *)((s32)s0 + 0x60);
 
-        CAST_NONSTRUCT(u16, (s32)*(void **)((s32)a0 + 0x20), 0x12) =
-            CAST_SIGN(u16, (s32)a0, 0xFC) + *(u16 *)((s32)a0 + 0xFE);
+        CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x20), 0x12) =
+            CAST_SIGN(u16, (s32)a0, 0xFC) + CAST_SIGN(u16, (s32)a0, 0xFE);
 
         ((Unkstruct_80126B58 *)a0)->unk6 =
-            CAST_NONSTRUCT(u16, (s32)*(void **)((s32)a0 + 0x64), 0x6) + *(u16 *)((s32)s0 + 0x0);
+            CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0x6) + ((Unkstruct_80182AC0_2 *)s0)->unk0;
         ((Unkstruct_80126B58 *)a0)->unkA =
-            CAST_NONSTRUCT(u16, (s32)*(void **)((s32)a0 + 0x64), 0xA) + *(u16 *)((s32)s0 + 0x2);
+            CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0xA) + ((Unkstruct_80182AC0_2 *)s0)->unk2;
         ((Unkstruct_80126B58 *)a0)->unkE =
-            CAST_NONSTRUCT(u16, (s32)*(void **)((s32)a0 + 0x64), 0xE) + *(u16 *)((s32)s0 + 0x4);
+            CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0xE) + ((Unkstruct_80182AC0_2 *)s0)->unk4;
 
         ((Unkstruct_80126B58 *)a0)->unk6 = CAST_SIGN(u16, (s32)a0, 0x6) +
-            ((func_8004787C(*(s16 *)((s32)s0 + 0x8)) << 6) >> 12);
+            ((func_8004787C(((Unkstruct_80182AC0_2 *)s0)->unk8) << 6) >> 12);
 
         ((Unkstruct_80126B58 *)a0)->unkE = CAST_SIGN(u16, (s32)a0, 0xE) +
-            ((func_80047948(*(s16 *)((s32)s0 + 0x6)) << 6) >> 12);
+            ((func_80047948(((Unkstruct_80182AC0_2 *)s0)->unk6) << 6) >> 12);
 
         func_8012B370((int)a0);
     }
