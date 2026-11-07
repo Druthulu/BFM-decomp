@@ -18,7 +18,7 @@ void func_8012E364(s32 arg0_)
     s32 e2;
 
     arg0 = arg0_;
-    CAST_ALIAS(s16, arg0, 0x5C) = 0;
+    *(s16 *)(arg0 + 0x5C) = 0;
     a = D_80126CE0;
     if (a == 0) {
         D_8018E690 = 0x1000;
