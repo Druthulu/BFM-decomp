@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-07T17:58:41.313Z
+# filed through: 2026-11-07T19:41:06.577Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -33,3 +33,6 @@ R29 | 2026-11-07 | finding | in force | T17 drift types | T17's two decide-and-s
 R30 | 2026-11-07 | finding | in force | PA3 bug report: false "outside the project" refusals | Since PA3 3.32.9, the outside-project rule resolves relative paths from the coder's real cwd, follo… | .claude-state/journal/2026-11-07/031320-063r-claude-record.md
 R31 | 2026-11-07 | decision | in force | T11 pause for a Claude Code restart | T17 is not held. | .claude-state/journal/2026-11-07/111354-007r-claude-record.md
 R32 | 2026-11-07 | open | in force | Long-running shells on the machine | Whether the developer meant the headless Ghidra to run. | .claude-state/journal/2026-11-07/111354-007r-claude-record.md
+R33 | 2026-11-07 | finding | in force | Post-100% documentation (lever series, story, retrospective) | The lever series' last row is "P40 T11" (2026-11-06, commit 903bf1411c8). | .claude-state/journal/2026-11-07/125630-011r-claude-record.md
+R34 | 2026-11-07 | open | in force | Post-100% documentation (lever series, story, retrospective) | Claude recommended keeping the story step per phase rather than per session, and offered a card Dev… | .claude-state/journal/2026-11-07/125630-011r-claude-record.md
+R35 | 2026-11-07 | finding | in force | T17 drift types | T17's mini round cleared the last drift: TNC 6 to 0 with no remainder, so R27's known-remainder cla… | .claude-state/journal/2026-11-07/125630-011r-claude-record.md
