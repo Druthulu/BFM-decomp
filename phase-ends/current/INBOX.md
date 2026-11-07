@@ -11,3 +11,4 @@
      or an earlier phase, or an id not in GENERATION_PLAN.md, routes now. -->
 
 - <note, correction, priority change, or question>
+- -> 3.43 Second look at the 9 expand-hardreg-var wall tags from 3.40 T20 (sub-tag heuristic checked on only 26 hand reads) before any crack wave acts on them.

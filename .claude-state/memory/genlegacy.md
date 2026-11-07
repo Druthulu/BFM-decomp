@@ -874,7 +874,7 @@ tool outputs in its scratchpad (`/tmp/claude-1000/<proj>/<session>/scratchpad/`)
 real cause a truncated transcript line had hidden. Related: [[commit-banked-work-immediately]], [[commit-per-task-after-phase-log]].
 
 **Added 2026-09-12 (Drew: "update checkpoint memory to do this at the end of each session"):** the checkpoint procedure has a story step. At the
-end of EVERY session — before the 🛑 block is rewritten — advance the post-100 % narrative from that session's decision-log entry:
+end of EVERY session [SUPERSEDED 2026-11-07, card ## Developer: once per phase, at the close] — before the 🛑 block is rewritten — advance the post-100 % narrative from that session's decision-log entry:
 `docs/story.md` §10 ("After 100 %: making the code say what it means", one paragraph per phase, advanced in place) and `docs/retrospective.md` §7
 (the four questions — believed / failed / cost / sooner — for Gen3 so far), then regenerate `tools/timeline.py` (its lower panel draws the lever
 and readability series; `--check` is in tools-health). The rule is also in `docs/wiki/Docs-and-scratch-conventions.md`. Why: the story and the
