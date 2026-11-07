@@ -11,3 +11,4 @@ T8 | done | oracle re-judge and the mechanical lever classes | - | tasks/T8.md |
 T9 | done | head-class lever cracks with propagation | - | tasks/T9.md | logs/T9.md | R3.40-001
 T10 | blocked | singleton crack pilot and wave projection | - | tasks/T10.md | logs/T10.md | R3.40-010,R3.40-001
 T21 | done | Bank the waiting cookbook lessons (one time, PA3 3.30) | - | tasks/T21.md | logs/T21.md | -
+T11 | done | singleton crack wave | - | tasks/T11.md | logs/T11.md | R3.40-001,R3.40-010,R3.40-013,R3.40-014
