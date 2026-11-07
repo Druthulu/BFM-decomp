@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-07T23:02:10.518Z
+# filed through: 2026-11-07T23:22:25.344Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -51,4 +51,6 @@ R47 | 2026-11-07 | decision | in force | Explaining proposed rules | Every propo
 R48 | 2026-11-07 | decision | in force | Post-100% documentation (lever series, story, retrospective) | The post-100% story (story §10, retrospective §7, wiki, timeline) advances once per phase at the cl… | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
 R49 | 2026-11-07 | decision | in force | Long-running shells on the machine | For a Ghidra proof that needs :8080, the task may stop the MCP Ghidra with tools/ghidra_mcp_stop.sh… | .claude-state/journal/2026-11-07/161728-053r-claude-record.md
 R50 | 2026-11-07 | finding | in force | Long-running shells on the machine | A Claude Code permission refusal of a developer-approved command is routed back to the developer, w… | .claude-state/journal/2026-11-07/161728-053r-claude-record.md
-R51 | 2026-11-07 | open | in force | Long-running shells on the machine | The developer runs `/mcp` to reconnect the Ghidra MCP once T1's 6 proofs report -> Claude tells him… | .claude-state/journal/2026-11-07/161728-053r-claude-record.md
+R51 | 2026-11-07 | open | superseded by R52 | Long-running shells on the machine | The developer runs `/mcp` to reconnect the Ghidra MCP once T1's 6 proofs report -> Claude tells him… | .claude-state/journal/2026-11-07/161728-053r-claude-record.md
+R52 | 2026-11-07 | decision | in force | Long-running shells on the machine | The Ghidra MCP stays stopped through 3.41 until a task needs the live database (T8, after T7's proo… | .claude-state/journal/2026-11-07/163755-056r-claude-record.md
+R53 | 2026-11-07 | finding | in force | Long-running shells on the machine | T1's 6 ghidra_rebuild.sh --proof legs (SLUS_007.26, sep8_SLUS_007.26, aug31_USA_DEMO.EXE, resident,… | .claude-state/journal/2026-11-07/163755-056r-claude-record.md
