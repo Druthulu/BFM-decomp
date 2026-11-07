@@ -247,7 +247,7 @@
     },
     "tools/journal_rollup.py": {
       "base": null,
-      "sha": "8fff709844d94b805b78b53e067e3fb4b317c6925dff1864900b93dd7bf19f09",
+      "sha": "21011514c1d4cadb37df04c22e15671e3e8dc3a488b89f2c6b570b8b8210783d",
       "user": null
     },
     "tools/launch.py": {
@@ -277,7 +277,7 @@
     },
     "tools/pa_ext.py": {
       "base": null,
-      "sha": "b30487b656894c97dd7fe950ce31434356fa79d98a112316cc7267df58104091",
+      "sha": "dc8583336f4d56d0692f8a1f58c8019622f9592eb369077651333c9fb23221b9",
       "user": null
     },
     "tools/phaseend_index.py": {
@@ -292,7 +292,7 @@
     },
     "tools/records.py": {
       "base": null,
-      "sha": "ce3aeb73f558aa2e3d11b9c1308d3fd25ceef8531c5ad7d0be7f71a35b10eaae",
+      "sha": "cde36512d636b59809a2198b5f43bc3f2fa1ac4a25e4793f5ab88852b2c1f0a9",
       "user": null
     },
     "tools/research_add.py": {
@@ -337,9 +337,9 @@
     }
   },
   "format": 1,
-  "git": "aba4436b",
-  "installed": "2026-11-06T19:58:57Z",
+  "git": "bc2ea545",
+  "installed": "2026-11-07T09:56:36Z",
   "package": null,
-  "phase": "3.32.8",
-  "upstream_version": "3.32.8"
+  "phase": "3.32.9",
+  "upstream_version": "3.32.9"
 }
