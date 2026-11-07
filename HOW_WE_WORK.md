@@ -74,6 +74,7 @@ Other coder work in-house. No Opus/Haiku escalation; failures wait for his OK.
 - Gate (R22): `make clean && make extract-all JOBS=16 && make check-all JOBS=16` → `218 passed, 0 failed of 218`
 - Per binary: `make check BINARY=<alias>` (pass `-j`); main only via `tools/gate_main.py`
 Long gates go through `tools/run.sh` with a raised timeout, never a poll loop.
+- Phase close, before the PhaseEnd archive: `tools/ledger_backup.py` (docs/ops/phase-close-ledger-backup.md)
 
 ## Conventions & house style <!-- roles: claude expert coder planner review auditor curator -->
 - One commit per task; the developer pushes; no co-author or Claude-Session trailer; no tags or releases at closes.
