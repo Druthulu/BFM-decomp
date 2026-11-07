@@ -192,3 +192,4 @@ R3.40-001 (lever_residue.tsv and lever_census flags/predicates/writer), R3.40-00
 - 2026-10-22 router: Cracking coders (T11 and later crack waves) switch from openrouter-minimax/minimax to openrouter-deepseek/deepseek at high effort, one lane until learning mode lifts (free MiniMax retired 2026-10-22; developer).
 - 2026-11-06 router: T11 next -> done
 - 2026-11-06 router: T12 next -> done
+- 2026-11-07 Claude: T17: residue rc-1 clause (1 unbacked CAST_NONSTRUCT func_8012E364__6d96fc6c.h:21, 3 lying decls func_80026514/func_800268D0/func_800CBA44) is T18 scope; T18's fix satisfies it. T17 runs one mini round on the 6 drift sites (Unkstruct_8a49cd6b, Unkstruct_c758f14a).

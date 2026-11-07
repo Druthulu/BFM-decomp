@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-07T00:54:15.635Z
+# filed through: 2026-11-07T05:29:02.196Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -16,8 +16,14 @@ R12 | 2026-11-06 | open | superseded by R14 | T11 pause for a Claude Code restar
 R13 | 2026-11-06 | finding | superseded by R15 | T11 pause for a Claude Code restart | T11's resume point is batch W49 on one DeepSeek lane, according to the expert's resume note. | .claude-state/journal/2026-11-06/122637-017r-claude-record.md
 R14 | 2026-11-06 | open | retired by .claude-state/journal/2026-11-06/133327-011r-claude-record.md (done: the developer said continue after the restart, and T11 resumed as attempt 10) | T11 pause for a Claude Code restart | After the restart, ask the developer whether to resume T11 -> Claude, at the next session start | .claude-state/journal/2026-11-06/122637-017r-claude-record.md
 R15 | 2026-11-06 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's command behavior is now clean. | .claude-state/journal/2026-11-06/133327-011r-claude-record.md
-R16 | 2026-11-06 | finding | in force | DeepSeek learning mode in T11 | T11 is near the end of its cracking queue. | .claude-state/journal/2026-11-06/133327-011r-claude-record.md
+R16 | 2026-11-06 | finding | retired by .claude-state/journal/2026-11-06/202344-041r-claude-record.md (done: T11's cracking queue finished and was banked (c112)) | DeepSeek learning mode in T11 | T11 is near the end of its cracking queue. | .claude-state/journal/2026-11-06/133327-011r-claude-record.md
 R17 | 2026-11-06 | open | superseded by R19 | DeepSeek learning mode in T11 | The bwrap sandbox failures (each passes on re-run) look environmental (WSL), not the model's; if th… | .claude-state/journal/2026-11-06/133327-011r-claude-record.md
-R18 | 2026-11-06 | finding | in force | DeepSeek learning mode in T11 | PA3's judge resolves any '../' string in a command, a cd target or even a quoted include-path argum… | .claude-state/journal/2026-11-06/174057-025r-claude-record.md
-R19 | 2026-11-06 | open | in force | DeepSeek learning mode in T11 | Add the judge's false '../' refusal to the PA3 bug write-up beside the bwrap sandbox failures; stil… | .claude-state/journal/2026-11-06/174057-025r-claude-record.md
+R18 | 2026-11-06 | finding | superseded by R21 | DeepSeek learning mode in T11 | PA3's judge resolves any '../' string in a command, a cd target or even a quoted include-path argum… | .claude-state/journal/2026-11-06/174057-025r-claude-record.md
+R19 | 2026-11-06 | open | superseded by R23 | DeepSeek learning mode in T11 | Add the judge's false '../' refusal to the PA3 bug write-up beside the bwrap sandbox failures; stil… | .claude-state/journal/2026-11-06/174057-025r-claude-record.md
 R20 | 2026-11-06 | finding | in force | DeepSeek learning mode in T11 | A `$(...)` command substitution inside an argument (for example `sed -n "$(grep -n ... | .claude-state/journal/2026-11-06/180924-029r-claude-record.md
+R21 | 2026-11-06 | finding | in force | PA3 bug report: false "outside the project" refusals | PA3's fixed "outside the project" rule, not the LLM judge, resolves relative paths against the proj… | .claude-state/journal/2026-11-06/194559-038r-claude-record.md
+R22 | 2026-11-06 | finding | in force | PA3 bug report: false "outside the project" refusals | bwrap sandbox failures do not count as learning-mode friction (since PA3 3.30.7); only denials, rea… | .claude-state/journal/2026-11-06/194559-038r-claude-record.md
+R23 | 2026-11-06 | open | in force | PA3 bug report: false "outside the project" refusals | The developer files the GitHub issue at github.com/Druthulu/ProjectArchitect/issues, with the write… | .claude-state/journal/2026-11-06/194559-038r-claude-record.md
+R24 | 2026-11-06 | finding | in force | T11 singleton crack wave | T11 is done, with zero unwalled singleton rows. | .claude-state/journal/2026-11-06/202344-041r-claude-record.md
+R25 | 2026-11-06 | open | in force | T11 pause for a Claude Code restart | Whether the developer wants T17 held now; T17 started after T12 despite the pause steer -> Claude,… | .claude-state/journal/2026-11-06/202344-041r-claude-record.md
+R26 | 2026-11-06 | open | in force | Long-running shells on the machine | Whether the developer meant the headless Ghidra to run; if not, Claude finds what launched it befor… | .claude-state/journal/2026-11-06/224413-050r-claude-record.md
