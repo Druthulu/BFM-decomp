@@ -1123,7 +1123,7 @@ src/shared/ov/func_80132F40.h	func_80132F40	pin	delever B headers1	oracle DIFFER
 src/shared/ov/func_80136F3C.h	func_80136F3C	launder	T11 crack G23x	delever_search --try best 22/122; T11 wall lreg-qty-priority	singleton(launder) wall:lreg-priority
 src/shared/ov/func_80136F3C.h	func_80136F3C	pin	T11 crack G23x	delever_search --try best 22/122; T11 wall lreg-qty-priority	singleton(pin) wall:lreg-priority
 src/shared/ov/func_801372B0.h	func_801372B0	launder	T11 crack G16	delever_search --try best 2/80; T11 wall sched1-birth-order	singleton(launder) wall:sched1-order
-src/shared/ov/func_801372B0.h	func_801372B0	pin	delever B headers1	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
+src/shared/ov/func_801372B0.h	func_801372B0	pin	delever B headers1	oracle DIFFERS on removal; T20.c4 probe ($23,$20)	singleton(pin) wall:greg-priority
 src/shared/ov/func_80137DD4.h	func_80137DD4	pin	delever B headers1	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:cse-copy-merge
 src/shared/ov/func_80138ED0.h	func_80138ED0	keepalive	T11 crack G31y	delever_search --try best 18/62; T11 wall cse-hardreg-copy-forward	singleton(keepalive) wall:cse-copy-merge
 src/shared/ov/func_80138ED0.h	func_80138ED0	launder	T11 crack G31y	delever_search --try best 18/62; T11 wall cse-hardreg-copy-forward	singleton(launder) wall:cse-copy-merge
