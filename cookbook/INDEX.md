@@ -991,3 +991,4 @@ C0538 | Cycle calibration fails after a split rename: stale oracle baseline obje
 C0539 | Repair check-structs after prunes: fresh census before struct_twins --write, lift outside_canon, fold tier-1 redeclarations | structs,check-structs,twins,lift_types,prune | 2026-11-07 | 3.40/T17 | P3.40 T17.c5
 C0540 | Rung S draws nothing on a MEMBERS-verdict body: REDRAW=MEMBERS per TU:FN; --plan ignores --redraw | restruct,rung-S,redraw,structs,header | 2026-11-07 | 3.40/T17 | P3.40 T17.c6
 C0541 | A dead C local cannot reproduce a target's dead chain: jump and cse delete it before flow | levers,walls,rtl,dead-code | 2026-11-07 | 40/T20 | logs/T20.c2.md
+C0542 | Name a lever's wall mechanically: first RTL pass where pinned and lever-free compiles diverge | levers,walls,rtl,pins,probe | 2026-11-07 | 40/T20 | logs/T20.c1.md

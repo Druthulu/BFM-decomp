@@ -608,3 +608,10 @@ ends ` wall:<tag>`, and the tag is a row of `config/lever_walls.tsv` (the vocabu
 unwalled row, an unknown tag, or an unused row, and prints the count by tag and the unwalled count by cause class.
 `--write-residue` writes new rows unwalled on purpose, so they fail until someone names the wall. Shipped with its wiring and
 docs per R127 (`docs/ops/p40-t19-2026-11-07-lever-wall-rule.md`).
+
+**Every row walled (Phase 40 T20).** The rows no crack wave re-judged now name their walls too, and the wall gate is green
+(1,180 rows, unwalled 0). The 20 uncracked head classes take the wall their exemplar hit in T9 (R3.40-016) or in a fresh probe.
+The 250 T7 "missing-parameter" rows were registers written before they are read, not parameters. They are now
+`scratch-pin($4-$7)`, each tagged by the first RTL pass where the pinned and pin-free compiles diverge (C0542; 26/26 hand
+reads agree). func_80020F34 and the ENGINE_SHB prelude are `hand-asm`. Three new walls joined the vocabulary:
+`dead-set-delete` (C0541), `expand-hardreg-var` and `greg-dead-slot`. The probe found three cracks, which were applied (R22 218/218).
