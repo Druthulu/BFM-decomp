@@ -1,22 +1,2 @@
 # Task summaries -- this phase
 # id | status | title | tags | summary | log | research
-T1 | done | phase-start health, baselines, instrument checks, ledger hygiene | - | tasks/T1.md | logs/T1.md | -
-T2 | blocked | canonical-types pilot and fold policy (top 75 map types) | - | tasks/T2.md | logs/T2.md | R3.40-002,R3.38-002,R3.40-005
-T3 | done | 95 % band: frozen band, mechanised type decisions, header batches, below-band cause | - | tasks/T3.md | logs/T3.md | R3.40-002,R3.40-005,R3.40-006,R3.40-007
-T4 | done | rung S re-sweep, overlays, onto the new canonical types | - | tasks/T4.md | logs/T4.md | R3.40-006,R3.40-007
-T5 | done | rung S re-sweep, md_*, main and shared | - | tasks/T5.md | logs/T5.md | R3.40-008
-T6 | done | legacy-T7 declaration items and the ledgered lying decls | - | tasks/T6.md | logs/T6.md | -
-T7 | done | missing-parameter pins become declared parameters | - | tasks/T7.md | logs/T7.md | R3.40-001
-T8 | done | oracle re-judge and the mechanical lever classes | - | tasks/T8.md | logs/T8.md | R3.40-001
-T9 | done | head-class lever cracks with propagation | - | tasks/T9.md | logs/T9.md | R3.40-001
-T10 | blocked | singleton crack pilot and wave projection | - | tasks/T10.md | logs/T10.md | R3.40-010,R3.40-001
-T21 | done | Bank the waiting cookbook lessons (one time, PA3 3.30) | - | tasks/T21.md | logs/T21.md | -
-T11 | done | singleton crack wave | - | tasks/T11.md | logs/T11.md | R3.40-001,R3.40-010,R3.40-013,R3.40-014
-T12 | done | timeline "uncovered" series beside raw casts | - | tasks/T12.md | logs/T12.md | -
-T17 | done | drift types: decide the TNC map types the T4/T5 sweeps' census regrouping created, all segments | - | tasks/T17.md | logs/T17.md | R3.40-015
-T18 | done | cast-gate leftovers from T8.c4: 3 K&R-empty lying decls, 1 unbacked macro site | - | tasks/T18.md | logs/T18.md | -
-T19 | done | lever wall rule: wall vocabulary and the tool check | - | tasks/T19.md | logs/T19.md | R3.40-011,R3.40-012
-T20 | done | walls for the rows no wave re-judges: head classes, T7 scratch pins, asm | - | tasks/T20.md | logs/T20.md | R3.40-016,R3.40-012,R3.40-011
-T13 | done | milestone gate and record (Phase 3.40) | - | tasks/T13.md | logs/T13.md | -
-T15 | done | ledger backup at phase close: stripped public copy and full archive copy | - | tasks/T15.md | logs/T15.md | R3.40-007
-T14 | done | phase-close docs: README graphs, story §10, retrospective §7, wiki (Phase 3.40) | - | tasks/T14.md | logs/T14.md | -

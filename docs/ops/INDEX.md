@@ -70,3 +70,9 @@ mcp-reconnect-after-restart.md | mcp-reconnect-after-restart | 9
 | p40-t19-2026-11-07-lever-wall-rule.md | §P40 T19 — 2026-11-07: lever wall rule; lever_census --walls config/lever_walls.tsv; strict fails unwalled/unknown/unused | 5
 | commit-task-autostage.md | commit_task.sh auto-staging and message rules (moved off the card 2026-10-21) | 1
 phase-close-ledger-backup.md | Phase-close ledger backup: tools/ledger_backup.py, public stripped gz + local archive full gz | 9
+commit-task-autostage.md | commit_task.sh: auto-staging and message rules | 8
+p40-t1-2026-10-14-census-dirs-ledgers.md | §P40 T1 — 2026-10-14: which census dir each tool reads; the two ledgers stay local | 20
+p40-t12-2026-11-06-uncovered-series.md | P40 T12 — 2026-11-06: the `uncovered` series beside raw casts | 10
+p40-t19-2026-11-07-lever-wall-rule.md | P40 T19 — 2026-11-07: the lever wall rule (`lever_census --walls`) | 12
+p40-t2-type-folds.md | §P40 T2 — 2026-10-14: restruct.py reads config/type_folds.tsv; residue causes resolve the drawn type; --restamp | 17
+p40-t3-band-decisions.md | §P40 T3 — the 95 % TNC band and its mechanised type decisions (restruct.py) | 25

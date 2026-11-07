@@ -10,6 +10,7 @@ Built by `tools/phaseend_index.py history` from the PhaseEnds and rebuilt at eac
 - 3.5 | 2026-06-14 | Prototype Research Spike
 - 3.38 | 2026-09-30 | Struct unification | Phase 3.38 was the second half of the "structs" work in the readability generation: the game's C already compiles to the original bytes, and this phase made its data types readable by giving every st…
 - 3.39 | 2026-10-02 | Casts to declared data | Phase 3.39 was the cast campaign: the decompiled C still read memory through raw pointer arithmetic such as `*(s16 *)(p + 0x10)`, and the goal was that every such "raw cast" either becomes a named st…
+- 3.40 | 2026-11-07 | Residue lane | Phase 3.40 gave the struct types left undecided after 3.39 their single agreed definitions, and made every remaining compiler hint justify itself.
 - 4 | 2026-06-14 | Matching-build toolchain (WSL)
 - 5 | 2026-06-14 | splat config + build skeleton (all-asm byte-match)
 - 6 | 2026-06-14 | Compiler fingerprint + first matched functions
@@ -47,6 +48,10 @@ Built by `tools/phaseend_index.py history` from the PhaseEnds and rebuilt at eac
 - 37.5 | 2026-09-29 | PA3 migration | Automated migration from PA2 to PA3.
 
 ## This generation's recaps (3, newest first)
+
+### 3.40: Residue lane (2026-11-07)
+
+Phase 3.40 gave the struct types left undecided after 3.39 their single agreed definitions, and made every remaining compiler hint justify itself. A compiler hint here means a pin (forcing a value into a specific register) or a piece of inline asm. Undecided struct-type cast sites (TNC) went from 291,819 to 0, counting both the planned band and the "drift" types the sweeps created. The rare tail is recorded under its own cause, TYPE-BELOW-BAND: 5,871 sites, under the frozen cap of 6,976. Disagreeing function declarations went from 11 to 0, and 162 pins became declared parameters. A DeepSeek crack wave freed 220 functions of their hints, and 18 shared head classes cracked and were copied into every overlay that uses them. Hint sites went from 3,364 to 1,853, and ledger rows from 2,433 to 1,180. Every surviving row now names its wall, the gcc pass plain C cannot steer, from the vocabulary in config/lever_walls.tsv, and lever_census enforces it. The milestone gate passed in full at aace727c4c from a clean tree: check-casts --residue rc 0 (lying 0, unbacked 0, uncovered 0), check-structs OK, strict lever census OK (unwalled 0), lever_census --check 0 unmarked, R22 218/218, tools-health OK. Ledger backups (tools/ledger_backup.py), story §10, retrospective §7, the wiki and the graphs are done. Open items: the developer pushes the archive clone (one commit ahead); the census does not detect return-type lies (e.g. func_8016130C has 1,213 void declarations against an s32 definition; C0543); the public delever copy drops the C before/after text (the archive keeps it); three tool bugs from T21 (type_census --no-cache crash, struct_twins' stale default census, lift_types --fold's leftover comment); 9 expand-hardreg-var tags from T20 need a second look; func_80177B5C stays a lever by choice.
 
 ### 3.39: Casts to declared data (2026-10-02)
 
