@@ -989,3 +989,4 @@ C0536 | verbatim_check --update keeps ov_* fleet rows; drop a decompiled one by 
 C0537 | struct_map size_hint can be an address: cap layouts at PSX RAM before rendering | structs,census,restruct,oom,layout | 2026-11-06 | 3.40/T17 | P3.40 T17.c1 OOM
 C0538 | Cycle calibration fails after a split rename: stale oracle baseline objects and recipes.json | restruct,rung-S,oracle,recipes,delever,baseline | 2026-11-07 | 3.40/T17 | P3.40 T17.c3 calibration
 C0539 | Repair check-structs after prunes: fresh census before struct_twins --write, lift outside_canon, fold tier-1 redeclarations | structs,check-structs,twins,lift_types,prune | 2026-11-07 | 3.40/T17 | P3.40 T17.c5
+C0540 | Rung S draws nothing on a MEMBERS-verdict body: REDRAW=MEMBERS per TU:FN; --plan ignores --redraw | restruct,rung-S,redraw,structs,header | 2026-11-07 | 3.40/T17 | P3.40 T17.c6
