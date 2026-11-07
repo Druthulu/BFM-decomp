@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-07T22:38:41.113Z
+# filed through: 2026-11-07T23:02:10.518Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -46,6 +46,9 @@ R42 | 2026-11-07 | decision | in force | Phase 3.41 plan | `type_census --check`
 R43 | 2026-11-07 | decision | in force | Phase 3.41 plan | Return-type lies join the lying count in 3.41 (T3 detects, T4 fixes). | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
 R44 | 2026-11-07 | decision | in force | Phase 3.41 plan | New rules: T2 (a decision batch isn't done until --residue, --restamp and --check-residue have run… | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
 R45 | 2026-11-07 | open | in force | Phase 3.41 plan | The 9 expand-hardreg-var wall tags from 3.40 T20 need a second look -> 3.43, where each lever's wal… | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
-R46 | 2026-11-07 | decision | in force | Long-running shells on the machine | The developer neither reconnects nor stops Ghidra now. | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
+R46 | 2026-11-07 | decision | superseded by R49 | Long-running shells on the machine | The developer neither reconnects nor stops Ghidra now. | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
 R47 | 2026-11-07 | decision | in force | Explaining proposed rules | Every proposed rule is explained in plain words before approval: what it requires, the incident beh… | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
 R48 | 2026-11-07 | decision | in force | Post-100% documentation (lever series, story, retrospective) | The post-100% story (story §10, retrospective §7, wiki, timeline) advances once per phase at the cl… | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
+R49 | 2026-11-07 | decision | in force | Long-running shells on the machine | For a Ghidra proof that needs :8080, the task may stop the MCP Ghidra with tools/ghidra_mcp_stop.sh… | .claude-state/journal/2026-11-07/161728-053r-claude-record.md
+R50 | 2026-11-07 | finding | in force | Long-running shells on the machine | A Claude Code permission refusal of a developer-approved command is routed back to the developer, w… | .claude-state/journal/2026-11-07/161728-053r-claude-record.md
+R51 | 2026-11-07 | open | in force | Long-running shells on the machine | The developer runs `/mcp` to reconnect the Ghidra MCP once T1's 6 proofs report -> Claude tells him… | .claude-state/journal/2026-11-07/161728-053r-claude-record.md
