@@ -170,12 +170,12 @@ revision, old hashes in historical documents replaced by inert tokens and mapped
 would have corrupted history), proven pair by pair, and force-pushed. This document, the retrospective, the wiki and the
 tooling releases are the last block; the visibility flip waits for GitHub to purge the old objects.
 
-## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 2026-09-08 →)
+## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 40, 2026-09-08 →)
 
 *From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md`, `PhaseEnd_Phase37.md` and its log (`phase-ends/logs/Phase37.md`), decision log "P35",
 "P36 S99/S101/S104/S105", "P37 S106", `docs/levers.md`, `docs/readability.md`; for the migration and Phase 38, the Phase 38 plan's change
 lines, its task summaries (T1, T5, T5.1, T6, T7) and logs, and git; for Phase 39, the Phase 39 plan's change lines and its task summaries
-(T1–T11, with T7.1). This chapter was advanced at the end of every session (the owner's rule,
+(T1–T11, with T7.1); for Phase 40, the Phase 40 plan's change lines and its task summaries (T1–T13, T15, T17–T21). This chapter was advanced at the end of every session (the owner's rule,
 2026-09-12) until the migration of 2026-09-29 dropped that duty; since 2026-09-30 it is advanced by every phase's closing work (rule R121).
 The numbers are the two Gen3 series'.*
 
@@ -422,6 +422,74 @@ record: one commit (3f547f1152) took in about 794,000 lines of census scratch, r
 the gate's census and the series' census still disagree by about five P sites (257,470 against 257,475), not investigated. What the
 phase leaves for the next is plain from its residue: the casts that remain are a definitions problem, not a spelling problem.
 
+**Phase 40 (2026-10-14 → 11-07), definitions and walls.** The phase took the two ledgers Phase 39 had left and tried to shrink each by
+real fixes rather than receipts: the cast residue by giving its types canonical definitions, and the lever residue by making every lever
+that stays name the compiler behaviour that needs it. Two terms carry the chapter. *TNC* is the census cause TYPE-NOT-CANONICAL: a cast on a
+struct type the struct map knows but for which no canonical definition exists. A *wall* is the gcc pass that makes a lever necessary —
+what plain C cannot express there, with the evidence that it was tried. The first task applied the lesson the two previous closes had
+written down and ran every milestone instrument on the starting tree: three of them already passed, so it planted a failing control in
+front of each instead (14 of 14 caught). It also found that the restructuring ledger, 81 MB, tracked and still growing, had no copy
+anywhere else.
+
+The second task stopped by design, as its plan said it might. It decided the largest TNC types one at a time — 51 defined, 7 folded into
+a type that already existed, 16 kept as residue — and that alone took TNC from 291,819 to 139,520 sites and the P form from 257,470 to
+174,987, with 90,337 sites becoming member accesses. It also measured what was left: the last 6,066 types held about 7,000 sites, about
+one site each, so a literal zero would mean thousands of definitions for a single access apiece. The owner replanned the gate: a *band*
+covering 95 % of the TNC sites is defined, and the tail below it is recorded under a named cause, TYPE-BELOW-BAND. The third task froze
+the band (6,673 types, matching the projection) and gave the band tool a mode that decides each type by the binding policy: fold it only
+where there is detected evidence that it is the same entity as a defined type, otherwise keep it residual if its layout class says so,
+otherwise define it under the address of its owner. That wrote 5,301 definitions into `include/struct_types.h` in three gated batches.
+The fourth and fifth tasks re-swept the bodies so the new definitions were actually used: 24 overlay batches turned about 55,600 raw
+accesses into members and took TNC to 23,630, and the code modules, the resident engine and the shared bodies gave about 3,500 more;
+definitions no site used were pruned and duplicates merged. The overlay sweep also found *drift*: when the census regrouped the sites it
+had not respelled, it minted new hash-named types the frozen band had never seen (7,128 overlay sites on 652 types). A task added for it,
+T17, gave the band tool a drift mode and decided them in two rounds and one approved mini round — 8,146 sites on 870 types to 0, and about
+1,600 more casts turned into members. It also found that the struct gate had been failing silently since the fifth task, from duplicate
+definitions later edits had brought in, and repaired it.
+
+The declarations closed. The eleven lying declarations Phase 39 had ledgered went to 0 with nothing excused: one pair of callers in a code
+module now passes its real argument, and one function, func_8016BF50, has one prototype, so its shared body now covers four more
+overlays. Of the "same-address copies" listed as suspects, only one, func_80185578, was a true copy. Three more lying declarations
+appeared from a mid-phase conversion of assembly to C, which had left empty K&R lists; they got full prototypes, and one macro site that
+no ledger row backed was reverted to a raw cast that a row covers. The register pins that stood for a missing parameter became declared
+parameters at the definition and every caller; 384 of them were not parameters at all, but scratch registers written before they are read.
+
+The levers were tested again, this time one by one: every lever no one had judged was removal-tested by the byte oracle, and every one was
+needed, which gave Phase 39's "all pins needed" the evidence it had lacked. GTE levers went from 91 to 0 (one spelling, in the shared
+header), per-file assembler macro definitions from 164 to 1, and whole-body assembly routines from 13 to 1, func_80020F34, which really is
+hand-written. A crack campaign took 38 head classes (a lever shape shared by many copies): 18 were rewritten in plain C and propagated to
+442 copies, 586 residue rows fewer, at about 21 coder-hours. One more, func_80177B5C (133 rows), matched only through an identity
+statement that launders a value, and was not counted. The singletons — levers with no shared shape — went to a pilot first, which stopped
+by design: 12 of 20 cracked (60 %, with a confidence interval of 39 to 78 %), at about 40,000 tokens and 7.8 coder-minutes per function;
+the projected wave was about 14 hours and 19 million tokens for about 170 survivors, and a literal zero was out of reach at any cap. The
+owner chose the full wave and amended the milestone: every survivor names its wall. The wave banked 220 functions lever-free in twelve
+gated batches and took the singleton rows from 572 to 321. It was the project's first large use of coders from outside the house
+(DeepSeek, MiniMax and a small Claude model; DeepSeek about half of the cracks), and it taught the rule for a wall: at least 20 minutes
+and at least 30 scored tries, because the shallow pilot failures went 3 of 5 when retried. The walls then got a vocabulary,
+`config/lever_walls.tsv`: 32 walls, each with its tag, its gcc pass, what plain C cannot do there and the evidence; the lever census now
+fails on any row whose wall is unused, missing or unknown. Run strictly, it surfaced 861 rows no one had walled. The last lever task
+walled them: head-class copies take their exemplar's wall, and each scratch pin is tagged with the first gcc pass at which the pinned and
+the pin-free builds diverge (a rule checked by hand on 26 functions); three of the probes turned out to be outright cracks.
+
+Around the work, the readability series gained an *uncovered* column, and the timeline draws it beside the four-form raw line, so the
+chart shows the gate's measure (uncovered, on the floor) apart from the debt still left (raw, high). A new phase-close step,
+`tools/ledger_backup.py`, backs up the irreplaceable ledgers: a stripped public copy under `docs/ledgers/` and the full copy in a private
+archive repository, each checked before it is written. Fifty-one cookbook lessons waiting since earlier phases were banked in one pass.
+
+The milestone ran green on aace727c4c from a clean tree. From the Phase 39 close: TNC 291,819 → 0, with 5,871 sites under TYPE-BELOW-BAND
+(the frozen tail is 6,066 types with 6,976 sites); raw casts 336,219 → 176,439 — P 257,470 → 115,647, I 49,831 → 46,563, X 13,790 →
+10,312, M 15,128 → 3,917 — with 0 uncovered. The causes now say what each remaining site needs: TYPE-UNION 16,696, TYPE-NO-MEMBER 13,084,
+TYPE-NO-LAYOUT 12,200, TYPE-SCALAR 6,393, TYPE-BELOW-BAND 5,871, TYPE-CANON-TWIN 3,682, GLOBAL 2,886, TYPE-INTERIOR 1,303, POINTEE 1,014;
+older causes such as NO-EDIT (1,147 → 54,364) grew because the restamp moved former TNC sites to the cause that now fits them. Struct
+definitions went from 1,650 to 4,762, of which 4,128 are canonical; kept casts, each in one of the five registered macros with its ledger row, went from 20,963 to 30,787, all backed. Lying declarations 11 → 0. Levers (register pins plus asm statements) 3,364 → 1,853 (pins
+1,868 → 974, asm 1,496 → 879); the residue ledger 2,433 rows over 3,528 sites → 1,180 rows over 1,854 sites, every row walled, over 34
+tags. All 218 binaries stayed identical through every batch. Two marks on the record: a coder was spawned on the wrong belief that its
+predecessor had died, and one coder ran a restamp mode nobody had asked for, undone from the ledger. Left open outside the gate: call
+declarations whose return type differs from the definition, which the lying count does not see (func_8016130C alone has 1,213 `extern
+void` declarations); the identity-launder class of func_80177B5C; and the remaining I and M causes. What the phase leaves is the
+difference between a cause and a debt: every raw cast and every lever now says why it is there, and most of the casts are now waiting on
+a union, a member or a layout rather than on a definition.
+
 ## 11. By the numbers
 
 | | |
@@ -433,7 +501,7 @@ phase leaves for the next is plain from its residue: the casts that remain are a
 | Instructions | 13,492,113 / 13,492,113 (100.0%); distinct code 5,820,205 / 5,820,205; main game code 45,150 / 45,150 |
 | Knowledge base | the matching cookbook (§1–§501 and sub-sections, 3.5 MB), the gcc-2.7.2 codegen map, 79 decision-log entries, 73 numbered rules (+ the constitution's 25) |
 | Tooling | ≈235 Python tools, 25 shell tools, 12 Ghidra scripts — the extractor, the byte gate, the dedup engine, the family engine, the atlas, the lanes, the rewrite package |
-| **After 100 % (Gen3, snapshot at the P39 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35) · levers: 53,234 at the P36 start → 3,730 at the P38 close → 3,364 (1,868 register pins + 1,496 asm statements), every survivor in `config/lever_residue.tsv` (2,433 rows over 3,528 sites; `docs/levers.md`) · raw cast dereferences per form, P37 baseline → P39 close: P 409,007 → 257,470, I 60,666 → 49,831, X 13,800 → 13,790, M 19,543 → 15,128 (503,016 → 336,219), every remaining site ledgered with its cause, 291,819 of them TYPE-NOT-CANONICAL (0 uncovered) · 20,963 kept casts in five registered macros, all backed · lying declarations 229 over 24 callees → 11 over 3, all ledgered · 1,650 struct definitions (7,255 at the P38 start; 53 duplicate classes listed in `docs/struct-twins.md` at the P38 close) · the chart's lower panel |
+| **After 100 % (Gen3, snapshot at the P3.40 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35) · levers (register pins plus asm statements): 53,234 at the P36 start → 3,730 at the P38 close → 3,364 at the P39 close → 1,853 (974 register pins + 879 asm statements), every survivor a row of `config/lever_residue.tsv` (1,180 rows over 1,854 sites; `docs/levers.md`) and every row walled — named with the gcc pass that makes the lever necessary, one of 34 tags in `config/lever_walls.tsv` · raw cast dereferences per form, P37 baseline → P39 close → P3.40 close: P 409,007 → 257,470 → 115,647, I 60,666 → 49,831 → 46,563, X 13,800 → 13,790 → 10,312, M 19,543 → 15,128 → 3,917 (503,016 → 336,219 → 176,439), every remaining site ledgered with its cause (0 uncovered); TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0, the frozen tail of 6,066 small types recorded as TYPE-BELOW-BAND (5,871 sites) · lying declarations 229 over 24 callees → 11 over 3 → 0 · 30,787 kept casts in five registered macros, all backed (20,963 at the P39 close) · 4,762 struct definitions, 4,128 of them canonical (1,650 at the P39 close; 7,255 at the P38 start) · the chart's lower panel |
 
 *Every number above is generated or counted from the repository; the timeline behind the chart is
 [`docs/story-timeline.md`](story-timeline.md).*

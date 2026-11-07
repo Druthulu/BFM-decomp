@@ -152,11 +152,11 @@ hand-offs to be replayed; and keep the game's bytes out of the repository from t
 binaries, the 363,214 functions, the 4,000 commits — follows from those, at a cost that is mostly the diagnosis of
 one's own instruments.
 
-## 7. After 100 % — what the readability generation has taught so far (Gen3, Phases 35–39; advanced by every phase's closing work, R121)
+## 7. After 100 % — what the readability generation has taught so far (Gen3, Phases 35–40; advanced by every phase's closing work, R121)
 
 *From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md` and `PhaseEnd_Phase37.md` (their "what we believed, what failed, what we would do
 sooner" sections), decision log "P35", "P36 S99/S101/S104/S105", "P37 S106"; for the migration and Phase 38, the Phase 38 plan's change
-lines, task summaries and logs, and git; for Phase 39, its plan's change lines and task summaries (T1–T11, T7.1). Same four questions as §1–§4, for the work that began when the bytes were done. Where the
+lines, task summaries and logs, and git; for Phase 39, its plan's change lines and task summaries (T1–T11, T7.1); for Phase 40, its plan's change lines and task summaries (T1–T13, T15, T17–T21). Same four questions as §1–§4, for the work that began when the bytes were done. Where the
 record is thin it says so; inferences are marked.*
 
 **What we believed, and what was true.** (P35) That sotn writes duplicate functions explicitly, so ~12,000 duplicate copies were the normal
@@ -184,7 +184,14 @@ forms to about zero apart from non-struct bases — it drew every base that has 
 struct-map types with no canonical definition (TYPE-NOT-CANONICAL, 291,819 sites at the close): a definitions problem, not a spelling
 problem. That the levers had easy removals left — the oracle judged every one of the 1,868 register pins needed, 0 removed; their floor is
 now a ledger of causes, not a backlog. That a planner keyed by real names saw every lying declaration — 17 of 24 callees were
-`aF<address>` aliases.
+`aF<address>` aliases. (P40) That TNC — TYPE-NOT-CANONICAL, a cast on a struct type with no canonical definition — could reach 0 by
+defining types — the last 6,066 types held about 7,000 sites, about one each; a band covering 95 % of the sites, with the tail under a
+named cause (TYPE-BELOW-BAND), was the honest finish. That a literal zero of levers was reachable — the pilot showed it was not at any
+cap; the real bar was a *wall* for each survivor, the gcc pass that makes it necessary, named with its evidence. That Phase 39 had
+oracle-judged all 1,868 pins — 808 had been "left by the author" and 205 "not judged"; re-judged one by one, all were needed after all.
+That the pins standing for a missing parameter were parameters — 384 were scratch registers, written before they are read. That defining
+a type fixes its casts — the bodies must be re-swept and the ledger rows restamped, and the sweep itself creates new types the frozen band
+cannot see. That functions at the same address in different binaries were copies — mostly they were distinct functions.
 
 **What failed, and why it looked right.** A session died at 91 % context with 35 minutes of state only in its transcript, after refreshing
 its checkpoint five times — two bank commits inside a task had no log line (→ R101). A tool's restore path was `git checkout`, which wiped
@@ -222,6 +229,12 @@ intended code, not what the instrument counts. A coverage check keyed on "the fu
 until T10 matched per site. Handoffs lost a coder's hand-back (T3) and orphaned a detached batch cycle (T5); the batch script refreshed the
 wrong census directory, so the readability series refused its snapshot for a whole task without a visible error; and one commit took in
 about 794,000 lines of census scratch.
+(P40) Freezing the band once looked deterministic, but the census regrouped the sites a sweep had left and minted new hash-named types
+the band had never seen — *drift*, 8,146 sites on 870 types, which took a task of its own. Walls judged after fewer than 30 tries were
+not walls: the shallow pilot failures went 3 of 5 when retried. The struct gate went from passing to failing between the fifth task and
+T17, from duplicate definitions that later edits brought in, and nobody saw it because it ran only at the gate; a conversion of assembly
+to C left three empty K&R declarations the next tasks did not see for the same reason. A coder was spawned on the wrong belief that its
+predecessor had died, and another ran a restamp mode nobody had asked for, undone from the ledger.
 
 **What it cost.** P35: three sessions (one a recovery) and ~2.5 h of gates; no model tokens beyond the coordinator and three gate-1 agents.
 P36: nine sessions, 575 commits, ~200 agent draws, roughly 15–20 M agent tokens — the mechanical rungs took 37 % of the sites for ~20
@@ -241,6 +254,13 @@ every batch. Start to end: raw casts 503,016 → 336,219 (P 409,007 → 257,470,
 0 uncovered; 20,963 kept casts, all backed; lying declarations 229 / 24 callees → 11 / 3, all ledgered; levers 3,730 → 3,364, the rest
 in a 2,433-row cause ledger; struct definitions 1,650, flat. The I/M recipe ladder was the cheapest-looking and lowest-yield rung, about
 1,676 sites drawn against about 48,000 left.
+P40: 2026-10-14 → 11-07, about 410 commits, two replans (both stops planned in advance, on 10-15 and 10-17). The head-class crack campaign
+took about 21 coder-hours; the singleton pilot cost about 796,000 tokens, and the wave it priced was projected at about 14 hours and 19
+million tokens with four coders at once. Each edit of the 2 MB `include/struct_types.h` fans out to 51 seconds of rebuilds, and the
+clean gate grew from 5 minutes 38 seconds to about 9 minutes; a tools-health run takes 10 to 15 minutes. 218 of 218 binaries identical on
+every batch. Start to end: TNC 291,819 → 0 (5,871 sites below the band); raw casts 336,219 → 176,439 (P 257,470 → 115,647, I 49,831 →
+46,563, X 13,790 → 10,312, M 15,128 → 3,917), 0 uncovered; lying declarations 11 → 0; levers 3,364 → 1,853, the residue ledger 2,433 →
+1,180 rows, all walled; struct definitions 1,650 → 4,762 (4,128 canonical).
 
 **What we would do sooner.** Read the target project's TREE before setting a policy on its precedent. Make every commit that advances a task
 carry its log line, and checkpoint before any long wait past ~85 % context. Price a residue by distinct SHAPES, never by bodies. Put a
@@ -265,4 +285,7 @@ hash before the first fold, and let the byte gate, not a hash, say two types are
 not a paragraph here: the same failure twice in a row says a written lesson is not applied unless something runs it — put every
 milestone clause through its instrument on both trees before the plan is approved. Size a residue by its recorded cause before planning
 a sweep: T10's concentration table (half of the TYPE-NOT-CANONICAL sites on 81 types) would have predicted T4's wall. Check coverage
-per site from the first residue row, and key a planner by the definitions' names, aliases included.
+per site from the first residue row, and key a planner by the definitions' names, aliases included. (P40) Measure the tail's
+distribution — sites per type — before choosing a zero target. Re-run the census after every sweep before freezing anything on it.
+Require a wall vocabulary from the first crack wave, not after it. Run the struct and cast gates after every task that edits bodies, not
+only at the milestone. Back up irreplaceable ledgers outside the repository from the start, which the phase did only at its end.
