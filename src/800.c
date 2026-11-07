@@ -13897,10 +13897,12 @@ extern void * func_80025504(GFace *prim, GVec8 *vtx, GVec8 *nrm, GPolyG4 *poly, 
 extern u8 *func_80025A30(u8 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot);
 extern void *func_80025CBC(void *prims, void *scr, void *cols, void *packets, s32 count, s32 otshift, u32 *ot);
 extern u32 * func_80025EB8(Prim20 *prim, SVEC8_80025EB8 *verts, SVEC8_80025EB8 *norms, Ft4 *pkt0, s32 n, s32 shift, u32 *ot);
-/* Handwritten-asm stubs, defined `void f()` in the TU; the packet pointer they leave in $v0
- * is consumed here through a no-proto function-pointer cast (§378: folds to a direct jal). */
-extern u8 *func_80026514();
-extern u8 *func_800268D0();
+/* GT3 / GT4 emitters with an 8th `idx` arg (C since P40 T8.c4); verbatim definition prototypes
+ * (param types from struct_types.h), called directly (P40 T18.c1, was a no-proto fn-ptr cast). */
+extern u8 *func_80026514(Face_26514_t *face, char *verts, char *norms, GT3_26514_t *p, s32 count,
+                     s32 shift, u32 *ot, s32 idx);
+extern u8 *func_800268D0(Face_268D0_t *face, char *verts, char *norms, GT4_268D0_t *p, s32 count,
+                     s32 shift, u32 *ot, s32 idx);
 
 #define CNT (*(u16 *)s0)
 #define OT  (*(u32 **)(param_2 + 4))
@@ -13975,11 +13977,11 @@ void func_80024448(int param_1, int param_2, u32 param_3)
                 s0 = (u32 *)((u8 *)s0 + CNT * 28);
             } else {
                 if (D_80078D88[0] & 0x10000) {
-                    D_800A5E60 = ((u8 *(*)())func_80026514)(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT, 0);
+                    D_800A5E60 = func_80026514((Face_26514_t *)s0, (char *)vtx, (char *)nrm, (GT3_26514_t *)D_800A5E60, CNT, param_3, OT, 0);
                     iVar -= CNT;
                     s0 = (u32 *)((u8 *)s0 + CNT * 20);
                 } else if (D_80078D88[0] & 0x20000) {
-                    D_800A5E60 = ((u8 *(*)())func_80026514)(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT, 1);
+                    D_800A5E60 = func_80026514((Face_26514_t *)s0, (char *)vtx, (char *)nrm, (GT3_26514_t *)D_800A5E60, CNT, param_3, OT, 1);
                     iVar -= CNT;
                     s0 = (u32 *)((u8 *)s0 + CNT * 20);
                 } else {
@@ -13995,11 +13997,11 @@ void func_80024448(int param_1, int param_2, u32 param_3)
                 iVar -= CNT;
                 s0 = (u32 *)((u8 *)s0 + CNT * 36);
             } else if (D_80078D88[0] & 0x10000) {
-                D_800A5E60 = ((u8 *(*)())func_800268D0)(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT, 0);
+                D_800A5E60 = func_800268D0((Face_268D0_t *)s0, (char *)vtx, (char *)nrm, (GT4_268D0_t *)D_800A5E60, CNT, param_3, OT, 0);
                 iVar -= CNT;
                 s0 = (u32 *)((u8 *)s0 + CNT * 24);
             } else if (D_80078D88[0] & 0x20000) {
-                D_800A5E60 = ((u8 *(*)())func_800268D0)(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT, 1);
+                D_800A5E60 = func_800268D0((Face_268D0_t *)s0, (char *)vtx, (char *)nrm, (GT4_268D0_t *)D_800A5E60, CNT, param_3, OT, 1);
                 iVar -= CNT;
                 s0 = (u32 *)((u8 *)s0 + CNT * 24);
             } else {
@@ -15034,8 +15036,8 @@ PktGT4 *func_800262D8(FaceGT4 *face, SVEC8_800262D8 *vtx, SVEC8_800262D8 *nrm, P
  * lbu $v1,-23638($at)` D_800B99DA fetch was hand-written; gcc-2.7.2 emits that
  * large-offset form itself for `base = D_800AF630; base[41898]`. P40 T8.c4: C below
  * (T8.c2 MATCH 239). Keys: ou/ov u16 with (u8) casts; uv locals s32; stores in field
- * order; `u32 rgb[2]`. Returns u8 * to match the TU's K&R-empty `extern u8 *func_80026514();`
- * (the caller calls through a `u8 *(*)()` cast). D_8006388C / D_8006389C are declared here
+ * order; `u32 rgb[2]`. Returns u8 *; the TU's forward decl is this prototype verbatim
+ * (P40 T18.c1). D_8006388C / D_8006389C are declared here
  * (no other declaration in the TU).
  */
 extern Tex_26514_t D_8006388C[];

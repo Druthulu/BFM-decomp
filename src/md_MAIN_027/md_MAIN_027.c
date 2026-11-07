@@ -431,7 +431,7 @@ void func_800CB7FC(s32 a0) {
 extern void func_80015978(s32, s32 *);
 extern s32 func_8012EF34(s32, s32);
 extern s32 func_80017DC4(void *, void *);
-extern s32 func_800CBA44();
+extern s32 func_800CBA44(SV_CBA44_t *out, P2_CBA44_t *in, Base_CBA44_t *b, P2_CBA44_t *off, s32 *res, s32 *d);
 extern void func_800CBBF8(s32 *a0, s32 *a1);
 extern s32 func_80047948(s32);
 
@@ -450,7 +450,7 @@ void func_800CB82C(s32 a0, s32 a1)
     struct Mid mid;
     u8 src[8];
     u8 dstc[8];
-    u8 out1[0x20];
+    SV_CBA44_t out1[4];
     MZ mz;
     HB hb;
     u8 fpad[8];
@@ -481,10 +481,10 @@ void func_800CB82C(s32 a0, s32 a1)
         gte_SetTransMatrix(mz.mat);
         p6 = (s32 *)D_800CC1C0;
         w = *(u16 *)(dstc + 4);
-        *(u16 *)(out1 + 0x1C) = w;
-        *(u16 *)(out1 + 0x14) = w;
-        *(u16 *)(out1 + 0xC) = w;
-        *(u16 *)(out1 + 4) = w;
+        out1[3].vz = w;
+        out1[2].vz = w;
+        out1[1].vz = w;
+        out1[0].vz = w;
         bm = *(u16 *)((s8 *)a1 + 0x14);
         mid.code = 0x50000000;
         mid.bmode = bm;
@@ -499,8 +499,8 @@ void func_800CB82C(s32 a0, s32 a1)
         ((Unkstruct_80126B58 *)a0)->unk60 = cn;
         cn = (s32)D_800CC1B0;
         c1 += cn;
-        if (((s32 (*)(s32, s32, s32, s32, s32 *, s32))func_800CBA44)((s32)out1, (s32)D_800CC190, (s32)a1, (s32)p6,
-                          plo, c1) != 0) {
+        if (func_800CBA44(out1, (P2_CBA44_t *)D_800CC190, (Base_CBA44_t *)a1, (P2_CBA44_t *)p6,
+                          plo, (s32 *)c1) != 0) {
             return;
         }
         *(u16 *)((s8 *)lo + 4) = s5v;
@@ -509,8 +509,8 @@ void func_800CB82C(s32 a0, s32 a1)
         hb.hB0 = func_80047948((CAST_SIGN(s16, (s8 *)a0, 0x62)) << 8) / 1024;
         ((Unkstruct_80126B58 *)a0)->unk62 = (((Unkstruct_80126B58 *)a0)->unk62 + 1) & 0xF;
         hb.hB2 = 0;
-        if (((s32 (*)(s32, s32, s32, s32, s32 *, s32))func_800CBA44)((s32)out1, (s32)D_800CC1A0, (s32)a1, (s32)&hb.hB0,
-                          plo, (s32)p6) != 0) {
+        if (func_800CBA44(out1, (P2_CBA44_t *)D_800CC1A0, (Base_CBA44_t *)a1, (P2_CBA44_t *)&hb.hB0,
+                          plo, p6) != 0) {
             return;
         }
         func_800CBBF8(plo, p);
