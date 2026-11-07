@@ -45,7 +45,9 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-CENSUS_DEFAULT = ".run/P38/census"
+sys.path.insert(0, str(REPO / "tools"))
+import type_census as tc   # noqa: E402
+CENSUS_DEFAULT = tc.OUT_DIR_DEFAULT   # 3.41 T2: the gate dir, read from type_census (was a stale ".run/P38/census" literal)
 TWINS_DOC = REPO / "docs" / "struct-twins.md"
 MAX_CITES = 8
 # Sony PsyQ (libgte / libgpu / libetc / libcd / libspu / libsnd / libapi) struct typedef names
@@ -494,7 +496,7 @@ def write(classes):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--census-dir", default=CENSUS_DEFAULT)
+    ap.add_argument("--census-dir", default=CENSUS_DEFAULT, help="census dir holding dup_gating.tsv and type_census.json (default: type_census OUT_DIR_DEFAULT, %(default)s)")
     ap.add_argument("--write", action="store_true", help="regenerate the `## Twins` section of docs/struct-twins.md")
     ap.add_argument("--show", metavar="LHASH", help="every name's objects for one class")
     a = ap.parse_args()
