@@ -1,0 +1,34 @@
+# lever walls (Phase 40 T19): one row per compiler wall; a lever_residue.tsv cause ends ' wall:<tag>' naming one; checked by lever_census.py --check --strict --residue
+tag	pass	what	evidence
+cse-const-addr	cse	plain C cannot stop cse folding or substituting a constant/absolute address the target keeps base-relative or in its own reg	3.40:tasks/T10.md:20 (S09,S11,S16); 3.40:logs/T11.c01.md:7
+cse-const-fold	cse	plain C cannot stop cse (or cse2) folding a constant or joined expression the target computes	3.40:logs/T11.cG08b.md:32
+cse-copy-merge	cse	plain C cannot stop cse merging, canonicalising or forwarding a reg copy the target keeps in its own reg	3.40:logs/T11.c04.md:8
+cse-value-forward	cse	plain C cannot stop cse forwarding a stored or loaded value (or caching a global load) the target reloads	3.40:logs/T11.c06.md:7
+combine-copy-merge	combine	plain C cannot stop combine merging or sinking a (arg) copy the target keeps	3.40:logs/T11.cH1.md:10
+combine-operand-order	combine	plain C cannot fix the operand order combine picks for a commutative op	3.40:logs/T11.cRM2.md:11
+sched1-argcopy-hoist	sched1/reload_cse	plain C cannot keep an arg copy where the target has it; sched1 or reload_cse hoists/sinks it across the call setup	3.40:tasks/T10.md:20 (S01); 3.40:logs/T11.c01.md:10
+sched1-birth-boost	sched1 vs local-alloc	plain C cannot undo sched1's birthing-insn priority boost against a local-alloc constant	3.40:tasks/T10.md:20 (S17); 3.40:logs/T11.c01.md:12
+sched1-order	sched1	plain C cannot set the order sched1 gives independent insns (births, ready-list ties, load pairs, call groups)	3.40:logs/T11.c105.md:9
+sched1-hoist-sink	sched1	plain C cannot stop sched1 hoisting or sinking one insn (return value, constant pair, la/lui, load, store) past the target slot	3.40:logs/T11.cG02.md:10
+sched-load-delay-fill	sched1/sched2	plain C cannot stop the scheduler filling a load-delay slot the target leaves as nop	3.40:logs/T11.c108.md:6
+sched2-unit-hazard	sched2	plain C cannot change sched2's function-unit hazard or blockage ordering	3.40:logs/T11.cG17.md:7
+dbr-delay-fill	dbr	plain C cannot steer which insn delayed-branch fill puts in (or keeps out of) a delay slot	3.40:logs/T11.cG14b.md:25
+lreg-priority	local-alloc	plain C cannot change local-alloc qty priority or tie order (refs, live length, $v0 first), so the hard reg goes to the other pseudo	3.40:logs/T11.cG02.md:12
+lreg-copy-pref	local-alloc	plain C cannot break a local-alloc copy preference or tie (dying base, dying pin, call result, hard-reg copy)	3.40:logs/T11.cG27x.md:29
+lreg-hardreg-conflict	local-alloc	plain C cannot clear a hard-reg conflict, live-to-end or dead-reuse that blocks the target pairing	3.40:logs/T11.cG22x.md:23
+greg-priority	global-alloc	plain C cannot change global-alloc priority order (refs, nrefs, bank order, LO_REG count), so hard regs land in another order	3.40:logs/T11.c04.md:14
+greg-copy-pref	global-alloc	plain C cannot break a global-alloc copy or expand preference that picks the wrong hard reg	3.40:logs/T11.cG08c.md:12
+greg-hardreg-reserve	global-alloc	lever-free, the temps take the hard reg the pin's pseudo reserves for the whole function	3.40:logs/T11.cG27x.md:39
+callee-saved-order	global-alloc	callee-saved order follows only from a return-type/signature change across shared callers (signature lane, not a body edit)	3.40:tasks/T10.md:20 (S07, func_80177940); 3.40:logs/T11.cP1x.md:8
+reload-reg-choice	reload	plain C cannot change reload's reg choice, rematerialisation or second base across a call	3.40:logs/T11.cG07r.md:24
+loop-iv	loop	plain C cannot stop loop.c adding, combining or rebasing induction variables the target keeps as-is	3.40:logs/T11.cG08c.md:14
+loop-const-hoist	loop	plain C cannot stop loop.c hoisting a loop-invariant constant the target loads in the loop	3.40:logs/T11.cH1.md:13
+jump2-crossjump	jump2	plain C cannot stop jump2 cross-jumping byte-identical arms or a fall-through store	3.40:logs/T11.c109.md:4
+flow-known-value	flow/jump	plain C cannot keep a redundant test on a known value; flow or jump threading folds it	3.40:logs/T11.c109.md:4
+flow-unused-result	flow	flow deletes a result or store the target computes but never uses	3.40:tasks/T10.md:20 (S20, func_80188C04 family); 3.40:logs/T11.c02.md:7
+expand-void-return	expand	plain C cannot keep live the value a void-return expansion drops	3.40:logs/T11.c03.md:8
+expand-ret-entry-live	expand	plain C cannot make expand recompute a return-value reg live from entry	3.40:logs/T11.cG31y.md:20
+decl-change	signature	the crack needs a shared-header prototype change, outside a body edit	3.40:tasks/T11.md:15; 3.40:logs/T11.c103.md:6
+no-c-spelling	asm	the instruction has no C form in gcc 2.7.2 (addu/mfc2/... spelled only as an asm macro)	3.40:tasks/T8.md:14; 3.40:tasks/T11.md:16
+sp-stack-switch	asm	a hand-placed $sp write (stack switch) has no C spelling	3.40:tasks/T10.md:20 (S15)
+hand-asm	asm	a hand-written body or prelude (fixed reg roles, hand-filled slots) that gcc does not emit	3.40:tasks/T8.md:17 (func_80020F34); 3.40:tasks/T8.md:23 (ENGINE_SHB)
