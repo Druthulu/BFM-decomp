@@ -23,6 +23,7 @@ The developer pushes; agents never do. They ratify rules at the next planner ses
 - The agent cap is his live dial; the latest word binds from the next spawn.
 - Names: a prefixed best guess beats a bare placeholder; he wants structs-as-you-go and pure C taught as rules for new projects.
 - After a Ghidra MCP restart or program switch, ask him to run `/mcp` first (`docs/ops/mcp-reconnect-after-restart.md`).
+- Proposed rules: explain each in plain words before approval: what it requires, the incident behind it, for and against.
 
 ## Rhythm <!-- roles: planner review auditor curator -->
 autonomous  <!-- autonomous: the loop (the mod) runs the phase end to end, stopping
