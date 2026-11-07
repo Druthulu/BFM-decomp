@@ -5354,7 +5354,7 @@ void func_800193B8(s32 arg0) {
 
     memcpy(hdr, (void *)LIST_BUF, 0x88);
     tmp = arg0 + 1;
-    arg0 = tmp + ((*(u32 *)(hdr + 0x1C) + 0x7FF) >> 11);
+    arg0 = tmp + ((((Unkstruct_800193B8_2 *)hdr)->unk1C + 0x7FF) >> 11);
     CdIntToPos(arg0, &loc);
     do {
         rdy = CdReadRequest((int *)&loc, (void *)LIST_BUF, 0x800, 0);
@@ -9540,15 +9540,15 @@ void func_8001E378(s32 param_1)
     s32 t;
 
     func_8004978C((s16 *)(param_1 + 16), res);
-    sc[0] = *(s16 *)(param_1 + 0x18);
+    sc[0] = ((Unkstruct_8001E378 *)param_1)->unk18;
     sc[1] = 0;
     sc[2] = 0;
     sc[3] = 0;
-    sc[4] = *(s16 *)(param_1 + 0x1A);
+    sc[4] = ((Unkstruct_8001E378 *)param_1)->unk1A;
     sc[5] = 0;
     sc[6] = 0;
     sc[7] = 0;
-    sc[8] = *(s16 *)(param_1 + 0x1C);
+    sc[8] = ((Unkstruct_8001E378 *)param_1)->unk1C;
 
     g = (s32)&D_800AF648;
 
@@ -9563,9 +9563,9 @@ void func_8001E378(s32 param_1)
     gte_ldclmv((s32)sc + 4); gte_rtir();
     gte_stclmv((s32)res + 4);
 
-    *(s32 *)((u8 *)res + 0x14) = *(s16 *)(param_1 + 8);
-    *(s32 *)((u8 *)res + 0x18) = *(s16 *)(param_1 + 10);
-    *(s32 *)((u8 *)res + 0x1C) = *(s16 *)(param_1 + 12);
+    ((Unkstruct_8001E378_2 *)res)->unk14 = ((Unkstruct_8001E378 *)param_1)->unk8;
+    ((Unkstruct_8001E378_2 *)res)->unk18 = ((Unkstruct_8001E378 *)param_1)->unkA;
+    ((Unkstruct_8001E378_2 *)res)->unk1C = ((Unkstruct_8001E378 *)param_1)->unkC;
 
     gte_SetRotMatrix(g);
 
@@ -14075,7 +14075,7 @@ long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count,
         if (D_800A2B78 != 0 && (p[-1].code & 2)) {
             d = (DM_249F0_t *)p;
             tag = (u32 *)(ot + ((otz >> shift) << 2));
-            ((u8 *)d)[3] = 1;
+            ((Unkstruct_800249F0 *)d)->unk3 = 1;
             d->code = 0xE100000A | ((D_800A2B78 & 3) << 5);
             d->tag = (*tag & 0xFFFFFF) | 0x01000000;
             *tag = (u32)d & 0xFFFFFF;
@@ -15085,7 +15085,7 @@ u8 *func_80026514(Face_26514_t *face, char *verts, char *norms, GT3_26514_t *p, 
     ov = base[41898];
     if (idx == 0) {
         rgb[0] = face->rgb;
-        ((u8 *)rgb)[3] = 0x34;
+        ((Unkstruct_80026514 *)rgb)->unk3 = 0x34;
         gte_ldrgb(rgb);
     } else {
         gte_ldrgb(&D_80063884);
@@ -15172,7 +15172,7 @@ u8 *func_800268D0(Face_268D0_t *face, char *verts, char *norms, GT4_268D0_t *p, 
     ov = base[41898];
     if (idx == 0) {
         rgb[0] = face->rgb;
-        ((u8 *)rgb)[3] = 0x3C;
+        ((Unkstruct_800268D0 *)rgb)->unk3 = 0x3C;
         gte_ldrgb(rgb);
     } else {
         gte_ldrgb(&D_80063888);

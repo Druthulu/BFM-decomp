@@ -5636,7 +5636,7 @@ void func_80033398(u32 arg0)
                     u8 *p = s2v + s1v;
                     if (p[0xE] != 0) {
                         p[0xE] = 0;
-                        *(u32 *)(s0v + 0x40) = 0;
+                        ((Unkstruct_80033398 *)s0v)->unk40 = 0;
                         if (s0v[0x4E] != 0) {
                             func_80030D80((Ent30D80 *)s0v, 0);
                         }
@@ -6314,9 +6314,9 @@ void func_8003388C(Ent388C *arg, s32 arg1)
         vo->unk08 = v;
         vo->unk0A = v;
     }
-    *(s16 *)((u8 *)vo + 0xC) = 0;
-    *(s16 *)((u8 *)vo + 0xE) = 0;
-    *(s32 *)((u8 *)vo + 4) = 0x6009F;
+    CAST_ALIAS(s16, (u8 *)vo, 0xC) = 0;
+    CAST_ALIAS(s16, (u8 *)vo, 0xE) = 0;
+    CAST_ALIAS(s32, (u8 *)vo, 4) = 0x6009F;
     if (D_800A4EF6 > cmd->unk0C) {
         func_8002F064(1, vo->unk00);
     } else {
