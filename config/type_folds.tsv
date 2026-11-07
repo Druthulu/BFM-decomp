@@ -13757,3 +13757,6 @@ Unkstruct_cfb58d29	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-
 Unkstruct_d38870a5	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_d94893ef	residual	TYPE-NO-LAYOUT	layout:refused(size>0x200000)	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_f690f21c	residual	TYPE-NO-MEMBER	prune:T17	T17.c4: def Unkstruct_80180254 pruned; 0 uses fleet-wide after the t17r2 rung-S sweeps
+# T17 drift (P3.40) restruct.py --decide-band --ranks drift --write at 7bd5577972: 2 rows define/-=2; TNC types in no config/tnc_band.tsv row, no fold row
+Unkstruct_8a49cd6b	define	Unkstruct_80182AC0_2	owner:func_80182AC0	no E1/E2 evidence; flat layout of the struct map record; 5 TNC sites in 1 bodies; P3.40 T17 drift
+Unkstruct_c758f14a	define	Unkstruct_80182AC0_3	owner:func_80182AC0	no E1/E2 evidence; flat layout of the struct map record; 1 TNC sites in 1 bodies; P3.40 T17 drift

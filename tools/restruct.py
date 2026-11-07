@@ -4723,8 +4723,14 @@ def splice_t3_defs(htext, decisions, begin=T3_BEGIN, end=T3_END, rank_rx=r"band 
         htext = htext[:i] + f"{begin}\n{end}\n\n" + htext[i:]
     i, j = htext.index(begin) + len(begin) + 1, htext.index(end)
     chunks = [c.strip() + "\n" for c in re.split(r"\n(?=typedef )", htext[i:j]) if c.strip()] + [d["text"] for d in defs]
-    rk = lambda c: int(next(iter(re.findall(rank_rx, c)), 0))
-    return htext[:i] + "\n".join(sorted(chunks, key=rk)) + htext[j:]
+    # an unranked chunk (a folded alias `typedef A B;`) inherits the rank of the chunk before it, so the stable sort keeps it after
+    # its target instead of hoisting it to the block top (T17.c6: c5's aliases moved above their struct defs)
+    ks, last = [], 0
+    for c in chunks:
+        r = re.findall(rank_rx, c)
+        last = int(r[0]) if r else last
+        ks.append(last)
+    return htext[:i] + "\n".join(c for _, c in sorted(zip(ks, chunks), key=lambda kc: kc[0])) + htext[j:]
 
 
 def drift_rows(tnc, band, folds):

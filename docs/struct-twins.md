@@ -4291,3 +4291,5 @@ cause: 2 names (24 B, all members placeholders) bound to 2 distinct objects, non
 ## Dead kept
 - LineF2_8018F694 — used only inside a multi-line macro body in ov_SC06_018/032/033 (census cannot see it); deleting it broke cc1 (`undeclared`), T5.1.c3b
 - actor4c — tag of Actor4C, named only by its own self-pointer member `unk20`; the self-reference needs the tag
+- Unkstruct_80182AC0_2 — P3.40 T17 drift def (decide-band define of map type Unkstruct_8a49cd6b, drift rank 1), dead until drawn by rung S
+- Unkstruct_80182AC0_3 — P3.40 T17 drift def (decide-band define of map type Unkstruct_c758f14a, drift rank 2), dead until drawn by rung S
