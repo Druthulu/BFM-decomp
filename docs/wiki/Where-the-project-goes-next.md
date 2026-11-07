@@ -43,24 +43,28 @@ wrongly."* To that the project adds four rules of its own, because its code was 
    it is zero — *Phase 36 (2026-09-09 → 2026-09-11): 53,234 register pins and asm statements → 4,010, every survivor marked with the
    compiler pass that needs it and the instrument that judged it; the rest is the structs phase's (see [levers.md](../levers.md) and
    cookbook §457). Phase 39 (2026-10-01 → 10-03): 3,730 → 3,364 (1,868 pins, none of which the byte oracle would release, + 1,496 asm
-   statements), every survivor a row of the cause ledger `config/lever_residue.tsv`.*
+   statements), every survivor a row of the cause ledger `config/lever_residue.tsv`. Phase 40 (2026-10-14 → 11-07): 3,364 → 1,853 (974 pins + 879
+   asm statements), every survivor walled — its row names the gcc pass that makes the lever necessary, one of 34 tags in
+   `config/lever_walls.tsv`.*
 3. **Shared engine functions live as C, not as macros** — *done at Phase 35 (2026-09-08): one plain-C header per shared body under `src/shared/`, included at each site; see [The dedup engine](The-dedup-engine.md)* — the dedup engine's macro bodies become `.c` files per system,
    byte-neutrally, proven per family.
 4. **Types come from the code, names from observation** — structure from the access patterns the compiler locked into the
    bytes; the 1,232 struct definitions unified before any field is named. *Phase 39 (2026-10-01 → 10-03): raw cast dereferences
-   503,016 → 336,219, every one left ledgered with its cause; most wait on a canonical definition for a type the struct map already knows.*
+   503,016 → 336,219, every one left ledgered with its cause; most wait on a canonical definition for a type the struct map already knows. Phase 40 (2026-10-14 → 11-07): 336,219 → 176,439,
+   with TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0 and the tail of small types under its own
+   cause; what is left waits on unions, members and layouts.*
 
 **The gap, as measured.** The starter census below was derived on 2026-09-07 with the commands in
 [`docs/gen3-handoff.md`](../gen3-handoff.md) §3 — re-derive it, do not trust it:
 
 | Quantity | Value | Note |
 |---|---|---|
-| Raw address casts `*(T *)0x80…`; raw cast dereferences (all four forms) | 143; dereferences ~~503,016~~ **336,219** (Phase 39, 2026-10-03) | the address casts are the last of a class the type-lift tools already handle; a raw cast dereference is a memory access through a pointer cast where the original wrote a struct field (P pointer arithmetic, I bare name, X indexed, M the decompiler's macro). Since Phase 39 every remaining one is ledgered with its cause (0 uncovered), 291,819 of them on struct-map types with no canonical definition; 20,963 casts the bytes need are kept, each in one of five registered macros with a ledger row; `tools/type_census.py --check-casts --residue` |
+| Raw address casts `*(T *)0x80…`; raw cast dereferences (all four forms) | 143; dereferences ~~503,016~~ ~~336,219~~ (Phase 39, 2026-10-03) **176,439** (Phase 40, 2026-11-07) | the address casts are the last of a class the type-lift tools already handle; a raw cast dereference is a memory access through a pointer cast where the original wrote a struct field (P pointer arithmetic, I bare name, X indexed, M the decompiler's macro). Since Phase 39 every remaining one is ledgered with its cause (0 uncovered); the 291,819 on struct-map types with no canonical definition at Phase 39 are 0 at Phase 40, the 5,871 sites on the frozen tail of 6,066 small types recorded as TYPE-BELOW-BAND, and the largest causes now TYPE-UNION, TYPE-NO-MEMBER and TYPE-NO-LAYOUT; 20,963 casts the bytes need are kept, each in one of five registered macros with a ledger row; `tools/type_census.py --check-casts --residue` |
 | Distinct `D_80xxxxxx` data symbols | 61,898 | most are fields of a handful of structures the engine indexes |
 | Distinct `func_80xxxxxx` names | 16,335 | across 4,287 C files |
-| Register-pin declarations | ~~43,925~~ ~~2,141~~ (+ 1,869 asm statements; Phase 36, 2026-09-11) **1,868** (+ 1,496 asm statements; Phase 39, 2026-10-03) | `tools/lever_census.py --check`; Phase 39 removed no pin — the byte oracle judged all 1,868 needed — and every survivor has a cause row in `config/lever_residue.tsv` (2,433 rows over 3,528 sites); 37,720 pins + 15,514 asm statements at the phase's own census (2026-09-09) → 4,010 sites in 1,980 functions, all `// !FAKE:`-marked with their pass; the series is `docs/lever-progress.tsv` |
+| Register-pin declarations | ~~43,925~~ ~~2,141~~ (+ 1,869 asm statements; Phase 36, 2026-09-11) ~~1,868~~ (+ 1,496 asm statements; Phase 39, 2026-10-03) **974** (+ 879 asm statements; Phase 40, 2026-11-07) | `tools/lever_census.py --check`; Phase 39 removed no pin — the byte oracle judged all 1,868 needed; Phase 40 turned the missing-parameter pins into declared parameters, rewrote 18 shared lever shapes (442 copies) and 220 single functions in plain C, and every survivor has a cause row in `config/lever_residue.tsv` (~~2,433 rows over 3,528 sites~~ **1,180 rows over 1,854 sites**), each naming its wall; 37,720 pins + 15,514 asm statements at the phase's own census (2026-09-09) → 4,010 sites in 1,980 functions, all `// !FAKE:`-marked with their pass; the series is `docs/lever-progress.tsv` |
 | Shared bodies living as macros | ~~5,147~~ **0** (Phase 35, 2026-09-08) | every shared body is one plain-C header under `src/shared/`, included at its sites; 3,173 registry groups; see [The dedup engine](The-dedup-engine.md) |
-| Struct definitions | ~~1,232~~ **1,650** (Phase 38 close, unchanged through Phase 39, 2026-10-03) | many drafter-invented variants of one type; the Phase 37 census found 7,255 once definitions inside single files were counted, and Phase 38 folded them to one canonical definition per type; the struct map names 18,526 types the code needs, so most remaining casts wait on definitions |
+| Struct definitions | ~~1,232~~ ~~1,650~~ (Phase 38 close, unchanged through Phase 39, 2026-10-03) **4,762**, 4,128 of them canonical (Phase 40, 2026-11-07) | many drafter-invented variants of one type; the Phase 37 census found 7,255 once definitions inside single files were counted, and Phase 38 folded them to one canonical definition per type; Phase 40 defined the struct-map types that cover 95 % of the casts that waited on a definition, and the tail of small types (about one site each) stays raw under its own cause |
 | Curated names in the symbol files | 1,083 | the names the build already knows |
 
 **The one invariant.** Every Gen3 edit is gated exactly like a match was: the per-binary check for every binary a change
