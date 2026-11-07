@@ -5004,7 +5004,7 @@ s32 func_80183F10(s32 param_1) {
     ((Unkstruct_80181C18 *)param_1)->unk70 = 0x80;
     ((Unkstruct_80181C18_2 *)iVar5)->unk4 |= 0x50000040;
     ((Unkstruct_80181C18_2 *)iVar5)->unk2C |= 1;
-    iVar8 = ((Unkstruct_80181C18_3 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
+    iVar8 = ((Unkstruct_80181C18_3 *)((Unkstruct_80181C18_4 *)param_1)->unk64)->unk20 + 0x34;
     ((void (*)(s32, s32, void *))func_8012F14C)(iVar8, D_801B4960, &s60);
     s50 = s60;
     sStack_58.vz = 0x1800;

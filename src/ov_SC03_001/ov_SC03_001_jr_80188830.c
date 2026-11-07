@@ -3407,11 +3407,11 @@ void func_80188BFC(void *a0)
 
 extern s32 func_80188D68(void *a0);
 s32 func_80188D1C(void *a0) {
-    a0 = *(void **)((char *)a0 + 0xCC);
+    a0 = ((Unkstruct_80182AC0 *)a0)->unkCC;
     if (a0 == 0) {
         return 0;
     }
-    if (*(u16 *)a0 != 0x61) {
+    if (((Unkstruct_80182AC0 *)a0)->unk0 != 0x61) {
         return 0;
     }
     return func_80188D68(a0);
