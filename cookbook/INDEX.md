@@ -992,3 +992,5 @@ C0539 | Repair check-structs after prunes: fresh census before struct_twins --wr
 C0540 | Rung S draws nothing on a MEMBERS-verdict body: REDRAW=MEMBERS per TU:FN; --plan ignores --redraw | restruct,rung-S,redraw,structs,header | 2026-11-07 | 3.40/T17 | P3.40 T17.c6
 C0541 | A dead C local cannot reproduce a target's dead chain: jump and cse delete it before flow | levers,walls,rtl,dead-code | 2026-11-07 | 40/T20 | logs/T20.c2.md
 C0542 | Name a lever's wall mechanically: first RTL pass where pinned and lever-free compiles diverge | levers,walls,rtl,pins,probe | 2026-11-07 | 40/T20 | logs/T20.c1.md
+C0543 | Return-type changes: def+decls+callers as one unit; the return type is a caller byte fact | declarations,return-type,lying,bytes,rung-D | 2026-11-07 | 3.40/T13 | P3.40 T6 summary
+C0544 | Lever residue rows key (file, func, kind): one crack re-causes a row, an unused row fails strict | levers,residue,walls,strict,gate | 2026-11-07 | 3.40/T13 | P3.40 T19/T20/T13

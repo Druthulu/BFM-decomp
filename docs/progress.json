@@ -51,12 +51,12 @@
   "levers": {
    "date": "2026-11-07",
    "what": "compiler-forcing constructs left in the C: register pins + asm statements (the classes Phase 36 drives to 0; GTE coprocessor ops and whole-body hand-asm routines excluded), with the volatile/register qualifiers censused",
-   "sites": 1857,
-   "pins": 978,
+   "sites": 1853,
+   "pins": 974,
    "asm_statements": 879,
-   "bodies": 854,
-   "distinct_bodies": 420,
-   "marked_fake": 1857,
+   "bodies": 852,
+   "distinct_bodies": 418,
+   "marked_fake": 1853,
    "unmarked": 0,
    "volatile_sites": 1056,
    "register_keyword_sites": 50,
@@ -66,7 +66,7 @@
   },
   "types": {
    "date": "2026-11-07",
-   "head": "4771a92d03",
+   "head": "aace727c4c",
    "snapshot": "P39",
    "census": ".run/P39/census/type_census.json",
    "what": "the structs phases' counters: raw pointer-cast dereferences in four forms (P *(T*)(\u2026), I *(T*)ident, X ((T*)e)[i], M M2C_FIELD), struct definitions and their duplicate classes, lying call declarations, and the struct map's types",
@@ -74,18 +74,18 @@
    "definitions_block_scope": 605,
    "definitions_fn_headers": 29,
    "distinct_names": 4131,
-   "duplicate_classes_gating": 1,
-   "duplicate_classes_listed": 451,
+   "duplicate_classes_gating": 0,
+   "duplicate_classes_listed": 452,
    "dead_names": 0,
    "dead_names_kept": 2,
    "pad_names": 0,
    "parse_error_declarations": 0,
-   "raw_cast_sites": 176448,
+   "raw_cast_sites": 176445,
    "raw_cast_forms": {
-    "P": 115655,
+    "P": 115652,
     "I": 46563,
     "X": 10312,
-    "K": 30800,
+    "K": 30799,
     "A": 18893,
     "C": 320783,
     "M": 3918
@@ -102,12 +102,41 @@
    "duplicate_names": 2469,
    "variant_names": 0,
    "dead_canonical_names": 55,
-   "lying_declarations": 3,
-   "lying_callees": 3,
+   "lying_declarations": 0,
+   "lying_callees": 0,
    "asm_label_aliases": 5146,
    "multi_spelled_callees": 3766,
-   "struct_map_types": 14563,
-   "struct_map_explained_pct": 98.1
+   "struct_map_types": 14537,
+   "struct_map_explained_pct": 98.1,
+   "check_casts": {
+    "census": ".run/P39/census/residue_census.json",
+    "date": "2026-11-07",
+    "head": "aace727c4c",
+    "gate_line": "check-casts: raw P=115647 I=46563 X=10312 M=3917 (uncovered P=0 I=0 X=0 M=0); macros CAST_ALIAS=3988 CAST_SIGN=12662 CAST_WIDTH=11511 CAST_MISALIGNED=1990 CAST_NONSTRUCT=636 (unbacked 0); lying=0 (ledgered 0)",
+    "what": "type_census --check-casts --residue: raw dereference sites per form, split into covered (a rung-S RESIDUAL(<cause>) ledger entry) and uncovered; reinterpret-macro sites KEPT (backed by a rung-S KEPT entry) and unbacked; lying declarations ledgered",
+    "raw": {
+     "P": 115647,
+     "I": 46563,
+     "X": 10312,
+     "M": 3917
+    },
+    "covered": {
+     "P": 115647,
+     "I": 46563,
+     "X": 10312,
+     "M": 3917
+    },
+    "uncovered": {
+     "P": 0,
+     "I": 0,
+     "X": 0,
+     "M": 0
+    },
+    "macro_sites": 30787,
+    "macro_unbacked": 0,
+    "lying": 0,
+    "lying_ledgered": 0
+   }
   }
  },
  "corrections": [
