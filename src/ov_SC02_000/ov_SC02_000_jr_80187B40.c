@@ -3419,7 +3419,7 @@ extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
 void func_801888F4(void *arg0)
 {
-    register void *a0 __asm__("$16") = arg0;    /* RC-3: unpinned gcc swaps $s0/$s1 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    void *a0 = arg0;    /* pin $16 dropped T20.c3: lever-free body matches */
     s32 vec[4];                                 /* sp+0x10 */
     Blk20 m;                                    /* sp+0x20 */
     s32 ang;

@@ -47,7 +47,6 @@ src/800_c.c	func_80038698	pin	delever R t8_r2	oracle DIFFERS on removal; T7 SCRA
 src/800_c.c	func_80038A58	barrier	T11 parked (instruction)	delever R t8_r2 (no lever-free attempt)	singleton(barrier) wall:no-c-spelling
 src/800_c.c	func_80038A58	instruction	T11 parked (instruction)	delever R t8_r2 (no lever-free attempt)	singleton(instruction) wall:no-c-spelling
 src/800_c.c	func_80038A58	pin	delever R t8_r2	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:loop-iv
-src/800_c.c	func_80039B20	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/800_c.c	func_8003A234	pin	delever R t8_r2	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:lreg-copy-pref
 src/boot.c	main	instruction	T11 parked (instruction)	delever B tus9 (no lever-free attempt)	singleton(instruction) wall:no-c-spelling
 src/md_MAIN_001/md_MAIN_001.c	func_800CF180	pin	delever R t8_r2	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:lreg-priority
@@ -216,7 +215,6 @@ src/ov_SC02_000/ov_SC02_000_jr_80140608.c	func_80140958	pin	delever B t8_rj3	ora
 src/ov_SC02_000/ov_SC02_000_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133) wall:sched1-birth-boost
 src/ov_SC02_000/ov_SC02_000_jr_8018173C.c	func_8018483C	launder	T11 crack RM2	delever_search --try best 5/57; T11 wall cse-const-addr-copy	singleton(launder) wall:cse-const-addr
 src/ov_SC02_000/ov_SC02_000_jr_80187B40.c	func_80188680	pin	T11 crack W04	delever_search --try best 29/11; T11 wall lreg-v0-local-first	singleton(pin) wall:lreg-priority
-src/ov_SC02_000/ov_SC02_000_jr_80187B40.c	func_801888F4	pin	delever R t8_r2	oracle DIFFERS on removal	missing-parameter(pin $4-$7)
 src/ov_SC02_000/ov_SC02_000_jr_80187B40.c	func_80188A18	pin	delever B t8_rj5	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:lreg-priority
 src/ov_SC02_000/ov_SC02_000_jr_80187B40.c	func_80189750	pin	T11 crack W04	delever_search --try best 11/13	singleton(pin) wall:cse-copy-merge
 src/ov_SC02_004/ov_SC02_004_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134) wall:cse-const-addr

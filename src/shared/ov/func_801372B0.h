@@ -66,7 +66,7 @@ void func_801372B0(void) {
         in.vy = 0x10;
         ApplyMatrixSV(mat, &in, &out);
         {
-            register s16 vx __asm__("$7") = out.vx;          /* $a3 */  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1)
+            s16 vx = out.vx;          /* $a3 */
             s16 vy = out.vy;          /* $v0 */
             prim.x0 = 0x78;
             prim.attr = 0;

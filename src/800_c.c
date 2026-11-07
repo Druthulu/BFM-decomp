@@ -3676,8 +3676,8 @@ extern u8 D_800C6DD0[];
 extern u8 D_800C6DD4[];
 
 void func_80039B20(s32 *arg0, s16 arg1) {
-    register s32 i __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 off __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    s32 i;
+    s32 off;
     u8 c;
     s32 t1;
 
