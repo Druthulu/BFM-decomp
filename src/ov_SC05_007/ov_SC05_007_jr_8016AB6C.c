@@ -2371,13 +2371,13 @@ s32 func_8016BBE0(s32 param_1) {
     int temp;
 
     iVar1 = ((s32 (*)(void))func_801465C0)();
-    *(int *)(((int)param_1) + 0x20) = iVar1;
+    ((Unkstruct_800B5CB8 *)param_1)->unk20 = iVar1;
     if (iVar1 != 0) {
         ((void (*)(s32))func_8016BF34)(((int)param_1));
         func_8016BF50(((int)param_1));
         func_8001CF00(iVar1);
         ((Unkstruct_8016BBE0_2 *)iVar1)->unk10 = 0;
-        temp = *(int *)(((int)param_1) + 0x2c);
+        temp = CAST_WIDTH(int, ((int)param_1), 0x2c);
         ((Unkstruct_8016BBE0_2 *)iVar1)->unk14 = 0;
         ((Unkstruct_8016BBE0_2 *)iVar1)->unk1A = 0;
         ((Unkstruct_8016BBE0_2 *)iVar1)->unk18 = 0;
@@ -2390,7 +2390,7 @@ s32 func_8016BBE0(s32 param_1) {
         (*(u8 *)&D_8019C158) = 0xc0;
         D_8019C159 = 0xc0;
         D_8019C15A = 0;
-        *(u16 *)(((int)param_1) + 2) += 1;
+        CAST_SIGN(u16, ((int)param_1), 2) += 1;
     } else {
         ((void (*)(s32))func_80146C3C)(((int)param_1));
     }
@@ -2409,8 +2409,8 @@ void func_8016BCC0(void *arg0) {
 
     temp_s0 = M2C_FIELD(arg0, void **, 0x20);
     func_8016BF50((s32)arg0);
-    temp_a2 = M2C_FIELD(arg0, u16 *, 0x10) + 0x60;
-    M2C_FIELD(arg0, u16 *, 0x10) = temp_a2;
+    temp_a2 = ((Unkstruct_800B5CB8 *)arg0)->unk10 + 0x60;
+    ((Unkstruct_800B5CB8 *)arg0)->unk10 = temp_a2;
     temp_v0 = ((Unkstruct_800B5CB8 *)temp_s0)->unk1A + temp_a2;
     ((Unkstruct_800B5CB8 *)temp_s0)->unk1A = temp_v0;
     ((Unkstruct_800B5CB8 *)temp_s0)->unk18 = temp_v0;

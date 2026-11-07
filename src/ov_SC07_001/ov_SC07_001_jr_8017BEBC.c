@@ -3945,7 +3945,7 @@ void func_8017F668(void *a0) {
             prim.u1 += 0xF;
             prim.u3 += 0xF;
 
-            func_80016EF8(&prim, (void *)(*(s32 *)((u8 *)a0 + 0x20) + 0x34));
+            func_80016EF8(&prim, (void *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34));
 
             prim.v[0].vx = prim.v[1].vx;
             prim.v[2].vx = prim.v[3].vx;
