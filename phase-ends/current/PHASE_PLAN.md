@@ -103,3 +103,4 @@ Approved: 2026-11-07   Planner: claude-opus-5-5/medium   Plan-hash: 03484a995693
 ## Changes
 - 2026-11-07 router: T1 next -> done
 - 2026-11-07 router: T2 next -> done
+- 2026-11-07 router: 2026-11-07 partner: T8's wait-for is answered (developer): the headless Ghidra is the session-start MCP server and was meant to run. It stays stopped after T1's proofs until a task needs the live database; T7's proofs need :8080 free.
