@@ -2875,7 +2875,7 @@ extern void (*D_8018A1A4[])(void*);
 extern s32 func_80175268(s32);
 
 void func_80175184(s32* arg0) {
-    u16 v1 = *(u16*)((u8*)arg0 + 2);
+    u16 v1 = ((Unkstruct_80175184_3 *)arg0)->unk2;
     if (v1 < 2) {
         D_8018A1A4[v1](arg0);
     } else {
@@ -2916,7 +2916,7 @@ extern VoidFn D_8018A1C4[];
 
 s32 func_80175268(s32 param_1)
 {
-    *(u32 *)(param_1 + 0x44) |= 2;
+    CAST_ALIAS(u32, param_1, 0x44) |= 2;
     (*(VoidFn *)((s32)D_8018A1C4 + ((D_80078EC0 - 1) << 2)))();
 }
 
