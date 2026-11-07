@@ -1594,6 +1594,7 @@ def write_parked(out_dir):
     rows.sort(key=lambda r: (-r["sites"], r["fn"]))
     banked = sorted(park - seen_fn)         # PARK names whose latest ledger verdict is not RESIDUE: minimum-lever banks (their marked sites stay)
     out = REPO / out_dir / "parked.tsv"
+    out.parent.mkdir(parents=True, exist_ok=True)   # 3.41 T2: run_census calls this before its own mkdir; --no-cache into a fresh dir crashed
     with out.open("w") as fh:
         fh.write("# .run/P37/census/parked.tsv — the Phase-36 parked classes, in one file with their reasons (type_census.write_parked; generated).\n")
         fh.write("# A RESIDUE class of the P36 ledger whose exemplar is in .run/P36/s105/pick.py's PARK set; `needs` is read from the pack's mechanism.md headline\n")
