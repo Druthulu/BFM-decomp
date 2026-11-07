@@ -4464,8 +4464,8 @@ void func_801812F4(s32 a0) {
     s16 t;
     s32 vec[4];
 
-    t = *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk20 + 0x12);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = t + 0x800;
+    t = *(u16 *)(((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk64)->unk20 + 0x12);
+    ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 = t + 0x800;
     func_8012B2CC(a0);
     vec[0] = 0;
     vec[1] = 0xFFF00000;
@@ -4552,9 +4552,9 @@ void func_801813B4(s32 a0) {
         }
         s0 = func_80132EF4(obj, 0x50);
         if (s0 != 0) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk10 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)s0)->unk20)->unk10 =
                 ratan2(s1[2], s1[1]) + 0x400;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)s0)->unk20)->unk12 =
                 ratan2(s1[0], -func_80047D3C(s1[2] * s1[2] + s1[1] * s1[1]));
             *(s16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x14) = 0;
         }

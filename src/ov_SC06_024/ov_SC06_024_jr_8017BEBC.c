@@ -4158,7 +4158,7 @@ void func_8017EC4C(s32 param_1)
     tp = D_80193538;
     for (i = 0; i < 3; i++) {
         pkt = D_800A5E60;
-        k = (i * 2 + (*(u16 *)(dbase + 0xA3AA) & 1)) * 4;
+        k = (i * 2 + (((Unkstruct_80010178 *)dbase)->unkA3AA & 1)) * 4;
         D_800A5E60 = pkt + 0x24;
         *(u32 *)(pkt + 4) = D_80193550[k];
         *(u32 *)(pkt + 0xC) = D_80193554[k];

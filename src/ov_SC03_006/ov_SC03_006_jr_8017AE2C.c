@@ -12565,7 +12565,7 @@ void func_801896EC(s32 param_1) {
         mask = ~0x80;
         f = ((Unkstruct_801896EC *)self)->unkDC;
         q = ((Unkstruct_801896EC *)self)->unk20;
-        q = *(u16 *)(q + 0x18);
+        q = ((Unkstruct_801896EC_2 *)q)->unk18;
         f &= mask;
         ((Unkstruct_801896EC *)self)->unkDC = f;
         ((Unkstruct_801896EC *)self)->unk100 = q;

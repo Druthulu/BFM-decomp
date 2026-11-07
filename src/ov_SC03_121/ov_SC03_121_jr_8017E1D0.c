@@ -4033,11 +4033,11 @@ void func_80180254(s32 param_1) {
             CAST_ALIAS(s16, param_1, 0xA) = -0x10B;
             ((Unkstruct_800B5CB8 *)param_1)->unk6 = 0;
             ((Unkstruct_800B5CB8 *)param_1)->unkE = 0x12F;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = 0;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)param_1)->unk20)->unk12 = 0;
             func_8012B2CC(param_1);
         } else {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 + 0x155;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)param_1)->unk20)->unk12 =
+                ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)param_1)->unk20)->unk12 + 0x155;
             func_8012C658(0x21D, 0, param_1);
         }
         break;

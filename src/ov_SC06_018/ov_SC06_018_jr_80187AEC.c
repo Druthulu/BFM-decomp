@@ -8216,8 +8216,8 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     u8 *mb;
     u8 *a;
 
-    func_8004914C((void *)(((s32 *)param_1)[8] + 0x34));
-    func_800491AC((void *)(((s32 *)param_1)[8] + 0x34));
+    func_8004914C((void *)(((Unkstruct_8018F060_2 *)param_1)->unk20 + 0x34));
+    func_800491AC((void *)(((Unkstruct_8018F060_2 *)param_1)->unk20 + 0x34));
 
     src = &D_801D1228[(param_2 & 1) * 3];
     for (i = 0; i < 3; i++) {

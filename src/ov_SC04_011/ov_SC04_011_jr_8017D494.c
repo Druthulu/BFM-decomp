@@ -15248,7 +15248,7 @@ void func_8018E428(s32 arg0)
     pv |= CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C + (*bidx * 20)), 0x40) & 0xFFFFFF;
     *(u32 *)p = pv;
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
-    *(u32 *)(ot + 0x40) = (*(u32 *)(ot + 0x40) & 0xFF000000) | ((u32)p & 0xFFFFFF);
+    ((Unkstruct_8018E428_3 *)ot)->unk40 = (((Unkstruct_8018E428_3 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
 }
 

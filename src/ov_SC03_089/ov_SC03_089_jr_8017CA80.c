@@ -5370,11 +5370,11 @@ void func_801841E8(s32 a0)
 
     func_80184BAC(sp10, a0, a0 + 0x102);
     t = sp10[0];
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = t;
+    ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10 = t;
     r = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), t >> 16,
                        ((Unkstruct_800B5CB8 *)a0)->unkFE);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + r;
+    ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 =
+        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 + r;
     func_8012B178(a0, ((Unkstruct_800B5CB8 *)a0)->unkE0);
     func_8012CBF4(a0);
     if (func_8012BEE8(a0)) {

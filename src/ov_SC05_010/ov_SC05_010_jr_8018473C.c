@@ -3383,7 +3383,7 @@ void func_801854B8(s32 arg_in)
             }
             p = D_801C7E38[i];
             t = D_801C7E78;
-            *(u16 *)(p + 0x10A) = 1;
+            ((Unkstruct_801854B8_2 *)p)->unk10A = 1;
             do {
             var = 60 - t * 15;
             } while (0);  // !FAKE: do-while

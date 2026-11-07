@@ -4624,10 +4624,10 @@ void func_80185E38(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t17_ov_S1)
     volatile u16 *bidx;
     s32 t;
-    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 pv;
 
     m = D_800AE620;
     mp = &m;
@@ -4653,8 +4653,8 @@ void func_80185E38(s32 arg0)
     by = (u16)D_801C15F6;
     RotMatrixZ(ang, mp);
 
-    *(s32 *)((u8 *)v + 8) = D_801C15F8;
-    v[1] = *(s32 *)((u8 *)v + 8);
+    ((Unkstruct_80185E38_3 *)v)->unk8 = D_801C15F8;
+    v[1] = ((Unkstruct_80185E38_3 *)v)->unk8;
     v[0] = v[1];
     func_8004901C(mp, v);
 

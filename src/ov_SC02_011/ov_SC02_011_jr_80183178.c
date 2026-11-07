@@ -3518,11 +3518,11 @@ void func_80187E08(s32 param_1)
                 if (ok2 && flag >= 0) {
                     v = ((Unkstruct_80187E08 *)param_1)->unk1C;
                     if (v == 0) {
-                        first = *(s16 *)((s8 *)rec + 6);
+                        first = ((Unkstruct_80187E08_2 *)rec)->unk6;
                         while (first != 0xFF) {
                             func_80187FA0((u8 *)param_1, (u8 *)rec);
                             rec = (s32 *)((s8 *)rec + 8);
-                            first = *(s16 *)((s8 *)rec + 6);
+                            first = ((Unkstruct_80187E08_2 *)rec)->unk6;
                         }
                         ((Unkstruct_80187E08 *)param_1)->unk1C = ((Unkstruct_80187E08 *)param_1)->unkDC;
                         v = *(volatile s32 *)((s8 *)param_1 + 0x1C);

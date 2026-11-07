@@ -6811,9 +6811,9 @@ void func_80183534(s32 arg0, SVEC_80183534 *arg1, SVEC_80183534 *arg2, s32 *arg3
 
     oidx = g.otz << 2;                                          /* L2 */
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000)
-                | (*(u32 *)&D_800A6614[oidx + (*(u16 *)(base + 0xA3D2) << 14)] & 0xFFFFFF);
+                | (*(u32 *)&D_800A6614[oidx + (((Unkstruct_80010178 *)base)->unkA3D2 << 14)] & 0xFFFFFF);
     do {
-    otp = (u32 *)&D_800A6614[oidx + (*(u16 *)(base + 0xA3D2) << 14)];
+    otp = (u32 *)&D_800A6614[oidx + (((Unkstruct_80010178 *)base)->unkA3D2 << 14)];
     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
     } while (0);  // !FAKE: do-while
 }
@@ -8785,26 +8785,26 @@ s32 func_8018656C(s32 *a0) {
         v0vec.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
         v0vec.vy = 0;
         v0vec.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
-        v1vec.vx = *(u16 *)(s1 + 0x6);
+        v1vec.vx = ((Unkstruct_800B5CB8 *)s1)->unk6;
         v1vec.vy = 0;
-        v1vec.vz = *(u16 *)(s1 + 0xE);
+        v1vec.vz = ((Unkstruct_800B5CB8 *)s1)->unkE;
 
         dist = func_800132BC(&v0vec, &v1vec);
         if (dist < 0x1FA5) {
             s32 sum = CAST_SIGN(s16, (s32)a0, 0xA) + *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xA);
-            s32 diff = *(s16 *)(s1 + 0xA) - sum;
+            s32 diff = CAST_SIGN(s16, s1, 0xA) - sum;
             if (diff >= 0) {
                 if (diff < 0x10) {
                     do { } while (0);  // !FAKE: do-while
-                    diff = *(s16 *)(s1 + 0xA) - sum;
+                    diff = CAST_SIGN(s16, s1, 0xA) - sum;
                     return 1;
                 }
                 return 0;
             } else {
-                diff = sum - *(s16 *)(s1 + 0xA);
+                diff = sum - CAST_SIGN(s16, s1, 0xA);
                 if (diff < 0x10) {
                     do { } while (0);  // !FAKE: do-while
-                    diff = sum - *(s16 *)(s1 + 0xA);
+                    diff = sum - CAST_SIGN(s16, s1, 0xA);
                     return 1;
                 }
                 return 0;

@@ -6246,9 +6246,9 @@ void func_80180D54(s32 param_1) {
         do {
             p = func_801291C0();
             if (p != 0) {
-                *(u16 *)p = 0x19;
-                *(u16 *)(p + 0x2C) = mask;
-                *(s32 *)(p + 0x34) = (s32)&D_801C5D40 + (*(s16 *)(param_1 + 0xDC) << 5);
+                ((Unkstruct_80129010 *)p)->unk0 = 0x19;
+                ((Unkstruct_80129010 *)p)->unk2C = mask;
+                ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (*(s16 *)(param_1 + 0xDC) << 5);
                 *(u16 *)(param_1 + 0xDC) = *(u16 *)(param_1 + 0xDC) + 1;
                 if (*(s16 *)(param_1 + 0xDC) >= 0xC0) {
                     *(s16 *)(param_1 + 0xDC) = 0;
@@ -6264,9 +6264,9 @@ void func_80180D54(s32 param_1) {
             do {
                 p = func_801291C0();
                 if (p != 0) {
-                    *(u16 *)p = 0x19;
-                    *(u16 *)(p + 0x2C) = mask;
-                    *(s32 *)(p + 0x34) = (s32)&D_801C5D40 + (*(s16 *)(param_1 + 0xDC) << 5);
+                    ((Unkstruct_80129010 *)p)->unk0 = 0x19;
+                    ((Unkstruct_80129010 *)p)->unk2C = mask;
+                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (*(s16 *)(param_1 + 0xDC) << 5);
                     *(u16 *)(param_1 + 0xDC) = *(u16 *)(param_1 + 0xDC) + 1;
                     if (*(s16 *)(param_1 + 0xDC) >= 0xC0) {
                         *(s16 *)(param_1 + 0xDC) = 0;

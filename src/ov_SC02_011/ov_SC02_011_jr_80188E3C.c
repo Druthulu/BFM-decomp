@@ -1498,10 +1498,10 @@ void func_8018AB20(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t17_ov_S1)
     volatile u16 *bidx;
     s32 t;
-    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    u32 pv;
 
     m = D_800AE620;
     mp = &m;
@@ -1527,8 +1527,8 @@ void func_8018AB20(s32 arg0)
     by = (u16)D_801EB6DE;
     RotMatrixZ(ang, mp);
 
-    *(s32 *)((u8 *)v + 8) = D_801EB6E0;
-    v[1] = *(s32 *)((u8 *)v + 8);
+    ((Unkstruct_8018AB20_3 *)v)->unk8 = D_801EB6E0;
+    v[1] = ((Unkstruct_8018AB20_3 *)v)->unk8;
     v[0] = v[1];
     func_8004901C(mp, v);
 
@@ -1559,7 +1559,7 @@ void func_8018AB20(s32 arg0)
                 (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
-    *(u32 *)(ot + 0x40) = (*(u32 *)(ot + 0x40) & 0xFF000000) | ((u32)p & 0xFFFFFF);
+    ((Unkstruct_8018AB20_2 *)ot)->unk40 = (((Unkstruct_8018AB20_2 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
 }
 
