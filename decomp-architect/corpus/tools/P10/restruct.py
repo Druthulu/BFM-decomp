@@ -31,6 +31,7 @@
       R<n>-<verdict> (judged: DIFFERS, COMPILE-ERROR …)
     tools/restruct.py --freeze-band                                                    # P3.40 T3: config/tnc_band.tsv, once (the 95 % TNC band)
     tools/restruct.py --decide-band --ranks A-B|tail [--write]                         # P3.40 T3: fold|residual|define per band type (dry run default)
+    tools/restruct.py --decide-band --ranks drift [--write]                            # P3.40 T17: the same per TNC type in no band row, no fold row
     tools/restruct.py --rung S --residue --restamp --restamp-no-edit                   # P3.40 T3 one-time: NO-EDIT entries of residual-row types too
     tools/restruct.py --audit-types                                                    # the naming invariant over the canonical type files (struct_layout.audit_definition)
     tools/restruct.py --write-types --top N | --type NAME … [--space ov]               # the WRITER: canonical definitions rendered from the struct map (a preview)
@@ -4425,6 +4426,11 @@ BAND_PCT = 95
 T3_RUN = REPO / ".run" / "P40" / "t3"
 STRUCT_TYPES_H = REPO / "include" / "struct_types.h"
 T3_BEGIN, T3_END = "/* T3 (P3.40) band defs:begin — restruct.py --decide-band --write; generated, ordered by band rank */", "/* T3 band defs:end */"
+T17_RUN = REPO / ".run" / "P40" / "t17"
+T17_BEGIN, T17_END = "/* T17 (P3.40) drift defs:begin — restruct.py --decide-band --ranks drift --write; generated, ordered by drift rank */", "/* T17 drift defs:end */"
+T17_LABEL = "P3.40 T17 drift"
+T3_MAX_SIZE = 0x200000                                    # T17: PSX main RAM; a larger record size/offset is no struct (render refused)
+DRIFT_MAX_SINGLE = 500                                    # T17: --write refuses when more define rows than this have one TNC site
 _T3_DECL = re.compile(r"^\s*(?:(?:extern|static|const|volatile)\s+)*(?:(?:struct|union)\s+)?([A-Za-z_]\w*)\s+([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*(?:;|=|__asm__|__attribute__)")
 TWINS_DOC_FILE = REPO / "docs" / "struct-twins.md"
 # T3.c3: the census's placeholder-name rule (type_census.py run_census name_sig, verbatim; local there, so copied, never changed here)
@@ -4530,6 +4536,8 @@ def t3_residual(rec):
             return "TYPE-UNION", f"layout:widths@{c[0]:#x}:{','.join(sorted(c[1]))}"
     if rec.get("fields") == 1 and lay and lay[0][0] == 0:
         return "TYPE-SCALAR", "layout:one-field@0"
+    if max([rec["size_hint"]] + [o for (o, _, _, _) in lay]) > T3_MAX_SIZE:   # T17: an address recorded as an offset (OOM to render)
+        return "TYPE-NO-LAYOUT", f"layout:refused(size>{T3_MAX_SIZE:#x})"
     entries, _ = sl.entries_from_layout(lay)
     if not entries:
         return ("TYPE-INTERIOR" if neg else "TYPE-NO-LAYOUT"), "layout:no-entry"
@@ -4597,9 +4605,9 @@ def t3_canon_twin(text, idx, g):
     return min(ex.get(mean[0]) or ex[("*",)])
 
 
-def t3_dead_kept(text, decisions):
+def t3_dead_kept(text, decisions, kind="P3.40 T3 band def", rank_word="band rank"):
     """(pure) docs/struct-twins.md text with one `## Dead kept` bullet per define decision whose target is not listed yet, appended at
-    the section's end (created at the file's end when absent); idempotent."""
+    the section's end (created at the file's end when absent); idempotent. T17 drift: kind/rank_word name the drift defs."""
     m = re.search(r"(?m)^## Dead kept[ \t]*\n", text)
     if not m:
         text = text.rstrip("\n") + "\n\n## Dead kept\n"
@@ -4607,18 +4615,19 @@ def t3_dead_kept(text, decisions):
     rest = re.search(r"(?m)^## ", text[m.end():])
     end = m.end() + rest.start() if rest else len(text)
     have = set(re.findall(r"(?m)^\s*[-*]\s+`?([A-Za-z_]\w*)", text[m.end():end]))
-    add = "".join(f"- {d['target']} — P3.40 T3 band def (decide-band define of map type {d['map_type']}, band rank {d['rank']}), "
+    add = "".join(f"- {d['target']} — {kind} (decide-band define of map type {d['map_type']}, {rank_word} {d['rank']}), "
                   f"dead until drawn by rung S\n" for d in decisions if d["action"] == "define" and d["target"] not in have)
     body = text[m.end():end].rstrip("\n")
     body = (body + "\n" if body else "") + add
     return text[:m.end()] + body + ("\n" + text[end:] if rest else "")
 
 
-def decide_band(band, smap, tnc, latest, can, folds, decl, idents, addr_of=None, twin_of=None):
+def decide_band(band, smap, tnc, latest, can, folds, decl, idents, addr_of=None, twin_of=None, label="P3.40 T3 band"):
     """(pure) ([decision dict(rank, map_type, action, target, evidence, note, facts, text)], [missing map types], n_existing) for the
     band rows given. Order per type: fold on E1 lineage / E2 anchor (target canonical) -> residual by layout class -> residual
     TYPE-CANON-TWIN when `twin_of(rendered def)` names a canonical def it would form a tier-1 dup class with (T3.c3) -> define
-    Unkstruct_<owner addr> (suffix _2, _3 … on collision with `idents`, existing fold targets or an earlier target)."""
+    Unkstruct_<owner addr> (suffix _2, _3 … on collision with `idents`, existing fold targets or an earlier target). `label` names the
+    batch in a define's comment (`<label> rank N`) and, when not T3's, its note (T17 drift)."""
     addr_of = addr_of or dl.fn_addr
     by_t = collections.defaultdict(list)
     for s in tnc:
@@ -4683,8 +4692,9 @@ def decide_band(band, smap, tnc, latest, can, folds, decl, idents, addr_of=None,
                 taken.add(tgt)
                 entries, _ = sl.entries_from_layout(lay)
                 d.update(action="define", target=tgt, evidence=f"owner:{own[0][1] if own else (rec.get('globals_at') or [t])[0]}",
-                         note=f"no E1/E2 evidence; flat layout of the struct map record; {b['sites']} TNC sites in {b['bodies']} bodies",
-                         text=t3_render(tgt, rec, entries, f"{t}: P3.40 T3 band rank {b['rank']}; {b['sites']} TNC sites in {b['bodies']} bodies; "
+                         note=f"no E1/E2 evidence; flat layout of the struct map record; {b['sites']} TNC sites in {b['bodies']} bodies"
+                         + ("" if label == "P3.40 T3 band" else f"; {label}"),
+                         text=t3_render(tgt, rec, entries, f"{t}: {label} rank {b['rank']}; {b['sites']} TNC sites in {b['bodies']} bodies; "
                                         f"struct map {rec.get('sites')} sites; restruct.py --decide-band"))
         out.append(d)
     return out, missing, existing
@@ -4704,48 +4714,80 @@ def tail_rows(band, smap, folds):
     return out, missing
 
 
-def splice_t3_defs(htext, decisions):
+def splice_t3_defs(htext, decisions, begin=T3_BEGIN, end=T3_END, rank_rx=r"band rank (\d+)"):
     """(pure) struct_types.h text with the define decisions' typedefs merged into the marker block before the final #endif (created
-    when absent); the block's defs are kept ordered by the `band rank N` of their comment."""
+    when absent); the block's defs are kept ordered by the `band rank N` of their comment (T17: its own markers, `drift rank N`)."""
     defs = [d for d in decisions if d["action"] == "define"]
-    if T3_BEGIN not in htext:
+    if begin not in htext:
         i = htext.rindex("#endif")
-        htext = htext[:i] + f"{T3_BEGIN}\n{T3_END}\n\n" + htext[i:]
-    i, j = htext.index(T3_BEGIN) + len(T3_BEGIN) + 1, htext.index(T3_END)
+        htext = htext[:i] + f"{begin}\n{end}\n\n" + htext[i:]
+    i, j = htext.index(begin) + len(begin) + 1, htext.index(end)
     chunks = [c.strip() + "\n" for c in re.split(r"\n(?=typedef )", htext[i:j]) if c.strip()] + [d["text"] for d in defs]
-    rk = lambda c: int(next(iter(re.findall(r"band rank (\d+)", c)), 0))
-    return htext[:i] + "\n".join(sorted(chunks, key=rk)) + htext[j:]
+    # an unranked chunk (a folded alias `typedef A B;`) inherits the rank of the chunk before it, so the stable sort keeps it after
+    # its target instead of hoisting it to the block top (T17.c6: c5's aliases moved above their struct defs)
+    ks, last = [], 0
+    for c in chunks:
+        r = re.findall(rank_rx, c)
+        last = int(r[0]) if r else last
+        ks.append(last)
+    return htext[:i] + "\n".join(c for _, c in sorted(zip(ks, chunks), key=lambda kc: kc[0])) + htext[j:]
+
+
+def drift_rows(tnc, band, folds):
+    """(pure) T17: the band_rank rows (dict rank, map_type, sites, bodies; band_rank's order and rank) of the TNC map types in no
+    config/tnc_band.tsv row (any rank) and no type_folds row."""
+    inb = {b["map_type"] for b in band}
+    return [dict(rank=r, map_type=t, sites=n, bodies=nb) for r, t, n, nb, _ in band_rank(tnc)[0] if t not in inb and t not in folds]
+
+
+def single_site_defines(ds_, rows):
+    """(pure) T17: the number of define decisions whose map type has exactly one TNC site in `rows`."""
+    ns = {b["map_type"]: b["sites"] for b in rows}
+    return sum(1 for d in ds_ if d["action"] == "define" and ns.get(d["map_type"]) == 1)
 
 
 def decide_band_cmd(a):
-    """--decide-band --ranks A-B|tail [--write]: dry run prints counts + writes .run/P40/t3/decide_<ranks>.tsv; --write appends the
-    rows to config/type_folds.tsv (one `# T3` block) and the define typedefs to include/struct_types.h."""
+    """--decide-band --ranks A-B|tail|drift [--write]: dry run prints counts + writes .run/P40/t3/decide_<ranks>.tsv (drift:
+    .run/P40/t17/); --write appends the rows to config/type_folds.tsv (one `# T3` / `# T17 drift` block) and the define typedefs to
+    include/struct_types.h (drift: its own T17 marker block). drift refuses --write (rc 2) above DRIFT_MAX_SINGLE single-site defines."""
     global _folds
     band, band_n = load_band()
     smap, folds = struct_map(), type_folds()
+    drift = a.ranks == "drift"
+    sel = []
     if a.ranks == "tail":
         ds_, missing = tail_rows([b for b in band if b["rank"] > band_n], smap, folds)
         lo, hi, tag = band_n + 1, len(band), "tail"
     else:
-        m = re.fullmatch(r"(\d+)-(\d+)", a.ranks or "")
-        if not m:
-            sys.exit("restruct --decide-band: --ranks A-B or tail")
-        lo, hi = int(m.group(1)), min(int(m.group(2)), band_n)
-        tag = f"{lo}-{int(m.group(2))}"
-        sel = [b for b in band if lo <= b["rank"] <= hi]
         tnc = tnc_sites()
+        if drift:
+            sel, tag = drift_rows(tnc, band, folds), "drift"
+        else:
+            m = re.fullmatch(r"(\d+)-(\d+)", a.ranks or "")
+            if not m:
+                sys.exit("restruct --decide-band: --ranks A-B, tail or drift")
+            lo, hi = int(m.group(1)), min(int(m.group(2)), band_n)
+            tag = f"{lo}-{int(m.group(2))}"
+            sel = [b for b in band if lo <= b["rank"] <= hi]
         names = {g for b in sel if b["map_type"] in smap for g in smap[b["map_type"]].get("globals_at") or []}
         decl, idents = t3_tree_facts(names)
         tidx, tg = t3_twin_index({h: (REPO / h).read_text(errors="surrogateescape") for h in CANON_HEADERS if (REPO / h).exists()})
         ds_, missing, _ = decide_band(sel, smap, tnc, ledger_latest(load_ledger()), canon_types(), folds, decl, idents,
-                                      twin_of=lambda txt: t3_canon_twin(txt, tidx, tg))
+                                      twin_of=lambda txt: t3_canon_twin(txt, tidx, tg), label=T17_LABEL if drift else "P3.40 T3 band")
     cls = collections.Counter((d["action"], d["evidence"].split(":")[0] if d["action"] == "fold" else d["target"] if d["action"] == "residual" else "-")
                               for d in ds_)
     print(f"decide-band {tag}: {len(ds_)} rows; " + " ".join(f"{k[0]}/{k[1]}={n}" for k, n in sorted(cls.items())))
     print(f"decide-band {tag}: missing from the struct map {len(missing)}" + (f": {' '.join(missing[:20])}{' …' if len(missing) > 20 else ''}" if missing else ""))
+    if drift:
+        n1 = single_site_defines(ds_, sel)
+        print(f"decide-band drift: {len(sel)} drift types / {sum(b['sites'] for b in sel)} TNC sites; single-site defines {n1}")
+        if a.write and n1 > DRIFT_MAX_SINGLE:
+            print(f"decide-band drift: REFUSED --write: single-site defines {n1} > {DRIFT_MAX_SINGLE} — nothing written")
+            return 2
     if not a.write:
-        T3_RUN.mkdir(parents=True, exist_ok=True)
-        p = T3_RUN / f"decide_{tag}.tsv"
+        run = T17_RUN if drift else T3_RUN
+        run.mkdir(parents=True, exist_ok=True)
+        p = run / f"decide_{tag}.tsv"
         p.write_text("map_type\taction\ttarget\tevidence\tnote\tfacts\n" + "".join(
             "\t".join((d["map_type"], d["action"], d["target"], d["evidence"], d["note"], d["facts"])) + "\n" for d in ds_)
             + "".join(f"# missing-from-map\t{t}\n" for t in missing))
@@ -4753,13 +4795,18 @@ def decide_band_cmd(a):
         return 0
     head = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
     with open(TYPE_FOLDS_FILE, "a") as fh:
-        fh.write(f"# T3 (P3.40) restruct.py --decide-band --ranks {tag} --write at {head}: {len(ds_)} rows "
-                 + " ".join(f"{k[0]}/{k[1]}={n}" for k, n in sorted(cls.items())) + "; band config/tnc_band.tsv\n")
+        fh.write(f"# {'T17 drift' if drift else 'T3'} (P3.40) restruct.py --decide-band --ranks {tag} --write at {head}: {len(ds_)} rows "
+                 + " ".join(f"{k[0]}/{k[1]}={n}" for k, n in sorted(cls.items()))
+                 + ("; TNC types in no config/tnc_band.tsv row, no fold row\n" if drift else "; band config/tnc_band.tsv\n"))
         for d in ds_:
             fh.write("\t".join((d["map_type"], d["action"], d["target"], d["evidence"], d["note"])) + "\n")
     if any(d["action"] == "define" for d in ds_):
-        STRUCT_TYPES_H.write_text(splice_t3_defs(STRUCT_TYPES_H.read_text(), ds_))
-        TWINS_DOC_FILE.write_text(t3_dead_kept(TWINS_DOC_FILE.read_text(), ds_))     # T3.c3: dead until rung S draws them
+        if drift:
+            STRUCT_TYPES_H.write_text(splice_t3_defs(STRUCT_TYPES_H.read_text(), ds_, T17_BEGIN, T17_END, r"drift rank (\d+)"))
+            TWINS_DOC_FILE.write_text(t3_dead_kept(TWINS_DOC_FILE.read_text(), ds_, f"{T17_LABEL} def", "drift rank"))
+        else:
+            STRUCT_TYPES_H.write_text(splice_t3_defs(STRUCT_TYPES_H.read_text(), ds_))
+            TWINS_DOC_FILE.write_text(t3_dead_kept(TWINS_DOC_FILE.read_text(), ds_))     # T3.c3: dead until rung S draws them
     _folds = None
     print(f"decide-band {tag}: appended {len(ds_)} rows to config/type_folds.tsv, {sum(d['action'] == 'define' for d in ds_)} defs to include/struct_types.h"
           f" and to ## Dead kept of docs/struct-twins.md")
@@ -6173,6 +6220,25 @@ def selftest(real=False):
        [(d["action"], d["target"], d["evidence"]) for d in twd_] == [("residual", "TYPE-CANON-TWIN", "layout-twin:Pair8"),
                                                                     ("define", "Unkstruct_80030000", "owner:func_80030000")],
        str([(d["action"], d["target"], d["evidence"]) for d in twd_]))
+    # T17: drift rows (no band row, no fold row; band_rank order), the same decide_band ladder, never TYPE-BELOW-BAND; single-site gate
+    tnc17_ = ([sit_("T_e1", "func_80030000")] * 3 + [sit_("T_d2", "func_80030000")] * 2 + [sit_("T_old", "func_80030000")]
+              + [sit_("T_one", "func_80040000")] + [sit_("T_two", "func_80040000")] * 2)
+    dr_ = drift_rows(tnc17_, [dict(rank=1, map_type="T_e1", sites=9, bodies=1)], {"T_old": ("define", "Unkstruct_OLD")})
+    smap17_ = dict(tws_, T_one=mk_("T_one", layout=[(0, 2, "u", 1), (4, 2, "u", 1)]), T_two=mk_("T_two", layout=[(0, 1, "s", 1), (2, 1, "s", 1)]))
+    d17_, _, _ = decide_band(dr_, smap17_, tnc17_, {}, _canon, {}, {}, set(), addr_of=lambda fn, tu_: dl.fn_addr(fn, tu_), label=T17_LABEL)
+    h17_ = splice_t3_defs(h_, d17_, T17_BEGIN, T17_END, r"drift rank (\d+)")
+    ok("T17 drift: band and fold types excluded, band_rank's order and rank kept; defines labelled `P3.40 T17 drift`, no TYPE-BELOW-BAND; "
+       "single-site defines counted (> DRIFT_MAX_SINGLE refuses --write); defs in the T17 block after the T3 block",
+       [(b["rank"], b["map_type"], b["sites"]) for b in dr_] == [(2, "T_d2", 2), (3, "T_two", 2), (5, "T_one", 1)]
+       and [(d["map_type"], d["action"]) for d in d17_] == [("T_d2", "define"), ("T_two", "define"), ("T_one", "define")]
+       and not any(d["target"] == "TYPE-BELOW-BAND" for d in d17_) and all("P3.40 T17 drift" in d["note"] for d in d17_)
+       and "T_one: P3.40 T17 drift rank 5; 1 TNC sites in 1 bodies" in d17_[2]["text"] and single_site_defines(d17_, dr_) == 1
+       and single_site_defines(d17_, [dict(b, sites=1) for b in dr_]) == 3 and DRIFT_MAX_SINGLE == 500
+       and h17_.index(T3_END) < h17_.index(T17_BEGIN) < h17_.index("Unkstruct_80030000;") < h17_.index("Unkstruct_80040000;") < h17_.index("Unkstruct_80040000_2;")
+       < h17_.index(T17_END) < h17_.rindex("#endif"), f"{dr_} {[(d['map_type'], d['action'], d['target']) for d in d17_]}")
+    ok("T17 residual: a record size or offset above PSX RAM (0x200000) is a render refusal, TYPE-NO-LAYOUT",
+       t3_residual(mk_("T_big", size_hint=0x80180008, layout=[(0, 4, "s", 1), (0x80180004, 4, "s", 1)]))
+       == ("TYPE-NO-LAYOUT", "layout:refused(size>0x200000)"), str(t3_residual(mk_("T_big", size_hint=0x80180008))))
     dk0_ = "# T\n\n## Twins\nx\n\n## Dead kept\n- Old — kept\n"
     dk1_ = t3_dead_kept(dk0_, twd_ + [dict(action="define", target="Old", map_type="T_o", rank=9)])
     dk2_ = t3_dead_kept(dk0_.replace("## Dead kept\n- Old — kept\n", "## Dead kept\n- Old — kept\n\n## After\ny\n"), twd_)
@@ -6181,6 +6247,9 @@ def selftest(real=False):
        and t3_dead_kept(dk1_, twd_) == dk1_ and dk2_.index("Unkstruct_80030000") < dk2_.index("## After") and dk2_.endswith("## After\ny\n"), dk1_)
     import struct_twins as st_
     tt_ = st_.t3_targets("map_type\taction\ttarget\nA\tdefine\tUnkstruct_OLD\n# T3 (P3.40) x\nB\tdefine\tUnkstruct_80030000\nC\tresidual\tTYPE-X\n")
+    ok("T17 struct_twins: drift define targets under `# T17` are T3 targets too",
+       st_.t3_targets("map_type\taction\ttarget\nA\tdefine\tUnkstruct_OLD\n# T17 drift (P3.40) x\nD\tdefine\tUnkstruct_80040000\n")
+       == {"Unkstruct_80040000": "D"})
     sl_ = [json.dumps(dict(tu=t_, fn=f_, type=y_)) for t_, f_, y_ in (("src/ov_SC01_000/a.c", "func_80140000", "B"), ("src/800.c", "func_80012000", "B"),
                                                                      ("src/800.c", "fx_a", "B"), ("src/800.c", "func_80013000", "Z"))]
     sc3_ = st_.t3_site_cites(sl_, {"B"})
@@ -6260,7 +6329,8 @@ def main():
                     "cutoff; totals must equal the census's residue_census.json tnc)")
     ap.add_argument("--decide-band", action="store_true", help="P3.40 T3: decide fold|residual|define for the band rows of --ranks without a "
                     "type_folds row (dry run: counts + .run/P40/t3/decide_<ranks>.tsv; --write appends type_folds.tsv + struct_types.h)")
-    ap.add_argument("--ranks", help="--decide-band: A-B (band ranks) or tail (residual TYPE-BELOW-BAND rows)")
+    ap.add_argument("--ranks", help="--decide-band: A-B (band ranks), tail (residual TYPE-BELOW-BAND rows) or drift (P3.40 T17: TNC types "
+                    "in no tnc_band.tsv row and no type_folds row; --write refused above 500 single-site defines)")
     ap.add_argument("--write", action="store_true", help="--decide-band: append the decisions (default: dry run)")
     ap.add_argument("--check-residue", action="store_true", help="census sites of --forms (--only, default ov_*) not covered PER SITE by a RESIDUAL(<cause>) entry "
                     "(same form, normalised base, off; one entry per site) of their body's latest rung-S row; exit 1 if any")
