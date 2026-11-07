@@ -1,4 +1,4 @@
-date	label	commit	definitions	narrow_decls	callees	kr_empty	narrow	pinned_rows	pinned_bodies	raw_casts	struct_members	deref_all	form_P	form_I	form_X	form_M	addr_form	typed_cast_member	struct_defs	canon_defs	in_c_defs	distinct_layouts	dup_classes	dup_names	map_types	map_pct	kr_sites	kr_callees	cross_binary	cross_callees
+date	label	commit	definitions	narrow_decls	callees	kr_empty	narrow	pinned_rows	pinned_bodies	raw_casts	struct_members	deref_all	form_P	form_I	form_X	form_M	addr_form	typed_cast_member	struct_defs	canon_defs	in_c_defs	distinct_layouts	dup_classes	dup_names	map_types	map_pct	kr_sites	kr_callees	cross_binary	cross_callees	uncovered
 2026-09-10	P36 S102 — after the 16,759 free declaration repairs	51028a78d377b0ff8e0a12a86500ed2ae1f2346d	15626	94001	1564	86701	7300	461	314	414148	173286
 2026-09-11	P36 close	7a7f78e255ec3661992d12b5ceb1bd2ec2c1d680	15726	98648	1609	91357	7291	33	25	411850	177902
 2026-09-11	P37 T1 — the type census (four forms, definitions, the map)	23fc5d21592452084c7ae11fed1e98e0a40913a7	15726	98648	1609	91357	7291	33	25	411850	177902	503016	409007	60666	13800	19543	18912	36681	7261	1179	5995	525	206	2789	18760	99.2
@@ -98,3 +98,4 @@ date	label	commit	definitions	narrow_decls	callees	kr_empty	narrow	pinned_rows	p
 2026-10-16	t5_md_S1	cb68198a8ff52befaffe2288d9ed7eaad55d4a29	16094	11	3	2	9	0	0	120759	468764	178981	117922	46626	10331	4102	18887	318259	7001	6372	600	2504	738	4549	14671	98.1	5293	200	418	96
 2026-10-16	t5_md_S2	7ffca89cab2b593b0ec970fc93eb6f317868bde4	16094	11	3	2	9	0	0	120756	468767	178978	117919	46626	10331	4102	18887	318262	7001	6372	600	2504	738	4549	14645	98.1	5293	200	418	96
 2026-10-16	t5_main_S1	a308a3121b73659ab6e59b5e527bcbb8c9177de0	16094	11	3	2	9	0	0	119758	469798	177918	116921	46581	10314	4102	18887	319288	7001	6372	600	2504	738	4549	14606	98.1	5293	200	418	96
+2026-11-06	P3.40 T12: uncovered series	e56010d2be95448e560c44f2883e33fcb3865661	16092	3	3	3	0	0	0	120180	469986	178493	117485	46577	10329	4102	18893	319298	4718	4051	634	2034	457	2437	14513	98.1	4916	199	342	94	0

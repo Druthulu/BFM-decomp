@@ -7,10 +7,10 @@
 FLEET fn-count byte-ident: 363677 / 363677 = 100.00%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
 FLEET instr-weighted     : 13492113 / 13492113 = 100.0%   (shipped .text across main + resident + 216 overlays; the decomp.dev-DISPLAY number)
 FLEET distinct-code(uniq): 5820205 / 5820205 = 100.0%   (90984/90984 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :   45150 / 45150 = 100.0%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; build-derived sig (make sig-main) dated 2026-10-14; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 0 pad-tail)
+MAIN game-code weighted  :   45150 / 45150 = 100.0%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; build-derived sig (make sig-main) dated 2026-11-06; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 0 pad-tail)
   (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13446963 / 13446963 = 100.0%)
 
-FLEET REAL substantive   : 350530   (of which dedup-shared 251924 via 3173 groups / 262594 instances)
+FLEET REAL substantive   : 350530   (of which dedup-shared 251928 via 3173 groups / 262598 instances)
 FLEET LINKED PsyQ objs   :   1256
 FLEET NON_MATCHING       :      0   (0 in any default build — G4)
 FLEET INCLUDE_ASM stubs  :      0
@@ -230,9 +230,9 @@ FLEET matchable          : 363677
 | ov_SC07_000 | 2440 | 1764 | 0 | 2521 | 2521 | 100.0% |
 | ov_SC07_001 | 2375 | 1765 | 0 | 2456 | 2456 | 100.0% |
 | ov_SC07_002 | 2498 | 1769 | 0 | 2581 | 2581 | 100.0% |
-| ov_SC07_006 | 2379 | 1735 | 0 | 2459 | 2459 | 100.0% |
-| ov_SC07_007 | 2530 | 1745 | 0 | 2614 | 2614 | 100.0% |
+| ov_SC07_006 | 2379 | 1736 | 0 | 2459 | 2459 | 100.0% |
+| ov_SC07_007 | 2530 | 1746 | 0 | 2614 | 2614 | 100.0% |
 | ov_SC07_008 | 2309 | 1764 | 0 | 2388 | 2388 | 100.0% |
 | ov_SC07_009 | 2351 | 1763 | 0 | 2432 | 2432 | 100.0% |
-| ov_SC07_010 | 2443 | 1754 | 0 | 2526 | 2526 | 100.0% |
-| ov_SC07_011 | 2370 | 1744 | 0 | 2450 | 2450 | 100.0% |
+| ov_SC07_010 | 2443 | 1755 | 0 | 2526 | 2526 | 100.0% |
+| ov_SC07_011 | 2370 | 1745 | 0 | 2450 | 2450 | 100.0% |

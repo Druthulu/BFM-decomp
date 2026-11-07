@@ -5,7 +5,7 @@ freshness). The derived columns come from the tree on every run; the authored on
 dictionary, whose coverage is asserted both ways. Read it by NEED: find the phrase that matches what you are trying to do, then the tool,
 then what proved it. The same data generates the day-one kit's manifest and its verbatim tool corpus.*
 
-**Coverage:** 338 tool files in scope (submodules, vendored and downloaded code excluded; `find` and `git ls-files` agree) + 38 retired under `tools/sunset/`. Classes: LIVE 267 (a runtime consumer), REFERENCED 26 (a SETUP row only), ORPHAN 45 (neither) — of 338. Portability: PORTABLE 23, ADAPT 275, PROJECT-ONLY 40.
+**Coverage:** 343 tool files in scope (submodules, vendored and downloaded code excluded; `find` and `git ls-files` agree) + 38 retired under `tools/sunset/`. Classes: LIVE 271 (a runtime consumer), REFERENCED 26 (a SETUP row only), ORPHAN 46 (neither) — of 343. Portability: PORTABLE 23, ADAPT 275, PROJECT-ONLY 45.
 
 ## P1 — extraction + manifest
 
@@ -369,36 +369,41 @@ then what proved it. The same data generates the day-one kit's manifest and its 
 | assemble task logs, lint and index task summaries | `task_log.py` | Assembles logs, lints task summaries and indexes them | — | Project Architect harness | ORPHAN |
 | assemble, archive and lint PhaseEnd files | `phaseend_index.py` | Assembles, archives, lints and legacy-indexes PhaseEnd files | genend_index.py, launch.py | Project Architect harness | LIVE |
 | change the live phase plan only through one writer | `plan_edit.py` | The only writer of phase-ends/current/PHASE_PLAN.md | _genplan.py, bench.py, genend_index.py, launch.py (+2) | Project Architect harness | LIVE |
-| commit one task's work with explicit paths and a one-line message | `commit_task.sh` | Commits a task: stages the explicit paths plus the task-owned log areas only, one-line message | — | Project Architect harness | ORPHAN |
+| commit one task's work with explicit paths and a one-line message | `commit_task.sh` | Commits a task: stages the explicit paths plus the task-owned log areas only, one-line message | curate.py | Project Architect harness | LIVE |
 | cross-validate an extraction against an independent third-party tool | `bfm_extract/crosscheck.py` | Cross-validates against a third-party tool written for that specific game | test_lzss.py | project-only | LIVE |
 | decode a bespoke compression format, cross-checked against its own length field | `bfm_extract/lzss.py` | Decoder for one game's non-generic compression semantics, verified against its own decompressor | .github/workflows/no-rom.yml, extract.py, test_lzss.py | project-only | LIVE |
 | decode an on-disc index table into a payload-to-binary naming map | `idxtab_map.py` | Decodes one game's on-disc index table and its payload-to-binary naming convention — the load map itself is a Phase-2 task | find_addr_refs.py | project-only | LIVE |
+| delete exactly the listed .run/ items after the developer's yes | `run_cleanup.py` | The one-time .run/ cleanup deleter | — | Project Architect harness | ORPHAN |
 | demote stale memories, cookbook entries and rules at a generation start | `curate.py` | Generation-start curator: demotes memories, cookbook, rules; trims HOW_WE_WORK | phaseend_index.py | Project Architect harness | LIVE |
 | expose a disc extraction pipeline's stages as one package | `bfm_extract/__init__.py` | Package entry for one title's disc pipeline; names its own container stages | jtbl_rodata_pads.py, oracle_reorder.py | project-only | LIVE |
 | extract a prototype build's executable, allowing for its known deviations | `bfm_extract/extract_proto_exe.py` | Companion for one title's prototype discs and their specific deviations | ghidra_rebuild.sh | project-only | LIVE |
 | extract the console executable and hard-validate its name, size and header | `bfm_extract/extract_exe.py` | Hard-validates one executable's exact name, size, hash and header field values | Makefile, audit_public.py, extract.py, extract_proto_exe.py (+1) | project-only | LIVE |
 | feed the statusline its status line | `status.py` | Writes .run/status.json (the statusline's line 2 source) | campaign_status.py, phaseend_index.py | Project Architect harness | LIVE |
 | grade agent-bench runs against their fixtures | `_bench_grade.py` | Graders for the agent bench (bench.py) and the fixture-root lookup it shares | bench.py | Project Architect harness | LIVE |
+| list a project's past: its inventory and its docs index | `history.py` | Inventory and docs index of a project's history | — | Project Architect harness | ORPHAN |
 | list a sound library's address window and per-address exclusions | `make_snd_used.py` | Hard-codes one executable's sound-library address window and per-address exclusions | Makefile, fetch_psyq.sh | project-only | LIVE |
 | list the interface library's objects and address window the executable actually links | `make_apicard_used.py` | Hard-codes one executable's interface-library address window and object roster | Makefile, fetch_psyq.sh | project-only | LIVE |
-| measure agent behaviour against fixed fixtures | `bench.py` | The agent bench: fixtures, plan, run, pull, compare, check | _bench_grade.py, managed.py | Project Architect harness | LIVE |
+| measure agent behaviour against fixed fixtures | `bench.py` | The agent bench: fixtures, plan, run, pull, compare, check | _bench_grade.py, managed.py, pa_ext.py | Project Architect harness | LIVE |
 | observe a live loader's requests to learn which payload loads where | `cdtrace.py` | Reads one game's loader request structures at fixed RAM addresses | — | project-only | ORPHAN |
 | onboard one payload by its container and file-index naming | `new_overlay.sh` | Takes one game's container and file-index naming as its command-line contract | Makefile, config/overlays.mk, dup_report.py, family_remap.py (+2) | project-only | LIVE |
 | outline a large file so it is read by range | `outline.py` | Table of contents for source files | _credit.py | Project Architect harness | LIVE |
 | parse a bespoke archive-chain header format | `bfm_extract/pac.py` | Parser for one game's bespoke archive-chain header format | crosscheck.py, extract.py | project-only | LIVE |
-| parse the generation plan's phase lines once for every consumer | `_genplan.py` | Shared GENERATION_PLAN.md phase-line parser | discussion.py, genend_index.py, plan_edit.py, research_add.py (+1) | Project Architect harness | LIVE |
+| parse and index the journal's records | `records.py` | Parses record filings, assigns ids, prints the index and to-dos | — | Project Architect harness | ORPHAN |
+| parse the generation plan's phase lines once for every consumer | `_genplan.py` | Shared GENERATION_PLAN.md phase-line parser | discussion.py, genend_index.py, plan_edit.py, records.py (+3) | Project Architect harness | LIVE |
 | read a bespoke container's table of contents to locate its files | `bfm_extract/cd_archive.py` | Reader for one game's bespoke container table-of-contents format | crosscheck.py, extract.py | project-only | LIVE |
-| record credit notes for the governance scripts | `_credit.py` | Writes credit note files for the governance scripts | card.py, cookbook_add.sh, curate.py, discussion.py (+7) | Project Architect harness | LIVE |
+| record credit notes for the governance scripts | `_credit.py` | Writes credit note files for the governance scripts | card.py, cookbook_add.sh, curate.py, discussion.py (+9) | Project Architect harness | LIVE |
 | record which files the harness manages | `managed.py` | The managed-file record .claude/pa3-managed.json | — | Project Architect harness | ORPHAN |
-| roll the agent journal up by month | `journal_rollup.py` | Rolls dated .claude-state/journal day dirs into the monthly INDEX-<YYYY-MM>.md | — | Project Architect harness | ORPHAN |
-| run a long or noisy command with its log on disk and only the tail printed | `run.sh` | The house pattern for long or noisy commands | _credit.py | Project Architect harness | LIVE |
+| roll the agent journal up by month | `journal_rollup.py` | Rolls dated .claude-state/journal day dirs into the monthly INDEX-<YYYY-MM>.md | records.py | Project Architect harness | LIVE |
+| run a long or noisy command with its log on disk and only the tail printed | `run.sh` | The house pattern for long or noisy commands | _credit.py, task_log.py | Project Architect harness | LIVE |
+| run and steer external coders on other providers' models | `pa_ext.py` | Sets up, checks, runs and messages external coder backends | bench.py | Project Architect harness | LIVE |
 | serve each role its slice of the standing-facts card | `card.py` | Manages the HOW_WE_WORK.md card | curate.py, phaseend_index.py | Project Architect harness | LIVE |
-| start a harness session the one sanctioned way | `launch.py` | The only way a PA3 session starts | _genplan.py | Project Architect harness | LIVE |
+| start a harness session the one sanctioned way | `launch.py` | The only way a PA3 session starts | _genplan.py, curate.py | Project Architect harness | LIVE |
 | track open developer discussions and their index | `discussion.py` | Owns .run/DISCUSSION and discussions/INDEX.md | status.py | Project Architect harness | LIVE |
 | turn a captured workflow into a skill | `skill_add.py` | Turns a captured workflow into .claude/skills/<name>/SKILL.md | — | Project Architect harness | ORPHAN |
 | unit-test a bespoke compression decoder against known cases | `bfm_extract/test_lzss.py` | Unit tests for that game-specific compression variant | .github/workflows/no-rom.yml | project-only | LIVE |
-| update the harness as one allow-listed command | `pa3_update.py` | `update pa3` as one allow-listed command | — | Project Architect harness | ORPHAN |
+| update the harness as one allow-listed command | `pa3_update.py` | `update pa3` as one allow-listed command | pa_ext.py | Project Architect harness | LIVE |
 | walk the whole medium and extract every file deterministically | `bfm_extract/extract.py` | Full-disc extractor bound to one disc's root file list and audio-track handling | Makefile, extract_exe.py, verify_worktree.py | project-only | LIVE |
+| write one Markdown bug report when the harness stalls | `pa_bugreport.py` | Bundles harness state into one attachable Markdown file | — | Project Architect harness | ORPHAN |
 
 ## Retired (`tools/sunset/`) — superseded by a named successor, or a one-off whose product exists
 

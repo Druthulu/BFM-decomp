@@ -86,6 +86,9 @@ in the Archive index, not here. The conventions behind this page: [Docs and scra
 | [`retrospective.md`](../retrospective.md) | What was believed, what failed, what it cost, what to do sooner. | Read whole; §4 is the list for the next project. | authored; assembled with `tools/mine_hindsight.py` |
 | [`phase34-seed.md`](../phase34-seed.md) | The plan seed for the flip phase (Phase 34): every task, actor, effort and carrying document. | Read whole. | authored |
 | [`history/`](../history/) | The provenance archive: the original brief (superseded, with its corrected claims), the methodology version the constitution was generated from, an early experiment. Nothing current. | Its README. | authored |
+| [`PHASE_HISTORY.md`](../PHASE_HISTORY.md) | One entry per closed phase, built from the PhaseEnds. | By phase heading. | `tools/phaseend_index.py history`, rebuilt at each close |
+| [`PRE_PA3_INDEX.md`](../PRE_PA3_INDEX.md) | One line per document from before the PA3 harness: dates, path, title. | Grep it. | generated at the PA3 intake |
+| [`PRE_PA3_STATE.md`](../PRE_PA3_STATE.md) | The project's state when the PA3 harness was installed. | Read whole. | written at the PA3 intake |
 | `phase-ends/` | Not under `docs/`, but the record proper: one PhaseEnd per phase, the digest of every phase and every rule, the working logs. | [Repository layout](Repository-layout.md). | authored per phase |
 
 ## Gen3 inputs

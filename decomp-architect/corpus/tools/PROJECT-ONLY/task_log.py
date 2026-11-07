@@ -10,6 +10,10 @@ gotchas [--kind harness|generalizable|workflow|binding] [--all | --phase <id>]
                 every tagged line in phase-ends/current/tasks/*.md, as path:line
                 (the closer's gatherer, 3.1 T17); --all adds the archived
                 phase-*/tasks/*.md; --phase <id> scans only phase-<id>/tasks
+aside T3 [--restore]
+                a task the plan set back keeps its progress out of the next task's
+                way: TASK_PROGRESS.md (.patch) to logs/T3.aside.md (.patch); --restore
+                moves it back for the task's next start (3.30.1, the mod's loop)
 Stdlib only; no imports from `pa/`.
 """
 
@@ -18,6 +22,9 @@ import json
 import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _genplan                                                 # noqa: E402
 
 try:                          # UTF-8 output even when not started with -X utf8
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -136,7 +143,7 @@ def field(lines, label):
     return None
 
 
-_PHASE_RE = re.compile(r"Phase\s+([0-9]+(?:\.[0-9]+)*)")
+_PHASE_RE = re.compile(r"Phase\s+(" + _genplan.PHASE_ID + r"|[0-9]+)")     # 3.32 B8a: was numeric ids only
 _APPROVED_RE = re.compile(r"Approved:\s*([0-9]{4}-[0-9]{2}-[0-9]{2})")
 
 
@@ -218,12 +225,16 @@ def _research_lines(root, tid):
 
 
 def _run_log_names(root, since_iso, tid):
-    """Names of .run/logs/*.log files at/after since_iso whose base name starts
-    with tid (lower case) followed by '-' or 'c' (t6-unit.log, t6c2-tools.log
-    for T6; the separator keeps t11-idx.log out of T1). Newest last."""
+    """Names of run.sh logs at/after since_iso whose base name starts with tid
+    (lower case) followed by '-' or 'c' (t6-unit.log, t6c2-tools.log for T6;
+    the separator keeps t11-idx.log out of T1). Newest last. They are in
+    .run/<phase>/logs while a plan is open (3.29 T4), else .run/logs."""
     import datetime as _dt
-    logs_dir = os.path.join(root, ".run", "logs")
-    if not os.path.isdir(logs_dir):
+    phase_id, _ = _plan_header(root)
+    dirs = [os.path.join(root, ".run", phase_id, "logs")] if phase_id else []
+    dirs.append(os.path.join(root, ".run", "logs"))
+    dirs = [d for d in dirs if os.path.isdir(d)]
+    if not dirs:
         return []
     since_ts = 0
     if since_iso:
@@ -234,14 +245,15 @@ def _run_log_names(root, since_iso, tid):
             since_ts = 0
     prefix_re = re.compile(r"^%s[-c]" % re.escape(tid.lower()))
     rows = []
-    for name in os.listdir(logs_dir):
-        if not name.endswith(".log"):
-            continue
-        if not prefix_re.match(name.lower()):
-            continue
-        mtime = os.path.getmtime(os.path.join(logs_dir, name))
-        if mtime >= since_ts:
-            rows.append((mtime, name))
+    for logs_dir in dirs:
+        for name in os.listdir(logs_dir):
+            if not name.endswith(".log"):
+                continue
+            if not prefix_re.match(name.lower()):
+                continue
+            mtime = os.path.getmtime(os.path.join(logs_dir, name))
+            if mtime >= since_ts:
+                rows.append((mtime, name))
     rows.sort()
     return [name for _, name in rows]
 
@@ -477,7 +489,7 @@ def lint_summary(root, tid):
             errs.append("line %d: markdown table (summaries carry no tables)" % (i + 1))
             break
     for i, raw in enumerate(lines):
-        if ".run/logs" in raw and not raw.strip().startswith(("Full log:", "-", "Commands")):
+        if re.search(r"\.run/(?:[^/\s]+/)?logs", raw) and not raw.strip().startswith(("Full log:", "-", "Commands")):
             warns.append("line %d: mentions .run/logs -- paths only, never dumps" % (i + 1))
             break
     log = cur(root, "logs", "%s.md" % tid)
@@ -613,6 +625,58 @@ def cmd_gotchas(a, root):
     return 0
 
 
+def _tracked(root, path):
+    import subprocess
+    try:
+        r = subprocess.run(["git", "ls-files", "--error-unmatch", "--", path], cwd=root,
+                           capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return r.returncode == 0
+
+
+def _move(root, src, dst):
+    """A tracked file is git mv'ed (the rename staged for the next commit), any other renamed; dst is replaced."""
+    import subprocess
+    if os.path.exists(dst):
+        if _tracked(root, dst):
+            subprocess.run(["git", "rm", "-q", "-f", "--", dst], cwd=root, capture_output=True, timeout=30)
+        if os.path.exists(dst):
+            os.remove(dst)
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    if _tracked(root, src):
+        r = subprocess.run(["git", "mv", "-f", "--", src, dst], cwd=root, capture_output=True, timeout=30)
+        if r.returncode == 0:
+            return
+    os.replace(src, dst)
+
+
+def cmd_aside(a, root):
+    """3.30.1: a task the plan set back while it was stopped or cut off keeps its progress, out of the way of the task
+    that runs meanwhile: TASK_PROGRESS.md and its patch move to logs/<T>.aside.md and .patch. --restore moves them back
+    for the task's next start, unless a TASK_PROGRESS.md is there (then the brief names the parked file)."""
+    pairs = [(cur(root, "TASK_PROGRESS.md"), cur(root, "logs", "%s.aside.md" % a.task)),
+             (cur(root, "TASK_PROGRESS.patch"), cur(root, "logs", "%s.aside.patch" % a.task))]
+    if a.restore:
+        if not os.path.isfile(pairs[0][1]):
+            sys.stdout.write("none: no %s\n" % rel(root, pairs[0][1]))
+        elif os.path.exists(pairs[0][0]):
+            sys.stdout.write("kept: %s (a TASK_PROGRESS.md is there)\n" % rel(root, pairs[0][1]))
+        else:
+            for live, parked in pairs:
+                if os.path.isfile(parked):
+                    _move(root, parked, live)
+            sys.stdout.write("restored: %s\n" % rel(root, pairs[0][0]))
+        return 0
+    moved = []
+    for live, parked in pairs:
+        if os.path.isfile(live):
+            _move(root, live, parked)
+            moved.append(rel(root, parked))
+    sys.stdout.write("aside: %s\n" % ", ".join(moved) if moved else "none: no TASK_PROGRESS.md\n")
+    return 0
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(
         prog="task_log.py", description="Lint and index task summaries (<=150 lines).")
@@ -634,10 +698,13 @@ def main(argv=None):
                    help="also every archived phase-*/tasks")
     g.add_argument("--phase", metavar="ID",
                    help="only the archived phase-<ID>/tasks (e.g. 3.9.6)")
+    s = sub.add_parser("aside", help="park a set-back task's TASK_PROGRESS.md as logs/T<n>.aside.md (--restore: back)")
+    s.add_argument("task")
+    s.add_argument("--restore", action="store_true")
     a = p.parse_args(argv)
     root = find_root()
     return {"assemble": cmd_assemble, "finish": cmd_finish, "lint": cmd_lint,
-            "review": cmd_review,
+            "review": cmd_review, "aside": cmd_aside,
             "coder-finish": cmd_coder_finish, "gotchas": cmd_gotchas}[a.cmd](a, root)
 
 

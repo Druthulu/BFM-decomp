@@ -8,8 +8,8 @@
 > its platform SDK need the marked adaptation. The last table lists the tools that are project-only in code (their *shape* is a task;
 > their code does not transfer). *TODO(platform): the MIPS and PlayStation SDK hard-codes are the ones another platform replaces first.*
 >
-> **Coverage:** 338 tool files in scope (submodules, vendored and downloaded code excluded), of which 338 live rows
-> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 26 · P6 51 · P7 20 · P8 86 · P9 27 · P10 35 · PROJECT-ONLY 39. Superseded tools appear only as pointers to their successor (30 pointer rows); one-offs are omitted. Table rows in all: 368 (the installer checks its copy against this figure).
+> **Coverage:** 343 tool files in scope (submodules, vendored and downloaded code excluded), of which 343 live rows
+> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 26 · P6 51 · P7 20 · P8 86 · P9 27 · P10 35 · PROJECT-ONLY 44. Superseded tools appear only as pointers to their successor (30 pointer rows); one-offs are omitted. Table rows in all: 373 (the installer checks its copy against this figure).
 
 ## P1 — extraction + manifest
 
@@ -377,12 +377,14 @@
 | `bfm_extract/crosscheck.py` | cross-validate an extraction against an independent third-party tool | Cross-validates against a third-party tool written for that specific game | project-only |
 | `bfm_extract/lzss.py` | decode a bespoke compression format, cross-checked against its own length field | Decoder for one game's non-generic compression semantics, verified against its own decompressor | project-only |
 | `idxtab_map.py` | decode an on-disc index table into a payload-to-binary naming map | Decodes one game's on-disc index table and its payload-to-binary naming convention — the load map itself is a Phase-2 task | project-only |
+| `run_cleanup.py` | delete exactly the listed .run/ items after the developer's yes | The one-time .run/ cleanup deleter | Project Architect harness |
 | `curate.py` | demote stale memories, cookbook entries and rules at a generation start | Generation-start curator: demotes memories, cookbook, rules; trims HOW_WE_WORK | Project Architect harness |
 | `bfm_extract/__init__.py` | expose a disc extraction pipeline's stages as one package | Package entry for one title's disc pipeline; names its own container stages | project-only |
 | `bfm_extract/extract_proto_exe.py` | extract a prototype build's executable, allowing for its known deviations | Companion for one title's prototype discs and their specific deviations | project-only |
 | `bfm_extract/extract_exe.py` | extract the console executable and hard-validate its name, size and header | Hard-validates one executable's exact name, size, hash and header field values | project-only |
 | `status.py` | feed the statusline its status line | Writes .run/status.json (the statusline's line 2 source) | Project Architect harness |
 | `_bench_grade.py` | grade agent-bench runs against their fixtures | Graders for the agent bench (bench.py) and the fixture-root lookup it shares | Project Architect harness |
+| `history.py` | list a project's past: its inventory and its docs index | Inventory and docs index of a project's history | Project Architect harness |
 | `make_snd_used.py` | list a sound library's address window and per-address exclusions | Hard-codes one executable's sound-library address window and per-address exclusions | project-only |
 | `make_apicard_used.py` | list the interface library's objects and address window the executable actually links | Hard-codes one executable's interface-library address window and object roster | project-only |
 | `bench.py` | measure agent behaviour against fixed fixtures | The agent bench: fixtures, plan, run, pull, compare, check | Project Architect harness |
@@ -390,12 +392,14 @@
 | `new_overlay.sh` | onboard one payload by its container and file-index naming | Takes one game's container and file-index naming as its command-line contract | project-only |
 | `outline.py` | outline a large file so it is read by range | Table of contents for source files | Project Architect harness |
 | `bfm_extract/pac.py` | parse a bespoke archive-chain header format | Parser for one game's bespoke archive-chain header format | project-only |
+| `records.py` | parse and index the journal's records | Parses record filings, assigns ids, prints the index and to-dos | Project Architect harness |
 | `_genplan.py` | parse the generation plan's phase lines once for every consumer | Shared GENERATION_PLAN.md phase-line parser | Project Architect harness |
 | `bfm_extract/cd_archive.py` | read a bespoke container's table of contents to locate its files | Reader for one game's bespoke container table-of-contents format | project-only |
 | `_credit.py` | record credit notes for the governance scripts | Writes credit note files for the governance scripts | Project Architect harness |
 | `managed.py` | record which files the harness manages | The managed-file record .claude/pa3-managed.json | Project Architect harness |
 | `journal_rollup.py` | roll the agent journal up by month | Rolls dated .claude-state/journal day dirs into the monthly INDEX-<YYYY-MM>.md | Project Architect harness |
 | `run.sh` | run a long or noisy command with its log on disk and only the tail printed | The house pattern for long or noisy commands | Project Architect harness |
+| `pa_ext.py` | run and steer external coders on other providers' models | Sets up, checks, runs and messages external coder backends | Project Architect harness |
 | `card.py` | serve each role its slice of the standing-facts card | Manages the HOW_WE_WORK.md card | Project Architect harness |
 | `launch.py` | start a harness session the one sanctioned way | The only way a PA3 session starts | Project Architect harness |
 | `discussion.py` | track open developer discussions and their index | Owns .run/DISCUSSION and discussions/INDEX.md | Project Architect harness |
@@ -403,6 +407,7 @@
 | `bfm_extract/test_lzss.py` | unit-test a bespoke compression decoder against known cases | Unit tests for that game-specific compression variant | project-only |
 | `pa3_update.py` | update the harness as one allow-listed command | `update pa3` as one allow-listed command | Project Architect harness |
 | `bfm_extract/extract.py` | walk the whole medium and extract every file deterministically | Full-disc extractor bound to one disc's root file list and audio-track handling | project-only |
+| `pa_bugreport.py` | write one Markdown bug report when the harness stalls | Bundles harness state into one attachable Markdown file | Project Architect harness |
 
 ## Superseded — pointers only
 

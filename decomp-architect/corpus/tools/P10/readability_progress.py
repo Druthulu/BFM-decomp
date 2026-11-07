@@ -79,6 +79,24 @@ def counts():
                struct_defs=d["total"], canon_defs=d["canon"], in_c_defs=d["in_c_file_scope"] + d["in_c_block_scope"],
                distinct_layouts=d["distinct_layouts"], dup_classes=d["dup_layout_classes"], dup_names=d["dup_layout_names"],
                map_types=sm["types"], map_pct=sm["explained_pct"])
+    # P3.40 T12: `uncovered` = sum over P/I/X/M of residue_census.json by_form[f].uncovered — the cast gate's measure (raw sites with no
+    # ledgered RESIDUAL(<cause>)), recorded beside the raw counts so green-by-ledger never reads as debt gone. Source: the residue census
+    # beside this census, else the newest; used only when its sibling type_census.json is fresh (HEAD or src stamp) and not newer than
+    # it — otherwise blank (no stale number)
+    rj = cj.parent / "residue_census.json"
+    if not rj.exists():
+        rjs = sorted(REPO.glob(".run/P*/census/residue_census.json"), key=lambda q: (q.stat().st_mtime, str(q)))
+        rj = rjs[-1] if rjs else None
+    out["uncovered"] = ""
+    if rj is not None and (rj.parent / "type_census.json").exists():
+        rs = json.loads((rj.parent / "type_census.json").read_text())["summary"]
+        fresh = head.startswith(rs.get("head", "?")) or rs.get("src_stamp") == lever_census.src_stamp()
+        if fresh and rj.stat().st_mtime >= (rj.parent / "type_census.json").stat().st_mtime:
+            bf = json.loads(rj.read_text())["by_form"]
+            out["uncovered"] = sum(int(bf.get(f, {}).get("uncovered", 0)) for f in ("P", "I", "X", "M"))
+        else:
+            print(f"readability_progress: residue census {rj.relative_to(REPO)} is stale — `uncovered` left blank "
+                  "(run tools/type_census.py --check-casts --residue)", file=sys.stderr)
     return out
 
 
@@ -88,7 +106,9 @@ COLS = ["date", "label", "commit", "definitions", "narrow_decls", "callees", "kr
         "deref_all", "form_P", "form_I", "form_X", "form_M", "addr_form", "typed_cast_member", "struct_defs", "canon_defs", "in_c_defs",
         "distinct_layouts", "dup_classes", "dup_names", "map_types", "map_pct",
         # P37 T4 (2026-09-12): the byte-proven K&R sites, counted apart from the lies
-        "kr_sites", "kr_callees", "cross_binary", "cross_callees"]
+        "kr_sites", "kr_callees", "cross_binary", "cross_callees",
+        # P3.40 T12 (2026-11-06): the cast gate's uncovered sites, summed over the four forms (blank on older rows)
+        "uncovered"]
 HEAD = "\t".join(COLS) + "\n"
 
 
