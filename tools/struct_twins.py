@@ -351,11 +351,12 @@ def scan_all(wanted):
 
 
 def t3_targets(folds_text):
-    """(pure) {define target: map type} for the config/type_folds.tsv rows under a `# T3` comment line (P3.40 T3 band defs, T3.c3)"""
+    """(pure) {define target: map type} for the config/type_folds.tsv rows under a `# T3` comment line (P3.40 T3 band defs, T3.c3)
+    or a `# T17` one (P3.40 T17 drift defs)"""
     out, t3 = {}, False
     for line in folds_text.splitlines():
         if line.startswith("#"):
-            t3 = t3 or line.startswith("# T3")
+            t3 = t3 or line.startswith(("# T3", "# T17"))
             continue
         p = line.split("\t")
         if t3 and len(p) >= 3 and p[1] == "define":
