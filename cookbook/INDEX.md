@@ -986,3 +986,6 @@ C0533 | Census summary JSONs are capped; never rebuild rows from them | census,j
 C0534 | Dead const-address temp folded by cse: derive the pointer in the loop-test block | cse,const-addr,launder,goto,beq-order | 2026-10-22 | 40/T11 | T11.cG16 func_8012C2D0
 C0535 | do{}while(0) around two copies splits cse1's EBB so sched1 keeps their birth order (T11 G16x func_80177F84) | cse,sched1,do-while,launder,birth-order | 2026-10-22 | 40/T11 | -
 C0536 | verbatim_check --update keeps ov_* fleet rows; drop a decompiled one by hand | verbatim,tools-health,manifest | 2026-11-06 | 3.40/T12 | P3.40 T12 tools-health
+C0537 | struct_map size_hint can be an address: cap layouts at PSX RAM before rendering | structs,census,restruct,oom,layout | 2026-11-06 | 3.40/T17 | P3.40 T17.c1 OOM
+C0538 | Cycle calibration fails after a split rename: stale oracle baseline objects and recipes.json | restruct,rung-S,oracle,recipes,delever,baseline | 2026-11-07 | 3.40/T17 | P3.40 T17.c3 calibration
+C0539 | Repair check-structs after prunes: fresh census before struct_twins --write, lift outside_canon, fold tier-1 redeclarations | structs,check-structs,twins,lift_types,prune | 2026-11-07 | 3.40/T17 | P3.40 T17.c5

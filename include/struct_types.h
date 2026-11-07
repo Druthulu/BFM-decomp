@@ -36203,7 +36203,7 @@ typedef struct { s32 w[4]; P2_CBA44_t o; } Base_CBA44_t;
 typedef SVECTOR SV_CBA44_t;
 typedef struct { u32 pad; u32 uv0, uv1, uv2; u16 n, v0, v1, v2; } Src_25CBC_t;
 typedef Src_249F0_t Src_27058_t;
-typedef struct { u32 pad; u32 rgb; u16 n, v0, v1, v2, v3, pad12; } Src_27200_t;
+typedef struct { u32 pad; u32 rgb; u16 norm0, v0, v1, v2, v3, pad12; } Src_27200_t; /* TMD flat quad: rgb, norm0, vert0-3 (func_80027200) */
 typedef struct { u16 x; u16 y; u32 pad; } Tex_26514_t;
 
 #endif /* STRUCT_TYPES_H */

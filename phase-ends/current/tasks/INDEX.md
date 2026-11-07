@@ -13,3 +13,4 @@ T10 | blocked | singleton crack pilot and wave projection | - | tasks/T10.md | l
 T21 | done | Bank the waiting cookbook lessons (one time, PA3 3.30) | - | tasks/T21.md | logs/T21.md | -
 T11 | done | singleton crack wave | - | tasks/T11.md | logs/T11.md | R3.40-001,R3.40-010,R3.40-013,R3.40-014
 T12 | done | timeline "uncovered" series beside raw casts | - | tasks/T12.md | logs/T12.md | -
+T17 | question | drift types: decide the TNC map types the T4/T5 sweeps' census regrouping created, all segments | - | tasks/T17.md | logs/T17.md | R3.40-015
