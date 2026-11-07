@@ -18,3 +18,4 @@ T18 | done | cast-gate leftovers from T8.c4: 3 K&R-empty lying decls, 1 unbacked
 T19 | done | lever wall rule: wall vocabulary and the tool check | - | tasks/T19.md | logs/T19.md | R3.40-011,R3.40-012
 T20 | done | walls for the rows no wave re-judges: head classes, T7 scratch pins, asm | - | tasks/T20.md | logs/T20.md | R3.40-016,R3.40-012,R3.40-011
 T13 | done | milestone gate and record (Phase 3.40) | - | tasks/T13.md | logs/T13.md | -
+T15 | done | ledger backup at phase close: stripped public copy and full archive copy | - | tasks/T15.md | logs/T15.md | R3.40-007
