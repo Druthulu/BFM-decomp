@@ -601,3 +601,10 @@ Run at the close of every task that changes the count, and at every phase close:
 ```
 
 `tools/lever_progress.py --check` fails when the series' last row is not this tree — a stale series is a wrong chart.
+
+**The wall rule (Phase 40 T19).** Every row of `config/lever_residue.tsv` names the gcc wall that keeps its lever: its cause
+ends ` wall:<tag>`, and the tag is a row of `config/lever_walls.tsv` (the vocabulary: tag, pass, what, evidence).
+`tools/lever_census.py --check --strict --residue config/lever_residue.tsv` (`--walls` defaults to that file) fails on an
+unwalled row, an unknown tag, or an unused row, and prints the count by tag and the unwalled count by cause class.
+`--write-residue` writes new rows unwalled on purpose, so they fail until someone names the wall. Shipped with its wiring and
+docs per R127 (`docs/ops/p40-t19-2026-11-07-lever-wall-rule.md`).

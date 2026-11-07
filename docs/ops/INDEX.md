@@ -67,4 +67,5 @@ mcp-reconnect-after-restart.md | mcp-reconnect-after-restart | 9
 | p40-t1-2026-10-14-census-dirs-ledgers.md | §P40 T1 — 2026-10-14: census dir per tool; P37/P39 gap = defline sites; ledgers local + .run/keep gz | 4
 | p40-t2-type-folds.md | §P40 T2 — 2026-10-14: restruct.py reads config/type_folds.tsv; residue causes resolve the drawn type; --restamp | 13
 | p40-t12-2026-11-06-uncovered-series.md | §P40 T12 — 2026-11-06: readability `uncovered` column (residue census by_form) and its timeline series | 1
+| p40-t19-2026-11-07-lever-wall-rule.md | §P40 T19 — 2026-11-07: lever wall rule; lever_census --walls config/lever_walls.tsv; strict fails unwalled/unknown/unused | 5
 | commit-task-autostage.md | commit_task.sh auto-staging and message rules (moved off the card 2026-10-21) | 1

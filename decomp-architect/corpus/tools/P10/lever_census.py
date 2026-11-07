@@ -1126,6 +1126,44 @@ def parse_residue(text):
     return rows
 
 
+WALLS_DEFAULT = "config/lever_walls.tsv"
+WALL_RE = re.compile(r" wall:(\S+)")
+
+
+def load_walls(path):
+    """the wall vocabulary (P40 T19): column 1 of config/lever_walls.tsv, `#` lines, blank lines and the `tag` header skipped."""
+    tags = set()
+    for ln in (REPO / path).read_text().splitlines():
+        if not ln.strip() or ln.lstrip().startswith("#"):
+            continue
+        t = ln.split("\t")[0].strip()
+        if t != "tag":
+            tags.add(t)
+    return tags
+
+
+def wall_check(residue_rows, tags, unused=()):
+    """P40 T19 wall rule: every residue row's cause names a wall (` wall:<tag>`) from the vocabulary TAGS. Returns
+    dict(rows, unwalled=[rows], unknown=[rows], by_tag=Counter, unwalled_by_cause=Counter keyed by the cause class, rc): rc 1 when
+    UNUSED (strict_failures' residue_unused), unwalled or unknown is non-empty."""
+    unwalled, unknown, by_tag, ubc = [], [], collections.Counter(), collections.Counter()
+    for r in residue_rows:
+        m = WALL_RE.search(r["cause"])
+        if not m:
+            unwalled.append(r)
+            ubc[re.split(r"[(\s]", r["cause"].strip(), maxsplit=1)[0]] += 1
+        elif m.group(1) not in tags:
+            unknown.append(r)
+        else:
+            by_tag[m.group(1)] += 1
+    return dict(rows=len(residue_rows), unwalled=unwalled, unknown=unknown, by_tag=by_tag, unwalled_by_cause=ubc,
+                rc=1 if (unused or unwalled or unknown) else 0)
+
+
+def _by_count(c):
+    return "{" + ", ".join(f"{k}: {v}" for k, v in sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))) + "}"
+
+
 def header_macro_names(gte_header):
     """names #defined in the GTE header (any body): a body's call of one of them is the consolidated spelling, not a direct statement."""
     p = REPO / gte_header
@@ -1327,6 +1365,21 @@ def selftest():
     if f10 or h10 != len(f9) or c10["residue_unused"] or len(rr) != 6 or any(got_c.get(k) != v for k, v in want_c.items()) or \
        residue_text(f9, s9, lg, existing_text=txt) != txt:
         print(f"selftest: --write-residue round trip: {len(f10)} fails, {len(c10['residue_unused'])} unused, rows {got_c}"); ok = False
+    # P40 T19 wall rule: unused, unwalled and unknown-tag rows each fail; a fully walled, fully used set passes; new rows are unwalled
+    wl = lambda t: dict(row("src/fx/x.c", "func_1", "pin"), cause=f"singleton(pin) wall:{t}")
+    if wall_check([wl("w1")], {"w1"})["rc"] != 0 or wall_check([wl("w1")], {"w1"})["by_tag"] != {"w1": 1}:
+        print("selftest: walls (i) a fully walled set failed"); ok = False
+    if wall_check([wl("w1")], {"w1"}, unused=[wl("w1")])["rc"] != 1:
+        print("selftest: walls (ii) a residue-unused row passed"); ok = False
+    w3 = wall_check([wl("w1"), row("src/fx/x.c", "func_2", "pin")], {"w1"})
+    if w3["rc"] != 1 or len(w3["unwalled"]) != 1 or w3["unwalled_by_cause"] != {"fx": 1}:
+        print(f"selftest: walls (iii) an unwalled row passed ({w3['unwalled_by_cause']})"); ok = False
+    w4 = wall_check([wl("nope")], {"w1"})
+    if w4["rc"] != 1 or len(w4["unknown"]) != 1:
+        print("selftest: walls (iv) an unknown-tag row passed"); ok = False
+    w5 = wall_check(rr, {"w1"})
+    if len(w5["unwalled"]) != len(rr) or w5["unwalled_by_cause"].get("missing-parameter") != 1:
+        print(f"selftest: walls (v) --write-residue rows are not unwalled ({w5['unwalled_by_cause']})"); ok = False
     print(f"selftest: {'OK' if ok else 'FAIL'} — {len(r['sites'])} sites, {len(r['defs'])} defs, {len(r['macro_defs'])} asm macros")
     return ok
 
@@ -1341,6 +1394,9 @@ def main():
     ap.add_argument("--write-residue", default=None, metavar="PATH",
                     help="with --check --strict: write a residue TSV row per (file, func, kind) still failing (existing rows of PATH and "
                          "matched --residue rows kept verbatim; pass/instrument from the delever ledger, cause classified)")
+    ap.add_argument("--walls", default=WALLS_DEFAULT, metavar="PATH",
+                    help="with --strict --residue: wall vocabulary TSV (tag = column 1); exit 1 on a residue row whose cause lacks "
+                         "' wall:<tag>', names a tag not in PATH, or is unused")
     ap.add_argument("--gte-header", default=GTE_HEADER_DEFAULT)
     ap.add_argument("--out-dir", default=OUT_DIR_DEFAULT)
     ap.add_argument("--sites", action="store_true", help="also write every site to lever_sites.jsonl (scratch)")
@@ -1384,17 +1440,26 @@ def main():
                 wp.write_text(residue_text(fails, sites, delever.load_ledger(), wp.read_text() if wp.exists() else "", keep))
                 print(f"lever_census --write-residue: {len(parse_residue(wp.read_text()))} row(s) -> {a.write_residue}")
             gl = s.get("gte_levers", {}).get("sites", 0)
+            wc = wall_check(residue_rows, load_walls(a.walls), c["residue_unused"]) if a.residue else None
+            wall_bad = bool(wc and wc["rc"])
             print(f"lever_census --check --strict: pins {s['pins']['sites']}, asm {c['asm']}, "
                   f"gte-levers {gl}, direct GTE statements in bodies {c['direct_gte']} (via-header {c['gte_via_header']}, "
                   f"via-per-TU {c['gte_via_tu']}, inline {c['gte_inline']}), per-TU asm macro definitions {pt} {ptk}, "
                   f"volatile-needed {s['classes']['C']['sites']}, register-needed {s['classes']['D']['sites']}, "
                   f"residue {residue_hit}, residue-unused {len(c['residue_unused'])} — "
-                  f"{'OK' if not fails else 'FAIL'}")
+                  f"{'OK' if not fails and not wall_bad else 'FAIL'}")
             for r in c["residue_unused"][:10]:
                 print(f"  residue-unused: {r['file']} {r['func']} {r['kind']}")
+            if wc:
+                print(f"walls: rows {wc['rows']}, unwalled {len(wc['unwalled'])}, unknown-tag {len(wc['unknown'])}, by tag {_by_count(wc['by_tag'])}")
+                print(f"unwalled by cause: {_by_count(wc['unwalled_by_cause'])}")
+                for r in wc["unknown"][:10]:
+                    print(f"  unknown-tag: {r['file']} {r['func']} {r['kind']} {r['cause']}")
             if fails:
                 for x in fails[:10]:
                     print(f"  {x['tu']}:{x['line']} {x['fn']} {x['cls']}/{x['kind']} {x['detail']}")
+                rc = 1
+            if wall_bad:
                 rc = 1
         else:
             print(f"lever_census --check: {len(ab):,} pin/asm sites, {len(ab) - len(un):,} marked !FAKE, {len(un):,} UNMARKED — {'OK' if not un else 'FAIL'}")
