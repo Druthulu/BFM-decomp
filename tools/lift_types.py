@@ -1287,6 +1287,9 @@ def fold_apply(plan, res, apply, jobs, report):
     for rel, es in edits.items():
         t = _text(rel)
         for s, e, txt in sorted(es, reverse=True):
+            m = re.match(r"[ \t]*/\* size = 0x[0-9A-Fa-f]+ \*/", t[e:])
+            if m:           # the old def's same-line size tail goes with it (3.41 T2)
+                e += m.end()
             if not txt:     # delete whole lines when the span owns them
                 ls, le = t.rfind("\n", 0, s) + 1, t.find("\n", e)
                 le = len(t) if le == -1 else le
