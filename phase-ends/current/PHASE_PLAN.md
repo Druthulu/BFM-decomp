@@ -89,7 +89,7 @@ Approved: 2026-11-07   Planner: claude-opus-5-5/medium   Plan-hash: 03484a995693
   note: research R3.41-003, R3.41-002. Expert runs it; long runs through tools/run.sh with a raised timeout; tools-health in the foreground.
 - T11 | done | title: phase-close docs: story, retrospective, wiki, README (Phase 3.41) | coder: in-house | deps: T10 | est-ctx: 150k | files: docs/story.md, docs/retrospective.md, docs/wiki/Where-the-project-goes-next.md, README.md, docs/progress.*, docs/readability*, docs/story-timeline.* | verify: PY tools/timeline.py --check && PY tools/progress.py --readme --check && PY tools/doc_links.py --strict | done-when: story §10 has its Phase 41 part and §11 a P3.41-close row; retrospective §7 runs to Phase 41 (believed and true, failed, cost, sooner); the wiki next-steps page updated; README graphs regenerated; doc_links --strict 0/0
   note: research R3.41-004 (3.40 T14's pattern). In-house: prose.
-- T12 | title: phase cleanup | coder: none | deps: T11 | est-ctx: 60k | done-when: what the project still needs from .run/P41/ is in its proper place in the repo
+- T12 | next | title: phase cleanup | coder: none | deps: T11 | est-ctx: 60k | done-when: what the project still needs from .run/P41/ is in its proper place in the repo
   note: no research needed. Also check .run/ghidra_rebuild/ and .run/plans/ for anything T7 or T10 left that belongs in the repo.
 
 ## Risks
