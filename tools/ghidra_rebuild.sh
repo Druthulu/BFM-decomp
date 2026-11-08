@@ -111,7 +111,8 @@ fi
 
 # P41 T7: the canonical C types (config/ghidra/types/<program>.jsonl, tools/ghidra_types.py) ride in the same import: merged
 # into the committed file in EXPORT order (after the archive rows), so the proof's delta must equal the MERGED file
-IMPORT="$CONF"; TYPES="$REPO/config/ghidra/types/$PROG.jsonl"
+# BFM_TYPES_FILE overrides the types file (scratch controls only; merge reads the same variable)
+IMPORT="$CONF"; TYPES="${BFM_TYPES_FILE:-$REPO/config/ghidra/types/$PROG.jsonl}"; [ -n "${BFM_TYPES_FILE:-}" ] && export BFM_TYPES_FILE
 if [ -f "$TYPES" ]; then
     IMPORT="$SCR/$PROG.merged.jsonl"
     .venv/bin/python tools/ghidra_types.py merge "$PROG" -o "$IMPORT" || die "ghidra_types.py merge failed"

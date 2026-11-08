@@ -25,6 +25,7 @@ program uses goes to SLUS_007.26, so every canonical type is in >= 1 program. No
 """
 import hashlib
 import json
+import os
 import pathlib
 import re
 import subprocess
@@ -538,7 +539,7 @@ HEAD_KINDS = ("program", "block", "archive")
 
 def merge(prog, out_path):
     conf = CONF_DIR / f"{prog}.jsonl"
-    tf = TYPES_DIR / f"{prog}.jsonl"
+    tf = pathlib.Path(os.environ.get("BFM_TYPES_FILE") or TYPES_DIR / f"{prog}.jsonl")  # override: proof controls (T7.c3)
     if not conf.is_file() or not tf.is_file():
         raise SystemExit(f"ghidra_types merge: missing {conf if not conf.is_file() else tf}")
     lines = [ln.rstrip("\n") for ln in conf.read_text(encoding="utf-8").splitlines() if ln.strip()]
