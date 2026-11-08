@@ -8,8 +8,8 @@
 {"k":"type","kind":"typedef","path":"/bfm/Env_800D27DC","base":"/bfm/Env_80140958"}
 {"k":"type","kind":"typedef","path":"/bfm/Env_800D29F8","base":"/bfm/Env_80140958"}
 {"k":"type","kind":"struct","path":"/bfm/Env_80140958","size":20,"packed":false,"fields":[{"off":0,"len":4,"name":"ot","type":"/bfm/u32 *","comment":null},{"off":4,"len":16,"name":"pad","type":"/bfm/u32[4]","comment":null}]}
-{"k":"type","kind":"struct","path":"/bfm/FnTbl","size":1,"packed":false,"fields":[]}
-{"k":"type","kind":"struct","path":"/bfm/FnTbl3","size":1,"packed":false,"fields":[]}
+{"k":"type","kind":"struct","path":"/bfm/FnTbl","size":12,"packed":false,"fields":[{"off":0,"len":12,"name":"f","type":"/void *[3]","comment":null}]}
+{"k":"type","kind":"struct","path":"/bfm/FnTbl3","size":12,"packed":false,"fields":[{"off":0,"len":12,"name":"fn","type":"/void *[3]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/M2C_UNK","base":"/bfm/s32"}
 {"k":"type","kind":"typedef","path":"/bfm/M2C_UNK16","base":"/bfm/s16"}
 {"k":"type","kind":"typedef","path":"/bfm/M2C_UNK32","base":"/bfm/s32"}
