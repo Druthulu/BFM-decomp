@@ -130,6 +130,7 @@ counted, not marked). E, F and G belong to the canonical type layer and are the 
 | 2026-10-02 | P3.39 close: reading A (residue 3528) | 1868 | 1496 | **3364** | 1684 | 643 | 91 | 164 | 1581 | 50 | 5984 | 302 | 26 | `3a9377c926` |
 | 2026-11-06 | P40 T11 | 984 | 879 | **1863** | 854 | 420 | 0 | 1 | 1056 | 50 | 5983 | 301 | 26 | `3d21428618` |
 | 2026-11-07 | P3.40 close | 974 | 879 | **1853** | 852 | 418 | 0 | 1 | 1056 | 50 | 5983 | 301 | 26 | `aace727c4c` |
+| 2026-11-08 | P3.41 T10: milestone gate | 974 | 879 | **1853** | 852 | 418 | 0 | 1 | 1056 | 50 | 5983 | 301 | 26 | `f4b1fbad3d` |
 
 ### The campaign — every batch, from the ledger (derived on every render)
 

@@ -124,6 +124,7 @@
 | 2026-11-07 | P3.40 T14: phase-close docs | `2bd953561` | 0 | 0 | 0 | 0 | 118347 | 471641 | **176445** | 320783 | 4762 (4128 / 605) | 2047 | 452 / 2469 | 14537 (98.1 %) | 4916 | 342 | — |
 | 2026-11-07 | P3.41 T3: return-type lie baseline (detector lands) | `233ab84eb` | — | — | — | — | — | — | **—** | — | — | — | — | — | — | — | 273 / 100266 |
 | 2026-11-07 | P3.41 T13: return-type lies after T4 (19 ledgered) | `01d5b130e` | 0 | 0 | 0 | 0 | 118347 | 471641 | **176445** | 320783 | 4762 (4128 / 605) | 2047 | 452 / 2469 | 14548 (98.1 %) | 4916 | 342 | 19 / 9302 |
+| 2026-11-08 | P3.41 T10: milestone gate | `f4b1fbad3` | 0 | 0 | 0 | 0 | 118347 | 471641 | **176445** | 320783 | 4762 (4128 / 605) | 2047 | 452 / 2469 | 14548 (98.1 %) | 4916 | 342 | 19 / 9302 |
 
 **How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters
 than the callee's own definition. It is not a style problem: on this processor an argument travels in a

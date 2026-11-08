@@ -10,3 +10,4 @@ T7 | done | canonical types into Ghidra from the headers, proven by rebuild | - 
 T9 | done | the record: cookbook, wiki type layer, decision log, tool index and kit corpus | - | tasks/T9.md | logs/T9.md | -
 T8 | review | apply the canonical types to the live Ghidra database | - | tasks/T8.md | logs/T8.md | -
 T13 | done | return-type lies on the graph and in the day-1 guide | - | tasks/T13.md | logs/T13.md | -
+T10 | done | milestone gate (Phase 3.41) | - | tasks/T10.md | logs/T10.md | R3.41-003,R3.41-002

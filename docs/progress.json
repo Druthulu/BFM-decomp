@@ -49,7 +49,7 @@
   "deferred_same_address_texts": 377,
   "deferred_same_address_copies": 1636,
   "levers": {
-   "date": "2026-11-07",
+   "date": "2026-11-08",
    "what": "compiler-forcing constructs left in the C: register pins + asm statements (the classes Phase 36 drives to 0; GTE coprocessor ops and whole-body hand-asm routines excluded), with the volatile/register qualifiers censused",
    "sites": 1853,
    "pins": 974,
@@ -65,8 +65,8 @@
    "hand_asm_routine_sites": 2682
   },
   "types": {
-   "date": "2026-11-07",
-   "head": "82ead69984",
+   "date": "2026-11-08",
+   "head": "f4b1fbad3d",
    "snapshot": "P39",
    "census": ".run/P39/census/type_census.json",
    "what": "the structs phases' counters: raw pointer-cast dereferences in four forms (P *(T*)(\u2026), I *(T*)ident, X ((T*)e)[i], M M2C_FIELD), struct definitions and their duplicate classes, lying call declarations, and the struct map's types",
@@ -102,17 +102,17 @@
    "duplicate_names": 2469,
    "variant_names": 0,
    "dead_canonical_names": 55,
-   "lying_declarations": 0,
-   "lying_callees": 0,
+   "lying_declarations": 9302,
+   "lying_callees": 19,
    "asm_label_aliases": 5146,
    "multi_spelled_callees": 3766,
-   "struct_map_types": 14537,
+   "struct_map_types": 14548,
    "struct_map_explained_pct": 98.1,
    "check_casts": {
     "census": ".run/P39/census/residue_census.json",
-    "date": "2026-11-07",
-    "head": "82ead69984",
-    "gate_line": "check-casts: raw P=115647 I=46563 X=10312 M=3917 (uncovered P=0 I=0 X=0 M=0); macros CAST_ALIAS=3988 CAST_SIGN=12662 CAST_WIDTH=11511 CAST_MISALIGNED=1990 CAST_NONSTRUCT=636 (unbacked 0); lying=0 (ledgered 0)",
+    "date": "2026-11-08",
+    "head": "f4b1fbad3d",
+    "gate_line": "check-casts: raw P=115647 I=46563 X=10312 M=3917 (uncovered P=0 I=0 X=0 M=0); macros CAST_ALIAS=3988 CAST_SIGN=12662 CAST_WIDTH=11511 CAST_MISALIGNED=1990 CAST_NONSTRUCT=636 (unbacked 0); lying=9302 (ledgered 9302)",
     "what": "type_census --check-casts --residue: raw dereference sites per form, split into covered (a rung-S RESIDUAL(<cause>) ledger entry) and uncovered; reinterpret-macro sites KEPT (backed by a rung-S KEPT entry) and unbacked; lying declarations ledgered",
     "raw": {
      "P": 115647,
@@ -134,8 +134,8 @@
     },
     "macro_sites": 30787,
     "macro_unbacked": 0,
-    "lying": 0,
-    "lying_ledgered": 0
+    "lying": 9302,
+    "lying_ledgered": 9302
    }
   }
  },
