@@ -1893,6 +1893,22 @@ def selftest():
                                  dead_canon_names=0, variant_names=0), controls=dict(a=dict(ok=True), ok=1, n=1),
                 structs=dict(dup_classes=0, outside_canon=0, dead=0, twins_stale=0, twins_listed=0, dead_kept=0, block_frames=0))
     rc0, l0 = check_structs_verdict(zero, 0, 0)
+    # P3.41 T5: --check — a duplicate definition planted in a walked file (SV_a/SV_b, one layout, not a listed twin) fails it
+    plant = dict(tier=2, lhash=layout_hash(r.resolve_name("SV_a")), names=["SV_a", "SV_b"], n_names=2, size=8)
+    sr_base = structs_reading({"a": cres, "b": ures}, sdefs, [], rows[:1], {}, TWINS_FIXTURE)
+    sr_plant = structs_reading({"a": cres, "b": ures}, sdefs, [], rows[:1] + [plant], {}, TWINS_FIXTURE)
+    kz = dict(zero, casts=dict(deref_total=176445), decls=dict(lying_rows=[dict(callee="f", defined_in="a.c", kind="return")]))
+    kexc = {("f", "a.c", "return")}
+    rk0, lk0 = check_verdict(dict(kz, structs=dict(zero["structs"], dup_classes=sr_base["counts"]["dup_classes"])), kexc)
+    rk1, lk1 = check_verdict(dict(kz, structs=dict(zero["structs"], dup_classes=sr_plant["counts"]["dup_classes"])), kexc)
+    checks.append(("check OK with raw casts and a ledgered lie", rk0 == 0 and lk0.startswith("type_census --check: OK")
+                   and "raw cast sites 176445 (not gating" in lk0 and "lying=1 (return 1; ledgered 1)" in lk0))
+    checks.append(("check FAIL on a planted duplicate definition", layout_hash(r.resolve_name("SV_a")) == layout_hash(r.resolve_name("SV_b"))
+                   and rk1 == 1 and "dup_classes=1" in lk1.split("\n")[0]))
+    checks.append(("check FAIL on an unledgered return lie", check_verdict(kz, set())[0] == 1))
+    checks.append(("check FAIL on dead / outside / controls", all(check_verdict(dict(kz, **v), kexc)[0] == 1 for v in
+                   (dict(structs=dict(zero["structs"], dead=1)), dict(structs=dict(zero["structs"], outside_canon=1)),
+                    dict(controls=dict(a=dict(ok=False), ok=0, n=1))))))
     checks.append(("check-structs all-zero OK", rc0 == 0 and l0[0] == "type_census --check-structs: OK" and "controls=1/1" in l0[1]))
     rc1, l1 = check_structs_verdict(zero, 0, 3)
     checks.append(("check-structs parse_error_decls FAIL", rc1 == 1 and l1[0].startswith("type_census --check-structs: FAIL") and "parse_error_decls=3" in l1[1]))
@@ -2007,6 +2023,11 @@ def check_casts_inputs():
     """(latest ledger {(rung, tu, unit): row}, {(callee, def_file, kind)} exceptions). Lazy import: restruct imports this module."""
     import restruct as rs
     latest = rs.ledger_latest(rs.load_ledger())
+    return latest, lying_exceptions()
+
+
+def lying_exceptions():
+    """{(callee, def_file, kind)} — the R123 lying ledger (config/lying_exceptions.tsv)."""
     exc = set()
     p = REPO / LYING_EXCEPTIONS
     if p.exists():
@@ -2016,7 +2037,30 @@ def check_casts_inputs():
             f = ln.split("\t")
             if len(f) >= 3:
                 exc.add((f[0], f[1], f[2]))
-    return latest, exc
+    return exc
+
+
+def check_verdict(summary, exceptions):
+    """--check (P3.41 T5; the Gen-3 done-criteria, R42): (rc, line). Gates the --check-structs counts (dup classes not
+    listed in docs/struct-twins.md, defs outside the canonical files less block frames, dead canon names), controls ok == n,
+    and lying rows (arity and return) not ledgered in config/lying_exceptions.tsv. Raw cast sites are printed, never gated
+    (gated per site by --check-casts --residue). Was: raw dup_layout_classes, the four outside counters, deref_total, lying."""
+    st, c, d = summary["structs"], summary["controls"], summary["definitions"]
+    rows = summary["decls"]["lying_rows"]
+    unledgered = sum(1 for r in rows if (r["callee"], r.get("defined_in"), r["kind"]) not in exceptions)
+    ret = sum(1 for r in rows if r["kind"] == "return")
+    viol = [f"{k}={st[k]}" for k in ("dup_classes", "outside_canon", "dead") if st[k]]
+    if c["ok"] < c["n"]:
+        viol.append(f"controls {c['ok']}/{c['n']}")
+    if unledgered:
+        viol.append(f"unledgered lying={unledgered}")
+    raw = summary["casts"]["deref_total"]
+    line = ("type_census --check: " + ("OK" if not viol else "FAIL — " + "; ".join(viol))
+            + f"\n  dup_classes={st['dup_classes']} (raw {d['dup_layout_classes']}, twins listed {st['twins_listed']}) "
+              f"outside_canon={st['outside_canon']} (block frames {st['block_frames']}) dead={st['dead']} (kept {st['dead_kept']}) "
+              f"controls={c['ok']}/{c['n']} lying={len(rows)} (return {ret}; ledgered {len(rows) - unledgered})"
+            + f"\n  raw cast sites {raw} (not gating; --check-casts --residue gates each site)")
+    return (1 if viol else 0), line
 
 
 def check_casts_verdict(raw_by_form, macro_sites, latest, lying_rows, exceptions, uncovered=None):
@@ -2125,7 +2169,7 @@ def main():
     ap.add_argument("--out-dir", default=OUT_DIR_DEFAULT)
     ap.add_argument("--no-cache", action="store_true")
     ap.add_argument("--sites", action="store_true", help="also write sites.jsonl")
-    ap.add_argument("--check", action="store_true", help="T8's gate (the invariants; exit 1 on a violation)")
+    ap.add_argument("--check", action="store_true", help="the Gen-3 done-criteria gate (P3.41 T5): dup classes, outside-canon defs, dead names 0, controls n/n, unledgered lying (arity+return) 0; raw casts printed, not gated; exit 1 on a violation")
     ap.add_argument("--check-structs", action="store_true", help="the struct-unification gate (P38 T2; exit 1 on a violation)")
     ap.add_argument("--check-casts", action="store_true", help="the cast-and-lying gate (P39 T2; exit 1 on a raw cast, an unbacked macro site or an unledgered lie)")
     ap.add_argument("--residue", action="store_true", help="with --check-casts (P39 T10): a raw P/I/X/M site passes when a rung-S ledger "
@@ -2151,19 +2195,9 @@ def main():
         print("type_census: CONTROL FAIL", file=sys.stderr)
         rc = 1
     if a.check:
-        d = summary["definitions"]
-        viol = []
-        if d["dup_layout_classes"]:
-            viol.append(f"{d['dup_layout_classes']} duplicate-layout classes")
-        if d["in_c_file_scope"] + d["in_c_block_scope"] + d["in_shared_fn_headers"] + d["other_headers"]:
-            viol.append("struct definitions outside the canonical type files")
-        if summary["casts"]["deref_total"]:
-            viol.append(f"{summary['casts']['deref_total']} raw cast sites")
-        if summary["decls"]["lying"]:
-            viol.append(f"{summary['decls']['lying']} lying declarations")
-        print("type_census --check: " + ("OK" if not viol else "FAIL — " + "; ".join(viol)))
-        if viol:
-            rc = 1
+        rc_k, line = check_verdict(summary, lying_exceptions())
+        print(line)
+        rc = rc or rc_k
     if a.check_structs:
         pad, other, parse, conflicting, tu_conflict = check_structs_inputs()
         rc_s, lines = check_structs_verdict(summary, pad, parse)

@@ -52,8 +52,14 @@ tools-health:
 	# P36 T8: the lever census's self-test and its gate — every surviving register pin / asm statement outside the GTE header
 	# carries a `// !FAKE:` marker (0 UNMARKED) and no marker is an orphan; a marker on a kept ordinary-C fake (do-while,
 	# dead-init) is counted apart. `--strict` (0 pins, 0 asm) is the STRUCTS phase's finish line (Drew, S104), not this rung's.
+	# 2026-11-07 P3.41 T5: since 3.40's walls `--strict --residue` is green (every residue row walled, residue-unused 0), so the
+	# rung runs strict here (it includes --check). Then type_census: one census, three verdicts — --check (the Gen-3
+	# done-criteria: dup classes / outside-canon / dead 0, controls 4/4, unledgered lying 0; raw casts printed, not gated),
+	# --check-structs, --check-casts --residue (every raw P/I/X/M site ledgered RESIDUAL(<cause>)). Adds ~6 min.
 	$(VENV_PY) tools/lever_census.py --selftest
-	$(VENV_PY) tools/lever_census.py --check -j 16 --quiet
+	$(VENV_PY) tools/lever_census.py --check --strict --residue config/lever_residue.tsv -j 16 --quiet
+	$(VENV_PY) tools/type_census.py --selftest
+	$(VENV_PY) tools/type_census.py --check --check-structs --check-casts --residue -j 16 --quiet
 	$(MAKE) --no-print-directory report BINARY=main
 	# AFTER report (which regenerates the digest), so this asserts the freshly-written digest agrees
 	# with the tree — and, on a tree whose digest was committed stale, says so instead of staying green.
@@ -74,7 +80,7 @@ tools-health:
 	# gone by gate 2); nothing links into docs/sunset/; a wiki page links into docs/ only at a Reference-index/README target;
 	# every docs/ file is covered by one; a wiki page cites only TRACKED paths. The render selftest also asserts every page
 	# is reachable from the sidebar.
-	$(VENV_PY) tools/doc_links.py
+	$(VENV_PY) tools/doc_links.py --strict
 	$(VENV_PY) tools/wiki_render.py --selftest
 	# P33.5 task 7: the ROM-firewall page's ```gitignore fence IS the kit's template (one source, two copies). Skips loudly
 	# until the kit's template exists (task 11); exit 2 from the tool = "nothing to compare", never a pass (R43).

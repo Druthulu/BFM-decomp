@@ -4,3 +4,4 @@ T1 | done | phase-start baselines and environment check | - | tasks/T1.md | logs
 T2 | done | census tool bugs from 3.40 T21 | - | tasks/T2.md | logs/T2.md | -
 T3 | done | return-type lies in the lying-declaration check | - | tasks/T3.md | logs/T3.md | -
 T4 | done | fix the return-type lies at def, declarations and callers | - | tasks/T4.md | logs/T4.md | -
+T5 | done | type_census --check aligned to the done-criteria and wired into tools-health | - | tasks/T5.md | logs/T5.md | -

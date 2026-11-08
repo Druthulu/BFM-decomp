@@ -48,7 +48,7 @@ PY = /usr/bin/python3
 | phaseend_index | `PY tools/phaseend_index.py` | assemble and archive a PhaseEnd |
 | genend_index | `PY tools/genend_index.py` | assemble a GenerationEnd |
 | commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes; auto-staging: `docs/ops/commit-task-autostage.md` |
-| type_census casts | `PY tools/type_census.py --check-casts [--residue]` | cast-and-lying gate; `--residue`: raw P/I/X/M pass only if ledgered RESIDUAL(<cause>) per site; writes residue_census |
+| type_census gates | `PY tools/type_census.py --check --check-structs --check-casts --residue` | `--check`: done-criteria (dup/outside/dead 0, controls 4/4, unledgered lying 0; raw casts printed, not gated); in tools-health; `--check-casts --residue`: raw P/I/X/M pass only if ledgered RESIDUAL(<cause>) per site; writes residue_census |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
 | every other tool | `docs/tool-index.md` | generated from `config/tool_dictionary.tsv`; read by need |
 
