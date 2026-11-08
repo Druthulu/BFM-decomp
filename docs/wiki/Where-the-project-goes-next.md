@@ -74,6 +74,15 @@ source and up to 138 binaries, so the gate runs on all of them. Types are a comp
 compiler does not care what a field is called — which is exactly why struct work is safe and exactly why it still goes
 through the gate.
 
+**The gates that keep the readability honest.** *Since Phase 3.41 (2026-11-07)* `make tools-health` runs them all:
+`tools/type_census.py --check`, which asserts the done-criteria (no unlisted duplicate struct definitions, none outside
+the canonical headers, no dead names, controls 4/4, no unledgered lying declaration, return-type lies included);
+`--check-casts --residue`, which requires a ledger row with its cause for every remaining raw cast;
+`tools/lever_census.py --check --strict --residue`, whose `--check` also requires every `// !FAKE:` marker to name the
+pass or instrument that judged it; and `tools/doc_links.py --strict`. The canonical types also reach Ghidra from the
+headers: `tools/ghidra_rebuild.sh <program> --proof` imports them and proves the round trip. See
+[The type layer](The-type-layer.md).
+
 **The order of work:** pins off → the macro bodies into shared C files → struct unification → names with evidence →
 formatting and comments. Three things the record says to do first: measure the shape (which structures own most of the
 data symbols, which families own most of the pins — with a self-asserting scanner checked against a known case), build

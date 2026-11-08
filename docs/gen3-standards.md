@@ -74,7 +74,8 @@ failure modes are different:
    read at another width or sign). A macro site is honest only with its restruct ledger row (rung S, site verdict
    `KEPT(<class>)`, keyed tu + function per R99); `tools/type_census.py --check-casts` counts raw sites by form, macro sites
    by name against the ledger, and lying declarations against `config/lying_exceptions.tsv`, and fails on any raw site, any
-   unbacked macro site or any unledgered lie. `M2C_FIELD` is a raw form, never a kept spelling. Each macro's byte proof (one
+   unbacked macro site or any unledgered lie; with `--residue` (the form `make tools-health` runs, 3.41 T5) a raw site
+   passes when a ledger entry `RESIDUAL(<cause>)` covers it. `M2C_FIELD` is a raw form, never a kept spelling. Each macro's byte proof (one
    kept site respelled, `make check` BYTE-IDENTICAL) is recorded in the Phase 39 T2 summary. Levers follow the same reading:
    `tools/lever_census.py --strict --residue config/lever_residue.tsv` is the gate, the residue file the ledger of what stays.
 

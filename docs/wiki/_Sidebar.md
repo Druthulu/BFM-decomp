@@ -8,6 +8,7 @@
 - [The dedup engine](The-dedup-engine.md)
 - [Overlays and modules](Overlays-and-modules.md)
 - [Ghidra rebuild from text](Ghidra-rebuild-from-text.md)
+- [The type layer](The-type-layer.md)
 - [Verification and progress](Verification-and-progress.md)
 - [Contributing and the no-ROM policy](Contributing-and-the-no-ROM-policy.md)
 - [Tools from this project](Tools-from-this-project.md)

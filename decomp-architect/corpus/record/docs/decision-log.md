@@ -3925,3 +3925,16 @@ pair needs a caller one level up re-signed too — the definition-side change is
 judge still unwinding) and two shell kills by `pgrep -f`. **Sooner:** the five instrument checks above are each a one-line control against
 a known case (a shared-header callee; a three-body name; an indented definition; a short call in an included body; an empty `build/`) —
 they belong in `type_census --selftest` and `restruct --selftest` from the day the census exists, not in the campaign's log.
+
+## P3.41 T5 (2026-11-07) — what `type_census --check` asserts
+
+**Context and belief.** `--check` was written as the structs phase's gate and failed on every raw cast site, so it could never pass:
+~176k sites remain, each one ledgered with its cause. Gen3's done-criteria name duplicates, canonical placement, dead names, controls
+and lying declarations; they do not name a raw-cast count.
+**What it asserts now.** Unlisted duplicate struct classes 0 (dup raw 452 = twins listed 452), definitions outside the canonical headers 0
+(block frames 634 apart), dead canonical names 0 (2 kept), controls 4/4, and unledgered lying declarations 0, return-type lies included
+(9,302 lying rows over 19 callees, all `return` kind, all in `config/lying_exceptions.tsv`). It gates the same allowlisted readings as
+`--check-structs` and `--check-casts`.
+**What it does not.** The raw cast count (176,445 at T5) is printed beside the verdict and never gated there. Per site, it is gated by
+`--check-casts --residue`, where a raw site passes only when a restruct ledger row `RESIDUAL(<cause>)` covers it (outcomes R42, R43).
+`make tools-health` runs all three verdicts in one call.

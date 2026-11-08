@@ -1001,3 +1001,4 @@ C0548 | Clearing return-type lies fleet-wide: decls->def, def->decls, else ledge
 C0549 | Fold a scratch text check into a gate: census today's text, one named form per phase | census,lever,gate,vocabulary,regex | 2026-11-07 | 3.41/T6 | 3.41 T6 attribution check
 C0550 | New tool files need git add -N before make kit-corpus | kit-corpus,tools-health,tool_census,git | 2026-11-07 | 3.41/T7 | P3.41 T7.c1
 C0551 | Ghidra type rows: import order, nested arrays, bitfields, comment alignment | ghidra,types,import,bitfields,layout | 2026-11-07 | 3.41/T7 | P3.41 T7.c1
+C0552 | Return-type lies: argcheck norm_ret + canonical typedef map, opt-in returns=True; arity alone misses them | declarations,return-type,lying,argcheck,census | 2026-11-07 | 3.41/T9 | P3.41 T3
