@@ -12,7 +12,7 @@
     },
     ".claude/agents/pa-claude.md": {
       "base": "3.32.14",
-      "sha": "7edf09b76d3ac44c4f3abd971a91c4c186af589f95c20e38dd998c1652064ef9",
+      "sha": "ed0be1adbfff1ae4bb92c3c3c2eaabbe5f9732940e2703de16bbd3226c2a5fe8",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
@@ -27,7 +27,7 @@
     },
     ".claude/agents/pa-planner.md": {
       "base": "3.32.7",
-      "sha": "f0bd27973a63a1121fd610d0dd0cb069b5fc0f85f45cb76b05003a527e008673",
+      "sha": "2428d05fda960c83ed9cff77a726e8a72ad2d2112bba322421d06391c8dbdc85",
       "user": null
     },
     ".claude/agents/pa-thinker.md": {
@@ -67,7 +67,7 @@
     },
     ".claude/skills/pa-planning/SKILL.md": {
       "base": null,
-      "sha": "e694baaa2cd8f7605c9bc767d12e06b26d99491d9c3080a7a9a29b7e2a670a35",
+      "sha": "a0fd1c6c0c40b92bd5bea3d48bb1a3429f229d6acb61e6a3ce5c5a5ba2ecef28",
       "user": null
     },
     ".claude/skills/project-architect/SKILL.md": {
@@ -287,7 +287,7 @@
     },
     "tools/plan_edit.py": {
       "base": null,
-      "sha": "d9e12f6d5c2dc78231faaf5dcd8d7a9df4212cb1ae6fddd97a4331085515da9d",
+      "sha": "f905bc57cf0aad3932e38d9dc0b054dc72a904d11591a7f79c6cdf85d7464fb5",
       "user": null
     },
     "tools/records.py": {
@@ -337,9 +337,9 @@
     }
   },
   "format": 1,
-  "git": "bc2ea545",
-  "installed": "2026-11-07T09:56:36Z",
+  "git": "dbed94c8",
+  "installed": "2026-11-08T03:09:49Z",
   "package": null,
-  "phase": "3.32.9",
-  "upstream_version": "3.32.9"
+  "phase": "3.32.10",
+  "upstream_version": "3.32.10"
 }
