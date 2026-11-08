@@ -24,6 +24,15 @@ byte-match baseline  →  pin the compiler by evidence  →  honest corpus censu
    bytes. Never inherit a sibling project's triple; expect per-module variation (mixed optimization levels, mixed
    compilers within one image). Always pass the assembler version explicitly — the default is not "latest" (G8).
    BFM: day 5, with one flag (`--expand-div`) that turned out to be mandatory.
+3. **Declare each function once, in a shared header that every file includes.** Then gcc itself rejects a definition
+   that disagrees with its declaration, and a lying declaration cannot be written at all. BFM did not do this: each
+   file carried its own `extern` lines, and Gen3 found 273 functions whose declared return type differed from the
+   definition, over 100,266 declaration sites (3.41 T3), after an arity-only checker had reported them clean. Any
+   checker you add must compare return types as well as argument counts. When you repair a lie late, a `void` to
+   `int` declaration is not always byte-neutral under gcc-2.7.2: a call through a non-void prototype marks `$v0` as
+   set even when the result is dropped, and that moves the register allocation (func_80139BE0 changed bytes in 129
+   binaries, 3.41 T4.c1; cookbook C0547). Keep the honest declaration, and where it is load-bearing keep a cast at the
+   call that reproduces the original's codegen, recorded as an exception with its byte evidence.
 
 ## Phase 1 — the honest census, with tools that assert their coverage
 
@@ -108,7 +117,8 @@ and stops the waste; it does not shrink the hard half.** Sell it as that and it 
 
 ## A checklist for a new project
 
-1. Byte-exact build triple by evidence; whole-binary hash check in the build; an all-assembly green baseline.
+1. Byte-exact build triple by evidence; whole-binary hash check in the build; an all-assembly green baseline; one
+   shared prototype header every file includes, with a declaration checker that compares return types as well as arity.
 2. The local per-function oracle, **stating its blind spots in its own output**.
 3. The differential-oracle harness (two paths per question, on a schedule) and coverage assertions in every scanner.
 4. The census: duplication, families, reach × size, the unique tail — with a known-true case checked first.

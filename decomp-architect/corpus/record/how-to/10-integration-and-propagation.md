@@ -57,6 +57,12 @@ crack compounds from match #1; without it, every match is worth ×1.
 - **A gate verifies the source binary; propagation writes N others.** The clean fleet run follows every propagating
   gate; one propagated overlay once sat red behind a green fleet.
 - **Commit the moment a bank exists** (R42) — a gate is a command that can touch the source.
+- **A propagated function brings one declaration, not a copy per file.** Declare it once in the shared header every
+  file includes, so gcc rejects a definition that disagrees with it; per-file `extern` lines drift, and Gen3 found 273
+  return-type lies over 100,266 sites that an arity-only check had passed. Compare return types as well as arity. A
+  repair is a unit (definition, declarations, callers), and under gcc-2.7.2 a `void` to `int` declaration can still
+  move bytes when the result is dropped (func_80139BE0, 3.41 T4.c1; cookbook C0547): where it is load-bearing, keep a
+  cast at the call and record the exception.
 - **Key by integer address, never by name** (R48); a carve's state belongs to its binary (R60); a blanket commit of
   another lane's mid-gate tree is a race, not a backup (R59).
 - **A newly-discovered binary is not real until every consumer knows it** — signature set, family map, dedup registry,
