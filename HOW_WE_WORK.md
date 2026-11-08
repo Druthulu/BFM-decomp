@@ -67,7 +67,7 @@ Other coder work in-house. No Opus/Haiku escalation; failures wait for his OK.
 ## Paths <!-- roles: claude expert coder planner review auditor curator -->
 - Oracles (the ground truth X3 names): the Ghidra database (static) and PCSX-Redux (runtime), G1
 - Data: docs/decision-log.md
-- Generated (never hand-edited, H1): `asm/`, `extracted/`, `assets/`, `build/`, `docs/tool-index.md`
+- Generated (never hand-edited, H1): `asm/`, `extracted/`, `assets/`, `build/`, `docs/tool-index.md`, `config/ghidra/types/` (tools/ghidra_types.py --write)
 - Hand-edited: `src/`, `include/`, `config/`, `tools/`, `docs/`
 - Scratch: `.run/<phase>/`, temp only (gitignored; not storage or system temp)
 
