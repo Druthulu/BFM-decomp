@@ -97,6 +97,11 @@ def counts():
         else:
             print(f"readability_progress: residue census {rj.relative_to(REPO)} is stale — `uncovered` left blank "
                   "(run tools/type_census.py --check-casts --residue)", file=sys.stderr)
+    # P3.41 T13: return-type lies — a declaration whose return type differs from the definition's (argcheck's return rows, the census's
+    # decls.return_lies); blank when the census predates the key
+    rl = ts.get("decls", {}).get("return_lies")
+    out["return_lie_fns"] = rl["functions"] if rl else ""
+    out["return_lie_sites"] = rl["sites"] if rl else ""
     return out
 
 
@@ -108,7 +113,9 @@ COLS = ["date", "label", "commit", "definitions", "narrow_decls", "callees", "kr
         # P37 T4 (2026-09-12): the byte-proven K&R sites, counted apart from the lies
         "kr_sites", "kr_callees", "cross_binary", "cross_callees",
         # P3.40 T12 (2026-11-06): the cast gate's uncovered sites, summed over the four forms (blank on older rows)
-        "uncovered"]
+        "uncovered",
+        # P3.41 T13 (2026-11-07): return-type lies, functions / call sites (blank on older rows)
+        "return_lie_fns", "return_lie_sites"]
 HEAD = "\t".join(COLS) + "\n"
 
 
@@ -133,20 +140,23 @@ def render():
            "> pointer casts where the original had a struct. From Phase 37 the row carries the type census's columns",
            "> (`tools/type_census.py`): all four dereference forms, the typed cast-member intermediate, the definitions and the map.",
            "",
-           "| date | label | commit | lying declarations | of which `()` | of which `(void)` | in a pinned body | raw cast derefs (one form, raw text) | struct member reads | **raw derefs, four forms** | typed cast-member | struct defs (canonical / in .c) | layouts | duplicate classes / names | map types (% sites)  K&R sites (marked, apart) | cross-binary (apart) |",
-           "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---|---|---:|---:|"]
+           "| date | label | commit | lying declarations | of which `()` | of which `(void)` | in a pinned body | raw cast derefs (one form, raw text) | struct member reads | **raw derefs, four forms** | typed cast-member | struct defs (canonical / in .c) | layouts | duplicate classes / names | map types (% sites)  K&R sites (marked, apart) | cross-binary (apart) | return-type lies (functions / sites) |",
+           "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---|---|---:|---:|---|"]
     for r in rows:
         defs = f"{g(r,'struct_defs')} ({g(r,'canon_defs')} / {g(r,'in_c_defs')})" if r.get("struct_defs") else "—"
         dups = f"{g(r,'dup_classes')} / {g(r,'dup_names')}" if r.get("dup_classes") else "—"
         mp = f"{g(r,'map_types')} ({g(r,'map_pct')} %)" if r.get("map_types") else "—"
-        out.append(f"| {r['date']} | {r['label']} | `{r['commit'][:9]}` | {r['narrow_decls']} | {r['kr_empty']} | {r['narrow']} | {r['pinned_rows']} | "
-                   f"{r['raw_casts']} | {r['struct_members']} | **{g(r,'deref_all')}** | {g(r,'typed_cast_member')} | {defs} | {g(r,'distinct_layouts')} | {dups} | {mp} | {g(r,'kr_sites')} | {g(r,'cross_binary')} |")
+        rl = f"{g(r,'return_lie_fns')} / {g(r,'return_lie_sites')}" if r.get("return_lie_fns") else "—"
+        out.append(f"| {g(r,'date')} | {g(r,'label')} | `{r.get('commit', '')[:9]}` | {g(r,'narrow_decls')} | {g(r,'kr_empty')} | {g(r,'narrow')} | {g(r,'pinned_rows')} | "
+                   f"{g(r,'raw_casts')} | {g(r,'struct_members')} | **{g(r,'deref_all')}** | {g(r,'typed_cast_member')} | {defs} | {g(r,'distinct_layouts')} | {dups} | {mp} | {g(r,'kr_sites')} | {g(r,'cross_binary')} | {rl} |")
     out += ["",
             "**How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters",
             "than the callee's own definition. It is not a style problem: on this processor an argument travels in a",
             "register, so a dropped argument removes an instruction, and Phase 36 found register pins inserted to fake",
             "exactly that instruction. *Raw cast derefs* is the struct debt — a struct cannot be recovered from the",
             "binary, only inferred from consistent base+offset+width evidence, so this figure falls as that work lands.",
+            "A *return-type lie* is a declaration whose return type differs from the definition's; the calls still match",
+            "because what a caller does with the return register is a caller byte fact (C0543), not the callee's type.",
             ""]
     DOC.write_text("\n".join(out) + "\n")
 
