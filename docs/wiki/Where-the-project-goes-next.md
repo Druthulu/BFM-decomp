@@ -52,7 +52,7 @@ wrongly."* To that the project adds four rules of its own, because its code was 
    bytes; the 1,232 struct definitions unified before any field is named. *Phase 39 (2026-10-01 → 10-03): raw cast dereferences
    503,016 → 336,219, every one left ledgered with its cause; most wait on a canonical definition for a type the struct map already knows. Phase 40 (2026-10-14 → 11-07): 336,219 → 176,439,
    with TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0 and the tail of small types under its own
-   cause; what is left waits on unions, members and layouts.*
+   cause; what is left waits on unions, members and layouts. Phase 41 (2026-11-07 → 11-08): call declarations whose return type differs from the definition, which the lying count had never compared, 273 functions over 100,266 sites → 19 over 9,302, each a width or sign difference that moves bytes and is ledgered in `config/lying_exceptions.tsv`; and the 7,151 canonical types now reach Ghidra from the headers, proved by round trip on six programs.*
 
 **The gap, as measured.** The starter census below was derived on 2026-09-07 with the commands in
 [`docs/gen3-handoff.md`](../gen3-handoff.md) §3 — re-derive it, do not trust it:

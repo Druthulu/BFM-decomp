@@ -170,12 +170,12 @@ revision, old hashes in historical documents replaced by inert tokens and mapped
 would have corrupted history), proven pair by pair, and force-pushed. This document, the retrospective, the wiki and the
 tooling releases are the last block; the visibility flip waits for GitHub to purge the old objects.
 
-## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 40, 2026-09-08 →)
+## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 40, 41, 2026-09-08 →)
 
 *From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md`, `PhaseEnd_Phase37.md` and its log (`phase-ends/logs/Phase37.md`), decision log "P35",
 "P36 S99/S101/S104/S105", "P37 S106", `docs/levers.md`, `docs/readability.md`; for the migration and Phase 38, the Phase 38 plan's change
 lines, its task summaries (T1, T5, T5.1, T6, T7) and logs, and git; for Phase 39, the Phase 39 plan's change lines and its task summaries
-(T1–T11, with T7.1); for Phase 40, the Phase 40 plan's change lines and its task summaries (T1–T13, T15, T17–T21). This chapter was advanced at the end of every session (the owner's rule,
+(T1–T11, with T7.1); for Phase 40, the Phase 40 plan's change lines and its task summaries (T1–T13, T15, T17–T21); for Phase 41, the Phase 41 plan and its task summaries (T1–T10, T13). This chapter was advanced at the end of every session (the owner's rule,
 2026-09-12) until the migration of 2026-09-29 dropped that duty; since 2026-09-30 it is advanced by every phase's closing work (rule R121).
 The numbers are the two Gen3 series'.*
 
@@ -490,6 +490,43 @@ void` declarations); the identity-launder class of func_80177B5C; and the remain
 difference between a cause and a debt: every raw cast and every lever now says why it is there, and most of the casts are now waiting on
 a union, a member or a layout rather than on a definition.
 
+**Phase 41 (2026-11-07 → 11-08), the gates and the mirror.** Phase 37 had planned a last pair of tasks that slipped through four phases:
+make the struct gate say what the generation's done-criteria say, and carry the canonical types into Ghidra, the static oracle the
+project reads the original by. This phase did both, in about eleven hours and 88 commits. The first task ran every milestone
+instrument on the starting tree and found the struct gate red for a reason the plan had predicted: `type_census --check` still failed on
+any raw cast at all, and with about 176,000 ledgered sites it could never pass. The second fixed three tool bugs the Phase 40 close had
+left, each shown failing before it was shown passing.
+
+The third task found what the lying count had been missing. It compared only the number of arguments a declaration promises, never the
+type it says the function returns: func_8016130C, defined as returning `s32`, had 1,213 call declarations saying `void`. Compared after
+typedefs are resolved, the return-type lies were 273 functions over 100,266 declaration sites, under the 300 at which the owner had asked
+to see the buckets first. The fourth fixed them as units — the definition, every declaration and every caller together, because a
+return type is a fact the caller's bytes depend on — and 254 of the 273 went to 0 lies with the 218 binaries unchanged. The other 19
+(9,302 sites) differ in width or sign, a `u8` against an `int`, and fixing them moves bytes; each is a row of `config/lying_exceptions.tsv`
+with the disassembly as evidence. Thirty-seven functions defined `void` whose callers read the return register became `s32`, which keeps
+the bytes and is honest, though it leaves those callers reading a value their definition used to deny.
+
+The fifth task aligned the gate: `--check` now asserts the done-criteria — no unlisted duplicate struct definitions, none outside the
+canonical headers, no dead names, controls 4 of 4, and no lying declaration (return types included) without its ledger row — while the
+raw-cast count stays printed and stays gated, per site, by `--check-casts --residue`. `make tools-health` gained the type gates, the
+strict lever census and the strict link check. The sixth folded a one-time script from Phase 36 into the lever census: every counted
+lever marker must now name the instrument that judged it, and all 1,853 do (one marker from Phase 40 was bare).
+
+The seventh built `tools/ghidra_types.py`, which turns the two canonical headers into the type rows Ghidra's import script already
+read: 7,151 types (4,131 structs, 3,005 typedefs, 15 unions). The six committed programs were rebuilt headless with them and their
+round trips proved byte for byte, with the exported layouts equal to what gcc computes; a planted control (one field shrunk from four
+bytes to two) failed the proof as it should. The eighth imported the rows into the live database, guarded per program and proved by a
+re-export, and the owner checked a type by hand in Ghidra. The ninth wrote the record — a wiki chapter on the type layer and the
+decision behind the gate's meaning — and an added task put the return-type lies into the readability series, so the chart shows the drop.
+
+The milestone ran green on f4b1fbad3d: all 218 binaries identical, tools-health clean, the three milestone commands at 0, six Ghidra proofs
+passing. Return-type lies 273 functions over 100,266 sites → 19 over 9,302, all ledgered; argument-count lies 0; raw casts 176,445,
+every one covered by its cause; levers 1,853, every one attributed and walled; struct definitions 4,762 (4,128 canonical). Two marks on the
+record: the first task's attempt to stop the Ghidra server was refused by the permission system and the owner stopped it himself; and the
+close was paused twice, once to land the chart's new columns first and once for the owner's approval to stop the server for the proofs.
+What the phase leaves is a gate that means its words: every number the done-criteria name is asserted by a tool, and the types the code
+defines are the types the oracle shows.
+
 ## 11. By the numbers
 
 | | |
@@ -501,7 +538,7 @@ a union, a member or a layout rather than on a definition.
 | Instructions | 13,492,113 / 13,492,113 (100.0%); distinct code 5,820,205 / 5,820,205; main game code 45,150 / 45,150 |
 | Knowledge base | the matching cookbook (§1–§501 and sub-sections, 3.5 MB), the gcc-2.7.2 codegen map, 79 decision-log entries, 73 numbered rules (+ the constitution's 25) |
 | Tooling | ≈235 Python tools, 25 shell tools, 12 Ghidra scripts — the extractor, the byte gate, the dedup engine, the family engine, the atlas, the lanes, the rewrite package |
-| **After 100 % (Gen3, snapshot at the P3.40 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35) · levers (register pins plus asm statements): 53,234 at the P36 start → 3,730 at the P38 close → 3,364 at the P39 close → 1,853 (974 register pins + 879 asm statements), every survivor a row of `config/lever_residue.tsv` (1,180 rows over 1,854 sites; `docs/levers.md`) and every row walled — named with the gcc pass that makes the lever necessary, one of 34 tags in `config/lever_walls.tsv` · raw cast dereferences per form, P37 baseline → P39 close → P3.40 close: P 409,007 → 257,470 → 115,647, I 60,666 → 49,831 → 46,563, X 13,800 → 13,790 → 10,312, M 19,543 → 15,128 → 3,917 (503,016 → 336,219 → 176,439), every remaining site ledgered with its cause (0 uncovered); TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0, the frozen tail of 6,066 small types recorded as TYPE-BELOW-BAND (5,871 sites) · lying declarations 229 over 24 callees → 11 over 3 → 0 · 30,787 kept casts in five registered macros, all backed (20,963 at the P39 close) · 4,762 struct definitions, 4,128 of them canonical (1,650 at the P39 close; 7,255 at the P38 start) · the chart's lower panel |
+| **After 100 % (Gen3, snapshot at the P3.41 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35) · levers (register pins plus asm statements): 53,234 at the P36 start → 3,730 at the P38 close → 3,364 at the P39 close → 1,853 (974 register pins + 879 asm statements), every survivor a row of `config/lever_residue.tsv` (1,180 rows over 1,854 sites; `docs/levers.md`) and every row walled — named with the gcc pass that makes the lever necessary, one of 34 tags in `config/lever_walls.tsv` · raw cast dereferences per form, P37 baseline → P39 close → P3.40 close: P 409,007 → 257,470 → 115,647, I 60,666 → 49,831 → 46,563, X 13,800 → 13,790 → 10,312, M 19,543 → 15,128 → 3,917 (503,016 → 336,219 → 176,439), every remaining site ledgered with its cause (0 uncovered); TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0, the frozen tail of 6,066 small types recorded as TYPE-BELOW-BAND (5,871 sites) · lying declarations 229 over 24 callees → 11 over 3 → 0; return-type lies (a declaration promising a different return type than the definition) 273 functions over 100,266 sites at the P3.41 start → 19 over 9,302, each a width or sign difference ledgered in `config/lying_exceptions.tsv` · 7,151 canonical types mirrored into Ghidra, six programs proved by round trip (P3.41) · 30,787 kept casts in five registered macros, all backed (20,963 at the P39 close) · 4,762 struct definitions, 4,128 of them canonical (1,650 at the P39 close; 7,255 at the P38 start) · the chart's lower panel |
 
 *Every number above is generated or counted from the repository; the timeline behind the chart is
 [`docs/story-timeline.md`](story-timeline.md).*

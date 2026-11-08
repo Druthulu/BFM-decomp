@@ -152,11 +152,11 @@ hand-offs to be replayed; and keep the game's bytes out of the repository from t
 binaries, the 363,214 functions, the 4,000 commits — follows from those, at a cost that is mostly the diagnosis of
 one's own instruments.
 
-## 7. After 100 % — what the readability generation has taught so far (Gen3, Phases 35–40; advanced by every phase's closing work, R121)
+## 7. After 100 % — what the readability generation has taught so far (Gen3, Phases 35–41; advanced by every phase's closing work, R121)
 
 *From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md` and `PhaseEnd_Phase37.md` (their "what we believed, what failed, what we would do
 sooner" sections), decision log "P35", "P36 S99/S101/S104/S105", "P37 S106"; for the migration and Phase 38, the Phase 38 plan's change
-lines, task summaries and logs, and git; for Phase 39, its plan's change lines and task summaries (T1–T11, T7.1); for Phase 40, its plan's change lines and task summaries (T1–T13, T15, T17–T21). Same four questions as §1–§4, for the work that began when the bytes were done. Where the
+lines, task summaries and logs, and git; for Phase 39, its plan's change lines and task summaries (T1–T11, T7.1); for Phase 40, its plan's change lines and task summaries (T1–T13, T15, T17–T21); for Phase 41, its plan and task summaries (T1–T10, T13). Same four questions as §1–§4, for the work that began when the bytes were done. Where the
 record is thin it says so; inferences are marked.*
 
 **What we believed, and what was true.** (P35) That sotn writes duplicate functions explicitly, so ~12,000 duplicate copies were the normal
@@ -191,7 +191,7 @@ cap; the real bar was a *wall* for each survivor, the gcc pass that makes it nec
 oracle-judged all 1,868 pins — 808 had been "left by the author" and 205 "not judged"; re-judged one by one, all were needed after all.
 That the pins standing for a missing parameter were parameters — 384 were scratch registers, written before they are read. That defining
 a type fixes its casts — the bodies must be re-swept and the ledger rows restamped, and the sweep itself creates new types the frozen band
-cannot see. That functions at the same address in different binaries were copies — mostly they were distinct functions.
+cannot see. That functions at the same address in different binaries were copies — mostly they were distinct functions. (P41) That a lying count of 0 meant the declarations were honest — it compared only argument counts; return types, compared after typedefs, gave 273 lying functions over 100,266 sites. That a struct gate could assert 0 raw casts — at about 176,000 ledgered sites it was a gate that could never pass; the done-criteria never asked for it, and the per-site residue ledger already gates the casts. That changing a declared `void` to `int` is byte-neutral when the result is dropped — it can move register allocation, so some kept a cast at the call.
 
 **What failed, and why it looked right.** A session died at 91 % context with 35 minutes of state only in its transcript, after refreshing
 its checkpoint five times — two bank commits inside a task had no log line (→ R101). A tool's restore path was `git checkout`, which wiped
@@ -235,6 +235,7 @@ not walls: the shallow pilot failures went 3 of 5 when retried. The struct gate 
 T17, from duplicate definitions that later edits brought in, and nobody saw it because it ran only at the gate; a conversion of assembly
 to C left three empty K&R declarations the next tasks did not see for the same reason. A coder was spawned on the wrong belief that its
 predecessor had died, and another ran a restamp mode nobody had asked for, undone from the ledger.
+(P41) A gate whose verdict could not be green had been read as "red, as expected" for four phases, so the part of it that could catch a real fault was never read. A tool fix applied in place could not be reproduced without its untracked inputs, so the bugs were reproduced on a scratch worktree with those inputs linked in. A commit of about 3,900 paths was split in two by the argument limit, and its first half was never gated alone. New tool files were invisible to the kit corpus until git knew of them, and the layout tool dropped arrays of function pointers and comma-separated bitfields, which only a byte-for-byte comparison with gcc surfaced. The permission system refused the first stop of the Ghidra server; it was not worked around, and the owner stopped it himself.
 
 **What it cost.** P35: three sessions (one a recovery) and ~2.5 h of gates; no model tokens beyond the coordinator and three gate-1 agents.
 P36: nine sessions, 575 commits, ~200 agent draws, roughly 15–20 M agent tokens — the mechanical rungs took 37 % of the sites for ~20
@@ -261,6 +262,7 @@ clean gate grew from 5 minutes 38 seconds to about 9 minutes; a tools-health run
 every batch. Start to end: TNC 291,819 → 0 (5,871 sites below the band); raw casts 336,219 → 176,439 (P 257,470 → 115,647, I 49,831 →
 46,563, X 13,790 → 10,312, M 15,128 → 3,917), 0 uncovered; lying declarations 11 → 0; levers 3,364 → 1,853, the residue ledger 2,433 →
 1,180 rows, all walled; struct definitions 1,650 → 4,762 (4,128 canonical).
+P41: 2026-11-07 → 11-08, about eleven hours and 88 commits; nine coder runs in all (three for the Ghidra type tool, two for the return-type fixes), the rest done by the task experts themselves; the close was paused twice for the owner's word. Each Ghidra proof leg takes 77 to 208 seconds headless; the type tool's check runs in about 6 seconds. 218 of 218 binaries identical on every batch. Start to end: return-type lies 273 functions / 100,266 sites → 19 / 9,302, all ledgered; raw casts, levers and struct definitions unchanged (176,445 covered; 1,853, all attributed and walled; 4,762); 7,151 canonical types mirrored into Ghidra.
 
 **What we would do sooner.** Read the target project's TREE before setting a policy on its precedent. Make every commit that advances a task
 carry its log line, and checkpoint before any long wait past ~85 % context. Price a residue by distinct SHAPES, never by bodies. Put a
@@ -288,4 +290,4 @@ a sweep: T10's concentration table (half of the TYPE-NOT-CANONICAL sites on 81 t
 per site from the first residue row, and key a planner by the definitions' names, aliases included. (P40) Measure the tail's
 distribution — sites per type — before choosing a zero target. Re-run the census after every sweep before freezing anything on it.
 Require a wall vocabulary from the first crack wave, not after it. Run the struct and cast gates after every task that edits bodies, not
-only at the milestone. Back up irreplaceable ledgers outside the repository from the start, which the phase did only at its end.
+only at the milestone. Back up irreplaceable ledgers outside the repository from the start, which the phase did only at its end. (P41) Compare a declaration's return type with the definition's from the first day, in one shared prototype header every file includes, and keep a cast at the call where a void-to-int change moves bytes. Make a gate's verdict reachable the day it is written, or split it: a gate that is red by construction teaches its readers to ignore it. Census the text a scratch check reads, with its old pattern, before folding it into a gate. Mirror the types into the oracle as soon as the headers are canonical, not four phases later.
