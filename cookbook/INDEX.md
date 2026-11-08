@@ -1002,3 +1002,4 @@ C0549 | Fold a scratch text check into a gate: census today's text, one named fo
 C0550 | New tool files need git add -N before make kit-corpus | kit-corpus,tools-health,tool_census,git | 2026-11-07 | 3.41/T7 | P3.41 T7.c1
 C0551 | Ghidra type rows: import order, nested arrays, bitfields, comment alignment | ghidra,types,import,bitfields,layout | 2026-11-07 | 3.41/T7 | P3.41 T7.c1
 C0552 | Return-type lies: argcheck norm_ret + canonical typedef map, opt-in returns=True; arity alone misses them | declarations,return-type,lying,argcheck,census | 2026-11-07 | 3.41/T9 | P3.41 T3
+C0553 | kit_lint rejects project tokens (BFM*) in tool_dictionary prose mirrored to the kit MANIFEST | kit-corpus,kit-lint,tool_dictionary,tools-health | 2026-11-07 | 3.41/T9 | P3.41 T9.c1

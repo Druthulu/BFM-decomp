@@ -7,3 +7,4 @@ T4 | done | fix the return-type lies at def, declarations and callers | - | task
 T5 | done | type_census --check aligned to the done-criteria and wired into tools-health | - | tasks/T5.md | logs/T5.md | -
 T6 | done | attribution check folded into lever_census --check | - | tasks/T6.md | logs/T6.md | -
 T7 | done | canonical types into Ghidra from the headers, proven by rebuild | - | tasks/T7.md | logs/T7.md | -
+T9 | done | the record: cookbook, wiki type layer, decision log, tool index and kit corpus | - | tasks/T9.md | logs/T9.md | -
