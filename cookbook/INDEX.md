@@ -996,3 +996,5 @@ C0543 | Return-type changes: def+decls+callers as one unit; the return type is a
 C0544 | Lever residue rows key (file, func, kind): one crack re-causes a row, an unused row fails strict | levers,residue,walls,strict,gate | 2026-11-07 | 3.40/T13 | P3.40 T19/T20/T13
 C0545 | Strip a JSONL ledger for public: per-path scan of every string, self-verify the gz | ledger,public,audit,gzip,kit-lint | 2026-11-07 | 3.40/T15 | P3.40 T15.c1
 C0546 | Scratch git worktree for reproducing an in-place tool's edits | worktree,reproducer,lift_types,fold,tools | 2026-11-07 | 3.41/T2 | -
+C0547 | Return retype void->int on a decl is not always byte-neutral (dropped result still moves regalloc) | declarations,return-type,lying,bytes,regalloc | 2026-11-07 | 3.41/T4 | P3.41 T4.c1
+C0548 | Clearing return-type lies fleet-wide: decls->def, def->decls, else ledger; width/sign lies stay | declarations,return-type,lying,bytes,exceptions | 2026-11-07 | 3.41/T4 | P3.41 T4.c2
