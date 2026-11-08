@@ -43,3 +43,16 @@
 3.40 | T13 | done | milestone gate and record (Phase 3.40) | - | phase-3.40/tasks/T13.md | phase-3.40/logs/T13.md | -
 3.40 | T15 | done | ledger backup at phase close: stripped public copy and full archive copy | - | phase-3.40/tasks/T15.md | phase-3.40/logs/T15.md | R3.40-007
 3.40 | T14 | done | phase-close docs: README graphs, story §10, retrospective §7, wiki (Phase 3.40) | - | phase-3.40/tasks/T14.md | phase-3.40/logs/T14.md | -
+3.41 | T1 | done | phase-start baselines and environment check | - | phase-3.41/tasks/T1.md | phase-3.41/logs/T1.md | -
+3.41 | T2 | done | census tool bugs from 3.40 T21 | - | phase-3.41/tasks/T2.md | phase-3.41/logs/T2.md | -
+3.41 | T3 | done | return-type lies in the lying-declaration check | - | phase-3.41/tasks/T3.md | phase-3.41/logs/T3.md | -
+3.41 | T4 | done | fix the return-type lies at def, declarations and callers | - | phase-3.41/tasks/T4.md | phase-3.41/logs/T4.md | -
+3.41 | T5 | done | type_census --check aligned to the done-criteria and wired into tools-health | - | phase-3.41/tasks/T5.md | phase-3.41/logs/T5.md | -
+3.41 | T6 | done | attribution check folded into lever_census --check | - | phase-3.41/tasks/T6.md | phase-3.41/logs/T6.md | -
+3.41 | T7 | done | canonical types into Ghidra from the headers, proven by rebuild | - | phase-3.41/tasks/T7.md | phase-3.41/logs/T7.md | -
+3.41 | T9 | done | the record: cookbook, wiki type layer, decision log, tool index and kit corpus | - | phase-3.41/tasks/T9.md | phase-3.41/logs/T9.md | -
+3.41 | T8 | review | apply the canonical types to the live Ghidra database | - | phase-3.41/tasks/T8.md | phase-3.41/logs/T8.md | -
+3.41 | T13 | done | return-type lies on the graph and in the day-1 guide | - | phase-3.41/tasks/T13.md | phase-3.41/logs/T13.md | -
+3.41 | T10 | done | milestone gate (Phase 3.41) | - | phase-3.41/tasks/T10.md | phase-3.41/logs/T10.md | R3.41-003,R3.41-002
+3.41 | T11 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.41) | - | phase-3.41/tasks/T11.md | phase-3.41/logs/T11.md | R3.41-005,R3.41-004
+3.41 | T12 | done | phase cleanup | - | phase-3.41/tasks/T12.md | phase-3.41/logs/T12.md | -
