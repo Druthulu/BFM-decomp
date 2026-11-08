@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-07T23:22:25.344Z
+# filed through: 2026-11-08T01:56:56.429Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -54,3 +54,6 @@ R50 | 2026-11-07 | finding | in force | Long-running shells on the machine | A C
 R51 | 2026-11-07 | open | superseded by R52 | Long-running shells on the machine | The developer runs `/mcp` to reconnect the Ghidra MCP once T1's 6 proofs report -> Claude tells him… | .claude-state/journal/2026-11-07/161728-053r-claude-record.md
 R52 | 2026-11-07 | decision | in force | Long-running shells on the machine | The Ghidra MCP stays stopped through 3.41 until a task needs the live database (T8, after T7's proo… | .claude-state/journal/2026-11-07/163755-056r-claude-record.md
 R53 | 2026-11-07 | finding | in force | Long-running shells on the machine | T1's 6 ghidra_rebuild.sh --proof legs (SLUS_007.26, sep8_SLUS_007.26, aug31_USA_DEMO.EXE, resident,… | .claude-state/journal/2026-11-07/163755-056r-claude-record.md
+R54 | 2026-11-07 | finding | in force | Return-type lies in 3.41 (T3/T4) | T4.c1 fixed 182 byte-neutral callees: 75,801 declaration lines in 3,927 files, rewritten in place w… | .claude-state/journal/2026-11-07/185059-066r-claude-record.md
+R55 | 2026-11-07 | finding | in force | Return-type lies in 3.41 (T3/T4) | Before this change, the phase's docs tasks did not show return lies anywhere. | .claude-state/journal/2026-11-07/185059-066r-claude-record.md
+R56 | 2026-11-07 | decision | in force | Return-type lies in 3.41 (T3/T4) | A new 3.41 task, placed after T9 and before T10's close snapshot, adds return-lie columns (function… | .claude-state/journal/2026-11-07/185059-066r-claude-record.md
