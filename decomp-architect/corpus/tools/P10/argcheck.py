@@ -296,7 +296,7 @@ def kr_params(names, decl_block):
     return out
 
 
-KR_DEF = re.compile(r"^[A-Za-z_][\w \t*]*?\b(" + NAME + r")\s*\(\s*(" + NAME + r"(?:\s*,\s*" + NAME + r")*)\s*\)\s*\n"
+KR_DEF = re.compile(r"^[ \t]*[A-Za-z_][\w \t*]*?\b(" + NAME + r")\s*\(\s*(" + NAME + r"(?:\s*,\s*" + NAME + r")*)\s*\)\s*\n"
                     r"((?:[ \t]*[A-Za-z_][^;{}()]*;[ \t]*\n)+)\s*\{", re.M)
 
 
