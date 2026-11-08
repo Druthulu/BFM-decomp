@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-08T07:18:18.046Z
+# filed through: 2026-11-08T08:55:49.654Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -38,7 +38,7 @@ R34 | 2026-11-07 | open | superseded by R48 | Post-100% documentation (lever ser
 R35 | 2026-11-07 | finding | in force | T17 drift types | T17's mini round cleared the last drift: TNC 6 to 0 with no remainder, so R27's known-remainder cla… | .claude-state/journal/2026-11-07/125630-011r-claude-record.md
 R36 | 2026-11-07 | decision | in force | Phase 3.40 close | Phase 3.40 is closed with its milestone met. | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
 R37 | 2026-11-07 | finding | in force | Phase 3.40 close | 3.40 results: TNC went from 291,819 to 0 in band and drift, with a TYPE-BELOW-BAND tail of 5,871 un… | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
-R38 | 2026-11-07 | open | in force | Phase 3.40 close | The developer pushes the archive clone /home/musashi/BFM-decomp-archive (one commit ahead, d31e409)… | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
+R38 | 2026-11-07 | open | superseded by R78 | Phase 3.40 close | The developer pushes the archive clone /home/musashi/BFM-decomp-archive (one commit ahead, d31e409)… | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
 R39 | 2026-11-07 | open | in force | Phase 3.40 close | The public delever ledger copy drops the C before/after text (the archive keeps it). | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
 R40 | 2026-11-07 | decision | in force | External coder review, Phase 3.40 | DeepSeek model note 3 ('../') is dropped because 3.32.9 fixed the judge bug and no '../' denials ha… | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
 R41 | 2026-11-07 | finding | in force | External coder review, Phase 3.40 | DeepSeek's remaining friction is whole reads of big files: 17 read-guard blocks in 13 of 53 runs, m… | .claude-state/journal/2026-11-07/155411-041r-claude-record.md
@@ -73,6 +73,10 @@ R69 | 2026-11-07 | finding | in force | Ghidra type mirror in 3.41 (T7/T8) | T8 
 R70 | 2026-11-07 | open | in force | Ghidra type mirror in 3.41 (T7/T8) | The developer keeps the 1.0 GB pre-import backup .run/P41/T8/ghidra.bak for now. | .claude-state/journal/2026-11-07/233123-040r-claude-record.md
 R71 | 2026-11-08 | decision | in force | Phase 3.41 milestone gate (T10) | T13 runs before T10: T10 was set back to queued and T13 to next. | .claude-state/journal/2026-11-08/001053-047r-claude-record.md
 R72 | 2026-11-08 | decision | in force | Phase 3.41 milestone gate (T10) | The developer approved stopping the MCP Ghidra with tools/ghidra_mcp_stop.sh (clean save and stop,… | .claude-state/journal/2026-11-08/001053-047r-claude-record.md
-R73 | 2026-11-08 | finding | in force | Phase 3.41 milestone gate (T10) | T10's gate at 71e1a4af55: R22 was 218/218 run alone. | .claude-state/journal/2026-11-08/001053-047r-claude-record.md
+R73 | 2026-11-08 | finding | superseded by R76 | Phase 3.41 milestone gate (T10) | T10's gate at 71e1a4af55: R22 was 218/218 run alone. | .claude-state/journal/2026-11-08/001053-047r-claude-record.md
 R74 | 2026-11-08 | finding | in force | Phase 3.41 milestone gate (T10) | T13 is done. | .claude-state/journal/2026-11-08/003351-050r-claude-record.md
 R75 | 2026-11-08 | decision | in force | Phase 3.41 milestone gate (T10) | After T10's expert failed with no stated cause, it was resumed once (release stopped). | .claude-state/journal/2026-11-08/003351-050r-claude-record.md
+R76 | 2026-11-08 | finding | in force | Phase 3.41 milestone gate (T10) | The 3.41 milestone passed at f4b1fbad3d from a clean tree, with everything committed in ca62fbfe9c. | .claude-state/journal/2026-11-08/021125-053r-claude-record.md
+R77 | 2026-11-08 | finding | in force | Phase 3.41 milestone gate (T10) | Phase-close work: T11 wrote story §10's Phase 41 part, updated the §11 row in place, ran retrospect… | .claude-state/journal/2026-11-08/021125-053r-claude-record.md
+R78 | 2026-11-08 | open | in force | Phase 3.41 milestone gate (T10) | After the 3.41 close the developer: pushes the archive clone (b9534ed) and the repo; restarts the M… | .claude-state/journal/2026-11-08/021125-053r-claude-record.md
+R79 | 2026-11-08 | open | in force | Phase 3.41 milestone gate (T10) | The 3.41 close question is with the developer -> on yes, Claude calls release({hold: "close"}) with… | .claude-state/journal/2026-11-08/021125-053r-claude-record.md
