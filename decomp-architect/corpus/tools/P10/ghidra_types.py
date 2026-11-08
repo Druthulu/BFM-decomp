@@ -39,7 +39,7 @@ import cdecl                        # noqa: E402  (parse — the one C-declarato
 REPO = pathlib.Path(__file__).resolve().parent.parent
 CONF_DIR = REPO / "config/ghidra"
 TYPES_DIR = CONF_DIR / "types"
-SCRATCH = REPO / ".run/P41/T7/gcc_compare"
+SCRATCH = REPO / "build/ghidra_types/gcc_compare"   # generated probe, wiped by make clean (was .run/P41/T7/gcc_compare)
 CAT = "/bfm"
 RAM_CAP = 0x200000                  # cookbook C0537: a layout above PSX main RAM is refused, never expanded
 MAIN = "SLUS_007.26"
