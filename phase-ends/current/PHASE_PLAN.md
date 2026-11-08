@@ -113,3 +113,4 @@ Approved: 2026-11-07   Planner: claude-opus-5-5/medium   Plan-hash: 03484a995693
 - 2026-11-07 router: T7 next -> done
 - 2026-11-07 partner: T8 next -> blocked — wait-for is free text the loop cannot evaluate (R32 already answered); plan_edit has no way to clear the field; T9 and T13 run meanwhile
 - 2026-11-07 router: T9 next -> done
+- 2026-11-07 partner: T8 wait-for cleared to '-' by hand with the developer's OK (commit 024ca0ad03): the free text could not be evaluated, plan_edit cannot clear the field, and R32 was answered
