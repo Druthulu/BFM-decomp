@@ -33,6 +33,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import type_census as tc            # noqa: E402  (walk_file, CANON_HEADERS — the census's own reading of the headers)
 import struct_layout as sl          # noqa: E402  (Resolver, parse_struct_body, mask_comments, DEF_START)
+import cdecl                        # noqa: E402  (parse — the one C-declarator parser: checks struct_layout's member reading)
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 CONF_DIR = REPO / "config/ghidra"
@@ -148,9 +149,59 @@ def _attach(fields, triples):
     return True
 
 
+def _fill_dropped(fields, mbody, rbody, where):
+    """(fields, [error]): struct_layout's fields of a body with every declarator it dropped restored from cdecl.parse. A
+    function-pointer ARRAY `T (*f[3])(..)` (struct_layout reads no declarator) becomes struct_layout's own reading of a function
+    pointer (`void *`, 1 star) with the array's dims; any other dropped or unaccounted member is an error (no silent shell)."""
+    out, errs, k = [], [], 0
+    for (s, e) in _stmt_spans(mbody):
+        stmt = mbody[s:e + 1]
+        mine = fields[k:k + len(sl.parse_struct_body(stmt))]
+        k += len(mine)
+        m = sl.DEF_START.search(stmt)
+        if m:                                   # a nested body: check its members; its declarators are struct_layout's
+            close = sl._match_brace(stmt, m.end() - 1)
+            if mine and mine[0].get("nested") and close != -1:
+                nd = mine[0]["nested"]
+                nd["fields"], er = _fill_dropped(nd["fields"], stmt[m.end():close], rbody[s + m.end():s + close], where)
+                errs += er
+            out += mine
+            continue
+        if ":" in stmt:                         # bitfields (cdecl does not read them): one field per top-level declarator
+            if len(mine) != len(sl._split_top(stmt[:-1], ",")):
+                errs.append(f"{where}: struct_layout read {len(mine)} field(s) from {stmt.strip()!r}")
+            out += mine
+            continue
+        try:
+            decls = cdecl.parse(stmt)
+        except cdecl.CDeclError as ex:
+            errs.append(f"{where}: member {stmt.strip()!r} unreadable by cdecl: {ex}")
+            out += mine
+            continue
+        byname = {f["name"]: f for f in mine}
+        if len(byname) != len(mine) or set(byname) - {d.name for d in decls}:
+            errs.append(f"{where}: struct_layout fields {sorted(byname)} not cdecl's {[d.name for d in decls]} in {stmt.strip()!r}")
+        for d in decls:
+            if d.name in byname:
+                out.append(byname[d.name])
+                continue
+            ops = [o[0] for o in d.chain]
+            dims = [sl._eval_dim(o[1] or "", {}) for o in d.chain if o[0] == cdecl.ARR]
+            n = len(dims)
+            if n and ops == [cdecl.ARR] * n + [cdecl.PTR, cdecl.FUN] and None not in dims:
+                out.append(dict(name=d.name, type="void *", stars=1, dims=dims, bits=None, nested=None,
+                                _cm=_trailing_comment(rbody, e + 1)))
+            else:
+                errs.append(f"{where}: struct_layout dropped member {d.name!r} ({d.type}) — not modelled")
+    if k != len(fields):
+        errs.append(f"{where}: {len(fields)} struct_layout fields, {k} accounted for by statement")
+    return out, errs
+
+
 def read_headers():
-    """{rel: walk} for the canonical headers + common.h, comments attached; [rel of a def whose comments did not align]."""
-    walks, misaligned = {}, []
+    """{rel: walk} for the canonical headers + common.h, comments attached, struct_layout's dropped declarators restored
+    (_fill_dropped); [rel of a def whose comments did not align]; [error]."""
+    walks, misaligned, errs = {}, [], []
     for rel in tc.CANON_HEADERS + (SCALAR_HEADER,):
         raw = (REPO / rel).read_text(errors="surrogateescape")
         w = tc.walk_file(raw, rel)
@@ -166,8 +217,11 @@ def read_headers():
             close = sl._match_brace(masked, m.end() - 1) if m else -1
             if close == -1 or not _attach(d["fields"], _comments(masked[m.end():close], raw[m.end():close])):
                 misaligned.append(f"{rel}:{d['line']}")
+            if close != -1:
+                d["fields"], er = _fill_dropped(d["fields"], masked[m.end():close], raw[m.end():close], f"{rel}:{d['line']}")
+                errs += er
         walks[rel] = w
-    return walks, misaligned
+    return walks, misaligned, errs
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -175,10 +229,9 @@ def read_headers():
 # ----------------------------------------------------------------------------------------------------------------------
 class Model:
     def __init__(self):
-        self.walks, self.misaligned = read_headers()
+        self.walks, self.misaligned, self.errors = read_headers()
         self.entries = {}            # path -> dict(kind, row, deps, cname, fields(for compare), size)
         self.name_paths = {}         # C identifier -> {paths} (tags and typedef names)
-        self.errors = []
         scope = {}
         for rel in tc.CANON_HEADERS + (SCALAR_HEADER,):
             w = self.walks[rel]
@@ -235,6 +288,8 @@ class Model:
             if base == p:
                 continue                        # `typedef struct Foo Foo;` — the struct already is /bfm/Foo
             self._typedef(p, base, a["name"], f"{rel}:{a['line']}")
+        for p in sorted(p for p, e in self.entries.items() if e["kind"] in ("struct", "union") and not e["comps"]):
+            self.errors.append(f"{p}: no fields — a 1-byte shell (gcc sizes an empty struct 0)")   # was a WARN (T7.c1)
 
     # -- spelling ------------------------------------------------------------------------------------------------------
     def base_path(self, t):
@@ -473,9 +528,6 @@ def summary(model, out, n_rest):
           f"{n_rest} used by no program -> {MAIN}; comments misaligned in {len(model.misaligned)} defs")
     for prog, rows in out.items():
         print(f"  {prog:22} {len(rows)} rows")
-    empty = sorted(p for p, e in model.entries.items() if e["kind"] in ("struct", "union") and not e["comps"])
-    if empty:   # struct_layout reads no field from a `T (*f[3])(..)` member (function-pointer ARRAY): the row is a 1-byte shell
-        print(f"ghidra_types: WARN {len(empty)} definition(s) parsed to no fields (struct_layout): {', '.join(empty)}")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
