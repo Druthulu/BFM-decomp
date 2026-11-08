@@ -4,7 +4,7 @@
 
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern s32 func_801506A4(s32 a0, s32 a1);
-extern s32 func_80161CD0(s32 a0, s32 a1);
+extern void func_80161CD0(s32 a0, s32 a1);
 #include "../shared/ov/func_801808C4__088fcd06.h"
 
 

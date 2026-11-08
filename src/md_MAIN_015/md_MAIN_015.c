@@ -57,7 +57,7 @@ void func_800CAF0C(s32 *a0) {
 extern s32 func_80161208();
 extern s32 func_80148E54(void *a0);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void func_80148AFC(void *a0);
+extern int func_80148AFC(void *a0);
 extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp4, s32 sp5, s32 sp6, s32 sp7);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80147324(s32 a0);
@@ -273,7 +273,7 @@ void func_800CB4F0(void *arg0) {
     extern void func_8001C810(s32 a0, s32 a1);
     extern void func_80149350();  // K&R: 3 of 1 args (P37 rung D t4_D58)
     extern void func_80149374(s32 a0, s32 a1);
-    extern s32 func_80017DC4(void *a0, void *a1);
+    extern void func_80017DC4(void *a0, void *a1);
     extern void RotMatrixZ(s32 a0, void *a1);
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -351,7 +351,7 @@ void func_800CB6A4(void *arg0) {
 
 
 extern signed char D_800CBB44[];
-extern s32 func_80017758(void *a0, void *a1);
+extern void func_80017758(void *a0, void *a1);
 
 s32 func_800CB6FC(s32 param_1) {
     unsigned char buf[0x34];
@@ -449,7 +449,7 @@ void func_800CB930(void *arg0) {
 
 
 extern signed char D_800CBB44[];
-extern s32 func_80017758(void *a0, void *a1);
+extern void func_80017758(void *a0, void *a1);
 
 s32 func_800CB988(s32 param_1) {
     unsigned char buf[0x34];

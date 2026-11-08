@@ -16237,10 +16237,10 @@ extern void GsTMDfastTG4NL(void);
 extern void GsTMDfastTNG4(void);
 extern void * GsTMDfastF3GL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work);
 extern void * GsTMDfastF3GNL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work);
-extern void GsTMDfastG3GL(void);
-extern void GsTMDfastG3GNL(void);
-extern void GsTMDfastF4GL(void);
-extern void GsTMDfastF4GNL(void);
+extern void *GsTMDfastG3GL(void);
+extern void *GsTMDfastG3GNL(void);
+extern void *GsTMDfastF4GL(void);
+extern void *GsTMDfastF4GNL(void);
 extern void GsTMDfastG4GL(void);
 extern void GsTMDfastG4GNL(void);
 

@@ -9,7 +9,7 @@
  * read-before-write $a0-$a3 (agree on all 14 cached; 6 stubs call-site-validated). LOCAL to
  * this TU on purpose (reach-1 names like func_801809BC differ across overlays, so NOT in the
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
-extern s32 func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern void func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8012B4B8(int param_1);                        /* match-first, arity 1 */
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
 extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
@@ -20,7 +20,7 @@ extern s32 func_8015EE08(s32 a0);                        /* match-first, arity 1
 extern s32 func_8015F7D4(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_80160B34(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_80165140(s32 a0);                        /* match-first, arity 1 */
-extern s32 func_80161CD0(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern void func_80161CD0(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_80175268(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8017EC7C(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_801809BC(s32 a0, s32 a1);                /* match-first, arity 2 */
@@ -158,18 +158,18 @@ s32 func_80145CEC() {
     extern void func_80147098(s32 *a0);
     extern void func_801470AC(s32 *a0);
     extern void func_80149210(s32 a0, s32 a1);
-    extern int func_8014BE9C();
-    extern int func_8016533C();
-    extern int func_801627C0();
-    extern int func_80162AF4();
-    extern int func_80165C78();
+    extern void func_8014BE9C();
+    extern void func_8016533C();
+    extern void func_801627C0();
+    extern void func_80162AF4();
+    extern void func_80165C78();
     extern u8 * func_801468C8(s32 arg0, u8 arg1);
     extern void func_80145EE8(s32 param_1);
-    extern int func_8014C968();
-    extern int func_8014C6D0();
-    extern int func_80165938();
-    extern int func_80153C8C();
-    extern int func_800290BC();
+    extern void func_8014C968();
+    extern void func_8014C6D0();
+    extern void func_80165938();
+    extern void func_80153C8C();
+    extern void func_800290BC();
     extern s32 D_800AFAE8;
     extern s32 D_800DE2A4;
     extern s32 D_801152C8;

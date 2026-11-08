@@ -2,7 +2,7 @@
 
 void func_800CAE0C(void) {
     extern void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2);
-    extern void func_800183E0(s32 a0);
+    extern s32 func_800183E0(s32 a0);
     extern u8 D_800CC09C[];
     extern u8 D_800CBF3C[];
     extern u8 D_800CBF7C[];
@@ -26,7 +26,7 @@ void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2) {
     s32 *iter;
     s32 s;
 
-    extern void func_800183E0(s32 a0);
+    extern s32 func_800183E0(s32 a0);
 
     base = ((Unkstruct_800CAE74 *)arg1)->unkC;
     ((Unkstruct_800CAE74 *)arg1)->unk2 = ((Unkstruct_800CAE74_2 *)arg0)->unk2;
@@ -82,7 +82,7 @@ void func_800CAF9C(u8 *a0) {
 extern u16 D_801270C0;
 extern void func_80154150(s32 a0, s32 a1);
 extern void func_801655E4(s32 a0);
-extern void func_800183E0(s32 a0);
+extern s32 func_800183E0(s32 a0);
 extern void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2);
 extern void func_80146E90(s32 *a0, s32 a1);
 extern void func_80147324(s32 a0);
@@ -255,7 +255,7 @@ void func_800CB3B4(void) {
 void func_800CB428(void *a0) {
     extern u32 func_80029204(s32 arg0);
     extern void func_800CB5C8(void *a0, void *a1);
-    extern void func_800183E0(s32 a0);
+    extern s32 func_800183E0(s32 a0);
     extern u8 D_800CC0FC[];
     extern u8 D_800CBF7C[];
     extern u8 D_800CC11C[];
@@ -350,7 +350,7 @@ void func_800CB5C8(s32 arg0, s32 arg1) {
 /* GTE VARIANT `gte_rtv0_m`: memory beyond Sony's `gte_rtv0` — a scheduling steer, its uses are marked (P36 T5) */
 
 
-extern s32 func_80017DC4(void *a0, void *a1);
+extern void func_80017DC4(void *a0, void *a1);
 extern void func_80016ED4(void *a0);
 extern u16 D_800CBFFC[];
 extern u16 D_800CBFF8[];
@@ -425,7 +425,7 @@ void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3) {
 
 
 
-extern s32 func_80017DC4(void *a0, void *a1);
+extern void func_80017DC4(void *a0, void *a1);
 extern void func_80017714(void *a0);
 
 void func_800CB964(void *a0, void *a1, void *a2) {
@@ -534,7 +534,7 @@ void func_800CBCD4(u8 *s0) {
     extern void func_80162F08(s32, s32, s32, s32);
     extern void func_80013B64(s32, s32, s32);
     extern void func_80162FC0(s32 *);
-    extern void func_800CBED8(s32 *);
+    extern s32 func_800CBED8(s32 *);
     extern void func_80146DE8(s32 *, s32, s32, s32);
     extern s32 rand(void);
     extern u8 D_800CC13C[];

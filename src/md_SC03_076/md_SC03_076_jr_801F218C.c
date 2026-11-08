@@ -36,7 +36,7 @@ extern int func_801F1A4C(u8 *arg);
 extern s32 func_800167F0(s32 a0);
 extern s32 func_801F1AA4(void);
 extern s32 func_801F1B1C(s32 param_1);
-extern void func_800D1EBC(void);
+extern s32 func_800D1EBC(void);
 extern void func_801F1BAC(void);
 extern void func_801F1BCC(void *a0);
 extern s32 func_801F1C08(void *a0);
@@ -494,7 +494,7 @@ u8 func_801F29B0(u32 a0) {
 
 
 
-extern void func_8001ABBC(u32, u32, void *, u32, u32);
+extern s32 func_8001ABBC(u32, u32, void *, u32, u32);
 
 void func_801F29E0(void) {
 

@@ -53,7 +53,7 @@ s32 func_801E26C4(s32 param_1) {
 }
 
 
-extern void func_800D1EBC(void);
+extern s32 func_800D1EBC(void);
 void func_801E2764(void) {
     func_800D1EBC();
 }

@@ -54,10 +54,10 @@ extern s32 func_80128998(void);
 #include "../shared/ov/func_801285D4.h"
 
 
-extern s32 func_800D18DC(void);
+extern void func_800D18DC(void);
 extern void func_8014607C(void);
 extern void func_801287B8(void);
-extern s32 func_80011A3C(void);
+extern void func_80011A3C(void);
 extern s32 D_80190BB4;
 
 void func_801285E4(void)
@@ -179,7 +179,7 @@ extern void func_80129CF8(void);
 extern void func_8017849C(void);
 extern void func_8014FDF4(struct S8014FDF4 *a0);
 extern s32 func_801505FC(s32 a0);
-extern void func_801508B4(void *a0);
+extern s32 func_801508B4(void *a0);
 extern void func_80165E90(void);
 extern void func_801627E8(void);
 extern void func_80162B1C(void);
@@ -188,7 +188,7 @@ extern void func_80129010(void);
 extern void func_8013CA14(void);
 extern void func_800190AC(void);
 extern void func_8012956C(void);
-extern void func_8016E95C(void);
+extern s32 func_8016E95C(void);
 extern void func_801754A8(void);
 extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
@@ -228,7 +228,7 @@ void func_801287B8(void) {
 
 
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern s32 D_8018FA4C;
 extern u8 D_800AEFD0;
 
@@ -247,7 +247,7 @@ extern int D_800A2E20;
 extern int D_800AF558;
 extern int D_8018FA4C;
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int func_801288E8(int arg0)
 {
@@ -263,7 +263,7 @@ int func_801288E8(int arg0)
 // @class: remat
 // @unstuck(P36): none — MATCH (pointer-var forces single materialization of &D_800C7C60, reused as store base + arg5)
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern int D_800C7C60;
 extern int *D_800C7C64;
 extern int D_800A2E20;
@@ -290,7 +290,7 @@ extern int D_800A2E20;
 extern int D_800AECB0;
 extern s32 D_8018FA4C;
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_80128998(void)
 {
@@ -304,7 +304,7 @@ s32 func_80128998(void)
 
 extern s32 D_8018FA4C;
 extern u8 D_800AECB8;
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_801289F0(void) {
     func_8001ABBC(0, 0, &D_800AECB8, D_8018FA4C, 0);
@@ -360,7 +360,7 @@ void func_80128AF4(void) {
 
 
 extern CdFileLoc_80128C98 cdFileLocTable[];
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128C98(s32 arg0) {
 
@@ -378,7 +378,7 @@ s32 func_80128C98(s32 arg0) {
 
 
 extern CdFileLoc cdFileLocTable[];
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128CFC(s32 arg0) {
 

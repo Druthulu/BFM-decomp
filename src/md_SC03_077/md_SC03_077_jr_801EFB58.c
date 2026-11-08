@@ -11,7 +11,7 @@ extern s32 func_801EF4E8(void);
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
 extern void func_801EF7CC(void *arg0);
 extern s32 func_801EF50C(s32 param_1);
-extern void func_800D1EBC(void);
+extern s32 func_800D1EBC(void);
 extern void func_801EF608(void);
 extern void func_801EF628(void *a0);
 extern void func_801EF664(void *a0);

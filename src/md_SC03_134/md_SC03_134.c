@@ -32,12 +32,12 @@ extern void func_801E2928(void *arg0);
 
 
 
-extern s32 func_800D1E28(void);
+extern void func_800D1E28(void);
 extern s32 func_8002D4C8(s32, s32);
-extern s32 func_8001BFD0(void);
+extern void func_8001BFD0(void);
 extern s32 func_800291B4(s32);
 extern s32 func_80029524(void);
-extern s32 func_800D0C48(s32);
+extern void func_800D0C48(s32);
 
 s32 func_801E26C4(s32 param_1) {
     if ((((Unkstruct_801E26BC *)param_1)->unk28 = ((Unkstruct_801E26BC *)param_1)->unk28 - 1) == -1) {
@@ -54,7 +54,7 @@ s32 func_801E26C4(s32 param_1) {
 }
 
 
-extern void func_800D1EBC(void);
+extern s32 func_800D1EBC(void);
 void func_801E2764(void) {
     func_800D1EBC();
 }

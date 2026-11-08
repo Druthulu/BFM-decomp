@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800183E0(s32 a0);
+extern s32 func_800183E0(s32 a0);
 extern u8 D_800CCA28[];
 extern u8 D_800CBC18[];
 
@@ -60,7 +60,7 @@ void func_800CAF1C(s32 *a0) {
 
 extern s16 func_80148E54(void *a0);
 extern s16 func_80012ABC(s16 a0, s16 a1, s32 a2);
-extern void func_80148AFC(void *a0);
+extern int func_80148AFC(void *a0);
 extern void func_801466F0(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80147324(s32 a0);
@@ -266,7 +266,7 @@ void func_800CB574(void *param_1) {
     extern void func_8001C810(s32 a0, s32 a1);
     extern void func_80149350(s32 a0);
     extern void func_80149374(s32 a0, s32 a1);
-    extern s32 func_80017DC4(void *a0, void *a1);
+    extern void func_80017DC4(void *a0, void *a1);
     extern void RotMatrixZ(s32 a0, void *a1);
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);

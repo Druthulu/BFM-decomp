@@ -54,7 +54,7 @@ s32 func_800CCBC0(void)
     extern u8 D_800CD6E1;
     extern u8 D_800CD6E2;
     extern u8 D_800CD6E3;
-    extern s32 func_80017758(void *a0, void *a1);
+    extern void func_80017758(void *a0, void *a1);
 
     Prim_md_MAIN_047_800CCBC0 prim;
     Blk20 blk;

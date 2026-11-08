@@ -364,8 +364,8 @@ void func_800CB578(void *arg0) {
 }
 
 
-extern s32 func_80017DC4(void *a0, void *a1);
-extern s32 func_80017758(void *a0, void *a1);
+extern void func_80017DC4(void *a0, void *a1);
+extern void func_80017758(void *a0, void *a1);
 
 
 void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {

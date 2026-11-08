@@ -9,7 +9,7 @@
  * read-before-write $a0-$a3 (agree on all 14 cached; 6 stubs call-site-validated). LOCAL to
  * this TU on purpose (reach-1 names like func_801809BC differ across overlays, so NOT in the
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
-extern s32 func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern void func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8012B4B8(int param_1);                        /* match-first, arity 1 */
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
 extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
@@ -20,7 +20,7 @@ extern s32 func_8015EE08(s32 a0);                        /* match-first, arity 1
 extern s32 func_8015F7D4(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_80160B34(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_80165140(s32 a0);                        /* match-first, arity 1 */
-extern s32 func_80161CD0(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern void func_80161CD0(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_80175268(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8017EC7C(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_801809BC(s32 a0, s32 a1);                /* match-first, arity 2 */
@@ -100,10 +100,10 @@ extern s32 func_80128998(void);
  */
 #include "common.h"
 
-extern s32 func_800D18DC(void);
+extern void func_800D18DC(void);
 extern void func_8014607C(void);
 extern void func_801287B8(void);
-extern s32 func_80011A3C(void);
+extern void func_80011A3C(void);
 extern s32 D_801D9484;
 
 void func_801285E4(void)
@@ -226,7 +226,7 @@ extern void func_80129CF8(void);
 extern void func_8017849C(void);
 extern void func_8014FDF4(struct S8014FDF4 *a0);
 extern s32 func_801505FC(s32 a0);
-extern void func_801508B4(void *a0);
+extern s32 func_801508B4(void *a0);
 extern void func_80165E90(void);
 extern void func_801627E8(void);
 extern void func_80162B1C(void);
@@ -235,7 +235,7 @@ extern void func_80129010(void);
 extern void func_8013CA14(void);
 extern void func_800190AC(void);
 extern void func_8012956C(void);
-extern void func_8016E95C(void);
+extern s32 func_8016E95C(void);
 extern void func_801754A8(void);
 extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
@@ -274,7 +274,7 @@ void func_801287B8(void) {
 }
 
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern s32 D_801D7F90;
 extern u8 D_800AEFD0;
 
@@ -291,7 +291,7 @@ extern int D_800A2E20;
 extern int D_800AF558;
 extern int D_801D7F90;
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int func_801288E8(int arg0)
 {
@@ -305,7 +305,7 @@ int func_801288E8(int arg0)
 // @class: remat
 // @unstuck(P36): none — MATCH (pointer-var forces single materialization of &D_800C7C60, reused as store base + arg5)
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern int D_800C7C60;
 extern int *D_800C7C64;
 extern int D_800A2E20;
@@ -330,7 +330,7 @@ extern int D_800A2E20;
 extern int D_800AECB0;
 extern s32 D_801D7F90;
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_80128998(void)
 {
@@ -343,7 +343,7 @@ s32 func_80128998(void)
 
 extern s32 D_801D7F90;
 extern u8 D_800AECB8;
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_801289F0(void) {
     func_8001ABBC(0, 0, &D_800AECB8, D_801D7F90, 0);
@@ -433,7 +433,7 @@ void func_80128AF4(void) {
 extern s16 D_80186DCC[];
 extern CdFileLoc cdFileLocTable[];
 extern s32 D_801D7F90;
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128C98(s32 arg0) {
     s16 idx = D_80186DCC[arg0];
@@ -449,7 +449,7 @@ s32 func_80128C98(s32 arg0) {
 
 
 extern CdFileLoc cdFileLocTable[];
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128CFC(s32 arg0) {
 

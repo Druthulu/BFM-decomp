@@ -1414,7 +1414,7 @@ extern void func_8012B178(s32 a0, s32 a1);
 
 void func_801852B0(s32 a0)
 {
-    extern void func_8018567C(s32 a0, s32 a1);
+    extern s32 func_8018567C(s32 a0, s32 a1);
 
     s32 s0 = a0;
     s32 v;
@@ -1528,7 +1528,7 @@ void func_80185464(void *a0) {
 extern void func_80185480_dummy(void);
 void func_80185480(void *a0) {
     extern s32 func_80185548(s32);
-    extern void func_8018567C(s32, s32);
+    extern s32 func_8018567C(s32, s32);
 
     if (func_80185548((s32)a0) == 1) {
         if ((((Unkstruct_800B5CB8 *)a0)->unk70 & 0x8000) != 0) {
@@ -1543,7 +1543,7 @@ void func_80185480(void *a0) {
 
 void func_801854DC(void *a0) {
     extern s32 func_80185548(s32);
-    extern void func_8018567C(s32, s32);
+    extern s32 func_8018567C(s32, s32);
 
     if (func_80185548((s32)a0) == 1) {
         if ((((Unkstruct_800B5CB8 *)a0)->unk70 & 0x8000) != 0) {
@@ -2261,7 +2261,7 @@ extern s32 func_80188168(void);
     }
 
 
-extern s32 func_8013CAE8(void);
+extern void func_8013CAE8(void);
     void func_80186374(void) {
         func_8013CAE8();
     }
@@ -3315,7 +3315,7 @@ void func_801878C8(s32 a0) {
 }
 
 
-extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern s32 rand(void);
 
@@ -3612,7 +3612,7 @@ extern int *D_800C7C64;
 extern int D_800A2E20;
 extern int D_800AEF98;
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_80188114(void)
 {
@@ -3628,7 +3628,7 @@ extern int *D_800C7C64;
 extern int D_800A2E20;
 extern int D_800AEFA8;
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_80188168(void)
 {
@@ -3649,7 +3649,7 @@ extern int D_800A2E20;
 extern int D_800AEFA0;
 extern int D_801E8C34;
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int func_801881BC(int arg0)
 {

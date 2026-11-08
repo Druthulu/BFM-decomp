@@ -36,7 +36,7 @@ void func_800CEE2C(void) {
 
 extern void func_8001C044(void);
 extern void func_80015310(void);
-extern void func_800183E0(void *a0);
+extern s32 func_800183E0(void *a0);
 extern void func_800167B8(s32 a0);
 extern void func_800118AC(void);
 

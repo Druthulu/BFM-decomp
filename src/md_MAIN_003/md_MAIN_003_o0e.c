@@ -15,7 +15,7 @@ extern s32 D_800EC684;
 extern u8 D_800DA48C[];
 extern void func_8001C044(void);
 extern void func_80015310(void);
-extern void func_8002D858(void);
+extern int func_8002D858(void);
 extern s32 func_800D1E18(void);
 extern void func_800CFB3C(u16 *arg0);
 extern void func_800118AC(void);
@@ -47,7 +47,7 @@ extern void func_800CF370(void);
 extern s8 D_800D52BC[];
 extern u16 D_800B99E6;
 extern u16 D_800B99E8;
-extern void func_800183E0(s32 a0);
+extern s32 func_800183E0(s32 a0);
 extern void func_800CF3A4(void);
 extern s32 D_800EC69C;
 extern void func_800599B8();
@@ -103,9 +103,9 @@ void func_800D0100(void) {
 extern u8 D_800AF630[];
 extern void func_8001C044(void);
 extern void func_80015310(void);
-extern void func_8002D858(void);
+extern int func_8002D858(void);
 extern u8 D_800D93FC[];
-extern void func_800183E0(s32 a0);
+extern s32 func_800183E0(s32 a0);
 extern s16 D_800EC894[];
 extern s32 func_800D1E18(void);
 extern s32 D_800EC8B0;
@@ -256,7 +256,7 @@ void func_800D0440(void) {
 extern void func_80015310(void);
 extern void func_8001C044(void);
 extern void func_800118AC(void);
-extern void func_800183E0(s32 a0);
+extern s32 func_800183E0(s32 a0);
 
 void func_800D05B4(void) {
 
@@ -318,7 +318,7 @@ void func_800D05B4(void) {
 #include "common.h"
 
 extern void func_80015310(void);
-extern void func_800183E0(s32 a0);
+extern s32 func_800183E0(s32 a0);
 extern void func_800118AC(void);
 extern u8 D_800AF630[];
 extern u8 D_800D93FC[];
@@ -581,7 +581,7 @@ extern u8 D_800AF630[];
 extern s32 D_800D4E6C;
 extern s16 D_800EC894[0];
 
-extern void func_800183E0(s32 a0);
+extern s32 func_800183E0(s32 a0);
 
 void func_800D0B1C(void) {
     register u8 *s0 = D_800AF630;

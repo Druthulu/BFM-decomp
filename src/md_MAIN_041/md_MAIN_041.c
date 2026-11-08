@@ -230,7 +230,7 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
-extern s32  func_80017758(void *a0, void *a1);
+extern void func_80017758(void *a0, void *a1);
 
    /* 8 bytes */
    /* 0x98 bytes -> sp+0x10 .. sp+0xA8 */

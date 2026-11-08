@@ -577,7 +577,7 @@ void func_8012E364(s32 arg0_)
 // @unstuck(P36): none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
 
 extern void func_8016AA50(int, int);
-extern void func_8016B428(int);
+extern s32 func_8016B428(int);
 extern void func_80019064(void *);
 extern int D_80189CBC;
 

@@ -64,7 +64,7 @@ void func_801EF560(void *a0) {
     }
 
 
-extern s32 func_801858CC(s32);   /* one spelling per TU (§376); the 3-arg call below is fn-ptr cast */
+extern void func_801858CC(s32);   /* one spelling per TU (§376); the 3-arg call below is fn-ptr cast */
 
 void func_801EF56C(void *a0, void *a1, void *a2) {
     ((void (*)(void *, void *, void *))func_801858CC)(a0, a1, a2);
@@ -89,7 +89,7 @@ void func_801EF58C(void *a0) {
 
 extern s32 func_80178970(s32 *a0);
 extern void func_80178D18(u8 *a0);
-extern s32 func_801858CC(s32);
+extern void func_801858CC(s32);
 void func_801EF5E4(u8 * a0)
 {
     if (func_80178970(a0)) {

@@ -3925,7 +3925,7 @@ void func_8018B5E0(void *a0) {
 }
 
 
-extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void (*D_801965C8[])(void);
 extern void func_801895E0(void *a0);
 

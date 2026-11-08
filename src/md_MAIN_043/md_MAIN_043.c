@@ -42,7 +42,7 @@ void func_800CCBCC(s32 a0)
     extern void func_801477E8(s32 *a0, s32 a1);
     extern void func_80154274(s32 *a0, s32 a1);
     extern void func_80146CA0(void *a0);
-    extern void func_800CCEAC(void *a0);
+    extern s32 func_800CCEAC(void *a0);
     extern u8 D_800D53C0[];
 
     func_80148038(a0, 0x1A000);
@@ -197,7 +197,7 @@ void func_800CCF50(void *a0) {
     extern void func_80149374(s32 a0, s32 a1);
     extern void func_80146E90(s32 *a0, s32 a1);
     extern void func_800CD1F4(void *a0, void *a1);
-    extern void func_800CD258(void *a0, void *a1);
+    extern s32 func_800CD258(void *a0, void *a1);
     extern void func_800CD27C(s32 a0);
     extern void func_80146CA0(void *);
     extern void func_800CD1D4(void);

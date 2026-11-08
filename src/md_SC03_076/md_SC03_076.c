@@ -22,7 +22,7 @@ void func_801EF750(void) {
     extern s16 D_801F96C0;
     extern u16 D_801F96B8;
     extern s32 func_80029504(void);
-    extern void func_801EF800(s32, s16);
+    extern s32 func_801EF800(s32, s16);
     s32 v;
     u16 *p;
 
@@ -203,7 +203,7 @@ void func_801EFA60(void)
     extern u8 D_800B9A15;
     extern unsigned short D_80115112;
     extern s32 func_8002B0B4(s32, s32, void *);
-    extern void func_801F0734(void);
+    extern s32 func_801F0734(void);
     extern void func_801F0A9C(void);
     extern s32 func_801EFBB4(void);
     extern void func_801F0210(void);
@@ -1445,11 +1445,11 @@ s32 func_801F1AC8(s32 param_1) {
 }
 
 
-    extern s32 func_800D1E28(void);
+    extern void func_800D1E28(void);
     extern s32 func_8002D4C8(s32, s32);
-    extern s32 func_8001BFD0(void);
+    extern void func_8001BFD0(void);
     extern s32 func_800291B4(s32);
-    extern s32 func_800D0C48(s32);
+    extern void func_800D0C48(s32);
     s32 func_801F1B1C(s32 param_1) {
         if ((((Unkstruct_801EF554 *)param_1)->unk28 = ((Unkstruct_801EF554 *)param_1)->unk28 - 1) == -1) {
             func_800D1E28();
@@ -1465,7 +1465,7 @@ s32 func_801F1AC8(s32 param_1) {
     }
 
 
-extern void func_800D1EBC(void);
+extern s32 func_800D1EBC(void);
 void func_801F1BAC(void) {
     func_800D1EBC();
 }

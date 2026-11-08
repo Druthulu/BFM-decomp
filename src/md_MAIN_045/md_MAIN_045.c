@@ -192,7 +192,7 @@ void func_800CCFA8(s32 param_1)
 
 
 extern void func_80146578(void);
-extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80146CA0(void *a0);
 extern void func_800CD204();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_800CD1A8(void *arg0);
@@ -272,7 +272,7 @@ void func_800CD1A8(void *arg0) {
 
 
 extern s16 func_8012A758(void);
-extern s32 func_80013694(s16 a0, void *a1, void *a2);
+extern void func_80013694(s16 a0, void *a1, void *a2);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
 extern void func_80015954(void *a0, s32 a1);
 extern s32 func_8004787C(s32 a0);
@@ -329,7 +329,7 @@ void func_800CD328(s32 param_1)
 
 
 extern void func_80146578(void);
-extern s32 func_8001CC3C(s32, s32, s32, s32);
+extern void func_8001CC3C(s32, s32, s32, s32);
 extern void func_80149374(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void func_80146E90(s32 *a0, s32 a1);

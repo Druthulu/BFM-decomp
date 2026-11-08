@@ -252,7 +252,7 @@ void func_800CB3D0(void) {
 }
 
 
-extern s32  func_80017DC4(void *a0, void *a1);
+extern void func_80017DC4(void *a0, void *a1);
 extern void func_80017DF8(s16 *a0, void *a1);
 extern void func_80149350(s32 a0, s32 a1, s32 a2);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
@@ -592,9 +592,9 @@ void func_800CBAA4(s32 a0) {
  *   buf+0x58/0x5A   the angle pair seeded from *(u16*)(a0+0x2C)
  */
 
-extern s32  func_80017DC4(void *a0, void *a1);
+extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern s32  func_80017758(void *a0, void *a1);
+extern void func_80017758(void *a0, void *a1);
 
 void func_800CBB38(void *a0, void *a1) {
     u8 buf[0x60];

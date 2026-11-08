@@ -1845,7 +1845,7 @@ extern u8           D_80076298;
 extern H2           D_80065438[];
 
 extern void func_8002D7FC(s32 arg0);
-extern void func_8002FDE8(s32 arg0, void *arg1);
+extern s32 func_8002FDE8(s32 arg0, void *arg1);
 
 void func_800373D0(void) {
     StructA4E88 *sp2;
@@ -2058,7 +2058,7 @@ extern u8      D_80076298;
 extern s32  func_80043994(void *buf, s32 n);
 extern s32  func_8003C4F0(s32);
 extern void func_8003C498(s32);
-extern void SpuWrite(s32, s32);
+extern s32 SpuWrite(s32, s32);
 
 void func_800377D8(u8 arg0) {
     s32 *pInt;

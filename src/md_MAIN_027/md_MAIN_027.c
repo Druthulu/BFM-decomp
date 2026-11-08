@@ -1,7 +1,7 @@
 #include "common.h"
 
 void func_800CAE0C(void) {
-    extern void func_800183E0(s32 a0);
+    extern s32 func_800183E0(s32 a0);
     extern s32 D_800CC22C;
     extern s32 D_800CC1EC;
     ((void (*)(void *))func_800183E0)(&D_800CC22C);
@@ -430,7 +430,7 @@ void func_800CB7FC(s32 a0) {
 
 extern void func_80015978(s32, s32 *);
 extern s32 func_8012EF34(s32, s32);
-extern s32 func_80017DC4(void *, void *);
+extern void func_80017DC4(void *, void *);
 extern s32 func_800CBA44(SV_CBA44_t *out, P2_CBA44_t *in, Base_CBA44_t *b, P2_CBA44_t *off, s32 *res, s32 *d);
 extern void func_800CBBF8(s32 *a0, s32 *a1);
 extern s32 func_80047948(s32);

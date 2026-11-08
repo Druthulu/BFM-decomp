@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800183E0(s32 a0);
+extern s32 func_800183E0(s32 a0);
 
 extern u8 D_800CB680[];
 extern u8 D_800CB6C0[];

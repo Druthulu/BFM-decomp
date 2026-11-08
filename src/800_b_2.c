@@ -2686,7 +2686,7 @@ int func_8002FB08(int entry) {
 
 extern s32  func_8003C4F0(s32);
 extern void func_8003C498(s32);
-extern void SpuWrite(s32, s32);
+extern s32 SpuWrite(s32, s32);
 extern void func_80037D74(void);
 extern u8   D_8006AEF4;
 extern s32  D_800A46C8;
@@ -7070,7 +7070,7 @@ s32 func_800351E8(s32 arg0)
 extern s32 D_80076218;
 
 extern void func_8003C498(s32);
-extern void SpuWrite(s32, s32);
+extern s32 SpuWrite(s32, s32);
 
 s32 func_80035210(s32 a0, s32 a1)
 {
