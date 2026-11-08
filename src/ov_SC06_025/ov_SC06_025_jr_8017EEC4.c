@@ -4961,7 +4961,7 @@ void func_80181E08(s32 arg0) {
             otz = RotTransPers4(v0p, v1p, v2p, v3p,
                             &q->xy0, &q->xy1, &q->xy2, &q->xy3, pp, pf);
         } while (0);  // !FAKE: do-while
-        __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder
+        __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder — pass: 3.40 T11 crack G23; instrument: delever_search --try partial (29 tries)
         otz = func_801823D4(otz, -0x1A);
         AddPrim(D_800A651C[*(u16 *)&D_800B9A02].a + otz * 4, q);
         func_8012E28C(otz, zpush);

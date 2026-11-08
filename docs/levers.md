@@ -606,6 +606,12 @@ Run at the close of every task that changes the count, and at every phase close:
 
 `tools/lever_progress.py --check` fails when the series' last row is not this tree — a stale series is a wrong chart.
 
+**The attribution rule (3.41 T6).** `--check` also fails when a counted class A/B site's `// !FAKE:` text names no
+instrument. The vocabulary is `INSTRUMENT_FORMS` in the tool, one form per phase that wrote markers: P36
+(`P36 rung X` / `S102-S105` / `T5` / `<letter><n>`), legacy P37 (`P37 S+A t<n>_<batch>`), PA3 (`pass: 3.NN T<n>[.k]`).
+A new marker uses the PA3 form; a new form is added there with its phase, never as a catch-all. At 3.41 T6: 1,853 sites,
+P36 1,817, P37 35, PA3 1, unattributed 0.
+
 **The wall rule (Phase 40 T19).** Every row of `config/lever_residue.tsv` names the gcc wall that keeps its lever: its cause
 ends ` wall:<tag>`, and the tag is a row of `config/lever_walls.tsv` (the vocabulary: tag, pass, what, evidence).
 `tools/lever_census.py --check --strict --residue config/lever_residue.tsv` (`--walls` defaults to that file) fails on an

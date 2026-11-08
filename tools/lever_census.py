@@ -83,6 +83,13 @@ GTE_MNEMONICS = {"lwc2", "swc2", "mtc2", "mfc2", "ctc2", "cfc2", "cop2", "rtps",
 FAKE_MARK = "!FAKE:"
 C_FAKE_RX = re.compile(r"while\s*\(\s*0\s*\)|!FAKE:\s*(?:do-while|dead-init)")
 NON_LEVER_KINDS = {"gte", "verbatim-body", "gte-unsigned"}   # Sony's coprocessor idiom; a manifest-listed hand-asm routine — censused, never a lever
+# Attribution (3.41 T6; was the P36 S105 scratch script .run/P36/s105/attribution_check.py, temp): every counted class A/B site's
+# `// !FAKE:` text names the pass/instrument that judged it. One named form per phase that wrote markers; never a catch-all.
+INSTRUMENT_FORMS = (
+    ("P36", re.compile(r"P36 (rung [A-Z]|S10[2-5] \w+|T5 \w+|[a-z]\d+)")),   # P36 delever rungs, S102-S105, T5 GTE (the S105 regex verbatim)
+    ("P37", re.compile(r"P37 S\+A t\d+_\w+")),                               # legacy P37 restruct S+A batches (t4_S1 ad290b568f, t5_* 7ffca89cab, t17_ov_S1 dfc798e28e)
+    ("PA3", re.compile(r"pass: 3\.\d+ T\d+[\w.]*")),                          # PA3 phases: `pass: 3.NN T<n>[.k]` (3.39 T7.1 gte_inline.h; 3.40 T11 G23 fixed in 3.41 T6)
+)
 GTE_LEVER_KIND = "gte-lever"        # a GTE op whose clobbers exceed its canonical's (a `_m`/`_v` variant macro, or a direct statement): a steer
 GTE_VARIANT_NAME = re.compile(r"(_m|_v[0-9a-f]{4})$")
 _gte_tables = None
@@ -1170,6 +1177,20 @@ def header_macro_names(gte_header):
     return {name for (_l0, _l1, name, _b) in define_blocks(p.read_text(errors="surrogateescape"))} if p.exists() else set()
 
 
+def attribution(ab, lines_of):
+    """(by_form Counter, unattributed sites): the `// !FAKE:` text on the site's line or the line above must match INSTRUMENT_FORMS."""
+    by, bad = collections.Counter(), []
+    for x in ab:
+        L, txt = lines_of(x["tu"]), ""
+        for ln in (x["line"], x["line"] - 1):
+            if 0 < ln <= len(L) and "// " + FAKE_MARK in L[ln - 1]:
+                txt = L[ln - 1][L[ln - 1].find("// " + FAKE_MARK):]; break
+        form = next((n for n, rx in INSTRUMENT_FORMS if rx.search(txt)), None)
+        if form: by[form] += 1
+        else: bad.append(dict(x, marker=txt))
+    return by, bad
+
+
 def strict_failures(sites, mdefs, gte_header, residue_rows, header_macros=None):
     """The --strict failure set. Returns (fails, residue_hit, counts).
     P37 (S106): --strict reads its own words — "0 asm statements outside the GTE header" — so a DIRECT GTE statement in a body
@@ -1380,6 +1401,15 @@ def selftest():
     w5 = wall_check(rr, {"w1"})
     if len(w5["unwalled"]) != len(rr) or w5["unwalled_by_cause"].get("missing-parameter") != 1:
         print(f"selftest: walls (v) --write-residue rows are not unwalled ({w5['unwalled_by_cause']})"); ok = False
+    # 3.41 T6 attribution: a marker without an instrument fails; a P36-form and a 3.40-form marker pass
+    al = {"src/fx/a.c": ["register s32 a __asm__(\"$4\"); // !FAKE: pin $4 — NEEDED (P36 rung B t8_tus2)",
+                         "// !FAKE: launder — pass: 3.40 T11 crack G23; instrument: delever_search",
+                         "__asm__(\"\" : \"=r\"(x) : \"0\"(x));",
+                         "__asm__(\"\" : \"=r\"(y) : \"0\"(y));  // !FAKE: launder"]}
+    asite = lambda ln: dict(tu="src/fx/a.c", fn="func_1", line=ln, cls="A", kind="pin", detail="", marked=True)
+    aby, abad = attribution([asite(1), asite(3), asite(4)], al.__getitem__)
+    if aby != {"P36": 1, "PA3": 1} or [x["line"] for x in abad] != [4]:
+        print(f"selftest: attribution {dict(aby)} unattributed {[x['line'] for x in abad]} (want P36 1, PA3 1, line 4 unattributed)"); ok = False
     print(f"selftest: {'OK' if ok else 'FAIL'} — {len(r['sites'])} sites, {len(r['defs'])} defs, {len(r['macro_defs'])} asm macros")
     return ok
 
@@ -1426,6 +1456,14 @@ def main():
             rc = 1
         ab = [x for x in sites if x["cls"] in "AB" and x["kind"] not in NON_LEVER_KINDS and x["tu"] != a.gte_header]
         un = [x for x in ab if not x["marked"]]
+        _lc = {}
+        aby, unattr = attribution(ab, lambda tu: _lc.setdefault(tu, (REPO / tu).read_text(errors="replace").split("\n")))
+        attr_line = (f"attributed {len(ab) - len(unattr):,} {dict(sorted(aby.items()))}, {len(unattr):,} UNATTRIBUTED "
+                     f"(no instrument in the !FAKE text, forms {[n for n, _ in INSTRUMENT_FORMS]})")
+        for x in unattr[:10]:
+            print(f"  unattributed: {x['tu']}:{x['line']} {x['fn']} {x['cls']}/{x['kind']} {x['marker'][:80]!r}")
+        if unattr:
+            rc = 1
         if a.strict:
             residue_rows = load_residue(a.residue) if a.residue else []
             pt = s.get("per_tu_asm_macro_definitions", {}).get("total", 0)
@@ -1448,6 +1486,7 @@ def main():
                   f"volatile-needed {s['classes']['C']['sites']}, register-needed {s['classes']['D']['sites']}, "
                   f"residue {residue_hit}, residue-unused {len(c['residue_unused'])} — "
                   f"{'OK' if not fails and not wall_bad else 'FAIL'}")
+            print(f"lever_census --check: {attr_line} — {'OK' if not unattr else 'FAIL'}")
             for r in c["residue_unused"][:10]:
                 print(f"  residue-unused: {r['file']} {r['func']} {r['kind']}")
             if wc:
@@ -1462,7 +1501,7 @@ def main():
             if wall_bad:
                 rc = 1
         else:
-            print(f"lever_census --check: {len(ab):,} pin/asm sites, {len(ab) - len(un):,} marked !FAKE, {len(un):,} UNMARKED — {'OK' if not un else 'FAIL'}")
+            print(f"lever_census --check: {len(ab):,} pin/asm sites, {len(ab) - len(un):,} marked !FAKE, {len(un):,} UNMARKED, {attr_line} — {'OK' if not un and not unattr else 'FAIL'}")
             if un:
                 for x in un[:10]:
                     print(f"  {x['tu']}:{x['line']} {x['fn']} {x['cls']}/{x['kind']} {x['detail']}")

@@ -5,3 +5,4 @@ T2 | done | census tool bugs from 3.40 T21 | - | tasks/T2.md | logs/T2.md | -
 T3 | done | return-type lies in the lying-declaration check | - | tasks/T3.md | logs/T3.md | -
 T4 | done | fix the return-type lies at def, declarations and callers | - | tasks/T4.md | logs/T4.md | -
 T5 | done | type_census --check aligned to the done-criteria and wired into tools-health | - | tasks/T5.md | logs/T5.md | -
+T6 | done | attribution check folded into lever_census --check | - | tasks/T6.md | logs/T6.md | -

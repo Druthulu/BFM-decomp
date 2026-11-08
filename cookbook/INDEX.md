@@ -998,3 +998,4 @@ C0545 | Strip a JSONL ledger for public: per-path scan of every string, self-ver
 C0546 | Scratch git worktree for reproducing an in-place tool's edits | worktree,reproducer,lift_types,fold,tools | 2026-11-07 | 3.41/T2 | -
 C0547 | Return retype void->int on a decl is not always byte-neutral (dropped result still moves regalloc) | declarations,return-type,lying,bytes,regalloc | 2026-11-07 | 3.41/T4 | P3.41 T4.c1
 C0548 | Clearing return-type lies fleet-wide: decls->def, def->decls, else ledger; width/sign lies stay | declarations,return-type,lying,bytes,exceptions | 2026-11-07 | 3.41/T4 | P3.41 T4.c2
+C0549 | Fold a scratch text check into a gate: census today's text, one named form per phase | census,lever,gate,vocabulary,regex | 2026-11-07 | 3.41/T6 | 3.41 T6 attribution check
