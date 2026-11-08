@@ -119,3 +119,4 @@ Approved: 2026-11-07   Planner: claude-opus-5-5/medium   Plan-hash: 03484a995693
 - 2026-11-07 partner: T10 next -> queued — R56: T13's return-lie columns must land before T10's close snapshot; T13 runs first
 - 2026-11-07 partner: T13 queued -> next — runs before T10 per R56
 - 2026-11-08 router: T13 next -> done
+- 2026-11-08 partner: T10: the developer approved (2026-11-07) stopping the MCP Ghidra with tools/ghidra_mcp_stop.sh (clean save and stop, never a kill) for the six --proof legs. Leave it stopped after the proofs; it is restarted after the close, then the developer runs /mcp (R49)
