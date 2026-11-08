@@ -336,7 +336,7 @@ void func_801E2E00(void *param_1) {
 }
 
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012E8E0(s32 a0, s32 a1);
@@ -528,7 +528,7 @@ void func_801E31B8(s32 a0) {
 
 
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, s32 a1);

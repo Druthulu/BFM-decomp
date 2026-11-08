@@ -62,7 +62,7 @@ void func_800CCC54(s32 param_1)
 
 #include "common.h"
 
-extern void func_8014659C(void);
+extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_800CCE80(void*);
 extern void func_80146CA0(void *a0);
@@ -191,7 +191,7 @@ void func_800CCFA8(s32 param_1)
 }
 
 
-extern void func_80146578(void);
+extern s32 func_80146578(void);
 extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80146CA0(void *a0);
 extern void func_800CD204();  // K&R: 0 of 1 args (P37 rung D t4_D40)
@@ -328,7 +328,7 @@ void func_800CD328(s32 param_1)
 }
 
 
-extern void func_80146578(void);
+extern s32 func_80146578(void);
 extern void func_8001CC3C(s32, s32, s32, s32);
 extern void func_80149374(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);

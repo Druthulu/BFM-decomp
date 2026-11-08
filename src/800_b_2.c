@@ -2401,7 +2401,7 @@ void func_8002F620(void) {
 }
 
 extern s16 D_800A4EF0;
-s16 func_8002F648(void) {
+s32 func_8002F648(void) {
     return D_800A4EF0;
 }
 

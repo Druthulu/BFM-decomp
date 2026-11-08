@@ -2471,7 +2471,7 @@ extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
-extern void func_8012BE54(s32 a0);
+extern s32 func_8012BE54(s32 a0);
 extern s32 func_8014CB8C(void);
 extern s32 func_8017267C(s32 *a0);
 extern void ApplyRotMatrixLV(void *in, void *out);
@@ -2563,7 +2563,7 @@ void func_801A3B18(s32 param_1)
 
 
 extern void RotMatrixY(s32 a0, void *a1);
-extern void func_8012BE54(s32 a0);
+extern s32 func_8012BE54(s32 a0);
 extern s32 func_8012B8A4(s16 *a0);
 extern s32 func_8017267C(s32 *a0);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
@@ -2652,7 +2652,7 @@ void func_801A3F10(void) {
 }
 
 
-extern void func_801439C0(u8 *a0);
+extern s32 func_801439C0(u8 *a0);
 
 void func_801A3FB0(void *arg0) {
     void *s0;
@@ -2918,7 +2918,7 @@ s32 func_801A44C4(s32 a0) {
  * function's INCLUDE_ASM site precedes that typedef in file order. */
 
 /* fleet-dominant spelling (decl_prior, n=1383): canonical void -> cast at use */
-extern void func_8012BE54(s32 a0);
+extern s32 func_8012BE54(s32 a0);
 /* fleet-dominant spelling (decl_prior, n=1347) */
 extern s32  func_8012B8A4(s16 *a0);
 /* TU already declares these identically (func_801AAF8C block, this file) */
@@ -3900,7 +3900,7 @@ void func_801A5D68(void *arg) {
 
 void func_801A5E60(s32 a0, u8 *v)
 {
-    extern void *func_80010A08(s32);
+    extern s32 func_80010A08(s32);
     extern u8 D_800A6610[];
     extern u16 D_800B9A02;
     extern u8 D_801F8744[];
@@ -4601,7 +4601,7 @@ extern void func_8012AD80(s32 a0);
 extern void func_8012B178(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012C218(void *a0);
-extern void func_801439C0(u8 *a0);
+extern s32 func_801439C0(u8 *a0);
 extern void func_801A54AC(s32 a0);
 extern s32 D_801F8844[];
 
@@ -6112,7 +6112,7 @@ void func_801A90D8(s32 a0)
 #include "common.h"
 
 extern int rand(void);
-extern void func_801439C0(u8 *a0);
+extern s32 func_801439C0(u8 *a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -6338,7 +6338,7 @@ void func_801A9674(void *a0) {
 
 #include "common.h"
 
-extern void func_801439C0(u8*);
+extern s32 func_801439C0(u8*);
 extern void func_801AA60C(s32 param_1, s32 param_2);
 extern void func_801A99A4(s32 a0);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
@@ -6390,7 +6390,7 @@ void func_801A9908(void *a0, s32 a1) {
 }
 
 
-extern void func_801439C0(u8 *a0);
+extern s32 func_801439C0(u8 *a0);
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
 
@@ -7314,7 +7314,7 @@ void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
 
 void func_801AADA8(s32 arg0, s32 arg1, s32 arg2)
 {
-    extern void *func_80010A08(s32);
+    extern s32 func_80010A08(s32);
     extern void func_8004914C(void *);
     extern void func_800491AC(void *);
     extern s32 RotTransPers(s32, s32, s32 *, s32 *);
@@ -7489,7 +7489,7 @@ void func_801AB1A8(void *a0) {
 
 void func_801AB21C(s32 a0, s32 a1, s32 a2, s32 a3)
 {
-    extern void *func_80010A08(s32);
+    extern s32 func_80010A08(s32);
     extern void func_80016638(void *a0, s32 a1, s32 a2);
     extern u16 D_800B9A02;
     extern OtBlk_8018A974_801AADA8 D_800A651C[];
@@ -10171,7 +10171,7 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
     extern short D_800B9A02;
-    extern void *func_80010A08(s32);
+    extern s32 func_80010A08(s32);
 
     Mtx_801AEC38 mtx;           /* sp+0x10 */
     u8 pad0[48];                /* sp+0x30 */

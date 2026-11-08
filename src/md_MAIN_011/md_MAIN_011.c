@@ -472,7 +472,7 @@ void func_800D04F4(void) {
     extern s16 D_800D3348;
     extern s16 D_800D334A;
     extern S6 D_800D4A5C[];
-    extern void func_800153CC(int, int, int, int, int, int);
+    extern s32 func_800153CC(int, int, int, int, int, int);
     extern void func_8001534C(int, void *, int, int, int, int);
     extern s32 func_80029178(int);
     S6 *sp18;

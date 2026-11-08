@@ -92,7 +92,7 @@ void func_800CAF9C(s32 a0) {
 
 #include "common.h"
 
-extern void func_8014659C(void);
+extern s32 func_8014659C(void);
 extern void func_8001C214(s32 a0, s32 a1);
 extern s32 D_800CBE04;
 extern void func_80149374(s32 a0, s32 a1);
@@ -215,7 +215,7 @@ void func_800CB338(void) {
 
 void func_800CB358(void *param_1) {
     extern void (*D_800CB834[])(void);
-    extern void func_80146C3C(u8 *a0);
+    extern s32 func_80146C3C(u8 *a0);
 
     if (*(u16 *)(*(s32 *)((s32)param_1 + 0x34)) == 0x26) {
         D_800CB834[*(u16 *)((s32)param_1 + 2)]();

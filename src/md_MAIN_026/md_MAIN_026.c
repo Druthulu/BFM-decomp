@@ -166,7 +166,7 @@ void func_800CB190(void *arg0) {
 #include "common.h"
 
 extern s32 func_80146E98(s32 a0);
-extern void func_80146578(void);
+extern s32 func_80146578(void);
 extern void func_8001CD9C(int a0, void *a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80146CA0(void *a0);

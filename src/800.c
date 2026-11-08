@@ -505,7 +505,7 @@ s32 func_800132BC(SVECTOR_800 *a0, SVECTOR_800 *a1) {
 
 extern s32 func_80047D3C(s32 a0);
 
-void func_80013328(s32 *a0, s32 *a1) {
+s32 func_80013328(s32 *a0, s32 *a1) {
     s32 result;
     result = func_80013350(a0, a1);
     func_80047D3C(result);
@@ -1554,7 +1554,7 @@ s32 func_80014C54(s32 a0, s32 a1, s32 a2) {
 extern u8 D_80078DCA;
 extern u8 D_80078DD2;
 
-u8 func_80014CAC(u32 arg0, u32 arg1)
+s32 func_80014CAC(u32 arg0, u32 arg1)
 {
     extern u16 D_80078E16;
     extern u16 D_80078E1E;
@@ -1951,7 +1951,7 @@ void func_800153A4(void *a0, s32 a1, s16 a2, s16 a3, u8 arg4, u8 arg5) {
 
 extern u8 D_800AF630[];
 
-void func_800153CC(s32 arg0, s32 arg1, s16 arg2, s16 arg3, u8 arg4, u8 arg5) {
+s32 func_800153CC(s32 arg0, s32 arg1, s16 arg2, s16 arg3, u8 arg4, u8 arg5) {
     u8 *base;
     base = D_800AF630;
     func_80015424(&base[((arg0 << 16) >> 12) + 0x9DA8], arg1, arg2, arg3, arg4, arg5);
@@ -2426,7 +2426,7 @@ subtract:
  *   lw (the `.a` member at offset 0, 20-byte stride).
  */
 
-extern void *func_80010A08(s32 a0);
+extern s32 func_80010A08(s32 a0);
 extern u16 D_800B9A02;
 
 void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 c5, u8 c6)
@@ -2538,7 +2538,7 @@ void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 
  * src/800.c declares none of these, so no TU-declaration conflict (law 2/3).
  */
 
-extern void *func_80010A08(s32 a0);
+extern s32 func_80010A08(s32 a0);
 extern u16 D_800B9A02;
 extern u8 D_800A6518[];
 extern void func_80016638(void *a0, s32 a1, s32 a2);
@@ -2753,7 +2753,7 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
              /* stack corner list */
 
 
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 extern u8 D_800AF630[];
 extern u8 D_800A6518[];
@@ -2861,7 +2861,7 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
  * on the same alias footing so the load stays where source order puts it. */
 
 
-extern void *func_80010A08(s32 a0);
+extern s32 func_80010A08(s32 a0);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 extern u16 D_800B9A02;
 extern u8 D_800A6518[];
@@ -2903,7 +2903,7 @@ extern u16 D_800AF7BE;
 extern u16 D_800AF7BC;
 extern u8 D_800A6518[];
 extern u16 D_800B9A02;
-extern void *func_80010A08(s32 a0);
+extern s32 func_80010A08(s32 a0);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 void func_80016224(s32 a0, s32 a1)
@@ -3047,7 +3047,7 @@ void func_80016224(s32 a0, s32 a1)
 
 /* 0x18-byte POLY_F4 */
 
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 extern u16 D_800B9A02;
@@ -3098,7 +3098,7 @@ void func_80016450(s32 a0, s32 a1)
 }
 
 
-extern void *func_80010A08(s32 a0);
+extern s32 func_80010A08(s32 a0);
 
 void func_80016638(void *a0, s32 a1, s32 a2)
 {
@@ -3345,7 +3345,7 @@ void func_80016A5C(void) {
 
  /* 0x14 */
 
-extern void *func_80010A08(s32 size);
+extern s32 func_80010A08(s32 size);
 extern void SetLineG2(void *p);
 extern void func_80017E8C(s32 arg0);
 extern s32 RotTransPers3(void *v0, void *v1, void *v2,
@@ -3386,7 +3386,7 @@ void func_80016A7C(Src_80016A7C *arg0, s32 arg1)
 
 
 
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void SetLineG3(LineG3_80016B60 *p);
 extern void func_80017E8C(s32 arg0);
 extern s32 RotTransPers3(void *v0, void *v1, void *v2,
@@ -3440,7 +3440,7 @@ void func_80016B60(Src_80016B60 *arg0, s32 arg1)
 
  /* 0x28 */
 
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void SetLineG4(LineG4_80016C28 *p);
 extern void func_80017E8C(s32 arg0);
 extern void func_80018094(void *p, s32 otz, u32 flags);
@@ -3504,7 +3504,7 @@ void func_80016C28(Src_80016C28 *arg0, s32 arg1)
 /* output POLY_FT3-shaped packet, 0x20 bytes, same field-by-field shape as
  * the matched sibling's FT4_16F18 (minus the 4th vertex). */
 
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void SetPolyFT3(FT3_16D78 *);
 extern void func_80017E8C(s32);
 extern s32 RotTransPers3(void *v0, void *v1, void *v2,
@@ -3585,7 +3585,7 @@ void func_80016EF8(void *arg0, s32 arg1)
 
 
 
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void SetPolyFT4(FT4_16F18 *);
 extern void func_80017E8C(s32);
 extern s32 GetTPage(s32, s32, s32, s32);
@@ -3667,7 +3667,7 @@ void func_80016F18(S16F18 *arg0, s32 arg1, s32 arg2)
 /* POLY_F3 (libgpu), 0x14 bytes. */
  /* 0x14 */
 
-extern void *func_80010A08(s32 size);
+extern s32 func_80010A08(s32 size);
 extern void SetPolyF3(F3_80017168 *p);
 extern void func_80017E8C(s32 arg0);
 extern s32 RotTransPers3(void *v0, void *v1, void *v2,
@@ -3731,7 +3731,7 @@ void func_80017274(void)
  * is the RotTransPers4-based POLY_G4 exemplar this draft's call shape is modeled on.
  */
 
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void SetPolyF4(void *);
 extern void func_80017E8C(s32);   /* src/800.c already declares this as (s32) at L1122/L1244 */
 extern s32 RotTransPers4(void *, void *, void *, void *,
@@ -3799,7 +3799,7 @@ void func_800173BC(void)
 /* POLY_G3 (libgpu), 0x1C bytes. */
  /* 0x1C */
 
-extern void *func_80010A08(s32 size);
+extern s32 func_80010A08(s32 size);
 extern void SetPolyG3(G3_800173DC *p);
 extern void func_80017E8C(s32 arg0);
 extern s32 RotTransPers3(void *v0, void *v1, void *v2,
@@ -3867,7 +3867,7 @@ void func_800174FC(void)
  */
 void func_8001751C(s32 *arg0, s32 arg1)
 {
-    extern void *func_80010A08(s32);
+    extern s32 func_80010A08(s32);
     extern void SetPolyGT3();
     extern void func_80017E8C(s32);
     extern s32 GetTPage(s32, s32, s32, s32);
@@ -3969,7 +3969,7 @@ void func_80017758(void *a0, s32 a1)
  * work goes through the SDK helper RotTransPers4 instead of raw gte_* macros.
  */
 
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void SetPolyG4(void *);
 extern void func_80017E8C(s32);
 extern s32 RotTransPers4(void *, void *, void *, void *,
@@ -4044,7 +4044,7 @@ void func_80017910(void *a0, s32 a1) {
  * Finally GetTPage/GetClut and hand the prim to func_8001820C (arg2 != 0) or func_80018194.
  */
 
-extern void *func_80010A08(s32 size);
+extern s32 func_80010A08(s32 size);
 extern void SetPolyGT4(void *p);
 extern void func_80017E8C(s32 arg0);
 extern s32 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
@@ -4233,7 +4233,7 @@ void func_80017930(Src_80017930 *arg0, s32 arg1, s32 arg2)
 
 /* the caller's request block == engine_types.h T8016EC0C */
 
-extern void *func_80010A08(s32 a0);
+extern s32 func_80010A08(s32 a0);
 extern u8 D_800AF630[];
 
 void func_80017B98(void *arg0)
@@ -4373,7 +4373,7 @@ void func_80017F14(void *a0, s32 a1, s32 a2)
 {
     extern u16 D_800B9A02;
     extern struct { s32 a; s32 b[4]; } D_800A651C[];
-    extern void *func_80010A08(s32);
+    extern s32 func_80010A08(s32);
     extern s32 AddPrim(s32, void *);
     extern s32 GetTPage(s32, s32, s32, s32);
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
@@ -4409,7 +4409,7 @@ void func_80017F14(void *a0, s32 a1, s32 a2)
 
 
 
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern s32 AddPrim(s32, void *);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
@@ -4462,7 +4462,7 @@ void func_80018194(void *arg0, s32 arg1, u32 arg2)
 
 void func_8001820C(void *a0, s32 a1, u32 a2)
 {
-    extern void *func_80010A08(s32);
+    extern s32 func_80010A08(s32);
     extern s32 AddPrim(s32, void *);
     extern s32 GetTPage(s32, s32, s32, s32);
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
@@ -6819,7 +6819,7 @@ endReason:
 
 extern s32 CdQueueBusy(void);
 
-void func_8001A9D8(void) {
+s32 func_8001A9D8(void) {
     CdQueueBusy();
 }
 
@@ -6860,7 +6860,7 @@ void func_8001AA98(void) {
 
 extern s32 func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
-void func_8001AAA0(s32 arg0) {
+s32 func_8001AAA0(s32 arg0) {
     func_8001ABBC(1, arg0, 0, 0, 0);
 }
 

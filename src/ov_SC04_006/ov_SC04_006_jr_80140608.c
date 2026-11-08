@@ -186,7 +186,7 @@ extern void func_80129FF4(void);
 extern s16 D_80126940;
 extern s16 D_80126942;
 extern s16 D_80126944;
-extern void func_8012A048(void *a0, s32 a1, u8 a2);
+extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
 extern void *memcpy(void *, const void *, unsigned int);
 extern void func_8012A094(s32 a0);
 extern void func_8012A100(s8 a0);
@@ -297,10 +297,10 @@ extern u8 D_80126B5C;
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
-extern void func_8012BE98(s32 a0, u16 *a1);
-extern void func_8012BE54(s32 a0);
+extern s32 func_8012BE98(s32 a0, u16 *a1);
+extern s32 func_8012BE54(s32 a0);
 extern s32 func_800132BC(s32 a0, s32 a1);
-extern void func_8012BE98(s32 arg0, u16 * arg1);
+extern s32 func_8012BE98(s32 arg0, u16 * arg1);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012BF10(s32 a0, s32 a1);
 extern void func_8012BF4C(s32 *a0, s32 a1);
@@ -314,9 +314,9 @@ extern int func_8012BFA8(short *a0);
 extern s32 D_801274D4;
 extern s32 D_801274E0;
 extern s32 func_8012C044(s32 a0);
-extern void func_8012C194(void);
+extern s32 func_8012C194(void);
 extern void func_8001CFDC(s32 a, s32 b);
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
 extern void func_8012C218(void *a0);
@@ -343,13 +343,13 @@ extern s32   D_8011DB08;
 extern s32 func_8012CB64(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern s32 func_8012CC88(s32 a, s32 b, s32 c);
 extern u8 D_800D3918[];
-extern void func_8012CBA4(s32 a0);
-extern void func_8012CBCC(s32 a0);
+extern s32 func_8012CBA4(s32 a0);
+extern s32 func_8012CBCC(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
-extern void func_8012CC1C(s32 arg0, s32 arg1);
+extern s32 func_8012CC1C(s32 arg0, s32 arg1);
 extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
-extern void func_8012CC64(s32 a0, s32 a1);
+extern s32 func_8012CC64(s32 a0, s32 a1);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 func_8012CE2C(s32 a0);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
@@ -363,7 +363,7 @@ extern void func_8012D3AC(void);
 extern s32 AddPrim(s32, void *);
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
 extern void SetLineF2(void *);
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s16 D_800B9A02;
@@ -373,7 +373,7 @@ extern s16 D_80126B98;
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern int func_8012D664(int arg0, int arg1, int arg2);
-extern void func_8012D624(s32 a0);
+extern s32 func_8012D624(s32 a0);
 extern int func_8012D664(int arg0, int arg1, int arg2);
 extern s32 func_8012D714(s32 param_1, u32 param_2);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
@@ -392,7 +392,7 @@ extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
 extern void func_8012E138(int model);
-extern void func_8012DFD4(u8 *a0);
+extern s32 func_8012DFD4(u8 *a0);
 extern s32 func_8012E27C(void);
 extern void func_8012E284(void);
 extern s32 GetTPage(s32, s32, s32, s32);
@@ -422,7 +422,7 @@ extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern s32 func_8002A4FC(s32 a0);
 extern s32 func_8012EECC(s32 a0);
 extern s32 func_8012EFB8(void *param_1, void *param_2);
-extern void func_8012EF34(s32 a0, s32 a1);
+extern s32 func_8012EF34(s32 a0, s32 a1);
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
@@ -1199,7 +1199,7 @@ extern char *D_80180BA8;
 extern int func_80029FE4(void);
 extern int func_800D2CA8(int, int);
 extern void func_800D2D10(int, int, void *, int);
-extern char *func_8002AAB4(void);
+extern s32 func_8002AAB4(void);
 extern char *strcpy(char *, const char *);
 extern int func_8002A26C(void);
 extern int func_8002A2B0(void);
@@ -1573,7 +1573,7 @@ void func_801425CC(void *a0) {
 // @class: schedule
 // @unstuck(P36): none — MATCH expected; CAE4 block fallthrough, AD50 block goto-tail
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern s32 func_8012C1DC(s32 a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_8012CAE4(void *a0);
@@ -1759,7 +1759,7 @@ void func_80142A80(void)
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (combined store-assign `*(p)=v0=call()` keeps test/store on $v0, copy to $s0 for the else)
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_80142B2C(void *arg0);
@@ -1788,7 +1788,7 @@ void func_80142DC4(int param_1)
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_80142B2C(void *arg0);
@@ -1818,7 +1818,7 @@ void func_80142E38(int param_1)
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -1860,7 +1860,7 @@ void func_80142EC0(s32 param_1) {
 //         survives across func_8001CA1C while $v0 serves the pre-call store/test;
 //         store BEFORE the s1 copy so the store keeps $v0 (not the saved copy).
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -1904,7 +1904,7 @@ void func_8014305C(int param_1)
 
 extern void *memcpy(void *, const void *, u32);
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA88(int, void *);
 extern s32 func_8012E504(s32 a0, s32 a1);
@@ -2180,7 +2180,7 @@ void func_801442F8(int param_1)
 
 
 
-extern void func_8012C194(void);
+extern s32 func_8012C194(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 extern u8 D_801814EC;
@@ -2262,7 +2262,7 @@ void func_80144458(void *arg0) {
 
 // @class: struct
 // @unstuck(P36): none — MATCH (65 ins, match_one). Levers: uVar2/$2 + addr/$3 pins; split (uVar2&0xFFFFFFF) into addr then (addr|0x80000000)+8 deref; %hi/%lo of 0x80000008 via plain 0x80000000+8 (match_one masks the target's D_80000008 reloc, real bytes identical); v1/3 magic-divide; gv+fv reassoc (field-0x30 in own temp) loads field first
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -2305,7 +2305,7 @@ void func_8014477C(void *param_1) {
 
 
 
-extern void func_8012C194(void);
+extern s32 func_8012C194(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 

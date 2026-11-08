@@ -37,7 +37,7 @@ extern void func_8012B14C(s32 a0, s32 a1);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B23C(s32 a0);
 extern void func_8012B2CC(s32 a0);
-extern void func_8012C098(void *a0);
+extern s32 func_8012C098(void *a0);
 extern void func_8012E9C0(s32 a0);
 extern void func_80130088(void *a0);
 extern s32 func_80143B6C(s32 a0, s32 a1);
@@ -229,7 +229,7 @@ void func_80182DF8(void *a0) {
  *   func_80182F90  same-TU sibling defined later in this file (INCLUDE_ASM at
  *                  line 3923); forward-declared here.
  */
-extern void func_8012CBCC(s32 a0);
+extern s32 func_8012CBCC(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012B23C(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -350,7 +350,7 @@ extern u8 D_801A2940[];
 extern u8 D_801A21E0[];
 extern u8 D_801A2848[];
 
-extern void func_8012C098(void *a0);
+extern s32 func_8012C098(void *a0);
 extern s32 func_801845EC(s32 a0, s32 a1);
 extern s32 func_80185E68(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
@@ -1111,7 +1111,7 @@ extern void func_800491AC(void *a0);
 extern s32  GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32  GetClut(s32 a0, s32 a1);
 extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
-extern void *func_80010A08(s32 a0);
+extern s32 func_80010A08(s32 a0);
 extern void SetPolyFT4(void *a0);
 extern s32  AddPrim(s32 a0, void *a1);
 
@@ -1263,7 +1263,7 @@ extern void func_800491AC(void *a0);
 extern s32  GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32  GetClut(s32 a0, s32 a1);
 extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
-extern void *func_80010A08(s32 a0);
+extern s32 func_80010A08(s32 a0);
 extern void SetPolyFT4(void *a0);
 extern s32  AddPrim(s32 a0, void *a1);
 
@@ -1643,7 +1643,7 @@ void func_80184834(s32 param_1) {
 }
 
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -1681,7 +1681,7 @@ void func_801849D8(void *a0) {
     }
 
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
@@ -1721,7 +1721,7 @@ void func_801849E4(s32 param_1) {
 }
 
 
-extern void func_8012CBA4(s32 a0);
+extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_801818E0(void *arg0);
 void func_80184AD0(s32 a0) {
@@ -1753,7 +1753,7 @@ void func_80184B10(s32 *a0)
 
 #include "common.h"
 
-extern void func_8012CBA4(s32 a0);
+extern s32 func_8012CBA4(s32 a0);
 extern void func_8012B2CC(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
@@ -1824,7 +1824,7 @@ void func_80184C90(int param_1)
 
 
 extern s32 func_80143B6C(s32 arg0, s32 arg1);
-extern void func_8012CBA4(s32 a0);
+extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012B21C(void *a0);
@@ -1854,7 +1854,7 @@ void func_80184CE8(s32 a0) {
 void func_80184D88(void) {
 }
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -2006,7 +2006,7 @@ extern void func_8012A828(s32 a0, void *a1);
 extern s32 func_80047D3C(s32 a0);
 extern s32 func_801807D8(s16 *a0);
 extern s32 D_801A1A10;
-extern void func_8012CBA4(s32 a0);
+extern s32 func_8012CBA4(s32 a0);
 
 void func_80185080(s32 param_1)
 {
@@ -2039,7 +2039,7 @@ extern s32 D_801270E4;
 
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
-extern void func_8012C098(void *a0);
+extern s32 func_8012C098(void *a0);
 
 void func_80185150(s32 param_1) {
     s32 v1;
@@ -2060,7 +2060,7 @@ void func_80185150(s32 param_1) {
 
 extern s32 func_8012BEE8(s32 a0);
 extern void func_80130D48(s32 a0);
-extern void func_8012C098(void *a0);
+extern s32 func_8012C098(void *a0);
 extern s32 D_801270D4;
 extern s32 D_801270E4;
 
@@ -2137,7 +2137,7 @@ void func_80185348(s32 param_1) {
 void func_801853C4(void) {
 }
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8001D0E8(s32, s32, s32);
@@ -2193,7 +2193,7 @@ void func_8018544C(s32 arg0)
 extern void func_8012AD80(s32 a0);
 extern void func_80183DA4(SVec_80183DA4 *arg0);
 extern void func_8005C2C8(s32 a0, s32 a1);
-extern void func_8012C098(void *a0);
+extern s32 func_8012C098(void *a0);
 extern s32 D_8018ABF4;
 
 void func_80185528(void *arg0)
@@ -2217,7 +2217,7 @@ void func_80185528(void *arg0)
 }
 
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8001CA1C(s32 a0, s32 a1);
@@ -2303,7 +2303,7 @@ void func_801856D8(int param_1)
 }
 
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern s16 D_8018AC1C;
@@ -2334,7 +2334,7 @@ void func_80185834(s32 param_1) {
     s32 a;
     s32 pad[2];
 
-    extern void func_8012C1B8(void);
+    extern s32 func_8012C1B8(void);
     extern void func_8012CAE4(void *a0);
     extern u8 D_8018CE0C[];
     extern void func_8001C214(s32, s32);
@@ -2919,7 +2919,7 @@ void func_8018637C(void *a0) {
 //   (4) order the three global assigns B60,B5C,B64 (B60 first → v0/v1/a2 alloc); (5) explicit
 //   `case 2: break;` after case 3 so gcc emits the `beq $v1,2` test with case1 falling into case3.
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8002D4C8(s32, s32);
@@ -3094,7 +3094,7 @@ void func_80186688(int param_1)
 // @class: other
 // @unstuck(P36): none — MATCH (expected); 16-bit sh stores via short* casts, s0=param_1 call-crossing
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 

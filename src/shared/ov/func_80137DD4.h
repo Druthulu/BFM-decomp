@@ -1,6 +1,6 @@
 /* func_80137DD4 — shared body (overlay slot 0x80128158, h_exact 9b03676a). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void func_80137FD8(s32 a0, s32 a1, s32 a2, s32 a3);
 void func_80137DD4(s32 ent, u8 *arg, u8 *work) {
     register s32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)

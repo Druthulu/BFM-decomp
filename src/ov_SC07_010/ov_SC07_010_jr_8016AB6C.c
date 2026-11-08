@@ -2,12 +2,12 @@
 
 s32 func_8016AB6C(s32 arg0) {
 
-    extern s32 func_801783D0(s32 a0, s32 a1);
+    extern u32 func_801783D0(s32 a0, s32 a1);
     extern s32 func_80024054(void *a0, void *a1);
     extern void func_8001CE28(void *a0, void *a1);
     extern s32 rand(void);
-    extern void func_801465C0(void);
-    extern void func_80146C3C(u8 *a0);
+    extern void *func_801465C0(void);
+    extern s32 func_80146C3C(u8 *a0);
     extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
     extern u8 D_801850EC[];
     extern u8 D_801A6F70[];

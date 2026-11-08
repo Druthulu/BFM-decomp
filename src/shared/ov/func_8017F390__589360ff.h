@@ -11,8 +11,8 @@ extern void func_8012A828(s32 a0, void *a1);
 extern s32  func_8012BEE8(s32 a0);
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B14C(s32 a0, s32 a1);
-extern void func_8012CBA4(s32 a0);
-extern void func_8012C098(void *a0);
+extern s32 func_8012CBA4(s32 a0);
+extern s32 func_8012C098(void *a0);
 extern void func_8012C218(void *a0);
 void func_8017F390(s32 a0)
 {

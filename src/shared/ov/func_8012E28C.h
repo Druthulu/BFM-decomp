@@ -1,7 +1,7 @@
 /* func_8012E28C — shared body (overlay slot 0x80128158, h_exact fbc84519). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 AddPrim(s32, void *);
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 extern s32 D_800A651C;

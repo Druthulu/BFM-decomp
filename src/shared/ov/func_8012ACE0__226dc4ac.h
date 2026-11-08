@@ -182,7 +182,7 @@ extern u16 D_80126B66;
 extern s16 D_80126940;
 extern s16 D_80126942;
 extern s16 D_80126944;
-extern void func_8012A048(void *a0, s32 a1, u8 a2);
+extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
 extern void *memcpy(void *, const void *, unsigned int);
 extern void func_8012A094(s32 a0);
 extern void func_8012A100(s8 a0);

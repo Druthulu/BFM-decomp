@@ -4,7 +4,7 @@ extern void func_80148038(s32 a0, s32 a1);
 extern void func_80147460(s32 a0);
 extern void func_80147AD4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_801473EC(s32 *a0);
-extern void func_80161418(void *a0);
+extern s32 func_80161418(void *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern int func_80155FF8(int arg, int a1);

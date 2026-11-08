@@ -4,7 +4,7 @@ extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 AddPrim(s32, void *);
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
 extern void SetLineF2(void *);
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s32 D_800A651C;

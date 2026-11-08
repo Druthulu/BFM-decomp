@@ -125,7 +125,7 @@ extern s32 (*D_800D375C)(s32);
 extern void func_800D02C0(s32 arg0);
 extern s32 func_800D05E8(s32 arg0);
 extern s32 D_8012704C;
-extern void func_800D0588(void);
+extern s32 func_800D0588(void);
 extern s32 func_80029504(void);
 extern void func_800D065C(void);
 extern s32 D_8011529C;
@@ -428,7 +428,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
 }
 
 
-s16 func_800D1658(s32 arg0) {
+s32 func_800D1658(s32 arg0) {
     extern s32 func_800291B4(s32 arg0);
     extern void func_800291A0(int, int);
     extern void func_8002D4C8(int, int);
@@ -1022,7 +1022,7 @@ extern s16 currentLocationId;
 extern u16 D_80078E50;
 extern s32 func_800CFC5C(s32);
 extern s32 func_800CFD68(s32);
-extern u16 func_800168C4(s32);
+extern s32 func_800168C4(s32);
 extern u16 func_800167F0(s32);
 
 s32 func_800D1EBC(void) {

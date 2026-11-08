@@ -1159,11 +1159,11 @@ s32 func_801312D0(s32 param_1, void *param_2)
 extern void func_801319E0(s32 a0);
 extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
-extern void func_8012CC64(s32 a0, s32 a1);
+extern s32 func_8012CC64(s32 a0, s32 a1);
 extern int func_80131D68(int, int);
 extern s32 func_80143B6C(s32 a0, s32 a1);
 extern void func_8012B23C(s32 a0);
-extern void func_8012CBA4(s32 a0);
+extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
@@ -1609,7 +1609,7 @@ void func_80131FDC(void *a0) {
 
 
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(int, int);
 
@@ -1646,7 +1646,7 @@ void func_80132018(int param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(int, int);
 extern int D_80189E98;
@@ -1693,7 +1693,7 @@ s32 func_80132144(s32 param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(int, int);
 extern int D_80189EB8;
@@ -1719,7 +1719,7 @@ void func_801321B0(int param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected; simple if/else, param saved in $s0 across call
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(int, int);
 extern int D_80189EC8;

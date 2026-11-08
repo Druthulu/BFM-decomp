@@ -6,7 +6,7 @@ extern u16 D_80126B66;
 extern s16 D_80126940;
 extern s16 D_80126942;
 extern s16 D_80126944;
-void func_8012A048(void *a0, s32 a1, u8 a2) {
+s32 func_8012A048(void *a0, s32 a1, u8 a2) {
     *(s32 *)((s32)a0 + 0x0) = a1;
     *(u8 *)((s32)a0 + 0x4) = a2;
     *(s32 *)((s32)a0 + 0x9C) = 0;

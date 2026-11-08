@@ -147,7 +147,7 @@ void func_800CAF90(void *a0) {
 
 void func_800CB164(void *a0) {
     extern u8 D_80078EC1;
-    extern void func_80146C3C(u8 *a0);
+    extern s32 func_80146C3C(u8 *a0);
     extern void func_800CAF90(void *a0);
 
     s32 src;
@@ -180,7 +180,7 @@ void func_800CB164(void *a0) {
 
 void func_800CB254(void *a0) {
     extern u8 D_80078EC1;
-    extern void func_80146C3C(u8 *a0);
+    extern s32 func_80146C3C(u8 *a0);
     extern void func_800CAF90(void *a0);
     s32 a1;
     s32 n;
@@ -215,7 +215,7 @@ void func_800CB254(void *a0) {
 
 void func_800CB358(void *param_1) {
     extern u8 D_80078EC1;
-    extern void func_80146C3C(u8 *a0);
+    extern s32 func_80146C3C(u8 *a0);
     extern void func_800CAF90(void *a0);
     s32 iVar2;
     s32 cnt;
@@ -253,7 +253,7 @@ LAB_800CB454:
 void func_800CB470(void *a0) {
     extern u8 D_80078EC1;
     extern void func_800CAF90(void *);
-    extern void func_80146C3C(u8 *a0);
+    extern s32 func_80146C3C(u8 *a0);
     u16 uVar1;
 
     if (D_80078EC1 == 5) {
@@ -274,7 +274,7 @@ void func_800CB470(void *a0) {
 
 extern void func_800CAF90(void *a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_80146C3C(u8 *a0);
+extern s32 func_80146C3C(u8 *a0);
 extern u8 D_80078EC1;
 
 void func_800CB4D8(void *a0) {

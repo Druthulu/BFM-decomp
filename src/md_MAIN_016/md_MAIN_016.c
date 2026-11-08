@@ -57,7 +57,7 @@ void func_800CAF20(void) {
 }
 
 
-extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CAF28(void *arg0) {
 

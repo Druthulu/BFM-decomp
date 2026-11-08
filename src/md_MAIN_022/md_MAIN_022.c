@@ -146,7 +146,7 @@ void func_800CB184(void *a0) {
 
 
 extern s32 func_80146E98(s32 a0);
-extern void func_80146578(void);
+extern s32 func_80146578(void);
 extern void func_8001CD9C(void *a0, void *a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80146CA0(s32);
@@ -311,7 +311,7 @@ void func_800CB4AC(void) {
 
 extern u8 D_80078EC1;
 extern void (*D_800CBD0C[])();
-extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB4F4(int param_1)
 {
@@ -328,7 +328,7 @@ void func_800CB4F4(int param_1)
 extern void *func_800D2294(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80146E90(s32 *a0, s32 a1);
-extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB550(void *a0) {
     extern u8 D_800CBCCC;
@@ -350,7 +350,7 @@ void func_800CB550(void *a0) {
 
 
 extern s32 func_80146E98(s32 a0);
-extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB5E4(void *a0) {
     s32 v0;
@@ -367,7 +367,7 @@ void func_800CB5E4(void *a0) {
 
 
 
-extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB630(void *arg0) {
 
@@ -385,7 +385,7 @@ void func_800CB630(void *arg0) {
 
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
-extern void func_801465C0(void);
+extern void *func_801465C0(void);
 
 void func_800CB68C(s32 param_1)
 {
@@ -494,7 +494,7 @@ void func_800CB944(s32 *a0) {
 
 
 extern void func_800CBAA4(s32 a0);
-extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 void func_800CB9C0(void *a0) {
     s32 *s1 = CAST_SIGN(s32 *, (s32)a0, 0x20);
     func_800CBAA4((s32)a0);
@@ -509,7 +509,7 @@ void func_800CB9C0(void *a0) {
 
 extern void func_800D22E4(s32 a0);
 extern void func_800CBB38(void *a0, void *a1);
-extern void func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 void func_800CBA30(void *a0) {
     s32 v0;
     v0 = *(s32*)((s32)a0 + 0x1C) - 1;

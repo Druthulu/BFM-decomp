@@ -726,7 +726,7 @@ u8 *arg2;
 #include "../shared/ov/func_80129FF4.h"
 
 extern u8 D_80126948[];
-void func_8012A048(void *a0, s32 a1, u8 a2);
+s32 func_8012A048(void *a0, s32 a1, u8 a2);
 
 #include "../shared/ov/func_8012A018.h"
 

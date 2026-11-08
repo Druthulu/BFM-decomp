@@ -1889,7 +1889,7 @@ void func_8018850C(s32 *s0) {
 
 #include "common.h"
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_80184480(s32 a0);
@@ -2095,7 +2095,7 @@ void func_801889D4(void *a0) {
 }
 
 
-extern void func_80143994(s32 a0, s32 a1);
+extern s32 func_80143994(s32 a0, s32 a1);
 
 void *func_80188A10(void *a0) {
     void *r;
@@ -2253,7 +2253,7 @@ extern void func_8018A47C(s32 a0);
 extern void (*D_80191060[])(void);
 extern void func_8013C9C4(void *a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_801439C0(u8 *a0);
+extern s32 func_801439C0(u8 *a0);
 extern void func_8012B200(u8 *a0);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012AD50(void *a0);
@@ -2367,7 +2367,7 @@ extern void func_8012AD80(s32 a0);
 extern s32 func_801892CC(s32 a0);
 extern void func_8018A47C(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8012BE54(s32 a0);       /* canonical void -> cast at use */
+extern s32 func_8012BE54(s32 a0);       /* canonical void -> cast at use */
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012B200(u8 *a0);
 extern void func_8012C218(void *a0);
@@ -2617,7 +2617,7 @@ void func_801895E0(void *a0) {
 #include "common.h"
 
 extern s32 func_8018B300(void);
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C2C4(s32 a0);
 extern u8 *func_8012913C(s32 a0);
@@ -3781,7 +3781,7 @@ void func_8018B344(void *arg0) {
 
 #include "common.h"
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -3878,7 +3878,7 @@ void func_8018B4D0(s32 a0) {
 
 #include "common.h"
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C2C4(s32 a0);
 extern u8 *func_8012913C(s32 a0);
@@ -4105,7 +4105,7 @@ void func_8018B96C(s32 a0) {
 
 #include "common.h"
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -4699,7 +4699,7 @@ void func_8018C66C(void *a0) {
 
 #include "common.h"
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA88(s32 a0, void *a1);
 extern void func_8018BDD0(s32 param_1);
@@ -4900,7 +4900,7 @@ void func_8018CA3C(s32 a0) {
  * func_8012C1B8 is canonically `void` returning; the value in $v0 is taken via a
  * cast at the call site, exactly as the banked family exemplar in
  * src/ov_SC03_006/ov_SC03_006_jr_80140608.c does. */
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -5112,7 +5112,7 @@ void func_8018CEE0(void *param_1)
 
 #include "common.h"
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_8018C394(s32 *a0);
@@ -5254,7 +5254,7 @@ void func_8018D21C(void *a0) {
 
 #include "common.h"
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8001C1E4(void* a0, s32 a1);
@@ -5714,12 +5714,12 @@ void func_8018DB1C(s32 arg0) {
 #include "common.h"
 
 extern s32 func_8012C354(s32 a0, s32 a1);
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8001C97C(s32 *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8001C1E4(void* a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
-extern void func_80143994(s32 a0, s32 a1);
+extern s32 func_80143994(s32 a0, s32 a1);
 
 extern s32 D_80196BBC;
 extern u8 D_801D852C[];
@@ -5840,7 +5840,7 @@ void func_8018DCD8(s32 a0)
 }
 
 
-extern void func_801439C0(u8 *a0);
+extern s32 func_801439C0(u8 *a0);
 extern void func_8012C218(void *a0);
 
 void func_8018DDFC(void *a0) {
@@ -5862,7 +5862,7 @@ void func_8018DDFC(void *a0) {
 
 
 extern s32 D_801270C8[0];
-extern void func_801439C0(u8 *a0);
+extern s32 func_801439C0(u8 *a0);
 extern void func_8012C218(void *a0);
 
 void func_8018DE5C(void *a0) {
@@ -5931,7 +5931,7 @@ extern void func_8018F6DC(void);
 extern void func_8013C9C4(void *a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8018E7E4(s32 arg0, void * arg1, void * arg2, void * arg3, int count);
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012C218(void *a0);
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
@@ -6126,7 +6126,7 @@ void func_8018E43C(void *a0) {
 
 
 extern s32 D_801270C8[0];
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012C218(void *a0);
 extern void func_8013C9C4(void *a0);
 extern void func_8002D4C8(s32 a0, s32 a1);

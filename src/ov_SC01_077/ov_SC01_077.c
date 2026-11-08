@@ -1748,10 +1748,10 @@ extern int   func_80141100(int);
 extern s16   func_8014168C(s16);
 extern s32   func_8013FFD8(s16, s32, s32 *);
 extern s32 func_80024054(void *a0, void *a1);
-extern s32  *func_800D2650(s32 *, void *, s32, s32, s32, s32);
+extern u32 *func_800D2650(s32 *, void *, s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
-extern s32   func_800D27DC(s32, s32 *, void *, s32, s32);
-extern s32  *func_800D29F8(s32, s32, void *, s32, s32);
+extern u8 *func_800D27DC(s32, s32 *, void *, s32, s32);
+extern u32 *func_800D29F8(s32, s32, void *, s32, s32);
 extern int func_80137D08(int arg0, int arg1, short arg2);
 extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
 
@@ -2513,7 +2513,7 @@ extern char *D_80187AF0;
 extern int func_80029FE4(void);
 extern int func_800D2CA8(int, int);
 extern void func_800D2D10(int, int, void *, int);
-extern char *func_8002AAB4(void);
+extern s32 func_8002AAB4(void);
 extern char *strcpy(char *, const char *);
 extern int func_8002A26C(void);
 extern int func_8002A2B0(void);
@@ -2877,7 +2877,7 @@ s32 func_801425CC(s16 *a0) {
 // @class: schedule
 // @unstuck(P36): none — MATCH expected; CAE4 block fallthrough, AD50 block goto-tail
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern s32 func_8012C1DC(s32 a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_8012CAE4(void *a0);
@@ -3036,7 +3036,7 @@ void func_80142A80(void)
 }
 
 void func_80142C84(s32 a0);
-void func_80143994(s32 a0, s32 a1);
+s32 func_80143994(s32 a0, s32 a1);
 #include "../shared/ov/func_80142B2C.h"
 
 #include "../shared/ov/func_80142BB4.h"
@@ -3054,7 +3054,7 @@ void func_80143994(s32 a0, s32 a1);
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (combined store-assign `*(p)=v0=call()` keeps test/store on $v0, copy to $s0 for the else)
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_80142B2C(void *arg0);
@@ -3080,7 +3080,7 @@ void func_80142DC4(int param_1)
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_80142B2C(void *arg0);
@@ -3108,7 +3108,7 @@ void func_80142E38(int param_1)
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -3147,7 +3147,7 @@ void func_80142EC0(s32 param_1) {
 //         survives across func_8001CA1C while $v0 serves the pre-call store/test;
 //         store BEFORE the s1 copy so the store keeps $v0 (not the saved copy).
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -3188,7 +3188,7 @@ void func_8014305C(int param_1)
 
 extern void *memcpy(void *, const void *, u32);
 
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA88(int, void *);
 extern s32 func_8012E504(s32 a0, s32 a1);
@@ -3457,7 +3457,7 @@ void func_801442F8(int param_1)
 // @unstuck(P36): none — MATCH expected; call-crossing param_1->$s1, iVar3->$s0 natural regalloc
 #include "common.h"
 
-extern void func_8012C194(void);
+extern s32 func_8012C194(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 extern u8 D_80188434;
@@ -3540,7 +3540,7 @@ void func_80144458(void *arg0) {
 
 // @class: struct
 // @unstuck(P36): none — MATCH (65 ins, match_one). Levers: uVar2/$2 + addr/$3 pins; split (uVar2&0xFFFFFFF) into addr then (addr|0x80000000)+8 deref; %hi/%lo of 0x80000008 via plain 0x80000000+8 (match_one masks the target's D_80000008 reloc, real bytes identical); v1/3 magic-divide; gv+fv reassoc (field-0x30 in own temp) loads field first
-extern void func_8012C1B8(void);
+extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -3585,7 +3585,7 @@ void func_8014477C(void *param_1) {
 // @unstuck(P36): none — MATCH (66 ins). Pins: $s0=func_8012C194 result, $s1=param, $v0=byte const b (forces sb-first + $v0 reuse for 0x6000/0x400/0x4000); separate var e for the 0xE load keeps it in $v1 stored last.
 #include "common.h"
 
-extern void func_8012C194(void);
+extern s32 func_8012C194(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 

@@ -192,7 +192,7 @@ void func_800CCF14(void *a0) {
 
 void func_800CCF50(void *a0) {
 
-    extern void func_80146578(void);
+    extern s32 func_80146578(void);
     extern void func_8001CD50(s32 a0, s32 a1);
     extern void func_80149374(s32 a0, s32 a1);
     extern void func_80146E90(s32 *a0, s32 a1);
@@ -391,7 +391,7 @@ void func_800CD3C8(void *a0) {
 
 
 void func_800CD404(void *a0) {
-    extern void func_80146578(void);
+    extern s32 func_80146578(void);
     extern void func_8001CD50(s32 a0, s32 a1);
     extern void func_80146E90(s32 *a0, s32 a1);
     extern void func_80146CA0(void *);

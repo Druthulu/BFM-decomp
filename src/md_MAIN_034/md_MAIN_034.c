@@ -803,7 +803,7 @@ void func_800CC298(void *a0) {
  * word copy (fields are u8, so the struct's natural alignment is 1, matching the
  * "Quad" block-copy idiom noted on the seed_ref twin ov_SC02_011:func_8017FB14). */
 
-extern void func_80146578(void);
+extern s32 func_80146578(void);
 extern void func_8001CD9C(void *a0, void *a1);
 extern void func_800233CC(void *a0, u16 a1);
 extern void func_80146CA0(void *a0);

@@ -81,7 +81,7 @@ void func_800CAFD4(void *arg0) {
 
 
 void func_800CB030(s32 param_1) {
-    extern void func_8014659C(void);
+    extern s32 func_8014659C(void);
     extern void func_8001CA1C(void *a0, void *a1);
     extern void func_80149374(s32 a0, s32 a1);
     extern void func_80146E90(s32 *a0, s32 a1);
@@ -329,7 +329,7 @@ void func_800CB5D8(void *arg0) {
 }
 
 
-extern void func_8014659C(void);
+extern s32 func_8014659C(void);
 extern void func_8001CA1C(void *a0, void *a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void func_80146E90(s32 *a0, s32 a1);
@@ -439,7 +439,7 @@ void func_800CB794(s32 arg0) {
 
 extern u8 D_80078EC1;
 extern void (*D_800CC01C[])(void);
-extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CB8B4(void *arg0) {
     if (D_80078EC1 == 0x17) {
@@ -460,8 +460,8 @@ void func_800CB8B4(void *arg0) {
 extern void func_8001CF00(s32 a0);
 extern void func_80015978(s32 a0, s32 *a1);
 extern void func_80015954(s32 a0, s32 a1);
-extern void func_801465C0(void);
-extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void *func_801465C0(void);
+extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern void func_80146E90(s32 *a0, s32 a1);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
@@ -580,7 +580,7 @@ extern void func_800CBD2C(s32 param_1);
 extern void func_800CBEB0(s32 a0);
 extern void func_800CBF3C();
 extern s32 func_80146E98(s32 a0);
-extern void func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CBC90(s32 arg0) {
     u16 *rec = CAST_SIGN(u16 *, arg0, 0x20);

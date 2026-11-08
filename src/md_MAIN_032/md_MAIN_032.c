@@ -97,7 +97,7 @@ void func_800CB054(void *arg0) {
 #include "common.h"
 
 
-extern void func_8014659C(void);
+extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_80149374(s32 a0, s32 a1);
 extern void func_80146CA0(void *a0);

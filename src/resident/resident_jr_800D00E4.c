@@ -405,7 +405,7 @@ extern s32 func_800D05E8(s32 arg0);
 extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
 extern s32 D_8012704C;
 
-void func_800D0588(void) {
+s32 func_800D0588(void) {
     s32 r = func_800D05E8(currentLocationId);
     s32 result;
 

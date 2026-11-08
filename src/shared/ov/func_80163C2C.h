@@ -18,7 +18,7 @@ void func_80163C2C(s32 param_1) {
     extern s32 func_801632E0(void);
     extern void func_80015978(s32 a0, s32 *a1);
     extern void func_80015954(s32 a0, s32 a1);
-    extern void func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
+    extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
     extern s32 func_80163764(s32 a0);
     extern void (*D_8011DB10)(s32);
     u8 dead[0x20];

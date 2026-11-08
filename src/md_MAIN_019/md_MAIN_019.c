@@ -184,7 +184,7 @@ void func_800CB2C8(void *arg0) {
 
 
 void func_800CB324(s32 a0) {
-    extern void func_8014659C(void);
+    extern s32 func_8014659C(void);
     extern void func_8001C2C4(s32 a0);
     extern void func_800CB4C8(void *a0);
     extern void func_80146E90(s32 *a0, s32 a1);
@@ -469,7 +469,7 @@ void func_800CBD0C(void *arg0) {
 void func_800CBD68(s32 a0) {
     extern s32 D_800CC830;
     extern s32 D_800CC834;
-    extern void func_80146578(void);
+    extern s32 func_80146578(void);
     extern void func_8001CD9C(s32 a0, s32 a1);
     extern void func_800233CC(void *a0, u16 a1);
     extern void func_800CBF80(void *a0);

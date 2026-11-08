@@ -501,7 +501,7 @@ void func_800CBBB8(void *arg0) {
 
 
 void func_800CBC14(void *arg0) {
-    extern void func_80146578(void);
+    extern s32 func_80146578(void);
     extern void func_8001CB00(s32, void *, s32, s32);
     extern void func_80146DE8(s32 *, s32, s32, s32);
     extern void func_80146CA0(void *);

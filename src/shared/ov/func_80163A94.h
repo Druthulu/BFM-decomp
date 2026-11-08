@@ -4,7 +4,7 @@ void func_80163A94(s32 param_1) {
     extern s32 D_800636C8;
     extern s32 D_800DE5A0;
     extern void func_8001C214(s32 a0, s32 a1);
-    extern void func_8014659C(void);
+    extern s32 func_8014659C(void);
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern void func_80146CA0(void *a0);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);

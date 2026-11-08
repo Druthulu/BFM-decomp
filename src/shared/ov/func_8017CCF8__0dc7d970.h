@@ -1,6 +1,6 @@
 /* func_8017CCF8 — shared body (overlay slot 0x80128158, h_exact 0dc7d970). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s16 func_80128CFC(u16 a0);
+extern s32 func_80128CFC(u16 a0);
 void func_8017CCF8(void *a0) {
     void *v1 = *(void **)(a0 + 0xDC);
     s16 v0;

@@ -1,6 +1,6 @@
 /* func_8013AF20 — shared body (overlay slot 0x80128158, h_exact c7ed6f70). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void *func_80010A08(s32);
+extern s32 func_80010A08(s32);
 void func_8013AF20(u32 *param_1, u16 *param_2, u16 *param_3, u8 *param_4)
 {
     u32 *puVar3;
