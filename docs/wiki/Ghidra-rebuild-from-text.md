@@ -44,6 +44,34 @@ programs — the retail executable, the resident, two overlays, the two prototyp
 load address and hand-authored census. The other 123 programs the project had on disk carry no hand-authored rows and
 regenerate on demand.
 
+## How the types reach the database
+
+The project's struct layouts live in two C headers: `include/struct_types.h` (the struct map's canonical layouts) and
+`src/shared/engine_types.h` (the shared engine types), plus the scalar typedefs in `include/common.h`. The database
+gets them from those headers, never from a separate hand-kept copy. There are four steps:
+
+1. **Headers to rows.** [`tools/ghidra_types.py`](../../tools/ghidra_types.py) `--write` reads the headers with the
+   type census's own reader and layout engine, then writes every type as an `ExportAnnotations` `type` row under the
+   `/bfm` category: structs with gcc's o32 offsets and size (bitfields included), unions, typedef rows for aliases and
+   scalars (`u8` becomes a typedef of Ghidra's `/uchar`). An anonymous nested aggregate gets a named type,
+   `<Parent>__<field>`. Each program gets its own file, `config/ghidra/types/<program>.jsonl`, holding the types its C
+   (its translation units and the headers they include) names, closed over field dependencies. The prototypes have no C
+   of their own and take the retail executable's set. A type nothing uses goes to the retail executable, so every type
+   lands somewhere. `make tools-health` runs `--check`, which fails when a header changed and the rows did not.
+2. **Merge.** `ghidra_types.py merge <program> -o <file>` puts those rows into the committed
+   `config/ghidra/<program>.jsonl` in the order the export writes them: after the archive rows, sorted by path.
+3. **Import.** Step 5 of `ghidra_rebuild.sh` imports the merged file. `ImportAnnotations` creates struct and union
+   shells first, then typedefs round by round (a typedef can sort before its base type). It fills unions before structs,
+   because a non-packed Ghidra union is as long as its longest member and anything containing the union reads that
+   length. It places bitfields exactly with `insertBitFieldAt`.
+4. **Proof.** `--proof` compares the rebuilt program's delta with the merged file byte for byte. The `.proof` marker
+   records the hashes of both the config file and the types file.
+
+`ghidra_types.py --gcc-compare <rows.jsonl>` checks a sample of the rows against what a real compiler says. Every union
+and every bitfield struct is always in the sample. The tool compiles a probe with `mipsel-linux-gnu-gcc -g`, then
+compares offsets, bit positions, member lengths and sizes with the probe's DWARF. It reads either the generated rows
+or a real export from a rebuilt program.
+
 ## Gotchas that cost a session
 
 - Ghidra compiles `tools/ghidra_scripts/` as **one OSGi bundle**: a compile error in any script disables every script

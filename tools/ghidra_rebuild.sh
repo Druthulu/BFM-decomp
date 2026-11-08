@@ -13,9 +13,10 @@
 #   2. functions DefineFunctions.java from the built ELF's text symbols (splat's validated boundaries).
 #   3. symbols  ApplySymbols.java with the binary's splat symbol files (the yaml's symbol_addrs_path).
 #   4. baseline ExportAnnotations.java -> .run/ghidra_rebuild/<program>.baseline.jsonl   (nothing hand-made yet)
-#   5. import   ImportAnnotations.java config/ghidra/<program>.jsonl   (when the file exists)
+#   5. import   ImportAnnotations.java config/ghidra/<program>.jsonl   (when the file exists; + config/ghidra/types/<program>.jsonl,
+#               merged in export order by tools/ghidra_types.py merge -> $SCR/<program>.merged.jsonl, P41 T7)
 #   6. export   -> .run/ghidra_rebuild/<program>.after.jsonl; delta(after, baseline) -> <program>.delta.jsonl
-#   --proof     cmp <program>.delta.jsonl config/ghidra/<program>.jsonl -> "PROOF PASS" (exit 0) or FAIL (exit 1).
+#   --proof     cmp <program>.delta.jsonl <the imported file> -> "PROOF PASS" (exit 0) or FAIL (exit 1).
 #   Without a committed file, step 5 is skipped and the delta of the LIVE export (.run/ghidra_export/<program>.jsonl,
 #   from tools/ghidra_export_annotations.sh) against the baseline is written to <program>.candidate.jsonl — the
 #   file to review and commit as config/ghidra/<program>.jsonl.
@@ -108,8 +109,15 @@ if [ ! -f "$CONF" ]; then
     exit 0
 fi
 
-say "5. import $CONF"
-run_headless -process "$PROG" -noanalysis -scriptPath "$SCRIPTS" -postScript ImportAnnotations.java "$CONF" | tee "$SCR/$PROG.import.log" || die "ImportAnnotations failed"
+# P41 T7: the canonical C types (config/ghidra/types/<program>.jsonl, tools/ghidra_types.py) ride in the same import: merged
+# into the committed file in EXPORT order (after the archive rows), so the proof's delta must equal the MERGED file
+IMPORT="$CONF"; TYPES="$REPO/config/ghidra/types/$PROG.jsonl"
+if [ -f "$TYPES" ]; then
+    IMPORT="$SCR/$PROG.merged.jsonl"
+    .venv/bin/python tools/ghidra_types.py merge "$PROG" -o "$IMPORT" || die "ghidra_types.py merge failed"
+fi
+say "5. import $IMPORT"
+run_headless -process "$PROG" -noanalysis -scriptPath "$SCRIPTS" -postScript ImportAnnotations.java "$IMPORT" | tee "$SCR/$PROG.import.log" || die "ImportAnnotations failed"
 # R49: a per-row failure inside a rc-0 run is still a failure — a proof over a partial import proves nothing
 # (S87: main's 13 func rows failed on "/undefined" while the plate comments made the delta match anyway).
 grep -q 'BFMANN .*failed=0 ' "$SCR/$PROG.import.log" || die "ImportAnnotations reported failures (or no BFMANN line) — see $SCR/$PROG.import.log"
@@ -117,16 +125,17 @@ say "6. export after import + delta"
 run_headless -process "$PROG" -noanalysis -readOnly -scriptPath "$SCRIPTS" -postScript ExportAnnotations.java "$SCR/$PROG.after.jsonl" "${SYMS[@]}" || die "export failed"
 .venv/bin/python tools/ghidra_annotations_delta.py "$SCR/$PROG.after.jsonl" "$SCR/$PROG.baseline.jsonl" "$SCR/$PROG.delta.jsonl" --census
 if [ "$PROOF" = 1 ]; then
-    if cmp -s "$SCR/$PROG.delta.jsonl" "$CONF"; then
-        say "PROOF PASS — the rebuilt program's hand-authored delta == $CONF ($(wc -l < "$CONF") rows)"
+    TSHA=""; [ "$IMPORT" != "$CONF" ] && TSHA=" types-sha1 $(sha1sum < "$TYPES" | cut -c1-12)"
+    if cmp -s "$SCR/$PROG.delta.jsonl" "$IMPORT"; then
+        say "PROOF PASS — the rebuilt program's hand-authored delta == $IMPORT ($(wc -l < "$IMPORT") rows)"
         # the marker config/ghidra/ROSTER.md (tools/ghidra_roster.py) reports; scratch, never committed
-        printf 'PASS %s config-sha1 %s\n' "$(date -u +%Y-%m-%dT%H:%MZ)" "$(sha1sum < "$CONF" | cut -c1-12)" > "$SCR/$PROG.proof"
+        printf 'PASS %s config-sha1 %s%s\n' "$(date -u +%Y-%m-%dT%H:%MZ)" "$(sha1sum < "$CONF" | cut -c1-12)" "$TSHA" > "$SCR/$PROG.proof"
         [ "$KEEP" = 1 ] || rm -rf "$PROJ_DIR"
         exit 0
     fi
-    say "PROOF FAIL — delta differs from $CONF (diff below, first 40 lines; scratch kept in $SCR)"
-    printf 'FAIL %s config-sha1 %s\n' "$(date -u +%Y-%m-%dT%H:%MZ)" "$(sha1sum < "$CONF" | cut -c1-12)" > "$SCR/$PROG.proof"
-    diff "$CONF" "$SCR/$PROG.delta.jsonl" | head -40
+    say "PROOF FAIL — delta differs from $IMPORT (diff below, first 40 lines; scratch kept in $SCR)"
+    printf 'FAIL %s config-sha1 %s%s\n' "$(date -u +%Y-%m-%dT%H:%MZ)" "$(sha1sum < "$CONF" | cut -c1-12)" "$TSHA" > "$SCR/$PROG.proof"
+    diff "$IMPORT" "$SCR/$PROG.delta.jsonl" | head -40
     exit 1
 fi
 [ "$KEEP" = 1 ] || rm -rf "$PROJ_DIR"

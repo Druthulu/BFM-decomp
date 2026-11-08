@@ -63,8 +63,31 @@ public class ImportAnnotations extends GhidraScript {
         // pass 1: type shells; pass 2: type bodies (so fields can reference any struct in the file)
         List<JsonObject> types = new ArrayList<>();
         for (JsonObject o : rows) if ("type".equals(s(o, "k"))) types.add(o);
-        for (JsonObject o : types) typeShell(o);
-        for (JsonObject o : types) typeBody(o);
+        // P41 T7: composite shells first, then typedefs round by round (a typedef row sorts by path, so it can precede its
+        // base or chain through another typedef); bodies: unions first — a non-packed union's length is its longest member,
+        // and an array of / field of a union reads that length — a union waits while a member union is still empty.
+        List<JsonObject> pend = new ArrayList<>();
+        for (JsonObject o : types) if (!typeShell(o)) pend.add(o);
+        while (!pend.isEmpty()) {
+            List<JsonObject> left = new ArrayList<>();
+            for (JsonObject o : pend) if (!typeShell(o)) left.add(o);
+            if (left.size() == pend.size()) {
+                for (JsonObject o : left) { failed++; println("  fail type " + s(o, "path") + ": unresolvable typedef base " + s(o, "base")); }
+                break;
+            }
+            pend = left;
+        }
+        List<JsonObject> unions = new ArrayList<>();
+        for (JsonObject o : types) if ("union".equals(s(o, "kind"))) unions.add(o);
+        while (!unions.isEmpty()) {
+            Set<String> waiting = new HashSet<>();
+            for (JsonObject o : unions) waiting.add(s(o, "path"));
+            List<JsonObject> left = new ArrayList<>();
+            for (JsonObject o : unions) if (unionReady(o, waiting)) typeBody(o); else left.add(o);
+            if (left.size() == unions.size()) { for (JsonObject o : left) typeBody(o); break; }   // a cycle: apply as is
+            unions = left;
+        }
+        for (JsonObject o : types) if (!"union".equals(s(o, "kind"))) typeBody(o);
         for (JsonObject o : rows) {
             String k = s(o, "k");
             try {
@@ -116,31 +139,70 @@ public class ImportAnnotations extends GhidraScript {
             if (c == ' ') { i++; continue; }
             if (c == '*') { dt = new PointerDataType(dt, dtm); i++; continue; }
             if (c == '[') {
-                int j = suffix.indexOf(']', i);
-                int n = Integer.parseInt(suffix.substring(i + 1, j).trim());
-                dt = new ArrayDataType(dt, n, dt.getLength(), dtm);
-                i = j + 1; continue;
+                // `T[2][3]` is an array of 2 `T[3]` (Ghidra names the OUTER dimension first): wrap innermost first
+                List<Integer> dims = new ArrayList<>();
+                while (i < suffix.length() && suffix.charAt(i) == '[') {
+                    int j = suffix.indexOf(']', i);
+                    dims.add(Integer.parseInt(suffix.substring(i + 1, j).trim()));
+                    i = j + 1;
+                }
+                for (int k = dims.size() - 1; k >= 0; k--) dt = new ArrayDataType(dt, dims.get(k), dt.getLength(), dtm);
+                continue;
             }
             throw new IllegalArgumentException("bad type suffix in " + spec);
         }
         return dt;
     }
 
-    private void typeShell(JsonObject o) {
+    /** false only for a typedef whose base does not resolve YET (the caller retries it next round). */
+    private boolean typeShell(JsonObject o) {
         String kind = s(o, "kind"), path = s(o, "path");
         CategoryPath cat = catOf(path); String name = nameOf(path);
-        if (dtm.getDataType(path) != null) return;
+        if (dtm.getDataType(path) != null) return true;
         DataType dt;
         switch (kind) {
             case "struct": dt = new StructureDataType(cat, name, in(o, "size"), dtm); break;
             case "union": dt = new UnionDataType(cat, name, dtm); break;
             case "enum": dt = new EnumDataType(cat, name, in(o, "size"), dtm); break;
-            case "typedef": dt = new TypedefDataType(cat, name, resolveType(s(o, "base")), dtm); break;
+            case "typedef":
+                DataType base;
+                try { base = resolveType(s(o, "base")); } catch (IllegalArgumentException e) { return false; }
+                dt = new TypedefDataType(cat, name, base, dtm); break;
             case "fndef": dt = new FunctionDefinitionDataType(cat, name, dtm); break;
-            default: failed++; println("  fail type " + path + ": unsupported kind " + kind); return;
+            default: failed++; println("  fail type " + path + ": unsupported kind " + kind); return true;
         }
         dtm.resolve(dt, DataTypeConflictHandler.REPLACE_HANDLER);
         nTypes++;
+        return true;
+    }
+
+    /** A union body may be applied once no member's base type (through typedefs, not pointers) is a still-empty union of the file. */
+    private boolean unionReady(JsonObject o, Set<String> waiting) {
+        for (JsonElement fe : o.getAsJsonArray("fields")) {
+            String spec = s(fe.getAsJsonObject(), "type");
+            if (spec == null || spec.contains(" *")) continue;
+            int cut = spec.indexOf('[');
+            String base = cut >= 0 ? spec.substring(0, cut).trim() : spec;
+            DataType dt = dtm.getDataType(base);
+            while (dt instanceof TypeDef) dt = ((TypeDef) dt).getDataType();
+            if (dt != null && waiting.contains(dt.getPathName()) && !dt.getPathName().equals(s(o, "path"))) return false;
+        }
+        return true;
+    }
+
+    /** A bitfield row (`bits`, `bitoff`): placed exactly in a non-packed struct (insertBitFieldAt), appended in a packed one. */
+    private void bitField(Structure st, JsonObject f, DataType base, boolean packed) throws Exception {
+        int off = in(f, "off"), bits = in(f, "bits"), boff = in(f, "bitoff");
+        for (DataTypeComponent c : st.getDefinedComponents()) {
+            if (!c.isBitFieldComponent() || c.getOffset() != off) continue;
+            BitFieldDataType bf = (BitFieldDataType) c.getDataType();
+            if (bf.getBitOffset() == boff && bf.getDeclaredBitSize() == bits && Objects.equals(c.getFieldName(), s(f, "name"))
+                    && bf.getBaseDataType().getPathName().equals(base.getPathName()) && Objects.equals(c.getComment(), s(f, "comment"))) {
+                unchanged++; return;
+            }
+        }
+        if (packed) st.addBitField(base, bits, s(f, "name"), s(f, "comment"));
+        else st.insertBitFieldAt(off, in(f, "len"), boff, base, bits, s(f, "name"), s(f, "comment"));
     }
 
     private void typeBody(JsonObject o) {
@@ -156,6 +218,7 @@ public class ImportAnnotations extends GhidraScript {
                 for (JsonElement fe : o.getAsJsonArray("fields")) {
                     JsonObject f = fe.getAsJsonObject();
                     DataType ft = resolveType(s(f, "type"));
+                    if (f.has("bits")) { bitField(st, f, ft, packed); continue; }
                     DataTypeComponent cur = st.getComponentAt(in(f, "off"));
                     if (cur != null && cur.getOffset() == in(f, "off") && Objects.equals(cur.getFieldName(), s(f, "name"))
                             && cur.getDataType().getPathName().equals(ft.getPathName()) && cur.getLength() == in(f, "len")
@@ -168,7 +231,8 @@ public class ImportAnnotations extends GhidraScript {
                 if (u.getNumComponents() == 0)
                     for (JsonElement fe : o.getAsJsonArray("fields")) {
                         JsonObject f = fe.getAsJsonObject();
-                        u.add(resolveType(s(f, "type")), in(f, "len"), s(f, "name"), s(f, "comment"));
+                        if (f.has("bits")) u.addBitField(resolveType(s(f, "type")), in(f, "bits"), s(f, "name"), s(f, "comment"));
+                        else u.add(resolveType(s(f, "type")), in(f, "len"), s(f, "name"), s(f, "comment"));
                     }
                 else unchanged++;
             } else if ("enum".equals(kind) && dt instanceof ghidra.program.model.data.Enum) {

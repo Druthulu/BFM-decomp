@@ -330,6 +330,9 @@ tools-health:
 	# P33 B5: the Ghidra roster is DERIVED from config/ghidra/*.jsonl (R33); a stale roster misreports
 	# which programs' RE work is tracked as text. Pure text check, no Ghidra needed.
 	$(VENV_PY) tools/ghidra_roster.py --check
+	# P41 T7: config/ghidra/types/*.jsonl are DERIVED from the canonical headers (R33); stale = the rebuilt Ghidra
+	# database gets yesterday's layouts. Pure text check (~5 s), no Ghidra needed.
+	$(VENV_PY) tools/ghidra_types.py --check
 	# P33 D5 (+ P33.5 task 7): every relative link in the public-facing docs resolves (pending pages are listed, and must be
 	# gone by gate 2); nothing links into docs/sunset/; a wiki page links into docs/ only at a Reference-index/README target;
 	# every docs/ file is covered by one; a wiki page cites only TRACKED paths. The render selftest also asserts every page

@@ -129,6 +129,19 @@ public class ExportAnnotations extends GhidraScript {
         return types.size();
     }
 
+    // P41 T7: a bitfield component exports its BASE type plus `bits` (declared size) and `bitoff` (LE shift within the
+    // component's minimal storage at `off`/`len`) — the args ImportAnnotations hands back to insertBitFieldAt. Other
+    // components are unchanged (no extra keys).
+    private static String componentType(DataTypeComponent c) {
+        DataType t = c.getDataType();
+        return c.isBitFieldComponent() ? ((BitFieldDataType) t).getBaseDataType().getPathName() : t.getPathName();
+    }
+    private static String bitKeys(DataTypeComponent c) {
+        if (!c.isBitFieldComponent()) return "";
+        BitFieldDataType bf = (BitFieldDataType) c.getDataType();
+        return ",\"bits\":" + bf.getDeclaredBitSize() + ",\"bitoff\":" + bf.getBitOffset();
+    }
+
     private String typeRow(DataType dt) {
         String path = esc(dt.getPathName());
         if (dt instanceof Structure) {
@@ -138,8 +151,8 @@ public class ExportAnnotations extends GhidraScript {
             for (DataTypeComponent c : s.getDefinedComponents()) {
                 if (!first) f.append(','); first = false;
                 f.append("{\"off\":").append(c.getOffset()).append(",\"len\":").append(c.getLength())
-                 .append(",\"name\":").append(esc(c.getFieldName())).append(",\"type\":").append(esc(c.getDataType().getPathName()))
-                 .append(",\"comment\":").append(esc(c.getComment())).append('}');
+                 .append(",\"name\":").append(esc(c.getFieldName())).append(",\"type\":").append(esc(componentType(c)))
+                 .append(",\"comment\":").append(esc(c.getComment())).append(bitKeys(c)).append('}');
             }
             return "{\"k\":\"type\",\"kind\":\"struct\",\"path\":" + path + ",\"size\":" + s.getLength()
                     + ",\"packed\":" + b(s.isPackingEnabled()) + ",\"fields\":" + f + "]}";
@@ -151,7 +164,8 @@ public class ExportAnnotations extends GhidraScript {
             for (DataTypeComponent c : u.getComponents()) {
                 if (!first) f.append(','); first = false;
                 f.append("{\"len\":").append(c.getLength()).append(",\"name\":").append(esc(c.getFieldName()))
-                 .append(",\"type\":").append(esc(c.getDataType().getPathName())).append(",\"comment\":").append(esc(c.getComment())).append('}');
+                 .append(",\"type\":").append(esc(componentType(c))).append(",\"comment\":").append(esc(c.getComment()))
+                 .append(bitKeys(c)).append('}');
             }
             return "{\"k\":\"type\",\"kind\":\"union\",\"path\":" + path + ",\"size\":" + u.getLength()
                     + ",\"packed\":" + b(u.isPackingEnabled()) + ",\"fields\":" + f + "]}";
