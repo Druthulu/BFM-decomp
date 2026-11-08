@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-08T03:21:23.710Z
+# filed through: 2026-11-08T04:54:34.702Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -59,4 +59,9 @@ R55 | 2026-11-07 | finding | in force | Return-type lies in 3.41 (T3/T4) | Befor
 R56 | 2026-11-07 | decision | in force | Return-type lies in 3.41 (T3/T4) | A new 3.41 task, placed after T9 and before T10's close snapshot, adds return-lie columns (function… | .claude-state/journal/2026-11-07/185059-066r-claude-record.md
 R57 | 2026-11-07 | finding | in force | Return-type lies in 3.41 (T3/T4) | T4 is done (commit 9658c8911a). | .claude-state/journal/2026-11-07/203652-007r-claude-record.md
 R58 | 2026-11-07 | finding | in force | Return-type lies in 3.41 (T3/T4) | docs/readability-progress.tsv has no mid-phase rows. | .claude-state/journal/2026-11-07/203652-007r-claude-record.md
-R59 | 2026-11-07 | open | in force | Return-type lies in 3.41 (T3/T4) | 37 `s32` definitions with no `return` statement, left after T4 -> a later readability phase (3.43 o… | .claude-state/journal/2026-11-07/203652-007r-claude-record.md
+R59 | 2026-11-07 | open | superseded by R62 | Return-type lies in 3.41 (T3/T4) | 37 `s32` definitions with no `return` statement, left after T4 -> a later readability phase (3.43 o… | .claude-state/journal/2026-11-07/203652-007r-claude-record.md
+R60 | 2026-11-07 | finding | superseded by R63 | Ghidra type mirror in 3.41 (T7/T8) | The MCP Ghidra was serving on :8080 again during T7, most likely started with the new Claude Code s… | .claude-state/journal/2026-11-07/214225-010r-claude-record.md
+R61 | 2026-11-07 | finding | superseded by R64 | Ghidra type mirror in 3.41 (T7/T8) | The shared struct_layout parser misreads function-pointer-array structs: FnTbl, FnTbl3 and Tbl_801E… | .claude-state/journal/2026-11-07/214225-010r-claude-record.md
+R62 | 2026-11-07 | open | in force | Ghidra type mirror in 3.41 (T7/T8) | 37 `s32` definitions with no `return` statement, left after T4 -> filed in phase-ends/current/INBOX… | .claude-state/journal/2026-11-07/214225-010r-claude-record.md
+R63 | 2026-11-07 | decision | in force | Ghidra type mirror in 3.41 (T7/T8) | The MCP Ghidra is stopped again for T7's proofs and stays off until T8, which starts it with tools/… | .claude-state/journal/2026-11-07/220953-018r-claude-record.md
+R64 | 2026-11-07 | finding | in force | Ghidra type mirror in 3.41 (T7/T8) | T7.c2 fixed the three function-pointer-array structs (FnTbl, FnTbl3, Tbl_801E6CA4) inside ghidra_ty… | .claude-state/journal/2026-11-07/220953-018r-claude-record.md
