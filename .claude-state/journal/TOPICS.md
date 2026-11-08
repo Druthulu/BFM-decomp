@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-08T01:56:56.429Z
+# filed through: 2026-11-08T03:21:23.710Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -57,3 +57,6 @@ R53 | 2026-11-07 | finding | in force | Long-running shells on the machine | T1'
 R54 | 2026-11-07 | finding | in force | Return-type lies in 3.41 (T3/T4) | T4.c1 fixed 182 byte-neutral callees: 75,801 declaration lines in 3,927 files, rewritten in place w… | .claude-state/journal/2026-11-07/185059-066r-claude-record.md
 R55 | 2026-11-07 | finding | in force | Return-type lies in 3.41 (T3/T4) | Before this change, the phase's docs tasks did not show return lies anywhere. | .claude-state/journal/2026-11-07/185059-066r-claude-record.md
 R56 | 2026-11-07 | decision | in force | Return-type lies in 3.41 (T3/T4) | A new 3.41 task, placed after T9 and before T10's close snapshot, adds return-lie columns (function… | .claude-state/journal/2026-11-07/185059-066r-claude-record.md
+R57 | 2026-11-07 | finding | in force | Return-type lies in 3.41 (T3/T4) | T4 is done (commit 9658c8911a). | .claude-state/journal/2026-11-07/203652-007r-claude-record.md
+R58 | 2026-11-07 | finding | in force | Return-type lies in 3.41 (T3/T4) | docs/readability-progress.tsv has no mid-phase rows. | .claude-state/journal/2026-11-07/203652-007r-claude-record.md
+R59 | 2026-11-07 | open | in force | Return-type lies in 3.41 (T3/T4) | 37 `s32` definitions with no `return` statement, left after T4 -> a later readability phase (3.43 o… | .claude-state/journal/2026-11-07/203652-007r-claude-record.md
