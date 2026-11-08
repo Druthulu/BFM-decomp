@@ -45,7 +45,7 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 NAME = r"[A-Za-z_]\w*"
 DEF = re.compile(r"^[ \t]*[A-Za-z_][\w \t*]*?\b(" + NAME + r")\s*\(([^;{]*)\)\s*\{", re.M)   # leading blanks: 116 indented file-scope
                                                                                               # definitions were invisible (P37 T4, 2026-09-12)
-DECL = re.compile(r"\bextern\s+[A-Za-z_][\w \t*]*?\b(" + NAME + r")\s*\(([^;)]*)\)\s*;")
+DECL = re.compile(r"\bextern\s+([A-Za-z_][\w \t*]*?)\b(" + NAME + r")\s*\(([^;)]*)\)\s*;")   # (ret, name, params) — P41 T3
 
 
 def arity(params):
@@ -134,6 +134,145 @@ def resolve_definition(name, rel, first):
     return None
 
 
+def resolve_definition_ret(name, rel, first):
+    """resolve_definition with the RETURN type in the fleet signature set (P41 T3): one fleet-wide (arity, params, norm(ret))
+    -> it; else the declaring TU's own binary's; else main's/resident's; else None (cross-binary)."""
+    cands = _ALL.get(name) or ([first] if first else [])
+    if not cands:
+        return None
+    if len({(c[0], c[1], norm_ret(c[3])) for c in cands}) == 1:
+        return cands[0]
+    b = _binary_of(rel)
+    if b:
+        own = [c for c in cands if _binary_of(c[2]) == b]
+        if own:
+            return own[0]
+    mr = [c for c in cands if c[2].count("/") == 1 or c[2].startswith("src/resident/")]
+    return mr[0] if mr else None
+
+
+TYPEDEF_HEADERS = ("include/common.h", "include/struct_types.h", "src/shared/engine_types.h")
+_TD = {}
+_RET_DROP = {"static", "extern", "inline", "__inline__", "const"}
+
+
+def typedefs():
+    """{name: [tokens]} — `typedef <base> <name>;` and `typedef struct X {...} Name;` (→ `struct X`) from the canonical
+    headers only (P41 T3). A TU-local typedef is not resolved."""
+    if _TD:
+        return _TD
+    for h in TYPEDEF_HEADERS:
+        try:
+            m = lc.sc.mask_text((REPO / h).read_text(errors="surrogateescape"))
+        except OSError:
+            continue
+        for t in re.finditer(r"\btypedef\s+([^;{}()\[\]]+?)\s*\b(" + NAME + r")\s*;", m):
+            _TD.setdefault(t.group(2), re.findall(r"\w+|\*", t.group(1)))
+        for t in re.finditer(r"\btypedef\s+(struct|union)\s+(" + NAME + r")\s*\{", m):
+            depth, j = 0, t.end() - 1
+            while j < len(m):
+                depth += (m[j] == "{") - (m[j] == "}")
+                if depth == 0:
+                    break
+                j += 1
+            k = m.find(";", j)
+            if k < 0:
+                continue
+            for part in m[j + 1:k].split(","):
+                pm = re.fullmatch(r"\s*(\**)\s*(" + NAME + r")\s*", part)
+                if pm and pm.group(2) not in ("__attribute__",):
+                    _TD.setdefault(pm.group(2), [t.group(1), t.group(2)] + list(pm.group(1)))
+    return _TD
+
+
+def norm_ret(t):
+    """A return-type spelling in canonical form (P41 T3): static/extern/inline/__inline__/const dropped, canonical typedefs
+    expanded, `T*` == `T *`, `unsigned` == `unsigned int`, `signed int` == `int`; `long`, `char`, `signed char` stay distinct."""
+    td = typedefs()
+    toks = [x for x in re.findall(r"\w+|\*", t or "") if x not in _RET_DROP]
+    for _ in range(8):
+        out, changed, tag = [], False, False
+        for x in toks:
+            if x != "*" and not tag and x in td and td[x] != [x]:
+                out.extend(y for y in td[x] if y not in _RET_DROP)
+                changed = True
+            else:
+                out.append(x)
+            tag = x in ("struct", "union", "enum")
+        toks = out
+        if not changed:
+            break
+    words = [x for x in toks if x != "*"]
+    stars = len(toks) - len(words)
+    if words in (["unsigned"],):
+        words = ["unsigned", "int"]
+    elif words in (["signed", "int"], ["signed"]):
+        words = ["int"]
+    return " ".join(words) + (" " + "*" * stars if stars else "")
+
+
+CALL = re.compile(r"\b(" + NAME + r")\s*\(")
+
+
+def _discarded(m, s, pos):
+    """True when the call at s[pos:] (name start) is an expression statement whose value is dropped."""
+    j = pos - 1
+    while j >= 0 and s[j].isspace():
+        j -= 1
+    # the tail: the matching `)` then `;`
+    k, depth = s.find("(", pos), 0
+    while k < len(s):
+        depth += (s[k] == "(") - (s[k] == ")")
+        if depth == 0:
+            break
+        k += 1
+    k += 1
+    while k < len(s) and s[k].isspace():
+        k += 1
+    if k >= len(s) or s[k] != ";":
+        return False
+    if j < 0 or s[j] in ";{}:":
+        return True
+    if s[j] == ")":
+        if re.search(r"\(\s*void\s*\)$", s[max(0, j - 12):j + 1]):
+            return True
+        d, i = 0, j
+        while i >= 0:
+            d += (s[i] == ")") - (s[i] == "(")
+            if d == 0:
+                break
+            i -= 1
+        return bool(re.search(r"\b(if|while|for)\s*$", s[max(0, i - 16):i]))
+    return bool(re.search(r"\b(else|do)$", s[max(0, j - 5):j + 1]))
+
+
+def result_uses(names):
+    """{name: (calls, used)} over src/**/*.c + src/shared/**/*.h (P41 T3): `used` counts the calls whose value is not
+    dropped by an expression statement. Declaration and definition lines are skipped."""
+    names = set(names)
+    out = {n: [0, 0] for n in names}
+    for f in sorted(list((REPO / "src").glob("**/*.c")) + list((REPO / "src" / "shared").glob("**/*.h"))):
+        try:
+            masked = lc.sc.mask_text(f.read_text(errors="surrogateescape"))
+        except OSError:
+            continue
+        if not any(n in masked for n in names):
+            continue
+        skip = {m.start(1) for m in DEF.finditer(masked)} | {m.start(1) for m in KR_DEF.finditer(masked)}
+        for m in CALL.finditer(masked):
+            n = m.group(1)
+            if n not in names or m.start(1) in skip:
+                continue
+            ls = masked.rfind("\n", 0, m.start()) + 1
+            le = masked.find("\n", m.start())
+            if "extern" in masked[ls:le if le >= 0 else len(masked)]:
+                continue
+            out[n][0] += 1
+            if not _discarded(m, masked, m.start(1)):
+                out[n][1] += 1
+    return {n: tuple(v) for n, v in out.items()}
+
+
 def kr_params(names, decl_block):
     """[type] — the DEFAULT-PROMOTED type of each K&R parameter, in order, read from the declaration block between the
     parameter list and the `{` (an undeclared parameter is `int`, as in C89)."""
@@ -161,8 +300,10 @@ KR_DEF = re.compile(r"^[A-Za-z_][\w \t*]*?\b(" + NAME + r")\s*\(\s*(" + NAME + r
                     r"((?:[ \t]*[A-Za-z_][^;{}()]*;[ \t]*\n)+)\s*\{", re.M)
 
 
-def scan(defs, only_needed_argpins=True):
-    """[row] — one row per narrower-than-real declaration, with the scope that decides whether it is bankable."""
+def scan(defs, only_needed_argpins=True, returns=False):
+    """[row] — one row per narrower-than-real declaration, with the scope that decides whether it is bankable.
+    `returns` (P41 T3; type_census only): also one kind="return" row per declaration whose normalized return type differs
+    from its definition's (other callers read declared/real and get the arity rows only)."""
     rows = []
     for f in sorted(list((REPO / "src").glob("**/*.c")) + list((REPO / "src" / "shared").glob("**/*.h"))):
         rel = str(f.relative_to(REPO))
@@ -193,10 +334,11 @@ def scan(defs, only_needed_argpins=True):
         depth = 0
         for i, l in enumerate(lines):
             for m in DECL.finditer(l):
-                callee, params = m.group(1), m.group(2)
+                dret, callee, params = m.group(1), m.group(2), m.group(3)
                 real = defs.get(callee)
                 if real is None:
                     continue
+                first = real
                 if _ALL:
                     real = resolve_definition(callee, rel, real)
                     if real is None:
@@ -207,21 +349,30 @@ def scan(defs, only_needed_argpins=True):
                 else:
                     cross = False
                 dec = arity(params)
-                if dec >= real[0]:
-                    continue
-                if params.strip() == "" and real[0] > 0:
-                    kind = "K&R-empty"          # accepts any call; not itself an error, but m2c then calls it with none
-                else:
-                    kind = "narrow"
                 holder = fn_at(i + 1)
-                rows.append(dict(tu=rel, line=i + 1, callee=callee, declared=dec, real=real[0],
-                                 real_params=real[1], defined_in=real[2], scope="block" if depth > 0 else "file",
-                                 kind=kind, in_fn=holder,
-                                 argpin=bool(holder and holder in argpin_fns),
-                                 cross_binary=cross,               # the fleet disagrees and this binary has no definition: not a lie
-                                 # a byte-proven K&R site (P37 rung D: the calls pass another count and every prototype form moved the
-                                 # bytes): `()` + `// K&R: n of m args (…)` on the line — counted APART from the lies (the plan's "zero")
-                                 kr_marked=("// K&R:" in raw_lines[i]) if i < len(raw_lines) else False))
+                if dec < real[0]:                   # the arity row (the old `dec >= real[0]` skip, now skipping only this row)
+                    if params.strip() == "" and real[0] > 0:
+                        kind = "K&R-empty"          # accepts any call; not itself an error, but m2c then calls it with none
+                    else:
+                        kind = "narrow"
+                    rows.append(dict(tu=rel, line=i + 1, callee=callee, declared=dec, real=real[0],
+                                     real_params=real[1], defined_in=real[2], scope="block" if depth > 0 else "file",
+                                     kind=kind, reason="arity", in_fn=holder,
+                                     argpin=bool(holder and holder in argpin_fns),
+                                     cross_binary=cross,               # the fleet disagrees and this binary has no definition: not a lie
+                                     # a byte-proven K&R site (P37 rung D: the calls pass another count and every prototype form moved the
+                                     # bytes): `()` + `// K&R: n of m args (…)` on the line — counted APART from the lies (the plan's "zero")
+                                     kr_marked=("// K&R:" in raw_lines[i]) if i < len(raw_lines) else False))
+                if returns:                         # the return row (P41 T3): resolved with the return in the signature set
+                    rreal = resolve_definition_ret(callee, rel, first) if _ALL else first
+                    rcross = rreal is None
+                    rreal = rreal or first
+                    if norm_ret(dret) != norm_ret(rreal[3]):
+                        rows.append(dict(tu=rel, line=i + 1, callee=callee, declared=dec, real=rreal[0],
+                                         real_params=rreal[1], defined_in=rreal[2], scope="block" if depth > 0 else "file",
+                                         kind="return", reason="return", decl_ret=norm_ret(dret), def_ret=norm_ret(rreal[3]),
+                                         in_fn=holder, argpin=bool(holder and holder in argpin_fns),
+                                         cross_binary=rcross, kr_marked=False))
             depth += l.count("{") - l.count("}")
             depth = max(depth, 0)
     return rows

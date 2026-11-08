@@ -1396,12 +1396,24 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     # the lying set (argcheck as a library)
     import argcheck
     ac_defs = argcheck.definitions()
-    ac_rows = argcheck.scan(ac_defs, only_needed_argpins=False)
+    ac_rows = argcheck.scan(ac_defs, only_needed_argpins=False, returns=True)
     kr_sites = [r for r in ac_rows if r.get("kr_marked")]          # byte-proven K&R sites, marked — counted apart (P37 T4)
     cross = [r for r in ac_rows if r.get("cross_binary") and not r.get("kr_marked")]   # the fleet's definitions disagree and this
     lying = [r for r in ac_rows if not r.get("kr_marked") and not r.get("cross_binary")]  # binary has none: not a lie (R48)
     lying_kinds = collections.Counter(r["kind"] for r in lying)
     lying_callees = len({r["callee"] for r in lying})
+    lying_reasons = collections.Counter(dict(arity=0, **{"return": 0}))
+    lying_reasons.update(r.get("reason", "arity") for r in lying)   # P41 T3: arity vs return
+    ret_lies = [r for r in lying if r["kind"] == "return"]
+    ret_use = argcheck.result_uses({r["callee"] for r in ret_lies}) if ret_lies else {}
+    rb = collections.defaultdict(lambda: [set(), 0])
+    for r in ret_lies:
+        b = rb[(r["decl_ret"], r["def_ret"], ret_use.get(r["callee"], (0, 0))[1] > 0)]
+        b[0].add(r["callee"])
+        b[1] += 1
+    return_lies = dict(functions=len({r["callee"] for r in ret_lies}), sites=len(ret_lies),
+                       buckets=sorted(({"decl": k[0], "def": k[1], "used": k[2], "functions": len(v[0]), "sites": v[1]} for k, v in rb.items()),
+                                      key=lambda b: (-b["sites"], b["decl"], b["def"], b["used"])))
     kr_callees = len({r["callee"] for r in kr_sites})
     t_decl = time.time() - t0
     # ---- 3b. global blocks: runs of adjacent D_ symbols (address + declared width == the next address) — record candidates
@@ -1475,6 +1487,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
                    builtins=dict(builtins), attributes=dict(attrs),
                    lying_rows=[dict(callee=r["callee"], defined_in=r.get("defined_in"), kind=r["kind"]) for r in lying],
                    lying=len(lying), lying_callees=lying_callees, lying_kinds=dict(lying_kinds),
+                   lying_reasons=dict(lying_reasons), return_lies=return_lies,
                    kr_sites=len(kr_sites), kr_callees=kr_callees,
                    cross_binary=len(cross), cross_callees=len({r["callee"] for r in cross})),
         struct_map=dict(types=len(types), explained_sites=explained, deref_sites=len(deref_sites),
@@ -1690,6 +1703,9 @@ def render(s, dup_classes, variants, types):
     L.append(f"             lying declarations {dc['lying']} over {dc['lying_callees']} callees {dc['lying_kinds']} · K&R sites (marked, counted apart) "
              f"{dc.get('kr_sites', 0)} over {dc.get('kr_callees', 0)} callees · cross-binary (the fleet's definitions disagree, this binary has none) "
              f"{dc.get('cross_binary', 0)} over {dc.get('cross_callees', 0)} callees")
+    rl = dc.get("return_lies") or dict(functions=0, sites=0, buckets=[])
+    L.append(f"             lying by reason {dc.get('lying_reasons', {})} · return lies {rl['functions']} functions / {rl['sites']} sites · top (decl→def, used): "
+             + " · ".join(f"{b['decl']}→{b['def']} {'used' if b['used'] else 'unused'} {b['functions']}f/{b['sites']}s" for b in rl["buckets"][:8]))
     L.append(f"STRUCT MAP   {sm['types']} types explain {sm['explained_sites']}/{sm['deref_sites']} deref sites ({sm['explained_pct']} %); unassigned {sm['unassigned_sites']}; "
              f"{sm['multi_body']} types span ≥2 bodies ({sm['sites_in_multi_body']} sites), {sm['singletons']} single-body; types with conflicts {sm['conflicts']}, suspect {sm['suspect']}")
     L.append(f"             merges by evidence {sm['evidence']}; vetoed {sm['vetoed']}")
@@ -1917,6 +1933,12 @@ def selftest():
     rl1, ll1 = check_casts_verdict(z, [], {}, lie, {("func_80001000", "src/ov_TEST/k.c", "arity")})
     rl0, ll0 = check_casts_verdict(z, [], {}, lie, set())
     checks.append(("check-casts lying ledgered", rl1 == 0 and ll1.endswith("lying=1 (ledgered 1)") and rl0 == 1 and ll0.endswith("lying=1 (ledgered 0)")))
+    # P41 T3: return lies — a differing return is a lie; spellings equal after the canonical typedefs are not
+    import argcheck
+    nr = argcheck.norm_ret
+    checks.append(("return lie void vs s32", nr("void") != nr("s32")))
+    checks.append(("return equal after typedef (s32/int, u8 */unsigned char *, static s32/int)",
+                   nr("s32") == nr("int") and nr("u8 *") == nr("unsigned char*") and nr("static s32") == nr("int")))
     rz, lz = check_casts_verdict(z, [], {}, [], set())
     checks.append(("check-casts all-zero OK + line", rz == 0 and lz == "check-casts: raw P=0 I=0 X=0 M=0; macros none (unbacked 0); lying=0 (ledgered 0)"))
     checks.append(("check-casts raw FAIL", check_casts_verdict(dict(z, X=1), [], {}, [], set())[0] == 1))
