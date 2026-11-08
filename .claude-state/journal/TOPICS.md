@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-08T06:16:06.817Z
+# filed through: 2026-11-08T06:55:27.615Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -71,3 +71,6 @@ R67 | 2026-11-07 | open | in force | Ghidra type mirror in 3.41 (T7/T8) | The de
 R68 | 2026-11-07 | decision | in force | Ghidra type mirror in 3.41 (T7/T8) | T8 is done on the developer's review. | .claude-state/journal/2026-11-07/233123-040r-claude-record.md
 R69 | 2026-11-07 | finding | in force | Ghidra type mirror in 3.41 (T7/T8) | T8 import evidence: .run/P41/T8/import_types.out shows 6x failed=0; the export round-trip is in .ru… | .claude-state/journal/2026-11-07/233123-040r-claude-record.md
 R70 | 2026-11-07 | open | in force | Ghidra type mirror in 3.41 (T7/T8) | The developer keeps the 1.0 GB pre-import backup .run/P41/T8/ghidra.bak for now. | .claude-state/journal/2026-11-07/233123-040r-claude-record.md
+R71 | 2026-11-08 | decision | in force | Phase 3.41 milestone gate (T10) | T13 runs before T10: T10 was set back to queued and T13 to next. | .claude-state/journal/2026-11-08/001053-047r-claude-record.md
+R72 | 2026-11-08 | decision | in force | Phase 3.41 milestone gate (T10) | The developer approved stopping the MCP Ghidra with tools/ghidra_mcp_stop.sh (clean save and stop,… | .claude-state/journal/2026-11-08/001053-047r-claude-record.md
+R73 | 2026-11-08 | finding | in force | Phase 3.41 milestone gate (T10) | T10's gate at 71e1a4af55: R22 was 218/218 run alone. | .claude-state/journal/2026-11-08/001053-047r-claude-record.md
