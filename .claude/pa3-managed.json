@@ -12,12 +12,12 @@
     },
     ".claude/agents/pa-claude.md": {
       "base": "3.32.14",
-      "sha": "ed0be1adbfff1ae4bb92c3c3c2eaabbe5f9732940e2703de16bbd3226c2a5fe8",
+      "sha": "d0ad8d6c4b7cdde51da8c0aa4bc33d25c7b0ff93bf4153a4afcef20cd5b6f5ec",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
       "base": "3.32.6",
-      "sha": "1c74e13c4785bbbd63e0474ff30b3a95e35183ff13e9779d86a2d19b5dd8380b",
+      "sha": "7bb7756a97c80b88ff729ed090ea21ef1a1e218e8eaddecffcbc02d9fdcc2c89",
       "user": null
     },
     ".claude/agents/pa-expert.md": {
@@ -27,7 +27,7 @@
     },
     ".claude/agents/pa-planner.md": {
       "base": "3.32.7",
-      "sha": "2428d05fda960c83ed9cff77a726e8a72ad2d2112bba322421d06391c8dbdc85",
+      "sha": "1b4ac799264c0da685feea977ff99b9a7e756e2bf845ea5994480ec86a1e58fc",
       "user": null
     },
     ".claude/agents/pa-thinker.md": {
@@ -77,7 +77,7 @@
     },
     "docs/project-architect.md": {
       "base": null,
-      "sha": "1ed701ccb64ee0400edf13f4656dccae36b98c6f47a170757a1a68e9e017ac2c",
+      "sha": "889c96689cf1778b2d23f1a20782cfbbe28a01086790db764d4cc01640ac576d",
       "user": null
     },
     "templates/CLAUDE.template.md": {
@@ -137,7 +137,7 @@
     },
     "templates/PHASE_PLAN.template.md": {
       "base": null,
-      "sha": "847329c6da3a63b4a823cefb55713d53744a303441ce9f1bc8442dc2b41bfd4e",
+      "sha": "62a1d58e8bd63cfe0a164be45a4d8805cea0b940838629284a8f29a753e74613",
       "user": null
     },
     "templates/PROJECT_CONTEXT.skeleton.md": {
@@ -287,7 +287,7 @@
     },
     "tools/plan_edit.py": {
       "base": null,
-      "sha": "f905bc57cf0aad3932e38d9dc0b054dc72a904d11591a7f79c6cdf85d7464fb5",
+      "sha": "72096b2a2bde9a79641e94e3ccdaec378191937a36445fc387f232ec9c8406aa",
       "user": null
     },
     "tools/records.py": {
@@ -337,9 +337,9 @@
     }
   },
   "format": 1,
-  "git": "dbed94c8",
-  "installed": "2026-11-08T03:09:49Z",
+  "git": "c04a8610",
+  "installed": "2026-11-08T22:18:02Z",
   "package": null,
-  "phase": "3.32.10",
-  "upstream_version": "3.32.10"
+  "phase": "3.32.11",
+  "upstream_version": "3.32.11"
 }
