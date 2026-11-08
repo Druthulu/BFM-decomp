@@ -1,8 +1,8 @@
 /* func_8016E460 — shared body (overlay slot 0x80128158, h_exact 58c69010). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32  func_80017DC4(void *a0, void *a1);
+extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern s32  func_80017758(void *a0, void *a1);
+extern void func_80017758(void *a0, void *a1);
 void func_8016E460(void *arg0, void *arg1) {
     u8 buf[0x5C];               /* spans $sp+0x10 .. $sp+0x6B */
     u8 *p = buf + 0x38;          /* $sp+0x48, passed to calls */

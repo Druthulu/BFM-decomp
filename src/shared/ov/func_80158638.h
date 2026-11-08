@@ -7,7 +7,7 @@ extern void func_801599A4(void *a0);
 extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 extern void func_80159B3C(void *a0);
 extern void func_80165718(s32 a0);
-extern void func_800D0F4C(s32 a0);
+extern s32 func_800D0F4C(s32 a0);
 extern void func_8014BB0C(void);
 extern void func_8014BDC8(void);
 extern void func_8014B2A8(void);

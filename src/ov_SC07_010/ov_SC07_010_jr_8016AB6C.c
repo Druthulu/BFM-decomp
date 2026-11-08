@@ -3,7 +3,7 @@
 s32 func_8016AB6C(s32 arg0) {
 
     extern s32 func_801783D0(s32 a0, s32 a1);
-    extern void func_80024054(void *a0, void *a1);
+    extern s32 func_80024054(void *a0, void *a1);
     extern void func_8001CE28(void *a0, void *a1);
     extern s32 rand(void);
     extern void func_801465C0(void);

@@ -11,7 +11,7 @@ s32 func_801380E0(s32 arg0) {
     extern void func_80138D58(s32, s32);
     extern s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2);
     extern void func_801391F0(s32, s32);
-    extern void func_80139220(s32, s32);
+    extern s32 func_80139220(s32, s32);
     extern void func_80139788(s32);
     extern void func_80139914(s32);
     extern void func_80139A8C(s32);

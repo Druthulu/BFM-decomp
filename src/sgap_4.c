@@ -21,7 +21,7 @@
  */
 
 extern s32 D_800C73D8[];
-extern void func_80040DE8(s16, u16, u16, s16);
+extern s32 func_80040DE8(s16, u16, u16, s16);
 extern s32 func_80041354(s16, u16 *, u16 *);
 
 void func_8003DC90(s32 arg0, s32 arg1)
@@ -92,7 +92,7 @@ tail:
 
 
 extern s32 D_800C73D8[];
-extern void func_80040DE8(s16, u16, u16, s16);
+extern s32 func_80040DE8(s16, u16, u16, s16);
 extern s32 func_80041354(s16, u16 *, u16 *);
 
 void func_8003DF8C(s32 arg0, s32 arg1)

@@ -3,7 +3,7 @@
 s32 func_8016C49C(s32 param_1_arg) {
     extern s32 VectorNormalSS(void *, void *);
     extern void func_8001CD9C(s32, void *);
-    extern void func_8016CF04(s32, s32);
+    extern short func_8016CF04(s32, s32);
     extern u8 D_8018EDD8[];
     extern u8 D_8018EE98;
 

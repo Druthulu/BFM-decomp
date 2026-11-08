@@ -381,7 +381,7 @@ s32 func_8017F6CC(s32 a0) {
 
 
 
-extern void func_8002A04C(s32 a0);
+extern s32 func_8002A04C(s32 a0);
 extern void func_8002AC00(s32 arg0);
 extern void func_8012C098(void*);
 
@@ -885,7 +885,7 @@ void func_801801AC(s32 a0) {
 
 
 
-extern void func_8002A04C(s32 a0);
+extern s32 func_8002A04C(s32 a0);
 extern void func_8002AC00(s32 arg0);
 extern void func_8012C098(void*);
 extern s32 func_8012CBF4(s32 a0);

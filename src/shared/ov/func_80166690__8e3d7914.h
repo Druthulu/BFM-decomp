@@ -11,7 +11,7 @@
 // the first `sb`; at `u8` the mode gate keeps it separate and the `sb` reads the copy. No levers.
 s32 func_80166690(s32 param_1, s32 param_2)
 {
-    extern s32 func_80017758(void *a0, void *a1);
+    extern void func_80017758(void *a0, void *a1);
     extern Blk20 D_800AE620;
     extern u8 D_8018E9E0[];
 

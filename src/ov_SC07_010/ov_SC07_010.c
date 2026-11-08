@@ -79,10 +79,10 @@ void func_80128288(void) {
 
 
 
-extern s32 func_800D18DC(void);
+extern void func_800D18DC(void);
 extern void func_8014607C(void);
 extern void func_801287B8(void);
-extern s32 func_80011A3C(void);
+extern void func_80011A3C(void);
 
 void func_801285E4(void)
 {
@@ -208,7 +208,7 @@ extern void func_80129CF8(void);
 extern void func_8017849C(void);
 extern void func_8014FDF4(struct S8014FDF4 *a0);
 extern s32 func_801505FC(s32 a0);
-extern void func_801508B4(void *a0);
+extern s32 func_801508B4(void *a0);
 extern void func_80165E90(void);
 extern void func_801627E8(void);
 extern void func_80162B1C(void);
@@ -217,7 +217,7 @@ extern void func_80129010(void);
 extern void func_8013CA14(void);
 extern void func_800190AC(void);
 extern void func_8012956C(void);
-extern void func_8016E95C(void);
+extern s32 func_8016E95C(void);
 extern void func_801754A8(void);
 extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
@@ -262,7 +262,7 @@ void func_801287B8(void) {
 
 
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_801288B0(void) {
 
@@ -278,7 +278,7 @@ extern s32 func_80128998(void);
 // @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing D_800C7C60=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int func_801288E8(int arg0)
 {
@@ -301,7 +301,7 @@ extern s32 func_80128998(void);
 // @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x5e store AND arg5; writing D_800C7C60=0x5e directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int func_80128940(int arg0)
 {
@@ -323,7 +323,7 @@ int func_80128940(int arg0)
 // @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0xd store AND arg5; writing D_800C7C60=0xd directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int aF80128998(int arg0) __asm__("func_80128998");
 int aF80128998(int arg0)
@@ -343,7 +343,7 @@ int aF80128998(int arg0)
 
 
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_801289F0(void) {
 
@@ -433,7 +433,7 @@ void func_80128AF4(void) {
 
 
 extern CdFileLoc_80128C98 cdFileLocTable[];
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128C98(s32 arg0) {
 
@@ -452,7 +452,7 @@ s32 func_80128C98(s32 arg0) {
 
 
 extern CdFileLoc cdFileLocTable[];
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128CFC(s32 arg0) {
 
@@ -1534,7 +1534,7 @@ void func_8012E364(s32 arg0_)
 // @unstuck(P36): none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
 
 extern void func_8016AA50(int, int);
-extern void func_8016B428(int);
+extern s32 func_8016B428(int);
 extern void func_80019064(void *);
 
 void func_8012E9C0(int param_1)

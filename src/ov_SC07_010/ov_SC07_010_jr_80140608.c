@@ -137,7 +137,7 @@ extern s32  *func_80140958(s32 *, s32, s32);
 extern int   func_80141100(int);
 extern s16   func_8014168C(s16);
 extern s32   func_8013FFD8(s16, s32, s32 *);
-extern void func_80024054(void *a0, void *a1);
+extern s32 func_80024054(void *a0, void *a1);
 extern s32  *func_800D2650(s32 *, void *, s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 extern s32   func_800D27DC(s32, s32 *, void *, s32, s32);
@@ -1249,7 +1249,7 @@ extern void *memcpy(void *, const void *, u32);
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern int func_8001CA88(int, void *);
+extern void func_8001CA88(int, void *);
 extern s32 func_8012E504(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80142B2C(void *arg0);

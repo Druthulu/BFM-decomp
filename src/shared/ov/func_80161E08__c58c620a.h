@@ -1,7 +1,7 @@
 /* func_80161E08 — shared body (overlay slot 0x80128158, h_exact c58c620a). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80161E08(s32 param_1) {
-    extern void func_80024054(void *a0, void *a1);
+    extern s32 func_80024054(void *a0, void *a1);
     extern void func_8001CE28(void *a0, void *a1);
     extern void func_800242D0(s32 a0, void *a1, s32 a2);
     extern void func_8001CE68(void *a0, void *a1);

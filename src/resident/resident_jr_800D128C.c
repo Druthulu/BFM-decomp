@@ -117,7 +117,7 @@ extern void func_800CFBCC(u16 arg0);
 extern s32 func_800CFBE8(void);
 extern s32 func_800CFC5C(s32);
 extern s32 D_800D34AC[];
-extern void func_800191D4(s32 arg0);
+extern s32 func_800191D4(s32 arg0);
 extern void func_800191BC(s32 arg0);
 extern void func_800D00E4(s32 arg0);
 extern s32 func_800D0214(s32 arg0);

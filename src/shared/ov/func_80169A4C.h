@@ -1,8 +1,8 @@
 /* func_80169A4C — shared body (overlay slot 0x80128158, h_exact 99f67073). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32  func_80017DC4(void *a0, void *a1);
+extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern s32  func_80017758(void *a0, void *a1);
+extern void func_80017758(void *a0, void *a1);
 s32 func_80169A4C(s32 a0, s32 a1) {
     void *arg0 = (void *)a0;
     void *arg1 = (void *)a1;
