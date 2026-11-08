@@ -6,3 +6,4 @@ T3 | done | return-type lies in the lying-declaration check | - | tasks/T3.md | 
 T4 | done | fix the return-type lies at def, declarations and callers | - | tasks/T4.md | logs/T4.md | -
 T5 | done | type_census --check aligned to the done-criteria and wired into tools-health | - | tasks/T5.md | logs/T5.md | -
 T6 | done | attribution check folded into lever_census --check | - | tasks/T6.md | logs/T6.md | -
+T7 | done | canonical types into Ghidra from the headers, proven by rebuild | - | tasks/T7.md | logs/T7.md | -
