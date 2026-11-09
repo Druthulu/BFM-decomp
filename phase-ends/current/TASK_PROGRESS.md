@@ -16,7 +16,7 @@ Reason: developer pause for a Claude Code restart (correction relayed by Claude)
 - Ghidra state (read-only, start of task): :8080 LISTEN on 127.0.0.1; pid 164224 analyzeHeadless .../ghidra bfm -process SLUS_007.26 -noanalysis; ghidra/bfm.lock present. Not touched.
 
 ## In flight
-- `make tools-health` at bcd6a3f2a3 → .run/3.42/logs/t1_health2.log (started as a background shell; expected about 18 min). If the log has no `HEALTH_WALL` line, it was cut by the restart: run it again.
+- nothing. `make tools-health` at bcd6a3f2a3 finished OK: tool_census --check 0 gaps, `HEALTH_WALL 1117s rc=0` (.run/3.42/logs/t1_health2.log). This also rewrote the same-vram census in .run/P35/census.
 
 ## Hypotheses rejected
 - "tools-health at HEAD is green as at 3.41's close" — rejected: the PA3 install changed plan_edit.py after the last kit-corpus, and the 3.41 PhaseEnd was archived without its corpus record copy. Fixed in bcd6a3f2a3.
@@ -25,7 +25,7 @@ Reason: developer pause for a Claude Code restart (correction relayed by Claude)
 src/ has not changed since f4b1fbad3d, so the cross-address bucket should equal R83 (3,801 / 30,347 / 11,340). If it differs, return `question` (plan note).
 
 ## Next 5 steps
-1. Confirm tools-health OK in t1_health2.log (grep `tool_census --check|HEALTH_WALL`), or re-run it via `bash tools/run.sh t1_health3 --timeout 3000 -- make tools-health` as a background shell.
+1. tools-health is DONE (OK at bcd6a3f2a3, 1117 s). HEAD is now 9bf5b291dc, which adds only this note, so its gates stand.
 2. `time .venv/bin/python tools/share_census.py --check --strict-macros --strict-text --scope same-vram` (default out .run/P35/census) via run.sh. Record S1 violations, deferred/pending text counts, unresolved names and the wall time.
 3. The same with `--scope all --out-dir .run/3.42/t1/census`. Count the cross-address bucket from .run/3.42/t1/census/classes.jsonl with a scratch script: addrs>1, by verdict and by flag E/F, instances, copies. Check that every same_address_text_duplicates_deferred h is in a cross-address class.
 4. `/usr/bin/python3 tools/lint_symbol_refs.py; echo rc=$?`. Time one `make check BINARY=ov_SC02_003 -j16`, `tools/gate_main.py` and `share_body.py --plan` (read the --help first; --plan should write nothing, so check git status after).
@@ -38,7 +38,8 @@ src/ has not changed since f4b1fbad3d, so the cross-address bucket should equal 
 
 ## State to carry verbatim
 - HEAD bcd6a3f2a3; R22 `check-all: 218 passed, 0 failed of 218` 282 s at it.
-- Wall times so far: clean R22 232 s / 282 s; tools-health 1099 s (failed run, reached the last gate).
+- Wall times so far: clean R22 232 s / 282 s; tools-health 1117 s OK (1099 s on the failed run).
+- Deviations to log: tools-health red at d71070a6ad (2 corpus gaps), fixed with make kit-corpus in bcd6a3f2a3, then R22 re-run there. Developer pause (relayed by Claude) after R22b: note written, the in-hand tools-health let finish, nothing new started.
 
 ## Coder runs so far
 - none (coder: none)
