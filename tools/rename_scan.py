@@ -9,10 +9,17 @@ row in config/names.tsv (basis, confidence, evidence kind, conflict, history). T
                                 gets exactly one class (R32: candidates == classified, asserted):
                                   history            path under HISTORY (dated records; never rewritten)
                                   rewritten          the line also carries the new name
+                                  address-key        (a) the only candidate token is a share header's name
+                                                     `func_<ADDR>(__x)?.h` (headers are named by vram, never
+                                                     renamed); (b) a 0x / bare address in an ADDRESS_KEYED
+                                                     path (keyed by vram on purpose). Passes.
                                   stale-build-input  old name / func_ / D_ form in a build input -> breaks a build
                                   stale-invisible    old name / func_ / D_ form anywhere else -> a stale doc
                                   unclassified       only a bare / 0x address, no new name -> a human looks
-                                exit 1 on any stale or unclassified hit. Spec TSV: old<TAB>new<TAB>addr|-.
+                                exit 1 on any stale or unclassified hit. Spec TSV: old<TAB>new<TAB>addr|-,
+                                or tools/rename_sym.py's wider spec (header line; first 3 columns used;
+                                a `class:<id>` binary expands to its registry members like rename_sym).
+                                -v prints every classified hit (path:line class).
                                 --range: per config/symbols*.txt, a name removed and another added at the same
                                 address in `git diff A B` (B empty = the working tree).
   --ledger [--gate-citations]   validate config/names.tsv; gate guess_-without-basis and dead rows; print the
@@ -37,9 +44,18 @@ CONFIDENCE = ("low", "medium", "high")
 EVIDENCE = ("code inference", "string", "xref chain", "debug menu", "live RAM", "community label")
 HISTORY = ("cookbook/", "phase-ends/", "docs/decision-log.md", "docs/story.md", "docs/retrospective.md",
            "docs/retired/", "docs/research-archive/", ".claude-state/",
+           "decomp-architect/corpus/record/", "decomp-architect/corpus/cookbook/",   # verbatim kit copies of the above
            ".run/")                                # tracked raw logs / generated census output: never hand-edited
 BUILD_INPUTS = ("src/", "include/", "config/symbols", "config/splat.", "Makefile", "config/undefined_")
-CLASSES = ("history", "rewritten", "stale-build-input", "stale-invisible", "unclassified")
+CLASSES = ("history", "rewritten", "address-key", "stale-build-input", "stale-invisible", "unclassified")
+BAD = ("stale-build-input", "stale-invisible", "unclassified")
+# Closed list: paths whose 0x / bare address mentions are keyed by vram ON PURPOSE (a strong hit there stays
+# stale). Kit copies decomp-architect/corpus/tools/<P>/<x> of a listed tools/<x> count as listed.
+ADDRESS_KEYED = {
+    "tools/share_census.py": "coverage asserts find share classes by vram (`0x... in c['addrs']`), never by name",
+    "docs/duplicates.cross.md": "dup_report --cross lists group members as binary:vram, no names",
+}
+HEADER_TOKEN = re.compile(r'\b(?:func|D)_[0-9A-Fa-f]{6,8}(?:__\w+)?\.h\b')   # share headers: named by vram
 PLACEHOLDER = re.compile(r'^(?:func|D|jtbl|L|sym|jpt|lbl)_[0-9A-Fa-f]{6,8}$')
 GUESS_TOKEN = re.compile(r'\bguess_\w+')
 
@@ -68,11 +84,22 @@ def rename_forms(old, new, addr):
     return "|".join(strong), ("|".join(weak) or None)
 
 
-def _class_of(path, text, new_re, strong):
+def _address_keyed(path):
+    m = re.match(r"decomp-architect/corpus/tools/[^/]+/(.+)$", path)
+    return path in ADDRESS_KEYED or bool(m and "tools/" + m.group(1) in ADDRESS_KEYED)
+
+
+def _class_of(path, text, new_re, s_re, w_re):
     if path.startswith(HISTORY):
         return "history"
     if new_re.search(text):
         return "rewritten"
+    bare = HEADER_TOKEN.sub(" ", text)
+    strong = bool(s_re.search(bare))
+    if s_re.search(text) and not strong and not (w_re and w_re.search(bare)):
+        return "address-key"                           # (a) only a share header's file name
+    if not strong and _address_keyed(path):
+        return "address-key"                           # (b) weak hit in a vram-keyed path
     if strong:
         build = path.startswith(BUILD_INPUTS) or re.match(r"config/[^/]+\.mk$", path)
         return "stale-build-input" if build else "stale-invisible"
@@ -93,7 +120,7 @@ def classify(hits, rename):
         if not strong and not (w_re and w_re.search(h[2])):
             continue
         cand += 1
-        out[_class_of(h[0], h[2], new_re, strong)].append(h)
+        out[_class_of(h[0], h[2], new_re, s_re, w_re)].append(h)
     assert cand == sum(len(v) for v in out.values()), "R32: candidates != classified"
     return out
 
@@ -165,29 +192,51 @@ def renames_from_diff(diff):
     return sorted(out)
 
 
-def renames_from_spec(p):
-    out = []
-    for ln in open(p):
+def parse_spec(text, groups=None):
+    """Pure. old<TAB>new<TAB>addr rows, or rename_sym's wide spec (header `old<TAB>new<TAB>addr<TAB>binary...`,
+    first 3 columns used; a `class:<id>` binary expands through rename_sym.expand over groups)."""
+    out, wide = [], False
+    for ln in text.splitlines():
         if not ln.strip() or ln.startswith("#"):
             continue
-        f = ln.rstrip("\n").split("\t")
-        if len(f) != 3:
+        f = ln.split("\t")
+        if f[:3] == ["old", "new", "addr"]:
+            wide = True
+            continue
+        if len(f) != 3 and not (wide and len(f) > 3):
             sys.exit("[rename_scan] spec row needs old<TAB>new<TAB>addr: %r" % ln)
-        out.append(tuple(f))
+        if len(f) > 3 and f[3].startswith("class:"):
+            import rename_sym
+            exp = rename_sym.expand([{"old": f[0], "new": f[1], "addr": "0", "binary": f[3]}], groups or {})
+            out += [(r["old"], r["new"], r["addr"]) for r in exp]
+            continue
+        out.append(tuple(f[:3]))
     return sorted(out)
 
 
-def run_scan(renames, rev):
+def renames_from_spec(p):
+    text = open(p).read()
+    groups = None
+    if "\tclass:" in text:
+        import rename_sym
+        groups = rename_sym.load_groups()[0]
+    return parse_spec(text, groups)
+
+
+def run_scan(renames, rev, verbose=False):
     if not renames:
         print("[rename_scan] no renames")
         return 0
     results, total = scan(grep_hits(renames, rev), renames)
     print("[rename_scan] %d rename(s); %s" % (len(renames), ", ".join("%s %d" % (c, total[c]) for c in CLASSES)))
     for (old, new, addr), res in results:
-        for c in CLASSES[2:]:
+        if verbose:
+            for path, lno, c in sorted((h[0], h[1], c) for c in CLASSES for h in res[c]):
+                print("  %s:%d %s" % (path, lno, c))
+        for c in BAD:
             for path, lno, _ in res[c]:
                 print("  %s  %s:%d  %s -> %s (%s)" % (c, path, lno, old, new, addr))
-    bad = total["stale-build-input"] + total["stale-invisible"] + total["unclassified"]
+    bad = sum(total[c] for c in BAD)
     print("[rename_scan] %s" % ("FAIL: %d stale/unclassified hit(s)" % bad if bad else "OK"))
     return 1 if bad else 0
 
@@ -315,43 +364,101 @@ def run_ledger(gate_citations):
 
 # ---------------------------------------------------------------- selftest
 def selftest():
-    R = ("func_80037004", "guess_ClearTbl", "0x80037004")
+    R = ("func_8003ABC8", "guess_ClearTbl", "0x8003ABC8")
     def scan_ok(hits):
         _, t = scan(hits, [R])
         assert sum(t.values()) == len(set(hits)), t
         return t["stale-build-input"] + t["stale-invisible"] + t["unclassified"] == 0, t
-    clean = [("config/symbols.us.txt", 5, "guess_ClearTbl = 0x80037004; // func"),
-             ("src/main/a.c", 9, "    guess_ClearTbl(); /* was func_80037004 */")]
+    clean = [("config/symbols.us.txt", 5, "guess_ClearTbl = 0x8003ABC8; // func"),
+             ("src/main/a.c", 9, "    guess_ClearTbl(); /* was func_8003ABC8 */")]
     ok, t = scan_ok(clean); assert ok and t["rewritten"] == 2, t
-    build = clean + [("src/main/b.c", 3, "    func_80037004();")]
+    build = clean + [("src/main/b.c", 3, "    func_8003ABC8();")]
     ok, t = scan_ok(build); assert not ok and t["stale-build-input"] == 1, t
-    st = lsr.stale_refs({"0x80037004": "guess_ClearTbl"}, set(), [("src/main/b.c", "void f(void){\n    func_80037004();\n}\n")])
-    assert [(s[0], s[1], s[2]) for s in st] == [("src/main/b.c", 2, "func_80037004")], st
-    ok, t = scan_ok(clean + [("docs/memory-map.md", 40, "| func_80037004 | clears the table |")])
+    st = lsr.stale_refs({"0x8003abc8":"guess_ClearTbl"}, set(), [("src/main/b.c", "void f(void){\n    func_8003ABC8();\n}\n")])
+    assert [(s[0], s[1], s[2]) for s in st] == [("src/main/b.c", 2, "func_8003ABC8")], st
+    ok, t = scan_ok(clean + [("docs/memory-map.md", 40, "| func_8003ABC8 | clears the table |")])
     assert not ok and t["stale-invisible"] == 1, t
-    ok, t = scan_ok(clean + [("phase-ends/P30/log.md", 1, "renamed func_80037004 today"),
-                             ("cookbook/C0001.md", 2, "see 0x80037004")])
+    ok, t = scan_ok(clean + [("phase-ends/P30/log.md", 1, "renamed func_8003ABC8 today"),
+                             ("cookbook/C0001.md", 2, "see 0x8003ABC8")])
     assert ok and t["history"] == 2, t
-    ok, t = scan_ok(clean + [("docs/memory-map.md", 41, "0x80037004 table clear")])
+    ok, t = scan_ok(clean + [("docs/memory-map.md", 41, "0x8003ABC8 table clear")])
     assert not ok and t["unclassified"] == 1, t
-    P = ("D_037004", "guess_Pad", "0x37004")                            # zero-padding / case forms
-    ph = [("src/x.c", 1, "D_0037004 = 1;"), ("src/y.c", 2, "func_00037004();"), ("tools/z.py", 3, "0X37004"),
-          ("docs/a.md", 4, "37004 and 0x0037004"), ("src/w.c", 5, "D_800370041; x037004")]
+    P = ("D_03ABC8", "guess_Pad", "0x3ABC8")                            # zero-padding / case forms
+    ph = [("src/x.c", 1, "D_003ABC8 = 1;"), ("src/y.c", 2, "func_0003ABC8();"), ("tools/z.py", 3, "0X3ABC8"),
+          ("docs/a.md", 4, "3ABC8 and 0x003ABC8"), ("src/w.c", 5, "D_8003ABC81; x03ABC8")]
     _, t = scan([h for h in ph if h[0] != "src/w.c"], [P])
     assert t["stale-build-input"] == 2 and t["unclassified"] == 2, t
     try:                                                                # R32: a hit no rename owns is an error
         scan(ph, [P]); raise SystemExit("selftest: unowned hit not caught")
     except AssertionError:
         pass
+    ak = [("src/800_c.c", 7, '#include "shared/main/func_8003ABC8.h"'),          # (a) header name only
+          ("docs/wiki/x.md", 8, "  main/  func_8003ABC8.h  # the share header"),
+          ("tools/share_census.py", 9, "    if '0x8003ABC8' in c['addrs']:"),         # (b) weak, listed path
+          ("decomp-architect/corpus/tools/P10/share_census.py", 9, "    # main 0x8003ABC8 + its twin"),
+          ("docs/duplicates.cross.md", 10, "| ei176 | main:0x8003ABC8; main:0x80037334 |"),
+          ("decomp-architect/corpus/record/x.md", 3, "func_8003ABC8 matched"),         # kit copy of a record
+          ("decomp-architect/corpus/cookbook/y.md", 4, "0x8003ABC8")]
+    ok, t = scan_ok(clean + ak); assert ok and t["address-key"] == 5 and t["history"] == 2 and t["rewritten"] == 2, t
+    for h in (("src/800_c.c", 7, '#include "shared/main/func_8003ABC8.h" /* func_8003ABC8 */'),   # header + strong
+              ("tools/share_census.py", 9, "func_8003ABC8 = 1"),                    # strong in a listed path
+              ("decomp-architect/corpus/tools/P10/other.py", 9, "0x8003ABC8"),     # unlisted tool copy
+              ("src/800_c.c", 8, '#include "shared/main/func_8003ABC8.h" // 0x8003ABC8')):   # header + weak
+        ok, t = scan_ok(clean + [h]); assert not ok and t["address-key"] == 0, (h, t)
+    wide = ("# spec\nold\tnew\taddr\tbinary\tkind\tbasis\tconfidence\tevidence\tconflict\tcitation\n"
+            "func_8003ABC8\tguess_ClearTbl\t0x8003ABC8\tmain\tfunc\tzeroes it\tmedium\tcode inference\t-\t-\n")
+    assert parse_spec(wide) == [R], parse_spec(wide)
+    assert parse_spec("func_8003ABC8\tguess_ClearTbl\t0x8003ABC8\n") == [R]
+    G = {"I0_t": [{"binary": "main", "vram": "0x8003ABC8", "name": "func_8003ABC8"},
+                  {"binary": "ov_SC01_005", "vram": "0x8012AD64", "name": "func_8012AD64"},
+                  {"binary": "main", "vram": "0x8003A000", "name": "func_8003A000"}]}
+    assert parse_spec(wide.replace("\tmain\t", "\tclass:I0_t\t"), G) == sorted(
+        [("func_8003A000", "guess_ClearTbl", "0x8003A000"), ("func_8003ABC8", "guess_ClearTbl_2", "0x8003ABC8"),
+         ("func_8012AD64", "guess_ClearTbl", "0x8012AD64")])
+    # rename_sym's pure planner: symbol-file choice, class expansion, distinct names, add vs replace
+    import rename_sym as rsy
+    assert rsy.symbol_file("main") == "config/symbols.us.txt" and rsy.file_alias("main") == "us"
+    assert rsy.symbol_file("ov_SC01_005") == "config/symbols.ov_SC01_005.txt"
+    row = dict(zip(rsy.SPEC_COLS, wide.splitlines()[2].split("\t")))
+    us = ("// hdr\n// count=2\n\nstart                            = 0x80010000; // func\n"
+          "Later                            = 0x80050000; // func\n")
+    ov = "// count=1\nOvFn                             = 0x8012A000; // func\n"
+    texts = {"config/symbols.us.txt": us, "config/symbols.ov_SC01_005.txt": ov}
+    pl, nt = rsy.plan([dict(row, binary="class:I0_t")], G, texts)
+    assert [(r["old"], r["new"], r["symfile"]) for r in pl] == [
+        ("func_8003A000", "guess_ClearTbl", "config/symbols.us.txt"),
+        ("func_8003ABC8", "guess_ClearTbl_2", "config/symbols.us.txt"),
+        ("func_8012AD64", "guess_ClearTbl", "config/symbols.ov_SC01_005.txt")], pl
+    assert nt["config/symbols.us.txt"].splitlines() == [
+        "// hdr", "// count=4", "", "start                            = 0x80010000; // func",
+        "guess_ClearTbl                   = 0x8003A000; // func",
+        "guess_ClearTbl_2                 = 0x8003ABC8; // func",
+        "Later                            = 0x80050000; // func"], nt
+    assert nt["config/symbols.ov_SC01_005.txt"].splitlines() == [                # appended after the last line
+        "// count=2", "OvFn                             = 0x8012A000; // func",
+        "guess_ClearTbl                   = 0x8012AD64; // func"], nt
+    pl, nt = rsy.plan([dict(row, old="Later", addr="0x80050000")], {}, texts)    # curated old: replace in place
+    assert nt["config/symbols.us.txt"].splitlines()[1:] == [
+        "// count=2", "", "start                            = 0x80010000; // func",
+        "guess_ClearTbl                   = 0x80050000; // func"], nt
+    for bad in (dict(row, old="NoSuch"), dict(row, binary="ov_NOPE"), dict(row, new="Later"),
+                dict(row, old="func_80050000", addr="0x80050000")):                 # address already named
+        try:
+            rsy.plan([bad], G, texts); raise SystemExit("selftest: planner accepted %r" % bad)
+        except ValueError:
+            pass
+    assert rsy.names_row(pl[0]).split("\t")[:5] == ["guess_ClearTbl", "func", "us", "0x80050000", "guess"]
+    assert rsy.rewrite_re("func_8003ABC8").sub("N", '#define F func_8003ABC8\n#include "func_8003ABC8.h"') \
+        == '#define F N\n#include "func_8003ABC8.h"'
     d = ("+++ b/config/symbols.us.txt\n-OldA = 0x80010000; // func\n+NewA = 0x80010000; // func\n"
          "+guess_Tbl = 0x80076251; // data\n+guess_Fn = 0x8003700C; // func\n+func_80040000 = 0x80040000; // func\n")
     assert renames_from_diff(d) == [("D_80076251", "guess_Tbl", "0x80076251"), ("OldA", "NewA", "0x80010000"),
                                     ("func_8003700C", "guess_Fn", "0x8003700c")], renames_from_diff(d)
     # ledger
-    sym = {"func_80037004": {"us"}, "guess_ClearTbl": {"us"}, "InitHeap": {"us"}, "D_80012340": {"us"},
+    sym = {"func_8003ABC8": {"us"}, "guess_ClearTbl": {"us"}, "InitHeap": {"us"}, "D_80012340": {"us"},
            "SysEnqIntRP": {"ov_SC02_003"}}
-    row = dict(zip(COLUMNS, ("guess_ClearTbl", "func", "us", "0x80037004", "guess", "zeroes 0x40 words",
-                             "medium", "code inference", "-", "func_80037004", "-")))
+    row = dict(zip(COLUMNS, ("guess_ClearTbl", "func", "us", "0x8003ABC8", "guess", "zeroes 0x40 words",
+                             "medium", "code inference", "-", "func_8003ABC8", "-")))
     cit = dict(zip(COLUMNS, ("InitHeap", "func", "us", "0x80030000", "cited", "-", "-", "-", "-", "-",
                              "docs/memory-map.md:12")))
     toks = [("src/main/a.c", "guess_ClearTbl")]
@@ -381,8 +488,9 @@ def main():
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--selftest", action="store_true")
     g.add_argument("--ledger", action="store_true")
-    g.add_argument("--spec", metavar="TSV", help="old<TAB>new<TAB>addr|- rows")
+    g.add_argument("--spec", metavar="TSV", help="old<TAB>new<TAB>addr|- rows, or rename_sym's wide spec")
     g.add_argument("--range", metavar="A..B", help="renames in config/symbols*.txt between A and B (B empty = worktree)")
+    ap.add_argument("-v", "--verbose", action="store_true", help="with --spec/--range: print every classified hit")
     ap.add_argument("--gate-citations", action="store_true", help="with --ledger: fail on curated names with no citation row")
     a = ap.parse_args()
     if a.selftest:
@@ -390,9 +498,9 @@ def main():
     if a.ledger:
         return run_ledger(a.gate_citations)
     if a.spec:
-        return run_scan(renames_from_spec(a.spec), None)
+        return run_scan(renames_from_spec(a.spec), None, a.verbose)
     lo, _, hi = a.range.partition("..")
-    return run_scan(renames_from_range(lo, hi or None), hi or None)
+    return run_scan(renames_from_range(lo, hi or None), hi or None, a.verbose)
 
 
 if __name__ == "__main__":

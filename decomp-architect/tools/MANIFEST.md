@@ -8,8 +8,8 @@
 > its platform SDK need the marked adaptation. The last table lists the tools that are project-only in code (their *shape* is a task;
 > their code does not transfer). *TODO(platform): the MIPS and PlayStation SDK hard-codes are the ones another platform replaces first.*
 >
-> **Coverage:** 347 tool files in scope (submodules, vendored and downloaded code excluded), of which 347 live rows
-> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 26 · P6 51 · P7 20 · P8 86 · P9 27 · P10 39 · PROJECT-ONLY 44. Superseded tools appear only as pointers to their successor (30 pointer rows); one-offs are omitted. Table rows in all: 377 (the installer checks its copy against this figure).
+> **Coverage:** 348 tool files in scope (submodules, vendored and downloaded code excluded), of which 348 live rows
+> below; per phase: P1 2 · P2 26 · P3 17 · P4 9 · P5 26 · P6 51 · P7 20 · P8 86 · P9 27 · P10 40 · PROJECT-ONLY 44. Superseded tools appear only as pointers to their successor (30 pointer rows); one-offs are omitted. Table rows in all: 378 (the installer checks its copy against this figure).
 
 ## P1 — extraction + manifest
 
@@ -325,6 +325,7 @@
 | Tool | When you need to… | What it does | Adapt |
 |---|---|---|---|
 | `cast_call_sites.py` | add per-site function-pointer casts so a draft can call a differently typed callee | Adds per-site function-pointer casts so a draft can call a differently typed callee | repo src layout |
+| `rename_sym.py` | apply a symbol rename everywhere: symbol file, source tokens, names ledger row | Applies renames from a spec: symbol-file lines, word-bounded token rewrite, names ledger row; prints binaries to rebuild | repo symbol/src paths, history dirs, registry |
 | `ghidra_scripts/ApplySymbols.java` | apply curated names and signatures inside the analysis tool and save | The in-tool half of that mirror: apply curated names and signatures, save on exit | none |
 | `ledger_backup.py` | back up the run ledgers at a phase close without publishing disassembly | The phase-close ledger backup (P3.40 T15): streams the restruct and delever ledgers once each; the full lines go gzipped to the local archive clone (ledgers/P<phase>/, committed, never pushed), a copy with the disassembly-carrying fields dropped to docs/ledgers/<name>-P<phase>.jsonl.gz; deterministic gzip; --scan reports per-JSON-path disassembly-predicate hits so the drop list stays evidence-based; self-verifies parse, record count, 0 hits and < 50 MB | the run ledgers, the archive clone |
 | `delever_pack.py` | build the pack one agent needs to read and crack one residue exemplar, without touching the tree | The Phase-36 T7 pack builder (one agent at a time): per residue exemplar of ≥N copies a directory under .run/P36/agents/ with the TU path, the body as the tree has it, the lever-free body (the seed), the residual as mnemonic blocks from delever_search --try (a scratch compile, no tree write), the ledger's NEEDED sites, and every engine attempt with its best moves; ORDER.tsv ranks the exemplars by the best distance reached, then copies. PROMPT.md beside them is the agent's brief. | repo scratch paths; the engine's outcomes and traces |

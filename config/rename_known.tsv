@@ -1,0 +1,3 @@
+# config/rename_known.tsv: the rename_sym/rename_scan fixture rename (P3.42 T3); applied only in a scratch worktree.
+old	new	addr	binary	kind	basis	confidence	evidence	conflict	citation
+func_80037004	guess_ClearTbl40	0x80037004	main	func	clears the byte table D_80076251 at offsets 0x40..0 step 0x10 (a 0x40-span clear; shared body of dedup I0_clearTbl40)	medium	code inference	-	-
