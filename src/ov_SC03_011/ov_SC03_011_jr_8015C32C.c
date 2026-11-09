@@ -4041,9 +4041,9 @@ void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u16 param
 
 extern void (*D_80183E18[])(void);
 
-void func_80163A58(void *a0) {
-    D_80183E18[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80163A58
+#include "../shared/ov/cls_4ea81c9bcc38.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80163A94.h"

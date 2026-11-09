@@ -4236,9 +4236,9 @@ s32 func_80180AB4(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
 
 extern void (*D_80188B5C[])(void);
 
-void func_80180B88(void *a0) {
-    D_80188B5C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80180B88
+#include "../shared/ov/cls_5892b1e3a142.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C1B8(void);
