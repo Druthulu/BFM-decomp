@@ -1,0 +1,5 @@
+# config/names.tsv: the names ledger (docs/gen3-standards.md section 2 rule 1, amended 2026-10-17).
+# One row per guess_ name (basis, confidence, evidence kind, conflict, history) and per cited name (citation).
+# Tab-separated; closed lists and checks: tools/rename_scan.py --ledger (run by make tools-health).
+# A rename is checked for leftover mentions with tools/rename_scan.py --spec <tsv> | --range A..B.
+name	kind	scope	addr	tier	basis	confidence	evidence	conflict	history	citation

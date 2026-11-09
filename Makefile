@@ -330,6 +330,10 @@ tools-health:
 	# P33 B5: the Ghidra roster is DERIVED from config/ghidra/*.jsonl (R33); a stale roster misreports
 	# which programs' RE work is tracked as text. Pure text check, no Ghidra needed.
 	$(VENV_PY) tools/ghidra_roster.py --check
+	# P3.42 T2: rule 1's names ledger (config/names.tsv) is valid: no guess_ name without a basis row, no dead row.
+	# The fixtures self-test first; a rename's leftover mentions are scanned on demand (tools/rename_scan.py --spec|--range).
+	$(VENV_PY) tools/rename_scan.py --selftest
+	$(VENV_PY) tools/rename_scan.py --ledger
 	# P41 T7: config/ghidra/types/*.jsonl are DERIVED from the canonical headers (R33); stale = the rebuilt Ghidra
 	# database gets yesterday's layouts. Pure text check (~5 s), no Ghidra needed.
 	$(VENV_PY) tools/ghidra_types.py --check

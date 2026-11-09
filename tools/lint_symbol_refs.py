@@ -34,14 +34,20 @@ def _symbol_files():
     return files
 
 
+def iter_symbol_defs(text):
+    """The ONE symbol-file line parser: yields (name, addr lower-hex '0x...') per `Name = 0xADDR;` line.
+    P3.42 T2: split out of load_symbols so tools/rename_scan.py reads symbol files the same way."""
+    for m in re.finditer(r'^([A-Za-z_]\w*)\s*=\s*(0x[0-9A-Fa-f]+)', text, re.M):
+        yield m.group(1), m.group(2).lower()
+
+
 def load_symbols():
     """addr(lower hex) -> curated name (excludes the func_<ADDR>/D_<ADDR> auto-names); and the set
     of addresses that DO have a literal auto-name symbol (those resolve under func_/D_ as written).
     Covers both the func_ (code) and D_ (data) auto-name classes, across every REAL stacked file."""
     curated, autosym = {}, set()
     for p in _symbol_files():
-        for m in re.finditer(r'^([A-Za-z_]\w*)\s*=\s*(0x[0-9A-Fa-f]+)', open(p).read(), re.M):
-            nm, a = m.group(1), m.group(2).lower()
+        for nm, a in iter_symbol_defs(open(p).read()):
             if nm.lower() in ("func_" + a[2:], "d_" + a[2:]):
                 autosym.add(a)
             else:
@@ -58,9 +64,13 @@ _ASM_LABEL_RE = re.compile(
 
 
 def asm_labeled_addrs(files):
+    return asm_labeled_in_texts(open(cf, errors="replace").read() for cf in files)
+
+
+def asm_labeled_in_texts(texts):
     out = set()
-    for cf in files:
-        for m in _ASM_LABEL_RE.finditer(open(cf, errors="replace").read()):
+    for raw in texts:
+        for m in _ASM_LABEL_RE.finditer(raw):
             out.add("0x" + m.group(1).lower())
     return out
 
@@ -81,17 +91,13 @@ def strip_comments_strings(src):
     return cdecl._mask(src)
 
 
-def main():
-    curated, autosym = load_symbols()
-    # Blind spot #1: src/shared/*.h (engine_core.h — 10k+ func_/D_ tokens across every overlay) was
-    # never scanned, yet one dangling ref there breaks EVERY clean build at once.
-    files = sorted(glob.glob(os.path.join(REPO, "src/**/*.c"), recursive=True) +
-                   glob.glob(os.path.join(REPO, "src/shared/**/*.h"), recursive=True))
-    asm_labeled = asm_labeled_addrs(files)      # blind spot #3: __asm__("label") resolves the ref
+def stale_refs(curated, autosym, sources):
+    """The checker over given text (P3.42 T2: importable by tools/rename_scan.py --selftest).
+    sources = [(relpath, raw text)]; returns [(rel, line, token, curated name)] in scan order."""
+    asm_labeled = asm_labeled_in_texts(raw for _, raw in sources)   # blind spot #3: __asm__("label") resolves the ref
     stale = []
-    for cf in files:
-        rel = os.path.relpath(cf, REPO)
-        code = strip_comments_strings(open(cf, errors="replace").read())
+    for rel, raw in sources:
+        code = strip_comments_strings(raw)
         for i, line in enumerate(code.splitlines(), 1):
             for m in re.finditer(r'\b(?:func_|D_)([0-9A-Fa-f]{6,8})\b', line):
                 a = "0x" + m.group(1).lower()
@@ -105,9 +111,7 @@ def main():
     # with `.size expression for func_X does not evaluate to a constant`. Scan the string bodies too,
     # and do NOT rely on `\b`: the literal escape `\t` ends in the word char `t`, so `\tfunc_X` has no
     # word boundary before the token (the exact miss that produced the first S78 red build).
-    for cf in files:
-        rel = os.path.relpath(cf, REPO)
-        raw = open(cf, errors="replace").read()
+    for rel, raw in sources:
         for sm in re.finditer(r'__asm__\s*\(((?:\s*"(?:[^"\\]|\\.)*")+)\s*\)', raw):
             body = sm.group(1)
             line0 = raw.count("\n", 0, sm.start()) + 1
@@ -117,6 +121,17 @@ def main():
                     continue
                 if a in curated:
                     stale.append((rel, line0, m.group(0) + " (inside __asm__ body)", curated[a]))
+    return stale
+
+
+def main():
+    curated, autosym = load_symbols()
+    # Blind spot #1: src/shared/*.h (engine_core.h — 10k+ func_/D_ tokens across every overlay) was
+    # never scanned, yet one dangling ref there breaks EVERY clean build at once.
+    files = sorted(glob.glob(os.path.join(REPO, "src/**/*.c"), recursive=True) +
+                   glob.glob(os.path.join(REPO, "src/shared/**/*.h"), recursive=True))
+    sources = [(os.path.relpath(cf, REPO), open(cf, errors="replace").read()) for cf in files]
+    stale = stale_refs(curated, autosym, sources)
     if stale:
         print(f"[lint_symbol_refs] {len(stale)} STALE func_<ADDR> ref(s) — renamed in symbols, "
               f"clean-build will FAIL (fix: rename to the curated name):")
