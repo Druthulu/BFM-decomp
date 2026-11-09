@@ -2311,9 +2311,9 @@ extern void func_80173460(s32 a0, s32 a1);
 
 extern void (*D_8018172C[])(void);
 
-void func_80173544(void *a0) {
-    D_8018172C[((Unkstruct_80172CA0 *)a0)->unk214]();
-}
+#define SHARED_FN func_80173544
+#include "../shared/ov/cls_067c5f95cd80.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80173580.h"

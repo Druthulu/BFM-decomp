@@ -4049,9 +4049,9 @@ extern s32 func_800D1EBC(void);
 
 extern void (*D_80183048[])(void);
 
-void func_8017E8F8(void *a0) {
-    D_80183048[((Unkstruct_80159698 *)a0)->unk15]();
-}
+#define SHARED_FN func_8017E8F8
+#include "../shared/ov/cls_10ccb8f6fa96.h"
+#undef SHARED_FN
 
 
 

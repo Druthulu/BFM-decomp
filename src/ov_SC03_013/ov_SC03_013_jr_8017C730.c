@@ -4010,11 +4010,9 @@ s32 a0;
 
 extern s32 func_8012BF10(s32 arg0, s32 arg1);
     extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_8017F7AC(void *a0) {
-        if (func_8012BF10((s32)a0, 0x40)) {
-            ((void (*)(void *, s32))func_8012AD44)(a0, 1);
-        }
-    }
+#define SHARED_FN func_8017F7AC
+#include "../shared/ov/cls_11b208d1a5aa.h"
+#undef SHARED_FN
 
 
 extern s32 func_800291B4(s32 arg);

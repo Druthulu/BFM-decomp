@@ -4580,9 +4580,9 @@ s32 func_8018152C(s32 a0, s16 a1) {
 
 extern void (*D_8018F450[])(void);
 
-void func_801815AC(void *a0) {
-    D_8018F450[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_801815AC
+#include "../shared/ov/cls_19b9a1afce73.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C1B8(void);
