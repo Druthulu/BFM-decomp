@@ -13,6 +13,9 @@ dedup_extend for the include-at-site form.
                                                            # reject retries the next text in the same run), verdict B (group headers' bodies
                                                            # are candidates too; their include sites take the param form; groups merge into
                                                            # one X_ group, old headers removed) and twin-covered classes
+                                                       # (T6.c2) after the gate, type_census --check: a class whose text raises an
+                                                       # unledgered lie or a dead type is rejected like a gate red (next text); a class
+                                                       # whose every text leaves a type dead deletes that unreferenced type (rank 1)
 
 WHAT ONE SHARE IS. A class = one h_exact (the raw instruction bytes) at one vram, with >=2 instances across the fleet, some of which
 are still PRIVATE COPIES (a definition in that binary's own TU). Sharing it: the class's ONE body goes to (or already is) a plain-C
@@ -296,7 +299,69 @@ def lost_types(cands, copies_text):
                            capture_output=True, text=True)
         outside[n] = len(r.stdout.splitlines()) - len(re.findall(rf"\b{re.escape(n)}\b", copies_text))
     for x, u in zip(cands, used):
-        x["dead"] = next((n for n in sorted(union - u) if outside.get(n, 1) <= 0), None)
+        x["dead_all"] = [n for n in sorted(union - u) if outside.get(n, 1) <= 0]     # T6.c2: every type the text leaves dead
+        x["dead"] = x["dead_all"][0] if x["dead_all"] else None
+
+
+def type_def_span(name):
+    """T6.c2: (file, first line, last line) of the one definition of type `name` in the type headers (include/*.h, src/shared/*.h):
+    a `typedef ... name;` line, or the brace block ending `} name;` back to its `typedef` line. None when absent, ambiguous or not
+    a whole-line definition."""
+    hits = []
+    for f in sorted(REPO.glob("include/*.h")) + sorted(REPO.glob("src/shared/*.h")):
+        lines = f.read_text(errors="surrogateescape").split("\n")
+        for j, ln in enumerate(lines):
+            if re.match(rf"\s*typedef\b[^;]*\b{re.escape(name)}\s*;", ln) and ln.count("{") == ln.count("}"):
+                hits.append((str(f.relative_to(REPO)), j + 1, j + 1))
+            elif re.match(rf"\}}\s*{re.escape(name)}\s*;", ln):
+                depth, k = 0, j
+                while k >= 0:
+                    depth += lines[k].count("}") - lines[k].count("{")
+                    if depth <= 0:
+                        break
+                    k -= 1
+                if k >= 0 and depth == 0 and re.match(r"\s*typedef\b", lines[k]):
+                    hits.append((str(f.relative_to(REPO)), k + 1, j + 1))
+    return hits[0] if len(hits) == 1 else None
+
+
+def drop_type_plan(names, copies_text):
+    """T6.c2: the dead-type rule. A class whose every text leaves a type with no user may delete that type's definition in the same
+    batch, only when nothing else references it: src/ and include/ (outside its definition and the class's copies), docs/struct-twins.md
+    and tools/type_census.py (the controls). Returns ([(name, file, first, last, block text)], None) or (None, reason)."""
+    out = []
+    for n in names:
+        span = type_def_span(n)
+        if not span:
+            return None, f"{n}: no single whole-line definition in the type headers"
+        f, a, z = span
+        block = "\n".join((REPO / f).read_text(errors="surrogateescape").split("\n")[a - 1:z])
+        r = subprocess.run(["git", "grep", "-w", "-o", "-F", n, "--", "src", "include", "docs/struct-twins.md", "tools/type_census.py"],
+                           cwd=REPO, capture_output=True, text=True)
+        refs = len(r.stdout.splitlines()) - len(re.findall(rf"\b{re.escape(n)}\b", copies_text)) - len(re.findall(rf"\b{re.escape(n)}\b", block))
+        if refs > 0:
+            where = sorted({x.split(":", 1)[0] for x in r.stdout.splitlines()})
+            return None, f"{n}: {refs} other reference(s) ({', '.join(where[:4])})"
+        out.append((n, f, a, z, block))
+    return out, None
+
+
+def type_check():
+    """T6.c2: `type_census --check` on the batch's tree (out-dir RUN/type_census, its walk cache kept warm). Returns (rc, the verdict
+    line, unledgered lying rows [{callee, defined_in, kind}], dead type names). The census re-renders docs/struct-map.md: its text is
+    put back (a tools-health product, never this tool's)."""
+    keep = {p: p.read_bytes() for p in [REPO / "docs/struct-map.md"] if p.exists()}
+    out = RUN / "type_census"
+    r = subprocess.run([sys.executable, str(REPO / "tools/type_census.py"), "--check", "--quiet", "--out-dir", str(out.relative_to(REPO))],
+                       cwd=REPO, capture_output=True, text=True)
+    for p, data in keep.items():
+        p.write_bytes(data)
+    j = json.loads((out / "type_census.json").read_text())
+    import type_census as tc
+    exc = tc.lying_exceptions()
+    unl = [x for x in j["summary"]["decls"]["lying_rows"] if (x["callee"], x.get("defined_in"), x["kind"]) not in exc]
+    line = next((ln for ln in r.stdout.splitlines() if ln.startswith("type_census --check")), r.stdout.strip()[-200:])
+    return r.returncode, line, unl, list(j.get("structs_dead") or [])
 
 
 def next_text(cands, k):
@@ -481,10 +546,8 @@ class Batch:
         hdr = f"src/shared/{'multi' if 'F' in c['flags'] else self.orc.space_dir(base)}/cls_{h[:12]}.h"
         if (REPO / hdr).exists():
             return f"refused: {hdr} exists already"
-        if any(i.get("alias_form") for i in priv):
-            # t6probe1: share_census.py:236 records a `#define SHARED_FN <name>` name verbatim (no ALIAS_DECL mapping), so an
-            # aF<ADDR> site is unaccounted (R32 coverage defect, 10 instances for cae222ea97b9); re-enable when the census maps it
-            return "refused: alias-form copy — the census cannot resolve `#define SHARED_FN aF<ADDR>` sites yet"
+        # T6.c2: the alias-form refusal (t6probe1: share_census recorded `#define SHARED_FN aF<ADDR>` verbatim) is lifted — the census
+        # maps the site through the TU's ALIAS_DECL table now (scan_text); the own name comes from the def head (def_head_name, C0558)
         old, own_of_hdr, site_own, hdr_moves = [], {}, {}, []
         incl = [i for i in c["insts"] if i["form"] == "include"]
         inst_keys = {(i["alias"], i["addr"]) for i in c["insts"]}
@@ -523,15 +586,24 @@ class Batch:
         cands = cross_texts(c, old)
         if not cands:
             return "refused: no candidate text"
-        lost_types(cands, "\n".join([def_text(i) for i in {(i["tu"], i["line"]): i for i in priv}.values()] + [t for _g, _o, t in old]))
+        copies = "\n".join([def_text(i) for i in {(i["tu"], i["line"]): i for i in priv}.values()] + [t for _g, _o, t in old])
+        lost_types(cands, copies)
         pre = [dict(rank=k + 1, src=x["src"], binary="type_census --check", cause=f"dead type {x['dead']}: no user outside the class's copies")
                for k, x in enumerate(cands) if x["dead"]]
+        k0, drops = next_text(cands, -1), []
         if len(pre) == len(cands):
-            return f"refused: every text leaves a type with no user — {[(r['rank'], r['cause']) for r in pre]}"
+            # T6.c2: every text leaves a type dead -> rank 1 with its dead types' definitions deleted in the same batch (nothing else
+            # may reference them); otherwise refused, one reason per text
+            drops, why = drop_type_plan(cands[0]["dead_all"], copies)
+            if why:
+                return f"refused: every text leaves a type with no user — {[(r['rank'], r['cause']) for r in pre]}; rank 1's not deletable: {why}"
+            k0, pre = 0, pre[1:]
         gid = f"X_{h[:12]}"
         self.moves.extend(hdr_moves)
-        self.cross[h] = dict(hdr=hdr, gid=gid, fn=fn, cands=cands, k=next_text(cands, -1), rejects=pre, old_groups=[g["id"] for g, _o, _t in old],
-                             old_headers=[g["source"] for g, _o, _t in old])
+        self.cross[h] = dict(hdr=hdr, gid=gid, fn=fn, cands=cands, k=k0, rejects=pre, old_groups=[g["id"] for g, _o, _t in old],
+                             old_headers=[g["source"] for g, _o, _t in old], dropped=[d[0] for d in drops])
+        for _n, f, a, z, _blk in drops:
+            self.edits[f].append((a, z, None, h))       # None = delete the lines (the dead type's definition)
         self.headers[hdr] = self.cross_header(h)
         self.register_cross.append((gid, h, hdr, sorted((i["alias"], i["addr"], site_own[(i["tu"], i["line"])]) for i in c["insts"])))
         seen_sites = set()
@@ -567,8 +639,9 @@ class Batch:
         x = self.cross[h]
         cd = x["cands"][x["k"]]
         self.exemplar_note[h] = (f"cross rank {x['k'] + 1}/{len(x['cands'])} {cd['src']} (casts {cd['casts']}, markers {cd['fakes']}; "
-                                 f"rejected {[(r['rank'], r['binary']) for r in x['rejects']]}), {len(self.edits_of(h))} sites → param-include"
-                                 + (f"; merges {x['old_groups']}" if x["old_groups"] else ""))
+                                 f"rejected {[(r['rank'], r['binary']) for r in x['rejects']]}), {sum(1 for e in self.edits_of(h) if e[2] is not None)} sites → param-include"
+                                 + (f"; merges {x['old_groups']}" if x["old_groups"] else "")
+                                 + (f"; deletes dead types {x['dropped']}" if x.get("dropped") else ""))
 
     def edits_of(self, h):
         return [e for eds in self.edits.values() for e in eds if e[3] == h]
@@ -581,7 +654,7 @@ class Batch:
             p = REPO / tu
             lines = p.read_text(errors="surrogateescape").split("\n")
             for line, end, new, _ in sorted(eds, key=lambda e: -e[0]):
-                lines[line - 1:end] = [new]
+                lines[line - 1:end] = [] if new is None else [new]
                 n += 1
             p.write_text("\n".join(lines))
         return n
@@ -1003,7 +1076,7 @@ def run_batch(orc, cen, classes, label):
             lines = tu_snap[tu].split("\n")
             for line, end, new, hh in sorted(b.edits[tu], key=lambda e: -e[0]):
                 if hh not in excluded:
-                    lines[line - 1:end] = [new]
+                    lines[line - 1:end] = [] if new is None else [new]
             (REPO / tu).write_text("\n".join(lines))
 
     def gate_round(binaries, cands, rc):
@@ -1042,7 +1115,7 @@ def run_batch(orc, cen, classes, label):
                     p = REPO / tu
                     lines = p.read_text(errors="surrogateescape").split("\n")
                     for line, end, new, _ in sorted(eds, key=lambda e: -e[0]):
-                        lines[line - 1:end] = [new]
+                        lines[line - 1:end] = [] if new is None else [new]
                     p.write_text("\n".join(lines))
 
             good = []
@@ -1090,35 +1163,87 @@ def run_batch(orc, cen, classes, label):
         undo_and_regate(cross_red, f"after the cross undo of {len(cross_red)} classes")
     # T6: a red D/B class retries its NEXT ranked text inside this run (the sites' edits do not depend on the text: only the header is
     # rewritten), round after round, until green or its texts are exhausted; each rejected text is recorded with its binary and cause
-    rnd = 0
+    # T6.c2: after the gate settles, type_census --check on the tree: an unledgered lie whose callee is a live class's name, or a dead
+    # type a live class's copies (or a type it deleted) used, rejects that class's text like a gate red — the next text is retried
+    # (the inner loop), an exhausted class is undone. Repeated until the check blames no class. An unattributed violation fails the batch.
+    names, copies = collections.defaultdict(set), collections.defaultdict(list)
+    for _gid, h, _hdr, mem in b.register_cross:
+        for _al, ad, own in mem:
+            names[h] |= {str(own).lower(), f"func_{ad:08x}" if isinstance(ad, int) else str(ad).lower()}
+    for tu, eds in b.edits.items():
+        for line, end, _new, h in eds:
+            copies[h].append("\n".join(tu_snap[tu].split("\n")[line - 1:end]))
+    for h, x in b.cross.items():
+        copies[h] += [(REPO / f).read_text(errors="surrogateescape") for f in x["old_headers"] if (REPO / f).exists()]
+    copies = {h: "\n".join(v) for h, v in copies.items()}
+    rnd, type_checks, type_ok = 0, [], True
     while True:
-        for h in sorted(cross_red & set(b.cross)):
-            x = b.cross[h]
-            x["rejects"].append(dict(rank=x["k"] + 1, src=x["cands"][x["k"]]["src"], binary=rc[h][0], cause=rc[h][1]))
-        retry = {h for h in cross_red if h in b.cross and next_text(b.cross[h]["cands"], b.cross[h]["k"]) < len(b.cross[h]["cands"])}
-        if not retry:
+        while True:
+            for h in sorted(cross_red & set(b.cross)):
+                x = b.cross[h]
+                x["rejects"].append(dict(rank=x["k"] + 1, src=x["cands"][x["k"]]["src"], binary=rc[h][0], cause=rc[h][1]))
+            retry = {h for h in cross_red if h in b.cross and next_text(b.cross[h]["cands"], b.cross[h]["k"]) < len(b.cross[h]["cands"])}
+            if not retry:
+                break
+            rnd += 1
+            for h in sorted(retry):
+                x = b.cross[h]
+                x["k"] = next_text(x["cands"], x["k"])
+                b.headers[x["hdr"]] = b.cross_header(h)
+                (REPO / x["hdr"]).write_text(b.headers[x["hdr"]])
+                b.note_cross(h)
+            failed_classes -= retry
+            tus = {tu for tu, eds in b.edits.items() if any(e[3] in retry for e in eds)}
+            apply_classes(tus, failed_classes)
+            bins = [a for a in gated if tus_of(a) & tus]
+            log(f"  [{label}] retry round {rnd}: {len(retry)} classes on their next text · gating {len(bins)} binaries")
+            rc = {}
+            red = gate_round(bins, retry, rc)
+            failed_classes |= red
+            causes.update(rc)
+            cross_red = red
+            if red:
+                undo_and_regate(red, f"after the retry-{rnd} undo of {len(red)} classes")
+            for h in sorted(retry - red):
+                log(f"  [{label}] cross class {h[:10]} GREEN on rank {b.cross[h]['k'] + 1}/{len(b.cross[h]['cands'])}")
+        live = cross_hs - failed_classes
+        if not live:
             break
-        rnd += 1
-        for h in sorted(retry):
-            x = b.cross[h]
-            x["k"] = next_text(x["cands"], x["k"])
-            b.headers[x["hdr"]] = b.cross_header(h)
-            (REPO / x["hdr"]).write_text(b.headers[x["hdr"]])
-            b.note_cross(h)
-        failed_classes -= retry
-        tus = {tu for tu, eds in b.edits.items() if any(e[3] in retry for e in eds)}
-        apply_classes(tus, failed_classes)
-        bins = [a for a in gated if tus_of(a) & tus]
-        log(f"  [{label}] retry round {rnd}: {len(retry)} classes on their next text · gating {len(bins)} binaries")
+        rc_t, line_t, unl, dead = type_check()
+        blame = {}
+        for r in unl:
+            for h in sorted(live):
+                if r["callee"].lower() in names[h]:
+                    blame.setdefault(h, []).append(f"unledgered lying {r['callee']} ({r['kind']}, def {r.get('defined_in')})")
+        for n in dead:
+            for h in sorted(live):
+                if re.search(rf"\b{re.escape(n)}\b", copies.get(h, "")):
+                    blame.setdefault(h, []).append(f"dead type {n}")
+        hit_l = {id(r) for r in unl for h in blame if r["callee"].lower() in names[h]}
+        loose = [r for r in unl if id(r) not in hit_l] + [n for n in dead if not any(re.search(rf"\b{re.escape(n)}\b", copies.get(h, "")) for h in blame)]
+        type_checks.append(dict(line=line_t, rc=rc_t, unledgered=len(unl), dead=dead, blamed={h: v for h, v in blame.items()},
+                                unattributed=[str(x) for x in loose][:20]))
+        log(f"  [{label}] {line_t} · blamed {len(blame)} classes" + (f" · UNATTRIBUTED {len(loose)}" if loose else ""))
+        if not blame:
+            if rc_t or loose:
+                type_ok = False
+            break
         rc = {}
-        red = gate_round(bins, retry, rc)
-        failed_classes |= red
+        for h, why in sorted(blame.items()):
+            c_ = collections.Counter(why)
+            rc[h] = ("type_census --check", "; ".join(f"{w}" + (f" x{k}" if k > 1 else "") for w, k in sorted(c_.items())))
+            log(f"  [{label}] type_census: class {h[:10]} REJECTED — {rc[h][1][:300]}")
+        failed_classes |= set(blame)
         causes.update(rc)
-        cross_red = red
-        if red:
-            undo_and_regate(red, f"after the retry-{rnd} undo of {len(red)} classes")
-        for h in sorted(retry - red):
-            log(f"  [{label}] cross class {h[:10]} GREEN on rank {b.cross[h]['k'] + 1}/{len(b.cross[h]['cands'])}")
+        done_ = {h for h in blame if h not in b.cross or next_text(b.cross[h]["cands"], b.cross[h]["k"]) >= len(b.cross[h]["cands"])}
+        if done_:
+            undo_and_regate(done_, f"after the type_census undo of {len(done_)} classes")
+        cross_red = set(blame)
+    if any(x.get("dropped") for h, x in b.cross.items() if h not in failed_classes):
+        rg = subprocess.run([sys.executable, str(REPO / "tools/ghidra_types.py"), "--write"], cwd=REPO, capture_output=True, text=True)
+        log(f"  [{label}] dead types deleted {sorted(n for h, x in b.cross.items() if h not in failed_classes for n in x['dropped'])} · "
+            f"ghidra_types --write rc {rg.returncode}")
+        type_ok = type_ok and rg.returncode == 0
     for gid, h, hdr, _m in b.register_cross:
         if h in failed_classes and hdr in b.headers:
             (REPO / hdr).unlink(missing_ok=True)
@@ -1212,9 +1337,11 @@ def run_batch(orc, cen, classes, label):
                                                                 # T6: per D/B class the chosen rank and, per rejected text, its binary and cause
                                                                 cross_rules={h: dict(rank=x["k"] + 1, texts=len(x["cands"]), chosen=x["cands"][x["k"]]["src"],
                                                                                      casts=x["cands"][x["k"]]["casts"], markers=x["cands"][x["k"]]["fakes"],
-                                                                                     green=h not in failed_classes, rejects=x["rejects"])
-                                                                             for h, x in b.cross.items()}, **extra), indent=1) + "\n")
-    return len(failed_classes) == 0 and all(results[a][0] for a in gated) and residue_ok
+                                                                                     green=h not in failed_classes, rejects=x["rejects"],
+                                                                                     dropped_types=x.get("dropped", []))
+                                                                             for h, x in b.cross.items()},
+                                                                type_checks=type_checks, type_ok=type_ok, **extra), indent=1) + "\n")
+    return len(failed_classes) == 0 and all(results[a][0] for a in gated) and residue_ok and type_ok
 
 
 def repair_registry(cen):

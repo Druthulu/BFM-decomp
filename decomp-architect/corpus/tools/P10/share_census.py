@@ -234,8 +234,8 @@ def scan_text(text, rel, shared_defs=None):
                     continue
                 for nm in defs:
                     if nm == "SHARED_FN":
-                        if cur:
-                            recs.append(dict(form="param-include", name=cur, line=line_of(pos), header=key))
+                        if cur:     # `#define SHARED_FN aF<ADDR>` names an alias: record its real symbol, as defs do
+                            recs.append(dict(form="param-include", name=aliases.get(cur, cur), line=line_of(pos), header=key))
                     else:
                         recs.append(dict(form="include", name=nm, line=line_of(pos), header=key))
     # definitions
