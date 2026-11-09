@@ -3024,7 +3024,7 @@ extern void func_80172710(void);
 
 s32 func_8017D698_x(s32 a0) __asm__("func_8017D698");
 
-#define SHARED_FN func_8017d698
+#define SHARED_FN func_8017D698_x
 #include "../shared/ov/cls_881ee524b7a4.h"
 #undef SHARED_FN
 
