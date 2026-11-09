@@ -333,7 +333,7 @@ src/ov_SC03_001/ov_SC03_001_jr_8013C98C.c	func_8013CF68	instruction	delever R t8
 src/ov_SC03_001/ov_SC03_001_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129) wall:greg-copy-pref
 src/ov_SC03_001/ov_SC03_001_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129) wall:greg-copy-pref
 src/ov_SC03_001/ov_SC03_001_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133) wall:sched1-birth-boost
-src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c	func_8017DC50	pin	delever R t8_r2	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:sched1-hoist-sink
+src/shared/ov/cls_b0ef21e92162.h	SHARED_FN	pin	delever R t8_r2	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:sched1-hoist-sink
 src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c	func_8017F1F0	keepalive	T11 crack G26x	delever_search --try best 15/34	singleton(keepalive) wall:expand-void-return
 src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c	func_8017F1F0	pin	T11 crack G26x	delever_search --try best 15/34	singleton(pin) wall:expand-void-return
 src/ov_SC03_001/ov_SC03_001_jr_8018B8DC.c	func_8018BCD4	barrier	T11 crack O01x	delever_search --try best 2/44; T11 wall sched1-const-pair-hoist	singleton(barrier) wall:sched1-hoist-sink
@@ -348,7 +348,6 @@ src/ov_SC03_002/ov_SC03_002_jr_8013C98C.c	func_8013CF68	instruction	delever R t8
 src/ov_SC03_002/ov_SC03_002_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129) wall:greg-copy-pref
 src/ov_SC03_002/ov_SC03_002_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129) wall:greg-copy-pref
 src/ov_SC03_002/ov_SC03_002_jr_801734BC.c	func_80177B5C	launder	delever B t8_rj2	oracle DIFFERS on removal	head-class(4a789ceca27f, n=133) wall:sched1-birth-boost
-src/ov_SC03_002/ov_SC03_002_jr_8017D604.c	func_8017EA54	pin	delever R t8_r2	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:sched1-hoist-sink
 src/ov_SC03_003/ov_SC03_003_jr_8013C98C.c	func_8013CF68	instruction	delever R t8_r2	oracle DIFFERS on removal	head-class(03930f4cac61, n=134) wall:cse-const-addr
 src/ov_SC03_003/ov_SC03_003_jr_80140608.c	func_80140958	keepalive	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129) wall:greg-copy-pref
 src/ov_SC03_003/ov_SC03_003_jr_80140608.c	func_80140958	pin	delever B t8_rj3	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129) wall:greg-copy-pref

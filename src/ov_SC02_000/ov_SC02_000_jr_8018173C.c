@@ -5506,7 +5506,9 @@ void func_80186F44(s32 a0) {
 
 #include "common.h"
 
-#include "../shared/ov/func_80186FDC__edd8502e.h"
+#define SHARED_FN func_80186FDC
+#include "../shared/ov/cls_edd8502ee448.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -5576,21 +5578,9 @@ void func_801871B8(s32 a0) {
 
 extern s32 func_8012CBCC(s32 a0);
 extern s32 func_80143B6C(s32 a0, s32 a1);
-s32 func_80187254(s32 param_1) {
-    s32 p;
-    p = ((Unkstruct_800B5CB8 *)param_1)->unk20;
-    ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 + 0x100;
-    if (((s32 (*)(void))func_8012CBCC)() != 0) {
-        CAST_WIDTH(s32, param_1, 0x18) = 0xFFE80000;
-        ((Unkstruct_800B5CB8 *)param_1)->unk14 = 0xFFC80000;
-        ((Unkstruct_800B5CB8 *)param_1)->unk44 = 0;
-        ((Unkstruct_800B5CB8 *)param_1)->unk48 = 0x80000;
-        ((Unkstruct_800B5CB8 *)param_1)->unk4C = 0;
-        func_80143B6C(param_1, 0);
-        ((Unkstruct_800B5CB8 *)param_1)->unkFC = 0x40;
-        ((Unkstruct_800B5CB8 *)param_1)->unk2 = CAST_SIGN(u16, param_1, 0x2) + 1;
-    }
-}
+#define SHARED_FN func_80187254
+#include "../shared/ov/cls_edd8502ee448.h"
+#undef SHARED_FN
 
 
 extern void func_8012AD80(s32 a0);

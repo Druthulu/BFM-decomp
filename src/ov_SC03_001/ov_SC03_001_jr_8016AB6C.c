@@ -3465,7 +3465,9 @@ void func_8016DF5C(s32 param_1)
 
 #include "../shared/ov/func_8016E3CC.h"
 
-#include "../shared/ov/func_8016E460.h"
+#define SHARED_FN func_8016E460
+#include "../shared/multi/cls_58c6901041b6.h"
+#undef SHARED_FN
 
 
 extern void (*D_80190898[])(void);

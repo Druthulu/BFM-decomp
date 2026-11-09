@@ -9402,17 +9402,9 @@ s32 func_80186DCC(s32 a0) {
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 
-s32 func_80186E54(s32 arg0, s32 arg1, s32 arg2)
-{
-    extern s32 *D_80126B78;
-    extern s32 *D_80126B90;
-    struct { u16 x, y, z, w; } a;
-    struct { u16 x, y, z, w; } b;
-
-    func_8012F214(arg0, arg1, &a);
-    func_8012F214(arg0, arg2, &b);
-    func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&a, (s32)&b);
-}
+#define SHARED_FN func_80186E54
+#include "../shared/ov/cls_528ec07e7704.h"
+#undef SHARED_FN
 
 
 void func_80186EBC(void *a0)

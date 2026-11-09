@@ -3093,7 +3093,9 @@ s32 func_8017E558(s32 param_1)
 #include "../shared/ov/func_8017E698__6cd03b3b.h"
 
 
-#include "../shared/ov/func_8017E6EC__4d9ac626.h"
+#define SHARED_FN func_8017E6EC
+#include "../shared/ov/cls_4d9ac626bf24.h"
+#undef SHARED_FN
 
 
 extern void (*D_801870F0[])(void);

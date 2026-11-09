@@ -8663,19 +8663,9 @@ int func_801848A4(int a0, void* a1)
 }
 
 
-void func_80184940(s32 param_1, s32 param_2, s32 param_3)
-{
-    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
-    extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
-    extern s32 *D_80126B78;
-    extern s32 *D_80126B90;
-    s32 sp10[2];
-    s32 sp18[2];
-
-    func_8012F214(param_1, param_2, (s32)&sp10[0]);
-    func_8012F214(param_1, param_3, (s32)&sp18[0]);
-    func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&sp10[0], (s32)&sp18[0]);
-}
+#define SHARED_FN func_80184940
+#include "../shared/ov/cls_528ec07e7704.h"
+#undef SHARED_FN
 
 
 extern void func_8017BEBC(void);

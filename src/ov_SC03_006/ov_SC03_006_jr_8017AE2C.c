@@ -14416,19 +14416,9 @@ void func_8018C154(s32 *a0) {
 
 extern void func_80171A1C(u8*);
 
-    void func_8018C1C4(void *arg0) {
-        s32 p;
-        s32 q;
-        ((Unkstruct_80126B58 *)arg0)->unk208 += 0x1c000;
-        p = ((Unkstruct_80126B58 *)arg0)->unk20;
-        *(u16 *)((u8 *)p + 0x10) = (*(u16 *)((u8 *)p + 0x10) - *(u16 *)((u8 *)arg0 + 0x20A)) & 0xfff;
-        q = ((Unkstruct_80126B58 *)arg0)->unk20;
-        if (*(s16 *)((u8 *)q + 0x10) < 0xc00) {
-            *(u16 *)((u8 *)q + 0x10) = 0xc00;
-            ((Unkstruct_80126B58 *)arg0)->unkB8 = 1;
-            ((void (*)(void *))func_80171A1C)(arg0);
-        }
-    }
+#define SHARED_FN func_8018C1C4
+#include "../shared/ov/cls_4f6b64907be7.h"
+#undef SHARED_FN
 
 
 extern s32 func_80174650(s32);

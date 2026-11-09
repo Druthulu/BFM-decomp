@@ -2332,7 +2332,9 @@ extern s32 func_80146C3C();  // K&R: ? of 1 args (P37 rung D t4_D26)
 
 #include "../shared/ov/func_8016E3CC.h"
 
-#include "../shared/ov/func_8016E460.h"
+#define SHARED_FN func_8016E460
+#include "../shared/multi/cls_58c6901041b6.h"
+#undef SHARED_FN
 
 
 extern void (*D_80182604[])(void);

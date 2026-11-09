@@ -3744,17 +3744,9 @@ void func_8018048C(s32 a0)
 extern u8 D_80185E38[];
 extern void func_800D1724(s32 a0);
 
-void func_80180564(a0)
-s32 *a0;
-{
-    s32 v1;
-    v1 = a0[7] - 1;
-    a0[7] = v1;
-    if (v1 != -1) {
-        return;
-    }
-    func_800D1724((s32)D_80185E38);
-}
+#define SHARED_FN func_80180564
+#include "../shared/ov/cls_b23492af13f5.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_801805A0__76785405.h"
@@ -3960,15 +3952,9 @@ void func_80180974(s32 a0)
 extern u8 D_80185E38[];
 extern void func_800D1724(s32 a0);
 
-void func_801809F4(s32 *a0) {
-    s32 v1;
-    v1 = a0[7] - 1;
-    a0[7] = v1;
-    if (v1 != -1) {
-        return;
-    }
-    func_800D1724((s32)D_80185E38);
-}
+#define SHARED_FN func_801809F4
+#include "../shared/ov/cls_b23492af13f5.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80180A30__76785405.h"

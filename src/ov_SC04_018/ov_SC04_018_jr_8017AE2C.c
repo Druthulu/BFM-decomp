@@ -4000,7 +4000,9 @@ s32 func_8017DE4C(void *a0) {
 }
 
 
-#include "../shared/ov/func_8017DEA0__4d9ac626.h"
+#define SHARED_FN func_8017DEA0
+#include "../shared/ov/cls_4d9ac626bf24.h"
+#undef SHARED_FN
 
 
 extern void (*D_80190D64[])(void);

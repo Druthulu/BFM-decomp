@@ -596,68 +596,7 @@ extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern void func_80017758(void *a0, void *a1);
 
-void func_800CBB38(void *a0, void *a1) {
-    u8 buf[0x60];
-    u8 *p;
-    u8 c, c2, c4;
-    u16 ang;
-
-    p = buf + 0x38;
-
-    ((Unkstruct_800CBB38 *)buf)->unk0 = 7;
-    ((Unkstruct_800CBB38 *)buf)->unk10 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk8 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk18 = -7;
-    ((Unkstruct_800CBB38 *)buf)->unkA = 3;
-    ((Unkstruct_800CBB38 *)buf)->unk1A = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk2 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk12 = -3;
-    ((Unkstruct_800CBB38 *)buf)->unk1C = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk14 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unkC = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk4 = 0;
-
-    c  = *(u8 *)((s32)a0 + 0x30);
-    c2 = c >> 2;
-    c4 = c2 >> 2;
-
-    ((Unkstruct_800CBB38 *)buf)->unk2A = c;
-    ((Unkstruct_800CBB38 *)buf)->unk26 = c;
-    ((Unkstruct_800CBB38 *)buf)->unk28 = c;
-    ((Unkstruct_800CBB38 *)buf)->unk24 = c;
-    ((Unkstruct_800CBB38 *)buf)->unk29 = c2;
-    ((Unkstruct_800CBB38 *)buf)->unk25 = c2;
-    ((Unkstruct_800CBB38 *)buf)->unk2C = c4;
-    ((Unkstruct_800CBB38 *)buf)->unk20 = c4;
-    ((Unkstruct_800CBB38 *)buf)->unk2E = c4;
-    ((Unkstruct_800CBB38 *)buf)->unk22 = c4;
-    ((Unkstruct_800CBB38 *)buf)->unk2D = c4;
-    ((Unkstruct_800CBB38 *)buf)->unk21 = c4;
-
-    ((Unkstruct_800CBB38 *)buf)->unk30 = 0x50000000;
-
-    ang = *(u16 *)((s32)a0 + 0x2C);
-    ((Unkstruct_800CBB38 *)buf)->unk5A = ang;
-    ((Unkstruct_800CBB38 *)buf)->unk58 = ang;
-    func_80017DC4((void *)(buf + 0x58), p);
-
-    func_80048EAC(a1, p);
-
-    ((Unkstruct_800CBB38 *)buf)->unk4C = *(s16 *)((s32)a0 + 0x6);
-    ((Unkstruct_800CBB38 *)buf)->unk50 = *(s16 *)((s32)a0 + 0xA);
-    ((Unkstruct_800CBB38 *)buf)->unk54 = *(s16 *)((s32)a0 + 0xE);
-
-    func_80017758(buf, p);
-
-    ((Unkstruct_800CBB38 *)buf)->unk0 = 3;
-    ((Unkstruct_800CBB38 *)buf)->unk10 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk8 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk18 = -3;
-    ((Unkstruct_800CBB38 *)buf)->unkA = 7;
-    ((Unkstruct_800CBB38 *)buf)->unk1A = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk2 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk12 = -7;
-
-    func_80017758(buf, p);
-}
+#define SHARED_FN func_800CBB38
+#include "../shared/multi/cls_58c6901041b6.h"
+#undef SHARED_FN
 

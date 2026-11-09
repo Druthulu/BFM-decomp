@@ -9,6 +9,10 @@ dedup_extend for the include-at-site form.
     tools/share_body.py --plan|--apply --bucket cross      # (3.42 T4) verdict-C classes at SEVERAL addresses: one cls_<h12>.h defining SHARED_FN,
                                                            # each site `#define SHARED_FN <own name>` / include / undef (the I0_clearTbl40 form);
                                                            # a red class is undone at every site, never ledgered; ledgers re-keyed to the header
+                                                           # (T6) + verdict D (texts ranked by raw casts + !FAKE markers, lowest address; a
+                                                           # reject retries the next text in the same run), verdict B (group headers' bodies
+                                                           # are candidates too; their include sites take the param form; groups merge into
+                                                           # one X_ group, old headers removed) and twin-covered classes
 
 WHAT ONE SHARE IS. A class = one h_exact (the raw instruction bytes) at one vram, with >=2 instances across the fleet, some of which
 are still PRIVATE COPIES (a definition in that binary's own TU). Sharing it: the class's ONE body goes to (or already is) a plain-C
@@ -214,6 +218,16 @@ def own_name(inst, text):
     return m.group(0) if m else inst["name"]
 
 
+def def_head_name(inst, text):
+    """T6 (3.42): the name a copy's definition head is written under — the identifier before the head's first `(`. An alias-form copy can
+    carry ANOTHER address's alias (ov_SC03_001 defines `aF801848DC`, bound by asm label to func_8018739C), which own_name misses (it
+    looks for the copy's own name and own aF<ADDR>, then falls back to a name not in the text: nothing masked). Else own_name."""
+    m = re.match(r"\s*[^(;{]*?\b([A-Za-z_]\w*)\s*\(", text)
+    if m and (m.group(1).lower() == inst["name"].lower() or re.fullmatch(r"aF[0-9A-Fa-f]{8}", m.group(1))):
+        return m.group(1)
+    return own_name(inst, text)
+
+
 def cross_norm(text, name):
     """T4 (3.42): the cross-address equality key — comments stripped, the copy's OWN name -> SHARED_FN, whitespace collapsed."""
     t = _C_TOKENS.sub(lambda m: m.group(0) if m.group(0)[0] in "\"'" else " ", text)
@@ -222,11 +236,18 @@ def cross_norm(text, name):
 
 
 def cross_candidates(cen):
-    """(pool, differs): the cross-address classes (verdict C, flag E with or without F, not twin-covered, not excepted). Every private
-    copy's text under cross_norm must be equal — a class whose copies differ is reported (TEXT-DIFFERS), never ledgered."""
+    """(pool, differs): the cross-address classes (flag E with or without F, not excepted; twin-covered included since T6). Verdict C:
+    every private copy's text under cross_norm must be equal — a class whose copies differ is reported (TEXT-DIFFERS), never ledgered.
+    T6 (3.42): verdict D (the copies' texts differ: ranked by cross_texts, retried text by text) and verdict B (registered at one or more
+    addresses, private copies elsewhere: the group headers' bodies join the candidate texts, the groups merge into one X_ group)."""
     pool, differs = [], []
     for c in cen["classes"]:
-        if c["verdict"] != "C" or "E" not in c["flags"] or "TWIN-COVERED" in c["flags"] or (c["excepted"] and not RETRY_EXCEPTED):
+        if c["excepted"] and not RETRY_EXCEPTED:
+            continue
+        if c["verdict"] in ("B", "D") and ("E" in c["flags"] or "F" in c["flags"]):
+            pool.append(dict(c, cross=True))
+            continue
+        if c["verdict"] != "C" or "E" not in c["flags"]:
             continue
         priv = [i for i in c["insts"] if i["form"] == "def"]
         keys = set()
@@ -236,6 +257,84 @@ def cross_candidates(cen):
         (pool if len(keys) == 1 else differs).append(dict(c, cross=True))
     pool.sort(key=lambda c: (-c["instances"], -c["nins"], c["h"]))
     return pool, differs
+
+
+_RAW_FORMS = []
+
+
+def rank_counts(text):
+    """(raw casts, `// !FAKE:` markers) of a candidate text — the D exemplar rule's key (T6): raw casts = the project's raw pointer-cast
+    dereferences, type_census's four forms P `*(T *)(`, I `*(T *)ident`, X `((T *)e)[`, M `M2C_FIELD(` on the masked text. A typed
+    cast-member `((T *)e)->f` is no raw cast (t6probe1: a cast regex that counted it ranked the cast-form text over the struct-typed
+    copies of 6fc432ca3671 / 962117a4d87d and left Unkstruct_8017ED3C, _80181D08, _8018337C with no user: type_census dead=3)."""
+    if not _RAW_FORMS:
+        import type_census as tc                     # heavy: only the D/B ranking needs it
+        _RAW_FORMS.extend((tc.FORM_P, tc.FORM_I, tc.FORM_X, tc.FORM_M))
+    code = sc.mask_text(text)
+    return sum(len(rx.findall(code)) for rx in _RAW_FORMS), text.count("!FAKE:")
+
+
+_TYPE_NAMES, _TYPE_FILES = set(), []
+
+
+def lost_types(cands, copies_text):
+    """T6 (t6probe1): per candidate, the first typedef name (from the type headers include/*.h, src/shared/*.h) that the other texts use,
+    this one does not, and nothing in src/ outside the class's copies and the type headers uses — sharing that text would leave the type
+    with no user (type_census --check dead; t6probe1b: Loc_80180E10, defined in src/shared/engine_types.h). Sets x["dead"] = name or
+    None. Conservative: uses inside the type headers are not counted."""
+    if not _TYPE_NAMES:
+        files = sorted(REPO.glob("include/*.h")) + sorted(REPO.glob("src/shared/*.h"))
+        _TYPE_FILES.extend(str(f.relative_to(REPO)) for f in files if f.parts[-2] == "shared")
+        for f in files:
+            st = f.read_text(errors="surrogateescape")
+            _TYPE_NAMES.update(re.findall(r"^\}\s*([A-Za-z_]\w*)\s*;", st, re.M) + re.findall(r"^typedef\s+[^;{]*?\b([A-Za-z_]\w*)\s*;", st, re.M))
+    used = [set(re.findall(r"\b[A-Za-z_]\w*\b", sc.mask_text(x["body"]))) & _TYPE_NAMES for x in cands]
+    union = set().union(*used)
+    outside = {}
+    for n in sorted(union - set.intersection(*used)):
+        r = subprocess.run(["git", "grep", "-w", "-o", "-F", n, "--", "src", *[f":(exclude){f}" for f in _TYPE_FILES]], cwd=REPO,
+                           capture_output=True, text=True)
+        outside[n] = len(r.stdout.splitlines()) - len(re.findall(rf"\b{re.escape(n)}\b", copies_text))
+    for x, u in zip(cands, used):
+        x["dead"] = next((n for n in sorted(union - u) if outside.get(n, 1) <= 0), None)
+
+
+def next_text(cands, k):
+    """The index of the next candidate after k that leaves no type dead (len(cands) when none)."""
+    k += 1
+    while k < len(cands) and cands[k].get("dead"):
+        k += 1
+    return k
+
+
+def strip_banner(text):
+    """A same-vram header's text without its leading banner comment (the body a header candidate contributes)."""
+    t = text.lstrip()
+    if t.startswith("/*") and "*/" in t:
+        t = t[t.index("*/") + 2:].lstrip("\n")
+    return t
+
+
+def cross_texts(c, old):
+    """T6 (3.42): the D/B exemplar candidates — the distinct cross_norm texts of the private copies (and, for a B class, of its group
+    headers `old` = [(group, own name, header text)]), ranked by (raw casts + !FAKE markers, lowest address); each text represented by its
+    lowest-address copy. Returns [dict(src, addr, body (own name -> SHARED_FN), casts, fakes)]."""
+    cands = {}
+    priv = sorted((i for i in c["insts"] if i["form"] == "def"), key=lambda i: (i["addr"], i["alias"], i["tu"], i["line"]))
+    items = [(i["addr"], f"{i['tu']}:{i['line']}", def_text(dict(i, cross=True)), None, i) for i in priv]
+    items += [(dedup_addr(g["vram"]), g["source"], strip_banner(t), own, None) for g, own, t in old]
+    for addr, src, t, own, i in sorted(items, key=lambda x: (x[0], x[1])):
+        own = own or def_head_name(i, t)
+        key = cross_norm(t, own)
+        if key in cands:
+            continue
+        casts, fakes = rank_counts(t)
+        cands[key] = dict(src=src, addr=addr, body=re.sub(rf"\b{re.escape(own)}\b", "SHARED_FN", t), casts=casts, fakes=fakes)
+    return sorted(cands.values(), key=lambda x: (x["casts"] + x["fakes"], x["addr"], x["src"]))
+
+
+def dedup_addr(v):
+    return int(v, 16) if isinstance(v, str) else int(v)
 
 
 def choose_exemplar(priv):
@@ -277,6 +376,7 @@ class Batch:
         self.touched = set()                             # binaries
         self.members = collections.defaultdict(list)     # h -> [(alias, tu)]
         self.exemplar_note = {}
+        self.cross = {}                                  # T6: h -> dict(hdr, gid, fn, cands, k, rejects, old_groups, old_headers) — D/B classes
 
     def add_class(self, c):
         h = c["h"]
@@ -284,6 +384,8 @@ class Batch:
         priv = [i for i in c["insts"] if i["form"] == "def"]
         base = self.orc.bases[priv[0]["alias"]] if priv else self.orc.bases[c["insts"][0]["alias"]]
         fn = f"func_{vram:08X}"
+        if c.get("cross") and c["verdict"] in ("B", "D"):
+            return self.add_cross_ranked(c, priv, base, fn)
         if c.get("cross"):
             # T4 (3.42): ONE body at several addresses — the name-parameterized include form (I0_clearTbl40): the header defines
             # SHARED_FN, each site defines SHARED_FN to its own name around the include; members verbose {binary, vram, name}
@@ -370,6 +472,106 @@ class Batch:
         for i in c["insts"]:
             self.touched.add(i["alias"])                 # twins of a touched primary are gated too (their objects change)
         return None
+
+    def add_cross_ranked(self, c, priv, base, fn):
+        """T6 (3.42): a D or B cross class. Candidates ranked by cross_texts; the header carries text k (0 first; run_batch retries the
+        next on a gate reject). B: every include site of a group header becomes the param-include form as well; the groups are dropped and
+        their headers removed only once the class is green (run_batch), so an undo leaves them untouched."""
+        h = c["h"]
+        hdr = f"src/shared/{'multi' if 'F' in c['flags'] else self.orc.space_dir(base)}/cls_{h[:12]}.h"
+        if (REPO / hdr).exists():
+            return f"refused: {hdr} exists already"
+        if any(i.get("alias_form") for i in priv):
+            # t6probe1: share_census.py:236 records a `#define SHARED_FN <name>` name verbatim (no ALIAS_DECL mapping), so an
+            # aF<ADDR> site is unaccounted (R32 coverage defect, 10 instances for cae222ea97b9); re-enable when the census maps it
+            return "refused: alias-form copy — the census cannot resolve `#define SHARED_FN aF<ADDR>` sites yet"
+        old, own_of_hdr, site_own, hdr_moves = [], {}, {}, []
+        incl = [i for i in c["insts"] if i["form"] == "include"]
+        inst_keys = {(i["alias"], i["addr"]) for i in c["insts"]}
+        inc_sites = {(i["tu"], i["line"]) for i in incl}
+        for g in c.get("groups") or []:
+            src, gf = g["source"], g.get("func")
+            p = REPO / src
+            if not gf or gf == "SHARED_FN" or not p.exists():
+                return f"refused: group {g['id']} (func {gf}, source {src}) is not a same-vram header group"
+            t = p.read_text(errors="surrogateescape")
+            if "__asm__" in t:
+                return f"refused: {src} carries an asm-label binding"
+            defs = [x for x in sc.scan_text(t, src, shared_defs=None) if x["form"] == "def"]
+            if len(defs) != 1 or defs[0]["name"].lower() != gf.lower():
+                return f"refused: {src} defines {[x['name'] for x in defs][:3]}, not exactly {gf}"
+            missing = [(bn, a) for bn, a, _ in m2h.sc_group_members(g) if (bn, a) not in inst_keys]
+            if missing:
+                return f"refused: {g['id']} lists members outside the class {missing[:3]}"
+            base_nm = os.path.basename(src)
+            r = subprocess.run(["git", "grep", "-n", "-F", f"/{base_nm}\"", "--", "src"], cwd=REPO, capture_output=True, text=True)
+            users = {(x.split(":", 2)[0], int(x.split(":", 2)[1])) for x in r.stdout.splitlines() if x.split(":", 1)[0] != src}
+            if users - inc_sites:
+                return f"refused: {src} has includers outside the class {sorted(users - inc_sites)[:3]}"
+            own = re.search(rf"\b{re.escape(gf)}\b", t, re.I).group(0)
+            old.append((g, own, t))
+            own_of_hdr[base_nm] = own
+            hdr_moves.append((h, src, own, hdr, defs[0]["line"]))        # header-to-header: (old header, func_<VRAM>) -> (hdr, SHARED_FN)
+        for i in incl:
+            ln = (REPO / i["tu"]).read_text(errors="surrogateescape").split("\n")[i["line"] - 1]
+            hit = [b for b in own_of_hdr if re.match(rf'\s*#include\s+"[^"]*/{re.escape(b)}"', ln)]
+            if len(hit) != 1:
+                return f"refused: include site {i['tu']}:{i['line']} is not an include of one group header ({ln.strip()[:60]})"
+            site_own[(i["tu"], i["line"])] = own_of_hdr[hit[0]]
+        for i in priv:
+            site_own[(i["tu"], i["line"])] = def_head_name(i, def_text(i))
+        cands = cross_texts(c, old)
+        if not cands:
+            return "refused: no candidate text"
+        lost_types(cands, "\n".join([def_text(i) for i in {(i["tu"], i["line"]): i for i in priv}.values()] + [t for _g, _o, t in old]))
+        pre = [dict(rank=k + 1, src=x["src"], binary="type_census --check", cause=f"dead type {x['dead']}: no user outside the class's copies")
+               for k, x in enumerate(cands) if x["dead"]]
+        if len(pre) == len(cands):
+            return f"refused: every text leaves a type with no user — {[(r['rank'], r['cause']) for r in pre]}"
+        gid = f"X_{h[:12]}"
+        self.moves.extend(hdr_moves)
+        self.cross[h] = dict(hdr=hdr, gid=gid, fn=fn, cands=cands, k=next_text(cands, -1), rejects=pre, old_groups=[g["id"] for g, _o, _t in old],
+                             old_headers=[g["source"] for g, _o, _t in old])
+        self.headers[hdr] = self.cross_header(h)
+        self.register_cross.append((gid, h, hdr, sorted((i["alias"], i["addr"], site_own[(i["tu"], i["line"])]) for i in c["insts"])))
+        seen_sites = set()
+        for i in priv + incl:
+            if (i["tu"], i["line"]) in seen_sites:       # the twin rule (add_class)
+                continue
+            seen_sites.add((i["tu"], i["line"]))
+            own = site_own[(i["tu"], i["line"])]
+            inc = f"#define SHARED_FN {own}\n{m2h.include_line(i['tu'], hdr)}\n#undef SHARED_FN"
+            end = i["end"] if i["form"] == "def" else i["line"]
+            self.edits[i["tu"]].append((i["line"], end, inc, h))
+            if i["form"] == "def":
+                self.moves.append((h, i["tu"], own, hdr, i["line"]))
+        for i in c["insts"]:
+            self.members[h].append((i["alias"], i["tu"]))
+            self.touched.add(i["alias"])
+        self.note_cross(h)
+        return None
+
+    def cross_header(self, h):
+        """The D/B header text for the class's current candidate k; the provenance comment carries the rule: the chosen text, its rank,
+        cast and marker counts, and the binary that rejected each earlier text."""
+        x = self.cross[h]
+        cd = x["cands"][x["k"]]
+        lines = [f"/* class h_exact {h} · registry {x['gid']} · generated by tools/share_body.py --bucket cross at {head_sha()}",
+                 f" * exemplar {cd['src']} · rank {x['k'] + 1}/{len(x['cands'])} by (raw casts + !FAKE markers, lowest address): "
+                 f"casts {cd['casts']}, markers {cd['fakes']}"]
+        lines += [f" * rank {r['rank']} {r['src']} rejected by {r['binary']}" for r in sorted(x["rejects"], key=lambda r: r["rank"])]
+        text = "\n".join(lines) + " */\n" + cd["body"]
+        return m2h.bind_alias_header(text, x["fn"])[0]
+
+    def note_cross(self, h):
+        x = self.cross[h]
+        cd = x["cands"][x["k"]]
+        self.exemplar_note[h] = (f"cross rank {x['k'] + 1}/{len(x['cands'])} {cd['src']} (casts {cd['casts']}, markers {cd['fakes']}; "
+                                 f"rejected {[(r['rank'], r['binary']) for r in x['rejects']]}), {len(self.edits_of(h))} sites → param-include"
+                                 + (f"; merges {x['old_groups']}" if x["old_groups"] else ""))
+
+    def edits_of(self, h):
+        return [e for eds in self.edits.values() for e in eds if e[3] == h]
 
     def apply_edits(self, only_tus=None):
         n = 0
@@ -530,6 +732,45 @@ def registry_append_cross(entries):
     p.write_text(t + "".join(out))
 
 
+def registry_merge(b, green, label):
+    """T6 (3.42): for each green B cross class, drop its old groups from config/dedup.us.yaml (by text: the `  - id:` block) and remove
+    every old header no file includes any more (a deletion the commit stages); its one X_ group is appended by registry_append_cross.
+    A header still included is kept and reported (add_cross_ranked refused classes whose headers had includers outside them)."""
+    out = {}
+    drop = {g: h for h in green for g in b.cross[h]["old_groups"]}
+    if not drop:
+        return out
+    p = REPO / "config/dedup.us.yaml"
+    lines, kept, skip, found = p.read_text().splitlines(keepends=True), [], False, set()
+    for ln in lines:
+        m = re.match(r"^  - id:\s*(\S+)\s*$", ln)
+        if m:
+            skip = m.group(1) in drop
+            if skip:
+                found.add(m.group(1))
+        elif skip and not ln.startswith("    "):
+            skip = False
+        if not skip:
+            kept.append(ln)
+    if found != set(drop):
+        sys.exit(f"share_body: registry_merge: groups not found in config/dedup.us.yaml: {sorted(set(drop) - found)[:5]} (R43)")
+    p.write_text("".join(kept))
+    for h in sorted(g for g in green if b.cross[g]["old_groups"]):
+        gone, left = [], []
+        for hdr in b.cross[h]["old_headers"]:
+            r = subprocess.run(["git", "grep", "-l", "-F", f"/{os.path.basename(hdr)}\"", "--", "src"], cwd=REPO, capture_output=True, text=True)
+            users = [u for u in r.stdout.split() if u != hdr]
+            if users:
+                left.append((hdr, users[:3]))
+                continue
+            (REPO / hdr).unlink()
+            gone.append(hdr)
+        out[h] = dict(groups_dropped=b.cross[h]["old_groups"], headers_removed=gone, headers_kept=left)
+        log(f"  [{label}] {h[:10]}: merged {len(b.cross[h]['old_groups'])} groups into {b.cross[h]['gid']} · {len(gone)} old headers removed"
+                + (f" · KEPT (still included) {left}" if left else ""))
+    return out
+
+
 _HEAD = []
 
 
@@ -612,13 +853,15 @@ def rekey_restruct(moves, label):
         by_hdr[m[3]].append(m)
     out, rows = collections.Counter(), []
     for hdr in sorted(by_hdr):
-        if (latest.get(("S", hdr, "SHARED_FN")) or {}).get("rekey_of"):
-            out["skipped"] += 1
-            continue
         text = (REPO / hdr).read_text(errors="surrogateescape")
         d = next((x for x in sc.scan_text(text, hdr, shared_defs=None) if x["form"] == "def" and x["name"] == "SHARED_FN"), None)
         if d is None:
             log(f"  [{label}] rekey_restruct: {hdr} has no SHARED_FN def — skipped")
+            continue
+        prev = latest.get(("S", hdr, "SHARED_FN")) or {}
+        # idempotent per header TEXT (T6): a rerun after an undo may write the same header with another ranked text
+        if prev.get("rekey_of") and prev.get("nhash_after") == rs.body_nhash(rs.dl.same_len_mask(text), d):
+            out["skipped"] += 1
             continue
         copies, srcs = [], []
         for _h, tu, own, _hd, line in sorted(by_hdr[hdr], key=lambda m: (m[1], m[2])):
@@ -738,75 +981,150 @@ def run_batch(orc, cen, classes, label):
     failed_classes = set()
     causes = {}                                      # h -> (binary, the first cause line)
     results = {}
-    for a in gated:
-        ok, detail = gate(a, snap)
-        results[a] = (ok, detail)
-        if ok:
-            continue
-        # BISECT this binary: restore its TUs, re-apply the batch's classes one at a time
-        my_tus = {tu for tu in b.edits if tu.startswith(cen["dirs"][a] + "/") or (a == "main" and tu.count("/") == 1)}
-        prim = cen["twin_of"].get(a)
-        if prim:
-            my_tus = {tu for tu in b.edits if tu.startswith(cen["dirs"][prim] + "/")}
-        restore(my_tus, tu_snap)
-        by_class = collections.defaultdict(lambda: collections.defaultdict(list))
-        for tu in my_tus:
-            for e in b.edits[tu]:
-                by_class[e[3]][tu].append(e)
-        def apply_selected(selected):
-            """From the RESTORED original text: every selected class's edits per TU in ONE bottom-up pass, so the original line
-            numbers stay valid (a per-class sequential re-application shifted later classes' lines — the first bisect rejected
-            125 of 183 classes on artifacts of its own: duplicate definitions and parse errors at the shifted sites)."""
-            restore(my_tus, tu_snap)
-            per_tu = collections.defaultdict(list)
-            for hh in selected:
-                for tu, eds in by_class[hh].items():
-                    per_tu[tu].extend(eds)
-            for tu, eds in per_tu.items():
-                p = REPO / tu
-                lines = p.read_text(errors="surrogateescape").split("\n")
-                for line, end, new, _ in sorted(eds, key=lambda e: -e[0]):
-                    lines[line - 1:end] = [new]
-                p.write_text("\n".join(lines))
+    cross_hs = {c["h"] for c in classes if c.get("cross")}
+    other_dirs = sorted({d + "/" for al, d in cen["dirs"].items() if al != "main"})
+    owner = {tu: next((d for d in other_dirs if tu.startswith(d)), "") for tu in b.edits}
 
-        good = []
-        for h, tus in sorted(by_class.items(), key=lambda kv: kv[0]):
-            apply_selected(good + [h])
-            ok2, det2 = gate(a, snap)
-            if ok2:
-                good.append(h)
-            else:
-                failed_classes.add(h)
-                causes.setdefault(h, (a, det2))
-                log(f"  [{label}] {a}: class {h[:10]} REJECTED — {det2}")
-                apply_selected(good)              # leave the good ones applied
-        ok3, det3 = gate(a, snap)
-        results[a] = (ok3, det3 + f" (after bisect: {len(good)} classes kept, {len(by_class) - len(good)} rejected)")
-        if not ok3:
-            sys.exit(f"share_body: {a} still red after the bisect ({det3}) — stopping (R43)")
-    # a red CROSS class is all-or-nothing: every site restored (from the pre-batch text, the other classes' edits re-applied), its header
-    # removed, nothing registered or ledgered; every binary whose TUs changed back is gated again
-    cross_red = {c["h"] for c in classes if c.get("cross") and c["h"] in failed_classes}
-    if cross_red:
-        redo = {tu for tu, eds in b.edits.items() if any(e[3] in cross_red for e in eds)}
-        for tu in redo:
+    def tus_of(a):
+        """The edited TUs a binary compiles: a twin builds its primary's; main the TUs under no other binary's directory (its dir is
+        `src`, a prefix of every TU — the bisect used to restore and re-apply the whole batch for main)."""
+        a = cen["twin_of"].get(a) or a
+        d = "" if a == "main" else cen["dirs"][a] + "/"
+        return {tu for tu in b.edits if owner[tu] == d}
+
+    def cur_texts(a):
+        return {tu: (REPO / tu).read_text(errors="surrogateescape") for tu in sorted(tus_of(a))}
+
+    last_text = {}                                   # binary -> its TUs' text at its last green build (the pre-batch text until gated)
+
+    def apply_classes(tus, excluded):
+        """From the pre-batch text: every edit of the TUs whose class is not `excluded`, in ONE bottom-up pass."""
+        for tu in tus:
             lines = tu_snap[tu].split("\n")
             for line, end, new, hh in sorted(b.edits[tu], key=lambda e: -e[0]):
-                if hh not in failed_classes:
+                if hh not in excluded:
                     lines[line - 1:end] = [new]
             (REPO / tu).write_text("\n".join(lines))
-        for gid, h, hdr, _m in b.register_cross:
-            if h in cross_red and hdr in b.headers:
-                (REPO / hdr).unlink(missing_ok=True)
-        regate = {al for hh in b.members for al, tu in b.members[hh] if tu in redo}
-        regate |= {t for al in regate for t in twins_of.get(al, [])}
-        for a in sorted(regate):
+
+    def gate_round(binaries, cands, rc):
+        """Gate `binaries`; a red one is bisected over the round's candidate classes `cands` (every other applied class stays applied).
+        Returns the classes rejected; rc[h] = (binary, cause). T6: a binary whose candidate classes are all cross classes already
+        rejected this round is not gated — they are undone everywhere next, and undo_and_regate rebuilds it if its text changed."""
+        red = set()
+        for a in binaries:
+            my_tus = tus_of(a)
+            here = {e[3] for tu in my_tus for e in b.edits[tu]}
+            mine = here & cands
+            if mine and mine <= red and mine <= cross_hs:
+                continue
+            ok, detail = gate(a, snap)
+            results[a] = (ok, detail)
+            if ok:
+                last_text[a] = cur_texts(a)
+                continue
+            # BISECT this binary: restore its TUs, re-apply the round's classes one at a time
+            fixed = here - cands - failed_classes
+            by_class = collections.defaultdict(lambda: collections.defaultdict(list))
+            for tu in my_tus:
+                for e in b.edits[tu]:
+                    by_class[e[3]][tu].append(e)
+
+            def apply_selected(selected):
+                """From the RESTORED original text: every selected class's edits per TU in ONE bottom-up pass, so the original line
+                numbers stay valid (a per-class sequential re-application shifted later classes' lines — the first bisect rejected
+                125 of 183 classes on artifacts of its own: duplicate definitions and parse errors at the shifted sites)."""
+                restore(my_tus, tu_snap)
+                per_tu = collections.defaultdict(list)
+                for hh in selected:
+                    for tu, eds in by_class[hh].items():
+                        per_tu[tu].extend(eds)
+                for tu, eds in per_tu.items():
+                    p = REPO / tu
+                    lines = p.read_text(errors="surrogateescape").split("\n")
+                    for line, end, new, _ in sorted(eds, key=lambda e: -e[0]):
+                        lines[line - 1:end] = [new]
+                    p.write_text("\n".join(lines))
+
+            good = []
+            for h in sorted(mine):
+                apply_selected(sorted(fixed) + good + [h])
+                ok2, det2 = gate(a, snap)
+                if ok2:
+                    good.append(h)
+                else:
+                    red.add(h)
+                    rc.setdefault(h, (a, det2))
+                    log(f"  [{label}] {a}: class {h[:10]} REJECTED — {det2}")
+                    apply_selected(sorted(fixed) + good)   # leave the good ones applied
+            ok3, det3 = gate(a, snap)
+            results[a] = (ok3, det3 + f" (after bisect: {len(good)} classes kept, {len(mine) - len(good)} rejected)")
+            if not ok3:
+                sys.exit(f"share_body: {a} still red after the bisect ({det3}) — stopping (R43)")
+            last_text[a] = cur_texts(a)
+        return red
+
+    def undo_and_regate(red, why):
+        """A red CROSS class is all-or-nothing: every site restored (from the pre-batch text, the other classes' edits re-applied); every
+        binary whose TUs changed back is gated again — unless its TUs are back at the text of its last green build (or, never built in
+        this batch, at the pre-batch text: its objects are the snapshot's), which is recorded as such."""
+        redo = {tu for tu, eds in b.edits.items() if any(e[3] in red for e in eds)}
+        apply_classes(redo, failed_classes)
+        for a in sorted(x for x in gated if tus_of(x) & redo):
+            now = cur_texts(a)
+            if now == last_text.get(a, {tu: tu_snap[tu] for tu in now}):
+                if a not in results:
+                    results[a] = (True, "unchanged: TUs at the pre-batch text, objects = the snapshot (not rebuilt)")
+                continue
             ok4, det4 = gate(a, snap)
-            results[a] = (ok4, det4 + f" (after the cross undo of {len(cross_red)} classes)")
+            results[a] = (ok4, det4 + f" ({why})")
             if not ok4:
                 sys.exit(f"share_body: {a} red after the cross undo ({det4}) — stopping (R43)")
-        for h in sorted(cross_red):
-            log(f"  [{label}] cross class {h[:10]} UNDONE at every site — {causes.get(h, ('?', '?'))}")
+            last_text[a] = now
+
+    rc = {}
+    red = gate_round(gated, {c["h"] for c in classes}, rc)
+    failed_classes |= red
+    causes.update(rc)
+    cross_red = red & cross_hs
+    if cross_red:
+        undo_and_regate(cross_red, f"after the cross undo of {len(cross_red)} classes")
+    # T6: a red D/B class retries its NEXT ranked text inside this run (the sites' edits do not depend on the text: only the header is
+    # rewritten), round after round, until green or its texts are exhausted; each rejected text is recorded with its binary and cause
+    rnd = 0
+    while True:
+        for h in sorted(cross_red & set(b.cross)):
+            x = b.cross[h]
+            x["rejects"].append(dict(rank=x["k"] + 1, src=x["cands"][x["k"]]["src"], binary=rc[h][0], cause=rc[h][1]))
+        retry = {h for h in cross_red if h in b.cross and next_text(b.cross[h]["cands"], b.cross[h]["k"]) < len(b.cross[h]["cands"])}
+        if not retry:
+            break
+        rnd += 1
+        for h in sorted(retry):
+            x = b.cross[h]
+            x["k"] = next_text(x["cands"], x["k"])
+            b.headers[x["hdr"]] = b.cross_header(h)
+            (REPO / x["hdr"]).write_text(b.headers[x["hdr"]])
+            b.note_cross(h)
+        failed_classes -= retry
+        tus = {tu for tu, eds in b.edits.items() if any(e[3] in retry for e in eds)}
+        apply_classes(tus, failed_classes)
+        bins = [a for a in gated if tus_of(a) & tus]
+        log(f"  [{label}] retry round {rnd}: {len(retry)} classes on their next text · gating {len(bins)} binaries")
+        rc = {}
+        red = gate_round(bins, retry, rc)
+        failed_classes |= red
+        causes.update(rc)
+        cross_red = red
+        if red:
+            undo_and_regate(red, f"after the retry-{rnd} undo of {len(red)} classes")
+        for h in sorted(retry - red):
+            log(f"  [{label}] cross class {h[:10]} GREEN on rank {b.cross[h]['k'] + 1}/{len(b.cross[h]['cands'])}")
+    for gid, h, hdr, _m in b.register_cross:
+        if h in failed_classes and hdr in b.headers:
+            (REPO / hdr).unlink(missing_ok=True)
+    for h in sorted(failed_classes & cross_hs):
+        log(f"  [{label}] cross class {h[:10]} UNDONE at every site — {causes.get(h, ('?', '?'))}"
+            + (f" · texts tried {len(b.cross[h]['rejects'])}/{len(b.cross[h]['cands'])}" if h in b.cross else ""))
     if RETRY_EXCEPTED:
         for c in classes:
             if c.get("excepted"):
@@ -847,12 +1165,13 @@ def run_batch(orc, cen, classes, label):
     if text_entries:
         registry_append_text(text_entries)
     cross_entries = [e for e in b.register_cross if e[1] not in failed_classes]
+    repaired = registry_merge(b, {e[1] for e in cross_entries} & set(b.cross), label)   # T6: a green B class's old groups and headers go
     if cross_entries:
         registry_append_cross(cross_entries)
     reg_entries = reg_entries + text_entries + cross_entries
     # a rejected EXTEND class is ledgered too (its private copies in the rejecting binaries stay)
     for c in classes:
-        if c["verdict"] == "B" and c["h"] in failed_classes:
+        if c["verdict"] == "B" and c["h"] in failed_classes and not c.get("cross"):    # a cross class is never ledgered (T6)
             cb, cause = causes.get(c["h"], ("?", "?"))
             ledger_row(c["h"], reason_for(cause), c["nins"], c["instances"],
                        f"share_body {label}: extend of {c['groups'][0]['id']} rejected in {sorted(rejected_in(b, c['h'], cen))}; "
@@ -865,7 +1184,7 @@ def run_batch(orc, cen, classes, label):
             rejected_bins[c["h"]] = rejected_in(b, c["h"], cen)
     ext = {}
     for c in classes:
-        if c["verdict"] != "B":
+        if c["verdict"] != "B" or c.get("cross"):
             continue
         gid = c["groups"][0]["id"]
         bins = [x for x in b.extend.get(gid, []) if x not in rejected_bins.get(c["h"], set())]
@@ -881,14 +1200,20 @@ def run_batch(orc, cen, classes, label):
         extra["rekeyed"] = rekey_ledgers(moves)
         log(f"  [{label}] ledgers re-keyed to the headers: {extra['rekeyed']}")
         if moves:
-            segs = sorted({al for _h, tu, _o, _hd, _l in moves for al, t in b.members[_h] if t == tu}) + sorted({m[3] for m in moves})
+            # every binary whose TU a kept class edited (its include sites too, T6) + the new headers (a moved-from header is gone)
+            segs = sorted({al for h_ in {m[0] for m in moves} for al, _t in b.members[h_]}) + sorted({m[3] for m in moves})
             extra["restruct_rows"] = rekey_restruct(moves, label)
             residue_ok = restamp_residue(segs, label)
             extra["residue_segments"] = segs
     (RUN / f"batch_{label}.json").write_text(json.dumps(dict(classes=[c["h"] for c in classes], refused=refused,
                                                                 results=results, registered=[e[0] for e in reg_entries],
                                                                 extended=ext, rejected=sorted(failed_classes),
-                                                                causes=causes, exemplars=b.exemplar_note, **extra), indent=1) + "\n")
+                                                                causes=causes, exemplars=b.exemplar_note, merged=repaired,
+                                                                # T6: per D/B class the chosen rank and, per rejected text, its binary and cause
+                                                                cross_rules={h: dict(rank=x["k"] + 1, texts=len(x["cands"]), chosen=x["cands"][x["k"]]["src"],
+                                                                                     casts=x["cands"][x["k"]]["casts"], markers=x["cands"][x["k"]]["fakes"],
+                                                                                     green=h not in failed_classes, rejects=x["rejects"])
+                                                                             for h, x in b.cross.items()}, **extra), indent=1) + "\n")
     return len(failed_classes) == 0 and all(results[a][0] for a in gated) and residue_ok
 
 
@@ -1094,11 +1419,15 @@ def main():
         cross, differs = cross_candidates(cen)
         ef = collections.Counter("E+F" if "F" in c["flags"] else "E-only" for c in cross)
         na = collections.Counter("2 addr" if len(c["addrs"]) == 2 else "3+ addr" for c in cross)
-        log(f"share_body: cross (verdict C, flag E) {len(cross)} classes / {sum(c['instances'] for c in cross):,} instances · "
+        by_v = collections.Counter(c["verdict"] + ("/twin" if "TWIN-COVERED" in c["flags"] else "") for c in cross)
+        log(f"share_body: cross pool by verdict (T6: B, D and twin-covered join C): "
+            + " · ".join(f"{v} {n} classes / {sum(c['instances'] for c in cross if c['verdict'] + ('/twin' if 'TWIN-COVERED' in c['flags'] else '') == v):,} inst"
+                         for v, n in sorted(by_v.items())))
+        log(f"share_body: cross (flag E/F) {len(cross)} classes / {sum(c['instances'] for c in cross):,} instances · "
             f"{dict(sorted(ef.items()))} · {dict(sorted(na.items()))} · alias-form {sum(1 for c in cross if 'ALIAS' in c['flags'])} · "
             f"TEXT-DIFFERS {len(differs)} classes (skipped, not ledgered)")
         for c in cross[:8]:
-            log(f"    {c['h'][:12]} {','.join(c['flags']):14s} {c['instances']:4d} inst x {c['nins']:5d} ins {len(c['addrs'])} addrs {c['addrs'][:3]}")
+            log(f"    {c['verdict']} {c['h'][:12]} {','.join(c['flags']):14s} {c['instances']:4d} inst x {c['nins']:5d} ins {len(c['addrs'])} addrs {c['addrs'][:3]}")
         return
     if a.plan:
         bands = collections.Counter(c["band"] for c in new)
