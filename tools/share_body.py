@@ -400,7 +400,9 @@ def cross_texts(c, old):
     cands = {}
     priv = sorted((i for i in c["insts"] if i["form"] == "def"), key=lambda i: (i["addr"], i["alias"], i["tu"], i["line"]))
     items = [(i["addr"], f"{i['tu']}:{i['line']}", def_text(dict(i, cross=True)), None, i) for i in priv]
-    items += [(dedup_addr(g["vram"]), g["source"], strip_banner(t), own, None) for g, own, t in old]
+    # T6.c3: a verbose-member group (h_text/cross form) has no top-level `vram`: its lowest member address stands in (cross19 KeyError)
+    items += [(dedup_addr(g["vram"]) if "vram" in g else min(dedup_addr(a) for _bn, a, *_ in m2h.sc_group_members(g)),
+               g["source"], strip_banner(t), own, None) for g, own, t in old]
     for addr, src, t, own, i in sorted(items, key=lambda x: (x[0], x[1])):
         own = own or def_head_name(i, t)
         key = cross_norm(t, own)
