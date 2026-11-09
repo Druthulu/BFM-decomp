@@ -3683,39 +3683,9 @@ extern u8 *func_801290DC(s32 a0, u8 *a1);
 extern void func_8012BF4C(s32 *a0, s32 a1);
 extern s32 rand(void);
 
-void func_8017D9E4(s32 param_1) {
-    u16 delta[4];
-    u16 t;
-    s32 t2;
-    s16 d;
-    s32 obj;
-
-    if (func_8012BEE8(param_1) == 0) {
-        return;
-    }
-    func_80015978(param_1 + 4, (s32 *)delta);
-    if (((Unkstruct_800B5CB8 *)param_1)->unkDC != 0) {
-        t = rand() % 352;
-        d = t;
-        if (t & 1) {
-            d = -t;
-        }
-        delta[0] += d;
-        t2 = rand();
-        t2 = t2 % 256;
-        d = t2;
-        if (t2 & 1) {
-            d = -t2;
-        }
-        delta[2] += d;
-    }
-    obj = (s32)func_801290DC(0x27, (u8 *)delta);
-    if (obj == 0) {
-        return;
-    }
-    func_8012BF4C((s32 *)param_1, (rand() & 0x7F) + 0x60);
-    ((Unkstruct_800B5CB8 *)obj)->unk2E = CAST_SIGN(u16, param_1, 0xFC);
-}
+#define SHARED_FN func_8017D9E4
+#include "../shared/ov/cls_129ffc19bd73.h"
+#undef SHARED_FN
 
 
 

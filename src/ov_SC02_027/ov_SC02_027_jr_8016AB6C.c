@@ -3362,9 +3362,9 @@ extern void (*D_8018E570[])(void);
 
 extern void (*D_8018E578[])(void);
 
-void func_8016DF20(void *a0) {
-    D_8018E578[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016DF20
+#include "../shared/ov/cls_facefc85fe6d.h"
+#undef SHARED_FN
 
 
 extern Blk20 D_800AE620;

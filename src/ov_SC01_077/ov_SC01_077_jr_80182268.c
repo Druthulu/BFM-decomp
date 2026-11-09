@@ -3041,11 +3041,9 @@ void func_80182268(void *a0) {
 }
 
 
-void func_801822E4(u8 *a0) {
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 0xC;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 6;
-    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
-}
+#define SHARED_FN func_801822E4
+#include "../shared/ov/cls_53f78442410d.h"
+#undef SHARED_FN
 
 #define SHARED_FN func_801822FC
 #include "../shared/ov/cls_4105883f012a.h"

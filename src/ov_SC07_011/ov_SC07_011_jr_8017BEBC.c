@@ -3583,20 +3583,16 @@ void func_8017D580(void) {
 
 extern void func_80171A80(s32*, s32);
 extern s32 func_80171990(u8*);
-void func_8017D5A8(s32 *a0) {
-    ((void (*)(s32 *, s16))func_80171A80)(a0, 30);
-    ((void (*)(void *))func_80171990)(a0);
-}
+#define SHARED_FN func_8017D5A8
+#include "../shared/ov/cls_acd9ec6029f9.h"
+#undef SHARED_FN
 
 
 extern s32 func_80171A88(s32 a0);
 extern s32 func_80171990(u8*);
-void func_8017D5DC(int param_1)
-{
-    if (((int (*)(void))func_80171A88)() != 0) {
-        ((void (*)(int))func_80171990)(param_1);
-    }
-}
+#define SHARED_FN func_8017D5DC
+#include "../shared/ov/cls_2289f5a10915.h"
+#undef SHARED_FN
 
 
 extern void func_800D1724(s32 a0);
@@ -3619,20 +3615,16 @@ void func_8017D650(void) {
 
 extern void func_80171A80(s32*, s32);
 extern s32 func_80171990(u8*);
-void func_8017D678(s32 *a0) {
-    ((void (*)(s32 *, s16))func_80171A80)(a0, 30);
-    ((void (*)(void *))func_80171990)(a0);
-}
+#define SHARED_FN func_8017D678
+#include "../shared/ov/cls_acd9ec6029f9.h"
+#undef SHARED_FN
 
 
 extern s32 func_80171A88(s32 a0);
 extern s32 func_80171990(u8*);
-void func_8017D6AC(int param_1)
-{
-    if (((int (*)(void))func_80171A88)() != 0) {
-        ((void (*)(int))func_80171990)(param_1);
-    }
-}
+#define SHARED_FN func_8017D6AC
+#include "../shared/ov/cls_2289f5a10915.h"
+#undef SHARED_FN
 
 
 void func_8017D6E4(void *a0) {
@@ -3655,20 +3647,16 @@ void func_8017D720(void) {
 
 extern void func_80171A80(s32*, s32);
 extern s32 func_80171990(u8*);
-void func_8017D748(s32 *a0) {
-    ((void (*)(s32 *, s16))func_80171A80)(a0, 30);
-    ((void (*)(void *))func_80171990)(a0);
-}
+#define SHARED_FN func_8017D748
+#include "../shared/ov/cls_acd9ec6029f9.h"
+#undef SHARED_FN
 
 
 extern s32 func_80171A88(s32 a0);
 extern s32 func_80171990(u8*);
-void func_8017D77C(int param_1)
-{
-    if (((int (*)(void))func_80171A88)() != 0) {
-        ((void (*)(int))func_80171990)(param_1);
-    }
-}
+#define SHARED_FN func_8017D77C
+#include "../shared/ov/cls_2289f5a10915.h"
+#undef SHARED_FN
 
 
 extern void (*D_801820D8[])(void);

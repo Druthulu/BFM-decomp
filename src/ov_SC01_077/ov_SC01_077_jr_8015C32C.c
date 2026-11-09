@@ -2144,26 +2144,9 @@ void func_8015DBD4(void *arg0) {
 extern s8 D_80189438[];
 extern void func_80149374(s32 a0, s32 a1);
 
-void func_8015DCB8(s32 param_1) {
-    s32 iVar1;
-    s32 iVar2;
-
-    iVar2 = ((Unkstruct_80126B58 *)param_1)->unk178;
-
-    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234;
-    ((Unkstruct_80126B58 *)param_1)->unk234 = iVar1 + 1;
-    *(s16 *)(iVar2 + 6) = (s16)D_80189438[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0xc);
-
-    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234;
-    ((Unkstruct_80126B58 *)param_1)->unk234 = iVar1 + 1;
-    *(s16 *)(iVar2 + 10) = (s16)D_80189438[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0xe);
-
-    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234;
-    ((Unkstruct_80126B58 *)param_1)->unk234 = iVar1 + 1;
-    *(s16 *)(iVar2 + 0xe) = (s16)D_80189438[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0x10);
-
-    func_80149374(param_1, iVar2 + 4);
-}
+#define SHARED_FN func_8015DCB8
+#include "../shared/ov/cls_690f61c182a9.h"
+#undef SHARED_FN
 
 extern void func_8014C1A0(s32 arg0, s32 arg1);
 extern void func_80015978(s32 a0, s32 *a1);
@@ -2224,26 +2207,9 @@ void func_8015DF34(void *arg0) {
 extern s8 D_80189438[];
 extern void func_80149374(s32 a0, s32 a1);
 
-void func_8015E018(s32 param_1) {
-    s32 iVar1;
-    s32 iVar2;
-
-    iVar2 = ((Unkstruct_80126B58 *)param_1)->unk178;
-
-    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234;
-    ((Unkstruct_80126B58 *)param_1)->unk234 = iVar1 + 1;
-    *(s16 *)(iVar2 + 6) = (s16)D_80189438[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0xc);
-
-    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234;
-    ((Unkstruct_80126B58 *)param_1)->unk234 = iVar1 + 1;
-    *(s16 *)(iVar2 + 10) = (s16)D_80189438[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0xe);
-
-    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234;
-    ((Unkstruct_80126B58 *)param_1)->unk234 = iVar1 + 1;
-    *(s16 *)(iVar2 + 0xe) = (s16)D_80189438[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0x10);
-
-    func_80149374(param_1, iVar2 + 4);
-}
+#define SHARED_FN func_8015E018
+#include "../shared/ov/cls_690f61c182a9.h"
+#undef SHARED_FN
 
 
 void func_8014C1A0(s32 arg0, s32 arg1);

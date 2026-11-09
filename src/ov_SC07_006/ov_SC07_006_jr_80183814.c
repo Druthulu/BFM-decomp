@@ -5855,9 +5855,9 @@ s32 func_80189C00(void *a0) {
 
 
 
-s32 func_80189C14(void *a0) {
-    return ((((Unkstruct_8018558C *)a0)->unk34 < 6) ^ 1);
-}
+#define SHARED_FN func_80189C14
+#include "../shared/ov/cls_9084fe818ccf.h"
+#undef SHARED_FN
 
 
 

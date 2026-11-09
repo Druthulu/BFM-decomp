@@ -7418,15 +7418,9 @@ void func_80183B84(s32 a0) {
 
 
 
-void func_80183BEC(s32 a0) {
-    ((Unkstruct_80182190 *)a0)->unk52 = 0;
-    if (((Unkstruct_80182190 *)a0)->unk5E == 0x1D) {
-        if (((Unkstruct_80182190 *)a0)->unk10A == 0) {
-            ((Unkstruct_80182190 *)a0)->unkC4 |= 1;
-            ((Unkstruct_80182190 *)a0)->unk10A = 0x3C;
-        }
-    }
-}
+#define SHARED_FN func_80183BEC
+#include "../shared/ov/cls_5d83e97abf62.h"
+#undef SHARED_FN
 
 
 
@@ -7461,10 +7455,9 @@ void func_80183C24(s32 a0) {
 extern void func_8002D4C8(s32 arg0, s32 arg1);
 extern void func_8002AC00(s32 arg0);
 
-void func_80183CCC(void) {
-    func_8002D4C8(0xA9E, 0);
-    func_8002AC00(0x14);
-}
+#define SHARED_FN func_80183CCC
+#include "../shared/ov/cls_a9a327ac3192.h"
+#undef SHARED_FN
 
 
 extern s32 func_8002A04C(s32 a0);
@@ -7708,51 +7701,9 @@ void func_80183FF8(s32 a0) {
 
 extern u8 D_801202A0[];
 
-void func_80184238(s32 a0) {
-    u8 *p;
-    s32 i;
-    s16 t;
-
-    for (p = D_801202A0, i = 0; i < 0x60; p += 0x10C, i++) {
-        if (((Unkstruct_80183094_2 *)p)->unk0 == 0x210) {
-            if ((u16)(((Unkstruct_80183094_2 *)p)->unk6 - ((Unkstruct_80183094 *)a0)->unk6 + 0x9F) < 0x13F) {
-                if ((u16)(((Unkstruct_80183094_2 *)p)->unkE - ((Unkstruct_80183094 *)a0)->unkE + 0x9F) < 0x11F) {
-                    if (((Unkstruct_80183094_2 *)p)->unkA - ((Unkstruct_80183094 *)a0)->unkA < 0xC0) {
-                        ((Unkstruct_80183094_2 *)p)->unkFE = 1;
-                    }
-                }
-            }
-        }
-    }
-
-    t = CAST_SIGN(u16, a0, 0xA) - 2;
-    ((Unkstruct_80183094 *)a0)->unkA = t;
-    if (((Unkstruct_80183094 *)a0)->unk8A >= t) {
-        ((Unkstruct_80183094 *)a0)->unk2 = 1;
-    }
-
-    {
-        s32 obj;
-        obj = ((Unkstruct_80183094 *)a0)->unk6C;
-        if (obj != 0) {
-            s32 diff;
-            diff = ((Unkstruct_80183094 *)a0)->unkA - ((Unkstruct_80183094 *)a0)->unk8A;
-            if (diff > 0) {
-                s32 dst;
-                s32 v;
-                s16 result;
-                v = (diff << 5) + 0x4000;
-                dst = ((Unkstruct_80183094_4 *)obj)->unkCC;
-                if (v > 0x7000) {
-                    v = 0x7000;
-                }
-                result = v;
-                ((Unkstruct_80183094_3 *)dst)->unk1A = result;
-                ((Unkstruct_80183094_3 *)dst)->unk18 = result;
-            }
-        }
-    }
-}
+#define SHARED_FN func_80184238
+#include "../shared/ov/cls_eec87233d414.h"
+#undef SHARED_FN
 
 
 

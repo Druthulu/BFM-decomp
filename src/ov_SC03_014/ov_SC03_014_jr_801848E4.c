@@ -3232,9 +3232,9 @@ extern s32 D_801EAEE4;
     }
 
 
-s32 func_8018558C(void *a0) {
-    return ((((Unkstruct_8018558C *)a0)->unk34 < 6) ^ 1);
-}
+#define SHARED_FN func_8018558C
+#include "../shared/ov/cls_9084fe818ccf.h"
+#undef SHARED_FN
 
 
 #include "common.h"

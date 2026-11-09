@@ -3943,15 +3943,9 @@ void func_801841A8(void *a0) {
 
 extern void func_8012AD44(s32 *a0, s16 a1);
 
-void func_801841E4(s32 *a0) {
-    s32 *v0;
-
-    v0 = CAST_SIGN(s32 *, ((u8 *)a0), 0x20);
-    CAST_WIDTH(s16, ((u8 *)v0), 0x1C) = 0;
-    ((Unkstruct_800B5CB8 *)v0)->unk1A = 0;
-    ((Unkstruct_800B5CB8 *)v0)->unk18 = 0;
-    func_8012AD44(a0, 1);
-}
+#define SHARED_FN func_801841E4
+#include "../shared/ov/cls_6f0784d64fc8.h"
+#undef SHARED_FN
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);

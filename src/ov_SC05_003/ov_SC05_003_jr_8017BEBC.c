@@ -5134,21 +5134,9 @@ extern void RotMatrixY(s32, void *);
 extern void RotMatrixZ(s32, void *);
 extern s32 RotMatrixX(s32, void *);
 
-void func_80180D70(s32 a0, s32 a1) {
-    s16 ang[4];
-    void *m;
-
-    m = (void *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34);
-    ang[0] = ratan2(*(s16 *)(a1 + 4), *(s16 *)(a1 + 2));
-    ang[2] = ratan2(*(s16 *)a1,
-                    -func_80047D3C((*(s16 *)(a1 + 4)) * (*(s16 *)(a1 + 4)) +
-                                   (*(s16 *)(a1 + 2)) * (*(s16 *)(a1 + 2))));
-    func_80013F3C((s32)m);
-    RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), m);
-    RotMatrixZ(ang[2], m);
-    RotMatrixX(ang[0], m);
-    func_8012B260((u8 *)a0);
-}
+#define SHARED_FN func_80180D70
+#include "../shared/ov/cls_6f9410f401e1.h"
+#undef SHARED_FN
 
 
     extern void ApplyMatrixSV(void*, void*, void*);

@@ -4077,11 +4077,9 @@ void func_8017E234(void *a0) {
 }
 
 
-s32 func_8017E254(void * arg0)
-{
-    ((Unkstruct_8017E254_2 *)arg0)->unk6 = 0;
-    ((Unkstruct_8017E254_2 *)arg0)->unk4 = (u16) (((Unkstruct_8017E254_2 *)arg0)->unk4 + 1);
-}
+#define SHARED_FN func_8017E254
+#include "../shared/ov/cls_d9738169fa91.h"
+#undef SHARED_FN
 
 
 extern s32 D_801151D4;
@@ -4142,11 +4140,9 @@ void func_8017E2F0(s32 a0) {
 }
 
 
-s32 func_8017E33C(void * arg0)
-{
-    ((Unkstruct_8017E254_2 *)arg0)->unk6 = 0;
-    ((Unkstruct_8017E254_2 *)arg0)->unk4 = (u16) (((Unkstruct_8017E254_2 *)arg0)->unk4 + 1);
-}
+#define SHARED_FN func_8017E33C
+#include "../shared/ov/cls_d9738169fa91.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -4210,11 +4206,9 @@ void func_8017E424(s32 s0) {
 }
 
 
-s32 func_8017E4B0(void * arg0)
-{
-    ((Unkstruct_8017E254_2 *)arg0)->unk6 = 0;
-    ((Unkstruct_8017E254_2 *)arg0)->unk4 = (u16) (((Unkstruct_8017E254_2 *)arg0)->unk4 + 1);
-}
+#define SHARED_FN func_8017E4B0
+#include "../shared/ov/cls_d9738169fa91.h"
+#undef SHARED_FN
 
 
 extern s32 D_801151D4;

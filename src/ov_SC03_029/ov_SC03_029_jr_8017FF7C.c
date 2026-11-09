@@ -4316,9 +4316,9 @@ void func_8018246C(void) {
 
 extern void (*D_8018BCBC[])(void);
 
-void func_80182544(void *a0) {
-    D_8018BCBC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80182544
+#include "../shared/ov/cls_f27a77b5698b.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C1B8(void);
@@ -5014,16 +5014,9 @@ L_store:
 
 
 
-void func_801833BC(void *a0)
-{
-  s32 v1 = *((s32 *) (((s32) a0) + 0x20));
-  int new_var;
-  *((s16 *) (((s32) a0) + 0x2)) = 0xA;
-  *((s16 *) (((s32) a0) + 0x5C)) = 0;
-  *((s16 *) (((s32) a0) + (new_var = 0x34))) = 0;
-  *((s32 *) (((s32) a0) + 0x1C)) = 0x8;
-  *((s16 *) (((s32) v1) + 0x2C)) |= 0x10;
-}
+#define SHARED_FN func_801833BC
+#include "../shared/ov/cls_87b3f2efc92f.h"
+#undef SHARED_FN
 
 
 
