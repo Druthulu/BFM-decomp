@@ -3498,9 +3498,9 @@ void func_8016DEA4(void *a0) {
 
 extern void (*D_80189E54[])(void);
 
-void func_8016DF20(void *a0) {
-    D_80189E54[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016DF20
+#include "../shared/ov/cls_ed35d012e3d7.h"
+#undef SHARED_FN
 
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (156 ins). Split iVar8 live-range (top-load->else $s3, func_801465C0
