@@ -1618,11 +1618,9 @@ block_13:
 
 
 
-void func_8015CFC0(s32 *a0) {
-
-    extern void (*D_80188704[])(void);
-    D_80188704[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015CFC0
+#include "../shared/ov/cls_73bf2c6102f4.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015CFFC.h"

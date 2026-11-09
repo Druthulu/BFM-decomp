@@ -7977,10 +7977,9 @@ s32 func_80186A30(void *a0) {
 }
 
 
-void func_80186A70(void *a0) {
-    func_8002D59C(4, 0x64E, CAST_SIGN(u16, (u8 *)a0, 0x104));
-    func_8012C218(a0);
-}
+#define SHARED_FN func_80186A70
+#include "../shared/ov/cls_5d9ddb3cd2c5.h"
+#undef SHARED_FN
 
 
 void func_80186AAC(s32 a0) {

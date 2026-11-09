@@ -4240,11 +4240,9 @@ extern void func_8012C218(void *a0);
  * definition gets a private C identifier and binds the emitted symbol with a GNU asm
  * label. Same class as banked func_8017EF54 (ov_SC06_008_jr_8017C294.c:4152). */
 
-void func_80187454(void *arg0)
-{
-    func_8002D59C(4, 0x64E, CAST_SIGN(u16, (char *)arg0, 0x104));
-    func_8012C218(arg0);
-}
+#define SHARED_FN func_80187454
+#include "../shared/ov/cls_5d9ddb3cd2c5.h"
+#undef SHARED_FN
 
 
 extern void func_8002D59C(s32 a0, u16 a1, s32 a2);

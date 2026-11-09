@@ -3603,9 +3603,9 @@ extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 
 extern void (*D_801906DC[])(void);
 
-void func_8018215C(u8 *a0) {
-    D_801906DC[a0[0x216]]();
-}
+#define SHARED_FN func_8018215C
+#include "../shared/ov/cls_4af7c5398511.h"
+#undef SHARED_FN
 
 
 extern s32 func_80171990(u8*);

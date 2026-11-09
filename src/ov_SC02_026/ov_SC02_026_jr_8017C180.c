@@ -4144,10 +4144,9 @@ s32 func_8017F400(s32 a0) {
 }
 
 
-void func_8017F440(s32 arg0) {
-    func_8002D59C(4, 0x64E, CAST_SIGN(u16, arg0, 0x104));
-    func_8012C218(arg0);
-}
+#define SHARED_FN func_8017F440
+#include "../shared/ov/cls_5d9ddb3cd2c5.h"
+#undef SHARED_FN
 
 
 void func_8017F47C(s32 a0) {
