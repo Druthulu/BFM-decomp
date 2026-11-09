@@ -3695,9 +3695,9 @@ extern s32 rand(void);
 
 extern void (*D_80181D94[])(void);
 
-void func_8017DB0C(void *a0) {
-    D_80181D94[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017DB0C
+#include "../shared/ov/cls_45a52c2e8292.h"
+#undef SHARED_FN
 
 
 

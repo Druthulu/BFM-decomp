@@ -2141,11 +2141,9 @@ void func_80156A1C(s32 param_1, s32 param_2)
 
 
 
-void func_80157544(void *a0) {
-
-    extern void (*D_80180664[])(void);
-    D_80180664[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80157544
+#include "../shared/ov/cls_501f9b54e24e.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80157580.h"

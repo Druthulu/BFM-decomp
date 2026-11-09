@@ -3157,11 +3157,9 @@ void func_8016BFD0(s32 a0, s32 a1, s32 a2, s32 a3, void *a4) {
 
 
 
-void func_8016C14C(void *a0) {
-
-    extern void (*D_801818E8[])(void);
-    D_801818E8[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016C14C
+#include "../shared/ov/cls_3cab7ed711b8.h"
+#undef SHARED_FN
 
 
 extern void *func_801465C0(void);
