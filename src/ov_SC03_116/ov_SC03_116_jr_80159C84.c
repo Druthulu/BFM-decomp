@@ -1376,9 +1376,9 @@ after_b4c:
 
 extern void (*D_8018509C[])(void);
 
-void func_8015A264(void *a0) {
-    D_8018509C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015A264
+#include "../shared/ov/cls_b4d9ab6a9fb2.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015A2A0.h"
