@@ -54,7 +54,15 @@ BAD = ("stale-build-input", "stale-invisible", "unclassified")
 ADDRESS_KEYED = {
     "tools/share_census.py": "coverage asserts find share classes by vram (`0x... in c['addrs']`), never by name",
     "docs/duplicates.cross.md": "dup_report --cross lists group members as binary:vram, no names",
+    "docs/duplicates.md": "dup_report lists each group's representative as `<sig name> (<vram>)`; see NAMES_FROM_VRAM",
 }
+# Closed sub-list: generated files whose func_/D_<ADDR> tokens are synthesized from the vram by their generator, so they
+# are placeholders, never a curated name a rename could miss (a curated old name there still counts as strong -> stale).
+NAMES_FROM_VRAM = {
+    "docs/duplicates.md": "names from .run/sig.main.jsonl: main's seeds carry no names (tools/main_seed_ends.py:4), "
+                          "so sig_image names every function func_<vram> (tools/sig_image.py:200)",
+}
+VRAM_NAME = re.compile(r'\b(?:func|D)_[0-9A-Fa-f]{6,8}\b')
 HEADER_TOKEN = re.compile(r'\b(?:func|D)_[0-9A-Fa-f]{6,8}(?:__\w+)?\.h\b')   # share headers: named by vram
 PLACEHOLDER = re.compile(r'^(?:func|D|jtbl|L|sym|jpt|lbl)_[0-9A-Fa-f]{6,8}$')
 GUESS_TOKEN = re.compile(r'\bguess_\w+')
@@ -95,9 +103,11 @@ def _class_of(path, text, new_re, s_re, w_re):
     if new_re.search(text):
         return "rewritten"
     bare = HEADER_TOKEN.sub(" ", text)
+    if path in NAMES_FROM_VRAM:
+        bare = VRAM_NAME.sub(" ", bare)               # generator-made placeholders: address keys, not names
     strong = bool(s_re.search(bare))
     if s_re.search(text) and not strong and not (w_re and w_re.search(bare)):
-        return "address-key"                           # (a) only a share header's file name
+        return "address-key"                           # (a) only a share header's file name / a vram-made name
     if not strong and _address_keyed(path):
         return "address-key"                           # (b) weak hit in a vram-keyed path
     if strong:
@@ -399,12 +409,16 @@ def selftest():
           ("docs/duplicates.cross.md", 10, "| ei176 | main:0x8003ABC8; main:0x80037334 |"),
           ("decomp-architect/corpus/record/x.md", 3, "func_8003ABC8 matched"),         # kit copy of a record
           ("decomp-architect/corpus/cookbook/y.md", 4, "0x8003ABC8")]
-    ok, t = scan_ok(clean + ak); assert ok and t["address-key"] == 5 and t["history"] == 2 and t["rewritten"] == 2, t
+    ak.append(("docs/duplicates.md", 16, "| 18 | 9 | 2 | func_8003ABC8 (0x8003ABC8) | 0x80037334 |"))
+    ok, t = scan_ok(clean + ak); assert ok and t["address-key"] == 6 and t["history"] == 2 and t["rewritten"] == 2, t
     for h in (("src/800_c.c", 7, '#include "shared/main/func_8003ABC8.h" /* func_8003ABC8 */'),   # header + strong
               ("tools/share_census.py", 9, "func_8003ABC8 = 1"),                    # strong in a listed path
               ("decomp-architect/corpus/tools/P10/other.py", 9, "0x8003ABC8"),     # unlisted tool copy
+              ("docs/duplicates.resident.md", 1, "| func_8003ABC8 (0x8003ABC8) |"),  # not on NAMES_FROM_VRAM
               ("src/800_c.c", 8, '#include "shared/main/func_8003ABC8.h" // 0x8003ABC8')):   # header + weak
         ok, t = scan_ok(clean + [h]); assert not ok and t["address-key"] == 0, (h, t)
+    _, t = scan([("docs/duplicates.md", 1, "| OldName (0x8003ABC8) |")], [("OldName", "New", "0x8003ABC8")])
+    assert t["stale-invisible"] == 1, t                                 # a curated old name there is still stale
     wide = ("# spec\nold\tnew\taddr\tbinary\tkind\tbasis\tconfidence\tevidence\tconflict\tcitation\n"
             "func_8003ABC8\tguess_ClearTbl\t0x8003ABC8\tmain\tfunc\tzeroes it\tmedium\tcode inference\t-\t-\n")
     assert parse_spec(wide) == [R], parse_spec(wide)
