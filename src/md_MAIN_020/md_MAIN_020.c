@@ -47,9 +47,9 @@ void func_800CAF10(void) {
 
 extern void func_80154A74(s32 a0, s32 a1);
 
-void func_800CAF18(s32 a0) {
-    func_80154A74(a0, 0x11);
-}
+#define SHARED_FN func_800CAF18
+#include "../shared/multi/cls_a2d5f76b80ac.h"
+#undef SHARED_FN
 
 
 extern void func_80147078(s32 *a0, s16 a1);

@@ -3292,9 +3292,9 @@ void func_8018AE4C(void * arg0) {
 
 
 extern s16 func_80174764(void);
-s32 func_8018AE80(void) {
-    return ((s32 (*)(void))func_80174764)() == 1;
-}
+#define SHARED_FN func_8018AE80
+#include "../shared/ov/cls_823efd3d5ca7.h"
+#undef SHARED_FN
 
 
 

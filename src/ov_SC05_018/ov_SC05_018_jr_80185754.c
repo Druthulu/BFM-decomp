@@ -3517,33 +3517,9 @@ void func_801862F8(s32 arg0) {
 
 
 
-s32 func_801863A4(void)
-{
-
-    extern u16 D_80126B5E[];
-    extern u16 D_80126B66[];
-    extern u16 D_80126B62[];
-    s16 v1;
-    s32 result;
-
-    v1 = D_80126B5E[0];
-    if (v1 < 0x400) {
-        result = 0;
-    } else if (v1 >= 0x501) {
-        result = 0;
-    } else {
-        v1 = D_80126B66[0];
-        if (v1 < 0x580) {
-            result = 0;
-        } else if (v1 >= 0x601) {
-            result = 0;
-        } else {
-            v1 = D_80126B62[0];
-            result = (v1 >= -0x200);
-        }
-    }
-    return result;
-}
+#define SHARED_FN func_801863A4
+#include "../shared/ov/cls_c230e1f7e336.h"
+#undef SHARED_FN
 
 
 extern void func_8012B2CC(s32 arg);
@@ -3688,22 +3664,9 @@ extern s32 func_800D0F4C(s32 a0);
 extern s32 func_8012E57C(s32 a0, s32 a1);
 
 
-void func_80186690(void *a0)
-{
-    s32 result;
-
-    *(u16 *)((s32)a0 + 0x34) = *(u16 *)((s32)a0 + 0x34) + 1;
-
-    func_8002D4C8(0x7A0, 0);
-    func_80029124(0xF6, 1);
-    func_800D0F4C(0x59);
-
-    result = func_8012E57C(0x1F2, 1);
-
-    if (result) {
-        ((Unkstruct_800B5CB8 *)result)->unk34 = ((Unkstruct_800B5CB8 *)result)->unk34 + 1;
-    }
-}
+#define SHARED_FN func_80186690
+#include "../shared/ov/cls_2f3c8c78b510.h"
+#undef SHARED_FN
 
 
 

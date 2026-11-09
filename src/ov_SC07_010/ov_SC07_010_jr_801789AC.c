@@ -3638,5 +3638,7 @@ Lend:
     D_801A7840 += 8;
 }
 
-#include "../shared/ov/func_80179B28.h"
+#define SHARED_FN func_80179B28
+#include "../shared/ov/cls_72ad176429c2.h"
+#undef SHARED_FN
 

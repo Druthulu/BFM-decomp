@@ -3301,9 +3301,9 @@ void func_8017BE60(void *a0) {
 
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
-void func_8017BEBC(void *a0) {
-    func_80146A6C(0x19, a0, 0, 0, 0, 0, 1);
-}
+#define SHARED_FN func_8017BEBC
+#include "../shared/ov/cls_17211c2c3e65.h"
+#undef SHARED_FN
 
 
 
@@ -3314,7 +3314,9 @@ extern void (*D_8018E6D8[])(void);
 #undef SHARED_FN
 
 
-#include "../shared/ov/func_8017BF34__952c5c00.h"
+#define SHARED_FN func_8017BF34
+#include "../shared/ov/cls_952c5c0012f6.h"
+#undef SHARED_FN
 
 
 // @class: plumbing
@@ -3462,7 +3464,9 @@ extern void (*D_8018E6EC[])(void);
 #undef SHARED_FN
 
 
-#include "../shared/ov/func_8017C560.h"
+#define SHARED_FN func_8017C560
+#include "../shared/ov/cls_f93a4aa39125.h"
+#undef SHARED_FN
 
 
 /* func_8017C5A0 — a state-tick: bump the frame counter at 0x1C; while it is

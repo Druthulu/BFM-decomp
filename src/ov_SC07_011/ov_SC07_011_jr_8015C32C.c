@@ -2705,7 +2705,9 @@ s32 func_8015D4E8(s16 *a0) {
 }
 
 
-#include "../shared/ov/func_8015D524.h"
+#define SHARED_FN func_8015D524
+#include "../shared/multi/cls_a2d5f76b80ac.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015D544.h"
@@ -3622,7 +3624,9 @@ void func_8015F9A4(void *arg0) {
 }
 
 
-#include "../shared/ov/func_8015FA24.h"
+#define SHARED_FN func_8015FA24
+#include "../shared/multi/cls_a2d5f76b80ac.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015FA44.h"
@@ -4728,7 +4732,9 @@ void func_80162330(void *a0) {
 #include "../shared/ov/func_801623B8.h"
 
 
-#include "../shared/ov/func_80162414.h"
+#define SHARED_FN func_80162414
+#include "../shared/multi/cls_25c5aa9bdbfa.h"
+#undef SHARED_FN
 
 
 extern s32 func_800291DC(s32);
@@ -5849,7 +5855,9 @@ void func_80165B28(void *a0) {
 #include "../shared/ov/func_80165BFC.h"
 
 
-#include "../shared/ov/func_80165C58.h"
+#define SHARED_FN func_80165C58
+#include "../shared/multi/cls_a2d5f76b80ac.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80165C78.h"
@@ -6781,7 +6789,9 @@ extern s32 func_80146C3C(u8 *a0);
 #include "../shared/ov/func_801685EC.h"
 
 
-#include "../shared/ov/func_80168640.h"
+#define SHARED_FN func_80168640
+#include "../shared/multi/cls_8c0cd28d1158.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80168664.h"
@@ -6884,9 +6894,9 @@ void func_801689D8(void *a0) {
 
 
 extern s32 func_80146C3C(u8 *a0);
-void func_80168A88(void) {
-    ((void (*)(void))func_80146C3C)();
-}
+#define SHARED_FN func_80168A88
+#include "../shared/ov/cls_e5d62a31b595.h"
+#undef SHARED_FN
 
 
 
@@ -7360,11 +7370,9 @@ void func_80169F3C(int param_1)
 
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern s32 func_80146C3C(u8 *a0);
-void func_80169FE0(s32 a0) {
-    if (((s32 (*)(void *, void *))func_80128ED8)((void *)((Unkstruct_80169FE0 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
-        ((void (*)(s32))func_80146C3C)(a0);
-    }
-}
+#define SHARED_FN func_80169FE0
+#include "../shared/multi/cls_5d5ada925fc2.h"
+#undef SHARED_FN
 
 
 

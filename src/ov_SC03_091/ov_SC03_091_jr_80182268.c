@@ -2701,12 +2701,9 @@ extern s32 func_8014C050(s32 a0, s32 a1);
 extern u8 D_800AE6BD;
 extern void func_80171928(void *a0);
 
-void func_80182314(void *a0) {
-    if (func_8014C050((s32)a0, 0x19) == 0) {
-        D_800AE6BD = D_800AE6BD + 1;
-        func_80171928(a0);
-    }
-}
+#define SHARED_FN func_80182314
+#include "../shared/ov/cls_52eb9cc0e478.h"
+#undef SHARED_FN
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);

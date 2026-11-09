@@ -3303,7 +3303,9 @@ void func_8017BE60(void *a0) {
 #include "../shared/ov/func_8017BEB4.h"
 
 
-#include "../shared/ov/func_8017BEBC__29f8286d.h"
+#define SHARED_FN func_8017BEBC
+#include "../shared/ov/cls_29f8286ddb37.h"
+#undef SHARED_FN
 
 
 
@@ -4090,7 +4092,9 @@ extern void (*D_80187B00[])(void);
  *     shift results are born after $v0 dies and reclaim it.
  */
 
-#include "../shared/ov/func_8017CF6C__4771362e.h"
+#define SHARED_FN func_8017CF6C
+#include "../shared/ov/cls_4771362e4429.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
@@ -4332,6 +4336,8 @@ L_8017D57C:
 
 
 
-#include "../shared/ov/func_8017D5C4__cfafd700.h"
+#define SHARED_FN func_8017D5C4
+#include "../shared/ov/cls_cfafd7008ad5.h"
+#undef SHARED_FN
 
 

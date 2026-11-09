@@ -2760,7 +2760,9 @@ void func_8017A4AC(void) {
 
 #include "../shared/ov/func_8017ADE8.h"
 
-#include "../shared/ov/func_8017AE08.h"
+#define SHARED_FN func_8017AE08
+#include "../shared/ov/cls_823efd3d5ca7.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
@@ -4844,9 +4846,9 @@ s32 func_8017E2A4(s32 a0) {
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_8017E2E8(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_8017E2E8
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -4875,23 +4877,15 @@ extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
 
-s32 func_8017E388(u8 *a0) {
-    if (--(((Unkstruct_8017CB70 *)a0)->unk28) == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D0C48(1);
-        func_800D1E28();
-        ((Unkstruct_8017CB70 *)a0)->unk15 += 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017E388
+#include "../shared/multi/cls_b4142e5af3b1.h"
+#undef SHARED_FN
 
 
 extern s32 func_800D1EBC(void);
-void func_8017E404(void) {
-    func_800D1EBC();
-}
+#define SHARED_FN func_8017E404
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
@@ -9610,9 +9604,9 @@ void func_80185CD8(s32 a0)
 
 
 extern void func_8012B370(int a0);
-    void func_80185D98(void) {
-        ((void (*)(void))func_8012B370)();
-    }
+#define SHARED_FN func_80185D98
+#include "../shared/ov/cls_f35c28b5f2ef.h"
+#undef SHARED_FN
 
 
 
@@ -9767,9 +9761,9 @@ void func_80185FC8(s32 a0)
 
 
 extern void func_8012B370(int a0);
-    void func_80186088(void) {
-        ((void (*)(void))func_8012B370)();
-    }
+#define SHARED_FN func_80186088
+#include "../shared/ov/cls_f35c28b5f2ef.h"
+#undef SHARED_FN
 
 
 
@@ -10055,9 +10049,9 @@ extern void func_8014ADA8(s32 a0, s32 a1);
 
 
 extern s16 func_80174764(void);
-s32 func_80186630(void) {
-    return ((s32 (*)(void))func_80174764)() == 1;
-}
+#define SHARED_FN func_80186630
+#include "../shared/ov/cls_823efd3d5ca7.h"
+#undef SHARED_FN
 
 
 

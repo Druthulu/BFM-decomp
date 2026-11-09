@@ -3924,9 +3924,9 @@ s32 func_8017F04C(s32 param_1)
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_8017F09C(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_8017F09C
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -4080,9 +4080,9 @@ extern s32 func_80171B4C(s32 a0, s32 a1);
 
 
 extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
-    void func_8017F408(void) {
-        func_8016F0E4();
-    }
+#define SHARED_FN func_8017F408
+#include "../shared/multi/cls_5211f6f7586b.h"
+#undef SHARED_FN
 
 
 

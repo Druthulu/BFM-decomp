@@ -2714,7 +2714,9 @@ void func_8017CD9C(void *a0) {
 
 
 
-#include "../shared/ov/func_8017CE1C__511a8b68.h"
+#define SHARED_FN func_8017CE1C
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -2723,13 +2725,15 @@ void func_8017CD9C(void *a0) {
 
 
 
-#include "../shared/ov/func_8017CE80__b4142e5a.h"
+#define SHARED_FN func_8017CE80
+#include "../shared/multi/cls_b4142e5af3b1.h"
+#undef SHARED_FN
 
 
 extern s32 func_800D1EBC(void);
-    void func_8017CEFC(void) {
-        func_800D1EBC();
-    }
+#define SHARED_FN func_8017CEFC
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 
@@ -2742,7 +2746,9 @@ void func_8017CF1C(void *a0) {
 
 
 
-#include "../shared/ov/func_8017CF58__46004117.h"
+#define SHARED_FN func_8017CF58
+#include "../shared/ov/cls_46004117858e.h"
+#undef SHARED_FN
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);

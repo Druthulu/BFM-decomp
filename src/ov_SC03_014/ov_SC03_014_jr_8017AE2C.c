@@ -4458,7 +4458,9 @@ void func_8017DB00(void *a0) {
 #include "../shared/ov/func_8017DB3C__ba932e26.h"
 
 
-#include "../shared/ov/func_8017DB74__0cb39877.h"
+#define SHARED_FN func_8017DB74
+#include "../shared/ov/cls_0cb398776c32.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017DBC4__de7db63b.h"

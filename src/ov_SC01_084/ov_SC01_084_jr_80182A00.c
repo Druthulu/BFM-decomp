@@ -2385,10 +2385,9 @@ void func_8018592C(void *a0) {
 
 extern void func_8012BF4C(s32 *a0, s32 a1);
     extern s32 func_8012AD50(void *a0);
-    void func_80185968(s32 arg0) {
-        ((void (*)(s32, s32))func_8012BF4C)(arg0, 0);
-        ((void (*)(void *))func_8012AD50)((void *)arg0);
-    }
+#define SHARED_FN func_80185968
+#include "../shared/ov/cls_85117b5492a4.h"
+#undef SHARED_FN
 
 
 #include "common.h"

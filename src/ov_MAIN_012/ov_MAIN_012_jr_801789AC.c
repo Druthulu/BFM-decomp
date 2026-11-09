@@ -4402,7 +4402,9 @@ Lend:
     D_80184F38 += 8;
 }
 
-#include "../shared/ov/func_80179B28.h"
+#define SHARED_FN func_80179B28
+#include "../shared/ov/cls_72ad176429c2.h"
+#undef SHARED_FN
 
 
 
@@ -4856,7 +4858,9 @@ void func_8017A4AC(void) {
 #include "../shared/ov/func_8017ADE8.h"
 
 
-#include "../shared/ov/func_8017AE08.h"
+#define SHARED_FN func_8017AE08
+#include "../shared/ov/cls_823efd3d5ca7.h"
+#undef SHARED_FN
 
 
 
@@ -5758,15 +5762,9 @@ void func_8017C120(void) {
  */
 
 
-void func_8017C24C(void)
-{
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern unsigned short D_80115112;
-    unsigned short *p = &D_80115112;
-    *p = *p + 1;
-}
+#define SHARED_FN func_8017C24C
+#include "../shared/multi/cls_a05128332cc0.h"
+#undef SHARED_FN
 
 
 void func_8017C268(void)
@@ -5831,13 +5829,9 @@ void func_8017C268(void)
  */
 
 
-void func_8017C348(void)
-{
-
-    extern unsigned short D_80115112;
-    unsigned short *p = &D_80115112;
-    *p = *p + 1;
-}
+#define SHARED_FN func_8017C348
+#include "../shared/multi/cls_a05128332cc0.h"
+#undef SHARED_FN
 
 
 

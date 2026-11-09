@@ -3943,9 +3943,9 @@ void func_801854F4(void *a0) {
 
 
 extern void func_8012C218(void *a0);
-    void func_80185508(void) {
-        ((s32 (*)(void))func_8012C218)();
-    }
+#define SHARED_FN func_80185508
+#include "../shared/ov/cls_c05e46830b4f.h"
+#undef SHARED_FN
 
 
 extern s32 rand(void);

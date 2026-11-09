@@ -2919,7 +2919,9 @@ ad50:
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected (param saved in $s0 across call, guarded tail call)
-#include "../shared/ov/func_80142740.h"
+#define SHARED_FN func_80142740
+#include "../shared/ov/cls_3ec3edde387d.h"
+#undef SHARED_FN
 
 extern void func_8012C218(void *a0);
 

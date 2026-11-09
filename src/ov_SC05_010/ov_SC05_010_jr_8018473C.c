@@ -4901,9 +4901,9 @@ extern void func_80187B28();
 
 
 extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D22)
-    void func_80187B08(void) {
-        func_80146C3C();
-    }
+#define SHARED_FN func_80187B08
+#include "../shared/ov/cls_e5d62a31b595.h"
+#undef SHARED_FN
 
 
 
@@ -4939,16 +4939,9 @@ extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 
 extern s32 func_8014C050(s32 a0, s32 a1);
 
-void func_80187BAC(void) {
-
-    extern s32 D_80126B58;
-    s32 t;
-
-    t = func_8014C050((s32)&D_80126B58, 0x28);
-    if (t != 0) {
-        ((Unkstruct_8014C050 *)t)->unk2 += 1;
-    }
-}
+#define SHARED_FN func_80187BAC
+#include "../shared/ov/cls_5cdf578fa304.h"
+#undef SHARED_FN
 
 
 

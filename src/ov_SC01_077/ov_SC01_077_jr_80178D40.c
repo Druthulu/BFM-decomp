@@ -3419,7 +3419,9 @@ Lend:
 }
 
 
-#include "../shared/ov/func_80179B28.h"
+#define SHARED_FN func_80179B28
+#include "../shared/ov/cls_72ad176429c2.h"
+#undef SHARED_FN
 
 // @class: schedule
 // @unstuck(P36): none — MATCH (111 ins). symcheck: data syms CLEAN (D_801DA310/D_801DA714, 0 INVENTED); its lone MISSING is jtbl_801D8F9C, the COMPILER-emitted table ($L17 -> .rdata) — banking needs the §8a/§8e rodata-island flip (35 entries, .align 3), not a source-side ref.

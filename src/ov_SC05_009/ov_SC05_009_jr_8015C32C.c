@@ -1465,7 +1465,9 @@ extern void func_80154A74(s32 a0, s32 a1);
 #include "../shared/ov/func_8015D4E8__c587f931.h"
 
 
-#include "../shared/ov/func_8015D524.h"
+#define SHARED_FN func_8015D524
+#include "../shared/multi/cls_a2d5f76b80ac.h"
+#undef SHARED_FN
 
 #include "../shared/ov/func_8015D544.h"
 
@@ -1909,7 +1911,9 @@ extern s32 func_80161208(void);
 #include "../shared/ov/func_8015F9A4__9596764a.h"
 
 
-#include "../shared/ov/func_8015FA24.h"
+#define SHARED_FN func_8015FA24
+#include "../shared/multi/cls_a2d5f76b80ac.h"
+#undef SHARED_FN
 
 #include "../shared/ov/func_8015FA44.h"
 
@@ -2622,7 +2626,9 @@ extern void (*D_80181624[])(void);
 
 #include "../shared/ov/func_801623B8.h"
 
-#include "../shared/ov/func_80162414.h"
+#define SHARED_FN func_80162414
+#include "../shared/multi/cls_25c5aa9bdbfa.h"
+#undef SHARED_FN
 
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (160 ins, relocation-masked). Keys: (1) base=&D_800AF630 hoisted, pinned $s2;
@@ -3453,7 +3459,9 @@ extern void (*D_80181998[])(void);
 
 #include "../shared/ov/func_80165BFC.h"
 
-#include "../shared/ov/func_80165C58.h"
+#define SHARED_FN func_80165C58
+#include "../shared/multi/cls_a2d5f76b80ac.h"
+#undef SHARED_FN
 
 #include "../shared/ov/func_80165C78.h"
 
@@ -3934,7 +3942,9 @@ extern s32 func_80166F58(s32, s32, s32, s32);
 
 #include "../shared/ov/func_801685EC.h"
 
-#include "../shared/ov/func_80168640.h"
+#define SHARED_FN func_80168640
+#include "../shared/multi/cls_8c0cd28d1158.h"
+#undef SHARED_FN
 
 #include "../shared/ov/func_80168664.h"
 
@@ -3982,7 +3992,9 @@ extern void (*D_80181AC0[])(void);
 
 #include "../shared/ov/func_80168A14.h"
 
-#include "../shared/ov/func_80168A88.h"
+#define SHARED_FN func_80168A88
+#include "../shared/ov/cls_e5d62a31b595.h"
+#undef SHARED_FN
 
 
 extern void (*D_80181AC8[])(void);
@@ -4169,7 +4181,9 @@ extern char D_80181B14[];
 #include "../shared/ov/func_80169F3C__99a1d89d.h"
 
 
-#include "../shared/ov/func_80169FE0.h"
+#define SHARED_FN func_80169FE0
+#include "../shared/multi/cls_5d5ada925fc2.h"
+#undef SHARED_FN
 
 
 extern void (*D_80181BDC[])(void);

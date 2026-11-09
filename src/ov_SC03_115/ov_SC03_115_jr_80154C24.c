@@ -998,7 +998,9 @@ extern void (*D_8018231C[])(void);
 
 #include "../shared/ov/func_80155F60.h"
 
-#include "../shared/ov/func_80155F80.h"
+#define SHARED_FN func_80155F80
+#include "../shared/multi/cls_31791b27f492.h"
+#undef SHARED_FN
 
 #include "../shared/ov/func_80155FB0.h"
 

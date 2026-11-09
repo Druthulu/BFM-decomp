@@ -3543,7 +3543,9 @@ extern void func_8017C908(s32 a0, s32 a1);
 #include "../shared/ov/func_8017C294__720317ef.h"
 
 
-#include "../shared/ov/func_8017C66C.h"
+#define SHARED_FN func_8017C66C
+#include "../shared/ov/cls_dc415768c81a.h"
+#undef SHARED_FN
 
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (126 ins)
@@ -3551,7 +3553,9 @@ extern void func_8017C908(s32 a0, s32 a1);
 #include "../shared/ov/func_8017C710__e2fbbbec.h"
 
 
-#include "../shared/ov/func_8017C908.h"
+#define SHARED_FN func_8017C908
+#include "../shared/ov/cls_da26f0d2c5cb.h"
+#undef SHARED_FN
 
 
 /* func_8017C974 — ov_SC01_077_jr_8017AE2C — MAP-TILE model renderer (947 ins).
@@ -4184,9 +4188,9 @@ s32 func_8017DCEC(s32 param_1)
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_8017DD3C(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_8017DD3C
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 extern s32 (*D_8018A590[])(void *);
 
@@ -4219,9 +4223,9 @@ extern void func_800D1E28(void);
 
 extern s32 func_800D1EBC(void);
 
-void func_8017DE64(void) {
-    func_800D1EBC();
-}
+#define SHARED_FN func_8017DE64
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 extern void (*D_8018A740[])();
 
@@ -4361,9 +4365,9 @@ void func_8017E170(int param_1)
 
 extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 
-void func_8017E1B4(void) {
-    func_8016F0E4();
-}
+#define SHARED_FN func_8017E1B4
+#include "../shared/multi/cls_5211f6f7586b.h"
+#undef SHARED_FN
 
 extern void (*D_8018A760[])();
 

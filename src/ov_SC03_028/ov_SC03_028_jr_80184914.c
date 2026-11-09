@@ -3231,9 +3231,9 @@ void func_80184E9C(s32 a0, s32 a1, s32 a2)
 }
 
 
-void func_80184FAC(s32 *a0) {
-        *(s16*)((s32)a0 + 0x5C) = 0;
-    }
+#define SHARED_FN func_80184FAC
+#include "../shared/ov/cls_3aa0211c9ea3.h"
+#undef SHARED_FN
 
 
 extern void func_8012B2CC(s32 a0);

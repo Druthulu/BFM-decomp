@@ -719,7 +719,9 @@ u8 *arg2;
 #include "../shared/ov/func_8012A094.h"
 
 
-#include "../shared/ov/func_8012A0E0.h"
+#define SHARED_FN func_8012A0E0
+#include "../shared/ov/cls_9f500f2060d7.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8012A100.h"
@@ -970,9 +972,9 @@ void func_8012ACA0(void *arg0) {
 
 
 
-void func_8012BF4C(s32 *a0, s32 a1) {
-    ((Unkstruct_8012BF4C *)a0)->unk1C = a1;
-}
+#define SHARED_FN func_8012BF4C
+#include "../shared/ov/cls_b039ed440779.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8012BF54.h"
@@ -1351,9 +1353,9 @@ void func_8012DFCC(void) {
 
 
 
-s32 func_8012E27C(void) {
-    return 1;
-}
+#define SHARED_FN func_8012E27C
+#include "../shared/ov/cls_98ab17e54d84.h"
+#undef SHARED_FN
 
 
 void func_8012E284(void) {

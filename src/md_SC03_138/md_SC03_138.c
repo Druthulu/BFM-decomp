@@ -19,9 +19,9 @@ int func_801E25FC(u8 *arg) {
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_801E2654(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_801E2654
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -54,9 +54,9 @@ s32 func_801E26C4(s32 param_1) {
 
 
 extern s32 func_800D1EBC(void);
-void func_801E2764(void) {
-    func_800D1EBC();
-}
+#define SHARED_FN func_801E2764
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 
@@ -88,10 +88,9 @@ void func_801E27FC(void *a0) {
 
 extern void func_80171A1C(void*);
 extern void func_80175414(s32 _arg0);
-void func_801E2838(void) {
-    ((void (*)(void))func_80171A1C)();
-    ((void (*)(void))func_80175414)();
-}
+#define SHARED_FN func_801E2838
+#include "../shared/multi/cls_b9caea59f74f.h"
+#undef SHARED_FN
 
 
 INCLUDE_RODATA("asm/md_SC03_138/nonmatchings/md_SC03_138", D_801E25E8);
@@ -142,9 +141,9 @@ void func_801E2928(void *a0) {
 
 
 extern void func_80171A1C(void*);
-void func_801E2964(void) {
-    ((void (*)(void))func_80171A1C)();
-}
+#define SHARED_FN func_801E2964
+#include "../shared/multi/cls_88741b5adb4e.h"
+#undef SHARED_FN
 
 
 

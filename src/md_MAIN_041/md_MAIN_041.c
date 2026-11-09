@@ -325,12 +325,9 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
 }
 
 
-void func_800CB634(s32 a0) {
-    ((Unkstruct_800CB634 *)a0)->unk1C = 0x20;
-    ((Unkstruct_800CB634 *)a0)->unk12 = 0;
-    ((Unkstruct_800CB634 *)a0)->unk10 = 0x80;
-    ((Unkstruct_800CB634 *)a0)->unk2 = ((Unkstruct_800CB634 *)a0)->unk2 + 1;
-}
+#define SHARED_FN func_800CB634
+#include "../shared/multi/cls_8c0cd28d1158.h"
+#undef SHARED_FN
 
 
 #include "common.h"

@@ -2717,7 +2717,9 @@ extern void func_800167B8(s32 a0);
 
 
 
-#include "../shared/ov/func_8017CE1C__511a8b68.h"
+#define SHARED_FN func_8017CE1C
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -3756,30 +3758,9 @@ int func_8017E918(short *pos, int a1, int a2) {
 
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 
-int func_8017E94C(short *pos, int a1, int a2)
-{
-    u8 *v1;
-
-    v1 = func_801290DC(0x55, (u8 *)pos);
-
-    if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unk1C = pos[3];
-
-        if (a1 != 0) {
-            CAST_WIDTH(s32, v1, 0x10) = *(s32 *)(a1 + 0x0);
-            ((Unkstruct_800B5CB8 *)v1)->unk14 = *(s32 *)(a1 + 0x4);
-            CAST_WIDTH(s32, v1, 0x18) = *(s32 *)(a1 + 0x8);
-            CAST_WIDTH(s32, v1, 0x34) = *(s32 *)(a1 + 0xC);
-        }
-
-        if (a2 != 0) {
-            u8 *ptr = CAST_SIGN(u8 *, v1, 0x20);
-            CAST_WIDTH(s32, ptr, 0x24) = a2;
-        }
-    }
-
-    return (int)v1;
-}
+#define SHARED_FN func_8017E94C
+#include "../shared/multi/cls_ac6da29da753.h"
+#undef SHARED_FN
 
 
 

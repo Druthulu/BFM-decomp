@@ -4428,7 +4428,9 @@ Lend:
     D_801C9230 += 8;
 }
 
-#include "../shared/ov/func_80179B28.h"
+#define SHARED_FN func_80179B28
+#include "../shared/ov/cls_72ad176429c2.h"
+#undef SHARED_FN
 
 
 
@@ -4881,4 +4883,6 @@ void func_8017A4AC(void) {
 #include "../shared/ov/func_8017ADE8.h"
 
 
-#include "../shared/ov/func_8017AE08.h"
+#define SHARED_FN func_8017AE08
+#include "../shared/ov/cls_823efd3d5ca7.h"
+#undef SHARED_FN

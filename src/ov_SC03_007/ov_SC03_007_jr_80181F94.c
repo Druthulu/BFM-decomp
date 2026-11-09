@@ -3095,10 +3095,9 @@ void func_80182214(s32 param_1) {
 
 
 
-void func_801822B8(s32 *a0) {
-        ((Unkstruct_8017E514 *)a0)->unk1C = 6;
-        ((Unkstruct_8017E514 *)a0)->unk5C = 0;
-    }
+#define SHARED_FN func_801822B8
+#include "../shared/ov/cls_412da1ed25ab.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012BEE8(s32 a0);

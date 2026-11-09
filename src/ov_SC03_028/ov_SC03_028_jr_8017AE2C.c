@@ -4179,17 +4179,9 @@ void func_8017D1E4(void *a0) {
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
-void func_8017D220(s32 a0, s16 a1, s16 a2) {
-    u32 xz;
-
-    func_8012B0B4(&xz, *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), a1 << 4);
-
-    CAST_WIDTH(s32, a0, 0x10) = (s16)xz << 12;
-    CAST_WIDTH(s32, a0, 0x18) = ((s32)xz >> 16) << 12;
-    if (a2 != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = a2;
-    }
-}
+#define SHARED_FN func_8017D220
+#include "../shared/ov/cls_4771362e4429.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
@@ -4489,12 +4481,9 @@ L_8017D57C:
 extern int func_80178970(void);
 extern void func_80178D18(void);
 
-void func_8017D878(s32 a0) {
-    if (func_80178970() != 0) {
-        ((void (*)(s32))func_80178D18)(a0);
-        ((Unkstruct_8017CE64 *)a0)->unk2 = 7;
-    }
-}
+#define SHARED_FN func_8017D878
+#include "../shared/ov/cls_cfafd7008ad5.h"
+#undef SHARED_FN
 
 
 
@@ -4591,19 +4580,9 @@ extern void PushMatrix(void);
 extern void func_8004974C(void *a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void PopMatrix(void);
-void func_8017DC90(u16 *a0, void *a1) {
-    s32 mat[8];
-    s32 buf[8];
-    s16 sv[4];
-    ReadRotMatrix((void *)mat);
-    PushMatrix();
-    sv[0] = (s16)(a0[0] - ((Unkstruct_8017C3EC *)mat)->unk14);
-    sv[1] = (s16)(a0[1] - ((Unkstruct_8017C3EC *)mat)->unk18);
-    sv[2] = (s16)(a0[2] - ((Unkstruct_8017C3EC *)mat)->unk1C);
-    func_8004974C((void *)mat, (void *)buf);
-    ApplyMatrixSV((void *)buf, (void *)sv, a1);
-    PopMatrix();
-}
+#define SHARED_FN func_8017DC90
+#include "../shared/ov/cls_dc415768c81a.h"
+#undef SHARED_FN
 
 
 int func_8017DD34(short *param_1, short *param_2, short *param_3, int param_4) {
@@ -4639,13 +4618,6 @@ int func_8017DD34(short *param_1, short *param_2, short *param_3, int param_4) {
 extern void ReadGeomOffset(s32 *a0, s32 *a1);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_8004921C(s32 a0, s32 a1);
-void func_8017DF2C(s32 a0, s32 a1) {
-    s32 ofx;
-    s32 ofy;
-    s32 sxy;
-    s32 p;
-    ReadGeomOffset(&ofx, &ofy);
-    func_8004921C(0, 0);
-    RotTransPers(a0, a1, &sxy, &p);
-    func_8004921C(ofx, ofy);
-}
+#define SHARED_FN func_8017DF2C
+#include "../shared/ov/cls_da26f0d2c5cb.h"
+#undef SHARED_FN

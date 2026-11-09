@@ -2636,4 +2636,6 @@ extern s32 func_80174754(void);
 
 #include "../shared/ov/func_8017ADE8.h"
 
-#include "../shared/ov/func_8017AE08.h"
+#define SHARED_FN func_8017AE08
+#include "../shared/ov/cls_823efd3d5ca7.h"
+#undef SHARED_FN

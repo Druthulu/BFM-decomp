@@ -1741,9 +1741,9 @@ void func_801A2400(s32 arg0) {
 }
 
 
-s32 func_801A2C4C(void) {
-    return 0;
-}
+#define SHARED_FN func_801A2C4C
+#include "../shared/multi/cls_af99c5b3dbef.h"
+#undef SHARED_FN
 
 
 
@@ -10549,28 +10549,7 @@ int func_801AF994(short *pos, int a1, int a2) {
 
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 
-int func_801AF9C8(short *pos, int a1, int a2)
-{
-    u8 *v1;
-
-    v1 = func_801290DC(0x55, (u8 *)pos);
-
-    if (v1 != 0) {
-        *(s32 *)(v1 + 0x1C) = pos[3];
-
-        if (a1 != 0) {
-            *(s32 *)(v1 + 0x10) = *(s32 *)(a1 + 0x0);
-            *(s32 *)(v1 + 0x14) = *(s32 *)(a1 + 0x4);
-            *(s32 *)(v1 + 0x18) = *(s32 *)(a1 + 0x8);
-            *(s32 *)(v1 + 0x34) = *(s32 *)(a1 + 0xC);
-        }
-
-        if (a2 != 0) {
-            u8 *ptr = CAST_SIGN(u8 *, v1, 0x20);
-            CAST_WIDTH(s32, ptr, 0x24) = a2;
-        }
-    }
-
-    return (int)v1;
-}
+#define SHARED_FN func_801AF9C8
+#include "../shared/multi/cls_ac6da29da753.h"
+#undef SHARED_FN
 

@@ -88,9 +88,9 @@ extern s32 func_80128998(void);
 #include "../shared/ov/func_8012BF10.h"
 
 
-void func_8012BF4C(s32 *a0, s32 a1) {
-    ((Unkstruct_8012BF4C *)a0)->unk1C = a1;
-}
+#define SHARED_FN func_8012BF4C
+#include "../shared/ov/cls_b039ed440779.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8012BF54.h"
@@ -409,9 +409,9 @@ s32 func_8012DE2C(s32 a0) {
 #include "../shared/ov/func_8012E138.h"
 
 
-s32 func_8012E27C(void) {
-    return 1;
-}
+#define SHARED_FN func_8012E27C
+#include "../shared/ov/cls_98ab17e54d84.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8012E284.h"

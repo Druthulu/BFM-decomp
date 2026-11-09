@@ -5141,15 +5141,9 @@ s32 func_801823D4(s32 param_1, s32 param_2)
 
 
 extern void func_80139914(s32 a0);
-void func_801823FC(s32 a0) {
-    s32 v1;
-    if (a0 == 0) return;
-    if (*(s32 *)a0 == 0) return;
-    v1 = ((Unkstruct_800B5CB8 *)a0)->unk4;
-    if (v1 == 0) return;
-    if (v1 == 0xE) return;
-    func_80139914(a0);
-}
+#define SHARED_FN func_801823FC
+#include "../shared/ov/cls_72ad176429c2.h"
+#undef SHARED_FN
 
 
 extern void func_80146D90(s32 a0);
@@ -7014,9 +7008,9 @@ extern void func_8014ADA8(s32 a0, s32 a1);
 
 
 extern s16 func_80174764(void);
-    s32 func_801848D4(void) {
-        return ((u32)((s32 (*)(void))func_80174764)() == 1);
-    }
+#define SHARED_FN func_801848D4
+#include "../shared/ov/cls_823efd3d5ca7.h"
+#undef SHARED_FN
 
 
 

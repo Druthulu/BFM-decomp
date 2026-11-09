@@ -324,7 +324,9 @@ extern u8 D_8018E682[];
 
 #include "../shared/ov/func_8012A094.h"
 
-#include "../shared/ov/func_8012A0E0.h"
+#define SHARED_FN func_8012A0E0
+#include "../shared/ov/cls_9f500f2060d7.h"
+#undef SHARED_FN
 
 #include "../shared/ov/func_8012A100.h"
 

@@ -4351,7 +4351,9 @@ void func_8017DB00(void *a0) {
 #include "../shared/ov/func_8017DB3C__ba932e26.h"
 
 
-#include "../shared/ov/func_8017DB74__0cb39877.h"
+#define SHARED_FN func_8017DB74
+#include "../shared/ov/cls_0cb398776c32.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017DBC4__de7db63b.h"
@@ -5595,9 +5597,9 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
 
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
-void func_8017FE8C(void *a0) {
-    func_80146A6C(0x19, a0, 0, 0, 0, 0, 1);
-}
+#define SHARED_FN func_8017FE8C
+#include "../shared/ov/cls_17211c2c3e65.h"
+#undef SHARED_FN
 
 
 
@@ -5609,13 +5611,9 @@ void func_8017FEC8(void *a0) {
 
 
 extern void func_80147324(s32 arg0);
-void func_8017FF04(void *a0)
-{
-    if (((Unkstruct_8017CE14 *)a0)->unk30 == 0) {
-        func_80147324(((Unkstruct_8017CE14 *)a0)->unk2E);
-    }
-    ((Unkstruct_8017CE14 *)a0)->unk2 = ((Unkstruct_8017CE14 *)a0)->unk2 + 1;
-}
+#define SHARED_FN func_8017FF04
+#include "../shared/ov/cls_952c5c0012f6.h"
+#undef SHARED_FN
 
 
 
@@ -5865,11 +5863,9 @@ void func_801804F4(void *a0) {
 
 
 extern void func_80147324(s32 arg0);
-void func_80180530(void *a0)
-{
-    func_80147324(((Unkstruct_8017D440 *)a0)->unk2E);
-    ((Unkstruct_8017D440 *)a0)->unk2 = ((Unkstruct_8017D440 *)a0)->unk2 + 1;
-}
+#define SHARED_FN func_80180530
+#include "../shared/ov/cls_f93a4aa39125.h"
+#undef SHARED_FN
 
 
 
@@ -6188,9 +6184,9 @@ s32 func_80180B14(s32 a0) {
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_80180B58(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_80180B58
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -6219,23 +6215,15 @@ extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
 
-s32 func_80180BF8(u8 *a0) {
-    if (--(((Unkstruct_8017CB70 *)a0)->unk28) == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D0C48(1);
-        func_800D1E28();
-        ((Unkstruct_8017CB70 *)a0)->unk15 += 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_80180BF8
+#include "../shared/multi/cls_b4142e5af3b1.h"
+#undef SHARED_FN
 
 
 extern s32 func_800D1EBC(void);
-    void func_80180C74(void) {
-        func_800D1EBC();
-    }
+#define SHARED_FN func_80180C74
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 
@@ -6273,9 +6261,9 @@ s32 func_80180CD0(s32 arg0)
 }
 
 
-s32 func_80180D0C(void) {
-        return 0;
-    }
+#define SHARED_FN func_80180D0C
+#include "../shared/multi/cls_af99c5b3dbef.h"
+#undef SHARED_FN
 
 
 extern void func_80011ADC(void);
@@ -6480,13 +6468,9 @@ void func_80181114(void *a0) {
 extern s32 func_801399F0(s32 a0);
 extern void func_80139914(s32 a0);
 extern void func_80171928(void *a0);
-void func_80181164(u8 *a0) {
-    if (func_801399F0(((Unkstruct_8017DE70 *)a0)->unk198) != 0) {
-        func_80139914(((Unkstruct_8017DE70 *)a0)->unk198);
-        ((Unkstruct_8017DE70 *)a0)->unk198 = 0;
-        func_80171928(a0);
-    }
-}
+#define SHARED_FN func_80181164
+#include "../shared/ov/cls_9ff852f7b186.h"
+#undef SHARED_FN
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
@@ -11290,30 +11274,9 @@ int func_80188160(short *pos, int a1, int a2) {
 
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 
-int func_80188194(short *pos, int a1, int a2)
-{
-    u8 *v1;
-
-    v1 = func_801290DC(0x55, (u8 *)pos);
-
-    if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unk1C = pos[3];
-
-        if (a1 != 0) {
-            CAST_WIDTH(s32, v1, 0x10) = *(s32 *)(a1 + 0x0);
-            ((Unkstruct_800B5CB8 *)v1)->unk14 = *(s32 *)(a1 + 0x4);
-            CAST_WIDTH(s32, v1, 0x18) = *(s32 *)(a1 + 0x8);
-            CAST_WIDTH(s32, v1, 0x34) = *(s32 *)(a1 + 0xC);
-        }
-
-        if (a2 != 0) {
-            u8 *ptr = CAST_SIGN(u8 *, v1, 0x20);
-            CAST_WIDTH(s32, ptr, 0x24) = a2;
-        }
-    }
-
-    return (int)v1;
-}
+#define SHARED_FN func_80188194
+#include "../shared/multi/cls_ac6da29da753.h"
+#undef SHARED_FN
 
 
 

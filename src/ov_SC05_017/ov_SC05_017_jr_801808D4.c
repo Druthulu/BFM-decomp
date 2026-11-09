@@ -3911,9 +3911,9 @@ void func_80181CA4(void *arg0) {
 
 
 
-void func_80181CF0(void *a0) {
-        ((Unkstruct_80180B18 *)*(s32 *)((s32)a0 + 0xcc))->unkB0 = 2;
-    }
+#define SHARED_FN func_80181CF0
+#include "../shared/ov/cls_40942eba0168.h"
+#undef SHARED_FN
 
 
 

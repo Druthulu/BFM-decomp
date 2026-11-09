@@ -18,9 +18,9 @@ int func_801E7B3C(u8 *arg) {
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_801E7B94(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_801E7B94
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -39,25 +39,15 @@ extern s32 func_800291B4(s32);
 extern s32 func_80029524(void);
 extern void func_800D0C48(s32);
 
-s32 func_801E7C04(s32 param_1) {
-    if ((((Unkstruct_801E26BC *)param_1)->unk28 = ((Unkstruct_801E26BC *)param_1)->unk28 - 1) == -1) {
-        func_800D1E28();
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        if ((func_800291B4(0xCE) & 0xFF) == 0 && func_80029524() == 0) {
-            func_8002D4C8(0x1D, 0);
-            func_800D0C48(1);
-        }
-        ((Unkstruct_801E26BC *)param_1)->unk15 = ((Unkstruct_801E26BC *)param_1)->unk15 + 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_801E7C04
+#include "../shared/multi/cls_250b43160334.h"
+#undef SHARED_FN
 
 
 extern s32 func_800D1EBC(void);
-void func_801E7CA4(void) {
-    func_800D1EBC();
-}
+#define SHARED_FN func_801E7CA4
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 
@@ -89,10 +79,9 @@ void func_801E7D3C(void *a0) {
 
 extern void func_80171A1C(void*);
 extern void func_80175414(s32 _arg0);
-void func_801E7D78(void) {
-    ((void (*)(void))func_80171A1C)();
-    ((void (*)(void))func_80175414)();
-}
+#define SHARED_FN func_801E7D78
+#include "../shared/multi/cls_b9caea59f74f.h"
+#undef SHARED_FN
 
 
 INCLUDE_RODATA("asm/md_SC04_030/nonmatchings/md_SC04_030", D_801E7B28);
@@ -136,9 +125,9 @@ void func_801E7E68(void *a0) {
 
 
 extern void func_80171A1C(void*);
-void func_801E7EA4(void) {
-    ((void (*)(void))func_80171A1C)();
-}
+#define SHARED_FN func_801E7EA4
+#include "../shared/multi/cls_88741b5adb4e.h"
+#undef SHARED_FN
 
 
 

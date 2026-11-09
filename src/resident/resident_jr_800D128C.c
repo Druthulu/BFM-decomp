@@ -1851,9 +1851,9 @@ s32 func_800D2DAC(u8 *arg0) {
 // that exact form; only the arg changes from 4 to 0.
 extern u16 func_800167F0(s32 arg0);
 
-s32 func_800D2DFC(void) {
-    return func_800167F0(0) != 0;
-}
+#define SHARED_FN func_800D2DFC
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 // func_800D2E20 — body-twin of the MATCHED func_800D3104 (read u8 field_0x15, store
 // 0xA at field_0x19, write field_0x15 back, return 0), with a LEADING call
@@ -1919,9 +1919,9 @@ s32 func_800D2E6C(Struct800D2E6C *arg0) {
 // added an explicit (u16) cast; copy the proven u16-return form instead.
 extern u16 func_800167F0(s32 arg0);
 
-s32 func_800D2EE8(void) {
-    return func_800167F0(4) != 0;
-}
+#define SHARED_FN func_800D2EE8
+#include "../shared/multi/cls_25c5aa9bdbfa.h"
+#undef SHARED_FN
 
 extern void (*D_800D39C4[])(void);
 
@@ -1951,9 +1951,9 @@ s32 func_800D2F48(u8 *arg0) {
 // schedules the andi differently / can drop it. Copy the twins verbatim.
 extern u16 func_800167F0(s32 arg0);
 
-s32 func_800D2F8C(void) {
-    return func_800167F0(0) != 0;
-}
+#define SHARED_FN func_800D2F8C
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 extern void (*D_800D39F0[])(void);
 
@@ -2008,27 +2008,15 @@ extern void func_800D0C48(u16 arg0);
 extern void func_800D1E28(void);
 
 
-s32 func_800D302C(Obj800D302C *arg0) {
-    s32 v;
-
-    v = arg0->field_0x28 - 1;
-    arg0->field_0x28 = v;
-    if (v == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D0C48(1);
-        func_800D1E28();
-        arg0->field_0x15 = arg0->field_0x15 + 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_800D302C
+#include "../shared/multi/cls_b4142e5af3b1.h"
+#undef SHARED_FN
 
 extern s32 func_800D1EBC(void);
 
-void func_800D30A8(void) {
-    func_800D1EBC();
-}
+#define SHARED_FN func_800D30A8
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 extern void (*D_800D3A8C[])(void);
 
@@ -2093,9 +2081,9 @@ s32 func_800D3120(Struct800D3120 *arg0) {
 
 extern u16 func_800167F0(s32 arg0);
 
-s32 func_800D319C(void) {
-    return func_800167F0(4) != 0;
-}
+#define SHARED_FN func_800D319C
+#include "../shared/multi/cls_25c5aa9bdbfa.h"
+#undef SHARED_FN
 
 extern void (*D_800D3920[])(void);
 
@@ -2141,9 +2129,9 @@ void func_800D32D4(void *arg0) {
 
 extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
-void func_800D3328(void) {
-    func_8016F0E4();
-}
+#define SHARED_FN func_800D3328
+#include "../shared/multi/cls_5211f6f7586b.h"
+#undef SHARED_FN
 
 extern void (*D_800D3AA4[])(void);
 
@@ -2157,9 +2145,9 @@ void func_800D3384(u8 *arg0) {
 
 extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
-void func_800D3398(void) {
-    func_8016F0E4();
-}
+#define SHARED_FN func_800D3398
+#include "../shared/multi/cls_5211f6f7586b.h"
+#undef SHARED_FN
 
 /* func_800D33B8 — exact mirror of the already-MATCHED func_800D33E0
  * (src/resident/resident.c:827), differing only in the global it passes

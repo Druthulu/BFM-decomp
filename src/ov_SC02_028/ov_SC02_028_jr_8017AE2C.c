@@ -3810,7 +3810,9 @@ void func_8017C8B8(void *a0) {
 
 
 
-#include "../shared/ov/func_8017C8F4.h"
+#define SHARED_FN func_8017C8F4
+#include "../shared/ov/cls_c080143662be.h"
+#undef SHARED_FN
 
 
 
@@ -3819,7 +3821,9 @@ void func_8017C8B8(void *a0) {
 
 
 
-#include "../shared/ov/func_8017CA34.h"
+#define SHARED_FN func_8017CA34
+#include "../shared/ov/cls_0dc7d970a3a5.h"
+#undef SHARED_FN
 
 
 
@@ -3849,10 +3853,14 @@ void func_8017CB68(s32 a0) {
 
 
 
-#include "../shared/ov/func_8017CBD4__6f36e213.h"
+#define SHARED_FN func_8017CBD4
+#include "../shared/ov/cls_6f36e2136074.h"
+#undef SHARED_FN
 
 
-#include "../shared/ov/func_8017CC60.h"
+#define SHARED_FN func_8017CC60
+#include "../shared/ov/cls_c05e46830b4f.h"
+#undef SHARED_FN
 
 
 
@@ -3860,7 +3868,9 @@ void func_8017CB68(s32 a0) {
 #include "../shared/ov/func_8017CC80__229aadd9.h"
 
 
-#include "../shared/ov/func_8017CCD4.h"
+#define SHARED_FN func_8017CCD4
+#include "../shared/ov/cls_17211c2c3e65.h"
+#undef SHARED_FN
 
 
 
@@ -3871,7 +3881,9 @@ void func_8017CD10(void *a0) {
 }
 
 
-#include "../shared/ov/func_8017CD4C.h"
+#define SHARED_FN func_8017CD4C
+#include "../shared/ov/cls_952c5c0012f6.h"
+#undef SHARED_FN
 
 
 
@@ -4021,7 +4033,9 @@ void func_8017D33C(void *a0) {
 }
 
 
-#include "../shared/ov/func_8017D378__f93a4aa3.h"
+#define SHARED_FN func_8017D378
+#include "../shared/ov/cls_f93a4aa39125.h"
+#undef SHARED_FN
 
 
 

@@ -3489,9 +3489,9 @@ void func_8017BE60(void *a0) {
 
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
-void func_8017BEBC(void *a0) {
-    func_80146A6C(0x19, a0, 0, 0, 0, 0, 1);
-}
+#define SHARED_FN func_8017BEBC
+#include "../shared/ov/cls_17211c2c3e65.h"
+#undef SHARED_FN
 
 
 
@@ -3502,7 +3502,9 @@ extern void (*D_80188718[])(void);
 #undef SHARED_FN
 
 
-#include "../shared/ov/func_8017BF34__952c5c00.h"
+#define SHARED_FN func_8017BF34
+#include "../shared/ov/cls_952c5c0012f6.h"
+#undef SHARED_FN
 
 
 // @class: plumbing
@@ -3650,7 +3652,9 @@ extern void (*D_8018872C[])(void);
 #undef SHARED_FN
 
 
-#include "../shared/ov/func_8017C560.h"
+#define SHARED_FN func_8017C560
+#include "../shared/ov/cls_f93a4aa39125.h"
+#undef SHARED_FN
 
 
 /* func_8017C5A0 — a state-tick: bump the frame counter at 0x1C; while it is
@@ -4189,9 +4193,9 @@ s32 func_8017DA08(s32 a0) {
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_8017DA4C(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_8017DA4C
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -4241,23 +4245,15 @@ extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
 
-s32 func_8017DB6C(u8 *a0) {
-    if (--(((Unkstruct_8017CB70 *)a0)->unk28) == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D0C48(1);
-        func_800D1E28();
-        ((Unkstruct_8017CB70 *)a0)->unk15 += 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017DB6C
+#include "../shared/multi/cls_b4142e5af3b1.h"
+#undef SHARED_FN
 
 
 extern s32 func_800D1EBC(void);
-    void func_8017DBE8(void) {
-        func_800D1EBC();
-    }
+#define SHARED_FN func_8017DBE8
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 

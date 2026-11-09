@@ -3277,7 +3277,9 @@ Lend:
 }
 
 
-#include "../shared/ov/func_80179B28.h"
+#define SHARED_FN func_80179B28
+#include "../shared/ov/cls_72ad176429c2.h"
+#undef SHARED_FN
 
 extern short D_801DA710;
 extern void func_8017A4AC(void);

@@ -17,7 +17,9 @@ int func_801EF47C(u8 *arg) {
 
 
 
-#include "../shared/slot_801EF468/func_801EF4D4.h"
+#define SHARED_FN func_801EF4D4
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -26,7 +28,9 @@ int func_801EF47C(u8 *arg) {
 
 #include "../shared/slot_801EF468/func_801EF544.h"
 
-#include "../shared/slot_801EF468/func_801EF5D4.h"
+#define SHARED_FN func_801EF5D4
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 
@@ -56,7 +60,9 @@ void func_801EF66C(void *a0) {
 }
 
 
-#include "../shared/slot_801EF468/func_801EF6A8.h"
+#define SHARED_FN func_801EF6A8
+#include "../shared/multi/cls_b9caea59f74f.h"
+#undef SHARED_FN
 
 
 INCLUDE_RODATA("asm/md_SC03_074/nonmatchings/md_SC03_074", D_801EF468);
@@ -105,7 +111,9 @@ void func_801EF798(void *a0) {
 }
 
 
-#include "../shared/slot_801EF468/func_801EF7D4.h"
+#define SHARED_FN func_801EF7D4
+#include "../shared/multi/cls_88741b5adb4e.h"
+#undef SHARED_FN
 
 
 

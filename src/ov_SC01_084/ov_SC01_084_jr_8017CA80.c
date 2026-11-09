@@ -3054,9 +3054,9 @@ s32 func_8017E0FC(s32 param_1)
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_8017E14C(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_8017E14C
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -3085,9 +3085,9 @@ s32 func_8017E1AC(s32 param_1)
 }
 
 
-s32 func_8017E21C(void) {
-        return 0;
-    }
+#define SHARED_FN func_8017E21C
+#include "../shared/multi/cls_af99c5b3dbef.h"
+#undef SHARED_FN
 
 
 extern void func_800D1E28(void);
@@ -3102,9 +3102,9 @@ s32 func_8017E224(s32 param_1)
 
 
 extern s32 func_800D1EBC(void);
-    void func_8017E270(void) {
-        func_800D1EBC();
-    }
+#define SHARED_FN func_8017E270
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 

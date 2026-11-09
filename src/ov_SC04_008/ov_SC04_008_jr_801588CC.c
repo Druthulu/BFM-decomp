@@ -1386,11 +1386,15 @@ extern char D_80180ED0[];
 #include "../shared/ov/func_801596F0__501091d3.h"
 
 
-#include "../shared/ov/func_80159874.h"
+#define SHARED_FN func_80159874
+#include "../shared/multi/cls_af99c5b3dbef.h"
+#undef SHARED_FN
 
 #include "../shared/ov/func_8015987C.h"
 
-#include "../shared/ov/func_801598BC.h"
+#define SHARED_FN func_801598BC
+#include "../shared/multi/cls_25c5aa9bdbfa.h"
+#undef SHARED_FN
 
 #include "../shared/ov/func_801598E0.h"
 

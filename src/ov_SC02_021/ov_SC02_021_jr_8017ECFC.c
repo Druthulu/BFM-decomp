@@ -3035,9 +3035,9 @@ extern void (*D_80183944[])(void);
 
 
 extern s32 func_8012AD50(void *a0);
-    void func_8017F448(void) {
-        ((s32 (*)(void))func_8012AD50)();
-    }
+#define SHARED_FN func_8017F448
+#include "../shared/ov/cls_7a77436ed05c.h"
+#undef SHARED_FN
 
 
 

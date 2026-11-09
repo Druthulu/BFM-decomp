@@ -4347,9 +4347,9 @@ s32 func_8017E494(s32 param_1)
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_8017E4E4(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_8017E4E4
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -4398,25 +4398,17 @@ s32 func_8017E578(s32 a0) {
 
 
 extern s32 func_800D1EBC(void);
-    void func_8017E628(void) {
-        func_800D1EBC();
-    }
+#define SHARED_FN func_8017E628
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 
 extern void func_800D1E28(void);
 
-s32 func_8017E648(void *a0) {
-    s32 *p = (s32 *)((u8 *)a0 + 0x28);
-    *p = *p - 1;
-
-    if (*p == -1) {
-        func_800D1E28();
-        (((Unkstruct_8017D7A4_2 *)a0)->unk15)++;
-    }
-
-    return 0;
-}
+#define SHARED_FN func_8017E648
+#include "../shared/ov/cls_6cd03b3b44a9.h"
+#undef SHARED_FN
 
 
 extern void func_800D1E28(void);
@@ -4463,9 +4455,9 @@ void func_8017E7D4(void *a0) {
 
 
 extern s32 D_80127050;
-    void func_8017E810(void) {
-        D_80127050 = 1;
-    }
+#define SHARED_FN func_8017E810
+#include "../shared/ov/cls_f5893a74f07a.h"
+#undef SHARED_FN
 
 
 
@@ -4484,11 +4476,9 @@ void func_8017E860(s32 *a0) {
 extern void func_80175414(s32 _arg0);
 extern void func_8016F0E4(u8 * p);
 extern void func_80165770(void);
-void func_8017E874(void *a0) {
-    ((void (*)(void *))func_80175414)(a0);
-    ((s32 (*)(struct S *))func_8016F0E4)((struct S *)a0);
-    ((void (*)(void *))func_80165770)(a0);
-}
+#define SHARED_FN func_8017E874
+#include "../shared/ov/cls_1e05d81cacf9.h"
+#undef SHARED_FN
 
 
 
@@ -4505,9 +4495,9 @@ void func_8017E8E8(u8 *a0) {
 
 
 extern void func_8016F0E4(u8 * p);
-    void func_8017E8FC(void) {
-        ((s32 (*)(void))func_8016F0E4)();
-    }
+#define SHARED_FN func_8017E8FC
+#include "../shared/multi/cls_5211f6f7586b.h"
+#undef SHARED_FN
 
 
 
@@ -5575,9 +5565,9 @@ void func_8018003C(void) {
 }
 
 
-s32 func_80180070(void) {
-        return -1;
-    }
+#define SHARED_FN func_80180070
+#include "../shared/ov/cls_6ff945fc330f.h"
+#undef SHARED_FN
 
 
 void func_80180078(void)

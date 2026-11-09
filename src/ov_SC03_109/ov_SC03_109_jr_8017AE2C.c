@@ -3301,7 +3301,9 @@ void func_8017BE60(void *a0) {
 #include "../shared/ov/func_8017BEB4.h"
 
 
-#include "../shared/ov/func_8017BEBC__29f8286d.h"
+#define SHARED_FN func_8017BEBC
+#include "../shared/ov/cls_29f8286ddb37.h"
+#undef SHARED_FN
 
 
 

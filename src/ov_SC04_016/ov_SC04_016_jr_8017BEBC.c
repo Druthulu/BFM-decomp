@@ -2717,7 +2717,9 @@ extern void func_800167B8(s32 a0);
 
 
 
-#include "../shared/ov/func_8017CE1C__511a8b68.h"
+#define SHARED_FN func_8017CE1C
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 

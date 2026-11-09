@@ -4165,13 +4165,9 @@ extern void func_8012931C(void *);
 extern s32 func_80128ED8(s32, s32*);
 extern void func_801292C8(u8*);
 
-void func_8018BB58(s32 a0) {
-    s32 s0 = a0;
-    func_8012931C((void *)a0);
-    if (((s32 (*)(s32, void *))func_80128ED8)(((Unkstruct_8017E090 *)s0)->unk20, (void *)(s0 + 0x24)) != 0) {
-        ((void (*)(s32))func_801292C8)(s0);
-    }
-}
+#define SHARED_FN func_8018BB58
+#include "../shared/multi/cls_9d74594f1906.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -4870,9 +4866,9 @@ void func_8018C978(s32 arg0)
 
 
 extern void func_8012C218(void *a0);
-    void func_8018CA1C(void) {
-        ((s32 (*)(void))func_8012C218)();
-    }
+#define SHARED_FN func_8018CA1C
+#include "../shared/ov/cls_c05e46830b4f.h"
+#undef SHARED_FN
 
 
 extern s32 D_801270C8[0];

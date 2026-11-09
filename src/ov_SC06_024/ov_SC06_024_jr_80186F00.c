@@ -7216,9 +7216,9 @@ void func_8018D9B8(s32 a0)
 
 
 extern void func_8012B370(int a0);
-    void func_8018DA78(void) {
-        ((s32 (*)(void))func_8012B370)();
-    }
+#define SHARED_FN func_8018DA78
+#include "../shared/ov/cls_f35c28b5f2ef.h"
+#undef SHARED_FN
 
 
 
@@ -7374,9 +7374,9 @@ void func_8018DCA8(s32 a0)
 
 
 extern void func_8012B370(int a0);
-    void func_8018DD68(void) {
-        ((void (*)(void))func_8012B370)();
-    }
+#define SHARED_FN func_8018DD68
+#include "../shared/ov/cls_f35c28b5f2ef.h"
+#undef SHARED_FN
 
 
 extern s32 func_8004787C(s32 a0);

@@ -2716,7 +2716,9 @@ s32 func_8017CDD8(s32 a0)
 }
 
 
-#include "../shared/ov/func_8017CE24.h"
+#define SHARED_FN func_8017CE24
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 extern void (*D_8018729C[])(void);

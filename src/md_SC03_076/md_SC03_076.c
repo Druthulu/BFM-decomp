@@ -179,13 +179,9 @@ void func_801EF918(void) {
  */
 
 
-void func_801EFA44(void)
-{
-
-    extern unsigned short D_80115112;
-    unsigned short *p = &D_80115112;
-    *p = *p + 1;
-}
+#define SHARED_FN func_801EFA44
+#include "../shared/multi/cls_a05128332cc0.h"
+#undef SHARED_FN
 
 
 void func_801EFA60(void)
@@ -258,13 +254,9 @@ void func_801EFA60(void)
  */
 
 
-void func_801EFB40(void)
-{
-
-    extern unsigned short D_80115112;
-    unsigned short *p = &D_80115112;
-    *p = *p + 1;
-}
+#define SHARED_FN func_801EFB40
+#include "../shared/multi/cls_a05128332cc0.h"
+#undef SHARED_FN
 
 
 
@@ -1426,9 +1418,9 @@ int func_801F1A4C(u8 *arg) {
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_801F1AA4(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_801F1AA4
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
@@ -1465,9 +1457,9 @@ s32 func_801F1AC8(s32 param_1) {
 
 
 extern s32 func_800D1EBC(void);
-void func_801F1BAC(void) {
-    func_800D1EBC();
-}
+#define SHARED_FN func_801F1BAC
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 
@@ -1503,10 +1495,9 @@ void func_801F1C74(void *a0) {
 
 extern void func_80171A1C(void*);
 extern void func_80175414(s32 _arg0);
-void func_801F1CB0(void) {
-    ((void (*)(void))func_80171A1C)();
-    ((void (*)(void))func_80175414)();
-}
+#define SHARED_FN func_801F1CB0
+#include "../shared/multi/cls_b9caea59f74f.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -1558,9 +1549,9 @@ void func_801F1DA0(void *a0) {
 
 
 extern void func_80171A1C(void*);
-void func_801F1DDC(void) {
-    ((void (*)(void))func_80171A1C)();
-}
+#define SHARED_FN func_801F1DDC
+#include "../shared/multi/cls_88741b5adb4e.h"
+#undef SHARED_FN
 
 
 #include "common.h"

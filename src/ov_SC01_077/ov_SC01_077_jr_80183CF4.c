@@ -3391,9 +3391,9 @@ void func_801843C0(int param_1)
     return;
 }
 
-s32 func_80184484(void) {
-    return 1;
-}
+#define SHARED_FN func_80184484
+#include "../shared/ov/cls_98ab17e54d84.h"
+#undef SHARED_FN
 
 extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
 

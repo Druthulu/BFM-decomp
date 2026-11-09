@@ -2016,24 +2016,6 @@ typedef StructB58_8017FAFC StructB58_80180730;
 typedef StructB58_8017FAFC StructB58_80183A20;
 typedef StructB58_8017FAFC StructB58_80184414;
 typedef StructB58_8017FAFC StructB58_80185EF8;
-typedef Struct_8017E784 Struct_8017EA6C;
-typedef Struct_8017E784 Struct_8017EC78;
-typedef Struct_8017E784 Struct_8017F380;
-typedef Struct_8017E784 Struct_8017F87C;
-typedef Struct_8017E784 Struct_8017FCD8;
-typedef Struct_8017E784 Struct_80180000;
-typedef Struct_8017E784 Struct_80180498;
-typedef Struct_8017E784 Struct_80180808;
-typedef Struct_8017E784 Struct_80180DB8;
-typedef Struct_8017E784 Struct_801825D8;
-typedef Struct_8017E784 Struct_80182A68;
-typedef Struct_8017E784 Struct_80183308;
-typedef Struct_8017E784 Struct_8018362C;
-typedef Struct_8017E784 Struct_80183AE0;
-typedef Struct_8017E784 Struct_801841B0;
-typedef Struct_8017E784 Struct_80185138;
-typedef Struct_8017E784 Struct_80185B1C;
-typedef Struct_8017E784 Struct_8018747C;
 typedef struct Sub20_1CDC {
     u8  pad0[0x14];
     u16 unk14;                       /* 0x14 */
@@ -2092,19 +2074,7 @@ typedef UAlign8_80181F40 UAlign8_80182B74;
 typedef UAlign8_80181F40 UAlign8_80185E64;
 typedef UAlign8_80181F40 UAlign8_80186858;
 typedef struct { u16 a, b, c, d; } UAlign8_8018833C;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C;
 typedef SVECTOR_8017E6D8 UVec_8017EA1C_8017DA78;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_8017DB34;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_8017DD4C;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_8017E064;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_8017E2A8;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_8017E4C8;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_8017F548;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_8017F8A0;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_8017FB0C;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_801800C0;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_801806F4;
-typedef SVECTOR_8017E6D8 UVec_8017EA1C_8018D468;
 typedef struct {
     s32 unk00;  /* 0x00 */
     s32 unk04;  /* 0x04 */

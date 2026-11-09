@@ -3308,9 +3308,9 @@ void func_8017BE60(void *a0) {
 
 #include "../shared/ov/func_8017BEB4.h"
 
-void func_8017BEBC(void *a0) {
-    func_80146A6C(0x19, a0, 0, 0, 0, 0, 1);
-}
+#define SHARED_FN func_8017BEBC
+#include "../shared/ov/cls_17211c2c3e65.h"
+#undef SHARED_FN
 
 
 
@@ -3333,7 +3333,9 @@ void func_8017BEF8(void *a0) {
  * §3-T4: target is `bnez $v0, .L` => source condition is `== 0`.
  */
 
-#include "../shared/ov/func_8017BF34__952c5c00.h"
+#define SHARED_FN func_8017BF34
+#include "../shared/ov/cls_952c5c0012f6.h"
+#undef SHARED_FN
 
 
 // @class: plumbing
@@ -3498,7 +3500,9 @@ void func_8017C524(void *a0) {
  * pointer survives the jal in $s0, which is just the natural allocation for a
  * parameter live across a call. */
 
-#include "../shared/ov/func_8017C560.h"
+#define SHARED_FN func_8017C560
+#include "../shared/ov/cls_f93a4aa39125.h"
+#undef SHARED_FN
 
 
 #include "common.h"

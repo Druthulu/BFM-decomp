@@ -3953,13 +3953,9 @@ extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 extern void func_8012931C(void *);
 
-void func_801A5A9C(s32 a0) {
-    s32 s0 = a0;
-    func_8012931C((void *)a0);
-    if (((s32 (*)(s32, void *))func_80128ED8)(((Unkstruct_8017E090 *)s0)->unk20, (void *)(s0 + 0x24)) != 0) {
-        ((void (*)(s32))func_801292C8)(s0);
-    }
-}
+#define SHARED_FN func_801A5A9C
+#include "../shared/multi/cls_9d74594f1906.h"
+#undef SHARED_FN
 
 
 extern void func_8001CD50(s32 a0, s32 a1);

@@ -3137,22 +3137,9 @@ void func_801822C0(void *a0) {
 extern void func_8012B2CC(s32 a0);
 
 
-void func_80182344(s32 *a0) {
-    s32 val_at_64;
-    s32 deref;
-    u16 val1, val2;
-    s32 ptr_at_20;
-
-    val_at_64 = ((Unkstruct_800B5CB8 *)a0)->unk64;
-    deref = ((Unkstruct_800B5CB8 *)val_at_64)->unk20;
-    val1 = ((Unkstruct_800B5CB8 *)deref)->unk12;
-    val2 = CAST_SIGN(u16, (char *)a0, 0x70);
-    ptr_at_20 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-
-    ((Unkstruct_800B5CB8 *)ptr_at_20)->unk12 = val1 + val2;
-
-    func_8012B2CC(a0);
-}
+#define SHARED_FN func_80182344
+#include "../shared/ov/cls_18dbf2c0dc17.h"
+#undef SHARED_FN
 
 
 
@@ -3257,16 +3244,9 @@ extern s32 func_8012BD14(s32 a0);
 extern s32 func_80143970(void *a0);
 extern void func_8012E688(void *a0, s32 a1, s32 a2);
 
-void func_801825D8(s32 a0) {
-    s32 ret = func_8012BD14(a0);
-    if (ret <= 0x64000) {
-        Struct_801825D8 *ptr = CAST_SIGN(Struct_801825D8 *, a0, 0x20);
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
-        ptr->f1 = ptr->f1 & 0x7FFFFFFF;
-        func_80143970((void *)a0);
-        func_8012E688((void *)a0, 0xBA2, 0);
-    }
-}
+#define SHARED_FN func_801825D8
+#include "../shared/ov/cls_a9cb371dedc3.h"
+#undef SHARED_FN
 
 
 
@@ -3322,27 +3302,9 @@ void func_80182724(void) {
 extern s32 func_8002A04C(s32 a0);
 extern void func_8012C218(void *a0);
 
-void func_8018272C(s32 arg0) {
-    if (((Unkstruct_800B5CB8 *)arg0)->unk1C != 0) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk1C -= 1;
-    }
-    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk18 -= 0x100;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk1A -= 0x100;
-    if (*(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x1A) < 0x81) {
-        if (((Unkstruct_800B5CB8 *)arg0)->unk70 == 1) {
-            /* LOAD-BEARING: hoisting the argument load into its own local
-             * emits `lw $a0,0xCC($s0)` ABOVE the guard branch and leaves the
-             * beqz delay slot a nop. Inlining it at the call site instead
-             * gives beqz/nop/lw -> 3 mismatches (class DELAY-SLOT). A/B-tested. */
-            void *temp = CAST_SIGN(void *, arg0, 0xCC);
-            if (arg0 != 0) {
-                func_8012C218(temp);
-            }
-        }
-        func_8002A04C(arg0);
-        func_8012C218((void *)arg0);
-    }
-}
+#define SHARED_FN func_8018272C
+#include "../shared/ov/cls_f04182b14800.h"
+#undef SHARED_FN
 
 
 
@@ -3911,9 +3873,9 @@ void func_80183524(void * arg0) {
 
 
 extern s16 func_80174764(void);
-s32 func_80183558(void) {
-    return ((s32 (*)(void))func_80174764)() == 1;
-}
+#define SHARED_FN func_80183558
+#include "../shared/ov/cls_823efd3d5ca7.h"
+#undef SHARED_FN
 
 
 
@@ -4447,42 +4409,14 @@ extern u16 D_80126B62;
 extern u16 D_80126B5E;
 extern u16 D_80126B66;
 
-s32 func_8018412C(void *a0, s32 a1) {
-    s32 in[3];
-    s32 out[3];
-    s16 d;
-
-    in[0] = CAST_SIGN(s16, (s32)a0, 6) - *(s16 *)&D_80126B5E;
-    in[1] = 0;
-    in[2] = CAST_SIGN(s16, (s32)a0, 0xE) - *(s16 *)&D_80126B66;
-    Square0(in, out);
-
-    d = D_80126B62 - ((Unkstruct_800B5CB8 *)a0)->unkA;
-    if (d < 0) {
-        d = -d;
-    }
-    if (out[0] + out[2] < (u16)a1 * (u16)a1) {
-        if (d < 4) {
-            return 1;
-        }
-    }
-    return 0;
-}
+#define SHARED_FN func_8018412C
+#include "../shared/ov/cls_ae15a405313d.h"
+#undef SHARED_FN
 
 
-void func_801841EC(void) {
-
-    extern u8 D_801202A0[];
-    u8 *p;
-    s32 i;
-
-    p = D_801202A0;
-    for (i = 0; i < 0x60; i++, p += 0x10C) {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x1E1) {
-            CAST_SIGN(u16, p, 0x70) |= 0x1000;
-        }
-    }
-}
+#define SHARED_FN func_801841EC
+#include "../shared/ov/cls_e12eb6ef6a85.h"
+#undef SHARED_FN
 
 
 

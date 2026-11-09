@@ -3308,7 +3308,9 @@ void func_8017BE60(void *a0) {
 #include "../shared/ov/func_8017BEB4.h"
 
 
-#include "../shared/ov/func_8017BEBC__29f8286d.h"
+#define SHARED_FN func_8017BEBC
+#include "../shared/ov/cls_29f8286ddb37.h"
+#undef SHARED_FN
 
 
 
@@ -4134,7 +4136,9 @@ void func_8017CF30(void *a0) {
  *     shift results are born after $v0 dies and reclaim it.
  */
 
-#include "../shared/ov/func_8017CF6C__4771362e.h"
+#define SHARED_FN func_8017CF6C
+#include "../shared/ov/cls_4771362e4429.h"
+#undef SHARED_FN
 
 
 /* func_8017CFE0 -- ov_SC03_002 / ov_SC03_002_jr_8017AE2C */
@@ -4384,6 +4388,8 @@ L_8017D57C:
 }
 
 
-#include "../shared/ov/func_8017D5C4__cfafd700.h"
+#define SHARED_FN func_8017D5C4
+#include "../shared/ov/cls_cfafd7008ad5.h"
+#undef SHARED_FN
 
 

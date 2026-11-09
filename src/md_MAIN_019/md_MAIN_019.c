@@ -109,11 +109,9 @@ void func_800CB0C8(void *a0) {
 
 
 extern void func_80154A74(s32 a0, s32 a1);
-s32 func_800CB170(s32 a0)
-{
-    ((Unkstruct_80126B58 *)a0)->unk44 = ((Unkstruct_80126B58 *)a0)->unk44 & ~2;
-    func_80154A74(a0, 0x11);
-}
+#define SHARED_FN func_800CB170
+#include "../shared/multi/cls_31791b27f492.h"
+#undef SHARED_FN
 
 
 #include "common.h"

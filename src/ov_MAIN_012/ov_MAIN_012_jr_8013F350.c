@@ -2259,7 +2259,9 @@ ad50:
 #include "../shared/ov/func_801426D4.h"
 
 
-#include "../shared/ov/func_80142740.h"
+#define SHARED_FN func_80142740
+#include "../shared/ov/cls_3ec3edde387d.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80142778.h"

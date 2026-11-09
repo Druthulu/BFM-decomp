@@ -528,21 +528,9 @@ void func_800CBA30(void *a0) {
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
-void func_800CBAA4(s32 a0) {
-    s16 src[4];
-    u8 mtx[8];
-    s32 p;
-    p = ((Unkstruct_800CB8A4 *)a0)->unk34;
-    src[0] = ((Unkstruct_800CBAA4 *)p)->unk6;
-    src[1] = ((Unkstruct_800CBAA4 *)p)->unkA - 0x28;
-    src[2] = ((Unkstruct_800CBAA4 *)p)->unkE;
-    func_800D20C0((void *)src, (void *)mtx, 6);
-    ((Unkstruct_800CB8A4 *)a0)->unk6 = src[0];
-    ((Unkstruct_800CB8A4 *)a0)->unkA = src[1];
-    ((Unkstruct_800CB8A4 *)a0)->unkE = src[2];
-    func_800D23D0((void *)mtx);
-    RotMatrixYXZ((void *)mtx, (void *)(a0 + 0x38));
-}
+#define SHARED_FN func_800CBAA4
+#include "../shared/multi/cls_de282f34e6b1.h"
+#undef SHARED_FN
 
 
 /* func_800CBB38 -- tier-2 (codegen shaping).  MATCH (86/86 ins), 0 warnings.

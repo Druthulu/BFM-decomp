@@ -4282,9 +4282,9 @@ void func_80183194(void *a0) {
 
 
 extern s32 func_8012AD50(void *a0);
-    void func_801831D0(void) {
-        ((s32 (*)(void))func_8012AD50)();
-    }
+#define SHARED_FN func_801831D0
+#include "../shared/ov/cls_7a77436ed05c.h"
+#undef SHARED_FN
 
 
 extern s32 D_80126B58;
@@ -4550,9 +4550,9 @@ void func_801836F0(void * arg0) {
 
 
 extern s16 func_80174764(void);
-s32 func_80183724(void) {
-    return ((s32 (*)(void))func_80174764)() == 1;
-}
+#define SHARED_FN func_80183724
+#include "../shared/ov/cls_823efd3d5ca7.h"
+#undef SHARED_FN
 
 
 

@@ -3012,9 +3012,9 @@ s32 func_8017DE14(s32 a0) {
 
 extern s32 func_800167F0(s32 a0);
 
-s32 func_8017DE58(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+#define SHARED_FN func_8017DE58
+#include "../shared/multi/cls_511a8b68802b.h"
+#undef SHARED_FN
 
 
 
@@ -3058,9 +3058,9 @@ s32 func_8017DEF8(void *a0)
 
 
 extern s32 func_800D1EBC(void);
-    void func_8017DF60(void) {
-        func_800D1EBC();
-    }
+#define SHARED_FN func_8017DF60
+#include "../shared/multi/cls_37f67f3adb2e.h"
+#undef SHARED_FN
 
 
 
@@ -4809,10 +4809,9 @@ void func_80180588(s32 param_1) {
 
 
 
-void func_8018062C(s32 *a0) {
-        ((Unkstruct_8017E514 *)a0)->unk1C = 6;
-        ((Unkstruct_8017E514 *)a0)->unk5C = 0;
-    }
+#define SHARED_FN func_8018062C
+#include "../shared/ov/cls_412da1ed25ab.h"
+#undef SHARED_FN
 
 
 
