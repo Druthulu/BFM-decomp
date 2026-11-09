@@ -1005,3 +1005,4 @@ C0552 | Return-type lies: argcheck norm_ret + canonical typedef map, opt-in retu
 C0553 | kit_lint rejects project tokens (BFM*) in tool_dictionary prose mirrored to the kit MANIFEST | kit-corpus,kit-lint,tool_dictionary,tools-health | 2026-11-07 | 3.41/T9 | P3.41 T9.c1
 C0554 | Ghidra live-DB type import (program-row guard, export cmp) + MCP over SSE without MCP tools | ghidra,mcp,types,import,live-db | 2026-11-07 | 3.41/T8 | P3.41 T8
 C0555 | Prove a rename complete with rename_scan (R32 coverage) | rename,symbol,names-ledger,guess,r32 | 2026-11-08 | 3.42/T2 | P3.42 T2.c1
+C0556 | Apply and prove a rename in a scratch worktree (rename_sym + controls) | rename,symbol,worktree,gate_main,r32 | 2026-11-08 | 3.42/T3 | P3.42 T3.c1
