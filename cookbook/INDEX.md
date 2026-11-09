@@ -1006,3 +1006,4 @@ C0553 | kit_lint rejects project tokens (BFM*) in tool_dictionary prose mirrored
 C0554 | Ghidra live-DB type import (program-row guard, export cmp) + MCP over SSE without MCP tools | ghidra,mcp,types,import,live-db | 2026-11-07 | 3.41/T8 | P3.41 T8
 C0555 | Prove a rename complete with rename_scan (R32 coverage) | rename,symbol,names-ledger,guess,r32 | 2026-11-08 | 3.42/T2 | P3.42 T2.c1
 C0556 | Apply and prove a rename in a scratch worktree (rename_sym + controls) | rename,symbol,worktree,gate_main,r32 | 2026-11-08 | 3.42/T3 | P3.42 T3.c1
+C0557 | Cross-address share: the SHARED_FN class header and its traps | share,dedup,shared_fn,cross-address,residue | 2026-11-08 | 3.42/T4 | T4.c1 d3f940420a
