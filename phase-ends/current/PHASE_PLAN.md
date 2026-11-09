@@ -120,3 +120,4 @@ Approved: 2026-11-08   Planner: claude-opus-5-5/medium   Plan-hash: 83b6c853b4aa
 - Disk: 26 GB free; the worktree build and R22 fit; .run/ holds 19 GB, including .run/P41 (R87).
 
 ## Changes
+- 2026-11-08 developer: Developer decides answered 2026-11-08: yes to both. (1) T10 may stop the MCP Ghidra once with tools/ghidra_mcp_stop.sh (clean save+stop, never a kill) for its Ghidra steps; it stays stopped until the close, then ghidra_mcp_start.sh and Claude asks for /mcp. (2) Shared-form stop rule is 0 left: classes still rejected after repair stop T5/T6 after bucketing by reason; Claude brings the buckets to the developer.

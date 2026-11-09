@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-08T23:34:15.963Z
+# filed through: 2026-11-09T01:01:17.054Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -88,6 +88,12 @@ R84 | 2026-11-08 | finding | in force | Phase 3.42 planning | A deferred item fo
 R85 | 2026-11-08 | open | superseded by R86 | Phase 3.42 planning | Whether to change .claude/agents/pa-planner.md from `effort: high` to `effort: max` (PA3 manages th… | .claude-state/journal/2026-11-08/113042-017r-claude-record.md
 R86 | 2026-11-08 | decision | superseded by R88 | Phase 3.42 planning | No edit to .claude/agents/pa-planner.md. | .claude-state/journal/2026-11-08/154258-003r-claude-record.md
 R87 | 2026-11-08 | open | in force | Phase 3.41 close | After the close the developer: pushes the archive clone (b9534ed) and then the repo; restarts the M… | .claude-state/journal/2026-11-08/154258-003r-claude-record.md
-R88 | 2026-11-08 | decision | in force | Phase 3.42 planning | The fresh 3.42 planner is drafting to .run/plans/phase-3.42.md. | .claude-state/journal/2026-11-08/164934-005r-claude-record.md
+R88 | 2026-11-08 | decision | retired by .claude-state/journal/2026-11-08/172904-014r-claude-record.md (the planner finished and its plan is installed) | Phase 3.42 planning | The fresh 3.42 planner is drafting to .run/plans/phase-3.42.md. | .claude-state/journal/2026-11-08/164934-005r-claude-record.md
 R89 | 2026-11-08 | finding | in force | Phase 3.42 planning | The P3.41-1 item lives in phase-ends/PhaseEnd_Phase3.41.md:191-193 (Deferred, "from T13 ... | .claude-state/journal/2026-11-08/164934-005r-claude-record.md
-R90 | 2026-11-08 | open | in force | Phase 3.42 planning | The 3.42 draft is pending from the planner -> Claude presents it with plan (kind phase) when it ret… | .claude-state/journal/2026-11-08/164934-005r-claude-record.md
+R90 | 2026-11-08 | open | retired by .claude-state/journal/2026-11-08/172904-014r-claude-record.md (the 3.42 draft was presented and approved) | Phase 3.42 planning | The 3.42 draft is pending from the planner -> Claude presents it with plan (kind phase) when it ret… | .claude-state/journal/2026-11-08/164934-005r-claude-record.md
+R91 | 2026-11-08 | decision | in force | Phase 3.42 plan | T10 may stop the MCP Ghidra once with tools/ghidra_mcp_stop.sh (clean save+stop, never a kill) for… | .claude-state/journal/2026-11-08/172904-014r-claude-record.md
+R92 | 2026-11-08 | decision | in force | Phase 3.42 plan | Shared-form stop rule is 0 left. | .claude-state/journal/2026-11-08/172904-014r-claude-record.md
+R93 | 2026-11-08 | finding | in force | Phase 3.42 plan | P3.41-1 is triaged into 3.42 T10: the cast check against the series census (.run/P39/census) runs b… | .claude-state/journal/2026-11-08/172904-014r-claude-record.md
+R94 | 2026-11-08 | finding | in force | Phase 3.42 plan | An MCP "failed to connect" in Claude Code does not mean Ghidra is stopped. | .claude-state/journal/2026-11-08/172904-014r-claude-record.md
+R95 | 2026-11-08 | decision | in force | Kit corpus records | Leave it as is. | .claude-state/journal/2026-11-08/181631-021r-claude-record.md
+R96 | 2026-11-08 | open | in force | Phase 3.42 T1 pause for a Claude Code restart | T1 is paused for the developer's Claude Code restart -> on his word, Claude calls release({hold: "s… | .claude-state/journal/2026-11-08/181631-021r-claude-record.md
