@@ -3047,15 +3047,9 @@ void func_801822E4(u8 *a0) {
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
 }
 
-void func_801822FC(void *a0) {
-    u16 v = CAST_SIGN(u16, (s32)a0, 0x70);
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 5;
-    ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x10;
-    if ((s8)(v >> 8) == 5) {
-        ((Unkstruct_800B5CB8 *)a0)->unk70 = (v & 0xFF) | 0x100;
-    }
-}
+#define SHARED_FN func_801822FC
+#include "../shared/ov/cls_4105883f012a.h"
+#undef SHARED_FN
 
 // @class: other
 // @unstuck(P36): none — MATCH (26 ins, match_one confirmed)

@@ -3511,9 +3511,9 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
 
 extern void (*D_8018D460[])(void);
 
-void func_8017C664(void *a0) {
-    D_8018D460[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017C664
+#include "../shared/ov/cls_31653312224a.h"
+#undef SHARED_FN
 
 
 extern void func_80146F58(s32 a0, s32 a1);
@@ -5415,9 +5415,9 @@ void func_8017F2E0(int a0) {
 
 extern void (*D_8018DA1C[])(void);
 
-void func_8017F344(void *a0) {
-    D_8018DA1C[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_8017F344
+#include "../shared/ov/cls_4bf603193c38.h"
+#undef SHARED_FN
 
 
 extern void func_8014706C(void *a0);

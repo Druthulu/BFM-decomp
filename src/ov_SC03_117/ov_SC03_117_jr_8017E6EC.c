@@ -3404,9 +3404,9 @@ s16 func_8017F5A4(s32 a0) {
 
 extern void (*D_801887D4[])(void);
 
-void func_8017F750(void *a0) {
-    D_801887D4[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017F750
+#include "../shared/ov/cls_817cdb5a1717.h"
+#undef SHARED_FN
 
 
 

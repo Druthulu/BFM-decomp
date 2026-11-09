@@ -2777,9 +2777,9 @@ extern s32 func_80146C3C();  // K&R: ? of 1 args (P37 rung D t4_D22)
 
 extern void (*D_8018393C[])(void);
 
-void func_8017D030(void *a0) {
-    D_8018393C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017D030
+#include "../shared/ov/cls_71e534a9b8e1.h"
+#undef SHARED_FN
 
 
 

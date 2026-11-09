@@ -2717,15 +2717,9 @@ void func_8017FD2C(u8 *a0) {
 
 
 
-void func_8017FD44(void *a0) {
-    u16 v = CAST_SIGN(u16, (s32)a0, 0x70);
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 5;
-    ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x10;
-    if ((s8)(v >> 8) == 5) {
-        ((Unkstruct_800B5CB8 *)a0)->unk70 = (v & 0xFF) | 0x100;
-    }
-}
+#define SHARED_FN func_8017FD44
+#include "../shared/ov/cls_4105883f012a.h"
+#undef SHARED_FN
 
 
 
