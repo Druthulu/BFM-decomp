@@ -4121,12 +4121,6 @@ extern s32 D_80127058;
 extern s32 func_8012BEE8(s32 arg0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 
-void func_8017FA4C(u8 *a0) {
-    u8 *p = CAST_SIGN(u8 *, a0, 0x20);
-    CAST_WIDTH(u16, p, 0x14) = (CAST_WIDTH(u16, p, 0x14) - 0x71) & 0xFFF;
-    if (func_8012BEE8(a0) == 0) {
-        return;
-    }
-    *(u8 *)&D_80127058 = 0;
-    func_8012AD44((s32 *)a0, 1);
-}
+#define SHARED_FN func_8017FA4C
+#include "../shared/ov/cls_661cb7950ef8.h"
+#undef SHARED_FN

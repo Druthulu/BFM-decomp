@@ -3565,9 +3565,9 @@ s32 func_8017EFEC(s32 param_1)
 
 
 
-s32 func_8017F198(void) {
-    return 135;
-}
+#define SHARED_FN func_8017F198
+#include "../shared/ov/cls_5a0ca0f2a2d7.h"
+#undef SHARED_FN
 
 
 

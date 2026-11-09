@@ -3676,9 +3676,9 @@ void func_8017E5C0(void) {
 
 extern s32 func_8017E5C8(void);
 
-s32 func_8017E5C8(void) {
-    return 0x6E;
-}
+#define SHARED_FN func_8017E5C8
+#include "../shared/ov/cls_e84c333194e2.h"
+#undef SHARED_FN
 
 
 /* func_8017E5D0 — draws a 4-segment perspective-scaled "trail/shadow" fan of

@@ -2777,9 +2777,9 @@ s32 func_8017CEE0(u8 *a0) {
 
 extern void (*D_80185804[])(void);
 
-void func_8017CF7C(void *a0) {
-    D_80185804[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_8017CF7C
+#include "../shared/ov/cls_0c714f4fc93f.h"
+#undef SHARED_FN
 
 
 extern s32 D_801F8070;

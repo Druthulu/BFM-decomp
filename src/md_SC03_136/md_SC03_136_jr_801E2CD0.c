@@ -146,13 +146,9 @@ s32 func_801E2E8C(void) {
 
 extern s32 func_80029178(s32 arg);
     extern void func_80029124(s32, s32);
-    s32 func_801E2E9C(void) {
-        if ((func_80029178(0x111) & 0xFF) == 0) {
-            ((void (*)(void *, s32))func_80029124)((void *)0x111, 1);
-            return 1;
-        }
-        return 0;
-    }
+#define SHARED_FN func_801E2E9C
+#include "../shared/multi/cls_842ac2428050.h"
+#undef SHARED_FN
 
 
 extern s32 func_80029504(void);
@@ -196,9 +192,9 @@ void func_801E2ED8(s32 a0) {
 
 
 extern void func_80029514(int);
-void func_801E2FB4(void) {
-    func_80029514(0x181);
-}
+#define SHARED_FN func_801E2FB4
+#include "../shared/multi/cls_72bf727d40d3.h"
+#undef SHARED_FN
 
 
 extern void func_8018A788(void);

@@ -341,13 +341,9 @@ s32 func_801E8450(void) {
 
 extern s32 func_80029178(s32 arg);
     extern void func_80029124(s32, s32);
-    s32 func_801E8460(void) {
-        if ((func_80029178(0x112) & 0xFF) == 0) {
-            ((void (*)(void *, s32))func_80029124)((void *)0x112, 1);
-            return 1;
-        }
-        return 0;
-    }
+#define SHARED_FN func_801E8460
+#include "../shared/multi/cls_66363ca5e975.h"
+#undef SHARED_FN
 
 
 

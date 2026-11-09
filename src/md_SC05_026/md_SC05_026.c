@@ -1366,10 +1366,9 @@ void func_801EFC58(s32 arg0) {
 
 extern void func_8014B00C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern void func_80029344(void);
-void func_801EFF44(void) {
-    func_8014B00C();
-    func_80029344();
-}
+#define SHARED_FN func_801EFF44
+#include "../shared/multi/cls_2248c219e580.h"
+#undef SHARED_FN
 
 
 extern u8 *D_80126B10;

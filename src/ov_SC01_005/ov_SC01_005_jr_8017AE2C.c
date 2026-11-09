@@ -3357,16 +3357,9 @@ extern void func_801553A8(s32 *a0);
 extern void func_80155440(s32 *a0);
 extern void func_80171A1C(u8 *a0);
 
-void func_8017C0B4(s32 *a0) {
-    func_8014706C(a0);
-    func_801553A8(a0);
-    func_80155440(a0);
-    CAST_NONSTRUCT(s16, (u8 *)(CAST_SIGN(s32 *, (u8 *)a0, 0x20)), 0x10) = 0xC00;
-    func_80154150((s32)a0, 0x27);
-    func_80154A74((s32)a0, 0x1F);
-    func_80171A1C((u8 *)a0);
-    func_80174650((s32)a0);
-}
+#define SHARED_FN func_8017C0B4
+#include "../shared/ov/cls_c58457435f69.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017C120__76785405.h"
@@ -3446,12 +3439,9 @@ void func_8017C2A4(void *a0) {
 extern void func_80154150(s32 a0, s32 a1);
 extern void func_80171A1C(u8 *a0);
 
-void func_8017C2F4(void *a0) {
-    if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
-        func_80154150((s32)a0, 0x25);
-        func_80171A1C((u8 *)a0);
-    }
-}
+#define SHARED_FN func_8017C2F4
+#include "../shared/ov/cls_07b82d6f5540.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017C338__76785405.h"

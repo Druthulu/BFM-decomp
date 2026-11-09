@@ -2229,9 +2229,9 @@ extern M2C_UNK D_80180870;
 
 extern void (*D_80180894[])(void);
 
-void func_80153060(void *a0) {
-    D_80180894[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80153060
+#include "../shared/ov/cls_db0da497a449.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015309C.h"

@@ -5805,20 +5805,9 @@ extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
 
-s32 func_80183898(u8 *a0) {
-    s32 s1 = func_80029504();
-    if (--(((Unkstruct_8018101C *)a0)->unk28) == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        if (s1 >= 0x2C6) {
-            func_800D0C48(1);
-        }
-        func_800D1E28();
-        ((Unkstruct_8018101C *)a0)->unk15 += 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_80183898
+#include "../shared/ov/cls_15acfe8f7b80.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80183930__20a4f42e.h"

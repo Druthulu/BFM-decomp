@@ -3071,9 +3071,9 @@ void func_8017D688(void *a0) {
 
 extern void (*D_80182784[])(void);
 
-void func_8017D6C4(void *a0) {
-    D_80182784[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017D6C4
+#include "../shared/ov/cls_0626254e5036.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C1B8(void);
@@ -3215,9 +3215,9 @@ void func_8017D9E0(void) {
 
 extern s32 func_8017D9E8(void);
 
-s32 func_8017D9E8(void) {
-    return 0x6E;
-}
+#define SHARED_FN func_8017D9E8
+#include "../shared/ov/cls_e84c333194e2.h"
+#undef SHARED_FN
 
 
 /* func_8017D9F0 -- ov_SC06_013 (family of 5: also func_8017D8AC/ov_SC06_015,

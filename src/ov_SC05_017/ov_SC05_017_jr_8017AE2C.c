@@ -4704,13 +4704,9 @@ void func_8017ED94(s32 a0) {
 
 extern s32 func_80029178(s32 arg);
     extern void func_80029124(s32, s32);
-    s32 func_8017EDD4(void) {
-        if ((func_80029178(0x110) & 0xFF) == 0) {
-            ((void (*)(void *, s32))func_80029124)((void *)0x110, 1);
-            return 1;
-        }
-        return 0;
-    }
+#define SHARED_FN func_8017EDD4
+#include "../shared/ov/cls_838c594baac4.h"
+#undef SHARED_FN
 
 
 #include "common.h"

@@ -2968,9 +2968,9 @@ int func_8017D478(int param_1)
 
 
 extern void func_8013373C(s8 a0);
-void func_8017D4A8(void) {
-    func_8013373C(0);
-}
+#define SHARED_FN func_8017D4A8
+#include "../shared/ov/cls_b6fa1cb50ad1.h"
+#undef SHARED_FN
 
 
 extern void func_8013CB84(void);

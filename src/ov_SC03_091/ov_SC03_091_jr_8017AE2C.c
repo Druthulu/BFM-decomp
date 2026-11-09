@@ -3851,9 +3851,9 @@ void func_8017C8B8(void *a0) {
 
 extern void (*D_80190484[])(void);
 
-void func_8017CD10(void *a0) {
-    D_80190484[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017CD10
+#include "../shared/ov/cls_8dec9cbaeaf2.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017CD4C.h"

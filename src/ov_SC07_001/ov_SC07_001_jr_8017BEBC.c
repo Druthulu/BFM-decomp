@@ -3074,9 +3074,9 @@ s32 func_8017E2A8(void) {
 
 
 extern void func_8013373C(s32 arg0);
-    void func_8017E2B0(void) {
-        func_8013373C(0);
-    }
+#define SHARED_FN func_8017E2B0
+#include "../shared/ov/cls_b6fa1cb50ad1.h"
+#undef SHARED_FN
 
 
 void func_8017E2D0(void) {

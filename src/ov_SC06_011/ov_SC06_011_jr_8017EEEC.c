@@ -385,23 +385,9 @@ extern s32 func_8002A04C(s32 a0);
 extern void func_8002AC00(s32 arg0);
 extern s32 func_8012C098(void*);
 
-void func_8017F760(s32 arg0) {
-    u8 val;
-
-    /* Check field at +0x100 */
-    if (((Unkstruct_800B5CB8 *)arg0)->unk100 == 0) {
-        func_8002A04C(arg0);
-    }
-
-    /* Check field at +0xC1 */
-    val = ((u8 *)arg0)[0xC1];
-    if (val == 5 || val == 0xD || val == 0xB || val == 0xE) {
-        func_8002AC00(0x7);
-    }
-
-    /* Always call func_8012C098 */
-    ((void (*)(s32))func_8012C098)(arg0);
-}
+#define SHARED_FN func_8017F760
+#include "../shared/ov/cls_01aff3bded90.h"
+#undef SHARED_FN
 
 
 

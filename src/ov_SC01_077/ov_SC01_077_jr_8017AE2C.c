@@ -4213,17 +4213,9 @@ extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
 
-s32 func_8017DDE8(u8 *a0) {
-    if (--(((Unkstruct_8017D5D4 *)a0)->unk28) == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D0C48(2);
-        func_800D1E28();
-        ((Unkstruct_8017D5D4 *)a0)->unk15 += 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017DDE8
+#include "../shared/ov/cls_6a968000882a.h"
+#undef SHARED_FN
 
 extern s32 func_800D1EBC(void);
 
@@ -4971,14 +4963,9 @@ struct vec;
 extern void func_8012931C(struct vec *a0);
 extern void func_801292C8(u8 *a0);
 
-void func_8017F0B4(u8 *a0) {
-    u8 *p = CAST_SIGN(u8 *, a0, 0x20);
-    ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 + 0x200;
-    func_8012931C((struct vec *)a0);
-    if (CAST_SIGN(s16, a0, 0xA) > CAST_SIGN(s16, a0, 0x36)) {
-        func_801292C8(a0);
-    }
-}
+#define SHARED_FN func_8017F0B4
+#include "../shared/ov/cls_eeb60d4631f0.h"
+#undef SHARED_FN
 
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH

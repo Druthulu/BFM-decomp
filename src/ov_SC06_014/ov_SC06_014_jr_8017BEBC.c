@@ -3905,9 +3905,9 @@ void func_8017ECEC(void *a0) {
 
 extern s32 func_8017ED4C(void);
 
-s32 func_8017ED4C(void) {
-    return 0x6E;
-}
+#define SHARED_FN func_8017ED4C
+#include "../shared/ov/cls_e84c333194e2.h"
+#undef SHARED_FN
 
 
 /* func_8017ED54 -- ov_SC06_014 (family of 5: also func_8017D8AC/ov_SC06_015,

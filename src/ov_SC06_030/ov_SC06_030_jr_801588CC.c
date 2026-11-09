@@ -1522,9 +1522,9 @@ mask:
 
 extern void (*D_8018463C[])(void);
 
-void func_80159B70(void *a0) {
-    D_8018463C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80159B70
+#include "../shared/ov/cls_0441f35b8256.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80159BAC.h"

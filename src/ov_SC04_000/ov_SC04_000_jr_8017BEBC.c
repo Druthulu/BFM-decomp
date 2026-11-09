@@ -4486,9 +4486,9 @@ s32 func_8017F450(s32 arg0)
 
 extern void (*D_801870F0[])(void);
 
-void func_8017F468(void *a0) {
-    D_801870F0[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017F468
+#include "../shared/ov/cls_b565f5541ab2.h"
+#undef SHARED_FN
 
 
 extern void func_8012BF4C(s32 *a0, s16 a1);

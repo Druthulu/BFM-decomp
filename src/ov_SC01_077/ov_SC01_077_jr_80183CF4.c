@@ -3397,9 +3397,9 @@ s32 func_80184484(void) {
 
 extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
 
-void func_8018448C(void) {
-    func_8012C098();
-}
+#define SHARED_FN func_8018448C
+#include "../shared/ov/cls_6e914334a7ab.h"
+#undef SHARED_FN
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (18 ins): if((b&1) && p!=&sym) call(param,&sym); $a0 live, $a1=&sym fall out

@@ -4456,23 +4456,9 @@ extern s32 func_8002A04C(s32 a0);
 extern void func_8002AC00(s32 arg0);
 extern s32 func_8012C098(void *param_1);
 
-void func_80180E98(s32 arg0) {
-    u8 val;
-
-    
-    if (((Unkstruct_800B5CB8 *)arg0)->unk100 == 0) {
-        func_8002A04C(arg0);
-    }
-
-    
-    val = ((u8 *)arg0)[0xC1];
-    if (val == 5 || val == 0xD || val == 0xB || val == 0xE) {
-        func_8002AC00(0x7);
-    }
-
-    
-    ((void (*)(s32))func_8012C098)(arg0);
-}
+#define SHARED_FN func_80180E98
+#include "../shared/ov/cls_01aff3bded90.h"
+#undef SHARED_FN
 
 
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);

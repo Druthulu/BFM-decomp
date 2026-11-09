@@ -3401,32 +3401,9 @@ void func_80182564(int param_1, int param_2)
 
 
 
-void func_80182724(u8 *a0) {
-    s32 v0, v1;
-    s32 stack_vals[3];
-
-    v0 = ((Unkstruct_8017FED8 *)a0)->unk1C;
-    v1 = ((Unkstruct_8017FED8 *)a0)->unk2C;
-    v0 = v0 + v1;
-    ((Unkstruct_8017FED8 *)a0)->unk1C = v0;
-    stack_vals[0] = v0;
-
-    v0 = ((Unkstruct_8017FED8 *)a0)->unk20;
-    v1 = ((Unkstruct_8017FED8 *)a0)->unk30;
-    v0 = v0 + v1;
-    ((Unkstruct_8017FED8 *)a0)->unk20 = v0;
-    stack_vals[1] = v0;
-
-    v0 = ((Unkstruct_8017FED8 *)a0)->unk24;
-    v1 = ((Unkstruct_8017FED8 *)a0)->unk34;
-    v0 = v0 + v1;
-    ((Unkstruct_8017FED8 *)a0)->unk24 = v0;
-    stack_vals[2] = v0;
-
-    ((Unkstruct_8017FED8 *)a0)->unk3C += ((Unkstruct_8017FED8_2 *)stack_vals)->unk2;
-    ((Unkstruct_8017FED8 *)a0)->unk3E += ((Unkstruct_8017FED8_2 *)stack_vals)->unk6;
-    ((Unkstruct_8017FED8 *)a0)->unk40 += ((Unkstruct_8017FED8_2 *)stack_vals)->unkA;
-}
+#define SHARED_FN func_80182724
+#include "../shared/ov/cls_534c6ebf26eb.h"
+#undef SHARED_FN
 
 
 extern void func_80015978(s32 a0, s32 *a1);

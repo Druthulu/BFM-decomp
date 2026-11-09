@@ -3093,12 +3093,9 @@ void func_8018276C(s32 param_1) {
 
 
 
-void func_801827B8(void *a0) {
-        s32 v1 = ((Unkstruct_80180814 *)a0)->unk20;
-        ((Unkstruct_80180814 *)a0)->unk1C = 0x1E;
-        ((Unkstruct_80180814 *)a0)->unk5C = 0;
-        ((Unkstruct_80180814_2 *)v1)->unk10 = 0;
-    }
+#define SHARED_FN func_801827B8
+#include "../shared/ov/cls_9dd967666e6b.h"
+#undef SHARED_FN
 
 
 extern s32 func_8002A04C(s32);

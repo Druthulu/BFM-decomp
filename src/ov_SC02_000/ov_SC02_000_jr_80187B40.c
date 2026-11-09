@@ -3533,14 +3533,9 @@ void func_80188AEC(void *a0) {
 extern void func_8012931C(struct vec *a0);
 extern void func_801292C8(u8 *a0);
 
-void func_80188BAC(u8 *a0) {
-    u8 *p = CAST_SIGN(u8 *, a0, 0x20);
-    ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 + 0x200;
-    func_8012931C((struct vec *)a0);
-    if (CAST_SIGN(s16, a0, 0xA) > CAST_SIGN(s16, a0, 0x36)) {
-        func_801292C8(a0);
-    }
-}
+#define SHARED_FN func_80188BAC
+#include "../shared/ov/cls_eeb60d4631f0.h"
+#undef SHARED_FN
 
 
 

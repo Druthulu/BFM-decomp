@@ -5040,21 +5040,9 @@ void *a0;
 
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 
-void func_801858A0(s32 param_1)
-{
-
-    extern u8 D_800D387C[];
-    extern u8 D_800D3888[];
-    ((Unkstruct_80184DD8_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
-
-    ((Unkstruct_80184DD8_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
-
-    ((Unkstruct_80184DD8_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
-
-    func_80128EA8(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_800D3888);
-
-    ((Unkstruct_80184DD8 *)param_1)->unk2 = ((Unkstruct_80184DD8 *)param_1)->unk2 + 1;
-}
+#define SHARED_FN func_801858A0
+#include "../shared/ov/cls_d596d36c3d83.h"
+#undef SHARED_FN
 
 
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);

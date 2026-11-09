@@ -4790,9 +4790,9 @@ void func_801877A8(s32 arg0)
 
 
 extern void func_8013373C(s32 arg0);
-    void func_80187854(void) {
-        func_8013373C(0);
-    }
+#define SHARED_FN func_80187854
+#include "../shared/ov/cls_b6fa1cb50ad1.h"
+#undef SHARED_FN
 
 
 
