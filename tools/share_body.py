@@ -1072,13 +1072,16 @@ def run_batch(orc, cen, classes, label):
     cross_hs = {c["h"] for c in classes if c.get("cross")}
     other_dirs = sorted({d + "/" for al, d in cen["dirs"].items() if al != "main"})
     owner = {tu: next((d for d in other_dirs if tu.startswith(d)), "") for tu in b.edits}
+    # T6.c3: a type-header edit (drop_type_plan's deletion in include/*.h, src/shared/*.h) is compiled by EVERY binary: it belongs to each
+    # binary's set, so a bisect restores and re-applies it with its class (cross20: it stayed main's, ov_SC02_027 stayed red — R43 stop)
+    every = {tu for tu in b.edits if tu.startswith("include/") or (tu.startswith("src/shared/") and tu.endswith(".h"))}
 
     def tus_of(a):
         """The edited TUs a binary compiles: a twin builds its primary's; main the TUs under no other binary's directory (its dir is
-        `src`, a prefix of every TU — the bisect used to restore and re-apply the whole batch for main)."""
+        `src`, a prefix of every TU — the bisect used to restore and re-apply the whole batch for main); every binary the type headers."""
         a = cen["twin_of"].get(a) or a
         d = "" if a == "main" else cen["dirs"][a] + "/"
-        return {tu for tu in b.edits if owner[tu] == d}
+        return {tu for tu in b.edits if owner[tu] == d or tu in every}
 
     def cur_texts(a):
         return {tu: (REPO / tu).read_text(errors="surrogateescape") for tu in sorted(tus_of(a))}
