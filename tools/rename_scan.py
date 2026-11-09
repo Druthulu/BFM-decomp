@@ -36,7 +36,8 @@ CONFIDENCE = ("low", "medium", "high")
 # Rule 1's six evidence kinds. Adding one is a developer amendment of rule 1, not a tool edit.
 EVIDENCE = ("code inference", "string", "xref chain", "debug menu", "live RAM", "community label")
 HISTORY = ("cookbook/", "phase-ends/", "docs/decision-log.md", "docs/story.md", "docs/retrospective.md",
-           "docs/retired/", "docs/research-archive/", ".claude-state/")
+           "docs/retired/", "docs/research-archive/", ".claude-state/",
+           ".run/")                                # tracked raw logs / generated census output: never hand-edited
 BUILD_INPUTS = ("src/", "include/", "config/symbols", "config/splat.", "Makefile", "config/undefined_")
 CLASSES = ("history", "rewritten", "stale-build-input", "stale-invisible", "unclassified")
 PLACEHOLDER = re.compile(r'^(?:func|D|jtbl|L|sym|jpt|lbl)_[0-9A-Fa-f]{6,8}$')
@@ -133,8 +134,14 @@ def grep_hits(renames, rev=None):
 
 
 def renames_from_range(a, b):
-    diff = _git("diff", "--no-color", "-U0", a, *([b] if b else []), "--", "config/symbols*.txt")
+    return renames_from_diff(_git("diff", "--no-color", "-U0", a, *([b] if b else []), "--", "config/symbols*.txt"))
+
+
+def renames_from_diff(diff):
+    """Pure. A removed+added name at one (file, addr) is a rename; an added name with nothing removed there is a
+    first naming of the splat auto-name (old = func_/D_<ADDR>, `// data` -> D_), which has no line of its own."""
     per = {}                                   # (file, addr) -> [removed names, added names]
+    kind = {}                                  # added name -> "D_" | "func_"
     path = None
     for ln in diff.splitlines():
         if ln.startswith("+++ "):
@@ -144,9 +151,16 @@ def renames_from_range(a, b):
         elif ln[:1] in "+-":
             for nm, ad in lsr.iter_symbol_defs(ln[1:]):
                 per.setdefault((path, ad), [set(), set()])[0 if ln[0] == "-" else 1].add(nm)
+                kind[nm] = "D_" if re.search(r"//\s*data\b", ln) else "func_"
     out = set()
     for (_, ad), (rm, ad_) in sorted(per.items()):
-        for o, n in zip(sorted(rm - ad_), sorted(ad_ - rm)):
+        rm, ad_ = rm - ad_, ad_ - rm
+        if not rm:
+            h = ad.lower()[2:] if ad.lower().startswith("0x") else ad.lower()
+            for n in sorted(ad_):
+                if not PLACEHOLDER.match(n):
+                    out.add((kind[n] + h.upper().rjust(8, "0"), n, ad))
+        for o, n in zip(sorted(rm), sorted(ad_)):
             out.add((o, n, ad))
     return sorted(out)
 
@@ -329,6 +343,10 @@ def selftest():
         scan(ph, [P]); raise SystemExit("selftest: unowned hit not caught")
     except AssertionError:
         pass
+    d = ("+++ b/config/symbols.us.txt\n-OldA = 0x80010000; // func\n+NewA = 0x80010000; // func\n"
+         "+guess_Tbl = 0x80076251; // data\n+guess_Fn = 0x8003700C; // func\n+func_80040000 = 0x80040000; // func\n")
+    assert renames_from_diff(d) == [("D_80076251", "guess_Tbl", "0x80076251"), ("OldA", "NewA", "0x80010000"),
+                                    ("func_8003700C", "guess_Fn", "0x8003700c")], renames_from_diff(d)
     # ledger
     sym = {"func_80037004": {"us"}, "guess_ClearTbl": {"us"}, "InitHeap": {"us"}, "D_80012340": {"us"},
            "SysEnqIntRP": {"ov_SC02_003"}}
