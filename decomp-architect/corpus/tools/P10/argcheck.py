@@ -71,7 +71,7 @@ RET = re.compile(r"^([A-Za-z_][\w \t*]*?)\b" + NAME + r"\s*\(")
 def definitions():
     """{name: (arity, params, where, ret)} from every DEFINITION in the tree. The return type comes with it because the
     CAST route — the one that stays body-only at either scope — needs the whole signature, not just the arity."""
-    out = {}
+    out, binds = {}, []
     _ALL.clear()
     for f in sorted(list((REPO / "src").glob("**/*.c")) + list((REPO / "src" / "shared").glob("**/*.h"))):
         rel = str(f.relative_to(REPO))
@@ -101,7 +101,19 @@ def definitions():
             out.setdefault(name, (len(names), ", ".join(ptypes), rel, head or "int"))
             if (len(names), ", ".join(ptypes), rel) not in {(a_, p_, r_) for (a_, p_, r_, _) in _ALL[name]}:
                 _ALL[name].append((len(names), ", ".join(ptypes), rel, head or "int"))   # every definition, per binary (R48)
+        for m in SHARED_BIND.finditer(txt):
+            binds.append((m.group(1), str((f.parent / m.group(2)).resolve().relative_to(REPO)), rel))
+    # 3.42 T4.c2: a cross header (C0557) defines SHARED_FN; each `#define SHARED_FN <own>` / `#include` site is <own>'s definition
+    # in the including TU's binary (where = that TU) — without it the callers resolve to another binary's same-named body.
+    for own, hdr, rel in binds:
+        for d in _ALL.get("SHARED_FN", []):
+            if d[2] == hdr:
+                out.setdefault(own, (d[0], d[1], rel, d[3]))
+                _ALL[own].append((d[0], d[1], rel, d[3]))
     return out
+
+
+SHARED_BIND = re.compile(r'^#define SHARED_FN (\w+)\s*\n#include "([^"]+)"', re.M)
 
 
 _ALL = collections.defaultdict(list)     # {name: [every definition]} — filled by definitions(); the per-TU resolver reads it

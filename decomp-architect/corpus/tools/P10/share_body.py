@@ -273,7 +273,7 @@ class Batch:
         self.register_text = []                          # (id, text_hash, source, func, [(binary, vram, name, h_exact)])
         self.extend = collections.defaultdict(list)      # group id -> [binaries]
         self.register_cross = []                         # (id, h, source, [(binary, vram, name)]) — the cross bucket (T4, 3.42)
-        self.moves = []                                  # (h, tu, own name, header): each cross site's body moved to the header
+        self.moves = []                                  # (h, tu, own name, header, def line): each cross site's body moved to the header
         self.touched = set()                             # binaries
         self.members = collections.defaultdict(list)     # h -> [(alias, tu)]
         self.exemplar_note = {}
@@ -311,7 +311,7 @@ class Batch:
                 own = own_name(i, def_text(i))
                 inc = f"#define SHARED_FN {own}\n{m2h.include_line(i['tu'], hdr)}\n#undef SHARED_FN"
                 self.edits[i["tu"]].append((i["line"], i["end"], inc, h))
-                self.moves.append((h, i["tu"], own, hdr))
+                self.moves.append((h, i["tu"], own, hdr, i["line"]))
             for i in priv:
                 self.members[h].append((i["alias"], i["tu"]))
             for i in c["insts"]:
@@ -545,7 +545,7 @@ def rekey_ledgers(moves):
     SHARED_FN, header); type_census's lying key (callee, def_file): def_file = header, callee kept (callers still name the callee).
     Rows that collapse onto one key are deduped (first kept). Returns {ledger: rows re-keyed}. Text edits; a file is written only on change."""
     out = {}
-    site = {(tu, own.lower()): hdr for _h, tu, own, hdr in moves}
+    site = {(tu, own.lower()): hdr for _h, tu, own, hdr, _l in moves}
     # config/lever_residue.tsv — file func kind pass instrument cause; key (file, func, kind)
     p = REPO / "config/lever_residue.tsv"
     lines, seen, n, kept = p.read_text().split("\n"), set(), 0, []
@@ -597,13 +597,115 @@ def rekey_ledgers(moves):
     return out
 
 
+def rekey_restruct(moves, label):
+    """T4.c3 (3.42): the restruct ledger (.run/P37/restruct/ledger.jsonl, key (rung, tu, unit)) re-keyed like rekey_ledgers: each header gets
+    ONE appended rung-S row (tu=header, unit=fn=SHARED_FN) built from its private copies' latest rung-S rows, every entry (KEPT(<cls>)
+    macro backing included) with its line shifted by (header def line - private def line). Copies of one class union as a multiset (per
+    entry, the max count over copies: one RESIDUAL entry covers one site); a union that differs from any copy is logged. Row fields come
+    from a copy whose verdict backs macros (type_census.BACKED_S_VERDICTS), else the first. Old rows are never rewritten. Idempotent: a
+    header whose latest row carries `rekey_of` is skipped. Runs BEFORE the residue step (residue_rows merges onto this row).
+    Returns {copied, unioned, skipped, no_row}."""
+    import restruct as rs                            # heavy (type_census, delever): only the cross bucket needs it
+    latest = rs.ledger_latest(rs.load_ledger())
+    by_hdr = collections.defaultdict(list)
+    for m in moves:
+        by_hdr[m[3]].append(m)
+    out, rows = collections.Counter(), []
+    for hdr in sorted(by_hdr):
+        if (latest.get(("S", hdr, "SHARED_FN")) or {}).get("rekey_of"):
+            out["skipped"] += 1
+            continue
+        text = (REPO / hdr).read_text(errors="surrogateescape")
+        d = next((x for x in sc.scan_text(text, hdr, shared_defs=None) if x["form"] == "def" and x["name"] == "SHARED_FN"), None)
+        if d is None:
+            log(f"  [{label}] rekey_restruct: {hdr} has no SHARED_FN def — skipped")
+            continue
+        copies, srcs = [], []
+        for _h, tu, own, _hd, line in sorted(by_hdr[hdr], key=lambda m: (m[1], m[2])):
+            r = next((latest[k] for k in (("S", tu, own), ("S", tu, own.lower())) if k in latest), None)
+            if r is None:
+                out["no_row"] += 1
+                continue
+            shift = d["line"] - line
+            ents = collections.Counter()
+            first = {}
+            for e in r.get("sites") or []:
+                e2 = dict(e, line=e["line"] + shift) if isinstance(e.get("line"), int) else dict(e)
+                # union key: line only where the gate matches by line (KEPT(REINTERP)); old rows' lines drift per copy (rows written
+                # against older text: copies' def-relative lines differ by up to ~80), which would multiply every entry in the union
+                k = json.dumps({x: v for x, v in e2.items() if x != "macro_of" and (x != "line" or e2.get("verdict") == "KEPT(REINTERP)")},
+                               sort_keys=True)
+                ents[k] += 1
+                first.setdefault(k, e2)
+            copies.append((r, ents, first))
+            srcs.append([tu, r["unit"]])
+        if not copies:
+            continue
+        union, first = collections.Counter(), {}
+        for _r, ents, f in copies:
+            for k, n in ents.items():
+                union[k] = max(union[k], n)
+                first.setdefault(k, f[k])
+        if any(ents != union for _r, ents, _f in copies):
+            out["unioned"] += 1
+            log(f"  [{label}] rekey_restruct: {hdr}: {len(copies)} copies' rows differ — union {sum(union.values())} entries "
+                f"(copies {[sum(e.values()) for _r, e, _f in copies]}, verdicts {sorted({r['verdict'] for r, _e, _f in copies})})")
+        base = next((r for r, _e, _f in copies if r.get("verdict") in rs.tc.BACKED_S_VERDICTS), copies[0][0])
+        nh = rs.body_nhash(rs.dl.same_len_mask(text), d)
+        row = json.loads(json.dumps(base))
+        row.update(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=f"rekey_{label}", tu=hdr, unit="SHARED_FN", fn="SHARED_FN", addr=None,
+                   header=True, nhash_before=nh, nhash_after=nh, rekey_of=srcs,
+                   sites=[first[k] for k in sorted(union, key=lambda k: (first[k].get("line") or 0, k)) for _ in range(union[k])])
+        rows.append(row)
+        out["copied"] += 1
+    if rows:
+        rs.ledger_append(rows)
+    log(f"  [{label}] restruct ledger re-keyed to the headers: {dict(out)}")
+    return dict(out)
+
+
+def rekey_batch(label):
+    """--rekey-batch <label> (T4.c3): the full cross re-key (rekey_ledgers, rekey_restruct) + the residue steps for an already-committed
+    batch, from batch_<label>.json and the source. Moves are rebuilt from each kept class's header and its `#define SHARED_FN <own>` /
+    include sites; the private def line is <own>'s def in the pre-batch text (the header's provenance commit). Idempotent."""
+    bj = json.loads((RUN / f"batch_{label}.json").read_text())
+    rejected = set(bj.get("rejected") or [])
+    moves = []
+    for h in bj["classes"]:
+        if h in rejected:
+            continue
+        hdrs = sorted((REPO / "src/shared").glob(f"*/cls_{h[:12]}.h"))
+        if len(hdrs) != 1:
+            sys.exit(f"share_body --rekey-batch: class {h[:12]}: headers {hdrs}")
+        hdr = str(hdrs[0].relative_to(REPO))
+        sha = re.search(r"--bucket cross at (\w+)", (REPO / hdr).read_text().split("\n", 1)[0]).group(1)
+        r = subprocess.run(["git", "grep", "-l", "-F", f"/cls_{h[:12]}.h\"", "--", "src"], cwd=REPO, capture_output=True, text=True)
+        for tu in r.stdout.split():
+            if tu == hdr:
+                continue
+            owns = re.findall(rf"#define SHARED_FN (\w+)\n#include \"[^\"]*/cls_{h[:12]}\.h\"", (REPO / tu).read_text(errors="surrogateescape"))
+            old = subprocess.run(["git", "show", f"{sha}:{tu}"], cwd=REPO, capture_output=True, text=True, errors="surrogateescape").stdout
+            defs = {x["name"].lower(): x["line"] for x in sc.scan_text(old, tu, shared_defs=None) if x["form"] == "def"}
+            for own in owns:
+                if own.lower() not in defs:
+                    sys.exit(f"share_body --rekey-batch: {tu}: no def of {own} at {sha}")
+                moves.append((h, tu, own, hdr, defs[own.lower()]))
+    log(f"share_body --rekey-batch {label}: {len(moves)} moves in {len({m[3] for m in moves})} headers")
+    log(f"  [{label}] ledgers re-keyed to the headers: {rekey_ledgers(moves)}")
+    rekey_restruct(moves, label)
+    segs = sorted(set(bj.get("residue_segments") or [])) or sorted({m[3] for m in moves})
+    return restamp_residue(segs, f"{label}_rekey")
+
+
 def restamp_residue(segments, label):
     """Rule T2: the restruct residue re-stamped and checked on every touched segment (the aliases + the new headers — src/shared/ is
     outside restruct's default ov_* scope, so the headers are named in --only). type_census --sites first: restruct reads its sites."""
     py = sys.executable
     for name, cmd in (("type_census_sites", [py, "tools/type_census.py", "--sites", "-j", "16"]),
+                      # T4.c2: a header body has no rung-S row of its own (its private copies' rows stay keyed to the old TUs): append one
+                      ("residue", [py, "tools/restruct.py", "--rung", "S", "--residue", "--forms", "P,I,X,M", "--only", *segments]),
                       ("restamp", [py, "tools/restruct.py", "--rung", "S", "--residue", "--restamp", "--only", *segments]),
-                      ("check_residue", [py, "tools/restruct.py", "--check-residue", "--only", *segments])):
+                      ("check_residue", [py, "tools/restruct.py", "--check-residue", "--forms", "P,I,X,M", "--only", *segments])):  # forms: the check-casts gate's four
         log_p = RUN / f"{name}_{label}.log"
         with open(log_p, "w") as f:
             r = subprocess.run(cmd, cwd=REPO, stdout=f, stderr=subprocess.STDOUT)
@@ -779,7 +881,8 @@ def run_batch(orc, cen, classes, label):
         extra["rekeyed"] = rekey_ledgers(moves)
         log(f"  [{label}] ledgers re-keyed to the headers: {extra['rekeyed']}")
         if moves:
-            segs = sorted({al for _h, tu, _o, _hd in moves for al, t in b.members[_h] if t == tu}) + sorted({m[3] for m in moves})
+            segs = sorted({al for _h, tu, _o, _hd, _l in moves for al, t in b.members[_h] if t == tu}) + sorted({m[3] for m in moves})
+            extra["restruct_rows"] = rekey_restruct(moves, label)
             residue_ok = restamp_residue(segs, label)
             extra["residue_segments"] = segs
     (RUN / f"batch_{label}.json").write_text(json.dumps(dict(classes=[c["h"] for c in classes], refused=refused,
@@ -964,7 +1067,13 @@ def main():
                     help="<h_exact prefix>: rewrite a registered class's header from the MAJORITY private text, re-gate its includers, "
                          "then share its private copies (the class's ledger row is dropped when anything shares)")
     ap.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
+    ap.add_argument("--rekey-batch", default="", metavar="LABEL",
+                    help="re-key the ledgers (restruct rung-S rows included) and re-run the residue steps for the committed cross batch "
+                         "batch_<LABEL>.json, then exit (idempotent; T4.c3)")
     a = ap.parse_args()
+    if a.rekey_batch:
+        RUN.mkdir(parents=True, exist_ok=True)
+        sys.exit(0 if rekey_batch(a.rekey_batch) else 1)
     RETRY_EXCEPTED = bool(getattr(a, "retry_excepted", False))
     RUN.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
