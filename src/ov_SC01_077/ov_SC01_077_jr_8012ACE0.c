@@ -2136,9 +2136,9 @@ extern void (*D_8018708C[])(void);
 
 extern void (*D_80187094[])(void);
 
-void func_80131F64(s32 *a0) {
-    D_80187094[*(u16 *)((s32)a0 + 2)]();
-}
+#define SHARED_FN func_80131F64
+#include "../shared/ov/cls_77aa16d3c904.h"
+#undef SHARED_FN
 
 extern s32 (*D_8018709C[])();
 

@@ -4340,15 +4340,9 @@ void func_8015E698(u16 *param_1)
 
 extern void (*D_80186594[])(void);
 
-void func_8015E8E8(s32* param_1)
-{
-    unsigned short idx;
-    void (*fn)(void);
-
-    idx = *(unsigned short *)((char *)param_1 + 2);
-    fn = D_80186594[idx];
-    fn();
-}
+#define SHARED_FN func_8015E8E8
+#include "../shared/ov/cls_7c0d2e616b17.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015E924.h"

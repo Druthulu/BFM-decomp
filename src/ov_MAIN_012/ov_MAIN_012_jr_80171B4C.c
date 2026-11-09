@@ -3280,11 +3280,9 @@ void func_801729A8(void) {
 #include "../shared/ov/func_801729B0.h"
 
 
-s32 func_801729F0(void *a0) {
-
-    extern void (*D_80181918[])();
-    D_80181918[*(u8 *)((s32)a0 + 0x214)]();
-}
+#define SHARED_FN func_801729F0
+#include "../shared/ov/cls_67ea5cfb03af.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80172A2C.h"

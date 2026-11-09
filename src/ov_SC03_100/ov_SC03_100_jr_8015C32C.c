@@ -2710,11 +2710,9 @@ void func_8015F9A4(void *arg0) {
 
 
 
-void func_8015FAAC(s32 *a0) {
-
-    extern void (*D_801872D0[])(void);
-    D_801872D0[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015FAAC
+#include "../shared/ov/cls_76df5d4e8a6a.h"
+#undef SHARED_FN
 
 
 
