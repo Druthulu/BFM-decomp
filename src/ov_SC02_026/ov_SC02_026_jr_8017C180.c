@@ -2904,9 +2904,9 @@ void func_8017D434(void) {
 
 extern void (*D_80189BE4[])(void);
 
-void func_8017D4CC(void *a0) {
-    D_80189BE4[((Unkstruct_80126948 *)a0)->unk4]();
-}
+#define SHARED_FN func_8017D4CC
+#include "../shared/ov/cls_c3658535fff7.h"
+#undef SHARED_FN
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */

@@ -4315,9 +4315,9 @@ save:
 
 extern void (*D_80185460[])(void);
 
-void func_8017F240(void *a0) {
-    D_80185460[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017F240
+#include "../shared/ov/cls_bde1d5c9ec09.h"
+#undef SHARED_FN
 
 
 #include "common.h"

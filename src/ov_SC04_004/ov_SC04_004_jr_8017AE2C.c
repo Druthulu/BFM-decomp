@@ -5390,9 +5390,9 @@ ret1:
 
 extern void (*D_801886F8[])(void);
 
-void func_8017FC88(void *a0) {
-    D_801886F8[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017FC88
+#include "../shared/ov/cls_c4ded3203757.h"
+#undef SHARED_FN
 
 
 extern void func_8012BF4C(s32 *a0, s16 a1);

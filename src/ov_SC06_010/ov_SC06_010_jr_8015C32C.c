@@ -5658,9 +5658,9 @@ void func_801689D8(void *a0) {
 
 extern void (*D_801899F4[])(void);
 
-void func_80168AA8(void *a0) {
-    D_801899F4[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80168AA8
+#include "../shared/ov/cls_c925eff1cd18.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80168AE4.h"
@@ -6016,9 +6016,9 @@ L3:
 
 extern void (*D_80189B14[])(void);
 
-void func_8016A700(void *a0) {
-    D_80189B14[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016A700
+#include "../shared/ov/cls_bed1e0eeb248.h"
+#undef SHARED_FN
 
 
 // Seed for func_8016A73C (ov_SC01_077 exemplar). Overlay-local struct guessed.

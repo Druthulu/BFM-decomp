@@ -3365,9 +3365,9 @@ void func_8017BF88(s32 a0) {
 
 extern void (*D_80189B14[])(void);
 
-void func_8017C0E4(void *a0) {
-    D_80189B14[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017C0E4
+#include "../shared/ov/cls_bed1e0eeb248.h"
+#undef SHARED_FN
 
 
 /* Decl reconciliation (lever A, cookbook §37/§124):

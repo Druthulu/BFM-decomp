@@ -5221,9 +5221,9 @@ setbit:
 
 extern void (*D_8018686C[])(void);
 
-void func_8017FC50(void *a0) {
-    D_8018686C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017FC50
+#include "../shared/ov/cls_c818b1c29021.h"
+#undef SHARED_FN
 
 
 extern s16 D_80126CB0;
@@ -5541,9 +5541,9 @@ void func_80180398(void *a0) {
 
 extern void (*D_8018688C[])(void);
 
-void func_80180458(void *a0) {
-    D_8018688C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80180458
+#include "../shared/ov/cls_c5707edc4683.h"
+#undef SHARED_FN
 
 
 

@@ -1459,11 +1459,9 @@ void func_801424E4(short *param_1) {
 
 
 
-void func_801425CC(void *a0) {
-
-    extern void (*D_8017FAB4[])(void);
-    D_8017FAB4[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_801425CC
+#include "../shared/ov/cls_c7d2d4ae09b8.h"
+#undef SHARED_FN
 
 
 
