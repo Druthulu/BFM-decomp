@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-09T01:01:17.054Z
+# filed through: 2026-11-09T01:33:14.059Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -96,4 +96,4 @@ R92 | 2026-11-08 | decision | in force | Phase 3.42 plan | Shared-form stop rule
 R93 | 2026-11-08 | finding | in force | Phase 3.42 plan | P3.41-1 is triaged into 3.42 T10: the cast check against the series census (.run/P39/census) runs b… | .claude-state/journal/2026-11-08/172904-014r-claude-record.md
 R94 | 2026-11-08 | finding | in force | Phase 3.42 plan | An MCP "failed to connect" in Claude Code does not mean Ghidra is stopped. | .claude-state/journal/2026-11-08/172904-014r-claude-record.md
 R95 | 2026-11-08 | decision | in force | Kit corpus records | Leave it as is. | .claude-state/journal/2026-11-08/181631-021r-claude-record.md
-R96 | 2026-11-08 | open | in force | Phase 3.42 T1 pause for a Claude Code restart | T1 is paused for the developer's Claude Code restart -> on his word, Claude calls release({hold: "s… | .claude-state/journal/2026-11-08/181631-021r-claude-record.md
+R96 | 2026-11-08 | open | retired by .claude-state/journal/2026-11-08/184852-008r-claude-record.md (the developer said go after his restart, and T1 resumed (attempt 2)) | Phase 3.42 T1 pause for a Claude Code restart | T1 is paused for the developer's Claude Code restart -> on his word, Claude calls release({hold: "s… | .claude-state/journal/2026-11-08/181631-021r-claude-record.md
