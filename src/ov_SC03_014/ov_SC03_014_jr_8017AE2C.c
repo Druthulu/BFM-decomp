@@ -3546,9 +3546,9 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017C290 *c, SVECTOR_8017C290 *d,
 
 extern void (*D_8018F064[])(void);
 
-void func_8017C664(void *a0) {
-    D_8018F064[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017C664
+#include "../shared/ov/cls_9220935bd997.h"
+#undef SHARED_FN
 
 
 #include "common.h"

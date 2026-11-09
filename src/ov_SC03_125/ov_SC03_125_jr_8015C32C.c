@@ -1617,11 +1617,9 @@ block_13:
 
 
 
-void func_8015CFC0(s32 *a0) {
-
-    extern void (*D_801865F0[])(void);
-    D_801865F0[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015CFC0
+#include "../shared/ov/cls_a03bd53184e9.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015CFFC.h"
@@ -2072,11 +2070,9 @@ extern void func_80149374(s32 a0, s32 a1);
 
 
 
-void func_8015DE58(s32 *a0) {
-
-    extern void (*D_801866B4[])(void);
-    D_801866B4[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015DE58
+#include "../shared/ov/cls_ad9dc073fe58.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015DE94.h"
@@ -4801,9 +4797,9 @@ void func_80166618(void *a0) {
 
 extern void (*D_80186D40[])(void);
 
-void func_80166654(void *a0) {
-    D_80186D40[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80166654
+#include "../shared/ov/cls_caac7dcbd5a8.h"
+#undef SHARED_FN
 
 
 #include "common.h"

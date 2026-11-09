@@ -2519,11 +2519,9 @@ void func_8015F118(void *a0) {
 
 
 
-void func_8015F324(s32 *a0) {
-
-    extern void (*D_801847F8[])(void);
-    D_801847F8[CAST_SIGN(u16, (s32)a0, 0x2)]();
-}
+#define SHARED_FN func_8015F324
+#include "../shared/ov/cls_ec9ac7f3acc2.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015F360.h"
@@ -2973,11 +2971,9 @@ void func_801602A4(s32 *a0) {
 
 
 
-void func_8016039C(s32 *a0) {
-
-    extern void (*D_801848DC[])(void);
-    D_801848DC[CAST_SIGN(u16, (s32)a0, 0x2)]();
-}
+#define SHARED_FN func_8016039C
+#include "../shared/ov/cls_e2a9ba2ecf48.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_801603D8.h"

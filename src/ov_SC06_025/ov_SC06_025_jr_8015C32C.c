@@ -5880,9 +5880,9 @@ void func_80169F3C(int param_1)
 
 extern void (*D_80187DAC[])(void);
 
-void func_8016A020(void *a0) {
-    D_80187DAC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016A020
+#include "../shared/ov/cls_d0a03a4e1909.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016A05C.h"

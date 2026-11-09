@@ -1618,11 +1618,9 @@ block_13:
 
 
 
-void func_8015CFC0(s32 *a0) {
-
-    extern void (*D_80180BBC[])(void);
-    D_80180BBC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015CFC0
+#include "../shared/ov/cls_a6a1a68d9bcb.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015CFFC.h"
@@ -5704,9 +5702,9 @@ void func_80168D58(void *a0) {
 
 extern void (*D_80181360[])(void);
 
-void func_8016901C(void *a0) {
-    D_80181360[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016901C
+#include "../shared/ov/cls_d27a6590ebf8.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80169058.h"

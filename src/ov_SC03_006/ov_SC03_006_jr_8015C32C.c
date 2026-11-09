@@ -2974,11 +2974,9 @@ void func_801602A4(s32 *a0) {
 
 
 
-void func_8016039C(s32 *a0) {
-
-    extern void (*D_8018F064[])(void);
-    D_8018F064[CAST_SIGN(u16, (s32)a0, 0x2)]();
-}
+#define SHARED_FN func_8016039C
+#include "../shared/ov/cls_9220935bd997.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_801603D8.h"
