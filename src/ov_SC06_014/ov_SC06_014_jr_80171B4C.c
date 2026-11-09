@@ -2403,11 +2403,9 @@ void func_80172CA0(void *a0) {
 
 
 
-s32 func_80172DAC(void *a0) {
-
-    extern void (*D_801834F0[])(void);
-    D_801834F0[((Unkstruct_801727D0 *)a0)->unk214]();
-}
+#define SHARED_FN func_80172DAC
+#include "../shared/ov/cls_8360a68e4ae7.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80172DE8.h"

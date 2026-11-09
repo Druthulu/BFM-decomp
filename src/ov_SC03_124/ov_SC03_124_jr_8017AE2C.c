@@ -5511,21 +5511,15 @@ extern s32 func_8012C588(s32 a0, s32 a1);
 
 
 extern s32 func_8012E544(s32 arg);
-    void func_8017FE3C(void) {
-        s32 p = func_8012E544(0x224);
-        if (p != 0) {
-            ((Unkstruct_800B5CB8 *)p)->unk34 += 1;
-        }
-    }
+#define SHARED_FN func_8017FE3C
+#include "../shared/ov/cls_76ea577800df.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012E544(s32 arg);
-    void func_8017FE78(void) {
-        s32 p = func_8012E544(0x224);
-        if (p != 0) {
-            ((Unkstruct_800B5CB8 *)p)->unk34 += 1;
-        }
-    }
+#define SHARED_FN func_8017FE78
+#include "../shared/ov/cls_76ea577800df.h"
+#undef SHARED_FN
 
 
 #include "common.h"
