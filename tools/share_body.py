@@ -603,9 +603,9 @@ def restamp_residue(segments, label):
     py = sys.executable
     for name, cmd in (("type_census_sites", [py, "tools/type_census.py", "--sites", "-j", "16"]),
                       # T4.c2: a header body has no rung-S row of its own (its private copies' rows stay keyed to the old TUs): append one
-                      ("residue", [py, "tools/restruct.py", "--rung", "S", "--residue", "--only", *segments]),
+                      ("residue", [py, "tools/restruct.py", "--rung", "S", "--residue", "--forms", "P,I,X,M", "--only", *segments]),
                       ("restamp", [py, "tools/restruct.py", "--rung", "S", "--residue", "--restamp", "--only", *segments]),
-                      ("check_residue", [py, "tools/restruct.py", "--check-residue", "--only", *segments])):
+                      ("check_residue", [py, "tools/restruct.py", "--check-residue", "--forms", "P,I,X,M", "--only", *segments])):  # forms: the check-casts gate's four
         log_p = RUN / f"{name}_{label}.log"
         with open(log_p, "w") as f:
             r = subprocess.run(cmd, cwd=REPO, stdout=f, stderr=subprocess.STDOUT)
