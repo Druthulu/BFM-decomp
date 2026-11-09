@@ -2932,9 +2932,9 @@ extern u8 D_80062C04[];
 
 extern void (*D_801888B8[])(void);
 
-void func_8017D294(void *a0) {
-    D_801888B8[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017D294
+#include "../shared/ov/cls_63fae763a6b9.h"
+#undef SHARED_FN
 
 
    /*  8 bytes, align 2 */

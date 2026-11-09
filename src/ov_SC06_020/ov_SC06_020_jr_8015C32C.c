@@ -4316,9 +4316,9 @@ void func_80164930(s32 param_1) {
 
 extern void (*D_80187C6C[])(void);
 
-void func_80164BA0(void *a0) {
-    D_80187C6C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80164BA0
+#include "../shared/ov/cls_737293e36502.h"
+#undef SHARED_FN
 
 
 
@@ -4773,9 +4773,9 @@ void func_80166018(void *a0) {
 
 extern void (*D_80187F44[])(void);
 
-void func_801663FC(void *a0) {
-    D_80187F44[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_801663FC
+#include "../shared/ov/cls_64ede640b362.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80166438.h"

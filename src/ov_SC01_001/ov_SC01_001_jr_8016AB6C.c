@@ -4226,9 +4226,9 @@ void func_80170C74(void *a0) {
 
 extern void (*D_80186D88[])(void);
 
-void func_80170D68(void *a0) {
-    D_80186D88[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_80170D68
+#include "../shared/ov/cls_63fc62835859.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80170DA4.h"
@@ -4238,9 +4238,9 @@ void func_80170D68(void *a0) {
 
 extern void (*D_80186D90[])(void);
 
-void func_80170E34(void *a0) {
-    D_80186D90[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_80170E34
+#include "../shared/ov/cls_665e91f7cfc7.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80170E70.h"
