@@ -3059,19 +3059,16 @@ void func_8018127C(s32 param_1) {
 }
 
 extern void func_8012E364(s32 arg0_);
-    void func_80181498(void) {
-        ((s32 (*)(void))func_8012E364)();
-    }
+#define SHARED_FN func_80181498
+#include "../shared/ov/cls_5f67a0123204.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012E470(s32 a0);
 extern void func_8012E4C8(void *a0);
-void func_801814B8(int param_1)
-{
-    if (((int (*)(void))func_8012E470)() != 0) {
-        ((void (*)(int))func_8012E4C8)(param_1);
-    }
-}
+#define SHARED_FN func_801814B8
+#include "../shared/ov/cls_01cc737e5888.h"
+#undef SHARED_FN
 
 
 

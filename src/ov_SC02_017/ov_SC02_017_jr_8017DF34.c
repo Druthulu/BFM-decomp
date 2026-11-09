@@ -5545,17 +5545,9 @@ void func_80182938(void* param_1)
 }
 
 
-void func_801829F4(u8 *a0, u8 *a1) {
-    u16 temp[3];
-
-    temp[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    temp[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    temp[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
-
-    temp[0] += *(u16 *)(a1 + 0x0);
-    temp[1] += *(u16 *)(a1 + 0x2);
-    temp[2] += *(u16 *)(a1 + 0x4);
-}
+#define SHARED_FN func_801829F4
+#include "../shared/ov/cls_7e8d03210460.h"
+#undef SHARED_FN
 
 
 

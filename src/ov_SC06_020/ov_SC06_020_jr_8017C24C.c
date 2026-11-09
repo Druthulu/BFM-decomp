@@ -2868,20 +2868,9 @@ void func_8017D6F0(void *a0) {
 extern s32 rand(void);
 extern s32 func_8012AD50(void *a0);
 
-void func_8017D72C(s32 a0) {
-    u16 h0;
-    u16 h1;
-
-    h0 = CAST_SIGN(u16, a0, 0xFC);
-    h1 = CAST_SIGN(u16, a0, 0x70);
-    ((Unkstruct_800B5CB8 *)a0)->unkDC = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE0 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE4 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unk100 = h0;
-    ((Unkstruct_800B5CB8 *)a0)->unk102 = h1;
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = (rand() & 0x1F) + (rand() & 0x1F) + 0x3C;
-    func_8012AD50((void *)a0);
-}
+#define SHARED_FN func_8017D72C
+#include "../shared/ov/cls_e21d5c1a17d3.h"
+#undef SHARED_FN
 
 
 extern s32 func_8017D918(s32 obj, s32 mode, s32 a2, s32 a3, s32 a4, s32 a5);
@@ -3016,25 +3005,9 @@ skip_store:
 extern s16 D_80126CAC;
 extern s16 D_80126CB0;
 
-s32 func_8017DA50(s16 *arg) {
-    s32 sp[3];
-
-    {
-        s32 t = D_80126CAC;
-        s32 u = arg[0];
-        sp[1] = 0;
-        sp[0] = t - u;
-    }
-    {
-        s32 t = D_80126CB0;
-        s32 u = arg[2];
-        sp[2] = t - u;
-    }
-    gte_lwc2x3_sqr_e416(sp);
-    gte_stlvnl(sp);
-
-    return !(0x14FFE < sp[0] + sp[1] + sp[2] + 0xFFF9BFFF);
-}
+#define SHARED_FN func_8017DA50
+#include "../shared/ov/cls_89295ba4dc48.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -3042,32 +3015,16 @@ s32 func_8017DA50(s16 *arg) {
 extern s16 D_80126CAC;
 extern s16 D_80126CB0;
 
-s32 func_8017DAE4(s16 *arg) {
-    s32 sp[3];
-
-    {
-        s32 t = D_80126CAC;
-        s32 u = arg[3];
-        sp[1] = 0;
-        sp[0] = t - u;
-    }
-    {
-        s32 t = D_80126CB0;
-        s32 u = arg[7];
-        sp[2] = t - u;
-    }
-    gte_lwc2x3_sqr_e416(sp);
-    gte_stlvnl(sp);
-
-    return sp[0] + sp[1] + sp[2] > 0xC3FFF;
-}
+#define SHARED_FN func_8017DAE4
+#include "../shared/ov/cls_132f1ab18573.h"
+#undef SHARED_FN
 
 
 extern s32 func_8017DB68(void);
 
-s32 func_8017DB68(void) {
-    return 0x7E;
-}
+#define SHARED_FN func_8017DB68
+#include "../shared/ov/cls_30b7ce751211.h"
+#undef SHARED_FN
 
 
 extern void (*D_8019EAEC[])(void);

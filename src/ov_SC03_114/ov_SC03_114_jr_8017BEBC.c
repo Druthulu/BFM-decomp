@@ -3060,21 +3060,9 @@ extern void (*D_80183228[])(void);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_8012A828(s32, void*);
 
-void func_8017D740(void *arg0) {
-    s16 hval;
-    s32 temp;
-
-    hval = ((Unkstruct_800B5CB8 *)arg0)->unk10A;
-    if (hval & 0x8000) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk12 =
-            func_80012ABC(*(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x12), hval & 0xFFF, 4);
-    }
-    temp = ((Unkstruct_800B5CB8 *)arg0)->unkF8;
-    if (temp != 0 && ((Unkstruct_800B5CB8 *)arg0)->unk90 != temp) {
-        ((void (*)(s32, s32))func_8012A828)((s32)arg0, temp);
-        ((Unkstruct_800B5CB8 *)arg0)->unkF8 = 0;
-    }
-}
+#define SHARED_FN func_8017D740
+#include "../shared/ov/cls_c1eea362678d.h"
+#undef SHARED_FN
 
 
 extern s32 D_80182BD0;

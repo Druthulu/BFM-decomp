@@ -7279,9 +7279,9 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 #undef SHARED_FN
 
 
-void func_801859D0(void *a0) {
-        ((Unkstruct_801859D0 *)a0)->unk2 = 4;
-    }
+#define SHARED_FN func_801859D0
+#include "../shared/ov/cls_6a3e9602a562.h"
+#undef SHARED_FN
 
 
 extern s32 rand(void);
@@ -7738,12 +7738,9 @@ void func_801863EC(s32 a0)
 
 
 extern void func_8012C218(void *a0);
-    void func_801864A4(s32 arg0) {
-        s32 v0;
-        if (((Unkstruct_8017EE74_2 *)*(s32 *)(arg0 + 0x64))->unk36 != ((Unkstruct_8017EE74 *)arg0)->unkFC) {
-            ((void (*)(void))func_8012C218)();
-        }
-    }
+#define SHARED_FN func_801864A4
+#include "../shared/ov/cls_0c228ee6d65e.h"
+#undef SHARED_FN
 
 
 extern void (*D_801AFBB8[])(void);
@@ -7959,19 +7956,9 @@ extern s16 D_80126B9A;
 
 s32 aF801869C0(s32 param_1) __asm__("func_801869C0");
 
-s32 aF801869C0(s32 param_1) {
-    s32 p;
-    u16 val;
-
-    if (func_8012D624(param_1, (CAST_SIGN(s16, CAST_NONSTRUCT(s32, param_1, 0x20), 0x18) * 3) >> 9, 0x21) == 1) {
-        p = CAST_NONSTRUCT(s32, param_1, 0x20);
-        val = ((Unkstruct_801825C8 *)p)->unk12;
-        D_80126B96 = 0x4002;
-        D_80126B9A = val;
-        return 1;
-    }
-    return 0;
-}
+#define SHARED_FN aF801869C0
+#include "../shared/ov/cls_b9f76fb1fade.h"
+#undef SHARED_FN
 
 
 extern void func_80186A70();  // K&R: 0 of 1 args (P37 rung D t4_D2)
@@ -8034,20 +8021,9 @@ void func_80186AAC(s32 a0) {
 extern s32 func_8012BD14(s32 a0);
 extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
 
-void func_80186C0C(s32 a0) {
-    s32 vol;
-    s32 ret;
-    s32 t;
-
-    vol = 0x2F;
-    ret = func_8012BD14(a0);
-    if (ret <= 0x40000) {
-        t = *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1A) * 3 >> 9;
-        t = t * t;
-        vol = 127 - ret / ((0x40000 - t) / 80);
-    }
-    do { func_8002D59C(0x64E, vol | 0x5000, CAST_SIGN(u16, a0, 0x104)); } while (0);  // !FAKE: do-while — flow.c:2067 loop-depth ref weight: vol 3->4 refs outranks a0 for $s0 (allocno_compare global.c:594-607) (P36 S105 f9)
-}
+#define SHARED_FN func_80186C0C
+#include "../shared/ov/cls_f3ae3c3e3269.h"
+#undef SHARED_FN
 
 
 extern s32 D_801AFBD8[];

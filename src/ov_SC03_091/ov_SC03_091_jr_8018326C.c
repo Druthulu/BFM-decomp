@@ -4000,12 +4000,9 @@ extern void func_8012E88C(u8 *a0);
 #undef SHARED_FN
 
 
-void func_801855DC(s32 arg0) {
-    s32 ptr = *(s32*)(arg0 + 0xCC);
-    if (ptr != 0) {
-        *(s16*)(ptr + 0xFC) = 1;
-    }
-}
+#define SHARED_FN func_801855DC
+#include "../shared/ov/cls_75157173efad.h"
+#undef SHARED_FN
 
 
 void func_801855F8(void *arg0) {

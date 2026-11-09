@@ -2011,11 +2011,9 @@ void func_8015D738(void *arg0) {
 
 
 
-void func_8015DAF8(s32 *a0) {
-
-    extern void (*D_801875A8[])(void);
-    D_801875A8[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015DAF8
+#include "../shared/ov/cls_0ffc7be53dad.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015DB34.h"

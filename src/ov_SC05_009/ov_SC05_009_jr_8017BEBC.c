@@ -3601,40 +3601,9 @@ extern void (*D_8019389C[])(void);
 
 
 
-void func_8017E2BC(void *a0)
-{
-    extern s32 D_800AE620;
-    extern void RotMatrixY(s32 a0, void *a1);
-    extern void func_8004914C(void *a0);
-    extern void func_800491AC(void *a0);
-    extern void RotTransSV(void *a0, void *a1, void *a2);
-
-    Mat32_8017E2BC m;
-    SV4_8017E2BC sv;
-    SV4_8017E2BC out;
-    void *mp;
-
-    m = *(Mat32_8017E2BC *)&D_800AE620;
-    mp = &m;
-
-    RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), mp);
-
-    m.w[5] = ((Unkstruct_800B5CB8 *)a0)->unkFE;
-    m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
-    m.w[7] = ((Unkstruct_800B5CB8 *)a0)->unk100;
-
-    func_8004914C(mp);
-    func_800491AC(mp);
-
-    sv.a = 0;
-    sv.b = 0;
-    sv.c = *(u16 *)((s32)a0 + 0xE2);
-
-    RotTransSV(&sv, &sv, &out);
-
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = sv.a;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = sv.c;
-}
+#define SHARED_FN func_8017E2BC
+#include "../shared/ov/cls_9212f2c13ba1.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012AD50(void *a0);

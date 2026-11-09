@@ -2711,12 +2711,9 @@ void func_8017CD9C(void *a0) {
 extern void func_8017D0AC(void);
 extern void func_800167B8(s32 a0);
 
-s32 func_8017CDD8(s32 a0) {
-    func_8017D0AC();
-    func_800167B8(0);
-    ((Unkstruct_8017CA8C *)a0)->unk15 += 1;
-    return 0;
-}
+#define SHARED_FN func_8017CDD8
+#include "../shared/ov/cls_d06a6e548463.h"
+#undef SHARED_FN
 
 
 

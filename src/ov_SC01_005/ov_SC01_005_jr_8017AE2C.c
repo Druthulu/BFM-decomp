@@ -3329,7 +3329,9 @@ void func_8017BF00(s32 *a0) {
 
 #include "common.h"
 
-#include "../shared/ov/func_8017BFEC__1fb2571d.h"
+#define SHARED_FN func_8017BFEC
+#include "../shared/ov/cls_1fb2571d8e19.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017C048__76785405.h"

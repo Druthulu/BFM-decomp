@@ -2897,29 +2897,17 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126CAC;
 extern s16 D_80126CB0;
 
-int func_8017D77C(short *a0) {
-    int data[3];
-    data[0] = D_80126CAC - a0[0];
-    data[1] = 0;
-    data[2] = D_80126CB0 - a0[2];
-    gte_lwc2x3_sqr_6a00();
-    gte_swc2x3_66ca();
-    return (data[0] + data[1] + data[2]) - 0x64001U <= 0x14FFE;
-}
+#define SHARED_FN func_8017D77C
+#include "../shared/ov/cls_89295ba4dc48.h"
+#undef SHARED_FN
 
 
 /* GTE squared-distance check, sibling of func_8017D77C: dx=D_80126CAC-a0[3]; dz=D_80126CB0-a0[7];
  * GTE SQR of {dx,0,dz}; return 0xC3FFF < (MAC1+MAC2+MAC3). Was a verbatim asm block (§265 lane);
  * P40 T8.c4: C below (T8.c2 MATCH 33). */
-int func_8017D810(short *a0) {
-    int data[3];
-    data[0] = D_80126CAC - a0[3];
-    data[1] = 0;
-    data[2] = D_80126CB0 - a0[7];
-    gte_lwc2x3_sqr_6a00();
-    gte_swc2x3_66ca();
-    return 0xC3FFF < (data[0] + data[1] + data[2]);
-}
+#define SHARED_FN func_8017D810
+#include "../shared/ov/cls_132f1ab18573.h"
+#undef SHARED_FN
 
 
 
@@ -2933,24 +2921,9 @@ void func_8017D894(void *a0) {
 
 extern s32 func_8012AD50(void *a0);
 
-void func_8017D8D0(s32 a0) {
-    s32 s1;
-    s32 s0;
-    u16 t_FC;
-    u16 t_70;
-
-    s1 = a0;
-    ((Unkstruct_800B5CB8 *)s1)->unkDC = 0;
-    ((Unkstruct_800B5CB8 *)s1)->unkE0 = 0;
-    ((Unkstruct_800B5CB8 *)s1)->unkE4 = 0;
-    t_FC = CAST_SIGN(u16, s1, 0xFC);
-    t_70 = CAST_SIGN(u16, s1, 0x70);
-    ((Unkstruct_800B5CB8 *)s1)->unk100 = t_FC;
-    ((Unkstruct_800B5CB8 *)s1)->unk102 = t_70;
-    s0 = ((rand() & 0x1F) + (rand() & 0x1F)) + 0x3C;
-    ((Unkstruct_800B5CB8 *)s1)->unkFE = (u16)s0;
-    func_8012AD50((void *)s1);
-}
+#define SHARED_FN func_8017D8D0
+#include "../shared/ov/cls_e21d5c1a17d3.h"
+#undef SHARED_FN
 
 
 extern void func_8017DABC(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
@@ -3104,9 +3077,9 @@ skip_store:
 
 
 
-s32 func_8017DBF4(void) {
-    return 126;
-}
+#define SHARED_FN func_8017DBF4
+#include "../shared/ov/cls_30b7ce751211.h"
+#undef SHARED_FN
 
 
 

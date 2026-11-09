@@ -3409,18 +3409,16 @@ void func_80183834(s32 param_1) {
 
 extern void func_8012E364();  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
-void func_80183A50(void) {
-    func_8012E364();
-}
+#define SHARED_FN func_80183A50
+#include "../shared/ov/cls_5f67a0123204.h"
+#undef SHARED_FN
 
 extern s32 func_8012E470(s32);
 extern void func_8012E4C8(s32);
 
-void func_80183A70(s32 arg0) {
-    if (func_8012E470(arg0)) {
-        func_8012E4C8(arg0);
-    }
-}
+#define SHARED_FN func_80183A70
+#include "../shared/ov/cls_01cc737e5888.h"
+#undef SHARED_FN
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected (clean structural stub)

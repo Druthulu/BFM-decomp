@@ -43,11 +43,9 @@ s32 func_800CAE8C(s32 arg0)
 extern s32 D_80078EC8;
 extern s32 func_80165A20();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
-void func_800CAEF4(void) {
-    if (D_80078EC8 == 0) {
-        func_80165A20();
-    }
-}
+#define SHARED_FN func_800CAEF4
+#include "../shared/slot_800CAE08/cls_a794c5bff4fe.h"
+#undef SHARED_FN
 
 
 void func_800CAF20(void) {

@@ -58,11 +58,9 @@ void func_800CAF30(u8 *a0) {
 extern s32 D_80078EC8;
 extern s32 func_80165A20(s32 a0);
 
-void func_800CAF80(void *a0) {
-    if (D_80078EC8 == 0) {
-        func_80165A20((s32)a0);
-    }
-}
+#define SHARED_FN func_800CAF80
+#include "../shared/slot_800CAE08/cls_a794c5bff4fe.h"
+#undef SHARED_FN
 
 
 void func_800CAFAC(void) {

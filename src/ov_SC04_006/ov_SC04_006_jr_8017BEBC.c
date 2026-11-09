@@ -2747,7 +2747,9 @@ void func_8017CE7C(void *a0) {
 
 
 
-#include "../shared/ov/func_8017CEB8__d06a6e54.h"
+#define SHARED_FN func_8017CEB8
+#include "../shared/ov/cls_d06a6e548463.h"
+#undef SHARED_FN
 
 
 

@@ -418,9 +418,9 @@ s32 func_801EAF00(void *a0) {
 }
 
 
-s32 func_801EAF84(s32 arg0, s32 arg1, s32 arg2) {
-    return (arg1 <= arg0) && (arg0 < arg2);
-}
+#define SHARED_FN func_801EAF84
+#include "../shared/multi/cls_cc0ff9ac8bfb.h"
+#undef SHARED_FN
 
 
 void func_801EAF9C(s32 arg0, s32 arg1, s32 arg2) {

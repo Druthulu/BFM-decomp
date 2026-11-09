@@ -59,11 +59,9 @@ extern M2C_UNK D_800D57F4;
 extern void func_80154274(s32 *a0, s32 a1);
 extern void func_801655E4(s32 a0);
 
-void func_800CAF4C(u8 *a0) {
-    func_80154274((s32 *)a0, (s32)&D_800D57F4);
-    func_801655E4((s32)a0);
-    ((Unkstruct_80126B58 *)a0)->unk197 = ((Unkstruct_80126B58 *)a0)->unk197 + 1;
-}
+#define SHARED_FN func_800CAF4C
+#include "../shared/slot_800CAE08/cls_957305eb2210.h"
+#undef SHARED_FN
 
 
 extern void func_801599A4(void *a0);

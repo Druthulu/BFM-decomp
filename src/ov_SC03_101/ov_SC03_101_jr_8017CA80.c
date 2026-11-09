@@ -4414,9 +4414,9 @@ void func_801807B8(void *arg0) {
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_801807F4(void *arg0) {
-        ((void (*)(void *, int))func_8012AD44)(arg0, 0x6);
-    }
+#define SHARED_FN func_801807F4
+#include "../shared/ov/cls_fb0a4d4e82bd.h"
+#undef SHARED_FN
 
 
 

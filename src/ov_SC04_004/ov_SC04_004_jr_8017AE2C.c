@@ -6688,10 +6688,9 @@ extern void func_8012B23C(s32 arg);
 
 extern void func_8012B21C(void *a0);
     extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_80181BA0(s32 param_1) {
-        ((void (*)(s32))func_8012B21C)(param_1);
-        ((void (*)(s32, s32))func_8012AD44)(param_1, 2);
-    }
+#define SHARED_FN func_80181BA0
+#include "../shared/ov/cls_78a8c6a24f9f.h"
+#undef SHARED_FN
 
 
 
@@ -7305,40 +7304,9 @@ extern s32 func_80047948(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
 
-s32 func_801829BC(s32 a0, s32 a1) {
-    V8_801829BC sp10;
-    V8_801829BC sp18;
-    s32 t;
-    s32 r;
-
-    sp10.x = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp10.y = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x20;
-    sp10.z = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    t = func_8004787C(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-    r = (s16)a1;
-    sp18.y = sp10.y;
-    sp18.x = sp10.x - ((t * r) >> 12);
-    t = func_80047948(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-    sp18.z = sp10.z - ((t * r) >> 12);
-    if ((func_80133784(1, &sp10, (s32)&sp18) & 0x8000) == 0) {
-        t = func_8004787C(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-        sp10.x = ((Unkstruct_800B5CB8 *)a0)->unk6 - ((t * r) >> 12);
-        sp10.y = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x10;
-        t = func_80047948(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-        sp10.z = ((Unkstruct_800B5CB8 *)a0)->unkE - ((t * r) >> 12);
-        sp18.x = sp10.x;
-        sp18.y = sp10.y + 0x20;
-        sp18.z = sp10.z;
-        if (func_80133784(1, &sp10, (s32)&sp18) & 0x6000) {
-            return 0;
-        }
-    }
-    t = func_8004787C(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.x + ((t * r) >> 12);
-    t = func_80047948(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-    ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.z + ((t * r) >> 12);
-    return 1;
-}
+#define SHARED_FN func_801829BC
+#include "../shared/ov/cls_7fe9717f4274.h"
+#undef SHARED_FN
 
 
 extern s32 func_8004787C(s32 a0);

@@ -3178,7 +3178,9 @@ void func_801825E0(s32 a0) {
 
 #include "common.h"
 
-#include "../shared/ov/func_80182630__8c5875d3.h"
+#define SHARED_FN func_80182630
+#include "../shared/ov/cls_8c5875d38295.h"
+#undef SHARED_FN
 
 
 

@@ -5029,9 +5029,9 @@ void func_8018032C(void) {
 }
 
 
-void func_80180358(void *a0) {
-        *(short *)((char *)a0 + 0x2) = 0x4;
-    }
+#define SHARED_FN func_80180358
+#include "../shared/ov/cls_6a3e9602a562.h"
+#undef SHARED_FN
 
 
 

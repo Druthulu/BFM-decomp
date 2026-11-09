@@ -5179,9 +5179,9 @@ void func_8017F4BC(s32 a0) {
 }
 
 
-s32 func_8017F4F4(s32 *a0) {
-        return *(u16 *)((s32)a0 + 0x2) == 0x3;
-    }
+#define SHARED_FN func_8017F4F4
+#include "../shared/ov/cls_dc3e37c5bb23.h"
+#undef SHARED_FN
 
 
 

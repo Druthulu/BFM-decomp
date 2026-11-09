@@ -417,16 +417,9 @@ extern void func_800126C4(s32 a0, s32 a1);
 extern void func_80012558(s32 a0, s32 a1);
 extern void func_800123F0(s32 a0, s32 a1);
 
-void func_800CD5DC(s32 a0, s32 a1) {
-    s32 q = ((Unkstruct_80126B58 *)a0)->unk20;
-    func_80013F3C((void *)a1);
-    func_800126C4((s32)a1, CAST_SIGN(s16, a0, 0x60));
-    func_800123F0((s32)a1, CAST_SIGN(s16, a0, 0x64));
-    func_80012558((s32)a1, CAST_SIGN(s16, a0, 0x62));
-    func_80012558((s32)a1, *(s16 *)(q + 0x12));
-    func_800126C4((s32)a1, *(s16 *)(q + 0x10));
-    func_800123F0((s32)a1, *(s16 *)(q + 0x14));
-}
+#define SHARED_FN func_800CD5DC
+#include "../shared/slot_800CCB1C/cls_4e89c09c258a.h"
+#undef SHARED_FN
 
 
 INCLUDE_RODATA("asm/md_MAIN_045/nonmatchings/md_MAIN_045", D_800CCB1C);

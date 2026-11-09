@@ -3482,12 +3482,9 @@ void func_80180C40(s32 a0)
 
 extern void func_80016714(void *a0, s32 a1);
     extern s32 func_8012C098(void *param_1);
-    void func_80180CF4(s32 arg0) {
-        s32 temp_v0;
-        temp_v0 = ((Unkstruct_800B5CB8 *)arg0)->unkD0;
-        ((void (*)(s32 *, s32))func_80016714)((s32 *)temp_v0, 0x38);
-        ((void (*)(void *))func_8012C098)((void *)arg0);
-    }
+#define SHARED_FN func_80180CF4
+#include "../shared/ov/cls_21267b84115c.h"
+#undef SHARED_FN
 
 
 

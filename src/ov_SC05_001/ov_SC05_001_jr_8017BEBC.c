@@ -4341,21 +4341,9 @@ u32 func_8017F040(s16 *param_1, s16 *param_2, s16 *param_3) {
 }
 
 
-u32 func_8017F0F8(s16 *param_1, s16 *param_2, s16 *param_3) {
-    if (param_3[0] < param_1[0]) {
-        return 1;
-    }
-    if (param_2[0] < param_3[0]) {
-        return 1;
-    }
-    if (param_3[2] < param_1[1]) {
-        return 1;
-    }
-    if (param_2[1] < param_3[2]) {
-        return 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017F0F8
+#include "../shared/ov/cls_10c85564bc6b.h"
+#undef SHARED_FN
 
 
 extern s16 D_80126CAC;

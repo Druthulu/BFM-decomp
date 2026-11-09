@@ -502,9 +502,9 @@ s32 func_801E5998(s32 a0) {
 }
 
 
-s32 func_801E5A1C(s32 a0, s32 a1, s32 a2) {
-    return (a0 >= a1) && (a0 < a2);
-}
+#define SHARED_FN func_801E5A1C
+#include "../shared/multi/cls_cc0ff9ac8bfb.h"
+#undef SHARED_FN
 
 
 void func_801E5A34(s32 a0, s32 a1, s32 a2) {

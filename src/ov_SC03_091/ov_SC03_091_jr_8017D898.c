@@ -3628,12 +3628,9 @@ void func_801821E0(void) {
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80171990(u8 *a0);
 
-void func_801821E8(arg0)
-s32 arg0;
-{
-    func_80146994(0x1A, arg0, 0x6E706E8, 0);
-    func_80171990((u8 *)arg0);
-}
+#define SHARED_FN func_801821E8
+#include "../shared/ov/cls_f20862023f44.h"
+#undef SHARED_FN
 
 
 

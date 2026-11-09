@@ -399,9 +399,9 @@ end:
 }
 
 
-s32 func_801F2850(s32 a0, s32 a1, s32 a2) {
-    return (a0 >= a1) && (a0 < a2);
-}
+#define SHARED_FN func_801F2850
+#include "../shared/multi/cls_cc0ff9ac8bfb.h"
+#undef SHARED_FN
 
 
 void func_801F2868(s32 arg0, s32 arg1, s32 arg2) {

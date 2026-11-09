@@ -3455,13 +3455,9 @@ u32 func_8017E70C(s16 *param_1, s16 *param_2, s16 *param_3) {
 }
 
 
-u32 func_8017E7C4(s16 *param_1, s16 *param_2, s16 *param_3) {
-    if ((*param_3 < *param_1) || (*param_2 < *param_3) ||
-        (param_3[2] < param_1[1])) {
-        return 1;
-    }
-    return param_2[1] < param_3[2];
-}
+#define SHARED_FN func_8017E7C4
+#include "../shared/ov/cls_10c85564bc6b.h"
+#undef SHARED_FN
 
 
 #include "common.h"

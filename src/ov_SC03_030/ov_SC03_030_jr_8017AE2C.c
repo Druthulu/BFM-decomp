@@ -4752,12 +4752,9 @@ void func_8017EEE0(s32 a0)
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012C098(s32 a0);
-void func_8017EFD8(s32 a0) {
-    func_8012AD80(a0);
-    if (func_8012BEE8(a0)) {
-        func_8012C098(a0);
-    }
-}
+#define SHARED_FN func_8017EFD8
+#include "../shared/ov/cls_fa96f43d4267.h"
+#undef SHARED_FN
 
 
 extern s32 *D_80126B78;

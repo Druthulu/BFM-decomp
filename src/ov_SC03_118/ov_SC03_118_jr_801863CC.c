@@ -4492,7 +4492,9 @@ void func_80188F14(void *arg0) {
 }
 
 
-#include "../shared/ov/func_80188F90.h"
+#define SHARED_FN func_80188F90
+#include "../shared/ov/cls_0ac0e5e6754a.h"
+#undef SHARED_FN
 
 
 extern s32 func_80178B18(s32 param_1, s32 param_2);

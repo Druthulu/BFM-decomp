@@ -3130,12 +3130,9 @@ void func_8018754C(s32 *a0)
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012C098(void *param_1);
-void func_80187614(s32 a0) {
-    func_8012AD80(a0);
-    if (func_8012BEE8(a0)) {
-        ((void (*)(s32))func_8012C098)(a0);
-    }
-}
+#define SHARED_FN func_80187614
+#include "../shared/ov/cls_fa96f43d4267.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -3174,17 +3171,9 @@ void func_80187654(u8 *param_1)
 
 
 
-void func_80187724(u8 *a0, u8 *a1) {
-    u16 temp[3];
-
-    temp[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    temp[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    temp[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
-
-    temp[0] += *(u16 *)(a1 + 0x0);
-    temp[1] += *(u16 *)(a1 + 0x2);
-    temp[2] += *(u16 *)(a1 + 0x4);
-}
+#define SHARED_FN func_80187724
+#include "../shared/ov/cls_7e8d03210460.h"
+#undef SHARED_FN
 
 
 

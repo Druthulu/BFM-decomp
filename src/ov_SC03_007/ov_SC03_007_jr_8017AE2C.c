@@ -6177,15 +6177,9 @@ void func_80180990(void *a0) {
 }
 
 
-void func_801809CC(void *a0) {
-        ((Unkstruct_801809CC *)a0)->unk2 = 1;
-        ((Unkstruct_801809CC *)a0)->unk1C = 2;
-        *(unsigned char *)((char *)a0 + 0xfc) = 1;
-        *(unsigned char *)((char *)a0 + 0xfe) = 2;
-        *(unsigned char *)((char *)a0 + 0xfd) = 0;
-        *(unsigned char *)((char *)a0 + 0xff) = 4;
-        ((Unkstruct_801809CC *)a0)->unkDC = 0;
-    }
+#define SHARED_FN func_801809CC
+#include "../shared/ov/cls_3f8e330ae6d3.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012BEE8(s32 arg);

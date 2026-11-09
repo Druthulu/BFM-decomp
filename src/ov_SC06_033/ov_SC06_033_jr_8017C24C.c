@@ -3098,29 +3098,17 @@ void func_8017DC18(void) {
 extern s16 D_80126CAC;
 extern s16 D_80126CB0;
 
-int func_8017DC30(short *a0) {
-    int data[3];
-    data[0] = D_80126CAC - a0[0];
-    data[1] = 0;
-    data[2] = D_80126CB0 - a0[2];
-    gte_lwc2x3_sqr_6a00();
-    gte_swc2x3_66ca();
-    return (data[0] + data[1] + data[2]) + 0xFFF9BFFFU <= 0x14FFE;
-}
+#define SHARED_FN func_8017DC30
+#include "../shared/ov/cls_89295ba4dc48.h"
+#undef SHARED_FN
 
 
 extern s16 D_80126CB0;
 extern s16 D_80126CAC;
 
-int func_8017DCC4(s16 *a0) {
-    int data[3];
-    data[0] = D_80126CAC - a0[3];
-    data[1] = 0;
-    data[2] = D_80126CB0 - a0[7];
-    gte_lwc2x3_sqr_6a00();
-    gte_swc2x3_66ca();
-    return 0xC3FFF < data[0] + data[1] + data[2];
-}
+#define SHARED_FN func_8017DCC4
+#include "../shared/ov/cls_132f1ab18573.h"
+#undef SHARED_FN
 
 
 void func_8017DD48(void) {
@@ -3335,9 +3323,9 @@ skip_store:
 
 
 
-s32 func_8017E21C(void) {
-    return 126;
-}
+#define SHARED_FN func_8017E21C
+#include "../shared/ov/cls_30b7ce751211.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);

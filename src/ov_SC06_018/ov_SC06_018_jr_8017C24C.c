@@ -2938,25 +2938,9 @@ void func_8017D8F8(void *a0) {
 extern s32 rand(void);
 extern s32 func_8012AD50(void *a0);
 
-void func_8017D934(void *param_1)
-{
-    u16 temp_v0;
-    u16 temp_v1;
-    s32 r1;
-    s32 r2;
-
-    temp_v0 = CAST_SIGN(u16, (s32)param_1, 0xFC);
-    temp_v1 = CAST_SIGN(u16, (s32)param_1, 0x70);
-    ((Unkstruct_800B5CB8 *)param_1)->unkDC = 0;
-    ((Unkstruct_800B5CB8 *)param_1)->unkE0 = 0;
-    ((Unkstruct_800B5CB8 *)param_1)->unkE4 = 0;
-    ((Unkstruct_800B5CB8 *)param_1)->unk100 = temp_v0;
-    ((Unkstruct_800B5CB8 *)param_1)->unk102 = temp_v1;
-    r1 = rand();
-    r2 = rand();
-    ((Unkstruct_800B5CB8 *)param_1)->unkFE = (r1 & 0x1F) + (r2 & 0x1F) + 0x3C;
-    func_8012AD50(param_1);
-}
+#define SHARED_FN func_8017D934
+#include "../shared/ov/cls_e21d5c1a17d3.h"
+#undef SHARED_FN
 
 
 void func_8017D9A4(int param_1)
@@ -3075,9 +3059,9 @@ skip_store:
 
 extern s32 func_8017DC58(void);
 
-s32 func_8017DC58(void) {
-    return 0x7E;
-}
+#define SHARED_FN func_8017DC58
+#include "../shared/ov/cls_30b7ce751211.h"
+#undef SHARED_FN
 
 
 

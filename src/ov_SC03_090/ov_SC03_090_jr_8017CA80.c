@@ -3607,12 +3607,9 @@ void func_801813C8(void) {
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80171990(u8 *a0);
 
-void func_801813D0(arg0)
-s32 arg0;
-{
-    func_80146994(0x1A, arg0, 0x6E706E8, 0);
-    func_80171990((u8 *)arg0);
-}
+#define SHARED_FN func_801813D0
+#include "../shared/ov/cls_f20862023f44.h"
+#undef SHARED_FN
 
 
 extern s32 func_8014C050(s32 arg0, s32 arg1);
@@ -5586,13 +5583,9 @@ extern void func_8012E88C(u8 *a0);
 
 #include "common.h"
 
-void func_80184734(s32 arg0) {
-    s32 v = *(s32 *)(arg0 + 0xCC);
-
-    if (v != 0) {
-        *(s16 *)(v + 0xFC) = 1;
-    }
-}
+#define SHARED_FN func_80184734
+#include "../shared/ov/cls_75157173efad.h"
+#undef SHARED_FN
 
 
 extern s32 func_8002A04C(s32 a0);

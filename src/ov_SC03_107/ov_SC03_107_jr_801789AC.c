@@ -9368,9 +9368,9 @@ void func_80181C1C(s32 a0) {
 
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 
-void func_80181C98(struct S80131E00 *arg0) {
-    func_80131E00(arg0, 3);
-}
+#define SHARED_FN func_80181C98
+#include "../shared/ov/cls_0ac0e5e6754a.h"
+#undef SHARED_FN
 
 
 void func_80181CB8(void) {

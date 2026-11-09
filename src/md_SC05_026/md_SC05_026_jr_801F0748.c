@@ -429,9 +429,9 @@ s32 func_801F0D88(s32 a0) {
 }
 
 
-s32 func_801F0E0C(s32 a0, s32 a1, s32 a2) {
-    return (a0 >= a1) && (a0 < a2);
-}
+#define SHARED_FN func_801F0E0C
+#include "../shared/multi/cls_cc0ff9ac8bfb.h"
+#undef SHARED_FN
 
 
 extern s32 D_801F8330[][4];

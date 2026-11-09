@@ -2756,7 +2756,9 @@ void func_8017CE7C(void *a0) {
 
 
 
-#include "../shared/ov/func_8017CEB8__d06a6e54.h"
+#define SHARED_FN func_8017CEB8
+#include "../shared/ov/cls_d06a6e548463.h"
+#undef SHARED_FN
 
 
 
@@ -3022,17 +3024,9 @@ extern void func_80172710(void);
 
 s32 func_8017D698_x(s32 a0) __asm__("func_8017D698");
 
-s32 func_8017D698_x(s32 a0) {
-    if (func_8012BD14(*(s32 *)(a0 + 0x64)) >= 0x1001) {
-        return 0;
-    }
-    if (func_8016F1AC() != 0) {
-        return 0;
-    }
-    *(s16 *)(*(s32 *)(a0 + 0x64) + 2) = 2;
-    func_80178BF8();
-    return (s32)func_80172710;
-}
+#define SHARED_FN func_8017d698
+#include "../shared/ov/cls_881ee524b7a4.h"
+#undef SHARED_FN
 
 
 
@@ -3449,9 +3443,9 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 
 
-s32 func_8017E02C(s32 arg0) {
-        return ((Unkstruct_8017E02C *)arg0)->unk2 == 0x3;
-    }
+#define SHARED_FN func_8017E02C
+#include "../shared/ov/cls_dc3e37c5bb23.h"
+#undef SHARED_FN
 
 
 
@@ -5168,10 +5162,9 @@ extern void func_8012B23C(s32 arg);
 
 extern void func_8012B21C(s32 a0);
 extern void func_8012AD44(s32*, s16);
-void func_80180B44(s32 a0) {
-    func_8012B21C(a0);
-    ((void (*)(s32, s32))func_8012AD44)(a0, 0x2);
-}
+#define SHARED_FN func_80180B44
+#include "../shared/ov/cls_78a8c6a24f9f.h"
+#undef SHARED_FN
 
 
 extern Blk20_80180B78 aAE620_80180B78[1] __asm__("D_800AE620");

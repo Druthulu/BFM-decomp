@@ -2011,11 +2011,9 @@ void func_8015D738(void *arg0) {
 
 
 
-void func_8015DAF8(s32 *a0) {
-
-    extern void (*D_80183E40[])(void);
-    D_80183E40[CAST_SIGN(u16, (s32)a0, 0x2)]();
-}
+#define SHARED_FN func_8015DAF8
+#include "../shared/ov/cls_1a9984cd5055.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015DB34.h"

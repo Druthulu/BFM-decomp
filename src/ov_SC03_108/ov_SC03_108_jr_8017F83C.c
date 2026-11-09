@@ -3489,10 +3489,9 @@ void func_801808B4(s32 a0)
 
 extern void func_80016714(void *a0, s32 a1);
     extern s32 func_8012C098(void *param_1);
-    void func_80180968(s32 param_1) {
-        ((void (*)(s32 *, s32))func_80016714)(((Unkstruct_800B5CB8 *)param_1)->unkD0, 0x38);
-        ((void (*)(s32))func_8012C098)(param_1);
-    }
+#define SHARED_FN func_80180968
+#include "../shared/ov/cls_21267b84115c.h"
+#undef SHARED_FN
 
 
 
