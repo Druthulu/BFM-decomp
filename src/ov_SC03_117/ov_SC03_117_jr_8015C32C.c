@@ -5707,9 +5707,9 @@ extern void (*D_801878D0[])(void);
 
 extern void (*D_801878D8[])(void);
 
-void func_801693CC(void *a0) {
-    D_801878D8[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_801693CC
+#include "../shared/ov/cls_9c1064f334f3.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80169408.h"

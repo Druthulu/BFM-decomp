@@ -3357,17 +3357,9 @@ void func_8017F1FC(s32 param_1) {
 extern u8 D_8018317C[];
 extern void func_800D1724(s32 a0);
 
-void func_8017F250(a0)
-s32 *a0;
-{
-    s32 v1;
-    v1 = a0[7] - 1;
-    a0[7] = v1;
-    if (v1 != -1) {
-        return;
-    }
-    func_800D1724((s32)D_8018317C);
-}
+#define SHARED_FN func_8017F250
+#include "../shared/ov/cls_8f1f9e6056c6.h"
+#undef SHARED_FN
 
 
 void func_8017F28C(void) {
@@ -3575,17 +3567,9 @@ void func_8017F61C(s32 param_1) {
 extern u8 D_8018317C[];
 extern void func_800D1724(s32 a0);
 
-void func_8017F66C(a0)
-s32 *a0;
-{
-    s32 v1;
-    v1 = a0[7] - 1;
-    a0[7] = v1;
-    if (v1 != -1) {
-        return;
-    }
-    func_800D1724((s32)D_8018317C);
-}
+#define SHARED_FN func_8017F66C
+#include "../shared/ov/cls_8f1f9e6056c6.h"
+#undef SHARED_FN
 
 
 void func_8017F6A8(void) {

@@ -4098,18 +4098,9 @@ void func_80180590(void *arg0) {
 
 extern void func_8012C218(void*);
 
-s32 func_801805D4(void *a0) {
-    u8 *a0_byte = (u8 *)a0;
-    s32 *v0 = *(s32 **)(a0_byte + 0x64);
-    s16 v1 = ((Unkstruct_801805D4 *)a0_byte)->unk108;
-    s16 v2 = ((Unkstruct_801805D4_3 *)v0)->unk36;
-
-    if (v1 == v2) {
-        return 0;
-    }
-    ((s32 (*)(void))func_8012C218)();
-    return 1;
-}
+#define SHARED_FN func_801805D4
+#include "../shared/ov/cls_8ffd14aea243.h"
+#undef SHARED_FN
 
 
 extern s32 func_800291B4(s32);
@@ -4245,18 +4236,9 @@ extern s32 func_8018096C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
 
 extern void func_8012C218(void *a0);
 
-s32 func_8018096C(void *a0) {
-    u8 *a0_byte = (u8 *)a0;
-    s32 *v0 = *(s32 **)(a0_byte + 0x64);
-    s16 v1 = ((Unkstruct_801805D4 *)a0_byte)->unk108;
-    s16 v2 = ((Unkstruct_801805D4_3 *)v0)->unk36;
-
-    if (v1 == v2) {
-        return 0;
-    }
-    ((s32 (*)(void))func_8012C218)();
-    return 1;
-}
+#define SHARED_FN func_8018096C
+#include "../shared/ov/cls_8ffd14aea243.h"
+#undef SHARED_FN
 
 
 extern s32 D_8018E39C[];
