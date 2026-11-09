@@ -6,6 +6,9 @@ dedup_extend for the include-at-site form.
     tools/share_body.py --apply --bucket extend            # bucket 0: the registered classes whose members are not all sharing
     tools/share_body.py --apply --bucket new --batch 120 --limit N   # the unregistered same-vram classes, largest reach first
     tools/share_body.py --apply ... --only <h_exact>       # one class (the R37 probe)
+    tools/share_body.py --plan|--apply --bucket cross      # (3.42 T4) verdict-C classes at SEVERAL addresses: one cls_<h12>.h defining SHARED_FN,
+                                                           # each site `#define SHARED_FN <own name>` / include / undef (the I0_clearTbl40 form);
+                                                           # a red class is undone at every site, never ledgered; ledgers re-keyed to the header
 
 WHAT ONE SHARE IS. A class = one h_exact (the raw instruction bytes) at one vram, with >=2 instances across the fleet, some of which
 are still PRIVATE COPIES (a definition in that binary's own TU). Sharing it: the class's ONE body goes to (or already is) a plain-C
@@ -199,6 +202,42 @@ def text_candidates(cen):
     return out
 
 
+_C_TOKENS = re.compile(r'"(?:\\.|[^"\\\n])*"|\'(?:\\.|[^\'\\\n])*\'|/\*.*?\*/|//[^\n]*', re.S)
+
+
+def own_name(inst, text):
+    """The name the private copy's definition is written under: the sig name, or its asm-label alias aF<ADDR> (§37/§73)."""
+    m = re.search(rf"\b{re.escape(inst['name'])}\b", text, re.I)    # sig names are lower-hex (func_8017d290), the source upper
+    if m:
+        return m.group(0)
+    m = re.search(rf"\baF{inst['addr']:08X}\b", text, re.I)
+    return m.group(0) if m else inst["name"]
+
+
+def cross_norm(text, name):
+    """T4 (3.42): the cross-address equality key — comments stripped, the copy's OWN name -> SHARED_FN, whitespace collapsed."""
+    t = _C_TOKENS.sub(lambda m: m.group(0) if m.group(0)[0] in "\"'" else " ", text)
+    t = re.sub(rf"\b{re.escape(name)}\b", "SHARED_FN", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def cross_candidates(cen):
+    """(pool, differs): the cross-address classes (verdict C, flag E with or without F, not twin-covered, not excepted). Every private
+    copy's text under cross_norm must be equal — a class whose copies differ is reported (TEXT-DIFFERS), never ledgered."""
+    pool, differs = [], []
+    for c in cen["classes"]:
+        if c["verdict"] != "C" or "E" not in c["flags"] or "TWIN-COVERED" in c["flags"] or (c["excepted"] and not RETRY_EXCEPTED):
+            continue
+        priv = [i for i in c["insts"] if i["form"] == "def"]
+        keys = set()
+        for i in priv:
+            t = def_text(dict(i, cross=True))
+            keys.add(cross_norm(t, own_name(i, t)))
+        (pool if len(keys) == 1 else differs).append(dict(c, cross=True))
+    pool.sort(key=lambda c: (-c["instances"], -c["nins"], c["h"]))
+    return pool, differs
+
+
 def choose_exemplar(priv):
     by_text = collections.Counter(i["text_hash"] for i in priv)
     best = max(by_text.values())
@@ -208,10 +247,16 @@ def choose_exemplar(priv):
     return pool[0], reason, dict(by_text)
 
 
+_TU_LINES = {}
+
+
 def def_text(inst):
     """The definition's lines [line..end] of a private copy, from its TU."""
     tu = REPO / inst["tu"]
-    lines = tu.read_text(errors="surrogateescape").split("\n")
+    if inst.get("cross"):                                # the cross bucket reads every copy of thousands of classes: cache the TU
+        lines = _TU_LINES.setdefault(inst["tu"], tu.read_text(errors="surrogateescape").split("\n"))
+    else:
+        lines = tu.read_text(errors="surrogateescape").split("\n")
     a, b = inst["line"] - 1, inst["end"]
     return "\n".join(lines[a:b]).rstrip("\n") + "\n"
 
@@ -227,6 +272,8 @@ class Batch:
         self.register = []                               # (id, hash, source, func, vram, [binaries])
         self.register_text = []                          # (id, text_hash, source, func, [(binary, vram, name, h_exact)])
         self.extend = collections.defaultdict(list)      # group id -> [binaries]
+        self.register_cross = []                         # (id, h, source, [(binary, vram, name)]) — the cross bucket (T4, 3.42)
+        self.moves = []                                  # (h, tu, own name, header): each cross site's body moved to the header
         self.touched = set()                             # binaries
         self.members = collections.defaultdict(list)     # h -> [(alias, tu)]
         self.exemplar_note = {}
@@ -237,6 +284,39 @@ class Batch:
         priv = [i for i in c["insts"] if i["form"] == "def"]
         base = self.orc.bases[priv[0]["alias"]] if priv else self.orc.bases[c["insts"][0]["alias"]]
         fn = f"func_{vram:08X}"
+        if c.get("cross"):
+            # T4 (3.42): ONE body at several addresses — the name-parameterized include form (I0_clearTbl40): the header defines
+            # SHARED_FN, each site defines SHARED_FN to its own name around the include; members verbose {binary, vram, name}
+            ex, reason, texts = choose_exemplar(priv)
+            multi = "F" in c["flags"]
+            hdr = f"src/shared/{'multi' if multi else self.orc.space_dir(base)}/cls_{h[:12]}.h"
+            if (REPO / hdr).exists():
+                return f"refused: {hdr} exists already"
+            body = def_text(ex)
+            nm = own_name(ex, body)
+            body = re.sub(rf"\b{re.escape(nm)}\b", "SHARED_FN", body)
+            gid = f"X_{h[:12]}"
+            text = f"/* class h_exact {h} · registry {gid} · generated by tools/share_body.py --bucket cross at {head_sha()} */\n" + body
+            text, _ = m2h.bind_alias_header(text, fn)
+            self.headers[hdr] = text
+            owns = {(i["tu"], i["line"]): own_name(i, def_text(i)) for i in priv}    # members named as the source spells them
+            self.register_cross.append((gid, h, hdr, sorted((i["alias"], i["addr"], owns.get((i["tu"], i["line"]), i["name"]))
+                                                            for i in c["insts"])))
+            self.exemplar_note[h] = f"cross exemplar {ex['tu']}:{ex['line']} ({reason}; texts {len(texts)}), {len(priv)} private sites → param-include"
+            seen_sites = set()
+            for i in priv:
+                if (i["tu"], i["line"]) in seen_sites:   # the twin rule (below)
+                    continue
+                seen_sites.add((i["tu"], i["line"]))
+                own = own_name(i, def_text(i))
+                inc = f"#define SHARED_FN {own}\n{m2h.include_line(i['tu'], hdr)}\n#undef SHARED_FN"
+                self.edits[i["tu"]].append((i["line"], i["end"], inc, h))
+                self.moves.append((h, i["tu"], own, hdr))
+            for i in priv:
+                self.members[h].append((i["alias"], i["tu"]))
+            for i in c["insts"]:
+                self.touched.add(i["alias"])
+            return None
         if c.get("tier") == "h_text":
             # T5b: the header is named by the TEXT hash (a byte-class header at the same vram must never collide); the body is any
             # site's text (identical by construction); every member is registered with its own h_exact
@@ -436,6 +516,104 @@ def registry_append_text(entries):
     p.write_text(t + "".join(out))
 
 
+def registry_append_cross(entries):
+    """Append the cross-address groups by text (H5): the I0_clearTbl40 form — func SHARED_FN, verbose members {binary, vram, name}."""
+    p = REPO / "config/dedup.us.yaml"
+    t = p.read_text()
+    if not t.endswith("\n"):
+        t += "\n"
+    out = []
+    for gid, h, src, members in entries:
+        out.append(f"  - id: {gid}\n    tier: h_exact\n    hash: {h}\n    source: {src}\n    func: SHARED_FN\n    members:\n")
+        for bn, vram, name in members:
+            out.append(f"      - {{ binary: {bn}, vram: 0x{vram:08X}, name: {name} }}\n")
+    p.write_text(t + "".join(out))
+
+
+_HEAD = []
+
+
+def head_sha():
+    if not _HEAD:
+        _HEAD.append(subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip())
+    return _HEAD[0]
+
+
+def rekey_ledgers(moves):
+    """T4 (3.42): re-key every ledger row of a body moved into a cross header to the header — as each census emits a header def:
+    lever_census (file, func) = (header, SHARED_FN), the def name written in it; verbatim_check (binary, fn, path) = ('shared',
+    SHARED_FN, header); type_census's lying key (callee, def_file): def_file = header, callee kept (callers still name the callee).
+    Rows that collapse onto one key are deduped (first kept). Returns {ledger: rows re-keyed}. Text edits; a file is written only on change."""
+    out = {}
+    site = {(tu, own.lower()): hdr for _h, tu, own, hdr in moves}
+    # config/lever_residue.tsv — file func kind pass instrument cause; key (file, func, kind)
+    p = REPO / "config/lever_residue.tsv"
+    lines, seen, n, kept = p.read_text().split("\n"), set(), 0, []
+    for ln in lines:
+        f = ln.split("\t")
+        if not ln.startswith("#") and len(f) >= 3 and f[0] != "file":
+            hdr = site.get((f[0], f[1].lower()))
+            if hdr:
+                f[0], f[1] = hdr, "SHARED_FN"; ln = "\t".join(f); n += 1
+            if (f[0], f[1], f[2]) in seen:
+                continue
+            seen.add((f[0], f[1], f[2]))
+        kept.append(ln)
+    if n:
+        p.write_text("\n".join(kept))
+    out["lever_residue.tsv"] = n
+    # config/lying_exceptions.tsv — callee def_file kind cause task; key (callee, def_file, kind)
+    p = REPO / "config/lying_exceptions.tsv"
+    lines, seen, n, kept = p.read_text().split("\n"), set(), 0, []
+    for ln in lines:
+        f = ln.split("\t")
+        if not ln.startswith("#") and len(f) >= 3 and f[0] != "callee":
+            hdr = site.get((f[1], f[0].lower()))
+            if hdr:
+                f[1] = hdr; ln = "\t".join(f); n += 1
+            if (f[0], f[1], f[2]) in seen:
+                continue
+            seen.add((f[0], f[1], f[2]))
+        kept.append(ln)
+    if n:
+        p.write_text("\n".join(kept))
+    out["lying_exceptions.tsv"] = n
+    # config/verbatim_manifest.json — rows {binary, fn, path, ...}; key (binary, fn)
+    p = REPO / "config/verbatim_manifest.json"
+    man = json.loads(p.read_text())
+    seen, n, rows = set(), 0, []
+    for r in man["rows"]:
+        hdr = site.get((r.get("path"), r["fn"].lower()))
+        if hdr:
+            r = dict(r, binary="shared", fn="SHARED_FN", path=hdr); n += 1
+        if (r["binary"], r["fn"]) in seen:
+            continue
+        seen.add((r["binary"], r["fn"]))
+        rows.append(r)
+    if n:
+        man["rows"] = rows
+        p.write_text(json.dumps(man, indent=1, ensure_ascii=False) + "\n")
+    out["verbatim_manifest.json"] = n
+    return out
+
+
+def restamp_residue(segments, label):
+    """Rule T2: the restruct residue re-stamped and checked on every touched segment (the aliases + the new headers — src/shared/ is
+    outside restruct's default ov_* scope, so the headers are named in --only). type_census --sites first: restruct reads its sites."""
+    py = sys.executable
+    for name, cmd in (("type_census_sites", [py, "tools/type_census.py", "--sites", "-j", "16"]),
+                      ("restamp", [py, "tools/restruct.py", "--rung", "S", "--residue", "--restamp", "--only", *segments]),
+                      ("check_residue", [py, "tools/restruct.py", "--check-residue", "--only", *segments])):
+        log_p = RUN / f"{name}_{label}.log"
+        with open(log_p, "w") as f:
+            r = subprocess.run(cmd, cwd=REPO, stdout=f, stderr=subprocess.STDOUT)
+        tail = (log_p.read_text(errors="replace").strip().splitlines() or [""])[-1]
+        log(f"  [{label}] {name}: exit {r.returncode} — {tail[:160]}")
+        if r.returncode != 0:
+            return False
+    return True
+
+
 def run_batch(orc, cen, classes, label):
     b = Batch(orc, cen)
     refused = []
@@ -504,6 +682,29 @@ def run_batch(orc, cen, classes, label):
         results[a] = (ok3, det3 + f" (after bisect: {len(good)} classes kept, {len(by_class) - len(good)} rejected)")
         if not ok3:
             sys.exit(f"share_body: {a} still red after the bisect ({det3}) — stopping (R43)")
+    # a red CROSS class is all-or-nothing: every site restored (from the pre-batch text, the other classes' edits re-applied), its header
+    # removed, nothing registered or ledgered; every binary whose TUs changed back is gated again
+    cross_red = {c["h"] for c in classes if c.get("cross") and c["h"] in failed_classes}
+    if cross_red:
+        redo = {tu for tu, eds in b.edits.items() if any(e[3] in cross_red for e in eds)}
+        for tu in redo:
+            lines = tu_snap[tu].split("\n")
+            for line, end, new, hh in sorted(b.edits[tu], key=lambda e: -e[0]):
+                if hh not in failed_classes:
+                    lines[line - 1:end] = [new]
+            (REPO / tu).write_text("\n".join(lines))
+        for gid, h, hdr, _m in b.register_cross:
+            if h in cross_red and hdr in b.headers:
+                (REPO / hdr).unlink(missing_ok=True)
+        regate = {al for hh in b.members for al, tu in b.members[hh] if tu in redo}
+        regate |= {t for al in regate for t in twins_of.get(al, [])}
+        for a in sorted(regate):
+            ok4, det4 = gate(a, snap)
+            results[a] = (ok4, det4 + f" (after the cross undo of {len(cross_red)} classes)")
+            if not ok4:
+                sys.exit(f"share_body: {a} red after the cross undo ({det4}) — stopping (R43)")
+        for h in sorted(cross_red):
+            log(f"  [{label}] cross class {h[:10]} UNDONE at every site — {causes.get(h, ('?', '?'))}")
     if RETRY_EXCEPTED:
         for c in classes:
             if c.get("excepted"):
@@ -543,7 +744,10 @@ def run_batch(orc, cen, classes, label):
             text_entries.append((gid, th, src, fn, members))
     if text_entries:
         registry_append_text(text_entries)
-    reg_entries = reg_entries + text_entries
+    cross_entries = [e for e in b.register_cross if e[1] not in failed_classes]
+    if cross_entries:
+        registry_append_cross(cross_entries)
+    reg_entries = reg_entries + text_entries + cross_entries
     # a rejected EXTEND class is ledgered too (its private copies in the rejecting binaries stay)
     for c in classes:
         if c["verdict"] == "B" and c["h"] in failed_classes:
@@ -569,11 +773,20 @@ def run_batch(orc, cen, classes, label):
     ok_n = sum(1 for a in gated if results[a][0])
     log(f"  [{label}] gated {ok_n}/{len(gated)} binaries green · registered {len(reg_entries)} groups · extended {n_ext} members · "
         f"rejected classes {len(failed_classes)}")
+    extra, residue_ok = {}, True
+    if b.register_cross and all(results[a][0] for a in gated):
+        moves = [m for m in b.moves if m[0] not in failed_classes]
+        extra["rekeyed"] = rekey_ledgers(moves)
+        log(f"  [{label}] ledgers re-keyed to the headers: {extra['rekeyed']}")
+        if moves:
+            segs = sorted({al for _h, tu, _o, _hd in moves for al, t in b.members[_h] if t == tu}) + sorted({m[3] for m in moves})
+            residue_ok = restamp_residue(segs, label)
+            extra["residue_segments"] = segs
     (RUN / f"batch_{label}.json").write_text(json.dumps(dict(classes=[c["h"] for c in classes], refused=refused,
                                                                 results=results, registered=[e[0] for e in reg_entries],
                                                                 extended=ext, rejected=sorted(failed_classes),
-                                                                causes=causes, exemplars=b.exemplar_note), indent=1) + "\n")
-    return len(failed_classes) == 0 and all(results[a][0] for a in gated)
+                                                                causes=causes, exemplars=b.exemplar_note, **extra), indent=1) + "\n")
+    return len(failed_classes) == 0 and all(results[a][0] for a in gated) and residue_ok
 
 
 def repair_registry(cen):
@@ -737,7 +950,7 @@ def main():
     ap.add_argument("--retry-excepted", action="store_true", help="let the classes ledgered in config/dedup_exceptions.tsv back into the plan; a class that shares loses its row, a rejection re-ledgers it with the fresh diagnostic (P37 T4)")
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--apply", action="store_true")
-    ap.add_argument("--bucket", choices=["extend", "new", "text"], default="new")
+    ap.add_argument("--bucket", choices=["extend", "new", "text", "cross"], default="new")
     ap.add_argument("--batch", type=int, default=120)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--batches", type=int, default=1,
@@ -768,6 +981,16 @@ def main():
     extend, new = candidates(cen)
     log(f"share_body: census {time.time() - t0:.0f} s · extend (registered-incomplete) {len(extend)} classes · new (unregistered same-vram) "
         f"{len(new)} classes / {sum(len([i for i in c['insts'] if i['form'] == 'def']) for c in new):,} private sites")
+    if a.plan and a.bucket == "cross":
+        cross, differs = cross_candidates(cen)
+        ef = collections.Counter("E+F" if "F" in c["flags"] else "E-only" for c in cross)
+        na = collections.Counter("2 addr" if len(c["addrs"]) == 2 else "3+ addr" for c in cross)
+        log(f"share_body: cross (verdict C, flag E) {len(cross)} classes / {sum(c['instances'] for c in cross):,} instances · "
+            f"{dict(sorted(ef.items()))} · {dict(sorted(na.items()))} · alias-form {sum(1 for c in cross if 'ALIAS' in c['flags'])} · "
+            f"TEXT-DIFFERS {len(differs)} classes (skipped, not ledgered)")
+        for c in cross[:8]:
+            log(f"    {c['h'][:12]} {','.join(c['flags']):14s} {c['instances']:4d} inst x {c['nins']:5d} ins {len(c['addrs'])} addrs {c['addrs'][:3]}")
+        return
     if a.plan:
         bands = collections.Counter(c["band"] for c in new)
         log(f"  new by band: {dict(bands)}; differing-text classes {sum(1 for c in new if c['verdict'] == 'D')}; "
@@ -777,7 +1000,7 @@ def main():
         return
     if not a.apply:
         return
-    pool = extend if a.bucket == "extend" else new if a.bucket == "new" else text_candidates(cen)
+    pool = extend if a.bucket == "extend" else new if a.bucket == "new" else cross_candidates(cen)[0] if a.bucket == "cross" else text_candidates(cen)
     if a.bucket == "text":
         log(f"share_body: text tier — {len(pool)} same-address text classes / {sum(len(c['insts']) for c in pool):,} private sites")
     if a.only:
@@ -792,7 +1015,13 @@ def main():
                 f"(the census re-derives the pool from the committed text)")
             break
         chunk = pool[k:k + a.batch]
-        ok = run_batch(orc, cen, chunk, a.label if a.label and a.batches == 1 else f"{a.label or a.bucket}{k // a.batch + 1}")
+        lbl = a.label if a.label and a.batches == 1 else f"{a.label or a.bucket}{k // a.batch + 1}"
+        if a.bucket == "cross":                      # the headers, sites, registry and ledgers are fleet-shared state: hold the writer lock
+            import shared_lock
+            with shared_lock.hold(exclusive=True, announce="share_body --bucket cross"):
+                ok = run_batch(orc, cen, chunk, lbl)
+        else:
+            ok = run_batch(orc, cen, chunk, lbl)
         all_ok = all_ok and ok
         done += len(chunk)
     log(f"share_body: done — {done} of {len(pool)} classes in {min(a.batches, (len(pool) + a.batch - 1) // a.batch)} batch(es); "

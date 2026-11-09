@@ -3352,12 +3352,9 @@ extern void func_8012A828(s32 a0, s32 a1);
 
 
 
-void func_80181E18(void *arg0) {
-    if (((Unkstruct_80181E18 *)arg0)->unk72 & 0x4000) {
-        ((Unkstruct_80181E18 *)arg0)->unk2 = 9;
-        ((Unkstruct_80181E18 *)arg0)->unk100 = 3;
-    }
-}
+#define SHARED_FN func_80181E18
+#include "../shared/ov/cls_43c2c594289f.h"
+#undef SHARED_FN
 
 
 extern u8 D_801B02EC[];

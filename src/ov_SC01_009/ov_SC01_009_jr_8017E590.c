@@ -3574,9 +3574,9 @@ void func_8017F67C(s32 *a0) {
 }
 
 
-void func_8017F6B4(void *a0) {
-        ((Unkstruct_8017F6B4 *)a0)->unk2 = 0x5;
-    }
+#define SHARED_FN func_8017F6B4
+#include "../shared/ov/cls_b7b6635bce07.h"
+#undef SHARED_FN
 
 
 extern s32 func_800291B4(s32 arg);

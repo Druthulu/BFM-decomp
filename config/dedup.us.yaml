@@ -24266,3 +24266,20 @@ groups:
     members:
       - { binary: ov_SC04_008, vram: 0x8013F350, name: func_8013F350, h_exact: 002944f28c3a29354c2b016ae3fa8bbcabf441c5 }
       - { binary: ov_SC05_009, vram: 0x8013F350, name: func_8013F350, h_exact: 85d45984a24dac0f230fca63e43f51e1c230ec31 }
+  - id: X_43c2c594289f
+    tier: h_exact
+    hash: 43c2c594289f65a119c559755349866fb295d4e9
+    source: src/shared/ov/cls_43c2c594289f.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_011, vram: 0x8018964C, name: func_8018964C }
+      - { binary: ov_SC02_016, vram: 0x80181E18, name: func_80181E18 }
+      - { binary: ov_SC02_017, vram: 0x80187840, name: func_80187840 }
+  - id: X_b7b6635bce07
+    tier: h_exact
+    hash: b7b6635bce07fefe9019030aa2abf9e51cf85e46
+    source: src/shared/ov/cls_b7b6635bce07.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_009, vram: 0x8017F6B4, name: func_8017F6B4 }
+      - { binary: ov_SC03_124, vram: 0x80180230, name: func_80180230 }
