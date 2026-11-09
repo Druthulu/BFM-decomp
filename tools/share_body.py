@@ -262,6 +262,19 @@ def cross_candidates(cen):
     return pool, differs
 
 
+def cross_settled():  # T6.c3 (3.42): the classes a T6 cross batch already settled red — `rejected` (every ranked text failed) or `refused` in
+    """batch_t6probe*.json and batch_cross<k>.json with k >= 19 (the T6 sweep; cross1..18 are T4/T5's). The sweep skips them, so its empty
+    test (`done — 0 of 0 classes`) fires when only these remain; the remainder is bucketed from the same files."""
+    out = set()
+    for p in sorted(RUN.glob("batch_*.json")):
+        m = re.fullmatch(r"batch_(t6probe\w*|cross(\d+))\.json", p.name)
+        if not m or (m.group(2) and int(m.group(2)) < 19):
+            continue
+        bj = json.loads(p.read_text())
+        out |= set(bj.get("rejected") or []) | {r[0] for r in bj.get("refused") or []}
+    return out
+
+
 _RAW_FORMS = []
 
 
@@ -1566,6 +1579,11 @@ def main():
     if not a.apply:
         return
     pool = extend if a.bucket == "extend" else new if a.bucket == "new" else cross_candidates(cen)[0] if a.bucket == "cross" else text_candidates(cen)
+    if a.bucket == "cross":                          # T6.c3: classes a T6 batch already rejected on every text or refused
+        settled = cross_settled()
+        skipped = [c for c in pool if c["h"] in settled]
+        pool = [c for c in pool if c["h"] not in settled]
+        log(f"share_body: cross — skipped {len(skipped)} classes settled red by a T6 batch (rejected on every text or refused)")
     if a.bucket == "text":
         log(f"share_body: text tier — {len(pool)} same-address text classes / {sum(len(c['insts']) for c in pool):,} private sites")
     if a.only:
