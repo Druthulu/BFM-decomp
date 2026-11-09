@@ -4297,22 +4297,9 @@ void func_8017ED68(s32 param_1) {
 
 extern void func_80149374(s32 a0, s32 a1);
 
-void func_8017F120(s32 *a0)
-{
-    s32 t1;
-    s32 t2;
-    s32 t3;
-    s32 x;
-
-    t1 = a0[4];
-    x = a0[13];
-    t2 = a0[5];
-    t3 = a0[6];
-    a0[1] = t1;
-    a0[2] = t2;
-    a0[3] = t3;
-    func_80149374(x, (s32)(a0 + 1));
-}
+#define SHARED_FN func_8017F120
+#include "../shared/ov/cls_269c4441a0c2.h"
+#undef SHARED_FN
 
 
 
@@ -7716,16 +7703,9 @@ void func_80183A88(s32 arg0, s32 arg1) {
 
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 
-void func_80183BE4(s32 a0, s32 a1) {
-    if ((((Unkstruct_80181114 *)a1)->unk5C & 0x8000) != 0) {
-        if (((Unkstruct_80181114 *)a1)->unk5E != 0x1D) {
-            ((Unkstruct_80181114 *)a1)->unk5C = ((Unkstruct_80181114 *)a1)->unk5C | 1;
-            ((Unkstruct_80181114 *)a1)->unk60 = 0x14;
-            ((Unkstruct_80181114 *)a1)->unk62 = func_8012B6D4((s16 *)(a1 + 4), (s16 *)(a0 + 4));
-            ((Unkstruct_80181114 *)a1)->unk5E = 0x1D;
-        }
-    }
-}
+#define SHARED_FN func_80183BE4
+#include "../shared/ov/cls_08484c830742.h"
+#undef SHARED_FN
 
 
 extern void RotMatrixY(s32 a0, void *a1);

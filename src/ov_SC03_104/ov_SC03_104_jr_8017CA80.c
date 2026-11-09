@@ -3904,24 +3904,9 @@ void func_80181BDC(void *arg0)
 
 
 
-void func_80181CA8(s32 arg0)
-{
-    extern s32 rand(void);
-    extern void func_8012B200(u8 *a0);
-
-    s32 rec;
-    s32 r;
-    s32 n;
-
-    rec = arg0;
-    r = rand();
-    ((Unkstruct_800B5CB8 *)rec)->unk104 = CAST_SIGN(u16, rec, 0xFC);
-    func_8012B200((u8 *)rec);
-    n = rand();
-    ((Unkstruct_800B5CB8 *)rec)->unk1C = n % 60 + 0x78;
-    ((Unkstruct_800B5CB8 *)rec)->unkFE = (s16)r % 32 + 0xA;
-    ((Unkstruct_800B5CB8 *)rec)->unk2 = 2;
-}
+#define SHARED_FN func_80181CA8
+#include "../shared/ov/cls_640487f29081.h"
+#undef SHARED_FN
 
 
 

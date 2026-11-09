@@ -229,19 +229,9 @@ extern s32 func_80029504(void);
 extern s32 func_80029178(s32);
 extern void func_80029124(s32, s32);
 
-s32 func_801F2458(void) {
-    s32 x;
-    s32 t;
-
-    x = func_80029504();
-    if ((u32)(x - 200) < 100 || (x >= 300 && (func_80029178(250) & 0xFF))) t = 0;
-    else t = 1;
-    if (t != 0 && (func_80029178(276) & 0xFF) == 0) {
-        func_80029124(276, 1);
-        return 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_801F2458
+#include "../shared/multi/cls_546048ffa222.h"
+#undef SHARED_FN
 
 
 void func_801F24DC(s32 a0) {

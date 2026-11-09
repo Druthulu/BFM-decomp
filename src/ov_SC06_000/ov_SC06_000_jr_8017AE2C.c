@@ -9581,11 +9581,9 @@ void func_80185E4C(void *a0) {
 
 
 extern s32 func_8012AD50(void *a0);
-    void func_80185E88(u8 *a0) {
-        ((Unkstruct_801844AC_2 *)a0)->unkFC = 0;
-        ((Unkstruct_801844AC_2 *)a0)->unk72 |= 0x1000;
-        ((void (*)(void))func_8012AD50)();
-    }
+#define SHARED_FN func_80185E88
+#include "../shared/ov/cls_65c892e09b07.h"
+#undef SHARED_FN
 
 
 extern s16 D_800B9AB8[];

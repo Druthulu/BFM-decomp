@@ -6800,11 +6800,9 @@ extern void (*D_8018A544[])(void);
 
 
 extern s32 func_8012AD50(void *a0);
-    void func_801844AC(u8 *a0) {
-        ((Unkstruct_801844AC_2 *)a0)->unkFC = 0;
-        ((Unkstruct_801844AC_2 *)a0)->unk72 |= 0x1000;
-        ((void (*)(void))func_8012AD50)();
-    }
+#define SHARED_FN func_801844AC
+#include "../shared/ov/cls_65c892e09b07.h"
+#undef SHARED_FN
 
 
 extern s16 D_800B9AB8[];

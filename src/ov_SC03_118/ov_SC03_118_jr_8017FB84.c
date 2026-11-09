@@ -3448,7 +3448,9 @@ s32 func_801817BC(s32 a0) {
 }
 
 
-#include "../shared/ov/func_801817FC.h"
+#define SHARED_FN func_801817FC
+#include "../shared/ov/cls_eb4731f85540.h"
+#undef SHARED_FN
 
 
 extern s32 func_800D1EBC(void);

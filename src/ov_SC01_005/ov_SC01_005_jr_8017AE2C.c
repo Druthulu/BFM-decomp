@@ -3402,7 +3402,9 @@ void func_8017C18C(s32 *a0) {
 }
 
 
-#include "../shared/ov/func_8017C1E8.h"
+#define SHARED_FN func_8017C1E8
+#include "../shared/ov/cls_72bf44a01e74.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017C238.h"

@@ -609,11 +609,9 @@ extern void func_80174438(s32 a0);
 extern void func_80029124(s32 arg0, s32 arg1);
 extern u8 *D_80126B10;
 
-void func_801F0364(void) {
-    func_80029514(0x12C);
-    func_80174438((s32)D_80126B10);
-    func_80029124(0x10F, 1);
-}
+#define SHARED_FN func_801F0364
+#include "../shared/multi/cls_007c9ae9fe6e.h"
+#undef SHARED_FN
 
 
 

@@ -5034,22 +5034,9 @@ void func_8017F228(s32 param_1) {
 #undef SHARED_FN
 
 
-void func_8017F5E0(s32 *a0)
-{
-    s32 t1;
-    s32 t2;
-    s32 t3;
-    s32 x;
-
-    t1 = a0[4];
-    x = a0[13];
-    t2 = a0[5];
-    t3 = a0[6];
-    a0[1] = t1;
-    a0[2] = t2;
-    a0[3] = t3;
-    func_80149374(x, (s32)(a0 + 1));
-}
+#define SHARED_FN func_8017F5E0
+#include "../shared/ov/cls_269c4441a0c2.h"
+#undef SHARED_FN
 
 
 
@@ -6937,19 +6924,9 @@ void func_80182014(s32 arg0, s32 arg1) {
 }
 
 
-void func_80182170(s32 a0, s32 a1)
-{
-    s16 *s0 = (s16 *)a1;
-    u16 flags;
-
-    flags = *(u16 *)(s0 + 0x2E);
-    if ((flags & 0x8000) != 0 && *(u16 *)(s0 + 0x2F) != 0x1D) {
-        *(u16 *)(s0 + 0x2E) = flags | 1;
-        *(u16 *)(s0 + 0x30) = 0x14;
-        *(u16 *)(s0 + 0x31) = func_8012B6D4(s0 + 2, (s16 *)a0 + 2);
-        *(u16 *)(s0 + 0x2F) = 0x1D;
-    }
-}
+#define SHARED_FN func_80182170
+#include "../shared/ov/cls_08484c830742.h"
+#undef SHARED_FN
 
 
 

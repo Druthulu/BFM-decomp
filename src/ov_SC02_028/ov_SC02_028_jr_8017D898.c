@@ -5344,13 +5344,9 @@ void func_80182194(s32 a0) {
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-void func_80182230(void *a0) {
-    s32 a1;
-    a1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-    CAST_WIDTH(s32, a1, 4) = CAST_WIDTH(s32, a1, 4) | 0x80000000;
-    ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
-    ((void (*)(s32, s32))func_8012AD44)((s32)a0, 0x3);
-}
+#define SHARED_FN func_80182230
+#include "../shared/ov/cls_033644294f53.h"
+#undef SHARED_FN
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);

@@ -6084,31 +6084,9 @@ extern s32 func_801848DC();  // K&R: ? of 1 args (P37 rung D t4_D2)
 extern s32 func_8018625C(void *);
 extern s32 func_80178BF8(void);
 
-s32 func_80180CC0(void *a0)
-{
-    void *s0 = a0;
-    void **v0p;
-    u16 v1;
-
-    v0p = (void **)(s0 + 0x64);
-    v1 = *(u16 *)(*v0p + 0x2);
-    if (v1 != 0x5) {
-        return 0;
-    }
-
-    if (func_801848DC() == 0) {
-        return 0;
-    }
-
-    if (func_8018625C(*v0p) != 0) {
-        return 0;
-    }
-
-    *(u16 *)(*v0p + 0x2) = 0x6;
-    func_80178BF8();
-
-    return (s32)func_80172710;
-}
+#define SHARED_FN func_80180CC0
+#include "../shared/ov/cls_5770cb687fc1.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -7238,31 +7216,9 @@ extern s32 func_801848DC();  // K&R: ? of 1 args (P37 rung D t4_D2)
 extern s32 func_8018625C(void *);
 extern s32 func_80178BF8(void);
 
-s32 func_80182544(void *a0)
-{
-    void *s0 = a0;
-    void **v0p;
-    u16 v1;
-
-    v0p = (void **)(s0 + 0x64);
-    v1 = *(u16 *)(*v0p + 0x2);
-    if (v1 != 0x5) {
-        return 0;
-    }
-
-    if (func_801848DC() == 0) {
-        return 0;
-    }
-
-    if (func_8018625C(*v0p) != 0) {
-        return 0;
-    }
-
-    *(u16 *)(*v0p + 0x2) = 0x6;
-    func_80178BF8();
-
-    return (s32)func_80172710;
-}
+#define SHARED_FN func_80182544
+#include "../shared/ov/cls_5770cb687fc1.h"
+#undef SHARED_FN
 
 
 

@@ -3330,9 +3330,9 @@ extern s32 D_80194FE4;
 
 
 extern s32 func_800D0EC4();
-s32 func_8017D608(void) {
-    return func_800D0EC4() == 0;
-}
+#define SHARED_FN func_8017D608
+#include "../shared/ov/cls_8be3a85f027c.h"
+#undef SHARED_FN
 
 
 void func_8017D628(s32 param_1) {

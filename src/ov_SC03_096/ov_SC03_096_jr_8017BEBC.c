@@ -3735,22 +3735,9 @@ void func_8017ECD4(s32 a0) {
 
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 
-void func_8017EDAC(a0, a1, a2)
-void *a0;
-void *a1;
-s32 a2;
-{
-    s32 i;
-
-    for (i = 0; *(s16 *)((s32)a1 + i) != 0; i += 6) {
-        s32 v1 = func_8012C658(0x167, (s16)a2, (s32)a0);
-        if (v1 != 0) {
-            ((Unkstruct_800B5CB8 *)v1)->unk6 = *(u16 *)((s32)a1 + i + 0);
-            ((Unkstruct_800B5CB8 *)v1)->unkA = *(u16 *)((s32)a1 + i + 2);
-            ((Unkstruct_800B5CB8 *)v1)->unkE = *(u16 *)((s32)a1 + i + 4);
-        }
-    }
-}
+#define SHARED_FN func_8017EDAC
+#include "../shared/ov/cls_471b093346ac.h"
+#undef SHARED_FN
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -3936,60 +3923,26 @@ void func_8017F200(void *a0) {
 
 extern void func_80016224(s32 a0, s32 a1);
 
-void func_8017F23C(void *a0) {
-    s16 t;
-    if (((Unkstruct_800B5CB8 *)a0)->unkFE != 0) {
-        func_80016224(((Unkstruct_800B5CB8 *)a0)->unkFE & 0xFF, 4);
-        CAST_ALIAS(s16, (s32)a0, 0x2A) = -2;
-        t = 0x80 - ((Unkstruct_800B5CB8 *)a0)->unkFE * 3;
-        ((Unkstruct_800B5CB8 *)a0)->unk28 = t;
-        CAST_WIDTH(s16, (s32)a0, 0x26) = t;
-        CAST_WIDTH(s16, (s32)a0, 0x24) = t;
-    }
-}
+#define SHARED_FN func_8017F23C
+#include "../shared/ov/cls_08c5824beac9.h"
+#undef SHARED_FN
 
 
 // @class: plumbing
 // scan 0x60 entity records (stride 0x10C) at D_801202A0; flag the one whose u16
 // id matches arg0 by setting 0x80000000 in the word at +4 of its +0x20 pointer
-void func_8017F2A4(s32 arg0) {
-    extern u8 D_801202A0[];
-    u8 *rec;
-    s32 ptr;
-
-    rec = D_801202A0;
-    if (rec < D_801202A0 + 0x6480) {
-        do {
-            if (((Unkstruct_800B5CB8 *)rec)->unk0 == (arg0 & 0xFFFF)) {
-                ptr = ((Unkstruct_800B5CB8 *)rec)->unk20;
-                *(s32 *)(ptr + 4) |= 0x80000000;
-            }
-            rec += 0x10C;
-        } while (rec < D_801202A0 + 0x6480);
-    }
-}
+#define SHARED_FN func_8017F2A4
+#include "../shared/ov/cls_3709b7156207.h"
+#undef SHARED_FN
 
 
 
 
 extern u8 D_801202A0[];
 
-void func_8017F308(s32 param_1) {
-    u8 *ptr = D_801202A0;
-    u8 *end = ptr + 0x6480;
-
-    if (ptr < end) {
-        s32 want = param_1 & 0xFFFF;
-        s32 mask = 0x7FFFFFFF;
-        u8 *lim = end;
-        do {
-            if (((Unkstruct_800B5CB8 *)ptr)->unk0 == want) {
-                (CAST_SIGN(s32 *, ptr, 0x20))[1] &= mask;
-            }
-            ptr += 0x10C;
-        } while (ptr < lim);
-    }
-}
+#define SHARED_FN func_8017F308
+#include "../shared/ov/cls_2aa3141a1408.h"
+#undef SHARED_FN
 
 
 

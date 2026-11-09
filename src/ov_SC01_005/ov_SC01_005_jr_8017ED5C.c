@@ -4198,15 +4198,9 @@ extern s32 func_80180BDC(s32 a0);
 extern u8 D_801BC5E0[];
 extern void func_8012A828(s32 a0, void *a1);
 
-    void func_80180ED4(s32 a0) {
-        s32 v0;
-        v0 = func_80180BDC(a0);
-        if ((v0 << 16) != 0) {
-            return;
-        }
-        func_8012A828(a0, &D_801BC5E0);
-        CAST_SIGN(u16, a0, 2) += 1;
-    }
+#define SHARED_FN func_80180ED4
+#include "../shared/ov/cls_dd728b155515.h"
+#undef SHARED_FN
 
 
 extern void *D_801BC798[];
@@ -4324,15 +4318,9 @@ extern s32 func_80180BDC(s32 a0);
 extern u8 D_801BC5E0[];
 extern void func_8012A828(s32 a0, void *a1);
 
-    void func_801811D4(s32 a0) {
-        s32 v0;
-        v0 = func_80180BDC(a0);
-        if ((v0 << 16) != 0) {
-            return;
-        }
-        func_8012A828(a0, &D_801BC5E0);
-        CAST_SIGN(u16, a0, 2) += 1;
-    }
+#define SHARED_FN func_801811D4
+#include "../shared/ov/cls_dd728b155515.h"
+#undef SHARED_FN
 
 
 extern void *D_801BC798[];

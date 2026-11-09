@@ -3931,11 +3931,9 @@ void func_8017DACC(void *a0) {
 
 
 extern s32 func_8012AD50(void *a0);
-    void func_8017DB08(u8 *param_1) {
-        ((Unkstruct_8017DB08 *)param_1)->unkFC = 0;
-        *(unsigned short *)(param_1 + 0x72) |= 0x1000;
-        ((void (*)(void))func_8012AD50)();
-    }
+#define SHARED_FN func_8017DB08
+#include "../shared/ov/cls_65c892e09b07.h"
+#undef SHARED_FN
 
 
 extern s16 D_800B9AB8[];

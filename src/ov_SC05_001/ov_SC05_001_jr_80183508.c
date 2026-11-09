@@ -3020,20 +3020,9 @@ extern void func_8012B21C(void *a0);
 extern void func_8012E88C(u8 *a0);
 extern s32 func_80143994(s32 a0, s32 a1);
 
-void func_801839D4(void *arg0) {
-    void *s0;
-    s32 temp_v0;
-
-    s0 = arg0;
-    temp_v0 = func_8012BE54(arg0);
-    if (temp_v0 > 0x40000) {
-        return;
-    }
-    *(s16 *)((s32)s0 + 2) = 9;
-    func_8012B21C(s0);
-    func_8012E88C((u8 *)s0);
-    *(s32 *)((s32)s0 + 0xCC) = func_80143994((s32)s0, 0x1000);
-}
+#define SHARED_FN func_801839D4
+#include "../shared/ov/cls_ec4f27c4ceda.h"
+#undef SHARED_FN
 
 
 
@@ -3551,22 +3540,9 @@ LAB_80180740:
 
 
 
-void func_80184430(s32 *a0)
-{
-    extern void func_8012B2CC(s32 a0);
-    extern void func_8012B23C(s32 a0);
-
-    s32 ptr;
-
-    ((Unkstruct_800B5CB8 *)a0)->unk5C = ((Unkstruct_800B5CB8 *)a0)->unk5C & 0xFFFE;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 = (((Unkstruct_800B5CB8 *)a0)->unk62 + 0x800) & 0xFFF;
-    ptr = ((Unkstruct_800B5CB8 *)a0)->unk20;
-    CAST_WIDTH(u16, ptr, 0x14) = 0;
-    ((Unkstruct_800B5CB8 *)ptr)->unk10 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
-    func_8012B2CC((s32)a0);
-    func_8012B23C((s32)a0);
-}
+#define SHARED_FN func_80184430
+#include "../shared/ov/cls_31a29cf9a909.h"
+#undef SHARED_FN
 
 
 extern void func_8012A828(s32*, s32);

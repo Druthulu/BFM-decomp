@@ -4039,11 +4039,9 @@ end:
 
 
 
-void func_8016DEA4(void *a0) {
-
-    extern void (*D_8018D73C[])(void);
-    D_8018D73C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016DEA4
+#include "../shared/ov/cls_73b9432f731f.h"
+#undef SHARED_FN
 
 
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);

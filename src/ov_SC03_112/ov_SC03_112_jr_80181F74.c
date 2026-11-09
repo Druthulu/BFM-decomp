@@ -3062,21 +3062,9 @@ LAB_80180740:
 }
 
 
-void func_80182708(s32 param_1)
-{
-    extern void func_8012B2CC(s32 a0);
-    extern void func_8012B23C(s32 a0);
-    s32 ptr;
-
-    ((Unkstruct_800B5CB8 *)param_1)->unk5C &= ~1;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = (((Unkstruct_800B5CB8 *)param_1)->unk62 + 0x800) & 0xfff;
-    ptr = ((Unkstruct_800B5CB8 *)param_1)->unk20;
-    CAST_WIDTH(u16, ptr, 0x14) = 0;
-    ((Unkstruct_800B5CB8 *)ptr)->unk10 = 0;
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
-    func_8012B2CC(param_1);
-    func_8012B23C(param_1);
-}
+#define SHARED_FN func_80182708
+#include "../shared/ov/cls_31a29cf9a909.h"
+#undef SHARED_FN
 
 
 

@@ -3878,11 +3878,9 @@ void func_80181670(void *a0) {
 
 
 extern s32 func_8012AD50(void *a0);
-    void func_801816AC(u8 *param_1) {
-        ((Unkstruct_8017DB08 *)param_1)->unkFC = 0;
-        *(unsigned short *)(param_1 + 0x72) |= 0x1000;
-        ((void (*)(void))func_8012AD50)();
-    }
+#define SHARED_FN func_801816AC
+#include "../shared/ov/cls_65c892e09b07.h"
+#undef SHARED_FN
 
 
 void func_801816D8(void)

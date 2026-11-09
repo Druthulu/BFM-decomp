@@ -3603,17 +3603,9 @@ void func_8017EF0C(s32 param_1) {
 
 extern void func_80149374(s32 a0, s32 a1);
 
-void func_8017F2C4(s32 *a0)
-{
-    s32 arg;
-
-    a0[1] = a0[4];
-    arg = a0[13];
-    a0[2] = a0[5];
-    a0[3] = a0[6];
-
-    func_80149374(arg, (s32)(a0 + 1));
-}
+#define SHARED_FN func_8017F2C4
+#include "../shared/ov/cls_269c4441a0c2.h"
+#undef SHARED_FN
 
 
 extern void (*D_80193FBC[])(void);

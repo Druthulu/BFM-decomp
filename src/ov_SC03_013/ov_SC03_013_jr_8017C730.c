@@ -3435,9 +3435,9 @@ have_flag:
 
 extern void (*D_80184D50[])(void);
 
-void func_8017E9CC(void *a0) {
-    D_80184D50[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017E9CC
+#include "../shared/ov/cls_9e975aed2dc2.h"
+#undef SHARED_FN
 
 
 #include "common.h"

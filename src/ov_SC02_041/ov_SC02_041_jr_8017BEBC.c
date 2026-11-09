@@ -3055,22 +3055,9 @@ void func_8017D38C(s32 param_1) {
 
 extern void func_80149374(s32 a0, s32 a1);
 
-void func_8017D744(s32 *a0)
-{
-    s32 t1;
-    s32 t2;
-    s32 t3;
-    s32 x;
-
-    t1 = a0[4];
-    x = a0[13];
-    t2 = a0[5];
-    t3 = a0[6];
-    a0[1] = t1;
-    a0[2] = t2;
-    a0[3] = t3;
-    func_80149374(x, (s32)(a0 + 1));
-}
+#define SHARED_FN func_8017D744
+#include "../shared/ov/cls_269c4441a0c2.h"
+#undef SHARED_FN
 
 
 

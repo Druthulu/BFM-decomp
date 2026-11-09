@@ -3088,18 +3088,9 @@ void func_8017D804(s32 a0) {
 
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
 
-void func_8017D8A0(void *a0, void *a1, s32 a2) {
-    s32 i;
-
-    for (i = 0; *(s16 *)((s32)a1 + i) != 0; i += 6) {
-        s32 v1 = func_8012C658(0x167, (s16)a2, (s32)a0);
-        if (v1 != 0) {
-            ((Unkstruct_800B5CB8 *)v1)->unk6 = *(u16 *)((s32)a1 + i + 0);
-            ((Unkstruct_800B5CB8 *)v1)->unkA = *(u16 *)((s32)a1 + i + 2);
-            ((Unkstruct_800B5CB8 *)v1)->unkE = *(u16 *)((s32)a1 + i + 4);
-        }
-    }
-}
+#define SHARED_FN func_8017D8A0
+#include "../shared/ov/cls_471b093346ac.h"
+#undef SHARED_FN
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -3287,64 +3278,21 @@ void func_8017DCF4(void *a0) {
 
 extern void func_80016224(s32 a0, s32 a1);
 
-void func_8017DD30(void *a0) {
-    s16 t;
-    if (((Unkstruct_800B5CB8 *)a0)->unkFE != 0) {
-        func_80016224(((Unkstruct_800B5CB8 *)a0)->unkFE & 0xFF, 4);
-        CAST_ALIAS(s16, (s32)a0, 0x2A) = -2;
-        t = 0x80 - ((Unkstruct_800B5CB8 *)a0)->unkFE * 3;
-        ((Unkstruct_800B5CB8 *)a0)->unk28 = t;
-        CAST_WIDTH(s16, (s32)a0, 0x26) = t;
-        CAST_WIDTH(s16, (s32)a0, 0x24) = t;
-    }
-}
+#define SHARED_FN func_8017DD30
+#include "../shared/ov/cls_08c5824beac9.h"
+#undef SHARED_FN
 
 
 extern u8 D_801202A0[];
 
-void func_8017DD98(arg0)
-s32 arg0;
-{
-    extern u8 D_801202A0[];
-    u8 *rec;
-    s32 ptr;
-
-    rec = D_801202A0;
-    if (rec < D_801202A0 + 0x6480) {
-        do {
-            if (((Unkstruct_800B5CB8 *)rec)->unk0 == (arg0 & 0xFFFF)) {
-                ptr = ((Unkstruct_800B5CB8 *)rec)->unk20;
-                *(s32 *)(ptr + 4) |= 0x80000000;
-            }
-            rec += 0x10C;
-        } while (rec < D_801202A0 + 0x6480);
-    }
-}
+#define SHARED_FN func_8017DD98
+#include "../shared/ov/cls_3709b7156207.h"
+#undef SHARED_FN
 
 
-void func_8017DDFC(s32 arg0) {
-    extern u8 D_801202A0[];
-    u8 *p;
-    u8 *t;
-    u8 *e;
-    s32 *w;
-    s32 mask;
-
-    p = (u8 *)&D_801202A0;
-    t = p + 0x6480;
-    if (p < t) {
-        arg0 &= 0xFFFF;
-        mask = 0x7FFFFFFF;
-        e = t;
-        do {
-            if (*(u16 *)p == arg0) {
-                w = *(s32 **)(p + 0x20);
-                w[1] &= mask;
-            }
-            p += 0x10C;
-        } while (p < e);
-    }
-}
+#define SHARED_FN func_8017DDFC
+#include "../shared/ov/cls_2aa3141a1408.h"
+#undef SHARED_FN
 
 
 

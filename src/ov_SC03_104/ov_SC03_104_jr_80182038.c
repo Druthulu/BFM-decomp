@@ -2984,19 +2984,9 @@ void func_8018241C(s32 a0)
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012E88C(u8 *a0);
 
-void func_80182578(s32 a0)
-{
-    if (func_8012BEE8(a0) != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
-        func_8012E88C((u8 *)a0);
-        {
-            s32 t = ((Unkstruct_800B5CB8 *)a0)->unkCC;
-            if (t != 0) {
-                ((Unkstruct_800B5CB8 *)t)->unkFC = 0;
-            }
-        }
-    }
-}
+#define SHARED_FN func_80182578
+#include "../shared/ov/cls_085da4b59da4.h"
+#undef SHARED_FN
 
 
 
@@ -3429,15 +3419,9 @@ void func_80182D18(s32 param_1)
 }
 
 
-void func_80182FCC(s32 arg0) {
-    s32 v1;
-    v1 = ((Unkstruct_800B5CB8 *)arg0)->unkCC;
-    if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unk8 = ((Unkstruct_800B5CB8 *)arg0)->unk6;
-        ((Unkstruct_800B5CB8 *)v1)->unkA = ((Unkstruct_800B5CB8 *)arg0)->unkA - 0x19;
-        ((Unkstruct_800B5CB8 *)v1)->unkC = ((Unkstruct_800B5CB8 *)arg0)->unkE;
-    }
-}
+#define SHARED_FN func_80182FCC
+#include "../shared/ov/cls_327120cd0bd6.h"
+#undef SHARED_FN
 
 
 #define SHARED_FN func_8018300C
@@ -3980,11 +3964,9 @@ void func_80183AF4(void *a0) {
 
 extern void func_8012AD44(s32 *a0, s16 a1);
 
-void func_80183B90(void *a0) {
-    (CAST_MISALIGNED(s32, *(s32 **)((char *)a0 + 0x20), 1)) |= 0x80000000;
-    ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
-    ((void (*)(s32, s32))func_8012AD44)(a0, 3);
-}
+#define SHARED_FN func_80183B90
+#include "../shared/ov/cls_033644294f53.h"
+#undef SHARED_FN
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);

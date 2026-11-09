@@ -5150,18 +5150,9 @@ void func_80183D48(void *a0) {
 }
 
 
-void func_80183E14(void *a0) {
-    s16 t;
-    s32 r;
-
-    t = rand();
-    ((Unkstruct_800B5CB8 *)a0)->unk104 = CAST_SIGN(u16, (s32)a0, 0xFC);
-    func_8012B200(a0);
-    r = rand();
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = r % 60 + 0x78;
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = t % 32 + 0xA;
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-}
+#define SHARED_FN func_80183E14
+#include "../shared/ov/cls_640487f29081.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -5588,18 +5579,9 @@ void func_80184588(s32 a0)
 extern s32  func_8012BEE8(s32 a0);
 extern void func_8012E88C(u8 *a0);
 
-void func_801846E4(s32 a0) {
-    s32 u;
-
-    if (func_8012BEE8(a0) != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
-        func_8012E88C((u8 *)a0);
-        u = ((Unkstruct_800B5CB8 *)a0)->unkCC;
-        if (u != 0) {
-            ((Unkstruct_800B5CB8 *)u)->unkFC = 0;
-        }
-    }
-}
+#define SHARED_FN func_801846E4
+#include "../shared/ov/cls_085da4b59da4.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -6030,16 +6012,9 @@ void func_80184E84(s32 param_1)
 }
 
 
-void func_80185138(s32 a0) {
-    s32 v1;
-
-    v1 = ((Unkstruct_800B5CB8 *)a0)->unkCC;
-    if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unk8 = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        ((Unkstruct_800B5CB8 *)v1)->unkA = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x19;
-        ((Unkstruct_800B5CB8 *)v1)->unkC = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    }
-}
+#define SHARED_FN func_80185138
+#include "../shared/ov/cls_327120cd0bd6.h"
+#undef SHARED_FN
 
 
 #define SHARED_FN func_80185178

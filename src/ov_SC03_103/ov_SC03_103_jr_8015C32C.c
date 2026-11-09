@@ -6031,9 +6031,9 @@ L3:
 
 extern void (*D_80187254[])(void);
 
-void func_8016A700(void *a0) {
-    D_80187254[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016A700
+#include "../shared/ov/cls_b5e9d5c0b57d.h"
+#undef SHARED_FN
 
 
 // Seed for func_8016A73C (ov_SC01_077 exemplar). Overlay-local struct guessed.

@@ -6061,19 +6061,9 @@ void func_8017CCBC(void *a0) {
 }
 
 
-    s32 func_8017CCF8(u8 *a0) {
-        if (--(((Unkstruct_8017CCF8_2 *)a0)->unk28) == -1) {
-            func_8002D4C8(0x1C, 0);
-            func_8001BFD0();
-            func_8002D4C8(0x1D, 0);
-            if ((func_80029178(0xB8) & 0xFF) == 0) {
-                func_800D0C48(1);
-            }
-            func_800D1E28();
-            ((Unkstruct_8017CCF8_2 *)a0)->unk15 += 1;
-        }
-        return 0;
-    }
+#define SHARED_FN func_8017CCF8
+#include "../shared/ov/cls_eb4731f85540.h"
+#undef SHARED_FN
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);

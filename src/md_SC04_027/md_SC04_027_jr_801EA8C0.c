@@ -253,29 +253,9 @@ extern s32 func_80029504(void);
 extern s32 func_80029178(s32 arg);
 extern void func_80029124(s32, s32);
 
-s32 func_801EAB8C(void) {
-    s32 val = func_80029504();
-    s32 flag;
-
-    if ((u32)(val - 200) >= 100) {
-        if (val < 300 || !(func_80029178(250) & 0xFF)) {
-            flag = 1;
-        } else {
-            flag = 0;
-        }
-    } else {
-        flag = 0;
-    }
-
-    if (flag == 0) {
-        return 0;
-    }
-    if (func_80029178(276) & 0xFF) {
-        return 0;
-    }
-    func_80029124(276, 1);
-    return 1;
-}
+#define SHARED_FN func_801EAB8C
+#include "../shared/multi/cls_546048ffa222.h"
+#undef SHARED_FN
 
 
 extern s32 func_80029504(void);
