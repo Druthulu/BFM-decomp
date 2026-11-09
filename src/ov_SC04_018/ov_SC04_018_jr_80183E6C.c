@@ -3142,34 +3142,25 @@ void func_80184130(void *a0) {
 
 extern s32 func_80184DD0();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 
-void func_8018416C(s32 a0) {
-
-    extern s32 D_80192270[];
-    s32 idx = func_80184DD0(a0);
-    ((Unkstruct_80180D5C *)a0)->unkE4 = D_80192270[idx];
-}
+#define SHARED_FN func_8018416C
+#include "../shared/ov/cls_2df26e78b29e.h"
+#undef SHARED_FN
 
 
 
 extern s32 func_80184DD0();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 
-void func_801841AC(s32 a0) {
-
-    extern s32 D_80192270[];
-    s32 idx = func_80184DD0(a0);
-    ((Unkstruct_80180D5C *)a0)->unkE4 = D_80192270[idx];
-}
+#define SHARED_FN func_801841AC
+#include "../shared/ov/cls_2df26e78b29e.h"
+#undef SHARED_FN
 
 
 
 extern s32 func_80184DD0();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
 
-void func_801841EC(s32 a0) {
-
-    extern s32 D_80192270[];
-    s32 idx = func_80184DD0(a0);
-    ((Unkstruct_80180D5C *)a0)->unkE4 = D_80192270[idx];
-}
+#define SHARED_FN func_801841EC
+#include "../shared/ov/cls_2df26e78b29e.h"
+#undef SHARED_FN
 
 
 
@@ -3578,22 +3569,9 @@ extern s32 func_8012CB64(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
 s32 aF801848DC(void *a0) __asm__("func_801848DC");
 
-s32 aF801848DC(void *a0) {
-    s16 out[3];
-    s16 in[3];
-    void *p;
-
-    p = *(void **)((char *)a0 + 0x64);
-    if (*(u16 *)(((Unkstruct_801848DC *)p)->unkCC + 0x2) != 0x2) {
-        return 0;
-    }
-
-    in[0] = D_80126B5E;
-    in[1] = D_80126B62;
-    in[2] = D_80126B66;
-    func_8012F2E8(((Unkstruct_801848DC *)p)->unkCC, (s32)in, (s32)out);
-    return func_8012CB64((s32)out, -0xC0, 0x40, -0x60, 0);
-}
+#define SHARED_FN aF801848DC
+#include "../shared/ov/cls_cae222ea97b9.h"
+#undef SHARED_FN
 
 
 /* func_80184960 — 76 instructions */

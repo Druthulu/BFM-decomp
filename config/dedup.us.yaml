@@ -42882,3 +42882,49 @@ groups:
     members:
       - { binary: ov_SC03_010, vram: 0x8016084C, name: func_8016084C }
       - { binary: ov_SC04_016, vram: 0x8015E8E8, name: func_8015E8E8 }
+  - id: X_cae222ea97b9
+    tier: h_exact
+    hash: cae222ea97b93e9f18a78c2377aff4a30a50abed
+    source: src/shared/ov/cls_cae222ea97b9.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_001, vram: 0x8018739C, name: aF801848DC }
+      - { binary: ov_SC03_002, vram: 0x80182E88, name: aF801848DC }
+      - { binary: ov_SC03_124, vram: 0x80184004, name: aF801848DC }
+      - { binary: ov_SC03_125, vram: 0x8018170C, name: aF801848DC }
+      - { binary: ov_SC04_015, vram: 0x80180C48, name: aF801848DC }
+      - { binary: ov_SC04_018, vram: 0x801848DC, name: aF801848DC }
+      - { binary: ov_SC04_019, vram: 0x801848DC, name: aF801848DC }
+      - { binary: ov_SC04_020, vram: 0x801810B8, name: aF801848DC }
+      - { binary: ov_SC05_017, vram: 0x801845DC, name: aF801848DC }
+      - { binary: ov_SC05_018, vram: 0x801842C0, name: aF801848DC }
+  - id: X_2df26e78b29e
+    tier: h_exact
+    hash: 2df26e78b29e85edf0bda9ef2be2d379182fb057
+    source: src/shared/ov/cls_2df26e78b29e.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC04_018, vram: 0x8018416C, name: func_8018416C }
+      - { binary: ov_SC04_018, vram: 0x801841AC, name: func_801841AC }
+      - { binary: ov_SC04_018, vram: 0x801841EC, name: func_801841EC }
+      - { binary: ov_SC04_019, vram: 0x8018416C, name: func_8018416C }
+      - { binary: ov_SC04_019, vram: 0x801841AC, name: func_801841AC }
+      - { binary: ov_SC04_019, vram: 0x801841EC, name: func_801841EC }
+  - id: X_1f7974be105a
+    tier: h_exact
+    hash: 1f7974be105a5fdc727d71361508923af76676bb
+    source: src/shared/ov/cls_1f7974be105a.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_005, vram: 0x8015DCB8, name: func_8015DCB8 }
+      - { binary: ov_SC01_005, vram: 0x8015E018, name: func_8015E018 }
+      - { binary: ov_SC01_006, vram: 0x8015DCB8, name: func_8015DCB8 }
+      - { binary: ov_SC01_006, vram: 0x8015E018, name: func_8015E018 }
+  - id: X_d109ee79f546
+    tier: h_exact
+    hash: d109ee79f5468034e3e966d948d68659953d09fc
+    source: src/shared/ov/cls_d109ee79f546.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC07_001, vram: 0x8017FE38, name: func_8017FE38 }
+      - { binary: ov_SC07_002, vram: 0x80183FE0, name: func_80183FE0 }
