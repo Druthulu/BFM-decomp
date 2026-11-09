@@ -4818,17 +4818,17 @@ void func_801663FC(void *a0) {
 
 extern void (*D_8018DBAC[])(void);
 
-void func_80166618(void *a0) {
-    D_8018DBAC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80166618
+#include "../shared/ov/cls_b96d86852cd0.h"
+#undef SHARED_FN
 
 
 
 extern void (*D_8018DBBC[])(void);
 
-void func_80166654(void *a0) {
-    D_8018DBBC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80166654
+#include "../shared/ov/cls_b136494215e2.h"
+#undef SHARED_FN
 
 
 #include "common.h"
