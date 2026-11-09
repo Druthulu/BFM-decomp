@@ -2990,9 +2990,9 @@ s32 func_8017D4AC(void *a0) {
 
 extern void (*D_8018278C[])(void);
 
-void func_8017D57C(void *a0) {
-    D_8018278C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017D57C
+#include "../shared/ov/cls_431f99de0b6a.h"
+#undef SHARED_FN
 
 
 extern void func_8017D5E4();  // K&R: 0/1 of 1 args (P37 unalias t4_ua2)  // K&R: 0 of 1 args (P37 rung D t4_D3)

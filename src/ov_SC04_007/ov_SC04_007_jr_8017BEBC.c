@@ -4268,9 +4268,9 @@ s32 func_8017EEF4(void) {
 
 extern void (*D_80189850[])(void);
 
-void func_8017EEFC(void *a0) {
-    D_80189850[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017EEFC
+#include "../shared/ov/cls_38cba4eaf7bf.h"
+#undef SHARED_FN
 
 
 

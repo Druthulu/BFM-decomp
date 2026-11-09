@@ -3904,9 +3904,9 @@ s32 func_8016F1C4(void) {
 
 extern void (*D_80185AD0[])(void);
 
-void func_8016F6E0(void *a0) {
-    D_80185AD0[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_8016F6E0
+#include "../shared/ov/cls_452521c92a00.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016F71C.h"
