@@ -228,7 +228,21 @@ def def_head_name(inst, text):
     m = re.match(r"\s*[^(;{]*?\b([A-Za-z_]\w*)\s*\(", text)
     if m and (m.group(1).lower() == inst["name"].lower() or re.fullmatch(r"aF[0-9A-Fa-f]{8}", m.group(1))):
         return m.group(1)
+    # T6.c3: any head name its TU binds by asm label to the copy's own symbol (`func_8017D698_x(...) __asm__("func_8017F01C")`, cross23:
+    # the name was not masked, the header defined it verbatim, the census left the 3 sites UNACCOUNTED)
+    if m and inst.get("tu") and tu_binds(inst["tu"]).get(m.group(1)) == inst["name"].lower():
+        return m.group(1)
     return own_name(inst, text)
+
+
+_TU_BINDS = {}
+
+
+def tu_binds(tu):  # T6.c3: a TU's asm-label bindings {ident: func_<addr> lower} (share_census.ALIAS_DECL), read once per run (pre-edit text)
+    if tu not in _TU_BINDS:
+        p = REPO / tu
+        _TU_BINDS[tu] = {a: s.lower() for a, s in sc.ALIAS_DECL.findall(p.read_text(errors="surrogateescape"))} if p.exists() else {}
+    return _TU_BINDS[tu]
 
 
 def cross_norm(text, name):

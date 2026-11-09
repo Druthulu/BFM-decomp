@@ -7,7 +7,7 @@
 # Usage: tools/share_body_cycle.sh START END [R22_EVERY=2] [BUCKET=new]   (each batch ≈ 40–100 s, a fleet run ≈ 90 s — size a call to < 10 min)
 #   BUCKET (3.42 T4) is passed to `--bucket` (new | cross | …); labels <bucket><k>; logs under .run/3.42/share/; the CURRENT_PHASE.md
 #   entry is skipped when that file or its marker is absent.
-#   Commits (3.42 T5.c1) go through tools/commit_task.sh $TASK (default T5.c1) with explicit src/ config/ paths; R22 is not committed.
+#   Commits (3.42 T5.c1) go through tools/commit_task.sh $TASK (default T5.c1) with explicit src/ config/ (T6.c3: + include/) paths; R22 is not committed.
 set -o pipefail
 cd "$(dirname "$0")/.." || exit 2
 START=$1; END=$2; R22_EVERY=${3:-2}; BUCKET=${4:-new}
@@ -15,7 +15,7 @@ PY=.venv/bin/python; [ -x "$PY" ] || PY=/usr/bin/python3
 TASK=${TASK:-T5.c1}   # 3.42 T5.c1: commit_task.sh task id for the batch commits
 LOGS=.run/3.42/share; mkdir -p "$LOGS" .run/3.42/baseline
 [ -n "$START" ] && [ -n "$END" ] || { echo "usage: $0 START END [R22_EVERY] [BUCKET]"; exit 2; }
-[ -z "$(git status --short -- src config)" ] || { echo "cycle: src/ or config/ is dirty — commit first (share_body edits a committed tree only)"; exit 3; }
+[ -z "$(git status --short -- src config include)" ] || { echo "cycle: src/ config/ or include/ is dirty — commit first (share_body edits a committed tree only)"; exit 3; }
 FLEET=$(ls config/check.*.sha | wc -l)
 for k in $(seq "$START" "$END"); do
   log=$LOGS/run_$BUCKET$k.log
@@ -41,7 +41,8 @@ print("log:", m1.groups(), m2.groups())
 EOF
   # 3.42 T5.c1: commit via commit_task.sh with explicit paths (every changed/new file under src/ and config/:
   # sites, src/shared headers, dedup.us.yaml, rekeyed ledgers); was `git add -A src/shared && git add -u src config && git commit`.
-  mapfile -t paths < <(git status --porcelain --untracked-files=all -- src config | sed -E 's/^...//; s/^.* -> //')
+  # 3.42 T6.c3: + include/ — a cross class's dead-type deletion edits include/*.h (cross21-24 left them uncommitted)
+  mapfile -t paths < <(git status --porcelain --untracked-files=all -- src config include | sed -E 's/^...//; s/^.* -> //')
   [ -f phase-ends/CURRENT_PHASE.md ] && paths+=(phase-ends/CURRENT_PHASE.md)
   msg="$BUCKET batch $BUCKET$k: $(grep -oE 'registered [0-9]+ groups' "$log" | head -1), $(grep -oE '[0-9]+ sites in [0-9]+ TUs' "$log" | head -1), $gated, $(grep -oE 'rejected classes [0-9]+' "$log" | head -1)"
   if [ ${#paths[@]} -eq 0 ]; then echo "cycle: batch $k changed nothing under src/ config/ — no commit"
