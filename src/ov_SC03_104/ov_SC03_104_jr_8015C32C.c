@@ -5688,9 +5688,9 @@ extern s32 func_80146C3C(u8 *a0);
 
 extern void (*D_8018DCCC[])(void);
 
-void func_80168D58(void *a0) {
-    D_8018DCCC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80168D58
+#include "../shared/ov/cls_1b640bf1f257.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80168D94.h"

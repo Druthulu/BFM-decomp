@@ -1818,9 +1818,9 @@ struct Obj;
 
 extern void (*D_8018932C[])(void);
 
-void func_8015BE38(struct Obj *a0) {
-    D_8018932C[a0->idx]();
-}
+#define SHARED_FN func_8015BE38
+#include "../shared/ov/cls_163c4c31a637.h"
+#undef SHARED_FN
 
 #include "../shared/ov/func_8015BE74.h"
 

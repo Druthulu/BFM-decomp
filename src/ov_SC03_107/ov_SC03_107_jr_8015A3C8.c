@@ -6679,11 +6679,9 @@ s32 func_80164E40(void) {
 
 
 
-void func_80164EA4(void *a0) {
-
-    extern void (*D_801850C8[])(void);
-    D_801850C8[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80164EA4
+#include "../shared/ov/cls_0ed7d82e17b8.h"
+#undef SHARED_FN
 
 
 
@@ -8177,11 +8175,9 @@ void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 
 
 
-void func_80168D58(void *a0) {
-
-    extern void (*D_801854B4[])(void);
-    D_801854B4[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80168D58
+#include "../shared/ov/cls_20952553119f.h"
+#undef SHARED_FN
 
 
 extern void RotMatrixYXZ(void *a0, void *a1);

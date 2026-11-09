@@ -6420,11 +6420,9 @@ extern s32 rand(void);
 
 
 
-void func_801678B4(void *a0) {
-
-    extern void (*D_80185F00[])(void);
-    D_80185F00[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_801678B4
+#include "../shared/ov/cls_2300dfaed0fb.h"
+#undef SHARED_FN
 
 
 extern s32 rand(void);
@@ -7372,11 +7370,9 @@ extern s32 func_80146C3C(u8 *a0);
 
 
 
-void func_8016A020(void *a0) {
-
-    extern void (*D_80186048[])(void);
-    D_80186048[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016A020
+#include "../shared/ov/cls_309fd3ece5af.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016A05C.h"
