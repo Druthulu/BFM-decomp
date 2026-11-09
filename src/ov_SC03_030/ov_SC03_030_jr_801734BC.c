@@ -2726,12 +2726,9 @@ extern s32 func_801758FC(void);
 extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 
-void func_80175690(s32 *param) {
-    D_80185650[((Unkstruct_8017553C *)param)->unk1]();
-    ((void (*)(void))func_801758FC)();
-    ((void (*)(void))func_80175820)();
-    ((void (*)(void))func_801759D8)();
-}
+#define SHARED_FN func_80175690
+#include "../shared/ov/cls_45961967175d.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_801756E4.h"

@@ -4986,13 +4986,9 @@ void func_8017F1C0(s32 a0)
 
 extern s32 func_80171B4C(s32 a0, s32 a1);
 
-void func_8017F204(int param_1)
-{
-    if (func_80171B4C(param_1, 0x2) != 0) {
-        *(unsigned char *)(param_1 + 0x214) += 1;
-    }
-    return;
-}
+#define SHARED_FN func_8017F204
+#include "../shared/ov/cls_f6ecb3d86793.h"
+#undef SHARED_FN
 
 
 extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)

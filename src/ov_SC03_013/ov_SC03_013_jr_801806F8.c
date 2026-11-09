@@ -3014,116 +3014,38 @@ void func_80180958(s32 a0) {
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
-void func_80180A94(void *a0)
-{
-    s32 result;
-
-    func_8012B0B4((unsigned int *)&result, *(int *)((s32)a0 + 0xDC), 0xF3);
-
-    *(s32 *)((s32)a0 + 0x8) = result;
-    *(s16 *)((s32)a0 + 0xA) += *(s16 *)((s32)a0 + 0xE2);
-    *(s32 *)((s32)a0 + 0xDC) += 0x18;
-
-    if (*(s32 *)((s32)a0 + 0xDC) < 0x800) {
-        return;
-    }
-
-    *(s16 *)((s32)a0 + 0x34) = 2;
-    *(s16 *)((s32)a0 + 0x2) = 1;
-    *(s32 *)((s32)a0 + 0x1C) = 0xA;
-}
+#define SHARED_FN func_80180A94
+#include "../shared/ov/cls_a49bc87c4a0e.h"
+#undef SHARED_FN
 
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
-void func_80180B0C(a0)
-void *a0;
-{
-    s32 result;
-
-    func_8012B0B4((unsigned int *)&result, *(int *)((s32)a0 + 0xDC), 0x100);
-
-    *(s32 *)((s32)a0 + 0x8) = result;
-    *(s16 *)((s32)a0 + 0xA) += *(s16 *)((s32)a0 + 0xE2);
-    *(s32 *)((s32)a0 + 0xDC) += 0x18;
-
-    if (*(s32 *)((s32)a0 + 0xDC) < 0x800) {
-        return;
-    }
-
-    *(s16 *)((s32)a0 + 0x34) = 3;
-    *(s16 *)((s32)a0 + 0x2) = 1;
-    *(s32 *)((s32)a0 + 0x1C) = 0xA;
-}
+#define SHARED_FN func_80180B0C
+#include "../shared/ov/cls_0aaa0aa686f1.h"
+#undef SHARED_FN
 
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
-void func_80180B84(a0)
-void *a0;
-{
-    s32 result;
-
-    func_8012B0B4((unsigned int *)&result, *(int *)((s32)a0 + 0xDC), 0x100);
-
-    *(s32 *)((s32)a0 + 0x8) = result;
-    *(s16 *)((s32)a0 + 0xA) += *(s16 *)((s32)a0 + 0xE2);
-    *(s32 *)((s32)a0 + 0xDC) += 0x18;
-
-    if (*(s32 *)((s32)a0 + 0xDC) < 0x800) {
-        return;
-    }
-
-    *(s16 *)((s32)a0 + 0x34) = 4;
-    *(s16 *)((s32)a0 + 0x2) = 1;
-    *(s32 *)((s32)a0 + 0x1C) = 0xA;
-}
+#define SHARED_FN func_80180B84
+#include "../shared/ov/cls_a4a18dc8798f.h"
+#undef SHARED_FN
 
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
-void func_80180BFC(a0)
-void *a0;
-{
-    s32 result;
-
-    func_8012B0B4((unsigned int *)&result, *(int *)((s32)a0 + 0xDC), 0x100);
-
-    *(s32 *)((s32)a0 + 0x8) = result;
-    *(s16 *)((s32)a0 + 0xA) += *(s16 *)((s32)a0 + 0xE2);
-    *(s32 *)((s32)a0 + 0xDC) += 0x18;
-
-    if (*(s32 *)((s32)a0 + 0xDC) < 0x1000) {
-        return;
-    }
-
-    *(s16 *)((s32)a0 + 0x34) = 3;
-    *(s16 *)((s32)a0 + 0x2) = 1;
-    *(s32 *)((s32)a0 + 0x1C) = 0xA;
-}
+#define SHARED_FN func_80180BFC
+#include "../shared/ov/cls_2c6831e6ad3b.h"
+#undef SHARED_FN
 
 
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
-void func_80180C74(void *a0)
-{
-    s32 result;
-
-    func_8012B0B4((unsigned int *)&result, *(int *)((s32)a0 + 0xDC), 0x100);
-
-    *(s32 *)((s32)a0 + 0x8) = result;
-    *(s16 *)((s32)a0 + 0xA) += *(s16 *)((s32)a0 + 0xE2);
-    *(s32 *)((s32)a0 + 0xDC) += 0x18;
-
-    if (*(s32 *)((s32)a0 + 0xDC) < 0x1000) {
-        return;
-    }
-
-    *(s16 *)((s32)a0 + 0x34) = 2;
-    *(s16 *)((s32)a0 + 0x2) = 1;
-    *(s32 *)((s32)a0 + 0x1C) = 0xA;
-}
+#define SHARED_FN func_80180C74
+#include "../shared/ov/cls_8e7cbde12e32.h"
+#undef SHARED_FN
 
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);

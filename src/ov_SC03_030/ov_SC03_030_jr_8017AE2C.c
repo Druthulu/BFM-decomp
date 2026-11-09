@@ -5450,26 +5450,9 @@ s32 func_80180054(SVec_80180054 *p, s32 dist)
 
 extern s16 D_80126CB4;
 
-s32 func_801801E8(void *arg0, s32 arg1) {
-    void *p;
-    s32 best;
-    s32 lim;
-    s32 w;
-    s32 val;
-
-    best = 0xFFFF;
-    p = arg0;
-    while (((Unkstruct_801801E8 *)p)->unk6 == 0) {
-        lim = (s16)arg1;
-        w = func_80013294(&D_80126CB4, p);
-        val = w & 0xFFFF;
-        if (val < lim && (u32)val < (u32)(u16)best) {
-            best = w;
-        }
-        p = (u8 *)p + 8;
-    }
-    return best & 0xFFFF;
-}
+#define SHARED_FN func_801801E8
+#include "../shared/ov/cls_a69b29886216.h"
+#undef SHARED_FN
 
 
 

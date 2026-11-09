@@ -3175,21 +3175,9 @@ s32 func_8017D9C4(void *a0) {
 }
 
 
-s32 func_8017D9E0(void *a0) {
-    s32 v0;
-    s32 v1 = -1;
-    v0 = ((Unkstruct_8017CF4C *)a0)->unk28;
-    v0 += -1;
-    ((Unkstruct_8017CF4C *)a0)->unk28 = v0;
-    if (v0 == v1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800167B8(4);
-        ((Unkstruct_8017CF4C *)a0)->unk15 = ((Unkstruct_8017CF4C *)a0)->unk15 + 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017D9E0
+#include "../shared/ov/cls_03e3b1afbd1e.h"
+#undef SHARED_FN
 
 
 extern int func_800167F0(int arg);

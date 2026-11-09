@@ -3373,19 +3373,9 @@ void func_8017CF3C(void) {
 
 
 
-    s32 func_8017CF5C(u8 *a0) {
-        if (--(((Unkstruct_8017CF5C *)a0)->unk28) == -1) {
-            func_8002D4C8(0x1C, 0);
-            func_8001BFD0();
-            func_8002D4C8(0x1D, 0);
-            if ((func_80029178(0x117) & 0xFF) == 0) {
-                func_800D0C48(1);
-            }
-            func_800D1E28();
-            ((Unkstruct_8017CF5C *)a0)->unk15 += 1;
-        }
-        return 0;
-    }
+#define SHARED_FN func_8017CF5C
+#include "../shared/ov/cls_3a9d33bce73d.h"
+#undef SHARED_FN
 
 
 

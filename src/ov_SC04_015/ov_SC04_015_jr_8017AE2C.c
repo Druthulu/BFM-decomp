@@ -4166,12 +4166,9 @@ s32 func_8017D878(void) {
 extern void func_80011ADC(void);
 extern u8 D_800B9A10;
 
-s32 func_8017D880(s32 arg0) {
-    func_80011ADC();
-    CAST_ALIAS(s32, arg0, 8) &= 0x7F000000;
-    D_800B9A10 = 1;
-    return 0;
-}
+#define SHARED_FN func_8017D880
+#include "../shared/ov/cls_ee67434a65ec.h"
+#undef SHARED_FN
 
 
 

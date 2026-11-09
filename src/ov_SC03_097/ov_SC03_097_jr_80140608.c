@@ -1678,12 +1678,9 @@ void func_80142978(int param_1)
 extern u16 D_801270C0;
 extern void (*D_80187580[])();
 
-void func_801429C4(int param_1)
-{
-    if (*(s16 *)&D_801270C0 != 3) {
-        D_80187580[((Unkstruct_801427EC *)param_1)->unk2]();
-    }
-}
+#define SHARED_FN func_801429C4
+#include "../shared/ov/cls_12235c4b0181.h"
+#undef SHARED_FN
 
 
 

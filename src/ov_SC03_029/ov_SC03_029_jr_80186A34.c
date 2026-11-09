@@ -3416,13 +3416,9 @@ s32 func_80186ECC_def(s32 a0, s32 a1) {
 
 
 extern s32 rand(void);
-    void func_80186F60(s32 arg0) {
-        if ((rand() & 1) != 0) {
-            ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0x1;
-        } else {
-            ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0x3;
-        }
-    }
+#define SHARED_FN func_80186F60
+#include "../shared/ov/cls_01f5b7361985.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -3461,16 +3457,9 @@ void func_80186F9C(s32 a0, s32 a1, s32 a2) {
 
 extern void func_8012C218(void*);
 
-void func_80187050(void *arg0) {
-    int iVar1;
-    if ((((Unkstruct_800B5CB8 *)arg0)->unk70 & 0x8000) == 0) {
-        iVar1 = ((Unkstruct_800B5CB8 *)arg0)->unk68;
-        if ((iVar1 != 0) && ((CAST_SIGN(s16, (char *)arg0, 0x72) & 0x8000) != 0)) {
-            *(unsigned short *)(iVar1 + 10) = *(unsigned short *)(iVar1 + 10) & 0x7FFF;
-        }
-    }
-    func_8012C218(arg0);
-}
+#define SHARED_FN func_80187050
+#include "../shared/ov/cls_a43335e76e75.h"
+#undef SHARED_FN
 
 
 extern void Square0(s32 *a0, s32 *a1);

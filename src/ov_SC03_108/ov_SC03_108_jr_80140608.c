@@ -1629,12 +1629,9 @@ ad50:
 extern u16 D_801270C0;
 extern void (*D_801820E8[])();
 
-void func_801427EC(int param_1)
-{
-    if (*(s16 *)&D_801270C0 != 3) {
-        D_801820E8[((Unkstruct_801427EC *)param_1)->unk2]();
-    }
-}
+#define SHARED_FN func_801427EC
+#include "../shared/ov/cls_9a5cc4d23957.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80142838.h"

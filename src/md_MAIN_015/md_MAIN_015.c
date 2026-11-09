@@ -117,14 +117,9 @@ void func_800CAF9C(s32 a0) {
 extern s32 func_80161208();
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-void func_800CB140(s32 *a0) {
-    if (func_80161208() == 0) {
-        if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
-            func_801599A4(a0);
-            func_80159B3C(a0);
-        }
-    }
-}
+#define SHARED_FN func_800CB140
+#include "../shared/slot_800CAE08/cls_f92011837a51.h"
+#undef SHARED_FN
 
 
 extern void func_80154A74(s32 a0, s32 a1);

@@ -3110,12 +3110,9 @@ void func_8017E4E4(s32 arg0)
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-void func_8017E68C(s32 a0) {
-    if (((Unkstruct_800B5CB8 *)a0)->unkFC != 0) {
-        func_8002D4C8(4, 0x644);
-        ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
-    }
-}
+#define SHARED_FN func_8017E68C
+#include "../shared/ov/cls_49ba2ea054e2.h"
+#undef SHARED_FN
 
 
 

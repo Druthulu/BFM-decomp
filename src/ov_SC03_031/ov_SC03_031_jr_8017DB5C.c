@@ -3121,23 +3121,9 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
 
-s32 func_8017EB5C(s32 a0) {
-    s32 v = func_80029504();
-    s32 t = ((Unkstruct_8017EB5C *)a0)->unk28 - 1;
-
-    ((Unkstruct_8017EB5C *)a0)->unk28 = t;
-    if (t == -1) {
-        if (v < 200 && (u32)(v - 150) < 50) {
-            func_800D0C48(1);
-        }
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D1E28();
-        ((Unkstruct_8017EB5C *)a0)->unk15 += 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017EB5C
+#include "../shared/ov/cls_f57f984e069f.h"
+#undef SHARED_FN
 
 
 extern s32 func_800D1EBC(void);

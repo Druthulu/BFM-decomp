@@ -5327,31 +5327,9 @@ extern s32 func_801845DC(void);
 extern s32 func_80185F5C(void *a0);
 extern s32 func_80178BF8(void);
 
-s32 func_8017FA98(void *a0)
-{
-    void *s0 = a0;
-    void **v0p;
-    u16 v1;
-
-    v0p = (void **)(s0 + 0x64);
-    v1 = *(u16 *)(*v0p + 0x2);
-    if (v1 != 0x5) {
-        return 0;
-    }
-
-    if (func_801845DC() == 0) {
-        return 0;
-    }
-
-    if (func_80185F5C(*v0p) != 0) {
-        return 0;
-    }
-
-    *(u16 *)(*v0p + 0x2) = 0x6;
-    func_80178BF8();
-
-    return (s32)func_80172710;
-}
+#define SHARED_FN func_8017FA98
+#include "../shared/ov/cls_5207819a5c1e.h"
+#undef SHARED_FN
 
 
 

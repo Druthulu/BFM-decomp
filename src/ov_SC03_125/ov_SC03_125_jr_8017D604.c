@@ -3974,20 +3974,17 @@ void func_8017F8E4(void *a0) {
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-void func_8017FA8C(s32 a0) {
-    if (((Unkstruct_800B5CB8 *)a0)->unkFC != 0) {
-        func_8002D4C8(4, 0x644);
-        ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
-    }
-}
+#define SHARED_FN func_8017FA8C
+#include "../shared/ov/cls_49ba2ea054e2.h"
+#undef SHARED_FN
 
 
 
 extern void (*D_80188118[])(void);
 
-void func_8017FACC(void *a0) {
-    D_80188118[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017FACC
+#include "../shared/ov/cls_00715bceb591.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);

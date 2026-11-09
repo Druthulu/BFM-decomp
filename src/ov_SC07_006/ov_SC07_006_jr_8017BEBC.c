@@ -3320,19 +3320,9 @@ extern void func_8012A018(s32 a, s32 b);
 extern void func_8012A094(s32 a0);
 void func_8017D0F4(void *a0);
 
-void func_8017CFA4(void) {
-    D_80126954 = 0x190;
-    D_8012695C = 0x4B0;
-    D_80126968 = 0x155;
-    D_8012696A = 0x800;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = -0x20;
-    D_8012697A = 0;
-    func_8012A018((s32)func_8017D0F4, 0);
-    func_8012A094((s32)D_80126948);
-    func_8017D0F4(D_80126948);
-}
+#define SHARED_FN func_8017CFA4
+#include "../shared/ov/cls_365899ba70f7.h"
+#undef SHARED_FN
 
 
 

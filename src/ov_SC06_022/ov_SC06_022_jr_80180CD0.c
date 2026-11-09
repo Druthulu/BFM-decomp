@@ -2994,31 +2994,9 @@ void func_80180FB4(s32 self)
 }
 
 
-void func_801810C0(s32 self)
-{
-    u16 sv[4];
-    u16 scratch[4];
-    s32 obj;
-
-    func_8004914C((void *)(*(s32 *)(self + 0x20) + 0x54));
-    func_800491AC((void *)(*(s32 *)(self + 0x20) + 0x54));
-
-    sv[1] = 0;
-    sv[0] = 0;
-    *(s16 *)&sv[2] = -0x40;
-    RotTransSV(&sv[0], &sv[0], &scratch[0]);
-
-    obj = func_80132EF4(self, 0x23);
-    if (obj != 0) {
-        u16 c;
-        ((Unkstruct_800B5CB8 *)obj)->unk6 = sv[0];
-        ((Unkstruct_800B5CB8 *)obj)->unkA = sv[1];
-        c = sv[2];
-        ((Unkstruct_800B5CB8 *)obj)->unk34 = 0x4001;
-        ((Unkstruct_800B5CB8 *)obj)->unkE = c;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk2C = 0xC008;
-    }
-}
+#define SHARED_FN func_801810C0
+#include "../shared/ov/cls_9b9f6fec2556.h"
+#undef SHARED_FN
 
 
 
@@ -3095,20 +3073,9 @@ extern void func_8012B23C(s32 a0);
 extern s32 rand(void);
 extern void func_8012AD44(s32 *a0, s16 a1);
 
-void func_801812F8(s32 a0) {
-    func_8012B23C(a0);
-    CAST_WIDTH(s32, a0, 0x10) = ((rand() & 0x7F) - 0x40) << 11;
-    ((Unkstruct_800B5CB8 *)a0)->unk14 = -((rand() & 0x7F) << 13);
-    CAST_WIDTH(s32, a0, 0x18) = (rand() & 0x7F) << 13;
-    ((Unkstruct_800B5CB8 *)a0)->unk106 = rand() & 0x1F0;
-    ((Unkstruct_800B5CB8 *)a0)->unk108 = rand() & 0x1F0;
-    *(s16 *)(a0 + 0xE6) = 8;
-    {
-        s32 v = ((Unkstruct_800B5CB8 *)a0)->unk70;
-        CAST_WIDTH(s16, a0, 0xE4) = v << 1;
-    }
-    ((void (*)(s32, s32))func_8012AD44)(a0, 1);
-}
+#define SHARED_FN func_801812F8
+#include "../shared/ov/cls_68d72a52b3dc.h"
+#undef SHARED_FN
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -3141,13 +3108,9 @@ void func_801813C8(int param_1)
 
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 
-void func_80181418(s32 arg0) {
-    s32 i;
-
-    for (i = 0; i < 20; i++) {
-        func_8012C658(0x311, i, arg0);
-    }
-}
+#define SHARED_FN func_80181418
+#include "../shared/ov/cls_9dd991207364.h"
+#undef SHARED_FN
 
 
 extern s32 func_80132EF4(s32 a0, s32 a1);

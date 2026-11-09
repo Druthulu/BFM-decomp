@@ -10298,16 +10298,9 @@ void func_80187D68(void *a0)
 }
 
 
-void func_80188054(short *a0, short *a1) {
-    short *dst = a0;
-
-    if (dst != NULL) {
-        dst[4] = a1[0];
-        dst[5] = a1[1];
-        dst[6] = a1[2];
-        ((Unkstruct_801803BC_2 *)dst)->unk4 = ((Unkstruct_801803BC_2 *)dst)->unk4 & 0x7FFFFFFF;
-    }
-}
+#define SHARED_FN func_80188054
+#include "../shared/ov/cls_5c960b67c15d.h"
+#undef SHARED_FN
 
 
 #include "common.h"

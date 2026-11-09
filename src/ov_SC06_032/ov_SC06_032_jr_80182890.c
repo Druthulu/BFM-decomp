@@ -5823,22 +5823,9 @@ s32 a0;
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 
-void func_80186E18(s32 param_1)
-{
-    s32 result;
-    u16 val_e4;
-
-    result = func_80132EF4(param_1, 0x23);
-    if (result != 0) {
-        ((Unkstruct_800B5CB8 *)result)->unk6 = *(u16 *)(param_1 + 0xE0);
-        ((Unkstruct_800B5CB8 *)result)->unkA = *(u16 *)(param_1 + 0xE2);
-        val_e4 = *(u16 *)(param_1 + 0xE4);
-        ((Unkstruct_800B5CB8 *)result)->unk34 = 0x3001;
-        ((Unkstruct_800B5CB8 *)result)->unkE = val_e4;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(result + 0x20))->unk2C = 0xC008;
-        *(u32 *)(((Unkstruct_800B5CB8 *)result)->unk20 + 0x4) |= 0x50000000;
-    }
-}
+#define SHARED_FN func_80186E18
+#include "../shared/ov/cls_6283fd0b43b5.h"
+#undef SHARED_FN
 
 
 #include "common.h"

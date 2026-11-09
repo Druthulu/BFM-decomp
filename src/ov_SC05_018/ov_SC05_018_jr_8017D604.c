@@ -3486,21 +3486,9 @@ void func_8017EF88(s32 a0) {
 
 extern s32 func_8012E544(s32 arg);
 
-void func_8017EFE0() {
-    s32 v1;
-
-    v1 = func_8012E544(0x19C);
-    if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unkFC = 0;
-    }
-
-    v1 = func_8012E544(0x29A);
-    if (v1 != 0) {
-        CAST_ALIAS(s16, v1, 6) = -0x180;
-        CAST_ALIAS(s16, v1, 10) = -0x380;
-        ((Unkstruct_800B5CB8 *)v1)->unkE = 0x6A0;
-    }
-}
+#define SHARED_FN func_8017EFE0
+#include "../shared/ov/cls_0427f0d9f47c.h"
+#undef SHARED_FN
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
@@ -3613,21 +3601,9 @@ void func_8017F254(s32 a0) {
 
 extern s32 func_8012E544(s32 arg);
 
-void func_8017F2BC() {
-    s32 v1;
-
-    v1 = func_8012E544(0x19C);
-    if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unkFC = 0;
-    }
-
-    v1 = func_8012E544(0x29A);
-    if (v1 != 0) {
-        CAST_ALIAS(s16, v1, 6) = -0x180;
-        CAST_ALIAS(s16, v1, 10) = -0x380;
-        ((Unkstruct_800B5CB8 *)v1)->unkE = 0x6A0;
-    }
-}
+#define SHARED_FN func_8017F2BC
+#include "../shared/ov/cls_0427f0d9f47c.h"
+#undef SHARED_FN
 
 
 

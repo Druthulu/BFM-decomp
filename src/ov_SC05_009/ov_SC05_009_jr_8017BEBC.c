@@ -3378,17 +3378,9 @@ extern void func_80154150(s32 a0, s32 a1);
 extern void func_80171A1C(u8 *a0);
 extern s32 func_80174650(s32);
 
-void func_8017DEB0(s32 a0) {
-    func_80147AD4(a0, 0, 0, 0x20000);
-    func_801473EC((s32 *)a0);
-    func_8014C010(a0, 2);
-    if (((Unkstruct_80126B58 *)a0)->unk2C > 0) {
-        ((void (*)(s32))func_8001AAA0)(0x6B);
-        func_80154150(a0, 1);
-        func_80171A1C((u8 *)a0);
-        func_80174650(a0);
-    }
-}
+#define SHARED_FN func_8017DEB0
+#include "../shared/ov/cls_3e9ffd459a7c.h"
+#undef SHARED_FN
 
 
 void func_8017DF2C(void) {

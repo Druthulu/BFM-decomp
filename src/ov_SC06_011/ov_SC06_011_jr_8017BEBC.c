@@ -2817,12 +2817,9 @@ void func_8017CF60(void *a0) {
 extern void func_8017D24C(void);
 extern void func_800167B8(s32 a0);
 
-s32 func_8017CF9C(s32 a0) {
-    func_8017D24C();
-    func_800167B8(0);
-    ((Unkstruct_8017CA8C *)a0)->unk15 += 1;
-    return 0;
-}
+#define SHARED_FN func_8017CF9C
+#include "../shared/ov/cls_a6536e1c5ad8.h"
+#undef SHARED_FN
 
 
 
@@ -2866,12 +2863,9 @@ void func_8017D084(void *a0) {
 
 extern void func_8017D274(void);
 
-s32 func_8017D0C0(s32 a0) {
-    func_8017D274();
-    ((Unkstruct_8017CB30 *)a0)->unk28 = 10;
-    ((Unkstruct_8017CB30 *)a0)->unk15 += 1;
-    return 0;
-}
+#define SHARED_FN func_8017D0C0
+#include "../shared/ov/cls_ea411a4a9dfa.h"
+#undef SHARED_FN
 
 
 

@@ -4415,15 +4415,9 @@ u32 func_8017F0F8(s16 *param_1, s16 *param_2, s16 *param_3) {
 extern s16 D_80126CAC;
 extern s16 D_80126CB0;
 
-int func_8017F150(short *a0) {
-    int data[3];
-    data[0] = D_80126CAC - a0[0];
-    data[1] = 0;
-    data[2] = D_80126CB0 - a0[2];
-    gte_lwc2x3_sqr_6a00();
-    gte_swc2x3_66ca();
-    return (data[0] + data[1] + data[2]) - 0x90001U < 0x18FFF;
-}
+#define SHARED_FN func_8017F150
+#include "../shared/ov/cls_57b2f055f108.h"
+#undef SHARED_FN
 
 
 #include "common.h"
