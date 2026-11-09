@@ -3213,9 +3213,9 @@ tail:
 
 extern void (*D_80189D04[])(void);
 
-void func_80182654(void *a0) {
-    D_80189D04[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80182654
+#include "../shared/ov/cls_237d3d46bd02.h"
+#undef SHARED_FN
 
 
 extern void (*D_80189D24[])(void);

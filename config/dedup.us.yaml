@@ -32251,3 +32251,963 @@ groups:
     members:
       - { binary: ov_SC03_013, vram: 0x80169F00, name: func_80169F00 }
       - { binary: ov_SC07_000, vram: 0x80144054, name: func_80144054 }
+  - id: X_1ccf7e297e88
+    tier: h_exact
+    hash: 1ccf7e297e882d8a2141c1a02e7cf81f70c79088
+    source: src/shared/ov/cls_1ccf7e297e88.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_016, vram: 0x80169830, name: func_80169830 }
+      - { binary: ov_SC02_035, vram: 0x801678B4, name: func_801678B4 }
+  - id: X_1d57cfaaddec
+    tier: h_exact
+    hash: 1d57cfaaddec7cee539e8bda7371bf203880110b
+    source: src/shared/ov/cls_1d57cfaaddec.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_007, vram: 0x80157544, name: func_80157544 }
+      - { binary: ov_SC06_000, vram: 0x801425CC, name: func_801425CC }
+  - id: X_1d664381a11d
+    tier: h_exact
+    hash: 1d664381a11de836c791efc4851765d075779978
+    source: src/shared/ov/cls_1d664381a11d.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_074, vram: 0x80170748, name: func_80170748 }
+      - { binary: ov_SC04_012, vram: 0x801706AC, name: func_801706AC }
+  - id: X_1d799d2d38e3
+    tier: h_exact
+    hash: 1d799d2d38e3b99a682d2c479a66e4465fae5b03
+    source: src/shared/ov/cls_1d799d2d38e3.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_035, vram: 0x80155580, name: func_80155580 }
+      - { binary: ov_SC04_020, vram: 0x80168744, name: func_80168744 }
+  - id: X_1dd53ed4fe24
+    tier: h_exact
+    hash: 1dd53ed4fe2492674aadc33573d7e8774fb27ccb
+    source: src/shared/ov/cls_1dd53ed4fe24.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_114, vram: 0x8015BFF4, name: func_8015BFF4 }
+      - { binary: ov_SC05_000, vram: 0x801678B4, name: func_801678B4 }
+  - id: X_1e07be8dc845
+    tier: h_exact
+    hash: 1e07be8dc845d3e0ff166947616292b46bbb867f
+    source: src/shared/ov/cls_1e07be8dc845.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_108, vram: 0x80169830, name: func_80169830 }
+      - { binary: ov_SC05_007, vram: 0x8016C14C, name: func_8016C14C }
+  - id: X_1e46e0070a42
+    tier: h_exact
+    hash: 1e46e0070a424a4e7bdaebd6e1b1e26dd5dac048
+    source: src/shared/ov/cls_1e46e0070a42.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_095, vram: 0x80166618, name: func_80166618 }
+      - { binary: ov_SC04_003, vram: 0x80152370, name: func_80152370 }
+  - id: X_1e5cfa5d0ff2
+    tier: h_exact
+    hash: 1e5cfa5d0ff285138fb5582807c9942a91865c2b
+    source: src/shared/ov/cls_1e5cfa5d0ff2.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_100, vram: 0x80144054, name: func_80144054 }
+      - { binary: ov_SC04_000, vram: 0x801689D8, name: func_801689D8 }
+  - id: X_1e8a26b4513d
+    tier: h_exact
+    hash: 1e8a26b4513d7ce847a19d186dc1dcf428688d9e
+    source: src/shared/ov/cls_1e8a26b4513d.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_000, vram: 0x80159B70, name: func_80159B70 }
+      - { binary: ov_SC02_021, vram: 0x80143B30, name: func_80143B30 }
+  - id: X_1e9733f6b1fa
+    tier: h_exact
+    hash: 1e9733f6b1fa1e819ca8e6e2e56f2e0bf2a59805
+    source: src/shared/ov/cls_1e9733f6b1fa.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_026, vram: 0x80152B6C, name: func_80152B6C }
+      - { binary: ov_SC06_016, vram: 0x80169830, name: func_80169830 }
+  - id: X_1e98ca4aeb4a
+    tier: h_exact
+    hash: 1e98ca4aeb4a0a68050d9d353dc1b461377015fe
+    source: src/shared/ov/cls_1e98ca4aeb4a.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_104, vram: 0x801678B4, name: func_801678B4 }
+      - { binary: ov_SC03_124, vram: 0x80169F00, name: func_80169F00 }
+  - id: X_1ec8f5640d74
+    tier: h_exact
+    hash: 1ec8f5640d74a17dfa3e073645fd4fac04f75fde
+    source: src/shared/ov/cls_1ec8f5640d74.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_016, vram: 0x80170150, name: func_80170150 }
+      - { binary: ov_SC02_035, vram: 0x8016F9C4, name: func_8016F9C4 }
+  - id: X_1eee5a1952c0
+    tier: h_exact
+    hash: 1eee5a1952c028ec67b2a1cdf7c543c816949050
+    source: src/shared/ov/cls_1eee5a1952c0.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_074, vram: 0x80168AA8, name: func_80168AA8 }
+      - { binary: ov_SC04_012, vram: 0x801689D8, name: func_801689D8 }
+  - id: X_1faa5d3dd976
+    tier: h_exact
+    hash: 1faa5d3dd976dd8ac3cf02314a7a9daa807dee45
+    source: src/shared/ov/cls_1faa5d3dd976.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_030, vram: 0x8016FF30, name: func_8016FF30 }
+      - { binary: ov_SC06_006, vram: 0x80171064, name: func_80171064 }
+  - id: X_1fbe59562b6a
+    tier: h_exact
+    hash: 1fbe59562b6a817cb5c18bbe10d4c34388801c81
+    source: src/shared/ov/cls_1fbe59562b6a.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_001, vram: 0x80131EEC, name: func_80131EEC }
+      - { binary: ov_SC03_108, vram: 0x80169F00, name: func_80169F00 }
+  - id: X_2020958b07dc
+    tier: h_exact
+    hash: 2020958b07dc412c281c9ff24b911a68476ce777
+    source: src/shared/ov/cls_2020958b07dc.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_111, vram: 0x8016F9C4, name: func_8016F9C4 }
+      - { binary: ov_SC03_117, vram: 0x801702FC, name: func_801702FC }
+  - id: X_20415995eb79
+    tier: h_exact
+    hash: 20415995eb79aadac0f085dd4d1883fb0bda3670
+    source: src/shared/ov/cls_20415995eb79.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC04_015, vram: 0x8017F408, name: func_8017F408 }
+      - { binary: ov_SC06_008, vram: 0x80169F00, name: func_80169F00 }
+  - id: X_205a1fa86b1e
+    tier: h_exact
+    hash: 205a1fa86b1e9d6f8e0b18712c1a9c1b3c4cb8c1
+    source: src/shared/ov/cls_205a1fa86b1e.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_084, vram: 0x80131EEC, name: func_80131EEC }
+      - { binary: ov_SC03_125, vram: 0x80168744, name: func_80168744 }
+  - id: X_20796b1153e8
+    tier: h_exact
+    hash: 20796b1153e83253c5d5fe9c2872aec51a5208ee
+    source: src/shared/ov/cls_20796b1153e8.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC04_011, vram: 0x80188524, name: func_80188524 }
+      - { binary: ov_SC06_033, vram: 0x80166654, name: func_80166654 }
+  - id: X_20974f388080
+    tier: h_exact
+    hash: 20974f3880806e3f2cd6952192ffa8f5f6f6c516
+    source: src/shared/ov/cls_20974f388080.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_098, vram: 0x80168744, name: func_80168744 }
+      - { binary: ov_SC06_010, vram: 0x80143B30, name: func_80143B30 }
+  - id: X_20e689d7545c
+    tier: h_exact
+    hash: 20e689d7545c1ee209e18e450c74ccb7918a21f7
+    source: src/shared/ov/cls_20e689d7545c.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_110, vram: 0x80169F00, name: func_80169F00 }
+      - { binary: ov_SC06_030, vram: 0x80168744, name: func_80168744 }
+  - id: X_20ebe1f5b228
+    tier: h_exact
+    hash: 20ebe1f5b228bdcee8e635e686e84bde4a720bbb
+    source: src/shared/ov/cls_20ebe1f5b228.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_074, vram: 0x8016F834, name: func_8016F834 }
+      - { binary: ov_SC04_012, vram: 0x8016F798, name: func_8016F798 }
+  - id: X_20f25434c798
+    tier: h_exact
+    hash: 20f25434c798eba9e1d6ee6f874c73a6e9dbaf16
+    source: src/shared/ov/cls_20f25434c798.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_041, vram: 0x80170FB0, name: func_80170FB0 }
+      - { binary: ov_SC06_016, vram: 0x8016FA84, name: func_8016FA84 }
+  - id: X_21441910bc1f
+    tier: h_exact
+    hash: 21441910bc1f22a8e7b091104a88de32a56e488c
+    source: src/shared/ov/cls_21441910bc1f.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_093, vram: 0x80166654, name: func_80166654 }
+      - { binary: ov_SC03_097, vram: 0x80168AA8, name: func_80168AA8 }
+  - id: X_217a2b3909b1
+    tier: h_exact
+    hash: 217a2b3909b13da2bf1ce6e73802e9b680d6cc78
+    source: src/shared/ov/cls_217a2b3909b1.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_009, vram: 0x80168D58, name: func_80168D58 }
+      - { binary: ov_SC05_008, vram: 0x801678B4, name: func_801678B4 }
+  - id: X_21ad71b84722
+    tier: h_exact
+    hash: 21ad71b847226c646b9c0a848770d55c89c7160d
+    source: src/shared/ov/cls_21ad71b84722.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_035, vram: 0x80170548, name: func_80170548 }
+      - { binary: ov_SC04_015, vram: 0x8016FB7C, name: func_8016FB7C }
+  - id: X_21f8b9ae9ed6
+    tier: h_exact
+    hash: 21f8b9ae9ed62b94ff08fb5c2623b52bacb63697
+    source: src/shared/ov/cls_21f8b9ae9ed6.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_026, vram: 0x8016FFDC, name: func_8016FFDC }
+      - { binary: ov_SC03_102, vram: 0x8016F798, name: func_8016F798 }
+  - id: X_21fbff962e71
+    tier: h_exact
+    hash: 21fbff962e71b0e60ad82e1c2f30b2abf700e3b4
+    source: src/shared/ov/cls_21fbff962e71.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_030, vram: 0x801737E8, name: func_801737E8 }
+      - { binary: ov_SC06_030, vram: 0x801736FC, name: func_801736FC }
+  - id: X_21ff572202fb
+    tier: h_exact
+    hash: 21ff572202fb53e5709e3f871fb8e768249da737
+    source: src/shared/ov/cls_21ff572202fb.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_099, vram: 0x8015F324, name: func_8015F324 }
+      - { binary: ov_SC04_020, vram: 0x80160138, name: func_80160138 }
+  - id: X_220cb100c577
+    tier: h_exact
+    hash: 220cb100c5778cd74ba2f8fa6988e69a68852e9b
+    source: src/shared/ov/cls_220cb100c577.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC05_011, vram: 0x801706AC, name: func_801706AC }
+      - { binary: ov_SC07_009, vram: 0x8016F9C4, name: func_8016F9C4 }
+  - id: X_22964586ea4a
+    tier: h_exact
+    hash: 22964586ea4ada04faa4912e2e86986a1f40a7fc
+    source: src/shared/ov/cls_22964586ea4a.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_091, vram: 0x80144A2C, name: func_80144A2C }
+      - { binary: ov_SC06_029, vram: 0x80152698, name: func_80152698 }
+  - id: X_230ddb938949
+    tier: h_exact
+    hash: 230ddb938949f9fc50de441bd323e4cb3cb26b44
+    source: src/shared/ov/cls_230ddb938949.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_004, vram: 0x80170240, name: func_80170240 }
+      - { binary: ov_SC05_011, vram: 0x8016FC90, name: func_8016FC90 }
+  - id: X_231d0cdde3ef
+    tier: h_exact
+    hash: 231d0cdde3efc8347ff40777af1aa58da202d851
+    source: src/shared/ov/cls_231d0cdde3ef.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_000, vram: 0x80164EA4, name: func_80164EA4 }
+      - { binary: ov_SC03_010, vram: 0x80143C38, name: func_80143C38 }
+  - id: X_23559a3802a9
+    tier: h_exact
+    hash: 23559a3802a98bb46d2b840708c9ca3c045c93ed
+    source: src/shared/ov/cls_23559a3802a9.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_121, vram: 0x80131FA0, name: func_80131FA0 }
+      - { binary: ov_SC04_003, vram: 0x80131F64, name: func_80131F64 }
+  - id: X_235d86ef5953
+    tier: h_exact
+    hash: 235d86ef5953b1fb11fee89a8ec083fe66c1b6f6
+    source: src/shared/ov/cls_235d86ef5953.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_096, vram: 0x8015282C, name: func_8015282C }
+      - { binary: ov_SC05_007, vram: 0x80153320, name: func_80153320 }
+  - id: X_2366a286c64c
+    tier: h_exact
+    hash: 2366a286c64c53de36e0eea01fb186f8c1ee2ace
+    source: src/shared/ov/cls_2366a286c64c.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_074, vram: 0x8016C14C, name: func_8016C14C }
+      - { binary: ov_SC06_014, vram: 0x80143C38, name: func_80143C38 }
+  - id: X_237d3d46bd02
+    tier: h_exact
+    hash: 237d3d46bd021a50f3270ed237173e0bd1f1e284
+    source: src/shared/ov/cls_237d3d46bd02.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_077, vram: 0x8016B4BC, name: func_8016B4BC }
+      - { binary: ov_SC03_002, vram: 0x80182654, name: func_80182654 }
+  - id: X_244ec630ef2e
+    tier: h_exact
+    hash: 244ec630ef2e2d2b1f419da021aca3e47cc28901
+    source: src/shared/ov/cls_244ec630ef2e.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_029, vram: 0x80143B30, name: func_80143B30 }
+      - { binary: ov_SC03_112, vram: 0x8017C150, name: func_8017C150 }
+  - id: X_245a09ff59b7
+    tier: h_exact
+    hash: 245a09ff59b7c779d36fd230959c667deccb0365
+    source: src/shared/ov/cls_245a09ff59b7.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_095, vram: 0x8015BFF4, name: func_8015BFF4 }
+      - { binary: ov_SC06_006, vram: 0x801449C8, name: func_801449C8 }
+  - id: X_247908ede9c9
+    tier: h_exact
+    hash: 247908ede9c9d689cdb126b2b6be06137f37f271
+    source: src/shared/ov/cls_247908ede9c9.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_001, vram: 0x8016DF20, name: func_8016DF20 }
+      - { binary: ov_SC03_006, vram: 0x8018189C, name: func_8018189C }
+  - id: X_249250d08a19
+    tier: h_exact
+    hash: 249250d08a19453ffcda82f41c14ab97a3eb4934
+    source: src/shared/ov/cls_249250d08a19.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_002, vram: 0x80180040, name: func_80180040 }
+      - { binary: ov_SC05_001, vram: 0x8017E778, name: func_8017E778 }
+  - id: X_24e73ea873b7
+    tier: h_exact
+    hash: 24e73ea873b77343322db78fe761902d3a555607
+    source: src/shared/ov/cls_24e73ea873b7.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_125, vram: 0x8017EFB0, name: func_8017EFB0 }
+      - { binary: ov_SC06_016, vram: 0x8016A020, name: func_8016A020 }
+  - id: X_25148c18167a
+    tier: h_exact
+    hash: 25148c18167a12e53592542315fdb82fd3986354
+    source: src/shared/ov/cls_25148c18167a.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_080, vram: 0x80131EEC, name: func_80131EEC }
+      - { binary: ov_SC05_007, vram: 0x80169830, name: func_80169830 }
+  - id: X_251887961fec
+    tier: h_exact
+    hash: 251887961fec9ff5bb666cb24b6eec4b13b5355f
+    source: src/shared/ov/cls_251887961fec.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_112, vram: 0x80160138, name: func_80160138 }
+      - { binary: ov_SC06_008, vram: 0x8015E8E8, name: func_8015E8E8 }
+  - id: X_25426112e459
+    tier: h_exact
+    hash: 25426112e4597d56eda3480d4693ff03eab87591
+    source: src/shared/ov/cls_25426112e459.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_016, vram: 0x80159B70, name: func_80159B70 }
+      - { binary: ov_SC03_125, vram: 0x80166018, name: func_80166018 }
+  - id: X_2558c525c8eb
+    tier: h_exact
+    hash: 2558c525c8ebca538b29d7aab25a6b3bb46a204f
+    source: src/shared/ov/cls_2558c525c8eb.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_027, vram: 0x8016901C, name: func_8016901C }
+      - { binary: ov_SC03_091, vram: 0x80143B30, name: func_80143B30 }
+  - id: X_257ab6ac69b1
+    tier: h_exact
+    hash: 257ab6ac69b1d15ffeea1886cb97aab40af35aca
+    source: src/shared/ov/cls_257ab6ac69b1.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_041, vram: 0x80170BD8, name: func_80170BD8 }
+      - { binary: ov_SC06_016, vram: 0x8016F6E0, name: func_8016F6E0 }
+  - id: X_25c7eb12eb75
+    tier: h_exact
+    hash: 25c7eb12eb75172ca4ef3f86b71218146e3e79b0
+    source: src/shared/ov/cls_25c7eb12eb75.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_011, vram: 0x80168744, name: func_80168744 }
+      - { binary: ov_SC03_116, vram: 0x80144A2C, name: func_80144A2C }
+  - id: X_267d07d0439c
+    tier: h_exact
+    hash: 267d07d0439ca24bc6971f56e20ac7772fb1e772
+    source: src/shared/ov/cls_267d07d0439c.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC06_008, vram: 0x8015824C, name: func_8015824C }
+      - { binary: ov_SC06_025, vram: 0x80166018, name: func_80166018 }
+  - id: X_26b0ae926c2e
+    tier: h_exact
+    hash: 26b0ae926c2e41768dcd30bbc17f57967800d911
+    source: src/shared/ov/cls_26b0ae926c2e.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_107, vram: 0x8015C714, name: func_8015C714 }
+      - { binary: ov_SC07_007, vram: 0x80152B6C, name: func_80152B6C }
+  - id: X_26d0313571d7
+    tier: h_exact
+    hash: 26d0313571d778dac75b733f85177fcfb9810e61
+    source: src/shared/ov/cls_26d0313571d7.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_031, vram: 0x8016B4BC, name: func_8016B4BC }
+      - { binary: ov_SC06_016, vram: 0x80166654, name: func_80166654 }
+  - id: X_26d18b11a046
+    tier: h_exact
+    hash: 26d18b11a046b7a5708d1f124975d2972078aa66
+    source: src/shared/ov/cls_26d18b11a046.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_010, vram: 0x80170FB0, name: func_80170FB0 }
+      - { binary: ov_SC06_014, vram: 0x80170810, name: func_80170810 }
+  - id: X_2726afa4c914
+    tier: h_exact
+    hash: 2726afa4c9144b29e11a46f61ffc53c838c96323
+    source: src/shared/ov/cls_2726afa4c914.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_091, vram: 0x80152D24, name: func_80152D24 }
+      - { binary: ov_SC03_104, vram: 0x8017C524, name: func_8017C524 }
+  - id: X_274701a2266d
+    tier: h_exact
+    hash: 274701a2266dcab6ae4a6b9e540812c9850225cf
+    source: src/shared/ov/cls_274701a2266d.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_021, vram: 0x80157DC4, name: func_80157DC4 }
+      - { binary: ov_SC06_015, vram: 0x8016E5B8, name: func_8016E5B8 }
+  - id: X_277e4b12cac2
+    tier: h_exact
+    hash: 277e4b12cac263d8dd2090ceedef1394e04aca50
+    source: src/shared/ov/cls_277e4b12cac2.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_113, vram: 0x80131EEC, name: func_80131EEC }
+      - { binary: ov_SC05_002, vram: 0x80169B80, name: func_80169B80 }
+  - id: X_278ad466968f
+    tier: h_exact
+    hash: 278ad466968fad02252ff29d99504cdd71006157
+    source: src/shared/ov/cls_278ad466968f.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_092, vram: 0x801729F0, name: func_801729F0 }
+      - { binary: ov_SC06_025, vram: 0x801737E8, name: func_801737E8 }
+  - id: X_27cfb9694a4c
+    tier: h_exact
+    hash: 27cfb9694a4c51a112b7eafcbf82768a159cee89
+    source: src/shared/ov/cls_27cfb9694a4c.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_016, vram: 0x8015E8E8, name: func_8015E8E8 }
+      - { binary: ov_SC02_035, vram: 0x8015DE58, name: func_8015DE58 }
+  - id: X_27fb2219b67e
+    tier: h_exact
+    hash: 27fb2219b67e2bcf69766bdd72504d64a2a67587
+    source: src/shared/ov/cls_27fb2219b67e.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_110, vram: 0x80159B70, name: func_80159B70 }
+      - { binary: ov_SC07_001, vram: 0x80169830, name: func_80169830 }
+  - id: X_2899c7af5711
+    tier: h_exact
+    hash: 2899c7af57119f31d3f633807b926c5ee280040b
+    source: src/shared/ov/cls_2899c7af5711.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_074, vram: 0x8016FA84, name: func_8016FA84 }
+      - { binary: ov_SC04_012, vram: 0x8016F9C4, name: func_8016F9C4 }
+  - id: X_28a39c191afb
+    tier: h_exact
+    hash: 28a39c191afb8f00bcc23eeb1f40e6459e7d9276
+    source: src/shared/ov/cls_28a39c191afb.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_000, vram: 0x8017390C, name: func_8017390C }
+      - { binary: ov_SC06_013, vram: 0x80174384, name: func_80174384 }
+  - id: X_28c21c4d6fb8
+    tier: h_exact
+    hash: 28c21c4d6fb86058cc434263fbe69f8829a12eb2
+    source: src/shared/ov/cls_28c21c4d6fb8.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_026, vram: 0x80170240, name: func_80170240 }
+      - { binary: ov_SC03_102, vram: 0x8016F8E4, name: func_8016F8E4 }
+  - id: X_28d93b9f81ff
+    tier: h_exact
+    hash: 28d93b9f81ff65ccb3bc268d087a1ef8405327a7
+    source: src/shared/ov/cls_28d93b9f81ff.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_012, vram: 0x801704B0, name: func_801704B0 }
+      - { binary: ov_SC04_010, vram: 0x8016FC90, name: func_8016FC90 }
+  - id: X_2909e1b5ab1f
+    tier: h_exact
+    hash: 2909e1b5ab1f2ca17f18c0776a2e7f1986e9bc8e
+    source: src/shared/ov/cls_2909e1b5ab1f.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_021, vram: 0x8017F590, name: func_8017F590 }
+      - { binary: ov_SC05_004, vram: 0x80157544, name: func_80157544 }
+  - id: X_2935fa4aa662
+    tier: h_exact
+    hash: 2935fa4aa662f5067c21821baa9aefdd9191042d
+    source: src/shared/ov/cls_2935fa4aa662.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_026, vram: 0x80163A58, name: func_80163A58 }
+      - { binary: ov_SC02_041, vram: 0x8017E890, name: func_8017E890 }
+  - id: X_2948d6ace365
+    tier: h_exact
+    hash: 2948d6ace3654827f7d64627cbbeaf8cc339e74c
+    source: src/shared/ov/cls_2948d6ace365.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC04_000, vram: 0x8016DF20, name: func_8016DF20 }
+      - { binary: ov_SC04_020, vram: 0x8016CB84, name: func_8016CB84 }
+  - id: X_294dfcc0c06b
+    tier: h_exact
+    hash: 294dfcc0c06bfbbd67bbc8ed67dc10f16703b3f2
+    source: src/shared/ov/cls_294dfcc0c06b.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_002, vram: 0x8017F3A4, name: func_8017F3A4 }
+      - { binary: ov_SC03_102, vram: 0x8016C14C, name: func_8016C14C }
+  - id: X_296153b3abbb
+    tier: h_exact
+    hash: 296153b3abbb77d6a18edd8b512959398e671197
+    source: src/shared/ov/cls_296153b3abbb.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_006, vram: 0x801703E0, name: func_801703E0 }
+      - { binary: ov_SC06_029, vram: 0x80171120, name: func_80171120 }
+  - id: X_297dc1a560b4
+    tier: h_exact
+    hash: 297dc1a560b4ee94766badf5b70b25b2902167a6
+    source: src/shared/ov/cls_297dc1a560b4.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_004, vram: 0x80169F00, name: func_80169F00 }
+      - { binary: ov_SC04_010, vram: 0x80164EA4, name: func_80164EA4 }
+  - id: X_29d293fc10ab
+    tier: h_exact
+    hash: 29d293fc10abf6319eb849ebfd9f64eb32998416
+    source: src/shared/ov/cls_29d293fc10ab.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_031, vram: 0x80168D58, name: func_80168D58 }
+      - { binary: ov_SC04_003, vram: 0x8016B4BC, name: func_8016B4BC }
+  - id: X_2a1b9e3b69d2
+    tier: h_exact
+    hash: 2a1b9e3b69d2fa93990e6716a9c68cca99132d0d
+    source: src/shared/ov/cls_2a1b9e3b69d2.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_074, vram: 0x80170548, name: func_80170548 }
+      - { binary: ov_SC04_012, vram: 0x801704B0, name: func_801704B0 }
+  - id: X_2a1f87c45ab9
+    tier: h_exact
+    hash: 2a1f87c45ab9903efcb7670619712481cfaec7bb
+    source: src/shared/ov/cls_2a1f87c45ab9.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC04_010, vram: 0x80169F00, name: func_80169F00 }
+      - { binary: ov_SC06_015, vram: 0x8015AD3C, name: func_8015AD3C }
+  - id: X_2a31f6a3cd75
+    tier: h_exact
+    hash: 2a31f6a3cd7594ff97e13e73289fdafccff6f87f
+    source: src/shared/ov/cls_2a31f6a3cd75.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_125, vram: 0x8017C1F8, name: func_8017C1F8 }
+      - { binary: ov_SC05_001, vram: 0x80152D24, name: func_80152D24 }
+  - id: X_2a59137d7fe8
+    tier: h_exact
+    hash: 2a59137d7fe82ed2f641a5def1a2b6a900e58208
+    source: src/shared/ov/cls_2a59137d7fe8.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_074, vram: 0x8016F9C4, name: func_8016F9C4 }
+      - { binary: ov_SC04_012, vram: 0x8016F8E4, name: func_8016F8E4 }
+  - id: X_2a9907a1802c
+    tier: h_exact
+    hash: 2a9907a1802cacaad4cdcaf325dd930409295ec7
+    source: src/shared/ov/cls_2a9907a1802c.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_041, vram: 0x8016F6E0, name: func_8016F6E0 }
+      - { binary: ov_SC03_092, vram: 0x80170BD8, name: func_80170BD8 }
+  - id: X_2aabdf7eb7bf
+    tier: h_exact
+    hash: 2aabdf7eb7bf60b474edf13f55e2e5bf6de8483b
+    source: src/shared/ov/cls_2aabdf7eb7bf.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_029, vram: 0x80181838, name: func_80181838 }
+      - { binary: ov_SC03_089, vram: 0x80157FC4, name: func_80157FC4 }
+  - id: X_2ae4b4688bb9
+    tier: h_exact
+    hash: 2ae4b4688bb96d828d4da27c44059f53fd7a35f8
+    source: src/shared/ov/cls_2ae4b4688bb9.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC06_024, vram: 0x80160EA4, name: func_80160EA4 }
+      - { binary: ov_SC06_029, vram: 0x80188D18, name: func_80188D18 }
+  - id: X_2b035bb02718
+    tier: h_exact
+    hash: 2b035bb02718c3def3add12484fce6870b1d188c
+    source: src/shared/ov/cls_2b035bb02718.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_006, vram: 0x80170150, name: func_80170150 }
+      - { binary: ov_SC06_029, vram: 0x80170EFC, name: func_80170EFC }
+  - id: X_2b13a042acd2
+    tier: h_exact
+    hash: 2b13a042acd20a84ae71967a27128dc7f61247ac
+    source: src/shared/ov/cls_2b13a042acd2.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_021, vram: 0x8017F40C, name: func_8017F40C }
+      - { binary: ov_SC05_007, vram: 0x801663FC, name: func_801663FC }
+  - id: X_2bcdf1a048bf
+    tier: h_exact
+    hash: 2bcdf1a048bf1b37e43cc48edb8952e08b782dad
+    source: src/shared/ov/cls_2bcdf1a048bf.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_094, vram: 0x80157544, name: func_80157544 }
+      - { binary: ov_SC06_000, vram: 0x80143C38, name: func_80143C38 }
+  - id: X_2bf5f447cc12
+    tier: h_exact
+    hash: 2bf5f447cc12a71abdf80a19e98703192dbfee13
+    source: src/shared/ov/cls_2bf5f447cc12.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_100, vram: 0x80170240, name: func_80170240 }
+      - { binary: ov_SC03_117, vram: 0x801706AC, name: func_801706AC }
+  - id: X_2c249f71beb2
+    tier: h_exact
+    hash: 2c249f71beb2d8a61fde33fe04655158f361a68d
+    source: src/shared/ov/cls_2c249f71beb2.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_115, vram: 0x8016F6E0, name: func_8016F6E0 }
+      - { binary: ov_SC06_011, vram: 0x8016FF30, name: func_8016FF30 }
+  - id: X_2c648e88ace0
+    tier: h_exact
+    hash: 2c648e88ace0ade368f64f19d9da5f2e0f34cb48
+    source: src/shared/ov/cls_2c648e88ace0.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC06_010, vram: 0x801449C8, name: func_801449C8 }
+      - { binary: ov_SC06_020, vram: 0x8016DF20, name: func_8016DF20 }
+  - id: X_2cc5fc512a01
+    tier: h_exact
+    hash: 2cc5fc512a01cbbcd88d8800d408047217257a76
+    source: src/shared/ov/cls_2cc5fc512a01.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_100, vram: 0x80167A9C, name: func_80167A9C }
+      - { binary: ov_SC03_117, vram: 0x80168D58, name: func_80168D58 }
+  - id: X_2d1d0cfabe55
+    tier: h_exact
+    hash: 2d1d0cfabe55dee1eab79fde989dc9f3cd2bb546
+    source: src/shared/ov/cls_2d1d0cfabe55.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_112, vram: 0x80171064, name: func_80171064 }
+      - { binary: ov_SC06_008, vram: 0x8016F834, name: func_8016F834 }
+  - id: X_2d46ed6a09d8
+    tier: h_exact
+    hash: 2d46ed6a09d8c1ffa7cf9c3a21fa0588238afb1d
+    source: src/shared/ov/cls_2d46ed6a09d8.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_121, vram: 0x80170150, name: func_80170150 }
+      - { binary: ov_SC04_003, vram: 0x8016FFDC, name: func_8016FFDC }
+  - id: X_2d65130f5a70
+    tier: h_exact
+    hash: 2d65130f5a7023c2b581c7147ee458d4a6291c7d
+    source: src/shared/ov/cls_2d65130f5a70.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_115, vram: 0x8016DEA4, name: func_8016DEA4 }
+      - { binary: ov_SC06_011, vram: 0x8016E5B8, name: func_8016E5B8 }
+  - id: X_2d6dcaf8d04b
+    tier: h_exact
+    hash: 2d6dcaf8d04bad51f71659242cb26d3a8f18520c
+    source: src/shared/ov/cls_2d6dcaf8d04b.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_004, vram: 0x8016FDB4, name: func_8016FDB4 }
+      - { binary: ov_SC05_011, vram: 0x8016F834, name: func_8016F834 }
+  - id: X_2d7418972076
+    tier: h_exact
+    hash: 2d7418972076afdbce41e3b02164e7bbfa55c567
+    source: src/shared/ov/cls_2d7418972076.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_080, vram: 0x80168D58, name: func_80168D58 }
+      - { binary: ov_SC03_125, vram: 0x80159B70, name: func_80159B70 }
+  - id: X_2de356cace62
+    tier: h_exact
+    hash: 2de356cace623841778a5cc5e2034c34ea0889ed
+    source: src/shared/ov/cls_2de356cace62.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC05_005, vram: 0x80157FC4, name: func_80157FC4 }
+      - { binary: ov_SC07_001, vram: 0x8016C14C, name: func_8016C14C }
+  - id: X_2df4e5fbae4d
+    tier: h_exact
+    hash: 2df4e5fbae4df050e2bf648b8830006cf89a0729
+    source: src/shared/ov/cls_2df4e5fbae4d.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_010, vram: 0x80131FDC, name: func_80131FDC }
+      - { binary: ov_SC04_010, vram: 0x80157544, name: func_80157544 }
+  - id: X_2e23bdaca778
+    tier: h_exact
+    hash: 2e23bdaca778df5fd344481cd1460a3fc34ab7c5
+    source: src/shared/ov/cls_2e23bdaca778.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_007, vram: 0x8016FB7C, name: func_8016FB7C }
+      - { binary: ov_SC05_018, vram: 0x8017EB48, name: func_8017EB48 }
+  - id: X_2e350de2936c
+    tier: h_exact
+    hash: 2e350de2936c570b8f16f4071e2d26b138ace44a
+    source: src/shared/ov/cls_2e350de2936c.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC04_000, vram: 0x80171260, name: func_80171260 }
+      - { binary: ov_SC04_020, vram: 0x8016FDB4, name: func_8016FDB4 }
+  - id: X_2ea806f1e9bc
+    tier: h_exact
+    hash: 2ea806f1e9bc6b32e2f54b58d1b442ed675a56b0
+    source: src/shared/ov/cls_2ea806f1e9bc.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_080, vram: 0x80166654, name: func_80166654 }
+      - { binary: ov_SC04_000, vram: 0x8016D428, name: func_8016D428 }
+  - id: X_2eef82924c44
+    tier: h_exact
+    hash: 2eef82924c448d2db6103a404223b2a938e26050
+    source: src/shared/ov/cls_2eef82924c44.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_100, vram: 0x8015A264, name: func_8015A264 }
+      - { binary: ov_SC03_117, vram: 0x8015BFF4, name: func_8015BFF4 }
+  - id: X_2f0d0bda76be
+    tier: h_exact
+    hash: 2f0d0bda76bedc89989d1d4d4e59ee6349023268
+    source: src/shared/ov/cls_2f0d0bda76be.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_030, vram: 0x801663FC, name: func_801663FC }
+      - { binary: ov_SC03_121, vram: 0x80163A58, name: func_80163A58 }
+  - id: X_2f9485b73833
+    tier: h_exact
+    hash: 2f9485b7383348c52bca21a83d35942964f2896b
+    source: src/shared/ov/cls_2f9485b73833.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_010, vram: 0x8017E04C, name: func_8017E04C }
+      - { binary: ov_SC05_002, vram: 0x8017BE60, name: func_8017BE60 }
+  - id: X_2fbc308da305
+    tier: h_exact
+    hash: 2fbc308da305af6505a5357d38bc05248d0f7d65
+    source: src/shared/ov/cls_2fbc308da305.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_015, vram: 0x80157DC4, name: func_80157DC4 }
+      - { binary: ov_SC07_009, vram: 0x8015A264, name: func_8015A264 }
+  - id: X_300bb475ae5e
+    tier: h_exact
+    hash: 300bb475ae5e0df809875ed9152ad5b2b9dd6b6d
+    source: src/shared/ov/cls_300bb475ae5e.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_041, vram: 0x80170E34, name: func_80170E34 }
+      - { binary: ov_SC06_016, vram: 0x8016F8E4, name: func_8016F8E4 }
+  - id: X_30233b5c9066
+    tier: h_exact
+    hash: 30233b5c9066b69b416855fc91cc934b07e150b8
+    source: src/shared/ov/cls_30233b5c9066.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC04_012, vram: 0x801742A4, name: func_801742A4 }
+      - { binary: ov_SC07_011, vram: 0x80172DAC, name: func_80172DAC }
+  - id: X_3028600966cf
+    tier: h_exact
+    hash: 3028600966cf4423a8a951d36e2a4c8f279e530c
+    source: src/shared/ov/cls_3028600966cf.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_121, vram: 0x801711C0, name: func_801711C0 }
+      - { binary: ov_SC04_003, vram: 0x80171120, name: func_80171120 }
+  - id: X_30813d55c5d2
+    tier: h_exact
+    hash: 30813d55c5d21d311e3747389c851d7d1b1d532e
+    source: src/shared/ov/cls_30813d55c5d2.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_011, vram: 0x8015BFF4, name: func_8015BFF4 }
+      - { binary: ov_SC03_096, vram: 0x801678B4, name: func_801678B4 }
+  - id: X_30d5b47b88d1
+    tier: h_exact
+    hash: 30d5b47b88d1ad7f89bcad70fc559be3ea86c2a6
+    source: src/shared/ov/cls_30d5b47b88d1.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC05_011, vram: 0x801425CC, name: func_801425CC }
+      - { binary: ov_SC06_013, vram: 0x80131FA0, name: func_80131FA0 }
+  - id: X_310f7863248a
+    tier: h_exact
+    hash: 310f7863248a27971c180040e1256d5a0f39ff2c
+    source: src/shared/ov/cls_310f7863248a.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_074, vram: 0x8016BBA4, name: func_8016BBA4 }
+      - { binary: ov_SC03_010, vram: 0x80143C98, name: func_80143C98 }
+  - id: X_3157decfbfb2
+    tier: h_exact
+    hash: 3157decfbfb229d4191c1aafc3f775b45f5b2227
+    source: src/shared/ov/cls_3157decfbfb2.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_114, vram: 0x801742A4, name: func_801742A4 }
+      - { binary: ov_SC06_015, vram: 0x801736FC, name: func_801736FC }
+  - id: X_3178a1139800
+    tier: h_exact
+    hash: 3178a11398006aa2056ead7e539390feb2e6fd1f
+    source: src/shared/ov/cls_3178a1139800.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_016, vram: 0x8017F4A0, name: func_8017F4A0 }
+      - { binary: ov_SC02_041, vram: 0x8016DEA4, name: func_8016DEA4 }
+  - id: X_318ac6ddf5c1
+    tier: h_exact
+    hash: 318ac6ddf5c1b38d9d8415102f4494df7ecf03fd
+    source: src/shared/ov/cls_318ac6ddf5c1.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_108, vram: 0x8015C714, name: func_8015C714 }
+      - { binary: ov_SC03_115, vram: 0x801693CC, name: func_801693CC }
+  - id: X_31b7b2541f07
+    tier: h_exact
+    hash: 31b7b2541f077524418ec73e7a96f3dabc29108c
+    source: src/shared/ov/cls_31b7b2541f07.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_112, vram: 0x80170EFC, name: func_80170EFC }
+      - { binary: ov_SC06_008, vram: 0x8016F6E0, name: func_8016F6E0 }
+  - id: X_31ef2839b1cd
+    tier: h_exact
+    hash: 31ef2839b1cde9e31956a2bd539b4bd27f372df3
+    source: src/shared/ov/cls_31ef2839b1cd.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_004, vram: 0x80153320, name: func_80153320 }
+      - { binary: ov_SC04_010, vram: 0x80143B30, name: func_80143B30 }
+  - id: X_3206945c31ad
+    tier: h_exact
+    hash: 3206945c31ad3cad68a242bb99e6aa02dc537b5f
+    source: src/shared/ov/cls_3206945c31ad.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC01_008, vram: 0x80152698, name: func_80152698 }
+      - { binary: ov_SC04_006, vram: 0x80143C38, name: func_80143C38 }
+  - id: X_326907023a05
+    tier: h_exact
+    hash: 326907023a0519db30186392fcc3be23354c9550
+    source: src/shared/ov/cls_326907023a05.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_004, vram: 0x8016DEA4, name: func_8016DEA4 }
+      - { binary: ov_SC07_009, vram: 0x8016C14C, name: func_8016C14C }
+  - id: X_32a89126d72a
+    tier: h_exact
+    hash: 32a89126d72a10145fbcad2b94500b054c5c2488
+    source: src/shared/ov/cls_32a89126d72a.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_112, vram: 0x80171260, name: func_80171260 }
+      - { binary: ov_SC06_008, vram: 0x8016FA84, name: func_8016FA84 }
+  - id: X_32b4f61ea468
+    tier: h_exact
+    hash: 32b4f61ea4683ba5c42d7ddb8817b491e6fb2cb2
+    source: src/shared/ov/cls_32b4f61ea468.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_028, vram: 0x801711C0, name: func_801711C0 }
+      - { binary: ov_SC03_090, vram: 0x8016FF30, name: func_8016FF30 }
+  - id: X_32c330243976
+    tier: h_exact
+    hash: 32c3302439765cfb275c7886fb761951f2c3ca9a
+    source: src/shared/ov/cls_32c330243976.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_097, vram: 0x80143E68, name: func_80143E68 }
+      - { binary: ov_SC03_125, vram: 0x8017C180, name: func_8017C180 }
+  - id: X_32fcb00302fb
+    tier: h_exact
+    hash: 32fcb00302fb55e733cf604c93f1db341e20c125
+    source: src/shared/ov/cls_32fcb00302fb.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_093, vram: 0x80157544, name: func_80157544 }
+      - { binary: ov_SC04_004, vram: 0x8017D798, name: func_8017D798 }
+  - id: X_334d3677a4f0
+    tier: h_exact
+    hash: 334d3677a4f010987802e0a5f196b8b4a9159a46
+    source: src/shared/ov/cls_334d3677a4f0.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_097, vram: 0x80152370, name: func_80152370 }
+      - { binary: ov_SC03_117, vram: 0x8016DEA4, name: func_8016DEA4 }
+  - id: X_33638784f794
+    tier: h_exact
+    hash: 33638784f794c81f6508706a56160d0677531a3e
+    source: src/shared/ov/cls_33638784f794.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC05_006, vram: 0x80143C98, name: func_80143C98 }
+      - { binary: ov_SC07_009, vram: 0x80168744, name: func_80168744 }
+  - id: X_336b0a575970
+    tier: h_exact
+    hash: 336b0a575970f3050b5cbf0a29c8cd739395a15d
+    source: src/shared/ov/cls_336b0a575970.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC03_031, vram: 0x8016C14C, name: func_8016C14C }
+      - { binary: ov_SC04_000, vram: 0x80157DC4, name: func_80157DC4 }
+  - id: X_3376612f0ee4
+    tier: h_exact
+    hash: 3376612f0ee4fd74de234f561a3a696e26e8d2fd
+    source: src/shared/ov/cls_3376612f0ee4.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC04_002, vram: 0x8017DF0C, name: func_8017DF0C }
+      - { binary: ov_SC06_000, vram: 0x80180794, name: func_80180794 }
+  - id: X_338c619976c3
+    tier: h_exact
+    hash: 338c619976c3328830bd6279ccfac27865c18d6f
+    source: src/shared/ov/cls_338c619976c3.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC04_006, vram: 0x80131EEC, name: func_80131EEC }
+      - { binary: ov_SC05_000, vram: 0x80155580, name: func_80155580 }
+  - id: X_33a2a6d7b0cd
+    tier: h_exact
+    hash: 33a2a6d7b0cde18fddd663014b0e18ba94e3da3f
+    source: src/shared/ov/cls_33a2a6d7b0cd.h
+    func: SHARED_FN
+    members:
+      - { binary: ov_SC02_015, vram: 0x8016B4BC, name: func_8016B4BC }
+      - { binary: ov_SC03_109, vram: 0x80169F00, name: func_80169F00 }

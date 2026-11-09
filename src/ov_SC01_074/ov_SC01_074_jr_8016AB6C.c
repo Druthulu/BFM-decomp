@@ -2346,9 +2346,9 @@ s32 func_8016B9F8(s32 param_1)
 
 extern void (*D_80181830[])(void);
 
-void func_8016BBA4(void *a0) {
-    D_80181830[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016BBA4
+#include "../shared/ov/cls_310f7863248a.h"
+#undef SHARED_FN
 
 
 // @class: plumbing
@@ -2571,9 +2571,9 @@ void func_8016BFD0(s32 a0, s32 a1, s32 a2, s32 a3, void *a4) {
 
 extern void (*D_80181860[])(void);
 
-void func_8016C14C(void *a0) {
-    D_80181860[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016C14C
+#include "../shared/ov/cls_2366a286c64c.h"
+#undef SHARED_FN
 
 
 extern void *func_801465C0(void);
@@ -3929,9 +3929,9 @@ void func_8016F798(void *a0) {
 
 extern void (*D_80181A5C[])(void);
 
-void func_8016F834(void *a0) {
-    D_80181A5C[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_8016F834
+#include "../shared/ov/cls_20ebe1f5b228.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016F870.h"
@@ -3953,9 +3953,9 @@ void func_8016F8E4(void *a0) {
 
 extern void (*D_80181A6C[])(void);
 
-void func_8016F9C4(void *a0) {
-    D_80181A6C[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_8016F9C4
+#include "../shared/ov/cls_2a59137d7fe8.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016FA00.h"
@@ -3965,9 +3965,9 @@ void func_8016F9C4(void *a0) {
 
 extern void (*D_80181A74[])(void);
 
-void func_8016FA84(void *a0) {
-    D_80181A74[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_8016FA84
+#include "../shared/ov/cls_2899c7af5711.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016FAC0.h"
@@ -4111,9 +4111,9 @@ void func_801704B0(void *a0) {
 
 extern void (*D_80181AE8[])(void);
 
-void func_80170548(void *a0) {
-    D_80181AE8[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_80170548
+#include "../shared/ov/cls_2a1b9e3b69d2.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80170584.h"
@@ -4147,9 +4147,9 @@ void func_801706AC(void *a0) {
 
 extern void (*D_80181B00[])(void);
 
-void func_80170748(void *a0) {
-    D_80181B00[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_80170748
+#include "../shared/ov/cls_1d664381a11d.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80170784.h"

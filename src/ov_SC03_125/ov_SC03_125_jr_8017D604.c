@@ -3459,9 +3459,9 @@ L38:
 
 extern void (*D_80187FB0[])(void);
 
-void func_8017EFB0(void *a0) {
-    D_80187FB0[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017EFB0
+#include "../shared/ov/cls_24e73ea873b7.h"
+#undef SHARED_FN
 
 
 extern s32 func_800D0F4C(int);

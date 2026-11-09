@@ -2267,9 +2267,9 @@ void func_8016B234(s32 param_1) {
 
 extern void (*D_80189D04[])(void);
 
-void func_8016B4BC(void *a0) {
-    D_80189D04[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016B4BC
+#include "../shared/ov/cls_237d3d46bd02.h"
+#undef SHARED_FN
 
 // @class: struct
 // @unstuck(P36): none — MATCH
