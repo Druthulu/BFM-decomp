@@ -7,10 +7,12 @@
 # Usage: tools/share_body_cycle.sh START END [R22_EVERY=2] [BUCKET=new]   (each batch ≈ 40–100 s, a fleet run ≈ 90 s — size a call to < 10 min)
 #   BUCKET (3.42 T4) is passed to `--bucket` (new | cross | …); labels <bucket><k>; logs under .run/3.42/share/; the CURRENT_PHASE.md
 #   entry is skipped when that file or its marker is absent.
+#   Commits (3.42 T5.c1) go through tools/commit_task.sh $TASK (default T5.c1) with explicit src/ config/ paths; R22 is not committed.
 set -o pipefail
 cd "$(dirname "$0")/.." || exit 2
 START=$1; END=$2; R22_EVERY=${3:-2}; BUCKET=${4:-new}
 PY=.venv/bin/python; [ -x "$PY" ] || PY=/usr/bin/python3
+TASK=${TASK:-T5.c1}   # 3.42 T5.c1: commit_task.sh task id for the batch commits
 LOGS=.run/3.42/share; mkdir -p "$LOGS" .run/3.42/baseline
 [ -n "$START" ] && [ -n "$END" ] || { echo "usage: $0 START END [R22_EVERY] [BUCKET]"; exit 2; }
 [ -z "$(git status --short -- src config)" ] || { echo "cycle: src/ or config/ is dirty — commit first (share_body edits a committed tree only)"; exit 3; }
@@ -37,10 +39,14 @@ entry = (f"\n- **S96 — T5 bucket `{bucket}`, batch {k}** (`run_{bucket}{k}.log
 if marker in t: p.write_text(t.replace(marker, entry + "\n" + marker, 1))
 print("log:", m1.groups(), m2.groups())
 EOF
-  git add -A src/shared && git add -u src config || exit 1
-  [ -f phase-ends/CURRENT_PHASE.md ] && { git add phase-ends/CURRENT_PHASE.md || exit 1; }
-  git commit -q -m "src(phase-35): T5 bucket $BUCKET batch $k — $(grep -oE 'registered [0-9]+ groups' "$log" | head -1), $(grep -oE '[0-9]+ sites in [0-9]+ TUs' "$log" | head -1) replaced by the include, $gated per binary, $(grep -oE 'rejected classes [0-9]+' "$log" | head -1) ledgered (share_body_cycle)" || exit 1
-  echo "cycle: batch $k committed $(git log --oneline -1 | cut -c1-9) — $gated, $(grep -oE 'rejected classes [0-9]+' "$log" | head -1)"
+  # 3.42 T5.c1: commit via commit_task.sh with explicit paths (every changed/new file under src/ and config/:
+  # sites, src/shared headers, dedup.us.yaml, rekeyed ledgers); was `git add -A src/shared && git add -u src config && git commit`.
+  mapfile -t paths < <(git status --porcelain --untracked-files=all -- src config | sed -E 's/^...//; s/^.* -> //')
+  [ -f phase-ends/CURRENT_PHASE.md ] && paths+=(phase-ends/CURRENT_PHASE.md)
+  msg="$BUCKET batch $BUCKET$k: $(grep -oE 'registered [0-9]+ groups' "$log" | head -1), $(grep -oE '[0-9]+ sites in [0-9]+ TUs' "$log" | head -1), $gated, $(grep -oE 'rejected classes [0-9]+' "$log" | head -1)"
+  if [ ${#paths[@]} -eq 0 ]; then echo "cycle: batch $k changed nothing under src/ config/ — no commit"
+  else bash tools/commit_task.sh "$TASK" "${msg:0:100}" "${paths[@]}" > "$LOGS/commit_$BUCKET$k.log" 2>&1 || { echo "cycle: batch $k — commit_task failed"; tail -3 "$LOGS/commit_$BUCKET$k.log"; exit 1; }
+    echo "cycle: batch $k committed $(git log --oneline -1 | cut -c1-9) — $gated, $(grep -oE 'rejected classes [0-9]+' "$log" | head -1)"; fi
   if [ $((k % R22_EVERY)) -eq 0 ]; then
     r22=.run/3.42/baseline/r22_t5_$BUCKET$k.log
     { /usr/bin/time -f "wall=%e s user=%U s sys=%S s" bash -c 'set -o pipefail; make clean && make extract-all JOBS=16 && make check-all JOBS=16'; echo "exit=$?"; } > "$r22" 2>&1
@@ -54,8 +60,8 @@ marker = "\n## Approved plan (verbatim, gate 1 — 2026-09-08)"
 entry = f"\n- **S96 — R22 after bucket `{bucket}` batch {k}** (`.run/3.42/baseline/r22_t5_{bucket}{k}.log`): `{line}` · `{wall}` · `exit=0`."
 if marker in t: p.write_text(t.replace(marker, entry + "\n" + marker, 1))
 EOF
-    { [ ! -f phase-ends/CURRENT_PHASE.md ] || git add phase-ends/CURRENT_PHASE.md; } && git commit -q --allow-empty -m "build(phase-35): T5 — R22 after bucket $BUCKET batch $k: clean fleet $line ($(grep -oE 'wall=[0-9.]+ s' "$r22"))" || exit 1
-    echo "cycle: R22 after batch $k — $line, committed $(git log --oneline -1 | cut -c1-9)"
+    # 3.42 T5.c1: no marker commit (commit_task.sh refuses an empty commit; was `git commit --allow-empty`); the result is this line + $r22.
+    echo "cycle: R22 after batch $k — $line ($(grep -oE 'wall=[0-9.]+ s' "$r22")) at $(git log --oneline -1 | cut -c1-9)"
   fi
 done
 echo "cycle: batches $START..$END done"
