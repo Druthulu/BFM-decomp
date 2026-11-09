@@ -4574,20 +4574,9 @@ void func_8017E2FC(s32 param_1, s16 *param_2) {
 }
 
 
-s32 func_8017E524(s16 *param_1, s16 *param_2) {
-    s32 result;
-
-    if (*param_1 < *param_2) {
-        result = 0;
-    } else if (param_2[1] < *param_1) {
-        result = 0;
-    } else if (param_1[2] < param_2[2]) {
-        result = 0;
-    } else {
-        result = param_1[2] <= param_2[3];
-    }
-    return result;
-}
+#define SHARED_FN func_8017E524
+#include "../shared/ov/cls_33064d2e7e6a.h"
+#undef SHARED_FN
 
 
 void func_8017E580(int param_1, short *param_2, short *param_3)

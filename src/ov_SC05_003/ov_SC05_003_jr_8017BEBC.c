@@ -3931,57 +3931,9 @@ s32 a0;
 extern s32 VectorNormalSS(void *a0, void *a1);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
-s32 func_8017F1AC(void *arg0) {
-
-    extern u16 D_80126B5E;
-    extern u16 D_80126B62;
-    extern u16 D_80126B66;
-    s16 pointA[3];
-    s16 pointB[3];
-    s16 diff[3];
-    s32 addr;
-
-    pointA[0] = D_80126B5E;
-    pointA[1] = D_80126B62;
-    pointA[2] = D_80126B66;
-
-    pointB[0] = ((Unkstruct_800B5CB8 *)arg0)->unk6;
-    pointB[1] = ((Unkstruct_800B5CB8 *)arg0)->unkA;
-    pointB[2] = ((Unkstruct_800B5CB8 *)arg0)->unkE;
-    pointA[1] = D_80126B62 - 0x2A;
-
-    addr = (((Unkstruct_800B5CB8 *)arg0)->unk58 & 0xFFFFFFF) | 0x80000000;
-
-    if (*(s16 *)(addr + 0x4) + pointB[0] > pointA[0]) {
-        return 0;
-    }
-    if (*(s16 *)(addr + 0x6) + pointB[0] < pointA[0]) {
-        return 0;
-    }
-    if (*(s16 *)(addr + 0xC) + pointB[2] > pointA[2]) {
-        return 0;
-    }
-    if (*(s16 *)(addr + 0xE) + pointB[2] < pointA[2]) {
-        return 0;
-    }
-    if (*(s16 *)(addr + 0x8) + pointB[1] > pointA[1]) {
-        return 0;
-    }
-    if (*(s16 *)(addr + 0xA) + pointB[1] < pointA[1]) {
-        goto ret0;
-    }
-
-    diff[0] = pointA[0] - pointB[0];
-    diff[1] = pointA[1] - pointB[1];
-    diff[2] = pointA[2] - pointB[2];
-
-    VectorNormalSS(diff, diff);
-    func_8012F568(1, 1, CAST_WIDTH(s16, (s32)arg0, 0xDC), 0xD, (s32)pointA, (s32)diff);
-    return 1;
-
-ret0:
-    return 0;
-}
+#define SHARED_FN func_8017F1AC
+#include "../shared/ov/cls_c1e5e73bd257.h"
+#undef SHARED_FN
 
 
 #include "../shared/engine_prelude.h"
@@ -4220,17 +4172,9 @@ void func_8017F880(void *arg0) {
 extern s16 D_80126CB4;
 extern s32 func_8012BE98(s32 a0, u16 *a1);
 
-void func_8017F8B8(param_1)
-void *param_1;
-{
-    if ((CAST_SIGN(u16, (s32)param_1, 0x70) & 1) != 0) {
-        return;
-    }
-    if (func_8012BE98((s32)param_1, (u16 *)&D_80126CB4) > 0x240000) {
-        return;
-    }
-    ((Unkstruct_800B5CB8 *)param_1)->unk2 = 0xC;
-}
+#define SHARED_FN func_8017F8B8
+#include "../shared/ov/cls_078b92a94665.h"
+#undef SHARED_FN
 
 
 extern s32 rand(void);
@@ -5023,38 +4967,9 @@ ret:
 extern void func_8012AD80(struct vec *a0);
 extern s32 func_80133784(s32, void*, s32);
 
-s32 func_80180B04(s32 a0, s32 a1, s32 a2) {
-    SV3_8012CC88 sp10;
-    SV3_8012CC88 sp18;
-    s32 v0;
-
-    sp10.vx = ((Unkstruct_800B5CB8 *)a0)->unk3A;
-    sp10.vy = ((Unkstruct_800B5CB8 *)a0)->unk3E;
-    sp10.vz = ((Unkstruct_800B5CB8 *)a0)->unk42;
-    sp10.vx += *(u16*)(a1 + 0);
-    sp10.vy += *(u16*)(a1 + 2);
-    sp10.vz += *(u16*)(a1 + 4);
-
-    func_8012AD80((struct vec *)a0);
-
-    sp18.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp18.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp18.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    sp18.vx += *(u16*)(a1 + 0);
-    sp18.vy += *(u16*)(a1 + 2);
-    sp18.vz += *(u16*)(a1 + 4);
-
-    v0 = ((s32 (*)(s32, s32, s32))func_80133784)((s32)(s16)a2, (s32)&sp10, (s32)&sp18);
-
-    sp18.vx -= *(u16*)(a1 + 0);
-    sp18.vy -= *(u16*)(a1 + 2);
-    v0 |= *(u8*)&sp18.pad;
-    sp18.vz -= *(u16*)(a1 + 4);
-    CAST_ALIAS(s16, a0, 0x06) = sp18.vx;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.vy;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.vz;
-    return v0;
-}
+#define SHARED_FN func_80180B04
+#include "../shared/ov/cls_f6b5c26f40b2.h"
+#undef SHARED_FN
 
 
 extern s32 func_80133784(s32, void *, s32);
@@ -5476,15 +5391,9 @@ void func_80181638(void *arg0) {
 
 extern void func_801292C8(u8 *a0);
 
-void func_801816C4(u8 *a0) {
-    u8 *a1 = CAST_SIGN(u8 *, a0, 0x20);
-
-    ((Unkstruct_800B5CB8 *)a1)->unk18 = ((Unkstruct_800B5CB8 *)a1)->unk18 - 0x100;
-    ((Unkstruct_800B5CB8 *)a1)->unk1A = ((Unkstruct_800B5CB8 *)a1)->unk1A - 0x100;
-    if (CAST_SIGN(s16, a1, 0x18) <= 0 || CAST_SIGN(s16, a1, 0x1A) <= 0) {
-        func_801292C8(a0);
-    }
-}
+#define SHARED_FN func_801816C4
+#include "../shared/ov/cls_8826a7a3cc21.h"
+#undef SHARED_FN
 
 
 /* func_80181720 (ov_SC05_003, 87 ins) — MATCH.

@@ -3139,11 +3139,9 @@ void func_801820DC(int arg0)
 }
 
 
-void func_80182254(s32 a0) {
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 4;
-    ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
-}
+#define SHARED_FN func_80182254
+#include "../shared/ov/cls_7de2e2a3e307.h"
+#undef SHARED_FN
 
 
 

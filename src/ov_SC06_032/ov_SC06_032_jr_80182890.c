@@ -4698,14 +4698,9 @@ void func_80185670(s32 a0) {
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8012B23C(s32 a0);
 
-void func_801857B0(param_1)
-s32 param_1;
-{
-    func_8012B23C((void *)param_1);
-    ((Unkstruct_800B5CB8 *)param_1)->unk14 = 0xFFD80000;
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x10;
-    func_8012AD44((s32 *)param_1, 4);
-}
+#define SHARED_FN func_801857B0
+#include "../shared/ov/cls_77b189b436d3.h"
+#undef SHARED_FN
 
 
 extern void (*D_801BEEF8[])(void);
@@ -5360,37 +5355,9 @@ extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 rand(void);
 
-void func_801866B0(s32 param_1)
-{
-    Blk20_8018AF88_80186160 local_38;
-    Blk20_8018AF88_80186160 *m;
-    SVECTOR out;
-    s32 angle;
-    s32 t;
-
-    local_38 = D_800AE620;
-    out.vx = 0;
-    out.vy = -((rand() & 0x3F) + 0x50);
-    out.vz = -0x40;
-    m = &local_38;
-    angle = ((CAST_SIGN(u16, param_1, 0x70) & 3) << 10) + (rand() & 0x3F0);
-    t = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0x10A) - 0x200;
-    RotMatrixY((s16)(angle + t), m);
-    ApplyMatrixSV(m, &out, &out);
-
-    ((Unkstruct_800B5CB8 *)param_1)->unk6 = ((Unkstruct_800B5CB8 *)param_1)->unk6 + (u16)out.vx;
-    ((Unkstruct_800B5CB8 *)param_1)->unkA = ((Unkstruct_800B5CB8 *)param_1)->unkA + (u16)out.vy;
-    ((Unkstruct_800B5CB8 *)param_1)->unkE = ((Unkstruct_800B5CB8 *)param_1)->unkE + (u16)out.vz;
-
-    CAST_WIDTH(s32, param_1, 0x10) = (s32)out.vx << 13;
-    CAST_WIDTH(s32, param_1, 0x18) = (s32)out.vz << 13;
-    ((Unkstruct_800B5CB8 *)param_1)->unk14 = -(((rand() & 0xF) << 15) + 0x80000);
-    ((Unkstruct_800B5CB8 *)param_1)->unk106 = rand() & 0xF0;
-    ((Unkstruct_800B5CB8 *)param_1)->unk108 = rand() & 0xF0;
-
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x20;
-    func_8012AD44((s32 *)param_1, 3);
-}
+#define SHARED_FN func_801866B0
+#include "../shared/ov/cls_7c7851413170.h"
+#undef SHARED_FN
 
 
 
@@ -5426,23 +5393,9 @@ void func_80186870(s32 param_1)
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 
-void func_801868EC(s32 param_1)
-{
-    u16 val_fe;
-    s32 result;
-
-    val_fe = CAST_SIGN(u16, param_1, 0xFE);
-    val_fe = val_fe + 1;
-    ((Unkstruct_800B5CB8 *)param_1)->unkFE = val_fe;
-    if ((val_fe & 7) == 0) {
-        result = func_80132EF4(param_1, 0x22);
-        if (result != 0) {
-            ((Unkstruct_800B5CB8 *)result)->unk14 = 0xFFF80000;
-            ((Unkstruct_800B5CB8 *)result)->unk34 = 0x4001;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(result + 0x20))->unk2C = 0xC010;
-        }
-    }
-}
+#define SHARED_FN func_801868EC
+#include "../shared/ov/cls_765d1171e4fd.h"
+#undef SHARED_FN
 
 
 extern u8 D_801BEF7C[];
@@ -5758,60 +5711,16 @@ extern s32 func_8004787C(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed *
  * temp its OWN variable gives it $a1 for the whole chain; reusing `dz` extends that allocno so
  * it lands in $s5 exactly as the target does (`sra $s5,$v0,12` / `negu $a1,$s5`), and it also
  * demotes dz's priority so the saved-reg order comes out $s3=out, $s4=t, $s5=dz. */
-s32 func_80187180(s32 out, s32 from, s32 to) {
-    Ang2_8012B77C_80187180 t;
-    s32 dx, dy, dz;
-    s32 ang;
-    s32 r1, r2;
-
-    dz = ((Unkstruct_80187180 *)to)->unk4 - ((Unkstruct_80187180_2 *)from)->unk4;
-    dx = ((Unkstruct_80187180 *)to)->unk0 - ((Unkstruct_80187180_2 *)from)->unk0;
-    dy = ((Unkstruct_80187180 *)to)->unk2 - ((Unkstruct_80187180_2 *)from)->unk2;
-
-    ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
-    t.hi = ang;
-
-    r1 = func_80047948(ang);
-    r2 = func_8004787C(ang);
-    dz = (dz * r1 + dx * r2) >> 12;
-    t.lo = ratan2(dy, -dz);
-
-    *(Ang2_8012B77C_80187180 *)out = t;
-    return out;
-}
+#define SHARED_FN func_80187180
+#include "../shared/ov/cls_d63339dc82e5.h"
+#undef SHARED_FN
 
 
 
 extern u8 D_800AF648;
-void func_80187268(void *a0)
-{
-    void *s1;
-    u8 *s0;
-    s32 flag1, flag2;
-    u32 otz;
-    u8 *mb;
-
-    s1 = a0;
-    mb = &D_800AF648;
-    s0 = mb;
-    func_8004914C(s0);
-    do { func_800491AC(s0); } while (0);
-
-    gte_ldv3(s1, (u8 *)s1 + 8, (u8 *)s1 + 0x10);
-    gte_rtpt();
-    gte_stflg(&flag1);
-    gte_stsxy3(s1, (u8 *)s1 + 8, (u8 *)s1 + 0x10);
-    gte_ldv0((u8 *)s1 + 0x18);
-    gte_rtps();
-    gte_stflg(&flag2);
-    flag1 |= flag2;
-    gte_stsxy((u8 *)s1 + 0x18);
-    gte_avsz4();
-    gte_stotz(&otz);
-    *(s16 *)((u8 *)s1 + 4) = (s16)otz;
-    if (otz < 0x1000)
-        func_80017254(s1);
-}
+#define SHARED_FN func_80187268
+#include "../shared/ov/cls_05afac2e10ed.h"
+#undef SHARED_FN
 
 
 #include "common.h"

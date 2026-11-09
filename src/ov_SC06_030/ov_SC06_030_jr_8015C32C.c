@@ -2072,11 +2072,9 @@ extern void func_80149374(s32 a0, s32 a1);
 
 
 
-void func_8015DE58(s32 *a0) {
-
-    extern void (*D_8018478C[])(void);
-    D_8018478C[CAST_SIGN(u16, (s32)a0, 0x2)]();
-}
+#define SHARED_FN func_8015DE58
+#include "../shared/ov/cls_fe1a482e8783.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015DE94.h"

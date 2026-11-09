@@ -7906,17 +7906,9 @@ s32 a1;
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
-void func_80187C64(s32 a0, s32 a1)
-{
-    MTX_80187C64 mtx;
-    V32_80187C64 vec;
-
-    func_80049CAC(a0 + 0x100, (s32)&mtx);
-    vec.vy = 0;
-    vec.vx = 0;
-    vec.vz = a1;
-    func_800484EC((s32)&mtx, (s32)&vec, a0 + 0x10);
-}
+#define SHARED_FN func_80187C64
+#include "../shared/ov/cls_285088f8ef17.h"
+#undef SHARED_FN
 
 
 #include "common.h"

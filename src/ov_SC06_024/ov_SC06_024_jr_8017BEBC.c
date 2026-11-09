@@ -4610,12 +4610,9 @@ void func_801801D0(void) {
 extern void func_8012E8C4(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012C218(s32 a0);
-void func_801801D8(s32 a0) {
-    func_8012E8C4(a0);
-    if (func_8012BEE8(a0)) {
-        func_8012C218(a0);
-    }
-}
+#define SHARED_FN func_801801D8
+#include "../shared/ov/cls_63bfe5476ba6.h"
+#undef SHARED_FN
 
 
 

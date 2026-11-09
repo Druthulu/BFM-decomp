@@ -3948,9 +3948,9 @@ void func_8017CFBC(void *a0)
 
 extern void (*D_8018BDB0[])(void);
 
-void func_8017D0DC(void *a0) {
-    D_8018BDB0[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017D0DC
+#include "../shared/ov/cls_0e20580dd6d4.h"
+#undef SHARED_FN
 
 
 #define SHARED_FN func_8017D118
@@ -6458,9 +6458,9 @@ extern void func_80154150(s32 a0, s32 a1);
 
 
 extern s32 func_80171990(u8 *a0);
-    void func_801810B0(void) {
-        ((s32 (*)(void))func_80171990)();
-    }
+#define SHARED_FN func_801810B0
+#include "../shared/ov/cls_d9a936e7adc7.h"
+#undef SHARED_FN
 
 
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -11034,25 +11034,13 @@ void func_801878A8(Ctl_8018A550_801878A8 *ctl, Rec_8018A550_801878A8 *rec)
 
 
 
-void func_80187998(s32 *a0, s32 a1, s32 a2, s32 a3)
-{
-  s8 *new_var2;
-  s8 *new_var;
-  s32 *new_var3;
-  new_var2 = a0;
-  new_var3 = new_var2 + 0x0;
-  new_var2 = (s8 *) new_var3;
-  new_var = new_var2;
-  *new_var = a1;
-  *((s8 *) (new_var2 + 0x1)) = a2;
-  *((s8 *) (new_var2 + 0x2)) = a3;
-}
+#define SHARED_FN func_80187998
+#include "../shared/ov/cls_88bf11bedbc0.h"
+#undef SHARED_FN
 
-void func_801879A8(s32 *a0, s8 a1, s8 a2, s8 a3) {
-        ((Unkstruct_801879A8 *)a0)->unk4 = a1;
-        ((Unkstruct_801879A8 *)a0)->unk5 = a2;
-        ((Unkstruct_801879A8 *)a0)->unk6 = a3;
-    }
+#define SHARED_FN func_801879A8
+#include "../shared/ov/cls_d6b0cf6fa2e6.h"
+#undef SHARED_FN
 
 
 

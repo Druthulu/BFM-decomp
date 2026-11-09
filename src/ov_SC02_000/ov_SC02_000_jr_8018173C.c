@@ -3496,13 +3496,9 @@ void *a0;
 }
 
 
-void func_80182F4C(s32 arg0)
-{
-    s32 t = ((Unkstruct_80182F4C_2 *)arg0)->unk204 - 1;
-    ((Unkstruct_80182F4C_2 *)arg0)->unk204 = t;
-    if (t == -1)
-        (((Unkstruct_80182F4C_2 *)arg0)->unk214)++;
-}
+#define SHARED_FN func_80182F4C
+#include "../shared/ov/cls_3577f9b1c213.h"
+#undef SHARED_FN
 
 
 extern s32 func_80171D78(s32 a0, s32 a1);

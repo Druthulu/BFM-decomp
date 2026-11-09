@@ -3701,10 +3701,9 @@ void func_8017DB0C(void *a0) {
 
 
 
-void func_8017DB48(void *a0) {
-        ((Unkstruct_8017DB48 *)a0)->unk2 = *(unsigned short *)((char *)a0 + 0x2) + 1;
-        ((Unkstruct_8017DB48 *)a0)->unk14 = 0x20000;
-    }
+#define SHARED_FN func_8017DB48
+#include "../shared/ov/cls_7fb34a62d78c.h"
+#undef SHARED_FN
 
 
 extern void func_8017DC24(s32);

@@ -6285,19 +6285,9 @@ void func_801889EC(s32 a0, s32 a1)
 
 
 
-void func_80188B0C(s32 a0, s32 a1)
-{
-    extern void func_80049CAC(s32 a0, s32 a1);
-    extern void func_800484EC(s32 a0, s32 a1, s32 a2);
-    MTX_80188B0C mtx;
-    V32_80188B0C vecIn;
-
-    func_80049CAC(a0 + 0x100, (s32)&mtx);
-    vecIn.vy = 0;
-    vecIn.vx = 0;
-    vecIn.vz = a1;
-    func_800484EC((s32)&mtx, (s32)&vecIn, a0 + 0x10);
-}
+#define SHARED_FN func_80188B0C
+#include "../shared/ov/cls_285088f8ef17.h"
+#undef SHARED_FN
 
 
 

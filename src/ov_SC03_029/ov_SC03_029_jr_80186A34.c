@@ -3519,21 +3519,9 @@ s32 func_80187118(s32 a0, s32 a1)
 }
 
 
-s32 func_8018723C(void *a0) {
-    short a[4];
-    short b[4];
-    s32 pa, pb;
-    s32 r;
-    a[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    a[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    a[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    pa = (s32)a;
-    pb = (s32)b;
-    __builtin_memcpy((void *)pb, (void *)pa, 8);
-    b[1] += 8;
-    r = func_80133784(1, pa, pb) & 0x2000;
-    return r != 0;
-}
+#define SHARED_FN func_8018723C
+#include "../shared/ov/cls_576fc6777695.h"
+#undef SHARED_FN
 
 
 

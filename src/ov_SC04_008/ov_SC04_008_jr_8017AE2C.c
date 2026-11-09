@@ -4306,15 +4306,9 @@ void func_8017E628(s32 a0)
 
 
 
-void func_8017E754(s32 arg0) {
-        s32 var_v1;
-        ((Unkstruct_8017E754 *)arg0)->unkC1 = 0;
-        ((Unkstruct_8017E754 *)arg0)->unk5E = 0;
-        ((Unkstruct_8017E754 *)arg0)->unk5C = 0;
-        ((Unkstruct_8017E754 *)arg0)->unk102 = 3;
-        var_v1 = ((Unkstruct_8017E754 *)arg0)->unk20;
-        ((Unkstruct_8017E754_2 *)var_v1)->unk2C |= 0x10;
-    }
+#define SHARED_FN func_8017E754
+#include "../shared/ov/cls_508421ee24c9.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C354(s32 a0, s32 a1);

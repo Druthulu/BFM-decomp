@@ -7683,29 +7683,9 @@ extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_8012B0B4(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-void func_801859C4(s32 arg0) {
-    s32 i;
-    s32 q;
-    s32 r3;
-    u32 buf[2];
-    s32 v;
-
-    if (((Unkstruct_800B5CB8 *)arg0)->unkAA <= 0) {
-        for (i = 0; i < 10; i++) {
-            q = func_80132EF4(arg0, 0x22);
-            if (q != 0) {
-                func_8012B0B4(buf, rand() % 4096, rand() % 64);
-                v = *(s32 *)buf;
-                *(u16 *)(q + 0x6) += v;
-                *(u16 *)(q + 0xA) -= 0x60;
-                *(u16 *)(q + 0xE) += v >> 16;
-                r3 = rand();
-                *(s16 *)(q + 0x34) = (r3 % 3) * 0x1000 + 0x3000;
-            }
-        }
-        func_8002D4C8(0x521, 0);
-    }
-}
+#define SHARED_FN func_801859C4
+#include "../shared/ov/cls_e739d38ce0f8.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -7866,27 +7846,9 @@ extern s32 func_8002A04C(s32 a0);
 extern void func_8002AC00(s32 arg0);
 extern void func_8012C218(void *a0);
 
-void func_80185EE4(a0)
-s32 a0;
-{
-    s32 v1;
-
-    if (((Unkstruct_800B5CB8 *)a0)->unk102 == 0) {
-        ((void (*)(s32))func_8002A04C)((s32)a0);
-        if (*(unsigned char *)((char *)a0 + 0xC1) == 0xE) {
-            func_8002AC00(0xB);
-        }
-    }
-
-    if (!((((Unkstruct_800B5CB8 *)a0)->unk70 & 0x8000))) {
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk68;
-        if (v1 != 0 && ((CAST_SIGN(short, (char *)a0, 0x72) & 0x8000))) {
-            *(unsigned short *)(v1 + 0xA) = *(unsigned short *)(v1 + 0xA) & 0x7FFF;
-        }
-    }
-
-    func_8012C218(a0);
-}
+#define SHARED_FN func_80185EE4
+#include "../shared/ov/cls_8dd04c3ce13b.h"
+#undef SHARED_FN
 
 
 #include "common.h"

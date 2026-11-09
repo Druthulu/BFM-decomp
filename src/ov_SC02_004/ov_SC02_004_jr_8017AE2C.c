@@ -3831,14 +3831,9 @@ void func_8017D6AC(u8 *a0) {
 
 
 
-void func_8017D6C4(arg0)
-s32 arg0;
-{
-    s32 t = ((Unkstruct_8017D6C4 *)arg0)->unk204 - 1;
-    ((Unkstruct_8017D6C4 *)arg0)->unk204 = t;
-    if (t == -1)
-        (((Unkstruct_8017D6C4 *)arg0)->unk214)++;
-}
+#define SHARED_FN func_8017D6C4
+#include "../shared/ov/cls_3577f9b1c213.h"
+#undef SHARED_FN
 
 
 

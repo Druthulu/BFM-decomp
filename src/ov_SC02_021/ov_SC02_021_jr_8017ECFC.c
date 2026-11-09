@@ -3062,10 +3062,9 @@ extern void (*D_80183950[])(void);
 #undef SHARED_FN
 
 
-void func_8017F5CC(void *a0) {
-        ((Unkstruct_8017DB48 *)a0)->unk2 = *(unsigned short *)((char *)a0 + 0x2) + 1;
-        ((Unkstruct_8017DB48 *)a0)->unk14 = 0x20000;
-    }
+#define SHARED_FN func_8017F5CC
+#include "../shared/ov/cls_7fb34a62d78c.h"
+#undef SHARED_FN
 
 
                      /* 0x08 */

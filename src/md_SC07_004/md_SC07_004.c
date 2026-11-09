@@ -6470,32 +6470,9 @@ void func_801A9B40(void *a0, u16 a1, u16 a2) {
 
 extern void func_800599B8(void*, void*);
 
-void func_801A9B80(s32 *a0, u16 a1, u16 a2) {
-    s32 t1;
-    s32 t2;
-    s32 i;
-    u16 buf[4];
-
-    t1 = a0[7];
-    t2 = a0[6];
-
-    i = 7;
-    do {
-        a0[i] = a0[i - 2];
-        a0[i - 1] = a0[i - 3];
-        i -= 2;
-    } while (i >= 3);
-
-    a0[i] = t1;
-    a0[i - 1] = t2;
-
-    buf[2] = 0x10;
-    buf[0] = a1;
-    buf[1] = a2;
-    buf[3] = 1;
-
-    ((void (*)(u16 *, s32 *))func_800599B8)(buf, a0);
-}
+#define SHARED_FN func_801A9B80
+#include "../shared/multi/cls_2cf5f2c729da.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C2D0(void);

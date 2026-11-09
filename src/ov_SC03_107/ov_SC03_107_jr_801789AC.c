@@ -6251,12 +6251,9 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 #undef SHARED_FN
 
 
-s32 func_8017D418(s16 *arg0, s16 *arg1) {
-    if (arg0[0] < arg1[0] || arg1[1] < arg0[0] || arg0[2] < arg1[2]) {
-        return 0;
-    }
-    return arg1[3] >= arg0[2];
-}
+#define SHARED_FN func_8017D418
+#include "../shared/ov/cls_33064d2e7e6a.h"
+#undef SHARED_FN
 
 
 void func_8017D474(s32 a0, s32 a1, s32 a2) {

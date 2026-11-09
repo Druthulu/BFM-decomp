@@ -3346,18 +3346,9 @@ extern void func_80147814(s32 a0, s32 a1);
 extern void func_80147B18(s32 a0);
 extern void func_80171A1C(u8 *a0);
 
-void func_8017DE40(arg0)
-s32 arg0;
-{
-    func_80147814(arg0, 0x10000);
-    func_80147460(arg0);
-    ((void (*)(s32, s32, s32, s32))func_80147B18)(arg0, 0, 0, 0x10000);
-    func_801473EC((s32 *)arg0);
-    if (((Unkstruct_80126B58 *)arg0)->unkA >= -705) {
-        ((Unkstruct_80126B58 *)arg0)->unkA = -706;
-        func_80171A1C((u8 *)arg0);
-    }
-}
+#define SHARED_FN func_8017DE40
+#include "../shared/ov/cls_1cadffc79685.h"
+#undef SHARED_FN
 
 
 #include "common.h"

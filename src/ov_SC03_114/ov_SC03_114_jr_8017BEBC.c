@@ -3323,19 +3323,9 @@ void func_8017DDA0(s32 param_1)
 
 extern s32 func_8004787C(s32 a0);
 
-void func_8017DE30(s32 arg0)
-{
-    s32 sp20;
-    s16 temp;
-    s32 q;
-
-    sp20 = ((Unkstruct_8017DE30 *)arg0)->unk20;
-    temp = ((Unkstruct_8017DE30 *)arg0)->unkFC + 0x22;
-    ((Unkstruct_8017DE30 *)arg0)->unkFC = temp;
-    q = func_8004787C(temp) / 0x100;
-    ((Unkstruct_8017DE30 *)arg0)->unkA = ((Unkstruct_8017DE30 *)arg0)->unk16 + q;
-    ((Unkstruct_8017DE30_2 *)sp20)->unk12 = ((Unkstruct_8017DE30_2 *)sp20)->unk12 + 8;
-}
+#define SHARED_FN func_8017DE30
+#include "../shared/ov/cls_24ef2a79c4ac.h"
+#undef SHARED_FN
 
 
 

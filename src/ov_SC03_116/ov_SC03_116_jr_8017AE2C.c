@@ -4057,13 +4057,9 @@ void func_8017BF14(s32 arg0, s32 lim)
 
 
 
-    void func_80180980(void) {
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 D_8012704C;
-        D_8012704C = 0x1;
-    }
+#define SHARED_FN func_80180980
+#include "../shared/ov/cls_2ba5cb3efb7b.h"
+#undef SHARED_FN
 
 
 

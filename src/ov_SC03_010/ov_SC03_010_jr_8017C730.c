@@ -3677,9 +3677,9 @@ extern void (*D_80183CE8[])(void);
 #undef SHARED_FN
 
 
-void func_8017EB50(s32 *a0) {
-        *(s16*)((s32)a0 + 0xFC) = 0;
-    }
+#define SHARED_FN func_8017EB50
+#include "../shared/ov/cls_9fdb6df26779.h"
+#undef SHARED_FN
 
 
 extern void func_8017EDD8(void);

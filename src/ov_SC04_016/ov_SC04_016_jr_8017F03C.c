@@ -2868,19 +2868,9 @@ void func_8017F35C(s32 s1)
 }
 
 
-void func_8017F3EC(s32 arg0)
-{
-    s16 tmp;
-    s32 base;
-    s32 ret;
-
-    tmp = ((Unkstruct_8017F3EC *)arg0)->unkFC + 0x22;
-    ((Unkstruct_8017F3EC *)arg0)->unkFC = tmp;
-    base = ((Unkstruct_8017F3EC *)arg0)->unk20;
-    ret = func_8004787C(tmp);
-    ((Unkstruct_8017F3EC *)arg0)->unkA = ((Unkstruct_8017F3EC *)arg0)->unk16 + ret / 256;
-    *(u16 *)(base + 0x12) = *(u16 *)(base + 0x12) + 8;
-}
+#define SHARED_FN func_8017F3EC
+#include "../shared/ov/cls_24ef2a79c4ac.h"
+#undef SHARED_FN
 
 
 

@@ -4741,7 +4741,9 @@ void func_80187EE8(s32 a0)
 }
 
 
-#include "../shared/ov/func_801880F8.h"
+#define SHARED_FN func_801880F8
+#include "../shared/ov/cls_53ccaf0755a5.h"
+#undef SHARED_FN
 
 extern u8 D_801E2170[];
 extern void func_8012A828(s32 a0, void *a1);

@@ -3572,9 +3572,9 @@ int func_801881BC(int arg0)
 
 
 extern s32 D_8012704C;
-    void func_80188214(void) {
-        D_8012704C = 0x1;
-    }
+#define SHARED_FN func_80188214
+#include "../shared/ov/cls_2ba5cb3efb7b.h"
+#undef SHARED_FN
 
 
 

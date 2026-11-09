@@ -2983,17 +2983,9 @@ void func_80181ABC(s32 a0, void* _arg1, s32 _arg2, s32 _arg3)
 
 
 
-int func_80181BA4(a0)
-short *a0;
-{
-    int data[3];
-    data[0] = a0[3] - a0[68];
-    data[1] = 0;
-    data[2] = a0[7] - a0[70];
-    gte_lwc2x3_sqr_6a00();
-    gte_swc2x3_66ca();
-    return (data[0] + data[2]) <= 0x18FFFF;
-}
+#define SHARED_FN func_80181BA4
+#include "../shared/ov/cls_e675e1e100d0.h"
+#undef SHARED_FN
 
 
 

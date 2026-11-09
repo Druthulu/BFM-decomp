@@ -4183,40 +4183,9 @@ extern u16 D_80126B66;
 extern s32 VectorNormalSS(void*, void*);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
-s32 func_8017EFF4(void *arg0) {
-    s16 pointA[3];
-    s16 pointB[3];
-    s16 diff[3];
-    s32 addr;
-
-    pointA[0] = D_80126B5E;
-    pointA[1] = D_80126B62;
-    pointA[2] = D_80126B66;
-
-    pointB[0] = ((Unkstruct_800B5CB8 *)arg0)->unk6;
-    pointB[1] = ((Unkstruct_800B5CB8 *)arg0)->unkA;
-    pointB[2] = ((Unkstruct_800B5CB8 *)arg0)->unkE;
-    pointA[1] = D_80126B62 - 42;
-
-    addr = (((Unkstruct_800B5CB8 *)arg0)->unk58 & 0xFFFFFFF) | 0x80000000;
-
-    if (((*(s16 *)(addr + 4) + pointB[0]) > pointA[0]) ||
-        ((*(s16 *)(addr + 6) + pointB[0]) < pointA[0]) ||
-        ((*(s16 *)(addr + 12) + pointB[2]) > pointA[2]) ||
-        ((*(s16 *)(addr + 14) + pointB[2]) < pointA[2]) ||
-        ((*(s16 *)(addr + 8) + pointB[1]) > pointA[1]) ||
-        ((*(s16 *)(addr + 10) + pointB[1]) < pointA[1])) {
-        return 0;
-    }
-
-    diff[0] = pointA[0] - pointB[0];
-    diff[1] = pointA[1] - pointB[1];
-    diff[2] = pointA[2] - pointB[2];
-
-    ((void (*)(s16 *, s16 *))VectorNormalSS)(diff, diff);
-    func_8012F568(1, 8193, CAST_WIDTH(s16, (s32)arg0, 220), 14, (s32)pointA, (s32)diff);
-    return 1;
-}
+#define SHARED_FN func_8017EFF4
+#include "../shared/ov/cls_bb092e2ab9f0.h"
+#undef SHARED_FN
 
 
 void func_8017F180(s32 param_1, s32 param_2) {
@@ -4336,15 +4305,9 @@ void func_8017F354(s32 a0, void* _arg1, s32 _arg2, s32 _arg3)
 }
 
 
-int func_8017F43C(short *a0) {
-    int data[3];
-    data[0] = a0[3] - a0[68];
-    data[1] = 0;
-    data[2] = a0[7] - a0[70];
-    gte_lwc2x3_sqr_6a00();
-    gte_swc2x3_66ca();
-    return (data[0] + data[2]) <= 0x18FFFF;
-}
+#define SHARED_FN func_8017F43C
+#include "../shared/ov/cls_e675e1e100d0.h"
+#undef SHARED_FN
 
 
 

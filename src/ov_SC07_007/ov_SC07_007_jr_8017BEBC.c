@@ -3249,13 +3249,9 @@ void func_8017CE48(void *a0) {
 #undef SHARED_FN
 
 
-s32 func_8017CEA0(s32 *a0) {
-    if (--a0[0xA] == -1) {
-        func_800167B8(4);
-        *((u8 *)a0 + 0x15) += 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017CEA0
+#include "../shared/ov/cls_f3a306717878.h"
+#undef SHARED_FN
 
 
 extern int func_800167F0(int arg);
@@ -3644,19 +3640,9 @@ extern void func_8017DD6C(s32, s16 *);
 extern void func_8017DF04();
 extern Blk8 D_801274F0;
 
-void func_8017D744(s32 s0) {
-    /* dead local: reproduces target's 0x30 frame (buffer lands at sp+0x18,
-       not sp+0x10) — see §160a/§48-C2 (unaligned struct-assign) + the
-       vars_size=16 frame math; never read/written, byte-verified required */
-    Blk8 unused;
-    Blk8 buffer;
-
-    buffer = D_801274F0;
-    ((void (*)(s32, Blk8 *))func_8017DAE8)(s0, &buffer);
-    D_801274F0 = buffer;
-    ((void (*)(s32))func_8017DF04)(s0);
-    func_8017DD6C(s0, (s16 *)&D_801274F0);
-}
+#define SHARED_FN func_8017D744
+#include "../shared/ov/cls_2a237fca8ef9.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -3671,19 +3657,9 @@ extern void func_8017DF04();
 extern void func_8017DD6C(s32 a0, s16 *a1);
 extern Blk8 D_801274F0;
 
-void func_8017D7D8(s32 a0) {
-    s32 pad[2];
-    SVECTOR temp;
-
-    temp = (*(SVECTOR *)&D_801274F0);
-
-    ((void (*)(s32, SVECTOR *))func_8017DAE8)(a0, &temp);
-
-    (*(SVECTOR *)&D_801274F0) = temp;
-
-    ((void (*)(s32))func_8017DF04)(a0);
-    func_8017DD6C(a0, (s16 *)&(*(SVECTOR *)&D_801274F0));
-}
+#define SHARED_FN func_8017D7D8
+#include "../shared/ov/cls_2a237fca8ef9.h"
+#undef SHARED_FN
 
 
 #include "common.h"

@@ -854,9 +854,9 @@ void func_80186F14(void *a0)
 }
 
 
-void func_80186F58(void *a0) {
-        ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
-    }
+#define SHARED_FN func_80186F58
+#include "../shared/ov/cls_9fdb6df26779.h"
+#undef SHARED_FN
 
 
 void func_80186F60(s32 a0) {

@@ -2830,7 +2830,9 @@ void func_8017FB24(int arg0)
     }
 }
 
-#include "../shared/ov/func_8017FC9C.h"
+#define SHARED_FN func_8017FC9C
+#include "../shared/ov/cls_7de2e2a3e307.h"
+#undef SHARED_FN
 
 
 

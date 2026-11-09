@@ -3526,9 +3526,9 @@ void func_8017F91C(s32 param_1) {
 
 
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-    void func_8017F978(void *arg0) {
-        ((void (*)(void *, int))func_80131E00)(arg0, 0x11);
-    }
+#define SHARED_FN func_8017F978
+#include "../shared/ov/cls_53ccaf0755a5.h"
+#undef SHARED_FN
 
 
 struct S80131E00;

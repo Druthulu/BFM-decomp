@@ -3045,45 +3045,14 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
-void func_8017FD28(a0)
-void *a0;
-{
-    s32 result[2];
-    s32 result2[2];
-    s32 result3[2];
-    s32 temp;
-
-    func_8012B0B4((unsigned int *)result, *(int *)((s32)a0 + 0xDC), 0x100);
-
-    *(s32 *)((s32)a0 + 0x8) = result[0];
-    *(s16 *)((s32)a0 + 0xA) += *(s16 *)((s32)a0 + 0xE2);
-    *(s32 *)((s32)a0 + 0xDC) += 0x18;
-
-    if (*(s32 *)((s32)a0 + 0xDC) < 0xC00) {
-        return;
-    }
-
-    func_8012B0B4((unsigned int *)result2, *(int *)((s32)a0 + 0xDC), 0x100);
-    *(s32 *)((s32)a0 + 0x14) = result2[0];
-    func_8012B0B4((unsigned int *)result3, *(int *)((s32)a0 + 0xDC) - 0x18, 0x100);
-
-    temp = result3[0];
-    *(s32 *)((s32)a0 + 0x14) -= temp;
-    *(s16 *)((s32)a0 + 0x2) = 9;
-}
+#define SHARED_FN func_8017FD28
+#include "../shared/ov/cls_74cf3dd7a1fc.h"
+#undef SHARED_FN
 
 
-void func_8017FDC8(int param_1)
-
-{
-  *(int *)(param_1 + 8) = *(int *)(param_1 + 8) + *(int *)(param_1 + 0x14);
-  if (-0x16d - *(short *)(param_1 + 0x16) <= (int)*(short *)(param_1 + 10)) {
-    *(short *)(param_1 + 2) = 10;
-    *(int *)(param_1 + 0xdc) = 0xc00;
-    *(short *)(param_1 + 0xe2) = -0x16d;
-  }
-  return;
-}
+#define SHARED_FN func_8017FDC8
+#include "../shared/ov/cls_73ad0cfdba1a.h"
+#undef SHARED_FN
 
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);

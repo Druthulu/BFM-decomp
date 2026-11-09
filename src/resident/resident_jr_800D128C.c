@@ -1896,19 +1896,9 @@ extern void func_800D0C48(u16 arg0);
 extern void func_800167B8(s32 arg0);
 
 
-s32 func_800D2E6C(Struct800D2E6C *arg0) {
-    u8 v = arg0->field_0x19;
-    arg0->field_0x19 = v + 0xFF;
-    if (v == 0) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D0C48(1);
-        func_800167B8(4);
-        arg0->field_0x15++;
-    }
-    return 0;
-}
+#define SHARED_FN func_800D2E6C
+#include "../shared/resident/cls_aff61055f3bb.h"
+#undef SHARED_FN
 
 // ANALYSIS: identical asm shape to the ALREADY-MATCHED func_800D319C in
 // src/resident/resident.c:
@@ -2065,19 +2055,9 @@ extern void func_800D0C48(u16 arg0);
 extern void func_800167B8(s32 arg0);
 
 
-s32 func_800D3120(Struct800D3120 *arg0) {
-    u8 v = arg0->field_0x19;
-    arg0->field_0x19 = v + 0xFF;
-    if (v == 0) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D0C48(1);
-        func_800167B8(4);
-        arg0->field_0x15++;
-    }
-    return 0;
-}
+#define SHARED_FN func_800D3120
+#include "../shared/resident/cls_aff61055f3bb.h"
+#undef SHARED_FN
 
 extern u16 func_800167F0(s32 arg0);
 

@@ -4760,7 +4760,9 @@ void func_8017F138() {
 
 #include "common.h"
 
-#include "../shared/ov/func_8017F174__4af83058.h"
+#define SHARED_FN func_8017F174
+#include "../shared/ov/cls_4af830585dfd.h"
+#undef SHARED_FN
 
 
 extern void func_80029514(int);

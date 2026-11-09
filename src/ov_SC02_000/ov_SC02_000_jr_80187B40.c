@@ -4668,17 +4668,13 @@ void func_8018A550(Ctl_8018A550 *ctl, Rec_8018A550 *rec)
 
 
 
-void func_8018A640(s32 *a0, s32 a1, s32 a2, s32 a3)
-{
-  s8 *new_var;
-  new_var = (s8 *) (a0 + 0x0);
-  *new_var = a1;
-  new_var = a0;
-  *((s8 *) (new_var + 0x1)) = a2;
-  *((s8 *) (new_var + 0x2)) = a3;
-}
+#define SHARED_FN func_8018A640
+#include "../shared/ov/cls_88bf11bedbc0.h"
+#undef SHARED_FN
 
-#include "../shared/ov/func_8018A650.h"
+#define SHARED_FN func_8018A650
+#include "../shared/ov/cls_d6b0cf6fa2e6.h"
+#undef SHARED_FN
 
 
 

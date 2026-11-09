@@ -3321,12 +3321,9 @@ void func_8018281C(int param_1)
 }
 
 
-void func_8018294C(void *a0) {
-    ((Unkstruct_8018294C *)a0)->unk2 = 7;
-    ((Unkstruct_8018294C *)a0)->unk98 = 0;
-    ((Unkstruct_8018294C *)a0)->unk1C = 0x1E;
-    ((Unkstruct_8018294C *)a0)->unk5C = 0;
-}
+#define SHARED_FN func_8018294C
+#include "../shared/ov/cls_93666547fd3c.h"
+#undef SHARED_FN
 
 extern void func_80182988();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
 

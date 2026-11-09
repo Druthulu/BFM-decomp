@@ -3542,11 +3542,9 @@ void func_8017E330(s32 param_1)
 
 extern void func_801292C8(u8 *a0);
 
-void func_8017E3C8(void *arg0) {
-    if (func_80128ED8(((Unkstruct_800B5CB8 *)arg0)->unk20, (s32 *)(((s32)arg0) + 0x24)) == 1) {
-        func_801292C8((u8 *)arg0);
-    }
-}
+#define SHARED_FN func_8017E3C8
+#include "../shared/ov/cls_994388c8ff5f.h"
+#undef SHARED_FN
 
 
 extern void (*D_80190F84[])(void);
@@ -4883,35 +4881,9 @@ void func_80180424(s32 arg0) {
 extern u8 *func_8012913C(s32 a0);
 extern s32 rand(void);
 
-void func_801804BC(s32 a0, s32 a1, s32 a2, s32 a3) {
-    u8 *s0;
-    s32 r;
-    s32 d0, d1, d2;
-    s32 t;
-    s32 pad[6];
-    (void)pad;
-    if ((*(u16 *)(a0 + 0) & (s16)((1 << *(s16 *)(a3 + 0xC)) - 1)) == 0) {
-        s0 = func_8012913C(0x22);
-        if (s0 != 0) {
-            r = rand();
-            d0 = *(s16 *)(a2 + 0);
-            *(s16 *)(s0 + 6) = (*(u16 *)(a1 + 0) + (r % (d0 << 1))) - d0;
-            r = rand();
-            d1 = *(s16 *)(a2 + 2);
-            *(s16 *)(s0 + 0xA) = (*(u16 *)(a1 + 2) + (r % (d1 << 1))) - d1;
-            r = rand();
-            d2 = *(s16 *)(a2 + 4);
-            t = *(u16 *)(a1 + 4);
-            *(s16 *)(s0 + 0xE) = (t + (r % (d2 << 1))) - d2;
-            *(s32 *)(s0 + 0x10) = *(s32 *)(a3 + 0);
-            *(s32 *)(s0 + 0x14) = *(s32 *)(a3 + 4);
-            *(s32 *)(s0 + 0x18) = *(s32 *)(a3 + 8);
-            *(s16 *)(s0 + 0x34) = *(u16 *)(a1 + 6);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = 0xC010;
-        }
-    }
-    *(u16 *)(a0 + 0) += 1;
-}
+#define SHARED_FN func_801804BC
+#include "../shared/ov/cls_767c00373fe6.h"
+#undef SHARED_FN
 
 
 void func_80180680(s32 param_1)

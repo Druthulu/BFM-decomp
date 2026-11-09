@@ -3845,11 +3845,9 @@ s32 func_8018078C(s32 a0) {
 
 extern s32 *D_80126B78;
 
-void func_801807D8(arg0)
-void *arg0;
-{
-    ((Unkstruct_801463A0 *)D_80126B78)->unk10 = 0;
-}
+#define SHARED_FN func_801807D8
+#include "../shared/ov/cls_96285e577515.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_801807E8__e97c73bd.h"

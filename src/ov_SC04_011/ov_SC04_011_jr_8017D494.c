@@ -4017,9 +4017,9 @@ void func_8017FC4C(void *a0) {
 
 
 extern s32 func_80171990(u8*);
-void func_8017FC88(void) {
-    ((void (*)(void))func_80171990)();
-}
+#define SHARED_FN func_8017FC88
+#include "../shared/ov/cls_d9a936e7adc7.h"
+#undef SHARED_FN
 
 
 extern void func_80171928(void *a0);
@@ -9765,32 +9765,9 @@ void func_801875D8(void* a0, s32 a1, s32 a2)
 
 extern void func_800599B8(u16 *, s32 *);
 
-void func_80187618(s32 *a0, u16 a1, u16 a2) {
-    s32 t1;
-    s32 t2;
-    s32 i;
-    u16 buf[4];
-
-    t1 = a0[7];
-    t2 = a0[6];
-
-    i = 7;
-    do {
-        a0[i] = a0[i - 2];
-        a0[i - 1] = a0[i - 3];
-        i -= 2;
-    } while (i >= 3);
-
-    a0[i] = t1;
-    a0[i - 1] = t2;
-
-    buf[2] = 0x10;
-    buf[0] = a1;
-    buf[1] = a2;
-    buf[3] = 1;
-
-    func_800599B8(buf, a0);
-}
+#define SHARED_FN func_80187618
+#include "../shared/multi/cls_2cf5f2c729da.h"
+#undef SHARED_FN
 
 
 void func_80187698(void *a0) {

@@ -3348,15 +3348,9 @@ void func_8017CE1C(void *a0) {
 
 extern void func_800167B8(s32 a0);
 
-s32 func_8017CE74(a0)
-s32 *a0;
-{
-    if (--a0[0xA] == -1) {
-        func_800167B8(4);
-        *((u8 *)a0 + 0x15) += 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017CE74
+#include "../shared/ov/cls_f3a306717878.h"
+#undef SHARED_FN
 
 
 extern int func_800167F0(int arg);

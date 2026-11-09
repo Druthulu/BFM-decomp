@@ -3825,11 +3825,9 @@ void func_801869FC(s32 self) {
 }
 
 
-void func_80186A8C(void *a0) {
-        ((Unkstruct_80186A8C *)a0)->unk5C = 0;
-        ((Unkstruct_80186A8C *)a0)->unk98 = 0;
-        ((Unkstruct_80186A8C *)a0)->unk1C = 0;
-    }
+#define SHARED_FN func_80186A8C
+#include "../shared/ov/cls_071c59d7ec5e.h"
+#undef SHARED_FN
 
 
 extern s16 D_80126CE0;

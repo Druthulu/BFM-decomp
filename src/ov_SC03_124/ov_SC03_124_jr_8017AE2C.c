@@ -4959,12 +4959,9 @@ extern s32 func_80178970(void);
 extern void func_80178D18(void);
 extern void func_8012C218(void *a0);
 
-void func_8017F2A8(void *param_1) {
-    if (func_80178970() != 0) {
-        ((void (*)(s32))func_80178D18)((s32)param_1);
-        func_8012C218(param_1);
-    }
-}
+#define SHARED_FN func_8017F2A8
+#include "../shared/ov/cls_71e15fa3c22d.h"
+#undef SHARED_FN
 
 
 extern s32 func_80029504(void);

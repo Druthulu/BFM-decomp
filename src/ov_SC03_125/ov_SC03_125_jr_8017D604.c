@@ -3410,12 +3410,9 @@ extern int func_80178970(void);
 extern void func_80178D18(void);
 extern void func_8012C218(void *arg0);
 
-void func_8017EE9C(s32 a0) {
-    if (func_80178970() != 0) {
-        ((void (*)(s32))func_80178D18)(a0);
-        func_8012C218((void *)a0);
-    }
-}
+#define SHARED_FN func_8017EE9C
+#include "../shared/ov/cls_71e15fa3c22d.h"
+#undef SHARED_FN
 
 
 extern s32 func_80029504(void);
@@ -3996,38 +3993,9 @@ extern void (*D_80188118[])(void);
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 
 
-s32 func_8017FB08(s32 a0, s32 a1) {
-    Vec4h_8017FB08 p1;
-    Vec4h_8017FB08 p2;
-    s32 result;
-
-    p1.z = 0;
-    p2.z = ((Unkstruct_8017FB08 *)a1)->unkE;
-    p1.x = p2.x = ((Unkstruct_8017FB08 *)a1)->unk4;
-    p1.y = p2.y = (s16)((Unkstruct_8017FB08 *)a1)->unk8 >> 1;
-    if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
-        result = 1;
-        goto save;
-    }
-
-    p1.y = p2.y = (s16)((Unkstruct_8017FB08 *)a1)->unkA >> 1;
-    if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
-        result = 1;
-        goto save;
-    }
-
-    p1.x = p2.x = ((Unkstruct_8017FB08 *)a1)->unk6;
-    if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
-        result = 1;
-        goto save;
-    }
-
-    p1.y = p2.y = (s16)((Unkstruct_8017FB08 *)a1)->unk8 >> 1;
-    result = func_8012DEB8(a0, (s32)&p1, (s32)&p2) != 0;
-
-save:
-    return result;
-}
+#define SHARED_FN func_8017FB08
+#include "../shared/ov/cls_c0575a022d70.h"
+#undef SHARED_FN
 
 
 extern s32 func_800291B4(s32 arg);

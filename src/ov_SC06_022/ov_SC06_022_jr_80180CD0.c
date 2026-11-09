@@ -2956,42 +2956,9 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
 
-void func_80180FB4(s32 self)
-{
-    u16 sv[4];
-    u16 scratch[4];
-    s32 obj;
-    s32 target;
-    s32 i;
-
-    func_8004914C((void *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x54));
-    func_800491AC((void *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x54));
-
-    sv[1] = 0;
-    sv[0] = 0;
-    *(s16 *)&sv[2] = -0x60;
-    RotTransSV(&sv[0], &sv[0], &scratch[0]);
-
-    obj = func_80132EF4(self, 0x22);
-    if (obj != 0) {
-        u16 c;
-        ((Unkstruct_800B5CB8 *)obj)->unk6 = sv[0];
-        ((Unkstruct_800B5CB8 *)obj)->unkA = sv[1];
-        c = sv[2];
-        ((Unkstruct_800B5CB8 *)obj)->unk34 = 0x4000;
-        ((Unkstruct_800B5CB8 *)obj)->unkE = c;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk2C = 0xC008;
-    }
-    for (i = 0; i < 7; i++) {
-        target = func_8012C658(0x2FE, i, self);
-        if (target != 0) {
-            ((Unkstruct_800B5CB8 *)target)->unk6 = sv[0];
-            ((Unkstruct_800B5CB8 *)target)->unkA = sv[1];
-            ((Unkstruct_800B5CB8 *)target)->unkE = sv[2];
-        }
-    }
-    func_8002D4C8(0xAE6, 0);
-}
+#define SHARED_FN func_80180FB4
+#include "../shared/ov/cls_09ffd28b5c78.h"
+#undef SHARED_FN
 
 
 #define SHARED_FN func_801810C0

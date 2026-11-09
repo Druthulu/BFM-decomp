@@ -3003,7 +3003,9 @@ void func_80180264(int param_1)
     }
 }
 
-#include "../shared/ov/func_80180394__93666547.h"
+#define SHARED_FN func_80180394
+#include "../shared/ov/cls_93666547fd3c.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_801803B0__c0330a34.h"

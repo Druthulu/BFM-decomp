@@ -3169,38 +3169,9 @@ void func_801804A0(s32 a0) {
 }
 
 
-void func_80180904(s32 arg0) {
-    s32 base;
-    s32 cst;
-    s32 b2;
-    s32 c2;
-    s32 r6;
-    s32 rA;
-    s32 rE;
-
-    cst = 0x1800;
-    ((Unkstruct_800B5CB8 *)arg0)->unkAA = 0;
-    ((Unkstruct_800B5CB8 *)arg0)->unk5C = 0;
-    *(s16 *)((((Unkstruct_800B5CB8 *)arg0)->unk20) + 0x18) = cst;
-    base = ((Unkstruct_800B5CB8 *)arg0)->unk20;
-    *(s16 *)(base + 0x1C) = cst;
-    b2 = ((Unkstruct_800B5CB8 *)arg0)->unk20;
-    c2 = 0x100;
-    *(s16 *)(b2 + 0x1A) = c2;
-    b2 = ((Unkstruct_800B5CB8 *)arg0)->unk20;
-    *(u16 *)(b2 + 0x2C) |= 0x10;
-    ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
-    ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x1E;
-    ((Unkstruct_800B5CB8 *)arg0)->unk98 = 0;
-    func_8002D4C8(0x526, 0);
-    r6 = ((Unkstruct_800B5CB8 *)arg0)->unk6;
-    rA = ((Unkstruct_800B5CB8 *)arg0)->unkA;
-    rE = ((Unkstruct_800B5CB8 *)arg0)->unkE;
-    ((Unkstruct_800B5CB8 *)arg0)->unk7C = r6;
-    ((Unkstruct_800B5CB8 *)arg0)->unk7E = rA;
-    ((Unkstruct_800B5CB8 *)arg0)->unk80 = rE;
-    func_8016AA50(arg0, 0xA);
-}
+#define SHARED_FN func_80180904
+#include "../shared/ov/cls_488528b703db.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -4202,13 +4173,9 @@ void func_8018223C(void *a0) {
 void func_80182308(void) {
 }
 
-    void func_80182310(void) {
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 D_8012704C;
-        D_8012704C = 1;
-    }
+#define SHARED_FN func_80182310
+#include "../shared/ov/cls_2ba5cb3efb7b.h"
+#undef SHARED_FN
 
 
 

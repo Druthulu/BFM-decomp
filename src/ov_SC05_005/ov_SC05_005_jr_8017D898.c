@@ -3425,15 +3425,9 @@ void func_8017F988(void *arg0) {
 extern s16 D_80126CB4;
 extern s32 func_8012BE98(s32 a0, u16 *a1);
 
-void func_8017F9C0(void *param_1) {
-    if ((CAST_SIGN(u16, (s32)param_1, 0x70) & 1) != 0) {
-        return;
-    }
-    if (func_8012BE98((s32)param_1, (u16 *)&D_80126CB4) > 0x240000) {
-        return;
-    }
-    ((Unkstruct_800B5CB8 *)param_1)->unk2 = 0xC;
-}
+#define SHARED_FN func_8017F9C0
+#include "../shared/ov/cls_078b92a94665.h"
+#undef SHARED_FN
 
 
 extern s32 rand(void);
@@ -4217,39 +4211,9 @@ extern void func_8012AD80(struct vec *a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
 
-s32 func_80180C0C(s32 a0, s32 a1, s32 a2)
-{
-    u16 sp10[4];
-    u16 sp18[4];
-    s32 v0;
-
-    sp10[0] = ((Unkstruct_800B5CB8 *)a0)->unk3A;
-    sp10[1] = ((Unkstruct_800B5CB8 *)a0)->unk3E;
-    sp10[2] = ((Unkstruct_800B5CB8 *)a0)->unk42;
-    sp10[0] += *(u16 *)(a1 + 0);
-    sp10[1] += *(u16 *)(a1 + 2);
-    sp10[2] += *(u16 *)(a1 + 4);
-
-    func_8012AD80((struct vec *)a0);
-
-    sp18[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp18[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp18[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    sp18[0] += *(u16 *)(a1 + 0);
-    sp18[1] += *(u16 *)(a1 + 2);
-    sp18[2] += *(u16 *)(a1 + 4);
-
-    v0 = ((s32 (*)(s32, s32, s32))func_80133784)((s32)(s16)a2, (s32)sp10, (s32)sp18);
-
-    sp18[0] -= *(u16 *)(a1 + 0);
-    sp18[1] -= *(u16 *)(a1 + 2);
-    v0 |= *(u8 *)((char *)sp18 + 6);
-    sp18[2] -= *(u16 *)(a1 + 4);
-    CAST_ALIAS(u16, a0, 0x06) = sp18[0];
-    ((Unkstruct_800B5CB8 *)a0)->unkA = sp18[1];
-    ((Unkstruct_800B5CB8 *)a0)->unkE = sp18[2];
-    return v0;
-}
+#define SHARED_FN func_80180C0C
+#include "../shared/ov/cls_f6b5c26f40b2.h"
+#undef SHARED_FN
 
 
 s32 func_80180D4C(u8 *a0, u8 *a1, s32 a2) {
@@ -4643,17 +4607,9 @@ void func_80181740(void *a0)
 
 extern void func_801292C8(u8 *a0);
 
-void func_801817CC(a0)
-u8 *a0;
-{
-    u8 *a1 = *(u8 **)(a0 + 0x20);
-
-    ((Unkstruct_800B5CB8 *)a1)->unk18 = ((Unkstruct_800B5CB8 *)a1)->unk18 - 0x100;
-    ((Unkstruct_800B5CB8 *)a1)->unk1A = ((Unkstruct_800B5CB8 *)a1)->unk1A - 0x100;
-    if (CAST_SIGN(s16, a1, 0x18) <= 0 || CAST_SIGN(s16, a1, 0x1A) <= 0) {
-        func_801292C8(a0);
-    }
-}
+#define SHARED_FN func_801817CC
+#include "../shared/ov/cls_8826a7a3cc21.h"
+#undef SHARED_FN
 
 
 /* Handwritten function (the target .s itself is splat-flagged handwritten) -- a bare-jr/mult/GTE

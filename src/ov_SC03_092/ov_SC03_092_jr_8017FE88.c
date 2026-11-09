@@ -2962,11 +2962,9 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8014BB0C(void);
 extern void func_8014BDC8(void);
 
-    void func_80180074(void) {
-        func_8014BB0C();
-        func_8014BDC8();
-        ((s32 (*)(s32, s32))func_8002D4C8)(0x45C, 0);
-    }
+#define SHARED_FN func_80180074
+#include "../shared/ov/cls_4af830585dfd.h"
+#undef SHARED_FN
 
 
 
