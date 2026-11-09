@@ -7389,21 +7389,15 @@ extern s32 func_80185B5C();   /* RETYPED P31 S54: the asm reads $a0 and sets $v0
 
 
 
-void func_80185320(void *a0)
-{
-  *((short *) (((char *) a0) + 0x2)) = 0x3;
-  *((unsigned short *) (((char *) a0) + 0x5c)) = 0xaa10;
-  *((short *) (((char *) a0) + 0xfe)) = 0;
-}
+#define SHARED_FN func_80185320
+#include "../shared/ov/cls_5734eb27ae2e.h"
+#undef SHARED_FN
 
 
 
-void func_80185338(s32 arg0) {
-    if (((Unkstruct_80185338 *)arg0)->unk76 <= 0) {
-        ((Unkstruct_80185338 *)arg0)->unkDC |= 2;
-    }
-    ((Unkstruct_80185338 *)arg0)->unk52 = -0x30;
-}
+#define SHARED_FN func_80185338
+#include "../shared/ov/cls_3a235d6268e8.h"
+#undef SHARED_FN
 
 
 extern void func_801859C4(s32 a0);

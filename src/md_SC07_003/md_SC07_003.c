@@ -2214,9 +2214,9 @@ void func_801A2EC8(void *a0)
 
 
 extern void func_8017F578(void);
-void func_801A3014(void) {
-    func_8017F578();
-}
+#define SHARED_FN func_801A3014
+#include "../shared/slot_801A00D8/cls_7094077d857e.h"
+#undef SHARED_FN
 
 
 extern void func_8017F004(void);

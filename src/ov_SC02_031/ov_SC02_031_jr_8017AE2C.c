@@ -7742,9 +7742,9 @@ s32 func_80183AC8(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
 
 
 extern s32 func_800D0CE0(void);
-    s32 func_80183B90(void) {
-        return func_800D0CE0() != 0;
-    }
+#define SHARED_FN func_80183B90
+#include "../shared/ov/cls_bf5ac5f6f5c3.h"
+#undef SHARED_FN
 
 
 

@@ -7899,9 +7899,9 @@ void func_80182564(s32 a0) {
 
 extern void func_8012A568(void (*a0)(void));
     extern s32 func_801823EC(s32 a0);
-    void func_80182614(void) {
-        ((void (*)(void *))func_8012A568)((void *)func_801823EC);
-    }
+#define SHARED_FN func_80182614
+#include "../shared/ov/cls_35bb6d0e7de7.h"
+#undef SHARED_FN
 
 
 #include "common.h"

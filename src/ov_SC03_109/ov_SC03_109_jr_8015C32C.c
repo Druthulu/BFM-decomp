@@ -2390,11 +2390,9 @@ Ldefault:
 
 
 
-s32 func_8015EE08(s32 a0) {
-
-    extern void (*D_80180CDC[])(void);
-    D_80180CDC[((Unkstruct_8015E1B8 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015EE08
+#include "../shared/ov/cls_fc087891ae72.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015EE44.h"
@@ -4406,9 +4404,9 @@ s32 func_80164E40(void) {
 
 extern void (*D_80180F6C[])(void);
 
-void func_80164EA4(void *a0) {
-    D_80180F6C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80164EA4
+#include "../shared/ov/cls_fe9c0ecfdc22.h"
+#undef SHARED_FN
 
 
 

@@ -3747,10 +3747,9 @@ s32 func_8017F900(void *a0) {
 extern s32 func_8001AAA0(s32 arg0);
 extern void func_8001B710(void);
 
-void func_8017F9CC(void) {
-    func_8001AAA0(0x3D);
-    func_8001B710();
-}
+#define SHARED_FN func_8017F9CC
+#include "../shared/ov/cls_6d5fe18225c6.h"
+#undef SHARED_FN
 
 
 extern void func_800D0C48(s32 arg);

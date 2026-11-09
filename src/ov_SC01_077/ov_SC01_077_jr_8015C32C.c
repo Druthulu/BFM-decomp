@@ -6110,9 +6110,9 @@ void func_80169BBC(s32 arg0) {
 
 extern void (*D_80189BFC[])(void);
 
-void func_80169F00(void *a0) {
-    D_80189BFC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80169F00
+#include "../shared/ov/cls_ffbd9dcce083.h"
+#undef SHARED_FN
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (expected; simple straight-line + single branch, one call-crossing local in $s0)

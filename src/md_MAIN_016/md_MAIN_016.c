@@ -18,12 +18,9 @@ void func_800CAE34(void *a0) {
 }
 
 
-s32 func_800CAE78(u8 *a0)
-{
-    s32 v = a0[407] + 1;
-    a0[407] = v;
-    return v;
-}
+#define SHARED_FN func_800CAE78
+#include "../shared/slot_800CAE08/cls_9bb33f742822.h"
+#undef SHARED_FN
 
 
 extern s32 func_80165910(void);

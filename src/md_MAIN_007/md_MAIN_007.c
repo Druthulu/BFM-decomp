@@ -59,14 +59,9 @@ void func_800CEEFC(void) {
 
 
 
-void func_800CEF60(void) {
-    extern s32 func_800167F0(s32 a0);
-    extern void func_800118AC(void);
-
-    if (func_800167F0(0) & 0xFFFF) {
-        func_800118AC();
-    }
-}
+#define SHARED_FN func_800CEF60
+#include "../shared/resident/cls_657b2304ac49.h"
+#undef SHARED_FN
 
 
 void func_800CEF94(void) {

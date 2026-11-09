@@ -434,8 +434,9 @@ void func_800D03F8(void) {
 }
 
 
-void func_800D0430(void) {
-}
+#define SHARED_FN func_800D0430
+#include "../shared/multi/cls_0bf4b4a6e3c4.h"
+#undef SHARED_FN
 
 
 

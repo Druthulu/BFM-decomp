@@ -2948,9 +2948,9 @@ extern s32 func_80029178(s32 arg);
 
 
 extern s32 func_80184B44(void);
-s32 func_80182CE8(void) {
-    return ((s32 (*)(void))func_80184B44)() == 1;
-}
+#define SHARED_FN func_80182CE8
+#include "../shared/ov/cls_2116bfa712c3.h"
+#undef SHARED_FN
 
 
 
@@ -3845,9 +3845,9 @@ void func_80183E44(void) {
 
 
 extern s32 func_80184B44(void);
-s32 func_80183ED4(void) {
-    return ((s32 (*)(void))func_80184B44)() == 1;
-}
+#define SHARED_FN func_80183ED4
+#include "../shared/ov/cls_2116bfa712c3.h"
+#undef SHARED_FN
 
 
 

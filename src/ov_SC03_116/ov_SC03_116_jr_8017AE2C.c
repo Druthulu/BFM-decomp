@@ -5061,14 +5061,9 @@ extern s32 func_801819A4(void);
 
 
 
-s32 func_80182280(void) {
-
-    extern s32 D_8012704C;
-    if (D_8012704C == 0) {
-        return 0x48;
-    }
-    return 0x4B;
-}
+#define SHARED_FN func_80182280
+#include "../shared/ov/cls_c3d9803c3bdf.h"
+#undef SHARED_FN
 
 
 void func_801822A0(void) {

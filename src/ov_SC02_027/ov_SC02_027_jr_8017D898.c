@@ -3569,10 +3569,9 @@ s32 func_8017FAE0(void) {
 extern s32 resLoad_lastId;
 extern void func_8002D4C8(s32 arg0, s32 arg1);
 
-void func_8017FB08(void) {
-    func_8002D4C8(0x13C, 0);
-    resLoad_lastId = 0x39;
-}
+#define SHARED_FN func_8017FB08
+#include "../shared/ov/cls_5c7004fcb541.h"
+#undef SHARED_FN
 
 
 extern s32 func_8017FCAC(void);
@@ -5283,12 +5282,9 @@ void func_801826FC(s32 *a0) {
 }
 
 
-void func_80182724(void *arg0)
-{
-    ((Unkstruct_800B5CB8 *)arg0)->unk44 = 0x4000;
-    func_8012AD44((s32 *)arg0, 2);
-    func_8002D4C8(0x684, 0);
-}
+#define SHARED_FN func_80182724
+#include "../shared/ov/cls_c532870c3b43.h"
+#undef SHARED_FN
 
 
 extern void (*D_8018B99C)(void *);

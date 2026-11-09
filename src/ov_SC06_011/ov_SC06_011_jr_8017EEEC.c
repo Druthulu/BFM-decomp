@@ -740,11 +740,9 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
 
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
-    void func_8017FF7C(u8 *a0) {
-        if (((Unkstruct_8017FF7C *)a0)->unk5E == 0xC) {
-            func_8002D4C8(0x9DA, 0);
-        }
-    }
+#define SHARED_FN func_8017FF7C
+#include "../shared/ov/cls_32c6b6a7019d.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012CBF4(s32 a0);

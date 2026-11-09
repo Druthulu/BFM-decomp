@@ -2827,9 +2827,9 @@ void func_8017EF3C(s32 arg0) {
 
 
 extern s32 func_800D0F4C(s32 arg);
-    void func_8017EF90(void) {
-        func_800D0F4C(0x57);
-    }
+#define SHARED_FN func_8017EF90
+#include "../shared/ov/cls_ca28bbf00f4d.h"
+#undef SHARED_FN
 
 
 extern u32 func_80029204(s32 a0);
@@ -2945,9 +2945,9 @@ s32 func_8017F1B4(s32 param_1) {
 }
 
 
-s32 func_8017F220(void) {
-        return 0x19;
-    }
+#define SHARED_FN func_8017F220
+#include "../shared/ov/cls_83b2f00a35c5.h"
+#undef SHARED_FN
 
 
 

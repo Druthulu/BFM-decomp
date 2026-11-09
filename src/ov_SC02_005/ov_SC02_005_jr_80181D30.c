@@ -3722,11 +3722,9 @@ void func_801831A4(void *a0)
 }
 
 
-void func_80183200(void *a0) {
-        ((Unkstruct_80183200 *)a0)->unkC1 = 0;
-        ((Unkstruct_80183200 *)a0)->unk5E = 0;
-        ((Unkstruct_80183200 *)a0)->unk5C &= 0xfffe;
-    }
+#define SHARED_FN func_80183200
+#include "../shared/ov/cls_b9ffe50b0672.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -4948,11 +4946,9 @@ void func_80184D44(void *a0) {
 
 
 
-void func_80184D80(void *a0) {
-        ((Unkstruct_80183200 *)a0)->unkC1 = 0;
-        ((Unkstruct_80183200 *)a0)->unk5E = 0;
-        ((Unkstruct_80183200 *)a0)->unk5C &= 0xfffe;
-    }
+#define SHARED_FN func_80184D80
+#include "../shared/ov/cls_b9ffe50b0672.h"
+#undef SHARED_FN
 
 
 #include "common.h"

@@ -1374,9 +1374,9 @@ void func_801A1F3C(s32 s0)
 
 
 extern void func_8017F578(void);
-void func_801A2310(void) {
-    func_8017F578();
-}
+#define SHARED_FN func_801A2310
+#include "../shared/slot_801A00D8/cls_7094077d857e.h"
+#undef SHARED_FN
 
 
 extern s32 D_801F871C;

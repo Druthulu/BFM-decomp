@@ -5054,9 +5054,9 @@ void func_8017F330(s32 a0) {
 
 extern s32 func_801815B8(s32 a0, s32 a1);
 
-void func_8017F370(s32 a0) {
-    func_801815B8(a0, 0);
-}
+#define SHARED_FN func_8017F370
+#include "../shared/ov/cls_ef5c4326fc52.h"
+#undef SHARED_FN
 
 
 extern s32 func_80180F84(void);
@@ -6301,10 +6301,9 @@ void func_80180AE4(s32 a0)
 }
 
 
-void func_80180B38(s32 a0)
-{
-    func_801815B8(a0, 0);
-}
+#define SHARED_FN func_80180B38
+#include "../shared/ov/cls_ef5c4326fc52.h"
+#undef SHARED_FN
 
 
 extern s32 func_80180F84(void);

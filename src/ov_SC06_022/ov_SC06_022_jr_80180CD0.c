@@ -3080,13 +3080,9 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 extern void func_8012AD44(s32 *a0, s16 a1);
 
-void func_80181394(void *arg0) {
-    s32 t;
-    ((Unkstruct_80181394 *)arg0)->unkE6 = 0xc;
-    t = ((Unkstruct_80181394 *)arg0)->unk70;
-    ((Unkstruct_80181394 *)arg0)->unkE4 = t << 1;
-    ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 2);
-}
+#define SHARED_FN func_80181394
+#include "../shared/ov/cls_1051be3275dd.h"
+#undef SHARED_FN
 
 
 

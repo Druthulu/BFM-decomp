@@ -3948,9 +3948,9 @@ void func_80180810(s32 arg)
 
 extern void (*D_80189BFC[])(void);
 
-void func_801809C4(void *a0) {
-    D_80189BFC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_801809C4
+#include "../shared/ov/cls_ffbd9dcce083.h"
+#undef SHARED_FN
 
 
 extern s32 rand(void);

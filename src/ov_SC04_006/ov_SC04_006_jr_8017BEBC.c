@@ -4111,12 +4111,9 @@ void func_8017ED40(s32 a0) {
 
 
 
-void func_8017EDD8(arg0)
-s32 arg0;
-{
-    ((Unkstruct_8017EDD8 *)arg0)->unk2 = 7;
-    ((Unkstruct_8017EDD8 *)arg0)->unk5C = 0xAA10;
-}
+#define SHARED_FN func_8017EDD8
+#include "../shared/ov/cls_eedc35192e5f.h"
+#undef SHARED_FN
 
 
 void func_8017EDEC(void) {

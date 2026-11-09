@@ -6793,9 +6793,9 @@ void func_80181A70(void *a0)
 }
 
 
-void func_80181B80(void *a0) {
-        ((Unkstruct_80180110_3 *)a0)->unk2 = 1;
-    }
+#define SHARED_FN func_80181B80
+#include "../shared/ov/cls_eaa319ab663c.h"
+#undef SHARED_FN
 
 
 extern u16 D_80126B62;

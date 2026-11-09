@@ -3292,9 +3292,9 @@ void func_80186CE4(s32 a0) {
 extern void func_8013240C(s32 a0);
 extern s32 D_801D98C8;
 
-void func_80186D34(void) {
-    ((void (*)(s32))func_8013240C)((s32)&D_801D98C8);
-}
+#define SHARED_FN func_80186D34
+#include "../shared/ov/cls_a8594e557ee5.h"
+#undef SHARED_FN
 
 
 

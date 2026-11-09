@@ -21,12 +21,9 @@ void func_800CAE34(void *a0) {
 #include "../shared/slot_800CAE08/func_800CAE78__3873a7ac.h"
 
 
-s32 func_800CAEB0(u8 *a0)
-{
-    s32 v = a0[407] + 1;
-    a0[407] = v;
-    return v;
-}
+#define SHARED_FN func_800CAEB0
+#include "../shared/slot_800CAE08/cls_9bb33f742822.h"
+#undef SHARED_FN
 
 
 

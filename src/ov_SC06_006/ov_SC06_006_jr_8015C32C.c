@@ -4625,9 +4625,9 @@ void func_80165670(s32 a0, s32 a1) {
 
 extern u8 D_80184B28[];
 
-u8 func_801656D0(s32 a0, s32 a1) {
-    return D_80184B28[a1 & 0x7F];
-}
+#define SHARED_FN func_801656D0
+#include "../shared/ov/cls_9804767b2ee5.h"
+#undef SHARED_FN
 
 
 

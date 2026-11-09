@@ -457,14 +457,9 @@ extern s32 D_8012704C;
 extern s32 D_801201F0;
 extern s32 D_80127050;
 
-void func_800D065C(void) {
-    D_801151F8 = 0;
-    D_80126AE8 = 0;
-    D_80127500 = 0;
-    D_8012704C = 0;
-    D_801201F0 = 0;
-    D_80127050 = 0;
-}
+#define SHARED_FN func_800D065C
+#include "../shared/resident/cls_d51b07c61dc3.h"
+#undef SHARED_FN
 
 extern s32 D_801151F8;
 extern s32 D_80126AE8;
@@ -473,14 +468,9 @@ extern s32 D_8012704C;
 extern s32 D_801201F0;
 extern s32 D_80127050;
 
-void func_800D0694(void) {
-    D_801151F8 = 0;
-    D_80126AE8 = 0;
-    D_80127500 = 0;
-    D_8012704C = 0;
-    D_801201F0 = 0;
-    D_80127050 = 0;
-}
+#define SHARED_FN func_800D0694
+#include "../shared/resident/cls_d51b07c61dc3.h"
+#undef SHARED_FN
 
 extern s32 D_801151F8;
 extern s32 D_80127500;

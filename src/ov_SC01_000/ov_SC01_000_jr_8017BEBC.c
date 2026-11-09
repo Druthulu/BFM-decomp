@@ -2759,13 +2759,9 @@ void func_8017CF60(void *a0) {
 
 extern void func_800CFBCC(s32 arg);
 
-s32 func_8017CF9C(void) {
-    if ((func_800167F0(4) & 0xFFFF) == 0) {
-        return 0;
-    }
-    func_800CFBCC(0);
-    return 1;
-}
+#define SHARED_FN func_8017CF9C
+#include "../shared/ov/cls_3cab769924f6.h"
+#undef SHARED_FN
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);

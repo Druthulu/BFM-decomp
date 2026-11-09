@@ -100,9 +100,9 @@ void func_800CEF5C(void) {
 
 extern void func_80011A3C(void);
 
-void func_800CEFB0(void) {
-    func_80011A3C();
-}
+#define SHARED_FN func_800CEFB0
+#include "../shared/resident/cls_9c443bfc46b5.h"
+#undef SHARED_FN
 
 #include "common.h"
 
@@ -285,9 +285,9 @@ void func_800CF370(void) {
 
 extern void func_80011A3C(void);
 
-void func_800CF398(void) {
-    func_80011A3C();
-}
+#define SHARED_FN func_800CF398
+#include "../shared/resident/cls_9c443bfc46b5.h"
+#undef SHARED_FN
 
 /* func_800CF3B8 — MATCH (49 ins). A poll loop: zero two flags, then spin calling a
  * dispatch handler + VSync until D_80114E98 is set, then tear down.

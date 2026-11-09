@@ -2249,17 +2249,13 @@ void func_80015978(s32 *a0, s32 *a1) {
     ((Unkstruct_80015954 *)a1)->unk4 = *(u16 *)((s32)a0 + 0xA);
 }
 
-void func_8001599C(s32 a0, s32 a1) {
-    *(s32 *)(a1 + 0x0) = ((Unkstruct_8001599C_2 *)a0)->unk0;
-    *(s32 *)(a1 + 0x4) = ((Unkstruct_8001599C_2 *)a0)->unk4;
-    *(s32 *)(a1 + 0x8) = ((Unkstruct_8001599C_2 *)a0)->unk8;
-}
+#define SHARED_FN func_8001599C
+#include "shared/main/cls_c5148740cad5.h"
+#undef SHARED_FN
 
-void func_800159C0(s32 a0, s32 a1) {
-    *(s32 *)(a1 + 0x0) = ((Unkstruct_8001599C_2 *)a0)->unk0;
-    *(s32 *)(a1 + 0x4) = ((Unkstruct_8001599C_2 *)a0)->unk4;
-    *(s32 *)(a1 + 0x8) = ((Unkstruct_8001599C_2 *)a0)->unk8;
-}
+#define SHARED_FN func_800159C0
+#include "shared/main/cls_c5148740cad5.h"
+#undef SHARED_FN
 
 void func_800159E4(s32 *a0, s32 *a1) {
     ((Unkstruct_800159E4 *)a1)->unk2 = ((Unkstruct_800159E4_2 *)a0)->unk2;

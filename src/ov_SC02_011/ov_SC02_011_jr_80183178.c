@@ -896,9 +896,9 @@ extern void func_8012A568(void (*a0)(void));
 
 extern void func_8012A568(void (*a0)(void));
     extern s32 func_801823EC(s32 a0);
-    void func_801847F0(void) {
-        ((void (*)(void *))func_8012A568)((void *)func_801823EC);
-    }
+#define SHARED_FN func_801847F0
+#include "../shared/ov/cls_35bb6d0e7de7.h"
+#undef SHARED_FN
 
 
 extern void func_80184918(s32 arg0, s32 arg1);
@@ -1010,9 +1010,9 @@ s32 func_80184A28(s32 *a0) {
 
 
 extern s32 func_800D0CE0(void);
-    s32 func_80184A34(void) {
-        return func_800D0CE0() != 0;
-    }
+#define SHARED_FN func_80184A34
+#include "../shared/ov/cls_bf5ac5f6f5c3.h"
+#undef SHARED_FN
 
 
 extern u8 D_801202A0[];

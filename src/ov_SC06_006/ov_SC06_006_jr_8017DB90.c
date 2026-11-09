@@ -4422,11 +4422,9 @@ extern void func_8017F7C4(s32 arg0);
 
 extern s32 D_80185AFC;
 
-void func_80180534(void) {
-    if (!func_8018034C()) {
-        ((void (*)(s32))func_8017F7C4)((s32)&D_80185AFC);
-    }
-}
+#define SHARED_FN func_80180534
+#include "../shared/ov/cls_3203f0f515db.h"
+#undef SHARED_FN
 
 
 extern s16 D_801F8094;
@@ -4456,11 +4454,9 @@ extern s32 D_80185AFC;
 extern s32 func_8018034C(void);
 extern void func_8017F7C4(s32 arg0);
 
-void func_801805EC(void) {
-    if (!func_8018034C()) {
-        ((void (*)(s32))func_8017F7C4)((s32)&D_80185AFC);
-    }
-}
+#define SHARED_FN func_801805EC
+#include "../shared/ov/cls_3203f0f515db.h"
+#undef SHARED_FN
 
 
 extern s32 func_8018034C(void);

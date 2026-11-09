@@ -3465,9 +3465,9 @@ extern void (*D_80187FB0[])(void);
 
 
 extern s32 func_800D0F4C(int);
-void func_8017EFEC(void) {
-    func_800D0F4C(0x57);
-}
+#define SHARED_FN func_8017EFEC
+#include "../shared/ov/cls_ca28bbf00f4d.h"
+#undef SHARED_FN
 
 
 s32 func_8017F00C(void) {

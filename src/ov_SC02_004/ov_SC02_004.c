@@ -16,9 +16,9 @@
 
 extern s32 D_80193DA4;
 
-s32 func_80128218(void) {
-    return D_80193DA4;
-}
+#define SHARED_FN func_80128218
+#include "../shared/ov/cls_b85409447362.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80128228.h"

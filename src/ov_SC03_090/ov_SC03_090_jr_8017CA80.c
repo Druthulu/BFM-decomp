@@ -7899,10 +7899,9 @@ void func_801879B0(s32 param_1) {
 }
 
 
-void func_801879D8(s32 *a0) {
-        ((Unkstruct_801879D8 *)a0)->unk5C = 0;
-        ((Unkstruct_801879D8 *)a0)->unk1C = 0;
-    }
+#define SHARED_FN func_801879D8
+#include "../shared/ov/cls_bea58acb9647.h"
+#undef SHARED_FN
 
 
 #include "common.h"

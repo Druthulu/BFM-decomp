@@ -3296,12 +3296,9 @@ void func_8017E1A0(void *a0) {
 
 
 extern s32 func_8012AD50(void *a0);
-    void func_8017E1DC(s32 *a0) {
-        ((Unkstruct_8017E1DC_2 *)a0)->unkFC = 0;
-        ((Unkstruct_8017E1DC_2 *)a0)->unkFE = 0;
-        ((Unkstruct_8017E1DC_2 *)a0)->unk100 = 0;
-        ((void (*)(void))func_8012AD50)();
-    }
+#define SHARED_FN func_8017E1DC
+#include "../shared/ov/cls_c30f155148f0.h"
+#undef SHARED_FN
 
 
 extern s32 func_8017E37C(void *a0, s32 a1, s32 a2);

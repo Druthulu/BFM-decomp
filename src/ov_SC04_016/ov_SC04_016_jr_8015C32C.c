@@ -3204,9 +3204,9 @@ dd0:
 
 extern void (*D_80182AA4[])(void);
 
-void func_80160EA4(void *a0) {
-    D_80182AA4[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80160EA4
+#include "../shared/ov/cls_f7cbb18e257b.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80160EE0.h"

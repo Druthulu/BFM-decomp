@@ -4027,9 +4027,9 @@ void func_8017E148(s32 param) {
 }
 
 
-s32 func_8017E1F0(void) {
-        return 0x19;
-    }
+#define SHARED_FN func_8017E1F0
+#include "../shared/ov/cls_83b2f00a35c5.h"
+#undef SHARED_FN
 
 
 

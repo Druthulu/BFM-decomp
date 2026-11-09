@@ -8374,12 +8374,9 @@ void func_80184034(s32 a0) {
 }
 
 
-void func_801840B8(void *a0) {
-        ((Unkstruct_8017EEE4 *)a0)->unk2 = 0x7;
-        ((Unkstruct_8017EEE4 *)a0)->unkFE = 0;
-        *(unsigned short *)((char *)a0 + 0x5c) = 0xaa10;
-        ((Unkstruct_8017EEE4 *)a0)->unk102 = 1;
-    }
+#define SHARED_FN func_801840B8
+#include "../shared/ov/cls_111359fc9b50.h"
+#undef SHARED_FN
 
 
 void func_801840D8(void) {
@@ -12387,19 +12384,13 @@ extern s32 func_80189CD4();  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
 
 
-void func_80189498(void *a0)
-{
-  *((short *) (((char *) a0) + 0x2)) = 0x3;
-  *((unsigned short *) (((char *) a0) + 0x5c)) = 0xaa10;
-  *((short *) (((char *) a0) + 0xfe)) = 0;
-}
+#define SHARED_FN func_80189498
+#include "../shared/ov/cls_5734eb27ae2e.h"
+#undef SHARED_FN
 
-void func_801894B0(s32 arg0) {
-    if (((Unkstruct_80185338 *)arg0)->unk76 <= 0) {
-        ((Unkstruct_80185338 *)arg0)->unkDC |= 2;
-    }
-    ((Unkstruct_80185338 *)arg0)->unk52 = -0x30;
-}
+#define SHARED_FN func_801894B0
+#include "../shared/ov/cls_3a235d6268e8.h"
+#undef SHARED_FN
 
 
 extern void func_80189B3C(s32 a0);

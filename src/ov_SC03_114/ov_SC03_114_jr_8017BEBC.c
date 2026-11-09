@@ -2747,14 +2747,9 @@ extern void func_800167B8(s32 a0);
 extern s32 func_800167F0(s32 arg);
 extern void func_800CFBCC(s32 arg);
 
-s32 func_8017CF38(void) {
-    if ((func_800167F0(0x4) & 0xFFFF) == 0) {
-        return 0;
-    } else {
-        func_800CFBCC(0x2);
-        return 1;
-    }
-}
+#define SHARED_FN func_8017CF38
+#include "../shared/ov/cls_cf788a079628.h"
+#undef SHARED_FN
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);

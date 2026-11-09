@@ -697,8 +697,9 @@ void func_8001125C(void) {
     func_800CEDFC();
 }
 
-void func_800112A8(void) {
-}
+#define SHARED_FN func_800112A8
+#include "shared/multi/cls_0bf4b4a6e3c4.h"
+#undef SHARED_FN
 
 extern int CdReadRequest(void *dst, void *src, int arg2, int arg3);
 extern void func_80011778(void);
