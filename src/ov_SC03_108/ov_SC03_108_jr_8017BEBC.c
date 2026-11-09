@@ -4375,30 +4375,7 @@ extern void func_8012B200(u8 *a0);
 extern void func_8012B178(s32 a0, s32 a1);
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 
-void func_8017F788(s32 a0) {
-    s16 sp10[8]; /* 0x10 */
-    s32 sp20[2]; /* 0x20 */
-    s16 t;
-    s32 r;
-
-    sp10[1] = D_80126B5E;
-    t = D_80126B62;
-    sp10[3] = t - 0x30;
-    sp10[5] = D_80126B66;
-
-    func_8012B77C((s32)sp20, a0 + 4, (s32)sp10);
-
-    r = sp20[0];
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = r;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = r >> 16;
-    func_8012B2CC(a0);
-
-    func_8012B200((u8 *)a0);
-    func_8012B178(a0, 0xFFF00000);
-
-    CAST_ALIAS(u16, a0, 2) = 5;
-    CAST_ALIAS(u16, a0, 0x34) = 0;
-    CAST_ALIAS(s32, a0, 0x1C) = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = D_80126B62 - 96;
-}
+#define SHARED_FN func_8017F788
+#include "../shared/ov/cls_1a8ff18bfb76.h"
+#undef SHARED_FN
 

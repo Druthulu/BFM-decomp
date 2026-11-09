@@ -3754,9 +3754,9 @@ void func_8017F9CC(void) {
 
 
 extern void func_800D0C48(s32 arg);
-    void func_8017F9F4(void) {
-        func_800D0C48(0x1);
-    }
+#define SHARED_FN func_8017F9F4
+#include "../shared/ov/cls_42ed21e35548.h"
+#undef SHARED_FN
 
 
 void func_8017FA14(s32 a0)

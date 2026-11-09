@@ -3860,30 +3860,9 @@ void func_80181344(void) {
 
 
 
-void func_80181470(void *a0, s32 a1)
-{
-    s32 offset;
-    s16 buf[4];
-    u16 t0, t1, t2, t3;
-    u16 *ptr;
-
-    offset = a1 << 1;
-    ptr = (u16 *)((s32)offset + (s32)a0);
-
-    t0 = ptr[0];
-    buf[0] = t0;
-
-    t1 = ptr[1];
-    buf[1] = t1;
-
-    t2 = ptr[2];
-    buf[2] = t2;
-
-    t3 = ptr[3];
-    buf[3] = t3;
-
-    MoveImage(buf, ptr[4], ptr[5]);
-}
+#define SHARED_FN func_80181470
+#include "../shared/ov/cls_a769aaf7bf9b.h"
+#undef SHARED_FN
 
 
 
@@ -5483,18 +5462,9 @@ void func_80183D30(int a0)
 
 
 extern void func_8012C218(void *a0);
-void func_80183DC4(void *a0)
-{
-s32 v0;
-s32 v1;
-  v0 = (*((s32 *) (((s32) a0) + 0x8)) = (*((s32 *) (((s32) a0) + 0x8))) + 0x40000);
-  v1 = 0x400000;
-  if (v1 < v0)
-  {
-    v1 = v1 / 65536;
-    ((s32 (*)(s32)) func_8012C218)((s32) a0);
-  }
-}
+#define SHARED_FN func_80183DC4
+#include "../shared/ov/cls_7b85d2ef8e31.h"
+#undef SHARED_FN
 
 
 
@@ -5743,22 +5713,9 @@ void func_80184130(void *a0) {
 
 
 
-s32 func_80184204(void *a0) {
-    void *p1, *p2;
-    u16 val;
-    long x;
-
-    p1 = ((Unkstruct_8017DF48 *)a0)->unk20;
-    p2 = ((Unkstruct_8017DF48 *)a0)->unk6C;
-    val = ((Unkstruct_8017DF48_3 *)p1)->unk12;
-    p2 = ((Unkstruct_8017DF48_2 *)p2)->unk20;
-    val += 0x800;
-    val &= 0xFFF;
-    ((Unkstruct_8017DF48_2 *)p2)->unk12 = val;
-    x = 2;
-    ((Unkstruct_8017DF48 *)a0)->unk2 = x;
-    return x;
-}
+#define SHARED_FN func_80184204
+#include "../shared/ov/cls_58d4c216fa82.h"
+#undef SHARED_FN
 
 
 void func_8018422C(void) {
@@ -5883,14 +5840,14 @@ extern void func_8012C218(void *a0);
     }
 
 
-void func_801844CC(void *a0) {
-        ((Unkstruct_8017E150 *)*(int *)((char *)a0 + 0x6c))->unkFE = 1;
-    }
+#define SHARED_FN func_801844CC
+#include "../shared/ov/cls_adf091d1f41e.h"
+#undef SHARED_FN
 
 
-void func_801844DC(void *a0) {
-        ((Unkstruct_8017E160 *)*(int *)((char *)a0 + 0x6c))->unkFE = 2;
-    }
+#define SHARED_FN func_801844DC
+#include "../shared/ov/cls_18071cfc15d1.h"
+#undef SHARED_FN
 
 
 

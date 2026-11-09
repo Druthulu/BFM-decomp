@@ -3494,18 +3494,9 @@ void func_80184C44(int a0)
 
 
 extern void func_8012C218(void *a0);
-void func_80184CD8(void *a0)
-{
-s32 v0;
-s32 v1;
-  v0 = (*((s32 *) (((s32) a0) + 0x8)) = (*((s32 *) (((s32) a0) + 0x8))) + 0x40000);
-  v1 = 0x400000;
-  if (v1 < v0)
-  {
-    v1 = v1 / 65536;
-    ((s32 (*)(s32)) func_8012C218)((s32) a0);
-  }
-}
+#define SHARED_FN func_80184CD8
+#include "../shared/ov/cls_7b85d2ef8e31.h"
+#undef SHARED_FN
 
 
 
@@ -3882,21 +3873,9 @@ void func_801853D0(s32 arg0) {
  * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
  * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
  */
-s32 func_80185564(s32 arg0) {
-    extern u8 D_801202A0[];
-    u8 *p;
-    s32 i;
-
-    p = D_801202A0;
-    for (i = 0; i < 0x60; i++) {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x35C && ((Unkstruct_800B5CB8 *)arg0)->unk64 == ((Unkstruct_800B5CB8 *)p)->unk64 &&
-            arg0 != (s32)p) {
-            return 1;
-        }
-        p += 0x10C;
-    }
-    return 0;
-}
+#define SHARED_FN func_80185564
+#include "../shared/ov/cls_4523b23ef61f.h"
+#undef SHARED_FN
 
 
 
@@ -3927,15 +3906,9 @@ void func_801855BC(s32 arg0) {
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
 
-void func_80185638(void *arg0) {
-    void *temp_a0;
-
-    temp_a0 = CAST_SIGN(void *, (char *)arg0, 0xCC);
-    if (temp_a0 != NULL) {
-        func_80016714(temp_a0, 0x38);
-    }
-    func_8012C218(arg0);
-}
+#define SHARED_FN func_80185638
+#include "../shared/multi/cls_0f2ecbb48e58.h"
+#undef SHARED_FN
 
 
 
@@ -3944,21 +3917,9 @@ void func_80185638(void *arg0) {
 extern s32 func_8012C51C(void *a0, s32 a1);
 
 
-void func_8018567C(s32 a0, u16 *a1, s16 a2) {
-    struct S80190C84 sp;
-    u16 t;
-    sp.f0 = a1[0];
-    sp.f2 = a1[1];
-    t = a1[2];
-    sp.f6 = 0x35C;
-    sp.fA = 0;
-    sp.f8 = 0;
-    sp.fE = a2;
-    sp.f10 = 0;
-    sp.fC = 0x7FFF;
-    sp.f4 = t;
-    func_8012C51C(&sp, a0);
-}
+#define SHARED_FN func_8018567C
+#include "../shared/ov/cls_921bf6d0d74b.h"
+#undef SHARED_FN
 
 
 

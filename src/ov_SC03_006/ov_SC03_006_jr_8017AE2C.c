@@ -5139,15 +5139,9 @@ void *arg0;
 }
 
 
-void func_8017ED50(s32 a0)
-{
-    if (func_8014C088(a0, 0x16) == 0)
-    {
-        CAST_SIGN(s32, a0, 0x44) &= ~0x20000;
-        func_8014B5C4((s32 *)a0, func_8014CB58() & 0xFF, 0x80);
-        func_80171990((u8 *)a0);
-    }
-}
+#define SHARED_FN func_8017ED50
+#include "../shared/ov/cls_2c53c4c55e5d.h"
+#undef SHARED_FN
 
 
 void func_8017EDB0(void) {
@@ -5480,17 +5474,9 @@ void func_8017F394(void *a0) {
 }
 
 
-void func_8017F454(s32 param_1) {
-    s32 tbl;
-    s32 obj;
-
-    tbl = ((Unkstruct_8017D598 *)param_1)->unk4C;
-    obj = ((Unkstruct_8017D598 *)param_1)->unk20;
-    ((Unkstruct_8017D598 *)param_1)->unk4 = ((Unkstruct_8017D598_2 *)tbl)->unk4;
-    ((Unkstruct_8017D598 *)param_1)->unk8 = ((Unkstruct_8017D598_2 *)tbl)->unk8;
-    ((Unkstruct_8017D598 *)param_1)->unkC = ((Unkstruct_8017D598_2 *)tbl)->unkC;
-    ((Unkstruct_8017D598_4 *)obj)->unk12 += ((Unkstruct_8017D598_3 *)*(s32 *)(param_1 + 0x58))->unk6;
-}
+#define SHARED_FN func_8017F454
+#include "../shared/ov/cls_71b73fe196bb.h"
+#undef SHARED_FN
 
 
 extern void func_80052D90(s32 a0, void *a1);
@@ -7530,12 +7516,9 @@ void func_80182DC0(s32 *a0)
 extern int func_80178970(void);
 extern void func_80178D18(void);
 
-void func_80182E0C(s32 a0) {
-    if (func_80178970() != 0) {
-        ((void (*)(s32))func_80178D18)(a0);
-        ((Unkstruct_8017D658 *)a0)->unk2 = 1;
-    }
-}
+#define SHARED_FN func_80182E0C
+#include "../shared/ov/cls_af195cefe97a.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012BD14(s32);
@@ -8136,12 +8119,9 @@ extern void func_8012A828(s32, void*);
 
 
 extern s32 func_8012BCCC(s32 a0);
-void func_80183BC8(s32 a0) {
-    s32 v0 = func_8012BCCC(a0);
-    if (v0 <= 0x18000) {
-        ((Unkstruct_8017E9F4_3 *)a0)->unk2 = 5;
-    }
-}
+#define SHARED_FN func_80183BC8
+#include "../shared/ov/cls_ba50f1648f56.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -8449,21 +8429,9 @@ void func_801840E0(void *a0) {
  * 0x20 is re-loaded before each RMW (the `sh` stores may alias it), which is
  * exactly what writing the deref inline gives.
  */
-void func_8018415C(int param_1) {
-    int v1;
-
-    if (((Unkstruct_8017E7B4 *)param_1)->unkFE != 0) {
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x18) += 0x40;
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x1a) += 0x40;
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x1c) += 0x40;
-        v1 = ((Unkstruct_8017E7B4 *)param_1)->unk20;
-        if (((Unkstruct_8017E7B4_2 *)v1)->unk18 >= 0x1800) {
-            ((Unkstruct_8017E7B4_2 *)v1)->unk1C = 0x1800;
-            ((Unkstruct_8017E7B4_2 *)v1)->unk1A = 0x1800;
-            ((Unkstruct_8017E7B4_2 *)v1)->unk18 = 0x1800;
-        }
-    }
-}
+#define SHARED_FN func_8018415C
+#include "../shared/ov/cls_04352458e8b4.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -10681,22 +10649,9 @@ void func_80186E10(void *a0) {
 
 
 
-s32 func_80186EE4(void *a0) {
-    void *p1, *p2;
-    u16 val;
-    long x;
-
-    p1 = ((Unkstruct_8017DF48 *)a0)->unk20;
-    p2 = ((Unkstruct_8017DF48 *)a0)->unk6C;
-    val = ((Unkstruct_8017DF48_3 *)p1)->unk12;
-    p2 = ((Unkstruct_8017DF48_2 *)p2)->unk20;
-    val += 0x800;
-    val &= 0xFFF;
-    ((Unkstruct_8017DF48_2 *)p2)->unk12 = val;
-    x = 2;
-    ((Unkstruct_8017DF48 *)a0)->unk2 = x;
-    return x;
-}
+#define SHARED_FN func_80186EE4
+#include "../shared/ov/cls_58d4c216fa82.h"
+#undef SHARED_FN
 
 
 void func_80186F0C(void) {
@@ -10821,14 +10776,14 @@ extern void func_8012C218(void *a0);
     }
 
 
-void func_801871AC(void *a0) {
-        ((Unkstruct_8017E150 *)*(int *)((char *)a0 + 0x6c))->unkFE = 1;
-    }
+#define SHARED_FN func_801871AC
+#include "../shared/ov/cls_adf091d1f41e.h"
+#undef SHARED_FN
 
 
-void func_801871BC(void *a0) {
-        ((Unkstruct_8017E160 *)*(int *)((char *)a0 + 0x6c))->unkFE = 2;
-    }
+#define SHARED_FN func_801871BC
+#include "../shared/ov/cls_18071cfc15d1.h"
+#undef SHARED_FN
 
 
 
@@ -12211,11 +12166,9 @@ void func_80188EA0(s32 a0) {
 
 
 extern s32 func_8012BEE8(s32 arg);
-    void func_80188F14(void *a0) {
-        if (func_8012BEE8((s32)a0)) {
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x5;
-        }
-    }
+#define SHARED_FN func_80188F14
+#include "../shared/ov/cls_4242396421c0.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -12917,13 +12870,9 @@ s32 func_80189CD4(s32 a0) {
 
 
 extern s32 rand(void);
-    void func_80189DE0(s32 arg0) {
-        if ((rand() & 1) != 0) {
-            ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0xA;
-        } else {
-            ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0x3;
-        }
-    }
+#define SHARED_FN func_80189DE0
+#include "../shared/ov/cls_04438baedb1f.h"
+#undef SHARED_FN
 
 
 extern s32 func_8014CB0C(void);
@@ -13042,9 +12991,9 @@ void func_8018A05C(s32 a0)
 
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
-    void func_8018A100(void) {
-        func_8002D4C8(0x6AA, 0);
-    }
+#define SHARED_FN func_8018A100
+#include "../shared/ov/cls_4e9c3afddc2b.h"
+#undef SHARED_FN
 
 
 extern void func_8018A168();  // K&R: 1/2 of 1 args (P37 rung D t4_D2)
@@ -13691,21 +13640,9 @@ void func_8018AD9C(void *a0) {
  * 0x20 is re-loaded before each RMW (the `sh` stores may alias it), which is
  * exactly what writing the deref inline gives.
  */
-void func_8018AE08(int param_1) {
-    int v1;
-
-    if (((Unkstruct_8017E7B4 *)param_1)->unkFE != 0) {
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x18) += 0x40;
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x1a) += 0x40;
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x1c) += 0x40;
-        v1 = ((Unkstruct_8017E7B4 *)param_1)->unk20;
-        if (((Unkstruct_8017E7B4_2 *)v1)->unk18 >= 0x1800) {
-            ((Unkstruct_8017E7B4_2 *)v1)->unk1C = 0x1800;
-            ((Unkstruct_8017E7B4_2 *)v1)->unk1A = 0x1800;
-            ((Unkstruct_8017E7B4_2 *)v1)->unk18 = 0x1800;
-        }
-    }
-}
+#define SHARED_FN func_8018AE08
+#include "../shared/ov/cls_04352458e8b4.h"
+#undef SHARED_FN
 
 
 void func_8018AE90(s32 param_1) {
@@ -14453,21 +14390,9 @@ void func_8018BDE4(s32 arg0) {
  * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
  * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
  */
-s32 func_8018BF78(s32 arg0) {
-    extern u8 D_801202A0[];
-    u8 *p;
-    s32 i;
-
-    p = D_801202A0;
-    for (i = 0; i < 0x60; i++) {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x35C && ((Unkstruct_800B5CB8 *)arg0)->unk64 == ((Unkstruct_800B5CB8 *)p)->unk64 &&
-            arg0 != (s32)p) {
-            return 1;
-        }
-        p += 0x10C;
-    }
-    return 0;
-}
+#define SHARED_FN func_8018BF78
+#include "../shared/ov/cls_4523b23ef61f.h"
+#undef SHARED_FN
 
 
 
@@ -14498,15 +14423,9 @@ void func_8018BFD0(s32 arg0) {
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
 
-void func_8018C04C(void *arg0) {
-    void *temp_a0;
-
-    temp_a0 = CAST_SIGN(void *, (char *)arg0, 0xCC);
-    if (temp_a0 != NULL) {
-        func_80016714(temp_a0, 0x38);
-    }
-    func_8012C218(arg0);
-}
+#define SHARED_FN func_8018C04C
+#include "../shared/multi/cls_0f2ecbb48e58.h"
+#undef SHARED_FN
 
 
 
@@ -14515,21 +14434,9 @@ void func_8018C04C(void *arg0) {
 extern s32 func_8012C51C(void *a0, s32 a1);
 
 
-void func_8018C090(s32 a0, u16 *a1, s16 a2) {
-    struct S80190C84 sp;
-    u16 t;
-    sp.f0 = a1[0];
-    sp.f2 = a1[1];
-    t = a1[2];
-    sp.f6 = 0x35C;
-    sp.fA = 0;
-    sp.f8 = 0;
-    sp.fE = a2;
-    sp.f10 = 0;
-    sp.fC = 0x7FFF;
-    sp.f4 = t;
-    func_8012C51C(&sp, a0);
-}
+#define SHARED_FN func_8018C090
+#include "../shared/ov/cls_921bf6d0d74b.h"
+#undef SHARED_FN
 
 
 extern void func_80174684(void *);

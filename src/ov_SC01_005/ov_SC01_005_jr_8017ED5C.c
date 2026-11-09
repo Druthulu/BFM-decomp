@@ -4035,9 +4035,9 @@ void func_80180B34(void *a0) {
 
 
 extern void func_800D0C48(s32 arg);
-    void func_80180B44(void) {
-        func_800D0C48(0x1);
-    }
+#define SHARED_FN func_80180B44
+#include "../shared/ov/cls_42ed21e35548.h"
+#undef SHARED_FN
 
 
 

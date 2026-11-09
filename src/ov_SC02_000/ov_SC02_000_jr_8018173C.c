@@ -3183,12 +3183,9 @@ extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
-void func_8018268C(s32 param_1)
-{
-    func_8016F0E4();
-    ((void (*)(s32))func_80165770)(param_1);
-    ((void (*)(void))func_80175414)();
-}
+#define SHARED_FN func_8018268C
+#include "../shared/ov/cls_d4e3e6ff9c5e.h"
+#undef SHARED_FN
 
 
 

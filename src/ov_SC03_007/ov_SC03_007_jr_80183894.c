@@ -3395,9 +3395,9 @@ s32 func_80183FB4(s32 arg0)
 
 
 extern void func_8013CB84(void);
-    void func_80183FCC(void) {
-        func_8013CB84();
-    }
+#define SHARED_FN func_80183FCC
+#include "../shared/ov/cls_9dbe668f97c6.h"
+#undef SHARED_FN
 
 
 
@@ -5501,12 +5501,9 @@ void func_80186BE8(int param_1)
 
 extern void func_801292C8(u8 *a0);
 
-void func_80186C70(u8 *a0) {
-    CAST_WIDTH(s32, a0, 0x4) = CAST_WIDTH(s32, a0, 0x4) - CAST_WIDTH(s32, a0, 0x10);
-    if (CAST_SIGN(s16, a0, 0x6) < -0x110) {
-        func_801292C8(a0);
-    }
-}
+#define SHARED_FN func_80186C70
+#include "../shared/ov/cls_158ee3996c2b.h"
+#undef SHARED_FN
 
 
 
@@ -5700,21 +5697,9 @@ void func_80187080(s32 arg0) {
  * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
  * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
  */
-s32 func_80187214(s32 arg0) {
-    extern u8 D_801202A0[];
-    u8 *p;
-    s32 i;
-
-    p = D_801202A0;
-    for (i = 0; i < 0x60; i++) {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x35C && ((Unkstruct_800B5CB8 *)arg0)->unk64 == ((Unkstruct_800B5CB8 *)p)->unk64 &&
-            arg0 != (s32)p) {
-            return 1;
-        }
-        p += 0x10C;
-    }
-    return 0;
-}
+#define SHARED_FN func_80187214
+#include "../shared/ov/cls_4523b23ef61f.h"
+#undef SHARED_FN
 
 
 
@@ -5745,15 +5730,9 @@ void func_8018726C(s32 arg0) {
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
 
-void func_801872E8(void *arg0) {
-    void *temp_a0;
-
-    temp_a0 = CAST_SIGN(void *, (char *)arg0, 0xCC);
-    if (temp_a0 != NULL) {
-        func_80016714(temp_a0, 0x38);
-    }
-    func_8012C218(arg0);
-}
+#define SHARED_FN func_801872E8
+#include "../shared/multi/cls_0f2ecbb48e58.h"
+#undef SHARED_FN
 
 
 
@@ -5762,21 +5741,9 @@ void func_801872E8(void *arg0) {
 extern s32 func_8012C51C(void *a0, s32 a1);
 
 
-void func_8018732C(s32 a0, u16 *a1, s16 a2) {
-    struct S80190C84 sp;
-    u16 t;
-    sp.f0 = a1[0];
-    sp.f2 = a1[1];
-    t = a1[2];
-    sp.f6 = 0x35C;
-    sp.fA = 0;
-    sp.f8 = 0;
-    sp.fE = a2;
-    sp.f10 = 0;
-    sp.fC = 0x7FFF;
-    sp.f4 = t;
-    func_8012C51C(&sp, a0);
-}
+#define SHARED_FN func_8018732C
+#include "../shared/ov/cls_921bf6d0d74b.h"
+#undef SHARED_FN
 
 
 

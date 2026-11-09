@@ -104,15 +104,9 @@ const Blk8_md_SC03_076 D_801ED98C = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 
 extern int func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
 
-void func_801EDC18(u32 arg0) {
-    Blk8_md_SC03_076 buffer;
-
-    buffer = D_801ED98C;
-
-    if (func_80171D78(arg0, &buffer)) {
-        ((void (*)(u32))func_80171A1C)(arg0);
-    }
-}
+#define SHARED_FN func_801EDC18
+#include "../shared/slot_801ED988/cls_630164eaff26.h"
+#undef SHARED_FN
 
 
 
@@ -154,15 +148,9 @@ const Blk8_md_SC03_076 D_801ED994 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
 
-void func_801EDD3C(u32 arg0) {
-    Blk8_md_SC03_076 buffer;
-
-    buffer = D_801ED994;
-
-    if (func_80171D78(arg0, &buffer)) {
-        ((void (*)(u32))func_80171A1C)(arg0);
-    }
-}
+#define SHARED_FN func_801EDD3C
+#include "../shared/slot_801ED988/cls_8ece44014e55.h"
+#undef SHARED_FN
 
 
 void func_801EDDA4(void) {
@@ -296,13 +284,9 @@ s32 func_801EE1A8(void) {
 
 extern s32 func_80029178(s32 arg);
     extern void func_80029124(s32, s32);
-    s32 func_801EE1B8(void) {
-        if ((func_80029178(0x10e) & 0xFF) == 0) {
-            ((void (*)(void *, s32))func_80029124)((void *)0x10e, 1);
-            return 1;
-        }
-        return 0;
-    }
+#define SHARED_FN func_801EE1B8
+#include "../shared/multi/cls_388042195473.h"
+#undef SHARED_FN
 
 
 extern s32 func_80029504(void);

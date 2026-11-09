@@ -4273,9 +4273,9 @@ void func_8017E090(s32 a0) {
 
 
 extern void func_8013CB84(void);
-    void func_8017E0D4(void) {
-        func_8013CB84();
-    }
+#define SHARED_FN func_8017E0D4
+#include "../shared/ov/cls_9dbe668f97c6.h"
+#undef SHARED_FN
 
 
 extern s32 func_8017E0F4(void);

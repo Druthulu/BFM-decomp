@@ -3764,13 +3764,9 @@ void func_80188B9C(s32 param_1)
 
 extern void func_8012E8A8(u8*);
 
-void func_80188D54(void *a0)
-{
-    ((void (*)(void *))func_8012E8A8)(a0);
-    ((Unkstruct_80182EC4 *)a0)->unk1C = 0xA;
-    ((Unkstruct_80182EC4 *)a0)->unk5C = 0;
-    ((Unkstruct_80182EC4 *)a0)->unk2 = 0xA;
-}
+#define SHARED_FN func_80188D54
+#include "../shared/ov/cls_521b20381533.h"
+#undef SHARED_FN
 
 
 void func_80188D90(s32 a0)
@@ -6518,41 +6514,9 @@ void func_8018CB88(void *a0) {
 
 
 
-void func_8018CC88(void *a0) {
-    s32 *s1;
-    s32 *s0;
-    u16 v0_const;
-    s32 rand_val;
-    u16 *val_ptr;
-    void *a02;
-    a02 = a0;
-
-    s1 = (s32 *)a02;
-    v0_const = 0x0B;
-    s0 = *(s32 **)((u8 *)s1 + 0x20);
-
-    // Store 0x0B as halfword at offset 0x2
-    ((Unkstruct_8017E270 *)s0)->unk2 = v0_const;
-
-    // Load word from offset 0x4, OR with 0x50000000, store back
-    ((Unkstruct_8017E270 *)s0)->unk4 |= 0x50000000;
-
-    // If the halfword at offset 0x18 is 0, store 0x600
-    if (((Unkstruct_8017E270 *)s0)->unk18 == 0) {
-        ((Unkstruct_8017E270 *)s0)->unk18 = 0x600;
-    }
-
-    // Call rand, mask to 0xFF0, store at offset 0x14
-    rand_val = rand();
-    ((Unkstruct_8017E270 *)s0)->unk14 = (u16)(rand_val & 0xFF0);
-
-    // Load halfword at offset 0x2 of s1, increment, store back
-    val_ptr = (u16 *)((u8 *)s1 + 0x2);
-    *val_ptr = *val_ptr + 1;
-
-    // Store 0x100 as halfword at offset 0x30 of s1
-    ((Unkstruct_8017E270_4 *)s1)->unk30 = 0x100;
-}
+#define SHARED_FN func_8018CC88
+#include "../shared/multi/cls_8a0abe57a31e.h"
+#undef SHARED_FN
 
 
 #define RD16(p) (((Unkstruct_8018CD04 *)(p))->h)

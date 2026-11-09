@@ -3624,13 +3624,9 @@ void func_80187624(s32 param_1)
 
 extern void func_8012E8A8(u8*);
 
-void func_801877DC(void *a0)
-{
-    ((void (*)(void *))func_8012E8A8)(a0);
-    ((Unkstruct_80182EC4 *)a0)->unk1C = 0xA;
-    ((Unkstruct_80182EC4 *)a0)->unk5C = 0;
-    ((Unkstruct_80182EC4 *)a0)->unk2 = 0xA;
-}
+#define SHARED_FN func_801877DC
+#include "../shared/ov/cls_521b20381533.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012D624(void *a0, s32 a1, s32 a2);

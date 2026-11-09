@@ -496,23 +496,17 @@ extern s32 func_80029504(void);
 extern void func_80029124(s32 a0, s32 a1);
 extern void func_80029514(s32 arg0);
 
-void func_801F0EEC(void) {
-    func_80029124(0xFD, 0x1);
-    if (((s32 (*)(void))func_80029504)() == 0x136) {
-        ((void (*)(s32))func_80029514)(0x140);
-    }
-}
+#define SHARED_FN func_801F0EEC
+#include "../shared/multi/cls_8287928f61de.h"
+#undef SHARED_FN
 
 
 extern s32 func_80029504(void);
 extern void func_80029124(s32 a0, s32 a1);
 extern void func_80029514(s32 arg0);
 
-void func_801F0F2C(void) {
-    func_80029124(0xFE, 0x1);
-    if (((s32 (*)(void))func_80029504)() == 0x136) {
-        ((void (*)(s32))func_80029514)(0x140);
-    }
-}
+#define SHARED_FN func_801F0F2C
+#include "../shared/multi/cls_bfe826a314ed.h"
+#undef SHARED_FN
 
 

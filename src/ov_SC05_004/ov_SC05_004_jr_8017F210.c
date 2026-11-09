@@ -4036,18 +4036,9 @@ void func_8018125C(int a0)
 
 
 extern void func_8012C218(void *a0);
-void func_801812F0(void *a0)
-{
-s32 v0;
-s32 v1;
-  v0 = (*((s32 *) (((s32) a0) + 0x8)) = (*((s32 *) (((s32) a0) + 0x8))) + 0x40000);
-  v1 = 0x400000;
-  if (v1 < v0)
-  {
-    v1 = v1 / 65536;
-    ((s32 (*)(s32)) func_8012C218)((s32) a0);
-  }
-}
+#define SHARED_FN func_801812F0
+#include "../shared/ov/cls_7b85d2ef8e31.h"
+#undef SHARED_FN
 
 
 

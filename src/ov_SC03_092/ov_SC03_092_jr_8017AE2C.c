@@ -4345,11 +4345,9 @@ void func_8017DDA4(s32 arg0) {
 
 extern s32 func_8014C050(s32 arg0, s32 arg1);
     extern void func_80171928(void *a0);
-    void func_8017DDE8(void *a0) {
-        if (!func_8014C050((s32)a0, 0x1A)) {
-            ((void (*)(void *))func_80171928)(a0);
-        }
-    }
+#define SHARED_FN func_8017DDE8
+#include "../shared/ov/cls_fd3a6b2bfe1f.h"
+#undef SHARED_FN
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);

@@ -4625,9 +4625,9 @@ void func_8018AC5C(s32 a0) {
 
 
 extern void func_8013CB84(void);
-    void func_8018AD80(void) {
-        func_8013CB84();
-    }
+#define SHARED_FN func_8018AD80
+#include "../shared/ov/cls_9dbe668f97c6.h"
+#undef SHARED_FN
 
 
 extern void func_8013C414(void *a0, void *a1);

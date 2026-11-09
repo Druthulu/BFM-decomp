@@ -4269,11 +4269,9 @@ void func_8018BD14(s32 param_1)
 
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8*);
-void func_8018BD90(s32 a0) {
-    if (func_80128ED8((void *)((Unkstruct_800CB7F0 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
-        ((void (*)(s32))func_801292C8)(a0);
-    }
-}
+#define SHARED_FN func_8018BD90
+#include "../shared/ov/cls_c38bc40b159c.h"
+#undef SHARED_FN
 
 
 #include "common.h"

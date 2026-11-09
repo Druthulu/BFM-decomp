@@ -4866,37 +4866,9 @@ extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
-void func_8017ED84(s32 param_1, s16 *param_2) {
-    MATRIX m1;
-    SVECTOR svec_in;
-    SVECTOR svec_out;
-
-    ((Unkstruct_8017CF48 *)param_1)->unk8  = (s16)func_80012C6C((s32)CAST_WIDTH(s16, param_1, 0x8),  (s32)((Unkstruct_8017CF48 *)param_1)->unkC,  4);
-    ((Unkstruct_8017CF48 *)param_1)->unk10 = (s16)func_80012C6C((s32)CAST_WIDTH(s16, param_1, 0x10), (s32)CAST_WIDTH(s16, param_1, 0x14), 4);
-    ((Unkstruct_8017CF48 *)param_1)->unk18 = func_80012ABC((s32)((Unkstruct_8017CF48 *)param_1)->unk18, (s32)((Unkstruct_8017CF48 *)param_1)->unk20, 4);
-    ((Unkstruct_8017CF48 *)param_1)->unk1A = func_80012ABC((s32)((Unkstruct_8017CF48 *)param_1)->unk1A, (s32)((Unkstruct_8017CF48 *)param_1)->unk22, 4);
-    ((Unkstruct_8017CF48 *)param_1)->unk1C = func_80012ABC((s32)((Unkstruct_8017CF48 *)param_1)->unk1C, (s32)((Unkstruct_8017CF48 *)param_1)->unk24, 4);
-    ((Unkstruct_8017CF48 *)param_1)->unk28 = func_80012C6C((s32)((Unkstruct_8017CF48 *)param_1)->unk28, (s32)((Unkstruct_8017CF48 *)param_1)->unk2E, 0x10);
-    ((Unkstruct_8017CF48 *)param_1)->unk2A = func_80012C6C((s32)((Unkstruct_8017CF48 *)param_1)->unk2A, (s32)((Unkstruct_8017CF48 *)param_1)->unk30, 0x10);
-    ((Unkstruct_8017CF48 *)param_1)->unk2C = func_80012C6C((s32)((Unkstruct_8017CF48 *)param_1)->unk2C, (s32)((Unkstruct_8017CF48 *)param_1)->unk32, 0x10);
-
-    ((Unkstruct_8017CF48 *)param_1)->unk48 = (s32)((Unkstruct_8017CF48 *)param_1)->unk28 + (s32)param_2[0];
-    ((Unkstruct_8017CF48 *)param_1)->unk4C = (s32)((Unkstruct_8017CF48 *)param_1)->unk2A + (s32)param_2[1];
-    ((Unkstruct_8017CF48 *)param_1)->unk50 = (s32)((Unkstruct_8017CF48 *)param_1)->unk2C + (s32)param_2[2];
-    func_80049CAC(param_1 + 0x18, (s32)&m1);
-
-    m1.t[0] = ((Unkstruct_8017CF48 *)param_1)->unk28 + param_2[0];
-    m1.t[1] = ((Unkstruct_8017CF48 *)param_1)->unk2A + param_2[1];
-    m1.t[2] = ((Unkstruct_8017CF48 *)param_1)->unk2C + param_2[2];
-    svec_in.vx = 0;
-    svec_in.vy = 0;
-    svec_in.vz = ((Unkstruct_8017CF48 *)param_1)->unk10;
-    ((void (*)(s32, s32, s32))func_8012F14C)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
-
-    ((Unkstruct_8017CF48 *)param_1)->unk3C = (s32)svec_out.vx;
-    ((Unkstruct_8017CF48 *)param_1)->unk40 = (s32)svec_out.vy;
-    ((Unkstruct_8017CF48 *)param_1)->unk44 = (s32)svec_out.vz;
-}
+#define SHARED_FN func_8017ED84
+#include "../shared/ov/cls_001ead61eeb5.h"
+#undef SHARED_FN
 
 
 
@@ -4996,14 +4968,9 @@ extern void func_80019064(void *a0);
 extern void func_8014BC44(s32 a0, s32 a1);
 extern void func_80151664(s32 a0v);
 
-void func_8017F0E0(s32 a0)
-{
-    s32 s0 = a0;
-    ((void (*)(s32))func_80019064)((s32)&(*(s32 *)D_80062C04));
-    func_8014BC44(s0, ((Unkstruct_80126B58 *)s0)->unkF2);
-    ((Unkstruct_80126B58 *)s0)->unkA8 = 0x20;
-    ((void (*)(s32))func_80151664)(s0);
-}
+#define SHARED_FN func_8017F0E0
+#include "../shared/ov/cls_1bdf698eb0a9.h"
+#undef SHARED_FN
 
 
 
@@ -5560,9 +5527,9 @@ void func_8017FE48(void *a0) {
 
 extern void (*D_80188734[])(void);
 
-void func_8017FF34(void *a0) {
-    D_80188734[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017FF34
+#include "../shared/ov/cls_286d589a4dde.h"
+#undef SHARED_FN
 
 
 
@@ -8224,16 +8191,9 @@ extern void func_8012B2CC(s32 a0);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B178(s32 a0, s32 a1);
 
-void func_80183A80(u8 *a0) {
-    u8 *p = CAST_SIGN(u8 *, a0, 0x20);
-    u16 v = CAST_SIGN(u16, a0, 0xFC);
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x50;
-    ((Unkstruct_800B5CB8 *)p)->unk12 = v;
-    func_8012B2CC((s32)a0);
-    func_8012B200(a0);
-    func_8012B178((s32)a0, 0xFFF00000);
-}
+#define SHARED_FN func_80183A80
+#include "../shared/ov/cls_3dd0811a95cb.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012CBF4(s32 a0);
@@ -8646,21 +8606,9 @@ void func_80184368(s32 arg0) {
  * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
  * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
  */
-s32 func_801844FC(s32 arg0) {
-    extern u8 D_801202A0[];
-    u8 *p;
-    s32 i;
-
-    p = D_801202A0;
-    for (i = 0; i < 0x60; i++) {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x35C && ((Unkstruct_800B5CB8 *)arg0)->unk64 == ((Unkstruct_800B5CB8 *)p)->unk64 &&
-            arg0 != (s32)p) {
-            return 1;
-        }
-        p += 0x10C;
-    }
-    return 0;
-}
+#define SHARED_FN func_801844FC
+#include "../shared/ov/cls_4523b23ef61f.h"
+#undef SHARED_FN
 
 
 
@@ -8691,15 +8639,9 @@ void func_80184554(s32 arg0) {
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
 
-void func_801845D0(void *arg0) {
-    void *temp_a0;
-
-    temp_a0 = CAST_SIGN(void *, (char *)arg0, 0xCC);
-    if (temp_a0 != NULL) {
-        func_80016714(temp_a0, 0x38);
-    }
-    func_8012C218(arg0);
-}
+#define SHARED_FN func_801845D0
+#include "../shared/multi/cls_0f2ecbb48e58.h"
+#undef SHARED_FN
 
 
 
@@ -8708,21 +8650,9 @@ void func_801845D0(void *arg0) {
 extern s32 func_8012C51C(void *a0, s32 a1);
 
 
-void func_80184614(s32 a0, u16 *a1, s16 a2) {
-    struct S80190C84 sp;
-    u16 t;
-    sp.f0 = a1[0];
-    sp.f2 = a1[1];
-    t = a1[2];
-    sp.f6 = 0x35C;
-    sp.fA = 0;
-    sp.f8 = 0;
-    sp.fE = a2;
-    sp.f10 = 0;
-    sp.fC = 0x7FFF;
-    sp.f4 = t;
-    func_8012C51C(&sp, a0);
-}
+#define SHARED_FN func_80184614
+#include "../shared/ov/cls_921bf6d0d74b.h"
+#undef SHARED_FN
 
 
 

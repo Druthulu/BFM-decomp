@@ -602,6 +602,8 @@ def restamp_residue(segments, label):
     outside restruct's default ov_* scope, so the headers are named in --only). type_census --sites first: restruct reads its sites."""
     py = sys.executable
     for name, cmd in (("type_census_sites", [py, "tools/type_census.py", "--sites", "-j", "16"]),
+                      # T4.c2: a header body has no rung-S row of its own (its private copies' rows stay keyed to the old TUs): append one
+                      ("residue", [py, "tools/restruct.py", "--rung", "S", "--residue", "--only", *segments]),
                       ("restamp", [py, "tools/restruct.py", "--rung", "S", "--residue", "--restamp", "--only", *segments]),
                       ("check_residue", [py, "tools/restruct.py", "--check-residue", "--only", *segments])):
         log_p = RUN / f"{name}_{label}.log"

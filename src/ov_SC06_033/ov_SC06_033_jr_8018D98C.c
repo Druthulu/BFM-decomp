@@ -4751,24 +4751,9 @@ void func_801908C0(s32 a0)
 }
 
 
-void func_801909F4(s32 a0) {
-    s32 p;
-    s32 q;
-
-    p = ((Unkstruct_80180068 *)a0)->unk20;
-    ((Unkstruct_80180068 *)a0)->unk6 = 0x7FFF;
-    ((Unkstruct_80180068 *)a0)->unkA = -0x1000;
-    ((Unkstruct_80180068 *)a0)->unk2 = 5;
-    ((Unkstruct_80180068 *)a0)->unk34 = 0;
-    ((Unkstruct_80180068 *)a0)->unk1C = 0x12C;
-    ((Unkstruct_80180068_2 *)p)->unk4 |= 0x80000000;
-    q = ((Unkstruct_80180068 *)a0)->unk20;
-    ((Unkstruct_80180068_2 *)q)->unk1C = 0x1000;
-    ((Unkstruct_80180068_2 *)q)->unk1A = 0x1000;
-    ((Unkstruct_80180068_2 *)q)->unk18 = 0x1000;
-    ((Unkstruct_80180068 *)a0)->unk76 = 0x1E0;
-    ((Unkstruct_80180068 *)a0)->unk5C = 0x8810;
-}
+#define SHARED_FN func_801909F4
+#include "../shared/ov/cls_14b3190f24d4.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C1B8(void);

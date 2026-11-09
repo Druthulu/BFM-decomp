@@ -6948,6 +6948,6 @@ s32 func_80181B08(void) {
 
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
-    void func_80181B20(void) {
-        func_8002D4C8(0x7E0, 0);
-    }
+#define SHARED_FN func_80181B20
+#include "../shared/ov/cls_05626dd4e9c6.h"
+#undef SHARED_FN

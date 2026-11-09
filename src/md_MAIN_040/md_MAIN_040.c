@@ -65,9 +65,9 @@ void func_800CAF18(void *a0) {
 }
 
 
-void func_800CAFB0(void *a0) {
-    ((Unkstruct_800CAF88 *)a0)->unk44 &= ~2;
-}
+#define SHARED_FN func_800CAFB0
+#include "../shared/slot_800CAE08/cls_a0930d00ac46.h"
+#undef SHARED_FN
 
 
 #include "common.h"

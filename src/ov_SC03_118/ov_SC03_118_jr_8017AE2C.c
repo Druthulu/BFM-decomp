@@ -4425,12 +4425,9 @@ extern s32 D_8012750C;
 extern s32 D_80126B58;
 extern s32 D_80126CF0;
 
-void func_8017DD7C(void) {
-    s32 v0;
-    v0 = func_8013767C(D_8012750C);
-    D_80126CF0 = v0;
-    func_80171A1C((u8 *)&D_80126B58);
-}
+#define SHARED_FN func_8017DD7C
+#include "../shared/ov/cls_83305271f179.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017DDBC__de40f942.h"
@@ -5456,15 +5453,9 @@ extern s32 func_8014CB58(void);
 extern s32 func_80171990(u8 *a0);
 extern void func_8014B5C4(s32 *a0, s32 a1, s32 a2);
 
-void func_8017F43C(s32 a0)
-{
-    if (func_8014C088(a0, 0x16) == 0)
-    {
-        CAST_SIGN(s32, a0, 0x44) &= ~0x20000;
-        func_8014B5C4((s32 *)a0, func_8014CB58() & 0xFF, 0x80);
-        func_80171990((u8 *)a0);
-    }
-}
+#define SHARED_FN func_8017F43C
+#include "../shared/ov/cls_2c53c4c55e5d.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017F49C__76785405.h"
@@ -5778,16 +5769,8 @@ void func_8017FA80(s32 a0) {
 
 
 
-void func_8017FB40(s32 param_1) {
-    s32 tbl;
-    s32 obj;
-
-    tbl = ((Unkstruct_8017D598 *)param_1)->unk4C;
-    obj = ((Unkstruct_8017D598 *)param_1)->unk20;
-    ((Unkstruct_8017D598 *)param_1)->unk4 = ((Unkstruct_8017D598_2 *)tbl)->unk4;
-    ((Unkstruct_8017D598 *)param_1)->unk8 = ((Unkstruct_8017D598_2 *)tbl)->unk8;
-    ((Unkstruct_8017D598 *)param_1)->unkC = ((Unkstruct_8017D598_2 *)tbl)->unkC;
-    ((Unkstruct_8017D598_4 *)obj)->unk12 += ((Unkstruct_8017D598_3 *)*(s32 *)(param_1 + 0x58))->unk6;
-}
+#define SHARED_FN func_8017FB40
+#include "../shared/ov/cls_71b73fe196bb.h"
+#undef SHARED_FN
 
 

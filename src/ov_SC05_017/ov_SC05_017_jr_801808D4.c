@@ -3641,13 +3641,9 @@ void func_801816CC(void *arg0) {
 
 extern s32 func_80029178(s32 arg);
     extern void func_80029124(s32, s32);
-    s32 func_801816DC(void) {
-        if ((func_80029178(0x113) & 0xFF) == 0) {
-            ((void (*)(void *, s32))func_80029124)((void *)0x113, 1);
-            return 1;
-        }
-        return 0;
-    }
+#define SHARED_FN func_801816DC
+#include "../shared/ov/cls_0720c4d51428.h"
+#undef SHARED_FN
 
 
 

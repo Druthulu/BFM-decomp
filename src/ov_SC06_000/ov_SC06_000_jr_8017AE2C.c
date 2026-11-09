@@ -4403,12 +4403,9 @@ extern s32 D_8012750C;
 extern s32 D_80126B58;
 extern s32 D_80126CF0;
 
-void func_8017DD7C(void) {
-    s32 v0;
-    v0 = func_8013767C(D_8012750C);
-    D_80126CF0 = v0;
-    func_80171A1C((u8 *)&D_80126B58);
-}
+#define SHARED_FN func_8017DD7C
+#include "../shared/ov/cls_83305271f179.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017DDBC__de40f942.h"
@@ -7326,30 +7323,9 @@ void func_801827F4(void) {
 
 
 
-void func_80182828(void *a0, s32 a1)
-{
-    s32 offset;
-    s16 buf[4];
-    u16 t0, t1, t2, t3;
-    u16 *ptr;
-
-    offset = a1 << 1;
-    ptr = (u16 *)((s32)offset + (s32)a0);
-
-    t0 = ptr[0];
-    buf[0] = t0;
-
-    t1 = ptr[1];
-    buf[1] = t1;
-
-    t2 = ptr[2];
-    buf[2] = t2;
-
-    t3 = ptr[3];
-    buf[3] = t3;
-
-    MoveImage(buf, ptr[4], ptr[5]);
-}
+#define SHARED_FN func_80182828
+#include "../shared/ov/cls_a769aaf7bf9b.h"
+#undef SHARED_FN
 
 
 s32 func_80182888(void)
@@ -8565,9 +8541,9 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 
 extern void func_8013CAE8(void);
-    void func_8018469C(void) {
-        func_8013CAE8();
-    }
+#define SHARED_FN func_8018469C
+#include "../shared/ov/cls_4b5c19698d34.h"
+#undef SHARED_FN
 
 
 
@@ -8706,15 +8682,15 @@ void func_80184940(s32 param_1, s32 param_2, s32 param_3)
 
 
 extern void func_8017BEBC(void);
-    void func_801849A8(void) {
-        func_8017BEBC();
-    }
+#define SHARED_FN func_801849A8
+#include "../shared/ov/cls_bf5a11ea814e.h"
+#undef SHARED_FN
 
 
 extern s32 func_8017BFA0();
-    void func_801849C8(void) {
-        func_8017BFA0();
-    }
+#define SHARED_FN func_801849C8
+#include "../shared/ov/cls_44c3d3f71117.h"
+#undef SHARED_FN
 
 
 extern s32 func_8018183C(void);
@@ -8794,18 +8770,9 @@ void func_80184AE4(int param_1)
 extern void func_80129350(s32 *a0, s32 a1);
 extern void func_80133060(s32 *a0, s32 a1, s32 a2);
 
-void func_80184B30(s32 *a0) {
-    s32 *s0;
-    s32 a1;
-
-    s0 = a0;
-    a1 = CAST_WIDTH(s32, (u8 *)s0, 0x34);
-    func_80129350(s0, a1);
-
-    a1 = (s32)((u8 *)s0 + 0x4);
-    ((Unkstruct_800B5CB8 *)s0)->unkA = ((Unkstruct_800B5CB8 *)s0)->unkA + ((Unkstruct_800B5CB8 *)s0)->unk2C;
-    func_80133060((s32 *)((u8 *)s0 + 0x4), a1, -0x180);
-}
+#define SHARED_FN func_80184B30
+#include "../shared/ov/cls_1a8a4f21da67.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C1B8(void);
@@ -9033,13 +9000,9 @@ void func_80184F68(s32 arg0) {
 extern void func_8012AD80(s32 a0);
 extern void func_8012C218(void *a0);
 
-void func_80184FD8(void *param_1) {
-    (CAST_SIGN(u16, (char *)param_1, 0xFC))++;
-    func_8012AD80(param_1);
-    if (((Unkstruct_800B5CB8 *)param_1)->unk98 == 0) {
-        func_8012C218(param_1);
-    }
-}
+#define SHARED_FN func_80184FD8
+#include "../shared/ov/cls_df850af5e2b2.h"
+#undef SHARED_FN
 
 
 extern Block4 D_801AD2DC;
@@ -9971,25 +9934,9 @@ void func_80186688(void *a0) {
 extern void func_8012AD80(s32 a0);
 extern void func_8012C218(void *a0);
 
-void func_801866C4(s32 a0) {
-    u8 *s0;
-    s16 val1;
-    s16 val2;
-
-    func_8012AD80(a0);
-    s0 = (u8 *)a0;
-
-    ((Unkstruct_800B5CB8 *)*(u32 *)(s0 + 0x20))->unk10 += CAST_SIGN(u16, s0, 0xFC);
-    ((Unkstruct_800B5CB8 *)*(u32 *)(s0 + 0x20))->unk12 += CAST_SIGN(u16, s0, 0xFE);
-    CAST_WIDTH(u16, *(u32 *)(s0 + 0x20), 0x14) += CAST_SIGN(u16, s0, 0x100);
-
-    val1 = *(s16 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 0x0A);
-    val2 = CAST_SIGN(s16, s0, 0x0A);
-
-    if (val2 > val1) {
-        func_8012C218((void *)a0);
-    }
-}
+#define SHARED_FN func_801866C4
+#include "../shared/ov/cls_a5af90662c87.h"
+#undef SHARED_FN
 
 
 void func_80186758(void) {
@@ -11163,41 +11110,9 @@ void func_801879B8(void *a0) {
 
 
 
-void func_80187AB8(void *a0) {
-    s32 *s1;
-    s32 *s0;
-    u16 v0_const;
-    s32 rand_val;
-    u16 *val_ptr;
-    void *a02;
-    a02 = a0;
-
-    s1 = (s32 *)a02;
-    v0_const = 0x0B;
-    s0 = *(s32 **)((u8 *)s1 + 0x20);
-
-    // Store 0x0B as halfword at offset 0x2
-    ((Unkstruct_8017E270 *)s0)->unk2 = v0_const;
-
-    // Load word from offset 0x4, OR with 0x50000000, store back
-    ((Unkstruct_8017E270 *)s0)->unk4 |= 0x50000000;
-
-    // If the halfword at offset 0x18 is 0, store 0x600
-    if (((Unkstruct_8017E270 *)s0)->unk18 == 0) {
-        ((Unkstruct_8017E270 *)s0)->unk18 = 0x600;
-    }
-
-    // Call rand, mask to 0xFF0, store at offset 0x14
-    rand_val = rand();
-    ((Unkstruct_8017E270 *)s0)->unk14 = (u16)(rand_val & 0xFF0);
-
-    // Load halfword at offset 0x2 of s1, increment, store back
-    val_ptr = (u16 *)((u8 *)s1 + 0x2);
-    *val_ptr = *val_ptr + 1;
-
-    // Store 0x100 as halfword at offset 0x30 of s1
-    ((Unkstruct_8017E270_4 *)s1)->unk30 = 0x100;
-}
+#define SHARED_FN func_80187AB8
+#include "../shared/multi/cls_8a0abe57a31e.h"
+#undef SHARED_FN
 
 
 #define RD16(p) (((Unkstruct_80187B34 *)(p))->h)

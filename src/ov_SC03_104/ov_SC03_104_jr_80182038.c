@@ -3115,16 +3115,9 @@ s32 * func_8018271C(s32 *a0, s32 a1, s32 a2)
 
 extern s32 func_80134510(s32 arg);
 
-s32 func_801827EC(s32 a0)
-{
-    u16 sp[3];
-    s32 result;
-    sp[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    result = func_80134510((s32)sp);
-    return ((u32)result > 0) ? 1 : 0;
-}
+#define SHARED_FN func_801827EC
+#include "../shared/ov/cls_9456db750b3f.h"
+#undef SHARED_FN
 
 
 
@@ -3139,19 +3132,9 @@ extern void func_8002D4C8(s32 a0, s32 a1);
  * if-body's `lui` instead (SHIFT-DRIFT/+1). Pinning the local to $a0 makes the `li`
  * a hard-reg set that stays where it is written, and the call's arg move degenerates
  * to a deleted `(set (reg 4) (reg 4))`. */
-void func_8018282C(void *a0) {
-    s32 id;
-    s32 vol;
-    s32 t;
-
-    vol = 0x7F;
-    t = func_8012BD14((s32)a0);
-    id = 0x6FE;
-    if (t > 0x1000) {
-        vol -= (t - 0x1000) / 0x2700;
-    }
-    func_8002D4C8(id, (vol | 0x1000) & 0xFFFF);
-}
+#define SHARED_FN func_8018282C
+#include "../shared/ov/cls_e050f0dc9442.h"
+#undef SHARED_FN
 
 
 

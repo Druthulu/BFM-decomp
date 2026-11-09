@@ -4783,9 +4783,9 @@ s32 func_8017EE74(void) {
 
 
 extern void func_8013CB84(void);
-    void func_8017EE7C(void) {
-        func_8013CB84();
-    }
+#define SHARED_FN func_8017EE7C
+#include "../shared/ov/cls_9dbe668f97c6.h"
+#undef SHARED_FN
 
 
 

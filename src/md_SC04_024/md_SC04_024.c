@@ -106,15 +106,9 @@ extern const Blk8_md_SC03_076 D_801E7B2C;
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
 
-void func_801E7D98(u32 arg0) {
-    Blk8_md_SC03_076 buffer;
-
-    buffer = D_801E7B2C;
-
-    if (func_80171D78(arg0, &buffer)) {
-        ((void (*)(u32))func_80171A1C)(arg0);
-    }
-}
+#define SHARED_FN func_801E7D98
+#include "../shared/slot_801E7B28/cls_db39c5710d91.h"
+#undef SHARED_FN
 
 
 
@@ -157,15 +151,9 @@ extern const Blk8_md_SC03_076 D_801E7B2C;
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
 
-void func_801E7EBC(u32 arg0) {
-    Blk8_md_SC03_076 buffer;
-
-    buffer = D_801E7B2C;
-
-    if (func_80171D78(arg0, &buffer)) {
-        ((void (*)(u32))func_80171A1C)(arg0);
-    }
-}
+#define SHARED_FN func_801E7EBC
+#include "../shared/slot_801E7B28/cls_db39c5710d91.h"
+#undef SHARED_FN
 
 
 void func_801E7F24(void) {

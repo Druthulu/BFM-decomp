@@ -4881,41 +4881,9 @@ extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
  * a1 = s16[3] offset vector, a2 = mode passed through to func_8012CEB0.
  * Same family as func_8012CC88 (src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c etc) but the
  * position-integration step is a real call to func_8012931C instead of being inlined. */
-s32 func_80181BB4(s32 a0, s32 a1, s32 a2) {
-    SV3_8012CC88 sp10;
-    SV3_8012CC88 sp18;
-    s32 v0;
-
-    sp10.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp10.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp10.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    sp10.vx += *(u16*)(a1 + 0);
-    sp10.vy += *(u16*)(a1 + 2);
-    sp10.vz += *(u16*)(a1 + 4);
-
-    func_8012931C((struct vec *)a0);
-
-    sp18.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp18.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp18.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    sp18.vx += *(u16*)(a1 + 0);
-    sp18.vy += *(u16*)(a1 + 2);
-    sp18.vz += *(u16*)(a1 + 4);
-
-    v0 = func_8012CEB0((s32)&sp10, (s32)&sp18, a2);
-
-    sp18.vx -= *(u16*)(a1 + 0);
-    sp18.vy -= *(u16*)(a1 + 2);
-    sp18.vz -= *(u16*)(a1 + 4);
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.vx;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.vy;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.vz;
-
-    if (v0 & 0x6000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk14 = 0;
-    }
-    return v0;
-}
+#define SHARED_FN func_80181BB4
+#include "../shared/ov/cls_3f9d7f354551.h"
+#undef SHARED_FN
 
 
 
@@ -5084,12 +5052,9 @@ void func_80182120(s32 arg0)
 extern void func_8014BC44(s32 a0, s32 a1);
 extern void func_80151664(s32 a0v);
 
-void func_80182194(s32 a0)
-{
-    func_8014BC44(a0, ((Unkstruct_80126B58 *)a0)->unkF2);
-    ((Unkstruct_80126B58 *)a0)->unkA8 = 0x20;
-    ((void (*)(s32))func_80151664)(a0);
-}
+#define SHARED_FN func_80182194
+#include "../shared/ov/cls_a582070a9b1d.h"
+#undef SHARED_FN
 
 
 

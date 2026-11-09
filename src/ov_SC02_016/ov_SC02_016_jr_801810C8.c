@@ -3719,14 +3719,9 @@ void func_801822E0(s32 param_1)
 
 extern void func_80151664(s32 a0v);
 
-void func_80182434(s32 a0)
-{
-    func_80147364(4, 0x92F);
-    func_80147324(0x930);
-    func_8014BC44(a0, ((Unkstruct_80126B58 *)a0)->unkF2);
-    ((Unkstruct_80126B58 *)a0)->unkA8 = 0x20;
-    ((void (*)(s32))func_80151664)(a0);
-}
+#define SHARED_FN func_80182434
+#include "../shared/ov/cls_5eab022d5696.h"
+#undef SHARED_FN
 
 
 
@@ -3889,10 +3884,9 @@ s32 r;
 }
 
 
-void func_80182720(void *a0) {
-        ((Unkstruct_8017DC14 *)a0)->unk0 = 0xF0F0F0;
-        ((Unkstruct_8017DC14 *)a0)->unk4 = 0;
-    }
+#define SHARED_FN func_80182720
+#include "../shared/ov/cls_6968ed5b84df.h"
+#undef SHARED_FN
 
 
 /* func_80182734 — scroll/advance one "text-ish" byte pair and pack it into a
@@ -3950,13 +3944,9 @@ void func_8018279C(void *a0) {
 void func_801495C4(s32 a0, s32 a1);
 void func_80146E90(s32 *a0, s32 a1);
 
-void func_801827D8(s32 param_1)
-{
-    u8 pad[0x28];
-    func_801495C4(((Unkstruct_80126B58 *)param_1)->unk34, param_1 + 0x4);
-    func_80146E90((s32 *)param_1, 3);
-    ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;
-}
+#define SHARED_FN func_801827D8
+#include "../shared/ov/cls_25521a8fc415.h"
+#undef SHARED_FN
 
 
 extern s32 func_80146E98(s32 a0);
@@ -4396,22 +4386,9 @@ void func_801832F4(void *a0) {
 
 
 
-s32 func_801833C8(void *a0) {
-    void *p1, *p2;
-    u16 val;
-    long x;
-
-    p1 = ((Unkstruct_8017DF48 *)a0)->unk20;
-    p2 = ((Unkstruct_8017DF48 *)a0)->unk6C;
-    val = ((Unkstruct_8017DF48_3 *)p1)->unk12;
-    p2 = ((Unkstruct_8017DF48_2 *)p2)->unk20;
-    val += 0x800;
-    val &= 0xFFF;
-    ((Unkstruct_8017DF48_2 *)p2)->unk12 = val;
-    x = 2;
-    ((Unkstruct_8017DF48 *)a0)->unk2 = x;
-    return x;
-}
+#define SHARED_FN func_801833C8
+#include "../shared/ov/cls_58d4c216fa82.h"
+#undef SHARED_FN
 
 
 void func_801833F0(void) {
@@ -4538,14 +4515,14 @@ extern void func_8012C218(void *a0);
     }
 
 
-void func_80183690(void *a0) {
-        ((Unkstruct_8017E150 *)*(int *)((char *)a0 + 0x6c))->unkFE = 1;
-    }
+#define SHARED_FN func_80183690
+#include "../shared/ov/cls_adf091d1f41e.h"
+#undef SHARED_FN
 
 
-void func_801836A0(void *a0) {
-        ((Unkstruct_8017E160 *)*(int *)((char *)a0 + 0x6c))->unkFE = 2;
-    }
+#define SHARED_FN func_801836A0
+#include "../shared/ov/cls_18071cfc15d1.h"
+#undef SHARED_FN
 
 
 

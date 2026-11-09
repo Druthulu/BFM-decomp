@@ -4115,12 +4115,9 @@ void func_8018CDD8(int param_1)
 
 extern void func_801292C8(u8 *a0);
 
-void func_8018CE60(u8 *a0) {
-    CAST_WIDTH(s32, a0, 0x4) = CAST_WIDTH(s32, a0, 0x4) - CAST_WIDTH(s32, a0, 0x10);
-    if (CAST_SIGN(s16, a0, 0x6) < -0x110) {
-        func_801292C8(a0);
-    }
-}
+#define SHARED_FN func_8018CE60
+#include "../shared/ov/cls_158ee3996c2b.h"
+#undef SHARED_FN
 
 
 extern void func_8012C218(void *a0);
@@ -4224,12 +4221,9 @@ void func_8018CFFC(s32 *a0)
 extern int func_80178970(void);
 extern void func_80178D18(void);
 
-void func_8018D048(s32 a0) {
-    if (func_80178970() != 0) {
-        ((void (*)(s32))func_80178D18)(a0);
-        ((Unkstruct_8017D658 *)a0)->unk2 = 1;
-    }
-}
+#define SHARED_FN func_8018D048
+#include "../shared/ov/cls_af195cefe97a.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012BD14(s32 a0);

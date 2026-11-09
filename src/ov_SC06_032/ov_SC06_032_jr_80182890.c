@@ -3618,13 +3618,9 @@ void func_80183940(s32 param_1)
 
 extern void func_8012E8A8(u8*);
 
-void func_80183AF8(void *a0)
-{
-    ((void (*)(void *))func_8012E8A8)(a0);
-    ((Unkstruct_80182EC4 *)a0)->unk1C = 0xA;
-    ((Unkstruct_80182EC4 *)a0)->unk5C = 0;
-    ((Unkstruct_80182EC4 *)a0)->unk2 = 0xA;
-}
+#define SHARED_FN func_80183AF8
+#include "../shared/ov/cls_521b20381533.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012D624(void *a0, s32 a1, s32 a2);
@@ -6420,41 +6416,9 @@ void func_80187D60(void *a0) {
 
 
 
-void func_80187E60(void *a0) {
-    s32 *s1;
-    s32 *s0;
-    u16 v0_const;
-    s32 rand_val;
-    u16 *val_ptr;
-    void *a02;
-    a02 = a0;
-
-    s1 = (s32 *)a02;
-    v0_const = 0x0B;
-    s0 = *(s32 **)((u8 *)s1 + 0x20);
-
-    // Store 0x0B as halfword at offset 0x2
-    ((Unkstruct_8017E270 *)s0)->unk2 = v0_const;
-
-    // Load word from offset 0x4, OR with 0x50000000, store back
-    ((Unkstruct_8017E270 *)s0)->unk4 |= 0x50000000;
-
-    // If the halfword at offset 0x18 is 0, store 0x600
-    if (((Unkstruct_8017E270 *)s0)->unk18 == 0) {
-        ((Unkstruct_8017E270 *)s0)->unk18 = 0x600;
-    }
-
-    // Call rand, mask to 0xFF0, store at offset 0x14
-    rand_val = rand();
-    ((Unkstruct_8017E270 *)s0)->unk14 = (u16)(rand_val & 0xFF0);
-
-    // Load halfword at offset 0x2 of s1, increment, store back
-    val_ptr = (u16 *)((u8 *)s1 + 0x2);
-    *val_ptr = *val_ptr + 1;
-
-    // Store 0x100 as halfword at offset 0x30 of s1
-    ((Unkstruct_8017E270_4 *)s1)->unk30 = 0x100;
-}
+#define SHARED_FN func_80187E60
+#include "../shared/multi/cls_8a0abe57a31e.h"
+#undef SHARED_FN
 
 
 #define RD16(p) (((Unkstruct_80187EDC *)(p))->h)
@@ -8331,13 +8295,9 @@ dec:
 
 
 
-void func_8018B184(void *a0)
-{
-  s32 v0 = *((s32 *) (((s32) a0) + 0x64));
-  *((s16 *) (v0 + 0x5C)) = 0;
-  ;
-  *((s16 *) ((*((s32 *) ((*((s32 *) (((s32) a0) + 0x64))) + 0xD0))) + 0x5C)) = 0;
-}
+#define SHARED_FN func_8018B184
+#include "../shared/ov/cls_2ba2c0dcae2e.h"
+#undef SHARED_FN
 
 
 void func_8018B1A4(int param_1) {
@@ -9499,24 +9459,9 @@ void func_8018CC20(s32 a0)
 
 
 
-void func_8018CD54(s32 a0) {
-    s32 p;
-    s32 q;
-
-    p = ((Unkstruct_80180068 *)a0)->unk20;
-    ((Unkstruct_80180068 *)a0)->unk6 = 0x7FFF;
-    ((Unkstruct_80180068 *)a0)->unkA = -0x1000;
-    ((Unkstruct_80180068 *)a0)->unk2 = 5;
-    ((Unkstruct_80180068 *)a0)->unk34 = 0;
-    ((Unkstruct_80180068 *)a0)->unk1C = 0x12C;
-    ((Unkstruct_80180068_2 *)p)->unk4 |= 0x80000000;
-    q = ((Unkstruct_80180068 *)a0)->unk20;
-    ((Unkstruct_80180068_2 *)q)->unk1C = 0x1000;
-    ((Unkstruct_80180068_2 *)q)->unk1A = 0x1000;
-    ((Unkstruct_80180068_2 *)q)->unk18 = 0x1000;
-    ((Unkstruct_80180068 *)a0)->unk76 = 0x1E0;
-    ((Unkstruct_80180068 *)a0)->unk5C = 0x8810;
-}
+#define SHARED_FN func_8018CD54
+#include "../shared/ov/cls_14b3190f24d4.h"
+#undef SHARED_FN
 
 
 void func_8018CDB4(s32 param_1)

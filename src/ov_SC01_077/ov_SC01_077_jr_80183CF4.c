@@ -3611,16 +3611,9 @@ extern void func_8012B2CC(s32 a0);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B178(s32 a0, s32 a1);
 
-void func_801849A8(u8 *a0) {
-    u8 *p = CAST_SIGN(u8 *, a0, 0x20);
-    u16 v = CAST_SIGN(u16, a0, 0xFC);
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x50;
-    ((Unkstruct_800B5CB8 *)p)->unk12 = v;
-    func_8012B2CC((s32)a0);
-    func_8012B200(a0);
-    func_8012B178((s32)a0, 0xFFF00000);
-}
+#define SHARED_FN func_801849A8
+#include "../shared/ov/cls_3dd0811a95cb.h"
+#undef SHARED_FN
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (expected); clean stub, s0 holds param across both calls, no regalloc/schedule residual
@@ -4376,12 +4369,9 @@ void func_80185AD4(int param_1)
 
 extern void func_801292C8(u8 *a0);
 
-void func_80185B5C(u8 *a0) {
-    CAST_WIDTH(s32, a0, 0x4) = CAST_WIDTH(s32, a0, 0x4) - CAST_WIDTH(s32, a0, 0x10);
-    if (CAST_SIGN(s16, a0, 0x6) < -0x110) {
-        func_801292C8(a0);
-    }
-}
+#define SHARED_FN func_80185B5C
+#include "../shared/ov/cls_158ee3996c2b.h"
+#undef SHARED_FN
 
 /* Declarations conformed to this TU's own existing spellings
  * (ov_SC01_077_jr_80183CF4.c:2328 func_8004787C, :2615 D_800B9A02, :2826 RotTransPers,

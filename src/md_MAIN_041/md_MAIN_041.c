@@ -57,9 +57,9 @@ void func_800CAF08(void *a0) {
 }
 
 
-void func_800CAF88(void *a0) {
-    ((Unkstruct_800CAF88 *)a0)->unk44 &= ~2;
-}
+#define SHARED_FN func_800CAF88
+#include "../shared/slot_800CAE08/cls_a0930d00ac46.h"
+#undef SHARED_FN
 
 
 extern u8 D_80078EC1;

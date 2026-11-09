@@ -2039,9 +2039,9 @@ extern void func_80015954(s32 a0, s32 a1);
 
 extern void (*D_801824B0[])(void);
 
-void func_8016BBA4(void *a0) {
-    D_801824B0[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016BBA4
+#include "../shared/ov/cls_3d79660871db.h"
+#undef SHARED_FN
 
 
 // @class: plumbing
@@ -2215,9 +2215,9 @@ extern void ApplyMatrixSV(void *a, void *b, void *c);
 
 extern void (*D_8018250C[])(void);
 
-void func_8016D428(void *a0) {
-    D_8018250C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016D428
+#include "../shared/ov/cls_2a16fc4cd8cb.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016D464.h"
@@ -2609,9 +2609,9 @@ extern void (*D_801826D4[])(void);
 
 extern void (*D_801826DC[])(void);
 
-void func_8016F834(void *a0) {
-    D_801826DC[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_8016F834
+#include "../shared/ov/cls_3a33c94125b4.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016F870.h"
@@ -2633,9 +2633,9 @@ void func_8016F8E4(void *a0) {
 
 extern void (*D_801826EC[])(void);
 
-void func_8016F9C4(void *a0) {
-    D_801826EC[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_8016F9C4
+#include "../shared/ov/cls_371e26154471.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016FA00.h"
@@ -2685,9 +2685,9 @@ void func_8016FC90(void *a0) {
 
 extern void (*D_80182718[])(void);
 
-void func_8016FDB4(void *a0) {
-    D_80182718[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_8016FDB4
+#include "../shared/ov/cls_00017d589023.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016FDF0.h"
@@ -2701,9 +2701,9 @@ void func_8016FDB4(void *a0) {
 
 extern void (*D_80182728[])(void);
 
-void func_8016FF30(void *a0) {
-    D_80182728[((Unkstruct_8016F6E0 *)a0)->unk216]();
-}
+#define SHARED_FN func_8016FF30
+#include "../shared/ov/cls_2ea0bea5bb47.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8016FF6C.h"

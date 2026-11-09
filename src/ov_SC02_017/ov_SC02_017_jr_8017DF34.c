@@ -5742,33 +5742,9 @@ extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 extern void func_8012931C(struct vec*);
 
-void func_80182EB0(s32 arg0)
-{
-    s32 obj;
-    s32 v;
-    s32 timer;
-
-    obj = ((Unkstruct_800B5CB8 *)arg0)->unk20;
-    CAST_WIDTH(s32, arg0, 0x10) += CAST_WIDTH(s32, arg0, 0x2C);
-    ((Unkstruct_800B5CB8 *)arg0)->unk14 += ((Unkstruct_800B5CB8 *)arg0)->unk30;
-    CAST_WIDTH(s32, arg0, 0x18) += CAST_WIDTH(s32, arg0, 0x34);
-    func_8012931C((struct vec *)arg0);
-    v = ((Unkstruct_800B5CB8 *)obj)->unk1A - 0x100;
-    ((Unkstruct_800B5CB8 *)obj)->unk1A = v;
-    ((Unkstruct_800B5CB8 *)obj)->unk18 = v;
-    if (func_80128ED8(obj, (s32 *)(arg0 + 0x24)) != 0) {
-        func_801292C8((u8 *)arg0);
-    } else {
-        timer = ((Unkstruct_800B5CB8 *)arg0)->unk1C;
-        if (timer != 0) {
-            timer--;
-            ((Unkstruct_800B5CB8 *)arg0)->unk1C = timer;
-            if (timer == 0) {
-                func_801292C8((u8 *)arg0);
-            }
-        }
-    }
-}
+#define SHARED_FN func_80182EB0
+#include "../shared/ov/cls_60540aa768e1.h"
+#undef SHARED_FN
 
 
 
@@ -7186,11 +7162,9 @@ void func_80184D28(s32 a0) {
 
 
 extern s32 func_8012BEE8(s32 arg);
-    void func_80184D9C(void *a0) {
-        if (func_8012BEE8((s32)a0)) {
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x5;
-        }
-    }
+#define SHARED_FN func_80184D9C
+#include "../shared/ov/cls_4242396421c0.h"
+#undef SHARED_FN
 
 
 extern void func_8012B23C(s32 a0);
@@ -7879,13 +7853,9 @@ s32 func_80185B5C(s32 a0) {
 
 
 extern s32 rand(void);
-    void func_80185C68(s32 arg0) {
-        if ((rand() & 1) != 0) {
-            ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0xA;
-        } else {
-            ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0x3;
-        }
-    }
+#define SHARED_FN func_80185C68
+#include "../shared/ov/cls_04438baedb1f.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -8073,9 +8043,9 @@ s32 func_80185F88(s32 a0)
 
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
-    void func_80186100(void) {
-        func_8002D4C8(0x6AA, 0);
-    }
+#define SHARED_FN func_80186100
+#include "../shared/ov/cls_4e9c3afddc2b.h"
+#undef SHARED_FN
 
 
 extern s32 func_8002A04C(s32 a0);

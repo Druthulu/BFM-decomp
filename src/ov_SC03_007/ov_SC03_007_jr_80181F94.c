@@ -3029,21 +3029,9 @@ void func_801820DC(s32 a0) {
  * 0x20 is re-loaded before each RMW (the `sh` stores may alias it), which is
  * exactly what writing the deref inline gives.
  */
-void func_80182148(int param_1) {
-    int v1;
-
-    if (((Unkstruct_8017E7B4 *)param_1)->unkFE != 0) {
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x18) += 0x40;
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x1a) += 0x40;
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x1c) += 0x40;
-        v1 = ((Unkstruct_8017E7B4 *)param_1)->unk20;
-        if (((Unkstruct_8017E7B4_2 *)v1)->unk18 >= 0x1800) {
-            ((Unkstruct_8017E7B4_2 *)v1)->unk1C = 0x1800;
-            ((Unkstruct_8017E7B4_2 *)v1)->unk1A = 0x1800;
-            ((Unkstruct_8017E7B4_2 *)v1)->unk18 = 0x1800;
-        }
-    }
-}
+#define SHARED_FN func_80182148
+#include "../shared/ov/cls_04352458e8b4.h"
+#undef SHARED_FN
 
 
 void func_801821D0(s32 param_1) {
@@ -3642,9 +3630,9 @@ void func_80182D88(s32 arg0) {
 
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
-    void func_80182F00(void) {
-        func_8002D4C8(0x6AA, 0);
-    }
+#define SHARED_FN func_80182F00
+#include "../shared/ov/cls_4e9c3afddc2b.h"
+#undef SHARED_FN
 
 
 extern s32 func_8002A04C(s32 a0);

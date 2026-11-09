@@ -3790,37 +3790,9 @@ void func_8017FDC4(s32 param_1)
 extern s32 func_8012CBCC(s32 a0);
 extern void func_8012C218(void *a0);
 
-void func_8017FE6C(s32 a0)
-{
-    s32 s0;
-    s32 v0;
-
-    s0 = a0;
-    v0 = ((s32 (*)(s32))func_8012CBCC)(a0);
-    if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)s0)->unkFC = -CAST_SIGN(u16, s0, 0xFC);
-        ((Unkstruct_800B5CB8 *)s0)->unkFE = -CAST_SIGN(u16, s0, 0xFE);
-        ((Unkstruct_800B5CB8 *)s0)->unk100 = -CAST_SIGN(u16, s0, 0x100);
-        if (v0 & 0x8000) {
-            CAST_WIDTH(s32, s0, 0x10) = -CAST_WIDTH(s32, s0, 0x10);
-            CAST_WIDTH(s32, s0, 0x18) = -CAST_WIDTH(s32, s0, 0x18);
-        }
-        if (v0 & 0x6000) {
-            ((Unkstruct_800B5CB8 *)s0)->unk14 = -8;
-        }
-    }
-
-    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk10 += CAST_SIGN(u16, s0, 0xFC);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 += CAST_SIGN(u16, s0, 0xFE);
-    *(u16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x14) += CAST_SIGN(u16, s0, 0x100);
-
-    if (--((Unkstruct_800B5CB8 *)s0)->unk1C < 0x10) {
-        *(u32 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 4) ^= 0x80000000;
-        if (((Unkstruct_800B5CB8 *)s0)->unk1C == 0) {
-            func_8012C218((void *)s0);
-        }
-    }
-}
+#define SHARED_FN func_8017FE6C
+#include "../shared/ov/cls_d47f0640740a.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C354(s32 a0, s32 a1);
