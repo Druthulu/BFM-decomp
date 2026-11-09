@@ -2205,9 +2205,9 @@ void func_80186250(s32 arg0) {
 }
 
 
-s32 func_80186290(s32 arg0) {
-        return ((Unkstruct_801845B8 *)arg0)->unk2 == 0x6;
-    }
+#define SHARED_FN func_80186290
+#include "../shared/ov/cls_7dae7530ad8d.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -2358,17 +2358,9 @@ void func_80186548(s32 *a0) {
     }
 
 
-void func_80186558(s32 a0) {
-    s32 v;
-
-    func_8012AD80(a0);
-    v = ((Unkstruct_800B5CB8 *)a0)->unk14;
-    if (v > 0x14000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk48 = -0x1400;
-    } else if (v < -0x14000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk48 = 0x1400;
-    }
-}
+#define SHARED_FN func_80186558
+#include "../shared/ov/cls_bb3564308720.h"
+#undef SHARED_FN
 
 
 void func_801865B0(s32 arg0) {

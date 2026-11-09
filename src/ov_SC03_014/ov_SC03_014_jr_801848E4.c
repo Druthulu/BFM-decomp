@@ -5122,9 +5122,9 @@ void func_80188C60(s32 a0) {
 
 
 
-s32 func_80188CA0(s32 arg0) {
-        return ((Unkstruct_801845B8 *)arg0)->unk2 == 0x6;
-    }
+#define SHARED_FN func_80188CA0
+#include "../shared/ov/cls_7dae7530ad8d.h"
+#undef SHARED_FN
 
 
 void func_80188CB4(s32 a0) {
@@ -5168,9 +5168,9 @@ void func_80188CB4(s32 a0) {
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_80188D64(void *arg0) {
-        ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 0x8);
-    }
+#define SHARED_FN func_80188D64
+#include "../shared/ov/cls_71090d436f9f.h"
+#undef SHARED_FN
 
 
 extern s32 func_8018473C(void);
@@ -5259,17 +5259,9 @@ void func_80188E00(s32 a0) {
 
 extern void func_8012AD80(s32 a0);
 
-void func_80188F28(s32 a0) {
-    s32 v;
-
-    func_8012AD80(a0);
-    v = ((Unkstruct_800B5CB8 *)a0)->unk14;
-    if (v > 0x14000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk48 = -0x1400;
-    } else if (v < -0x14000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk48 = 0x1400;
-    }
-}
+#define SHARED_FN func_80188F28
+#include "../shared/ov/cls_bb3564308720.h"
+#undef SHARED_FN
 
 
 void func_80188F80(void* arg0)

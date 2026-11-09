@@ -4347,17 +4347,9 @@ void func_8017FA38(s32 a0) {
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012BE54(s32 a0);
 
-void func_8017FBC4(s32 a0)
-{
-    if (func_8012BEE8(a0) == 0) {
-        return;
-    }
-    if (((s32 (*)(s32))func_8012BE54)(a0) > 0x40000) {
-        return;
-    }
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
-}
+#define SHARED_FN func_8017FBC4
+#include "../shared/ov/cls_3e816e5996ee.h"
+#undef SHARED_FN
 
 
 void func_8017FC14(s32 a0) {
@@ -4707,21 +4699,9 @@ extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
-void func_80180550(s32 param_1, s32 param_2) {
-    s32 spA[11];
-    s32 r;
-
-    r = func_8012B608(((Unkstruct_800B5CB8 *)param_1)->unk106,
-                      func_8012B864(param_1),
-                      ((Unkstruct_800B5CB8 *)param_1)->unkE8);
-    ((Unkstruct_800B5CB8 *)param_1)->unk106 = CAST_SIGN(u16, param_1, 0x106) + r;
-
-    spA[9] = 0;
-    spA[8] = 0;
-    spA[10] = param_2;
-    func_80049CAC(param_1 + 0x104, (s32)spA);
-    func_800484EC((s32)spA, (s32)&spA[8], param_1 + 0x10);
-}
+#define SHARED_FN func_80180550
+#include "../shared/ov/cls_0b021a360555.h"
+#undef SHARED_FN
 
 
 s32 func_801805C8(s32 arg0) {

@@ -4143,7 +4143,9 @@ void func_8017E230(s32 *a0)
 }
 
 
-#include "../shared/ov/func_8017E264__b79d8a2a.h"
+#define SHARED_FN func_8017E264
+#include "../shared/ov/cls_b79d8a2ab53c.h"
+#undef SHARED_FN
 
 
 extern u16 func_801487F4(s32 *a0);

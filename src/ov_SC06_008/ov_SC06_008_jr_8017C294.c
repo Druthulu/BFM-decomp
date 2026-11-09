@@ -3676,33 +3676,9 @@ extern int func_8004787C(int);
 extern int func_80047948(int);
 extern s32 func_80133784(s32, void*, s32);
 
-s32 func_8017EC48(s32 param_1, s32 param_2)
-{
-    int iVar1;
-    unsigned int uVar2;
-    int iVar3;
-    SVECTOR sv1;
-    SVECTOR sv2;
-
-    sv1.vx = ((Unkstruct_8017EC48 *)param_1)->unk6;
-    sv1.vy = ((Unkstruct_8017EC48 *)param_1)->unkA + -0x20;
-    sv1.vz = ((Unkstruct_8017EC48 *)param_1)->unkE;
-    iVar1 = func_8004787C(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
-    iVar3 = (short)param_2;
-    sv2.vy = sv1.vy;
-    sv2.vx = sv1.vx - (short)(iVar1 * iVar3 >> 0xc);
-    iVar1 = func_80047948(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
-    sv2.vz = sv1.vz - (short)(iVar1 * iVar3 >> 0xc);
-    uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
-    if ((uVar2 & 0x8000) != 0) {
-        iVar1 = func_8004787C(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
-        ((Unkstruct_8017EC48 *)param_1)->unk6 = sv2.vx + (short)(iVar1 * iVar3 >> 0xc);
-        iVar1 = func_80047948(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
-        ((Unkstruct_8017EC48 *)param_1)->unkE = sv2.vz + (short)(iVar1 * iVar3 >> 0xc);
-        return 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017EC48
+#include "../shared/ov/cls_b62547151680.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -6840,13 +6816,9 @@ extern void func_8012B370(int a0);
 
 
 
-void func_80183904(void *a0)
-{
-  s32 v0 = *((s32 *) (((s32) a0) + 0x64));
-  *((s16 *) (v0 + 0x5C)) = 0;
-  ;
-  *((s16 *) ((*((s32 *) ((*((s32 *) (((s32) a0) + 0x64))) + 0xCC))) + 0x5C)) = 0;
-}
+#define SHARED_FN func_80183904
+#include "../shared/ov/cls_18c89194ffc0.h"
+#undef SHARED_FN
 
 extern s32 func_8012C354(s32 a0, s32 a1);
 extern void func_8001C214(s32 a0, s32 a1);
@@ -7892,9 +7864,9 @@ s32 func_80184E58(void) {
 
 
 extern s32 func_800296F8(s32 arg0);
-    s32 func_80184E70(s32 arg0) {
-        ((void (*)(s32))func_800296F8)(((Unkstruct_8017E188 *)arg0)->unkDC);
-    }
+#define SHARED_FN func_80184E70
+#include "../shared/ov/cls_07edf16b34a0.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012BDBC(s32 a0, s32 a1);

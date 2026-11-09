@@ -3081,15 +3081,9 @@ void func_80182E68(s32 a0) {
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B178(s32 a0, s32 a1);
 
-void func_80182FD8(s32 param_1) {
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x18;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = 0x80;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
-        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0x20) + 0x12);
-    func_8012B2CC(param_1);
-    func_8012B178(param_1, -0x100000);
-    ((Unkstruct_800B5CB8 *)param_1)->unk2 = 2;
-}
+#define SHARED_FN func_80182FD8
+#include "../shared/ov/cls_7922ef7a26b3.h"
+#undef SHARED_FN
 
 
 
@@ -3203,22 +3197,9 @@ LAB_80188494:
 }
 
 
-void func_80183298(s32 param_1) {
-    s32 v1;
-    s32 v0;
-    s32 v2;
-
-    v1 = ((Unkstruct_800B5CB8 *)param_1)->unk64;
-    ((Unkstruct_800B5CB8 *)param_1)->unk48 = 0xC000;
-    v0 = *(s32 *)(v1 + 0x20);
-    v2 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
-    *(u16 *)(v2 + 0x12) = *(u16 *)(v0 + 0x12);
-    func_8012B2CC(param_1);
-    func_8012B178(param_1, 0x20000);
-    ((Unkstruct_800B5CB8 *)param_1)->unk2 = 4;
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
-    ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
-}
+#define SHARED_FN func_80183298
+#include "../shared/ov/cls_31ddb999e7a3.h"
+#undef SHARED_FN
 
 
 
@@ -3451,27 +3432,9 @@ extern void func_80049CAC(s32, s32);
 extern void func_800484EC(s32, s32, s32);
 extern void func_8012B260(u8 *a0);
 
-void func_801838A4(s32 p) {
-    s32 g10[4];   /* sp+0x10 */
-    u16 g20[4];   /* sp+0x20 */
-    s32 buf28[8]; /* sp+0x28 */
-    u16 v;
-
-    g10[2] = 0xFFF00000;
-    g10[1] = 0;
-    g10[0] = 0;
-    g20[0] = 0x10;
-    v = *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x64))->unk20 + 0x12) +
-        CAST_SIGN(u16, p, 0xFC);
-    g20[1] = v;
-    ((Unkstruct_800B5CB8 *)p)->unkFE = v;
-    g20[2] = 0;
-    ((void (*)(void *, void *))func_80049CAC)(g20, buf28);
-    ((void (*)(void *, void *, s32))func_800484EC)(buf28, g10, p + 0x10);
-    ((Unkstruct_800B5CB8 *)p)->unk2 = 8;
-    ((Unkstruct_800B5CB8 *)p)->unk1C = 0x40;
-    ((void (*)(s32))func_8012B260)(p);
-}
+#define SHARED_FN func_801838A4
+#include "../shared/ov/cls_59b9e1d7b5fe.h"
+#undef SHARED_FN
 
 
 /* func_80183940 @ ov_SC06_032 (subseg ov_SC06_032_jr_80182890) - 110 ins. MATCH.
@@ -3905,13 +3868,9 @@ s32 a5;
 }
 
 
-void func_80184124(s32 param_1, void *param_2, void *param_3, s32 param_4)
-{
-    s32 buf[8]; /* sp+0x10 */
-
-    func_8012EC04(param_1, param_4, buf);
-    func_8012F14C((s32)buf, (s32)param_2, (s32)param_3);
-}
+#define SHARED_FN func_80184124
+#include "../shared/ov/cls_7fb83c76cd03.h"
+#undef SHARED_FN
 
 
 
@@ -4268,88 +4227,9 @@ extern void func_80017758(void *a0, void *a1);
  * (cdecl.strip_provided_typedefs).  Identical body to the standin in func_801863B0.c. */
 
 
-void func_80184B08(void *a0)
-{
-    /* TYPE-adopted-TU (§183): only the ADDRESS of this symbol is used here, but the
-     * destination TU already spells it `Blk20_8018AF88_80186160` (block-scope extern at
-     * L4413, for a by-value copy) and both sibling drafts in this slate use that name, so
-     * the raw-word form was a slate-wide CONFLICTING-EXTERN.  Adopting the TU's spelling
-     * is byte-neutral: `&D_800AE620` is the same address either way and the callee's
-     * parameter is `void *`.  Re-verified MATCH after the change. */
-    extern Blk20_8018AF88_80186160 D_800AE620;
-    s32 c;
-
-    /* One-shot init, gated on the u16 frame counter at +0x34 still being 0.
-     * Six u16 fields are copied out of the template at *(s32 *)(a0 + 0x64).
-     * Each copy re-reads the +0x64 base in source (gcc-2.7.2 will not CSE the
-     * load across the intervening stores), and sched1 pipelines statement
-     * N+1's `lw 0x64` into statement N's store shadow — that is the target's
-     * lw/lhu/sh staircase at 0x80184B28..0x80184B7C.
-     *
-     * KEY (this is what the previous draft had wrong): the counter bump is the
-     * LAST statement of the block, AFTER the +0xD8 copy. Placing it between
-     * the +0xD6 and +0xD8 copies (the shape the target's *scheduled* output
-     * suggests, since `sh 0x34` is emitted before `sh 0xD8`) breaks the
-     * staircase: the counter's load gets hoisted above the +0xD6 store, the
-     * +0xD6 value and the counter then overlap so they cannot share $v0, the
-     * +0xD8 base spills to $a1, and the trailing +0xD8 load has nothing left
-     * to fill its load-delay slot -> one extra nop and a 40-instruction
-     * register rotation. Written in the natural order the scheduler
-     * interleaves the counter chain and the +0xD8 chain itself (§190-B:
-     * compile the plain natural order; an interleaved target is NOT evidence
-     * of an interleaved source). */
-    if (((Unkstruct_800B5CB8 *)a0)->unk34 == 0) {
-        CAST_WIDTH(u16, (u8 *)a0, 0xCC) = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xCC);
-        *(u16 *)((u8 *)a0 + 0xCE) = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xCE);
-        CAST_WIDTH(u16, (u8 *)a0, 0xD0) = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xD0);
-        CAST_WIDTH(u16, (u8 *)a0, 0xD4) = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xD4);
-        *(u16 *)((u8 *)a0 + 0xD6) = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xD6);
-        CAST_WIDTH(u16, (u8 *)a0, 0xD8) = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xD8);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
-    }
-
-    /* GPU primitive tag word. */
-    CAST_WIDTH(s32, (u8 *)a0, 0xFC) = 0x50000000;
-
-    /* 12 colour bytes at +0xEC..+0xFA (every 4th byte skipped) all take the
-     * same value = (u8)(lifetime * 30); *30 strength-reduces to sll4/subu/sll1. */
-    c = ((Unkstruct_800B5CB8 *)a0)->unk1C;
-    {
-        u8 v = (u8)(c * 30);
-
-        CAST_WIDTH(u8, (u8 *)a0, 0xEC) =
-        *(u8 *)((u8 *)a0 + 0xED) =
-        CAST_WIDTH(u8, (u8 *)a0, 0xEE) =
-        ((Unkstruct_800B5CB8 *)a0)->unkF0 =
-        ((Unkstruct_800B5CB8 *)a0)->unkF1 =
-        CAST_WIDTH(u8, (u8 *)a0, 0xF2) =
-        CAST_WIDTH(u8, (u8 *)a0, 0xF4) =
-        *(u8 *)((u8 *)a0 + 0xF5) =
-        *(u8 *)((u8 *)a0 + 0xF6) =
-        CAST_WIDTH(u8, (u8 *)a0, 0xF8) =
-        *(u8 *)((u8 *)a0 + 0xF9) =
-        *(u8 *)((u8 *)a0 + 0xFA) = v;
-    }
-
-    /* No register pin is needed on the &a0[0xCC] argument: reorg's
-     * fill_simple_delay_slots lifts the `addiu $a0,$s0,0xCC` into the opening
-     * bnez's delay slot on its own once the block above is correct. */
-    func_80017758((u8 *)a0 + 0xCC, &D_800AE620);
-
-    /* The lifetime decrement MUST use its OWN local. Re-using `c` makes a
-     * two-set pseudo whose live range spans the call, so global_alloc gets it
-     * after local_alloc and hands it $v1 — the addiu/bnez/sw then come out on
-     * $v1 instead of $v0 (3 mismatches). Same lesson as the "THREE SEPARATE
-     * locals" note in ov_SC06_032_jr_801902EC.c lever (3). */
-    {
-        s32 d = ((Unkstruct_800B5CB8 *)a0)->unk1C - 1;
-
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = d;
-        if (d == 0) {
-            func_8012C218(a0);
-        }
-    }
-}
+#define SHARED_FN func_80184B08
+#include "../shared/ov/cls_235175c0f9c0.h"
+#undef SHARED_FN
 
 
 /*
@@ -4458,30 +4338,9 @@ void func_80184D70(void *a0) {
 
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 
-void func_80184DAC(s32 param_1) {
-
-    extern u8 D_800D387C[];
-    extern u8 D_800D3888[];
-    s32 t;
-
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
-
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
-
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
-
-    t = ((Unkstruct_80184178 *)param_1)->unk20;
-    ((Unkstruct_80184178_2 *)t)->unk1A = 0x2000;
-    ((Unkstruct_80184178_2 *)t)->unk18 = 0x2000;
-
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk24 = 0xff;
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk25 = 0;
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk26 = 0;
-
-    func_80128EA8(((Unkstruct_80184178 *)param_1)->unk20, param_1 + 0x24, (s32)&D_800D3888);
-
-    ((Unkstruct_80184178 *)param_1)->unk2 = ((Unkstruct_80184178 *)param_1)->unk2 + 1;
-}
+#define SHARED_FN func_80184DAC
+#include "../shared/ov/cls_1417d7c5fb18.h"
+#undef SHARED_FN
 
 
 
@@ -4489,37 +4348,9 @@ extern void func_8012931C(struct vec *a0);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 
-void func_80184E5C(s32 param_1) {
-    s32 q;
-    u8 a;
-    u8 b;
-    u16 h;
-
-    q = ((Unkstruct_800B5CB8 *)param_1)->unk20;
-
-    a = *(u8 *)(q + 0x24) - 0x20;
-    *(u8 *)(q + 0x24) = a;
-    if (a < 0x80) {
-        *(u8 *)(q + 0x24) = 0x80;
-    }
-
-    b = *(u8 *)(q + 0x25) + 0x20;
-    *(u8 *)(q + 0x25) = b;
-    if (b > 0x80) {
-        *(u8 *)(q + 0x25) = 0x80;
-    }
-
-    h = *(u16 *)(q + 0x1A) + 0x400;
-    *(u8 *)(q + 0x26) = *(u8 *)(q + 0x25);
-    *(u16 *)(q + 0x1A) = h;
-    *(u16 *)(q + 0x18) = h;
-
-    func_8012931C(param_1);
-
-    if (func_80128ED8((void *)q, (void *)(param_1 + 0x24)) != 0) {
-        func_801292C8(param_1);
-    }
-}
+#define SHARED_FN func_80184E5C
+#include "../shared/ov/cls_95772dbd671a.h"
+#undef SHARED_FN
 
 
 extern s32 D_801D0B78;
@@ -8390,13 +8221,9 @@ extern void func_8012B370(int a0);
 
 
 
-void func_8018B450(void *a0)
-{
-  s32 v0 = *((s32 *) (((s32) a0) + 0x64));
-  *((s16 *) (v0 + 0x5C)) = 0;
-  ;
-  *((s16 *) ((*((s32 *) ((*((s32 *) (((s32) a0) + 0x64))) + 0xCC))) + 0x5C)) = 0;
-}
+#define SHARED_FN func_8018B450
+#include "../shared/ov/cls_18c89194ffc0.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -8535,33 +8362,9 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
-s32 func_8018B740(s32 param_1, s32 param_2)
-{
-    int iVar1;
-    unsigned int uVar2;
-    int iVar3;
-    SVECTOR sv1;
-    SVECTOR sv2;
-
-    sv1.vx = CAST_SIGN(short, param_1, 6);
-    sv1.vy = CAST_SIGN(short, param_1, 0xa) + -0x20;
-    sv1.vz = CAST_SIGN(short, param_1, 0xe);
-    iVar1 = func_8004787C(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-    iVar3 = (short)param_2;
-    sv2.vy = sv1.vy;
-    sv2.vx = sv1.vx - (short)(iVar1 * iVar3 >> 0xc);
-    iVar1 = func_80047948(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-    sv2.vz = sv1.vz - (short)(iVar1 * iVar3 >> 0xc);
-    uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
-    if ((uVar2 & 0x8000) != 0) {
-        iVar1 = func_8004787C(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-        ((Unkstruct_800B5CB8 *)param_1)->unk6 = sv2.vx + (short)(iVar1 * iVar3 >> 0xc);
-        iVar1 = func_80047948(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-        ((Unkstruct_800B5CB8 *)param_1)->unkE = sv2.vz + (short)(iVar1 * iVar3 >> 0xc);
-        return 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8018B740
+#include "../shared/ov/cls_b62547151680.h"
+#undef SHARED_FN
 
 
 

@@ -3743,16 +3743,9 @@ void func_8017E814(s32 param_1) {
 }
 
 
-void func_8017EA30(s32 param_1) {
-    extern void func_80142414(s32 a0, s16 a1);
-    extern s32 func_8012BEE8();  // K&R: 0/1 of 1 args (P37 rung D t4_D22)
-    if (((Unkstruct_800B5CB8 *)param_1)->unk1C == 0xF) {
-        func_80142414(param_1, -0x90);
-    }
-    if (func_8012BEE8(param_1) != 0) {
-        ((Unkstruct_800B5CB8 *)param_1)->unk2 = 2;
-    }
-}
+#define SHARED_FN func_8017EA30
+#include "../shared/ov/cls_3a6db20a6c4a.h"
+#undef SHARED_FN
 
 
 

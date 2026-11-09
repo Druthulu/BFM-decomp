@@ -3359,10 +3359,9 @@ void func_80188754(void *a0) {
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_801888CC(void *a0) {
-        *(s32 *)((char *)a0 + 0x1c) = 0x10;
-        ((void (*)(s32, s32))func_8012AD44)((s32)a0, 0x1);
-    }
+#define SHARED_FN func_801888CC
+#include "../shared/ov/cls_71c351e41207.h"
+#undef SHARED_FN
 
 
 #include "common.h"

@@ -5467,18 +5467,9 @@ extern s16 D_80126B0C;
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
-void func_8017F53C(s32 a0) {
-    s32 sp10[8];
-
-    func_80052D90(0, (void *)a0);
-    func_80054514(a0, (s32)sp10);
-    ((Unkstruct_8017CA80 *)a0)->unk18 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk1C = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk20 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk50 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk52 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk54 = 0;
-}
+#define SHARED_FN func_8017F53C
+#include "../shared/ov/cls_12260fb19014.h"
+#undef SHARED_FN
 
 
 extern void func_8017F5B4(s32 arg0, s32 arg1, s32 arg2);

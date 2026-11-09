@@ -4878,14 +4878,9 @@ void func_801868DC(s32 a0) {
 }
 
 
-void func_80186A48(s32 a0) {
-    func_8012B23C((void *)a0);
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x40;
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE4 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE8 = 0x40;
-}
+#define SHARED_FN func_80186A48
+#include "../shared/ov/cls_725f5619f306.h"
+#undef SHARED_FN
 
 
 
@@ -5121,19 +5116,9 @@ void func_80186E50(s32 param_1)
 }
 
 
-void func_80186EC8(void *a0) {
-    s32 v1;
-
-    if (func_8012BEE8((s32)a0) != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 6;
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        *(u16 *)(v1 + 0x1C) = 0x400;
-        *(u16 *)(v1 + 0x18) = 0x400;
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        *(u16 *)(v1 + 0x1A) = 0x3000;
-    }
-}
+#define SHARED_FN func_80186EC8
+#include "../shared/ov/cls_8fc6bdf01a89.h"
+#undef SHARED_FN
 
 
 
@@ -5537,21 +5522,9 @@ void func_801877EC(s32 a0) {
 
 extern u8 D_801202A0[];
 
-s32 func_80187954(void) {
-    s32 count = 0;
-    s32 i = 0;
-    u8 *p = D_801202A0;
-
-    do {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x17F && (CAST_SIGN(u16, p, 0x70) & 0xF) == 0) {
-            count++;
-        }
-        i++;
-        p += 0x10C;
-    } while (i < 0x60);
-
-    return count < 0xB;
-}
+#define SHARED_FN func_80187954
+#include "../shared/ov/cls_73b497e1b377.h"
+#undef SHARED_FN
 
 
 
@@ -5850,19 +5823,9 @@ s32 func_801880E8(s32 param_1, s32 arg1)
 
 extern s32 func_8004787C(s32 a0);
 
-void func_801881C0(s32 ent) {
-    s32 val;
-    s32 sub;
-    s32 t;
-    s32 v;
-
-    t = func_8004787C((((Unkstruct_800B5CB8 *)ent)->unk1C << 7) & 0x780);
-    val = CAST_WIDTH(s32, ent, 0x34);
-    sub = ((Unkstruct_800B5CB8 *)ent)->unk20;
-    v = val - (((val >> 2) * t) >> 12);
-    *(s16 *)(sub + 0x1A) = v;
-    *(s16 *)(sub + 0x18) = v;
-}
+#define SHARED_FN func_801881C0
+#include "../shared/ov/cls_b8c9c9abd693.h"
+#undef SHARED_FN
 
 
 

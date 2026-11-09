@@ -3365,9 +3365,9 @@ done:
 
 
 
-s32 func_8017E67C(void) {
-    return 95;
-}
+#define SHARED_FN func_8017E67C
+#include "../shared/ov/cls_cb2f38ba5185.h"
+#undef SHARED_FN
 
 
 extern s32 D_801ACA44;
@@ -4124,15 +4124,9 @@ void func_8017F4FC(void *a0) {
 
 
 
-s32 func_8017F62C(s32 a0) {
-    s32 v[4];
-
-    v[0] = CAST_SIGN(s16, a0, 6) - CAST_SIGN(s16, a0, 0x88);
-    v[1] = 0;
-    v[2] = CAST_SIGN(s16, a0, 0xE) - CAST_SIGN(s16, a0, 0x8C);
-    Square0(&v[0], &v[0]);
-    return (0x18FFFF < v[0] + v[2]) ^ 1;
-}
+#define SHARED_FN func_8017F62C
+#include "../shared/ov/cls_2baade5fdce2.h"
+#undef SHARED_FN
 
 
 extern void (*D_801A466C[])(void);

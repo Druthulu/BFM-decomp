@@ -4622,24 +4622,9 @@ void func_8018AE9C(u8 *arg0)
 
 extern void func_8012C218(void *a0);
 
-void func_8018AFB8(s32 param_1) {
-    s32 s1;
-    s32 v1;
-
-    s1 = CAST_SIGN(s32, param_1, 0xCC);
-    func_8012AD80(param_1);
-    v1 = CAST_SIGN(s32, param_1, 0xCC);
-    ((Unkstruct_80126B58 *)v1)->unk8 = CAST_SIGN(u16, param_1, 6);
-    ((Unkstruct_80126B58 *)v1)->unkA = CAST_SIGN(u16, param_1, 0xA);
-    ((Unkstruct_80126B58 *)v1)->unkC = CAST_SIGN(u16, param_1, 0xE);
-    if ((((Unkstruct_80126B58 *)param_1)->unk1C & 7) == 0) {
-        func_80128ED8(s1, (s32 *)(param_1 + 0xD0));
-    }
-    if (func_8012BEE8(param_1) != 0) {
-        func_80016714((void *)s1, 0x38);
-        func_8012C218((void *)param_1);
-    }
-}
+#define SHARED_FN func_8018AFB8
+#include "../shared/ov/cls_290930e82a15.h"
+#undef SHARED_FN
 
 
 
@@ -4673,9 +4658,9 @@ extern void func_8012B414(int a0);
 
 extern u16 D_800B99DA;
 
-void func_8018B100(void *a0) {
-    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) = (u32)func_8004787C(D_800B99DA * 48) >> 5;
-}
+#define SHARED_FN func_8018B100
+#include "../shared/ov/cls_ecf214b6ee8c.h"
+#undef SHARED_FN
 
 
 extern s32 func_80029504(void);
@@ -5121,10 +5106,9 @@ void func_8018BA58(void *a0) {
 
 extern s32 func_8012E57C(s32 a0, s32 a1);
 
-    void func_8018BAA4(s32 a0) {
-        ((Unkstruct_80182330 *)a0)->unk2 = 1;
-        ((Unkstruct_80182330 *)a0)->unkCC = func_8012E57C(0x61, 0xA);
-    }
+#define SHARED_FN func_8018BAA4
+#include "../shared/ov/cls_42c9d75ce03d.h"
+#undef SHARED_FN
 
 
 
@@ -5167,18 +5151,17 @@ void func_8018BB74(s32 s0) {
 
 
 extern s32 func_8014CB1C(void);
-    s32 func_8018BBE8(void) {
-        return func_8014CB1C() != 0;
-    }
+#define SHARED_FN func_8018BBE8
+#include "../shared/multi/cls_5e981265ebca.h"
+#undef SHARED_FN
 
 
 extern void func_8014B2A8(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-void func_8018BC08(void) {
-    func_8014B2A8();
-    ((s32 (*)(s32, s32))func_8002D4C8)(0x464, 0);
-}
+#define SHARED_FN func_8018BC08
+#include "../shared/multi/cls_4ab0fc7a4435.h"
+#undef SHARED_FN
 
 
 

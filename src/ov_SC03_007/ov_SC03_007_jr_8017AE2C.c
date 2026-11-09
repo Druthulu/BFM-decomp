@@ -4885,10 +4885,9 @@ join:
 extern s32 func_8002A04C(s32 a0);
 extern s32 func_8012C098(void *param_1);
 
-void func_8017EE20(s32 arg0) {
-    ((void (*)(void))func_8002A04C)();
-    ((s32 (*)(s32))func_8012C098)(arg0);
-}
+#define SHARED_FN func_8017EE20
+#include "../shared/ov/cls_8c68163eff80.h"
+#undef SHARED_FN
 
 
 extern s32  func_8012BC60(void *a0, void *a1);

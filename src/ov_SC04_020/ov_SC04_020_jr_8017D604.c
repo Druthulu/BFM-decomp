@@ -3233,9 +3233,9 @@ extern void func_8017EA7C(void*, u8*);
     }
 
 
-void func_8017EA74(void *a0) {
-        *(s8 *)((s32)a0 + 0xA0) = 0;
-    }
+#define SHARED_FN func_8017EA74
+#include "../shared/ov/cls_b79d8a2ab53c.h"
+#undef SHARED_FN
 
 
 

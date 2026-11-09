@@ -4124,14 +4124,9 @@ void func_80180EBC(s32 a0) {
 }
 
 
-void func_80181028(void *a0) {
-    func_8012B23C(a0);
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x40;
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE4 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE8 = 0x40;
-}
+#define SHARED_FN func_80181028
+#include "../shared/ov/cls_725f5619f306.h"
+#undef SHARED_FN
 
 
 
@@ -4361,21 +4356,9 @@ void func_80181430(s32 a0) {
 
 extern s32 func_8012BEE8(s32 a0);
 
-void func_801814A8(a0)
-s32 a0;
-{
-    s32 v1;
-
-    if (func_8012BEE8(a0) != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 6;
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-        *(u16 *)(v1 + 0x1C) = 0x400;
-        *(u16 *)(v1 + 0x18) = 0x400;
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        *(u16 *)(v1 + 0x1A) = 0x3000;
-    }
-}
+#define SHARED_FN func_801814A8
+#include "../shared/ov/cls_8fc6bdf01a89.h"
+#undef SHARED_FN
 
 
 
@@ -4758,22 +4741,9 @@ void func_80181DCC(s32 a0) {
 
 
 extern u8 D_801202A0[];
-s32 func_80181F34(void)
-{
-    s32 a1, a0;
-    u8 *v1;
-
-    a1 = 0;
-    a0 = 0;
-    v1 = D_801202A0;
-    do {
-        if (((Unkstruct_800B5CB8 *)v1)->unk0 == 0x17F && (CAST_SIGN(u16, v1, 0x70) & 0xF) == 0)
-            a1++;
-        a0++;
-        v1 += 0x10C;
-    } while (a0 < 0x60);
-    return a1 < 0xB;
-}
+#define SHARED_FN func_80181F34
+#include "../shared/ov/cls_73b497e1b377.h"
+#undef SHARED_FN
 
 
 
@@ -5069,21 +5039,9 @@ s32 func_801826C8(s32 arg0, s32 arg1)
 
 extern s32 func_8004787C(s32 a0);
 
-void func_801827A0(s32 a0) {
-    s32 t;
-    s32 w;
-    s32 q;
-    s32 sub;
-    s32 res;
-
-    t = func_8004787C((((Unkstruct_800B5CB8 *)a0)->unk1C << 7) & 0x780);
-    w = CAST_WIDTH(s32, a0, 0x34);
-    q = w >> 2;
-    sub = ((Unkstruct_800B5CB8 *)a0)->unk20;
-    res = w - ((q * t) >> 12);
-    *(s16 *)(sub + 0x1A) = res;
-    *(s16 *)(sub + 0x18) = res;
-}
+#define SHARED_FN func_801827A0
+#include "../shared/ov/cls_b8c9c9abd693.h"
+#undef SHARED_FN
 
 
 extern void (*D_8019E2B8[])(void);

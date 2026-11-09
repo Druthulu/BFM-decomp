@@ -73,15 +73,9 @@ const Blk8 D_801EF46C = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
 
-void func_801EF6D0(u32 arg0) {
-    Blk8 buffer;
-
-    buffer = D_801EF46C;
-
-    if (func_80171D78(arg0, &buffer)) {
-        ((void (*)(u32))func_80171A1C)(arg0);
-    }
-}
+#define SHARED_FN func_801EF6D0
+#include "../shared/slot_801EF468/cls_a094f430e63a.h"
+#undef SHARED_FN
 
 
 

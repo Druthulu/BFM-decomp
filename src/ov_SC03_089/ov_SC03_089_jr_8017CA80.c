@@ -3490,13 +3490,9 @@ extern int func_800167F0(int arg);
 extern s32 D_80126B58;
 extern s32 func_80171990(u8 *a0);
 
-s32 func_80181174() {
-    if ((func_800167F0(0) & 0xFFFF) == 0) {
-        return 0;
-    }
-    func_80171990((u8 *)&D_80126B58);
-    return 1;
-}
+#define SHARED_FN func_80181174
+#include "../shared/ov/cls_0af86c3955a3.h"
+#undef SHARED_FN
 
 
 

@@ -3853,9 +3853,9 @@ s32 func_801830A8(void) {
 
 
 extern s32 func_800296F8(void *a0);
-    s32 func_801830C0(s32 arg0) {
-        return ((s32 (*)(void *))func_800296F8)(*(s32 *)(arg0 + 0xdc));
-    }
+#define SHARED_FN func_801830C0
+#include "../shared/ov/cls_07edf16b34a0.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012BDBC(s32 a0, s32 a1);

@@ -3168,9 +3168,9 @@ s32 func_8017F2F8(void)
 
 
 
-s32 func_8017F434(void) {
-    return 73;
-}
+#define SHARED_FN func_8017F434
+#include "../shared/ov/cls_92b955ce5d93.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C044(void *);

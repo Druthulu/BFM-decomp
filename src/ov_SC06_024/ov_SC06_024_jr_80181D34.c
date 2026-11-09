@@ -3157,9 +3157,9 @@ void func_801823D0(s32 p) {
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_80182584(void *arg0) {
-        ((void (*)(void *, int))func_8012AD44)(arg0, 0x5);
-    }
+#define SHARED_FN func_80182584
+#include "../shared/ov/cls_2e3772ddf907.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -3575,9 +3575,9 @@ void func_80182ECC(s32 p) {
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_80183188(s32 arg0) {
-        ((void (*)(s32, s32))func_8012AD44)(arg0, 0x5);
-    }
+#define SHARED_FN func_80183188
+#include "../shared/ov/cls_2e3772ddf907.h"
+#undef SHARED_FN
 
 
 

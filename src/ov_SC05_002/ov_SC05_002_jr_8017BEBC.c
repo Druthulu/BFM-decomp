@@ -3305,9 +3305,9 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
 
 
-s32 func_8017E414(void) {
-    return 95;
-}
+#define SHARED_FN func_8017E414
+#include "../shared/ov/cls_cb2f38ba5185.h"
+#undef SHARED_FN
 
 
 extern s32 D_8019FF34;

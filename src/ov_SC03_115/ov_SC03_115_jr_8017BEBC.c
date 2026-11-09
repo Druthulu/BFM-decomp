@@ -4260,30 +4260,9 @@ extern s32 func_80143BDC(u16*);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012B0B4(u32 *a0, s32 a1, s32 a2);
 
-void func_8017E998(s32 arg0) {
-    s32 i;
-    s32 q;
-    u16 sp10[3];
-    u32 buf[2];
-    s32 v;
-    u32 *bp;
-
-    if (((Unkstruct_800B5CB8 *)arg0)->unkAA <= 0) {
-        for (i = 0; i < 20; i++) {
-            bp = buf;
-            func_8012B0B4(bp, rand() % 4096, 64);
-            v = *(s32 *)buf;
-            sp10[0] = ((Unkstruct_800B5CB8 *)arg0)->unk6 + v;
-            sp10[1] = ((Unkstruct_800B5CB8 *)arg0)->unkA - 0x60;
-            sp10[2] = ((Unkstruct_800B5CB8 *)arg0)->unkE + (v >> 16);
-            q = ((s32 (*)(u16 *))func_80143BDC)(sp10);
-            if (q != 0) {
-                *(u8 *)(*(s32 *)(q + 0xCC) + 0x27) = 0x5B;
-            }
-        }
-        func_8002D4C8(0x521, 0);
-    }
-}
+#define SHARED_FN func_8017E998
+#include "../shared/ov/cls_e25412c649dc.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);

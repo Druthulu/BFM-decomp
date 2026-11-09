@@ -4164,9 +4164,9 @@ void func_8017E248(void *a0)
 }
 
 
-void func_8017E27C(u8 *a0) {
-        *(s8 *)(a0 + 0xA0) = 0;
-    }
+#define SHARED_FN func_8017E27C
+#include "../shared/ov/cls_b79d8a2ab53c.h"
+#undef SHARED_FN
 
 
 

@@ -7075,11 +7075,9 @@ extern s32 func_80146C3C(u8 *a0);
 
 
 
-void func_8016901C(void *a0) {
-
-    extern void (*D_8018D420[])(void);
-    D_8018D420[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016901C
+#include "../shared/ov/cls_3672a743c7cc.h"
+#undef SHARED_FN
 
 
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
@@ -7584,11 +7582,9 @@ L3:
 
 
 
-void func_8016A700(void *a0) {
-
-    extern void (*D_8018D530[])(void);
-    D_8018D530[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016A700
+#include "../shared/ov/cls_90b72e4d78ac.h"
+#undef SHARED_FN
 
 
 extern void func_80048EAC(void *a0, void *a1);

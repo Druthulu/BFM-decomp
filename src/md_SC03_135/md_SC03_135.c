@@ -1704,9 +1704,9 @@ void func_801E5124(s32 param_1, s16 *param_2) {
 
 
 
-s32 func_801E531C(void) {
-    return 39;
-}
+#define SHARED_FN func_801E531C
+#include "../shared/multi/cls_5a794f51671b.h"
+#undef SHARED_FN
 
 
 

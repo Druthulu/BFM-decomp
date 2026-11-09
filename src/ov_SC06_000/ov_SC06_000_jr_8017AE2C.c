@@ -3360,7 +3360,9 @@ void func_8017C03C(void *a0) {
 
 #include "../shared/ov/func_8017C07C.h"
 
-#include "../shared/ov/func_8017C084.h"
+#define SHARED_FN func_8017C084
+#include "../shared/ov/cls_b487987f8c10.h"
+#undef SHARED_FN
 
 
 
@@ -3371,7 +3373,9 @@ void func_8017C0C8(void *a0) {
 }
 
 
-#include "../shared/ov/func_8017C104.h"
+#define SHARED_FN func_8017C104
+#include "../shared/ov/cls_e68b7f247513.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017C12C.h"
@@ -3805,7 +3809,9 @@ void func_8017CD10(void *a0) {
 }
 
 
-#include "../shared/ov/func_8017CE10.h"
+#define SHARED_FN func_8017CE10
+#include "../shared/ov/cls_320105d77cbe.h"
+#undef SHARED_FN
 
 
 
@@ -3934,7 +3940,9 @@ void func_8017CFBC(void *a0)
 }
 
 
-#include "../shared/ov/func_8017D098__3292d1a8.h"
+#define SHARED_FN func_8017D098
+#include "../shared/ov/cls_3292d1a8f773.h"
+#undef SHARED_FN
 
 
 
@@ -3945,10 +3953,14 @@ void func_8017D0DC(void *a0) {
 }
 
 
-#include "../shared/ov/func_8017D118__bfd94459.h"
+#define SHARED_FN func_8017D118
+#include "../shared/ov/cls_bfd94459dcad.h"
+#undef SHARED_FN
 
 
-#include "../shared/ov/func_8017D194__b55f2b3b.h"
+#define SHARED_FN func_8017D194
+#include "../shared/ov/cls_b55f2b3bac9c.h"
+#undef SHARED_FN
 
 
 
@@ -4088,7 +4100,9 @@ void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
 }
 
 
-#include "../shared/ov/func_8017D5F8__911ddbe1.h"
+#define SHARED_FN func_8017D5F8
+#include "../shared/ov/cls_911ddbe16dba.h"
+#undef SHARED_FN
 
 
 
@@ -4219,7 +4233,9 @@ void func_8017D75C(s32 param) {
 }
 
 
-#include "../shared/ov/func_8017D804__ef7c957e.h"
+#define SHARED_FN func_8017D804
+#include "../shared/ov/cls_ef7c957e5e38.h"
+#undef SHARED_FN
 
 
 extern u8 D_801AE66C;
@@ -4356,11 +4372,15 @@ void func_8017DB00(void *a0) {
 #undef SHARED_FN
 
 
-#include "../shared/ov/func_8017DBC4__de7db63b.h"
+#define SHARED_FN func_8017DBC4
+#include "../shared/ov/cls_de7db63b6c91.h"
+#undef SHARED_FN
 
 
 
-#include "../shared/ov/func_8017DC28__3e3c2300.h"
+#define SHARED_FN func_8017DC28
+#include "../shared/ov/cls_3e3c23006639.h"
+#undef SHARED_FN
 
 
 extern s32 D_8018BDD8;
@@ -8467,9 +8487,9 @@ void func_80184578(s32 param_1)
 
 
 
-s32 func_801845B8(s32 arg0) {
-        return ((Unkstruct_801845B8 *)arg0)->unk2 == 0x6;
-    }
+#define SHARED_FN func_801845B8
+#include "../shared/ov/cls_7dae7530ad8d.h"
+#undef SHARED_FN
 
 
 extern s32 func_801439C0(s32 a0);
@@ -8516,9 +8536,9 @@ void func_801845CC(int a0)
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_8018467C(void *arg0) {
-        ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 0x8);
-    }
+#define SHARED_FN func_8018467C
+#include "../shared/ov/cls_71090d436f9f.h"
+#undef SHARED_FN
 
 
 extern void func_8013CAE8(void);
@@ -8594,14 +8614,9 @@ void func_80184808(void *a0) {
     }
 
 
-void func_80184818(s32 param_1)
-{
-    func_8012AD80(param_1);
-    if (0x14000 < ((Unkstruct_800B5CB8 *)param_1)->unk14)
-        ((Unkstruct_800B5CB8 *)param_1)->unk48 = -0x1400;
-    else if (((Unkstruct_800B5CB8 *)param_1)->unk14 < -0x14000)
-        ((Unkstruct_800B5CB8 *)param_1)->unk48 = 0x1400;
-}
+#define SHARED_FN func_80184818
+#include "../shared/ov/cls_bb3564308720.h"
+#undef SHARED_FN
 
 
 void func_80184870(s32 arg0) {

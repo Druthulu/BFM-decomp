@@ -4521,9 +4521,9 @@ void func_8017F354(void *a0)
 
 
 
-s32 func_8017F40C(void) {
-    return 95;
-}
+#define SHARED_FN func_8017F40C
+#include "../shared/ov/cls_cb2f38ba5185.h"
+#undef SHARED_FN
 
 
 

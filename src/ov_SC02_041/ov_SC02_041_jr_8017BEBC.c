@@ -6916,10 +6916,9 @@ void func_80182AD4(s32 arg0) {
 extern s32 func_8002A04C(s32 a0);
 extern s32 func_8012C098(void *param_1);
 
-void func_80182B08(s32 arg0) {
-    ((void (*)(void))func_8002A04C)();
-    ((s32 (*)(s32))func_8012C098)(arg0);
-}
+#define SHARED_FN func_80182B08
+#include "../shared/ov/cls_8c68163eff80.h"
+#undef SHARED_FN
 
 
 extern void func_80183D78(s32 a0, void *a1, s32 a2);

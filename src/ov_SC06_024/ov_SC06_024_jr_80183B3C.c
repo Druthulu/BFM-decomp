@@ -3205,16 +3205,9 @@ void func_80183FDC(s32 param_1) {
 extern s32 func_8012BEE8(s32 a0);
 extern void func_80142414(s32 a0, s16 a1);
 
-void func_801841F8(p)
-s32 p;
-{
-    if (((Unkstruct_80126B58 *)p)->unk1C == 0xF) {
-        func_80142414(p, -0x90);
-    }
-    if (func_8012BEE8(p) != 0) {
-        ((Unkstruct_80126B58 *)p)->unk2 = 2;
-    }
-}
+#define SHARED_FN func_801841F8
+#include "../shared/ov/cls_3a6db20a6c4a.h"
+#undef SHARED_FN
 
 
 

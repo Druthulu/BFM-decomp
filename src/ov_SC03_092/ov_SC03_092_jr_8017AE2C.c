@@ -4279,13 +4279,9 @@ s32 func_8017DC44(s32 a0) {
 
 extern s32 D_80126B58;
 
-s32 func_8017DC88(void) {
-    if ((func_800167F0(0) & 0xffff) == 0) {
-        return 0;
-    }
-    func_80171990((u8 *)&D_80126B58);
-    return 1;
-}
+#define SHARED_FN func_8017DC88
+#include "../shared/ov/cls_0af86c3955a3.h"
+#undef SHARED_FN
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);

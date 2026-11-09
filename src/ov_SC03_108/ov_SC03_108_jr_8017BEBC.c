@@ -3856,9 +3856,9 @@ void *a0;
 
 
 
-s32 func_8017EB98(void) {
-    return 73;
-}
+#define SHARED_FN func_8017EB98
+#include "../shared/ov/cls_92b955ce5d93.h"
+#undef SHARED_FN
 
 
 

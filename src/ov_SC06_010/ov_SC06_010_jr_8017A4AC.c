@@ -3816,18 +3816,9 @@ void func_8017BEBC(s32 arg0)
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
-void func_8017CA80(s32 a0) {
-    s32 sp10[8];
-
-    func_80052D90(0, (void *)a0);
-    func_80054514(a0, (s32)sp10);
-    ((Unkstruct_8017CA80 *)a0)->unk18 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk1C = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk20 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk50 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk52 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk54 = 0;
-}
+#define SHARED_FN func_8017CA80
+#include "../shared/ov/cls_12260fb19014.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -6495,35 +6486,9 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
-s32 func_801810FC(param_1, param_2)
-s32 param_1;
-s32 param_2;
-{
-    int iVar1;
-    unsigned int uVar2;
-    int iVar3;
-    SVECTOR sv1;
-    SVECTOR sv2;
-
-    sv1.vx = CAST_SIGN(short, param_1, 6);
-    sv1.vy = CAST_SIGN(short, param_1, 0xa) + -0x20;
-    sv1.vz = CAST_SIGN(short, param_1, 0xe);
-    iVar1 = func_8004787C(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-    iVar3 = (short)param_2;
-    sv2.vy = sv1.vy;
-    sv2.vx = sv1.vx - (short)(iVar1 * iVar3 >> 0xc);
-    iVar1 = func_80047948(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-    sv2.vz = sv1.vz - (short)(iVar1 * iVar3 >> 0xc);
-    uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
-    if ((uVar2 & 0x8000) != 0) {
-        iVar1 = func_8004787C(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-        ((Unkstruct_800B5CB8 *)param_1)->unk6 = sv2.vx + (short)(iVar1 * iVar3 >> 0xc);
-        iVar1 = func_80047948(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-        ((Unkstruct_800B5CB8 *)param_1)->unkE = sv2.vz + (short)(iVar1 * iVar3 >> 0xc);
-        return 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_801810FC
+#include "../shared/ov/cls_b62547151680.h"
+#undef SHARED_FN
 
 
 
@@ -9627,13 +9592,9 @@ extern void func_8012B370(int a0);
 
 
 
-void func_80185DB8(void *a0)
-{
-  s32 v0 = *((s32 *) (((s32) a0) + 0x64));
-  *((s16 *) (v0 + 0x5C)) = 0;
-  ;
-  *((s16 *) ((*((s32 *) ((*((s32 *) (((s32) a0) + 0x64))) + 0xCC))) + 0x5C)) = 0;
-}
+#define SHARED_FN func_80185DB8
+#include "../shared/ov/cls_18c89194ffc0.h"
+#undef SHARED_FN
 
 
 

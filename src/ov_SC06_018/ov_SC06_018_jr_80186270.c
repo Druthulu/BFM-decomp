@@ -3117,14 +3117,9 @@ void func_80186738(s32 param_1) {
 }
 
 
-void func_80186784(s32 param_1) {
-    if (CAST_SIGN(u8, param_1, 0xC1) != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = func_80047948(((Unkstruct_800B5CB8 *)param_1)->unkE4 << 7) >> 5;
-        *(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x14) = func_8004787C(((Unkstruct_800B5CB8 *)param_1)->unkE4 << 7) >> 4;
-        func_8012B370(param_1);
-        ((Unkstruct_800B5CB8 *)param_1)->unkE4 += 1;
-    }
-}
+#define SHARED_FN func_80186784
+#include "../shared/ov/cls_fed17b629198.h"
+#undef SHARED_FN
 
 
 extern void func_80131B14();

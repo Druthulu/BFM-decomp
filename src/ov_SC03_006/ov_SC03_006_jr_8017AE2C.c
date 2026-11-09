@@ -5394,18 +5394,9 @@ extern void func_80146CA0(void *a0);
 extern void func_80052D90(s32 a0, void *a1);
 extern void func_80054514(s32 a0, s32 a1);
 
-void func_8017F498(s32 a0) {
-    s32 sp10[8];
-
-    func_80052D90(0, (void *)a0);
-    func_80054514(a0, (s32)sp10);
-    ((Unkstruct_8017CA80 *)a0)->unk18 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk1C = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk20 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk50 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk52 = 0;
-    ((Unkstruct_8017CA80 *)a0)->unk54 = 0;
-}
+#define SHARED_FN func_8017F498
+#include "../shared/ov/cls_12260fb19014.h"
+#undef SHARED_FN
 
 
 extern void func_8017F510(s32 arg0, s32 arg1, s32 arg2);
@@ -8608,15 +8599,9 @@ void func_801846D0(void *a0) {
 
 
 
-s32 func_80184800(s32 a0) {
-    s32 v[4];
-
-    v[0] = CAST_SIGN(s16, a0, 6) - CAST_SIGN(s16, a0, 0x88);
-    v[1] = 0;
-    v[2] = CAST_SIGN(s16, a0, 0xE) - CAST_SIGN(s16, a0, 0x8C);
-    Square0(&v[0], &v[0]);
-    return (0x18FFFF < v[0] + v[2]) ^ 1;
-}
+#define SHARED_FN func_80184800
+#include "../shared/ov/cls_2baade5fdce2.h"
+#undef SHARED_FN
 
 
 extern s32 D_801C5B08[];
@@ -9838,15 +9823,9 @@ s32 func_80185E8C(s32 obj) {
 
 
 
-s32 func_80185EFC(s32 a0) {
-    s32 v[4];
-
-    v[0] = CAST_SIGN(s16, a0, 6) - CAST_SIGN(s16, a0, 0x88);
-    v[1] = 0;
-    v[2] = CAST_SIGN(s16, a0, 0xE) - CAST_SIGN(s16, a0, 0x8C);
-    Square0(&v[0], &v[0]);
-    return (0x18FFFF < v[0] + v[2]) ^ 1;
-}
+#define SHARED_FN func_80185EFC
+#include "../shared/ov/cls_2baade5fdce2.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -11811,15 +11790,9 @@ extern void func_8012C218(void *arg0);
 
 extern void Square0(s32 *a0, s32 *a1);
 
-s32 func_80188A94(s32 a0) {
-    s32 v[4];
-
-    v[0] = CAST_SIGN(s16, a0, 6) - CAST_SIGN(s16, a0, 0x88);
-    v[1] = 0;
-    v[2] = CAST_SIGN(s16, a0, 0xE) - CAST_SIGN(s16, a0, 0x8C);
-    Square0(&v[0], &v[0]);
-    return (0x18FFFF < v[0] + v[2]) ^ 1;
-}
+#define SHARED_FN func_80188A94
+#include "../shared/ov/cls_2baade5fdce2.h"
+#undef SHARED_FN
 
 
 #include "common.h"

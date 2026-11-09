@@ -4750,24 +4750,9 @@ extern s32 func_8012BEE8(s32 a0);
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
 
-void func_8018B2B8(void *arg0) {
-    s32 temp_s1;
-    s32 temp_v1;
-
-    temp_s1 = CAST_SIGN(s32, (s32)arg0, 0xCC);
-    func_8012AD80((s32)arg0);
-    temp_v1 = CAST_SIGN(s32, (s32)arg0, 0xCC);
-    ((Unkstruct_80126B58 *)temp_v1)->unk8 = CAST_SIGN(u16, (s32)arg0, 6);
-    ((Unkstruct_80126B58 *)temp_v1)->unkA = CAST_SIGN(u16, (s32)arg0, 0xA);
-    ((Unkstruct_80126B58 *)temp_v1)->unkC = CAST_SIGN(u16, (s32)arg0, 0xE);
-    if ((((Unkstruct_80126B58 *)arg0)->unk1C & 7) == 0) {
-        func_80128ED8(temp_s1, (s32 *)((s32)arg0 + 0xD0));
-    }
-    if (func_8012BEE8((s32)arg0) != 0) {
-        func_80016714((void *)temp_s1, 0x38);
-        func_8012C218(arg0);
-    }
-}
+#define SHARED_FN func_8018B2B8
+#include "../shared/ov/cls_290930e82a15.h"
+#undef SHARED_FN
 
 
 extern void func_8012B414(int a0);
@@ -4784,14 +4769,9 @@ extern void func_8012B414(int a0);
 extern u16 D_800B99DA;
 extern s32 func_8004787C(s32);
 
-void func_8018B400(void *arg0) {
-    u32 ret;
-    u8 *v1;
-
-    ret = func_8004787C(D_800B99DA * 48);
-    v1 = *(u8 **)((char *)arg0 + 0x20);
-    *(u16 *)(v1 + 0x10) = ret >> 5;
-}
+#define SHARED_FN func_8018B400
+#include "../shared/ov/cls_ecf214b6ee8c.h"
+#undef SHARED_FN
 
 
 extern s32 func_80029504(void);
@@ -5193,7 +5173,9 @@ void func_8018BD58(void *a0) {
 
 #include "common.h"
 
-#include "../shared/ov/func_8018BDA4.h"
+#define SHARED_FN func_8018BDA4
+#include "../shared/ov/cls_42c9d75ce03d.h"
+#undef SHARED_FN
 
 
 
@@ -5247,12 +5229,14 @@ void func_8018BE74(s32 a0) {
 
 extern s32 func_8014CB1C(void);
 
-s32 func_8018BEE8(void) {
-    return (u32)func_8014CB1C() != 0;
-}
+#define SHARED_FN func_8018BEE8
+#include "../shared/multi/cls_5e981265ebca.h"
+#undef SHARED_FN
 
 
-#include "../shared/ov/func_8018BF08.h"
+#define SHARED_FN func_8018BF08
+#include "../shared/multi/cls_4ab0fc7a4435.h"
+#undef SHARED_FN
 
 
 extern void func_80178CBC(s32 *a0, s32 a1);

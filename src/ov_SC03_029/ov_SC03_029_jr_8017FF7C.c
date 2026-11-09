@@ -5908,15 +5908,9 @@ s32 func_801844B0(s32 obj) {
 
 
 
-s32 func_80184520(s32 a0) {
-    s32 v[4];
-
-    v[0] = CAST_SIGN(s16, a0, 6) - CAST_SIGN(s16, a0, 0x88);
-    v[1] = 0;
-    v[2] = CAST_SIGN(s16, a0, 0xE) - CAST_SIGN(s16, a0, 0x8C);
-    Square0(&v[0], &v[0]);
-    return (0x18FFFF < v[0] + v[2]) ^ 1;
-}
+#define SHARED_FN func_80184520
+#include "../shared/ov/cls_2baade5fdce2.h"
+#undef SHARED_FN
 
 
 

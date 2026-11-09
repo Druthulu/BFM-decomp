@@ -5399,15 +5399,9 @@ void func_801814D8(s32 a0) {
 }
 
 
-void func_80181644(void *a0)
-{
-    func_8012B23C(a0);
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x40;
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE4 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE8 = 0x40;
-}
+#define SHARED_FN func_80181644
+#include "../shared/ov/cls_725f5619f306.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -5647,19 +5641,9 @@ void func_80181A4C(s32 a0)
 }
 
 
-void func_80181AC4(s32 a0) {
-    s32 v1;
-
-    if (func_8012BEE8(a0) != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 6;
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-        CAST_WIDTH(u16, v1, 0x1C) = 0x400;
-        ((Unkstruct_800B5CB8 *)v1)->unk18 = 0x400;
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)v1)->unk1A = 0x3000;
-    }
-}
+#define SHARED_FN func_80181AC4
+#include "../shared/ov/cls_8fc6bdf01a89.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -6054,21 +6038,9 @@ void func_801823E8(s32 a0) {
 
 extern u8 D_801202A0[];
 
-s32 func_80182550(void) {
-    s32 count = 0;
-    s32 i = 0;
-    u8 *p = D_801202A0;
-
-    do {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x17F && (CAST_SIGN(u16, p, 0x70) & 0xF) == 0) {
-            count++;
-        }
-        i++;
-        p += 0x10C;
-    } while (i < 0x60);
-
-    return count < 0xB;
-}
+#define SHARED_FN func_80182550
+#include "../shared/ov/cls_73b497e1b377.h"
+#undef SHARED_FN
 
 
 extern u8 *func_801290DC(s32 a0, u8 *a1);
@@ -6367,17 +6339,9 @@ s32 func_80182CE4(s32 param_1, s32 param_2)
 
 extern s32 func_8004787C(s32 a0);
 
-void func_80182DBC(s32 a0) {
-    s32 t;
-    s32 w;
-    s32 sub;
-
-    t = func_8004787C((((Unkstruct_800B5CB8 *)a0)->unk1C << 7) & 0x780);
-    w = CAST_WIDTH(s32, a0, 0x34) - ((CAST_WIDTH(s32, a0, 0x34) >> 2) * t >> 12);
-    sub = ((Unkstruct_800B5CB8 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)sub)->unk1A = w;
-    ((Unkstruct_800B5CB8 *)sub)->unk18 = w;
-}
+#define SHARED_FN func_80182DBC
+#include "../shared/ov/cls_b8c9c9abd693.h"
+#undef SHARED_FN
 
 
 

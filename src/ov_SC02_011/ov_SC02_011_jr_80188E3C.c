@@ -3999,15 +3999,9 @@ s32 func_8018DD60(s32 obj) {
 
 
 
-s32 func_8018DDD0(s32 a0) {
-    s32 v[4];
-
-    v[0] = CAST_SIGN(s16, a0, 6) - CAST_SIGN(s16, a0, 0x88);
-    v[1] = 0;
-    v[2] = CAST_SIGN(s16, a0, 0xE) - CAST_SIGN(s16, a0, 0x8C);
-    Square0(&v[0], &v[0]);
-    return (0x18FFFF < v[0] + v[2]) ^ 1;
-}
+#define SHARED_FN func_8018DDD0
+#include "../shared/ov/cls_2baade5fdce2.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -5843,9 +5837,9 @@ s32 func_80190480(void) {
 
 
 extern s32 func_800296F8(s32 arg0);
-    s32 func_80190498(s32 arg0) {
-        ((void (*)(s32))func_800296F8)(((Unkstruct_8017E188 *)arg0)->unkDC);
-    }
+#define SHARED_FN func_80190498
+#include "../shared/ov/cls_07edf16b34a0.h"
+#undef SHARED_FN
 
 
 #include "common.h"

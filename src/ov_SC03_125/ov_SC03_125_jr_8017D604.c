@@ -3243,9 +3243,9 @@ extern void func_8017EAA4(void*, u8*);
     }
 
 
-void func_8017EA9C(u8 *a0) {
-        ((Unkstruct_8017EA50 *)a0)->unkA0 = 0;
-    }
+#define SHARED_FN func_8017EA9C
+#include "../shared/ov/cls_b79d8a2ab53c.h"
+#undef SHARED_FN
 
 
 

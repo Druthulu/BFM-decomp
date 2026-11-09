@@ -4364,21 +4364,21 @@ void func_801803F4(s32 _arg0)
 
 
 extern s32 func_8018034C(void);
-    void func_80180424(void) {
-        ((void (*)(void))func_8018034C)();
-    }
+#define SHARED_FN func_80180424
+#include "../shared/ov/cls_854e51e249a0.h"
+#undef SHARED_FN
 
 
 extern s32 func_8018034C(void);
-    void func_80180444(void) {
-        func_8018034C();
-    }
+#define SHARED_FN func_80180444
+#include "../shared/ov/cls_854e51e249a0.h"
+#undef SHARED_FN
 
 
 extern s32 func_8018034C(void);
-void func_80180464(void) {
-    ((void (*)(void))func_8018034C)();
-}
+#define SHARED_FN func_80180464
+#include "../shared/ov/cls_854e51e249a0.h"
+#undef SHARED_FN
 
 
 extern s32 D_801F8084;
@@ -4460,9 +4460,9 @@ extern void func_8017F7C4(s32 arg0);
 
 
 extern s32 func_8018034C(void);
-    void func_80180624(void) {
-        ((void (*)(void))func_8018034C)();
-    }
+#define SHARED_FN func_80180624
+#include "../shared/ov/cls_854e51e249a0.h"
+#undef SHARED_FN
 
 
 extern s16 D_801F8094;
@@ -4484,9 +4484,9 @@ void func_80180644(void *a0) {
 
 
 extern s32 func_8018034C(void);
-void func_801806B4(void) {
-    ((void (*)(void))func_8018034C)();
-}
+#define SHARED_FN func_801806B4
+#include "../shared/ov/cls_854e51e249a0.h"
+#undef SHARED_FN
 
 
 extern s32 func_8018034C(void);
@@ -4503,9 +4503,9 @@ void func_801806D4(void) {
 
 
 extern s32 func_8018034C(void);
-    void func_80180714(void) {
-        func_8018034C();
-    }
+#define SHARED_FN func_80180714
+#include "../shared/ov/cls_854e51e249a0.h"
+#undef SHARED_FN
 
 
 extern s32 func_8018034C(void);
@@ -4530,9 +4530,9 @@ void func_80180734(void) {
 
 
 extern s32 func_8018034C(void);
-    void func_801807CC(void) {
-        func_8018034C();
-    }
+#define SHARED_FN func_801807CC
+#include "../shared/ov/cls_854e51e249a0.h"
+#undef SHARED_FN
 
 
 extern s32 func_8018034C(void);

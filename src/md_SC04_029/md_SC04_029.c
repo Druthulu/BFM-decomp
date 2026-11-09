@@ -274,9 +274,9 @@ void func_801E82C0(s32 a0) {
 
 extern s32 func_8014CB1C(void);
 
-s32 func_801E8360(void) {
-    return (u32)func_8014CB1C() != 0;
-}
+#define SHARED_FN func_801E8360
+#include "../shared/multi/cls_5e981265ebca.h"
+#undef SHARED_FN
 
 
 
@@ -285,10 +285,9 @@ s32 func_801E8360(void) {
 extern void func_8014B2A8(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
-void func_801E8380(void) {
-    func_8014B2A8();
-    ((s32 (*)(s32, s32))func_8002D4C8)(0x464, 0);
-}
+#define SHARED_FN func_801E8380
+#include "../shared/multi/cls_4ab0fc7a4435.h"
+#undef SHARED_FN
 
 
 extern u8 *D_80126B10;

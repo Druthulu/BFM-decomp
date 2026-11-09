@@ -3840,9 +3840,9 @@ s32 func_8017E858(void) {
 
 
 extern s32 func_800296F8(s32 arg0);
-    s32 func_8017E870(s32 arg0) {
-        ((void (*)(s32))func_800296F8)(((Unkstruct_8017E188 *)arg0)->unkDC);
-    }
+#define SHARED_FN func_8017E870
+#include "../shared/ov/cls_07edf16b34a0.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012BDBC(s32 a0, s32 a1);

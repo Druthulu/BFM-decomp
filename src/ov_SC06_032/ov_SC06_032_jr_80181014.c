@@ -2971,14 +2971,9 @@ extern s32 func_80047948(s32 a0);
 extern s32 func_8004787C(s32 a0);
 extern void func_8012B370(s32 a0);
 
-void func_80181528(void *a0) {
-    if (CAST_SIGN(u8, (u8 *)a0, 0xC1) != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x20))->unk10 = func_80047948(((Unkstruct_800B5CB8 *)a0)->unkE4 << 7) >> 5;
-        *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) = func_8004787C(((Unkstruct_800B5CB8 *)a0)->unkE4 << 7) >> 4;
-        func_8012B370((s32)a0);
-        (((Unkstruct_800B5CB8 *)a0)->unkE4)++;
-    }
-}
+#define SHARED_FN func_80181528
+#include "../shared/ov/cls_fed17b629198.h"
+#undef SHARED_FN
 
 
 extern s32 D_801A66AC[];

@@ -3464,15 +3464,9 @@ extern void func_8012C218(void*);
 
 extern void Square0(s32 *a0, s32 *a1);
 
-s32 func_801870B8(s32 a0) {
-    s32 sp10[4];
-
-    sp10[0] = CAST_SIGN(s16, (s32)a0, 6) - CAST_SIGN(s16, (s32)a0, 0x88);
-    sp10[1] = 0;
-    sp10[2] = CAST_SIGN(s16, (s32)a0, 0xE) - CAST_SIGN(s16, (s32)a0, 0x8C);
-    Square0(&sp10[0], &sp10[0]);
-    return 0x18FFFF >= (sp10[0] + sp10[2]);
-}
+#define SHARED_FN func_801870B8
+#include "../shared/ov/cls_2baade5fdce2.h"
+#undef SHARED_FN
 
 
     

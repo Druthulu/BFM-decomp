@@ -5276,10 +5276,9 @@ void func_80182674(s32 *arg0) {
 
 extern void func_8012AD44(s32 *a0, s16 a1);
 
-void func_801826FC(s32 *a0) {
-    a0[7] = 0x10;
-    func_8012AD44(a0, 1);
-}
+#define SHARED_FN func_801826FC
+#include "../shared/ov/cls_71c351e41207.h"
+#undef SHARED_FN
 
 
 #define SHARED_FN func_80182724
@@ -6008,10 +6007,9 @@ void func_801834E8(void *a0)
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_80183658(void * arg0) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x10;
-        ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 0x1);
-    }
+#define SHARED_FN func_80183658
+#include "../shared/ov/cls_71c351e41207.h"
+#undef SHARED_FN
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -6164,9 +6162,9 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_80183918(void *arg0) {
-        ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 0x5);
-    }
+#define SHARED_FN func_80183918
+#include "../shared/ov/cls_2e3772ddf907.h"
+#undef SHARED_FN
 
 
 extern void (*D_801AB778[])(void);

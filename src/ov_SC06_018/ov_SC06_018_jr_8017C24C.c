@@ -3722,35 +3722,9 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
-s32 func_8017EA54(param_1, param_2)
-s32 param_1;
-s32 param_2;
-{
-    int iVar1;
-    unsigned int uVar2;
-    int iVar3;
-    SVECTOR sv1;
-    SVECTOR sv2;
-
-    sv1.vx = CAST_SIGN(short, param_1, 6);
-    sv1.vy = CAST_SIGN(short, param_1, 0xa) + -0x20;
-    sv1.vz = CAST_SIGN(short, param_1, 0xe);
-    iVar1 = func_8004787C(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-    iVar3 = (short)param_2;
-    sv2.vy = sv1.vy;
-    sv2.vx = sv1.vx - (short)(iVar1 * iVar3 >> 0xc);
-    iVar1 = func_80047948(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-    sv2.vz = sv1.vz - (short)(iVar1 * iVar3 >> 0xc);
-    uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
-    if ((uVar2 & 0x8000) != 0) {
-        iVar1 = func_8004787C(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-        ((Unkstruct_800B5CB8 *)param_1)->unk6 = sv2.vx + (short)(iVar1 * iVar3 >> 0xc);
-        iVar1 = func_80047948(*(unsigned short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) & 0xfff);
-        ((Unkstruct_800B5CB8 *)param_1)->unkE = sv2.vz + (short)(iVar1 * iVar3 >> 0xc);
-        return 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017EA54
+#include "../shared/ov/cls_b62547151680.h"
+#undef SHARED_FN
 
 
 
@@ -6836,13 +6810,9 @@ extern void func_8012B370(int);
 
 
 
-void func_80183710(void *a0)
-{
-  s32 v0 = *((s32 *) (((s32) a0) + 0x64));
-  *((s16 *) (v0 + 0x5C)) = 0;
-  ;
-  *((s16 *) ((*((s32 *) ((*((s32 *) (((s32) a0) + 0x64))) + 0xCC))) + 0x5C)) = 0;
-}
+#define SHARED_FN func_80183710
+#include "../shared/ov/cls_18c89194ffc0.h"
+#undef SHARED_FN
 
 
 void func_80183730(s32 a0) {
@@ -7065,14 +7035,9 @@ void func_80183A70(s32 param_1) {
 }
 
 
-void func_80183C8C(s32 p) {
-    if (((Unkstruct_800B5CB8 *)p)->unk1C == 0xF) {
-        func_80142414(p, -0x90);
-    }
-    if (func_8012BEE8(p) != 0) {
-        ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
-    }
-}
+#define SHARED_FN func_80183C8C
+#include "../shared/ov/cls_3a6db20a6c4a.h"
+#undef SHARED_FN
 
 
 #include "common.h"

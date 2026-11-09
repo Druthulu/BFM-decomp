@@ -4277,9 +4277,9 @@ void func_80180C68(void) {
 }
 
 
-s32 func_80180C70(void) {
-    return 73;
-}
+#define SHARED_FN func_80180C70
+#include "../shared/ov/cls_92b955ce5d93.h"
+#undef SHARED_FN
 
 
 extern void func_8013373C(s32 arg0);
