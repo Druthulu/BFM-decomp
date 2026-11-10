@@ -126,3 +126,4 @@ Approved: 2026-11-08   Planner: claude-opus-5-5/medium   Plan-hash: 83b6c853b4aa
 - 2026-11-08 router: T3 next -> done
 - 2026-11-08 router: T4 next -> done
 - 2026-11-09 router: T5 next -> done
+- 2026-11-09 developer: R92 amended at T6's stop (developer picked option A): T6 runs one repair round on the cheap buckets (undeclared data 160: extern in the shared header; unparsed diagnostic 28 with the parser fixed; one-batch-skip collateral retried), then ledgers every class still rejected in config/dedup_exceptions.tsv, one row per class with its measured reason and evidence, and widens Makefile:301 tools-health S1 to --scope all with those exceptions. The milestone's and T10's '0 left' now read: S1 violations 0 and the cross-address bucket empty except ledgered dedup_exceptions rows, counted by reason in the T6 summary.
