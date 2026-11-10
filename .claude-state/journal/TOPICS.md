@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-10T17:27:27.686Z
+# filed through: 2026-11-10T19:34:11.628Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -62,7 +62,7 @@ R58 | 2026-11-07 | finding | in force | Return-type lies in 3.41 (T3/T4) | docs/
 R59 | 2026-11-07 | open | superseded by R62 | Return-type lies in 3.41 (T3/T4) | 37 `s32` definitions with no `return` statement, left after T4 -> a later readability phase (3.43 o… | .claude-state/journal/2026-11-07.md#203652-007r-claude-record
 R60 | 2026-11-07 | finding | superseded by R63 | Ghidra type mirror in 3.41 (T7/T8) | The MCP Ghidra was serving on :8080 again during T7, most likely started with the new Claude Code s… | .claude-state/journal/2026-11-07.md#214225-010r-claude-record
 R61 | 2026-11-07 | finding | superseded by R64 | Ghidra type mirror in 3.41 (T7/T8) | The shared struct_layout parser misreads function-pointer-array structs: FnTbl, FnTbl3 and Tbl_801E… | .claude-state/journal/2026-11-07.md#214225-010r-claude-record
-R62 | 2026-11-07 | open | in force | Ghidra type mirror in 3.41 (T7/T8) | 37 `s32` definitions with no `return` statement, left after T4 -> filed in phase-ends/current/INBOX… | .claude-state/journal/2026-11-07.md#214225-010r-claude-record
+R62 | 2026-11-07 | open | superseded by R112 | Ghidra type mirror in 3.41 (T7/T8) | 37 `s32` definitions with no `return` statement, left after T4 -> filed in phase-ends/current/INBOX… | .claude-state/journal/2026-11-07.md#214225-010r-claude-record
 R63 | 2026-11-07 | decision | superseded by R68 | Ghidra type mirror in 3.41 (T7/T8) | The MCP Ghidra is stopped again for T7's proofs and stays off until T8, which starts it with tools/… | .claude-state/journal/2026-11-07.md#220953-018r-claude-record
 R64 | 2026-11-07 | finding | in force | Ghidra type mirror in 3.41 (T7/T8) | T7.c2 fixed the three function-pointer-array structs (FnTbl, FnTbl3, Tbl_801E6CA4) inside ghidra_ty… | .claude-state/journal/2026-11-07.md#220953-018r-claude-record
 R65 | 2026-11-07 | decision | in force | Ghidra type mirror in 3.41 (T7/T8) | T8's wait-for is cleared to "-" (commit 024ca0ad03, plan lint OK), with a change-log line and T8 se… | .claude-state/journal/2026-11-07.md#223723-028r-claude-record
@@ -112,3 +112,6 @@ R108 | 2026-11-10 | decision | in force | Phase 3.43 plan | T14 may stop the MCP
 R109 | 2026-11-10 | decision | in force | Phase 3.43 plan | A seventh evidence kind, `library symbol`, is added to docs/gen3-standards.md rule 1 and the scanne… | .claude-state/journal/2026-11-10/104304-032r-claude-record.md
 R110 | 2026-11-10 | decision | in force | Phase 3.43 plan | 3.43 names functions and data only. | .claude-state/journal/2026-11-10/104304-032r-claude-record.md
 R111 | 2026-11-10 | finding | in force | Phase 3.43 plan | Running `tools/ghidra_roster.py --help` rewrites the tracked config/ghidra/ROSTER.md, because the t… | .claude-state/journal/2026-11-10/104304-032r-claude-record.md
+R112 | 2026-11-10 | decision | in force | 3.43 T3 scope (I4 returns) | T3 fixes only the 38 flipped names. | .claude-state/journal/2026-11-10/124938-045r-claude-record.md
+R113 | 2026-11-10 | finding | in force | Signatures from asm evidence | No project tool derives a function's signature from the asm. | .claude-state/journal/2026-11-10/124938-045r-claude-record.md
+R114 | 2026-11-10 | open | in force | Signatures from asm evidence | How to take on asm-derived signatures. | .claude-state/journal/2026-11-10/124938-045r-claude-record.md
