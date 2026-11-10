@@ -4806,6 +4806,7 @@ extern void RotMatrixY(s32 a0, void *a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern Blk20 D_800AE620;
 
+/* $v0 at exit: vec[2] (`lw v0,24(sp)`, stored to unk30); no byte-neutral return: `return vec[2];` inserts `lw v0,24(sp)` at +0xB8 (+1 insn); `return ->unk30;` swaps s0/s1 from +0x8, ov_SC01_077 objdump */
 s32 func_8017EC7C(s32 param_1)
 {
     s32 vec[3];

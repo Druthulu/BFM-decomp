@@ -4625,7 +4625,7 @@ extern s32 func_8001ABBC(u32, u32, void *, u32, u32);
 s32 func_801810A4(void) {
 
     extern u8 D_800AEE90[];
-    func_8001ABBC(0, 0, D_800AEE90, 0, 0);
+    return func_8001ABBC(0, 0, D_800AEE90, 0, 0);
 }
 
 
@@ -4636,7 +4636,7 @@ extern s32 func_8001ABBC(u32, u32, void *, u32, u32);
 s32 func_801810D8(void) {
 
     extern u8 D_800AEE98[];
-    func_8001ABBC(0, 0, D_800AEE98, 0, 0);
+    return func_8001ABBC(0, 0, D_800AEE98, 0, 0);
 }
 
 

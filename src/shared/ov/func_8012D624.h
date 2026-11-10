@@ -6,5 +6,5 @@ s32 func_8012D624(s32 a0) {
     sp[0] = *(u16 *)(a0 + 0x6);
     sp[1] = *(u16 *)(a0 + 0xA);
     sp[2] = *(u16 *)(a0 + 0xE);
-    func_8012D664((void *)sp);
+    return func_8012D664((void *)sp);
 }

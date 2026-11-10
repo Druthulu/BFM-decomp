@@ -4301,6 +4301,7 @@ extern u8 D_801D4304;
 extern void func_8001CD9C(int, void *);
 extern void func_800233CC(void *, unsigned short);
 
+/* $v0 at exit: 1 (`li v0,1` for unk2); no byte-neutral return: `return 1;` and `return ->unk2 = 1;` both insert `li v0,1` at +0xA4 (+1 insn), ov_SC03_118 objdump */
 s32 func_80182E88(a0)
 s32 a0;
 {

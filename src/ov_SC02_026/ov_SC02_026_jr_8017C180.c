@@ -4884,6 +4884,7 @@ void func_801808D0(void *a0) {
 
 extern void (*D_801AA28C[])(void);
 
+/* $v0 at exit: leftover of the void (*D_801AA28C[])(void) callee; no byte-neutral return: `return 0;` puts `move v0,zero` at +0x30 and moves `addiu sp` into the jr delay slot +0x38, ov_SC02_026 objdump */
 s32 func_801809BC(void *a0) {
     D_801AA28C[((Unkstruct_80126B58 *)a0)->unk2]();
 }

@@ -13,5 +13,5 @@ s32 func_80143BDC(u16 *a0) {
     sp.f10 = 0;
     sp.fE = 0;
     sp.f4 = t;
-    func_8012C51C(&sp, 0);
+    return func_8012C51C(&sp, 0);
 }

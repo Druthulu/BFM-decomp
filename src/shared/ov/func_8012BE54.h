@@ -9,5 +9,5 @@ s32 func_8012BE54(s32 a0) {
     sp[0] = D_80126B5E;
     sp[1] = D_80126B62;
     sp[2] = D_80126B66;
-    func_8012BE98(a0, sp);
+    return func_8012BE98(a0, sp);
 }

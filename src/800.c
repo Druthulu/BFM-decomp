@@ -508,7 +508,7 @@ extern s32 func_80047D3C(s32 a0);
 s32 func_80013328(s32 *a0, s32 *a1) {
     s32 result;
     result = func_80013350(a0, a1);
-    func_80047D3C(result);
+    return func_80047D3C(result);
 }
 
 
@@ -1917,6 +1917,7 @@ void func_800153A4(void *a0, s32 a1, s16 a2, s16 a3, u8 arg4, u8 arg5) {
 
 extern u8 D_800AF630[];
 
+/* $v0 at exit: leftover of void func_80015424; no byte-neutral return: `return 0;` puts `move v0,zero` at +0x4C and moves `addiu sp` into the jr delay slot +0x54, main objdump */
 s32 func_800153CC(s32 arg0, s32 arg1, s16 arg2, s16 arg3, u8 arg4, u8 arg5) {
     u8 *base;
     base = D_800AF630;
@@ -6766,7 +6767,7 @@ endReason:
 extern s32 CdQueueBusy(void);
 
 s32 func_8001A9D8(void) {
-    CdQueueBusy();
+    return CdQueueBusy();
 }
 
 
@@ -6807,7 +6808,7 @@ void func_8001AA98(void) {
 extern s32 func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
 s32 func_8001AAA0(s32 arg0) {
-    func_8001ABBC(1, arg0, 0, 0, 0);
+    return func_8001ABBC(1, arg0, 0, 0, 0);
 }
 
 extern s32 D_800BA1B4;

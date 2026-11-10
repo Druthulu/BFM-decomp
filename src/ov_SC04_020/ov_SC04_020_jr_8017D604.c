@@ -5375,6 +5375,7 @@ void func_80181990(void *a0) {
 }
 
 
+/* $v0 at exit: untouched (empty body); no byte-neutral return: `return 0;` puts `move v0,zero` in the jr delay slot +0x4 (was nop), ov_SC04_020 objdump */
 s32 func_801819CC(void) {
 }
 

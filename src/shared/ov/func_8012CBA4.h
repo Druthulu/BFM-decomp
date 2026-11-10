@@ -3,5 +3,5 @@
 extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
 extern u8 D_800D3918[];
 s32 func_8012CBA4(s32 a0) {
-    func_8012CC88(a0, 0, (s32)D_800D3918);
+    return func_8012CC88(a0, 0, (s32)D_800D3918);
 }

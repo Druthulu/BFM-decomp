@@ -2,13 +2,13 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8012EFB8();  // K&R: 1 of 2 args (P37 unalias t4_ua1)
 s32 func_8012EF34(s32 a0, s32 a1) {
-    s32 sp10;
+    s32 sp10, r;
     register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_hdr1)
-    func_8012EFB8(a0);
+    r = func_8012EFB8(a0);
     {
         register s32 *p __asm__("$3") = &sp10;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_hdr1)
         gte_stsz(p);
     }
     v1 = sp10;
-    *(s16 *)(a1 + 4) = v1;
+    *(s16 *)(a1 + 4) = v1; return r;
 }

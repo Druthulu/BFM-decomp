@@ -2753,6 +2753,7 @@ extern void func_8012A018(s32 a, s32 b);
 extern void func_8012A094(s32 a0);
 extern void func_8017DD2C(void *a0);
 
+/* $v0 at exit: leftover of void func_8012A094; no byte-neutral return: `return 0;` inserts `move v0,zero` at +0x48 (+1 insn), ov_SC01_084 objdump */
 s16 func_8017DA9C() {
     extern u8 D_80126948[];
     extern s32 D_80126950;

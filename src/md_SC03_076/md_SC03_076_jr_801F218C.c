@@ -483,7 +483,7 @@ extern s32 func_8001ABBC(u32, u32, void *, u32, u32);
 s32 func_801F29E0(void) {
 
     extern u8 D_800AF040[];
-    func_8001ABBC(0, 0, D_800AF040, 0, 0);
+    return func_8001ABBC(0, 0, D_800AF040, 0, 0);
 }
 
 

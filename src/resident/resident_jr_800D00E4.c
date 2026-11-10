@@ -408,7 +408,6 @@ extern s32 D_8012704C;
 s32 func_800D0588(void) {
     s32 r = func_800D05E8(currentLocationId);
     s32 result;
-
     if (r != 0) {
         result = func_8001ABBC(1, r, 0, 0, 0);
     } else {
@@ -417,6 +416,7 @@ s32 func_800D0588(void) {
     if (result != 0) {
         D_8012704C = 0;
     }
+    return result;
 }
 
 /* func_800D05E8

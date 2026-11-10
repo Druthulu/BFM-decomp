@@ -3559,6 +3559,7 @@ extern void func_8012B200(void *a0);
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B178(s32 a0, s32 a1);
 
+/* $v0 at exit: 6 (`li v0,6` for unk2); no byte-neutral return: `return 6;` moves the unk2 store to `li v1,6; sh v1` at +0xEC (+1 insn), ov_SC05_002 objdump */
 s32 func_8017EC7C(s32 a0) {
     s16 sp10[4];
     s32 sp18[2];

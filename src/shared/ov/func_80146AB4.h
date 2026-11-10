@@ -10,5 +10,5 @@ s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) {
     *(s16 *)(sp + 0x6) = a4;
     *(s32 *)(sp + 0xC) = a5;
     *(s32 *)(sp + 0x10) = a6;
-    func_80146B9C(sp);
+    return func_80146B9C(sp);
 }
