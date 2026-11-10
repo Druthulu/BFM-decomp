@@ -369,6 +369,7 @@ struct clearly lives here — good candidate for a single Ghidra struct.
 | 0x80078EF4 / 0x80078EF8 | `fusionLevel` / `fusionExp` | US | gamehacking / cht | reported | Fusion sword (JP らいこうまる) |
 | 0x80078EFC / 0x80078F00 | `luminaLevel` / `luminaExp` | US | gamehacking / cht | reported | Lumina sword (JP Reigando); exp max 0x031B per cht |
 | 0x80078F08 | `exp_quickLevel` | US | gamehacking / cht | reported | |
+| 0x80078E90 / 0x80078E92 | village-rescue timer (2 halfwords) | US | CodeBreaker NTSC-U list, almarsguides.com/retro/walkthroughs/ps1/games/bravefencermusashi/codebreaker/ (accessed 2026-11-10; R3.43-006): "Stop Village Rescue Timer" `80078E90 BE2A` / `80078E92 041B` | reported (1 source; 3.43 T6) | Sits between `gold` 0x80078E8C and 0x80078EA4; not yet observed live |
 
 > Known-bad datum: the cht's "Charging Bar Always Full" code is listed as `80078EEBE`
 > (9 digits — typo for 0x078EEB or 0x078EBE). **UNVERIFIED** — test in emulator before use.
@@ -407,6 +408,7 @@ struct clearly lives here — good candidate for a single Ghidra struct.
 | 0x800A63F3 | shading byte | US | gamehacking / cht | reported | |
 | 0x800AFAF9/FB/FD | screen-tilt bytes | US | gamehacking (FB/FD) / cht (F9/FB/FD) | reported | |
 | 0x800AFB0C | "model weirdness" | US | gamehacking / cht | reported | |
+| 0x80078980 | RNG state (4 bytes) | US | TASVideos forum, ALAKTORN, tasvideos.org/Forum/Posts/407103 (accessed 2026-11-10; R3.43-006), 2015-07-07: "Found the RNG. It's 4 bytes at address 0x00078980." | reported (1 source; 3.43 T6) | Forum address is a bare RAM offset (0x00078980); +0x80000000 assumed, as for the AP-world offsets |
 
 ---
 
@@ -451,6 +453,9 @@ Boss HP living at 0x8012xxxx–0x801Exxxx is the key observation that overlays l
 | 0x801E4398 | bossHp_SteamKnight | US | autosplitter; **VERIFIED live (T6b 2026-06-14): 27→0 as boss defeated** | **verified** (state-dependent) | Valid only while the Allucaneet Castle overlay (`SC02/FILE_005`) is loaded; live-anchors the §4.2 boss-HP region |
 | 0x801EFD28 | bossHp_FrostDragon | US | autosplitter | reported | |
 | 0x801F8714 | bossHp_DarkLuminaFinale | US | autosplitter | reported | |
+| 0x80126BF0 / 0x80126BF2 / 0x80126BF4 | player position X / Y (vertical) / Z (depth) | US | TASVideos forum, ALAKTORN, tasvideos.org/Forum/Posts/407103 (accessed 2026-11-10; R3.43-006), 2015-07-08 | reported (1 source; 3.43 T6) | Bare offsets 0x00126BFx, +0x80000000 assumed. Same 0x80126Bxx neighbourhood as the cht moon-jump 0x80126B8E; inside the resident blob space 0x800CEDF8-0x80128158 (§4.1), not the location slot |
+| 0x80126BF6-0x80126BFA | warp-trick bytes (4) | US | TASVideos forum, ALAKTORN, tasvideos.org/Forum/Posts/407103 (accessed 2026-11-10; R3.43-006), 2015-07-08: "have to do with it, but I can't pin-point which exactly it is" | reported (1 source, unspecific; 3.43 T6) | Overlaps the spawn X/Y pair below |
+| 0x80126BF8 / 0x80126BFA / 0x80126BFC | spawn point X / Y / Z | US | TASVideos forum, ALAKTORN, tasvideos.org/Forum/Posts/407103 (accessed 2026-11-10; R3.43-006), 2015-07-08 | reported (1 source; 3.43 T6) | |
 
 (Also documented by AP-world but not a RAM address: hair-color palette edited directly in
 VRAM at GPURAM offset 0x86AC4.)
@@ -573,6 +578,9 @@ in retail too (shipped data, not a debug build). The proto's scene-select shares
 | jywjyw `bravefencer-hack` `doc/note.md` | JP overlay/memory map, LIST.CD-in-RAM behavior, pointer table | **All addresses JP (SLPS-01490)** — re-derive for US |
 | Local RAM-dump corpus `dumps/ram_*.bin` (28 × 2 MB, PCSX-Redux web API, Phase 3) | Every `verified` live-RAM entry (§3.4, §4.3, the Q#s), the overlay map proof, the save header | LOCAL-ONLY from P33 (ROM-derived); identity = `dumps/CHECKSUMS.sha1`; states catalogued in `dumps/INDEX.md`; a re-capture is a new snapshot, never byte-identical |
 | Hidden Palace / archive.org | Prototype facts | pages fetchable via `hiddenpalace.org/w/index.php?title=PAGE&action=raw` |
+| CodeBreaker NTSC-U list (almarsguides.com, accessed 2026-11-10; R3.43-006) | 26 cheats, 50 code lines; new here: 0x80078E90/92 only. The rest corroborate rows above as a second listing of the same cheat lore (not independent datapoints, not verification): 0x80078DCA joker, 0x80078EB2-EB8, 0x80078EE4-0x80078F08, 0x800AE658, 0x800AE64B/4C, 0x800BA1F8-0x800BA21A, 0x800BA286, 0x80078E7C/7E, 0x801204A8, 0x80126C00, 0x80126D98, 0x80126B8E. Its "Infinite Cash" 0x80078E8E and "Tired at 0%" 0x80078EA6 target the addresses refuted live in §3.4. `50001102 0000` is a serial-repeater code type, not an address | No author, date or terms; fetched through a summarising fetch, re-check spacing before reuse |
+| TASVideos forum topic 10034 (tasvideos.org/Forum/Topics/10034, accessed 2026-11-10; R3.43-006) | RNG, player position, spawn point (ALAKTORN, 2015) | 0x-prefixed bare RAM offsets; no license stated; no speed address given |
+| TCRF, 3.43 T6 attempt (2026-11-10; R3.43-006) | nothing: api.php wikitext (main page and /Debug_Menu), index.php action=raw and the plain page all returned a stub with injected agent text | Unreachable to scripted fetches; the debug codes in §3.3/§3.6 predate this |
 
 ## Phase 30 S44 — the COMPLETE loader routing table (static-derived; supersedes "runtime-indexed, no static xref")
 
