@@ -139,3 +139,4 @@ Approved: 2026-11-10   Planner: claude-opus-5-5/medium   Plan-hash: 919949f169f4
 
 ## Changes
 - 2026-11-10 router: T1 next -> done
+- 2026-11-10 developer: Developer decides answered 2026-11-10: yes to all three. (1) T14 may stop the MCP Ghidra once with tools/ghidra_mcp_stop.sh (clean save+stop, never a kill) for the live name mirror and the six --proof legs; it stays stopped to the close, then tools/ghidra_mcp_start.sh and Claude asks for /mcp. Until T14 it keeps running for the developer's use. (2) Add the seventh evidence kind 'library symbol' to docs/gen3-standards.md rule 1 and the scanner's closed list (T2, T5). (3) 3.43 names functions and data only; struct types and fields are deferred, recorded in the PhaseEnd.
