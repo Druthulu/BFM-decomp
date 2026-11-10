@@ -1,0 +1,10 @@
+## Recap
+Phase 3.42 built the groundwork for naming; no real name landed (that is 3.43). Cross-address families (functions whose identical bytes sit at several addresses) went from 3,801 to 0 unaccounted. 3,214 now have one shared SHARED_FN source included at every address, 12 are twin-covered, and 575 are ledgered in config/dedup_exceptions.tsv with a measured reason (TU-CONFLICT 282, RETURN-LIE 206, DEAD-TYPE 87). This follows the developer's option A at T6's R92 stop: one repair round, then ledgering. Private copies fell from 11,340 to 2,169, and tools-health's S1 check now runs over every address. The 20 scratchpad trampoline families have one source each (133 private copies each down to 0), parameterized by a per-overlay data symbol rather than the callee. The rename machinery is in place: config/names.tsv (with the guess_ tier), tools/rename_sym.py, and tools/rename_scan.py (R32), which passed a clean known rename and caught a planted miss the byte gate could not see. The rename was also mirrored into a scratch Ghidra project, with the live project untouched. tools/leverage_rank.py writes docs/leverage.md/.tsv, which ranks 190,849 units with every relocation attributed; 3.43's top 500 cover 35.5% of references. The d1-snapshot skill now runs the cast check first (P3.41-1).
+
+Milestone gate at 2cb3493055, from a clean tree: R22 218/218 run alone; tools-health OK; share_census --check --scope all --strict-macros --strict-text 0 violations (575 ledgered); verbatim_check --strict OK; rename_scan --selftest and --ledger OK; leverage_rank --check IDENTICAL; audit_public 0; ghidra_rebuild --proof PROOF PASS for all six programs.
+
+Open items:
+- The developer pushes the archive clone (34a3181), then the repo.
+- The MCP Ghidra is stopped. After the close, Claude runs tools/ghidra_mcp_start.sh and asks the developer for /mcp.
+- For 3.43: rerun leverage_rank after real renames, and decide whether the wiki's Names-and-renames example keeps func_80037004's old name.
+- The 575 ledgered families need struct and declaration cleanup before they can share a text.
