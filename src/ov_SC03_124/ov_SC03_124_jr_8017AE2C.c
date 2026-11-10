@@ -6111,9 +6111,9 @@ init:
 
 extern void (*D_8018FEA4[])(void);
 
-void func_80180B40(void *a0) {
-    D_8018FEA4[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80180B40
+#include "../shared/ov/cls_dddd1d236099.h"
+#undef SHARED_FN
 
 
 void func_80180B7C(void) {

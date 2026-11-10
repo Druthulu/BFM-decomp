@@ -3579,9 +3579,9 @@ s32 func_801848CC(s16 *a0) {
 
 extern s32 (*D_8018B000[])();
 
-s32 func_80184908(s16 *a0) {
-    return D_8018B000[(u16)a0[1]]();
-}
+#define SHARED_FN func_80184908
+#include "../shared/ov/cls_ebcb7c664923.h"
+#undef SHARED_FN
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (clean if/else, sh into delay slot of func_8001CA88 call)

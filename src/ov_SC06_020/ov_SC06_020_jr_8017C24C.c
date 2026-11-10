@@ -2860,9 +2860,9 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
 extern void (*D_80188B18[])(void);
 
-void func_8017D6F0(void *a0) {
-    D_80188B18[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017D6F0
+#include "../shared/ov/cls_e7a20b92f291.h"
+#undef SHARED_FN
 
 
 extern s32 rand(void);
