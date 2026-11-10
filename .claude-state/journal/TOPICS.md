@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-10T16:54:16.039Z
+# filed through: 2026-11-10T17:27:27.686Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -107,4 +107,8 @@ R103 | 2026-11-10 | open | in force | Phase 3.42 close | The wiki's Names-and-re
 R104 | 2026-11-10 | open | superseded by R106 | Phase 3.42 close | After the 3.42 close: the developer pushes the archive clone (34a3181), then the repo; Claude runs… | .claude-state/journal/2026-11-10/044438-017r-claude-record.md
 R105 | 2026-11-10 | decision | in force | Phase 3.42 close | Phase 3.42 is closed with its milestone met. | .claude-state/journal/2026-11-10/100938-023r-claude-record.md
 R106 | 2026-11-10 | open | in force | Phase 3.42 close | The developer pushes the archive clone (34a3181), then the repo, and runs /mcp to reconnect the res… | .claude-state/journal/2026-11-10/100938-023r-claude-record.md
-R107 | 2026-11-10 | open | in force | Phase 3.43 planning | The 3.43 draft is being written by the planner; Claude presents it with plan(kind: phase) when it r… | .claude-state/journal/2026-11-10/100938-023r-claude-record.md
+R107 | 2026-11-10 | open | retired by .claude-state/journal/2026-11-10/104304-032r-claude-record.md (the 3.43 draft was presented and approved) | Phase 3.43 planning | The 3.43 draft is being written by the planner; Claude presents it with plan(kind: phase) when it r… | .claude-state/journal/2026-11-10/100938-023r-claude-record.md
+R108 | 2026-11-10 | decision | in force | Phase 3.43 plan | T14 may stop the MCP Ghidra once with tools/ghidra_mcp_stop.sh (clean save+stop, never a kill) for… | .claude-state/journal/2026-11-10/104304-032r-claude-record.md
+R109 | 2026-11-10 | decision | in force | Phase 3.43 plan | A seventh evidence kind, `library symbol`, is added to docs/gen3-standards.md rule 1 and the scanne… | .claude-state/journal/2026-11-10/104304-032r-claude-record.md
+R110 | 2026-11-10 | decision | in force | Phase 3.43 plan | 3.43 names functions and data only. | .claude-state/journal/2026-11-10/104304-032r-claude-record.md
+R111 | 2026-11-10 | finding | in force | Phase 3.43 plan | Running `tools/ghidra_roster.py --help` rewrites the tracked config/ghidra/ROSTER.md, because the t… | .claude-state/journal/2026-11-10/104304-032r-claude-record.md
