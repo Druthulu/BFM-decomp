@@ -1015,3 +1015,4 @@ C0562 | Generated doc with byte-for-byte --check: no volatile provenance; new do
 C0563 | A share batch lowers lever/cast site counts by counting a header once, not by removing sites | share,dedup,lever,census,metrics | 2026-11-10 | 3.42/T9 | P3.42 T9 levers prose
 C0564 | Prove a rename's Ghidra mirror in a scratch project, live DB untouched | ghidra,rename,symbol,proof,worktree | 2026-11-10 | 3.42/T10 | P3.42 T10
 C0565 | join a leverage unit to dedup groups and sig instances (two group forms; rename_sym reads members only) | rename,dedup,leverage,class,join | 2026-11-10 | 3.43/T1 | -
+C0566 | Rename batches: generated-marked build inputs, leverage files as text, frozen worklist | rename,symbol,names-ledger,generated,worklist | 2026-11-10 | 3.43/T2 | P3.43 T2.c1
