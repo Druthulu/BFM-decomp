@@ -885,7 +885,7 @@ def head_sha():
 def rekey_ledgers(moves):
     """T4 (3.42): re-key every ledger row of a body moved into a cross header to the header — as each census emits a header def:
     lever_census (file, func) = (header, SHARED_FN), the def name written in it; verbatim_check (binary, fn, path) = ('shared',
-    SHARED_FN, header); type_census's lying key (callee, def_file): def_file = header, callee kept (callers still name the callee).
+    SHARED_FN, header); type_census's lying key (callee, def_file): NOT re-keyed (T6.c3: type_census keeps the site's TU as def_file).
     Rows that collapse onto one key are deduped (first kept). Returns {ledger: rows re-keyed}. Text edits; a file is written only on change."""
     out = {}
     site = {(tu, own.lower()): hdr for _h, tu, own, hdr, _l in moves}
@@ -911,7 +911,10 @@ def rekey_ledgers(moves):
     for ln in lines:
         f = ln.split("\t")
         if not ln.startswith("#") and len(f) >= 3 and f[0] != "callee":
-            hdr = site.get((f[1], f[0].lower()))
+            # DISABLED: lying-ledger re-key — 3.42 T6.c3 / Original intent: def_file follows the body into the cross header /
+            # Why disabled: type_census keys a `#define SHARED_FN` + include def by the SITE's TU (cross35 re-keyed func_80014CF8
+            # src/800.c -> cls_dafdc8bf94f5.h: tools-health `unledgered lying=1`) / Re-enable if type_census reports the header as def_file
+            hdr = None
             if hdr:
                 f[1] = hdr; ln = "\t".join(f); n += 1
             if (f[0], f[1], f[2]) in seen:
