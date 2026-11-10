@@ -400,7 +400,7 @@ then what proved it. The same data generates the day-one kit's manifest and its 
 | record credit notes for the governance scripts | `_credit.py` | Writes credit note files for the governance scripts | card.py, cookbook_add.sh, curate.py, discussion.py (+9) | Project Architect harness | LIVE |
 | record which files the harness manages | `managed.py` | The managed-file record .claude/pa3-managed.json | — | Project Architect harness | ORPHAN |
 | roll the agent journal up by month | `journal_rollup.py` | Rolls dated .claude-state/journal day dirs into the monthly INDEX-<YYYY-MM>.md | pa_bugreport.py, records.py | Project Architect harness | LIVE |
-| run a long or noisy command with its log on disk and only the tail printed | `run.sh` | The house pattern for long or noisy commands | _credit.py, task_log.py | Project Architect harness | LIVE |
+| run a long or noisy command with its log on disk and only the tail printed | `run.sh` | The house pattern for long or noisy commands | _credit.py, share_body_cycle.sh, task_log.py | Project Architect harness | LIVE |
 | run and steer external coders on other providers' models | `pa_ext.py` | Sets up, checks, runs and messages external coder backends | bench.py, journal_rollup.py | Project Architect harness | LIVE |
 | serve each role its slice of the standing-facts card | `card.py` | Manages the HOW_WE_WORK.md card | curate.py, phaseend_index.py | Project Architect harness | LIVE |
 | start a harness session the one sanctioned way | `launch.py` | The only way a PA3 session starts | _genplan.py, curate.py | Project Architect harness | LIVE |

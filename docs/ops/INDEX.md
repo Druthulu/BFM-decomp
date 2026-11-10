@@ -78,3 +78,4 @@ p40-t2-type-folds.md | §P40 T2 — 2026-10-14: restruct.py reads config/type_fo
 p40-t3-band-decisions.md | §P40 T3 — the 95 % TNC band and its mechanised type decisions (restruct.py) | 25
 p342-t5-2026-11-08-share-cycle-commit.md | 3.42 T5 — 2026-11-08: share_body_cycle.sh commits via commit_task.sh (TASK env), R22 uncommitted | 5
 p342-t6c4-2026-11-09-cross-retry.md | 3.42 T6.c4 — 2026-11-09: share_body cross retry round (externs, cause parser, retry set) | 4
+p342-t7-2026-11-09-trampoline-convert.md | 3.42 T7 — 2026-11-09: trampoline-family conversion scripts (analyze.py, convert.py) archived; the 20 headers' generator | 172

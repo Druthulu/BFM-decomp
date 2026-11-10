@@ -170,12 +170,12 @@ revision, old hashes in historical documents replaced by inert tokens and mapped
 would have corrupted history), proven pair by pair, and force-pushed. This document, the retrospective, the wiki and the
 tooling releases are the last block; the visibility flip waits for GitHub to purge the old objects.
 
-## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 40, 41, 2026-09-08 →)
+## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 40, 41, 42, 2026-09-08 →)
 
 *From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md`, `PhaseEnd_Phase37.md` and its log (`phase-ends/logs/Phase37.md`), decision log "P35",
 "P36 S99/S101/S104/S105", "P37 S106", `docs/levers.md`, `docs/readability.md`; for the migration and Phase 38, the Phase 38 plan's change
 lines, its task summaries (T1, T5, T5.1, T6, T7) and logs, and git; for Phase 39, the Phase 39 plan's change lines and its task summaries
-(T1–T11, with T7.1); for Phase 40, the Phase 40 plan's change lines and its task summaries (T1–T13, T15, T17–T21); for Phase 41, the Phase 41 plan and its task summaries (T1–T10, T13). This chapter was advanced at the end of every session (the owner's rule,
+(T1–T11, with T7.1); for Phase 40, the Phase 40 plan's change lines and its task summaries (T1–T13, T15, T17–T21); for Phase 41, the Phase 41 plan and its task summaries (T1–T10, T13); for Phase 42, the Phase 42 plan's change lines and its task summaries (T1–T10). This chapter was advanced at the end of every session (the owner's rule,
 2026-09-12) until the migration of 2026-09-29 dropped that duty; since 2026-09-30 it is advanced by every phase's closing work (rule R121).
 The numbers are the two Gen3 series'.*
 
@@ -527,6 +527,39 @@ close was paused twice, once to land the chart's new columns first and once for 
 What the phase leaves is a gate that means its words: every number the done-criteria name is asserted by a tool, and the types the code
 defines are the types the oracle shows.
 
+**Phase 42 (2026-11-08 → 11-10), one source per function, and the machinery for names.** Phase 35 had shared every function whose
+copies sat at the same address in every binary, and deferred the rest: 3,801 groups of byte-identical functions whose copies sit at
+different addresses in different binaries, 30,347 instances over 11,340 private copies. Each group became one header, included at
+each copy's position with the copy's own name passed in as a parameter (`SHARED_FN`), since raw-byte-identical copies call the same
+callees and touch the same data and differ only in their own name. This phase did that, and built what the next phase needs to
+rename a function safely, in about 35 hours and 111 commits. Of the 3,801 groups, 3,214 are now one source each (122 in the
+pilot, 2,026 of the simplest kind in seventeen batches with none rejected, 1,066 of the harder kinds), 12 were already covered by
+a twin, and 575 are ledgered in `config/dedup_exceptions.tsv` with a measured reason: 282 whose header would clash with another
+in the same file, 206 whose shared form would expose a return-type lie, 87 that use a type nobody defines. The owner had asked
+for "0 left"; when the harder kinds stopped at 729 rejected, he chose one repair round on the cheap causes and a ledger row,
+with its evidence, for every class still rejected, so "0 left" means 0 not accounted for. The twenty trampoline families —
+small wrappers with 133 private copies each — had looked as if each copy wrapped a different callee; the callee was in fact the
+same and the one varying token was a single data symbol, so each family became one header with that symbol as its parameter,
+2,720 sites rewritten and 0 private copies left.
+
+The other half is for names. A names ledger (`config/names.tsv`) records each name with its evidence; `tools/rename_scan.py`
+asserts that a rename rewrote every reference to the old name (rule R32: check coverage against a candidate set that is
+deliberately too large, not against the edits one made); `tools/rename_sym.py` applies a rename to the symbol files, the code,
+the ledgers and the docs at once; and `tools/leverage_rank.py` ranks the unnamed functions and data by how many references a
+name would make readable — the top 500 cover 35.5 % of the unique references. The test rename (func_80037004 to
+guess_ClearTbl40) was run in a throwaway copy of the repository and mirrored into a throwaway Ghidra project; no name landed,
+names being the next phase's work. A planted miss — one reference left unrenamed in the share registry — passed the byte gate
+and was caught only by the scanner, which is the reason the scanner exists.
+
+The milestone ran green on 2cb3493055: all 218 binaries identical, tools-health clean (its share check now at full scope), 0
+cross-address groups unaccounted, 0 private trampoline copies, six Ghidra proofs passing. The lever and raw-cast counts fell a
+little — levers 1,853 → 1,850, raw casts 176,445 → 172,942 — and the reason is bookkeeping, not new work: a site in a shared
+header counts once, so when copies collapse into one header their sites collapse with them. Struct definitions are 4,748.
+Marks on the record: the phase was paused for a Claude Code restart, for the owner's decision on the 729 rejects, and once to stop
+the Ghidra server for the proofs; a parallel build interleaved the gate's diagnostics and had to be serialised by target; and a
+dry-run probe of the extract step turned out not to be dry and broke the health suite until it was re-run. What the phase leaves is
+a tree with one source for every function the bytes allow, and a rename that cannot silently miss a reference.
+
 ## 11. By the numbers
 
 | | |
@@ -538,7 +571,7 @@ defines are the types the oracle shows.
 | Instructions | 13,492,113 / 13,492,113 (100.0%); distinct code 5,820,205 / 5,820,205; main game code 45,150 / 45,150 |
 | Knowledge base | the matching cookbook (§1–§501 and sub-sections, 3.5 MB), the gcc-2.7.2 codegen map, 79 decision-log entries, 73 numbered rules (+ the constitution's 25) |
 | Tooling | ≈235 Python tools, 25 shell tools, 12 Ghidra scripts — the extractor, the byte gate, the dedup engine, the family engine, the atlas, the lanes, the rewrite package |
-| **After 100 % (Gen3, snapshot at the P3.41 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35) · levers (register pins plus asm statements): 53,234 at the P36 start → 3,730 at the P38 close → 3,364 at the P39 close → 1,853 (974 register pins + 879 asm statements), every survivor a row of `config/lever_residue.tsv` (1,180 rows over 1,854 sites; `docs/levers.md`) and every row walled — named with the gcc pass that makes the lever necessary, one of 34 tags in `config/lever_walls.tsv` · raw cast dereferences per form, P37 baseline → P39 close → P3.40 close: P 409,007 → 257,470 → 115,647, I 60,666 → 49,831 → 46,563, X 13,800 → 13,790 → 10,312, M 19,543 → 15,128 → 3,917 (503,016 → 336,219 → 176,439), every remaining site ledgered with its cause (0 uncovered); TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0, the frozen tail of 6,066 small types recorded as TYPE-BELOW-BAND (5,871 sites) · lying declarations 229 over 24 callees → 11 over 3 → 0; return-type lies (a declaration promising a different return type than the definition) 273 functions over 100,266 sites at the P3.41 start → 19 over 9,302, each a width or sign difference ledgered in `config/lying_exceptions.tsv` · 7,151 canonical types mirrored into Ghidra, six programs proved by round trip (P3.41) · 30,787 kept casts in five registered macros, all backed (20,963 at the P39 close) · 4,762 struct definitions, 4,128 of them canonical (1,650 at the P39 close; 7,255 at the P38 start) · the chart's lower panel |
+| **After 100 % (Gen3, snapshot at the P3.42 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35); the 3,801 cross-address groups deferred then → 3,214 shared through a name parameter, 12 twin-covered, 575 ledgered with a measured reason, and the 20 trampoline families' 133 private copies each → 0 (P3.42) · names: a names ledger, a rename tool and a scanner that asserts every reference rewritten (rule R32), and a leverage ranking whose top 500 cover 35.5 % of unique references; no name landed yet (P3.42) · levers (register pins plus asm statements): 53,234 at the P36 start → 3,730 at the P38 close → 3,364 at the P39 close → 1,853 (974 register pins + 879 asm statements) → 1,850 at the P3.42 close (971 + 879; the 3 fewer are copies collapsed into one header, where a site counts once), every survivor a row of `config/lever_residue.tsv` (1,180 rows over 1,854 sites; `docs/levers.md`) and every row walled — named with the gcc pass that makes the lever necessary, one of 34 tags in `config/lever_walls.tsv` · raw cast dereferences per form, P37 baseline → P39 close → P3.40 close: P 409,007 → 257,470 → 115,647, I 60,666 → 49,831 → 46,563, X 13,800 → 13,790 → 10,312, M 19,543 → 15,128 → 3,917 (503,016 → 336,219 → 176,439), and 172,942 at the P3.42 close (P 112,227, I 46,489, X 10,309, M 3,917), the drop again from copies collapsed into shared headers, not from new type work; every remaining site ledgered with its cause (0 uncovered); TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0, the frozen tail of 6,066 small types recorded as TYPE-BELOW-BAND (5,871 sites) · lying declarations 229 over 24 callees → 11 over 3 → 0; return-type lies (a declaration promising a different return type than the definition) 273 functions over 100,266 sites at the P3.41 start → 19 over 9,302, each a width or sign difference ledgered in `config/lying_exceptions.tsv` · 7,151 canonical types mirrored into Ghidra, six programs proved by round trip (P3.41) · 30,787 kept casts in five registered macros, all backed (20,963 at the P39 close) · 4,762 struct definitions, 4,128 of them canonical (4,748 at the P3.42 close) (1,650 at the P39 close; 7,255 at the P38 start) · the chart's lower panel |
 
 *Every number above is generated or counted from the repository; the timeline behind the chart is
 [`docs/story-timeline.md`](story-timeline.md).*
