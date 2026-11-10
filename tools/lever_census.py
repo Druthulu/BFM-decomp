@@ -76,6 +76,7 @@ BUILTIN_KW = re.compile(r"__builtin_\w+")
 ATTR_KW = re.compile(r"__attribute__")
 TOKEN_CLASSES = {"asm": ASM_KW, "register": REGISTER_KW, "volatile": VOLATILE_KW, "builtin": BUILTIN_KW, "attribute": ATTR_KW}
 STRLIT = re.compile(r'"(?:\\.|[^"\\\n])*"')
+SHARED_STR_PART = re.compile(r"SHARED_STR\(\s*(\w+)\s*\)")
 MIPS_REG_NAMES = {"zero", "at", "v0", "v1", "a0", "a1", "a2", "a3", "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9",
                   "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "k0", "k1", "gp", "sp", "fp", "ra"}
 GTE_MNEMONICS = {"lwc2", "swc2", "mtc2", "mfc2", "ctc2", "cfc2", "cop2", "rtps", "rtpt", "nclip", "ncds", "nccs", "ncdt", "ncct",
@@ -191,6 +192,11 @@ def classify_asm_body(inner):
     while i < n:
         if s[i] in " \t\r\n":
             i += 1
+            continue
+        p = SHARED_STR_PART.match(s, i)                        # `SHARED_STR(SHARED_SLOT)` between literals (T7 trampoline headers)
+        if p:
+            tmpl_parts.append(p.group(1))
+            i = p.end()
             continue
         m = STRLIT.match(s, i)
         if not m:
@@ -861,6 +867,10 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
                 verbatim_sites += 1
                 verbatim_fns.add((rel, s["fn"] or vfn))
                 continue
+            if s["kind"] == "asm-body" and s["fn"] == "SHARED_FN" and rel.startswith("src/shared/"):
+                stem = os.path.basename(rel).split(".")[0]           # a SHARED_FN header is named by its family (T7; as verbatim_check)
+                if stem in listed_in_fn:
+                    s = dict(s, fn=stem)
             if s["kind"] == "asm-body" and s["fn"] in perm_in_fn:
                 s = dict(s, kind="verbatim-body", disposition=listed_in_fn[s["fn"]])
             elif s["kind"] == "asm-body":
