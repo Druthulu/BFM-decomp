@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-10T11:29:09.005Z
+# filed through: 2026-11-10T16:54:16.039Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -104,4 +104,7 @@ R100 | 2026-11-09 | finding | retired by .claude-state/journal/2026-11-10/044438
 R101 | 2026-11-10 | finding | in force | Phase 3.42 close | The 3.42 milestone passed at 2cb3493055 from a clean tree. | .claude-state/journal/2026-11-10/044438-017r-claude-record.md
 R102 | 2026-11-10 | finding | in force | Phase 3.42 close | 3.42 results. | .claude-state/journal/2026-11-10/044438-017r-claude-record.md
 R103 | 2026-11-10 | open | in force | Phase 3.42 close | The wiki's Names-and-renames page uses the control function func_80037004 as its example. | .claude-state/journal/2026-11-10/044438-017r-claude-record.md
-R104 | 2026-11-10 | open | in force | Phase 3.42 close | After the 3.42 close: the developer pushes the archive clone (34a3181), then the repo; Claude runs… | .claude-state/journal/2026-11-10/044438-017r-claude-record.md
+R104 | 2026-11-10 | open | superseded by R106 | Phase 3.42 close | After the 3.42 close: the developer pushes the archive clone (34a3181), then the repo; Claude runs… | .claude-state/journal/2026-11-10/044438-017r-claude-record.md
+R105 | 2026-11-10 | decision | in force | Phase 3.42 close | Phase 3.42 is closed with its milestone met. | .claude-state/journal/2026-11-10/100938-023r-claude-record.md
+R106 | 2026-11-10 | open | in force | Phase 3.42 close | The developer pushes the archive clone (34a3181), then the repo, and runs /mcp to reconnect the res… | .claude-state/journal/2026-11-10/100938-023r-claude-record.md
+R107 | 2026-11-10 | open | in force | Phase 3.43 planning | The 3.43 draft is being written by the planner; Claude presents it with plan(kind: phase) when it r… | .claude-state/journal/2026-11-10/100938-023r-claude-record.md
