@@ -1009,3 +1009,6 @@ C0556 | Apply and prove a rename in a scratch worktree (rename_sym + controls) |
 C0557 | Cross-address share: the SHARED_FN class header and its traps | share,dedup,shared_fn,cross-address,residue | 2026-11-08 | 3.42/T4 | T4.c1 d3f940420a
 C0558 | One-text sharing of differing cross copies: dead types, lies, alias names | share,dedup,shared_fn,cross-address,type_census,lying | 2026-11-09 | 3.42/T6 | T6.c1 92473260c4
 C0559 | Asm-body family varying in one symbol: SHARED_SLOT stringify header | share,dedup,shared_fn,trampoline,verbatim,asm | 2026-11-09 | 3.42/T7 | T7.c1 13c6f9ab64
+C0560 | sys.exit in a multiprocessing.Pool worker hangs Pool.map; raise instead | python,multiprocessing,tools,harness | 2026-11-10 | 3.42/T8 | -
+C0561 | Independent reloc-count controls: a fleet-unique control symbol; objdump -r lacks REL addends | reloc,objdump,controls,leverage,symbol | 2026-11-10 | 3.42/T8 | -
+C0562 | Generated doc with byte-for-byte --check: no volatile provenance; new docs need a Reference-index row | docs,generated,check,doc_links,tools-health | 2026-11-10 | 3.42/T8 | -

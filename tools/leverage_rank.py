@@ -679,11 +679,18 @@ def render_md(rows, kinds, total_refs, raw, attributed, hi16, excl, stats, oinfo
          f"- `build/`: linker maps, ELFs and .o files of {nbins} binaries; {len(all_objs)} objects "
          f"({len(placed)} placed, {len(all_objs) - len(placed)} unlinked).",
          f"- `.run/sig.<alias>.jsonl`: {sum(len(BINS[a].sig) for a in ORDER)} sig rows (h_exact per function instance).",
-         f"- `{CENSUS}/struct_map.json` (`tools/type_census.py`, head `{oinfo['head']}`): {oi['type entries']} type entries, "
+         f"- `{CENSUS}/struct_map.json` (`tools/type_census.py`): {oi['type entries']} type entries, "
          f"{oi['types']} distinct names (same-named entries are one C name and merge).",
-         f"- `{CENSUS}/sites.jsonl` (`tools/type_census.py --sites`, same head): {oi['sites']} site rows, "
+         f"- `{CENSUS}/sites.jsonl` (`tools/type_census.py --sites`, same run): {oi['sites']} site rows, "
          f"{oi['typed sites']} typed by a struct_map type (`type`, or a C-form `ctype` naming one).",
-         "- The tool refuses to run when `git diff --quiet <head> HEAD -- src include` fails (regenerate the census first).", "",
+         "- The tool refuses to run when `git diff --quiet <census head> HEAD -- src include` fails (regenerate the census first); "
+         "the head is not printed here, so a census regenerated at a new HEAD with unchanged src/include keeps `--check` green.", "",
+         "## Columns",
+         "- `key`: h_exact[:12] (func), `raw:<space>:<addr>` (func with no sig row), `<space>:<addr>` (data). `space`: vram base of "
+         "the image holding the address (`abs` outside every image). `addr`: exemplar address. `named`: yes/partial/no. `refs`: "
+         "unique-body references. `bodies`: distinct source bodies. `nins`: instructions of the body (sig funcs only). `addrs`: "
+         "distinct instance addresses. `fan`: instances (func) or referencing binaries (data). `binaries`: referencing binaries. "
+         "`own`: struct ownership credit. `owner`: the held type of largest reach. `rank43`: rank among the units 3.43 may name.", "",
          "## Method",
          "- Every relocation of every object (all sections) is attributed to a source body and a target unit, or to a named "
          "exclusion; unattributed must be 0. A text source body is the sig row containing the place (h_exact, offset), so a body "
@@ -804,9 +811,11 @@ def main():
     unattributed = raw - attributed - hi16 - sum(excl.values())
     # units
     inst = collections.defaultdict(list)    # h_exact -> [(alias, addr, name)]
+    hnins = {}                              # h_exact -> instructions of the body (equal bytes, equal count)
     for a in aliases:
         for addr, _n, h, name in BINS[a].sig:
             inst[h].append((a, addr, BINS[a].cur.get(addr) or name))
+            hnins[h] = _n
     refs, bodies, ubins = collections.Counter(), collections.defaultdict(set), collections.defaultdict(set)
     for key in sorted(keys, key=repr):
         src, _off, _rt, unit = key
@@ -830,7 +839,7 @@ def main():
         nm = [bool(n) and not PLACEHOLDER.match(n) for _a, _ad, n in il]
         ex = il[0]
         u = ("func", h)
-        r = row("func", h[:12], BINS[ex[0]].vbase, ex[1], ex[2] or "", spell(ex[2], ex[1]), u, len(il),
+        r = row("func", h[:12], BINS[ex[0]].vbase, ex[1], ex[2] or "", spell(ex[2], ex[1]), u, hnins[h],
                 len({ad for _a, ad, _n in il}), len(il))
         r["named"] = "yes" if all(nm) else ("partial" if any(nm) else "no")
         rows.append(r)
@@ -841,7 +850,7 @@ def main():
         t = int(ad, 16)
         hold = [a for a in aliases if h8(BINS[a].vbase) == sp and t in BINS[a].fstart]
         sym = min((bool(PLACEHOLDER.match(BINS[a].fstart[t])), BINS[a].fstart[t]) for a in hold)[1]
-        rows.append(row("func", u[1], sp, t, sym, spell(sym, t), u, len(hold), 1, len(hold)))
+        rows.append(row("func", u[1], sp, t, sym, spell(sym, t), u, "", 1, len(hold)))
     data_units = sorted((u for u in refs if u[0] == "data"), key=lambda u: (u[1] is not None, u[1] or 0, u[2]))
     own, owner, oinfo = ownership(aliases, _dirs, set(data_units), args.j)
     for u in data_units:
@@ -852,7 +861,7 @@ def main():
             if cand:
                 name = cand[0]
                 break
-        r = row("data", f"{h8(space)}:{addr:08X}", space, addr, name, name, u, len(ubins[u]), 1, len(ubins[u]))
+        r = row("data", f"{h8(space)}:{addr:08X}", space, addr, name, name, u, "", 1, len(ubins[u]))
         r["own"], r["owner"] = own.get(u, 0.0), owner.get(u, "")
         rows.append(r)
     for r in rows:
