@@ -279,14 +279,35 @@ def cross_candidates(cen):
 def cross_settled():  # T6.c3 (3.42): the classes a T6 cross batch already settled red — `rejected` (every ranked text failed) or `refused` in
     """batch_t6probe*.json and batch_cross<k>.json with k >= 19 (the T6 sweep; cross1..18 are T4/T5's). The sweep skips them, so its empty
     test (`done — 0 of 0 classes`) fires when only these remain; the remainder is bucketed from the same files."""
-    out = set()
+    out, retry, later = set(), set(), set()
     for p in sorted(RUN.glob("batch_*.json")):
         m = re.fullmatch(r"batch_(t6probe\w*|cross(\d+))\.json", p.name)
         if not m or (m.group(2) and int(m.group(2)) < 19):
             continue
         bj = json.loads(p.read_text())
-        out |= set(bj.get("rejected") or []) | {r[0] for r in bj.get("refused") or []}
-    return out
+        red = set(bj.get("rejected") or []) | {r[0] for r in bj.get("refused") or []}
+        out |= red
+        if m.group(2) and int(m.group(2)) >= 37:
+            later |= red
+            continue
+        for h in bj.get("rejected") or []:
+            rj = sorted((bj.get("cross_rules") or {}).get(h, {}).get("rejects") or [], key=lambda r: r["rank"])
+            if rj and cheap_retry(h, rj[0].get("cause") or ""):
+                retry.add(h)
+    # T6.c4 (3.42): the cheap remainder is retried once — a rank-1 reject on an undeclared `D_` (the header now carries the source TU's
+    # externs, cross_externs), an unparsed cause (a warning/build line, failure_cause) or an error in ANOTHER class's header (collateral);
+    # a class red again in batch_cross<k>.json k >= 37 stays settled
+    return out - (retry - later)
+
+
+def cheap_retry(h, cause):
+    """T6.c4: the rank-1 cause of a settled class that one retry may clear (cross_settled)."""
+    if re.search(r"`D_[0-9A-Fa-f]{8}' undeclared", cause):
+        return True
+    m = DIAG.match(cause)
+    if not m or BANNER.match(m.group(3)) or "warning:" in cause or not re.search(r"[A-Za-z]{3}", m.group(3)) or BUILD.match(m.group(3)):
+        return "unledgered lying" not in cause and "dead type" not in cause and "object A/B" not in cause and "[FAIL]" not in cause
+    return m.group(1).endswith(".h") and f"cls_{h[:12]}.h" not in m.group(1)
 
 
 _RAW_FORMS = []
@@ -425,6 +446,24 @@ def cross_texts(c, old):
         casts, fakes = rank_counts(t)
         cands[key] = dict(src=src, addr=addr, body=re.sub(rf"\b{re.escape(own)}\b", "SHARED_FN", t), casts=casts, fakes=fakes)
     return sorted(cands.values(), key=lambda x: (x["casts"] + x["fakes"], x["addr"], x["src"]))
+
+
+def cross_externs(cd):
+    """T6.c4 (3.42): the file-scope `extern … D_<ADDR>…;` lines of candidate cd's source TU for every `D_` the text uses without
+    declaring it in the body, verbatim (the copy's own type), first use first. The exemplar declares its table just above its definition
+    (outside def_text) while the other copies declare it in their body: 160 cross classes failed `D_x undeclared` in another TU. A TU
+    whose own declaration disagrees is a gate red (conflicting types) like any other."""
+    p = REPO / cd["src"].rsplit(":", 1)[0]
+    if not p.is_file() or p.suffix != ".c":
+        return []
+    tu, out = p.read_text(errors="surrogateescape").split("\n"), []
+    for name in dict.fromkeys(re.findall(r"\bD_[0-9A-Fa-f]{8}\b", cd["body"])):
+        if re.search(rf"\bextern\b[^;{{}}]*\b{name}\b", cd["body"]):
+            continue
+        decl = [ln.rstrip() for ln in tu if re.match(rf"extern\b[^;{{}}=]*\b{name}\b[^;{{}}=]*;\s*(/\*.*\*/|//.*)?$", ln)]
+        if decl and decl[-1] not in out:
+            out.append(decl[-1])
+    return out
 
 
 def dedup_addr(v):
@@ -661,7 +700,7 @@ class Batch:
                  f" * exemplar {cd['src']} · rank {x['k'] + 1}/{len(x['cands'])} by (raw casts + !FAKE markers, lowest address): "
                  f"casts {cd['casts']}, markers {cd['fakes']}"]
         lines += [f" * rank {r['rank']} {r['src']} rejected by {r['binary']}" for r in sorted(x["rejects"], key=lambda r: r["rank"])]
-        text = "\n".join(lines) + " */\n" + cd["body"]
+        text = "\n".join(lines) + " */\n" + "".join(e + "\n" for e in cross_externs(cd)) + cd["body"]
         return m2h.bind_alias_header(text, x["fn"])[0]
 
     def note_cross(self, h):
@@ -716,7 +755,9 @@ def gate(alias, snap):
     """(ok, detail): make check by exit code, then every object compared with the snapshot."""
     log_p = RUN / f"check_{alias}.log"
     with open(log_p, "w") as f:
-        r = subprocess.run(["make", "check", f"BINARY={alias}", "-j16"], cwd=REPO, stdout=f, stderr=subprocess.STDOUT)
+        # T6.c4: --output-sync=target keeps each compile's diagnostics contiguous (-j16 spliced lines into the cause; was no sync)
+        r = subprocess.run(["make", "check", f"BINARY={alias}", "-j16", "--output-sync=target"], cwd=REPO, stdout=f,
+                           stderr=subprocess.STDOUT)
     if r.returncode != 0:
         return False, failure_cause(log_p.read_text(errors="replace"))
     d = objdir(alias)
@@ -734,6 +775,7 @@ def gate(alias, snap):
 
 DIAG = re.compile(r"^(\S+?):(\d+|\(\.\w+\+0x[0-9a-f]+\)): (.*)$")
 BANNER = re.compile(r"^(warning:|note:|In function|At top level|In file included|previous (declaration|definition|external))")
+BUILD = re.compile(r"^\s*(CC|AS|LD|AR|CPP)\s+\S")   # T6.c4: a make progress line spliced after a location
 
 
 def failure_cause(txt):
@@ -745,7 +787,10 @@ def failure_cause(txt):
     for ln in lines:
         m = DIAG.match(ln)
         # gcc 2.7.2 sometimes chains locations: `a.h:65: b.h:15: warning: passing arg …` — a warning anywhere on the line disqualifies it
-        if m and not BANNER.match(m.group(3)) and " warning: " not in ln and " note: " not in ln:
+        # T6.c4: -j16 output spliced lines (`func_X'src/a.c:1285: 'warning: `, `a.c:568: ` + a `CC build/…` line): a message holding
+        # `warning:`/`note:` anywhere, with no word, or a build line is no cause (28 cross rejects carried one as their cause)
+        if (m and not BANNER.match(m.group(3)) and "warning:" not in ln and "note:" not in ln and re.search(r"[A-Za-z]{3}", m.group(3))
+                and not BUILD.match(m.group(3))):
             return ln[:200]
     for ln in lines:
         if re.search(r"\{standard input\}.*Error|undefined reference|multiple definition|\[FAIL\]", ln):

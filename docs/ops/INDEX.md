@@ -77,3 +77,4 @@ p40-t19-2026-11-07-lever-wall-rule.md | P40 T19 — 2026-11-07: the lever wall r
 p40-t2-type-folds.md | §P40 T2 — 2026-10-14: restruct.py reads config/type_folds.tsv; residue causes resolve the drawn type; --restamp | 17
 p40-t3-band-decisions.md | §P40 T3 — the 95 % TNC band and its mechanised type decisions (restruct.py) | 25
 p342-t5-2026-11-08-share-cycle-commit.md | 3.42 T5 — 2026-11-08: share_body_cycle.sh commits via commit_task.sh (TASK env), R22 uncommitted | 5
+p342-t6c4-2026-11-09-cross-retry.md | 3.42 T6.c4 — 2026-11-09: share_body cross retry round (externs, cause parser, retry set) | 4
