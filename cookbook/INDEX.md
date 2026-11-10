@@ -1018,3 +1018,4 @@ C0565 | join a leverage unit to dedup groups and sig instances (two group forms;
 C0566 | Rename batches: generated-marked build inputs, leverage files as text, frozen worklist | rename,symbol,names-ledger,generated,worklist | 2026-11-10 | 3.43/T2 | P3.43 T2.c1
 C0567 | Real returns for return-less non-void defs: the neutral-form ladder | return-type,return,bytes,lying,regalloc | 2026-11-10 | 3.43/T3 | P3.43 T3.c1
 C0568 | An expand-level pin diff can die at cse or combine: tag by the diff that survives, read by content | levers,walls,rtl,pins,probe,expand | 2026-11-10 | 43/T4 | logs/T4.md
+C0569 | Cite a curated name to its PsyQ library object; byte-compare SDK names compiled from C | names-ledger,psyq,symbol,citation,library | 2026-11-10 | 3.43/T5 | P3.43 T5.c1
