@@ -49,6 +49,9 @@ PY = /usr/bin/python3
 | genend_index | `PY tools/genend_index.py` | assemble a GenerationEnd |
 | commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes; auto-staging: `docs/ops/commit-task-autostage.md` |
 | type_census gates | `PY tools/type_census.py --check --check-structs --check-casts --residue` | `--check`: done-criteria (dup/outside/dead 0, controls 4/4, unledgered lying 0; raw casts printed, not gated); in tools-health; `--check-casts --residue`: raw P/I/X/M pass only if ledgered RESIDUAL(<cause>) per site; writes residue_census |
+| rename_sym | `PY tools/rename_sym.py --spec TSV [--dry-run]` | apply a rename: symbol files, live mentions, names.tsv row; prints gates and regenerators |
+| rename_scan | `PY tools/rename_scan.py --range HEAD.. \| --spec TSV \| --ledger` | R32 coverage: a rename lands at 0 stale, 0 unclassified; `--ledger` checks names.tsv (tools-health) |
+| leverage_rank | `PY tools/leverage_rank.py -j 16 [--check]` | naming ranking to docs/leverage.md/.tsv; rerun after names land |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
 | every other tool | `docs/tool-index.md` | generated from `config/tool_dictionary.tsv`; read by need |
 
@@ -57,8 +60,8 @@ PY = /usr/bin/python3
 - restruct-cycle-watch — Launch, find, wake on and stop a detached restruct_cycle.sh without racing inflight.json
 - retire-doc-consumers — Grep and repoint tools, Makefile and docs that read a doc being retired, in the same task
 - commit-task-autostage — Commit logs and research deliberately; force-add ignored tracked paths before commit_task.sh
-- tools-edit-kit-corpus — After any tools/ edit: make kit-corpus, tool_dictionary row for new files, then make tools-health
-- d1-snapshot — D1 readability snapshot: census to newest P dir, snapshot, timeline, progress --readme
+- d1-snapshot — D1 readability snapshot: census + --check-casts --residue to newest P dir, snapshot, timeline, progress --readme
+- tools-edit-kit-corpus — After any tools/ or Makefile edit: make kit-corpus, tool_dictionary row for new files, then make tools-health
 
 ## External coders <!-- roles: claude expert planner -->
 Func cracking: openrouter-deepseek/deepseek (high) only.

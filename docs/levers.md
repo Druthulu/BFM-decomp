@@ -637,3 +637,15 @@ instruction 178 to 164, barrier 150 to 82, asm-macro 157 to 1, gte-lever 60 to 0
 The largest are greg-copy-pref 272, cse-const-addr 190, sched1-birth-boost 149, lreg-priority 75, greg-priority 69,
 cse-copy-merge 65, no-c-spelling 45 and hand-asm 2. The gate `--check --strict --residue config/lever_residue.tsv` reads
 OK with residue-unused 0, unwalled 0 and unknown-tag 0.
+
+**The drop from de-duplication (Phase 3.42).** `lever_census` counts a site in a shared header once, however many
+binaries include it. A private copy counts once per copy. So when a duplicated body moves into one header, its lever
+count falls by (copies - 1) x sites, and no lever is removed from what the compiler sees: every binary still compiles the
+same pins. In 3.42 the cross-address classes went into class headers (decision log, P3.42 T4-T7). Class A+B sites went
+from 1,853 to 1,850 (pins 974 to 971, asm 879 unchanged; `lever_census` at `28220311ee`). All three come from one class,
+`b0ef21e92162`: it had two private copies (in `ov_SC03_001` and `ov_SC03_002`) with the same three `P36 rung B` pins
+($16, $4, $5), and now has one header, `src/shared/ov/cls_b0ef21e92162.h`. Its two residue rows became one, keyed
+`SHARED_FN`. The drop is this small because the cross-address bodies carried almost no levers: the T4 to T6 batches
+re-keyed no other lever row, and the large lever-bearing bodies were already same-address shares since Phase 35. Read a
+fall in this count that lands with a share batch as de-duplication. It is not a delever crack, and the milestone row
+for it should say so.

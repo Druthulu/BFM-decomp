@@ -3938,3 +3938,67 @@ and lying declarations; they do not name a raw-cast count.
 **What it does not.** The raw cast count (176,445 at T5) is printed beside the verdict and never gated there. Per site, it is gated by
 `--check-casts --residue`, where a raw site passes only when a restruct ledger row `RESIDUAL(<cause>)` covers it (outcomes R42, R43).
 `make tools-health` runs all three verdicts in one call.
+
+## P3.42 T4-T7 (2026-11-08 to 2026-11-09) — cross-address classes get one source: the param-include form
+
+**Context and belief.** Phase 35 shared every same-address duplicate and deferred the cross-address classes (identical
+bytes at more than one address) to the names phase: a header named by one address could not serve copies at others.
+At the 3.41 close that bucket held 3,801 classes, 30,347 instances and 11,340 private copies. One worked example of a
+parameterized form existed (`clearTbl40`, `#define SHARED_FN` / `#include` / `#undef SHARED_FN`).
+**What we decided.** A cross-address class is written once as `src/shared/<space>/cls_<h[:12]>.h` (`multi/` when the class
+spans address spaces), defining `SHARED_FN`, registry id `X_<h[:12]>`; each old copy becomes a three-line site that names
+the function at that address. The header is keyed by class hash, never by a name, so a later rename touches only the
+`#define SHARED_FN` lines and the registry's member names. The batch that moves a body re-keys every ledger that names it
+(lever residue, restruct's cast ledger, argcheck definitions) in the same commit, or tools-health turns red. A gate-red class
+is undone at every site and retried, never ledgered for convenience. Copies with differing texts (verdict D) share the first
+text that gates green on every binary; a text that brings a type lie or a dead struct is rejected. After one repair round
+(R99, developer option A), each class still rejected is ledgered with its measured reason in `config/dedup_exceptions.tsv`.
+The 20 scratchpad trampoline families vary in one data symbol, not in their wrapped callee, so their header takes that
+datum as a second parameter, `SHARED_SLOT`, stringified into the asm template (C0559).
+**Result.** 3,214 classes converted (T4 122, T5 2,026, T6 1,066), 575 ledgered (TU-CONFLICT 282, RETURN-LIE 206,
+DEAD-TYPE 87), 20 trampoline families at 141 copies each shared. Private copies 11,340 → 2,169. S1 now gates
+`--scope all` in tools-health at 0 violations, where "0 left" means 0 un-ledgered. R22 218/218 throughout.
+**Sooner:** the ledgers keyed by (file, function) had to move with the bodies, and that was found by the pilot, not by the plan.
+A body move should list its ledger keys before the first batch (C0557).
+
+## P3.42 T2 (2026-11-08) — the names ledger and its `guess_` tier
+
+**Context and belief.** Gen 3's naming bar (docs/gen3-standards.md, rule 1) asks for the evidence behind every name, and
+calls a name without proof `guess_`. Until now no file recorded that evidence: `config/symbols*.txt` records a name and
+an address, and a bare `// func` comment.
+**What we decided.** `config/names.tsv` is the names ledger, with rule 1's 11 fields (name, kind, scope, addr, tier,
+basis, confidence, evidence, conflict, history, citation). `rename_scan.py --ledger` runs in tools-health: it fails on a
+`guess_` name with no row that records its basis, and on a row whose name no longer exists. The ledger starts empty: a row
+for any of the 1,083 curated names would invent its evidence. The tool prints those 1,083 uncited names, and
+`--gate-citations` is there for 3.43 to make citations a gate. A `guess_` name is allowed in the tree, but only with its
+recorded basis, so a reader can always tell a guess from a proof.
+
+## P3.42 T2-T3 (2026-11-08) — the rename scanner's coverage rule (R32)
+
+**Context and belief.** The byte gate cannot see a stale name in a comment, a ledger, a doc or a Ghidra file, so a rename
+that compiles is not a finished rename. Gen 3's handoff asks for a scanner that asserts its own coverage.
+**What we decided.** `rename_scan.py` collects every spelling of the old name and of its address across all tracked files.
+Each hit must fall into one class: history (closed list of record paths), rewritten, address-key (share headers and the
+closed `ADDRESS_KEYED` list), stale-build-input, stale-invisible, or unclassified. A rename lands only at 0 stale and
+0 unclassified (`--range HEAD..` or `--spec`). R32 is asserted twice: per rename, candidates equal classified hits, and
+every grep hit is owned by some rename. Generator-made `func_<ADDR>` names pass only in `NAMES_FROM_VRAM`. Extending
+either closed list is a reviewed edit, never something done at rename time. `rename_sym.py` performs a rename: it
+writes the symbol line, rewrites every live mention, adds the ledger row, and prints the generated files and Ghidra
+programs that need a regenerate.
+**The controls.** In a scratch worktree, the known rename `func_80037004 -> guess_ClearTbl40` stayed byte-identical and
+scanned clean, and an independent grep agreed line for line (89 candidates). A planted miss in
+`config/dedup.us.yaml` kept the byte gate green and failed the scanner on exactly that line. No name landed in 3.42.
+
+## P3.42 T8 (2026-11-10) — how names are ranked: leverage per unique body
+
+**Context and belief.** 3.43 names 500 symbols, which should be the ones that buy the most readability. Raw `func_`/`D_`
+token counts over-weight bodies that have many private copies, and that weighting changes every time a copy moves into a
+shared header.
+**What we decided.** References are the relocations of our own built objects, parsed in Python with REL addends.
+`objdump -r` is the independent control for the raw count, never the parser. A function unit is one share class
+(`h_exact`), or `raw:<space>:<addr>` for a call target with no signature row. A data unit is (space, address). Score =
+(refs + own) x (1 + log10(fan)): refs are unique-body non-HI16 references, own is the struct-ownership credit, and fan
+is instances (functions) or referencing binaries (data). The damping is log10, not log2, because the top class is a
+2-instruction stub at 726 addresses with a fan of 11,852. Every relocation is attributed to a unit or to a named
+exclusion (3,355,973 raw, 0 unattributed), and three controls agree. `tools/leverage_rank.py` writes `docs/leverage.md`
+and `docs/leverage.tsv`. 3.43's list is the top 500 by `rank43`, which covers 35.5% of unique references.

@@ -38,8 +38,8 @@ src/shared/
   as a private copy would.
 - **The parameterized form** for a body shared across *different* addresses:
   `#define SHARED_FN func_80037334` / `#include "shared/main/func_80037004.h"` / `#undef SHARED_FN`, the header
-  defining `void SHARED_FN(void) {…}`. One worked example exists (`clearTbl40`); the names phase applies the form to
-  the deferred cross-address classes.
+  defining `void SHARED_FN(void) {…}`. This is the `param-include` form; Phase 3.42 applied it to the deferred
+  cross-address classes (see "Cross-address classes" below).
 
 Why an include and not a separate object: a macro (and now a header) expands *at the site*, so its `extern`s become
 declarations at that line and later functions rely on them; a separate compiled object would delete thousands of
@@ -112,6 +112,38 @@ reverted to its private copy made the census exit 1 naming the class and C2d nam
   parameterized form is their shape.
 - The macro header and its 5,147 define lines are gone; 0 `DEFINE_func_` sites under `src/`; the fleet's clean rebuild
   fell from 157 s to 84 s wall (the 8.8 MB header no longer preprocessed by 3,818 units).
+
+## Cross-address classes: the param-include form (Phase 3.42)
+
+A class whose identical bytes sit at more than one address cannot use a header named by one address. Raw-byte identity
+means every copy calls the same absolute callees and touches the same data, so the only thing that differs is the
+function's own name. That name becomes the parameter:
+
+```c
+#define SHARED_FN func_8017DC50
+#include "../shared/ov/cls_b0ef21e92162.h"
+#undef SHARED_FN
+```
+
+- **The header** is `src/shared/<space>/cls_<h[:12]>.h`, named by the class's byte hash (`multi/` when the copies sit
+  in different address spaces). Its first comment records provenance: class hash, registry id, generator and commit.
+  The registry group is `X_<h[:12]>`, with members {binary, vram, name}. Because the file is keyed by hash, a later
+  rename edits only the `#define SHARED_FN` lines and the member names (C0557).
+- **Differing texts** (verdict D): when the copies' C differs but their bytes do not, the engine tries the texts in rank
+  order and keeps the first one that gates green on every binary. A text that adds a lying declaration or a dead struct
+  is rejected. A type-header edit puts every binary into the bisect set (C0558).
+- **Ledgers move with the body.** Lever residue, restruct's cast ledger and argcheck's definitions are keyed by
+  (file, function), so the batch that moves a body re-keys them in the same commit. Otherwise tools-health turns red.
+  A header definition is named by the `SHARED_FN` value at the site (type_census) or by the header's file stem
+  (verbatim_check and lever_census for asm bodies).
+- **Asm families** that vary in one data symbol take a second parameter, `SHARED_SLOT`, stringified into the asm
+  template. The 20 scratchpad trampoline families, 141 copies each, are shared this way (C0559).
+- **The remainder** is ledgered, one row per class with its measured reason, in `config/dedup_exceptions.tsv`.
+
+Where it stands at 3.42 (`share_census.py --scope all`, the S1 line in tools-health): 3,214 cross-address classes
+converted, 575 ledgered (TU-CONFLICT 282, RETURN-LIE 206, DEAD-TYPE 87), private copies in that bucket 11,340 to 2,169,
+S1 violations 0. Header sites count once, so de-duplication also lowers the lever and cast site counts without changing
+a byte ([Levers](../levers.md), §7). Names for these functions come next: [Names and renames](Names-and-renames.md).
 
 ## Honesty rules the engine imposes
 

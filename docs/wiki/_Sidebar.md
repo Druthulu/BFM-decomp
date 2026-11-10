@@ -6,6 +6,7 @@
 - [Repository layout](Repository-layout.md)
 - [The matching workflow](The-matching-workflow.md)
 - [The dedup engine](The-dedup-engine.md)
+- [Names and renames](Names-and-renames.md)
 - [Overlays and modules](Overlays-and-modules.md)
 - [Ghidra rebuild from text](Ghidra-rebuild-from-text.md)
 - [The type layer](The-type-layer.md)

@@ -30,6 +30,7 @@ log, the memory map, the environment reference) live under `docs/` and are liste
 | [Repository layout](Repository-layout.md) | What every top-level directory holds, and what is deliberately *not* in the repository |
 | [The matching workflow](The-matching-workflow.md) | Draft → gate → bank: the oracle ladder from a masked standalone compile to the whole-binary hash, and how a change is kept honest |
 | [The dedup engine](The-dedup-engine.md) | Why one matched function banks up to 138 copies: position-locked overlays, signatures, propagation, the registry that fail-closes |
+| [Names and renames](Names-and-renames.md) | The names ledger and its `guess_` tier, the rename scanner that asserts its coverage, the rename tool and the leverage ranking |
 | [Overlays and modules](Overlays-and-modules.md) | The disc, the 218 binaries, where each loads and how every load address was proven |
 | [Ghidra rebuild from text](Ghidra-rebuild-from-text.md) | The reverse-engineering database is not in git; here is how it regenerates from text + the disc, and the proof that it does |
 | [Verification and progress](Verification-and-progress.md) | The contract run, the three metrics and how they are computed, what CI proves without a disc, the published numbers |
