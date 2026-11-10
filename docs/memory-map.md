@@ -1049,3 +1049,33 @@ ones fall to the bounded DESTPTR list + pointer/`lui` consistency instead of a g
 
 Both OPDEMO modules (MAIN/7, MAIN/9) carry `C:\TIMPACK\OPDEMO0.PAT` / `OPDEMO1.PAT` at header offsets 0x4/0x1C
 (§S45 p5 addendum) — the header format here is [id][two 24-byte path strings][code], hence TEXT_LO 0x34/0x3C.
+
+## 3.43 T5 — SDK functions compiled from our C
+
+PsyQ SDK functions built from src/ (not a linked build/psyq object). bytes = SDK member .text over the function vs the
+built ELF at addr, relocated fields (HI16/LO16 low 16, 26-bit jal, 32-bit words) masked both sides. Members from
+tools/psyq/lib40_elf/*.a; LIBDS.LIB via psyq_lib_split + psyq-obj-parser; LIBSN SNMAIN.OBJ (parser cannot convert:
+reloc expr type 22) read from its raw LNK .text code record. memcpy (resident scope) = main 0x8005C324. Script:
+.run/3.43/t5/sdk_compare.py (scratch).
+
+| addr | name | SDK member | bytes | status |
+|---|---|---|---|---|
+| 0x80057928 | GsTMDfastG3GL | LIBGS.LIB DAG3GF00.OBJ .text+0x0 | 0x1EC, 0 reloc words masked | match |
+| 0x80057B14 | GsTMDfastG3GNL | LIBGS.LIB DAG3GF02.OBJ .text+0x0 | 0x168, 0 reloc words masked | match |
+| 0x80057C7C | GsTMDfastF3GL | LIBGS.LIB DAF3GF00.OBJ .text+0x0 | 0x204, 0 reloc words masked | match |
+| 0x80057E80 | GsTMDfastF3GNL | LIBGS.LIB DAF3GF02.OBJ .text+0x0 | 0x17C, 0 reloc words masked | match |
+| 0x80057FFC | GsTMDfastF4GL | LIBGS.LIB DAF4GF00.OBJ .text+0x0 | 0x288, 0 reloc words masked | match |
+| 0x80058284 | GsTMDfastF4GNL | LIBGS.LIB DAF4GF02.OBJ .text+0x0 | 0x1D8, 0 reloc words masked | match |
+| 0x8005845C | GsTMDfastG4GL | LIBGS.LIB DAG4GF00.OBJ .text+0x0 | 0x270, 0 reloc words masked | match |
+| 0x800586CC | GsTMDfastG4GNL | LIBGS.LIB DAG4GF02.OBJ .text+0x0 | 0x1C4, 0 reloc words masked | match |
+| 0x8001BD80 | SsGetMute | LIBSND.LIB SSGM.OBJ .text+0x0 | 0x20, 1 reloc words masked | match |
+| 0x800285AC | SsUtReverbOff | LIBSND.LIB UT_ROFF.OBJ .text+0x0 | 0x20, 1 reloc words masked | match |
+| 0x8003E2E4 | _SsSndPlay | LIBSND.LIB PLAY.OBJ .text+0x0 | 0x2C, 1 reloc words masked | match |
+| 0x8003C438 | SpuWrite | LIBSPU.LIB S_W.OBJ .text+0x0 | 0x60, 5 reloc words masked | match |
+| 0x800100A0 | __main | LIBSN.LIB SNMAIN.OBJ .text+0xA8 | 0x70, 8 reloc words masked | match |
+| 0x80010110 | __do_global_dtors | LIBSN.LIB SNMAIN.OBJ .text+0x118 | 0x68, 6 reloc words masked | match |
+| 0x80046980 | DsSyncCallback | LIBDS.LIB DSCB.OBJ .text+0x0 | 0x14, 2 reloc words masked | match |
+| 0x80046994 | DsReadyCallback | LIBDS.LIB DSCB.OBJ .text+0x14 | 0x14, 2 reloc words masked | match |
+| 0x800469A8 | DsDataCallback | LIBDS.LIB DSCB.OBJ .text+0x28 | 0x24, 1 reloc words masked | match |
+| 0x8005C324 | memcpy | LIBC2.LIB MEMCPY.OBJ .text+0x0 | 0x34, 0 reloc words masked | match |
+| 0x800D1BD8 | DsMix | LIBDS.LIB DSSYS_3.OBJ .text+0x0 | 0x20, 1 reloc words masked | match |
