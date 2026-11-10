@@ -3051,9 +3051,9 @@ void func_8017E278(s32 a0, s32 a1) {
 
 
 
-s32 func_8017E2A8(void) {
-    return 134;
-}
+#define SHARED_FN func_8017E2A8
+#include "../shared/ov/cls_579860921447.h"
+#undef SHARED_FN
 
 
 extern void func_8013373C(s32 arg0);
@@ -3712,9 +3712,9 @@ s32 func_8017F15C(s32 arg)
 }
 
 
-s32 func_8017F258(s32 *a0) {
-        return *(u16 *)((s32)a0 + 0x34) == 0x2;
-    }
+#define SHARED_FN func_8017F258
+#include "../shared/ov/cls_21bc2950cd31.h"
+#undef SHARED_FN
 
 
 extern s32 *D_80126B78;

@@ -7760,12 +7760,9 @@ void func_801877B8(s32 a0) {
 void func_801879A8(void) {
 }
 
-void func_801879B0(s32 param_1) {
-    s32 ptr = ((Unkstruct_800B5CB8 *)param_1)->unk20;
-    ((Unkstruct_800B5CB8 *)param_1)->unk48 = 0;
-    *(u16 *)(ptr + 0x12) = 0;
-    func_8012B2CC(param_1);
-}
+#define SHARED_FN func_801879B0
+#include "../shared/ov/cls_5b02b43a4a05.h"
+#undef SHARED_FN
 
 
 #define SHARED_FN func_801879D8

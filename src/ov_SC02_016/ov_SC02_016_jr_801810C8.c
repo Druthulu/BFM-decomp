@@ -4162,9 +4162,9 @@ void func_80182D54(void *a0)
 
 
 extern void func_8012A4BC(void);
-    void func_80182E14(void) {
-        func_8012A4BC();
-    }
+#define SHARED_FN func_80182E14
+#include "../shared/ov/cls_32b112de5018.h"
+#undef SHARED_FN
 
 
 

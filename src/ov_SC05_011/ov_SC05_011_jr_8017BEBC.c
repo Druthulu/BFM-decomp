@@ -3269,9 +3269,9 @@ void func_8017DCA4(void) {
 }
 
 extern void func_8017D818(void *arg0);
-    void func_8017DCAC(void) {
-        ((void (*)())func_8017D818)();
-    }
+#define SHARED_FN func_8017DCAC
+#include "../shared/ov/cls_7996e15fd5d7.h"
+#undef SHARED_FN
 
 
 

@@ -3038,10 +3038,9 @@ void func_8017E034(void) {
 
 extern s32 func_80147054(void*);
 extern void func_80171928(void*);
-void func_8017E05C(s32 a0) {
-    ((void (*)(void))func_80147054)();
-    ((void (*)(s32))func_80171928)(a0);
-}
+#define SHARED_FN func_8017E05C
+#include "../shared/ov/cls_5f905bb217d2.h"
+#undef SHARED_FN
 
 
 void func_8017E08C(void) {

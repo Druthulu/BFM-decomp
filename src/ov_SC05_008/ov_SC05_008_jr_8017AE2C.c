@@ -3721,13 +3721,9 @@ void func_8017D668(void *param_1) {
 
 extern s32 func_80171990(u8 *a0);
 
-void func_8017D78C(void) {
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 D_80126B58;
-    ((void (*)(void *))func_80171990)(&D_80126B58);
-}
+#define SHARED_FN func_8017D78C
+#include "../shared/ov/cls_518a27edc96f.h"
+#undef SHARED_FN
 
 
 void func_8017D7B4(void) {

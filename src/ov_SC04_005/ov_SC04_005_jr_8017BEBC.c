@@ -7036,24 +7036,14 @@ void func_801831B4(void *a0) {
 }
 
 
-void func_801831F0(void *a0)
-{
-    extern void func_8002AC00(s32 arg0);
-    extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-
-    func_8002AC00(0x16);
-    func_80131E00(a0, 0x11);
-}
+#define SHARED_FN func_801831F0
+#include "../shared/ov/cls_4fccf14e5b80.h"
+#undef SHARED_FN
 
 
-s32 func_80183228(s32 a0) {
-    s32 ret;
-    ret = 0xA810;
-    do { ((Unkstruct_80183228_2 *)a0)->unkC1 = 0; } while (0);
-    ((Unkstruct_80183228_2 *)a0)->unk5E = 0;
-    ((Unkstruct_80183228_2 *)a0)->unk5C = ret;
-    return ret;
-}
+#define SHARED_FN func_80183228
+#include "../shared/ov/cls_a531080df43e.h"
+#undef SHARED_FN
 
 
 #include "common.h"

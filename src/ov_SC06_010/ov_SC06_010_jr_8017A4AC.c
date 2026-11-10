@@ -6477,9 +6477,9 @@ s32 func_80180A88(void)
 }
 
 
-s32 func_801810F4(void) {
-        return 0x6F;
-    }
+#define SHARED_FN func_801810F4
+#include "../shared/ov/cls_b7155acd0adf.h"
+#undef SHARED_FN
 
 
 extern s32 func_8004787C(s32 a0);

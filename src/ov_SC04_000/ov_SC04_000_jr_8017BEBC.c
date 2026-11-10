@@ -5738,11 +5738,9 @@ s32 a0;
 
 
 extern s32 func_8012BEE8(s32 a0);
-    void func_80181288(s32 arg0) {
-        if (((s32 (*)(void))func_8012BEE8)() != 0) {
-            *(s16 *)(arg0 + 0x2) = 0x7;
-        }
-    }
+#define SHARED_FN func_80181288
+#include "../shared/ov/cls_c3dd816e7740.h"
+#undef SHARED_FN
 
 
 extern s32 D_801A6A90;

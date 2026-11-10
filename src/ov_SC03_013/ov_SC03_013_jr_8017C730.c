@@ -3997,14 +3997,9 @@ extern s32 func_8012BF10(s32 arg0, s32 arg1);
 
 extern s32 func_800291B4(s32 arg);
 
-s32 func_8017F7E8(void) {
-    u32 x = func_800291B4(0xCE) & 0xFF;
-
-    if (x == 0 || x >= 9) {
-        return 1;
-    }
-    return 0;
-}
+#define SHARED_FN func_8017F7E8
+#include "../shared/ov/cls_670d998f4d15.h"
+#undef SHARED_FN
 
 
 

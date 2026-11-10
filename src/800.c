@@ -879,18 +879,9 @@ void func_80013ED0(void* a0, void* a1, void* a2, void* a3) {
 }
 
 
-void func_80013F3C(void *ptr) {
-    s16 *p = (s16 *)ptr;
-    p[0] = 0x1000;
-    p[1] = 0;
-    p[2] = 0;
-    p[3] = 0;
-    p[4] = 0x1000;
-    p[5] = 0;
-    p[6] = 0;
-    p[7] = 0;
-    p[8] = 0x1000;
-}
+#define SHARED_FN func_80013F3C
+#include "shared/main/cls_fddd1528b6ce.h"
+#undef SHARED_FN
 
 
 void func_80013F68(s16 *a0) {
@@ -945,18 +936,13 @@ void func_8001404C(s32 *a0, s32 *a1) {
         ((Unkstruct_8001404C *)a0)->unk10 = *(u16 *)((s32)a1 + 0x4);
     }
 
-void func_80014070(void* a0, void* a1)
-{
-    ((Unkstruct_800128EC *)a1)->unk0 = ((s16 *)a0)[1 - 1];
-    ((Unkstruct_800128EC *)a1)->unk4 = ((s16 *)a0)[2 - 1];
-    ((Unkstruct_800128EC *)a1)->unk8 = ((s16 *)a0)[3 - 1];
-}
+#define SHARED_FN func_80014070
+#include "shared/main/cls_9c01f06c68a5.h"
+#undef SHARED_FN
 
-void func_80014094(s32 *arg0, void *arg1) {
-    ((Unkstruct_80014094 *)arg1)->unk0 = arg0[0];
-    ((Unkstruct_80014094 *)arg1)->unk2 = arg0[1];
-    ((Unkstruct_80014094 *)arg1)->unk4 = arg0[2];
-}
+#define SHARED_FN func_80014094
+#include "shared/main/cls_e76da11bee09.h"
+#undef SHARED_FN
 
 void func_800140B8(s32 a0, s32 a1, s32 a2)
 {
@@ -1523,13 +1509,9 @@ u16 func_80014BFC(u32 a0) {
 
 extern u8 D_80078D98;
 
-u8 func_80014C28(u32 a0) {
-    u32 offset;
-    a0 &= 0xFF;
-    offset = a0 * 76;
-    offset = offset + (u32)&D_80078D98;
-    return *(u8*)(offset);
-}
+#define SHARED_FN func_80014C28
+#include "shared/main/cls_e5ec26bd5189.h"
+#undef SHARED_FN
 
 extern u8 D_80078D98;
 
@@ -1571,15 +1553,9 @@ s32 func_80014CAC(u32 arg0, u32 arg1)
 
 extern u8 D_80078D98;
 
-u8 func_80014CF8(u32 a0, u32 a1) {
-    u32 offset;
-    a0 &= 0xFF;
-    offset = a0 * 76;
-    offset = offset + (u32)&D_80078D98;
-    a1 &= 0xFF;
-    offset = offset + a1;
-    return *(u8*)(offset + 0x32);
-}
+#define SHARED_FN func_80014CF8
+#include "shared/main/cls_dafdc8bf94f5.h"
+#undef SHARED_FN
 
 
 extern u8 D_80078D98;
@@ -1620,26 +1596,16 @@ s32 func_80014D94(s32 a0) {
 
 extern u8 D_80078D98;
 
-u8 func_80014DC0(u32 a0) {
-    u32 offset;
-    a0 &= 0xFF;
-    offset = a0 * 76;
-    offset = offset + (u32)&D_80078D98;
-    return *(u8*)offset;
-}
+#define SHARED_FN func_80014DC0
+#include "shared/main/cls_e5ec26bd5189.h"
+#undef SHARED_FN
 
 
 extern u8 D_80078D98;
 
-u8 func_80014DEC(s32 a0, s32 a1) {
-    u32 offset;
-    a0 &= 0xFF;
-    offset = a0 * 76;
-    offset = offset + (u32)&D_80078D98;
-    a1 &= 0xFF;
-    offset = offset + a1;
-    return *(u8 *)(offset + 0x32);
-}
+#define SHARED_FN func_80014DEC
+#include "shared/main/cls_dafdc8bf94f5.h"
+#undef SHARED_FN
 
 
 extern s32 func_80015018(s32 a0);
@@ -2269,17 +2235,13 @@ void func_80015A08(s32 *a0, s32 *a1) {
     ((Unkstruct_80015A08_2 *)a1)->unk8 = ((Unkstruct_80015A08 *)a0)->unk8;
 }
 
-void func_80015A2C(short* arg0, int* arg1) {
-    arg1[0] = arg0[0];
-    arg1[1] = arg0[1];
-    arg1[2] = arg0[2];
-}
+#define SHARED_FN func_80015A2C
+#include "shared/main/cls_9c01f06c68a5.h"
+#undef SHARED_FN
 
-void func_80015A50(s32 *arg0, s16 *arg1) {
-    arg1[0] = arg0[0];
-    arg1[1] = arg0[1];
-    arg1[2] = arg0[2];
-}
+#define SHARED_FN func_80015A50
+#include "shared/main/cls_e76da11bee09.h"
+#undef SHARED_FN
 
 #ifdef NON_MATCHING
 /* uint -> packed BCD (9 digits, ÷ powers of 10). All idioms match under the pinned
@@ -4288,20 +4250,9 @@ void func_80017B98(void *arg0)
 }
 
 
-void func_80017D98(void *a0)
-{
-    s16 val = 0x1000;
-    s16 *p = (s16 *)a0;
-    p[0] = val;
-    p[1] = 0;
-    p[2] = 0;
-    p[3] = 0;
-    p[4] = val;
-    p[5] = 0;
-    p[6] = 0;
-    p[7] = 0;
-    p[8] = val;
-}
+#define SHARED_FN func_80017D98
+#include "shared/main/cls_fddd1528b6ce.h"
+#undef SHARED_FN
 
 
 void func_80017DC4(u16 *a0, Dst17DC4 *a1) {
@@ -5200,9 +5151,9 @@ s32 func_80019198(void) {
 
 extern s32 D_80078E30;
 
-void func_800191A8(void) {
-    D_80078E30 = -1;
-}
+#define SHARED_FN func_800191A8
+#include "shared/main/cls_770f202eac3a.h"
+#undef SHARED_FN
 
 extern s32 D_80078E30;
 
@@ -5719,10 +5670,9 @@ void LoaderResetReadState(void) {
     D_800AE70C = 0;
 }
 
-void func_80019A10(void) {
-    extern s32 D_80078E30;
-    D_80078E30 = -1;
-}
+#define SHARED_FN func_80019A10
+#include "shared/main/cls_770f202eac3a.h"
+#undef SHARED_FN
 
 extern s32 CdQueueBusy(void);
 extern void CdReadStateMachine(int);

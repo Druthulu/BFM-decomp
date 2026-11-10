@@ -5690,10 +5690,9 @@ void func_80182F58(int param_1)
 
 
 extern s32 func_8012AD50(void *a0);
-    void func_80182FA4(s32 *param) {
-        *(u16 *)((char *)param + 0x72) |= 0x1000;
-        ((void (*)(void))func_8012AD50)();
-    }
+#define SHARED_FN func_80182FA4
+#include "../shared/ov/cls_837ec18b7546.h"
+#undef SHARED_FN
 
 
 /* func_80182FD0 — ov_SC02_017 / jr_8017DF34, 102 ins, MATCH.

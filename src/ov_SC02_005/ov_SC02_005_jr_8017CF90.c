@@ -5346,10 +5346,9 @@ void func_801812DC(void *a0) {
 }
 
 
-void func_80181318(void *a0) {
-        ((Unkstruct_80181318 *)a0)->unk204 = 0x20;
-        ((Unkstruct_80181318 *)a0)->unk214 += 1;
-    }
+#define SHARED_FN func_80181318
+#include "../shared/ov/cls_5894bc5cb9d9.h"
+#undef SHARED_FN
 
 
 void func_80181330(void *a0) {

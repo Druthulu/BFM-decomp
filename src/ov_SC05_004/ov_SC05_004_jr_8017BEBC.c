@@ -4393,10 +4393,9 @@ void func_8017EB58(void)
 }
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-    void func_8017EB78(void * arg0) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x40;
-        ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 2);
-    }
+#define SHARED_FN func_8017EB78
+#include "../shared/ov/cls_8b720904d1d1.h"
+#undef SHARED_FN
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);

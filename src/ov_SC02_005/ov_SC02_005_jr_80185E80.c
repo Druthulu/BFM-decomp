@@ -1351,10 +1351,9 @@ extern void func_80181900(void *a0);
 
 
 extern void func_80181900(void*);
-    void func_80187A0C(s32 *a0) {
-        *(s32 *)((s32)a0 + 0xE8) &= ~1;
-        ((void (*)(void))func_80181900)();
-    }
+#define SHARED_FN func_80187A0C
+#include "../shared/ov/cls_ff979b4d03dd.h"
+#undef SHARED_FN
 
 
 extern void func_80186F58(void *a0);
@@ -2063,10 +2062,9 @@ void func_801888EC(void *a0)
 
 
 extern void func_80181900(void*);
-    void func_8018893C(s32 arg0) {
-        *(s32 *)(arg0 + 0xe8) &= ~1;
-        ((void (*)(void))func_80181900)();
-    }
+#define SHARED_FN func_8018893C
+#include "../shared/ov/cls_ff979b4d03dd.h"
+#undef SHARED_FN
 
 
 extern void func_8012B23C(s32 a0);

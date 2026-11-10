@@ -3333,9 +3333,9 @@ void func_8017DF94(s32 arg0, s16 *arg1, s32 arg2) {
 }
 
 
-s32 func_8017DFF4(void) {
-        return 0x86;
-    }
+#define SHARED_FN func_8017DFF4
+#include "../shared/ov/cls_579860921447.h"
+#undef SHARED_FN
 
 
 
@@ -3538,9 +3538,9 @@ void func_8017E3A4(void *a0) {
 
 
 
-s32 func_8017E3F0(s32 arg0) {
-        return *(u16*)(arg0 + 0x34) == 0x2;
-    }
+#define SHARED_FN func_8017E3F0
+#include "../shared/ov/cls_21bc2950cd31.h"
+#undef SHARED_FN
 
 
 extern u16 D_80126B66;

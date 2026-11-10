@@ -4566,12 +4566,9 @@ extern void func_8017D8F0(void);
 extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 
-void func_8017E6BC(s32 param_1)
-{
-    ((void (*)(s32))func_8017D8F0)(param_1);
-    ((void (*)(s32))func_8016F0E4)(param_1);
-    ((void (*)(s32))func_80165770)(param_1);
-}
+#define SHARED_FN func_8017E6BC
+#include "../shared/ov/cls_5a486aa0b046.h"
+#undef SHARED_FN
 
 // @class: plumbing
 // @unstuck(P36): none — MATCH (simple stub; param_1 in $s0 across calls)
@@ -4626,12 +4623,9 @@ extern void func_8017D8F0(void);
 extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 
-void func_8017E830(s32 param_1)
-{
-    ((s32 (*)(void))func_8017D8F0)();
-    ((s32 (*)(s32))func_8016F0E4)(param_1);
-    ((s32 (*)(s32))func_80165770)(param_1);
-}
+#define SHARED_FN func_8017E830
+#include "../shared/ov/cls_5a486aa0b046.h"
+#undef SHARED_FN
 
 extern void (*D_8018A79C[])();
 

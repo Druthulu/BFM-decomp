@@ -855,12 +855,9 @@ void func_8018A084(s32 a0) {
 
 extern s32 D_8012704C;
 
-s32 func_8018A184(void) {
-    if (D_8012704C == 0) {
-        return 0x18;
-    }
-    return 0x2B;
-}
+#define SHARED_FN func_8018A184
+#include "../shared/ov/cls_94e137f921f4.h"
+#undef SHARED_FN
 
 
 #include "common.h"
@@ -911,9 +908,9 @@ void func_8018A1A4(void *a0) {
 
 
 extern void func_8012A4BC(void);
-    void func_8018A264(void) {
-        ((s32 (*)(void))func_8012A4BC)();
-    }
+#define SHARED_FN func_8018A264
+#include "../shared/ov/cls_32b112de5018.h"
+#undef SHARED_FN
 
 
 

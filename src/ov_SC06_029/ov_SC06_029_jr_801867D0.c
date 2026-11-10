@@ -3436,9 +3436,9 @@ void func_80187094(void) {
 
 
 extern void func_8018B20C(void);
-void func_801870B4(void) {
-    ((void (*)(void))func_8018B20C)();
-}
+#define SHARED_FN func_801870B4
+#include "../shared/ov/cls_6241eaa2198e.h"
+#undef SHARED_FN
 
 
 extern s32 D_801DFF70;

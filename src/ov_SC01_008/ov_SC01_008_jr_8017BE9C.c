@@ -3275,9 +3275,9 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
 extern s32 func_8017D428(void);
 
-s32 func_8017D428(void) {
-    return 0x3D;
-}
+#define SHARED_FN func_8017D428
+#include "../shared/ov/cls_fb22bf8f1234.h"
+#undef SHARED_FN
 
 
 s16 func_8017D430(void) {

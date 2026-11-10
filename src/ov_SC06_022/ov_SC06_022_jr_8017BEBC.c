@@ -4246,9 +4246,9 @@ void func_8017F50C(s32 arg0) {
 void func_8017F588(void) {
 }
 
-s32 func_8017F590(void) {
-        return 0x7F;
-    }
+#define SHARED_FN func_8017F590
+#include "../shared/ov/cls_971f591d878b.h"
+#undef SHARED_FN
 
 
 

@@ -7568,17 +7568,14 @@ void func_80184358(void *a0) {
 
 extern void func_8002AC00(s32 arg0);
     extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-    void func_80184394(int param_1) {
-        ((int (*)(int))func_8002AC00)(0x16);
-        ((int (*)(int, int))func_80131E00)(param_1, 0x11);
-    }
+#define SHARED_FN func_80184394
+#include "../shared/ov/cls_4fccf14e5b80.h"
+#undef SHARED_FN
 
 
-void func_801843CC(u8 *a0) {
-    ((Unkstruct_801843CC *)a0)->unkC1 = 0;
-    ((Unkstruct_801843CC *)a0)->unk5E = 0;
-    ((Unkstruct_801843CC *)a0)->unk5C = 0xA810;
-}
+#define SHARED_FN func_801843CC
+#include "../shared/ov/cls_a531080df43e.h"
+#undef SHARED_FN
 
 
 void func_801843E0(s32 a0) {

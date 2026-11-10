@@ -3348,11 +3348,9 @@ void func_8017DFBC(void) {
 }
 
 extern void func_80171A1C(u8*);
-void func_8017DFC4(void) {
-
-    extern s32 D_80126B58;
-    ((s32 (*)(s32 *))func_80171A1C)(&D_80126B58);
-}
+#define SHARED_FN func_8017DFC4
+#include "../shared/ov/cls_094175bcc24c.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012C044(s32 a0);

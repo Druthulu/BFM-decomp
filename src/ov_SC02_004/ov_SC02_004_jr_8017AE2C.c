@@ -3823,10 +3823,9 @@ extern void (*D_8018172C[])(void);
 #undef SHARED_FN
 
 
-void func_8017D6AC(u8 *a0) {
-        *(s32 *)(a0 + 0x204) = 0x20;
-        *(u8 *)(a0 + 0x214) += 1;
-    }
+#define SHARED_FN func_8017D6AC
+#include "../shared/ov/cls_5894bc5cb9d9.h"
+#undef SHARED_FN
 
 
 

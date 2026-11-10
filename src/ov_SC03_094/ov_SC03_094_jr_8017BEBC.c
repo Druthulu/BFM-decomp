@@ -7453,13 +7453,9 @@ void func_80184C94(s32 a0) {
 }
 
 
-void func_80184D3C(void *a0) {
-        ((Unkstruct_80184D3C *)a0)->unkDC -= 1;
-        if (CAST_SIGN(s16, (char *)a0, 0xdc) == 0) {
-            ((Unkstruct_80184D3C *)a0)->unkDC = 0x1e;
-            ((Unkstruct_80184D3C *)a0)->unk2 = 2;
-        }
-    }
+#define SHARED_FN func_80184D3C
+#include "../shared/ov/cls_6648fb4fd80f.h"
+#undef SHARED_FN
 
 
 void func_80184D6C(void *a0) {

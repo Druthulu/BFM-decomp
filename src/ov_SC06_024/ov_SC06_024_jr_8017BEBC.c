@@ -4616,9 +4616,9 @@ extern void func_8012C218(s32 a0);
 
 
 
-s32 func_80180218(void) {
-    return 127;
-}
+#define SHARED_FN func_80180218
+#include "../shared/ov/cls_971f591d878b.h"
+#undef SHARED_FN
 
 
 extern u8 D_801202A0[];

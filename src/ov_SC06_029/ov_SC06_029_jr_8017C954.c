@@ -5206,9 +5206,9 @@ extern s32 func_8018B1E0(s32 arg);
 
 
 extern void func_8018B20C(void);
-    void func_80180EE8(void) {
-        func_8018B20C();
-    }
+#define SHARED_FN func_80180EE8
+#include "../shared/ov/cls_6241eaa2198e.h"
+#undef SHARED_FN
 
 
 extern s32 D_801904D4[];

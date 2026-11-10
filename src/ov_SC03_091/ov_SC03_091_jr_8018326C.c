@@ -6158,12 +6158,9 @@ void func_80188850(void) {
 }
 
 extern void func_8012B2CC(s32 a0);
-void func_80188858(s32 *a0) {
-    s32 *v0 = CAST_SIGN(s32 *, (s32)a0, 0x20);
-    ((Unkstruct_800B5CB8 *)a0)->unk48 = 0;
-    *(s16 *)((s32)v0 + 0x12) = 0;
-    func_8012B2CC((s32)a0);
-}
+#define SHARED_FN func_80188858
+#include "../shared/ov/cls_5b02b43a4a05.h"
+#undef SHARED_FN
 
 
 #define SHARED_FN func_80188880

@@ -2809,9 +2809,9 @@ void func_8017D390(void *a0)
 
 
 extern void func_8002931C(s32 a0);
-    void func_8017D3F0(void) {
-        ((void (*)(s32))func_8002931C)(0x3C00000);
-    }
+#define SHARED_FN func_8017D3F0
+#include "../shared/ov/cls_7f3d0ea0cfdf.h"
+#undef SHARED_FN
 
 
 

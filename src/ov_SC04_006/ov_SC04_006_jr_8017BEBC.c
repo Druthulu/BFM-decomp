@@ -3928,11 +3928,9 @@ s32 a0;
 
 
 extern s32 func_8012BEE8(s32 arg);
-    void func_8017EB20(void *a0) {
-        if (func_8012BEE8((s32)a0)) {
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x7;
-        }
-    }
+#define SHARED_FN func_8017EB20
+#include "../shared/ov/cls_c3dd816e7740.h"
+#undef SHARED_FN
 
 
 extern s32 D_8019AED4;

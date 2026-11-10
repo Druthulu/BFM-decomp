@@ -3196,12 +3196,9 @@ extern s32 func_8012AD50(void *a0);
 
 extern s32 func_800D0CE0(void);
 extern s32 func_8012C098(void *param_1);
-void func_80187800(int param_1)
-{
-    if (((int (*)(void))func_800D0CE0)() != 0) {
-        ((void (*)(int))func_8012C098)(param_1);
-    }
-}
+#define SHARED_FN func_80187800
+#include "../shared/ov/cls_3958d867cae6.h"
+#undef SHARED_FN
 
 
 extern s32 func_8012E544(s32);
@@ -3363,10 +3360,9 @@ void func_80187D90(int param_1)
 
 
 extern s32 func_8012AD50(void *a0);
-    void func_80187DDC(u8 *a0) {
-        *(u16 *)(a0 + 0x72) |= 0x1000;
-        ((void (*)(void))func_8012AD50)();
-    }
+#define SHARED_FN func_80187DDC
+#include "../shared/ov/cls_837ec18b7546.h"
+#undef SHARED_FN
 
 
 /* func_80187E08 -- screen-space gate + record-chain spawner.

@@ -4957,13 +4957,9 @@ void func_8018575C(s32 a0) {
 }
 
 
-void func_80185804(void *a0) {
-        ((Unkstruct_80185804 *)a0)->unkDC -= 1;
-        if (CAST_SIGN(s16, (char *)a0, 0xdc) == 0) {
-            ((Unkstruct_80185804 *)a0)->unkDC = 0x1e;
-            ((Unkstruct_80185804 *)a0)->unk2 = 2;
-        }
-    }
+#define SHARED_FN func_80185804
+#include "../shared/ov/cls_6648fb4fd80f.h"
+#undef SHARED_FN
 
 
 extern void func_8012B23C(void *a0);

@@ -3273,9 +3273,9 @@ void func_8017D254(s32 param_1) {
 
 
 
-s32 func_8017D2F0(void) {
-    return 61;
-}
+#define SHARED_FN func_8017D2F0
+#include "../shared/ov/cls_fb22bf8f1234.h"
+#undef SHARED_FN
 
 
 extern s16 D_80190110;
