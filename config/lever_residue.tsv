@@ -87,7 +87,6 @@ src/md_SC03_135/md_SC03_135.c	func_801E46A0	pin	T11 crack G01	delever_search --t
 src/md_SC04_027/md_SC04_027.c	func_801E8DF4	barrier	T11 crack O01	delever_search --try best 9/31	singleton(barrier) wall:dbr-delay-fill
 src/md_SC04_027/md_SC04_027.c	func_801E9BE0	pin	T11 crack G02	delever_search --try best 8/12; T11 wall sched1-ret-hoist	singleton(pin) wall:sched1-hoist-sink
 src/md_SC05_026/md_SC05_026.c	func_801EFA40	pin	T11 crack G02	delever_search --try best 8/1; T11 wall sched1-ret-hoist	singleton(pin) wall:sched1-hoist-sink
-src/md_SC05_026/md_SC05_026_jr_801F0748.c	func_801F0C4C	keepalive	T11 crack G26	delever_search --try best 13/40	singleton(keepalive) wall:expand-void-return
 src/md_SC05_026/md_SC05_026_jr_801F0748.c	func_801F0C4C	pin	T11 crack G26	delever_search --try best 13/40	singleton(pin) wall:expand-void-return
 src/md_SC07_003/md_SC07_003.c	func_801A293C	instruction	T11 parked (instruction)	delever R t8_r2 (no lever-free attempt)	singleton(instruction) wall:no-c-spelling
 src/md_SC07_004/md_SC07_004.c		instruction	T11 parked (instruction)	delever B tus11 (no lever-free attempt)	singleton(instruction) wall:no-c-spelling
