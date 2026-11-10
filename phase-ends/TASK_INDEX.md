@@ -56,3 +56,15 @@
 3.41 | T10 | done | milestone gate (Phase 3.41) | - | phase-3.41/tasks/T10.md | phase-3.41/logs/T10.md | R3.41-003,R3.41-002
 3.41 | T11 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.41) | - | phase-3.41/tasks/T11.md | phase-3.41/logs/T11.md | R3.41-005,R3.41-004
 3.41 | T12 | done | phase cleanup | - | phase-3.41/tasks/T12.md | phase-3.41/logs/T12.md | -
+3.42 | T1 | done | phase-start baselines and environment check | - | phase-3.42/tasks/T1.md | phase-3.42/logs/T1.md | -
+3.42 | T2 | done | names ledger with the guess_ tier, and the rename scanner (R32) | - | phase-3.42/tasks/T2.md | phase-3.42/logs/T2.md | -
+3.42 | T3 | done | rename tool and the scanner's two controls (known rename, planted miss) | - | phase-3.42/tasks/T3.md | phase-3.42/logs/T3.md | -
+3.42 | T4 | done | the parameterized SHARED_FN writer, ledger re-keying, and a pilot batch | - | phase-3.42/tasks/T4.md | phase-3.42/logs/T4.md | -
+3.42 | T5 | done | convert the C-verdict cross-address classes | - | phase-3.42/tasks/T5.md | phase-3.42/logs/T5.md | -
+3.42 | T6 | done | convert the D- and B-verdict cross-address classes, then gate S1 over the full scope | - | phase-3.42/tasks/T6.md | phase-3.42/logs/T6.md | R3.42-004,R3.42-005
+3.42 | T7 | done | share the 20 scratchpad trampoline families | - | phase-3.42/tasks/T7.md | phase-3.42/logs/T7.md | R3.42-005,R3.42-006
+3.42 | T8 | done | leverage ranking of data symbols and functions, with its denominator | - | phase-3.42/tasks/T8.md | phase-3.42/logs/T8.md | R3.42-003,R3.42-006
+3.42 | T9 | done | the record: cookbook, decision log, levers prose, wiki, tool index, kit corpus, snapshot skill | - | phase-3.42/tasks/T9.md | phase-3.42/logs/T9.md | -
+3.42 | T10 | done | milestone gate (Phase 3.42) | - | phase-3.42/tasks/T10.md | phase-3.42/logs/T10.md | -
+3.42 | T11 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.42) | - | phase-3.42/tasks/T11.md | phase-3.42/logs/T11.md | R3.42-007
+3.42 | T12 | done | phase cleanup (Phase 3.42) | - | phase-3.42/tasks/T12.md | phase-3.42/logs/T12.md | -
