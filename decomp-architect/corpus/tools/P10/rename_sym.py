@@ -242,8 +242,8 @@ def regen_cmd(path, head):
     """-> the regenerate command when path is generated, else None (also for rs.TEXT_GENERATED: those are
     rewritten as text). The command is the header's `regenerate: <cmd>` (up to `-->`, `)` or EOL), else the
     generator alone."""
-    if path in rs.TEXT_GENERATED:
-        return None
+    if path in rs.TEXT_GENERATED or path.startswith(("src/", "include/")):
+        return None    # build inputs are always rewritten (3.43 T2: cls_*.h carry a share_body.py marker)
     for pre, cmd in GENERATED.items():
         if path.startswith(pre):
             parts = path.split("/")

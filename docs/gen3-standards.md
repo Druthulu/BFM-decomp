@@ -57,6 +57,10 @@ failure modes are different:
    ledger, never in extra name prefixes. `guess_` always means "our best guess so far"; `unk`/`Unkstruct_`/`func_` keep
    meaning "nothing known". A guess loses the prefix only when evidence above is recorded, and is renamed freely as the
    picture grows. This keeps the baseline rule: a marked guess does not claim to be sure.
+   **Amended 2026-11-10 (developer, at the 3.43 plan approval): "Add the seventh evidence kind 'library symbol' to
+   docs/gen3-standards.md rule 1 and the scanner's closed list."** A name defined by a linked PsyQ library object (the
+   build links Sony's objects byte for byte; evidence: the linker map and the object's symbol table) has evidence kind
+   `library symbol`, so Sony's own names are cited, never marked as guesses. The evidence kinds are now seven.
 2. **Every register pin goes.** `register … __asm__("$N")` was a matching lever; in finished code each one is either removed
    (the body re-shaped so the compiler allocates naturally — P32 showed every pin in the last drafts came off) or, if a body
    genuinely cannot be shaped, kept with a `// !FAKE:` line that names the residual. The count is a published metric until it is 0.
