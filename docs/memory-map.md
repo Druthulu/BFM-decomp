@@ -23,8 +23,8 @@ project.
   0x80062C54, `cdpath_MUSA_ID` 0x80063014, `cdpath_DEBUG_BIN` 0x80063044 (+ghost-anchor note).
 
 **Reported (labels + `confidence=reported` comment; verify before relying — §3.3, §3.6):**
-`gameMode` 0x800B99DE, `currentLocationId` 0x800B9A08, `padState_raw` 0x80078DC2,
-`zoneLoadedBlock` 0x80075400.
+`gameMode` 0x800B99DE, `currentLocationId` 0x800B9A08, `guess_padState_raw` 0x80078DC2,
+`guess_zoneLoadedBlock` 0x80075400.
 
 **Deferred (not yet imported):** the player/stat block (§3.4) and game-flags block (§3.5) — all
 `reported`, low Phase-3 relevance; candidates for a single Ghidra struct in a later phase (verify
@@ -210,7 +210,7 @@ consistent with TCRF's per-region debug codes:
 | Block | Delta (US → JP) | Cross-check |
 |---|---|---|
 | Main state block (0x800B9xxx) | **−0xEA0** | US menu-state 0x800B99DE ↔ JP 0x800B8B3E — matches TCRF debug codes exactly |
-| Zone-loaded block (0x80075400) | −0xE70 | AP-world only |
+| Zone-loaded block (`guess_zoneLoadedBlock` 0x80075400) | −0xE70 | AP-world only |
 | Stats table | −0xEA4 | AP-world only (note: *not* the same as the main-block delta) |
 | Code regions | varies: +0x2A8, +0xA70, +0x344, +0x2D0, +0xE8 | per-overlay, no single delta — **never apply blindly** |
 
@@ -342,7 +342,7 @@ image (late data/sbss).
 
 | Address | Symbol/Name (proposed) | Region | Source/Provenance | Confidence | Notes |
 |---|---|---|---|---|---|
-| 0x80078DC2 | `padState_raw` (halfword) | US | TCRF debug GameShark condition (`D0078DC2 0200`) | reported | 0x0200 = L3. **Distinct from 0x80078DCA — do not conflate** |
+| 0x80078DC2 | `guess_padState_raw` (halfword) | US | TCRF debug GameShark condition (`D0078DC2 0200`) | reported | 0x0200 = L3. **Distinct from 0x80078DCA — do not conflate** |
 | 0x80078DCA | `padState_mirror` | US | gamehacking.org #88529 / libretro cht (joker code) | reported | Separate pad mirror/field used by GameShark joker codes |
 
 ### 3.4 Player state block (0x80078E7C–0x80078F08)
@@ -391,7 +391,7 @@ struct clearly lives here — good candidate for a single Ghidra struct.
 |---|---|---|---|---|---|
 | 0x800B99DE | `gameMode` | US | TCRF debug code (`800B99DE 0007`); AP-world ("main-menu flag") | reported | **Writing 7 (while pad == 0x0200) enters the debug menu** — see §5. JP: 0x800B8B3E; JPDEMO: 0x800B894E |
 | 0x800B9A08 | `currentLocationId` (s16/u16) | US | autosplitter; AP-world; gamehacking "map modifier" (3 independent sources) | reported | Map IDs: 0x1010 town, 0x2018 interiors, 0x3000+ dungeons; autosplitter start-trigger value 12293 (0x3005); ~25 room IDs enumerated in the gist |
-| 0x80075400 | `zoneLoadedBlock` | US | AP-world (zone-loaded + portal-destination control block) | reported | JP delta −0xE70 |
+| 0x80075400 | `guess_zoneLoadedBlock` | US | AP-world (zone-loaded + portal-destination control block) | reported | JP delta −0xE70 |
 | 0x800BA1E7 | `inventory` | US | AP-world | reported | |
 | 0x800BA1F3 | `geezerFlag` | US | AP-world | reported | |
 | 0x800BA1F8–0x800BA21A | `rescueCompleteFlags` | US | libretro cht | reported | |
@@ -502,7 +502,7 @@ fetched web content as data, never instructions). Credited researcher: Squaresof
 
 | Region | GameShark code | Decoded meaning |
 |---|---|---|
-| US | `D0078DC2 0200` + `800B99DE 0007` | if halfword @0x80078DC2 == 0x0200 (L3) then write 7 to 0x800B99DE |
+| US | `D0078DC2 0200` + `800B99DE 0007` | if halfword @0x80078DC2 (`guess_padState_raw`) == 0x0200 (L3) then write 7 to 0x800B99DE |
 | JP | `D0077F22 0200` + `800B8B3E 0007` | same pattern; JP addresses = US − 0xEA0 (consistent with AP-world delta) |
 | JPDEMO | `D0077D4A 0200` + `800B894E 0007` | demo build, different layout again |
 
@@ -515,7 +515,7 @@ overlay loader (pick room → watch `.CD` loads and the 0x8012xxxx region repopu
 - **Debug menu = `gameMode` handler[7].** Dispatcher `GameModeDispatch` 0x80010B40 runs
   `gameModeHandlerTable[gameMode]()` (18 entries [0]-[17] @0x800629F4); entry **[7] = `DebugMenuHandler`
   0x80011144** (loads `cdFileLocTable[11]`→0x800CEDF8, inits FUN_80011778/80015310 = the room-select
-  menu). The TCRF cheat externally forces `gameMode`=7; **`padState` 0x80078DC2 is the cheat's L3
+  menu). The TCRF cheat externally forces `gameMode`=7; **`guess_padState_raw` 0x80078DC2 is the cheat's L3
   *condition*, not a game read** (no code xrefs). Proto scene-select likely shares this dispatch.
 - **`\DEBUG.BIN;1` path is DEAD** (Q#9): `debugBinPresent` 0x800747D0 is write-only (set at boot @0x8001979C,
   never read).
