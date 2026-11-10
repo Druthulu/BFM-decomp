@@ -970,7 +970,10 @@ def rekey_restruct(moves, label):
             continue
         copies, srcs = [], []
         for _h, tu, own, _hd, line in sorted(by_hdr[hdr], key=lambda m: (m[1], m[2])):
-            r = next((latest[k] for k in (("S", tu, own), ("S", tu, own.lower())) if k in latest), None)
+            # T6.c3: an alias/asm-label copy's row is keyed by the bound symbol (aF801869C0 -> func_801869C0; cross24 b9f76fb1fade: 2 unbacked)
+            sym = tu_binds(tu).get(own) or ""
+            keys = [("S", tu, n) for n in (own, own.lower(), sym, "func_" + sym[5:].upper() if sym else "") if n]
+            r = next((latest[k] for k in keys if k in latest), None)
             if r is None:
                 out["no_row"] += 1
                 continue
