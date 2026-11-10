@@ -3594,11 +3594,9 @@ dd0:
 
 
 
-void func_80160EA4(void *a0) {
-
-    extern void (*D_80184A68[])(void);
-    D_80184A68[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80160EA4
+#include "../shared/ov/cls_c0d7893f561a.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80160EE0.h"
@@ -5829,11 +5827,9 @@ extern s32 rand(void);
 
 
 
-void func_801678B4(void *a0) {
-
-    extern void (*D_80184F90[])(void);
-    D_80184F90[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_801678B4
+#include "../shared/ov/cls_b2485b02e840.h"
+#undef SHARED_FN
 
 
 extern s32 rand(void);

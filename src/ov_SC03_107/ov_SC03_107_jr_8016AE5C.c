@@ -5059,11 +5059,9 @@ void func_8016FFDC(void *a0) {
 
 
 
-void func_80170150(void *a0) {
-
-    extern void (*D_80185970[])(void);
-    D_80185970[((Unkstruct_8016F6E0_2 *)a0)->unk216]();
-}
+#define SHARED_FN func_80170150
+#include "../shared/ov/cls_bea4dd2d4df3.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017018C.h"
@@ -5336,11 +5334,9 @@ void func_80171064(void *a0) {
 
 
 
-void func_80171120(void *a0) {
-
-    extern void (*D_80185A00[])(void);
-    D_80185A00[((Unkstruct_8016F6E0_2 *)a0)->unk216]();
-}
+#define SHARED_FN func_80171120
+#include "../shared/ov/cls_bec3868bd645.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017115C.h"
@@ -5366,11 +5362,9 @@ void func_801711C0(void *a0) {
 
 
 
-void func_80171260(void *a0) {
-
-    extern void (*D_80185A10[])(void);
-    D_80185A10[((Unkstruct_8016F6E0_2 *)a0)->unk216]();
-}
+#define SHARED_FN func_80171260
+#include "../shared/ov/cls_ac0d89dfe472.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017129C.h"

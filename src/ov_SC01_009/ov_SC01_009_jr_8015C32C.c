@@ -1618,11 +1618,9 @@ block_13:
 
 
 
-void func_8015CFC0(s32 *a0) {
-
-    extern void (*D_801851E8[])(void);
-    D_801851E8[CAST_SIGN(u16, (s32)a0, 0x2)]();
-}
+#define SHARED_FN func_8015CFC0
+#include "../shared/ov/cls_c9698186eef9.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015CFFC.h"

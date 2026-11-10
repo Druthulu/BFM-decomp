@@ -3106,9 +3106,9 @@ u32 func_8017F0AC(s16 *param_1, s16 *param_2, s16 *param_3) {
 
 extern void (*D_801860C0[])(void);
 
-void func_8017F1BC(void *a0) {
-    D_801860C0[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8017F1BC
+#include "../shared/ov/cls_b6f074caa951.h"
+#undef SHARED_FN
 
 
 

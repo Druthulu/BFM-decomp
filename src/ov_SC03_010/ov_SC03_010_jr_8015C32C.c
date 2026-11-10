@@ -2704,11 +2704,9 @@ void func_8015F9A4(void *arg0) {
 
 
 
-void func_8015FAAC(s32 *a0) {
-
-    extern void (*D_801828DC[])(void);
-    D_801828DC[CAST_SIGN(u16, (s32)a0, 0x2)]();
-}
+#define SHARED_FN func_8015FAAC
+#include "../shared/ov/cls_c21c5c4edb66.h"
+#undef SHARED_FN
 
 
 

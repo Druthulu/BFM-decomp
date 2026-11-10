@@ -1527,11 +1527,9 @@ do161240:
 
 
 
-void func_8015CC74(s32 *a0) {
-
-    extern void (*D_80182300[])(void);
-    D_80182300[CAST_SIGN(u16, (s32)a0, 0x2)]();
-}
+#define SHARED_FN func_8015CC74
+#include "../shared/ov/cls_c20a482eeb1c.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015CCB0.h"
@@ -2390,11 +2388,9 @@ Ldefault:
 
 
 
-s32 func_8015EE08(s32 a0) {
-
-    extern void (*D_80182458[])(void);
-    D_80182458[((Unkstruct_8015E1B8 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015EE08
+#include "../shared/ov/cls_b6dfecd13277.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015EE44.h"
