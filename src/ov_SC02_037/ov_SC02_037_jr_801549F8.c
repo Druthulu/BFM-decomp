@@ -1697,7 +1697,7 @@ extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
 extern void func_8014FA04(s32 a0);
 extern s32 func_8014FC18(u8*);
-extern void func_8014FBC0(void);
+extern s32 func_8014FBC0();
 extern s32 func_8014FC18(u8 *self);
 extern int func_8014FD54(int);
 extern void func_8014FCFC(void);

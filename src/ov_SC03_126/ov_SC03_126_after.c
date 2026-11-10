@@ -89,7 +89,11 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 
-#include "../shared/ov/func_8014607C__b3c81197.h"
+#define SHARED_FN func_8014607C
+#define SHARED_SLOT D_8018E808
+#include "../shared/ov/func_8014607C.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80146128.h"
@@ -980,7 +984,11 @@ extern s32 func_8014C5FC(s32 a0, s32 a1, void *a2);
 
 extern void func_8014CD0C(u8 *a0);
 
-#include "../shared/ov/func_8014CCB4__8d2dda22.h"
+#define SHARED_FN func_8014CCB4
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014CCB4.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014CD0C.h"
@@ -993,7 +1001,11 @@ extern void func_8014CD0C(u8 *a0);
 
 extern void func_8014D0A4(s32 a0);
 
-#include "../shared/ov/func_8014D04C__f6add6d7.h"
+#define SHARED_FN func_8014D04C
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014D04C.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014D0A4.h"
@@ -1009,7 +1021,11 @@ extern void func_8014D0A4(s32 a0);
 
 extern void func_8014D438(s32 a0);
 
-#include "../shared/ov/func_8014D3E0__fb5af043.h"
+#define SHARED_FN func_8014D3E0
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014D3E0.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014D438.h"
@@ -1023,7 +1039,11 @@ extern void func_8014D438(s32 a0);
 
 extern void func_8014D790(s32 a0);
 
-#include "../shared/ov/func_8014D738__023a6d30.h"
+#define SHARED_FN func_8014D738
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014D738.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014D790.h"
@@ -1146,7 +1166,11 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
 extern void func_8014DF94(s32 arg0);
 
-#include "../shared/ov/func_8014DF3C__fbb47098.h"
+#define SHARED_FN func_8014DF3C
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014DF3C.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014DF94.h"
@@ -1158,7 +1182,11 @@ extern void func_8014DF94(s32 arg0);
 
 extern void func_8014E48C(s32 a0);
 
-#include "../shared/ov/func_8014E434__1a41a9cf.h"
+#define SHARED_FN func_8014E434
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014E434.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014E48C.h"
@@ -1210,7 +1238,11 @@ extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 
 extern void func_8014E6F8(struct SubE6F8 *a0);
 
-#include "../shared/ov/func_8014E6A0__9b3e0b9c.h"
+#define SHARED_FN func_8014E6A0
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014E6A0.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014E6F8.h"
@@ -1220,7 +1252,11 @@ extern void func_8014E6F8(struct SubE6F8 *a0);
 #include "../shared/ov/func_8014E83C.h"
 
 
-#include "../shared/ov/func_8014E934__4b5aecb9.h"
+#define SHARED_FN func_8014E934
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014E934.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014E98C.h"
@@ -1240,7 +1276,11 @@ extern void func_8014E6F8(struct SubE6F8 *a0);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_8018E810;
 
-#include "../shared/ov/func_8014ED28__d124f56e.h"
+#define SHARED_FN func_8014ED28
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014ED28.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014ED80.h"
@@ -1250,7 +1290,11 @@ extern int D_8018E810;
 
 extern s32 func_8014F24C(struct SubF24C *a0);
 
-#include "../shared/ov/func_8014F1F4__7ce404cb.h"
+#define SHARED_FN func_8014F1F4
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014F1F4.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014F24C.h"
@@ -1263,7 +1307,11 @@ extern s32 func_8014F24C(struct SubF24C *a0);
 
 extern s32 func_8014F4C0(s32 arg0);
 
-#include "../shared/ov/func_8014F468__fc2209a3.h"
+#define SHARED_FN func_8014F468
+#define SHARED_SLOT D_8018E814
+#include "../shared/ov/func_8014F468.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014F4C0.h"
@@ -1284,7 +1332,11 @@ extern s32 func_8014F4C0(s32 arg0);
 
 extern int func_8014F74C(s32 arg0);
 
-#include "../shared/ov/func_8014F6F4__923dc24d.h"
+#define SHARED_FN func_8014F6F4
+#define SHARED_SLOT D_8018E814
+#include "../shared/ov/func_8014F6F4.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014F74C.h"
@@ -1297,7 +1349,11 @@ extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
 extern s32 D_8018E814;
 
-#include "../shared/ov/func_8014FA04__6f7b9fcb.h"
+#define SHARED_FN func_8014FA04
+#define SHARED_SLOT D_8018E814
+#include "../shared/ov/func_8014FA04.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014FA70.h"
@@ -1312,7 +1368,11 @@ extern s32 D_8018E814;
 //   maspsx --aspsx-version=2.56 auto-fills the jal delay slot with a nop, so do NOT write an
 //   explicit nop after `jal` (double-nop = +1 ins); %hi/%lo escaped as %% inside __asm__.
 //   gcc emits only the `jr $ra; nop` epilogue (leaf, no locals it can see) → exactly 22 ins.
-#include "../shared/ov/func_8014FBC0__37bdabb3.h"
+#define SHARED_FN func_8014FBC0
+#define SHARED_SLOT D_8018E814
+#include "../shared/ov/func_8014FBC0.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 
@@ -1321,7 +1381,11 @@ extern s32 D_8018E814;
 
 extern int func_8014FD54(int param_1);
 
-#include "../shared/ov/func_8014FCFC__853c5baf.h"
+#define SHARED_FN func_8014FCFC
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_8014FCFC.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014FD54.h"
@@ -1349,7 +1413,11 @@ extern int func_8014FD54(int param_1);
 
 extern s32 func_801504D8(u16 *a0);
 
-#include "../shared/ov/func_80150480__de1033f9.h"
+#define SHARED_FN func_80150480
+#define SHARED_SLOT D_8018E810
+#include "../shared/ov/func_80150480.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_801504D8.h"
@@ -1389,7 +1457,11 @@ extern s32 func_8014FA70(s32 a0);
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 D_8018E814;
 
-#include "../shared/ov/func_80150A70__5bf92896.h"
+#define SHARED_FN func_80150A70
+#define SHARED_SLOT D_8018E814
+#include "../shared/ov/func_80150A70.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 

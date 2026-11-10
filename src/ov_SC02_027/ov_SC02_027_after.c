@@ -275,51 +275,11 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 
-void func_8014607C(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "sw    $sp, 0($t0)\n"
-        "addiu $t0, $t0, -4\n"
-        "addu  $sp, $t0, $zero\n"
-        "jal   func_80146128\n"
-        "lui   $at, %%hi(D_801D8CE0)\n"
-        "sw    $v0, %%lo(D_801D8CE0)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE0)\n"
-        "lw    $v0, %%lo(D_801D8CE0)($v0)\n"
-        "nop\n"
-        "beqz  $v0, .L80146114\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "addu  $t0, $v1, $zero\n"
-        "sw    $sp, 0($t0)\n"
-        "addiu $t0, $t0, -4\n"
-        "addu  $sp, $t0, $zero\n"
-        "jal   func_80146360\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "addu  $t0, $v1, $zero\n"
-        "sw    $sp, 0($t0)\n"
-        "addiu $t0, $t0, -4\n"
-        "addu  $sp, $t0, $zero\n"
-        "jal   func_801463A0\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        ".L80146114:\n"
-        "nop\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014607C
+#define SHARED_SLOT D_801D8CE0
+#include "../shared/ov/func_8014607C.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80146128.h"
@@ -1317,31 +1277,11 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 
 extern void func_8014CD0C(u8 *a0);
 
-void func_8014CCB4(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014CD0C\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014CCB4
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014CCB4.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014CD0C.h"
@@ -1354,31 +1294,11 @@ void func_8014CCB4(void)
 
 extern void func_8014D0A4(s32 a0);
 
-void func_8014D04C(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014D0A4\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014D04C
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014D04C.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014D0A4.h"
@@ -1394,31 +1314,11 @@ void func_8014D04C(void)
 
 extern void func_8014D438(s32 a0);
 
-void func_8014D3E0(s32 _arg0)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014D438\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014D3E0
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014D3E0.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014D438.h"
@@ -1432,31 +1332,11 @@ void func_8014D3E0(s32 _arg0)
 
 extern void func_8014D790(s32 a0);
 
-void func_8014D738(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014D790\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014D738
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014D738.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014D790.h"
@@ -1760,31 +1640,11 @@ a0v = a0;
 
 extern void func_8014DF94(s32 arg0);
 
-void func_8014DF3C(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014DF94\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014DF3C
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014DF3C.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014DF94.h"
@@ -1796,31 +1656,11 @@ void func_8014DF3C(void)
 
 extern void func_8014E48C(s32 a0);
 
-void func_8014E434(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014E48C\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014E434
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014E434.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014E48C.h"
@@ -1872,31 +1712,11 @@ extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 
 extern void func_8014E6F8(struct SubE6F8 *a0);
 
-void func_8014E6A0(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014E6F8\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014E6A0
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014E6A0.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014E6F8.h"
@@ -1906,31 +1726,11 @@ void func_8014E6A0(void)
 #include "../shared/ov/func_8014E83C.h"
 
 
-void func_8014E934(s32 _arg0)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014E98C\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014E934
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014E934.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014E98C.h"
@@ -1950,31 +1750,11 @@ void func_8014E934(s32 _arg0)
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801D8CE8;
 
-void func_8014ED28(s32 _arg0)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014ED80\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014ED28
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014ED28.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014ED80.h"
@@ -1984,31 +1764,11 @@ void func_8014ED28(s32 _arg0)
 
 extern s32 func_8014F24C(struct SubF24C *a0);
 
-void func_8014F1F4(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014F24C\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014F1F4
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014F1F4.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014F24C.h"
@@ -2021,31 +1781,11 @@ void func_8014F1F4(void)
 
 extern s32 func_8014F4C0(s32 arg0);
 
-s32 func_8014F468(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014F4C0\n"
-        "lui   $at, %%hi(D_801D8CEC)\n"
-        "sw    $v0, %%lo(D_801D8CEC)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CEC)\n"
-        "lw    $v0, %%lo(D_801D8CEC)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014F468
+#define SHARED_SLOT D_801D8CEC
+#include "../shared/ov/func_8014F468.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014F4C0.h"
@@ -2066,30 +1806,11 @@ s32 func_8014F468(void)
 
 extern int func_8014F74C(s32 arg0);
 
-int func_8014F6F4(void) {
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014F74C\n"
-        "lui   $at, %%hi(D_801D8CEC)\n"
-        "sw    $v0, %%lo(D_801D8CEC)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CEC)\n"
-        "lw    $v0, %%lo(D_801D8CEC)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014F6F4
+#define SHARED_SLOT D_801D8CEC
+#include "../shared/ov/func_8014F6F4.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014F74C.h"
@@ -2102,37 +1823,11 @@ int func_8014F6F4(void) {
 extern s32 func_8014FA70(s32 a0);
 extern s32 D_801D8CEC;
 
-void func_8014FA04(s32 a0)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "sw    $ra, 16($sp)\n"
-        "lw    $v0, 68($a0)\n"
-        "lui   $v1, 0x4\n"
-        "and   $v0, $v0, $v1\n"
-        "bnez  $v0, 1f\n"
-        "addu  $v0, $zero, $zero\n"
-        "lui   $a1, 0x1f80\n"
-        "ori   $a1, $a1, 0x03fc\n"
-        "addu  $t0, $a1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014FA70\n"
-        "lui   $at, %%hi(D_801D8CEC)\n"
-        "sw    $v0, %%lo(D_801D8CEC)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CEC)\n"
-        "lw    $v0, %%lo(D_801D8CEC)($v0)\n"
-        "1:\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014FA04
+#define SHARED_SLOT D_801D8CEC
+#include "../shared/ov/func_8014FA04.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014FA70.h"
@@ -2147,30 +1842,11 @@ void func_8014FA04(s32 a0)
 //   maspsx --aspsx-version=2.56 auto-fills the jal delay slot with a nop, so do NOT write an
 //   explicit nop after `jal` (double-nop = +1 ins); %hi/%lo escaped as %% inside __asm__.
 //   gcc emits only the `jr $ra; nop` epilogue (leaf, no locals it can see) → exactly 22 ins.
-s32 func_8014FBC0() {
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014FC18\n"
-        "lui   $at, %%hi(D_801D8CEC)\n"
-        "sw    $v0, %%lo(D_801D8CEC)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CEC)\n"
-        "lw    $v0, %%lo(D_801D8CEC)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014FBC0
+#define SHARED_SLOT D_801D8CEC
+#include "../shared/ov/func_8014FBC0.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 
@@ -2179,31 +1855,11 @@ s32 func_8014FBC0() {
 
 extern int func_8014FD54(int param_1);
 
-void func_8014FCFC(void)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014FD54\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_8014FCFC
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_8014FCFC.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8014FD54.h"
@@ -2231,31 +1887,11 @@ void func_8014FCFC(void)
 
 extern s32 func_801504D8(u16 *a0);
 
-s32 func_80150480(s32 _arg0)
-{
-    __asm__ __volatile__(
-        ".set noreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "lui   $v1, 0x1f80\n"
-        "ori   $v1, $v1, 0x03fc\n"
-        "sw    $ra, 16($sp)\n"
-        "addu  $t0, $v1, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_801504D8\n"
-        "lui   $at, %%hi(D_801D8CE8)\n"
-        "sw    $v0, %%lo(D_801D8CE8)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "lui   $v0, %%hi(D_801D8CE8)\n"
-        "lw    $v0, %%lo(D_801D8CE8)($v0)\n"
-        "lw    $ra, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        : : : "memory");
-}
+#define SHARED_FN func_80150480
+#define SHARED_SLOT D_801D8CE8
+#include "../shared/ov/func_80150480.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_801504D8.h"
@@ -2362,60 +1998,11 @@ extern s32 func_8014FA70(s32 a0);
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 D_801D8CEC;
 
-void func_80150A70(s32 a0)
-{
-    __asm__ __volatile__(
-        ".set\tnoreorder\n"
-        "addiu $sp, $sp, -24\n"
-        "sw    $s0, 16($sp)\n"
-        "addu  $s0, $a0, $zero\n"
-        "sw    $ra, 20($sp)\n"
-        "lh    $v1, 6($s0)\n"
-        "lh    $v0, 136($s0)\n"
-        "nop\n"
-        "bne   $v1, $v0, 1f\n"
-        "nop\n"
-        "lh    $v1, 10($s0)\n"
-        "lh    $v0, 138($s0)\n"
-        "nop\n"
-        "bne   $v1, $v0, 1f\n"
-        "nop\n"
-        "lh    $v1, 14($s0)\n"
-        "lh    $v0, 140($s0)\n"
-        "nop\n"
-        "beq   $v1, $v0, 3f\n"
-        "nop\n"
-    "1:\n"
-        "lw    $v0, 68($s0)\n"
-        "lui   $v1, 0x4\n"
-        "and   $v0, $v0, $v1\n"
-        "bnez  $v0, 2f\n"
-        "addiu $a0, $s0, 4\n"
-        "lui   $a2, 0x1f80\n"
-        "ori   $a2, $a2, 0x03fc\n"
-        "addu  $t0, $a2, $zero\n"
-        "lw    $t1, 0($t0)\n"
-        "nop\n"
-        "sw    $sp, 0($t1)\n"
-        "addiu $t1, $t1, -4\n"
-        "addu  $sp, $t1, $zero\n"
-        "jal   func_8014FA70\n"
-        "addu  $a0, $s0, $zero\n"
-        "lui   $at, %%hi(D_801D8CEC)\n"
-        "sw    $v0, %%lo(D_801D8CEC)($at)\n"
-        "addiu $sp, $sp, 4\n"
-        "lw    $sp, 0($sp)\n"
-        "addiu $a0, $s0, 4\n"
-    "2:\n"
-        "jal   func_80015978\n"
-        "addiu $a1, $s0, 136\n"
-    "3:\n"
-        "lw    $ra, 20($sp)\n"
-        "lw    $s0, 16($sp)\n"
-        "addiu $sp, $sp, 24\n"
-        ".set\treorder\n"
-        : : : "memory");
-}
+#define SHARED_FN func_80150A70
+#define SHARED_SLOT D_801D8CEC
+#include "../shared/ov/func_80150A70.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 

@@ -132,6 +132,9 @@ def scan_in_function():
             continue
         rel = os.path.relpath(path, REPO)
         for fn, _line, _blk in lever_census.whole_body_asm_functions(text, rel):
+            # a parameterized shared header (`SHARED_FN`, 3.42 T7) is named for its routine: src/shared/ov/<fn>.h
+            if binary == 'shared' and fn == 'SHARED_FN':
+                fn = os.path.splitext(os.path.basename(path))[0]
             found[(binary, fn)] = rel
     return found
 

@@ -58,7 +58,11 @@ extern void func_801287B8(void);
 extern void func_80011A3C(void);
 extern s32 D_8018E67C;
 
-#include "../shared/ov/func_801285E4__22637e5f.h"
+#define SHARED_FN func_801285E4
+#define SHARED_SLOT D_8018E67C
+#include "../shared/ov/func_801285E4.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80128678.h"
@@ -83,7 +87,11 @@ extern s32 D_8018E67C;
  * branch set). The load-delay nop after `lw $v0,%lo(...)($v0)` is auto-inserted too.
  * %hi/%lo escaped as %%hi/%%lo (bare % is an operand placeholder).
  */
-#include "../shared/ov/func_80128714__34914b60.h"
+#define SHARED_FN func_80128714
+#define SHARED_SLOT D_8018E67C
+#include "../shared/ov/func_80128714.h"
+#undef SHARED_SLOT
+#undef SHARED_FN
 
 
 
