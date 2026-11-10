@@ -75,10 +75,16 @@ name's comment ends with `Citation: <the ledger citation>` instead. Data get no 
 **A class at several addresses.** A naming unit is one body, identified by its hash, and it can sit at several
 addresses. Each address is a different function in the original program, and only the body is shared. One name covers
 every instance only when it describes the body itself, which is byte-identical at every address (`guess_Vec3sDotAdd` at
-3 addresses, `guess_NextStep` at 14). A binary holding several copies names them `Name`, `Name_2` and so on, and
-`tools/rename_sym.py` assigns the suffixes. When the body is too trivial to say what any copy was for, the class is not
-named as one. The empty function `func_80014554`, at 726 unrelated addresses, stays unnamed until each group can be
-named from what its callers use it for.
+3 addresses). A binary holding several copies names them `Name`, `Name_2` and so on, with the copy in the shared
+overlay base first. When the body is too trivial to say what any copy was for, the class is not named as one. The empty
+function `func_80014554`, at 726 unrelated addresses, stays unnamed until each group can be named from what its callers
+use it for.
+
+A placeholder is derived from an address, so the same `func_`/`D_` token can name unrelated functions in two binaries
+that load at the same address. The rename tool rewrites a token in every file, whichever binary the file belongs to. A
+copy whose placeholder also names a different function elsewhere therefore waits until the rename can be limited to the
+binaries the copy is in. Module files (`md_*`) that call an overlay function through its placeholder get the new name in
+their own symbol file, because at run time the call reaches the same function.
 
 **No evidence.** A unit we cannot name honestly keeps its `func_`/`D_` placeholder. Its row in
 `config/names_worklist.tsv` says `no-evidence` and gives the reason. Every row of that worklist ends as `cited`,
