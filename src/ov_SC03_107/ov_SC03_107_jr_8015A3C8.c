@@ -8325,11 +8325,9 @@ void func_80169058(s32 a0) {
 
 
 
-void func_801693CC(void *a0) {
-
-    extern void (*D_801854C4[])(void);
-    D_801854C4[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_801693CC
+#include "../shared/ov/cls_a752b5ca19fe.h"
+#undef SHARED_FN
 
 
 extern s32 rand(void);

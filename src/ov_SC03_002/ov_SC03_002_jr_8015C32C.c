@@ -2520,11 +2520,9 @@ void func_8015F118(void *a0) {
 
 
 
-void func_8015F324(s32 *a0) {
-
-    extern void (*D_80187E9C[])(void);
-    D_80187E9C[CAST_SIGN(u16, (s32)a0, 0x2)]();
-}
+#define SHARED_FN func_8015F324
+#include "../shared/ov/cls_a4964961665d.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015F360.h"
