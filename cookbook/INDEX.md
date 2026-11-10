@@ -1017,3 +1017,4 @@ C0564 | Prove a rename's Ghidra mirror in a scratch project, live DB untouched |
 C0565 | join a leverage unit to dedup groups and sig instances (two group forms; rename_sym reads members only) | rename,dedup,leverage,class,join | 2026-11-10 | 3.43/T1 | -
 C0566 | Rename batches: generated-marked build inputs, leverage files as text, frozen worklist | rename,symbol,names-ledger,generated,worklist | 2026-11-10 | 3.43/T2 | P3.43 T2.c1
 C0567 | Real returns for return-less non-void defs: the neutral-form ladder | return-type,return,bytes,lying,regalloc | 2026-11-10 | 3.43/T3 | P3.43 T3.c1
+C0568 | An expand-level pin diff can die at cse or combine: tag by the diff that survives, read by content | levers,walls,rtl,pins,probe,expand | 2026-11-10 | 43/T4 | logs/T4.md
