@@ -8,15 +8,21 @@ or to a named exclusion. Unattributed must be 0 (else exit 1). References are de
 
   source body: text -> sig row of b containing the place (h_exact, off); none -> ("raw", b, nearest FUNC <= A)
                data -> nearest preceding data symbol of b's output section ((space, sym), off)
-  target unit: func (h_exact of the sig function starting at T in its holder) or data (space, addr)
+  target unit: func (h_exact of the sig function starting at T in its holder), func raw:<space>:<addr> (no sig row, T
+               starts an ELF FUNC/global symbol), or data (space, addr); other text targets: TEXT-NOSIG, JTBL-CASE (data
+               word into a sig body), LOCAL-LABEL (text reloc into a sig body)
   space:       b's own image -> its VRAM_BASE; else main's; else resident's; else another image (slot); else abs
 
 Controls: (1) per-object reloc count == `objdump -r` reloc lines; (2) one function and one datum: refs == an
 independent objdump grep of the name; (3) attributed multiplicity + hi16 + excluded == raw total.
-Writes docs/leverage.tsv (provisional score = refs). `--check` recomputes in memory and byte-compares (exit 1 on
-any difference; skips the objdump controls). Usage: leverage_rank.py [-j N] [--check]
+Struct ownership (.run/P37/census struct_map.json + sites.jsonl, refused when stale against HEAD for src/include):
+own(d) = sum over struct types T held by data unit d of reach(T) / holders(T); reach = distinct h_exact of the bodies
+of T's sites (headers through every include site and its SHARED_FN); holders = data units of T's global/gaddr sites
+and globals_at/globals_ptr. score = (refs + own) * (1 + log10(fan)).
+Writes docs/leverage.tsv and docs/leverage.md. `--check` recomputes in memory (controls included: the .md records
+their verdicts) and byte-compares both (exit 1 on any difference). Usage: leverage_rank.py [-j N] [--check]
 """
-import argparse, bisect, collections, os, re, struct, subprocess, sys
+import argparse, bisect, collections, json, math, os, re, struct, subprocess, sys
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import get_context
 
@@ -30,6 +36,8 @@ class Fail(Exception):
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OBJDUMP = "mipsel-linux-gnu-objdump"
 OUT_TSV = os.path.join(REPO, "docs", "leverage.tsv")
+OUT_MD = os.path.join(REPO, "docs", "leverage.md")
+CENSUS = os.path.join(".run", "P37", "census")    # tools/type_census.py --sites default out dir
 TEXT_SECS = {".text"}
 DATA_SECS = {".data", ".rodata", ".sdata", ".sbss", ".bss"}
 R_32, R_26, R_HI16, R_LO16, R_PC16 = 2, 4, 5, 6, 10
@@ -180,6 +188,7 @@ def load_bin(alias):
     b.loc = {}       # name -> [values] (local defined)
     b.at = collections.defaultdict(list)   # value -> [names] (real symbols, not linker markers)
     funcs, datas = set(), set()
+    fst = collections.defaultdict(list)     # value -> [(not FUNC, name)]: ELF FUNC or global symbols (raw func units)
     for name, value, size, typ, bind, shndx in syms:
         if not name or typ in (STT_SECTION, STT_FILE) or shndx == SHN_UNDEF:
             continue
@@ -190,11 +199,14 @@ def load_bin(alias):
         if name in ld_names:    # ABS names stay: they are the symbol files (undefined_syms_auto.txt)
             continue
         b.at[value].append(name)
+        if (typ == STT_FUNC or bind in (1, 2)) and not name.startswith(("jtbl_", "jpt_")):
+            fst[value].append((typ != STT_FUNC, bool(PLACEHOLDER.match(name)), name))
         if typ == STT_FUNC:
             funcs.add(value)
         elif b.cls_at(value)[0] == "data":
             datas.add(value)
     b.funcs = sorted(funcs)
+    b.fstart = {v: min(c)[2] for v, c in fst.items()}
     b.datas = sorted(datas)
     try:
         b.sig = sorted(sc.sig_rows(alias))
@@ -276,13 +288,16 @@ def classify_target(b, t, named, symname, rtype, objsyms_at_t, stats):
             return "excl", "SLOT-CALL"
         return "unit", ("data", hits[0][0], t)
     r = h.sig_at(t)
-    if r is not None:
-        if r[0] == t:
-            return "unit", ("func", r[2])
-        return "excl", "TEXT-INTERIOR"
     cls, sec = h.cls_at(t)
-    if cls == "text":
-        return "excl", "TEXT-NOSIG"
+    if r is not None and r[0] == t:
+        return "unit", ("func", r[2])
+    if r is not None or cls == "text":
+        was = "TEXT-INTERIOR" if r is not None else "TEXT-NOSIG"
+        stats["was:" + was] += 1
+        if t in h.fstart:        # starts an ELF FUNC/global symbol: a function with no sig row of its own
+            stats["was:" + was + ":raw"] += 1
+            return "unit", ("func", "raw:%s:%08X" % (h8(h.vbase), t))
+        return "excl", was
     if cls is None:          # in the image, in no input section: main's bss exists only as ABS symbols
         if rtype in (R_26, R_PC16):
             return "excl", "CALL-GAP"
@@ -378,8 +393,10 @@ def work_bin(alias):
                     excl["RTYPE:%d" % rtype] += 1
                     continue
                 kind, val = classify_target(b, T, named, name, rtype, [] if named else oat.get(T, []), stats)
-                if cls == "data" and kind == "excl" and val == "TEXT-INTERIOR":
-                    interior.add(A)
+                if kind == "excl" and val == "TEXT-INTERIOR":
+                    if cls == "data":
+                        interior.add(A)
+                    val = "JTBL-CASE" if cls == "data" else "LOCAL-LABEL"
                 if kind == "excl":
                     excl[val] += 1
                     continue
@@ -427,6 +444,310 @@ def objdump_scan(obj, names):
     return n, hits
 
 
+# ------------------------------------------------------------------------------------------ struct ownership
+FUNC_NAME = re.compile(r"^func_([0-9A-Fa-f]{8})$")
+DATA_NAME = re.compile(r"^D_([0-9A-Fa-f]{8})$")
+UNK = re.compile(r"\b(Unkstruct_\w+)")
+
+
+def data_space(b, t):
+    """c1's space rule for a datum at t seen from binary b: b's image, main's, resident's, a slot's (first base), else abs."""
+    for h in (b, BINS["main"], BINS["resident"]):
+        if h.vbase <= t < h.end:
+            return h.vbase
+    hits = [s for s in SLOTS if s[0] <= t < s[1]]
+    return hits[0][0] if hits else None
+
+
+def scan_includes(rel):
+    """-> (rel, [(included file, active SHARED_FN or None)]) of one src file (masked text, asm alias decls applied)."""
+    text = open(os.path.join(REPO, rel), errors="surrogateescape").read()
+    if "include" not in text:
+        return rel, []
+    masked = sc.mask_text(text)
+    aliases = dict(sc.ALIAS_DECL.findall(masked))
+    ev = [(m.start(), 0, m.group(1)) for m in sc.SHARED_FN_DEF.finditer(masked)]
+    ev += [(m.start(), 1, "") for m in sc.SHARED_FN_UNDEF.finditer(masked)]
+    ev += [(m.start(), 2, m.group(1)) for m in sc.INCLUDE_LINE.finditer(masked)]
+    out, cur = [], None
+    for _p, kind, val in sorted(ev):
+        if kind == 0:
+            cur = aliases.get(val, val)
+        elif kind == 1:
+            cur = None
+        else:
+            for cand in (os.path.join(os.path.dirname(rel), val), os.path.join("src", val), os.path.join("include", val)):
+                cand = os.path.normpath(cand)
+                if os.path.isfile(os.path.join(REPO, cand)):
+                    out.append((cand, cur))
+                    break
+    return rel, out
+
+
+def ownership(aliases, dirs, data_set, jobs):
+    """own(d) = sum over struct types T held by data unit d of reach(T) / holders(T). -> (own, owner, info)."""
+    sm = json.load(open(os.path.join(REPO, CENSUS, "struct_map.json")))
+    types = collections.defaultdict(list)       # name -> holder names; same-named entries (distinct ids) are one C name
+    for t in sm["types"]:
+        types[t["name"]] += t.get("globals_at", []) + t.get("globals_ptr", [])
+    dir_al = collections.defaultdict(list)
+    for a in aliases:
+        dir_al[dirs[a]].append(a)            # a twin's dir is its primary's: both aliases
+    tu_memo = {}
+
+    def tu_aliases(tu):
+        if tu not in tu_memo:
+            d = os.path.dirname(tu)
+            while d and d not in dir_al and not d.startswith("src/shared"):
+                d = os.path.dirname(d)
+            tu_memo[tu] = sorted(dir_al.get(d, []))
+        return tu_memo[tu]
+    name2addr = {}
+    for a in aliases:
+        m = {}
+        for v, n in sorted(BINS[a].cur.items()):
+            m.setdefault(n, v)
+        name2addr[a] = m
+    sigstart = {a: {r[0]: r[2] for r in BINS[a].sig} for a in aliases}
+
+    def faddr(a, fn):
+        m = FUNC_NAME.match(fn)
+        if m:
+            return int(m.group(1), 16)
+        v = name2addr[a].get(fn)
+        return BINS[a].glob.get(fn) if v is None else v
+
+    def resolve(als, fn):
+        if not als:
+            return "NO-ALIAS"
+        hs, found = set(), False
+        for a in als:
+            v = faddr(a, fn)
+            if v is None:
+                continue
+            found = True
+            if v in sigstart[a]:
+                hs.add(sigstart[a][v])
+        return frozenset(hs) if hs else ("NO-SIG" if found else "NO-ADDR")
+    # include graph of src (nested includes followed; an inner #define SHARED_FN wins over the includer's)
+    files = sorted(os.path.relpath(os.path.join(dp, f), REPO) for dp, _d, fs in os.walk(os.path.join(REPO, "src"))
+                   for f in fs if f.endswith((".c", ".h")))
+    edges = collections.defaultdict(list)
+    with get_context("fork").Pool(jobs) as pool:
+        for rel, out in pool.map(scan_includes, files, chunksize=64):
+            for tgt, v in out:
+                edges[tgt].append((rel, v))
+    xmemo = {}
+
+    def expand(hdr, stack=()):
+        if hdr in xmemo:
+            return xmemo[hdr]
+        res = []
+        for f, v in edges.get(hdr, []):
+            if f.endswith(".c"):
+                res.append((f, v))
+            elif f not in stack:
+                res.extend((c, v or w) for c, w in expand(f, stack + (hdr,)))
+        xmemo[hdr] = res
+        return res
+    info = collections.Counter()
+    bmemo = {}
+
+    def bodies_of(tu, fn, header):
+        k = (tu, fn)
+        if k not in bmemo:
+            if fn is None:
+                res = "NO-FN (macro definition line)"
+            elif not header:
+                res = resolve(tu_aliases(tu), fn)
+            else:
+                inc = expand(tu)
+                hs, causes = set(), collections.Counter()
+                for c, v in inc:
+                    name = v if fn == "SHARED_FN" else fn
+                    r = "HEADER-INCLUDE-NO-SHARED_FN" if name is None else resolve(tu_aliases(c), name)
+                    if isinstance(r, str):
+                        causes[r] += 1
+                    else:
+                        hs |= r
+                info["header include sites unresolved"] += sum(causes.values())
+                res = frozenset(hs) if hs else ("HEADER-" + min(causes) if causes else "HEADER-NOT-INCLUDED")
+            bmemo[k] = res
+        return bmemo[k]
+
+    def site_aliases(r):
+        if not r["header"]:
+            return tu_aliases(r["tu"])
+        return sorted({a for c, _v in expand(r["tu"]) for a in tu_aliases(c)})
+    reach = collections.defaultdict(set)
+    hold_names = collections.defaultdict(set)    # T -> {(name, aliases)}
+    name_als = collections.defaultdict(set)      # global/gaddr base name -> aliases of its sites
+    unmapped = collections.Counter()
+    nsites = typed = 0
+    with open(os.path.join(REPO, CENSUS, "sites.jsonl")) as f:
+        for ln in f:
+            nsites += 1
+            r = json.loads(ln)
+            ts = set()
+            if r.get("type") in types:
+                ts.add(r["type"])
+            m = UNK.search(r.get("ctype") or "")
+            if m and m.group(1) in types:
+                ts.add(m.group(1))
+            hb = r["bclass"] in ("global", "gaddr") and r.get("base")
+            if not ts and not hb:
+                continue
+            als = tuple(site_aliases(r))
+            if hb:
+                name_als[r["base"]].update(als)
+            if not ts:
+                continue
+            typed += 1
+            bs = bodies_of(r["tu"], r["fn"], r["header"])
+            if isinstance(bs, str):
+                unmapped[bs] += 1
+            else:
+                for T in ts:
+                    reach[T] |= bs
+            if hb:
+                for T in ts:
+                    hold_names[T].add((r["base"], als))
+    for T in sorted(types):
+        for n in types[T]:
+            als = tuple(sorted(name_als.get(n) or [a for a in aliases if n in BINS[a].glob] or ["main"]))
+            hold_names[T].add((n, als))
+    rmemo, unres = {}, {}
+
+    def hunits(n, als):
+        if (n, als) not in rmemo:
+            us, why = set(), "NO-ADDRESS"
+            for a in als:
+                b = BINS[a]
+                t = b.glob.get(n)
+                if t is None:
+                    lv = b.loc.get(n, [])
+                    t = lv[0] if len(lv) == 1 else name2addr[a].get(n)
+                if t is None:
+                    m = DATA_NAME.match(n)
+                    t = int(m.group(1), 16) if m else None
+                if t is None:
+                    continue
+                u = ("data", data_space(b, t), t)
+                if u in data_set:
+                    us.add(u)
+                else:
+                    why = "NO-DATA-UNIT %s:%08X" % (h8(u[1]), t)
+            if not us:
+                unres[n] = why
+            rmemo[(n, als)] = us
+        return rmemo[(n, als)]
+    holders = {}
+    for T in sorted(hold_names):
+        hs = set()
+        for n, als in sorted(hold_names[T]):
+            hs |= hunits(n, als)
+        if hs:
+            holders[T] = hs
+    own, owner = collections.defaultdict(float), {}
+    for T in sorted(holders):
+        share = len(reach[T]) / len(holders[T])
+        for d in holders[T]:
+            own[d] += share
+            best = owner.get(d)
+            if best is None or (-len(reach[T]), T) < (-len(reach[best]), best):
+                owner[d] = T
+    resolved = {n for (n, _a), us in rmemo.items() if us}
+    info.update({"sites": nsites, "typed sites": typed, "types": len(types), "type entries": len(sm["types"]),
+                 "types with reach": sum(1 for T in types if reach[T]), "types with holders": len(holders),
+                 "types with reach and holders": sum(1 for T in holders if reach[T]),
+                 "holder names resolved": len(resolved), "holder names unresolved": len(set(unres) - resolved),
+                 "data units owning": len(own), "own total": round(sum(own.values()), 3)})
+    unres = {n: w for n, w in unres.items() if n not in resolved}
+    return own, owner, {"head": sm["head"], "info": info, "unmapped": unmapped, "unresolved": unres}
+
+
+def render_md(rows, kinds, total_refs, raw, attributed, hi16, excl, stats, oinfo, report, nbins, all_objs, placed):
+    """docs/leverage.md: the ranking's method, weights, denominators, controls and top 50 (no dates, no HEAD)."""
+    oi = oinfo["info"]
+    pct = lambda a, b: "%.1f%%" % (100.0 * a / b) if b else "n/a"
+    top = lambda n: sum(r["refs"] for r in rows[:n])
+    L = ["<!-- generated by tools/leverage_rank.py; do not edit; regenerate: /usr/bin/python3 tools/leverage_rank.py -j 16 -->",
+         "# Leverage ranking: functions and data by unique-body references", "",
+         "Generated by `tools/leverage_rank.py` with `docs/leverage.tsv` (one row per unit, sorted by score). "
+         "`leverage_rank.py --check` regenerates both in memory and byte-compares them.", "",
+         "## Inputs",
+         f"- `build/`: linker maps, ELFs and .o files of {nbins} binaries; {len(all_objs)} objects "
+         f"({len(placed)} placed, {len(all_objs) - len(placed)} unlinked).",
+         f"- `.run/sig.<alias>.jsonl`: {sum(len(BINS[a].sig) for a in ORDER)} sig rows (h_exact per function instance).",
+         f"- `{CENSUS}/struct_map.json` (`tools/type_census.py`, head `{oinfo['head']}`): {oi['type entries']} type entries, "
+         f"{oi['types']} distinct names (same-named entries are one C name and merge).",
+         f"- `{CENSUS}/sites.jsonl` (`tools/type_census.py --sites`, same head): {oi['sites']} site rows, "
+         f"{oi['typed sites']} typed by a struct_map type (`type`, or a C-form `ctype` naming one).",
+         "- The tool refuses to run when `git diff --quiet <head> HEAD -- src include` fails (regenerate the census first).", "",
+         "## Method",
+         "- Every relocation of every object (all sections) is attributed to a source body and a target unit, or to a named "
+         "exclusion; unattributed must be 0. A text source body is the sig row containing the place (h_exact, offset), so a body "
+         "linked into many binaries counts once; a data source is the nearest preceding data symbol of its output section.",
+         "- Units: `func` = one h_exact (every instance of one body); `func` `raw:<space>:<addr>` = a target with no sig row that "
+         "starts an ELF FUNC or global symbol; `data` = (space, addr). Space: the binary's own image (its VRAM base), else main's, "
+         "else resident's, else another image's slot base, else `abs`.",
+         "- References are deduplicated to unique-body keys (source body, offset, reloc type, target unit); HI16 halves are "
+         "counted once through their LO16.",
+         "- Struct ownership: each typed site's body (tu, fn) maps to the h_exact it compiles into (non-header: the TU's alias "
+         "and the function's address; a `src/shared/**` header: every include site in src with its active `SHARED_FN`, nested "
+         "includes followed). reach(T) = distinct h_exact over all sites typed T. holders(T) = distinct data units named by a "
+         "global/gaddr site typed T, plus T's `globals_at`/`globals_ptr`, resolved through the TU alias's symbols, then the space rule.",
+         "", "## Weights",
+         "`score = (refs + own) x (1 + log10(fan))`, printed with 3 decimals; ties by refs, kind, key.",
+         "- **refs**, 1 per unique-body reference: one occurrence of the name in the one-text-per-body source, so one rename "
+         "rewrites exactly refs sites.",
+         "- **own** = sum over struct types T held by the unit of reach(T) / holders(T): a global is where a struct type gets its "
+         "name, and every body using the type reads that name; the reach is split among the holders so each type is credited once.",
+         "- **fan factor** `1 + log10(fan)` (fan = instances for a function, referencing binaries for a datum): a name reaches "
+         "every instance's symbol stack and Ghidra view for one decision but adds no source occurrence. Damped, not linear: "
+         "`nins x reach` over-counted (docs/decision-log.md:1655-1667).",
+         "", "## Denominators",
+         f"- Relocations: raw {raw} = attributed {attributed} + hi16 {hi16} + excluded {sum(excl.values())}.",
+         "- Exclusions: " + ", ".join(f"{bk} {excl[bk]}" for bk in sorted(excl)) + ".",
+         f"- TEXT-NOSIG before units {stats['was:TEXT-NOSIG']} (raw func units {stats['was:TEXT-NOSIG:raw']}, left {excl['TEXT-NOSIG']}); "
+         f"TEXT-INTERIOR before {stats['was:TEXT-INTERIOR']} (raw func units {stats['was:TEXT-INTERIOR:raw']}, "
+         f"JTBL-CASE {excl['JTBL-CASE']} from data words, LOCAL-LABEL {excl['LOCAL-LABEL']} from text).",
+         f"- Unique refs {total_refs}. Top 100 by score cover {top(100)} ({pct(top(100), total_refs)}); top 500 cover "
+         f"{top(500)} ({pct(top(500), total_refs)}).",
+         "- Units ranked: " + "; ".join(f"{k} {sum(1 for r in rows if f(r))} (refs > 0: {sum(1 for r in rows if f(r) and r['refs'])})"
+                                        for k, f in kinds.items()) + f"; total {len(rows)}.",
+         "- Already named (`named` = yes): " + "; ".join(f"{k} {sum(1 for r in rows if f(r) and r['named'] == 'yes')}"
+                                                         for k, f in kinds.items()) + ".",
+         ]
+    can = [r for r in rows if r["named"] != "yes"]
+    t43 = [r for r in can if r["rank43"] <= 500]
+    can_refs, t43_refs = sum(r["refs"] for r in can), sum(r["refs"] for r in t43)
+    L += ["- Units 3.43 may name (`named` != yes): " + "; ".join(f"{k} {sum(1 for r in can if f(r))}" for k, f in kinds.items())
+          + f"; total {len(can)} holding {can_refs} refs. The top 500 of those (`rank43` <= 500: "
+          + ", ".join(f"{k} {sum(1 for r in t43 if f(r))}" for k, f in kinds.items())
+          + f") cover {t43_refs} refs: {pct(t43_refs, total_refs)} of all unique refs, {pct(t43_refs, can_refs)} of the nameable units' refs.",
+          f"- Ownership: {oi['types with reach']} of {oi['types']} types have reach; {oi['types with holders']} have a resolved holder "
+          f"({oi['types with reach and holders']} both); {oi['data units owning']} data units own, total own {oi['own total']}. "
+          f"Holder names resolved {oi['holder names resolved']}, unresolved {oi['holder names unresolved']} (printed by the tool).",
+          f"- Typed sites unmapped to a body: {sum(oinfo['unmapped'].values())}"
+          + ("" if not oinfo["unmapped"] else " (" + ", ".join(f"{k} {v}" for k, v in sorted(oinfo["unmapped"].items())) + ")")
+          + f"; header include sites that resolved no body {oi['header include sites unresolved']}.",
+          "", "## Controls"]
+    L += ["- " + ln.strip() for ln in report if ln.strip().startswith("control")]
+    L += ["", "## Top 50", "", "| rank | kind | key | name | named | refs | own | fan | score | owner |",
+          "|---:|---|---|---|---|---:|---:|---:|---:|---|"]
+    for r in rows[:50]:
+        L.append(f"| {r['rank']} | {r['kind']} | {r['key']} | {r['name']} | {r['named']} | {r['refs']} | {r['own']:.3f} | "
+                 f"{r['fan']} | {r['score']:.3f} | {r['owner']} |")
+    L += ["", "## Known limits",
+          "- Param-typed structs credit no unit: a type seen only through parameters and locals has reach but no holder.",
+          "- Slot-space conflation: overlays sharing a VRAM base share one space, so `data` and `raw:` units at the same slot "
+          "address in different overlays pool into one unit.",
+          "- `abs` space: targets outside every image (main's bss past its last section, fixed addresses) form one space with no binary.",
+          "- `globals_at`/`globals_ptr` are capped at 20 names per type; the full holder set comes from the sites.", ""]
+    return "\n".join(L)
+
+
 def run_pool(fn, items, jobs):
     with get_context("fork").Pool(jobs) as pool:
         return pool.map(fn, items, chunksize=1)
@@ -438,6 +759,10 @@ def main():
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
     os.chdir(REPO)
+    head = re.match(r'\{"head": "(\w+)"', open(os.path.join(REPO, CENSUS, "struct_map.json")).read(64)).group(1)
+    if subprocess.run(["git", "diff", "--quiet", head, "HEAD", "--", "src", "include"]).returncode != 0:
+        sys.exit(f"leverage_rank: {CENSUS} (head {head}) is stale against HEAD for src/include: run "
+                 "/usr/bin/python3 tools/type_census.py -j 16 --sites first")
     aliases, _dirs = sc.fleet_and_dirs()
     VB.update(sc.vram_bases())
     ORDER.extend(aliases)
@@ -488,18 +813,37 @@ def main():
         refs[unit] += 1
         bodies[unit].add(src)
         ubins[unit].update(key_bins[key])
+
+    def spell(n, addr):
+        if not n:
+            return "func_%08X" % addr
+        m = FUNC_NAME.match(n)
+        return "func_%08X" % int(m.group(1), 16) if m else n
+
+    def row(kind, key, space, addr, sym, name, u, nins, addrs, fan):
+        return dict(kind=kind, key=key, space=h8(space) if not isinstance(space, str) else space, addr=h8(addr), sym=sym,
+                    name=name, named="yes" if name and not PLACEHOLDER.match(name) else "no", refs=refs[u],
+                    bodies=len(bodies[u]), nins=nins, addrs=addrs, fan=fan, binaries=len(ubins[u]), u=u, own=0.0, owner="")
     rows = []
     for h in sorted(inst):
         il = sorted(inst[h])
         nm = [bool(n) and not PLACEHOLDER.match(n) for _a, _ad, n in il]
-        named = "yes" if all(nm) else ("partial" if any(nm) else "no")
         ex = il[0]
         u = ("func", h)
-        rows.append(["func", h[:12], h8(BINS[ex[0]].vbase), h8(ex[1]), ex[2] or "", named,
-                     refs[u], len(bodies[u]), len(il), len(ubins[u]), u])
-    if len({r[1] for r in rows}) != len(rows):
+        r = row("func", h[:12], BINS[ex[0]].vbase, ex[1], ex[2] or "", spell(ex[2], ex[1]), u, len(il),
+                len({ad for _a, ad, _n in il}), len(il))
+        r["named"] = "yes" if all(nm) else ("partial" if any(nm) else "no")
+        rows.append(r)
+    if len({r["key"] for r in rows}) != len(rows):
         sys.exit("leverage_rank: h_exact[:12] is not unique")
+    for u in sorted(u for u in refs if u[0] == "func" and u[1].startswith("raw:")):
+        _r, sp, ad = u[1].split(":")
+        t = int(ad, 16)
+        hold = [a for a in aliases if h8(BINS[a].vbase) == sp and t in BINS[a].fstart]
+        sym = min((bool(PLACEHOLDER.match(BINS[a].fstart[t])), BINS[a].fstart[t]) for a in hold)[1]
+        rows.append(row("func", u[1], sp, t, sym, spell(sym, t), u, len(hold), 1, len(hold)))
     data_units = sorted((u for u in refs if u[0] == "data"), key=lambda u: (u[1] is not None, u[1] or 0, u[2]))
+    own, owner, oinfo = ownership(aliases, _dirs, set(data_units), args.j)
     for u in data_units:
         _k, space, addr = u
         name = ""
@@ -508,36 +852,56 @@ def main():
             if cand:
                 name = cand[0]
                 break
-        rows.append(["data", f"{h8(space)}:{addr:08X}", h8(space), h8(addr), name,
-                     "yes" if name and not PLACEHOLDER.match(name) else "no",
-                     refs[u], len(bodies[u]), len(ubins[u]), len(ubins[u]), u])
+        r = row("data", f"{h8(space)}:{addr:08X}", space, addr, name, name, u, len(ubins[u]), 1, len(ubins[u]))
+        r["own"], r["owner"] = own.get(u, 0.0), owner.get(u, "")
+        rows.append(r)
     for r in rows:
-        r.insert(10, r[6])           # provisional score = refs
-    rows.sort(key=lambda r: (-r[10], -r[6], r[0], r[1]))
-    total_refs = sum(r[6] for r in rows)
-    lines, cum = ["rank\tkind\tkey\tspace\taddr\tname\tnamed\trefs\tbodies\tfan\tbinaries\tscore\tcum_share"], 0
+        r["score"] = (r["refs"] + r["own"]) * (1 + math.log10(max(r["fan"], 1)))
+    rows.sort(key=lambda r: (-r["score"], -r["refs"], r["kind"], r["key"]))
+    total_refs = sum(r["refs"] for r in rows)
+    n43 = 0
     for i, r in enumerate(rows, 1):
-        cum += r[6]
-        lines.append("\t".join(str(x) for x in [i] + r[:11]) + "\t%.6f" % (cum / total_refs))
+        r["rank"] = i
+        if r["named"] != "yes":
+            n43 += 1
+        r["rank43"] = n43 if r["named"] != "yes" else ""
+    cols = ["rank", "kind", "key", "space", "addr", "name", "named", "refs", "bodies", "nins", "addrs", "fan", "binaries",
+            "own", "owner", "score", "rank43"]
+    lines, cum = ["\t".join(cols + ["cum_share"])], 0
+    for r in rows:
+        cum += r["refs"]
+        lines.append("\t".join("%.3f" % r[c] if c in ("own", "score") else str(r[c]) for c in cols) + "\t%.6f" % (cum / total_refs))
     tsv = "\n".join(lines) + "\n"
     # report
-    nfunc = sum(1 for r in rows if r[0] == "func")
-    print(f"leverage_rank: {len(aliases)} binaries, objects {len(all_objs)} (placed {len(placed)}, unlinked {len(unlinked)})")
-    print(f"  relocations raw {raw}  attributed {attributed}  hi16 {hi16}  excluded {sum(excl.values())}  unattributed {unattributed}")
+    kinds = collections.OrderedDict((("func (sig)", lambda r: r["kind"] == "func" and not r["key"].startswith("raw:")),
+                                     ("func (raw)", lambda r: r["key"].startswith("raw:")), ("data", lambda r: r["kind"] == "data")))
+    out = []
+    say = out.append
+    say(f"leverage_rank: {len(aliases)} binaries, objects {len(all_objs)} (placed {len(placed)}, unlinked {len(unlinked)})")
+    say(f"  relocations raw {raw}  attributed {attributed}  hi16 {hi16}  excluded {sum(excl.values())}  unattributed {unattributed}")
     for bk in sorted(excl):
-        print(f"  excl {bk:34s} {excl[bk]}")
-    print(f"  unique refs {len(keys)} (total refs {total_refs})  units func {nfunc} (refs>0 {sum(1 for r in rows if r[0] == 'func' and r[6])})"
-          f"  data {len(data_units)}  raw-source refs {stats['raw_src']}  slot multi-base {stats['slot_multi_base']}")
-    print("  data targets outside the listed sections: " + "  ".join(f"{k} {v}" for k, v in sorted(stats.items())
-                                                                   if k.startswith("data_in")))
+        say(f"  excl {bk:34s} {excl[bk]}")
+    for was in ("TEXT-NOSIG", "TEXT-INTERIOR"):
+        rest = excl[was] if was == "TEXT-NOSIG" else excl["JTBL-CASE"] + excl["LOCAL-LABEL"]
+        say(f"  {was} before {stats['was:' + was]}  -> raw func units {stats['was:' + was + ':raw']}  "
+            + (f"left {rest}" if was == "TEXT-NOSIG" else f"JTBL-CASE {excl['JTBL-CASE']}  LOCAL-LABEL {excl['LOCAL-LABEL']}"))
+    say(f"  unique refs {len(keys)} (total refs {total_refs})  units " + "  ".join(
+        f"{k} {sum(1 for r in rows if f(r))} (refs>0 {sum(1 for r in rows if f(r) and r['refs'])})" for k, f in kinds.items())
+        + f"  raw-source refs {stats['raw_src']}  slot multi-base {stats['slot_multi_base']}")
+    say("  data targets outside the listed sections: " + "  ".join(f"{k} {v}" for k, v in sorted(stats.items())
+                                                                 if k.startswith("data_in")))
+    oi = oinfo["info"]
+    say(f"  ownership (struct_map head {oinfo['head']}): " + "  ".join(f"{k} {oi[k]}" for k in sorted(oi)))
+    say(f"  unmapped typed sites {sum(oinfo['unmapped'].values())}: " + "  ".join(
+        f"{k} {v}" for k, v in sorted(oinfo["unmapped"].items())))
+    ur = collections.defaultdict(list)
+    for n, w in sorted(oinfo["unresolved"].items()):
+        ur[w.split(" ")[0]].append(n if w == "NO-ADDRESS" else f"{n}={w.split(' ')[1]}")
+    for w in sorted(ur):
+        say(f"  holder names resolving to no data unit, {w} {len(ur[w])}: " + " ".join(ur[w]))
     ok = unattributed == 0
     ctrl3 = attributed + hi16 + sum(excl.values()) == raw
-    print(f"  control 3 (attributed+hi16+excluded == raw): {'PASS' if ctrl3 else 'FAIL'}")
-    if args.check:
-        cur = open(OUT_TSV).read() if os.path.exists(OUT_TSV) else None
-        same = cur == tsv
-        print(f"  --check docs/leverage.tsv: {'IDENTICAL' if same else 'DIFFERS'}")
-        return 0 if ok and ctrl3 and same else 1
+    say(f"  control 3 (attributed+hi16+excluded == raw): {'PASS' if ctrl3 else 'FAIL'}")
     # control 2 candidates: global, refs >= 20, every referencing body single-instance
     src_bins = collections.defaultdict(set)
     for key, bs in key_bins.items():
@@ -556,8 +920,8 @@ def main():
                 name_bins[nm].add(a)
     picks = {}
     for r in rows:
-        kind, u, name = r[0], r[11], r[4]
-        if kind in picks or r[6] < 20 or not name or "." in name:
+        kind, u, name = r["kind"], r["u"], r["sym"]
+        if kind in picks or r["refs"] < 20 or not name or "." in name or r["key"].startswith("raw:"):
             continue
         if kind == "func" and len(inst[u[1]]) != 1:
             continue
@@ -569,15 +933,15 @@ def main():
         addr = inst[u[1]][0][1] if kind == "func" else u[2]
         if name not in BINS[definer].glob or set(BINS[definer].at.get(addr, [])) != {name}:
             continue
-        picks[kind] = (name, r[6])
+        picks[kind] = (name, r["refs"])
     names = {v[0] for v in picks.values()}
     with ThreadPoolExecutor(args.j) as ex:
         scans = list(ex.map(lambda o: objdump_scan(o, names), all_objs))
     mine = [obj_reloc_count(o) for o in all_objs]
     bad = [o for o, m, (n, _h) in zip(all_objs, mine, scans) if m != n]
     ctrl1 = not bad
-    print(f"  control 1 (per-object reloc count == objdump -r): {'PASS' if ctrl1 else 'FAIL'}  "
-          f"mine {sum(mine)} objdump {sum(s[0] for s in scans)} objects {len(all_objs)} mismatched {len(bad)} {bad[:3]}")
+    say(f"  control 1 (per-object reloc count == objdump -r): {'PASS' if ctrl1 else 'FAIL'}  "
+        f"mine {sum(mine)} objdump {sum(s[0] for s in scans)} objects {len(all_objs)} mismatched {len(bad)} {bad[:3]}")
     pset = set(placed)
     grep = collections.Counter()
     for o, (_n, h) in zip(all_objs, scans):
@@ -586,19 +950,27 @@ def main():
     ctrl2 = len(picks) == 2
     for kind in ("func", "data"):
         if kind not in picks:
-            print(f"  control 2 {kind}: no candidate symbol")
+            say(f"  control 2 {kind}: no candidate symbol")
             continue
         name, rf = picks[kind]
         good = grep[name] == rf
         ctrl2 = ctrl2 and good
-        print(f"  control 2 {kind} {name}: refs {rf} objdump grep {grep[name]} {'PASS' if good else 'FAIL'}")
+        say(f"  control 2 {kind} {name}: refs {rf} objdump grep {grep[name]} {'PASS' if good else 'FAIL'}")
     passed = sum([ctrl1, ctrl2, ctrl3])
-    print(f"  controls {passed}/3 PASS")
+    say(f"  controls {passed}/3 PASS")
+    print("\n".join(out))
+    md = render_md(rows, kinds, total_refs, raw, attributed, hi16, excl, stats, oinfo, out, len(aliases), all_objs, placed)
+    if args.check:
+        diffs = [p for p, txt in ((OUT_TSV, tsv), (OUT_MD, md))
+                 if (open(p).read() if os.path.exists(p) else None) != txt]
+        print("  --check docs/leverage.tsv docs/leverage.md: " + ("IDENTICAL" if not diffs else
+                                                                   "DIFFERS " + " ".join(os.path.relpath(p, REPO) for p in diffs)))
+        return 0 if ok and passed == 3 and not diffs else 1
     if ok and passed == 3:
         open(OUT_TSV, "w").write(tsv)
-        print(f"  wrote docs/leverage.tsv ({len(rows)} rows)")
+        open(OUT_MD, "w").write(md)
+        print(f"  wrote docs/leverage.tsv ({len(rows)} rows) and docs/leverage.md")
     return 0 if ok and passed == 3 else 1
-
 
 if __name__ == "__main__":
     try:
