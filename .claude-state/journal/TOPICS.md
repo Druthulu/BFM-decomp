@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-10T19:34:11.628Z
+# filed through: 2026-11-10T20:03:02.796Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -114,4 +114,6 @@ R110 | 2026-11-10 | decision | in force | Phase 3.43 plan | 3.43 names functions
 R111 | 2026-11-10 | finding | in force | Phase 3.43 plan | Running `tools/ghidra_roster.py --help` rewrites the tracked config/ghidra/ROSTER.md, because the t… | .claude-state/journal/2026-11-10/104304-032r-claude-record.md
 R112 | 2026-11-10 | decision | in force | 3.43 T3 scope (I4 returns) | T3 fixes only the 38 flipped names. | .claude-state/journal/2026-11-10/124938-045r-claude-record.md
 R113 | 2026-11-10 | finding | in force | Signatures from asm evidence | No project tool derives a function's signature from the asm. | .claude-state/journal/2026-11-10/124938-045r-claude-record.md
-R114 | 2026-11-10 | open | in force | Signatures from asm evidence | How to take on asm-derived signatures. | .claude-state/journal/2026-11-10/124938-045r-claude-record.md
+R114 | 2026-11-10 | open | superseded by R115 | Signatures from asm evidence | How to take on asm-derived signatures. | .claude-state/journal/2026-11-10/124938-045r-claude-record.md
+R115 | 2026-11-10 | decision | in force | Signatures from asm evidence | GENERATION_PLAN.md gains 3.44 Signatures from evidence (depends 3.43); File layout becomes 3.45 and… | .claude-state/journal/2026-11-10/131834-049r-claude-record.md
+R116 | 2026-11-10 | finding | in force | Signatures from asm evidence | Knock-ons of the renumber: the license item I2 is triaged to deferred:3.46 (its description text st… | .claude-state/journal/2026-11-10/131834-049r-claude-record.md
