@@ -1007,3 +1007,4 @@ C0554 | Ghidra live-DB type import (program-row guard, export cmp) + MCP over SS
 C0555 | Prove a rename complete with rename_scan (R32 coverage) | rename,symbol,names-ledger,guess,r32 | 2026-11-08 | 3.42/T2 | P3.42 T2.c1
 C0556 | Apply and prove a rename in a scratch worktree (rename_sym + controls) | rename,symbol,worktree,gate_main,r32 | 2026-11-08 | 3.42/T3 | P3.42 T3.c1
 C0557 | Cross-address share: the SHARED_FN class header and its traps | share,dedup,shared_fn,cross-address,residue | 2026-11-08 | 3.42/T4 | T4.c1 d3f940420a
+C0558 | One-text sharing of differing cross copies: dead types, lies, alias names | share,dedup,shared_fn,cross-address,type_census,lying | 2026-11-09 | 3.42/T6 | T6.c1 92473260c4
