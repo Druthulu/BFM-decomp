@@ -3759,9 +3759,9 @@ extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 extern char D_80189BE0;
 
-void func_8018045C(void) {
-    ((void (*)(void *, s32))func_8016EE40)(&D_80189BE0, 0x1000000);
-}
+#define SHARED_FN func_8018045C
+#include "../shared/ov/cls_bcbb544b3ff1.h"
+#undef SHARED_FN
 
 
 

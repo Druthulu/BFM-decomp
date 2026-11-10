@@ -2815,11 +2815,9 @@ void func_8017D34C(void) {
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
-void func_8017D374(void) {
-
-    extern s32 D_80189BE0(void *a0);
-    ((void (*)(void *, s32))func_8016EE40)((void *)D_80189BE0, 0x1000000);
-}
+#define SHARED_FN func_8017D374
+#include "../shared/ov/cls_bcbb544b3ff1.h"
+#undef SHARED_FN
 
 
 

@@ -1792,9 +1792,9 @@ join:
 
 extern void (*D_8018D3CC[])(void);
 
-void func_8015BFF4(void *a0) {
-    D_8018D3CC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015BFF4
+#include "../shared/ov/cls_1de81fffcd4c.h"
+#undef SHARED_FN
 
 
 

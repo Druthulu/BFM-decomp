@@ -1527,11 +1527,9 @@ do161240:
 
 
 
-void func_8015CC74(s32 *a0) {
-
-    extern void (*D_80189744[])(void);
-    D_80189744[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015CC74
+#include "../shared/ov/cls_c1c2c0f27456.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015CCB0.h"
