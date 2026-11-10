@@ -24,11 +24,22 @@ row in config/names.tsv (basis, confidence, evidence kind, conflict, history). T
                                 address in `git diff A B` (B empty = the working tree).
   --ledger [--gate-citations]   validate config/names.tsv; gate guess_-without-basis and dead rows; print the
                                 curated names with no citation row (gated only with --gate-citations).
-  --selftest                    in-memory fixtures for classify() and check_ledger(); no repo, no temp dir.
+                                A `class:<id>` scope is ONE row per registry class; it stands for name and
+                                name_<k> (same-binary members) for dead / basis / citation.
+  --worklist FILE [--complete]  check config/names_worklist.tsv: a `# ... source: <path> @ <commit>` header line;
+                                disposition empty (undisposed) | cited | guess | no-evidence. cited/guess: new_name
+                                (guess iff guess_), every instance (func: .run/sig.<alias>.jsonl rows of h_exact;
+                                data: space -> binary, vram = addr) resolves through its binary's splat symbol
+                                stack to new_name[_<k>] and has a names.tsv row of that tier ((name, file alias)
+                                or a class:<id> row holding it). no-evidence: new_name = the placeholder name,
+                                no instance named, a reason. Prints counts and each bad row; exit 1 on any,
+                                and with --complete on any undisposed row.
+  --selftest                    in-memory fixtures for classify(), check_ledger(), check_worklist() and
+                                rename_sym's planner (prepare); no repo, no temp dir.
 
 Symbol files are read through tools/lint_symbol_refs.py (iter_symbol_defs, _symbol_files): one parser.
 """
-import argparse, os, re, subprocess, sys
+import argparse, glob, os, re, subprocess, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lint_symbol_refs as lsr      # the ONE symbol-file parser and the stale func_<ADDR> checker
@@ -41,7 +52,8 @@ KINDS = ("func", "data", "type", "field", "local")
 TIERS = ("cited", "guess")
 CONFIDENCE = ("low", "medium", "high")
 # Rule 1's six evidence kinds. Adding one is a developer amendment of rule 1, not a tool edit.
-EVIDENCE = ("code inference", "string", "xref chain", "debug menu", "live RAM", "community label")
+EVIDENCE = ("code inference", "string", "xref chain", "debug menu", "live RAM", "community label",
+            "library symbol")
 HISTORY = ("cookbook/", "phase-ends/", "docs/decision-log.md", "docs/story.md", "docs/retrospective.md",
            "docs/retired/", "docs/research-archive/", ".claude-state/",
            "decomp-architect/corpus/record/", "decomp-architect/corpus/cookbook/",   # verbatim kit copies of the above
@@ -55,7 +67,21 @@ ADDRESS_KEYED = {
     "tools/share_census.py": "coverage asserts find share classes by vram (`0x... in c['addrs']`), never by name",
     "docs/duplicates.cross.md": "dup_report --cross lists group members as binary:vram, no names",
     "docs/duplicates.md": "dup_report lists each group's representative as `<sig name> (<vram>)`; see NAMES_FROM_VRAM",
+    "docs/leverage.md": "leverage_rank lists one row per unit keyed by space:addr",
+    "docs/leverage.tsv": "leverage_rank writes one row per unit keyed by space:addr",
 }
+# Closed list: generated files rename_sym rewrites as text instead of printing `regenerate:` (shared with rename_sym).
+TEXT_GENERATED = {
+    "docs/leverage.md": "rewritten as text; regenerated once at the 3.43 close, T15",
+    "docs/leverage.tsv": "rewritten as text; regenerated once at the 3.43 close, T15",
+}
+# config/names_worklist.tsv: the frozen naming worklist --worklist checks (3.43).
+WORKLIST_TSV = "config/names_worklist.tsv"
+WORKLIST_COLS = ("rank43", "kind", "key", "h_exact", "space", "addr", "name", "refs", "fan", "binaries", "owner",
+                 "instances", "group", "target", "disposition", "new_name", "reason")
+DISPOSITIONS = ("cited", "guess", "no-evidence")
+SOURCE_RE = re.compile(r"\bsource:\s*\S+\s*@\s*[0-9a-fA-F]{7,40}\b")
+DATA_SPACE = {"8000F800": "main", "800CEDF8": "resident", "abs": "main"}   # data unit space -> binary
 # Closed sub-list: generated files whose func_/D_<ADDR> tokens are synthesized from the vram by their generator, so they
 # are placeholders, never a curated name a rename could miss (a curated old name there still counts as strong -> stale).
 NAMES_FROM_VRAM = {
@@ -256,50 +282,75 @@ def _base(name):
     return name.rsplit(".", 1)[-1]
 
 
-def check_ledger(rows, symbols, tokens):
+def _family(name):
+    """-> a regex for name and its class-member forms name_<k> (rename_sym numbers same-binary members)."""
+    return re.compile(r"%s(?:_\d+)?$" % re.escape(name))
+
+
+def row_errors(r, aliases, groups):
+    """One names row (dict per COLUMNS) -> [bad column]. aliases = symbol-file aliases (scope `us`, ...);
+    groups = registry ids a `class:<id>` scope may name. Pure; shared with rename_sym's pre-write check."""
+    bad = []
+    nm, kind, scope, addr, tier = r["name"], r["kind"], r["scope"], r["addr"], r["tier"]
+    if kind not in KINDS: bad.append("kind")
+    if tier not in TIERS: bad.append("tier")
+    if (tier == "guess") != _base(nm).startswith("guess_"): bad.append("tier/guess_ prefix")
+    if tier == "guess":
+        if not r["basis"] or r["basis"] == "-": bad.append("basis")
+        if r["confidence"] not in CONFIDENCE: bad.append("confidence")
+        if r["evidence"] not in EVIDENCE: bad.append("evidence")
+    else:
+        if r["citation"] in ("", "-"): bad.append("citation")
+        if r["confidence"] not in CONFIDENCE + ("-",): bad.append("confidence")
+        if r["evidence"] not in EVIDENCE + ("-",): bad.append("evidence")
+    if kind in ("func", "data"):
+        if not re.match(r"^0x[0-9A-Fa-f]+$", addr): bad.append("addr")
+        if scope.startswith("class:"):
+            if scope[len("class:"):] not in groups: bad.append("scope")
+        elif scope != "global" and scope not in aliases: bad.append("scope")
+    elif addr != "-":
+        bad.append("addr")
+    for col in ("conflict", "history", "citation", "scope"):
+        if not r[col]: bad.append(col)
+    return bad
+
+
+def check_ledger(rows, symbols, tokens, groups=()):
     """rows = [dict per COLUMNS]; symbols = {name: set(aliases)} from the stacked symbol files;
     tokens = [(path, token)]: every guess_ token in src/ include/ config/symbols*.txt and every ledger
-    type/field/local name found word-bounded in src/ include/. Pure.
+    type/field/local name found word-bounded in src/ include/; groups = registry ids (scope `class:<id>`:
+    ONE row per class, standing for name and name_<k> in every member). Pure.
     -> {errors, guess_without_basis, dead, curated_without_citation} (sorted lists)."""
     aliases = set().union(*symbols.values()) if symbols else set()
     errors, seen, based = [], set(), set()
     src_words = {t for p, t in tokens if p.startswith(("src/", "include/"))}
-    dead = []
+    guess_toks = {t for _, t in tokens if t.startswith("guess_")}
+    dead, fams = [], []
     for i, r in enumerate(rows, 1):
-        bad = []
-        nm, kind, scope, addr, tier = r["name"], r["kind"], r["scope"], r["addr"], r["tier"]
-        if kind not in KINDS: bad.append("kind")
-        if tier not in TIERS: bad.append("tier")
-        if (tier == "guess") != _base(nm).startswith("guess_"): bad.append("tier/guess_ prefix")
-        if tier == "guess":
-            if not r["basis"] or r["basis"] == "-": bad.append("basis")
-            if r["confidence"] not in CONFIDENCE: bad.append("confidence")
-            if r["evidence"] not in EVIDENCE: bad.append("evidence")
-        else:
-            if r["citation"] in ("", "-"): bad.append("citation")
-            if r["confidence"] not in CONFIDENCE + ("-",): bad.append("confidence")
-            if r["evidence"] not in EVIDENCE + ("-",): bad.append("evidence")
-        if kind in ("func", "data"):
-            if not re.match(r"^0x[0-9A-Fa-f]+$", addr): bad.append("addr")
-            if scope != "global" and scope not in aliases: bad.append("scope")
-        elif addr != "-":
-            bad.append("addr")
-        for col in ("conflict", "history", "citation", "scope"):
-            if not r[col]: bad.append(col)
+        nm, kind, scope = r["name"], r["kind"], r["scope"]
+        bad = row_errors(r, aliases, groups)
         if (nm, scope) in seen: bad.append("duplicate (name, scope)")
         seen.add((nm, scope))
         if bad:
             errors.append("row %d %s: %s" % (i, nm, ", ".join(bad)))
             continue
+        fam = _family(nm) if scope.startswith("class:") else None
+        if fam and r["citation"] not in ("", "-"):
+            fams.append(fam)
         if r["basis"] not in ("", "-"):
             based.add(_base(nm))
-        live = nm in symbols if kind in ("func", "data") else _base(nm) in src_words
+            if fam:
+                based |= {t for t in guess_toks if fam.match(t)}
+        if fam:
+            live = any(fam.match(n) for n in symbols)
+        else:
+            live = nm in symbols if kind in ("func", "data") else _base(nm) in src_words
         if not live:
             dead.append("%s (%s, %s)" % (nm, kind, scope))
-    gwb = sorted({t for _, t in tokens if t.startswith("guess_")} - based)
+    gwb = sorted(guess_toks - based)
     cited = {r["name"] for r in rows if r["citation"] not in ("", "-")}
     curated = sorted(n for n in symbols if not PLACEHOLDER.match(n) and not n.startswith("guess_")
-                     and n not in cited)
+                     and n not in cited and not any(f.match(n) for f in fams))
     return {"errors": errors, "guess_without_basis": gwb, "dead": sorted(dead),
             "curated_without_citation": curated}
 
@@ -353,7 +404,11 @@ def load_tokens(rows):
 def run_ledger(gate_citations):
     rows = parse_ledger(open(os.path.join(REPO, NAMES_TSV)).read())
     symbols = load_symbol_names()
-    res = check_ledger(rows, symbols, load_tokens(rows))
+    groups = ()
+    if any(r["scope"].startswith("class:") for r in rows):
+        import rename_sym
+        groups = rename_sym.load_groups()[0]
+    res = check_ledger(rows, symbols, load_tokens(rows), groups)
     for e in res["errors"]:
         print("  invalid " + e)
     for t in res["guess_without_basis"]:
@@ -369,6 +424,163 @@ def run_ledger(gate_citations):
     if gate_citations:
         bad += len(res["curated_without_citation"])
     print("[rename_scan] ledger %s" % ("FAIL" if bad else "OK"))
+    return 1 if bad else 0
+
+
+# ---------------------------------------------------------------- worklist (pure core)
+def parse_worklist(text):
+    """Pure. -> (header `#` lines, [dict per WORKLIST_COLS]). Raises ValueError on a bad header / row width."""
+    heads, rows, header = [], [], None
+    for ln in text.splitlines():
+        if ln.startswith("#"):
+            heads.append(ln)
+            continue
+        if not ln.strip():
+            continue
+        f = ln.split("\t")
+        if header is None:
+            if tuple(f) != WORKLIST_COLS:
+                raise ValueError("worklist header must be: " + "\\t".join(WORKLIST_COLS))
+            header = f
+            continue
+        if len(f) != len(WORKLIST_COLS):
+            raise ValueError("worklist row has %d fields, needs %d: %r" % (len(f), len(WORKLIST_COLS), ln[:80]))
+        rows.append(dict(zip(WORKLIST_COLS, f)))
+    return heads, rows
+
+
+def _placeholder(kind, vram):
+    return "%s_%08X" % ("D" if kind == "data" else "func", vram)
+
+
+def check_worklist(heads, rows, ledger, inst, names, members, complete=False):
+    """Pure. heads/rows from parse_worklist; ledger = names.tsv rows; inst = {rank43: [(binary, vram int)]};
+    names = {(binary, vram): (name, symbol-file alias)} (first hit through the binary's stack; absent =
+    placeholder); members = {group id: {(binary, vram)}}. -> (counts per disposition + undisposed,
+    [(rank43, unit, reason)])."""
+    counts = {d: 0 for d in DISPOSITIONS + ("undisposed",)}
+    bad = []
+    if not any(SOURCE_RE.search(h) for h in heads):
+        bad.append(("-", "header", "no `source: <path> @ <commit>` header line"))
+    led = {(r["name"], r["scope"]): r["tier"] for r in ledger}
+    cls = [(r["scope"][len("class:"):], r["name"], r["tier"]) for r in ledger if r["scope"].startswith("class:")]
+    for w in rows:
+        d, new, why = w["disposition"], w["new_name"], []
+        if not d:
+            counts["undisposed"] += 1
+            if complete:
+                why.append("undisposed")
+        elif d not in DISPOSITIONS:
+            why.append("disposition %r not in %s" % (d, "/".join(DISPOSITIONS)))
+        else:
+            counts[d] += 1
+            got = sorted((i, names.get(i, (_placeholder(w["kind"], i[1]), None))) for i in inst.get(w["rank43"], ()))
+            if d == "no-evidence":
+                if new != w["name"] or not PLACEHOLDER.match(w["name"]):
+                    why.append("new_name must be the placeholder `name` column")
+                why += ["%s:%08X carries %s" % (i + (n,)) for i, (n, _) in got if not PLACEHOLDER.match(n)]
+                if not w["reason"].strip():
+                    why.append("no reason")
+            else:
+                tier = "guess" if d == "guess" else "cited"
+                if not new:
+                    why.append("no new_name")
+                elif (d == "guess") != new.startswith("guess_"):
+                    why.append("disposition %s but new_name %s" % (d, new))
+                if not got:
+                    why.append("no instances")
+                fam = _family(new) if new else None
+                for i, (n, fa) in got:
+                    if not fam or not fam.match(n):
+                        why.append("%s:%08X named %s, not %s" % (i + (n, new)))
+                    elif led.get((n, fa)) != tier and not any(
+                            t == tier and cn == new and i in members.get(g, ()) for g, cn, t in cls):
+                        why.append("%s:%08X %s has no %s names.tsv row" % (i + (n, tier)))
+        if why:
+            more = " (+%d more)" % (len(why) - 3) if len(why) > 3 else ""
+            bad.append((w["rank43"], "%s %s" % (w["kind"], w["name"]), "; ".join(why[:3]) + more))
+    return counts, bad
+
+
+def symbol_stacks():
+    """-> {binary: [symbol-file alias]} in each config/splat.<alias>.yaml symbol_addrs_path order
+    (splat.us.exe.yaml is main). Comment lines inside the list are skipped."""
+    out = {}
+    for p in sorted(glob.glob(os.path.join(REPO, "config/splat.*.yaml"))):
+        b = os.path.basename(p)[len("splat."):-len(".yaml")]
+        if b.endswith(".template"):
+            continue
+        stack, on = [], False
+        for ln in open(p):
+            s = ln.strip()
+            if not on:
+                on = s.startswith("symbol_addrs_path:")
+                continue
+            if not s or s.startswith("#"):
+                continue
+            if not s.startswith("- "):
+                break
+            stack.append(_alias(s[2:].strip()))
+        out["main" if b == "us.exe" else b] = stack
+    return out
+
+
+def load_worklist_inputs(rows):
+    """-> (ledger, inst, names, members) for check_worklist; reads .run/sig.*.jsonl only for disposed rows."""
+    import json
+    ledger = parse_ledger(open(os.path.join(REPO, NAMES_TSV)).read())
+    members = {}
+    if any(r["scope"].startswith("class:") for r in ledger):
+        import rename_sym
+        members = {g: {(m["binary"], int(m["vram"], 16)) for m in ms}
+                   for g, ms in rename_sym.load_groups()[0].items()}
+    todo = [w for w in rows if w["disposition"] in DISPOSITIONS]
+    stacks = symbol_stacks()
+    inst = {}
+    want = {w["h_exact"] for w in todo if w["kind"] == "func" and w["h_exact"]}
+    by_h = {}
+    if want:
+        for p in sorted(glob.glob(os.path.join(REPO, ".run/sig.*.jsonl"))):
+            stem = os.path.basename(p)[len("sig."):-len(".jsonl")]
+            b = "main" if stem == "SLUS_007.26" else stem
+            if b not in stacks:
+                continue                                   # protos, oracles, images: not fleet binaries
+            for ln in open(p):
+                if '"h_exact"' in ln and any(h in ln for h in want):
+                    r = json.loads(ln)
+                    if r["h_exact"] in want:
+                        by_h.setdefault(r["h_exact"], set()).add((b, int(r["addr"], 16)))
+    for w in todo:
+        if w["kind"] == "func":
+            inst[w["rank43"]] = sorted(by_h.get(w["h_exact"], ()))
+        elif w["space"] in DATA_SPACE:
+            inst[w["rank43"]] = [(DATA_SPACE[w["space"]], int(w["addr"], 16))]
+    syms = {}
+    names = {}
+    for i in {i for v in inst.values() for i in v}:
+        for fa in stacks.get(i[0], ()):
+            if fa not in syms:
+                fp = os.path.join(REPO, "config/symbols.%s.txt" % fa)
+                syms[fa] = ({int(a, 16): n for n, a in lsr.iter_symbol_defs(open(fp).read())}
+                            if os.path.exists(fp) else {})
+            if i[1] in syms[fa]:
+                names[i] = (syms[fa][i[1]], fa)
+                break
+    return ledger, inst, names, members
+
+
+def run_worklist(path, complete):
+    try:
+        heads, rows = parse_worklist(open(path).read())
+    except (OSError, ValueError) as e:
+        print("[rename_scan] worklist %s: %s\n[rename_scan] worklist FAIL" % (path, e))
+        return 1
+    counts, bad = check_worklist(heads, rows, *load_worklist_inputs(rows), complete=complete)
+    print("[rename_scan] worklist %s: %d rows; %s" % (path, len(rows), ", ".join(
+        "%s %d" % (d, counts[d]) for d in DISPOSITIONS + ("undisposed",))))
+    for rk, unit, why in bad:
+        print("  %s  %s  %s" % (rk, unit, why))
+    print("[rename_scan] worklist %s" % ("FAIL: %d bad row(s)" % len(bad) if bad else "OK"))
     return 1 if bad else 0
 
 
@@ -461,7 +673,9 @@ def selftest():
             rsy.plan([bad], G, texts); raise SystemExit("selftest: planner accepted %r" % bad)
         except ValueError:
             pass
-    assert rsy.names_row(pl[0]).split("\t")[:5] == ["guess_ClearTbl", "func", "us", "0x80050000", "guess"]
+    assert rsy.names_row(rsy.names_fields(pl[0], G)).split("\t")[:5] == [
+        "guess_ClearTbl", "func", "us", "0x80050000", "guess"]
+    S = row                                                             # the wide spec row, kept for prepare()
     assert rsy.rewrite_re("func_8003ABC8").sub("N", '#define F func_8003ABC8\n#include "func_8003ABC8.h"') \
         == '#define F N\n#include "func_8003ABC8.h"'
     d = ("+++ b/config/symbols.us.txt\n-OldA = 0x80010000; // func\n+NewA = 0x80010000; // func\n"
@@ -493,6 +707,96 @@ def selftest():
                 dict(row, scope="ov_NOPE"), dict(fld, addr="0x1")):
         assert check_ledger([bad], sym, toks)["errors"], bad
     assert check_ledger([row, row], sym, toks)["errors"], "duplicate (name, scope)"
+    assert not check_ledger([dict(row, evidence="library symbol"), cit], sym, toks)["errors"]
+    # ledger: a class row is ONE row, scope class:<id>; its _2 member counts as based / cited / live
+    crow = dict(row, scope="class:I0_t", history="func_8003ABC8 (3.43 T2)")
+    r = check_ledger([crow, cit], dict(sym, guess_ClearTbl_2={"us"}), toks + [("src/main/b.c", "guess_ClearTbl_2")], G)
+    assert not r["errors"] and not r["dead"] and not r["guess_without_basis"], r
+    ccit = dict(cit, name="Heap", scope="class:I0_t")
+    r = check_ledger([row, cit, ccit], dict(sym, Heap={"us"}, Heap_2={"ov_SC01_005"}), toks, G)
+    assert not r["errors"] and r["curated_without_citation"] == ["SysEnqIntRP"], r
+    assert check_ledger([dict(crow, scope="class:NOPE")], sym, toks, G)["errors"]
+    assert check_ledger([dict(crow, name="guess_Gone")], sym, [], G)["dead"] == ["guess_Gone (func, class:I0_t)"]
+    # worklist
+    H = ["# names_worklist.tsv", "# generator: x; source: docs/leverage.tsv @ e328006dab; classes at HEAD 5e69f147c5"]
+    def wl(**kw):
+        w = dict.fromkeys(WORKLIST_COLS, "")
+        w.update(rank43="7", kind="func", space="8000F800", addr="8003ABC8", name="func_8003ABC8", **kw)
+        return w
+    inst = {"7": [("main", 0x8003ABC8), ("ov_SC01_005", 0x8012AD64)]}
+    nm2 = {("main", 0x8003ABC8): ("guess_ClearTbl", "us"), ("ov_SC01_005", 0x8012AD64): ("guess_ClearTbl_2", "ov_SC01_005")}
+    led = [row, dict(row, name="guess_ClearTbl_2", scope="ov_SC01_005")]
+    def cw(rows, heads=H, led=led, names=nm2, members={}, complete=False):
+        return check_worklist(heads, rows, led, inst, names, members, complete)
+    c, b = cw([wl()]); assert c["undisposed"] == 1 and not b, (c, b)
+    c, b = cw([wl()], complete=True); assert [x[2] for x in b] == ["undisposed"], b           # --complete
+    _, b = cw([wl()], heads=["# names_worklist.tsv; no source"]); assert [x[1] for x in b] == ["header"], b
+    assert parse_worklist("\n".join(H + ["\t".join(WORKLIST_COLS), "\t".join(wl().values())]))[1] == [wl()]
+    _, b = cw([wl(disposition="maybe")]); assert len(b) == 1 and "not in" in b[0][2], b         # outside the list
+    c, b = cw([wl(disposition="guess", new_name="guess_ClearTbl")]); assert c["guess"] == 1 and not b, b
+    _, b = cw([wl(disposition="cited", new_name="guess_ClearTbl")]); assert b, "guess_ name under cited"
+    cn = {i: ("Clear" + s, a) for (i, (_, a)), s in zip(sorted(nm2.items()), ("", "_2"))}
+    _, b = cw([wl(disposition="cited", new_name="Clear")], names=cn)                         # no ledger row
+    assert len(b) == 1 and "no cited names.tsv row" in b[0][2], b
+    _, b = cw([wl(disposition="cited", new_name="Clear")], names=cn, led=[dict(cit, name="Clear", scope="class:I0m")],
+              members={"I0m": set(inst["7"])}); assert not b, b                              # covered by a class row
+    _, b = cw([wl(disposition="guess", new_name="guess_ClearTbl")], names={("main", 0x8003ABC8): nm2[("main", 0x8003ABC8)]})
+    assert len(b) == 1 and "ov_SC01_005:8012AD64 named func_8012AD64" in b[0][2], b            # a member unnamed
+    ne = wl(disposition="no-evidence", new_name="func_8003ABC8", reason="no xref, no string")
+    c, b = cw([ne], names={}); assert c["no-evidence"] == 1 and not b, b
+    _, b = cw([dict(ne, new_name="guess_ClearTbl")], names={}); assert b and "placeholder" in b[0][2], b
+    _, b = cw([dict(ne, reason="")], names={}); assert b and "no reason" in b[0][2], b
+    _, b = cw([ne]); assert b and "carries guess_ClearTbl" in b[0][2], b
+    # rename_sym.prepare: names rows validated before any write; history; re-rename rewrites the row
+    NT = "# hdr\n" + "\t".join(COLUMNS) + "\n"
+    al = {"us", "ov_SC01_005", "main"}
+    _, nt1, n1, w1 = rsy.prepare([S], G, texts, NT, al, "3.43 T2")
+    assert [v["history"] for v in w1] == ["func_8003ABC8 (3.43 T2)"] and len(parse_ledger(n1)) == 1, n1
+    S2 = dict(S, old="guess_ClearTbl", new="guess_ClearTbl2")                                   # guess_A -> guess_B
+    _, nt2, n2, _ = rsy.prepare([S2], G, {"config/symbols.us.txt": nt1["config/symbols.us.txt"]}, n1, al, "3.43 T2")
+    lr = parse_ledger(n2)
+    assert [(v["name"], v["history"]) for v in lr] == [
+        ("guess_ClearTbl2", "func_8003ABC8 (3.43 T2); guess_ClearTbl (3.43 T2)")], lr
+    s2 = {n: {"us"} for n, _ in lsr.iter_symbol_defs(nt2["config/symbols.us.txt"])}
+    r = check_ledger(lr, s2, [("config/symbols.us.txt", "guess_ClearTbl2")])
+    assert not r["errors"] and not r["dead"] and not r["guess_without_basis"] and "guess_ClearTbl" not in s2, r
+    cur = NT + "\t".join(dict(cit, name="Later", addr="0x80050000")[c] for c in COLUMNS) + "\n"  # Foo -> guess_Foo
+    _, _, n3, _ = rsy.prepare([dict(S, old="Later", new="guess_Later", addr="0x80050000")], G, texts, cur, al, "3.43 T2")
+    lr = parse_ledger(n3)
+    assert len(lr) == 1 and lr[0]["tier"] == "guess" and lr[0]["history"] == "Later (3.43 T2)", lr
+    for bad in (dict(S, evidence="hunch"), dict(S, confidence="sure"), dict(S, basis="-"), dict(S, kind="type")):
+        try:
+            rsy.prepare([bad], G, texts, NT, al, "3.43 T2"); raise SystemExit("selftest: prepare accepted %r" % bad)
+        except ValueError:
+            pass
+    pl, _, n4, w4 = rsy.prepare([dict(S, binary="class:I0_t")], G, texts, NT, al, "3.43 T2")
+    assert len(pl) == 3 and [(v["name"], v["scope"]) for v in w4] == [("guess_ClearTbl", "class:I0_t")], w4
+    assert len(parse_ledger(n4)) == 1 and not check_ledger(parse_ledger(n4), dict(sym, guess_ClearTbl_2={"us"}),
+                                                            toks, G)["errors"]
+    G2 = {"A": [G["I0_t"][2]], "B": [G["I0_t"][0]]}                                           # _k across the spec
+    assert [r["new"] for r in rsy.expand([dict(S, binary="class:A"), dict(S, binary="class:B")], G2)] == [
+        "guess_ClearTbl", "guess_ClearTbl_2"]
+    # registry: the vram + binaries form, YAML int vram -> hex
+    gs, reg = rsy.groups_from_registry({"groups": [
+        {"id": "E_f", "func": "func_80179B28", "vram": 0x80179B28, "binaries": ["ov_A", "ov_B"]},
+        {"id": "M", "members": [{"binary": "ov_A", "vram": 0x80100000, "name": "func_80100000"}]}]})
+    assert gs["E_f"] == [{"binary": b, "vram": "0x80179B28", "name": "func_80179B28"} for b in ("ov_A", "ov_B")], gs
+    assert gs["M"][0]["vram"] == "0x80100000" and reg[0]["members"] == gs["E_f"], (gs, reg)
+    assert [(r["old"], r["addr"], r["binary"]) for r in rsy.expand([dict(S, binary="class:E_f")], gs)] == [
+        ("func_80179B28", "0x80179B28", "ov_A"), ("func_80179B28", "0x80179B28", "ov_B")]
+    # generated outputs: leverage.md / .tsv rewritten as text, address-keyed; regen_cmd from `regenerate:`
+    LH = "<!-- generated by tools/leverage_rank.py; do not edit; regenerate: /usr/bin/python3 tools/leverage_rank.py -j 16 -->"
+    assert rsy.regen_cmd("docs/leverage.md", LH) is None and rsy.regen_cmd("docs/leverage.tsv", LH) is None
+    assert rsy.regen_cmd("docs/other.md", LH) == "/usr/bin/python3 tools/leverage_rank.py -j 16"
+    assert rsy.regen_cmd("docs/x.md", "<!-- generated by tools/x.py; do not edit -->") == "/usr/bin/python3 tools/x.py"
+    T = ("func_80DEAD10", "guess_Probe", "0x80DEAD10")
+    md = "| 46 | func | af37952690c2 | func_80DEAD10 | no | 4074 | 0.000 | 1 | 4074.000 |  |"
+    md2 = rsy.rewrite_re(T[0]).sub(T[1], md)
+    assert md2 == md.replace(T[0], T[1]), md2
+    _, t = scan([("docs/leverage.tsv", 47, "46\tfunc\taf37\t8000F800\t80DEAD10\tguess_Probe"),   # md2 has no form left
+                 ("docs/leverage.tsv", 9, "9\tdata\tx\t8000F800\t80DEAD10\t")], [T])
+    assert t["rewritten"] == 1 and t["address-key"] == 1 and not sum(t[c] for c in BAD), t
+    _, t = scan([("docs/leverage.md", 95, md)], [T]); assert t["stale-invisible"] == 1, t
     print("[rename_scan] selftest OK")
     return 0
 
@@ -504,6 +808,8 @@ def main():
     g.add_argument("--ledger", action="store_true")
     g.add_argument("--spec", metavar="TSV", help="old<TAB>new<TAB>addr|- rows, or rename_sym's wide spec")
     g.add_argument("--range", metavar="A..B", help="renames in config/symbols*.txt between A and B (B empty = worktree)")
+    g.add_argument("--worklist", metavar="FILE", help="check a names worklist's dispositions (e.g. " + WORKLIST_TSV + ")")
+    ap.add_argument("--complete", action="store_true", help="with --worklist: an undisposed row also fails")
     ap.add_argument("-v", "--verbose", action="store_true", help="with --spec/--range: print every classified hit")
     ap.add_argument("--gate-citations", action="store_true", help="with --ledger: fail on curated names with no citation row")
     a = ap.parse_args()
@@ -511,6 +817,8 @@ def main():
         return selftest()
     if a.ledger:
         return run_ledger(a.gate_citations)
+    if a.worklist:
+        return run_worklist(a.worklist, a.complete)
     if a.spec:
         return run_scan(renames_from_spec(a.spec), None, a.verbose)
     lo, _, hi = a.range.partition("..")
