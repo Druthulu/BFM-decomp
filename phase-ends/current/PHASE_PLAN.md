@@ -101,7 +101,7 @@ Approved: 2026-11-08   Planner: claude-opus-5-5/medium   Plan-hash: 83b6c853b4aa
   note: Research R3.42-001, R3.42-002. The Ghidra legs need :8080 free: check read-only first; the stop is `tools/ghidra_mcp_stop.sh` only with the developer's OK through Claude (R49; Developer decides), and if it is not yet given the task returns `question` before any Ghidra leg. It stays stopped to the close, then `tools/ghidra_mcp_start.sh` and the developer's `/mcp`. ghidra_apply_symbols.sh fixes the project name to bfm (:9): a scratch project needs that name or a small override. The series census is the newest .run/P<N>/census holding a type_census.json (.run/P39 at planning); never create .run/P42/. Two rows that share a date draw as a short step (timeline.py:82, :372-380). make tools-health is longer than one 285 s call. Cookbook C0545, C0546, C0554, C0513. coder: in-house (card).
 - T11 | done | title: phase-close docs: story, retrospective, wiki, README (Phase 3.42) | coder: in-house | deps: T10 | est-ctx: 120k | reads: phase-ends/current/tasks/T1.md, phase-ends/current/tasks/T10.md | files: docs/story.md, docs/retrospective.md, docs/wiki/, README.md | verify: PY tools/doc_links.py --strict | done-when: story §10 has its Phase 42 part and §11 the P3.42-close row; retrospective §7 runs to Phase 42 in all four paragraphs; the wiki next-steps rule carries Phase 42; timeline and progress regenerated; `PY tools/doc_links.py --strict` 0/0
   note: R48: the story advances once per phase, at the close. Lever and raw-cast site counts fall because copies collapsed into one header each (a header site counts once, R3.42-004): the docs say so, never as new de-levering. coder: in-house (card).
-- T12 | next | title: phase cleanup | coder: in-house | deps: T11 | est-ctx: 80k | reads: phase-ends/current/tasks/T10.md, phase-ends/current/tasks/T11.md | done-when: what the project still needs from .run/3.42/ is in its proper place in the repo
+- T12 | done | title: phase cleanup | coder: in-house | deps: T11 | est-ctx: 80k | reads: phase-ends/current/tasks/T10.md, phase-ends/current/tasks/T11.md | done-when: what the project still needs from .run/3.42/ is in its proper place in the repo
   note: Includes T3's worktree and T10's scratch Ghidra project (remove the worktree with `git worktree remove`). Legacy tracked files under .run/P35 and .run/P36 are not this phase's; .run/P41 is the developer's call (R87). coder: in-house (card).
 
 ## Risks
@@ -133,3 +133,4 @@ Approved: 2026-11-08   Planner: claude-opus-5-5/medium   Plan-hash: 83b6c853b4aa
 - 2026-11-10 router: T9 next -> done
 - 2026-11-10 router: T10 next -> done
 - 2026-11-10 router: T11 next -> done
+- 2026-11-10 router: T12 next -> done
