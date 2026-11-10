@@ -298,7 +298,8 @@ tools-health:
 	# site under src/ (--strict-macros), and the sig-blind second oracle (--strict-text). Runs BEFORE report so progress.py reads a
 	# fresh .run/P35/census/share_census.json for its duplicate-copy fields.
 	$(VENV_PY) tools/share_census.py --selftest
-	$(VENV_PY) tools/share_census.py --check --strict-macros --strict-text --quiet
+	# 3.42 T6.c4: --scope all — the cross-address classes count too (each settled one is ledgered; was the same-vram default)
+	$(VENV_PY) tools/share_census.py --check --scope all --strict-macros --strict-text --quiet
 	# P36 S103: the hand-asm manifest has no drift. It ran ONLY in CI, so a DECOMPILE-NOW row converted by T4 batch tus10
 	# (cb2fb5e6d, 2026-09-09) turned CI red for a day while every local chain stayed green (R54: a guard that is not
 	# running locally is not a guard). Fix a GONE row with `tools/verbatim_check.py --update` (a one-row diff since S103).
