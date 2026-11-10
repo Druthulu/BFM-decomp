@@ -51557,9 +51557,9 @@ groups:
     source: src/shared/ov/cls_881ee524b7a4.h
     func: SHARED_FN
     members:
-      - { binary: ov_SC04_003, vram: 0x8017D698, name: func_8017d698 }
-      - { binary: ov_SC04_005, vram: 0x8017F5E0, name: func_8017f5e0 }
-      - { binary: ov_SC04_007, vram: 0x8017F01C, name: func_8017f01c }
+      - { binary: ov_SC04_003, vram: 0x8017D698, name: func_8017D698_x }
+      - { binary: ov_SC04_005, vram: 0x8017F5E0, name: func_8017D698_x }
+      - { binary: ov_SC04_007, vram: 0x8017F01C, name: func_8017D698_x }
   - id: X_7e8d03210460
     tier: h_exact
     hash: 7e8d03210460e9d7bdcb9199bceebf16c025b886
