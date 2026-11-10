@@ -1,8 +1,8 @@
 {
   "files": {
     ".claude/agents/auditor.md": {
-      "base": "3.30.1",
-      "sha": "662f3dea3575b920b0bf80f8a8ea70a5d023166f31d80701c2a7e1d02cf4f9bb",
+      "base": "3.30.7",
+      "sha": "e280609f48555cbaa2e7ac971208316601b95f35b42f3a89dae0e09ec44895cb",
       "user": null
     },
     ".claude/agents/memory-curator.md": {
@@ -11,13 +11,13 @@
       "user": null
     },
     ".claude/agents/pa-claude.md": {
-      "base": "3.32.14",
-      "sha": "d0ad8d6c4b7cdde51da8c0aa4bc33d25c7b0ff93bf4153a4afcef20cd5b6f5ec",
+      "base": "3.32.22",
+      "sha": "1ad122f8c25d3ebdeeca070620da8810e184f9f3bb838de01026ce88836fd7d2",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
-      "base": "3.32.6",
-      "sha": "7bb7756a97c80b88ff729ed090ea21ef1a1e218e8eaddecffcbc02d9fdcc2c89",
+      "base": "3.32.7",
+      "sha": "2c61d7e4b8d115cde4f1a840d613173fbca2c94ce356c8fe19ce7e8204cf9e51",
       "user": null
     },
     ".claude/agents/pa-expert.md": {
@@ -26,8 +26,8 @@
       "user": null
     },
     ".claude/agents/pa-planner.md": {
-      "base": "3.32.7",
-      "sha": "1b4ac799264c0da685feea977ff99b9a7e756e2bf845ea5994480ec86a1e58fc",
+      "base": "3.32.8",
+      "sha": "b348fa819b384b594a00065d86320cfdcc4da1415dc57c8d5b2902b86b535655",
       "user": null
     },
     ".claude/agents/pa-thinker.md": {
@@ -247,7 +247,7 @@
     },
     "tools/journal_rollup.py": {
       "base": null,
-      "sha": "21011514c1d4cadb37df04c22e15671e3e8dc3a488b89f2c6b570b8b8210783d",
+      "sha": "5ad62ec7c1a0a10897f3f2f6c1c4521d8e2f5858041cfbbf46f86f0f40180e80",
       "user": null
     },
     "tools/launch.py": {
@@ -272,7 +272,7 @@
     },
     "tools/pa_bugreport.py": {
       "base": null,
-      "sha": "19b31b6120f49cf9c43e4caa00419b8bc78dae1d32a9782d9f7f50219f8a6c5f",
+      "sha": "e9ae45e022f51bca70e62885a8f707dd1ace28dab84954dd21d38122e25b08cb",
       "user": null
     },
     "tools/pa_ext.py": {
@@ -337,9 +337,9 @@
     }
   },
   "format": 1,
-  "git": "e8d66e57",
-  "installed": "2026-11-09T01:29:50Z",
+  "git": "332b3e0a",
+  "installed": "2026-11-10T03:27:08Z",
   "package": null,
-  "phase": "3.32.14",
-  "upstream_version": "3.32.14"
+  "phase": "3.32.15",
+  "upstream_version": "3.32.15"
 }

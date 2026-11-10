@@ -5,7 +5,7 @@
   "bash": "bash",
   "upgrade": "auto",
   "mod": "on",
-  "pa_version": "3.11",
+  "pa_version": "3.32.15",
   "project": "bfm-decomp",
   "python": "/usr/bin/python3",
   "installed_at": "2026-09-30T00:53:41Z",
