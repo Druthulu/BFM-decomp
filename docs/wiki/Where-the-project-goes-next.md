@@ -38,7 +38,7 @@ implement — and, ranked first, *"if you are not sure what something does, it i
 wrongly."* To that the project adds four rules of its own, because its code was produced by a machine at scale:
 
 1. **Every name carries evidence** — a string, a cross-reference chain, the debug menu, a live-RAM datapoint, a community
-   label with provenance — recorded the way addresses are. A model may propose a name; it may never assert one.
+   label with provenance — recorded the way addresses are. A model may propose a name; it may never assert one. *Phase 42 (2026-11-08 → 11-10): the machinery, before any name — a names ledger for the evidence, a rename tool, a scanner that asserts every reference rewritten, and a leverage ranking; see [Names and renames](Names-and-renames.md).*
 2. **Every register pin goes**, or stays with a `// !FAKE:` line naming the residual. The count is a published metric until
    it is zero — *Phase 36 (2026-09-09 → 2026-09-11): 53,234 register pins and asm statements → 4,010, every survivor marked with the
    compiler pass that needs it and the instrument that judged it; the rest is the structs phase's (see [levers.md](../levers.md) and
@@ -46,7 +46,7 @@ wrongly."* To that the project adds four rules of its own, because its code was 
    statements), every survivor a row of the cause ledger `config/lever_residue.tsv`. Phase 40 (2026-10-14 → 11-07): 3,364 → 1,853 (974 pins + 879
    asm statements), every survivor walled — its row names the gcc pass that makes the lever necessary, one of 34 tags in
    `config/lever_walls.tsv`.*
-3. **Shared engine functions live as C, not as macros** — *done at Phase 35 (2026-09-08): one plain-C header per shared body under `src/shared/`, included at each site; see [The dedup engine](The-dedup-engine.md)* — the dedup engine's macro bodies become `.c` files per system,
+3. **Shared engine functions live as C, not as macros** — *done at Phase 35 (2026-09-08): one plain-C header per shared body under `src/shared/`, included at each site; see [The dedup engine](The-dedup-engine.md). Phase 42 (2026-11-08 → 11-10): the 3,801 groups whose copies sit at different addresses, deferred then, → 3,214 shared through one header each with the copy's name as a parameter, 12 covered by a twin and 575 ledgered with a measured reason in `config/dedup_exceptions.tsv`; the twenty trampoline families' 133 private copies each → 0* — the dedup engine's macro bodies become `.c` files per system,
    byte-neutrally, proven per family.
 4. **Types come from the code, names from observation** — structure from the access patterns the compiler locked into the
    bytes; the 1,232 struct definitions unified before any field is named. *Phase 39 (2026-10-01 → 10-03): raw cast dereferences

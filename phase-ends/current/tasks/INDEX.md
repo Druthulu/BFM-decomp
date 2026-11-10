@@ -10,3 +10,4 @@ T7 | done | share the 20 scratchpad trampoline families | - | tasks/T7.md | logs
 T8 | done | leverage ranking of data symbols and functions, with its denominator | - | tasks/T8.md | logs/T8.md | R3.42-003,R3.42-006
 T9 | done | the record: cookbook, decision log, levers prose, wiki, tool index, kit corpus, snapshot skill | - | tasks/T9.md | logs/T9.md | -
 T10 | done | milestone gate (Phase 3.42) | - | tasks/T10.md | logs/T10.md | -
+T11 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.42) | - | tasks/T11.md | logs/T11.md | R3.42-007
