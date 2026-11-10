@@ -11,3 +11,4 @@
      or an earlier phase, or an id not in GENERATION_PLAN.md, routes now. -->
 
 - <note, correction, priority change, or question>
+- -> 3.44 The 356 older non-void functions with no `return` (or only a bare `return;`) left after 3.43 T3, which did only the 38 that 3.41's 112c3e4eb9 flipped (developer 2026-11-10, option A). Scan at HEAD 50da691580: 394 names / 9,009 defs; 67 names have 110-140 overlay copies (~8,600 sites), 311 are single-def. Each needs a byte-neutral `return <expr>;` or a comment saying what $v0 holds at exit; most tail-call void callees, so comments dominate. The list is kept by T3 in docs/ops/ (see T3's summary).
