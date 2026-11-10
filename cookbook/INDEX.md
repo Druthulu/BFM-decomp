@@ -1014,3 +1014,4 @@ C0561 | Independent reloc-count controls: a fleet-unique control symbol; objdump
 C0562 | Generated doc with byte-for-byte --check: no volatile provenance; new docs need a Reference-index row | docs,generated,check,doc_links,tools-health | 2026-11-10 | 3.42/T8 | -
 C0563 | A share batch lowers lever/cast site counts by counting a header once, not by removing sites | share,dedup,lever,census,metrics | 2026-11-10 | 3.42/T9 | P3.42 T9 levers prose
 C0564 | Prove a rename's Ghidra mirror in a scratch project, live DB untouched | ghidra,rename,symbol,proof,worktree | 2026-11-10 | 3.42/T10 | P3.42 T10
+C0565 | join a leverage unit to dedup groups and sig instances (two group forms; rename_sym reads members only) | rename,dedup,leverage,class,join | 2026-11-10 | 3.43/T1 | -
