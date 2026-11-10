@@ -131,6 +131,7 @@ counted, not marked). E, F and G belong to the canonical type layer and are the 
 | 2026-11-06 | P40 T11 | 984 | 879 | **1863** | 854 | 420 | 0 | 1 | 1056 | 50 | 5983 | 301 | 26 | `3d21428618` |
 | 2026-11-07 | P3.40 close | 974 | 879 | **1853** | 852 | 418 | 0 | 1 | 1056 | 50 | 5983 | 301 | 26 | `aace727c4c` |
 | 2026-11-08 | P3.41 T10: milestone gate | 974 | 879 | **1853** | 852 | 418 | 0 | 1 | 1056 | 50 | 5983 | 301 | 26 | `f4b1fbad3d` |
+| 2026-11-10 | P3.42 T10: milestone gate (de-dup drop, levers.md §7) | 971 | 879 | **1850** | 851 | 417 | 0 | 1 | 1056 | 50 | 5975 | 300 | 26 | `2cb3493055` |
 
 ### The campaign — every batch, from the ledger (derived on every render)
 

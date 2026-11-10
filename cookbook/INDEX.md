@@ -1013,3 +1013,4 @@ C0560 | sys.exit in a multiprocessing.Pool worker hangs Pool.map; raise instead 
 C0561 | Independent reloc-count controls: a fleet-unique control symbol; objdump -r lacks REL addends | reloc,objdump,controls,leverage,symbol | 2026-11-10 | 3.42/T8 | -
 C0562 | Generated doc with byte-for-byte --check: no volatile provenance; new docs need a Reference-index row | docs,generated,check,doc_links,tools-health | 2026-11-10 | 3.42/T8 | -
 C0563 | A share batch lowers lever/cast site counts by counting a header once, not by removing sites | share,dedup,lever,census,metrics | 2026-11-10 | 3.42/T9 | P3.42 T9 levers prose
+C0564 | Prove a rename's Ghidra mirror in a scratch project, live DB untouched | ghidra,rename,symbol,proof,worktree | 2026-11-10 | 3.42/T10 | P3.42 T10
