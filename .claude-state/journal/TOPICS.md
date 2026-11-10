@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-10T01:32:54.981Z
+# filed through: 2026-11-10T03:33:45.739Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -92,10 +92,12 @@ R88 | 2026-11-08 | decision | retired by .claude-state/journal/2026-11-08.md#172
 R89 | 2026-11-08 | finding | in force | Phase 3.42 planning | The P3.41-1 item lives in phase-ends/PhaseEnd_Phase3.41.md:191-193 (Deferred, "from T13 ... | .claude-state/journal/2026-11-08.md#164934-005r-claude-record
 R90 | 2026-11-08 | open | retired by .claude-state/journal/2026-11-08.md#172904-014r-claude-record (the 3.42 draft was presented and approved) | Phase 3.42 planning | The 3.42 draft is pending from the planner -> Claude presents it with plan (kind phase) when it ret… | .claude-state/journal/2026-11-08.md#164934-005r-claude-record
 R91 | 2026-11-08 | decision | in force | Phase 3.42 plan | T10 may stop the MCP Ghidra once with tools/ghidra_mcp_stop.sh (clean save+stop, never a kill) for… | .claude-state/journal/2026-11-08.md#172904-014r-claude-record
-R92 | 2026-11-08 | decision | in force | Phase 3.42 plan | Shared-form stop rule is 0 left. | .claude-state/journal/2026-11-08.md#172904-014r-claude-record
+R92 | 2026-11-08 | decision | superseded by R99 | Phase 3.42 plan | Shared-form stop rule is 0 left. | .claude-state/journal/2026-11-08.md#172904-014r-claude-record
 R93 | 2026-11-08 | finding | in force | Phase 3.42 plan | P3.41-1 is triaged into 3.42 T10: the cast check against the series census (.run/P39/census) runs b… | .claude-state/journal/2026-11-08.md#172904-014r-claude-record
 R94 | 2026-11-08 | finding | in force | Phase 3.42 plan | An MCP "failed to connect" in Claude Code does not mean Ghidra is stopped. | .claude-state/journal/2026-11-08.md#172904-014r-claude-record
 R95 | 2026-11-08 | decision | in force | Kit corpus records | Leave it as is. | .claude-state/journal/2026-11-08.md#181631-021r-claude-record
 R96 | 2026-11-08 | open | retired by .claude-state/journal/2026-11-08.md#184852-008r-claude-record (the developer said go after his restart, and T1 resumed (attempt 2)) | Phase 3.42 T1 pause for a Claude Code restart | T1 is paused for the developer's Claude Code restart -> on his word, Claude calls release({hold: "s… | .claude-state/journal/2026-11-08.md#181631-021r-claude-record
-R97 | 2026-11-09 | finding | in force | Phase 3.42 T6 shared-form cross sweep | As of 2026-11-09 11:42, T6.c3's cycle (share_body_cycle.sh 21 40 2 cross, log .run/3.42/share/t6c3_… | .claude-state/journal/2026-11-09/115822-029r-claude-record.md
-R98 | 2026-11-09 | finding | in force | Phase 3.42 T6 shared-form cross sweep | Batches 21 and 22 rejected 50 classes between them. | .claude-state/journal/2026-11-09/115822-029r-claude-record.md
+R97 | 2026-11-09 | finding | retired by .claude-state/journal/2026-11-09/204902-007r-claude-record.md (a progress snapshot of the T6.c3 cycle, overtaken by T6's stop) | Phase 3.42 T6 shared-form cross sweep | As of 2026-11-09 11:42, T6.c3's cycle (share_body_cycle.sh 21 40 2 cross, log .run/3.42/share/t6c3_… | .claude-state/journal/2026-11-09/115822-029r-claude-record.md
+R98 | 2026-11-09 | finding | retired by .claude-state/journal/2026-11-09/204902-007r-claude-record.md (superseded by the full T6 remainder count (729) and the developer's option-A decision) | Phase 3.42 T6 shared-form cross sweep | Batches 21 and 22 rejected 50 classes between them. | .claude-state/journal/2026-11-09/115822-029r-claude-record.md
+R99 | 2026-11-09 | decision | in force | Phase 3.42 T6 shared-form cross sweep | R92 is amended in the same way as 3.41's return lies. | .claude-state/journal/2026-11-09/204902-007r-claude-record.md
+R100 | 2026-11-09 | finding | in force | Phase 3.42 T6 shared-form cross sweep | T6's remainder by measured reason (an upper bound, since a class was skipped after one red batch an… | .claude-state/journal/2026-11-09/204902-007r-claude-record.md
