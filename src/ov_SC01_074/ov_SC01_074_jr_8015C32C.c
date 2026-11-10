@@ -2706,11 +2706,9 @@ void func_8015F9A4(void *arg0) {
 
 
 
-void func_8015FAAC(s32 *a0) {
-
-    extern void (*D_80180FDC[])(void);
-    D_80180FDC[CAST_SIGN(u16, (s32)a0, 0x2)]();
-}
+#define SHARED_FN func_8015FAAC
+#include "../shared/ov/cls_b205b61b0c4f.h"
+#undef SHARED_FN
 
 
 
@@ -4784,9 +4782,9 @@ void func_801663FC(void *a0) {
 
 extern void (*D_801815A8[])(void);
 
-void func_80166618(void *a0) {
-    D_801815A8[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80166618
+#include "../shared/ov/cls_e277c5957ae1.h"
+#undef SHARED_FN
 
 
 
@@ -5696,9 +5694,9 @@ extern void (*D_80181604[])(void);
 
 extern void (*D_8018160C[])(void);
 
-void func_8016901C(void *a0) {
-    D_8018160C[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016901C
+#include "../shared/ov/cls_cb62e58b3038.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80169058.h"
@@ -5710,9 +5708,9 @@ void func_8016901C(void *a0) {
 
 extern void (*D_80181614[])(void);
 
-void func_801693CC(void *a0) {
-    D_80181614[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_801693CC
+#include "../shared/ov/cls_9b433ccb3bc8.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80169408.h"

@@ -5965,11 +5965,9 @@ extern void func_800D22E4(s32 a0);
 
 
 
-void func_80166618(void *a0) {
-
-    extern void (*D_8018D3BC[])(void);
-    D_8018D3BC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80166618
+#include "../shared/ov/cls_965c4814c865.h"
+#undef SHARED_FN
 
 
 
@@ -6453,11 +6451,9 @@ extern s32 rand(void);
 
 
 
-void func_801678B4(void *a0) {
-
-    extern void (*D_8018D3DC[])(void);
-    D_8018D3DC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_801678B4
+#include "../shared/ov/cls_e8ce366d49c1.h"
+#undef SHARED_FN
 
 
 // @class: plumbing
@@ -6997,11 +6993,9 @@ void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 
 
 
-void func_80168D58(void *a0) {
-
-    extern void (*D_8018D418[])(void);
-    D_8018D418[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80168D58
+#include "../shared/ov/cls_683b0b56994c.h"
+#undef SHARED_FN
 
 
 extern void RotMatrixYXZ(void *a0, void *a1);

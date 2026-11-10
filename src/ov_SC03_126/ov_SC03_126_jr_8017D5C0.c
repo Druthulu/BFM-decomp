@@ -3057,7 +3057,9 @@ s32 func_8017EFA0(s32 param_1)
 
 
 
-#include "../shared/ov/func_8017F154__b6bbf0a0.h"
+#define SHARED_FN func_8017F154
+#include "../shared/ov/cls_b6bbf0a0bb12.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8017F190__efda0d44.h"

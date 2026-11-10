@@ -2571,11 +2571,9 @@ extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h
 
 
 
-void func_80151944(void *a0) {
-
-    extern void (*D_80186630[])(void);
-    D_80186630[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80151944
+#include "../shared/ov/cls_82dd8c9e3d30.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_80151980.h"
@@ -2728,9 +2726,9 @@ void func_801523F4(s32 arg0)
 
 extern void (*D_80186694[])(void);
 
-void func_80152698(void *a0) {
-    D_80186694[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_80152698
+#include "../shared/ov/cls_4d0c1af2e607.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_801526D4.h"

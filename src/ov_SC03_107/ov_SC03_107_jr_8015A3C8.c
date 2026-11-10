@@ -8741,11 +8741,9 @@ L3:
 
 
 
-void func_8016A700(void *a0) {
-
-    extern void (*D_801855CC[])(void);
-    D_801855CC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016A700
+#include "../shared/ov/cls_2e168f055197.h"
+#undef SHARED_FN
 
 
 extern void func_80048EAC(void *a0, void *a1);

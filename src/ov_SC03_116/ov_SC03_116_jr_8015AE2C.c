@@ -1768,11 +1768,9 @@ join:
 
 
 
-void func_8015BE38(struct Obj *a0) {
-
-    extern void (*D_801850C0[])(void);
-    D_801850C0[((Unkstruct_8015BE38 *)a0)->unk2]();
-}
+#define SHARED_FN func_8015BE38
+#include "../shared/ov/cls_f4ff075762b5.h"
+#undef SHARED_FN
 
 
 #include "../shared/ov/func_8015BE74.h"

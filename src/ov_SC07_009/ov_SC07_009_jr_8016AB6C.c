@@ -2345,9 +2345,9 @@ s32 func_8016B9F8(s32 param_1)
 
 extern void (*D_80180FDC[])(void);
 
-void func_8016BBA4(void *a0) {
-    D_80180FDC[((Unkstruct_80126B58 *)a0)->unk2]();
-}
+#define SHARED_FN func_8016BBA4
+#include "../shared/ov/cls_b205b61b0c4f.h"
+#undef SHARED_FN
 
 
 // @class: plumbing
