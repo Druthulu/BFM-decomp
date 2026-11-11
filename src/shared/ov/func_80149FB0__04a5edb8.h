@@ -3,7 +3,7 @@
 s32 func_80149FB0(s32 a0) {
     s32 *p = &D_8018067C[0];
     s32 v = *p;
-    u8 *q = &D_80078E78[0];
+    u8 *q = &guess_g_PlayerRecord[0];
     s32 loc;
 
     if (v != 0) {

@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
 extern void func_801458E8(void);
@@ -31,7 +31,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -369,7 +369,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018EDCC[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -758,7 +758,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018EF48;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1091,7 +1091,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801E5BF0;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1108,7 +1108,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018F620[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1369,7 +1369,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -3628,7 +3628,7 @@ s32 func_80188428(void) {
  *    then hoists.  A COMPONENT_REF goes through get_inner_reference instead,
  *    whose offset is force_reg'd, giving (plus SYMBOL_REF reg) — the legitimate
  *    assembler-macro form `lh $v0, D_80115158($v0)` that maspsx expands to
- *    lui/addu/lh %lo.  (Same reason `D_800AE7BC[i].ot` already worked.)
+ *    lui/addu/lh %lo.  (Same reason `guess_g_FrontOrderingTablesOrg[i].ot` already worked.)
  *    Cookbook index entry: "an extra `la` / the address hoisted into a
  *    callee-saved register across calls" -> §20 + gcc-2.7.2-map/cse_expr.md §H.
  *
@@ -3690,8 +3690,8 @@ s32 func_80188428(void) {
 
 void func_80188778(void) {
     extern u16   aD800B9A02 __asm__("D_800B9A02");  /* §37: the unsigned-access alias */
-    extern Env_S40_8018B238_80188778    D_800AE7B8[];
-    extern Env_S40_8018B238_80188778    D_800AE7BC[];
+    extern Env_S40_8018B238_80188778    guess_g_FrontOrderingTables[];
+    extern Env_S40_8018B238_80188778    guess_g_FrontOrderingTablesOrg[];
     extern struct { s32 v; }   D_801151D0;
     extern Panel_S40_8018B238_80188778 *D_80115134;
     extern s16                 D_801E7794;
@@ -3715,7 +3715,7 @@ void func_80188778(void) {
     volatile u16 *pbh;
 
     w  = D_80115134;
-    ot = (s32 *)func_80137D08(D_801151D0.v, (int)&D_800AE7B8[aD800B9A02], 2);
+    ot = (s32 *)func_80137D08(D_801151D0.v, (int)&guess_g_FrontOrderingTables[aD800B9A02], 2);
 
     /* Two full calls, not a ternary: gcc cross-jumps only the trailing
        `addiu $a3,1` + `jal`, which is why a0/a1/sp+0x10 are duplicated. */
@@ -3725,7 +3725,7 @@ void func_80188778(void) {
         ot = (s32 *)func_800D27DC(2, ot, D_801B8AA0, 1, 0);
     }
 
-    ot = (s32 *)func_8013AB54((s32)ot, (s32)(D_800AE7BC[aD800B9A02].ot + 2),
+    ot = (s32 *)func_8013AB54((s32)ot, (s32)(guess_g_FrontOrderingTablesOrg[aD800B9A02].ot + 2),
                               (s32)D_801B9408, 0);
 
     if (D_80115126 == 3) {
@@ -3758,8 +3758,8 @@ void func_80188778(void) {
     pbh = (u16 *)&D_800B9A02;
     ((W_S40_8018B238_80188778 *)ot)->w = 0x02000000;
     ((PTag_S40_8018B238_80188778 *)ot)->addr =
-        ((PTag_S40_8018B238_80188778 *)(D_800AE7BC[*pbh].ot + 2))->addr;
-    ((PTag_S40_8018B238_80188778 *)(D_800AE7BC[*pbh].ot + 2))->addr = (u32)ot;
+        ((PTag_S40_8018B238_80188778 *)(guess_g_FrontOrderingTablesOrg[*pbh].ot + 2))->addr;
+    ((PTag_S40_8018B238_80188778 *)(guess_g_FrontOrderingTablesOrg[*pbh].ot + 2))->addr = (u32)ot;
     ot += 10;
     D_801151D0.v = (s32)ot;
 }

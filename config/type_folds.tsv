@@ -25,7 +25,7 @@ Unkstruct_8016DF5C	define	Unkstruct_8016DF5C	flow-cluster	no entity evidence for
 Unkstruct_568f7bda	define	Unkstruct_8016C998	single-fn	no entity evidence for an existing type; 125 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_cd1bacd2	define	Unkstruct_8016C188	single-fn	no entity evidence for an existing type; 126 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_8011F7A8	define	Unkstruct_8011F7A8	E2-anchor	st = (s32)&D_8011F7A8 (func_80176218, func_80176734)
-Unkstruct_9928c710	fold	Unkstruct_80078E78	E2-anchor	func_80176218 cur = (s32)&D_80078E78
+Unkstruct_9928c710	fold	Unkstruct_80078E78	E2-anchor	func_80176218 cur = (s32)&guess_g_PlayerRecord
 Unkstruct_57db4d07	residual	TYPE-NO-LAYOUT	layout	fields 13 conflicts 13 size 0
 Unkstruct_4692fc17	define	Unkstruct_80164930	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_d77ead3e	residual	TYPE-UNION	layout	fields 6 conflicts 6 size 84
@@ -35,7 +35,7 @@ Unkstruct_645b745d	residual	TYPE-NO-MEMBER	swept	T2.c4: def Unkstruct_8015DCB8 p
 Unkstruct_23e45db5	define	Unkstruct_80134C20	single-fn	no entity evidence for an existing type; 126 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_8016BFA8	residual	TYPE-NO-LAYOUT	layout	fields 0 conflicts 0 size 0
 Unkstruct_b5c0372a	define	Unkstruct_801670E4	single-fn	no entity evidence for an existing type; 131 bodies 1 fns; best layout match recorded by T2 only
-Unkstruct_0980b9f0	fold	Unkstruct_80078E78	E2-anchor	func_80176734 cur = (s32)&D_80078E78
+Unkstruct_0980b9f0	fold	Unkstruct_80078E78	E2-anchor	func_80176734 cur = (s32)&guess_g_PlayerRecord
 Unkstruct_47470ce3	define	Unkstruct_801407F4	single-fn	no entity evidence for an existing type; 117 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_d12e3a28	define	Unkstruct_8012C890_2	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_801345F8	residual	TYPE-UNION	layout	fields 6 conflicts 5 size 18

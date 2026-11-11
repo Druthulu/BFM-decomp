@@ -3382,8 +3382,8 @@ extern void func_80188034(s32 a0);
 void func_80187E08(s32 param_1)
 {
     extern u8  guess_g_CameraWsMatrix;
-    extern u16 D_800AF7BC;
-    extern u16 D_800AF7BE;
+    extern u16 guess_g_ScreenWidth;
+    extern u16 guess_g_ScreenHeight;
     extern s32 *D_80195FC0[];
 
     s32 mtx;
@@ -3412,13 +3412,13 @@ void func_80187E08(s32 param_1)
     gte_stflg(&flag);
 
     xt = sxy[0];
-    lim = ((u32)D_800AF7BC >> 1) + 0x20;
+    lim = ((u32)guess_g_ScreenWidth >> 1) + 0x20;
     ok2 = -(s32)lim < xt;
     if (ok2) {
         ok2 = xt < lim;
         if (ok2) {
             yt = sxy[1];
-            lim2 = ((u32)D_800AF7BE >> 1) + 0x20;
+            lim2 = ((u32)guess_g_ScreenHeight >> 1) + 0x20;
             ok2 = -(s32)lim2 < yt;
             if (ok2) {
                 ok2 = yt < lim2;

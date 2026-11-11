@@ -33,7 +33,7 @@ extern void func_800CEFD0(void);
 extern s32 D_80114E98;
 extern s32 D_80114E9C;
 extern void (*D_800D3488[])(void);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern s32 D_800A651C[];
 extern void func_8001B85C(void);
 extern s32  func_8001B86C(s32);
@@ -169,7 +169,7 @@ extern s32 func_800D10C8(s32);
 extern s32 func_800D109C(void);
 extern s16 D_8010EDEE;
 extern s32 func_800D10C8(s32 arg0);
-extern Struct80078E78 D_80078E78;
+extern Struct80078E78 guess_g_PlayerRecord;
 extern u8 D_8010EDF0;
 extern u8 D_8010EDF1;
 extern void func_800D10EC(void);
@@ -462,9 +462,9 @@ s32 func_800D1714(void) {
     return D_80078E50;
 }
 
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 void func_800D1724(s32 arg0) {
-    D_800AE6B0 = arg0;
+    guess_g_CurrentEvent = arg0;
 }
 
 extern s32 D_800AE6A8;
@@ -485,10 +485,10 @@ void func_800D1744(s32 arg0) {
  * (*p = 0) after the call. Writing the access through an explicit `s32 *p = &D_800AE6A8`
  * forces gcc-2.7.2 -O2 to compute the symbol address once (lui+addiu into s0) and reuse
  * it; the plain-global form re-materialised lui each time (no s0, frame 2 ins short).
- * D_800AE6A8/D_800AE6B0 are s32 (setters func_800D1734/func_800D1724). The 2nd call reuses
- * a0=temp (== D_800AE6B0 just stored). func_800D17B8 returns s32 (no andi after the jals).
+ * D_800AE6A8/guess_g_CurrentEvent are s32 (setters func_800D1734/func_800D1724). The 2nd call reuses
+ * a0=temp (== guess_g_CurrentEvent just stored). func_800D17B8 returns s32 (no andi after the jals).
  */
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s32 D_800AE6A8;
 extern s32 func_800D17B8(s32 arg0);
 
@@ -496,11 +496,11 @@ void func_800D1754(void) {
     s32 *p = &D_800AE6A8;
     s32 temp;
 
-    if (func_800D17B8(D_800AE6B0) == 0) {
+    if (func_800D17B8(guess_g_CurrentEvent) == 0) {
         temp = *p;
         if (temp != 0) {
             *p = 0;
-            D_800AE6B0 = temp;
+            guess_g_CurrentEvent = temp;
             func_800D17B8(temp);
         }
     }
@@ -666,7 +666,7 @@ s32 func_800D19DC(void) {
 extern u8 D_80126BA6;
 extern s16 currentLocationId;
 extern s32 D_80114EA8;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s32 D_800AE6A8;
 extern void func_8001BE20(void);
 extern s32 func_8001BE30(void);
@@ -701,7 +701,7 @@ s32 func_800D19F0(void) {
             return 0;
         }
         D_80114EA8 = D_80114EA8 + 1;
-        if ((D_800AE6B0 & 0x1000000) == 0) {
+        if ((guess_g_CurrentEvent & 0x1000000) == 0) {
             func_800CF8E4();
         }
     }
@@ -808,7 +808,7 @@ s32 DsMix(void) {
 // ANALYSIS (re-derived instruction-by-instruction):
 //
 // PROLOGUE (the key fix vs the prior draft = ORDER):
-//   v1 = D_800AE6B0 & 0x80FFFFFF                 lw + and  (struct ptr)
+//   v1 = guess_g_CurrentEvent & 0x80FFFFFF                 lw + and  (struct ptr)
 //   fp = *(void(**)(void))(v1 + 0x1C)            lw 0x1C(v1)   -- LOAD the fn ptr FIRST
 //   p  = &D_800AE6A8                             la (set up early, used at the tail)
 //   D_800B9A0E = 0                               sh  -- store AFTER the fn-ptr load,
@@ -839,11 +839,11 @@ s32 DsMix(void) {
 //   if (*(s32*)(p + 8) & 0x1000000) p[0x17] = 1; else p[0x17] = 0;
 //
 // Widths/types (COPIED from already-matched resident.c):
-//   D_800AE6B0 = s32 (func_800D1724 stores arg0)  -> lw + and 0x80FFFFFF -> struct base.
+//   guess_g_CurrentEvent = s32 (func_800D1724 stores arg0)  -> lw + and 0x80FFFFFF -> struct base.
 //   D_800AE6A8 = s32 (func_800D1734 stores arg0)  -> &D_800AE6A8 is a struct/array base
 //                here, fields at +8 (lw=s32) and +0x17 (sb=u8); take its address as u8*.
 //   D_800B9A0E = s16 (func_800D1764/.. stores 1/2).
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s32 D_800AE6A8;
 extern s16 D_800B9A0E;
 
@@ -864,7 +864,7 @@ void func_800D1BF8(void) {
     void (*fp)(void);
     s32 a0val;
 
-    fp = *(void (**)(void))((D_800AE6B0 & 0x80FFFFFF) + 0x1C);
+    fp = *(void (**)(void))((guess_g_CurrentEvent & 0x80FFFFFF) + 0x1C);
     D_800B9A0E = 0;
     fp();
     func_800D1D24();
@@ -1336,7 +1336,7 @@ void func_800D24A0(s16 arg0) {
     extern void func_8002D4C8(s32, s32);
     extern u16 D_800B9A02;
     extern u8 D_800B9A13;
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern u8 D_8007BA70[];
     extern u8 D_800856B0[];
     extern u16 D_80115112;
@@ -1357,8 +1357,8 @@ void func_800D24A0(s16 arg0) {
     func_80018FC8();
     func_800596F4(0);
 
-    src = (u32 *)&D_800A6518[(D_800B9A02 ^ 1) * 20];
-    dst = (u32 *)&D_800A6518[D_800B9A02 * 20];
+    src = (u32 *)&guess_g_OrderingTables[(D_800B9A02 ^ 1) * 20];
+    dst = (u32 *)&guess_g_OrderingTables[D_800B9A02 * 20];
     for (i = 0; i < 5; i++) {
         *dst++ = *src++;
     }
@@ -1402,7 +1402,7 @@ void func_800D2624(void) {
          /* 0x14 stride */
 
 
-#define OT_800D2650             (D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot)
+#define OT_800D2650             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot)
 #define getaddr_800D2650(t)     (((PTag_800D2650 *)(t))->addr)
 #define setaddr_800D2650(t, v)  (((PTag_800D2650 *)(t))->addr = (u32)(v))
 #define addPrim_800D2650(ot, p) (setaddr_800D2650(p, getaddr_800D2650(ot)), \
@@ -1410,7 +1410,7 @@ void func_800D2624(void) {
 
 u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int a5, u32 a6)
 {
-    extern Env_800D2650 D_800AE7BC[];
+    extern Env_800D2650 guess_g_FrontOrderingTablesOrg[];
     extern short D_800B9A02;
 
     register int cw __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
@@ -1499,7 +1499,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
  *     (0xFF000000 born first), and every downstream register then walks.
  *
  *  3. OT_800D27DC is a MACRO and `ot` is DOUBLE-EVALUATED exactly as libgpu's addPrim does
- *     => the two independent `lhu 0($s1)` + `lui %hi(D_800AE7BC)` index recomputations.
+ *     => the two independent `lhu 0($s1)` + `lui %hi(guess_g_FrontOrderingTablesOrg)` index recomputations.
  *     A named `ot` local would be one pseudo for the whole fn (no live-range splitting in
  *     gcc-2.7.2) and collapse them.
  *
@@ -1530,7 +1530,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
  *   u pair, v pair  -> CHAINED   (the target's `addu $v0,$a0,$zero` / `addu $v0,$a1,$zero`)
  *
  * Symbols hand-checked against asm/resident/nonmatchings/resident/func_800D27DC.s: 6 relocs,
- * same offsets/symbols/order — HI16+LO16 D_800B9A02 @0x4C/0x50, HI16+LO16 D_800AE7BC
+ * same offsets/symbols/order — HI16+LO16 D_800B9A02 @0x4C/0x50, HI16+LO16 guess_g_FrontOrderingTablesOrg
  * @0x18C/0x194 and @0x1D0/0x1D8; the two R_MIPS_26 are the internal j edges.  No jal.
  *
  * BANKING NOTE: src/resident/resident.c already defines file-scope `PTag_800D29F8` and
@@ -1550,7 +1550,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
 
          /* 0x14 stride */
 
-#define OT_800D27DC             (D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot)
+#define OT_800D27DC             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot)
 #define getaddr_800D27DC(t)     (((PTag_800D27DC *)(t))->addr)
 #define setaddr_800D27DC(t, v)  (((PTag_800D27DC *)(t))->addr = (u32)(v))
 #define addPrim_800D27DC(ot, p) (setaddr_800D27DC(p, getaddr_800D27DC(ot)), \
@@ -1558,7 +1558,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
 
 u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 {
-    extern Env_800D27DC D_800AE7BC[];
+    extern Env_800D27DC guess_g_FrontOrderingTablesOrg[];
     extern short D_800B9A02;
 
     s16 i;
@@ -1676,7 +1676,7 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 
          /* 0x14 stride */
 
-#define OT_800D29F8             (D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot)
+#define OT_800D29F8             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot)
 #define getaddr_800D29F8(t)     (((PTag_800D29F8 *)(t))->addr)
 #define setaddr_800D29F8(t, v)  (((PTag_800D29F8 *)(t))->addr = (u32)(v))
 #define addPrim_800D29F8(ot, p) (setaddr_800D29F8(p, getaddr_800D29F8(ot)), \
@@ -1684,7 +1684,7 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 
 u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
 {
-    extern Env_800D29F8 D_800AE7BC[];
+    extern Env_800D29F8 guess_g_FrontOrderingTablesOrg[];
     extern short D_800B9A02;
 
     u32 *q;

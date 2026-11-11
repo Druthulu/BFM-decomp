@@ -4,8 +4,8 @@ void func_80175AB8(param_1)
     s16 param_1;
 {
    /* size 0x0C */
-    extern S_AF634 D_800AF634[];
-    extern S_AF634 D_800AF638[];
+    extern S_AF634 guess_g_PacketBufferUsed[];
+    extern S_AF634 guess_g_PacketBufferBase[];
 
     extern u8  D_8011F7F0;
     extern u16 D_8011F7B4;
@@ -40,7 +40,7 @@ void func_80175AB8(param_1)
     s32 idx;
     s16 sv;
 
-    p = (u32 *)(D_800AF638[param_1].g0 + D_800AF634[param_1].g0 * 4);
+    p = (u32 *)(guess_g_PacketBufferBase[param_1].g0 + guess_g_PacketBufferUsed[param_1].g0 * 4);
     base = &D_8011F7F0;
     arr = base - 0x48;
     slot = (u32 *)(param_1 * 4 + (s32)arr);
@@ -71,5 +71,5 @@ void func_80175AB8(param_1)
     *p = (((u32)p - 0x14) & 0xFFFFFF) | 0x2000000;
     slot[8] = (u32)p;
     p += 5;
-    D_800AF634[param_1].g0 += ((s32)p - (s32)slot[6]) >> 2;
+    guess_g_PacketBufferUsed[param_1].g0 += ((s32)p - (s32)slot[6]) >> 2;
 }

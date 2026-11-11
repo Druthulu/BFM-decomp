@@ -2,7 +2,7 @@
  * exemplar src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c:2928 · rank 1/4 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(void *a0) {
     if (func_8014C050((s32)a0, 0x19) == 0) {
-        D_800AE6BD = D_800AE6BD + 1;
+        guess_g_EventSubStep = guess_g_EventSubStep + 1;
         func_80171928(a0);
     }
 }

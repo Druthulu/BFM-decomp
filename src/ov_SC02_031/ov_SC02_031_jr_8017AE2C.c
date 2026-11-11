@@ -10,7 +10,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -37,7 +37,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -758,7 +758,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_801869A4;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1093,7 +1093,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801B6448;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1110,7 +1110,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018707C[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1371,7 +1371,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -4621,7 +4621,7 @@ extern s32  func_80143970(s32 a0);
 
 void func_8017E39C(void *a0) {
 
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern s16 D_801B7828;
     extern u8  D_80188C14[];
     extern u8  D_80188AE8[];
@@ -4629,10 +4629,10 @@ void func_8017E39C(void *a0) {
     extern u8  D_80188B1C[];
     extern s32 D_801B782C;
     extern s32 D_801B7830;
-    /* §17 base-pointer cache: the D_80078E78 base is read ONCE at +0x1A but the original
+    /* §17 base-pointer cache: the guess_g_PlayerRecord base is read ONCE at +0x1A but the original
        still pinned it in callee-saved $s1 across the first call -- that only happens when
-       the base is a pointer LOCAL, not a direct D_80078E78[0x1A] (which folds %lo per use). */
-    u8 *p = D_80078E78;
+       the base is a pointer LOCAL, not a direct guess_g_PlayerRecord[0x1A] (which folds %lo per use). */
+    u8 *p = guess_g_PlayerRecord;
     s32 t;
 
     if ((u8)guess_TestGameFlag(D_80188C14[((Unkstruct_800B5CB8 *)a0)->unk70]) != 0 ||
@@ -5318,10 +5318,10 @@ extern void func_8012C218(void*);
 void func_8017F24C(s32 a0)
 {
 
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern s32 D_80188BF4;
     s32 s0 = a0;
-    u8 *v1 = D_80078E78;
+    u8 *v1 = guess_g_PlayerRecord;
     s32 v0;
 
     if (((Unkstruct_800B5CB8 *)s0)->unk100 != 0) {
@@ -5520,7 +5520,7 @@ void func_8017F5B4(s32 arg0, s32 arg1, s32 arg2)
     extern void func_80052E38(MATRIX2 *);
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
 
     DVECTOR2 tmpxy[4];
     SVECTOR2 box[8];
@@ -5564,7 +5564,7 @@ void func_8017F5B4(s32 arg0, s32 arg1, s32 arg2)
     u32 uvw;
     s32 amb;
 
-    base = D_800AF630;
+    base = guess_g_RenderWork;
 
     if (((Unkstruct_8017F590_2 *)arg0)->unk0 != 0) {
         return;
@@ -7307,9 +7307,9 @@ void func_801832D0(s32 arg0, s32 arg1) {
 }
 
 
-extern u8 D_80078EAF;
+extern u8 guess_g_DayPeriod;
 s32 func_801832F4(void) {
-    switch (D_80078EAF) {
+    switch (guess_g_DayPeriod) {
         case 4: return 0x3C;
         default: return 0xA;
     }

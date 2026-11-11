@@ -1,7 +1,7 @@
 /* func_801596F0 — shared body (overlay slot 0x80128158, h_exact 65664140). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_801596F0(s32 param_1) {
-    u8 *base = &(*(u8 *)&D_800AF630);
+    u8 *base = &(*(u8 *)&guess_g_RenderWork);
     s32 v;
     u32 *p;
     u32 *q;
@@ -20,7 +20,7 @@ s32 func_801596F0(s32 param_1) {
 
         if ((u32 *)(base + 0x2A8) < (u32 *)(base + 0x65A8)) {
             u32 orc = 0x80000000;
-            u32 *ab = D_800AFAE8;
+            u32 *ab = guess_g_PlayerModelObject;
             q = (u32 *)(base + 0x2AC);
             do {
                 if (q < ab + 1 || q >= ab + 0x22) {

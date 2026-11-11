@@ -33,7 +33,7 @@ extern void func_800CEFD0(void);
 extern s32 D_80114E98;
 extern s32 D_80114E9C;
 extern void (*D_800D3488[])(void);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern s32 D_800A651C[];
 extern void func_8001B85C(void);
 extern s32  func_8001B86C(s32);
@@ -503,12 +503,12 @@ void func_800D06CC(void) {
  * An explicit flag temp makes the subtraction and the flag share the temp's pseudo ->
  * the target's `addiu $v0,$v1,-0x64 ; sltiu $v0,$v0,0x1E ; xori $s1,$v0,1`.
  *
- * D_80078E78: this TU file-scope-defines `Struct80078E78` as {u8 pad[0x34]; s16} for
+ * guess_g_PlayerRecord: this TU file-scope-defines `Struct80078E78` as {u8 pad[0x34]; s16} for
  * func_800D10EC, but AFTER this function's address slot -- so that name is neither visible
  * here nor redefinable (gcc-2.7.2 rejects even a byte-identical typedef redefinition).
  * A BLOCK-SCOPED typedef under a different tag + a block-scoped `extern` for the object is
  * only a pedwarn ("type mismatch with previous external decl") and compiles the real TU clean.
- * The local pointer `p = &D_80078E78` is what pins the address in the callee-saved $s2.
+ * The local pointer `p = &guess_g_PlayerRecord` is what pins the address in the callee-saved $s2.
  */
 
 extern s16 currentLocationId;
@@ -527,8 +527,8 @@ extern s32 D_80127500;
 extern s32 resLoad_lastId;
 
 void func_800D06E8(void) {
-    extern Blk80078E78 D_80078E78;
-    Blk80078E78 *p = &D_80078E78;
+    extern Blk80078E78 guess_g_PlayerRecord;
+    Blk80078E78 *p = &guess_g_PlayerRecord;
     s32 s0;
     s32 s1;
     s32 r;
@@ -1046,7 +1046,7 @@ s32 func_800D10C8(s32 arg0) {
 }
 
 // func_800D10EC — loop over 0xC entries; per-entry slot test then schedule.
-//   s5 = &D_80078E78 hoisted loop-invariant (LICM), read as `lh 0x34(s5)` inside.
+//   s5 = &guess_g_PlayerRecord hoisted loop-invariant (LICM), read as `lh 0x34(s5)` inside.
 //   s4 = 32-bit loop counter; (s16)s4 used in the body and the bottom loop test.
 //
 // asm trace per iteration:
@@ -1058,17 +1058,17 @@ s32 func_800D10C8(s32 arg0) {
 //   if (s0 == 0) continue;
 //   j = (s16)i * 2 + 0x14
 //   v0 = (s16)func_800291DC(j)                           (callee s32, re-extended (s16))
-//   if (D_80078E78.field_0x34 - v0 < s0) continue;       (lh 0x34(s5); subu; slt signed)
+//   if (guess_g_PlayerRecord.field_0x34 - v0 < s0) continue;       (lh 0x34(s5); subu; slt signed)
 //   func_800291A0(s3, D_8010EDF1[s2]);                   (lbu record byte +1)
 //   func_800291C8(j, D_80078EAC);                        (lh s16 global)
 //   loop test: (s16)i < 0xC
 //
-// FIX 1 (LICM hoist): prior used `*(s16*)(D_80078E78 + 0x34)` over a `u8[]`, which gcc did
+// FIX 1 (LICM hoist): prior used `*(s16*)(guess_g_PlayerRecord + 0x34)` over a `u8[]`, which gcc did
 // NOT hoist (re-emitted lui+lh every iteration -> 62 ins, no s5, frame 0x28). Taking the
-// symbol address into a LOCAL POINTER before the loop (`S *p = &D_80078E78;` then
-// `p->field_0x34`) makes gcc-2.7.2 keep &D_80078E78 in the saved reg s5 (lui+addiu in
+// symbol address into a LOCAL POINTER before the loop (`S *p = &guess_g_PlayerRecord;` then
+// `p->field_0x34`) makes gcc-2.7.2 keep &guess_g_PlayerRecord in the saved reg s5 (lui+addiu in
 // prologue), giving the target's 65-ins / frame-0x30 shape. (A plain typed-global field
-// read `D_80078E78.field_0x34` was NOT enough — gcc still re-luied it; the explicit local
+// read `guess_g_PlayerRecord.field_0x34` was NOT enough — gcc still re-luied it; the explicit local
 // pointer is what forces the hoist.)
 //
 // FIX 2 (instruction scheduling): the subtraction `field - (s16)callret` left a 2-insn swap:
@@ -1086,7 +1086,7 @@ extern s32 func_800291DC(s32);
 extern void func_800291A0(s32, s32);
 extern void func_800291C8(s32, s32);
 
-extern Struct80078E78 D_80078E78;
+extern Struct80078E78 guess_g_PlayerRecord;
 
 extern u8 D_8010EDF0;
 extern u8 D_8010EDF1;
@@ -1094,7 +1094,7 @@ extern s16 D_80078EAC;
 
 void func_800D10EC(void) {
     s16 i;
-    Struct80078E78 *p = &D_80078E78;
+    Struct80078E78 *p = &guess_g_PlayerRecord;
 
     for (i = 0; i < 0xC; i++) {
         s32 v1;

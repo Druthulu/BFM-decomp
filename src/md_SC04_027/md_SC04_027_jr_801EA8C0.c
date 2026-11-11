@@ -347,7 +347,7 @@ extern void func_801EB014(void);
 s32 func_801EADC4(void) {
 
     extern u8 D_80078EB1;
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern u8 D_801EC1D0[];
     extern u8 D_801EC2F4[];
     extern s32 D_801F2624;
@@ -357,7 +357,7 @@ s32 func_801EADC4(void) {
     s32 var;
 
     func_801EAFE4();
-    p = D_80078E78;
+    p = guess_g_PlayerRecord;
     var = guess_GetStoryProgress();
 
     if (var < 200)

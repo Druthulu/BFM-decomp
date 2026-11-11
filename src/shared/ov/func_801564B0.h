@@ -5,9 +5,9 @@ extern s32 func_8002A1B4(void);
 extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 s32 func_801564B0(s32 a0) {
-    s32 s0 = (s32)D_80078E78;
+    s32 s0 = (s32)guess_g_PlayerRecord;
     s32 v1;
     if (*(s32 *)(a0 + 0x44) & 0x200) {
         if (rand() & 0x1) {

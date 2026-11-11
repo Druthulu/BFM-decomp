@@ -38,7 +38,7 @@ extern void func_80019064(void *a0);
 
 void func_800CAEE0(u8 *a0) {
     extern u8 D_800CB830[];
-    extern u8 D_80062BD0;
+    extern u8 guess_g_RumblePatternShort;
 
     func_80154274(a0, D_800CB830);
     func_80154A74((s32)a0, 0x15);
@@ -49,7 +49,7 @@ void func_800CAEE0(u8 *a0) {
     func_80156648((s32 *)a0);
     ((Unkstruct_80126B58 *)a0)->unk1AA = 0;
     func_800CB054(a0);
-    func_80019064(&D_80062BD0);
+    func_80019064(&guess_g_RumblePatternShort);
     ((Unkstruct_80126B58 *)a0)->unk197 = ((Unkstruct_80126B58 *)a0)->unk197 + 1;
 }
 

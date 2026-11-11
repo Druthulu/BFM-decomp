@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8013CB84(void) {
 
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern s32 D_8018E78C;
     extern s32 D_8018E798;
     extern s32 D_8018E7A0;
@@ -16,7 +16,7 @@ void func_8013CB84(void) {
     extern Rec9 D_8017FBA8[];
     extern u8 D_8018FA70;  /* canonical (§8d); Rec9 block-move via cast-at-use */
     s32 loc = currentLocationId;
-    s32 s0 = D_80078EAF;
+    s32 s0 = guess_g_DayPeriod;
     s32 ta, tb, tc, t;
 
     D_8018FA98 = 0;

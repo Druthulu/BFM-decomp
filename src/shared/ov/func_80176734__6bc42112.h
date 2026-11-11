@@ -3,7 +3,7 @@
 void func_80176734(s32 param_1)
 {
     extern u8  D_8011F7A8;      /* st base  ($s3) */
-    extern u8  D_80078E78[];    /* cur base ($s4) */
+    extern u8  guess_g_PlayerRecord[];    /* cur base ($s4) */
     extern s16 D_801152BA;
     extern u8  D_8011F7B0;      /* == *(u8 *)(st + 8), read absolutely (mixed addressing) */
     extern u8  D_80115214;
@@ -40,7 +40,7 @@ void func_80176734(s32 param_1)
     pv  = param_1;
     cach = st + 0x48;
     flag = st + 0xE0;
-    cur  = (s32)&(*(u8 *)D_80078E78);
+    cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);
 
     /* ---- block A: pulse byte ---- */
     {

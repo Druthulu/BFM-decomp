@@ -11,7 +11,7 @@ extern void func_80146E90(s32 *a0, s32 a1);
 extern void func_801553A8(s32 *a0);
 extern s32 func_80149184(s32 a0);
 extern void func_80146CA0(void *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern s16 D_801152A0;
 void func_80160410(s32 * a0)
 {
@@ -19,7 +19,7 @@ void func_80160410(s32 * a0)
     s32 m1[3];
     s32 out[12];
     u32 buf[2];
-    func_80019064((void *)&D_80062BD0);
+    func_80019064((void *)&guess_g_RumblePatternShort);
     func_80149020(a0);
     {
         s32 t = (s32)(*(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12));

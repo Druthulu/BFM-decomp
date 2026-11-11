@@ -12,7 +12,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
          /* 16-byte stride array element */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -39,7 +39,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -378,7 +378,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_80183F68[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -767,7 +767,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_801840E4;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1102,7 +1102,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801CC710;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1119,7 +1119,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_801847BC[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1380,7 +1380,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -3968,7 +3968,7 @@ s32 func_8017E3DC(void) {
  *
  * Expression forms come from the byte-matched structural twin
  *   src/ov_SC03_099/ov_SC03_099_jr_8013F350.c  func_8013FAF8
- * (same author): `func_80137D08(ot, &D_800AE7B8[*(u16 *)&D_800B9A02], 2)`, the
+ * (same author): `func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2)`, the
  * `f4 + 2` OT-link argument, and the whole `*ot = 0x2000000` / 24-bit OT-splice
  * tail.  The in-TU sibling func_8017E804 supplied the `pb = (u16 *)&D_800B9A02`
  * pointer-local form for the tail (T6).
@@ -4019,7 +4019,7 @@ s32 func_8017E3DC(void) {
  *     the target grant (score 0, 175/175).
  *     Separately, `D_801151D0` is read and written as
  *     `((Unkstruct_801151D0 *)&D_801151D0)->f0`: MEM_IN_STRUCT_P like
- *     `D_800AE7B8[..].f4[2]` (`mem/s`), so sched2 does not disambiguate them
+ *     `guess_g_FrontOrderingTables[..].f4[2]` (`mem/s`), so sched2 does not disambiguate them
  *     and the final store stays after the OT read-modify-write (as a plain
  *     scalar it is hoisted above it: score 4).
  *
@@ -4032,10 +4032,10 @@ s32 func_8017E3DC(void) {
  *     (`extern u16`/`extern u32`, TU:3398/3399) and func_800D27DC (TU:3599)
  *     are re-declared here at BLOCK scope in their exact TU shapes.
  *   - Every other symbol has no other declaration in this TU; the
- *     Rec20_8017DF18_8017E6BC typedef and the D_800AE7B8 extern are function-local so
+ *     Rec20_8017DF18_8017E6BC typedef and the guess_g_FrontOrderingTables extern are function-local so
  *     they cannot collide (func_8017E804 keeps its own copy the same way).
- *   - D_800AE7B8[i].f4 is the same object the .s calls D_800AE7BC: the reloc is
- *     `%lo(D_800AE7B8+4)`, numerically identical.  Same form as the banked
+ *   - guess_g_FrontOrderingTables[i].f4 is the same object the .s calls guess_g_FrontOrderingTablesOrg: the reloc is
+ *     `%lo(guess_g_FrontOrderingTables+4)`, numerically identical.  Same form as the banked
  *     ov_SC03_099 twin.
  */
 
@@ -4049,7 +4049,7 @@ void func_8017E6BC(void) {
     extern u16 D_8011511A;
     extern u32 D_801CD9A8;
     extern u8  D_80115158[];
-    extern Rec20_8017DF18_8017E6BC D_800AE7B8[];
+    extern Rec20_8017DF18_8017E6BC guess_g_FrontOrderingTables[];
     extern u32 D_801BB2DC;
     extern u32 D_801BB2F0;
     extern u32 D_801C3C70;
@@ -4079,7 +4079,7 @@ void func_8017E6BC(void) {
 
     if (D_80115126 != 4) {
         ot = (s32 *)func_80137D08((s32)ot,
-                                  &D_800AE7B8[*(u16 *)&D_800B9A02], 2);
+                                  &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2);
         if ((D_80115126 == 0) || (D_80115126 == 3)) {
             label = &D_801BB2F0;
         } else {
@@ -4094,7 +4094,7 @@ void func_8017E6BC(void) {
             }
         }
         ot = (s32 *)func_8013AB54(func_800D27DC(2, ot, label, 1, 0),
-                                  (s32)(D_800AE7B8[*(u16 *)&D_800B9A02].f4 + 2),
+                                  (s32)(guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4 + 2),
                                   (s32)&D_801BBA34, 0);
     }
 
@@ -4127,9 +4127,9 @@ void func_8017E6BC(void) {
 
     pb = (u16 *)&D_800B9A02;
     ot[0] = 0x2000000;
-    ot[0] = (D_800AE7B8[*pb].f4[2] & 0xFFFFFF) | 0x2000000;
-    D_800AE7B8[*pb].f4[2] =
-        (D_800AE7B8[*pb].f4[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
+    ot[0] = (guess_g_FrontOrderingTables[*pb].f4[2] & 0xFFFFFF) | 0x2000000;
+    guess_g_FrontOrderingTables[*pb].f4[2] =
+        (guess_g_FrontOrderingTables[*pb].f4[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
     ot += 10;
     ((Unkstruct_801151D0 *)&D_801151D0)->f0 = (s32)ot;
 }

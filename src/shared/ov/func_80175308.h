@@ -9,7 +9,7 @@ extern s16 D_8011F7B8;
 extern s16 D_8011F7BA;
 extern s16 D_8011F7BC;
 extern s16 D_8011F7BE;
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s16 D_800B9A02;
 extern void func_80016714(void *, s32);
 extern void func_801757A0(s32);
@@ -25,7 +25,7 @@ void func_80175308(void) {
     D_8011F7BA = 0x37;
     (*(s16 *)&D_8011F7B6) = 0x37;
     D_8011F7BC = 0x37;
-    *(Blk152 *)(p + 0x48) = (*(Blk152 *)D_80078E78);
+    *(Blk152 *)(p + 0x48) = (*(Blk152 *)guess_g_PlayerRecord);
     func_80016714(p + 0xE0, 0x98);
     {
         s16 *q = &D_800B9A02;

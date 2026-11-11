@@ -177,7 +177,7 @@ __asm__(".text\n"
 
 
 extern u8  D_800BA118;
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern s32 D_80074778;
 extern s32 D_800A2B7C;
 extern s32 D_800C7C70;
@@ -189,7 +189,7 @@ extern s32 D_800A651C;
 extern u8  D_800A6528[];
 extern u8  D_800A6610[];
 extern u8  D_800AA60C[];
-extern s32 D_800AE7BC;
+extern s32 guess_g_FrontOrderingTablesOrg;
 extern s32 D_800AE7C8;
 extern u8  D_800BA0D8[];
 extern u8  D_800BA0E4[];
@@ -238,7 +238,7 @@ extern void func_80042610(void (*)(void));
  *  1. TWO `register` locals, in declaration order, hold the two bases the whole
  *     function addresses through: $s0 = &D_800BA118 (loaded, NEVER used again --
  *     it must still be declared or the lui/addiu pair and the $s0 save/restore
- *     both vanish) and $s1 = D_800AF630. Same lever GameModeDispatch/func_8001099C
+ *     both vanish) and $s1 = guess_g_RenderWork. Same lever GameModeDispatch/func_8001099C
  *     already use in this TU; the >0x7FFF member offsets then assemble to the
  *     +0x10000/-0x5Cxx split.
  *
@@ -275,7 +275,7 @@ extern void func_80042610(void (*)(void));
  */
 void main(void) {
     register u8 *q = &D_800BA118;
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     s32 pad[6];
 
     func_80043060(0);
@@ -318,11 +318,11 @@ void main(void) {
                 *(s32 *)(D_800A6528 + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
                     ((Unkstruct_80010178 *)p)->unkA3D2 * 16384 + (s32)D_800AA60C;
                 func_80059BFC(*(s32 *)((u8 *)&D_800A651C + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)), 0x1000);
-                *(s32 *)((u8 *)&D_800AE7BC + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
+                *(s32 *)((u8 *)&guess_g_FrontOrderingTablesOrg + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
                     (s32)(D_800BA0D8 + ((Unkstruct_80010178 *)p)->unkA3D2 * 16);
                 *(s32 *)((u8 *)&D_800AE7C8 + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
                     ((Unkstruct_80010178 *)p)->unkA3D2 * 16 + (s32)D_800BA0E4;
-                func_80059BFC(*(s32 *)((u8 *)&D_800AE7BC + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)), 4);
+                func_80059BFC(*(s32 *)((u8 *)&guess_g_FrontOrderingTablesOrg + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)), 4);
                 GameModeDispatch();
 
                 __asm__ __volatile__(  // !FAKE: instruction lui — REFUSED instruction `lui` has no C spelling in the table (P36 rung B tus9)
@@ -349,11 +349,11 @@ void main(void) {
                     "addiu $sp, $sp, 4\n"
                     "lw    $sp, 0($sp)\n" : : : "memory");
             } else {
-                *(s32 *)((u8 *)&D_800AE7BC + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
+                *(s32 *)((u8 *)&guess_g_FrontOrderingTablesOrg + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
                     (s32)(D_800BA0D8 + ((Unkstruct_80010178 *)p)->unkA3D2 * 16);
                 *(s32 *)((u8 *)&D_800AE7C8 + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) =
                     ((Unkstruct_80010178 *)p)->unkA3D2 * 16 + (s32)D_800BA0E4;
-                func_80059BFC(*(s32 *)((u8 *)&D_800AE7BC + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)), 4);
+                func_80059BFC(*(s32 *)((u8 *)&guess_g_FrontOrderingTablesOrg + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)), 4);
 
                 __asm__ __volatile__(  // !FAKE: instruction lui — REFUSED instruction `lui` has no C spelling in the table (P36 rung B tus9)
                     "lui   $a2, 0x1f80\n"
@@ -383,7 +383,7 @@ void main(void) {
             CatPrim(*(s32 *)((u8 *)&D_800A651C + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) + 0x3FF0,
                     *(s32 *)((u8 *)&D_800A651C + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) + D_80074778 * 4);
             func_80059CF4(*(s32 *)((u8 *)&D_800A651C + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) + 0x3FFC);
-            func_80059CF4(*(s32 *)((u8 *)&D_800AE7BC + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) + 0xC);
+            func_80059CF4(*(s32 *)((u8 *)&guess_g_FrontOrderingTablesOrg + ((((Unkstruct_80010178 *)p)->unkA3D2 * 5) << 2)) + 0xC);
             func_8003500C();
             func_8002D034();
             func_8001AF34();
@@ -400,15 +400,15 @@ void func_8001096C(void) {
 
 
 extern s32 VSync(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s32 D_800AE810[];
 
 void func_8001099C(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     D_800AE810[((Unkstruct_80010178 *)p)->unkA3D2] = VSync(1);
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s32 D_800A5E60;
 
 s32 func_80010A08(s32 arg0) {
@@ -416,7 +416,7 @@ s32 func_80010A08(s32 arg0) {
     s32 old;
     s32 q;
 
-    p = D_800AF630;
+    p = guess_g_RenderWork;
     q = (arg0 + 3) / 4;
     old = D_800A5E60;
     D_800A5E60 += q << 2;
@@ -444,18 +444,18 @@ s32 func_80010B10(void) {
 }
 
 /* (*gameModeHandlerTable[gameMode])() — 18 handlers @0x800629F4 (entry [7] =
- * DebugMenuHandler). gameMode is a u16 at D_800AF630 + 0xA3AE (= 0x800B99DE) in the
+ * DebugMenuHandler). gameMode is a u16 at guess_g_RenderWork + 0xA3AE (= 0x800B99DE) in the
  * main state block. NOTE: `register` is REQUIRED to match — at -O0 (this module) it
  * keeps the struct base in a callee-saved reg with no stack spill, and the 0xA3AE
  * (>0x7FFF) member offset then assembles to the +0x10000/-0x5C52 split. */
 extern void (*gameModeHandlerTable[])(void);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 void GameModeDispatch(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     gameModeHandlerTable[((Unkstruct_80010178 *)p)->unkA3AE]();
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_8001C044(void);
 extern void func_80015310(void);
 extern void func_80029690(void);
@@ -470,7 +470,7 @@ extern s16 D_801150D4;
 extern s32 D_80074784;
 
 void func_80010BB4(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     *(p + 0xA3E0) = 0;
     *(p + 0xA3E1) = 1;
@@ -503,14 +503,14 @@ void func_80010C7C(void) {
     }
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_800CEDFC(void);
 extern void func_8001C044(void);
 extern void func_80015310(void);
 extern void func_80011818(s32);
 
 void func_80010CEC(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     func_800CEDFC();
     if (((Unkstruct_80010178 *)p)->unkA3B6 != 0) {
@@ -525,11 +525,11 @@ void func_80010D60(void) {
     func_80011818(5);
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_80011778(void);
 
 void func_80010DA0(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     func_80011778();
 }
 
@@ -551,11 +551,11 @@ void func_80010E48(void) {
     func_80011818(0xC);
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_8002D4C8(s32, s32);
 
 void func_80010E7C(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     func_8002D4C8(2, 0);
     ((Unkstruct_80010178 *)p)->unkA3D4 = 1;
@@ -594,13 +594,13 @@ extern void func_8001C044(void);
 extern void func_80015310(void);
 extern void func_80011818(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
-extern u8 D_80078E78[];
+extern u8 guess_g_RenderWork[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 D_800629C8;
 
 void func_80010F80(void) {
-    register u8 *p = D_800AF630;
-    u8 *sp10 = D_80078E78;
+    register u8 *p = guess_g_RenderWork;
+    u8 *sp10 = guess_g_PlayerRecord;
     func_800CEEC8();
     if (((Unkstruct_80010178 *)p)->unkA3B6 != 0) {
         func_80011B7C(0);
@@ -666,12 +666,12 @@ void DebugMenuHandler(void) {
     (void)iVar1;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_800CEE74(void);
 extern void func_80011818(s32);
 
 void func_800111BC(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     func_800CEE74();
     if (((Unkstruct_80010178 *)p)->unkA3B6 != 0) {
@@ -687,11 +687,11 @@ void func_80011220(void) {
     func_80011B7C(0);
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_800CEDFC(void);
 
 void func_8001125C(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     *(p + 0xA434) = 0;
     func_800CEDFC();
@@ -712,7 +712,7 @@ void func_800112C8(void) {
     }
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_800CEDFC(void);
 
 void func_80011320(void) {
@@ -725,7 +725,7 @@ s32 func_80011350(void) {
     return D_80074784;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s32 D_80074784;
 extern s32 D_8007478C;
 extern u16 D_800B99E8;
@@ -764,7 +764,7 @@ extern void func_800D1724(s32);
  * No note, no variable: stupid.c's born+2 rule 2-colours the chain $v1/$a0 exactly as the target. Verified: match_one
  * MATCH 192/192 and rtu_match MATCH in src/boot.c (--o0). Semantics: (i*2+1)*2-2 == i*4. */
 void func_80011380(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     Unk *q = (Unk *)&D_800AE6A8;
 
     switch (((Unkstruct_80010178 *)p)->unkA3B4) {
@@ -809,12 +809,12 @@ void func_80011380(void) {
     }
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_8002D4C8(s32, s32);
 extern void func_80011818(s32);
 
 void func_80011680(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     *(p + 0xA434) = 0;
     func_8002D4C8(0x29, 0);
@@ -836,10 +836,10 @@ void func_800116E0(void) {
     }
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011778(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     (((Unkstruct_80010178 *)p)->unkA3AE)++;
     ((Unkstruct_80010178 *)p)->unkA3B4 = 0;
@@ -851,12 +851,12 @@ void func_80011778(void) {
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011818(param_1)
 u16 param_1;
 {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     ((Unkstruct_80010178 *)p)->unkA3AE = param_1;
     ((Unkstruct_80010178 *)p)->unkA3B4 = 0;
@@ -868,10 +868,10 @@ u16 param_1;
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_800118AC(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     (((Unkstruct_80010178 *)p)->unkA3B4)++;
     ((Unkstruct_80010178 *)p)->unkA3BA = 0;
@@ -880,10 +880,10 @@ void func_800118AC(void) {
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011928(u16 arg0) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     ((Unkstruct_80010178 *)p)->unkA3B4 = arg0;
     ((Unkstruct_80010178 *)p)->unkA3BA = 0;
@@ -892,26 +892,26 @@ void func_80011928(u16 arg0) {
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011998(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     (((Unkstruct_80010178 *)p)->unkA3BA)++;
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_800119F0(u16 arg0) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     ((Unkstruct_80010178 *)p)->unkA3BA = arg0;
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011A3C(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     register u16 x;
 
     x = ((Unkstruct_80010178 *)p)->unkA3C0;
@@ -926,10 +926,10 @@ void func_80011A3C(void) {
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011ADC(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     --((Unkstruct_80010178 *)p)->unkA3C0;
     ((Unkstruct_80010178 *)p)->unkA3C6 = 0;
@@ -941,12 +941,12 @@ void func_80011ADC(void) {
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011B7C(arg0)
     u16 arg0;
 {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     ((Unkstruct_80010178 *)p)->unkA3C0 = arg0;
     ((Unkstruct_80010178 *)p)->unkA3C6 = 0;
     ((Unkstruct_80010178 *)p)->unkA3CC = 0;
@@ -957,10 +957,10 @@ void func_80011B7C(arg0)
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011C10(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     register u16 gameMode;
 
     gameMode = ((Unkstruct_80010178 *)p)->unkA3C6;
@@ -972,10 +972,10 @@ void func_80011C10(void) {
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011C8C(u16 arg0) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     ((Unkstruct_80010178 *)p)->unkA3C6 = arg0;
     ((Unkstruct_80010178 *)p)->unkA3CC = 0;
@@ -984,19 +984,19 @@ void func_80011C8C(u16 arg0) {
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011CFC(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     (((Unkstruct_80010178 *)p)->unkA3CC)++;
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011D54(u16 arg0) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     ((Unkstruct_80010178 *)p)->unkA3CC = arg0;
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
@@ -1020,14 +1020,14 @@ s32 func_80011DF4(void) {
     return D_80074780;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80011E24(void) {
     extern s32 D_80074788;
     extern s32 D_800629D0;
     extern u16 D_80074794;
     extern u16 D_80074798;
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     long long pad;
 
     D_80074788 = 0;
@@ -1092,7 +1092,7 @@ void func_800120DC(u16 *arg0, u16 *arg1) {
  * advanced cursor.
  *
  * -O0 spellings that are load-bearing (all byte-proven here):
- *  - `register u8 *base = D_800AF630;` far-offset base: cookbook ADDENDUM(c) to
+ *  - `register u8 *base = guess_g_RenderWork;` far-offset base: cookbook ADDENDUM(c) to
  *    §261a -- lands caller-saved ($v0) with no calls, and the >0x7FFF member
  *    access assembles to lui $at,1 / addu $at,$v0,$at / lhu -0x5C2E($at).
  *  - `* 0x4000` (the MULTIPLY, not `<< 14`): the mul-style expansion emits the
@@ -1111,13 +1111,13 @@ void func_800120DC(u16 *arg0, u16 *arg1) {
  *    and 0xFFFFFF (extract) + and 0xFFFFFF (store mask) + and 0xFF000000 + or.
  */
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s32 D_800A5E60;
 extern u8 D_800A6610[];
 
 void func_8001212C(void) {
 
-    register u8 *base = D_800AF630;
+    register u8 *base = guess_g_RenderWork;
     Sprt24 *p;
     u32 *ot;
 

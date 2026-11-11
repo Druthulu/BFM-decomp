@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8015F448(s32 arg0) {
 
-    extern u8 D_80062BD0;
+    extern u8 guess_g_RumblePatternShort;
     extern s32 D_8018146C;
     extern s32 D_8018147C;
     extern s32 D_8018148C;
@@ -38,7 +38,7 @@ void func_8015F448(s32 arg0) {
             ((void (*)(void *, void *))func_80148534)(sp20, sp28);
             func_80147324(0x56E);
         }
-        ((void (*)(s32 *))func_80019064)(&(*(s32 *)&D_80062BD0));
+        ((void (*)(s32 *))func_80019064)(&(*(s32 *)&guess_g_RumblePatternShort));
         ((void (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x25, arg0, *(s16 *)(arg0 + 6),
                       (s16)(*(u16 *)(arg0 + 0xA) - 0x14),
                       *(s16 *)(arg0 + 0xE), 0, 0);

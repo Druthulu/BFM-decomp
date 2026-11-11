@@ -51,7 +51,7 @@ void func_800CAEC0(s32 a0) {
 
 
 void func_800CB0D8(s32 a0) {
-    extern Struct80078E78_md_MAIN_028_800CB0D8 D_80078E78;
+    extern Struct80078E78_md_MAIN_028_800CB0D8 guess_g_PlayerRecord;
     extern s32 D_80078EC8;
     extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
     extern s32 func_80165A20(s32);
@@ -60,7 +60,7 @@ void func_800CB0D8(s32 a0) {
     s32 q;
 
     v = a0;
-    p = &D_80078E78;
+    p = &guess_g_PlayerRecord;
     if ((D_80078EC8 & 0x1F) == 0) {
         func_801466F0(0xE, v, 0, 0, 0, ((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
         func_801466F0(0xE, v, 0, 0, 0, -((((rand() % 16) + 0x10) << 12) / 360), 0, 1);

@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -32,7 +32,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -368,7 +368,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8019518C[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -756,7 +756,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80195308;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1089,7 +1089,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801D3DB8;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1106,7 +1106,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_801959E0[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1367,7 +1367,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -4935,7 +4935,7 @@ main_body:
  *   2. src/ov_SC03_119/ov_SC03_119_jr_8017FB84.c func_80185944 — byte-MATCH
  *      (177/177 ins).  Its header names this exact tail idiom: "link-ins
  *      the packet into the current double-buffer's OT (the PSY-Q `addPrim`
- *      macro pair) and calls func_80016638", with `func_80016638(&D_800A6518
+ *      macro pair) and calls func_80016638", with `func_80016638(&guess_g_OrderingTables
  *      [*bidx*20], depth, 1)` as its literal call form (there depth=0x10
  *      constant, here depth=temp_v0_2).  Confirms the "3 lhu D_800B9A02,
  *      address cached / value reloaded" shape and the general addPrim(ot,p)
@@ -4987,7 +4987,7 @@ main_body:
  * INTEGRATION SURFACE (checked against destination TU
  * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c):
  *   func_80010A08, func_8004914C, func_800491AC, RotTransPers, guess_g_CameraWsMatrix,
- *   D_800B9A02, D_800A6518 all match the TU's own existing extern spellings
+ *   D_800B9A02, guess_g_OrderingTables all match the TU's own existing extern spellings
  *   verbatim (grepped at TU lines 2448/2632-2633/4674 and the
  *   func_8018F694/func_8018F060 block). D_800A651C and func_80016638 have NO
  *   file-scope declaration anywhere in the TU (only ever appear inside other
@@ -5010,7 +5010,7 @@ void func_8018A974(s32 arg0, s32 arg1, s32 arg2)
     extern s32 RotTransPers(s32, s32, s32 *, s32 *);
     extern u8 guess_g_CameraWsMatrix;
     extern OtBlk_8018A974 D_800A651C[];
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern short D_800B9A02;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
@@ -5042,7 +5042,7 @@ void func_8018A974(s32 arg0, s32 arg1, s32 arg2)
         ot = D_800A651C[*bidx].a;
         *(u32 *)(depth4 + ot) =
             (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & 0xFFFFFF);
-        func_80016638(&D_800A6518[*bidx * 20], temp_v0_2, 1);
+        func_80016638(&guess_g_OrderingTables[*bidx * 20], temp_v0_2, 1);
     }
 }
 
@@ -7838,7 +7838,7 @@ void func_8018EDB8(void *arg) {
 // "coupled ties / permuter territory"; all three turned out to be deterministic C levers):
 //
 // (a) `addiu $a0,$s0,0x18` x2 vs `move $a0,$s0` x2 — the matrix arg.  The target keeps the BASE
-//     `&D_800AF630` in $s0 and re-adds 0x18 at BOTH call sites.  Two things block that:
+//     `&guess_g_RenderWork` in $s0 and re-adds 0x18 at BOTH call sites.  Two things block that:
 //       1. cse folds `(plus (reg-holding-symbol) 24)` back into `la sym+24` (one lui/addiu).
 //          Killed by making the base OPAQUE with a §21 re-tie `asm("":"=r"(mb):"0"(mb))`.
 //       2. with ONE re-tie, cse then unifies the two identical `mb+0x18` into one pseudo
@@ -7881,7 +7881,7 @@ void func_8018EDB8(void *arg) {
 //     a C89 redefinition error.  The four types here therefore carry the per-function suffix
 //     (the same convention engine_types.h itself uses for SVECTOR_8016E7C8 / B8_8018F060), so
 //     the file compiles BOTH standalone (match_one) and spliced (rtu_match).
-//   * D_800AF630 is `extern u8 D_800AF630[]` at TU file scope (line 53) — same spelling here.
+//   * guess_g_RenderWork is `extern u8 guess_g_RenderWork[]` at TU file scope (line 53) — same spelling here.
 //   * D_800B9A02 is `short` at TU file scope (2457/2459).  Do NOT redeclare it u16; the `lhu`
 //     is forced at the USE with the TU's own canonical `*(u16 *)&D_800B9A02` spelling
 //     (§8d sub-class (b), the form already used at TU lines 2848 and 7416).
@@ -7902,7 +7902,7 @@ extern SVEC_8018F060 D_801D1228[];
 extern short D_800B9A02;
 extern u8 D_800A651C[];
 extern u8 D_800AE610[];
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 
 void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
@@ -7944,7 +7944,7 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018F060 *)&pkt[2] = out[1];
     *(B8_8018F060 *)&pkt[4] = out[3];
     *(B8_8018F060 *)&pkt[6] = out[4];
-    mb = (u8 *)&D_800AF630;
+    mb = (u8 *)&guess_g_RenderWork;
     a = mb + 0x18;
     func_8004914C(a);
     a = 0;
@@ -7980,7 +7980,7 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018F060 *)&pkt[2] = out[2];
     *(B8_8018F060 *)&pkt[4] = out[4];
     *(B8_8018F060 *)&pkt[6] = out[5];
-    mb = (u8 *)&D_800AF630;
+    mb = (u8 *)&guess_g_RenderWork;
     a = mb + 0x18;
     func_8004914C(a);
     a = 0;
@@ -8016,7 +8016,7 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018F060 *)&pkt[2] = out[0];
     *(B8_8018F060 *)&pkt[4] = out[5];
     *(B8_8018F060 *)&pkt[6] = out[3];
-    mb = (u8 *)&D_800AF630;
+    mb = (u8 *)&guess_g_RenderWork;
     a = mb + 0x18;
     func_8004914C(a);
     a = 0;
@@ -8205,7 +8205,7 @@ void func_8018FE0C(s32 arg0, s32 arg1, s32 arg2)
     extern s32 RotTransPers(s32, s32, s32 *, s32 *);
     extern u8 guess_g_CameraWsMatrix;
     extern OtBlk_8018FE0C aD800A651C[] __asm__("D_800A651C");
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern short D_800B9A02;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
@@ -8237,7 +8237,7 @@ void func_8018FE0C(s32 arg0, s32 arg1, s32 arg2)
         ot = aD800A651C[*bidx].a;
         *(u32 *)(depth4 + ot) =
             (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & 0xFFFFFF);
-        func_80016638(&D_800A6518[*bidx * 20], temp_v0_2, 1);
+        func_80016638(&guess_g_OrderingTables[*bidx * 20], temp_v0_2, 1);
     }
 }
 

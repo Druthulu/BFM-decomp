@@ -15,7 +15,7 @@ void func_801594E8(s32 param_1, s32 param_2)
     extern u8 D_800D3A20[];
 
 
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
 
     func_80175454();
     switch (param_2) {

@@ -1,7 +1,7 @@
 /* func_80136F3C — shared body (overlay slot 0x80128158, h_exact d6334f65). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 void func_80136F3C(s32 a0, s32 a1)
 {
@@ -17,7 +17,7 @@ void func_80136F3C(s32 a0, s32 a1)
     } line;
     register s16 x1    __asm__("$16");               /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
     register s16 x0    __asm__("$17");               /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)
-    u8 *base = D_800A6518;  /* $s3 */
+    u8 *base = guess_g_OrderingTables;  /* $s3 */
     register s16 white __asm__("$20");               /* $s4 */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B headers1)
     s16 y0;
     s16 y1;

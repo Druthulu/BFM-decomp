@@ -6,11 +6,11 @@ extern u8 D_800CFAC4[];
 extern u8 D_800CFAD4[];
 extern void (*D_800CFADC[])(void);
 extern s32 D_800D1364;
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_8001534C(int, void *, int, int, int, int);
 
 void func_800CEE2C(void) {
-    u8 *base = D_800AF630;
+    u8 *base = guess_g_RenderWork;
     u8 *p;
     u8 v1;
     u16 idx;

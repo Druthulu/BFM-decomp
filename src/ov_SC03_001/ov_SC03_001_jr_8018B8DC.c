@@ -8,7 +8,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
                                               /* 0x20 stride */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
 extern void func_801458E8(void);
@@ -34,7 +34,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
@@ -757,7 +757,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018F240;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1091,7 +1091,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801ED520;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1108,7 +1108,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018F918[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1369,7 +1369,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -2688,7 +2688,7 @@ extern void func_8017E204(void *arg0);
 extern s32 func_8012AD50(void *arg0);
 extern void func_8017DEE8(void *arg0);
 extern u8 D_80078EB1;
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8017E1B4(void);
 extern void func_8017E2C0(void *arg0);
@@ -3346,7 +3346,7 @@ s32 *func_8018BCD4(out, src, idx, w, col)
     extern u16 D_801C11BA;
     extern u16 D_801C11CE;
 
-    extern Env_8018BCD4 D_800AE7BC[];
+    extern Env_8018BCD4 guess_g_FrontOrderingTablesOrg[];
 
 
     /* §37 /s-DEP LATTICE: this store MUST be MEM_IN_STRUCT_P. `out[0] = k` folds `out + 0`
@@ -3390,8 +3390,8 @@ s32 *func_8018BCD4(out, src, idx, w, col)
      * expmed.c's store_fixed_bit_field, not of user-mask C. `volatile` on the index read is
      * what keeps the SECOND *pbh load alive (a plain read cse-folds and the fn loses 5 ins). */
     ((PTag_8018BCD4 *)out)->addr =
-        ((PTag_8018BCD4 *)(D_800AE7BC[*pbh].ot + 2))->addr;
-    ((PTag_8018BCD4 *)(D_800AE7BC[*pbh].ot + 2))->addr = (u32)out;
+        ((PTag_8018BCD4 *)(guess_g_FrontOrderingTablesOrg[*pbh].ot + 2))->addr;
+    ((PTag_8018BCD4 *)(guess_g_FrontOrderingTablesOrg[*pbh].ot + 2))->addr = (u32)out;
 
     out += 5;
     if (c < 10) {
@@ -3449,10 +3449,10 @@ s32 *func_8018BCD4(out, src, idx, w, col)
                 *(s16 *)((u8 *)out + 0x8) = vsum;
                 *(s16 *)((u8 *)out + 0x10) = eight;
                 *(s16 *)((u8 *)out + 0x12) = eight;
-                *(u32 *)out = ((*(u32 *)out) & mhi) | (D_800AE7BC[*pb].ot[2] & m24);
+                *(u32 *)out = ((*(u32 *)out) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & m24);
                 {
                     register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-                    op = D_800AE7BC[*pb].ot;
+                    op = guess_g_FrontOrderingTablesOrg[*pb].ot;
                     op[2] = (op[2] & mhi) | (((u32)out) & m24);
                 }
                 out += 5;
@@ -3927,7 +3927,7 @@ void func_8018C960(void) {
    /* 0x14 stride */
                      /* -> 0x24 */
 
-    extern Env_8018C960 D_800AE7BC[];
+    extern Env_8018C960 guess_g_FrontOrderingTablesOrg[];
     extern u8 aD801EF1EC __asm__("D_801EF1EC");
     extern u8 aD801EF1F0 __asm__("D_801EF1F0");
 
@@ -3943,8 +3943,8 @@ void func_8018C960(void) {
     p = *pp;
     ((PTag_8018C960 *)p)->len = 1;
     p[1] = 0xE1000015;
-    ((PTag_8018C960 *)p)->addr = ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr;
-    ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr = (u32)p;
+    ((PTag_8018C960 *)p)->addr = ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
+    ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)p;
 
     p += 2;
     ((PG4_8018C960 *)p)->tag  = 0x08000000;
@@ -3972,15 +3972,15 @@ void func_8018C960(void) {
     ((PG4_8018C960 *)p)->y3 = 120;
     ((PG4_8018C960 *)p)->y2 = 120;
 
-    ((PTag_8018C960 *)p)->addr = ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr;
-    ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr = (u32)p;
+    ((PTag_8018C960 *)p)->addr = ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
+    ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)p;
 
     r = p + 9;                          /* 0x24 */
     p = r;                              /* COMBINE BARRIER — see header */
     ((PTag_8018C960 *)r)->len = 1;
     r[1] = 0xE1000240;
-    ((PTag_8018C960 *)r)->addr = ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr;
-    ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr = (u32)r;
+    ((PTag_8018C960 *)r)->addr = ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
+    ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)r;
 
     p += 2;
     *pp = p;

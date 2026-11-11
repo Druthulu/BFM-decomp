@@ -18,7 +18,7 @@ void func_8013DD68() {
     u8 *pbase;
     u8 *base;
 
-    pbase = D_800AF630;
+    pbase = guess_g_RenderWork;
     puVar16 = (*(u16 * *)&D_8018E774);
     p = (*(u32 * *)&D_800A5E60);
     uVar1 = *puVar16;

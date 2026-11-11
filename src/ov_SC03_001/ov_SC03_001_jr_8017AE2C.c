@@ -10,7 +10,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
 extern void func_801458E8(void);
@@ -36,7 +36,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
@@ -758,7 +758,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018F240;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1093,7 +1093,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801ED520;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1110,7 +1110,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018F918[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1371,7 +1371,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -4055,8 +4055,8 @@ void func_8017DEE8(void *arg0) {
 
 
 extern u8 D_80078EB1;
-extern u8 D_80078E78[];
-extern u8 D_800AF630[];
+extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_RenderWork[];
 extern s32 func_8004787C(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8017E1B4();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
@@ -4072,8 +4072,8 @@ void func_8017DF78(void *arg0)
     u8 *e78;
     s32 k;
 
-    m = D_800AF630;
-    e78 = D_80078E78;
+    m = guess_g_RenderWork;
+    e78 = guess_g_PlayerRecord;
 
     if (D_80078EB1 >= 9) {
         s32 count;

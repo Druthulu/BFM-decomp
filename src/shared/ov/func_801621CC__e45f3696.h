@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_801621CC(s32 arg0) {
     s32 s0 = arg0;       /* $s0: arg0, crosses the call */
-    u8 *s1 = D_80078E78; /* $s1: base, hoisted for the loop */
+    u8 *s1 = guess_g_PlayerRecord; /* $s1: base, hoisted for the loop */
     s32 i;
     u32 a2;
     s32 d;                                       /* $a0: natural alloc; load via $v0 temp */

@@ -997,13 +997,13 @@ void func_800141F0(void) {
     func_800142C8();
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 void func_80014238(void) {
     func_80014928();
     func_80059234(1);
     func_80059658(0);
     VSync(0);
-    func_80016714(&D_800AF630, 0xA444);
+    func_80016714(&guess_g_RenderWork, 0xA444);
     func_800143AC();
     func_80014444();
     func_8001C044();
@@ -1078,7 +1078,7 @@ extern u8 D_800AF7C4;
 extern u8 D_800AF7C3;
 extern u8 D_800AF7C2;
 extern u8 D_800A6610[];
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern u8 D_800A6520[];
 extern u8 D_800A6524[];
 
@@ -1106,7 +1106,7 @@ void func_800143AC(void)
     do {
         *(s32*)((u8*)D_800A651C + idx) = ptr;
         ptr += 0x4000;
-        *(s32*)(D_800A6518 + idx) = c;
+        *(s32*)(guess_g_OrderingTables + idx) = c;
         *(s32*)(D_800A6520 + idx) = 0;
         *(s32*)(D_800A6524 + idx) = 0;
         idx += 0x14;
@@ -1126,7 +1126,7 @@ extern void func_80052D90(s32 a0, void *a1);
 extern void func_800538EC(s32 a0);
 
 extern s32 D_80126950;
-extern u8 D_800AF630[0x300];
+extern u8 guess_g_RenderWork[0x300];
 
 void func_80014444(void) {
     u8 *s0;
@@ -1139,7 +1139,7 @@ void func_80014444(void) {
     func_8001455C();
     func_8002850C(0x800, 0x800, 0x800);
     func_8002823C();
-    s0 = &D_800AF630[0];
+    s0 = &guess_g_RenderWork[0];
     func_80052D90(0, s0 + 0x1A0);
     func_80052D90(1, s0 + 0x1F0);
     func_800538EC(0);
@@ -1209,23 +1209,23 @@ void func_800145EC(s32 mode) {
     extern u8 D_80062A3C[];
     extern u8 D_80062A3E[];
     extern u8 D_80062A40[];
-    extern u16 D_800AF7BC;
-    extern u16 D_800AF7BE;
+    extern u16 guess_g_ScreenWidth;
+    extern u16 guess_g_ScreenHeight;
     extern u16 D_800AF7C0;
     s32 off;
 
     off = (mode & 0xFFFF) * 6;
 
-    D_800AF7BC = *(u16 *) (D_80062A3C + off);
-    D_800AF7BE = *(u16 *) (D_80062A3E + off);
+    guess_g_ScreenWidth = *(u16 *) (D_80062A3C + off);
+    guess_g_ScreenHeight = *(u16 *) (D_80062A3E + off);
     D_800AF7C0 = *(u16 *) (D_80062A40 + off);
 
-    func_800525DC(D_800AF7BC, D_800AF7BE, D_800AF7C0 | 4, 0, 0);
+    func_800525DC(guess_g_ScreenWidth, guess_g_ScreenHeight, D_800AF7C0 | 4, 0, 0);
 
-    if (D_800AF7BE == 0x1E0) {
+    if (guess_g_ScreenHeight == 0x1E0) {
         func_80053178(0, 0, 0, 0);
     } else {
-        func_80053178(0, D_800AF7BE, 0, 0);
+        func_80053178(0, guess_g_ScreenHeight, 0, 0);
     }
 
     func_80059234(1);
@@ -1244,23 +1244,23 @@ void func_800146B0(s32 mode) {
     extern u8 D_80062A3C[];
     extern u8 D_80062A3E[];
     extern u8 D_80062A40[];
-    extern u16 D_800AF7BC;
-    extern u16 D_800AF7BE;
+    extern u16 guess_g_ScreenWidth;
+    extern u16 guess_g_ScreenHeight;
     extern u16 D_800AF7C0;
     s32 off;
 
     off = (mode & 0xFFFF) * 6;
 
-    D_800AF7BC = *(u16 *) (D_80062A3C + off);
-    D_800AF7BE = *(u16 *) (D_80062A3E + off);
+    guess_g_ScreenWidth = *(u16 *) (D_80062A3C + off);
+    guess_g_ScreenHeight = *(u16 *) (D_80062A3E + off);
     D_800AF7C0 = *(u16 *) (D_80062A40 + off);
 
-    GsInitGraph2(D_800AF7BC, D_800AF7BE, D_800AF7C0 | 4, 0, 0);
+    GsInitGraph2(guess_g_ScreenWidth, guess_g_ScreenHeight, D_800AF7C0 | 4, 0, 0);
 
-    if (D_800AF7BE == 0x1E0) {
+    if (guess_g_ScreenHeight == 0x1E0) {
         func_80053EEC(0, 0, 0, 0);
     } else {
-        func_80053EEC(0, D_800AF7BE, 0, 0);
+        func_80053EEC(0, guess_g_ScreenHeight, 0, 0);
     }
 
     func_80059234(1);
@@ -1284,9 +1284,9 @@ void func_80014774(void) {
 }
 
 
-extern u8 D_800AF630[];
-extern u16 D_800AF7BE;
-extern u16 D_800AF7BC;
+extern u8 guess_g_RenderWork[];
+extern u16 guess_g_ScreenHeight;
+extern u16 guess_g_ScreenWidth;
 
 extern u16 D_800AF672;
 extern u16 D_800AF670;
@@ -1306,8 +1306,8 @@ extern void *SetDefDispEnv(void *env, s32 x, s32 y, s32 w, s32 h);
 extern void func_80014960(void);
 
 void func_800147B8(void) {
-    s32 raw_h = D_800AF7BE;
-    u8 *base = D_800AF630;
+    s32 raw_h = guess_g_ScreenHeight;
+    u8 *base = guess_g_RenderWork;
     s32 h_offset = raw_h;
     u16 halfW;
     u16 halfH;
@@ -1317,18 +1317,18 @@ void func_800147B8(void) {
         h_offset = 0;
     }
 
-    func_80058A4C(base + 0x38, 0, 0xA, D_800AF7BC, D_800AF7BE - 0x14);
-    SetDefDispEnv(base + 0x14C, 0, 0, D_800AF7BC, D_800AF7BE);
-    func_80058A4C(base + 0x94, 0, h_offset + 0xA, D_800AF7BC, D_800AF7BE - 0x14);
-    SetDefDispEnv(base + 0x160, 0, h_offset, D_800AF7BC, D_800AF7BE);
+    func_80058A4C(base + 0x38, 0, 0xA, guess_g_ScreenWidth, guess_g_ScreenHeight - 0x14);
+    SetDefDispEnv(base + 0x14C, 0, 0, guess_g_ScreenWidth, guess_g_ScreenHeight);
+    func_80058A4C(base + 0x94, 0, h_offset + 0xA, guess_g_ScreenWidth, guess_g_ScreenHeight - 0x14);
+    SetDefDispEnv(base + 0x160, 0, h_offset, guess_g_ScreenWidth, guess_g_ScreenHeight);
 
-    halfW = D_800AF7BC >> 1;
-    halfH = D_800AF7BE >> 1;
+    halfW = guess_g_ScreenWidth >> 1;
+    halfH = guess_g_ScreenHeight >> 1;
     D_800AF672 = halfH;
     D_800AF670 = halfW;
     D_800AF6CC = halfW;
 
-    h = (D_800AF7BE == 0xF0) ? 0x168 : 0xF0;
+    h = (guess_g_ScreenHeight == 0xF0) ? 0x168 : 0xF0;
 
     D_800AF6D6 = 0x100;
     D_800AF6D4 = 0x100;
@@ -1367,13 +1367,13 @@ void func_80014960(void) {
     func_80014998();
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80014998(void) {
     u8 *p;
     s32 i;
 
-    p = D_800AF630;
+    p = guess_g_RenderWork;
     for (i = 0; i < 2; i++) {
         p[i * 0x5C + 0x51] = p[0x192];
         p[i * 0x5C + 0x52] = p[0x193];
@@ -1785,11 +1785,11 @@ extern s32 func_8001AA78(void);
 extern void func_8002F67C(void);
 extern void LoaderResetReadState(void);
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s16 D_800B9A04[];
 
 s32 func_80015144(void) {
-    u8* base = D_800AF630;
+    u8* base = guess_g_RenderWork;
 
     if (CdQueueBusy() != 0) {
         func_8002D4C8(2, 0);
@@ -1826,14 +1826,14 @@ extern u8 D_800B9A16;
 extern u8 D_800B9A13;
 extern u8 D_80078DD2;
 extern s32 D_800A5E78;
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_801281D8(void);
 
 void func_80015208(void) {
     s32 v;
     u8 *base;
 
-    base = D_800AF630;
+    base = guess_g_RenderWork;
 
     if (D_800B9A64) {
         return;
@@ -1894,13 +1894,13 @@ void func_80015310(void) {
     }
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_8001534C(s32 idx, s32 a1, s16 x, s16 y, u8 arg4, u8 arg5) {
     u8 *p;
     s32 off;
 
-    p = D_800AF630;
+    p = guess_g_RenderWork;
     off = (s16)idx * 16 + 0x9DA8;
     func_800153A4(p + off, a1, x, y, arg4, arg5);
 }
@@ -1915,12 +1915,12 @@ void func_800153A4(void *a0, s32 a1, s16 a2, s16 a3, u8 arg4, u8 arg5) {
     ((Unkstruct_800153A4 *)a0)->unkD = arg5;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 /* $v0 at exit: leftover of void func_80015424; no byte-neutral return: `return 0;` puts `move v0,zero` at +0x4C and moves `addiu sp` into the jr delay slot +0x54, main objdump */
 s32 func_800153CC(s32 arg0, s32 arg1, s16 arg2, s16 arg3, u8 arg4, u8 arg5) {
     u8 *base;
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     func_80015424(&base[((arg0 << 16) >> 12) + 0x9DA8], arg1, arg2, arg3, arg4, arg5);
 }
 
@@ -1963,7 +1963,7 @@ s16 *func_8001544C(void) {
 
 extern u16 D_800B9A02;
 extern u8 D_800B9A11;
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 *D_800A5E60;
 extern s32 GetTPage(s32, s32, s32, s32);
 extern void func_80015608(s32, s32);
@@ -1982,7 +1982,7 @@ void func_80015498(void)
     register u32 tag0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
     register u32 maskLo __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
 
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     ot = (u32 *)D_800A651C[D_800B9A02].a;
 
     if (D_800B9A11 != 1) {
@@ -2032,8 +2032,8 @@ void func_80015498(void)
     }
 }
 
-extern u16 D_800AF7BC;
-extern u16 D_800AF7BE;
+extern u16 guess_g_ScreenWidth;
+extern u16 guess_g_ScreenHeight;
 extern u8 *D_800A5E60;
 extern s16 *func_80015908(s32 a0, s32 a1);
 
@@ -2058,10 +2058,10 @@ register u32 mask __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung 
   otp = (u32 *) arg1;
   icon = *((u8 **) (((u8 *) arg0) + 8));
   htmp = *((u16 *) (((u8 *) arg0) + 2));
-  x0 = htmp - (D_800AF7BC >> 1);
+  x0 = htmp - (guess_g_ScreenWidth >> 1);
   flags = *(((u8 *) arg0) + 0xC);
   htmp = *((u16 *) (((u8 *) arg0) + 4));
-  y0 = htmp - (D_800AF7BE >> 1);
+  y0 = htmp - (guess_g_ScreenHeight >> 1);
   new_var = 0x03000000;
   blockSize = (flags & 0x80) ? (0x10) : (8);
   code = blockSize & 0xFF;
@@ -2103,8 +2103,8 @@ register u32 mask __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung 
 }
 
 
-extern u16 D_800AF7BC;
-extern u16 D_800AF7BE;
+extern u16 guess_g_ScreenWidth;
+extern u16 guess_g_ScreenHeight;
 extern u8 *D_800A5E60;
 extern u8 D_80062B78[];
 extern u32 func_80015A74(u32 param_1);
@@ -2125,9 +2125,9 @@ void func_80015760(Obj_80015760 *obj, s32 *ot)
     u32 yWord;
     s32 *pkt;
 
-    x0 = obj->x - (D_800AF7BC >> 1);
+    x0 = obj->x - (guess_g_ScreenWidth >> 1);
     flags = obj->flags;
-    y0 = obj->y - (D_800AF7BE >> 1);
+    y0 = obj->y - (guess_g_ScreenHeight >> 1);
     value = obj->value;
     count = flags & 0xF;
     digitCount = count;
@@ -2452,7 +2452,7 @@ void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 
  *
  * Sibling idiom: src/md_SC07_004/md_SC07_004.c func_801AADA8 (MATCHED) —
  * the addPrim pair over D_800A651C[bidx].a in ARRAY_REF form, and the
- * func_80016638(&D_800A6518[bidx*20], depth, flag) call form.
+ * func_80016638(&guess_g_OrderingTables[bidx*20], depth, flag) call form.
  *
  * SECOND-PASS FIXES (this file was NEAR/40 before; both were required):
  *
@@ -2492,14 +2492,14 @@ void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 
  * Symbol audit (§174 law 1c, done after MATCH): every symbol re-checked
  * against the target .s relocation lines — jal func_80010A08, jal
  * func_80016638, %hi/%lo(D_800B9A02) via lhu (u16, not s16), %hi/%lo
- * (D_800A651C) via lw, %lo(D_800A6518) via addiu (address-of).  Store sides
+ * (D_800A651C) via lw, %lo(guess_g_OrderingTables) via addiu (address-of).  Store sides
  * verified: `sw $a0,0($t0)` is the packet tag, `sw $v0,0($a1)` is the OT slot.
  * src/800.c declares none of these, so no TU-declaration conflict (law 2/3).
  */
 
 extern s32 func_80010A08(s32 a0);
 extern u16 D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8)
@@ -2541,7 +2541,7 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         (*(u32 *)(depth4 + D_800A651C[D_800B9A02].a) & 0xFF000000) |
         ((u32)temp_v0 & 0xFFFFFF);
     if (arg8 < 4) {
-        func_80016638(&D_800A6518[D_800B9A02 * 20], arg7, arg8);
+        func_80016638(&guess_g_OrderingTables[D_800B9A02 * 20], arg7, arg8);
     }
 }
 
@@ -2666,15 +2666,15 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
  * SYMBOL AUDIT (§174 law 1c — match_one masks jal/HI16/LO16, so every symbol
  * was re-checked against this .s's own relocation lines; tools/reloc_identity.py
  * then confirmed all 6 relocations AGREE.  The .s names exactly five relocated
- * symbols: D_800AF630, D_800A6518, D_800A651C, func_80010A08, func_80016638):
- *   - `lui/addiu %hi/%lo(D_800AF630)` -> $s0 is the ONLY named data base; the
+ * symbols: guess_g_RenderWork, guess_g_OrderingTables, D_800A651C, func_80010A08, func_80016638):
+ *   - `lui/addiu %hi/%lo(guess_g_RenderWork)` -> $s0 is the ONLY named data base; the
  *     OT-buffer index is reached as `*(u16 *)(base + 0xA3D2)`
  *     (`lui $at,0x1; addu $at,$s0,$at; lhu -0x5C2E($at)`; 0x10000-0x5C2E =
  *     0xA3D2, i.e. 0x800B9A02).  D_800B9A02 IS declared in src/800.c and IS
  *     used by the siblings, but it does NOT appear in THIS .s — do not
  *     substitute it here.  `lhu` => u16, not s16.
  *   - `jal func_80010A08` with $a0 = 0x40; `jal func_80016638` with
- *     $a0 = &D_800A6518[idx*20] (`lui %hi` + `addiu %lo` = address-of),
+ *     $a0 = &guess_g_OrderingTables[idx*20] (`lui %hi` + `addiu %lo` = address-of),
  *     $a1 = arg7 ($s5 from 0x5C($sp)), $a2 = arg8 (`andi $s4,0xFFFF`).
  *   - D_800A651C read with `lw %lo(...)($at)` = the `.a` member at offset 0;
  *     the index is scaled *20 (`sll 2; addu; sll 2`), which is exactly
@@ -2693,7 +2693,7 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
  *     below is unconstrained (no DEF-side wall here).
  *   - `extern void *func_80010A08(s32 a0);` (src/800.c:1119),
  *     `extern void func_80016638(void *a0, s32 a1, s32 a2);` (:1122),
- *     `extern u8 D_800A6518[];` (:1121), `extern u8 D_800AF630[];` (:930) and
+ *     `extern u8 guess_g_OrderingTables[];` (:1121), `extern u8 guess_g_RenderWork[];` (:930) and
  *     the block-scope `extern OtBlk_80016450_80015F04 D_800A651C[];` (:1126) all
  *     ALREADY exist at file scope ABOVE line 1166 and the declarations below
  *     are copied to agree with them exactly.  Duplicate compatible externs are
@@ -2714,8 +2714,8 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
 
 extern s32 func_80010A08(s32);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
-extern u8 D_800AF630[];
-extern u8 D_800A6518[];
+extern u8 guess_g_RenderWork[];
+extern u8 guess_g_OrderingTables[];
 
 void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8)
 {
@@ -2734,7 +2734,7 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
     u32 m24;
     u32 mFF;
 
-    base = D_800AF630;
+    base = guess_g_RenderWork;
 
     /* LEVER 8.  Emitting the argument load from asm (rather than `sz = 0x40;`)
      * is what stops cse folding REG_EQUAL 64 onto the call-site no-op move and
@@ -2802,7 +2802,7 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
     p[-1].y1 = pts[0].y;
 
     if (arg8 < 4) {
-        func_80016638(&D_800A6518[((Unkstruct_80010178 *)base)->unkA3D2 * 20], arg7, arg8);
+        func_80016638(&guess_g_OrderingTables[((Unkstruct_80010178 *)base)->unkA3D2 * 20], arg7, arg8);
     }
 }
 
@@ -2811,8 +2811,8 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
  * 0x18-byte POLY_F4 quad allocator + a single addPrim() into D_800A651C's OT
  * slot, then func_80016638. This one has no parameters: r0=g0=b0=0 (black),
  * code is always 0x2A (no branch), and the addPrim/func_80016638 call use
- * D_800A651C/D_800A6518 directly (matching the sibling's "else" arm shape,
- * but against D_800A651C instead of D_800AE7BC, and args (0,0) not (0,1)).
+ * D_800A651C/guess_g_OrderingTables directly (matching the sibling's "else" arm shape,
+ * but against D_800A651C instead of guess_g_FrontOrderingTablesOrg, and args (0,0) not (0,1)).
  * Field writes go through raw pointer arithmetic (not p->member) — a
  * struct-member store is MEM_IN_STRUCT_P and gcc-2.7.2's alias code treats
  * it as non-conflicting with the *(u32*)p full-word read, letting the
@@ -2823,7 +2823,7 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
 extern s32 func_80010A08(s32 a0);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 extern u16 D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 
 void func_80016110(void)
 {
@@ -2848,7 +2848,7 @@ void func_80016110(void)
     *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)D_800A651C[D_800B9A02].a & m24);
     ot = (u32 *)D_800A651C[D_800B9A02].a;
     *ot = (*ot & 0xFF000000) | ((u32)p & m24);
-    func_80016638(&D_800A6518[D_800B9A02 * 20], 0, 0);
+    func_80016638(&guess_g_OrderingTables[D_800B9A02 * 20], 0, 0);
 }
 
 /* Bank-safe form: NO file-scope typedef (src/800.c:92 already defines
@@ -2858,9 +2858,9 @@ void func_80016110(void)
  * compiles standalone here. File-scope externs below reproduce decls that
  * already exist in src/800.c (:553/:652/:653/:1255/:1429/:1432) purely so
  * this unit compiles alone; compatible redeclaration is warning-only. */
-extern u16 D_800AF7BE;
-extern u16 D_800AF7BC;
-extern u8 D_800A6518[];
+extern u16 guess_g_ScreenHeight;
+extern u16 guess_g_ScreenWidth;
+extern u8 guess_g_OrderingTables[];
 extern u16 D_800B9A02;
 extern s32 func_80010A08(s32 a0);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
@@ -2868,8 +2868,8 @@ extern void func_80016638(void *a0, s32 a1, s32 a2);
 void func_80016224(s32 a0, s32 a1)
 {
     extern struct { s32 a; s32 b[4]; } D_800A651C[];
-    extern struct { s32 a; s32 b[4]; } D_800AE7BC[];
-    extern u8 D_800AE7B8[];
+    extern struct { s32 a; s32 b[4]; } guess_g_FrontOrderingTablesOrg[];
+    extern u8 guess_g_FrontOrderingTables[];
 
     void *p;
     s16 xl;
@@ -2884,18 +2884,18 @@ void func_80016224(s32 a0, s32 a1)
     *(u8 *)((u8 *)p + 6) = a0;
     *(u8 *)((u8 *)p + 5) = a0;
     *(u8 *)((u8 *)p + 4) = a0;
-    xl = -(s32)D_800AF7BC / 2;
+    xl = -(s32)guess_g_ScreenWidth / 2;
     *(s16 *)((u8 *)p + 0x10) = xl;
     *(s16 *)((u8 *)p + 0x08) = xl;
     __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    xr = D_800AF7BC / 2;
+    xr = guess_g_ScreenWidth / 2;
     *(s16 *)((u8 *)p + 0x14) = xr;
     *(s16 *)((u8 *)p + 0x0C) = xr;
-    yl = -(s32)D_800AF7BE / 2;
+    yl = -(s32)guess_g_ScreenHeight / 2;
     *(s16 *)((u8 *)p + 0x0E) = yl;
     *(s16 *)((u8 *)p + 0x0A) = yl;
     __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
-    yr = D_800AF7BE / 2;
+    yr = guess_g_ScreenHeight / 2;
     idx = a1 & 0xFFFF;
     *(s16 *)((u8 *)p + 0x16) = yr;
     *(s16 *)((u8 *)p + 0x12) = yr;
@@ -2908,17 +2908,17 @@ void func_80016224(s32 a0, s32 a1)
         *(u32 *)p = (pv & mFF) | (*(u32 *)(i4 + D_800A651C[D_800B9A02].a) & m24);
         i4 += D_800A651C[D_800B9A02].a;
         *(u32 *)i4 = (*(u32 *)i4 & mFF) | ((u32)p & m24);
-        func_80016638(&D_800A6518[D_800B9A02 * 20], idx, 2);
+        func_80016638(&guess_g_OrderingTables[D_800B9A02 * 20], idx, 2);
     } else {
         u32 m24 = 0x00FFFFFF;
         register u32 pv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
         u32 *ot;
         pv = *(u32 *)p;
-        *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)D_800AE7BC[D_800B9A02].a & m24);
+        *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a & m24);
         __asm__ __volatile__("" : "=r"(pv));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
-        ot = (u32 *)D_800AE7BC[D_800B9A02].a;
+        ot = (u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a;
         *ot = (*ot & 0xFF000000) | ((u32)p & m24);
-        func_80016638(&D_800AE7B8[D_800B9A02 * 20], 0, 2);
+        func_80016638(&guess_g_FrontOrderingTables[D_800B9A02 * 20], 0, 2);
     }
 }
 
@@ -2932,7 +2932,7 @@ void func_80016224(s32 a0, s32 a1)
  * @stuck: none — MATCH, 122/122 instructions, byte-exact under match_one, and
  *   all 27 relocations hand-checked one-to-one against asm/nonmatchings/800/
  *   func_80016450.s (same offsets, same symbols, same order): func_80010A08,
- *   6x D_800B9A02, 2x D_800A651C, D_800A6518, 2x D_800AE7BC, D_800AE7B8,
+ *   6x D_800B9A02, 2x D_800A651C, guess_g_OrderingTables, 2x guess_g_FrontOrderingTablesOrg, guess_g_FrontOrderingTables,
  *   func_80016638.  Destination TU src/800.c already declares
  *   `extern void func_80016450(s32 a0, s32 a1);` (L680) — adopted verbatim.
  *   No other file-scope decl of any symbol used here exists in the
@@ -2990,7 +2990,7 @@ void func_80016224(s32 a0, s32 a1)
  *
  *  6. THE ELSE ARM'S LAST 6 WERE A SCHEDULE SWAP, NOT ALLOCATION.  Target fills
  *     the `lhu D_800B9A02` load-delay slot with the tag load `lw $v1,0($t1)`
- *     and the `lw %lo(D_800AE7BC)` slot with `lui $a0,0xff00`; we had them
+ *     and the `lw %lo(guess_g_FrontOrderingTablesOrg)` slot with `lui $a0,0xff00`; we had them
  *     exactly swapped, which also flipped D_800B9A02 $a0<->$v1.  This is
  *     gcc-2.7.2 sched.c's BIRTHING BOOST on a single-SET destination (the boost
  *     sinks the load to just before its consumer, and `potential_hazard` breaks
@@ -3010,9 +3010,9 @@ extern s32 func_80010A08(s32);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 extern u16 D_800B9A02;
-extern u8 D_800A6518[];
-extern OtBlk_80016450 D_800AE7BC[];
-extern u8 D_800AE7B8[];
+extern u8 guess_g_OrderingTables[];
+extern OtBlk_80016450 guess_g_FrontOrderingTablesOrg[];
+extern u8 guess_g_FrontOrderingTables[];
 
 void func_80016450(s32 a0, s32 a1)
 {
@@ -3042,17 +3042,17 @@ void func_80016450(s32 a0, s32 a1)
         *(u32 *)p = pv;
         i4 += D_800A651C[D_800B9A02].a;
         *(u32 *)i4 = (*(u32 *)i4 & mFF) | ((u32)p & m24);
-        func_80016638(&D_800A6518[D_800B9A02 * 20], idx, 1);
+        func_80016638(&guess_g_OrderingTables[D_800B9A02 * 20], idx, 1);
     } else {
         u32 m24 = 0x00FFFFFF;
         u32 pv;
         pv = *(u32 *)p;
         pv &= 0xFF000000;
-        pv |= *(u32 *)D_800AE7BC[D_800B9A02].a & m24;
+        pv |= *(u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a & m24;
         *(u32 *)p = pv;
-        ot = (u32 *)D_800AE7BC[D_800B9A02].a;
+        ot = (u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a;
         *ot = (*ot & 0xFF000000) | ((u32)p & m24);
-        func_80016638(&D_800AE7B8[D_800B9A02 * 20], 0, 1);
+        func_80016638(&guess_g_FrontOrderingTables[D_800B9A02 * 20], 0, 1);
     }
 }
 
@@ -3195,7 +3195,7 @@ void func_800167B8(s32 a0) {
     func_80016224(a0, 0);
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80062BA0[];
 extern s32 D_800B9A18;
 extern u16 D_800AF7CE;
@@ -3203,7 +3203,7 @@ extern void func_80016224(s32 a0, s32 a1);
 
 s32 func_800167F0(s32 arg0) {
     u16 x = arg0;
-    u8 *base = D_800AF630;
+    u8 *base = guess_g_RenderWork;
     s32 mask = arg0 & 3;
     u32 raw;
     u32 v;
@@ -3230,13 +3230,13 @@ void func_800168B4(void) {
     D_800AF7CE = 0;
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u16 D_800AF7CE;
 extern s32 D_800B9A18;
 extern u8 D_80062BA0[];
 
 s32 func_800168C4(s32 arg0) {
-    u8 *base = D_800AF630;
+    u8 *base = guess_g_RenderWork;
 
     arg0 &= 3;
     if (arg0 == 0) {
@@ -3260,7 +3260,7 @@ void func_80016940(s32 a0) {
     func_80016450(param, 0);
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80062BA0[];
 extern s32 D_800B9A18;
 extern u16 D_800AF7CE;
@@ -3268,7 +3268,7 @@ extern void func_80016450(s32 a0, s32 a1);
 
 s32 func_80016978(s32 arg0) {
     u16 x = arg0;
-    u8 *base = D_800AF630;
+    u8 *base = guess_g_RenderWork;
     s32 mask = arg0 & 3;
     u32 raw;
     u32 v;
@@ -4140,7 +4140,7 @@ void func_80017930(Src_80017930 *arg0, s32 arg1, s32 arg2)
  *     Both inherited from func_80016450's header.
  *  7. `*(u32 *)prim` / `*(u32 *)&sp->r0`, never a struct member, wherever the
  *     store has to kill CSE — that is what forces the two reloads of
- *     `s->flags` (0x14) and the two reloads of the D_800AF630 index.
+ *     `s->flags` (0x14) and the two reloads of the guess_g_RenderWork index.
  *
  * PIN-TRIM LOG (all re-scored; four pins are the verified minimum):
  *   drop `m24` $6 pin                 — MATCH  (dropped)
@@ -4152,14 +4152,14 @@ void func_80017930(Src_80017930 *arg0, s32 arg1, s32 arg2)
  *                                       $a1 and the masks in $a2/$a3)
  *   drop `pv` $4 pin                  — 4 mismatched
  *   drop `bb` $5 pin                  — 5 mismatched
- *   drop `pbase` $17 pin              — 126 ins, 124 mismatched (D_800AF630 base
+ *   drop `pbase` $17 pin              — 126 ins, 124 mismatched (guess_g_RenderWork base
  *                                       must live in a callee-saved reg)
  *   pin `prim` to $8                  — 28 mismatched (never pin prim; it lands
  *                                       in $t0 by itself once d4/masks are pinned)
  *
  * SYMBOL AUDIT (§174 law 1c, done after MATCH) — every symbol re-checked against
  * asm/nonmatchings/800/func_80017B98.s's own relocation lines:
- *   jal func_80010A08 (0x83AC)  •  %hi/%lo(D_800AF630) -> $s1 (0x8468/0x846C),
+ *   jal func_80010A08 (0x83AC)  •  %hi/%lo(guess_g_RenderWork) -> $s1 (0x8468/0x846C),
  *   dereferenced at $s1+0x10000-0x5C2E == 0x800B9A02, the same u16 frame index
  *   src/boot.c reads as `*(u16 *)(p + 0xA3D2)`  •  %hi/%lo(D_800A651C) via `lw`,
  *   twice (0x8514/0x851C and 0x8558/0x8560).  No other relocations exist.
@@ -4178,8 +4178,8 @@ void func_80017930(Src_80017930 *arg0, s32 arg1, s32 arg2)
  * ==> DROP the OtBlk_80016450 typedef line below when banking into src/800.c;
  *     it is present only so this file compiles standalone under match_one.
  * src/800.c also already declares `extern void *func_80010A08(s32 a0);` (L694)
- * — adopted verbatim.  D_800AF630 is not declared anywhere in that TU nor in any
- * header it includes, so the `extern u8 D_800AF630[];` below is the canonical
+ * — adopted verbatim.  guess_g_RenderWork is not declared anywhere in that TU nor in any
+ * header it includes, so the `extern u8 guess_g_RenderWork[];` below is the canonical
  * repo-wide form (src/boot.c L14/L37, every ov_* sibling).
  * src/800.c contains no prototype for func_80017B98 itself, so the definition's
  * `void func_80017B98(void *arg0)` is unconstrained (law 3 clear); it matches the
@@ -4193,7 +4193,7 @@ void func_80017930(Src_80017930 *arg0, s32 arg1, s32 arg2)
 /* the caller's request block == engine_types.h T8016EC0C */
 
 extern s32 func_80010A08(s32 a0);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80017B98(void *arg0)
 {
@@ -4223,7 +4223,7 @@ void func_80017B98(void *arg0)
     sp->x0 = s->x - (s->w >> 1);
     sp->y0 = s->y - (s->h >> 1);
     sp->u0 = s->u;
-    pbase = D_800AF630;
+    pbase = guess_g_RenderWork;
     sp->v0 = s->v;
     n = s->tp;
     t = (n + 0x100) << 6;
@@ -4456,12 +4456,12 @@ void func_80018384(void *a0, void *a1) {
     *a2 = (*a2 & 0xFF000000) | ((u32)a3 & 0x00FFFFFF);
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 s32 func_800183E0(s32 a0)
 {
 
-    Base *b = (Base *)D_800AF630;
+    Base *b = (Base *)guess_g_RenderWork;
     s32 i;
     s32 ret;
 
@@ -4483,8 +4483,8 @@ out:
 
 s32 func_80018450(void *a0, s32 a1)
 {
-    extern u8 D_800AF630[];
-    Base *b = (Base *)D_800AF630;
+    extern u8 guess_g_RenderWork[];
+    Base *b = (Base *)guess_g_RenderWork;
     s32 i;
     s32 ret;
 
@@ -7627,7 +7627,7 @@ extern u16 D_800B9A02;
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 extern u8 D_8007BA70[];
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 extern void func_80059BFC(s32 a0, s32 a1);
 extern void func_8001BA84(void);
@@ -7642,7 +7642,7 @@ s32 func_8001B86C(void)
     extern u8 D_800A651C[];
     extern u8 D_800A6528[];                      /* = D_800A651C + 12 */
     extern s32 otTbl[] __asm__("D_800A651C");    /* s32 view of D_800A651C — see note 3 */
-    u8 *p = D_800AF630;
+    u8 *p = guess_g_RenderWork;
 
     switch ((u32)D_800747FC) {
     case 0: {
@@ -8087,13 +8087,13 @@ void func_8001C00C(void) {
 #undef SHARED_FN
 
 extern void func_80016714(void *a0, s32 a1);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_8001C14C(void) {
     u8 *base;
     u8 *p;
 
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     p = base + 0x65A8;
     while (p < base + 0x6688) {
         func_80016714(p, 0x38);
@@ -8179,7 +8179,7 @@ void func_8001C320(s32 a0, s32 a1)
     extern void GsMapModelingData(u32 *p);
     extern void GsLinkObject5();
     extern void *GsPresetObject();
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     extern u8 D_80063548[];
     extern u16 D_800AF7CC;
     extern s32 *D_800AF7C8;
@@ -8196,7 +8196,7 @@ void func_8001C320(s32 a0, s32 a1)
     ((Unkstruct_8001C320 *)a0)->unk2 = 1;
     func_80052D90(0, (void *)(a0 + 0x30));
     func_80054514(a0 + 0x30, (s32)&sp10[0]);
-    work = (s32)D_800AF630;
+    work = (s32)guess_g_RenderWork;
     ((Unkstruct_8001C320 *)a0)->unk24 = a1;
     if (a1 != 0) {
         CAST_ALIAS(s32, a0, 0x20) = (s32)D_80063548;
@@ -8293,7 +8293,7 @@ void func_8001C5B8(s32 a0, s32 a1)
     extern void GsMapModelingData(unsigned long *p);
     extern void GsLinkObject5();
     extern void *GsPresetObject();
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     extern u8 D_80063548[];
     extern u16 D_800AF7CC;
     extern s32 *D_800AF7C8;
@@ -8310,7 +8310,7 @@ void func_8001C5B8(s32 a0, s32 a1)
     ((Unkstruct_8001C5B8 *)a0)->unk2 = 8;
     func_80052D90(0, (void *)(a0 + 0x30));
     func_80054514(a0 + 0x30, (s32)&sp10[0]);
-    work = (s32)D_800AF630;
+    work = (s32)guess_g_RenderWork;
     ((Unkstruct_8001C5B8 *)a0)->unk24 = a1;
     if (a1 != 0) {
         CAST_ALIAS(s32, a0, 0x20) = (s32)D_80063548;
@@ -8740,12 +8740,12 @@ void func_8001CFB8(void) {
     func_8001CFDC(0, 4);
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void *func_8001CFDC_impl(s32 start, s32 end) __asm__("func_8001CFDC");
 
 void *func_8001CFDC_impl(s32 start, s32 end) {
-    u8 *base = D_800AF630;
+    u8 *base = guess_g_RenderWork;
     u8 *p;
     s32 off;
     s32 i;
@@ -8773,12 +8773,12 @@ void func_8001D050(void) {
     func_8001D074(0, 4);
 }
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 s32 func_8001D074_impl(s32 arg0, s32 arg1) __asm__("func_8001D074");
 
 s32 func_8001D074_impl(s32 arg0, s32 arg1) {
-    u8* base = D_800AF630;
+    u8* base = guess_g_RenderWork;
     s32 off;
     u8* ptr;
 
@@ -9541,7 +9541,7 @@ s32 func_8001E668(s32 a0, s32 a1, GTEOutV *a2, s32 *a3)
 
 
 extern u16 D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern s32 func_80052460(s32 a0, s32 a1, s32 a2);
 
 void func_8001E7E0(u8 *arg0)
@@ -9569,7 +9569,7 @@ void func_8001E7E0(u8 *arg0)
         attr = ((Unkstruct_8001E7E0_2 *)arg0)->unk4;
         mode = (attr >> 24) & 3;
         shift = 2 - mode;
-        otp = &D_800A6518[(u16)D_800B9A02 * 20];
+        otp = &guess_g_OrderingTables[(u16)D_800B9A02 * 20];
         do {
             id = ((Unkstruct_8001E7E0_3 *)p)->unk0;
             sx = ((Unkstruct_8001E7E0_2 *)arg0)->unk28 + (((Unkstruct_8001E7E0_3 *)p)->unk4 >> shift);
@@ -9896,11 +9896,11 @@ void func_8001EA14(Ent_EA14 *p)
  * func_800547D8), write coord+workm back to arg0+0x34/+0x54, RTPS the origin,
  * then walk a 12-byte cell list (stride 0xC, low byte 8 = skip, 0xFF = end)
  * emitting one POLY_FT4 (0x28) per cell out of the D_800A5E60 bump allocator and
- * addPrim()ing it onto D_800A6610 + (*(u16 *)(D_800AF630+0xA3D2) << 14).
+ * addPrim()ing it onto D_800A6610 + (*(u16 *)(guess_g_RenderWork+0xA3D2) << 14).
  *
  * SYMBOL AUDIT (SYS law 1c, done after MATCH): the 9 external symbols in this
  * file are exactly the 9 in asm/nonmatchings/800/func_8001EFE0.s, in the same
- * order -- %hi/%lo(D_800AF630), jal func_80049CAC, jal func_8004901C,
+ * order -- %hi/%lo(guess_g_RenderWork), jal func_80049CAC, jal func_8004901C,
  * jal func_800547D8, jal func_80021174, %hi/%lo(D_800A6610),
  * %hi/%lo(D_800A5E60) x2, %hi/%lo(D_80072784) x2, jal func_8001F730.
  *
@@ -10032,7 +10032,7 @@ void func_8001EA14(Ent_EA14 *p)
 
 
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 extern u32 D_80072784;
@@ -10090,7 +10090,7 @@ void func_8001EFE0(s32 arg0)
     attr = ((Unkstruct_8001EFE0 *)arg0)->unk4;
     c2.super = ((Unkstruct_8001EFE0 *)arg0)->unk78;
     c2.flg = 0;
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     if (((Unkstruct_8001EFE0 *)arg0)->unk2C & 1) {
         ((Unkstruct_8001EFE0 *)arg0)->unk2C &= 0xFFFE;
         c2.coord = *(MATRIX_8001EFE0 *)(arg0 + 0x34);
@@ -10475,7 +10475,7 @@ void func_8001FB8C(s32 *a0, s32 *a1)
  * nothing about symbol identity).  Against this target's OWN relocation lines:
  *   - 26 `jal` targets, identical in name AND order;
  *   - 16 HI16/LO16 relocs, identical in name AND order (D_800B9A02, D_80062BA8,
- *     D_800A6518, D_800A5BD0, D_80074818 x2, D_80075018 x2);
+ *     guess_g_OrderingTables, D_800A5BD0, D_80074818 x2, D_80075018 x2);
  *   - all 16 internal `j` destinations decoded and equal (the §195-D blind spot,
  *     which match_one, the permuter scorer and every similarity tier cannot see);
  *   - the four words splat prints as %hi/%lo(D_1F800020) are NOT a real symbol —
@@ -10527,7 +10527,7 @@ void func_8001FB8C(s32 *a0, s32 *a1)
  *     — UNLESS it lands in $a0, because the param copy `addu $s0,$a0,$zero` READS
  *     $a0 and pins it below.  So the fix is two independent moves that must be
  *     made TOGETHER:
- *       (a) make `otp = &D_800A6518[D_800B9A02 * 20];` the FIRST statement (LUID), and
+ *       (a) make `otp = &guess_g_OrderingTables[D_800B9A02 * 20];` the FIRST statement (LUID), and
  *       (b) get the value out of $a0 — which lever 1 does for free: once `ot` is a
  *           spilled pseudo it leaves local-alloc's pool, so the index temp takes
  *           $v1 instead and nothing anchors it.
@@ -10555,7 +10555,7 @@ void func_8001FB8C(s32 *a0, s32 *a1)
 
    /* 0xB0 */
 
-extern u8  D_800A6518[];
+extern u8  guess_g_OrderingTables[];
 extern u8  D_800A5BD0[];
 extern u16 D_800B9A02;
 extern s32 D_80062BA8;
@@ -10602,7 +10602,7 @@ void func_8001FC08(OBJ_8001FC08 *obj)
     s32 ot;
     s32 spr;
 
-    otp = &D_800A6518[D_800B9A02 * 20];
+    otp = &guess_g_OrderingTables[D_800B9A02 * 20];
     attrv = obj->attr;
     mode = obj->mode;
     flags = obj->flags;
@@ -11401,7 +11401,7 @@ void func_80021120(s32 *arg0) {
 }
 
 
-extern s32 D_800AE688[];
+extern s32 GsWSMATRIX[];
 s32 func_80021174(s32 a0, s32 a1)
 {
     struct {
@@ -11414,7 +11414,7 @@ s32 func_80021174(s32 a0, s32 a1)
     if (a0 == 0x7FFF7FFF) {
         return 1;
     }
-    gte_SetRotTransMatrix(D_800AE688);
+    gte_SetRotTransMatrix(GsWSMATRIX);
     gte_ldlv0((SV_80021174 *)a1);
     gte_rtps();
     gte_stsxy(&r.sx);
@@ -12010,7 +12010,7 @@ void func_800215F4(Obj_215F4 *obj)
  * gives the target's descending 0x7C/0x78/0x74 store order.
  *
  * Symbols verified against this .s's own relocation lines (SYS law 1c):
- * D_800AF630, D_800B9A02, D_800A6610 (hi/lo) and jal func_800226C0 — and all
+ * guess_g_RenderWork, D_800B9A02, D_800A6610 (hi/lo) and jal func_800226C0 — and all
  * four internal `j` destinations (0x118, 0x160, 0x160, 0x398) checked by hand
  * because masked_diff.mask_for zeroes them (§195-D).
  * Declarations copied from the card's authoritative `tu` rows; they are the
@@ -12023,7 +12023,7 @@ void func_800215F4(Obj_215F4 *obj)
     /* 32 bytes */
 
 
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u8  D_800A6610[];
 extern u16 D_800B9A02;
 extern void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot);
@@ -12058,7 +12058,7 @@ void func_80021D38(Obj_80021D38 *p)
     s32           d;
     u32           t;
 
-    base  = D_800AF630;
+    base  = guess_g_RenderWork;
     ot    = (u8 *)((D_800B9A02 << 14) + (u32)D_800A6610);
     flags = p->flags;
     pts   = p->pts;
@@ -12172,7 +12172,7 @@ void func_80021D38(Obj_80021D38 *p)
  * array to func_800226C0 with the OT slot picked by the projected depth.
  * GsCOORDINATE2 at sp+0x88 (super is at +0x48, so `rotate` must be declared),
  * MATRIX out at sp+0xD8 -> $s0, the u16 game-state word is read off the
- * D_800AF630 base at +0xA3D2 (the house idiom, cf. func_80015144 in this TU).
+ * guess_g_RenderWork base at +0xA3D2 (the house idiom, cf. func_80015144 in this TU).
  *
  * LEVERS THAT MATTERED (all four were needed; each was worth 3-160 instructions):
  *  1. FRAME LAYOUT = declaration order of the AGGREGATES.  expand_decl slots every
@@ -12214,7 +12214,7 @@ void func_80021D38(Obj_80021D38 *p)
 
 
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_800A6610[];
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8004901C(void *a0, void *a1);
@@ -12244,7 +12244,7 @@ void func_800221A8(Obj221A8 *o) {
 
     cd.super = o->unk78;
     cd.flg = 0;
-    p = D_800AF630;
+    p = guess_g_RenderWork;
 
     if (o->unk2C & 1) {
         o->unk2C &= 0xFFFE;
@@ -13366,9 +13366,9 @@ void func_8002374C(s32 arg0)
  *   callee-saved register and costs +3 instructions (284).
  *
  * Symbols audited against this target's own relocation lines (law 1c): the .s
- * carries %hi/%lo of D_800AF630, D_800A6610, D_800B9A02, D_800A5E60 and no jal.
+ * carries %hi/%lo of guess_g_RenderWork, D_800A6610, D_800B9A02, D_800A5E60 and no jal.
  */
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_800A6610[];
 extern u16 D_800B9A02;
 extern u8 *D_800A5E60;
@@ -13397,7 +13397,7 @@ void func_80023BF0(s32 arg0)
     u8 *mat;
     register u32 base __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
-    mat = D_800AF630;
+    mat = guess_g_RenderWork;
     prims = *(u16 **)(arg0 + 0x20);
     b9 = D_800B9A02;
     flags = ((Unkstruct_80023BF0 *)arg0)->unk4;
@@ -14936,7 +14936,7 @@ PktGT4 *func_800262D8(FaceGT4 *face, SVEC8_800262D8 *vtx, SVEC8_800262D8 *nrm, P
  *
  * Was a verbatim asm block on the belief that the `lui $at,1 / addu $at,$t2,$at /
  * lbu $v1,-23638($at)` D_800B99DA fetch was hand-written; gcc-2.7.2 emits that
- * large-offset form itself for `base = D_800AF630; base[41898]`. P40 T8.c4: C below
+ * large-offset form itself for `base = guess_g_RenderWork; base[41898]`. P40 T8.c4: C below
  * (T8.c2 MATCH 239). Keys: ou/ov u16 with (u8) casts; uv locals s32; stores in field
  * order; `u32 rgb[2]`. Returns u8 *; the TU's forward decl is this prototype verbatim
  * (P40 T18.c1). D_8006388C / D_8006389C are declared here
@@ -14961,7 +14961,7 @@ u8 *func_80026514(Face_26514_t *face, char *verts, char *norms, GT3_26514_t *p, 
     u8 *base;
     u32 *tag;
 
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     tex = &D_8006388C[idx];
     c = D_8006389C[idx];
     clut = ((c + 256) << 6) | (c < 224 ? 0x16 : 0x10);
@@ -15032,7 +15032,7 @@ u8 *func_800268D0(Face_268D0_t *face, char *verts, char *norms, GT4_268D0_t *p, 
     u8 *base;
     u32 *tag;
 
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     tex = &D_8006388C[idx];
     c = D_8006389C[idx];
     clut = ((c + 256) << 6) | (c < 224 ? 0x16 : 0x10);
@@ -16022,10 +16022,10 @@ extern u16 D_800AF790[];
 extern u16 D_800AF794[];
 extern u16 D_800AF7A4[];
 extern u16 D_800AF7A8[];
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_80028694(void) {
-    u8 *s0 = D_800AF630;
+    u8 *s0 = guess_g_RenderWork;
     u32 m;
 
     if (D_800B9A15 != 0) {
@@ -16546,13 +16546,13 @@ s32 func_80029264(void) {
 
 
 extern Blk98_80029274 D_80072C84;
-extern Blk98_80029274 D_80078E78;
+extern Blk98_80029274 guess_g_PlayerRecord;
 
 void func_80029274(void) {
     Blk98_80029274 buffer;
 
     buffer = D_80072C84;
-    D_80078E78 = buffer;
+    guess_g_PlayerRecord = buffer;
 }
 
 
@@ -16566,14 +16566,14 @@ void func_8002931C(s32 a0) {
 
 extern u16 D_80078E92;
 extern u8 D_80078EAE;
-extern Blk98_80029274 D_80078E78;
+extern Blk98_80029274 guess_g_PlayerRecord;
 
 void func_80029344(void) {
     s32 val;
     u8* blk;
 
     val = D_80078E92;
-    blk = (u8*)&D_80078E78;
+    blk = (u8*)&guess_g_PlayerRecord;
 
     if ((u32)(val - 0x1A4) >= 0x2D0) {
         D_80078EAE = 0;
@@ -16761,7 +16761,7 @@ s32 func_800296F8(s32 arg0) {
 
 
 
-extern Blk98_80029274 D_80078E78;
+extern Blk98_80029274 guess_g_PlayerRecord;
 extern u8 D_80078F28[];
 extern u16 D_800A6588[];
 extern u8 D_800AE648[];
@@ -16774,7 +16774,7 @@ void func_80029774(s32 a0) {
     s32 i;
 
     dst = D_80078F28 + a0 * 0x2DC;
-    *(Blk98_80029274 *)(dst + 0x24) = D_80078E78;
+    *(Blk98_80029274 *)(dst + 0x24) = guess_g_PlayerRecord;
 
     for (i = 0; i < 0x40; i++) {
         *(u16 *)(dst + 0xBC + i * 2) = D_800A6588[i];
@@ -16806,7 +16806,7 @@ void func_800298BC(Blk36_800296F8 *arg0) {
 
 
 
-extern Blk98_80029274 D_80078E78;
+extern Blk98_80029274 guess_g_PlayerRecord;
 extern u16 D_800A6588[];
 extern u8 D_800BA2B8[];
 extern u8 D_80078F28[];
@@ -16818,7 +16818,7 @@ void func_8002992C(s32 arg0) {
     s32 i;
 
     base = D_80078F28 + arg0 * 0x2DC;
-    D_80078E78 = *(Blk98_80029274*)(base + 0x24);
+    guess_g_PlayerRecord = *(Blk98_80029274*)(base + 0x24);
 
     for (i = 0; i < 0x40; i++) {
         D_800A6588[i] = *(u16*)(base + 0xBC + i * 2);

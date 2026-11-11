@@ -12,7 +12,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
          /* 16-byte stride array element */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -373,7 +373,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_80186ED8[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -760,7 +760,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80187054;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1095,7 +1095,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801C4368;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1112,7 +1112,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018772C[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1373,7 +1373,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -4136,11 +4136,11 @@ void func_80180EBC(s32 a0) {
  *
  * DERIVATION NOTES (each item moved the count):
  *
- *  1. `u8 *m = D_800AF630;` AS THE FIRST LOCAL (form copied verbatim from the
+ *  1. `u8 *m = guess_g_RenderWork;` AS THE FIRST LOCAL (form copied verbatim from the
  *     banked sibling func_8017D77C, src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c:4273,
  *     and from GameModeDispatch in src/boot.c).  The target builds the base in a
  *     register (`lui/addiu $s2` then `lui $at,1 / addu / lhu -0x5C56($at)`), NOT
- *     `%hi(D_800AF630+0xA3AA)` — that split only happens for a REGISTER base, i.e.
+ *     `%hi(guess_g_RenderWork+0xA3AA)` — that split only happens for a REGISTER base, i.e.
  *     a pointer local.  Declaring it first makes it live across the func_8004787C
  *     call, which is what puts it in a callee-saved reg; global-alloc's density
  *     sort then hands out $s0=a0, $s1=ang, $s2=m exactly as the target has them.
@@ -4189,7 +4189,7 @@ void func_80180EBC(s32 a0) {
  * TU:4477; the spliced TU was compiled end-to-end and its codegen for this
  * function is identical to the standalone compile modulo $L numbering):
  *   copied VERBATIM from the TU's existing spelling —
- *     D_800AF630    (TU:53, file scope)      func_8004787C (TU:2206)
+ *     guess_g_RenderWork    (TU:53, file scope)      func_8004787C (TU:2206)
  *     guess_TurnStepToTarget (TU:4901)                func_8012CBA4 (TU:4343/4768, `void`
  *                                              -> return taken through a cast, idiom 9)
  *     func_8012B608 (TU:4163/5051)           func_8012BEE8 (TU:6145)
@@ -4220,10 +4220,10 @@ extern s32 func_80181CFC(s32 arg0, s32 arg1);
 
 void func_8018106C(s32 a0) {
 
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     extern s32 D_8019E1F0[];
     s32 pad[4];   /* idiom 6: 16 bytes of dead locals at sp+0x10 => frame 0x30 */
-    u8 *m = D_800AF630;
+    u8 *m = guess_g_RenderWork;
     s32 ang;
     s32 off;
     s32 base;

@@ -54,8 +54,8 @@ extern void func_800599B8();
 extern void func_800CFB3C(u16 *arg0);
 extern s32 func_800CFC1C(u16 *param_1);
 extern void func_800599B8(u16 *, u16 *);
-extern u16 D_800AF7BC;
-extern u16 D_800AF7BE;
+extern u16 guess_g_ScreenWidth;
+extern u16 guess_g_ScreenHeight;
 extern u16 D_800AF7C0;
 extern void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);
 extern void func_80053EEC(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -73,7 +73,7 @@ extern u8 D_800AF680;
  * in the order prim3, prim4, prim2, prim1. Direct sibling of boot's func_8001212C.
  *
  * -O0 spellings that are load-bearing (all byte-proven, reloc_identity AGREE 76/76):
- *  - `register u8 *base = D_800AF630;` far-offset base: ADDENDUM (c) to §261a -- lands
+ *  - `register u8 *base = guess_g_RenderWork;` far-offset base: ADDENDUM (c) to §261a -- lands
  *    caller-saved ($v0) with no calls, and the >0x7FFF member access assembles to
  *    lui $at,1 / addu $at,$v0,$at / lhu -0x5C2E($at).
  *  - `* 0x4000` and `* 20` are MULTIPLIES, not shifts: expand_mult's
@@ -96,7 +96,7 @@ extern u8 D_800AF680;
  *    the target frame is 8 bytes (only the $fp save), so no local may take a slot.
  */
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_800AA60C[];
 
 extern u32 D_800EC8B4;
@@ -163,7 +163,7 @@ extern s16 D_800EC9A2;
 
 void func_800D0D6C(void) {
 
-    register u8 *base = D_800AF630;
+    register u8 *base = guess_g_RenderWork;
 
     D_800EC8B7 = 5;
     D_800EC8B8 = 0xE100010A;

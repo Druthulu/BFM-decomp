@@ -1,6 +1,6 @@
 /* func_8014ADE0 — shared body (overlay slot 0x80128158, h_exact 8e362b78). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_8016F1C4(void);
 extern s32 func_8014B154(s32 *a0);
 extern void func_8014BD24(s32 a0, s32 a1);
@@ -20,7 +20,7 @@ void func_8014ADE0(s32 a0)
      * to `lui %hi / lw %lo`; taking the address instead materializes it and CSE hoists it
      * into a reg across all 4 uses (§18 &sym trap) — measured, it shifts ~100 insns. */
     extern s32 D_80078E90;
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
     s32 temp_s2;
     s32 var_a1;
     if (func_8016F1C4() != 0) {

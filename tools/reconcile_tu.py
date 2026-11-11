@@ -245,8 +245,8 @@ def fix(body, tu_path, fn):
             # names the TU's TYPE, and a type declared BELOW the splice point is not in scope AT it:
             # conforming to it substitutes a construct cc1 accepts for one it cannot even parse.
             # Byte-witnessed on resident:func_800D06E8 (344 ins, match_one closeness 0) — a
-            # deliberate block-scoped `extern Blk80078E78 D_80078E78;` rewritten to
-            # `extern Struct80078E78 D_80078E78;` whose typedef is declared 388 lines LOWER.
+            # deliberate block-scoped `extern Blk80078E78 guess_g_PlayerRecord;` rewritten to
+            # `extern Struct80078E78 guess_g_PlayerRecord;` whose typedef is declared 388 lines LOWER.
             #
             # The block-scope extern is not an accident to be cleaned up, either: it is what THIS
             # LADDER'S OWN `scope_demote_drafts` (§8d) rung produces on purpose, and three already-
@@ -267,8 +267,8 @@ def fix(body, tu_path, fn):
 
     # Locate each planned declaration by its SOURCE SPAN — never by re-finding its text.
     # `split_statements` preserves spans precisely because drafts get rewritten, and the text it
-    # hands back is comment-STRIPPED: `extern u8  D_80078E78;` for a line that actually reads
-    # `extern u8  D_80078E78;   /* cur base ($s5) */`. Matching statement-text against line-text
+    # hands back is comment-STRIPPED: `extern u8  guess_g_PlayerRecord;` for a line that actually reads
+    # `extern u8  guess_g_PlayerRecord;   /* cur base ($s5) */`. Matching statement-text against line-text
     # therefore misses EVERY commented declaration — and it misses it in the worst possible way,
     # SILENTLY: the uses are still cast to the draft's intended view while the declaration stays
     # unconformed, so cc1 reports `conflicting types` at the very decl the tool believed it had
@@ -327,8 +327,8 @@ def fix(body, tu_path, fn):
     #
     # This pass used to run `rx.sub` over every non-declaration LINE, which is every line of the
     # draft's doc comment too. Byte-witnessed on resident:func_800D06E8 (P31 S75): a 40-line header
-    # comment explaining the block-scope idiom had `D_80078E78` rewritten to
-    # `(*(Blk80078E78 *)&D_80078E78)` in its PROSE, eight times, including inside a quoted cc1
+    # comment explaining the block-scope idiom had `guess_g_PlayerRecord` rewritten to
+    # `(*(Blk80078E78 *)&guess_g_PlayerRecord)` in its PROSE, eight times, including inside a quoted cc1
     # diagnostic. Harmless to the bytes and corrosive to the only artifact that explains WHY the
     # function is written the way it is — and it made a mechanical rewrite look like an authored one.
     #

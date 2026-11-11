@@ -753,8 +753,8 @@ s32 func_800CFEB4(u16 *arg0)
 }
 
 
-extern u16 D_800AF7BC;
-extern u16 D_800AF7BE;
+extern u16 guess_g_ScreenWidth;
+extern u16 guess_g_ScreenHeight;
 extern u16 D_800AF7C0;
 extern void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);
 extern void func_80053EEC(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -770,8 +770,8 @@ void func_800CFFEC(void) {
     s16 sp20[4];
     s16 sp28[4];
 
-    D_800AF7BC = 0x280;
-    D_800AF7BE = 0x1E0;
+    guess_g_ScreenWidth = 0x280;
+    guess_g_ScreenHeight = 0x1E0;
     D_800AF7C0 = 1;
     GsInitGraph2(0x280, 0x1E0, 5, 0, 0);
     func_80053EEC(0, 0, 0, 0);

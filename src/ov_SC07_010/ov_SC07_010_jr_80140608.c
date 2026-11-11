@@ -283,7 +283,7 @@ s16 n;
     extern s16 D_80183350[];
     extern u16 D_80182E60;
     extern u16 D_80182E62;
-  extern Env_80140958 D_800AE7BC[];
+  extern Env_80140958 guess_g_FrontOrderingTablesOrg[];
   Prim4 *p;
   s16 t;
   s32 c3;
@@ -380,11 +380,11 @@ u32 mhi;
             size = 8;
             *((s16 *) (q - 2)) = size;
             *((s16 *) (q - 4)) = size;
-            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (D_800AE7BC[*pb].ot[2] & m24);
+            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & m24);
             {
 u32 *op;
 u32 w;
-              op = D_800AE7BC[*pb].ot;
+              op = guess_g_FrontOrderingTablesOrg[*pb].ot;
               w = op[2];
               w &= mhi;
               w |= ((u32) ot) & m24;
@@ -428,7 +428,7 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
        sibling and the family sweeps 0/137. Body-local typedefs DO survive (PTag_80140D68 below
        is the proof), so it lives here. */
          /* 0x14 stride */
-    extern Env_800D29F8 D_800AE7BC[];
+    extern Env_800D29F8 guess_g_FrontOrderingTablesOrg[];
 
 
     u32 mhi;
@@ -451,8 +451,8 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
     ((Unkstruct_80140D68_2 *)out)->unk12 = 0x10;
     ((Unkstruct_80140D68_2 *)out)->unk10 = 0x10;
 
-    ((PTag_80140D68 *)out)->addr = *(u32 *)((PTag_80140D68 *)((D_800AE7BC[*(u16 *)&D_800B9A02].ot) + 2));
-    ((PTag_80140D68 *)((D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot) + 2))->addr = (u32)out;
+    ((PTag_80140D68 *)out)->addr = *(u32 *)((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot) + 2));
+    ((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot) + 2))->addr = (u32)out;
 
     return out + 5;
 }

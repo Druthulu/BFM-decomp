@@ -164,8 +164,8 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
@@ -613,7 +613,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80136F3C(s32 a0, s32 a1);
@@ -623,7 +623,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
@@ -1848,7 +1848,7 @@ extern void func_80153060(void *a0);
 extern void func_801530E4(s32 a0);
 extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern void func_801530E4(s32 arg0);
 extern void func_80153150(struct S80153150 *a0);
 extern void func_801531BC(s32 a0);
@@ -2446,7 +2446,7 @@ extern void func_80160368(s32 *a0);
 extern void (*D_80180E04[])(void);
 extern void func_8016039C(void *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_80160534(u8 *p);
 extern void func_801607B8(s32 *a0);
@@ -2507,7 +2507,7 @@ extern s32 func_80161888(s32 a0, u32 a1);
 extern void func_8014C010(int a0, int a1);
 extern s32 func_80161A00(s32 a0);
 extern s32 func_80161A30(s32 a0);
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 s32 func_801497A8(s32 *a0);
 void func_801599A4(void *a0);
 void func_80149864(void);

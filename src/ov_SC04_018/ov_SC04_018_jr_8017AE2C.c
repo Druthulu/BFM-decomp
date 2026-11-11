@@ -10,7 +10,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
 extern void func_801458E8(void);
@@ -36,7 +36,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -374,7 +374,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018EDCC[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -763,7 +763,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018EF48;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1097,7 +1097,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801E5BF0;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1114,7 +1114,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018F620[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1375,7 +1375,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -3710,7 +3710,7 @@ void func_8017D6EC(void *arg0) {
  *       typedef struct {...} Ent_8017D6EC;      -- already defined at TU line 4212-4218
  *   MAY DROP (exact repeats of decls the TU already carries; harmless if kept, the TU
  *   already repeats D_80078EB1 five times):
- *       D_80078EB1 (1460/4207/...), D_80078E78[] (388/6903), D_800AF630[] (50),
+ *       D_80078EB1 (1460/4207/...), guess_g_PlayerRecord[] (388/6903), guess_g_RenderWork[] (50),
  *       func_8004787C (2202), D_801E6F58 (4220/4248)
  *   MUST KEEP:
  *       func_8012AD44 -- NOT declared anywhere in this TU; form copied verbatim from the
@@ -3721,8 +3721,8 @@ void func_8017D6EC(void *arg0) {
  * func_8017D9B8 is declared `void (void)` but the target passes $a0 -> called through a cast
  * (idiom 9); do NOT change its definition.                                                  */
 extern u8 D_80078EB1;
-extern u8 D_80078E78[];
-extern u8 D_800AF630[];
+extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_RenderWork[];
 extern s32 func_8004787C(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8017D9B8(void);
@@ -3734,8 +3734,8 @@ extern Ent_8017D6EC D_801E6F58[];
 
 void func_8017D77C(s32 *arg0)
 {
-    u8 *m = D_800AF630;
-    u8 *q = D_80078E78;
+    u8 *m = guess_g_RenderWork;
+    u8 *q = guess_g_PlayerRecord;
     Ent_8017D6EC *p;
     Ent_8017D6EC *r;
     s32 i;

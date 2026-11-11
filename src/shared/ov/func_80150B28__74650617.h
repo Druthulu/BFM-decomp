@@ -2,12 +2,12 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80150B28(int param_1) {
 
-    extern s32 D_800AE6B0;
+    extern s32 guess_g_CurrentEvent;
     extern void (*D_80180740[])(void);
     u32 idx;
     u32 sub;
 
-    if ((D_800AE6B0 & 0x80FFFFFF) == 0) {
+    if ((guess_g_CurrentEvent & 0x80FFFFFF) == 0) {
         idx = *(u16 *)(param_1 + 0x16C);
         if (idx != 0 && idx < 0x26) {
             sub = idx - 1;

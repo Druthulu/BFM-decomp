@@ -3,9 +3,9 @@
 extern void func_8014AC10(s32 arg0);
 void func_80161A90(s32 a0)
 {
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern u8 D_80078EC0;
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
     s32 t;
     if (*(s16 *)(a0 + 0x1C8) == 0) {
         t = 0;

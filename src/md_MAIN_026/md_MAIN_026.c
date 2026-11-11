@@ -49,12 +49,12 @@ void func_800CAF10(void *arg0) {
 
 
 void func_800CAF68(void *arg0) {
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern s32 func_8014C088(s32 a0, s32 a1);
     extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
     extern void func_80147324(s32 arg0);
     extern void func_800CB098(void *a0);
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
 
     if (func_8014C088((s32)arg0, 0xB) == 0 || ((Unkstruct_800CAF68 *)arg0)->unkBE != 0) {
         func_800CB098(arg0);

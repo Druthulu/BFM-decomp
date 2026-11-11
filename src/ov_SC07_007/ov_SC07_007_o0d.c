@@ -129,7 +129,7 @@ extern s8 D_801150D6;            /* canonical (engine_core macro): s8 — access
 extern s32 D_80126F04[];
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern s32 D_800AE688[];
+extern s32 GsWSMATRIX[];
 extern void guess_UpdateCamera(void);
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
@@ -517,7 +517,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80137030(s16 a0, s16 a1);

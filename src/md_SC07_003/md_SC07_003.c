@@ -1994,7 +1994,7 @@ extern u16 D_801F43C0;
 extern s32 D_801F4360[];
 extern u8 D_801A6C50[];
 extern u8 D_801A6C98[];
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_800A6610[];
 extern s16 D_800B9A02;
 extern s32 D_800A5E60;
@@ -2068,7 +2068,7 @@ void func_801A293C(void *arg0)
 
     i = 0;
     s5v = (s32)sp58;
-    __asm__("addiu %0,%1,0x18" : "=r"(m) : "r"(D_800AF630));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__("addiu %0,%1,0x18" : "=r"(m) : "r"(guess_g_RenderWork));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B tus10)
     s7 = (s32)&flag;
     fp = -0x1001;
     base = (s32)D_800A6610 + (*(u16 *)&D_800B9A02 << 14);

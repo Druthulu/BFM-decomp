@@ -3,9 +3,9 @@
 extern s32 func_8016F1C4(void);
 extern s32 guess_TestGameFlag(s32 a0);
 extern void func_8014BC80(s32 a0, s32 a1);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 void func_8014B5D8(s32 s1) {
-    s32 *s0 = (s32 *)D_80078E78;
+    s32 *s0 = (s32 *)guess_g_PlayerRecord;
     s32 v0;
     s32 a0;
     v0 = func_8016F1C4();

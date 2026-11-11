@@ -854,7 +854,7 @@ void func_80130D0C(void *a0) {
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
 extern s32 rand(void);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u16 g_PlayerHpMax;
 extern u16 g_PlayerHp;
 extern s16 D_80189D48[];
@@ -866,7 +866,7 @@ extern s16 D_80189E00[];
 void func_80130D48(s32 arg0)
 {
     s16 *tbl;
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
     s32 val;
     s32 i;
     s32 j;

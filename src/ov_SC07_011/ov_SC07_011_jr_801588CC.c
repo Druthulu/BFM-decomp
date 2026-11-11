@@ -141,8 +141,8 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void guess_UpdateCamera(void);
 extern void func_8012A018(s32 a, s32 b);
@@ -549,7 +549,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80137030(s16 a0, s16 a1);
@@ -557,7 +557,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
@@ -1003,7 +1003,7 @@ extern int func_80144B14(int param_s0);
 extern void func_80144AEC(s32 *a0);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -1354,7 +1354,7 @@ extern s32 func_80146AFC(void *a0);
 extern void func_8014ADA8(s32 a0, s32 a1);
 extern void func_8014AD7C(s32 a0);
 extern s32 D_80078E8C;
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_8016F1C4(void);
 extern s32 func_8014B154(s32 *a0);
 extern void func_8014BD24(s32 a0, s32 a1);
@@ -1712,7 +1712,7 @@ extern void func_80153060(void *a0);
 extern void func_801530E4(s32 a0);
 extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern void func_801530E4(s32 arg0);
 extern void func_80153150(struct S80153150 *a0);
 extern void func_801531BC(s32 a0);
@@ -2135,7 +2135,7 @@ extern void func_80146CA0(void *a0);
 
 void func_8015934C(void *arg0) {
 
-    extern u8 D_800AE6BD;
+    extern u8 guess_g_EventSubStep;
     extern s32 D_8018F228;
     extern s32 D_8018F230;
     void *temp_v1;
@@ -2146,7 +2146,7 @@ void func_8015934C(void *arg0) {
     if (D_8018F230 != 0) {
         func_80145BF8();
         func_80146CA0(arg0);
-        D_800AE6BD += 1;
+        guess_g_EventSubStep += 1;
     }
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
     ((Unkstruct_800B5CB8 *)temp_v1)->unk12 = (u16) ((((Unkstruct_800B5CB8 *)temp_v1)->unk12 + 0x16) & 0xFFF);
@@ -2191,7 +2191,7 @@ ret0:
 }
 
 
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 
 
 extern void func_80175454(void);
@@ -2228,9 +2228,9 @@ void func_80159698(void *a0) {
 
 
 // @class: iv-combine
-// @unstuck(P36): none — MATCH (97 ins). Recipe: $s0=base=&(*(u8 *)&D_800AF630) hoisted at top; loop1 = for(p=base+0x65A8;
+// @unstuck(P36): none — MATCH (97 ins). Recipe: $s0=base=&(*(u8 *)&guess_g_RenderWork) hoisted at top; loop1 = for(p=base+0x65A8;
 //   p<base+0x9DA8;p+=0xe) p[1]|=... (the +4 field-offset store folds into the reduced IV -> gcc emits the
-//   -4 loop-inversion guard + reuses END for END+4). BOTHER: loop2 needs ab=&D_800AFAE8 POST-guard as a
+//   -4 loop-inversion guard + reuses END for END+4). BOTHER: loop2 needs ab=&guess_g_PlayerModelObject POST-guard as a
 //   shared base for A=ab+1,B=ab+0x22 -> a for-loop hoists it PRE-guard (fold or perm); the fix is a manual
 //   guarded do-while `if(base+0x2A8<base+0x65A8){ ... do{}while(q<inline base+0x65AC);}` with a DISTINCT loop
 //   var (q, not p) so loop1's biv-elim survives, an INLINE while-bound (frees the delay slot for the OR
@@ -2252,10 +2252,10 @@ s32 func_801596F0(s32 param_1) {
     extern s16 D_800B9AAC[];
     extern s16 D_800B9B00;
     extern u16 D_801270C0[0];
-    extern u8 D_800AF630[];
-    extern u32 D_800AFAE8[];
+    extern u8 guess_g_RenderWork[];
+    extern u32 guess_g_PlayerModelObject[];
     extern char D_80180A8C[];
-    u8 *base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
+    u8 *base = &(((Unkstruct_8012956C *)&guess_g_RenderWork)->unk0);
     s32 v;
     u32 *p;
     u32 *q;
@@ -2274,7 +2274,7 @@ s32 func_801596F0(s32 param_1) {
 
         if ((u32 *)(base + 0x2A8) < (u32 *)(base + 0x65A8)) {
             u32 orc = 0x80000000;
-            u32 *ab = D_800AFAE8;
+            u32 *ab = guess_g_PlayerModelObject;
             q = (u32 *)(base + 0x2AC);
             do {
                 if (q < ab + 1 || q >= ab + 0x22) {

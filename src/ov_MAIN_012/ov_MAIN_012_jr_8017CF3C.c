@@ -165,8 +165,8 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
@@ -614,7 +614,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80136F3C(s32 a0, s32 a1);
@@ -624,7 +624,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
@@ -1073,7 +1073,7 @@ extern s32 func_80013294(void *a0, void *a1);
 extern int func_80144B14(int param_s0);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -1372,7 +1372,7 @@ extern u8 D_80078EBF;
 extern s32 func_80149744(struct S_80149744 *a0);
 extern void func_8015F7A0(s32 *arg0);
 extern void func_80149788(void);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 D_80078EC1;
 extern s32 func_8014CB7C(void);
 extern s32 func_8014C088(s32 a0, s32 a1);
@@ -1851,7 +1851,7 @@ extern void func_80153060(void *a0);
 extern void func_801530E4(s32 a0);
 extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern void func_801530E4(s32 arg0);
 extern void func_80153150(struct S80153150 *a0);
 extern void func_801531BC(s32 a0);
@@ -2391,7 +2391,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(void *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_80160534(u8 *p);
 extern void func_801607B8(s32 *a0);
@@ -4136,8 +4136,8 @@ void func_8017DCB0(s32 val, s32 n, void *dst, s32 flag) {
  *   src/ov_MAIN_012/ov_MAIN_012_jr_8013F350.c:1746  func_80140D68
  * which has the identical 0x04000000 / 0x70 / 0x10 / 0x64808080 / 0x4056 /
  * 0x10 / 0x10 store sequence and the identical
- *   ((PTag *)out)->addr = ((PTag *)(D_800AE7BC[*pb].ot + 2))->addr;
- *   ((PTag *)(D_800AE7BC[*pb].ot + 2))->addr = (u32)out;
+ *   ((PTag *)out)->addr = ((PTag *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr;
+ *   ((PTag *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr = (u32)out;
  * pair.  Only the 24-bit-bitfield spelling emits exactly two `and`s per half.
  *
  * THE THREE LEVERS (each byte-measured with tools/match_one.py):
@@ -4161,7 +4161,7 @@ void func_8017DCB0(s32 val, s32 n, void *dst, s32 flag) {
  *       the `or`, so the return value `addiu $v0,$s3,0x8` cannot be scheduled
  *       into the load-delay slot.  With the plain bitfield spelling gcc puts
  *       that word in $v1/$a0, $v0 falls free, sched2 hoists the return insn
- *       into the slot, and the target's `nop` after `lw $v1,%lo(D_800AE7BC)`
+ *       into the slot, and the target's `nop` after `lw $v1,%lo(guess_g_FrontOrderingTablesOrg)`
  *       disappears — a LENGTH-DRIFT of exactly -1 that no amount of statement
  *       reordering fixes.  `register u32 v __asm__("$2")`, REUSED for the
  *       or-result, is the only lever that holds it.  16 mismatched -> MATCH.
@@ -4177,7 +4177,7 @@ s32 *func_8017DD28(s32 *out) {
    /* 0x14 stride */
                /* 0x20 stride */
 
-    extern Env_8017DD28 D_800AE7BC[];
+    extern Env_8017DD28 guess_g_FrontOrderingTablesOrg[];
     extern short D_800B9A02;
     extern Panel_8017DD28 *D_80115134;
     extern u16 D_8011511A;
@@ -4214,18 +4214,18 @@ s32 *func_8017DD28(s32 *out) {
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 
     ((PTag_8017DD28 *)out)->addr =
-        ((PTag_8017DD28 *)(D_800AE7BC[*pb].ot + 2))->addr;
-    ((PTag_8017DD28 *)(D_800AE7BC[*pb].ot + 2))->addr = (u32)out;
+        ((PTag_8017DD28 *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr;
+    ((PTag_8017DD28 *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr = (u32)out;
 
     out += 5;                                       /* [L1] */
     func_8005A600((s32)out, 0, 0, 0x15, 0);
 
     ((PTag_8017DD28 *)out)->addr =
-        ((PTag_8017DD28 *)(D_800AE7BC[*pb].ot + 2))->addr;
+        ((PTag_8017DD28 *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr;
     {
         u32 *op;
         register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-        op = D_800AE7BC[*pb].ot;
+        op = guess_g_FrontOrderingTablesOrg[*pb].ot;
         v = op[2];
         v = (v & 0xFF000000) | (((u32)out) & 0xFFFFFF);
         op[2] = v;
@@ -4251,7 +4251,7 @@ void func_8017DF18(void)
  * re-typedef of a visible name is a redefinition error. Same layout, same codegen. */
 /* ALIGN-1 4-byte element => lwl/lwr + swl/swr (cookbook §160a); a u32[] loop is wrong. */
 
-extern u8  D_80078E78[];   /* live: 152-byte block            (host TU declares this identically) */
+extern u8  guess_g_PlayerRecord[];   /* live: 152-byte block            (host TU declares this identically) */
 extern u16 D_800A6588[];   /* live: u16[64]                                                      */
 extern u8  D_800AE648[];   /* live: u8[64]                                                       */
 extern u8  D_800BA1B8[];   /* live: u8[256]                                                      */
@@ -4269,7 +4269,7 @@ void func_8017DF40(s32 arg0) {
     s16 i;
 
     if ((s16)arg0 == 0) {
-        *(Blk152_8017DF40 *)D_80078E78 = *(Blk152_8017DF40 *)D_8018581C;
+        *(Blk152_8017DF40 *)guess_g_PlayerRecord = *(Blk152_8017DF40 *)D_8018581C;
         for (i = 0; i < 64; i++) {
             D_800A6588[i] = D_801858B4[i];
         }
@@ -4283,7 +4283,7 @@ void func_8017DF40(s32 arg0) {
             ((Blk4_8017DF40 *)D_800BA2B8)[i] = ((Blk4_8017DF40 *)D_80185A74)[i];
         }
     } else {
-        *(Blk152_8017DF40 *)D_8018581C = *(Blk152_8017DF40 *)D_80078E78;
+        *(Blk152_8017DF40 *)D_8018581C = *(Blk152_8017DF40 *)guess_g_PlayerRecord;
         for (i = 0; i < 64; i++) {
             D_801858B4[i] = D_800A6588[i];
         }

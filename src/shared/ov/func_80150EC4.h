@@ -8,7 +8,7 @@ extern s16 D_800AE6CC;
 extern s32 D_800AE6C4;
 extern s16 D_800AE6CE;
 extern u8 D_800AE6BE;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern u8 D_801201F8[];
 void func_80150EC4(s32 a0, s32 a1) {
     D_800AE6C0 = 1;
@@ -16,7 +16,7 @@ void func_80150EC4(s32 a0, s32 a1) {
     D_800AE6CA = *(u16 *)(a0 + 0xA);
     D_800AE6CC = *(u16 *)(a0 + 0xE);
     D_800AE6CE = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
-    D_800AE6B0 = *(s32 *)(((a1 << 2) + D_800AE6C4) + 4);
+    guess_g_CurrentEvent = *(s32 *)(((a1 << 2) + D_800AE6C4) + 4);
     D_800AE6BE = a1 + 1;
     *(copy00 *)D_801201F8 = *(copy00 *)guess_g_MainCamera;
 }

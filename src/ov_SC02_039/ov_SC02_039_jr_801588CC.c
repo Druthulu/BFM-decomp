@@ -4,7 +4,7 @@
 
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -31,7 +31,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -370,7 +370,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_80180CB4[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -760,7 +760,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80180E30;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1269,7 +1269,7 @@ void func_80158FA4(s32 param_1)
 
 extern void func_80145BF8(void);
 extern void func_80146CA0(void *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_8019FB20;
 extern s32 D_8019FB28;
 
@@ -1282,7 +1282,7 @@ void func_8015934C(void *arg0) {
     if (D_8019FB28 != 0) {
         func_80145BF8();
         func_80146CA0(arg0);
-        D_800AE6BD += 1;
+        guess_g_EventSubStep += 1;
     }
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
     ((Unkstruct_800B5CB8 *)temp_v1)->unk12 = (u16) ((((Unkstruct_800B5CB8 *)temp_v1)->unk12 + 0x16) & 0xFFF);
@@ -1323,7 +1323,7 @@ ret0:
 }
 
 
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 
 
 extern void func_80175454(void);
@@ -1358,9 +1358,9 @@ void func_80159698(void *a0) {
 
 
 // @class: iv-combine
-// @unstuck(P36): none — MATCH (97 ins). Recipe: $s0=base=&(*(u8 *)&D_800AF630) hoisted at top; loop1 = for(p=base+0x65A8;
+// @unstuck(P36): none — MATCH (97 ins). Recipe: $s0=base=&(*(u8 *)&guess_g_RenderWork) hoisted at top; loop1 = for(p=base+0x65A8;
 //   p<base+0x9DA8;p+=0xe) p[1]|=... (the +4 field-offset store folds into the reduced IV -> gcc emits the
-//   -4 loop-inversion guard + reuses END for END+4). BOTHER: loop2 needs ab=&D_800AFAE8 POST-guard as a
+//   -4 loop-inversion guard + reuses END for END+4). BOTHER: loop2 needs ab=&guess_g_PlayerModelObject POST-guard as a
 //   shared base for A=ab+1,B=ab+0x22 -> a for-loop hoists it PRE-guard (fold or perm); the fix is a manual
 //   guarded do-while `if(base+0x2A8<base+0x65A8){ ... do{}while(q<inline base+0x65AC);}` with a DISTINCT loop
 //   var (q, not p) so loop1's biv-elim survives, an INLINE while-bound (frees the delay slot for the OR
@@ -1379,12 +1379,12 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0[];
-extern u8 D_800AF630[];
-extern u32 D_800AFAE8[];
+extern u8 guess_g_RenderWork[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_80181508[];
 
 s32 func_801596F0(s32 param_1) {
-    u8 *base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
+    u8 *base = &(((Unkstruct_8012956C *)&guess_g_RenderWork)->unk0);
     s32 v;
     u32 *p;
     u32 *q;
@@ -1403,7 +1403,7 @@ s32 func_801596F0(s32 param_1) {
 
         if ((u32 *)(base + 0x2A8) < (u32 *)(base + 0x65A8)) {
             u32 orc = 0x80000000;
-            u32 *ab = D_800AFAE8;
+            u32 *ab = guess_g_PlayerModelObject;
             q = (u32 *)(base + 0x2AC);
             do {
                 if (q < ab + 1 || q >= ab + 0x22) {

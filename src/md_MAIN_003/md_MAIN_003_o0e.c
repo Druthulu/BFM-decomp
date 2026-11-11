@@ -55,8 +55,8 @@ extern void func_800CFB3C(u16 *arg0);
 extern s32 func_800CFC1C(u16 *param_1);
 extern void func_800599B8(u16 *, u16 *);
 extern s32 func_800CFEB4(u16 *arg0);
-extern u16 D_800AF7BC;
-extern u16 D_800AF7BE;
+extern u16 guess_g_ScreenWidth;
+extern u16 guess_g_ScreenHeight;
 extern u16 D_800AF7C0;
 extern void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);
 extern void func_80053EEC(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -72,14 +72,14 @@ extern u8 D_800AF680;
  * a nop) stranded inside md_MAIN_003's -O2 object (sec 261: 116 functions across the
  * tree are this class; nothing under src/md_* globs -O0 yet). Same family as the
  * already-banked func_800D0440/func_800D05B4/func_800D06BC/func_800D09A0 in this
- * exact TU (same $s0 = D_800AF630 far-base idiom, same ra/fp/s0(/s1) save set).
+ * exact TU (same $s0 = guess_g_RenderWork far-base idiom, same ra/fp/s0(/s1) save set).
  *
  * Recovered C semantics for the eventual real -O0-object decomp:
  *
- *     void (*fn)(void) = D_800D363C[*(u16 *)((u8 *)D_800AF630 + 0xA3B4)];
+ *     void (*fn)(void) = D_800D363C[*(u16 *)((u8 *)guess_g_RenderWork + 0xA3B4)];
  *     fn();
  *
- * S69 provenance: a prior real-C draft (`register u8 *p = D_800AF630; D_800D363C[*(u16*)
+ * S69 provenance: a prior real-C draft (`register u8 *p = guess_g_RenderWork; D_800D363C[*(u16*)
  * (p+0xA3B4)]();`) reported MATCH under match_one's --auto-o0 (it force-compiles a
  * standalone C draft at -O0 on seeing the target's frame-pointer prologue), but
  * tools/recover_integration.py's real-cc1 probe against the actual TU (compiled -O2,
@@ -90,17 +90,17 @@ extern u8 D_800AF680;
  * reproduces the target bytes regardless of the TU's compile flags. No C externs
  * shipped (link-time resolution).
  */
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void (*D_800D363C[])(void);
 
 void func_800D0100(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     D_800D363C[((Unkstruct_80010178 *)p)->unkA3B4]();
 }
 
 
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_8001C044(void);
 extern void func_80015310(void);
 extern int func_8002D858(void);
@@ -112,7 +112,7 @@ extern s32 D_800EC8B0;
 extern void func_800118AC(void);
 
 void func_800D0174(void) {
-    register u8 *base = D_800AF630;
+    register u8 *base = guess_g_RenderWork;
 
     *(base + 0xA3E1) = 1;
     func_8001C044();
@@ -144,7 +144,7 @@ void func_800D0204(void) {
 
 
 extern s32 func_800149E0(s32 arg0);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_8002D4C8(s32 arg0, s32 arg1);
 extern s16 D_800EC894[0];
 extern void func_800167B8(s32 arg0);
@@ -153,7 +153,7 @@ extern void func_800D0D6C(void);
 
 void func_800D0268(void) {
     u16 sp10;
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
 
     sp10 = func_800149E0(0);
     if (sp10 & 0x4000) {
@@ -191,13 +191,13 @@ void func_800D0268(void) {
 
 
 extern s32 func_800167F0(s32 arg0);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s16 D_800EC894[0];
 extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
 extern void func_800D0D6C(void);
 
 void func_800D0440(void) {
-    register u8 *p = D_800AF630;
+    register u8 *p = guess_g_RenderWork;
     u16 rect[4];
 
     if ((u16) func_800167F0(4) != 0) {
@@ -233,7 +233,7 @@ void func_800D0440(void) {
 /* func_800D05B4 - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
  * -O0 body (addu $fp,$sp,$zero prologue) stranded inside md_MAIN_003's -O2 object
  * (sec 261/6 -- nothing under src/md_ globs -O0 yet). Recovered C semantics for the
- * eventual real decomp (register u8 *s0 = D_800AF630):
+ * eventual real decomp (register u8 *s0 = guess_g_RenderWork):
  *
  *     func_8001C044();
  *     func_80015310();
@@ -268,7 +268,7 @@ void func_800D05B4(void) {
     int sp1c;
     int sp18;
     int sp14;
-    register u8 *s0 = D_800AF630;
+    register u8 *s0 = guess_g_RenderWork;
     (void)sp20;
     (void)sp1c;
     (void)sp18;
@@ -304,7 +304,7 @@ void func_800D05B4(void) {
  * func_800D06BC are all -O0 bodies banked verbatim inside this -O2 subseg.
  * Recovered C semantics for the eventual real decomp:
  *
- *     register u8 *s0 = D_800AF630;   // hoisted base, never read (sec 6 idiom)
+ *     register u8 *s0 = guess_g_RenderWork;   // hoisted base, never read (sec 6 idiom)
  *     func_80015310();
  *     func_800183E0((s32)&D_800D93FC);
  *     func_800118AC();
@@ -320,11 +320,11 @@ void func_800D05B4(void) {
 extern void func_80015310(void);
 extern s32 func_800183E0(s32 a0);
 extern void func_800118AC(void);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_800D93FC[];
 
 void func_800D0664(void) {
-    register u8 *base = D_800AF630;
+    register u8 *base = guess_g_RenderWork;
     s32 loc[2];
 
     func_80015310();
@@ -367,12 +367,12 @@ void func_800D0664(void) {
 extern void func_800D12D0(void);
 extern void func_800118AC(void);
 extern s32 D_800EC890;
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_800D06BC(void) {
     register u8 *base;
 
-    base = &D_800AF630;
+    base = &guess_g_RenderWork;
     func_800D12D0();
     D_800EC890 += 4;
     if (D_800EC890 >= 0x80) {
@@ -394,7 +394,7 @@ void func_800D06BC(void) {
  * Its true home is a md_MAIN_003_o0*.c, whose house spellings are copied below.
  *
  * The three -O0 laws this body rests on:
- *  - `register u8 *base = D_800AF630;` is the §6 / §127 far-base idiom: never
+ *  - `register u8 *base = guess_g_RenderWork;` is the §6 / §127 far-base idiom: never
  *    read, but it emits the lui/addiu %hi/%lo pair.  Here it crosses calls, so
  *    -O0 gives it a CALLEE-saved reg ($s0) -- unlike the o0c/o0d instances that
  *    land in $v0 for want of a call.
@@ -421,7 +421,7 @@ extern u16 D_800EC888;
 extern s16 D_800EC894[0];
 extern s16 D_800EC898;
 extern s32 D_800EC88C[0];
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 extern void func_800D12D0(void);
 extern s32 func_800149E0(s32);
@@ -430,7 +430,7 @@ extern void func_800167B8(s32);
 extern void func_800118AC();
 
 void func_800D0740(void) {
-    register u8 *base = D_800AF630;
+    register u8 *base = guess_g_RenderWork;
     s32 sp10;
 
     func_800D12D0();
@@ -484,10 +484,10 @@ extern s16 D_800EC898;
 extern s16 D_800EC894[0];
 extern void func_800D1D14(s32, s32);
 extern void func_800118AC();
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 void func_800D09A0(void) {
-    register u8 *base = D_800AF630;
+    register u8 *base = guess_g_RenderWork;
 
     func_800D12D0();
     D_800EC898++;
@@ -512,7 +512,7 @@ void func_800D09A0(void) {
  *     if (D_800EC890 < 0) {
  *         D_800EC890 = 0;
  *         func_800146B0(1);
- *         *(s32 *)((u8 *)D_800AF630 + 0xA3E8) = 2;
+ *         *(s32 *)((u8 *)guess_g_RenderWork + 0xA3E8) = 2;
  *         func_800118AC();
  *     } else {
  *         func_800D12D0();
@@ -523,12 +523,12 @@ void func_800D09A0(void) {
  * (maspsx rejects hex in __asm__ strings). No C externs shipped (link-time resolution).
  */
 void func_800D0A7C(void) {
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     extern s32 D_800EC890;
     extern void func_800146B0(s32 a0);
     extern void func_800118AC();
     extern void func_800D12D0(void);
-    register u8 *var_s0 = D_800AF630;
+    register u8 *var_s0 = guess_g_RenderWork;
 
     D_800EC890 = D_800EC890 - 4;
     if (D_800EC890 < 0) {
@@ -564,7 +564,7 @@ void func_800D0A7C(void) {
  *
  * Recovered C semantics for the eventual real -O0-object decomp:
  *
- *     register u8 *s0 = D_800AF630;       // sec 127 far-base hi/lo pair
+ *     register u8 *s0 = guess_g_RenderWork;       // sec 127 far-base hi/lo pair
  *     func_800183E0((s32)&D_800D4E6C);
  *     switch (D_800EC894) {               // extern s16 D_800EC894 (lh)
  *     case 0: *(u16 *)(s0 + 0xA3B6) = 1; *(u16 *)(s0 + 0xA3B8) = 2; break;
@@ -577,14 +577,14 @@ void func_800D0A7C(void) {
  * -23626, -0x5C48 = -23624, lui $at,(0x10000>>16) = lui $at,1. No C externs
  * shipped (link-time resolution, per sec 265 / sec 236-1).
  */
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s32 D_800D4E6C;
 extern s16 D_800EC894[0];
 
 extern s32 func_800183E0(s32 a0);
 
 void func_800D0B1C(void) {
-    register u8 *s0 = D_800AF630;
+    register u8 *s0 = guess_g_RenderWork;
     func_800183E0((s32)&D_800D4E6C);
     switch (D_800EC894[0]) {
     case 0:

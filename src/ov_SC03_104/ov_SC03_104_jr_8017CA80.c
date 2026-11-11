@@ -12,7 +12,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
          /* 16-byte stride array element */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -39,7 +39,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -374,7 +374,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018C878[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -763,7 +763,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018C9F4;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1098,7 +1098,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801BEF50;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1115,7 +1115,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018D0CC[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1376,7 +1376,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -2782,7 +2782,7 @@ extern void func_8017C7C4(void *a0);
  *     #APP/#NO_APP.  Placement is load-bearing (Sec.RC-11): at a cull-block head
  *     it is byte-free; inside the box-build statement stream it costs +9.
  *     67 vs 106 mismatched; in BOTH cull blocks it is 70 (worse) -- tri only.
- * L5  `base = D_800AF630;` HOISTED TO THE FIRST STATEMENT of the function
+ * L5  `base = guess_g_RenderWork;` HOISTED TO THE FIRST STATEMENT of the function
  *     (before the three calls), as in the matched sibling func_8017F510.
  *     Makes the address a call-crossing allocno -> callee-saved $s0 (target)
  *     instead of $v1, and fixes the D_800A6610 / `sw $s7` emission order.
@@ -2877,7 +2877,7 @@ void func_8017D960(s32 arg0)
     extern void func_80052E38(MATRIX2 *);
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
 
     DVECTOR2 tmpxy[4];
     SVECTOR2 box[8];
@@ -2926,7 +2926,7 @@ void func_8017D960(s32 arg0)
     u32 cb;
     u32 rgbw;
 
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     lim = func_800491EC() + ((Unkstruct_8017D960_3 *)arg0)->unk64;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
@@ -3522,7 +3522,7 @@ void func_80181214(int param_1)
 
 extern s32 func_8014C050(s32 a0, s32 a1);
 extern void func_80171928(void *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 
 #define SHARED_FN func_8018125C
 #include "../shared/ov/cls_52eb9cc0e478.h"

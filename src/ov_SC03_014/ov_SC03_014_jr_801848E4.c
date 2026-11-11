@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -32,7 +32,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -371,7 +371,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018D124[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -759,7 +759,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018D2A0;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1093,7 +1093,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801E96E0;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1110,7 +1110,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018D978[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1371,7 +1371,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -4641,7 +4641,7 @@ void func_80187EA8(s32 a0) {
  * func_80182810 (ov_SC04_007): builds ONE 4-vertex gouraud packet on the stack
  * (verts sp+0x10, colours sp+0x30, code sp+0x40), colour ramp derived from the
  * s32 at a0+0x1C (*15, >>1 for the green channel, -0x10 clamped-at-0 for the far
- * pair), then loads the camera matrix cached at D_800AF630+0x18 and runs one
+ * pair), then loads the camera matrix cached at guess_g_RenderWork+0x18 and runs one
  * rtpt+rtps+avsz4 group over the SVECTORs at a0+0xFC / a0+0x104 / a0+0xDC / a0+0xE4.
  *
  * Unlike func_801837B0 this one has NO bit-0 arm select (colours are always
@@ -4650,7 +4650,7 @@ void func_80187EA8(s32 a0) {
  * OT slot must not run past &D_800AE610, and (flag & ~0x1000)==0.
  */
 
-extern u8 D_800AF630[];   /* TU line 46, verbatim */
+extern u8 guess_g_RenderWork[];   /* TU line 46, verbatim */
 
 
 /* every macro is suffixed: this TU already #defines gte_SetRotMatrix (line 4315),
@@ -4687,7 +4687,7 @@ void func_80187EE8(s32 a0)
     s32 d;
 
     c = ((Unkstruct_800B5CB8 *)a0)->unk1C * 15;
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     p = c;
     d = c >> 1;
     q = d;
@@ -5741,7 +5741,7 @@ void func_80189A60(void *a0) {
 
 
 extern s32 guess_TestGameFlag(s32 arg);
-extern u8 D_80078EAF;
+extern u8 guess_g_DayPeriod;
 
 s32 func_80189AC4(arg)
 s32 arg;
@@ -5755,7 +5755,7 @@ s32 arg;
     if (arg >= 0x2C6) {
         return 0x50;
     }
-    if (D_80078EAF == 4) {
+    if (guess_g_DayPeriod == 4) {
         return 0x3C;
     }
     return 0xA;
@@ -6650,7 +6650,7 @@ void func_8018A9BC(void) {
  * DECLARATIONS: ApplyMatrixSV, D_800B9A02 and D_801EADE4/E6/EA/EC are declared
  * VERBATIM as the TU already has them at file scope (L163, L2460/2462,
  * L3689/3705/3706, L3726, L3879), so they merge silently.  D_800AE620,
- * D_800A5E60, D_800A651C, D_800A6518, D_801EADE8, RotMatrixZ, func_8004901C and
+ * D_800A5E60, D_800A651C, guess_g_OrderingTables, D_801EADE8, RotMatrixZ, func_8004901C and
  * func_80016638 have NO file-scope declaration anywhere in the TU and none in
  * include/ (checked in one pass, D2), so each is block-scoped here to keep the
  * blast radius on the rest of the TU at zero (§103/T51).  Verified by splicing
@@ -6665,7 +6665,7 @@ void func_8018AA98(s32 arg0)
     extern Blk32_8018AA98 D_800AE620;
     extern s32 D_800A5E60;
     extern s32 D_800A651C;
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern s16 D_800B9A02;
     extern s16 D_801EADE4;
     extern s16 D_801EADE6;
@@ -6749,7 +6749,7 @@ void func_8018AA98(s32 arg0)
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
     ((Unkstruct_8018AA98_2 *)ot)->unk40 = (((Unkstruct_8018AA98_2 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
-    func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
+    func_80016638(&guess_g_OrderingTables[*bidx * 20], 0x10, 1);
 }
 
 
@@ -7115,7 +7115,7 @@ void func_8018B23C(s32 a0) {
     extern s16 D_801EACE4;
     extern u8 *D_800A5E60;
     extern s32 D_800AE620;
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern Ot_8018B23C D_800A651C[];
 
     s32 m[8];       /* sp+0x10 */
@@ -7182,7 +7182,7 @@ void func_8018B23C(s32 a0) {
         ((PTag_8018B23C *)q)->addr =
             ((PTag_8018B23C *)(D_800A651C[bp->h].a + 0x40))->addr;
         ((PTag_8018B23C *)(D_800A651C[bp->h].a + 0x40))->addr = (u32)q;
-        func_80016638(&D_800A6518[bp->h * 20], 0x10, 1);
+        func_80016638(&guess_g_OrderingTables[bp->h * 20], 0x10, 1);
     }
 }
 

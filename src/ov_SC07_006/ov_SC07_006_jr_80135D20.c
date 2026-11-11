@@ -142,7 +142,7 @@ extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
 /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void guess_UpdateCamera(void);
 extern void func_8012A018(s32 a, s32 b);
@@ -1209,7 +1209,7 @@ void func_80136EC4(void) {
 //     "natural" order) coalesces x1 instead and costs 28 instructions.
 //   * `__asm__("" : "=r"(x1) : "0"(x1))` right after `x1 = a0 + 3;` nails x1's compute point
 //     between x1 and y1, which is what keeps x1 from being the last a0-user (13 -> 7).
-//   * PINS: x1 -> $s0 ($16), x0 -> $s1 ($17), base(&D_800A6518) -> $s3 ($19), white(0xFF) ->
+//   * PINS: x1 -> $s0 ($16), x0 -> $s1 ($17), base(&guess_g_OrderingTables) -> $s3 ($19), white(0xFF) ->
 //     $s4 ($20). Without the x1 pin the whole $s bank rotates by one; without the x0 pin the
 //     a0-copy fights x1 for $s0. y0/y1 must stay UNPINNED — pinning y1 to $s2 kills the
 //     `addu $s2,$a1,$zero` param copy entirely (a1 stays in $a1, -1 insn, 58 mismatched).
@@ -1233,7 +1233,7 @@ void func_80136EC4(void) {
 //     forced to materialize a1-3 and a1+3 BEFORE call1. The surviving a1-3 (needed at line2.y1) is
 //     preserved by a reload-inserted live-range split ($s5 -> $s4, the `addu $s4,$s5,$zero` copy) when
 //     $s5 is reused for a1+3. Do NOT write an explicit copy (it front-loads as a real insn).
-//   * pin x0->$s3, white(0xFF)->$s1, base(&D_800A6518)->$s2. Leave x1 UNPINNED: gcc naturally homes a0
+//   * pin x0->$s3, white(0xFF)->$s1, base(&guess_g_OrderingTables)->$s2. Leave x1 UNPINNED: gcc naturally homes a0
 //     in $s0 (prologue `addu $s0,$a0,$zero`) and computes x1=$s0+3 in place, landing x1 in $s0 and
 //     scheduling it early (right after y0). Pinning x1, or any __asm__ touching x1, perturbs the
 //     register pressure and destroys the fragile reload split (drops to 77 ins).

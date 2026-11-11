@@ -9,7 +9,7 @@ void func_8015934C(void *arg0) {
     if (D_8018E858 != 0) {
         func_80145BF8();
         func_80146CA0(arg0);
-        D_800AE6BD += 1;
+        guess_g_EventSubStep += 1;
     }
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
     M2C_FIELD(temp_v1, u16 *, 0x12) = (u16) ((M2C_FIELD(temp_v1, u16 *, 0x12) + 0x16) & 0xFFF);

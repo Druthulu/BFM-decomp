@@ -228,13 +228,13 @@ and add a separate MULTI-NAME pre-pass that splits `extern T a, b, c;` into one 
   .run/drafts/func_800CEFD0.c:15  extern void (*D_800D3488[])(void);
 
 (F2) 87 lines — the one that is pure accident: the line MATCHES, then the `'(' in m.group(0)` guard bails because there is a parenthesis IN A TRAILING COMMENT. m.group(0) spans the comment, which _DATA_EXTERN_RE deliberately allows. An ordinary scalar extern is silently abandoned because a human wrote '(' in prose:
-  .run/drafts/func_800D27DC.c:64   extern s32 D_800AE7BC;   /* ordering-table base (array of OT-entry pointers, stride 20) */
-  .run/drafts-giants/func_8015126C.c:20  extern s32 D_800AE6A8;       /* +0x8 == D_800AE6B0 (s32) */
-  .run/drafts-giants/func_8015126C.c:21  extern u8  D_80078E78[];     /* +0x49 == D_80078EC1 (u8) */
+  .run/drafts/func_800D27DC.c:64   extern s32 guess_g_FrontOrderingTablesOrg;   /* ordering-table base (array of OT-entry pointers, stride 20) */
+  .run/drafts-giants/func_8015126C.c:20  extern s32 D_800AE6A8;       /* +0x8 == guess_g_CurrentEvent (s32) */
+  .run/drafts-giants/func_8015126C.c:21  extern u8  guess_g_PlayerRecord[];     /* +0x49 == D_80078EC1 (u8) */
 PROVED by calling the real function (.run/audit/data-decls/a7_proof.py):
-  ambient = {'D_800AE7BC': ('u8', is_array=True)}, visible = {'D_800AE7BC'}
-  draft 'extern s32 D_800AE7BC;\nvoid f(void){ g(D_800AE7BC); }'
-     -> 'void f(void){ g((*(s32*)D_800AE7BC)); }'          (extern stripped, use access-cast: CORRECT)
+  ambient = {'guess_g_FrontOrderingTablesOrg': ('u8', is_array=True)}, visible = {'guess_g_FrontOrderingTablesOrg'}
+  draft 'extern s32 guess_g_FrontOrderingTablesOrg;\nvoid f(void){ g(guess_g_FrontOrderingTablesOrg); }'
+     -> 'void f(void){ g((*(s32*)guess_g_FrontOrderingTablesOrg)); }'          (extern stripped, use access-cast: CORRECT)
   same draft + '   /* ordering-table base (array of pointers) */'
      -> UNTOUCHED, extern kept verbatim                    (-> conflicting types vs the u8[] ambient)
 - **blast radius:** LOST MATCHES + corrupt BUILD. 523 draft data externs are silently passed through unreconciled in the live recovery pipeline. F2's 87 are the cruellest: identical code banks or fails depending on whether a drafter's comment happened to contain a parenthesis, which is invisible to every downstream signal — the byte-gate just reports 'did not compile'.

@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -32,7 +32,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -371,7 +371,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_80180DD4[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -760,7 +760,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80180F50;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1094,7 +1094,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_8018EFB0;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1111,7 +1111,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_80181628[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1372,7 +1372,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -2966,9 +2966,9 @@ s32 func_8017E5B8(s32 param_1, s32 param_2) {
  *     in engine_core.h:4008 (`extern u8 …[]`, `s16 func_8014168C(s16)`); that
  *     macro is NOT invoked in this TU, so these externs are the only decls and
  *     they use the canonical types.  s8 access to D_80115158 is cast at use.
- *   - D_80115138 / D_80115140 / D_8018BE9A / D_8018BEAE / D_800AE7BC have no
+ *   - D_80115138 / D_80115140 / D_8018BE9A / D_8018BEAE / guess_g_FrontOrderingTablesOrg have no
  *     other declaration in this TU; D_80115140 matches ov_SC03_099's spelling.
- *   - D_800AE7BC keeps its function-local typedef + extern (twin's shape), so
+ *   - guess_g_FrontOrderingTablesOrg keeps its function-local typedef + extern (twin's shape), so
  *     it cannot collide at file scope.
  */
 
@@ -2985,7 +2985,7 @@ s32 *func_8017E804(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     extern u16 D_8018BE9A;
     extern u16 D_8018BEAE;
    /* 0x14 stride */
-    extern Env_8017EFA8_8017E804 D_800AE7BC[];
+    extern Env_8017EFA8_8017E804 guess_g_FrontOrderingTablesOrg[];
 
     u16 *pb;
     u16 *p;
@@ -3018,9 +3018,9 @@ s32 *func_8017E804(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 
     pb = (u16 *)&D_800B9A02;
     c0 = ot[0];
-    ot[0] = (c0 & 0xFF000000) | (D_800AE7BC[*pb].ot[2] & 0xFFFFFF);
-    D_800AE7BC[*pb].ot[2] =
-        (D_800AE7BC[*pb].ot[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
+    ot[0] = (c0 & 0xFF000000) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & 0xFFFFFF);
+    guess_g_FrontOrderingTablesOrg[*pb].ot[2] =
+        (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
 
     ot += 5;
 
@@ -3068,10 +3068,10 @@ s32 *func_8017E804(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                 *(s16 *)(q - 0xC) = ((Unkstruct_8017E804 *)a3p)->unk8 + ((Unkstruct_8017E804 *)a3p)->unkC - 0xD;
                 *(s16 *)(q - 4) = eight;
                 *(s16 *)(q - 2) = eight;
-                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (D_800AE7BC[*pb2].ot[2] & m24);
+                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb2].ot[2] & m24);
                 {
                     register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-                    op = D_800AE7BC[*pb2].ot;
+                    op = guess_g_FrontOrderingTablesOrg[*pb2].ot;
                     op[2] = (op[2] & mhi) | (((u32)ot) & m24);
                 }
                 q += 0x14;

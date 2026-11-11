@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -32,7 +32,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -367,7 +367,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018C878[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -756,7 +756,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018C9F4;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1090,7 +1090,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801BEF50;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1107,7 +1107,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018D0CC[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1368,7 +1368,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -5177,7 +5177,7 @@ void func_801855B4(void) {
  * DECLARATIONS: ApplyMatrixSV, D_800B9A02 and D_801C023C/E6/EA/EC are declared
  * VERBATIM as the TU already has them at file scope (L163, L2460/2462,
  * L3689/3705/3706, L3726, L3879), so they merge silently.  D_800AE620,
- * D_800A5E60, D_800A651C, D_800A6518, D_801C0240, RotMatrixZ, func_8004901C and
+ * D_800A5E60, D_800A651C, guess_g_OrderingTables, D_801C0240, RotMatrixZ, func_8004901C and
  * func_80016638 have NO file-scope declaration anywhere in the TU and none in
  * include/ (checked in one pass, D2), so each is block-scoped here to keep the
  * blast radius on the rest of the TU at zero (§103/T51).  Verified by splicing
@@ -5192,7 +5192,7 @@ void func_80185690(s32 arg0)
     extern Blk32_8018AA98_80185690 D_800AE620;
     extern s32 D_800A5E60;
     extern s32 D_800A651C;
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern s16 D_801C023C;
     extern s16 D_801C023E;
     extern s16 D_801C0240;
@@ -5275,7 +5275,7 @@ void func_80185690(s32 arg0)
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
     ((Unkstruct_80185690_3 *)ot)->unk40 = (((Unkstruct_80185690_3 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
-    func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
+    func_80016638(&guess_g_OrderingTables[*bidx * 20], 0x10, 1);
 }
 
 
@@ -5653,7 +5653,7 @@ void func_80185E34(s32 a0) {
     extern s16 D_801C013C;
     extern u8 *D_800A5E60;
     extern s32 D_800AE620;
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern Ot_8018B23C_80185E34 D_800A651C[];
 
     s32 m[8];       /* sp+0x10 */
@@ -5720,7 +5720,7 @@ void func_80185E34(s32 a0) {
         ((PTag_8018B23C_80185E34 *)q)->addr =
             ((PTag_8018B23C_80185E34 *)(D_800A651C[bp->h].a + 0x40))->addr;
         ((PTag_8018B23C_80185E34 *)(D_800A651C[bp->h].a + 0x40))->addr = (u32)q;
-        func_80016638(&D_800A6518[bp->h * 20], 0x10, 1);
+        func_80016638(&guess_g_OrderingTables[bp->h * 20], 0x10, 1);
     }
 }
 

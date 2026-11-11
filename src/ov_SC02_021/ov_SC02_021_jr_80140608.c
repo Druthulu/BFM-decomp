@@ -178,8 +178,8 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
@@ -512,7 +512,7 @@ extern void func_80130AF0(int param_1);
 extern void (*D_8017FE58[])(void);
 extern void func_80130D0C(void *a0);
 extern s32 rand(void);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u16 g_PlayerHpMax;
 extern u16 g_PlayerHp;
 extern s16 D_8017FEA8[];
@@ -610,7 +610,7 @@ extern void SetLineG2(void *);
 extern void func_80136D08(s32 arg0, s32 arg1);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80137030(s16 a0, s16 a1);
@@ -618,7 +618,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
@@ -1032,7 +1032,7 @@ s16 n;
     extern s16 D_80180E58[];
     extern u16 D_80180968;
     extern u16 D_8018096A;
-  extern Env_80140958 D_800AE7BC[];
+  extern Env_80140958 guess_g_FrontOrderingTablesOrg[];
   Prim4 *p;
   s16 t;
   s32 c3;
@@ -1129,11 +1129,11 @@ u32 mhi;
             size = 8;
             *((s16 *) (q - 2)) = size;
             *((s16 *) (q - 4)) = size;
-            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (D_800AE7BC[*pb].ot[2] & m24);
+            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & m24);
             {
 u32 *op;
 u32 w;
-              op = D_800AE7BC[*pb].ot;
+              op = guess_g_FrontOrderingTablesOrg[*pb].ot;
               w = op[2];
               w &= mhi;
               w |= ((u32) ot) & m24;

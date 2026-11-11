@@ -46,7 +46,7 @@ s32 param_1;
 
 #include "common.h"
 
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern void func_800CCD60(s32);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
@@ -55,7 +55,7 @@ extern s32 func_80155FB0(s32 a0, s32 a1);
 
 void func_800CCBF0(u8 *a0) {
     s32 dead[12];
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
     s32 var = ((Unkstruct_80126B58 *)a0)->unk23C;
 
     if (var == 0) {

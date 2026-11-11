@@ -165,7 +165,7 @@ extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
 /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
@@ -614,7 +614,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80136F3C(s32 a0, s32 a1);
@@ -840,7 +840,7 @@ extern void GsSortSprite(void *a0, u8 *a1, s32 a2);
 void func_801397B0(s32 arg0)
 {
     extern short D_800B9A02;
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern u8 D_80182AF0;
     extern u8 D_80182B34;
     u8 *e;
@@ -900,7 +900,7 @@ void func_801397B0(s32 arg0)
     ((Unkstruct_801397B0_5 *)buf)->unk18 = 0;
     ((Unkstruct_801397B0_5 *)buf)->unk20 = 0;
 
-    GsSortSprite(buf, &D_800A6518[(u16)D_800B9A02 * 20],
+    GsSortSprite(buf, &guess_g_OrderingTables[(u16)D_800B9A02 * 20],
                  ((Unkstruct_801397B0_6 *)e)->unk1A);
 }
 

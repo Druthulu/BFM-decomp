@@ -3,7 +3,7 @@
 void func_8013FAF8(s16 arg0, s16 arg1) {
 
     extern Hw4    D_8011516A[];
-    extern Rec20  D_800AE7B8[];
+    extern Rec20  guess_g_FrontOrderingTables[];
     extern Blk60  D_8017F4C4[];
     extern Blk20  D_8017F7C4[];
     extern Prim4  D_8017F8C4[];
@@ -79,19 +79,19 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         func_8005A600((s32)ot, 0, 0, 0x15, 0);
         flag3 = flag;
         *ot = 0x2000000;
-        *ot = (D_800AE7B8[*(u16 *)&D_800B9A02].f4[2] & 0xFFFFFF) | 0x2000000;
-        D_800AE7B8[*(u16 *)&D_800B9A02].f4[2] =
-            (D_800AE7B8[*(u16 *)&D_800B9A02].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+        *ot = (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFFFFFF) | 0x2000000;
+        guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] =
+            (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
         ot = func_800D29F8(flag3,
                            func_800D27DC(flag3 != 0, ot + 10, &D_8017F4C4[i], 8, D_8011516A[i].x),
                            &D_8017F7C4[i], 2, D_8011516A[i].x);
     }
     pp = &D_8017FE3C;
     if (*pp == 0xE) {
-        ot = func_80137D08(ot, &D_800AE7B8[*(u16 *)&D_800B9A02], 2);
+        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2);
     }
     if (*pp != 0 && D_8017FE3E != 0) {
-        ot = func_8013AB54(ot, D_800AE7B8[*(u16 *)&D_800B9A02].f4 + 2, (s32)(pp - 2), 0x8000);
+        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4 + 2, (s32)(pp - 2), 0x8000);
     }
     D_801151D0 = (s32)ot;
 }

@@ -1,6 +1,6 @@
 /* func_80153E00 — shared body (overlay slot 0x80128158, h_exact d8de78ab). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 D_80127518;
 extern s16 currentLocationId;
 extern s16 D_8011DB0C;
@@ -30,7 +30,7 @@ void func_80153E00(s32 param_1) {
     s32 iVar4;
     s32 db0c;
     func_80149020((s32 *)param_1);
-    s3 = D_80078E78;
+    s3 = guess_g_PlayerRecord;
     b = *(u8 *)(param_1 + 0xA9);
     if (b == 0x53) goto LAB_E74;
     if (b < 0x54) {

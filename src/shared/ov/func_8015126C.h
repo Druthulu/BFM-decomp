@@ -6,8 +6,8 @@ void func_8015126C(u16 *p)
     extern s32 D_80126AE4;
     extern s32 D_801151FC;
     extern s32 D_80127518;
-    extern s32 D_800AE6A8;       /* +0x8 == D_800AE6B0 (s32) */
-    extern u8  D_80078E78[];     /* +0x49 == D_80078EC1 (u8) */
+    extern s32 D_800AE6A8;       /* +0x8 == guess_g_CurrentEvent (s32) */
+    extern u8  guess_g_PlayerRecord[];     /* +0x49 == D_80078EC1 (u8) */
     extern s32 func_801470A0(void *a0);
     extern s32 func_8014A454(s32 a0);
     extern void func_80160368(s32 *a0);
@@ -35,7 +35,7 @@ void func_8015126C(u16 *p)
     extern void func_80147324(s32 arg0);
     extern void func_8014BD24(s32 a0, s32 a1);
     extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
-    u8  *r = D_80078E78;     /* $s2 */
+    u8  *r = guess_g_PlayerRecord;     /* $s2 */
     s32 *q = &D_800AE6A8;   /* $s1 */
     register s32 sh16 __asm__("$2");                 /* $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_hdr1)
     u16 uVar3;

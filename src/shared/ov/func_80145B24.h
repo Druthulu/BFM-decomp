@@ -7,7 +7,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 void func_80145B24(void)
@@ -15,7 +15,7 @@ void func_80145B24(void)
     s32 iVar1;
     s32 uVar2;
     u8 *p;
-    p = &D_800AF630;
+    p = &guess_g_RenderWork;
     iVar1 = guess_GetStoryProgress();
     uVar2 = func_800291DC(8);
     if ((uVar2 & 0x8000) != 0) {

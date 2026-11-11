@@ -165,7 +165,7 @@ s32 func_800CB17C(struct S *a0) {
     extern void func_801483E8(s32 a0);
     extern void func_80019064(void *a0);
     extern s32 D_800CB1F4[];
-    extern u8 D_80062BD0[];
+    extern u8 guess_g_RumblePatternShort[];
     s32 s0 = (s32)a0;
 
     func_8012A304(*(s16 *)(s0 + 0xA), 0x80);
@@ -174,7 +174,7 @@ s32 func_800CB17C(struct S *a0) {
     func_80147324(0x47A);
     func_8014C010(s0, 2);
     func_801483E8(s0);
-    func_80019064(D_80062BD0);
+    func_80019064(guess_g_RumblePatternShort);
 }
 
 

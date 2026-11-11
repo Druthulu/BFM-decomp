@@ -140,8 +140,8 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void guess_UpdateCamera(void);
 extern void func_8012A018(s32 a, s32 b);
@@ -543,7 +543,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80137030(s16 a0, s16 a1);
@@ -551,7 +551,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
@@ -993,7 +993,7 @@ extern int func_80144B14(int param_s0);
 extern void func_80144AEC(s32 *a0);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -1693,7 +1693,7 @@ extern void func_80153060(void *a0);
 extern void func_801530E4(s32 a0);
 extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern void func_801530E4(s32 arg0);
 extern void func_80153150(struct S80153150 *a0);
 extern void func_801531BC(s32 a0);
@@ -2797,13 +2797,13 @@ extern void func_801483E8();  // K&R: 0 of 1 args (P37 rung D t4_D29)
 
 
 void func_8015D738(void *arg0) {
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern void (*D_801855CC[])(void *);
     extern u8 D_80185810[];
 
     extern u8 D_80185590[];
     extern u8 D_801855A0[];
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
     s32 s1;
     ((void (*)(void))func_80148AFC)();
     if (func_80161B18(arg0) != 0) return;
@@ -3464,7 +3464,7 @@ void func_8015F448(s32 arg0) {
 
     extern void (*D_801855CC[])(void *);
 
-    extern u8 D_80062BD0;
+    extern u8 guess_g_RumblePatternShort;
     extern s32 D_801858D8;
     extern s32 D_801858E8;
     extern s32 D_801858F8;
@@ -3500,7 +3500,7 @@ void func_8015F448(s32 arg0) {
             ((void (*)(void *, void *))func_80148534)(sp20, sp28);
             func_80147324(0x56E);
         }
-        ((void (*)(s32 *))func_80019064)(&(*(s32 *)&D_80062BD0));
+        ((void (*)(s32 *))func_80019064)(&(*(s32 *)&guess_g_RumblePatternShort));
         ((void (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x25, arg0, ((Unkstruct_8015F448_2 *)arg0)->unk6,
                       (s16)(((Unkstruct_8015F448_2 *)arg0)->unkA - 0x14),
                       ((Unkstruct_8015F448_2 *)arg0)->unkE, 0, 0);
@@ -3721,9 +3721,9 @@ extern void func_80146CA0(void *a0);
 
 void func_8015FCC8(void *param_1) {
 
-    extern s32 D_800AE6B0;
+    extern s32 guess_g_CurrentEvent;
     extern void (*D_801855CC[])(void *);
-    if ((D_800AE6B0 & 0x80FFFFFF) != 0) {
+    if ((guess_g_CurrentEvent & 0x80FFFFFF) != 0) {
         ((void (*)(void))func_8016007C)();
         D_801855CC[((Unkstruct_80126B58 *)param_1)->unk0](param_1);
         ((void (*)(void *, s32))guess_SetState)(param_1, 0);
@@ -3807,7 +3807,7 @@ extern void func_8016004C(s32 a0);
 
 void func_8015FF20(void *param_1) {
 
-    extern s32 D_800AE6B0;
+    extern s32 guess_g_CurrentEvent;
     extern void (*D_801855CC[])(void *);
     extern u8 D_80078EC1;
     extern u8 D_80078EC2;
@@ -3815,7 +3815,7 @@ void func_8015FF20(void *param_1) {
     s32 v2;
     u8 cur;
 
-    if ((D_800AE6B0 & 0x80FFFFFF) != 0) {
+    if ((guess_g_CurrentEvent & 0x80FFFFFF) != 0) {
         ((void (*)(void))func_8016007C)();
         D_801855CC[((Unkstruct_80126B58 *)param_1)->unk0](param_1);
         ((void (*)(void *, s16))guess_SetState)(param_1, 0);
@@ -4494,10 +4494,10 @@ extern void func_800D1734(void *);
 
 void func_80161D88(void) {
 
-    extern s32 D_800AE6B0;
+    extern s32 guess_g_CurrentEvent;
     extern s32 D_800AE6A8;
     extern s32 D_80185A6C;
-    if ((D_800AE6B0 & 0x80FFFFFF) == 0 && (D_800AE6A8 & 0x80FFFFFF) == 0 &&
+    if ((guess_g_CurrentEvent & 0x80FFFFFF) == 0 && (D_800AE6A8 & 0x80FFFFFF) == 0 &&
         (guess_TestGameFlag(0x141) & 0xFF) != 0) {
         guess_SetGameFlag(0x141, 0);
         guess_SetGameFlag(0x95, 1);
@@ -4515,27 +4515,27 @@ extern s32 func_800291DC(s32);
 
 
 void func_80161E08(s32 param_1) {
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     extern s32 func_80024054(void *a0, void *a1);
     extern void func_8001CE28(void *a0, void *a1);
     extern void func_800242D0(s32 a0, void *a1, s32 a2);
     extern void func_8001CE68(void *a0, void *a1);
     extern int func_801620C4(void);
     extern void func_801622C4(void);
-    extern u16 D_800AF7BC;
-    extern u16 D_800AF7BE;
+    extern u16 guess_g_ScreenWidth;
+    extern u16 guess_g_ScreenHeight;
     extern s16 guess_g_ClockMinute[];
-    extern u16 D_800B5BD8;
+    extern u16 guess_g_TargetTimeLabel1;
     extern s16 D_800B5C04;
     extern u8 D_800B5BFF;
-    extern s16 D_800B5BE0;
-    extern s16 D_800B5BE2;
-    extern u16 D_800B5C10;
+    extern s16 guess_g_TargetTimeLabel1X;
+    extern s16 guess_g_TargetTimeLabel1Y;
+    extern u16 guess_g_TargetTimeLabel2;
     extern s16 D_800B5C3C;
     extern u8 D_800B5C37;
-    extern s16 D_800B5C18;
-    extern s16 D_800B5C1A;
-    extern u16 D_800B5C48;
+    extern s16 guess_g_TargetTimeLabel2X;
+    extern s16 guess_g_TargetTimeLabel2Y;
+    extern u16 guess_g_TargetTimeDigits;
     extern s16 D_800B5C74;
     extern s16 D_800B5C50;
     extern s16 D_800B5C52;
@@ -4546,7 +4546,7 @@ void func_80161E08(s32 param_1) {
     extern u8 D_801C66E4[];
     extern u8 D_801C66FC[];
 
-    u8 *base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
+    u8 *base = &(((Unkstruct_8012956C *)&guess_g_RenderWork)->unk0);
     u8 *p;
     s32 a2;
 
@@ -4557,33 +4557,33 @@ void func_80161E08(s32 param_1) {
         currentLocationId != 0x3096 &&
         ((a2 = func_800291DC(8)) & 0x8000) != 0) {
 
-        if (D_800B5BD8 == 0) {
+        if (guess_g_TargetTimeLabel1 == 0) {
             p = D_801C66B0[0] = base + 0x65A8;
             func_80024054(&D_80185A38, &D_801C66BC);
             func_8001CE28(p, &D_801C66BC);
             D_800B5C04 = 1;
             D_800B5BFF = 1;
-            D_800B5BE0 = -(s32)(u16)D_800AF7BC / 2 + 0xD0;
-            D_800B5BE2 = -(s32)(u16)D_800AF7BE / 2 + 0x28;
+            guess_g_TargetTimeLabel1X = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeLabel1Y = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x28;
         }
 
-        if (D_800B5C10 == 0) {
+        if (guess_g_TargetTimeLabel2 == 0) {
             p = D_801C66B0[1] = base + 0x65E0;
             func_80024054(&D_80185A58, &D_801C66E4);
             func_8001CE28(p, &D_801C66E4);
             D_800B5C3C = 1;
             D_800B5C37 = 1;
-            D_800B5C18 = -(s32)(u16)D_800AF7BC / 2 + 0xD0;
-            D_800B5C1A = -(s32)(u16)D_800AF7BE / 2 + 0x30;
+            guess_g_TargetTimeLabel2X = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeLabel2Y = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x30;
         }
 
-        if (D_800B5C48 == 0) {
+        if (guess_g_TargetTimeDigits == 0) {
             p = D_801C66B0[2] = base + 0x6618;
             func_800242D0((s16)func_801620C4(), &D_801C66FC, 0x84);
             func_8001CE68(p, &D_801C66FC);
             D_800B5C74 = 1;
-            D_800B5C50 = -(s32)(u16)D_800AF7BC / 2 + 0xD0;
-            D_800B5C52 = -(s32)(u16)D_800AF7BE / 2 + 0x10;
+            D_800B5C50 = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            D_800B5C52 = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
         }
 
         func_800242D0((s16)func_801620C4(), &D_801C66FC, 0x84);
@@ -4632,12 +4632,12 @@ extern s32 func_800291DC(s32);
 
 s32 func_801621CC(s32 arg0) {
 
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern u8 guess_g_ClockMinute[0];
     extern u8 D_80078EB1;
     extern s32 D_80185A6C;
     s32 s0 = arg0;       /* $s0: arg0, crosses the call */
-    u8 *s1 = D_80078E78; /* $s1: base, hoisted for the loop */
+    u8 *s1 = guess_g_PlayerRecord; /* $s1: base, hoisted for the loop */
     s32 i;
     u32 a2;
     s32 d;                                       /* $a0: natural alloc; load via $v0 temp */
@@ -4739,7 +4739,7 @@ extern s32 func_800291DC(s32);
 
 s32 func_80162438(s32 _unused0) {
     extern s16 guess_g_ClockMinute[0];
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     extern s32 func_80024054(void *, void *);
     extern void func_8001CE28(void *, void *);
     extern void func_8001CE68(void *, void *);
@@ -4752,17 +4752,17 @@ s32 func_80162438(s32 _unused0) {
     extern u8 D_801C673C[];
     extern u8 D_801C6758[];
     extern int D_801C6708[];
-    extern u16 D_800B5BD8;
-    extern u16 D_800B5C10;
-    extern u16 D_800B5C48;
-    extern u16 D_800AF7BC;
-    extern u16 D_800AF7BE;
-    extern s16 D_800B5BE0;
-    extern s16 D_800B5BE2;
+    extern u16 guess_g_TargetTimeLabel1;
+    extern u16 guess_g_TargetTimeLabel2;
+    extern u16 guess_g_TargetTimeDigits;
+    extern u16 guess_g_ScreenWidth;
+    extern u16 guess_g_ScreenHeight;
+    extern s16 guess_g_TargetTimeLabel1X;
+    extern s16 guess_g_TargetTimeLabel1Y;
     extern s16 D_800B5C04;
     extern u8 D_800B5BFF;
-    extern s16 D_800B5C18;
-    extern s16 D_800B5C1A;
+    extern s16 guess_g_TargetTimeLabel2X;
+    extern s16 guess_g_TargetTimeLabel2Y;
     extern s16 D_800B5C3C;
     extern u8 D_800B5C37;
     extern s16 D_800B5C50;
@@ -4773,37 +4773,37 @@ s32 func_80162438(s32 _unused0) {
     u8 *base;
     u8 *item;
 
-    base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
+    base = &(((Unkstruct_8012956C *)&guess_g_RenderWork)->unk0);
     uVar2 = func_800291DC(0x12);
     if ((uVar2 & 0x8000) != 0) {
-        if (D_800B5BD8 == 0) {
+        if (guess_g_TargetTimeLabel1 == 0) {
             D_801C6708[0] = (s32)(base + 0x65A8);
             item = base + 0x65A8;
             func_80024054(D_80185A9C, D_801C6714);
             func_8001CE28(item, D_801C6714);
             D_800B5C04 = 1;
             D_800B5BFF = 1;
-            D_800B5BE0 = -D_800AF7BC / 2 + 0xD0;
-            D_800B5BE2 = -D_800AF7BE / 2 + 0x28;
+            guess_g_TargetTimeLabel1X = -guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeLabel1Y = -guess_g_ScreenHeight / 2 + 0x28;
         }
-        if (D_800B5C10 == 0) {
+        if (guess_g_TargetTimeLabel2 == 0) {
             D_801C6708[1] = (s32)(base + 0x65E0);
             item = base + 0x65E0;
             func_80024054(((u8 *)&D_80185AB4), D_801C673C);
             func_8001CE28(item, D_801C673C);
             D_800B5C3C = 1;
             D_800B5C37 = 1;
-            D_800B5C18 = -D_800AF7BC / 2 + 0xD0;
-            D_800B5C1A = -D_800AF7BE / 2 + 0x30;
+            guess_g_TargetTimeLabel2X = -guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeLabel2Y = -guess_g_ScreenHeight / 2 + 0x30;
         }
-        if (D_800B5C48 == 0) {
+        if (guess_g_TargetTimeDigits == 0) {
             D_801C6708[2] = (s32)(base + 0x6618);
             item = base + 0x6618;
             func_800242D0((s16)func_801626B8(), D_801C6758, 0x84);
             func_8001CE68(item, D_801C6758);
             D_800B5C74 = 1;
-            D_800B5C50 = -D_800AF7BC / 2 + 0xD0;
-            D_800B5C52 = -D_800AF7BE / 2 + 0x10;
+            D_800B5C50 = -guess_g_ScreenWidth / 2 + 0xD0;
+            D_800B5C52 = -guess_g_ScreenHeight / 2 + 0x10;
         }
         func_800242D0((s16)func_801626B8(), D_801C6758, 0x84);
         if ((uVar2 & 0x7FFF) == (s32)(guess_g_ClockMinute[0])) {
@@ -5627,10 +5627,10 @@ extern void func_800CAE0C(s32 a0);
 void func_801654A8(s32 arg0)
 {
 
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern u8 D_80078EC1;
     extern void (*D_80185B94[])(void);
-    u8 *s1 = D_80078E78;
+    u8 *s1 = guess_g_PlayerRecord;
 
     if (((Unkstruct_801654A8_2 *)arg0)->unk0 == 0x16) {
         return;

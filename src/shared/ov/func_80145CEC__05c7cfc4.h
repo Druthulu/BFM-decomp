@@ -20,7 +20,7 @@ s32 func_80145CEC() {
     extern void func_80165938();
     extern void func_80153C8C();
     extern void func_800290BC();
-    extern s32 D_800AFAE8;
+    extern s32 guess_g_PlayerModelObject;
     extern s32 D_800DE2A4;
     extern s32 D_801152C8;
     extern s32 D_80180474;
@@ -49,9 +49,9 @@ s32 func_80145CEC() {
     (void)&pad;
 
     func_80016714(&guess_g_PlayerActor, 0x254);
-    D_80126B78[0] = (s32 *)&D_800AFAE8;
+    D_80126B78[0] = (s32 *)&guess_g_PlayerModelObject;
     D_800AF7C8 = (s32 *)&D_801152C8;
-    func_8001C320(&D_800AFAE8, &D_800DE2A4);
+    func_8001C320(&guess_g_PlayerModelObject, &D_800DE2A4);
     *(s32 *)((s32)D_80126B78[0] + 0x28) = 0x7fff7fff;
     D_80126B90 = (s32 *)&D_80180474;
     *(u16 *)((s32)D_80126B78[0] + 0x18) = 0x1000;

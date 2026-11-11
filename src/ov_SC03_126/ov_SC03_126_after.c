@@ -634,7 +634,7 @@ extern s32 ratan2(s32, s32);
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (38 ins)
 extern s32 D_80180E30[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s16 currentLocationId;
 
 #include "../shared/ov/func_80149FB0__8c634086.h"
@@ -907,7 +907,7 @@ extern s32 func_8014C5FC(s32 a0, s32 a1, void *a2);
 // Levers used (all byte-gated on ov_SC07_006):
 //  1. §struct  8-byte alignment-1 struct copy `*(M8_8014C6F4*)(a+0x164) = *(M8_8014C6F4*)(p+0x10)`
 //     -> the lwl/lwr,lwl/lwr,swl/swr,swl/swr block (engine_types.h M8_xxx convention).
-//  2. §17 base-pointer cache: `u8 *p = D_80078E78;` (NOT a direct D_80078E78[0x49]) so gcc pins
+//  2. §17 base-pointer cache: `u8 *p = guess_g_PlayerRecord;` (NOT a direct guess_g_PlayerRecord[0x49]) so gcc pins
 //     the base into callee-saved $s1 and hoists the la into the prologue (live across the jal).
 //  3. §17 register pins: the search result `e` MUST be $v0 and the limit `lim` $v1, else
 //     local-alloc swaps the loop IV/limit pair ($v1<->$a0) and coalesces `e` into the IV.
@@ -1661,7 +1661,7 @@ extern void func_801477E8(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_8014CBF8(void *a0);
 extern int func_80151204(int arg, int a1);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80180FAC;
 
 #include "../shared/ov/func_801520DC__43573632.h"
@@ -1704,7 +1704,7 @@ extern void func_801477E8(s32 *a0, s32 a1);
 extern void func_80147324(s32 arg0);
 extern void func_80146CA0(void *a0);
 
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_800D5880;
 extern s32 D_800D58AC;
 extern u8 D_80180FDC[];
@@ -1749,7 +1749,7 @@ extern void func_80149020(s32 *a0);
 extern void func_8014CBF8(void *a0);
 extern int func_80151204(int arg, int a1);
 extern void func_80154274(s32 *a0, s32 a1);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_800D5880;
 extern M2C_UNK D_80180FF4;
 

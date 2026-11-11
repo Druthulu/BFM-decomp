@@ -571,7 +571,7 @@ void func_801EE730(void) {
     extern s16 D_8011512C;
     extern s32 D_80115134;
     extern s16 D_800B9A02;
-    extern Env_801EFA40 D_800AE7BC[];
+    extern Env_801EFA40 guess_g_FrontOrderingTablesOrg[];
 
     extern s32 *func_801EFA40(s32 *out);
     extern s32 func_801EE8E0(s32 ot, u8 *s, s16 c);
@@ -623,9 +623,9 @@ void func_801EE730(void) {
     func_8005A600(ot, 0, 0, 0x15, 0);
 
     *(s32 *)ot = 0x02000000;
-    *(s32 *)ot = (D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] & 0xFFFFFF) | 0x02000000;
-    D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] =
-        (D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] & 0xFFFFFF) | 0x02000000;
+    guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] =
+        (guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
     ((Unkstruct_801151D0 *)&D_801151D0)->f0 = ot;
@@ -1237,7 +1237,7 @@ s32 *func_801EFA40(s32 *out) {
    /* 0x14 stride */
                /* 0x20 stride */
 
-    extern Env_801EFA40 D_800AE7BC[];
+    extern Env_801EFA40 guess_g_FrontOrderingTablesOrg[];
     extern short D_800B9A02;
     extern u16 D_801F1998[];
     extern s32 D_80115134;
@@ -1272,18 +1272,18 @@ s32 *func_801EFA40(s32 *out) {
     ((Unkstruct_801EFA40 *)out)->unk10 = 0x10;
 
     ((PTag_801EFA40 *)out)->addr =
-        ((PTag_801EFA40 *)(D_800AE7BC[*pb].ot + 2))->addr;
-    ((PTag_801EFA40 *)(D_800AE7BC[*pb].ot + 2))->addr = (u32)out;
+        ((PTag_801EFA40 *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr;
+    ((PTag_801EFA40 *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr = (u32)out;
 
     out += 5;                                       /* [L1] */
     func_8005A600((s32)out, 0, 0, 0x15, 0);
 
     ((PTag_801EFA40 *)out)->addr =
-        ((PTag_801EFA40 *)(D_800AE7BC[*pb].ot + 2))->addr;
+        ((PTag_801EFA40 *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr;
     {
         u32 *op;
         register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-        op = D_800AE7BC[*pb].ot;
+        op = guess_g_FrontOrderingTablesOrg[*pb].ot;
         v = op[2];
         v = (v & 0xFF000000) | (((u32)out) & 0xFFFFFF);
         op[2] = v;
@@ -1312,7 +1312,7 @@ void func_801EFC30(void) {
  * 16-bit (`sll $a0,$a0,16 ; bnez`, no sra), so the truncation lives in the test instead. */
 void func_801EFC58(s32 arg0) {
 
-    extern u8  D_80078E78[];   /* live: 152-byte block            (host TU declares this identically) */
+    extern u8  guess_g_PlayerRecord[];   /* live: 152-byte block            (host TU declares this identically) */
     extern u16 D_800A6588[];   /* live: u16[64]                                                      */
     extern u8  D_800AE648[];   /* live: u8[64]                                                       */
     extern u8  D_800BA1B8[];   /* live: u8[256]                                                      */
@@ -1325,7 +1325,7 @@ void func_801EFC58(s32 arg0) {
     s16 i;
 
     if ((s16)arg0 == 0) {
-        *(Blk152_8017DF40_801EFC58 *)D_80078E78 = *(Blk152_8017DF40_801EFC58 *)D_801F8040;
+        *(Blk152_8017DF40_801EFC58 *)guess_g_PlayerRecord = *(Blk152_8017DF40_801EFC58 *)D_801F8040;
         for (i = 0; i < 64; i++) {
             D_800A6588[i] = D_801F80D8[i];
         }
@@ -1339,7 +1339,7 @@ void func_801EFC58(s32 arg0) {
             ((Blk4_8017DF40_801EFC58 *)D_800BA2B8)[i] = ((Blk4_8017DF40_801EFC58 *)D_801F8298)[i];
         }
     } else {
-        *(Blk152_8017DF40_801EFC58 *)D_801F8040 = *(Blk152_8017DF40_801EFC58 *)D_80078E78;
+        *(Blk152_8017DF40_801EFC58 *)D_801F8040 = *(Blk152_8017DF40_801EFC58 *)guess_g_PlayerRecord;
         for (i = 0; i < 64; i++) {
             D_801F80D8[i] = D_800A6588[i];
         }

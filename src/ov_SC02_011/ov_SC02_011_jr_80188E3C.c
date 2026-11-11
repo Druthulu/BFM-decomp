@@ -1457,7 +1457,7 @@ void func_8018AA44(void) {
  * DECLARATIONS: ApplyMatrixSV, D_800B9A02 and D_801EB6DC/E6/EA/EC are declared
  * VERBATIM as the TU already has them at file scope (L163, L2460/2462,
  * L3689/3705/3706, L3726, L3879), so they merge silently.  D_800AE620,
- * D_800A5E60, D_800A651C, D_800A6518, D_801EB6E0, RotMatrixZ, func_8004901C and
+ * D_800A5E60, D_800A651C, guess_g_OrderingTables, D_801EB6E0, RotMatrixZ, func_8004901C and
  * func_80016638 have NO file-scope declaration anywhere in the TU and none in
  * include/ (checked in one pass, D2), so each is block-scoped here to keep the
  * blast radius on the rest of the TU at zero (§103/T51).  Verified by splicing
@@ -1472,7 +1472,7 @@ void func_8018AB20(s32 arg0)
     extern Blk32_8018AA98_8018AB20 D_800AE620;
     extern s32 D_800A5E60;
     extern s32 D_800A651C;
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern s16 D_801EB6DC;
     extern s16 D_801EB6DE;
     extern s16 D_801EB6E0;
@@ -1554,7 +1554,7 @@ void func_8018AB20(s32 arg0)
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
     ((Unkstruct_8018AB20_2 *)ot)->unk40 = (((Unkstruct_8018AB20_2 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
-    func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
+    func_80016638(&guess_g_OrderingTables[*bidx * 20], 0x10, 1);
 }
 
 
@@ -1929,7 +1929,7 @@ void func_8018B2C4(s32 a0) {
     extern s16 D_801EB5DC;
     extern u8 *D_800A5E60;
     extern s32 D_800AE620;
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern Ot_8018B23C_8018B2C4 D_800A651C[];
 
     s32 m[8];       /* sp+0x10 */
@@ -1996,7 +1996,7 @@ void func_8018B2C4(s32 a0) {
         ((PTag_8018B23C_8018B2C4 *)q)->addr =
             ((PTag_8018B23C_8018B2C4 *)(D_800A651C[bp->h].a + 0x40))->addr;
         ((PTag_8018B23C_8018B2C4 *)(D_800A651C[bp->h].a + 0x40))->addr = (u32)q;
-        func_80016638(&D_800A6518[bp->h * 20], 0x10, 1);
+        func_80016638(&guess_g_OrderingTables[bp->h * 20], 0x10, 1);
     }
 }
 
@@ -4129,7 +4129,7 @@ void func_8018E014(void *a0) {
 extern s32 guess_g_PlayerActor;
 extern s32 func_8014CAFC(void);
 extern s32 func_8018E208(void *a0);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 D_80078EAE;
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
@@ -4147,7 +4147,7 @@ void *arg0;
     void *ptr;
 
     base = (u8 *)&guess_g_PlayerActor;
-    p = D_80078E78;
+    p = guess_g_PlayerRecord;
     flag = 0;
 
     if (func_8014CAFC() != 0) {

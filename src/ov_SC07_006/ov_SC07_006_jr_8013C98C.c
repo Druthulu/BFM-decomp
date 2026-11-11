@@ -140,7 +140,7 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern s32 D_800AE688[];
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void guess_UpdateCamera(void);
 extern void func_8012A018(s32 a, s32 b);
@@ -556,7 +556,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80136F3C(s32 a0, s32 a1);
@@ -831,7 +831,7 @@ extern void func_8013CF68(void);
 
 void func_8013CB84(void) {
 
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern s32 D_801F4E68;
     extern s32 D_801F4E60;
     extern s32 D_801F4E64;
@@ -850,7 +850,7 @@ void func_8013CB84(void) {
     extern Rec9 D_8018AD3C[];
     extern u8 D_801F62B8;  /* canonical (§8d); Rec9 block-move via cast-at-use */
     s32 loc = currentLocationId;
-    s32 s0 = D_80078EAF;
+    s32 s0 = guess_g_DayPeriod;
     s32 ta, tb, tc, t;
 
     D_801F62E0 = 0;
@@ -1110,7 +1110,7 @@ void func_8013D330(void) {
 
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (match_one 90/90); base &D_80078E78 cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access D_80078E78[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
+// @unstuck(P36): none — MATCH (match_one 90/90); base &guess_g_PlayerRecord cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access guess_g_PlayerRecord[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
 
 
 
@@ -1123,7 +1123,7 @@ extern void func_8013CF68(void);
 void func_8013D3D4(int param_1, int param_2)
 {
 
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern void *D_801F4E48;
     extern void *D_801F4E4C;
     extern void *D_801F4E50;
@@ -1137,7 +1137,7 @@ void func_8013D3D4(int param_1, int param_2)
     extern u8 D_8018ACA0[];
     extern u8 D_8018AD20[];
     extern u8 D_8018ABF8[];
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
 
     D_801F4E78 = param_2;
     D_801F4E7C = (param_2 >> 2) & 3;
@@ -1190,7 +1190,7 @@ void func_8013D53C(void *arg0v) {
     extern Rec9 D_8018AD3C[];
     extern Rec12 D_8018AD74[];
     extern s32 D_801F4E78;
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern s32 D_801F4E60;
     extern u8 D_801F62FA;
     extern u8 D_801F636E;
@@ -1227,7 +1227,7 @@ void func_8013D53C(void *arg0v) {
     if (!(D_801F4E78 & 1)) {
         D_801F4E60 = 1;
     } else {
-        D_801F4E60 = D_80078EAF;
+        D_801F4E60 = guess_g_DayPeriod;
     }
 
     b0 = ((u8 *)D_8018AD74)[D_801F4E60 * 12];
@@ -1533,7 +1533,7 @@ void func_8013DBE4(int param_1)
  *   tail DRAWENV D_8018ADB0.  Every symbol re-checked against this .s's relocation
  *   lines (Law 1c: match_one masks %hi/%lo and jal, so identity is verified by hand).
  * Levers (carried from the exemplar): struct-assign DRAWENV copy (align via type); `pbase`
- * local so D_800B9A02 is reached $s2-relative as D_800AF630[0xA3D2]; two-biv SPRT loop
+ * local so D_800B9A02 is reached $s2-relative as guess_g_RenderWork[0xA3D2]; two-biv SPRT loop
  * (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim;
  * a single `p` var coalesces the two prim cursors; pins uVar2=$v1, iVar14=$a3, c5=$t3;
  * biv-increment order sets q-init-before-puVar10-init; Buf_8013DD68 0x68 -> frame 0xA0. */
@@ -1544,7 +1544,7 @@ void func_8013DBE4(int param_1)
 
 #endif
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s32 D_800A5E60;
 extern s16 *D_801F4E54;
 extern s32 D_801F4E84;
@@ -1572,7 +1572,7 @@ void func_8013DD68() {
     u8 *pbase;
     u8 *base;
 
-    pbase = D_800AF630;
+    pbase = guess_g_RenderWork;
     puVar16 = (*(u16 * *)&D_801F4E54);
     p = (*(u32 * *)&D_800A5E60);
     uVar1 = *puVar16;

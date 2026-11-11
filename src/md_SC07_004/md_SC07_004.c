@@ -7216,7 +7216,7 @@ void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
  *   2. src/ov_SC03_119/ov_SC03_119_jr_8017FB84.c func_80185944 — byte-MATCH
  *      (177/177 ins).  Its header names this exact tail idiom: "link-ins
  *      the packet into the current double-buffer's OT (the PSY-Q `addPrim`
- *      macro pair) and calls func_80016638", with `func_80016638(&D_800A6518
+ *      macro pair) and calls func_80016638", with `func_80016638(&guess_g_OrderingTables
  *      [*bidx*20], depth, 1)` as its literal call form (there depth=0x10
  *      constant, here depth=temp_v0_2).  Confirms the "3 lhu D_800B9A02,
  *      address cached / value reloaded" shape and the general addPrim(ot,p)
@@ -7268,7 +7268,7 @@ void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
  * INTEGRATION SURFACE (checked against destination TU
  * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c):
  *   func_80010A08, func_8004914C, func_800491AC, RotTransPers, guess_g_CameraWsMatrix,
- *   D_800B9A02, D_800A6518 all match the TU's own existing extern spellings
+ *   D_800B9A02, guess_g_OrderingTables all match the TU's own existing extern spellings
  *   verbatim (grepped at TU lines 2448/2632-2633/4674 and the
  *   func_8018F694/func_8018F060 block). D_800A651C and func_80016638 have NO
  *   file-scope declaration anywhere in the TU (only ever appear inside other
@@ -7291,7 +7291,7 @@ void func_801AADA8(s32 arg0, s32 arg1, s32 arg2)
     extern s32 RotTransPers(s32, s32, s32 *, s32 *);
     extern u8 guess_g_CameraWsMatrix;
     extern OtBlk_8018A974_801AADA8 D_800A651C[];
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern short D_800B9A02;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
@@ -7323,7 +7323,7 @@ void func_801AADA8(s32 arg0, s32 arg1, s32 arg2)
         ot = D_800A651C[*bidx].a;
         *(u32 *)(depth4 + ot) =
             (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & 0xFFFFFF);
-        func_80016638(&D_800A6518[*bidx * 20], temp_v0_2, 1);
+        func_80016638(&guess_g_OrderingTables[*bidx * 20], temp_v0_2, 1);
     }
 }
 
@@ -7464,9 +7464,9 @@ void func_801AB21C(s32 a0, s32 a1, s32 a2, s32 a3)
     extern void func_80016638(void *a0, s32 a1, s32 a2);
     extern u16 D_800B9A02;
     extern OtBlk_8018A974_801AADA8 D_800A651C[];
-    extern u8 D_800A6518[];
-    extern OtBlk_8018A974_801AADA8 D_800AE7BC[];
-    extern u8 D_800AE7B8[];
+    extern u8 guess_g_OrderingTables[];
+    extern OtBlk_8018A974_801AADA8 guess_g_FrontOrderingTablesOrg[];
+    extern u8 guess_g_FrontOrderingTables[];
 
     F4_801AB21C *p;
     u32 *ot;
@@ -7494,16 +7494,16 @@ void func_801AB21C(s32 a0, s32 a1, s32 a2, s32 a3)
         *(u32 *)p = tag;
         i4 += D_800A651C[D_800B9A02].a;
         *(u32 *)i4 = (*(u32 *)i4 & 0xFF000000) | ((u32)p & 0xFFFFFF);
-        func_80016638(&D_800A6518[D_800B9A02 * 20], idx, 1);
+        func_80016638(&guess_g_OrderingTables[D_800B9A02 * 20], idx, 1);
     } else {
         u32 tag;
         tag = *(u32 *)p;
         tag &= 0xFF000000;
-        tag |= *(u32 *)D_800AE7BC[D_800B9A02].a & 0xFFFFFF;
+        tag |= *(u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a & 0xFFFFFF;
         *(u32 *)p = tag;
-        ot = (u32 *)D_800AE7BC[D_800B9A02].a;
+        ot = (u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a;
         *ot = (*ot & 0xFF000000) | ((u32)p & 0xFFFFFF);
-        func_80016638(&D_800AE7B8[D_800B9A02 * 20], 0, 1);
+        func_80016638(&guess_g_FrontOrderingTables[D_800B9A02 * 20], 0, 1);
     }
 }
 

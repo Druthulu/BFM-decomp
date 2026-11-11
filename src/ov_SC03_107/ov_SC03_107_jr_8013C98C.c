@@ -164,7 +164,7 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern s32 D_800AE688[];
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
@@ -613,7 +613,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80136F3C(s32 a0, s32 a1);
@@ -893,7 +893,7 @@ extern void func_8013CF68(void);
 
 void func_8013CB84(void) {
 
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern s32 D_8019A818;
     extern s32 D_8019A810;
     extern s32 D_8019A814;
@@ -912,7 +912,7 @@ void func_8013CB84(void) {
     extern Rec9 D_80182DD8[];
     extern u8 D_8019BC88;  /* canonical (§8d); Rec9 block-move via cast-at-use */
     s32 loc = currentLocationId;
-    s32 s0 = D_80078EAF;
+    s32 s0 = guess_g_DayPeriod;
     s32 ta, tb, tc, t;
 
     D_8019BCB0 = 0;
@@ -1163,7 +1163,7 @@ void func_8013D330(void) {
 
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (match_one 90/90); base &D_80078E78 cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access D_80078E78[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
+// @unstuck(P36): none — MATCH (match_one 90/90); base &guess_g_PlayerRecord cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access guess_g_PlayerRecord[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
 
 
 
@@ -1176,7 +1176,7 @@ extern void func_8013CF68(void);
 void func_8013D3D4(int param_1, int param_2)
 {
 
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern void *D_8019A7F8;
     extern void *D_8019A7FC;
     extern void *D_8019A800;
@@ -1190,7 +1190,7 @@ void func_8013D3D4(int param_1, int param_2)
     extern u8 D_80182D3C[];
     extern u8 D_80182DBC[];
     extern u8 D_80182C94[];
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
 
     D_8019A828 = param_2;
     D_8019A82C = (param_2 >> 2) & 3;
@@ -1243,7 +1243,7 @@ void func_8013D53C(void *arg0v) {
     extern Rec9 D_80182DD8[];
     extern Rec12 D_80182E10[];
     extern s32 D_8019A828;
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern s32 D_8019A810;
     extern u8 D_8019BCCA;
     extern u8 D_8019BD3E;
@@ -1280,7 +1280,7 @@ void func_8013D53C(void *arg0v) {
     if (!(D_8019A828 & 1)) {
         D_8019A810 = 1;
     } else {
-        D_8019A810 = D_80078EAF;
+        D_8019A810 = guess_g_DayPeriod;
     }
 
     b0 = ((u8 *)D_80182E10)[D_8019A810 * 12];
@@ -1583,7 +1583,7 @@ void func_8013DBE4(int param_1)
 
 #endif
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s32 D_800A5E60;
 extern s16 *D_8019A804;
 extern s32 D_8019A834;
@@ -1611,7 +1611,7 @@ void func_8013DD68() {
     u8 *pbase;
     u8 *base;
 
-    pbase = D_800AF630;
+    pbase = guess_g_RenderWork;
     puVar16 = (*(u16 * *)&D_8019A804);
     p = (*(u32 * *)&D_800A5E60);
     uVar1 = *puVar16;

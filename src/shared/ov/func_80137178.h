@@ -1,7 +1,7 @@
 /* func_80137178 — shared body (overlay slot 0x80128158, h_exact f5d8c9a9). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 void func_80137178(s32 a0, s32 a1)
 {
@@ -17,7 +17,7 @@ void func_80137178(s32 a0, s32 a1)
     } line;
     s16 x0;             /* $s3 */
     s16 white;             /* $s1 */
-    u8 *base = D_800A6518; /* $s2 */
+    u8 *base = guess_g_OrderingTables; /* $s2 */
     s16 x1;
     s16 y0;
     s16 y1;

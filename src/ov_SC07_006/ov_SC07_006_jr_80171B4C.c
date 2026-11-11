@@ -140,8 +140,8 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void guess_UpdateCamera(void);
 extern void func_8012A018(s32 a, s32 b);
@@ -546,7 +546,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80137030(s16 a0, s16 a1);
@@ -554,7 +554,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
@@ -998,7 +998,7 @@ extern int func_80144B14(int param_s0);
 extern void func_80144AEC(s32 *a0);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -1704,7 +1704,7 @@ extern void func_80153060(void *a0);
 extern void func_801530E4(s32 a0);
 extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern void func_801530E4(s32 arg0);
 extern void func_80153150(struct S80153150 *a0);
 extern void func_801531BC(s32 a0);
@@ -2256,7 +2256,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_80160534(u8 *p);
 extern void func_801607B8(s32 *a0);
@@ -3906,8 +3906,8 @@ extern s16 D_800B9A02;
 
    /* size 0x14 */
     /* size 0x0C */
-extern S_AE7BC D_800AE7BC[];
-extern S_AF634 D_800AF634[];
+extern S_AE7BC guess_g_FrontOrderingTablesOrg[];
+extern S_AF634 guess_g_PacketBufferUsed[];
 
 #include "../shared/ov/func_801759D8.h"
 
@@ -3917,7 +3917,7 @@ void func_80175AB8(param_1)
     s16 param_1;
 {
    /* size 0x0C */
-    extern S_AF634 D_800AF638[];
+    extern S_AF634 guess_g_PacketBufferBase[];
 
     extern u8  D_8011F7F0;
     extern u16 D_8011F7B4;
@@ -3957,7 +3957,7 @@ void func_80175AB8(param_1)
     s32 idx;
     s16 sv;
 
-    p = (u32 *)(D_800AF638[param_1].g0 + D_800AF634[param_1].g0 * 4);
+    p = (u32 *)(guess_g_PacketBufferBase[param_1].g0 + guess_g_PacketBufferUsed[param_1].g0 * 4);
     __asm__("" : "=r"(base) : "0"(&D_8011F7F0));               /* L1 */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     arr = base - 0x48;
     slot = (u32 *)(param_1 * 4 + (s32)arr);
@@ -3996,14 +3996,14 @@ void func_80175AB8(param_1)
     *p = (((u32)p - 0x14) & 0xFFFFFF) | 0x2000000;
     slot[8] = (u32)p;
     p += 5;
-    D_800AF634[param_1].g0 += ((s32)p - (s32)slot[6]) >> 2;
+    guess_g_PacketBufferUsed[param_1].g0 += ((s32)p - (s32)slot[6]) >> 2;
 }
 
 
 
 extern u8  D_800B9A13;
    /* size 0x0C */
-extern S_AF634 D_800AF634[];
+extern S_AF634 guess_g_PacketBufferUsed[];
 extern u32 *func_8017742C(u32 *a0, s32 a1, s32 a2);
 extern s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern s32 func_800183E0(s32 a0);
@@ -4015,7 +4015,7 @@ void func_80175DA8(param_1)
 {
 
     extern u8  D_8011F7F0;
-    extern S_AF634 D_800AF638[];
+    extern S_AF634 guess_g_PacketBufferBase[];
     extern u16 D_8018DACC[];
     extern u16 D_8018DB1C[];
     extern u16 D_8018DB28;
@@ -4036,7 +4036,7 @@ void func_80175DA8(param_1)
     s32 fl;
     u16 v;
 
-    p = (Sp_80175DA8 *)(D_800AF638[(s16)param_1].g0 + D_800AF634[(s16)param_1].g0 * 4);
+    p = (Sp_80175DA8 *)(guess_g_PacketBufferBase[(s16)param_1].g0 + guess_g_PacketBufferUsed[(s16)param_1].g0 * 4);
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x28) = p;
     i = 0;
     do {
@@ -4070,8 +4070,8 @@ void func_80175DA8(param_1)
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x30) = p;
     p++;
     {
-        s32 acc = D_800AF634[(s16)param_1].g0;
-        D_800AF634[(s16)param_1].g0 =
+        s32 acc = guess_g_PacketBufferUsed[(s16)param_1].g0;
+        guess_g_PacketBufferUsed[(s16)param_1].g0 =
             acc + (((s32)p - *(s32 *)(s + (s16)param_1 * 4 + 0x28)) >> 2);
     }
 
@@ -4179,13 +4179,13 @@ void func_80176218(s32 param_1) {
     extern s16 g_PlayerHp[];
     extern u16 D_8011F8C4;
     extern u8  D_8011F7A8;   /* st base  ($s3) */
-    extern u8 D_80078E78[];   /* cur base ($s5) */
+    extern u8 guess_g_PlayerRecord[];   /* cur base ($s5) */
     extern u8  D_8018DBA8[];
     extern u8 *D_8018DB2C[];
     s32 st   = (s32)&D_8011F7A8;   /* $s3 */
     s32 cach = st + 0x48;          /* $s1 */
     s32 flag = st + 0xE0;          /* $s2 */
-    s32 cur  = (s32)&(*(u8 *)D_80078E78);   /* $s5 */
+    s32 cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);   /* $s5 */
     u8 buf[24];
     s32 ne;
     s32 t;
@@ -4363,7 +4363,7 @@ L63C:
 void func_80176734(s32 param_1)
 {
     extern u8  D_8011F7A8;      /* st base  ($s3) */
-    extern u8  D_80078E78[];    /* cur base ($s4) */
+    extern u8  guess_g_PlayerRecord[];    /* cur base ($s4) */
     extern s16 D_801152BA;
     extern u8  D_8011F7B0;      /* == *(u8 *)(st + 8), read absolutely (mixed addressing) */
     extern u8  D_80115214;
@@ -4400,7 +4400,7 @@ void func_80176734(s32 param_1)
     pv  = param_1;
     cach = st + 0x48;
     flag = st + 0xE0;
-    cur  = (s32)&(*(u8 *)D_80078E78);
+    cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);
 
     /* ---- block A: pulse byte ---- */
     {

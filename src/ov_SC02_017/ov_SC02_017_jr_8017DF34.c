@@ -12,7 +12,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
          /* 16-byte stride array element */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -39,7 +39,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -375,7 +375,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018C08C[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -763,7 +763,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018C208;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1098,7 +1098,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801EE610;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1115,7 +1115,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018C8E0[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1376,7 +1376,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -5699,7 +5699,7 @@ extern s32 func_8012AD50(void *a0);
  *
  * Shape: GTE setup (SetRotMatrix/SetTransMatrix from guess_g_CameraWsMatrix), func_80015978
  * to fetch the world vector, rtps, then a screen-bounds reject on
- * (D_800AF7BC>>1)+0x20 / (D_800AF7BE>>1)+0x20 and the GTE flag, then the
+ * (guess_g_ScreenWidth>>1)+0x20 / (guess_g_ScreenHeight>>1)+0x20 and the GTE flag, then the
  * per-entry walk over D_8018E8DC[idx] terminated by *(s16*)(p+6)==0xFF.
  *
  * LEVER (the whole residual — REGALLOC-PERM $v1>$v0, 4 ins):
@@ -5725,8 +5725,8 @@ extern void func_80015978(s32 a0, s32 *a1);
 extern void func_80183168(u8 *a0, u8 *a1);
 extern void func_801831FC(s32 a0);
 extern u8 D_8018E8DC[];
-extern u16 D_800AF7BC;
-extern u16 D_800AF7BE;
+extern u16 guess_g_ScreenWidth;
+extern u16 guess_g_ScreenHeight;
 
 void func_80182FD0(int param)
 {
@@ -5750,9 +5750,9 @@ void func_80182FD0(int param)
     gte_stsxy(w.v);
     gte_stflg(&w.flag);
 
-    lim = (D_800AF7BC >> 1) + 0x20;
+    lim = (guess_g_ScreenWidth >> 1) + 0x20;
     if (w.v[0] > -lim && w.v[0] < lim) {
-        lim2 = (D_800AF7BE >> 1) + 0x20;
+        lim2 = (guess_g_ScreenHeight >> 1) + 0x20;
         if (w.v[1] > -lim2 && w.v[1] < lim2 && w.flag >= 0) {
             if (((Unkstruct_80182FD0 *)param)->unk1C == 0) {
                 while (*(s16 *)(s0 + 6) != 0xFF) {

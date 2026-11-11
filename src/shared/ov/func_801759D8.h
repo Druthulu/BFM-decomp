@@ -2,8 +2,8 @@ s32 func_801759D8(void)
 {
     extern u8 D_8011F7B1;
     extern s16 D_800B9A02;
-    extern S_AE7BC_801759D8 D_800AE7BC[];
-    extern S_AF634_801759D8 D_800AF634[];
+    extern S_AE7BC_801759D8 guess_g_FrontOrderingTablesOrg[];
+    extern S_AF634_801759D8 guess_g_PacketBufferUsed[];
     extern u8 D_8011F7A8;
     u8 *p = (u8 *)&D_8011F7A8;
     u32 *ptr;
@@ -14,14 +14,14 @@ s32 func_801759D8(void)
         return;
     }
     sq = (S2_800B9A02 *)&D_800B9A02;
-    ptr = D_800AE7BC[sq->h].f0;
+    ptr = guess_g_FrontOrderingTablesOrg[sq->h].f0;
     old = ptr[1];
     ptr[1] = (old & 0xff000000) | (*(u32 *)(p + sq->h * 4 + 0x40) & 0xffffff);
     p2 = *(u32 **)(p + sq->h * 4 + 0x38);
     *p2 = (*p2 & 0xff000000) | (old & 0xffffff);
     {
-        s32 acc = D_800AF634[sq->h].g0;
+        s32 acc = guess_g_PacketBufferUsed[sq->h].g0;
         s32 t = *(s32 *)(p + sq->h * 4 + 0x38) - 0x14;
-        D_800AF634[sq->h].g0 = acc + ((*(s32 *)(p + sq->h * 4 + 0x40) - t) >> 2);
+        guess_g_PacketBufferUsed[sq->h].g0 = acc + ((*(s32 *)(p + sq->h * 4 + 0x40) - t) >> 2);
     }
 }

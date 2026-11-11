@@ -177,8 +177,8 @@ extern s32 D_80126E60[];
 extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
@@ -514,7 +514,7 @@ extern void func_80130AF0(int param_1);
 extern void (*D_801910C0[])(void);
 extern void func_80130D0C(void *a0);
 extern s32 rand(void);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u16 g_PlayerHpMax;
 extern u16 g_PlayerHp;
 extern s16 D_80191110[];
@@ -612,7 +612,7 @@ extern void SetLineG2(void *);
 extern void func_80136D08(s32 arg0, s32 arg1);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80137030(s16 a0, s16 a1);
@@ -620,7 +620,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
@@ -1252,7 +1252,7 @@ extern s16    D_801920AA;
 void func_8013FAF8(s16 arg0, s16 arg1) {
 
     extern Hw4    D_8011516A[];
-    extern Rec20  D_800AE7B8[];
+    extern Rec20  guess_g_FrontOrderingTables[];
     extern Blk60  D_80191730[];
     extern Blk20  D_80191A30[];
     extern Prim4  D_80191B30[];
@@ -1328,19 +1328,19 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         func_8005A600((s32)ot, 0, 0, 0x15, 0);
         flag3 = flag;
         *ot = 0x2000000;
-        *ot = (D_800AE7B8[*(u16 *)&D_800B9A02].f4[2] & 0xFFFFFF) | 0x2000000;
-        D_800AE7B8[*(u16 *)&D_800B9A02].f4[2] =
-            (D_800AE7B8[*(u16 *)&D_800B9A02].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+        *ot = (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFFFFFF) | 0x2000000;
+        guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] =
+            (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
         ot = func_800D29F8(flag3,
                            func_800D27DC(flag3 != 0, ot + 10, &D_80191730[i], 8, D_8011516A[i].x),
                            &D_80191A30[i], 2, D_8011516A[i].x);
     }
     pp = &D_801920A8;
     if (*pp == 0xE) {
-        ot = func_80137D08(ot, &D_800AE7B8[*(u16 *)&D_800B9A02], 2);
+        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2);
     }
     if (*pp != 0 && D_801920AA != 0) {
-        ot = func_8013AB54(ot, D_800AE7B8[*(u16 *)&D_800B9A02].f4 + 2, (s32)(pp - 2), 0x8000);
+        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4 + 2, (s32)(pp - 2), 0x8000);
     }
     D_801151D0 = (s32)ot;
 }

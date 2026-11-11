@@ -6,7 +6,7 @@ extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80047D3C(s32 a0);
 extern s32 ratan2(s32 a0, s32 a1);
 extern u8 D_801202A0[];
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 void func_80164530(s32 arg0) {
     u8 *p;
     s32 s0;
@@ -17,7 +17,7 @@ void func_80164530(s32 arg0) {
     s16 sVar4;
     s32 ix, iy, dist;
     sVar4 = 0x1000;
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     p = D_801202A0;
     iVar9 = *(s32 *)(arg0 + 0x20);
     for (; p < D_801202A0 + 0x6480; p += 0x10C) {

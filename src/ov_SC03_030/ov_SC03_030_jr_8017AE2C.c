@@ -10,7 +10,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -37,7 +37,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -376,7 +376,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_80183A04[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -764,7 +764,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80183B80;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1099,7 +1099,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801E0958;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1116,7 +1116,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_80184258[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1377,7 +1377,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -5006,7 +5006,7 @@ extern s32 func_8012AD50(void *a0);
 
 extern void (*D_80186464[])(void);
 extern u8 guess_g_CameraWsMatrix[];
-extern u16 D_800AF7BE;
+extern u16 guess_g_ScreenHeight;
 extern void func_80015978(s32, s32 *);
 extern u8 *func_801290DC(s32, u8 *);
 
@@ -5030,7 +5030,7 @@ void func_8017F6E0(int param_1)
     gte_stsxy(sxy);
     gte_stflg(flag);
 
-    if ((-(s32)D_800AF7BE / 2 < sxy[1]) && (sxy[1] < (s32)(((u32)D_800AF7BE >> 1) + 0x20)) && (flag[0] >= 0)) {
+    if ((-(s32)guess_g_ScreenHeight / 2 < sxy[1]) && (sxy[1] < (s32)(((u32)guess_g_ScreenHeight >> 1) + 0x20)) && (flag[0] >= 0)) {
         u16 temp[4];   /* sp+0x20 */
         if (((Unkstruct_8017F6E0 *)param_1)->unk1C == 0) {
             if (((Unkstruct_8017F6E0_2 *)rec)->unk6 != 0xFF) {
@@ -5150,7 +5150,7 @@ void func_8017FB04(s32 s1)
     s32 a0;
     s32 s0;
 
-    s3 = (s32)D_800AF630;
+    s3 = (s32)guess_g_RenderWork;
     s0 = ((Unkstruct_800B5CB8 *)s1)->unk20;
 
     if ((s32)D_80126CB0 + 0x300 < (s32)((Unkstruct_800B5CB8 *)s1)->unk100) {
@@ -5214,7 +5214,7 @@ void func_8017FCBC(void) {
     extern s32 func_801801E8(void *arg0, s32 arg1);
     extern s32 func_80180054(SVec_80180054 *p, s32 dist);
     extern u16 D_800B99DA;
-    extern u16 D_800AF7BE;
+    extern u16 guess_g_ScreenHeight;
     extern void (*D_801866AC[])(void);
     extern u8 D_8018677C[];
     extern u8 D_801867BC[];
@@ -5232,7 +5232,7 @@ void func_8017FCBC(void) {
         }
     }
     if ((D_800B99DA & 7) == 0) {
-        u16 *q = &D_800AF7BE;
+        u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_8018677C, *q >> 1);
         if ((t & 0xFFFF) != 0xFFFF) {
             func_8002D4C8(0x587, ((0x7F - ((t & 0xFFFF) * 0x50 / (*q >> 1))) | 0x1000) & 0xFFFF);
@@ -5241,7 +5241,7 @@ void func_8017FCBC(void) {
         }
     }
     if ((D_800B99DA & 7) == 0) {
-        u16 *q = &D_800AF7BE;
+        u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_801867BC, *q >> 1);
         if ((t & 0xFFFF) != 0xFFFF) {
             func_8002D4C8(0x583, ((0x7F - ((t & 0xFFFF) * 0x60 / (*q >> 1))) | 0x1000) & 0xFFFF);
@@ -5250,7 +5250,7 @@ void func_8017FCBC(void) {
         }
     }
     if ((D_800B99DA & 7) == 0) {
-        u16 *q = &D_800AF7BE;
+        u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_801867DC, *(s16 *)q);
         if ((t & 0xFFFF) != 0xFFFF) {
             func_8002D4C8(0x584, ((0x7F - ((t & 0xFFFF) * 0x60 / *q)) | 0x1000) & 0xFFFF);
@@ -5259,7 +5259,7 @@ void func_8017FCBC(void) {
         }
     }
     if ((D_800B99DA & 7) == 0) {
-        u16 *q = &D_800AF7BE;
+        u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_801867FC, *(s16 *)q);
         if ((t & 0xFFFF) != 0xFFFF) {
             func_8002D4C8(0x585, ((0x7F - ((t & 0xFFFF) * 0x60 / *q)) | 0x1000) & 0xFFFF);

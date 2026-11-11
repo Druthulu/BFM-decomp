@@ -4,7 +4,7 @@ void func_8013D53C(void *arg0v) {
 
     extern Rec9 D_8017FBA8[];
     extern Rec12 D_8017FBE0[];
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern u8 D_8018FA70;
     extern s32 D_8018E78C;
     Cmd_8013D53C *arg0 = arg0v;
@@ -25,7 +25,7 @@ void func_8013D53C(void *arg0v) {
     if (!(D_8018E798 & 1)) {
         D_8018E780 = 1;
     } else {
-        D_8018E780 = D_80078EAF;
+        D_8018E780 = guess_g_DayPeriod;
     }
 
     b0 = ((u8 *)D_8017FBE0)[D_8018E780 * 12];

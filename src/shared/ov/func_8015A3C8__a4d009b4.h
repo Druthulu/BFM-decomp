@@ -17,7 +17,7 @@ s32 arg0;
     s32 sv;
     u8 *p;
 
-    p = D_80078E78;
+    p = guess_g_PlayerRecord;
     if (currentLocationId == 0x302A) {
         min = -0xC0000;
         grav = -0x4000;

@@ -6,8 +6,8 @@ void func_80175DA8(param_1)
 
     extern u8  D_8011F7F0;
     extern u8  D_800B9A13;
-    extern S_AF634 D_800AF634[];
-    extern S_AF634 D_800AF638[];
+    extern S_AF634 guess_g_PacketBufferUsed[];
+    extern S_AF634 guess_g_PacketBufferBase[];
     extern u16 D_80182184[];
     extern u16 D_801821D4[];
     extern u16 D_801821E0;
@@ -28,7 +28,7 @@ void func_80175DA8(param_1)
     s32 fl;
     u16 v;
 
-    p = (Sp_80175DA8 *)(D_800AF638[(s16)param_1].g0 + D_800AF634[(s16)param_1].g0 * 4);
+    p = (Sp_80175DA8 *)(guess_g_PacketBufferBase[(s16)param_1].g0 + guess_g_PacketBufferUsed[(s16)param_1].g0 * 4);
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x28) = p;
     i = 0;
     do {
@@ -62,8 +62,8 @@ void func_80175DA8(param_1)
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x30) = p;
     p++;
     {
-        s32 acc = D_800AF634[(s16)param_1].g0;
-        D_800AF634[(s16)param_1].g0 =
+        s32 acc = guess_g_PacketBufferUsed[(s16)param_1].g0;
+        guess_g_PacketBufferUsed[(s16)param_1].g0 =
             acc + (((s32)p - *(s32 *)(s + (s16)param_1 * 4 + 0x28)) >> 2);
     }
 

@@ -4,7 +4,7 @@ void func_8015D738(void *arg0) {
 
     extern u8 D_801818D8[];
     extern u8 D_801818E8[];
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
     s32 s1;
     ((void (*)(void))func_80148AFC)();
     if (func_80161B18(arg0) != 0) return;

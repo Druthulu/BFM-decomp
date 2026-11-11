@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -32,7 +32,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -371,7 +371,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_80183F68[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -760,7 +760,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_801840E4;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1094,7 +1094,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801CC710;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1111,7 +1111,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_801847BC[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1372,7 +1372,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -2870,9 +2870,9 @@ extern s32 * func_8017E978(s32 *ot, Panel_8017E978 *w0, s16 idx);
  *     in engine_core.h:4008 (`extern u8 …[]`, `s16 func_8014168C(s16)`); that
  *     macro is NOT invoked in this TU, so these externs are the only decls and
  *     they use the canonical types.  s8 access to D_80115158 is cast at use.
- *   - D_80115138 / D_80115140 / D_801BB61E / D_801BB632 / D_800AE7BC have no
+ *   - D_80115138 / D_80115140 / D_801BB61E / D_801BB632 / guess_g_FrontOrderingTablesOrg have no
  *     other declaration in this TU; D_80115140 matches ov_SC03_099's spelling.
- *   - D_800AE7BC keeps its function-local typedef + extern (twin's shape), so
+ *   - guess_g_FrontOrderingTablesOrg keeps its function-local typedef + extern (twin's shape), so
  *     it cannot collide at file scope.
  */
 
@@ -2889,7 +2889,7 @@ extern s16 func_8014168C(s16 a0);
 
 s32 *func_8017EFA8(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
    /* 0x14 stride */
-    extern Env_8017EFA8 D_800AE7BC[];
+    extern Env_8017EFA8 guess_g_FrontOrderingTablesOrg[];
 
     u16 *pb;
     u16 *p;
@@ -2922,9 +2922,9 @@ s32 *func_8017EFA8(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 
     pb = (u16 *)&D_800B9A02;
     c0 = ot[0];
-    ot[0] = (c0 & 0xFF000000) | (D_800AE7BC[*pb].ot[2] & 0xFFFFFF);
-    D_800AE7BC[*pb].ot[2] =
-        (D_800AE7BC[*pb].ot[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
+    ot[0] = (c0 & 0xFF000000) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & 0xFFFFFF);
+    guess_g_FrontOrderingTablesOrg[*pb].ot[2] =
+        (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
 
     ot += 5;
 
@@ -2972,10 +2972,10 @@ s32 *func_8017EFA8(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                 *(s16 *)(q - 0xC) = ((s32 *)a3p)[2] + ((s32 *)a3p)[3] - 0xD;
                 *(s16 *)(q - 4) = eight;
                 *(s16 *)(q - 2) = eight;
-                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (D_800AE7BC[*pb2].ot[2] & m24);
+                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb2].ot[2] & m24);
                 {
                     register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
-                    op = D_800AE7BC[*pb2].ot;
+                    op = guess_g_FrontOrderingTablesOrg[*pb2].ot;
                     op[2] = (op[2] & mhi) | (((u32)ot) & m24);
                 }
                 q += 0x14;
@@ -3414,7 +3414,7 @@ void func_8017FBCC(s32 arg0) {
 
 extern s32 func_80010A08(s32);
 extern s16 D_800B9A02;
-extern Env_8017FD50 D_800AE7BC[];
+extern Env_8017FD50 guess_g_FrontOrderingTablesOrg[];
 
 void func_8017FD50(s32 param_1) {
     volatile u16 *pbh;
@@ -3427,8 +3427,8 @@ void func_8017FD50(s32 param_1) {
 
     ((PTag_8017FD50 *)p)->len = 1;
     p[1] = 0xE1000015;
-    ((PTag_8017FD50 *)p)->addr = ((PTag_8017FD50 *)D_800AE7BC[*pbh].ot)->addr;
-    ((PTag_8017FD50 *)D_800AE7BC[*pbh].ot)->addr = (u32)p;
+    ((PTag_8017FD50 *)p)->addr = ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
+    ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)p;
 
     p += 2;
     ((PG4_8017FD50 *)p)->tag = 0x08000000;
@@ -3456,15 +3456,15 @@ void func_8017FD50(s32 param_1) {
     ((PG4_8017FD50 *)p)->y3 = 120;
     ((PG4_8017FD50 *)p)->y2 = 120;
 
-    ((PTag_8017FD50 *)p)->addr = ((PTag_8017FD50 *)D_800AE7BC[*pbh].ot)->addr;
-    ((PTag_8017FD50 *)D_800AE7BC[*pbh].ot)->addr = (u32)p;
+    ((PTag_8017FD50 *)p)->addr = ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
+    ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)p;
 
     r = p + 9;
     p = r;
     ((PTag_8017FD50 *)r)->len = 1;
     r[1] = 0xE1000240;
-    ((PTag_8017FD50 *)r)->addr = ((PTag_8017FD50 *)D_800AE7BC[*pbh].ot)->addr;
-    ((PTag_8017FD50 *)D_800AE7BC[*pbh].ot)->addr = (u32)r;
+    ((PTag_8017FD50 *)r)->addr = ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
+    ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)r;
 }
 
 

@@ -140,8 +140,8 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void guess_UpdateCamera(void);
 extern void func_8012A018(s32 a, s32 b);
@@ -547,7 +547,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80137030(s16 a0, s16 a1);
@@ -555,7 +555,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
@@ -1001,7 +1001,7 @@ extern int func_80144B14(int param_s0);
 extern void func_80144AEC(s32 *a0);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -1706,7 +1706,7 @@ extern void func_80153060(void *a0);
 extern void func_801530E4(s32 a0);
 extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern void func_801530E4(s32 arg0);
 extern void func_80153150(struct S80153150 *a0);
 extern void func_801531BC(s32 a0);
@@ -2258,7 +2258,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_80160534(u8 *p);
 extern void func_801607B8(s32 *a0);
@@ -3842,8 +3842,8 @@ void func_80175AB8(param_1)
     s16 param_1;
 {
    /* size 0x0C */
-    extern S_AF634 D_800AF634[];
-    extern S_AF634 D_800AF638[];
+    extern S_AF634 guess_g_PacketBufferUsed[];
+    extern S_AF634 guess_g_PacketBufferBase[];
 
     extern u8  D_8011F7F0;
     extern u16 D_8011F7B4;
@@ -3883,7 +3883,7 @@ void func_80175AB8(param_1)
     s32 idx;
     s16 sv;
 
-    p = (u32 *)(D_800AF638[param_1].g0 + D_800AF634[param_1].g0 * 4);
+    p = (u32 *)(guess_g_PacketBufferBase[param_1].g0 + guess_g_PacketBufferUsed[param_1].g0 * 4);
     __asm__("" : "=r"(base) : "0"(&D_8011F7F0));               /* L1 */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
     arr = base - 0x48;
     slot = (u32 *)(param_1 * 4 + (s32)arr);
@@ -3922,7 +3922,7 @@ void func_80175AB8(param_1)
     *p = (((u32)p - 0x14) & 0xFFFFFF) | 0x2000000;
     slot[8] = (u32)p;
     p += 5;
-    D_800AF634[param_1].g0 += ((s32)p - (s32)slot[6]) >> 2;
+    guess_g_PacketBufferUsed[param_1].g0 += ((s32)p - (s32)slot[6]) >> 2;
 }
 
 
@@ -3940,8 +3940,8 @@ void func_80175DA8(param_1)
 {
 
     extern u8  D_8011F7F0;
-    extern S_AF634 D_800AF634[];
-    extern S_AF634 D_800AF638[];
+    extern S_AF634 guess_g_PacketBufferUsed[];
+    extern S_AF634 guess_g_PacketBufferBase[];
     extern u16 D_80181D40[];
     extern u16 D_80181D90[];
     extern u16 D_80181D9C;
@@ -3962,7 +3962,7 @@ void func_80175DA8(param_1)
     s32 fl;
     u16 v;
 
-    p = (Sp_80175DA8 *)(D_800AF638[(s16)param_1].g0 + D_800AF634[(s16)param_1].g0 * 4);
+    p = (Sp_80175DA8 *)(guess_g_PacketBufferBase[(s16)param_1].g0 + guess_g_PacketBufferUsed[(s16)param_1].g0 * 4);
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x28) = p;
     i = 0;
     do {
@@ -3996,8 +3996,8 @@ void func_80175DA8(param_1)
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x30) = p;
     p++;
     {
-        s32 acc = D_800AF634[(s16)param_1].g0;
-        D_800AF634[(s16)param_1].g0 =
+        s32 acc = guess_g_PacketBufferUsed[(s16)param_1].g0;
+        guess_g_PacketBufferUsed[(s16)param_1].g0 =
             acc + (((s32)p - *(s32 *)(s + (s16)param_1 * 4 + 0x28)) >> 2);
     }
 
@@ -4062,30 +4062,30 @@ void func_80175DA8(param_1)
 /* func_80176144 — RECONCILED variant of .run/uc/func_80176144.c
  *
  * GATE BLOCKER (whole-binary build, NOT match_one):
- *   src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:3476: conflicting types for `D_800AF634'
+ *   src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:3476: conflicting types for `guess_g_PacketBufferUsed'
  *   || previous declaration at :3296
  *
  * ROOT CAUSE — a HOISTED file-scope typedef, not a bad signature:
  *   That TU hoists, at FILE scope, for func_80175DA8:
  *       :3295  typedef struct { s32 g0; s32 pad[2]; } S_AF634_80176144;
- *       :3296  extern S_AF634_80176144 D_800AF634[];
- *       :3297  extern S_AF634_80176144 D_800AF638[];
+ *       :3296  extern S_AF634_80176144 guess_g_PacketBufferUsed[];
+ *       :3297  extern S_AF634_80176144 guess_g_PacketBufferBase[];
  *   The stored draft re-declares the SAME struct shape as a BLOCK-scope typedef
  *   (rule D — it must travel to the 137 sibling overlays, which have no such
  *   preamble).  A block-scope `typedef struct {...} S_AF634_80176144;` is a DISTINCT type
  *   from the file-scope one (C has no structural typing), so the block-scope
- *   `extern S_AF634_80176144 D_800AF634[];` re-declares the symbol incompatibly with the
+ *   `extern S_AF634_80176144 guess_g_PacketBufferUsed[];` re-declares the symbol incompatibly with the
  *   in-scope file-scope decl -> hard error.
  *   Note the earlier block-scope copies in the same TU (:3080 func_80175820,
  *   :3123 func_801759D8) do NOT error: they precede :3296, so no file-scope decl
- *   of D_800AF634 is in scope there.  Anything AFTER :3296 collides.  Our
+ *   of guess_g_PacketBufferUsed is in scope there.  Anything AFTER :3296 collides.  Our
  *   definition lands at :3476.  That is why only this one fired.
  *
  * FIX — §37/§124 ASM-LABEL ALIAS applied to the DATA symbols (cookbook §2516:
  *   "asm-label alias for sibling-decl signedness/proto conflicts ... beats
  *   reconcile's *(u16*)&D_x cast whose address-of PERTURBS regalloc"):
  *   the two objects are reached through PRIVATE C identifiers aAF634 / aAF638
- *   carrying __asm__("D_800AF634") / __asm__("D_800AF638").  The emitted
+ *   carrying __asm__("guess_g_PacketBufferUsed") / __asm__("guess_g_PacketBufferBase").  The emitted
  *   %hi/%lo relocations are against the same symbols, so codegen is unchanged,
  *   while the C names can never collide with ANY sibling TU's declaration —
  *   whether hoisted, block-scope, or absent.  No header edit; no src/ edit.
@@ -4149,13 +4149,13 @@ void func_80176218(s32 param_1) {
     extern s16 g_PlayerHp[];
     extern u16 D_8011F8C4;
     extern u8  D_8011F7A8;   /* st base  ($s3) */
-    extern u8 D_80078E78[];   /* cur base ($s5) */
+    extern u8 guess_g_PlayerRecord[];   /* cur base ($s5) */
     extern u8  D_80181E1C[];
     extern u8 *D_80181DA0[];
     s32 st   = (s32)&D_8011F7A8;   /* $s3 */
     s32 cach = st + 0x48;          /* $s1 */
     s32 flag = st + 0xE0;          /* $s2 */
-    s32 cur  = (s32)&(*(u8 *)D_80078E78);   /* $s5 */
+    s32 cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);   /* $s5 */
     u8 buf[24];
     s32 ne;
     s32 t;
@@ -4333,7 +4333,7 @@ L63C:
 void func_80176734(s32 param_1)
 {
     extern u8  D_8011F7A8;      /* st base  ($s3) */
-    extern u8  D_80078E78[];    /* cur base ($s4) */
+    extern u8  guess_g_PlayerRecord[];    /* cur base ($s4) */
     extern s16 D_801152BA;
     extern u8  D_8011F7B0;      /* == *(u8 *)(st + 8), read absolutely (mixed addressing) */
     extern u8  D_80115214;
@@ -4370,7 +4370,7 @@ void func_80176734(s32 param_1)
     pv  = param_1;
     cach = st + 0x48;
     flag = st + 0xE0;
-    cur  = (s32)&(*(u8 *)D_80078E78);
+    cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);
 
     /* ---- block A: pulse byte ---- */
     {

@@ -5,7 +5,7 @@ void func_80176218(s32 param_1)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
 
     extern u16 D_8011F82A;
     extern u16 D_8011F82C;
@@ -16,7 +16,7 @@ void func_80176218(s32 param_1)
     s32 st   = (s32)&D_8011F7A8;   /* $s3 */
     s32 cach = st + 0x48;          /* $s1 */
     s32 flag = st + 0xE0;          /* $s2 */
-    s32 cur  = (s32)&(*(u8 *)D_80078E78);   /* $s5 */
+    s32 cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);   /* $s5 */
     u8 buf[24];
     s32 ne;
     s32 t;

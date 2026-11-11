@@ -8,7 +8,7 @@ void func_801523F4(s32 arg0)
     s32 s2a = (s32)&D_80180828; /* $s2 = &D_80180828 */
 
     ((void (*)(s32, s32))func_80146E90)(arg0, 0);
-    func_80019064(&D_80062C04);
+    func_80019064(&guess_g_RumblePatternFade);
     ((void (*)(s32, s32))func_80151204)(arg0, *(s16 *)(arg0 + 0xF2));
     if ((s16)func_80012A60((s32)*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12),
                            (s32)*(s16 *)(arg0 + 0xF4)) >= 0x401) {

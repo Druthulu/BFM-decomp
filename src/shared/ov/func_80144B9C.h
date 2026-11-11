@@ -21,7 +21,7 @@
  *
  * -O0 IDIOMS CRACKED (cookbook-worthy):
  *  1. Far-global $s0 base (boot.c GameModeDispatch precedent): `register u8 *p =
- *     D_800AF630;` -> $s0 held across all calls; globals at p+0xA3D8/0xA3DA/0xA3DC
+ *     guess_g_RenderWork;` -> $s0 held across all calls; globals at p+0xA3D8/0xA3DA/0xA3DC
  *     (currentLocationId etc.) assemble via the +0x10000/-0x5Cxx split automatically.
  *  2. STRUCT-MEMBER FOLD: at -O0, `struct->field` folds to `lw off(reg)`, but
  *     `*(T*)(base+const)` AND array `b[k]` both MATERIALIZE an extra `addu`.  All
@@ -49,21 +49,21 @@
 
 /* func_80144B9C — -O0 function (prologue sig 21F0A003). Struct-base idiom: at -O0 struct member
  * access folds to lw off(reg) but raw casts / array-index materialize an extra addu, so the bases
- * are struct pointers. Far-global $s0 base p=D_800AF630 (boot.c GameModeDispatch precedent):
+ * are struct pointers. Far-global $s0 base p=guess_g_RenderWork (boot.c GameModeDispatch precedent):
  * globals p+0xA3D8.. via the +0x10000/-0x5Cxx split. */
 
 
 
-   /* D_80078E78 */
+   /* guess_g_PlayerRecord */
 
 
                         /* guess_g_MainCamera */
 
 
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 guess_g_PlayerActor[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 D_800AE6A8[];
 extern u8 guess_g_MainCamera[];
 extern ENT D_80078E50;
@@ -113,8 +113,8 @@ extern void func_8012A110(void);
 
 void func_80144B9C(void) {
     P10 *p10 = (P10 *)guess_g_PlayerActor;
-    P14 *p14 = (P14 *)D_80078E78;
-    register u8 *p = D_800AF630;
+    P14 *p14 = (P14 *)guess_g_PlayerRecord;
+    register u8 *p = guess_g_RenderWork;
     P18 *p18 = (P18 *)D_800AE6A8;
     P1C *p1C = (P1C *)guess_g_MainCamera;
     HDR *hdr;

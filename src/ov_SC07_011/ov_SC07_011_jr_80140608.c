@@ -137,7 +137,7 @@ extern s32 D_80126F04[];
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
 /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern s32 GsWSMATRIX[];
 /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void guess_UpdateCamera(void);
 extern void func_8012A018(s32 a, s32 b);
@@ -529,7 +529,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80137030(s16 a0, s16 a1);
@@ -905,7 +905,7 @@ s16 n;
     extern s16 D_8017FA10[];
     extern u16 D_8017F520;
     extern u16 D_8017F522;
-  extern Env_80140958 D_800AE7BC[];
+  extern Env_80140958 guess_g_FrontOrderingTablesOrg[];
   Prim4 *p;
   s16 t;
   s32 c3;
@@ -1002,11 +1002,11 @@ u32 mhi;
             size = 8;
             *((s16 *) (q - 2)) = size;
             *((s16 *) (q - 4)) = size;
-            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (D_800AE7BC[*pb].ot[2] & m24);
+            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & m24);
             {
 u32 *op;
 u32 w;
-              op = D_800AE7BC[*pb].ot;
+              op = guess_g_FrontOrderingTablesOrg[*pb].ot;
               w = op[2];
               w &= mhi;
               w |= ((u32) ot) & m24;

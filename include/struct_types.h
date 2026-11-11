@@ -325,11 +325,11 @@ typedef struct {
 /* head_types:end */
 
 /* Unkstruct_80078E78 — the player record at 0x80078E78 (0x98 bytes; was Blk98_80029274 in src/800.c, Blk80078E78 in
-   src/resident/resident_jr_800D00E4.c, u8 D_80078E78[] in 880 TUs). Hand-written (P38 T3): field widths are the type the
+   src/resident/resident_jr_800D00E4.c, u8 guess_g_PlayerRecord[] in 880 TUs). Hand-written (P38 T3): field widths are the type the
    USING TUs declare for each scalar global (.run/P38/T3/player_use_widths.py); names only where docs/memory-map.md 3.4
    or docs/actor-struct.md mark the row verified. Decisions: docs/struct-map-decisions.md. */
 typedef struct {
-    /* 0x0000 */ s32 unk0;          /* D_80078E78 word 0 */
+    /* 0x0000 */ s32 unk0;          /* guess_g_PlayerRecord word 0 */
     /* 0x0004 */ u8 unk4;           /* D_80078E7C; reported: gameClock */
     /* 0x0005 */ u8 unk5;           /* D_80078E7D */
     /* 0x0006 */ u8 unk6;           /* D_80078E7E */
@@ -348,7 +348,7 @@ typedef struct {
     /* 0x0030 */ s32 unk30;         /* D_80078EA8 */
     /* 0x0034 */ u16 dayCounter;    /* D_80078EAC; verified live + code (func_8014B084), memory-map 3.4 */
     /* 0x0036 */ u8 unk36;          /* D_80078EAE */
-    /* 0x0037 */ u8 unk37;          /* D_80078EAF; not dayOfWeek (refuted, memory-map 3.4) */
+    /* 0x0037 */ u8 unk37;          /* guess_g_DayPeriod; not dayOfWeek (refuted, memory-map 3.4) */
     /* 0x0038 */ u8 unk38;          /* guess_g_ClockMinute low byte; s16 guess_g_ClockMinute (524 uses) spans +0x38..+0x39: union candidate */
     /* 0x0039 */ u8 hour;           /* D_80078EB1; verified live, memory-map 3.4 */
     /* 0x003a */ u16 hp_max;        /* g_PlayerHpMax; verified live */

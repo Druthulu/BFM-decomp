@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -32,7 +32,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
@@ -370,7 +370,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018E120[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -758,7 +758,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018E29C;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1092,7 +1092,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801DBA78;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1109,7 +1109,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018E974[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1370,7 +1370,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -6631,18 +6631,18 @@ void func_801834D8(void *a0, s32 a1) {
  *
  * WHAT IT IS: a one-shot billboard/sprite emitter.  It steps a global s16 pair table
  *   (D_8019094C, stride 4, wrapping to entry 1 when entry.a == 0), loads the shared
- *   MATRIX at D_800AF630+0x18 into the GTE, RTPS-projects the two SVECTORs it is handed
+ *   MATRIX at guess_g_RenderWork+0x18 into the GTE, RTPS-projects the two SVECTORs it is handed
  *   (arg1 = top point, arg2 = bottom point), bails on any GTE flag outside bit 12, then
  *   allocates a 0x28-byte POLY_FT4 out of the packet arena D_800A5E60, fills tpage/clut/UVs
  *   from the table entry, sizes the quad by `w = D_80126950*48 / (otz*4)`, and links it into
- *   the OT at D_800A6614[otz*4 + bank<<14] (bank = *(u16 *)(D_800AF630 + 0xA3D2), i.e. the
+ *   the OT at D_800A6614[otz*4 + bank<<14] (bank = *(u16 *)(guess_g_RenderWork + 0xA3D2), i.e. the
  *   symbol the sibling func_8017C954 spells D_800B9A02 — the target reaches it as a
- *   REGISTER-RELATIVE offset from the D_800AF630 base held in $t1, not as its own %hi/%lo).
+ *   REGISTER-RELATIVE offset from the guess_g_RenderWork base held in $t1, not as its own %hi/%lo).
  *
  * SYMBOL AUDIT (wave law 1c) — the .s has exactly five relocated symbols and no jal:
- *   D_8019094C, D_800AF630, D_80126950, D_800A5E60, D_800A6614.  All five appear below,
+ *   D_8019094C, guess_g_RenderWork, D_80126950, D_800A5E60, D_800A6614.  All five appear below,
  *   spelled with the destination TU's existing types:
- *     extern u8  D_800AF630[];   (TU col-0, line 46)
+ *     extern u8  guess_g_RenderWork[];   (TU col-0, line 46)
  *     extern s32 D_80126950;     (TU line 2408)
  *     extern u8 *D_800A5E60;     (TU line 2972, func_8017C954's function-scope spelling)
  *   D_8019094C and D_800A6614 are not declared anywhere in the TU -> new function-scope decls.
@@ -6711,7 +6711,7 @@ void func_801834D8(void *a0, s32 a1) {
 void func_80183534(s32 arg0, SVEC_80183534 *arg1, SVEC_80183534 *arg2, s32 *arg3)
 {
     extern s16 D_8019094C[];
-    extern u8  D_800AF630[];
+    extern u8  guess_g_RenderWork[];
     extern s32 D_80126950;
     extern u8 *D_800A5E60;
     extern u8  D_800A6614[];
@@ -6732,7 +6732,7 @@ void func_80183534(s32 arg0, SVEC_80183534 *arg1, SVEC_80183534 *arg2, s32 *arg3
     i = *arg3;
     e = &D_8019094C[i * 2];
     *arg3 = i + 1;
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     if (e[0] == 0) {
         *arg3 = 1;
         e = D_8019094C;

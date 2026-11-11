@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -364,7 +364,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_80194EDC[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -751,7 +751,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80195058;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1084,7 +1084,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801CF388;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1101,7 +1101,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_80195730[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1362,7 +1362,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -4836,7 +4836,7 @@ void func_80185B4C(s32 arg0, s32 arg1, s32 arg2)
     extern s32 RotTransPers(s32, s32, s32 *, s32 *);
     extern u8 guess_g_CameraWsMatrix;
     extern OtBlk_80185B4C D_800A651C[];
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern short D_800B9A02;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
@@ -4868,7 +4868,7 @@ void func_80185B4C(s32 arg0, s32 arg1, s32 arg2)
         ot = D_800A651C[*bidx].a;
         *(u32 *)(depth4 + ot) =
             (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & 0xFFFFFF);
-        func_80016638(&D_800A6518[*bidx * 20], temp_v0_2, 1);
+        func_80016638(&guess_g_OrderingTables[*bidx * 20], temp_v0_2, 1);
     }
 }
 
@@ -10559,9 +10559,9 @@ void func_8018EB08(void *arg) {
 // (src[i].vx/vy from a per-overlay SVEC array selected by (param_2&1)*3, vz = -param_3[0] then
 // -param_3[1]), same B4 spill-copy of param_4 into pkt[8] + pkt[9]=0x50000000, same DRAW() GTE
 // macro (gte_ldv3/rtpt/stflg/stsxy3/ldv0/rtps/stflg/or-flags/stsxy/avsz4/stotz + OT-range guarded
-// func_80017254 insert) repeated 3x with the shared D_800AF630+0x18 draw-mode calls. Only the
+// func_80017254 insert) repeated 3x with the shared guess_g_RenderWork+0x18 draw-mode calls. Only the
 // per-overlay source-vector symbol differs (D_801CC7FC here vs D_801D1228 there); all other data
-// symbols (D_800AF630, D_800B9A02, D_800A651C, D_800AE610) and callees are declared identically to
+// symbols (guess_g_RenderWork, D_800B9A02, D_800A651C, D_800AE610) and callees are declared identically to
 // the banked sibling, verbatim (S34/S36: reuse the byte-proven declaration + expression forms).
 //
 // DECLARATION SURFACE (whole-TU one-pass grep, D2):
@@ -10570,7 +10570,7 @@ void func_8018EB08(void *arg) {
 //   * D_800B9A02 is `extern short D_800B9A02;` at file scope (line 2451/2453) — do NOT redeclare;
 //     unsigned access is forced at the USE with `*(u16 *)&D_800B9A02` (TU's own canonical spelling,
 //     already used at TU lines 2842/6033).
-//   * D_800AF630, D_800A651C, D_800AE610, func_80017254, D_801CC7FC appear nowhere else in this TU
+//   * guess_g_RenderWork, D_800A651C, D_800AE610, func_80017254, D_801CC7FC appear nowhere else in this TU
 //     — declare fresh, matching the banked sibling's exact canonical shapes.
 //   * func_8018EDB0 has no caller anywhere in src/ (INCLUDE_ASM stub only) — signature unconstrained.
 
@@ -10582,7 +10582,7 @@ extern SVEC_8018EDB0 D_801CC7FC[];
 extern short D_800B9A02;
 extern u8 D_800A651C[];
 extern u8 D_800AE610[];
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 
 
 void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
@@ -10624,7 +10624,7 @@ void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018EDB0 *)&pkt[2] = out[1];
     *(B8_8018EDB0 *)&pkt[4] = out[3];
     *(B8_8018EDB0 *)&pkt[6] = out[4];
-    mb = (u8 *)&D_800AF630;
+    mb = (u8 *)&guess_g_RenderWork;
     a = mb + 0x18;
     func_8004914C(a);
     a = 0;
@@ -10660,7 +10660,7 @@ void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018EDB0 *)&pkt[2] = out[2];
     *(B8_8018EDB0 *)&pkt[4] = out[4];
     *(B8_8018EDB0 *)&pkt[6] = out[5];
-    mb = (u8 *)&D_800AF630;
+    mb = (u8 *)&guess_g_RenderWork;
     a = mb + 0x18;
     func_8004914C(a);
     a = 0;
@@ -10696,7 +10696,7 @@ void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018EDB0 *)&pkt[2] = out[0];
     *(B8_8018EDB0 *)&pkt[4] = out[5];
     *(B8_8018EDB0 *)&pkt[6] = out[3];
-    mb = (u8 *)&D_800AF630;
+    mb = (u8 *)&guess_g_RenderWork;
     a = mb + 0x18;
     func_8004914C(a);
     a = 0;
@@ -10866,7 +10866,7 @@ void func_8018FB5C(s32 arg0, s32 arg1, s32 arg2)
     extern void func_800491AC(void *);
     extern s32 RotTransPers(s32, s32, s32 *, s32 *);
     extern u8 guess_g_CameraWsMatrix;
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern short D_800B9A02;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
@@ -10902,7 +10902,7 @@ void func_8018FB5C(s32 arg0, s32 arg1, s32 arg2)
         ot = D_800A651C_v[*bidx].a;
         *(u32 *)(depth4 + ot) =
             (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & mask1);
-        func_80016638(&D_800A6518[*bidx * 20], temp_v0_2, 1);
+        func_80016638(&guess_g_OrderingTables[*bidx * 20], temp_v0_2, 1);
     }
 }
 

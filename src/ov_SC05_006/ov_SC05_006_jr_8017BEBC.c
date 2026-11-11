@@ -12,7 +12,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
          /* 16-byte stride array element */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -39,7 +39,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
@@ -375,7 +375,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_80181018[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -763,7 +763,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80181194;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1097,7 +1097,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_8018EC10;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1114,7 +1114,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018186C[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -4176,7 +4176,7 @@ extern s32 func_8014CB8C(void);
 void func_8017EE0C(s32 a0)
 {
 
-    extern u8 D_80062BD0;
+    extern u8 guess_g_RumblePatternShort;
     extern s32 guess_g_PlayerActor;
     extern Stride16_801BA59C_8017EE0C D_80183098[];
 
@@ -4197,7 +4197,7 @@ void func_8017EE0C(s32 a0)
             if (func_8014CB8C()) {
                 /* increment before the call, store in the call's delay slot */
                 ((Unkstruct_800B5CB8 *)s0)->unkFE = CAST_SIGN(u16, (u8 *)s0, 0xFE) + 1;
-                func_80019064(&D_80062BD0);
+                func_80019064(&guess_g_RumblePatternShort);
                 func_8012C588(0x27D, s0);
                 /* s1 = 1 is UNCONDITIONAL once this block is entered: it rides
                    the `bnez` delay slot below, which executes either way. */

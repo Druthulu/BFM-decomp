@@ -34,7 +34,7 @@ extern void func_801871C0(void *a0, s32 a1, s32 a2);
 extern void func_801873C8(void);
 extern void func_80187434(void *a0);
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s32 guess_g_PlayerActor;
 extern u8 D_8018EDF4[];
 extern s16 D_8018EE00;
@@ -49,7 +49,7 @@ extern u8 D_801B2410[];
  *
  * THREE LOAD-BEARING DIALS — do not "simplify" any of them:
  *
- * 1. `tbl = D_800AF630;` hoisted to the top. The four guards read the same halfword at
+ * 1. `tbl = guess_g_RenderWork;` hoisted to the top. The four guards read the same halfword at
  *    +0xA3AA (= D_800B99DA); off a held base pointer that expands to the far-offset form
  *    `lui $at,1 / addu $at,$s6,$at / lhu -0x5C56($at)` (the resident single-base idiom,
  *    cf. src/ov_SC03_105/ov_SC03_105_jr_8017C8D0.c func_80182DCC note #2).
@@ -86,7 +86,7 @@ void func_8018624C(void *arg0) {
     s32 pad[2];
 
     ent = (s32)arg0;
-    tbl = D_800AF630;
+    tbl = guess_g_RenderWork;
     switch (((Unkstruct_8018624C *)ent)->unk34) {
     case 0:
     case 2:

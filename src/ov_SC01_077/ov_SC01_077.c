@@ -150,7 +150,7 @@ void func_8013CB5C(void) {
 
 
 extern s16 currentLocationId;
-extern u8 D_80078EAF;
+extern u8 guess_g_DayPeriod;
 extern s32 D_801D9590;
 extern s32 D_801D9588;
 extern s32 D_801D958C;
@@ -177,7 +177,7 @@ extern void func_8013CF68(void);
 
 void func_8013CB84(void) {
     s32 loc = currentLocationId;
-    s32 s0 = D_80078EAF;
+    s32 s0 = guess_g_DayPeriod;
     s32 ta, tb, tc, t;
 
     D_801DAAA0 = 0;
@@ -424,9 +424,9 @@ void func_8013D330(void) {
 }
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (match_one 90/90); base &D_80078E78 cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access D_80078E78[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
+// @unstuck(P36): none — MATCH (match_one 90/90); base &guess_g_PlayerRecord cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access guess_g_PlayerRecord[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
 
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 
 extern void *D_801D9570;
 extern void *D_801D9574;
@@ -450,7 +450,7 @@ extern void func_8013CF68(void);
 
 void func_8013D3D4(int param_1, int param_2)
 {
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
 
     D_801D95A0 = param_2;
     D_801D95A4 = (param_2 >> 2) & 3;
@@ -493,7 +493,7 @@ void func_8013D3D4(int param_1, int param_2)
 
 
 extern s32 D_801D95A0;
-extern u8 D_80078EAF;
+extern u8 guess_g_DayPeriod;
 extern s32 D_801D9588;
 
 
@@ -522,7 +522,7 @@ void func_8013D53C(void *arg0v) {
 
     extern Rec9 D_8018744C[];
     extern Rec12 D_80187484[];
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern u8 D_801DAA78;
     extern s32 D_801D9594;
     Cmd_8013D53C *arg0 = arg0v;
@@ -543,7 +543,7 @@ void func_8013D53C(void *arg0v) {
     if (!(D_801D95A0 & 1)) {
         D_801D9588 = 1;
     } else {
-        D_801D9588 = D_80078EAF;
+        D_801D9588 = guess_g_DayPeriod;
     }
 
     b0 = ((u8 *)D_80187484)[D_801D9588 * 12];
@@ -855,7 +855,7 @@ void func_8013DBE4(int param_1)
 
 void func_8013DD68() {
     extern void SetDrawEnv(void *p, void *env);
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     extern s32 D_800A5E60;
     extern s16 *D_801D957C;
     extern s32 D_801D95AC;
@@ -878,7 +878,7 @@ void func_8013DD68() {
     u8 *pbase;
     u8 *base;
 
-    pbase = D_800AF630;
+    pbase = guess_g_RenderWork;
     puVar16 = (*(u16 * *)&D_801D957C);
     p = (*(u32 * *)&D_800A5E60);
     uVar1 = *puVar16;
@@ -1761,7 +1761,7 @@ extern short D_80115128;
 extern Hw4    D_8011516A[];
 extern u8     D_80078EC0;
 extern short D_800B9A02;
-extern Rec20  D_800AE7B8[];
+extern Rec20  guess_g_FrontOrderingTables[];
 extern Blk60  D_8018751C[];
 extern Blk20  D_8018781C[];
 extern Prim4  D_8018791C[];
@@ -1775,7 +1775,7 @@ extern s16    D_80187E96;
 void func_8013FAF8(s16 arg0, s16 arg1) {
 
     extern Hw4    D_8011516A[];
-    extern Rec20  D_800AE7B8[];
+    extern Rec20  guess_g_FrontOrderingTables[];
     extern Blk60  D_8018751C[];
     extern Blk20  D_8018781C[];
     extern Prim4  D_8018791C[];
@@ -1851,19 +1851,19 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         func_8005A600((s32)ot, 0, 0, 0x15, 0);
         flag3 = flag;
         *ot = 0x2000000;
-        *ot = (D_800AE7B8[*(u16 *)&D_800B9A02].f4[2] & 0xFFFFFF) | 0x2000000;
-        D_800AE7B8[*(u16 *)&D_800B9A02].f4[2] =
-            (D_800AE7B8[*(u16 *)&D_800B9A02].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+        *ot = (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFFFFFF) | 0x2000000;
+        guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] =
+            (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
         ot = func_800D29F8(flag3,
                            func_800D27DC(flag3 != 0, ot + 10, &D_8018751C[i], 8, D_8011516A[i].x),
                            &D_8018781C[i], 2, D_8011516A[i].x);
     }
     pp = &D_80187E94;
     if (*pp == 0xE) {
-        ot = func_80137D08(ot, &D_800AE7B8[*(u16 *)&D_800B9A02], 2);
+        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2);
     }
     if (*pp != 0 && D_80187E96 != 0) {
-        ot = func_8013AB54(ot, D_800AE7B8[*(u16 *)&D_800B9A02].f4 + 2, (s32)(pp - 2), 0x8000);
+        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4 + 2, (s32)(pp - 2), 0x8000);
     }
     D_801151D0 = (s32)ot;
 }
@@ -2263,7 +2263,7 @@ s16 n;
     extern s16 D_80187EAC[];
     extern u16 D_801879BC;
     extern u16 D_801879BE;
-  extern Env_80140958 D_800AE7BC[];
+  extern Env_80140958 guess_g_FrontOrderingTablesOrg[];
   Prim4 *p;
   s16 t;
   s32 c3;
@@ -2360,11 +2360,11 @@ u32 mhi;
             size = 8;
             *((s16 *) (q - 2)) = size;
             *((s16 *) (q - 4)) = size;
-            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (D_800AE7BC[*pb].ot[2] & m24);
+            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & m24);
             {
 u32 *op;
 u32 w;
-              op = D_800AE7BC[*pb].ot;
+              op = guess_g_FrontOrderingTablesOrg[*pb].ot;
               w = op[2];
               w &= mhi;
               w |= ((u32) ot) & m24;
@@ -2615,7 +2615,7 @@ int func_80141100(int param_1)
  * sibling failed `parse error before '*'`, a 0/137 sweep that reads as a codegen wall. They are
  * removed here because gcc-2.7.2 rejects a REPEATED typedef even when identical (the lesson
  * already recorded at the foot of engine_types.h); leaving both copies broke this very TU. */
-#define OT_1412A8            (D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot)
+#define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot)
 #define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->addr)
 #define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->addr = (u32)(v))
 #define addPrim_1412A8(ot, p) (setaddr_1412A8(p, getaddr_1412A8(ot)), setaddr_1412A8(ot, p))

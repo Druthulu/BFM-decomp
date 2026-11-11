@@ -7,7 +7,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
  /* 0x1D0 */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -34,7 +34,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
@@ -372,7 +372,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018BF00[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -761,7 +761,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018C07C;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1095,7 +1095,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801B84E0;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1112,7 +1112,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018C754[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1373,7 +1373,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -3400,9 +3400,9 @@ void func_80182BD8(s32 a0, u16 *a1, s32 a2, s32 a3)
  *     `andi 0xFFFF`. Do NOT write `(u32)D_800B99DA % 7` — that loses the andi.
  *  2. The SAME halfword is read twice with two different spellings: once as the bare
  *     symbol `D_800B99DA` (lui %hi / lhu %lo) and once off a held base pointer
- *     `u8 *p = D_800AF630;` at +0xA3AA (as expands `lui at,1; addu at,s3,at;
+ *     `u8 *p = guess_g_RenderWork;` at +0xA3AA (as expands `lui at,1; addu at,s3,at;
  *     lhu -0x5C56(at)`) — the resident.c "single-base-register" idiom. `p` declared
- *     at the TOP is what keeps &D_800AF630 in a callee-saved reg across block 1.
+ *     at the TOP is what keeps &guess_g_RenderWork in a callee-saved reg across block 1.
  *  3. &D_8018E59C must RELOAD at each call (folded lui %hi / addu / lw %lo), not
  *     hoist into a 9th callee reg: write it as a BYTE pointer + SHIFTED index
  *     `*(s32 *)(((rand() & 1) << 2) + (s32)D_8018E59C)`, never `D_8018E59C[rand() & 1]`
@@ -3434,7 +3434,7 @@ void func_80182BD8(s32 a0, u16 *a1, s32 a2, s32 a3)
  *    between `base` and `range` in all three preheaders (last 7 mismatches).
  */
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u16 D_800B99DA;
 extern s32 rand(void);
 extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
@@ -3442,7 +3442,7 @@ extern s32 D_8018E59C[];
 
 void func_80182DCC(void *arg0) {
     u16 sp20[3];
-    u8 *p = D_800AF630;
+    u8 *p = guess_g_RenderWork;
     s32 i, j;
     u32 base;
     s32 range1;
@@ -5186,7 +5186,7 @@ void func_8018574C(void *a0) {
 
 
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern MATRIX_80188114 D_801BC9B4;
 extern u8 *D_800A5E60;
 extern u8 D_800A6610[];
@@ -5201,7 +5201,7 @@ extern void func_8001F730(s32 a0, void *a1, void *a2);
  * rot/trans matrix (3 paths), RTPS the actor position, rejects it outside
  * +-200/+-160, RTPT the two extent vectors through D_801BC9B4, fills a 0x28-byte
  * POLY_FT4 packet off the D_800A5E60 bump allocator and addPrim()s it into the OT
- * at &D_800A6610[D_800B9A02 << 14] (read base-relative: D_800AF630 + 0xA3D2).
+ * at &D_800A6610[D_800B9A02 << 14] (read base-relative: guess_g_RenderWork + 0xA3D2).
  *
  * BANKED byte-identical, P32 T4b hand pass (S85, 2026-09-06), cookbook §501-P:
  * the S83 Fable draft (DIFF 13 at exact length, five register pins + a zero-byte
@@ -5230,7 +5230,7 @@ extern void func_8001F730(s32 a0, void *a1, void *a2);
 typedef struct { short m[3][3]; long t[3]; } MATRIX_80188114;
 #endif
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern MATRIX_80188114 D_801BC9B4;
 extern u8 *D_800A5E60;
 extern u8 D_800A6610[];
@@ -5287,7 +5287,7 @@ void func_80185810(s32 a0)
     u16 t20;
     u16 t22;
 
-    base  = D_800AF630;
+    base  = guess_g_RenderWork;
     flags = ((Unkstruct_80185680 *)a0)->unk0;
     spr   = ((Unkstruct_80185680 *)a0)->unk24;
 

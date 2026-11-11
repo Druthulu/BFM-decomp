@@ -11,8 +11,8 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 /* guess_UpdateCamera: per-frame camera update: picks the camera for the current mode, runs its handler, eases the view, applies it with GsSetRefView2L and GsSetProjection, and records it as the active camera
  * Confidence high, xref chain: picks a camera by D_801150D6, runs its handler, eases the view, calls GsSetProjection and GsSetRefView2L, copies GsWSMATRIX, stores it in guess_g_ActiveCamera
@@ -27,7 +27,7 @@ void guess_UpdateCamera(void)
     s32 b;
     s32 iVar2;
     func_8012A328();
-    p2 = (s32 *)D_800AF630;
+    p2 = (s32 *)guess_g_RenderWork;
     p1 = (s32 *)&D_80126DB8;
     if (*(u8 *)&D_801150D6 == 1) {
         cam = D_80126E60;
@@ -83,6 +83,6 @@ void guess_UpdateCamera(void)
     cam[0x1e] = cam[0x16];
     cam[0x1d] = iVar2;
     GsSetRefView2L(&cam[0x17]);
-    *(RView *)(p2 + 6) = *(RView *)D_800AE688;
+    *(RView *)(p2 + 6) = *(RView *)GsWSMATRIX;
     guess_g_ActiveCamera = (s32)cam;
 }

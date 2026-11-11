@@ -425,8 +425,8 @@ void func_8012956C(void) {
     extern u8 D_801B93F9[];
     extern u8 D_801B93FA[];
     extern u8 D_801BA960;
-    extern u8 D_800AF630[];
-    extern u8 D_800A6518[];
+    extern u8 guess_g_RenderWork[];
+    extern u8 guess_g_OrderingTables[];
     s32 *sp10;
     u8 *afbase;
     s32 *sp0;
@@ -435,7 +435,7 @@ void func_8012956C(void) {
 
     sp10 = (s32 *)0x1F800010;
     sp0 = (s32 *)0x1F800000;
-    afbase = (u8 *)&D_800AF630;
+    afbase = (u8 *)&guess_g_RenderWork;
     if (D_80114EE0 == 0) {
         return;
     }
@@ -483,9 +483,9 @@ void func_8012956C(void) {
                 *dst = *src;
                 sp10[5] = (s32)sp0;
                 if (base->f36 == 0) {
-                    GsSortFastBg(sp10, &D_800A6518[(((Unkstruct_8012956C *)afbase)->unkA3D2) * 0x14], base->f34, dst);
+                    GsSortFastBg(sp10, &guess_g_OrderingTables[(((Unkstruct_8012956C *)afbase)->unkA3D2) * 0x14], base->f34, dst);
                 } else {
-                    GsSortBg(sp10, &D_800A6518[(((Unkstruct_8012956C *)afbase)->unkA3D2) * 0x14], base->f34, dst);
+                    GsSortBg(sp10, &guess_g_OrderingTables[(((Unkstruct_8012956C *)afbase)->unkA3D2) * 0x14], base->f34, dst);
                 }
             }
             break;

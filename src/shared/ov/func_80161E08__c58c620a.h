@@ -7,20 +7,20 @@ void func_80161E08(s32 param_1) {
     extern void func_8001CE68(void *a0, void *a1);
     extern int func_801620C4(void);
     extern void func_801622C4(void);
-    extern u16 D_800AF7BC;
-    extern u16 D_800AF7BE;
+    extern u16 guess_g_ScreenWidth;
+    extern u16 guess_g_ScreenHeight;
     extern s16 guess_g_ClockMinute;
-    extern u16 D_800B5BD8;
+    extern u16 guess_g_TargetTimeLabel1;
     extern s16 D_800B5C04;
     extern u8 D_800B5BFF;
-    extern s16 D_800B5BE0;
-    extern s16 D_800B5BE2;
-    extern u16 D_800B5C10;
+    extern s16 guess_g_TargetTimeLabel1X;
+    extern s16 guess_g_TargetTimeLabel1Y;
+    extern u16 guess_g_TargetTimeLabel2;
     extern s16 D_800B5C3C;
     extern u8 D_800B5C37;
-    extern s16 D_800B5C18;
-    extern s16 D_800B5C1A;
-    extern u16 D_800B5C48;
+    extern s16 guess_g_TargetTimeLabel2X;
+    extern s16 guess_g_TargetTimeLabel2Y;
+    extern u16 guess_g_TargetTimeDigits;
     extern s16 D_800B5C74;
     extern s16 D_800B5C50;
     extern s16 D_800B5C52;
@@ -31,7 +31,7 @@ void func_80161E08(s32 param_1) {
     extern u8 D_8018E89C[];
     extern u8 D_8018E8B4[];
 
-    u8 *base = &(*(u8 *)&D_800AF630);
+    u8 *base = &(*(u8 *)&guess_g_RenderWork);
     u8 *p;
     s32 a2;
 
@@ -42,33 +42,33 @@ void func_80161E08(s32 param_1) {
         currentLocationId != 0x3096 &&
         ((a2 = func_800291DC(8)) & 0x8000) != 0) {
 
-        if (D_800B5BD8 == 0) {
+        if (guess_g_TargetTimeLabel1 == 0) {
             p = D_8018E868[0] = base + 0x65A8;
             func_80024054(&D_80181D80, &D_8018E874);
             func_8001CE28(p, &D_8018E874);
             D_800B5C04 = 1;
             D_800B5BFF = 1;
-            D_800B5BE0 = -(s32)(u16)D_800AF7BC / 2 + 0xD0;
-            D_800B5BE2 = -(s32)(u16)D_800AF7BE / 2 + 0x28;
+            guess_g_TargetTimeLabel1X = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeLabel1Y = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x28;
         }
 
-        if (D_800B5C10 == 0) {
+        if (guess_g_TargetTimeLabel2 == 0) {
             p = D_8018E868[1] = base + 0x65E0;
             func_80024054(&D_80181DA0, &D_8018E89C);
             func_8001CE28(p, &D_8018E89C);
             D_800B5C3C = 1;
             D_800B5C37 = 1;
-            D_800B5C18 = -(s32)(u16)D_800AF7BC / 2 + 0xD0;
-            D_800B5C1A = -(s32)(u16)D_800AF7BE / 2 + 0x30;
+            guess_g_TargetTimeLabel2X = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeLabel2Y = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x30;
         }
 
-        if (D_800B5C48 == 0) {
+        if (guess_g_TargetTimeDigits == 0) {
             p = D_8018E868[2] = base + 0x6618;
             func_800242D0((s16)func_801620C4(), &D_8018E8B4, 0x84);
             func_8001CE68(p, &D_8018E8B4);
             D_800B5C74 = 1;
-            D_800B5C50 = -(s32)(u16)D_800AF7BC / 2 + 0xD0;
-            D_800B5C52 = -(s32)(u16)D_800AF7BE / 2 + 0x10;
+            D_800B5C50 = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            D_800B5C52 = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
         }
 
         func_800242D0((s16)func_801620C4(), &D_8018E8B4, 0x84);

@@ -119,10 +119,10 @@ void func_800CEFD0(void) {
     extern s32 D_80114E9C;
     extern u16 D_800B99F6;
     extern void (*D_800D3488[])(void);
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     extern s32 D_800A651C;
 
-    u8 *base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
+    u8 *base = &(((Unkstruct_8012956C *)&guess_g_RenderWork)->unk0);
 
     D_80114E98 = 0;
     D_80114E9C = 0;
@@ -155,7 +155,7 @@ loop:
 //   if (D_80114E9C == 0) D_80114E9C = func_8001B86C(1);   (result stored full word, s32)
 //   if (D_80114E98 != 0 && D_80114E9C != 0) { func_80011B7C(7); return; }   (beqz;beqz = AND)
 //   func_800596F4(0);
-//   VSync(*(s32 *)(p + 0xA3E8));               (p = &D_800AF630; 0xA3E8 -> lui1/addu/-0x5C18)
+//   VSync(*(s32 *)(p + 0xA3E8));               (p = &guess_g_RenderWork; 0xA3E8 -> lui1/addu/-0x5C18)
 //   func_80059CF4(D_800A651C[*(u16*)(p+0xA3D2) * 5] + 4);  (u16 field; i*5 word index)
 //   func_8001AF34();
 //   goto loop;
@@ -167,13 +167,13 @@ loop:
 // registers (s1/s2, frame -0x20, +6 ins) — which the target does NOT do. The goto form is
 // not recognized as a hoistable loop, so each global access stays a fresh `lui %hi; lw %lo`
 // (re-materialized, frame -0x18, only s0 used) — matching the target exactly.
-// `register u8 *p = D_800AF630` is still required so the two far fields (0xA3E8, 0xA3D2)
+// `register u8 *p = guess_g_RenderWork` is still required so the two far fields (0xA3E8, 0xA3D2)
 // assemble to the register-relative `lui at,1; addu at,s0,at; lw/lhu -off(at)` split.
 extern s32 D_80114E98;
 extern s32 D_80114E9C;
 extern u16 D_800B99F6;
 extern void (*D_800D3488[])(void);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern s32 D_800A651C[];
 extern void func_8001B85C(void);
 extern s32  func_8001B86C(s32);
@@ -184,7 +184,7 @@ extern s32  func_80059CF4(s32);
 extern void func_8001AF34(void);
 
 void func_800CF104(void) {
-    u8 *p = D_800AF630;
+    u8 *p = guess_g_RenderWork;
     D_80114E98 = 0;
     D_80114E9C = 0;
     func_8001B85C();
@@ -210,8 +210,8 @@ loop:
  * terminal inner loop and a service block.
  *
  * KEY TECHNIQUES (feed back to cookbook — "single-base-register loop" idioms):
- *  1. The far-member base &D_800AF630 must be held in the ONE callee-saved reg s0.
- *     `register u8 *p = D_800AF630;` pins it; the three far members are p+offset
+ *  1. The far-member base &guess_g_RenderWork must be held in the ONE callee-saved reg s0.
+ *     `register u8 *p = guess_g_RenderWork;` pins it; the three far members are p+offset
  *     (offset >0x7FFF -> as expands `lui at,1; addu at,s0,at; l{hu,w} -0x5cXX(at)`).
  *  2. gcc-2.7.2 -O2 LICM otherwise ALSO hoists each indexed-array base
  *     (&D_800D3488, &D_800A651C) into extra callee regs (s1/s2) -> wrong frame.
@@ -229,7 +229,7 @@ loop:
  */
 extern s32 D_80114E98;
 extern u16 D_800B99F6;
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern s32 D_800A651C[];
 extern void (*D_800D3488[])(void);
 extern void func_8001B85C(void);
@@ -241,7 +241,7 @@ extern void func_800596F4(s32 arg0);
 extern s32 func_80059CF4(s32 arg0);
 
 void func_800CF238(void) {
-    u8 *p = D_800AF630;
+    u8 *p = guess_g_RenderWork;
     D_80114E98 = 0;
     func_8001B85C();
 L25C:
@@ -293,8 +293,8 @@ extern void func_80011A3C(void);
  * dispatch handler + VSync until D_80114E98 is set, then tear down.
  *
  * KEY TECHNIQUES (same family as func_800CF238 — "single-base-register loop"):
- *  1. The far member D_800B9A18 (= &D_800AF630 + 0xA3E8) is read via the ONE held
- *     callee-saved reg s0: `register u8 *p = D_800AF630;` then `*(s32*)(p + 0xA3E8)`
+ *  1. The far member D_800B9A18 (= &guess_g_RenderWork + 0xA3E8) is read via the ONE held
+ *     callee-saved reg s0: `register u8 *p = guess_g_RenderWork;` then `*(s32*)(p + 0xA3E8)`
  *     (offset >0x7FFF -> as expands `lui at,1; addu at,s0,at; lw a0,-0x5C18(at)`).
  *  2. The handler table base &D_800D3488 must RELOAD inside the loop (folded
  *     `lui %hi; addu; lw %lo`), NOT hoist into a second callee reg. Force that by
@@ -303,7 +303,7 @@ extern void func_80011A3C(void);
  *     The `<< 2` (shift, not array[]) makes gcc fold the symbol and keep only s0
  *     held (frame -0x18). Plain `D_800D3488[idx]()` hoists &D_800D3488 into s1 -> -0x20.
  *  3. LOOP MUST BE goto-based, NOT `for(;;){...break;}`. With for/break gcc schedules
- *     `la s0,D_800AF630` into the load-delay slot AFTER func_8001B85C (a 2-insn macro
+ *     `la s0,guess_g_RenderWork` into the load-delay slot AFTER func_8001B85C (a 2-insn macro
  *     that doesn't fit -> +2 instructions). The explicit `goto L3E4` form keeps s0
  *     live-in to the first block, so gcc materializes `la s0` in the PROLOGUE
  *     (lui s0 / addiu s0 between `sw s0` and `sw ra`), exactly like the target.
@@ -311,7 +311,7 @@ extern void func_80011A3C(void);
 extern s32 D_80114E98;
 extern s32 D_80114E9C;
 extern u16 D_800B99F6;
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void (*D_800D3488[])(void);
 extern void func_8001B85C(void);
 extern void func_8001AF34(void);
@@ -320,7 +320,7 @@ extern void func_80011B7C(s32 arg0);
 extern void VSync(s32 arg0);
 
 void func_800CF3B8(void) {
-    u8 *p = D_800AF630;
+    u8 *p = guess_g_RenderWork;
     D_80114E98 = 0;
     D_80114E9C = 0;
     func_8001B85C();
@@ -937,7 +937,7 @@ s32 func_800CFE60(void) {
     extern s16 currentLocationId;
     extern s32 D_800D34AC[];
     extern s16 D_800D34AE[];
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     extern CdFileLoc cdFileLocTable[];
     extern void *D_80072C74;
     extern s32 D_800C7C60;
@@ -961,7 +961,7 @@ s32 func_800CFE60(void) {
     s32 res;
     s32 *p;
 
-    base = D_800AF630;
+    base = guess_g_RenderWork;
 
     file = D_800D34AC[currentLocationId & 0xFFFF0FFF] & 0xFFF;
     val = D_800D34AE[(currentLocationId & 0xFFFF0FFF) * 2];

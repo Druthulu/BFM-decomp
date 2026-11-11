@@ -137,7 +137,7 @@ void func_80145A2C(void) {
 }
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (53 ins). Key: pin register u8 *p __asm__("$17") = &D_800AF630 (forces $s1 live across all calls + the -0x20 frame with $s1 saved), store *(s16*)(p+0xA3DA)=0x3000 at the end. Offset 0xA3DA = 0x800B9A0A - 0x800AF630.
+// @unstuck(P36): none — MATCH (53 ins). Key: pin register u8 *p __asm__("$17") = &guess_g_RenderWork (forces $s1 live across all calls + the -0x20 frame with $s1 saved), store *(s16*)(p+0xA3DA)=0x3000 at the end. Offset 0xA3DA = 0x800B9A0A - 0x800AF630.
 
 #include "../shared/ov/func_80145B24.h"
 
@@ -170,7 +170,7 @@ s32 func_80145CEC() {
     extern void func_80165938();
     extern void func_80153C8C();
     extern void func_800290BC();
-    extern s32 D_800AFAE8;
+    extern s32 guess_g_PlayerModelObject;
     extern s32 D_800DE2A4;
     extern s32 D_801152C8;
     extern s32 D_801884CC;
@@ -199,9 +199,9 @@ s32 func_80145CEC() {
     (void)&pad;
 
     func_80016714(&guess_g_PlayerActor, 0x254);
-    D_80126B78[0] = (s32 *)&D_800AFAE8;
+    D_80126B78[0] = (s32 *)&guess_g_PlayerModelObject;
     D_800AF7C8 = (s32 *)&D_801152C8;
-    func_8001C320(&D_800AFAE8, &D_800DE2A4);
+    func_8001C320(&guess_g_PlayerModelObject, &D_800DE2A4);
     *(s32 *)((s32)D_80126B78[0] + 0x28) = 0x7fff7fff;
     D_80126B90 = (s32 *)&D_801884CC;
     *(u16 *)((s32)D_80126B78[0] + 0x18) = 0x1000;
@@ -1074,13 +1074,13 @@ s32 func_80148E54(s32 arg0) {
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (38 ins)
 extern s32 D_801886D4[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s16 currentLocationId;
 
 s32 func_80149FB0(s32 a0) {
     s32 *p = &D_801886D4[0];
     s32 v = *p;
-    u8 *q = &D_80078E78[0];
+    u8 *q = &guess_g_PlayerRecord[0];
     s32 loc;
 
     if (v != 0) {
@@ -1234,7 +1234,7 @@ s32 func_80149FB0(s32 a0) {
 //   so dedup_propagate (§19 compiles_standalone) can lift it.
 //
 // Codegen levers (byte-proven, retained from the prior draft):
-//   - base &D_80078E78 cached in a pointer local pinned to $s1 -> addr hoisted to the
+//   - base &guess_g_PlayerRecord cached in a pointer local pinned to $s1 -> addr hoisted to the
 //     prologue, live across all calls (§17); direct array access instead folds %lo per use
 //     (no $s1, frame 0x18 not 0x20).
 //   - var_a1 as if/else-if (not "=4 then conditional 0xA") -> caller-saved $a1
@@ -1497,7 +1497,7 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 // Levers used (all byte-gated on ov_SC07_006):
 //  1. §struct  8-byte alignment-1 struct copy `*(M8_8014C6F4*)(a+0x164) = *(M8_8014C6F4*)(p+0x10)`
 //     -> the lwl/lwr,lwl/lwr,swl/swr,swl/swr block (engine_types.h M8_xxx convention).
-//  2. §17 base-pointer cache: `u8 *p = D_80078E78;` (NOT a direct D_80078E78[0x49]) so gcc pins
+//  2. §17 base-pointer cache: `u8 *p = guess_g_PlayerRecord;` (NOT a direct guess_g_PlayerRecord[0x49]) so gcc pins
 //     the base into callee-saved $s1 and hoists the la into the prologue (live across the jal).
 //  3. §17 register pins: the search result `e` MUST be $v0 and the limit `lim` $v1, else
 //     local-alloc swaps the loop IV/limit pair ($v1<->$a0) and coalesces `e` into the IV.
@@ -2614,14 +2614,14 @@ extern s32 D_801D961C;
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (fn-ptr table; split idx-1 into a $v0-pinned temp to stop (idx-1)*4 strength-reducing into a -4 load offset AND land the subtract in $v0)
 
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern void (*D_80188798[])(void);
 
 void func_80150B28(int param_1) {
     u32 idx;
     u32 sub;
 
-    if ((D_800AE6B0 & 0x80FFFFFF) == 0) {
+    if ((guess_g_CurrentEvent & 0x80FFFFFF) == 0) {
         idx = *(u16 *)(param_1 + 0x16C);
         if (idx != 0 && idx < 0x26) {
             sub = idx - 1;
@@ -2846,12 +2846,12 @@ extern void func_801477E8(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_8014CBF8(void *a0);
 extern int func_80151204(int arg, int a1);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80188850;
 
 void func_801520DC(s32 arg0)
 {
-    func_80019064(&D_80062C04);
+    func_80019064(&guess_g_RumblePatternFade);
     func_80151204(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     func_80149020(arg0);
     func_801472C8(arg0);
@@ -2899,7 +2899,7 @@ extern void func_801477E8(s32 *a0, s32 a1);
 extern void func_80147324(s32 arg0);
 extern void func_80146CA0(void *a0);
 
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_800D5880;
 extern s32 D_800D58AC;
 extern u8 D_80188880[];
@@ -2912,7 +2912,7 @@ void func_801523F4(s32 arg0)
     s32 s2a = (s32)&D_80188880; /* $s2 = &D_80188880 */
 
     ((void (*)(s32, s32))func_80146E90)(arg0, 0);
-    func_80019064(&D_80062C04);
+    func_80019064(&guess_g_RumblePatternFade);
     ((void (*)(s32, s32))func_80151204)(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     if ((s16)func_80012A60((s32)*(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x12),
                            (s32)((Unkstruct_80126B58 *)arg0)->unkF4) >= 0x401) {
@@ -2971,13 +2971,13 @@ extern void func_80149020(s32 *a0);
 extern void func_8014CBF8(void *a0);
 extern int func_80151204(int arg, int a1);
 extern void func_80154274(s32 *a0, s32 a1);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_800D5880;
 extern M2C_UNK D_80188898;
 
 void func_801528B0(s32 arg0)
 {
-    func_80019064(&D_80062C04);
+    func_80019064(&guess_g_RumblePatternFade);
     func_80151204(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     func_80149020(arg0);
     func_80154274(arg0, &D_800D5880);

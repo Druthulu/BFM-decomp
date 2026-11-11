@@ -165,8 +165,8 @@ extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
@@ -614,7 +614,7 @@ extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80136F3C(s32 a0, s32 a1);
@@ -624,7 +624,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
@@ -1073,7 +1073,7 @@ extern s32 func_80013294(void *a0, void *a1);
 extern int func_80144B14(int param_s0);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -1372,7 +1372,7 @@ extern u8 D_80078EBF;
 extern s32 func_80149744(struct S_80149744 *a0);
 extern void func_8015F7A0(s32 *arg0);
 extern void func_80149788(void);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 D_80078EC1;
 extern s32 func_8014CB7C(void);
 extern s32 func_8014C088(s32 a0, s32 a1);
@@ -1851,7 +1851,7 @@ extern void func_80153060(void *a0);
 extern void func_801530E4(s32 a0);
 extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern void func_801530E4(s32 arg0);
 extern void func_80153150(struct S80153150 *a0);
 extern void func_801531BC(s32 a0);
@@ -2391,7 +2391,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(void *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_80160534(u8 *p);
 extern void func_801607B8(s32 *a0);
@@ -3570,12 +3570,12 @@ extern void func_8017C364(void);
  * STEP-0 SIBLING (cookbook §160g): the callee set + globals are fixed by TWO already-banked
  * functions:
  *   - func_8017DD28's own signature (src/ov_MAIN_012/ov_MAIN_012_jr_8017CF3C.c:4282):
- *     s32 *func_8017DD28(s32 *out);  and D_800AE7BC's element shape { u32 *ot; u32 pad[4]; }
+ *     s32 *func_8017DD28(s32 *out);  and guess_g_FrontOrderingTablesOrg's element shape { u32 *ot; u32 pad[4]; }
  *     (0x14 stride) — from that function's own `Env_8017DD28` block-scope typedef.
  *   - func_8017CBC8's signature is fixed by its OWN definition later in this exact TU
  *     (src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:5879): s32 func_8017CBC8(s32 ot, u8 *s, s16 c);
  *   - the TAIL's addPrim idiom (raw pointer-cast, no `volatile`/no PTag bitfield struct, each
- *     `D_800AE7BC[idx].ot[2]` full expression repeated inline) matches the ALREADY-MATCHED sibling
+ *     `guess_g_FrontOrderingTablesOrg[idx].ot[2]` full expression repeated inline) matches the ALREADY-MATCHED sibling
  *     src/ov_SC03_099/ov_SC03_099_jr_8013F350.c:1330 func_8013FAF8 (312/312) byte-for-byte in
  *     shape — NOT func_8017DD28's fancier `volatile u16*` + PTag-bitfield-cast + `register`-pinned
  *     idiom, which compiles to the SAME instructions here but in the WRONG order (see below).
@@ -3612,7 +3612,7 @@ extern s32 D_801151D0;
 extern s16 D_8011512C;
 extern u8 *D_80115134;
 extern s16 D_800B9A02;
-extern Env_8017CA18 D_800AE7BC[];
+extern Env_8017CA18 guess_g_FrontOrderingTablesOrg[];
 
 extern s32 *func_8017DD28(s32 *out);
 extern s32 func_8017CBC8(s32 ot, u8 *s, s16 c);
@@ -3665,9 +3665,9 @@ void func_8017CA18(void) {
     func_8005A600(ot, 0, 0, 0x15, 0);
 
     *(s32 *)ot = 0x02000000;
-    *(s32 *)ot = (D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] & 0xFFFFFF) | 0x02000000;
-    D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] =
-        (D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] & 0xFFFFFF) | 0x02000000;
+    guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] =
+        (guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
     ((Unkstruct_801151D0 *)&D_801151D0)->f0 = ot;

@@ -5,14 +5,14 @@ extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine"
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
 extern u8  D_800B9A11;
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
-extern u8  D_800A6518[];
+extern u8  guess_g_OrderingTables[];
 void func_801372B0(void) {
     Svec_801372B0 in;
     Svec_801372B0 out;
     Gline_801372B0 prim;
-    register u8 *mat __asm__("$23") = D_800AF630;            /* $s7 = base; +0x18 after branch */  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B headers1)
+    register u8 *mat __asm__("$23") = guess_g_RenderWork;            /* $s7 = base; +0x18 after branch */  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B headers1)
     s32 white;                       /* $s3, assigned lazily in-if */
     s16 ax;                          /* $s0 = out.vx+0x7B */
     s16 ay;                          /* $s1 = out.vx+0x75 */
@@ -36,7 +36,7 @@ void func_801372B0(void) {
             prim.y0 = -0x5A;                                 /* late -> li $s3,0xFF lands @31    */
             { s16 x1v = vx + 0x78;  prim.x1 = x1v; }
             { s16 y1v = vy - 0x5A;  prim.y1 = y1v; }
-            aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
+            aGsSortLine(&prim, &guess_g_OrderingTables[(u32)aD800B9A02 * 0x14], 0);
         }
         /* --- corner 1: +X +6, red cross --- */
         in.vx = in.vx + 6;
@@ -49,7 +49,7 @@ void func_801372B0(void) {
         ax = ay + 0x7B;                                      /* $s0 = out.vx + 0x7B */
         bx = bx - 0x57;                                      /* $s2 = out.vy - 0x57 (in place) */
         {
-        Gline_801372B0 *op = (Gline_801372B0*)&D_800A6518[(u32)aD800B9A02 * 0x14];
+        Gline_801372B0 *op = (Gline_801372B0*)&guess_g_OrderingTables[(u32)aD800B9A02 * 0x14];
         __asm__("" : "=r"(op) : "0"(op));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
         ay = ay + 0x75;                                      /* $s1 = out.vx + 0x75 (in place) */
         prim.x0 = ay; prim.y0 = by; prim.x1 = ax; prim.y1 = bx;
@@ -60,7 +60,7 @@ void func_801372B0(void) {
         prim.attr = 0;                                       /* chain/ay revert to source order  */
         prim.r = white; prim.g = 0; prim.b = 0;
         prim.x0 = ax; prim.y0 = by; prim.x1 = ay; prim.y1 = bx;
-        aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
+        aGsSortLine(&prim, &guess_g_OrderingTables[(u32)aD800B9A02 * 0x14], 0);
         /* --- corner 2: +Y axis, white line + sibling 030 --- */
         in.vx = 0;
         in.vy = 0x10;
@@ -74,7 +74,7 @@ void func_801372B0(void) {
             prim.y0 = -0x5A;
             { s16 x1v = vx + 0x78;  prim.x1 = x1v; }
             { s16 y1v = vy - 0x5A;  prim.y1 = y1v; }
-            aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
+            aGsSortLine(&prim, &guess_g_OrderingTables[(u32)aD800B9A02 * 0x14], 0);
         }
         in.vy = in.vy + 6;
         ApplyMatrixSV(mat, &in, &out);
@@ -92,7 +92,7 @@ void func_801372B0(void) {
             prim.y0 = -0x5A;
             { s16 x1v = vx + 0x78;  prim.x1 = x1v; }
             { s16 y1v = vy - 0x5A;  prim.y1 = y1v; }
-            aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
+            aGsSortLine(&prim, &guess_g_OrderingTables[(u32)aD800B9A02 * 0x14], 0);
         }
         in.vz = in.vz + 6;
         ApplyMatrixSV(mat, &in, &out);

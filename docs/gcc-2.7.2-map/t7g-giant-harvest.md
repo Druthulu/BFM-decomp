@@ -83,7 +83,7 @@ Fix: `strip_c_comments()` in make_base_c before the other passes. Immediately cr
   "global load stuck below a bare `*ptr` store."
 
 ## func_801372B0 (207) — agent CLOSE=8 (count-exact, ALL regs correct); → FABLE5 (schedule-wall) candidate
-Drove 173→8. NOT global-hoist-class (D_800AF630→$s7, D_800A6518→$s5 hoists + 100% regalloc SOLVED);
+Drove 173→8. NOT global-hoist-class (guess_g_RenderWork→$s7, guess_g_OrderingTables→$s5 hoists + 100% regalloc SOLVED);
 residual = 8 insns, pure sched1/sched2 S3/S11 live-range ordering. Agent: permuter is low-ROI here
 (fence-heavy pinned draft = tiny permutable space, matches perm 0/N record) → Fable5-source for the
 sched1 live-range-shortening decision.
@@ -155,7 +155,7 @@ frame pointer; same-slot triple-reloads; unfilled load-delay nops). -O0 compile 
   2. **Struct-member fold (860→91):** at -O0 `struct->field` folds to `lw off(reg)`, but `*(T*)(base+const)`
      AND array `b[k]` each materialize an extra `addu` → ALL bases must be struct pointers w/ exact-offset
      padded structs; a pointer-to-struct field (`p10->f20->f12`) where a double-deref folds.
-  3. **Far-global $s0 base:** `register u8 *p = D_800AF630;` held across calls (boot.c precedent);
+  3. **Far-global $s0 base:** `register u8 *p = guess_g_RenderWork;` held across calls (boot.c precedent);
      `*(s16*)(p+0xA3D8)` auto-splits `+0x10000/-0x5Cxx`.
   4. **`i++` not `i=i+1`** for the loop counter (91→29): `i++` emits the target's extra `addu $v0,$v1,$zero`
      copy before `sh`; `i=i+1` omits it.

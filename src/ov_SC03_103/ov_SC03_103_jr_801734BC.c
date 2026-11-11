@@ -10,7 +10,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -37,7 +37,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
@@ -763,7 +763,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80185E64;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1103,7 +1103,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801C39B8;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1120,7 +1120,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018653C[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1381,7 +1381,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -2782,8 +2782,8 @@ void func_80175AB8(param_1)
     s16 param_1;
 {
    /* size 0x0C */
-    extern S_AF634 D_800AF634[];
-    extern S_AF634 D_800AF638[];
+    extern S_AF634 guess_g_PacketBufferUsed[];
+    extern S_AF634 guess_g_PacketBufferBase[];
 
     extern u8  D_8011F7F0;
     extern u16 D_8011F7B4;
@@ -2818,7 +2818,7 @@ void func_80175AB8(param_1)
     s32 idx;
     s16 sv;
 
-    p = (u32 *)(D_800AF638[param_1].g0 + D_800AF634[param_1].g0 * 4);
+    p = (u32 *)(guess_g_PacketBufferBase[param_1].g0 + guess_g_PacketBufferUsed[param_1].g0 * 4);
     base = &D_8011F7F0;
     arr = base - 0x48;
     slot = (u32 *)(param_1 * 4 + (s32)arr);
@@ -2849,7 +2849,7 @@ void func_80175AB8(param_1)
     *p = (((u32)p - 0x14) & 0xFFFFFF) | 0x2000000;
     slot[8] = (u32)p;
     p += 5;
-    D_800AF634[param_1].g0 += ((s32)p - (s32)slot[6]) >> 2;
+    guess_g_PacketBufferUsed[param_1].g0 += ((s32)p - (s32)slot[6]) >> 2;
 }
 
 
@@ -2867,8 +2867,8 @@ void func_80175DA8(param_1)
 
     extern u8  D_8011F7F0;
     extern u8  D_800B9A13;
-    extern S_AF634 D_800AF634[];
-    extern S_AF634 D_800AF638[];
+    extern S_AF634 guess_g_PacketBufferUsed[];
+    extern S_AF634 guess_g_PacketBufferBase[];
     extern u16 D_801877F0[];
     extern u16 D_80187840[];
     extern u16 D_8018784C;
@@ -2889,7 +2889,7 @@ void func_80175DA8(param_1)
     s32 fl;
     u16 v;
 
-    p = (Sp_80175DA8 *)(D_800AF638[(s16)param_1].g0 + D_800AF634[(s16)param_1].g0 * 4);
+    p = (Sp_80175DA8 *)(guess_g_PacketBufferBase[(s16)param_1].g0 + guess_g_PacketBufferUsed[(s16)param_1].g0 * 4);
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x28) = p;
     i = 0;
     do {
@@ -2923,8 +2923,8 @@ void func_80175DA8(param_1)
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x30) = p;
     p++;
     {
-        s32 acc = D_800AF634[(s16)param_1].g0;
-        D_800AF634[(s16)param_1].g0 =
+        s32 acc = guess_g_PacketBufferUsed[(s16)param_1].g0;
+        guess_g_PacketBufferUsed[(s16)param_1].g0 =
             acc + (((s32)p - *(s32 *)(s + (s16)param_1 * 4 + 0x28)) >> 2);
     }
 
@@ -2989,30 +2989,30 @@ void func_80175DA8(param_1)
 /* func_80176144 — RECONCILED variant of .run/uc/func_80176144.c
  *
  * GATE BLOCKER (whole-binary build, NOT match_one):
- *   src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:3476: conflicting types for `D_800AF634'
+ *   src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:3476: conflicting types for `guess_g_PacketBufferUsed'
  *   || previous declaration at :3296
  *
  * ROOT CAUSE — a HOISTED file-scope typedef, not a bad signature:
  *   That TU hoists, at FILE scope, for func_80175DA8:
  *       :3295  typedef struct { s32 g0; s32 pad[2]; } S_AF634_80176144;
- *       :3296  extern S_AF634_80176144 D_800AF634[];
- *       :3297  extern S_AF634_80176144 D_800AF638[];
+ *       :3296  extern S_AF634_80176144 guess_g_PacketBufferUsed[];
+ *       :3297  extern S_AF634_80176144 guess_g_PacketBufferBase[];
  *   The stored draft re-declares the SAME struct shape as a BLOCK-scope typedef
  *   (rule D — it must travel to the 137 sibling overlays, which have no such
  *   preamble).  A block-scope `typedef struct {...} S_AF634_80176144;` is a DISTINCT type
  *   from the file-scope one (C has no structural typing), so the block-scope
- *   `extern S_AF634_80176144 D_800AF634[];` re-declares the symbol incompatibly with the
+ *   `extern S_AF634_80176144 guess_g_PacketBufferUsed[];` re-declares the symbol incompatibly with the
  *   in-scope file-scope decl -> hard error.
  *   Note the earlier block-scope copies in the same TU (:3080 func_80175820,
  *   :3123 func_801759D8) do NOT error: they precede :3296, so no file-scope decl
- *   of D_800AF634 is in scope there.  Anything AFTER :3296 collides.  Our
+ *   of guess_g_PacketBufferUsed is in scope there.  Anything AFTER :3296 collides.  Our
  *   definition lands at :3476.  That is why only this one fired.
  *
  * FIX — §37/§124 ASM-LABEL ALIAS applied to the DATA symbols (cookbook §2516:
  *   "asm-label alias for sibling-decl signedness/proto conflicts ... beats
  *   reconcile's *(u16*)&D_x cast whose address-of PERTURBS regalloc"):
  *   the two objects are reached through PRIVATE C identifiers aAF634 / aAF638
- *   carrying __asm__("D_800AF634") / __asm__("D_800AF638").  The emitted
+ *   carrying __asm__("guess_g_PacketBufferUsed") / __asm__("guess_g_PacketBufferBase").  The emitted
  *   %hi/%lo relocations are against the same symbols, so codegen is unchanged,
  *   while the C names can never collide with ANY sibling TU's declaration —
  *   whether hoisted, block-scope, or absent.  No header edit; no src/ edit.
@@ -3036,7 +3036,7 @@ void func_80175DA8(param_1)
 // @unstuck(P36): none — MATCH (327/327 ins, match_one MATCH; symcheck SYMS-OK 18 symbols)
 //
 // STRUCTURE (byte-derived, all verified against the .s):
-//   $s3=st=&D_8011F7A8 (int base), $s1=st+0x48 (cach), $s2=st+0xE0 (flag), $s5=&(*(u8 *)D_80078E78) (src), $s4=param.
+//   $s3=st=&D_8011F7A8 (int base), $s1=st+0x48 (cach), $s2=st+0xE0 (flag), $s5=&(*(u8 *)guess_g_PlayerRecord) (src), $s4=param.
 //   6 HUD fields synced src->cach with a chg-flag at [flag]: pairs 0x3A/0x3C and 0x3E/0x40, then 0x14(s32),
 //   0x34(u16)+0x42(u8), 0x1A(s16), 0x4A(u8). Each: `if (cach==src) { if(!chg) goto skip; chg=0; } else {adjust}` + draw.
 // KEY FINDINGS (reusable):
@@ -3084,7 +3084,7 @@ void func_80176218(s32 param_1)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
 
     extern u16 D_8011F82A;
     extern u16 D_8011F82C;
@@ -3095,7 +3095,7 @@ void func_80176218(s32 param_1)
     s32 st   = (s32)&D_8011F7A8;   /* $s3 */
     s32 cach = st + 0x48;          /* $s1 */
     s32 flag = st + 0xE0;          /* $s2 */
-    s32 cur  = (s32)&(*(u8 *)D_80078E78);   /* $s5 */
+    s32 cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);   /* $s5 */
     u8 buf[24];
     s32 ne;
     s32 t;
@@ -3273,7 +3273,7 @@ L63C:
 void func_80176734(s32 param_1)
 {
     extern u8  D_8011F7A8;      /* st base  ($s3) */
-    extern u8  D_80078E78[];    /* cur base ($s4) */
+    extern u8  guess_g_PlayerRecord[];    /* cur base ($s4) */
     extern s16 D_801152BA;
     extern u8  D_8011F7B0;      /* == *(u8 *)(st + 8), read absolutely (mixed addressing) */
     extern u8  D_80115214;
@@ -3310,7 +3310,7 @@ void func_80176734(s32 param_1)
     pv  = param_1;
     cach = st + 0x48;
     flag = st + 0xE0;
-    cur  = (s32)&(*(u8 *)D_80078E78);
+    cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);
 
     /* ---- block A: pulse byte ---- */
     {

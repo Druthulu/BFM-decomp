@@ -1,7 +1,7 @@
 /* func_8015FCC8 — shared body (overlay slot 0x80128158, h_exact a0e69ecd). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8015FCC8(void *param_1) {
-    if ((D_800AE6B0 & 0x80FFFFFF) != 0) {
+    if ((guess_g_CurrentEvent & 0x80FFFFFF) != 0) {
         ((void (*)(void))func_8016007C)();
         D_80181160[*(u16 *)param_1](param_1);
         ((void (*)(void *, s32))guess_SetState)(param_1, 0);

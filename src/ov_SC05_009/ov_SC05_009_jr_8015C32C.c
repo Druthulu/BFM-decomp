@@ -4,7 +4,7 @@
 
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -31,7 +31,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -367,7 +367,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018067C[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -753,7 +753,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 arg0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_801807F8;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1092,7 +1092,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_80195930;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1109,7 +1109,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_80180ED0[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1515,7 +1515,7 @@ extern void func_8015C714(void *);
 extern void func_801483E8();  // K&R: ? of 1 args (P37 rung D t4_D25)
 
 extern void (*D_80181160[])(void *);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 D_801813A4[];
 
 #include "../shared/ov/func_8015D738__d338deef.h"
@@ -1952,7 +1952,7 @@ extern void func_801599A4(void *a0);
 // @class: struct
 // @unstuck(P36): none — MATCH (indexed fn-ptr table call + byte-offset struct stores; mirrors sibling func_801599A4 idiom)
 
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern void (*D_80181160[])(void *);
 
 extern void func_8016007C(s32 a0);
@@ -1994,7 +1994,7 @@ extern s32 func_80161208();
 
 
 
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern void (*D_80181160[])(void *);
 extern u8 D_80078EC1;
 extern u8 D_80078EC2;
@@ -2435,7 +2435,7 @@ extern void func_80147324(s32 arg0);
 // @class: other
 // @unstuck(P36): none — MATCH (short-circuit && chain; reused 0x80FFFFFF mask const, andi-0xFF on callee ret)
 
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s32 D_800AE6A8;
 extern s32 guess_TestGameFlag(s32 arg);
 extern void guess_SetGameFlag(s32, s32);
@@ -2446,10 +2446,10 @@ extern s32 D_80181600;
 
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (175 ins, relocation-masked). Giant, 3 similar guarded blocks. base=&D_800AF630
+// @unstuck(P36): none — MATCH (175 ins, relocation-masked). Giant, 3 similar guarded blocks. base=&guess_g_RenderWork
 //   hoisted to $s2 (referenced only to build the 3 stored pointers base+0x65A8/0x65E0/0x6618 -> $s1);
-//   guard reads (D_800B5BD8/C10/C48) + the "=1" + coord stores use direct symbols. Coord idiom:
-//   -(s32)(u16)D_800AF7BC/2 + K (negu;srl31;addu;sra1). a2=func_800291DC(8) survives in $s3 for the
+//   guard reads (guess_g_TargetTimeLabel1/C10/C48) + the "=1" + coord stores use direct symbols. Coord idiom:
+//   -(s32)(u16)guess_g_ScreenWidth/2 + K (negu;srl31;addu;sra1). a2=func_800291DC(8) survives in $s3 for the
 //   final (a2&0x7FFF)==(s16)guess_g_ClockMinute test. KEY RESIDUAL (cracked): target computes each pointer into
 //   scratch $v0 then `addu $s1,$v0` (dead-intermediate copy) and stores $s1 — natural C ALWAYS coalesces
 //   that copy into a direct `addiu $s1,$s2,off` (172 ins, 3 short). Forcing the un-coalesced copy needs
@@ -2469,20 +2469,20 @@ void func_80161E08(s32 param_1) {
     extern void func_8001CE68(void *a0, void *a1);
     extern int func_801620C4(void);
     extern void func_801622C4(void);
-    extern u16 D_800AF7BC;
-    extern u16 D_800AF7BE;
+    extern u16 guess_g_ScreenWidth;
+    extern u16 guess_g_ScreenHeight;
     extern s16 guess_g_ClockMinute;
-    extern u16 D_800B5BD8;
+    extern u16 guess_g_TargetTimeLabel1;
     extern s16 D_800B5C04;
     extern u8 D_800B5BFF;
-    extern s16 D_800B5BE0;
-    extern s16 D_800B5BE2;
-    extern u16 D_800B5C10;
+    extern s16 guess_g_TargetTimeLabel1X;
+    extern s16 guess_g_TargetTimeLabel1Y;
+    extern u16 guess_g_TargetTimeLabel2;
     extern s16 D_800B5C3C;
     extern u8 D_800B5C37;
-    extern s16 D_800B5C18;
-    extern s16 D_800B5C1A;
-    extern u16 D_800B5C48;
+    extern s16 guess_g_TargetTimeLabel2X;
+    extern s16 guess_g_TargetTimeLabel2Y;
+    extern u16 guess_g_TargetTimeDigits;
     extern s16 D_800B5C74;
     extern s16 D_800B5C50;
     extern s16 D_800B5C52;
@@ -2493,7 +2493,7 @@ void func_80161E08(s32 param_1) {
     extern u8 D_80195974[];
     extern u8 D_8019598C[];
 
-    u8 *base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
+    u8 *base = &(((Unkstruct_8012956C *)&guess_g_RenderWork)->unk0);
     u8 *p;
     s32 a2;
 
@@ -2504,33 +2504,33 @@ void func_80161E08(s32 param_1) {
         currentLocationId != 0x3096 &&
         ((a2 = func_800291DC(8)) & 0x8000) != 0) {
 
-        if (D_800B5BD8 == 0) {
+        if (guess_g_TargetTimeLabel1 == 0) {
             p = D_80195940[0] = base + 0x65A8;
             func_80024054(&D_801815CC, &D_8019594C);
             func_8001CE28(p, &D_8019594C);
             D_800B5C04 = 1;
             D_800B5BFF = 1;
-            D_800B5BE0 = -(s32)(u16)D_800AF7BC / 2 + 0xD0;
-            D_800B5BE2 = -(s32)(u16)D_800AF7BE / 2 + 0x28;
+            guess_g_TargetTimeLabel1X = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeLabel1Y = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x28;
         }
 
-        if (D_800B5C10 == 0) {
+        if (guess_g_TargetTimeLabel2 == 0) {
             p = D_80195940[1] = base + 0x65E0;
             func_80024054(&D_801815EC, &D_80195974);
             func_8001CE28(p, &D_80195974);
             D_800B5C3C = 1;
             D_800B5C37 = 1;
-            D_800B5C18 = -(s32)(u16)D_800AF7BC / 2 + 0xD0;
-            D_800B5C1A = -(s32)(u16)D_800AF7BE / 2 + 0x30;
+            guess_g_TargetTimeLabel2X = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeLabel2Y = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x30;
         }
 
-        if (D_800B5C48 == 0) {
+        if (guess_g_TargetTimeDigits == 0) {
             p = D_80195940[2] = base + 0x6618;
             func_800242D0((s16)func_801620C4(), &D_8019598C, 0x84);
             func_8001CE68(p, &D_8019598C);
             D_800B5C74 = 1;
-            D_800B5C50 = -(s32)(u16)D_800AF7BC / 2 + 0xD0;
-            D_800B5C52 = -(s32)(u16)D_800AF7BE / 2 + 0x10;
+            D_800B5C50 = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            D_800B5C52 = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
         }
 
         func_800242D0((s16)func_801620C4(), &D_8019598C, 0x84);
@@ -2574,7 +2574,7 @@ void func_8016216C(void)
 
 
 extern s32 func_800291DC(s32);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 guess_g_ClockMinute;
 extern u8 D_80078EB1;
 extern s32 D_80181600;
@@ -2623,7 +2623,7 @@ extern void (*D_80181624[])(void);
 #undef SHARED_FN
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (160 ins, relocation-masked). Keys: (1) base=&D_800AF630 hoisted, pinned $s2;
+// @unstuck(P36): none — MATCH (160 ins, relocation-masked). Keys: (1) base=&guess_g_RenderWork hoisted, pinned $s2;
 //   uVar2 UNPINNED (a $s3 pin forced the final `uVar2 & 0x7FFF` in-place+early, breaking the lh delay
 //   slot). (2) item pinned $s1, dest INLINED (D_801D96Dx in both call args) so it lands $s0 AFTER a0.
 //   (3) base assigned BEFORE the func_800291DC call so the return-copy `addu $s3,$v0` schedules after
@@ -2655,17 +2655,17 @@ s32 func_80162438(s32 _unused0) {
     extern u8 D_801959CC[];
     extern u8 D_801959E8[];
     extern int D_80195998[];
-    extern u16 D_800B5BD8;
-    extern u16 D_800B5C10;
-    extern u16 D_800B5C48;
-    extern u16 D_800AF7BC;
-    extern u16 D_800AF7BE;
-    extern s16 D_800B5BE0;
-    extern s16 D_800B5BE2;
+    extern u16 guess_g_TargetTimeLabel1;
+    extern u16 guess_g_TargetTimeLabel2;
+    extern u16 guess_g_TargetTimeDigits;
+    extern u16 guess_g_ScreenWidth;
+    extern u16 guess_g_ScreenHeight;
+    extern s16 guess_g_TargetTimeLabel1X;
+    extern s16 guess_g_TargetTimeLabel1Y;
     extern s16 D_800B5C04;
     extern u8 D_800B5BFF;
-    extern s16 D_800B5C18;
-    extern s16 D_800B5C1A;
+    extern s16 guess_g_TargetTimeLabel2X;
+    extern s16 guess_g_TargetTimeLabel2Y;
     extern s16 D_800B5C3C;
     extern u8 D_800B5C37;
     extern s16 D_800B5C50;
@@ -2676,37 +2676,37 @@ s32 func_80162438(s32 _unused0) {
     u8 *base;
     u8 *item;
 
-    base = &(((Unkstruct_8012956C *)&D_800AF630)->unk0);
+    base = &(((Unkstruct_8012956C *)&guess_g_RenderWork)->unk0);
     uVar2 = func_800291DC(0x12);
     if ((uVar2 & 0x8000) != 0) {
-        if (D_800B5BD8 == 0) {
+        if (guess_g_TargetTimeLabel1 == 0) {
             D_80195998[0] = (s32)(base + 0x65A8);
             item = base + 0x65A8;
             func_80024054(D_80181630, D_801959A4);
             func_8001CE28(item, D_801959A4);
             D_800B5C04 = 1;
             D_800B5BFF = 1;
-            D_800B5BE0 = -D_800AF7BC / 2 + 0xD0;
-            D_800B5BE2 = -D_800AF7BE / 2 + 0x28;
+            guess_g_TargetTimeLabel1X = -guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeLabel1Y = -guess_g_ScreenHeight / 2 + 0x28;
         }
-        if (D_800B5C10 == 0) {
+        if (guess_g_TargetTimeLabel2 == 0) {
             D_80195998[1] = (s32)(base + 0x65E0);
             item = base + 0x65E0;
             func_80024054(((u8 *)&D_80181648), D_801959CC);
             func_8001CE28(item, D_801959CC);
             D_800B5C3C = 1;
             D_800B5C37 = 1;
-            D_800B5C18 = -D_800AF7BC / 2 + 0xD0;
-            D_800B5C1A = -D_800AF7BE / 2 + 0x30;
+            guess_g_TargetTimeLabel2X = -guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeLabel2Y = -guess_g_ScreenHeight / 2 + 0x30;
         }
-        if (D_800B5C48 == 0) {
+        if (guess_g_TargetTimeDigits == 0) {
             D_80195998[2] = (s32)(base + 0x6618);
             item = base + 0x6618;
             func_800242D0((s16)func_801626B8(), D_801959E8, 0x84);
             func_8001CE68(item, D_801959E8);
             D_800B5C74 = 1;
-            D_800B5C50 = -D_800AF7BC / 2 + 0xD0;
-            D_800B5C52 = -D_800AF7BE / 2 + 0x10;
+            D_800B5C50 = -guess_g_ScreenWidth / 2 + 0xD0;
+            D_800B5C52 = -guess_g_ScreenHeight / 2 + 0x10;
         }
         func_800242D0((s16)func_801626B8(), D_801959E8, 0x84);
         if ((uVar2 & 0x7FFF) == (s32)(*(s16 *)&guess_g_ClockMinute)) {
@@ -3319,7 +3319,7 @@ extern void func_80017DC4(void *a0, void *a1);
 // @class: struct
 // @unstuck(P36): none — MATCH (54 ins)
 
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 D_80078EC1;
 extern void (*D_80181728[])(void);
 extern u8 func_80165658(s32 a0, s32 a1);

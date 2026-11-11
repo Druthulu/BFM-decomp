@@ -4,7 +4,7 @@
 
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -31,7 +31,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -367,7 +367,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_80180E30[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -753,7 +753,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 arg0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80180FAC;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1092,7 +1092,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_8018E858;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1109,7 +1109,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_80181684[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1521,7 +1521,7 @@ extern void func_8015C714(void *);
 extern void func_801483E8();  // K&R: ? of 1 args (P37 rung D t4_D25)
 
 extern void (*D_80181914[])(void *);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 D_80181B58[];
 
 #include "../shared/ov/func_8015D738__6e729a10.h"
@@ -1966,7 +1966,7 @@ extern void func_801599A4(void *a0);
 // @class: struct
 // @unstuck(P36): none — MATCH (indexed fn-ptr table call + byte-offset struct stores; mirrors sibling func_801599A4 idiom)
 
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern void (*D_80181914[])(void *);
 
 extern void func_8016007C(s32 a0);
@@ -2008,7 +2008,7 @@ extern s32 func_80161208();
 
 
 
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern void (*D_80181914[])(void *);
 extern u8 D_80078EC1;
 extern u8 D_80078EC2;
@@ -2449,7 +2449,7 @@ extern void func_80147324(s32 arg0);
 // @class: other
 // @unstuck(P36): none — MATCH (short-circuit && chain; reused 0x80FFFFFF mask const, andi-0xFF on callee ret)
 
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s32 D_800AE6A8;
 extern s32 guess_TestGameFlag(s32 arg);
 extern void guess_SetGameFlag(s32, s32);
@@ -2460,10 +2460,10 @@ extern s32 D_80181DB4;
 
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (175 ins, relocation-masked). Giant, 3 similar guarded blocks. base=&D_800AF630
+// @unstuck(P36): none — MATCH (175 ins, relocation-masked). Giant, 3 similar guarded blocks. base=&guess_g_RenderWork
 //   hoisted to $s2 (referenced only to build the 3 stored pointers base+0x65A8/0x65E0/0x6618 -> $s1);
-//   guard reads (D_800B5BD8/C10/C48) + the "=1" + coord stores use direct symbols. Coord idiom:
-//   -(s32)(u16)D_800AF7BC/2 + K (negu;srl31;addu;sra1). a2=func_800291DC(8) survives in $s3 for the
+//   guard reads (guess_g_TargetTimeLabel1/C10/C48) + the "=1" + coord stores use direct symbols. Coord idiom:
+//   -(s32)(u16)guess_g_ScreenWidth/2 + K (negu;srl31;addu;sra1). a2=func_800291DC(8) survives in $s3 for the
 //   final (a2&0x7FFF)==(s16)guess_g_ClockMinute test. KEY RESIDUAL (cracked): target computes each pointer into
 //   scratch $v0 then `addu $s1,$v0` (dead-intermediate copy) and stores $s1 — natural C ALWAYS coalesces
 //   that copy into a direct `addiu $s1,$s2,off` (172 ins, 3 short). Forcing the un-coalesced copy needs
@@ -2498,7 +2498,7 @@ extern int D_8018E868[];
 
 
 extern s32 func_800291DC(s32);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 guess_g_ClockMinute;
 extern u8 D_80078EB1;
 extern s32 D_80181DB4;
@@ -2533,7 +2533,7 @@ extern void (*D_80181DD8[])(void);
 #undef SHARED_FN
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (160 ins, relocation-masked). Keys: (1) base=&D_800AF630 hoisted, pinned $s2;
+// @unstuck(P36): none — MATCH (160 ins, relocation-masked). Keys: (1) base=&guess_g_RenderWork hoisted, pinned $s2;
 //   uVar2 UNPINNED (a $s3 pin forced the final `uVar2 & 0x7FFF` in-place+early, breaking the lh delay
 //   slot). (2) item pinned $s1, dest INLINED (D_801D96Dx in both call args) so it lands $s0 AFTER a0.
 //   (3) base assigned BEFORE the func_800291DC call so the return-copy `addu $s3,$v0` schedules after
@@ -2914,7 +2914,7 @@ extern void func_80017DC4(void *a0, void *a1);
 // @class: struct
 // @unstuck(P36): none — MATCH (54 ins)
 
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 D_80078EC1;
 extern void (*D_80181EDC[])(void);
 extern u8 func_80165658(s32 a0, s32 a1);

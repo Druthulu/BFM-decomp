@@ -3,14 +3,14 @@
 extern s32 func_8016F1C4(void);
 extern s32 guess_TestGameFlag(s32 arg);
 extern void func_8014B944(s32 a0, s32 a1, s32 a2);
-extern u8 D_800AF630[];
-extern u8 D_80078E78[];
+extern u8 guess_g_RenderWork[];
+extern u8 guess_g_PlayerRecord[];
 extern s16 currentLocationId;
 extern s32 D_80078EA4;
 void func_8014B7A4(s16 *param_1) {
     s32 s0 = (s32)param_1;
-    u8 *s2 = D_800AF630;
-    s32 s1 = (s32)D_80078E78;
+    u8 *s2 = guess_g_RenderWork;
+    s32 s1 = (s32)guess_g_PlayerRecord;
     s32 v0;
     s32 v1;
     if (func_8016F1C4() != 0) {

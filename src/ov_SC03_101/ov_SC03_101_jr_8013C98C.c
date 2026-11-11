@@ -172,8 +172,8 @@ extern s32 D_80126E60[];
 extern s32 D_80126F04[];
 extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
-extern s32 D_800AE688[];
+extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
@@ -507,7 +507,7 @@ extern void func_80130AF0(int param_1);
 extern void (*D_80183C58[])(void);
 extern void func_80130D0C(void *a0);
 extern s32 rand(void);
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u16 g_PlayerHpMax;
 extern u16 g_PlayerHp;
 extern s16 D_80183CA8[];
@@ -605,7 +605,7 @@ extern void SetLineG2(void *);
 extern void func_80136D08(s32 arg0, s32 arg1);
 extern void func_80136EC4(void);
 extern short D_800B9A02;
-extern u8 D_800A6518[];
+extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
 extern void func_80137030(s16 a0, s16 a1);
@@ -613,7 +613,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
+extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
@@ -917,7 +917,7 @@ extern void func_8013CF68(void);
 
 void func_8013CB84(void) {
 
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern s32 D_8019CABC;
     extern s32 D_8019CAC8;
     extern s32 D_8019CAD0;
@@ -931,7 +931,7 @@ void func_8013CB84(void) {
     extern Rec9 D_801841F8[];
     extern u8 D_8019E170;  /* canonical (§8d); Rec9 block-move via cast-at-use */
     s32 loc = currentLocationId;
-    s32 s0 = D_80078EAF;
+    s32 s0 = guess_g_DayPeriod;
     s32 ta, tb, tc, t;
 
     D_8019E198 = 0;
@@ -1211,9 +1211,9 @@ void func_8013D330(void) {
 
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (match_one 90/90); base &D_80078E78 cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access D_80078E78[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
+// @unstuck(P36): none — MATCH (match_one 90/90); base &guess_g_PlayerRecord cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access guess_g_PlayerRecord[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
 
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 
 extern void *D_8019CA98;
 extern void *D_8019CA9C;
@@ -1237,7 +1237,7 @@ extern void func_8013CF68(void);
 
 void func_8013D3D4(int param_1, int param_2)
 {
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
 
     D_8019CAC8 = param_2;
     D_8019CACC = (param_2 >> 2) & 3;
@@ -1306,7 +1306,7 @@ void func_8013D53C(void *arg0v) {
 
     extern Rec9 D_801841F8[];
     extern Rec12 D_80184230[];
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern u8 D_8019E170;
     extern s32 D_8019CABC;
     Cmd_8013D53C *arg0 = arg0v;
@@ -1327,7 +1327,7 @@ void func_8013D53C(void *arg0v) {
     if (!(D_8019CAC8 & 1)) {
         D_8019CAB0 = 1;
     } else {
-        D_8019CAB0 = D_80078EAF;
+        D_8019CAB0 = guess_g_DayPeriod;
     }
 
     b0 = ((u8 *)D_80184230)[D_8019CAB0 * 12];
@@ -1650,7 +1650,7 @@ void func_8013DD68() {
     u8 *pbase;
     u8 *base;
 
-    pbase = D_800AF630;
+    pbase = guess_g_RenderWork;
     puVar16 = (*(u16 * *)&D_8019CAA4);
     p = (*(u32 * *)&D_800A5E60);
     uVar1 = *puVar16;

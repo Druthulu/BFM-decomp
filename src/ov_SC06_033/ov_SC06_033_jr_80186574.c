@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -364,7 +364,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_801933EC[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -752,7 +752,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80193568;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1085,7 +1085,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801CF448;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1102,7 +1102,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_80193C40[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1363,7 +1363,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -5857,11 +5857,11 @@ void func_8018AAF4(void *arg) {
 // same 2x3 RotTransSV loops, same three 4-vert RTPT/RTPS/AVSZ4 faces, same OT guard/tail.
 // THE ONLY SYMBOL DELTA (law 2): the source vec table is D_801C8374 here, NOT the twin's
 // D_801D1228. Every other reloc (func_8004914C/func_800491AC/RotTransSV/func_80017254/
-// D_800AF630/D_800B9A02/D_800A651C/D_800AE610) and every literal (0x34, (p2&1)*3, 0x50000000,
+// guess_g_RenderWork/D_800B9A02/D_800A651C/D_800AE610) and every literal (0x34, (p2&1)*3, 0x50000000,
 // mb+0x18, *0x14, loop bound 3, faces {0,1,3,4}/{1,2,4,5}/{2,0,5,3}) re-read off THIS .s.
 //
 // The twin's three hard-won levers are carried verbatim and are all still load-bearing:
-//   (a) the two NON-VOLATILE `asm("":"=r"(mb):"0"(mb))` re-ties that keep &D_800AF630 opaque in
+//   (a) the two NON-VOLATILE `asm("":"=r"(mb):"0"(mb))` re-ties that keep &guess_g_RenderWork opaque in
 //       $s0 so `addiu $a0,$s0,0x18` is re-emitted at BOTH jals (a volatile re-tie costs 3 ins);
 //   (b) the zero-byte `asm volatile("" :: "r"(pfl))` after gte_stflg — a §137 regalloc lever that
 //       raises pfl's priority into the (11250, 18000) window so it takes $v1 and otz gets $v0;
@@ -5879,7 +5879,7 @@ void func_8018AAF4(void *arg) {
 //     unsuffixed copy is a C89 redefinition. Suffixed, the file compiles standalone AND spliced.
 //   * func_8004914C / func_800491AC / RotTransSV keep the TU's existing file-scope spellings
 //     verbatim; D_800B9A02 is `short` (TU line 2450), matching its `extern s16` alias at 2452.
-//   * D_801C8374 / D_800AF630 / D_800AE610 / func_80017254 appear nowhere else in the TU.
+//   * D_801C8374 / guess_g_RenderWork / D_800AE610 / func_80017254 appear nowhere else in the TU.
 
 #include "common.h"
 
@@ -5896,7 +5896,7 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     extern short D_800B9A02;
     extern u8 D_800A651C[];
     extern u8 D_800AE610[];
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     u8      dead[0x20];   /* 0x10 : reserved, never referenced (holds the frame at 0xC8) */
     SVECTOR_8018AD9C scratch;      /* 0x30 */
     B8_8018AD9C out[6];   /* 0x38 */
@@ -5935,7 +5935,7 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018AD9C *)&pkt[2] = out[1];
     *(B8_8018AD9C *)&pkt[4] = out[3];
     *(B8_8018AD9C *)&pkt[6] = out[4];
-    mb = (u8 *)&D_800AF630;
+    mb = (u8 *)&guess_g_RenderWork;
     mb2 = mb + 0x18;
     func_8004914C(mb2);
     mb2 = 0;
@@ -5971,7 +5971,7 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018AD9C *)&pkt[2] = out[2];
     *(B8_8018AD9C *)&pkt[4] = out[4];
     *(B8_8018AD9C *)&pkt[6] = out[5];
-    mb = (u8 *)&D_800AF630;
+    mb = (u8 *)&guess_g_RenderWork;
     mb2 = mb + 0x18;
     func_8004914C(mb2);
     mb2 = 0;
@@ -6007,7 +6007,7 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     *(B8_8018AD9C *)&pkt[2] = out[0];
     *(B8_8018AD9C *)&pkt[4] = out[5];
     *(B8_8018AD9C *)&pkt[6] = out[3];
-    mb = (u8 *)&D_800AF630;
+    mb = (u8 *)&guess_g_RenderWork;
     mb2 = mb + 0x18;
     func_8004914C(mb2);
     mb2 = 0;
@@ -6193,7 +6193,7 @@ void func_8018B3D0(void)
  *   2. src/ov_SC03_119/ov_SC03_119_jr_8017FB84.c func_80185944 — byte-MATCH
  *      (177/177 ins).  Its header names this exact tail idiom: "link-ins
  *      the packet into the current double-buffer's OT (the PSY-Q `addPrim`
- *      macro pair) and calls func_80016638", with `func_80016638(&D_800A6518
+ *      macro pair) and calls func_80016638", with `func_80016638(&guess_g_OrderingTables
  *      [*bidx*20], depth, 1)` as its literal call form (there depth=0x10
  *      constant, here depth=temp_v0_2).  Confirms the "3 lhu D_800B9A02,
  *      address cached / value reloaded" shape and the general addPrim(ot,p)
@@ -6245,7 +6245,7 @@ void func_8018B3D0(void)
  * INTEGRATION SURFACE (checked against destination TU
  * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c):
  *   func_80010A08, func_8004914C, func_800491AC, RotTransPers, guess_g_CameraWsMatrix,
- *   D_800B9A02, D_800A6518 all match the TU's own existing extern spellings
+ *   D_800B9A02, guess_g_OrderingTables all match the TU's own existing extern spellings
  *   verbatim (grepped at TU lines 2448/2632-2633/4674 and the
  *   func_8018F694/func_8018F060 block). D_800A651C and func_80016638 have NO
  *   file-scope declaration anywhere in the TU (only ever appear inside other
@@ -6268,7 +6268,7 @@ void func_8018BB48(s32 arg0, s32 arg1, s32 arg2)
     extern s32 RotTransPers(s32, s32, s32 *, s32 *);
     extern u8 guess_g_CameraWsMatrix;
     extern OtBlk_8018A974_8018BB48 D_800A651C[];
-    extern u8 D_800A6518[];
+    extern u8 guess_g_OrderingTables[];
     extern short D_800B9A02;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
@@ -6300,7 +6300,7 @@ void func_8018BB48(s32 arg0, s32 arg1, s32 arg2)
         ot = D_800A651C[*bidx].a;
         *(u32 *)(depth4 + ot) =
             (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & 0xFFFFFF);
-        func_80016638(&D_800A6518[*bidx * 20], temp_v0_2, 1);
+        func_80016638(&guess_g_OrderingTables[*bidx * 20], temp_v0_2, 1);
     }
 }
 

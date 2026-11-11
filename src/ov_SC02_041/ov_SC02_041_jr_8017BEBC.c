@@ -12,7 +12,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
          /* 16-byte stride array element */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
@@ -39,7 +39,7 @@ extern void func_80162120(void);
 extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
@@ -375,7 +375,7 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_80186984[];
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -762,7 +762,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80186B00;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1097,7 +1097,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801B7EA0;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1114,7 +1114,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_801871D8[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1374,7 +1374,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -2922,7 +2922,7 @@ void func_8017D1E0(s32 param_1)
 extern void func_80019064(void*);
 extern void func_8014BC44(s32 a0, s32 a1);
 extern void func_80151664(s32 a0v);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 
 #define SHARED_FN func_8017D244
 #include "../shared/ov/cls_1bdf698eb0a9.h"
@@ -7439,12 +7439,12 @@ void func_80183770(s32 a0) {
  * the stack (verts 0x10, colours 0x30, code 0x40), whose colour ramp is derived from the s32
  * at a0+0x1C (*15, then >>1 for the second component, then -0x10 clamped-at-0 for the far
  * pair).  Bit 0 of the u16 at a0+0x70 picks which channel carries the bright value.  Then the
- * camera matrix cached at D_800AF630+0x18 is loaded and two rtpt+rtps+avsz4 groups run over a
+ * camera matrix cached at guess_g_RenderWork+0x18 is loaded and two rtpt+rtps+avsz4 groups run over a
  * sliding window of the SVECTORs at a0+0xDC..0x104 (stride 8), queueing the packet through
  * func_80017714 whenever the GTE flag masked with ~0x1000 is clear.
  *
  * DECLARATION SURFACE (whole-TU one-pass grep, D2):
- *   * D_800AF630   — TU line 53   `extern u8 D_800AF630[];`      (identical extern repeated, legal)
+ *   * guess_g_RenderWork   — TU line 53   `extern u8 guess_g_RenderWork[];`      (identical extern repeated, legal)
  *   * func_80017714— TU line 4324 `extern void func_80017714(void *);` (identical extern repeated)
  *   * func_801837B0— TU line 5235 `extern void func_801837B0(s32 a0);` — the definition below
  *     uses that exact prototype, so no SELF-axis rename is needed.
@@ -7461,7 +7461,7 @@ void func_80183770(s32 a0) {
  *     (an `sra` by 17 already leaves 18 sign bits, so no re-extension is emitted).
  *   * `p`/`q` are a SECOND pair of s16 locals holding the value actually stored.  They produce
  *     the `addu $a1,$v1,$zero` / `addu $a2,$a3,$zero` copies in the head and after each -0x10,
- *     and they occupy $a1/$a2 — which is what pushes the D_800AF630 base out to $t0 and the
+ *     and they occupy $a1/$a2 — which is what pushes the guess_g_RenderWork base out to $t0 and the
  *     reload register out to $t1, exactly as the target has them.  `q` must be s16, not s32: an
  *     s32 `q` is copy-propagated into `d` and the three `addu $a2,...` copies vanish.
  *   * The colour writes are CHAINED assignments; gcc expands `A = B = C = D = q` innermost-first,
@@ -7479,7 +7479,7 @@ void func_80183770(s32 a0) {
  *         problem — it is the allocno/live-range split.
  */
 
-extern u8 D_800AF630[];
+extern u8 guess_g_RenderWork[];
 extern void func_80017714(void *);
 
    /* 8 bytes */
@@ -7508,7 +7508,7 @@ void func_801837B0(s32 a0)
     s32 d;
 
     c = ((Unkstruct_800B5CB8 *)a0)->unk1C * 15;
-    base = D_800AF630;
+    base = guess_g_RenderWork;
     p = c;
     d = c >> 1;
     q = d;

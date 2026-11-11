@@ -1,11 +1,11 @@
 /* func_8014C6F4 — shared body (overlay slot 0x80128158, h_exact 1ac65d84). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8014C6F4(u8 *a) {
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern s32 D_8011F9D0;
     extern s32 func_8016F1AC(void);
     extern void func_80015978(s32 a0, s32 *a1);
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
     u8 *e;
     u8 *lim;
     s32 want;

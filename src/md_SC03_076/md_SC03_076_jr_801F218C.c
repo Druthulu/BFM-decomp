@@ -322,7 +322,7 @@ extern void func_801F2970(void);
 
 s32 *func_801F2690(void) {
     extern u8 D_80078EB1;
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern u32 D_801F3BDC;
     extern u32 D_801F3D00;
     extern s32 D_801F9DD4;
@@ -330,7 +330,7 @@ s32 *func_801F2690(void) {
     s32 v;
     u8 *p;
 
-    p = D_80078E78;
+    p = guess_g_PlayerRecord;
     func_801F28B0();
     v = guess_GetStoryProgress();
 

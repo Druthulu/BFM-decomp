@@ -59,6 +59,6 @@ void func_801397B0(s32 arg0)
     *(s16 *)((u8 *)buf + 0x18) = 0;
     *(s32 *)((u8 *)buf + 0x20) = 0;
 
-    GsSortSprite(buf, &D_800A6518[(u16)D_800B9A02 * 20],
+    GsSortSprite(buf, &guess_g_OrderingTables[(u16)D_800B9A02 * 20],
                  *(u16 *)(e + 0x1A));
 }

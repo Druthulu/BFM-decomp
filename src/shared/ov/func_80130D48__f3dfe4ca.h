@@ -3,7 +3,7 @@
 void func_80130D48(s32 arg0)
 {
     s16 *tbl;
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
     s32 val;
     s32 i;
     s32 j;

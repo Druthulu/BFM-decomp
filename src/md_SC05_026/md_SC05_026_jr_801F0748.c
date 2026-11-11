@@ -347,7 +347,7 @@ extern void func_801F0E9C(void);
 
 s32 func_801F0C4C(void) {
     extern u8 D_80078EB1;
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern u8 D_801F2058[];
     extern u8 D_801F217C[];
     extern s32 D_801F84AC;
@@ -359,7 +359,7 @@ s32 func_801F0C4C(void) {
     register s32 res __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
 
     func_801F0E6C();
-    p = D_80078E78;
+    p = guess_g_PlayerRecord;
     v = guess_GetStoryProgress();
 
     if (v < 200) goto Lzero;

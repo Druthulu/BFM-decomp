@@ -12,7 +12,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
          /* 16-byte stride array element */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
 extern void func_801458E8(void);
@@ -760,7 +760,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_80185080;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1094,7 +1094,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801BB200;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1111,7 +1111,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_80185758[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1372,7 +1372,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -4084,8 +4084,8 @@ void func_801800F4(void *arg0)
 {
 
     extern u8 D_80078EB1;
-    extern u8 D_80078E78[];
-    extern u8 D_800AF630[];
+    extern u8 guess_g_PlayerRecord[];
+    extern u8 guess_g_RenderWork[];
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
@@ -4094,8 +4094,8 @@ void func_801800F4(void *arg0)
     u8 *e78;
     s32 k;
 
-    m = D_800AF630;
-    e78 = D_80078E78;
+    m = guess_g_RenderWork;
+    e78 = guess_g_PlayerRecord;
 
     if (D_80078EB1 >= 9) {
         s32 count;
@@ -4983,7 +4983,7 @@ extern s32 func_801812E0(s32 arg0);
 
 s32 func_8018113C(s32 a0) {
 
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern u8 D_80078EB1;
     extern u16 D_80078EAC;
     extern s32 D_801BC620;
@@ -4999,7 +4999,7 @@ s32 func_8018113C(s32 a0) {
     s32 c;
     s32 idx;
 
-    p = D_80078E78;
+    p = guess_g_PlayerRecord;
     s0 = D_801B5E30[((Unkstruct_80180CCC_2 *)*(s32 *)(a0 + 0xD0))->unk10];
     if (s0 == -1) {
         D_801BC620 = 0;

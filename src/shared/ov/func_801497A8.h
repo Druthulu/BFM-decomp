@@ -1,12 +1,12 @@
 /* func_801497A8 — shared body (overlay slot 0x80128158, h_exact a3d1ef66). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u8 D_80078E78[];
+extern u8 guess_g_PlayerRecord[];
 extern u8 D_80078EC1;
 extern s32 func_8014CB7C(void);
 extern s32 func_8014C088(s32 a0, s32 a1);
 extern u8 func_80165658(s32 a0, s32 a1);
 s32 func_801497A8(s32 *a0) {
-    u8 *s1 = D_80078E78;
+    u8 *s1 = guess_g_PlayerRecord;
     /* Zero-byte RC-7 "second set": reg_n_sets(s1)==2 fails update_equiv_regs'
        single-set gate -> no REG_EQUIV -> the address constant is NOT
        rematerialized at its lone use; it is held in a callee-saved reg ($s1)

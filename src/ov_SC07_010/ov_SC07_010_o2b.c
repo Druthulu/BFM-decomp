@@ -146,7 +146,7 @@ extern void func_8013CF68(void);
 
 void func_8013CB84(void) {
 
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern s32 D_801A6AC8;
     extern s32 D_801A6AC0;
     extern s32 D_801A6AC4;
@@ -165,7 +165,7 @@ void func_8013CB84(void) {
     extern Rec9 D_801828F0[];
     extern u8 D_801A9490;  /* canonical (§8d); Rec9 block-move via cast-at-use */
     s32 loc = currentLocationId;
-    s32 s0 = D_80078EAF;
+    s32 s0 = guess_g_DayPeriod;
     s32 ta, tb, tc, t;
 
     D_801A94B8 = 0;
@@ -425,7 +425,7 @@ void func_8013D330(void) {
 
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (match_one 90/90); base &D_80078E78 cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access D_80078E78[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
+// @unstuck(P36): none — MATCH (match_one 90/90); base &guess_g_PlayerRecord cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access guess_g_PlayerRecord[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
 
 
 
@@ -438,7 +438,7 @@ extern void func_8013CF68(void);
 void func_8013D3D4(int param_1, int param_2)
 {
 
-    extern u8 D_80078E78[];
+    extern u8 guess_g_PlayerRecord[];
     extern void *D_801A6AA8;
     extern void *D_801A6AAC;
     extern void *D_801A6AB0;
@@ -452,7 +452,7 @@ void func_8013D3D4(int param_1, int param_2)
     extern u8 D_80182854[];
     extern u8 D_801828D4[];
     extern u8 D_801827AC[];
-    u8 *p = D_80078E78;
+    u8 *p = guess_g_PlayerRecord;
 
     D_801A6AD8 = param_2;
     D_801A6ADC = (param_2 >> 2) & 3;
@@ -505,7 +505,7 @@ void func_8013D53C(void *arg0v) {
     extern Rec9 D_801828F0[];
     extern Rec12 D_80182928[];
     extern s32 D_801A6AD8;
-    extern u8 D_80078EAF;
+    extern u8 guess_g_DayPeriod;
     extern s32 D_801A6AC0;
     extern u8 D_801A94D2;
     extern u8 D_801A9546;
@@ -542,7 +542,7 @@ void func_8013D53C(void *arg0v) {
     if (!(D_801A6AD8 & 1)) {
         D_801A6AC0 = 1;
     } else {
-        D_801A6AC0 = D_80078EAF;
+        D_801A6AC0 = guess_g_DayPeriod;
     }
 
     b0 = ((u8 *)D_80182928)[D_801A6AC0 * 12];
@@ -853,7 +853,7 @@ void func_8013DBE4(int param_1)
 
 void func_8013DD68() {
     extern void SetDrawEnv(void *p, void *env);
-    extern u8 D_800AF630[];
+    extern u8 guess_g_RenderWork[];
     extern s32 D_800A5E60;
     extern s16 *D_801A6AB4;
     extern s32 D_801A6AE4;
@@ -876,7 +876,7 @@ void func_8013DD68() {
     u8 *pbase;
     u8 *base;
 
-    pbase = D_800AF630;
+    pbase = guess_g_RenderWork;
     puVar16 = (*(u16 * *)&D_801A6AB4);
     p = (*(u32 * *)&D_800A5E60);
     uVar1 = *puVar16;

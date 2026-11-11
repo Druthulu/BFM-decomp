@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_801654A8(s32 arg0)
 {
-    u8 *s1 = D_80078E78;
+    u8 *s1 = guess_g_PlayerRecord;
 
     if (*(u16 *)arg0 == 0x16) {
         return;

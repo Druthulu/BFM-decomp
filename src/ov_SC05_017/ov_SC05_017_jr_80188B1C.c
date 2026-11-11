@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
-extern s32 D_800AE6B0;
+extern s32 guess_g_CurrentEvent;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
 extern void func_801458E8(void);
@@ -751,7 +751,7 @@ extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
 extern void func_80147324(s32 a0);
-extern u8 D_80062C04[];
+extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_8018EF0C;
 extern void func_801520DC(s32 arg0);
 extern void func_801470B4(s32 a0);
@@ -1084,7 +1084,7 @@ extern void func_800CF818(void);
 extern u8 D_80110D0C[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
-extern u8 D_800AE6BD;
+extern u8 guess_g_EventSubStep;
 extern s32 D_801EBA48;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
@@ -1101,7 +1101,7 @@ extern void func_80028620(s32, void *);
 extern s16 D_800B9AAC[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
-extern u32 D_800AFAE8[];
+extern u32 guess_g_PlayerModelObject[];
 extern char D_8018F5E4[];
 extern s32 func_801596F0(s32 param_1);
 extern s32 func_80159874(void);
@@ -1362,7 +1362,7 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
+extern u8 guess_g_RumblePatternShort;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -3175,7 +3175,7 @@ s32 *func_80188F14(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     extern u16 D_801B8DAA;
     extern s16 D_800B9A02;
    /* 0x14 stride */
-    extern Env_8017E804_80188F14 D_800AE7BC[];
+    extern Env_8017E804_80188F14 guess_g_FrontOrderingTablesOrg[];
 
     u16 *pb;
     u16 *p;
@@ -3208,9 +3208,9 @@ s32 *func_80188F14(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 
     pb = (u16 *)&D_800B9A02;
     c0 = ot[0];
-    ot[0] = (c0 & 0xFF000000) | (D_800AE7BC[*pb].ot[2] & 0xFFFFFF);
-    D_800AE7BC[*pb].ot[2] =
-        (D_800AE7BC[*pb].ot[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
+    ot[0] = (c0 & 0xFF000000) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & 0xFFFFFF);
+    guess_g_FrontOrderingTablesOrg[*pb].ot[2] =
+        (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
 
     ot += 5;
 
@@ -3255,10 +3255,10 @@ s32 *func_80188F14(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                 *(s16 *)(q - 0xC) = ((s32 *)a3p)[2] + ((s32 *)a3p)[3] - 0xC;
                 *(s16 *)(q - 4) = eight;
                 *(s16 *)(q - 2) = eight;
-                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (D_800AE7BC[*pb2].ot[2] & m24);
+                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb2].ot[2] & m24);
                 {
                     register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
-                    op = D_800AE7BC[*pb2].ot;
+                    op = guess_g_FrontOrderingTablesOrg[*pb2].ot;
                     op[2] = (op[2] & mhi) | (((u32)ot) & m24);
                 }
                 q += 0x14;
@@ -3767,7 +3767,7 @@ void func_80189BA0(void) {
    /* 0x14 stride */
                      /* -> 0x24 */
 
-    extern Env_8018C960_80189BA0 D_800AE7BC[];
+    extern Env_8018C960_80189BA0 guess_g_FrontOrderingTablesOrg[];
     extern u8 aD801EF1EC __asm__("D_801ED56C");
     extern u8 aD801EF1F0 __asm__("D_801ED570");
 
@@ -3783,8 +3783,8 @@ void func_80189BA0(void) {
     p = *pp;
     ((PTag_8018C960_80189BA0 *)p)->len = 1;
     p[1] = 0xE1000015;
-    ((PTag_8018C960_80189BA0 *)p)->addr = ((PTag_8018C960_80189BA0 *)D_800AE7BC[*pbh].ot)->addr;
-    ((PTag_8018C960_80189BA0 *)D_800AE7BC[*pbh].ot)->addr = (u32)p;
+    ((PTag_8018C960_80189BA0 *)p)->addr = ((PTag_8018C960_80189BA0 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
+    ((PTag_8018C960_80189BA0 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)p;
 
     p += 2;
     ((PG4_8018C960_80189BA0 *)p)->tag  = 0x08000000;
@@ -3812,15 +3812,15 @@ void func_80189BA0(void) {
     ((PG4_8018C960_80189BA0 *)p)->y3 = 120;
     ((PG4_8018C960_80189BA0 *)p)->y2 = 120;
 
-    ((PTag_8018C960_80189BA0 *)p)->addr = ((PTag_8018C960_80189BA0 *)D_800AE7BC[*pbh].ot)->addr;
-    ((PTag_8018C960_80189BA0 *)D_800AE7BC[*pbh].ot)->addr = (u32)p;
+    ((PTag_8018C960_80189BA0 *)p)->addr = ((PTag_8018C960_80189BA0 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
+    ((PTag_8018C960_80189BA0 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)p;
 
     r = p + 9;                          /* 0x24 */
     p = r;                              /* COMBINE BARRIER — see header */
     ((PTag_8018C960_80189BA0 *)r)->len = 1;
     r[1] = 0xE1000240;
-    ((PTag_8018C960_80189BA0 *)r)->addr = ((PTag_8018C960_80189BA0 *)D_800AE7BC[*pbh].ot)->addr;
-    ((PTag_8018C960_80189BA0 *)D_800AE7BC[*pbh].ot)->addr = (u32)r;
+    ((PTag_8018C960_80189BA0 *)r)->addr = ((PTag_8018C960_80189BA0 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
+    ((PTag_8018C960_80189BA0 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)r;
 
     p += 2;
     *pp = p;

@@ -220,7 +220,7 @@ def fix(body, tu_text, insert_pos, func, tu_types=None):
                     demote.append((ln, d.group(0)))
                     continue                          # drop from the file-scope preamble
                 # THE TU ALREADY DECLARES IT ABOVE US -> DROP OURS ENTIRELY (Phase 29 SESSION-22).
-                # Keeping it was the SC07-quartet blocker: `conflicting types for D_800AF634` in
+                # Keeping it was the SC07-quartet blocker: `conflicting types for guess_g_PacketBufferUsed` in
                 # ov_SC07_006/007/010/011, which is a type-IDENTITY collision no type-STRING compare
                 # can see. Both sides read `S_AF634 []` — but the templated body carries its OWN
                 # block-scope `typedef struct {…} S_AF634;` while the TU's declaration comes from a
