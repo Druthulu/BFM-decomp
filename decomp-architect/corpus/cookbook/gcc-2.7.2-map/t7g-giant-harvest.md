@@ -211,10 +211,10 @@ Zero pins, pure source structure. **METHOD UPGRADES (fold into cookbook + all fu
   true at close=8. Apply to the rest of the chain.
 - **BANKING INSIGHT — ASM-LABEL ALIAS (flywheel / reconcile_decls-fix candidate):** a `_a`-split giant's
   externs can conflict with SIBLING `DEFINE_` macro decls in the same TU (here `GsSortLine`/`func_80137030`/
-  `D_800B9A02`, the last a signedness `short`-vs-`u16` mismatch). reconcile's `*(u16*)&D_x` cast avoids the
+  `guess_g_DoubleBufferIndex`, the last a signedness `short`-vs-`u16` mismatch). reconcile's `*(u16*)&D_x` cast avoids the
   conflict but the ADDRESS-OF perturbs regalloc (aliasing → `$s6↔$fp` swap, 13-off). **Fix: an asm-label
   alias — a distinct identifier of the NEEDED type bound to the linker symbol:** `extern u16 aD800B9A02
-  __asm__("D_800B9A02");` + use `aD800B9A02` (direct `lhu`, no address-of, no conflict); same for proto
+  __asm__("guess_g_DoubleBufferIndex");` + use `aD800B9A02` (direct `lhu`, no address-of, no conflict); same for proto
   conflicts (`extern void aGsSortLine(...) __asm__("GsSortLine");`). Banked 372B0 byte-identical. →
   **reconcile_decls should emit asm-label aliases for signedness/proto conflicts, not perturbing casts.**
 
