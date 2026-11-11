@@ -3,7 +3,7 @@
 s32 aF801376E8(int a0, int a1) __asm__("func_801376E8");
 s32 aF801376E8(int a0, int a1)
 {
-    extern s32 D_801269F0;
+    extern s32 guess_g_TextBoxes;
     extern u8 D_801269FD;
     extern u16 D_80126A14[];
     extern s16 D_80126A1C;
@@ -12,7 +12,7 @@ s32 aF801376E8(int a0, int a1)
     extern s16 D_80126A24;
     extern u16 D_80126A26;
     u16 *p = (u16 *)a1;
-    s32 obj = (s32)&D_801269F0;
+    s32 obj = (s32)&guess_g_TextBoxes;
     func_801377B4(a0, 0x6200, obj);
     D_80126A1C = 0x1C;
     D_801269FD = 0;

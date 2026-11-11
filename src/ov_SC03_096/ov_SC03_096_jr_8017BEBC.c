@@ -649,8 +649,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_8018272C;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
 extern void func_80150B9C(void);
@@ -1698,9 +1698,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -2794,21 +2794,21 @@ void func_8017D05C(void) {
 
     extern s32 D_80126954;
     extern s32 D_8012695C;
-    extern s16 D_80126968;
-    extern s16 D_8012696A;
-    extern s16 D_8012696C;
-    extern s16 D_80126976;
-    extern s16 D_80126978;
-    extern s16 D_8012697A;
+    extern s16 guess_g_MainCameraPitchTarget;
+    extern s16 guess_g_MainCameraYawTarget;
+    extern s16 guess_g_MainCameraRollTarget;
+    extern s16 guess_g_MainCameraRefOffsetTargetX;
+    extern s16 guess_g_MainCameraRefOffsetTargetY;
+    extern s16 guess_g_MainCameraRefOffsetTargetZ;
     extern u8 guess_g_MainCamera[];
     D_80126954 = 0x1F4;
     D_8012695C = 0x4b0;
-    D_80126968 = 0x71;
-    D_8012696A = 0x800;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = 0;
-    D_8012697A = 0;
+    guess_g_MainCameraPitchTarget = 0x71;
+    guess_g_MainCameraYawTarget = 0x800;
+    guess_g_MainCameraRollTarget = 0;
+    guess_g_MainCameraRefOffsetTargetX = 0;
+    guess_g_MainCameraRefOffsetTargetY = 0;
+    guess_g_MainCameraRefOffsetTargetZ = 0;
     func_8012A018((s32)func_8017D0F4, 0);
     func_8012A094((s32)guess_g_MainCamera);
     func_8017D0F4(guess_g_MainCamera);
@@ -4440,14 +4440,14 @@ extern u8 guess_g_BoxHitNormalX[];
 
 s32 aF80183910(s32 arg0) __asm__("func_8018001C");
 s32 aF80183910(s32 arg0) {
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     extern u8 D_80193A94[];
     extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
     s32 buf1[2];
     s32 buf2[2];
 
-    ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)D_80126B78 + 0x34, (s32)D_80193A94, (s32)buf1);
-    ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)D_80126B78 + 0x34, (s32)(D_80193A94 + 8), (s32)buf2);
+    ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)guess_g_PlayerModelPtr + 0x34, (s32)D_80193A94, (s32)buf1);
+    ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)guess_g_PlayerModelPtr + 0x34, (s32)(D_80193A94 + 8), (s32)buf2);
     if (func_80135888(((Unkstruct_8018001C *)arg0)->unk20, ((Unkstruct_8018001C *)arg0)->unk58, (s32)buf1, (s32)buf2) != 0) {
         func_8012F568(1, 1, ((Unkstruct_8018001C_2 *)*(s32 *)(arg0 + 0x20))->unk12, 9, (s32)buf2, (s32)guess_g_BoxHitNormalX);
         return 1;
@@ -4590,11 +4590,11 @@ extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 s32 func_80180350(s32 a0, s16 a1) {
 
     extern u8 D_80126B5C;
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     s32 d;
 
     d = (func_8012B6D4((s16 *)&D_80126B5C, (s16 *)(a0 + 4)) -
-         ((Unkstruct_801463A0 *)D_80126B78)->unk12) & 0xFFF;
+         ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) & 0xFFF;
     if (d < 0x800) {
         return d < a1;
     } else {

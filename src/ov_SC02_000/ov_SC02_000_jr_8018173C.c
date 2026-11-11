@@ -58,7 +58,7 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 extern void func_8014607C(void);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
@@ -646,8 +646,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_8018C874;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
@@ -1698,9 +1698,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -2406,12 +2406,12 @@ extern s32 func_8017496C(void *a0);
 extern s32 D_80126954;
 extern s32 D_80126950;
 extern s32 D_8012695C;
-extern s16 D_80126968;
-extern s16 D_8012696A;
-extern s16 D_8012696C;
-extern s16 D_80126976;
-extern s16 D_80126978;
-extern s16 D_8012697A;
+extern s16 guess_g_MainCameraPitchTarget;
+extern s16 guess_g_MainCameraYawTarget;
+extern s16 guess_g_MainCameraRollTarget;
+extern s16 guess_g_MainCameraRefOffsetTargetX;
+extern s16 guess_g_MainCameraRefOffsetTargetY;
+extern s16 guess_g_MainCameraRefOffsetTargetZ;
 extern void func_801748EC(void);
 extern s32 func_801749C8(s32 param_1);
 extern s32 func_801749A8(s32 a0);
@@ -2776,21 +2776,21 @@ void func_8018173C(int param_1) {
 void func_801818C0(void) {
     extern s32 D_80126954;
     extern s32 D_8012695C;
-    extern s16 D_80126968;
-    extern s16 D_8012696A;
-    extern s16 D_8012696C;
-    extern s16 D_80126976;
-    extern s16 D_80126978;
-    extern s16 D_8012697A;
+    extern s16 guess_g_MainCameraPitchTarget;
+    extern s16 guess_g_MainCameraYawTarget;
+    extern s16 guess_g_MainCameraRollTarget;
+    extern s16 guess_g_MainCameraRefOffsetTargetX;
+    extern s16 guess_g_MainCameraRefOffsetTargetY;
+    extern s16 guess_g_MainCameraRefOffsetTargetZ;
 
     D_80126954 = 300;
     D_8012695C = 300;
-    D_80126968 = -128;
-    D_8012696A = 0;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = -80;
-    D_8012697A = 0;
+    guess_g_MainCameraPitchTarget = -128;
+    guess_g_MainCameraYawTarget = 0;
+    guess_g_MainCameraRollTarget = 0;
+    guess_g_MainCameraRefOffsetTargetX = 0;
+    guess_g_MainCameraRefOffsetTargetY = -80;
+    guess_g_MainCameraRefOffsetTargetZ = 0;
 }
 
 
@@ -2853,11 +2853,11 @@ void func_80181AD4(void *arg0)
 #include "../shared/ov/func_80181CE0__de11b66c.h"
 
 
-extern s16 D_80126968;
-    extern s16 D_80126978;
+extern s16 guess_g_MainCameraPitchTarget;
+    extern s16 guess_g_MainCameraRefOffsetTargetY;
     void func_80181D0C(void) {
-        D_80126968 = 0x200;
-        D_80126978 = -0x1C0;
+        guess_g_MainCameraPitchTarget = 0x200;
+        guess_g_MainCameraRefOffsetTargetY = -0x1C0;
     }
 
 
@@ -3559,13 +3559,13 @@ void func_80183098(s32 arg0)
 }
 
 
-extern s32 D_80126984;
-extern s32 D_80126990;
+extern s32 guess_g_MainCameraViewPointX;
+extern s32 guess_g_MainCameraRefPointX;
 void func_8018316C(void)
 {
-  if (1000 < D_80126984) {
-    D_80126984 = D_80126984 + -0x14;
-    D_80126990 = D_80126990 + -0x14;
+  if (1000 < guess_g_MainCameraViewPointX) {
+    guess_g_MainCameraViewPointX = guess_g_MainCameraViewPointX + -0x14;
+    guess_g_MainCameraRefPointX = guess_g_MainCameraRefPointX + -0x14;
   }
   return;
 }
@@ -3632,10 +3632,10 @@ void func_80183274(s32 *a0) {
 
 
 
-extern s16 D_80126968;
+extern s16 guess_g_MainCameraPitchTarget;
 extern s16 D_80126960;
 extern s16 D_80126974;
-extern s16 D_8012697A;
+extern s16 guess_g_MainCameraRefOffsetTargetZ;
 extern s16 D_800B9ABA[];
 
 void func_80183310(s32 param_1)
@@ -3650,18 +3650,18 @@ void func_80183310(s32 param_1)
   *(unsigned short *)(param_1 + 0xae) = *(unsigned short *)(param_1 + 0xae) & 0xff00 | 0x80;
   if (((Unkstruct_80126B58 *)param_1)->unkE < 0x2a00) {
     *(unsigned int *)(param_1 + 0x1f8) = *(unsigned int *)(param_1 + 0x1f8) | 0x1000000;
-    v = D_80126968 + 0x22;
-    D_80126968 = v;
+    v = guess_g_MainCameraPitchTarget + 0x22;
+    guess_g_MainCameraPitchTarget = v;
     D_80126960 = v;
     if (v > 0x38e) {
-      D_80126968 = 0x38e;
+      guess_g_MainCameraPitchTarget = 0x38e;
       D_80126960 = 0x38e;
     }
-    v2 = D_8012697A + 10;
-    D_8012697A = v2;
+    v2 = guess_g_MainCameraRefOffsetTargetZ + 10;
+    guess_g_MainCameraRefOffsetTargetZ = v2;
     D_80126974 = v2;
     if (0 < (v2 << 16)) {
-      D_8012697A = 0;
+      guess_g_MainCameraRefOffsetTargetZ = 0;
       D_80126974 = 0;
     }
   }

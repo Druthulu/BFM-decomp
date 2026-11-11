@@ -810,21 +810,21 @@ void func_801A10B0(void *a0) {
  *     / sh $zero,0x98` — the `sh $zero` rides the j's delay slot (§193-C:
  *     suffix-only merge, the surviving copy is the later block).
  *
- *  2. `d = D_800D3918;` AND `tbl = D_80126B78;` MUST BE EXPLICIT LOCALS.
+ *  2. `d = D_800D3918;` AND `tbl = guess_g_PlayerModelPtr;` MUST BE EXPLICIT LOCALS.
  *     Spelling either symbol raw at its two use sites costs the target's whole
  *     saved-register set: cse is extended-basic-block-local, so the second
  *     `D_800D3918` (inside the func_80135888 arm) gets its own %hi/%lo and the
  *     address never becomes a call-crossing pseudo.  Result: only $s0/$s1/$s2
  *     are saved, frame 0x38 instead of 0x40, LENGTH-DRIFT −2 at closeness 158.
  *     With both locals present the four call-crossing pseudos land exactly as
- *     the target allocates them — $s0 = &D_80126B78 then guess_g_BoxHitNormalX (disjoint
+ *     the target allocates them — $s0 = &guess_g_PlayerModelPtr then guess_g_BoxHitNormalX (disjoint
  *     live ranges reuse the reg), $s1 = arg0, $s2 = &out, $s3 = D_800D3918
  *     (longest live range ⇒ lowest global.c priority ⇒ allocated last).
  *     `tbl` also converts the two rematerialised `lui/lw` pairs into one
  *     `lui/addiu` + two `lw 0($s0)` — count-neutral, register-decisive.
  *
  *  3. `tbl[0] + 0x34` (array-index read of the TU-canon `extern s32
- *     D_80126B78[]`) is what emits `lw $a0,0($s0) / addiu $a0,$a0,0x34` in the
+ *     guess_g_PlayerModelPtr[]`) is what emits `lw $a0,0($s0) / addiu $a0,$a0,0x34` in the
  *     jal delay slot.  The TU's other user (func_801A419C) needs the §37
  *     asm-label alias `aD_80126B78` instead because it has no local; here the
  *     local supplies the pointer, so the canon array spelling is correct.
@@ -857,8 +857,8 @@ void func_801A10B0(void *a0) {
  *   func_8012CBCC(arg0) [case 3, &0x2000] / func_801830D8(arg0) /
  *   func_8013C9C4(D_80186F44) / func_801A2658(arg0,&D_801A68BC) and
  *   (arg0,&D_801A68BC+8) / func_8002D4C8(0xB52,0) /
- *   guess_RotTransSVWithMatrix(D_80126B78[0]+0x34, D_800D3918, &buf) and
- *   (D_80126B78[0]+0x34, D_801A68F4, &out) /
+ *   guess_RotTransSVWithMatrix(guess_g_PlayerModelPtr[0]+0x34, D_800D3918, &buf) and
+ *   (guess_g_PlayerModelPtr[0]+0x34, D_801A68F4, &out) /
  *   func_80135888(*(arg0+0x20), *(arg0+0x58), &buf, &out) /
  *   func_8012B70C(D_800D3918, guess_g_BoxHitNormalX) /
  *   func_8012F568(1, 0x4002, <that>, 0x1E, &out, guess_g_BoxHitNormalX).
@@ -870,7 +870,7 @@ void func_801A10B0(void *a0) {
  * declaration already in src/md_SC07_003/md_SC07_003.c — func_8012CBCC:1482,
  * func_8013C9C4:1483, func_801A2658:1484, func_8002D4C8:1485, D_80186F44:1487,
  * D_801A68BC:1488, func_8012BEE8:282, guess_RotTransSVWithMatrix:550, func_8012B70C:899,
- * D_80126B78:895, func_80135888:3042, func_8012F568:3043, D_800D3918:3035,
+ * guess_g_PlayerModelPtr:895, func_80135888:3042, func_8012F568:3043, D_800D3918:3035,
  * D_801A68F4:3036, guess_g_BoxHitNormalX:3037.  Only func_8012A8E8 and func_801830D8 are
  * absent from the TU; both take the card's fleet-modal spelling
  * (`void func_8012A8E8(void)` n=1456, `void func_801830D8(void *)` n=3).
@@ -893,7 +893,7 @@ extern u8  D_801A68BC[];
 extern u8  D_801A68F4[];
 extern u8  D_800D3918[];
 extern u8  guess_g_BoxHitNormalX[];
-extern s32 D_80126B78[];
+extern s32 guess_g_PlayerModelPtr[];
 
 void func_801A1120(s32 arg0) {
     s32 buf[2];   /* sp+0x18 */
@@ -941,7 +941,7 @@ void func_801A1120(s32 arg0) {
             ((Unkstruct_800B5CB8 *)arg0)->unk34 += 1;
         }
         d = D_800D3918;
-        tbl = D_80126B78;
+        tbl = guess_g_PlayerModelPtr;
         guess_RotTransSVWithMatrix(tbl[0] + 0x34, (s32)d, (s32)buf);
         guess_RotTransSVWithMatrix(tbl[0] + 0x34, (s32)D_801A68F4, (s32)out);
         if (func_80135888(((Unkstruct_800B5CB8 *)arg0)->unk20, ((Unkstruct_800B5CB8 *)arg0)->unk58, (s32)buf, (s32)out) != 0) {
@@ -1180,7 +1180,7 @@ extern u8  D_801A68FC[];
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
-extern s32 D_80126B78[];
+extern s32 guess_g_PlayerModelPtr[];
 
 extern void func_8012EC04(s32 a0, s32 a1, s32 *a2);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
@@ -1197,7 +1197,7 @@ void func_801A1924(s32 arg0) {
     guess_g_PlayerPosX = sp30.a;
     guess_g_PlayerPosY = sp30.b;
     guess_g_PlayerPosZ = sp30.c;
-    *(s16 *)(((Unkstruct_801463A0 *)D_80126B78)->unk0 + 0x12) = func_8012B70C((s16 *)sp38, (s16 *)&sp30);
+    *(s16 *)(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk0 + 0x12) = func_8012B70C((s16 *)sp38, (s16 *)&sp30);
 }
 
 
@@ -2872,11 +2872,11 @@ s32 func_801A3BCC(void *a0)
 #include "common.h"
 
 /* §37 asm-label alias: the TU canon (md_SC07_003.c:620) declares this symbol
-   `extern s32 D_80126B78[];`, but the target reads its VALUE twice
+   `extern s32 guess_g_PlayerModelPtr[];`, but the target reads its VALUE twice
    (lui/lw rematerialised per call site), which requires the pointer-variable
    reading. Distinct C identifier + asm label = no conflicting-types clash,
-   emitted relocations still spell D_80126B78. */
-extern s32 *aD_80126B78 __asm__("D_80126B78");
+   emitted relocations still spell guess_g_PlayerModelPtr. */
+extern s32 *aD_80126B78 __asm__("guess_g_PlayerModelPtr");
 extern u8 D_800D3918[];
 extern u8 D_801A68F4[];
 extern u8 guess_g_BoxHitNormalX[];

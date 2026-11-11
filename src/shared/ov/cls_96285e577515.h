@@ -3,5 +3,5 @@
 void SHARED_FN(arg0)
 void *arg0;
 {
-    ((Unkstruct_801463A0 *)D_80126B78)->unk10 = 0;
+    ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk10 = 0;
 }

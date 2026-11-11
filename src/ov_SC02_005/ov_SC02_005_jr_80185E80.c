@@ -312,7 +312,7 @@ extern s32 D_80126B60;
 extern u16 guess_g_PlayerPosY;
 extern s32 D_80126B64;
 extern u16 guess_g_PlayerPosZ;
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);
 extern void func_8012F1A4(s32 *a0, s32 a1, s32 *a2);
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
@@ -321,7 +321,7 @@ void func_80186424(s32 arg0)
 {
     if (((Unkstruct_80186424 *)arg0)->unk74 != 0) {
         extern s32 gVecX __asm__("D_80126B5C");
-        extern s32 *aCam[] __asm__("D_80126B78");
+        extern s32 *aCam[] __asm__("guess_g_PlayerModelPtr");
         s32 in[4];
         s32 out[4];
         s32 tmp[4];
@@ -1794,7 +1794,7 @@ void func_80188324(s32 a0) {
 }
 
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s16 D_801E43B8;
 extern u16 D_801E43BC;
 
@@ -1804,7 +1804,7 @@ void func_801883C4(void)
     s32 t;
 
     if (*(s16 *)&D_801E43BC != 0) {
-        p = (s32)D_80126B78;
+        p = (s32)guess_g_PlayerModelPtr;
         t = CAST_SIGN(u16, p, 0x12) + *(u16 *)&D_801E43B8;
         *(u16 *)&D_801E43BC = 0;
         ((Unkstruct_801463A0 *)p)->unk12 = t;
@@ -2334,7 +2334,7 @@ extern void func_80188F38(s32 a0);
 
 
 extern Blk20 D_800AE620;
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 D_801965A0;
 extern void func_8012B21C(void *a0);
 extern void RotMatrixY(s32 a0, void *a1);
@@ -2352,7 +2352,7 @@ void func_80188F38(s32 a0)
     *(u16 *)(self + 0x5C) = 0;
     func_8012B21C((void *)self);
 
-    p = (s32)D_80126B78;
+    p = (s32)guess_g_PlayerModelPtr;
     RotMatrixY(((Unkstruct_801463A0 *)p)->unk12, &m);
     func_800484EC((s32)&m, (s32)&D_801965A0, self + 0x10);
     func_8012AD44((s32 *)self, 3);
@@ -2435,26 +2435,26 @@ extern void (*D_801965B0[])(void);
 #undef SHARED_FN
 
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 
 void func_80189240(s32 a0)
 {
     *(u16 *)(a0 + 0x5C) &= 0xFFFE;
-    *(u16 *)(a0 + 0x104) = CAST_SIGN(u16, (s32)D_80126B78, 0x12);
+    *(u16 *)(a0 + 0x104) = CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12);
 }
 
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 
 void func_80189268(s32 a0)
 {
     ((Unkstruct_80189268_2 *)*(s32 *)(a0 + 0x20))->unk12 = 0;
     if (*(u16 *)(((Unkstruct_80189268 *)a0)->unk64 + 0x100) & 1) {
         ((Unkstruct_80189268_2 *)*(s32 *)(a0 + 0x20))->unk10 =
-            ((Unkstruct_80189268 *)a0)->unk104 + CAST_SIGN(u16, (s32)D_80126B78, 0x12);
+            ((Unkstruct_80189268 *)a0)->unk104 + CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12);
     } else {
         ((Unkstruct_80189268_2 *)*(s32 *)(a0 + 0x20))->unk10 =
-            ((Unkstruct_80189268 *)a0)->unk104 - CAST_SIGN(u16, (s32)D_80126B78, 0x12);
+            ((Unkstruct_80189268 *)a0)->unk104 - CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12);
     }
 }
 

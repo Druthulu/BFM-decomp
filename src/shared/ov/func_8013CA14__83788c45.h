@@ -13,14 +13,14 @@ void func_8013CA14(void)
     {
       p = (signed char *) ((((unsigned int) ((unsigned char) D_8018E764)) * 2) + D_8018E760);
       t = (int) (*p);
-      D_801269D4 = t;
-      D_801269C8 = t;
+      guess_g_MainCameraRefShakeY = t;
+      guess_g_MainCameraViewShakeY = t;
       D_8018E765 = (unsigned char) p[1];
       D_8018E764 = D_8018E764 + 1;
       if (D_8018E765 == 0)
       {
-        D_801269D4 = 0;
-        D_801269C8 = 0;
+        guess_g_MainCameraRefShakeY = 0;
+        guess_g_MainCameraViewShakeY = 0;
         D_8018E764 = 0;
         *base = 0;
       }

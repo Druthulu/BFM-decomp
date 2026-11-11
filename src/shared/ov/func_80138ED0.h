@@ -3,7 +3,7 @@
 extern s32 func_8013914C(s32 a0, s32 a1);
 extern void func_800599B8(u16 *);
 extern u16 D_80127C0C[];
-extern s32 D_80127548[];
+extern s32 guess_g_GlyphUploadsLeft[];
 s32 func_80138ED0(u8 *param_1, u32 param_2, u8 *param_3)
 {
     u16 local[4];
@@ -98,7 +98,7 @@ s32 func_80138ED0(u8 *param_1, u32 param_2, u8 *param_3)
         u16 tv;
         register s32 *dp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
         register u16 *ba __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
-        dp = D_80127548;
+        dp = guess_g_GlyphUploadsLeft;
         dcount = *dp;
         c36 = 0x24;
         __asm__ ("" : : "r"(c36), "r"(dcount));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)

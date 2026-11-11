@@ -56,7 +56,7 @@ extern u8 D_80181020;
 #include "../shared/ov/func_80145C54.h"
 
 // @class: struct
-// @unstuck(P36): 2 residuals — (1) target RELOADS global ptr D_80126B78 before each of its 5 field accesses (f28/f18/f1a/f1c/f2c); gcc-2.7.2 CSEs the single pointer load in every clean-C form I tried (int-cast, (s8*)/(s32) M2C_FIELD, struct*), keeping ONE load. volatile forces reloads but hoists them + leaves delay-slot nops the target fills (target is NOT volatile). (2) frame 0x20 not 0x18: target reserves an unused 8-byte stack local @0x10 (address-taken local — reproduced, but every code-free escape optimizes away and a visible escape corrupts the func_80145EE8(0) arg). Structure/order/values/callees all match; only the alias-driven reload chain + the phantom frame local remain. Family exemplar (~130 overlays).
+// @unstuck(P36): 2 residuals — (1) target RELOADS global ptr guess_g_PlayerModelPtr before each of its 5 field accesses (f28/f18/f1a/f1c/f2c); gcc-2.7.2 CSEs the single pointer load in every clean-C form I tried (int-cast, (s8*)/(s32) M2C_FIELD, struct*), keeping ONE load. volatile forces reloads but hoists them + leaves delay-slot nops the target fills (target is NOT volatile). (2) frame 0x20 not 0x18: target reserves an unused 8-byte stack local @0x10 (address-taken local — reproduced, but every code-free escape optimizes away and a visible escape corrupts the func_80145EE8(0) arg). Structure/order/values/callees all match; only the alias-driven reload chain + the phantom frame local remain. Family exemplar (~130 overlays).
 
 
 
@@ -1442,8 +1442,8 @@ extern s32 func_801506A4(s32 arg0, s32 arg1);
 
 extern S16 D_801903E0;
 extern s32 D_8018073C;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 
@@ -1456,13 +1456,13 @@ s32 func_8015094C(s32 param_1) {
 
     local = D_801903E0;
     arg.x = *(short *)(param_1 + 6);
-    arg.mid = D_80126994;
+    arg.mid = guess_g_MainCameraRefPointY;
     arg.y = *(short *)(param_1 + 0xe);
     ret = func_80021174(D_8018073C, (s32)&arg);
     if (ret == 0) {
         {
             short cur = *(short *)(param_1 + 6);
-            s32 diff = D_80126990 - cur;
+            s32 diff = guess_g_MainCameraRefPointX - cur;
             s32 av = (diff < 0) ? -diff : diff;
             if (av >= 5) {
                 *(short *)(param_1 + 6) = (diff >= 0) ? cur + 4 : cur - 4;

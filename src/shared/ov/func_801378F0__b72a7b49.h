@@ -3,7 +3,7 @@
 void func_801378F0(void) {
 
     extern u8 D_80127520[];
-    extern u8 aD801269F0[] __asm__("D_801269F0"); /* §37 alias: TU canon is `extern int D_801269F0` */
+    extern u8 aD801269F0[] __asm__("guess_g_TextBoxes"); /* §37 alias: TU canon is `extern int guess_g_TextBoxes` */
     extern u8 D_80126A28[];
     extern u8 D_8017F078[];
     s32 i;

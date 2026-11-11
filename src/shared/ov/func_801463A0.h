@@ -12,7 +12,7 @@ extern void func_80161D88();
 void func_801463A0(void)
 {
     extern s32 guess_g_PlayerActor;
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     extern u16 guess_g_PlayerPosX;
     extern u16 guess_g_PlayerPosY;
     extern u16 guess_g_PlayerPosZ;
@@ -29,7 +29,7 @@ void func_801463A0(void)
     extern s16 D_80126C9E;
     s32 obj;
     short v;
-    obj = (s32)D_80126B78;
+    obj = (s32)guess_g_PlayerModelPtr;
     func_8014C6F4((s32)&guess_g_PlayerActor);
     func_80155150((s32)&guess_g_PlayerActor);
     func_801470C0((s32)&guess_g_PlayerActor);

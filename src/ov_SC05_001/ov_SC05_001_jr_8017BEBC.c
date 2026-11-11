@@ -649,8 +649,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_801876E0;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
@@ -1698,9 +1698,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -2400,12 +2400,12 @@ extern s32 func_8017496C(void *a0);
 extern s32 D_80126954;
 extern s32 D_80126950;
 extern s32 D_8012695C;
-extern s16 D_80126968;
-extern s16 D_8012696A;
-extern s16 D_8012696C;
-extern s16 D_80126976;
-extern s16 D_80126978;
-extern s16 D_8012697A;
+extern s16 guess_g_MainCameraPitchTarget;
+extern s16 guess_g_MainCameraYawTarget;
+extern s16 guess_g_MainCameraRollTarget;
+extern s16 guess_g_MainCameraRefOffsetTargetX;
+extern s16 guess_g_MainCameraRefOffsetTargetY;
+extern s16 guess_g_MainCameraRefOffsetTargetZ;
 extern void func_801748EC(void);
 extern s32 func_801749C8(s32 param_1);
 extern s32 func_801749A8(s32 a0);
@@ -4031,12 +4031,12 @@ void func_8017E9F8(void) {
     extern s32 D_80126954;
     extern s32 D_80126950;
     extern s32 D_8012695C;
-    extern s16 D_80126968;
-    extern s16 D_8012696A;
-    extern s16 D_8012696C;
-    extern s16 D_80126976;
-    extern s16 D_80126978;
-    extern s16 D_8012697A;
+    extern s16 guess_g_MainCameraPitchTarget;
+    extern s16 guess_g_MainCameraYawTarget;
+    extern s16 guess_g_MainCameraRollTarget;
+    extern s16 guess_g_MainCameraRefOffsetTargetX;
+    extern s16 guess_g_MainCameraRefOffsetTargetY;
+    extern s16 guess_g_MainCameraRefOffsetTargetZ;
     extern u8 guess_g_MainCamera[];
     extern u16 D_801269E8;
     extern s16 D_801B5E28;
@@ -4047,12 +4047,12 @@ void func_8017E9F8(void) {
     D_80126954 = 0x190;
     D_80126950 = 0x190;
     D_8012695C = 0x3E8;
-    D_80126968 = 0x155;
-    D_8012696A = 0;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = -0x50;
-    D_8012697A = 0;
+    guess_g_MainCameraPitchTarget = 0x155;
+    guess_g_MainCameraYawTarget = 0;
+    guess_g_MainCameraRollTarget = 0;
+    guess_g_MainCameraRefOffsetTargetX = 0;
+    guess_g_MainCameraRefOffsetTargetY = -0x50;
+    guess_g_MainCameraRefOffsetTargetZ = 0;
     func_8012A018((s32)func_8017EAB0, 0);
     func_8012A094((s32)guess_g_MainCamera);
     func_8017EAB0((void *)guess_g_MainCamera);
@@ -4073,7 +4073,7 @@ void func_8017EAB0(void *a0) {
  *
  * Per-frame update for the entity at param_1: advance a 2-phase animation index
  * off a timer, snapshot the 8-byte block at guess_g_CameraFollowPos onto the stack, build a
- * target point from it minus cos/sin(D_80126B78->angle)/128, ask func_8017EE08
+ * target point from it minus cos/sin(guess_g_PlayerModelPtr->angle)/128, ask func_8017EE08
  * for a facing angle, slew D_801B5E28 toward it and hand both to func_8017EC3C.
  *
  * INTEGRATION-CRITICAL (this is what failed the whole-binary gate before, while
@@ -4092,7 +4092,7 @@ void func_8017EAB0(void *a0) {
 extern u16 func_80148800(s32 *a0);
 extern s32 guess_g_PlayerActor;
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 
@@ -4125,13 +4125,13 @@ void func_8017EAEC(s32 param_1)
 
     local1 = guess_g_CameraFollowPos;
 
-    iVar4 = func_8004787C(((Unkstruct_801463A0 *)D_80126B78)->unk12);
+    iVar4 = func_8004787C(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
     if (iVar4 < 0) {
         iVar4 += 0x7F;
     }
     dest[0] = local1.v[0] - (s16)(iVar4 >> 7);
 
-    iVar4 = func_80047948(((Unkstruct_801463A0 *)D_80126B78)->unk12);
+    iVar4 = func_80047948(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
     if (iVar4 < 0) {
         iVar4 += 0x7F;
     }

@@ -651,8 +651,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_8018073C;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
@@ -1699,9 +1699,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -2399,12 +2399,12 @@ extern s32 func_8017496C(void *a0);
 extern s32 D_80126954;
 extern s32 D_80126950;
 extern s32 D_8012695C;
-extern s16 D_80126968;
-extern s16 D_8012696A;
-extern s16 D_8012696C;
-extern s16 D_80126976;
-extern s16 D_80126978;
-extern s16 D_8012697A;
+extern s16 guess_g_MainCameraPitchTarget;
+extern s16 guess_g_MainCameraYawTarget;
+extern s16 guess_g_MainCameraRollTarget;
+extern s16 guess_g_MainCameraRefOffsetTargetX;
+extern s16 guess_g_MainCameraRefOffsetTargetY;
+extern s16 guess_g_MainCameraRefOffsetTargetZ;
 extern void func_801748EC(void);
 extern s32 func_801749C8(s32 param_1);
 extern s32 func_801749A8(s32 a0);
@@ -2810,12 +2810,12 @@ void func_8017D010(void) {
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126954;
     extern s32 D_8012695C;
-    extern s16 D_80126968;
-    extern s16 D_8012696A;
-    extern s16 D_8012696C;
-    extern s16 D_80126976;
-    extern s16 D_80126978;
-    extern s16 D_8012697A;
+    extern s16 guess_g_MainCameraPitchTarget;
+    extern s16 guess_g_MainCameraYawTarget;
+    extern s16 guess_g_MainCameraRollTarget;
+    extern s16 guess_g_MainCameraRefOffsetTargetX;
+    extern s16 guess_g_MainCameraRefOffsetTargetY;
+    extern s16 guess_g_MainCameraRefOffsetTargetZ;
     extern u8 guess_g_MainCamera[];
     extern void func_8012A018(s32 a0, s32 a1);
     extern void func_8012A094(s32 a0);
@@ -2823,12 +2823,12 @@ void func_8017D010(void) {
 
     D_80126954 = 0x190;
     D_8012695C = 0x4B0;
-    D_80126968 = 0xE3;
-    D_8012696A = 0xA00;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = -0x90;
-    D_8012697A = 0;
+    guess_g_MainCameraPitchTarget = 0xE3;
+    guess_g_MainCameraYawTarget = 0xA00;
+    guess_g_MainCameraRollTarget = 0;
+    guess_g_MainCameraRefOffsetTargetX = 0;
+    guess_g_MainCameraRefOffsetTargetY = -0x90;
+    guess_g_MainCameraRefOffsetTargetZ = 0;
     func_8012A018((s32)func_8017D1D4, 0);
     func_8012A094((s32)guess_g_MainCamera);
     func_8017D1D4(guess_g_MainCamera);
@@ -2846,20 +2846,20 @@ void func_8017D0AC(void) {
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_80126954;
     extern s32 D_8012695C;
-    extern s16 D_80126968;
-    extern s16 D_8012696A;
-    extern s16 D_8012696C;
-    extern s16 D_80126976;
-    extern s16 D_80126978;
-    extern s16 D_8012697A;
+    extern s16 guess_g_MainCameraPitchTarget;
+    extern s16 guess_g_MainCameraYawTarget;
+    extern s16 guess_g_MainCameraRollTarget;
+    extern s16 guess_g_MainCameraRefOffsetTargetX;
+    extern s16 guess_g_MainCameraRefOffsetTargetY;
+    extern s16 guess_g_MainCameraRefOffsetTargetZ;
     D_80126954 = 0x190;
     D_8012695C = 0x244;
-    D_80126968 = 0xE3;
-    D_8012696A = 0xA00;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = -0x90;
-    D_8012697A = 0;
+    guess_g_MainCameraPitchTarget = 0xE3;
+    guess_g_MainCameraYawTarget = 0xA00;
+    guess_g_MainCameraRollTarget = 0;
+    guess_g_MainCameraRefOffsetTargetX = 0;
+    guess_g_MainCameraRefOffsetTargetY = -0x90;
+    guess_g_MainCameraRefOffsetTargetZ = 0;
     ((void (*)(void *, s32))func_8012A018)((void *)func_8017D1D4, 0x1);
     func_8012A094((s32)guess_g_MainCamera);
     func_8017D1D4((void *)guess_g_MainCamera);
@@ -2873,20 +2873,20 @@ extern u8 guess_g_MainCamera[];
 void func_8017D148(void) {
     extern s32 D_80126954;
     extern s32 D_8012695C;
-    extern s16 D_80126968;
-    extern s16 D_8012696A;
-    extern s16 D_8012696C;
-    extern s16 D_80126976;
-    extern s16 D_80126978;
-    extern s16 D_8012697A;
+    extern s16 guess_g_MainCameraPitchTarget;
+    extern s16 guess_g_MainCameraYawTarget;
+    extern s16 guess_g_MainCameraRollTarget;
+    extern s16 guess_g_MainCameraRefOffsetTargetX;
+    extern s16 guess_g_MainCameraRefOffsetTargetY;
+    extern s16 guess_g_MainCameraRefOffsetTargetZ;
     D_80126954 = 0x190;
     D_8012695C = 0x4B0;
-    D_80126968 = 0xE3;
-    D_8012696A = 0xA00;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = -0x90;
-    D_8012697A = 0;
+    guess_g_MainCameraPitchTarget = 0xE3;
+    guess_g_MainCameraYawTarget = 0xA00;
+    guess_g_MainCameraRollTarget = 0;
+    guess_g_MainCameraRefOffsetTargetX = 0;
+    guess_g_MainCameraRefOffsetTargetY = -0x90;
+    guess_g_MainCameraRefOffsetTargetZ = 0;
     ((void (*)(void *, s32))func_8012A018)((void *)func_8017D1D4, 0x2);
     func_8017D1D4((void *)guess_g_MainCamera);
 }
@@ -3806,7 +3806,7 @@ extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80172710(void);
 extern s32 func_80178BF8();
 
-/* §71 sibling: identical shape to func_8018F390 (same TU, this file, D_80126B78/RotTransSV/
+/* §71 sibling: identical shape to func_8018F390 (same TU, this file, guess_g_PlayerModelPtr/RotTransSV/
  * func_80135888/func_8012BDBC/func_80178BF8/func_80172710 idiom) already MATCHED -- only the
  * per-overlay data symbol (D_801939E0 vs D_801E33F0) differs. §37 asm-label alias avoids the
  * `conflicting types` clash with the fleet's `extern void func_8017E894(void);` used elsewhere
@@ -3818,7 +3818,7 @@ s32 aF801904E0(param_1)
     void *param_1;
 {
 
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     extern u8 D_801939E0[];
     MATRIX m;
     s32 obj;
@@ -3827,7 +3827,7 @@ s32 aF801904E0(param_1)
     s32 flag;
 
     obj = *(s32 *)((s32)param_1 + 0x64);
-    m = *(MATRIX *)((u8 *)D_80126B78 + 0x34);
+    m = *(MATRIX *)((u8 *)guess_g_PlayerModelPtr + 0x34);
 
     gte_SetRotMatrix(&m);
     gte_SetTransMatrix(&m);

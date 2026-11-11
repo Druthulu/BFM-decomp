@@ -637,8 +637,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_80194F9C;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
 extern void func_80150B9C(void);
@@ -1682,9 +1682,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -3357,7 +3357,7 @@ s32 func_80181ED4(s32 param_1, s32 param_2)
 {
 
     extern u8 guess_g_BoxHitNormalX[];
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     extern s32 *D_80126B90;
     extern u8 D_801A6824[];
     s32 buf[8];
@@ -3371,7 +3371,7 @@ s32 func_80181ED4(s32 param_1, s32 param_2)
     gte_SetTransMatrix(buf);
     RotTransSV(D_801A6824, v1, scratch);
     RotTransSV(D_801A6824 + 8, v2, scratch);
-    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)v1, (s32)v2) != 0) {
+    if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)v1, (s32)v2) != 0) {
         sVar1 = *(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12);
         func_8012F568(1, 1, sVar1, param_2, (s32)v2, (s32)guess_g_BoxHitNormalX);
         return 1;

@@ -31,9 +31,9 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     func_800D23D0(&fr.diff);
     RotMatrixYXZ(&fr.diff, fr.mtx);
 
-    fr.pos[0] = D_801269A4 - fr.center.x;
-    fr.pos[1] = D_801269A8 - fr.center.y;
-    fr.pos[2] = D_801269AC - fr.center.z;
+    fr.pos[0] = guess_g_MainCameraAppliedViewPointX - fr.center.x;
+    fr.pos[1] = guess_g_MainCameraAppliedViewPointY - fr.center.y;
+    fr.pos[2] = guess_g_MainCameraAppliedViewPointZ - fr.center.z;
     ApplyTransposeMatrixLV(fr.mtx, fr.pos, fr.pos);
     fr.diff.z = -ratan2(fr.pos[0], fr.pos[1]);
     RotMatrixYXZ(&fr.diff, fr.mtx);

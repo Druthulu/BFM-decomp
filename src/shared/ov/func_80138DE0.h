@@ -2,10 +2,10 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80138ED0(u8 *param_1, u32 param_2, u8 *param_3);
 s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2) {
-    extern s32 D_80127548[];
+    extern s32 guess_g_GlyphUploadsLeft[];
     extern u8 D_800D3AB4[];
     u16 *p;
-    if (D_80127548[0] == 0) {
+    if (guess_g_GlyphUploadsLeft[0] == 0) {
         return 0;
     }
     p = (u16 *)(arg0 + 0x44);
@@ -31,6 +31,6 @@ s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2) {
     if (arg2 != 0) {
         return 0;
     }
-    D_80127548[0] = D_80127548[0] - 1;
-    return D_80127548[0];
+    guess_g_GlyphUploadsLeft[0] = guess_g_GlyphUploadsLeft[0] - 1;
+    return guess_g_GlyphUploadsLeft[0];
 }

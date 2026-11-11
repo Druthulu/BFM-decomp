@@ -243,7 +243,7 @@ extern void func_8012AD64(s32 *a0, s16 a1);
 extern void func_8012AD6C(void *a0);
 extern void func_8012AD80(s32 a0);
 extern void func_8012ADE4(u8 *a0);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3);

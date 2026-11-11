@@ -24,7 +24,7 @@ s32 func_80145CEC() {
     extern s32 guess_g_PlayerTmdList;
     extern s32 D_801152C8;
     extern s32 D_80180474;
-    extern s32 * D_80126B78[1];
+    extern s32 * guess_g_PlayerModelPtr[1];
     extern s32 * D_800AF7C8;
     extern s32 * D_80126B90;
     extern s16 D_80126BB8;
@@ -49,20 +49,20 @@ s32 func_80145CEC() {
     (void)&pad;
 
     func_80016714(&guess_g_PlayerActor, 0x254);
-    D_80126B78[0] = (s32 *)&guess_g_PlayerModelObject;
+    guess_g_PlayerModelPtr[0] = (s32 *)&guess_g_PlayerModelObject;
     D_800AF7C8 = (s32 *)&D_801152C8;
     func_8001C320(&guess_g_PlayerModelObject, &guess_g_PlayerTmdList);
-    *(s32 *)((s32)D_80126B78[0] + 0x28) = 0x7fff7fff;
+    *(s32 *)((s32)guess_g_PlayerModelPtr[0] + 0x28) = 0x7fff7fff;
     D_80126B90 = (s32 *)&D_80180474;
-    *(u16 *)((s32)D_80126B78[0] + 0x18) = 0x1000;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x18) = 0x1000;
     D_80126BC8 = 0x1000;
     D_80126BC0 = 0x1000;
     D_80126BB8 = 0x1000;
-    *(u16 *)((s32)D_80126B78[0] + 0x1a) = 0x1000;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x1a) = 0x1000;
     D_80126BCA = 0x1000;
     D_80126BC2 = 0x1000;
     D_80126BBA = 0x1000;
-    *(u16 *)((s32)D_80126B78[0] + 0x1c) = 0x1000;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x1c) = 0x1000;
     D_80126BCC = 0x1000;
     D_80126BC4 = 0x1000;
     D_80126BBC = 0x1000;
@@ -73,7 +73,7 @@ s32 func_80145CEC() {
     func_80147084(&guess_g_PlayerActor);
     func_80147098(&guess_g_PlayerActor);
     func_801470AC(&guess_g_PlayerActor);
-    *(u16 *)((s32)D_80126B78[0] + 0x2c) = *(u16 *)((s32)D_80126B78[0] + 0x2c) | 0x50;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x2c) = *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x2c) | 0x50;
     func_80149210(&guess_g_PlayerActor, 8);
     func_8014BE9C();
     func_8016533C();

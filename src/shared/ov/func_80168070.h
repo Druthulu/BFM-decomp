@@ -8,9 +8,9 @@ extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern s32 ratan2(s32 a0, s32 a1);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4) {
     s16 mid[3];
     s16 dir[3];
@@ -27,9 +27,9 @@ void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4) {
     ApplyMatrixSV((void *)(*(s32 *)(param_1 + 0x20) + 0x34), dir, dir);
     func_800D23D0(dir);
     RotMatrixYXZ(dir, param_4);
-    pos[0] = D_801269A4 - mid[0];
-    pos[1] = D_801269A8 - mid[1];
-    pos[2] = D_801269AC - mid[2];
+    pos[0] = guess_g_MainCameraAppliedViewPointX - mid[0];
+    pos[1] = guess_g_MainCameraAppliedViewPointY - mid[1];
+    pos[2] = guess_g_MainCameraAppliedViewPointZ - mid[2];
     ApplyTransposeMatrixLV(param_4, pos, pos);
     dir[2] = -ratan2(pos[0], pos[1]);
     RotMatrixYXZ(dir, param_4);

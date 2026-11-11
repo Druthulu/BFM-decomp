@@ -63,7 +63,7 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 extern void func_8014607C(void);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
@@ -650,8 +650,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_80192558;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
 extern void func_80150B9C(void);
@@ -1701,9 +1701,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -2836,12 +2836,12 @@ s32 func_8017B490(s32 param)
     extern u16 D_80194220;
     extern s16 D_801E422C;
     extern s16 D_801E4BD8;
-    extern s32 D_80126984;
-    extern s32 D_80126988;
-    extern s32 D_8012698C;
-    extern s32 D_80126990;
-    extern s32 D_80126994;
-    extern s32 D_80126998;
+    extern s32 guess_g_MainCameraViewPointX;
+    extern s32 guess_g_MainCameraViewPointY;
+    extern s32 guess_g_MainCameraViewPointZ;
+    extern s32 guess_g_MainCameraRefPointX;
+    extern s32 guess_g_MainCameraRefPointY;
+    extern s32 guess_g_MainCameraRefPointZ;
 
     SV4_8017B368 loc0;
     SV4_8017B368 loc1;
@@ -2863,12 +2863,12 @@ s32 func_8017B490(s32 param)
     (*(SV4_8017B368 *)&D_801E429C) = loc1;
     D_801E4BD8 = 1;
     D_801E422C = 0x1E;
-    D_80126990 = (*(SV4_8017B368 *)&D_801E42A4).v[0];
-    D_80126994 = (*(SV4_8017B368 *)&D_801E42A4).v[1];
-    D_80126998 = (*(SV4_8017B368 *)&D_801E42A4).v[2];
-    D_80126984 = (*(SV4_8017B368 *)&D_801E429C).v[0];
-    D_80126988 = (*(SV4_8017B368 *)&D_801E429C).v[1];
-    D_8012698C = (*(SV4_8017B368 *)&D_801E429C).v[2];
+    guess_g_MainCameraRefPointX = (*(SV4_8017B368 *)&D_801E42A4).v[0];
+    guess_g_MainCameraRefPointY = (*(SV4_8017B368 *)&D_801E42A4).v[1];
+    guess_g_MainCameraRefPointZ = (*(SV4_8017B368 *)&D_801E42A4).v[2];
+    guess_g_MainCameraViewPointX = (*(SV4_8017B368 *)&D_801E429C).v[0];
+    guess_g_MainCameraViewPointY = (*(SV4_8017B368 *)&D_801E429C).v[1];
+    guess_g_MainCameraViewPointZ = (*(SV4_8017B368 *)&D_801E429C).v[2];
 }
 
 
@@ -2895,10 +2895,10 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     extern s16 D_801E429E;
     extern s16 D_801E42A0;
     extern u8 D_8012694C[];
-    extern s32 D_80126998;
-    extern s32 D_80126984;
-    extern s32 D_80126988;
-    extern s32 D_8012698C;
+    extern s32 guess_g_MainCameraRefPointZ;
+    extern s32 guess_g_MainCameraViewPointX;
+    extern s32 guess_g_MainCameraViewPointY;
+    extern s32 guess_g_MainCameraViewPointZ;
 
     u8 buf[16];
     u8 *src;
@@ -2921,12 +2921,12 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     D_8012694C[0] = 0;
     D_801E4BD8 = 1;
     D_801E422C = 0x1E;
-    D_80126990 = ((SV4_8017B368 *)&D_801E42A4)->v[0];
-    D_80126994 = D_801E42A6;
-    D_80126998 = D_801E42A8;
-    D_80126984 = ((SV4_8017B368 *)&D_801E429C)->v[0];
-    D_80126988 = D_801E429E;
-    D_8012698C = D_801E42A0;
+    guess_g_MainCameraRefPointX = ((SV4_8017B368 *)&D_801E42A4)->v[0];
+    guess_g_MainCameraRefPointY = D_801E42A6;
+    guess_g_MainCameraRefPointZ = D_801E42A8;
+    guess_g_MainCameraViewPointX = ((SV4_8017B368 *)&D_801E429C)->v[0];
+    guess_g_MainCameraViewPointY = D_801E429E;
+    guess_g_MainCameraViewPointZ = D_801E42A0;
     guess_UpdateCamera();
 }
 

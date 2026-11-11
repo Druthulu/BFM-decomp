@@ -246,7 +246,7 @@ extern void func_8012AD64(s32 *a0, s16 a1);
 extern void func_8012AD6C(void *a0);
 extern void func_8012AD80(s32 a0);
 extern void func_8012ADE4(u8 *a0);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80013478(s32 a0, s32 a1);
@@ -632,7 +632,7 @@ extern s16 D_8012752E;
 extern void func_801379D8(void);
 extern void func_801379EC(void);
 extern int D_8017F878;
-extern int D_801269F0;
+extern int guess_g_TextBoxes;
 extern void func_80138BE0(int p);
 extern void func_80137B80(void);
 extern void func_801392FC(s32 arg0, s32 arg1, u8 *arg2);
@@ -669,7 +669,7 @@ extern s32 func_80138ED0(u8 *param_1, u32 param_2, u8 *param_3);
 extern s32 func_8013914C(s32 a0, s32 a1);
 extern void func_800599B8(u16 *);
 extern u16 D_80127C0C[];
-extern s32 D_80127548[];
+extern s32 guess_g_GlyphUploadsLeft[];
 extern s32 func_80139220(s32 a0);
 extern void func_801391F0(void *a0);
 extern void func_801392C8(void *a0);
@@ -691,7 +691,7 @@ extern void func_801397B0(s32 arg0);
 extern void func_8013A8B0(s32 *a0);
 extern void func_80139914(s32 arg0);
 extern u16 D_80126A08;
-extern s32 D_801269F0;
+extern s32 guess_g_TextBoxes;
 extern s32 *D_80126A30;
 extern void func_80139954(void);
 extern s32 D_80126A3C;
@@ -776,8 +776,8 @@ extern s32 func_801758FC(void);                          /* derive-decl, arity 0
 
 extern void func_80016714(void *a0, s32 a1);
 extern s32 D_8018E760;
-extern s32 D_801269D4;
-extern s32 D_801269C8;
+extern s32 guess_g_MainCameraRefShakeY;
+extern s32 guess_g_MainCameraViewShakeY;
 
 #include "../shared/ov/func_8013C98C__baeed09f.h"
 
@@ -795,8 +795,8 @@ extern s8 D_8018E765;
 extern s32 D_8018E760;
 extern s8 D_8018E764;
 extern s8 D_8018E765;
-extern s32 D_801269C8;
-extern s32 D_801269D4;
+extern s32 guess_g_MainCameraViewShakeY;
+extern s32 guess_g_MainCameraRefShakeY;
 #include "../shared/ov/func_8013CA14__83788c45.h"
 
 

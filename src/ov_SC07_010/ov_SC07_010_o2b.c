@@ -6,11 +6,11 @@ extern void func_80016714(void *a0, s32 a1);
 void func_8013C98C(void) {
 
     extern s32 D_801A6AA0;
-    extern s32 D_801269D4;
-    extern s32 D_801269C8;
+    extern s32 guess_g_MainCameraRefShakeY;
+    extern s32 guess_g_MainCameraViewShakeY;
     func_80016714(&D_801A6AA0, 8);
-    D_801269D4 = 0;
-    D_801269C8 = 0;
+    guess_g_MainCameraRefShakeY = 0;
+    guess_g_MainCameraViewShakeY = 0;
 }
 
 
@@ -39,8 +39,8 @@ void func_8013CA14(void)
     extern s32 D_801A6AA0;
     extern s8 D_801A6AA4;
     extern s8 D_801A6AA5;
-    extern s32 D_801269C8;
-    extern s32 D_801269D4;
+    extern s32 guess_g_MainCameraViewShakeY;
+    extern s32 guess_g_MainCameraRefShakeY;
   int *base = &D_801A6AA0;
   signed char *p;
   unsigned char c;
@@ -52,14 +52,14 @@ void func_8013CA14(void)
     {
       p = (signed char *) ((((unsigned int) ((unsigned char) D_801A6AA4)) * 2) + D_801A6AA0);
       t = (int) (*p);
-      D_801269D4 = t;
-      D_801269C8 = t;
+      guess_g_MainCameraRefShakeY = t;
+      guess_g_MainCameraViewShakeY = t;
       D_801A6AA5 = (unsigned char) p[1];
       D_801A6AA4 = D_801A6AA4 + 1;
       if (D_801A6AA5 == 0)
       {
-        D_801269D4 = 0;
-        D_801269C8 = 0;
+        guess_g_MainCameraRefShakeY = 0;
+        guess_g_MainCameraViewShakeY = 0;
         D_801A6AA4 = 0;
         *base = 0;
       }

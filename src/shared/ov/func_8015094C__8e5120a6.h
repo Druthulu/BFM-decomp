@@ -9,13 +9,13 @@ s32 func_8015094C(s32 param_1) {
 
     local = D_8018DE8C;
     arg.x = *(short *)(param_1 + 6);
-    arg.mid = D_80126994;
+    arg.mid = guess_g_MainCameraRefPointY;
     arg.y = *(short *)(param_1 + 0xe);
     ret = func_80021174(D_80180EF0, (s32)&arg);
     if (ret == 0) {
         {
             short cur = *(short *)(param_1 + 6);
-            s32 diff = D_80126990 - cur;
+            s32 diff = guess_g_MainCameraRefPointX - cur;
             s32 av = (diff < 0) ? -diff : diff;
             if (av >= 5) {
                 *(short *)(param_1 + 6) = (diff >= 0) ? cur + 4 : cur - 4;

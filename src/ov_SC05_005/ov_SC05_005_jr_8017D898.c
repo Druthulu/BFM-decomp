@@ -65,7 +65,7 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 extern void func_8014607C(void);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
@@ -650,8 +650,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_801840B8;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
@@ -1698,9 +1698,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -2401,12 +2401,12 @@ extern s32 func_8017496C(void *a0);
 extern s32 D_80126954;
 extern s32 D_80126950;
 extern s32 D_8012695C;
-extern s16 D_80126968;
-extern s16 D_8012696A;
-extern s16 D_8012696C;
-extern s16 D_80126976;
-extern s16 D_80126978;
-extern s16 D_8012697A;
+extern s16 guess_g_MainCameraPitchTarget;
+extern s16 guess_g_MainCameraYawTarget;
+extern s16 guess_g_MainCameraRollTarget;
+extern s16 guess_g_MainCameraRefOffsetTargetX;
+extern s16 guess_g_MainCameraRefOffsetTargetY;
+extern s16 guess_g_MainCameraRefOffsetTargetZ;
 extern void func_801748EC(void);
 extern s32 func_801749C8(s32 param_1);
 extern s32 func_801749A8(s32 a0);
@@ -2795,12 +2795,12 @@ void func_8017E9F8(void) {
     extern s32 D_80126954;
     extern s32 D_80126950;
     extern s32 D_8012695C;
-    extern s16 D_80126968;
-    extern s16 D_8012696A;
-    extern s16 D_8012696C;
-    extern s16 D_80126976;
-    extern s16 D_80126978;
-    extern s16 D_8012697A;
+    extern s16 guess_g_MainCameraPitchTarget;
+    extern s16 guess_g_MainCameraYawTarget;
+    extern s16 guess_g_MainCameraRollTarget;
+    extern s16 guess_g_MainCameraRefOffsetTargetX;
+    extern s16 guess_g_MainCameraRefOffsetTargetY;
+    extern s16 guess_g_MainCameraRefOffsetTargetZ;
     extern u8 guess_g_MainCamera[];
     extern u16 D_801269E8;
     extern s16 D_801B1EB8;
@@ -2811,12 +2811,12 @@ void func_8017E9F8(void) {
     D_80126954 = 0x190;
     D_80126950 = 0x190;
     D_8012695C = 0x3E8;
-    D_80126968 = 0x155;
-    D_8012696A = 0;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = -0x50;
-    D_8012697A = 0;
+    guess_g_MainCameraPitchTarget = 0x155;
+    guess_g_MainCameraYawTarget = 0;
+    guess_g_MainCameraRollTarget = 0;
+    guess_g_MainCameraRefOffsetTargetX = 0;
+    guess_g_MainCameraRefOffsetTargetY = -0x50;
+    guess_g_MainCameraRefOffsetTargetZ = 0;
     func_8012A018((s32)func_8017EAB0, 0);
     func_8012A094((s32)guess_g_MainCamera);
     func_8017EAB0((void *)guess_g_MainCamera);
@@ -2847,9 +2847,9 @@ void func_8017EAB0(void *a0) {
  *   §48-C2 — guess_g_CameraFollowPos is an 8-byte, 2-BYTE-ALIGNED aggregate, so the plain
  *     struct assign `sp10 = guess_g_CameraFollowPos;` is what emits the lwl/lwr + swl/swr
  *     block copy (same typedef shape the rest of this family uses).
- *   base+offset — `lw $v0, 0x20($s1)` reads D_80126B78 through the SAME $s1 that
+ *   base+offset — `lw $v0, 0x20($s1)` reads guess_g_PlayerModelPtr through the SAME $s1 that
  *     holds &guess_g_PlayerActor for the func_80148800 call, so it must be spelled off
- *     that base (`base[8]`), never as its own %hi(D_80126B78) fold.
+ *     that base (`base[8]`), never as its own %hi(guess_g_PlayerModelPtr) fold.
  *   /128 — `bgez / addiu 0x7F / sra 7` is a signed divide by 128, not `>> 7`.
  *   §286 — THE ONLY RESIDUAL (closeness 4). Written as a plain statement,
  *     `*(s16 *)(a0 + 0xA0) = r;` is emitted BEFORE the argument setup, so the
@@ -4124,15 +4124,15 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s32 D_801A61C8;
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u8 guess_g_BoxHitNormalX[];
 
 s32 func_8018093C(void *a0) {
     SVECTOR buf1;
     SVECTOR buf2;
 
-    guess_RotTransSVWithMatrix((s32)D_80126B78 + 0x34, (s32)&D_801A61C8, (s32)&buf1);
-    guess_RotTransSVWithMatrix((s32)D_80126B78 + 0x34, (s32)&D_801A61C8 + 8, (s32)&buf2);
+    guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)&D_801A61C8, (s32)&buf1);
+    guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)&D_801A61C8 + 8, (s32)&buf2);
     if (func_80135888(((Unkstruct_800B5CB8 *)a0)->unk20, ((Unkstruct_800B5CB8 *)a0)->unk58, (s32)&buf1, (s32)&buf2) != 0) {
         func_8012F568(1, 1, *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), 0x20, (s32)&buf2, (s32)guess_g_BoxHitNormalX);
         return 1;

@@ -868,10 +868,10 @@ extern void func_8012A018(s32, s32);
 
 extern s32 D_80126954;
 extern s32 D_8012695C;
-extern s16 D_80126968;
-extern s16 D_80126976;
-extern s16 D_80126978;
-extern s16 D_8012697A;
+extern s16 guess_g_MainCameraPitchTarget;
+extern s16 guess_g_MainCameraRefOffsetTargetX;
+extern s16 guess_g_MainCameraRefOffsetTargetY;
+extern s16 guess_g_MainCameraRefOffsetTargetZ;
 extern s32 D_801269E4;
 
 void func_8018A284(void *a0);
@@ -891,15 +891,15 @@ void func_8018A1A4(void *a0) {
     D_80126954 = *(s32 *)(void *)s0;
     D_8012695C = *(s32 *)(void *)(s0 + 4);
 
-    /* Load address of D_80126968 into a1 */
-    a1 = (u8 *)&D_80126968;
+    /* Load address of guess_g_MainCameraPitchTarget into a1 */
+    a1 = (u8 *)&guess_g_MainCameraPitchTarget;
 
     /* Direct struct assignment for 8-byte unaligned copy */
     *(DataBlock *)(void *)a1 = *(DataBlock *)(void *)(s0 + 8);
 
-    D_80126976 = ((Unkstruct_8018A1A4 *)s0)->unk10;
-    D_80126978 = CAST_ALIAS(s16, s0, 0x12);
-    D_8012697A = CAST_ALIAS(s16, s0, 0x14);
+    guess_g_MainCameraRefOffsetTargetX = ((Unkstruct_8018A1A4 *)s0)->unk10;
+    guess_g_MainCameraRefOffsetTargetY = CAST_ALIAS(s16, s0, 0x12);
+    guess_g_MainCameraRefOffsetTargetZ = CAST_ALIAS(s16, s0, 0x14);
 
     ((void (*)(void *, s32))func_8012A018)((void *)func_8018A284, 0);
 
@@ -3737,7 +3737,7 @@ u8 *func_8018D820(s16 a0, u8 *a1, s32 a2) {
 extern u16 D_80126CB4;
 extern u16 D_80126CB6;
 extern u16 D_80126CB8;
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern Mat32_8018A390_8018FE94 D_800AE620;
 
 extern void func_8012B23C(s32 a0);
@@ -3789,7 +3789,7 @@ body:
     vec[0] = 0;
 
     m = D_800AE620;
-    RotMatrixY(*(s16 *)((u8 *)D_80126B78 + 0x12), &m);
+    RotMatrixY(*(s16 *)((u8 *)guess_g_PlayerModelPtr + 0x12), &m);
 
     pos[1] = CAST_WIDTH(s32, a0, 0x8);
     do {
@@ -5092,7 +5092,7 @@ void func_8018F320(void *a0) {
 }
 
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u8 D_801E33F0[];
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -5110,7 +5110,7 @@ s32 aF8018A224(param_1)
     s32 sv1[2];
     s32 flag;
 
-    m = (s32 *)((u8 *)D_80126B78 + 0x34);
+    m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
     obj = ((Unkstruct_8017E75C_2 *)param_1)->unk64;
 
     gte_SetRotMatrix(m);
@@ -5831,7 +5831,7 @@ extern s32 func_800296F8(s32 arg0);
 
 #include "common.h"
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u8 D_801E8670[];
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -5845,7 +5845,7 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
 
 
 
-/* §71 sibling: identical shape to func_8018F390 (same TU, this file, D_80126B78/RotTransSV/
+/* §71 sibling: identical shape to func_8018F390 (same TU, this file, guess_g_PlayerModelPtr/RotTransSV/
  * func_80135888/func_8012BDBC/func_80178BF8/func_80172710 idiom) already MATCHED -- only the
  * per-overlay data symbol (D_801E8670 vs D_801E33F0) differs. §37 asm-label alias avoids the
  * `conflicting types` clash with the fleet's `extern void func_801904BC(void);` used elsewhere
@@ -5861,7 +5861,7 @@ s32 func_801904BC(void *param_1)
     s32 flag;
 
     obj = *(s32 *)((s32)param_1 + 0x64);
-    m = *(MATRIX *)((u8 *)D_80126B78 + 0x34);
+    m = *(MATRIX *)((u8 *)guess_g_PlayerModelPtr + 0x34);
 
     gte_SetRotMatrix(&m);
     gte_SetTransMatrix(&m);

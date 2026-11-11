@@ -572,7 +572,7 @@ void func_80145CEC(void) {
     extern s32 guess_g_PlayerTmdList;
     extern s32 D_801152C8;
     extern s32 D_80183970;
-    extern s32 * D_80126B78[1];
+    extern s32 * guess_g_PlayerModelPtr[1];
     extern s32 * D_800AF7C8;
     extern s32 * D_80126B90;
     extern s16 D_80126BB8;
@@ -598,20 +598,20 @@ void func_80145CEC(void) {
     (void)&pad;
 
     func_80016714(&guess_g_PlayerActor, 0x254);
-    D_80126B78[0] = (s32 *)&guess_g_PlayerModelObject;
+    guess_g_PlayerModelPtr[0] = (s32 *)&guess_g_PlayerModelObject;
     D_800AF7C8 = (s32 *)&D_801152C8;
     func_8001C320(&guess_g_PlayerModelObject, &guess_g_PlayerTmdList);
-    *(s32 *)((s32)D_80126B78[0] + 0x28) = 0x7fff7fff;
+    *(s32 *)((s32)guess_g_PlayerModelPtr[0] + 0x28) = 0x7fff7fff;
     D_80126B90 = (s32 *)&D_80183970;
-    *(u16 *)((s32)D_80126B78[0] + 0x18) = 0x1000;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x18) = 0x1000;
     D_80126BC8 = 0x1000;
     D_80126BC0 = 0x1000;
     D_80126BB8 = 0x1000;
-    *(u16 *)((s32)D_80126B78[0] + 0x1a) = 0x1000;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x1a) = 0x1000;
     D_80126BCA = 0x1000;
     D_80126BC2 = 0x1000;
     D_80126BBA = 0x1000;
-    *(u16 *)((s32)D_80126B78[0] + 0x1c) = 0x1000;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x1c) = 0x1000;
     D_80126BCC = 0x1000;
     D_80126BC4 = 0x1000;
     D_80126BBC = 0x1000;
@@ -622,7 +622,7 @@ void func_80145CEC(void) {
     func_80147084(&guess_g_PlayerActor);
     func_80147098(&guess_g_PlayerActor);
     func_801470AC(&guess_g_PlayerActor);
-    *(u16 *)((s32)D_80126B78[0] + 0x2c) = *(u16 *)((s32)D_80126B78[0] + 0x2c) | 0x50;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x2c) = *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x2c) | 0x50;
     func_80149210(&guess_g_PlayerActor, 8);
     func_8014BE9C();
     func_8016533C();
@@ -1224,7 +1224,7 @@ s32 func_80148D44(void) {
     extern s32 guess_g_ActiveCamera;
     extern u8 D_80126C01;
     extern u16 D_80126C02;
-    extern u16 D_80126C06;
+    extern u16 guess_g_PadLeftStick;
     extern s16 (*D_80183AF8[])(s32);
     s32 p = guess_g_ActiveCamera;
     s32 tmp = (ratan2(((Unkstruct_80126948 *)p)->unk44 - ((Unkstruct_80126948 *)p)->unk50,
@@ -1236,10 +1236,10 @@ s32 func_80148D44(void) {
         return D_80183AF8[D_80126C02 >> 12](tmp);
     case 0x53:
     case 0x73:
-        if ((D_80126C06 & 0xFF) == 0x80 && (D_80126C06 >> 8) == 0x80) {
+        if ((guess_g_PadLeftStick & 0xFF) == 0x80 && (guess_g_PadLeftStick >> 8) == 0x80) {
             return -1;
         }
-        tmp = ratan2((D_80126C06 & 0xFF) - 0x80, 0x80 - (D_80126C06 >> 8));
+        tmp = ratan2((guess_g_PadLeftStick & 0xFF) - 0x80, 0x80 - (guess_g_PadLeftStick >> 8));
         return (ang + tmp) & 0xFFF;
     }
 }
@@ -2703,8 +2703,8 @@ s32 func_8015094C(s32 param_1) {
 
     extern S16 D_801A61BC;
     extern s32 D_80183C38;
-    extern s32 D_80126990;
-    extern s32 D_80126994;
+    extern s32 guess_g_MainCameraRefPointX;
+    extern s32 guess_g_MainCameraRefPointY;
     extern u8 guess_g_MainCamera[];
     struct { s32 x, mid, y; s32 _pad[9]; } arg;   /* 0x30 @ 0x10 */
     S16 local;                                     /* 0x10 @ 0x40 */
@@ -2714,13 +2714,13 @@ s32 func_8015094C(s32 param_1) {
 
     local = D_801A61BC;
     arg.x = *(short *)(param_1 + 6);
-    arg.mid = D_80126994;
+    arg.mid = guess_g_MainCameraRefPointY;
     arg.y = *(short *)(param_1 + 0xe);
     ret = func_80021174(D_80183C38, (s32)&arg);
     if (ret == 0) {
         {
             short cur = *(short *)(param_1 + 6);
-            s32 diff = D_80126990 - cur;
+            s32 diff = guess_g_MainCameraRefPointX - cur;
             s32 av = (diff < 0) ? -diff : diff;
             if (av >= 5) {
                 *(short *)(param_1 + 6) = (diff >= 0) ? cur + 4 : cur - 4;

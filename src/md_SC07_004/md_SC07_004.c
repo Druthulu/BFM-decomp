@@ -2931,7 +2931,7 @@ extern void func_801A9C00(void *a0);
 extern s16  guess_g_PlayerPosX;
 extern s16  guess_g_PlayerPosY;
 extern s16  guess_g_PlayerPosZ;
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern u8   guess_g_BoxHitNormalX[];
 
@@ -2970,7 +2970,7 @@ void func_801A4570(void *arg0)
     localB.vy = (u16)guess_g_PlayerPosY - 0x20;
     localB.vz = (u16)guess_g_PlayerPosZ;
 
-    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&localA, (s32)&localB) != 0) {
+    if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&localA, (s32)&localB) != 0) {
         s32 dist = func_8012B8A4((s16 *)arg0);
         func_8012F568(1, 4, dist, 0x40, (s32)&localB, (s32)guess_g_BoxHitNormalX);
     }
@@ -3524,7 +3524,7 @@ extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
 extern Mtx32_801A90D8 D_800AE620;
 extern s16 guess_g_PlayerPosY;
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern u8 guess_g_BoxHitNormalX[];
 
@@ -3558,7 +3558,7 @@ s32 func_801A54F0(s32 param_1, s32 param_2)
     vec2.vz = -param_2;
     RotTransSV((s32)&vec2, (s32)&vec2, &out);
 
-    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&pos, (s32)&vec2) != 0) {
+    if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&pos, (s32)&vec2) != 0) {
         func_8012F568(1, 1, 0, 0xA, (s32)&vec2, (s32)guess_g_BoxHitNormalX);
         return 1;
     }
@@ -3998,9 +3998,9 @@ extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern s32  ratan2(s32 a0, s32 a1);
 extern void CompMatrix(void *a0, void *a1, void *a2);
 
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern u8  guess_g_CameraWsMatrix;
 
 void func_801A6184(u8 *s2, s32 p1, s32 p2)
@@ -4029,9 +4029,9 @@ void func_801A6184(u8 *s2, s32 p1, s32 p2)
     func_800D23D0(&diff);
     RotMatrixYXZ(&diff, &mtx);
 
-    pos[0] = D_801269A4 - mid.x;
-    pos[1] = D_801269A8 - mid.y;
-    pos[2] = D_801269AC - mid.z;
+    pos[0] = guess_g_MainCameraAppliedViewPointX - mid.x;
+    pos[1] = guess_g_MainCameraAppliedViewPointY - mid.y;
+    pos[2] = guess_g_MainCameraAppliedViewPointZ - mid.z;
     ApplyTransposeMatrixLV(&mtx, pos, pos);
 
     diff.z = -ratan2(pos[0], pos[1]);
@@ -5879,9 +5879,9 @@ void func_801A8C58(s32 s2)
 }
 
 
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void RotMatrixYXZ(void *a0, void *a1);
@@ -5900,9 +5900,9 @@ void func_801A8CE0(s32 a0, s16 a1, s32 a2, s32 a3)
     if (var_s1 != 0) {
         CAST_ALIAS(u16, var_s1, 0xA) += *(u16 *)((s32)a0 + 0x52);
         CAST_ALIAS(s32, var_s1, 0x1C) = (s16)a3;
-        sp10.x = D_801269A4;
-        sp10.y = D_801269A8;
-        sp10.z = D_801269AC;
+        sp10.x = guess_g_MainCameraAppliedViewPointX;
+        sp10.y = guess_g_MainCameraAppliedViewPointY;
+        sp10.z = guess_g_MainCameraAppliedViewPointZ;
         ret = guess_YawToPoint((void *)((s32)a0 + 4), &sp10);
         sp10.x = 0x200;
         sp10.y = ret;
@@ -5934,9 +5934,9 @@ void func_801A8DCC(s32 a0, s32 a1)
 
 /* Declarations copied verbatim from this TU's existing externs
    (md_SC07_004.c:2223-2225, :2321, :4039, :4041, :4998). */
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void func_8004978C(s16 *a0, void *a1);
@@ -5967,9 +5967,9 @@ void func_801A8E34(a0, a1, a2, a3, a4) s32 a0; s32 a1; s16 a2; s32 a3; s32 a4; {
         return;
     }
 
-    h.m[0] = D_801269A4;
-    h.m[1] = D_801269A8;
-    h.m[2] = D_801269AC;
+    h.m[0] = guess_g_MainCameraAppliedViewPointX;
+    h.m[1] = guess_g_MainCameraAppliedViewPointY;
+    h.m[2] = guess_g_MainCameraAppliedViewPointZ;
     t = guess_YawToPoint((void *) (a0 + 4), &h);
 
     h.m[0] = 0x200;
@@ -7359,7 +7359,7 @@ extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s16  guess_g_PlayerPosX;
 extern s16  guess_g_PlayerPosY;
 extern s16  guess_g_PlayerPosZ;
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern u8   guess_g_BoxHitNormalX[];
 
@@ -7406,7 +7406,7 @@ s32 func_801AAF8C(SV_801AAF8C *src, SV_801AAF8C *ofs, s32 arg2)
     sv.vz = -arg2;
     RotTransSV((s32)&sv, (s32)&sv, &flag);
 
-    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&pos, (s32)&sv) != 0) {
+    if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&pos, (s32)&sv) != 0) {
         func_8012F568(1, 1, 0, 0xA, (s32)&sv, (s32)guess_g_BoxHitNormalX);
         return 1;
     }

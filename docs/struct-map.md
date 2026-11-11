@@ -6,7 +6,7 @@
 
 | # | type | sites | bodies | fields | size ≥ | width conflicts (+sign mixes) | instance globals | pointer globals |
 |---:|---|---:|---:|---:|---:|---:|---|---|
-| 1 | `Unkstruct_800D3888` | 24029 | 6841 | 218 | 0x24c | 50 (+66 sign) | D_800D3888, D_800DE5A0, D_801269F0, guess_g_PlayerActor… | D_8006386C, D_80074778, D_80074780, D_80074784… |
+| 1 | `Unkstruct_800D3888` | 24029 | 6841 | 218 | 0x24c | 50 (+66 sign) | D_800D3888, D_800DE5A0, guess_g_TextBoxes, guess_g_PlayerActor… | D_8006386C, D_80074778, D_80074780, D_80074784… |
 | 2 | `Unkstruct_a2c8734a` | 2646 | 126 | 8 | 0x34 | 0 (+3 sign) |  |  |
 | 3 | `Unkstruct_80130D48` | 2382 | 587 | 25 | 0x64 | 6 (+3 sign) |  | D_80072C84, guess_g_PlayerRecord |
 | 4 | `Unkstruct_30f97198` | 2091 | 123 | 6 | 0x4b | 0 (+0 sign) |  |  |
@@ -23,7 +23,7 @@
 | 15 | `Unkstruct_800B9A02` | 989 | 431 | 1 | 0x2 | 0 (+0 sign) | guess_g_DoubleBufferIndex |  |
 | 16 | `Unkstruct_b6c7c603` | 931 | 133 | 7 | 0x20 | 1 (+0 sign) |  |  |
 | 17 | `Unkstruct_80126948` | 930 | 216 | 32 | 0xa4 | 0 (+2 sign) | guess_g_MainCamera, D_80126E60 | D_80114EE8, guess_g_ActiveCamera, guess_g_MainCamera, D_80126E60… |
-| 18 | `Unkstruct_80146128` | 844 | 166 | 10 | 0x54 | 0 (+1 sign) |  | D_80126B78 |
+| 18 | `Unkstruct_80146128` | 844 | 166 | 10 | 0x54 | 0 (+1 sign) |  | guess_g_PlayerModelPtr |
 | 19 | `Unkstruct_2932a0a7` | 798 | 133 | 6 | 0x12 | 5 (+0 sign) |  |  |
 | 20 | `Unkstruct_2ac2250b` | 786 | 131 | 3 | 0xb0 | 0 (+0 sign) |  |  |
 | 21 | `Unkstruct_e3867f1f` | 786 | 131 | 2 | 0x30 | 0 (+1 sign) |  |  |
@@ -161,7 +161,7 @@
 | 153 | `Unkstruct_8011F7BE` | 134 | 134 | 1 | 0x2 | 0 (+0 sign) | guess_g_HudGoldPanelY |  |
 | 154 | `Unkstruct_19efed25` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 155 | `Unkstruct_0cebe116` | 133 | 133 | 1 | 0x2 | 0 (+0 sign) |  |  |
-| 156 | `Unkstruct_80127548` | 133 | 133 | 1 | 0x4 | 0 (+0 sign) | D_80127548 |  |
+| 156 | `Unkstruct_80127548` | 133 | 133 | 1 | 0x4 | 0 (+0 sign) | guess_g_GlyphUploadsLeft |  |
 | 157 | `Unkstruct_80115148` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) | guess_g_MenuPanelCursors |  |
 | 158 | `Unkstruct_80115112` | 133 | 133 | 1 | 0x2 | 0 (+0 sign) | guess_g_MenuStep |  |
 | 159 | `Unkstruct_80115110` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) | guess_g_OpenMenuId |  |

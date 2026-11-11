@@ -7,7 +7,7 @@ extern void func_800CB0E8(s32 a0);
 extern s32 func_80131A34(s32 a0, s32 a1);
 extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 void func_80130438(s32 a0) {
     s32 flag;
     flag = 0;
@@ -30,7 +30,7 @@ void func_80130438(s32 a0) {
     if (flag == 0) {
         *(s16 *)(a0 + 0x5E) = 2;
         *(s16 *)(a0 + 0x60) = 1;
-        *(s16 *)(a0 + 0x62) = *(u16 *)((s32)D_80126B78 + 0x12);
+        *(s16 *)(a0 + 0x62) = *(u16 *)((s32)guess_g_PlayerModelPtr + 0x12);
         ((void (*)(s32, s32))func_80131E00)(a0, 1);
     }
 }

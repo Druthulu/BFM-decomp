@@ -58,7 +58,7 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 extern void func_8014607C(void);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
@@ -645,8 +645,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_8018D1E4;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
@@ -1694,9 +1694,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -2396,12 +2396,12 @@ extern s32 func_8017496C(void *a0);
 extern s32 D_80126954;
 extern s32 D_80126950;
 extern s32 D_8012695C;
-extern s16 D_80126968;
-extern s16 D_8012696A;
-extern s16 D_8012696C;
-extern s16 D_80126976;
-extern s16 D_80126978;
-extern s16 D_8012697A;
+extern s16 guess_g_MainCameraPitchTarget;
+extern s16 guess_g_MainCameraYawTarget;
+extern s16 guess_g_MainCameraRollTarget;
+extern s16 guess_g_MainCameraRefOffsetTargetX;
+extern s16 guess_g_MainCameraRefOffsetTargetY;
+extern s16 guess_g_MainCameraRefOffsetTargetZ;
 extern void func_801748EC(void);
 extern s32 func_801749C8(s32 param_1);
 extern s32 func_801749A8(s32 a0);
@@ -3648,7 +3648,7 @@ void func_80185B44(s32 a0) {
 #include "common.h"
 
 /* ---- integration surface (types taken from the host TU / engine_core.h) ---- */
-extern s32 *D_80126B78;   /* host TU L72  : extern s32 *D_80126B78;   */
+extern s32 *guess_g_PlayerModelPtr;   /* host TU L72  : extern s32 *guess_g_PlayerModelPtr;   */
 extern u16 guess_g_PlayerPosX;    /* host TU L1785: extern u16 guess_g_PlayerPosX;    */
 extern u16 guess_g_PlayerPosY;    /* host TU L1786: extern u16 guess_g_PlayerPosY;    */
 extern u16 guess_g_PlayerPosZ;    /* host TU L1787: extern u16 guess_g_PlayerPosZ;    */
@@ -3674,7 +3674,7 @@ void func_80185EF8(s32 a0) {
     u16 sp[3];
 
     t = ((((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF) -
-         (*(u16 *)((u8 *)D_80126B78 + 0x12) & 0xFFF)) & 0xFFF;
+         (*(u16 *)((u8 *)guess_g_PlayerModelPtr + 0x12) & 0xFFF)) & 0xFFF;
 
     if ((u32)(t - 0x7C1) < 0x7F) {
         anim = 1;
@@ -3697,10 +3697,10 @@ void func_80185EF8(s32 a0) {
     }
 
     sp[0] = guess_g_PlayerPosX -
-            ((func_8004787C(*(u16 *)((u8 *)D_80126B78 + 0x12) & 0xFFF) * 14) >> 8);
+            ((func_8004787C(*(u16 *)((u8 *)guess_g_PlayerModelPtr + 0x12) & 0xFFF) * 14) >> 8);
     sp[1] = guess_g_PlayerPosY;
     sp[2] = guess_g_PlayerPosZ -
-            ((func_80047948(*(u16 *)((u8 *)D_80126B78 + 0x12) & 0xFFF) * 14) >> 8);
+            ((func_80047948(*(u16 *)((u8 *)guess_g_PlayerModelPtr + 0x12) & 0xFFF) * 14) >> 8);
 
     t = guess_YawToPoint((void *)(a0 + 4), sp);
     CAST_WIDTH(s32, a0, 0x10) = -((func_8004787C(t) * spd) << 5);
@@ -5308,7 +5308,7 @@ int func_80188FB4(int a0, void* a1)
 }
 
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
@@ -6098,7 +6098,7 @@ void func_8018A0F4(void *a0) {
  * P39 T6.c2: alias removed; the TU decl is now `extern s32 func_8018A224(void *param_1)`,
  * so the def carries its own name (make check ov_SC03_014 rc=0).
  */
-extern s32 *D_80126B78;                                         /* TU L72 */
+extern s32 *guess_g_PlayerModelPtr;                                         /* TU L72 */
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);        /* TU L585 */
 extern void func_80172710(void);                                 /* TU L2226 */
 extern s32 func_80178BF8();                                      /* TU L2534 */
@@ -6116,7 +6116,7 @@ s32 func_8018A224(param_1)
     s32 sv1[2];
     s32 flag;
 
-    m = (s32 *)((u8 *)D_80126B78 + 0x34);
+    m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
     obj = *(s32 *)((s32)param_1 + 0x64);
 
     gte_SetRotMatrix(m);

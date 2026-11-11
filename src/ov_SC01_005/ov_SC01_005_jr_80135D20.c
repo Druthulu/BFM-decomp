@@ -254,7 +254,7 @@ extern void func_8012AD64(void *p, s16 v);
 extern void func_8012AD6C(void *a0);
 extern void func_8012AD80(s32 a0);
 extern void func_8012ADE4(u8 *a0);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80013478(s32 a0, s32 a1);
@@ -1321,7 +1321,7 @@ extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
  *               || previous declaration at :1368
  *   :1368 is DEFINE_func_801376C8(), the shared engine-core macro that carries
  *   `extern void func_801376E8(int a0, int a1);` — a VOID return. The target's last
- *   pre-epilogue instruction is `addu $v0, $s1, $zero`, i.e. it RETURNS &D_801269F0,
+ *   pre-epilogue instruction is `addu $v0, $s1, $zero`, i.e. it RETURNS &guess_g_TextBoxes,
  *   so the definition MUST be non-void; a `void` definition makes gcc-2.7.2 merely warn
  *   and DROP the returned value, killing that instruction (LENGTH-DRIFT/-1, 50 ins).
  *   The conflict is on func_801376E8 ITSELF and is a pure RETURN-type disagreement
@@ -1334,7 +1334,7 @@ extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
  *   not the source.)
  *
  * Byte levers (unchanged from the passing draft):
- *  - `obj` local holding (s32)&D_801269F0: the address is CSEd ONCE into $s1 and reused
+ *  - `obj` local holding (s32)&guess_g_TextBoxes: the address is CSEd ONCE into $s1 and reused
  *    for both jal args and the return (same idiom as the neighbouring func_80137B80).
  *  - D_80126A24 is s16 (`lh`) but D_80126A26 is u16 (`lhu`) with an explicit (s16) cast
  *    at the use site: gcc combines the cast's `sll 16; sra 16` with the `>>1` into
@@ -1363,7 +1363,7 @@ extern void func_8013A860(void);
 void func_801378F0(void) {
 
     extern u8 D_80127520[];
-    extern u8 D_801269F0[]; /* §37 alias: TU canon is `extern int D_801269F0` */
+    extern u8 guess_g_TextBoxes[]; /* §37 alias: TU canon is `extern int guess_g_TextBoxes` */
     extern u8 D_80126A28[];
     extern u8 D_80182964[];
     s32 i;
@@ -1374,7 +1374,7 @@ void func_801378F0(void) {
     func_80016714(D_80127520, 0xBFC);
     i = 0;
     si = 0;
-    p = D_801269F0;
+    p = guess_g_TextBoxes;
     di = 0;
     do {
         func_80016714(p, 0x4C);
@@ -1408,15 +1408,15 @@ void func_801378F0(void) {
 
 
 // @class: remat
-// @unstuck(P36): target CSEs &D_801269F0 once for load+call arg; force via local pointer
-extern s32 D_80127548[];
+// @unstuck(P36): target CSEs &guess_g_TextBoxes once for load+call arg; force via local pointer
+extern s32 guess_g_GlyphUploadsLeft[];
 extern int D_801829B0;
-extern int D_801269F0;
+extern int guess_g_TextBoxes;
 extern void func_80138BE0(int p);
 
 void func_80137B80(void) {
-    int *p = &D_801269F0;
-    (*(int *)&D_80127548) = 0x24;
+    int *p = &guess_g_TextBoxes;
+    (*(int *)&guess_g_GlyphUploadsLeft) = 0x24;
     if (*p != 0) {
         ((void (*)(int *))func_80138BE0)(p);
     }
@@ -1428,14 +1428,14 @@ void func_80137B80(void) {
 
 
 // @class: plumbing
-// @unstuck(P36): none — MATCH (51 ins). Three globals stored/loaded around 3 calls; &D_801269F0 held in $s1, arg1 in $s0 across calls; return reloads global D_800A5E60.
+// @unstuck(P36): none — MATCH (51 ins). Three globals stored/loaded around 3 calls; &guess_g_TextBoxes held in $s1, arg1 in $s0 across calls; return reloads global D_800A5E60.
 
 extern unsigned char D_80126A0E;
 extern short D_80126A0A;
 extern s16 D_801269F4;
 extern int D_800A5E60;
 extern int D_801829B0;
-extern int D_801269F0;
+extern int guess_g_TextBoxes;
 
 extern void func_801392FC(s32 arg0, s32 arg1, u8 *arg2);
 extern void func_80137DD4(s32 a0, u8 *a1, u8 *a2);
@@ -1447,15 +1447,15 @@ int func_80137D08(int arg0, int arg1, short arg2)
 
     D_800A5E60 = arg0;
     D_80126A0A = arg2;
-    ((void (*)(void *, int, int))func_801392FC)(&D_801269F0, D_80126A0E, arg1);
+    ((void (*)(void *, int, int))func_801392FC)(&guess_g_TextBoxes, D_80126A0E, arg1);
     if ((*(short *)&D_801269F4) == 7) {
         buf[0] = 0x39;
         buf[1] = 0xFF;
         buf[2] = 0x71;
-        ((void (*)(void *, void *, int))func_80137DD4)(&D_801269F0, buf, arg1);
+        ((void (*)(void *, void *, int))func_80137DD4)(&guess_g_TextBoxes, buf, arg1);
     } else if ((*(short *)&D_801269F4) == 3) {
         if (D_801829B0 & 4) {
-            ((void (*)(void *, int))func_80139680)(&D_801269F0, arg1);
+            ((void (*)(void *, int))func_80139680)(&guess_g_TextBoxes, arg1);
         }
     }
     return D_800A5E60;

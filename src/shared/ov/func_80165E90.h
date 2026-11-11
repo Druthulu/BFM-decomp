@@ -7,14 +7,14 @@ extern void func_80148534(s32 a0, s32 a1);
 extern s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
 extern s32 D_80126B9C;
 extern s32 guess_g_PlayerActor;
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 void func_80165E90(void) {
     s32 s1 = (s32)&guess_g_PlayerActor;
     s32 buf1[2];
     s32 buf2[2];
     s32 v1;
     if ((D_80126B9C & 0x10000400) == 0x10000000) {
-        v1 = (s32)D_80126B78;
+        v1 = (s32)guess_g_PlayerModelPtr;
         if (*(s32 *)(v1 + 0x4) >= 0) {
             if (*(s32 *)(v1 + 0x20) != 0) {
                 func_801484B0((s32)buf1, (s32)buf2);

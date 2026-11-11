@@ -8,7 +8,7 @@
 // boundaries defined via DefineFunctions.java). The resident is engine code (PsyQ 4.7 — see
 // PhaseEnd Notes), so PsyQ-signature names are sparse; the bulk are auto func_* (splat). Engine
 // functions get named in Phase 12.
-// count=54
+// count=75
 //
 // [PROTO-of-self / PsyQ-sig CANDIDATE, R13 — UNVERIFIED]: matched by ghidra_psx_ldr's PsyQ
 // signature analyzer against the 4.0 DB; the resident detects as 4.7, so confirm when the real
@@ -72,7 +72,28 @@ guess_g_BoxHitCenterY            = 0x80126722; // data
 guess_g_BoxHitCenterZ            = 0x80126724; // data
 guess_g_CameraFollowPos          = 0x80126940; // data
 guess_g_MainCamera               = 0x80126948; // data
+guess_g_MainCameraPitchTarget    = 0x80126968; // data
+guess_g_MainCameraYawTarget      = 0x8012696A; // data
+guess_g_MainCameraRollTarget     = 0x8012696C; // data
+guess_g_MainCameraRefOffsetTargetX = 0x80126976; // data
+guess_g_MainCameraRefOffsetTargetY = 0x80126978; // data
+guess_g_MainCameraRefOffsetTargetZ = 0x8012697A; // data
+guess_g_MainCameraViewPointX     = 0x80126984; // data
+guess_g_MainCameraViewPointY     = 0x80126988; // data
+guess_g_MainCameraViewPointZ     = 0x8012698C; // data
+guess_g_MainCameraRefPointX      = 0x80126990; // data
+guess_g_MainCameraRefPointY      = 0x80126994; // data
+guess_g_MainCameraRefPointZ      = 0x80126998; // data
+guess_g_MainCameraAppliedViewPointX = 0x801269A4; // data
+guess_g_MainCameraAppliedViewPointY = 0x801269A8; // data
+guess_g_MainCameraAppliedViewPointZ = 0x801269AC; // data
+guess_g_MainCameraViewShakeY     = 0x801269C8; // data
+guess_g_MainCameraRefShakeY      = 0x801269D4; // data
+guess_g_TextBoxes                = 0x801269F0; // data
 guess_g_PlayerActor              = 0x80126B58; // data
 guess_g_PlayerPosX               = 0x80126B5E; // data
 guess_g_PlayerPosY               = 0x80126B62; // data
 guess_g_PlayerPosZ               = 0x80126B66; // data
+guess_g_PlayerModelPtr           = 0x80126B78; // data
+guess_g_PadLeftStick             = 0x80126C06; // data
+guess_g_GlyphUploadsLeft         = 0x80127548; // data

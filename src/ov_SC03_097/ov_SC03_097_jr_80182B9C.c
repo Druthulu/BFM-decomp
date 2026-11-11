@@ -643,8 +643,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_80187B0C;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
 extern void func_80150B9C(void);
@@ -1691,9 +1691,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -3881,7 +3881,7 @@ extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 s32 func_80184BFC(s32 arg0)
 {
 
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     extern u8 D_8019EABC[];
     extern u8 guess_g_BoxHitNormalX[];
     extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
@@ -3889,8 +3889,8 @@ s32 func_80184BFC(s32 arg0)
     s32 buf1[2];
     s32 buf2[2];
 
-    guess_RotTransSVWithMatrix((s32)D_80126B78 + 0x34, (s32)D_8019EABC, (s32)buf1);
-    guess_RotTransSVWithMatrix((s32)D_80126B78 + 0x34, (s32)(D_8019EABC + 8), (s32)buf2);
+    guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)D_8019EABC, (s32)buf1);
+    guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)(D_8019EABC + 8), (s32)buf2);
     if (func_80135888(((Unkstruct_800B5CB8 *)arg0)->unk20, ((Unkstruct_800B5CB8 *)arg0)->unk58, (s32)buf1, (s32)buf2) != 0) {
         func_8012F568(1, 1, *(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x12), 9, (s32)buf2, (s32)guess_g_BoxHitNormalX);
         return 1;
@@ -4031,11 +4031,11 @@ extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 s32 func_80184F30(s32 a0, s16 a1) {
 
     extern u8 D_80126B5C;
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     s32 d;
 
     d = (func_8012B6D4((s16 *)&D_80126B5C, (s16 *)(a0 + 4)) -
-         ((Unkstruct_801463A0 *)D_80126B78)->unk12) & 0xFFF;
+         ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) & 0xFFF;
     if (d < 0x800) {
         return d < a1;
     } else {

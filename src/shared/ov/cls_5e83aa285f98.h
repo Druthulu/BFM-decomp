@@ -3,11 +3,11 @@ void SHARED_FN(void) {
     func_801817E0(1);
     D_80126954 = 0x190;
     D_8012695C = 0x190;
-    D_80126968 = 0x38;
-    D_8012696A = 0;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = -1;
-    D_8012697A = 0;
+    guess_g_MainCameraPitchTarget = 0x38;
+    guess_g_MainCameraYawTarget = 0;
+    guess_g_MainCameraRollTarget = 0;
+    guess_g_MainCameraRefOffsetTargetX = 0;
+    guess_g_MainCameraRefOffsetTargetY = -1;
+    guess_g_MainCameraRefOffsetTargetZ = 0;
     func_8012A018((s32)func_8017FB48, 0);
 }

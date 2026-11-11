@@ -641,8 +641,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_80186CD4;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
 extern void func_80150B9C(void);
@@ -1686,9 +1686,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -3015,7 +3015,7 @@ extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 s32 func_801812A0(s32 param_1, s32 param_2)
 {
 
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     extern s32 *D_80126B90;
     extern u8 D_8019EBC4[];
     s32 buf[8];
@@ -3029,7 +3029,7 @@ s32 func_801812A0(s32 param_1, s32 param_2)
     gte_SetTransMatrix(buf);
     RotTransSV(D_8019EBC4, v1, scratch);
     RotTransSV(D_8019EBC4 + 8, v2, scratch);
-    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)v1, (s32)v2) != 0) {
+    if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)v1, (s32)v2) != 0) {
         sVar1 = *(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12);
         func_8012F568(1, 1, sVar1, param_2, (s32)v2, (s32)guess_g_BoxHitNormalX);
         return 1;
@@ -4194,7 +4194,7 @@ extern void func_8012B260(u8 *a0);
 extern SVECTOR D_8019ED04[];
 extern s32 func_8012BEE8(s32 a0);
 extern s32  func_8012CBF4(s32 a0);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -4224,7 +4224,7 @@ void func_80182D0C(s32 param_1)
     RotTransSV(&D_8019ED04[0], &b, &flag);
     RotTransSV(&D_8019ED04[1], &c, &flag);
 
-    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&b, (s32)&c) != 0) {
+    if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&b, (s32)&c) != 0) {
         s16 sVar1 = ((Unkstruct_800B5CB8 *)param_1)->unkFE;
         func_8012F568(1, 1, sVar1, 0x50, (s32)&c, (s32)guess_g_BoxHitNormalX);
     } else {
@@ -4294,7 +4294,7 @@ void func_80182F00(s32 param_1)
  *      align 2, so gcc emits the inline lwl/lwr + swl/swr block move, exactly
  *      the "8 bytes, align 2 -> lwl/lwr/swl/swr copy" note carried in that
  *      sibling.  This is why `c` must be a STRUCT ASSIGN, not a memcpy.
- *   3. If the global-collision probe func_80135888(D_80126B78, D_80126B90, &a, &b)
+ *   3. If the global-collision probe func_80135888(guess_g_PlayerModelPtr, D_80126B90, &a, &b)
  *      says the move is blocked, punt to func_8012F568 and return 1.
  *   4. Otherwise walk the 0x60-entry / 0x10C-stride entity table guess_g_ObjectTable
  *      looking for a 0x282 entity that (a) matches `kind` (or, when
@@ -4353,12 +4353,12 @@ void func_80182F00(s32 param_1)
  * `extern void func_80183170(s32 a0, s32 a1);` (L7388, and DEFINES it at L7711)
  * and `extern u8 guess_g_BoxHitNormalX[];` (L598) — all fleet-canonical and identical to
  * the spellings below, so only the two `D_80126B7 8/90` pointer externs
- * (canonical form `extern s32 *D_80126B78;`, 3297 fleet occurrences) and the
+ * (canonical form `extern s32 *guess_g_PlayerModelPtr;`, 3297 fleet occurrences) and the
  * two local typedefs need to travel.  Uniquify the typedef names per §120 if
  * the TU already carries a V4/Ent (it carries neither of these two spellings).
  *
  * SIBLINGS (the 5 other h_norm members): every DATA symbol this body touches —
- * guess_g_ObjectTable, guess_g_BoxHitNormalX, D_80126B78, D_80126B90 — is RESIDENT (fixed VA, not
+ * guess_g_ObjectTable, guess_g_BoxHitNormalX, guess_g_PlayerModelPtr, D_80126B90 — is RESIDENT (fixed VA, not
  * per-overlay tail.data), and three of the four callees (guess_RotTransSVWithObjMatrix,
  * func_80135888, func_8012F568) are resident too.  The ONLY per-overlay symbol
  * is func_80183170, and in this overlay it is defined in the SAME TU
@@ -4378,7 +4378,7 @@ extern void func_80183170(s32 a0, s32 a1);
 
 s32 func_80182F80(Ent_80188E10_80182F80 *self, s32 arg1, s32 arg2, s32 arg3, u16 kind) {
 
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     extern s32 *D_80126B90;
     extern u8   guess_g_ObjectTable[];
     V4_80188E10_80182F80 a;              /* 0x18(sp) */
@@ -4390,7 +4390,7 @@ s32 func_80182F80(Ent_80188E10_80182F80 *self, s32 arg1, s32 arg2, s32 arg3, u16
     guess_RotTransSVWithObjMatrix((s32)self, arg1, (s32)&a);
     guess_RotTransSVWithObjMatrix((s32)self, arg2, (s32)&b);
     c = b;                                              /* L2: lwl/lwr block move */
-    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&a, (s32)&b) != 0) {
+    if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&a, (s32)&b) != 0) {
         func_8012F568(1, 1, *(s16 *)(self->unk20 + 0x12), arg3, (s32)&b, (s32)guess_g_BoxHitNormalX);
         return 1;
     }
@@ -4575,11 +4575,11 @@ s32 func_8018353C(s32 a0, s16 a1)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     s32 d;
 
     d = (func_8012B6D4((s16 *)&D_80126B5C, (s16 *)(a0 + 4)) -
-         ((Unkstruct_801463A0 *)D_80126B78)->unk12) & 0xFFF;
+         ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) & 0xFFF;
     if (d < 0x800) {
         return d < a1;
     } else {
@@ -5628,7 +5628,7 @@ void func_80184EA8(void *a0) {
 }
 
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u8 D_801B753C[];
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -5646,7 +5646,7 @@ s32 aF8018A224(param_1)
     s32 sv1[2];
     s32 flag;
 
-    m = (s32 *)((u8 *)D_80126B78 + 0x34);
+    m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
     obj = ((Unkstruct_8017E75C_2 *)param_1)->unk64;
 
     gte_SetRotMatrix(m);

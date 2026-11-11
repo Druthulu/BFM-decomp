@@ -252,7 +252,7 @@ extern void func_8012AD64(s32 *a0, s16 a1);
 extern void func_8012AD6C(void *a0);
 extern void func_8012AD80(s32 a0);
 extern void func_8012ADE4(u8 *a0);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80013478(s32 a0, s32 a1);
@@ -861,7 +861,7 @@ extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
  *               || previous declaration at :1368
  *   :1368 is DEFINE_func_801376C8(), the shared engine-core macro that carries
  *   `extern void func_801376E8(int a0, int a1);` — a VOID return. The target's last
- *   pre-epilogue instruction is `addu $v0, $s1, $zero`, i.e. it RETURNS &D_801269F0,
+ *   pre-epilogue instruction is `addu $v0, $s1, $zero`, i.e. it RETURNS &guess_g_TextBoxes,
  *   so the definition MUST be non-void; a `void` definition makes gcc-2.7.2 merely warn
  *   and DROP the returned value, killing that instruction (LENGTH-DRIFT/-1, 50 ins).
  *   The conflict is on func_801376E8 ITSELF and is a pure RETURN-type disagreement
@@ -874,7 +874,7 @@ extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
  *   not the source.)
  *
  * Byte levers (unchanged from the passing draft):
- *  - `obj` local holding (s32)&D_801269F0: the address is CSEd ONCE into $s1 and reused
+ *  - `obj` local holding (s32)&guess_g_TextBoxes: the address is CSEd ONCE into $s1 and reused
  *    for both jal args and the return (same idiom as the neighbouring func_80137B80).
  *  - D_80126A24 is s16 (`lh`) but D_80126A26 is u16 (`lhu`) with an explicit (s16) cast
  *    at the use site: gcc combines the cast's `sll 16; sra 16` with the `>>1` into
@@ -920,10 +920,10 @@ extern void func_8013A860(void);
 
 
 // @class: remat
-// @stuck: target CSEs &D_801269F0 once for load+call arg; force via local pointer
-extern s32 D_80127548[];
+// @stuck: target CSEs &guess_g_TextBoxes once for load+call arg; force via local pointer
+extern s32 guess_g_GlyphUploadsLeft[];
 extern int D_8017F878;
-extern int D_801269F0;
+extern int guess_g_TextBoxes;
 extern void func_80138BE0(int p);
 
 #include "../shared/ov/func_80137B80__1073b160.h"
@@ -933,14 +933,14 @@ extern void func_80138BE0(int p);
 
 
 // @class: plumbing
-// @stuck: none — MATCH (51 ins). Three globals stored/loaded around 3 calls; &D_801269F0 held in $s1, arg1 in $s0 across calls; return reloads global D_800A5E60.
+// @stuck: none — MATCH (51 ins). Three globals stored/loaded around 3 calls; &guess_g_TextBoxes held in $s1, arg1 in $s0 across calls; return reloads global D_800A5E60.
 
 extern unsigned char D_80126A0E;
 extern short D_80126A0A;
 extern s16 D_801269F4;
 extern int D_800A5E60;
 extern int D_8017F878;
-extern int D_801269F0;
+extern int guess_g_TextBoxes;
 
 extern void func_801392FC(s32 arg0, s32 arg1, u8 *arg2);
 extern void func_80137DD4(s32 a0, u8 *a1, u8 *a2);

@@ -5,7 +5,7 @@ s32 func_80148D44(void) {
     extern s32 guess_g_ActiveCamera;
     extern u8 D_80126C01;
     extern u16 D_80126C02;
-    extern u16 D_80126C06;
+    extern u16 guess_g_PadLeftStick;
     extern s16 (*D_80180DB0[])(s32);
     s32 p = guess_g_ActiveCamera;
     s32 tmp = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
@@ -17,10 +17,10 @@ s32 func_80148D44(void) {
         return D_80180DB0[D_80126C02 >> 12](tmp);
     case 0x53:
     case 0x73:
-        if ((D_80126C06 & 0xFF) == 0x80 && (D_80126C06 >> 8) == 0x80) {
+        if ((guess_g_PadLeftStick & 0xFF) == 0x80 && (guess_g_PadLeftStick >> 8) == 0x80) {
             return -1;
         }
-        tmp = ratan2((D_80126C06 & 0xFF) - 0x80, 0x80 - (D_80126C06 >> 8));
+        tmp = ratan2((guess_g_PadLeftStick & 0xFF) - 0x80, 0x80 - (guess_g_PadLeftStick >> 8));
         return (ang + tmp) & 0xFFF;
     }
 }

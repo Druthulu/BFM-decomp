@@ -146,7 +146,7 @@ void func_80145A2C(void) {
 #include "../shared/ov/func_80145C54.h"
 
 // @class: struct
-// @unstuck(P36): 2 residuals — (1) target RELOADS global ptr D_80126B78 before each of its 5 field accesses (f28/f18/f1a/f1c/f2c); gcc-2.7.2 CSEs the single pointer load in every clean-C form I tried (int-cast, (s8*)/(s32) M2C_FIELD, struct*), keeping ONE load. volatile forces reloads but hoists them + leaves delay-slot nops the target fills (target is NOT volatile). (2) frame 0x20 not 0x18: target reserves an unused 8-byte stack local @0x10 (address-taken local — reproduced, but every code-free escape optimizes away and a visible escape corrupts the func_80145EE8(0) arg). Structure/order/values/callees all match; only the alias-driven reload chain + the phantom frame local remain. Family exemplar (~130 overlays).
+// @unstuck(P36): 2 residuals — (1) target RELOADS global ptr guess_g_PlayerModelPtr before each of its 5 field accesses (f28/f18/f1a/f1c/f2c); gcc-2.7.2 CSEs the single pointer load in every clean-C form I tried (int-cast, (s8*)/(s32) M2C_FIELD, struct*), keeping ONE load. volatile forces reloads but hoists them + leaves delay-slot nops the target fills (target is NOT volatile). (2) frame 0x20 not 0x18: target reserves an unused 8-byte stack local @0x10 (address-taken local — reproduced, but every code-free escape optimizes away and a visible escape corrupts the func_80145EE8(0) arg). Structure/order/values/callees all match; only the alias-driven reload chain + the phantom frame local remain. Family exemplar (~130 overlays).
 
 
 
@@ -174,7 +174,7 @@ s32 func_80145CEC() {
     extern s32 guess_g_PlayerTmdList;
     extern s32 D_801152C8;
     extern s32 D_801884CC;
-    extern s32 * D_80126B78[1];
+    extern s32 * guess_g_PlayerModelPtr[1];
     extern s32 * D_800AF7C8;
     extern s32 * D_80126B90;
     extern s16 D_80126BB8;
@@ -199,20 +199,20 @@ s32 func_80145CEC() {
     (void)&pad;
 
     func_80016714(&guess_g_PlayerActor, 0x254);
-    D_80126B78[0] = (s32 *)&guess_g_PlayerModelObject;
+    guess_g_PlayerModelPtr[0] = (s32 *)&guess_g_PlayerModelObject;
     D_800AF7C8 = (s32 *)&D_801152C8;
     func_8001C320(&guess_g_PlayerModelObject, &guess_g_PlayerTmdList);
-    *(s32 *)((s32)D_80126B78[0] + 0x28) = 0x7fff7fff;
+    *(s32 *)((s32)guess_g_PlayerModelPtr[0] + 0x28) = 0x7fff7fff;
     D_80126B90 = (s32 *)&D_801884CC;
-    *(u16 *)((s32)D_80126B78[0] + 0x18) = 0x1000;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x18) = 0x1000;
     D_80126BC8 = 0x1000;
     D_80126BC0 = 0x1000;
     D_80126BB8 = 0x1000;
-    *(u16 *)((s32)D_80126B78[0] + 0x1a) = 0x1000;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x1a) = 0x1000;
     D_80126BCA = 0x1000;
     D_80126BC2 = 0x1000;
     D_80126BBA = 0x1000;
-    *(u16 *)((s32)D_80126B78[0] + 0x1c) = 0x1000;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x1c) = 0x1000;
     D_80126BCC = 0x1000;
     D_80126BC4 = 0x1000;
     D_80126BBC = 0x1000;
@@ -223,7 +223,7 @@ s32 func_80145CEC() {
     func_80147084(&guess_g_PlayerActor);
     func_80147098(&guess_g_PlayerActor);
     func_801470AC(&guess_g_PlayerActor);
-    *(u16 *)((s32)D_80126B78[0] + 0x2c) = *(u16 *)((s32)D_80126B78[0] + 0x2c) | 0x50;
+    *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x2c) = *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x2c) | 0x50;
     func_80149210(&guess_g_PlayerActor, 8);
     func_8014BE9C();
     func_8016533C();
@@ -310,7 +310,7 @@ extern void func_801463A0();
 #undef SHARED_FN
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (142 ins). Keys: pin $s0=&guess_g_PlayerActor/$s1=D_80126B78; memcpy on u8[] symbols (unaligned lwl/lwr/swl/swr); if-branch uses D_80126B9C symbol, else-branch uses base+0x44; load p=D_80126B78 BEFORE setting base
+// @unstuck(P36): none — MATCH (142 ins). Keys: pin $s0=&guess_g_PlayerActor/$s1=guess_g_PlayerModelPtr; memcpy on u8[] symbols (unaligned lwl/lwr/swl/swr); if-branch uses D_80126B9C symbol, else-branch uses base+0x44; load p=guess_g_PlayerModelPtr BEFORE setting base
 
 #include "common.h"
 
@@ -802,7 +802,7 @@ extern s32 ratan2(s32 a0, s32 a1);
 extern s32 guess_g_ActiveCamera;
 extern u8 D_80126C01;
 extern u16 D_80126C02;
-extern u16 D_80126C06;
+extern u16 guess_g_PadLeftStick;
 extern s32 D_80188654[];
 
 s32 func_80148D44(void) {
@@ -834,11 +834,11 @@ call:
     return (s32)(s16)((s16 (*)(s32))(D_80188654[D_80126C02 >> 0xc]))(a);
 final:
     {
-        u32 e = D_80126C06;
+        u32 e = guess_g_PadLeftStick;
         if (((e & 0xff) == 0x80) && ((e >> 8) == (e & 0xff))) {
             return -1;
         }
-        res = (ang + ratan2((D_80126C06 & 0xff) - 0x80, 0x80 - (D_80126C06 >> 8))) & 0xFFF;
+        res = (ang + ratan2((guess_g_PadLeftStick & 0xff) - 0x80, 0x80 - (guess_g_PadLeftStick >> 8))) & 0xFFF;
     }
     return res;
 }
@@ -2541,8 +2541,8 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
 
 extern S16 D_801D8924;
 extern s32 D_80188794;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 
@@ -2555,13 +2555,13 @@ s32 func_8015094C(s32 param_1) {
 
     local = D_801D8924;
     arg.x = *(short *)(param_1 + 6);
-    arg.mid = D_80126994;
+    arg.mid = guess_g_MainCameraRefPointY;
     arg.y = *(short *)(param_1 + 0xe);
     ret = func_80021174(D_80188794, (s32)&arg);
     if (ret == 0) {
         {
             short cur = *(short *)(param_1 + 6);
-            s32 diff = D_80126990 - cur;
+            s32 diff = guess_g_MainCameraRefPointX - cur;
             s32 av = (diff < 0) ? -diff : diff;
             if (av >= 5) {
                 *(short *)(param_1 + 6) = (diff >= 0) ? cur + 4 : cur - 4;

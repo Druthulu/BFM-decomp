@@ -5,9 +5,9 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     extern u8  D_801819C8[];
     extern u8  D_801819B4[];
     extern u8  D_801819DC[];
-    extern s32 D_801269A4;
-    extern s32 D_801269A8;
-    extern s32 D_801269AC;
+    extern s32 guess_g_MainCameraAppliedViewPointX;
+    extern s32 guess_g_MainCameraAppliedViewPointY;
+    extern s32 guess_g_MainCameraAppliedViewPointZ;
     extern u16 D_80126CE0;
     Fr_801670E4 f;
     u8 *p;   /* $s2 */
@@ -80,9 +80,9 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.col[1].g = 0xA0;
     f.col[1].b = 0x10;
     f.col[1].r = 0x10;
-    f.pos[0] = D_801269A4 - (s16)f.cx;
-    f.pos[1] = D_801269A8 - (s16)f.cy;
-    f.pos[2] = D_801269AC - (s16)f.cz;
+    f.pos[0] = guess_g_MainCameraAppliedViewPointX - (s16)f.cx;
+    f.pos[1] = guess_g_MainCameraAppliedViewPointY - (s16)f.cy;
+    f.pos[2] = guess_g_MainCameraAppliedViewPointZ - (s16)f.cz;
 
     do {
         f.v[0].x = (s8)*p++;

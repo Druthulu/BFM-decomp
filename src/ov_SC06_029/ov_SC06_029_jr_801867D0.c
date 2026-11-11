@@ -61,7 +61,7 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 extern void func_8014607C(void);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
@@ -648,8 +648,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_8018E1E0;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
@@ -1696,9 +1696,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -2399,12 +2399,12 @@ extern s32 func_8017496C(void *a0);
 extern s32 D_80126954;
 extern s32 D_80126950;
 extern s32 D_8012695C;
-extern s16 D_80126968;
-extern s16 D_8012696A;
-extern s16 D_8012696C;
-extern s16 D_80126976;
-extern s16 D_80126978;
-extern s16 D_8012697A;
+extern s16 guess_g_MainCameraPitchTarget;
+extern s16 guess_g_MainCameraYawTarget;
+extern s16 guess_g_MainCameraRollTarget;
+extern s16 guess_g_MainCameraRefOffsetTargetX;
+extern s16 guess_g_MainCameraRefOffsetTargetY;
+extern s16 guess_g_MainCameraRefOffsetTargetZ;
 extern void func_801748EC(void);
 extern s32 func_801749C8(s32 param_1);
 extern s32 func_801749A8(s32 a0);
@@ -3005,9 +3005,9 @@ extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_80017758(void *a0, void *a1);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern u16 D_801922AC;
 extern u16 D_801922AE;
 extern u16 D_801922B0;
@@ -3037,9 +3037,9 @@ static inline void setup_80188D90(s32 a0, void *mtx) {
     func_800D23D0(vec);
     RotMatrixYXZ(vec, mtx);
 
-    diff[0] = D_801269A4 - buf2[0];
-    diff[1] = D_801269A8 - buf2[1];
-    diff[2] = D_801269AC - buf2[2];
+    diff[0] = guess_g_MainCameraAppliedViewPointX - buf2[0];
+    diff[1] = guess_g_MainCameraAppliedViewPointY - buf2[1];
+    diff[2] = guess_g_MainCameraAppliedViewPointZ - buf2[2];
     ApplyTransposeMatrixLV(mtx, diff, diff);
     vec[2] = -ratan2(diff[0], diff[1]);
     RotMatrixYXZ(vec, mtx);
@@ -3981,7 +3981,7 @@ extern Blk20 D_800AE620;
 extern s32 guess_g_PlayerActor;
 extern s32 D_80126B60;
 extern s32 D_80126B64;
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u16 guess_g_FrameCounter;
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
@@ -4017,7 +4017,7 @@ s32 func_80187E84(s32 arg) {
         b58p[1] += vout[0];
         D_80126B60 += vout[1];
         D_80126B64 += vout[2];
-        CAST_SIGN(u16, (s32)D_80126B78, 0x12) += 0x200;
+        CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) += 0x200;
         if ((guess_g_FrameCounter & 1) == 0) {
             func_801885C0((s32)ent, (s32)vout);
         }
@@ -4196,15 +4196,15 @@ extern s16 D_801DFFDC;
     }
 
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern u8 D_80126B5C;
 extern s32 func_8012BB3C(s32 a0, s32 a1, u32 a2, s32 a3);
 
 s32 func_80188568(s32 arg0) {
     s32 r;
     r = func_8012BB3C((s32)&D_80126B5C, *(s32 *)(arg0 + 0xD4) + 4,
-                      ((Unkstruct_801463A0 *)D_80126B78)->unk12, 8);
-    ((Unkstruct_801463A0 *)D_80126B78)->unk12 += r;
+                      ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12, 8);
+    ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12 += r;
     return (s16)r == 0;
 }
 

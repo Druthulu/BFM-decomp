@@ -3,12 +3,12 @@ void SHARED_FN() {
     func_801817E0(2);
     D_80126954 = 0x12C;
     D_8012695C = 0x3E8;
-    D_80126968 = 0x200;
-    D_8012696A = 0;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = -0x180;
-    D_8012697A = 0;
+    guess_g_MainCameraPitchTarget = 0x200;
+    guess_g_MainCameraYawTarget = 0;
+    guess_g_MainCameraRollTarget = 0;
+    guess_g_MainCameraRefOffsetTargetX = 0;
+    guess_g_MainCameraRefOffsetTargetY = -0x180;
+    guess_g_MainCameraRefOffsetTargetZ = 0;
     func_8012A018((s32)func_8017FB48, 1);
     func_8012A62C(0x1E);
 }

@@ -13,10 +13,10 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     extern s16 D_8018F986;
     extern s16 D_8018F988;
     extern u8 D_8012694C[];
-    extern s32 D_80126998;
-    extern s32 D_80126984;
-    extern s32 D_80126988;
-    extern s32 D_8012698C;
+    extern s32 guess_g_MainCameraRefPointZ;
+    extern s32 guess_g_MainCameraViewPointX;
+    extern s32 guess_g_MainCameraViewPointY;
+    extern s32 guess_g_MainCameraViewPointZ;
 
     u8 buf[16];
     u8 *src;
@@ -39,11 +39,11 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     D_8012694C[0] = 0;
     D_8018FAB0 = 1;
     D_8018F914 = 0x1E;
-    D_80126990 = ((SV4_8017B368 *)&D_8018F98C)->v[0];
-    D_80126994 = D_8018F98E;
-    D_80126998 = D_8018F990;
-    D_80126984 = ((SV4_8017B368 *)&D_8018F984)->v[0];
-    D_80126988 = D_8018F986;
-    D_8012698C = D_8018F988;
+    guess_g_MainCameraRefPointX = ((SV4_8017B368 *)&D_8018F98C)->v[0];
+    guess_g_MainCameraRefPointY = D_8018F98E;
+    guess_g_MainCameraRefPointZ = D_8018F990;
+    guess_g_MainCameraViewPointX = ((SV4_8017B368 *)&D_8018F984)->v[0];
+    guess_g_MainCameraViewPointY = D_8018F986;
+    guess_g_MainCameraViewPointZ = D_8018F988;
     guess_UpdateCamera();
 }

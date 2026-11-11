@@ -216,7 +216,7 @@ extern void func_8012AD64(s32 *a0, s16 a1);
 extern void func_8012AD6C(void *a0);
 extern void func_8012AD80(s32 a0);
 extern void func_8012ADE4(u8 *a0);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern s32 guess_g_PlayerActor;
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -587,8 +587,8 @@ extern void func_8013A860(void);
 extern s16 D_8012752E;
 extern void func_801379D8(void);
 extern void func_801379EC(void);
-extern s32 D_80127548[];
-extern s32 D_801269F0;
+extern s32 guess_g_GlyphUploadsLeft[];
+extern s32 guess_g_TextBoxes;
 extern s16 D_801269F4;
 extern s32 D_801269F8;
 extern void func_80138BE0(s32 a0);
@@ -1020,8 +1020,8 @@ s32 func_80138C60(s32 arg0)
 /* func_80138DE0 — advance the text cursor by 1 or 2 after emitting a glyph.
  *
  * Key levers (both required; the body itself is a plain if/else-if):
- *  - D_80127548 MUST be declared as an ARRAY (`extern s32 D_80127548[];`) and accessed as
- *    D_80127548[0].  As a scalar, gcc emits the assembler-macro form twice in the tail
+ *  - guess_g_GlyphUploadsLeft MUST be declared as an ARRAY (`extern s32 guess_g_GlyphUploadsLeft[];`) and accessed as
+ *    guess_g_GlyphUploadsLeft[0].  As a scalar, gcc emits the assembler-macro form twice in the tail
  *    (lui+lw %lo / lui+sw %lo via $at, 8 insns); as an array the address is materialised once
  *    (la $v1 = lui+addiu) and the lw/sw use 0($v1), which is what the target does and is one
  *    instruction shorter.  This is the §40b indexed-global idiom, and it is also the form the

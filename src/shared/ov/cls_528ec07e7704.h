@@ -2,12 +2,12 @@
  * exemplar src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5780 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 s32 SHARED_FN(s32 arg0, s32 arg1, s32 arg2)
 {
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     extern s32 *D_80126B90;
     struct { u16 x, y, z, w; } a;
     struct { u16 x, y, z, w; } b;
 
     guess_RotTransSVWithObjMatrix(arg0, arg1, &a);
     guess_RotTransSVWithObjMatrix(arg0, arg2, &b);
-    func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&a, (s32)&b);
+    func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&a, (s32)&b);
 }

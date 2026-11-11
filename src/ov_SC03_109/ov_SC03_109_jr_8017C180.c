@@ -652,8 +652,8 @@ extern s32 func_801508B4(s32 a0);
 extern s32 func_8015094C(s32 a0);
 extern short func_801508F8(s32 a0);
 extern s32 D_8017FFC4;
-extern s32 D_80126990;
-extern s32 D_80126994;
+extern s32 guess_g_MainCameraRefPointX;
+extern s32 guess_g_MainCameraRefPointY;
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
 extern void func_80150B9C(void);
@@ -1701,9 +1701,9 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-extern s32 D_801269A4;
-extern s32 D_801269A8;
-extern s32 D_801269AC;
+extern s32 guess_g_MainCameraAppliedViewPointX;
+extern s32 guess_g_MainCameraAppliedViewPointY;
+extern s32 guess_g_MainCameraAppliedViewPointZ;
 extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 extern void func_8016829C(s32 a0);
@@ -2797,22 +2797,22 @@ void func_8017D2E0(void) {
     extern s32 D_80126954;
     extern s32 D_80126950;
     extern s32 D_8012695C;
-    extern s16 D_80126968;
-    extern s16 D_8012696A;
-    extern s16 D_8012696C;
-    extern s16 D_80126976;
-    extern s16 D_80126978;
-    extern s16 D_8012697A;
+    extern s16 guess_g_MainCameraPitchTarget;
+    extern s16 guess_g_MainCameraYawTarget;
+    extern s16 guess_g_MainCameraRollTarget;
+    extern s16 guess_g_MainCameraRefOffsetTargetX;
+    extern s16 guess_g_MainCameraRefOffsetTargetY;
+    extern s16 guess_g_MainCameraRefOffsetTargetZ;
     extern u8 guess_g_MainCamera[];
     D_80126954 = 0x190;
     D_80126950 = 0x190;
     D_8012695C = 0x4B0;
-    D_80126968 = 0x155;
-    D_8012696A = 0x800;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = -0x20;
-    D_8012697A = 0;
+    guess_g_MainCameraPitchTarget = 0x155;
+    guess_g_MainCameraYawTarget = 0x800;
+    guess_g_MainCameraRollTarget = 0;
+    guess_g_MainCameraRefOffsetTargetX = 0;
+    guess_g_MainCameraRefOffsetTargetY = -0x20;
+    guess_g_MainCameraRefOffsetTargetZ = 0;
     func_8012A018((s32)func_8017D384, 0);
     func_8012A094((s32)guess_g_MainCamera);
     func_8017D384((void *)guess_g_MainCamera);
@@ -2916,7 +2916,7 @@ void func_8017D66C(s32 *a0) {
 
 
 extern void (*D_80181E64[])(void);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 func_8012DFD4(u8 *a0);
 extern void func_8017D790(s16 *a0);
 
@@ -2925,7 +2925,7 @@ void func_8017D694(s32 *a0) {
     *(u16 *)(((Unkstruct_8017D694 *)a0)->unk20 + 0x12) += ((Unkstruct_8017D694 *)a0)->unkFC;
     func_8012DFD4((u8 *)a0);
     if (((Unkstruct_8017D694 *)a0)->unk74 != 0) {
-        CAST_SIGN(u16, (s32)D_80126B78, 0x12) += ((Unkstruct_8017D694 *)a0)->unkFC;
+        CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) += ((Unkstruct_8017D694 *)a0)->unkFC;
     }
     func_8017D790(a0);
 }
@@ -3407,7 +3407,7 @@ extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80172710(void);
 extern s32 func_80178BF8();
 
-/* §71 sibling: identical shape to func_8018F390 (same TU, this file, D_80126B78/RotTransSV/
+/* §71 sibling: identical shape to func_8018F390 (same TU, this file, guess_g_PlayerModelPtr/RotTransSV/
  * func_80135888/func_8012BDBC/func_80178BF8/func_80172710 idiom) already MATCHED -- only the
  * per-overlay data symbol (D_80197290 vs D_801E33F0) differs. §37 asm-label alias avoids the
  * `conflicting types` clash with the fleet's `extern void func_8017E1AC(void);` used elsewhere
@@ -3419,7 +3419,7 @@ s32 aF801904E0(param_1)
     void *param_1;
 {
 
-    extern s32 *D_80126B78;
+    extern s32 *guess_g_PlayerModelPtr;
     extern u8 D_80197290[];
     MATRIX m;
     s32 obj;
@@ -3428,7 +3428,7 @@ s32 aF801904E0(param_1)
     s32 flag;
 
     obj = *(s32 *)((s32)param_1 + 0x64);
-    m = *(MATRIX *)((u8 *)D_80126B78 + 0x34);
+    m = *(MATRIX *)((u8 *)guess_g_PlayerModelPtr + 0x34);
 
     gte_SetRotMatrix(&m);
     gte_SetTransMatrix(&m);

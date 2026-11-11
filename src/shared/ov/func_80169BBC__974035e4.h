@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80169BBC(s32 arg0) {
 
-    extern s32 D_801269A4;
-    extern s32 D_801269A8;
-    extern s32 D_801269AC;
+    extern s32 guess_g_MainCameraAppliedViewPointX;
+    extern s32 guess_g_MainCameraAppliedViewPointY;
+    extern s32 guess_g_MainCameraAppliedViewPointZ;
     extern u16 D_801822A4[];
     extern u8 D_80182314[];
     extern u8 D_80182344[];
@@ -43,9 +43,9 @@ void func_80169BBC(s32 arg0) {
         rot[0] = rot[0] + D_801822A4[*(s32 *)(arg0 + 0x30)];
         rot[1] = rot[1] - 0x400;
         RotMatrixYXZ(rot, mtx);
-        pos[0] = D_801269A4 - *(s16 *)(arg0 + 6);
-        pos[1] = D_801269A8 - *(s16 *)(arg0 + 0xA);
-        pos[2] = D_801269AC - *(s16 *)(arg0 + 0xE);
+        pos[0] = guess_g_MainCameraAppliedViewPointX - *(s16 *)(arg0 + 6);
+        pos[1] = guess_g_MainCameraAppliedViewPointY - *(s16 *)(arg0 + 0xA);
+        pos[2] = guess_g_MainCameraAppliedViewPointZ - *(s16 *)(arg0 + 0xE);
         ApplyTransposeMatrixLV(mtx, pos, pos);
         rot[2] = -ratan2(pos[0], pos[1]);
         vec[0] = 0x400;

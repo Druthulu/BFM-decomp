@@ -1178,7 +1178,7 @@ extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
 extern u8 D_801957CC;
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern u8 guess_g_BoxHitNormalX[];
 
@@ -1214,7 +1214,7 @@ void func_80184E00(s32 param_1)
     guess_RotTransSVWithObjMatrix(param_1, (s32)&D_801957CC, (s32)&sv1);
     guess_RotTransSVWithObjMatrix(param_1, (s32)&D_801957CC + 8, (s32)&sv2);
 
-    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&sv1, (s32)&sv2) == 0) {
+    if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&sv1, (s32)&sv2) == 0) {
         return;
     }
 
@@ -2404,7 +2404,7 @@ int func_801865E4(int a0, void* a1)
 }
 
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
@@ -3138,7 +3138,7 @@ extern s32 func_8012C098(void *param_1);
 #include "common.h"
 
 
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 D_80195DB0[];
 
 extern u8 func_8014BF6C(void);
@@ -3154,7 +3154,7 @@ void func_80187654(u8 *param_1)
 
     obj = CAST_SIGN(u8 *, param_1, 0x20);
 
-    CAST_WIDTH(Mtx32_80187654, obj, 0x34) = *(Mtx32_80187654 *)((u8 *)D_80126B78 + 0x34);
+    CAST_WIDTH(Mtx32_80187654, obj, 0x34) = *(Mtx32_80187654 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
 
     idx = func_8014BF6C();
     off = ((Unkstruct_800B5CB8 *)param_1)->unk70;

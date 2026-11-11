@@ -414,7 +414,7 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 extern void func_8014607C(void);
-extern s32 *D_80126B78;
+extern s32 *guess_g_PlayerModelPtr;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
 extern s32 D_8011F730;
@@ -5667,9 +5667,9 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     extern u8  D_80184EC4[];
     extern u8  D_80184EB0[];
     extern u8  D_80184ED8[];
-    extern s32 D_801269A4;
-    extern s32 D_801269A8;
-    extern s32 D_801269AC;
+    extern s32 guess_g_MainCameraAppliedViewPointX;
+    extern s32 guess_g_MainCameraAppliedViewPointY;
+    extern s32 guess_g_MainCameraAppliedViewPointZ;
     extern u16 D_80126CE0;
     Fr_801670E4 f;
     u8 *p;   /* $s2 */
@@ -5742,9 +5742,9 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.col[1].g = 0xA0;
     f.col[1].b = 0x10;
     f.col[1].r = 0x10;
-    f.pos[0] = D_801269A4 - (s16)f.cx;
-    f.pos[1] = D_801269A8 - (s16)f.cy;
-    f.pos[2] = D_801269AC - (s16)f.cz;
+    f.pos[0] = guess_g_MainCameraAppliedViewPointX - (s16)f.cx;
+    f.pos[1] = guess_g_MainCameraAppliedViewPointY - (s16)f.cy;
+    f.pos[2] = guess_g_MainCameraAppliedViewPointZ - (s16)f.cz;
 
     do {
         f.v[0].x = (s8)*p++;
@@ -6402,9 +6402,9 @@ extern s32 func_80146C3C(u8*);
 
 void func_80169BBC(s32 arg0) {
 
-    extern s32 D_801269A4;
-    extern s32 D_801269A8;
-    extern s32 D_801269AC;
+    extern s32 guess_g_MainCameraAppliedViewPointX;
+    extern s32 guess_g_MainCameraAppliedViewPointY;
+    extern s32 guess_g_MainCameraAppliedViewPointZ;
     extern u16 D_80184FEC[];
     extern u8 D_8018505C[];
     extern u8 D_8018508C[];
@@ -6443,9 +6443,9 @@ void func_80169BBC(s32 arg0) {
         rot[0] = rot[0] + D_80184FEC[*(s32 *)(arg0 + 0x30)];
         rot[1] = rot[1] - 0x400;
         RotMatrixYXZ(rot, mtx);
-        pos[0] = D_801269A4 - *(s16 *)(arg0 + 6);
-        pos[1] = D_801269A8 - *(s16 *)(arg0 + 0xA);
-        pos[2] = D_801269AC - *(s16 *)(arg0 + 0xE);
+        pos[0] = guess_g_MainCameraAppliedViewPointX - *(s16 *)(arg0 + 6);
+        pos[1] = guess_g_MainCameraAppliedViewPointY - *(s16 *)(arg0 + 0xA);
+        pos[2] = guess_g_MainCameraAppliedViewPointZ - *(s16 *)(arg0 + 0xE);
         ApplyTransposeMatrixLV(mtx, pos, pos);
         rot[2] = -ratan2(pos[0], pos[1]);
         vec[0] = 0x400;
@@ -6581,9 +6581,9 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     func_800D23D0(&fr.diff);
     RotMatrixYXZ(&fr.diff, fr.mtx);
 
-    fr.pos[0] = D_801269A4 - fr.center.x;
-    fr.pos[1] = D_801269A8 - fr.center.y;
-    fr.pos[2] = D_801269AC - fr.center.z;
+    fr.pos[0] = guess_g_MainCameraAppliedViewPointX - fr.center.x;
+    fr.pos[1] = guess_g_MainCameraAppliedViewPointY - fr.center.y;
+    fr.pos[2] = guess_g_MainCameraAppliedViewPointZ - fr.center.z;
     ApplyTransposeMatrixLV(fr.mtx, fr.pos, fr.pos);
     fr.diff.z = -ratan2(fr.pos[0], fr.pos[1]);
     RotMatrixYXZ(&fr.diff, fr.mtx);
