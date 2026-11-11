@@ -6,3 +6,4 @@ T3 | done | I4: real returns for the s32 functions with no return statement | - 
 T4 | done | I3: second look at the 9 expand-hardreg-var wall tags | - | tasks/T4.md | logs/T4.md | R3.43-003,R3.43-001
 T5 | done | citation rows for the 1,083 curated names, then the citation gate | - | tasks/T5.md | logs/T5.md | R3.43-004
 T6 | done | naming evidence: outside sources recorded, a dossier per worklist unit | - | tasks/T6.md | logs/T6.md | R3.43-004,R3.43-005,R3.43-006
+T7 | review | pilot naming batch and the conventions, for the developer's review | - | tasks/T7.md | logs/T7.md | -
