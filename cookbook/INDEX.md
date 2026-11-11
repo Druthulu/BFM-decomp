@@ -1021,3 +1021,4 @@ C0568 | An expand-level pin diff can die at cse or combine: tag by the diff that
 C0569 | Cite a curated name to its PsyQ library object; byte-compare SDK names compiled from C | names-ledger,psyq,symbol,citation,library | 2026-11-10 | 3.43/T5 | P3.43 T5.c1
 C0570 | many-name grep over src: GNU grep -F -f over git ls-files (git grep -f is 100x slower); splat short .asciz is no string | grep,performance,naming,evidence,splat,strings | 2026-11-10 | 3.43/T6 | T6.c1 dossier script
 C0571 | Placeholder names are per binary: repo-wide rename rewrite hits unrelated functions; md externs need md rows | rename,symbol,overlay,md,placeholder,hazard | 2026-11-10 | 3.43/T7 | P3.43 T7.c1
+C0572 | A data rename breaks tools classifying by D_/func_ spelling (type_census residue, restruct ledger) | rename,type_census,residue,restruct,ledger,names | 2026-11-10 | 3.43/T7 | P3.43 T7.c2
