@@ -2196,7 +2196,7 @@ s32 func_80135888(s32, s32, M2C_UNK, M2C_UNK);      /* extern */
 //    load MEM has /s (MEM_IN_STRUCT_P); expr.c:4568-4577 sets /s iff the INDIRECT_REF
 //    address "was computed by addition" (PLUS_EXPR) or is aggregate. q[-0xe] keeps its
 //    PLUS_EXPR -> /s -> hoists; q[0] folds +0 away -> plain MEM -> spurious dep on
-//    `sw $0,D_801150D8` -> stuck below it. COMPONENT_REF -> /s -> dep gone -> backward
+//    `sw $0,guess_g_BoxHitFlags` -> stuck below it. COMPONENT_REF -> /s -> dep gone -> backward
 //    scheduler emits [lw a0][lw a1][sw][jal] = target. (Same lever as matched sibling
 //    DEFINE_func_8014EE14, engine_core.h:24926; guards stay plain *q so CSE still reloads.)
 //  L2 (C2, idx135-137 abs copy): the |D_801152AA| test must be `s32 t = D_801152AA;
@@ -2259,7 +2259,7 @@ extern int D_801D9618;
 //       a barrier; non-volatile with a USED output is kept and is codegen-free.)
 //
 //   (2) STORE-VS-LOAD (sched.c true_dependence + expr.c MEM_IN_STRUCT_P): the target loads BOTH
-//       call args (lw a0,-0x38(s3); lw a1,0(s3)) BEFORE the `D_801150D8 = 0` store; ours pinned
+//       call args (lw a0,-0x38(s3); lw a1,0(s3)) BEFORE the `guess_g_BoxHitFlags = 0` store; ours pinned
 //       the a1 load below the store. Root cause: gcc-2.7.2's scheduler CAN reorder a pointer load
 //       across a fixed-symbol store ONLY when the load's MEM has the /s flag (MEM_IN_STRUCT_P);
 //       expr.c sets that flag iff the address was "computed by addition" (PLUS_EXPR) or is a

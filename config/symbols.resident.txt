@@ -8,7 +8,7 @@
 // boundaries defined via DefineFunctions.java). The resident is engine code (PsyQ 4.7 — see
 // PhaseEnd Notes), so PsyQ-signature names are sparse; the bulk are auto func_* (splat). Engine
 // functions get named in Phase 12.
-// count=15
+// count=35
 //
 // [PROTO-of-self / PsyQ-sig CANDIDATE, R13 — UNVERIFIED]: matched by ghidra_psx_ldr's PsyQ
 // signature analyzer against the 4.0 DB; the resident detects as 4.7, so confirm when the real
@@ -31,6 +31,26 @@ guess_g_EmptyText                = 0x801117EC; // data
 guess_g_StoredViewPointX         = 0x80114F24; // data
 guess_g_StoredViewPointY         = 0x80114F28; // data
 guess_g_StoredViewPointZ         = 0x80114F2C; // data
+guess_g_StoredRefPointX          = 0x80114F30; // data
+guess_g_StoredRefPointY          = 0x80114F34; // data
+guess_g_StoredRefPointZ          = 0x80114F38; // data
+guess_g_BoxHitFlags              = 0x801150D8; // data
+guess_g_OpenMenuId               = 0x80115110; // data
+guess_g_MenuStep                 = 0x80115112; // data
+guess_g_MenuFrameCounter         = 0x80115116; // data
+guess_g_MenuTransitionTimer      = 0x80115118; // data
+guess_g_MenuPanel                = 0x8011511A; // data
+guess_g_MenuPadHeld              = 0x8011511C; // data
+guess_g_MenuPadPressed           = 0x8011511E; // data
+guess_g_MenuPadRepeatTimer       = 0x80115122; // data
+guess_g_MenuCategory             = 0x80115128; // data
+guess_g_MenuExitRequest          = 0x8011512A; // data
+guess_g_MenuSwapSlot             = 0x8011512E; // data
+guess_g_MenuHelpText             = 0x80115130; // data
+guess_g_MenuPanelScrollTops      = 0x80115140; // data
+guess_g_MenuPanelCursors         = 0x80115148; // data
+guess_g_MenuPanelSizes           = 0x80115158; // data
+guess_g_MenuPanelSlide           = 0x80115168; // data
 guess_g_ActiveCamera             = 0x801151D4; // data
 guess_g_MainCamera               = 0x80126948; // data
 guess_g_PlayerActor              = 0x80126B58; // data

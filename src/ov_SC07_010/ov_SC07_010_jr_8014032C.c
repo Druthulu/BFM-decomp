@@ -59,8 +59,8 @@ extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern unsigned short D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern unsigned short guess_g_MenuStep;
 extern void func_8013E588(void * _arg0);
 extern void func_80029444(void);
 extern void func_801754A8(void);
@@ -86,9 +86,9 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern short guess_g_DoubleBufferIndex;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-extern u16 D_8011511A;
-extern u16 D_8011511E;
-extern s32 D_80115130;
+extern u16 guess_g_MenuPanel;
+extern u16 guess_g_MenuPadPressed;
+extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
@@ -99,7 +99,7 @@ extern s32 func_801376E8(int a0, int a1);
 extern unsigned char *func_80141CA4(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 extern void func_8013ED6C(void);
 extern s32 func_8013EE10();
 extern s32  func_800D0488(s16 a0);
@@ -107,19 +107,19 @@ extern void func_800D2624(void);
 extern void func_8013EF88(void);
 extern void func_8013F138(void);
 extern unsigned short D_80115114;
-extern unsigned short D_80115118;
+extern unsigned short guess_g_MenuTransitionTimer;
 extern void func_8013F1BC(void);
 extern void func_80141C0C(s32);
-extern u16 D_8011511C;
+extern u16 guess_g_MenuPadHeld;
 extern u16 D_80115120;
-extern u16 D_80115122;
-extern s16 D_80115128[];
-extern s16 D_8011512A;
-extern u16 D_8011512E;
-extern u8  D_80115140[];
+extern u16 guess_g_MenuPadRepeatTimer;
+extern s16 guess_g_MenuCategory[];
+extern s16 guess_g_MenuExitRequest;
+extern u16 guess_g_MenuSwapSlot;
+extern u8  guess_g_MenuPanelScrollTops[];
 extern s16 D_8011514E;
 extern u8  D_80115152;
-extern u8 D_80115158[];   /* macro-canonical (§8e) */
+extern u8 guess_g_MenuPanelSizes[];   /* macro-canonical (§8e) */
 extern u8 D_8011515C;     /* macro-canonical (§8e) */
 extern u8  D_8018305C[];
 extern u8  D_80183074[];
@@ -148,7 +148,7 @@ extern int func_80137D08(int arg0, int arg1, short arg2);
 extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8013FAF8(s16 arg0, s16 arg1);
 
-extern short D_80115128[0];
+extern short guess_g_MenuCategory[0];
 extern u8 D_8018305C[];
 extern u8 D_80183074[];
 extern s32 guess_TestGameFlag(s32 arg);
@@ -198,7 +198,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         result = D_801830E0[((short)param_2)];
         break;
     case 2:
-        switch ((D_80115128[0])) {
+        switch ((guess_g_MenuCategory[0])) {
         case 0:
             if (D_801833A4[((short)param_2)]() == 0) {
                 ((short)param_2) = 5;

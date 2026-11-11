@@ -3,10 +3,10 @@
 extern void func_800D2624(void);
 extern short guess_g_DoubleBufferIndex;
 extern unsigned short D_80115114;
-extern unsigned short D_80115112;
-extern unsigned short D_80115118;
+extern unsigned short guess_g_MenuStep;
+extern unsigned short guess_g_MenuTransitionTimer;
 void func_8013F1BC(void) {
-    unsigned short *p = &D_80115118;
+    unsigned short *p = &guess_g_MenuTransitionTimer;
     if (*p != 0) {
         *p -= 0x10;
         __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
@@ -17,6 +17,6 @@ void func_8013F1BC(void) {
     if (D_80115114 == ((unsigned short)guess_g_DoubleBufferIndex ^ 1)) {
         func_800D2624();
     } else {
-        D_80115112 += 1;
+        guess_g_MenuStep += 1;
     }
 }

@@ -687,7 +687,7 @@ extern u8 D_8017F808;
 extern u8 D_8017F80C;
 extern s16 *D_8017F810;
 extern u8 D_8017F814;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern u8 D_80126720[];
 
 extern s32 VectorNormalSS(void *a0, void *a1);

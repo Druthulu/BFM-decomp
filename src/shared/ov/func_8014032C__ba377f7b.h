@@ -36,7 +36,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         result = D_80180398[((short)param_2)];
         break;
     case 2:
-        switch ((*(s16*)&D_80115128)) {
+        switch ((*(s16*)&guess_g_MenuCategory)) {
         case 0:
             if (D_8018065C[((short)param_2)]() == 0) {
                 ((short)param_2) = 5;

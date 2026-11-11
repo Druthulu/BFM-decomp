@@ -28,11 +28,11 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
     func_80140E6C();
     func_80140F00();
     ot = func_80140958((s32 *)D_801151D0, arg0, arg1);
-    if (D_8011511A < 6) {
+    if (guess_g_MenuPanel < 6) {
         ot = (s32 *)func_80141100((int)ot);
     }
     for (i = arg0; i < arg1; i++) {
-        if (i == D_8011511A || i == 2 || i == 4) {
+        if (i == guess_g_MenuPanel || i == 2 || i == 4) {
             flag = 0;
         } else {
             flag = 0xFF;
@@ -40,7 +40,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         p = &D_8017F8C4[i];
         if (i != 5) {
             if (i == 2) {
-                addr = ((s32 *)&D_8017FA68)[*(s16 *)&D_80115128];
+                addr = ((s32 *)&D_8017FA68)[*(s16 *)&guess_g_MenuCategory];
             } else {
                 addr = D_8017FA48[i];
             }
@@ -53,7 +53,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         p = D_8017FA28[i];
         j = 0;
         if (p != 0) {
-            if (i == 2 && *(s16 *)&D_80115128 != 0) {
+            if (i == 2 && *(s16 *)&guess_g_MenuCategory != 0) {
                 p = D_8017F934;
             }
             flag2 = flag;

@@ -8,9 +8,9 @@ void func_8017BD50(int param_1)
         if (D_8018F958 != 0) {
             (*D_8018F958)();
         } else {
-            D_80114F30 = D_80114F30 + D_8018F99C;
-            D_80114F34 = D_80114F34 + D_8018F99E;
-            D_80114F38 = D_80114F38 + D_8018F9A0;
+            guess_g_StoredRefPointX = guess_g_StoredRefPointX + D_8018F99C;
+            guess_g_StoredRefPointY = guess_g_StoredRefPointY + D_8018F99E;
+            guess_g_StoredRefPointZ = guess_g_StoredRefPointZ + D_8018F9A0;
             guess_g_StoredViewPointX = guess_g_StoredViewPointX + D_8018F99C;
             guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_8018F99E;
             guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_8018F9A0;

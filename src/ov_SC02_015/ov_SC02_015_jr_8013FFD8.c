@@ -853,15 +853,15 @@ extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern unsigned short D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern unsigned short guess_g_MenuStep;
 extern void func_8013E588(void * _arg0);
 extern void func_8013E5E8(void);
 extern u8 D_80078EC0;
-extern u16 D_8011511A;
+extern u16 guess_g_MenuPanel;
 extern u16 D_80115124;
-extern u8 D_80115148[];
-extern u8 D_80115140[];
+extern u8 guess_g_MenuPanelCursors[];
+extern u8 guess_g_MenuPanelScrollTops[];
 extern s32 D_8017F5E4;
 extern s32 D_80115188;
 extern s16 D_8017F5BC;
@@ -878,22 +878,22 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-extern u16 D_8011511E;
-extern s32 D_80115130;
+extern u16 guess_g_MenuPadPressed;
+extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
 extern s16 func_8014168C(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
-extern short D_80115128;
-extern s16 D_8011512A;
+extern short guess_g_MenuCategory;
+extern s16 guess_g_MenuExitRequest;
 extern unsigned char D_8017F5C0;
 extern void func_8013EB7C(void);
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 extern void func_8013ED6C(void);
 extern s32 func_8013EE10();
-extern unsigned short D_80115118;
+extern unsigned short guess_g_MenuTransitionTimer;
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
@@ -905,7 +905,7 @@ extern void func_80141C0C(s32);
 extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 
-extern short D_80115128;
+extern short guess_g_MenuCategory;
 
 s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
 
@@ -950,7 +950,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         break;
     }
     case 2:
-        switch ((*(s16 *)&D_80115128)) {                         /* jtbl_801D88B8 */
+        switch ((*(s16 *)&guess_g_MenuCategory)) {                         /* jtbl_801D88B8 */
         case 0: {
             s16 v1 = (s16) arg1;
             if (v1 < 5) {
@@ -1044,7 +1044,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
 }
 
 
-extern short D_80115128;
+extern short guess_g_MenuCategory;
 extern u8 D_8017F2E0[];
 extern u8 D_8017F2F8[];
 extern s32 guess_TestGameFlag(s32 arg);
@@ -1094,7 +1094,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         result = D_8017F364[((short)param_2)];
         break;
     case 2:
-        switch ((*(s16*)&D_80115128)) {
+        switch ((*(s16*)&guess_g_MenuCategory)) {
         case 0:
             if (D_8017F628[((short)param_2)]() == 0) {
                 ((short)param_2) = 5;

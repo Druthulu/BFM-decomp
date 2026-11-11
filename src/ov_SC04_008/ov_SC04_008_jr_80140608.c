@@ -845,15 +845,15 @@ extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern unsigned short D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern unsigned short guess_g_MenuStep;
 extern void func_8013E588(void * _arg0);
 extern void func_8013E5E8(void);
 extern u8 D_80078EC0;
-extern u16 D_8011511A;
+extern u16 guess_g_MenuPanel;
 extern u16 D_80115124;
-extern u8 D_80115148[];
-extern u8 D_80115140[];
+extern u8 guess_g_MenuPanelCursors[];
+extern u8 guess_g_MenuPanelScrollTops[];
 extern s32 D_8017FE64;
 extern s32 D_80115188;
 extern s16 D_8017FE3C;
@@ -870,22 +870,22 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-extern u16 D_8011511E;
-extern s32 D_80115130;
+extern u16 guess_g_MenuPadPressed;
+extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
 extern s16 func_8014168C(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
-extern short D_80115128;
-extern s16 D_8011512A;
+extern short guess_g_MenuCategory;
+extern s16 guess_g_MenuExitRequest;
 extern unsigned char D_8017FE40;
 extern void func_8013EB7C(void);
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 extern void func_8013ED6C(void);
 extern s32 func_8013EE10();
-extern unsigned short D_80115118[];
+extern unsigned short guess_g_MenuTransitionTimer[];
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
@@ -897,8 +897,8 @@ extern s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2);
 
 #include "common.h"
 
-extern u8 D_80115148[];
-extern u16 D_8011511E;
+extern u8 guess_g_MenuPanelCursors[];
+extern u16 guess_g_MenuPadPressed;
 extern u8 D_80062BDC;
 
 extern s32 func_80028D58(void);
@@ -1007,7 +1007,7 @@ extern void func_800D2D10(int, int, void *, int);
 // @class: plumbing
 // @unstuck(P36): none — MATCH (128/128 ins, match_one confirmed)
 
-extern short D_80115128;
+extern short guess_g_MenuCategory;
 extern u8 D_8017FA68;
 extern char *D_8017FA88;
 extern char *D_8017FA8C;
@@ -1037,7 +1037,7 @@ extern int func_80029FD4(void);
 // @class: other
 // @unstuck(P36): none — MATCH
 
-extern short D_80115128;
+extern short guess_g_MenuCategory;
 extern unsigned short D_80115172;
 extern unsigned short D_8017F922;
 extern unsigned short D_8017F926;
@@ -1082,7 +1082,7 @@ extern Prim_1412A8 * func_801412A8(Prim_1412A8 *out, int a1, int a2, int a3, s32
 #include "../shared/ov/func_801416D4.h"
 
 
-extern unsigned short D_80115112;
+extern unsigned short guess_g_MenuStep;
 extern void (*D_8017FEB8[])(void);
 
 #include "../shared/ov/func_80141788__4d15e15c.h"
@@ -1098,8 +1098,8 @@ extern s32 func_80014ED4(s32);
 extern s32 func_80015018(s32);
 extern void func_80141C04(void);
 
-extern u16 D_8011511E;
-extern unsigned short D_80115112;
+extern u16 guess_g_MenuPadPressed;
+extern unsigned short guess_g_MenuStep;
 
 #include "../shared/ov/func_80141874__9e298500.h"
 
@@ -1111,12 +1111,12 @@ extern unsigned short D_80115112;
 
 
 
-extern u16 D_80115110;
-extern u16 D_80115112;
-extern unsigned short D_80115118[0];
-extern volatile u16 D_8011511A;
-extern s16 D_80115128;
-extern s32 D_80115130;
+extern u16 guess_g_OpenMenuId;
+extern u16 guess_g_MenuStep;
+extern unsigned short guess_g_MenuTransitionTimer[0];
+extern volatile u16 guess_g_MenuPanel;
+extern s16 guess_g_MenuCategory;
+extern s32 guess_g_MenuHelpText;
 extern s16 D_8017FE3C;
 extern s16 D_8017FE3E;
 
@@ -1128,8 +1128,8 @@ extern void func_80141C0C(s32 a0);
 void func_801418F8(void)
 {
 
-    extern s16 D_8011512E;
-    extern u8 D_80115158[];
+    extern s16 guess_g_MenuSwapSlot;
+    extern u8 guess_g_MenuPanelSizes[];
     extern s16 D_8011515A;
     extern u8 D_8011515C;
     extern s16 D_8011515E;
@@ -1144,14 +1144,14 @@ void func_801418F8(void)
     u16 t;
 
     func_800D24A0(1);
-    D_8011511A = 2;
-    t = D_8011511A;
-    (D_80115118[0]) = 0;
-    D_80115130 = 0;
+    guess_g_MenuPanel = 2;
+    t = guess_g_MenuPanel;
+    (guess_g_MenuTransitionTimer[0]) = 0;
+    guess_g_MenuHelpText = 0;
     if (t >= 4) {
-        D_8011511A = t - 3;
+        guess_g_MenuPanel = t - 3;
     }
-    (*(s16 *)D_80115158) = 0x106;
+    (*(s16 *)guess_g_MenuPanelSizes) = 0x106;
     if ((guess_TestGameFlag(0x1C) & 0xFF) == 0) {
         D_80190CF8 = &D_8017FADC;
         D_80190CFC = &D_8017FB68;
@@ -1164,39 +1164,39 @@ void func_801418F8(void)
     D_8011515E = 0x129;
     D_80115162 = 0x103;
     D_80115166 = 0x105;
-    D_80115128 = 0;
-    D_8011512E = 0;
-    if (D_80115110 == 3) {
+    guess_g_MenuCategory = 0;
+    guess_g_MenuSwapSlot = 0;
+    if (guess_g_OpenMenuId == 3) {
         func_8002D4C8(0x46E, 0);
     } else {
         func_80141C0C(0);
     }
-    D_80115128 = 1;
+    guess_g_MenuCategory = 1;
     D_8017FE3C = 0xE;
     D_8017FE3E = 3;
-    D_80115112 = D_80115112 + 1;
+    guess_g_MenuStep = guess_g_MenuStep + 1;
 }
 
 
 /* func_80141A60 @ 0x80141A60 (0x130, 76 ins) -- ov_SC01_000 shared engine fn.
  *
  * ((s32 *)D_801151C8)[]: word (s32) table indexed by (u16)(*(u16 *)&guess_g_DoubleBufferIndex) -> D_801151D0.
- * D_8011511A: u16, unsigned compare vs 4 (sltiu).
+ * guess_g_MenuPanel: u16, unsigned compare vs 4 (sltiu).
  * (*(u8 *)&D_8011514C)/4D/5C: u8 fields; a1 = (s16)((*(u8 *)&D_8011514C) + D_8011514D*D_8011515C).
- * D_80115130: cached s32 handle. D_8017FE40: address-taken arg to func_801376E8.
- * D_80115116: s16 <- 0xfff8 (ori, positive const). D_80115112: u16 counter.
+ * guess_g_MenuHelpText: cached s32 handle. D_8017FE40: address-taken arg to func_801376E8.
+ * guess_g_MenuFrameCounter: s16 <- 0xfff8 (ori, positive const). guess_g_MenuStep: u16 counter.
  */
 
 extern s16 guess_g_DoubleBufferIndex;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-/* D_8011511A: this TU declares it volatile at file scope -> a direct read reloads on every
- * use; the cast-at-use *(u16 *)&D_8011511A strips volatile so gcc CSEs the three reads into
+/* guess_g_MenuPanel: this TU declares it volatile at file scope -> a direct read reloads on every
+ * use; the cast-at-use *(u16 *)&guess_g_MenuPanel strips volatile so gcc CSEs the three reads into
  * one load (matches the single-load target). */
 extern s16 D_8011514C;
-extern s32 D_80115130;
+extern s32 guess_g_MenuHelpText;
 extern u8  D_8017FE40;
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 
 extern s32  func_8013F350(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
@@ -1215,9 +1215,9 @@ extern s32  func_800D0EC4(void);
 
 
 // @class: struct
-// @unstuck(P36): none — MATCH expected (indexed u16 global: (s16)param_1*2 + D_80115110, *2 array stride)
+// @unstuck(P36): none — MATCH expected (indexed u16 global: (s16)param_1*2 + guess_g_OpenMenuId, *2 array stride)
 
-extern u16 D_80115110;
+extern u16 guess_g_OpenMenuId;
 extern u8 D_8017FE18;
 extern void func_8002D4C8(s32 a0, s32 a1);
 

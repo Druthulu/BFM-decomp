@@ -65,7 +65,7 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         b4[1] = ac[1];
         D_80126722[0] = (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
         VectorNormalSS(D_801152A8, D_801152A8);
-        D_801150D8 |= 1;
+        guess_g_BoxHitFlags |= 1;
         return 1;
     }
 

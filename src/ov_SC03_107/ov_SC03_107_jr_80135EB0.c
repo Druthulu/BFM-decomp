@@ -627,7 +627,7 @@ extern u8 D_80182A38;
 extern u8 D_80182A3C;
 extern s16 *D_80182A40;
 extern u8 D_80182A44;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern u8 D_80126720[];
 
 extern s32 VectorNormalSS(void *a0, void *a1);
@@ -700,7 +700,7 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         b4[1] = ac[1];
         D_80126722[0] = (((Unkstruct_80135EB0 *)arg0)->unk8 + ((Unkstruct_80135EB0 *)arg0)->unkA) >> 1;
         VectorNormalSS(D_801152A8, D_801152A8);
-        D_801150D8 |= 1;
+        guess_g_BoxHitFlags |= 1;
         return 1;
     }
 

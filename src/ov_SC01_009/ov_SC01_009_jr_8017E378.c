@@ -596,7 +596,7 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
@@ -2595,9 +2595,9 @@ extern void func_8017B1D8(void);
 extern s32 func_8017B238(s32 param_1, s32 param_2);
 extern s32 func_8017B368(s32 param);
 extern s32 func_8017B614(s32 param_1, s32 param_2);
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
@@ -2710,13 +2710,13 @@ extern s32 * func_8017E1AC(s32 *ot, Panel_8017E978_8017E1AC *w0, s16 idx);
  *      `li $v1,6 / beq` chains (135 ins, 125 off) and jtbl_801CC4B4 goes
  *      unreferenced.  The bare `case 2..5,7,8:` labels are byte-free — they all
  *      resolve to the default label anyway.
- *  (c) THE MULTI-SET PRODUCT.  `lim = D_80115159[k]; lim = lim * D_80115158[k];`
+ *  (c) THE MULTI-SET PRODUCT.  `lim = D_80115159[k]; lim = lim * guess_g_MenuPanelSizes[k];`
  *      (two statements, one variable) makes the mult's dest multi-set, which
  *      un-boosts it in sched1 (sched.md S2 wants REG_N_SETS==1) so the `mult`
  *      schedules ABOVE the `sltiu`.  That is what puts the switch range-test in
  *      $v0 and lets `ret = 0` fall into the `beqz` delay slot as
  *      `addu $a2,$zero,$zero`.  Folding it to one statement
- *      (`lim = D_80115159[k] * D_80115158[k];`) boosts the mult, moves it last,
+ *      (`lim = D_80115159[k] * guess_g_MenuPanelSizes[k];`) boosts the mult, moves it last,
  *      and costs idx 23/25 ($a0 instead of $v0) — measured.
  *      Operand order is forced: the mflo dest shares $v1 with the FIRST mult
  *      operand, so the D_80115159 load must be the one assigned into `lim`.
@@ -2750,7 +2750,7 @@ extern s32 * func_8017E1AC(s32 *ot, Panel_8017E978_8017E1AC *w0, s16 idx);
  *   - func_800291B4: the TU declares `extern s32 func_800291B4(s32 arg);` at
  *     FILE scope (line 62) — identical to the one below, so the duplicate is a
  *     legal redeclaration; drop it at bank time if the conformer prefers.
- *   - AGREE with existing block-scope decls in the TU: D_80115158[] (u8, lines
+ *   - AGREE with existing block-scope decls in the TU: guess_g_MenuPanelSizes[] (u8, lines
  *     3412/3921), D_80115142 (u8 scalar, line 3695), D_801F32B4 (u8 *, line
  *     3580), D_801F32C4[] (u8, lines 3424/3581).
  *   - NEW to this TU: D_80115141, D_80115159, D_80183A40, guess_g_VillagerNames.  None is
@@ -2769,7 +2769,7 @@ extern s32 func_800291B4(s32 arg);
 s32 func_8017E378(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4) {
     extern u8  D_80115141;
     extern u8  D_80115142;
-    extern u8  D_80115158[];
+    extern u8  guess_g_MenuPanelSizes[];
     extern u8  D_80115159[];
     extern u8  D_80183A40[];
     extern s32 guess_g_VillagerNames[];
@@ -2782,7 +2782,7 @@ s32 func_8017E378(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4) {
 
     *arg4 = 0x808080;
     lim = D_80115159[(s16)arg2 * 2];
-    lim = lim * D_80115158[(s16)arg2 * 2];
+    lim = lim * guess_g_MenuPanelSizes[(s16)arg2 * 2];
     ret = 0;
 
     switch ((s16)arg1) {                            /* jtbl_801CC4B4 */

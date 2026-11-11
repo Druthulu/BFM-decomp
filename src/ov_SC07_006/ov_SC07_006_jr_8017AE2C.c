@@ -715,8 +715,8 @@ extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern unsigned short D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern unsigned short guess_g_MenuStep;
 extern void func_8013E588(void * _arg0);
 extern void func_801754A8(void);
 extern s32 func_80014ED4(s32);
@@ -736,9 +736,9 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-extern u16 D_8011511A;
-extern u16 D_8011511E;
-extern s32 D_80115130;
+extern u16 guess_g_MenuPanel;
+extern u16 guess_g_MenuPadPressed;
+extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
@@ -747,25 +747,25 @@ extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 extern void func_8013ED6C(void);
 extern s32 func_8013EE10();
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
-extern unsigned short D_80115118;
+extern unsigned short guess_g_MenuTransitionTimer;
 extern void func_8013F1BC(void);
 extern void func_80141C0C(s32);
-extern u16 D_8011511C;
+extern u16 guess_g_MenuPadHeld;
 extern u16 D_80115120;
-extern u16 D_80115122;
-extern s16 D_80115128;
-extern s16 D_8011512A;
-extern u16 D_8011512E;
-extern u8  D_80115140[];
+extern u16 guess_g_MenuPadRepeatTimer;
+extern s16 guess_g_MenuCategory;
+extern s16 guess_g_MenuExitRequest;
+extern u16 guess_g_MenuSwapSlot;
+extern u8  guess_g_MenuPanelScrollTops[];
 extern s16 D_8011514E;
 extern u8  D_80115152;
-extern u8 D_80115158[];   /* macro-canonical (§8e) */
+extern u8 guess_g_MenuPanelSizes[];   /* macro-canonical (§8e) */
 extern u8 D_8011515C;     /* macro-canonical (§8e) */
 extern u8  D_8018B4A8[];
 extern u8  D_8018B4C0[];
@@ -826,9 +826,9 @@ extern void func_800291A0(s32, s32);
 extern s32 func_800291DC(s32);
 extern void func_800291C8(s32, s32);
 extern void func_801415C0(s32 param_1, s32 param_2);
-extern u8 D_80115148[];
+extern u8 guess_g_MenuPanelCursors[];
 extern u8 D_80115149[];
-extern u8 D_80115158[];
+extern u8 guess_g_MenuPanelSizes[];
 extern u8 D_8011514D;
 extern u8 D_8011515C;
 extern s32 func_800D11F0(s32 a0);
@@ -839,8 +839,8 @@ extern void func_801417C4(void);
 extern u8 D_800B9A16;
 extern u16 D_80115114;
 extern void func_801417F8(void);
-extern u16 D_8011511A;
-extern u16 D_8011512E;   /* §17a-1: canonical width (jr_8013F350 TUs decl u16); byte-neutral here (only use is store-0) */
+extern u16 guess_g_MenuPanel;
+extern u16 guess_g_MenuSwapSlot;   /* §17a-1: canonical width (jr_8013F350 TUs decl u16); byte-neutral here (only use is store-0) */
 extern s32  guess_TestGameFlag(s32 a0);
 extern void func_801418F8(void);
 extern void func_80141A60(void);
@@ -1520,7 +1520,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -3594,9 +3594,9 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 void func_8017B7A8(void)
 {
 
-    extern s32 D_80114F30;
-    extern s32 D_80114F34;
-    extern s32 D_80114F38;
+    extern s32 guess_g_StoredRefPointX;
+    extern s32 guess_g_StoredRefPointY;
+    extern s32 guess_g_StoredRefPointZ;
     extern s32 guess_g_StoredViewPointX;
     extern s32 guess_g_StoredViewPointY;
     extern s32 guess_g_StoredViewPointZ;
@@ -3610,9 +3610,9 @@ void func_8017B7A8(void)
     extern s16 D_801F6068;
     D_8012694C = 1;
     D_801F5FF4 = 0;
-    D_801F606C = (s16) D_80114F30;
-    D_801F606E = (s16) D_80114F34;
-    D_801F6070 = (s16) D_80114F38;
+    D_801F606C = (s16) guess_g_StoredRefPointX;
+    D_801F606E = (s16) guess_g_StoredRefPointY;
+    D_801F6070 = (s16) guess_g_StoredRefPointZ;
     D_801F6064 = (s16) guess_g_StoredViewPointX;
     D_801F6066 = (s16) guess_g_StoredViewPointY;
     D_801F6068 = (s16) guess_g_StoredViewPointZ;
@@ -3654,15 +3654,15 @@ void func_8017B880(void)
     extern s16 D_801F608C;
     extern s16 D_801F608E;
     extern s16 D_801F6090;
-    extern s32 D_80114F30;
-    extern s32 D_80114F34;
-    extern s32 D_80114F38;
+    extern s32 guess_g_StoredRefPointX;
+    extern s32 guess_g_StoredRefPointY;
+    extern s32 guess_g_StoredRefPointZ;
     extern s32 guess_g_StoredViewPointX;
     extern s32 guess_g_StoredViewPointY;
     extern s32 guess_g_StoredViewPointZ;
-    D_80114F30 = D_801F6084;
-    D_80114F34 = D_801F6086;
-    D_80114F38 = D_801F6088;
+    guess_g_StoredRefPointX = D_801F6084;
+    guess_g_StoredRefPointY = D_801F6086;
+    guess_g_StoredRefPointZ = D_801F6088;
     guess_g_StoredViewPointX = D_801F608C;
     guess_g_StoredViewPointY = D_801F608E;
     guess_g_StoredViewPointZ = D_801F6090;
@@ -3698,9 +3698,9 @@ void func_8017B940(void)
     extern u16 D_801F6074;
     extern u16 D_801F6076;
     extern u16 D_801F6078;
-    extern s32 D_80114F30;
-    extern s32 D_80114F34;
-    extern s32 D_80114F38;
+    extern s32 guess_g_StoredRefPointX;
+    extern s32 guess_g_StoredRefPointY;
+    extern s32 guess_g_StoredRefPointZ;
     extern s32 guess_g_StoredViewPointX;
     extern s32 guess_g_StoredViewPointY;
     extern s32 guess_g_StoredViewPointZ;
@@ -3724,10 +3724,10 @@ void func_8017B940(void)
     (D_801F607C[0]) = buf[0];
     (D_801F607E[0]) = buf[1];
     (D_801F6080[0]) = buf[2];
-    D_801F606C = D_80114F30 + buf[0];
+    D_801F606C = guess_g_StoredRefPointX + buf[0];
     D_801F5FF4 = 0;
-    D_801F606E = D_80114F34 + buf[1];
-    D_801F6070 = D_80114F38 + buf[2];
+    D_801F606E = guess_g_StoredRefPointY + buf[1];
+    D_801F6070 = guess_g_StoredRefPointZ + buf[2];
     D_801F6064 = guess_g_StoredViewPointX + buf[0];
     D_801F6066 = guess_g_StoredViewPointY + buf[1];
     D_801F6068 = guess_g_StoredViewPointZ + buf[2];
@@ -3913,18 +3913,18 @@ void func_8017BD50(int param_1)
     extern s32 guess_g_StoredViewPointX;
     extern s32 guess_g_StoredViewPointY;
     extern s32 guess_g_StoredViewPointZ;
-    extern s32 D_80114F30;
-    extern s32 D_80114F34;
-    extern s32 D_80114F38;
+    extern s32 guess_g_StoredRefPointX;
+    extern s32 guess_g_StoredRefPointY;
+    extern s32 guess_g_StoredRefPointZ;
     func_8017B0E4(param_1, 6);
     D_801F5FF4 = D_801F5FF4 + 1;
     if (D_801F5FF4 >= 0x19) {
         if (D_801F6038 != 0) {
             (*D_801F6038)();
         } else {
-            D_80114F30 = D_80114F30 + D_801F607C[0];
-            D_80114F34 = D_80114F34 + D_801F607E[0];
-            D_80114F38 = D_80114F38 + D_801F6080[0];
+            guess_g_StoredRefPointX = guess_g_StoredRefPointX + D_801F607C[0];
+            guess_g_StoredRefPointY = guess_g_StoredRefPointY + D_801F607E[0];
+            guess_g_StoredRefPointZ = guess_g_StoredRefPointZ + D_801F6080[0];
             guess_g_StoredViewPointX = guess_g_StoredViewPointX + D_801F607C[0];
             guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_801F607E[0];
             guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_801F6080[0];

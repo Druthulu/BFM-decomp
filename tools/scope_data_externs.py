@@ -93,7 +93,7 @@ def _body_open_brace(body, func):
 
     Unmasked, `sig` matched the COMMENT's first line and `find('{')` then found the comment's
     `do {`, so every carried `extern` was spliced INTO THE COMMENT — silently commented out. The
-    gate reported `'D_8011511A' undeclared` and the sweep classified it CC1-FAIL, i.e. it read as a
+    gate reported `'guess_g_MenuPanel' undeclared` and the sweep classified it CC1-FAIL, i.e. it read as a
     property of the SIBLING (all 4 members of the family failed identically) when it was a property
     of the EXEMPLAR'S PROSE. Every richly-commented agent draft is a carrier; the trigger is any
     brace inside the header comment. Same §134 class as `_mask_cpp_directives` and the wrapped-decl

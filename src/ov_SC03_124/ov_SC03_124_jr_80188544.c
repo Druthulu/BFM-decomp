@@ -590,7 +590,7 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
@@ -2588,9 +2588,9 @@ extern s32 func_8017B238(s32 param_1, s32 param_2);
 extern s32 func_8017B368(s32 param);
 extern s32 func_8017B490(s32 param);
 extern s32 func_8017B614(s32 param_1, s32 param_2);
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
@@ -2967,7 +2967,7 @@ extern void func_801754A8(void);
 extern void func_80141C04(void);
 extern void func_80185BD4(void);
 extern u8 D_80115138[];
-extern u8 D_80115148[];
+extern u8 guess_g_MenuPanelCursors[];
 extern s16 D_801E23F0;
 extern s16 D_801E23F4;
 extern s16 D_801E23F8;
@@ -3091,7 +3091,7 @@ s32 func_80188544(s32 param_1, s32 param_2) {
     }
 
     case 8:
-        if (D_80115148[0] != 0) {
+        if (guess_g_MenuPanelCursors[0] != 0) {
             s32 t = func_800291B4(D_8018BC64[(short)param_2]) & 0xFF;
             if (t != 0) {
                 s32 idx = t * 0xC;
@@ -3137,7 +3137,7 @@ s32 func_80188544(s32 param_1, s32 param_2) {
 
     case 11:
         if (D_80115126 == 4) {
-            if (D_80115148[0] == 0) {
+            if (guess_g_MenuPanelCursors[0] == 0) {
                 result = D_801E7540;
                 if (D_801E23CC[(short)param_2] == 0) {
                     result = D_801BCB38[(short)param_2];
@@ -3186,12 +3186,12 @@ s32 *func_8018893C(out, src, idx, w, col)
 {
     extern short guess_g_DoubleBufferIndex;                /* TU-visible spelling (file scope) */
     extern s16 func_8014168C(s16 a0);
-    extern u16 D_8011511A;
-    extern u16 D_80115116;
+    extern u16 guess_g_MenuPanel;
+    extern u16 guess_g_MenuFrameCounter;
     extern u8  D_80115138[];
-    extern u8  D_80115140[];
-    extern u8  D_80115148[];
-    extern u8  D_80115158[];
+    extern u8  guess_g_MenuPanelScrollTops[];
+    extern u8  guess_g_MenuPanelCursors[];
+    extern u8  guess_g_MenuPanelSizes[];
     extern u16 D_801BC522;
     extern u16 D_801BC536;
 
@@ -3224,7 +3224,7 @@ s32 *func_8018893C(out, src, idx, w, col)
          * `sll $v0,$v0,1` with no `andi`/re-extend. */
         t = ((s32 (*)(s16)) func_8014168C)(idx) * 2;
     } else {
-        t = (D_80115148[idx * 2] - D_80115140[idx]) * 2;
+        t = (guess_g_MenuPanelCursors[idx * 2] - guess_g_MenuPanelScrollTops[idx]) * 2;
     }
 
     q = (u16 *)(t * 2 + (s32)src);
@@ -3247,9 +3247,9 @@ s32 *func_8018893C(out, src, idx, w, col)
         return out;
     }
 
-    m = D_8011511A;
+    m = guess_g_MenuPanel;
     if (m == idx) {
-        if ((D_80115116 & 8) != 0) {
+        if ((guess_g_MenuFrameCounter & 8) != 0) {
             s16 j;
             s32 k;
             s16 y;
@@ -3275,14 +3275,14 @@ s32 *func_8018893C(out, src, idx, w, col)
              * before the 0x10/0x12 stores here even though the scheduler sinks it back. */
             for (; j < 2; j++) {
                 if (j == 0) {
-                    if (D_80115140[k] == 0) {
+                    if (guess_g_MenuPanelScrollTops[k] == 0) {
                         continue;
                     }
                     *((u8 *)out + 0xD) = 0x30;
                     y = D_801BC522 - 2;
                 } else {
                     s32 k2 = k * 2;
-                    if ((((s8 *)D_80115158)[k2] - ((s8 *)D_80115140)[k]) < 7) {
+                    if ((((s8 *)guess_g_MenuPanelSizes)[k2] - ((s8 *)guess_g_MenuPanelScrollTops)[k]) < 7) {
                         continue;
                     }
                     *((u8 *)out + 0xD) = 0x38;
@@ -3339,12 +3339,12 @@ s32 func_80188C68(s32 arg0, s16 arg1)
     extern s16 D_8010EDEE;
     extern u8  D_8010EDF1;
     extern u8  D_8010EDF2;
-    extern u16 D_80115112;
-    extern u16 D_8011511A;
+    extern u16 guess_g_MenuStep;
+    extern u16 guess_g_MenuPanel;
     extern u8  D_8011514C;
     extern s16 D_8011514E;
     extern s16 D_80115126;
-    extern u8  D_80115148[];
+    extern u8  guess_g_MenuPanelCursors[];
     extern s8  D_801BCB68[];
     extern void (*D_801DE7D8[])(void);
     extern s32 D_801DE908[];
@@ -3374,14 +3374,14 @@ s32 func_80188C68(s32 arg0, s16 arg1)
             return -1;
         }
         func_8002D4C8(0x46F, 0);
-        D_8011511A = arg1 + 1;
+        guess_g_MenuPanel = arg1 + 1;
         return 0;
 
     case 2:
         if (arg1 == 2) {
             return -1;
         }
-        D_8011511A = 2;
+        guess_g_MenuPanel = 2;
         func_8002D4C8(0x46F, 0);
         return 0;
 
@@ -3396,14 +3396,14 @@ s32 func_80188C68(s32 arg0, s16 arg1)
         }
         func_8002D4C8(0x46F, 0);
         if (arg1 != 0) {
-            D_8011511A = arg1;
+            guess_g_MenuPanel = arg1;
         } else {
-            D_8011511A = 2;
+            guess_g_MenuPanel = 2;
         }
         return 0;
 
     case 11:
-        D_8011511A = 3;
+        guess_g_MenuPanel = 3;
         D_8011514E = 0;
         func_8002D4C8(0x46F, 0);
         return 0;
@@ -3554,7 +3554,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
         register s32 cv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
         s32 p8;
         u16 *c;
-        if ((*(u8 *)D_80115148) != 0) {
+        if ((*(u8 *)guess_g_MenuPanelCursors) != 0) {
             goto L801899B0;
         }
         k8 = ((u8 (*)(s32))func_800291B4)((s32)arg1 + 0x2F);
@@ -3575,7 +3575,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
         }
         D_801E2358 = (s32)&D_801E40FC;
         func_80139A44(p8, 0);
-        c = &D_80115112;
+        c = &guess_g_MenuStep;
         cv = *c;
         cv = cv + 1;
         *c = cv;
@@ -3625,7 +3625,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
         s32 t;
         s32 u;
         if (D_80115126 == 4) {
-            if ((*(u8 *)D_80115148) == 0) {
+            if ((*(u8 *)guess_g_MenuPanelCursors) == 0) {
                 s32 i11 = arg1;
                 if (D_801E23CC[i11] != 0) {
                     goto bad472;
@@ -3634,7 +3634,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
                     goto L801896C8;
                 }
                 D_801E2358 = (s32)&D_801E73C0;
-                D_80115112 = D_80115112 + 1;
+                guess_g_MenuStep = guess_g_MenuStep + 1;
                 ((void (*)(s32, s32))func_80139A68)((s16)(arg1 + 1), 0);
                 func_8002D4C8(0x5EE, 0);
                 return 0;
@@ -3675,9 +3675,9 @@ s32 func_80188C68(s32 arg0, s16 arg1)
         }
     tail45D:
         func_8002D4C8(0x45D, 0);
-        dv = D_80115112;
+        dv = guess_g_MenuStep;
         dv = dv + 1;
-        D_80115112 = dv;
+        guess_g_MenuStep = dv;
         return 0;
     }
     }

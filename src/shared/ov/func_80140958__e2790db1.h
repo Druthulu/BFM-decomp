@@ -7,7 +7,7 @@ s16 n;
 {
 
     extern s16 D_8011514E;
-    extern u8 D_80115158[];
+    extern u8 guess_g_MenuPanelSizes[];
     extern Hw4 D_8011516A[];
     extern Prim4 D_8017F934[];
     extern Prim4 *D_8017FA28[];
@@ -31,7 +31,7 @@ u32 mhi;
   if (i < n)
   {
     c3 = 3;
-    a = &D_80115110;
+    a = &guess_g_OpenMenuId;
     b = a + 5;
     c = a + 3;
     e = &D_8017F966;
@@ -89,7 +89,7 @@ u32 mhi;
           {
             if (j == 0)
             {
-              if (D_80115140[k] == 0)
+              if (guess_g_MenuPanelScrollTops[k] == 0)
               {
                 continue;
               }
@@ -99,7 +99,7 @@ u32 mhi;
             else
             {
               s32 k2 = k * 2;
-              if ((((s8 *) D_80115158)[k2] - ((s8 *) D_80115140)[k]) < 2)
+              if ((((s8 *) guess_g_MenuPanelSizes)[k2] - ((s8 *) guess_g_MenuPanelScrollTops)[k]) < 2)
               {
                 continue;
               }

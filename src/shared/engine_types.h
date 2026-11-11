@@ -800,7 +800,7 @@ typedef struct {
 typedef S0_801347A0 S0;
 typedef S10_80136C90 S10;
 typedef struct {
-    unsigned short field0;   /* 0x00  D_80115118 */
+    unsigned short field0;   /* 0x00  guess_g_MenuTransitionTimer */
     unsigned char  _pad[0xAE];
     int            arrB0[128];/* 0xB0 */
 } S115118;

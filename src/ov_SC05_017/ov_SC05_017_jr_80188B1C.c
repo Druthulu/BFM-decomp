@@ -589,7 +589,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
@@ -2587,9 +2587,9 @@ extern s32 func_8017B238(s32 param_1, s32 param_2);
 extern s32 func_8017B368(s32 param);
 extern s32 func_8017B490(s32 param);
 extern s32 func_8017B614(s32 param_1, s32 param_2);
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
@@ -2962,7 +2962,7 @@ extern void func_801754A8(void);
 extern void func_80141C04(void);
 extern void func_801861AC(void);
 extern u8 D_80115138[];
-extern u8 D_80115148[];
+extern u8 guess_g_MenuPanelCursors[];
 extern s16 D_801ED5F8;
 extern s16 D_801ED5FC;
 extern s16 D_801ED600;
@@ -3085,7 +3085,7 @@ s32 func_80188B1C(s32 param_1, s32 param_2) {
     }
 
     case 8:
-        if (D_80115148[0] != 0) {
+        if (guess_g_MenuPanelCursors[0] != 0) {
             s32 t = func_800291B4(D_8018E28C[(short)param_2]) & 0xFF;
             if (t != 0) {
                 s32 idx = t * 0xC;
@@ -3131,7 +3131,7 @@ s32 func_80188B1C(s32 param_1, s32 param_2) {
 
     case 11:
         if (D_80115126 == 4) {
-            if (D_80115148[0] == 0) {
+            if (guess_g_MenuPanelCursors[0] == 0) {
                 result = D_801F2930;
                 if (D_801ED5D4[(short)param_2] == 0) {
                     result = D_801B93AC[(short)param_2];
@@ -3166,11 +3166,11 @@ extern s16 func_8014168C(s16 a0);
 s32 *func_80188F14(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 
     extern u8  D_80115138[];
-    extern u8  D_80115140[];
-    extern u8  D_80115148[];
-    extern u8  D_80115158[];
-    extern u16 D_80115116;
-    extern u16 D_8011511A;
+    extern u8  guess_g_MenuPanelScrollTops[];
+    extern u8  guess_g_MenuPanelCursors[];
+    extern u8  guess_g_MenuPanelSizes[];
+    extern u16 guess_g_MenuFrameCounter;
+    extern u16 guess_g_MenuPanel;
     extern u16 D_801B8D96;
     extern u16 D_801B8DAA;
     extern s16 guess_g_DoubleBufferIndex;
@@ -3197,7 +3197,7 @@ s32 *func_80188F14(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     if (c < 10) {
         t = ((s32 (*)(s32))func_8014168C)((s16)idx) * 2;
     } else {
-        t = (D_80115148[(s16)idx * 2] - D_80115140[(s16)idx]) * 2;
+        t = (guess_g_MenuPanelCursors[(s16)idx * 2] - guess_g_MenuPanelScrollTops[(s16)idx]) * 2;
     }
 
     p = (u16 *)(t * 2 + (s32)a1p);
@@ -3215,8 +3215,8 @@ s32 *func_80188F14(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     ot += 5;
 
     if (c >= 10) {
-        s32 m = D_8011511A;
-        if ((m == (s16)idx2) && ((D_80115116 & 8) != 0)) {
+        s32 m = guess_g_MenuPanel;
+        if ((m == (s16)idx2) && ((guess_g_MenuFrameCounter & 8) != 0)) {
             s16 j;
             s32 k;
             u8 *q;
@@ -3235,14 +3235,14 @@ s32 *func_80188F14(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
             q = (u8 *)ot + 0x14;
             for (; j < 2; j++) {
                 if (j == 0) {
-                    if (D_80115140[k] == 0) {
+                    if (guess_g_MenuPanelScrollTops[k] == 0) {
                         continue;
                     }
                     q[-7] = 0x30;
                     *(s16 *)(q - 10) = D_801B8D96 - 2;
                 } else {
                     s32 k2 = k * 2;
-                    if ((((s8 *)D_80115158)[k2] - ((s8 *)D_80115140)[k]) < 7) {
+                    if ((((s8 *)guess_g_MenuPanelSizes)[k2] - ((s8 *)guess_g_MenuPanelScrollTops)[k]) < 7) {
                         continue;
                     }
                     q[-7] = 0x38;
@@ -3316,7 +3316,7 @@ extern void func_80139A44(s32, s32);
 extern void func_80139A68(s32 a0, u16 a1);
 
 /* ---- data ---- */
-extern u16  D_8011511A;
+extern u16  guess_g_MenuPanel;
 extern s16  D_801ECE90;
 extern s16  D_8011514E;
 extern u8  *D_801ED55C;
@@ -3329,7 +3329,7 @@ extern s16  D_8010EDEE;   /* record +0x2, s16 */
 extern u8   D_8010EDF1;   /* record +0x5, u8  */
 extern u8   D_8010EDF2;   /* record +0x6, u8  */
 extern s16  D_80115126;
-extern u8   D_80115148[];
+extern u8   guess_g_MenuPanelCursors[];
 extern s16  D_801ED5EC;
 extern s32  D_801EF550;
 extern s32  D_801ED560;
@@ -3337,7 +3337,7 @@ extern void (*D_801E9B28[])(void);
 extern s8   D_801B93DC[];
 extern s32  D_801E9C58[];
 extern s32  D_801EF4EC;
-extern u16  D_80115112;
+extern u16  guess_g_MenuStep;
 extern s32  D_801F27B0;
 extern s32  D_801EF168;
 extern s16  D_801ED5F4;
@@ -3364,14 +3364,14 @@ s32 func_80189240(s32 a0, s16 arg1)
             return -1;
         }
         func_8002D4C8(0x46F, 0);
-        D_8011511A = arg1 + 1;
+        guess_g_MenuPanel = arg1 + 1;
         return 0;
 
     case 3:
         if (arg1 == 2) {
             return -1;
         }
-        D_8011511A = 2;
+        guess_g_MenuPanel = 2;
         func_8002D4C8(0x46F, 0);
         return 0;
 
@@ -3386,14 +3386,14 @@ s32 func_80189240(s32 a0, s16 arg1)
         }
         func_8002D4C8(0x46F, 0);
         if (arg1 != 0) {
-            D_8011511A = arg1;
+            guess_g_MenuPanel = arg1;
         } else {
-            D_8011511A = 2;
+            guess_g_MenuPanel = 2;
         }
         return 0;
 
     case 12:
-        D_8011511A = 3;
+        guess_g_MenuPanel = 3;
         D_8011514E = 0;
         func_8002D4C8(0x46F, 0);
         return 0;
@@ -3544,7 +3544,7 @@ s32 func_80189240(s32 a0, s16 arg1)
         register s32 cv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
         s32 p8;
         u16 *c;
-        if ((*(u8 *)D_80115148) != 0) {
+        if ((*(u8 *)guess_g_MenuPanelCursors) != 0) {
             goto L801896B0;
         }
         k8 = ((u8 (*)(s32))func_800291B4)((s32)arg1 + 0x2F);
@@ -3565,7 +3565,7 @@ s32 func_80189240(s32 a0, s16 arg1)
         }
         D_801ED560 = (s32)&D_801EF4EC;
         func_80139A44(p8, 0);
-        c = &D_80115112;
+        c = &guess_g_MenuStep;
         cv = *c;
         cv = cv + 1;
         *c = cv;
@@ -3615,7 +3615,7 @@ s32 func_80189240(s32 a0, s16 arg1)
         s32 t;
         s32 u;
         if (D_80115126 == 4) {
-            if ((*(u8 *)D_80115148) == 0) {
+            if ((*(u8 *)guess_g_MenuPanelCursors) == 0) {
                 s32 i11 = arg1;
                 if (D_801ED5D4[i11] != 0) {
                     goto bad472;
@@ -3624,7 +3624,7 @@ s32 func_80189240(s32 a0, s16 arg1)
                     goto L801893C8;
                 }
                 D_801ED560 = (s32)&D_801F27B0;
-                D_80115112 = D_80115112 + 1;
+                guess_g_MenuStep = guess_g_MenuStep + 1;
                 ((void (*)(s32, s32))func_80139A68)((s16)(arg1 + 1), 0);
                 func_8002D4C8(0x5EE, 0);
                 return 0;
@@ -3665,9 +3665,9 @@ s32 func_80189240(s32 a0, s16 arg1)
         }
     tail45D:
         func_8002D4C8(0x45D, 0);
-        dv = D_80115112;
+        dv = guess_g_MenuStep;
         dv = dv + 1;
-        D_80115112 = dv;
+        guess_g_MenuStep = dv;
         return 0;
     }
     }

@@ -31,7 +31,7 @@ Fix: `strip_c_comments()` in make_base_c before the other passes. Immediately cr
   (scalar) → real integer subtraction → `bltz` survives, +17 ins exact. **Diagnostic tell: a large
   instruction SHORTFALL concentrated in sign-test/branch blocks → suspect a value-symbol mis-declared
   as array.** Fixing it also auto-restored the `$s` regalloc order (ref-counts) — confirms §32#1.
-- Residual 6 = C1 (idx69-71, §31 S4 load-gap-filler: `sw D_801150D8`=pre-call low-LUID wins the
+- Residual 6 = C1 (idx69-71, §31 S4 load-gap-filler: `sw guess_g_BoxHitFlags`=pre-call low-LUID wins the
   `lw a0` load-delay slot over the a1 call-arg load) + C2 (idx135-137, expand_abs `move $3,$2;negu $3`
   vs target in-place `negu $2`; local-alloc coalesce).
 - **FRAME KNIFE-EDGE unsteerable sub-class:** frame 0x60 comes ONLY from the OOB `buf[16]+memcpy(buf+16,a2,8)`

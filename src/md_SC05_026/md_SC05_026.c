@@ -61,52 +61,52 @@ s16 func_801EDD10(void) {
 void func_801EDD20(s32 a0, s32 a1) {
     extern u8 D_800B9A15;
     extern u8 guess_g_ActiveMenu;
-    extern u16 D_80115110;
+    extern u16 guess_g_OpenMenuId;
     extern s16 D_80115126;
     extern u16 D_801F8014;
     extern u16 D_801F8010;
-    extern u16 D_80115112;
+    extern u16 guess_g_MenuStep;
     extern void *D_8011DB24;
     extern void func_801EDD98(void);
     extern s32 func_8002D4C8(s32, s32);
 
     D_800B9A15 = 1;
     guess_g_ActiveMenu = 5;
-    D_80115110 = 4;
+    guess_g_OpenMenuId = 4;
     D_80115126 = a0;
     D_801F8014 = a1;
     D_801F8010 = a1;
-    D_80115112 = 0;
+    guess_g_MenuStep = 0;
     D_8011DB24 = (void *) func_801EDD98;
     func_8002D4C8(0x1E, 0);
 }
 
 
-extern u16 D_80115116;
-extern unsigned short D_80115112;
+extern u16 guess_g_MenuFrameCounter;
+extern unsigned short guess_g_MenuStep;
 extern void (*D_801F19C0[])(void);
 extern void func_80141C04(void);
 
 void func_801EDD98(void) {
 
-    extern u16 D_80115112;
-    extern u16 D_80115116;
+    extern u16 guess_g_MenuStep;
+    extern u16 guess_g_MenuFrameCounter;
     extern void (*D_801F19C0[])(void);
     u16 i;
-    i = D_80115112;
+    i = guess_g_MenuStep;
     D_801F19C0[i]();
     func_80141C04();
-    D_80115116++;
+    guess_g_MenuFrameCounter++;
 }
 
 
 extern void func_800D24A0(s32);
 extern void func_801EDE38(void);
 extern void func_8002AF18(void);
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 
 void func_801EDDF4(void) {
-    u16 *p = &D_80115112;
+    u16 *p = &guess_g_MenuStep;
     func_800D24A0(5);
     func_801EDE38();
     func_8002AF18();
@@ -119,10 +119,10 @@ extern u8 D_801F8308[];
 extern void (*D_801F8010)();
 extern s16 D_801F800C;
 extern s16 D_801F8018;
-extern s16 D_80115118[];
+extern s16 guess_g_MenuTransitionTimer[];
 extern s16 D_8011512C;
 extern s32 D_801F1838;
-extern s32 D_80115130;
+extern s32 guess_g_MenuHelpText;
 extern s32 D_80115134;
 extern s32 D_801F18E4[];
 extern s16 D_80115126;
@@ -142,7 +142,7 @@ void func_801EDE38(void) {
     cond = *(s16 *)&D_801F8010;
     D_801F800C = 0;
     D_801F8018 = 0;
-    D_80115118[0] = 0;
+    guess_g_MenuTransitionTimer[0] = 0;
     if (cond == 0) {
         D_8011512C = 0;
         D_801F1838 = D_801F17A0;
@@ -151,7 +151,7 @@ void func_801EDE38(void) {
         D_801F1838 = 26;
     }
     i = 0;
-    p = &D_80115130;
+    p = &guess_g_MenuHelpText;
     *p = 0;
     D_80115134 = D_801F18E4[D_80115126];
     q = (s16 *)p + 20;
@@ -174,11 +174,11 @@ void func_801EDE38(void) {
  *
  * Codegen note (§31 cse_expr): the target materialises the symbol address ONCE
  * (lui+addiu -> $v1) and does both the lhu and the sh off that base. Writing the global
- * directly (D_80115112 = D_80115112 + 1) instead emits TWO luis (%hi for the load, %hi for
+ * directly (guess_g_MenuStep = guess_g_MenuStep + 1) instead emits TWO luis (%hi for the load, %hi for
  * the store) -> 8 ins, LENGTH-DRIFT. Taking the address into a pointer local forces the
  * single-base form. The nop at idx3 is the lhu load-delay slot (maspsx).
  *
- * D_80115112: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
+ * guess_g_MenuStep: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
  */
 
 
@@ -200,7 +200,7 @@ void func_801EDF80(void)
     extern s32 D_801F8310;
     extern s16 D_801F800C;
     extern u8 D_800B9A15;
-    extern unsigned short D_80115112;
+    extern unsigned short guess_g_MenuStep;
     extern s32 func_8002B0B4(s32, s32, void *);
     extern s32 func_801EEC54(void);
     extern void func_801EEFBC(void);
@@ -228,7 +228,7 @@ void func_801EDF80(void)
     ret = func_801EE0D4();
     func_801EE730();
     if ((ret << 16) != 0) {
-        p = &D_80115112;
+        p = &guess_g_MenuStep;
         cnt = *p;
         D_801F800C = ret;
         D_800B9A15 = 0;
@@ -249,11 +249,11 @@ void func_801EDF80(void)
  *
  * Codegen note (§31 cse_expr): the target materialises the symbol address ONCE
  * (lui+addiu -> $v1) and does both the lhu and the sh off that base. Writing the global
- * directly (D_80115112 = D_80115112 + 1) instead emits TWO luis (%hi for the load, %hi for
+ * directly (guess_g_MenuStep = guess_g_MenuStep + 1) instead emits TWO luis (%hi for the load, %hi for
  * the store) -> 8 ins, LENGTH-DRIFT. Taking the address into a pointer local forces the
  * single-base form. The nop at idx3 is the lhu load-delay slot (maspsx).
  *
- * D_80115112: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
+ * guess_g_MenuStep: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
  */
 
 
@@ -270,7 +270,7 @@ void func_801EE07C(void) {
 
     extern short guess_g_DoubleBufferIndex;
     extern u16 D_80115114;
-    extern u16 D_80115112;
+    extern u16 guess_g_MenuStep;
     u16 v0 = (*(u16 *)&guess_g_DoubleBufferIndex);
     u16 v1 = D_80115114;
 
@@ -279,7 +279,7 @@ void func_801EE07C(void) {
     if (v1 == v0) {
         func_800D2624();
     } else {
-        D_80115112++;
+        guess_g_MenuStep++;
     }
 }
 
@@ -301,7 +301,7 @@ extern void func_8002AF18(void);
 
 s32 func_801EE0D4(void) {
 
-    extern u16 D_8011511A;
+    extern u16 guess_g_MenuPanel;
     extern u8 D_801F8303[];
     extern s32 D_801F18D8;
     extern s16 D_801F8014;
@@ -325,20 +325,20 @@ s32 func_801EE0D4(void) {
     flag = 0;
     pad = func_80014ED4(0);
     func_80015018(0);
-    func_8014168C(D_8011511A);
+    func_8014168C(guess_g_MenuPanel);
 
     if (pad & 0x40) {
         st = D_8011512C;
         switch (st) {
         case 1:
             if (D_80115126 == 0) {
-                if (D_801F8303[D_8011511A] == 1) {
+                if (D_801F8303[guess_g_MenuPanel] == 1) {
                     D_801F1838 = 0x19;
                 } else {
                     ((void (*)(s32, s32))func_8002D4C8)(0x472, 0);
                     return 0;
                 }
-            } else if (D_801F8303[D_8011511A] == 1) {
+            } else if (D_801F8303[guess_g_MenuPanel] == 1) {
                 D_801F1838 = 0x16;
             } else {
                 D_801F1838 = 0x19;
@@ -351,9 +351,9 @@ s32 func_801EE0D4(void) {
             if (D_80115126 == 0) {
                 D_801F18D8 = 0x14;
                 D_801F82F8 = 2;
-                D_801F82FC = D_8011511A - 1;
+                D_801F82FC = guess_g_MenuPanel - 1;
             } else {
-                D_801F82FC = D_8011511A - 1;
+                D_801F82FC = guess_g_MenuPanel - 1;
                 func_801EFC58(1);
                 func_8002AF70(D_801F801C, D_801F82FC);
                 D_801F18D8 = 0xE;
@@ -365,7 +365,7 @@ s32 func_801EE0D4(void) {
         case 4:
         case 7:
         Lcheck47:
-            if ((*(u16 *)D_80115118) < 0x47) {
+            if ((*(u16 *)guess_g_MenuTransitionTimer) < 0x47) {
                 goto Lreset;
             }
             return 0;
@@ -480,13 +480,13 @@ Lload:
     st = D_8011512C;
 Ltail:
     if (st == 4 || st == 7 || st >= 10) {
-        ph = &(D_80115118[0]);
+        ph = &(guess_g_MenuTransitionTimer[0]);
         if (*ph != 0) {
             *ph = *ph - 1;
             goto Lmid;
         }
     Lreset:
-        (*(u16 *)D_80115118) = 0;
+        (*(u16 *)guess_g_MenuTransitionTimer) = 0;
         if (D_80115126 == 0) {
             if (D_8011512C == 4) {
                 return -1;
@@ -522,15 +522,15 @@ Lmid:
         return 0;
     }
     if (pad & 0x1000) {
-        t = D_8011511A;
-        D_8011511A = t - 2;
+        t = guess_g_MenuPanel;
+        guess_g_MenuPanel = t - 2;
         flag = 1;
-        if (D_8011511A == 0 || D_8011511A >= 5) {
-            D_8011511A = t + 2;
+        if (guess_g_MenuPanel == 0 || guess_g_MenuPanel >= 5) {
+            guess_g_MenuPanel = t + 2;
         }
     }
     if (pad & 0x4000) {
-        ph = &D_8011511A;
+        ph = &guess_g_MenuPanel;
         t2 = *ph;
         *ph = t2 + 2;
         flag = 1;
@@ -539,7 +539,7 @@ Lmid:
         }
     }
     if (pad & 0x8000) {
-        ph = &D_8011511A;
+        ph = &guess_g_MenuPanel;
         t2 = *ph;
         *ph = t2 + 1;
         flag = 1;
@@ -548,7 +548,7 @@ Lmid:
         }
     }
     if (pad & 0x2000) {
-        ph = &D_8011511A;
+        ph = &guess_g_MenuPanel;
         t2 = *ph;
         *ph = t2 - 1;
         flag = 1;
@@ -674,7 +674,7 @@ extern s32 func_801EEBD0(s32, s16, s16, s16, s32 *);
 
 s32 func_801EE8E0(s32 ot, u8 *s, s16 c) {
 
-    extern u16 D_8011511A;
+    extern u16 guess_g_MenuPanel;
     extern u8  D_801F1974[];
     extern s32 *D_801F18EC[];
     u8  sp18[72];
@@ -696,7 +696,7 @@ s32 func_801EE8E0(s32 ot, u8 *s, s16 c) {
     if (c == 0) {
         flag = 0;
     } else {
-        flag = -(D_8011511A != c) & 0xFF;
+        flag = -(guess_g_MenuPanel != c) & 0xFF;
     }
 
     t = ((Unkstruct_8017C120 *)s)->unk14;
@@ -757,12 +757,12 @@ s32 func_801EE8E0(s32 ot, u8 *s, s16 c) {
 
 s32 func_801EEBD0(s32 a0, s16 a1, s16 a2, s16 a3, s32 *out)
 {
-    extern u8 D_80115158[];
+    extern u8 guess_g_MenuPanelSizes[];
     s32 i;
     s32 ret = 0;
 
     *out = 0x808080;
-    a2 = D_80115158[a2 * 2];
+    a2 = guess_g_MenuPanelSizes[a2 * 2];
 
     if (a1 < 5) {
         if (a1 > 0) {
@@ -793,8 +793,8 @@ s32 func_801EEC54(void)
     extern s16 D_8011512C;
     extern u8  D_801F8301;
     extern u8  D_801F8300[];
-    extern s16 D_80115118[0];
-    extern u16 D_8011511A;
+    extern s16 guess_g_MenuTransitionTimer[0];
+    extern u16 guess_g_MenuPanel;
     extern s32 D_801F18D8;
     extern s16 D_801150D4;
     extern s32 D_801F82F8;
@@ -828,9 +828,9 @@ s32 func_801EEC54(void)
                 func_801EFC58(0);
                 func_80029774(0);
                 *p = 4;
-                D_80115118[0] = 0x4B;
+                guess_g_MenuTransitionTimer[0] = 0x4B;
                 D_801F18D8 = 0x15;
-                D_801150D4 = D_8011511A;
+                D_801150D4 = guess_g_MenuPanel;
                 func_8002D4C8(0xB3B, 0);
             } else {
                 *p = 0;
@@ -838,7 +838,7 @@ s32 func_801EEC54(void)
         } else {
             D_8011512C = 0xA;
             D_801F18D8 = 0x1B;
-            D_80115118[0] = 0x4B;
+            guess_g_MenuTransitionTimer[0] = 0x4B;
             D_801F82F8 = 0;
             return;
         }
@@ -863,13 +863,13 @@ s32 func_801EEC54(void)
     case 1:
         ret = 0xA;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 2:
         ret = 0xB;
         D_801150D4 = 0;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 3:
         ret = 0x1F;
@@ -904,7 +904,7 @@ s32 func_801EEC54(void)
             goto reset_state;
         }
         D_8011512C = 1;
-        D_8011511A = (func_8002AF60() & 3) + 1;
+        guess_g_MenuPanel = (func_8002AF60() & 3) + 1;
         func_801EF448();
         break;
     }
@@ -928,8 +928,8 @@ void func_801EEFBC(void) {
     extern s32 D_801F831C;
     extern s32 D_801F8320;
     extern s16 D_8011512C;
-    extern s16 D_80115118[0];
-    extern u16 D_8011511A;
+    extern s16 guess_g_MenuTransitionTimer[0];
+    extern u16 guess_g_MenuPanel;
     extern u16 D_801150D4;
     extern s32 D_801F18D8;
     extern s32 D_801F1838;
@@ -951,7 +951,7 @@ void func_801EEFBC(void) {
                 if (D_801F8301 == 8) {
                     func_80029774(0);
                     *p = 4;
-                    D_80115118[0] = 0x4B;
+                    guess_g_MenuTransitionTimer[0] = 0x4B;
                     D_801150D4 = 0;
                     D_801F18D8 = 0xF;
                     func_8002D4C8(0xB3B, 0);
@@ -961,7 +961,7 @@ void func_801EEFBC(void) {
             } else {
                 if (D_801F8301 == 6) {
                     *p = 7;
-                    D_80115118[0] = 0x4B;
+                    guess_g_MenuTransitionTimer[0] = 0x4B;
                     D_801F18D8 = 0x18;
                 } else {
                     *p = 0;
@@ -975,7 +975,7 @@ void func_801EEFBC(void) {
                 D_8011512C = 0xC;
                 D_801F18D8 = 0x1C;
             }
-            D_80115118[0] = 0x4B;
+            guess_g_MenuTransitionTimer[0] = 0x4B;
         }
         D_801F82F8 = 0;
         D_801F8309 = 0xFF;
@@ -998,13 +998,13 @@ void func_801EEFBC(void) {
     case 1:
         ret = 0xA;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 2:
         ret = 0xB;
         D_801150D4 = 0;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 3: {
         s16 *q = &D_8011512C;
@@ -1034,7 +1034,7 @@ void func_801EEFBC(void) {
         for (i = 0; i < 4; i++) {
             D_801F8314[i] = 0;
         }
-        D_8011511A = 1;
+        guess_g_MenuPanel = 1;
         func_801EF448();
         break;
     }
@@ -1057,14 +1057,14 @@ void func_801EEFBC(void) {
         if (*q == 0) {
             *q = 1;
             if ((u32)(D_801150D4 - 1) < 4) {
-                D_8011511A = D_801150D4;
+                guess_g_MenuPanel = D_801150D4;
             } else {
-                D_8011511A = (func_8002AF60() & 3) + 1;
+                guess_g_MenuPanel = (func_8002AF60() & 3) + 1;
             }
             if ((D_801F8314[0] == 0) && (D_801F8314[1] == 0) && (D_801F8314[2] == 0) &&
                 (D_801F8314[3] == 0)) {
                 D_801150D4 = 0;
-                D_8011511A = 1;
+                guess_g_MenuPanel = 1;
             }
         }
         func_801EF448();
@@ -1241,9 +1241,9 @@ s32 *func_801EFA40(s32 *out) {
     extern short guess_g_DoubleBufferIndex;
     extern u16 D_801F1998[];
     extern s32 D_80115134;
-    extern u16 D_8011511A;
+    extern u16 guess_g_MenuPanel;
     extern s16 D_8011512C;
-    extern u16 D_80115116;
+    extern u16 guess_g_MenuFrameCounter;
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
     Prim4_801EFA40 *q;
@@ -1251,9 +1251,9 @@ s32 *func_801EFA40(s32 *out) {
     s32 n;
     s32 d;
 
-    q = (*(Panel_801EFA40 **)&D_80115134)[*(s16 *)&D_8011511A].f18;
+    q = (*(Panel_801EFA40 **)&D_80115134)[*(s16 *)&guess_g_MenuPanel].f18;
     if (D_8011512C == 1) {
-        n = D_801F1998[D_80115116 & 7];
+        n = D_801F1998[guess_g_MenuFrameCounter & 7];
     } else {
         n = 0;
     }

@@ -602,7 +602,7 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
@@ -2943,9 +2943,9 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 // @class: plumbing
 // @unstuck(P36): none — MATCH
 
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
@@ -2963,9 +2963,9 @@ void func_8017B7A8(void)
 {
     D_8012694C = 1;
     D_80194F2C = 0;
-    D_80194FA4 = (s16) D_80114F30;
-    D_80194FA6 = (s16) D_80114F34;
-    D_80194FA8 = (s16) D_80114F38;
+    D_80194FA4 = (s16) guess_g_StoredRefPointX;
+    D_80194FA6 = (s16) guess_g_StoredRefPointY;
+    D_80194FA8 = (s16) guess_g_StoredRefPointZ;
     D_80194F9C = (s16) guess_g_StoredViewPointX;
     D_80194F9E = (s16) guess_g_StoredViewPointY;
     D_80194FA0 = (s16) guess_g_StoredViewPointZ;
@@ -3003,18 +3003,18 @@ extern s16 D_80194FC4;
 extern s16 D_80194FC6;
 extern s16 D_80194FC8;
 
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
 
 void func_8017B880(void)
 {
-    D_80114F30 = D_80194FBC;
-    D_80114F34 = D_80194FBE;
-    D_80114F38 = D_80194FC0;
+    guess_g_StoredRefPointX = D_80194FBC;
+    guess_g_StoredRefPointY = D_80194FBE;
+    guess_g_StoredRefPointZ = D_80194FC0;
     guess_g_StoredViewPointX = D_80194FC4;
     guess_g_StoredViewPointY = D_80194FC6;
     guess_g_StoredViewPointZ = D_80194FC8;
@@ -3048,9 +3048,9 @@ extern u16 D_80194FAC;
 extern u16 D_80194FAE;
 extern u16 D_80194FB0;
 
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
@@ -3078,10 +3078,10 @@ void func_8017B940(void)
     (D_80194FB4[0]) = buf[0];
     (D_80194FB6[0]) = buf[1];
     (D_80194FB8[0]) = buf[2];
-    D_80194FA4 = D_80114F30 + buf[0];
+    D_80194FA4 = guess_g_StoredRefPointX + buf[0];
     D_80194F2C = 0;
-    D_80194FA6 = D_80114F34 + buf[1];
-    D_80194FA8 = D_80114F38 + buf[2];
+    D_80194FA6 = guess_g_StoredRefPointY + buf[1];
+    D_80194FA8 = guess_g_StoredRefPointZ + buf[2];
     D_80194F9C = guess_g_StoredViewPointX + buf[0];
     D_80194F9E = guess_g_StoredViewPointY + buf[1];
     D_80194FA0 = guess_g_StoredViewPointZ + buf[2];
@@ -3258,9 +3258,9 @@ extern s16 D_801950C8;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 
 void func_8017BD50(int param_1)
 {
@@ -3270,9 +3270,9 @@ void func_8017BD50(int param_1)
         if (D_80194F70 != 0) {
             (*D_80194F70)();
         } else {
-            D_80114F30 = D_80114F30 + D_80194FB4[0];
-            D_80114F34 = D_80114F34 + D_80194FB6[0];
-            D_80114F38 = D_80114F38 + D_80194FB8[0];
+            guess_g_StoredRefPointX = guess_g_StoredRefPointX + D_80194FB4[0];
+            guess_g_StoredRefPointY = guess_g_StoredRefPointY + D_80194FB6[0];
+            guess_g_StoredRefPointZ = guess_g_StoredRefPointZ + D_80194FB8[0];
             guess_g_StoredViewPointX = guess_g_StoredViewPointX + D_80194FB4[0];
             guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_80194FB6[0];
             guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_80194FB8[0];

@@ -7,7 +7,7 @@ s32 func_80140608(s32 a0) {
     u16 uVar4;
     s32 uVar5 = 1;
 
-    switch (D_80115148[(s16)a0 * 2]) {
+    switch (guess_g_MenuPanelCursors[(s16)a0 * 2]) {
     case 0:
         t = func_80028D58() ^ 1;
         func_80028D78(t);
@@ -21,7 +21,7 @@ s32 func_80140608(s32 a0) {
         return uVar5;
     case 2:
         iVar2 = func_80028FBC();
-        if (D_8011511E & 0x8000) {
+        if (guess_g_MenuPadPressed & 0x8000) {
             iVar2 = iVar2 - 1;
             uVar4 = iVar2 + 0;
             if ((s16)iVar2 < 0) {
@@ -41,7 +41,7 @@ s32 func_80140608(s32 a0) {
         goto ret;
     case 3:
         iVar2 = func_80029000();
-        if (D_8011511E & 0x8000) {
+        if (guess_g_MenuPadPressed & 0x8000) {
             iVar2 = iVar2 - 1;
             uVar4 = iVar2 + 0;
             if ((s16)iVar2 < 0) {

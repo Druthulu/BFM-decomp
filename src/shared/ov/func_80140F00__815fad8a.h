@@ -4,7 +4,7 @@ void func_80140F00(void) {
     char *p;
     int r;
 
-    if (D_80115128 == 0) {
+    if (guess_g_MenuCategory == 0) {
         p = (*(char * *)&D_8017FA68);
         r = func_800D2CA8(func_80029FE4() + 1, 0x18);
         func_800D2D10(r, 2, p + 4, 1);

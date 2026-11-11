@@ -43,7 +43,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         break;
     }
     case 2:
-        switch ((*(s16 *)&D_80115128)) {                         /* jtbl_801D88B8 */
+        switch ((*(s16 *)&guess_g_MenuCategory)) {                         /* jtbl_801D88B8 */
         case 0: {
             s16 v1 = (s16) arg1;
             if (v1 < 5) {

@@ -792,8 +792,8 @@ extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern unsigned short D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern unsigned short guess_g_MenuStep;
 extern void func_8013E588(void * _arg0);
 extern s32 func_80014ED4(s32);
 extern s32 func_80015018(s32);
@@ -811,9 +811,9 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-extern u16 D_8011511A;
-extern u16 D_8011511E;
-extern s32 D_80115130;
+extern u16 guess_g_MenuPanel;
+extern u16 guess_g_MenuPadPressed;
+extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
@@ -822,13 +822,13 @@ extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 extern void func_8013ED6C(void);
 extern s32 func_8013EF88();
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
-extern unsigned short D_80115118;
+extern unsigned short guess_g_MenuTransitionTimer;
 extern void func_8013F1BC(void);
 extern void func_80141C0C(s32);
 extern s32 func_80028D58(void);
@@ -875,9 +875,9 @@ extern void func_800291A0(s32, s32);
 extern s32 func_800291DC(s32);
 extern void func_800291C8(s32, s32);
 extern void func_801415C0(s32 param_1, s32 param_2);
-extern u8 D_80115148[];
+extern u8 guess_g_MenuPanelCursors[];
 extern u8 D_80115149[];
-extern u8 D_80115158[];
+extern u8 guess_g_MenuPanelSizes[];
 extern u8 D_8011514D;
 extern u8 D_8011515C;
 extern s32 func_800D11F0(s32 a0);
@@ -895,13 +895,13 @@ extern s32 func_801418F8(void);
 extern s32 func_8013F350(void);
 extern s32 func_80141A60();
 extern void func_8013FAF8(s16, s16);
-extern u16 D_80115116;
+extern u16 guess_g_MenuFrameCounter;
 extern void func_80141B90(void);
 extern u8 D_8017F6D4[];
 void func_8002D4C8(s32 a0, s32 a1);
 extern void func_80141C0C(s32 param_1);
 extern s32 func_80015144(void);
-extern u16 D_8011511C;
+extern u16 guess_g_MenuPadHeld;
 extern s32 guess_TestGameFlag(s32 arg);
 extern unsigned char D_80112C04[];
 extern unsigned char D_80112C50[];
@@ -1646,7 +1646,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_80126724;
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014ED80(SubED80 *a0);
@@ -3708,7 +3708,7 @@ void func_8017CA18(void) {
  *     gcc-2.7.2 emit `lhu`.
  */
 
-extern u16 D_8011511A;
+extern u16 guess_g_MenuPanel;
 extern u8  D_80182774[];
 extern s32 *D_801826EC[];
 
@@ -3738,7 +3738,7 @@ s32 func_8017CBC8(s32 ot, u8 *s, s16 c) {
     if (c == 0) {
         flag = 0;
     } else {
-        flag = -(D_8011511A != c) & 0xFF;
+        flag = -(guess_g_MenuPanel != c) & 0xFF;
     }
 
     t = ((Unkstruct_8017C120 *)s)->unk14;
@@ -3799,10 +3799,10 @@ s32 func_8017CBC8(s32 ot, u8 *s, s16 c) {
 
 s32 func_8017CEB8(s32 a0, s16 a1, s16 a2, s16 a3, s32* p)
 {
-    extern u8 D_80115158[];
+    extern u8 guess_g_MenuPanelSizes[];
     s32 t0 = 0;
     *p = 0x808080;
-    a2 = D_80115158[(s16)a2 * 2];
+    a2 = guess_g_MenuPanelSizes[(s16)a2 * 2];
     if (a1 < 5) {
         if (a1 > 0) {
             if ((s16)a3 < a2) {

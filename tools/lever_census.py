@@ -1122,7 +1122,7 @@ FIXTURE = r'''#include "common.h"
 #define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
 #define GTE_LDV0(r0) __asm__ volatile ("lwc2 $0, 0( %0 );" \
     "lwc2 $1, 4( %0 )" : : "r"( r0 ) : "memory")
-extern volatile u16 D_8011511A;
+extern volatile u16 guess_g_MenuPanel;
 extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 int aF80128300(int a) __asm__("func_80128300");
 struct P { s16 x; s16 y; } __attribute__((packed));
@@ -1134,7 +1134,7 @@ INCLUDE_ASM("asm/x/asm(", func_80128400);
 s32 func_80128218(s32 a0, register s32 a1) {
     register s32 zr __asm__("$0");
     register u32 s __asm__("$16") = a0;
-    register volatile s32 *p asm("$4") = &D_8011511A;
+    register volatile s32 *p asm("$4") = &guess_g_MenuPanel;
     register u8 *q __asm("$7");
     register int plain;
     volatile int buf[2];

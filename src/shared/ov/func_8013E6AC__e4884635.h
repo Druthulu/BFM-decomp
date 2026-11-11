@@ -4,16 +4,16 @@ void func_8013E6AC(void) {
     short i;
 
     func_8013E83C();
-    D_8011511A = 0;
+    guess_g_MenuPanel = 0;
     D_80115124 = D_80078EC0;
     for (i = 0; i < 8; i++) {
-        *(s16 *)((char *)&D_80115148 + (i << 1)) = 0;
-        D_80115140[i] = 0;
+        *(s16 *)((char *)&guess_g_MenuPanelCursors + (i << 1)) = 0;
+        guess_g_MenuPanelScrollTops[i] = 0;
     }
     if (!((u32)guess_GetStoryProgress() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
         s32 *ep;
         s32 *fp;
-        fp = (s32 *)&D_80115110;
+        fp = (s32 *)&guess_g_OpenMenuId;
         ep = (s32 *)&D_80180618;
         for (i = 0; i < 5; i++) {
             s32 *fa;
@@ -25,12 +25,12 @@ void func_8013E6AC(void) {
         }
         D_801805F0 = 2;
         D_801805F2 = 1;
-        { u16 *q = &D_80115112; *q += 1; }
+        { u16 *q = &guess_g_MenuStep; *q += 1; }
     } else {
         func_8013E83C();
-        D_8011511A = 7;
+        guess_g_MenuPanel = 7;
         D_801805F2 = 0;
         D_801805F0 = 0;
-        D_80115112 = 6;
+        guess_g_MenuStep = 6;
     }
 }

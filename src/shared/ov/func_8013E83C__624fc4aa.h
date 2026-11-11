@@ -2,11 +2,11 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8013E83C() {
     extern void func_80141C0C(int);
-    extern unsigned short D_80115118;
-    extern unsigned short D_80115128;
-    extern unsigned short D_8011512E;
-    extern unsigned int D_80115130;
-    extern unsigned short D_80115158;
+    extern unsigned short guess_g_MenuTransitionTimer;
+    extern unsigned short guess_g_MenuCategory;
+    extern unsigned short guess_g_MenuSwapSlot;
+    extern unsigned int guess_g_MenuHelpText;
+    extern unsigned short guess_g_MenuPanelSizes;
     extern unsigned short D_8011515A;
     extern unsigned short D_8011515C;
     extern unsigned short D_8011515E;
@@ -20,12 +20,12 @@ void func_8013E83C() {
     extern unsigned char D_80180324;
 
 
-    D_80115118 = 0;
-    D_80115130 = 0;
-    if (D_8011511A >= 4) {
-        D_8011511A = D_8011511A - 3;
+    guess_g_MenuTransitionTimer = 0;
+    guess_g_MenuHelpText = 0;
+    if (guess_g_MenuPanel >= 4) {
+        guess_g_MenuPanel = guess_g_MenuPanel - 3;
     }
-    D_80115158 = 0x106;
+    guess_g_MenuPanelSizes = 0x106;
 
     if ((((int(*)(int))guess_TestGameFlag)(0x1c) & 0xFF) == 0) {
         D_8018E7C0 = &D_80180290;
@@ -40,10 +40,10 @@ void func_8013E83C() {
     D_8011515E = 0x129;
     D_80115162 = 0x103;
     D_80115166 = 0x105;
-    D_80115128 = 0;
-    D_8011512E = 0;
+    guess_g_MenuCategory = 0;
+    guess_g_MenuSwapSlot = 0;
 
-    if (D_80115110 == 3) {
+    if (guess_g_OpenMenuId == 3) {
         ((void(*)(int, int))func_8002D4C8)(0x46e, 0);
     } else {
         func_80141C0C(0);

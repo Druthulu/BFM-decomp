@@ -792,8 +792,8 @@ extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern unsigned short D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern unsigned short guess_g_MenuStep;
 extern void func_8013E588(void * _arg0);
 extern s32 func_80014ED4(s32);
 extern s32 func_80015018(s32);
@@ -811,9 +811,9 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-extern u16 D_8011511A;
-extern u16 D_8011511E;
-extern s32 D_80115130;
+extern u16 guess_g_MenuPanel;
+extern u16 guess_g_MenuPadPressed;
+extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
@@ -822,13 +822,13 @@ extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 extern void func_8013ED6C(void);
 extern s32 func_8013EF88();
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
-extern unsigned short D_80115118;
+extern unsigned short guess_g_MenuTransitionTimer;
 extern void func_8013F1BC(void);
 extern void func_80141C0C(s32);
 extern s32 func_80028D58(void);
@@ -875,9 +875,9 @@ extern void func_800291A0(s32, s32);
 extern s32 func_800291DC(s32);
 extern void func_800291C8(s32, s32);
 extern void func_801415C0(s32 param_1, s32 param_2);
-extern u8 D_80115148[];
+extern u8 guess_g_MenuPanelCursors[];
 extern u8 D_80115149[];
-extern u8 D_80115158[];
+extern u8 guess_g_MenuPanelSizes[];
 extern u8 D_8011514D;
 extern u8 D_8011515C;
 extern s32 func_800D11F0(s32 a0);
@@ -895,13 +895,13 @@ extern s32 func_801418F8(void);
 extern s32 func_8013F350(void);
 extern s32 func_80141A60();
 extern void func_8013FAF8(s16, s16);
-extern u16 D_80115116;
+extern u16 guess_g_MenuFrameCounter;
 extern void func_80141B90(void);
 extern u8 D_8017F6D4[];
 void func_8002D4C8(s32 a0, s32 a1);
 extern void func_80141C0C(s32 param_1);
 extern s32 func_80015144(void);
-extern u16 D_8011511C;
+extern u16 guess_g_MenuPadHeld;
 extern s32 guess_TestGameFlag(s32 arg);
 extern unsigned char D_80112C04[];
 extern unsigned char D_80112C50[];
@@ -1646,7 +1646,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_80126724;
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014ED80(SubED80 *a0);
@@ -5226,9 +5226,9 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 void func_8017B7A8(void)
 {
 
-    extern s32 D_80114F30;
-    extern s32 D_80114F34;
-    extern s32 D_80114F38;
+    extern s32 guess_g_StoredRefPointX;
+    extern s32 guess_g_StoredRefPointY;
+    extern s32 guess_g_StoredRefPointZ;
     extern s32 aD80114F24 __asm__("guess_g_StoredViewPointX");
     extern s32 guess_g_StoredViewPointY;
     extern s32 guess_g_StoredViewPointZ;
@@ -5242,9 +5242,9 @@ void func_8017B7A8(void)
     extern s16 D_801853C0;
     D_8012694C = 1;
     D_8018534C = 0;
-    D_801853C4 = (s16) D_80114F30;
-    D_801853C6 = (s16) D_80114F34;
-    D_801853C8 = (s16) D_80114F38;
+    D_801853C4 = (s16) guess_g_StoredRefPointX;
+    D_801853C6 = (s16) guess_g_StoredRefPointY;
+    D_801853C8 = (s16) guess_g_StoredRefPointZ;
     D_801853BC = (s16) aD80114F24;
     D_801853BE = (s16) guess_g_StoredViewPointY;
     D_801853C0 = (s16) guess_g_StoredViewPointZ;
@@ -5286,15 +5286,15 @@ void func_8017B880(void)
     extern s16 D_801853E4;
     extern s16 D_801853E6;
     extern s16 D_801853E8;
-    extern s32 D_80114F30;
-    extern s32 D_80114F34;
-    extern s32 D_80114F38;
+    extern s32 guess_g_StoredRefPointX;
+    extern s32 guess_g_StoredRefPointY;
+    extern s32 guess_g_StoredRefPointZ;
     extern s32 aD80114F24 __asm__("guess_g_StoredViewPointX");
     extern s32 guess_g_StoredViewPointY;
     extern s32 guess_g_StoredViewPointZ;
-    D_80114F30 = D_801853DC;
-    D_80114F34 = D_801853DE;
-    D_80114F38 = D_801853E0;
+    guess_g_StoredRefPointX = D_801853DC;
+    guess_g_StoredRefPointY = D_801853DE;
+    guess_g_StoredRefPointZ = D_801853E0;
     aD80114F24 = D_801853E4;
     guess_g_StoredViewPointY = D_801853E6;
     guess_g_StoredViewPointZ = D_801853E8;
@@ -5330,9 +5330,9 @@ void func_8017B940(void)
     extern u16 D_801853CC;
     extern u16 D_801853CE;
     extern u16 D_801853D0;
-    extern s32 D_80114F30;
-    extern s32 D_80114F34;
-    extern s32 D_80114F38;
+    extern s32 guess_g_StoredRefPointX;
+    extern s32 guess_g_StoredRefPointY;
+    extern s32 guess_g_StoredRefPointZ;
     extern s32 aD80114F24 __asm__("guess_g_StoredViewPointX");
     extern s32 guess_g_StoredViewPointY;
     extern s32 guess_g_StoredViewPointZ;
@@ -5356,10 +5356,10 @@ void func_8017B940(void)
     (D_801853D4[0]) = buf[0];
     (D_801853D6[0]) = buf[1];
     (D_801853D8[0]) = buf[2];
-    D_801853C4 = D_80114F30 + buf[0];
+    D_801853C4 = guess_g_StoredRefPointX + buf[0];
     D_8018534C = 0;
-    D_801853C6 = D_80114F34 + buf[1];
-    D_801853C8 = D_80114F38 + buf[2];
+    D_801853C6 = guess_g_StoredRefPointY + buf[1];
+    D_801853C8 = guess_g_StoredRefPointZ + buf[2];
     D_801853BC = aD80114F24 + buf[0];
     D_801853BE = guess_g_StoredViewPointY + buf[1];
     D_801853C0 = guess_g_StoredViewPointZ + buf[2];
@@ -5545,18 +5545,18 @@ void func_8017BD50(int param_1)
     extern s32 aD80114F24 __asm__("guess_g_StoredViewPointX");
     extern s32 guess_g_StoredViewPointY;
     extern s32 guess_g_StoredViewPointZ;
-    extern s32 D_80114F30;
-    extern s32 D_80114F34;
-    extern s32 D_80114F38;
+    extern s32 guess_g_StoredRefPointX;
+    extern s32 guess_g_StoredRefPointY;
+    extern s32 guess_g_StoredRefPointZ;
     func_8017B0E4(param_1, 6);
     D_8018534C = D_8018534C + 1;
     if (D_8018534C >= 0x19) {
         if (D_80185390 != 0) {
             (*D_80185390)();
         } else {
-            D_80114F30 = D_80114F30 + D_801853D4[0];
-            D_80114F34 = D_80114F34 + D_801853D6[0];
-            D_80114F38 = D_80114F38 + D_801853D8[0];
+            guess_g_StoredRefPointX = guess_g_StoredRefPointX + D_801853D4[0];
+            guess_g_StoredRefPointY = guess_g_StoredRefPointY + D_801853D6[0];
+            guess_g_StoredRefPointZ = guess_g_StoredRefPointZ + D_801853D8[0];
             aD80114F24 = aD80114F24 + D_801853D4[0];
             guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_801853D6[0];
             guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_801853D8[0];
@@ -5649,8 +5649,8 @@ s16 func_8017BFF8(void) {
 void func_8017C008(s32 a0, s32 a1) {
     extern u8 D_800B9A15;
     extern unsigned char guess_g_ActiveMenu;
-    extern u16 D_80115110;
-    extern unsigned short D_80115112;
+    extern u16 guess_g_OpenMenuId;
+    extern unsigned short guess_g_MenuStep;
     extern s16 D_80115126;
     extern s16 D_801857F0;
     extern s16 D_801857EC;
@@ -5660,12 +5660,12 @@ void func_8017C008(s32 a0, s32 a1) {
 
     D_800B9A15 = 1;
     guess_g_ActiveMenu = 5;
-    D_80115110 = 4;
+    guess_g_OpenMenuId = 4;
     func_ptr = func_8017C080;
     D_80115126 = a0;
     D_801857F0 = a1;
     D_801857EC = a1;
-    D_80115112 = 0;
+    guess_g_MenuStep = 0;
     D_8011DB24 = func_ptr;
     func_8002D4C8(0x1E, 0);
 }
@@ -5673,24 +5673,24 @@ void func_8017C008(s32 a0, s32 a1) {
 
 void func_8017C080(void) {
 
-    extern u16 D_80115112;
-    extern u16 D_80115116;
+    extern u16 guess_g_MenuStep;
+    extern u16 guess_g_MenuFrameCounter;
     extern void (*D_801827C0[])(void);
     u16 i;
-    i = D_80115112;
+    i = guess_g_MenuStep;
     D_801827C0[i]();
     func_80141C04();
-    D_80115116++;
+    guess_g_MenuFrameCounter++;
 }
 
 
 extern void func_800D24A0(s32);
 extern void func_8017C120(void);
 extern void func_8002AF18(void);
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 
 void func_8017C0DC(void) {
-    u16 *p = &D_80115112;
+    u16 *p = &guess_g_MenuStep;
     ((void (*)(u32))func_800D24A0)(0x5);
     func_8017C120();
     func_8002AF18();
@@ -5705,12 +5705,12 @@ void func_8017C120(void) {
     extern s16 D_801857EC;
     extern s16 D_801857E8;
     extern s16 D_801857F4;
-    extern u16 D_80115118;
+    extern u16 guess_g_MenuTransitionTimer;
     extern s16 D_8011512C;
     extern s32 D_80182638;
     extern s32 D_801825A0;
     extern s16 D_80115126;
-    extern s32 D_80115130;
+    extern s32 guess_g_MenuHelpText;
     extern s32 D_80115134;
     extern u8 D_80115138[];
     extern s32 D_801826E4[];
@@ -5723,7 +5723,7 @@ void func_8017C120(void) {
     }
     D_801857E8 = 0;
     D_801857F4 = 0;
-    D_80115118 = 0;
+    guess_g_MenuTransitionTimer = 0;
     if (D_801857EC == 0) {
         D_8011512C = 0;
         D_80182638 = D_801825A0;
@@ -5731,7 +5731,7 @@ void func_8017C120(void) {
         D_8011512C = 9;
         D_80182638 = 0x1A;
     }
-    p = &D_80115130;
+    p = &guess_g_MenuHelpText;
     *p = 0;
     D_80115134 = D_801826E4[D_80115126];
     for (i = 0; i < 6; i++) {
@@ -5754,11 +5754,11 @@ void func_8017C120(void) {
  *
  * Codegen note (§31 cse_expr): the target materialises the symbol address ONCE
  * (lui+addiu -> $v1) and does both the lhu and the sh off that base. Writing the global
- * directly (D_80115112 = D_80115112 + 1) instead emits TWO luis (%hi for the load, %hi for
+ * directly (guess_g_MenuStep = guess_g_MenuStep + 1) instead emits TWO luis (%hi for the load, %hi for
  * the store) -> 8 ins, LENGTH-DRIFT. Taking the address into a pointer local forces the
  * single-base form. The nop at idx3 is the lhu load-delay slot (maspsx).
  *
- * D_80115112: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
+ * guess_g_MenuStep: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
  */
 
 
@@ -5780,7 +5780,7 @@ void func_8017C268(void)
     extern s16 D_80115126;
     extern u8 D_801151C8[];
     extern s32 D_801151D0;
-    extern u16 D_80115112;
+    extern u16 guess_g_MenuStep;
     extern u8 D_800B9A15;
     extern s32 func_8017CF3C(void);
     extern void func_8017D2A4(void);
@@ -5801,7 +5801,7 @@ void func_8017C268(void)
     r = func_8017C3BC();
     func_8017CA18();
     if ((s16)r != 0) {
-        u16 *p = &D_80115112;
+        u16 *p = &guess_g_MenuStep;
         D_801857E8 = r;
         D_800B9A15 = 0;
         *p = *p + 1;
@@ -5821,11 +5821,11 @@ void func_8017C268(void)
  *
  * Codegen note (§31 cse_expr): the target materialises the symbol address ONCE
  * (lui+addiu -> $v1) and does both the lhu and the sh off that base. Writing the global
- * directly (D_80115112 = D_80115112 + 1) instead emits TWO luis (%hi for the load, %hi for
+ * directly (guess_g_MenuStep = guess_g_MenuStep + 1) instead emits TWO luis (%hi for the load, %hi for
  * the store) -> 8 ins, LENGTH-DRIFT. Taking the address into a pointer local forces the
  * single-base form. The nop at idx3 is the lhu load-delay slot (maspsx).
  *
- * D_80115112: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
+ * guess_g_MenuStep: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
  */
 
 
@@ -5842,7 +5842,7 @@ void func_8017C364(void) {
 
     extern short guess_g_DoubleBufferIndex;
     extern u16 D_80115114;
-    extern u16 D_80115112;
+    extern u16 guess_g_MenuStep;
     u16 v0 = (*(u16 *)&guess_g_DoubleBufferIndex);
     u16 v1 = D_80115114;
 
@@ -5851,6 +5851,6 @@ void func_8017C364(void) {
     if (v1 == v0) {
         func_800D2624();
     } else {
-        D_80115112++;
+        guess_g_MenuStep++;
     }
 }

@@ -490,14 +490,14 @@ cause: 41 names (8 B, all members placeholders); 1 bound to no object (UNBOUND),
 
 ### 142564f85464:opaque
 names: D_801D0660_s, Ent_80186AE4, P4, Pair4_801B02DC, Prim4_8017DD28, Prim4_801E46A0, Prim4_801E9BE0, Prim4_801EFA40, Rec4, S9E, U16x2, U16x2L, U16x2N, UV_80181574, Unkstruct_8001FB8C, Unkstruct_800226C0_2, Unkstruct_800226C0_3, Unkstruct_800CB6A0, Unkstruct_800CBBF8, Unkstruct_801397B0_8, Unkstruct_8017D9C8, Unkstruct_8017E278, Unkstruct_8017EA44, Unkstruct_8017F254, Unkstruct_8017FC54, Unkstruct_80180E30_2, Unkstruct_80181540, Unkstruct_801817B4, Unkstruct_80181854, Unkstruct_80181F00, Unkstruct_80181FAC_2, Unkstruct_80182B48, Unkstruct_80183AE8, Unkstruct_80185BD8_2, Unkstruct_801A7C58, Unkstruct_801ADE1C
-cause: 36 names (4 B, all members placeholders); 1 bound to no object (UNBOUND), used only by: type Desc_80181574 (ov_SC03_111/0x80181574:d, ov_SC03_111/0x80181574:desc); the other 35 bound to 73 distinct objects, none bound to two names: 0x8011511A, 0x801202A0, 0x80185D5A, 0x80185D9E, 0x8018A3C0, 0x8018A3C2, 0x801B02DC, 0x801B02DE …; full list: tools/struct_twins.py --show 142564f85464:opaque
+cause: 36 names (4 B, all members placeholders); 1 bound to no object (UNBOUND), used only by: type Desc_80181574 (ov_SC03_111/0x80181574:d, ov_SC03_111/0x80181574:desc); the other 35 bound to 73 distinct objects, none bound to two names: 0x8011511A (guess_g_MenuPanel), 0x801202A0, 0x80185D5A, 0x80185D9E, 0x8018A3C0, 0x8018A3C2, 0x801B02DC, 0x801B02DE …; full list: tools/struct_twins.py --show 142564f85464:opaque
 - `D_801D0660_s`: 2 obj — 0x801D0660, 0x801D0662
 - `Ent_80186AE4`: 2 obj — 0x801202A0, ov_SC02_000/0x80186AE4:p
 - `P4`: 1 obj — 0x80185D5A
 - `Pair4_801B02DC`: 2 obj — 0x801B02DC, 0x801B02DE
 - `Prim4_8017DD28`: 1 obj — ov_MAIN_012/0x8017DD28:q
 - `Prim4_801E46A0`: 1 obj — md_SC03_135/0x801E46A0:q
-- `Prim4_801E9BE0`: 2 obj — 0x8011511A, md_SC04_027/0x801E9BE0:q
+- `Prim4_801E9BE0`: 2 obj — 0x8011511A (guess_g_MenuPanel), md_SC04_027/0x801E9BE0:q
 - `Prim4_801EFA40`: 1 obj — md_SC05_026/0x801EFA40:q
 - `Rec4`: 2 obj — 0x8018A3C0, 0x8018A3C2
 - `S9E`: 1 obj — 0x80185D9E
@@ -3823,8 +3823,8 @@ cause: 2 names (156 B, all members placeholders) bound to 5 distinct objects, no
 
 ### a2e73cdb49a3
 names: E4, S151D0
-cause: 2 names (4 B, all members placeholders) bound to 6 distinct objects, none bound to two names: 0x80115168, 0x80115188, 0x801151D0, ov_SC01_000/0x8013EE10:aD80115188, ov_SC01_077/0x8013EE10:aD80115188; full list: tools/struct_twins.py --show a2e73cdb49a3
-- `E4`: 5 obj — 0x80115168, 0x80115188, aD80115188, ov_SC01_000/0x8013EE10:aD80115188, ov_SC01_077/0x8013EE10:aD80115188
+cause: 2 names (4 B, all members placeholders) bound to 6 distinct objects, none bound to two names: 0x80115168 (guess_g_MenuPanelSlide), 0x80115188, 0x801151D0, ov_SC01_000/0x8013EE10:aD80115188, ov_SC01_077/0x8013EE10:aD80115188; full list: tools/struct_twins.py --show a2e73cdb49a3
+- `E4`: 5 obj — 0x80115168 (guess_g_MenuPanelSlide), 0x80115188, aD80115188, ov_SC01_000/0x8013EE10:aD80115188, ov_SC01_077/0x8013EE10:aD80115188
 - `S151D0`: 1 obj — 0x801151D0
 
 ### a3d1be6495e4

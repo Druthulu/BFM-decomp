@@ -1312,12 +1312,12 @@ void func_800D2460(void) {
 }
 
 extern void func_80016714(void *, s32);
-extern u8 D_80115110[];
+extern u8 guess_g_OpenMenuId[];
 extern s32 D_8012751C;
 extern s32 D_8011DB20;
 
 void func_800D2468(void) {
-    func_80016714(D_80115110, 0xC4);
+    func_80016714(guess_g_OpenMenuId, 0xC4);
     D_8012751C = 0;
     D_8011DB20 = 0;
 }
@@ -1339,14 +1339,14 @@ void func_800D24A0(s16 arg0) {
     extern u8 guess_g_OrderingTables[];
     extern u8 D_8007BA70[];
     extern u8 D_800856B0[];
-    extern u16 D_80115112;
-    extern u16 D_8011512A;
+    extern u16 guess_g_MenuStep;
+    extern u16 guess_g_MenuExitRequest;
     extern u16 D_80115124;
-    extern u8 D_80115110[];
+    extern u8 guess_g_OpenMenuId[];
     extern u16 D_80115114;
     extern u8 *D_801151C8;
     extern u8 *D_801151CC;
-    extern E4 D_80115168[];
+    extern E4 guess_g_MenuPanelSlide[];
 
     u16 i;
     u32 *src;
@@ -1363,11 +1363,11 @@ void func_800D24A0(s16 arg0) {
         *dst++ = *src++;
     }
 
-    v = &D_80115112;
+    v = &guess_g_MenuStep;
     *v = 0;
-    D_8011512A = 0;
+    guess_g_MenuExitRequest = 0;
     D_80115124 = 0;
-    (*(u16 *)D_80115110) = arg0;
+    (*(u16 *)guess_g_OpenMenuId) = arg0;
     guess_g_ActiveMenu = arg0 + 1;
     D_80115114 = guess_g_DoubleBufferIndex;
     D_801151C8 = &D_8007BA70[guess_g_DoubleBufferIndex * 80000];
@@ -1377,7 +1377,7 @@ void func_800D24A0(s16 arg0) {
     p = (char *)v - 2;
     do {
         *(s32 *)(p + (s16)i * 4 + 0x78) = 0;
-        D_80115168[(s16)i].f0 = 0;
+        guess_g_MenuPanelSlide[(s16)i].f0 = 0;
         i++;
     } while ((s16)i < 8);
 

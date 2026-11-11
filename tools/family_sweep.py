@@ -672,7 +672,7 @@ def hseq_sweep(a):
             # `remap_hseq` (via gather_externs) prepends them at FILE scope; for a per-location symbol the
             # sibling declares only at BLOCK scope inside its own later functions, that ESTABLISHES A GLOBAL
             # THE TU NEVER HAD and every later block-scope extern must now agree with it — loose typing ⇒ they
-            # don't ⇒ `conflicting types for D_80115128`. Byte-proven to be the dominant gate-rejection class
+            # don't ⇒ `conflicting types for guess_g_MenuCategory`. Byte-proven to be the dominant gate-rejection class
             # here (as it was for the jr sweeps). Demoting is byte-neutral and never worse than raw, and the
             # whole-binary gate remains the sole arbiter (G3/P9).
             to_func = f"func_{to_addr:08X}"

@@ -247,7 +247,7 @@ Unkstruct_800B9A78	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-
 Unkstruct_0cebe116	residual	TYPE-SCALAR	layout:one-field@0	layout class TYPE-SCALAR (struct_map record)
 Unkstruct_78fccc54	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_80115110	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
-Unkstruct_80115118	fold	S115118	E2-anchor:D_80115118	D_80115118 is declared S115118 in src/ or include/
+Unkstruct_80115118	fold	S115118	E2-anchor:guess_g_MenuTransitionTimer	guess_g_MenuTransitionTimer is declared S115118 in src/ or include/
 Unkstruct_80115148	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_80115218	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_913e79ea	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80176734_2 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
@@ -2138,7 +2138,7 @@ Unkstruct_68f57d5c	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-
 Unkstruct_6966a789	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017CFDC pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_73dba439	define	Unkstruct_8017E6A4_3	owner:func_8017E6A4	no E1/E2 evidence; flat layout of the struct map record; 8 TNC sites in 4 bodies
 Unkstruct_77228c24	define	Unkstruct_8017FCD4	owner:func_8017FCD4	no E1/E2 evidence; flat layout of the struct map record; 8 TNC sites in 4 bodies
-Unkstruct_80115168	fold	E4	E2-anchor:D_80115168	D_80115168 is declared E4 in src/ or include/
+Unkstruct_80115168	fold	E4	E2-anchor:guess_g_MenuPanelSlide	guess_g_MenuPanelSlide is declared E4 in src/ or include/
 Unkstruct_8012C354	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_80182404	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_8f3a4c4b	define	Unkstruct_8017EA8C	owner:func_8017EA8C	no E1/E2 evidence; flat layout of the struct map record; 8 TNC sites in 4 bodies

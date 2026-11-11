@@ -596,7 +596,7 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
@@ -2595,9 +2595,9 @@ extern void func_8017B1D8(void);
 extern s32 func_8017B238(s32 param_1, s32 param_2);
 extern s32 func_8017B368(s32 param);
 extern s32 func_8017B614(s32 param_1, s32 param_2);
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
@@ -2752,7 +2752,7 @@ s32 func_8017E590(s32 param_1, s32 param_2) {
     extern u8 D_80112B58[];
     extern u8 D_80112B90[];
     extern u8 D_80112BA8[];
-    extern s32 D_80115130;
+    extern s32 guess_g_MenuHelpText;
     extern u8 D_80183A40[];
     extern u8 D_801E8F50[];
     extern void * D_801E8F98[];
@@ -2805,7 +2805,7 @@ s32 func_8017E590(s32 param_1, s32 param_2) {
                 func_80139A44((s32)p, 0);
                 if (p != D_801F32C0) {
                     D_801F32C0 = p;
-                    D_80115130 = 0;
+                    guess_g_MenuHelpText = 0;
                 }
                 result = D_801EF108;
             } else {
@@ -2942,14 +2942,14 @@ s32 func_8017E590(s32 param_1, s32 param_2) {
  *   - guess_g_DoubleBufferIndex is already file-scope in the TU (`extern short` :2471 and
  *     `extern s16` :2473, plus 52 hits in engine_core.h); `extern s16` here is
  *     compatible and the unsigned access is forced at the USE (§8d sub-class b).
- *   - D_80115116 / D_8011511A are file-scope `extern u16` at TU:3379 / :3466 —
+ *   - guess_g_MenuFrameCounter / guess_g_MenuPanel are file-scope `extern u16` at TU:3379 / :3466 —
  *     same spelling used here.
- *   - D_80115148 / D_80115158 / func_8014168C come from DEFINE_func_8014168C()
+ *   - guess_g_MenuPanelCursors / guess_g_MenuPanelSizes / func_8014168C come from DEFINE_func_8014168C()
  *     in engine_core.h:4008 (`extern u8 …[]`, `s16 func_8014168C(s16)`); that
  *     macro is NOT invoked in this TU, so these externs are the only decls and
- *     they use the canonical types.  s8 access to D_80115158 is cast at use.
- *   - D_80115138 / D_80115140 / D_801E8C4E / D_801E8C62 / guess_g_FrontOrderingTablesOrg have no
- *     other declaration in this TU; D_80115140 matches ov_SC03_099's spelling.
+ *     they use the canonical types.  s8 access to guess_g_MenuPanelSizes is cast at use.
+ *   - D_80115138 / guess_g_MenuPanelScrollTops / D_801E8C4E / D_801E8C62 / guess_g_FrontOrderingTablesOrg have no
+ *     other declaration in this TU; guess_g_MenuPanelScrollTops matches ov_SC03_099's spelling.
  *   - guess_g_FrontOrderingTablesOrg keeps its function-local typedef + extern (twin's shape), so
  *     it cannot collide at file scope.
  */
@@ -2959,11 +2959,11 @@ extern s16 func_8014168C(s16 a0);
 s32 *func_8017E7DC(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 
     extern u8  D_80115138[];
-    extern u8  D_80115140[];
-    extern u8  D_80115148[];
-    extern u8  D_80115158[];
-    extern u16 D_80115116;
-    extern u16 D_8011511A;
+    extern u8  guess_g_MenuPanelScrollTops[];
+    extern u8  guess_g_MenuPanelCursors[];
+    extern u8  guess_g_MenuPanelSizes[];
+    extern u16 guess_g_MenuFrameCounter;
+    extern u16 guess_g_MenuPanel;
     extern u16 D_801E8C4E;
     extern u16 D_801E8C62;
    /* 0x14 stride */
@@ -2989,7 +2989,7 @@ s32 *func_8017E7DC(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     if (c < 6) {
         t = ((s32 (*)(s32))func_8014168C)((s16)idx) * 2;
     } else {
-        t = (D_80115148[(s16)idx * 2] - D_80115140[(s16)idx]) * 2;
+        t = (guess_g_MenuPanelCursors[(s16)idx * 2] - guess_g_MenuPanelScrollTops[(s16)idx]) * 2;
     }
 
     p = (u16 *)(t * 2 + (s32)a1p);
@@ -3007,8 +3007,8 @@ s32 *func_8017E7DC(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     ot += 5;
 
     if (c >= 6) {
-        s32 m = D_8011511A;
-        if ((m == (s16)idx2) && ((D_80115116 & 8) != 0)) {
+        s32 m = guess_g_MenuPanel;
+        if ((m == (s16)idx2) && ((guess_g_MenuFrameCounter & 8) != 0)) {
             s16 j;
             s32 k;
             u8 *q;
@@ -3028,14 +3028,14 @@ s32 *func_8017E7DC(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
             q = (u8 *)ot + 0x14;
             for (; j < 2; j++) {
                 if (j == 0) {
-                    if (D_80115140[k] == 0) {
+                    if (guess_g_MenuPanelScrollTops[k] == 0) {
                         continue;
                     }
                     q[-7] = 0x30;
                     *(s16 *)(q - 10) = D_801E8C4E - 2;
                 } else {
                     s32 k2 = k * 2;
-                    if ((((s8 *)D_80115158)[k2] - ((s8 *)D_80115140)[k]) < 7) {
+                    if ((((s8 *)guess_g_MenuPanelSizes)[k2] - ((s8 *)guess_g_MenuPanelScrollTops)[k]) < 7) {
                         continue;
                     }
                     q[-7] = 0x38;
@@ -3066,7 +3066,7 @@ s32 *func_8017E7DC(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 #include "common.h"
 
 s32 func_8017EB08(s32 a0, s32 a1) {
-    extern u16 D_8011511A;
+    extern u16 guess_g_MenuPanel;
     extern u16 D_8011514A;
     extern s16 D_8011514C[];
     extern s16 D_8011515A;
@@ -3113,7 +3113,7 @@ s32 func_8017EB08(s32 a0, s32 a1) {
             return -1;
         }
         {
-            u16 *p = &D_8011511A;
+            u16 *p = &guess_g_MenuPanel;
             *p = *p + 1;
         }
         func_8002D4C8(0x45D, 0);
@@ -3129,7 +3129,7 @@ s32 func_8017EB08(s32 a0, s32 a1) {
                 sel = (u32)&D_801EEF68;
                 goto set_sel;
             }
-            D_8011511A++;
+            guess_g_MenuPanel++;
             func_8002D4C8(0x45D, 0);
             return 0;
         }
@@ -3205,7 +3205,7 @@ s32 func_8017EB08(s32 a0, s32 a1) {
     case 8:
         func_8002D4C8(0x45D, 0);
         {
-            u16 *q = &D_8011511A;
+            u16 *q = &guess_g_MenuPanel;
             *q = *q + 1;
         }
         break;

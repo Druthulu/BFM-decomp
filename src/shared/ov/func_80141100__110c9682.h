@@ -5,7 +5,7 @@ int func_80141100(int param_1)
     short sVar1;
     int iVar7;
 
-    if (D_80115128 == 0) {
+    if (guess_g_MenuCategory == 0) {
         iVar7 = D_80115172 + 0x31;
         sVar1 = D_8017F922;
         param_1 = func_801412A8(param_1, ((short (*)(void))func_8002A1B4)(), func_8002A28C(), func_8002A27C(), (short)iVar7, (int)sVar1);

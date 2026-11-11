@@ -590,7 +590,7 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
@@ -2590,9 +2590,9 @@ extern s32 func_8017B238(s32 param_1, s32 param_2);
 extern s32 func_8017B368(s32 param);
 extern s32 func_8017B490(s32 param);
 extern s32 func_8017B614(s32 param_1, s32 param_2);
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
@@ -2972,13 +2972,13 @@ extern void func_801861AC(void);
 void func_80186270(void) {
 
     extern s16 D_801ECE90;
-    extern s16 D_80115118;
+    extern s16 guess_g_MenuTransitionTimer;
     extern s16 D_80115126;
     extern s32 D_80115134;
     extern u8  D_80115138[];
-    extern u8  D_80115140[];
-    extern u8  D_80115148[];
-    extern u8  D_80115158[];
+    extern u8  guess_g_MenuPanelScrollTops[];
+    extern u8  guess_g_MenuPanelCursors[];
+    extern u8  guess_g_MenuPanelSizes[];
     extern u16 D_8011515A;
     extern s32 D_801B9224[];
     extern s32 D_801B93E4[];
@@ -3038,7 +3038,7 @@ void func_80186270(void) {
     s32 *dst;
 
     D_801ECE90 = 0;
-    base = (u8 *)&D_80115118;
+    base = (u8 *)&guess_g_MenuTransitionTimer;
     ((S115118 *)base)->field0 = 0;
     D_801ED5F4 = 0;
     iVar5 = guess_GetStoryProgress();
@@ -3056,11 +3056,11 @@ void func_80186270(void) {
             D_80115138[i] = *(u16 *)(D_80115134 + i * 0x20);
             *(u16 *)(q + i * 2) = *(u16 *)(D_80115134 + i * 0x20 + 2);
         } else {
-            *(u16 *)(D_80115158 + (i << 1)) = 0;
+            *(u16 *)(guess_g_MenuPanelSizes + (i << 1)) = 0;
             D_80115138[i] = 0;
         }
-        *(u16 *)(D_80115148 + (i << 1)) = 0;
-        D_80115140[i] = 0;
+        *(u16 *)(guess_g_MenuPanelCursors + (i << 1)) = 0;
+        guess_g_MenuPanelScrollTops[i] = 0;
         i = i + 1;
     }
 
@@ -3305,7 +3305,7 @@ extern char  D_801ED0EA[];
 extern char *D_801B8ECC[];
 
 /* phase 6 — 64-entry filter */
-extern u16 D_8011511A;
+extern u16 guess_g_MenuPanel;
 extern u8  D_801ED618[];
 extern s16 D_8011515C;
 extern u8  D_8011514C;
@@ -3498,7 +3498,7 @@ void func_80186B24(void)
             } while (i < count);
         }
 
-        if (D_8011511A != 1 && D_8011511A != 2) {
+        if (guess_g_MenuPanel != 1 && guess_g_MenuPanel != 2) {
             i = 0;
             cnt = 0;
 
@@ -3576,15 +3576,15 @@ void func_801874B0(void) {
     extern s32 D_801151D0;
     extern s32 D_801151C8[];
     extern u16 xf02 __asm__("guess_g_DoubleBufferIndex");
-    extern s16 xa __asm__("D_8011511A");
+    extern s16 xa __asm__("guess_g_MenuPanel");
     extern s32 xf168c(s32 a0) __asm__("func_8014168C");
     extern u8  D_80115138[];
     extern s32 D_801ED560;
-    extern s32 D_80115130;
+    extern s32 guess_g_MenuHelpText;
     extern s32 D_801B93CC[];
     extern s32 D_801ED564;
     extern u8  D_800B9A15;
-    extern u16 D_80115112;
+    extern u16 guess_g_MenuStep;
     extern s16 D_801ECE90;
 
     extern s32 func_80188128(void);
@@ -3607,14 +3607,14 @@ void func_801874B0(void) {
     ret = func_80188128();
     func_80188478();
     r2 = xf168c(xa);
-    b = D_80115138[D_8011511A];
+    b = D_80115138[guess_g_MenuPanel];
     if (D_801ED560 == 0) {
         v = func_80188B1C(b, (s16)r2);
     } else {
         v = D_801ED560;
     }
     if (v != 0) {
-        p30 = &D_80115130;
+        p30 = &guess_g_MenuHelpText;
         if (v != *p30) {
             *p30 = v;
             func_80139954();
@@ -3629,7 +3629,7 @@ void func_801874B0(void) {
         if (D_801ECE90 == 0) {
             func_8002D4C8(0x474, 0);
         }
-        p12 = &D_80115112;
+        p12 = &guess_g_MenuStep;
         *p12 += 2;
     }
 }

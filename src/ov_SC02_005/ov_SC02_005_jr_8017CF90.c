@@ -596,7 +596,7 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
 extern s16 D_80126724;
@@ -2606,9 +2606,9 @@ extern s32 func_8017B238(s32 param_1, s32 param_2);
 extern s32 func_8017B368(s32 param);
 extern s32 func_8017B490(s32 param);
 extern s32 func_8017B614(s32 param_1, s32 param_2);
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
@@ -3756,17 +3756,17 @@ extern s32 D_80115080;
 extern s32 guess_g_StoredViewPointX;
 extern s32 guess_g_StoredViewPointY;
 extern s32 guess_g_StoredViewPointZ;
-extern s32 D_80114F30;
-extern s32 D_80114F34;
-extern s32 D_80114F38;
+extern s32 guess_g_StoredRefPointX;
+extern s32 guess_g_StoredRefPointY;
+extern s32 guess_g_StoredRefPointZ;
 
 void func_8017EB8C(void) {
     D_8011506C = (s16)func_80012F74(*(s16 *)&D_8011506C, *(s16 *)&guess_g_StoredViewPointX, 10, 1);
     D_80115070 = (s16)func_80012F74(*(s16 *)&D_80115070, *(s16 *)&guess_g_StoredViewPointY, 10, 1);
     D_80115074 = (s16)func_80012F74(*(s16 *)&D_80115074, *(s16 *)&guess_g_StoredViewPointZ, 10, 1);
-    D_80115078 = (s16)func_80012F74(*(s16 *)&D_80115078, *(s16 *)&D_80114F30, 10, 1);
-    D_8011507C = (s16)func_80012F74(*(s16 *)&D_8011507C, *(s16 *)&D_80114F34, 10, 1);
-    D_80115080 = (s16)func_80012F74(*(s16 *)&D_80115080, *(s16 *)&D_80114F38, 10, 1);
+    D_80115078 = (s16)func_80012F74(*(s16 *)&D_80115078, *(s16 *)&guess_g_StoredRefPointX, 10, 1);
+    D_8011507C = (s16)func_80012F74(*(s16 *)&D_8011507C, *(s16 *)&guess_g_StoredRefPointY, 10, 1);
+    D_80115080 = (s16)func_80012F74(*(s16 *)&D_80115080, *(s16 *)&guess_g_StoredRefPointZ, 10, 1);
 }
 
 

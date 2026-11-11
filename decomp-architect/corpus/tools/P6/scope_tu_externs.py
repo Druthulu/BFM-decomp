@@ -276,7 +276,7 @@ def contested(draft_body, tu_text, above):
     target TU already declares the symbol — its documented give-up branch, and the fatal case this
     whole lever exists for. So the scan was blind to the majority form: on `func_8014032C`
     `scope_data_fix` dropped three symbols while `contested` returned `[]`, and the tu-scoped stage
-    never fired on precisely the class it was built for (`conflicting types for D_80115128`).
+    never fired on precisely the class it was built for (`conflicting types for guess_g_MenuCategory`).
 
     The rule is scope-independent: a draft decl and a TU file-scope decl of the same symbol collide
     wherever the draft's sits."""

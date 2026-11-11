@@ -4,16 +4,16 @@ extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern unsigned short D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern unsigned short guess_g_MenuStep;
 extern void *D_8011DB24;
 void func_8013E588(void * _arg0)
 {
     if (func_800D0EC4() == 0) {
         D_800B9A15 = 1;
         guess_g_ActiveMenu = 2;
-        D_80115110 = 1;
-        D_80115112 = 0;
+        guess_g_OpenMenuId = 1;
+        guess_g_MenuStep = 0;
         D_8011DB24 = func_80141874;
     }
 }

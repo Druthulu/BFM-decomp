@@ -779,8 +779,8 @@ extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern unsigned short D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern unsigned short guess_g_MenuStep;
 extern void func_8013E588(void * _arg0);
 extern s32 func_80014ED4(s32);
 extern s32 func_80015018(s32);
@@ -797,8 +797,8 @@ extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
 extern u8 D_801151C8[];
-extern u16 D_8011511E;
-extern s32 D_80115130;
+extern u16 guess_g_MenuPadPressed;
+extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
@@ -807,13 +807,13 @@ extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 extern void func_8013ED6C(void);
 extern s32 func_8013EF88();
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
-extern unsigned short D_80115118;
+extern unsigned short guess_g_MenuTransitionTimer;
 extern void func_8013F1BC(void);
 extern void func_80141C0C(s32);
 
@@ -830,10 +830,10 @@ extern void func_80141C0C(s32);
 //     there) and losing the off/pmax coalesce into $a0. Pinning off cost 0 insns
 //     and took the diff 162 -> 13. (`bb` shares $4; live ranges are disjoint.)
 //  2. `register u16 *pd __asm__("$5")` + the "=r"/"0" self-barrier — without the
-//     barrier gcc const-propagates &D_8011511C away and %lo-folds every access
+//     barrier gcc const-propagates &guess_g_MenuPadHeld away and %lo-folds every access
 //     (target holds the base: lhu 0($a1) / lhu 4($a1) / sh 4($a1)). The barrier
 //     emits zero code; it only hides the pointer's constant value from cse.
-//     NOTE: `ps` (&D_8011511A) must NOT get the same barrier — it regressed.
+//     NOTE: `ps` (&guess_g_MenuPanel) must NOT get the same barrier — it regressed.
 //  3. `case 0/2/3: break;` in the inner switch are NOT dead — 5 case nodes is
 //     what pushes gcc past CASE_VALUES_THRESHOLD into a jump table (jtbl_801D8880)
 //     instead of a compare chain (worth 18 instructions).
@@ -848,28 +848,28 @@ extern void func_80141C0C(s32);
 //     (its ==3 arm restores the original), so it keeps two registers and no nop.
 //  7. `s16 d` (not s32 + <<16>>16): the wide form pushed the frame 0x30 -> 0x38.
 //  8. `pad` is u16 (its andi 0xFFFF is real) but `st` must stay u16 AND be used
-//     only for the pointer math / `st == 2` — the D_80115140 index re-reads
-//     D_8011511A, which is what keeps st free of a masking andi.
+//     only for the pointer math / `st == 2` — the guess_g_MenuPanelScrollTops index re-reads
+//     guess_g_MenuPanel, which is what keeps st free of a masking andi.
 //
-// Canonical-reconciled (§17a-1) and re-verified MATCH: D_8011512E keeps the TU's
+// Canonical-reconciled (§17a-1) and re-verified MATCH: guess_g_MenuSwapSlot keeps the TU's
 // `u16` canonical with `*(s16*)&` at the read sites (target needs lh), and
 // func_8014168C keeps the canonical s16(s16) decl with s32(s32) call-site casts.
 // Def sig is s32(void); engine_core.h canon is `void func_8013F350(void)` and the
 // callers already cast (`((short (*)(void))func_8013F350)()`) -> def-side reconcile.
 
-extern u16 D_80115110;
-extern u16 D_8011511C;
-extern u16 D_8011511E;
+extern u16 guess_g_OpenMenuId;
+extern u16 guess_g_MenuPadHeld;
+extern u16 guess_g_MenuPadPressed;
 extern u16 D_80115120;
-extern u16 D_80115122;
-extern s16 D_80115128;
-extern s16 D_8011512A;
-extern u16 D_8011512E;
-extern u8  D_80115140[];
+extern u16 guess_g_MenuPadRepeatTimer;
+extern s16 guess_g_MenuCategory;
+extern s16 guess_g_MenuExitRequest;
+extern u16 guess_g_MenuSwapSlot;
+extern u8  guess_g_MenuPanelScrollTops[];
 extern s16 D_8011514C;
 extern s16 D_8011514E;
 extern u8  D_80115152;
-extern u8 D_80115158[];   /* macro-canonical redecl (§8e) */
+extern u8 guess_g_MenuPanelSizes[];   /* macro-canonical redecl (§8e) */
 extern u8 D_8011515C;     /* macro-canonical redecl (§8e) */
 extern u8  D_8017F41C[];
 extern u8  D_8017F434[];
@@ -887,8 +887,8 @@ extern void func_801407F4(void);
 extern s32 func_801416D4(s16);  /* macro-canonical redecl (§8e) */
 
 s32 func_8013F350(void) {
-    extern u16 D_8011511A;
-    u16 *pd = &D_8011511C;
+    extern u16 guess_g_MenuPanel;
+    u16 *pd = &guess_g_MenuPadHeld;
     u16 *ps;
     u16 *pf;
     u16 *pg;
@@ -913,18 +913,18 @@ s32 func_8013F350(void) {
     pf = pd + 2;
     if (pad != 0) {
         if (pad == *pf) {
-            D_80115122 = D_80115122 - 1;
-            if (D_80115122 == 0) {
-                D_8011511E = pad & 0xF000;
-                D_80115122 = 3;
+            guess_g_MenuPadRepeatTimer = guess_g_MenuPadRepeatTimer - 1;
+            if (guess_g_MenuPadRepeatTimer == 0) {
+                guess_g_MenuPadPressed = pad & 0xF000;
+                guess_g_MenuPadRepeatTimer = 3;
             }
         } else {
             *pf = pad;
-            D_80115122 = 6;
+            guess_g_MenuPadRepeatTimer = 6;
         }
     } else {
         D_80115120 = 0;
-        D_80115122 = 0xC;
+        guess_g_MenuPadRepeatTimer = 0xC;
     }
 
 
@@ -935,13 +935,13 @@ s32 func_8013F350(void) {
         }
         i = i + 1;
     } while (i < 6);
-    *(u16 *)D_80115158 = i | 0x100;
+    *(u16 *)guess_g_MenuPanelSizes = i | 0x100;
 
-    switch (D_8011511A) { /* jtbl_801D8860 */
+    switch (guess_g_MenuPanel) { /* jtbl_801D8860 */
     case 0:
         r = ((s32 (*)(s32))func_8014168C)(0);
         rs = (s16)r;
-        if ((guess_TestGameFlag(D_8017F41C[rs]) & 0xFF) != 0 && (D_8011511E & 0x40) != 0) {
+        if ((guess_TestGameFlag(D_8017F41C[rs]) & 0xFF) != 0 && (guess_g_MenuPadPressed & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
             if (rs != 0) {
                 func_8002D4C8(0x461, 0);
@@ -951,50 +951,50 @@ s32 func_8013F350(void) {
         }
         break;
     case 1:
-        if ((D_8011511E & 0x40) != 0) {
-            D_80115128 = ((s32 (*)(s32))func_8014168C)(1) + 1;
-            D_8011511A = 2;
+        if ((guess_g_MenuPadPressed & 0x40) != 0) {
+            guess_g_MenuCategory = ((s32 (*)(s32))func_8014168C)(1) + 1;
+            guess_g_MenuPanel = 2;
             func_80141C0C(3);
             return 1;
         }
-        if (D_80115128 != 4) {
+        if (guess_g_MenuCategory != 4) {
             break;
         }
         goto tail7;
     case 2:
-        switch (D_80115128) { /* jtbl_801D8880 */
+        switch (guess_g_MenuCategory) { /* jtbl_801D8880 */
         case 0:
             break;
         case 1:
             r = ((s32 (*)(s32))func_8014168C)(2);
-            pf = &D_8011511E;
+            pf = &guess_g_MenuPadPressed;
             if ((*pf & 0x40) != 0) {
-                if ((*(s16 *)&D_8011512E) == 0) {
+                if ((*(s16 *)&guess_g_MenuSwapSlot) == 0) {
                     if ((func_800291B4(D_8017F434[(s16)r]) & 0xFF) != 0 && (*pf & 0x40) != 0) {
-                        D_8011511A = 5;
+                        guess_g_MenuPanel = 5;
                         *(s16 *)&D_80115152 = 0;
                         func_80141C0C(3);
                         return 1;
                     }
                     func_80141C0C(5);
                 } else {
-                    func_801415C0((s16)r, (*(s16 *)&D_8011512E) & 0xF);
-                    D_8011512E = 0;
+                    func_801415C0((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
+                    guess_g_MenuSwapSlot = 0;
                     func_80141C0C(3);
                     return 1;
                 }
             } else if ((*pf & 0x20) != 0) {
-                if ((*(s16 *)&D_8011512E) == 0) {
-                    D_8011512E = r | 0x8000;
+                if ((*(s16 *)&guess_g_MenuSwapSlot) == 0) {
+                    guess_g_MenuSwapSlot = r | 0x8000;
                 } else {
-                    func_801415C0((s16)r, (*(s16 *)&D_8011512E) & 0xF);
-                    D_8011512E = 0;
+                    func_801415C0((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
+                    guess_g_MenuSwapSlot = 0;
                 }
                 func_80141C0C(3);
             }
             break;
         case 4:
-            if ((D_8011511E & 0xA000) != 0) {
+            if ((guess_g_MenuPadPressed & 0xA000) != 0) {
                 chg = func_80140608(2);
             }
             func_801407F4();
@@ -1004,50 +1004,50 @@ s32 func_8013F350(void) {
         case 3:
             break;
         }
-        if (D_80115128 != 0 && (D_8011511E & 0x10) != 0 && D_80115110 != 1) {
-            D_8011511E = D_8011511E & 0xFFEF;
-            D_8011511A = 1;
-            D_8011512E = 0;
+        if (guess_g_MenuCategory != 0 && (guess_g_MenuPadPressed & 0x10) != 0 && guess_g_OpenMenuId != 1) {
+            guess_g_MenuPadPressed = guess_g_MenuPadPressed & 0xFFEF;
+            guess_g_MenuPanel = 1;
+            guess_g_MenuSwapSlot = 0;
             func_80141C0C(6);
         }
         break;
     case 3:
-        if (D_8011514E == 0 && (D_8011511E & 0x40) != 0) {
-            D_8011511A = D_8011511A + 3;
+        if (D_8011514E == 0 && (guess_g_MenuPadPressed & 0x40) != 0) {
+            guess_g_MenuPanel = guess_g_MenuPanel + 3;
             func_80141C0C(3);
             return 1;
         }
         break;
     case 5:
-        if ((D_8011511E & 0x40) != 0) {
+        if ((guess_g_MenuPadPressed & 0x40) != 0) {
             rs = (s16)((s32 (*)(s32))func_801416D4)(D_80115152);
             if (rs != 0) {
                 if (rs < 0) {
-                    D_8011512A = 1;
+                    guess_g_MenuExitRequest = 1;
                 } else {
-                    D_8011511A = D_8011511A - 3;
+                    guess_g_MenuPanel = guess_g_MenuPanel - 3;
                     func_80141C0C(4);
                     return 1;
                 }
             }
             break;
         }
-        if ((D_8011511E & 0x10) != 0) {
+        if ((guess_g_MenuPadPressed & 0x10) != 0) {
             goto tail6;
         }
         break;
     case 6:
-        if ((D_8011511E & 0x10) == 0) {
+        if ((guess_g_MenuPadPressed & 0x10) == 0) {
             break;
         }
     tail6:
-        pg = &D_8011511E;
+        pg = &guess_g_MenuPadPressed;
         *pg = *pg & 0xFFEF;
-        D_8011511A = D_8011511A - 3;
+        guess_g_MenuPanel = guess_g_MenuPanel - 3;
         func_80141C0C(6);
         return 1;
     case 7:
-        if ((D_8011511E & 0xA000) != 0) {
+        if ((guess_g_MenuPadPressed & 0xA000) != 0) {
             chg = func_80140608(7);
         }
     tail7:
@@ -1055,7 +1055,7 @@ s32 func_8013F350(void) {
         break;
     }
 
-    ps = &D_8011511A;
+    ps = &guess_g_MenuPanel;
     
     st = *ps;
     off = st << 1;
@@ -1064,11 +1064,11 @@ s32 func_8013F350(void) {
     pcur = p2e + off;
     pmax = p3e + off;
     if (st == 2 || 1 < pmax[0]) {
-        if ((D_8011511E & 0x1000) != 0) {
+        if ((guess_g_MenuPadPressed & 0x1000) != 0) {
             pcur[0] = pcur[0] - 1;
             chg = 1;
             if (0x7F < pcur[0]) {
-                if (D_8011511A != 3) {
+                if (guess_g_MenuPanel != 3) {
                     pcur[0] = pmax[0] - 1;
                 } else {
                     pcur[0] = 0;
@@ -1076,12 +1076,12 @@ s32 func_8013F350(void) {
                 }
             }
         }
-        if ((D_8011511E & 0x4000) != 0) {
+        if ((guess_g_MenuPadPressed & 0x4000) != 0) {
             b = pcur[0];
             pcur[0] = b + 1;
             chg = 1;
             if (pmax[0] <= (u8)(b + 1)) {
-                if (D_8011511A != 3) {
+                if (guess_g_MenuPanel != 3) {
                     pcur[0] = 0;
                 } else {
                     pcur[0] = b;
@@ -1089,15 +1089,15 @@ s32 func_8013F350(void) {
                 }
             }
         }
-        if (D_8011511A == 2 && D_80115128 == 1) {
-            if ((D_8011511E & 0x8000) != 0) {
+        if (guess_g_MenuPanel == 2 && guess_g_MenuCategory == 1) {
+            if ((guess_g_MenuPadPressed & 0x8000) != 0) {
                 pcur[1] = pcur[1] - 1;
                 chg = 1;
                 if (0x7F < pcur[1]) {
                     pcur[1] = pmax[1] - 1;
                 }
             }
-            if ((D_8011511E & 0x2000) != 0) {
+            if ((guess_g_MenuPadPressed & 0x2000) != 0) {
                 pcur[1] = pcur[1] + 1;
                 chg = 1;
                 if (pmax[1] <= pcur[1]) {
@@ -1106,21 +1106,21 @@ s32 func_8013F350(void) {
             }
         } else {
             bb = pcur[0];
-            m = D_80115140[D_8011511A];
+            m = guess_g_MenuPanelScrollTops[guess_g_MenuPanel];
             d = (s8)bb - (s8)m;
             if (d > 0) {
-                D_80115140[D_8011511A] = bb;
+                guess_g_MenuPanelScrollTops[guess_g_MenuPanel] = bb;
             } else if (d < 0) {
-                D_80115140[D_8011511A] = bb;
+                guess_g_MenuPanelScrollTops[guess_g_MenuPanel] = bb;
             }
         }
-        if (D_8011511A == 1) {
-            D_80115128 = ((s32 (*)(s32))func_8014168C)(1) + 1;
-            if ((D_8011511E & 0x5000) != 0) {
+        if (guess_g_MenuPanel == 1) {
+            guess_g_MenuCategory = ((s32 (*)(s32))func_8014168C)(1) + 1;
+            if ((guess_g_MenuPadPressed & 0x5000) != 0) {
                 D_8011514C = 0;
             }
         }
-        *(u16 *)&D_8011515C = D_8017F338[D_80115128];
+        *(u16 *)&D_8011515C = D_8017F338[guess_g_MenuCategory];
         if ((chg << 0x10) != 0) {
             func_80141C0C(1);
         }
@@ -1160,7 +1160,7 @@ extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
 void func_8013FAF8(s16 arg0, s16 arg1) {
 
     extern s32    D_801151D0;
-    extern u16    D_8011511A;
+    extern u16    guess_g_MenuPanel;
     extern Hw4    D_8011516A[];
     extern u8     D_80078EC0;
     extern Rec20  guess_g_FrontOrderingTables[];
@@ -1190,11 +1190,11 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
     func_80140E6C();
     func_80140F00();
     ot = func_80140958((s32 *)D_801151D0, arg0, arg1);
-    if (D_8011511A < 6) {
+    if (guess_g_MenuPanel < 6) {
         ot = (s32 *)func_80141100((int)ot);
     }
     for (i = arg0; i < arg1; i++) {
-        if (i == D_8011511A || i == 2 || i == 4) {
+        if (i == guess_g_MenuPanel || i == 2 || i == 4) {
             flag = 0;
         } else {
             flag = 0xFF;
@@ -1202,7 +1202,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         p = &D_8017F180[i];
         if (i != 5) {
             if (i == 2) {
-                addr = ((s32 *)&D_8017F324)[*(s16 *)&D_80115128];
+                addr = ((s32 *)&D_8017F324)[*(s16 *)&guess_g_MenuCategory];
             } else {
                 addr = D_8017F304[i];
             }
@@ -1215,7 +1215,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         p = D_8017F2E4[i];
         j = 0;
         if (p != 0) {
-            if (i == 2 && *(s16 *)&D_80115128 != 0) {
+            if (i == 2 && *(s16 *)&guess_g_MenuCategory != 0) {
                 p = D_8017F1F0;
             }
             flag2 = flag;
@@ -1267,7 +1267,7 @@ extern u8 D_8017F434[];
 extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 
-extern short D_80115128;
+extern short guess_g_MenuCategory;
 
 s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
 
@@ -1312,7 +1312,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         break;
     }
     case 2:
-        switch ((*(s16 *)&D_80115128)) {                         /* jtbl_801D88B8 */
+        switch ((*(s16 *)&guess_g_MenuCategory)) {                         /* jtbl_801D88B8 */
         case 0: {
             s16 v1 = (s16) arg1;
             if (v1 < 5) {
@@ -1405,7 +1405,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     return ret;
 }
 
-extern short D_80115128;
+extern short guess_g_MenuCategory;
 extern u8 D_8017F41C[];
 extern u8 D_8017F434[];
 extern s32 guess_TestGameFlag(s32 arg);
@@ -1455,7 +1455,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         result = D_8017F4A0[((short)param_2)];
         break;
     case 2:
-        switch ((*(s16*)&D_80115128)) {
+        switch ((*(s16*)&guess_g_MenuCategory)) {
         case 0:
             if (D_8017F764[((short)param_2)]() == 0) {
                 ((short)param_2) = 5;
@@ -1517,8 +1517,8 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
 }
 
 
-extern u8 D_80115148[];
-extern u16 D_8011511E;
+extern u8 guess_g_MenuPanelCursors[];
+extern u16 guess_g_MenuPadPressed;
 extern u8 D_80062BDC;
 
 extern s32 func_80028D58(void);
@@ -1639,11 +1639,11 @@ s16 i;
 s16 n;
 {
     extern short guess_g_DoubleBufferIndex;
-    extern u16 D_80115110;
-    extern u8 D_80115140[];
+    extern u16 guess_g_OpenMenuId;
+    extern u8 guess_g_MenuPanelScrollTops[];
 
     extern s16 D_8011514E;
-    extern u8 D_80115158[];
+    extern u8 guess_g_MenuPanelSizes[];
     extern Hw4 D_8011516A[];
     extern Prim4 D_8017F1F0[];
     extern Prim4 *D_8017F2E4[];
@@ -1667,7 +1667,7 @@ u32 mhi;
   if (i < n)
   {
     c3 = 3;
-    a = &D_80115110;
+    a = &guess_g_OpenMenuId;
     b = a + 5;
     c = a + 3;
     e = &D_8017F222;
@@ -1725,7 +1725,7 @@ u32 mhi;
           {
             if (j == 0)
             {
-              if (D_80115140[k] == 0)
+              if (guess_g_MenuPanelScrollTops[k] == 0)
               {
                 continue;
               }
@@ -1735,7 +1735,7 @@ u32 mhi;
             else
             {
               s32 k2 = k * 2;
-              if ((((s8 *) D_80115158)[k2] - ((s8 *) D_80115140)[k]) < 2)
+              if ((((s8 *) guess_g_MenuPanelSizes)[k2] - ((s8 *) guess_g_MenuPanelScrollTops)[k]) < 2)
               {
                 continue;
               }
@@ -1832,7 +1832,7 @@ extern int func_80029FD4(void);
 
 void func_80140F00(void) {
 
-    extern short D_80115128;
+    extern short guess_g_MenuCategory;
     extern u8 D_8017F324;
     extern char *D_8017F344;
     extern char *D_8017F348;
@@ -1842,7 +1842,7 @@ void func_80140F00(void) {
     char *p;
     int r;
 
-    if (D_80115128 == 0) {
+    if (guess_g_MenuCategory == 0) {
         p = (*(char * *)&D_8017F324);
         r = func_800D2CA8(func_80029FE4() + 1, 0x18);
         func_800D2D10(r, 2, p + 4, 1);
@@ -1902,7 +1902,7 @@ extern Prim_1412A8 * func_801412A8(Prim_1412A8 *out, int a1, int a2, int a3, s32
 int func_80141100(int param_1)
 {
 
-    extern short D_80115128;
+    extern short guess_g_MenuCategory;
     extern unsigned short D_80115172;
     extern unsigned short D_8017F1DE;
     extern unsigned short D_8017F1E2;
@@ -1911,7 +1911,7 @@ int func_80141100(int param_1)
     short sVar1;
     int iVar7;
 
-    if (D_80115128 == 0) {
+    if (guess_g_MenuCategory == 0) {
         iVar7 = D_80115172 + 0x31;
         sVar1 = D_8017F1DE;
         param_1 = func_801412A8(param_1, ((short (*)(void))func_8002A1B4)(), func_8002A28C(), func_8002A27C(), (short)iVar7, (int)sVar1);
@@ -1954,9 +1954,9 @@ int func_80141100(int param_1)
 void func_80141788(void)
 {
 
-    extern unsigned short D_80115112;
+    extern unsigned short guess_g_MenuStep;
     extern void (*D_8017F774[])(void);
-    D_8017F774[D_80115112]();
+    D_8017F774[guess_g_MenuStep]();
 }
 
 
@@ -1975,32 +1975,32 @@ extern void func_80141C04(void);
 
 void func_80141874(void) {
 
-    extern u16 D_8011511E;
-    extern u16 D_8011511C;
-    extern unsigned short D_80115112;
-    extern u16 D_80115116;
+    extern u16 guess_g_MenuPadPressed;
+    extern u16 guess_g_MenuPadHeld;
+    extern unsigned short guess_g_MenuStep;
+    extern u16 guess_g_MenuFrameCounter;
     extern void (*D_8017F780[])(void);
     void (**slot)(void);
     void (*fp)(void);
     func_801754A8();
-    D_8011511E = func_80014ED4(0);
-    D_8011511C = func_80015018(0);
-    slot = &D_8017F780[D_80115112];
+    guess_g_MenuPadPressed = func_80014ED4(0);
+    guess_g_MenuPadHeld = func_80015018(0);
+    slot = &D_8017F780[guess_g_MenuStep];
     fp = *slot;
     fp();
     func_80141C04();
-    D_80115116 += 1;
+    guess_g_MenuFrameCounter += 1;
 }
 
 
 
 // @class: loose-typing
 // @unstuck(P36): none — MATCH (90 ins). Key levers:
-//   (1) D_8011511A must be a DIRECT volatile global (block-scope `extern volatile unsigned short`),
-//       NOT `*(volatile u16*)&D_8011511A`. Volatile forces the store-2-then-read-back reload (else
+//   (1) guess_g_MenuPanel must be a DIRECT volatile global (block-scope `extern volatile unsigned short`),
+//       NOT `*(volatile u16*)&guess_g_MenuPanel`. Volatile forces the store-2-then-read-back reload (else
 //       gcc folds 2>=4 and drops the branch); direct-global access recomputes %hi/%lo per reference
 //       (3 fresh lui) whereas the `&`-cast pointer form CSEs the address into ONE register (2 ins short).
-//   (2) Reconcile with the TU/engine_core canonical types: D_80115158 is `u8[]` (decays -> `*(u16*)D_80115158`),
+//   (2) Reconcile with the TU/engine_core canonical types: guess_g_MenuPanelSizes is `u8[]` (decays -> `*(u16*)guess_g_MenuPanelSizes`),
 //       D_8011515C is `u8` (halfword store -> `*(u16*)&D_8011515C`), guess_TestGameFlag is `s32(s32)`. Do not
 //       redeclare these — the shared DEFINE macros already provide them (conflicting-types hard error).
 
@@ -2010,12 +2010,12 @@ extern void func_80141C0C(int);
 
 s32 func_801418F8(void) {
 
-    extern u16 D_80115110;
-    extern unsigned short D_80115112;
-    extern unsigned short D_80115118;
-    extern short D_80115128;
-    extern s32 D_80115130;
-    extern u8 D_80115158[];
+    extern u16 guess_g_OpenMenuId;
+    extern unsigned short guess_g_MenuStep;
+    extern unsigned short guess_g_MenuTransitionTimer;
+    extern short guess_g_MenuCategory;
+    extern s32 guess_g_MenuHelpText;
+    extern u8 guess_g_MenuPanelSizes[];
     extern u8 D_8011515C;
     extern s16 D_8017F6F8;
     extern s16 D_8017F6FA;
@@ -2023,26 +2023,26 @@ s32 func_801418F8(void) {
     extern u16 D_8011515E;
     extern u16 D_80115162;
     extern u16 D_80115166;
-    extern u16 D_8011512E;
+    extern u16 guess_g_MenuSwapSlot;
     extern void *D_801841F8;
     extern void *D_801841FC;
     extern u8 D_8017F398;
     extern u8 D_8017F3B0;
     extern u8 D_8017F424;
     extern u8 D_8017F42C;
-    extern volatile unsigned short D_8011511A;
+    extern volatile unsigned short guess_g_MenuPanel;
     extern s32 guess_TestGameFlag(s32);
     unsigned short t;
 
     func_800D24A0(1);
-    D_8011511A = 2;
-    t = D_8011511A;
-    D_80115118 = 0;
-    D_80115130 = 0;
+    guess_g_MenuPanel = 2;
+    t = guess_g_MenuPanel;
+    guess_g_MenuTransitionTimer = 0;
+    guess_g_MenuHelpText = 0;
     if (t >= 4) {
-        D_8011511A = t - 3;
+        guess_g_MenuPanel = t - 3;
     }
-    *(u16*)D_80115158 = 0x106;
+    *(u16*)guess_g_MenuPanelSizes = 0x106;
     if ((guess_TestGameFlag(0x1C) & 0xFF) == 0) {
         D_801841F8 = &D_8017F398;
         D_801841FC = &D_8017F424;
@@ -2055,17 +2055,17 @@ s32 func_801418F8(void) {
     D_8011515E = 0x129;
     D_80115162 = 0x103;
     D_80115166 = 0x105;
-    D_80115128 = 0;
-    D_8011512E = 0;
-    if (D_80115110 == 3) {
+    guess_g_MenuCategory = 0;
+    guess_g_MenuSwapSlot = 0;
+    if (guess_g_OpenMenuId == 3) {
         func_8002D4C8(0x46E, 0);
     } else {
         func_80141C0C(0);
     }
-    D_80115128 = 1;
+    guess_g_MenuCategory = 1;
     D_8017F6F8 = 0xE;
     D_8017F6FA = 3;
-    D_80115112 += 1;
+    guess_g_MenuStep += 1;
 }
 
 
@@ -2086,10 +2086,10 @@ s32 func_80141A60()
 {
 
     extern short guess_g_DoubleBufferIndex;
-    extern unsigned short D_80115112;
-    extern u16 D_80115116;
-    extern u16 D_8011511A;
-    extern s32 D_80115130;
+    extern unsigned short guess_g_MenuStep;
+    extern u16 guess_g_MenuFrameCounter;
+    extern u16 guess_g_MenuPanel;
+    extern s32 guess_g_MenuHelpText;
     extern s16 D_8011514C;
     extern u8 D_8011515C;
     extern u8 D_801151C8[];
@@ -2101,20 +2101,20 @@ s32 func_80141A60()
 
     D_801151D0 = ((int *)D_801151C8)[(*(unsigned short *)&guess_g_DoubleBufferIndex)];
     func_8013F350();
-    if ((*(unsigned short *)&D_8011511A) >= 4) {
-        func_8013FAF8((short)(*(unsigned short *)&D_8011511A), (short)((*(unsigned short *)&D_8011511A) + 1));
+    if ((*(unsigned short *)&guess_g_MenuPanel) >= 4) {
+        func_8013FAF8((short)(*(unsigned short *)&guess_g_MenuPanel), (short)((*(unsigned short *)&guess_g_MenuPanel) + 1));
     }
     func_8013FAF8(2, 3);
     v = ((int(*)(int, int))func_8014032C)(2, (short)((*(unsigned char *)&D_8011514C) + (*(unsigned char *)&D_8011514D) * (*(unsigned char *)&D_8011515C)));
-    if (v != 0 && v != D_80115130) {
-        D_80115130 = v;
+    if (v != 0 && v != guess_g_MenuHelpText) {
+        guess_g_MenuHelpText = v;
         func_80139954();
         ((void (*)(int, void *))func_801376E8)(v, &(*(int *)&D_8017F6FC));
     }
     func_80137B80();
     if (func_800D0EC4() != 0) {
-        (*(unsigned short *)&D_80115116) = 0xFFF8;
-        (*(unsigned short *)&D_80115112) = (*(unsigned short *)&D_80115112) + 1;
+        (*(unsigned short *)&guess_g_MenuFrameCounter) = 0xFFF8;
+        (*(unsigned short *)&guess_g_MenuStep) = (*(unsigned short *)&guess_g_MenuStep) + 1;
     }
 }
 
@@ -2125,7 +2125,7 @@ s32 func_80141A60()
 void func_80141C04(void) {
 }
 
-extern u16 D_80115110;
+extern u16 guess_g_OpenMenuId;
 extern u8 D_8017F6D4[];
 
 void func_8002D4C8(s32 a0, s32 a1);
@@ -2136,7 +2136,7 @@ void func_80141C0C(s32 param_1)
     u16 value;
 
     idx = (param_1 << 16) >> 15;
-    idx = idx + D_80115110;
+    idx = idx + guess_g_OpenMenuId;
     idx = idx << 1;
     value = *(u16 *)(&D_8017F6D4[idx]);
     func_8002D4C8(value, 0);

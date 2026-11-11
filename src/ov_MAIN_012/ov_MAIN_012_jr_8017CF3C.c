@@ -792,8 +792,8 @@ extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern unsigned short D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern unsigned short guess_g_MenuStep;
 extern void func_8013E588(void * _arg0);
 extern s32 func_80014ED4(s32);
 extern s32 func_80015018(s32);
@@ -811,9 +811,9 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-extern u16 D_8011511A;
-extern u16 D_8011511E;
-extern s32 D_80115130;
+extern u16 guess_g_MenuPanel;
+extern u16 guess_g_MenuPadPressed;
+extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
@@ -822,13 +822,13 @@ extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 extern void func_8013ED6C(void);
 extern s32 func_8013EF88();
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
-extern unsigned short D_80115118;
+extern unsigned short guess_g_MenuTransitionTimer;
 extern void func_8013F1BC(void);
 extern void func_80141C0C(s32);
 extern s32 func_80028D58(void);
@@ -875,9 +875,9 @@ extern void func_800291A0(s32, s32);
 extern s32 func_800291DC(s32);
 extern void func_800291C8(s32, s32);
 extern void func_801415C0(s32 param_1, s32 param_2);
-extern u8 D_80115148[];
+extern u8 guess_g_MenuPanelCursors[];
 extern u8 D_80115149[];
-extern u8 D_80115158[];
+extern u8 guess_g_MenuPanelSizes[];
 extern u8 D_8011514D;
 extern u8 D_8011515C;
 extern s32 func_800D11F0(s32 a0);
@@ -895,13 +895,13 @@ extern s32 func_801418F8(void);
 extern s32 func_8013F350(void);
 extern s32 func_80141A60();
 extern void func_8013FAF8(s16, s16);
-extern u16 D_80115116;
+extern u16 guess_g_MenuFrameCounter;
 extern void func_80141B90(void);
 extern u8 D_8017F6D4[];
 void func_8002D4C8(s32 a0, s32 a1);
 extern void func_80141C0C(s32 param_1);
 extern s32 func_80015144(void);
-extern u16 D_8011511C;
+extern u16 guess_g_MenuPadHeld;
 extern s32 guess_TestGameFlag(s32 arg);
 extern unsigned char D_80112C04[];
 extern unsigned char D_80112C50[];
@@ -1646,7 +1646,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
-extern s32 D_801150D8;
+extern s32 guess_g_BoxHitFlags;
 extern s16 D_80126724;
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014ED80(SubED80 *a0);
@@ -3579,8 +3579,8 @@ s32 func_8017CF3C(void)
     extern s16 D_8011512C;
     extern u8  D_80185ADD;
     extern u8  D_801857F8[];
-    extern u16 D_80115118;
-    extern u16 D_8011511A;
+    extern u16 guess_g_MenuTransitionTimer;
+    extern u16 guess_g_MenuPanel;
     extern s32 D_801826D8;
     extern s16 D_801150D4;
     extern s32 D_80185AD4;
@@ -3604,9 +3604,9 @@ s32 func_8017CF3C(void)
                 func_8017DF40(0);
                 func_80029774(0);
                 *p = 4;
-                D_80115118 = 0x4B;
+                guess_g_MenuTransitionTimer = 0x4B;
                 D_801826D8 = 0x15;
-                D_801150D4 = D_8011511A;
+                D_801150D4 = guess_g_MenuPanel;
                 func_8002D4C8(0xB3B, 0);
             } else {
                 *p = 0;
@@ -3614,7 +3614,7 @@ s32 func_8017CF3C(void)
         } else {
             D_8011512C = 0xA;
             D_801826D8 = 0x1B;
-            D_80115118 = 0x4B;
+            guess_g_MenuTransitionTimer = 0x4B;
             D_80185AD4 = 0;
             return;
         }
@@ -3639,13 +3639,13 @@ s32 func_8017CF3C(void)
     case 1:
         ret = 0xA;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 2:
         ret = 0xB;
         D_801150D4 = 0;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 3:
         ret = 0x1F;
@@ -3680,7 +3680,7 @@ s32 func_8017CF3C(void)
             goto reset_state;
         }
         D_8011512C = 1;
-        D_8011511A = (func_8002AF60() & 3) + 1;
+        guess_g_MenuPanel = (func_8002AF60() & 3) + 1;
         func_8017D730();
         break;
     }
@@ -3698,8 +3698,8 @@ s32 func_8017CF3C(void)
  * Every declaration is BLOCK-scoped so nothing constrains the rest of the TU.  The two symbols the
  * TU already declares at file scope are declared here with the IDENTICAL type so the block-scope
  * copy cannot conflict:
- *   D_8011511A  -> u16              (ov_MAIN_012_jr_801789AC.c:920)
- *   D_80115118  -> unsigned short   (ov_MAIN_012_jr_801789AC.c:937)
+ *   guess_g_MenuPanel  -> u16              (ov_MAIN_012_jr_801789AC.c:920)
+ *   guess_g_MenuTransitionTimer  -> unsigned short   (ov_MAIN_012_jr_801789AC.c:937)
  *   func_8002D4C8 -> void(s32,s32)  (ov_MAIN_012_jr_801789AC.c:168)
  *
  * Idioms that were load-bearing (all byte-proven against the target):
@@ -3729,8 +3729,8 @@ void func_8017D2A4(void) {
     extern u8 D_80185AE5;
     extern s32 D_80185AF0[];
     extern s16 D_8011512C;
-    extern unsigned short D_80115118;
-    extern u16 D_8011511A;
+    extern unsigned short guess_g_MenuTransitionTimer;
+    extern u16 guess_g_MenuPanel;
     extern u16 D_801150D4;
     extern s32 D_801826D8;
     extern s32 D_80182638;
@@ -3752,7 +3752,7 @@ void func_8017D2A4(void) {
                 if (D_80185ADD == 8) {
                     func_80029774(0);
                     *p = 4;
-                    D_80115118 = 0x4B;
+                    guess_g_MenuTransitionTimer = 0x4B;
                     D_801150D4 = 0;
                     D_801826D8 = 0xF;
                     func_8002D4C8(0xB3B, 0);
@@ -3762,7 +3762,7 @@ void func_8017D2A4(void) {
             } else {
                 if (D_80185ADD == 6) {
                     *p = 7;
-                    D_80115118 = 0x4B;
+                    guess_g_MenuTransitionTimer = 0x4B;
                     D_801826D8 = 0x18;
                 } else {
                     *p = 0;
@@ -3776,7 +3776,7 @@ void func_8017D2A4(void) {
                 D_8011512C = 0xC;
                 D_801826D8 = 0x1C;
             }
-            D_80115118 = 0x4B;
+            guess_g_MenuTransitionTimer = 0x4B;
         }
         D_80185AD4 = 0;
         D_80185AE5 = 0xFF;
@@ -3799,13 +3799,13 @@ void func_8017D2A4(void) {
     case 1:
         ret = 0xA;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 2:
         ret = 0xB;
         D_801150D4 = 0;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 3: {
         s16 *q = &D_8011512C;
@@ -3835,7 +3835,7 @@ void func_8017D2A4(void) {
         for (i = 0; i < 4; i++) {
             D_80185AF0[i] = 0;
         }
-        D_8011511A = 1;
+        guess_g_MenuPanel = 1;
         func_8017D730();
         break;
     }
@@ -3858,14 +3858,14 @@ void func_8017D2A4(void) {
         if (*q == 0) {
             *q = 1;
             if ((u32)(D_801150D4 - 1) < 4) {
-                D_8011511A = D_801150D4;
+                guess_g_MenuPanel = D_801150D4;
             } else {
-                D_8011511A = (func_8002AF60() & 3) + 1;
+                guess_g_MenuPanel = (func_8002AF60() & 3) + 1;
             }
             if ((D_80185AF0[0] == 0) && (D_80185AF0[1] == 0) && (D_80185AF0[2] == 0) &&
                 (D_80185AF0[3] == 0)) {
                 D_801150D4 = 0;
-                D_8011511A = 1;
+                guess_g_MenuPanel = 1;
             }
         }
         func_8017D730();
@@ -4126,7 +4126,7 @@ void func_8017DCB0(s32 val, s32 n, void *dst, s32 flag) {
  *
  * WHAT IT DOES.  Fills one 0x14-byte SPRT (tag 0x04000000, rgb/code 0x64808080,
  * u0/v0 = 0x70/0x10, clut 0x4056, w/h = 0x10/0x10) whose x/y come from the
- * current HUD panel's Prim4 (D_80115134[D_8011511A].f18), offset by a table
+ * current HUD panel's Prim4 (D_80115134[guess_g_MenuPanel].f18), offset by a table
  * value when D_8011512C == 1.  Links it into the OT with the psyq addPrim
  * idiom, advances past it, has func_8005A600 (SetDrawTPage-shaped, 2 words)
  * write the next primitive, links THAT one too, and returns the write cursor.
@@ -4180,9 +4180,9 @@ s32 *func_8017DD28(s32 *out) {
     extern Env_8017DD28 guess_g_FrontOrderingTablesOrg[];
     extern short guess_g_DoubleBufferIndex;
     extern Panel_8017DD28 *D_80115134;
-    extern u16 D_8011511A;
+    extern u16 guess_g_MenuPanel;
     extern s16 D_8011512C;
-    extern u16 D_80115116;
+    extern u16 guess_g_MenuFrameCounter;
     extern u16 D_80182798[];
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
@@ -4192,10 +4192,10 @@ s32 *func_8017DD28(s32 *out) {
     s32 d;
 
     /* `lh` on a u16-declared symbol: the address cast, not a second decl —
-       the TU already fixes D_8011511A as u16 at file scope. */
-    q = D_80115134[*(s16 *)&D_8011511A].f18;
+       the TU already fixes guess_g_MenuPanel as u16 at file scope. */
+    q = D_80115134[*(s16 *)&guess_g_MenuPanel].f18;
     if (D_8011512C == 1) {
-        n = D_80182798[D_80115116 & 7];
+        n = D_80182798[guess_g_MenuFrameCounter & 7];
     } else {
         n = 0;
     }

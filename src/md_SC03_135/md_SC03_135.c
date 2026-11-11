@@ -62,52 +62,52 @@ void func_801E2980(s32 arg0, s32 arg1)
 {
     extern u8 D_800B9A15;
     extern u8 guess_g_ActiveMenu;
-    extern u16 D_80115110;
+    extern u16 guess_g_OpenMenuId;
     extern s16 D_80115126;
     extern s16 D_801EA958;
     extern s16 D_801EA954;
-    extern unsigned short D_80115112;
+    extern unsigned short guess_g_MenuStep;
     extern void *D_8011DB24;
     extern void func_801E29F8(void);
     extern s32 func_8002D4C8(s32, s32);
 
     D_800B9A15 = 1;
     guess_g_ActiveMenu = 5;
-    D_80115110 = 4;
+    guess_g_OpenMenuId = 4;
     D_80115126 = arg0;
     D_801EA958 = arg1;
     D_801EA954 = arg1;
-    D_80115112 = 0;
+    guess_g_MenuStep = 0;
     D_8011DB24 = func_801E29F8;
     func_8002D4C8(0x1E, 0);
 }
 
 
-extern u16 D_80115116;
-extern unsigned short D_80115112;
+extern u16 guess_g_MenuFrameCounter;
+extern unsigned short guess_g_MenuStep;
 extern void (*D_801E65D0[])(void);
 extern void func_80141C04(void);
 
 void func_801E29F8(void) {
 
-    extern u16 D_80115112;
-    extern u16 D_80115116;
+    extern u16 guess_g_MenuStep;
+    extern u16 guess_g_MenuFrameCounter;
     extern void (*D_801E65D0[])(void);
     u16 i;
-    i = D_80115112;
+    i = guess_g_MenuStep;
     D_801E65D0[i]();
     func_80141C04();
-    D_80115116++;
+    guess_g_MenuFrameCounter++;
 }
 
 
 void func_801E2A54(void)
 {
-    extern u16 D_80115112;
+    extern u16 guess_g_MenuStep;
     extern void func_800D24A0(s32);
     extern void func_801E2A98(void);
     extern void func_8002AF18(void);
-    u16 *p = &D_80115112;
+    u16 *p = &guess_g_MenuStep;
 
     func_800D24A0(5);
     func_801E2A98();
@@ -122,12 +122,12 @@ void func_801E2A98(void) {
     extern s16 D_801EA954;
     extern s16 D_801EA950;
     extern s16 D_801EA95C;
-    extern s16 D_80115118;
+    extern s16 guess_g_MenuTransitionTimer;
     extern s16 D_8011512C;
     extern s32 D_801E63B0;
     extern s32 D_801E6448;
     extern s16 D_80115126;
-    extern s32 D_80115130[];
+    extern s32 guess_g_MenuHelpText[];
     extern s32 D_801E64F4[];
     extern s32 D_80115134;
     extern u8 D_80115138[];
@@ -140,7 +140,7 @@ void func_801E2A98(void) {
     }
     D_801EA950 = 0;
     D_801EA95C = 0;
-    D_80115118 = 0;
+    guess_g_MenuTransitionTimer = 0;
     if (D_801EA954 == 0) {
         D_8011512C = 0;
         D_801E6448 = D_801E63B0;
@@ -149,11 +149,11 @@ void func_801E2A98(void) {
         D_801E6448 = 0x1A;
     }
     i = 0;
-    D_80115130[0] = 0;
+    guess_g_MenuHelpText[0] = 0;
     D_80115134 = D_801E64F4[D_80115126];
     for (i = 0; i < 6; i++) {
         D_80115138[i] = *(u16 *)(D_80115134 + i * 32);
-        ((s16 *)D_80115130)[20 + i] = *(u16 *)(D_80115134 + i * 32 + 2);
+        ((s16 *)guess_g_MenuHelpText)[20 + i] = *(u16 *)(D_80115134 + i * 32 + 2);
     }
 }
 
@@ -170,11 +170,11 @@ void func_801E2A98(void) {
  *
  * Codegen note (§31 cse_expr): the target materialises the symbol address ONCE
  * (lui+addiu -> $v1) and does both the lhu and the sh off that base. Writing the global
- * directly (D_80115112 = D_80115112 + 1) instead emits TWO luis (%hi for the load, %hi for
+ * directly (guess_g_MenuStep = guess_g_MenuStep + 1) instead emits TWO luis (%hi for the load, %hi for
  * the store) -> 8 ins, LENGTH-DRIFT. Taking the address into a pointer local forces the
  * single-base form. The nop at idx3 is the lhu load-delay slot (maspsx).
  *
- * D_80115112: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
+ * guess_g_MenuStep: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
  */
 
 
@@ -194,7 +194,7 @@ void func_801E2BE0(void)
     extern u16 D_801EAC44[];
     extern u32 D_801EAC54;
     extern s16 D_80115126;
-    extern u16 D_80115112;
+    extern u16 guess_g_MenuStep;
     extern u8 D_800B9A15;
     extern s16 D_801EA950;
     s32 pad0;
@@ -216,7 +216,7 @@ void func_801E2BE0(void)
     if ((var_s0 << 16) != 0) {
         D_801EA950 = var_s0;
         D_800B9A15 = 0;
-        p = &D_80115112;
+        p = &guess_g_MenuStep;
         *p += 1;
     }
 }
@@ -234,11 +234,11 @@ void func_801E2BE0(void)
  *
  * Codegen note (§31 cse_expr): the target materialises the symbol address ONCE
  * (lui+addiu -> $v1) and does both the lhu and the sh off that base. Writing the global
- * directly (D_80115112 = D_80115112 + 1) instead emits TWO luis (%hi for the load, %hi for
+ * directly (guess_g_MenuStep = guess_g_MenuStep + 1) instead emits TWO luis (%hi for the load, %hi for
  * the store) -> 8 ins, LENGTH-DRIFT. Taking the address into a pointer local forces the
  * single-base form. The nop at idx3 is the lhu load-delay slot (maspsx).
  *
- * D_80115112: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
+ * guess_g_MenuStep: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
  */
 
 
@@ -255,7 +255,7 @@ void func_801E2CDC(void) {
 
     extern short guess_g_DoubleBufferIndex;
     extern u16 D_80115114;
-    extern u16 D_80115112;
+    extern u16 guess_g_MenuStep;
     u16 v0 = (*(u16 *)&guess_g_DoubleBufferIndex);
     u16 v1 = D_80115114;
 
@@ -264,7 +264,7 @@ void func_801E2CDC(void) {
     if (v1 == v0) {
         func_800D2624();
     } else {
-        D_80115112++;
+        guess_g_MenuStep++;
     }
 }
 
@@ -288,8 +288,8 @@ s32 func_801E2D34(void) {
     extern s32 func_80014ED4(s32);
     extern s32 func_80015018(s32);
     extern void func_8002AF18(void);
-    extern u16 D_8011511A;
-    extern unsigned short D_80115118;
+    extern u16 guess_g_MenuPanel;
+    extern unsigned short guess_g_MenuTransitionTimer;
     extern u8 D_801EA960[];
     extern u8 D_801EAC47[];
     extern u8 D_801EAC4D;
@@ -315,20 +315,20 @@ s32 func_801E2D34(void) {
     flag = 0;
     pad = func_80014ED4(0);
     func_80015018(0);
-    func_8014168C(D_8011511A);
+    func_8014168C(guess_g_MenuPanel);
 
     if (pad & 0x40) {
         st = D_8011512C;
         switch (st) {
         case 1:
             if (D_80115126 == 0) {
-                if (D_801EAC47[D_8011511A] == 1) {
+                if (D_801EAC47[guess_g_MenuPanel] == 1) {
                     D_801E6448 = 0x19;
                 } else {
                     func_8002D4C8(0x472, 0);
                     return 0;
                 }
-            } else if (D_801EAC47[D_8011511A] == 1) {
+            } else if (D_801EAC47[guess_g_MenuPanel] == 1) {
                 D_801E6448 = 0x16;
             } else {
                 D_801E6448 = 0x19;
@@ -341,9 +341,9 @@ s32 func_801E2D34(void) {
             if (D_80115126 == 0) {
                 D_801E64E8 = 0x14;
                 D_801EAC3C = 2;
-                D_801EAC40 = D_8011511A - 1;
+                D_801EAC40 = guess_g_MenuPanel - 1;
             } else {
-                D_801EAC40 = D_8011511A - 1;
+                D_801EAC40 = guess_g_MenuPanel - 1;
                 func_801E48B8(1);
                 func_8002AF70(D_801EA960, D_801EAC40);
                 D_801E64E8 = 0xE;
@@ -355,7 +355,7 @@ s32 func_801E2D34(void) {
         case 4:
         case 7:
         Lcheck47:
-            if (D_80115118 < 0x47) {
+            if (guess_g_MenuTransitionTimer < 0x47) {
                 goto Lreset;
             }
             return 0;
@@ -470,13 +470,13 @@ Lload:
     st = D_8011512C;
 Ltail:
     if (st == 4 || st == 7 || st >= 10) {
-        ph = &D_80115118;
+        ph = &guess_g_MenuTransitionTimer;
         if (*ph != 0) {
             *ph = *ph - 1;
             goto Lmid;
         }
     Lreset:
-        D_80115118 = 0;
+        guess_g_MenuTransitionTimer = 0;
         if (D_80115126 == 0) {
             if (D_8011512C == 4) {
                 return -1;
@@ -512,15 +512,15 @@ Lmid:
         return 0;
     }
     if (pad & 0x1000) {
-        t = D_8011511A;
-        D_8011511A = t - 2;
+        t = guess_g_MenuPanel;
+        guess_g_MenuPanel = t - 2;
         flag = 1;
-        if (D_8011511A == 0 || D_8011511A >= 5) {
-            D_8011511A = t + 2;
+        if (guess_g_MenuPanel == 0 || guess_g_MenuPanel >= 5) {
+            guess_g_MenuPanel = t + 2;
         }
     }
     if (pad & 0x4000) {
-        ph = &D_8011511A;
+        ph = &guess_g_MenuPanel;
         t2 = *ph;
         *ph = t2 + 2;
         flag = 1;
@@ -529,7 +529,7 @@ Lmid:
         }
     }
     if (pad & 0x8000) {
-        ph = &D_8011511A;
+        ph = &guess_g_MenuPanel;
         t2 = *ph;
         *ph = t2 + 1;
         flag = 1;
@@ -538,7 +538,7 @@ Lmid:
         }
     }
     if (pad & 0x2000) {
-        ph = &D_8011511A;
+        ph = &guess_g_MenuPanel;
         t2 = *ph;
         *ph = t2 - 1;
         flag = 1;
@@ -661,7 +661,7 @@ extern s32 func_801E3830(s32, s16, s16, s16, s32 *);
 
 s32 func_801E3540(s32 ot, u8 *s, s16 c) {
 
-    extern u16 D_8011511A;
+    extern u16 guess_g_MenuPanel;
     extern u8  D_801E6584[];
     extern s32 *D_801E64FC[];
     u8  sp18[72];
@@ -683,7 +683,7 @@ s32 func_801E3540(s32 ot, u8 *s, s16 c) {
     if (c == 0) {
         flag = 0;
     } else {
-        flag = -(D_8011511A != c) & 0xFF;
+        flag = -(guess_g_MenuPanel != c) & 0xFF;
     }
 
     t = ((Unkstruct_8017C120 *)s)->unk14;
@@ -743,10 +743,10 @@ s32 func_801E3540(s32 ot, u8 *s, s16 c) {
 
 
 s32 func_801E3830(s32 arg0, s16 arg1, s16 arg2, s16 arg3, s32 *arg4) {
-    extern u8 D_80115158[];
+    extern u8 guess_g_MenuPanelSizes[];
     s32 t0 = 0;
     *arg4 = 0x808080;
-    arg2 = D_80115158[(s16)arg2 * 2];
+    arg2 = guess_g_MenuPanelSizes[(s16)arg2 * 2];
     if (arg1 < 5) {
         if (arg1 > 0) {
             if ((s16)arg3 < arg2) {
@@ -781,8 +781,8 @@ s32 func_801E38B4(void)
     extern s16 D_8011512C;
     extern u8  D_801EAC45;
     extern u8  D_801EA960[];
-    extern u16 D_80115118;
-    extern u16 D_8011511A;
+    extern u16 guess_g_MenuTransitionTimer;
+    extern u16 guess_g_MenuPanel;
     extern s32 D_801E64E8;
     extern s16 D_801150D4;
     extern s32 D_801EAC3C;
@@ -806,9 +806,9 @@ s32 func_801E38B4(void)
                 func_801E48B8(0);
                 func_80029774(0);
                 *p = 4;
-                D_80115118 = 0x4B;
+                guess_g_MenuTransitionTimer = 0x4B;
                 D_801E64E8 = 0x15;
-                D_801150D4 = D_8011511A;
+                D_801150D4 = guess_g_MenuPanel;
                 ((void (*)(s32, s32))func_8002D4C8)(0xB3B, 0);
             } else {
                 *p = 0;
@@ -816,7 +816,7 @@ s32 func_801E38B4(void)
         } else {
             D_8011512C = 0xA;
             D_801E64E8 = 0x1B;
-            D_80115118 = 0x4B;
+            guess_g_MenuTransitionTimer = 0x4B;
             D_801EAC3C = 0;
             return;
         }
@@ -841,13 +841,13 @@ s32 func_801E38B4(void)
     case 1:
         ret = 0xA;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 2:
         ret = 0xB;
         D_801150D4 = 0;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 3:
         ret = 0x1F;
@@ -882,7 +882,7 @@ s32 func_801E38B4(void)
             goto reset_state;
         }
         D_8011512C = 1;
-        D_8011511A = (func_8002AF60() & 3) + 1;
+        guess_g_MenuPanel = (func_8002AF60() & 3) + 1;
         func_801E40A8();
         break;
     }
@@ -953,8 +953,8 @@ int func_801E3C1C() {
     extern s32 D_801E6448;
     extern s32 D_801E64E8;
     extern s16 D_8011512C;
-    extern s16 D_80115118;
-    extern u16 D_8011511A;
+    extern s16 guess_g_MenuTransitionTimer;
+    extern u16 guess_g_MenuPanel;
     extern u16 D_801150D4;
     extern void func_80029774(s32 a0);
     extern s32 func_8002D4C8(s32 a0, s32 a1);
@@ -974,7 +974,7 @@ int func_801E3C1C() {
                 if (D_801EAC45 == 8) {
                     func_80029774(0);
                     *p = 4;
-                    D_80115118 = 0x4B;
+                    guess_g_MenuTransitionTimer = 0x4B;
                     D_801150D4 = 0;
                     D_801E64E8 = 0xF;
                     func_8002D4C8(0xB3B, 0);
@@ -984,7 +984,7 @@ int func_801E3C1C() {
             } else {
                 if (D_801EAC45 == 6) {
                     *p = 7;
-                    D_80115118 = 0x4B;
+                    guess_g_MenuTransitionTimer = 0x4B;
                     D_801E64E8 = 0x18;
                 } else {
                     *p = 0;
@@ -998,7 +998,7 @@ int func_801E3C1C() {
                 D_8011512C = 0xC;
                 D_801E64E8 = 0x1C;
             }
-            D_80115118 = 0x4B;
+            guess_g_MenuTransitionTimer = 0x4B;
         }
         D_801EAC3C = 0;
         D_801EAC4D = 0xFF;
@@ -1021,13 +1021,13 @@ int func_801E3C1C() {
     case 1:
         ret = 0xA;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 2:
         ret = 0xB;
         D_801150D4 = 0;
         D_8011512C = 0;
-        D_8011511A = 0;
+        guess_g_MenuPanel = 0;
         break;
     case 3: {
         s16 *q = &D_8011512C;
@@ -1057,7 +1057,7 @@ int func_801E3C1C() {
         for (i = 0; i < 4; i++) {
             ((s32 *)D_801EAC58)[i] = 0;
         }
-        D_8011511A = 1;
+        guess_g_MenuPanel = 1;
         func_801E40A8();
         break;
     }
@@ -1080,14 +1080,14 @@ int func_801E3C1C() {
         if (*q == 0) {
             *q = 1;
             if ((u32)(D_801150D4 - 1) < 4) {
-                D_8011511A = D_801150D4;
+                guess_g_MenuPanel = D_801150D4;
             } else {
-                D_8011511A = (func_8002AF60() & 3) + 1;
+                guess_g_MenuPanel = (func_8002AF60() & 3) + 1;
             }
             if ((((Unkstruct_801E38B4 *)D_801EAC58)->unk0 == 0) && (((Unkstruct_801E38B4 *)D_801EAC58)->unk4 == 0) && (((Unkstruct_801E38B4 *)D_801EAC58)->unk8 == 0) &&
                 (((Unkstruct_801E38B4 *)D_801EAC58)->unkC == 0)) {
                 D_801150D4 = 0;
-                D_8011511A = 1;
+                guess_g_MenuPanel = 1;
             }
         }
         func_801E40A8();
@@ -1303,9 +1303,9 @@ s32 *func_801E46A0(s32 *out) {
     extern Env_801E46A0 guess_g_FrontOrderingTablesOrg[];
     extern short guess_g_DoubleBufferIndex;
     extern s32 D_80115134;
-    extern u16 D_8011511A;
+    extern u16 guess_g_MenuPanel;
     extern s16 D_8011512C;
-    extern u16 D_80115116;
+    extern u16 guess_g_MenuFrameCounter;
     extern u16 D_801E65A8[];
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
@@ -1314,9 +1314,9 @@ s32 *func_801E46A0(s32 *out) {
     s32 n;
     s32 d;
 
-    q = ((Panel_801E46A0 *)D_80115134)[*(s16 *)&D_8011511A].f18;
+    q = ((Panel_801E46A0 *)D_80115134)[*(s16 *)&guess_g_MenuPanel].f18;
     if (D_8011512C == 1) {
-        n = D_801E65A8[D_80115116 & 7];
+        n = D_801E65A8[guess_g_MenuFrameCounter & 7];
     } else {
         n = 0;
     }

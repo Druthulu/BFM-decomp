@@ -10,14 +10,14 @@ Prim_1412A8 * func_801412A8(out, a1, a2, a3, a4, a5)
 {
     extern Env_1412A8 guess_g_FrontOrderingTablesOrg[];
     extern short guess_g_DoubleBufferIndex;
-    extern u16 D_80115116;
+    extern u16 guess_g_MenuFrameCounter;
     Prim_1412A8 *p = out;
     int y = a5;
     int color = 0xF800F8;
     int val;
     if ((short)a1) {
         val = 0x5E;
-        if (D_80115116 & 1) { color = 0xF89C00; }
+        if (guess_g_MenuFrameCounter & 1) { color = 0xF89C00; }
     } else if ((short)a2) {
         val = (short)a3 * 0x5E / (short)a2;
     } else {

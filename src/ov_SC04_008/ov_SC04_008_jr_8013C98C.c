@@ -1753,17 +1753,17 @@ extern void func_80141C04(void);
 // @unstuck(P36): none — MATCH (90 ins, relocation-masked)
 
 extern u8 D_80078EC0;
-extern u16 D_8011511A;
+extern u16 guess_g_MenuPanel;
 extern u16 D_80115124;
-extern u8 D_80115148[];
-extern u8 D_80115140[];
+extern u8 guess_g_MenuPanelCursors[];
+extern u8 guess_g_MenuPanelScrollTops[];
 extern s32 D_8017FE64;
-extern u16 D_80115110;
+extern u16 guess_g_OpenMenuId;
 extern s32 D_80115188;
 extern s16 currentLocationId;
 extern s16 D_8017FE3C;
 extern s16 D_8017FE3E;
-extern unsigned short D_80115112;
+extern unsigned short guess_g_MenuStep;
 
 extern void func_8013E83C(void);
 extern s32 guess_GetStoryProgress(void);
@@ -1774,15 +1774,15 @@ extern s32 guess_GetStoryProgress(void);
 #include "../shared/ov/func_8013E814.h"
 
 // @class: plumbing
-// @unstuck(P36): none — MATCH (direct u16 global reads fold to lui/lhu; scheduler hoists the D_8011511A read above the prologue, reproduced by -O2)
+// @unstuck(P36): none — MATCH (direct u16 global reads fold to lui/lhu; scheduler hoists the guess_g_MenuPanel read above the prologue, reproduced by -O2)
 
 void func_8013E83C() {
     extern void func_80141C0C(int);
-    extern unsigned short D_80115118;
-    extern unsigned short D_80115128;
-    extern unsigned short D_8011512E;
-    extern unsigned int D_80115130;
-    extern unsigned short D_80115158;
+    extern unsigned short guess_g_MenuTransitionTimer;
+    extern unsigned short guess_g_MenuCategory;
+    extern unsigned short guess_g_MenuSwapSlot;
+    extern unsigned int guess_g_MenuHelpText;
+    extern unsigned short guess_g_MenuPanelSizes;
     extern unsigned short D_8011515A;
     extern unsigned short D_8011515C;
     extern unsigned short D_8011515E;
@@ -1796,12 +1796,12 @@ void func_8013E83C() {
     extern unsigned char D_8017FB70;
 
 
-    D_80115118 = 0;
-    D_80115130 = 0;
-    if (D_8011511A >= 4) {
-        D_8011511A = D_8011511A - 3;
+    guess_g_MenuTransitionTimer = 0;
+    guess_g_MenuHelpText = 0;
+    if (guess_g_MenuPanel >= 4) {
+        guess_g_MenuPanel = guess_g_MenuPanel - 3;
     }
-    D_80115158 = 0x106;
+    guess_g_MenuPanelSizes = 0x106;
 
     if ((((int(*)(int))guess_TestGameFlag)(0x1c) & 0xFF) == 0) {
         D_80190CF8 = &D_8017FADC;
@@ -1816,10 +1816,10 @@ void func_8013E83C() {
     D_8011515E = 0x129;
     D_80115162 = 0x103;
     D_80115166 = 0x105;
-    D_80115128 = 0;
-    D_8011512E = 0;
+    guess_g_MenuCategory = 0;
+    guess_g_MenuSwapSlot = 0;
 
-    if (D_80115110 == 3) {
+    if (guess_g_OpenMenuId == 3) {
         ((void(*)(int, int))func_8002D4C8)(0x46e, 0);
     } else {
         func_80141C0C(0);
@@ -1831,10 +1831,10 @@ void func_8013E83C() {
 // @class: schedule
 // @stuck: none — MATCH (63 ins). The idx-32+ residual was a THIRD held base pointer for the
 // D_80115188 store: the draft's `((Cell*)&D_80115188)[i].v = v` allocates a pointer, so gcc kept
-// three bases (D_80115110/D_8017FE64/D_80115188) and buried the branch-delay `sll` (i<<16 carry)
+// three bases (guess_g_OpenMenuId/D_8017FE64/D_80115188) and buried the branch-delay `sll` (i<<16 carry)
 // under the extra store. Switching to the sibling func_8013E6AC's relocation-masked form
 // `*(s32*)((char*)&D_80115188 + (i<<2))` recomputes that address via per-iteration %hi/%lo, leaving
-// only TWO held pointers (fp=&D_80115110 -> $t0, ep=&D_8017FE64 -> $a3) and freeing the delay slot
+// only TWO held pointers (fp=&guess_g_OpenMenuId -> $t0, ep=&D_8017FE64 -> $a3) and freeing the delay slot
 // to carry `i<<16` in $a0 exactly as the target does. Head (idx 0-31) already matched; i naturally
 // lands in $a2 from the goto-loop delay slots, driving the fp/ep/fa=$8/$7/$5 alloc with no pins.
 
@@ -1864,12 +1864,12 @@ extern void func_8013E958(void);
 extern short guess_g_DoubleBufferIndex;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-extern u16 D_8011511A;
-extern u16 D_8011511E;
-extern short D_80115128;
-extern unsigned short D_80115112;
-extern s16 D_8011512A;
-extern s32 D_80115130;
+extern u16 guess_g_MenuPanel;
+extern u16 guess_g_MenuPadPressed;
+extern short guess_g_MenuCategory;
+extern unsigned short guess_g_MenuStep;
+extern s16 guess_g_MenuExitRequest;
+extern s32 guess_g_MenuHelpText;
 extern unsigned char D_8017FE40;
 
 #include "../shared/ov/func_8013EB7C__c502c10e.h"
@@ -1878,7 +1878,7 @@ extern unsigned char D_8017FE40;
 #include "../shared/ov/func_8013ED6C.h"
 
 extern short guess_g_DoubleBufferIndex;
-extern unsigned short D_80115112;
+extern unsigned short guess_g_MenuStep;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
 extern s16 D_8017FE3C;
@@ -1893,12 +1893,12 @@ extern unsigned char *func_80141CA4(void);
 //   `typedef struct{s32 f0;} E4; extern E4 arr[]; arr[i].f0` defeats gcc's base-CSE/loop-hoist so each
 //   global-array access stays a per-access `lui %hi; addu idx; lw/sw %lo(sym)($at)` (a plain `s32 arr[];
 //   arr[i]` HOISTS the base into a reg → wrong). (2) §21 global-RMW: the conditional `D_8017FE3E` bump and
-//   the `D_80115112` increment keep the address in ONE reg → access via a pointer var, not the bare global.
-//   (3) the 2nd-loop base `q = p-8` (=&D_80115118 kept in $s0 across the calls) is declared INSIDE the loop
+//   the `guess_g_MenuStep` increment keep the address in ONE reg → access via a pointer var, not the bare global.
+//   (3) the 2nd-loop base `q = p-8` (=&guess_g_MenuTransitionTimer kept in $s0 across the calls) is declared INSIDE the loop
 //   so loop.c hoists it to the preheader slot AFTER `i=0` (an explicit pre-loop `q=` emits it BEFORE i=0,
 //   +2 off). (4) dead `s32 sp10[2];(void)sp10;` reserves the extra 8 frame bytes (0x28, not 0x20).
 //   Conflict-safe externs: asm-alias `aD80115188` (file-scope decl is scalar `s32 D_80115188`); `(u16)`
-//   cast on the `s16 D_8017FE3C` read for the `lhu`; `D_80115168` is undeclared elsewhere in the TU.
+//   cast on the `s16 D_8017FE3C` read for the `lhu`; `guess_g_MenuPanelSlide` is undeclared elsewhere in the TU.
 
 
 
@@ -1919,7 +1919,7 @@ extern s16 guess_g_DoubleBufferIndex;
 extern s32 D_801151D0;
 extern E4  aD80115188[] __asm__("D_80115188");
 extern u16 D_80115124;
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 extern s16 D_8017FE3E;
 extern s16 D_8017FE3C;
 
@@ -1935,9 +1935,9 @@ extern void func_800D2624(void);
 // @stuck: none — MATCH expected (u16* base materialization for read+write, %lo-folded single-access globals)
 
 
-extern unsigned short D_80115118;
-extern unsigned short D_80115112;
-extern u16 D_80115110;
+extern unsigned short guess_g_MenuTransitionTimer;
+extern unsigned short guess_g_MenuStep;
+extern u16 guess_g_OpenMenuId;
 extern unsigned char D_8017FE40;
 
 extern unsigned char *func_80141CA4(void);

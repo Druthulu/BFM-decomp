@@ -3,8 +3,8 @@
 extern void func_8017DB50(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern u16 D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern u16 guess_g_MenuStep;
 extern s16 D_80115126;
 extern s16 D_801CD878;
 extern void *D_8011DB24;
@@ -13,9 +13,9 @@ s32 func_8017DAAC(s32 a0, s32 a1)
     void *func_ptr;
     D_800B9A15 = 1;
     guess_g_ActiveMenu = 4;
-    D_80115110 = 3;
+    guess_g_OpenMenuId = 3;
     func_ptr = func_8017DB50;
-    D_80115112 = 0;
+    guess_g_MenuStep = 0;
     D_80115126 = (s16)a0;
     D_801CD878 = (s16)a1;
     D_8011DB24 = func_ptr;

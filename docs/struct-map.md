@@ -50,9 +50,9 @@
 | 42 | `Unkstruct_fb1c8e17` | 620 | 124 | 4 | 0x38 | 0 (+0 sign) |  |  |
 | 43 | `Unkstruct_938fd4bc` | 620 | 124 | 3 | 0x20 | 0 (+0 sign) |  |  |
 | 44 | `Unkstruct_7f0ce17c` | 600 | 75 | 0 | 0x0 | 0 (+0 sign) |  |  |
-| 45 | `Unkstruct_8011512E` | 532 | 133 | 1 | 0x2 | 0 (+0 sign) | D_8011512E |  |
+| 45 | `Unkstruct_8011512E` | 532 | 133 | 1 | 0x2 | 0 (+0 sign) | guess_g_MenuSwapSlot |  |
 | 46 | `Unkstruct_7476116e` | 532 | 133 | 1 | 0x4 | 0 (+0 sign) |  |  |
-| 47 | `Unkstruct_80115128` | 527 | 394 | 1 | 0x2 | 0 (+0 sign) | D_80115128 |  |
+| 47 | `Unkstruct_80115128` | 527 | 394 | 1 | 0x2 | 0 (+0 sign) | guess_g_MenuCategory |  |
 | 48 | `Unkstruct_db475375` | 516 | 129 | 4 | 0x38 | 0 (+0 sign) |  |  |
 | 49 | `Unkstruct_8016BFA8` | 504 | 126 | 4 | 0x24 | 0 (+0 sign) |  |  |
 | 50 | `Unkstruct_2a236a98` | 500 | 125 | 3 | 0x6 | 0 (+1 sign) |  |  |
@@ -64,9 +64,9 @@
 | 56 | `Unkstruct_6feef4cf` | 496 | 124 | 4 | 0x38 | 0 (+0 sign) |  |  |
 | 57 | `Unkstruct_82917a73` | 492 | 123 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 58 | `Unkstruct_7a201374` | 492 | 123 | 3 | 0x2c | 0 (+0 sign) |  |  |
-| 59 | `Unkstruct_02864986` | 420 | 420 | 1 | 0x2 | 0 (+1 sign) |  | D_80115158 |
+| 59 | `Unkstruct_02864986` | 420 | 420 | 1 | 0x2 | 0 (+1 sign) |  | guess_g_MenuPanelSizes |
 | 60 | `Unkstruct_f9be7d6a` | 405 | 45 | 6 | 0x7c | 0 (+0 sign) |  |  |
-| 61 | `Unkstruct_8011511A` | 404 | 146 | 1 | 0x2 | 0 (+1 sign) | D_8011511A |  |
+| 61 | `Unkstruct_8011511A` | 404 | 146 | 1 | 0x2 | 0 (+1 sign) | guess_g_MenuPanel |  |
 | 62 | `Unkstruct_7966d69a` | 399 | 133 | 3 | 0x10 | 0 (+0 sign) |  |  |
 | 63 | `Unkstruct_0b52d7d5` | 393 | 131 | 2 | 0x30 | 0 (+0 sign) |  |  |
 | 64 | `Unkstruct_f91365cd` | 387 | 129 | 3 | 0x1c | 0 (+0 sign) |  |  |
@@ -147,7 +147,7 @@
 | 139 | `Unkstruct_948c6fe5` | 168 | 4 | 23 | 0x54 | 3 (+0 sign) |  |  |
 | 140 | `Unkstruct_f246bc17` | 158 | 79 | 1 | 0x12 | 0 (+0 sign) |  |  |
 | 141 | `Unkstruct_24c0d4db` | 145 | 145 | 0 | 0x0 | 0 (+0 sign) |  | D_801151C8 |
-| 142 | `Unkstruct_de5b293a` | 141 | 141 | 0 | 0x0 | 0 (+0 sign) |  | D_80115140 |
+| 142 | `Unkstruct_de5b293a` | 141 | 141 | 0 | 0x0 | 0 (+0 sign) |  | guess_g_MenuPanelScrollTops |
 | 143 | `Unkstruct_d4bb3a1d` | 140 | 10 | 6 | 0xe0 | 0 (+1 sign) |  |  |
 | 144 | `Unkstruct_8615cbe6` | 136 | 136 | 1 | 0xa3d4 | 0 (+0 sign) |  |  |
 | 145 | `Unkstruct_8018512C` | 135 | 9 | 24 | 0xfc | 3 (+7 sign) |  |  |
@@ -162,9 +162,9 @@
 | 154 | `Unkstruct_19efed25` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 155 | `Unkstruct_0cebe116` | 133 | 133 | 1 | 0x2 | 0 (+0 sign) |  |  |
 | 156 | `Unkstruct_80127548` | 133 | 133 | 1 | 0x4 | 0 (+0 sign) | D_80127548 |  |
-| 157 | `Unkstruct_80115148` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) | D_80115148 |  |
-| 158 | `Unkstruct_80115112` | 133 | 133 | 1 | 0x2 | 0 (+0 sign) | D_80115112 |  |
-| 159 | `Unkstruct_80115110` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) | D_80115110 |  |
+| 157 | `Unkstruct_80115148` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) | guess_g_MenuPanelCursors |  |
+| 158 | `Unkstruct_80115112` | 133 | 133 | 1 | 0x2 | 0 (+0 sign) | guess_g_MenuStep |  |
+| 159 | `Unkstruct_80115110` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) | guess_g_OpenMenuId |  |
 | 160 | `Unkstruct_80115152` | 133 | 133 | 1 | 0x2 | 0 (+0 sign) | D_80115152 |  |
 | 161 | `Unkstruct_80062BD0` | 133 | 133 | 1 | 0x4 | 0 (+0 sign) | guess_g_RumblePatternShort |  |
 | 162 | `Unkstruct_80115218` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) | D_80115218 |  |
@@ -176,7 +176,7 @@
 | 168 | `Unkstruct_80130D48` | 131 | 131 | 1 | 0x2 | 0 (+0 sign) |  | g_PlayerHpMax, g_PlayerHp, D_8011DB14 |
 | 169 | `Unkstruct_8099f052` | 130 | 130 | 1 | 0x14 | 0 (+0 sign) |  |  |
 | 170 | `Unkstruct_8b399b49` | 130 | 130 | 1 | 0x2 | 0 (+0 sign) |  |  |
-| 171 | `Unkstruct_80115118` | 130 | 130 | 1 | 0x2 | 0 (+0 sign) | D_80115118 |  |
+| 171 | `Unkstruct_80115118` | 130 | 130 | 1 | 0x2 | 0 (+0 sign) | guess_g_MenuTransitionTimer |  |
 | 172 | `Unkstruct_8011514C` | 130 | 130 | 1 | 0x1 | 0 (+0 sign) | D_8011514C |  |
 | 173 | `Unkstruct_28565378` | 129 | 1 | 24 | 0x108 | 0 (+0 sign) |  |  |
 | 174 | `Unkstruct_1c9abcbf` | 128 | 128 | 1 | 0x1 | 0 (+0 sign) |  |  |

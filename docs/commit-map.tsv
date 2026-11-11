@@ -732,7 +732,7 @@ ordinal	new_hash	author_date	committer_date	subject
 0726	a725c2a4e66a4dca4352de932fce92bb0a190860	2026-07-19T01:43:45-06:00	2026-07-19T01:43:45-06:00	feat(phase-26): h_seq family sweep — 1 member-matches banked via remap_hseq
 0727	9ee4ce8d0e64172a933c2d131b0409432575dbdb	2026-07-19T01:57:32-06:00	2026-07-19T01:57:32-06:00	feat(phase-29 crack-wave2): func_8016DC20 +132 / func_801418F8 +126 family sweep (ov_SC01_000 exemplar)
 0728	9e020256dc3b51e1b052dea929a70ecd0d35134c	2026-07-19T01:59:24-06:00	2026-07-19T01:59:24-06:00	feat(phase-29 crack-wave2): func_8013EF88 +136 / func_8013D8FC +135 family sweep (ov_SC01_000 exemplar)
-0729	3eb6b019ffbe1761ce781c99a92c49df74826544	2026-07-19T02:04:50-06:00	2026-07-19T02:04:50-06:00	feat(phase-29 crack-wave2): func_801418F8 +10 residuals via D_8011512E u16 canonical
+0729	3eb6b019ffbe1761ce781c99a92c49df74826544	2026-07-19T02:04:50-06:00	2026-07-19T02:04:50-06:00	feat(phase-29 crack-wave2): func_801418F8 +10 residuals via guess_g_MenuSwapSlot u16 canonical
 0730	f72ad4a85d8851434daf9e52892fc6d3814e2d0b	2026-07-19T02:09:23-06:00	2026-07-19T02:09:23-06:00	feat(phase-29 crack-wave2): func_8016DC20 +3 SC07 residuals (carried-extern reconcile)
 0731	c48a485ff9b1d97c2b850b0d534a42cc4210e719	2026-07-19T02:25:45-06:00	2026-07-19T02:26:05-06:00	feat(phase-29 crack-wave2): +2 residual exemplars banked x1 in ov_SC01_000
 0732	b00461774a43ad49971b26d50ace7f771c85a36a	2026-07-19T02:35:33-06:00	2026-07-19T02:35:33-06:00	feat(phase-29 crack-wave2): func_80141A60 family sweep +135 (135/135, fully banked)

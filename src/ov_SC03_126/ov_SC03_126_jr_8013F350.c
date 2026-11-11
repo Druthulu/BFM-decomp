@@ -850,18 +850,18 @@ extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
 extern unsigned char guess_g_ActiveMenu;
-extern u16 D_80115110;
-extern unsigned short D_80115112;
+extern u16 guess_g_OpenMenuId;
+extern unsigned short guess_g_MenuStep;
 extern void func_8013E588(void * _arg0);
 extern s32 func_80014ED4(s32);
 extern s32 func_80015018(s32);
 extern void func_80141C04(void);
 extern void func_8013E5E8(void);
 extern u8 D_80078EC0;
-extern u16 D_8011511A;
+extern u16 guess_g_MenuPanel;
 extern u16 D_80115124;
-extern u8 D_80115148[];
-extern u8 D_80115140[];
+extern u8 guess_g_MenuPanelCursors[];
+extern u8 guess_g_MenuPanelScrollTops[];
 extern s32 D_80180618;
 extern s32 D_80115188;
 extern s16 D_801805F0;
@@ -878,23 +878,23 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-extern u16 D_8011511E;
-extern s32 D_80115130;
+extern u16 guess_g_MenuPadPressed;
+extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
 extern s16 func_8014168C(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
-extern short D_80115128;
-extern s16 D_8011512A;
+extern short guess_g_MenuCategory;
+extern s16 guess_g_MenuExitRequest;
 extern unsigned char D_801805F4;
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
-extern u16 D_80115112;
+extern u16 guess_g_MenuStep;
 extern void func_8013ED6C(void);
 extern s32 func_8013EE10();
-extern unsigned short D_80115118;
+extern unsigned short guess_g_MenuTransitionTimer;
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
@@ -912,10 +912,10 @@ extern void func_80141C0C(s32);
 //     there) and losing the off/pmax coalesce into $a0. Pinning off cost 0 insns
 //     and took the diff 162 -> 13. (`bb` shares $4; live ranges are disjoint.)
 //  2. `register u16 *pd __asm__("$5")` + the "=r"/"0" self-barrier — without the
-//     barrier gcc const-propagates &D_8011511C away and %lo-folds every access
+//     barrier gcc const-propagates &guess_g_MenuPadHeld away and %lo-folds every access
 //     (target holds the base: lhu 0($a1) / lhu 4($a1) / sh 4($a1)). The barrier
 //     emits zero code; it only hides the pointer's constant value from cse.
-//     NOTE: `ps` (&D_8011511A) must NOT get the same barrier — it regressed.
+//     NOTE: `ps` (&guess_g_MenuPanel) must NOT get the same barrier — it regressed.
 //  3. `case 0/2/3: break;` in the inner switch are NOT dead — 5 case nodes is
 //     what pushes gcc past CASE_VALUES_THRESHOLD into a jump table (jtbl_801D8880)
 //     instead of a compare chain (worth 18 instructions).
@@ -930,29 +930,29 @@ extern void func_80141C0C(s32);
 //     (its ==3 arm restores the original), so it keeps two registers and no nop.
 //  7. `s16 d` (not s32 + <<16>>16): the wide form pushed the frame 0x30 -> 0x38.
 //  8. `pad` is u16 (its andi 0xFFFF is real) but `st` must stay u16 AND be used
-//     only for the pointer math / `st == 2` — the D_80115140 index re-reads
-//     D_8011511A, which is what keeps st free of a masking andi.
+//     only for the pointer math / `st == 2` — the guess_g_MenuPanelScrollTops index re-reads
+//     guess_g_MenuPanel, which is what keeps st free of a masking andi.
 //
-// Canonical-reconciled (§17a-1) and re-verified MATCH: D_8011512E keeps the TU's
+// Canonical-reconciled (§17a-1) and re-verified MATCH: guess_g_MenuSwapSlot keeps the TU's
 // `u16` canonical with `*(s16*)&` at the read sites (target needs lh), and
 // func_8014168C keeps the canonical s16(s16) decl with s32(s32) call-site casts.
 // Def sig is s32(void); engine_core.h canon is `void func_8013F350(void)` and the
 // callers already cast (`((short (*)(void))func_8013F350)()`) -> def-side reconcile.
 
-extern u16 D_80115110;
-extern u16 D_8011511A;
-extern u16 D_8011511C;
-extern u16 D_8011511E;
+extern u16 guess_g_OpenMenuId;
+extern u16 guess_g_MenuPanel;
+extern u16 guess_g_MenuPadHeld;
+extern u16 guess_g_MenuPadPressed;
 extern u16 D_80115120;
-extern u16 D_80115122;
-extern s16 D_80115128;
-extern s16 D_8011512A;
-extern u16 D_8011512E;
-extern u8  D_80115140[];
+extern u16 guess_g_MenuPadRepeatTimer;
+extern s16 guess_g_MenuCategory;
+extern s16 guess_g_MenuExitRequest;
+extern u16 guess_g_MenuSwapSlot;
+extern u8  guess_g_MenuPanelScrollTops[];
 extern s16 D_8011514C;
 extern s16 D_8011514E;
 extern u8  D_80115152;
-extern u8 D_80115158[];   /* macro-canonical (§8e) */
+extern u8 guess_g_MenuPanelSizes[];   /* macro-canonical (§8e) */
 extern u8 D_8011515C;     /* macro-canonical (§8e) */
 extern u8  D_80180314[];
 extern u8  D_8018032C[];
@@ -1000,8 +1000,8 @@ extern int func_80137D08(int arg0, int arg1, short arg2);
 extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
 
 extern s32    D_801151D0;
-extern u16    D_8011511A;
-extern short D_80115128;
+extern u16    guess_g_MenuPanel;
+extern short guess_g_MenuCategory;
 extern u8     D_80078EC0;
 extern short guess_g_DoubleBufferIndex;
 extern s16    D_801805F0;

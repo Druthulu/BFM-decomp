@@ -5,7 +5,7 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
     extern u8 D_80112B58[];
     extern u8 D_80112B90[];
     extern u8 D_80112BA8[];
-    extern s32 D_80115130;
+    extern s32 guess_g_MenuHelpText;
     extern u8 D_80183478[];
     extern u8 D_801BB920[];
     extern s16 D_801BB948[][2];
@@ -59,7 +59,7 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
                 func_80139A44((s32)p, 0);
                 if (p != D_801CD9B0) {
                     D_801CD9B0 = p;
-                    D_80115130 = 0;
+                    guess_g_MenuHelpText = 0;
                 }
                 result = D_801C3D48;
             } else {
