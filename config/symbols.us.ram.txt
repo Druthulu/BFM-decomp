@@ -43,5 +43,11 @@
 // Enforced by `make audit-corpus` (tools/corpus.py), which fails loud when splat's function
 // boundaries disagree with sig_image's.
 
+guess_g_MainCameraViewPointX     = 0x80126984; // data
+guess_g_MainCameraViewPointY     = 0x80126988; // data
+guess_g_MainCameraViewPointZ     = 0x8012698C; // data
+guess_g_MainCameraRefPointX      = 0x80126990; // data
+guess_g_MainCameraRefPointY      = 0x80126994; // data
+guess_g_MainCameraRefPointZ      = 0x80126998; // data
 listCdBuffer                     = 0x80180000; // data — LIST.CD RAM cache (Phase 3). OUTSIDE main's
                                                // image; INSIDE the overlay slot. Main-only, by rule.
