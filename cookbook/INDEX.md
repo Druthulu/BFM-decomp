@@ -1023,3 +1023,4 @@ C0570 | many-name grep over src: GNU grep -F -f over git ls-files (git grep -f i
 C0571 | Placeholder names are per binary: repo-wide rename rewrite hits unrelated functions; md externs need md rows | rename,symbol,overlay,md,placeholder,hazard | 2026-11-10 | 3.43/T7 | P3.43 T7.c1
 C0572 | A data rename breaks tools classifying by D_/func_ spelling (type_census residue, restruct ledger) | rename,type_census,residue,restruct,ledger,names | 2026-11-10 | 3.43/T7 | P3.43 T7.c2
 C0573 | data rename: name address-only mentions before rename_scan --spec | rename,names-ledger,rename_scan,data | 2026-11-11 | 3.43/T8 | T8.c1
+C0574 | resident data used by main: name it in symbols.us.ram.txt (rename_sym binary us.ram) | rename,symbol,resident,data,rename_sym | 2026-11-11 | 3.43/T8 | T8.c6

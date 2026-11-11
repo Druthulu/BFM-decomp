@@ -49,7 +49,7 @@
   "deferred_same_address_texts": 1,
   "deferred_same_address_copies": 3,
   "levers": {
-   "date": "2026-11-10",
+   "date": "2026-11-11",
    "what": "compiler-forcing constructs left in the C: register pins + asm statements (the classes Phase 36 drives to 0; GTE coprocessor ops and whole-body hand-asm routines excluded), with the volatile/register qualifiers censused",
    "sites": 1849,
    "pins": 971,
@@ -112,7 +112,7 @@
     "census": ".run/P39/census/residue_census.json",
     "date": "2026-11-10",
     "head": "2cb3493055",
-    "gate_line": "check-casts: raw P=112227 I=46489 X=10309 M=3917 (uncovered P=0 I=0 X=0 M=0); macros CAST_ALIAS=3972 CAST_SIGN=12210 CAST_WIDTH=11042 CAST_MISALIGNED=1989 CAST_NONSTRUCT=633 (unbacked 3); lying=9302 (ledgered 9302)",
+    "gate_line": "check-casts: raw P=112227 I=46489 X=10309 M=3917 (uncovered P=0 I=0 X=0 M=0); macros CAST_ALIAS=3972 CAST_SIGN=12210 CAST_WIDTH=11042 CAST_MISALIGNED=1989 CAST_NONSTRUCT=633 (unbacked 26); lying=9302 (ledgered 9302)",
     "what": "type_census --check-casts --residue: raw dereference sites per form, split into covered (a rung-S RESIDUAL(<cause>) ledger entry) and uncovered; reinterpret-macro sites KEPT (backed by a rung-S KEPT entry) and unbacked; lying declarations ledgered",
     "raw": {
      "P": 112227,
@@ -133,7 +133,7 @@
      "M": 0
     },
     "macro_sites": 29846,
-    "macro_unbacked": 3,
+    "macro_unbacked": 26,
     "lying": 9302,
     "lying_ledgered": 9302
    }
