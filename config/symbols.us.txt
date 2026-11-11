@@ -6,7 +6,7 @@
 //   - `D_800629D4` added: a data label in the text->data boundary region that the boot code
 //     references but splat did not auto-label (keeps the all-asm link resolving; no bytes change).
 // Durable text record of manual RE work (the .rep is gitignored).
-// count=1122
+// count=1128
 
 lzss_ringBuffer                  = 0x1F800000; // data
 start                            = 0x80010000; // func
@@ -1134,3 +1134,9 @@ _new_card                      = 0x80062288; // func  PsyQ libcard (xdedup vs va
 StartCARD                      = 0x80062328; // func  PsyQ libcard (xdedup vs xenogears, Phase 21)
 InitCARD2                      = 0x800627d8; // func  PsyQ libcard (xdedup vs vagrant-story, Phase 21)
 StartCARD2                     = 0x800627e8; // func  PsyQ libcard (xdedup vs vagrant-story, Phase 21)
+guess_g_MainCameraViewPointX     = 0x80126984; // data
+guess_g_MainCameraViewPointY     = 0x80126988; // data
+guess_g_MainCameraViewPointZ     = 0x8012698C; // data
+guess_g_MainCameraRefPointX      = 0x80126990; // data
+guess_g_MainCameraRefPointY      = 0x80126994; // data
+guess_g_MainCameraRefPointZ      = 0x80126998; // data
