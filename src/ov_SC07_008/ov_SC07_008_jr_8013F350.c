@@ -185,7 +185,7 @@ extern void func_80129FF4(void);
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
@@ -237,7 +237,7 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
@@ -320,7 +320,7 @@ extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
 extern void func_8012C218(void *a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -389,7 +389,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DDA4();
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -863,7 +863,7 @@ extern u16 D_80115124;
 extern u8 guess_g_MenuPanelCursors[];
 extern u8 guess_g_MenuPanelScrollTops[];
 extern s32 D_8017E6A0;
-extern s32 D_80115188;
+extern s32 guess_g_MenuPanelSlideStep;
 extern s16 D_8017E678;
 extern s16 D_8017E67A;
 extern void func_8013E83C(void);
@@ -876,8 +876,8 @@ extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPadPressed;
 extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
@@ -1238,7 +1238,7 @@ extern u32 *func_800D29F8(s32, s32, void *, s32, s32);
 extern int func_80137D08(int arg0, int arg1, short arg2);
 extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
 
-extern s32    D_801151D0;
+extern s32    guess_g_MenuPacketPtr;
 extern u16    guess_g_MenuPanel;
 extern short guess_g_MenuCategory;
 extern u8     D_80078EC0;
@@ -1273,7 +1273,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
 
     func_80140E6C();
     func_80140F00();
-    ot = func_80140958((s32 *)D_801151D0, arg0, arg1);
+    ot = func_80140958((s32 *)guess_g_MenuPacketPtr, arg0, arg1);
     if (guess_g_MenuPanel < 6) {
         ot = (s32 *)func_80141100((int)ot);
     }
@@ -1339,7 +1339,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
     if (*pp != 0 && D_8017E67A != 0) {
         ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4 + 2, (s32)(pp - 2), 0x8000);
     }
-    D_801151D0 = (s32)ot;
+    guess_g_MenuPacketPtr = (s32)ot;
 }
 
 

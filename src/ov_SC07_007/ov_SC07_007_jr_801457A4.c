@@ -140,7 +140,7 @@ extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
 extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
 extern void func_8012A018(s32 a0, s32 a1);
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern void *memcpy(void *, const void *, unsigned int);
@@ -270,7 +270,7 @@ extern void func_8001CFDC(s32 a, s32 b);
 extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -707,8 +707,8 @@ extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPanel;
 extern u16 guess_g_MenuPadPressed;
 extern s32 guess_g_MenuHelpText;
@@ -967,9 +967,9 @@ extern void func_80143640(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_801437D8(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80143970(s32 a0);
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
-extern s16 D_801152AC;
-extern s16 D_801152AA;
-extern u8 D_801152A8[];
+extern s16 guess_g_BoxHitNormalZ;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_801439FC(s32 a0);
 extern void func_80143B30(void *a0);
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
@@ -2806,7 +2806,7 @@ extern void func_8012AAAC(void *arg0);
 // `desc.z = a2[2] - a1[2]`), so it is §42e-CORRECTION / §74-safe to propagate.
 //
 // SYMBOLS (§58 rule 1/2): all five data externs use the canonical splat spelling and
-// the engine_core.h type — `u8 D_801202A0[]`, `u8 D_801152A8[]`, `s16 D_801152AC`,
+// the engine_core.h type — `u8 guess_g_ObjectTable[]`, `u8 guess_g_BoxHitNormalX[]`, `s16 guess_g_BoxHitNormalZ`,
 // `u8 D_80184B80[]`, `s16 currentLocationId`. symcheck: SYMS-OK, 12 symbols agree.
 //
 // The one deliberate divergence (§27 step 2 / rule 3): func_80135A4C's canonical
@@ -2841,14 +2841,14 @@ s32 func_8014D820(s32 a0, u16 *a1, u16 *a2x)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u8 D_801152A8[];
+    extern u8 guess_g_BoxHitNormalX[];
 
     extern u8 D_80184B80[];
-    extern s16 D_801152AC;
+    extern s16 guess_g_BoxHitNormalZ;
   /* BLOCK-SCOPE types — see the header note. `Ent` at file scope collides with
      src/shared/engine_types.h:434 and kills the TU's cc1 stage (exit 33). */
   typedef Unkstruct_800B5CB8 Ent;
@@ -2937,7 +2937,7 @@ a0v = a0;
   desc.y = ty;
   if (currentLocationId != 0x3008)
   {
-    for (p = (Ent *) D_801202A0; p < (Ent *) (D_801202A0 + 0x6480); p++)
+    for (p = (Ent *) guess_g_ObjectTable; p < (Ent *) (guess_g_ObjectTable + 0x6480); p++)
     {
       if (p == ent)
       {
@@ -2974,7 +2974,7 @@ a0v = a0;
     out[2].x += pos.x;
     out[2].y = pos.y;
     out[2].z += pos.z;
-    for (p = (Ent *) D_801202A0; p < (Ent *) (D_801202A0 + 0x6480); p++)
+    for (p = (Ent *) guess_g_ObjectTable; p < (Ent *) (guess_g_ObjectTable + 0x6480); p++)
     {
       if (p == ent)
       {
@@ -3000,7 +3000,7 @@ a0v = a0;
 
   }
   r = func_80133784(0, &pos, (s32) (&desc));
-  if ((r == 0) || ((r == 0x2000) && (((*(u16 *) D_801152A8) | ((u16) D_801152AC)) == 0)))
+  if ((r == 0) || ((r == 0x2000) && (((*(u16 *) guess_g_BoxHitNormalX) | ((u16) guess_g_BoxHitNormalZ)) == 0)))
   {
     ent->unk6 = desc.x - desc.f18;
     ent->unkA = desc.y;
@@ -3070,7 +3070,7 @@ extern void func_8014E48C(s32);
 
 //      — the guard makes $v1, CSE turns the in-body `e = p + 0x6480` into a copy of it, and
 //      regalloc does not coalesce (gcc-2.7.2 has no coalescing, regalloc.md K8). The back edge
-//      then uses the register ($s5), NOT a rematerialised %hi/%lo(D_80126720) as in
+//      then uses the register ($s5), NOT a rematerialised %hi/%lo(guess_g_BoxHitCenterX) as in
 //      func_8014CF04 — so do NOT reuse that sibling's absolute-bound half here.
 //
 //  (2) TWO INDUCTION VARIABLES, secondary base +0xE. `q = p + 0xE` carries every access except

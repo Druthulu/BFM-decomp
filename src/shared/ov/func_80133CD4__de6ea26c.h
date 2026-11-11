@@ -14,9 +14,9 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     extern s32 *D_8017F81C;
     extern s32 *D_8017F820;
     extern u16 D_8018E6F8;
-    extern u8  D_801152A8[];
-    extern s16 D_801152AA;
-    extern s16 D_801152AC;
+    extern u8  guess_g_BoxHitNormalX[];
+    extern s16 guess_g_BoxHitNormalY;
+    extern s16 guess_g_BoxHitNormalZ;
     extern u16 D_801152AE;
     extern u8  D_801152B0;
     extern s32 guess_Vec3sDotAdd(Vec3s *a0, Vec3s *a1, s32 a2);
@@ -135,11 +135,11 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         u16 *s3u = (u16 *)s3;
         u16 *bp = D_8017F80C;
         u16 w;
-        ((H16 *)D_801152A8)->h = s3u[0];
+        ((H16 *)guess_g_BoxHitNormalX)->h = s3u[0];
         w = s3u[1];
         bp[3] = w;
-        ((H16 *)&D_801152AA)->h = w;
-        ((H16 *)&D_801152AC)->h = s3u[2];
+        ((H16 *)&guess_g_BoxHitNormalY)->h = w;
+        ((H16 *)&guess_g_BoxHitNormalZ)->h = s3u[2];
         ((H16 *)&D_801152AE)->h = s3u[3];
     }
 ret1:

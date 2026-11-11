@@ -8,7 +8,7 @@ s32 func_8012DE2C(s32 a0) {
     u8 *end;
     u8 *p;
 
-    base = D_801202A0;
+    base = guess_g_ObjectTable;
     end = base + 0x6480;
     D_8018E69C = base;
     D_8018E698 = ((u8 *)a0);

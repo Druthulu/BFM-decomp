@@ -5,8 +5,8 @@ Unkstruct_cb638a45	define	Unkstruct_80135EB0	flow-cluster	no entity evidence for
 Unkstruct_dac960ce	define	Unkstruct_8015F448	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_a5d21dec	define	Unkstruct_8012C890	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_f8ed2b9f	define	Unkstruct_8016F6E0	flow-cluster	no entity evidence for an existing type; 4061 bodies 95 fns; best layout match recorded by T2 only
-Unkstruct_cedd385d	fold	Unkstruct_80078E78	E3-copy	func_80176218 cach = &D_8011F7A8+0x48: field-wise copies from cur at equal offsets; 0x48+sizeof 0x98 = 0xE0 = flag start
-Unkstruct_8e3dbe51	fold	Unkstruct_80078E78	E3-copy	func_80176734 cach = &D_8011F7A8+0x48, field-wise copies from cur (as cedd385d)
+Unkstruct_cedd385d	fold	Unkstruct_80078E78	E3-copy	func_80176218 cach = &guess_g_HudState+0x48: field-wise copies from cur at equal offsets; 0x48+sizeof 0x98 = 0xE0 = flag start
+Unkstruct_8e3dbe51	fold	Unkstruct_80078E78	E3-copy	func_80176734 cach = &guess_g_HudState+0x48, field-wise copies from cur (as cedd385d)
 Unkstruct_57a28935	define	Unkstruct_8017CF48	flow-cluster	no entity evidence for an existing type; 196 bodies 187 fns; best layout match recorded by T2 only
 Unkstruct_30b21035	define	Unkstruct_80167DBC	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_a2c8734a	residual	TYPE-NO-MEMBER	swept	T2.c4: def Unkstruct_80169BBC pruned; t2_S1..S38 drew it in 0 bodies (0 MEMBER, 0 KEPT, 0 NO-FIELD entries); dead in --check-structs
@@ -17,14 +17,14 @@ Unkstruct_8016B4F8	define	Unkstruct_8016B4F8	flow-cluster	no entity evidence for
 Unkstruct_80139C7C	define	Unkstruct_80139C7C	flow-cluster	no entity evidence for an existing type; 265 bodies 5 fns; best layout match recorded by T2 only
 Unkstruct_f896d121	define	Unkstruct_8013B274	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_80130D48	residual	TYPE-SCALAR	layout	fields 1 conflicts 0 size 2
-Unkstruct_1255bbfd	define	Unkstruct_8011F888	E2-anchor	flag = &D_8011F7A8 + 0xE0 (func_80176218, func_80176734): per-field flag block, offsets parallel 80078E78 (guess_g_PlayerRecord) but a different entity (coincident layout, not folded)
-Unkstruct_dd542e54	fold	Unkstruct_8011F7A8	E2-anchor	func_80175DA8 s = &D_8011F7F0 - 0x48 = &D_8011F7A8
+Unkstruct_1255bbfd	define	Unkstruct_8011F888	E2-anchor	flag = &guess_g_HudState + 0xE0 (func_80176218, func_80176734): per-field flag block, offsets parallel 80078E78 (guess_g_PlayerRecord) but a different entity (coincident layout, not folded)
+Unkstruct_dd542e54	fold	Unkstruct_8011F7A8	E2-anchor	func_80175DA8 s = &guess_g_HudPlayerRecord - 0x48 = &guess_g_HudState
 Unkstruct_f49880fd	define	Unkstruct_80135480	single-fn	no entity evidence for an existing type; 125 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_a8d34bce	define	Unkstruct_801727D0	flow-cluster	no entity evidence for an existing type; 1948 bodies 15 fns; best layout match recorded by T2 only
 Unkstruct_8016DF5C	define	Unkstruct_8016DF5C	flow-cluster	no entity evidence for an existing type; 131 bodies 5 fns; best layout match recorded by T2 only
 Unkstruct_568f7bda	define	Unkstruct_8016C998	single-fn	no entity evidence for an existing type; 125 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_cd1bacd2	define	Unkstruct_8016C188	single-fn	no entity evidence for an existing type; 126 bodies 1 fns; best layout match recorded by T2 only
-Unkstruct_8011F7A8	define	Unkstruct_8011F7A8	E2-anchor	st = (s32)&D_8011F7A8 (func_80176218, func_80176734)
+Unkstruct_8011F7A8	define	Unkstruct_8011F7A8	E2-anchor	st = (s32)&guess_g_HudState (func_80176218, func_80176734)
 Unkstruct_9928c710	fold	Unkstruct_80078E78	E2-anchor	func_80176218 cur = (s32)&guess_g_PlayerRecord
 Unkstruct_57db4d07	residual	TYPE-NO-LAYOUT	layout	fields 13 conflicts 13 size 0
 Unkstruct_4692fc17	define	Unkstruct_80164930	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
@@ -56,7 +56,7 @@ Unkstruct_4857195e	define	Unkstruct_8016BFD0	single-fn	no entity evidence for an
 Unkstruct_50a3f6b4	residual	TYPE-NO-LAYOUT	single-fn	no entity evidence for an existing type; 130 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_ee756a74	residual	TYPE-NO-MEMBER	swept	T2.c4: def Unkstruct_80144364 pruned; t2_S1..S38 drew it in 0 bodies (0 MEMBER, 0 KEPT, 0 NO-FIELD entries); dead in --check-structs
 Unkstruct_b6c7c603	residual	TYPE-INTERIOR	layout	map layout has a negative offset (-0xc): the base is an interior pointer; T2 render refused (T2.c2)
-Unkstruct_b774eeeb	fold	Sp_80175DA8	E2-anchor	func_80176734 p = *(s32 *)(st + 0x28 + 4i): the D_8011F7A8+0x28 pointer array func_80175DA8 stores as Sp_80175DA8 *
+Unkstruct_b774eeeb	fold	Sp_80175DA8	E2-anchor	func_80176734 p = *(s32 *)(st + 0x28 + 4i): the guess_g_HudState+0x28 pointer array func_80175DA8 stores as Sp_80175DA8 *
 Unkstruct_859b4fab	define	Unkstruct_80148AFC	single-fn	no entity evidence for an existing type; 130 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_801463A0	define	Unkstruct_801463A0	flow-cluster	no entity evidence for an existing type; 210 bodies 77 fns; best layout match recorded by T2 only
 Unkstruct_6d3f3f5d	define	Unkstruct_80165240	single-fn	no entity evidence for an existing type; 127 bodies 1 fns; best layout match recorded by T2 only
@@ -73,7 +73,7 @@ Unkstruct_ffd2397c	define	Unkstruct_80168430	single-fn	no entity evidence for an
 Unkstruct_2932a0a7	residual	TYPE-UNION	layout	fields 6 conflicts 5 size 18
 Unkstruct_0a8f505b	define	Unkstruct_8017BEBC	flow-cluster	no entity evidence for an existing type; 83 bodies 38 fns; best layout match recorded by T2 only
 Unkstruct_12f4cee2	define	Unkstruct_8014358C_2	single-fn	no entity evidence for an existing type; 131 bodies 1 fns; best layout match recorded by T2 only
-Unkstruct_1fa9e810	define	Unkstruct_8011F888	E2-anchor	same entity as Unkstruct_1255bbfd (flag = &D_8011F7A8 + 0xE0)
+Unkstruct_1fa9e810	define	Unkstruct_8011F888	E2-anchor	same entity as Unkstruct_1255bbfd (flag = &guess_g_HudState + 0xE0)
 # T3 (P3.40) restruct.py --decide-band --ranks 1-216 --write at 8e15da9bd5: 214 rows define/-=151 fold/E2-anchor=2 residual/TYPE-CANON-TWIN=6 residual/TYPE-NO-LAYOUT=29 residual/TYPE-SCALAR=13 residual/TYPE-UNION=13; band config/tnc_band.tsv
 Unkstruct_2ac2250b	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80148E54 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_d827da45	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8015DCB8 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
@@ -165,7 +165,7 @@ Unkstruct_80129CF8	define	Unkstruct_80010178	owner:main	no E1/E2 evidence; flat 
 Unkstruct_a2d6c72b	define	Unkstruct_8017ECD4	owner:func_8017ECD4	no E1/E2 evidence; flat layout of the struct map record; 273 TNC sites in 21 bodies
 Unkstruct_800AF630	define	Unkstruct_8012956C	owner:func_8012956C	no E1/E2 evidence; flat layout of the struct map record; 269 TNC sites in 135 bodies
 Unkstruct_8012C1DC	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8012C1DC pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_80115188	fold	E4	E2-anchor:D_80115188	D_80115188 is declared E4 in src/ or include/
+Unkstruct_80115188	fold	E4	E2-anchor:guess_g_MenuPanelSlideStep	guess_g_MenuPanelSlideStep is declared E4 in src/ or include/
 Unkstruct_1db7b82d	define	Unkstruct_8012E364_2	owner:func_8012E364	no E1/E2 evidence; flat layout of the struct map record; 266 TNC sites in 133 bodies
 Unkstruct_6bd63257	define	Unkstruct_8012E364_3	owner:func_8012E364	no E1/E2 evidence; flat layout of the struct map record; 266 TNC sites in 133 bodies
 Unkstruct_a310cf42	residual	TYPE-SCALAR	layout:one-field@0	layout class TYPE-SCALAR (struct_map record)

@@ -1209,12 +1209,12 @@ s32 func_8012DB84(void)
 s32 func_8012DDA4()
 {
 
-    extern u8 D_80126720[];
+    extern u8 guess_g_BoxHitCenterX[];
     extern Entry_8012DDA4 * D_8019A72C;
     extern Entry_8012DDA4 * D_8019A728;
 
     Entry_8012DDA4 *p;
-    Entry_8012DDA4 *end = ((Entry_8012DDA4 *)D_80126720);
+    Entry_8012DDA4 *end = ((Entry_8012DDA4 *)guess_g_BoxHitCenterX);
 
     while (D_8019A72C != end) {
         p = D_8019A72C;
@@ -1237,7 +1237,7 @@ s32 func_8012DDA4()
 
 s32 func_8012DE2C(s32 a0) {
 
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     extern u8 * D_8019A72C;
     extern u8 * D_8019A728;
 
@@ -1245,7 +1245,7 @@ s32 func_8012DE2C(s32 a0) {
     u8 *end;
     u8 *p;
 
-    base = D_801202A0;
+    base = guess_g_ObjectTable;
     end = base + 0x6480;
     D_8019A72C = base;
     D_8019A728 = ((u8 *)a0);

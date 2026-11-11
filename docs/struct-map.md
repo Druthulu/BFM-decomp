@@ -17,7 +17,7 @@
 | 9 | `Unkstruct_8016B4F8` | 1272 | 535 | 5 | 0x30 | 0 (+0 sign) |  |  |
 | 10 | `Unkstruct_d10e56f3` | 1240 | 124 | 10 | 0x24 | 0 (+0 sign) |  |  |
 | 11 | `Unkstruct_d292c30d` | 1240 | 124 | 6 | 0x38 | 0 (+2 sign) |  |  |
-| 12 | `Unkstruct_1149cbcc` | 1206 | 1073 | 1 | 0x2 | 0 (+1 sign) |  | D_801152A8 |
+| 12 | `Unkstruct_1149cbcc` | 1206 | 1073 | 1 | 0x2 | 0 (+1 sign) |  | guess_g_BoxHitNormalX |
 | 13 | `Unkstruct_4e427c01` | 1116 | 124 | 5 | 0xfe | 0 (+0 sign) |  |  |
 | 14 | `Unkstruct_ee756a74` | 992 | 124 | 5 | 0xfe | 0 (+0 sign) |  |  |
 | 15 | `Unkstruct_800B9A02` | 989 | 431 | 1 | 0x2 | 0 (+0 sign) | guess_g_DoubleBufferIndex |  |
@@ -37,12 +37,12 @@
 | 29 | `Unkstruct_6f21e02b` | 711 | 79 | 6 | 0x7c | 0 (+0 sign) |  |  |
 | 30 | `Unkstruct_801270C0` | 687 | 686 | 1 | 0x2 | 0 (+0 sign) | D_801270C0 |  |
 | 31 | `Unkstruct_80146A6C` | 680 | 137 | 7 | 0x2c | 0 (+0 sign) |  |  |
-| 32 | `Unkstruct_8012C284` | 668 | 533 | 1 | 0x2 | 0 (+1 sign) |  | D_80126720 |
+| 32 | `Unkstruct_8012C284` | 668 | 533 | 1 | 0x2 | 0 (+1 sign) |  | guess_g_BoxHitCenterX |
 | 33 | `Unkstruct_901e5333` | 665 | 133 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 34 | `Unkstruct_af384762` | 665 | 133 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 35 | `Unkstruct_801345F8` | 665 | 133 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 36 | `Unkstruct_801345F8` | 665 | 133 | 0 | 0x0 | 0 (+0 sign) |  |  |
-| 37 | `Unkstruct_801152A0` | 659 | 397 | 1 | 0x2 | 0 (+0 sign) | D_801152A0 |  |
+| 37 | `Unkstruct_801152A0` | 659 | 397 | 1 | 0x2 | 0 (+0 sign) | guess_g_CameraRelativeYaw |  |
 | 38 | `Unkstruct_b9f75320` | 655 | 131 | 3 | 0x41 | 0 (+0 sign) |  |  |
 | 39 | `Unkstruct_f3dbb08e` | 645 | 129 | 5 | 0x1c | 1 (+0 sign) |  |  |
 | 40 | `Unkstruct_ebaf2d0e` | 630 | 126 | 4 | 0x20 | 0 (+0 sign) |  |  |
@@ -71,7 +71,7 @@
 | 63 | `Unkstruct_0b52d7d5` | 393 | 131 | 2 | 0x30 | 0 (+0 sign) |  |  |
 | 64 | `Unkstruct_f91365cd` | 387 | 129 | 3 | 0x1c | 0 (+0 sign) |  |  |
 | 65 | `Unkstruct_0dc81dc1` | 387 | 129 | 3 | 0x1c | 0 (+0 sign) |  |  |
-| 66 | `Unkstruct_8011F7F0` | 384 | 128 | 3 | 0x42 | 0 (+0 sign) | D_8011F7F0 |  |
+| 66 | `Unkstruct_8011F7F0` | 384 | 128 | 3 | 0x42 | 0 (+0 sign) | guess_g_HudPlayerRecord |  |
 | 67 | `Unkstruct_80164BDC` | 384 | 128 | 5 | 0x64 | 0 (+1 sign) |  |  |
 | 68 | `Unkstruct_4db40c10` | 384 | 48 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 69 | `Unkstruct_f2440762` | 381 | 127 | 1 | 0x4 | 0 (+0 sign) |  |  |
@@ -104,7 +104,7 @@
 | 96 | `Unkstruct_8011515C` | 267 | 267 | 1 | 0x2 | 0 (+1 sign) | D_8011515C |  |
 | 97 | `Unkstruct_f85de09d` | 266 | 133 | 1 | 0x2 | 0 (+0 sign) |  |  |
 | 98 | `Unkstruct_a310cf42` | 266 | 133 | 1 | 0x4 | 0 (+0 sign) |  |  |
-| 99 | `Unkstruct_80115188` | 266 | 266 | 0 | 0x0 | 0 (+0 sign) | D_80115188 |  |
+| 99 | `Unkstruct_80115188` | 266 | 266 | 0 | 0x0 | 0 (+0 sign) | guess_g_MenuPanelSlideStep |  |
 | 100 | `Unkstruct_80115124` | 266 | 266 | 1 | 0x2 | 0 (+0 sign) | D_80115124 |  |
 | 101 | `Unkstruct_800D4BE0` | 266 | 133 | 1 | 0x4 | 0 (+0 sign) | D_800D4BE0 |  |
 | 102 | `Unkstruct_800D4F8C` | 266 | 133 | 1 | 0x4 | 0 (+0 sign) | D_800D4F8C |  |
@@ -146,7 +146,7 @@
 | 138 | `Unkstruct_801E8034` | 168 | 4 | 23 | 0x54 | 3 (+0 sign) |  |  |
 | 139 | `Unkstruct_948c6fe5` | 168 | 4 | 23 | 0x54 | 3 (+0 sign) |  |  |
 | 140 | `Unkstruct_f246bc17` | 158 | 79 | 1 | 0x12 | 0 (+0 sign) |  |  |
-| 141 | `Unkstruct_24c0d4db` | 145 | 145 | 0 | 0x0 | 0 (+0 sign) |  | D_801151C8 |
+| 141 | `Unkstruct_24c0d4db` | 145 | 145 | 0 | 0x0 | 0 (+0 sign) |  | guess_g_MenuPacketBases |
 | 142 | `Unkstruct_de5b293a` | 141 | 141 | 0 | 0x0 | 0 (+0 sign) |  | guess_g_MenuPanelScrollTops |
 | 143 | `Unkstruct_d4bb3a1d` | 140 | 10 | 6 | 0xe0 | 0 (+1 sign) |  |  |
 | 144 | `Unkstruct_8615cbe6` | 136 | 136 | 1 | 0xa3d4 | 0 (+0 sign) |  |  |
@@ -157,8 +157,8 @@
 | 149 | `Unkstruct_800B9A78` | 134 | 134 | 0 | 0x0 | 0 (+0 sign) | guess_g_BackgroundLayers |  |
 | 150 | `Unkstruct_80110C3C` | 134 | 134 | 1 | 0x1 | 0 (+0 sign) | guess_g_StartPromptText |  |
 | 151 | `Unkstruct_800B9AAC` | 134 | 134 | 1 | 0x2 | 0 (+0 sign) | guess_g_BackgroundLayerPriority |  |
-| 152 | `Unkstruct_8011F7BC` | 134 | 134 | 1 | 0x2 | 0 (+0 sign) | D_8011F7BC |  |
-| 153 | `Unkstruct_8011F7BE` | 134 | 134 | 1 | 0x2 | 0 (+0 sign) | D_8011F7BE |  |
+| 152 | `Unkstruct_8011F7BC` | 134 | 134 | 1 | 0x2 | 0 (+0 sign) | guess_g_HudGoldPanelX |  |
+| 153 | `Unkstruct_8011F7BE` | 134 | 134 | 1 | 0x2 | 0 (+0 sign) | guess_g_HudGoldPanelY |  |
 | 154 | `Unkstruct_19efed25` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 155 | `Unkstruct_0cebe116` | 133 | 133 | 1 | 0x2 | 0 (+0 sign) |  |  |
 | 156 | `Unkstruct_80127548` | 133 | 133 | 1 | 0x4 | 0 (+0 sign) | D_80127548 |  |

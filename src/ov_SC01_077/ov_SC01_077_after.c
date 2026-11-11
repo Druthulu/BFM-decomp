@@ -1115,8 +1115,8 @@ s32 func_80149FB0(s32 a0) {
 //   region (frame 0x40) for the guess_RotTransSVWithMatrix/func_80135260 out-params; (2) loop is a
 //   while(1) with the 6 checks &&-chained in the loop CONDITION + the "found" block AFTER
 //   the loop (fall-through) so the success path is a forward j .L8014A190 — matches the
-//   target CFG (Ghidra-C while-form); (3) the base &D_801202A0 must be RECOMPUTED inside
-//   the loop, not hoisted: `s0 = (s32)D_801202A0 + s2;` + the in-place re-tie barrier
+//   target CFG (Ghidra-C while-form); (3) the base &guess_g_ObjectTable must be RECOMPUTED inside
+//   the loop, not hoisted: `s0 = (s32)guess_g_ObjectTable + s2;` + the in-place re-tie barrier
 //   `__asm__ __volatile__("":"=r"(s0):"0"(s0));` (cookbook §21) forces the lui/addiu/addu
 //   per iteration instead of caching the symbol addr in $s4 (kills 1 ins + $s4); (4) u32
 //   counter -> sltiu; (5) bef8-fail uses `goto ret0;` to a ret0 label placed AFTER the
@@ -1598,12 +1598,12 @@ extern void func_8014CD0C(u8 *a0);
 //
 // Keys (template for the 137-member h_seq family):
 //  (1) THE LOOP-BOUND DUALITY. The entry guard is register-relative (`addiu $v0,$s0,0x6480` +
-//      `sltu`) but the BACK EDGE rematerialises the absolute bound (`lui/addiu %hi/%lo(D_80126720)`
-//      + `sltu`). A plain `for (p = D_801202A0; p < D_801202A0 + 0x6480; p += 0x10C)` also reaches
+//      `sltu`) but the BACK EDGE rematerialises the absolute bound (`lui/addiu %hi/%lo(guess_g_BoxHitCenterX)`
+//      + `sltu`). A plain `for (p = guess_g_ObjectTable; p < guess_g_ObjectTable + 0x6480; p += 0x10C)` also reaches
 //      MATCH (82 ins) under relocation masking, but it relocates the back edge against
-//      D_801202A0+0x6480 and symcheck reports `MISSING D_80126720` — i.e. it cannot be trusted to
+//      guess_g_ObjectTable+0x6480 and symcheck reports `MISSING guess_g_BoxHitCenterX` — i.e. it cannot be trusted to
 //      bank on the symbol set. The split form below (entry guard `p < p + 0x6480`, back edge
-//      `(u32)p < (u32)D_80126720`) yields the same 82 bytes AND the target's symbol set. This is
+//      `(u32)p < (u32)guess_g_BoxHitCenterX`) yields the same 82 bytes AND the target's symbol set. This is
 //      the func_8014DD8C / engine_core.h split-guard idiom, reused verbatim.
 //  (2) TWO INDUCTION VARIABLES, secondary base +0x75. $s1 = $s0 + 0x75 is the giv gcc combines all
 //      of 0x0A/0x20/0x58/0x5C/0x74/0x75 onto (the two BYTE accesses at 0x74/0x75 force an unaligned
@@ -1651,7 +1651,7 @@ extern void func_8014D0A4(s32 a0);
 //   itself does `lhu 0($s0)` and stays live for the two `beq $s0,$v0` identity checks. (4) The entry
 //   guard must be written `p < p + 0x6480` off the VARIABLE (per DEFINE_func_8014DD8C precedent):
 //   two symbol_refs would fold, the variable form emits the target's `addiu $v0,$s0,0x6480; sltu`,
-//   while the do-while bottom test against `D_80126720` materialises the full lui/addiu address.
+//   while the do-while bottom test against `guess_g_BoxHitCenterX` materialises the full lui/addiu address.
 //   (5) `t` (the +0x58 field) is a single-use temp -> local-alloc parks it directly in $a1 across
 //   the beqz and into the call, matching `lw $a1,-0x1D($s2)`.
 #include "common.h"
@@ -1768,7 +1768,7 @@ extern void func_8014D790(s32 a0);
 // `desc.z = a2[2] - a1[2]`), so it is §42e-CORRECTION / §74-safe to propagate.
 //
 // SYMBOLS (§58 rule 1/2): all five data externs use the canonical splat spelling and
-// the engine_core.h type — `u8 D_801202A0[]`, `u8 D_801152A8[]`, `s16 D_801152AC`,
+// the engine_core.h type — `u8 guess_g_ObjectTable[]`, `u8 guess_g_BoxHitNormalX[]`, `s16 guess_g_BoxHitNormalZ`,
 // `u8 D_8018876C[]`, `s16 currentLocationId`. symcheck: SYMS-OK, 12 symbols agree.
 //
 // The one deliberate divergence (§27 step 2 / rule 3): func_80135A4C's canonical
@@ -1791,10 +1791,10 @@ extern void func_8014D790(s32 a0);
 
 
 extern s16 currentLocationId;
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u8 D_8018876C[];
-extern u8 D_801152A8[];
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 ratan2(s32 a0, s32 a1);
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80012A60(s32 a0, s32 a1);
@@ -1892,7 +1892,7 @@ a0v = a0;
   desc.y = ty;
   if (currentLocationId != 0x3008)
   {
-    for (p = (Ent *) D_801202A0; p < (Ent *) (D_801202A0 + 0x6480); p++)
+    for (p = (Ent *) guess_g_ObjectTable; p < (Ent *) (guess_g_ObjectTable + 0x6480); p++)
     {
       if (p == ent)
       {
@@ -1929,7 +1929,7 @@ a0v = a0;
     out[2].x += pos.x;
     out[2].y = pos.y;
     out[2].z += pos.z;
-    for (p = (Ent *) D_801202A0; p < (Ent *) (D_801202A0 + 0x6480); p++)
+    for (p = (Ent *) guess_g_ObjectTable; p < (Ent *) (guess_g_ObjectTable + 0x6480); p++)
     {
       if (p == ent)
       {
@@ -1955,7 +1955,7 @@ a0v = a0;
 
   }
   r = func_80133784(0, &pos, (s32) (&desc));
-  if ((r == 0) || ((r == 0x2000) && (((*(u16 *) D_801152A8) | ((u16) D_801152AC)) == 0)))
+  if ((r == 0) || ((r == 0x2000) && (((*(u16 *) guess_g_BoxHitNormalX) | ((u16) guess_g_BoxHitNormalZ)) == 0)))
   {
     ent->unk6 = desc.x - desc.f18;
     ent->unkA = desc.y;
@@ -2024,8 +2024,8 @@ extern void func_8014DF94(s32 arg0);
 //     of the "gcc loop-guard / IV-final-value" residual §17a filed as unsteerable on the sibling
 //     func_8012C2D0: the ENTRY guard CSEs the bound off the just-materialized base
 //     (`addiu $v0,$s3,0x6480; sltu $s3,$v0`) while the loop-BOTTOM test — rewritten by loop.c
-//     AFTER invariant motion — re-materializes the folded address `%hi/%lo(D_801202A0+0x6480)`
-//     (which splat names D_80126720). No separate `end` symbol is needed; do NOT try to write the
+//     AFTER invariant motion — re-materializes the folded address `%hi/%lo(guess_g_ObjectTable+0x6480)`
+//     (which splat names guess_g_BoxHitCenterX). No separate `end` symbol is needed; do NOT try to write the
 //     bound as its own extern.
 // (2) The two-register walk ($s3 = p, $s2 = p+0xE) is gcc's combine_givs, NOT a source construct
 //     and NOT pinnable. `record_giv` PREPENDS to bl->giv, so the LAST-discovered `p+const` address
@@ -2046,7 +2046,7 @@ extern void func_8014DF94(s32 arg0);
 
 #include "common.h"
 
-/* stride 0x10C == the D_801202A0 entry size; keeps the symbol_ref through gcc's array-index
+/* stride 0x10C == the guess_g_ObjectTable entry size; keeps the symbol_ref through gcc's array-index
    addressing (§18). Named uniquely: the TU-canonical decl of the symbol itself stays `u8 []`
    (engine_core.h / DEFINE_func_8014A048 already declare it that way at file scope). */
 
@@ -2098,7 +2098,7 @@ extern void func_8014E48C(s32 a0);
 // the shared epilogue), which also frees $v0 so the last `lhu` lands in $v0 instead of the
 // target's $v1. `s32` fixes all 23 mismatches at once.
 //
-// Keys (same D_801202A0 96-entry / stride-0x10C sweep as the func_8014CF04 and func_8014D2A0
+// Keys (same guess_g_ObjectTable 96-entry / stride-0x10C sweep as the func_8014CF04 and func_8014D2A0
 // siblings, so most of it is the already-banked idiom):
 //
 //  (1) LOOP-BOUND DUALITY, register-relative BOTH ends (differs from func_8014CF04!). The
@@ -2109,7 +2109,7 @@ extern void func_8014E48C(s32 a0);
 //        `if (p < p + 0x6480) { e = p + 0x6480; ... }`
 //      — the guard makes $v1, CSE turns the in-body `e = p + 0x6480` into a copy of it, and
 //      regalloc does not coalesce (gcc-2.7.2 has no coalescing, regalloc.md K8). The back edge
-//      then uses the register ($s5), NOT a rematerialised %hi/%lo(D_80126720) as in
+//      then uses the register ($s5), NOT a rematerialised %hi/%lo(guess_g_BoxHitCenterX) as in
 //      func_8014CF04 — so do NOT reuse that sibling's absolute-bound half here.
 //
 //  (2) TWO INDUCTION VARIABLES, secondary base +0xE. `q = p + 0xE` carries every access except
@@ -2184,8 +2184,8 @@ s32 func_80135888(s32, s32, M2C_UNK, M2C_UNK);      /* extern */
 // func_8014EA4C  ov_SC01_077 — MATCH (183 ins, match_one verified; Fable5 crack of CLOSE=6).
 //
 // Prior structural fixes (kept from the close draft, .run/t7b/close/func_8014EA4C.c):
-//  FIX1: (*(s16 *)&D_80126720) read as s16 VALUE (scalar decl here; canonical banked form is
-//    `extern u8 (*(s16 *)&D_80126720)[]` + `*(s16*)(*(s16 *)&D_80126720)` per engine_core.h — reconcile at bank
+//  FIX1: (*(s16 *)&guess_g_BoxHitCenterX) read as s16 VALUE (scalar decl here; canonical banked form is
+//    `extern u8 (*(s16 *)&guess_g_BoxHitCenterX)[]` + `*(s16*)(*(s16 *)&guess_g_BoxHitCenterX)` per engine_core.h — reconcile at bank
 //    time). As an array-ptr operand the sign-test folds constant-true and deletes 17 ins.
 //  FIX2: memcpy dest at sp+0x20 = buf+16 (swl 0x23/swr 0x20).
 //
@@ -2199,7 +2199,7 @@ s32 func_80135888(s32, s32, M2C_UNK, M2C_UNK);      /* extern */
 //    `sw $0,guess_g_BoxHitFlags` -> stuck below it. COMPONENT_REF -> /s -> dep gone -> backward
 //    scheduler emits [lw a0][lw a1][sw][jal] = target. (Same lever as matched sibling
 //    DEFINE_func_8014EE14, engine_core.h:24926; guards stay plain *q so CSE still reloads.)
-//  L2 (C2, idx135-137 abs copy): the |D_801152AA| test must be `s32 t = D_801152AA;
+//  L2 (C2, idx135-137 abs copy): the |guess_g_BoxHitNormalY| test must be `s32 t = guess_g_BoxHitNormalY;
 //    if (t < 0) t = -t; if (0x800 < (s16)t)`. With s16 t, `t = -t` is HImode: neg into a
 //    fresh SImode pseudo + subreg-truncate copy back -> `move $3,$2; negu $3,$3` (dbr fills
 //    the bgez slot with the copy). With s32 t the neg is SImode in-place -> `negu $2,$2`,
@@ -2285,7 +2285,7 @@ extern int D_801D9618;
 //   ONLY conflicting caller-decl is a shared macro that DISCARDS the return, widening that macro's
 //   extern to the def's return type is byte-neutral and dissolves the wall (no INCLUDE_ASM-side
 //   escape needed — the macro DOES declare the C symbol, unlike a bare INCLUDE_ASM stub).
-//   DATA: D_80126720 canonicalized to `u8 []` (array symbol), read `(s32)*(s16*)D_80126720` per
+//   DATA: guess_g_BoxHitCenterX canonicalized to `u8 []` (array symbol), read `(s32)*(s16*)guess_g_BoxHitCenterX` per
 //   the `lh` (signedness-agnostic store sites unaffected). Callee func_80135A4C extern below is the
 //   canonical (engine_core.h:11555), called through the §17a-1 fn-ptr cast idiom.
 #include "../shared/ov/func_8014EE14.h"

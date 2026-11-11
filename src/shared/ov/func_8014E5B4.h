@@ -2,12 +2,12 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8014E5B4(s32 a0, void *a1, void *a2)
 {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     u8 *p;
     u8 *q;
     u8 *e;
     s32 t;
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     if (p < p + 0x6480) {
         e = p + 0x6480;
         q = p + 0xE;

@@ -337,7 +337,7 @@ s32 func_80183954(s32 a0) {
 
 
 extern s32 rand(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u8 D_801955F4[];
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012ADE4(u8 *a0);
@@ -356,7 +356,7 @@ s32 func_80183994(s32 a0, s32 a1) {
     s32 t;
 
     hit = 0;
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     i = 0;
     do {
         if (((Unkstruct_800B5CB8 *)p)->unk0 == 0xB0) {
@@ -862,11 +862,11 @@ s32 func_801845F4(s32 param_1) {
 
 
 void func_80184738(s32 a0) {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     u8 *p;
     s32 i;
 
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, p += 0x10C) {
         if (((Unkstruct_800B5CB8 *)p)->unk0 == 0xB0) {
             if ((CAST_SIGN(u16, p, 0x70) & 0xF) == 0) {
@@ -1015,7 +1015,7 @@ extern s32 func_800D0CE0(void);
 #undef SHARED_FN
 
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_8012C098(void *param_1);
 
 void func_80184A54(void)
@@ -1025,7 +1025,7 @@ void func_80184A54(void)
     int s2;
 
     i = 0;
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     s2 = 0x6C;
     do {
         u16 v = ((Unkstruct_800B5CB8 *)p)->unk0;
@@ -1180,7 +1180,7 @@ extern u16 guess_g_PlayerPosZ;
 extern u8 D_801957CC;
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 
 extern void func_80185098(s32 a0, s32 a1);
 extern s32 func_8012CBCC(s32 a0);
@@ -1219,7 +1219,7 @@ void func_80184E00(s32 param_1)
     }
 
     func_8014C978();
-    func_8012F568(1, 0xC001, 0, 0x3E8, (s32)&sv2, (s32)D_801152A8);
+    func_8012F568(1, 0xC001, 0, 0x3E8, (s32)&sv2, (s32)guess_g_BoxHitNormalX);
 
     *(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0x34) = 4;
     ((Unkstruct_800B5CB8 *)param_1)->unkFC = 1;
@@ -3592,7 +3592,7 @@ void func_8018823C(void) {
 #include "common.h"
 
 /* func_80188250 -- same-class neighbour push-away over the 0x60-entry /
- * 0x10C-stride entity table D_801202A0. Banked twin: ov_SC06_018:func_80187320
+ * 0x10C-stride entity table guess_g_ObjectTable. Banked twin: ov_SC06_018:func_80187320
  * (§193-A), minus its second switch case (no 0x2F4 clamp here) and with a
  * self-id equality guard instead of constant class ids.
  *
@@ -3626,7 +3626,7 @@ void func_8018823C(void) {
  *     into one shared li (93 ins).
  */
 
-extern u8   D_801202A0[];
+extern u8   guess_g_ObjectTable[];
 
 extern s32  func_8012BC60(struct Vec *a0, struct Vec *a1);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
@@ -3646,7 +3646,7 @@ s32 func_80188250_body(s32 a0) {
     s16 v18[4];  /* sp+0x18 */
     s32 sp20[2]; /* sp+0x20 - func_8012B0B4 output */
 
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     i = 0;
     self4 = (s16 *)(a0 + 4);
     sc = (unsigned int *)sp20;

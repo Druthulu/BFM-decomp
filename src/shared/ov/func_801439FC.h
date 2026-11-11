@@ -4,9 +4,9 @@ extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
 extern s32 func_80134510(s32 arg);
 extern s32 ratan2(s32 a0, s32 a1);
-extern s16 D_801152AC;
-extern s16 D_801152AA;
-extern u8 D_801152A8[];
+extern s16 guess_g_BoxHitNormalZ;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitNormalX[];
 void func_801439FC(s32 a0) {
     s32 s1 = *(s32 *)(a0 + 0x64);
     s32 s0 = *(s32 *)(a0 + 0xCC);
@@ -31,8 +31,8 @@ void func_801439FC(s32 a0) {
     *(s16 *)(s0 + 0xA) = sp[1];
     *(s16 *)(s0 + 0xC) = sp[2];
     *(s32 *)(s0 + 4) = *(s32 *)(s0 + 4) & 0x7FFFFFFF;
-    *(s16 *)(s0 + 0x10) = ratan2(D_801152AC, D_801152AA) + 0x400;
-    *(s16 *)(s0 + 0x12) = ratan2(*(s16 *)D_801152A8, D_801152AA);
+    *(s16 *)(s0 + 0x10) = ratan2(guess_g_BoxHitNormalZ, guess_g_BoxHitNormalY) + 0x400;
+    *(s16 *)(s0 + 0x12) = ratan2(*(s16 *)guess_g_BoxHitNormalX, guess_g_BoxHitNormalY);
     v0 = *(s32 *)(s1 + 0x20);
     *(s16 *)(s0 + 0x14) = -(*(u16 *)(v0 + 0x12));
 }

@@ -165,7 +165,7 @@ extern void func_8012A018(s32 a0, s32 a1);
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern void *memcpy(void *, const void *, unsigned int);
@@ -222,7 +222,7 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
@@ -310,7 +310,7 @@ extern void func_8001CFDC(s32 a, s32 b);
 extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -375,7 +375,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DDA4();
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -793,7 +793,7 @@ extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
-extern u8 D_801151C8[];
+extern u8 guess_g_MenuPacketBases[];
 extern u16 guess_g_MenuPadPressed;
 extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
@@ -914,7 +914,7 @@ extern void func_80141C0C(int);
 extern s32 func_801418F8(void);
 extern s32 func_80141A60();
 extern void func_8013FAF8(s16, s16);
-extern s32 D_801151D0;
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuFrameCounter;
 extern void func_80141B90(void);
 extern u16 D_80184F60[];
@@ -1051,8 +1051,8 @@ extern void func_801437D8(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80143970(s32 a0);
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
 extern s32 func_801439C0(u8 *a0);
-extern s16 D_801152AC;
-extern s16 D_801152AA;
+extern s16 guess_g_BoxHitNormalZ;
+extern s16 guess_g_BoxHitNormalY;
 extern void func_801439FC(s32 a0);
 extern void func_80143B30(void *a0);
 extern s32 func_80143B6C(s32 arg0, s32 arg1);
@@ -2305,7 +2305,7 @@ extern u8 func_8014BEF8(void);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 
 #include "../shared/ov/func_8014A048.h"
@@ -2825,8 +2825,8 @@ extern void func_8014D438(s32);
 #include "../shared/ov/func_8014D4C0.h"
 
 
-extern u8 D_801202A0[];
-extern u8 D_80126720[];
+extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_BoxHitCenterX[];
 
 s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 s32 func_8014C918(s32 a0, s32 a1);
@@ -2922,7 +2922,7 @@ extern void func_8014D790(s32);
 // `desc.z = a2[2] - a1[2]`), so it is §42e-CORRECTION / §74-safe to propagate.
 //
 // SYMBOLS (§58 rule 1/2): all five data externs use the canonical splat spelling and
-// the engine_core.h type — `u8 D_801202A0[]`, `u8 D_801152A8[]`, `s16 D_801152AC`,
+// the engine_core.h type — `u8 guess_g_ObjectTable[]`, `u8 guess_g_BoxHitNormalX[]`, `s16 guess_g_BoxHitNormalZ`,
 // `u8 D_8018585C[]`, `s16 currentLocationId`. symcheck: SYMS-OK, 12 symbols agree.
 //
 // The one deliberate divergence (§27 step 2 / rule 3): func_80135A4C's canonical
@@ -2955,10 +2955,10 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 s32 func_8014D820(s32 a0, u16 *a1, u16 *a2x)
 {
 
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     extern u8 D_8018585C[];
-    extern u8 D_801152A8[];
-    extern s16 D_801152AC;
+    extern u8 guess_g_BoxHitNormalX[];
+    extern s16 guess_g_BoxHitNormalZ;
   /* BLOCK-SCOPE types — see the header note. `Ent_8014D820` at file scope collides with
      src/shared/engine_types.h:434 and kills the TU's cc1 stage (exit 33). */
   typedef Unkstruct_800B5CB8 Ent_8014D820;
@@ -3047,7 +3047,7 @@ a0v = a0;
   desc.y = ty;
   if (currentLocationId != 0x3008)
   {
-    for (p = (Ent_8014D820 *) D_801202A0; p < (Ent_8014D820 *) (D_801202A0 + 0x6480); p++)
+    for (p = (Ent_8014D820 *) guess_g_ObjectTable; p < (Ent_8014D820 *) (guess_g_ObjectTable + 0x6480); p++)
     {
       if (p == ent)
       {
@@ -3084,7 +3084,7 @@ a0v = a0;
     out[2].x += pos.x;
     out[2].y = pos.y;
     out[2].z += pos.z;
-    for (p = (Ent_8014D820 *) D_801202A0; p < (Ent_8014D820 *) (D_801202A0 + 0x6480); p++)
+    for (p = (Ent_8014D820 *) guess_g_ObjectTable; p < (Ent_8014D820 *) (guess_g_ObjectTable + 0x6480); p++)
     {
       if (p == ent)
       {
@@ -3110,7 +3110,7 @@ a0v = a0;
 
   }
   r = func_80133784(0, &pos, (s32) (&desc));
-  if ((r == 0) || ((r == 0x2000) && (((*(u16 *) D_801152A8) | ((u16) D_801152AC)) == 0)))
+  if ((r == 0) || ((r == 0x2000) && (((*(u16 *) guess_g_BoxHitNormalX) | ((u16) guess_g_BoxHitNormalZ)) == 0)))
   {
     ent->unk6 = desc.x - desc.f18;
     ent->unkA = desc.y;
@@ -3198,7 +3198,7 @@ extern s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 // the shared epilogue), which also frees $v0 so the last `lhu` lands in $v0 instead of the
 // target's $v1. `s32` fixes all 23 mismatches at once.
 //
-// Keys (same D_801202A0 96-entry / stride-0x10C sweep as the func_8014CF04 and func_8014D2A0
+// Keys (same guess_g_ObjectTable 96-entry / stride-0x10C sweep as the func_8014CF04 and func_8014D2A0
 // siblings, so most of it is the already-banked idiom):
 //
 //  (1) LOOP-BOUND DUALITY, register-relative BOTH ends (differs from func_8014CF04!). The
@@ -3209,7 +3209,7 @@ extern s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 //        `if (p < p + 0x6480) { e = p + 0x6480; ... }`
 //      — the guard makes $v1, CSE turns the in-body `e = p + 0x6480` into a copy of it, and
 //      regalloc does not coalesce (gcc-2.7.2 has no coalescing, regalloc.md K8). The back edge
-//      then uses the register ($s5), NOT a rematerialised %hi/%lo(D_80126720) as in
+//      then uses the register ($s5), NOT a rematerialised %hi/%lo(guess_g_BoxHitCenterX) as in
 //      func_8014CF04 — so do NOT reuse that sibling's absolute-bound half here.
 //
 //  (2) TWO INDUCTION VARIABLES, secondary base +0xE. `q = p + 0xE` carries every access except

@@ -462,7 +462,7 @@ void func_800CD494(void *a0) {
 }
 
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
 extern void func_80015978(s32 a0, s32 *a1);
@@ -472,7 +472,7 @@ void func_800CD5CC(void *arg0) {
     register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     s32 a0 = (s32)arg0;
     s32 found = 0;
-    u8 *p = D_801202A0;
+    u8 *p = guess_g_ObjectTable;
     s32 t = 0x25;
     s16 buf[4];
     *(u8 *)(a0 + 0x1AB) ^= 1;
@@ -487,7 +487,7 @@ void func_800CD5CC(void *arg0) {
                 }
             }
             p += 0x10C;
-        } while (p < D_801202A0 + 0x6480);
+        } while (p < guess_g_ObjectTable + 0x6480);
     }
     rv = found;
     __asm__ __volatile__("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)

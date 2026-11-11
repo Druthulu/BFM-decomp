@@ -2,11 +2,11 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_801754A8(void) {
 
-    extern u8 D_8011F7A8;
+    extern u8 guess_g_HudState;
     extern unsigned char guess_g_ActiveMenu;
     extern s32 D_80126B9C;
     extern DispatchFn D_80182A64[];
-    u8 *p = &D_8011F7A8;
+    u8 *p = &guess_g_HudState;
     s32 r = guess_GetStoryProgress();
     s32 flag = 0;
 

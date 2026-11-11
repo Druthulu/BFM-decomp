@@ -1,7 +1,7 @@
 /* func_8013EE10 — shared body (overlay slot 0x80128158, h_exact dc80305f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8013EE10() {
-    extern E4 aD80115188[] __asm__("D_80115188");
+    extern E4 aD80115188[] __asm__("guess_g_MenuPanelSlideStep");
     extern E4 guess_g_MenuPanelSlide[];
     extern unsigned short guess_g_MenuTransitionTimer;
 
@@ -12,7 +12,7 @@ s32 func_8013EE10() {
     u16 *c;
     s32 sp10[2];
 
-    D_801151D0 = *(s32 *)&D_801151C8[(u16)guess_g_DoubleBufferIndex * 4];
+    guess_g_MenuPacketPtr = *(s32 *)&guess_g_MenuPacketBases[(u16)guess_g_DoubleBufferIndex * 4];
     func_8013FAF8(0, 5);
     for (i = 0; i < 5; i++) {
         s32 t = guess_g_MenuPanelSlide[i].f0 * 3 >> 2;

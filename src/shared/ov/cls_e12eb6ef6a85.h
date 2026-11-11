@@ -2,11 +2,11 @@
  * exemplar src/ov_SC03_097/ov_SC03_097_jr_8017D898.c:4432 · rank 1/3 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(void) {
 
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     u8 *p;
     s32 i;
 
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, p += 0x10C) {
         if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x1E1) {
             CAST_SIGN(u16, p, 0x70) |= 0x1000;

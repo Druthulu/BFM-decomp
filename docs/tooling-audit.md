@@ -205,7 +205,7 @@ Worse than 'missing': for 3,717 symbols the oracle returns an actively WRONG can
   .run/drafts-recov/func_801536DC.c:5   extern void (*D_8011DB28)(s32);
   .run/drafts-wave-cn/func_80144B9C.c:29 extern s32 D_800A5E88, D_800A5E8C, D_800A5E90;
   .run/drafts-wave-cn/func_801387B8.c:4  extern s32 D_80127530[4];
-  .run/drafts-wave-cn/func_801502EC.c:17 extern Ent D_801202A0[96];
+  .run/drafts-wave-cn/func_801502EC.c:17 extern Ent guess_g_ObjectTable[96];
 Note the skipped names are LITERALLY the same symbols the oracle is blind to (D_801274D0, D_8011DB28, D_80127530) — the two holes compound: the draft's decl is unparseable AND its canon is missing, so nothing can rescue it.
 MULTI-NAME is the nastiest sub-shape: DATA_DECL_LINE_RE matches nothing on `extern s32 D_a, D_b, D_c;` (the comma is outside `[\w \t]`), so ALL THREE symbols are skipped from a single line — and canon_sig_reconcile's _DATA_EXTERN_RE explicitly handles this shape (v2 note #9), so the two tools in the same pipeline disagree about what a data decl is.
 - **blast radius:** LOST MATCHES. 115 draft decl lines silently pass through untransformed; the draft keeps a decl that may conflict with the TU, and — critically — the ACCESS SITES are never cast either (transform only builds `subs` for symbols whose decl line matched), so even a correct decl rewrite by another tool would then byte-drift. Directly implicated in the 6 hard-blocked functions above.

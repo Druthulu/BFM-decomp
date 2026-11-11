@@ -1,11 +1,11 @@
 /* func_801365B8 — shared body (overlay slot 0x80128158, h_exact e5db37c5). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
-    extern u8 D_801152A8[];
-    extern s16 D_801152AA;
-    extern s16 D_801152AC;
-    extern s16 D_80126722;
-    extern s16 D_80126724;
+    extern u8 guess_g_BoxHitNormalX[];
+    extern s16 guess_g_BoxHitNormalY;
+    extern s16 guess_g_BoxHitNormalZ;
+    extern s16 guess_g_BoxHitCenterY;
+    extern s16 guess_g_BoxHitCenterZ;
     u16 *ac;
     s16 *b8;
     s16 *b4;
@@ -56,17 +56,17 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
         b4[1] = (s16) (*(u16 **)&D_8017F80C)[1];
         b4[2] = (s16) (*(u16 **)&D_8017F80C)[2];
     }
-    D_801152AC = 0;
-    D_801152AA = 0;
+    guess_g_BoxHitNormalZ = 0;
+    guess_g_BoxHitNormalY = 0;
     if ((a1c & 1) != 0) {
-        *(s16 *)D_801152A8 = 0xFFF;
+        *(s16 *)guess_g_BoxHitNormalX = 0xFFF;
         M2C_FIELD(D_8017F810, s16 *, 0) = a2c + 2;
     } else {
-        *(s16 *)D_801152A8 = -0xFFF;
+        *(s16 *)guess_g_BoxHitNormalX = -0xFFF;
         M2C_FIELD(D_8017F810, s16 *, 0) = a2c - 2;
     }
-    *(s16 *)D_80126720 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1);
-    D_80126722 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
-    D_80126724 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1);
+    *(s16 *)guess_g_BoxHitCenterX = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1);
+    guess_g_BoxHitCenterY = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
+    guess_g_BoxHitCenterZ = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1);
     return (1);
 }

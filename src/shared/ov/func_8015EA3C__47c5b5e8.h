@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8015EA3C(void *arg0) {
 
-    extern s16 D_801152A0;
+    extern s16 guess_g_CameraRelativeYaw;
     s32 invec[4];
     s32 outbuf[4];
     s32 temp;
@@ -52,7 +52,7 @@ Ldefault:
     }
     if (func_800CF8B4() != 0) {
         *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x12) =
-            ((*(u16 *)&D_801152A0) + ((s32 (*)(void *))guess_GetCameraYaw)(arg0)) & 0xFFF;
+            ((*(u16 *)&guess_g_CameraRelativeYaw) + ((s32 (*)(void *))guess_GetCameraYaw)(arg0)) & 0xFFF;
     }
     temp = func_80148E54(arg0);
     if ((s16)temp >= 0) {

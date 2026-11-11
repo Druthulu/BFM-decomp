@@ -1,6 +1,6 @@
 /* func_8012C588 — shared body (overlay slot 0x80128158, h_exact 83148c15). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_8012C890(s32 a0, s32 a1, s32 a2);
 s32 func_8012C588(s32 a0, s32 a1) {
     s32 p;
@@ -24,9 +24,9 @@ s32 func_8012C588(s32 a0, s32 a1) {
     *(s32*)&sp[8] = 0;
     sp[7] = 0;
     sp[6] = 0x7FFF;
-    end = (s32)D_801202A0 + 0x6480;
+    end = (s32)guess_g_ObjectTable + 0x6480;
     if (a1 == 0) {
-        p = (s32)D_801202A0;
+        p = (s32)guess_g_ObjectTable;
     } else {
         p = a1 + 0x10C;
     }

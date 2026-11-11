@@ -580,8 +580,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -597,9 +597,9 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801CF400;
@@ -615,7 +615,7 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -1297,7 +1297,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2433,7 +2433,7 @@ extern void func_801751D8(void *a0);
 extern void (*D_80194EC4[])(s32);
 extern s32 func_80175218(void * param_1);
 extern void func_801752BC(s32 *a0);
-extern u8 D_8011F7A8;
+extern u8 guess_g_HudState;
 extern u8 D_8011F7A9;
 extern u8 D_8011F7AD;
 extern u8 D_8011F7AE;
@@ -2465,13 +2465,13 @@ extern void func_80176D00(s32 a0);
 extern void func_801757E0(s32 a0);
 extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
 extern u8 D_8011F7B1;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -2481,7 +2481,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_801776EC(u8 *a0);
@@ -2935,7 +2935,7 @@ void func_8017D6CC(void) {
     extern s16 D_80126978;
     extern s16 D_8012697A;
     extern u8 guess_g_MainCamera[];
-    extern Blk8 D_80126940;
+    extern Blk8 guess_g_CameraFollowPos;
     extern Blk8 D_801274E8;
     extern Blk8 D_801274F0;
 
@@ -2949,7 +2949,7 @@ void func_8017D6CC(void) {
     D_8012697A = 0;
     func_8012A018((s32)func_8017D7A4, 0);
     func_8012A094((s32)guess_g_MainCamera);
-    D_801274E8 = D_80126940;
+    D_801274E8 = guess_g_CameraFollowPos;
     *(s16 *)&D_801274F0 = 0;
     func_8017DC10(guess_g_MainCamera);
     func_8017D7A4(guess_g_MainCamera);
@@ -2976,7 +2976,7 @@ void func_8017D7E0(s32 param_1) {
     extern void func_8017DD88(void);
 
     extern s32 guess_g_PlayerActor;
-    extern UnalignedShortBlock D_80126940;
+    extern UnalignedShortBlock guess_g_CameraFollowPos;
     extern s16 D_801274E8;
     extern s16 D_801274EA;
     extern s16 D_801274EC;
@@ -2999,7 +2999,7 @@ void func_8017D7E0(s32 param_1) {
         ((Unkstruct_8017CF48 *)param_1)->unk14 = D_801952F8[idx];
     }
 
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
 
     if (sp10.v[2] > 0xF80) {
         sp10.v[2] = 0xF80;
@@ -3112,11 +3112,11 @@ extern s16 D_80126CAC;
 
 
 void func_8017DD48(void) {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     s32 i;
 
     for (i = 0; i < 0x60; i++) {
-        u8 *rec = &D_801202A0[i * 0x10C];
+        u8 *rec = &guess_g_ObjectTable[i * 0x10C];
         if (*(u16 *)rec == 0x315) {
             *(u16 *)(rec + 0x104) = 1;
         }
@@ -3124,13 +3124,13 @@ void func_8017DD48(void) {
 }
 
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 void func_8017DD88(void) {
     s32 i;
 
     for (i = 0; i < 0x60; i++) {
-        u8 *rec = &D_801202A0[i * 0x10C];
+        u8 *rec = &guess_g_ObjectTable[i * 0x10C];
         if (((Unkstruct_8017DD88 *)rec)->unk0 == 0x315) {
             ((Unkstruct_8017DD88 *)rec)->unk104 = 0;
         }

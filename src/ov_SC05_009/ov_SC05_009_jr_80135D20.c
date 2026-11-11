@@ -184,7 +184,7 @@ extern void func_80129FF4(void);
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
@@ -238,7 +238,7 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
@@ -323,7 +323,7 @@ extern void func_8001CFDC(s32 a, s32 b);
 extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -393,7 +393,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DDA4();
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -736,7 +736,7 @@ elsepath:
 //     (they are byte-identical to it; the target keeps all three copies). Worth 10 ins.
 //  3. Zero-byte fences between the three big-block coordinate groups stop sched2 hoisting the next
 //     group's `lhu` into the previous group's load-delay nop (restores 2 nops).
-//  4. `D_801152AA = 0;` AFTER the h0 statement: it shortens the [6]-field temp's local-alloc live
+//  4. `guess_g_BoxHitNormalY = 0;` AFTER the h0 statement: it shortens the [6]-field temp's local-alloc live
 //     range so c0 wins $v1 and the field temps take $v0/$a0 (target), not $v1/$v0.
 //  5. case 4 reaches case 8's tail through a shared `L288` label using `w = x << 16` / `w >> 16`
 //     so the shared block is exactly `sra $a1,$a1,16` — that is target's .L80136288. `w` pinned to
@@ -751,7 +751,7 @@ extern u8 D_8017F058;
 extern s16 *D_8017F05C;
 extern u8 D_8017F060;
 extern s32 guess_g_BoxHitFlags;
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 
 extern s32 VectorNormalSS(void *a0, void *a1);
 extern s32 func_801365B8(void *arg0, s32 arg1, s32 arg2);
@@ -770,14 +770,14 @@ extern s32 func_80136824(s32, s32, s32);
 // @unstuck(P36): none — MATCH expected; identical structure, only the 4 data ptrs differ (AC/B0/B4/B8 -> B64/68/6C/70).
 
 // D_8017F054/68/70 file-scope `extern u8` holding pointers -> read via *(T**)&sym (§42c-2).
-// D_8017F05C file-scope `extern s16*` -> use directly. D_80126720 file-scope `extern u8[]`
-// -> single store via *(s16*)D_80126720. D_801152A8/AA/AC, D_80126722/24 block-scope externs
+// D_8017F05C file-scope `extern s16*` -> use directly. guess_g_BoxHitCenterX file-scope `extern u8[]`
+// -> single store via *(s16*)guess_g_BoxHitCenterX. guess_g_BoxHitNormalX/AA/AC, guess_g_BoxHitCenterY/24 block-scope externs
 // (siblings use block-scope; gcc-2.7.2 does not cross-conflict block-scope externs).
 extern u8 D_8017F058;
 extern u8 D_8017F054;
 extern s16 *D_8017F05C;
 extern u8 D_8017F060;
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 
 #include "../shared/ov/func_801365B8__e5c67c7d.h"
 
@@ -795,13 +795,13 @@ extern u8 D_80126720[];
 
 
 // @class: schedule
-// @unstuck(P36): none — MATCH (76 ins, relocation-masked). Key lever: the D_80126720/22/24 tail is a
+// @unstuck(P36): none — MATCH (76 ins, relocation-masked). Key lever: the guess_g_BoxHitCenterX/22/24 tail is a
 //   global-short RMW `+=`. Writing it via a cast `*(u16*)&SYM = *(u16*)&SYM + x` makes gcc CSE
 //   the address into a base reg (base-reuse) for ALL three — but the target only base-reuses
-//   D_80126720 (a SCHEDULER artifact: its addr-lui fills the load-delay slot after the pb4[4]
-//   load, and since $v0 is live it lands in $a0, reused for load+store). D_80126722/24 use the
+//   guess_g_BoxHitCenterX (a SCHEDULER artifact: its addr-lui fills the load-delay slot after the pb4[4]
+//   load, and since $v0 is live it lands in $a0, reused for load+store). guess_g_BoxHitCenterY/24 use the
 //   plain inline 2-lui form. Fix = DIRECT scalar RMW `SYM = SYM + x` (no &/cast) → inline %hi/%lo;
-//   the scheduler alone forces base-reuse on #1. Also: `s16 D_80126724 = D_80126724 + int` emits
+//   the scheduler alone forces base-reuse on #1. Also: `s16 guess_g_BoxHitCenterZ = guess_g_BoxHitCenterZ + int` emits
 //   LHU (gcc-2.7.2 drops the sign-extend because the sum is truncated to 16b on the sh) — so the
 //   canonical s16 decl is byte-safe here (no u16 retype needed, keeps the sign-sensitive callers).
 

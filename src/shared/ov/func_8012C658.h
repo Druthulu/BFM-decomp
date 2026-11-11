@@ -1,6 +1,6 @@
 /* func_8012C658 — shared body (overlay slot 0x80128158, h_exact c0654b3f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern s32 func_8012C890(s32 a0, s32 a1, s32 a2);
 s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2) {
     struct S8012C658 sp;
@@ -24,7 +24,7 @@ s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2) {
     sp.unkE = 0;
     sp.unkC = 0x7FFF;
     param = &sp.unk0;
-    end = (u16 *)D_80126720;
+    end = (u16 *)guess_g_BoxHitCenterX;
     if (arg2 == 0) {
         var_a1 = (u16 *)((u8 *)end - 0x6480);
     } else {

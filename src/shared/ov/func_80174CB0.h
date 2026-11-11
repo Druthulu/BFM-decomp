@@ -1,6 +1,6 @@
 /* func_80174CB0 — shared body (overlay slot 0x80128158, h_exact 5fd1ad06). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
@@ -12,7 +12,7 @@ extern void func_800126C4(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 s32 func_80174CB0(s32 param_1, s32 param_2)
 {
-    s16 *pv = &D_80126940;
+    s16 *pv = &guess_g_CameraFollowPos;
     MATRIX mtx;
     SVECTOR vec;
     SVECTOR out;

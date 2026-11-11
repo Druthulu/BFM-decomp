@@ -372,7 +372,7 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -586,8 +586,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -604,9 +604,9 @@ extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801CEF78;
@@ -622,7 +622,7 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -1304,7 +1304,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2432,7 +2432,7 @@ extern void func_801751D8(void *a0);
 extern void (*D_801897AC[])(s32);
 extern s32 func_80175218(void * param_1);
 extern void func_801752BC(s32 *a0);
-extern u8 D_8011F7A8;
+extern u8 guess_g_HudState;
 extern u8 D_8011F7A9;
 extern u8 D_8011F7AD;
 extern u8 D_8011F7AE;
@@ -2464,13 +2464,13 @@ extern void func_80176D00(s32 a0);
 extern void func_801757E0(s32 a0);
 extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
 extern u8 D_8011F7B1;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -2480,7 +2480,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_801776EC(u8 *a0);
@@ -2912,7 +2912,7 @@ void func_8017D508(s32 a0) {
 
     extern s32 guess_g_PlayerActor;
     extern s16 D_80189BEC[];
-    extern Blk8_80126940_8017D508 D_80126940;
+    extern Blk8_80126940_8017D508 guess_g_CameraFollowPos;
     Blk8_80126940_8017D508 sp10;
     u8 t;
 
@@ -2921,7 +2921,7 @@ void func_8017D508(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk5 = t;
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80189BEC[t];
     }
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
     if (((u32)((u16)sp10.v[0] - 0x2C1) < 0x2BF) && (sp10.v[1] >= -0x35F) &&
         ((u32)((u16)sp10.v[2] - 0x581) < 0x77F)) {
         ((Unkstruct_8017CF48 *)a0)->unk20 = 0x71;
@@ -2971,7 +2971,7 @@ void func_8017D6D0(s32 a0) {
 
     extern s32 guess_g_PlayerActor;
     extern s16 D_80189BF0[];
-    extern Blk8_80126940_8017D6D0 D_80126940;
+    extern Blk8_80126940_8017D6D0 guess_g_CameraFollowPos;
     Blk8_80126940_8017D6D0 sp10;
     u8 t;
 
@@ -2980,7 +2980,7 @@ void func_8017D6D0(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk5 = t;
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80189BF0[t];
     }
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
     sp10.v[0] = 0x400;
     sp10.v[2] = 0xE20;
     func_8017D780(a0, sp10.v);
@@ -4537,7 +4537,7 @@ void func_8017FAC0(s32 a0) {
 
 /* func_8017FD58 -- ov_SC02_026 / ov_SC02_026_jr_8017C180
  * TU-verbatim decls (src/ov_SC02_026/ov_SC02_026_jr_8017C180.c):
- *   extern u8 D_801202A0[];                                     (line 387, 586)
+ *   extern u8 guess_g_ObjectTable[];                                     (line 387, 586)
  *   extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);   (line 592)
  *   extern s32 func_80047948(s32 a0);                           (line 2206)
  *   extern s32 func_8004787C(s32 a0);                           (line 2207)
@@ -4545,7 +4545,7 @@ void func_8017FAC0(s32 a0) {
  * table in ov_SC02_026 tail.data: func_80180B0C / func_80180B90).
  */
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80047948(s32 a0);
 extern s32 func_8004787C(s32 a0);
@@ -4572,7 +4572,7 @@ void func_8017FD58(void *arg0) {
 
     p = (Ent_8017FD58 *)arg0;
     D_801A9EB8[p->f2](p);
-    e = (Ent_8017FD58 *)D_801202A0;
+    e = (Ent_8017FD58 *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, e++) {
         if (e->f0 == 0x12C) {
             pos.x = e->x;
@@ -5918,7 +5918,7 @@ void func_8018226C(s32 a0)
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801AC2D4;
 extern s32 D_80126B78; /* scalar by design - the target reads the word at the symbol directly */
 
@@ -5941,7 +5941,7 @@ s32 func_80182318_def(s32 a0, s32 a1)
                   *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12),
                   a1,
                   (s32)b2,
-                  (s32)D_801152A8);
+                  (s32)guess_g_BoxHitNormalX);
     return 1;
 }
 
@@ -5958,7 +5958,7 @@ s32 func_80182318_def(s32 a0, s32 a1)
  * for func_8012BC60 / func_8012B6D4 / func_8012B0B4 / func_8012CEB0 / func_8012ADE4.
  */
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
@@ -5976,7 +5976,7 @@ void func_801823E8(s32 a0) {
     SV3_8012CC88 sp10;
     SV3_8012CC88 sp18;
 
-    e = (Ent_8017FD58 *)D_801202A0;
+    e = (Ent_8017FD58 *)guess_g_ObjectTable;
     i = 0;
     mover = (s16 *)(a0 + 4);
     offp = (unsigned int *)&off;
@@ -6007,7 +6007,7 @@ void func_801823E8(s32 a0) {
 }
 
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 #define SHARED_FN func_80182550
 #include "../shared/ov/cls_73b497e1b377.h"
@@ -7238,7 +7238,7 @@ void func_80183EF8(s32 a0) {
 
 
 extern void (*D_801AF974[])(void *);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 void func_80184044(u8 *s0) {
     u16 v0;
@@ -7257,8 +7257,8 @@ void func_80184044(u8 *s0) {
     v0 = *(u16 *)(s0 + 0x100);
     if ((v0 & 0x1000) == 0) return;
 
-    // Search for entry in D_801202A0 table
-    v1 = D_801202A0;
+    // Search for entry in guess_g_ObjectTable table
+    v1 = guess_g_ObjectTable;
     for (a0 = 0; a0 < 0x60; a0++) {
         if (((Unkstruct_800B5CB8 *)v1)->unk0 == 0x15E) {
             s16 v1_val = CAST_SIGN(s16, v1, 0x6);

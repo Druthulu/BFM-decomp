@@ -175,7 +175,7 @@ extern void func_8012A018(s32 a0, s32 a1);
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern void *memcpy(void *, const void *, unsigned int);
@@ -233,7 +233,7 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
@@ -325,7 +325,7 @@ extern void func_8001CFDC(s32 a, s32 b);
 extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -390,7 +390,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DDA4();
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -809,8 +809,8 @@ extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPanel;
 extern u16 guess_g_MenuPadPressed;
 extern s32 guess_g_MenuHelpText;
@@ -1031,8 +1031,8 @@ extern void func_80143640(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_801437D8(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80143970(s32 a0);
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
-extern s16 D_801152AC;
-extern s16 D_801152AA;
+extern s16 guess_g_BoxHitNormalZ;
+extern s16 guess_g_BoxHitNormalY;
 extern void func_801439FC(s32 a0);
 extern void func_80143B30(void *a0);
 extern s32 func_80143B6C(s32 arg0, s32 arg1);
@@ -1627,7 +1627,7 @@ extern void func_8014DF3C(void);
 extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern void func_8014DF94(s32 arg0);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);  /* canonical (engine_core.h:11555) */
 extern s32 func_8014E284(s32 a0, s16 *arg1, s16 *arg2);
@@ -1647,7 +1647,7 @@ extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014ED80(SubED80 *a0);
 extern s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2);
@@ -2290,7 +2290,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern u16 func_801487F4(s32*);
 extern void guess_SetState(s32*, s16);
@@ -3359,15 +3359,15 @@ extern void func_801751D8(void *a0);
 extern s32 func_80175218(void * param_1);
 extern s32 func_80175268(s32 param_1);
 extern void func_801752BC(s32 *a0);
-extern u8  D_8011F7A8;
+extern u8  guess_g_HudState;
 extern u8  D_8011F7A9;
 extern u8  D_8011F7AE;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F7B8;
 extern s16 D_8011F7BA;
-extern s16 D_8011F7BC;
-extern s16 D_8011F7BE;
+extern s16 guess_g_HudGoldPanelX;
+extern s16 guess_g_HudGoldPanelY;
 extern void func_80016714(void *, s32);
 extern void func_801757A0(s32);
 extern void func_800596F4(s32);
@@ -3412,7 +3412,7 @@ extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void * func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(int param_1, unsigned int param_2, short param_3, short param_4);
@@ -3422,7 +3422,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern u8 D_8011F83B;
@@ -3595,20 +3595,20 @@ extern void func_8017C364(void);
  * unset on that path.
  *
  * THE LAST-7-INSTRUCTION SCHED1 TRAP (new lever, feed to cookbook §30 family): the trailing
- * `D_801151D0 = ot;` (after `ot += 0x28;`) kept getting hoisted by sched1 to IMMEDIATELY after the
+ * `guess_g_MenuPacketPtr = ot;` (after `ot += 0x28;`) kept getting hoisted by sched1 to IMMEDIATELY after the
  * `addiu` that computes it, ahead of the SECOND addPrim RMW's `lw/and/or/sw` finish (which the
  * target keeps LAST) — same 7 instructions, wrong order, reproducible across EVERY C rephrasing
  * of the RMW side (bitfield-cast vs raw-pointer, block-scoped temp vs inline, `volatile`/register
  * pins, memory-clobber barriers — all no-ops). gdb-on-cc1 (`priority`/`rank_for_schedule`,
- * `tools/reference/gcc-2.7.2/sched.c`) showed the bare `D_801151D0 = ot;` a plain SET to a
+ * `tools/reference/gcc-2.7.2/sched.c`) showed the bare `guess_g_MenuPacketPtr = ot;` a plain SET to a
  * fixed-symbol MEM — is what floats early; the fix is on the STORE side, not the load side:
- * `((struct { s32 f; } *)&D_801151D0)->f = ot;` (an anonymous-struct COMPONENT_REF store, the §30
+ * `((struct { s32 f; } *)&guess_g_MenuPacketPtr)->f = ot;` (an anonymous-struct COMPONENT_REF store, the §30
  * `/s` grant, applied to a STORE for the first time — every prior citation was load-side).
  */
 
       /* 0x14 stride, per func_8017DD28 */
 
-extern s32 D_801151D0;
+extern s32 guess_g_MenuPacketPtr;
 extern s16 D_8011512C;
 extern u8 *D_80115134;
 extern s16 guess_g_DoubleBufferIndex;
@@ -3624,7 +3624,7 @@ void func_8017CA18(void) {
     s16 n;
     s16 i;
 
-    ot = D_801151D0;
+    ot = guess_g_MenuPacketPtr;
     s2 = D_80115134;
 
     if (D_8011512C == 1 || D_8011512C == 2) {
@@ -3670,7 +3670,7 @@ void func_8017CA18(void) {
         (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
-    ((Unkstruct_801151D0 *)&D_801151D0)->f0 = ot;
+    ((Unkstruct_801151D0 *)&guess_g_MenuPacketPtr)->f0 = ot;
 }
 
 

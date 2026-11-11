@@ -359,13 +359,13 @@ extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 void func_800CD31C(s32 arg0) {
     u8 sp10[8];
-    u8 *p = D_801202A0;
+    u8 *p = guess_g_ObjectTable;
 
-    if (p < D_801202A0 + 0x6480) {
+    if (p < guess_g_ObjectTable + 0x6480) {
         u8 *end = p + 0x6480;
         do {
             if (func_8014C308(arg0, (s32)p, 0x22, 0)) {

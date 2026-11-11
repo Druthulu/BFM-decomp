@@ -12,7 +12,7 @@ s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
     extern u16 D_8018E6F8;
     extern s32 D_8018E6FC;
     extern s32 D_8018E71C;
-    extern u8 D_801152A8[];
+    extern u8 guess_g_BoxHitNormalX[];
     extern u8 D_801152B0;
 
     s32 *p;
@@ -80,7 +80,7 @@ docall:
 
         if ((s16)acc != 0 || D_8018E6F4 != 0) {
             if ((*(Box **)&D_8017F808)->f6 >= -0xBCB) {
-                *(Blk8_80135A4C_e0129286 *)D_801152A8 = *(Blk8_80135A4C_e0129286 *)&D_801152B0;
+                *(Blk8_80135A4C_e0129286 *)guess_g_BoxHitNormalX = *(Blk8_80135A4C_e0129286 *)&D_801152B0;
             }
             (*(Box **)&D_8017F810)->f0 = (*(Box **)&D_8017F80C)->f0;
             (*(Box **)&D_8017F810)->f2 = (*(Box **)&D_8017F80C)->f2;

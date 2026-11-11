@@ -69,7 +69,7 @@ s32 func_80134C20(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 block_13:
     return 0;
 block_14:
-    __builtin_memcpy(D_801152A8, (void *)temp_s4, 8);
+    __builtin_memcpy(guess_g_BoxHitNormalX, (void *)temp_s4, 8);
     VectorNormalSS(D_8017F814, D_8017F814);
     {
         u16 *pB8 = (u16 *)D_8017F814;

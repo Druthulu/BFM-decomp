@@ -369,7 +369,7 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -583,8 +583,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -601,9 +601,9 @@ extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801C55C8;
@@ -619,7 +619,7 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -1307,7 +1307,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2691,11 +2691,11 @@ extern s32 guess_GetStoryProgress(void);
 
 void func_801754A8(void) {
 
-    extern u8 D_8011F7A8;
+    extern u8 guess_g_HudState;
     extern unsigned char guess_g_ActiveMenu;
     extern s32 D_80126B9C;
     extern DispatchFn D_8018CE50[];
-    u8 *p = &D_8011F7A8;
+    u8 *p = &guess_g_HudState;
     s32 r = guess_GetStoryProgress();
     s32 flag = 0;
 
@@ -2754,11 +2754,11 @@ void func_80175690(s32 *param) {
 /* func_80175820 — twin of the byte-matched func_801759D8 / func_801758FC in this same TU
  * (ov_SC01_077_jr_801734BC).  Same three-part body, different slot:
  *   part 1 tag word = ptr[2]        (0x8 vs 0x4 / 0xC)
- *   part 2 head ptr = D_8011F7A8+0x18 (== D_8011F7C0)
- *   part 3 tail ptr = D_8011F7A8+0x20 (== D_8011F7C8)
+ *   part 2 head ptr = guess_g_HudState+0x18 (== D_8011F7C0)
+ *   part 3 tail ptr = guess_g_HudState+0x20 (== D_8011F7C8)
  * The two __asm__ memory fences are what keep the three parts from CSE-ing their
  * base addresses together (parts 1/2 stay absolute lui/%lo + idx*4; part 3 keeps the
- * shared `la $v1,D_8011F7A8` + 0x18/0x20 displacements).
+ * shared `la $v1,guess_g_HudState` + 0x18/0x20 displacements).
  */
 
    /* size 0x14 */
@@ -2785,11 +2785,11 @@ void func_80175AB8(param_1)
     extern S_AF634 guess_g_PacketBufferUsed[];
     extern S_AF634 guess_g_PacketBufferBase[];
 
-    extern u8  D_8011F7F0;
-    extern u16 D_8011F7B4;
-    extern u16 D_8011F7B6;
-    extern s16 D_8011F7BC;
-    extern s16 D_8011F7BE;
+    extern u8  guess_g_HudPlayerRecord;
+    extern u16 guess_g_HudHpPanelX;
+    extern u16 guess_g_HudHpPanelY;
+    extern s16 guess_g_HudGoldPanelX;
+    extern s16 guess_g_HudGoldPanelY;
     extern s32 D_8011F804;
     extern u16 D_8011F80A;
     extern u16 D_8011F824;
@@ -2819,15 +2819,15 @@ void func_80175AB8(param_1)
     s16 sv;
 
     p = (u32 *)(guess_g_PacketBufferBase[param_1].g0 + guess_g_PacketBufferUsed[param_1].g0 * 4);
-    base = &D_8011F7F0;
+    base = &guess_g_HudPlayerRecord;
     arr = base - 0x48;
     slot = (u32 *)(param_1 * 4 + (s32)arr);
     *(volatile u32 *)&slot[6] = (u32)p;
-    p = func_80176D94(p, (s16)(D_8011F7B4 - 0x71), (s16)(D_8011F7B6 + 0x51));
-    p = func_801770E0(p, (s16)(D_8011F7B4 - 0x71), (s16)(D_8011F7B6 + 0x65));
+    p = func_80176D94(p, (s16)(guess_g_HudHpPanelX - 0x71), (s16)(guess_g_HudHpPanelY + 0x51));
+    p = func_801770E0(p, (s16)(guess_g_HudHpPanelX - 0x71), (s16)(guess_g_HudHpPanelY + 0x65));
     t = func_801783D0(D_8011F804, 0);
     p = func_80177EA4(p, t,
-                      (s16)((*(u16 *)&D_8011F7BC) + 0x39), (s16)((*(u16 *)&D_8011F7BE) + 0x51));
+                      (s16)((*(u16 *)&guess_g_HudGoldPanelX) + 0x39), (s16)((*(u16 *)&guess_g_HudGoldPanelY) + 0x51));
     sv = (s16)func_801783D0((D_8011F824 < 1000) ? D_8011F824 : 0x3E7, 4);
     p = func_80177B5C(p, sv, D_8011F832,
                       (s16)(((Unkstruct_80175AB8 *)arr)->unk14 + 0x39),
@@ -2865,7 +2865,7 @@ void func_80175DA8(param_1)
     u16 param_1;
 {
 
-    extern u8  D_8011F7F0;
+    extern u8  guess_g_HudPlayerRecord;
     extern u8  guess_g_ActiveMenu;
     extern S_AF634 guess_g_PacketBufferUsed[];
     extern S_AF634 guess_g_PacketBufferBase[];
@@ -2879,7 +2879,7 @@ void func_80175DA8(param_1)
     extern u8  D_800D4414;
     extern u8  D_800D45D4;
 
-    u8 *base = &D_8011F7F0;
+    u8 *base = &guess_g_HudPlayerRecord;
     u8 *s = base - 0x48;
     u16 *src = D_8018CD24;
     Sp_80175DA8 *p;
@@ -3036,7 +3036,7 @@ void func_80175DA8(param_1)
 // @unstuck(P36): none — MATCH (327/327 ins, match_one MATCH; symcheck SYMS-OK 18 symbols)
 //
 // STRUCTURE (byte-derived, all verified against the .s):
-//   $s3=st=&D_8011F7A8 (int base), $s1=st+0x48 (cach), $s2=st+0xE0 (flag), $s5=&(*(u8 *)guess_g_PlayerRecord) (src), $s4=param.
+//   $s3=st=&guess_g_HudState (int base), $s1=st+0x48 (cach), $s2=st+0xE0 (flag), $s5=&(*(u8 *)guess_g_PlayerRecord) (src), $s4=param.
 //   6 HUD fields synced src->cach with a chg-flag at [flag]: pairs 0x3A/0x3C and 0x3E/0x40, then 0x14(s32),
 //   0x34(u16)+0x42(u8), 0x1A(s16), 0x4A(u8). Each: `if (cach==src) { if(!chg) goto skip; chg=0; } else {adjust}` + draw.
 // KEY FINDINGS (reusable):
@@ -3044,7 +3044,7 @@ void func_80175DA8(param_1)
 //     yields `addu rd,st,off`; the target is `addu rd,off,st`. Matches Ghidra's `(...>>0xe) + -0x7fee0840`.
 //   * buf is 24 bytes, NOT Ghidra's 32: MIPS STARTING_FRAME_OFFSET = outgoing_args_size(20), so get_frame_size()
 //     counts the 4-byte args-alignment gap. var=MIPS_STACK_ALIGN(4+24)=32 -> 32+24+28 -> 0x58. buf[32] gives 0x60.
-//   * Block 1 uses RAW GLOBALS (D_8011F82C...) -> absolute lui/%lo; the ne-block uses `st+0x82`/`st+0x11C`
+//   * Block 1 uses RAW GLOBALS (guess_g_HudShownHp...) -> absolute lui/%lo; the ne-block uses `st+0x82`/`st+0x11C`
 //     ($s3-relative) — both byte-confirmed; cse blocks end at labels so each region picks its own form.
 //   * `ne` pinned to $v0 (+6 aligned).
 //
@@ -3087,12 +3087,12 @@ void func_80176218(s32 param_1)
     extern u8 guess_g_PlayerRecord[];
 
     extern u16 D_8011F82A;
-    extern u16 D_8011F82C;
+    extern u16 guess_g_HudShownHp;
     extern u16 D_8011F8C4;
-    extern u8  D_8011F7A8;   /* st base  ($s3) */
+    extern u8  guess_g_HudState;   /* st base  ($s3) */
     extern u8  D_8018CE00[];
     extern u8 *D_8018CD84[];
-    s32 st   = (s32)&D_8011F7A8;   /* $s3 */
+    s32 st   = (s32)&guess_g_HudState;   /* $s3 */
     s32 cach = st + 0x48;          /* $s1 */
     s32 flag = st + 0xE0;          /* $s2 */
     s32 cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);   /* $s5 */
@@ -3104,20 +3104,20 @@ void func_80176218(s32 param_1)
     /* ---- block 1: raw-global pair 0x3A/0x3C ---- */
     sA = g_PlayerHpMax;
     t = (sA != D_8011F82A);
-    if (D_8011F82C == (*(u16 *)g_PlayerHp)) {
+    if (guess_g_HudShownHp == (*(u16 *)g_PlayerHp)) {
         ne = t;
         if (ne == 0 && D_8011F8C4 == 0) goto L340;
     } else {
-        s32 d = (s16)(D_8011F82C - (g_PlayerHp[0]));
+        s32 d = (s16)(guess_g_HudShownHp - (g_PlayerHp[0]));
         u16 nv;
         if (d < 0) {
-            if (d < -10) nv = D_8011F82C + 2;
-            else         nv = D_8011F82C + 1;
+            if (d < -10) nv = guess_g_HudShownHp + 2;
+            else         nv = guess_g_HudShownHp + 1;
         } else {
-            if (d > 10)  nv = D_8011F82C - 2;
-            else         nv = D_8011F82C - 1;
+            if (d > 10)  nv = guess_g_HudShownHp - 2;
+            else         nv = guess_g_HudShownHp - 1;
         }
-        D_8011F82C = nv;
+        guess_g_HudShownHp = nv;
         *(u16 *)(flag + 0x3C) = 1;
         ((Unkstruct_80078E78 *)cach)->hp_max = CAST_ALIAS(u16, cur, 0x3A);
         goto L328;
@@ -3272,7 +3272,7 @@ L63C:
 
 void func_80176734(s32 param_1)
 {
-    extern u8  D_8011F7A8;      /* st base  ($s3) */
+    extern u8  guess_g_HudState;      /* st base  ($s3) */
     extern u8  guess_g_PlayerRecord[];    /* cur base ($s4) */
     extern s16 D_801152BA;
     extern u8  D_8011F7B0;      /* == *(u8 *)(st + 8), read absolutely (mixed addressing) */
@@ -3305,7 +3305,7 @@ void func_80176734(s32 param_1)
     u8  dum[8];                              /* dead frame slot (target .frame vars=8) */
     s32 p;          /* ONE sprite-list pointer for blocks A, B and C: its conflicts leave it $a1 */
 
-    st  = (s32)&D_8011F7A8;
+    st  = (s32)&guess_g_HudState;
     ix  = ((param_1 << 16) >> 14) + st;
     pv  = param_1;
     cach = st + 0x48;

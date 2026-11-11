@@ -740,7 +740,7 @@ ordinal	new_hash	author_date	committer_date	subject
 0734	dd184d3ee3617dcc8f4a1ba49653817568f06976	2026-07-19T02:40:11-06:00	2026-07-19T02:40:11-06:00	docs(phase-29 crack-wave2): regen family-manifest after +814 member banks (frontier snapshot)
 0735	1ad5cc359ae21f67d1be90c2f3a4c7fd95d794cf	2026-07-19T02:48:11-06:00	2026-07-19T02:48:11-06:00	docs(phase-29 crack-wave2): session-4 checkpoint — +819 members (76.3% instr), frontier honest
 0736	6a367f424627ee94e8f4ac025d687d3dc49b60e1	2026-07-19T10:28:57-06:00	2026-07-19T10:28:57-06:00	feat(phase-29 crack-wave3): func_80169BBC banked ×1 in ov_SC01_077 (162 ins)
-0737	d22de5d0e8fae60de0afdb32c2839f54482b8fc5	2026-07-19T11:34:01-06:00	2026-07-19T11:34:01-06:00	feat(phase-29 crack-wave3): func_80160534 banked ×1 in ov_SC01_077 (§58 reconcile_tu D_801152A0)
+0737	d22de5d0e8fae60de0afdb32c2839f54482b8fc5	2026-07-19T11:34:01-06:00	2026-07-19T11:34:01-06:00	feat(phase-29 crack-wave3): func_80160534 banked ×1 in ov_SC01_077 (§58 reconcile_tu guess_g_CameraRelativeYaw)
 0738	32ab6e54960e3428e3c0e7f451d2e122a9d2484c	2026-07-19T11:40:19-06:00	2026-07-19T11:40:19-06:00	feat(phase-26): h_seq family sweep — 133 member-matches banked via remap_hseq
 0739	e47e680b1865bc7a225b1086b52b20133d44dcc9	2026-07-19T11:43:34-06:00	2026-07-19T11:43:34-06:00	fix(phase-29 crack-wave3): cast func_80161208 call in func_80160534 exemplar (§56b member-proof, byte-neutral)
 0740	5513530a5b2c24668e9a1f4b748882d78d8e70e1	2026-07-19T11:46:56-06:00	2026-07-19T11:46:56-06:00	feat(phase-29 crack-wave3): func_80160534 family sweep — 137 members banked ×137 across fleet

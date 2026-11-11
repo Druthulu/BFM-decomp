@@ -22,7 +22,7 @@ s32 func_80150170(void *e) {
             *(s16 *)(((s32)e) + 0x78) = b[0];
             *(s16 *)(((s32)e) + 0x7a) = b[1];
             *(s16 *)(((s32)e) + 0x7c) = b[2];
-            __builtin_memcpy((void *)(((s32)e) + 0x80), D_801152A8, 8);
+            __builtin_memcpy((void *)(((s32)e) + 0x80), guess_g_BoxHitNormalX, 8);
         }
         *(u16 *)(((s32)e) + 0x7e) &= 0xfffe;
         return 1;

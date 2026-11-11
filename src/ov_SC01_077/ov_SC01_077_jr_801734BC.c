@@ -406,7 +406,7 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -621,8 +621,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -640,9 +640,9 @@ extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801D9618;
@@ -658,7 +658,7 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -1379,7 +1379,7 @@ extern void (*D_801894A4[])(void);
 extern void func_8015E8E8(s32 * param_1);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2816,10 +2816,10 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 s32 func_80174CB0(s32 param_1, s32 param_2)
 {
 
-    extern s16 D_80126940;
+    extern s16 guess_g_CameraFollowPos;
     extern s16 D_80126942;
     extern s16 D_80126944;
-    s16 *pv = &D_80126940;
+    s16 *pv = &guess_g_CameraFollowPos;
     MATRIX mtx;
     SVECTOR vec;
     SVECTOR out;
@@ -2946,13 +2946,13 @@ s32 func_80175268(s32 param_1)
 
 
 extern s32 guess_GetStoryProgress(void);
-extern u8 D_8011F7A8;
+extern u8 guess_g_HudState;
 extern unsigned char guess_g_ActiveMenu;
 extern s32 D_80126B9C;
 extern DispatchFn D_8018A308[];
 
 void func_801754A8(void) {
-    u8 *p = &D_8011F7A8;
+    u8 *p = &guess_g_HudState;
     s32 r = guess_GetStoryProgress();
     s32 flag = 0;
 
@@ -3015,11 +3015,11 @@ void func_80175690(void *a0) {
 /* func_80175820 — twin of the byte-matched func_801759D8 / func_801758FC in this same TU
  * (ov_SC01_077_jr_801734BC).  Same three-part body, different slot:
  *   part 1 tag word = ptr[2]        (0x8 vs 0x4 / 0xC)
- *   part 2 head ptr = D_8011F7A8+0x18 (== D_8011F7C0)
- *   part 3 tail ptr = D_8011F7A8+0x20 (== D_8011F7C8)
+ *   part 2 head ptr = guess_g_HudState+0x18 (== D_8011F7C0)
+ *   part 3 tail ptr = guess_g_HudState+0x20 (== D_8011F7C8)
  * The two __asm__ memory fences are what keep the three parts from CSE-ing their
  * base addresses together (parts 1/2 stay absolute lui/%lo + idx*4; part 3 keeps the
- * shared `la $v1,D_8011F7A8` + 0x18/0x20 displacements).
+ * shared `la $v1,guess_g_HudState` + 0x18/0x20 displacements).
  */
 
    /* size 0x14 */
@@ -3048,12 +3048,12 @@ void func_80175690(void *a0) {
 // FOUR byte-proven levers found here (all newly measured this session, closeness 15 -> 0):
 //
 //  L1  base-pointer opacity WITHOUT killing the birthing boost (sched.c birthing_insn_p).
-//      $s2 must hold &D_8011F7F0 while `arr = base - 0x48` stays a SEPARATE addiu, so the
+//      $s2 must hold &guess_g_HudPlayerRecord while `arr = base - 0x48` stays a SEPARATE addiu, so the
 //      symbol must not constant-fold.  The obvious fence `__asm__("" : "=r"(base) : "0"(base))`
 //      works but sets `base` TWICE => reg_n_sets[base]==2 => birthing_insn_p() returns 0 =>
 //      adjust_priority() skips the max_priority boost => the `la` is scheduled at the very top
 //      instead of after `sll $s3,$v0,2`.  Fix: fence a SINGLE-set pseudo —
-//          __asm__("" : "=r"(base) : "0"(&D_8011F7F0));
+//          __asm__("" : "=r"(base) : "0"(&guess_g_HudPlayerRecord));
 //      `base` is now set once (by the asm) and the address temp once (by the `la`), so BOTH keep
 //      the birthing boost and land where the target puts them.  (15 -> 5 mismatches.)
 //
@@ -3076,7 +3076,7 @@ void func_80175690(void *a0) {
 //  L4  pinning `sum` to $a1 makes gcc emit it before the $a0 arg move; pinning the $a0 arg too
 //      (`register u32 *a0v __asm__("$4"); a0v = p;`) restores the target order.  (2 -> 0.)
 //
-// Also note the deliberate MIXED addressing of the same objects: (*(u16 *)&D_8011F7BC)/(*(u16 *)&D_8011F7BE) are read
+// Also note the deliberate MIXED addressing of the same objects: (*(u16 *)&guess_g_HudGoldPanelX)/(*(u16 *)&guess_g_HudGoldPanelY) are read
 // absolutely at the 3rd call (lui/lhu) and $s2-relatively (-0x34/-0x32) at the 4th/6th/7th.  That
 // is what the target does; writing either form uniformly breaks it.
 
@@ -3089,11 +3089,11 @@ void func_80175AB8(param_1)
     extern S_AF634 guess_g_PacketBufferUsed[];
     extern S_AF634 guess_g_PacketBufferBase[];
 
-    extern u8  D_8011F7F0;
-    extern u16 D_8011F7B4;
-    extern u16 D_8011F7B6;
-    extern s16 D_8011F7BC;
-    extern s16 D_8011F7BE;
+    extern u8  guess_g_HudPlayerRecord;
+    extern u16 guess_g_HudHpPanelX;
+    extern u16 guess_g_HudHpPanelY;
+    extern s16 guess_g_HudGoldPanelX;
+    extern s16 guess_g_HudGoldPanelY;
     extern s32 D_8011F804;
     extern u16 D_8011F80A;
     extern u16 D_8011F824;
@@ -3123,15 +3123,15 @@ void func_80175AB8(param_1)
     s16 sv;
 
     p = (u32 *)(guess_g_PacketBufferBase[param_1].g0 + guess_g_PacketBufferUsed[param_1].g0 * 4);
-    base = &D_8011F7F0;
+    base = &guess_g_HudPlayerRecord;
     arr = base - 0x48;
     slot = (u32 *)(param_1 * 4 + (s32)arr);
     *(volatile u32 *)&slot[6] = (u32)p;
-    p = func_80176D94(p, (s16)(D_8011F7B4 - 0x71), (s16)(D_8011F7B6 + 0x51));
-    p = func_801770E0(p, (s16)(D_8011F7B4 - 0x71), (s16)(D_8011F7B6 + 0x65));
+    p = func_80176D94(p, (s16)(guess_g_HudHpPanelX - 0x71), (s16)(guess_g_HudHpPanelY + 0x51));
+    p = func_801770E0(p, (s16)(guess_g_HudHpPanelX - 0x71), (s16)(guess_g_HudHpPanelY + 0x65));
     t = func_801783D0(D_8011F804, 0);
     p = func_80177EA4(p, t,
-                      (s16)((*(u16 *)&D_8011F7BC) + 0x39), (s16)((*(u16 *)&D_8011F7BE) + 0x51));
+                      (s16)((*(u16 *)&guess_g_HudGoldPanelX) + 0x39), (s16)((*(u16 *)&guess_g_HudGoldPanelY) + 0x51));
     sv = (s16)func_801783D0((D_8011F824 < 1000) ? D_8011F824 : 0x3E7, 4);
     p = func_80177B5C(p, sv, D_8011F832,
                       (s16)(((Unkstruct_80175AB8 *)arr)->unk14 + 0x39),
@@ -3161,7 +3161,7 @@ void func_80175AB8(param_1)
 // @unstuck(P36): none — MATCH (231 ins)
 #include "common.h"
 
-extern u8  D_8011F7F0;
+extern u8  guess_g_HudPlayerRecord;
 extern u8  guess_g_ActiveMenu;
    /* size 0x0C */
 extern S_AF634 guess_g_PacketBufferUsed[];
@@ -3185,7 +3185,7 @@ void func_80175DA8(param_1)
     u16 param_1;
 {
 
-    u8 *base = &D_8011F7F0;
+    u8 *base = &guess_g_HudPlayerRecord;
     u8 *s = base - 0x48;
     u16 *src = D_8018A1DC;
     Sp_80175DA8 *p;
@@ -3342,7 +3342,7 @@ void func_80175DA8(param_1)
 // @unstuck(P36): none — MATCH (327/327 ins, match_one MATCH; symcheck SYMS-OK 18 symbols)
 //
 // STRUCTURE (byte-derived, all verified against the .s):
-//   $s3=st=&D_8011F7A8 (int base), $s1=st+0x48 (cach), $s2=st+0xE0 (flag), $s5=&(*(u8 *)guess_g_PlayerRecord) (src), $s4=param.
+//   $s3=st=&guess_g_HudState (int base), $s1=st+0x48 (cach), $s2=st+0xE0 (flag), $s5=&(*(u8 *)guess_g_PlayerRecord) (src), $s4=param.
 //   6 HUD fields synced src->cach with a chg-flag at [flag]: pairs 0x3A/0x3C and 0x3E/0x40, then 0x14(s32),
 //   0x34(u16)+0x42(u8), 0x1A(s16), 0x4A(u8). Each: `if (cach==src) { if(!chg) goto skip; chg=0; } else {adjust}` + draw.
 // KEY FINDINGS (reusable):
@@ -3350,7 +3350,7 @@ void func_80175DA8(param_1)
 //     yields `addu rd,st,off`; the target is `addu rd,off,st`. Matches Ghidra's `(...>>0xe) + -0x7fee0840`.
 //   * buf is 24 bytes, NOT Ghidra's 32: MIPS STARTING_FRAME_OFFSET = outgoing_args_size(20), so get_frame_size()
 //     counts the 4-byte args-alignment gap. var=MIPS_STACK_ALIGN(4+24)=32 -> 32+24+28 -> 0x58. buf[32] gives 0x60.
-//   * Block 1 uses RAW GLOBALS (D_8011F82C...) -> absolute lui/%lo; the ne-block uses `st+0x82`/`st+0x11C`
+//   * Block 1 uses RAW GLOBALS (guess_g_HudShownHp...) -> absolute lui/%lo; the ne-block uses `st+0x82`/`st+0x11C`
 //     ($s3-relative) — both byte-confirmed; cse blocks end at labels so each region picks its own form.
 //   * `ne` pinned to $v0 (+6 aligned).
 //
@@ -3373,10 +3373,10 @@ void func_80175DA8(param_1)
 //        => `addu $a1,$s0,$v0`.  MATCH.
 extern u16 g_PlayerHpMax;
 extern u16 D_8011F82A;
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern s16 g_PlayerHp[0];
 extern u16 D_8011F8C4;
-extern u8  D_8011F7A8;   /* st base  ($s3) */
+extern u8  guess_g_HudState;   /* st base  ($s3) */
 extern u8 guess_g_PlayerRecord[];   /* cur base ($s5) */
 extern u8  D_8018A2B8[];
 extern u8 *D_8018A23C[];
@@ -3393,7 +3393,7 @@ extern s32   func_8005A600(s32, s32, s32, s32, s32);
 
 void func_80176218(s32 param_1)
 {
-    s32 st   = (s32)&D_8011F7A8;   /* $s3 */
+    s32 st   = (s32)&guess_g_HudState;   /* $s3 */
     s32 cach = st + 0x48;          /* $s1 */
     s32 flag = st + 0xE0;          /* $s2 */
     s32 cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);   /* $s5 */
@@ -3405,20 +3405,20 @@ void func_80176218(s32 param_1)
     /* ---- block 1: raw-global pair 0x3A/0x3C ---- */
     sA = g_PlayerHpMax;
     t = (sA != D_8011F82A);
-    if (D_8011F82C == (*(u16 *)g_PlayerHp)) {
+    if (guess_g_HudShownHp == (*(u16 *)g_PlayerHp)) {
         ne = t;
         if (ne == 0 && D_8011F8C4 == 0) goto L340;
     } else {
-        s32 d = (s16)(D_8011F82C - (g_PlayerHp[0]));
+        s32 d = (s16)(guess_g_HudShownHp - (g_PlayerHp[0]));
         u16 nv;
         if (d < 0) {
-            if (d < -10) nv = D_8011F82C + 2;
-            else         nv = D_8011F82C + 1;
+            if (d < -10) nv = guess_g_HudShownHp + 2;
+            else         nv = guess_g_HudShownHp + 1;
         } else {
-            if (d > 10)  nv = D_8011F82C - 2;
-            else         nv = D_8011F82C - 1;
+            if (d > 10)  nv = guess_g_HudShownHp - 2;
+            else         nv = guess_g_HudShownHp - 1;
         }
-        D_8011F82C = nv;
+        guess_g_HudShownHp = nv;
         *(u16 *)(flag + 0x3C) = 1;
         *(u16 *)(cach + 0x3A) = *(u16 *)(cur + 0x3A);
         goto L328;
@@ -3575,7 +3575,7 @@ L63C:
 //
 // func_80176734 — ov_SC01_077 HUD-state pump, 371 ins.  Direct sibling of the already-matched
 // func_80176218 in the same TU: same base quartet
-//     $s3 = st   = &D_8011F7A8          (int base, NOT u8* — see 80176218's note)
+//     $s3 = st   = &guess_g_HudState          (int base, NOT u8* — see 80176218's note)
 //     $s1 = cach = st + 0x48            (the cached/displayed copy)
 //     $s2 = flag = st + 0xE0            (the per-field "changed" flags)
 //     $s4 = cur  = &guess_g_PlayerRecord          (the live gameplay struct)
@@ -3648,7 +3648,7 @@ L63C:
 //
 // Declaration environment: every extern is block-scoped (§28/§43 zero file-scope footprint).
 // The types match the decls already at file scope in ov_SC01_077_jr_801734BC.c
-// (D_8011F7A8 u8, guess_g_PlayerRecord u8[], D_8018A238 u16, D_8018A2CC u8[], D_8018A2E4 s32[],
+// (guess_g_HudState u8, guess_g_PlayerRecord u8[], D_8018A238 u16, D_8018A2CC u8[], D_8018A2E4 s32[],
 //  D_800D43D4/4414/45D4 u8, guess_g_ActiveMenu u8, D_80126D20 s16, guess_g_PlayerActor s32,
 //  func_800183E0(s32), func_801619D0(void*), func_80161A00/30/60(s32)); func_801775E0 is the
 // shared engine-core DEFINE later in the same TU, so it needs the forward decl below.
@@ -3657,7 +3657,7 @@ L63C:
 
 void func_80176734(s32 param_1)
 {
-    extern u8  D_8011F7A8;      /* st base  ($s3) */
+    extern u8  guess_g_HudState;      /* st base  ($s3) */
     extern u8  guess_g_PlayerRecord[];    /* cur base ($s4) */
     extern s16 D_801152BA;
     extern u8  D_8011F7B0;      /* == *(u8 *)(st + 8), read absolutely (mixed addressing) */
@@ -3690,7 +3690,7 @@ void func_80176734(s32 param_1)
     u8  dum[8];                              /* dead frame slot (target .frame vars=8) */
     s32 p;          /* ONE sprite-list pointer for blocks A, B and C: its conflicts leave it $a1 */
 
-    st  = (s32)&D_8011F7A8;
+    st  = (s32)&guess_g_HudState;
     ix  = ((param_1 << 16) >> 14) + st;
     pv  = param_1;
     cach = st + 0x48;
@@ -3907,7 +3907,7 @@ Ltail:
  *  - u4/u5 fresh single-set call-result vars (S2 boost → jal delay slots);
  *    c3/cad/cff = $s5/$s4/$s3 pins. param_2/uVar5/iVar6 UNPINNED (natural $s2/$s0/$s1).
  * Constant swaps vs 770E0: 0x6e16{5010,5808,4060,3858}→0x6b56{5040,5808,4060,3858},
- * D_8011F830→D_8011F82C, D_8011F82E→D_8011F82A, 0xb8→0xad, 0x6055ff00→0x6000dcff,
+ * D_8011F830→guess_g_HudShownHp, D_8011F82E→D_8011F82A, 0xb8→0xad, 0x6055ff00→0x6000dcff,
  * 0x60ff3214→0x600000ff, (iVar6-4)→(iVar6+10), (iVar6-5)→(iVar6+9).
  */
 
@@ -4299,7 +4299,7 @@ void func_80178438(u16 *arg0) {
 }
 
 // @class: struct
-// @unstuck(P36): none — MATCH (91 ins). Keys: (1) two-pointer do-while over D_801202A0
+// @unstuck(P36): none — MATCH (91 ins). Keys: (1) two-pointer do-while over guess_g_ObjectTable
 //   (base ptr p=$s1, derived q=p+0x54=$s0, counter i=$s2) all PINNED via register
 //   __asm__ to get the 3-saved-reg frame (0x20) + exact alloc order; (2) the &&-chain
 //   if(byte6C!=0 && byte6D!=0) func_80130D0C else fptr -> func_80130D0C is the

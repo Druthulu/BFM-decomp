@@ -152,7 +152,7 @@ extern void func_8012A018(s32 a0, s32 a1);
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern void *memcpy(void *, const void *, unsigned int);
@@ -206,7 +206,7 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
@@ -290,7 +290,7 @@ extern void func_8001CFDC(s32 a, s32 b);
 extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -353,7 +353,7 @@ extern s32 func_8012DDA4(void);
 extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -549,7 +549,7 @@ s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
     extern u16 D_8018F0D0;
     extern s32 D_8018F0D4;
     extern s32 D_8018F0F4;
-    extern u8 D_801152A8[];
+    extern u8 guess_g_BoxHitNormalX[];
     extern u8 D_801152B0;
 
     s32 *p;
@@ -617,7 +617,7 @@ docall:
 
         if ((s16)acc != 0 || D_8018F0CC != 0) {
             if ((*(Box **)&D_8017EC10)->f6 >= -0xBCB) {
-                *(Blk8_SC07_011_80135A4C *)D_801152A8 = *(Blk8_SC07_011_80135A4C *)&D_801152B0;
+                *(Blk8_SC07_011_80135A4C *)guess_g_BoxHitNormalX = *(Blk8_SC07_011_80135A4C *)&D_801152B0;
             }
             (*(Box **)&D_8017EC18)->f0 = (*(Box **)&D_8017EC14)->f0;
             (*(Box **)&D_8017EC18)->f2 = (*(Box **)&D_8017EC14)->f2;

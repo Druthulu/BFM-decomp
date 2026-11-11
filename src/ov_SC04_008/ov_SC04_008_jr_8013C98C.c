@@ -180,7 +180,7 @@ extern void func_80129FF4(void);
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
@@ -232,7 +232,7 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
@@ -315,7 +315,7 @@ extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
 extern void func_8012C218(void *a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -384,7 +384,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DDA4();
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -1759,7 +1759,7 @@ extern u8 guess_g_MenuPanelCursors[];
 extern u8 guess_g_MenuPanelScrollTops[];
 extern s32 D_8017FE64;
 extern u16 guess_g_OpenMenuId;
-extern s32 D_80115188;
+extern s32 guess_g_MenuPanelSlideStep;
 extern s16 currentLocationId;
 extern s16 D_8017FE3C;
 extern s16 D_8017FE3E;
@@ -1830,10 +1830,10 @@ void func_8013E83C() {
 
 // @class: schedule
 // @stuck: none — MATCH (63 ins). The idx-32+ residual was a THIRD held base pointer for the
-// D_80115188 store: the draft's `((Cell*)&D_80115188)[i].v = v` allocates a pointer, so gcc kept
-// three bases (guess_g_OpenMenuId/D_8017FE64/D_80115188) and buried the branch-delay `sll` (i<<16 carry)
+// guess_g_MenuPanelSlideStep store: the draft's `((Cell*)&guess_g_MenuPanelSlideStep)[i].v = v` allocates a pointer, so gcc kept
+// three bases (guess_g_OpenMenuId/D_8017FE64/guess_g_MenuPanelSlideStep) and buried the branch-delay `sll` (i<<16 carry)
 // under the extra store. Switching to the sibling func_8013E6AC's relocation-masked form
-// `*(s32*)((char*)&D_80115188 + (i<<2))` recomputes that address via per-iteration %hi/%lo, leaving
+// `*(s32*)((char*)&guess_g_MenuPanelSlideStep + (i<<2))` recomputes that address via per-iteration %hi/%lo, leaving
 // only TWO held pointers (fp=&guess_g_OpenMenuId -> $t0, ep=&D_8017FE64 -> $a3) and freeing the delay slot
 // to carry `i<<16` in $a0 exactly as the target does. Head (idx 0-31) already matched; i naturally
 // lands in $a2 from the goto-loop delay slots, driving the fp/ep/fa=$8/$7/$5 alloc with no pins.
@@ -1862,8 +1862,8 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8013E958(void);
 
 extern short guess_g_DoubleBufferIndex;
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPanel;
 extern u16 guess_g_MenuPadPressed;
 extern short guess_g_MenuCategory;
@@ -1879,8 +1879,8 @@ extern unsigned char D_8017FE40;
 
 extern short guess_g_DoubleBufferIndex;
 extern unsigned short guess_g_MenuStep;
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern s16 D_8017FE3C;
 extern s16 D_8017FE3E;
 extern unsigned char D_8017FE40;
@@ -1897,7 +1897,7 @@ extern unsigned char *func_80141CA4(void);
 //   (3) the 2nd-loop base `q = p-8` (=&guess_g_MenuTransitionTimer kept in $s0 across the calls) is declared INSIDE the loop
 //   so loop.c hoists it to the preheader slot AFTER `i=0` (an explicit pre-loop `q=` emits it BEFORE i=0,
 //   +2 off). (4) dead `s32 sp10[2];(void)sp10;` reserves the extra 8 frame bytes (0x28, not 0x20).
-//   Conflict-safe externs: asm-alias `aD80115188` (file-scope decl is scalar `s32 D_80115188`); `(u16)`
+//   Conflict-safe externs: asm-alias `aD80115188` (file-scope decl is scalar `s32 guess_g_MenuPanelSlideStep`); `(u16)`
 //   cast on the `s16 D_8017FE3C` read for the `lhu`; `guess_g_MenuPanelSlide` is undeclared elsewhere in the TU.
 
 
@@ -1916,8 +1916,8 @@ extern unsigned char *func_80141CA4(void);
 
 
 extern s16 guess_g_DoubleBufferIndex;
-extern s32 D_801151D0;
-extern E4  aD80115188[] __asm__("D_80115188");
+extern s32 guess_g_MenuPacketPtr;
+extern E4  aD80115188[] __asm__("guess_g_MenuPanelSlideStep");
 extern u16 D_80115124;
 extern u16 guess_g_MenuStep;
 extern s16 D_8017FE3E;

@@ -921,7 +921,7 @@ void func_8018A284(void *a0) {
 }
 
 
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern void func_8018A438(s32);
@@ -932,7 +932,7 @@ void func_8018A2C0(s32 param_1)
 
     iVar1 = *(s32 *)(param_1 + 0x9C);
     if ((((Unkstruct_80182E70 *)iVar1)->unk1E & 1) != 0) {
-        s16 *p = &D_80126940;
+        s16 *p = &guess_g_CameraFollowPos;
         if (((Unkstruct_80182E70 *)iVar1)->unk18 < *p) {
             *p = ((Unkstruct_80182E70 *)iVar1)->unk18;
         }
@@ -950,7 +950,7 @@ void func_8018A2C0(s32 param_1)
         }
     }
     if ((((Unkstruct_80182E70 *)iVar1)->unk26 & 1) != 0) {
-        s16 *p = &D_80126940;
+        s16 *p = &guess_g_CameraFollowPos;
         if (*p < ((Unkstruct_80182E70 *)iVar1)->unk20) {
             *p = ((Unkstruct_80182E70 *)iVar1)->unk20;
         }
@@ -978,7 +978,7 @@ extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 
@@ -997,7 +997,7 @@ void func_8018A438(s32 param_1) {
     *(s16 *)(param_1 + 0x2A) = func_80012C6C((s32)*(s16 *)(param_1 + 0x2A), (s32)*(s16 *)(param_1 + 0x30), 0x10);
     *(s16 *)(param_1 + 0x2C) = func_80012C6C((s32)*(s16 *)(param_1 + 0x2C), (s32)*(s16 *)(param_1 + 0x32), 0x10);
 
-    p = &D_80126940;
+    p = &guess_g_CameraFollowPos;
     *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)*p;
     *(s32 *)(param_1 + 0x4C) = (s32)*(s16 *)(param_1 + 0x2A) + (s32)D_80126942;
     *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2C) + (s32)D_80126944;
@@ -3819,7 +3819,7 @@ tail:
 /* func_8018DAA8 -- mass-lane fresh crack (Phase 31 wave p31f)
  *
  * State-gate then "avoid overlapping same-kind entity" scan of the 0x60-entry
- * table at D_801202A0 (stride 0x10C), same table/stride idiom as
+ * table at guess_g_ObjectTable (stride 0x10C), same table/stride idiom as
  * func_80190B6C and func_8017CA14 in this TU.
  *
  * func_8012CC1C canonical form (void, $v0 cast) per sibling TUs
@@ -3841,7 +3841,7 @@ extern s32 func_8012CC1C(s32 arg0, s32 arg1);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 
 s32 func_8018DAA8(s32 a0, s32 a1) {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     s32 state;
     u8 *p;
     s32 i;
@@ -3860,7 +3860,7 @@ s32 func_8018DAA8(s32 a0, s32 a1) {
         return 0;
     }
 
-    for (i = 0, p = D_801202A0; i < 0x60; i++, p += 0x10C) {
+    for (i = 0, p = guess_g_ObjectTable; i < 0x60; i++, p += 0x10C) {
         if (*(u16 *)p != 0 && ((Unkstruct_800B5CB8 *)a0)->unk0 == *(u16 *)p && a0 != (s32)p) {
             if (func_8012BC60((struct Vec *)(a0 + 4), (struct Vec *)(p + 4)) < 0x1000) {
                 CAST_WIDTH(s32, a0, 4) = CAST_WIDTH(s32, a0, 0x38);
@@ -5141,7 +5141,7 @@ s32 func_8018F488(s32 a0, s32 a1) {
 }
 
 
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801EB908;
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80017E68(void *a0, void *a1);
@@ -5216,8 +5216,8 @@ s32 func_8018F4B8(s32 param_1) {
         if (D_801E3B18 > D_801EB8E8) {
             D_801E3B18 = D_801EB8E8 - 9;
         }
-        func_800D23D0(&(*(s32 *)&D_801152A8));
-        ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&D_801152A8), m);
+        func_800D23D0(&(*(s32 *)&guess_g_BoxHitNormalX));
+        ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&guess_g_BoxHitNormalX), m);
         ((void (*)(void *, s32))func_80017E68)(&s50, (s32)m);
     }
     ((Unkstruct_80180384 *)param_1)->unk2 = ((Unkstruct_80180384 *)param_1)->unk2 + 1;
@@ -6063,9 +6063,9 @@ void func_801909D8(s32 arg0) {
 
 /* func_80190B6C — "is another entity of type 0x35C sharing my 0x64 owner?"
  *
- * Walks the 0x60-entry entity table at D_801202A0 (stride 0x10C) with an int
+ * Walks the 0x60-entry entity table at guess_g_ObjectTable (stride 0x10C) with an int
  * counter (the target keeps the count in $a2 and `slti ...,0x60`, so it is a
- * counted loop, NOT the D_80126720 pointer-bound idiom the sibling walkers
+ * counted loop, NOT the guess_g_BoxHitCenterX pointer-bound idiom the sibling walkers
  * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
  * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
  */

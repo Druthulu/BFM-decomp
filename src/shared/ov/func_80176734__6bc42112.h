@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80176734(s32 param_1)
 {
-    extern u8  D_8011F7A8;      /* st base  ($s3) */
+    extern u8  guess_g_HudState;      /* st base  ($s3) */
     extern u8  guess_g_PlayerRecord[];    /* cur base ($s4) */
     extern s16 D_801152BA;
     extern u8  D_8011F7B0;      /* == *(u8 *)(st + 8), read absolutely (mixed addressing) */
@@ -35,7 +35,7 @@ void func_80176734(s32 param_1)
     u8  dum[8];                              /* dead frame slot (target .frame vars=8) */
     s32 p;          /* ONE sprite-list pointer for blocks A, B and C: its conflicts leave it $a1 */
 
-    st  = (s32)&D_8011F7A8;
+    st  = (s32)&guess_g_HudState;
     ix  = ((param_1 << 16) >> 14) + st;
     pv  = param_1;
     cach = st + 0x48;

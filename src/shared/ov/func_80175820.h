@@ -3,8 +3,8 @@ s32 func_80175820(void)
     extern s16 guess_g_DoubleBufferIndex;
     extern S_AE7BC_80175820_80175820 guess_g_FrontOrderingTablesOrg[];
     extern S_AF634_80175820_80175820 guess_g_PacketBufferUsed[];
-    extern u8 D_8011F7A8;
-    u8 *p = (u8 *)&D_8011F7A8;
+    extern u8 guess_g_HudState;
+    u8 *p = (u8 *)&guess_g_HudState;
     u32 *ptr;
     u32 old;
     u32 *p2;

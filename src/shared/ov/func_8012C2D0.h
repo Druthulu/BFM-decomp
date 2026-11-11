@@ -1,7 +1,7 @@
 /* func_8012C2D0 — shared body (overlay slot 0x80128158, h_exact 4516d044). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u8 D_80120194[];
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 s32 func_8012C2D0(void)
 {
     s32 p;
@@ -13,7 +13,7 @@ s32 func_8012C2D0(void)
 copy:
     return it;
 test:
-    it = (s32)D_801202A0;
+    it = (s32)guess_g_ObjectTable;
     __asm__ __volatile__("" : "=r"(it) : "0"(it));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
     if (it == p) goto zero;
 body:

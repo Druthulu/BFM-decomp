@@ -6,7 +6,7 @@ s32 func_8012DDA4()
     extern Entry_8012DDA4 * D_8018E698;
 
     Entry_8012DDA4 *p;
-    Entry_8012DDA4 *end = ((Entry_8012DDA4 *)D_80126720);
+    Entry_8012DDA4 *end = ((Entry_8012DDA4 *)guess_g_BoxHitCenterX);
 
     while (D_8018E69C != end) {
         p = D_8018E69C;

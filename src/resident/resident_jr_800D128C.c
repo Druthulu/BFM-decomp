@@ -1344,7 +1344,7 @@ void func_800D24A0(s16 arg0) {
     extern u16 D_80115124;
     extern u8 guess_g_OpenMenuId[];
     extern u16 D_80115114;
-    extern u8 *D_801151C8;
+    extern u8 *guess_g_MenuPacketBases;
     extern u8 *D_801151CC;
     extern E4 guess_g_MenuPanelSlide[];
 
@@ -1370,7 +1370,7 @@ void func_800D24A0(s16 arg0) {
     (*(u16 *)guess_g_OpenMenuId) = arg0;
     guess_g_ActiveMenu = arg0 + 1;
     D_80115114 = guess_g_DoubleBufferIndex;
-    D_801151C8 = &D_8007BA70[guess_g_DoubleBufferIndex * 80000];
+    guess_g_MenuPacketBases = &D_8007BA70[guess_g_DoubleBufferIndex * 80000];
     D_801151CC = &D_800856B0[guess_g_DoubleBufferIndex * 80000];
 
     i = 0;

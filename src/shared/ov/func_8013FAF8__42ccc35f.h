@@ -27,7 +27,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
 
     func_80140E6C();
     func_80140F00();
-    ot = func_80140958((s32 *)D_801151D0, arg0, arg1);
+    ot = func_80140958((s32 *)guess_g_MenuPacketPtr, arg0, arg1);
     if (guess_g_MenuPanel < 6) {
         ot = (s32 *)func_80141100((int)ot);
     }
@@ -93,5 +93,5 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
     if (*pp != 0 && D_8017FE3E != 0) {
         ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4 + 2, (s32)(pp - 2), 0x8000);
     }
-    D_801151D0 = (s32)ot;
+    guess_g_MenuPacketPtr = (s32)ot;
 }

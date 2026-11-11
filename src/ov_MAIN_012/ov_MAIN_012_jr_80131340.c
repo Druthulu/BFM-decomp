@@ -174,7 +174,7 @@ extern void func_8012A018(s32 a0, s32 a1);
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern void *memcpy(void *, const void *, unsigned int);
@@ -232,7 +232,7 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
@@ -324,7 +324,7 @@ extern void func_8001CFDC(s32 a, s32 b);
 extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -389,7 +389,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DDA4();
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -1577,9 +1577,9 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     extern s32 *D_8017E924;
     extern s32 *D_8017E928;
     extern u16 D_80184130;
-    extern u8  D_801152A8[];
-    extern s16 D_801152AA;
-    extern s16 D_801152AC;
+    extern u8  guess_g_BoxHitNormalX[];
+    extern s16 guess_g_BoxHitNormalY;
+    extern s16 guess_g_BoxHitNormalZ;
     extern u16 D_801152AE;
     extern u8  D_801152B0;
     extern s32 guess_Vec3sDotAdd(Vec3s *a0, Vec3s *a1, s32 a2);
@@ -1706,11 +1706,11 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         u16 *s3u = (u16 *)s3;
         u16 *bp = D_8017E914;
         u16 w;
-        ((H16 *)D_801152A8)->h = s3u[0];
+        ((H16 *)guess_g_BoxHitNormalX)->h = s3u[0];
         w = s3u[1];
         bp[3] = w;
-        ((H16 *)&D_801152AA)->h = w;
-        ((H16 *)&D_801152AC)->h = s3u[2];
+        ((H16 *)&guess_g_BoxHitNormalY)->h = w;
+        ((H16 *)&guess_g_BoxHitNormalZ)->h = s3u[2];
         ((H16 *)&D_801152AE)->h = s3u[3];
     }
 ret1:
@@ -1899,7 +1899,7 @@ s32 func_801345F8(s32 arg)
 
 s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
-    extern u8 D_801152A8[];
+    extern u8 guess_g_BoxHitNormalX[];
     extern s32 guess_Vec3sDotAdd_2(s32 a0, s32 a1, s32 a2);
     extern s16 * D_8017E914;
     extern SVec * D_8017E910;
@@ -1945,7 +1945,7 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
     D_8017E918->f0 = D_8017E910->f0;
     D_8017E918->f4 = D_8017E910->f4;
-    (*(Elem*)D_801152A8) = *pElem;
+    (*(Elem*)guess_g_BoxHitNormalX) = *pElem;
     D_8017E910->f6 = pElem->f2;
     return 1;
 }
@@ -2019,7 +2019,7 @@ int func_80134A74(int param_1, s16 param_2, s16 param_3, int param_4)
 
 s32 func_80134C20(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
-    extern u8 D_801152A8[];
+    extern u8 guess_g_BoxHitNormalX[];
     extern s32 guess_Vec3sDotAdd_3(s32 a0, s32 a1, s32 a2);
     extern void * D_8017E910;
     extern void * D_8017E914;
@@ -2087,7 +2087,7 @@ s32 func_80134C20(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
 block_13:
     return 0;
 block_14:
-    __builtin_memcpy(D_801152A8, (void *)temp_s4, 8);
+    __builtin_memcpy(guess_g_BoxHitNormalX, (void *)temp_s4, 8);
     VectorNormalSS(D_8017E91C, D_8017E91C);
     {
         u16 *pB8 = (u16 *)D_8017E91C;

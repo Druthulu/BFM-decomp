@@ -21,7 +21,7 @@ void func_8013E6AC(void) {
             fa = (s32 *)(i * 4 + (s32)fp);
             v = ep[i] * 3 >> 2;
             fa[0x16] = v;
-            *(s32 *)((char *)&D_80115188 + (i << 2)) = v;
+            *(s32 *)((char *)&guess_g_MenuPanelSlideStep + (i << 2)) = v;
         }
         D_801805F0 = 2;
         D_801805F2 = 1;

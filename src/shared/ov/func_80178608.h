@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8013E4B4(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern s16 D_801270C4;
 extern s32 D_801274D8;
@@ -13,7 +13,7 @@ extern s32 D_801274DC;
 extern s32 D_801274E0;
 void func_80178608(void) {
     u16 *p = &D_801270C0;
-    func_80016714(D_801202A0, 0x6480);
+    func_80016714(guess_g_ObjectTable, 0x6480);
     *p = 1;
     D_801270C4 = 1;
     D_801274D8 = 0x240000;

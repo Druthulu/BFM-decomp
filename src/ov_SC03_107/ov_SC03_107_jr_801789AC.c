@@ -172,7 +172,7 @@ extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
 extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
 extern void func_8012A018(s32 a0, s32 a1);
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern void *memcpy(void *, const void *, unsigned int);
@@ -321,7 +321,7 @@ extern void func_8001CFDC(s32 a, s32 b);
 extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -386,7 +386,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DDA4();
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -806,8 +806,8 @@ extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPanel;
 extern u16 guess_g_MenuPadPressed;
 extern s32 guess_g_MenuHelpText;
@@ -1026,8 +1026,8 @@ extern void func_80143640(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_801437D8(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80143970(s32 a0);
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
-extern s16 D_801152AC;
-extern s16 D_801152AA;
+extern s16 guess_g_BoxHitNormalZ;
+extern s16 guess_g_BoxHitNormalY;
 extern void func_801439FC(s32 a0);
 extern void func_80143B30(void *a0);
 extern s32 func_80143B6C(s32 arg0, s32 arg1);
@@ -1627,7 +1627,7 @@ extern void func_8014DF3C(void);
 extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern void func_8014DF94(s32 arg0);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);  /* canonical (engine_core.h:11555) */
 extern s32 func_8014E284(s32 a0, s16 *arg1, s16 *arg2);
@@ -1647,7 +1647,7 @@ extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014ED80(SubED80 *a0);
 extern s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2);
@@ -2292,7 +2292,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern u16 func_801487F4(s32*);
 extern void guess_SetState(s32*, s16);
@@ -3361,15 +3361,15 @@ extern void func_801751D8(void *a0);
 extern s32 func_80175218(void * param_1);
 extern s32 func_80175268(s32 param_1);
 extern void func_801752BC(s32 *a0);
-extern u8  D_8011F7A8;
+extern u8  guess_g_HudState;
 extern u8  D_8011F7A9;
 extern u8  D_8011F7AE;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F7B8;
 extern s16 D_8011F7BA;
-extern s16 D_8011F7BC;
-extern s16 D_8011F7BE;
+extern s16 guess_g_HudGoldPanelX;
+extern s16 guess_g_HudGoldPanelY;
 extern void func_80016714(void *, s32);
 extern void func_801757A0(s32);
 extern void func_800596F4(s32);
@@ -3414,7 +3414,7 @@ extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void * func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(int param_1, unsigned int param_2, short param_3, short param_4);
@@ -3424,7 +3424,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern u8 D_8011F83B;
@@ -6099,7 +6099,7 @@ extern s16 D_80126962;
 extern u16 D_801269E8;
 extern u16 D_801269EA;
 extern u8 guess_g_MainCamera[];
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_801274E8;
 extern Blk8 D_801274F0;
 
@@ -6117,7 +6117,7 @@ void func_8017CDD8(void) {
     D_80126978 = -0x32;
     D_8012697A = 0;
     func_8012A018((s32)func_8017CF0C, 0);
-    *(Blk8 *)&D_801274E8 = *(Blk8 *)&D_80126940;
+    *(Blk8 *)&D_801274E8 = *(Blk8 *)&guess_g_CameraFollowPos;
     func_8012A094((s32)guess_g_MainCamera);
     func_8017CF0C(guess_g_MainCamera);
     func_8012A094((s32)guess_g_MainCamera);
@@ -6147,7 +6147,7 @@ void func_8017CF0C(void *a0) {
    (see the TU's own note at :5134).  Uniquely named so engine_types.h's
    file-scope `Blk8` typedef is not redefined (C89 rejects a duplicate). */
 
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 /* §37 asm-label alias: the destination TU already carries `extern Blk8 D_801274F0;`
    at file scope, so a second file-scope decl of that identifier at another type
    would be a hard error.  Same symbol, own C name. */
@@ -6170,7 +6170,7 @@ void func_8017CF48(s32 a0) {
     s32 flag, t;
     s32 t0, t1, u1, u2;
 
-    *(Blk8_8017CF48 *)buf = *(Blk8_8017CF48 *)&D_80126940;
+    *(Blk8_8017CF48 *)buf = *(Blk8_8017CF48 *)&guess_g_CameraFollowPos;
     if (buf[2] < 0x101) goto B;
     if (buf[0] < -0x740) buf[0] = -0x740;
     if (buf[0] < 0xA41) { flag = 0; goto L00C; }
@@ -6486,7 +6486,7 @@ extern void func_80178D18(void);
 /* func_8017D878 -- verbatim-asm bank (cookbook §265, file-scope form).
    Recovered semantics: takes the actor pointer in $a0. Reads the word at +100,
    passes it to func_8012BD14, and bails with $v0 = 0 when the result is >= 4097.
-   Otherwise walks the 96-entry table at D_801202A0 (stride 268): entries whose
+   Otherwise walks the 96-entry table at guess_g_ObjectTable (stride 268): entries whose
    halfword at +0 equals 548 are probed with func_8012BC60(actor+4, entry+4);
    a result below 4096 also bails with $v0 = 0. On success: stores 2 into the
    halfword at +2 of the object the word at +100 points to, calls func_80178BF8
@@ -6503,7 +6503,7 @@ extern void func_80178BF8();  // K&R: 0/2 of 2 args (P37 rung D t4_D1)
 
 s32 func_8017D878(s32 arg0)
 {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     u8 *p;
     s32 i;
     s32 v1;
@@ -6511,7 +6511,7 @@ s32 func_8017D878(s32 arg0)
     if (((s32 (*)(s32))func_8012BD14)(*(s32 *)(arg0 + 0x64)) >= 0x1001) {
         return 0;
     }
-    for (i = 0, p = D_801202A0; i < 0x60; i++, p += 0x10C) {
+    for (i = 0, p = guess_g_ObjectTable; i < 0x60; i++, p += 0x10C) {
         if (*(u16 *)p == 0x224) {
             if (((s32 (*)(s32, s32))func_8012BC60)(arg0 + 4, (s32)(p + 4)) < 0x1000) {
                 return 0;
@@ -7368,7 +7368,7 @@ void func_8017EB04(s32 a0) {
 /* func_8017EB70 (ov_SC03_107 / jr_801789AC) — 127 ins, match_one MATCH.
  *
  * "Chase/push-away" AI tick: read the actor's state word, bail on states 2 / 0x1A,
- * clamp two fields, then walk the 0x60-entry entity table at D_801202A0 (stride
+ * clamp two fields, then walk the 0x60-entry entity table at guess_g_ObjectTable (stride
  * 0x10C) looking for a nearby live neighbour and try to step this actor to a point
  * 0x61 units away from it (func_8012CEB0 is the collision/move probe).
  *
@@ -7376,7 +7376,7 @@ void func_8017EB04(s32 a0) {
  * func_8017E404 in src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:4538 — same
  * ratan2->func_8012B0B4->`d = *(s32*)&buf`->out.vx/out.vz packed-offset idiom, same
  * SVEC in/out/buf stack order.  The OUTER counted walk is the in-TU banked
- * func_801822E4 (same file, :7772): `p = D_801202A0; for (i=0;i<0x60;i++)`.
+ * func_801822E4 (same file, :7772): `p = guess_g_ObjectTable; for (i=0;i<0x60;i++)`.
  *
  * Three non-obvious levers, in the order the gate found them:
  *
@@ -7404,7 +7404,7 @@ void func_8017EB04(s32 a0) {
  *
  * INTEGRATION (§161c): every extern below except func_8017EEA8 is ALREADY declared
  * at file scope in src/ov_SC03_107/ov_SC03_107_jr_801789AC.c, identically —
- * D_801202A0 :338, func_8012ADE4 :349, func_8012B0B4 :361, func_8012B6D4 :382,
+ * guess_g_ObjectTable :338, func_8012ADE4 :349, func_8012B0B4 :361, func_8012B6D4 :382,
  * func_8012BC60 :397, func_8012CBA4 :452, func_8012CEB0 :458, func_80131E00 :562.
  * The whole extern block may be dropped on banking.  func_8012CBA4 is declared
  * `void` there and func_8012BC60/func_80131E00 take struct pointers, so all three
@@ -7433,7 +7433,7 @@ s32 func_8017EB70(s32 arg0) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     SVEC_EB70 in;
     SVEC_EB70 out;
     SVEC_EB70 buf;
@@ -7463,7 +7463,7 @@ s32 func_8017EB70(s32 arg0) {
     if (((Unkstruct_800B5CB8 *)arg0)->unk14 > 0xFFFFF) {
         ((Unkstruct_800B5CB8 *)arg0)->unk14 = 0x100000;
     }
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, p += 0x10C) {
         if (((Unkstruct_800B5CB8 *)p)->unk0 != 0 && ((Unkstruct_800B5CB8 *)p)->unk58 != 0 && arg0 != (s32)p) {
             if (((s32 (*)(s32, s32))func_8012BC60)(arg0 + 4, (s32)(p + 4)) < 0x2400) {
@@ -8825,7 +8825,7 @@ extern s32 rand(void);
 void func_80181058(void *a0)
 {
 
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     u8 *p;
     s32 cnt;
     s32 i;
@@ -8833,7 +8833,7 @@ void func_80181058(void *a0)
     s32 q;
     s16 t;
 
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     cnt = 0;
     for (i = 0; i < 0x60; i++) {
         if (((Unkstruct_80181058 *)p)->unk0 == 0x1EA) {
@@ -9590,9 +9590,9 @@ void func_80182150(s32 arg0) {
 
 /* func_801822E4 — "is another entity of type 0x35C sharing my 0x64 owner?"
  *
- * Walks the 0x60-entry entity table at D_801202A0 (stride 0x10C) with an int
+ * Walks the 0x60-entry entity table at guess_g_ObjectTable (stride 0x10C) with an int
  * counter (the target keeps the count in $a2 and `slti ...,0x60`, so it is a
- * counted loop, NOT the D_80126720 pointer-bound idiom the sibling walkers
+ * counted loop, NOT the guess_g_BoxHitCenterX pointer-bound idiom the sibling walkers
  * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
  * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
  */

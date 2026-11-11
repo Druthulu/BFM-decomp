@@ -400,7 +400,7 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -613,8 +613,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -632,9 +632,9 @@ extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801D9618;
@@ -650,7 +650,7 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
 extern s32 D_801D961C;
@@ -1226,7 +1226,7 @@ extern void func_800CCB78(s32 a0);
 extern s32 func_80161488(void *a0);
 extern void func_8015CC40(s32 *a0);
 extern void func_8015CF8C(s32 *a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern u8 D_800D4BE0[];
 extern s32 D_800D4E94;
 extern s32 D_800D4ED4;
@@ -2389,7 +2389,7 @@ extern s32 func_80161208();  /* canonical no-proto (§17a-1) */
 extern void func_801483E8();  // K&R: ? of 1 args (P37 rung D t4_D23)
 
 extern void (*D_801891B8[])(void *);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 
 void func_8015EA3C(void *arg0) {
     s32 invec[4];
@@ -2441,7 +2441,7 @@ Ldefault:
     }
     if (func_800CF8B4() != 0) {
         ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)arg0 + 0x20))->unk12 =
-            ((*(u16 *)&D_801152A0) + ((s32 (*)(void *))guess_GetCameraYaw)(arg0)) & 0xFFF;
+            ((*(u16 *)&guess_g_CameraRelativeYaw) + ((s32 (*)(void *))guess_GetCameraYaw)(arg0)) & 0xFFF;
     }
     temp = func_80148E54(arg0);
     if ((s16)temp >= 0) {
@@ -3149,7 +3149,7 @@ extern void func_8016039C(s32 *a0);
 /* data */
 extern u8  D_80078EC0;
 extern u8  D_80078EBF;
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void (*D_801891B8[])(void *);
 
 /* callees (engine_core.h canonical sigs) */
@@ -3209,7 +3209,7 @@ void func_80160534(u8 *p) {
     }
     if (func_800CF8B4() != 0) {
         ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12 =
-            ((*(u16 *)&D_801152A0) + guess_GetCameraYaw((s32)p)) & 0xFFF;
+            ((*(u16 *)&guess_g_CameraRelativeYaw) + guess_GetCameraYaw((s32)p)) & 0xFFF;
     }
     func_80147AD4((s32)p, ((Unkstruct_80126B58 *)p)->unk234, ((Unkstruct_80126B58 *)p)->unk238,
                   ((Unkstruct_80126B58 *)p)->unk23C);
@@ -4204,7 +4204,7 @@ void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u16 param
 // @class: table-scan
 // @unstuck(P36): none — MATCH (42 ins), match_one AND rtu_match (real TU).
 //
-// Scans the 0x60-entry actor table at D_801202A0 (stride 0x10C) for a live entry
+// Scans the 0x60-entry actor table at guess_g_ObjectTable (stride 0x10C) for a live entry
 // (`[0] != 0`) whose flag word at +0x5C has bit 0x100 set, then range-tests it against
 // the caller's actor via func_8014C278(self, ent, 0x40). First hit -> func_801506A4 with
 // the caller's sub-object at +0x4C, return 1; no hit -> return 0.
@@ -4214,7 +4214,7 @@ void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u16 param
 //     `u32 i` bounded `i < 0x60` (UNSIGNED -> `sltiu $v0,$s1,0x60`; an `s32` counter
 //     would emit `slt`) with the cursor advanced independently. The pointer-compare
 //     form used by the neighbouring DEFINE_func_80163950
-//     (`for (p = D_801202A0; p < D_801202A0 + 0x6480; p += 0x10C)`) emits an `sltu`
+//     (`for (p = guess_g_ObjectTable; p < guess_g_ObjectTable + 0x6480; p += 0x10C)`) emits an `sltu`
 //     against a materialised end pointer and can NOT produce this function's bytes.
 //   - `u16 *p` so `*p` / `p[0x2E]` are `lhu` at +0x0 / +0x5C; cursor bumped through a
 //     `u8 *` cast to keep the 0x10C byte stride.

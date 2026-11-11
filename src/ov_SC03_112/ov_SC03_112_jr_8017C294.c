@@ -586,8 +586,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -603,9 +603,9 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801ABCA8;
@@ -621,7 +621,7 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -1303,7 +1303,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2438,7 +2438,7 @@ extern void func_801751D8(void *a0);
 extern void (*D_80188DB8[])(s32);
 extern s32 func_80175218(void * param_1);
 extern void func_801752BC(s32 *a0);
-extern u8 D_8011F7A8;
+extern u8 guess_g_HudState;
 extern u8 D_8011F7A9;
 extern u8 D_8011F7AD;
 extern u8 D_8011F7AE;
@@ -2470,13 +2470,13 @@ extern void func_80176D00(s32 a0);
 extern void func_801757E0(s32 a0);
 extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
 extern u8 D_8011F7B1;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -2486,7 +2486,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_801776EC(u8 *a0);
@@ -3152,7 +3152,7 @@ extern s32 *D_80126B78;
 extern s16 D_80189640[];
 extern u8 D_801895D0[];
 extern s16 D_801ACE50;
-extern Unk_80126940 D_80126940;
+extern Unk_80126940 guess_g_CameraFollowPos;
 extern u16 func_80148800(s32 *a0);
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
@@ -3171,7 +3171,7 @@ void func_8017E160(s32 param_1) {
         *(u8 *)((s32)param_1 + 5) = t;
         *(s32 *)((s32)param_1 + 0x14) = D_80189640[t];
     }
-    pos = D_80126940;
+    pos = guess_g_CameraFollowPos;
     if ((s16)pos.f1 >= -0xFF) {
         *(s16 *)&pos.f1 = -0x100;
     }
@@ -5106,7 +5106,7 @@ void func_80180C1C(s32 a0) {
  * Runs the shared movement helper func_8012CBA4(self); on state 2 it hands off to
  * func_80131E00(self, 0x12) and on state 0x1A to the overlay-local func_80180FC0;
  * otherwise it clears bit 0x40 of +0xDC, clamps +0x14 to 0x100000, then walks the
- * 0x60-entry / 0x10C-stride global entity table D_801202A0 looking for the first
+ * 0x60-entry / 0x10C-stride global entity table guess_g_ObjectTable looking for the first
  * live neighbour (slot alive at +0x0, flag at +0x58 set, not itself) that is within
  * 0x2400 of us; it pushes itself away along func_8012B6D4's bearing and commits the
  * new position only if func_8012CEB0 reports bit 0x2000.
@@ -5114,7 +5114,7 @@ void func_80180C1C(s32 a0) {
  * §71 sibling-first: func_8012CBA4 / func_80131E00 / func_8012ADE4 signatures are
  * copied VERBATIM from this TU's own func_8018128C block (L4722-L4730); func_80180FC0
  * from the TU's file-scope decl (L4213).  func_8012BC60 / func_8012B6D4 /
- * func_8012B0B4 / func_8012CEB0 / D_801202A0 are not declared anywhere in this TU;
+ * func_8012B0B4 / func_8012CEB0 / guess_g_ObjectTable are not declared anywhere in this TU;
  * the forms below are the fleet-majority shapes (cf. ov_SC06_018 func_80187320).
  *
  * Load-bearing constructs (do NOT "clean up"):
@@ -5134,7 +5134,7 @@ void func_80180C1C(s32 a0) {
 
 struct Vec;
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 s32 func_80180C88(s32 param_1)
 {
@@ -5174,7 +5174,7 @@ s32 func_80180C88(s32 param_1)
         ((Unkstruct_800B5CB8 *)param_1)->unk14 = 0x100000;
     }
 
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     i = 0;
     self4 = (s16 *)(param_1 + 4);
     sc = (unsigned int *)sp20;

@@ -4,8 +4,8 @@ extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 func_80012A60(s32 a0, s32 a1);
 extern s32 ratan2(s32 a0, s32 a1);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3)
 {
     s32 dx;
@@ -57,7 +57,7 @@ s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3)
                             b[1] = a[1] + b[1];
                             b[2] = a[2] + b[2];
                             uVar10 = ((s32 (*)(s32, void *, void *))func_80133784)(0, a, b);
-                            if ((uVar10 == 0) || (((uVar10 & 0x2000) != 0) && ((*(u16 *)D_801152A8 | *(u16 *)&D_801152AC) == 0))) {
+                            if ((uVar10 == 0) || (((uVar10 & 0x2000) != 0) && ((*(u16 *)guess_g_BoxHitNormalX | *(u16 *)&guess_g_BoxHitNormalZ) == 0))) {
                                 psVar11[3] = b[0];
                                 psVar11[5] = b[1];
                                 psVar11[7] = b[2];

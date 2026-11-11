@@ -184,7 +184,7 @@ extern void func_80129FF4(void);
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
@@ -240,7 +240,7 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
@@ -325,7 +325,7 @@ extern void func_8001CFDC(s32 a, s32 b);
 extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -395,7 +395,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DDA4();
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -738,7 +738,7 @@ elsepath:
 //     (they are byte-identical to it; the target keeps all three copies). Worth 10 ins.
 //  3. Zero-byte fences between the three big-block coordinate groups stop sched2 hoisting the next
 //     group's `lhu` into the previous group's load-delay nop (restores 2 nops).
-//  4. `D_801152AA = 0;` AFTER the h0 statement: it shortens the [6]-field temp's local-alloc live
+//  4. `guess_g_BoxHitNormalY = 0;` AFTER the h0 statement: it shortens the [6]-field temp's local-alloc live
 //     range so c0 wins $v1 and the field temps take $v0/$a0 (target), not $v1/$v0.
 //  5. case 4 reaches case 8's tail through a shared `L288` label using `w = x << 16` / `w >> 16`
 //     so the shared block is exactly `sra $a1,$a1,16` — that is target's .L80136288. `w` pinned to
@@ -753,7 +753,7 @@ extern u8 D_80184A64;
 extern s16 *D_80184A68;
 extern u8 D_80184A6C;
 extern s32 guess_g_BoxHitFlags;
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 
 extern s32 VectorNormalSS(void *a0, void *a1);
 extern s32 func_801365B8(void *arg0, s32 arg1, s32 arg2);
@@ -761,11 +761,11 @@ extern s32 func_80136334(void *arg0, s32 arg1, s32 arg2);
 extern s32 func_80136824(s32, s32, s32);
 
 s32 func_80135EB0(void *arg0, s32 arg1) {
-    extern u8 D_801152A8[];
-    extern s16 D_801152AA[];
-    extern s16 D_801152AC[];
-    extern s16 D_80126722[];
-    extern s16 D_80126724[];
+    extern u8 guess_g_BoxHitNormalX[];
+    extern s16 guess_g_BoxHitNormalY[];
+    extern s16 guess_g_BoxHitNormalZ[];
+    extern s16 guess_g_BoxHitCenterY[];
+    extern s16 guess_g_BoxHitCenterZ[];
     s32 t1;
     s32 t2;
     s32 t3;
@@ -814,17 +814,17 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         c0 = ac[0];
         b4[0] = c0;
         h0 = (((Unkstruct_80135EB0 *)arg0)->unk4 + ((Unkstruct_80135EB0 *)arg0)->unk6) >> 1;
-        D_801152AA[0] = 0;
-        ((SVECTOR *)D_80126720)->vx = h0;
-        (*(s16 *)D_801152A8) = c0 - h0;
+        guess_g_BoxHitNormalY[0] = 0;
+        ((SVECTOR *)guess_g_BoxHitCenterX)->vx = h0;
+        (*(s16 *)guess_g_BoxHitNormalX) = c0 - h0;
         c1 = ac[2];
         b4[2] = c1;
         h1 = (((Unkstruct_80135EB0 *)arg0)->unkC + ((Unkstruct_80135EB0 *)arg0)->unkE) >> 1;
-        D_80126724[0] = h1;
-        D_801152AC[0] = c1 - h1;
+        guess_g_BoxHitCenterZ[0] = h1;
+        guess_g_BoxHitNormalZ[0] = c1 - h1;
         b4[1] = ac[1];
-        D_80126722[0] = (((Unkstruct_80135EB0 *)arg0)->unk8 + ((Unkstruct_80135EB0 *)arg0)->unkA) >> 1;
-        VectorNormalSS(D_801152A8, D_801152A8);
+        guess_g_BoxHitCenterY[0] = (((Unkstruct_80135EB0 *)arg0)->unk8 + ((Unkstruct_80135EB0 *)arg0)->unkA) >> 1;
+        VectorNormalSS(guess_g_BoxHitNormalX, guess_g_BoxHitNormalX);
         guess_g_BoxHitFlags |= 1;
         return 1;
     }
@@ -915,11 +915,11 @@ ret1:
 
 
 s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
-    extern u8 D_801152A8[];
-    extern s16 D_801152AA;
-    extern s16 D_801152AC[];
-    extern s16 D_80126722;
-    extern s16 D_80126724;
+    extern u8 guess_g_BoxHitNormalX[];
+    extern s16 guess_g_BoxHitNormalY;
+    extern s16 guess_g_BoxHitNormalZ[];
+    extern s16 guess_g_BoxHitCenterY;
+    extern s16 guess_g_BoxHitCenterZ;
     u16 a1v;
     s16 a2v;
     s32 n;
@@ -961,19 +961,19 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
         b4[0] = b0[0];
         b4[1] = b0[1];
     }
-    D_801152AA = 0;
-    (*(s16 *)D_801152A8) = 0;
+    guess_g_BoxHitNormalY = 0;
+    (*(s16 *)guess_g_BoxHitNormalX) = 0;
     if (a1v & 1) {
         D_80184A68[2] = a2v + 2;
-        D_801152AC[0] = 0xFFF;
+        guess_g_BoxHitNormalZ[0] = 0xFFF;
     } else {
-        D_801152AC[0] = -0xFFF;
+        guess_g_BoxHitNormalZ[0] = -0xFFF;
         D_80184A68[2] = a2v - 2;
     }
-    (*(s16 *)D_80126720) = (((Unkstruct_80135EB0 *)arg0)->unk4 + ((Unkstruct_80135EB0 *)arg0)->unk6) >> 1;
-    D_80126722 = (((Unkstruct_80135EB0 *)arg0)->unk8 + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
+    (*(s16 *)guess_g_BoxHitCenterX) = (((Unkstruct_80135EB0 *)arg0)->unk4 + ((Unkstruct_80135EB0 *)arg0)->unk6) >> 1;
+    guess_g_BoxHitCenterY = (((Unkstruct_80135EB0 *)arg0)->unk8 + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
     result = 1;
-    D_80126724 = (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1;
+    guess_g_BoxHitCenterZ = (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1;
     return result;
 }
 
@@ -984,21 +984,21 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
 // @unstuck(P36): none — MATCH expected; identical structure, only the 4 data ptrs differ (AC/B0/B4/B8 -> B64/68/6C/70).
 
 // D_80184A60/68/70 file-scope `extern u8` holding pointers -> read via *(T**)&sym (§42c-2).
-// D_80184A68 file-scope `extern s16*` -> use directly. D_80126720 file-scope `extern u8[]`
-// -> single store via *(s16*)D_80126720. D_801152A8/AA/AC, D_80126722/24 block-scope externs
+// D_80184A68 file-scope `extern s16*` -> use directly. guess_g_BoxHitCenterX file-scope `extern u8[]`
+// -> single store via *(s16*)guess_g_BoxHitCenterX. guess_g_BoxHitNormalX/AA/AC, guess_g_BoxHitCenterY/24 block-scope externs
 // (siblings use block-scope; gcc-2.7.2 does not cross-conflict block-scope externs).
 extern u8 D_80184A64;
 extern u8 D_80184A60;
 extern s16 *D_80184A68;
 extern u8 D_80184A6C;
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 
 s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
-    extern u8 D_801152A8[];
-    extern s16 D_801152AA;
-    extern s16 D_801152AC;
-    extern s16 D_80126722;
-    extern s16 D_80126724;
+    extern u8 guess_g_BoxHitNormalX[];
+    extern s16 guess_g_BoxHitNormalY;
+    extern s16 guess_g_BoxHitNormalZ;
+    extern s16 guess_g_BoxHitCenterY;
+    extern s16 guess_g_BoxHitCenterZ;
     u16 *ac;
     s16 *b8;
     s16 *b4;
@@ -1049,18 +1049,18 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
         b4[1] = (s16) (*(u16 **)&D_80184A64)[1];
         b4[2] = (s16) (*(u16 **)&D_80184A64)[2];
     }
-    D_801152AC = 0;
-    D_801152AA = 0;
+    guess_g_BoxHitNormalZ = 0;
+    guess_g_BoxHitNormalY = 0;
     if ((a1c & 1) != 0) {
-        *(s16 *)D_801152A8 = 0xFFF;
+        *(s16 *)guess_g_BoxHitNormalX = 0xFFF;
         M2C_FIELD(D_80184A68, s16 *, 0) = a2c + 2;
     } else {
-        *(s16 *)D_801152A8 = -0xFFF;
+        *(s16 *)guess_g_BoxHitNormalX = -0xFFF;
         M2C_FIELD(D_80184A68, s16 *, 0) = a2c - 2;
     }
-    *(s16 *)D_80126720 = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk4 + ((Unkstruct_80135EB0 *)arg0)->unk6) >> 1);
-    D_80126722 = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk8 + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
-    D_80126724 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1);
+    *(s16 *)guess_g_BoxHitCenterX = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk4 + ((Unkstruct_80135EB0 *)arg0)->unk6) >> 1);
+    guess_g_BoxHitCenterY = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk8 + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
+    guess_g_BoxHitCenterZ = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1);
     return (1);
 }
 
@@ -1075,11 +1075,11 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
 // siblings read it once via *(u16**)&sym == direct lw either way).
 
 s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
-    extern u8 D_801152A8[];
-    extern s16 D_801152AA;
-    extern s16 D_801152AC;
-    extern s16 D_80126722;
-    extern s16 D_80126724;
+    extern u8 guess_g_BoxHitNormalX[];
+    extern s16 guess_g_BoxHitNormalY;
+    extern s16 guess_g_BoxHitNormalZ;
+    extern s16 guess_g_BoxHitCenterY;
+    extern s16 guess_g_BoxHitCenterZ;
 
     u16 *ac;
     s16 *b8;
@@ -1135,32 +1135,32 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
         b4[0] = (s16) p[0];
         b4[2] = (s16) p[2];
     }
-    D_801152AC = 0;
-    (*(s16 *)D_801152A8) = 0;
+    guess_g_BoxHitNormalZ = 0;
+    (*(s16 *)guess_g_BoxHitNormalX) = 0;
     if (a1v & 1) {
         b4b = D_80184A68;
-        D_801152AA = 0xFFF;
+        guess_g_BoxHitNormalY = 0xFFF;
         b4b[1] = pos + 2;
     } else {
         b4b = D_80184A68;
-        D_801152AA = -0xFFF;
+        guess_g_BoxHitNormalY = -0xFFF;
         b4b[1] = pos - 2;
     }
-    (*(s16 *)D_80126720) = (s16) ((s32) (((Unkstruct_80136824 *)arg0)->unk4 + ((Unkstruct_80136824 *)arg0)->unk6) >> 1);
-    D_80126722 = (s16) ((s32) (((Unkstruct_80136824 *)arg0)->unk8 + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
-    D_80126724 = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 0xC) + M2C_FIELD(((void *)arg0), s16 *, 0xE)) >> 1);
+    (*(s16 *)guess_g_BoxHitCenterX) = (s16) ((s32) (((Unkstruct_80136824 *)arg0)->unk4 + ((Unkstruct_80136824 *)arg0)->unk6) >> 1);
+    guess_g_BoxHitCenterY = (s16) ((s32) (((Unkstruct_80136824 *)arg0)->unk8 + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
+    guess_g_BoxHitCenterZ = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 0xC) + M2C_FIELD(((void *)arg0), s16 *, 0xE)) >> 1);
     return 1;
 }
 
 
 // @class: schedule
-// @unstuck(P36): none — MATCH (76 ins, relocation-masked). Key lever: the D_80126720/22/24 tail is a
+// @unstuck(P36): none — MATCH (76 ins, relocation-masked). Key lever: the guess_g_BoxHitCenterX/22/24 tail is a
 //   global-short RMW `+=`. Writing it via a cast `*(u16*)&SYM = *(u16*)&SYM + x` makes gcc CSE
 //   the address into a base reg (base-reuse) for ALL three — but the target only base-reuses
-//   D_80126720 (a SCHEDULER artifact: its addr-lui fills the load-delay slot after the pb4[4]
-//   load, and since $v0 is live it lands in $a0, reused for load+store). D_80126722/24 use the
+//   guess_g_BoxHitCenterX (a SCHEDULER artifact: its addr-lui fills the load-delay slot after the pb4[4]
+//   load, and since $v0 is live it lands in $a0, reused for load+store). guess_g_BoxHitCenterY/24 use the
 //   plain inline 2-lui form. Fix = DIRECT scalar RMW `SYM = SYM + x` (no &/cast) → inline %hi/%lo;
-//   the scheduler alone forces base-reuse on #1. Also: `s16 D_80126724 = D_80126724 + int` emits
+//   the scheduler alone forces base-reuse on #1. Also: `s16 guess_g_BoxHitCenterZ = guess_g_BoxHitCenterZ + int` emits
 //   LHU (gcc-2.7.2 drops the sign-extend because the sum is truncated to 16b on the sh) — so the
 //   canonical s16 decl is byte-safe here (no u16 retype needed, keeps the sign-sensitive callers).
 
@@ -1170,21 +1170,21 @@ extern s16 *D_80184A68;   /* holds a pointer value (*(u16**)&D_80184A68) */
 s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
     extern void ApplyMatrixSV(void *m, void *v0, void *v1);
     extern void ApplyRotMatrix(void *v0, void *v1);
-    extern u16 D_80126722;
-    extern s16 D_80126724;
-    extern s16 D_801152AA;
-    extern s16 D_801152AC;
+    extern u16 guess_g_BoxHitCenterY;
+    extern s16 guess_g_BoxHitCenterZ;
+    extern s16 guess_g_BoxHitNormalY;
+    extern s16 guess_g_BoxHitNormalZ;
 
     s32 out[4];
     u16 *pb4;
 
     if (a0) {
         ApplyMatrixSV((void *)a3, *(void **)&D_80184A68, *(void **)&D_80184A68);
-        ApplyMatrixSV((void *)a3, (void *)D_80126720, (void *)D_80126720);
-        ApplyRotMatrix((void *)D_801152A8, (void *)out);
-        *(s16 *)D_801152A8 = out[0];
-        D_801152AA = out[1];
-        D_801152AC = out[2];
+        ApplyMatrixSV((void *)a3, (void *)guess_g_BoxHitCenterX, (void *)guess_g_BoxHitCenterX);
+        ApplyRotMatrix((void *)guess_g_BoxHitNormalX, (void *)out);
+        *(s16 *)guess_g_BoxHitNormalX = out[0];
+        guess_g_BoxHitNormalY = out[1];
+        guess_g_BoxHitNormalZ = out[2];
     }
 
     pb4 = *(u16 **)&D_80184A68;
@@ -1192,9 +1192,9 @@ s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
     ((Unkstruct_80135260 *)a2)->unk2 = pb4[1] + *(s32 *)(a1 + 0x4C);
     ((Unkstruct_80135260 *)a2)->unk4 = pb4[2] + *(s32 *)(a1 + 0x50);
 
-    *(u16 *)D_80126720 = *(u16 *)D_80126720 + *(s32 *)(a1 + 0x48);
-    D_80126722 = D_80126722 + *(s32 *)(a1 + 0x4C);
-    D_80126724 = D_80126724 + *(s32 *)(a1 + 0x50);
+    *(u16 *)guess_g_BoxHitCenterX = *(u16 *)guess_g_BoxHitCenterX + *(s32 *)(a1 + 0x48);
+    guess_g_BoxHitCenterY = guess_g_BoxHitCenterY + *(s32 *)(a1 + 0x4C);
+    guess_g_BoxHitCenterZ = guess_g_BoxHitCenterZ + *(s32 *)(a1 + 0x50);
 }
 
 

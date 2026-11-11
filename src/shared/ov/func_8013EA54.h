@@ -7,8 +7,8 @@ extern void func_80137B80(void);
 extern void func_8013E958(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern short guess_g_DoubleBufferIndex;
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPanel;
 extern u16 guess_g_MenuPadPressed;
 extern unsigned short guess_g_MenuStep;
@@ -18,7 +18,7 @@ extern s16 currentLocationId;
 void func_8013EA54(void) {
     s32 sp10[2];
     if ((s16)func_80141C50() == 0) {
-        D_801151D0 = *(s32 *)&D_801151C8[(u16)guess_g_DoubleBufferIndex * 4];
+        guess_g_MenuPacketPtr = *(s32 *)&guess_g_MenuPacketBases[(u16)guess_g_DoubleBufferIndex * 4];
         func_8013F244();
         func_8013FAF8(0, 5);
         func_80137B80();

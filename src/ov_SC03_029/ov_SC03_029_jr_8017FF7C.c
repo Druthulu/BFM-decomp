@@ -365,7 +365,7 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -579,8 +579,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -596,9 +596,9 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801D8318;
@@ -614,7 +614,7 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -1296,7 +1296,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2434,7 +2434,7 @@ extern void func_801751D8(void *a0);
 extern void (*D_8018AEA0[])(s32);
 extern s32 func_80175218(void * param_1);
 extern void func_801752BC(s32 *a0);
-extern u8 D_8011F7A8;
+extern u8 guess_g_HudState;
 extern u8 D_8011F7A9;
 extern u8 D_8011F7AD;
 extern u8 D_8011F7AE;
@@ -2465,13 +2465,13 @@ extern void func_80176D00(s32 a0);
 extern void func_801757E0(s32 a0);
 extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
 extern u8 D_8011F7B1;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -2481,7 +2481,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_801776EC(u8 *a0);
@@ -2720,7 +2720,7 @@ extern s8 D_8018B5FC;
 extern s32 func_8017F378(s32 param_1);
 extern void func_8012A094(s32 a0);
 extern void func_8017F724(void *a0);
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_801274E8;
 extern void func_8017F4C4(void *a0);
 extern void func_8017F590(void *a0);
@@ -2996,7 +2996,7 @@ extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B1B4(s32 a0, s32 a1);
 extern s32 func_8012B030(void *a0);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 D_801D9758;
 extern s32 D_801D975C;
 extern s32 D_801C00D0;
@@ -3124,7 +3124,7 @@ void func_801804A0(s32 a0) {
                 if (t >= 0x11) {
                     func_80131C78(a0);
                     func_8012A828(a0, &D_801C0200);
-                    s2 = (u16 *)D_801202A0;
+                    s2 = (u16 *)guess_g_ObjectTable;
                     s5 = s2 + 0x3240;
                     s4 = 0;
                     if (s2 != s5) {
@@ -3257,7 +3257,7 @@ extern void func_800291C8(s32 a0, s32 a1);
 extern s32 D_8018B7E4[];
 extern u8 D_8018B818[];
 extern u8 D_801C01A8[];
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s16 D_801C03F0;
 extern s32 D_8018B8C0;
 
@@ -3286,7 +3286,7 @@ void func_80180B84(void *a0) {
     arg = (s32)a0;
     func_8012B23C(arg);
     s4 = 0;
-    s2 = (u16 *)D_801202A0;
+    s2 = (u16 *)guess_g_ObjectTable;
     func_8012A828((s32)a0, D_801C01A8);
     func_8012B030(a0);
     func_80143970((s32)a0);
@@ -5675,13 +5675,13 @@ tail:
  * Byte-identical skeleton (seed_sim=1.0) to ov_SC02_011:func_8018DAA8
  * (already matched, src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c). Same
  * state-gate then "avoid overlapping same-kind entity" scan of the 0x60-entry
- * table at D_801202A0 (stride 0x10C), same offsets (a0+4/8/0xC from
+ * table at guess_g_ObjectTable (stride 0x10C), same offsets (a0+4/8/0xC from
  * a0+0x38/0x3C/0x40, angle fields at a0+6/a0+0xE), same callees. Ported
  * verbatim with the target's own function name; all callee/data symbols
  * verified against this target's own .s relocations.
  */
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 extern void func_8012ADE4(s32 a0);
 extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
@@ -5710,7 +5710,7 @@ s32 func_801841F8(s32 a0, s32 a1) {
         return 0;
     }
 
-    for (i = 0, p = D_801202A0; i < 0x60; i++, p += 0x10C) {
+    for (i = 0, p = guess_g_ObjectTable; i < 0x60; i++, p += 0x10C) {
         if (*(u16 *)p != 0 && ((Unkstruct_800B5CB8 *)a0)->unk0 == *(u16 *)p && a0 != (s32)p) {
             if (func_8012BC60((struct Vec *)(a0 + 4), (struct Vec *)(p + 4)) < 0x1000) {
                 CAST_WIDTH(s32, a0, 4) = CAST_WIDTH(s32, a0, 0x38);

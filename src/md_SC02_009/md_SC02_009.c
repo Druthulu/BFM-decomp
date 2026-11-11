@@ -615,9 +615,9 @@ void func_801E5B0C(void) {
 extern s32 func_801439C0(void *a0);
 extern s32 func_80134510(s32 arg);
 extern s32 ratan2(s32 a0, s32 a1);
-extern s16 D_801152AC;
-extern s16 D_801152AA;
-extern u8 D_801152A8[];
+extern s16 guess_g_BoxHitNormalZ;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitNormalX[];
 
 void func_801E5B3C(s32 a0) {
     s32 s1 = ((Unkstruct_800B5CB8 *)a0)->unk64;
@@ -638,8 +638,8 @@ void func_801E5B3C(s32 a0) {
     ((Unkstruct_800B5CB8 *)s0)->unkA = sp[1];
     CAST_ALIAS(s16, s0, 0xC) = sp[2];
     CAST_WIDTH(s32, s0, 4) = CAST_WIDTH(s32, s0, 4) & 0x7FFFFFFF;
-    CAST_ALIAS(s16, s0, 0x10) = ratan2(D_801152AC, D_801152AA) + 0x400;
-    ((Unkstruct_800B5CB8 *)s0)->unk12 = ratan2(*(s16 *)D_801152A8, D_801152AA);
+    CAST_ALIAS(s16, s0, 0x10) = ratan2(guess_g_BoxHitNormalZ, guess_g_BoxHitNormalY) + 0x400;
+    ((Unkstruct_800B5CB8 *)s0)->unk12 = ratan2(*(s16 *)guess_g_BoxHitNormalX, guess_g_BoxHitNormalY);
     CAST_WIDTH(s16, s0, 0x14) = *(u16 *)(*(s32 *)(s1 + 0x20) + 0x12) + 0x200;
 }
 

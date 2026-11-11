@@ -187,8 +187,8 @@ void func_801EF918(void) {
 void func_801EFA60(void)
 {
     extern s16 guess_g_DoubleBufferIndex;
-    extern u8 D_801151C8[];
-    extern s32 D_801151D0;
+    extern u8 guess_g_MenuPacketBases[];
+    extern s32 guess_g_MenuPacketPtr;
     extern s16 D_80115126;
     extern s32 D_801F9DA0;
     extern s32 D_801F9DA4;
@@ -213,7 +213,7 @@ void func_801EFA60(void)
     (void)&frame_pad;
 
     idx = *(u16 *)&guess_g_DoubleBufferIndex;
-    D_801151D0 = *(s32 *)(D_801151C8 + (idx << 2));
+    guess_g_MenuPacketPtr = *(s32 *)(guess_g_MenuPacketBases + (idx << 2));
     if (D_801F9AB8[0] == 0) {
         D_801F9DB8 = func_8002B0B4(D_801F9DA0, D_801F9DA4, D_801F9DA8);
         if (D_80115126 == 0) {
@@ -574,7 +574,7 @@ void func_801F0210(void) {
     extern Env_801F1520 guess_g_FrontOrderingTablesOrg[];
     extern s16 D_8011512C;
     extern Panel_801F1520 *D_80115134;
-    extern s32 D_801151D0;
+    extern s32 guess_g_MenuPacketPtr;
     extern s16 guess_g_DoubleBufferIndex;
 
     extern s32 *func_801F1520(s32 *out);
@@ -586,7 +586,7 @@ void func_801F0210(void) {
     s16 n;
     s16 i;
 
-    ot = D_801151D0;
+    ot = guess_g_MenuPacketPtr;
     s2 = D_80115134;
 
     if (D_8011512C == 1 || D_8011512C == 2) {
@@ -632,7 +632,7 @@ void func_801F0210(void) {
         (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
-    ((Unkstruct_801151D0 *)&D_801151D0)->f0 = ot;
+    ((Unkstruct_801151D0 *)&guess_g_MenuPacketPtr)->f0 = ot;
 }
 
 

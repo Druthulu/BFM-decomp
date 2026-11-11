@@ -4,12 +4,12 @@ extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_8014C918(s32 a0, s32 a1);
 s32 func_8014D2A0(s32 arg0, void *a1, void *a2)
 {
-    extern u8 D_801202A0[];
-    extern u8 D_80126720[];
+    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_BoxHitCenterX[];
     u16 *arg2 = (u16 *)a2;
     u8 *p;
     s32 t;
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     if (p < p + 0x6480) {
         do {
             if ((*(u16 *)p != 0) && ((*(u16 *)(p + 0x5C) & 0x400) != 0) &&
@@ -24,7 +24,7 @@ s32 func_8014D2A0(s32 arg0, void *a1, void *a2)
                 return 1;
             }
             p += 0x10C;
-        } while (p < D_80126720);
+        } while (p < guess_g_BoxHitCenterX);
     }
     return 0;
 }

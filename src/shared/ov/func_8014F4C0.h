@@ -4,7 +4,7 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 guess_TestGameFlag(s32 arg);
 extern int func_8014F74C();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s16 D_801152B0;
 extern s32 D_801152BC;
 s32 func_8014F4C0(s32 arg0)
@@ -34,7 +34,7 @@ s32 func_8014F4C0(s32 arg0)
         }
         *(u16 *)(arg0 + 0x16E) = (u32)sp18.w >> 13;
         if (ret == 0x2000) {
-            __builtin_memcpy((void *)(arg0 + 0x120), (void *)D_801152A8, 8);
+            __builtin_memcpy((void *)(arg0 + 0x120), (void *)guess_g_BoxHitNormalX, 8);
         } else if (ret == 0x4000) {
             __builtin_memcpy((void *)(arg0 + 0x120), (void *)&D_801152B0, 8);
         }
@@ -45,7 +45,7 @@ s32 func_8014F4C0(s32 arg0)
         if (*(u16 *)(arg0 + 0x16C) == 0x1D && (guess_TestGameFlag(0x21) & 0xFF) == 0) {
             ret &= ~0x2000;
             ret |= 0x4000;
-            __builtin_memcpy((void *)&D_801152B0, (void *)D_801152A8, 8);
+            __builtin_memcpy((void *)&D_801152B0, (void *)guess_g_BoxHitNormalX, 8);
             D_801152BC = 1;
         }
         return ret;

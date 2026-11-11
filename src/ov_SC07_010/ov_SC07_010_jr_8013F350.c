@@ -45,7 +45,7 @@ extern s32 func_8013E410(void);
 extern s32 func_8013E448(s32 a0);
 extern void func_8012C724(s32 a0, s32 a1);
 extern void func_8013E370(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 (*D_801274D0)(s32);
 extern s32 D_801274D8;
 extern s32 D_801274DC;
@@ -84,8 +84,8 @@ extern void func_80137B80(void);
 extern void func_8013E958(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern short guess_g_DoubleBufferIndex;
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPanel;
 extern u16 guess_g_MenuPadPressed;
 extern s32 guess_g_MenuHelpText;
@@ -452,7 +452,7 @@ extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
 
 void func_8013FAF8(s16 arg0, s16 arg1) {
 
-    extern s32    D_801151D0;
+    extern s32    guess_g_MenuPacketPtr;
     extern u16    guess_g_MenuPanel;
     extern short guess_g_MenuCategory;
     extern Hw4    D_8011516A[];
@@ -484,7 +484,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
 
     func_80140E6C();
     func_80140F00();
-    ot = func_80140958((s32 *)D_801151D0, arg0, arg1);
+    ot = func_80140958((s32 *)guess_g_MenuPacketPtr, arg0, arg1);
     if (guess_g_MenuPanel < 6) {
         ot = (s32 *)func_80141100((int)ot);
     }
@@ -550,7 +550,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
     if (*pp != 0 && D_8018333A != 0) {
         ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4 + 2, (s32)(pp - 2), 0x8000);
     }
-    D_801151D0 = (s32)ot;
+    guess_g_MenuPacketPtr = (s32)ot;
 }
 
 

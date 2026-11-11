@@ -4,7 +4,7 @@ void SHARED_FN(s32 a0) {
     s32 i;
     s16 t;
 
-    for (p = D_801202A0, i = 0; i < 0x60; p += 0x10C, i++) {
+    for (p = guess_g_ObjectTable, i = 0; i < 0x60; p += 0x10C, i++) {
         if (((Unkstruct_80183094_2 *)p)->unk0 == 0x210) {
             if ((u16)(((Unkstruct_80183094_2 *)p)->unk6 - ((Unkstruct_80183094 *)a0)->unk6 + 0x9F) < 0x13F) {
                 if ((u16)(((Unkstruct_80183094_2 *)p)->unkE - ((Unkstruct_80183094 *)a0)->unkE + 0x9F) < 0x11F) {

@@ -46,7 +46,7 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
     D_8017F810->f0 = D_8017F808->f0;
     D_8017F810->f4 = D_8017F808->f4;
-    (*(Elem_801347A0*)D_801152A8) = *pElem;
+    (*(Elem_801347A0*)guess_g_BoxHitNormalX) = *pElem;
     D_8017F808->f6 = pElem->f2;
     return 1;
 }

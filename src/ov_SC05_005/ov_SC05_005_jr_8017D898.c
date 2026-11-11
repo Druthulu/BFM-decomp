@@ -373,7 +373,7 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -587,7 +587,7 @@ extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -603,9 +603,9 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801B0A90;
@@ -1301,7 +1301,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2439,7 +2439,7 @@ extern void func_801751D8(void *a0);
 extern void (*D_80185AD0[])(s32);
 extern s32 func_80175218(void * param_1);
 extern void func_801752BC(s32 *a0);
-extern u8 D_8011F7A8;
+extern u8 guess_g_HudState;
 extern u8 D_8011F7A9;
 extern u8 D_8011F7AD;
 extern u8 D_8011F7AE;
@@ -2471,13 +2471,13 @@ extern void func_80176D00(s32 a0);
 extern void func_801757E0(s32 a0);
 extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
 extern u8 D_8011F7B1;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -2487,7 +2487,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_801776EC(u8 *a0);
@@ -2839,13 +2839,13 @@ void func_8017EAB0(void *a0) {
  *
  * Per-frame camera driver for this scene: every 4th tick (func_80148800 & 3)
  * it flips the 1-bit phase at +5 and reloads the +0x14 field from the 2-entry
- * table D_801860AC, then copies the 8-byte camera aggregate D_80126940 onto the
+ * table D_801860AC, then copies the 8-byte camera aggregate guess_g_CameraFollowPos onto the
  * stack, clamps it, offsets a second copy by sin/cos of the player angle, asks
  * func_8017EE64 for a yaw and hands both to func_8017EC98.
  *
  * Levers:
- *   §48-C2 — D_80126940 is an 8-byte, 2-BYTE-ALIGNED aggregate, so the plain
- *     struct assign `sp10 = D_80126940;` is what emits the lwl/lwr + swl/swr
+ *   §48-C2 — guess_g_CameraFollowPos is an 8-byte, 2-BYTE-ALIGNED aggregate, so the plain
+ *     struct assign `sp10 = guess_g_CameraFollowPos;` is what emits the lwl/lwr + swl/swr
  *     block copy (same typedef shape the rest of this family uses).
  *   base+offset — `lw $v0, 0x20($s1)` reads D_80126B78 through the SAME $s1 that
  *     holds &guess_g_PlayerActor for the func_80148800 call, so it must be spelled off
@@ -2873,7 +2873,7 @@ void func_8017EAEC(s32 a0) {
     extern s16 D_801860AC[];
     extern u8  D_80186058[];
     extern s16 D_801B1EB8;
-    extern Blk8_80126940_8017D6D0_8017EAEC D_80126940;
+    extern Blk8_80126940_8017D6D0_8017EAEC guess_g_CameraFollowPos;
 
     Blk8_80126940_8017D6D0_8017EAEC sp10;
     Blk8_80126940_8017D6D0_8017EAEC sp18;
@@ -2887,7 +2887,7 @@ void func_8017EAEC(s32 a0) {
         *(u8 *)(a0 + 5) = t;
         *(s32 *)(a0 + 0x14) = D_801860AC[t];
     }
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
     if (sp10.v[0] < -0x1440) {
         sp10.v[0] = -0x1440;
     }
@@ -3540,9 +3540,9 @@ void func_8017FCA4(s32 param_1) {
 extern void func_8012A828(s32 a0, s32 a1);
 extern s32 func_80134510(s32 a0);
 extern void func_80180E78(s32 a0, s32 a1);
-extern u8 D_801152A8[];
-extern s16 D_801152AA;
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];
+extern s16 guess_g_BoxHitNormalY;
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 D_801AB144;
 
 void func_8017FD44(s32 a0) {
@@ -3559,9 +3559,9 @@ void func_8017FD44(s32 a0) {
         ((Unkstruct_800B5CB8 *)a0)->unk6 = sp10[0];
         ((Unkstruct_800B5CB8 *)a0)->unkA = sp10[1];
         CAST_ALIAS(u16, a0, 0xE) = sp10[2];
-        CAST_WIDTH(s16, a0, 0xE8) = (*(s16 *)D_801152A8);
-        *(s16 *)(a0 + 0xEA) = D_801152AA;
-        ((Unkstruct_800B5CB8 *)a0)->unkEC = D_801152AC;
+        CAST_WIDTH(s16, a0, 0xE8) = (*(s16 *)guess_g_BoxHitNormalX);
+        *(s16 *)(a0 + 0xEA) = guess_g_BoxHitNormalY;
+        ((Unkstruct_800B5CB8 *)a0)->unkEC = guess_g_BoxHitNormalZ;
         func_80180E78(a0, a0 + 0xE8);
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 7;
     }
@@ -3574,7 +3574,7 @@ extern s32 func_801809F0(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012C218(void *a0);
 extern void func_80180DF0(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s16 D_801152B0;
 extern u8 D_800D3918[];
 
@@ -3593,7 +3593,7 @@ void func_8017FE10(s32 a0) {
         }
     }
     {
-        void *tbl = (void *)D_801152A8;
+        void *tbl = (void *)guess_g_BoxHitNormalX;
         if (v1 & 0xC000) {
             tbl = (void *)&D_801152B0;
         }
@@ -4007,11 +4007,11 @@ extern s32 ratan2(s32 dx, s32 dy);
  * case 0/1/2 dispatch on the actor's state field; case 0 additionally spawns
  * a sub-object via func_80132EF4(a0, 0x50) and, depending on flag bits
  * returned by func_80180D4C, aims it using a table entry (D_801152B0 /
- * D_801152A8) via ratan2 + func_80047D3C (hypot-like). */
+ * guess_g_BoxHitNormalX) via ratan2 + func_80047D3C (hypot-like). */
 void func_801806EC(s32 a0) {
 
     extern s16 D_801152B0;
-    extern u8 D_801152A8[];
+    extern u8 guess_g_BoxHitNormalX[];
     extern u8 D_801A60E8[];
     s32 state;
     s32 s2;
@@ -4041,7 +4041,7 @@ void func_801806EC(s32 a0) {
         if (flags & 0xC000) {
             s1 = &D_801152B0;
         } else if (flags & 0x2000) {
-            s1 = D_801152A8;
+            s1 = guess_g_BoxHitNormalX;
         }
         if (s1 != 0) {
             v0 = ratan2(*(s16 *)((u8 *)s1 + 4), *(s16 *)((u8 *)s1 + 2));
@@ -4125,7 +4125,7 @@ extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s32 D_801A61C8;
 extern s32 *D_80126B78;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 
 s32 func_8018093C(void *a0) {
     SVECTOR buf1;
@@ -4134,7 +4134,7 @@ s32 func_8018093C(void *a0) {
     guess_RotTransSVWithMatrix((s32)D_80126B78 + 0x34, (s32)&D_801A61C8, (s32)&buf1);
     guess_RotTransSVWithMatrix((s32)D_80126B78 + 0x34, (s32)&D_801A61C8 + 8, (s32)&buf2);
     if (func_80135888(((Unkstruct_800B5CB8 *)a0)->unk20, ((Unkstruct_800B5CB8 *)a0)->unk58, (s32)&buf1, (s32)&buf2) != 0) {
-        func_8012F568(1, 1, *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), 0x20, (s32)&buf2, (s32)D_801152A8);
+        func_8012F568(1, 1, *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), 0x20, (s32)&buf2, (s32)guess_g_BoxHitNormalX);
         return 1;
     }
     return 0;
@@ -4411,7 +4411,7 @@ void func_801812F4(s32 a0) {
  *   - D_801270C0  : extern u16 D_801270C0;   (line 1129)  read via *(s16*)& cast
  *                   (idiom seen at src/ov_SC03_006/ov_SC03_006_jr_80140608.c:1778)
  *   - D_801152B0  : extern s16 D_801152B0;   (line 405)
- *   - D_801152A8  : extern u8 D_801152A8[];  (line 600/635)
+ *   - guess_g_BoxHitNormalX  : extern u8 guess_g_BoxHitNormalX[];  (line 600/635)
  *   - func_8012C218 : extern void func_8012C218(void *a0);  (line 4730, used by
  *                     the in-TU neighbour func_80182470 at line 4739)
  *   - func_8012CBF4 : canonical decl is `void func_8012CBF4(s32 a0)` (see
@@ -4445,7 +4445,7 @@ void func_801813B4(s32 a0) {
 
     extern u16 D_801270C0;
     extern s16 D_801152B0;
-    extern u8 D_801152A8[];
+    extern u8 guess_g_BoxHitNormalX[];
     extern u16 D_80126B96;
     extern u8 D_801A62A8[];
     s32 obj = a0;
@@ -4469,7 +4469,7 @@ void func_801813B4(s32 a0) {
     if (v1 & 0xC000) {
         s1 = &D_801152B0;
     } else if (v1 & 0x2000) {
-        s1 = (s16 *)D_801152A8;
+        s1 = (s16 *)guess_g_BoxHitNormalX;
     }
 
     if (s1 != 0) {

@@ -1,14 +1,14 @@
 /* func_80163764 — shared body (overlay slot 0x80128158, h_exact fa4fafa0). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 s32 func_80163764(s32 a0)
 {
     s32 counter;
     u8 *ptr;
     s32 loaded_value;
     counter = 0;
-    ptr = D_801202A0;
+    ptr = guess_g_ObjectTable;
     loaded_value = *(s32 *)(a0 + 0x4C);
     while (1) {
         if (*(u16 *)ptr != 0) {

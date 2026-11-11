@@ -29,7 +29,7 @@ loop:
         s32 *q = &((s32 *)&guess_g_OpenMenuId)[i];
         v = ((s32 *)&D_80180618)[i] >> 6;
         q[0x16] = v;
-        *(s32 *)((char *)&D_80115188 + (i << 2)) = v;
+        *(s32 *)((char *)&guess_g_MenuPanelSlideStep + (i << 2)) = v;
     }
     func_80141C0C(7);
     (*(u16*)&guess_g_MenuStep) = 4;

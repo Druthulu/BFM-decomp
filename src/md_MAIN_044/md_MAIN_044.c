@@ -518,7 +518,7 @@ void func_800CD848(s32 param_1) {
 
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_80135260(s32 a0, s32 a1, s32 a2, s32 a3);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 typedef Unkstruct_800B5CB8 Ent_CD894;
 
@@ -531,7 +531,7 @@ s32 func_800CD894(void *a0) {
     __builtin_memcpy(sp10, (u8 *)a0 + 0x44, 8);
     func_80015978((s32)a0 + 4, &sp18);
     i = 0;
-    e = (Ent_CD894 *)D_801202A0;
+    e = (Ent_CD894 *)guess_g_ObjectTable;
 loop:
     if (e->unk0 == 0x200) {
         s32 f58 = e->unk58;

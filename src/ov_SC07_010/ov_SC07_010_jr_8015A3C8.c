@@ -45,7 +45,7 @@ extern s32 func_8013E410(void);
 extern s32 func_8013E448(s32 a0);
 extern void func_8012C724(s32 a0, s32 a1);
 extern void func_8013E370(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 (*D_801274D0)(s32);
 extern s32 D_801274D8;
 extern s32 D_801274DC;
@@ -84,8 +84,8 @@ extern void func_80137B80(void);
 extern void func_8013E958(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern short guess_g_DoubleBufferIndex;
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPanel;
 extern u16 guess_g_MenuPadPressed;
 extern s32 guess_g_MenuHelpText;
@@ -344,9 +344,9 @@ extern s32 func_80143994(s32 a0, s32 a1);
 extern s32 func_801439C0(u8 *a0);
 extern s32 func_80134510(s32 arg);
 extern s32 ratan2(s32 a0, s32 a1);
-extern s16 D_801152AC;
-extern s16 D_801152AA;
-extern u8 D_801152A8[];
+extern s16 guess_g_BoxHitNormalZ;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_801439FC(s32 a0);
 extern void func_80143B30(void *a0);
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
@@ -917,7 +917,7 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern void func_8014DF94(s32 arg0);
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);  /* canonical (engine_core.h:11555) */
 extern s32 func_8014E284(s32 a0, s16 *arg1, s16 *arg2);
@@ -933,8 +933,8 @@ extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_BoxHitFlags;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014ED80(SubED80 *a0);
@@ -1820,7 +1820,7 @@ extern s32 func_8014A69C(s32 *a0);
 extern void func_8014E6A0(void);
 extern void func_8015CF8C(s32 *a0);
 extern s32 func_801725A4(u8 *a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern u8 D_800D4BE0[];
 extern s32 D_800D4E94;
 extern s32 D_800D4ED4;
@@ -1939,11 +1939,11 @@ s32 arg0;
         }
     }
     if (func_800CF8B4() != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = ((*(u16 *)&D_801152A0) + guess_GetCameraYaw(arg0)) & 0xFFF;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = ((*(u16 *)&guess_g_CameraRelativeYaw) + guess_GetCameraYaw(arg0)) & 0xFFF;
     }
     if (flag == 0) {
         if ((u8)((s32 (*)(s32))func_80148AFC)(arg0)) {
-            (*(u16 *)&D_801152A0) = func_80149184(arg0);
+            (*(u16 *)&guess_g_CameraRelativeYaw) = func_80149184(arg0);
             ((void (*)(s32, s32))func_80146E90)(arg0, 4);
             if (((Unkstruct_80126B58 *)arg0)->unk2C > -0x80000) {
                 ((Unkstruct_80126B58 *)arg0)->unk2C = -0x80000;
@@ -1965,7 +1965,7 @@ s32 arg0;
     } else {
         ((void (*)(s32))func_80172644)(arg0);
         if ((u8)((s32 (*)(s32))func_80148AFC)(arg0)) {
-            (*(u16 *)&D_801152A0) = func_80149184(arg0);
+            (*(u16 *)&guess_g_CameraRelativeYaw) = func_80149184(arg0);
             func_80146D90(arg0);
             func_80147AD4(arg0, 0, 0, 0xFFFF4000);
             ((Unkstruct_80126B58 *)arg0)->unk50 += ((Unkstruct_80126B58 *)arg0)->unk10;

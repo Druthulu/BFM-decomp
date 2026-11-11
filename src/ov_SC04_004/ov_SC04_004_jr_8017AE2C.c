@@ -581,8 +581,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -598,9 +598,9 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801B2638;
@@ -616,7 +616,7 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -1296,7 +1296,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2425,7 +2425,7 @@ extern void func_801751D8(void *a0);
 extern void (*D_80187D50[])(s32);
 extern s32 func_80175218(void * param_1);
 extern void func_801752BC(s32 *a0);
-extern u8 D_8011F7A8;
+extern u8 guess_g_HudState;
 extern u8 D_8011F7A9;
 extern u8 D_8011F7AD;
 extern u8 D_8011F7AE;
@@ -2457,13 +2457,13 @@ extern void func_80176D00(s32 a0);
 extern void func_801757E0(s32 a0);
 extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
 extern u8 D_8011F7B1;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -2473,7 +2473,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_801776EC(u8 *a0);
@@ -3926,7 +3926,7 @@ void func_8017CECC(s32 a0) {
  *   func_800291B4  TU:59
  *   currentLocationId TU:349
  *   D_80126B5C     TU:361  (scalar u8 -> pass (s32)&D_80126B5C)
- *   D_801202A0     TU:385
+ *   guess_g_ObjectTable     TU:385
  *   func_80013328  TU:520
  *   guess_g_FrameCounter     TU:615
  *   rand           TU:957/1092/3543
@@ -3951,7 +3951,7 @@ extern s32 func_8012BD14(s32 a0);
 void func_8017D258(s32 a0) {
 
     extern u8 D_80126B5C;
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     extern u16 guess_g_PlayerPosY;
     extern s16 D_80115214;
     extern u8 D_80188108[];
@@ -3970,7 +3970,7 @@ void func_8017D258(s32 a0) {
     if ((guess_g_FrameCounter & 0xF) == 0) {
         u8 *p;
         u8 *end;
-        for (p = D_801202A0, end = p + 0x6480; p < end; p += 0x10C) {
+        for (p = guess_g_ObjectTable, end = p + 0x6480; p < end; p += 0x10C) {
             if (*(u16 *)p == 0x128) {
                 found = ((s32)p == a0);
                 break;
@@ -4756,7 +4756,7 @@ void func_8017EC44(s32 a0) {
 
     extern s32 guess_g_PlayerActor;
     extern s16 D_80188344[];
-    extern Blk8_80126940_8017EC44 D_80126940;
+    extern Blk8_80126940_8017EC44 guess_g_CameraFollowPos;
     Blk8_80126940_8017EC44 sp10;
     u8 t;
 
@@ -4765,7 +4765,7 @@ void func_8017EC44(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk5 = t;
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80188344[t];
     }
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
     func_8017ED84(a0, sp10.v);
 }
 
@@ -4780,7 +4780,7 @@ void func_8017ECE4(s32 a0) {
 
     extern s32 guess_g_PlayerActor;
     extern s16 D_80188348[];
-    extern Blk8_80126940_8017ECE4 D_80126940;
+    extern Blk8_80126940_8017ECE4 guess_g_CameraFollowPos;
     Blk8_80126940_8017ECE4 sp10;
     u8 t;
 
@@ -4789,7 +4789,7 @@ void func_8017ECE4(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk5 = t;
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80188348[t];
     }
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
     func_8017ED84(a0, sp10.v);
 }
 
@@ -5412,7 +5412,7 @@ extern u8 *func_801290DC(s32 a0, u8 *a1);
 void func_8017FE48(void *a0) {
 
     extern s32 guess_g_PlayerActor;
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     extern u8 D_80188700[];
     s32 t;
     u8 *r;
@@ -5437,7 +5437,7 @@ void func_8017FE48(void *a0) {
         func_801290DC(0x56, (u8 *)out);
         break;
     default:
-        p = D_801202A0;
+        p = guess_g_ObjectTable;
         for (i = 0; i < 0x60; i++) {
             if (((Unkstruct_800B5CB8 *)p)->unk0 == *(s16 *)(r + 6)) {
                 ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(p, r, out);
@@ -5978,11 +5978,11 @@ ret0:
 }
 
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_8012BE98(s32, u16*);
 
 s32 func_80180C74(s32 arg0) {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     u8 *pe; 
     s32 i;
     u16 buf[3];
@@ -5992,7 +5992,7 @@ s32 func_80180C74(s32 arg0) {
     s32 f20;
     u16 state;
 
-    pe = D_801202A0;
+    pe = guess_g_ObjectTable;
     i = 0;
     do {
         if ((s32) pe == arg0) {
@@ -6766,12 +6766,12 @@ s32 func_80181D1C(s32 arg0) {
 extern s32 func_80181E90(s16 * a0, s16 * a1, s32 a2);
 
 s32 func_80181DAC(s32 arg0) {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     u8 *pe;
     u16 t;
     s32 count;
 
-    pe = D_801202A0;
+    pe = guess_g_ObjectTable;
     for (count = 0; count < 0x60; count++, pe += 0x10C) {
         if ((s32)pe == arg0) {
             continue;
@@ -6819,7 +6819,7 @@ extern s32 func_8012B8A4(s16 *a0);
 extern void RotMatrixY(s32 a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 
 void func_80181EE8(s32 param_1)
 {
@@ -6839,7 +6839,7 @@ void func_80181EE8(s32 param_1)
     out.vx += ((Unkstruct_80181EE8_2 *)param_1)->unk6;
     out.vy += ((Unkstruct_80181EE8_2 *)param_1)->unkA - t;
     out.vz += ((Unkstruct_80181EE8_2 *)param_1)->unkE;
-    func_8012F568(1, 0x4002, 0, 0x14, (s32)&out, (s32)D_801152A8);
+    func_8012F568(1, 0x4002, 0, 0x14, (s32)&out, (s32)guess_g_BoxHitNormalX);
 }
 
 
@@ -8422,9 +8422,9 @@ void func_80184368(s32 arg0) {
 
 /* func_801844FC — "is another entity of type 0x35C sharing my 0x64 owner?"
  *
- * Walks the 0x60-entry entity table at D_801202A0 (stride 0x10C) with an int
+ * Walks the 0x60-entry entity table at guess_g_ObjectTable (stride 0x10C) with an int
  * counter (the target keeps the count in $a2 and `slti ...,0x60`, so it is a
- * counted loop, NOT the D_80126720 pointer-bound idiom the sibling walkers
+ * counted loop, NOT the guess_g_BoxHitCenterX pointer-bound idiom the sibling walkers
  * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
  * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
  */

@@ -3,10 +3,10 @@
 s32 func_8014D820(s32 a0, u16 *a1, u16 *a2)
 {
 
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     extern u8 D_80180EC8[];
-    extern u8 D_801152A8[];
-    extern s16 D_801152AC;
+    extern u8 guess_g_BoxHitNormalX[];
+    extern s16 guess_g_BoxHitNormalZ;
   /* BLOCK-SCOPE types — see the header note. `Ent` at file scope collides with
      src/shared/engine_types.h:434 and kills the TU's cc1 stage (exit 33). */
   typedef Unkstruct_800B5CB8 Ent;
@@ -93,7 +93,7 @@ a0v = a0;
   desc.y = ty;
   if (currentLocationId != 0x3008)
   {
-    for (p = (Ent *) D_801202A0; p < (Ent *) (D_801202A0 + 0x6480); p++)
+    for (p = (Ent *) guess_g_ObjectTable; p < (Ent *) (guess_g_ObjectTable + 0x6480); p++)
     {
       if (p == ent)
       {
@@ -130,7 +130,7 @@ a0v = a0;
     out[2].x += pos.x;
     out[2].y = pos.y;
     out[2].z += pos.z;
-    for (p = (Ent *) D_801202A0; p < (Ent *) (D_801202A0 + 0x6480); p++)
+    for (p = (Ent *) guess_g_ObjectTable; p < (Ent *) (guess_g_ObjectTable + 0x6480); p++)
     {
       if (p == ent)
       {
@@ -156,7 +156,7 @@ a0v = a0;
 
   }
   r = func_80133784(0, &pos, (s32) (&desc));
-  if ((r == 0) || ((r == 0x2000) && (((*(u16 *) D_801152A8) | ((u16) D_801152AC)) == 0)))
+  if ((r == 0) || ((r == 0x2000) && (((*(u16 *) guess_g_BoxHitNormalX) | ((u16) guess_g_BoxHitNormalZ)) == 0)))
   {
     ent->unk6 = desc.x - desc.f18;
     ent->unkA = desc.y;

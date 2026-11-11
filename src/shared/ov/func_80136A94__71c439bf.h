@@ -3,21 +3,21 @@
 s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
     extern void ApplyMatrixSV(void *m, void *v0, void *v1);
     extern void ApplyRotMatrix(void *v0, void *v1);
-    extern u16 D_80126722;
-    extern s16 D_80126724;
-    extern s16 D_801152AA;
-    extern s16 D_801152AC;
+    extern u16 guess_g_BoxHitCenterY;
+    extern s16 guess_g_BoxHitCenterZ;
+    extern s16 guess_g_BoxHitNormalY;
+    extern s16 guess_g_BoxHitNormalZ;
 
     s32 out[4];
     u16 *pb4;
 
     if (a0) {
         ApplyMatrixSV((void *)a3, *(void **)&D_8017F810, *(void **)&D_8017F810);
-        ApplyMatrixSV((void *)a3, (void *)D_80126720, (void *)D_80126720);
-        ApplyRotMatrix((void *)D_801152A8, (void *)out);
-        *(s16 *)D_801152A8 = out[0];
-        D_801152AA = out[1];
-        D_801152AC = out[2];
+        ApplyMatrixSV((void *)a3, (void *)guess_g_BoxHitCenterX, (void *)guess_g_BoxHitCenterX);
+        ApplyRotMatrix((void *)guess_g_BoxHitNormalX, (void *)out);
+        *(s16 *)guess_g_BoxHitNormalX = out[0];
+        guess_g_BoxHitNormalY = out[1];
+        guess_g_BoxHitNormalZ = out[2];
     }
 
     pb4 = *(u16 **)&D_8017F810;
@@ -25,7 +25,7 @@ s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
     *(s16 *)(a2 + 2) = pb4[1] + *(s32 *)(a1 + 0x4C);
     *(s16 *)(a2 + 4) = pb4[2] + *(s32 *)(a1 + 0x50);
 
-    *(u16 *)D_80126720 = *(u16 *)D_80126720 + *(s32 *)(a1 + 0x48);
-    D_80126722 = D_80126722 + *(s32 *)(a1 + 0x4C);
-    D_80126724 = D_80126724 + *(s32 *)(a1 + 0x50);
+    *(u16 *)guess_g_BoxHitCenterX = *(u16 *)guess_g_BoxHitCenterX + *(s32 *)(a1 + 0x48);
+    guess_g_BoxHitCenterY = guess_g_BoxHitCenterY + *(s32 *)(a1 + 0x4C);
+    guess_g_BoxHitCenterZ = guess_g_BoxHitCenterZ + *(s32 *)(a1 + 0x50);
 }

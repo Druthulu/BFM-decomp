@@ -12,7 +12,7 @@ extern void func_801553A8(s32 *a0);
 extern s32 func_80149184(s32 a0);
 extern void func_80146CA0(void *a0);
 extern u8 guess_g_RumblePatternShort;
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 void func_80160410(s32 * a0)
 {
     s16 angle;
@@ -47,6 +47,6 @@ void func_80160410(s32 * a0)
     func_8001382C(angle, m1, (void *)((s32)a0 + 0x234));
     func_80146E90(a0, 8);
     func_801553A8(a0);
-    D_801152A0 = func_80149184((s32)a0);
+    guess_g_CameraRelativeYaw = func_80149184((s32)a0);
     func_80146CA0(a0);
 }

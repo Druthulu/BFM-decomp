@@ -82,8 +82,8 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPanel;
 extern u16 guess_g_MenuPadPressed;
 extern s32 guess_g_MenuHelpText;
@@ -745,7 +745,7 @@ void func_801418F8(void)
 
 /* func_80141A60 @ 0x80141A60 (0x130, 76 ins) -- ov_SC01_000 shared engine fn.
  *
- * ((s32 *)D_801151C8)[]: word (s32) table indexed by (u16)(*(u16 *)&guess_g_DoubleBufferIndex) -> D_801151D0.
+ * ((s32 *)guess_g_MenuPacketBases)[]: word (s32) table indexed by (u16)(*(u16 *)&guess_g_DoubleBufferIndex) -> guess_g_MenuPacketPtr.
  * guess_g_MenuPanel: u16, unsigned compare vs 4 (sltiu).
  * (*(u8 *)&D_8011514C)/4D/5C: u8 fields; a1 = (s16)((*(u8 *)&D_8011514C) + D_8011514D*D_8011515C).
  * guess_g_MenuHelpText: cached s32 handle. D_8018333C: address-taken arg to func_801376E8.
@@ -770,8 +770,8 @@ void func_80141A60(void)
 {
 
     extern s16 guess_g_DoubleBufferIndex;
-    extern u8 D_801151C8[];
-    extern s32 D_801151D0;
+    extern u8 guess_g_MenuPacketBases[];
+    extern s32 guess_g_MenuPacketPtr;
     extern u8  D_8011514D;
     extern s32 guess_g_MenuHelpText;
     extern u8  D_8018333C;
@@ -781,7 +781,7 @@ void func_80141A60(void)
     s32 pad[2];
     (void)&pad;   /* §36#3 frame-pad induction: force frame 0x20 (vs 0x18) */
 
-    D_801151D0 = ((s32 *)D_801151C8)[(*(u16 *)&guess_g_DoubleBufferIndex)];
+    guess_g_MenuPacketPtr = ((s32 *)guess_g_MenuPacketBases)[(*(u16 *)&guess_g_DoubleBufferIndex)];
     func_8013F350();
     if ((*(u16 *)&guess_g_MenuPanel) >= 4) {
         func_8013FAF8((*(u16 *)&guess_g_MenuPanel), (*(u16 *)&guess_g_MenuPanel) + 1);

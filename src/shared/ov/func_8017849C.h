@@ -5,14 +5,14 @@ extern void func_8012A908(void);
 extern void func_8017869C(s32 a0);
 extern void func_80130D0C(s32 a0);
 extern void func_8013E370(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern s32 D_8011DB08;
 void func_8017849C(void) {
     u8 *p;   /* $s1 base */
     register u8 *q __asm__("$16");   /* $s0 = base + 0x54 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
     s32 i;   /* $s2 counter */
-    p = (u8 *)D_801202A0;
+    p = (u8 *)guess_g_ObjectTable;
     func_801787D4();
     i = 0;
     func_8012A908();

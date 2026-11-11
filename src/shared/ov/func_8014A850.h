@@ -3,7 +3,7 @@
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_80029AF4(void);
 extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 s32 func_8014A850(s32 param_1) {
     s32 i;
     s32 cnt;
@@ -16,7 +16,7 @@ s32 func_8014A850(s32 param_1) {
     po = out;   /* anchors &out ($s2) materialization between cnt=0 and i=0 (scheduler LUID) */
     i = 0;
     do {
-        s32 e = (s32)&D_801202A0 + i;
+        s32 e = (s32)&guess_g_ObjectTable + i;
         if (*(u16 *)(e + 0) != 0 && *(s32 *)(e + 0x58) != 0 &&
             (*(u16 *)(e + 0x5C) & 0x8000) != 0 && *(u8 *)(e + 0xC1) == 7) {
             x = *(u16 *)(param_1 + 6) - *(u16 *)(e + 6);

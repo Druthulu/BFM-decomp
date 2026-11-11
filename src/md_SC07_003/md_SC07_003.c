@@ -817,7 +817,7 @@ void func_801A10B0(void *a0) {
  *     address never becomes a call-crossing pseudo.  Result: only $s0/$s1/$s2
  *     are saved, frame 0x38 instead of 0x40, LENGTH-DRIFT −2 at closeness 158.
  *     With both locals present the four call-crossing pseudos land exactly as
- *     the target allocates them — $s0 = &D_80126B78 then D_801152A8 (disjoint
+ *     the target allocates them — $s0 = &D_80126B78 then guess_g_BoxHitNormalX (disjoint
  *     live ranges reuse the reg), $s1 = arg0, $s2 = &out, $s3 = D_800D3918
  *     (longest live range ⇒ lowest global.c priority ⇒ allocated last).
  *     `tbl` also converts the two rematerialised `lui/lw` pairs into one
@@ -860,8 +860,8 @@ void func_801A10B0(void *a0) {
  *   guess_RotTransSVWithMatrix(D_80126B78[0]+0x34, D_800D3918, &buf) and
  *   (D_80126B78[0]+0x34, D_801A68F4, &out) /
  *   func_80135888(*(arg0+0x20), *(arg0+0x58), &buf, &out) /
- *   func_8012B70C(D_800D3918, D_801152A8) /
- *   func_8012F568(1, 0x4002, <that>, 0x1E, &out, D_801152A8).
+ *   func_8012B70C(D_800D3918, guess_g_BoxHitNormalX) /
+ *   func_8012F568(1, 0x4002, <that>, 0x1E, &out, guess_g_BoxHitNormalX).
  *   D_801A68BC+8 is NOT its own relocation here (unlike D_801A68C4 in
  *   func_801A079C) — the .s spells it `addiu $a1, $s0, 0x8`, so it is written
  *   as `D_801A68BC + 8`, the same way sibling func_801A23FC spells it.
@@ -871,7 +871,7 @@ void func_801A10B0(void *a0) {
  * func_8013C9C4:1483, func_801A2658:1484, func_8002D4C8:1485, D_80186F44:1487,
  * D_801A68BC:1488, func_8012BEE8:282, guess_RotTransSVWithMatrix:550, func_8012B70C:899,
  * D_80126B78:895, func_80135888:3042, func_8012F568:3043, D_800D3918:3035,
- * D_801A68F4:3036, D_801152A8:3037.  Only func_8012A8E8 and func_801830D8 are
+ * D_801A68F4:3036, guess_g_BoxHitNormalX:3037.  Only func_8012A8E8 and func_801830D8 are
  * absent from the TU; both take the card's fleet-modal spelling
  * (`void func_8012A8E8(void)` n=1456, `void func_801830D8(void *)` n=3).
  */
@@ -892,7 +892,7 @@ extern u16 D_80186F44[];
 extern u8  D_801A68BC[];
 extern u8  D_801A68F4[];
 extern u8  D_800D3918[];
-extern u8  D_801152A8[];
+extern u8  guess_g_BoxHitNormalX[];
 extern s32 D_80126B78[];
 
 void func_801A1120(s32 arg0) {
@@ -946,8 +946,8 @@ void func_801A1120(s32 arg0) {
         guess_RotTransSVWithMatrix(tbl[0] + 0x34, (s32)D_801A68F4, (s32)out);
         if (func_80135888(((Unkstruct_800B5CB8 *)arg0)->unk20, ((Unkstruct_800B5CB8 *)arg0)->unk58, (s32)buf, (s32)out) != 0) {
             func_8012F568(1, 0x4002,
-                          func_8012B70C((s16 *)d, (s16 *)D_801152A8),
-                          0x1E, (s32)out, (s32)D_801152A8);
+                          func_8012B70C((s16 *)d, (s16 *)guess_g_BoxHitNormalX),
+                          0x1E, (s32)out, (s32)guess_g_BoxHitNormalX);
         }
         break;
 
@@ -1269,14 +1269,14 @@ void func_801A1924(s32 arg0) {
  *
  * Declarations: none of these symbols is declared in md_SC07_003.c, and every
  * spelling below matches the sibling drafts already staged for this TU
- * (extern s32 guess_g_PlayerActor; extern u8 D_801152A8[]; extern u16 D_801A6B94[]).
+ * (extern s32 guess_g_PlayerActor; extern u8 guess_g_BoxHitNormalX[]; extern u16 D_801A6B94[]).
  */
 
 extern u16 D_80126B94;
 extern s32 guess_g_PlayerActor;
 extern u16 D_801A6B94[];
 extern u8  D_801A68FC[];
-extern u8  D_801152A8[];
+extern u8  guess_g_BoxHitNormalX[];
 extern s32 D_80127078;
 
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -1301,7 +1301,7 @@ s32 func_801A19C8(s32 arg0) {
         if (func_80013478((s32)(m + 1), (s32)o) < 0x4001) {
             func_8012F568(1, 0x401C,
                 ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 & 0xFFF, 0x50,
-                (s32)o, (s32)D_801152A8);
+                (s32)o, (s32)guess_g_BoxHitNormalX);
             D_80127078 = arg0;
             return 1;
         }
@@ -1771,7 +1771,7 @@ s32 func_801A23FC(s32 arg0) {
 }
 
 
-extern u8   D_801202A0[];
+extern u8   guess_g_ObjectTable[];
 
 extern s32  func_8012BC60(void *a0, void *a1);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
@@ -1789,7 +1789,7 @@ void func_801A24E8(s32 a0) {
     s16 v18[4];  /* sp+0x18 */
     s32 sp20[2]; /* sp+0x20 — func_8012B0B4 output */
 
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     i = 0;
     self4 = (s16 *)(a0 + 4);
     sc = (unsigned int *)sp20;
@@ -2860,7 +2860,7 @@ s32 func_801A3BCC(void *a0)
             if (func_80135888(g[8], g[14], (s32)buf, (s32)out) != 0) {
                 func_8012F568(1, 0x401B,
                               (((Unkstruct_801A3BCC_4 *)*(s32 *)((u8 *)a0 + 32))->unk12 - (D_801F435C << 10)) & 0xFFF,
-                              128, (s32)out, (s32)D_801152A8);
+                              128, (s32)out, (s32)guess_g_BoxHitNormalX);
                 return 1;
             }
         }
@@ -2879,7 +2879,7 @@ s32 func_801A3BCC(void *a0)
 extern s32 *aD_80126B78 __asm__("D_80126B78");
 extern u8 D_800D3918[];
 extern u8 D_801A68F4[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_80127078;
 
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
@@ -2897,7 +2897,7 @@ s32 func_801A419C(s32 arg0) {
     if (func_80135888(((Unkstruct_800B5CB8 *)arg0)->unk20, ((Unkstruct_800B5CB8 *)arg0)->unk58, (s32)buf, (s32)out) != 0) {
         func_8012F568(1, 0x1C,
                       *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0x20) + 0x12) & 0xFFF,
-                      0x1E, (s32)out, (s32)D_801152A8);
+                      0x1E, (s32)out, (s32)guess_g_BoxHitNormalX);
         D_80127078 = arg0;
         return 1;
     }
@@ -3055,9 +3055,9 @@ extern s32 func_80134510(s32 a0);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_801A4680(void *a0);
 
-extern u8 D_801152A8[];
-extern s16 D_801152AA;
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];
+extern s16 guess_g_BoxHitNormalY;
+extern s16 guess_g_BoxHitNormalZ;
 
 void func_801A4590(s32 a0) {
     s32 v0 = ((Unkstruct_800B5CB8 *)a0)->unk64;
@@ -3079,8 +3079,8 @@ void func_801A4590(s32 a0) {
     ((Unkstruct_800B5CB8 *)a0)->unkA = sp[1];
     CAST_ALIAS(s16, a0, 0xE) = sp[2];
 
-    CAST_ALIAS(s16, *(s32 *)(a0 + 0x20), 0x10) = ratan2(D_801152AC, D_801152AA) + 0x400;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = ratan2(*(s16 *)D_801152A8, D_801152AA);
+    CAST_ALIAS(s16, *(s32 *)(a0 + 0x20), 0x10) = ratan2(guess_g_BoxHitNormalZ, guess_g_BoxHitNormalY) + 0x400;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = ratan2(*(s16 *)guess_g_BoxHitNormalX, guess_g_BoxHitNormalY);
     func_801A4680((void *)a0);
 }
 
@@ -3410,7 +3410,7 @@ void func_801A4D58(s32 a0, s32 a1)
  * declared elsewhere in the fleet under this name, so it is typed by the
  * raw stride the asm walks (s32[4] per record; only base addresses are
  * ever taken, never dereferenced structurally, so the element type does not
- * affect codegen). D_801152A8 is declared `extern u8 D_801152A8[];` per its
+ * affect codegen). guess_g_BoxHitNormalX is declared `extern u8 guess_g_BoxHitNormalX[];` per its
  * many fleet occurrences (e.g. src/ov_SC03_099/ov_SC03_099_jr_801588CC.c).
  */
 
@@ -3423,7 +3423,7 @@ extern s32 func_8012B8A4(s16 *a0);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s32 guess_g_PlayerActor;
 extern s32 D_801A7318[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 
 s32 func_801A4DFC(void *a0)
 {
@@ -3462,7 +3462,7 @@ s32 func_801A4DFC(void *a0)
                             (s32)buf1, (s32)buf2);
         if (v0 != 0) {
             v0 = func_8012B8A4((s16 *)a0);
-            func_8012F568(1, 0x4201, v0, 0x32, (s32)buf2, (s32)D_801152A8);
+            func_8012F568(1, 0x4201, v0, 0x32, (s32)buf2, (s32)guess_g_BoxHitNormalX);
             return 1;
         }
     }

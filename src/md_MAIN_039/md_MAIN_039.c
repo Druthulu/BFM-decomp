@@ -264,8 +264,8 @@ void func_800CB4CC(void *a0)
 #include "common.h"
 
 s32 func_800CB4D4(s32 a0) {
-    extern u8 D_801202A0[];
-    extern u8 D_80126720[];
+    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_BoxHitCenterX[];
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 func_8012E778(s32 a0, s32 a1);
     extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -280,8 +280,8 @@ s32 func_800CB4D4(s32 a0) {
 
     bestp = 0;
     best = 0x7FFFFFFF;
-    p = D_801202A0;
-    while (p < D_801202A0 + 0x6480) {
+    p = guess_g_ObjectTable;
+    while (p < guess_g_ObjectTable + 0x6480) {
         if (((Unkstruct_800B5CB8 *)p)->unk0 != 0x282) {
             q = p + 4;
             func_80015978((s32)q, buf);

@@ -5,7 +5,7 @@ void func_8012A328(void)
 {
     extern s8 D_801152C0;
     extern s16 D_801152C2;
-    extern s16 D_80126940;
+    extern s16 guess_g_CameraFollowPos;
     extern s16 D_80126942;
     extern s16 D_80126944;
     extern s32 guess_g_PlayerActor;
@@ -27,6 +27,6 @@ void func_8012A328(void)
         s16 *r = &D_80126942;
         *r = func_80012F74(*r, D_80126CAE, 4, 1);
     }
-    D_80126940 = p->f154;
+    guess_g_CameraFollowPos = p->f154;
     D_80126944 = p->f158;
 }

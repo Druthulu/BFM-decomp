@@ -3,14 +3,14 @@
  * rank 1 src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:4672 rejected by type_census --check
  * rank 3 src/ov_SC03_098/ov_SC03_098_jr_8017D898.c:4761 rejected by type_census --check */
 s32 SHARED_FN(void) {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     Ent_8018172C_tab *e;
     s32 count;
     s32 i;
 
     count = 0;
     i = 0;
-    e = (Ent_8018172C_tab *)D_801202A0;
+    e = (Ent_8018172C_tab *)guess_g_ObjectTable;
     for (; i < 0x60; i++, e++) {
         if (e->unk0 == 0x17F && (e->unk70 & 0xF) == 0) {
             count++;

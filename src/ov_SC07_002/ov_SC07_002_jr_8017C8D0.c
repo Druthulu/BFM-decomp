@@ -372,7 +372,7 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -586,8 +586,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -604,9 +604,9 @@ extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_8019A548;
@@ -622,7 +622,7 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -1304,7 +1304,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2442,7 +2442,7 @@ extern void func_801751D8(void *a0);
 extern void (*D_80189E78[])(s32);
 extern s32 func_80175218(void * param_1);
 extern void func_801752BC(s32 *a0);
-extern u8 D_8011F7A8;
+extern u8 guess_g_HudState;
 extern u8 D_8011F7A9;
 extern u8 D_8011F7AD;
 extern u8 D_8011F7AE;
@@ -2474,13 +2474,13 @@ extern void func_80176D00(s32 a0);
 extern void func_801757E0(s32 a0);
 extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
 extern u8 D_8011F7B1;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -2490,7 +2490,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_801776EC(u8 *a0);
@@ -4346,7 +4346,7 @@ void func_8017FB84(s32 a0) {
 
 
 void func_8017FBD0(s32 s0) {
-    extern SVfbd0 D_80126940;
+    extern SVfbd0 guess_g_CameraFollowPos;
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
@@ -4357,12 +4357,12 @@ void func_8017FBD0(s32 s0) {
     s32 ret;
     s32 ang;
 
-    base = D_80126940;
+    base = guess_g_CameraFollowPos;
     ret = func_8012E544(0x322);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *)&target);
     } else {
-        target = D_80126940;
+        target = guess_g_CameraFollowPos;
     }
     ang = ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff;
     if (base.vy > -0x200) {
@@ -4374,7 +4374,7 @@ void func_8017FBD0(s32 s0) {
 
 void func_8017FCA8(s32 a0)
 {
-    extern s16 D_80126940[4];
+    extern s16 guess_g_CameraFollowPos[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 func_80013294(void *a0, void *a1);
@@ -4389,7 +4389,7 @@ void func_8017FCA8(s32 a0)
     s16 va;
     s16 vb;
 
-    cur = *(PosFCA8 *) D_80126940;
+    cur = *(PosFCA8 *) guess_g_CameraFollowPos;
     ret = func_8012E544(0x306);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *) &target);
@@ -4413,7 +4413,7 @@ void func_8017FCA8(s32 a0)
         ret = ((clamped * 800) / 0x300) + 0x190;
         *(s32 *) (a0 + 0x14) = (s16) ret;
     } else {
-        target = *(PosFCA8 *) D_80126940;
+        target = *(PosFCA8 *) guess_g_CameraFollowPos;
     }
 
     func_80181394(a0, &cur, ratan2(cur.v[0] - target.v[0], cur.v[2] - target.v[2]) & 0xfff);
@@ -4435,7 +4435,7 @@ void func_8017FE78(s32 a0) {
 
 
 void func_8017FEC4(s32 s0) {
-    extern SVfec4 D_80126940;
+    extern SVfec4 guess_g_CameraFollowPos;
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
@@ -4445,19 +4445,19 @@ void func_8017FEC4(s32 s0) {
     SVfec4 target;
     s32 ret;
 
-    base = D_80126940;
+    base = guess_g_CameraFollowPos;
     ret = func_8012E544(0x322);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *)&target);
     } else {
-        target = D_80126940;
+        target = guess_g_CameraFollowPos;
     }
     func_80181394(s0, &base, ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff);
 }
 
 
 void func_8017FF84(s32 s1) {
-    extern s16 D_80126940[4];
+    extern s16 guess_g_CameraFollowPos[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
@@ -4467,12 +4467,12 @@ void func_8017FF84(s32 s1) {
     SVff84 target;
     s32 ret;
 
-    base = (*(SVff84 *)D_80126940);
+    base = (*(SVff84 *)guess_g_CameraFollowPos);
     ret = func_8012E544(0x306);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *)&target);
     } else {
-        target = (*(SVff84 *)D_80126940);
+        target = (*(SVff84 *)guess_g_CameraFollowPos);
     }
     func_80181394(s1, &base, ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff);
 }
@@ -4495,7 +4495,7 @@ void func_80180044(s32 a0) {
 
 void func_80180090(s32 a0)
 {
-    extern SV180090 D_80126940;
+    extern SV180090 guess_g_CameraFollowPos;
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
@@ -4507,12 +4507,12 @@ void func_80180090(s32 a0)
     s32 ret;
     s16 clamped;
 
-    base = D_80126940;
+    base = guess_g_CameraFollowPos;
     ret = func_8012E544(0x322);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *)&target);
     } else {
-        target = D_80126940;
+        target = guess_g_CameraFollowPos;
     }
     ratan2(base.vx - target.vx, base.vz - target.vz);
 
@@ -4535,7 +4535,7 @@ void func_80180090(s32 a0)
 
 void func_80180248(s32 s0)
 {
-    extern s16 D_80126940[4];
+    extern s16 guess_g_CameraFollowPos[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern void func_801804D4(void*, s32);
@@ -4555,7 +4555,7 @@ void func_80180248(s32 s0)
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *)&pos);
     } else {
-        pos = (*(SVfbd0 *)D_80126940);
+        pos = (*(SVfbd0 *)guess_g_CameraFollowPos);
     }
     switch (D_8019F038) {
     case 0:
@@ -4750,7 +4750,7 @@ extern s32 func_8018094C();  // K&R: 0/1 of 1 args (P37 rung D t4_D1)
 
 s32 func_8018094C(s32 s1)
 {
-    extern s16 D_80126940[4];
+    extern s16 guess_g_CameraFollowPos[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
@@ -4760,12 +4760,12 @@ s32 func_8018094C(s32 s1)
     SVfbd0 target;
     s32 ret;
 
-    base = (*(SVfbd0 *)D_80126940);
+    base = (*(SVfbd0 *)guess_g_CameraFollowPos);
     ret = func_8012E544(0x306);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *)&target);
     } else {
-        target = (*(SVfbd0 *)D_80126940);
+        target = (*(SVfbd0 *)guess_g_CameraFollowPos);
     }
     func_80181394(s1, &base, ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff);
 }
@@ -4778,7 +4778,7 @@ extern s32 func_80180A2C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
 
 
 s32 func_80180A2C(s32 s1) {
-    extern s16 D_80126940[4];
+    extern s16 guess_g_CameraFollowPos[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
@@ -4788,12 +4788,12 @@ s32 func_80180A2C(s32 s1) {
     SVfbd0 target;
     s32 ret;
 
-    base = (*(SVfbd0 *)D_80126940);
+    base = (*(SVfbd0 *)guess_g_CameraFollowPos);
     ret = func_8012E544(0x306);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *)&target);
     } else {
-        target = (*(SVfbd0 *)D_80126940);
+        target = (*(SVfbd0 *)guess_g_CameraFollowPos);
     }
     func_80181394(s1, &base, ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff);
 }
@@ -4806,7 +4806,7 @@ void func_80180AEC(void) {
 
 
 void func_80180B0C(s32 s1) {
-    extern s16 D_80126940[4];
+    extern s16 guess_g_CameraFollowPos[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
@@ -4816,12 +4816,12 @@ void func_80180B0C(s32 s1) {
     SVfbd0 target;
     s32 ret;
 
-    base = (*(SVfbd0 *)D_80126940);
+    base = (*(SVfbd0 *)guess_g_CameraFollowPos);
     ret = func_8012E544(0x306);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *)&target);
     } else {
-        target = (*(SVfbd0 *)D_80126940);
+        target = (*(SVfbd0 *)guess_g_CameraFollowPos);
     }
     func_80181394(s1, &base, ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff);
 }
@@ -4858,7 +4858,7 @@ void func_80180BCC(s32 a0) {
  * ov_SC07_002_jr_8017C8D0.c is cc1 rc=0 with 0 masked diffs for this function.
  */
 void func_80180BEC(s32 s1) {
-    extern s16 D_80126940[4];
+    extern s16 guess_g_CameraFollowPos[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
@@ -4868,12 +4868,12 @@ void func_80180BEC(s32 s1) {
     SVfbd0 target;
     s32 ret;
 
-    base = (*(SVfbd0 *)D_80126940);
+    base = (*(SVfbd0 *)guess_g_CameraFollowPos);
     ret = func_8012E544(0x306);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *)&target);
     } else {
-        target = (*(SVfbd0 *)D_80126940);
+        target = (*(SVfbd0 *)guess_g_CameraFollowPos);
     }
     func_80181394(s1, &base, ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff);
 }
@@ -4888,7 +4888,7 @@ void func_80180CAC(void) {
 #include "common.h"
 
 void func_80180CCC(s32 s1) {
-    extern s16 D_80126940[4];
+    extern s16 guess_g_CameraFollowPos[4];
     extern s32 func_8012E544(s32 a0);
     extern void func_80015978(s32 a0, s32 *a1);
     extern s32 ratan2(s32 dx, s32 dy);
@@ -4898,12 +4898,12 @@ void func_80180CCC(s32 s1) {
     SVfbd0 target;
     s32 ret;
 
-    base = (*(SVfbd0 *)D_80126940);
+    base = (*(SVfbd0 *)guess_g_CameraFollowPos);
     ret = func_8012E544(0x306);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *)&target);
     } else {
-        target = (*(SVfbd0 *)D_80126940);
+        target = (*(SVfbd0 *)guess_g_CameraFollowPos);
     }
     func_80181394(s1, &base, ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff);
 }
@@ -4916,7 +4916,7 @@ extern s32 func_80180DAC();  // K&R: 0/1 of 1 args (P37 rung D t4_D1)
 
 
 
-extern s16 D_80126940[4];
+extern s16 guess_g_CameraFollowPos[4];
 extern void func_80180F7C(s32 a0, void *a1);
 
 s32 func_80180DAC(s32 a0)
@@ -4929,7 +4929,7 @@ s32 func_80180DAC(s32 a0)
     s16 ang;
     s32 sc;
 
-    cur = *(Pos *) D_80126940;
+    cur = *(Pos *) guess_g_CameraFollowPos;
     ret = func_8012E544(0x306);
     if (ret != 0) {
         func_80015978(ret + 4, (s32 *) &target);
@@ -4951,7 +4951,7 @@ s32 func_80180DAC(s32 a0)
         *(s32 *) (a0 + 0x14) = (s16) sc;
         *(s16 *) (a0 + 0x30) = ang;
     } else {
-        target = *(Pos *) D_80126940;
+        target = *(Pos *) guess_g_CameraFollowPos;
     }
 
     cur.v[0] = (cur.v[0] + target.v[0]) / 2;
@@ -5908,13 +5908,13 @@ void func_801829F0(s32* a0)
 }
 
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 s32 func_80182AD4(s32 a0) {
     s32 i;
     u8 *v1;
 
-    v1 = D_801202A0;
+    v1 = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++) {
         if (((Unkstruct_800B5CB8 *)v1)->unk0 == 0x306) {
             return (s32) v1;

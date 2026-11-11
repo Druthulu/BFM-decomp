@@ -1,13 +1,13 @@
 /* func_8014E83C — shared body (overlay slot 0x80128158, h_exact 37b0c830). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2)
 {
     u8 *p;  /* $s1 */
     u8 *end;
     s32 t;
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     if ((u32)p < (u32)(p + 0x6480)) {
         end = p + 0x6480;
         do {

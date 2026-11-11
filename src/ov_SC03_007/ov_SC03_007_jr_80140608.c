@@ -183,7 +183,7 @@ extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
@@ -237,7 +237,7 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
@@ -320,7 +320,7 @@ extern s32 func_8012C1B8(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
 extern void func_8012C218(void *a0);
-extern u8 D_80126720[];
+extern u8 guess_g_BoxHitCenterX[];
 extern u16 * func_8012C284(u16 *a0);
 extern u8 D_80120194[];
 extern s32 func_8012C2D0(void);
@@ -387,7 +387,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DDA4();
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -855,7 +855,7 @@ extern u16 D_80115124;
 extern u8 guess_g_MenuPanelCursors[];
 extern u8 guess_g_MenuPanelScrollTops[];
 extern s32 D_80188778;
-extern s32 D_80115188;
+extern s32 guess_g_MenuPanelSlideStep;
 extern s16 D_80188750;
 extern s16 D_80188752;
 extern void func_8013E83C(void);
@@ -868,8 +868,8 @@ extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPadPressed;
 extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
@@ -1430,7 +1430,7 @@ void func_801418F8(void)
 
 /* func_80141A60 @ 0x80141A60 (0x130, 76 ins) -- ov_SC01_000 shared engine fn.
  *
- * ((s32 *)D_801151C8)[]: word (s32) table indexed by (u16)(*(u16 *)&guess_g_DoubleBufferIndex) -> D_801151D0.
+ * ((s32 *)guess_g_MenuPacketBases)[]: word (s32) table indexed by (u16)(*(u16 *)&guess_g_DoubleBufferIndex) -> guess_g_MenuPacketPtr.
  * guess_g_MenuPanel: u16, unsigned compare vs 4 (sltiu).
  * (*(u8 *)&D_8011514C)/4D/5C: u8 fields; a1 = (s16)((*(u8 *)&D_8011514C) + D_8011514D*D_8011515C).
  * guess_g_MenuHelpText: cached s32 handle. D_80188754: address-taken arg to func_801376E8.
@@ -1438,8 +1438,8 @@ void func_801418F8(void)
  */
 
 extern s16 guess_g_DoubleBufferIndex;
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
+extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr;
 /* guess_g_MenuPanel: this TU declares it volatile at file scope -> a direct read reloads on every
  * use; the cast-at-use *(u16 *)&guess_g_MenuPanel strips volatile so gcc CSEs the three reads into
  * one load (matches the single-load target). */
@@ -1466,7 +1466,7 @@ void func_80141A60(void)
     s32 pad[2];
     (void)&pad;   /* §36#3 frame-pad induction: force frame 0x20 (vs 0x18) */
 
-    D_801151D0 = ((s32 *)D_801151C8)[(*(u16 *)&guess_g_DoubleBufferIndex)];
+    guess_g_MenuPacketPtr = ((s32 *)guess_g_MenuPacketBases)[(*(u16 *)&guess_g_DoubleBufferIndex)];
     func_8013F350();
     if ((*(u16 *)&guess_g_MenuPanel) >= 4) {
         func_8013FAF8((*(u16 *)&guess_g_MenuPanel), (*(u16 *)&guess_g_MenuPanel) + 1);

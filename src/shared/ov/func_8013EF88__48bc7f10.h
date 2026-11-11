@@ -14,7 +14,7 @@ void func_8013EF88(void)
         u16 nw = old - 1;
         *p = nw;
         if (nw != 0) {
-            D_801151D0 = *(s32 *)((char *)&guess_g_MenuTransitionTimer + 0xB0 + (u16)guess_g_DoubleBufferIndex * 4);
+            guess_g_MenuPacketPtr = *(s32 *)((char *)&guess_g_MenuTransitionTimer + 0xB0 + (u16)guess_g_DoubleBufferIndex * 4);
             func_8013FAF8(0, 5);
             for (i = 0; i < 5; i++) {
                 s32 t = aD80115188[i].f0 * 3;

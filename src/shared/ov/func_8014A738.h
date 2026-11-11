@@ -2,14 +2,14 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_TestGameFlag(s32);
 s32 func_8014A738(void *arg0) {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     Vec_8014A738 d;
     u32 i;
     Ent_801202A0 *base;
     if ((guess_TestGameFlag(0x83) & 0xFF) == 0) {
         return 0;
     }
-    base = (Ent_801202A0 *)D_801202A0;
+    base = (Ent_801202A0 *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++) {
         if (base[i].state == 7) {
             d.vx = ((Ent_801202A0 *)arg0)->x - base[i].x;

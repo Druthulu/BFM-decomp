@@ -4,7 +4,7 @@ void func_80175DA8(param_1)
     u16 param_1;
 {
 
-    extern u8  D_8011F7F0;
+    extern u8  guess_g_HudPlayerRecord;
     extern u8  guess_g_ActiveMenu;
     extern S_AF634 guess_g_PacketBufferUsed[];
     extern S_AF634 guess_g_PacketBufferBase[];
@@ -18,7 +18,7 @@ void func_80175DA8(param_1)
     extern u8  D_800D4414;
     extern u8  D_800D45D4;
 
-    u8 *base = &D_8011F7F0;
+    u8 *base = &guess_g_HudPlayerRecord;
     u8 *s = base - 0x48;
     u16 *src = D_80182938;
     Sp_80175DA8 *p;

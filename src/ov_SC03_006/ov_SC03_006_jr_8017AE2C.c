@@ -578,8 +578,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -595,9 +595,9 @@ extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801F61D8;
@@ -613,7 +613,7 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -1296,7 +1296,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2430,7 +2430,7 @@ extern void func_801751D8(void *a0);
 extern void (*D_8018FC70[])(s32);
 extern s32 func_80175218(void * param_1);
 extern void func_801752BC(s32 *a0);
-extern u8 D_8011F7A8;
+extern u8 guess_g_HudState;
 extern u8 D_8011F7A9;
 extern u8 D_8011F7AD;
 extern u8 D_8011F7AE;
@@ -2462,13 +2462,13 @@ extern void func_80176D00(s32 a0);
 extern void func_801757E0(s32 a0);
 extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
 extern u8 D_8011F7B1;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -2478,7 +2478,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_801776EC(u8 *a0);
@@ -3683,7 +3683,7 @@ void func_8017C3C4(s32 a0) {
  *   func_800291B4  TU:59
  *   currentLocationId TU:349
  *   D_80126B5C     TU:361  (scalar u8 -> pass (s32)&D_80126B5C)
- *   D_801202A0     TU:385
+ *   guess_g_ObjectTable     TU:385
  *   func_80013328  TU:520
  *   guess_g_FrameCounter     TU:615
  *   rand           TU:957/1092/3543
@@ -3708,7 +3708,7 @@ extern s32 func_8012BD14(s32 a0);
 void func_8017C750(s32 a0) {
 
     extern u8 D_80126B5C;
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     extern u16 guess_g_PlayerPosY;
     extern s16 D_80115214;
     extern u8 D_80190050[];
@@ -3727,7 +3727,7 @@ void func_8017C750(s32 a0) {
     if ((guess_g_FrameCounter & 0xF) == 0) {
         u8 *p;
         u8 *end;
-        for (p = D_801202A0, end = p + 0x6480; p < end; p += 0x10C) {
+        for (p = guess_g_ObjectTable, end = p + 0x6480; p < end; p += 0x10C) {
             if (*(u16 *)p == 0x128) {
                 found = ((s32)p == a0);
                 break;
@@ -6210,7 +6210,7 @@ extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
-extern s16 D_80126940;
+extern s16 guess_g_CameraFollowPos;
 extern s16 D_80126942;
 extern s16 D_80126944;
 
@@ -6237,7 +6237,7 @@ s32 func_80181228(s32 param_1)
     *(s16 *)(param_1 + 0x2A) = func_80012C6C((s32)*(s16 *)(param_1 + 0x2A), (s32)*(s16 *)(param_1 + 0x30), 0x10);
     *(s16 *)(param_1 + 0x2C) = func_80012C6C((s32)*(s16 *)(param_1 + 0x2C), (s32)*(s16 *)(param_1 + 0x32), 0x10);
 
-    p0 = &D_80126940;
+    p0 = &guess_g_CameraFollowPos;
     *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)(*p0);
     *(s32 *)(param_1 + 0x4C) = (s32)*(s16 *)(param_1 + 0x2A) + (s32)D_80126942;
     *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2C) + (s32)D_80126944;
@@ -8311,7 +8311,7 @@ extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012AF0C(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 /* func_8018450C lives in the same TU (later INCLUDE_ASM), no prior decl exists
    in this TU -- type by call-site width: two s32 args, return value unused. */
@@ -8322,7 +8322,7 @@ extern void func_8018450C(s32 a0, s32 a1);
  * entity to react (func_8012ADE4) and/or push notify id 2 (func_8018450C).
  * A special status byte (== 2) short-circuits into func_80131E00(obj, 0x12)
  * and returns -1 immediately.  Otherwise walk the 0x60-entry, 0x10C-stride
- * entity table at D_801202A0 looking for another live entry of the SAME kind
+ * entity table at guess_g_ObjectTable looking for another live entry of the SAME kind
  * (u16 at offset 0) that isn't this entity itself and that func_8012AF0C()
  * accepts; on the first hit, either bail out returning 0 (if the flags block
  * already zeroed the state var) or notify (func_8018450C) once more and
@@ -8365,7 +8365,7 @@ call_notify:
     state = 0;
 
 walk:
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, p += 0x10C) {
         if (((Unkstruct_800B5CB8 *)p)->unk0 != 0 && *(u16 *)obj == ((Unkstruct_800B5CB8 *)p)->unk0 && obj != (s32)p) {
             if (func_8012AF0C(obj, (s32)p) != 0) {
@@ -9596,11 +9596,11 @@ sync:
  *
  * Same shape as func_8018DAA8 (ov_SC02_011, the atlas exemplar, already
  * matched): state-gate via func_8012CC1C, then "avoid overlapping same-kind
- * entity" scan of the 0x60-entry table at D_801202A0 (stride 0x10C).
+ * entity" scan of the 0x60-entry table at guess_g_ObjectTable (stride 0x10C).
  *
  * Symbols spelled from the target .s relocations only (§174 law 1):
  * func_8012CC1C, func_80131E00, func_8012ADE4, func_8012B6D4, func_8012B0B4,
- * func_8012BC60, D_801202A0.
+ * func_8012BC60, guess_g_ObjectTable.
  *
  * Callee types per this TU's own existing declarations (§174 law 2), copied
  * verbatim from ov_SC03_006_jr_8017AE2C.c:
@@ -9623,7 +9623,7 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 
 s32 func_80185BD4(s32 a0, s32 a1) {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     s32 state;
     u8 *p;
     s32 i;
@@ -9642,7 +9642,7 @@ s32 func_80185BD4(s32 a0, s32 a1) {
         return 0;
     }
 
-    for (i = 0, p = D_801202A0; i < 0x60; i++, p += 0x10C) {
+    for (i = 0, p = guess_g_ObjectTable; i < 0x60; i++, p += 0x10C) {
         if (*(u16 *)p != 0 && ((Unkstruct_800B5CB8 *)a0)->unk0 == *(u16 *)p && a0 != (s32)p) {
             if (func_8012BC60((struct Vec *)(a0 + 4), (struct Vec *)(p + 4)) < 0x1000) {
                 CAST_WIDTH(s32, a0, 4) = CAST_WIDTH(s32, a0, 0x38);
@@ -12640,7 +12640,7 @@ extern s32 func_8012CBA4(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 s32 func_80189E88(s32 a0) {
     s32 raw;
@@ -12670,7 +12670,7 @@ s32 func_80189E88(s32 a0) {
 
     ((Unkstruct_800B5CB8 *)a0)->unkDC &= ~0x40;
 
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, p += 0x10C) {
         kind = ((Unkstruct_800B5CB8 *)p)->unk0;
         if (kind == 0xAF || kind == 0x6F || kind == 0x100) {
@@ -12987,7 +12987,7 @@ s32 func_8018A698(s32 a0) {
     
 
 /* func_8018A6F4 -- same-class neighbour push-away over the 0x60-entry /
- * 0x10C-stride entity table D_801202A0. Banked twin: ov_SC06_018:func_80187320
+ * 0x10C-stride entity table guess_g_ObjectTable. Banked twin: ov_SC06_018:func_80187320
  * (§193-A), minus its second switch case (no 0x2F4 clamp here) and with a
  * self-id equality guard instead of constant class ids.
  *
@@ -13021,7 +13021,7 @@ s32 func_8018A698(s32 a0) {
  *     into one shared li (93 ins).
  */
 
-extern u8   D_801202A0[];
+extern u8   guess_g_ObjectTable[];
 
 extern s32  func_8012BC60(struct Vec *a0, struct Vec *a1);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
@@ -13041,7 +13041,7 @@ s32 func_80188250_body(s32 a0) {
     s16 v18[4];  /* sp+0x18 */
     s32 sp20[2]; /* sp+0x20 - func_8012B0B4 output */
 
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     i = 0;
     self4 = (s16 *)(a0 + 4);
     sc = (unsigned int *)sp20;
@@ -14077,9 +14077,9 @@ void func_8018BDE4(s32 arg0) {
 
 /* func_8018BF78 — "is another entity of type 0x35C sharing my 0x64 owner?"
  *
- * Walks the 0x60-entry entity table at D_801202A0 (stride 0x10C) with an int
+ * Walks the 0x60-entry entity table at guess_g_ObjectTable (stride 0x10C) with an int
  * counter (the target keeps the count in $a2 and `slti ...,0x60`, so it is a
- * counted loop, NOT the D_80126720 pointer-bound idiom the sibling walkers
+ * counted loop, NOT the guess_g_BoxHitCenterX pointer-bound idiom the sibling walkers
  * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
  * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
  */

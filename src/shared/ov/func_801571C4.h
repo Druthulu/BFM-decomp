@@ -4,9 +4,9 @@ extern s32 func_80135004(s32 a0, void *a1, s32 a2);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern s32 func_8014C918(s32 a0, s32 a1);
 extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
-extern u8 D_801202A0[];
-extern u8 D_801152A8[];
-extern u8 D_80126720[];
+extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_BoxHitNormalX[];
+extern u8 guess_g_BoxHitCenterX[];
 u32 func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12)
 {
   s16 sp18[4];
@@ -27,7 +27,7 @@ u32 func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7
     *((u8 *) a11) = (*((u16 *) (a4 + 6))) >> 13;
     *((u8 *) a12) = *((u16 *) (a4 + 6));
     ret = 2;
-    __builtin_memcpy((void *) a6, D_801152A8, 8);
+    __builtin_memcpy((void *) a6, guess_g_BoxHitNormalX, 8);
   }
   counter = 0;
   s4val = a1;
@@ -35,7 +35,7 @@ u32 func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7
   off = 0;
   do
   {
-    u8 *e = &D_801202A0[off];
+    u8 *e = &guess_g_ObjectTable[off];
     s32 a1v;
     if (((((((*((u16 *) e)) != 0) && ((a1v = *((s32 *) (e + 0x58))) != 0)) && (((*((u32 *) (e + 0x5c))) & 0x8100) == 0x8000)) && ((*((u16 *) (e + 0x5e))) != 10)) && (((a9 & 0x80) != 0) || ((*((u16 *) (e + 0x5e))) != s4val))) && ((s4val != 0xd) || (((*((u16 *) (e + 0x5c))) & 0x2000) != 0)))
     {
@@ -45,7 +45,7 @@ u32 func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7
         {
           *((u8 *) a11) = func_8014C918(a0, *((u8 *) (e + 0x75)));
           *((u8 *) a12) = 0;
-          __builtin_memcpy((void *) a6, D_801152A8, 8);
+          __builtin_memcpy((void *) a6, guess_g_BoxHitNormalX, 8);
           ret |= 4;
           *((s32 *) a7) = (s32) e;
         }
@@ -61,9 +61,9 @@ u32 func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7
             sp18[3] = 0;
           }
           func_8014C4AC((s32) e, a1, a2 & 0x7fff, sp18, *((s16 *) ((*((s32 *) (a0 + 0x20))) + 0x12)));
-          __builtin_memcpy((void *) a5, D_801152A8, 8);
+          __builtin_memcpy((void *) a5, guess_g_BoxHitNormalX, 8);
           *((s32 *) a7) = (s32) e;
-          __builtin_memcpy((void *) a8, D_80126720, 8);
+          __builtin_memcpy((void *) a8, guess_g_BoxHitCenterX, 8);
           ret |= 1;
           if ((a9 & 0x7f) != 0)
           {

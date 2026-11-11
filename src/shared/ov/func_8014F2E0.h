@@ -2,12 +2,12 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_g_BoxHitFlags;
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 s32 func_8014F2E0(s32 arg0, s16 * arg1, s16 * arg2)
 {
     s32 ret = 0;
     u8 *s;
-    for (s = D_801202A0; s < D_801202A0 + 0x6480; s += 0x10C) {
+    for (s = guess_g_ObjectTable; s < guess_g_ObjectTable + 0x6480; s += 0x10C) {
         if (*(u16 *)s != 0 &&
             *(s32 *)(s + 0x58) != 0 &&
             (s16 *)s != *(s16 **)(arg0 + 0x178) &&

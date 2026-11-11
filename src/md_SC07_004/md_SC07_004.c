@@ -2933,7 +2933,7 @@ extern s16  guess_g_PlayerPosY;
 extern s16  guess_g_PlayerPosZ;
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;
-extern u8   D_801152A8[];
+extern u8   guess_g_BoxHitNormalX[];
 
 void func_801A4570(void *arg0)
 {
@@ -2972,7 +2972,7 @@ void func_801A4570(void *arg0)
 
     if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&localA, (s32)&localB) != 0) {
         s32 dist = func_8012B8A4((s16 *)arg0);
-        func_8012F568(1, 4, dist, 0x40, (s32)&localB, (s32)D_801152A8);
+        func_8012F568(1, 4, dist, 0x40, (s32)&localB, (s32)guess_g_BoxHitNormalX);
     }
 }
 
@@ -3526,7 +3526,7 @@ extern Mtx32_801A90D8 D_800AE620;
 extern s16 guess_g_PlayerPosY;
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 
 s32 func_801A54F0(s32 param_1, s32 param_2)
 {
@@ -3559,7 +3559,7 @@ s32 func_801A54F0(s32 param_1, s32 param_2)
     RotTransSV((s32)&vec2, (s32)&vec2, &out);
 
     if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&pos, (s32)&vec2) != 0) {
-        func_8012F568(1, 1, 0, 0xA, (s32)&vec2, (s32)D_801152A8);
+        func_8012F568(1, 1, 0, 0xA, (s32)&vec2, (s32)guess_g_BoxHitNormalX);
         return 1;
     }
     return 0;
@@ -4047,14 +4047,14 @@ void func_801A6184(u8 *s2, s32 p1, s32 p2)
 }
 
 
-extern u16 D_801202A0[];
+extern u16 guess_g_ObjectTable[];
 extern void func_801A63A8(void *arg0);
 
 void func_801A6330(void) {
     u16 *p;
     s32 i;
 
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     i = 0;
     do {
         if (*p == 0x31F) {
@@ -7361,7 +7361,7 @@ extern s16  guess_g_PlayerPosY;
 extern s16  guess_g_PlayerPosZ;
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;
-extern u8   D_801152A8[];
+extern u8   guess_g_BoxHitNormalX[];
 
 s32 func_801AAF8C(SV_801AAF8C *src, SV_801AAF8C *ofs, s32 arg2)
 {
@@ -7407,7 +7407,7 @@ s32 func_801AAF8C(SV_801AAF8C *src, SV_801AAF8C *ofs, s32 arg2)
     RotTransSV((s32)&sv, (s32)&sv, &flag);
 
     if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&pos, (s32)&sv) != 0) {
-        func_8012F568(1, 1, 0, 0xA, (s32)&sv, (s32)D_801152A8);
+        func_8012F568(1, 1, 0, 0xA, (s32)&sv, (s32)guess_g_BoxHitNormalX);
         return 1;
     }
     return 0;

@@ -414,8 +414,8 @@ extern void func_80149374(s32 a0, s32 a1);
 extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
 extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
-extern u8 D_801202A0[];
-extern u8 D_80126720[];
+extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_BoxHitCenterX[];
 
 void func_800CBC0C(void *a0) {
     u8 *r04;
@@ -428,7 +428,7 @@ void func_800CBC0C(void *a0) {
     func_80015954((s32)a0 + 0x10, (s32)r04);
     ((Unkstruct_80126B58 *)a0)->unkA = 0;
     func_80149374((s32)a0, (s32)r04);
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     if (p < p + 0x6480) {
         do {
             if (func_8014C308((s32)a0, (s32)p, 0x1E, 0x2000) != 0) {
@@ -441,7 +441,7 @@ void func_800CBC0C(void *a0) {
                 }
             }
             p += 0x10C;
-        } while (p < D_80126720);
+        } while (p < guess_g_BoxHitCenterX);
     }
     func_80015954((s32)buf18, (s32)((u8 *)a0 + 4));
 }

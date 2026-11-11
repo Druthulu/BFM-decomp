@@ -26,8 +26,8 @@ Fix: `strip_c_comments()` in make_base_c before the other passes. Immediately cr
 
 ## func_8014EA4C (183) — agent CLOSE=6 (count-exact); permuter exhausted → FABLE5 CANDIDATE
 - **NEW §31/§36 LEVER (headline): a `%hi/%lo`-read value-symbol MUST be a scalar, not `[]`.**
-  `extern u8 D_80126720[]` made `D_80126720 - a1[0] >= 0` POINTER arithmetic → gcc folds static-array
-  ptr ≥0 to constant-TRUE → DELETES both sign-test blocks (−17 ins). Declaring `extern s16 D_80126720`
+  `extern u8 guess_g_BoxHitCenterX[]` made `guess_g_BoxHitCenterX - a1[0] >= 0` POINTER arithmetic → gcc folds static-array
+  ptr ≥0 to constant-TRUE → DELETES both sign-test blocks (−17 ins). Declaring `extern s16 guess_g_BoxHitCenterX`
   (scalar) → real integer subtraction → `bltz` survives, +17 ins exact. **Diagnostic tell: a large
   instruction SHORTFALL concentrated in sign-test/branch blocks → suspect a value-symbol mis-declared
   as array.** Fixing it also auto-restored the `$s` regalloc order (ref-counts) — confirms §32#1.
@@ -66,7 +66,7 @@ Fix: `strip_c_comments()` in make_base_c before the other passes. Immediately cr
 
 ## func_80176D94 (152) — agent CLOSE=52 (count-exact); permuter failed → FABLE5(-source) CANDIDATE
 - Root cause (byte-proven via `cc1 -dS` priority dumps): all 52 cascade from ONE schedule decision —
-  the `lhu D_8011F82C ×0x50e6 magic → sw puVar3[3]` chain lands early (target) or sinks (mine).
+  the `lhu guess_g_HudShownHp ×0x50e6 magic → sw puVar3[3]` chain lands early (target) or sinks (mine).
   `flush_pending_lists` bars mem crossing a call → both tail reloads take REG_DEP_ANTI on the last
   `jal func_801777BC` → inherit pri 3; r3000 load-latency-2 makes the magic STORES pri 4 vs plain pri 3;
   the BACKWARD list scheduler emits highest-pri first (block bottom) → magic chains sink.
@@ -192,7 +192,7 @@ Zero pins, pure source structure. **METHOD UPGRADES (fold into cookbook + all fu
   0 insns). **Count `(use (reg:SI` in `.combine`.** Locals size = declared aggregates + 8×phantom-count.
   The §34 toolkit ISN'T unavailable on such fns — trade a phantom for 8 buffer bytes freely (`buf[16]→buf[24]`
   repaid the −8 from switching s16→s32). Corrects the close-draft's "OOB memcpy is the only 0x60" belief.
-- Bank note: reconcile `D_80126720` → canonical `extern u8 D_80126720[]` + `*(s16*)` read (reconcile_decls
+- Bank note: reconcile `guess_g_BoxHitCenterX` → canonical `extern u8 guess_g_BoxHitCenterX[]` + `*(s16*)` read (reconcile_decls
   did it; byte-identical). Sibling macro ⇒ possible engine-core dedup candidate.
 
 ## ✅ func_801372B0 — FABLE5 MATCH (207), banked ×1 (asm-label-alias bank) — 3rd crack

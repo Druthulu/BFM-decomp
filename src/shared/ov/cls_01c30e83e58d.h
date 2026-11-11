@@ -6,7 +6,7 @@ void SHARED_FN(s32 a0) {
     s32 v;
     u16 w;
 
-    for (p = D_801202A0, i = 0; i < 0x60; p += 0x10C, i++) {
+    for (p = guess_g_ObjectTable, i = 0; i < 0x60; p += 0x10C, i++) {
         if (*(u16 *)p == 0x210) {
             if ((u16)(*(u16 *)(p + 0x6) - ((Unkstruct_800B5CB8 *)a0)->unk6 + 0x9F) < 0x13F) {
                 if ((u16)(*(u16 *)(p + 0xE) - ((Unkstruct_800B5CB8 *)a0)->unkE + 0x9F) < 0x11F) {

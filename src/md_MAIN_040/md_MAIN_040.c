@@ -242,7 +242,7 @@ void func_800CB3BC(void) {
 
 #include "common.h"
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
 extern void func_80015978(s32 a0, s32 *a1);
@@ -251,7 +251,7 @@ extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
 void func_800CB3DC(s32 a0) {
     u8 *p;
     s16 buf[4];
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     if (p < p + 0x6480) {
         do {
             if (func_8014C308(a0, (s32)p, 0x2A, 0x20) != 0) {
@@ -262,7 +262,7 @@ void func_800CB3DC(s32 a0) {
                 }
             }
             p += 0x10C;
-        } while (p < D_801202A0 + 0x6480);
+        } while (p < guess_g_ObjectTable + 0x6480);
     }
 }
 

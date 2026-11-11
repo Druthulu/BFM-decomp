@@ -10,7 +10,7 @@ void func_80141A60(void)
     s32 pad[2];
     (void)&pad;   /* §36#3 frame-pad induction: force frame 0x20 (vs 0x18) */
 
-    D_801151D0 = ((s32 *)D_801151C8)[(*(u16 *)&guess_g_DoubleBufferIndex)];
+    guess_g_MenuPacketPtr = ((s32 *)guess_g_MenuPacketBases)[(*(u16 *)&guess_g_DoubleBufferIndex)];
     func_8013F350();
     if ((*(u16 *)&guess_g_MenuPanel) >= 4) {
         func_8013FAF8((*(u16 *)&guess_g_MenuPanel), (*(u16 *)&guess_g_MenuPanel) + 1);

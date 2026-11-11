@@ -1,7 +1,7 @@
 /* func_8014FE60 — shared body (overlay slot 0x80128158, h_exact 70e7a6e1). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8014FE60(void *e) {
-    extern u8 D_801152A8[];
+    extern u8 guess_g_BoxHitNormalX[];
     extern s32 func_8014FFDC(s32 e, void *a1, void *a2);
     extern s32 func_80150150(s32 e, s32 a1);
     u16 a[4];
@@ -27,7 +27,7 @@ s32 func_8014FE60(void *e) {
             *(s16 *)(((s32)e) + 0x78) = b[0];
             *(s16 *)(((s32)e) + 0x7a) = b[1];
             *(s16 *)(((s32)e) + 0x7c) = b[2];
-            __builtin_memcpy((void *)(((s32)e) + 0x80), D_801152A8, 8);
+            __builtin_memcpy((void *)(((s32)e) + 0x80), guess_g_BoxHitNormalX, 8);
         }
         *(u16 *)(((s32)e) + 0x7e) &= 0xfffe;
         return 1;

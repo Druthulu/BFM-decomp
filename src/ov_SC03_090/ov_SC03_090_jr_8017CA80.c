@@ -582,8 +582,8 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 D_801152AC;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+extern s16 guess_g_BoxHitNormalZ;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
 extern void func_8014E434(void);
@@ -600,9 +600,9 @@ extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_BoxHitFlags;
-extern s16 D_801152AA;
-extern u8 D_80126720[];
-extern s16 D_80126724;
+extern s16 guess_g_BoxHitNormalY;
+extern u8 guess_g_BoxHitCenterX[];
+extern s16 guess_g_BoxHitCenterZ;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
 extern s32 func_8014ED80(SubED80 *a0);
 extern int D_801CAA30;
@@ -617,7 +617,7 @@ extern s32 func_8014F4C0(s32 arg0);
 extern s32 func_8014F468(void);
 extern int func_8014F74C(s32 arg0);
 extern int func_8014F6F4(void);
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -1299,7 +1299,7 @@ extern void func_8015E9B8(s32 *a0);
 extern void func_8015E8B4(s32 *a0);
 extern void func_8015E924(s32 a0);
 extern void func_8015E95C(s32 a0);
-extern s16 D_801152A0;
+extern s16 guess_g_CameraRelativeYaw;
 extern void func_80160818(s32 *a0);
 extern void func_8015ED6C(s32 *a0);
 extern void func_8015EE7C(s32);
@@ -2428,7 +2428,7 @@ extern void func_801751D8(void *a0);
 extern void (*D_8018F118[])(s32);
 extern s32 func_80175218(void * param_1);
 extern void func_801752BC(s32 *a0);
-extern u8 D_8011F7A8;
+extern u8 guess_g_HudState;
 extern u8 D_8011F7A9;
 extern u8 D_8011F7AD;
 extern u8 D_8011F7AE;
@@ -2460,13 +2460,13 @@ extern void func_80176D00(s32 a0);
 extern void func_801757E0(s32 a0);
 extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
 extern u8 D_8011F7B1;
-extern u16 D_8011F7B4;
-extern u16 D_8011F7B6;
+extern u16 guess_g_HudHpPanelX;
+extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern u16 D_8011F82C;
+extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);
 extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -2476,7 +2476,7 @@ extern u16 D_8011F82E;
 extern u32 * func_801770E0(void *param_1, u32 param_2, s16 param_3_);
 extern void func_80177340(s32 a0);
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern u8 D_8011F7AB;
 extern u32 * func_8017742C(u32 *param_1, s32 param_2, s32 param_3);
 extern void func_801776EC(u8 *a0);
@@ -3832,7 +3832,7 @@ void func_801818B0(s32 a0) {
 
     extern s32 guess_g_PlayerActor;
     extern s16 D_8018F774[];
-    extern Blk8_80126940_8017D6D0_80181C80 D_80126940;
+    extern Blk8_80126940_8017D6D0_80181C80 guess_g_CameraFollowPos;
     Blk8_80126940_8017D6D0_80181C80 sp10;
     u8 t;
     s16 v0, v1;
@@ -3842,7 +3842,7 @@ void func_801818B0(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk5 = t;
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F774[t];
     }
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
 
     /* Set sp10.v[0] */
     v1 = -0x340;
@@ -3863,7 +3863,7 @@ void func_801818B0(s32 a0) {
 // @class: regalloc
 // @stuck: none — MATCH (76 ins). Skeleton twin: ov_SC06_024:func_8017D474 (0.8244 sim);
 //   direct siblings in THIS TU are func_80181AA0 / func_80181C80 (same guess_g_PlayerActor/
-//   func_80148800 toggle, same 8-byte D_80126940 lwl/lwr struct copy (§48-C2), same
+//   func_80148800 toggle, same 8-byte guess_g_CameraFollowPos lwl/lwr struct copy (§48-C2), same
 //   func_80181D30 tail) — their declarations are adopted verbatim (law 2).
 //   Residual that took two passes: the three post-call clamps store their bound from
 //   $a0 in the target; plain literals land in $v1 and a plain shared s16 local lands in
@@ -3880,7 +3880,7 @@ extern void func_80181D30(s32 param_1, s16 *param_2);
 extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2)
-   §183 COSMETIC-TYPEDEF reconcile: the destination TU already declares D_80126940 with the
+   §183 COSMETIC-TYPEDEF reconcile: the destination TU already declares guess_g_CameraFollowPos with the
    sibling's name (ov_SC03_090_jr_8017CA80.c:4408, `Blk8_80126940_8017D6D0_80181C80`, defined
    in src/shared/engine_types.h:1517-1519 as the IDENTICAL `{ s16 v[4]; }`).  Adopted that
    name verbatim -- same name, same body, so §183.1's name/shape trap is not tripped; the
@@ -3892,7 +3892,7 @@ void func_80181970(s32 a0) {
 
     extern s32 guess_g_PlayerActor;
     extern s16 D_8018F778[];
-    extern Blk8_80126940_8017D6D0_80181C80 D_80126940;
+    extern Blk8_80126940_8017D6D0_80181C80 guess_g_CameraFollowPos;
     Blk8_80126940_8017D6D0_80181C80 sp10;
     u8 t;
     s16 v1;
@@ -3903,7 +3903,7 @@ void func_80181970(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk5 = t;
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F778[t];
     }
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
 
     v1 = sp10.v[0];
     if (v1 < -0x6FF) {
@@ -3954,7 +3954,7 @@ void func_80181AA0(s32 a0) {
 
     extern s32 guess_g_PlayerActor;
     extern s16 D_8018F77C[];
-    extern Blk8_80126940_8017D6D0_80181AA0 D_80126940;
+    extern Blk8_80126940_8017D6D0_80181AA0 guess_g_CameraFollowPos;
     Blk8_80126940_8017D6D0_80181AA0 sp10;
     u8 t;
 
@@ -3963,7 +3963,7 @@ void func_80181AA0(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk5 = t;
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F77C[t];
     }
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
     sp10.v[0] = -0x800;
     sp10.v[2] = 0x3F0;
     func_80181D30(a0, sp10.v);
@@ -3982,7 +3982,7 @@ void func_80181B50(s32 a0) {
 
     extern s32 guess_g_PlayerActor;
     extern s16 D_8018F780[];
-    extern Blk8_80126940_8017D6D0_80181C80 D_80126940;
+    extern Blk8_80126940_8017D6D0_80181C80 guess_g_CameraFollowPos;
     Blk8_80126940_8017D6D0_80181C80 sp10;
     u8 t;
     s16 v1;
@@ -3993,7 +3993,7 @@ void func_80181B50(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk5 = t;
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F780[t];
     }
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
 
     v1 = sp10.v[0];
     if (v1 < -0x43F) {
@@ -4044,7 +4044,7 @@ void func_80181C80(s32 a0) {
 
     extern s32 guess_g_PlayerActor;
     extern s16 D_8018F784[];
-    extern Blk8_80126940_8017D6D0_80181C80 D_80126940;
+    extern Blk8_80126940_8017D6D0_80181C80 guess_g_CameraFollowPos;
     Blk8_80126940_8017D6D0_80181C80 sp10;
     u8 t;
 
@@ -4053,7 +4053,7 @@ void func_80181C80(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk5 = t;
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F784[t];
     }
-    sp10 = D_80126940;
+    sp10 = guess_g_CameraFollowPos;
     sp10.v[0] = -0x340;
     sp10.v[2] = 0x780;
     func_80181D30(a0, sp10.v);
@@ -4211,7 +4211,7 @@ void func_80181FA4(s32 a0) {
 
 /* func_8018223C -- ov_SC02_026 / ov_SC02_026_jr_8017C180
  * TU-verbatim decls (src/ov_SC02_026/ov_SC02_026_jr_8017C180.c):
- *   extern u8 D_801202A0[];                                     (line 387, 586)
+ *   extern u8 guess_g_ObjectTable[];                                     (line 387, 586)
  *   extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);   (line 592)
  *   extern s32 func_80047948(s32 a0);                           (line 2206)
  *   extern s32 func_8004787C(s32 a0);                           (line 2207)
@@ -4226,7 +4226,7 @@ extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 
 void func_8018223C(void *arg0) {
 
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     extern void (*D_801A0BF0[])(void *);
                  /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
                 /* stride 0x10C, 0x60 entries (0x6480) */
@@ -4247,7 +4247,7 @@ void func_8018223C(void *arg0) {
 
     p = (Ent_8017FD58_8018223C *)arg0;
     D_801A0BF0[p->f2](p);
-    e = (Ent_8017FD58_8018223C *)D_801202A0;
+    e = (Ent_8017FD58_8018223C *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, e++) {
         if (e->f0 == 0x12C) {
             pos.x = e->x;
@@ -4980,7 +4980,7 @@ extern void func_80183C3C(s32 a0, s32 a1);
 
 void func_801839C4(s32 a0) {
 
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     s32 i;
     s32 v1;
     s32 val1;
@@ -5002,7 +5002,7 @@ void func_801839C4(s32 a0) {
         func_8013B7AC(0);
     }
 
-    cur = D_801202A0;
+    cur = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, cur += 0x10C) {
         if (func_80183B98((s32)cur) == 1) {
             val1 = func_8012BD14((s32)cur);
@@ -6982,7 +6982,7 @@ void func_801867C8(s32 a0)
 
 extern s32 *D_80126B78;
 extern u8 D_801A5BE8[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -6998,7 +6998,7 @@ void func_80186874(s32 arg0, s32 arg1) {
     if (func_80135888(((Unkstruct_800B5CB8 *)arg0)->unk20, ((Unkstruct_800B5CB8 *)arg0)->unk58, (s32)buf1, (s32)buf2) != 0) {
         func_8012F568(1, (CAST_SIGN(u16, arg0, 0x70) & 0xF) != 0 ? 0x2001 : 1,
                       *(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x12), arg1,
-                      (s32)buf2, (s32)D_801152A8);
+                      (s32)buf2, (s32)guess_g_BoxHitNormalX);
         rv = 1;
     } else {
         rv = 0;
@@ -7026,7 +7026,7 @@ extern void func_8012ADE4(u8 *a0);
 
 void func_80186944(s32 a0) {
 
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     Ent_8017FD58 *e;
     s32 i;
     s16 *mover;
@@ -7037,7 +7037,7 @@ void func_80186944(s32 a0) {
     SV3_8012CC88 sp10;
     SV3_8012CC88 sp18;
 
-    e = (Ent_8017FD58 *)D_801202A0;
+    e = (Ent_8017FD58 *)guess_g_ObjectTable;
     i = 0;
     mover = (s16 *)(a0 + 4);
     offp = (unsigned int *)&off;
@@ -7070,7 +7070,7 @@ void func_80186944(s32 a0) {
 
 
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 
 #define SHARED_FN func_80186AAC
 #include "../shared/ov/cls_73b497e1b377.h"
@@ -7912,7 +7912,7 @@ extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
 extern s32 *D_80126B78;
 extern u8 D_801A906C[];
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -7932,7 +7932,7 @@ s32 func_80187CBC(s32 arg0)
     if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58), (s32)buf1, (s32)buf2) == 0) {
         rv = 0;
     } else {
-        func_8012F568(1, 0x201, ((Unkstruct_801875E4 *)*(s32 *)(arg0 + 0x20))->unk12, 0x23, (s32)buf2, (s32)D_801152A8);
+        func_8012F568(1, 0x201, ((Unkstruct_801875E4 *)*(s32 *)(arg0 + 0x20))->unk12, 0x23, (s32)buf2, (s32)guess_g_BoxHitNormalX);
         rv = 1;
     }
     return rv;

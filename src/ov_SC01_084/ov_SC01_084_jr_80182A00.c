@@ -2708,7 +2708,7 @@ s32 func_80185E68(s32 a0, s32 a1) {
 }
 
 
-extern u8 D_801152A8[];
+extern u8 guess_g_BoxHitNormalX[];
 extern s32 D_801C7728;
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80017E68(void *a0, void *a1);
@@ -2783,8 +2783,8 @@ s32 func_80185E98(s32 param_1) {
         if (D_8018ACB8 > D_801C7708) {
             D_8018ACB8 = D_801C7708 - 9;
         }
-        func_800D23D0(&(*(s32 *)&D_801152A8));
-        ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&D_801152A8), m);
+        func_800D23D0(&(*(s32 *)&guess_g_BoxHitNormalX));
+        ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&guess_g_BoxHitNormalX), m);
         ((void (*)(void *, s32))func_80017E68)(&s50, (s32)m);
     }
     ((Unkstruct_80185E98 *)param_1)->unk2 = ((Unkstruct_80185E98 *)param_1)->unk2 + 1;

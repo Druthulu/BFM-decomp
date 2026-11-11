@@ -253,7 +253,7 @@ void func_800CB358(void) {
 }
 
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
 extern void func_80015978(s32 a0, s32 *a1);
@@ -264,7 +264,7 @@ void func_800CB378(s32 a0) {
     s16 buf[4];
     s32 s1;
     s1 = a0;
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
     if (p < p + 0x6480) {
         do {
             if (func_8014C308(s1, (s32)p, 0x27, 0x80) != 0) {
@@ -275,7 +275,7 @@ void func_800CB378(s32 a0) {
                 }
             }
             p += 0x10C;
-        } while (p < D_801202A0 + 0x6480);
+        } while (p < guess_g_ObjectTable + 0x6480);
     }
 }
 

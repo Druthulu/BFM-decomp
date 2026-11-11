@@ -7,11 +7,11 @@ void func_80175AB8(param_1)
     extern S_AF634 guess_g_PacketBufferUsed[];
     extern S_AF634 guess_g_PacketBufferBase[];
 
-    extern u8  D_8011F7F0;
-    extern u16 D_8011F7B4;
-    extern u16 D_8011F7B6;
-    extern s16 D_8011F7BC;
-    extern s16 D_8011F7BE;
+    extern u8  guess_g_HudPlayerRecord;
+    extern u16 guess_g_HudHpPanelX;
+    extern u16 guess_g_HudHpPanelY;
+    extern s16 guess_g_HudGoldPanelX;
+    extern s16 guess_g_HudGoldPanelY;
     extern s32 D_8011F804;
     extern u16 D_8011F80A;
     extern u16 D_8011F824;
@@ -41,15 +41,15 @@ void func_80175AB8(param_1)
     s16 sv;
 
     p = (u32 *)(guess_g_PacketBufferBase[param_1].g0 + guess_g_PacketBufferUsed[param_1].g0 * 4);
-    base = &D_8011F7F0;
+    base = &guess_g_HudPlayerRecord;
     arr = base - 0x48;
     slot = (u32 *)(param_1 * 4 + (s32)arr);
     *(volatile u32 *)&slot[6] = (u32)p;
-    p = func_80176D94(p, (s16)(D_8011F7B4 - 0x71), (s16)(D_8011F7B6 + 0x51));
-    p = func_801770E0(p, (s16)(D_8011F7B4 - 0x71), (s16)(D_8011F7B6 + 0x65));
+    p = func_80176D94(p, (s16)(guess_g_HudHpPanelX - 0x71), (s16)(guess_g_HudHpPanelY + 0x51));
+    p = func_801770E0(p, (s16)(guess_g_HudHpPanelX - 0x71), (s16)(guess_g_HudHpPanelY + 0x65));
     t = func_801783D0(D_8011F804, 0);
     p = func_80177EA4(p, t,
-                      (s16)((*(u16 *)&D_8011F7BC) + 0x39), (s16)((*(u16 *)&D_8011F7BE) + 0x51));
+                      (s16)((*(u16 *)&guess_g_HudGoldPanelX) + 0x39), (s16)((*(u16 *)&guess_g_HudGoldPanelY) + 0x51));
     sv = (s16)func_801783D0((D_8011F824 < 1000) ? D_8011F824 : 0x3E7, 4);
     p = func_80177B5C(p, sv, D_8011F832,
                       (s16)(*(u16 *)(arr + 0x14) + 0x39),

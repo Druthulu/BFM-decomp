@@ -6,7 +6,7 @@ extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_8017F364(void);
 
 void func_8017EEEC(void *a0) {
-    extern u8 D_801202A0[];
+    extern u8 guess_g_ObjectTable[];
     extern void *D_80126CC8;
     extern u8 D_8019FDD4[];
     extern s16 D_801A0774;
@@ -15,7 +15,7 @@ void func_8017EEEC(void *a0) {
     switch (state) {
     case 4:
     {
-        u8 *p = D_801202A0;
+        u8 *p = guess_g_ObjectTable;
         s32 i;
 
         for (i = 0; i < 0x60; i++, p += 0x10C) {
@@ -46,7 +46,7 @@ void func_8017EEEC(void *a0) {
         break;
     case 2:
     {
-        u8 *p = D_801202A0;
+        u8 *p = guess_g_ObjectTable;
         s32 i;
 
         for (i = 0; i < 0x60; i++, p += 0x10C) {
@@ -284,7 +284,7 @@ void func_8017F4D0(void *param)
 
 
 extern s32 func_80013328(s32 a0, s32 a1);
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern void func_800D1724(s32 a0);
 extern void func_80171928(void *a0);
 
@@ -300,7 +300,7 @@ void *arg0;
     found = 0;
     best = 0x7FFFFFFF;
     for (i = 0; i < 0x60; i++) {
-        p = &D_801202A0[i * 0x10C];
+        p = &guess_g_ObjectTable[i * 0x10C];
         if ((((Unkstruct_8017F510 *)p)->unk0 != 0) && ((((Unkstruct_8017F510 *)p)->unk5C & 0x80) != 0)) {
             t = (s16)func_80013328((s32)arg0 + 4, (s32)p + 4);
             if (t < best) {
@@ -316,7 +316,7 @@ void *arg0;
 }
 
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern s32 D_801ABBD8;
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_80015978(s32 a0, s32 *a1);
@@ -333,7 +333,7 @@ void func_8017F5F0(s32 arg0)
 
     best = 0x7FFFFFFF;
     i = 0;
-    p = (unsigned short *)D_801202A0;
+    p = (unsigned short *)guess_g_ObjectTable;
     D_801ABBD8 = 0;
 loop:
     if (*p == 0x26E) {

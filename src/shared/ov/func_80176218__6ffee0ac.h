@@ -8,12 +8,12 @@ void func_80176218(s32 param_1)
     extern u8 guess_g_PlayerRecord[];
 
     extern u16 D_8011F82A;
-    extern u16 D_8011F82C;
+    extern u16 guess_g_HudShownHp;
     extern u16 D_8011F8C4;
-    extern u8  D_8011F7A8;   /* st base  ($s3) */
+    extern u8  guess_g_HudState;   /* st base  ($s3) */
     extern u8  D_80182260[];
     extern u8 *D_801821E4[];
-    s32 st   = (s32)&D_8011F7A8;   /* $s3 */
+    s32 st   = (s32)&guess_g_HudState;   /* $s3 */
     s32 cach = st + 0x48;          /* $s1 */
     s32 flag = st + 0xE0;          /* $s2 */
     s32 cur  = (s32)&(*(u8 *)guess_g_PlayerRecord);   /* $s5 */
@@ -25,20 +25,20 @@ void func_80176218(s32 param_1)
     /* ---- block 1: raw-global pair 0x3A/0x3C ---- */
     sA = g_PlayerHpMax;
     t = (sA != D_8011F82A);
-    if (D_8011F82C == (*(u16 *)&g_PlayerHp)) {
+    if (guess_g_HudShownHp == (*(u16 *)&g_PlayerHp)) {
         ne = t;
         if (ne == 0 && D_8011F8C4 == 0) goto L340;
     } else {
-        s32 d = (s16)(D_8011F82C - (*(u16 *)&g_PlayerHp));
+        s32 d = (s16)(guess_g_HudShownHp - (*(u16 *)&g_PlayerHp));
         u16 nv;
         if (d < 0) {
-            if (d < -10) nv = D_8011F82C + 2;
-            else         nv = D_8011F82C + 1;
+            if (d < -10) nv = guess_g_HudShownHp + 2;
+            else         nv = guess_g_HudShownHp + 1;
         } else {
-            if (d > 10)  nv = D_8011F82C - 2;
-            else         nv = D_8011F82C - 1;
+            if (d > 10)  nv = guess_g_HudShownHp - 2;
+            else         nv = guess_g_HudShownHp - 1;
         }
-        D_8011F82C = nv;
+        guess_g_HudShownHp = nv;
         *(u16 *)(flag + 0x3C) = 1;
         *(u16 *)(cach + 0x3A) = *(u16 *)(cur + 0x3A);
         goto L328;

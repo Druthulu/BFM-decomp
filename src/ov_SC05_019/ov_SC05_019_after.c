@@ -646,8 +646,8 @@ extern s16 currentLocationId;
 //   region (frame 0x40) for the guess_RotTransSVWithMatrix/func_80135260 out-params; (2) loop is a
 //   while(1) with the 6 checks &&-chained in the loop CONDITION + the "found" block AFTER
 //   the loop (fall-through) so the success path is a forward j .L8014A190 — matches the
-//   target CFG (Ghidra-C while-form); (3) the base &D_801202A0 must be RECOMPUTED inside
-//   the loop, not hoisted: `s0 = (s32)D_801202A0 + s2;` + the in-place re-tie barrier
+//   target CFG (Ghidra-C while-form); (3) the base &guess_g_ObjectTable must be RECOMPUTED inside
+//   the loop, not hoisted: `s0 = (s32)guess_g_ObjectTable + s2;` + the in-place re-tie barrier
 //   `__asm__ __volatile__("":"=r"(s0):"0"(s0));` (cookbook §21) forces the lui/addiu/addu
 //   per iteration instead of caching the symbol addr in $s4 (kills 1 ins + $s4); (4) u32
 //   counter -> sltiu; (5) bef8-fail uses `goto ret0;` to a ret0 label placed AFTER the
@@ -1124,7 +1124,7 @@ extern void func_8012AAAC(void *arg0);
 // `desc.z = a2[2] - a1[2]`), so it is §42e-CORRECTION / §74-safe to propagate.
 //
 // SYMBOLS (§58 rule 1/2): all five data externs use the canonical splat spelling and
-// the engine_core.h type — `u8 D_801202A0[]`, `u8 D_801152A8[]`, `s16 D_801152AC`,
+// the engine_core.h type — `u8 guess_g_ObjectTable[]`, `u8 guess_g_BoxHitNormalX[]`, `s16 guess_g_BoxHitNormalZ`,
 // `u8 D_80180EC8[]`, `s16 currentLocationId`. symcheck: SYMS-OK, 12 symbols agree.
 //
 // The one deliberate divergence (§27 step 2 / rule 3): func_80135A4C's canonical
@@ -1195,7 +1195,7 @@ extern void func_8014E48C(s32 a0);
 
 //      — the guard makes $v1, CSE turns the in-body `e = p + 0x6480` into a copy of it, and
 //      regalloc does not coalesce (gcc-2.7.2 has no coalescing, regalloc.md K8). The back edge
-//      then uses the register ($s5), NOT a rematerialised %hi/%lo(D_80126720) as in
+//      then uses the register ($s5), NOT a rematerialised %hi/%lo(guess_g_BoxHitCenterX) as in
 //      func_8014CF04 — so do NOT reuse that sibling's absolute-bound half here.
 //
 //  (2) TWO INDUCTION VARIABLES, secondary base +0xE. `q = p + 0xE` carries every access except

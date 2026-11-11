@@ -2,12 +2,12 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u8 D_8011F83B;
 extern u8 D_8011F837;
-extern u8 D_8011F7F0;
+extern u8 guess_g_HudPlayerRecord;
 extern void func_801776EC(u8 *a0);
 void func_801775E0(s32 param_1, s32 param_2) {
     s32 s0 = param_1;
     s32 pp = param_2;
-    u8 *base = &D_8011F7F0;
+    u8 *base = &guess_g_HudPlayerRecord;
     s16 sVar1; s32 t; s32 v;
     s32 c = D_8011F83B;
     if (c != 0) {

@@ -169,7 +169,7 @@ def _draft_statements(body):
     But C still requires a block-scope `extern` to be compatible with a file-scope declaration of the
     same identifier that is in scope — so the conflict is real, and this tool was structurally blind
     to it: it reported `reconciled: 0 draft(s), 0 data symbol(s); coverage defects: 0` for a draft
-    cc1 then rejected with `conflicting types for D_8011F7BC`. A silent skip that reads exactly like
+    cc1 then rejected with `conflicting types for guess_g_HudGoldPanelX`. A silent skip that reads exactly like
     "nothing to do" (R32).
 
     One level of descent is enough and is deliberate: the externs sit at the top of the function
@@ -275,7 +275,7 @@ def fix(body, tu_path, fn):
     # just fixed, and the tool reports success. (Measured on func_80176218, Phase 29 SESSION-22.)
     #
     # Group the plan by STATEMENT, not by symbol. A declaration statement can declare SEVERAL
-    # symbols — `extern u16 g_PlayerHpMax, D_8011F82A, D_8011F82C, g_PlayerHp, D_8011F8C4;` — and only
+    # symbols — `extern u16 g_PlayerHpMax, D_8011F82A, guess_g_HudShownHp, g_PlayerHp, D_8011F8C4;` — and only
     # one of them may conflict. Replacing the statement with that one symbol's declaration silently
     # DROPS the other four, and the draft then fails with `D_8011F82A undeclared` several conflicts
     # later, pointing nowhere near the cause. Measured on func_80176218 (Phase 29 SESSION-21):

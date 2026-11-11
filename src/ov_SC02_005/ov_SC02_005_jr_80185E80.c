@@ -1205,7 +1205,7 @@ void func_80187664(s32 arg0)
  * func_8018A47C's D_801E2F28. */
 
 extern Blob8_801876B0 D_801E2EF8;
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern void func_8018B16C(s32 a0, s32 a1, s32 a2);
 
 void func_801876B0(s32 arg0)
@@ -1217,7 +1217,7 @@ void func_801876B0(s32 arg0)
     tmp = D_801E2EF8;
 
     if (arg0 == 0) {
-        for (i = 0, p = D_801202A0; i < 0x60; i++, p += 0x10C) {
+        for (i = 0, p = guess_g_ObjectTable; i < 0x60; i++, p += 0x10C) {
             if (((Unkstruct_801876B0 *)p)->unk0 == 0x49 && ((Unkstruct_801876B0 *)p)->unk70 == 3) {
                 arg0 = (s32)p;
                 ((Unkstruct_801876B0 *)p)->unk104 = 1;
@@ -2461,7 +2461,7 @@ void func_80189268(s32 a0)
 
 /* func_801892CC (ov_SC02_005 / ov_SC02_005_jr_80181D30.c, 127 ins) — MATCH.
  *
- * Fresh crack (mass lane). Sweep of the 0x60-entry / stride-0x10C D_801202A0
+ * Fresh crack (mass lane). Sweep of the 0x60-entry / stride-0x10C guess_g_ObjectTable
  * entity table: for every entry whose type word (+0x00) is 0x49, ray-test the
  * two transformed segments (o0->o1 at height D_801964F4, o2->o3 at height
  * D_801964F6) against it; on a hit, latch state 0x1D + the hit point.
@@ -2476,7 +2476,7 @@ void func_80189268(s32 a0)
  *  2. The paired-store spelling `v0.a = v1.a = 0; v0.c = v1.c = 0; v0.b = 0;`
  *     reproduces the target's 0x18/0x10/0x1C/0x14/0x12 sh order exactly; three
  *     plain per-struct statements give source order and 5 mismatches.
- *  3. §S1 sched2 LUID: `count = 0; p = D_801202A0;` must sit AFTER the first
+ *  3. §S1 sched2 LUID: `count = 0; p = guess_g_ObjectTable;` must sit AFTER the first
  *     guess_RotTransSVWithObjMatrix call — the block's leading run is emitted in ascending
  *     LUID (a0,a1,a2,count,lui,addiu,i), so any earlier position puts
  *     `move count,zero` in the bgez delay slot (4 off).
@@ -2487,7 +2487,7 @@ void func_80189268(s32 a0)
  */
 #include "common.h"
 
-extern u8 D_801202A0[];
+extern u8 guess_g_ObjectTable[];
 extern u16 D_801964F4;
 extern u16 D_801964F6;
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
@@ -2518,7 +2518,7 @@ s32 func_801892CC(s32 arg0)
     v1.b = D_801964F4;
     guess_RotTransSVWithObjMatrix(arg0, (s32)&v0, (s32)&o0);
     count = 0;
-    p = D_801202A0;
+    p = guess_g_ObjectTable;
 
     guess_RotTransSVWithObjMatrix(arg0, (s32)&v1, (s32)&o1);
     v1.b = D_801964F6;

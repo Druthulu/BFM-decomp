@@ -11,7 +11,7 @@ WHAT IT MEASURES (every number the structs phase publishes comes from here — R
                    local / D_ global by value / &D_ global by address / absolute address / nested deref / other), the offset,
                    the cast width and signedness, load vs store, and the stride when indexed:
                        P  *(T *)(base + k)          the readability series' regex (tools/readability_progress.py)
-                       I  *(T *)ident               a cast of a bare identifier (the `*(u16 *)D_801152A8` form)
+                       I  *(T *)ident               a cast of a bare identifier (the `*(u16 *)guess_g_BoxHitNormalX` form)
                        X  ((T *)e)[i]               the array-index form
                        M  M2C_FIELD(base, T *, k)   m2c's placeholder macro (== *(T *)((s8 *)base + k))
                        A  (T *)(base + k)           the ADDRESS of a field, not dereferenced (call arguments, pointer sets)
