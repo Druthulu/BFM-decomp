@@ -52,7 +52,8 @@ import lever_census as lc          # noqa: E402  (enumerate_files, header_includ
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 OUT_DIR_DEFAULT = ".run/P37/census"
-TOOL_STAMP = hashlib.sha1(pathlib.Path(__file__).read_bytes()).hexdigest()[:10]
+TOOL_STAMP = hashlib.sha1(pathlib.Path(__file__).read_bytes()).hexdigest()[:10] + "-" + lc.TOOL_STAMP.rsplit("-", 1)[1]   # + the rename map
+_ph = lc.placeholder                 # 3.43 T7.c3 (C0572): a renamed placeholder classifies as its placeholder (D_ global/gaddr, func_ func)
 CANON_HEADERS = ("src/shared/engine_types.h", "include/struct_types.h")  # the canonical type files (T3 added include/struct_types.h; T5 may add more)
 TWINS_DOC = "docs/struct-twins.md"   # T5.1: the --check-structs allowlist (tier-2 twins kept apart with evidence; dead names kept with a cause)
 
@@ -245,20 +246,20 @@ def parse_base(expr):
     if e.startswith("&"):
         inner = _strip_parens(e[1:])
         if IDENT.match(inner):
-            rec.update(base=inner, bclass=("gaddr" if inner.startswith("D_") else "addr-of"))
+            rec.update(base=inner, bclass=("gaddr" if _ph(inner).startswith("D_") else "addr-of"))
             return rec
         mi = re.match(r"^([A-Za-z_]\w*)\s*\[(.+)\]$", inner)
         if mi:
-            rec.update(base=mi.group(1), bclass=("gaddr" if mi.group(1).startswith("D_") else "addr-of"), index=mi.group(2)[:60])
+            rec.update(base=mi.group(1), bclass=("gaddr" if _ph(mi.group(1)).startswith("D_") else "addr-of"), index=mi.group(2)[:60])
             return rec
         rec.update(base=inner[:60], bclass="addr-of")
         return rec
     if IDENT.match(e):
-        rec.update(base=e, bclass=("global" if e.startswith("D_") else "func" if e.startswith("func_") else "ident"))
+        rec.update(base=e, bclass=("global" if _ph(e).startswith("D_") else "func" if _ph(e).startswith("func_") else "ident"))
         return rec
     mi = re.match(r"^([A-Za-z_]\w*)\s*\[(.+)\]$", e)
     if mi:
-        rec.update(base=mi.group(1), bclass=("global" if mi.group(1).startswith("D_") else "ident"), index=mi.group(2)[:60])
+        rec.update(base=mi.group(1), bclass=("global" if _ph(mi.group(1)).startswith("D_") else "ident"), index=mi.group(2)[:60])
         return rec
     mm = re.match(r"^([A-Za-z_]\w*)\s*->\s*([A-Za-z_]\w*)$", e)
     if mm:
@@ -321,9 +322,9 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
         if ABS_ADDR.match(base):
             bclass = "abs"
         elif amp:
-            bclass = "gaddr" if base.startswith("D_") else "addr-of"
+            bclass = "gaddr" if _ph(base).startswith("D_") else "addr-of"
         else:
-            bclass = classify("global" if base.startswith("D_") else "func" if base.startswith("func_") else "ident", base, d)
+            bclass = classify("global" if _ph(base).startswith("D_") else "func" if _ph(base).startswith("func_") else "ident", base, d)
         rec = dict(form="I", tu=rel, fn=(d["name"] if d else None), line=ln, ctype=_norm_type(m.group(1) + " " + m.group(2)),
                    stars=len(m.group(2)), base=base, bclass=bclass, off=0, inner_cast=None, index=None, stride=None,
                    text=("&" if amp else "") + base, access=_store_kind(_after(masked, m.end())), pos=m.start(), end=m.end())
@@ -546,7 +547,7 @@ def find_decls_and_flows(masked, rel, defs, span_of_line, line_of):
                 a2 = re.sub(r"^\(\s*(?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\**\s*\)\s*", "", a2)     # drop a leading cast
                 if IDENT.match(a2) and a2 not in SCALARS:
                     flows.append(dict(tu=rel, fn=fn, kind="arg", src=a2, callee=callee, i=i))
-                elif re.match(r"^&\s*(D_80[0-9A-Fa-f]{6})$", a2):
+                elif re.match(r"^&\s*(D_80[0-9A-Fa-f]{6})$", lc.placeholder_text(a2)):
                     flows.append(dict(tu=rel, fn=fn, kind="arg&", src=a2[1:].strip(), callee=callee, i=i))
         for m in ASSIGN.finditer(body):
             lhs, rhs = m.group(1), _strip_parens(m.group(2))
@@ -555,7 +556,7 @@ def find_decls_and_flows(masked, rel, defs, span_of_line, line_of):
             rhs2 = re.sub(r"^\(\s*(?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\**\s*\)\s*", "", rhs)
             if IDENT.match(rhs2) and rhs2 not in SCALARS:
                 flows.append(dict(tu=rel, fn=fn, kind="assign", dst=lhs, src=rhs2))
-            elif re.match(r"^&\s*(D_80[0-9A-Fa-f]{6})$", rhs2):
+            elif re.match(r"^&\s*(D_80[0-9A-Fa-f]{6})$", lc.placeholder_text(rhs2)):
                 flows.append(dict(tu=rel, fn=fn, kind="assign&", dst=lhs, src=rhs2[1:].strip()))
             else:
                 mc = re.match(r"^(" + NAME + r")\s*\((.*)\)$", rhs2, re.S)
@@ -639,8 +640,8 @@ def walk_file(raw, rel):
     # identifier counts for the dead-name test (type names are identifiers; the canonical header is excluded by the caller)
     ident_counts = collections.Counter(m.group(0) for m in re.finditer(r"\b[A-Za-z_]\w*\b", masked))
     # T5.1: the tokens the filter below drops, kept apart so the --check-structs dead test drops no identifier by length or prefix
-    ident_dropped = {k: v for k, v in ident_counts.items() if k.startswith(("func_", "D_")) or k in SCALARS or len(k) <= 1}
-    ident_counts = {k: v for k, v in ident_counts.items() if not k.startswith(("func_", "D_")) and k not in SCALARS and len(k) > 1}
+    ident_dropped = {k: v for k, v in ident_counts.items() if _ph(k).startswith(("func_", "D_")) or k in SCALARS or len(k) <= 1}
+    ident_counts = {k: v for k, v in ident_counts.items() if not _ph(k).startswith(("func_", "D_")) and k not in SCALARS and len(k) > 1}
     return dict(rel=rel, definitions=definitions, typedef_aliases=aliases_td, fwd=fwd, sites=sites, raw_counts=dict(raw_counts), ident_counts=ident_counts,
                 ident_dropped=ident_dropped,
                 fndefs=fndefs, extern_fns=extern_fns, extern_data=extern_data, asm_aliases=asm_aliases, builtins=builtins,
@@ -653,6 +654,17 @@ def _walk_worker(rel):
 # ----------------------------------------------------------------------------------------------------------------------
 # the struct map: union-find over evidence
 # ----------------------------------------------------------------------------------------------------------------------
+_NODE_KEYS = {}
+
+
+def _node_key(n):
+    """A union-find node in placeholder spelling, then the node itself (a fixed tie-break)."""
+    k = _NODE_KEYS.get(n)
+    if k is None:
+        k = _NODE_KEYS[n] = (lc.placeholder_text(n), n)
+    return k
+
+
 class UF:
     """Union-find with a per-cluster offset map: a merge that would put two incompatible widths at one offset (or overlap two
     fields) is VETOED and counted — a width conflict is evidence of two types, never a union (the Plan agent's rule)."""
@@ -716,7 +728,7 @@ class UF:
         if self._conflict(ma, mb):
             self.veto[kind] += 1
             return False
-        if ra > rb:
+        if _node_key(ra) > _node_key(rb):        # the root is the lower node in placeholder spelling (C0572: a rename keeps the roots)
             ra, rb = rb, ra
         self.p[rb] = ra
         if mb:
@@ -819,7 +831,7 @@ def build_struct_map(results, tu_aliases, space_of_tu, shared_fn_header, sites_a
     # 1c. a bare global's declared type seeds its AT node (so `u16 D_A` and `s32 D_B` can never be one type through a reused temp)
     for r in results.values():
         for e in r["extern_data"]:
-            if e["name"].startswith("D_80") and not e["dims"]:
+            if _ph(e["name"]).startswith("D_80") and not e["dims"]:
                 w = scalar_of(e["type"])
                 if w and w[0] > 0:
                     uf.add_off(f"AT:{e['name']}", 0, w[0], w[1])
@@ -935,16 +947,16 @@ def build_struct_map(results, tu_aliases, space_of_tu, shared_fn_header, sites_a
             if off < prev_end:
                 conflicts.append((off, "overlap"))
             prev_end = max(prev_end, off + w)
-        globals_ = sorted(n[3:] for n in nodes if n.startswith("AT:"))
-        ptr_globals = sorted(n[4:] for n in nodes if n.startswith("PTR:"))
+        globals_ = sorted((n[3:] for n in nodes if n.startswith("AT:")), key=lambda g: (_ph(g), g))       # placeholder order (C0572)
+        ptr_globals = sorted((n[4:] for n in nodes if n.startswith("PTR:")), key=lambda g: (_ph(g), g))
         params = sorted(n for n in nodes if n.startswith("P:"))
         addr = None
         if globals_:
-            addr = globals_[0].replace("D_", "")
+            addr = _ph(globals_[0]).replace("D_", "")
         else:
-            cands = sorted(re.findall(r"func_([0-9A-Fa-f]{8})", " ".join(nodes)))
+            cands = sorted(re.findall(r"func_([0-9A-Fa-f]{8})", lc.placeholder_text(" ".join(nodes))))
             addr = cands[0] if cands else None
-        types.append(dict(id=root, name=(f"Unkstruct_{addr}" if addr else f"Unkstruct_{hashlib.sha1(root.encode()).hexdigest()[:8]}"),
+        types.append(dict(id=root, name=(f"Unkstruct_{addr}" if addr else f"Unkstruct_{hashlib.sha1(lc.placeholder_text(root).encode()).hexdigest()[:8]}"),
                           sites=len(idxs), bodies=len(fns), nodes=len(nodes), globals_at=globals_[:20], globals_ptr=ptr_globals[:20],
                           params=len(params), size_hint=(max(o + w for (o, w, _, _) in layout) if layout else 0),
                           fields=len(layout), layout=layout[:400], conflicts=conflicts[:50],
@@ -1006,7 +1018,7 @@ def base_node(b, bc, fk):
     return f"L:{fk}:{b}"
 
 def ident_node(name, fk):
-    if name.startswith("D_80"):
+    if _ph(name).startswith("D_80"):
         return f"PTR:{name}"
     return f"L:{fk}:{name}"
 
@@ -1220,6 +1232,9 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
         m = re.search(r"/(func_[0-9A-Fa-f]{8})(?:__[0-9a-f]{8}|__t[0-9a-f]{8})?\.h$", h)
         if m:
             shared_fn_header.setdefault(m.group(1), h)
+    for n, ph in sorted(lc.RENAMED.items()):          # C0572: a renamed function keeps its header (the file keeps the placeholder)
+        if ph in shared_fn_header:
+            shared_fn_header.setdefault(n, shared_fn_header[ph])
     # ---- 1. definitions
     defs_all = [d for r in results.values() for d in r["definitions"]]
     td_all = [a for r in results.values() for a in r["typedef_aliases"]]
@@ -1432,7 +1447,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
                 decl_w[e["name"]][w[0]] += 1
     syms = []
     for name, cnt in decl_w.items():
-        m = re.match(r"^D_(80[0-9A-Fa-f]{6})$", name)
+        m = re.match(r"^D_(80[0-9A-Fa-f]{6})$", _ph(name))
         if m:
             syms.append((int(m.group(1), 16), name, cnt.most_common(1)[0][0]))
     syms.sort()

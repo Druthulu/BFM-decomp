@@ -63,7 +63,45 @@ def _tables_stamp():
     return h.hexdigest()[:8]
 
 
-TOOL_STAMP = hashlib.sha1(pathlib.Path(__file__).read_bytes()).hexdigest()[:10] + "-" + _tables_stamp()   # the walker's text + its tables: the cache key
+def _renamed_placeholders():
+    """{name: placeholder} (3.43 T7.c3, C0572): every config/names.tsv name whose history begins with a placeholder (`D_80xxxxxx` /
+    `func_80xxxxxx`: its first naming). The censuses classify and normalize such a name as its placeholder, so a rename is
+    census-neutral; curated legacy names (history `seed: ...`) keep their own spelling. Two placeholders for one name: the lowest."""
+    out, cols = {}, None
+    p = REPO / "config" / "names.tsv"
+    if not p.exists():
+        return out
+    for ln in p.read_text().splitlines():
+        if ln.startswith("#") or not ln.strip():
+            continue
+        f = ln.split("\t")
+        if cols is None:
+            cols = f
+            continue
+        r = dict(zip(cols, f))
+        m = re.match(r"((?:D|func)_80[0-9A-Fa-f]{6})\b", r.get("history", ""))
+        if m and r.get("name") and r["name"] != m.group(1):
+            out[r["name"]] = min(out.get(r["name"], m.group(1)), m.group(1))
+    return out
+
+
+RENAMED = _renamed_placeholders()
+_RENAMED_ALT = "|".join(sorted(map(re.escape, RENAMED), key=lambda n: (-len(n), n)))
+RENAMED_RX = re.compile(r"\b(?:%s)\b" % _RENAMED_ALT) if RENAMED else None
+
+
+def placeholder(name):
+    """A renamed placeholder's placeholder spelling (RENAMED), else the name itself."""
+    return RENAMED.get(name, name)
+
+
+def placeholder_text(text):
+    """text with every renamed name respelled as its placeholder."""
+    return RENAMED_RX.sub(lambda m: RENAMED[m.group(0)], text) if RENAMED_RX else text
+
+
+TOOL_STAMP = (hashlib.sha1(pathlib.Path(__file__).read_bytes()).hexdigest()[:10] + "-" + _tables_stamp()   # the walker's text + its tables: the cache key
+              + "-" + hashlib.sha1(repr(sorted(RENAMED.items())).encode()).hexdigest()[:8])                # + the rename map (norm_hash reads it)
 GTE_HEADER_DEFAULT = "include/gte_inline.h"          # T5 writes it; until then no file is exempt from --strict
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -145,7 +183,7 @@ def classify_direct_gte(inner):
     return GTE_LEVER_KIND if how == "lever" else "gte"
 # an `asm-body` site (a whole routine as one asm statement inside a C shell) becomes `verbatim-body` only when the manifest lists the
 # routine as PERMANENT-VERBATIM; an unlisted or DECOMPILE-* one stays a lever and the guard (verbatim_check) names it
-NORM_SYM = re.compile(r"\b(?:func|D)_80[0-9A-Fa-f]{6}\b")
+NORM_SYM = re.compile(r"\b(?:func|D)_80[0-9A-Fa-f]{6}\b" + (r"|\b(?:%s)\b" % _RENAMED_ALT if RENAMED else ""))   # + renamed placeholders (C0572)
 DEFINE_LINE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)(\([^)]*\))?[ \t]*(.*)$")
 
 

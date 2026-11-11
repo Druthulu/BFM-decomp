@@ -308,17 +308,40 @@ def asm_binaries(old, aliases):
     return out
 
 
+LEDGER_NAME_KEYS = ("fn", "unit", "callee", "real")   # name fields of a restruct ledger row; `unit` is ledger_latest's key
+LEDGER_SITE_LISTS = ("sites", "bases")               # entries keyed `<bclass>:<base>` (restruct.residue_match)
+
+
+def ledger_row_rename(r, rx, olds):
+    """Pure. A restruct ledger row with every old name token in its name fields and its sites[]/bases[] `base` rewritten
+    (T7.c3, C0572: `fn` alone left `unit` and the residue keys on the old name). -> (row, changed)."""
+    sub = lambda v: rx.sub(lambda m: olds[m.group(0)], v) if isinstance(v, str) else v
+    out, changed = dict(r), False
+    for k in LEDGER_NAME_KEYS:
+        if k in out and sub(out[k]) != out[k]:
+            out[k], changed = sub(out[k]), True
+    for k in LEDGER_SITE_LISTS:
+        if isinstance(out.get(k), list):
+            es = [dict(e, base=sub(e["base"])) if isinstance(e, dict) and sub(e.get("base")) != e.get("base") else e
+                  for e in out[k]]
+            if es != out[k]:
+                out[k], changed = es, True
+    return out, changed
+
+
 def restruct_ledger(olds, dry):
     p = os.path.join(REPO, RESTRUCT_LEDGER)
     if not os.path.exists(p):
         return "absent"
+    if not olds:
+        return "0"
+    rx = re.compile(r"\b(?:%s)\b" % "|".join(sorted(map(re.escape, olds), key=lambda o: (-len(o), o))))
     n, tmp = 0, p + ".rename_sym.tmp"
     with open(p) as f, (open(os.devnull, "w") if dry else open(tmp, "w")) as g:
         for ln in f:
-            if any(o in ln for o in olds):
-                r = json.loads(ln)
-                if r.get("fn") in olds:
-                    r["fn"] = olds[r["fn"]]
+            if rx.search(ln):
+                r, changed = ledger_row_rename(json.loads(ln), rx, olds)
+                if changed:
                     ln = json.dumps(r) + "\n"
                     n += 1
             g.write(ln)
