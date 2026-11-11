@@ -19,17 +19,26 @@ Per planned row:
      itself, and header-file tokens `func_<ADDR>(__\\w+)?.h` (share headers are named by vram, never renamed).
      A generated file that mentions old prints `regenerate: <cmd>` instead (the header's `regenerate:`
      command, else its generator), except rename_scan.TEXT_GENERATED files, which are rewritten as text.
+     Binary-scoped (C0571, R124): each (old, new) has a scope, every binary whose splat symbol stack
+     (rename_scan.symbol_stacks) holds a planned row's symbol-file alias (main -> all; an overlay -> itself).
+     A file maps to binaries (src/ via src_binaries; config/symbols.<alias>.txt -> the stackers of alias):
+     all in scope -> rewritten; none -> skipped (old names another function there); some -> `straddle` error.
+     An unmapped file (include/, docs/, tools/, other config) is rewritten only when old is unambiguous
+     (asm and mapped-file holders of old minus the scope is empty), else printed `unscoped: <path>`.
+     An old with two in-scope news in one file is an error. Scope errors exit 1 before any write (the dry
+     run lists them and exits 1).
   3. config/names.tsv: per spec row (a class row is ONE row, scope `class:<id>`) name=new, scope=the
      symbol file's alias (`us` for main: what rename_scan --ledger accepts), tier guess iff new starts
      guess_. The row matched by (old, scope) is rewritten in place (a re-rename); else a row is appended.
      history gains `<old> (<phase> <task>)`, `; `-joined; phase from phase-ends/current/PHASE_PLAN.md line 1.
   4. restruct's name-keyed ledger (tools/restruct.py:107, .run/P37/restruct/ledger.jsonl): rows whose
-     `fn` is old get new; the count is printed.
+     `fn` is old get new; the count is printed. Rows are scoped by their `tu` path like files; rows whose
+     withheld olds would change are counted `left`.
 Then prints the touched binaries (symbol-file owners, binaries of rewritten src/ files, binaries whose asm/
 mentions old), their tracked Ghidra programs (config/ghidra/ROSTER.md) and the regenerate commands.
 Verify with tools/rename_scan.py --spec TSV after `make extract` + gates. --dry-run writes nothing.
-The planner (parse_spec, expand, edit_symbols, plan, update_names, prepare, regen_cmd, groups_from_registry)
-is pure; rename_scan --selftest covers it.
+The planner (parse_spec, expand, edit_symbols, plan, update_names, prepare, regen_cmd, groups_from_registry,
+stackers_of, pair_scope, scope_decide) is pure; rename_scan --selftest covers it.
 """
 import argparse, json, os, re, subprocess, sys
 
@@ -308,6 +317,53 @@ def asm_binaries(old, aliases):
     return out
 
 
+def stackers_of(stacks):
+    """Pure. rename_scan.symbol_stacks() -> {symbol-file alias: binaries whose splat stack holds it}."""
+    out = {}
+    for b, st in stacks.items():
+        for a in st:
+            out.setdefault(a, set()).add(b)
+    return out
+
+
+def pair_scope(planned, stackers):
+    """Pure (C0571, R124). -> {(old, new): binaries}: every binary whose symbol stack holds a planned row's symbol-file
+    alias (a main/us row -> all binaries; an overlay row -> itself), unioned over the rows sharing the pair."""
+    out = {}
+    for r in planned:
+        a = file_alias(r["binary"])
+        out.setdefault((r["old"], r["new"]), set()).update(stackers.get(a, {r["binary"]}))
+    return out
+
+
+def file_binaries(path, reg_groups, aliases, stackers):
+    """-> the binaries a tracked file belongs to: src/ via src_binaries, config/symbols.<alias>.txt -> the stackers
+    of alias; empty = unmapped (include/, docs/, tools/, other config)."""
+    if path.startswith("config/symbols.") and path.endswith(".txt"):
+        return set(stackers.get(rs._alias(path), ()))
+    return src_binaries(path, reg_groups, aliases)
+
+
+def scope_decide(fbins, pairs, scope, holders):
+    """Pure (C0571, R124). fbins = a file's binaries (empty = unmapped); pairs = (old, new) found in it; scope =
+    pair_scope; holders = {old: binaries whose asm or mapped files hold old}. -> {in, out, unscoped, straddle: [pair]}:
+    mapped: fbins all in scope -> in, none -> out (the token names another function there), some -> straddle;
+    unmapped: in only when old is unambiguous (holders[old] - scope empty), else unscoped (left for a human)."""
+    out = {k: [] for k in ("in", "out", "unscoped", "straddle")}
+    for o, n in pairs:
+        s = scope[(o, n)]
+        if not fbins:
+            k = "unscoped" if set(holders.get(o, ())) - s else "in"
+        elif fbins <= s:
+            k = "in"
+        elif fbins & s:
+            k = "straddle"
+        else:
+            k = "out"
+        out[k].append((o, n))
+    return out
+
+
 LEDGER_NAME_KEYS = ("fn", "unit", "callee", "real")   # name fields of a restruct ledger row; `unit` is ledger_latest's key
 LEDGER_SITE_LISTS = ("sites", "bases")               # entries keyed `<bclass>:<base>` (restruct.residue_match)
 
@@ -329,25 +385,43 @@ def ledger_row_rename(r, rx, olds):
     return out, changed
 
 
-def restruct_ledger(olds, dry):
+def _olds_rx(olds):
+    return re.compile(r"\b(?:%s)\b" % "|".join(sorted(map(re.escape, olds), key=lambda o: (-len(o), o))))
+
+
+def restruct_ledger(scope, holders, where, dry):
+    """Rows are scoped by their `tu` path (where(tu) -> binaries, scope_decide): an old is rewritten only where its
+    pair is in scope; a row whose withheld olds (unscoped, straddling, two news) would have changed is counted left."""
     p = os.path.join(REPO, RESTRUCT_LEDGER)
     if not os.path.exists(p):
         return "absent"
-    if not olds:
+    if not scope:
         return "0"
-    rx = re.compile(r"\b(?:%s)\b" % "|".join(sorted(map(re.escape, olds), key=lambda o: (-len(o), o))))
-    n, tmp = 0, p + ".rename_sym.tmp"
+    rx = _olds_rx({o for o, _ in scope})
+    n, left, tmp, per_tu = 0, 0, p + ".rename_sym.tmp", {}
     with open(p) as f, (open(os.devnull, "w") if dry else open(tmp, "w")) as g:
         for ln in f:
             if rx.search(ln):
-                r, changed = ledger_row_rename(json.loads(ln), rx, olds)
-                if changed:
-                    ln = json.dumps(r) + "\n"
-                    n += 1
+                r = json.loads(ln)
+                tu = r.get("tu") if isinstance(r.get("tu"), str) else ""
+                if tu not in per_tu:
+                    d = scope_decide(where(tu) if tu else set(), sorted(scope), scope, holders)
+                    ins = [o for o, _ in d["in"]]
+                    ok = {o: nw for o, nw in d["in"] if ins.count(o) == 1}
+                    held = {o: nw for o, nw in d["unscoped"] + d["straddle"] + d["in"] if o not in ok}
+                    per_tu[tu] = (ok, ok and _olds_rx(ok), held, held and _olds_rx(held))
+                ok, okrx, held, heldrx = per_tu[tu]
+                if held and ledger_row_rename(r, heldrx, held)[1]:
+                    left += 1
+                if ok:
+                    r, changed = ledger_row_rename(r, okrx, ok)
+                    if changed:
+                        ln = json.dumps(r) + "\n"
+                        n += 1
             g.write(ln)
     if not dry:
         os.replace(tmp, p) if n else os.remove(tmp)
-    return str(n)
+    return "%d; left (unscoped/straddling/ambiguous tu) %d" % (n, left)
 
 
 def main():
@@ -371,13 +445,17 @@ def main():
     # one pattern per distinct (old, new), first-seen order: a class row repeats its pair once per member
     # (141 for an overlay-base class); a repeat finds nothing once the first has replaced old, so output is unchanged
     pats = [(o, n, rewrite_re(o)) for o, n in dict.fromkeys((r["old"], r["new"]) for r in planned)]
+    stackers = stackers_of(rs.symbol_stacks())
+    scope = pair_scope(planned, stackers)
+    holders = {}                                        # old -> binaries whose asm (then mapped files) hold it
     for r in planned:
         print("[rename_sym] %s -> %s (%s, %s) in %s" % (r["old"], r["new"], r["addr"], r["binary"], r["symfile"]))
-        touched |= asm_binaries(r["old"], aliases)
-    if not a.dry_run:
-        for p, t in newtexts.items():
-            open(os.path.join(REPO, p), "w").write(t)
-    regen, rewritten = {}, []
+        if r["old"] not in holders:
+            holders[r["old"]] = asm_binaries(r["old"], aliases)
+        touched |= holders[r["old"]]
+    where = lambda p: file_binaries(p, reg, aliases, stackers)
+    # pass 1 (no writes): files holding an old token, their binaries, the pairs present
+    regen, cands = {}, []
     skip = set(rs.HISTORY)
     for path in _git("ls-files", "-z").split("\0"):
         if not path or path.startswith(tuple(skip)) or path in (spec_rel, rs.NAMES_TSV):
@@ -395,10 +473,40 @@ def main():
         if cmd:
             regen.setdefault(cmd, []).append(path)
             continue
+        present = [(o, n) for o, n, rx in pats if o.encode() in raw and rx.search(text)]
+        fb = where(path)
+        for o, _ in present:
+            holders[o] |= fb
+        cands.append((path, fp, text, fb, present))
+    # pass 2 (no writes): scope each file (C0571); a straddling file or an old with two news is an error
+    plans, skipped, unscoped, errors = [], [], [], []
+    for path, fp, text, fb, present in cands:
+        d = scope_decide(fb, present, scope, holders)
+        for o, n in d["straddle"]:
+            errors.append("straddle: %s (%s -> %s; file binaries %s)" % (path, o, n, " ".join(sorted(fb - scope[(o, n)])[:5])))
+        ins = [o for o, _ in d["in"]]
+        for o in sorted({o for o in ins if ins.count(o) > 1}):
+            errors.append("two news: %s (%s -> %s)" % (path, o, ", ".join(sorted(n for x, n in d["in"] if x == o))))
+        if d["unscoped"]:
+            unscoped.append((path, sorted({o for o, _ in d["unscoped"]})))
+        if d["in"]:
+            plans.append((path, fp, text, set(d["in"])))
+        elif d["out"] and not d["unscoped"] and not d["straddle"]:
+            skipped.append((path, sorted({o for o, _ in d["out"]})))
+    for e in errors:
+        print("[rename_sym] error: " + e)
+    if errors and not a.dry_run:
+        raise ValueError("%d scope error(s); nothing written" % len(errors))
+    if not a.dry_run:
+        for p, t in newtexts.items():
+            open(os.path.join(REPO, p), "w").write(t)
+    rewritten = []
+    for path, fp, text, ins in plans:
         n = 0
-        for _, new, rx in pats:
-            text, k = rx.subn(new, text)
-            n += k
+        for o, new, rx in pats:
+            if (o, new) in ins:
+                text, k = rx.subn(new, text)
+                n += k
         rewritten.append((path, n))
         if path.startswith("config/symbols"):
             touched.add(rs._alias(path) if path != "config/symbols.us.txt" else "main")
@@ -407,12 +515,18 @@ def main():
             open(fp, "wb").write(text.encode("utf-8", "surrogateescape"))
     if not a.dry_run:
         open(names_path, "w").write(ntext)
-    led = restruct_ledger({r["old"]: r["new"] for r in planned}, a.dry_run)
+    led = restruct_ledger(scope, holders, where, a.dry_run)
     verb = "would rewrite" if a.dry_run else "rewrote"
     print("[rename_sym] symbol files: %s" % ", ".join(sorted(newtexts)))
     print("[rename_sym] %s %d token(s) in %d file(s):" % (verb, sum(n for _, n in rewritten), len(rewritten)))
     for p, n in rewritten:
         print("  %s  %d" % (p, n))
+    print("[rename_sym] skipped by scope (the token names another binary's function) %d file(s):" % len(skipped))
+    for p, os_ in skipped:
+        print("  skipped: %s  (%s)" % (p, ", ".join(os_)))
+    print("[rename_sym] unscoped (old token ambiguous across binaries; edit by hand) %d file(s):" % len(unscoped))
+    for p, os_ in unscoped:
+        print("  unscoped: %s  (%s)" % (p, ", ".join(os_)))
     print("[rename_sym] names.tsv: %s %d row(s): %s" % ("would write" if a.dry_run else "wrote", len(nrows),
                                                          ", ".join("%s (%s)" % (v["name"], v["scope"]) for v in nrows)))
     print("[rename_sym] restruct ledger fn keys %s: %s" % (verb, led))
@@ -423,7 +537,9 @@ def main():
         print("  regenerate: make extract BINARY=%s" % b)
     for cmd, ps in sorted(regen.items()):
         print("  regenerate: %s   (%s)" % (cmd, ", ".join(ps)))
-    return 0
+    if errors:
+        print("[rename_sym] FAIL: %d scope error(s) listed above" % len(errors))
+    return 1 if errors else 0
 
 
 if __name__ == "__main__":

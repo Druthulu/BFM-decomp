@@ -9,6 +9,9 @@ row in config/names.tsv (basis, confidence, evidence kind, conflict, history). T
                                 gets exactly one class (R32: candidates == classified, asserted):
                                   history            path under HISTORY (dated records; never rewritten)
                                   rewritten          the line also carries the new name
+                                  other-binary       (wide spec) a strong hit in a src/ or symbol file whose
+                                                     binaries are disjoint from the rename's scope (the binaries
+                                                     stacking its row's symbol file): another function. Passes.
                                   address-key        (a) the only candidate token is a share header's name
                                                      `func_<ADDR>(__x)?.h` (headers are named by vram, never
                                                      renamed); (b) a 0x / bare address in an ADDRESS_KEYED
@@ -61,7 +64,8 @@ HISTORY = ("cookbook/", "phase-ends/", "docs/decision-log.md", "docs/story.md", 
            "config/names.tsv",                     # the ledger: basis/citation quote names as at naming time (3.43 T7)
            ".run/")                                # tracked raw logs / generated census output: never hand-edited
 BUILD_INPUTS = ("src/", "include/", "config/symbols", "config/splat.", "Makefile", "config/undefined_")
-CLASSES = ("history", "rewritten", "address-key", "stale-build-input", "stale-invisible", "unclassified")
+CLASSES = ("history", "rewritten", "address-key", "other-binary", "stale-build-input", "stale-invisible",
+           "unclassified")
 BAD = ("stale-build-input", "stale-invisible", "unclassified")
 # Closed list: paths whose 0x / bare address mentions are keyed by vram ON PURPOSE (a strong hit there stays
 # stale). Kit copies decomp-architect/corpus/tools/<P>/<x> of a listed tools/<x> count as listed.
@@ -145,9 +149,11 @@ def _class_of(path, text, new_re, s_re, w_re):
     return "unclassified"
 
 
-def classify(hits, rename):
+def classify(hits, rename, scope=None, where=None):
     """hits = [(path, line, text)]; rename = (old, new, addr). Pure. -> {class: [hit]} over the hits that
-    carry one of this rename's candidate forms; asserts candidates == classified."""
+    carry one of this rename's candidate forms; asserts candidates == classified. scope = the rename's binaries
+    (wide spec) and where(path) -> a file's binaries (empty = unmapped): a stale (strong) hit in a mapped file
+    whose binaries are disjoint from scope is `other-binary` (the token names another function there, C0571)."""
     old, new, addr = rename
     s, w = rename_forms(old, new, addr)
     s_re, w_re = re.compile(s), (re.compile(w) if w else None)
@@ -159,16 +165,22 @@ def classify(hits, rename):
         if not strong and not (w_re and w_re.search(h[2])):
             continue
         cand += 1
-        out[_class_of(h[0], h[2], new_re, s_re, w_re)].append(h)
+        c = _class_of(h[0], h[2], new_re, s_re, w_re)
+        if scope is not None and c in ("stale-build-input", "stale-invisible"):
+            fb = where(h[0])
+            if fb and not (fb & scope):
+                c = "other-binary"
+        out[c].append(h)
     assert cand == sum(len(v) for v in out.values()), "R32: candidates != classified"
     return out
 
 
-def scan(hits, renames):
-    """Pure. -> (per-rename results, grand class counts); asserts every hit belongs to some rename."""
+def scan(hits, renames, scopes=None, where=None):
+    """Pure. -> (per-rename results, grand class counts); asserts every hit belongs to some rename.
+    scopes = {rename: binaries} (wide specs) for classify's other-binary class."""
     results, total, owned = [], {c: 0 for c in CLASSES}, set()
     for r in renames:
-        res = classify(hits, r)
+        res = classify(hits, r, scopes.get(r) if scopes else None, where)
         for c in CLASSES:
             total[c] += len(res[c])
             owned.update(res[c])
@@ -231,9 +243,11 @@ def renames_from_diff(diff):
     return sorted(out)
 
 
-def parse_spec(text, groups=None):
+def parse_spec(text, groups=None, stackers=None, scopes=None):
     """Pure. old<TAB>new<TAB>addr rows, or rename_sym's wide spec (header `old<TAB>new<TAB>addr<TAB>binary...`,
-    first 3 columns used; a `class:<id>` binary expands through rename_sym.expand over groups)."""
+    first 3 columns used; a `class:<id>` binary expands through rename_sym.expand over groups). With stackers
+    (rename_sym.stackers_of) and a scopes dict, a wide row's rename also gets its binary scope in scopes:
+    {(old, new, addr): binaries stacking the row's symbol-file alias}, unioned (rename_sym.pair_scope)."""
     out, wide = [], False
     for ln in text.splitlines():
         if not ln.strip() or ln.startswith("#"):
@@ -248,27 +262,42 @@ def parse_spec(text, groups=None):
             import rename_sym
             exp = rename_sym.expand([{"old": f[0], "new": f[1], "addr": "0", "binary": f[3]}], groups or {})
             out += [(r["old"], r["new"], r["addr"]) for r in exp]
+            if scopes is not None:
+                for r in exp:
+                    scopes.setdefault((r["old"], r["new"], r["addr"]), set()).update(
+                        rename_sym.pair_scope([r], stackers)[(r["old"], r["new"])])
             continue
         out.append(tuple(f[:3]))
+        if scopes is not None and len(f) > 3:
+            import rename_sym
+            scopes.setdefault(tuple(f[:3]), set()).update(
+                rename_sym.pair_scope([{"old": f[0], "new": f[1], "binary": f[3]}], stackers)[(f[0], f[1])])
     # distinct renames only: a class row expands to one identical (old, new, addr) per member (141 for an overlay-base
     # class), and scan() classifies every hit once per rename; the verdict and the distinct bad hits are unchanged
     return sorted(set(out))
 
 
 def renames_from_spec(p):
+    """-> (renames, scopes, where): scopes/where are None for a 3-column spec (no binary column)."""
     text = open(p).read()
-    groups = None
-    if "\tclass:" in text:
-        import rename_sym
-        groups = rename_sym.load_groups()[0]
-    return parse_spec(text, groups)
+    if not any(ln.split("\t")[:3] == ["old", "new", "addr"] for ln in text.splitlines()):
+        return parse_spec(text), None, None
+    import rename_sym
+    groups, reg = rename_sym.load_groups()
+    stackers, aliases, scopes = rename_sym.stackers_of(symbol_stacks()), rename_sym._aliases(), {}
+    cache = {}
+    def where(path):
+        if path not in cache:
+            cache[path] = rename_sym.file_binaries(path, reg, aliases, stackers)
+        return cache[path]
+    return parse_spec(text, groups, stackers, scopes), scopes, where
 
 
-def run_scan(renames, rev, verbose=False):
+def run_scan(renames, rev, verbose=False, scopes=None, where=None):
     if not renames:
         print("[rename_scan] no renames")
         return 0
-    results, total = scan(grep_hits(renames, rev), renames)
+    results, total = scan(grep_hits(renames, rev), renames, scopes, where)
     print("[rename_scan] %d rename(s); %s" % (len(renames), ", ".join("%s %d" % (c, total[c]) for c in CLASSES)))
     for (old, new, addr), res in results:
         if verbose:
@@ -672,6 +701,33 @@ def selftest():
     assert nt["config/symbols.ov_SC01_005.txt"].splitlines() == [                # appended after the last line
         "// count=2", "OvFn                             = 0x8012A000; // func",
         "guess_ClearTbl                   = 0x8012AD64; // func"], nt
+    # binary scope (C0571, R124): pair_scope from symbol stacks, scope_decide per file, the scan's other-binary class
+    stk = rsy.stackers_of({"main": ["us", "us.ram"], "ov_A": ["us", "resident", "ov_A"], "ov_B": ["us", "resident", "ov_B"],
+                           "resident": ["us", "resident"]})
+    sc = rsy.pair_scope([{"old": "func_80184B00", "new": "guess_Step", "binary": "ov_A"},
+                         {"old": "D_80078EB4", "new": "g_Hp", "binary": "main"}], stk)
+    assert sc == {("func_80184B00", "guess_Step"): {"ov_A"}, ("D_80078EB4", "g_Hp"): {"main", "ov_A", "ov_B", "resident"}}, sc
+    P1, P2 = ("func_80184B00", "guess_Step"), ("D_80078EB4", "g_Hp")
+    hold = {"func_80184B00": {"ov_A", "ov_B"}, "D_80078EB4": {"ov_A", "main"}}
+    dec = lambda fb, prs, sco=sc: {k: v for k, v in rsy.scope_decide(fb, prs, sco, hold).items() if v}
+    assert dec({"ov_A"}, [P1, P2]) == {"in": [P1, P2]}
+    assert dec({"ov_B"}, [P1, P2]) == {"out": [P1], "in": [P2]}                 # ov_B's func_80184B00 is another fn
+    assert dec({"ov_A", "ov_B"}, [P1]) == {"straddle": [P1]}                     # a share header over both
+    assert dec(set(), [P1, P2]) == {"unscoped": [P1], "in": [P2]}               # unmapped: P1 ambiguous, P2 not
+    assert dec(set(), [P1], {**sc, P1: {"ov_A", "ov_B"}}) == {"in": [P1]}
+    assert rsy.file_binaries("config/symbols.us.ram.txt", [], {"ov_A"}, stk) == {"main"}
+    assert rsy.file_binaries("src/ov_B/x.c", [], {"ov_A", "ov_B"}, stk) == {"ov_B"}
+    assert rsy.file_binaries("include/x.h", [], {"ov_A"}, stk) == set()
+    SR, wh = ("func_80184B00", "guess_Step", "0x80184B00"), (lambda p: {"ov_B"} if "ov_B" in p else set())
+    sh = [("src/ov_A/a.c", 1, "    guess_Step(); /* func_80184B00 */"), ("src/ov_B/b.c", 2, "    func_80184B00();"),
+          ("include/x.h", 3, "void func_80184B00(void);")]
+    _, t = scan(sh, [SR], {SR: {"ov_A"}}, wh)
+    assert t["other-binary"] == 1 and t["stale-build-input"] == 1 and t["rewritten"] == 1, t   # unmapped stays stale
+    _, t = scan(sh, [SR], {SR: {"ov_A", "ov_B"}}, wh)
+    assert t["other-binary"] == 0 and t["stale-build-input"] == 2, t                           # in-scope stale is bad
+    _, t = scan(sh, [SR]); assert t["other-binary"] == 0 and t["stale-build-input"] == 2, t    # 3-column: as before
+    scs = {}
+    assert parse_spec(wide.replace("\tmain\t", "\tov_A\t"), {}, stk, scs) == [R] and scs == {R: {"ov_A"}}, scs
     pl, nt = rsy.plan([dict(row, old="Later", addr="0x80050000")], {}, texts)    # curated old: replace in place
     assert nt["config/symbols.us.txt"].splitlines()[1:] == [
         "// count=2", "", "start                            = 0x80010000; // func",
@@ -843,7 +899,8 @@ def main():
     if a.worklist:
         return run_worklist(a.worklist, a.complete)
     if a.spec:
-        return run_scan(renames_from_spec(a.spec), None, a.verbose)
+        renames, scopes, where = renames_from_spec(a.spec)
+        return run_scan(renames, None, a.verbose, scopes, where)
     lo, _, hi = a.range.partition("..")
     return run_scan(renames_from_range(lo, hi or None), hi or None, a.verbose)
 
