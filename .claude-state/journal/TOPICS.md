@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-10T20:49:05.254Z
+# filed through: 2026-11-10T21:51:03.244Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -120,3 +120,5 @@ R116 | 2026-11-10 | finding | in force | Signatures from asm evidence | Knock-on
 R117 | 2026-11-10 | decision | in force | Modder-facing source tree (3.45 layout) | The 3.45 planner gets the developer's modder-facing goal through the inbox: overlay folders named b… | .claude-state/journal/2026-11-10/134138-053r-claude-record.md
 R118 | 2026-11-10 | finding | in force | Modder-facing source tree (3.45 layout) | Today src/ holds 136 overlay folders named by overlay id (e.g. | .claude-state/journal/2026-11-10/134138-053r-claude-record.md
 R119 | 2026-11-10 | finding | in force | Modder-facing source tree (3.45 layout) | tools/commit_task.sh commits whatever is already staged along with the explicit paths. | .claude-state/journal/2026-11-10/134138-053r-claude-record.md
+R120 | 2026-11-10 | decision | in force | Live-RAM evidence for 3.43 names | No playthrough. | .claude-state/journal/2026-11-10/150637-059r-claude-record.md
+R121 | 2026-11-10 | open | in force | Live-RAM evidence for 3.43 names | Offer the developer a targeted ram_probe session (list of 10 to 20 one-action scenarios aimed at th… | .claude-state/journal/2026-11-10/150637-059r-claude-record.md
