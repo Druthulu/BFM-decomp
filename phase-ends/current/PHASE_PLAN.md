@@ -147,3 +147,4 @@ Approved: 2026-11-10   Planner: claude-opus-5-5/medium   Plan-hash: 919949f169f4
 - 2026-11-10 router: T5 next -> done
 - 2026-11-10 router: T6 next -> done
 - 2026-11-10 router: T7 next -> done
+- 2026-11-10 router: T7 review approved (all 7 as recommended): conventions page binds T8-T11; func_80014554 stays unnamed; g_PlayerHpMax stays cited; low player guesses kept; binary-scoped rename_sym rewrite added to T9's scope before the function batches (C0571); PsyQ alias renames cited in T8/T9 after checking the symbol file can carry the object's name; c2/c3 tool fixes accepted
