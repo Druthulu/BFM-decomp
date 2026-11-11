@@ -931,7 +931,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1128,7 +1128,7 @@ extern s32 D_80188E8C[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1161,7 +1161,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -1885,7 +1885,7 @@ extern void func_8015C0C4(s32 a0);
 
 s32 func_8015C128(s32 param_1) {
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern void func_8015C6E0(int);
 
     int sp10[3];
@@ -1908,7 +1908,7 @@ s32 func_8015C128(s32 param_1) {
     ((void(*)(int, int *))func_80146DB8)(((int)param_1), sp20);
     func_80147A84(((int)param_1));
     ((void(*)(int))guess_ApplyVelocity)(((int)param_1));
-    if (!(D_800B99DA & 3)) {
+    if (!(guess_g_FrameCounter & 3)) {
         ((void(*)(int, int))func_8014C010)(((int)param_1), 1);
         ((void(*)(int))func_80147324)(0x65F);
     }

@@ -125,7 +125,7 @@ extern void func_8012927C(void);
 extern void func_8012931C(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9AAE[];
 extern s16 D_800B9AB0[];
 extern s16 D_800B9AB2[];
@@ -138,7 +138,7 @@ extern s16 D_80114EE0;
 extern void func_80129428(void);
 extern void func_8012943C(void);
 extern s32 D_8005128C;
-extern u8 D_800B9A78;
+extern u8 guess_g_BackgroundLayers;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8(int arg0, int arg1, u8 * arg2);
 extern void func_8012944C(void);
@@ -209,7 +209,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera;
 extern void func_8012A418(void);
-extern Vec8 D_80114F24;
+extern Vec8 guess_g_StoredViewPointX;
 extern void func_8012A464(void);
 extern void func_8012A4BC(void);
 extern void func_8012A598(void *a0);
@@ -371,7 +371,7 @@ extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s32 D_800A651C;
 extern u8 guess_g_CameraWsMatrix;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_8012D5DC(void);
 extern s16 D_80126B98;
@@ -613,7 +613,7 @@ extern u16 D_80126CC4;
 extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
@@ -625,7 +625,7 @@ extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine"
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
 extern u8  guess_g_RenderWork[];
-extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
@@ -791,7 +791,7 @@ extern void *D_8011DB24;
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern unsigned short D_80115112;
 extern void func_8013E588(void * _arg0);
@@ -1652,7 +1652,7 @@ extern s32 func_8014E790(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_80126724;
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -1926,7 +1926,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -2112,7 +2112,7 @@ extern void func_8002992C(s32);
 extern void func_800CF804(void);
 extern void func_800CF818(void);
 extern u8 D_80110D0C[];
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
 extern void func_8015934C(void *arg0);
@@ -3907,9 +3907,9 @@ void func_8017B7A8(void)
     extern s32 D_80114F30;
     extern s32 D_80114F34;
     extern s32 D_80114F38;
-    extern s32 aD80114F24 __asm__("D_80114F24");
-    extern s32 D_80114F28;
-    extern s32 D_80114F2C;
+    extern s32 aD80114F24 __asm__("guess_g_StoredViewPointX");
+    extern s32 guess_g_StoredViewPointY;
+    extern s32 guess_g_StoredViewPointZ;
     extern u8 D_8012694C;
     extern s16 D_801C9644;
     extern s16 D_801C96BC;
@@ -3924,8 +3924,8 @@ void func_8017B7A8(void)
     D_801C96BE = (s16) D_80114F34;
     D_801C96C0 = (s16) D_80114F38;
     D_801C96B4 = (s16) aD80114F24;
-    D_801C96B6 = (s16) D_80114F28;
-    D_801C96B8 = (s16) D_80114F2C;
+    D_801C96B6 = (s16) guess_g_StoredViewPointY;
+    D_801C96B8 = (s16) guess_g_StoredViewPointZ;
 }
 
 
@@ -3967,15 +3967,15 @@ void func_8017B880(void)
     extern s32 D_80114F30;
     extern s32 D_80114F34;
     extern s32 D_80114F38;
-    extern s32 aD80114F24 __asm__("D_80114F24");
-    extern s32 D_80114F28;
-    extern s32 D_80114F2C;
+    extern s32 aD80114F24 __asm__("guess_g_StoredViewPointX");
+    extern s32 guess_g_StoredViewPointY;
+    extern s32 guess_g_StoredViewPointZ;
     D_80114F30 = D_801C96D4;
     D_80114F34 = D_801C96D6;
     D_80114F38 = D_801C96D8;
     aD80114F24 = D_801C96DC;
-    D_80114F28 = D_801C96DE;
-    D_80114F2C = D_801C96E0;
+    guess_g_StoredViewPointY = D_801C96DE;
+    guess_g_StoredViewPointZ = D_801C96E0;
 }
 
 
@@ -4011,9 +4011,9 @@ void func_8017B940(void)
     extern s32 D_80114F30;
     extern s32 D_80114F34;
     extern s32 D_80114F38;
-    extern s32 aD80114F24 __asm__("D_80114F24");
-    extern s32 D_80114F28;
-    extern s32 D_80114F2C;
+    extern s32 aD80114F24 __asm__("guess_g_StoredViewPointX");
+    extern s32 guess_g_StoredViewPointY;
+    extern s32 guess_g_StoredViewPointZ;
     extern u8  D_8012694C;
     extern s16 D_801C9644;
     extern short D_801C96CC[];
@@ -4039,8 +4039,8 @@ void func_8017B940(void)
     D_801C96BE = D_80114F34 + buf[1];
     D_801C96C0 = D_80114F38 + buf[2];
     D_801C96B4 = aD80114F24 + buf[0];
-    D_801C96B6 = D_80114F28 + buf[1];
-    D_801C96B8 = D_80114F2C + buf[2];
+    D_801C96B6 = guess_g_StoredViewPointY + buf[1];
+    D_801C96B8 = guess_g_StoredViewPointZ + buf[2];
 }
 
 
@@ -4220,9 +4220,9 @@ void func_8017BD50(int param_1)
     extern short D_801C96CE[0];
     extern short D_801C96D0[0];
     extern s16 D_801C9A70;
-    extern s32 aD80114F24 __asm__("D_80114F24");
-    extern s32 D_80114F28;
-    extern s32 D_80114F2C;
+    extern s32 aD80114F24 __asm__("guess_g_StoredViewPointX");
+    extern s32 guess_g_StoredViewPointY;
+    extern s32 guess_g_StoredViewPointZ;
     extern s32 D_80114F30;
     extern s32 D_80114F34;
     extern s32 D_80114F38;
@@ -4236,8 +4236,8 @@ void func_8017BD50(int param_1)
             D_80114F34 = D_80114F34 + D_801C96CE[0];
             D_80114F38 = D_80114F38 + D_801C96D0[0];
             aD80114F24 = aD80114F24 + D_801C96CC[0];
-            D_80114F28 = D_80114F28 + D_801C96CE[0];
-            D_80114F2C = D_80114F2C + D_801C96D0[0];
+            guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_801C96CE[0];
+            guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_801C96D0[0];
             func_8012A4BC();
         }
         D_801C9A70 = 0;
@@ -4553,7 +4553,7 @@ void func_8017BFEC(s32 a0) {
  *   D_80126B5C     TU:361  (scalar u8 -> pass (s32)&D_80126B5C)
  *   D_801202A0     TU:385
  *   func_80013328  TU:520
- *   D_800B99DA     TU:615
+ *   guess_g_FrameCounter     TU:615
  *   rand           TU:957/1092/3543
  *   guess_g_PlayerPosY     TU:1793/2740/3068
  *   func_801746A4  TU:2397
@@ -4575,7 +4575,7 @@ extern s32 func_8012BD14(s32 a0);
 
 void func_8017C378(s32 a0) {
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
 
     extern u8 D_80126B5C;
     extern u8 D_801202A0[];
@@ -4593,7 +4593,7 @@ void func_8017C378(s32 a0) {
     s16 j;
     s32 rand_val;
 
-    if ((D_800B99DA & 0xF) == 0) {
+    if ((guess_g_FrameCounter & 0xF) == 0) {
         u8 *p;
         u8 *end;
         for (p = D_801202A0, end = p + 0x6480; p < end; p += 0x10C) {
@@ -4921,7 +4921,7 @@ extern void func_80017E68(void *a0, void *a1);
 void func_8017D030(int param_1)
 {
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8  D_80187734[];
     SVec8_8017C218 rot;
     s32   pad0[2];
@@ -4946,7 +4946,7 @@ void func_8017D030(int param_1)
     prim.c[0].r = prim.c[0].g = prim.c[0].b =
     prim.c[2].r = prim.c[2].g = prim.c[2].b =
     prim.c[3].r = prim.c[3].g = prim.c[3].b = c;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         prim.c[0].r = prim.c[2].r = prim.c[3].r = prim.c[3].r >> 1;
     }
 
@@ -5119,7 +5119,7 @@ s32 func_80146C3C(u8 *a0);
  * overlays. It is ALREADY matched, byte-for-byte, at:
  *   src/ov_SC02_027/ov_SC02_027_jr_8017D898.c (lines 2811-3167)
  * That C body was checked mnemonic-by-mnemonic against this binary's asm
- * (prologue loads, the (*(u8 * *)&D_800A5E60)/D_800B9A02/D_800A6610 globals, the 8/0xC/
+ * (prologue loads, the (*(u8 * *)&D_800A5E60)/guess_g_DoubleBufferIndex/D_800A6610 globals, the 8/0xC/
  * 0x10/0x64 struct-field offsets, the bbox min/max ladders, the switch's 4
  * OT-tag constants 0x4000000/0x7000000/0x5000000/0x9000000 in F3/FT3/F4/FT4
  * order, and the pkt/prim increments 0x14/0x20/0x18/0x28) and lines up
@@ -5149,7 +5149,7 @@ extern void func_800547D8(s32, MATRIX2 *);
 extern void func_80052E38(MATRIX2 *);
 extern s32 D_800A5E60;
 extern u8 D_800A6610[];
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 
 
 
@@ -5201,7 +5201,7 @@ void func_8017D898(s32 arg0)
     part = *(Part **)(arg0 + 0xC);
     nparts = *(s32 *)(((Unkstruct_8017D898_2 *)arg0)->unk8 + 8);
     vtx = *(u8 **)(((Unkstruct_8017D898_2 *)arg0)->unk8 + 0x10);
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;

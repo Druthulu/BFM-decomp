@@ -9,7 +9,7 @@ extern void func_801839C4(void *a0);
 extern void func_80183BA4();
 extern void func_80183C9C(s32 a0);
 extern void func_800D1724(s32 a0);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_801274E8;
 extern u8 D_8018EDC8[];
 extern u8 D_8018EA48[];
@@ -52,7 +52,7 @@ void func_80183814(void *a0_) {
     func_80183BA4(a0);
     func_80183C9C((s32)a0);
     if ((u32)(*(u16 *)((s32)a0 + 0xE) - 1) < 0xEFF) {
-        D_800B9AAC[0] = 0x7FFF;
+        guess_g_BackgroundLayerPriority[0] = 0x7FFF;
     }
     v = *(s16 *)((s32)a0 + 0xE);
     if (v < 0 && v < -0x1950) {

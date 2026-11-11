@@ -14,7 +14,7 @@ void func_8013EF88(void)
         u16 nw = old - 1;
         *p = nw;
         if (nw != 0) {
-            D_801151D0 = *(s32 *)((char *)&D_80115118 + 0xB0 + (u16)D_800B9A02 * 4);
+            D_801151D0 = *(s32 *)((char *)&D_80115118 + 0xB0 + (u16)guess_g_DoubleBufferIndex * 4);
             func_8013FAF8(0, 5);
             for (i = 0; i < 5; i++) {
                 s32 t = aD80115188[i].f0 * 3;
@@ -44,7 +44,7 @@ void func_8013EF88(void)
     }
 
     if (D_80115118 == 0) {
-        if (D_80115114 == ((u16)D_800B9A02 ^ 1)) {
+        if (D_80115114 == ((u16)guess_g_DoubleBufferIndex ^ 1)) {
             func_800D2624();
         } else {
             D_80115112 += 1;

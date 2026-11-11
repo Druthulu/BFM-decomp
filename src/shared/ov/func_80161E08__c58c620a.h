@@ -22,8 +22,8 @@ void func_80161E08(s32 param_1) {
     extern s16 guess_g_TargetTimeLabel2Y;
     extern u16 guess_g_TargetTimeDigits;
     extern s16 D_800B5C74;
-    extern s16 D_800B5C50;
-    extern s16 D_800B5C52;
+    extern s16 guess_g_TargetTimeDigitsX;
+    extern s16 guess_g_TargetTimeDigitsY;
     extern u8 * D_8018E868[];
     extern u8 D_80181D80[];
     extern u8 D_80181DA0[];
@@ -67,8 +67,8 @@ void func_80161E08(s32 param_1) {
             func_800242D0((s16)func_801620C4(), &D_8018E8B4, 0x84);
             func_8001CE68(p, &D_8018E8B4);
             D_800B5C74 = 1;
-            D_800B5C50 = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
-            D_800B5C52 = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
+            guess_g_TargetTimeDigitsX = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeDigitsY = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
         }
 
         func_800242D0((s16)func_801620C4(), &D_8018E8B4, 0x84);

@@ -269,7 +269,7 @@ s32 func_800CF3B0(void *a0, void *a1, void *a2) {
 
 extern u8 *D_800A5E60;
 extern u32 wD_800AA60C[] __asm__("D_800AA60C");
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 
 void func_800CF408(s32 x, s32 y) {
     u8 *p;
@@ -292,14 +292,14 @@ void func_800CF408(s32 x, s32 y) {
     *(s16 *)(p + 0x16) = 0x100;
     m24 = 0x00FFFFFF;
     {
-        u32 v = (wD_800AA60C[(u16)D_800B9A02 * 0x1000] & m24) & m24;
+        u32 v = (wD_800AA60C[(u16)guess_g_DoubleBufferIndex * 0x1000] & m24) & m24;
         u32 t = *(u32 *)p;
         t &= 0xFF000000;
         t |= v;
         *(u32 *)p = t;
     }
     {
-        s32 oi = (u16)D_800B9A02 * 0x1000;
+        s32 oi = (u16)guess_g_DoubleBufferIndex * 0x1000;
         wD_800AA60C[oi] = (wD_800AA60C[oi] & 0xFF000000) | ((u32)p & m24);
     }
     p += 0x18;
@@ -316,14 +316,14 @@ void func_800CF408(s32 x, s32 y) {
     *(s16 *)(p + 0x14) = 0xA0;
     *(s16 *)(p + 0x16) = 0x100;
     {
-        u32 v = (wD_800AA60C[(u16)D_800B9A02 * 0x1000] & m24) & m24;
+        u32 v = (wD_800AA60C[(u16)guess_g_DoubleBufferIndex * 0x1000] & m24) & m24;
         u32 t = *(u32 *)p;
         t &= 0xFF000000;
         t |= v;
         *(u32 *)p = t;
     }
     {
-        s32 oi = (u16)D_800B9A02 * 0x1000;
+        s32 oi = (u16)guess_g_DoubleBufferIndex * 0x1000;
         wD_800AA60C[oi] = (wD_800AA60C[oi] & 0xFF000000) | ((u32)p & m24);
     }
     p += 0x18;
@@ -340,14 +340,14 @@ void func_800CF408(s32 x, s32 y) {
     *(s16 *)(p + 0x14) = 0xA0;
     *(s16 *)(p + 0x16) = 0x100;
     {
-        u32 v = (wD_800AA60C[(u16)D_800B9A02 * 0x1000] & m24) & m24;
+        u32 v = (wD_800AA60C[(u16)guess_g_DoubleBufferIndex * 0x1000] & m24) & m24;
         u32 t = *(u32 *)p;
         t &= 0xFF000000;
         t |= v;
         *(u32 *)p = t;
     }
     {
-        s32 oi = (u16)D_800B9A02 * 0x1000;
+        s32 oi = (u16)guess_g_DoubleBufferIndex * 0x1000;
         wD_800AA60C[oi] = (wD_800AA60C[oi] & 0xFF000000) | ((u32)p & m24);
     }
     p += 0x18;
@@ -364,14 +364,14 @@ void func_800CF408(s32 x, s32 y) {
     *(s16 *)(p + 0x14) = 0xA0;
     *(s16 *)(p + 0x16) = 0x100;
     {
-        u32 v = (wD_800AA60C[(u16)D_800B9A02 * 0x1000] & m24) & m24;
+        u32 v = (wD_800AA60C[(u16)guess_g_DoubleBufferIndex * 0x1000] & m24) & m24;
         u32 t = *(u32 *)p;
         t &= 0xFF000000;
         t |= v;
         *(u32 *)p = t;
     }
     {
-        s32 oi = (u16)D_800B9A02 * 0x1000;
+        s32 oi = (u16)guess_g_DoubleBufferIndex * 0x1000;
         wD_800AA60C[oi] = (wD_800AA60C[oi] & 0xFF000000) | ((u32)p & m24);
     }
     p += 0x18;
@@ -383,7 +383,7 @@ void func_800CF408(s32 x, s32 y) {
 /* func_800CF6D0 — md_MAIN_007 (-O2). Builds six 0x18-byte "SPRT with its own tpage" primitives
  * (tag / 0xE10000xx draw-mode word / rgb+code 0x64 / xy / uv+clut / wh) at the D_800A5E60 prim
  * cursor and addPrim()s each onto OT word [0] of the frame's ordering table
- * (D_800AA60C + D_800B9A02 * 0x4000), then republishes the advanced cursor.  Four 256-wide tiles
+ * (D_800AA60C + guess_g_DoubleBufferIndex * 0x4000), then republishes the advanced cursor.  Four 256-wide tiles
  * at (arg0-0xA0 + 0x100*i, arg1-0x78) plus a fixed 2 x (0xA0 x 0x100) backdrop.
  * Twin: md_MAIN_009/func_800CD92C (banked, §501-H) — same shape, same prologue weave.
  *
@@ -391,7 +391,7 @@ void func_800CF408(s32 x, s32 y) {
  * The prior 137-plateau's residual ("sched1 rank_for_schedule class tie") was misattributed —
  * read from the -dS/-dR/-df dumps and the 2.7.2 source it is three separate mechanisms:
  *
- *  1. sched2 (NOT sched1) split the field stores around the `lhu D_800B9A02`: sched.c:838-845
+ *  1. sched2 (NOT sched1) split the field stores around the `lhu guess_g_DoubleBufferIndex`: sched.c:838-845
  *     true_dependence exempts a /s (struct-member) store at a VARYING address in NON-QImode from
  *     conflicting with a non-/s FIXED-address read, so `p->clut/x0/y0/w/h/tpage` were ready one
  *     clock before the lhu, won schedule_select's potential-hazard rule (store > load > ALU) and
@@ -421,7 +421,7 @@ void func_800CF408(s32 x, s32 y) {
  */
 extern u8 *D_800A5E60;
 extern u8 D_800AA60C[];
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 
 void func_800CF6D0(s32 arg0, u32 arg1) {
     u8 *p;
@@ -446,13 +446,13 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
     *(s16 *)(p + 0x16) = 0x100;
     m24 = 0xFFFFFF;
     {
-        u32 v = (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & m24) & m24;
+        u32 v = (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & m24) & m24;
         u32 t = *(u32 *)p;
         t &= 0xFF000000;
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -467,13 +467,13 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
     *(s16 *)(p + 0x14) = 0x100;
     *(s16 *)(p + 0x16) = 0x100;
     {
-        u32 v = (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & m24) & m24;
+        u32 v = (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & m24) & m24;
         u32 t = *(u32 *)p;
         t &= 0xFF000000;
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -488,13 +488,13 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
     *(s16 *)(p + 0x14) = 0x100;
     *(s16 *)(p + 0x16) = 0x100;
     {
-        u32 v = (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & m24) & m24;
+        u32 v = (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & m24) & m24;
         u32 t = *(u32 *)p;
         t &= 0xFF000000;
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -509,13 +509,13 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
     *(s16 *)(p + 0x14) = 0x40;
     *(s16 *)(p + 0x16) = 0x100;
     {
-        u32 v = (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & m24) & m24;
+        u32 v = (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & m24) & m24;
         u32 t = *(u32 *)p;
         t &= 0xFF000000;
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -530,13 +530,13 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
     *(s16 *)(p + 0x14) = 0xA0;
     *(s16 *)(p + 0x16) = 0x100;
     {
-        u32 v = (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & m24) & m24;
+        u32 v = (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & m24) & m24;
         u32 t = *(u32 *)p;
         t &= 0xFF000000;
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -551,13 +551,13 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
     *(s16 *)(p + 0x14) = 0xA0;
     *(s16 *)(p + 0x16) = 0x100;
     {
-        u32 v = (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & m24) & m24;
+        u32 v = (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & m24) & m24;
         u32 t = *(u32 *)p;
         t &= 0xFF000000;
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
     p += 0x18;
 
     D_800A5E60 = p;

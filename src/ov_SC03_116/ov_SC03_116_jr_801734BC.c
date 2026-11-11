@@ -599,7 +599,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -895,7 +895,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1083,7 +1083,7 @@ extern s32 D_80184C20[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1116,7 +1116,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2691,14 +2691,14 @@ extern s32 guess_GetStoryProgress(void);
 void func_801754A8(void) {
 
     extern u8 D_8011F7A8;
-    extern unsigned char D_800B9A13;
+    extern unsigned char guess_g_ActiveMenu;
     extern s32 D_80126B9C;
     extern DispatchFn D_8018609C[];
     u8 *p = &D_8011F7A8;
     s32 r = guess_GetStoryProgress();
     s32 flag = 0;
 
-    if (((D_800B9A13 == 0) && ((D_80126B9C & 0x80) == 0)) ||
+    if (((guess_g_ActiveMenu == 0) && ((D_80126B9C & 0x80) == 0)) ||
         (0x4AF < (u32)(r - 10))) {
         flag = 1;
     }
@@ -2865,7 +2865,7 @@ void func_80175DA8(param_1)
 {
 
     extern u8  D_8011F7F0;
-    extern u8  D_800B9A13;
+    extern u8  guess_g_ActiveMenu;
     extern S_AF634 guess_g_PacketBufferUsed[];
     extern S_AF634 guess_g_PacketBufferBase[];
     extern u16 D_80185F70[];
@@ -2913,7 +2913,7 @@ void func_80175DA8(param_1)
         i++;
     } while (i < 5);
 
-    ((Unkstruct_8011F7A8 *)s)->unk7 = D_800B9A13;
+    ((Unkstruct_8011F7A8 *)s)->unk7 = guess_g_ActiveMenu;
     p = (Sp_80175DA8 *)func_8017742C((u32 *)p,
                                      (s16)(*(u16 *)(s + 0x10) - 0x98),
                                      (s16)(((Unkstruct_8011F7A8 *)s)->unk12 + 9));
@@ -3284,7 +3284,7 @@ void func_80176734(s32 param_1)
     extern u8  D_800D43D4;
     extern u8  D_800D4414;
     extern u8  D_800D45D4;
-    extern u8  D_800B9A13;
+    extern u8  guess_g_ActiveMenu;
     extern s16 D_80126CE0;
     extern s16 D_80126D20;
     extern s32 guess_g_PlayerActor;
@@ -3409,7 +3409,7 @@ L9C0:
 
     /* ---- block F: mode byte -> chg ---- */
     {
-        u8 m = D_800B9A13;
+        u8 m = guess_g_ActiveMenu;
         if (m != 3) {                        /* inverted: `chg = 0` belongs out of line */
             chg = (((Unkstruct_8011F7A8 *)st)->unk7 != m);
             if (chg != 0) ((Unkstruct_8011F7A8 *)st)->unk7 = m;

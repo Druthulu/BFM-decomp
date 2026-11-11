@@ -63,7 +63,7 @@ void func_800CAF8C(void) {
 void func_800CAF94(s32 arg0) {
 
     extern u8   D_80078EC1;
-    extern u16  D_800B99DA;
+    extern u16  guess_g_FrameCounter;
     extern s32 func_80146C3C(u8 *a0);
     extern void func_80017DC4(void *a0, void *a1);
     extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
@@ -104,7 +104,7 @@ void func_800CAF94(s32 arg0) {
         q = rot;
         func_800D23D0(q);
         q = mtx;
-        rot[2] = (D_800B99DA & 0x1F) << 7;
+        rot[2] = (guess_g_FrameCounter & 0x1F) << 7;
         RotMatrixYXZ(rot, q);
         q = (void *)(arg0 + 0x38);
         func_80048D9C(q, mtx);
@@ -124,7 +124,7 @@ void func_800CB0C8(s32 arg0) {
 
 
     extern u8   D_80078EC1;
-    extern u16  D_800B99DA;
+    extern u16  guess_g_FrameCounter;
     extern Blk20 D_800AE620;
     extern s32 func_80146C3C(u8 *a0);
     extern s32  func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -172,7 +172,7 @@ void func_800CB0C8(s32 arg0) {
             q = rot;
             func_800D23D0(q);
             q = mtx;
-            rot[2] = (D_800B99DA & 0x1F) << 7;
+            rot[2] = (guess_g_FrameCounter & 0x1F) << 7;
             RotMatrixYXZ(rot, q);
             q = (void *)(arg0 + 0x38);
             func_80048D9C(q, mtx);

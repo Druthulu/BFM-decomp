@@ -289,14 +289,14 @@ void func_800CB3F0(void *a0) {
 
 
 void func_800CB4AC(void) {
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8 D_800CBD68;
     extern u8 D_800CBD69;
     extern u8 D_800CBD6A;
     u8 colA;
     u8 colB;
 
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         colA = 0xCF;
         colB = 0xFF;
     } else {

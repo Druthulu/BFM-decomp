@@ -248,13 +248,13 @@ extern s32 D_800EC690;
 extern s32 D_800EC694;
 extern s32 D_800EC68C;
 extern s16 D_800EC678;
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 D_800AA60C[];
 #define setaddr_(p, a) (((PTag_800CF3E8 *)(p))->addr = (u32)(a))
 #define getaddr_(p) ((u32)(((PTag_800CF3E8 *)(p))->addr))
 #define ADDPRIMB(ot, p) setaddr_((p), getaddr_(ot)); setaddr_((ot), (p));
 
-extern S16_800CF3E8 sD800B9A02 __asm__("D_800B9A02");
+extern S16_800CF3E8 sD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 #define OTIDX ((fr = sD800B9A02), fr.h)
 extern Sprt24 D_800EC7C8[];
 extern Sprt24 D_800EC7F8[];
@@ -299,7 +299,7 @@ void func_800CF3E8(void) {
     Sprt24 *p5;
     Sprt24 *p6;
     u32 *ot;
-    s32 idx = D_800B9A02;
+    s32 idx = guess_g_DoubleBufferIndex;
     S16_800CF3E8 fr;
 
     if (D_800EC690 == 1) goto blk1;

@@ -894,7 +894,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1077,7 +1077,7 @@ extern s32 D_8018A5F8[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1110,7 +1110,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2450,9 +2450,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2943,9 +2943,9 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 extern u8 D_8012694C;
 extern s16 D_801AE584;
@@ -2963,9 +2963,9 @@ void func_8017B7A8(void)
     D_801AE5FC = (s16) D_80114F30;
     D_801AE5FE = (s16) D_80114F34;
     D_801AE600 = (s16) D_80114F38;
-    D_801AE5F4 = (s16) D_80114F24;
-    D_801AE5F6 = (s16) D_80114F28;
-    D_801AE5F8 = (s16) D_80114F2C;
+    D_801AE5F4 = (s16) guess_g_StoredViewPointX;
+    D_801AE5F6 = (s16) guess_g_StoredViewPointY;
+    D_801AE5F8 = (s16) guess_g_StoredViewPointZ;
 }
 
 
@@ -3006,18 +3006,18 @@ extern s16 D_801AE620;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 void func_8017B880(void)
 {
     D_80114F30 = D_801AE614;
     D_80114F34 = D_801AE616;
     D_80114F38 = D_801AE618;
-    D_80114F24 = D_801AE61C;
-    D_80114F28 = D_801AE61E;
-    D_80114F2C = D_801AE620;
+    guess_g_StoredViewPointX = D_801AE61C;
+    guess_g_StoredViewPointY = D_801AE61E;
+    guess_g_StoredViewPointZ = D_801AE620;
 }
 
 
@@ -3051,9 +3051,9 @@ extern u16 D_801AE608;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 extern u8  D_8012694C;
 extern s16 D_801AE584;
@@ -3082,9 +3082,9 @@ void func_8017B940(void)
     D_801AE584 = 0;
     D_801AE5FE = D_80114F34 + buf[1];
     D_801AE600 = D_80114F38 + buf[2];
-    D_801AE5F4 = D_80114F24 + buf[0];
-    D_801AE5F6 = D_80114F28 + buf[1];
-    D_801AE5F8 = D_80114F2C + buf[2];
+    D_801AE5F4 = guess_g_StoredViewPointX + buf[0];
+    D_801AE5F6 = guess_g_StoredViewPointY + buf[1];
+    D_801AE5F8 = guess_g_StoredViewPointZ + buf[2];
 }
 
 
@@ -3255,9 +3255,9 @@ extern short D_801AE60E[0];
 extern short D_801AE610[0];
 extern s16 D_801B20D8;
 
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
@@ -3273,9 +3273,9 @@ void func_8017BD50(int param_1)
             D_80114F30 = D_80114F30 + D_801AE60C[0];
             D_80114F34 = D_80114F34 + D_801AE60E[0];
             D_80114F38 = D_80114F38 + D_801AE610[0];
-            D_80114F24 = D_80114F24 + D_801AE60C[0];
-            D_80114F28 = D_80114F28 + D_801AE60E[0];
-            D_80114F2C = D_80114F2C + D_801AE610[0];
+            guess_g_StoredViewPointX = guess_g_StoredViewPointX + D_801AE60C[0];
+            guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_801AE60E[0];
+            guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_801AE610[0];
             func_8012A4BC();
         }
         D_801B20D8 = 0;
@@ -4651,7 +4651,7 @@ void func_8017E2F8(int a0) {
  *           part($s2)  = *(Part35C**)(actor+0xC)      stride 0x14, giv $s1=part+0xC
  *           obj        = *(s32*)(actor+8)
  *           nparts($fp)= *(s32*)(obj+8)   ; vtx($t9) = *(u8**)(obj+0x10)
- *           ot($s7)    = &D_800A6610[D_800B9A02 << 14]
+ *           ot($s7)    = &D_800A6610[guess_g_DoubleBufferIndex << 14]
  *           $s4=&vbuf (spilled to 0x108), $s5=&g.sz0, $s6=&g.sz1, $t8=0xFFFFFF
  *           if (nparts <= 0) -> .L8017EE5C (store-back only)
  *
@@ -4739,7 +4739,7 @@ void func_8017E2F8(int a0) {
  *
  * TU-safety: the six aggregate typedefs are given function-unique names
  * (engine_types.h already defines byte-identical DVECTOR2/SVECTOR2/MATRIX2/
- * PolyFT3/PolyFT4/Part), the scalar typedefs are omitted, and D_800B9A02 is
+ * PolyFT3/PolyFT4/Part), the scalar typedefs are omitted, and guess_g_DoubleBufferIndex is
  * declared `s16` with a `(u16)` cast at the use site to agree with the two
  * existing `extern short/s16` decls at ov_SC06_000_jr_8017AE2C.c:2466-2468
  * (the cast still folds into `lhu`).  rtu_match.py: MATCH.
@@ -4749,7 +4749,7 @@ void func_8017E2F8(int a0) {
 extern s32  func_800491EC(void);
 extern void func_800547D8(s32, Mtx35C *);
 extern void func_80052E38(Mtx35C *);
-extern s16  D_800B9A02;
+extern s16  guess_g_DoubleBufferIndex;
 
 
 
@@ -4816,7 +4816,7 @@ void func_8017E35C(s32 arg0)
     part = *(Part35C **)(arg0 + 0xC);
     nparts = *(s32 *)(((Unkstruct_8017E35C *)arg0)->unk8 + 8);
     vtx = *(u8 **)(((Unkstruct_8017E35C *)arg0)->unk8 + 0x10);
-    ot = (u32)&D_800A6610[(u16)D_800B9A02 << 14];
+    ot = (u32)&D_800A6610[(u16)guess_g_DoubleBufferIndex << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;
@@ -5084,7 +5084,7 @@ s32 func_8017EF08(s32 a0) {
  *   lim  = func_800491EC() + *(s32*)(arg0+0x64);       -> spill 0x100
  *   func_800547D8(arg2, &mtx); func_80052E38(&mtx);
  *   pkt  = D_800A5E60;                     ($t5, kept live over the whole loop)
- *   ot   = &D_800A6610[(u16)D_800B9A02 << 14];         ($t9)
+ *   ot   = &D_800A6610[(u16)guess_g_DoubleBufferIndex << 14];         ($t9)
  *   d = D_801AE6E0; colA = d|d<<8|d<<16;               -> spill 0x108
  *   e = d*2; if (e > 0xFF) e = 0xFF; colB = ...;       -> spill 0x110 (sltiu!)
  *   part = (Part*)(arg1+0x14)   -> spill 0x120 ; giv part+0xC -> $s1
@@ -5254,7 +5254,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
     extern s32 func_800491EC(void);
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern s32 D_801AE6E0;
 
     DVECTOR2 tmpxy[4];
@@ -5299,7 +5299,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
     func_80052E38(&mtx);
 
     pkt = D_800A5E60;
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     d = D_801AE6E0;
     colA = (d << 16) | (d << 8) | d;
     e = d * 2;
@@ -5794,7 +5794,7 @@ extern void func_80017E68(void *a0, void *a1);
 void func_801801E8(int param_1)
 {
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8  D_8018BF94[];
     SVec8_8017C218_801801E8 rot;
     s32   pad0[2];
@@ -5819,7 +5819,7 @@ void func_801801E8(int param_1)
     prim.c[0].r = prim.c[0].g = prim.c[0].b =
     prim.c[2].r = prim.c[2].g = prim.c[2].b =
     prim.c[3].r = prim.c[3].g = prim.c[3].b = c;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         prim.c[0].r = prim.c[2].r = prim.c[3].r = prim.c[3].r >> 1;
     }
 
@@ -7331,14 +7331,14 @@ void func_801827F4(void) {
 
 s32 func_80182888(void)
 {
-    extern s32 D_800C7C60;
-    extern s32 *D_800C7C64;
+    extern s32 guess_g_CdReadList;
+    extern s32 *guess_g_CdReadListDest;
     extern s32 D_800A2E20;
     extern u8 D_800AF410[];
-    s32 *p = &D_800C7C60;
+    s32 *p = &guess_g_CdReadList;
 
     *p = 0x51;
-    D_800C7C64 = &D_800A2E20;
+    guess_g_CdReadListDest = &D_800A2E20;
     func_8001ABBC(0, 0, D_800AF410, 0, (u32)p);
 }
 
@@ -10243,12 +10243,12 @@ void func_80186A94(void) {
  *       three-temp form (DEFINE_func_8012B4B8, engine_core.h L29487) emits the
  *       same instruction MIX but a different allocation (+60 mismatches).
  *
- *  §21/T6  The double-buffer index D_800B9A02 is read at ALL THREE use sites
+ *  §21/T6  The double-buffer index guess_g_DoubleBufferIndex is read at ALL THREE use sites
  *       (three `lhu`s off ONE materialised `la`).  A PLAIN read is CSEd down to
  *       two AND keeps -G0 symbol addressing (lui+lhu per read, +1 insn); a
  *       POINTER local gives the `la` but lets cse fold the third read.  The
  *       `volatile u16 *` pointer local reproduces BOTH properties and leaves
- *       the TU's own `extern s16 D_800B9A02;` untouched.
+ *       the TU's own `extern s16 guess_g_DoubleBufferIndex;` untouched.
  *
  *  T6   The OT base is bound to an s32 local (`ot`) so the tag read/write keep
  *       the `0x40($v1)` displacement form instead of folding into the pointer.
@@ -10318,7 +10318,7 @@ void func_80186A94(void) {
  *      found.
  *
  * ---------------------------------------------------------------------------
- * DECLARATIONS: ApplyMatrixSV, D_800B9A02 and D_801B1EF4/E6/EA/EC are declared
+ * DECLARATIONS: ApplyMatrixSV, guess_g_DoubleBufferIndex and D_801B1EF4/E6/EA/EC are declared
  * VERBATIM as the TU already has them at file scope (L163, L2460/2462,
  * L3689/3705/3706, L3726, L3879), so they merge silently.  D_800AE620,
  * D_800A5E60, D_800A651C, guess_g_OrderingTables, D_801B1EF8, RotMatrixZ, func_8004901C and
@@ -10410,7 +10410,7 @@ void func_80186B70(s32 arg0)
     *(s16 *)(p + 0x1A) = by;
 
     /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-    bidx = (u16 *)&D_800B9A02;
+    bidx = (u16 *)&guess_g_DoubleBufferIndex;
     pv = *(u32 *)p;
     pv &= 0xFF000000;
     *(u32 *)p = pv | (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
@@ -10741,7 +10741,7 @@ void func_80187200(void) {
  *  A. THE OT LINK IS THE libgpu P_TAG BITFIELD, NOT HAND-MASKING.  Writing
  *     `*(u32*)q = (*(u32*)q & 0xFF000000) | (ot & 0xFFFFFF)` is byte-correct
  *     arithmetic but gives the WRONG register assignment (16 mismatches: the
- *     0xFFFFFF / 0xFF000000 / &D_800B9A02 pseudos land in a0/a2/a3 permuted,
+ *     0xFFFFFF / 0xFF000000 / &guess_g_DoubleBufferIndex pseudos land in a0/a2/a3 permuted,
  *     and the `lw $v1,0($s3)` gets serialised behind the index load).  The
  *     `unsigned addr:24; unsigned len:8` bitfield insert reproduces both the
  *     allocation and the schedule exactly.  This is just `addPrim(ot, q)`.
@@ -10781,7 +10781,7 @@ extern void func_80016638(void *a0, s32 a1, s32 a2);
 
       /* the 0x20-byte matrix */
   /* == engine_types.h OtBlk */
-          /* the D_800B9A02 buffer index */
+          /* the guess_g_DoubleBufferIndex buffer index */
  /* libgpu P_TAG */
 
 void func_80187314(s32 a0) {
@@ -10856,7 +10856,7 @@ void func_80187314(s32 a0) {
     ((Unkstruct_80187314 *)q)->unk12 = CAST_SIGN(u16, q, 0x12) + out[1];
 
     {
-        Bidx_8018B23C_80187314 *bp = (Bidx_8018B23C_80187314 *)&D_800B9A02;
+        Bidx_8018B23C_80187314 *bp = (Bidx_8018B23C_80187314 *)&guess_g_DoubleBufferIndex;
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
         ((PTag_8018B23C_80187314 *)q)->addr =
@@ -11125,7 +11125,7 @@ void func_80187B34(void *a0)
 
     if ((((Unkstruct_8017E2EC_3 *)stk)->unk48 & 0xFFFFEFFF) == 0) {
         idx = ((Unkstruct_8017E2EC_3 *)stk)->unk50 + 1;
-        ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
         {
             u16 flags2 = ((Unkstruct_8017E2EC_4 *)a0)->unk2C;
             if ((flags2 & 0xC000) != 0) {

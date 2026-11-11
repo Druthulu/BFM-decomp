@@ -134,7 +134,7 @@ extern s16 D_80114EE0;
 extern void func_80129428(void);
 extern void func_8012943C(void);
 extern s32 D_8005128C;
-extern u8 D_800B9A78;
+extern u8 guess_g_BackgroundLayers;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8(int arg0, int arg1, u8 * arg2);
 extern void func_8012944C(void);
@@ -203,7 +203,7 @@ extern s16 D_801152C2;
 extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern void func_8012A418(void);
-extern Vec8 D_80114F24;
+extern Vec8 guess_g_StoredViewPointX;
 extern void func_8012A464(void);
 extern void func_8012A4BC(void);
 extern void func_8012A598(void *a0);
@@ -361,7 +361,7 @@ extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s32 D_800A651C;
 extern u8 guess_g_CameraWsMatrix;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_8012D5DC(void);
 extern s16 D_80126B98;
@@ -603,7 +603,7 @@ extern u16 D_80126CC4;
 extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
@@ -614,7 +614,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
@@ -779,7 +779,7 @@ extern void *D_8011DB24;
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern unsigned short D_80115112;
 extern void func_8013E588(void * _arg0);
@@ -1242,19 +1242,19 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         func_8005A600((s32)ot, 0, 0, 0x15, 0);
         flag3 = flag;
         *ot = 0x2000000;
-        *ot = (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFFFFFF) | 0x2000000;
-        guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] =
-            (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+        *ot = (guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] & 0xFFFFFF) | 0x2000000;
+        guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] =
+            (guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
         ot = func_800D29F8(flag3,
                            func_800D27DC(flag3 != 0, ot + 10, &D_80182EA8[i], 8, D_8011516A[i].x),
                            &D_801831A8[i], 2, D_8011516A[i].x);
     }
     pp = &D_80183820;
     if (*pp == 0xE) {
-        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2);
+        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex], 2);
     }
     if (*pp != 0 && D_80183822 != 0) {
-        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4 + 2, (s32)(pp - 2), 0x8000);
+        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4 + 2, (s32)(pp - 2), 0x8000);
     }
     D_801151D0 = (s32)ot;
 }
@@ -1284,7 +1284,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     extern u8 D_801834F0;
     extern u8 D_801834F4;
     extern u8 *D_80183500;
-    extern s32 D_8010F3C4[];
+    extern s32 guess_g_VillagerNames[];
     extern s32 D_8010EDE8[];
     extern u8  D_80115143;
     extern void * D_8019A854;
@@ -1369,7 +1369,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 if ((((s32 (*)(u8, s32))func_800291B4)(D_8018356F[s0], arg1) & 0xFF) == 0) {
                     *arg2 = 0x804040;
                 }
-                ret = D_8010F3C4[s0];
+                ret = guess_g_VillagerNames[s0];
             } else {
                 ret = (*(s32 *)&D_801834F0);
             }
@@ -1391,7 +1391,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 *arg2 = 0x804040;
             }
             idx = s0 + 1;
-            ret = D_8010F3C4[idx];
+            ret = guess_g_VillagerNames[idx];
         }
         break;
     }
@@ -1433,7 +1433,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     extern void * D_8018361C[];
     extern u8 D_8018356F[];
     extern u8 * D_8019A854;
-    extern u8 D_801117EC[];
+    extern u8 guess_g_EmptyText[];
     extern u8 D_801117B4[];
     extern u8 D_80112BC8[];
     extern u8 D_80112B58[];
@@ -1445,7 +1445,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     unsigned int uVar3;
     void *result;
 
-    result = D_801117EC;
+    result = guess_g_EmptyText;
     switch (((short)param_1)) {
     case 0:
         if (((s32(*)(s32))guess_TestGameFlag)(D_80183544[((short)param_2)]) & 0xFF) {
@@ -1639,7 +1639,7 @@ s32 *ot;
 s16 i;
 s16 n;
 {
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern u16 D_80115110;
     extern u8 D_80115140[];
 
@@ -1719,7 +1719,7 @@ u32 mhi;
           j = 0;
           k = m;
           t3v = m * 4;                  /* [L3] explicit, must sit before the 3 constants */
-          pb = (u16 *) (&D_800B9A02);
+          pb = (u16 *) (&guess_g_DoubleBufferIndex);
           m24 = 0xFFFFFF;
           mhi = 0xFF000000;
           for (; j < 2; j++)
@@ -2086,7 +2086,7 @@ extern s32 func_8014032C(s32 a0, s32 a1);
 s32 func_80141A60()
 {
 
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern unsigned short D_80115112;
     extern u16 D_80115116;
     extern u16 D_8011511A;
@@ -2100,7 +2100,7 @@ s32 func_80141A60()
     s32 frame_pad[2];
     (void)&frame_pad;
 
-    D_801151D0 = ((int *)D_801151C8)[(*(unsigned short *)&D_800B9A02)];
+    D_801151D0 = ((int *)D_801151C8)[(*(unsigned short *)&guess_g_DoubleBufferIndex)];
     func_8013F350();
     if ((*(unsigned short *)&D_8011511A) >= 4) {
         func_8013FAF8((short)(*(unsigned short *)&D_8011511A), (short)((*(unsigned short *)&D_8011511A) + 1));
@@ -2856,7 +2856,7 @@ void func_80144090(s32 param_1) {
 
     extern OtBlk aD800A651C_80144090[] __asm__("D_800A651C");
     extern u8 guess_g_CameraWsMatrix;
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     void *iVar1;
     s32 iVar2;
     s32 iVar3;
@@ -2906,7 +2906,7 @@ void func_80144090(s32 param_1) {
             *(s16 *)((u8 *)iVar1 + 0x12) = L.sxy[1] + ((iVar4 + (iVar3 >> 6)) >> 0xc);
             *(s16 *)((u8 *)iVar1 + 0xc) = L.sxy[0] + ((iVar3 - (iVar4 >> 6)) >> 0xc);
             *(s16 *)((u8 *)iVar1 + 0xe) = L.sxy[1] + ((iVar4 - (iVar3 >> 6)) >> 0xc);
-            AddPrim(aD800A651C_80144090[(u16)D_800B9A02].a + (iVar2 * 4), iVar1);
+            AddPrim(aD800A651C_80144090[(u16)guess_g_DoubleBufferIndex].a + (iVar2 * 4), iVar1);
             iVar1 = (u8 *)iVar1 + 0x14;
         } while (iVar6 < 0x1000);
     }

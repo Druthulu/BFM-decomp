@@ -111,7 +111,7 @@ extern u8 D_80078EC1;
 extern s16 D_80126BCC;
 extern u16 D_80126BCA;
 extern s16 D_80126BC8;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 s32 func_80146AB4(s32, void *, s32, s32, s32, s32, s32);
 s32 func_80146C3C(u8 *a0);
@@ -157,7 +157,7 @@ void func_800CB0D0(St_md_MAIN_029 *arg0) {
             *p += 0xE0;
             D_80126BC8 = *p;
         }
-        if ((D_800B99DA & 0xF) == 0) {
+        if ((guess_g_FrameCounter & 0xF) == 0) {
             func_8002D4C8(0x5FB, 0);
         }
     } else {

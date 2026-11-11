@@ -638,7 +638,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -939,7 +939,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1136,7 +1136,7 @@ extern s32 D_80188E8C[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1169,7 +1169,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2947,7 +2947,7 @@ s32 func_80175268(s32 param_1)
 
 extern s32 guess_GetStoryProgress(void);
 extern u8 D_8011F7A8;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern s32 D_80126B9C;
 extern DispatchFn D_8018A308[];
 
@@ -2956,7 +2956,7 @@ void func_801754A8(void) {
     s32 r = guess_GetStoryProgress();
     s32 flag = 0;
 
-    if (((D_800B9A13 == 0) && ((D_80126B9C & 0x80) == 0)) ||
+    if (((guess_g_ActiveMenu == 0) && ((D_80126B9C & 0x80) == 0)) ||
         (0x4AF < (u32)(r - 10))) {
         flag = 1;
     }
@@ -3162,7 +3162,7 @@ void func_80175AB8(param_1)
 #include "common.h"
 
 extern u8  D_8011F7F0;
-extern u8  D_800B9A13;
+extern u8  guess_g_ActiveMenu;
    /* size 0x0C */
 extern S_AF634 guess_g_PacketBufferUsed[];
 extern S_AF634 guess_g_PacketBufferBase[];
@@ -3220,7 +3220,7 @@ void func_80175DA8(param_1)
         i++;
     } while (i < 5);
 
-    ((Unkstruct_80175DA8_5 *)s)->unk7 = D_800B9A13;
+    ((Unkstruct_80175DA8_5 *)s)->unk7 = guess_g_ActiveMenu;
     p = (Sp_80175DA8 *)func_8017742C((u32 *)p,
                                      (s16)(((Unkstruct_80175DA8_5 *)s)->unk10 - 0x98),
                                      (s16)(((Unkstruct_80175DA8_5 *)s)->unk12 + 9));
@@ -3590,7 +3590,7 @@ L63C:
 //   C  else if (cach[0x48] != cur[0x48]) { seed flag48 (5 or 0); cach48 = cur48; draw; flag48++ }
 //   D  0x2E sync (equality-first if/else) + the 0x49 gauge byte
 //   E  0x1E sign-bit flip -> one of two func_800183E0 calls
-//   F  D_800B9A13 mode byte -> chg
+//   F  guess_g_ActiveMenu mode byte -> chg
 //   G  switch (cur[0x48]) { 3,4,5 -> amp=0xFF on hit; 6 -> amp=0xBA } (gcc decision tree, no jtbl)
 //   H  if (amp) { flag[0x47]=1; cach[0x4B]=cur48|0xF0; cach[0x47]=(D_80126D20<<7)/amp; goto tail }
 //   I  else derive tgt/chg2 from D_80126CE0 or cur[0x47]
@@ -3649,7 +3649,7 @@ L63C:
 // Declaration environment: every extern is block-scoped (§28/§43 zero file-scope footprint).
 // The types match the decls already at file scope in ov_SC01_077_jr_801734BC.c
 // (D_8011F7A8 u8, guess_g_PlayerRecord u8[], D_8018A238 u16, D_8018A2CC u8[], D_8018A2E4 s32[],
-//  D_800D43D4/4414/45D4 u8, D_800B9A13 u8, D_80126D20 s16, guess_g_PlayerActor s32,
+//  D_800D43D4/4414/45D4 u8, guess_g_ActiveMenu u8, D_80126D20 s16, guess_g_PlayerActor s32,
 //  func_800183E0(s32), func_801619D0(void*), func_80161A00/30/60(s32)); func_801775E0 is the
 // shared engine-core DEFINE later in the same TU, so it needs the forward decl below.
 
@@ -3670,7 +3670,7 @@ void func_80176734(s32 param_1)
     extern u8  D_800D43D4;
     extern u8  D_800D4414;
     extern u8  D_800D45D4;
-    extern u8  D_800B9A13;
+    extern u8  guess_g_ActiveMenu;
     extern s16 D_80126CE0;
     extern s16 D_80126D20;
     extern s32 guess_g_PlayerActor;
@@ -3795,7 +3795,7 @@ L9C0:
 
     /* ---- block F: mode byte -> chg ---- */
     {
-        u8 m = D_800B9A13;
+        u8 m = guess_g_ActiveMenu;
         if (m != 3) {                        /* inverted: `chg = 0` belongs out of line */
             chg = (((Unkstruct_8011F7A8 *)st)->unk7 != m);
             if (chg != 0) ((Unkstruct_8011F7A8 *)st)->unk7 = m;

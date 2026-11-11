@@ -139,7 +139,7 @@ void func_800CB3AC(s32 a0) {
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 func_800CB6D4(s32 a0);
 extern void func_800CB684(s32 a0, s32 a1);
 extern void func_80146CA0(void *a0);
@@ -149,7 +149,7 @@ extern s32 rand(void);
 void func_800CB484(s32 *a0) {
     u16 *p = CAST_SIGN(u16 *, (u8 *)a0, 0x20);
     if (((Unkstruct_80126B58 *)a0)->unk54 != 0) {
-        if (D_800B99DA & 1) {
+        if (guess_g_FrameCounter & 1) {
             p[0x15] = 0x100;
         } else {
             p[0x15] = 0x120;
@@ -183,7 +183,7 @@ void func_800CB564(int param_1)
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 func_80146E98(s32 a0);
 extern void func_800CB684(s32 a0, s32 a1);
 
@@ -191,7 +191,7 @@ void func_800CB59C(s32 a0) {
     s32 ptr;
     s32 v;
 
-    v = D_800B99DA & 1;
+    v = guess_g_FrameCounter & 1;
     ptr = ((Unkstruct_80126B58 *)a0)->unk20;
     if (v == 0) {
         v = 0x160;

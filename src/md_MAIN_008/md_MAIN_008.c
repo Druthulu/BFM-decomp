@@ -88,7 +88,7 @@ void func_800CEF50(void) {
     extern u16 D_800CF136;
     extern u16 D_800CF138;
     extern u16 D_800CF13A;
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
     extern u8 D_800AA60C[];
 
     register s32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
@@ -134,7 +134,7 @@ void func_800CEF50(void) {
     D_800CF12E = c;
     D_800CF12D = c;
     D_800CF12C = c;
-    c = (s32)&D_800B9A02;
+    c = (s32)&guess_g_DoubleBufferIndex;
     c = *(u16 *)c;
     x78 = 0x7800;
     D_800CF120 = v;
@@ -168,7 +168,7 @@ void func_800CEF50(void) {
     p = (u32 *)&D_800CF124;
     *(u32 *)c = v;
 
-    c = (s32)&D_800B9A02;
+    c = (s32)&guess_g_DoubleBufferIndex;
     c = *(u16 *)c;
     w = *p;
     c = (c << 14) + f;

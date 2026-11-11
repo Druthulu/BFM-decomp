@@ -449,7 +449,7 @@ def _tu_data_types(tu_path):
     """{D_sym -> declared type text} AS CC1 SEES IT (`cdecl.tu_scope`, i.e. cpp), cached per TU.
 
     The text scanners cannot see a MACRO-INJECTED declaration, and that is where these conflicts
-    live: `extern Vec8 D_80114F24;` sits inside a DEFINE_func_* macro body in engine_core.h while
+    live: `extern Vec8 guess_g_StoredViewPointX;` sits inside a DEFINE_func_* macro body in engine_core.h while
     the overlay .c contains only `DEFINE_func_XXXX()`. tu_scope is the repo's stated oracle for
     "what does this TU declare", and its own docstring warns that the `above` form answers
     visibility, NOT conflict — C requires compatibility regardless of order, so the FULL scope is
@@ -473,9 +473,9 @@ def _alias_group_data_conflicts(groups):
     THE COLLISION `scope_data_fix` CANNOT SEE (P30 S47-F2b, byte-witnessed). That function is handed
     one draft plus the PRE-SPLICE TU, so it detects draft-vs-TU disagreements only. But this sweep
     stages EVERY member of an (overlay, split) group into the same TU before gating, and two
-    templated bodies routinely carry different views of one address — `D_80114F24` is `s32` in one
+    templated bodies routinely carry different views of one address — `guess_g_StoredViewPointX` is `s32` in one
     body and `Vec8` in another, `g_PlayerHp` is `s16` at 2,409 fleet sites and `u16` at 1,341.
-    Measured: ov_MAIN_012 failed `conflicting types for D_80114F24` at the SPLICE POINT while the TU
+    Measured: ov_MAIN_012 failed `conflicting types for guess_g_StoredViewPointX` at the SPLICE POINT while the TU
     itself declares that symbol nowhere — the two drafts were conflicting with each other.
 
     Canonicalising is not available: for data the declared type drives the load (`lh` vs `lhu`), so

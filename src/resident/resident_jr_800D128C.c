@@ -1334,8 +1334,8 @@ void func_800D24A0(s16 arg0) {
     extern void func_80018FC8(void);
     extern void func_800596F4(s32);
     extern void func_8002D4C8(s32, s32);
-    extern u16 D_800B9A02;
-    extern u8 D_800B9A13;
+    extern u16 guess_g_DoubleBufferIndex;
+    extern u8 guess_g_ActiveMenu;
     extern u8 guess_g_OrderingTables[];
     extern u8 D_8007BA70[];
     extern u8 D_800856B0[];
@@ -1357,8 +1357,8 @@ void func_800D24A0(s16 arg0) {
     func_80018FC8();
     func_800596F4(0);
 
-    src = (u32 *)&guess_g_OrderingTables[(D_800B9A02 ^ 1) * 20];
-    dst = (u32 *)&guess_g_OrderingTables[D_800B9A02 * 20];
+    src = (u32 *)&guess_g_OrderingTables[(guess_g_DoubleBufferIndex ^ 1) * 20];
+    dst = (u32 *)&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20];
     for (i = 0; i < 5; i++) {
         *dst++ = *src++;
     }
@@ -1368,10 +1368,10 @@ void func_800D24A0(s16 arg0) {
     D_8011512A = 0;
     D_80115124 = 0;
     (*(u16 *)D_80115110) = arg0;
-    D_800B9A13 = arg0 + 1;
-    D_80115114 = D_800B9A02;
-    D_801151C8 = &D_8007BA70[D_800B9A02 * 80000];
-    D_801151CC = &D_800856B0[D_800B9A02 * 80000];
+    guess_g_ActiveMenu = arg0 + 1;
+    D_80115114 = guess_g_DoubleBufferIndex;
+    D_801151C8 = &D_8007BA70[guess_g_DoubleBufferIndex * 80000];
+    D_801151CC = &D_800856B0[guess_g_DoubleBufferIndex * 80000];
 
     i = 0;
     p = (char *)v - 2;
@@ -1391,18 +1391,18 @@ void func_800D25FC(void) {
     D_8011DB24();
 }
 
-extern u8 D_800B9A13;
+extern u8 guess_g_ActiveMenu;
 extern void func_8002D4C8(s32 arg0, s32 arg1);
 
 void func_800D2624(void) {
-    D_800B9A13 = 0;
+    guess_g_ActiveMenu = 0;
     func_8002D4C8(0x15, 0);
 }
 
          /* 0x14 stride */
 
 
-#define OT_800D2650             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot)
+#define OT_800D2650             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot)
 #define getaddr_800D2650(t)     (((PTag_800D2650 *)(t))->addr)
 #define setaddr_800D2650(t, v)  (((PTag_800D2650 *)(t))->addr = (u32)(v))
 #define addPrim_800D2650(ot, p) (setaddr_800D2650(p, getaddr_800D2650(ot)), \
@@ -1411,7 +1411,7 @@ void func_800D2624(void) {
 u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int a5, u32 a6)
 {
     extern Env_800D2650 guess_g_FrontOrderingTablesOrg[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
 
     register int cw __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     register u32 s_a6 __asm__("$8") = a6;  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10)
@@ -1484,16 +1484,16 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
  * same TU, src/resident/resident.c) — this card had no banked twin, but 29F8's header
  * comment IS the crib:
  *
- *  1. `D_800B9A02` VOLATILE, read as `*(volatile u16 *)&D_800B9A02`.  The cast-wrapped `*&`
+ *  1. `guess_g_DoubleBufferIndex` VOLATILE, read as `*(volatile u16 *)&guess_g_DoubleBufferIndex`.  The cast-wrapped `*&`
  *     takes expr.c's INDIRECT_REF path => memory_address() force_regs the constant address
- *     => `la $s1, D_800B9A02` HOISTED INTO THE LOOP PREHEADER (idx 19-20) + `lhu 0($s1)`
- *     twice per iteration.  A bare `D_800B9A02` gives (mem (symbol_ref)) => a maspsx lui/lhu
+ *     => `la $s1, guess_g_DoubleBufferIndex` HOISTED INTO THE LOOP PREHEADER (idx 19-20) + `lhu 0($s1)`
+ *     twice per iteration.  A bare `guess_g_DoubleBufferIndex` gives (mem (symbol_ref)) => a maspsx lui/lhu
  *     pair inside the loop and no preheader address.
  *
  *  2. addPrim is the REAL libgpu bitfield macro (both halves `->addr =`), NOT hand-written
  *     masks.  THIS WAS THE WHOLE 42-INSTRUCTION RESIDUAL of the previous attempt:
  *     store_bit_field masks the VALUE (0xFFFFFF) before the DESTINATION (0xFF000000), so the
- *     loop-invariant constants are BORN in the order [&D_800B9A02, 0xFFFFFF, 0xFF000000]
+ *     loop-invariant constants are BORN in the order [&guess_g_DoubleBufferIndex, 0xFFFFFF, 0xFF000000]
  *     (idx 19-23) and the `or` takes the memory-masked temp as its FIRST operand.  The
  *     hand-rolled `(*out & 0xFF000000) | (ot[2] & 0xFFFFFF)` spelling gets both backwards
  *     (0xFF000000 born first), and every downstream register then walks.
@@ -1530,7 +1530,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
  *   u pair, v pair  -> CHAINED   (the target's `addu $v0,$a0,$zero` / `addu $v0,$a1,$zero`)
  *
  * Symbols hand-checked against asm/resident/nonmatchings/resident/func_800D27DC.s: 6 relocs,
- * same offsets/symbols/order — HI16+LO16 D_800B9A02 @0x4C/0x50, HI16+LO16 guess_g_FrontOrderingTablesOrg
+ * same offsets/symbols/order — HI16+LO16 guess_g_DoubleBufferIndex @0x4C/0x50, HI16+LO16 guess_g_FrontOrderingTablesOrg
  * @0x18C/0x194 and @0x1D0/0x1D8; the two R_MIPS_26 are the internal j edges.  No jal.
  *
  * BANKING NOTE: src/resident/resident.c already defines file-scope `PTag_800D29F8` and
@@ -1550,7 +1550,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
 
          /* 0x14 stride */
 
-#define OT_800D27DC             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot)
+#define OT_800D27DC             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot)
 #define getaddr_800D27DC(t)     (((PTag_800D27DC *)(t))->addr)
 #define setaddr_800D27DC(t, v)  (((PTag_800D27DC *)(t))->addr = (u32)(v))
 #define addPrim_800D27DC(ot, p) (setaddr_800D27DC(p, getaddr_800D27DC(ot)), \
@@ -1559,7 +1559,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
 u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 {
     extern Env_800D27DC guess_g_FrontOrderingTablesOrg[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
 
     s16 i;
     u32 c;
@@ -1631,7 +1631,7 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
  *
  * FOUR levers, each byte-verified load-bearing (dropping it re-breaks the match):
  *
- *  1. `D_800B9A02` is VOLATILE, and read as `*(volatile u16 *)&D_800B9A02`. Two effects, both
+ *  1. `guess_g_DoubleBufferIndex` is VOLATILE, and read as `*(volatile u16 *)&guess_g_DoubleBufferIndex`. Two effects, both
  *     required, and this is also semantically right: it is the double-buffer index flipped by
  *     the VSync IRQ.
  *       (a) volatile => CSE never caches the MEM => the target's SIX separate reloads (two per
@@ -1643,9 +1643,9 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
  *       (b) the cast-wrapped `*&` cannot be folded back to the VAR_DECL by the front end, so it
  *           takes expr.c's INDIRECT_REF path => `memory_address()` force_regs the constant
  *           address ("by passing constant addresses thru registers we get a chance to cse
- *           them") => `la $t0, D_800B9A02` + `lhu 0($t0)`, and the loop preheader's
+ *           them") => `la $t0, guess_g_DoubleBufferIndex` + `lhu 0($t0)`, and the loop preheader's
  *           `addu $t5,$t0,$zero` (CSE turns the in-loop address into a copy, loop.c hoists it).
- *           A bare `D_800B9A02` returns DECL_RTL via validize_mem => (mem (symbol_ref)) => the
+ *           A bare `guess_g_DoubleBufferIndex` returns DECL_RTL via validize_mem => (mem (symbol_ref)) => the
  *           maspsx `lui/lhu` pair instead, and no preheader copy.
  *
  *  2. addPrim is the REAL libgpu bitfield macro (both halves `->addr =`), not hand-written
@@ -1676,7 +1676,7 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 
          /* 0x14 stride */
 
-#define OT_800D29F8             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot)
+#define OT_800D29F8             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot)
 #define getaddr_800D29F8(t)     (((PTag_800D29F8 *)(t))->addr)
 #define setaddr_800D29F8(t, v)  (((PTag_800D29F8 *)(t))->addr = (u32)(v))
 #define addPrim_800D29F8(ot, p) (setaddr_800D29F8(p, getaddr_800D29F8(ot)), \
@@ -1685,7 +1685,7 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
 {
     extern Env_800D29F8 guess_g_FrontOrderingTablesOrg[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
 
     u32 *q;
     PolyG4_800D29F8 *p;

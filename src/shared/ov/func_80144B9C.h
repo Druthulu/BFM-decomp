@@ -67,7 +67,7 @@ extern u8 guess_g_PlayerRecord[];
 extern u8 D_800AE6A8[];
 extern u8 guess_g_MainCamera[];
 extern ENT D_80078E50;
-extern u8 D_8010F5C8[];
+extern u8 guess_g_PlaceholderText[];
 extern u8 D_80126DB0[];
 extern u8 D_801151F0[];
 extern s32 D_8011DB14;
@@ -80,7 +80,7 @@ extern s32 D_800A5E98, D_800A5E9C, D_800A5EA0;
 extern u8  D_800A5EA4, D_800A5EA5, D_800A5EA6;
 extern s32 D_800A5EA8, D_800A5EAC, D_800A5EB0;
 extern u8  D_800A5EB4, D_800A5EB5, D_800A5EB6;
-extern s16 D_800B9AAC, D_800B9B00;
+extern s16 guess_g_BackgroundLayerPriority, D_800B9B00;
 extern s32 D_800B9AC4, D_800B9B18, D_800B9AC8, D_800B9B1C;
 extern s16 D_800B9AB2, D_800B9B06, D_800B9AB6, D_800B9B0A;
 extern u8  D_800B9ABC, D_800B9ABD, D_800B9ABE, D_800B9B10, D_800B9B11, D_800B9B12;
@@ -148,7 +148,7 @@ void func_80144B9C(void) {
     p18->fC = ent->f8;
     p18->f14 = 0;
     p10->f4D = 0;
-    if (ent->fC != (s32)D_8010F5C8) {
+    if (ent->fC != (s32)guess_g_PlaceholderText) {
         p10->f198 = ent->fC;
     }
     if (*(s16 *)(p + 0xA3DA) == 0x1000 && *(s16 *)(p + 0xA3DC) == 0x1000) {
@@ -207,7 +207,7 @@ void func_80144B9C(void) {
     D_800A5EB6 = hdr->f22;
     func_80028620(2, &D_800A5EA8);
     func_80129398();
-    D_800B9AAC = hdr->f24;
+    guess_g_BackgroundLayerPriority = hdr->f24;
     D_800B9B00 = hdr->f26;
     D_800B9AC4 = hdr->f28;
     D_800B9B18 = hdr->f2C;

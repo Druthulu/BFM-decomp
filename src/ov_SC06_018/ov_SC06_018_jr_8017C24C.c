@@ -600,7 +600,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -895,7 +895,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1078,7 +1078,7 @@ extern s32 D_80195944[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1111,7 +1111,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2440,9 +2440,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2600,9 +2600,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801D4EEC;
 extern s16 D_801D4EEE;
@@ -7141,7 +7141,7 @@ void func_80183F10(s32 param_1)
 
 extern s32  guess_TurnStepToTarget(s32 a0, s32 a1);
 extern void func_8012B178(s32 a0, s32 a1);
-extern u16  D_800B99DA;
+extern u16  guess_g_FrameCounter;
 extern s32  func_80143B6C(s32 a0, s32 a1);
 extern s32  func_8018765C(s32 a0);
 extern s32  func_8012BDBC(s32 a0, s32 a1);
@@ -7157,7 +7157,7 @@ void func_80183F50(s32 p)
     ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12 += guess_TurnStepToTarget(p, 8);
     func_8012B178(p, 0xFFF90000);
 
-    if ((u32)D_800B99DA % 10 == 0) {
+    if ((u32)guess_g_FrameCounter % 10 == 0) {
         e = func_80143B6C(p, 0);
         if (e != 0) {
             *(s16 *)(*(s32 *)(e + 0xCC) + 0x18) = 0x5000;
@@ -7334,7 +7334,7 @@ void func_8018431C(void *arg0) {
 extern s32  func_80187130(s32 a0, s32 a1);
 extern u16  D_80126B96;
 extern s32  func_8018765C(s32 a0);
-extern u16  D_800B99DA;
+extern u16  guess_g_FrameCounter;
 extern s32  func_80143B6C(s32 a0, s32 a1);
 extern s32 func_80189E60(s32 arg0, u16 arg1);
 extern s32 func_8012BEE8();  // K&R: 0 of 1 args (P37 rung D t4_D22)
@@ -7351,7 +7351,7 @@ void func_80184370(s32 p)
     CAST_WIDTH(s32, p, 0x18) = CAST_WIDTH(s32, p, 0x18) * 31 / 32;
     func_8018765C(p);
 
-    if ((u32)D_800B99DA % 6 == 0) {
+    if ((u32)guess_g_FrameCounter % 6 == 0) {
         e = func_80143B6C(p, 0);
         if (e != 0) {
             *(s16 *)(*(s32 *)(e + 0xCC) + 0x18) = 0x5000;
@@ -8230,7 +8230,7 @@ void func_80185944(s32 p) {
 
 extern s32 guess_g_PlayerActor;
 /* holds a pointer value */
-extern u16       D_800B99DA;
+extern u16       guess_g_FrameCounter;
 extern u8        D_801B5184;
 
 extern int  rand(void);
@@ -8310,7 +8310,7 @@ void func_8018598C(s32 param_1) {
                                                  (s32)sp20, (s32)psVar7);
     }
 
-    if (((u32)D_800B99DA % 0x28 == 0) && ((CAST_SIGN(u32, param_1, 0xe0) & 0x80) == 0)) {
+    if (((u32)guess_g_FrameCounter % 0x28 == 0) && ((CAST_SIGN(u32, param_1, 0xe0) & 0x80) == 0)) {
         ((void (*)(s32, s32, s32, s32))func_80189380)(param_1, (s32)&D_801B5184, (s32)auStack_38, 0xb);
         ((void (*)(s32, s32, s32, s32, s32, s32))func_8018931C)(param_1, (s32)auStack_38, 0x282, 1, 0, 0);
         CAST_SIGN(u32, param_1, 0xe0) |= 0x80;

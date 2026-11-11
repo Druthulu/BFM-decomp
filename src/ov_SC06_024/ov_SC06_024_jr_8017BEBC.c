@@ -891,7 +891,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1074,7 +1074,7 @@ extern s32 D_80191B60[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1107,7 +1107,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2445,9 +2445,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2605,9 +2605,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801E10EC;
 extern s16 D_801E10EE;
@@ -3940,8 +3940,8 @@ extern void RotMatrixYXZ(void *, void *);
 extern void ApplyTransposeMatrixLV(void *, void *, void *);
 extern s32  ratan2(s32, s32);
 
-extern s16 D_800B9A02;
-extern u16 D_800B99DA;
+extern s16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_FrameCounter;
 extern u8  D_800A6610[];
 extern u8  guess_g_RenderWork[];
 extern u8 *D_800A5E60;
@@ -3998,7 +3998,7 @@ void func_8017EC4C(s32 param_1)
     u32 w3;
 
     hit = 0;
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     dbase = guess_g_RenderWork;
     func_8012EC04(param_1, D_801E1158, (s32 *)&cmat);
     guess_RotTransSVWithMatrix((s32)&cmat, (s32)&D_80193440[0], ((Unkstruct_800B5CB8 *)param_1)->unkD4 + 8);
@@ -4062,7 +4062,7 @@ void func_8017EC4C(s32 param_1)
     if (hit != 0) {
         *(SV_8017EC4C *)(((Unkstruct_800B5CB8 *)param_1)->unkD8 + 8) = v[1];
         *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unkD8 + 4) &= 0x7FFFFFFF;
-        *(s32 *)D_801934B0 = D_801934F0[D_800B99DA & 1];
+        *(s32 *)D_801934B0 = D_801934F0[guess_g_FrameCounter & 1];
         func_8012F038((s32)&cmat, (short *)&v[1], (short *)&v[1]);
         cc = ((Unkstruct_800B5CB8 *)param_1)->unk100;
         aa = (s32)*(s16 *)&D_80193440[2] - cc;
@@ -4172,7 +4172,7 @@ void func_8017EC4C(s32 param_1)
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801E1158;
 extern s32 D_801935B0;
 extern s32 D_801935B8;
@@ -4188,7 +4188,7 @@ void func_8017F4FC(void* a0)
     s32 obj;
 
     if (((Unkstruct_800B5CB8 *)a0)->unkE4 & 1) {
-        if (D_800B99DA % 5 == 0) {
+        if (guess_g_FrameCounter % 5 == 0) {
             obj = func_80132EF4(a0, 0x22);
             if (obj != 0) {
                 func_8012EC04(a0, D_801E1158, (s32 *)m);
@@ -4202,7 +4202,7 @@ void func_8017F4FC(void* a0)
         }
     }
     if (((Unkstruct_800B5CB8 *)a0)->unkE4 & 2) {
-        if (D_800B99DA % 5 == 0) {
+        if (guess_g_FrameCounter % 5 == 0) {
             obj = func_80132EF4(a0, 0x22);
             if (obj != 0) {
                 func_8012EC04(a0, D_801E1158, (s32 *)m);
@@ -4214,7 +4214,7 @@ void func_8017F4FC(void* a0)
                 ((Unkstruct_800B5CB8 *)obj)->unk14 = -0x60000 - ((rand() % 3) << 16);
             }
         }
-        if (D_800B99DA % 6 == 0) {
+        if (guess_g_FrameCounter % 6 == 0) {
             obj = func_80132EF4(a0, 0x22);
             if (obj != 0) {
                 func_8012EC04(a0, D_801E1158, (s32 *)m);

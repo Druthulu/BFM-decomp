@@ -883,7 +883,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1065,7 +1065,7 @@ extern s32 D_80195694[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1098,7 +1098,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2424,9 +2424,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2582,9 +2582,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801D04BC;
 extern s16 D_801D04BE;
@@ -4837,7 +4837,7 @@ void func_80185B4C(s32 arg0, s32 arg1, s32 arg2)
     extern u8 guess_g_CameraWsMatrix;
     extern OtBlk_80185B4C D_800A651C[];
     extern u8 guess_g_OrderingTables[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
     s32 sp10;
@@ -4859,7 +4859,7 @@ void func_80185B4C(s32 arg0, s32 arg1, s32 arg2)
     if ((temp_v0_2 > 0) && (sp14 >= 0) &&
         (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
         /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-        bidx = (u16 *)&D_800B9A02;
+        bidx = (u16 *)&guess_g_DoubleBufferIndex;
         depth4 = temp_v0_2 * 4;
         tag = *(u32 *)temp_v0;
         tag &= 0xFF000000;
@@ -5856,7 +5856,7 @@ void func_801875D0(void)
     Blip_8018F694 *bp;
     s32 t, c, d, z, x, n;
 
-    ot = (PTag_8018F694 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (PTag_8018F694 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     func_8004914C(&guess_g_CameraWsMatrix);
     func_800491AC(&guess_g_CameraWsMatrix);
     bp = D_801D0B80;
@@ -6184,7 +6184,7 @@ void func_80187EDC(void *a0)
 
     if ((((Unkstruct_8017E2EC_3 *)stk)->unk48 & 0xFFFFEFFF) == 0) {
         idx = ((Unkstruct_8017E2EC_3 *)stk)->unk50 + 1;
-        ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
         {
             u16 flags2 = ((Unkstruct_8017E2EC_4 *)a0)->unk2C;
             if ((flags2 & 0xC000) != 0) {
@@ -10561,14 +10561,14 @@ void func_8018EB08(void *arg) {
 // macro (gte_ldv3/rtpt/stflg/stsxy3/ldv0/rtps/stflg/or-flags/stsxy/avsz4/stotz + OT-range guarded
 // func_80017254 insert) repeated 3x with the shared guess_g_RenderWork+0x18 draw-mode calls. Only the
 // per-overlay source-vector symbol differs (D_801CC7FC here vs D_801D1228 there); all other data
-// symbols (guess_g_RenderWork, D_800B9A02, D_800A651C, D_800AE610) and callees are declared identically to
+// symbols (guess_g_RenderWork, guess_g_DoubleBufferIndex, D_800A651C, D_800AE610) and callees are declared identically to
 // the banked sibling, verbatim (S34/S36: reuse the byte-proven declaration + expression forms).
 //
 // DECLARATION SURFACE (whole-TU one-pass grep, D2):
 //   * func_8004914C(void *a0) / func_800491AC(void *a0) / RotTransSV(void*,void*,void*) are ALL
 //     already `extern` at this TU's file scope (lines 2637-2639) — do NOT redeclare here.
-//   * D_800B9A02 is `extern short D_800B9A02;` at file scope (line 2451/2453) — do NOT redeclare;
-//     unsigned access is forced at the USE with `*(u16 *)&D_800B9A02` (TU's own canonical spelling,
+//   * guess_g_DoubleBufferIndex is `extern short guess_g_DoubleBufferIndex;` at file scope (line 2451/2453) — do NOT redeclare;
+//     unsigned access is forced at the USE with `*(u16 *)&guess_g_DoubleBufferIndex` (TU's own canonical spelling,
 //     already used at TU lines 2842/6033).
 //   * guess_g_RenderWork, D_800A651C, D_800AE610, func_80017254, D_801CC7FC appear nowhere else in this TU
 //     — declare fresh, matching the banked sibling's exact canonical shapes.
@@ -10579,7 +10579,7 @@ void func_8018EB08(void *arg) {
 
 extern void func_80017254(void *a0);
 extern SVEC_8018EDB0 D_801CC7FC[];
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 D_800A651C[];
 extern u8 D_800AE610[];
 extern u8 guess_g_RenderWork[];
@@ -10651,7 +10651,7 @@ void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     ((Unkstruct_8018EDB0 *)pkt)->unk4 = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
-            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) {
+            + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
         func_80017254(&pkt[0]);
     }
 
@@ -10687,7 +10687,7 @@ void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     ((Unkstruct_8018EDB0 *)pkt)->unk4 = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
-            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) {
+            + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
         func_80017254(&pkt[0]);
     }
 
@@ -10723,7 +10723,7 @@ void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     ((Unkstruct_8018EDB0 *)pkt)->unk4 = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
-            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) {
+            + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
         func_80017254(&pkt[0]);
     }
 }
@@ -10738,7 +10738,7 @@ void func_8018F3E4(void)
     extern s32 func_80010A08(s32);
     extern u8 guess_g_CameraWsMatrix;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern Blip_8018F694 D_801D0DC0[];
 
     UVEC_8018F694 sxy;
@@ -10752,7 +10752,7 @@ void func_8018F3E4(void)
     Blip_8018F694 *bp;
     s32 t, c, d, z, x, n;
 
-    ot = (PTag_8018F694 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (PTag_8018F694 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     func_8004914C(&guess_g_CameraWsMatrix);
     func_800491AC(&guess_g_CameraWsMatrix);
     bp = D_801D0DC0;
@@ -10867,7 +10867,7 @@ void func_8018FB5C(s32 arg0, s32 arg1, s32 arg2)
     extern s32 RotTransPers(s32, s32, s32 *, s32 *);
     extern u8 guess_g_CameraWsMatrix;
     extern u8 guess_g_OrderingTables[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
     s32 sp10;
@@ -10894,7 +10894,7 @@ void func_8018FB5C(s32 arg0, s32 arg1, s32 arg2)
         (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
         /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
         mask1 = 0xFFFFFF;
-        bidx = (u16 *)&D_800B9A02;
+        bidx = (u16 *)&guess_g_DoubleBufferIndex;
         depth4 = temp_v0_2 * 4;
         tag0 = *(u32 *)temp_v0;
         *(u32 *)temp_v0 = (tag0 & 0xFF000000) |

@@ -896,7 +896,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1080,7 +1080,7 @@ extern s32 D_801841BC[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1113,7 +1113,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2453,9 +2453,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2946,9 +2946,9 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 extern u8 D_8012694C;
 extern s16 D_801E1A14;
@@ -2966,9 +2966,9 @@ void func_8017B7A8(void)
     D_801E1A8C = (s16) D_80114F30;
     D_801E1A8E = (s16) D_80114F34;
     D_801E1A90 = (s16) D_80114F38;
-    D_801E1A84 = (s16) D_80114F24;
-    D_801E1A86 = (s16) D_80114F28;
-    D_801E1A88 = (s16) D_80114F2C;
+    D_801E1A84 = (s16) guess_g_StoredViewPointX;
+    D_801E1A86 = (s16) guess_g_StoredViewPointY;
+    D_801E1A88 = (s16) guess_g_StoredViewPointZ;
 }
 
 
@@ -3006,18 +3006,18 @@ extern s16 D_801E1AB0;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 void func_8017B880(void)
 {
     D_80114F30 = D_801E1AA4;
     D_80114F34 = D_801E1AA6;
     D_80114F38 = D_801E1AA8;
-    D_80114F24 = D_801E1AAC;
-    D_80114F28 = D_801E1AAE;
-    D_80114F2C = D_801E1AB0;
+    guess_g_StoredViewPointX = D_801E1AAC;
+    guess_g_StoredViewPointY = D_801E1AAE;
+    guess_g_StoredViewPointZ = D_801E1AB0;
 }
 
 
@@ -3051,9 +3051,9 @@ extern u16 D_801E1A98;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 extern u8  D_8012694C;
 extern s16 D_801E1A14;
@@ -3082,9 +3082,9 @@ void func_8017B940(void)
     D_801E1A14 = 0;
     D_801E1A8E = D_80114F34 + buf[1];
     D_801E1A90 = D_80114F38 + buf[2];
-    D_801E1A84 = D_80114F24 + buf[0];
-    D_801E1A86 = D_80114F28 + buf[1];
-    D_801E1A88 = D_80114F2C + buf[2];
+    D_801E1A84 = guess_g_StoredViewPointX + buf[0];
+    D_801E1A86 = guess_g_StoredViewPointY + buf[1];
+    D_801E1A88 = guess_g_StoredViewPointZ + buf[2];
 }
 
 
@@ -3255,9 +3255,9 @@ extern short D_801E1A9E[0];
 extern short D_801E1AA0[0];
 extern s16 D_801E1BC8;
 
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
@@ -3273,9 +3273,9 @@ void func_8017BD50(int param_1)
             D_80114F30 = D_80114F30 + D_801E1A9C[0];
             D_80114F34 = D_80114F34 + D_801E1A9E[0];
             D_80114F38 = D_80114F38 + D_801E1AA0[0];
-            D_80114F24 = D_80114F24 + D_801E1A9C[0];
-            D_80114F28 = D_80114F28 + D_801E1A9E[0];
-            D_80114F2C = D_80114F2C + D_801E1AA0[0];
+            guess_g_StoredViewPointX = guess_g_StoredViewPointX + D_801E1A9C[0];
+            guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_801E1A9E[0];
+            guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_801E1AA0[0];
             func_8012A4BC();
         }
         D_801E1BC8 = 0;
@@ -3487,7 +3487,7 @@ void func_8017C974(s32 arg0)
     extern u8 D_801E1AD8[];
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
 
     s16 rect[4];
     DVEC2_C974 tmpxy[4];
@@ -3520,7 +3520,7 @@ void func_8017C974(s32 arg0)
     func_8017C294(D_801E1AD8, rect, ((Unkstruct_8017C974 *)arg0)->unk60);
 
     pkt = D_800A5E60;
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     cx0 = (rect[0] + 0x4000) / 512;
     cx1 = (rect[0] + rect[2] + 0x4000) / 512 + 2;
@@ -4166,7 +4166,7 @@ void func_8017DF54(void *param) {
 
 
 // func_8017DFA0 — MATCH (60 ins), match_one + rtu_match. Two levers:
-//  1) §20 pointer-var-to-the-global: `u16 *p = &D_800B99DA;` and read `*p`
+//  1) §20 pointer-var-to-the-global: `u16 *p = &guess_g_FrameCounter;` and read `*p`
 //     twice. The bare global would fold %lo into each access independently
 //     (two lui/lhu pairs, no $s1); the pointer var force_regs the address so
 //     CSE hoists it into the callee-saved $s1 across both calls.
@@ -4665,7 +4665,7 @@ L_end:
    target's lwl/lwr + swl/swr block move (cookbook §48-C2 / §160a). */
 
 extern Blk8_801E0764 D_801E0764;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern u8 D_80126B5C;
 extern s32 D_80126B60;
 extern s32 D_80126B64;
@@ -4700,7 +4700,7 @@ void func_8017EDD4(s32 a0) {
         func_8012AD50((void *)a0);
     } else {
         func_8017F018(a0);
-        if ((D_800B99DA & 3) == 0) {
+        if ((guess_g_FrameCounter & 3) == 0) {
             func_8017F0E8((u8 *)a0, p);
         }
     }
@@ -5066,7 +5066,7 @@ void func_8017F8BC(s32 a0) {
     Col4_8017F8BC col;
     s32 t;
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern void (*D_801866A4[])(void);
     extern Col4_8017F8BC D_80186500;
     extern Col4_8017F8BC D_8018651C;
@@ -5085,7 +5085,7 @@ void func_8017F8BC(s32 a0) {
 
     /* stage the counter through SImode: feeding the expression straight to
      * the u8 fields lets combine narrow the load to lbu */
-    t = D_800B99DA;
+    t = guess_g_FrameCounter;
     col.cd = 0;
     col.r = col.g = col.b = ((t & 1) << 2) | 0xA0;
 
@@ -5213,7 +5213,7 @@ void func_8017FC8C(void) {
 void func_8017FCBC(void) {
     extern s32 func_801801E8(void *arg0, s32 arg1);
     extern s32 func_80180054(SVec_80180054 *p, s32 dist);
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u16 guess_g_ScreenHeight;
     extern void (*D_801866AC[])(void);
     extern u8 D_8018677C[];
@@ -5223,7 +5223,7 @@ void func_8017FCBC(void) {
     extern void (*D_8018681C[])(void);
     s32 t;
 
-    if ((D_800B99DA & 7) == 0) {
+    if ((guess_g_FrameCounter & 7) == 0) {
         t = func_801801E8(D_801866AC, 0x200);
         if ((t & 0xFFFF) != 0xFFFF) {
             func_8002D4C8(0x588, ((0x7F - ((t & 0xFFFF) * 0x50 / 512)) | 0x1000) & 0xFFFF);
@@ -5231,7 +5231,7 @@ void func_8017FCBC(void) {
             func_8002D4C8(4, 0x588);
         }
     }
-    if ((D_800B99DA & 7) == 0) {
+    if ((guess_g_FrameCounter & 7) == 0) {
         u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_8018677C, *q >> 1);
         if ((t & 0xFFFF) != 0xFFFF) {
@@ -5240,7 +5240,7 @@ void func_8017FCBC(void) {
             func_8002D4C8(4, 0x587);
         }
     }
-    if ((D_800B99DA & 7) == 0) {
+    if ((guess_g_FrameCounter & 7) == 0) {
         u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_801867BC, *q >> 1);
         if ((t & 0xFFFF) != 0xFFFF) {
@@ -5249,7 +5249,7 @@ void func_8017FCBC(void) {
             func_8002D4C8(4, 0x583);
         }
     }
-    if ((D_800B99DA & 7) == 0) {
+    if ((guess_g_FrameCounter & 7) == 0) {
         u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_801867DC, *(s16 *)q);
         if ((t & 0xFFFF) != 0xFFFF) {
@@ -5258,7 +5258,7 @@ void func_8017FCBC(void) {
             func_8002D4C8(4, 0x584);
         }
     }
-    if ((D_800B99DA & 7) == 0) {
+    if ((guess_g_FrameCounter & 7) == 0) {
         u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_801867FC, *(s16 *)q);
         if ((t & 0xFFFF) != 0xFFFF) {
@@ -5267,7 +5267,7 @@ void func_8017FCBC(void) {
             func_8002D4C8(4, 0x585);
         }
     }
-    if ((D_800B99DA & 7) == 0) {
+    if ((guess_g_FrameCounter & 7) == 0) {
         t = func_801801E8(D_8018681C, 0x100);
         if ((t & 0xFFFF) != 0xFFFF) {
             func_8002D4C8(0x586, ((0x7F - ((t & 0xFFFF) * 0x50 / 256)) | 0x1000) & 0xFFFF);
@@ -6325,7 +6325,7 @@ s32 func_80181824(s32 param_1, s32 param_2)
  * SVECTORs through the GTE with the guess_g_CameraWsMatrix rot/trans matrix, write the two
  * screen (x,y) pairs into the packet, and — only when BOTH rtps calls come back
  * with no flag bits other than 0x1000 — link the packet into the current OT
- * (D_800A651C[D_800B9A02].a) at depth otz>>2 with the open-coded PSY-Q addPrim
+ * (D_800A651C[guess_g_DoubleBufferIndex].a) at depth otz>>2 with the open-coded PSY-Q addPrim
  * RMW pair.  Sibling idiom: src/800.c func_80015D4C / func_80015F04 (both
  * MATCHED) — same allocator + same addPrim asymmetry (first half inlines the
  * OT-slot address, second half self-accumulates it into the otz*4 register).
@@ -6337,7 +6337,7 @@ s32 func_80181824(s32 param_1, s32 param_2)
  *  1. `register u32 tag0 __asm__("$5")` — the packet tag word read into its own
  *     pinned local (cf. src/800.c func_80015D4C's "$4" pin). Unpinned, tag0
  *     steals $v1 and the whole packet/mask/matrix register set shifts by one.
- *  2. `register u32 mFF __asm__("$6")` — mFF and the CSE'd &D_800B9A02 base tie
+ *  2. `register u32 mFF __asm__("$6")` — mFF and the CSE'd &guess_g_DoubleBufferIndex base tie
  *     in global-alloc and land swapped ($a3/$a2) without the pin.
  *  3. THE LAST 2 (a sched2 LUID tie): the target block reads lhu(ix), then
  *     lw tag0, then lw otz.  At sched2 all three loads are priority 1 and the
@@ -6356,7 +6356,7 @@ s32 func_80181824(s32 param_1, s32 param_2)
  *       - after the store, because a re-tie right after the lhu is a reorg
  *         stop_search_p wall in the bnez fall-through thread -> nop delay slot
  *         (A1: 39 off);
- *       - NOT a plain second `ix = *(u16 *)&D_800B9A02;` in the 2nd half: the
+ *       - NOT a plain second `ix = *(u16 *)&guess_g_DoubleBufferIndex;` in the 2nd half: the
  *         long-lived 2-set pseudo swaps ix/base ($a3/$v1) in local-alloc (8 off).
  *     `u16 ix` cannot work (combine folds lhu+zext into fresh single-set SI
  *     temps) and a `register ... __asm__("$3")` ix cannot either (cse
@@ -6365,12 +6365,12 @@ s32 func_80181824(s32 param_1, s32 param_2)
  * Symbol audit (law 1c — match_one masks jal/HI16/LO16): the .s names exactly
  * four relocated symbols and this draft names those four and no others —
  * `jal func_80010A08` ($a0 = 0x10), `%hi/%lo(guess_g_CameraWsMatrix)` (address-of, GTE
- * matrix base), `%hi/%lo(D_800B9A02)` (address-of, then `lhu` => u16 read),
+ * matrix base), `%hi/%lo(guess_g_DoubleBufferIndex)` (address-of, then `lhu` => u16 read),
  * `%lo(D_800A651C)($at)` x2 (lw, index scaled *20 = sizeof{s32 a; s32 b[4]}).
  * Both bnez targets are .L80181BF4 (the shared epilogue).
  *
  * TU CHECK vs src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c:
- *   - `extern s16 D_800B9A02;` (TU:2469) copied verbatim; `lhu` forced with
+ *   - `extern s16 guess_g_DoubleBufferIndex;` (TU:2469) copied verbatim; `lhu` forced with
  *     `*(u16 *)&`, the idiom this TU already uses at line 3708.
  *   - `extern u8 guess_g_CameraWsMatrix[];` (TU:5292) copied verbatim.
  *   - `func_80010A08` has no file-scope decl in the TU; fleet decl (void *, (s32)).
@@ -6424,12 +6424,12 @@ void func_80181A60(SVec_80181A60 *v)
         gte_stflg(&flag);
         if ((flag & ~0x1000) == 0) {
             do { mFF = 0xFF000000; } while (0);
-            ix = *(u16 *)&D_800B9A02;
+            ix = *(u16 *)&guess_g_DoubleBufferIndex;
             tag0 = *(u32 *)p;
             tag0 = tag0 & mFF;
             sh = otz * 4;
             *(u32 *)p = tag0 | (*(u32 *)(sh + D_800A651C[ix].a) & m24);
-            sh = sh + D_800A651C[*(u16 *)&D_800B9A02].a;
+            sh = sh + D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].a;
             *(u32 *)sh = (*(u32 *)sh & mFF) | ((u32)p & m24);
         }
     }

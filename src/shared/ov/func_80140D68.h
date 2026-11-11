@@ -38,8 +38,8 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
     *(s16 *)((u8 *)out + 0x12) = 0x10;
     *(s16 *)((u8 *)out + 0x10) = 0x10;
 
-    ((PTag_80140D68 *)out)->addr = *(u32 *)((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot) + 2));
-    ((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot) + 2))->addr = (u32)out;
+    ((PTag_80140D68 *)out)->addr = *(u32 *)((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot) + 2));
+    ((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot) + 2))->addr = (u32)out;
 
     return out + 5;
 }

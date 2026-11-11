@@ -2230,7 +2230,7 @@ typedef struct { u8 b[8]; } XV8;
  * Types and macros emit no code, so this is byte-neutral; R22-gated like every fleet-shared edit. */
 typedef Env_80140958 Env_1412A8;
 typedef PrimTag PTag_1412A8;
-#define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot)
+#define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot)
 #define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->addr)
 #define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->addr = (u32)(v))
 

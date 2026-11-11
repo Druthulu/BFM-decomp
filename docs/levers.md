@@ -28,7 +28,7 @@ This project's C is full of them because bytes were the only thing being optimis
 | **B5** GTE op | `__asm__("lwc2 …")` behind a per-TU macro | *not a lever* — Sony's coprocessor idiom; consolidated, not removed |
 | **C** volatile | `*(volatile s32 *)(p + 4)` | force a reload |
 | **D** bare `register` | `register int i;` | a hint gcc 2.7.2 at `-O2` ignores |
-| **E** asm-label alias | `extern u16 aD800B9A02 __asm__("D_800B9A02");` | a second typed view of one symbol |
+| **E** asm-label alias | `extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");` | a second typed view of one symbol |
 | **F** builtin | `__builtin_memcpy(&a, &b, N)` | a struct assignment in disguise |
 | **G** attribute | `__attribute__((packed))` | a layout the type layer should carry |
 

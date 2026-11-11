@@ -1,7 +1,7 @@
 /* func_8014EA4C — shared body (overlay slot 0x80128158, h_exact 3d0eaf2f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u8 D_801202A0[];
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -18,7 +18,7 @@ s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3)
     acc = 0;
     __builtin_memcpy(buf + 16, a2, 8);
     d5 = 8;
-    mode = (D_800B99DA & 0x60) >> 5;
+    mode = (guess_g_FrameCounter & 0x60) >> 5;
     d4 = 8;
     switch (mode) {
     case 0:

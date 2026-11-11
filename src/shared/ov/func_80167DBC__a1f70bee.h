@@ -13,7 +13,7 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
     *(s16 *)(buf + 0x2C) = 0;
     *(s16 *)(buf + 0x2A) = 0;
     *(s16 *)(buf + 0x28) = 0;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         buf[0x46] = 0x58;
     } else {
         buf[0x46] = 0x48;

@@ -104,7 +104,7 @@ extern void func_8012927C(void);
 extern void func_8012931C(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9AAE[];
 extern s16 D_800B9AB0[];
 extern s16 D_800B9AB2[];
@@ -117,7 +117,7 @@ extern s16 D_80114EE0;
 extern void func_80129428(void);
 extern void func_8012943C(void);
 extern s32 D_8005128C;
-extern u8 D_800B9A78;
+extern u8 guess_g_BackgroundLayers;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8(s32 a, s32 b, s32 c);
 extern void func_8012944C(void);
@@ -334,7 +334,7 @@ extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s32 D_800A651C;
 extern u8 guess_g_CameraWsMatrix;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_8012D5DC(void);
 extern s16 D_80126B98;
@@ -556,7 +556,7 @@ extern u16 D_80126CC4;
 extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
@@ -567,7 +567,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
@@ -1612,7 +1612,7 @@ void func_8013DD68() {
 // @class: structural-family
 // @unstuck(P36): none — MATCH (187 ins). Banked-twin remap of the jr_8013C98C func_8013DD68 family
 // (exemplar src/ov_SC07_009). Levers carried verbatim: struct-assign DRAWENV copy via
-// DrawEnv_8013DD68; pbase local so IDVAL stays the $s2-relative D_800B9A02 (0xA3D2 off
+// DrawEnv_8013DD68; pbase local so IDVAL stays the $s2-relative guess_g_DoubleBufferIndex (0xA3D2 off
 // guess_g_RenderWork — no %hi reloc of its own); two-biv SPRT loop with q anchored one-above so gcc
 // re-anchors (no bare-deref); P_TAG_8013DD68 addPrim; single p coalesces puVar7->puVar15;
 // pins uVar2=$v1, iVar14=$a3, c5=$t3; Buf_8013DD68 0x68 -> frame 0xA0.
@@ -1899,7 +1899,7 @@ extern void func_8013E958(void);
 
 void func_8013EB7C(void) {
 
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern u8 D_801151C8[];
     extern s32 D_801151D0;
     extern u16 D_8011511A;
@@ -1914,7 +1914,7 @@ void func_8013EB7C(void) {
     s32 iVar4;
 
     if ((s16)func_80141C50() == 0) {
-        D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+        D_801151D0 = *(s32 *)&D_801151C8[(u16)guess_g_DoubleBufferIndex * 4];
         sVar1 = ((short (*)(void))func_8013F350)();
         if (D_8011511A >= 4) {
             func_8013FAF8((s16)D_8011511A, (s16)(D_8011511A + 1));
@@ -1975,7 +1975,7 @@ extern unsigned char *func_80141CA4(void);
 
 s32 func_8013EE10() {
 
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern unsigned short D_80115112;
     extern u8 D_801151C8[];
     extern s32 D_801151D0;
@@ -1993,7 +1993,7 @@ s32 func_8013EE10() {
     u16 *c;
     s32 sp10[2];
 
-    D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+    D_801151D0 = *(s32 *)&D_801151C8[(u16)guess_g_DoubleBufferIndex * 4];
     func_8013FAF8(0, 5);
     for (i = 0; i < 5; i++) {
         s32 t = D_80115168[i].f0 * 3 >> 2;
@@ -2031,7 +2031,7 @@ s32 func_8013EE10() {
 
 
 
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern s32  func_800D0488(s16 a0);
@@ -2057,7 +2057,7 @@ void func_8013EF88(void)
         u16 nw = old - 1;
         *p = nw;
         if (nw != 0) {
-            D_801151D0 = *(s32 *)((char *)&D_80115118 + 0xB0 + (u16)D_800B9A02 * 4);
+            D_801151D0 = *(s32 *)((char *)&D_80115118 + 0xB0 + (u16)guess_g_DoubleBufferIndex * 4);
             func_8013FAF8(0, 5);
             for (i = 0; i < 5; i++) {
                 s32 t = D_80115188[i].f0 * 3;
@@ -2087,7 +2087,7 @@ void func_8013EF88(void)
     }
 
     if (D_80115118 == 0) {
-        if (D_80115114 == ((u16)D_800B9A02 ^ 1)) {
+        if (D_80115114 == ((u16)guess_g_DoubleBufferIndex ^ 1)) {
             func_800D2624();
         } else {
             D_80115112 += 1;

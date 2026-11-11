@@ -1030,13 +1030,13 @@ void func_80183D38(void *a0) {
  * A vertical "beam"/ribbon builder: walks a start SVECTOR downward 64 units per
  * step, projects two consecutive rungs through RotTransPers, and while both
  * rungs are in front of the OT window emits one textured POLY_FT4 quad per step
- * linked into D_800A651C[D_800B9A02].a at otz*4.  The loop is a `for (;;)` -- it
+ * linked into D_800A651C[guess_g_DoubleBufferIndex].a at otz*4.  The loop is a `for (;;)` -- it
  * only ever leaves through an early return.
  *
  * TU-adopted spellings (law 2, grepped against this TU):
  *   D_801270C0  u16 (TU:1125)  -> read with the TU's own (s32)(s16) idiom so the
  *                                 compare emits `lh`, not `lhu`.
- *   D_800B9A02  s16 (TU:2463/2465) -> indexed as (u16) to get the target's `lhu`
+ *   guess_g_DoubleBufferIndex  s16 (TU:2463/2465) -> indexed as (u16) to get the target's `lhu`
  *                                 (func_801809C4 does the same via a u16* alias).
  *   D_800A651C  OtBlk (0x14 stride, .a at +0) - block scope, exactly as
  *               func_801809C4 declares it (engine_core.h DEFINE_ macros declare
@@ -1104,7 +1104,7 @@ extern u16 D_801270C0;
 extern u8  guess_g_CameraWsMatrix;
 extern s32 D_80126950;
 extern s32 D_801C74D8;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
@@ -1168,7 +1168,7 @@ void func_80183DA4(SVec_80183DA4 *arg0) {
         if (flag < 0) {
             return;
         }
-        ot = D_800A651C[(u16)D_800B9A02].a + otz * 4;
+        ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4;
         w = (d << 3) / (otz * 4);
         if ((s16)((DVec_80183DA4 *)&sxy0)->vy < 120) {
             if ((s16)((DVec_80183DA4 *)&sxy1)->vy < -119) {
@@ -1322,7 +1322,7 @@ void func_80184138(SVec_80184138 *arg0) {
         if (flag < 0) {
             return;
         }
-        ot = D_800A651C[(u16)D_800B9A02].a + otz * 4;
+        ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4;
         w = (d << 3) / (otz * 4);
         if ((s16)((DVec_80184138 *)&sxy0)->vy < 120) {
             if ((s16)((DVec_80184138 *)&sxy1)->vy < -119) {

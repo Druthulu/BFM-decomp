@@ -109,7 +109,7 @@ extern void func_80029444(void);
 extern void func_800D1754(void);
 extern s32 guess_g_PlayerActor;
 extern s32 D_801DAAC0;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
 extern void func_8014FDF4(struct S8014FDF4 *a0);
@@ -131,8 +131,8 @@ extern void func_801379FC(void);
 extern void func_8001212C(void);
 extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern u8 D_800AEFD0;
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern int D_800AF558;
 extern int D_801D7F90;
@@ -179,7 +179,7 @@ extern void func_8012927C(void);
 extern void func_8012931C(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9AAE[];
 extern s16 D_800B9AB0[];
 extern s16 D_800B9AB2[];
@@ -192,7 +192,7 @@ extern s16 D_80114EE0;
 extern void func_80129428(void);
 extern void func_8012943C(void);
 extern s32 D_8005128C;
-extern u8 D_800B9A78;
+extern u8 guess_g_BackgroundLayers;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8(s32 a, s32 b, s32 c);
 extern void func_8012944C(void);
@@ -823,7 +823,7 @@ s32 func_8012DE2C(s32 a0) {
 #include "../shared/ov/func_8012E284.h"
 
 // @class: struct
-// @stuck: none — MATCH (modeled on DEFINE_func_8012D3B4 sibling idiom: (s8*)&D_800A651C + (u16)D_800B9A02*0x14)
+// @stuck: none — MATCH (modeled on DEFINE_func_8012D3B4 sibling idiom: (s8*)&D_800A651C + (u16)guess_g_DoubleBufferIndex*0x14)
 
 #include "../shared/ov/func_8012E28C.h"
 

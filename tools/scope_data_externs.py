@@ -122,7 +122,7 @@ def _alias_name(sym, func):
     """Per-FUNCTION alias, never a bare `aD<sym>` (P30 S47-F4, byte-witnessed).
 
     A bare alias re-creates the very collision it exists to remove, one level down: two drafts
-    spliced into one TU that both alias `D_800B9A02` — each keeping its own type, which is the whole
+    spliced into one TU that both alias `guess_g_DoubleBufferIndex` — each keeping its own type, which is the whole
     point — then declare `aD800B9A02` twice with different types. Measured: 9 fresh
     `conflicting types for aD800B9A02` failures caused by this fix's first cut. The group-level
     path in family_sweep suffixed from the start; this one did not, and that asymmetry is the bug."""
@@ -179,7 +179,7 @@ def fix(body, tu_text, insert_pos, func, tu_types=None):
     above = _file_scope_data_syms(tu_text[:insert_pos])
 
     # PREFER A CPP-DERIVED MAP (P30 S47-F4). A text scan cannot see a MACRO-INJECTED declaration —
-    # `extern Vec8 D_80114F24;` lives inside a DEFINE_func_* macro in engine_core.h, and the overlay
+    # `extern Vec8 guess_g_StoredViewPointX;` lives inside a DEFINE_func_* macro in engine_core.h, and the overlay
     # .c holds only `DEFINE_func_XXXX()`. That declaration is nonetheless a genuine file-scope decl
     # of every TU invoking the macro, and it is what the draft collides with. Callers that can name
     # the TU path pass `cdecl.tu_scope(path)`-derived types; the text scan stays as the fallback.

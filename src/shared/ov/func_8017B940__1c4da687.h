@@ -15,7 +15,7 @@ void func_8017B940(void)
     D_8018F914 = 0;
     D_8018F98E = D_80114F34 + buf[1];
     D_8018F990 = D_80114F38 + buf[2];
-    D_8018F984 = D_80114F24 + buf[0];
-    D_8018F986 = D_80114F28 + buf[1];
-    D_8018F988 = D_80114F2C + buf[2];
+    D_8018F984 = guess_g_StoredViewPointX + buf[0];
+    D_8018F986 = guess_g_StoredViewPointY + buf[1];
+    D_8018F988 = guess_g_StoredViewPointZ + buf[2];
 }

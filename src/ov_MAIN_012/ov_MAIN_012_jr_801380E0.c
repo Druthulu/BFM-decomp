@@ -125,7 +125,7 @@ extern void func_8012927C(void);
 extern void func_8012931C(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9AAE[];
 extern s16 D_800B9AB0[];
 extern s16 D_800B9AB2[];
@@ -138,7 +138,7 @@ extern s16 D_80114EE0;
 extern void func_80129428(void);
 extern void func_8012943C(void);
 extern s32 D_8005128C;
-extern u8 D_800B9A78;
+extern u8 guess_g_BackgroundLayers;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8(int arg0, int arg1, u8 * arg2);
 extern void func_8012944C(void);
@@ -209,7 +209,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera;
 extern void func_8012A418(void);
-extern Vec8 D_80114F24;
+extern Vec8 guess_g_StoredViewPointX;
 extern void func_8012A464(void);
 extern void func_8012A4BC(void);
 extern void func_8012A598(void *a0);
@@ -371,7 +371,7 @@ extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s32 D_800A651C;
 extern u8 guess_g_CameraWsMatrix;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_8012D5DC(void);
 extern s16 D_80126B98;
@@ -612,7 +612,7 @@ extern u16 D_80126CC4;
 extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
@@ -623,7 +623,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
@@ -838,7 +838,7 @@ extern void GsSortSprite(void *a0, u8 *a1, s32 a2);
 
 void func_801397B0(s32 arg0)
 {
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern u8 guess_g_OrderingTables[];
     extern u8 D_8017E9C8;
     extern u8 D_8017EA0C;
@@ -899,7 +899,7 @@ void func_801397B0(s32 arg0)
     ((Unkstruct_801397B0_5 *)buf)->unk18 = 0;
     ((Unkstruct_801397B0_5 *)buf)->unk20 = 0;
 
-    GsSortSprite(buf, &guess_g_OrderingTables[(u16)D_800B9A02 * 20],
+    GsSortSprite(buf, &guess_g_OrderingTables[(u16)guess_g_DoubleBufferIndex * 20],
                  ((Unkstruct_801397B0_6 *)e)->unk1A);
 }
 

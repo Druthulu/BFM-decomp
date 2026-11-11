@@ -44,7 +44,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     fr.v[1].z = 0;
     fr.v[1].y = 0;
     fr.v[1].x = 0;
-    flags = D_800B99DA;
+    flags = guess_g_FrameCounter;
     if (flags & 1) {
         fr.col[1].r = *(s32 *)(param_1 + 0x30) + 0x20;
     } else if (flags & 2) {

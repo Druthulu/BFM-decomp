@@ -30,7 +30,7 @@ kept as a Gen2 quality artifact + decomp.me enabler, **not** a build input.
 
 ## Pointer fields (the m2c-can't-infer set; idle RAM scan + code-inferred)
 RAM-observed: `+0x54 → 0x8017E75C`, `+0x58 → 0x8017E720`, `+0x68 → 0x8017E91C` (overlay code — likely
-behavior/handler function pointers), `+0x6C/+0x70 → 0x800D1E20` (resident), `+0x5C → 0x8010F5C8`. Plus ~26 more
+behavior/handler function pointers), `+0x6C/+0x70 → 0x800D1E20` (resident), `+0x5C → 0x8010F5C8` (guess_g_PlaceholderText). Plus ~26 more
 offsets m2c dereferences as pointers in code (e.g. `+0x08`, `+0x4C`, `+0x50`). Full set in `.run/actor_fields.json`.
 
 ## Reproduce

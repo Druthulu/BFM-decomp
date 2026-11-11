@@ -104,7 +104,7 @@ extern s32 D_8018E67C;
 
 extern s32 guess_g_PlayerActor;
 extern s32 D_8018FAB8;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern u8 D_800B9A64;
 
 extern void guess_UpdateCamera(void);
@@ -140,10 +140,10 @@ extern u8 D_800AEFD0;
 
 
 // @class: remat
-// @stuck: none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing D_800C7C60=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @stuck: none — MATCH. &guess_g_CdReadList CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing guess_g_CdReadList=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern int D_800AF558;
 extern int D_8018D4F8;
@@ -156,11 +156,11 @@ extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 
 // @class: remat
-// @stuck: none — MATCH (pointer-var forces single materialization of &D_800C7C60, reused as store base + arg5)
+// @stuck: none — MATCH (pointer-var forces single materialization of &guess_g_CdReadList, reused as store base + arg5)
 
 extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern u8 D_800AF560;
 extern s32 D_8018D4F8;
@@ -171,10 +171,10 @@ extern s32 D_8018D4F8;
 
 
 // @class: remat
-// @stuck: none — MATCH. &D_800C7C60 must be CSE'd once (pointer local `p`) so the same reg feeds the *p=13 store AND arg5; writing D_800C7C60=13 directly emits a 2nd address materialization (+1 ins).
+// @stuck: none — MATCH. &guess_g_CdReadList must be CSE'd once (pointer local `p`) so the same reg feeds the *p=13 store AND arg5; writing guess_g_CdReadList=13 directly emits a 2nd address materialization (+1 ins).
 
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern int D_800AECB0;
 extern s32 D_8018D4F8;

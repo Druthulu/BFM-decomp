@@ -47,7 +47,7 @@ void func_8017CDF0(s32 a0, s32 a1, s32 a2)
     part = (Part_8017CDF0 *)(a1 + 0x14);
     nparts = *(s32 *)(a1 + 8);
     vtx = *(u8 **)(a1 + 0x10);
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;

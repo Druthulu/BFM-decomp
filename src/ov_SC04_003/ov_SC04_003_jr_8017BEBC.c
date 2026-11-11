@@ -600,7 +600,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -896,7 +896,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1079,7 +1079,7 @@ extern s32 D_801844FC[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1112,7 +1112,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2452,9 +2452,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2612,9 +2612,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_8019B9B4;
 extern s16 D_8019B9B6;
@@ -3677,7 +3677,7 @@ void func_8017E4F4(void *a0, void *a1)
     extern void func_8001E378(void *a0);
     extern void func_8017E910(void *a0, void *a1, u32 *a2, u32 *a3);
     extern u8 D_800A6610[];
-    extern short D_800B9A02;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0);
+    extern short guess_g_DoubleBufferIndex;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0);
                                 * unsigned access forced at the use — §8d sub-class (b) */
 
     Vec8_80182FD4 base;
@@ -3693,7 +3693,7 @@ void func_8017E4F4(void *a0, void *a1)
     s32 i;
     u16 w;
 
-    ot = (u32 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     s = CAST_SIGN(Src_80182FD4 *, (s32)a0, 0x20);
     if (s == 0) {
         return;
@@ -4014,7 +4014,7 @@ void func_8017EE80(s32 param_1, s32 param_2)
             RotTransPers((s32)&quad[2], (s32)(prim + 0x18), &p, &flag);
             RotTransPers((s32)&quad[3], (s32)(prim + 0x20), &p, &flag);
 
-            AddPrim(D_800A651C[(u16)D_800B9A02].a + (otz * 4), prim);
+            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + (otz * 4), prim);
             func_8012E28C(otz, 1);
             fp++;
             ang = ang2;

@@ -589,7 +589,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -884,7 +884,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1066,7 +1066,7 @@ extern s32 D_8018CF20[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1099,7 +1099,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2424,9 +2424,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2591,9 +2591,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801E17CC;
 extern s16 D_801E17CE;
@@ -3010,7 +3010,7 @@ extern s32 * func_801880E0(s32 *ot, Panel_8017E978_801880E0 *w0, s16 idx);
  *
  * Modelled on the ALREADY-MATCHED structural twin in the same overlay,
  * src/ov_SC04_018/ov_SC04_018_jr_8013FFD8.c:1065 `func_8014032C` — same family:
- *   `result = D_801117EC;` default, `switch ((short)param_1)`, `((short)param_2)` at every use,
+ *   `result = guess_g_EmptyText;` default, `switch ((short)param_1)`, `((short)param_2)` at every use,
  *   `func_800291B4(D_8018BC64[...]) & 0xFF` -> `result = D_8018BD24[uVar3];`.
  * Case bodies are emitted in SOURCE order, so the source order here is 10,7,8,13,14,11,default
  * (read off the block order after the jr: 80188E70, 80188EB8, 80188F28, 80189004, 80189044,
@@ -3041,7 +3041,7 @@ extern s32 * func_801880E0(s32 *ot, Panel_8017E978_801880E0 *w0, s16 idx);
 s32 func_80188544(s32 param_1, s32 param_2) {
     extern void *func_80189504(s32 a0);
     extern s16 D_80115126;
-    extern u8 D_801117EC[];
+    extern u8 guess_g_EmptyText[];
     extern u8 * D_801E234C;
     extern u8 * D_801E2354;
     extern u8 D_801E2410[];
@@ -3065,7 +3065,7 @@ s32 func_80188544(s32 param_1, s32 param_2) {
 
     void *result;
 
-    result = D_801117EC;
+    result = guess_g_EmptyText;
     switch ((short)param_1) {
     case 10:
         if (D_80115126 != 5) {
@@ -3184,7 +3184,7 @@ s32 *func_8018893C(out, src, idx, w, col)
     void *w;
     s32 col;
 {
-    extern short D_800B9A02;                /* TU-visible spelling (file scope) */
+    extern short guess_g_DoubleBufferIndex;                /* TU-visible spelling (file scope) */
     extern s16 func_8014168C(s16 a0);
     extern u16 D_8011511A;
     extern u16 D_80115116;
@@ -3228,7 +3228,7 @@ s32 *func_8018893C(out, src, idx, w, col)
     }
 
     q = (u16 *)(t * 2 + (s32)src);
-    pbh = (u16 *)&D_800B9A02;
+    pbh = (u16 *)&guess_g_DoubleBufferIndex;
     *(s16 *)((u8 *)out + 0x8) = q[0] - 8;
     *(s16 *)((u8 *)out + 0xA) = q[1];
     *(s16 *)((u8 *)out + 0x12) = 8;
@@ -3264,7 +3264,7 @@ s32 *func_8018893C(out, src, idx, w, col)
             j = 0;
             k = m;
             eight = 8;
-            pb = (u16 *)&D_800B9A02;
+            pb = (u16 *)&guess_g_DoubleBufferIndex;
             m24 = 0xFFFFFF;
             mhi = 0xFF000000;
             /* NOTE: the loop deliberately has NO source pointer of its own. gcc's combine_givs
@@ -3736,7 +3736,7 @@ s16 func_8018957C(s32 a0) {
  * same TU (§71) — Env_* / PTag_* there are the fleet-canonical shapes.
  *
  * Levers that were load-bearing (all byte-tested; the draft is PIN-FREE):
- *   §20  &D_801151D0 / &D_800B9A02 taken into pointer LOCALS -> each address is
+ *   §20  &D_801151D0 / &guess_g_DoubleBufferIndex taken into pointer LOCALS -> each address is
  *        force_reg'd once (lui+addiu -> $t2 / $a3) instead of a %lo per use.
  *   §36  the 24-bit BITFIELD store, not a hand-written mask, is what emits
  *        0x00FFFFFF (lui+ori) ahead of 0xFF000000 (lui) while the body ANDs the
@@ -3785,7 +3785,7 @@ void func_801895C8(void) {
     u8 c1, c2;
 
     pp  = (u32 **)&D_801151D0;
-    pbh = (u16 *)&D_800B9A02;
+    pbh = (u16 *)&guess_g_DoubleBufferIndex;
 
     p = *pp;
     ((PTag_8018C960_801895C8 *)p)->len = 1;

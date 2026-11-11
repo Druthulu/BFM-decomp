@@ -1,6 +1,6 @@
 /* func_80136ECC — shared body (overlay slot 0x80128158, h_exact d16b428b). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b) {
@@ -22,5 +22,5 @@ void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b) {
     line.r = r;
     line.g = g;
     line.b = b;
-    GsSortLine(&line, &guess_g_OrderingTables[(u16)D_800B9A02 * 20], 0);
+    GsSortLine(&line, &guess_g_OrderingTables[(u16)guess_g_DoubleBufferIndex * 20], 0);
 }

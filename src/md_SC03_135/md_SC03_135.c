@@ -61,7 +61,7 @@ s16 func_801E2970(void) {
 void func_801E2980(s32 arg0, s32 arg1)
 {
     extern u8 D_800B9A15;
-    extern u8 D_800B9A13;
+    extern u8 guess_g_ActiveMenu;
     extern u16 D_80115110;
     extern s16 D_80115126;
     extern s16 D_801EA958;
@@ -72,7 +72,7 @@ void func_801E2980(s32 arg0, s32 arg1)
     extern s32 func_8002D4C8(s32, s32);
 
     D_800B9A15 = 1;
-    D_800B9A13 = 5;
+    guess_g_ActiveMenu = 5;
     D_80115110 = 4;
     D_80115126 = arg0;
     D_801EA958 = arg1;
@@ -185,7 +185,7 @@ void func_801E2A98(void) {
 
 void func_801E2BE0(void)
 {
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
     extern s16 D_801EA954;
     extern s32 D_801151D0;
     extern u8 D_801151C8[];
@@ -202,7 +202,7 @@ void func_801E2BE0(void)
     u16 *p;
 
     (void)&pad0;
-    D_801151D0 = *(u32 *)(D_801151C8 + *(u16 *)&D_800B9A02 * 4);
+    D_801151D0 = *(u32 *)(D_801151C8 + *(u16 *)&guess_g_DoubleBufferIndex * 4);
     if (D_801EA954 == 0) {
         D_801EAC54 = func_8002B0B4(D_801EAC3C, D_801EAC40, D_801EAC44);
         if (D_80115126 == 0) {
@@ -253,10 +253,10 @@ extern void func_800D2624(void);
 
 void func_801E2CDC(void) {
 
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern u16 D_80115114;
     extern u16 D_80115112;
-    u16 v0 = (*(u16 *)&D_800B9A02);
+    u16 v0 = (*(u16 *)&guess_g_DoubleBufferIndex);
     u16 v1 = D_80115114;
 
     v0 ^= 0x1;
@@ -561,7 +561,7 @@ s32 func_801E3390(void) {
     extern s32 D_801151D0;
     extern s16 D_8011512C;
     extern s32 D_80115134;
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
     extern Env_801E46A0 guess_g_FrontOrderingTablesOrg[];
 
     s32 ot;
@@ -610,9 +610,9 @@ s32 func_801E3390(void) {
     func_8005A600(ot, 0, 0, 0x15, 0);
 
     *(s32 *)ot = 0x02000000;
-    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] & 0xFFFFFF) | 0x02000000;
-    guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] =
-        (guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] & 0xFFFFFF) | 0x02000000;
+    guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] =
+        (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
     ((Unkstruct_801151D0 *)&D_801151D0)->f0 = ot;
@@ -1301,7 +1301,7 @@ s32 *func_801E46A0(s32 *out) {
                /* 0x20 stride */
 
     extern Env_801E46A0 guess_g_FrontOrderingTablesOrg[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern s32 D_80115134;
     extern u16 D_8011511A;
     extern s16 D_8011512C;
@@ -1325,7 +1325,7 @@ s32 *func_801E46A0(s32 *out) {
     *((u8 *)out + 0xC) = 0x70;
     *((u8 *)out + 0xD) = 0x10;
     out[1] = 0x64808080;
-    pb = (u16 *)&D_800B9A02;
+    pb = (u16 *)&guess_g_DoubleBufferIndex;
     ((Unkstruct_801E46A0 *)out)->unkE = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */

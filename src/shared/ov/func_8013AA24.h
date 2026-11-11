@@ -3,7 +3,7 @@
 extern void func_8013AD38(void *a0, s32 a1, void *a2, void *a3);
 extern void func_8013B204(s32 a0, s32 a1);
 extern void func_8013AF20(u32 *param_1, u16 *param_2, u16 *param_3, u8 *param_4);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern s32 D_800A651C;
 void func_8013AA24(s32 a0, s32 a1) {
     s32 s2 = a0;
@@ -30,7 +30,7 @@ void func_8013AA24(s32 a0, s32 a1) {
     }
     func_8013AD38((void *)(s0 + 8), *(s16 *)(s0 + 0xC), buf + 0x20, buf + 0xA0);
     func_8013B204(s2, s0);
-    func_8013AF20(*(s32 *)((u8 *)&D_800A651C + (u16)D_800B9A02 * 20) +
+    func_8013AF20(*(s32 *)((u8 *)&D_800A651C + (u16)guess_g_DoubleBufferIndex * 20) +
                       *(u16 *)(s2 + 0x1A) * 4,
                   s2 + 0x24, buf + 0x20, buf + 0xA0);
 }

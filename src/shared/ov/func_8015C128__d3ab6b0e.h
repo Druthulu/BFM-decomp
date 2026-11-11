@@ -24,7 +24,7 @@ s32 func_8015C128(s32 param_1) {
     ((void(*)(int, int *))func_80146DB8)(((int)param_1), sp20);
     func_80147A84(((int)param_1));
     ((void(*)(int))guess_ApplyVelocity)(((int)param_1));
-    if (!(D_800B99DA & 3)) {
+    if (!(guess_g_FrameCounter & 3)) {
         ((void(*)(int, int))func_8014C010)(((int)param_1), 1);
         ((void(*)(int))func_80147324)(0x65F);
     }

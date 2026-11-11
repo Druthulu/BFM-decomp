@@ -57,7 +57,7 @@ extern void func_8013E558(void);
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern unsigned short D_80115112;
 extern void func_8013E588(void * _arg0);
@@ -82,7 +82,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
 extern u16 D_8011511A;
@@ -915,7 +915,7 @@ extern s32 func_8014E790(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern u8 D_80126720[];
 extern s16 D_80126724;
@@ -1185,7 +1185,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1360,7 +1360,7 @@ extern void func_8002992C(s32);
 extern void func_800CF804(void);
 extern void func_800CF818(void);
 extern u8 D_80110D0C[];
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
 extern void func_8015934C(void *arg0);
@@ -1444,7 +1444,7 @@ extern s32 func_8015C128(s32 param_1);
 
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_801496D4(void*);
@@ -1530,7 +1530,7 @@ void func_8015C32C(s32 arg0) {
     func_80146DB8((s32 *)arg0, vout);
     func_80147A84(arg0);
     ((void (*)(s32))guess_ApplyVelocity)(arg0);
-    if ((D_800B99DA & 3) == 0) {
+    if ((guess_g_FrameCounter & 3) == 0) {
         func_8014C010(arg0, 1);
         func_80147324(0x65f);
     }
@@ -3960,8 +3960,8 @@ void func_80161E08(s32 param_1) {
     extern s16 guess_g_TargetTimeLabel2Y;
     extern u16 guess_g_TargetTimeDigits;
     extern s16 D_800B5C74;
-    extern s16 D_800B5C50;
-    extern s16 D_800B5C52;
+    extern s16 guess_g_TargetTimeDigitsX;
+    extern s16 guess_g_TargetTimeDigitsY;
     extern u8 * D_801A6BA8[];
     extern u8 D_80184AC8[];
     extern u8 D_80184AE8[];
@@ -4005,8 +4005,8 @@ void func_80161E08(s32 param_1) {
             func_800242D0((s16)func_801620C4(), &D_801A6BF4, 0x84);
             func_8001CE68(p, &D_801A6BF4);
             D_800B5C74 = 1;
-            D_800B5C50 = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
-            D_800B5C52 = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
+            guess_g_TargetTimeDigitsX = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeDigitsY = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
         }
 
         func_800242D0((s16)func_801620C4(), &D_801A6BF4, 0x84);
@@ -4188,8 +4188,8 @@ s32 func_80162438(s32 _unused0) {
     extern s16 guess_g_TargetTimeLabel2Y;
     extern s16 D_800B5C3C;
     extern u8 D_800B5C37;
-    extern s16 D_800B5C50;
-    extern s16 D_800B5C52;
+    extern s16 guess_g_TargetTimeDigitsX;
+    extern s16 guess_g_TargetTimeDigitsY;
     extern s16 D_800B5C74;
 
     u32 uVar2;
@@ -4225,8 +4225,8 @@ s32 func_80162438(s32 _unused0) {
             func_800242D0((s16)func_801626B8(), D_801A6C50, 0x84);
             func_8001CE68(item, D_801A6C50);
             D_800B5C74 = 1;
-            D_800B5C50 = -guess_g_ScreenWidth / 2 + 0xD0;
-            D_800B5C52 = -guess_g_ScreenHeight / 2 + 0x10;
+            guess_g_TargetTimeDigitsX = -guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeDigitsY = -guess_g_ScreenHeight / 2 + 0x10;
         }
         func_800242D0((s16)func_801626B8(), D_801A6C50, 0x84);
         if ((uVar2 & 0x7FFF) == (s32)(guess_g_ClockMinute[0])) {
@@ -4514,7 +4514,7 @@ extern void func_80162D88(s32 *a0);
 void func_80163EC8(s32 param_1)
 {
     extern Blk8 D_801A6450;
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8 func_801656D0(s32 a0, s32 a1);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -4555,7 +4555,7 @@ void func_80163EC8(s32 param_1)
     LAB_matched:
     *((s16 *) (psVar6 + 0x18a)) = (*((u16 *) (psVar6 + 0x18a))) + 1;
 
-    if ((D_800B99DA & 3) == 0)
+    if ((guess_g_FrameCounter & 3) == 0)
     {
         if ((*((s16 *) (psVar6 + 0x188))) >= (*((u8 *) (param_1 + 0x67))))
         {
@@ -5847,7 +5847,7 @@ void func_80167A9C(void *a0) {
 void func_80167AD8(void) {
 }
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 
 
@@ -5873,7 +5873,7 @@ s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     fr.v[1].z = 0;
     fr.v[1].y = 0;
     fr.v[1].x = 0;
-    flags = D_800B99DA;
+    flags = guess_g_FrameCounter;
     if (flags & 1) {
         fr.col[1].r = 0xa0;
     } else if (flags & 2) {
@@ -5962,7 +5962,7 @@ extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
 
 s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
 
-    extern u16  D_800B99DA;
+    extern u16  guess_g_FrameCounter;
     extern u8   D_80184EFC[];
     extern u8   D_80184F10[];
     u8 buf[0x54];
@@ -5977,7 +5977,7 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
     ((Unkstruct_80167DBC_2 *)buf)->unk2C = 0;
     ((Unkstruct_80167DBC_2 *)buf)->unk2A = 0;
     ((Unkstruct_80167DBC_2 *)buf)->unk28 = 0;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         buf[0x46] = 0x58;
     } else {
         buf[0x46] = 0x48;
@@ -6539,7 +6539,7 @@ extern s32 func_80146C3C(u8*);
 #include "../shared/ov/func_8016A1CC.h"
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern void func_80017758(void *a0, void *a1);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
@@ -6594,7 +6594,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     fr.v[1].z = 0;
     fr.v[1].y = 0;
     fr.v[1].x = 0;
-    flags = D_800B99DA;
+    flags = guess_g_FrameCounter;
     if (flags & 1) {
         fr.col[1].r = ((Unkstruct_8016A290 *)param_1)->unk30 + 0x20;
     } else if (flags & 2) {

@@ -1,6 +1,6 @@
 /* func_8014EE14 — shared body (overlay slot 0x80128158, h_exact d6ee7093). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern u8 D_801202A0[];
 extern s32 D_801150D8;
 extern u8 D_80126720[];
@@ -22,7 +22,7 @@ s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2)
     uVar8 = 0;
     sVar7 = 8;
     sVar6 = 8;
-    switch ((D_800B99DA & 0x60) >> 5) {
+    switch ((guess_g_FrameCounter & 0x60) >> 5) {
     case 0:
     case 1:
         sVar7 = 7;

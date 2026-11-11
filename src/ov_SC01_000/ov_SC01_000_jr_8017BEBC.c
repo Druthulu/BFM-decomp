@@ -602,7 +602,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -897,7 +897,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1081,7 +1081,7 @@ extern s32 D_80180F78[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1114,7 +1114,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2448,9 +2448,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2591,9 +2591,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801A56EC;
 extern s16 D_801A56EE;
@@ -3222,7 +3222,7 @@ void func_8017D490(void)
  *  - Tag word is a PLAIN cast (§351): a P_TAG COMPONENT_REF on pkt grants /s and lets cse keep the
  *    OT index live across the store (-13 ins). OT reads may be plain `& mlo` or bitfield (identical
  *    bytes); the OT WRITES must stay P_TAG bitfields or the trailing `D_800A5E60 = pkt` stops floating.
- *  - `(u16)D_800B9A02`, not `*(u16 *)&D_800B9A02` (§351): the ADDR_EXPR form cse's the base into a reg.
+ *  - `(u16)guess_g_DoubleBufferIndex`, not `*(u16 *)&guess_g_DoubleBufferIndex` (§351): the ADDR_EXPR form cse's the base into a reg.
  *  - Base-split (§351): block 1 reads the OT off the raw symbol (lui $at/addu/lw %lo), then
  *    `ob = D_800AA60C` and every later reference goes through `ob` ($t2).
  *  - 0x80 ($a3) and 0xFFFFFF ($a2) must NOT be pinned: $6/$7 are ALSO set by this function's own
@@ -3239,7 +3239,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     extern void func_8017E1A8(Pt_8017E1A8 *p, s32 arg1, s32 arg2, s32 arg3);
     extern u8 *D_800A5E60;
     extern u8 D_800AA60C[];
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
     extern u8 D_801826EC[];
     extern s32 D_801A5734;
     extern u16 D_801826F0, D_801826F2, D_801826F8, D_801826FA;
@@ -3285,9 +3285,9 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(s16 *)(pkt + 0x20) = D_80182710;
     *(s16 *)(pkt + 0x22) = D_80182712;
     mlo = 0xFFFFFF;
-    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)D_800AA60C + (((u16)D_800B9A02) << 14)) & mlo);
+    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)D_800AA60C + (((u16)guess_g_DoubleBufferIndex) << 14)) & mlo);
     ob = D_800AA60C;
-    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)pkt;
     pkt += 0x28;
 
     *(u8 *)(pkt + 3) = 9;
@@ -3313,8 +3313,8 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(s16 *)(pkt + 0x1A) = D_80182712;
     *(s16 *)(pkt + 0x20) = D_80182718;
     *(s16 *)(pkt + 0x22) = D_8018271A;
-    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & mlo);
-    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & mlo);
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)pkt;
     pkt += 0x28;
 
     *(u8 *)(pkt + 3) = 9;
@@ -3341,8 +3341,8 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(s16 *)(pkt + 0x1A) = D_80182722;
     *(s16 *)(pkt + 0x20) = D_80182728;
     *(s16 *)(pkt + 0x22) = D_8018272A;
-    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & mlo);
-    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & mlo);
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)pkt;
     pkt += 0x28;
     __asm__("" :: "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
 
@@ -3369,8 +3369,8 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(s16 *)(pkt + 0x1A) = D_8018272A;
     *(s16 *)(pkt + 0x20) = D_80182730;
     *(s16 *)(pkt + 0x22) = D_80182732;
-    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & mlo);
-    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & mlo);
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)pkt;
     pkt += 0x28;
 
     D_800A5E60 = pkt;
@@ -3411,7 +3411,7 @@ void func_8017E1A8(Pt_8017E1A8 *p, s32 arg1, s32 arg2, s32 arg3) {
 #include "common.h"
 
 extern u8 *D_800A5E60;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern u8 D_800AA608[];
 
 s32 func_8017E210(s32 arg0)
@@ -3440,19 +3440,19 @@ s32 func_8017E210(s32 arg0)
 
 #define HEAD1_E210()                                                            \
     *(u32 *)p = (*(u32 *)p & mhi) |                                        \
-        (*(u32 *)&D_800AA608[(D_800B9A02 & 0xFFFF) << 14] & mlo);          \
+        (*(u32 *)&D_800AA608[(guess_g_DoubleBufferIndex & 0xFFFF) << 14] & mlo);          \
     q = (u32 *)D_800AA608;
 
 #define HEADN_E210()                                                            \
     *(u32 *)p = (*(u32 *)p & mhi) |                                        \
-        (*(u32 *)((s32)q + ((D_800B9A02 & 0xFFFF) << 14)) & mlo);
+        (*(u32 *)((s32)q + ((guess_g_DoubleBufferIndex & 0xFFFF) << 14)) & mlo);
 
 #define TAILL_E210(TAIL)                                                        \
     {                                                                      \
     u32 *addrw;                                                            \
     u32 v1;                                                                \
     u32 val;                                                               \
-    addrw = (u32 *)((s32)q + ((D_800B9A02 & 0xFFFF) << 14));               \
+    addrw = (u32 *)((s32)q + ((guess_g_DoubleBufferIndex & 0xFFFF) << 14));               \
     v1 = (u32)p & mlo;                                                     \
     val = *addrw;                                                          \
     TAIL;                                                                  \
@@ -3539,7 +3539,7 @@ void func_8017E4A0(void)
     u32 c64;
     s32 frame_pad[2];
     extern u8 *D_800A5E60;
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
     extern u8 D_800A6614[];
 
     (void)&frame_pad;
@@ -3568,14 +3568,14 @@ void func_8017E4A0(void)
     *(s8 *)(p + 0x11) = w;
     *(s16 *)(p + 0x16) = 0x10;
 
-    u = D_800B9A02 & 0xFFFF;
+    u = guess_g_DoubleBufferIndex & 0xFFFF;
     w = *(u32 *)p;
     u = *(u32 *)(D_800A6614 + (u << 14));
     w = (w & mhi) | (u & mlo);
     *(u32 *)p = w;
 
     u = (u32)D_800A6614;
-    ent = (u32 *)(u + ((D_800B9A02 & 0xFFFF) << 14));
+    ent = (u32 *)(u + ((guess_g_DoubleBufferIndex & 0xFFFF) << 14));
     mlo = (u32)p & mlo;
     u = *(u32 *)ent;
     p += 0x18;
@@ -3588,7 +3588,7 @@ void func_8017E4A0(void)
 #include "common.h"
 
 extern u8 *D_800A5E60;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern u8 D_800AA608[];
 
 void func_8017E594(s32 arg0, s32 arg1, s32 arg2, u8 arg3)
@@ -3621,19 +3621,19 @@ void func_8017E594(s32 arg0, s32 arg1, s32 arg2, u8 arg3)
 
 #define HEAD1()                                                             \
     *(u32 *)p = (*(u32 *)p & mhi) |                                  \
-        (*(u32 *)&D_800AA608[(D_800B9A02 & 0xFFFF) << 14] & mlo);      \
+        (*(u32 *)&D_800AA608[(guess_g_DoubleBufferIndex & 0xFFFF) << 14] & mlo);      \
     q = (u32 *)D_800AA608;
 
 #define HEADN()                                                             \
     *(u32 *)p = (*(u32 *)p & mhi) |                                  \
-        (*(u32 *)((s32)q + ((D_800B9A02 & 0xFFFF) << 14)) & mlo);
+        (*(u32 *)((s32)q + ((guess_g_DoubleBufferIndex & 0xFFFF) << 14)) & mlo);
 
 #define TAILL(TAIL)                                                         \
     {                                                                       \
     u32 *addrw;                                                             \
     u32 v1;                                                                 \
     u32 val;                                                                \
-    addrw = (u32 *)((s32)q + ((D_800B9A02 & 0xFFFF) << 14));                \
+    addrw = (u32 *)((s32)q + ((guess_g_DoubleBufferIndex & 0xFFFF) << 14));                \
     v1 = (u32)p & mlo;                                                 \
     val = *addrw;                                                           \
     TAIL;                                                                   \

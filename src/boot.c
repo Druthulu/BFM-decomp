@@ -561,8 +561,8 @@ void func_80010E7C(void) {
     ((Unkstruct_80010178 *)p)->unkA3D4 = 1;
 }
 
-extern s32 D_800C7C60;
-extern void *D_800C7C64;
+extern s32 guess_g_CdReadList;
+extern void *guess_g_CdReadListDest;
 extern u8 D_800A2E20[];
 extern u8 D_800AE848[];
 extern void *loadDestPtrTable;
@@ -572,17 +572,17 @@ extern void func_80010AE0(int);
 extern void func_80014338(void);
 extern void func_800116E0(void);
 extern void func_80011778(void);
-extern s16 D_800B99DA;
+extern s16 guess_g_FrameCounter;
 
 void func_80010ED4(void) {
-    D_800C7C60 = 0x57;
-    D_800C7C64 = D_800A2E20;
-    if (CdReadRequest(D_800AE848, loadDestPtrTable, 0, &D_800C7C60) != 0) {
+    guess_g_CdReadList = 0x57;
+    guess_g_CdReadListDest = D_800A2E20;
+    if (CdReadRequest(D_800AE848, loadDestPtrTable, 0, &guess_g_CdReadList) != 0) {
         func_8002D4C8(2, 0);
         func_80010AE0(0x3E0);
         func_80014338();
         func_800116E0();
-        D_800B99DA = 0;
+        guess_g_FrameCounter = 0;
         func_80011778();
     }
 }

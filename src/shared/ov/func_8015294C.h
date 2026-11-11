@@ -1,6 +1,6 @@
 /* func_8015294C — shared body (overlay slot 0x80128158, h_exact cf34981a). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern void func_80149020(s32 *a0);
 extern void func_801470B4(s32 a0);
 extern void func_801470AC(s32 *a0);
@@ -14,7 +14,7 @@ extern void func_80146CA0(void *a0);
 void func_8015294C(s32 a0) {
     s32 s0 = a0;
     func_80149020((s32 *)s0);
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         func_801470B4(s0);
     } else {
         func_801470AC((s32 *)s0);

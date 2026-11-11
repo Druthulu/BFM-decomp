@@ -95,7 +95,7 @@ def sym_of(d):
 
 # The project's scalar typedefs. `short` and `s16` are THE SAME TYPE, so two drafts spelling one
 # symbol both ways do not conflict -- but a textual comparison calls them different and drops a
-# good draft (R39 over-refusal; wave O hit it with `extern short D_800B9A02`). Signedness is NOT
+# good draft (R39 over-refusal; wave O hit it with `extern short guess_g_DoubleBufferIndex`). Signedness is NOT
 # normalized away: u16 vs s16 is a genuine conflict and must stay one.
 def _common_h_aliases():
     """The project's OWN scalar typedefs, read from include/common.h rather than restated here (R33).

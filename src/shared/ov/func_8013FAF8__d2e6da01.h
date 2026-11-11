@@ -79,19 +79,19 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         func_8005A600((s32)ot, 0, 0, 0x15, 0);
         flag3 = flag;
         *ot = 0x2000000;
-        *ot = (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFFFFFF) | 0x2000000;
-        guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] =
-            (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+        *ot = (guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] & 0xFFFFFF) | 0x2000000;
+        guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] =
+            (guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
         ot = func_800D29F8(flag3,
                            func_800D27DC(flag3 != 0, ot + 10, &D_8017FC78[i], 8, D_8011516A[i].x),
                            &D_8017FF78[i], 2, D_8011516A[i].x);
     }
     pp = &D_801805F0;
     if (*pp == 0xE) {
-        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2);
+        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex], 2);
     }
     if (*pp != 0 && D_801805F2 != 0) {
-        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4 + 2, (s32)(pp - 2), 0x8000);
+        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4 + 2, (s32)(pp - 2), 0x8000);
     }
     D_801151D0 = (s32)ot;
 }

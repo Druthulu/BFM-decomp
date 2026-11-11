@@ -210,7 +210,7 @@ extern void func_80146CA0(void *a0);
     }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern u16 func_801487F4(s32*);
 extern s32 func_80146608(s32, s32, s32, s32, s16, s32, s32, s32, s32);
 extern void func_80146CA0(void*);
@@ -230,7 +230,7 @@ void func_800CD050(s32 arg0) {
     if (CAST_SIGN(s16, arg0, 0x60) < 0) {
         ((Unkstruct_80126B58 *)arg0)->unk60 = 0;
     }
-    if (D_800B99DA & 3) {
+    if (guess_g_FrameCounter & 3) {
         return;
     }
     acc = 0;
@@ -302,7 +302,7 @@ void func_800CD1D4(s32 *s1) {
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s16 currentLocationId;
 extern s32 func_80146E98(s32 a0);
 extern void func_800CD57C(void *arg0);
@@ -333,7 +333,7 @@ void func_800CD2EC(s32 *s1) {
 
     s2 = CAST_WIDTH(s32, s1, 8);
     if (func_80146E98((s32)s1) == 0) {
-        if ((*(u16 *)&D_800B99DA & 3) == 0) {
+        if ((*(u16 *)&guess_g_FrameCounter & 3) == 0) {
             func_800CD57C(s1);
         }
         func_80146A6C(0x26, s1, ((Unkstruct_80126B58 *)s1)->unk6, ((Unkstruct_80126B58 *)s1)->unkA,

@@ -818,7 +818,7 @@ cause: 28 names (8 B, all members placeholders); 1 bound to no object (UNBOUND),
 
 ### b85caab442ac:opaque
 names: Blk20_8016DF5C, Blk20_80180B78, Blk20_80184694, Blk32L_80133298, Blk32_80017E8C, Blk32_80180E8C, Blk32_8018287C, Blk32_80183F10, Blk32_801A5194, Blk32_801E8788, Blk32_998, Block32, Copy32, D_800D942C_entry, MTX8L_80180750, MTX8L_80181BD4, MTX8L_801821E0, MTX_L1, Mat_80167540, Mtx8_8017C910_8017E924, Mtx_8017F370, Oct_801853D0, S_md_MAIN_033_800CB3D8, Vec8, W8__md_MAIN_044
-cause: 25 names (32 B, all members placeholders); 1 bound to no object (UNBOUND), used only by: type Mat_800CB658; the other 24 bound to 81 distinct objects, none bound to two names: 0x800AE620, 0x800D942C, 0x80114F24, 0x801151D4 (guess_g_ActiveCamera), 0x801E06C4, 0x801E06E4, 0x801E0704, 0x801E0724 …; full list: tools/struct_twins.py --show b85caab442ac:opaque
+cause: 25 names (32 B, all members placeholders); 1 bound to no object (UNBOUND), used only by: type Mat_800CB658; the other 24 bound to 81 distinct objects, none bound to two names: 0x800AE620, 0x800D942C, 0x80114F24 (guess_g_StoredViewPointX), 0x801151D4 (guess_g_ActiveCamera), 0x801E06C4, 0x801E06E4, 0x801E0704, 0x801E0724 …; full list: tools/struct_twins.py --show b85caab442ac:opaque
 - `Blk20_8016DF5C`: 20 obj — 0x800AE620, ov_MAIN_012/0x8016DF5C:iVar8, ov_MAIN_012/0x8016DF5C:localMatrix, ov_MAIN_012/0x8016DF5C:param_1, ov_SC01_000/0x8016DF5C:iVar8, ov_SC01_000/0x8016DF5C:localMatrix, ov_SC01_000/0x8016DF5C:param_1, ov_SC02_037/0x8016DF5C:aD800AE620 (+12)
 - `Blk20_80180B78`: 2 obj — aAE620_80180B78, ov_SC04_003/0x80180B78:m
 - `Blk20_80184694`: 2 obj — ov_SC03_029/0x80184694:aD800AE620_80184694, ov_SC03_029/0x80184694:m
@@ -842,7 +842,7 @@ cause: 25 names (32 B, all members placeholders); 1 bound to no object (UNBOUND)
 - `Mtx_8017F370`: 1 obj — ov_SC03_011/0x8017F370:m
 - `Oct_801853D0`: 2 obj — ov_SC04_011/0x801853D0:Unkstruct_801853D0, ov_SC04_011/0x801853D0:l
 - `S_md_MAIN_033_800CB3D8`: 2 obj — md_MAIN_033/0x800CB3D8:Unkstruct_800CB190, md_MAIN_033/0x800CB3D8:st
-- `Vec8`: 2 obj — 0x80114F24, 0x801151D4 (guess_g_ActiveCamera)
+- `Vec8`: 2 obj — 0x80114F24 (guess_g_StoredViewPointX), 0x801151D4 (guess_g_ActiveCamera)
 - `W8__md_MAIN_044`: 2 obj — md_MAIN_044/0x800CD63C:a1, md_MAIN_044/0x800CD63C:sp20
 
 ### c1767d5293b8:opaque

@@ -408,7 +408,7 @@ void func_800CB8C4(void *a0, void *a1) {
 
 
 void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, void *twicep, s16 *angp) {
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     struct {
         s16 o1[4];
         s16 o2[4];
@@ -470,7 +470,7 @@ void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, 
     L.q32 = 0x17F;
     L.b44 = 0x19;
     L.o1[2] = 1;
-    t = (D_800B99DA << 2) & 0x3F;
+    t = (guess_g_FrameCounter << 2) & 0x3F;
     L.q28 = t | 0x680;
     L.q2C = t + 0x6BF;
     L.q30 = L.q2C;

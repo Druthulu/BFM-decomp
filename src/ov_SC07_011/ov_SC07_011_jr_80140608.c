@@ -114,7 +114,7 @@ extern s16 D_80114EE0;
 extern void func_80129428(void);
 extern void func_8012943C(void);
 extern s32 D_8005128C;
-extern u8 D_800B9A78;
+extern u8 guess_g_BackgroundLayers;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8(s32 a, s32 b, s32 c);
 extern void func_8012944C(void);
@@ -317,7 +317,7 @@ extern void SetLineF2(void *);
 extern s32 func_80010A08(s32);
 extern void func_8004914C(void *);
 extern void func_800491AC(void *);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_8012D5DC(void);
 extern s16 D_80126B98;
@@ -528,7 +528,7 @@ extern s16 D_80126CC4;
 extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
@@ -537,7 +537,7 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
@@ -693,7 +693,7 @@ extern void *D_8011DB24;
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern unsigned short D_80115112;
 extern void func_8013E588(void * _arg0);
@@ -970,7 +970,7 @@ u32 mhi;
           j = 0;
           k = m;
           t3v = m * 4;                  /* [L3] explicit, must sit before the 3 constants */
-          pb = (u16 *) (&D_800B9A02);
+          pb = (u16 *) (&guess_g_DoubleBufferIndex);
           m24 = 0xFFFFFF;
           mhi = 0xFF000000;
           for (; j < 2; j++)
@@ -1320,14 +1320,14 @@ void func_801418F8(void)
 
 /* func_80141A60 @ 0x80141A60 (0x130, 76 ins) -- ov_SC01_000 shared engine fn.
  *
- * ((s32 *)D_801151C8)[]: word (s32) table indexed by (u16)(*(u16 *)&D_800B9A02) -> D_801151D0.
+ * ((s32 *)D_801151C8)[]: word (s32) table indexed by (u16)(*(u16 *)&guess_g_DoubleBufferIndex) -> D_801151D0.
  * D_8011511A: u16, unsigned compare vs 4 (sltiu).
  * (*(u8 *)&D_8011514C)/4D/5C: u8 fields; a1 = (s16)((*(u8 *)&D_8011514C) + D_8011514D*D_8011515C).
  * D_80115130: cached s32 handle. D_8017F9FC: address-taken arg to func_801376E8.
  * D_80115116: s16 <- 0xfff8 (ori, positive const). D_80115112: u16 counter.
  */
 
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
 /* D_8011511A: this TU declares it volatile at file scope -> a direct read reloads on every
@@ -1356,7 +1356,7 @@ void func_80141A60(void)
     s32 pad[2];
     (void)&pad;   /* §36#3 frame-pad induction: force frame 0x20 (vs 0x18) */
 
-    D_801151D0 = ((s32 *)D_801151C8)[(*(u16 *)&D_800B9A02)];
+    D_801151D0 = ((s32 *)D_801151C8)[(*(u16 *)&guess_g_DoubleBufferIndex)];
     func_8013F350();
     if ((*(u16 *)&D_8011511A) >= 4) {
         func_8013FAF8((*(u16 *)&D_8011511A), (*(u16 *)&D_8011511A) + 1);

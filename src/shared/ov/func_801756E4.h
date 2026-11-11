@@ -3,7 +3,7 @@
 extern void func_80175DA8(s32 a0);
 extern void func_80175AB8(s32 a0);
 extern void func_80176144(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 void func_801756E4(s32 arg0) {
     s32 a = arg0;
     short *p;
@@ -11,7 +11,7 @@ void func_801756E4(s32 arg0) {
     s32 sum;
     s16 neg;
     s32 b6;
-    p = &D_800B9A02;
+    p = &guess_g_DoubleBufferIndex;
     f5 = *(u8 *)(a + 5);
     sum = *(u8 *)(a + 6) + f5;
     neg = -(s16)(sum & 0xFF);

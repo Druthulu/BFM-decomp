@@ -17,7 +17,7 @@ extern void func_800CF818(void);
 extern u8 D_80078E50;
 extern s32 D_80078E8C;
 extern u8 D_80110D0C[];
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 void func_80159120(s32 a0) {
     s32 r;
     s32 v1;
@@ -71,6 +71,6 @@ L270:
     func_800CF818();
     return;
 L290:
-    *(s32 *)(a0 + 0x198) = func_8013767C((s32)D_80110C3C);
+    *(s32 *)(a0 + 0x198) = func_8013767C((s32)guess_g_StartPromptText);
     func_80146C98((s32 *)a0, 0x9);
 }

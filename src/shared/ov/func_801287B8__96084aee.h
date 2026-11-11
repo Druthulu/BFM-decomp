@@ -25,7 +25,7 @@ void func_801287B8(void) {
     }
     func_8013BCDC();
     func_801379FC();
-    D_800B99DA++;
+    guess_g_FrameCounter++;
     if (D_800B9A64 != 0) {
         func_8001212C();
     }

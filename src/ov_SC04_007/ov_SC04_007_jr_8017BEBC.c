@@ -888,7 +888,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1071,7 +1071,7 @@ extern s32 D_80187EFC[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1104,7 +1104,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2432,9 +2432,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2592,9 +2592,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801B51EC;
 extern s16 D_801B51EE;
@@ -2683,7 +2683,7 @@ void func_8017BEBC(s32 arg0)
     extern void func_80052E38(MATRIX2 *);
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0); unsigned access forced at use — §8d sub-class (b) */
+    extern short guess_g_DoubleBufferIndex;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0); unsigned access forced at use — §8d sub-class (b) */
 
     DVECTOR2 tmpxy[4];
     SVECTOR2 box[8];
@@ -2717,7 +2717,7 @@ void func_8017BEBC(s32 arg0)
     part = *(Part **)(arg0 + 0xC);
     nparts = *(s32 *)(((Unkstruct_8017BEBC_9 *)arg0)->unk8 + 8);
     vtx = *(u8 **)(((Unkstruct_8017BEBC_9 *)arg0)->unk8 + 0x10);
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;
@@ -3314,7 +3314,7 @@ void func_8017CECC(s32 a0) {
  *   D_80126B5C     TU:361  (scalar u8 -> pass (s32)&D_80126B5C)
  *   D_801202A0     TU:385
  *   func_80013328  TU:520
- *   D_800B99DA     TU:615
+ *   guess_g_FrameCounter     TU:615
  *   rand           TU:957/1092/3543
  *   guess_g_PlayerPosY     TU:1793/2740/3068
  *   func_801746A4  TU:2397
@@ -3345,7 +3345,7 @@ void func_8017D258(s32 a0) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     s32 s0 = ((Unkstruct_8017BEBC *)a0)->unk20;
     s16 found;
     s32 lvl;
@@ -3353,7 +3353,7 @@ void func_8017D258(s32 a0) {
     s16 j;
     s32 rand_val;
 
-    if ((D_800B99DA & 0xF) == 0) {
+    if ((guess_g_FrameCounter & 0xF) == 0) {
         u8 *p;
         u8 *end;
         for (p = D_801202A0, end = p + 0x6480; p < end; p += 0x10C) {
@@ -3739,7 +3739,7 @@ extern void func_80017E68(void *a0, void *a1);
 void func_8017DF10(int param_1)
 {
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8  D_801896B4[];
     SVec8_8017C218_8017DF10 rot;
     s32   pad0[2];
@@ -3764,7 +3764,7 @@ void func_8017DF10(int param_1)
     prim.c[0].r = prim.c[0].g = prim.c[0].b =
     prim.c[2].r = prim.c[2].g = prim.c[2].b =
     prim.c[3].r = prim.c[3].g = prim.c[3].b = c;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         prim.c[0].r = prim.c[2].r = prim.c[3].r = prim.c[3].r >> 1;
     }
 
@@ -4971,7 +4971,7 @@ void func_8017FF08(void *a0, void *a1)
     extern void func_8001E378(void *a0);
     extern void func_80180324(void *a0, void *a1, u32 *a2, u32 *a3);
     extern u8 D_800A6610[];
-    extern short D_800B9A02;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0);
+    extern short guess_g_DoubleBufferIndex;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0);
                                 * unsigned access forced at the use — §8d sub-class (b) */
 
     Vec8_80182FD4 base;
@@ -4987,7 +4987,7 @@ void func_8017FF08(void *a0, void *a1)
     s32 i;
     u16 w;
 
-    ot = (u32 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     s = CAST_SIGN(Src_80182FD4 *, (s32)a0, 0x20);
     if (s == 0) {
         return;
@@ -5311,7 +5311,7 @@ void func_80180894(s32 param_1, s32 param_2)
             RotTransPers((s32)&quad[2], (s32)(prim + 0x18), &p, &flag);
             RotTransPers((s32)&quad[3], (s32)(prim + 0x20), &p, &flag);
 
-            AddPrim(D_800A651C[(u16)D_800B9A02].a + (otz * 4), prim);
+            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + (otz * 4), prim);
             func_8012E28C(otz, 1);
             fp++;
             ang = ang2;
@@ -6837,7 +6837,7 @@ skip_update:
 
 void func_80182DD8(s32 a0, void *a1, s32 a2)
 {
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8 D_801980B8[];
     extern u8 D_801980CC[];
     extern void func_80017758(void *a0, void *a1);   /* canon, TU line 1761 */
@@ -6849,7 +6849,7 @@ void func_80182DD8(s32 a0, void *a1, s32 a2)
 
     func_801832EC(a0, a1, a2, &m);
 
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         pkt.rgb[1].b = 0x58;
     } else {
         pkt.rgb[1].b = 0x48;
@@ -6935,7 +6935,7 @@ void func_80183040(s32 a0, s32 a1, s32 a2)
 
     extern void func_801832EC(s32 a0, s32 a1, s32 a2, void *a3);
     extern void func_80017758(void *a0, void *a1);
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8 D_80188C74[];
     extern u8 D_80188C88[];
 
@@ -6948,9 +6948,9 @@ void func_80183040(s32 a0, s32 a1, s32 a2)
 
     p.v[0].vz = p.v[2].vz = p.v[3].vz = 0;
     p.v[1].vx = p.v[1].vy = p.v[1].vz = 0;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         p.c[1].r = 0xA0;
-    } else if (!(D_800B99DA & 2)) {
+    } else if (!(guess_g_FrameCounter & 2)) {
         p.c[1].r = 0x80;
     } else {
         p.c[1].r = 0xC0;
@@ -7062,7 +7062,7 @@ void func_80183438(void *a0)
         s32 idx;
         u8 *ot;
 
-        ot = &D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        ot = &D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
         idx = otz + 1;
         if (idx >= 0x1000) idx = 0xFFF;
         otp = (u32 *)((idx << 2) + (u32)ot);

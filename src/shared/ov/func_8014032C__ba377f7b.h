@@ -13,7 +13,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     extern void * D_801803EC[];
     extern u8 D_8018033F[];
     extern u8 * D_8018E7C4;
-    extern u8 D_801117EC[];
+    extern u8 guess_g_EmptyText[];
     extern u8 D_801117B4[];
     extern u8 D_80112BC8[];
     extern u8 D_80112B58[];
@@ -25,7 +25,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     unsigned int uVar3;
     void *result;
 
-    result = D_801117EC;
+    result = guess_g_EmptyText;
     switch (((short)param_1)) {
     case 0:
         if (((s32(*)(s32))guess_TestGameFlag)(D_80180314[((short)param_2)]) & 0xFF) {

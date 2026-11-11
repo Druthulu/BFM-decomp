@@ -58,7 +58,7 @@ extern void func_8013E558(void);
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern unsigned short D_80115112;
 extern void func_8013E588(void * _arg0);
@@ -83,7 +83,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
 extern u16 D_8011511A;
@@ -457,7 +457,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
     extern short D_80115128;
     extern Hw4    D_8011516A[];
     extern u8     D_80078EC0;
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern Rec20  guess_g_FrontOrderingTables[];
     extern Blk60  D_801829C0[];
     extern Blk20  D_80182CC0[];
@@ -536,19 +536,19 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         func_8005A600((s32)ot, 0, 0, 0x15, 0);
         flag3 = flag;
         *ot = 0x2000000;
-        *ot = (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFFFFFF) | 0x2000000;
-        guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] =
-            (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+        *ot = (guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] & 0xFFFFFF) | 0x2000000;
+        guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] =
+            (guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
         ot = func_800D29F8(flag3,
                            func_800D27DC(flag3 != 0, ot + 10, &D_801829C0[i], 8, D_8011516A[i].x),
                            &D_80182CC0[i], 2, D_8011516A[i].x);
     }
     pp = &D_80183338;
     if (*pp == 0xE) {
-        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2);
+        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex], 2);
     }
     if (*pp != 0 && D_8018333A != 0) {
-        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4 + 2, (s32)(pp - 2), 0x8000);
+        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4 + 2, (s32)(pp - 2), 0x8000);
     }
     D_801151D0 = (s32)ot;
 }
@@ -575,7 +575,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     extern u8 D_80183008;
     extern u8 D_8018300C;
     extern u8 *D_80183018;
-    extern s32 D_8010F3C4[];
+    extern s32 guess_g_VillagerNames[];
     extern s32 D_8010EDE8[];
     extern u8  D_80115143;
     extern void * D_801A6B04;
@@ -660,7 +660,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 if ((((s32 (*)(u8, s32))func_800291B4)(D_80183087[s0], arg1) & 0xFF) == 0) {
                     *arg2 = 0x804040;
                 }
-                ret = D_8010F3C4[s0];
+                ret = guess_g_VillagerNames[s0];
             } else {
                 ret = (*(s32 *)&D_80183008);
             }
@@ -682,7 +682,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 *arg2 = 0x804040;
             }
             idx = s0 + 1;
-            ret = D_8010F3C4[idx];
+            ret = guess_g_VillagerNames[idx];
         }
         break;
     }

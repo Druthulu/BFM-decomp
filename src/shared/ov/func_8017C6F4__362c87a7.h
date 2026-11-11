@@ -9,7 +9,7 @@ void func_8017C6F4(s32 arg0)
     extern u8 D_8018F9C0[];
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
 
     s16 rect[4];
     DVEC2_C6F4 tmpxy[4];
@@ -42,7 +42,7 @@ void func_8017C6F4(s32 arg0)
     func_8017C014(D_8018F9C0, rect, *(s32 *)(arg0 + 0x60));
 
     pkt = D_800A5E60;
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     cx0 = (rect[0] + 0x4000) / 512;
     cx1 = (rect[0] + rect[2] + 0x4000) / 512 + 2;

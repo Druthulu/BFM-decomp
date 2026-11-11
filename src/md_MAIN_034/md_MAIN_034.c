@@ -11,7 +11,7 @@ extern s16 D_800CC9E8;
 extern s16 D_800CC9EA;
 extern s16 D_800CC9F0;
 extern s16 D_800CC9F2;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_800CC9EC;
 extern s32 D_800CC9F4;
 extern s32 D_800CCB18;
@@ -54,7 +54,7 @@ void func_800CAE88(s32 *arg0, s32 p1, s32 p2) {
             if (D_800CC9E8 <= 0)
                 D_800CC9EC = flag1 ^ 1;
         }
-        if (!(D_800B99DA & 1)) {
+        if (!(guess_g_FrameCounter & 1)) {
             flag2 = D_800CC9F4;
             if (flag2 == 0) {
                 D_800CC9F0++;
@@ -1073,13 +1073,13 @@ void func_800CC968(void *a0) {
 
 
 void func_800CC9AC(void *a0) {
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern Quad4_800CCAD0 D_800CCAD0;
     extern u8 D_800CCAD1;
     extern u8 D_800CCAD2;
     int col;
 
-    col = D_800B99DA & 1;
+    col = guess_g_FrameCounter & 1;
     if (col != 0) {
         col = 0xFF;
     } else {

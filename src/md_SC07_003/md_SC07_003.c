@@ -518,7 +518,7 @@ extern u8   D_80186F68[];
 extern u8   D_801F1198[];
 extern u8   D_801F1340[];
 extern u8   D_801F1238[];
-extern u16  D_800B99DA;
+extern u16  guess_g_FrameCounter;
 
 void func_801A09C8(s32 arg0) {
     s32 pad[10];
@@ -562,7 +562,7 @@ void func_801A09C8(s32 arg0) {
     case 1:
         CAST_WIDTH(s32, arg0, 0x10) = CAST_WIDTH(s32, arg0, 0x10) * 15 / 16;
         CAST_WIDTH(s32, arg0, 0x18) = CAST_WIDTH(s32, arg0, 0x18) * 15 / 16;
-        if (D_800B99DA % 3 == 0) {
+        if (guess_g_FrameCounter % 3 == 0) {
             func_801A27A4((void *)arg0, D_801A68BC);
             func_801A27A4((void *)arg0, D_801A68BC + 8);
         }
@@ -1996,7 +1996,7 @@ extern u8 D_801A6C50[];
 extern u8 D_801A6C98[];
 extern u8 guess_g_RenderWork[];
 extern u8 D_800A6610[];
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern s32 D_800A5E60;
 
 /* PsyQ inline GTE macros (house spelling) */
@@ -2071,7 +2071,7 @@ void func_801A293C(void *arg0)
     __asm__("addiu %0,%1,0x18" : "=r"(m) : "r"(guess_g_RenderWork));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B tus10)
     s7 = (s32)&flag;
     fp = -0x1001;
-    base = (s32)D_800A6610 + (*(u16 *)&D_800B9A02 << 14);
+    base = (s32)D_800A6610 + (*(u16 *)&guess_g_DoubleBufferIndex << 14);
 
     for (i = 0; i < 9; i++) {
         p = D_800A5E60;
@@ -2919,7 +2919,7 @@ void func_801A4268(s32 self)
 {
 
     extern u8  D_801A6E38[];
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     s32 m[8];    /* sp+0x10 */
     s32 flag;    /* sp+0x30 */
     s32 handle;
@@ -2946,7 +2946,7 @@ void func_801A4268(s32 self)
         gte_SetRotMatrix(m);
         gte_SetTransMatrix(m);
         RotTransSV((s32)D_801A6E38, (s32)(D_801F4358 + 8), &flag);
-        r = func_8004787C(((s32)D_800B99DA << 6) & 0x7C0);
+        r = func_8004787C(((s32)guess_g_FrameCounter << 6) & 0x7C0);
         c = ((Unkstruct_800B5CB8 *)self)->unkE0 & 0x100;
         flag = r;
         if (c == 0) {

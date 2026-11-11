@@ -9,7 +9,7 @@ Prim_1412A8 * func_801412A8(out, a1, a2, a3, a4, a5)
     u16 a5;
 {
     extern Env_1412A8 guess_g_FrontOrderingTablesOrg[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern u16 D_80115116;
     Prim_1412A8 *p = out;
     int y = a5;

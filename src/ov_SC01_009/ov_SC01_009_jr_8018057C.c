@@ -595,7 +595,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -891,7 +891,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1074,7 +1074,7 @@ extern s32 D_80184CE8[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1107,7 +1107,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2447,9 +2447,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2599,9 +2599,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801F3154;
 extern s16 D_801F3156;
@@ -2736,7 +2736,7 @@ extern void func_80180540(void *a0);
  *               1,2,4,8,6,14,10,13,11,23,30,12,17,26,15,21,29,18,28,19,
  *               20,35,22,31,36,39,25,38,32,37
  *
- *   TAIL      .L8018135C: v0 = &D_8010F5C8   (the post-switch `return`)
+ *   TAIL      .L8018135C: v0 = &guess_g_PlaceholderText   (the post-switch `return`)
  *   EPILOGUE  .L80181364: restore, jr ra.
  *
  * Recurring sub-shapes:
@@ -2776,7 +2776,7 @@ extern u8 *D_801ED8D8;
 extern s16 D_801F32D8;
 extern u8 *D_801EE730[];
 
-extern u8 D_8010F5C8[];
+extern u8 guess_g_PlaceholderText[];
 extern u8 D_801887A0[], D_801887EC[], D_801888E0[], D_80188954[], D_801889E4[];
 extern u8 D_80188A58[], D_80188DE8[], D_80188EA0[], D_80188F6C[], D_80189058[];
 extern u8 D_801894DC[], D_801895E0[], D_801896E0[], D_80189804[], D_801898C4[];
@@ -3193,7 +3193,7 @@ u8 *func_8018057C(void *arg0) {
         }
         return D_8018CE74;
     }
-    return D_8010F5C8;
+    return guess_g_PlaceholderText;
 }
 
 

@@ -8,7 +8,7 @@ extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s32 D_800A651C;
 extern u8 guess_g_CameraWsMatrix;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 void func_80136D08(s32 arg0, s32 arg1) {
     s32 sp10;
     s32 sp14;
@@ -28,5 +28,5 @@ void func_80136D08(s32 arg0, s32 arg1) {
     temp_v0 = RotTransPers(arg0, (s32)buf + 8, &sp10, &sp14);
     temp_v0_2 = RotTransPers(arg1, (s32)buf + 0x10, &sp10, &sp14);
     temp_v0 = ((temp_v0 + temp_v0_2) >> 3) * 4;
-    AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + temp_v0, buf);
+    AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)guess_g_DoubleBufferIndex * 0x14)) + temp_v0, buf);
 }

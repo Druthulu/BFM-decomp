@@ -55,7 +55,7 @@ void func_8015C32C(s32 arg0) {
     func_80146DB8((s32 *)arg0, vout);
     func_80147A84(arg0);
     ((void (*)(s32))guess_ApplyVelocity)(arg0);
-    if ((D_800B99DA & 3) == 0) {
+    if ((guess_g_FrameCounter & 3) == 0) {
         func_8014C010(arg0, 1);
         func_80147324(0x65f);
     }

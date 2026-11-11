@@ -5,7 +5,7 @@ void func_8017B880(void)
     D_80114F30 = D_8018F9A4;
     D_80114F34 = D_8018F9A6;
     D_80114F38 = D_8018F9A8;
-    D_80114F24 = D_8018F9AC;
-    D_80114F28 = D_8018F9AE;
-    D_80114F2C = D_8018F9B0;
+    guess_g_StoredViewPointX = D_8018F9AC;
+    guess_g_StoredViewPointY = D_8018F9AE;
+    guess_g_StoredViewPointZ = D_8018F9B0;
 }

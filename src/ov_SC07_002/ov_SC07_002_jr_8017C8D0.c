@@ -602,7 +602,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -898,7 +898,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1081,7 +1081,7 @@ extern s32 D_80188B58[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1114,7 +1114,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2454,9 +2454,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2614,9 +2614,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_8019B6C4;
 extern s16 D_8019B6C6;
@@ -2873,7 +2873,7 @@ void func_8017DAEC(void)
  * clamp OTZ by the mode word at c-0x1F (0xC000 subtract-clamp / 0x4000 add), skip if
  * flag&~0x1000 or otz>=0x1000, fill a POLY_G4 (0x24) or POLY_F3-ish (0x14) from c[-4..0]
  * and tex-page p+0x25/27/29, setcode by n<4, addPrim into OT bucket
- * D_800A6610[D_800B9A02<<14] + n*4, and chain a DR_TPAGE ((n<<5)&0x9FF)|0xE1000000 when
+ * D_800A6610[guess_g_DoubleBufferIndex<<14] + n*4, and chain a DR_TPAGE ((n<<5)&0x9FF)|0xE1000000 when
  * n<4.  Immediates are DECIMAL throughout (maspsx rejects hex in __asm__ strings, §265). */
 
 /* func_8017DC80 — the D_8019B7B8 record table's POLY_G4 / LINE_G2 emitter.
@@ -2889,7 +2889,7 @@ void func_8017DAEC(void)
  *   - drops it when flag&~0x1000 or otz >= 0x1000,
  *   - fills xy from the stack sxy words and rgb from rec[0x25], rec[0x27],
  *     rec[0x29] (or, when rec+0x34 links a record, that record's colours),
- *   - addPrim()s it into OT bucket D_800A6610[D_800B9A02 << 14] + otz*4 and
+ *   - addPrim()s it into OT bucket D_800A6610[guess_g_DoubleBufferIndex << 14] + otz*4 and
  *     chains a DR_TPAGE ((n<<5)&0x9FF)|0xE1000000 in front of it when n < 4.
  *
  * LEVERS INHERITED FROM THE T3 OPUS DRAFT (closeness 84 -> 46, see §500-C/D2):
@@ -2946,7 +2946,7 @@ void func_8017DAEC(void)
  *     argument copy becomes a no-op and is deleted.
  *
  * DECLARATIONS: every symbol is spelled from this target's own relocation lines
- * and matches the TU (D_8019B7B8 file-scope at L3176, D_800B9A02 at L2468); the
+ * and matches the TU (D_8019B7B8 file-scope at L3176, guess_g_DoubleBufferIndex at L2468); the
  * block-scoped externs copy func_80185434's/func_80183FE0's spellings in this
  * same file, so nothing leaks into the rest of the TU.
  */
@@ -2975,7 +2975,7 @@ void func_8017DC80(void)
     extern s32 func_80010A08(s32);
     extern u8 guess_g_CameraWsMatrix;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
 
     long flag;      /* sp+0x10 */
     long sxy0;      /* sp+0x14 */
@@ -3018,7 +3018,7 @@ void func_8017DC80(void)
     c  = r + 0x29;
     va = r + 0x14;
     vb = r + 4;
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     func_80052E38(arg);
 
     for (i = 0; i < 0xC0; i++) {
@@ -6063,7 +6063,7 @@ extern void func_80182270(void *a0);
 extern void func_8018241C(void *a0);
 extern void func_80182538(s32 param_1);
 extern void func_80181FE8(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern u16 D_8019FF8A;
 
 void func_80182D50(void *a0) {
@@ -6074,7 +6074,7 @@ void func_80182D50(void *a0) {
         func_80182270(a0);
     }
     func_8018241C(a0);
-    if ((D_800B99DA & 3) == 0) {
+    if ((guess_g_FrameCounter & 3) == 0) {
         func_80182538(a0);
     }
     if (D_8019FF8A & 0x4000) {
@@ -6752,7 +6752,7 @@ LAB_80183FC4:
 
 /* Billboard POLY_FT4 emitter: rotates the entity matrix (obj->0x20 + 0x34) through the
  * camera matrix guess_g_CameraWsMatrix into a stack MATRIX, projects the four corners, and links the
- * 0x28-byte primitive into OT bucket D_800A6610[D_800B9A02 << 14]. */
+ * 0x28-byte primitive into OT bucket D_800A6610[guess_g_DoubleBufferIndex << 14]. */
 #define SHARED_FN func_80183FE0
 #include "../shared/ov/cls_d109ee79f546.h"
 #undef SHARED_FN
@@ -7151,12 +7151,12 @@ void func_801848D0(void) {
  *       three-temp form (DEFINE_func_8012B4B8, engine_core.h L29487) emits the
  *       same instruction MIX but a different allocation (+60 mismatches).
  *
- *  §21/T6  The double-buffer index D_800B9A02 is read at ALL THREE use sites
+ *  §21/T6  The double-buffer index guess_g_DoubleBufferIndex is read at ALL THREE use sites
  *       (three `lhu`s off ONE materialised `la`).  A PLAIN read is CSEd down to
  *       two AND keeps -G0 symbol addressing (lui+lhu per read, +1 insn); a
  *       POINTER local gives the `la` but lets cse fold the third read.  The
  *       `volatile u16 *` pointer local reproduces BOTH properties and leaves
- *       the TU's own `extern s16 D_800B9A02;` untouched.
+ *       the TU's own `extern s16 guess_g_DoubleBufferIndex;` untouched.
  *
  *  T6   The OT base is bound to an s32 local (`ot`) so the tag read/write keep
  *       the `0x40($v1)` displacement form instead of folding into the pointer.
@@ -7226,7 +7226,7 @@ void func_801848D0(void) {
  *      found.
  *
  * ---------------------------------------------------------------------------
- * DECLARATIONS: ApplyMatrixSV, D_800B9A02 and D_8019FE7C/E6/EA/EC are declared
+ * DECLARATIONS: ApplyMatrixSV, guess_g_DoubleBufferIndex and D_8019FE7C/E6/EA/EC are declared
  * VERBATIM as the TU already has them at file scope (L163, L2460/2462,
  * L3689/3705/3706, L3726, L3879), so they merge silently.  D_800AE620,
  * D_800A5E60, D_800A651C, guess_g_OrderingTables, D_8019FE80, RotMatrixZ, func_8004901C and
@@ -7318,7 +7318,7 @@ void func_801849AC(s32 arg0)
     *(s16 *)(p + 0x1A) = by;
 
     /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-    bidx = (u16 *)&D_800B9A02;
+    bidx = (u16 *)&guess_g_DoubleBufferIndex;
     pv = *(u32 *)p;
     pv &= 0xFF000000;
     *(u32 *)p = pv |
@@ -7650,7 +7650,7 @@ void func_8018503C(void) {
  *  A. THE OT LINK IS THE libgpu P_TAG BITFIELD, NOT HAND-MASKING.  Writing
  *     `*(u32*)q = (*(u32*)q & 0xFF000000) | (ot & 0xFFFFFF)` is byte-correct
  *     arithmetic but gives the WRONG register assignment (16 mismatches: the
- *     0xFFFFFF / 0xFF000000 / &D_800B9A02 pseudos land in a0/a2/a3 permuted,
+ *     0xFFFFFF / 0xFF000000 / &guess_g_DoubleBufferIndex pseudos land in a0/a2/a3 permuted,
  *     and the `lw $v1,0($s3)` gets serialised behind the index load).  The
  *     `unsigned addr:24; unsigned len:8` bitfield insert reproduces both the
  *     allocation and the schedule exactly.  This is just `addPrim(ot, q)`.
@@ -7690,7 +7690,7 @@ extern void func_80016638(void *a0, s32 a1, s32 a2);
 
       /* the 0x20-byte matrix */
   /* == engine_types.h OtBlk */
-          /* the D_800B9A02 buffer index */
+          /* the guess_g_DoubleBufferIndex buffer index */
  /* libgpu P_TAG */
 
 void func_80185150(s32 a0) {
@@ -7765,7 +7765,7 @@ void func_80185150(s32 a0) {
     ((Unkstruct_80185150 *)q)->unk12 = CAST_SIGN(u16, q, 0x12) + out[1];
 
     {
-        Bidx_8018B23C_80185150 *bp = (Bidx_8018B23C_80185150 *)&D_800B9A02;
+        Bidx_8018B23C_80185150 *bp = (Bidx_8018B23C_80185150 *)&guess_g_DoubleBufferIndex;
 
         /* addPrim(&D_800A651C[bp->h].a[0x10], q) */
         ((PTag_8018B23C_80185150 *)q)->addr =
@@ -7843,7 +7843,7 @@ void func_80185150(s32 a0) {
  *    both addPrim halves kills the boost too but makes it a global allocno that
  *    loses $v1 in the FIRST addPrim — 7 mismatches.  The pin alone is minimal.)
  *
- * DECLARATIONS / integration surface: `func_80049CAC` and `D_800B9A02` are
+ * DECLARATIONS / integration surface: `func_80049CAC` and `guess_g_DoubleBufferIndex` are
  * spelled VERBATIM as the destination TU already has them at file scope
  * (ov_SC03_117_jr_8017BEBC.c L2643 and L2464/L2466), so they merge silently.
  * `D_800A6610`, `func_80010A08`, `func_80017E8C` and `RotTransPers4` have NO
@@ -7878,7 +7878,7 @@ void func_80185434(s16 *arg0)
     register u32 qt __asm__("$4");   /* §17 pin — kills the birthing boost AND  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
                                         keeps the $a0/$a1 pair in target order */
 
-    ot = (u32 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     len = CAST_MISALIGNED(u16, arg0, 3);
     if (len == 0) {
         return;
@@ -8181,7 +8181,7 @@ extern void func_80147F50(s32 arg0);
 extern void func_80148038(s32 a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_8014C010(s32 a0, s32 a1);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 func_801535F4(void *arg0);
 
 void func_80185C9C(s32 param_1) {
@@ -8193,7 +8193,7 @@ void func_80185C9C(s32 param_1) {
     func_80148038(param_1, 0x18000);
     func_80147460(param_1);
 
-    if (!(D_800B99DA & 1)) {
+    if (!(guess_g_FrameCounter & 1)) {
         func_8014C010(param_1, 2);
     }
 
@@ -8358,7 +8358,7 @@ void func_80185FB0(s32 param_1) {
 
 void func_80186090(s32 param_1)
 {
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern void *D_80198854[];
     extern s32 D_80198934;
     s32 var_v1;
@@ -8368,7 +8368,7 @@ void func_80186090(s32 param_1)
     guess_ApplyVelocity((s32 *)param_1);
     func_80148038(param_1, 0x40000);
     func_80147460(param_1);
-    if (!(D_800B99DA & 1)) {
+    if (!(guess_g_FrameCounter & 1)) {
         func_8014C010(param_1, 2);
     }
     var_v1 = func_801535F4((void *)param_1);
@@ -8404,7 +8404,7 @@ void func_80186090(s32 param_1)
 extern void func_80149020(s32 *a0);
 extern void func_80147F50(s32 a0);
 extern void guess_ApplyVelocity(s32 *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern void func_8014C010(s32 a0, s32 a1);
 extern s32 func_801535F4(void *arg0);
 extern s32 func_80146E98(s32 a0);
@@ -8417,7 +8417,7 @@ void func_801861EC(s32 param_1) {
     func_80149020((s32 *)param_1);
     func_80147F50(param_1);
     guess_ApplyVelocity((s32 *)param_1);
-    if (!(D_800B99DA & 1)) {
+    if (!(guess_g_FrameCounter & 1)) {
         func_8014C010(param_1, 2);
     }
     func_801535F4((void *)param_1);
@@ -8431,7 +8431,7 @@ void func_801861EC(s32 param_1) {
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 void func_80186298(s32 param_1)
 {
@@ -8442,7 +8442,7 @@ void func_80186298(s32 param_1)
     func_80148038(param_1, 0x40000);
     func_80147460(param_1);
 
-    if ((D_800B99DA & 1) == 0) {
+    if ((guess_g_FrameCounter & 1) == 0) {
         func_8014C010(param_1, 2);
     }
 

@@ -11,9 +11,9 @@ void func_8017BD50(int param_1)
             D_80114F30 = D_80114F30 + D_8018F99C;
             D_80114F34 = D_80114F34 + D_8018F99E;
             D_80114F38 = D_80114F38 + D_8018F9A0;
-            D_80114F24 = D_80114F24 + D_8018F99C;
-            D_80114F28 = D_80114F28 + D_8018F99E;
-            D_80114F2C = D_80114F2C + D_8018F9A0;
+            guess_g_StoredViewPointX = guess_g_StoredViewPointX + D_8018F99C;
+            guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_8018F99E;
+            guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_8018F9A0;
             func_8012A4BC();
         }
         D_8018FAB0 = 0;

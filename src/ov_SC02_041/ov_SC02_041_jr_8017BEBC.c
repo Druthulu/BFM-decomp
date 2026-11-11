@@ -894,7 +894,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1078,7 +1078,7 @@ extern s32 D_8018713C[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1111,7 +1111,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2442,9 +2442,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2602,9 +2602,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801B8FD4;
 extern s16 D_801B8FD6;
@@ -3379,7 +3379,7 @@ void func_8017DCDC(s32 a0) {
 #undef SHARED_FN
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 s32 func_8017DD60(void *a0) {
     u8 val;
@@ -3395,7 +3395,7 @@ s32 func_8017DD60(void *a0) {
     }
 
 
-    global = D_800B99DA;
+    global = guess_g_FrameCounter;
 
     if ((global & 1) == 0) {
         goto add40;
@@ -5133,7 +5133,7 @@ extern s32 func_800183E0(s32 a0);
 void func_80180438(void *a0) {
 
     extern void (*D_801A3DC4[])(void);
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u16 D_801A3D6C[];
     extern u16 D_801B9548[];
     extern u8 D_801A3D8C[];
@@ -5159,7 +5159,7 @@ void func_80180438(void *a0) {
 
     if (((Unkstruct_800B5CB8 *)s0)->unkFE != 0) {
         u16 *src = D_801A3D6C;
-        s32 shift = D_800B99DA & 0xF;
+        s32 shift = guess_g_FrameCounter & 0xF;
         u16 *dst = &D_801B9548[shift];
         s32 i;
 
@@ -7726,7 +7726,7 @@ skip_update:
  * and cc1's emitted instruction stream for this function is IDENTICAL to the
  * standalone compile (only $L local-label numbers renumber). Splice recipe:
  * drop the `#include "common.h"` and the four typedefs, keep everything from
- * `extern u16 D_800B99DA;` down.
+ * `extern u16 guess_g_FrameCounter;` down.
  *
  * NOTE: .run/ghidra_c/func_80183D78.c is a decompile of a DIFFERENT function
  * (overlay VA collision — this VA is live in 4 overlays). Discarded; worked from
@@ -7738,7 +7738,7 @@ skip_update:
  *       bnez $v0,.L / li $v0,0x58 [ds] / li $v0,0x48 / sb $v0,0x56($sp)
  *     — one tail-merged `sb` AFTER the join — and then RELOADS the byte with
  *       lbu $v1,0x56($sp) / srl $v1,2 / sb 0x55 / sb 0x54.
- *     Written as `pkt.rgb[1].b = (D_800B99DA & 1) ? 0x58 : 0x48;` the draft was
+ *     Written as `pkt.rgb[1].b = (guess_g_FrameCounter & 1) ? 0x58 : 0x48;` the draft was
  *     LENGTH-DRIFT -1 with inverted branch polarity: cse kept the constant live in
  *     a register across the join, so `>>2` folded to `srl $v1,$a0,2` with NO reload,
  *     and the arms laid out mirrored (beqz + 0x48 in the delay slot).
@@ -7790,7 +7790,7 @@ skip_update:
 
 void func_80183D78(s32 a0, void *a1, s32 a2)
 {
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8 D_801AD1F8[];
     extern u8 D_801AD20C[];
     extern void func_80017758(void *a0, void *a1);   /* canon, TU line 1761 */
@@ -7802,7 +7802,7 @@ void func_80183D78(s32 a0, void *a1, s32 a2)
 
     func_8018428C(a0, a1, a2, &m);
 
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         pkt.rgb[1].b = 0x58;
     } else {
         pkt.rgb[1].b = 0x48;
@@ -7889,7 +7889,7 @@ void func_80183FE0(s32 a0, s32 a1, s32 a2)
 
     extern void func_8018428C(s32 a0, s32 a1, s32 a2, void *a3);
     extern void func_80017758(void *a0, void *a1);
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8 D_80187EB4[];
     extern u8 D_80187EC8[];
 
@@ -7902,9 +7902,9 @@ void func_80183FE0(s32 a0, s32 a1, s32 a2)
 
     p.v[0].vz = p.v[2].vz = p.v[3].vz = 0;
     p.v[1].vx = p.v[1].vy = p.v[1].vz = 0;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         p.c[1].r = 0xA0;
-    } else if (!(D_800B99DA & 2)) {
+    } else if (!(guess_g_FrameCounter & 2)) {
         p.c[1].r = 0x80;
     } else {
         p.c[1].r = 0xC0;
@@ -7983,7 +7983,7 @@ void func_80183FE0(s32 a0, s32 a1, s32 a2)
 
 extern u8 *D_800A5E60;
 extern u8 D_800A6610[];
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 
 
 
@@ -8026,7 +8026,7 @@ void func_801843D8(void *a0)
         s32 idx;
         u8 *ot;
 
-        ot = &D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        ot = &D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
         idx = otz + 1;
         if (idx >= 0x1000) idx = 0xFFF;
         otp = (u32 *)((idx << 2) + (u32)ot);
@@ -8221,7 +8221,7 @@ extern void func_80184CDC(void *arg0);
 
 void func_80184A74(s32 arg0) {
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     s32 p;
     s32 q;
     s32 t0;
@@ -8240,7 +8240,7 @@ void func_80184A74(s32 arg0) {
         ((Unkstruct_800B5CB8 *)p)->unk18 -= 0x200;
         ((Unkstruct_800B5CB8 *)p)->unk1A -= 0x200;
         if (CAST_SIGN(s16, p, 0x18) >= 0) {
-            if (D_800B99DA % 5 == 0) {
+            if (guess_g_FrameCounter % 5 == 0) {
                 q = func_80132EF4(arg0, 0x22);
                 if (q != 0) {
                     t0 = rand();

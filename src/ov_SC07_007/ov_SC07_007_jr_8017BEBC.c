@@ -107,7 +107,7 @@ extern void func_8012927C(void);
 extern void func_8012931C(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9AAE[];
 extern s16 D_800B9AB0[];
 extern s16 D_800B9AB2[];
@@ -120,7 +120,7 @@ extern s16 D_80114EE0;
 extern void func_80129428(void);
 extern void func_8012943C(void);
 extern s32 D_8005128C;
-extern u8 D_800B9A78;
+extern u8 guess_g_BackgroundLayers;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8(s32 a, s32 b, s32 c);
 extern void func_8012944C(void);
@@ -337,7 +337,7 @@ extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s32 D_800A651C;
 extern u8 guess_g_CameraWsMatrix;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_8012D5DC(void);
 extern s16 D_80126B98;
@@ -546,7 +546,7 @@ extern u16 D_80126CC4;
 extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
@@ -556,7 +556,7 @@ extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine"
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
 extern u8  guess_g_RenderWork[];
-extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
@@ -710,7 +710,7 @@ extern void *D_8011DB24;
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern unsigned short D_80115112;
 extern void func_8013E588(void * _arg0);
@@ -1492,7 +1492,7 @@ extern s32 func_8014E790(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_80126724;
 extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3);
@@ -1752,7 +1752,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1924,7 +1924,7 @@ extern void func_8002992C(s32);
 extern void func_800CF804(void);
 extern void func_800CF818(void);
 extern u8 D_80110D0C[];
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
 extern void func_8015934C(void *arg0);
@@ -6902,7 +6902,7 @@ void func_80181828(s32 a0) {
 extern void func_80181960(s32 arg0, s32 arg1, s32 arg2);
 extern s32 D_801C7A08;
 extern u8 D_800B9A11;
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern void func_80129248(s16 a0);
@@ -6925,7 +6925,7 @@ void func_80181878(void *param_1)
         func_80181960(0xFFFFFF, 0, 0x60000000);
         D_801C7A08 = 0x1B;
         func_8012C098(param_1);
-        D_800B9AAC[0] = 0x7FFF;
+        guess_g_BackgroundLayerPriority[0] = 0x7FFF;
         D_800B9B00 = 0x7FFF;
         D_801270C0 = 3;
         func_80129248(0);
@@ -7278,14 +7278,14 @@ s32 func_80181ED4(s32 a0, s32 a1) {
 #include "common.h"
 
 /* func_80181F4C — links one 0x18-byte double-buffered sprite packet
-   (D_801C7874[arg1 & 0xFF][D_800B9A02]) into OT bank D_800A661C[D_800B9A02].
+   (D_801C7874[arg1 & 0xFF][guess_g_DoubleBufferIndex]) into OT bank D_800A661C[guess_g_DoubleBufferIndex].
 
    Levers that make this byte-exact (all four symbols spelled from the target .s):
 
-   §195-H  D_800B9A02 must be the ARRAY spelling + a constant index — that is the
+   §195-H  guess_g_DoubleBufferIndex must be the ARRAY spelling + a constant index — that is the
            MEM_IN_STRUCT_P (/s) reload dial that produces the 13 per-statement
            `lhu 0($t1)` reloads.  The scalar spelling collapses them (measured:
-           142 -> 115 ins).  The TU already declares `extern s16 D_800B9A02;` at
+           142 -> 115 ins).  The TU already declares `extern s16 guess_g_DoubleBufferIndex;` at
            file scope, so the array view is reached through this TU's own
            __asm__-alias idiom (cf. `aD800B9A02` @L564) — no C-level conflict.
 
@@ -7295,7 +7295,7 @@ s32 func_80181ED4(s32 a0, s32 a1) {
            sym+3 and every later access pays an extra `addiu` (+22 ins), plus a
            stray `addiu $t0,$t0,-3` where the target has a nop.
 
-   §17     local_alloc ranks the D_800B9A02 pointer (14 refs) above the
+   §17     local_alloc ranks the guess_g_DoubleBufferIndex pointer (14 refs) above the
            D_801C7874 pointer `p` (13 refs), so plain C lands the two in $t1/$t0
            swapped (26 residual instructions).  P40 T10 replaced the `$8` pin with
            `do { r = p + i; } while (0);` in the 0xE store: flow's REG_N_REFS +=
@@ -7315,7 +7315,7 @@ s32 func_80181ED4(s32 a0, s32 a1) {
 #define F4C_IDX (aB9A02[0] * 0x18 + n * 0x30)
 
 void func_80181F4C(s32 arg0, s32 arg1) {
-    extern u16 aB9A02[1] __asm__("D_800B9A02");
+    extern u16 aB9A02[1] __asm__("guess_g_DoubleBufferIndex");
     extern u8 D_801C7874[];
     extern u8 D_801C7877[];
     extern u32 D_800A661C[];
@@ -7338,7 +7338,7 @@ void func_80181F4C(s32 arg0, s32 arg1) {
     {
         s32 i = n * 0x30 + aB9A02[0] * 0x18;
         u8 *r;
-        do { r = p + i; } while (0);  // !FAKE: do-while — flow REG_N_REFS += loop_depth: +1 loop-weighted ref on p puts it ahead of &D_800B9A02 in local-alloc (replaces the pin $8) (P40 T10)
+        do { r = p + i; } while (0);  // !FAKE: do-while — flow REG_N_REFS += loop_depth: +1 loop-weighted ref on p puts it ahead of &guess_g_DoubleBufferIndex in local-alloc (replaces the pin $8) (P40 T10)
         ((Unkstruct_80181F4C *)r)->unkE = -0x70;
     }
     *(u8 *)(p + F4C_IDX + 0x10) = 0;
@@ -7358,16 +7358,16 @@ void func_80181F4C(s32 arg0, s32 arg1) {
 
 
 /* func_80182184 — links TWO 0x18-byte double-buffered sprite packets
-   (D_801C78D4[n][D_800B9A02] and D_801C7934[n][D_800B9A02], n = arg1 & 0xFF)
-   into OT bank D_800A6618[D_800B9A02].  It is the two-block sibling of the
+   (D_801C78D4[n][guess_g_DoubleBufferIndex] and D_801C7934[n][guess_g_DoubleBufferIndex], n = arg1 & 0xFF)
+   into OT bank D_800A6618[guess_g_DoubleBufferIndex].  It is the two-block sibling of the
    already-banked func_80181F4C, 20 lines up in this TU (§330 neighbour-shape).
 
    Levers (all six symbols spelled from this function's own .s relocations):
 
-   §195-H  D_800B9A02 must be the ARRAY spelling + a constant index — that is the
+   §195-H  guess_g_DoubleBufferIndex must be the ARRAY spelling + a constant index — that is the
            MEM_IN_STRUCT_P (/s) reload dial that produces the 26 per-statement
            `lhu 0($t1)` reloads.  Same __asm__-alias idiom func_80181F4C uses, so
-           the TU's own `extern s16 D_800B9A02;` is untouched (no C-level clash).
+           the TU's own `extern s16 guess_g_DoubleBufferIndex;` is untouched (no C-level clash).
 
    §186b/§226  `s32 pad[6]` = 24 bytes of addressed locals; with the four saved
            registers that is the target's `addiu $sp,$sp,-0x28` frame exactly.
@@ -7400,7 +7400,7 @@ void func_80181F4C(s32 arg0, s32 arg1) {
    `p + F184_IDX + K` so K stays in the memory operand.  `q` gives the three 0xA/0x9/0x8
    byte stores one shared index computation. */
 
-extern u16 aB9A02[1] __asm__("D_800B9A02");
+extern u16 aB9A02[1] __asm__("guess_g_DoubleBufferIndex");
 extern u8 D_801C78D4[];
 extern u8 D_801C78D7[];
 extern u8 D_801C7934[];

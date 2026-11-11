@@ -593,7 +593,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -888,7 +888,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1070,7 +1070,7 @@ extern s32 D_80195944[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1103,7 +1103,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2434,9 +2434,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2592,9 +2592,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801D4EEC;
 extern s16 D_801D4EEE;
@@ -4937,7 +4937,7 @@ main_body:
  *      the packet into the current double-buffer's OT (the PSY-Q `addPrim`
  *      macro pair) and calls func_80016638", with `func_80016638(&guess_g_OrderingTables
  *      [*bidx*20], depth, 1)` as its literal call form (there depth=0x10
- *      constant, here depth=temp_v0_2).  Confirms the "3 lhu D_800B9A02,
+ *      constant, here depth=temp_v0_2).  Confirms the "3 lhu guess_g_DoubleBufferIndex,
  *      address cached / value reloaded" shape and the general addPrim(ot,p)
  *      == setaddr(p,getaddr(ot)); setaddr(ot,p) reading.
  *
@@ -4963,7 +4963,7 @@ main_body:
  * REGISTER-ALLOCATION LEVERS (found empirically, byte-verified against this
  * function's own .frame/.s, not inherited from the exemplars above):
  *   - `bidx` pinned to $8 ($t0): natural (unpinned) allocation put the
- *     shared D_800B9A02-address pointer in $a3 instead, cascading a
+ *     shared guess_g_DoubleBufferIndex-address pointer in $a3 instead, cascading a
  *     one-register shift through the whole mask/index register set.
  *   - `mask1` (0xFFFFFF) pinned to $7 ($a3); `tag0` (the packet's old tag
  *     word, read once before the first addPrim half) pinned to $4 ($a0) —
@@ -4987,7 +4987,7 @@ main_body:
  * INTEGRATION SURFACE (checked against destination TU
  * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c):
  *   func_80010A08, func_8004914C, func_800491AC, RotTransPers, guess_g_CameraWsMatrix,
- *   D_800B9A02, guess_g_OrderingTables all match the TU's own existing extern spellings
+ *   guess_g_DoubleBufferIndex, guess_g_OrderingTables all match the TU's own existing extern spellings
  *   verbatim (grepped at TU lines 2448/2632-2633/4674 and the
  *   func_8018F694/func_8018F060 block). D_800A651C and func_80016638 have NO
  *   file-scope declaration anywhere in the TU (only ever appear inside other
@@ -5011,7 +5011,7 @@ void func_8018A974(s32 arg0, s32 arg1, s32 arg2)
     extern u8 guess_g_CameraWsMatrix;
     extern OtBlk_8018A974 D_800A651C[];
     extern u8 guess_g_OrderingTables[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
     s32 sp10;
@@ -5033,7 +5033,7 @@ void func_8018A974(s32 arg0, s32 arg1, s32 arg2)
     if ((temp_v0_2 > 0) && (sp14 >= 0) &&
         (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
         /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-        bidx = (u16 *)&D_800B9A02;
+        bidx = (u16 *)&guess_g_DoubleBufferIndex;
         depth4 = temp_v0_2 * 4;
         tag = *(u32 *)temp_v0;
         tag &= 0xFF000000;
@@ -5981,7 +5981,7 @@ void func_8018C3F8(void)
                               Blip_8018F694 *, PTag_8018F694 *);
     extern u8 guess_g_CameraWsMatrix;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern Blip_8018F694 D_801D55B0[];
 
     UVEC_8018F694 sxy;
@@ -5995,7 +5995,7 @@ void func_8018C3F8(void)
     Blip_8018F694 *bp;
     s32 t, c, d, z, x, n;
 
-    ot = (PTag_8018F694 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (PTag_8018F694 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     func_8004914C(&guess_g_CameraWsMatrix);
     func_800491AC(&guess_g_CameraWsMatrix);
     bp = D_801D55B0;
@@ -6317,7 +6317,7 @@ void func_8018CD04(void *a0)
 
     if ((((Unkstruct_8017E2EC_3 *)stk)->unk48 & 0xFFFFEFFF) == 0) {
         idx = ((Unkstruct_8017E2EC_3 *)stk)->unk50 + 1;
-        ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
         {
             u16 flags2 = ((Unkstruct_8017E2EC_4 *)a0)->unk2C;
             if ((flags2 & 0xC000) != 0) {
@@ -7882,8 +7882,8 @@ void func_8018EDB8(void *arg) {
 //     (the same convention engine_types.h itself uses for SVECTOR_8016E7C8 / B8_8018F060), so
 //     the file compiles BOTH standalone (match_one) and spliced (rtu_match).
 //   * guess_g_RenderWork is `extern u8 guess_g_RenderWork[]` at TU file scope (line 53) — same spelling here.
-//   * D_800B9A02 is `short` at TU file scope (2457/2459).  Do NOT redeclare it u16; the `lhu`
-//     is forced at the USE with the TU's own canonical `*(u16 *)&D_800B9A02` spelling
+//   * guess_g_DoubleBufferIndex is `short` at TU file scope (2457/2459).  Do NOT redeclare it u16; the `lhu`
+//     is forced at the USE with the TU's own canonical `*(u16 *)&guess_g_DoubleBufferIndex` spelling
 //     (§8d sub-class (b), the form already used at TU lines 2848 and 7416).
 //   * func_8004914C / func_800491AC / RotTransSV keep the TU's file-scope prototypes verbatim.
 //   * D_801D1228 / D_800A651C / D_800AE610 / func_80017254 appear nowhere else in the TU.
@@ -7899,7 +7899,7 @@ extern void func_800491AC(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
 extern void func_80017254(void *a0);
 extern SVEC_8018F060 D_801D1228[];
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 D_800A651C[];
 extern u8 D_800AE610[];
 extern u8 guess_g_RenderWork[];
@@ -7971,7 +7971,7 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     ((Unkstruct_8018F060 *)pkt)->unk4 = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
-            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) {
+            + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
         func_80017254(&pkt[0]);
     }
 
@@ -8007,7 +8007,7 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     ((Unkstruct_8018F060 *)pkt)->unk4 = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
-            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) {
+            + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
         func_80017254(&pkt[0]);
     }
 
@@ -8043,7 +8043,7 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     ((Unkstruct_8018F060 *)pkt)->unk4 = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
-            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) {
+            + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
         func_80017254(&pkt[0]);
     }
 }
@@ -8065,7 +8065,7 @@ void func_8018F694(void)
     extern s32 func_80010A08(s32);
     extern u8 guess_g_CameraWsMatrix;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern Blip_8018F694 D_801D57F0[];
 
     UVEC_8018F694 sxy;
@@ -8079,7 +8079,7 @@ void func_8018F694(void)
     Blip_8018F694 *bp;
     s32 t, c, d, z, x, n;
 
-    ot = (PTag_8018F694 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (PTag_8018F694 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     func_8004914C(&guess_g_CameraWsMatrix);
     func_800491AC(&guess_g_CameraWsMatrix);
     bp = D_801D57F0;
@@ -8186,8 +8186,8 @@ void func_8018F694(void)
 
 
 /* ==== simulated TU file-scope surface (verbatim from ov_SC06_018_jr_80187AEC.c) ==== */
-extern short D_800B9A02;
-extern s16 D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
 extern void func_8004914C(void *);
@@ -8206,7 +8206,7 @@ void func_8018FE0C(s32 arg0, s32 arg1, s32 arg2)
     extern u8 guess_g_CameraWsMatrix;
     extern OtBlk_8018FE0C aD800A651C[] __asm__("D_800A651C");
     extern u8 guess_g_OrderingTables[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
     s32 sp10;
@@ -8228,7 +8228,7 @@ void func_8018FE0C(s32 arg0, s32 arg1, s32 arg2)
     if ((temp_v0_2 > 0) && (sp14 >= 0) &&
         (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
         /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-        bidx = (u16 *)&D_800B9A02;
+        bidx = (u16 *)&guess_g_DoubleBufferIndex;
         depth4 = temp_v0_2 * 4;
         tag = *(u32 *)temp_v0;
         tag &= 0xFF000000;

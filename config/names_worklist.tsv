@@ -13,17 +13,17 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 10	func	7933fb568904	7933fb568904ba0dd18f5627f470b75bace7f50c	801EF468	801F1440	func_801F1440	3132	147	145		147	E_func_801783D0	class:E_func_801783D0			
 11	data	800CEDF8:8011511E		800CEDF8	8011511E	D_8011511E	3085	141	141				resident			
 12	func	2820a65d8873	2820a65d8873c7eb914b57a0b63cd647a02b56ae	80128158	8012CAE4	func_8012CAE4	2811	141	141		141	E_func_8012CAE4	class:E_func_8012CAE4			
-13	data	800CEDF8:801117EC		800CEDF8	801117EC	D_801117EC	2802	141	141				resident			
+13	data	800CEDF8:801117EC		800CEDF8	801117EC	D_801117EC	2802	141	141				resident	guess	guess_g_EmptyText	empty text record, the default result of func_8014032C
 14	func	ffd70f58a52c	ffd70f58a52cdbc6325649db4e062edae5ba7e8e	80128158	80134310	func_80134310	2406	423	141		423	E_func_80134A28,E_func_80134FB8,E_func_80134310	ov_MAIN_012,ov_SC01_000,ov_SC01_001,ov_SC01_004,ov_SC01_005,ov_SC01_006,ov_SC01_008,ov_SC01_009,ov_SC01_074,ov_SC01_077,ov_SC01_080,ov_SC01_084,ov_SC02_000,ov_SC02_003,ov_SC02_004,ov_SC02_005,ov_SC02_011,ov_SC02_015,ov_SC02_016,ov_SC02_017,ov_SC02_021,ov_SC02_026,ov_SC02_027,ov_SC02_028,ov_SC02_031,ov_SC02_035,ov_SC02_037,ov_SC02_039,ov_SC02_041,ov_SC03_001,ov_SC03_002,ov_SC03_003,ov_SC03_006,ov_SC03_007,ov_SC03_010,ov_SC03_011,ov_SC03_012,ov_SC03_013,ov_SC03_014,ov_SC03_015,ov_SC03_023,ov_SC03_024,ov_SC03_028,ov_SC03_029,ov_SC03_030,ov_SC03_031,ov_SC03_089,ov_SC03_090,ov_SC03_091,ov_SC03_092,ov_SC03_093,ov_SC03_094,ov_SC03_095,ov_SC03_096,ov_SC03_097,ov_SC03_098,ov_SC03_099,ov_SC03_100,ov_SC03_101,ov_SC03_102,ov_SC03_103,ov_SC03_104,ov_SC03_105,ov_SC03_107,ov_SC03_108,ov_SC03_109,ov_SC03_110,ov_SC03_111,ov_SC03_112,ov_SC03_113,ov_SC03_114,ov_SC03_115,ov_SC03_116,ov_SC03_117,ov_SC03_118,ov_SC03_119,ov_SC03_121,ov_SC03_124,ov_SC03_125,ov_SC03_126,ov_SC04_000,ov_SC04_002,ov_SC04_003,ov_SC04_004,ov_SC04_005,ov_SC04_006,ov_SC04_007,ov_SC04_008,ov_SC04_009,ov_SC04_010,ov_SC04_011,ov_SC04_012,ov_SC04_015,ov_SC04_016,ov_SC04_018,ov_SC04_019,ov_SC04_020,ov_SC04_021,ov_SC05_000,ov_SC05_001,ov_SC05_002,ov_SC05_003,ov_SC05_004,ov_SC05_005,ov_SC05_006,ov_SC05_007,ov_SC05_008,ov_SC05_009,ov_SC05_010,ov_SC05_011,ov_SC05_017,ov_SC05_018,ov_SC05_019,ov_SC06_000,ov_SC06_006,ov_SC06_008,ov_SC06_010,ov_SC06_011,ov_SC06_013,ov_SC06_014,ov_SC06_015,ov_SC06_016,ov_SC06_018,ov_SC06_020,ov_SC06_022,ov_SC06_024,ov_SC06_025,ov_SC06_027,ov_SC06_029,ov_SC06_030,ov_SC06_032,ov_SC06_033,ov_SC07_000,ov_SC07_001,ov_SC07_002,ov_SC07_006,ov_SC07_007,ov_SC07_008,ov_SC07_009,ov_SC07_010,ov_SC07_011	guess	guess_Vec3sDotAdd	body is a Vec3s dot product plus a2
 15	data	800CEDF8:801152A8		800CEDF8	801152A8	D_801152A8	1597	144	144	Unkstruct_1149cbcc			resident			
 16	func	dac93a94d806	dac93a94d8063ded5028d9363db14bf8b76b4ca2	80128158	80154274	func_80154274	2677	141	141		141	E_func_80154274	class:E_func_80154274			
 17	data	800CEDF8:80115128		800CEDF8	80115128	D_80115128	2273	141	141	Unkstruct_80115128			resident			
 18	data	800CEDF8:80115112		800CEDF8	80115112	D_80115112	2430	146	146	Unkstruct_80115112			resident			
-19	data	8000F800:800B9A02		8000F800	800B9A02	D_800B9A02	1994	153	153	Unkstruct_800B9A02			main			
+19	data	8000F800:800B9A02		8000F800	800B9A02	D_800B9A02	1994	153	153	Unkstruct_800B9A02			main	guess	guess_g_DoubleBufferIndex	0/1 index of the double-buffered OTs and packet buffers
 20	func	5d72630c0ef4	5d72630c0ef42b43cfbf47cf40b415a93428ba1d	80128158	8012C1B8	func_8012C1B8	2444	141	141		141	E_func_8012C1B8	class:E_func_8012C1B8			
 21	func	90df300c8981	90df300c8981d0baecbbcd30404672d6bd065668	80128158	801473EC	func_801473EC	2431	141	141		141	E_func_801473EC	class:E_func_801473EC	guess	guess_ApplyVelocity	adds velocity words to position words, flags motion
 22	func	c050759133b7	c050759133b7a118a587b1d1cd8f5285fd67c963	80128158	80161208	func_80161208	2412	141	141		141	S_func_80161208	class:S_func_80161208			
-23	data	800CEDF8:8010F5C8		800CEDF8	8010F5C8	D_8010F5C8	2101	142	142				resident			
+23	data	800CEDF8:8010F5C8		800CEDF8	8010F5C8	D_8010F5C8	2101	142	142				resident	guess	guess_g_PlaceholderText	"?????" text, the no-text default
 24	func	0400cb373c1f	0400cb373c1f58cff1374196ad03efec01896cde	80128158	8012F214	func_8012F214	1974	141	141		141	E_func_8012F214	class:E_func_8012F214	guess	guess_RotTransSVWithObjMatrix	same GTE calls with the object's matrix at +0x34
 25	func	0f47073c9f6c	0f47073c9f6cc85251f5be9cda7dd272c6275f0b	80128158	80146C3C	func_80146C3C	1902	141	141		141	E_func_80146C3C	class:E_func_80146C3C			
 26	data	800CEDF8:80126B58		800CEDF8	80126B58	D_80126B58	1808	169	169	Unkstruct_800D3888			resident	guess	guess_g_PlayerActor	resident object with the position layout; community addresses inside
@@ -31,7 +31,7 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 28	func	9e73259da074	9e73259da074f8b7919be3804848f07b5248fd48	80128158	80146A6C	func_80146A6C	1871	141	141		141	S_func_80146A6C	class:S_func_80146A6C			
 29	data	800CEDF8:801270C0		800CEDF8	801270C0	D_801270C0	1106	142	142	Unkstruct_801270C0			resident			
 30	func	b039ed440779	b039ed440779107270b60a3b2ca44b3b097b9c87	80128158	8012BF4C	func_8012BF4C	1631	282	141		282	X_b039ed440779	class:X_b039ed440779			
-31	data	8000F800:800B99DA		8000F800	800B99DA	D_800B99DA	1667	156	156	Unkstruct_800B99DA			main			
+31	data	8000F800:800B99DA		8000F800	800B99DA	D_800B99DA	1667	156	156	Unkstruct_800B99DA			main	guess	guess_g_FrameCounter	per-frame counter
 32	func	6ff945fc330f	6ff945fc330f7399332218593017afc7455e7acb	80128158	80148F60	func_80148F60	1340	711	141		711	X_6ff945fc330f	class:X_6ff945fc330f			
 33	func	79386ba50343	79386ba50343f7a39b3ac6ce075431b69642c19a	80128158	801748EC	func_801748EC	1634	141	141		141	E_func_801748EC	class:E_func_801748EC			
 34	func	ce41e186c857	ce41e186c8574356e7e7f19a7bbd99cf518e26b2	80128158	8012C218	func_8012C218	1614	141	141		141	E_func_8012C218	class:E_func_8012C218			
@@ -115,12 +115,12 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 112	func	6459cdbf717d	6459cdbf717d1dc8250e5ff4ba6316558e70ad66	80128158	801553C0	func_801553C0	679	141	141		141	E_func_801553C0	class:E_func_801553C0			
 113	func	6d5164d17dbe	6d5164d17dbed234ada936454d8f02d5ddae4a40	80128158	80147300	func_80147300	675	141	141		141	E_func_80147300	class:E_func_80147300			
 114	func	97bdbab60ebd	97bdbab60ebdcf86295de16b21f3da6bbab0b8ba	80128158	8012B608	func_8012B608	673	141	141		141	E_func_8012B608	class:E_func_8012B608			
-115	data	800CEDF8:80114F24		800CEDF8	80114F24	D_80114F24	672	141	141	Unkstruct_80114F24			resident			
+115	data	800CEDF8:80114F24		800CEDF8	80114F24	D_80114F24	672	141	141	Unkstruct_80114F24			resident	guess	guess_g_StoredViewPointX	stored camera viewpoint x
 116	func	72ad176429c2	72ad176429c2cf9fd3caedbbdc3121828d54b6c4	80128158	80179B28	func_80179B28	672	142	141		142	X_72ad176429c2	class:X_72ad176429c2			
-117	data	800CEDF8:80114F28		800CEDF8	80114F28	D_80114F28	671	141	141	Unkstruct_8012E138			resident			
+117	data	800CEDF8:80114F28		800CEDF8	80114F28	D_80114F28	671	141	141	Unkstruct_8012E138			resident	guess	guess_g_StoredViewPointY	stored camera viewpoint y
 118	data	800CEDF8:80114F34		800CEDF8	80114F34	D_80114F34	671	141	141	Unkstruct_8012E138			resident			
 119	func	4640feb0959a	4640feb0959afcdb03ba4a0cdc73c9a82c87fac9	80128158	80131D68	func_80131D68	672	141	141		141	E_func_80131D68	class:E_func_80131D68			
-120	data	800CEDF8:80114F2C		800CEDF8	80114F2C	D_80114F2C	671	141	141	Unkstruct_80114F2C			resident			
+120	data	800CEDF8:80114F2C		800CEDF8	80114F2C	D_80114F2C	671	141	141	Unkstruct_80114F2C			resident	guess	guess_g_StoredViewPointZ	stored camera viewpoint z
 121	data	800CEDF8:80114F30		800CEDF8	80114F30	D_80114F30	671	141	141	Unkstruct_80114F30			resident			
 122	data	800CEDF8:80114F38		800CEDF8	80114F38	D_80114F38	671	141	141	Unkstruct_80114F38			resident			
 123	func	0820809e3412	0820809e34126c8e2611d6abb0b210ef34bdda69	80128158	8014CBF8	func_8014CBF8	670	141	141		141	E_func_8014CBF8	class:E_func_8014CBF8			
@@ -154,7 +154,7 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 151	data	8000F800:80078EB0		8000F800	80078EB0	D_80078EB0	412	142	142	Unkstruct_80078EB0			main	guess	guess_g_ClockMinute	compared as minutes beside the live-verified hour
 152	data	800CEDF8:8012694C		800CEDF8	8012694C	D_8012694C	543	141	141				resident			
 153	func	d0c883314e83	d0c883314e834129318911cc73151f97be0ea54b	80128158	80137614	func_80137614	540	141	141		141	E_func_80137614	class:E_func_80137614			
-154	data	8000F800:800BA0E4		8000F800	800BA0E4	D_800BA0E4	538	142	142				main			
+154	data	8000F800:800BA0E4		8000F800	800BA0E4	D_800BA0E4	538	142	142				main	no-evidence	D_800BA0E4	only its address is used: D_800BA0D8 + 0xC (the last tag of the first 16-byte front OT tag array), stored as the GsOT tag field D_800AE7C8 = guess_g_FrontOrderingTables + 0x10 (src/boot.c:321-324, :352-355); a name would restate the offset into D_800BA0D8
 155	func	48bd34d5cb3e	48bd34d5cb3e80a976220ac45bd39162d2a439ed	80128158	80151204	func_80151204	538	141	141		141	E_func_80151204	class:E_func_80151204			
 156	func	d63a10fab8ca	d63a10fab8ca1851076def4eecccdcfb9ac156aa	80128158	8012F40C	func_8012F40C	538	141	141		141	E_func_8012F40C	class:E_func_8012F40C	guess	guess_WorldToScreen	loads the world-screen matrix and calls RotTransPers
 157	func	f24b6aa1ffe1	f24b6aa1ffe15163148834f3cea54221d6b24f43	80128158	801466F0	func_801466F0	538	141	141		141	E_func_801466F0	class:E_func_801466F0			
@@ -190,13 +190,13 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 187	data	800CEDF8:8011514C		800CEDF8	8011514C	D_8011514C	297	141	141	Unkstruct_8011514C			resident			
 188	data	800CEDF8:80115122		800CEDF8	80115122	D_80115122	426	141	141				resident			
 189	func	8d47a3a26107	8d47a3a26107a5abe1f3596c9b66cbd486f3e1e2	80128158	8012E88C	func_8012E88C	424	141	141		141	E_func_8012E88C	class:E_func_8012E88C			
-190	data	8000F800:800B9A13		8000F800	800B9A13	D_800B9A13	420	147	147				main			
-191	data	abs:800C7C60		abs	800C7C60	D_800C7C60	420	144	144				main			
+190	data	8000F800:800B9A13		8000F800	800B9A13	D_800B9A13	420	147	147				main	guess	guess_g_ActiveMenu	open menu id + 1, 0 when none
+191	data	abs:800C7C60		abs	800C7C60	D_800C7C60	420	144	144				main	guess	guess_g_CdReadList	one-entry {word, dest} list for a CD read
 192	func	2cd92c4be55f	2cd92c4be55fbc7b57e34d86bfa4eea578142336	80128158	80147084	func_80147084	421	141	141		141	E_func_80147084	class:E_func_80147084			
 193	data	8000F800:800A2E20		8000F800	800A2E20	D_800A2E20	417	144	144				main	no-evidence	D_800A2E20	only its address is used: stored as the second word of the load request D_800C7C60 before CdReadRequest / func_8001ABBC / func_8001ACF0 (src/boot.c:579, src/800.c:7215); buffer or status record is not determinable
-194	data	abs:800C7C64		abs	800C7C64	D_800C7C64	417	144	144				main			
+194	data	abs:800C7C64		abs	800C7C64	D_800C7C64	417	144	144				main	guess	guess_g_CdReadListDest	destination word of the CD read list entry
 195	data	8000F800:80078EB2		8000F800	80078EB2	D_80078EB2	272	142	142	Unkstruct_80130D48			main	cited	g_PlayerHpMax	memory-map hp_max, live-verified
-196	data	800CEDF8:800D5880		800CEDF8	800D5880	D_800D5880	414	141	141				resident			
+196	data	800CEDF8:800D5880		800CEDF8	800D5880	D_800D5880	414	141	141				resident	no-evidence	D_800D5880	a record {4, &guess_g_PlayerTmdList, ...} in the run at 0x800D4A9C-0x800D5880; the player-actor code stores one such record at actor +0xB4 through func_80154274 (src/shared/ov/func_80154274.h:4-6) and branches on which one is set (src/shared/ov/func_8015AE2C__b080550c.h:40-49, :85-88, :103-105); func_801519C8 and func_80151DB0 set this one (src/shared/ov/func_801519C8.h:33, src/shared/ov/func_80151DB0.h:23) and func_80151AE4 tests it (src/shared/ov/func_80151AE4.h:20); which motion or state it is is unknown
 197	data	800CEDF8:80126990		800CEDF8	80126990	D_80126990	411	142	142	Unkstruct_275dc26d			resident			
 198	func	fd2fa91b0081	fd2fa91b0081bec7add29bab9863ae85a560e72b	80128158	8012C194	func_8012C194	412	141	141		141	E_func_8012C194	class:E_func_8012C194			
 199	func	21f5b614ff5c	21f5b614ff5c9e965ae040d91d94a4b521b339d5	80128158	80155440	func_80155440	411	141	141		141	E_func_80155440	class:E_func_80155440			
@@ -207,15 +207,15 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 204	func	1a41e4df5c2f	1a41e4df5c2f7cc6a697616b68559d5f64a9df6d	80128158	80146C98	func_80146C98	408	141	141		141	E_func_80146C98	class:E_func_80146C98			
 205	func	a82785b8ea3f	a82785b8ea3f3975e1e1667d02826bc0c1cae614	80128158	80131AC8	func_80131AC8	408	141	141		141	E_func_80131AC8	class:E_func_80131AC8			
 206	data	8000F800:800AE7BC		8000F800	800AE7BC	D_800AE7BC	404	148	148	Unkstruct_800AE7BC			main	guess	guess_g_FrontOrderingTablesOrg	org field of the second GsOT pair
-207	data	800CEDF8:800DE2A4		800CEDF8	800DE2A4	D_800DE2A4	407	142	142				resident			
-208	data	8000F800:800B99F6		8000F800	800B99F6	D_800B99F6	406	142	142				main			
+207	data	800CEDF8:800DE2A4		800CEDF8	800DE2A4	D_800DE2A4	407	142	142				resident	guess	guess_g_PlayerTmdList	TMD list of the player model
+208	data	8000F800:800B99F6		8000F800	800B99F6	D_800B99F6	406	142	142				main	no-evidence	D_800B99F6	a u16 index into the handler tables D_800D3480 (2 entries, src/resident/resident.c:24-27), D_800D3488 (:133) and the overlay's D_801836B8 (9 entries, src/ov_SC03_099/ov_SC03_099.c:36-39); no writer by name in C or asm; what the states are is unknown
 209	func	2d82e9acc325	2d82e9acc325151253cd87b2496977dbe753cc72	80128158	80149CD4	func_80149CD4	406	141	141		141	E_func_80149CD4	class:E_func_80149CD4			
 210	func	9891ddc26b42	9891ddc26b429bc367214aa2fde261bcd0c58c3c	80128158	801470AC	func_801470AC	406	141	141		141	E_func_801470AC	class:E_func_801470AC			
 211	func	ce3eb435bb4c	ce3eb435bb4c06637103052da377666d952983ef	80128158	80156648	func_80156648	406	141	141		141	E_func_80156648	class:E_func_80156648			
 212	data	8000F800:80062C04		8000F800	80062C04	D_80062C04	405	141	141	Unkstruct_d50877f2			main	guess	guess_g_RumblePatternFade	vibration pattern that fades over 4 steps
-213	data	800CEDF8:800D4BE0		800CEDF8	800D4BE0	D_800D4BE0	270	141	141	Unkstruct_800D4BE0			resident			
+213	data	800CEDF8:800D4BE0		800CEDF8	800D4BE0	D_800D4BE0	270	141	141	Unkstruct_800D4BE0			resident	no-evidence	D_800D4BE0	a record {4, &guess_g_PlayerTmdList, ...} in the run at 0x800D4A9C-0x800D5880; the player-actor code stores one such record at actor +0xB4 through func_80154274 (src/shared/ov/func_80154274.h:4-6) and branches on which one is set (src/shared/ov/func_8015AE2C__b080550c.h:40-49, :85-88, :103-105); func_8015AE2C runs a handler when it is set and func_80149C08 passes (:40-44); which motion or state it is is unknown
 214	func	31db89546a82	31db89546a821a87a726c0a2f0dd26bef17fb0b5	80128158	8015E880	func_8015E880	403	141	141		141	E_func_8015E880	class:E_func_8015E880			
-215	data	800CEDF8:800D4F8C		800CEDF8	800D4F8C	D_800D4F8C	269	141	141	Unkstruct_800D4F8C			resident			
+215	data	800CEDF8:800D4F8C		800CEDF8	800D4F8C	D_800D4F8C	269	141	141	Unkstruct_800D4F8C			resident	no-evidence	D_800D4F8C	a record {4, &guess_g_PlayerTmdList, ...} in the run at 0x800D4A9C-0x800D5880; the player-actor code stores one such record at actor +0xB4 through func_80154274 (src/shared/ov/func_80154274.h:4-6) and branches on which one is set (src/shared/ov/func_8015AE2C__b080550c.h:40-49, :85-88, :103-105); func_8015B7B4 sets it (src/shared/ov/func_8015B7B4.h:19); one of the three that keep the 0x40000 speed limit (src/shared/ov/func_8015AE2C__b080550c.h:103-106); which motion or state it is is unknown
 216	data	800CEDF8:801269C8		800CEDF8	801269C8	D_801269C8	402	141	141				resident			
 217	data	800CEDF8:801269D4		800CEDF8	801269D4	D_801269D4	402	141	141				resident			
 218	func	05b435332750	05b435332750383bd146fa94eaabdef94cda3ee2	80128158	8015BE94	func_8015BE94	402	141	141		141	E_func_8015BE94	class:E_func_8015BE94			
@@ -415,7 +415,7 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 412	func	14311349434d	14311349434d4c88386aa81d7b1fb2496c058406	80128158	80162CCC	func_80162CCC	284	141	141		141	E_func_80162CCC	class:E_func_80162CCC			
 413	data	800CEDF8:80126940		800CEDF8	80126940	D_80126940	224	141	141	Unkstruct_800D3888			resident			
 414	data	8000F800:800AE6BD		8000F800	800AE6BD	D_800AE6BD	280	141	141				main	guess	guess_g_EventSubStep	sub-step of the event runner
-415	data	8000F800:800B9AAC		8000F800	800B9AAC	D_800B9AAC	145	141	141	Unkstruct_800B9AAC			main			
+415	data	8000F800:800B9AAC		8000F800	800B9AAC	D_800B9AAC	145	141	141	Unkstruct_800B9AAC			main	guess	guess_g_BackgroundLayerPriority	GsSortBg priority / mode of each background layer
 416	data	800CEDF8:8012696C		800CEDF8	8012696C	D_8012696C	273	169	169				resident			
 417	data	800CEDF8:80126984		800CEDF8	80126984	D_80126984	278	142	142	Unkstruct_a867f68e			resident			
 418	func	41904b3e5c3f	41904b3e5c3fb386b9abeb944bb95f9729460efe	80128158	8014C4AC	func_8014C4AC	277	141	141		141	E_func_8014C4AC	class:E_func_8014C4AC			
@@ -424,15 +424,15 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 421	data	800CEDF8:80126998		800CEDF8	80126998	D_80126998	275	142	142				resident			
 422	data	800CEDF8:801150D8		800CEDF8	801150D8	D_801150D8	275	141	141				resident			
 423	data	800CEDF8:8011514E		800CEDF8	8011514E	D_8011514E	275	141	141				resident			
-424	data	800CEDF8:800D4E94		800CEDF8	800D4E94	D_800D4E94	274	142	142				resident			
-425	data	800CEDF8:800D4ED4		800CEDF8	800D4ED4	D_800D4ED4	274	142	142				resident			
+424	data	800CEDF8:800D4E94		800CEDF8	800D4E94	D_800D4E94	274	142	142				resident	no-evidence	D_800D4E94	a record {4, &guess_g_PlayerTmdList, ...} in the run at 0x800D4A9C-0x800D5880; the player-actor code stores one such record at actor +0xB4 through func_80154274 (src/shared/ov/func_80154274.h:4-6) and branches on which one is set (src/shared/ov/func_8015AE2C__b080550c.h:40-49, :85-88, :103-105); one of the three that keep the 0x40000 speed limit (:103-106); which motion or state it is is unknown
+425	data	800CEDF8:800D4ED4		800CEDF8	800D4ED4	D_800D4ED4	274	142	142				resident	no-evidence	D_800D4ED4	a record {4, &guess_g_PlayerTmdList, ...} in the run at 0x800D4A9C-0x800D5880; the player-actor code stores one such record at actor +0xB4 through func_80154274 (src/shared/ov/func_80154274.h:4-6) and branches on which one is set (src/shared/ov/func_8015AE2C__b080550c.h:40-49, :85-88, :103-105); one of the three that keep the 0x40000 speed limit (:103-106); which motion or state it is is unknown
 426	func	24fc6cda3415	24fc6cda3415a2375aca49bb6fd1209e4ddb0a2a	80128158	80148534	func_80148534	274	141	141		141	E_func_80148534	class:E_func_80148534			
 427	func	3602e5f8bc86	3602e5f8bc869258ec6b970656de9109b1630773	80128158	80129CF8	func_80129CF8	274	141	141		141	E_func_80129CF8	class:E_func_80129CF8	guess	guess_UpdateCamera	selects, eases and applies the camera with GsSetRefView2L
 428	data	8000F800:80062BD0		8000F800	80062BD0	D_80062BD0	140	144	144	Unkstruct_80062BD0			main	guess	guess_g_RumblePatternShort	two-step vibration pattern
 429	func	018880c8aa64	018880c8aa640202f577d47528e5a77f43dc3e72	80128158	8012B8E4	func_8012B8E4	273	141	68		141	E_func_8012B8E4	class:E_func_8012B8E4	guess	guess_TurnStepToTarget	clamped fraction of the yaw to a target point
 430	func	e5c6980fdd23	e5c6980fdd23388de0b1ee5255c5bb5d0a806e12	80128158	8014ACE8	func_8014ACE8	273	141	141		141	E_func_8014ACE8	class:E_func_8014ACE8			
-431	data	800CEDF8:800D4A9C		800CEDF8	800D4A9C	D_800D4A9C	272	142	142				resident			
-432	data	800CEDF8:8010F3C4		800CEDF8	8010F3C4	D_8010F3C4	272	141	141				resident			
+431	data	800CEDF8:800D4A9C		800CEDF8	800D4A9C	D_800D4A9C	272	142	142				resident	no-evidence	D_800D4A9C	a record {4, &guess_g_PlayerTmdList, ...} in the run at 0x800D4A9C-0x800D5880; the player-actor code stores one such record at actor +0xB4 through func_80154274 (src/shared/ov/func_80154274.h:4-6) and branches on which one is set (src/shared/ov/func_8015AE2C__b080550c.h:40-49, :85-88, :103-105); func_8015B6F4 and func_8015B8F8 test it (src/shared/ov/func_8015B6F4.h:23, src/shared/ov/func_8015B8F8.h:9); which motion or state it is is unknown
+432	data	800CEDF8:8010F3C4		800CEDF8	8010F3C4	D_8010F3C4	272	141	141				resident	guess	guess_g_VillagerNames	names of the 40 rescuable villagers
 433	data	800CEDF8:8011515E		800CEDF8	8011515E	D_8011515E	272	141	141				resident			
 434	func	5a1468d046e9	5a1468d046e95230f8dbc8431da02a28fe33df9b	80128158	80149184	func_80149184	272	141	141		141	E_func_80149184	class:E_func_80149184			
 435	func	f3bd412fdc1b	f3bd412fdc1bae6abc40ea82794af49a5fc0d750	80128158	80156370	func_80156370	272	141	141		141	E_func_80156370	class:E_func_80156370			
@@ -441,7 +441,7 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 438	func	48c87330938c	48c87330938c3a235e3335a6b9f8aeb4d1c78587	80128158	80154B4C	func_80154B4C	271	141	141		141	E_func_80154B4C	class:E_func_80154B4C			
 439	func	57e465cfb040	57e465cfb040769fc90503714335f3a8b3de881a	80128158	801484B0	func_801484B0	271	141	141		141	E_func_801484B0	class:E_func_801484B0			
 440	data	800CEDF8:8011F82C		800CEDF8	8011F82C	D_8011F82C	270	141	141				resident			
-441	data	800CEDF8:80110C3C		800CEDF8	80110C3C	D_80110C3C	136	141	141	Unkstruct_80110C3C			resident			
+441	data	800CEDF8:80110C3C		800CEDF8	80110C3C	D_80110C3C	136	141	141	Unkstruct_80110C3C			resident	guess	guess_g_StartPromptText	"Where would you like to start?" prompt
 442	func	00488e7ed537	00488e7ed537a51559c47d167932882424cb109e	80128158	80161A60	func_80161A60	269	141	141		141	E_func_80161A60	class:E_func_80161A60			
 443	func	61479027026f	61479027026fc99719144ad4f7385d074885e102	80128158	80147814	func_80147814	269	141	141		141	E_func_80147814	class:E_func_80147814			
 444	func	67bb638fba36	67bb638fba36ab5032b12b9876493a9fd7f0dcd3	80128158	801619D0	func_801619D0	269	141	141		141	E_func_801619D0	class:E_func_801619D0			
@@ -449,7 +449,7 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 446	func	bb9bde6ea0d2	bb9bde6ea0d217d3ed4e23f870f970634dbc3751	80128158	8012A4BC	func_8012A4BC	269	141	141		141	E_func_8012A4BC	class:E_func_8012A4BC			
 447	data	800CEDF8:8011F7B4		800CEDF8	8011F7B4	D_8011F7B4	268	141	141	Unkstruct_8011F7B4			resident			
 448	data	800CEDF8:8011F7B6		800CEDF8	8011F7B6	D_8011F7B6	268	141	141	Unkstruct_8011F7B6			resident			
-449	data	8000F800:800B9A78		8000F800	800B9A78	D_800B9A78	135	141	141	Unkstruct_800B9A78			main			
+449	data	8000F800:800B9A78		8000F800	800B9A78	D_800B9A78	135	141	141	Unkstruct_800B9A78			main	guess	guess_g_BackgroundLayers	the two GsBG background layers
 450	data	800CEDF8:8011F7BC		800CEDF8	8011F7BC	D_8011F7BC	135	141	141	Unkstruct_8011F7BC			resident			
 451	data	800CEDF8:8011F7BE		800CEDF8	8011F7BE	D_8011F7BE	135	141	141	Unkstruct_8011F7BE			resident			
 452	data	800CEDF8:801269F4		800CEDF8	801269F4	D_801269F4	135	141	141	Unkstruct_801269F4			resident			
@@ -465,9 +465,9 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 462	data	8000F800:800B5C37		8000F800	800B5C37	D_800B5C37	268	141	141				main	no-evidence	D_800B5C37	sprite byte +0x27 of guess_g_TargetTimeLabel2, set to 1; role unknown (as D_800B5BFF)
 463	data	8000F800:800B5C3C		8000F800	800B5C3C	D_800B5C3C	268	141	141				main	no-evidence	D_800B5C3C	sprite halfword +0x2C of guess_g_TargetTimeLabel2, set to 1; role unknown (as D_800B5C04)
 464	data	8000F800:800B5C48		8000F800	800B5C48	D_800B5C48	268	141	141				main	guess	guess_g_TargetTimeDigits	digits sprite of the target-time display
-465	data	8000F800:800B5C50		8000F800	800B5C50	D_800B5C50	268	141	141				main			
-466	data	8000F800:800B5C52		8000F800	800B5C52	D_800B5C52	268	141	141				main			
-467	data	8000F800:800B5C74		8000F800	800B5C74	D_800B5C74	268	141	141				main			
+465	data	8000F800:800B5C50		8000F800	800B5C50	D_800B5C50	268	141	141				main	guess	guess_g_TargetTimeDigitsX	x of the target-time digits
+466	data	8000F800:800B5C52		8000F800	800B5C52	D_800B5C52	268	141	141				main	guess	guess_g_TargetTimeDigitsY	y of the target-time digits
+467	data	8000F800:800B5C74		8000F800	800B5C74	D_800B5C74	268	141	141				main	no-evidence	D_800B5C74	sprite halfword +0x2C of guess_g_TargetTimeDigits, set to 1 (src/shared/ov/func_80161E08__c58c620a.h:69, src/shared/ov/func_80162438__e113e304.h:65); role unknown (as D_800B5C04)
 468	data	800CEDF8:80115162		800CEDF8	80115162	D_80115162	268	141	141				resident			
 469	data	800CEDF8:80115166		800CEDF8	80115166	D_80115166	268	141	141				resident			
 470	func	11673a7024f9	11673a7024f9595b2561c44fc3ada8bbe40553e4	80128158	801620C4	func_801620C4	268	141	141		141	E_func_801620C4	class:E_func_801620C4			
@@ -494,10 +494,10 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 491	func	a99691d401e9	a99691d401e98478878e84721d9b61207e9d3566	80128158	80149788	func_80149788	267	141	141		141	E_func_80149788	class:E_func_80149788			
 492	func	edbc3bbda9de	edbc3bbda9de0389ab025dc5a002ebf990fc03a4	80128158	80138AB4	func_80138AB4	267	141	141		141	E_func_80138AB4	class:E_func_80138AB4			
 493	data	8000F800:800AFAE8		8000F800	800AFAE8	D_800AFAE8	266	141	141				main	guess	guess_g_PlayerModelObject	model object the player actor points at
-494	data	8000F800:800B5CBC		8000F800	800B5CBC	D_800B5CBC	266	141	141				main			
-495	data	800CEDF8:800D43D4		800CEDF8	800D43D4	D_800D43D4	266	141	141				resident			
-496	data	800CEDF8:800D4414		800CEDF8	800D4414	D_800D4414	266	141	141				resident			
-497	data	800CEDF8:800D45D4		800CEDF8	800D45D4	D_800D45D4	266	141	141				resident			
+494	data	8000F800:800B5CBC		8000F800	800B5CBC	D_800B5CBC	266	141	141				main	no-evidence	D_800B5CBC	word +0x4 of the sprite object D_800B5CB8 (guess_g_RenderWork + 0x6688), ORed with 0x60000000 by func_80162870 after func_8001CB6C sets the sprite up (src/shared/ov/func_80162870__67d5e8d7.h:4-8); the sprite's role is unknown and a name would restate the offset
+495	data	800CEDF8:800D43D4		800CEDF8	800D43D4	D_800D43D4	266	141	141				resident	no-evidence	D_800D43D4	passed to func_800183E0, which queues it in one of 0x20 slots of guess_g_RenderWork (src/800.c:4461-4482), by the status draw func_80175DA8 (src/shared/ov/func_80175DA8__3a39c5e4.h:119); its bytes start {9, 0xAA, 0x160, 0x1AA, 0x10, 1} (asm/resident/data/tail.data.s:1152); what the record is (a palette?) is not established; queued unless +0x1E bit 15 of D_8011F7F0 is set
+496	data	800CEDF8:800D4414		800CEDF8	800D4414	D_800D4414	266	141	141				resident	no-evidence	D_800D4414	passed to func_800183E0, which queues it in one of 0x20 slots of guess_g_RenderWork (src/800.c:4461-4482), by the status draw func_80175DA8 (src/shared/ov/func_80175DA8__3a39c5e4.h:119-122); its bytes start {9, 0xAA, 0x160, 0x1AA, 0x10, 1} (asm/resident/data/tail.data.s:1173); what the record is (a palette?) is not established; queued instead of D_800D43D4 when +0x1E bit 15 of D_8011F7F0 is set
+497	data	800CEDF8:800D45D4		800CEDF8	800D45D4	D_800D45D4	266	141	141				resident	no-evidence	D_800D45D4	passed to func_800183E0, which queues it in one of 0x20 slots of guess_g_RenderWork (src/800.c:4461-4482), by the status draw func_80175DA8 (src/shared/ov/func_80175DA8__3a39c5e4.h:80-82); its bytes start {9, 0xB3, 0x160, 0x1B3, 0x10, 1} (asm/resident/data/tail.data.s:1320); what the record is (a palette?) is not established; queued when bit 7 of D_8011F7F0 + 0x48 is set
 498	data	800CEDF8:8011F83A		800CEDF8	8011F83A	D_8011F83A	266	141	141				resident			
 499	data	800CEDF8:80126C06		800CEDF8	80126C06	D_80126C06	266	141	141				resident			
 500	func	0d18ee0d06ee	0d18ee0d06ee4ef27cdf46a3ad3f37774f0c7768	80128158	80168070	func_80168070	266	141	141		141	E_func_80168070	class:E_func_80168070			

@@ -1,7 +1,7 @@
 s32 func_801759D8(void)
 {
     extern u8 D_8011F7B1;
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
     extern S_AE7BC_801759D8 guess_g_FrontOrderingTablesOrg[];
     extern S_AF634_801759D8 guess_g_PacketBufferUsed[];
     extern u8 D_8011F7A8;
@@ -13,7 +13,7 @@ s32 func_801759D8(void)
     if (D_8011F7B1 != 0) {
         return;
     }
-    sq = (S2_800B9A02 *)&D_800B9A02;
+    sq = (S2_800B9A02 *)&guess_g_DoubleBufferIndex;
     ptr = guess_g_FrontOrderingTablesOrg[sq->h].f0;
     old = ptr[1];
     ptr[1] = (old & 0xff000000) | (*(u32 *)(p + sq->h * 4 + 0x40) & 0xffffff);

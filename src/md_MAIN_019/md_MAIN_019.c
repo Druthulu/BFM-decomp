@@ -120,7 +120,7 @@ extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 
 void func_800CB1A0(void) {
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern s32 D_800CC580;
     extern s32 D_800CC584;
     extern s32 D_800CC588;
@@ -142,7 +142,7 @@ void func_800CB1A0(void) {
     u16 *p;
     s32 ff;
 
-    p = &D_800B99DA;
+    p = &guess_g_FrameCounter;
     D_800CC580 = func_8004787C((p[0] & 7) << 9);
     D_800CC584 = 0;
     D_800CC588 = func_80047948((p[0] & 7) << 9);
@@ -527,7 +527,7 @@ void func_800CBE38(u8 *arg0)
 extern s32 func_80146E98(s32 a0);
 extern void func_800CBF60();
 extern void func_800CBF80(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 void func_800CBEC0(u8 *arg0)
 {
@@ -543,7 +543,7 @@ void func_800CBEC0(u8 *arg0)
     func_800CBF80(arg0);
     w = ((Unkstruct_80126B58 *)arg0)->unk60 - 0x100;
     CAST_ALIAS(u16, arg0, 0x60) = w;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         r = (s16)w / 2;
     } else {
         r = w;
@@ -559,14 +559,14 @@ void func_800CBF60(void) {
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_800CC830;
 
 void func_800CBF80(void *a0) {
     s32 v;
 
     v = 0xFF0000;
-    if (!(D_800B99DA & 3)) {
+    if (!(guess_g_FrameCounter & 3)) {
         v = 0xFFFF;
     }
     D_800CC830 = v;

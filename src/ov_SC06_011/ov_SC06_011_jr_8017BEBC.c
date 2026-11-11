@@ -602,7 +602,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -898,7 +898,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1081,7 +1081,7 @@ extern s32 D_801827C0[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1114,7 +1114,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2454,9 +2454,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2614,9 +2614,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801ABBAC;
 extern s16 D_801ABBAE;
@@ -3324,7 +3324,7 @@ extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern s32 AddPrim(s32 a0, void *a1);
 extern s32 D_800A651C;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 
 s32 func_8017DE14(s32 a0)
 {
@@ -3332,7 +3332,7 @@ s32 func_8017DE14(s32 a0)
     s32 ot;
     s32 tp;
 
-    ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14));
+    ot = *(s32 *)((s8 *)&D_800A651C + ((u16)guess_g_DoubleBufferIndex * 0x14));
 
     p = (u8 *)func_80010A08(0x30);
     if (p != 0) {
@@ -3665,7 +3665,7 @@ extern s32 func_8017E5C8(void);
  *    gte_SetRotMatrix/gte_SetTransMatrix macros (ov_SC03_099_jr_8017BEBC.c) and the
  *    engine_core.h RotTransPers canonical form.
  *  - D_800A651C OT-table lookup uses the canonical engine_core.h idiom:
- *    `*(s32*)((s8*)&D_800A651C + ((u16)D_800B9A02 * 0x14))` (DEFINE_func_8012D4B4 et al).
+ *    `*(s32*)((s8*)&D_800A651C + ((u16)guess_g_DoubleBufferIndex * 0x14))` (DEFINE_func_8012D4B4 et al).
  *  - The per-prim struct (0x24-byte stride) decodes as a libgpu POLY_G4: tag(4,
  *    AddPrim-owned except the `len` top byte we set), 4x{rgb+code/pad(4), x,y(4)}.
  *    All 14 fields matched a `base = s0 - 0x22` model with s0 anchored at the LAST
@@ -3678,13 +3678,13 @@ extern s32 func_8017E5C8(void);
  *    above the splice point in this TU (void* params) — reused verbatim, not redeclared.
  *
  * CLOSING RESIDUAL (S34, gcc-2.7.2-map/sched.md §S2 — "CREATE the boost"):
- *  The 262/265 draft emitted `lhu $a2,0x54(sp)` BEFORE the `lui/lhu %hi/%lo(D_800B9A02)`
+ *  The 262/265 draft emitted `lhu $a2,0x54(sp)` BEFORE the `lui/lhu %hi/%lo(guess_g_DoubleBufferIndex)`
  *  pair; the target has the pair first. All four insns tie at pri 1, so the pick was
  *  decided by adjust_priority's BIRTHING BOOST (sched.c:2507 / birthing_insn_p:2469):
  *  a SET(REG,..) whose dest has REG_N_SETS==1 is raised to max_priority and, because
  *  schedule_block runs BACKWARD, is PICKED EARLY == PLACED LATE. `sy` had TWO sets
  *  (`sy = L.sy0` then `sy = sy + sc`) so its load was never boosted and could not sink
- *  past the D_800B9A02 pair. Giving the accumulate its own single-set local (`sye`)
+ *  past the guess_g_DoubleBufferIndex pair. Giving the accumulate its own single-set local (`sye`)
  *  makes `sy = L.sy0` a single-set def -> boosted -> the whole 4-load group lands in
  *  the target order. (Splitting `sx` the same way OVER-shoots: it re-groups the
  *  0x36/0x40 store cluster — 9 mismatches. ONLY `sy` is split. Byte-verified: the
@@ -3717,7 +3717,7 @@ extern u8 D_8019E19B;
 
 extern s32 D_800A651C;
 extern s32 D_80126950;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
@@ -3777,7 +3777,7 @@ void func_8017E5D0(void *a0)
     sc = ((D_80126950 + 0x1F4) * 3) << 4;
     sc = sc / cnt;
 
-    ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14));
+    ot = *(s32 *)((s8 *)&D_800A651C + ((u16)guess_g_DoubleBufferIndex * 0x14));
     sx = L.sx0;
     sy = L.sy0;
 

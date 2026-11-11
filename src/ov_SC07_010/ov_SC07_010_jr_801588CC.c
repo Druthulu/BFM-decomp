@@ -58,7 +58,7 @@ extern void func_8013E558(void);
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern unsigned short D_80115112;
 extern void func_8013E588(void * _arg0);
@@ -83,7 +83,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
 extern u16 D_8011511A;
@@ -931,7 +931,7 @@ extern s32 func_8014E790(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern u8 D_80126720[];
 extern s16 D_80126724;
@@ -1203,7 +1203,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1502,7 +1502,7 @@ void func_80158F00(int param_1) {
 //        return). $a1 is set by sra BEFORE the beqz and stays live into the jal, so the value is used
 //        twice (branch test + arg2) — that 2nd use is what keeps the sll;sra (gcc folds sll;sra;beqz
 //        -> sll;beqz otherwise). Also: branch-polarity invert (!=0 -> 594E8 fall-through, else 767C);
-//        func_8013767C arg is &(*(u8 *)&D_80110C3C) (lui%hi+addiu%lo, not a literal). Ghidra missed the 2nd arg.
+//        func_8013767C arg is &(*(u8 *)&guess_g_StartPromptText) (lui%hi+addiu%lo, not a literal). Ghidra missed the 2nd arg.
 
 
 extern u16 func_80148800(s32 *a0);
@@ -1518,7 +1518,7 @@ void func_80158FA4(s32 param_1)
 {
 
     extern s32 D_801A6BA0;
-    extern u8 D_80110C3C[];
+    extern u8 guess_g_StartPromptText[];
     s32 v0;
     s16 sVar1;
 
@@ -1535,7 +1535,7 @@ void func_80158FA4(s32 param_1)
             func_801594E8(param_1, sVar1);
             ((void (*)(s32, s32))func_80146C98)(param_1, 0xc);
         } else {
-            ((Unkstruct_80158FA4_3 *)param_1)->unk198 = ((s32 (*)(u8 *))func_8013767C)(&(*(u8 *)&D_80110C3C));
+            ((Unkstruct_80158FA4_3 *)param_1)->unk198 = ((s32 (*)(u8 *))func_8013767C)(&(*(u8 *)&guess_g_StartPromptText));
             ((void (*)(s32))func_80146CA0)(param_1);
         }
     }
@@ -1671,7 +1671,7 @@ extern void func_80028620(s32, void *);
 
 s32 func_801596F0(s32 param_1) {
 
-    extern s16 D_800B9AAC[];
+    extern s16 guess_g_BackgroundLayerPriority[];
     extern s16 D_800B9B00;
     extern u16 D_801270C0[];
     extern u8 guess_g_RenderWork[];
@@ -1686,7 +1686,7 @@ s32 func_801596F0(s32 param_1) {
     ((Unkstruct_801596F0_4 *)param_1)->unk28 = v;
     if (v == -1) {
         func_80174B6C();
-        (*(s16 *)&D_800B9AAC) = 0x7fff;
+        (*(s16 *)&guess_g_BackgroundLayerPriority) = 0x7fff;
         D_800B9B00 = 0x7fff;
 
 

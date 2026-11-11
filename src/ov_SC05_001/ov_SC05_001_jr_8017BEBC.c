@@ -895,7 +895,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1078,7 +1078,7 @@ extern s32 D_80187DD8[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1111,7 +1111,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2450,9 +2450,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2610,9 +2610,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801B5B7C;
 extern s16 D_801B5B7E;
@@ -2701,7 +2701,7 @@ void func_8017BEBC(s32 arg0)
     extern void func_80052E38(MATRIX2 *);
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0); unsigned access forced at use — §8d sub-class (b) */
+    extern short guess_g_DoubleBufferIndex;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0); unsigned access forced at use — §8d sub-class (b) */
 
     DVECTOR2 tmpxy[4];
     SVECTOR2 box[8];
@@ -2735,7 +2735,7 @@ void func_8017BEBC(s32 arg0)
     part = *(Part **)(arg0 + 0xC);
     nparts = *(s32 *)(((Unkstruct_8017BEBC_12 *)arg0)->unk8 + 8);
     vtx = *(u8 **)(((Unkstruct_8017BEBC_12 *)arg0)->unk8 + 0x10);
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;
@@ -3143,7 +3143,7 @@ extern void func_80017E68(void *a0, void *a1);
 void func_8017D0F8(int param_1)
 {
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8  D_80189454[];
     SVec8_8017C218_8017D0F8 rot;
     s32   pad0[2];
@@ -3168,7 +3168,7 @@ void func_8017D0F8(int param_1)
     prim.c[0].r = prim.c[0].g = prim.c[0].b =
     prim.c[2].r = prim.c[2].g = prim.c[2].b =
     prim.c[3].r = prim.c[3].g = prim.c[3].b = c;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         prim.c[0].r = prim.c[2].r = prim.c[3].r = prim.c[3].r >> 1;
     }
 
@@ -3611,7 +3611,7 @@ void func_8017DA90(s32 a0) {
  *   D_80126B5C     TU:361  (scalar u8 -> pass (s32)&D_80126B5C)
  *   D_801202A0     TU:385
  *   func_80013328  TU:520
- *   D_800B99DA     TU:615
+ *   guess_g_FrameCounter     TU:615
  *   rand           TU:957/1092/3543
  *   guess_g_PlayerPosY     TU:1793/2740/3068
  *   func_801746A4  TU:2397
@@ -3642,7 +3642,7 @@ void func_8017DE1C(s32 a0) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     s32 s0 = ((Unkstruct_8017BEBC *)a0)->unk20;
     s16 found;
     s32 lvl;
@@ -3650,7 +3650,7 @@ void func_8017DE1C(s32 a0) {
     s16 j;
     s32 rand_val;
 
-    if ((D_800B99DA & 0xF) == 0) {
+    if ((guess_g_FrameCounter & 0xF) == 0) {
         u8 *p;
         u8 *end;
         for (p = D_801202A0, end = p + 0x6480; p < end; p += 0x10C) {
@@ -5914,7 +5914,7 @@ void func_801814E4(s32 param_1) {
  *
  * Then it seeds twelve 4-byte, align-1 colour records (§160a block move:
  * lwl/lwr + swl/swr) from one stack-built triple whose channels track
- * bit 0 of the global frame counter D_800B99DA.
+ * bit 0 of the global frame counter guess_g_FrameCounter.
  */
 
 /* 4 bytes, alignment 1 -> struct assignment lowers to lwl/lwr + swl/swr */
@@ -5932,7 +5932,7 @@ void func_80181574(s32 a0) {
     s32 t;
     s32 g;
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern Col4_80181574 D_801A8CB4;
     extern Col4_80181574 D_801A8CD0;
     extern Col4_80181574 D_801A8CEC;
@@ -5959,7 +5959,7 @@ void func_80181574(s32 a0) {
     ((Unkstruct_800B5CB8 *)owner)->unk2C = sp10.otz;
     func_80015954((s32)&sp10, a0 + 4);
 
-    t = (D_800B99DA & 1) << 2;
+    t = (guess_g_FrameCounter & 1) << 2;
     /* 0x80 must be added in SImode: narrowing the PLUS into the u8 field
      * folds the constant to -128 (convert_to_integer shortens it to QImode),
      * which is the same byte but the wrong immediate. */
@@ -6622,7 +6622,7 @@ void func_8018244C(s32 a0) {
 
 
 extern s32 func_8012BEE8(s32 a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern void func_80130D48(s32 a0);
 extern void func_80182CE8(void *a0);
 
@@ -6647,7 +6647,7 @@ void func_801824A8(s32 a0) {
     v0 = func_8012BEE8(a0);
     if (v0 != 0) {
         
-        v2 = D_800B99DA & 0x1F;
+        v2 = guess_g_FrameCounter & 0x1F;
         if (v2 == 0) {
             func_80130D48(a0);
         }
@@ -6700,7 +6700,7 @@ void func_80182530(s32 param_1) {
 
 
 extern s32 func_8012BEE8(s32 a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern void func_80130D48(s32 a0);
 extern void func_80182CE8(void *a0);
 
@@ -6718,7 +6718,7 @@ void func_80182600(s32 a0)
     }
 
     if (func_8012BEE8(a0) != 0) {
-        if ((D_800B99DA & 0x1F) == 0) {
+        if ((guess_g_FrameCounter & 0x1F) == 0) {
             func_80130D48(a0);
         }
         ((void (*)(s32))func_80182CE8)(a0);

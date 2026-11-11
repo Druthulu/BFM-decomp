@@ -888,7 +888,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1071,7 +1071,7 @@ extern s32 D_8018CF20[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1104,7 +1104,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2428,9 +2428,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2925,9 +2925,9 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 extern u8 D_8012694C;
 extern s16 D_801E1754;
@@ -2945,9 +2945,9 @@ void func_8017B7A8(void)
     D_801E17CC = (s16) D_80114F30;
     D_801E17CE = (s16) D_80114F34;
     D_801E17D0 = (s16) D_80114F38;
-    D_801E17C4 = (s16) D_80114F24;
-    D_801E17C6 = (s16) D_80114F28;
-    D_801E17C8 = (s16) D_80114F2C;
+    D_801E17C4 = (s16) guess_g_StoredViewPointX;
+    D_801E17C6 = (s16) guess_g_StoredViewPointY;
+    D_801E17C8 = (s16) guess_g_StoredViewPointZ;
 }
 
 
@@ -2988,18 +2988,18 @@ extern s16 D_801E17F0;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 void func_8017B880(void)
 {
     D_80114F30 = D_801E17E4;
     D_80114F34 = D_801E17E6;
     D_80114F38 = D_801E17E8;
-    D_80114F24 = D_801E17EC;
-    D_80114F28 = D_801E17EE;
-    D_80114F2C = D_801E17F0;
+    guess_g_StoredViewPointX = D_801E17EC;
+    guess_g_StoredViewPointY = D_801E17EE;
+    guess_g_StoredViewPointZ = D_801E17F0;
 }
 
 
@@ -3030,9 +3030,9 @@ extern u16 D_801E17D8;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 extern u8  D_8012694C;
 extern s16 D_801E1754;
@@ -3070,9 +3070,9 @@ void func_8017B940(void)
     D_801E1754 = 0;
     D_801E17CE = D_80114F34 + buf[1];
     D_801E17D0 = D_80114F38 + buf[2];
-    D_801E17C4 = D_80114F24 + buf[0];
-    D_801E17C6 = D_80114F28 + buf[1];
-    D_801E17C8 = D_80114F2C + buf[2];
+    D_801E17C4 = guess_g_StoredViewPointX + buf[0];
+    D_801E17C6 = guess_g_StoredViewPointY + buf[1];
+    D_801E17C8 = guess_g_StoredViewPointZ + buf[2];
 }
 
 
@@ -3243,9 +3243,9 @@ extern short D_801E17DE[0];
 extern short D_801E17E0[0];
 extern s16 D_801E2570;
 
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
@@ -3261,9 +3261,9 @@ void func_8017BD50(int param_1)
             D_80114F30 = D_80114F30 + D_801E17DC[0];
             D_80114F34 = D_80114F34 + D_801E17DE[0];
             D_80114F38 = D_80114F38 + D_801E17E0[0];
-            D_80114F24 = D_80114F24 + D_801E17DC[0];
-            D_80114F28 = D_80114F28 + D_801E17DE[0];
-            D_80114F2C = D_80114F2C + D_801E17E0[0];
+            guess_g_StoredViewPointX = guess_g_StoredViewPointX + D_801E17DC[0];
+            guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_801E17DE[0];
+            guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_801E17E0[0];
             func_8012A4BC();
         }
         D_801E2570 = 0;
@@ -4698,13 +4698,13 @@ extern void func_80178CBC(s32*, s32);
     }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 func_801842F8(u8 a0, u8 a1, u8 a2, u8 a3);
 extern void func_8017EBEC(void *a0);
 
 void func_8017ED90(void *arg0)
 {
-    if ((D_800B99DA & 3) == 0 && func_801842F8(0x11, 0x23, 0x17, 0) != 0) {
+    if ((guess_g_FrameCounter & 3) == 0 && func_801842F8(0x11, 0x23, 0x17, 0) != 0) {
         func_8017EBEC(arg0);
     }
 }
@@ -4808,7 +4808,7 @@ extern void func_8012E88C(s32);
 extern void func_8012A828(s32, s32);
 extern void func_801843B8(s32);
 extern void func_801845FC(s32, s32, s32, s32);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801D4814;
 extern s32 D_801B95B0;
 
@@ -4822,7 +4822,7 @@ void func_8017EF90(void *a0) {
         ((Unkstruct_800B5CB8 *)a0)->unk84 = 0;
     }
 
-    if ((D_800B99DA & 0x3) == 0) {
+    if ((guess_g_FrameCounter & 0x3) == 0) {
         if (func_801842F8(0x11, 0x23, 0x17, 0) == 0) {
             ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x6;
             func_8012E88C((s32)a0);
@@ -5343,11 +5343,11 @@ succ:
 
 void func_8017FB04(s32 arg0)
 {
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern s32 guess_GetStoryProgress(void);
     extern void func_8017F3BC(s32 a0);
 
-    if ((D_800B99DA & 3) != 0) {
+    if ((guess_g_FrameCounter & 3) != 0) {
         return;
     }
     if (guess_GetStoryProgress() < 0x182) {
@@ -5678,7 +5678,7 @@ void func_801801F4(void *a0) {
 #undef SHARED_FN
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern u8 D_8018FC10;
 extern u8 D_8018FC11;
 extern u8 D_8018FC12;
@@ -5687,7 +5687,7 @@ extern s32 func_801842F8(u8 a0, u8 a1, u8 a2, u8 a3);
 extern void func_8017FF64(void *a0);
 
 void func_8018023C(void *a0) {
-    if ((D_800B99DA & 3) == 0 && func_801842F8(D_8018FC10, D_8018FC11, D_8018FC12, D_8018FC13) != 0) {
+    if ((guess_g_FrameCounter & 3) == 0 && func_801842F8(D_8018FC10, D_8018FC11, D_8018FC12, D_8018FC13) != 0) {
         func_8017FF64(a0);
     }
 }
@@ -5751,7 +5751,7 @@ void func_80180334(void *a0) {
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 func_801842F8(u8 a0, u8 a1, u8 a2, u8 a3);
 extern void func_8012E88C(s32 a0);
 extern void func_8012A828(s32, s32);
@@ -5766,7 +5766,7 @@ void func_801803CC(void *arg0)
     if (((Unkstruct_800B5CB8 *)arg0)->unkFC != 0) {
         func_8018004C((s32)arg0);
     }
-    if ((D_800B99DA & 3) == 0 && func_801842F8(9, 4, 0x12, 0) == 0) {
+    if ((guess_g_FrameCounter & 3) == 0 && func_801842F8(9, 4, 0x12, 0) == 0) {
         ((Unkstruct_800B5CB8 *)arg0)->unk2 = 6;
         func_8012E88C((s32)arg0);
         func_8012A828((s32)arg0, (s32)&D_801BEA50);

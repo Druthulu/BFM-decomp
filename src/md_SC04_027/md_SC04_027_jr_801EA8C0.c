@@ -18,7 +18,7 @@ extern s32 D_801151D0;
 extern u8 D_801151C8[];
 extern u8 D_800B9A15;
 extern s16 D_80115126;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern s16 D_801F2184;
 extern s16 D_801F2188;
 extern s32 D_801F2470;

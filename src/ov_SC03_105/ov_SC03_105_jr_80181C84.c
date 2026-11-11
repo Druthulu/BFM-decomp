@@ -597,7 +597,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -893,7 +893,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1076,7 +1076,7 @@ extern s32 D_8018C6B8[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1109,7 +1109,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2448,9 +2448,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2606,9 +2606,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801B9614;
 extern s16 D_801B9616;
@@ -3172,7 +3172,7 @@ s32 func_8018233C(s32 arg0) {
  * A u16 field converts the constant to 0xFFFC/0xFFF0 and emits `ori` instead. */
 
 extern s32 rand(void);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 func_8004787C(s32 a0);
 extern s32 D_8018E59C[];
 extern u8 D_801B822C[];
@@ -3199,8 +3199,8 @@ void func_801824CC(a0, a1, a2, a3, mask)
     u16 *p;
 
     stk = *(Stk_SC03_105_80181C84 *)D_801B822C;
-    base = (func_8004787C((D_800B99DA << 6) & 0x7C0) << 4) >> 12;
-    if (D_800B99DA % 6 == 0) {
+    base = (func_8004787C((guess_g_FrameCounter << 6) & 0x7C0) << 4) >> 12;
+    if (guess_g_FrameCounter % 6 == 0) {
         vec.f2 = 0;
         for (i = 0; i < 5; i++) {
             /* LOAD-BEARING: the explicit pointer temp. Writing the two loads as
@@ -3216,7 +3216,7 @@ void func_801824CC(a0, a1, a2, a3, mask)
             }
         }
     }
-    if ((D_800B99DA & 3) == 0) {
+    if ((guess_g_FrameCounter & 3) == 0) {
         vec.f0 = base;
         vec.f1 = 0;
         vec.f2 = 0;
@@ -3226,7 +3226,7 @@ void func_801824CC(a0, a1, a2, a3, mask)
             *(s32 *)(r + 0x20) |= mask;
         }
     }
-    if (D_800B99DA % 5 == 0) {
+    if (guess_g_FrameCounter % 5 == 0) {
         vec.f1 = -4;
         vec.f2 = 0;
         for (i = 0; i < 2; i++) {
@@ -3245,7 +3245,7 @@ void func_801824CC(a0, a1, a2, a3, mask)
             }
         }
     }
-    if (D_800B99DA % 6 == 0) {
+    if (guess_g_FrameCounter % 6 == 0) {
         vec.f1 = -0x10;
         vec.f2 = 0;
         for (i = 0; i < 2; i++) {
@@ -3394,12 +3394,12 @@ void func_80182BD8(s32 a0, u16 *a1, s32 a2, s32 a3)
  * frame-counter beats it fires bursts of func_801850D8 emitters at randomised Y.
  *
  * KEY TECHNIQUES (all four are the whole crack; see the notes in the wave report):
- *  1. `D_800B99DA % 7` / `*(u16*)(p+0xA3AA) % 9` — a plain `u16 % const` shortens
+ *  1. `guess_g_FrameCounter % 7` / `*(u16*)(p+0xA3AA) % 9` — a plain `u16 % const` shortens
  *     (c-typeck `shorten` for TRUNC_MOD_EXPR with an unsigned NOP_EXPR operand), so
  *     you get the UNSIGNED magic (0x24924925 / 0x38E38E39) + a trailing
- *     `andi 0xFFFF`. Do NOT write `(u32)D_800B99DA % 7` — that loses the andi.
+ *     `andi 0xFFFF`. Do NOT write `(u32)guess_g_FrameCounter % 7` — that loses the andi.
  *  2. The SAME halfword is read twice with two different spellings: once as the bare
- *     symbol `D_800B99DA` (lui %hi / lhu %lo) and once off a held base pointer
+ *     symbol `guess_g_FrameCounter` (lui %hi / lhu %lo) and once off a held base pointer
  *     `u8 *p = guess_g_RenderWork;` at +0xA3AA (as expands `lui at,1; addu at,s3,at;
  *     lhu -0x5C56(at)`) — the resident.c "single-base-register" idiom. `p` declared
  *     at the TOP is what keeps &guess_g_RenderWork in a callee-saved reg across block 1.
@@ -3435,7 +3435,7 @@ void func_80182BD8(s32 a0, u16 *a1, s32 a2, s32 a3)
  */
 
 extern u8 guess_g_RenderWork[];
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 rand(void);
 extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
 extern s32 D_8018E59C[];
@@ -3452,7 +3452,7 @@ void func_80182DCC(void *arg0) {
     s32 ret;
     s32 h;
 
-    if (D_800B99DA % 7 == 0) {
+    if (guess_g_FrameCounter % 7 == 0) {
         base = 0x1400;
         i = 0;
         range1 = 0xA00;
@@ -3576,7 +3576,7 @@ void func_801831E0(s32 arg0, s32 arg1) {
             *w = *(w - 4);
             *m = *(w - 3);
             *e = *(w - 2);
-            if ((D_800B99DA & 7) == 0 && (ctr & 1) != 0) {
+            if ((guess_g_FrameCounter & 7) == 0 && (ctr & 1) != 0) {
                 q = rand() % 4096;
                 if ((rand() & 1) == 0) {
                     t = -q;
@@ -3598,7 +3598,7 @@ void func_801831E0(s32 arg0, s32 arg1) {
     case 2:
         ctr = 0x17;
         do {
-            if ((D_800B99DA & 7) == 0 && (ctr & 1) != 0) {
+            if ((guess_g_FrameCounter & 7) == 0 && (ctr & 1) != 0) {
                 q = rand() % 4096;
                 if ((rand() & 1) == 0) {
                     t = -q;
@@ -3681,7 +3681,7 @@ void func_801834A4(s32 arg0) {
     register s32 hh __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
     s32 sign = 0;
 
-    if ((D_800B99DA & 7) == 0) {
+    if ((guess_g_FrameCounter & 7) == 0) {
         pos[1] = 0;
         pos[2] = 0;
         for (i = 0; i < 6; i++) {
@@ -4195,7 +4195,7 @@ void func_80183F84(void *a0, void *a1) {
  * lwl/lwr/swl/swr movstrsi_internal pair (align != UNITS_PER_WORD). */
 
 extern s32 rand(void);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_8018E59C[];
 extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
@@ -4251,7 +4251,7 @@ void func_8018423C(s32 arg0)
         vec.f1 = -(i << 7);
         guess_RotTransSVWithObjMatrix(arg0, (s32)&vec, (s32)&vec);
         if (func_80135004(1, &pos, (s32)&vec) != 0) {
-            if ((D_800B99DA & 7) == 0) {
+            if ((guess_g_FrameCounter & 7) == 0) {
                 step = -0x40;
                 out = vec;
                 for (k = 0; k < 8; k++, step += 0x10) {
@@ -5201,7 +5201,7 @@ extern void func_8001F730(s32 a0, void *a1, void *a2);
  * rot/trans matrix (3 paths), RTPS the actor position, rejects it outside
  * +-200/+-160, RTPT the two extent vectors through D_801BC9B4, fills a 0x28-byte
  * POLY_FT4 packet off the D_800A5E60 bump allocator and addPrim()s it into the OT
- * at &D_800A6610[D_800B9A02 << 14] (read base-relative: guess_g_RenderWork + 0xA3D2).
+ * at &D_800A6610[guess_g_DoubleBufferIndex << 14] (read base-relative: guess_g_RenderWork + 0xA3D2).
  *
  * BANKED byte-identical, P32 T4b hand pass (S85, 2026-09-06), cookbook §501-P:
  * the S83 Fable draft (DIFF 13 at exact length, five register pins + a zero-byte

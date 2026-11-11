@@ -5351,7 +5351,7 @@ void func_8018D488(void) {
 
 extern void (*D_80196C64[])(void);
 extern s16 D_80196C44[];
-extern u16 D_800B99DA[];
+extern u16 guess_g_FrameCounter[];
 extern s32 D_801270C8[0];
 extern void MoveImage(void *a0, s32 a1, s32 a2);
 
@@ -5361,7 +5361,7 @@ void func_8018D4D8(void *param_1)
     D_80196C64[*(u16 *)((char *)param_1 + 2)]();
     if (D_801270C8[0] < 0x17) {
         imgrect img;
-        u16 *src = (u16 *)((char *)D_80196C44 + (D_800B99DA[0] & 7) * 4);
+        u16 *src = (u16 *)((char *)D_80196C44 + (guess_g_FrameCounter[0] & 7) * 4);
         img.x = src[0];
         img.y = src[1];
         img.w = 6;

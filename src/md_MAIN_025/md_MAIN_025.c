@@ -210,7 +210,7 @@ void func_800CB300(s32 arg0) {
 
     extern u8 D_800CAE0C[];
     extern s16 D_800CBEA0;
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern s16 D_800CBEA2;
     extern u8 D_800CBEB0[];
     extern u8 D_80114EB0[];
@@ -276,7 +276,7 @@ void func_800CB300(s32 arg0) {
         ((Unkstruct_800CB300 *)s0)->unk1A = 0x2000;
         ((Unkstruct_800CB300 *)s0)->unk18 = 0x2000;
     }
-    bit = D_800B99DA & 1;
+    bit = guess_g_FrameCounter & 1;
     D_800CBEA0 = bit - 0x10;
     D_800CBEA2 = -0x20 - bit;
     func_8016345C(s1, 0x26, 0, 0x8000, s2);

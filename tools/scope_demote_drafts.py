@@ -49,7 +49,7 @@ def _tu_data_types(tu_path):
 
     Same call family_sweep makes (its `_tu_data_types`), for the same reason: a text scan cannot see
     a MACRO-INJECTED declaration, and that is exactly where these conflicts live — `extern Vec8
-    D_80114F24;` sits inside a DEFINE_func_* macro body in engine_core.h while the overlay .c holds
+    guess_g_StoredViewPointX;` sits inside a DEFINE_func_* macro body in engine_core.h while the overlay .c holds
     only `DEFINE_func_XXXX()`.  The FULL scope is the right question (compatibility is order-
     independent in C), not the `above=` visibility form."""
     if tu_path not in _TU_DATA_TYPES:

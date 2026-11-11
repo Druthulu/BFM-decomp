@@ -10,7 +10,7 @@ void func_8012CFA8(s32 arg0)
     extern void func_800491AC(void *a0);
     extern s32 D_800A651C;
     extern u8 guess_g_CameraWsMatrix;
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     s32 sp10;
     s32 sp14;
     s32 sp18;
@@ -28,6 +28,6 @@ void func_8012CFA8(s32 arg0)
         *(s16 *)((s8 *)temp_v0 + 0xE) = *(u16 *)((s8 *)temp_v0 + 0xA);
         *(s16 *)((s8 *)temp_v0 + 0x10) = *(u16 *)((s8 *)temp_v0 + 8);
         *(s16 *)((s8 *)temp_v0 + 0x12) = *(u16 *)((s8 *)temp_v0 + 0xA) + 8;
-        AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (temp_a2 * 4), temp_v0);
+        AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)guess_g_DoubleBufferIndex * 0x14)) + (temp_a2 * 4), temp_v0);
     }
 }

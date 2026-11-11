@@ -112,7 +112,7 @@ extern s32 D_801D0F6C;
 
 extern s32 guess_g_PlayerActor;
 extern s32 D_801D2670;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern u8 D_800B9A64;
 
 extern void guess_UpdateCamera(void);
@@ -160,7 +160,7 @@ void func_801287B8(void) {
     }
     func_8013BCDC();
     func_801379FC();
-    D_800B99DA++;
+    guess_g_FrameCounter++;
     if (D_800B9A64 != 0) {
         func_8001212C();
     }
@@ -179,10 +179,10 @@ s32 func_801288B0(void) {
 
 
 // @class: remat
-// @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing D_800C7C60=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @unstuck(P36): none — MATCH. &guess_g_CdReadList CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing guess_g_CdReadList=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern int D_800AF558;
 extern int D_801CFDA4;
@@ -191,9 +191,9 @@ extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int func_801288E8(int arg0)
 {
-    int *p = &D_800C7C60;
+    int *p = &guess_g_CdReadList;
     *p = 0x60;
-    D_800C7C64 = &D_800A2E20;
+    guess_g_CdReadListDest = &D_800A2E20;
     ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AF558, D_801CFDA4, p);
 }
 
@@ -201,20 +201,20 @@ int func_801288E8(int arg0)
 
 
 // @class: remat
-// @unstuck(P36): none — MATCH (pointer-var forces single materialization of &D_800C7C60, reused as store base + arg5)
+// @unstuck(P36): none — MATCH (pointer-var forces single materialization of &guess_g_CdReadList, reused as store base + arg5)
 
 extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern u8 D_800AF560;
 extern s32 D_801CFDA4;
 
 s32 func_80128940(s32 _arg0)
 {
-    s32 *p = &D_800C7C60;
+    s32 *p = &guess_g_CdReadList;
     *p = 0x5E;
-    D_800C7C64 = &D_800A2E20;
+    guess_g_CdReadListDest = &D_800A2E20;
     ((void (*)(s32, s32, void *, s32, void *))func_8001ABBC)(0, 0, &D_800AF560, D_801CFDA4, p);
 }
 
@@ -222,10 +222,10 @@ s32 func_80128940(s32 _arg0)
 
 
 // @class: remat
-// @unstuck(P36): none — MATCH. &D_800C7C60 must be CSE'd once (pointer local `p`) so the same reg feeds the *p=13 store AND arg5; writing D_800C7C60=13 directly emits a 2nd address materialization (+1 ins).
+// @unstuck(P36): none — MATCH. &guess_g_CdReadList must be CSE'd once (pointer local `p`) so the same reg feeds the *p=13 store AND arg5; writing guess_g_CdReadList=13 directly emits a 2nd address materialization (+1 ins).
 
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern int D_800AECB0;
 extern s32 D_801CFDA4;
@@ -234,9 +234,9 @@ extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_80128998(void)
 {
-    int *p = &D_800C7C60;
+    int *p = &guess_g_CdReadList;
     *p = 13;
-    D_800C7C64 = &D_800A2E20;
+    guess_g_CdReadListDest = &D_800A2E20;
     ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AECB0, D_801CFDA4, p);
 }
 
@@ -418,7 +418,7 @@ extern void GsSortFastBg(s32 *, void *, u16, s32 *);
 void func_8012956C(void) {
 
     extern s16 D_80114EE0;
-    extern u8 D_800B9A78;
+    extern u8 guess_g_BackgroundLayers;
     extern u8 D_801D0F6D[];
     extern u8 D_801D0F6E[];
     extern u8 D_801D0F70[];
@@ -439,7 +439,7 @@ void func_8012956C(void) {
     if (D_80114EE0 == 0) {
         return;
     }
-    base = (Ent_956C *)&D_800B9A78;
+    base = (Ent_956C *)&guess_g_BackgroundLayers;
     i = 0;
     do {
         s32 idx = i * 8 + 4;

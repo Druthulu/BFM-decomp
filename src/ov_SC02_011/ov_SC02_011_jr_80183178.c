@@ -1688,7 +1688,7 @@ void func_8018576C(u8 *vb)
 {
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
 
     u8 *p;
     s32 t1;
@@ -1715,7 +1715,7 @@ void func_8018576C(u8 *vb)
     vv[9] = RS(0x8A) + ((Unkstruct_8018576C *)p)->unkA + 0x40;
     vv[13] = RS(0x8A) + ((Unkstruct_8018576C *)p)->unkA + 0x40;
     vz0 = RS(0x8C) - 0x50;
-    ot = (u32 *)&D_800A6610[((u16)D_800B9A02) << 14];
+    ot = (u32 *)&D_800A6610[((u16)guess_g_DoubleBufferIndex) << 14];
     vv[14] = vz0;
     vv[10] = vz0;
     vv[6] = vz0;
@@ -3100,7 +3100,7 @@ extern void func_8012BF4C(s32 *a0, s32 a1);
 extern s32 func_8012AD50(void *a0);
 extern void func_80187654(u8*);
 extern void func_80187724(u8 *a0, u8 *a1);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern BlockData D_801E9E34;
 
 void func_8018754C(s32 *a0)
@@ -3120,7 +3120,7 @@ void func_8018754C(s32 *a0)
         func_8012AD50((void*)a0);
     } else {
         ((void (*)(s32))func_80187654)((s32)a0);
-        if ((D_800B99DA & 0x3) == 0) {
+        if ((guess_g_FrameCounter & 0x3) == 0) {
             func_80187724((s32)a0, &buffer);
         }
     }
@@ -3514,8 +3514,8 @@ void func_80188034(s32 a0) {
 
 #include "common.h"
 
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern int D_800AEF98;
 
@@ -3523,15 +3523,15 @@ extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_80188114(void)
 {
-    int *p = &D_800C7C60;
+    int *p = &guess_g_CdReadList;
     *p = 0x20;
-    D_800C7C64 = &D_800A2E20;
+    guess_g_CdReadListDest = &D_800A2E20;
     ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AEF98, 0, p);
 }
 
 
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern int D_800AEFA8;
 
@@ -3539,19 +3539,19 @@ extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_80188168(void)
 {
-    int *p = &D_800C7C60;
+    int *p = &guess_g_CdReadList;
     *p = 0x18;
-    D_800C7C64 = &D_800A2E20;
+    guess_g_CdReadListDest = &D_800A2E20;
     ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AEFA8, 0, p);
 }
 
 
 
 // @class: remat
-// @unstuck(P36): none — MATCH. &D_800C7C60 CSE'd once via pointer local `p` so the same reg feeds the *p=0x18 store AND arg5; writing D_800C7C60=0x18 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
+// @unstuck(P36): none — MATCH. &guess_g_CdReadList CSE'd once via pointer local `p` so the same reg feeds the *p=0x18 store AND arg5; writing guess_g_CdReadList=0x18 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern int D_800AEFA0;
 extern int D_801E8C34;
@@ -3560,9 +3560,9 @@ extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int func_801881BC(int arg0)
 {
-    int *p = &D_800C7C60;
+    int *p = &guess_g_CdReadList;
     *p = 0x18;
-    D_800C7C64 = &D_800A2E20;
+    guess_g_CdReadListDest = &D_800A2E20;
     ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AEFA0, D_801E8C34, p);
 }
 

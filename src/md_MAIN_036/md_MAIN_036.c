@@ -172,7 +172,7 @@ extern s32 D_800CC130;
 extern s16 D_800CC134;
 extern s16 D_800CC136;
 extern s16 D_800CC138;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 guess_g_PlayerActor[];
 extern s32 func_8004787C(s32);
 extern s32 func_80012DBC(s32, s32, s32, s32);
@@ -196,10 +196,10 @@ void func_800CB218(void *arg0) {
 
     switch (mode) {
     case 0:
-        ((Unkstruct_80126B58 *)arg0)->unk60 = (func_8004787C((D_800B99DA & 0x3F) << 6)) / 64;
+        ((Unkstruct_80126B58 *)arg0)->unk60 = (func_8004787C((guess_g_FrameCounter & 0x3F) << 6)) / 64;
         break;
     case 1:
-        ((Unkstruct_80126B58 *)arg0)->unk60 = (func_8004787C((D_800B99DA & 0x1F) << 7)) / 32;
+        ((Unkstruct_80126B58 *)arg0)->unk60 = (func_8004787C((guess_g_FrameCounter & 0x1F) << 7)) / 32;
         break;
     }
 

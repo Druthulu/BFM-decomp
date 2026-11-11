@@ -186,7 +186,7 @@ s32 arg0;
     }
 
     ((void (*)(s32))guess_ApplyVelocity)(arg0);
-    if ((min >= *(s32 *)(arg0 + 0x2C)) && !(D_800B99DA & 7)) {
+    if ((min >= *(s32 *)(arg0 + 0x2C)) && !(guess_g_FrameCounter & 7)) {
         func_8014C010(arg0, 2);
     }
     if (((s32 (*)(s32))func_8014D738)(arg0) != 0) {

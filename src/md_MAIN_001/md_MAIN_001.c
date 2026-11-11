@@ -156,16 +156,16 @@ void func_800CF0C4(void) {
 
 extern s32 func_8001ABBC(s32 arg0, s32 arg1, void *arg2, s32 arg3, s32 *arg4);
 extern s32 D_800D3C0C;
-extern s32 D_800C7C60;
-extern s32 *D_800C7C64;
+extern s32 guess_g_CdReadList;
+extern s32 *guess_g_CdReadListDest;
 extern s32 D_800A2E20;
 extern u8 D_800AE840[];
 
 void func_800CF114(void) {
     if (D_800D3C0C == 0) {
-        s32 *p = &D_800C7C60;
+        s32 *p = &guess_g_CdReadList;
         *p = 0;
-        D_800C7C64 = &D_800A2E20;
+        guess_g_CdReadListDest = &D_800A2E20;
         if (func_8001ABBC(0, 0, D_800AE840, 0, p) != 0) {
             D_800D3C0C = 1;
         }
@@ -175,7 +175,7 @@ void func_800CF114(void) {
 
 void func_800CF180(void)
 {
-    extern u16 D_800B9A02;
+    extern u16 guess_g_DoubleBufferIndex;
     extern u8 D_800CF3F0[];
     extern u8 D_800CF420[];
     extern u8 D_800AA60C[];
@@ -189,7 +189,7 @@ void func_800CF180(void)
     m24 = 0x00FFFFFF;
     tb = (u32 *)D_800CF3F0;
     {
-        register s32 i __asm__("$2") = D_800B9A02;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 i __asm__("$2") = guess_g_DoubleBufferIndex;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
         mFF = 0xFF000000;
         *(u32 *)((s32)tb + i * 24) =
             (*(u32 *)((s32)tb + i * 24) & mFF) |
@@ -197,7 +197,7 @@ void func_800CF180(void)
     }
 
     {
-        s32 i = D_800B9A02;
+        s32 i = guess_g_DoubleBufferIndex;
         ab = (u32 *)D_800AA60C;
         pp = (u32 *)(i << 14);
         pp = (u32 *)((s32)pp + (s32)ab);
@@ -205,7 +205,7 @@ void func_800CF180(void)
     }
 
     {
-        s32 i = D_800B9A02;
+        s32 i = guess_g_DoubleBufferIndex;
         tb = (u32 *)D_800CF420;
         *(u32 *)((s32)tb + i * 24) =
             (*(u32 *)((s32)tb + i * 24) & mFF) |
@@ -213,7 +213,7 @@ void func_800CF180(void)
     }
 
     {
-        s32 i = D_800B9A02;
+        s32 i = guess_g_DoubleBufferIndex;
         s32 frame_pad[1];
         (void)&frame_pad;
         pp = (u32 *)(i << 14);
@@ -226,13 +226,13 @@ void func_800CF180(void)
 extern s32 D_800D3C10;
 
 void func_800CF290(void) {
-    extern u16 D_800B9A02;
+    extern u16 guess_g_DoubleBufferIndex;
     extern u8 D_800D3AEC[];
     extern u8 D_800D3B1C[];
     extern u8 D_800D3C10_b __asm__("D_800D3C10");
     extern u8 D_800AA60C[];
 
-    s32 n = D_800B9A02;
+    s32 n = guess_g_DoubleBufferIndex;
     u8 *p0;
     register u8 *p1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
     u32 c5;

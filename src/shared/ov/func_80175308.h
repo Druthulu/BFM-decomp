@@ -10,7 +10,7 @@ extern s16 D_8011F7BA;
 extern s16 D_8011F7BC;
 extern s16 D_8011F7BE;
 extern u8 guess_g_PlayerRecord[];
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_80016714(void *, s32);
 extern void func_801757A0(s32);
 extern void func_800596F4(s32);
@@ -28,7 +28,7 @@ void func_80175308(void) {
     *(Blk152 *)(p + 0x48) = (*(Blk152 *)guess_g_PlayerRecord);
     func_80016714(p + 0xE0, 0x98);
     {
-        s16 *q = &D_800B9A02;
+        s16 *q = &guess_g_DoubleBufferIndex;
         func_801757A0(*q);
         func_800596F4(0);
         func_801757A0((s16)(*(u16 *)q ^ 1));

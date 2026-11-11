@@ -6,7 +6,7 @@ extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
 extern u8  D_800B9A11;
 extern u8  guess_g_RenderWork[];
-extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern u8  guess_g_OrderingTables[];
 void func_801372B0(void) {
     Svec_801372B0 in;

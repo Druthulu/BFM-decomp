@@ -82,7 +82,7 @@ u32 mhi;
           j = 0;
           k = m;
           t3v = m * 4;                  /* [L3] explicit, must sit before the 3 constants */
-          pb = (u16 *) (&D_800B9A02);
+          pb = (u16 *) (&guess_g_DoubleBufferIndex);
           m24 = 0xFFFFFF;
           mhi = 0xFF000000;
           for (; j < 2; j++)

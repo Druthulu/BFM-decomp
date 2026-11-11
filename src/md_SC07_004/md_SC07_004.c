@@ -1898,7 +1898,7 @@ extern void func_801A3114(s32 *a0);
 
 extern s32 guess_g_PlayerActor[4];
 extern u16 D_80126CE0;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s16 D_801AFB90;
 extern s32 D_801AFAB8;
 extern s32 D_801BC9EC;
@@ -1932,7 +1932,7 @@ void func_801A2F34(s32 a0) {
             func_80132288(&D_801F8724, &D_801AFAB8, *s0);
         }
     }
-    if ((D_800B99DA & 1) != 0) {
+    if ((guess_g_FrameCounter & 1) != 0) {
         if (((Unkstruct_80126B58 *)s2)->unk188 > 0) {
             ((Unkstruct_80126B58 *)s2)->unk188 = ((Unkstruct_80126B58 *)s2)->unk188 - 1;
         }
@@ -3902,7 +3902,7 @@ void func_801A5E60(s32 a0, u8 *v)
 {
     extern s32 func_80010A08(s32);
     extern u8 D_800A6610[];
-    extern u16 D_800B9A02;
+    extern u16 guess_g_DoubleBufferIndex;
     extern u8 D_801F8744[];
     extern u8 D_801F8745[];
     extern u8 D_801F8746[];
@@ -3917,7 +3917,7 @@ void func_801A5E60(s32 a0, u8 *v)
 
     pv = v;
     {
-        u32 tv = *(u16 *)&D_800B9A02;
+        u32 tv = *(u16 *)&guess_g_DoubleBufferIndex;
         u32 bv = (u32)&D_800A6610;
         pot = (u32 *)((tv << 14) + bv);
     }
@@ -4618,7 +4618,7 @@ void func_801A6F3C(s32 param_1) {
 #include "common.h"
 
 extern u16 D_8019FF8A;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern u8 D_801F88A8[];
 extern u8 D_801F88B0[];
 extern u8 D_801F8747[];
@@ -4646,7 +4646,7 @@ void func_801A6FD4(void *arg0) {
         D_801F8747[0] = 1;
         v0 = func_8017D7D4(D_801F88A8, D_801F88B0, D_801F8747 - 3, 6);
         ((Unkstruct_800B5CB8 *)arg0)->unkD0 = v0;
-    } else if ((D_8019FF8A & 0x10) && CAST_WIDTH(s32, (u8 *)s1, 4) >= 0 && (D_800B99DA & 1)) {
+    } else if ((D_8019FF8A & 0x10) && CAST_WIDTH(s32, (u8 *)s1, 4) >= 0 && (guess_g_FrameCounter & 1)) {
         func_801A6428(arg0);
     }
 }
@@ -7218,7 +7218,7 @@ void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
  *      the packet into the current double-buffer's OT (the PSY-Q `addPrim`
  *      macro pair) and calls func_80016638", with `func_80016638(&guess_g_OrderingTables
  *      [*bidx*20], depth, 1)` as its literal call form (there depth=0x10
- *      constant, here depth=temp_v0_2).  Confirms the "3 lhu D_800B9A02,
+ *      constant, here depth=temp_v0_2).  Confirms the "3 lhu guess_g_DoubleBufferIndex,
  *      address cached / value reloaded" shape and the general addPrim(ot,p)
  *      == setaddr(p,getaddr(ot)); setaddr(ot,p) reading.
  *
@@ -7244,7 +7244,7 @@ void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
  * REGISTER-ALLOCATION LEVERS (found empirically, byte-verified against this
  * function's own .frame/.s, not inherited from the exemplars above):
  *   - `bidx` pinned to $8 ($t0): natural (unpinned) allocation put the
- *     shared D_800B9A02-address pointer in $a3 instead, cascading a
+ *     shared guess_g_DoubleBufferIndex-address pointer in $a3 instead, cascading a
  *     one-register shift through the whole mask/index register set.
  *   - `mask1` (0xFFFFFF) pinned to $7 ($a3); `tag0` (the packet's old tag
  *     word, read once before the first addPrim half) pinned to $4 ($a0) —
@@ -7268,7 +7268,7 @@ void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
  * INTEGRATION SURFACE (checked against destination TU
  * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c):
  *   func_80010A08, func_8004914C, func_800491AC, RotTransPers, guess_g_CameraWsMatrix,
- *   D_800B9A02, guess_g_OrderingTables all match the TU's own existing extern spellings
+ *   guess_g_DoubleBufferIndex, guess_g_OrderingTables all match the TU's own existing extern spellings
  *   verbatim (grepped at TU lines 2448/2632-2633/4674 and the
  *   func_8018F694/func_8018F060 block). D_800A651C and func_80016638 have NO
  *   file-scope declaration anywhere in the TU (only ever appear inside other
@@ -7292,7 +7292,7 @@ void func_801AADA8(s32 arg0, s32 arg1, s32 arg2)
     extern u8 guess_g_CameraWsMatrix;
     extern OtBlk_8018A974_801AADA8 D_800A651C[];
     extern u8 guess_g_OrderingTables[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
     s32 sp10;
@@ -7314,7 +7314,7 @@ void func_801AADA8(s32 arg0, s32 arg1, s32 arg2)
     if ((temp_v0_2 > 0) && (sp14 >= 0) &&
         (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
         /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-        bidx = (u16 *)&D_800B9A02;
+        bidx = (u16 *)&guess_g_DoubleBufferIndex;
         depth4 = temp_v0_2 * 4;
         tag = *(u32 *)temp_v0;
         tag &= 0xFF000000;
@@ -7462,7 +7462,7 @@ void func_801AB21C(s32 a0, s32 a1, s32 a2, s32 a3)
 {
     extern s32 func_80010A08(s32);
     extern void func_80016638(void *a0, s32 a1, s32 a2);
-    extern u16 D_800B9A02;
+    extern u16 guess_g_DoubleBufferIndex;
     extern OtBlk_8018A974_801AADA8 D_800A651C[];
     extern u8 guess_g_OrderingTables[];
     extern OtBlk_8018A974_801AADA8 guess_g_FrontOrderingTablesOrg[];
@@ -7490,20 +7490,20 @@ void func_801AB21C(s32 a0, s32 a1, s32 a2, s32 a3)
         /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
         tag = *(u32 *)p;
         tag &= 0xFF000000;
-        tag |= *(u32 *)(i4 + D_800A651C[D_800B9A02].a) & 0xFFFFFF;
+        tag |= *(u32 *)(i4 + D_800A651C[guess_g_DoubleBufferIndex].a) & 0xFFFFFF;
         *(u32 *)p = tag;
-        i4 += D_800A651C[D_800B9A02].a;
+        i4 += D_800A651C[guess_g_DoubleBufferIndex].a;
         *(u32 *)i4 = (*(u32 *)i4 & 0xFF000000) | ((u32)p & 0xFFFFFF);
-        func_80016638(&guess_g_OrderingTables[D_800B9A02 * 20], idx, 1);
+        func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], idx, 1);
     } else {
         u32 tag;
         tag = *(u32 *)p;
         tag &= 0xFF000000;
-        tag |= *(u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a & 0xFFFFFF;
+        tag |= *(u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].a & 0xFFFFFF;
         *(u32 *)p = tag;
-        ot = (u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a;
+        ot = (u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].a;
         *ot = (*ot & 0xFF000000) | ((u32)p & 0xFFFFFF);
-        func_80016638(&guess_g_FrontOrderingTables[D_800B9A02 * 20], 0, 1);
+        func_80016638(&guess_g_FrontOrderingTables[guess_g_DoubleBufferIndex * 20], 0, 1);
     }
 }
 
@@ -8381,7 +8381,7 @@ extern void func_801AA160(s32 arg0, s32 arg1);
 extern void func_801AA3CC(s32 arg0);
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 void func_801AC6C0(s32 arg0) {
     s32 s0;
@@ -8396,7 +8396,7 @@ void func_801AC6C0(s32 arg0) {
         func_801A3624((s32)(s16)func_8012B8A4((s16 *)s0),
                       (u16 *)(((Unkstruct_801AC6C0 *)s0)->unk20 + 0x12), 0x10);
         func_801AA0B4(s0);
-        func_801AA160(s0, D_800B99DA & 1);
+        func_801AA160(s0, guess_g_FrameCounter & 1);
         func_801AA3CC(s0);
         func_8012AD80(s0);
         func_8012C658(0xD, 3, s0);
@@ -9486,7 +9486,7 @@ void func_801ADF5C(void *a0)
 
     s0 = a0;
 
-    /* D_800B9AC4/D_800B9AC8 are fields of the struct rooted at D_800B9A78
+    /* D_800B9AC4/D_800B9AC8 are fields of the struct rooted at guess_g_BackgroundLayers
      * (see engine_core.h's Ent_956C / func_8012956C); the func_801298F4
      * call target is that struct's base, computed as p - 0x4C so the
      * compiler reuses the already-materialized D_800B9AC4 address instead
@@ -10136,12 +10136,12 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
 {
     /* Block-scope, byte-identical to the spellings the TU's other functions
      * use for these four globals + the allocator (md_SC07_004.c:8742-8745,
-     * :5723) -- a file-scope `extern u16 D_800B9A02;` would collide with the
+     * :5723) -- a file-scope `extern u16 guess_g_DoubleBufferIndex;` would collide with the
      * `extern short` those blocks declare. */
     extern u8 guess_g_CameraWsMatrix;
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern s32 func_80010A08(s32);
 
     Mtx_801AEC38 mtx;           /* sp+0x10 */
@@ -10161,7 +10161,7 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
     s32 w2;
 
     {
-        u32 tv = *(u16 *)&D_800B9A02;
+        u32 tv = *(u16 *)&guess_g_DoubleBufferIndex;
         u32 bv = (u32)&D_800A6610;
         pot = (u32 *)((tv << 14) + bv);
     }
@@ -10338,7 +10338,7 @@ void func_801AF368(void *a0)
     extern u8 guess_g_CameraWsMatrix;
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern void RotMatrixZ(s32 a0, void *a1);
 
     u8 stk[0x60];                        /* sp+0x10 .. sp+0x6F */
@@ -10371,7 +10371,7 @@ void func_801AF368(void *a0)
 
     if ((((Unkstruct_801AF368_3 *)stk)->unk48 & 0xFFFFEFFF) == 0) {
         idx = ((Unkstruct_801AF368_3 *)stk)->unk50 + 1;
-        ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
         {
             u16 flags2 = ((Unkstruct_801AF368_4 *)a0)->unk2C;
             if ((flags2 & 0xC000) != 0) {

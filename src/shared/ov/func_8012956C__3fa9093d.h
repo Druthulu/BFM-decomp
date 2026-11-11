@@ -3,7 +3,7 @@
 void func_8012956C(void) {
 
     extern s16 D_80114EE0;
-    extern u8 D_800B9A78;
+    extern u8 guess_g_BackgroundLayers;
     extern u8 D_8018E67D[];
     extern u8 D_8018E67E[];
     extern u8 D_8018E680[];
@@ -24,7 +24,7 @@ void func_8012956C(void) {
     if (D_80114EE0 == 0) {
         return;
     }
-    base = (Ent_956C *)&D_800B9A78;
+    base = (Ent_956C *)&guess_g_BackgroundLayers;
     i = 0;
     do {
         s32 idx = i * 8 + 4;

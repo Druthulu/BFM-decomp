@@ -891,7 +891,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1074,7 +1074,7 @@ extern s32 D_8018D8DC[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1107,7 +1107,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2446,9 +2446,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2598,9 +2598,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801EA814;
 extern s16 D_801EA816;
@@ -2933,10 +2933,10 @@ void func_80184DA4(s32 param_1) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8 D_8018FE40[];
     ((Unkstruct_801823B8_2 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0x8A;
-    func_800183E0((s32)&D_801CF780[D_8018FE40[D_800B99DA & 0x1F] * 16]);
+    func_800183E0((s32)&D_801CF780[D_8018FE40[guess_g_FrameCounter & 0x1F] * 16]);
 }
 
 
@@ -2945,11 +2945,11 @@ extern s32 func_800183E0(s32 a0);
 
 void func_80184DF8(s32 param_1) {
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8 D_8018FE40[];
     extern u8 D_801CF680[];
     ((Unkstruct_801823B8_3 *)*(s32 *)(param_1 + 0xD0))->unk27 = 0x8B;
-    func_800183E0((s32)&D_801CF680[D_8018FE40[D_800B99DA & 0x1F] * 16]);
+    func_800183E0((s32)&D_801CF680[D_8018FE40[guess_g_FrameCounter & 0x1F] * 16]);
 }
 
 
@@ -4667,7 +4667,7 @@ extern u8 guess_g_RenderWork[];   /* TU line 46, verbatim */
 void func_80187EE8(s32 a0)
 {
     extern void func_80017714(void *);
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     /* §183 TYPE-shadowed-block-scope: adopt the TU's own spelling for D_800A651C
      * (src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:5339, `extern Ot_8018B23C D_800A651C[];`).
      * The typedef is declared BLOCK-SCOPE here so it shadows (never redefines) the
@@ -4732,7 +4732,7 @@ void func_80187EE8(s32 a0)
 
     if (otz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 <
-          (u32)(*(s32 *)((u8 *)&D_800A651C + (*(u16 *)&D_800B9A02) * 0x14)
+          (u32)(*(s32 *)((u8 *)&D_800A651C + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14)
                 + otz * 4)) &&
         (flag1 & 0xFFFFEFFF) == 0) {
         pkt.v[0].vz = (s16)otz;
@@ -6575,12 +6575,12 @@ void func_8018A9BC(void) {
  *       three-temp form (DEFINE_func_8012B4B8, engine_core.h L29487) emits the
  *       same instruction MIX but a different allocation (+60 mismatches).
  *
- *  §21/T6  The double-buffer index D_800B9A02 is read at ALL THREE use sites
+ *  §21/T6  The double-buffer index guess_g_DoubleBufferIndex is read at ALL THREE use sites
  *       (three `lhu`s off ONE materialised `la`).  A PLAIN read is CSEd down to
  *       two AND keeps -G0 symbol addressing (lui+lhu per read, +1 insn); a
  *       POINTER local gives the `la` but lets cse fold the third read.  The
  *       `volatile u16 *` pointer local reproduces BOTH properties and leaves
- *       the TU's own `extern s16 D_800B9A02;` untouched.
+ *       the TU's own `extern s16 guess_g_DoubleBufferIndex;` untouched.
  *
  *  T6   The OT base is bound to an s32 local (`ot`) so the tag read/write keep
  *       the `0x40($v1)` displacement form instead of folding into the pointer.
@@ -6647,7 +6647,7 @@ void func_8018A9BC(void) {
  *      edit 1 is gone since T11: the `pv &=` split does its job.)
  *
  * ---------------------------------------------------------------------------
- * DECLARATIONS: ApplyMatrixSV, D_800B9A02 and D_801EADE4/E6/EA/EC are declared
+ * DECLARATIONS: ApplyMatrixSV, guess_g_DoubleBufferIndex and D_801EADE4/E6/EA/EC are declared
  * VERBATIM as the TU already has them at file scope (L163, L2460/2462,
  * L3689/3705/3706, L3726, L3879), so they merge silently.  D_800AE620,
  * D_800A5E60, D_800A651C, guess_g_OrderingTables, D_801EADE8, RotMatrixZ, func_8004901C and
@@ -6666,7 +6666,7 @@ void func_8018AA98(s32 arg0)
     extern s32 D_800A5E60;
     extern s32 D_800A651C;
     extern u8 guess_g_OrderingTables[];
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
     extern s16 D_801EADE4;
     extern s16 D_801EADE6;
     extern s16 D_801EADE8;
@@ -6741,7 +6741,7 @@ void func_8018AA98(s32 arg0)
     *(s16 *)(p + 0x1A) = by;
 
     /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-    bidx = (u16 *)&D_800B9A02;
+    bidx = (u16 *)&guess_g_DoubleBufferIndex;
     pv = *(u32 *)p;
     pv &= 0xFF000000;
     *(u32 *)p = pv |
@@ -7061,7 +7061,7 @@ void func_8018B128(void) {
  *  A. THE OT LINK IS THE libgpu P_TAG BITFIELD, NOT HAND-MASKING.  Writing
  *     `*(u32*)q = (*(u32*)q & 0xFF000000) | (ot & 0xFFFFFF)` is byte-correct
  *     arithmetic but gives the WRONG register assignment (16 mismatches: the
- *     0xFFFFFF / 0xFF000000 / &D_800B9A02 pseudos land in a0/a2/a3 permuted,
+ *     0xFFFFFF / 0xFF000000 / &guess_g_DoubleBufferIndex pseudos land in a0/a2/a3 permuted,
  *     and the `lw $v1,0($s3)` gets serialised behind the index load).  The
  *     `unsigned addr:24; unsigned len:8` bitfield insert reproduces both the
  *     allocation and the schedule exactly.  This is just `addPrim(ot, q)`.
@@ -7101,13 +7101,13 @@ extern s16 D_801EACDA;
 extern u8 D_801EACE0;
 extern u8 D_801EACE1;
 extern u8 D_801EACE2;
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 
 /* 0x10-byte-stride record table at D_801EACE4 (same table as func_8018AD5C) */
 
       /* the 0x20-byte matrix */
   /* == engine_types.h OtBlk */
-          /* the D_800B9A02 buffer index */
+          /* the guess_g_DoubleBufferIndex buffer index */
  /* libgpu P_TAG */
 
 void func_8018B23C(s32 a0) {
@@ -7176,7 +7176,7 @@ void func_8018B23C(s32 a0) {
     ((Unkstruct_8018B23C *)q)->unk12 = CAST_SIGN(u16, q, 0x12) + out[1];
 
     {
-        Bidx_8018B23C *bp = (Bidx_8018B23C *)&D_800B9A02;
+        Bidx_8018B23C *bp = (Bidx_8018B23C *)&guess_g_DoubleBufferIndex;
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
         ((PTag_8018B23C *)q)->addr =

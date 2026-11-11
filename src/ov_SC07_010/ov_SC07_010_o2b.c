@@ -1202,7 +1202,7 @@ extern void func_8013E958(void);
 
 void func_8013EB7C(void) {
 
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern u8 D_801151C8[];
     extern s32 D_801151D0;
     extern u16 D_8011511A;
@@ -1217,7 +1217,7 @@ void func_8013EB7C(void) {
     s32 iVar4;
 
     if ((s16)func_80141C50() == 0) {
-        D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+        D_801151D0 = *(s32 *)&D_801151C8[(u16)guess_g_DoubleBufferIndex * 4];
         sVar1 = ((short (*)(void))func_8013F350)();
         if (D_8011511A >= 4) {
             func_8013FAF8((s16)D_8011511A, (s16)(D_8011511A + 1));
@@ -1278,7 +1278,7 @@ extern unsigned char *func_80141CA4(void);
 
 s32 func_8013EE10() {
 
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern unsigned short D_80115112;
     extern u8 D_801151C8[];
     extern s32 D_801151D0;
@@ -1296,7 +1296,7 @@ s32 func_8013EE10() {
     u16 *c;
     s32 sp10[2];
 
-    D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+    D_801151D0 = *(s32 *)&D_801151C8[(u16)guess_g_DoubleBufferIndex * 4];
     func_8013FAF8(0, 5);
     for (i = 0; i < 5; i++) {
         s32 t = D_80115168[i].f0 * 3 >> 2;
@@ -1343,7 +1343,7 @@ void func_8013EF88(void)
 {
 
     extern u16 D_80115118;
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
     extern s32 D_801151D0;
     extern E4 D_80115188[];
     extern E4  D_80115168[];
@@ -1360,7 +1360,7 @@ void func_8013EF88(void)
         u16 nw = old - 1;
         *p = nw;
         if (nw != 0) {
-            D_801151D0 = *(s32 *)((char *)&D_80115118 + 0xB0 + (u16)D_800B9A02 * 4);
+            D_801151D0 = *(s32 *)((char *)&D_80115118 + 0xB0 + (u16)guess_g_DoubleBufferIndex * 4);
             func_8013FAF8(0, 5);
             for (i = 0; i < 5; i++) {
                 s32 t = D_80115188[i].f0 * 3;
@@ -1390,7 +1390,7 @@ void func_8013EF88(void)
     }
 
     if (D_80115118 == 0) {
-        if (D_80115114 == ((u16)D_800B9A02 ^ 1)) {
+        if (D_80115114 == ((u16)guess_g_DoubleBufferIndex ^ 1)) {
             func_800D2624();
         } else {
             D_80115112 += 1;

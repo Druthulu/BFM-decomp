@@ -124,7 +124,7 @@ extern void func_8012927C(void);
 extern void func_8012931C(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9AAE[];
 extern s16 D_800B9AB0[];
 extern s16 D_800B9AB2[];
@@ -137,7 +137,7 @@ extern s16 D_80114EE0;
 extern void func_80129428(void);
 extern void func_8012943C(void);
 extern s32 D_8005128C;
-extern u8 D_800B9A78;
+extern u8 guess_g_BackgroundLayers;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8(int arg0, int arg1, u8 * arg2);
 extern void func_8012944C(void);
@@ -208,7 +208,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera;
 extern void func_8012A418(void);
-extern Vec8 D_80114F24;
+extern Vec8 guess_g_StoredViewPointX;
 extern void func_8012A464(void);
 extern void func_8012A4BC(void);
 extern void func_8012A598(void *a0);
@@ -370,7 +370,7 @@ extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s32 D_800A651C;
 extern u8 guess_g_CameraWsMatrix;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_8012D5DC(void);
 extern s16 D_80126B98;
@@ -612,7 +612,7 @@ extern u16 D_80126CC4;
 extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
@@ -624,7 +624,7 @@ extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine"
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
 extern u8  guess_g_RenderWork[];
-extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
@@ -790,7 +790,7 @@ extern void *D_8011DB24;
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern unsigned short D_80115112;
 extern void func_8013E588(void * _arg0);
@@ -1649,7 +1649,7 @@ extern s32 func_8014E790(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_80126724;
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
@@ -1923,7 +1923,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -2108,7 +2108,7 @@ extern void func_8002992C(s32);
 extern void func_800CF804(void);
 extern void func_800CF818(void);
 extern u8 D_80110D0C[];
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
 extern void func_8015934C(void *arg0);
@@ -2211,7 +2211,7 @@ s32 arg0;
     extern void (*D_801862A8[])(void *);
     extern u8 guess_g_PlayerRecord[];
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern s32 D_800D5428;
     extern u8 D_8018622C[];
     s32 min;
@@ -2392,7 +2392,7 @@ s32 arg0;
     }
 
     ((void (*)(s32))guess_ApplyVelocity)(arg0);
-    if ((min >= ((Unkstruct_80126B58 *)arg0)->unk2C) && !(D_800B99DA & 7)) {
+    if ((min >= ((Unkstruct_80126B58 *)arg0)->unk2C) && !(guess_g_FrameCounter & 7)) {
         func_8014C010(arg0, 2);
     }
     if (((s32 (*)(s32))func_8014D738)(arg0) != 0) {
@@ -3152,7 +3152,7 @@ s32 func_8015C128(s32 param_1) {
 
     extern void (*D_801862A8[])(void *);
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern void func_8015C6E0(s32*);
 
     int sp10[3];
@@ -3175,7 +3175,7 @@ s32 func_8015C128(s32 param_1) {
     ((void(*)(int, int *))func_80146DB8)(((int)param_1), sp20);
     func_80147A84(((int)param_1));
     ((void(*)(int))guess_ApplyVelocity)(((int)param_1));
-    if (!(D_800B99DA & 3)) {
+    if (!(guess_g_FrameCounter & 3)) {
         ((void(*)(int, int))func_8014C010)(((int)param_1), 1);
         ((void(*)(int))func_80147324)(0x65F);
     }
@@ -3206,7 +3206,7 @@ s32 func_8015C128(s32 param_1) {
 
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_801496D4(void*);
@@ -3294,7 +3294,7 @@ void func_8015C32C(s32 arg0) {
     func_80146DB8((s32 *)arg0, vout);
     func_80147A84(arg0);
     ((void (*)(s32))guess_ApplyVelocity)(arg0);
-    if ((D_800B99DA & 3) == 0) {
+    if ((guess_g_FrameCounter & 3) == 0) {
         func_8014C010(arg0, 1);
         func_80147324(0x65f);
     }
@@ -5734,8 +5734,8 @@ void func_80161E08(s32 param_1) {
     extern s16 guess_g_TargetTimeLabel2Y;
     extern u16 guess_g_TargetTimeDigits;
     extern s16 D_800B5C74;
-    extern s16 D_800B5C50;
-    extern s16 D_800B5C52;
+    extern s16 guess_g_TargetTimeDigitsX;
+    extern s16 guess_g_TargetTimeDigitsY;
     extern u8 * D_801C8598[];
     extern u8 D_80186714[];
     extern u8 D_80186734[];
@@ -5779,8 +5779,8 @@ void func_80161E08(s32 param_1) {
             func_800242D0((s16)func_801620C4(), &D_801C85E4, 0x84);
             func_8001CE68(p, &D_801C85E4);
             D_800B5C74 = 1;
-            D_800B5C50 = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
-            D_800B5C52 = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
+            guess_g_TargetTimeDigitsX = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeDigitsY = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
         }
 
         func_800242D0((s16)func_801620C4(), &D_801C85E4, 0x84);
@@ -5962,8 +5962,8 @@ s32 func_80162438(s32 _unused0) {
     extern s16 guess_g_TargetTimeLabel2Y;
     extern s16 D_800B5C3C;
     extern u8 D_800B5C37;
-    extern s16 D_800B5C50;
-    extern s16 D_800B5C52;
+    extern s16 guess_g_TargetTimeDigitsX;
+    extern s16 guess_g_TargetTimeDigitsY;
     extern s16 D_800B5C74;
 
     u32 uVar2;
@@ -5999,8 +5999,8 @@ s32 func_80162438(s32 _unused0) {
             func_800242D0((s16)func_801626B8(), D_801C8640, 0x84);
             func_8001CE68(item, D_801C8640);
             D_800B5C74 = 1;
-            D_800B5C50 = -guess_g_ScreenWidth / 2 + 0xD0;
-            D_800B5C52 = -guess_g_ScreenHeight / 2 + 0x10;
+            guess_g_TargetTimeDigitsX = -guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeDigitsY = -guess_g_ScreenHeight / 2 + 0x10;
         }
         func_800242D0((s16)func_801626B8(), D_801C8640, 0x84);
         if ((uVar2 & 0x7FFF) == (s32)(*(s16 *)&guess_g_ClockMinute)) {
@@ -6290,7 +6290,7 @@ extern void func_80162D88(s32 *a0);
 void func_80163EC8(s32 param_1)
 {
     extern Blk8 D_801C7E28;
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8 func_801656D0(s32 a0, s32 a1);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -6331,7 +6331,7 @@ void func_80163EC8(s32 param_1)
     LAB_matched:
     *((s16 *) (psVar6 + 0x18a)) = (*((u16 *) (psVar6 + 0x18a))) + 1;
 
-    if ((D_800B99DA & 3) == 0)
+    if ((guess_g_FrameCounter & 3) == 0)
     {
         if ((*((s16 *) (psVar6 + 0x188))) >= (*((u8 *) (param_1 + 0x67))))
         {
@@ -7639,7 +7639,7 @@ void func_80167AD8(void) {
 
 s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
 
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
     extern void func_80017758(void *a0, void *a1);
     extern u8 D_80186CF4;
@@ -7659,7 +7659,7 @@ s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     fr.v[1].z = 0;
     fr.v[1].y = 0;
     fr.v[1].x = 0;
-    flags = D_800B99DA;
+    flags = guess_g_FrameCounter;
     if (flags & 1) {
         fr.col[1].r = 0xa0;
     } else if (flags & 2) {
@@ -7748,7 +7748,7 @@ extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
 
 s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
 
-    extern u16  D_800B99DA;
+    extern u16  guess_g_FrameCounter;
     extern u8   D_80186B48[];
     extern u8   D_80186B5C[];
     u8 buf[0x54];
@@ -7763,7 +7763,7 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
     ((Unkstruct_80167DBC_2 *)buf)->unk2C = 0;
     ((Unkstruct_80167DBC_2 *)buf)->unk2A = 0;
     ((Unkstruct_80167DBC_2 *)buf)->unk28 = 0;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         buf[0x46] = 0x58;
     } else {
         buf[0x46] = 0x48;
@@ -8606,7 +8606,7 @@ extern void func_80149350(s32 arg0);
 
 
 void func_8016A290(s32 param_1, void *param_2, void *param_3) {
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern s32 D_801269A4;
     extern s32 D_801269A8;
     extern s32 D_801269AC;
@@ -8653,7 +8653,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     fr.v[1].z = 0;
     fr.v[1].y = 0;
     fr.v[1].x = 0;
-    flags = D_800B99DA;
+    flags = guess_g_FrameCounter;
     if (flags & 1) {
         fr.col[1].r = ((Unkstruct_8016A290_6 *)param_1)->unk30 + 0x20;
     } else if (flags & 2) {

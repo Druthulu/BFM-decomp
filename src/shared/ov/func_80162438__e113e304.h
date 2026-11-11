@@ -26,8 +26,8 @@ s32 func_80162438(s32 _unused0) {
     extern s16 guess_g_TargetTimeLabel2Y;
     extern s16 D_800B5C3C;
     extern u8 D_800B5C37;
-    extern s16 D_800B5C50;
-    extern s16 D_800B5C52;
+    extern s16 guess_g_TargetTimeDigitsX;
+    extern s16 guess_g_TargetTimeDigitsY;
     extern s16 D_800B5C74;
 
     u32 uVar2;
@@ -63,8 +63,8 @@ s32 func_80162438(s32 _unused0) {
             func_800242D0((s16)func_801626B8(), D_8018E910, 0x84);
             func_8001CE68(item, D_8018E910);
             D_800B5C74 = 1;
-            D_800B5C50 = -guess_g_ScreenWidth / 2 + 0xD0;
-            D_800B5C52 = -guess_g_ScreenHeight / 2 + 0x10;
+            guess_g_TargetTimeDigitsX = -guess_g_ScreenWidth / 2 + 0xD0;
+            guess_g_TargetTimeDigitsY = -guess_g_ScreenHeight / 2 + 0x10;
         }
         func_800242D0((s16)func_801626B8(), D_8018E910, 0x84);
         if ((uVar2 & 0x7FFF) == (s32)(*(s16 *)&guess_g_ClockMinute)) {

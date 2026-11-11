@@ -5,12 +5,12 @@ void SHARED_FN(s32 p)
 {
     /* [T51] all decls block-scoped: they constrain nothing later in the host TU.
      * D_800A5E60 / D_800A6610 use this TU's existing block-scope spellings
-     * (ov_SC07_001_jr_8017BEBC.c:2821-2822); D_800B9A02 AGREES with the file-scope
-     * `extern short D_800B9A02;` at line 2469 (unsigned access forced at use,
+     * (ov_SC07_001_jr_8017BEBC.c:2821-2822); guess_g_DoubleBufferIndex AGREES with the file-scope
+     * `extern short guess_g_DoubleBufferIndex;` at line 2469 (unsigned access forced at use,
      * §8d sub-class (b)); guess_g_CameraWsMatrix is the project-wide `extern u8` spelling. */
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern u8 guess_g_CameraWsMatrix;
 
    /* 0x20 */
@@ -30,7 +30,7 @@ void SHARED_FN(s32 p)
     u32 *otp;
 
     pkt = D_800A5E60;
-    d = *(u16 *)&D_800B9A02;
+    d = *(u16 *)&guess_g_DoubleBufferIndex;
     D_800A5E60 = pkt + 0x28;
     *(u8 *)(pkt + 3) = 9;
     *(u32 *)(pkt + 4) = 0x808080;

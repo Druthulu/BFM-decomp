@@ -10,7 +10,7 @@ extern s32 AddPrim(s32, void *);
 void func_80144090(s32 param_1) {
     extern OtBlk D_800A651C[];
     extern u8 guess_g_CameraWsMatrix;
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     void *iVar1;
     s32 iVar2;
     s32 iVar3;
@@ -59,7 +59,7 @@ void func_80144090(s32 param_1) {
             *(s16 *)((u8 *)iVar1 + 0x12) = L.sxy[1] + ((iVar4 + (iVar3 >> 6)) >> 0xc);
             *(s16 *)((u8 *)iVar1 + 0xc) = L.sxy[0] + ((iVar3 - (iVar4 >> 6)) >> 0xc);
             *(s16 *)((u8 *)iVar1 + 0xe) = L.sxy[1] + ((iVar4 - (iVar3 >> 6)) >> 0xc);
-            AddPrim(D_800A651C[(u16)D_800B9A02].a + (iVar2 * 4), iVar1);
+            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + (iVar2 * 4), iVar1);
             iVar1 = (u8 *)iVar1 + 0x14;
         } while (iVar6 < 0x1000);
     }

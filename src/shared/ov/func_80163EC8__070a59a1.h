@@ -3,7 +3,7 @@
 void func_80163EC8(s32 param_1)
 {
     extern Blk8 D_8018E120;
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     extern u8 func_801656D0(s32 a0, s32 a1);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80015978(s32 a0, s32 *a1);
@@ -44,7 +44,7 @@ void func_80163EC8(s32 param_1)
     LAB_matched:
     *((s16 *) (psVar6 + 0x18a)) = (*((u16 *) (psVar6 + 0x18a))) + 1;
 
-    if ((D_800B99DA & 3) == 0)
+    if ((guess_g_FrameCounter & 3) == 0)
     {
         if ((*((s16 *) (psVar6 + 0x188))) >= (*((u8 *) (param_1 + 0x67))))
         {

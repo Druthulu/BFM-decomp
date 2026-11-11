@@ -20,7 +20,7 @@ s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     fr.v[1].z = 0;
     fr.v[1].y = 0;
     fr.v[1].x = 0;
-    flags = D_800B99DA;
+    flags = guess_g_FrameCounter;
     if (flags & 1) {
         fr.col[1].r = 0xa0;
     } else if (flags & 2) {

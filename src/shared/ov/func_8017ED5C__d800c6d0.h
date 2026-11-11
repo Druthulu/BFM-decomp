@@ -1,7 +1,7 @@
 /* func_8017ED5C — shared body (overlay slot 0x80128158, h_exact d800c6d0). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void *func_8017ED5C(s32 param_1, s32 param_2) {
-    extern u8 D_801117EC[];
+    extern u8 guess_g_EmptyText[];
     extern u8 D_80112B58[];
     extern u8 D_80112B90[];
     extern u8 D_80112BA8[];
@@ -36,7 +36,7 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
     s32 lim;
     s32 pad[2];                                              /* [1] */
     u8 c;
-    result = D_801117EC;
+    result = guess_g_EmptyText;
     sel = param_1 - 1;
     switch (sel) {
     case 5:

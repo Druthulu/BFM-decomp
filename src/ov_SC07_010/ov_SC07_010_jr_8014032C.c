@@ -58,7 +58,7 @@ extern void func_8013E558(void);
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern unsigned short D_80115112;
 extern void func_8013E588(void * _arg0);
@@ -83,7 +83,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
 extern u16 D_8011511A;
@@ -175,7 +175,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     extern void * D_80183134[];
     extern u8 D_80183087[];
     extern u8 * D_801A6B04;
-    extern u8 D_801117EC[];
+    extern u8 guess_g_EmptyText[];
     extern u8 D_801117B4[];
     extern u8 D_80112BC8[];
     extern u8 D_80112B58[];
@@ -187,7 +187,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     unsigned int uVar3;
     void *result;
 
-    result = D_801117EC;
+    result = guess_g_EmptyText;
     switch (((short)param_1)) {
     case 0:
         if (((s32(*)(s32))guess_TestGameFlag)(D_8018305C[((short)param_2)]) & 0xFF) {

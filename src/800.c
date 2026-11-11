@@ -1823,7 +1823,7 @@ extern u8 D_800B9A10;
 extern u8 D_800B9A17;
 extern u8 D_800B9A15;
 extern u8 D_800B9A16;
-extern u8 D_800B9A13;
+extern u8 guess_g_ActiveMenu;
 extern u8 D_80078DD2;
 extern s32 D_800A5E78;
 extern u8 guess_g_RenderWork[];
@@ -1854,7 +1854,7 @@ void func_80015208(void) {
     {
         s32 mask = 0x800;
 
-        if (D_800B9A13 != 0) {
+        if (guess_g_ActiveMenu != 0) {
             return;
         }
         v = *(u16 *)&D_80078DD2 & mask;
@@ -1961,7 +1961,7 @@ s16 *func_8001544C(void) {
 
 
 
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 D_800B9A11;
 extern u8 guess_g_RenderWork[];
 extern u8 *D_800A5E60;
@@ -1983,7 +1983,7 @@ void func_80015498(void)
     register u32 maskLo __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
 
     base = guess_g_RenderWork;
-    ot = (u32 *)D_800A651C[D_800B9A02].a;
+    ot = (u32 *)D_800A651C[guess_g_DoubleBufferIndex].a;
 
     if (D_800B9A11 != 1) {
         entry = base + 0x9DA8;
@@ -2304,7 +2304,7 @@ subtract:
 /* func_80015B6C — main/800.  Allocate one 0x34-byte GPU packet from the frame
  * heap (func_80010A08) holding three primitives and link all three, in order,
  * into the current double-buffer's ordering table at depth 0xFFF
- * (*(u32 *)(D_800A651C[D_800B9A02].a + 0x3FFC)) with the open-coded PSY-Q
+ * (*(u32 *)(D_800A651C[guess_g_DoubleBufferIndex].a + 0x3FFC)) with the open-coded PSY-Q
  * addPrim RMW pair (tag = {addr:24, len:8}), exactly as the matched sibling
  * func_80015D4C in this TU does:
  *
@@ -2380,13 +2380,13 @@ subtract:
  *
  * @class: MATCH — 120/120 byte-exact under tools/match_one.py AND
  *   tools/rtu_match.py (whole-TU splice), and tools/reloc_identity.py AGREEs
- *   (relocs_checked=3): jal func_80010A08, %hi/%lo(D_800B9A02) via lhu (u16,
+ *   (relocs_checked=3): jal func_80010A08, %hi/%lo(guess_g_DoubleBufferIndex) via lhu (u16,
  *   per the TU's own declaration at src/800.c:2655), %hi/%lo(D_800A651C) via
  *   lw (the `.a` member at offset 0, 20-byte stride).
  */
 
 extern s32 func_80010A08(s32 a0);
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 
 void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 c5, u8 c6)
 {
@@ -2398,7 +2398,7 @@ void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 
     u32 pmask;
     register u32 tag2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
 
-    otp = D_800A651C[D_800B9A02].a;
+    otp = D_800A651C[guess_g_DoubleBufferIndex].a;
     p = (u8 *)func_80010A08(0x34);
     mFF = 0xFF000000;
 
@@ -2491,14 +2491,14 @@ void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 
  *
  * Symbol audit (§174 law 1c, done after MATCH): every symbol re-checked
  * against the target .s relocation lines — jal func_80010A08, jal
- * func_80016638, %hi/%lo(D_800B9A02) via lhu (u16, not s16), %hi/%lo
+ * func_80016638, %hi/%lo(guess_g_DoubleBufferIndex) via lhu (u16, not s16), %hi/%lo
  * (D_800A651C) via lw, %lo(guess_g_OrderingTables) via addiu (address-of).  Store sides
  * verified: `sw $a0,0($t0)` is the packet tag, `sw $v0,0($a1)` is the OT slot.
  * src/800.c declares none of these, so no TU-declaration conflict (law 2/3).
  */
 
 extern s32 func_80010A08(s32 a0);
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 
@@ -2536,12 +2536,12 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
 
     depth4 = arg7 * 4;
     *(u32 *)temp_v0 = (tag0 & 0xFF000000) |
-        (*(u32 *)(depth4 + D_800A651C[D_800B9A02].a) & 0xFFFFFF);
-    *(u32 *)(depth4 + D_800A651C[D_800B9A02].a) =
-        (*(u32 *)(depth4 + D_800A651C[D_800B9A02].a) & 0xFF000000) |
+        (*(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].a) & 0xFFFFFF);
+    *(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].a) =
+        (*(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].a) & 0xFF000000) |
         ((u32)temp_v0 & 0xFFFFFF);
     if (arg8 < 4) {
-        func_80016638(&guess_g_OrderingTables[D_800B9A02 * 20], arg7, arg8);
+        func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], arg7, arg8);
     }
 }
 
@@ -2670,7 +2670,7 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
  *   - `lui/addiu %hi/%lo(guess_g_RenderWork)` -> $s0 is the ONLY named data base; the
  *     OT-buffer index is reached as `*(u16 *)(base + 0xA3D2)`
  *     (`lui $at,0x1; addu $at,$s0,$at; lhu -0x5C2E($at)`; 0x10000-0x5C2E =
- *     0xA3D2, i.e. 0x800B9A02).  D_800B9A02 IS declared in src/800.c and IS
+ *     0xA3D2, i.e. 0x800B9A02).  guess_g_DoubleBufferIndex IS declared in src/800.c and IS
  *     used by the siblings, but it does NOT appear in THIS .s — do not
  *     substitute it here.  `lhu` => u16, not s16.
  *   - `jal func_80010A08` with $a0 = 0x40; `jal func_80016638` with
@@ -2822,7 +2822,7 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
 
 extern s32 func_80010A08(s32 a0);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 
 void func_80016110(void)
@@ -2845,10 +2845,10 @@ void func_80016110(void)
     *(s16 *)((u8 *)p + 0x12) = *(s16 *)((u8 *)p + 0x16) = 120;
 
     pv = *(u32 *)p;
-    *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)D_800A651C[D_800B9A02].a & m24);
-    ot = (u32 *)D_800A651C[D_800B9A02].a;
+    *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)D_800A651C[guess_g_DoubleBufferIndex].a & m24);
+    ot = (u32 *)D_800A651C[guess_g_DoubleBufferIndex].a;
     *ot = (*ot & 0xFF000000) | ((u32)p & m24);
-    func_80016638(&guess_g_OrderingTables[D_800B9A02 * 20], 0, 0);
+    func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], 0, 0);
 }
 
 /* Bank-safe form: NO file-scope typedef (src/800.c:92 already defines
@@ -2861,7 +2861,7 @@ void func_80016110(void)
 extern u16 guess_g_ScreenHeight;
 extern u16 guess_g_ScreenWidth;
 extern u8 guess_g_OrderingTables[];
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern s32 func_80010A08(s32 a0);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 
@@ -2905,20 +2905,20 @@ void func_80016224(s32 a0, s32 a1)
         register s32 i4 __asm__("$6") = idx * 4;  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
         register u32 pv __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
         pv = *(u32 *)p;
-        *(u32 *)p = (pv & mFF) | (*(u32 *)(i4 + D_800A651C[D_800B9A02].a) & m24);
-        i4 += D_800A651C[D_800B9A02].a;
+        *(u32 *)p = (pv & mFF) | (*(u32 *)(i4 + D_800A651C[guess_g_DoubleBufferIndex].a) & m24);
+        i4 += D_800A651C[guess_g_DoubleBufferIndex].a;
         *(u32 *)i4 = (*(u32 *)i4 & mFF) | ((u32)p & m24);
-        func_80016638(&guess_g_OrderingTables[D_800B9A02 * 20], idx, 2);
+        func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], idx, 2);
     } else {
         u32 m24 = 0x00FFFFFF;
         register u32 pv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
         u32 *ot;
         pv = *(u32 *)p;
-        *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a & m24);
+        *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].a & m24);
         __asm__ __volatile__("" : "=r"(pv));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B tus9)
-        ot = (u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a;
+        ot = (u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].a;
         *ot = (*ot & 0xFF000000) | ((u32)p & m24);
-        func_80016638(&guess_g_FrontOrderingTables[D_800B9A02 * 20], 0, 2);
+        func_80016638(&guess_g_FrontOrderingTables[guess_g_DoubleBufferIndex * 20], 0, 2);
     }
 }
 
@@ -2932,7 +2932,7 @@ void func_80016224(s32 a0, s32 a1)
  * @stuck: none — MATCH, 122/122 instructions, byte-exact under match_one, and
  *   all 27 relocations hand-checked one-to-one against asm/nonmatchings/800/
  *   func_80016450.s (same offsets, same symbols, same order): func_80010A08,
- *   6x D_800B9A02, 2x D_800A651C, guess_g_OrderingTables, 2x guess_g_FrontOrderingTablesOrg, guess_g_FrontOrderingTables,
+ *   6x guess_g_DoubleBufferIndex, 2x D_800A651C, guess_g_OrderingTables, 2x guess_g_FrontOrderingTablesOrg, guess_g_FrontOrderingTables,
  *   func_80016638.  Destination TU src/800.c already declares
  *   `extern void func_80016450(s32 a0, s32 a1);` (L680) — adopted verbatim.
  *   No other file-scope decl of any symbol used here exists in the
@@ -2944,7 +2944,7 @@ void func_80016224(s32 a0, s32 a1)
  * The and-0xFF000000 / and-0x00FFFFFF / or triple is the libgpu P_TAG 24-bit
  * `addr` BITFIELD, i.e. the PSY-Q macro pair
  *     addPrim(ot, p) == setaddr(p, getaddr(ot)), setaddr(ot, p)
- * The macro argument `ot` is textually duplicated, which is why D_800B9A02 and
+ * The macro argument `ot` is textually duplicated, which is why guess_g_DoubleBufferIndex and
  * the OT-base load are each emitted TWICE per branch.  Recognising that is what
  * fixes the instruction count; the rest is register/schedule steering.
  *
@@ -2958,7 +2958,7 @@ void func_80016224(s32 a0, s32 a1)
  *     constant registers and the wrong store order.)
  *
  *  2. `*(u32 *)p`, NOT `p->tag`.  A struct-member store does NOT kill a plain
- *     global's CSE in gcc-2.7.2, so `p->tag` cached D_800B9A02/D_800A651C and
+ *     global's CSE in gcc-2.7.2, so `p->tag` cached guess_g_DoubleBufferIndex/D_800A651C and
  *     produced 110 ins instead of 122.  A non-MEM_IN_STRUCT_P store kills
  *     everything and reproduces all six reloads exactly.  (First pass.)
  *
@@ -2989,9 +2989,9 @@ void func_80016224(s32 a0, s32 a1)
  *     variable as its own accumulator — does, exactly.  9 -> 6.
  *
  *  6. THE ELSE ARM'S LAST 6 WERE A SCHEDULE SWAP, NOT ALLOCATION.  Target fills
- *     the `lhu D_800B9A02` load-delay slot with the tag load `lw $v1,0($t1)`
+ *     the `lhu guess_g_DoubleBufferIndex` load-delay slot with the tag load `lw $v1,0($t1)`
  *     and the `lw %lo(guess_g_FrontOrderingTablesOrg)` slot with `lui $a0,0xff00`; we had them
- *     exactly swapped, which also flipped D_800B9A02 $a0<->$v1.  This is
+ *     exactly swapped, which also flipped guess_g_DoubleBufferIndex $a0<->$v1.  This is
  *     gcc-2.7.2 sched.c's BIRTHING BOOST on a single-SET destination (the boost
  *     sinks the load to just before its consumer, and `potential_hazard` breaks
  *     the tie in the load's favour, so it is picked first = placed LAST).
@@ -3009,7 +3009,7 @@ void func_80016224(s32 a0, s32 a1)
 extern s32 func_80010A08(s32);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern OtBlk_80016450 guess_g_FrontOrderingTablesOrg[];
 extern u8 guess_g_FrontOrderingTables[];
@@ -3038,21 +3038,21 @@ void func_80016450(s32 a0, s32 a1)
         u32 pv;
         pv = *(u32 *)p;
         pv &= mFF;
-        pv |= *(u32 *)(i4 + D_800A651C[D_800B9A02].a) & m24;
+        pv |= *(u32 *)(i4 + D_800A651C[guess_g_DoubleBufferIndex].a) & m24;
         *(u32 *)p = pv;
-        i4 += D_800A651C[D_800B9A02].a;
+        i4 += D_800A651C[guess_g_DoubleBufferIndex].a;
         *(u32 *)i4 = (*(u32 *)i4 & mFF) | ((u32)p & m24);
-        func_80016638(&guess_g_OrderingTables[D_800B9A02 * 20], idx, 1);
+        func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], idx, 1);
     } else {
         u32 m24 = 0x00FFFFFF;
         u32 pv;
         pv = *(u32 *)p;
         pv &= 0xFF000000;
-        pv |= *(u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a & m24;
+        pv |= *(u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].a & m24;
         *(u32 *)p = pv;
-        ot = (u32 *)guess_g_FrontOrderingTablesOrg[D_800B9A02].a;
+        ot = (u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].a;
         *ot = (*ot & 0xFF000000) | ((u32)p & m24);
-        func_80016638(&guess_g_FrontOrderingTables[D_800B9A02 * 20], 0, 1);
+        func_80016638(&guess_g_FrontOrderingTables[guess_g_DoubleBufferIndex * 20], 0, 1);
     }
 }
 
@@ -4160,7 +4160,7 @@ void func_80017930(Src_80017930 *arg0, s32 arg1, s32 arg2)
  * SYMBOL AUDIT (§174 law 1c, done after MATCH) — every symbol re-checked against
  * asm/nonmatchings/800/func_80017B98.s's own relocation lines:
  *   jal func_80010A08 (0x83AC)  •  %hi/%lo(guess_g_RenderWork) -> $s1 (0x8468/0x846C),
- *   dereferenced at $s1+0x10000-0x5C2E == 0x800B9A02, the same u16 frame index
+ *   dereferenced at $s1+0x10000-0x5C2E == 0x800B9A02 (guess_g_DoubleBufferIndex), the same u16 frame index
  *   src/boot.c reads as `*(u16 *)(p + 0xA3D2)`  •  %hi/%lo(D_800A651C) via `lw`,
  *   twice (0x8514/0x851C and 0x8558/0x8560).  No other relocations exist.
  *   Store sides: `sw $a0,0($t0)` is the packet tag, `sw $v0,0($a1)` is the OT
@@ -4319,7 +4319,7 @@ void func_80017E8C(s32 arg0)
  * OtBlk_80016450 layout; scalar rival spelling measured worse (99 ins). */
 void func_80017F14(void *a0, s32 a1, s32 a2)
 {
-    extern u16 D_800B9A02;
+    extern u16 guess_g_DoubleBufferIndex;
     extern struct { s32 a; s32 b[4]; } D_800A651C[];
     extern s32 func_80010A08(s32);
     extern s32 AddPrim(s32, void *);
@@ -4339,9 +4339,9 @@ void func_80017F14(void *a0, s32 a1, s32 a2)
     p2 = func_80010A08(0xC);
     tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
     func_8005A600((s32)p2, 0, 0, (u16)tp, 0);
-    AddPrim(D_800A651C[D_800B9A02].a + sz * 4, p2);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, p2);
 
-    AddPrim(D_800A651C[D_800B9A02].a + sz * 4, a0);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, a0);
 
     /* guard covers ONLY the code |=2 — the second tpage packet follows
      * UNCONDITIONALLY (beqz target sits before its jal func_80010A08) */
@@ -4352,7 +4352,7 @@ void func_80017F14(void *a0, s32 a1, s32 a2)
     p2 = func_80010A08(0xC);
     tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
     func_8005A600((s32)p2, 0, 1, (u16)tp, 0);
-    AddPrim(D_800A651C[D_800B9A02].a + sz * 4, p2);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, p2);
 }
 
 
@@ -4361,7 +4361,7 @@ extern s32 func_80010A08(s32);
 extern s32 AddPrim(s32, void *);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 
 void func_80018094(void *a0, s32 a1, u32 a2_p) {
     s32 a2 = (s32)a2_p;
@@ -4375,21 +4375,21 @@ void func_80018094(void *a0, s32 a1, u32 a2_p) {
         sz = 0xFFF;
     }
 
-    AddPrim(D_800A651C[D_800B9A02].a + sz * 4, a0);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, a0);
 
     if (a2 & 0x40000000) {
         *(u8 *)((u8 *)a0 + 7) = *(u8 *)((u8 *)a0 + 7) | 2;
         p2 = func_80010A08(0xC);
         tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
         func_8005A600((s32)p2, 0, 0, (u16)tp, 0);
-        AddPrim(D_800A651C[D_800B9A02].a + sz * 4, p2);
+        AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, p2);
     }
 }
 
 void func_80018194(void *arg0, s32 arg1, u32 arg2)
 {
     extern s32 AddPrim(s32, void *);
-    extern u16 D_800B9A02;
+    extern u16 guess_g_DoubleBufferIndex;
     extern struct { s32 a; s32 b[4]; } D_800A651C[];
     void *a3;
     s32 sz;
@@ -4404,7 +4404,7 @@ void func_80018194(void *arg0, s32 arg1, u32 arg2)
         sz = 0xFFF;
     }
 
-    AddPrim(D_800A651C[D_800B9A02].a + sz * 4, a3);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, a3);
 }
 
 
@@ -4414,7 +4414,7 @@ void func_8001820C(void *a0, s32 a1, u32 a2)
     extern s32 AddPrim(s32, void *);
     extern s32 GetTPage(s32, s32, s32, s32);
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
-    extern u16 D_800B9A02;
+    extern u16 guess_g_DoubleBufferIndex;
     extern OtBlk_80016450 D_800A651C[];
 
     void *p2;
@@ -4432,14 +4432,14 @@ void func_8001820C(void *a0, s32 a1, u32 a2)
     p2 = func_80010A08(0xC);
     tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
     func_8005A600((s32)p2, 0, 0, (u16)tp, 0);
-    AddPrim(D_800A651C[D_800B9A02].a + sz * 4, p2);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, p2);
 
-    AddPrim(D_800A651C[D_800B9A02].a + sz * 4, a0);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, a0);
 
     p2 = func_80010A08(0xC);
     tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
     func_8005A600((s32)p2, 0, 1, (u16)tp, 0);
-    AddPrim(D_800A651C[D_800B9A02].a + sz * 4, p2);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, p2);
 }
 
 extern u32 D_800AE610;
@@ -6773,12 +6773,12 @@ s32 func_8001A9D8(void) {
 
 void func_8001A9F8(s32 a0)
 {
-    extern u16 D_800B9A02;
+    extern u16 guess_g_DoubleBufferIndex;
     extern u8 D_800A6610[];
     extern u32 D_80063108;
     extern u32 D_80063120;
 
-    u32 *p = (u32 *)(D_800A6610 + (D_800B9A02 << 14));
+    u32 *p = (u32 *)(D_800A6610 + (guess_g_DoubleBufferIndex << 14));
     u32 *q1;
     u32 *q2;
 
@@ -7193,8 +7193,8 @@ s32 func_8001B23C(s32 a0) {
 extern s32 D_800BA1B4;
 extern s32 resLoad_curId;
 extern s32 resLoad_result;
-extern s32 D_800C7C60;
-extern s32 *D_800C7C64;
+extern s32 guess_g_CdReadList;
+extern s32 *guess_g_CdReadListDest;
 extern s32 D_800A2E20;
 extern s32 D_800AEC78;
 extern s32 func_8001AE90(s32 a0, s32 a1, s32 a2);
@@ -7209,10 +7209,10 @@ void func_8001B26C(void) {
         goto exit;
     }
 
-    s0 = &D_800C7C60;
+    s0 = &guess_g_CdReadList;
     do { tmp = D_800BA1B4; } while (0);
     *s0 = 0x8;
-    D_800C7C64 = &D_800A2E20;
+    guess_g_CdReadListDest = &D_800A2E20;
 
     if (tmp != 0) {
         if (tmp != 3) {
@@ -7580,7 +7580,7 @@ void func_8001B85C(void) {
 
 /* func_8001B86C — main/800: the 4-state "start a new frame" state machine driven
  * by D_800747FC.  State 0 initialises the double-buffer OT block for the current
- * buffer index D_800B9A02 and kicks func_80059BFC/func_8001BA84; state 1 arms the
+ * buffer index guess_g_DoubleBufferIndex and kicks func_80059BFC/func_8001BA84; state 1 arms the
  * frame counter; state 2 runs the per-frame work; states 2 and 3 share the tail
  * that ticks D_80074804 and drives func_8001BADC.
  *
@@ -7603,7 +7603,7 @@ void func_8001B85C(void) {
  *    frees $2 and both residuals close together — one source edit, 12 -> 0.
  *
  * 3. The OT table is touched through TWO declarations of the SAME symbol.  The
- *    target reloads D_800B9A02 three times inside case 0, which only happens when
+ *    target reloads guess_g_DoubleBufferIndex three times inside case 0, which only happens when
  *    the stores are plain INDIRECT_REFs: an ARRAY_REF store sets MEM_IN_STRUCT_P
  *    and gcc-2.7.2's true_dependence() then drops the dependence against the
  *    not-in-struct constant-address `lhu` (cookbook §135-2), collapsing the three
@@ -7623,7 +7623,7 @@ extern s32 D_800747FC;
 extern s32 D_80074800;
 extern s32 D_80074804;
 extern s32 D_8007480C;
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 extern u8 D_8007BA70[];
@@ -7646,14 +7646,14 @@ s32 func_8001B86C(void)
 
     switch ((u32)D_800747FC) {
     case 0: {
-        u8 *q = D_8007BA70 + D_800B9A02 * 80000;
+        u8 *q = D_8007BA70 + guess_g_DoubleBufferIndex * 80000;
 
-        *(s32 *)(D_800A651C + D_800B9A02 * 20) =
-            (s32)(D_800A6610 + (D_800B9A02 << 14));
-        *(s32 *)(D_800A6528 + D_800B9A02 * 20) =
-            (s32)(D_800A6610 + 4 + (D_800B9A02 << 14));
+        *(s32 *)(D_800A651C + guess_g_DoubleBufferIndex * 20) =
+            (s32)(D_800A6610 + (guess_g_DoubleBufferIndex << 14));
+        *(s32 *)(D_800A6528 + guess_g_DoubleBufferIndex * 20) =
+            (s32)(D_800A6610 + 4 + (guess_g_DoubleBufferIndex << 14));
         D_800A5E60 = q;
-        func_80059BFC(otTbl[D_800B9A02 * 5], 2);
+        func_80059BFC(otTbl[guess_g_DoubleBufferIndex * 5], 2);
         func_8001BA84();
         D_80074800 = 0x80;
         D_800747FC++;
@@ -7665,7 +7665,7 @@ s32 func_8001B86C(void)
         break;
     case 2:
         func_80059FC0(p + 0x160);
-        func_80059BFC(otTbl[D_800B9A02 * 5], 2);
+        func_80059BFC(otTbl[guess_g_DoubleBufferIndex * 5], 2);
         func_8001BB60();
         D_800747FC++;
         /* fallthrough */
@@ -7757,7 +7757,7 @@ void func_8001BB60(void)
  * head of the current prim buffer (D_800A5E60) — a GPU draw-mode word (0xE1000040)
  * followed by a TILE (code 0x62, 0x140x8 at (a0-160, a1-120), colour a2) — then
  * PSY-Q addPrim() it onto OT entry 1 of the current buffer's table
- * (D_800A6610 + (D_800B9A02 << 14)) and bump D_800A5E60 past it.
+ * (D_800A6610 + (guess_g_DoubleBufferIndex << 14)) and bump D_800A5E60 past it.
  *
  * @class: MATCH (was SCHEDULE-REORDER/2)
  *
@@ -7791,12 +7791,12 @@ void func_8001BB60(void)
  *   moves the `li 4` one slot too far (ahead of the `lui`).
  *
  * Symbols hand-checked against asm/nonmatchings/800/func_8001BBBC.s (§174 law 1c):
- * D_800A5E60 (lw %lo + sw %lo), D_800B9A02 (lhu %lo), D_800A6610 (addiu %lo);
+ * D_800A5E60 (lw %lo + sw %lo), guess_g_DoubleBufferIndex (lhu %lo), D_800A6610 (addiu %lo);
  * no calls.  All three externs are copied verbatim from src/800.c L4489-4491
  * (the same file-scope spellings func_8001B86C and func_8001D3FC already use).
  */
 
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 
@@ -7818,7 +7818,7 @@ void func_8001BBBC(s32 a0, s32 a1, u8 a2)
     a0 -= 0xA0;
 
     p = D_800A5E60;
-    tblAddr = D_800B9A02;
+    tblAddr = guess_g_DoubleBufferIndex;
     a1 -= 0x78;
 
     tmp = 4;
@@ -7853,10 +7853,10 @@ void func_8001BBBC(s32 a0, s32 a1, u8 a2)
 
 /* addPrim-style sprite emitter (S83 MATCH — 28 -> 6 by the §500-C levers, 6 -> 0 by the two permuter_ils levers below): builds a 0x18-byte SPRT-with-tpage packet at the
  * D_800A5E60 prim-buffer cursor and addPrim()s it onto word [1] of the frame's
- * ordering table (D_800A6610 + D_800B9A02 * 0x4000).  Same idiom as the -O0
+ * ordering table (D_800A6610 + guess_g_DoubleBufferIndex * 0x4000).  Same idiom as the -O0
  * func_8001212C in src/boot.c. */
 
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 
@@ -7902,7 +7902,7 @@ void func_8001BC6C(s32 a0, s32 a1)
     tag = (a1 << 8) | k;
     c2 = c | tag;
     color = c2 | a1;
-    idx = D_800B9A02 << 14;
+    idx = guess_g_DoubleBufferIndex << 14;
     ot = (u32 *)(idx + (u32)D_800A6610);
 
     if (t0 >= 0x80) {
@@ -8935,7 +8935,7 @@ void func_8001D388(void *param_1)
 /* POLY_FT4 sprite-strip builder: walks a 12-byte record list at arg0+0x20, pulls
  * 0x28-byte prims off the D_800A5E60 bump allocator, builds tpage/clut/UVs with
  * X/Y flip, calls func_8001D8C4, and addPrim's each prim into the OT slot
- * &((PTag *)(D_800A6610 + (D_800B9A02 << 14)))[pri].
+ * &((PTag *)(D_800A6610 + (guess_g_DoubleBufferIndex << 14)))[pri].
  *
  * Five levers were needed (see cookbook notes in the wave report):
  *  1. libgpu addPrim bitfield `struct { u32 addr:24; u32 len:8; }` -> hoists 0x00FFFFFF into $s7.
@@ -8960,7 +8960,7 @@ void func_8001D388(void *param_1)
 
 
 extern u8 D_800A6610[];
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 *D_800A5E60;
 
 extern void func_8001D70C(s32 arg0);
@@ -8991,7 +8991,7 @@ void func_8001D3FC(s32 arg0)
     if (pri < 0x1000) {
         attr = ((Unkstruct_8001D3FC_2 *)arg0)->unk4;
         rec = *(u8 **)(arg0 + 0x20);
-        sc = (u32)(u16)D_800B9A02;
+        sc = (u32)(u16)guess_g_DoubleBufferIndex;
         mode = (attr >> 24) & 3;
         shift = 2 - mode;
         slot = &((PTag_8001D3FC *)(D_800A6610 + (sc << 14)))[pri];
@@ -9186,7 +9186,7 @@ void func_8001D8C4(s32 a0, u8 * a1_p, u8 * a2_p) {
     /* 0x0C */
 
 extern MtxDA34 D_800A63F0;
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 extern void func_8004978C(s16 *a0, void *a1);
@@ -9239,7 +9239,7 @@ void func_8001DA34(s32 param_1)
     nrm.vz = -0x1000;
     mode = (attr >> 24) & 3;
     sh = 2 - mode;
-    ot = (u32 *)(D_800A6610 + ((u32)D_800B9A02 << 14));
+    ot = (u32 *)(D_800A6610 + ((u32)guess_g_DoubleBufferIndex << 14));
 
     if (!(attr & 0x1040)) {
         src = CAST_SIGN(MtxDA34 *, param_1, 0x34);
@@ -9540,7 +9540,7 @@ s32 func_8001E668(s32 a0, s32 a1, GTEOutV *a2, s32 *a3)
 }
 
 
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern s32 func_80052460(s32 a0, s32 a1, s32 a2);
 
@@ -9569,7 +9569,7 @@ void func_8001E7E0(u8 *arg0)
         attr = ((Unkstruct_8001E7E0_2 *)arg0)->unk4;
         mode = (attr >> 24) & 3;
         shift = 2 - mode;
-        otp = &guess_g_OrderingTables[(u16)D_800B9A02 * 20];
+        otp = &guess_g_OrderingTables[(u16)guess_g_DoubleBufferIndex * 20];
         do {
             id = ((Unkstruct_8001E7E0_3 *)p)->unk0;
             sx = ((Unkstruct_8001E7E0_2 *)arg0)->unk28 + (((Unkstruct_8001E7E0_3 *)p)->unk4 >> shift);
@@ -9618,7 +9618,7 @@ void func_8001E7E0(u8 *arg0)
  * build a per-entity MATRIX from unk18/unk1A, then walk a 12-byte cell list (stride 0xC,
  * terminated by a 0xFF low byte; cells whose u16 type == 8 are skipped) emitting one
  * POLY_FT4 (0x28 bytes) per cell out of the D_800A5E60 bump allocator and linking it into
- * the OT at D_800A6610 + (D_800B9A02 << 14).
+ * the OT at D_800A6610 + (guess_g_DoubleBufferIndex << 14).
  *
  * ============================================================================
  * THE SIX LEVERS THAT CLOSED THIS (prior best was close=89; all byte-measured)
@@ -9717,7 +9717,7 @@ void func_8001E7E0(u8 *arg0)
  /* 0x0C */
 
 extern u8  guess_g_CameraWsMatrix;
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8  D_800A6610[];
 extern u8 *D_800A5E60;
 extern void func_8001F730(s32, void *, void *);
@@ -9776,7 +9776,7 @@ void func_8001EA14(Ent_EA14 *p)
     }
 
     z = otz + 1;
-    ob = (D_800B9A02 << 14) + D_800A6610;
+    ob = (guess_g_DoubleBufferIndex << 14) + D_800A6610;
     if ((p->unk2C & 0xC000) != 0) {
         if ((p->unk2C & 0xC000) == 0xC000) {
             z -= (p->unk2C & 0xFFF);
@@ -10474,7 +10474,7 @@ void func_8001FB8C(s32 *a0, s32 *a1)
  * LAW 1c VERIFIED BY HAND (match_one masks relocations, so MATCH alone proves
  * nothing about symbol identity).  Against this target's OWN relocation lines:
  *   - 26 `jal` targets, identical in name AND order;
- *   - 16 HI16/LO16 relocs, identical in name AND order (D_800B9A02, D_80062BA8,
+ *   - 16 HI16/LO16 relocs, identical in name AND order (guess_g_DoubleBufferIndex, D_80062BA8,
  *     guess_g_OrderingTables, D_800A5BD0, D_80074818 x2, D_80075018 x2);
  *   - all 16 internal `j` destinations decoded and equal (the §195-D blind spot,
  *     which match_one, the permuter scorer and every similarity tier cannot see);
@@ -10518,7 +10518,7 @@ void func_8001FB8C(s32 *a0, s32 *a1)
  *     local-alloc's pool, so reload picks their registers ($t0) instead of $v0.
  *
  *  2. *** THE PRE-PROLOGUE LOAD IS NOT A WALL — it is an $a0 ANTI-DEPENDENCE. ***
- *     The target opens with `lui/lhu $v1, D_800B9A02` BEFORE `addiu $sp,$sp,-0x100`.
+ *     The target opens with `lui/lhu $v1, guess_g_DoubleBufferIndex` BEFORE `addiu $sp,$sp,-0x100`.
  *     The previous attempt proved from the -dR sched2 dump that no statement order
  *     reaches it and filed it as the §41b "global load above the RTL prologue"
  *     wall (20 of its 33).  That reading was wrong.  sched2 weaves body insns into
@@ -10527,7 +10527,7 @@ void func_8001FB8C(s32 *a0, s32 *a1)
  *     — UNLESS it lands in $a0, because the param copy `addu $s0,$a0,$zero` READS
  *     $a0 and pins it below.  So the fix is two independent moves that must be
  *     made TOGETHER:
- *       (a) make `otp = &guess_g_OrderingTables[D_800B9A02 * 20];` the FIRST statement (LUID), and
+ *       (a) make `otp = &guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20];` the FIRST statement (LUID), and
  *       (b) get the value out of $a0 — which lever 1 does for free: once `ot` is a
  *           spilled pseudo it leaves local-alloc's pool, so the index temp takes
  *           $v1 instead and nothing anchors it.
@@ -10557,7 +10557,7 @@ void func_8001FB8C(s32 *a0, s32 *a1)
 
 extern u8  guess_g_OrderingTables[];
 extern u8  D_800A5BD0[];
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern s32 D_80062BA8;
 
 extern void func_80020DA4(s32 a0, s32 a1);
@@ -10602,7 +10602,7 @@ void func_8001FC08(OBJ_8001FC08 *obj)
     s32 ot;
     s32 spr;
 
-    otp = &guess_g_OrderingTables[D_800B9A02 * 20];
+    otp = &guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20];
     attrv = obj->attr;
     mode = obj->mode;
     flags = obj->flags;
@@ -11435,7 +11435,7 @@ s32 func_80021174(s32 a0, s32 a1)
  * Shape: rotate arg0+0x2E..0x32 (SVECTOR) by the current RT matrix into out[0], then 12 more
  * rotations of (base + rec[0x10+4i], base + rec[0x12+4i], base.vz) into out[1..12]; then 6
  * POLY_G4s (0x24 each, 0xD8 total off the D_800A5E60 bump allocator) fanned around out[0],
- * addPrim'd into &((PTag *)(D_800A6610 + (D_800B9A02 << 14)))[pri]; then the last prim's
+ * addPrim'd into &((PTag *)(D_800A6610 + (guess_g_DoubleBufferIndex << 14)))[pri]; then the last prim's
  * (x3,y3) is patched to out[1] to close the fan; then, when attr & 0x40000000, one extra
  * 8-byte DR_MODE (0xE1000000 | ((attr >> 23) & 0x60)) is bumped and addPrim'd.
  *
@@ -11464,7 +11464,7 @@ s32 func_80021174(s32 a0, s32 a1)
  *     destroys both this loop's givs, and `&out[i + 1]` fully reduces to one pointer (-2 ins).
  *
  *  4. OT address association: `((pri & 0xFFF) << 2) + (u32)D_800A6610` must be its OWN statement,
- *     with `(u32)D_800B9A02 << 14` in another, or fold reassociates A + (B + C) into (A + C) + B
+ *     with `(u32)guess_g_DoubleBufferIndex << 14` in another, or fold reassociates A + (B + C) into (A + C) + B
  *     (the address constant migrates to the shift) and both addu operand orders flip.
  *
  * addPrim is the libgpu `struct { u32 addr:24; u32 len:8; }` bitfield (cookbook: func_8001D3FC
@@ -11478,7 +11478,7 @@ s32 func_80021174(s32 a0, s32 a1)
 
 
 extern u8 D_800A6610[];
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 *D_800A5E60;
 extern void func_8001D70C(s32 arg0);
 
@@ -11506,7 +11506,7 @@ void func_80021284(s32 arg0)
     u8 code;
 
     p = (PolyG4_80021284 *)D_800A5E60;
-    sc = (u32)D_800B9A02 << 14;
+    sc = (u32)guess_g_DoubleBufferIndex << 14;
     rec = ((Ent_80021284 *)arg0)->rec;
     attr = ((Ent_80021284 *)arg0)->attr;
     D_800A5E60 = (u8 *)p + 0xD8;
@@ -11602,7 +11602,7 @@ void func_80021284(s32 arg0)
 
 
 extern u8 D_800A6610[];
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 
 /* func_8001E094 / func_8001E378 are DEFINED in src/800.c (file-scope decls at
  * 10238/10239, bodies at 10453/10588) with these exact prototypes -- do not
@@ -11689,7 +11689,7 @@ void func_800215F4(Obj_215F4 *obj)
     s32 *pz;
     u32 t, c;
 
-    ot = (u32 *)(D_800B9A02 * 0x4000 + (u32)D_800A6610);
+    ot = (u32 *)(guess_g_DoubleBufferIndex * 0x4000 + (u32)D_800A6610);
     vp = obj->unk20;
     if (obj->unk34 != 0) {
         func_8001E094((s32)obj);
@@ -11967,7 +11967,7 @@ void func_800215F4(Obj_215F4 *obj)
  * object `p`, writing DVECTORs into out[0..12] (out[0] = the projected origin,
  * out[1..12] = the cage), then hands the object + its point table + the screen
  * coords to func_800226C0 with the OT slot &ot[d] for the current frame buffer
- * (ot = D_800A6610 + (D_800B9A02 << 14), the §-standard double-buffered OT).
+ * (ot = D_800A6610 + (guess_g_DoubleBufferIndex << 14), the §-standard double-buffered OT).
  * p->flags & 0x40000 selects a pre-projected path (out[0] copied straight out
  * of p, otz taken from p->pos.vz) over the RTPS/RTPT GTE path, and the same bit
  * inside the loop selects 3× MVMVA(sf=1,rot,V0,TR)+stlvnl over one RTPT+stsxy3.
@@ -12010,7 +12010,7 @@ void func_800215F4(Obj_215F4 *obj)
  * gives the target's descending 0x7C/0x78/0x74 store order.
  *
  * Symbols verified against this .s's own relocation lines (SYS law 1c):
- * guess_g_RenderWork, D_800B9A02, D_800A6610 (hi/lo) and jal func_800226C0 — and all
+ * guess_g_RenderWork, guess_g_DoubleBufferIndex, D_800A6610 (hi/lo) and jal func_800226C0 — and all
  * four internal `j` destinations (0x118, 0x160, 0x160, 0x398) checked by hand
  * because masked_diff.mask_for zeroes them (§195-D).
  * Declarations copied from the card's authoritative `tu` rows; they are the
@@ -12025,7 +12025,7 @@ void func_800215F4(Obj_215F4 *obj)
 
 extern u8  guess_g_RenderWork[];
 extern u8  D_800A6610[];
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot);
 
 
@@ -12059,7 +12059,7 @@ void func_80021D38(Obj_80021D38 *p)
     u32           t;
 
     base  = guess_g_RenderWork;
-    ot    = (u8 *)((D_800B9A02 << 14) + (u32)D_800A6610);
+    ot    = (u8 *)((guess_g_DoubleBufferIndex << 14) + (u32)D_800A6610);
     flags = p->flags;
     pts   = p->pts;
 
@@ -12964,7 +12964,7 @@ void func_800234E4(void *a0, u16 a1, u16 a2) {
 
 
 extern u8 D_800A6610[];
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 *D_800A5E60;
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
@@ -12996,7 +12996,7 @@ void func_80023570(s32 arg0)
         u16 t16;
 
         rec0 = *(u8 **)(arg0 + 0x20);
-        sc = (u32)(u16)D_800B9A02;
+        sc = (u32)(u16)guess_g_DoubleBufferIndex;
         p = D_800A5E60;
         flags = ((Unkstruct_80023570 *)arg0)->unk4;
         addX = ((Unkstruct_80023570 *)arg0)->unk8;
@@ -13099,16 +13099,16 @@ void func_80023570(s32 arg0)
  *     from any statement order (5 permutations, all identical).  Pinning the
  *     four halfwords ($5/$3/$4/$2) forces all four live at once, which also
  *     pushes the arg0 copy off $a1 onto $a2 (17 -> 9), and pinning the OT base
- *     pair ($3 = &D_800A6610, $2 = D_800B9A02) fixes the v0/v1 swap (9 -> 3).
+ *     pair ($3 = &D_800A6610, $2 = guess_g_DoubleBufferIndex) fixes the v0/v1 swap (9 -> 3).
  *  4. The last 3 were the zero-byte sched1 fence of cookbook S194-A, placed
  *     AFTER the w0/h0 block so `subu $s5` emits ahead of `lui %hi(D_800A6610)`.
  *     Everything above it (lw src + 4 lhu + 2 subu) is exactly what the target
  *     emits first, which is the rule's precondition.
  *
- * Declarations copied verbatim from src/800.c (S376): D_800B9A02 u16,
+ * Declarations copied verbatim from src/800.c (S376): guess_g_DoubleBufferIndex u16,
  * D_800A5E60 u8*, D_800A6610 u8[], GetTPage/func_8005A600 as the TU spells them.
  */
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 *D_800A5E60;
 extern u8 D_800A6610[];
 extern s32 GetTPage(s32, s32, s32, s32);
@@ -13141,7 +13141,7 @@ void func_8002374C(s32 arg0)
     }
     {
         s32 obase = (s32)D_800A6610;
-        u32 oshf = D_800B9A02;
+        u32 oshf = guess_g_DoubleBufferIndex;
         ot = (u32 *)((oshf << 14) + obase);
     }
     idx = ((Unkstruct_8002374C *)arg0)->unk2C;
@@ -13328,7 +13328,7 @@ void func_8002374C(s32 arg0)
  *              satisfies both because the pass order, not the source order, is
  *              what differs.  §364's -O2 veto (MEM_IN_STRUCT_P letting the alias
  *              oracle CSE a global load across the tag store) does NOT bite here:
- *              the only global read near the links is D_800B9A02, loaded once in
+ *              the only global read near the links is guess_g_DoubleBufferIndex, loaded once in
  *              the prologue, so there is nothing to CSE away.
  *
  * The whole 90 -> 18 chain from the S79w draft was NOT wasted and is still load
@@ -13366,11 +13366,11 @@ void func_8002374C(s32 arg0)
  *   callee-saved register and costs +3 instructions (284).
  *
  * Symbols audited against this target's own relocation lines (law 1c): the .s
- * carries %hi/%lo of guess_g_RenderWork, D_800A6610, D_800B9A02, D_800A5E60 and no jal.
+ * carries %hi/%lo of guess_g_RenderWork, D_800A6610, guess_g_DoubleBufferIndex, D_800A5E60 and no jal.
  */
 extern u8 guess_g_RenderWork[];
 extern u8 D_800A6610[];
-extern u16 D_800B9A02;
+extern u16 guess_g_DoubleBufferIndex;
 extern u8 *D_800A5E60;
 
 
@@ -13399,7 +13399,7 @@ void func_80023BF0(s32 arg0)
 
     mat = guess_g_RenderWork;
     prims = *(u16 **)(arg0 + 0x20);
-    b9 = D_800B9A02;
+    b9 = guess_g_DoubleBufferIndex;
     flags = ((Unkstruct_80023BF0 *)arg0)->unk4;
     otab = (PTag_80023BF0 *)(b9 * 0x4000 + D_800A6610);
 
@@ -14935,7 +14935,7 @@ PktGT4 *func_800262D8(FaceGT4 *face, SVEC8_800262D8 *vtx, SVEC8_800262D8 *nrm, P
  * D_8006388C / D_8006389C table walk, same D_800A2B78 semi-transparency patch.
  *
  * Was a verbatim asm block on the belief that the `lui $at,1 / addu $at,$t2,$at /
- * lbu $v1,-23638($at)` D_800B99DA fetch was hand-written; gcc-2.7.2 emits that
+ * lbu $v1,-23638($at)` guess_g_FrameCounter fetch was hand-written; gcc-2.7.2 emits that
  * large-offset form itself for `base = guess_g_RenderWork; base[41898]`. P40 T8.c4: C below
  * (T8.c2 MATCH 239). Keys: ou/ov u16 with (u8) casts; uv locals s32; stores in field
  * order; `u32 rgb[2]`. Returns u8 *; the TU's forward decl is this prototype verbatim

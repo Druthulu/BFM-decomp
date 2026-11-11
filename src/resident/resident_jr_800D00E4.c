@@ -173,8 +173,8 @@ void func_800D00E4(s32 arg0) {
 
 s32 func_800D0214(s32 arg0) {
     extern s16 currentLocationId;
-    extern s32 D_800C7C60;
-    extern s32 *D_800C7C64;
+    extern s32 guess_g_CdReadList;
+    extern s32 *guess_g_CdReadListDest;
     extern s32 D_800A2E20;
     extern s32 D_800D34AC[];
     extern s16 D_800D34AE[];
@@ -185,11 +185,11 @@ s32 func_800D0214(s32 arg0) {
     s32 idx = currentLocationId & mask;
     s32 raw = D_800D34AC[idx];
     s32 val = D_800D34AE[idx * 2];
-    s32 *p = &D_800C7C60;
+    s32 *p = &guess_g_CdReadList;
     s32 *q = &D_800A2E20;
     s32 id;
 
-    do { D_800C7C64 = q; } while (0);  // !FAKE: do-while
+    do { guess_g_CdReadListDest = q; } while (0);  // !FAKE: do-while
     *p = val;
 
     id = raw & 0xFFF;
@@ -222,13 +222,13 @@ void func_800D02C0(s32 arg0) {
  *   of ONE 8-byte record but are reached through two independent HI16/LO16 pairs, so each
  *   is declared as its own CdFileLoc[] — that is what reproduces the relocations.
  *
- *   lw v1,D_800D3768[n] ; la v0,D_800A2E20 ; sw v0,D_800C7C64
- *   la v0,D_800C7C60 ; bltz a0,.L045C ; sw v1,0(v0)      => D_800C7C60 = D_800D3768[n].word0
+ *   lw v1,D_800D3768[n] ; la v0,D_800A2E20 ; sw v0,guess_g_CdReadListDest
+ *   la v0,guess_g_CdReadList ; bltz a0,.L045C ; sw v1,0(v0)      => guess_g_CdReadList = D_800D3768[n].word0
  *   lw a2,D_800D3764[n] ; sw v0,0x10(sp) ; la v0,cdFileLocTable ; a0=0 ; a1=0
  *   lw a3,D_80072C78 ; sll a2,a2,3 ; jal func_8001ABBC ; addu a2,a2,v0
  *   .L045C: s0 = 1 ; .L0460: if (s0 != 0) func_8001B384(); return s0;
  *
- * `&D_800C7C60` is materialised into $v0 once and used BOTH as the store base and as the
+ * `&guess_g_CdReadList` is materialised into $v0 once and used BOTH as the store base and as the
  * 5th (stacked) argument, so it is pinned to $2; a plain `s32 *` local lets gcc
  * re-materialise the `la` at the call site.
  *
@@ -276,8 +276,8 @@ s32 func_800D02D0(s32 arg0) {
     extern CdFileLoc cdFileLocTable[];
     extern CdFileLoc D_800D3768[];
     extern CdFileLoc D_800D3764[];
-    extern s32 D_800C7C60;
-    extern s32 *D_800C7C64;
+    extern s32 guess_g_CdReadList;
+    extern s32 *guess_g_CdReadListDest;
     extern s32 D_80072C78;
     extern s32 D_800A2E20;
     extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
@@ -321,8 +321,8 @@ s32 func_800D02D0(s32 arg0) {
     }
 
     p = &D_800A2E20;
-    D_800C7C64 = p;
-    p = &D_800C7C60;
+    guess_g_CdReadListDest = p;
+    p = &guess_g_CdReadList;
     *p = D_800D3768[arg0].word0;
     if (arg0 >= 0) {
         ret = func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[D_800D3764[arg0].word0], D_80072C78, (s32)p);
@@ -339,8 +339,8 @@ s32 func_800D02D0(s32 arg0) {
 /* draft's standalone `CdFileLoc` typedef STRIPPED in-TU (§321): resident.c already
  * provides it at file scope; a second definition is `conflicting types'. Byte-neutral. */
 s32 func_800D0488(s32 arg0) {
-    extern s32 D_800C7C60;
-    extern s32 *D_800C7C64;
+    extern s32 guess_g_CdReadList;
+    extern s32 *guess_g_CdReadListDest;
     extern s32 D_800A2E20;
     extern s32 D_800D3850[];
     extern s32 D_800D384C[];
@@ -366,8 +366,8 @@ s32 func_800D0488(s32 arg0) {
     }
 
     do { val = D_800D3850[n * 2]; } while (0);
-    D_800C7C64 = &D_800A2E20;
-    p = &D_800C7C60;
+    guess_g_CdReadListDest = &D_800A2E20;
+    p = &guess_g_CdReadList;
     *p = val;
 
     if (n >= 0) {

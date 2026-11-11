@@ -740,7 +740,7 @@ void func_800CFAD0(void)
     extern s16 D_80114E90;
     extern s16 D_80114E92;
     extern u8  D_800AA60C[];
-    extern u16 D_800B9A02;
+    extern u16 guess_g_DoubleBufferIndex;
 
     u32 *ot;
 
@@ -756,7 +756,7 @@ void func_800CFAD0(void)
     D_80114E8C = 0;
     D_80114E8D = 0;
 
-    ot = (u32 *)&D_800AA60C[D_800B9A02 << 14];
+    ot = (u32 *)&D_800AA60C[guess_g_DoubleBufferIndex << 14];
 
     ((P_TAG_800CFAD0 *)&D_80114E7C)->addr = *(u32 *)ot;
     *(u32 *)ot = (*(u32 *)ot & 0xFF000000u) | ((u32)&D_80114E7C & 0x00FFFFFFu);
@@ -940,8 +940,8 @@ s32 func_800CFE60(void) {
     extern u8 guess_g_RenderWork[];
     extern CdFileLoc cdFileLocTable[];
     extern void *D_80072C74;
-    extern s32 D_800C7C60;
-    extern s32 *D_800C7C64;
+    extern s32 guess_g_CdReadList;
+    extern s32 *guess_g_CdReadListDest;
     extern s32 D_800A2E20;
 
     extern s32 func_8002F648(void);
@@ -998,11 +998,11 @@ s32 func_800CFE60(void) {
     }
 
     if (func_8002F658() != val || mode >= 0) {
-        s32 *q = &D_800C7C60;
+        s32 *q = &guess_g_CdReadList;
         __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
         p = q;
         *p = val;
-        D_800C7C64 = &D_800A2E20;
+        guess_g_CdReadListDest = &D_800A2E20;
     } else {
         p = 0;
     }

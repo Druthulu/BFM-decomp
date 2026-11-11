@@ -844,7 +844,7 @@ void func_8013DBE4(int param_1)
 }
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (187 ins). Levers: struct-assign DRAWENV copy (align via type); pbase local for $s2-relative D_800B9A02; two-biv SPRT loop (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim; single p var coalesces puVar7->puVar15; pins uVar2=$v1,iVar14=$a3,c5=$t3; biv-increment order sets q-init-before-puVar10-init; Buf_c2 0x68 -> frame 0xA0.
+// @unstuck(P36): none — MATCH (187 ins). Levers: struct-assign DRAWENV copy (align via type); pbase local for $s2-relative guess_g_DoubleBufferIndex; two-biv SPRT loop (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim; single p var coalesces puVar7->puVar15; pins uVar2=$v1,iVar14=$a3,c5=$t3; biv-increment order sets q-init-before-puVar10-init; Buf_c2 0x68 -> frame 0xA0.
 
               /* 0x5C copy unit, align 4 */
   /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
@@ -1217,7 +1217,7 @@ extern unsigned char *func_80141CA4(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8013E958(void);
 
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
 extern u16 D_8011511A;
@@ -1234,7 +1234,7 @@ void func_8013EB7C(void) {
     s32 iVar4;
 
     if ((s16)func_80141C50() == 0) {
-        D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+        D_801151D0 = *(s32 *)&D_801151C8[(u16)guess_g_DoubleBufferIndex * 4];
         sVar1 = ((short (*)(void))func_8013F350)();
         if (D_8011511A >= 4) {
             func_8013FAF8((s16)D_8011511A, (s16)(D_8011511A + 1));
@@ -1300,7 +1300,7 @@ s32 func_8013EE10() {
     u16 *c;
     s32 sp10[2];
 
-    D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+    D_801151D0 = *(s32 *)&D_801151C8[(u16)guess_g_DoubleBufferIndex * 4];
     func_8013FAF8(0, 5);
     for (i = 0; i < 5; i++) {
         s32 t = D_80115168[i].f0 * 3 >> 2;
@@ -1351,7 +1351,7 @@ s32 func_8013EF88() {
         v = v - 1;
         D_80115118.field0 = v;
         if (v != 0) {
-            (*(int*)&D_801151D0) = D_80115118.arrB0[(*(unsigned short*)&D_800B9A02)];
+            (*(int*)&D_801151D0) = D_80115118.arrB0[(*(unsigned short*)&guess_g_DoubleBufferIndex)];
             ((void(*)(int, int))func_8013FAF8)(0, 5);
             for (i = 0; i < 5; i++) {
                 int a = *(int *)((char *)&(((E4 *)&D_80115188)->f0) + (i << 2));
@@ -1381,7 +1381,7 @@ s32 func_8013EF88() {
         }
     }
     if (D_80115118.field0 == 0) {
-        if (D_80115114 == ((*(unsigned short*)&D_800B9A02) ^ 1)) {
+        if (D_80115114 == ((*(unsigned short*)&guess_g_DoubleBufferIndex) ^ 1)) {
             func_800D2624();
         } else {
             D_80115112 = D_80115112 + 1;
@@ -1760,7 +1760,7 @@ extern u16    D_8011511A;
 extern short D_80115128;
 extern Hw4    D_8011516A[];
 extern u8     D_80078EC0;
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern Rec20  guess_g_FrontOrderingTables[];
 extern Blk60  D_8018751C[];
 extern Blk20  D_8018781C[];
@@ -1851,19 +1851,19 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         func_8005A600((s32)ot, 0, 0, 0x15, 0);
         flag3 = flag;
         *ot = 0x2000000;
-        *ot = (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFFFFFF) | 0x2000000;
-        guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] =
-            (guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+        *ot = (guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] & 0xFFFFFF) | 0x2000000;
+        guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] =
+            (guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
         ot = func_800D29F8(flag3,
                            func_800D27DC(flag3 != 0, ot + 10, &D_8018751C[i], 8, D_8011516A[i].x),
                            &D_8018781C[i], 2, D_8011516A[i].x);
     }
     pp = &D_80187E94;
     if (*pp == 0xE) {
-        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2);
+        ot = func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex], 2);
     }
     if (*pp != 0 && D_80187E96 != 0) {
-        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4 + 2, (s32)(pp - 2), 0x8000);
+        ot = func_8013AB54(ot, guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4 + 2, (s32)(pp - 2), 0x8000);
     }
     D_801151D0 = (s32)ot;
 }
@@ -1890,7 +1890,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     extern u8 D_80187B64;
     extern u8 D_80187B68;
     extern u8 *D_80187B74;
-    extern s32 D_8010F3C4[];
+    extern s32 guess_g_VillagerNames[];
     extern s32 D_8010EDE8[];
     extern u8  D_80115143;
     extern void * D_801D95CC;
@@ -1975,7 +1975,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 if ((((s32 (*)(u8, s32))func_800291B4)(D_80187BE3[s0], arg1) & 0xFF) == 0) {
                     *arg2 = 0x804040;
                 }
-                ret = D_8010F3C4[s0];
+                ret = guess_g_VillagerNames[s0];
             } else {
                 ret = (*(s32 *)&D_80187B64);
             }
@@ -1997,7 +1997,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 *arg2 = 0x804040;
             }
             idx = s0 + 1;
-            ret = D_8010F3C4[idx];
+            ret = guess_g_VillagerNames[idx];
         }
         break;
     }
@@ -2033,7 +2033,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     extern void * D_80187C90[];
     extern u8 D_80187BE3[];
     extern u8 * D_801D95CC;
-    extern u8 D_801117EC[];
+    extern u8 guess_g_EmptyText[];
     extern u8 D_801117B4[];
     extern u8 D_80112BC8[];
     extern u8 D_80112B58[];
@@ -2045,7 +2045,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     unsigned int uVar3;
     void *result;
 
-    result = D_801117EC;
+    result = guess_g_EmptyText;
     switch (((short)param_1)) {
     case 0:
         if (((s32(*)(s32))guess_TestGameFlag)(D_80187BB8[((short)param_2)]) & 0xFF) {
@@ -2216,7 +2216,7 @@ void func_801407F4(void)
 
 
 extern s16 func_8014168C(s16);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u16 D_80115110;
 extern u8 D_80115140[];
 extern s16 D_8011514E;
@@ -2328,7 +2328,7 @@ u32 mhi;
           j = 0;
           k = m;
           t3v = m * 4;                  /* [L3] explicit, must sit before the 3 constants */
-          pb = (u16 *) (&D_800B9A02);
+          pb = (u16 *) (&guess_g_DoubleBufferIndex);
           m24 = 0xFFFFFF;
           mhi = 0xFF000000;
           for (; j < 2; j++)
@@ -2468,7 +2468,7 @@ u32 w;
    (redefining it would conflict). Kept draft-local per cookbook §100, not lifted. */
 
 extern Hw4 D_8011516A[];
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 
 
 #include "../shared/ov/func_80140D68.h"
@@ -2615,7 +2615,7 @@ int func_80141100(int param_1)
  * sibling failed `parse error before '*'`, a 0/137 sweep that reads as a codegen wall. They are
  * removed here because gcc-2.7.2 rejects a REPEATED typedef even when identical (the lesson
  * already recorded at the foot of engine_types.h); leaving both copies broke this very TU. */
-#define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&D_800B9A02].ot)
+#define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot)
 #define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->addr)
 #define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->addr = (u32)(v))
 #define addPrim_1412A8(ot, p) (setaddr_1412A8(p, getaddr_1412A8(ot)), setaddr_1412A8(ot, p))
@@ -2760,7 +2760,7 @@ s32 func_80141A60()
     s32 frame_pad[2];
     (void)&frame_pad;
 
-    D_801151D0 = ((int *)D_801151C8)[(*(unsigned short *)&D_800B9A02)];
+    D_801151D0 = ((int *)D_801151C8)[(*(unsigned short *)&guess_g_DoubleBufferIndex)];
     func_8013F350();
     if ((*(unsigned short *)&D_8011511A) >= 4) {
         func_8013FAF8((short)(*(unsigned short *)&D_8011511A), (short)((*(unsigned short *)&D_8011511A) + 1));

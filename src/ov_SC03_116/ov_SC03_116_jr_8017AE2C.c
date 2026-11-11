@@ -600,7 +600,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -895,7 +895,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1078,7 +1078,7 @@ extern s32 D_80184C20[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1111,7 +1111,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2443,9 +2443,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2936,9 +2936,9 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 extern u8 D_8012694C;
 extern s16 D_80197ABC;
@@ -2956,9 +2956,9 @@ void func_8017B7A8(void)
     D_80197B34 = (s16) D_80114F30;
     D_80197B36 = (s16) D_80114F34;
     D_80197B38 = (s16) D_80114F38;
-    D_80197B2C = (s16) D_80114F24;
-    D_80197B2E = (s16) D_80114F28;
-    D_80197B30 = (s16) D_80114F2C;
+    D_80197B2C = (s16) guess_g_StoredViewPointX;
+    D_80197B2E = (s16) guess_g_StoredViewPointY;
+    D_80197B30 = (s16) guess_g_StoredViewPointZ;
 }
 
 
@@ -2996,18 +2996,18 @@ extern s16 D_80197B58;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 void func_8017B880(void)
 {
     D_80114F30 = D_80197B4C;
     D_80114F34 = D_80197B4E;
     D_80114F38 = D_80197B50;
-    D_80114F24 = D_80197B54;
-    D_80114F28 = D_80197B56;
-    D_80114F2C = D_80197B58;
+    guess_g_StoredViewPointX = D_80197B54;
+    guess_g_StoredViewPointY = D_80197B56;
+    guess_g_StoredViewPointZ = D_80197B58;
 }
 
 
@@ -3041,9 +3041,9 @@ extern u16 D_80197B40;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 extern u8  D_8012694C;
 extern s16 D_80197ABC;
@@ -3072,9 +3072,9 @@ void func_8017B940(void)
     D_80197ABC = 0;
     D_80197B36 = D_80114F34 + buf[1];
     D_80197B38 = D_80114F38 + buf[2];
-    D_80197B2C = D_80114F24 + buf[0];
-    D_80197B2E = D_80114F28 + buf[1];
-    D_80197B30 = D_80114F2C + buf[2];
+    D_80197B2C = guess_g_StoredViewPointX + buf[0];
+    D_80197B2E = guess_g_StoredViewPointY + buf[1];
+    D_80197B30 = guess_g_StoredViewPointZ + buf[2];
 }
 
 
@@ -3245,9 +3245,9 @@ extern short D_80197B46[0];
 extern short D_80197B48[0];
 extern s16 D_80197CD8;
 
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
@@ -3263,9 +3263,9 @@ void func_8017BD50(int param_1)
             D_80114F30 = D_80114F30 + D_80197B44[0];
             D_80114F34 = D_80114F34 + D_80197B46[0];
             D_80114F38 = D_80114F38 + D_80197B48[0];
-            D_80114F24 = D_80114F24 + D_80197B44[0];
-            D_80114F28 = D_80114F28 + D_80197B46[0];
-            D_80114F2C = D_80114F2C + D_80197B48[0];
+            guess_g_StoredViewPointX = guess_g_StoredViewPointX + D_80197B44[0];
+            guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_80197B46[0];
+            guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_80197B48[0];
             func_8012A4BC();
         }
         D_80197CD8 = 0;
@@ -4352,7 +4352,7 @@ void func_801810C8(s32 a0) {
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012AD50(void *a0);
 extern void func_801812AC(s32 a0, void *a1, void *a2, s32 a3, s32 a4);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern u16 D_8018631C[];
 
 void func_8018117C(s32 a0)
@@ -4364,7 +4364,7 @@ void func_8018117C(s32 a0)
         ((Unkstruct_800B5CB8 *)a0)->unk100 = 0xF0;
         func_8012AD50((void *)a0);
     }
-    color = (D_800B99DA & 1) ? 0x4020FF : 0x4020F0;
+    color = (guess_g_FrameCounter & 1) ? 0x4020FF : 0x4020F0;
     buf[0] = 0;
     buf[1] = 0x20;
     func_801812AC(a0, buf, D_8018631C, 0, color);
@@ -4659,7 +4659,7 @@ extern void func_80181864();  // K&R: 0/2 of 0 args (P37 rung D t4_D2)
  * spans a call, and neither $4 nor $5 is written after entry.
  */
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 void func_80181864(void)
 {
@@ -4668,7 +4668,7 @@ void func_80181864(void)
     s32 v1;
 
     v1 = CAST_SIGN(s16, (s32)a0, 0xFC);
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         v1 -= 4;
     }
     if (v1 < 0) {

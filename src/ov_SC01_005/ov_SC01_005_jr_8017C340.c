@@ -603,7 +603,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -899,7 +899,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1083,7 +1083,7 @@ extern s32 D_80184720[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1116,7 +1116,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2456,9 +2456,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2616,9 +2616,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801CD844;
 extern s16 D_801CD846;
@@ -2713,7 +2713,7 @@ void func_8017C340(s32 arg0)
     extern void func_80052E38(MATRIX2 *);
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0); unsigned access forced at use — §8d sub-class (b) */
+    extern short guess_g_DoubleBufferIndex;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0); unsigned access forced at use — §8d sub-class (b) */
 
     DVECTOR2 tmpxy[4];
     SVECTOR2 box[8];
@@ -2747,7 +2747,7 @@ void func_8017C340(s32 arg0)
     part = *(Part **)(arg0 + 0xC);
     nparts = ((Unkstruct_8017C340_2 *)*(s32 *)(arg0 + 8))->unk8;
     vtx = *(u8 **)(((Unkstruct_8017C340 *)arg0)->unk8 + 0x10);
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;
@@ -3300,24 +3300,24 @@ void func_8017D7A4(void *a0) {
 
 
 s32 func_8017D9A0(void) {
-    extern s32 D_800C7C60;
-    extern s32 *D_800C7C64;
+    extern s32 guess_g_CdReadList;
+    extern s32 *guess_g_CdReadListDest;
     extern s32 D_800A2E20;
     extern s32 D_800AE9F0;
     extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
     s32 *p;
 
-    p = &D_800C7C60;
+    p = &guess_g_CdReadList;
     *p = 0x3E;
-    D_800C7C64 = &D_800A2E20;
+    guess_g_CdReadListDest = &D_800A2E20;
     return func_8001ABBC(0, 0, &D_800AE9F0, 0, p);
 }
 
 
 s32 func_8017D9F4(s32 arg0) {
     extern struct { s32 word0; s32 word4; } cdFileLocTable[];
-    extern s32 D_800C7C60;
-    extern s32 *D_800C7C64;
+    extern s32 guess_g_CdReadList;
+    extern s32 *guess_g_CdReadListDest;
     extern s32 D_800A2E20;
     extern s32 D_801CAE4C;
     extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
@@ -3330,8 +3330,8 @@ s32 func_8017D9F4(s32 arg0) {
 
     t = *(u16 *)((s8 *)D_80185EFC + arg0 * 4);
     w = *(s16 *)((s8 *)D_80185EFE + arg0 * 4);
-    D_800C7C64 = &D_800A2E20;
-    p = &D_800C7C60;
+    guess_g_CdReadListDest = &D_800A2E20;
+    p = &guess_g_CdReadList;
     *p = w;
     x = (s16)t;
     if (x <= 0) {
@@ -3358,7 +3358,7 @@ s16 func_8017DA9C(void) {
 
 void func_8017DB00(void *a0) {
     extern u8 D_800B9A15;
-    extern unsigned char D_800B9A13;
+    extern unsigned char guess_g_ActiveMenu;
     extern u16 D_80115110;
     extern u16 D_80115112;
     extern s16 D_80115126;
@@ -3369,7 +3369,7 @@ void func_8017DB00(void *a0) {
 
     D_800B9A15 = 1;
     D_80115112 = 7;
-    D_800B9A13 = 1;
+    guess_g_ActiveMenu = 1;
     func_ptr = func_8013E5E8;
     D_80115110 = 0;
     D_80115126 = (s16)a0;
@@ -3685,7 +3685,7 @@ void func_8017E108(void)
 {
     extern s32 D_801151D0;
     extern s32 D_801151C8[];
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
     extern u16 D_8011511A;
     extern s16 D_80115126;
     extern u8  D_80115138[];
@@ -3713,7 +3713,7 @@ void func_8017E108(void)
     u16 *p12;
     s32 frame_pad[2];
 
-    D_801151D0 = D_801151C8[*(u16 *)&D_800B9A02];
+    D_801151D0 = D_801151C8[*(u16 *)&guess_g_DoubleBufferIndex];
     r = func_8017E3DC();
     func_8017E6BC();
     c = func_8014168C(*(s16 *)&D_8011511A);
@@ -3747,7 +3747,7 @@ void func_8017E108(void)
 
 
 void func_8017E258(void) {
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern u32 D_801CD9A8;
     extern u32 D_801CD9AC;
     extern s32 D_801151C8[];
@@ -3769,7 +3769,7 @@ void func_8017E258(void) {
     s32 flags;
     s32 pad[2];
 
-    D_801151D0 = D_801151C8[*(u16 *)&D_800B9A02];
+    D_801151D0 = D_801151C8[*(u16 *)&guess_g_DoubleBufferIndex];
 
     if (D_801CD9A8 != 0) {
         if (func_801399F0(D_801CD9AC) != 0) {
@@ -3799,14 +3799,14 @@ void func_8017E258(void) {
 }
 
 
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u16 D_80115114;
 extern u16 D_80115112;
 
 extern void func_800D2624(void);
 
 void func_8017E384(void) {
-    u16 v0 = (*(u16 *)&D_800B9A02);
+    u16 v0 = (*(u16 *)&guess_g_DoubleBufferIndex);
     u16 v1 = D_80115114;
 
     v0 ^= 0x1;
@@ -3968,9 +3968,9 @@ s32 func_8017E3DC(void) {
  *
  * Expression forms come from the byte-matched structural twin
  *   src/ov_SC03_099/ov_SC03_099_jr_8013F350.c  func_8013FAF8
- * (same author): `func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2)`, the
+ * (same author): `func_80137D08(ot, &guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex], 2)`, the
  * `f4 + 2` OT-link argument, and the whole `*ot = 0x2000000` / 24-bit OT-splice
- * tail.  The in-TU sibling func_8017E804 supplied the `pb = (u16 *)&D_800B9A02`
+ * tail.  The in-TU sibling func_8017E804 supplied the `pb = (u16 *)&guess_g_DoubleBufferIndex`
  * pointer-local form for the tail (T6).
  *
  * ---------------------------------------------------------------------------
@@ -4028,7 +4028,7 @@ s32 func_8017E3DC(void) {
  *     struct pointer, and func_8017F730 is an INCLUDE_ASM with no prototype.
  *     Both are reached through the S35 SELF-axis form — a private C name bound
  *     with `__asm__("func_....")` — so nothing at file scope is touched.
- *   - D_800B9A02 (`extern short`, TU:2470/2472), D_8011511A / D_801CD9A8
+ *   - guess_g_DoubleBufferIndex (`extern short`, TU:2470/2472), D_8011511A / D_801CD9A8
  *     (`extern u16`/`extern u32`, TU:3398/3399) and func_800D27DC (TU:3599)
  *     are re-declared here at BLOCK scope in their exact TU shapes.
  *   - Every other symbol has no other declaration in this TU; the
@@ -4079,7 +4079,7 @@ void func_8017E6BC(void) {
 
     if (D_80115126 != 4) {
         ot = (s32 *)func_80137D08((s32)ot,
-                                  &guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02], 2);
+                                  &guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex], 2);
         if ((D_80115126 == 0) || (D_80115126 == 3)) {
             label = &D_801BB2F0;
         } else {
@@ -4094,7 +4094,7 @@ void func_8017E6BC(void) {
             }
         }
         ot = (s32 *)func_8013AB54(func_800D27DC(2, ot, label, 1, 0),
-                                  (s32)(guess_g_FrontOrderingTables[*(u16 *)&D_800B9A02].f4 + 2),
+                                  (s32)(guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4 + 2),
                                   (s32)&D_801BBA34, 0);
     }
 
@@ -4125,7 +4125,7 @@ void func_8017E6BC(void) {
 
     func_8005A600((s32)ot, 0, 0, 0x15, 0);
 
-    pb = (u16 *)&D_800B9A02;
+    pb = (u16 *)&guess_g_DoubleBufferIndex;
     ot[0] = 0x2000000;
     ot[0] = (guess_g_FrontOrderingTables[*pb].f4[2] & 0xFFFFFF) | 0x2000000;
     guess_g_FrontOrderingTables[*pb].f4[2] =

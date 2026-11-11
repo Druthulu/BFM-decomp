@@ -151,7 +151,7 @@ void func_800CB168(void *arg0) {
     extern u16 D_80126BC8;
     extern u16 D_80126BCA;
     extern u16 D_80126BCC;
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
 
     u32 *obj = (u32 *)arg0;
     s16 *pb;
@@ -211,7 +211,7 @@ L288:
             D_80126BC8 = *pb = *pb - 0xE0;
             D_80126BCA = D_80126BCA + 0x38;
         }
-        if ((D_800B99DA & 0xF) == 0) {
+        if ((guess_g_FrameCounter & 0xF) == 0) {
             func_8002D4C8(0x5FB, 0);
         }
     } else {

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8017DB50(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern u16 D_80115112;
 extern s16 D_80115126;
@@ -12,7 +12,7 @@ s32 func_8017DAAC(s32 a0, s32 a1)
 {
     void *func_ptr;
     D_800B9A15 = 1;
-    D_800B9A13 = 4;
+    guess_g_ActiveMenu = 4;
     D_80115110 = 3;
     func_ptr = func_8017DB50;
     D_80115112 = 0;

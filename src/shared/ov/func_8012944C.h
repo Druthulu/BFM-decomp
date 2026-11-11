@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 D_8005128C;
 extern s16 D_80114EE0;
-extern u8 D_800B9A78;
+extern u8 guess_g_BackgroundLayers;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8(int arg0, int arg1, u8 * arg2);
 void func_8012944C(void) {
@@ -17,7 +17,7 @@ void func_8012944C(void) {
         *g = 0;
     }
     D_80114EE0 = 1;
-    base = (s32)&D_800B9A78;
+    base = (s32)&guess_g_BackgroundLayers;
     i = 0;
     sh = 0x30000;
     p = (short *)(base + 0x1E);

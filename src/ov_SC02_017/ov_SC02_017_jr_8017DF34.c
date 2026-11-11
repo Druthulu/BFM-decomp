@@ -895,7 +895,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1079,7 +1079,7 @@ extern s32 D_8018C844[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1112,7 +1112,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2452,9 +2452,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2606,9 +2606,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801EF744;
 extern s16 D_801EF746;
@@ -2719,7 +2719,7 @@ void func_8017DF34(s32 arg0)
     extern void func_80052E38(MATRIX2 *);
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0); unsigned access forced at use — §8d sub-class (b) */
+    extern short guess_g_DoubleBufferIndex;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0); unsigned access forced at use — §8d sub-class (b) */
 
     DVECTOR2 tmpxy[4];
     SVECTOR2 box[8];
@@ -2753,7 +2753,7 @@ void func_8017DF34(s32 arg0)
     part = *(Part **)(arg0 + 0xC);
     nparts = ((Unkstruct_8017DF34_2 *)*(s32 *)(arg0 + 8))->unk8;
     vtx = *(u8 **)(((Unkstruct_8017DF34 *)arg0)->unk8 + 0x10);
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;
@@ -3328,7 +3328,7 @@ s32 func_8017F474(void *a0)
 
 
 // func_8017F4AC — MATCH (60 ins), match_one + rtu_match. Two levers:
-//  1) §20 pointer-var-to-the-global: `u16 *p = &D_800B99DA;` and read `*p`
+//  1) §20 pointer-var-to-the-global: `u16 *p = &guess_g_FrameCounter;` and read `*p`
 //     twice. The bare global would fold %lo into each access independently
 //     (two lui/lhu pairs, no $s1); the pointer var force_regs the address so
 //     CSE hoists it into the callee-saved $s1 across both calls.
@@ -5463,7 +5463,7 @@ extern s32 func_8018287C();  // K&R: 0/1 of 1 args (P37 rung D t4_D1)
 
 
 extern Blk8_801827C4 D_801EE3F4;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern void func_80182938(void *arg0);
 extern void func_801829F4(u8*, u8*);
 
@@ -5473,7 +5473,7 @@ void func_801827C4(void *arg0) {
     buffer = D_801EE3F4;
     func_80182938(arg0);
 
-    if ((D_800B99DA & 3) == 0) {
+    if ((guess_g_FrameCounter & 3) == 0) {
         ((void (*)(void *, void *))func_801829F4)(arg0, &buffer);
     }
 }
@@ -6585,7 +6585,7 @@ void func_80184208(void) {
 
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_8018EF88;
 extern u16 guess_g_PlayerPosY;
 extern s32 D_8018EF84;
@@ -6599,7 +6599,7 @@ void func_801842E0(void) {
     s32 t;
     s32 y;
 
-    t = D_800B99DA;
+    t = guess_g_FrameCounter;
     if (t != D_8018EF88) {
         y = (s16)guess_g_PlayerPosY;
         D_8018EF88 = t;

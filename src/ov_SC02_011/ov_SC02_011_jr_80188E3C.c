@@ -1379,12 +1379,12 @@ void func_8018AA44(void) {
  *       three-temp form (DEFINE_func_8012B4B8, engine_core.h L29487) emits the
  *       same instruction MIX but a different allocation (+60 mismatches).
  *
- *  §21/T6  The double-buffer index D_800B9A02 is read at ALL THREE use sites
+ *  §21/T6  The double-buffer index guess_g_DoubleBufferIndex is read at ALL THREE use sites
  *       (three `lhu`s off ONE materialised `la`).  A PLAIN read is CSEd down to
  *       two AND keeps -G0 symbol addressing (lui+lhu per read, +1 insn); a
  *       POINTER local gives the `la` but lets cse fold the third read.  The
  *       `volatile u16 *` pointer local reproduces BOTH properties and leaves
- *       the TU's own `extern s16 D_800B9A02;` untouched.
+ *       the TU's own `extern s16 guess_g_DoubleBufferIndex;` untouched.
  *
  *  T6   The OT base is bound to an s32 local (`ot`) so the tag read/write keep
  *       the `0x40($v1)` displacement form instead of folding into the pointer.
@@ -1454,7 +1454,7 @@ void func_8018AA44(void) {
  *      see 1.).
  *
  * ---------------------------------------------------------------------------
- * DECLARATIONS: ApplyMatrixSV, D_800B9A02 and D_801EB6DC/E6/EA/EC are declared
+ * DECLARATIONS: ApplyMatrixSV, guess_g_DoubleBufferIndex and D_801EB6DC/E6/EA/EC are declared
  * VERBATIM as the TU already has them at file scope (L163, L2460/2462,
  * L3689/3705/3706, L3726, L3879), so they merge silently.  D_800AE620,
  * D_800A5E60, D_800A651C, guess_g_OrderingTables, D_801EB6E0, RotMatrixZ, func_8004901C and
@@ -1546,7 +1546,7 @@ void func_8018AB20(s32 arg0)
     *(s16 *)(p + 0x1A) = by;
 
     /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
-    bidx = (u16 *)&D_800B9A02;
+    bidx = (u16 *)&guess_g_DoubleBufferIndex;
     pv = *(u32 *)p;
     pv = pv & 0xFF000000;
     *(u32 *)p = pv |
@@ -1875,7 +1875,7 @@ void func_8018B1B0(void) {
  *  A. THE OT LINK IS THE libgpu P_TAG BITFIELD, NOT HAND-MASKING.  Writing
  *     `*(u32*)q = (*(u32*)q & 0xFF000000) | (ot & 0xFFFFFF)` is byte-correct
  *     arithmetic but gives the WRONG register assignment (16 mismatches: the
- *     0xFFFFFF / 0xFF000000 / &D_800B9A02 pseudos land in a0/a2/a3 permuted,
+ *     0xFFFFFF / 0xFF000000 / &guess_g_DoubleBufferIndex pseudos land in a0/a2/a3 permuted,
  *     and the `lw $v1,0($s3)` gets serialised behind the index load).  The
  *     `unsigned addr:24; unsigned len:8` bitfield insert reproduces both the
  *     allocation and the schedule exactly.  This is just `addPrim(ot, q)`.
@@ -1915,7 +1915,7 @@ extern void func_80016638(void *a0, s32 a1, s32 a2);
 
       /* the 0x20-byte matrix */
   /* == engine_types.h OtBlk */
-          /* the D_800B9A02 buffer index */
+          /* the guess_g_DoubleBufferIndex buffer index */
  /* libgpu P_TAG */
 
 void func_8018B2C4(s32 a0) {
@@ -1990,7 +1990,7 @@ void func_8018B2C4(s32 a0) {
     ((Unkstruct_8018B2C4 *)q)->unk12 = CAST_SIGN(u16, q, 0x12) + out[1];
 
     {
-        Bidx_8018B23C_8018B2C4 *bp = (Bidx_8018B23C_8018B2C4 *)&D_800B9A02;
+        Bidx_8018B23C_8018B2C4 *bp = (Bidx_8018B23C_8018B2C4 *)&guess_g_DoubleBufferIndex;
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
         ((PTag_8018B23C_8018B2C4 *)q)->addr =
@@ -6009,7 +6009,7 @@ void func_80190748(s32 arg0) {
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 extern s32 rand(void);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
@@ -6036,7 +6036,7 @@ void func_801909D8(s32 arg0) {
         ((Unkstruct_800B5CB8 *)p)->unk18 -= 0x200;
         ((Unkstruct_800B5CB8 *)p)->unk1A -= 0x200;
         if (CAST_SIGN(s16, p, 0x18) >= 0) {
-            if (D_800B99DA % 5 == 0) {
+            if (guess_g_FrameCounter % 5 == 0) {
                 q = func_80132EF4(arg0, 0x22);
                 if (q != 0) {
                     t0 = rand();

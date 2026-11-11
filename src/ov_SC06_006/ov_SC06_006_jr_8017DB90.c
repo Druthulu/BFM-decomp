@@ -597,7 +597,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -893,7 +893,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1075,7 +1075,7 @@ extern s32 D_8018411C[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1108,7 +1108,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2445,9 +2445,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2603,9 +2603,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801F8044;
 extern s16 D_801F8046;
@@ -3630,7 +3630,7 @@ void func_8017EEA4(void *arg)
  * SYMBOL AUDIT (law 1c, done after MATCH) — every symbol re-checked against
  * asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC/func_8017F074.s's own
  * relocation lines.  The .s has exactly six: %hi/%lo(D_801860AC) (0x8017F09C/A0,
- * addiu => address-of the table), %hi/%lo(D_800B9A02) (0x8017F204/208, lhu),
+ * addiu => address-of the table), %hi/%lo(guess_g_DoubleBufferIndex) (0x8017F204/208, lhu),
  * %hi/%lo(D_800A651C) (0x8017F21C/224, lw), and jal func_80010A08 (0x8017F1B0),
  * jal AddPrim (0x8017F22C), jal func_8012E28C (0x8017F23C).  No others.
  * Access sides: $a2 == the argument (0x6 lhu/sh/lh, 0x4C lh, 0x50 lwl/lwr+sw);
@@ -3647,7 +3647,7 @@ void func_8017EEA4(void *arg)
  *  ==> DROP the `OtBlk` typedef below when banking: engine_types.h (pulled in by
  *      the TU's `#include "../shared/engine_core.h"`) already defines exactly
  *      `typedef struct { s32 a; s32 b[4]; } OtBlk;`.
- *  ==> DROP `extern short D_800B9A02;` when banking: the TU already carries that
+ *  ==> DROP `extern short guess_g_DoubleBufferIndex;` when banking: the TU already carries that
  *      exact spelling at file scope (line 2466).
  *  ==> `Cv_8017F074` / `Fade_8017F074` / `D_801860AC` are unused names anywhere
  *      in the overlay; D_801860AC is referenced by no other .s in ov_SC06_006.
@@ -3663,7 +3663,7 @@ void func_8017EEA4(void *arg)
 /* D_801860AC — overlay-private 20-byte flash-script record (stride 0x14) */
 
 extern Fade_8017F074 D_801860AC[];
-extern short D_800B9A02;                    /* DROP WHEN BANKING (already in the TU) */
+extern short guess_g_DoubleBufferIndex;                    /* DROP WHEN BANKING (already in the TU) */
 extern s32 func_80010A08(s32);
 extern s32 AddPrim(s32, void *);
 extern void func_8012E28C(s32 arg0, s32 arg1);
@@ -3726,7 +3726,7 @@ void func_8017F074(void *arg0)
         *(s16 *)(prim + 0x16) = 120;            /* y3 */
         *(s16 *)(prim + 0x14) = 160;            /* x3 */
         *(u8 *)(prim + 7) = 0x2A;               /* POLY_F4, semi-transparent */
-        AddPrim(D_800A651C[(u16)D_800B9A02].a + (e->f2 * 4), prim);
+        AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + (e->f2 * 4), prim);
         func_8012E28C(e->f2, e->f0);
     }
 }
@@ -3947,7 +3947,7 @@ void func_8017F824(s32 a0, s32 a1) {
 
 
 extern void *D_801F8118;
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern s16 D_800B9AB8[];
 extern void (*D_80186368)(void);
@@ -3955,10 +3955,10 @@ extern void (*D_80186368)(void);
 void func_8017F8CC(void) {
 
     if (((Unkstruct_8017E330 *)D_801F8118)->unk2 == 0x11) {
-        D_800B9AAC[0] = 0x7FFF;
+        guess_g_BackgroundLayerPriority[0] = 0x7FFF;
         D_800B9B00 = (0xFFE);
     } else {
-        D_800B9AAC[0] = 0xFFE;
+        guess_g_BackgroundLayerPriority[0] = 0xFFE;
         D_800B9B00 = (0x7FFF);
     }
     *(u16 *)D_800B9AB8 += (s32)D_80186368;
@@ -4012,7 +4012,7 @@ void func_8017F934(void) {
  * func_80017758, using the matrix func_8017FD4C builds into the 32-byte sp+0x10 buffer.
  *
  * Key lever (the ONLY thing that separated a 198-ins near from the 200-ins match):
- * `p.c[1].b = (D_800B99DA & 1) ? 0x58 : 0x48;` compiles to the if-converted form
+ * `p.c[1].b = (guess_g_FrameCounter & 1) ? 0x58 : 0x48;` compiles to the if-converted form
  * (`li v1,0x48` hoisted above the branch, then the >>2 taken from the REGISTER) — two
  * instructions short. Writing it as an explicit if/else that STORES in each arm gives the
  * target's cross-jumped shape: `beqz .L74 / j .L78 (delay: li 0x58) / .L74: li 0x48 /
@@ -4028,7 +4028,7 @@ void func_8017F934(void) {
  */
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801F8090;
 extern s8  D_8018636C[];
 extern s8  D_80186380[];
@@ -4045,7 +4045,7 @@ void func_8017FA2C(s32 param_1, s16 *param_2, s16 *param_3) {
     func_8017FD4C(param_1, param_2, param_3, sp10);
     p.v[0].vz = p.v[2].vz = p.v[3].vz = 0;
     p.v[1].vx = p.v[1].vy = p.v[1].vz = 0;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         p.c[1].b = 0x58;
     } else {
         p.c[1].b = 0x48;
@@ -5176,7 +5176,7 @@ void func_80181658(void *a0)
 
     if ((((Unkstruct_8017E2EC_3 *)stk)->unk48 & 0xFFFFEFFF) == 0) {
         idx = ((Unkstruct_8017E2EC_3 *)stk)->unk50 + 1;
-        ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
         {
             u16 flags2 = ((Unkstruct_8017E2EC_4 *)a0)->unk2C;
             if ((flags2 & 0xC000) != 0) {

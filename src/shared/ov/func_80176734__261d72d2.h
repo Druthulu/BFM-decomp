@@ -15,7 +15,7 @@ void func_80176734(s32 param_1)
     extern u8  D_800D43D4;
     extern u8  D_800D4414;
     extern u8  D_800D45D4;
-    extern u8  D_800B9A13;
+    extern u8  guess_g_ActiveMenu;
     extern s16 D_80126CE0;
     extern s16 D_80126D20;
     extern s32 guess_g_PlayerActor;
@@ -140,7 +140,7 @@ L9C0:
 
     /* ---- block F: mode byte -> chg ---- */
     {
-        u8 m = D_800B9A13;
+        u8 m = guess_g_ActiveMenu;
         if (m != 3) {                        /* inverted: `chg = 0` belongs out of line */
             chg = (*(u8 *)(st + 7) != m);
             if (chg != 0) *(u8 *)(st + 7) = m;

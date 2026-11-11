@@ -6,7 +6,7 @@ void func_8013EB7C(void) {
     s32 iVar4;
 
     if ((s16)func_80141C50() == 0) {
-        D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+        D_801151D0 = *(s32 *)&D_801151C8[(u16)guess_g_DoubleBufferIndex * 4];
         sVar1 = ((short (*)(void))func_8013F350)();
         if (D_8011511A >= 4) {
             func_8013FAF8((s16)D_8011511A, (s16)(D_8011511A + 1));

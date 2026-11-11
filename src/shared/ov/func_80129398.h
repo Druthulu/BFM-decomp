@@ -1,6 +1,6 @@
 /* func_80129398 — shared body (overlay slot 0x80128158, h_exact 25784e1d). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9AAE[];
 extern s16 D_800B9AB0[];
 extern s16 D_800B9AB2[];
@@ -14,7 +14,7 @@ void func_80129398(void)
     s32 off;
     for (i = 0; i < 2; i++) {
         off = i * 0x54;
-        *(s16 *)((char *)D_800B9AAC + off) = 0x7FFF;
+        *(s16 *)((char *)guess_g_BackgroundLayerPriority + off) = 0x7FFF;
         *(s16 *)((char *)D_800B9AAE + off) = 0;
         *(u16 *)((char *)D_800B9AB0 + off) = 0xFFFF;
         *(s16 *)((char *)D_800B9AB2 + off) = 0;

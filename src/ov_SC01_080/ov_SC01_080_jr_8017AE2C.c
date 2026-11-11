@@ -601,7 +601,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -897,7 +897,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1081,7 +1081,7 @@ extern s32 D_801858C8[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1114,7 +1114,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2454,9 +2454,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2947,9 +2947,9 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 extern u8 D_8012694C;
 extern s16 D_801C598C;
@@ -2967,9 +2967,9 @@ void func_8017B7A8(void)
     D_801C5A04 = (s16) D_80114F30;
     D_801C5A06 = (s16) D_80114F34;
     D_801C5A08 = (s16) D_80114F38;
-    D_801C59FC = (s16) D_80114F24;
-    D_801C59FE = (s16) D_80114F28;
-    D_801C5A00 = (s16) D_80114F2C;
+    D_801C59FC = (s16) guess_g_StoredViewPointX;
+    D_801C59FE = (s16) guess_g_StoredViewPointY;
+    D_801C5A00 = (s16) guess_g_StoredViewPointZ;
 }
 
 
@@ -3007,18 +3007,18 @@ extern s16 D_801C5A28;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 void func_8017B880(void)
 {
     D_80114F30 = D_801C5A1C;
     D_80114F34 = D_801C5A1E;
     D_80114F38 = D_801C5A20;
-    D_80114F24 = D_801C5A24;
-    D_80114F28 = D_801C5A26;
-    D_80114F2C = D_801C5A28;
+    guess_g_StoredViewPointX = D_801C5A24;
+    guess_g_StoredViewPointY = D_801C5A26;
+    guess_g_StoredViewPointZ = D_801C5A28;
 }
 
 
@@ -3052,9 +3052,9 @@ extern u16 D_801C5A10;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 
 extern u8  D_8012694C;
 extern s16 D_801C598C;
@@ -3083,9 +3083,9 @@ void func_8017B940(void)
     D_801C598C = 0;
     D_801C5A06 = D_80114F34 + buf[1];
     D_801C5A08 = D_80114F38 + buf[2];
-    D_801C59FC = D_80114F24 + buf[0];
-    D_801C59FE = D_80114F28 + buf[1];
-    D_801C5A00 = D_80114F2C + buf[2];
+    D_801C59FC = guess_g_StoredViewPointX + buf[0];
+    D_801C59FE = guess_g_StoredViewPointY + buf[1];
+    D_801C5A00 = guess_g_StoredViewPointZ + buf[2];
 }
 
 
@@ -3256,9 +3256,9 @@ extern short D_801C5A16[0];
 extern short D_801C5A18[0];
 extern s16 D_801C7EDC;
 
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
@@ -3274,9 +3274,9 @@ void func_8017BD50(int param_1)
             D_80114F30 = D_80114F30 + D_801C5A14[0];
             D_80114F34 = D_80114F34 + D_801C5A16[0];
             D_80114F38 = D_80114F38 + D_801C5A18[0];
-            D_80114F24 = D_80114F24 + D_801C5A14[0];
-            D_80114F28 = D_80114F28 + D_801C5A16[0];
-            D_80114F2C = D_80114F2C + D_801C5A18[0];
+            guess_g_StoredViewPointX = guess_g_StoredViewPointX + D_801C5A14[0];
+            guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_801C5A16[0];
+            guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_801C5A18[0];
             func_8012A4BC();
         }
         D_801C7EDC = 0;
@@ -3369,7 +3369,7 @@ void func_8017C59C(s32 arg0)
     extern u8 D_801C75E0[];
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
 
     s16 rect[4];
     DVEC2_C59C tmpxy[4];
@@ -3402,7 +3402,7 @@ void func_8017C59C(s32 arg0)
     func_8017BEBC(D_801C75E0, rect, ((Unkstruct_8017C59C *)arg0)->unk60);
 
     pkt = D_800A5E60;
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     cx0 = (rect[0] + 0x4000) / 512;
     cx1 = (rect[0] + rect[2] + 0x4000) / 512 + 2;
@@ -3739,7 +3739,7 @@ void func_8017C59C(s32 arg0)
 
 /* Declarations conformed to the fleet/engine_core canon (engine_core.h:3695, :3797,
  * :3794, :3800, :3833, :3836, :108) and to this TU's own existing spellings
- * (ov_SC01_080_jr_8017AE2C.c:2206 func_8004787C, :2470 D_800B9A02, :3379 RotTransPers).
+ * (ov_SC01_080_jr_8017AE2C.c:2206 func_8004787C, :2470 guess_g_DoubleBufferIndex, :3379 RotTransPers).
  * The vertex struct is BLOCK-scope on purpose: engine_types.h already typedefs a
  * file-scope `SVEC`, so a second file-scope definition would be a C89 redefinition. */
 extern void func_8012E32C(void);
@@ -3751,7 +3751,7 @@ extern s32 AddPrim(s32, void *);
 extern void func_8012E28C(s32 arg0, s32 arg1);
 extern u32 D_80186FF8[];
 extern s32 D_800A651C;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 
 void func_8017D468(void* p)
 {
@@ -3801,7 +3801,7 @@ void func_8017D468(void* p)
         RotTransPers((s32)&v[1], (s32)(prim + 4), &sp40, &sp44);
         RotTransPers((s32)&v[2], (s32)(prim + 6), &sp40, &sp44);
         RotTransPers((s32)&v[3], (s32)(prim + 8), &sp40, &sp44);
-        AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + r * 4, prim);
+        AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)guess_g_DoubleBufferIndex * 0x14)) + r * 4, prim);
         func_8012E28C(r, 1);
         i++;
         ang = ang + 0x2AA;
@@ -5455,7 +5455,7 @@ void func_8017FCFC(u16 *a0) {
  *
  * Four load-bearing source shapes (each byte-proven by removing it):
  *  1. §194-E house style from the neighbour func_8017C59C: gte_ldv3/rtpt macros, and the
- *     `ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14]` OT-base spelling.
+ *     `ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14]` OT-base spelling.
  *  2. `for (i = 0; i < 0x100; i++, p++)` with THREE `continue`s. Putting `p++` in the loop
  *     body instead gives the `continue`s a second landing pad, which costs the loop-back
  *     delay slot a nop (+1 ins) and reorders the three IV increments (was close=53).
@@ -5482,7 +5482,7 @@ void func_8017FD64(s32 arg0)
     extern void func_80052E38(MTX_FD64 *);
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern u16 D_801C7600[];   /* TU file-scope spelling, ov_SC01_080_jr_8017AE2C.c:5486 */
 
     MTX_FD64 mtx;
@@ -5500,7 +5500,7 @@ void func_8017FD64(s32 arg0)
     p = (SVEC_FD64 *)D_801C7600;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
-    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     pkt = D_800A5E60;
 
     for (i = 0; i < 0x100; i++, p++) {
@@ -6161,7 +6161,7 @@ void func_801809E4(s32 param_1) {
  *
  * Provenance / declarations (all copied from this same TU,
  * src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c, cookbook §135-8):
- *   D_800B99DA  (u16)   — TU col-0 decl, line 615 / 6703
+ *   guess_g_FrameCounter  (u16)   — TU col-0 decl, line 615 / 6703
  *   D_801C7540  (s16)   — TU col-0 decl, line 6158 / 6507 / 6704
  *   D_801C5D40  (u8[])  — TU col-0 decl, line 6273 / 6319 / 6705
  *   D_80127188  (s32)   — TU col-0 decl, line 5477 / 6274 / 6320
@@ -6200,7 +6200,7 @@ void func_801809E4(s32 param_1) {
  *    HImode value, so the signed compare must sign-extend the just-stored register.
  */
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s16 D_801C7540;
 extern u8 D_801C5D40[];
 extern s32 D_80127188;
@@ -6246,7 +6246,7 @@ void func_80180D54(s32 param_1) {
             i = i + 1;
         } while (i <= 0);
     } else if (D_80127188 < 4) {
-        if ((D_800B99DA & 1) == 0) {
+        if ((guess_g_FrameCounter & 1) == 0) {
             s16 mask = 0x3FF;
 
             i = 0;
@@ -6541,7 +6541,7 @@ void func_80181598(void *a0) {
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s16 D_801C7540;
 extern u8 D_801C5D40[];
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
@@ -6565,9 +6565,9 @@ void func_801815D4(s32 param_1) {
     func_800D23D0(sp10 + 4);
     D_801C7540 = sp10[5] - 0x400;
 
-    if ((D_800B99DA & 3) == 0) {
+    if ((guess_g_FrameCounter & 3) == 0) {
         mask = 0x1FF;
-        if ((D_800B99DA & 0xF) == 0) {
+        if ((guess_g_FrameCounter & 0xF) == 0) {
             func_8012913C(0x1B);
         } else {
             i = 0;
@@ -6987,7 +6987,7 @@ void func_80181F5C(void *arg0)
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801270D0;
 extern void func_8002D59C(s32, s32, s32);
 
@@ -6996,7 +6996,7 @@ void func_80181FAC(s32 arg0) {
     s32 dist;
     s32 vol;
 
-    if ((D_800B99DA & 1) == 0) {
+    if ((guess_g_FrameCounter & 1) == 0) {
         dist = ((Unkstruct_800B5CB8 *)arg0)->unkFC - D_801270D0;
         if (dist < 0) {
             dist = -dist;
@@ -7707,7 +7707,7 @@ void func_801831A0(s32 a0) {
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern u32 D_801C7594;
 extern u32 D_801C7598;
 
@@ -7715,7 +7715,7 @@ void func_801831E8(s32 arg0) {
     extern s32 func_8012C098(void *);
     u32 *ptr = (u32 *) &D_801C7594;
 
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         *ptr = 0x80A040;
     } else {
         *ptr = 0x709030;

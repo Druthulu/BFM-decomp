@@ -85,7 +85,7 @@ extern void func_80029444(void);
 extern void func_800D1754(void);
 extern s32 guess_g_PlayerActor;
 extern s32 D_8019FF50;
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
 extern void func_8014FDF4(struct S8014FDF4 *a0);
@@ -107,8 +107,8 @@ extern void func_801379FC(void);
 extern void func_8001212C(void);
 extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern u8 D_800AEFD0;
-extern int D_800C7C60;
-extern int *D_800C7C64;
+extern int guess_g_CdReadList;
+extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
 extern int D_800AF558;
 extern int D_8019D9A8;
@@ -149,7 +149,7 @@ extern void func_8012927C(void);
 extern void func_8012931C(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9AAE[];
 extern s16 D_800B9AB0[];
 extern s16 D_800B9AB2[];
@@ -162,7 +162,7 @@ extern s16 D_80114EE0;
 extern void func_80129428(void);
 extern void func_8012943C(void);
 extern s32 D_8005128C;
-extern u8 D_800B9A78;
+extern u8 guess_g_BackgroundLayers;
 extern void func_801298F4(void *arg0);
 extern void func_801299C8(s32 a, s32 b, s32 c);
 extern void func_8012944C(void);
@@ -371,7 +371,7 @@ extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s32 D_800A651C;
 extern u8 guess_g_CameraWsMatrix;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_8012D5DC(void);
 extern s16 D_80126B98;
@@ -612,7 +612,7 @@ extern void func_80136D00(void);
 extern void SetLineG2(void *);
 extern void func_80136D08(s32 arg0, s32 arg1);
 extern void func_80136EC4(void);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_OrderingTables[];
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 extern void func_80136ECC(s16 a0, s16 a1, s16 a2, s16 a3, u8 r, u8 g, u8 b);
@@ -622,7 +622,7 @@ extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine"
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
 extern u8  guess_g_RenderWork[];
-extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
 extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
@@ -849,7 +849,7 @@ extern void *D_8011DB24;
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char D_800B9A13;
+extern unsigned char guess_g_ActiveMenu;
 extern u16 D_80115110;
 extern unsigned short D_80115112;
 extern void func_8013E588(void * _arg0);
@@ -918,7 +918,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     extern s16 D_80181270;
     extern unsigned char D_80181274;
     extern u8 D_80181280;
-    extern s32 D_8010F3C4[];
+    extern s32 guess_g_VillagerNames[];
     extern s32 D_8010EDE8[];
     extern u8  D_80115143;
     extern void * D_8019EC54;
@@ -1003,7 +1003,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 if ((((s32 (*)(u8, s32))func_800291B4)(D_801812EF[s0], arg1) & 0xFF) == 0) {
                     *arg2 = 0x804040;
                 }
-                ret = D_8010F3C4[s0];
+                ret = guess_g_VillagerNames[s0];
             } else {
                 ret = (*(s32 *)&D_80181270);
             }
@@ -1025,7 +1025,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 *arg2 = 0x804040;
             }
             idx = s0 + 1;
-            ret = D_8010F3C4[idx];
+            ret = guess_g_VillagerNames[idx];
         }
         break;
     }
@@ -1068,7 +1068,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     extern void * D_8018139C[];
     extern u8 D_801812EF[];
     extern u8 * D_8019EC54;
-    extern u8 D_801117EC[];
+    extern u8 guess_g_EmptyText[];
     extern u8 D_801117B4[];
     extern u8 D_80112BC8[];
     extern u8 D_80112B58[];
@@ -1080,7 +1080,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     unsigned int uVar3;
     void *result;
 
-    result = D_801117EC;
+    result = guess_g_EmptyText;
     switch (((short)param_1)) {
     case 0:
         if (((s32(*)(s32))guess_TestGameFlag)(D_801812C4[((short)param_2)]) & 0xFF) {

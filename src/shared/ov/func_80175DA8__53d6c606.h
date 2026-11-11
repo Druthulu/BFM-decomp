@@ -5,7 +5,7 @@ void func_80175DA8(param_1)
 {
 
     extern u8  D_8011F7F0;
-    extern u8  D_800B9A13;
+    extern u8  guess_g_ActiveMenu;
     extern S_AF634 guess_g_PacketBufferUsed[];
     extern S_AF634 guess_g_PacketBufferBase[];
     extern u16 D_80182938[];
@@ -53,7 +53,7 @@ void func_80175DA8(param_1)
         i++;
     } while (i < 5);
 
-    *(u8 *)(s + 7) = D_800B9A13;
+    *(u8 *)(s + 7) = guess_g_ActiveMenu;
     p = (Sp_80175DA8 *)func_8017742C((u32 *)p,
                                      (s16)(*(u16 *)(s + 0x10) - 0x98),
                                      (s16)(*(u16 *)(s + 0x12) + 9));

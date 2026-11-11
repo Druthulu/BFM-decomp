@@ -883,7 +883,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1065,7 +1065,7 @@ extern s32 D_80191B60[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1098,7 +1098,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2433,9 +2433,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2591,9 +2591,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801E10EC;
 extern s16 D_801E10EE;
@@ -3376,7 +3376,7 @@ void func_80187C28(s32 a0, s32 a1) {
     extern u8 D_801D3C44[];
     extern u8 D_801D3D3C[];
     extern u8 D_801D3904[];
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     if ((((Unkstruct_800B5CB8 *)a0)->unk70 & 0x8000) == 0) {
         return;
     }
@@ -3385,7 +3385,7 @@ void func_80187C28(s32 a0, s32 a1) {
     }
 
     if (CAST_SIGN(u8 *, a0, 0x90) == D_801D3284) {
-        if (D_800B99DA % 3 == 0) {
+        if (guess_g_FrameCounter % 3 == 0) {
             ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, CAST_SIGN(s16, a0, 6), (s16)(((Unkstruct_800B5CB8 *)a0)->unkA - 0xA0),
                           CAST_SIGN(s16, a0, 0xE), 0, 0, 0x14);
         }
@@ -3394,7 +3394,7 @@ void func_80187C28(s32 a0, s32 a1) {
                       CAST_SIGN(s16, a0, 0xE), 0, 0, 0x14);
     } else {
         if ((CAST_SIGN(u8 *, a0, 0x90) == D_801D3D3C || CAST_SIGN(u8 *, a0, 0x90) == D_801D3904) &&
-            D_800B99DA % 6 == 0) {
+            guess_g_FrameCounter % 6 == 0) {
             ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, CAST_SIGN(s16, a0, 6), (s16)(((Unkstruct_800B5CB8 *)a0)->unkA - 0xA0),
                           CAST_SIGN(s16, a0, 0xE), 0, 0, 0x14);
         }

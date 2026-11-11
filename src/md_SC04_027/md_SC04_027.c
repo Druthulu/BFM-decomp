@@ -59,7 +59,7 @@ s16 func_801E7EB0(void) {
 
 void func_801E7EC0(s32 a0, s32 a1) {
     extern u8 D_800B9A15;
-    extern unsigned char D_800B9A13;
+    extern unsigned char guess_g_ActiveMenu;
     extern u16 D_80115110;
     extern void func_801E7F38(void);
     extern s16 D_80115126;
@@ -70,7 +70,7 @@ void func_801E7EC0(s32 a0, s32 a1) {
     extern s32 func_8002D4C8(s32, s32);
 
     D_800B9A15 = 1;
-    D_800B9A13 = 5;
+    guess_g_ActiveMenu = 5;
     D_80115110 = 4;
     D_80115126 = (s16)a0;
     D_801F218C = (s16)a1;
@@ -187,7 +187,7 @@ extern s32 D_801151D0;
 extern u8 D_801151C8[];
 extern u8 D_800B9A15;
 extern s16 D_80115126;
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern unsigned short D_80115112;
 extern s16 D_801F2184;
 extern s16 D_801F2188[0];
@@ -211,7 +211,7 @@ void func_801E8120(void) {
 
     (void)&frame_pad;
 
-    idx = *(u16 *)&D_800B9A02;
+    idx = *(u16 *)&guess_g_DoubleBufferIndex;
     D_801151D0 = *(s32 *)(D_801151C8 + (idx << 2));
     if (D_801F2188[0] == 0) {
         D_801F2488 = func_8002B0B4(D_801F2470, D_801F2474, D_801F2478);
@@ -264,10 +264,10 @@ extern void func_800D2624(void);
 
 void func_801E821C(void) {
 
-    extern short D_800B9A02;
+    extern short guess_g_DoubleBufferIndex;
     extern u16 D_80115114;
     extern u16 D_80115112;
-    u16 v0 = (*(u16 *)&D_800B9A02);
+    u16 v0 = (*(u16 *)&guess_g_DoubleBufferIndex);
     u16 v1 = D_80115114;
 
     v0 ^= 0x1;
@@ -570,7 +570,7 @@ void func_801E88D0(void) {
     extern s32 D_801151D0;
     extern s16 D_8011512C;
     extern s32 D_80115134;
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
     extern Env_801E9BE0 guess_g_FrontOrderingTablesOrg[];
     extern s32 *func_801E9BE0(s32 *);
     extern s32 func_801E8A80(s32, u8 *, s16);
@@ -621,9 +621,9 @@ void func_801E88D0(void) {
     func_8005A600(ot, 0, 0, 0x15, 0);
 
     *(s32 *)ot = 0x02000000;
-    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] & 0xFFFFFF) | 0x02000000;
-    guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] =
-        (guess_g_FrontOrderingTablesOrg[*(u16 *)&D_800B9A02].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] & 0xFFFFFF) | 0x02000000;
+    guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] =
+        (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
     ((Unkstruct_801151D0 *)&D_801151D0)->f0 = ot;
@@ -1285,7 +1285,7 @@ s32 *func_801E9BE0(s32 *out) {
     extern s32 D_80115134;      /* fixed by this TU's file-scope decl */
     extern s16 D_8011512C;
     extern u16 D_80115116;
-    extern s16 D_800B9A02;
+    extern s16 guess_g_DoubleBufferIndex;
 
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
@@ -1307,7 +1307,7 @@ s32 *func_801E9BE0(s32 *out) {
     *((u8 *)out + 0xC) = 0x70;
     *((u8 *)out + 0xD) = 0x10;
     out[1] = 0x64808080;
-    pb = (u16 *)&D_800B9A02;
+    pb = (u16 *)&guess_g_DoubleBufferIndex;
     ((Unkstruct_801E9BE0 *)out)->unkE = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */

@@ -50,7 +50,7 @@ extern u8 D_801B2410[];
  * THREE LOAD-BEARING DIALS — do not "simplify" any of them:
  *
  * 1. `tbl = guess_g_RenderWork;` hoisted to the top. The four guards read the same halfword at
- *    +0xA3AA (= D_800B99DA); off a held base pointer that expands to the far-offset form
+ *    +0xA3AA (= guess_g_FrameCounter); off a held base pointer that expands to the far-offset form
  *    `lui $at,1 / addu $at,$s6,$at / lhu -0x5C56($at)` (the resident single-base idiom,
  *    cf. src/ov_SC03_105/ov_SC03_105_jr_8017C8D0.c func_80182DCC note #2).
  *

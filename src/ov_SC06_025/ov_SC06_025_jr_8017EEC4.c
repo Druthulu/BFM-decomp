@@ -595,7 +595,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -891,7 +891,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1073,7 +1073,7 @@ extern s32 D_80187004[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1106,7 +1106,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2443,9 +2443,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2601,9 +2601,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801B12B4;
 extern s16 D_801B12B6;
@@ -2866,7 +2866,7 @@ extern void func_8012EF70(s32 a0, s32 a1);
 
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
 extern s32 func_8017F424(s16 *);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern SV_8017EF94 D_8018890C[][4];
 extern Quad_8017EF94 D_801B1B58;
 extern s32 D_801B1B74;
@@ -2897,7 +2897,7 @@ void func_8017EF94(V_8017EEC4 *arg0, s32 arg1) {
         return;
     }
     sp30.x = sp30.x + 0x78;
-    if (*(u16 *)&D_800B9A02 != 0) {
+    if (*(u16 *)&guess_g_DoubleBufferIndex != 0) {
         t = sp30.y + 0x64;
     } else {
         t = sp30.y + 0x154;
@@ -3011,7 +3011,7 @@ void func_8017EF94(V_8017EEC4 *arg0, s32 arg1) {
  *   says s32; there is no explicit `return`, and adding one costs nothing but is not what the
  *   original wrote.  Every extern below is already declared IDENTICALLY in the TU
  *   (:2755 GetTPage, :2759 D_800A651C, :4936 func_80010A08, :4939 AddPrim, :4942 func_801823D4,
- *   :2467/:4944 D_800B9A02) except GetClut, which the TU does not declare at all -- the spelling
+ *   :2467/:4944 guess_g_DoubleBufferIndex) except GetClut, which the TU does not declare at all -- the spelling
  *   used here is the fleet canon `extern s32 GetClut(s32, s32);` (src/800.c:4195/:4349/:4686).
  *   The local `OtBlk` typedef is the standard strip-on-bank copy: see the identical note on
  *   func_8017F788 / func_8017FB50 in this same TU.
@@ -3044,7 +3044,7 @@ extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_801823D4(s32, s32);
 extern s32 AddPrim(s32, void *);
 extern OtBlk D_800A651C[];
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 
 s32 func_8017F424(s16 *param_1)
 {
@@ -3082,7 +3082,7 @@ s32 func_8017F424(s16 *param_1)
     ((Unkstruct_8017F424 *)p)->unk20 = ((Unkstruct_8017F424_2 *)s)->unk14;
 
     otz = func_801823D4(((Unkstruct_8017F424_2 *)s)->unk1C, -0x1A);
-    AddPrim(D_800A651C[(u16)D_800B9A02].a + otz * 4, p);
+    AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4, p);
 }
 
 
@@ -3090,7 +3090,7 @@ s32 func_8017F424(s16 *param_1)
 
 extern s32 func_8012E544(s32 a0);
 extern s32 rand(void);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s16 D_801B1734;
 extern void (*D_8018896C[])(void);
 extern void func_8017F664(s32 a0, s32 a1);
@@ -3103,7 +3103,7 @@ void func_8017F580(void) {
 
     rec = func_8012E544(0x2CD);
     if (rec != 0 && CAST_SIGN(u16, rec, 2) == 4 && ((Unkstruct_800B5CB8 *)rec)->unk34 == 2) {
-        if ((D_800B99DA & 0x1F) == 0) {
+        if ((guess_g_FrameCounter & 0x1F) == 0) {
             D_801B1734 = rand() % 6;
         }
         fn = D_8018896C[D_801B1734];
@@ -3123,7 +3123,7 @@ void func_8017F580(void) {
 
 extern V16x4 D_80188984[];
 extern u16 D_80188994[];
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern void func_8017F788(void *a0, void *a1, s32 a2);
 
 void func_8017F664(s32 a0, s32 a1) {
@@ -3140,10 +3140,10 @@ void func_8017F664(s32 a0, s32 a1) {
     b.unk4 -= 0x100;
 
     if (idx) {
-        delta = ((D_800B99DA & 7) - 3) * 48;
+        delta = ((guess_g_FrameCounter & 7) - 3) * 48;
         b.unk0 = b.unk0 - delta;
     } else {
-        delta = ((D_800B99DA & 7) - 3) * 48;
+        delta = ((guess_g_FrameCounter & 7) - 3) * 48;
         b.unk0 = b.unk0 + delta;
     }
 
@@ -3169,7 +3169,7 @@ extern s32 func_801823D4(s32, s32);
 extern s32 AddPrim(s32, void *);
 extern void func_8012E28C(s32, s32);
 extern OtBlk D_800A651C[];
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 
 void func_8017F788(void* param_1, void* param_2, s32 param_3)
 {
@@ -3188,7 +3188,7 @@ void func_8017F788(void* param_1, void* param_2, s32 param_3)
     if (otz > 0 && flag >= 0) {
         if (RotTransPers(param_2, (s32)&obj->xy1, &p, &flag) > 0 && flag >= 0) {
             otz = func_801823D4(otz, -0x1A);
-            AddPrim(D_800A651C[(u16)D_800B9A02].a + otz * 4, obj);
+            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4, obj);
             func_8012E28C(otz, 1);
         }
     }
@@ -3336,7 +3336,7 @@ extern s32 func_80010A08(s32);
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
 extern s32 AddPrim(s32, void *);
 extern s32 func_801823D4(s32, s32);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern SVEC_8017FB50 D_801889EC;
 
 void func_8017FB50(s32 arg0, s32 arg1)
@@ -3384,7 +3384,7 @@ void func_8017FB50(s32 arg0, s32 arg1)
 
     idx = func_801823D4(tmp, -0x1A);
 
-    AddPrim(D_800A651C[(u16)D_800B9A02].a + idx * 4, obj);
+    AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + idx * 4, obj);
 }
 
 
@@ -4700,7 +4700,7 @@ void func_801817A8(void)
 
 
 extern OtBlk D_800A651C[];
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern s32 func_80010A08(s32);
 extern void func_8012E32C(void);
 extern void func_8012B0B4(u32 *a0, s32 a1, s32 a2);
@@ -4758,7 +4758,7 @@ void func_801818D8(u16 *pv, s32 arg1, s32 n, s32 col) {
             RotTransPers((s32)&sv[2], (s32)&q->xy2, &p, &flag);
             RotTransPers((s32)&sv[3], (s32)&q->xy3, &p, &flag);
             otz = func_801823D4(otz, -0x1A);
-            AddPrim(D_800A651C[(u16)D_800B9A02].a + otz * 4, q);
+            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4, q);
             func_8012E28C(otz, 1);
         }
     }
@@ -4898,7 +4898,7 @@ extern OtBlk D_800A651C[];
  *            func_80182090(arg0->0xEC, 0x2800).
  *
  * Each primitive is depth-sorted with func_801823D4(otz, -0x1A) and linked into the
- * live OT via D_800A651C[D_800B9A02].a + otz*4, then handed to func_8012E28C with the
+ * live OT via D_800A651C[guess_g_DoubleBufferIndex].a + otz*4, then handed to func_8012E28C with the
  * s16 at arg0+6.
  */
 void func_80181E08(s32 arg0) {
@@ -4913,7 +4913,7 @@ void func_80181E08(s32 arg0) {
     extern void func_8012E32C(void);
     extern s32 func_801823D4(s32, s32);
     extern s32 func_80182090(s32 color, s32 mult);
-    extern short D_800B9A02;      /* TU's own spelling (see line 2466/2820 of the TU) */
+    extern short guess_g_DoubleBufferIndex;      /* TU's own spelling (see line 2466/2820 of the TU) */
 
     V8_SC06_025_80181E08 *pa, *pb;
     G4 *q;
@@ -4963,7 +4963,7 @@ void func_80181E08(s32 arg0) {
         } while (0);  // !FAKE: do-while
         __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder — pass: 3.40 T11 crack G23; instrument: delever_search --try partial (29 tries)
         otz = func_801823D4(otz, -0x1A);
-        AddPrim(D_800A651C[*(u16 *)&D_800B9A02].a + otz * 4, q);
+        AddPrim(D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].a + otz * 4, q);
         func_8012E28C(otz, zpush);
         i++;
         pa++;
@@ -4984,7 +4984,7 @@ void func_80181E08(s32 arg0) {
         RotTransPers((s32)&pa[(i + 1) % 12], (s32)&t->xy1, &p, &flag);
         RotTransPers(arg0 + 0xF4, (s32)&t->xy2, &p, &flag);
         otz = func_801823D4(otz, -0x1A);
-        AddPrim(D_800A651C[*(u16 *)&D_800B9A02].a + otz * 4, t);
+        AddPrim(D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].a + otz * 4, t);
         func_8012E28C(otz, zpush);
     }
 }
@@ -6740,7 +6740,7 @@ void func_801842C0(s32 a0) {
 }
 
 
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 
 void func_80184340(s32 *a0) {
     s32 pad[8];
@@ -6749,7 +6749,7 @@ void func_80184340(s32 *a0) {
     guess_ApplyVelocity(a0);
     func_80148038((s32)a0, 0x18000);
     func_80147460((s32)a0);
-    if (!(D_800B99DA & 1)) {
+    if (!(guess_g_FrameCounter & 1)) {
         func_8014C010((s32)a0, 2);
     }
     func_801535F4(a0);

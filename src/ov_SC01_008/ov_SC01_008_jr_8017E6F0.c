@@ -596,7 +596,7 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
+extern u16 guess_g_FrameCounter;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -892,7 +892,7 @@ extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
 extern void func_80155150(int param_1);
-extern s32 D_800DE2A4[];
+extern s32 guess_g_PlayerTmdList[];
 extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
@@ -1075,7 +1075,7 @@ extern s32 D_80181B00[];
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
 extern void func_80158F00(int param_1);
-extern u8 D_80110C3C[];
+extern u8 guess_g_StartPromptText[];
 extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 extern s32 func_80159464(void);
@@ -1108,7 +1108,7 @@ extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
 extern void func_80028620(s32, void *);
-extern s16 D_800B9AAC[];
+extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
 extern u32 guess_g_PlayerModelObject[];
@@ -2447,9 +2447,9 @@ extern s32 func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
-extern short D_800B9A02;
+extern short guess_g_DoubleBufferIndex;
 extern void func_80175590(void *arg0);
-extern s16 D_800B9A02;
+extern s16 guess_g_DoubleBufferIndex;
 extern void func_801757A0(s32);
 extern void func_80175624(void *a0);
 extern void func_801757E0(int);
@@ -2605,9 +2605,9 @@ extern s32 func_8017B614(s32 param_1, s32 param_2);
 extern s32 D_80114F30;
 extern s32 D_80114F34;
 extern s32 D_80114F38;
-extern s32 D_80114F24;
-extern s32 D_80114F28;
-extern s32 D_80114F2C;
+extern s32 guess_g_StoredViewPointX;
+extern s32 guess_g_StoredViewPointY;
+extern s32 guess_g_StoredViewPointZ;
 extern u8 D_8012694C;
 extern s16 D_801A32F4;
 extern s16 D_801A32F6;
@@ -2702,7 +2702,7 @@ extern s32 * func_8017E30C(s32 *ot, Panel_8017E978_8017E30C *w0, s16 idx);
 /* func_8017E6F0  (ov_SC01_005 / ov_SC01_005_jr_8017C340, 147 ins)  -- MATCH
  *
  * Message/portrait-table selector.  Family exemplar: the same body shape is the
- * already-banked `func_8014032C` in ov_SC03_006 (`result = D_801117EC;` default
+ * already-banked `func_8014032C` in ov_SC03_006 (`result = guess_g_EmptyText;` default
  * + a jump table of `result = <array>` arms + the `func_800291B4(x) & 0xFF`
  * ladder).  Read that function first when remapping the 4 siblings.
  *
@@ -2758,7 +2758,7 @@ extern s32 * func_8017E30C(s32 *ot, Panel_8017E978_8017E30C *w0, s16 idx);
 s32 func_8017E6F0(s32 param_1, s32 param_2) {
     extern void func_80139A44(s32 a0, u16 a1);
     extern s16 func_8017F0C4(void);
-    extern u8 D_801117EC[];
+    extern u8 guess_g_EmptyText[];
     extern u8 D_80112B58[];
     extern u8 D_80112B90[];
     extern u8 D_80112BA8[];
@@ -2792,7 +2792,7 @@ s32 func_8017E6F0(s32 param_1, s32 param_2) {
     s32 pad[2];                                              /* [1] */
     u8 c;
 
-    result = D_801117EC;
+    result = guess_g_EmptyText;
     sel = param_1 - 1;
     switch (sel) {
     case 5:
@@ -2949,7 +2949,7 @@ s32 func_8017E6F0(s32 param_1, s32 param_2) {
  * src/ov_SC01_005/ov_SC01_005_jr_8017C340.c + src/shared/engine_core.h):
  *   - prototype at TU:3472 is `extern s32 *func_8017E93C(s32*,void*,s32,void*,s32)`
  *     — the definition below matches it exactly.
- *   - D_800B9A02 is already file-scope in the TU (`extern short` :2471 and
+ *   - guess_g_DoubleBufferIndex is already file-scope in the TU (`extern short` :2471 and
  *     `extern s16` :2473, plus 52 hits in engine_core.h); `extern s16` here is
  *     compatible and the unsigned access is forced at the USE (§8d sub-class b).
  *   - D_80115116 / D_8011511A are file-scope `extern u16` at TU:3379 / :3466 —
@@ -3008,7 +3008,7 @@ s32 *func_8017E93C(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     *(s16 *)((u8 *)ot + 0x12) = 8;
     *(s16 *)((u8 *)ot + 0x10) = 8;
 
-    pb = (u16 *)&D_800B9A02;
+    pb = (u16 *)&guess_g_DoubleBufferIndex;
     c0 = ot[0];
     ot[0] = (c0 & 0xFF000000) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & 0xFFFFFF);
     guess_g_FrontOrderingTablesOrg[*pb].ot[2] =
@@ -3032,7 +3032,7 @@ s32 *func_8017E93C(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
             k = m;
             eight = 8;
             __asm__ volatile("" :: "r"(pb), "r"(pb), "r"(pb), "r"(pb), "r"(pb));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-            pb2 = (u16 *)&D_800B9A02;
+            pb2 = (u16 *)&guess_g_DoubleBufferIndex;
             m24 = 0xFFFFFF;
             mhi = 0xFF000000;
             q = (u8 *)ot + 0x14;

@@ -1123,7 +1123,7 @@ FIXTURE = r'''#include "common.h"
 #define GTE_LDV0(r0) __asm__ volatile ("lwc2 $0, 0( %0 );" \
     "lwc2 $1, 4( %0 )" : : "r"( r0 ) : "memory")
 extern volatile u16 D_8011511A;
-extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 int aF80128300(int a) __asm__("func_80128300");
 struct P { s16 x; s16 y; } __attribute__((packed));
 #if 0

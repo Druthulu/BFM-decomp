@@ -14,7 +14,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     extern u8 D_801802C0;
     extern s32 D_801802C4[];
     extern unsigned char D_801802D0;
-    extern s32 D_8010F3C4[];
+    extern s32 guess_g_VillagerNames[];
     extern s32 D_8010EDE8[];
     extern u8  D_80115143;
     extern void * D_8018E7C4;
@@ -99,7 +99,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 if ((((s32 (*)(u8, s32))func_800291B4)(D_8018033F[s0], arg1) & 0xFF) == 0) {
                     *arg2 = 0x804040;
                 }
-                ret = D_8010F3C4[s0];
+                ret = guess_g_VillagerNames[s0];
             } else {
                 ret = (*(s32 *)&D_801802C0);
             }
@@ -121,7 +121,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
                 *arg2 = 0x804040;
             }
             idx = s0 + 1;
-            ret = D_8010F3C4[idx];
+            ret = guess_g_VillagerNames[idx];
         }
         break;
     }

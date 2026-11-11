@@ -20,7 +20,7 @@
 | 12 | `Unkstruct_1149cbcc` | 1206 | 1073 | 1 | 0x2 | 0 (+1 sign) |  | D_801152A8 |
 | 13 | `Unkstruct_4e427c01` | 1116 | 124 | 5 | 0xfe | 0 (+0 sign) |  |  |
 | 14 | `Unkstruct_ee756a74` | 992 | 124 | 5 | 0xfe | 0 (+0 sign) |  |  |
-| 15 | `Unkstruct_800B9A02` | 989 | 431 | 1 | 0x2 | 0 (+0 sign) | D_800B9A02 |  |
+| 15 | `Unkstruct_800B9A02` | 989 | 431 | 1 | 0x2 | 0 (+0 sign) | guess_g_DoubleBufferIndex |  |
 | 16 | `Unkstruct_b6c7c603` | 931 | 133 | 7 | 0x20 | 1 (+0 sign) |  |  |
 | 17 | `Unkstruct_80126948` | 930 | 216 | 32 | 0xa4 | 0 (+2 sign) | guess_g_MainCamera, D_80126E60 | D_80114EE8, guess_g_ActiveCamera, guess_g_MainCamera, D_80126E60… |
 | 18 | `Unkstruct_80146128` | 844 | 166 | 10 | 0x54 | 0 (+1 sign) |  | D_80126B78 |
@@ -154,9 +154,9 @@
 | 146 | `Unkstruct_bb764c0e` | 135 | 15 | 8 | 0x38 | 0 (+0 sign) |  |  |
 | 147 | `Unkstruct_8937c16a` | 135 | 45 | 3 | 0x12 | 0 (+0 sign) |  |  |
 | 148 | `Unkstruct_80126CE0` | 134 | 134 | 1 | 0x2 | 0 (+1 sign) | D_80126CE0 |  |
-| 149 | `Unkstruct_800B9A78` | 134 | 134 | 0 | 0x0 | 0 (+0 sign) | D_800B9A78 |  |
-| 150 | `Unkstruct_80110C3C` | 134 | 134 | 1 | 0x1 | 0 (+0 sign) | D_80110C3C |  |
-| 151 | `Unkstruct_800B9AAC` | 134 | 134 | 1 | 0x2 | 0 (+0 sign) | D_800B9AAC |  |
+| 149 | `Unkstruct_800B9A78` | 134 | 134 | 0 | 0x0 | 0 (+0 sign) | guess_g_BackgroundLayers |  |
+| 150 | `Unkstruct_80110C3C` | 134 | 134 | 1 | 0x1 | 0 (+0 sign) | guess_g_StartPromptText |  |
+| 151 | `Unkstruct_800B9AAC` | 134 | 134 | 1 | 0x2 | 0 (+0 sign) | guess_g_BackgroundLayerPriority |  |
 | 152 | `Unkstruct_8011F7BC` | 134 | 134 | 1 | 0x2 | 0 (+0 sign) | D_8011F7BC |  |
 | 153 | `Unkstruct_8011F7BE` | 134 | 134 | 1 | 0x2 | 0 (+0 sign) | D_8011F7BE |  |
 | 154 | `Unkstruct_19efed25` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) |  |  |

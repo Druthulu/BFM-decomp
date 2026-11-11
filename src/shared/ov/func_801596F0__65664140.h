@@ -10,7 +10,7 @@ s32 func_801596F0(s32 param_1) {
     *(s32 *)(param_1 + 0x28) = v;
     if (v == -1) {
         func_80174B6C();
-        (*(s16 *)&D_800B9AAC) = 0x7fff;
+        (*(s16 *)&guess_g_BackgroundLayerPriority) = 0x7fff;
         D_800B9B00 = 0x7fff;
 
 

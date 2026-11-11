@@ -135,7 +135,7 @@ void func_800CB0B0(void *arg0) {
 extern void func_80149374(s32 a0, s32 a1);
 
 void func_800CB188(void *arg0) {
-    extern u16 D_800B99DA;
+    extern u16 guess_g_FrameCounter;
     s32 s0;
     s32 s1;
     s32 v0;
@@ -152,7 +152,7 @@ void func_800CB188(void *arg0) {
     *(func_800CB188_Blk16 *)(s1 + 0x44) = *(func_800CB188_Blk16 *)(v0 + 0x44);
     v1 = ((Unkstruct_800CB188_2 *)s1)->unk4 & 0x7FFFFFFF;
     CAST_ALIAS(s32, s1, 4) = v1;
-    if (D_800B99DA & 1) {
+    if (guess_g_FrameCounter & 1) {
         ((Unkstruct_800CB188_2 *)s1)->unk4 = v1 | 0x80000000;
     }
 }

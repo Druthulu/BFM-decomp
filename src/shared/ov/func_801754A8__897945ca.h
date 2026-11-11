@@ -3,14 +3,14 @@
 void func_801754A8(void) {
 
     extern u8 D_8011F7A8;
-    extern unsigned char D_800B9A13;
+    extern unsigned char guess_g_ActiveMenu;
     extern s32 D_80126B9C;
     extern DispatchFn D_80182A64[];
     u8 *p = &D_8011F7A8;
     s32 r = guess_GetStoryProgress();
     s32 flag = 0;
 
-    if (((D_800B9A13 == 0) && ((D_80126B9C & 0x80) == 0)) ||
+    if (((guess_g_ActiveMenu == 0) && ((D_80126B9C & 0x80) == 0)) ||
         (0x4AF < (u32)(r - 10))) {
         flag = 1;
     }
