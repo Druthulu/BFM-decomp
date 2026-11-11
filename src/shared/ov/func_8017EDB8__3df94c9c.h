@@ -9,7 +9,7 @@ void func_8017EDB8(void) {
     extern s16 D_80126976;
     extern s16 D_80126978;
     extern s16 D_8012697A;
-    extern u8 D_80126948[];
+    extern u8 guess_g_MainCamera[];
     extern void func_8017EF10(void *);
     extern void func_8012A018(s32, s32);
     extern void func_8012A094(s32);
@@ -22,8 +22,8 @@ void func_8017EDB8(void) {
     D_80126976 = 0;
     D_80126978 = 0;
     D_8012697A = 0;
-    func_8012A094((s32)D_80126948);
+    func_8012A094((s32)guess_g_MainCamera);
     func_8012A018((s32)func_8017EF10, 0);
-    func_8017EF10((void *)D_80126948);
+    func_8017EF10((void *)guess_g_MainCamera);
     func_8012A018((s32)func_8017EF10, 1);
 }

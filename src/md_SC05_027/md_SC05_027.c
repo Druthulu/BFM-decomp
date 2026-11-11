@@ -37,7 +37,7 @@ s32 func_801EDA2C(s32 param_1) {
 
 extern void func_8001BFD0(void);
 extern s32 func_800291B4(s32);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern s32 func_8002D4C8(s32, s32);
 extern void func_800D0C48(s32);
 extern void func_800D1E28(void);
@@ -156,7 +156,7 @@ void func_801EDDC0(void) {
     extern s16 D_80126976;
     extern s16 D_80126978;
     extern s16 D_8012697A;
-    extern u8 D_80126948[];
+    extern u8 guess_g_MainCamera[];
     extern s16 D_801274E8;
     extern s16 D_801274EA;
     extern s16 D_801274EC;
@@ -174,8 +174,8 @@ void func_801EDDC0(void) {
     D_80126978 = -0x50;
     D_8012697A = 0;
     func_8012A018((s32)func_801EDE84, 0);
-    func_801EDE84(D_80126948);
-    func_8012A094((s32)D_80126948);
+    func_801EDE84(guess_g_MainCamera);
+    func_8012A094((s32)guess_g_MainCamera);
     D_801274EA = -0x82;
     D_801274E8 = 0;
     D_801274EC = -0x1B0;
@@ -201,7 +201,7 @@ void func_801EDEC0(s32 param_1) {
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 #define SHARED_FN func_801EDEE8
 #include "../shared/multi/cls_89463c3facc6.h"

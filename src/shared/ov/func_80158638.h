@@ -15,7 +15,7 @@ extern s32 func_8013767C(s32 a0);
 extern void func_80158814(void *a0);
 void func_80158638(void *a0) {
     extern u8 D_800B9A64;
-    extern s16 D_80078EB4;
+    extern s16 g_PlayerHp;
     extern u8 D_800B9A17;
     extern u8 D_80110EC0;
     s32 v1;
@@ -35,7 +35,7 @@ void func_80158638(void *a0) {
     if (v1 != 0 && (v1 & 0x08000000) == 0) {
         return;
     }
-    if (*(u16 *)&D_80078EB4 != 0) {
+    if (*(u16 *)&g_PlayerHp != 0) {
         return;
     }
     if (((s16)func_80159464(a0) <= 0 || (s16)func_80159464(a0) >= 6) &&

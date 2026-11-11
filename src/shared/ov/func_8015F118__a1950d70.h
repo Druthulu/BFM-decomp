@@ -7,7 +7,7 @@ void func_8015F118(void *a0) {
     flag = *(u16 *)((u8 *)a0 + 0xB8);
     if (flag == 0x8000) {
         (*D_80181914[*(u16 *)a0])(a0);
-        ((void (*)(void *, s32))func_80147078)(a0, 0);
+        ((void (*)(void *, s32))guess_SetState)(a0, 0);
         func_80159B70(a0);
     } else {
         if (flag & 0x4000) {

@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_801E288C(void);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_801E2980(s32 arg0, s32 arg1);
 extern void func_801E28D0(void);
 extern void func_801E295C(void);
@@ -70,7 +70,7 @@ extern u16  func_80148800(s32 *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_801E531C(void);
 extern s32 func_8001ABBC(u32, u32, void *, u32, u32);
 extern void func_801E5324(void);
@@ -174,8 +174,8 @@ s32 func_801E5504(void) {
 
 
 s32 func_801E5514(void) {
-    extern s32 func_80029504(void);
-    extern s32 func_80029178(s32);
+    extern s32 guess_GetStoryProgress(void);
+    extern s32 guess_TestGameFlag(s32);
     extern u8 D_801E67E8[];
     extern u8 D_801E6828[];
     extern s32 D_801E256C;
@@ -184,10 +184,10 @@ s32 func_801E5514(void) {
     s32 p;
     s32 v;
 
-    x = func_80029504();
+    x = guess_GetStoryProgress();
     if ((u32)(x - 200) < 100) {
         t = 0;
-    } else if (x < 300 || (func_80029178(250) & 0xFF) == 0) {
+    } else if (x < 300 || (guess_TestGameFlag(250) & 0xFF) == 0) {
         t = 1;
     } else {
         t = 0;
@@ -204,8 +204,8 @@ s32 func_801E5514(void) {
 }
 
 
-extern s32 func_80029504(void);
-extern s32 func_80029178(s32);
+extern s32 guess_GetStoryProgress(void);
+extern s32 guess_TestGameFlag(s32);
 
 void func_801E559C(void) {
     extern s32 D_801E256C;
@@ -215,10 +215,10 @@ void func_801E559C(void) {
     s32 t;
     s32 flag;
 
-    t = func_80029504();
+    t = guess_GetStoryProgress();
     if ((u32)(t - 200) < 100u) {
         flag = 0;
-    } else if (t < 300 || (func_80029178(250) & 0xFF) == 0) {
+    } else if (t < 300 || (guess_TestGameFlag(250) & 0xFF) == 0) {
         flag = 1;
     } else {
         flag = 0;
@@ -240,7 +240,7 @@ void func_801E559C(void) {
 
 
 extern s32 func_801E288C(void);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_801E2980(s32 arg0, s32 arg1);
 extern void func_801E28D0(void);
 extern void func_801E295C(void);
@@ -309,22 +309,22 @@ extern u16  func_80148800(s32 *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_801E531C(void);
 extern s32 func_8001ABBC(u32, u32, void *, u32, u32);
 extern void func_801E5324(void);
 
-extern s32 func_80029504(void);
-extern s32 func_80029178(s32 arg);
-extern void func_80029124(s32 a0, s32 a1);
+extern s32 guess_GetStoryProgress(void);
+extern s32 guess_TestGameFlag(s32 arg);
+extern void guess_SetGameFlag(s32 a0, s32 a1);
 
 #define SHARED_FN func_801E5624
 #include "../shared/multi/cls_546048ffa222.h"
 #undef SHARED_FN
 
 
-extern s32 func_80029504(void);
-extern s32 func_80029178(s32 arg);
+extern s32 guess_GetStoryProgress(void);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_80184428(void);
 extern s32 func_801844F8(void);
 extern s32 func_8018456C(void);
@@ -339,14 +339,14 @@ void func_801E56A8(s32 a0) {
 
     s32 flag;
 
-    s32 v1 = func_80029504();
+    s32 v1 = guess_GetStoryProgress();
 
     if (v1 < 0x258) {
-        s32 u = func_80029504();
+        s32 u = guess_GetStoryProgress();
 
         if ((u32)(u - 0xC8) >= 0x64) {
             if (u >= 0x12C) {
-                if (func_80029178(0xFA) & 0xFF) {
+                if (guess_TestGameFlag(0xFA) & 0xFF) {
                     goto zero;
                 }
             } else {
@@ -367,7 +367,7 @@ void func_801E56A8(s32 a0) {
             s32 v0 = func_80184428();
             ((Unkstruct_801E56A8 *)a0)->unkE4 = D_801E6754[v0];
         } else {
-            s32 w = func_80029504();
+            s32 w = guess_GetStoryProgress();
             if ((u32)w < 0x12C) {
                 ((Unkstruct_801E56A8 *)a0)->unkE4 = (s32)&D_801E6DF4;
             } else {
@@ -388,7 +388,7 @@ void func_801E56A8(s32 a0) {
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern void func_8001C214(s32 a0, s32 a1);
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, s32 a1);
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern s32 func_80178B18(s32 a0, s32 a1);
@@ -406,7 +406,7 @@ void func_801E57C4(void *a0) {
     if (v0 == 0) {
         func_8012CAE4(a0);
     } else {
-        func_8001C214(v0, (s32)&D_801CEA24);
+        guess_InitModelObject(v0, (s32)&D_801CEA24);
         ptr = ((Unkstruct_800B5CB8 *)a0)->unk68;
         *(s16 *)(ptr + 0xC) = 0x7FFF;
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
@@ -425,10 +425,10 @@ void *func_801E585C(void) {
     extern u32 D_801E6D8C;
     extern s32 D_801EADF0;
     extern void func_801E5A7C(void);
-    extern s32 func_80029504(void);
+    extern s32 guess_GetStoryProgress(void);
     extern s32 func_801E5A1C(s32, s32, s32);
     extern void func_801E5A34(s32, s32, s32);
-    extern void func_80029124(s32 a0, s32 a1);
+    extern void guess_SetGameFlag(s32 a0, s32 a1);
     extern void func_801E5AAC(void);
     extern void func_801E5AFC(void);
     extern void func_801E5B3C(s32 a0);
@@ -438,14 +438,14 @@ void *func_801E585C(void) {
 
     p = D_80078E78;
     func_801E5A7C();
-    v = func_80029504();
+    v = guess_GetStoryProgress();
 
     if (v >= 0xC8) {
         if (v < 0x258) {
             if (func_801E5A1C(D_80078EB1, 0xD, 0x18)) {
                 if ((u32)(v - 0x136) < 0x46) {
                     func_801E5A34(0xA, (s32)&D_801E6C68, (s32)func_801E5AFC);
-                    func_80029124(0x112, 1);
+                    guess_SetGameFlag(0x112, 1);
                 } else {
                     func_801E5A34(0xA, 0, 0);
                 }
@@ -546,8 +546,8 @@ void func_801E5AAC(void)
 }
 
 
-extern s32 func_80029504(void);
-extern void func_80029124(s32 a0, s32 a1);
+extern s32 guess_GetStoryProgress(void);
+extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern void func_80029514(s32 arg0);
 
 #define SHARED_FN func_801E5AFC
@@ -555,8 +555,8 @@ extern void func_80029514(s32 arg0);
 #undef SHARED_FN
 
 
-extern s32 func_80029504(void);
-extern void func_80029124(s32 a0, s32 a1);
+extern s32 guess_GetStoryProgress(void);
+extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern void func_80029514(s32 arg0);
 
 #define SHARED_FN func_801E5B3C

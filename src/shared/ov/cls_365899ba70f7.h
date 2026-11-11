@@ -9,6 +9,6 @@ void SHARED_FN(void) {
     D_80126978 = -0x20;
     D_8012697A = 0;
     func_8012A018((s32)func_8017D0F4, 0);
-    func_8012A094((s32)D_80126948);
-    func_8017D0F4(D_80126948);
+    func_8012A094((s32)guess_g_MainCamera);
+    func_8017D0F4(guess_g_MainCamera);
 }

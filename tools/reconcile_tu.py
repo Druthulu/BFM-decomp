@@ -275,7 +275,7 @@ def fix(body, tu_path, fn):
     # just fixed, and the tool reports success. (Measured on func_80176218, Phase 29 SESSION-22.)
     #
     # Group the plan by STATEMENT, not by symbol. A declaration statement can declare SEVERAL
-    # symbols — `extern u16 D_80078EB2, D_8011F82A, D_8011F82C, D_80078EB4, D_8011F8C4;` — and only
+    # symbols — `extern u16 g_PlayerHpMax, D_8011F82A, D_8011F82C, g_PlayerHp, D_8011F8C4;` — and only
     # one of them may conflict. Replacing the statement with that one symbol's declaration silently
     # DROPS the other four, and the draft then fails with `D_8011F82A undeclared` several conflicts
     # later, pointing nowhere near the cause. Measured on func_80176218 (Phase 29 SESSION-21):

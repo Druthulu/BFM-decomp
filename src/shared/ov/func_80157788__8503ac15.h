@@ -3,6 +3,6 @@
 void func_80157788(int param_1)
 {
     D_8018E848 = 300;
-    ((void (*)(int, int))func_80147078)(param_1, 7);
+    ((void (*)(int, int))guess_SetState)(param_1, 7);
     func_801578C0(param_1);
 }

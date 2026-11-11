@@ -7,7 +7,7 @@ extern s32 func_80010A08(s32);
 extern void func_8004914C(void *);
 extern void func_800491AC(void *);
 extern s32 D_800A651C;
-extern u8 D_800AF648;
+extern u8 guess_g_CameraWsMatrix;
 extern s16 D_800B9A02;
 void func_80136D08(s32 arg0, s32 arg1) {
     s32 sp10;
@@ -15,8 +15,8 @@ void func_80136D08(s32 arg0, s32 arg1) {
     s32 temp_v0;
     s32 temp_v0_2;
     void *buf;
-    func_8004914C(&D_800AF648);
-    func_800491AC(&D_800AF648);
+    func_8004914C(&guess_g_CameraWsMatrix);
+    func_800491AC(&guess_g_CameraWsMatrix);
     buf = func_80010A08(0x14);
     SetLineG2(buf);
     *((u8 *)buf + 0xE) = 0xFF;

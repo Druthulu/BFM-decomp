@@ -845,7 +845,7 @@ def file_scope_types(item_text):
     complete brace-aware block.
 
     A file-local type defined in one region is needed by any LATER region whose carried
-    prototypes reference it — `extern s32 func_80134310(Vec3s *a0, ...)` is a parse error
+    prototypes reference it — `extern s32 guess_Vec3sDotAdd(Vec3s *a0, ...)` is a parse error
     without `typedef struct { s16 x, y, z; } Vec3s;`. Because each region becomes its OWN
     translation unit, re-emitting the typedef is legal (C89 forbids re-defining a typedef
     within one TU, but these are different TUs, and a region never both carries a type as

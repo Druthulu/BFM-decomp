@@ -12,7 +12,7 @@
 // @class: schedule
 // @unstuck(P36): none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_80182000 block defeats the tail-merge of the two identical D_80182000 loads; barrier emits zero bytes, load-bearing)
 
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_800D185C(u8 *a0);
 extern void func_80145B24(void);
 
@@ -37,7 +37,7 @@ void func_80145934(void) {
     s32 v;
     void *p;
 
-    v = func_80029504();
+    v = guess_GetStoryProgress();
     if (v >= 0x6A4) {
         p = &aD80192964;
     } else if (v >= 0x5DC) {
@@ -67,7 +67,7 @@ void func_80145934(void) {
 // @class: other
 // @unstuck(P36): none — MATCH (62 ins). Sibling func_80145934 (byte-matched, same shape) is the template. Tail is default-then-conditional-override (matches asm .L80145AEC), and a §5a cross-jump barrier prevents the two identical D_80182090 loads (>=0x6A4 and >=0x384) from being tail-merged.
 
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_800D185C(u8 *a0);
 extern void func_80145B24(void);
 
@@ -85,7 +85,7 @@ void func_80145A2C(void) {
     s32 v;
     void *p;
 
-    v = func_80029504();
+    v = guess_GetStoryProgress();
     if (v >= 0x6A4) {
         p = &aD801929F4;
     } else if (v >= 0x5DC) {
@@ -170,7 +170,7 @@ s32 func_80145CEC() {
     s32 pad[2];
     (void)&pad;
 
-    func_80016714(&D_80126B58, 0x254);
+    func_80016714(&guess_g_PlayerActor, 0x254);
     D_80126B78[0] = (s32 *)&D_800AFAE8;
     D_800AF7C8 = (s32 *)&D_801152C8;
     func_8001C320(&D_800AFAE8, &D_800DE2A4);
@@ -191,18 +191,18 @@ s32 func_80145CEC() {
     D_80126D12 = 0x1000;
     D_80126D10 = 0x1000;
     D_80126C4E = 0x1000;
-    func_801552F4(&D_80126B58);
-    func_80147084(&D_80126B58);
-    func_80147098(&D_80126B58);
-    func_801470AC(&D_80126B58);
+    func_801552F4(&guess_g_PlayerActor);
+    func_80147084(&guess_g_PlayerActor);
+    func_80147098(&guess_g_PlayerActor);
+    func_801470AC(&guess_g_PlayerActor);
     *(u16 *)((s32)D_80126B78[0] + 0x2c) = *(u16 *)((s32)D_80126B78[0] + 0x2c) | 0x50;
-    func_80149210(&D_80126B58, 8);
+    func_80149210(&guess_g_PlayerActor, 8);
     func_8014BE9C();
     func_8016533C();
     func_801627C0();
     func_80162AF4();
     func_80165C78();
-    func_801468C8(&D_80126B58, 1);
+    func_801468C8(&guess_g_PlayerActor, 1);
     if (currentLocationId != 0x30a2 && currentLocationId != 0x30a5) {
         func_80145EE8(0);
     }
@@ -213,7 +213,7 @@ s32 func_80145CEC() {
     func_80153C8C();
     D_8012707C = 0;
     D_8011DB10 = 0;
-    uVar1 = ((int(*)())func_80029504)();
+    uVar1 = ((int(*)())guess_GetStoryProgress)();
     if (uVar1 >= 10) {
         func_800290BC();
     }
@@ -225,8 +225,8 @@ s32 func_80145CEC() {
 // @class: schedule
 // @unstuck(P36): branch layout — 3-way dispatch on param_1; trying switch form
 
-extern s32 func_80029178(s32 arg);
-extern void func_80146014(s32 a0);
+extern s32 guess_TestGameFlag(s32 arg);
+extern void guess_MoveImageList(s32 a0);
 
 extern unsigned char D_80181488[];
 extern unsigned char D_801814B8[];
@@ -238,29 +238,29 @@ void func_80145EE8(s32 param_1)
 {
     switch (param_1) {
     case 0:
-        if (((unsigned char (*)(int))func_80029178)(0x1F) != 0) {
-            ((void (*)(void *))func_80146014)(D_80181488);
+        if (((unsigned char (*)(int))guess_TestGameFlag)(0x1F) != 0) {
+            ((void (*)(void *))guess_MoveImageList)(D_80181488);
         }
-        if (((unsigned char (*)(int))func_80029178)(0x21) != 0) {
-            ((void (*)(void *))func_80146014)(D_801814B8);
+        if (((unsigned char (*)(int))guess_TestGameFlag)(0x21) != 0) {
+            ((void (*)(void *))guess_MoveImageList)(D_801814B8);
         }
-        if (((unsigned char (*)(int))func_80029178)(0x1E) != 0) {
-            ((void (*)(void *))func_80146014)(D_80181508);
+        if (((unsigned char (*)(int))guess_TestGameFlag)(0x1E) != 0) {
+            ((void (*)(void *))guess_MoveImageList)(D_80181508);
         }
-        if (((unsigned char (*)(int))func_80029178)(0x1D) != 0) {
-            ((void (*)(void *))func_80146014)(D_80181538);
+        if (((unsigned char (*)(int))guess_TestGameFlag)(0x1D) != 0) {
+            ((void (*)(void *))guess_MoveImageList)(D_80181538);
         }
-        if (((unsigned char (*)(int))func_80029178)(0x20) == 0) {
+        if (((unsigned char (*)(int))guess_TestGameFlag)(0x20) == 0) {
             return;
         }
-        ((void (*)(void *))func_80146014)(D_80181568);
+        ((void (*)(void *))guess_MoveImageList)(D_80181568);
         break;
     case 1:
-        ((void (*)(void *))func_80146014)(D_80181488);
-        ((void (*)(void *))func_80146014)(D_801814B8);
-        ((void (*)(void *))func_80146014)(D_80181508);
-        ((void (*)(void *))func_80146014)(D_80181538);
-        ((void (*)(void *))func_80146014)(D_80181568);
+        ((void (*)(void *))guess_MoveImageList)(D_80181488);
+        ((void (*)(void *))guess_MoveImageList)(D_801814B8);
+        ((void (*)(void *))guess_MoveImageList)(D_80181508);
+        ((void (*)(void *))guess_MoveImageList)(D_80181538);
+        ((void (*)(void *))guess_MoveImageList)(D_80181568);
         break;
     }
 }
@@ -295,8 +295,8 @@ void func_80146360(void)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 D_80126B58;
-    D_801815B8[D_80126BA4](&D_80126B58);
+    extern s32 guess_g_PlayerActor;
+    D_801815B8[D_80126BA4](&guess_g_PlayerActor);
 }
 
 
@@ -599,12 +599,12 @@ extern s32 ratan2(s32 a0, s32 a1);
 
 int func_80148AFC(void *a0) {
 
-    extern s32 D_801151D4;
+    extern s32 guess_g_ActiveCamera;
     extern s32 (*D_801815C0[])(void *, s32);
     s32 p = (s32)a0;
     s32 iVar5 = ((Unkstruct_80148AFC *)p)->unk20;
-    s32 tmp = (ratan2(((Unkstruct_80126948 *)D_801151D4)->unk44 - ((Unkstruct_80126948 *)D_801151D4)->unk50,
-                      ((Unkstruct_80126948 *)D_801151D4)->unk48 - ((Unkstruct_80126948 *)D_801151D4)->unk3C) - 0x400) & 0xFFF;
+    s32 tmp = (ratan2(((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk44 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk50,
+                      ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk48 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk3C) - 0x400) & 0xFFF;
     s32 ang = tmp;
 
     switch (((Unkstruct_80148AFC *)p)->unkA9) {
@@ -671,12 +671,12 @@ extern s32 ratan2(s32 a0, s32 a1);
 
 s32 func_80148D44(void) {
 
-    extern s32 D_801151D4;
+    extern s32 guess_g_ActiveCamera;
     extern u8 D_80126C01;
     extern u16 D_80126C02;
     extern u16 D_80126C06;
     extern s16 (*D_80181600[])(s32);
-    s32 p = D_801151D4;
+    s32 p = guess_g_ActiveCamera;
     s32 tmp = (ratan2(((Unkstruct_80126948 *)p)->unk44 - ((Unkstruct_80126948 *)p)->unk50,
                       ((Unkstruct_80126948 *)p)->unk48 - ((Unkstruct_80126948 *)p)->unk3C) - 0x400) & 0xFFF;
     s32 ang = tmp;
@@ -702,10 +702,10 @@ extern s32 ratan2(s32, s32);
 
 s32 func_80148E54(s32 arg0) {
 
-    extern s32 D_801151D4;
+    extern s32 guess_g_ActiveCamera;
     extern s16 (*D_80181640[])(s32);
-    s32 tmp = (ratan2(((Unkstruct_80126948 *)D_801151D4)->unk44 - ((Unkstruct_80126948 *)D_801151D4)->unk50,
-                      ((Unkstruct_80126948 *)D_801151D4)->unk48 - ((Unkstruct_80126948 *)D_801151D4)->unk3C) - 0x400) & 0xFFF;
+    s32 tmp = (ratan2(((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk44 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk50,
+                      ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk48 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk3C) - 0x400) & 0xFFF;
     s32 ang = tmp;
 
     switch (*(u8 *)(arg0 + 0xA9)) {
@@ -932,7 +932,7 @@ s32 func_80149FB0(s32 a0) {
 
 // @class: struct
 // @unstuck(P36): none — MATCH (90 ins). Keys: (1) single Loc struct pins the 0x10..0x25 stack
-//   region (frame 0x40) for the func_8012F14C/func_80135260 out-params; (2) loop is a
+//   region (frame 0x40) for the guess_RotTransSVWithMatrix/func_80135260 out-params; (2) loop is a
 //   while(1) with the 6 checks &&-chained in the loop CONDITION + the "found" block AFTER
 //   the loop (fall-through) so the success path is a forward j .L8014A190 — matches the
 //   target CFG (Ghidra-C while-form); (3) the base &D_801202A0 must be RECOMPUTED inside
@@ -1921,7 +1921,7 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
         ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_80181728[((struct Ent_801506A4 *)arg1)->unk70]);
         break;
     case 0x32:
-        if ((*(unsigned short*)&D_80078EB4) != 0) {
+        if ((*(unsigned short*)&g_PlayerHp) != 0) {
             ((void(*)(int))func_80147324)(0x452);
             ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_80181730[((struct Ent_801506A4 *)arg1)->unk70], 1);
             ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_80181730[((struct Ent_801506A4 *)arg1)->unk70]);
@@ -1954,14 +1954,14 @@ extern S16 D_8019119C;
 extern s32 D_80181740;
 extern s32 D_80126990;
 extern s32 D_80126994;
-extern u8 D_80126948[];
+extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 
 s32 func_8015094C(s32 param_1) {
     struct { s32 x, mid, y; s32 _pad[9]; } arg;   /* 0x30 @ 0x10 */
     S16 local;                                     /* 0x10 @ 0x40 */
     s32 pad1[4];                                    /* 0x10 @ 0x50 */
-    u8 *cam = D_80126948;
+    u8 *cam = guess_g_MainCamera;
     s32 ret;
 
     local = D_8019119C;

@@ -5,8 +5,8 @@ s32 SHARED_FN(void) {
     v0 = func_800167F0(4);
     if ((v0 & 0xFFFF) != 0) {
         func_80029514(0x6A4);
-        func_80029124(0x11D, 1);
-        func_80029124(0x123, 1);
+        guess_SetGameFlag(0x11D, 1);
+        guess_SetGameFlag(0x123, 1);
         D_80078EC6 = 1;
         func_8002AEE4();
         return 1;

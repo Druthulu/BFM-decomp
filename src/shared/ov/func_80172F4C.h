@@ -4,11 +4,11 @@ extern void func_8017303C(void *);
 extern void func_80154A74(s32 a0, s32 a1);
 extern s32 func_80174650(s32);
 extern u8 D_800D47F4[];
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern s16 D_80126B30;
 void func_80172F4C(void) {
     func_8017303C(D_800D47F4);
-    func_80154A74((s32)&D_80126B58, 0x13);
+    func_80154A74((s32)&guess_g_PlayerActor, 0x13);
     D_80126B30 = 0;
-    func_80174650((s32)&D_80126B58);
+    func_80174650((s32)&guess_g_PlayerActor);
 }

@@ -1,6 +1,6 @@
 /* func_8012E778 — shared body (overlay slot 0x80128158, h_exact fba658ee). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u8 D_800AF648;
+extern u8 guess_g_CameraWsMatrix;
 s32 func_8012E778(int param_1, int param_2)
 {
     MATRIX_L48 *r0;
@@ -12,7 +12,7 @@ s32 func_8012E778(int param_1, int param_2)
     sp[0] = (int)*(short *)(param_1 + 6);
     sp[1] = (int)*(short *)(param_1 + 10);
     sp[2] = (int)*(short *)(param_1 + 0xe);
-    r0 = (MATRIX_L48 *)&D_800AF648;
+    r0 = (MATRIX_L48 *)&guess_g_CameraWsMatrix;
     gte_SetRotMatrix(r0);
     gte_SetTransMatrix(r0);
     gte_ldlv0((VECTOR *)sp);

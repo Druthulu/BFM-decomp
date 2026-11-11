@@ -10,6 +10,6 @@ void func_8017D0FC(void) {
     D_80126978 = 0;
     D_8012697A = 0;
     func_8012A018((s32)func_8017D22C, 0);
-    func_8012A094((s32)D_80126948);
-    func_8017D22C(D_80126948);
+    func_8012A094((s32)guess_g_MainCamera);
+    func_8017D22C(guess_g_MainCamera);
 }

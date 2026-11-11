@@ -56,7 +56,7 @@ void func_8015D1B8(s32 *a0)
         ((void (*)(s32 *))func_8014FA04)(a0);
         if (((s32 (*)(s32 *))func_8014E6A0)(a0) == 0) {
             ((void (**)(s32*))D_80181914)[*(u16 *)a0](a0);
-            func_80147078(a0, 0);
+            guess_SetState(a0, 0);
             ((void (*)(s32 *))func_80159B70)(a0);
         } else {
             ((void (*)(s32 *))func_8015D380)(a0);

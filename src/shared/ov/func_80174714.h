@@ -3,10 +3,10 @@
 extern s32 func_800CF8CC(void);
 extern void func_80147060(u8 *a0);
 extern s32 func_8016F0AC();
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 void func_80174714(void) {
     if (func_800CF8CC() == 0) {
-        func_80147060((u8 *)&D_80126B58);
+        func_80147060((u8 *)&guess_g_PlayerActor);
         func_8016F0AC();
     }
 }

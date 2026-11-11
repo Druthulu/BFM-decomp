@@ -16,7 +16,7 @@ void func_8015D738(void *arg0) {
     s1 = *(s32 *)((char *)arg0 + 0x178);
     if (s1 == 0 || *(u16 *)s1 == 0) {
         D_80181914[*(u16 *)arg0](arg0);
-        ((void (*)(void *, s32))func_80147078)(arg0, 0);
+        ((void (*)(void *, s32))guess_SetState)(arg0, 0);
         func_80159B70(arg0);
         return;
     }
@@ -49,7 +49,7 @@ void func_8015D738(void *arg0) {
         ((void (*)(void *, void *))func_80146DB8)(arg0, &D_801818E8);
     }
     ((void (*)(void *))func_80147A84)(arg0);
-    ((void (*)(void *))func_801473EC)(arg0);
+    ((void (*)(void *))guess_ApplyVelocity)(arg0);
     s1 = *(s32 *)((char *)arg0 + 0x178);
     *(s16 *)(s1 + 6) = (s16)((s8)D_80181B58[*(s32 *)((char *)arg0 + 0x234)] + *(u16 *)(*(s32 *)(s1 + 0x78) + 0xc));
     *(s16 *)(s1 + 0xa) = (s16)((s8)D_80181B58[*(s32 *)((char *)arg0 + 0x234) + 1] + *(u16 *)(*(s32 *)(s1 + 0x78) + 0xe));
@@ -58,7 +58,7 @@ void func_8015D738(void *arg0) {
     *(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) = (*(u16 *)(*(s32 *)((char *)arg0 + 0x20) + 0x12) + 0x800) & 0xFFF;
     if (((s32 (*)(void *))func_8014D738)(arg0) != 0) {
         D_80181914[*(u16 *)arg0](arg0);
-        ((void (*)(void *, s32))func_80147078)(arg0, 9);
+        ((void (*)(void *, s32))guess_SetState)(arg0, 9);
         func_8015C714(arg0);
         return;
     }

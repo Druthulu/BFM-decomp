@@ -2,7 +2,7 @@
  * exemplar src/md_SC05_023/md_SC05_023.c:43 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/md_SC05_028/md_SC05_028.c:40 rejected by type_census --check */
 s32 SHARED_FN(s32 param_1) {
-    u32 s1 = func_80029504();
+    u32 s1 = guess_GetStoryProgress();
 
     if ((((Unkstruct_801EDA64 *)param_1)->unk28 = ((Unkstruct_801EDA64 *)param_1)->unk28 - 1) == -1) {
         func_800D1E28();

@@ -2,10 +2,10 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8012EFB8(void *param_1, void *param_2)
 {
-    extern u8 D_800AF648;
+    extern u8 guess_g_CameraWsMatrix;
     s32 *m;
     s32 flag;
-    m = (s32 *)&D_800AF648;
+    m = (s32 *)&guess_g_CameraWsMatrix;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
     gte_ldv0(param_1);

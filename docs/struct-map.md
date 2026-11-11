@@ -6,7 +6,7 @@
 
 | # | type | sites | bodies | fields | size ≥ | width conflicts (+sign mixes) | instance globals | pointer globals |
 |---:|---|---:|---:|---:|---:|---:|---|---|
-| 1 | `Unkstruct_800D3888` | 24029 | 6841 | 218 | 0x24c | 50 (+66 sign) | D_800D3888, D_800DE5A0, D_801269F0, D_80126B58… | D_8006386C, D_80074778, D_80074780, D_80074784… |
+| 1 | `Unkstruct_800D3888` | 24029 | 6841 | 218 | 0x24c | 50 (+66 sign) | D_800D3888, D_800DE5A0, D_801269F0, guess_g_PlayerActor… | D_8006386C, D_80074778, D_80074780, D_80074784… |
 | 2 | `Unkstruct_a2c8734a` | 2646 | 126 | 8 | 0x34 | 0 (+3 sign) |  |  |
 | 3 | `Unkstruct_80130D48` | 2382 | 587 | 25 | 0x64 | 6 (+3 sign) |  | D_80072C84, D_80078E78 |
 | 4 | `Unkstruct_30f97198` | 2091 | 123 | 6 | 0x4b | 0 (+0 sign) |  |  |
@@ -22,7 +22,7 @@
 | 14 | `Unkstruct_ee756a74` | 992 | 124 | 5 | 0xfe | 0 (+0 sign) |  |  |
 | 15 | `Unkstruct_800B9A02` | 989 | 431 | 1 | 0x2 | 0 (+0 sign) | D_800B9A02 |  |
 | 16 | `Unkstruct_b6c7c603` | 931 | 133 | 7 | 0x20 | 1 (+0 sign) |  |  |
-| 17 | `Unkstruct_80126948` | 930 | 216 | 32 | 0xa4 | 0 (+2 sign) | D_80126948, D_80126E60 | D_80114EE8, D_801151D4, D_80126948, D_80126E60… |
+| 17 | `Unkstruct_80126948` | 930 | 216 | 32 | 0xa4 | 0 (+2 sign) | guess_g_MainCamera, D_80126E60 | D_80114EE8, guess_g_ActiveCamera, guess_g_MainCamera, D_80126E60… |
 | 18 | `Unkstruct_80146128` | 844 | 166 | 10 | 0x54 | 0 (+1 sign) |  | D_80126B78 |
 | 19 | `Unkstruct_2932a0a7` | 798 | 133 | 6 | 0x12 | 5 (+0 sign) |  |  |
 | 20 | `Unkstruct_2ac2250b` | 786 | 131 | 3 | 0xb0 | 0 (+0 sign) |  |  |
@@ -118,7 +118,7 @@
 | 110 | `Unkstruct_8016BFA8` | 252 | 126 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 111 | `Unkstruct_6ffc1ed8` | 250 | 125 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 112 | `Unkstruct_0f0a788d` | 250 | 125 | 0 | 0x0 | 0 (+0 sign) |  |  |
-| 113 | `Unkstruct_80126B62` | 249 | 240 | 1 | 0x2 | 0 (+1 sign) | D_80126B62 |  |
+| 113 | `Unkstruct_80126B62` | 249 | 240 | 1 | 0x2 | 0 (+1 sign) | guess_g_PlayerPosY |  |
 | 114 | `Unkstruct_8d9788e9` | 248 | 124 | 2 | 0x4 | 0 (+0 sign) |  |  |
 | 115 | `Unkstruct_a45ed457` | 248 | 124 | 2 | 0x4 | 0 (+0 sign) |  |  |
 | 116 | `Unkstruct_5f2977df` | 248 | 124 | 2 | 0x1c | 0 (+0 sign) |  |  |
@@ -132,12 +132,12 @@
 | 124 | `Unkstruct_5fcd3f3d` | 242 | 121 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 125 | `Unkstruct_0ca8cbd9` | 242 | 121 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 126 | `Unkstruct_f20178fa` | 237 | 79 | 3 | 0x12 | 0 (+0 sign) |  |  |
-| 127 | `Unkstruct_80126B66` | 235 | 207 | 1 | 0x2 | 0 (+1 sign) | D_80126B66 |  |
+| 127 | `Unkstruct_80126B66` | 235 | 207 | 1 | 0x2 | 0 (+1 sign) | guess_g_PlayerPosZ |  |
 | 128 | `Unkstruct_8016BBE0` | 234 | 138 | 10 | 0x38 | 0 (+3 sign) |  |  |
 | 129 | `Unkstruct_889cd145` | 215 | 5 | 13 | 0xfe | 3 (+5 sign) |  |  |
 | 130 | `Unkstruct_bedc4b57` | 215 | 5 | 14 | 0x36 | 5 (+2 sign) |  |  |
 | 131 | `Unkstruct_6f968b4b` | 215 | 5 | 14 | 0x36 | 5 (+5 sign) |  |  |
-| 132 | `Unkstruct_80126B5E` | 208 | 200 | 1 | 0x2 | 0 (+0 sign) | D_80126B5E |  |
+| 132 | `Unkstruct_80126B5E` | 208 | 200 | 1 | 0x2 | 0 (+0 sign) | guess_g_PlayerPosX |  |
 | 133 | `Unkstruct_4ddc41f4` | 192 | 48 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 134 | `Unkstruct_801439FC` | 184 | 147 | 15 | 0x100 | 0 (+3 sign) |  |  |
 | 135 | `Unkstruct_08cfb3f9` | 172 | 2 | 9 | 0x24 | 2 (+0 sign) |  |  |
@@ -170,10 +170,10 @@
 | 162 | `Unkstruct_80115218` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) | D_80115218 |  |
 | 163 | `Unkstruct_78fccc54` | 133 | 133 | 0 | 0x0 | 0 (+0 sign) |  |  |
 | 164 | `Unkstruct_e4a05784` | 133 | 133 | 1 | 0x34 | 0 (+0 sign) |  |  |
-| 165 | `Unkstruct_80078EB0` | 132 | 131 | 1 | 0x2 | 0 (+0 sign) | D_80078EB0 |  |
+| 165 | `Unkstruct_80078EB0` | 132 | 131 | 1 | 0x2 | 0 (+0 sign) | guess_g_ClockMinute |  |
 | 166 | `Unkstruct_24217c05` | 131 | 131 | 1 | 0x4 | 0 (+0 sign) |  |  |
 | 167 | `Unkstruct_9e05e634` | 131 | 131 | 1 | 0x2c | 0 (+0 sign) |  |  |
-| 168 | `Unkstruct_80130D48` | 131 | 131 | 1 | 0x2 | 0 (+0 sign) |  | D_80078EB2, D_80078EB4, D_8011DB14 |
+| 168 | `Unkstruct_80130D48` | 131 | 131 | 1 | 0x2 | 0 (+0 sign) |  | g_PlayerHpMax, g_PlayerHp, D_8011DB14 |
 | 169 | `Unkstruct_8099f052` | 130 | 130 | 1 | 0x14 | 0 (+0 sign) |  |  |
 | 170 | `Unkstruct_8b399b49` | 130 | 130 | 1 | 0x2 | 0 (+0 sign) |  |  |
 | 171 | `Unkstruct_80115118` | 130 | 130 | 1 | 0x2 | 0 (+0 sign) | D_80115118 |  |

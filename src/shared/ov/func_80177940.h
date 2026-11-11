@@ -1,6 +1,6 @@
 /* func_80177940 — shared body (overlay slot 0x80128158, h_exact 1bed0717). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 void func_80177940(u32 *p, u32 a_, u32 b_, u32 c_)
 {
   int new_var;
@@ -22,7 +22,7 @@ register u32 n __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B h
   b = b_;
   c = c_;
   a = new_var;
-  v = (u32) func_80029504();
+  v = (u32) guess_GetStoryProgress();
   v = v - 10;
   v = v < 0x4b0;
   v = -v;

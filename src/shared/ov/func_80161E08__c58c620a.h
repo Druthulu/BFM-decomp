@@ -9,7 +9,7 @@ void func_80161E08(s32 param_1) {
     extern void func_801622C4(void);
     extern u16 D_800AF7BC;
     extern u16 D_800AF7BE;
-    extern s16 D_80078EB0;
+    extern s16 guess_g_ClockMinute;
     extern u16 D_800B5BD8;
     extern s16 D_800B5C04;
     extern u8 D_800B5BFF;
@@ -72,7 +72,7 @@ void func_80161E08(s32 param_1) {
         }
 
         func_800242D0((s16)func_801620C4(), &D_8018E8B4, 0x84);
-        if ((a2 & 0x7FFF) == (s32)D_80078EB0) {
+        if ((a2 & 0x7FFF) == (s32)guess_g_ClockMinute) {
             func_801622C4();
         }
     }

@@ -21,7 +21,7 @@ kept as a Gen2 quality artifact + decomp.me enabler, **not** a build input.
 | +0x0AC | u8  | day | =2 |
 | +0x0B1 | u8  | hour | =22 |
 | +0x0B2 | u16 | hp_max | =150 |
-| +0x0B4 | u16 | **hp_cur** | =150 (the plan's "+0xB4"; Phase-3 0x80078EB4) |
+| +0x0B4 | u16 | **hp_cur** | =150 (the plan's "+0xB4"; Phase-3 0x80078EB4 (g_PlayerHp)) |
 | +0x0B6 | u16 | bp_max | =150 |
 | +0x0B8 | u16 | bp_cur (stamina) | 74→50 as the player walked (BP-drain) |
 | +0x108 | s32 | position X | +6 on a walk north; 4-byte (code width 4, census control `player_block_widths`, P37) |

@@ -15,7 +15,7 @@ extern s16 D_800B9A0A;
 extern u8 D_80078E50;
 extern void func_800D185C(u8 *a0);
 extern void func_801458E8(void);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_80145B24(void);
 extern u8 D_801871A8;
 extern u8 D_80187118;
@@ -34,12 +34,12 @@ extern void func_80145A2C(void);
 extern s32 func_800291DC(s32);
 extern void func_800291C8(s32, s32);
 extern void func_80162120(void);
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
 extern u8 D_800AF630[];
 extern u8 D_80078EC0;
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
@@ -49,8 +49,8 @@ extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
 extern s32 func_80145CEC();
-extern s32 func_80029178(s32 arg);
-extern void func_80146014(s32 a0);
+extern s32 guess_TestGameFlag(s32 arg);
+extern void guess_MoveImageList(s32 a0);
 extern unsigned char D_80186630[];
 extern unsigned char D_80186660[];
 extern unsigned char D_801866B0[];
@@ -160,7 +160,7 @@ extern void func_8014704C(s32 *a0);
 extern s32 func_80147054(void *a0);
 extern void func_80147060(u8 * a0);
 extern void func_8014706C(void *arg0);
-extern void func_80147078(s32 *a0, s16 a1);
+extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80147084(s32 *a0);
 extern void func_8014708C(void *arg0);
 extern s32 func_801470A0(void *a0);
@@ -181,7 +181,7 @@ extern void func_801472F0(void *a0);
 extern void func_80147364(u16, s32);
 extern void func_80147300(u16 arg0);
 extern void func_80147324(s32 arg0);
-extern void func_801473EC(s32 *a0);
+extern void guess_ApplyVelocity(s32 *a0);
 extern void func_80147460(s32 a0);
 extern void func_80147514(s32 arg0);
 extern void func_80147628(s32 a0);
@@ -305,15 +305,15 @@ extern void func_801490F0(s32 *a0, s16 a1);
 extern void func_80149078(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80012B04(s32 a0, s32 a1, s32 a2);
 extern void func_801490F8(s32 a0, s32 a1);
-extern s32 func_801491C4(s32 a0);
+extern s32 guess_GetCameraYaw(s32 a0);
 extern s32 func_80149184(s32 a0);
-extern s32 D_801151D4;
+extern s32 guess_g_ActiveCamera;
 extern void func_80149204(s32 *a0);
 extern void func_80149210(s32 a0, s32 a1);
 extern s32 func_80149284(s32 *a0, s32 a1);
 extern void func_80149350(s32 arg0);
 extern void func_80149290(s32 a0);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80149374(s32 arg0, s32 arg1);
 extern void func_801493D0(s32 param_1, s32 param_2, s32 param_3);
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
@@ -357,7 +357,7 @@ extern s32 func_80149B54(s32 * arg0);
 extern void func_8015DE24(s32 *a0);
 extern void func_80157510(s32 *a0);
 extern void func_80149BAC(s32 *a0);
-extern s32 func_80029178(s32 a0);
+extern s32 guess_TestGameFlag(s32 a0);
 extern s32 func_80149C08(s32 arg0);
 extern void func_801577C8(s32 arg0);
 extern void func_80149C94(void);
@@ -461,8 +461,8 @@ extern void func_8014B6F0(s32 a0, s32 a1);
 extern void func_8014B768(s32 a0, s32 a1);
 extern void func_8014B944(s32 a0, s32 a1, s32 a2);
 extern s32 D_80078EA4;
-extern u16 D_80078EB2;
-extern s16 D_80078EB4;
+extern u16 g_PlayerHpMax;
+extern s16 g_PlayerHp;
 extern void func_8014BB0C(void);
 extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
 extern void func_8014BC0C(s32 a0, s32 a1);
@@ -482,7 +482,7 @@ extern void func_80029ED4(s32 a0);
 extern void func_8014BDE8(s32 a0);
 extern void func_8014BE78(void);
 extern void func_8014BE9C(void);
-extern void func_80029124(s32 a0, s32 a1);
+extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern void func_8014BEC0(void);
 extern void func_8014BF18(s32 a0);
 extern void func_8014BF48(void);
@@ -646,7 +646,7 @@ extern short func_801508F8(s32 a0);
 extern s32 D_801868E8;
 extern s32 D_80126990;
 extern s32 D_80126994;
-extern u8 D_80126948[];
+extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
 extern void func_80150B9C(void);
@@ -895,7 +895,7 @@ extern void func_801552F4(s32 a0);
 extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
 extern void func_801553A8(s32 *a0);
-extern s32 func_80029178(s32);
+extern s32 guess_TestGameFlag(s32);
 extern int (*D_80186ADC[])(void);
 extern s32 func_80155458(s32 param_1);
 extern s32 func_801659DC(u8 *a0);
@@ -1334,7 +1334,7 @@ extern void func_8015F76C(s32 *a0);
 extern s32 func_8015F7D4(s32 a0);
 extern void func_8015F7A0(s32 *arg0);
 extern void func_8015F810(s32 *a0);
-extern void func_80147078(s32 *, s16);
+extern void guess_SetState(s32 *, s16);
 extern void func_80159B70(void *);
 extern void func_8015F89C(void *arg0);
 extern void func_8015F948(s32 *param_1);
@@ -1441,7 +1441,7 @@ extern int func_801620C4(void);
 extern s32 func_800D0D7C(s32, s32);
 extern int D_801B6458[];
 extern void func_8016216C(void);
-extern u8 D_80078EB0;
+extern u8 guess_g_ClockMinute;
 extern u8 D_80078EB1;
 extern s32 func_801621CC(s32 arg0);
 extern void func_801622C4(void);
@@ -1770,8 +1770,8 @@ extern void func_8016A700(void *a0);
 extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
-extern u16 D_80126B5E;
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosX;
+extern u16 guess_g_PlayerPosZ;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_80187DDC[])(void);
 extern void func_8016AB30(void *a0);
@@ -2599,7 +2599,7 @@ extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012B030(u8 *a0);
-extern s32 func_8012B744(void *a0, void *a1);
+extern s32 guess_YawToPoint(void *a0, void *a1);
 extern s32 func_8012BE98(s32 a0, u16 *a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
 
@@ -2638,11 +2638,11 @@ void func_8017AE2C(s32 param_1) {
             if (g[5] != 0) {
                 void *p = (void *)(pv + 4);
                 if ((s16)func_80012A60(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12),
-                                       (s16)func_8012B744(p, &g[6])) < 0x100) {
+                                       (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
                 ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
-                    func_8012B744(p, &D_801B7A74);
+                    guess_YawToPoint(p, &D_801B7A74);
                 func_8012B178(pv, 0xFFFA0000);
                 func_8012AD80(pv);
                 ((Unkstruct_800B5CB8 *)pv)->unkA -= 8;
@@ -2655,7 +2655,7 @@ void func_8017AE2C(s32 param_1) {
                 }
             }
             {
-                s32 t = func_8012B744((void *)(pv + 4), &g[6]);
+                s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
                 s32 r = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), t, g[3]);
                 ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
                     ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
@@ -2668,7 +2668,7 @@ void func_8017AE2C(s32 param_1) {
             return;
         }
         ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
-            func_8012B744((void *)(pv + 4), &D_801B7A74);
+            guess_YawToPoint((void *)(pv + 4), &D_801B7A74);
         func_8012B178(pv, 0xFFFA0000);
         func_8012AD80(pv);
         ((Unkstruct_800B5CB8 *)pv)->unkA -= 8;
@@ -2715,8 +2715,8 @@ void func_8017B0E4(int param_1, int param_2)
 
 
 
-extern u16 D_80126B5E;
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosX;
+extern u16 guess_g_PlayerPosZ;
 extern s16 D_801B7504;
 extern u16 D_801B7584;
 extern u16 D_801B7586;
@@ -2727,13 +2727,13 @@ void func_8017B1D8(void) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u16 D_80126B62;
+    extern u16 guess_g_PlayerPosY;
     func_8012A418();
     D_801B7A98 = 0;
     D_801B7504 = 0;
-    D_801B7584 = D_80126B5E;
-    D_801B7586 = D_80126B62;
-    D_801B7588 = D_80126B66;
+    D_801B7584 = guess_g_PlayerPosX;
+    D_801B7586 = guess_g_PlayerPosY;
+    D_801B7588 = guess_g_PlayerPosZ;
 }
 
 
@@ -2746,7 +2746,7 @@ void func_8017B1D8(void) {
 
 s32 func_8017B238(s32 param_1, s32 param_2)
 {
-    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
     extern void func_8017BE60(void *a0);
     extern u8 D_801885B0[];
     extern s16 D_801B757C;
@@ -2766,8 +2766,8 @@ s32 func_8017B238(s32 param_1, s32 param_2)
 
         src = &D_801885B0[((u32)param_2) * 0x10];
         a2addr = (s32)&D_801885B0[((u32)param_2) * 0x10 + 8];
-        func_8012F214(param_1, (s32)src, (s32)&buf[0]);
-        func_8012F214(param_1, a2addr, (s32)&buf[8]);
+        guess_RotTransSVWithObjMatrix(param_1, (s32)src, (s32)&buf[0]);
+        guess_RotTransSVWithObjMatrix(param_1, a2addr, (s32)&buf[8]);
     }
     {
         s16 *p794 = &D_801B757C;
@@ -2794,7 +2794,7 @@ s32 func_8017B238(s32 param_1, s32 param_2)
 s32 func_8017B368(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
-    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
     extern SV4_8017B368 D_801B7524;
     extern SV4_8017B368 D_801B752C;
     extern s16 D_801B757C;
@@ -2813,8 +2813,8 @@ s32 func_8017B368(s32 param)
     } else {
         s32 ax = (s32)&((Pair16_8017B368 *)&D_801885B0)[n].x;
         s32 ay = (s32)&((Pair16_8017B368 *)&D_801885B0)[n].y;
-        func_8012F214(param, ax, (s32)&loc0);
-        func_8012F214(param, ay, (s32)&loc1);
+        guess_RotTransSVWithObjMatrix(param, ax, (s32)&loc0);
+        guess_RotTransSVWithObjMatrix(param, ay, (s32)&loc1);
     }
 
     (*(SV4_8017B368 *)&D_801B757C) = loc0;
@@ -2830,7 +2830,7 @@ s32 func_8017B368(s32 param)
 s32 func_8017B490(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
-    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
     extern SV4_8017B368 D_801B7524;
     extern SV4_8017B368 D_801B752C;
     extern s16 D_801B757C;
@@ -2857,8 +2857,8 @@ s32 func_8017B490(s32 param)
     } else {
         s32 ax = (s32)&((Pair16 *)&D_801885B0)[n].x;
         s32 ay = (s32)&((Pair16 *)&D_801885B0)[n].y;
-        func_8012F214(param, ax, (s32)&loc0);
-        func_8012F214(param, ay, (s32)&loc1);
+        guess_RotTransSVWithObjMatrix(param, ax, (s32)&loc0);
+        guess_RotTransSVWithObjMatrix(param, ay, (s32)&loc1);
     }
 
     (*(SV4_8017B368 *)&D_801B757C) = loc0;
@@ -2886,8 +2886,8 @@ s32 func_8017B490(s32 param)
 
 s32 func_8017B614(s32 param_1, s32 param_2)
 {
-    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
-    extern void func_80129CF8(void);
+    extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
+    extern void guess_UpdateCamera(void);
     extern void func_8017BE60(void *a0);
     extern u8 D_801885B0[];
     extern s16 D_801B757C;
@@ -2914,8 +2914,8 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 
         src = &D_801885B0[((u32)param_2) * 0x10];
         a2addr = (s32)&D_801885B0[((u32)param_2) * 0x10 + 8];
-        func_8012F214(param_1, (s32)src, (s32)&buf[0]);
-        func_8012F214(param_1, a2addr, (s32)&buf[8]);
+        guess_RotTransSVWithObjMatrix(param_1, (s32)src, (s32)&buf[0]);
+        guess_RotTransSVWithObjMatrix(param_1, a2addr, (s32)&buf[8]);
     }
     *(Blk8_8017B614 *)&D_801B757C = *(Blk8_8017B614 *)&buf[0];
     *(Blk8_8017B614 *)&D_801B7574 = *(Blk8_8017B614 *)&buf[8];
@@ -2929,7 +2929,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     D_80126984 = ((SV4_8017B368 *)&D_801B7574)->v[0];
     D_80126988 = D_801B7576;
     D_8012698C = D_801B7578;
-    func_80129CF8();
+    guess_UpdateCamera();
 }
 
 
@@ -2969,7 +2969,7 @@ void func_8017B7A8(void)
 
 
 
-extern s32 D_801151D4;
+extern s32 guess_g_ActiveCamera;
 extern s16 D_801B7594;
 extern s16 D_801B7596;
 extern s16 D_801B7598;
@@ -2978,12 +2978,12 @@ extern s16 D_801B759E;
 extern s16 D_801B75A0;
 
 void func_8017B824(void) {
-    D_801B7594 = (s16) ((Unkstruct_80126948 *)D_801151D4)->unk48;
-    D_801B7596 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
-    D_801B7598 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
-    D_801B759C = (s16) M2C_FIELD(D_801151D4, s32 *, 0x3C);
-    D_801B759E = (s16) M2C_FIELD(D_801151D4, s32 *, 0x40);
-    D_801B75A0 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x44);
+    D_801B7594 = (s16) ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk48;
+    D_801B7596 = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x4C);
+    D_801B7598 = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x50);
+    D_801B759C = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x3C);
+    D_801B759E = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x40);
+    D_801B75A0 = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x44);
 }
 
 
@@ -3036,8 +3036,8 @@ s32 func_8017B8E8(s32 src) {
 // @class: struct
 // @unstuck(P36): none — MATCH (63 ins)
 
-extern u16 D_80126B5E;
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosX;
+extern u16 guess_g_PlayerPosZ;
 extern u16 D_801B7584;
 extern u16 D_801B7586;
 extern u16 D_801B7588;
@@ -3066,13 +3066,13 @@ void func_8017B940(void)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u16 D_80126B62;
+    extern u16 guess_g_PlayerPosY;
     s32 buf[3];
 
     D_8012694C = 2;
-    buf[0] = (*(s16 *)&D_80126B5E) - (*(s16 *)&D_801B7584);
-    buf[1] = (*(s16 *)&D_80126B62) - (*(s16 *)&D_801B7586);
-    buf[2] = (*(s16 *)&D_80126B66) - (*(s16 *)&D_801B7588);
+    buf[0] = (*(s16 *)&guess_g_PlayerPosX) - (*(s16 *)&D_801B7584);
+    buf[1] = (*(s16 *)&guess_g_PlayerPosY) - (*(s16 *)&D_801B7586);
+    buf[2] = (*(s16 *)&guess_g_PlayerPosZ) - (*(s16 *)&D_801B7588);
     (D_801B758C[0]) = buf[0];
     (D_801B758E[0]) = buf[1];
     (D_801B7590[0]) = buf[2];
@@ -3090,7 +3090,7 @@ void func_8017B940(void)
 // @class: struct
 // @unstuck(P36): none — MATCH (62 ins)
 
-extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
@@ -3108,11 +3108,11 @@ void func_8017BA3C(s32 param_1, s32 param_2)
     SV4 v0;            /* sp+0x10 : func_80049CAC arg0 */
     MTX mtx;           /* sp+0x18 : MATRIX_L48, t[] at sp+0x2c */
     SV4 v1;            /* sp+0x38 : RotTransSV arg0 */
-    SV4 svec;          /* sp+0x40 : func_8012F214 out */
+    SV4 svec;          /* sp+0x40 : guess_RotTransSVWithObjMatrix out */
     SV4 buf1;          /* sp+0x48 : RotTransSV arg1 (-> D_801B752C) */
     SV4 buf2;          /* sp+0x50 : RotTransSV arg2 */
 
-    func_8012F214(param_1, param_2, (s32)&svec);
+    guess_RotTransSVWithObjMatrix(param_1, param_2, (s32)&svec);
     D_801B7524 = svec;
 
     v0.v[0] = -((Unkstruct_8017BA3C *)param_2)->unkC;
@@ -3677,7 +3677,7 @@ void func_8017C2B0(s32 a0) {
  *   func_80013328  TU:520
  *   D_800B99DA     TU:615
  *   rand           TU:957/1092/3543
- *   D_80126B62     TU:1793/2740/3068
+ *   guess_g_PlayerPosY     TU:1793/2740/3068
  *   func_801746A4  TU:2397
  *   func_80178B18  TU:2539/3653
  *   func_8017C180  TU:3465/3542 (void return)
@@ -3699,7 +3699,7 @@ void func_8017C63C(s32 a0) {
 
     extern u8 D_80126B5C;
     extern u8 D_801202A0[];
-    extern u16 D_80126B62;
+    extern u16 guess_g_PlayerPosY;
     extern s16 D_80115214;
     extern u8 D_801886CC[];
     extern u8 D_80188730[];
@@ -3766,7 +3766,7 @@ void func_8017C63C(s32 a0) {
         ((Unkstruct_8017BEBC *)a0)->unk10A = 1;
     } else if (((s32 (*)(s32))func_8012BD14)(a0) < 0x2A40) {
         if (currentLocationId == 0x3028) {
-            if ((u16)(((Unkstruct_8017BEBC *)a0)->unkA - D_80126B62 + 4) < 4) {
+            if ((u16)(((Unkstruct_8017BEBC *)a0)->unkA - guess_g_PlayerPosY + 4) < 4) {
                 CAST_SIGN(u16, a0, 0x106) += 1;
             }
             if (((Unkstruct_8017BEBC *)a0)->unk106 < 2) {
@@ -3932,7 +3932,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 
 
 extern s32 func_8012C1B8(void);
-extern void func_8001C214(s32 a0, s32 a1);
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
@@ -3949,7 +3949,7 @@ void func_8017CD78(s32 a0) {
         return;
     }
 
-    func_8001C214(v0, s0_ptr[1]);
+    guess_InitModelObject(v0, s0_ptr[1]);
     func_8012A828(a0, (void *)s0_ptr[2]);
 
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
@@ -4393,7 +4393,7 @@ extern s16 D_80126B0C;
 
 
 extern s32 func_8014659C(void);
-extern void func_8001C214(s32 a0, s32 a1);
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_80149374(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void func_80146CA0(void *a0);
@@ -4411,7 +4411,7 @@ void func_8017DD70(s32 a0) {
     iVar2 = ((s32 (*)(void))func_8014659C)();
     ((Unkstruct_80126B58 *)a0)->unk20 = iVar2;
     if (iVar2 != 0) {
-        func_8001C214(iVar2, (s32)&D_801B40E4);
+        guess_InitModelObject(iVar2, (s32)&D_801B40E4);
         ((Unkstruct_800B5CB8 *)iVar2)->unk10 = 0x800;
         ((Unkstruct_80126B58 *)a0)->unk60 = 0;
         func_80149374(iVar1, a0 + 4);
@@ -4610,8 +4610,8 @@ extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 #undef SHARED_FN
 
 
-extern s32 func_80029178(s32 arg);
-extern s32 func_80029504(void);
+extern s32 guess_TestGameFlag(s32 arg);
+extern s32 guess_GetStoryProgress(void);
 extern void func_8012A828(s32 a0, void * a1);
 extern void func_8012CAE4(void *a0);
 extern s32  func_8012C354(s32 a0, s32 a1);
@@ -4635,8 +4635,8 @@ void func_8017E39C(void *a0) {
     u8 *p = D_80078E78;
     s32 t;
 
-    if ((u8)func_80029178(D_80188C14[((Unkstruct_800B5CB8 *)a0)->unk70]) != 0 ||
-        (((Unkstruct_800B5CB8 *)a0)->unk70 == 4 && (u32)func_80029504() < 0xC8)) {
+    if ((u8)guess_TestGameFlag(D_80188C14[((Unkstruct_800B5CB8 *)a0)->unk70]) != 0 ||
+        (((Unkstruct_800B5CB8 *)a0)->unk70 == 4 && (u32)guess_GetStoryProgress() < 0xC8)) {
         func_8012CAE4(a0);
         return;
     }
@@ -4678,7 +4678,7 @@ extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a
 extern void func_8017ECEC(s32 a0, s16 a1, s16 a2);
 extern void func_8017ED60(s16 *a0);
 extern s32 func_8012BB3C(s32 arg0, s32 arg1, u32 arg2, s32 arg3);
-extern s32 func_8012B8E4(s32 arg0, s32 arg1);
+extern s32 guess_TurnStepToTarget(s32 arg0, s32 arg1);
 
 /*
  * §136 note (the lever that closed this one): the copy-loop counter and the 8/2
@@ -4762,7 +4762,7 @@ void func_8017E538(s32 a0) {
         s16 d = ((Unkstruct_800B5CB8 *)a0)->unk102;
 
         if (d != 0) {
-            s32 r2 = func_8012B8E4(a0, d);
+            s32 r2 = guess_TurnStepToTarget(a0, d);
 
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
                 ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + r2;
@@ -5292,7 +5292,7 @@ void func_8017F124(s32 a0) {
 
 extern int func_80178970(void);
 extern void func_80178D18(void);
-extern void func_80029124(s32 a0, s32 a1);
+extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern void func_8012C218(void*);
 
 void func_8017F1F4(s32 a0)
@@ -5303,7 +5303,7 @@ void func_8017F1F4(s32 a0)
 
     ((void (*)(s32))func_80178D18)(a0);
 
-    func_80029124((s32)D_80188C14[((Unkstruct_8017CD14 *)a0)->unk70], 1);
+    guess_SetGameFlag((s32)D_80188C14[((Unkstruct_8017CD14 *)a0)->unk70], 1);
     ((void (*)(s32))func_8012C218)(a0);
 }
 
@@ -5896,9 +5896,9 @@ void func_8017F5B4(s32 arg0, s32 arg1, s32 arg2)
 
 
 
-extern void func_80029124(s32 arg0, s32 arg1);
+extern void guess_SetGameFlag(s32 arg0, s32 arg1);
     void func_80180D50(void) {
-        func_80029124(0x90, 1);
+        guess_SetGameFlag(0x90, 1);
     }
 
 
@@ -6007,7 +6007,7 @@ void func_80181010(void *a0) {
 
 #include "common.h"
 
-extern s32 func_80029178(s32 a0);
+extern s32 guess_TestGameFlag(s32 a0);
 extern void func_800D0C48(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8001BFD0(void);
@@ -6019,7 +6019,7 @@ s32 func_8018104C(int param_1)
     v0--;
     *(s32 *)(param_1 + 0x28) = v0;
     if (v0 == -1) {
-        if ((u8)func_80029178(0x90) == 0) {
+        if ((u8)guess_TestGameFlag(0x90) == 0) {
             func_800D0C48(1);
         }
         func_8002D4C8(0x1C, 0);
@@ -6108,7 +6108,7 @@ void func_8018129C(void) {
     extern s16 D_80126976;
     extern s16 D_80126978;
     extern s16 D_8012697A;
-    extern u8 D_80126948[];
+    extern u8 guess_g_MainCamera[];
     D_80126954 = 0x1F4;
     D_80126950 = 0x1F4;
     D_8012695C = 0x4B0;
@@ -6119,8 +6119,8 @@ void func_8018129C(void) {
     D_80126978 = 0;
     D_8012697A = 0;
     func_8012A018((s32)func_8018133C, 0);
-    func_8012A094((s32)D_80126948);
-    func_8018133C(D_80126948);
+    func_8012A094((s32)guess_g_MainCamera);
+    func_8018133C(guess_g_MainCamera);
 }
 
 
@@ -6189,7 +6189,7 @@ extern u16 func_80148800(s32 *a0);
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_801814E4(s32 param_1, s16 *param_2) {
 
@@ -6199,7 +6199,7 @@ void func_801814E4(s32 param_1, s16 *param_2) {
     SVECTOR_8017D5C8_801814E4 svec_out;
     u8 t;
 
-    if (func_80148800(&D_80126B58) & 3) {
+    if (func_80148800(&guess_g_PlayerActor) & 3) {
         t = (*(u8 *)(param_1 + 5) + 1) & 1;
         *(u8 *)(param_1 + 5) = t;
         *(s32 *)(param_1 + 0x14) = D_80188DD4[t];
@@ -6225,7 +6225,7 @@ void func_801814E4(s32 param_1, s16 *param_2) {
     svec_in.vx = 0;
     svec_in.vy = 0;
     svec_in.vz = *(s32 *)(param_1 + 0x10);
-    ((void (*)(s32, s32, s32))func_8012F14C)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
+    ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
 
     *(s32 *)(param_1 + 0x3C) = (s32)svec_out.vx;
     *(s32 *)(param_1 + 0x40) = (s32)svec_out.vy;
@@ -6233,8 +6233,8 @@ void func_801814E4(s32 param_1, s16 *param_2) {
 }
 
 
-extern u16 D_80126B5E;
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosX;
+extern u16 guess_g_PlayerPosZ;
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
@@ -6253,12 +6253,12 @@ void func_801816C0(s32 a0) {
     counter = ((Unkstruct_800B5CB8 *)a0)->unk1C + 1;
     ((Unkstruct_800B5CB8 *)a0)->unk1C = counter;
     if ((counter & 0x20) == 0) {
-        diff1 = D_80126B5E - ((Unkstruct_800B5CB8 *)a0)->unk6;
+        diff1 = guess_g_PlayerPosX - ((Unkstruct_800B5CB8 *)a0)->unk6;
         if (diff1 < 0) {
             diff1 = -diff1;
         }
         if (diff1 < 0x201) {
-            diff2 = D_80126B66 - ((Unkstruct_800B5CB8 *)a0)->unkE;
+            diff2 = guess_g_PlayerPosZ - ((Unkstruct_800B5CB8 *)a0)->unkE;
             if (diff2 < 0) {
                 diff2 = -diff2;
             }
@@ -6302,7 +6302,7 @@ void func_80181868(void *a0) {
 #undef SHARED_FN
 
 
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern s32 func_8012C1B8(void);
 extern void func_8001C2C4(s32 a0);
 extern void func_8012B2CC(s32 a0);
@@ -6315,7 +6315,7 @@ void func_80181938(s32 a0) {
     s32 v1;
     s32 sp10[3];
 
-    v0 = func_80029504();
+    v0 = guess_GetStoryProgress();
     if ((u32)(v0 - 0x82) < 0x334 || v0 >= 0x3E8) {
         func_8012CAE4((void *)a0);
         return;
@@ -6583,14 +6583,14 @@ void func_80181FA4(void *a0) {
     s32 s1;
     s32 v0;
 
-    s1 = func_80029504();
+    s1 = guess_GetStoryProgress();
     v0 = ((s32 (*)(void))func_8012C1B8)();
     ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
     if (v0 == 0) {
         func_8012CAE4(a0);
         return;
     }
-    func_8001C214(v0, 0);
+    guess_InitModelObject(v0, 0);
     ((Unkstruct_800B5CB8 *)a0)->unk58 = (s32)D_80188E40;
     t = CAST_SIGN(u16, (s32)a0, 0x2);
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x80;
@@ -6620,10 +6620,10 @@ void func_80182078(void *a0) {
 
 
 
-extern s32 func_80029178(s32 a0);
+extern s32 guess_TestGameFlag(s32 a0);
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern void func_8001C214(s32 a0, s32 a1);
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_80182994(void *a0);
 extern s32 func_8012C51C(void *a0, s32 a1);
 extern void func_801832D0(s32 arg0, s32 arg1);
@@ -6632,7 +6632,7 @@ extern u8 D_80188ED8;
 void func_801820E0(void *a0) {
     s32 v0;
 
-    if ((func_80029178(0x9C) & 0xFF) != 0) {
+    if ((guess_TestGameFlag(0x9C) & 0xFF) != 0) {
         func_801832D0(-0x380, 0);
         func_8012CAE4(a0);
     } else {
@@ -6641,7 +6641,7 @@ void func_801820E0(void *a0) {
         if (v0 == 0) {
             func_8012CAE4(a0);
         } else {
-            func_8001C214(v0, 0);
+            guess_InitModelObject(v0, 0);
             func_80182994(a0);
             func_8012C51C(&D_80188ED8, (s32)a0);
             ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
@@ -6820,7 +6820,7 @@ extern s32 func_800D0CE0(void);
 
 extern int func_80178970(void);
 extern void func_80178D18(void);
-extern void func_80029124(s32 a0, s32 a1);
+extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern void func_80175414(s32 _arg0);
 
 s32 func_80182618(s32 a0)
@@ -6832,7 +6832,7 @@ s32 func_80182618(s32 a0)
     }
     ((void (*)(s32))func_80178D18)(a0);
     *(u16 *)(s0 + 2) = 5;
-    func_80029124(0x9C, 1);
+    guess_SetGameFlag(0x9C, 1);
     ((void (*)(void))func_80175414)();
     return 1;
 ret0:
@@ -6937,7 +6937,7 @@ void func_801829BC(void *a0) {
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern void func_8001C214(s32 a0, s32 a1);
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern s32 D_80188FD0;
 
 void func_801829F8(void *a0) {
@@ -6952,7 +6952,7 @@ void func_801829F8(void *a0) {
         func_8012CAE4(a0);
         return;
     }
-    func_8001C214(v0, 0);
+    guess_InitModelObject(v0, 0);
     *(unsigned short *)((s32)a0 + 0x5C) = 0xCC00;
     v1 = (s32)&D_80188FD0 | 0x40000000 | 0x20000000;
     ptr = ((Unkstruct_800B5CB8 *)a0)->unk64;
@@ -7059,7 +7059,7 @@ void func_80182C60(s32 param_1) {
 }
 
 
-extern s32 func_80029178(s32 a0);
+extern s32 guess_TestGameFlag(s32 a0);
 extern void func_801746DC(void);
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_801789AC(s32 a0);
@@ -7084,7 +7084,7 @@ void func_80182CF4(s32 a0) {
     u16 v;
     s32 t;
 
-    if ((func_80029178(0x9C) & 0xFF) != 0) {
+    if ((guess_TestGameFlag(0x9C) & 0xFF) != 0) {
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x80;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0xD0))->unk27 = 0x81;
@@ -7093,7 +7093,7 @@ void func_80182CF4(s32 a0) {
     if (((s32 (*)(s32))func_8012BD14)(a0) < 0x401 || (u32)(((Unkstruct_800B5CB8 *)a0)->unk34 - 1) < 2) {
         switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
         case 0:
-            if ((func_80029178(0x8A) & 0xFF) == 0) {
+            if ((guess_TestGameFlag(0x8A) & 0xFF) == 0) {
                 func_801746DC();
                 func_80178B18(a0, &D_80189028);
                 ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
@@ -7146,7 +7146,7 @@ void func_80182CF4(s32 a0) {
             }
             break;
         }
-        if ((func_80029178(0x8A) & 0xFF) == 0) {
+        if ((guess_TestGameFlag(0x8A) & 0xFF) == 0) {
             return;
         }
         /* func_80183098(a0) written out on all three paths: gcc cross-jumps the common
@@ -7160,7 +7160,7 @@ void func_80182CF4(s32 a0) {
             func_80183098(a0);
         }
     } else {
-        if ((func_80029178(0x8A) & 0xFF) == 0) {
+        if ((guess_TestGameFlag(0x8A) & 0xFF) == 0) {
             return;
         }
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x80;
@@ -7233,9 +7233,9 @@ s32 func_801830EC(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
 
 #include "common.h"
 
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosX;
+extern u16 guess_g_PlayerPosY;
+extern u16 guess_g_PlayerPosZ;
 extern s32 D_801B7A84;
 extern s32 D_801A64C8;
 extern s32 D_801B7930;
@@ -7255,9 +7255,9 @@ extern void func_800D06E8(void);
 void func_801831B4(void) {
     u16 sp10[3];
 
-    sp10[0] = D_80126B5E;
-    sp10[1] = D_80126B62;
-    sp10[2] = D_80126B66;
+    sp10[0] = guess_g_PlayerPosX;
+    sp10[1] = guess_g_PlayerPosY;
+    sp10[2] = guess_g_PlayerPosZ;
     func_8013B598(0, sp10);
 
     switch (D_801B7A84) {
@@ -7355,7 +7355,7 @@ void func_80183394(s32 param_1) {
 }
 
 
-extern s32 func_80029178(s32 a0);
+extern s32 guess_TestGameFlag(s32 a0);
 extern void func_8002959C(void);
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
@@ -7375,7 +7375,7 @@ extern s32 func_80181EF0(void);
 extern void func_80183A20(s32 param_1);
 extern void func_80183A74(s32 param_1);
 
-extern s32 D_801151D4;
+extern s32 guess_g_ActiveCamera;
 extern s16 D_801B7990;
 extern s16 D_801B7992;
 extern s16 D_801B7994;
@@ -7394,7 +7394,7 @@ void func_80183458(s32 a0) {
     if (((s32 (*)(s32))func_8012BD14)(a0) < 0x401 || (u32)(((Unkstruct_800B5CB8 *)a0)->unk34 - 1) < 2) {
         switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
         case 0:
-            if ((func_80029178(0x8D) & 0xFF) == 0) {
+            if ((guess_TestGameFlag(0x8D) & 0xFF) == 0) {
                 func_80178B18(a0, &D_8018939C);
                 ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
             } else {
@@ -7450,7 +7450,7 @@ void func_80183458(s32 a0) {
             }
             break;
         }
-        if ((func_80029178(0x8D) & 0xFF) == 0) {
+        if ((guess_TestGameFlag(0x8D) & 0xFF) == 0) {
             return;
         }
         /* func_80183A74(a0) written out on all three paths: cross_jump merges the
@@ -7463,7 +7463,7 @@ void func_80183458(s32 a0) {
             func_80183A74(a0);
         }
     } else {
-        if ((func_80029178(0x8D) & 0xFF) == 0) {
+        if ((guess_TestGameFlag(0x8D) & 0xFF) == 0) {
             return;
         }
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0xCC))->unk27 = 0xA1;
@@ -7472,17 +7472,17 @@ void func_80183458(s32 a0) {
     if (CAST_SIGN(u16, a0, 0x100) & 1 && func_8012BEE8(a0) != 0) {
         func_8016F0AC();
         if (func_80181EF0() != 0) {
-            D_801B7990 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x48);
-            D_801B7992 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
-            D_801B7994 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
-            D_801B7998 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x3C);
-            D_801B799A = (s16) M2C_FIELD(D_801151D4, s32 *, 0x40);
-            D_801B799C = (s16) M2C_FIELD(D_801151D4, s32 *, 0x44);
+            D_801B7990 = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x48);
+            D_801B7992 = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x4C);
+            D_801B7994 = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x50);
+            D_801B7998 = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x3C);
+            D_801B799A = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x40);
+            D_801B799C = (s16) M2C_FIELD(guess_g_ActiveCamera, s32 *, 0x44);
             CAST_ALIAS(u16, a0, 2) = 3;
             CAST_ALIAS(u16, a0, 0x34) = 0;
             CAST_ALIAS(s32, a0, 0x1C) = 0x10;
             func_80178B18(a0, &D_801893BC);
-            if ((func_80029178(0x11D) & 0xFF) == 0) {
+            if ((guess_TestGameFlag(0x11D) & 0xFF) == 0) {
                 func_8002959C();
             }
         } else {
@@ -7511,10 +7511,10 @@ extern void func_800D1724(s32 a0);
 extern s32 func_801789AC(s32 a0);
 extern void func_80178D18(void);     /* TU spelling (line 2537) — cast at use */
 
-extern u16 D_80126B5E;               /* camera X            */
+extern u16 guess_g_PlayerPosX;               /* camera X            */
 extern s32 D_80126B60;               /* camera Y, 32-bit fixed point.
-                                      * Its HIGH half is the object at 0x80126B62,
-                                      * i.e. `D_80126B62` in the target .s. It must be
+                                      * Its HIGH half is the object at 0x80126B62 (guess_g_PlayerPosY),
+                                      * i.e. `guess_g_PlayerPosY` in the target .s. It must be
                                       * spelled as an offset off D_80126B60 (see the
                                       * in3[1] store below), not as its own extern —
                                       * that is what gives the sched1 alias dependence
@@ -7523,11 +7523,11 @@ extern s32 D_80126B60;               /* camera Y, 32-bit fixed point.
                                       * three lui/lhu chains and puts `addu` straight
                                       * after `lw` (the target's un-filled load delay).
                                       * Two distinct symbol_refs do NOT conflict in
-                                      * memrefs_conflict_p, so the literal D_80126B62
+                                      * memrefs_conflict_p, so the literal guess_g_PlayerPosY
                                       * spelling reorders the whole block (-1 ins).
                                       * Relocation is R_MIPS_{HI16,LO16} D_80126B60 with
-                                      * addend +2 => byte-identical to %hi/%lo(D_80126B62). */
-extern u16 D_80126B66;               /* camera Z            */
+                                      * addend +2 => byte-identical to %hi/%lo(guess_g_PlayerPosY). */
+extern u16 guess_g_PlayerPosZ;               /* camera Z            */
 extern u8 D_80188CCC[];
 extern s32 D_80189370[];
 
@@ -7567,9 +7567,9 @@ void func_80183810(s32 a0) {
         break;
     case 3:
         D_80126B60 -= 0x300000;
-        in3[0] = D_80126B5E;
-        in3[1] = *(u16 *)((s32)&D_80126B60 + 2);   /* == D_80126B62; see above */
-        in3[2] = D_80126B66;
+        in3[0] = guess_g_PlayerPosX;
+        in3[1] = *(u16 *)((s32)&D_80126B60 + 2);   /* == guess_g_PlayerPosY; see above */
+        in3[2] = guess_g_PlayerPosZ;
         ((void (*)(u16 *, s16 *))func_8012EFB8)(in3, out2);
 
         /* |out2[0]| : the MERGED abs (bgez/negu/slti, one compare). */
@@ -8003,7 +8003,7 @@ void func_801843B4(void *a0) {
  * src/ov_SC03_014/ov_SC03_014_jr_801848E4.c (lines 58, 2524, 2527, 3139,
  * 3222, 3244, 3245).  Type mismatches are resolved by casting AT THE USE. */
 extern s32 func_8012C354(s32 a0, s32 a1);
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8012CAE4(void *a0);
@@ -8030,7 +8030,7 @@ void func_801843F0(void *a0) {
     idx = *(u16 *)((s32)ptr + 0xA);
     arr_elem = D_801AAE88[idx];
 
-    res1 = func_80029178(arr_elem);
+    res1 = guess_TestGameFlag(arr_elem);
 
     if ((res1 & 0xFF) == 0) {
         res2 = func_801788B8((s32)a0, (s32)func_80184A9C);
@@ -8065,11 +8065,11 @@ void func_801844EC(void) {
 
 
 /* Declarations copied VERBATIM from src/ov_SC03_014/ov_SC03_014_jr_801848E4.c
- * (func_80029178 @ line 58/3176, func_80029124 @ line 43/3253,
+ * (guess_TestGameFlag @ line 58/3176, guess_SetGameFlag @ line 43/3253,
  *  func_80178CBC @ line 2537).  The D_801E3* globals are not declared
  *  anywhere in the TU. */
-extern s32 func_80029178(s32 arg);
-extern void func_80029124(s32 a0, s32 a1);
+extern s32 guess_TestGameFlag(s32 arg);
+extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern void func_80178CBC(s32 arg0, s32 arg1);
 
 void func_801844F4(void *a0) {
@@ -8089,7 +8089,7 @@ void func_801844F4(void *a0) {
     v0 = ((Unkstruct_8017DF78 *)s0)->unk8;
 
     if (!(v0 & 0x8000)) {
-        v0 = (func_80029178(0x1D)) & 0xFF;
+        v0 = (guess_TestGameFlag(0x1D)) & 0xFF;
 
         if (v0 != 0) {
             u16 flags2;
@@ -8103,7 +8103,7 @@ void func_801844F4(void *a0) {
             } else {
                 D_801AB058 = 0;
                 v0 = CAST_ALIAS(u16, (char *)s0, 0xC);
-                func_80029124(D_801AAFD0[v0], 1);
+                guess_SetGameFlag(D_801AAFD0[v0], 1);
                 D_801AB054 = 2;
             }
         } else {
@@ -8132,9 +8132,9 @@ void func_801844F4(void *a0) {
  * Type mismatches resolved by casting AT THE USE (func_80178D18). */
 extern s32 func_801789AC(s32 arg0);
 extern void func_80178D18(void);
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern void func_80029514(s32);
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 extern void func_80145EE8(s32 param_1);
 extern void func_8012C218(void *a0);
 extern s32 func_80184844(void);
@@ -8150,14 +8150,14 @@ void func_80184640(void *arg0) {
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);
 
-        if ((u8)func_80029178(D_801AAE88[((Unkstruct_8017E0C4_2 *)ptr)->unkA]) != 0) {
+        if ((u8)guess_TestGameFlag(D_801AAE88[((Unkstruct_8017E0C4_2 *)ptr)->unkA]) != 0) {
             if (D_801AAE88[((Unkstruct_8017E0C4_2 *)ptr)->unkA] == 0x54) {
                 func_80029514(0x5A);
-                func_80029124(0xEA, 1);
+                guess_SetGameFlag(0xEA, 1);
             }
 
             if ((((Unkstruct_8017E0C4_2 *)ptr)->unk8 & 0x4000) != 0) {
-                if ((u8)func_80029178(0x1D) != 0) {
+                if ((u8)guess_TestGameFlag(0x1D) != 0) {
                     func_80145EE8(0);
                 }
             }
@@ -8194,25 +8194,25 @@ extern void func_8012C218(void *a0);
 
 
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_801847AC(void *a0) {
 
     extern s32 D_801AAE88[];
     u16 idx = ((Unkstruct_8017E230 *)*(s32 *)(a0 + 0xDC))->unkA;
-    func_80029124(D_801AAE88[idx], 1);
+    guess_SetGameFlag(D_801AAE88[idx], 1);
 }
 
 
 
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern void func_8014ADA8(s32 a0, s32 a1);
 
 void func_801847EC(void * arg0) {
     s32 temp_v0;
 
     temp_v0 = ((Unkstruct_8017E270_3 *)arg0)->unkDC;
-    ((void (*)(s32 *, s32))func_8014ADA8)((s32 *)&D_80126B58, ((Unkstruct_8017E270_2 *)temp_v0)->unkC);
+    ((void (*)(s32 *, s32))func_8014ADA8)((s32 *)&guess_g_PlayerActor, ((Unkstruct_8017E270_2 *)temp_v0)->unkC);
 }
 
 
@@ -8224,7 +8224,7 @@ extern s16 func_80174764(void);
 
 
 
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 
 s32 func_80184844(void) {
 
@@ -8232,7 +8232,7 @@ s32 func_80184844(void) {
     s32 i;
 
     for (i = 0; i < 0x26; i++) {
-        if ((u8)func_80029178(D_801AAE88[i]) == 0) {
+        if ((u8)guess_TestGameFlag(D_801AAE88[i]) == 0) {
             return 0;
         }
     }

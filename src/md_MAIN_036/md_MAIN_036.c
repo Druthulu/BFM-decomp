@@ -173,7 +173,7 @@ extern s16 D_800CC134;
 extern s16 D_800CC136;
 extern s16 D_800CC138;
 extern u16 D_800B99DA;
-extern s32 D_80126B58[];
+extern s32 guess_g_PlayerActor[];
 extern s32 func_8004787C(s32);
 extern s32 func_80012DBC(s32, s32, s32, s32);
 extern u16 func_80148800(s32 *);
@@ -212,7 +212,7 @@ void func_800CB218(void *arg0) {
         }
     }
 
-    if (D_800CC12C < 0x80 || (func_80148800(D_80126B58) & 0x20)) {
+    if (D_800CC12C < 0x80 || (func_80148800(guess_g_PlayerActor) & 0x20)) {
         evt = &D_800CC134;
         *(s32 *)((s32)s1 + 0x80) = (s32)evt;
         *(u16 *)((s32)s1 + 0x2C) |= 0x80;
@@ -303,13 +303,13 @@ void func_800CB570(int param_1)
 }
 
 
-extern s32 D_80126B58[];
+extern s32 guess_g_PlayerActor[];
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern s32 func_80165A20(s32 a0);
 
 void func_800CB5A8(void) {
     func_80162CCC();
-    func_80165A20((s32)&D_80126B58);
+    func_80165A20((s32)&guess_g_PlayerActor);
 }
 
 

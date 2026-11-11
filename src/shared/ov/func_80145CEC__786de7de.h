@@ -48,7 +48,7 @@ s32 func_80145CEC() {
     s32 pad[2];
     (void)&pad;
 
-    func_80016714(&D_80126B58, 0x254);
+    func_80016714(&guess_g_PlayerActor, 0x254);
     D_80126B78[0] = (s32 *)&D_800AFAE8;
     D_800AF7C8 = (s32 *)&D_801152C8;
     func_8001C320(&D_800AFAE8, &D_800DE2A4);
@@ -69,18 +69,18 @@ s32 func_80145CEC() {
     D_80126D12 = 0x1000;
     D_80126D10 = 0x1000;
     D_80126C4E = 0x1000;
-    func_801552F4(&D_80126B58);
-    func_80147084(&D_80126B58);
-    func_80147098(&D_80126B58);
-    func_801470AC(&D_80126B58);
+    func_801552F4(&guess_g_PlayerActor);
+    func_80147084(&guess_g_PlayerActor);
+    func_80147098(&guess_g_PlayerActor);
+    func_801470AC(&guess_g_PlayerActor);
     *(u16 *)((s32)D_80126B78[0] + 0x2c) = *(u16 *)((s32)D_80126B78[0] + 0x2c) | 0x50;
-    func_80149210(&D_80126B58, 8);
+    func_80149210(&guess_g_PlayerActor, 8);
     func_8014BE9C();
     func_8016533C();
     func_801627C0();
     func_80162AF4();
     func_80165C78();
-    func_801468C8(&D_80126B58, 1);
+    func_801468C8(&guess_g_PlayerActor, 1);
     if (currentLocationId != 0x30a2 && currentLocationId != 0x30a5) {
         func_80145EE8(0);
     }
@@ -91,7 +91,7 @@ s32 func_80145CEC() {
     func_80153C8C();
     D_8012707C = 0;
     D_8011DB10 = 0;
-    uVar1 = ((int(*)())func_80029504)();
+    uVar1 = ((int(*)())guess_GetStoryProgress)();
     if (uVar1 >= 10) {
         func_800290BC();
     }

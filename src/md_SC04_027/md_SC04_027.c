@@ -17,7 +17,7 @@ s32 func_801E7DCC(void)
 }
 
 
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 
 void func_801E7E10(void) {
 
@@ -27,7 +27,7 @@ void func_801E7E10(void) {
     s32 v1;
     u16 *p;
 
-    v1 = func_80029504();
+    v1 = guess_GetStoryProgress();
     if ((u32)(v1 - 5) >= 0x4B5) {
         if (v1 != 0x6A4) {
             D_801F1D90 = 1;
@@ -1591,7 +1591,7 @@ void func_801EA53C(void) {
     extern s16 D_80126976;
     extern s16 D_80126978;
     extern s16 D_8012697A;
-    extern u8 D_80126948[];
+    extern u8 guess_g_MainCamera[];
     extern s16 D_801274E8;
     extern s16 D_801274EA;
     extern s16 D_801274EC;
@@ -1606,8 +1606,8 @@ void func_801EA53C(void) {
     D_80126978 = -0x36;
     D_8012697A = 0;
     func_8012A018((s32)func_801EA600, 0);
-    func_801EA600(D_80126948);
-    func_8012A094((s32)D_80126948);
+    func_801EA600(guess_g_MainCamera);
+    func_8012A094((s32)guess_g_MainCamera);
     D_801274EA = -0x82;
     D_801274E8 = 0;
     D_801274EC = -0x1B0;
@@ -1637,11 +1637,11 @@ extern u16  func_80148800(s32 *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_801EA664(s32 param_1, s16 *param_2) {
 
-    extern s32 D_80126B58;
+    extern s32 guess_g_PlayerActor;
     extern s16 D_801EBBFC[];
     extern u16 D_801EBC00[];
 
@@ -1650,7 +1650,7 @@ void func_801EA664(s32 param_1, s16 *param_2) {
     SVECTOR_801EDED4_801EA664 svec_out;
     u8 t;
 
-    if (func_80148800(&D_80126B58) & 3) {
+    if (func_80148800(&guess_g_PlayerActor) & 3) {
         t = (*(u8 *)(param_1 + 5) + 1) & 1;
         *(u8 *)(param_1 + 5) = t;
         *(s32 *)(param_1 + 0xC)  = D_801EBBFC[t];
@@ -1677,7 +1677,7 @@ void func_801EA664(s32 param_1, s16 *param_2) {
     svec_in.vx = 0;
     svec_in.vy = 0;
     svec_in.vz = *(s32 *)(param_1 + 0x10);
-    ((void (*)(s32, s32, s32))func_8012F14C)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
+    ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
 
     *(s32 *)(param_1 + 0x3C) = (s32)svec_out.vx;
     *(s32 *)(param_1 + 0x40) = (s32)svec_out.vy;

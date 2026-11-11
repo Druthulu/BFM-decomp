@@ -93,7 +93,7 @@ extern void func_800CF82C(void);
 extern void func_800CF840(void);
 extern u8 D_800AE6BF;
 extern s32 func_800CF854(void);
-extern u16 D_80126B58;
+extern u16 guess_g_PlayerActor;
 extern s32 func_800CF8B4(void);
 extern s32 func_800CF864(void);
 extern s32 func_800CF8CC(void);
@@ -420,22 +420,22 @@ s32 func_800D0588(void) {
 }
 
 /* func_800D05E8
- *   addiu sp,-0x18 ; sw ra,0x14 ; jal func_80029504 ; sw s0,0x10 (delay)
+ *   addiu sp,-0x18 ; sw ra,0x14 ; jal guess_GetStoryProgress ; sw s0,0x10 (delay)
  *   lw v1, D_800D375C ; beqz v1 -> .L0618 ; s0 = 0 (delay)
  *   jalr v1 ; a0 = v0 (delay)  ; s0 = v0
  *   .L0618: v0 = s0 ; epilogue ; return s0
- * func_80029504() is called first; D_800D375C is an optional s32(*)(s32) hook fed
+ * guess_GetStoryProgress() is called first; D_800D375C is an optional s32(*)(s32) hook fed
  * that result. The return value lives in callee-saved s0 (frame saves ra + s0).
  * Discriminating C shape (vs the count-16 near miss): declare `ret = 0;` BEFORE
- * `r = func_80029504();` and gate with `if (D_800D375C)` (implicit nonzero test) so
+ * `r = guess_GetStoryProgress();` and gate with `if (D_800D375C)` (implicit nonzero test) so
  * gcc-2.7.2 -O2 allocates `ret` to s0 and emits the s0 save/restore (matches D0CE0).
  */
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern s32 (*D_800D375C)(s32);
 
 s32 func_800D05E8(s32 arg0) {
     s32 ret = 0;
-    s32 r = func_80029504();
+    s32 r = guess_GetStoryProgress();
     if (D_800D375C) {
         ret = D_800D375C(r);
     }
@@ -512,7 +512,7 @@ void func_800D06CC(void) {
  */
 
 extern s16 currentLocationId;
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_8002D4C8(s32 arg0, s32 arg1);
 extern s32 func_8001AAA0(s32 arg0);
 extern s32 D_800A2B70;
@@ -544,7 +544,7 @@ void func_800D06E8(void) {
         case 0x1078:
         case 0x1094:
         case 0x1095:
-            r = func_80029504();
+            r = guess_GetStoryProgress();
             if ((u32)(r - 0x460) < 0x32) {
                 s1 = 0;
             } else {
@@ -637,7 +637,7 @@ sw1_end:
         case 0x1078:
         case 0x1094:
         case 0x1095:
-            r = func_80029504();
+            r = guess_GetStoryProgress();
             if ((u32)(r - 0x460) < 0x32) {
                 s1 = 0x89;
             } else if ((u32)(r - 0x384) < 0x6E) {
@@ -751,7 +751,7 @@ void func_800D0CA0(u16 arg0) {
 // func_800D0CE0 — optional hook, gate, then clear a block of globals + record id.
 //
 // asm trace:
-//   jal func_80029504 / sw s0,0x10(sp)               => r = func_80029504();
+//   jal guess_GetStoryProgress / sw s0,0x10(sp)               => r = guess_GetStoryProgress();
 //   lw v1, D_800D375C                                => fp = D_800D375C
 //   beqz v1, .L0D10 / addu s0,zero,zero (delay: s0=0)=> s0 = 0; if (fp != 0) {
 //   jalr v1 / addu a0,v0,zero (delay: a0=r)          =>   s0 = (*fp)(r);
@@ -777,8 +777,8 @@ void func_800D0CA0(u16 arg0) {
 // (success/main return written LAST so it is the fall-through into the epilogue.)
 //
 // D_800D375C is an s32(*)(s32) function pointer here (jalr after the lw); its arg is
-// func_80029504()'s return.  All cleared globals are s32 (proven in func_800D065C).
-extern s32 func_80029504(void);
+// guess_GetStoryProgress()'s return.  All cleared globals are s32 (proven in func_800D065C).
+extern s32 guess_GetStoryProgress(void);
 extern s32 (*D_800D375C)(s32);
 extern s32 func_8001AAA0(s32);
 extern s32 D_8012704C;
@@ -793,7 +793,7 @@ s32 func_800D0CE0(void) {
     s32 s0;
     s32 r;
 
-    r = func_80029504();
+    r = guess_GetStoryProgress();
     s0 = 0;
     if (D_800D375C != 0) {
         s0 = D_800D375C(r);
@@ -820,7 +820,7 @@ s32 func_800D0CE0(void) {
 
 
 /* Packed BCD-ish clock word: low byte = minutes (mod 0x3C), high byte = hours
- * (mod 0x18), held in the two consecutive bytes D_80078EB0 / D_80078EB1.
+ * (mod 0x18), held in the two consecutive bytes guess_g_ClockMinute / D_80078EB1.
  * Returns the signed 16-bit packed difference "now - (arg0:arg1)".
  *
  * Matching notes (residual levers, see docs/gcc-2.7.2-map/regalloc.md):
@@ -830,7 +830,7 @@ s32 func_800D0CE0(void) {
  *    dissolved by cse/canon; `x = y + zr` with zr pinned to $0 emits the
  *    byte-identical `addu rD,rS,$zero` that neither cse nor combine can remove.
  *    This is also why `andi $v0,$a2,0xFF` survives: combine cannot see through
- *    the opaque copy to fold the low byte back to the D_80078EB0 lbu.
+ *    the opaque copy to fold the low byte back to the guess_g_ClockMinute lbu.
  *  - The 8-byte frame is a phantom: the target reserves `vars= 8` but never
  *    touches the stack. An unused 8-byte local reproduces it (get_frame_size()
  *    is set at expand and never shrinks). Its presence is load-bearing beyond
@@ -840,7 +840,7 @@ s32 func_800D0CE0(void) {
  *    compare to the else-label, which is what puts the 0x3C/0x18 arms second.
  */
 s32 func_800D0D7C(s32 arg0, s32 arg1) {
-    extern u8 D_80078EB0;
+    extern u8 guess_g_ClockMinute;
     extern u8 D_80078EB1;
     register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
     u32 now;
@@ -848,7 +848,7 @@ s32 func_800D0D7C(s32 arg0, s32 arg1) {
     s32 h;
     u32 dead[2];
 
-    now = D_80078EB0 | (D_80078EB1 << 8);
+    now = guess_g_ClockMinute | (D_80078EB1 << 8);
     r = now + zr;
     h = arg0 + zr;
     if ((r & 0xFF) >= ((u32)arg1 & 0xFF)) {
@@ -868,7 +868,7 @@ s32 func_800D0D7C(s32 arg0, s32 arg1) {
 
 
 s16 func_800D0E30(u8 *p) {
-    extern u8 D_80078EB0;
+    extern u8 guess_g_ClockMinute;
     extern u8 D_80078EB1;
     u8 dummy[16];
     u32 hi;
@@ -879,7 +879,7 @@ s16 func_800D0E30(u8 *p) {
     u32 h;
 
     hi = (u8)(p[1] - D_80078EB1);
-    lo = (u8)(p[0] - D_80078EB0);
+    lo = (u8)(p[0] - guess_g_ClockMinute);
     p = (u8 *)((hi << 8) | lo);
 
     b = (u32)p + 0;

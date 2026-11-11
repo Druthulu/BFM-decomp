@@ -32,7 +32,7 @@ extern void func_801EDCE0(void *arg0);
 
 extern void func_8001BFD0(void);
 extern s32 func_800291B4(s32);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_8002D4C8(s32, s32);
 extern void func_800D0C48(s32);
 extern void func_800D1E28(void);
@@ -169,11 +169,11 @@ extern u16  func_80148800(s32 *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_801EDED4(s32 param_1, s16 *param_2) {
 
-    extern s32 D_80126B58;
+    extern s32 guess_g_PlayerActor;
     extern s16 D_801EE3E4[];
     extern u16 D_801EE3E8[];
 
@@ -182,7 +182,7 @@ void func_801EDED4(s32 param_1, s16 *param_2) {
     SVECTOR_801EDED4_801EDED4 svec_out;
     u8 t;
 
-    if (func_80148800(&D_80126B58) & 3) {
+    if (func_80148800(&guess_g_PlayerActor) & 3) {
         t = (*(u8 *)(param_1 + 5) + 1) & 1;
         *(u8 *)(param_1 + 5) = t;
         *(s32 *)(param_1 + 0xC)  = D_801EE3E4[t];
@@ -209,7 +209,7 @@ void func_801EDED4(s32 param_1, s16 *param_2) {
     svec_in.vx = 0;
     svec_in.vy = 0;
     svec_in.vz = *(s32 *)(param_1 + 0x10);
-    ((void (*)(s32, s32, s32))func_8012F14C)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
+    ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
 
     *(s32 *)(param_1 + 0x3C) = (s32)svec_out.vx;
     *(s32 *)(param_1 + 0x40) = (s32)svec_out.vy;
@@ -247,7 +247,7 @@ void func_801EE10C(void *a0) {
 extern s32 D_801EE408[];
 extern s32 D_801EE41C[];
 extern s32 D_801EE438[];
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern s32 func_80184A00(s32);
 extern s32 func_80184AD0(void);
 extern s32 func_80184B44(void);
@@ -258,7 +258,7 @@ void func_801EE148(s32 a0) {
     extern s32 D_801EE41C[];
     extern s32 D_801EE438[];
 
-    s32 v1 = func_80029504();
+    s32 v1 = guess_GetStoryProgress();
 
     if (v1 < 0xC8) {
         s32 v0 = ((s32 (*)(void))func_80184A00)();

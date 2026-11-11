@@ -6,18 +6,18 @@ void *a0;
 s32 a1;
 {
     extern void Square0(s32 *a0, s32 *a1);
-    extern u16 D_80126B5E;
-    extern u16 D_80126B66;
-    extern u16 D_80126B62;
+    extern u16 guess_g_PlayerPosX;
+    extern u16 guess_g_PlayerPosZ;
+    extern u16 guess_g_PlayerPosY;
     s32 in[3];
     s32 out[3];
     s16 d;
 
-    in[0] = CAST_SIGN(s16, (s32)a0, 0x6) - *(s16 *)&D_80126B5E;
+    in[0] = CAST_SIGN(s16, (s32)a0, 0x6) - *(s16 *)&guess_g_PlayerPosX;
     in[1] = 0;
-    in[2] = CAST_SIGN(s16, (s32)a0, 0xE) - *(s16 *)&D_80126B66;
+    in[2] = CAST_SIGN(s16, (s32)a0, 0xE) - *(s16 *)&guess_g_PlayerPosZ;
     Square0(in, out);
-    d = D_80126B62 - ((Unkstruct_800B5CB8 *)a0)->unkA;
+    d = guess_g_PlayerPosY - ((Unkstruct_800B5CB8 *)a0)->unkA;
     if (d < 0) {
         d = -d;
     }

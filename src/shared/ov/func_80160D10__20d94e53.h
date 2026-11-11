@@ -17,7 +17,7 @@ void func_80160D10(void *arg0) {
         }
         D_80181914[*(u16 *)arg0](arg0);
     }
-    ((void (*)(void *, s16))func_80147078)(arg0, 0);
+    ((void (*)(void *, s16))guess_SetState)(arg0, 0);
     func_80159B70(arg0);
     return;
 dd0:

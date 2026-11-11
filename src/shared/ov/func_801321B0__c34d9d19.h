@@ -9,7 +9,7 @@ void func_801321B0(int param_1)
     if (v0 == 0) {
         ((void (*)(int))func_8012CAE4)(param_1);
     } else {
-        func_8001C214(v0, 0);
+        guess_InitModelObject(v0, 0);
         *(int *)(param_1 + 0x58) = (int)&D_8017F7C8;
         *(short *)(param_1 + 0x5c) = 0x80;
         *(unsigned short *)(param_1 + 2) += 1;

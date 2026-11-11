@@ -3,9 +3,9 @@
  * rank 2 src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c:3581 rejected by type_census --check */
 s32 SHARED_FN(void *a0) {
 
-    extern u16 D_80126B5E;
-    extern u16 D_80126B62;
-    extern u16 D_80126B66;
+    extern u16 guess_g_PlayerPosX;
+    extern u16 guess_g_PlayerPosY;
+    extern u16 guess_g_PlayerPosZ;
     s16 out[3];
     s16 in[3];
     void *p;
@@ -15,9 +15,9 @@ s32 SHARED_FN(void *a0) {
         return 0;
     }
 
-    in[0] = D_80126B5E;
-    in[1] = D_80126B62;
-    in[2] = D_80126B66;
+    in[0] = guess_g_PlayerPosX;
+    in[1] = guess_g_PlayerPosY;
+    in[2] = guess_g_PlayerPosZ;
     func_8012F2E8(((Unkstruct_80180C48 *)p)->unkCC, (s32)in, (s32)out);
     return func_8012CB64((s32)out, -0xC0, 0x40, -0x60, 0);
 }

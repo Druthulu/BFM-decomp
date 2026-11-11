@@ -10,7 +10,7 @@ void func_8015EA3C(void *arg0) {
 
     if (!(((s32 (*)(void))func_801487F4)() & 8)) {
         D_80181914[*(u16 *)arg0](arg0);
-        ((void (*)(void *, s16))func_80147078)(arg0, 0);
+        ((void (*)(void *, s16))guess_SetState)(arg0, 0);
         func_80159B70(arg0);
         return;
     }
@@ -52,7 +52,7 @@ Ldefault:
     }
     if (func_800CF8B4() != 0) {
         *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x12) =
-            ((*(u16 *)&D_801152A0) + ((s32 (*)(void *))func_801491C4)(arg0)) & 0xFFF;
+            ((*(u16 *)&D_801152A0) + ((s32 (*)(void *))guess_GetCameraYaw)(arg0)) & 0xFFF;
     }
     temp = func_80148E54(arg0);
     if ((s16)temp >= 0) {
@@ -63,14 +63,14 @@ Ldefault:
         func_8001382C((s16)d, invec, outbuf);
         ((void (*)(void *, void *))func_80146DB8)(arg0, outbuf);
         ((void (*)(void *))func_80147A84)(arg0);
-        ((void (*)(void *))func_801473EC)(arg0);
+        ((void (*)(void *))guess_ApplyVelocity)(arg0);
         ((void (*)(void *, s32))func_80154150)(arg0, 0x1E);
     } else {
         ((void (*)(void *, s32))func_80154150)(arg0, 0x1D);
     }
     if (((s32 (*)(void *))func_8014D738)(arg0) != 0) {
         D_80181914[*(u16 *)arg0](arg0);
-        ((void (*)(void *, s16))func_80147078)(arg0, 9);
+        ((void (*)(void *, s16))guess_SetState)(arg0, 9);
         func_8015C714(arg0);
         return;
     }

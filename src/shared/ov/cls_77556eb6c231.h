@@ -6,7 +6,7 @@ void SHARED_FN(s32 param_1, s16 *param_2, s16 *param_3, void *param_4) {
     mid[0] = (param_2[0] + param_3[0]) >> 1;
     mid[1] = (param_2[1] + param_3[1]) >> 1;
     mid[2] = (param_2[2] + param_3[2]) >> 1;
-    ((void (*)(s32, void *, void *))func_8012F14C)(param_1, mid, mid);
+    ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(param_1, mid, mid);
     func_800D20C0(mid, dir, 8);
     func_80017E68(mid, param_4);
     dir[0] = (u16)param_3[0] - (u16)param_2[0];

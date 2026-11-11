@@ -12,7 +12,7 @@ void func_8015795C(int param_1)
         *(int *)(param_1 + 0x2c) = 0;
     }
     func_80147A84(param_1);
-    ((void (*)(int))func_801473EC)(param_1);
+    ((void (*)(int))guess_ApplyVelocity)(param_1);
     func_80148038(param_1, 0x1a000);
     func_80147460(param_1);
     iVar1 = ((int (*)(int))func_8014ED28)(param_1);

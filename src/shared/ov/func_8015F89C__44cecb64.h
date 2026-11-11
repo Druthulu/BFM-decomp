@@ -5,7 +5,7 @@ void func_8015F89C(void *arg0) {
     if (!(flags & 0x4000)) {
         if (flags & 0x8000) {
             D_80181160[*(u16 *)arg0](arg0);
-            func_80147078(arg0, 0);
+            guess_SetState(arg0, 0);
             func_80159B70(arg0);
             return;
         }

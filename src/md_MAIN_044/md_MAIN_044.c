@@ -448,7 +448,7 @@ void func_800CD5EC(void *a0) {
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern void func_80015A2C(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 
 
@@ -470,7 +470,7 @@ void func_800CD63C(s32 a0, s32 a1)
     sp20 = *(W8__md_MAIN_044 *)a1;
 
     func_80015A2C(a0 + 0x58, (s32)&sp20 + 0x14);
-    func_8012F14C((s32)&sp20, (s32)sp10, (s32)sp18);
+    guess_RotTransSVWithMatrix((s32)&sp20, (s32)sp10, (s32)sp18);
     func_80015954((s32)sp18, a0 + 4);
 
     ((Unkstruct_80126B58 *)a0)->unk66 = (((Unkstruct_80126B58 *)a0)->unk66 + 0xE3) & 0xFFF;

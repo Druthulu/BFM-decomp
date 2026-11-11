@@ -1,7 +1,7 @@
 /* func_80141CA4 — shared body (overlay slot 0x80128158, h_exact 826f5416). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_80029504(void);
-extern s32 func_80029178(s32 arg);
+extern s32 guess_GetStoryProgress(void);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 extern unsigned char D_80112C04[];
 extern unsigned char D_80112C50[];
@@ -78,18 +78,18 @@ extern unsigned char D_80113C7C[];
 unsigned char *func_80141CA4(void) {
     s32 iVar3;
     s32 cVar1;
-    iVar3 = func_80029504();
+    iVar3 = guess_GetStoryProgress();
     if (iVar3 < 10) {
         return D_80112C04;
     }
     if (iVar3 < 0x14) {
-        if (func_80029178(0xdf) & 0xff) {
+        if (guess_TestGameFlag(0xdf) & 0xff) {
             return D_80112D38;
         }
-        if (func_80029178(0xe0) & 0xff) {
+        if (guess_TestGameFlag(0xe0) & 0xff) {
             return D_80112CE8;
         }
-        cVar1 = func_80029178(0xde) & 0xff;
+        cVar1 = guess_TestGameFlag(0xde) & 0xff;
         if (cVar1) {
             return D_80112C9C;
         }
@@ -105,7 +105,7 @@ unsigned char *func_80141CA4(void) {
         return D_80113B34;
     }
     if (iVar3 < 0x3c) {
-        cVar1 = func_80029178(0xe5) & 0xff;
+        cVar1 = guess_TestGameFlag(0xe5) & 0xff;
         if (cVar1 == 0) {
             return D_80112DF4;
         }
@@ -130,10 +130,10 @@ unsigned char *func_80141CA4(void) {
         return D_80112F9C;
     }
     if (iVar3 < 0x85) {
-        if (func_80029178(0x9e) & 0xff) {
+        if (guess_TestGameFlag(0x9e) & 0xff) {
             return D_80113074;
         }
-        cVar1 = func_80029178(0xef) & 0xff;
+        cVar1 = guess_TestGameFlag(0xef) & 0xff;
         if (cVar1 == 0) {
             return D_80112FDC;
         }
@@ -167,10 +167,10 @@ unsigned char *func_80141CA4(void) {
         return D_80113278;
     }
     if (iVar3 < 0x136) {
-        if (func_80029178(0xf9) & 0xff) {
+        if (guess_TestGameFlag(0xf9) & 0xff) {
             return D_801132E4;
         }
-        cVar1 = func_80029178(0xfa) & 0xff;
+        cVar1 = guess_TestGameFlag(0xfa) & 0xff;
         if (cVar1) {
             return D_80113324;
         }
@@ -180,7 +180,7 @@ unsigned char *func_80141CA4(void) {
         return D_80113360;
     }
     if (iVar3 < 0x14a) {
-        cVar1 = func_80029178(0xff) & 0xff;
+        cVar1 = guess_TestGameFlag(0xff) & 0xff;
         if (cVar1) {
             return D_801133F4;
         }
@@ -211,17 +211,17 @@ unsigned char *func_80141CA4(void) {
         return D_80113600;
     }
     if (iVar3 < 600) {
-        cVar1 = func_80029178(0xb3) & 0xff;
+        cVar1 = guess_TestGameFlag(0xb3) & 0xff;
         if (cVar1 == 0) {
             return D_80113650;
         }
         return D_80113694;
     }
     if (iVar3 < 0x276) {
-        if (func_80029178(0x10c) & 0xff) {
+        if (guess_TestGameFlag(0x10c) & 0xff) {
             return D_80113744;
         }
-        cVar1 = func_80029178(0x10d) & 0xff;
+        cVar1 = guess_TestGameFlag(0x10d) & 0xff;
         if (cVar1) {
             return D_80113770;
         }
@@ -295,14 +295,14 @@ unsigned char *func_80141CA4(void) {
         return D_80113BC0;
     }
     if (iVar3 < 0x4ba) {
-        cVar1 = func_80029178(0x138) & 0xff;
+        cVar1 = guess_TestGameFlag(0x138) & 0xff;
         if (cVar1 == 0) {
             return D_80113BF0;
         }
         return D_80113C20;
     }
     if (iVar3 < 0x636) {
-        cVar1 = func_80029178(0x143) & 0xff;
+        cVar1 = guess_TestGameFlag(0x143) & 0xff;
         if (cVar1 == 0) {
             return D_80113C20;
         }

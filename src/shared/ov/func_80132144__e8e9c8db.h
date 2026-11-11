@@ -11,7 +11,7 @@ s32 func_80132144(s32 param_1)
     if (v0 == 0) {
         ((void (*)(int))func_8012CAE4)(((int)param_1));
     } else {
-        ((void(*)(int, int))func_8001C214)(v0, 0);
+        ((void(*)(int, int))guess_InitModelObject)(v0, 0);
         *(int *)(((int)param_1) + 0x58) = (int)&D_8017F7B8;
         *(short *)(((int)param_1) + 0x5c) = 0x80;
         *(unsigned short *)(((int)param_1) + 2) += 1;

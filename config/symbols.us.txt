@@ -6,7 +6,7 @@
 //   - `D_800629D4` added: a data label in the text->data boundary region that the boot code
 //     references but splat did not auto-label (keeps the all-asm link resolving; no bytes change).
 // Durable text record of manual RE work (the .rep is gitignored).
-// count=1082
+// count=1090
 
 lzss_ringBuffer                  = 0x1F800000; // data
 start                            = 0x80010000; // func
@@ -23,7 +23,11 @@ CdReadSectorReadyCB              = 0x8001A338; // func
 ResourceLoadStateMachine         = 0x8001B3C4; // func
 ResourceGetCdLoc                 = 0x8001B788; // func
 SsGetMute                        = 0x8001BD80; // func
+guess_InitModelObject            = 0x8001C214; // func
 SsUtReverbOff                    = 0x800285AC; // func
+guess_SetGameFlag                = 0x80029124; // func
+guess_TestGameFlag               = 0x80029178; // func
+guess_GetStoryProgress           = 0x80029504; // func
 CdQueueBusy                      = 0x80034B98; // func
 StreamLoadStateMachine           = 0x800363CC; // func
 SPU_OBJ_DC                       = 0x8003A694; // func
@@ -1001,6 +1005,9 @@ guess_zoneLoadedBlock            = 0x80075400; // data
 streamLoad_cbActive              = 0x80076110; // data
 guess_padState_raw               = 0x80078DC2; // data
 cdReq_sectorHdrBuf               = 0x80078E40; // data
+guess_g_ClockMinute              = 0x80078EB0; // data
+g_PlayerHpMax                    = 0x80078EB2; // data
+g_PlayerHp                       = 0x80078EB4; // data
 lzss_sectorStagingBuf            = 0x80079A70; // data
 resLoad_lastId                   = 0x800A654C; // data
 cdReq_state                      = 0x800AE6F0; // data
@@ -1019,6 +1026,7 @@ cdReq_posInt                     = 0x800AE7AC; // data
 cdReq_result                     = 0x800AE7B0; // data
 resLoad_state                    = 0x800AE7EC; // data
 cdFileLocTable                   = 0x800AE830; // data
+guess_g_CameraWsMatrix           = 0x800AF648; // data
 gameMode                         = 0x800B99DE; // data
 currentLocationId                = 0x800B9A08; // data
 resLoad_result                   = 0x800C6D10; // data

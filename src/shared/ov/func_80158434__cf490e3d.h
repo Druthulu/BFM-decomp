@@ -19,7 +19,7 @@ void func_80158434(s32 param_1)
         func_80148038(param_1, 0x10000);
         func_80147460(param_1);
         func_80147AD4(param_1, 0, 0, 0);
-        ((void (*)(s32))func_801473EC)(param_1);
+        ((void (*)(s32))guess_ApplyVelocity)(param_1);
     }
     uVar1 = ((s32 (*)(s32, s32))func_801615C4)(param_1, 0);
     if (uVar1 != 0) {

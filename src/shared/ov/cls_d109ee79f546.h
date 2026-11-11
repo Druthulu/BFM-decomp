@@ -7,11 +7,11 @@ void SHARED_FN(s32 p)
      * D_800A5E60 / D_800A6610 use this TU's existing block-scope spellings
      * (ov_SC07_001_jr_8017BEBC.c:2821-2822); D_800B9A02 AGREES with the file-scope
      * `extern short D_800B9A02;` at line 2469 (unsigned access forced at use,
-     * §8d sub-class (b)); D_800AF648 is the project-wide `extern u8` spelling. */
+     * §8d sub-class (b)); guess_g_CameraWsMatrix is the project-wide `extern u8` spelling. */
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
     extern short D_800B9A02;
-    extern u8 D_800AF648;
+    extern u8 guess_g_CameraWsMatrix;
 
    /* 0x20 */
 
@@ -38,7 +38,7 @@ void SHARED_FN(s32 p)
     *(u8 *)(pkt + 7) = 0x2C;
     ot = (u32)&D_800A6610[d << 14];
 
-    r0 = (MTX_8017FE38 *)&D_800AF648;
+    r0 = (MTX_8017FE38 *)&guess_g_CameraWsMatrix;
     gte_SetRotMatrix(r0);
     gte_ldclmv(((Unkstruct_8017FE38 *)p)->unk20 + 0x34);
     gte_rtir();

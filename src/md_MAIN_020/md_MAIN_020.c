@@ -52,18 +52,18 @@ extern void func_80154A74(s32 a0, s32 a1);
 #undef SHARED_FN
 
 
-extern void func_80147078(s32 *a0, s16 a1);
+extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_800CAFFC();  // K&R: 0 of 1 args (P37 rung D t4_D55)
 void func_800CAF38(s32 *a0) {
-    func_80147078(a0, 31);
+    guess_SetState(a0, 31);
     ((void (*)(void *))func_800CAFFC)(a0);
 }
 
 
-extern void func_80147078(s32 *a0, s16 a1);
+extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_800CAFA0(void *a0);
 void func_800CAF6C(s32 *a0) {
-    func_80147078(a0, 31);
+    guess_SetState(a0, 31);
     func_800CAFA0(a0);
 }
 
@@ -102,7 +102,7 @@ void func_800CB034(void *a0) {
     extern s32 func_80148AFC(void *a0);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void func_80147A84(s32 a0);
-    extern void func_801473EC(s32 *a0);
+    extern void guess_ApplyVelocity(s32 *a0);
     extern void func_80148038(s32 a0, s32 a1);
     extern void func_80147460(s32 a0);
     extern void func_8016151C(void *a0);
@@ -127,7 +127,7 @@ void func_800CB034(void *a0) {
         func_80146DE8((s32 *)s0, 0, 0, 0);
     }
     func_80147A84(s0);
-    func_801473EC((s32 *)s0);
+    guess_ApplyVelocity((s32 *)s0);
     func_80148038(s0, 0x30000);
     func_80147460(s0);
     if (((s32 (*)(void *))func_8016151C)((void *)s0) == 0) {

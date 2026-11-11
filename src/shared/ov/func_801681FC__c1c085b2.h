@@ -8,7 +8,7 @@ void func_801681FC(s32 param_1) {
     s32 iVar3;
     s32 a3;
 
-    *(s16 *)(param_1 + 0x28) = func_80029178(0x81) & 0xFF;
+    *(s16 *)(param_1 + 0x28) = guess_TestGameFlag(0x81) & 0xFF;
     *(s32 *)(param_1 + 0x30) = D_80181A58[*(s32 *)(param_1 + 0x2C)];
     iVar3 = (*(s32 *)(param_1 + 0x2C) << 0x11) >> 0x10;
     *(s16 *)(param_1 + 0x2A) = D_80181A28[iVar3];

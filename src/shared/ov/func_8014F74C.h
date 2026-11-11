@@ -1,7 +1,7 @@
 /* func_8014F74C — shared body (overlay slot 0x80128158, h_exact f969fea3). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern u8 D_800D3918[];
 extern u8 D_801152A8[];
 extern s16 D_801152B0;
@@ -39,7 +39,7 @@ int func_8014F74C(s32 arg0)
             __builtin_memcpy((void *)(arg0 + 0x120), (void *)&D_801152B0, 8);
         }
         if (*(u16 *)(arg0 + 0x16C) == 0x1D) {
-            if ((func_80029178(0x21) & 0xFF) == 0) {
+            if ((guess_TestGameFlag(0x21) & 0xFF) == 0) {
                 ret &= ~0x2000;
                 ret |= 0x4000;
                 __builtin_memcpy((void *)&D_801152B0, (void *)D_801152A8, 8);

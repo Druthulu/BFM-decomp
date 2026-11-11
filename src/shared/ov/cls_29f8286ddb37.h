@@ -8,7 +8,7 @@ void SHARED_FN(s32 a0, s16 *a1, s16 a2) {
     v[0] = a1[0];
     v[1] = a1[1] - 0x14;
     v[2] = a1[2];
-    ((void (*)(s32, void *, void *))func_8012F14C)(((Unkstruct_8017C294_4 *)a0)->unk20 + 0x34, v, v);
+    ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(((Unkstruct_8017C294_4 *)a0)->unk20 + 0x34, v, v);
     i = 0;
     do {
         short t;

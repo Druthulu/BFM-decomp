@@ -44,18 +44,18 @@ void func_800CAF18(void) {
 void func_800CAF20(void) {
 }
 
-extern void func_80147078(s32 *a0, s16 a1);
+extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_800CAFEC();  // K&R: 0 of 1 args (P37 rung D t4_D35)
 void func_800CAF28(s32 *a0) {
-    func_80147078(a0, 32);
+    guess_SetState(a0, 32);
     ((void (*)(void *))func_800CAFEC)(a0);
 }
 
 
-extern void func_80147078(s32 *a0, s16 a1);
+extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_800CAF90(void *a0);
 void func_800CAF5C(s32 *a0) {
-    func_80147078(a0, 32);
+    guess_SetState(a0, 32);
     func_800CAF90(a0);
 }
 

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8016B234(s32 param_1) {
 
-    extern u8 D_800AF648;
+    extern u8 guess_g_CameraWsMatrix;
     extern u8 D_801823DC;
     short input[3];
     Prim_B234 prim;
@@ -15,7 +15,7 @@ void func_8016B234(s32 param_1) {
     s32 sxy;
     s32 hh;
 
-    dp = &D_800AF648;
+    dp = &guess_g_CameraWsMatrix;
     func_8004914C(dp);
     func_800491AC(dp);
     input[0] = *(u16 *)(param_1 + 6);

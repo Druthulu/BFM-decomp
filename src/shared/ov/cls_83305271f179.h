@@ -3,5 +3,5 @@ void SHARED_FN(void) {
     s32 v0;
     v0 = func_8013767C(D_8012750C);
     D_80126CF0 = v0;
-    func_80171A1C((u8 *)&D_80126B58);
+    func_80171A1C((u8 *)&guess_g_PlayerActor);
 }

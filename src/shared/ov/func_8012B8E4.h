@@ -1,9 +1,12 @@
-/* func_8012B8E4 — shared body (overlay slot 0x80128158, h_exact 018880c8). ONE source: instantiated by #include at each
+/* guess_TurnStepToTarget — shared body (overlay slot 0x80128158, h_exact 018880c8). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s16 D_80126CB8;
 extern s16 D_80126CB4;
 extern s32 ratan2(s32 a0, s32 a1);
-s32 func_8012B8E4(s32 arg0, s32 arg1) {
+/* guess_TurnStepToTarget: returns a signed yaw step that turns object arg0 toward a target point at 1/arg1 of the remaining angle (0 when already facing it)
+ * Confidence medium, code inference: yaw toward (D_80126CB4, D_80126CB8) minus the facing at +0x12 of *(a0+0x20), wrapped to +-0x800, / arg1, at least +-1; the target point is not known
+ * Names ledger: config/names.tsv guess_TurnStepToTarget */
+s32 guess_TurnStepToTarget(s32 arg0, s32 arg1) {
     register s32 d __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
     s32 s1ang;
     s32 u5; s32 u6; s32 iVar4; s32 q; s32 t;

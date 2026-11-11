@@ -14,7 +14,7 @@ s32 func_801621CC(s32 arg0) {
         return 0;
     }
     a2 &= 0x7FFF;
-    if (((a2 >> 8) == D_80078EB1) && ((a2 & 0xFF) <= (u32)D_80078EB0)) {
+    if (((a2 >> 8) == D_80078EB1) && ((a2 & 0xFF) <= (u32)guess_g_ClockMinute)) {
         return (s32)&D_80181DB4;
     }
     d = s1[0x39] - 1;

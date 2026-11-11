@@ -226,12 +226,12 @@ void func_800CB328(void *a0) {
     extern u8 D_80078EC1;
     extern s32 func_80146A6C(s32, void *, s32, s32, s32, s32, s32);
     extern void RotMatrixY(s32, void *);
-    extern void func_8012F14C(s32, s32, s32);
+    extern void guess_RotTransSVWithMatrix(s32, s32, s32);
     extern void func_80016714(s8 *, s32);
     extern s32 func_80146C3C(u8 *a0);
-    extern s16 D_80126B5E;
-    extern s16 D_80126B62;
-    extern s16 D_80126B66;
+    extern s16 guess_g_PlayerPosX;
+    extern s16 guess_g_PlayerPosY;
+    extern s16 guess_g_PlayerPosZ;
     extern u16 D_80126BC8;
     extern u16 D_80126BCA;
     extern u16 D_80126BCC;
@@ -277,10 +277,10 @@ void func_800CB328(void *a0) {
             rot.vx = 0;
             rot.vy = -(CAST_SIGN(u32, (s32)obj, 0x2C) >> 1);
             rot.vz = ((Unkstruct_800CB328 *)obj)->unk2C;
-            m.t[0] = D_80126B5E;
-            m.t[1] = D_80126B62 - 0x1C;
-            m.t[2] = D_80126B66;
-            func_8012F14C((s32)&m, (s32)&rot, (s32)&rot);
+            m.t[0] = guess_g_PlayerPosX;
+            m.t[1] = guess_g_PlayerPosY - 0x1C;
+            m.t[2] = guess_g_PlayerPosZ;
+            guess_RotTransSVWithMatrix((s32)&m, (s32)&rot, (s32)&rot);
 
             CAST_ALIAS(u16, (s32)obj, 0x6) = *(u16 *)&rot.vx;
             CAST_ALIAS(u16, (s32)obj, 0xA) = *(u16 *)&rot.vy;

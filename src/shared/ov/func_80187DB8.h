@@ -4,7 +4,7 @@ extern s32 func_80187F30(void*, s32);
 extern s32 func_80143BDC(u16*);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012C218(void *a0);
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosZ;
 void func_80187DB8(s32 param_1) {
     u16 sp10[3];
     *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
@@ -31,7 +31,7 @@ void func_80187DB8(s32 param_1) {
         *(s32 *)(param_1 + 0x48) = t3;
     }
     if (func_8012BEE8(param_1) == 1 ||
-        (s32)(s16)D_80126B66 - 0x200 < *(s16 *)(param_1 + 0x6)) {
+        (s32)(s16)guess_g_PlayerPosZ - 0x200 < *(s16 *)(param_1 + 0x6)) {
         func_8012C218((void *)param_1);
     }
 }

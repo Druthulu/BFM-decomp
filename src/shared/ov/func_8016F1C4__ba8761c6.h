@@ -5,7 +5,7 @@ s32 func_8016F1C4(void) {
     s32 cur;
     s32 loc;
     s32 v;
-    s32 *base = &D_80126B58;
+    s32 *base = &guess_g_PlayerActor;
 
     p = &D_80182654;
     cur = *p;

@@ -63,7 +63,7 @@ void func_800CAF54(void *a0) {
 
 void func_800CAF90(void *a0) {
     extern void func_80017DC4(void *a0, void *a1);
-    extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+    extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
     extern void func_800D23D0(void *a0);
     extern void func_80017E68(void *a0, void *a1);
@@ -93,7 +93,7 @@ void func_800CAF90(void *a0) {
     vecA[2] = 0;
     vecA[0] = 0;
     vecA[1] = -0x2C;
-    func_8012F14C((s32)a0 + 0x38, (s32)vecA, (s32)vecA);
+    guess_RotTransSVWithMatrix((s32)a0 + 0x38, (s32)vecA, (s32)vecA);
 
     func_800D20C0(vecA, rot, 5);
     func_800D23D0(rot);

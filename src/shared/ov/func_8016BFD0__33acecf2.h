@@ -33,10 +33,10 @@ void func_8016BFD0(s32 a0, s32 a1, s32 a2, s32 a3, void *a4) {
     buf.t[0] = v1.x;
     buf.t[1] = v1.y;
     buf.t[2] = v1.z;
-    ((void(*)())func_8012F14C)(&buf, &D_801824C0, (s32)a4);
-    ((void(*)())func_8012F14C)(&buf, &D_801824C8, (s32)a4 + 8);
-    ((void(*)())func_8012F14C)(&buf, &D_801824D0, (s32)a4 + 0x10);
-    ((void(*)())func_8012F14C)(&buf, &D_801824D8, (s32)a4 + 0x18);
+    ((void(*)())guess_RotTransSVWithMatrix)(&buf, &D_801824C0, (s32)a4);
+    ((void(*)())guess_RotTransSVWithMatrix)(&buf, &D_801824C8, (s32)a4 + 8);
+    ((void(*)())guess_RotTransSVWithMatrix)(&buf, &D_801824D0, (s32)a4 + 0x10);
+    ((void(*)())guess_RotTransSVWithMatrix)(&buf, &D_801824D8, (s32)a4 + 0x18);
 
     *(s16 *)((s32)a4 + 4) = 0;
     *(s16 *)((s32)a4 + 0xc) = 0;

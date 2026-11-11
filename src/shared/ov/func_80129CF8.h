@@ -1,4 +1,4 @@
-/* func_80129CF8 — shared body (overlay slot 0x80128158, h_exact 3602e5f8). ONE source: instantiated by #include at each
+/* guess_UpdateCamera — shared body (overlay slot 0x80128158, h_exact 3602e5f8). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8012A328(void);
 extern void func_80053308(s32);
@@ -8,13 +8,16 @@ extern s8 D_801150D6;            /* canonical (engine_core macro): s8 — access
 extern u8 D_80127504;
 extern s32 D_80126E60[];
 extern s32 D_80126F04[];
-extern u8 D_80126948[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
 extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_800AE688[];
-extern s32 D_801151D4;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
-void func_80129CF8(void)
+extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
+/* guess_UpdateCamera: per-frame camera update: picks the camera for the current mode, runs its handler, eases the view, applies it with GsSetRefView2L and GsSetProjection, and records it as the active camera
+ * Confidence high, xref chain: picks a camera by D_801150D6, runs its handler, eases the view, calls GsSetProjection and GsSetRefView2L, copies GsWSMATRIX, stores it in guess_g_ActiveCamera
+ * Names ledger: config/names.tsv guess_UpdateCamera */
+void guess_UpdateCamera(void)
 {
     RView view; /* unused: reserves the extra 0x20 frame bytes the target has */
     s32 *cam;
@@ -31,7 +34,7 @@ void func_80129CF8(void)
     } else if (*(u8 *)&D_801150D6 == 2) {
         cam = D_80126F04;
     } else {
-        cam = (s32 *)D_80126948;
+        cam = (s32 *)guess_g_MainCamera;
         if (*(u8 *)&D_801150D6 == 3) {
             cam = D_80126FA8;
         }
@@ -81,5 +84,5 @@ void func_80129CF8(void)
     cam[0x1d] = iVar2;
     GsSetRefView2L(&cam[0x17]);
     *(RView *)(p2 + 6) = *(RView *)D_800AE688;
-    D_801151D4 = (s32)cam;
+    guess_g_ActiveCamera = (s32)cam;
 }

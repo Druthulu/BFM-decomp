@@ -20,7 +20,7 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
     }
     buf[0x45] = buf[0x46] >> 2;
     buf[0x44] = buf[0x45];
-    if (((u8 (*)(s32))func_80029178)(0x81) != 0) {
+    if (((u8 (*)(s32))guess_TestGameFlag)(0x81) != 0) {
         buf[0x45] = buf[0x45] << 2;
         buf[0x46] = buf[0x46] >> 1;
     }

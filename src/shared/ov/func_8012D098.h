@@ -1,6 +1,6 @@
 /* func_8012D098 — shared body (overlay slot 0x80128158, h_exact 182a812c). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_8012D3B4(s32 arg0, s32 arg1, s32 arg2);
 void func_8012D098(u16 *param_1, u32 param_2)
 {
@@ -23,35 +23,35 @@ void func_8012D098(u16 *param_1, u32 param_2)
         scratch[0] = *(u16 *)(param_2 + 4);
         scratch[1] = *(u16 *)(param_2 + 8);
         scratch[2] = *(u16 *)(param_2 + 0xc);
-        func_8012F214(param_1, scratch, bufA);
+        guess_RotTransSVWithObjMatrix(param_1, scratch, bufA);
         scratch[0] = *(u16 *)(param_2 + 6);
         scratch[1] = *(u16 *)(param_2 + 8);
         scratch[2] = *(u16 *)(param_2 + 0xc);
-        func_8012F214(param_1, scratch, bufB);
+        guess_RotTransSVWithObjMatrix(param_1, scratch, bufB);
         scratch[0] = *(u16 *)(param_2 + 4);
         scratch[1] = *(u16 *)(param_2 + 0xa);
         scratch[2] = *(u16 *)(param_2 + 0xc);
-        func_8012F214(param_1, scratch, bufC);
+        guess_RotTransSVWithObjMatrix(param_1, scratch, bufC);
         scratch[0] = *(u16 *)(param_2 + 6);
         scratch[1] = *(u16 *)(param_2 + 0xa);
         scratch[2] = *(u16 *)(param_2 + 0xc);
-        func_8012F214(param_1, scratch, bufD);
+        guess_RotTransSVWithObjMatrix(param_1, scratch, bufD);
         scratch[0] = *(u16 *)(param_2 + 4);
         scratch[1] = *(u16 *)(param_2 + 8);
         scratch[2] = *(u16 *)(param_2 + 0xe);
-        func_8012F214(param_1, scratch, bufE);
+        guess_RotTransSVWithObjMatrix(param_1, scratch, bufE);
         scratch[0] = *(u16 *)(param_2 + 6);
         scratch[1] = *(u16 *)(param_2 + 8);
         scratch[2] = *(u16 *)(param_2 + 0xe);
-        func_8012F214(param_1, scratch, bufF);
+        guess_RotTransSVWithObjMatrix(param_1, scratch, bufF);
         scratch[0] = *(u16 *)(param_2 + 4);
         scratch[1] = *(u16 *)(param_2 + 0xa);
         scratch[2] = *(u16 *)(param_2 + 0xe);
-        func_8012F214(param_1, scratch, bufG);
+        guess_RotTransSVWithObjMatrix(param_1, scratch, bufG);
         scratch[0] = *(u16 *)(param_2 + 6);
         scratch[1] = *(u16 *)(param_2 + 0xa);
         scratch[2] = *(u16 *)(param_2 + 0xe);
-        func_8012F214(param_1, scratch, bufH);
+        guess_RotTransSVWithObjMatrix(param_1, scratch, bufH);
         func_8012D3B4(bufA, bufB, 0xffffff);
         func_8012D3B4(bufB, bufD, 0xffffff);
         func_8012D3B4(bufD, bufC, 0xffffff);

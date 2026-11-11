@@ -6,13 +6,13 @@ void func_801330E0(param_1, param_2, param_3)
     s16 *param_2;
     s16 param_3;
 {
-    extern u8 D_800AF648;
+    extern u8 guess_g_CameraWsMatrix;
     s32 *m;
     s32 sxyz[4];
     s32 pos[4];
     s32 flag;
     s32 z;
-    m = (s32 *)&D_800AF648;
+    m = (s32 *)&guess_g_CameraWsMatrix;
     gte_SetTransMatrix(m);
     gte_SetRotMatrix(m);
     gte_ldv0(param_1);

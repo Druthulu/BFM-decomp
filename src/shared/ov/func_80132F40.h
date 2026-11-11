@@ -1,11 +1,11 @@
 /* func_80132F40 — shared body (overlay slot 0x80128158, h_exact c5b3a460). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32, s32, s32, s32);
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosX;
+extern u16 guess_g_PlayerPosY;
+extern u16 guess_g_PlayerPosZ;
 extern u8 D_80126BE0[];
 void func_80132F40(s32 arg0)
 {
@@ -18,9 +18,9 @@ void func_80132F40(s32 arg0)
     s32 w;
     s32 m;
     q = &v[1];
-    v[0].vx = D_80126B5E;
-    v[0].vy = D_80126B62;
-    v[0].vz = D_80126B66;
+    v[0].vx = guess_g_PlayerPosX;
+    v[0].vy = guess_g_PlayerPosY;
+    v[0].vz = guess_g_PlayerPosZ;
     v[1] = v[0];
     if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58),
                       (s32)D_80126BE0, (s32)q) != 0) {
@@ -33,9 +33,9 @@ void func_80132F40(s32 arg0)
         if (c) { m = hh; } else { m = w; }
         func_8012F038(*(s32 *)(arg0 + 0x20) + 0x34, &v[0], q);
         v[1].vy = m;
-        func_8012F14C(*(s32 *)(arg0 + 0x20) + 0x34, q, &v[0]);
-        D_80126B5E = v[0].vx;
-        D_80126B62 = v[0].vy;
-        D_80126B66 = v[0].vz;
+        guess_RotTransSVWithMatrix(*(s32 *)(arg0 + 0x20) + 0x34, q, &v[0]);
+        guess_g_PlayerPosX = v[0].vx;
+        guess_g_PlayerPosY = v[0].vy;
+        guess_g_PlayerPosZ = v[0].vz;
     }
 }

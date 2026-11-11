@@ -1,7 +1,7 @@
 /* func_8012F968 — shared body (overlay slot 0x80128158, h_exact 8f98afeb). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 D_801151D4;
-extern s32 func_8012B744(void *a0, void *a1);
+extern s32 guess_g_ActiveCamera;
+extern s32 guess_YawToPoint(void *a0, void *a1);
 extern s32 func_80131A34(s32 a0, s32 a1);
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
@@ -10,7 +10,7 @@ void func_8012F968(s32 param_1) {
     s32 iVar2;
     u32 uVar4;
     struct { s16 a; s16 b; s16 c; } sp;
-    iVar3 = D_801151D4;
+    iVar3 = guess_g_ActiveCamera;
     *(u8 *)(param_1 + 0xc1) = 0x12;
     if ((*(u32 *)(param_1 + 0xb4) & 0x10000) != 0) {
         sp.a = *(s32 *)(iVar3 + 0x5c);
@@ -23,7 +23,7 @@ void func_8012F968(s32 param_1) {
         *(s16 *)(param_1 + 0x50) = 0;
         *(s16 *)(iVar2 + 0x14) = 0;
         *(s16 *)(iVar2 + 0x10) = 0;
-        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = ((s16 (*)(s32, s32))func_8012B744)(param_1 + 4, (s32)&sp);
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = ((s16 (*)(s32, s32))guess_YawToPoint)(param_1 + 4, (s32)&sp);
         *(s32 *)(param_1 + 0x1c) = 0x2d;
         if (*(u32 *)(param_1 + 0x58) != 0) {
             uVar4 = *(u32 *)(param_1 + 0x58) & 0xfffffff | 0x80000000;

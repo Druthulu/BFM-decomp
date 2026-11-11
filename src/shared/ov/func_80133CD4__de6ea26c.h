@@ -19,7 +19,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     extern s16 D_801152AC;
     extern u16 D_801152AE;
     extern u8  D_801152B0;
-    extern s32 func_80134310(Vec3s *a0, Vec3s *a1, s32 a2);
+    extern s32 guess_Vec3sDotAdd(Vec3s *a0, Vec3s *a1, s32 a2);
     extern s32 func_8013435C(s16 *a0, s16 *a1, s32 a2, s16 *a3);
 
     s16 *s3 = ((ElemK *)base)[cmd[1]].e;
@@ -28,14 +28,14 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     s32 s2a;
     s16 y;
 
-    if (func_80134310(s3, D_8017F80C, s6) >= 0)
+    if (guess_Vec3sDotAdd(s3, D_8017F80C, s6) >= 0)
         return 0;
 
-    s1var = func_80134310(s3, D_8017F808, s6);
+    s1var = guess_Vec3sDotAdd(s3, D_8017F808, s6);
     if (s1var < 0)
         return 0;
 
-    s0var = func_80134310(s3, D_8017F814, 0);
+    s0var = guess_Vec3sDotAdd(s3, D_8017F814, 0);
     {
         u16 *pac = D_8017F808;
         s16 *pb8 = D_8017F814;
@@ -65,7 +65,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     }
 
     {
-        s32 ret = func_80134310(s3, D_8017F80C, s6);
+        s32 ret = guess_Vec3sDotAdd(s3, D_8017F80C, s6);
         s32 *pc0;
         s32 *pc4;
         u16 *pb0;
@@ -117,7 +117,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
             pb[0] = s1var >> 16;
             pb[1] = s0var >> 16;
             pb[2] = s2a >> 16;
-            ret = func_80134310(s3, pb, s6);
+            ret = guess_Vec3sDotAdd(s3, pb, s6);
         } while (ret < ((s3[1] < -0xE00) ? 0x1800 : 0x2F00));
     }
 

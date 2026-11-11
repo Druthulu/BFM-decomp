@@ -474,7 +474,7 @@ def _alias_group_data_conflicts(groups):
     one draft plus the PRE-SPLICE TU, so it detects draft-vs-TU disagreements only. But this sweep
     stages EVERY member of an (overlay, split) group into the same TU before gating, and two
     templated bodies routinely carry different views of one address — `D_80114F24` is `s32` in one
-    body and `Vec8` in another, `D_80078EB4` is `s16` at 2,409 fleet sites and `u16` at 1,341.
+    body and `Vec8` in another, `g_PlayerHp` is `s16` at 2,409 fleet sites and `u16` at 1,341.
     Measured: ov_MAIN_012 failed `conflicting types for D_80114F24` at the SPLICE POINT while the TU
     itself declares that symbol nowhere — the two drafts were conflicting with each other.
 
@@ -735,7 +735,7 @@ def hseq_sweep(a):
             # the draft's OWN signature; neither touches a CALLEE the draft declares differently from
             # the target TU. That is what blocked every byte-identical family measured in T76:
             #   func_80173A60 -> `conflicting types for func_80173B4C`   (a callee)
-            #   func_8012F40C -> `conflicting types for RotTransPers`    (a PsyQ library symbol)
+            #   guess_WorldToScreen -> `conflicting types for RotTransPers`    (a PsyQ library symbol)
             #   0x80143d28    -> `conflicting types for ApplyMatrixSV`
             # cast_call_sites already solves exactly this (rewrite the decl to the TU's canonical,
             # cast each call site back to the draft's intended sig — gcc folds the cast of a known

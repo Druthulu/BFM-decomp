@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80013478(s32 a0, s32 a1);
 extern s16 D_80126CBA;
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 s32 func_8012BCCC(s32 a0) {
-    s32 *p = &D_80126B58;
+    s32 *p = &guess_g_PlayerActor;
     if (D_80126CBA != 0) {
         return 0x7FFFFFFF;
     }

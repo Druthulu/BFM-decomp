@@ -166,14 +166,14 @@ void func_800CB158(void *a0) {
 void func_800CB1EC(void *a0) {
     extern u8 D_80078EC1;
     extern Blk32_CB1EC D_800AE620;
-    extern s16 D_80126B5E;
-    extern s16 D_80126B62;
-    extern s16 D_80126B66;
+    extern s16 guess_g_PlayerPosX;
+    extern s16 guess_g_PlayerPosY;
+    extern s16 guess_g_PlayerPosZ;
     extern void func_80016714(void *a0, s32 a1);
     extern s32 func_80128ED8(s32 a0, s32 *a1);
     extern void RotMatrixY(s32 a0, void *a1);
     extern s32 func_80047948(s32 a0);
-    extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+    extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern s32 func_80146C3C(u8 *a0);
 
     s16 out[3];
@@ -207,15 +207,15 @@ void func_800CB1EC(void *a0) {
         RotMatrixY(((s5 << 16) >> 11) + ((Unkstruct_800CB1EC *)a0)->unk2C, &buf);
 
         out[0] = 0;
-        buf.w[5] = D_80126B5E;
-        buf.w[6] = D_80126B62;
-        buf.w[7] = D_80126B66;
+        buf.w[5] = guess_g_PlayerPosX;
+        buf.w[6] = guess_g_PlayerPosY;
+        buf.w[7] = guess_g_PlayerPosZ;
 
         v1 = func_80047948(((s5 & 0xF) << 8) + ((Unkstruct_800CB1EC *)a0)->unk2C);
         out[1] = (v1 >> 9) - 0x30;
         out[2] = -0x50;
 
-        func_8012F14C((s32)&buf, (s32)out, (s32)out);
+        guess_RotTransSVWithMatrix((s32)&buf, (s32)out, (s32)out);
 
         ((Unkstruct_800CB1EC *)a0)->unk6 = out[0];
         ((Unkstruct_800CB1EC *)a0)->unkA = out[1];

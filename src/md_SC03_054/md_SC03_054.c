@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_80178CBC(s32 a0, s32 a1);
 extern void func_80029514(s32 a0);
-extern void func_80029124(s32 a0, s32 a1);
-extern s32 func_80029178(s32 a0);
+extern void guess_SetGameFlag(s32 a0, s32 a1);
+extern s32 guess_TestGameFlag(s32 a0);
 extern s32 func_8018766C(s32 a0, s32 a1);
 extern s32 func_800D0F4C(s32 a0);
 
@@ -26,18 +26,18 @@ void func_801EF558(void *param_1) {
     ((Unkstruct_801EF558 *)param_1)->unk2 = step;
     D_801F1480 = 0;
     D_801F1482 = 0;
-    v0 = func_80029504();
+    v0 = guess_GetStoryProgress();
     if (v0 < 0x28) {
         func_8002D4C8(0x12, 0);
         func_80178CBC((s32)param_1, (s32)&D_801F10C0);
         func_80029514(0x28);
-        func_80029124(0xE3, 1);
+        guess_SetGameFlag(0xE3, 1);
         ((Unkstruct_801EF558 *)param_1)->unk34 = 0;
     } else if (v0 < 0x32) {
         func_8002D4C8(0x12, 0);
         func_80178CBC((s32)param_1, (s32)&D_801F10E0);
         ((Unkstruct_801EF558 *)param_1)->unk34 = 1;
-    } else if ((u8)func_80029178(0xE4) != 0) {
+    } else if ((u8)guess_TestGameFlag(0xE4) != 0) {
         func_8002D4C8(0x12, 0);
         func_80178CBC((s32)param_1, (s32)&D_801F10F8);
         ((Unkstruct_801EF558 *)param_1)->unk34 = 5;
@@ -74,7 +74,7 @@ extern s32 func_8001AAA0(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_80178CBC(s32 a0, s32 a1);
 extern void func_80029514(s32 a0);
-extern void func_80029124(s32 a0, s32 a1);
+extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern s32 func_800D0F4C(s32 a0);
 
 extern s16 D_801F1480;
@@ -191,14 +191,14 @@ void func_801EF6D8(s32 a0) {
         if (t4) {
             if (t4 == 2) {
                 func_80029514(0x32);
-                func_80029124(0xE4, 1);
-                func_80029124(0xE5, 0);
+                guess_SetGameFlag(0xE4, 1);
+                guess_SetGameFlag(0xE5, 0);
                 func_80178CBC(a0, (s32)&D_801F13C8);
                 ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
             } else {
                 func_80029514(0x32);
-                func_80029124(0xE4, 0);
-                func_80029124(0xE5, 1);
+                guess_SetGameFlag(0xE4, 0);
+                guess_SetGameFlag(0xE5, 1);
                 func_80178CBC(a0, (s32)&D_801F13F8);
                 ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
             }
@@ -425,7 +425,7 @@ void func_801EF6D8(s32 a0) {
                 func_80178D18(a0);
                 func_8002D4C8(0x13, 0);
                 func_80029514(0x46);
-                func_80029124(0xE7, 1);
+                guess_SetGameFlag(0xE7, 1);
                 func_8012C218(((Unkstruct_800B5CB8 *)a0)->unkD4);
                 func_8012C218(a0);
             }

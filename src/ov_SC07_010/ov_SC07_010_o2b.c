@@ -1013,7 +1013,7 @@ void func_8013E5E8(void)
 extern s16 currentLocationId;
 
 extern void func_8013E83C(void);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 
 void func_8013E6AC(void) {
 
@@ -1037,7 +1037,7 @@ void func_8013E6AC(void) {
         *(s16 *)((char *)&D_80115148 + (i << 1)) = 0;
         D_80115140[i] = 0;
     }
-    if (!((u32)func_80029504() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
+    if (!((u32)guess_GetStoryProgress() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
         s32 *ep;
         s32 *fp;
         fp = (s32 *)&D_80115110;
@@ -1074,7 +1074,7 @@ void func_8013E83C() {
 
     extern u16 D_80115110;
     extern u16 D_8011511A;
-    extern int func_80029178(int);
+    extern int guess_TestGameFlag(int);
     extern void func_8002D4C8(int, int);
     extern void func_80141C0C(int);
     extern unsigned short D_80115118;
@@ -1101,7 +1101,7 @@ void func_8013E83C() {
     }
     D_80115158 = 0x106;
 
-    if ((func_80029178(0x1c) & 0xFF) == 0) {
+    if ((guess_TestGameFlag(0x1c) & 0xFF) == 0) {
         D_801A6B00 = &D_80182FD8;
         D_801A6B04 = &D_80183064;
     } else {

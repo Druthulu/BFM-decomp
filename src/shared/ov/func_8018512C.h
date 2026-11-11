@@ -3,7 +3,7 @@
 extern s32 D_801E873C;
 extern s32 D_801E874C;
 extern s32 D_801E8010;
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosZ;
 extern u16 D_800B99D8;
 extern u8  D_8018B358[];
 extern void func_80185F8C(s32 a0);
@@ -43,7 +43,7 @@ void func_8018512C(s32 p) {
         q = *(s32 *)(p + 0x20);
         *(s16 *)(q + 0x14) = -0x420 - idx;
     }
-    if (*(s16 *)(p + 0xE) < (s32)(s16)D_80126B66 + 0x80) {
+    if (*(s16 *)(p + 0xE) < (s32)(s16)guess_g_PlayerPosZ + 0x80) {
         func_8012DB84();
         D_801E8010 = 1;
     }

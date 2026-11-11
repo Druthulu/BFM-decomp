@@ -27,7 +27,7 @@ s32 func_8015CD20(s32 arg0) {
         if (((s32(*)(struct Ent_8015CD20 *))func_80148980)(((struct Ent_8015CD20 *)arg0)) != 0) {
             ((void(*)(struct Ent_8015CD20 *, u8 *))func_80146DB8)(((struct Ent_8015CD20 *)arg0), &D_80181AB8);
             ((void(*)(struct Ent_8015CD20 *))func_80147A84)(((struct Ent_8015CD20 *)arg0));
-            ((void(*)(struct Ent_8015CD20 *))func_801473EC)(((struct Ent_8015CD20 *)arg0));
+            ((void(*)(struct Ent_8015CD20 *))guess_ApplyVelocity)(((struct Ent_8015CD20 *)arg0));
             ((void(*)(struct Ent_8015CD20 *, s32))func_80154150)(((struct Ent_8015CD20 *)arg0), 0x15);
             sp = ((struct Ent_8015CD20 *)arg0)->unk20;
             var_v0 = sp->unk12 - 0xAA;
@@ -36,7 +36,7 @@ s32 func_8015CD20(s32 arg0) {
         if (((s32(*)(struct Ent_8015CD20 *))func_8014891C)(((struct Ent_8015CD20 *)arg0)) != 0) {
             ((void(*)(struct Ent_8015CD20 *, u8 *))func_80146DB8)(((struct Ent_8015CD20 *)arg0), &D_80181AC8);
             ((void(*)(struct Ent_8015CD20 *))func_80147A84)(((struct Ent_8015CD20 *)arg0));
-            ((void(*)(struct Ent_8015CD20 *))func_801473EC)(((struct Ent_8015CD20 *)arg0));
+            ((void(*)(struct Ent_8015CD20 *))guess_ApplyVelocity)(((struct Ent_8015CD20 *)arg0));
             ((void(*)(struct Ent_8015CD20 *, s32))func_80154150)(((struct Ent_8015CD20 *)arg0), 0x14);
             ((struct Ent_8015CD20 *)arg0)->unkB8 = 1;
         }
@@ -57,7 +57,7 @@ block_13:
     ((void(*)(struct Ent_8015CD20 *))func_8014FA04)(((struct Ent_8015CD20 *)arg0));
     if (((s32(*)(struct Ent_8015CD20 *))func_8014E434)(((struct Ent_8015CD20 *)arg0)) == 0) {
         D_80181914[((struct Ent_8015CD20 *)arg0)->unk0](((struct Ent_8015CD20 *)arg0));
-        ((void(*)(struct Ent_8015CD20 *, s32))func_80147078)(((struct Ent_8015CD20 *)arg0), 0);
+        ((void(*)(struct Ent_8015CD20 *, s32))guess_SetState)(((struct Ent_8015CD20 *)arg0), 0);
         ((void(*)(struct Ent_8015CD20 *))func_80159B70)(((struct Ent_8015CD20 *)arg0));
     } else {
         ((void(*)(struct Ent_8015CD20 *))func_801725E0)(((struct Ent_8015CD20 *)arg0));

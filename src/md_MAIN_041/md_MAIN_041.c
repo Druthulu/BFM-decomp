@@ -89,7 +89,7 @@ void func_800CAF9C(s32 a0) {
 #include "common.h"
 
 extern s32 func_8014659C(void);
-extern void func_8001C214(s32 a0, s32 a1);
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern s32 D_800CBE04;
 extern void func_80149374(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
@@ -107,7 +107,7 @@ void func_800CB028(s32 a0) {
     s0 = ((s32 (*)(void))func_8014659C)();
     ((Unkstruct_80126B58 *)a0)->unk20 = s0;
     if (s0 != 0) {
-        func_8001C214(s0, (s32)&D_800CBE04);
+        guess_InitModelObject(s0, (s32)&D_800CBE04);
         *(u16 *)(s0 + 0x2C) = *(u16 *)(s0 + 0x2C) | 0x10;
         *(u16 *)(s0 + 0x1C) = 0x2000;
         *(u16 *)(s0 + 0x1A) = 0x2000;

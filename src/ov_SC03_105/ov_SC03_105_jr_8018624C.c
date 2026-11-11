@@ -35,7 +35,7 @@ extern void func_801873C8(void);
 extern void func_80187434(void *a0);
 
 extern u8 D_800AF630[];
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern u8 D_8018EDF4[];
 extern s16 D_8018EE00;
 extern u8 D_8018EE54[];
@@ -178,7 +178,7 @@ void func_8018624C(void *arg0) {
         ((Unkstruct_8018624C *)ent)->unk2 = 3;
         *(s16 *)(((Unkstruct_8018624C *)ent)->unkCC + 0x2) = 2;
         ((Unkstruct_8018624C *)ent)->unk1C = 0x5A;
-        func_80147054(&D_80126B58);
+        func_80147054(&guess_g_PlayerActor);
         func_8002D4C8(4, 0x72F);
     }
 }

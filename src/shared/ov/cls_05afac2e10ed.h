@@ -6,12 +6,12 @@ void SHARED_FN(void *a0)
     extern void func_8004914C(void *);
     extern void func_800491AC(void *);
     extern void func_80017254(void *);
-    extern u8 D_800AF648;
+    extern u8 guess_g_CameraWsMatrix;
 
     s32 flag1, flag2, otz;
 
-    func_8004914C(&D_800AF648);
-    func_800491AC(&D_800AF648);
+    func_8004914C(&guess_g_CameraWsMatrix);
+    func_800491AC(&guess_g_CameraWsMatrix);
 
     gte_ldv3(a0, (char *)a0 + 8, (char *)a0 + 0x10);
     gte_rtpt();

@@ -1,7 +1,7 @@
 /* func_80134C20 — shared body (overlay slot 0x80128158, h_exact b2c5a2f9). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80134C20(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    extern s32 func_80134FB8(s32 a0, s32 a1, s32 a2);
+    extern s32 guess_Vec3sDotAdd_3(s32 a0, s32 a1, s32 a2);
     extern void * D_8017F808;
     extern void * D_8017F80C;
     extern void * D_8017F810;
@@ -20,14 +20,14 @@ s32 func_80134C20(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     temp_s4 = arg2 + (M2C_FIELD(((void *)arg1), s16 *, 2) * 8);
     temp_s1 = *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 4) * 4));
     var_v0 = 0;
-    if (func_80134FB8(temp_s4, (s32) D_8017F80C, temp_s1) >= 0) {
+    if (guess_Vec3sDotAdd_3(temp_s4, (s32) D_8017F80C, temp_s1) >= 0) {
         return var_v0;
     }
-    temp_v0 = func_80134FB8(temp_s4, (s32) D_8017F808, temp_s1);
+    temp_v0 = guess_Vec3sDotAdd_3(temp_s4, (s32) D_8017F808, temp_s1);
     if (temp_v0 < 0) {
         goto block_13;
     }
-    temp_v0_2 = func_80134FB8(temp_s4, (s32) D_8017F814, 0);
+    temp_v0_2 = guess_Vec3sDotAdd_3(temp_s4, (s32) D_8017F814, 0);
     temp_a3 = -temp_v0;
     {
         u16 *pB4 = (u16 *)D_8017F810;
@@ -37,21 +37,21 @@ s32 func_80134C20(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         pB4[1] = pAC[1] + (temp_a3 * pB8[1]) / temp_v0_2;
         pB4[2] = pAC[2] + (temp_a3 * pB8[2]) / temp_v0_2;
         var_v0 = 0;
-        if (func_80134FB8(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 6) * 8), (s32) pB4, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 8) * 4))) < -0x2F00) {
+        if (guess_Vec3sDotAdd_3(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 6) * 8), (s32) pB4, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 8) * 4))) < -0x2F00) {
             return var_v0;
         }
     }
     var_v0 = 0;
-    if (func_80134FB8(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 0xA) * 8), (s32) D_8017F810, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 0xC) * 4))) < -0x2F00) {
+    if (guess_Vec3sDotAdd_3(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 0xA) * 8), (s32) D_8017F810, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 0xC) * 4))) < -0x2F00) {
         return var_v0;
     }
     var_v0 = 0;
-    if (func_80134FB8(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 0xE) * 8), (s32) D_8017F810, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 0x10) * 4))) < -0x2F00) {
+    if (guess_Vec3sDotAdd_3(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 0xE) * 8), (s32) D_8017F810, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 0x10) * 4))) < -0x2F00) {
         return var_v0;
     }
     if ((arg0 << 16) < 0) {
         var_v0 = 0;
-        if (func_80134FB8(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 0x12) * 8), (s32) D_8017F810, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 0x14) * 4))) < -0x2F00) {
+        if (guess_Vec3sDotAdd_3(arg2 + (M2C_FIELD(((void *)arg1), s16 *, 0x12) * 8), (s32) D_8017F810, *(s32 *)(arg3 + (M2C_FIELD(((void *)arg1), s16 *, 0x14) * 4))) < -0x2F00) {
             return var_v0;
         }
     }

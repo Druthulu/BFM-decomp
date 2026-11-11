@@ -1,12 +1,12 @@
 /* func_8014A738 — shared body (overlay slot 0x80128158, h_exact b51a4f8c). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_80029178(s32);
+extern s32 guess_TestGameFlag(s32);
 s32 func_8014A738(void *arg0) {
     extern u8 D_801202A0[];
     Vec_8014A738 d;
     u32 i;
     Ent_801202A0 *base;
-    if ((func_80029178(0x83) & 0xFF) == 0) {
+    if ((guess_TestGameFlag(0x83) & 0xFF) == 0) {
         return 0;
     }
     base = (Ent_801202A0 *)D_801202A0;

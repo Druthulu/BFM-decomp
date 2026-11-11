@@ -48,7 +48,7 @@ void func_80180A64(s32 param_1)
 
 
 
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern s32 func_8012E544(s32 a0);
 extern void func_8012A828(s32, void *);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -68,7 +68,7 @@ extern unsigned char D_801A6F44;
 
 void func_80180AD4(s32 param_1)
 {
-    u8 *base = (u8 *)&D_80126B58;
+    u8 *base = (u8 *)&guess_g_PlayerActor;
     s32 flag;
     s32 cond;
     s32 t;

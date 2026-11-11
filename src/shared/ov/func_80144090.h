@@ -9,7 +9,7 @@ extern s32 func_80047948(s32 a0);
 extern s32 AddPrim(s32, void *);
 void func_80144090(s32 param_1) {
     extern OtBlk D_800A651C[];
-    extern u8 D_800AF648;
+    extern u8 guess_g_CameraWsMatrix;
     extern short D_800B9A02;
     void *iVar1;
     s32 iVar2;
@@ -31,8 +31,8 @@ void func_80144090(s32 param_1) {
         L.v10[0] = *(u16 *)(param_1 + 6);
         L.v10[1] = *(u16 *)(param_1 + 0xa);
         L.v10[2] = *(u16 *)(param_1 + 0xe);
-        func_8004914C(&D_800AF648);
-        func_800491AC(&D_800AF648);
+        func_8004914C(&guess_g_CameraWsMatrix);
+        func_800491AC(&guess_g_CameraWsMatrix);
         iVar2 = RotTransPers((s32)L.v10, (s32)L.sxy, &L.p, &L.flag);
         iVar2 = iVar2 + 4;
         if (iVar2 < 0) {

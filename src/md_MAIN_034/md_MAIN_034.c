@@ -1019,7 +1019,7 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80013F3C(s32 a0);
 extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80020F34(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80017714(void *arg0);
 
 void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
@@ -1051,10 +1051,10 @@ void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
     buf.t[0] = v1.x;
     buf.t[1] = v1.y;
     buf.t[2] = v1.z;
-    func_8012F14C((s32)&buf, (s32)&D_800CCA3C, (s32)a4);
-    func_8012F14C((s32)&buf, (s32)&D_800CCA44, (s32)a4 + 8);
-    func_8012F14C((s32)&buf, (s32)&D_800CCA4C, (s32)a4 + 0x10);
-    func_8012F14C((s32)&buf, (s32)&D_800CCA54, (s32)a4 + 0x18);
+    guess_RotTransSVWithMatrix((s32)&buf, (s32)&D_800CCA3C, (s32)a4);
+    guess_RotTransSVWithMatrix((s32)&buf, (s32)&D_800CCA44, (s32)a4 + 8);
+    guess_RotTransSVWithMatrix((s32)&buf, (s32)&D_800CCA4C, (s32)a4 + 0x10);
+    guess_RotTransSVWithMatrix((s32)&buf, (s32)&D_800CCA54, (s32)a4 + 0x18);
 
     ((Unkstruct_800CC7FC *)a4)->unk4 = 0;
     ((Unkstruct_800CC7FC *)a4)->unkC = 0;

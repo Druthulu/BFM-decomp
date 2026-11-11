@@ -2,12 +2,12 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80148D44(void) {
 
-    extern s32 D_801151D4;
+    extern s32 guess_g_ActiveCamera;
     extern u8 D_80126C01;
     extern u16 D_80126C02;
     extern u16 D_80126C06;
     extern s16 (*D_80180DB0[])(s32);
-    s32 p = D_801151D4;
+    s32 p = guess_g_ActiveCamera;
     s32 tmp = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
                       *(s32 *)(p + 0x48) - *(s32 *)(p + 0x3C)) - 0x400) & 0xFFF;
     s32 ang = tmp;

@@ -74,7 +74,8 @@ def group_members(g):
             a = _addr(m["vram"])
             yield m.get("binary"), a, m.get("name", f"func_{a:08X}")
     elif g.get("binaries") is not None and g.get("vram") is not None:
-        a = _addr(g["vram"]); nm = f"func_{a:08X}"
+        # the group's `func` (a curated name after a rename, 3.43 T7), else the placeholder; was f"func_{a:08X}" always
+        a = _addr(g["vram"]); nm = g.get("func") or f"func_{a:08X}"
         for b in g["binaries"]:
             yield b, a, nm
 

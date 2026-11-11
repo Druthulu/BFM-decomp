@@ -10,7 +10,7 @@ void func_8013E6AC(void) {
         *(s16 *)((char *)&D_80115148 + (i << 1)) = 0;
         D_80115140[i] = 0;
     }
-    if (!((u32)func_80029504() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
+    if (!((u32)guess_GetStoryProgress() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
         s32 *ep;
         s32 *fp;
         fp = (s32 *)&D_80115110;

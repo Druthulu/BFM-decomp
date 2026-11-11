@@ -71,7 +71,7 @@ extern void func_80141C04(void);
 extern void func_8013E5E8(void);
 extern void func_8013E67C(void);
 extern void func_8013E83C(void);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_8013E6AC(void);
 extern void func_800D24A0(s32 arg);
 extern void func_8013E814(void);
@@ -124,7 +124,7 @@ extern u8 D_8011515C;     /* macro-canonical (§8e) */
 extern u8  D_8018305C[];
 extern u8  D_80183074[];
 extern u16 D_80182F78[];
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 extern void func_8014AA04(s32 a0);
 extern void func_801415C0(s32 a0, s32 a1);
@@ -151,7 +151,7 @@ extern void func_8013FAF8(s16 arg0, s16 arg1);
 extern short D_80115128[0];
 extern u8 D_8018305C[];
 extern u8 D_80183074[];
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 
 
@@ -190,7 +190,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     result = D_801117EC;
     switch (((short)param_1)) {
     case 0:
-        if (((s32(*)(s32))func_80029178)(D_8018305C[((short)param_2)]) & 0xFF) {
+        if (((s32(*)(s32))guess_TestGameFlag)(D_8018305C[((short)param_2)]) & 0xFF) {
             result = D_801830B0[((short)param_2)];
         }
         break;
@@ -210,8 +210,8 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         case 1:
             goto case5;
         case 2:
-            if (((s32(*)(s32))func_80029178)(D_801A6B04[((short)param_2)]) & 0xFF) {
-                if (((short)param_2) == 5 && (((s32(*)(s32))func_80029178)(0x1C) & 0xFF)) {
+            if (((s32(*)(s32))guess_TestGameFlag)(D_801A6B04[((short)param_2)]) & 0xFF) {
+                if (((short)param_2) == 5 && (((s32(*)(s32))guess_TestGameFlag)(0x1C) & 0xFF)) {
                     result = D_801117B4;
                 } else {
                     result = D_801830C8[((short)param_2)];
@@ -219,7 +219,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
             }
             break;
         case 3:
-            if (((s32(*)(s32))func_80029178)(D_80183080[((short)param_2)]) & 0xFF) {
+            if (((s32(*)(s32))guess_TestGameFlag)(D_80183080[((short)param_2)]) & 0xFF) {
                 result = D_80183108[((short)param_2)];
             }
             break;

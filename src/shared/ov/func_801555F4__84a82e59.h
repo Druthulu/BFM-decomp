@@ -19,7 +19,7 @@ void func_801555F4(void *param_1)
     ((void(*)(int, int))func_80154A74)(((int)param_1), 0x15);
     if ((*(unsigned int *)(((int)param_1) + 0x44) & 0x200) == 0) {
         if (*(int *)(((int)param_1) + 0x2c) == -0xb0000) {
-            uVar1 = ((int(*)(int))func_80029178)(0x82);
+            uVar1 = ((int(*)(int))guess_TestGameFlag)(0x82);
             if ((uVar1 & 0xff) != 0) {
                 uVar1 = 7;
                 goto L_648;

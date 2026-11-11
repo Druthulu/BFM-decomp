@@ -2,7 +2,7 @@
  * exemplar src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:6769 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 2, markers 0 */
 s32 SHARED_FN(u8 a0, u8 a1, u8 a2, u8 a3) {
 
-    extern u8 D_80078EB0;
+    extern u8 guess_g_ClockMinute;
     s32 pad[8];
     s32 v0, h0, l0, h1, l1, x, y;
 
@@ -14,9 +14,9 @@ s32 SHARED_FN(u8 a0, u8 a1, u8 a2, u8 a3) {
     l1 = a3;
     y = (h1 << 8) | l1;
 
-    if ((s16)x <= *(s16 *)&D_80078EB0) {
+    if ((s16)x <= *(s16 *)&guess_g_ClockMinute) {
         v0 = (s16)y;
-        v0 = *(s16 *)&D_80078EB0 < v0;
+        v0 = *(s16 *)&guess_g_ClockMinute < v0;
     }
     return v0;
 }

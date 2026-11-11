@@ -8,7 +8,7 @@ extern s16 D_80126976;
 extern s16 D_8012696C;
 extern s16 D_80126978;
 extern s16 D_8012697A;
-extern u8 D_80126948[];
+extern u8 guess_g_MainCamera[];
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80181D2C(u8*);
 extern void func_8012A094(s32 a0);
@@ -23,7 +23,7 @@ void func_80181820(void) {
     D_80126978 = -0xC8;
     D_8012697A = 0;
     func_8012A018((s32)func_80181D2C, 0);
-    ptr = D_80126948;
+    ptr = guess_g_MainCamera;
     ((void (*)(void *))func_80181D2C)(ptr);
     func_8012A094((s32)ptr);
 }

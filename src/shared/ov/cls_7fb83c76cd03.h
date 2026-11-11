@@ -6,5 +6,5 @@ void SHARED_FN(s32 a0, void *a1, void *a2, s32 a3) {
     s32 buf2;
     s32 temp[8];
     func_8012EC04(a0, a3, temp);
-    func_8012F14C((s32)temp, (s32)a1, (s32)a2);
+    guess_RotTransSVWithMatrix((s32)temp, (s32)a1, (s32)a2);
 }

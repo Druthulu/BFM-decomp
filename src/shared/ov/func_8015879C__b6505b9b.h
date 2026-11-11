@@ -8,7 +8,7 @@ void func_8015879C(s32 param_1) {
     ((void (*)(void))func_80147084)();
     ((void (*)(s32))func_80147098)(param_1);
     ((void (*)(s32))func_801470AC)(param_1);
-    ((void (*)(s32, s32))func_80147078)(param_1, 0x1a);
+    ((void (*)(s32, s32))guess_SetState)(param_1, 0x1a);
     ((void (*)(s32, s32))func_80146C98)(param_1, 1);
     ((void (*)(s32))func_80158880)(param_1);
 }

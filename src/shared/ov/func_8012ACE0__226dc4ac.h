@@ -30,12 +30,12 @@ extern void func_80129258(void);
 extern void func_801378F0(void);
 extern void func_80010E14(void);
 extern s16 currentLocationId;
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern s32 func_800CF854(s32);
 extern s32 func_801289F0(void);
 extern s32 func_801288E8(s32);
 extern s32 func_80128940(s32);
-extern s32 func_80029178(s32);
+extern s32 guess_TestGameFlag(s32);
 extern s32 func_801288B0(void);
 extern void func_80011C10(void);
 extern void func_8012832C(void);
@@ -76,10 +76,10 @@ extern void func_801287B8(void);
 extern s32 D_801E9504;
 extern void func_80029444(void);
 extern void func_800D1754(void);
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern s32 D_801EAFD0;
 extern u16 D_800B99DA;
-extern void func_80129CF8(void);
+extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
 extern void func_8014FDF4(struct S8014FDF4 *a0);
 extern s32 func_801505FC(s32 a0);
@@ -168,17 +168,17 @@ extern s8 D_801150D6;            /* canonical (engine_core macro): s8 — access
 extern u8 D_80127504;
 extern s32 D_80126E60[];
 extern s32 D_80126F04[];
-extern u8 D_80126948[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
 extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_800AE688[];
-extern s32 D_801151D4;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
+extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosX;
+extern u16 guess_g_PlayerPosY;
+extern u16 guess_g_PlayerPosZ;
 extern s16 D_80126940;
 extern s16 D_80126942;
 extern s16 D_80126944;
@@ -213,7 +213,7 @@ extern void func_8012A2F4(void);
 extern s16 D_80127080;
 extern s16 D_801152C2;
 extern void func_8012A304(s32 a0, s32 a1);
-extern s32 D_801151D4;
+extern s32 guess_g_ActiveCamera;
 extern BigCopy D_80126DB8;
 extern BigCopy D_80114EE8;
 extern void func_8012A4BC(void);

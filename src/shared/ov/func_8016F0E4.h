@@ -7,14 +7,14 @@ extern void func_80148634(void *a0);
 void func_8016F0E4(p)
     u8 *p;
 {
-    extern s16 D_80078EB4;                       /* fleet-canonical spelling; see the &-cast below */
+    extern s16 g_PlayerHp;                       /* fleet-canonical spelling; see the &-cast below */
     extern u8 D_800B9A17;
     *(s32 *)(p + 0x1F8) = 0;
     *(s32 *)(p + 0x1FC) = 0;
     func_8017196C((s32 *)p, 0);
     func_80147060(p);
     func_801511A8(p);
-    if (*(u16 *)&D_80078EB4 != 0) {
+    if (*(u16 *)&g_PlayerHp != 0) {
         D_800B9A17 = 1;
     }
     func_80148634(p);

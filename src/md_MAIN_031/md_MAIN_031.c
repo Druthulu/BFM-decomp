@@ -17,7 +17,7 @@ void func_800CAE0C(void) {
 }
 
 
-extern s32 func_80029178(s32 arg0);
+extern s32 guess_TestGameFlag(s32 arg0);
 
 void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2) {
     s32 base;
@@ -46,7 +46,7 @@ void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2) {
         iter = arg2;
         z = base;
         do {
-            if ((func_80029178(s) & 0xFF) == 0) {
+            if ((guess_TestGameFlag(s) & 0xFF) == 0) {
                 ((Unkstruct_800CAE74_3 *)z)->unk0 = 0;
                 ((Unkstruct_800CAE74_3 *)z)->unk1 = 0;
             }

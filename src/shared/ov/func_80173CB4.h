@@ -8,7 +8,7 @@ extern void func_8016BADC(void *a0, s32 a1, s32 a2);
 extern void func_80147324(s32 a0);
 extern s32 func_8013767C(s32 a0);
 extern void func_80171A1C(u8 *a0);
-extern s32 D_801151D4;
+extern s32 guess_g_ActiveCamera;
 extern struct S80126B38 D_80126B38;
 extern u8 D_800D5DA8;
 extern u8 D_800D5DB8;
@@ -16,7 +16,7 @@ extern s32 D_8012750C;
 void func_80173CB4(s32 a0) {
     extern u8 D_800D5DA8_b __asm__("D_800D5DA8");
     s32 s0 = a0;
-    s32 v1 = D_801151D4;
+    s32 v1 = guess_g_ActiveCamera;
     s16 tmp[4];
     s32 a;
     s32 d;

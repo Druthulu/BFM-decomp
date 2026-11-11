@@ -147,7 +147,7 @@ void func_800CB138(s32 arg0) {
     extern void RotMatrixZ(s32 a0, void *a1);
     extern void ApplyMatrixSV();
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
-    extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+    extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
     extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
@@ -194,7 +194,7 @@ void func_800CB138(s32 arg0) {
             vec[2] = 0x30;
             { void *q = &blk; ApplyMatrixSV(q, vec, vec); __asm__ __volatile__("" : "=r"(q)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
             m += 0x38;
-            func_8012F14C(m, (s32)vec, (s32)vec);
+            guess_RotTransSVWithMatrix(m, (s32)vec, (s32)vec);
             *(s16 *)(arg0 + 6)   = vec[0];
             *(s16 *)(arg0 + 0xA) = vec[1];
             ang2 = ang + 0x200;
@@ -308,7 +308,7 @@ void func_800CB56C(s32 arg0) {
     extern void RotMatrixZ(s32 a0, void *a1);
     extern void ApplyMatrixSV();
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
-    extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+    extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern s32 func_80128ED8(s32 param_1, s32 *param_2);
     extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
@@ -339,7 +339,7 @@ void func_800CB56C(s32 arg0) {
     vec[2] = 0x30;
     { void *q = &blk; ApplyMatrixSV(q, vec, vec); __asm__ __volatile__("" : "=r"(q)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
     ent += 0x38;
-    func_8012F14C(ent, (s32)vec, (s32)vec);
+    guess_RotTransSVWithMatrix(ent, (s32)vec, (s32)vec);
     ((Unkstruct_800CB56C *)arg0)->unk6   = vec[0];
     ((Unkstruct_800CB56C *)arg0)->unkA = vec[1];
     ang2 = ang + 0x200;

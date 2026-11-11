@@ -1,6 +1,6 @@
 /* func_80146128 — shared body (overlay slot 0x80128158, h_exact b9a70482). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern s32 *D_80126B78;
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
@@ -47,7 +47,7 @@ s32 func_80146128(void)
     s32 base;
     s32 *p;
     p = D_80126B78;
-    base = (s32)&D_80126B58;
+    base = (s32)&guess_g_PlayerActor;
     func_80146FC4(base);
     memcpy((void *)D_801150F0, (void *)D_80126BE0, 8);
     func_80150A70(base);

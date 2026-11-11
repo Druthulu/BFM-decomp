@@ -3,7 +3,7 @@
 void SHARED_FN(s32 a0) {
     s32 ret;
 
-    ret = func_8012B8E4(a0, 8);
+    ret = guess_TurnStepToTarget(a0, 8);
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + ret;
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF;
     if ((u32)(ret + 0x1F) < 0x3F) {

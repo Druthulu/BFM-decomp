@@ -4,7 +4,7 @@ extern s32 func_8014C118(void*, s32, s32);
 extern void func_80174684(void *);
 extern void func_80173B4C(void*);
 void func_80173A60(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5) {
-    extern s32 D_80126B58;
+    extern s32 guess_g_PlayerActor;
     extern s32 D_80127508;
     extern s16 D_80126B30;
     extern struct S80126B38 D_80126B38;
@@ -13,7 +13,7 @@ void func_80173A60(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5) {
     extern s16 D_8011F9C8;
     extern s16 D_80126938;
     extern s32 D_8012750C;
-    s32 *s1 = &D_80126B58;
+    s32 *s1 = &guess_g_PlayerActor;
     s32 v0;
     if (a2 != 0) {
         D_80127508 = ((s32 (*)(s32, s32, s32))func_8014C118)((s32)s1, a2, (s16)a3);

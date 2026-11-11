@@ -5,7 +5,7 @@ void func_801622C4(void)
     int *p;
     int i;
 
-    ((int (*)(int, int))func_80029124)(0x141, 1);
+    ((int (*)(int, int))guess_SetGameFlag)(0x141, 1);
     ((int (*)(int, int))func_800291C8)(8, 0);
     i = 0;
     p = &D_8018E868;

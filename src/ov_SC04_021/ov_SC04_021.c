@@ -102,12 +102,12 @@ extern s32 D_8018E67C;
 //   remat; register __asm__("$4") forces the a0 allocation (gcc otherwise picks v0). Both levers
 //   required — pin-alone folds, volatile-alone lands in v0.
 
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern s32 D_8018FAB8;
 extern u16 D_800B99DA;
 extern u8 D_800B9A64;
 
-extern void func_80129CF8(void);
+extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
 extern void func_8014FDF4(struct S8014FDF4 *a0);
 extern s32 func_801505FC(s32 a0);

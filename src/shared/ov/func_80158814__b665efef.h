@@ -8,6 +8,6 @@ void func_80158814(void *arg0) {
     ((void (*)(void))func_80147084)();
     ((void (*)(void *))func_80147098)(arg0);
     ((void (*)(void *))func_801470AC)(arg0);
-    ((void (*)(void *, s32))func_80147078)(arg0, 0x1A);
+    ((void (*)(void *, s32))guess_SetState)(arg0, 0x1A);
     ((void (*)(void *))func_80158880)(arg0);
 }

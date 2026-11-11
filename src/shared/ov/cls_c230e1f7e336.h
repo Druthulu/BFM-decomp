@@ -4,25 +4,25 @@
 s32 SHARED_FN(void)
 {
 
-    extern u16 D_80126B5E;
-    extern u16 D_80126B66;
-    extern u16 D_80126B62[];
+    extern u16 guess_g_PlayerPosX;
+    extern u16 guess_g_PlayerPosZ;
+    extern u16 guess_g_PlayerPosY[];
     s16 v1;
     s32 result;
 
-    v1 = *(s16 *)&D_80126B5E;
+    v1 = *(s16 *)&guess_g_PlayerPosX;
     if (v1 < 0x400) {
         result = 0;
     } else if (v1 >= 0x501) {
         result = 0;
     } else {
-        v1 = *(s16 *)&D_80126B66;
+        v1 = *(s16 *)&guess_g_PlayerPosZ;
         if (v1 < 0x580) {
             result = 0;
         } else if (v1 >= 0x601) {
             result = 0;
         } else {
-            v1 = D_80126B62[0];
+            v1 = guess_g_PlayerPosY[0];
             result = (v1 >= -0x200);
         }
     }

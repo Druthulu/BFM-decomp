@@ -608,8 +608,8 @@ cause: 35 names (104 B, all members placeholders) bound to 61 distinct objects, 
 
 ### 6ef8724a7464
 names: Obj20_80178D40, S801593E4, Sub_80155800_80155800, Sub_8015CD20, Unkstruct_800CCD50_2, Unkstruct_80158FA4_2, Unkstruct_8017D598_4, Unkstruct_8017D788_2, Unkstruct_8017DC54_2, Unkstruct_8017DE04_2, Unkstruct_8017DE30_2, Unkstruct_8017DF48_3, Unkstruct_8017E608_4, Unkstruct_8017E6A4, Unkstruct_8017E880, Unkstruct_8017E9A8_2, Unkstruct_8017EAEC_2, Unkstruct_8017FC64_2, Unkstruct_801806B8_2, Unkstruct_80180DCC, Unkstruct_80181058_2, Unkstruct_801810D0_2, Unkstruct_80181388_2, Unkstruct_80181614, Unkstruct_8018169C, Unkstruct_80181C04, Unkstruct_801824A8_3, Unkstruct_80182964_2, Unkstruct_80183020, Unkstruct_801834E4_3, Unkstruct_80183CBC, Unkstruct_80184688_2, Unkstruct_8018676C_2, Unkstruct_801891D0_2
-cause: 34 names (20 B, all members placeholders); 2 bound to no object (UNBOUND), used only by: type Actor_80178D40 (0x80126B58, ov_MAIN_012/0x80178D40:Cmd_80178D40, ov_MAIN_012/0x80178D40:arg0 …), type Ent_80155800_80155800 (shared/ov/0x80155800:arg0); the other 32 bound to 107 distinct objects, none bound to two names: md_MAIN_046/0x800CCD50:v0, ov_MAIN_012/0x8015CD20:sp, ov_SC01_000/0x80158FA4:v0, ov_SC01_084/0x8017E608:t, ov_SC02_000/0x80182964:p, ov_SC02_005/0x8017FC64:a0, ov_SC02_005/0x8018169C:a2, ov_SC02_011/0x8018EDB8:p1 …; full list: tools/struct_twins.py --show 6ef8724a7464
-- `Obj20_80178D40`: 0 obj — used by type Actor_80178D40 (0x80126B58, ov_MAIN_012/0x80178D40:Cmd_80178D40, ov_MAIN_012/0x80178D40:arg0 …), type F20T
+cause: 34 names (20 B, all members placeholders); 2 bound to no object (UNBOUND), used only by: type Actor_80178D40 (0x80126B58 (guess_g_PlayerActor), ov_MAIN_012/0x80178D40:Cmd_80178D40, ov_MAIN_012/0x80178D40:arg0 …), type Ent_80155800_80155800 (shared/ov/0x80155800:arg0); the other 32 bound to 107 distinct objects, none bound to two names: md_MAIN_046/0x800CCD50:v0, ov_MAIN_012/0x8015CD20:sp, ov_SC01_000/0x80158FA4:v0, ov_SC01_084/0x8017E608:t, ov_SC02_000/0x80182964:p, ov_SC02_005/0x8017FC64:a0, ov_SC02_005/0x8018169C:a2, ov_SC02_011/0x8018EDB8:p1 …; full list: tools/struct_twins.py --show 6ef8724a7464
+- `Obj20_80178D40`: 0 obj — used by type Actor_80178D40 (0x80126B58 (guess_g_PlayerActor), ov_MAIN_012/0x80178D40:Cmd_80178D40, ov_MAIN_012/0x80178D40:arg0 …), type F20T
 - `S801593E4`: 2 obj — ov_SC07_010/0x80181204:v1, shared/ov/0x801593E4:v1
 - `Sub_80155800_80155800`: 0 obj — used by type Ent_80155800_80155800 (shared/ov/0x80155800:arg0)
 - `Sub_8015CD20`: 1 obj — ov_MAIN_012/0x8015CD20:sp
@@ -682,9 +682,9 @@ cause: 32 names (20 B, all members placeholders) bound to 56 distinct objects, n
 
 ### 5f9112725d5b
 names: Src80172E20, StructB58_8017FAFC, Unkstruct_800CBAA4, Unkstruct_800CDBA8_2, Unkstruct_800CDE04_2, Unkstruct_8017C218_2, Unkstruct_8017E070_2, Unkstruct_8017E9D8_2, Unkstruct_8017F62C, Unkstruct_8017FE0C_2, Unkstruct_80180000, Unkstruct_80180230_2, Unkstruct_80180558, Unkstruct_80180C44, Unkstruct_80180C48_4, Unkstruct_80180D4C_2, Unkstruct_80181290, Unkstruct_801812C4, Unkstruct_80181840, Unkstruct_80182358, Unkstruct_80183360, Unkstruct_801836D4_2, Unkstruct_80183D38, Unkstruct_80183FD0, Unkstruct_80184750, Unkstruct_80184964, Unkstruct_80184D98_2, Unkstruct_80186CE0, Unkstruct_80187480, Unkstruct_80188C18, Unkstruct_801AA9D4_2
-cause: 31 names (16 B, all members placeholders) bound to 45 distinct objects, none bound to two names: 0x80126B58, 0x80127508, md_MAIN_022/0x800CBAA4:p, md_MAIN_044/0x800CDBA8:v1, md_MAIN_044/0x800CDE04:q, md_SC07_004/0x801AA9D4:a0, ov_SC02_000/0x8017C218:obj, ov_SC02_000/0x80187480:s2 …; full list: tools/struct_twins.py --show 5f9112725d5b
+cause: 31 names (16 B, all members placeholders) bound to 45 distinct objects, none bound to two names: 0x80126B58 (guess_g_PlayerActor), 0x80127508, md_MAIN_022/0x800CBAA4:p, md_MAIN_044/0x800CDBA8:v1, md_MAIN_044/0x800CDE04:q, md_SC07_004/0x801AA9D4:a0, ov_SC02_000/0x8017C218:obj, ov_SC02_000/0x80187480:s2 …; full list: tools/struct_twins.py --show 5f9112725d5b
 - `Src80172E20`: 2 obj — 0x80127508, shared/ov/0x80172E20:p
-- `StructB58_8017FAFC`: 2 obj — 0x80126B58, ov_SC06_020/0x8017FAFC:b58
+- `StructB58_8017FAFC`: 2 obj — 0x80126B58 (guess_g_PlayerActor), ov_SC06_020/0x8017FAFC:b58
 - `Unkstruct_800CBAA4`: 1 obj — md_MAIN_022/0x800CBAA4:p
 - `Unkstruct_800CDBA8_2`: 1 obj — md_MAIN_044/0x800CDBA8:v1
 - `Unkstruct_800CDE04_2`: 1 obj — md_MAIN_044/0x800CDE04:q
@@ -717,20 +717,20 @@ cause: 31 names (16 B, all members placeholders) bound to 45 distinct objects, n
 
 ### d4b0395bb0af:opaque
 names: Blk16X, Blk16_8017ECD4, Blk16_8018A4C4, Blk16_8018A8B8, Blk16_801E2F08, Blk16_956C, Blk16_SC01_084_8017DAF8, Blk16_md_MAIN_016, Blk_800CBAD0, CB4A4_V4, DStruct, M16, Q16, Quad, Quad_8018797C, Quad_8018797C_8017F26C, Rec16_8017DDC4, Rec16_8017DDC4_8018034C, Rec16_8017DDC4_80180F08, Rec16_8017DDC4_80182244, Rec16_8018066C, S16_md_MAIN_014_800CB254, Struct16, Unkstruct_8017E94C, Unkstruct_801E38B4, Unkstruct_801F0734, Vec801A8E34, func_800CB0B0_Blk16, func_800CB164_Blk16, func_800CB188_Blk16, func_800CB4D8_Blk16
-cause: 31 names (16 B, all members placeholders) bound to 253 distinct objects, none bound to two names: 0x800A5E88, 0x801151D4, 0x8011F920, 0x80126948, 0x801843A4, 0x80189460, 0x8018E54C, 0x8018E96C …; full list: tools/struct_twins.py --show d4b0395bb0af:opaque
+cause: 31 names (16 B, all members placeholders) bound to 253 distinct objects, none bound to two names: 0x800A5E88, 0x801151D4 (guess_g_ActiveCamera), 0x8011F920, 0x80126948 (guess_g_MainCamera), 0x801843A4, 0x80189460, 0x8018E54C, 0x8018E96C …; full list: tools/struct_twins.py --show d4b0395bb0af:opaque
 - `Blk16X`: 4 obj — md_MAIN_039/0x800CB0B4:dstp, md_MAIN_039/0x800CB0B4:srcp, md_MAIN_039/0x800CB228:m, md_MAIN_039/0x800CB228:obj
 - `Blk16_8017ECD4`: 4 obj — 0x801A0E44, 0x801A0E54, ov_SC03_011/0x8017ECD4:va, ov_SC03_011/0x8017ECD4:vb
 - `Blk16_8018A4C4`: 2 obj — 0x801E2F38, ov_SC02_005/0x8018A4C4:blobB
 - `Blk16_8018A8B8`: 49 obj — 0x800A5E88, 0x8019510C, 0x80195144, 0x80197D30, 0x80197D68, 0x8019927C, 0x801992B4, 0x8019B244 (+41)
 - `Blk16_801E2F08`: 2 obj — 0x801E2F08, ov_SC02_005/0x80189FC4:blk16
 - `Blk16_956C`: 8 obj — ov_MAIN_012/0x8012956C:base, ov_MAIN_012/0x8012956C:dst, ov_MAIN_012/0x8012956C:sp0, ov_MAIN_012/0x8012956C:src, shared/ov/0x8012956C:base, shared/ov/0x8012956C:dst, shared/ov/0x8012956C:sp0, shared/ov/0x8012956C:src
-- `Blk16_SC01_084_8017DAF8`: 5 obj — 0x8011F920, 0x80126948, ov_SC01_084/0x8017DAF8:dst, ov_SC01_084/0x8017DAF8:end, ov_SC01_084/0x8017DAF8:src
+- `Blk16_SC01_084_8017DAF8`: 5 obj — 0x8011F920, 0x80126948 (guess_g_MainCamera), ov_SC01_084/0x8017DAF8:dst, ov_SC01_084/0x8017DAF8:end, ov_SC01_084/0x8017DAF8:src
 - `Blk16_md_MAIN_016`: 2 obj — md_MAIN_016/0x800CB228:ent, md_MAIN_016/0x800CB228:p
 - `Blk_800CBAD0`: 2 obj — md_MAIN_028/0x800CBAD0:a0, md_MAIN_028/0x800CBAD0:v
 - `CB4A4_V4`: 2 obj — md_MAIN_027/0x800CB4A4:bak, md_MAIN_027/0x800CB4A4:s2
 - `DStruct`: 134 obj — 0x801843A4, 0x8018E54C, 0x8018E96C, 0x8018E9BC, 0x8018ED24, 0x8018F0C4, 0x8018F2E4, 0x8018F344 (+126)
 - `M16`: 2 obj — md_MAIN_025/0x800CB300:mat, md_MAIN_025/0x800CB300:s0
-- `Q16`: 4 obj — 0x801151D4, shared/ov/0x8012A418:dst, shared/ov/0x8012A418:end, shared/ov/0x8012A418:src
+- `Q16`: 4 obj — 0x801151D4 (guess_g_ActiveCamera), shared/ov/0x8012A418:dst, shared/ov/0x8012A418:end, shared/ov/0x8012A418:src
 - `Quad`: 2 obj — shared/ov/0x8014DCE0:arg0, shared/ov/0x8014DCE0:buf
 - `Quad_8018797C`: 2 obj — ov_SC02_011/0x8018797C:entry, ov_SC02_011/0x8018797C:tmp
 - `Quad_8018797C_8017F26C`: 2 obj — ov_SC03_030/0x8017F26C:entry, ov_SC03_030/0x8017F26C:tmp
@@ -818,7 +818,7 @@ cause: 28 names (8 B, all members placeholders); 1 bound to no object (UNBOUND),
 
 ### b85caab442ac:opaque
 names: Blk20_8016DF5C, Blk20_80180B78, Blk20_80184694, Blk32L_80133298, Blk32_80017E8C, Blk32_80180E8C, Blk32_8018287C, Blk32_80183F10, Blk32_801A5194, Blk32_801E8788, Blk32_998, Block32, Copy32, D_800D942C_entry, MTX8L_80180750, MTX8L_80181BD4, MTX8L_801821E0, MTX_L1, Mat_80167540, Mtx8_8017C910_8017E924, Mtx_8017F370, Oct_801853D0, S_md_MAIN_033_800CB3D8, Vec8, W8__md_MAIN_044
-cause: 25 names (32 B, all members placeholders); 1 bound to no object (UNBOUND), used only by: type Mat_800CB658; the other 24 bound to 81 distinct objects, none bound to two names: 0x800AE620, 0x800D942C, 0x80114F24, 0x801151D4, 0x801E06C4, 0x801E06E4, 0x801E0704, 0x801E0724 …; full list: tools/struct_twins.py --show b85caab442ac:opaque
+cause: 25 names (32 B, all members placeholders); 1 bound to no object (UNBOUND), used only by: type Mat_800CB658; the other 24 bound to 81 distinct objects, none bound to two names: 0x800AE620, 0x800D942C, 0x80114F24, 0x801151D4 (guess_g_ActiveCamera), 0x801E06C4, 0x801E06E4, 0x801E0704, 0x801E0724 …; full list: tools/struct_twins.py --show b85caab442ac:opaque
 - `Blk20_8016DF5C`: 20 obj — 0x800AE620, ov_MAIN_012/0x8016DF5C:iVar8, ov_MAIN_012/0x8016DF5C:localMatrix, ov_MAIN_012/0x8016DF5C:param_1, ov_SC01_000/0x8016DF5C:iVar8, ov_SC01_000/0x8016DF5C:localMatrix, ov_SC01_000/0x8016DF5C:param_1, ov_SC02_037/0x8016DF5C:aD800AE620 (+12)
 - `Blk20_80180B78`: 2 obj — aAE620_80180B78, ov_SC04_003/0x80180B78:m
 - `Blk20_80184694`: 2 obj — ov_SC03_029/0x80184694:aD800AE620_80184694, ov_SC03_029/0x80184694:m
@@ -842,7 +842,7 @@ cause: 25 names (32 B, all members placeholders); 1 bound to no object (UNBOUND)
 - `Mtx_8017F370`: 1 obj — ov_SC03_011/0x8017F370:m
 - `Oct_801853D0`: 2 obj — ov_SC04_011/0x801853D0:Unkstruct_801853D0, ov_SC04_011/0x801853D0:l
 - `S_md_MAIN_033_800CB3D8`: 2 obj — md_MAIN_033/0x800CB3D8:Unkstruct_800CB190, md_MAIN_033/0x800CB3D8:st
-- `Vec8`: 2 obj — 0x80114F24, 0x801151D4
+- `Vec8`: 2 obj — 0x80114F24, 0x801151D4 (guess_g_ActiveCamera)
 - `W8__md_MAIN_044`: 2 obj — md_MAIN_044/0x800CD63C:a1, md_MAIN_044/0x800CD63C:sp20
 
 ### c1767d5293b8:opaque

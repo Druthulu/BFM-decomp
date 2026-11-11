@@ -256,7 +256,7 @@ def fix(body, tu_text, insert_pos, func, tu_types=None):
     # Demoting to block scope does NOT avoid a conflict: C requires a block-scope `extern` to agree
     # with any file-scope declaration of the same object in the TU, wherever it sits. And for DATA
     # the type is not cosmetic — it drives the load: `s16` vs `u16` is `lh` vs `lhu`. The fleet
-    # genuinely reads one address at several widths (§16 loose typing): D_80078EB4 is `s16` at 2,409
+    # genuinely reads one address at several widths (§16 loose typing): g_PlayerHp is `s16` at 2,409
     # sites and `u16` at 1,341, D_800AE620 is `Blk20`/`s32`/`Mat32`. Canonicalising would rewrite
     # thousands of BANKED sites' codegen, so the answer is not one type — it is one type PER VIEW.
     # That is the §37 asm-label alias, and the fleet already hand-writes it for exactly this symbol:

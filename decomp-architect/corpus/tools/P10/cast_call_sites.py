@@ -179,7 +179,7 @@ def canonical_map(overlay, src_file=None):
 
     NAMED SYMBOLS TOO, AND THE KEY IS THE NAME (Phase 29 T78). This used to require
     `re.fullmatch(r'func_[0-9A-Fa-f]{8}', name)` and key by the parsed address, so every CURATED or
-    PsyQ-library callee was invisible: `func_8012F40C`'s family failed 138x on
+    PsyQ-library callee was invisible: `guess_WorldToScreen`'s family failed 138x on
     `conflicting types for RotTransPers` and this tool — the one lever for exactly that class — could
     not see the symbol at all. Curated naming is something this project does MORE of as RE quality
     improves, so a func_-only predicate rots by design (the same shape as `stub_map`'s, Phase 26-A).

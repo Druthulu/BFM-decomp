@@ -2004,11 +2004,11 @@ typedef struct { s32 f0; s32 f1; } Struct_8017E784;
 typedef Struct_8017E784 Struct;
 typedef struct {
     u8  pad0[6];
-    u16 f6;         /* 0x06 -> D_80126B5E */
+    u16 f6;         /* 0x06 -> guess_g_PlayerPosX */
     u8  pad8[2];
-    u16 fa;         /* 0x0A -> D_80126B62 */
+    u16 fa;         /* 0x0A -> guess_g_PlayerPosY */
     u8  padc[2];
-    u16 fe;         /* 0x0E -> D_80126B66 */
+    u16 fe;         /* 0x0E -> guess_g_PlayerPosZ */
 } StructB58_8017FAFC;
 typedef StructB58_8017FAFC StructB58;
 typedef StructB58_8017FAFC StructB58_80180730;
@@ -2612,9 +2612,9 @@ typedef Col4_8017F8BC CV_80187EE8;
 typedef Col4_8017F8BC CVec_80186E9C;
 typedef Col4_8017F8BC CVec_80186E9C_8018BCC4;
 typedef struct {
-    u16 x;      /* 0x00  D_80126B5E */
+    u16 x;      /* 0x00  guess_g_PlayerPosX */
     u16 unk2;   /* 0x02 */
-    u16 y;      /* 0x04  D_80126B62 */
+    u16 y;      /* 0x04  guess_g_PlayerPosY */
 } Cam183098;
 typedef struct {
     s16 x;    /* 0x00 */

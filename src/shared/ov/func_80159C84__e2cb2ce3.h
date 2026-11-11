@@ -156,7 +156,7 @@ after_b4c:
 
     if (*(s32 *)(p + 0xB4) == (s32)&D_800D49F4) {
         func_80147A84((s32)p);
-        func_801473EC((s32 *)p);
+        guess_ApplyVelocity((s32 *)p);
         if ((D_800B99DA & 3) == 0) {
             func_8014C010((s32)p, 1);
         }

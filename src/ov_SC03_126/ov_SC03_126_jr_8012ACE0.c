@@ -31,13 +31,13 @@ extern void func_80129258(void);
 extern void func_801378F0(void);
 extern void func_80010E14(void);
 extern s16 currentLocationId;
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern s32 func_800CF854(s32);
 extern s32 func_80128998(void);
 extern s32 func_801289F0(void);
 extern s32 func_801288E8(s32);
 extern s32 func_80128940(s32);
-extern s32 func_80029178(s32);
+extern s32 guess_TestGameFlag(s32);
 extern s32 func_801288B0(void);
 extern void func_80011C10(void);
 extern void func_8012832C(void);
@@ -78,10 +78,10 @@ extern void func_801287B8(void);
 extern s32 D_8018E67C;
 extern void func_80029444(void);
 extern void func_800D1754(void);
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern s32 D_8018FAB8;
 extern u16 D_800B99DA;
-extern void func_80129CF8(void);
+extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
 extern void func_8014FDF4(struct S8014FDF4 *a0);
 extern s32 func_801505FC(s32 a0);
@@ -170,17 +170,17 @@ extern s8 D_801150D6;            /* canonical (engine_core macro): s8 — access
 extern u8 D_80127504;
 extern s32 D_80126E60[];
 extern s32 D_80126F04[];
-extern u8 D_80126948[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+extern u8 guess_g_MainCamera[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
 extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_800AE688[];
-extern s32 D_801151D4;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
+extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosX;
+extern u16 guess_g_PlayerPosY;
+extern u16 guess_g_PlayerPosZ;
 extern s16 D_80126940;
 extern s16 D_80126942;
 extern s16 D_80126944;
@@ -215,7 +215,7 @@ extern void func_8012A2F4(void);
 extern s16 D_80127080;
 extern s16 D_801152C2;
 extern void func_8012A304(s32 a0, s32 a1);
-extern s32 D_801151D4;
+extern s32 guess_g_ActiveCamera;
 extern BigCopy D_80126DB8;
 extern BigCopy D_80114EE8;
 extern void func_8012A4BC(void);
@@ -677,7 +677,7 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 
 
 // @class: plumbing
-// @stuck: none — MATCH (clone of confirmed func_8012F214 template; passthrough a0)
+// @stuck: none — MATCH (clone of confirmed guess_RotTransSVWithObjMatrix template; passthrough a0)
 #include "../shared/ov/func_8012F14C.h"
 
 
@@ -829,8 +829,8 @@ extern void (*D_8017F608[])(void);
 // @stuck: none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
 extern s32 rand(void);
 extern u8 D_80078E78[];
-extern u16 D_80078EB2;
-extern u16 D_80078EB4;
+extern u16 g_PlayerHpMax;
+extern u16 g_PlayerHp;
 extern s16 D_8017F658[];
 extern s16 D_8017F688[];
 extern s16 D_8017F6E8[];
@@ -1107,7 +1107,7 @@ extern void (*D_8017F800[])(void);
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern void func_8001C214(int, int);
+extern void guess_InitModelObject(int, int);
 
 /* §37 asm-label aliases: D_8017F7A0 is declared in this TU as `void (*[])(void)`
  * (func_80131EEC's dispatch table) — a conflicting type. The 20-byte-stride view
@@ -1125,7 +1125,7 @@ extern void func_8001C214(int, int);
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern void func_8001C214(int, int);
+extern void guess_InitModelObject(int, int);
 extern int D_8017F7A8;
 
 #include "../shared/ov/func_801320D8__99a35ab4.h"
@@ -1142,7 +1142,7 @@ extern int D_8017F7A8;
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern void func_8001C214(int, int);
+extern void guess_InitModelObject(int, int);
 extern int D_8017F7C8;
 
 #include "../shared/ov/func_801321B0__c34d9d19.h"
@@ -1154,7 +1154,7 @@ extern int D_8017F7C8;
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern void func_8001C214(int, int);
+extern void guess_InitModelObject(int, int);
 extern int D_8017F7D8;
 
 #include "../shared/ov/func_8013221C__6e5d0a2d.h"

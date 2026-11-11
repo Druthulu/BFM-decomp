@@ -57,15 +57,15 @@
    /* D_80078E78 */
 
 
-                        /* D_80126948 */
+                        /* guess_g_MainCamera */
 
 
 
 extern u8 D_800AF630[];
-extern u8 D_80126B58[];
+extern u8 guess_g_PlayerActor[];
 extern u8 D_80078E78[];
 extern u8 D_800AE6A8[];
-extern u8 D_80126948[];
+extern u8 guess_g_MainCamera[];
 extern ENT D_80078E50;
 extern u8 D_8010F5C8[];
 extern u8 D_80126DB0[];
@@ -87,7 +87,7 @@ extern u8  D_800B9ABC, D_800B9ABD, D_800B9ABE, D_800B9B10, D_800B9B11, D_800B9B1
 extern u8  D_800B9ABF, D_800B9AC0, D_800B9AC1, D_800B9B13, D_800B9B14, D_800B9B15;
 extern s32 D_80126728, D_8011DB08, D_80126AEC;
 extern s32 D_801274C8, D_801274CC, D_801274D0, D_801274D4, D_801270B8, D_80127520;
-extern s32 D_801151D8, D_8011DB28, D_801151D4;
+extern s32 D_801151D8, D_8011DB28, guess_g_ActiveCamera;
 
 extern void *func_801457A4(s32 a0);
 extern void func_80019018(void);
@@ -112,11 +112,11 @@ extern void func_8001C14C(void);
 extern void func_8012A110(void);
 
 void func_80144B9C(void) {
-    P10 *p10 = (P10 *)D_80126B58;
+    P10 *p10 = (P10 *)guess_g_PlayerActor;
     P14 *p14 = (P14 *)D_80078E78;
     register u8 *p = D_800AF630;
     P18 *p18 = (P18 *)D_800AE6A8;
-    P1C *p1C = (P1C *)D_80126948;
+    P1C *p1C = (P1C *)guess_g_MainCamera;
     HDR *hdr;
     ENT *ent;
     s32 tbl;
@@ -183,7 +183,7 @@ void func_80144B9C(void) {
     if (*(s16 *)(p + 0xA3D8) == 0x3069) {
         p1C->fA0 = ent->f3;
     }
-    D_801151D4 = (s32)p1C;
+    guess_g_ActiveCamera = (s32)p1C;
     func_8002850C(hdr->f0, hdr->f2, hdr->f4);
     D_800A5E88 = hdr->f6;
     D_800A5E8C = hdr->f8;

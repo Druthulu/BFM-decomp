@@ -2,22 +2,22 @@
  * exemplar src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c:3934 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 6, markers 0 */
 s32 SHARED_FN(void *arg0) {
 
-    extern u16 D_80126B5E;
-    extern u16 D_80126B62;
-    extern u16 D_80126B66;
+    extern u16 guess_g_PlayerPosX;
+    extern u16 guess_g_PlayerPosY;
+    extern u16 guess_g_PlayerPosZ;
     s16 pointA[3];
     s16 pointB[3];
     s16 diff[3];
     s32 addr;
 
-    pointA[0] = D_80126B5E;
-    pointA[1] = D_80126B62;
-    pointA[2] = D_80126B66;
+    pointA[0] = guess_g_PlayerPosX;
+    pointA[1] = guess_g_PlayerPosY;
+    pointA[2] = guess_g_PlayerPosZ;
 
     pointB[0] = ((Unkstruct_800B5CB8 *)arg0)->unk6;
     pointB[1] = ((Unkstruct_800B5CB8 *)arg0)->unkA;
     pointB[2] = ((Unkstruct_800B5CB8 *)arg0)->unkE;
-    pointA[1] = D_80126B62 - 0x2A;
+    pointA[1] = guess_g_PlayerPosY - 0x2A;
 
     addr = (((Unkstruct_800B5CB8 *)arg0)->unk58 & 0xFFFFFFF) | 0x80000000;
 

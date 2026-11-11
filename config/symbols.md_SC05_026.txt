@@ -1,3 +1,5 @@
 // config/symbols.md_SC05_026.txt — module md_SC05_026 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x801ED988..0x801F84B0); NEVER merged into config/symbols.us.txt.
-// count=0
+// count=1
+
+guess_RotTransSVWithMatrix       = 0x8012F14C; // func

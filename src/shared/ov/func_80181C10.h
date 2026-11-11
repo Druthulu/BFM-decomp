@@ -11,7 +11,7 @@ extern s16 D_8012697A;
 extern s32 D_801269E4;
 extern u8 D_801269E8;
 extern s16 D_801274E8;
-extern u16 D_80126B5E;
+extern u16 guess_g_PlayerPosX;
 extern void func_8012A018(s32 a, s32 b);
 extern void func_80181D2C(u8 *param_1);
 void func_80181C10(void) {
@@ -25,7 +25,7 @@ void func_80181C10(void) {
     D_8012697A = -0xC8;
     D_801269E4 = 0;
     D_801269E8 = 0;
-    D_801274E8 = D_80126B5E;
+    D_801274E8 = guess_g_PlayerPosX;
     func_8012A018((s32)func_80181D2C, 2);
     D_80126954 = 0x96;
     D_8012695C = 0x64;

@@ -4,7 +4,7 @@ extern s32 rand(void);
 extern u8 *func_8012913C(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012C218(void *a0);
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 void func_80188790(s32 a0) {
     s32 kind;
     register u16 *tp __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B headers2)
@@ -16,7 +16,7 @@ void func_80188790(s32 a0) {
     s32 s1;
     s32 fE;
     r0 = rand();
-    tp = (u16 *)&D_80126B58;
+    tp = (u16 *)&guess_g_PlayerActor;
     __asm__ __volatile__("" : "=r"(tp) : "0"(tp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers2)
     s4 = *(s32 *)(a0 + 0x1C);
     kind = (r0 & 1) ? 0xF : 0xE;

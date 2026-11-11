@@ -1,7 +1,7 @@
 /* func_8014F4C0 — shared body (overlay slot 0x80128158, h_exact c378aa01). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern int func_8014F74C();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
 extern u8 D_800D3918[];
 extern u8 D_801152A8[];
@@ -40,9 +40,9 @@ s32 func_8014F4C0(s32 arg0)
         }
         /* NOT the sibling's `if (x != 0x1D) return ret;` early-return form — that inverts the
          * branch polarity here (beq instead of the target's bne) and costs +2 ins. The
-         * short-circuit && is what folds the 0x1D test and the func_80029178 test into the
+         * short-circuit && is what folds the 0x1D test and the guess_TestGameFlag test into the
          * single fallthrough chain the target uses. */
-        if (*(u16 *)(arg0 + 0x16C) == 0x1D && (func_80029178(0x21) & 0xFF) == 0) {
+        if (*(u16 *)(arg0 + 0x16C) == 0x1D && (guess_TestGameFlag(0x21) & 0xFF) == 0) {
             ret &= ~0x2000;
             ret |= 0x4000;
             __builtin_memcpy((void *)&D_801152B0, (void *)D_801152A8, 8);

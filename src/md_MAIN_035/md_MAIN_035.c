@@ -38,18 +38,18 @@ void func_800CAEC4(void) {
 void func_800CAED8(void) {
 }
 
-extern void func_80147078(s32 *a0, s16 a1);
+extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_800CAFBC(s32 a0);
 void func_800CAEE0(s32 *a0) {
-    func_80147078(a0, 35);
+    guess_SetState(a0, 35);
     func_800CAFBC(a0);
 }
 
 
-extern void func_80147078(s32 *a0, s16 a1);
+extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_800CAF48(void *a0);
 void func_800CAF14(s32 *a0) {
-    func_80147078(a0, 35);
+    guess_SetState(a0, 35);
     func_800CAF48(a0);
 }
 
@@ -82,7 +82,7 @@ void func_800CAF84(int param_1)
 
 
 void func_800CAFEC(s32 *a0) {
-    extern s32 D_801151D4;
+    extern s32 guess_g_ActiveCamera;
     extern s16 func_80171AB0(s32 a0, void *a1);
     extern void func_80154150(s32 a0, s32 a1);
     extern void func_80154A74(s32 *a0, s16 a1);
@@ -94,7 +94,7 @@ void func_800CAFEC(s32 *a0) {
     s16 buf[3];
     s32 *p;
 
-    p = (s32 *)D_801151D4;
+    p = (s32 *)guess_g_ActiveCamera;
     buf[0] = (s16)p[0xF];
     buf[1] = (s16)p[0x10];
     buf[2] = (s16)p[0x11];

@@ -31,11 +31,11 @@ void func_8017AE2C(s32 param_1) {
             if (g[5] != 0) {
                 void *p = (void *)(pv + 4);
                 if ((s16)func_80012A60(*(s16 *)(*(s32 *)(pv + 0x20) + 0x12),
-                                       (s16)func_8012B744(p, &g[6])) < 0x100) {
+                                       (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
                 *(s16 *)(*(s32 *)(pv + 0x20) + 0x12) =
-                    func_8012B744(p, &D_8018FA8C);
+                    guess_YawToPoint(p, &D_8018FA8C);
                 func_8012B178(pv, 0xFFFA0000);
                 func_8012AD80(pv);
                 *(u16 *)(pv + 0xA) -= 8;
@@ -48,7 +48,7 @@ void func_8017AE2C(s32 param_1) {
                 }
             }
             {
-                s32 t = func_8012B744((void *)(pv + 4), &g[6]);
+                s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
                 s32 r = func_8012B608(*(s16 *)(*(s32 *)(pv + 0x20) + 0x12), t, g[3]);
                 *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) =
                     *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) + r;
@@ -61,7 +61,7 @@ void func_8017AE2C(s32 param_1) {
             return;
         }
         *(s16 *)(*(s32 *)(pv + 0x20) + 0x12) =
-            func_8012B744((void *)(pv + 4), &D_8018FA8C);
+            guess_YawToPoint((void *)(pv + 4), &D_8018FA8C);
         func_8012B178(pv, 0xFFFA0000);
         func_8012AD80(pv);
         *(u16 *)(pv + 0xA) -= 8;

@@ -3,6 +3,6 @@
 extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
 void func_8012A018(s32 a0, s32 a1)
 {
-    extern u8 D_80126948[];
-    func_8012A048(D_80126948, a0, a1);
+    extern u8 guess_g_MainCamera[];
+    func_8012A048(guess_g_MainCamera, a0, a1);
 }

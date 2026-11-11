@@ -6,7 +6,7 @@ void func_8015DBD4(void *arg0) {
     }
     if (*(u16 *)((u8 *)arg0 + 0xB8) == 0x8000) {
         D_80181914[*(u16 *)arg0](arg0);
-        ((void (*)(void *, s16))func_80147078)(arg0, 0);
+        ((void (*)(void *, s16))guess_SetState)(arg0, 0);
         func_80159B70(arg0);
     } else {
         if (*(s32 *)((u8 *)arg0 + 0x178) != 0) {

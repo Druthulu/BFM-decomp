@@ -12,7 +12,7 @@
 // @class: schedule
 // @unstuck(P36): none — MATCH (else-if >= ladder + §5a cross-jump barrier in the first D_801817B0 block defeats the tail-merge of the two identical D_801817B0 loads; barrier emits zero bytes, load-bearing)
 
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_800D185C(u8 *a0);
 extern void func_80145B24(void);
 
@@ -33,7 +33,7 @@ extern u8 D_801816B4;
 // @class: other
 // @unstuck(P36): none — MATCH (62 ins). Sibling func_80145934 (byte-matched, same shape) is the template. Tail is default-then-conditional-override (matches asm .L80145AEC), and a §5a cross-jump barrier prevents the two identical D_80181840 loads (>=0x6A4 and >=0x384) from being tail-merged.
 
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_800D185C(u8 *a0);
 extern void func_80145B24(void);
 
@@ -68,8 +68,8 @@ extern u8 D_801817D4;
 // @class: schedule
 // @unstuck(P36): branch layout — 3-way dispatch on param_1; trying switch form
 
-extern s32 func_80029178(s32 arg);
-extern void func_80146014(s32 a0);
+extern s32 guess_TestGameFlag(s32 arg);
+extern void guess_MoveImageList(s32 a0);
 
 extern unsigned char D_80180C38[];
 extern unsigned char D_80180C68[];
@@ -643,7 +643,7 @@ extern s16 currentLocationId;
 
 // @class: struct
 // @unstuck(P36): none — MATCH (90 ins). Keys: (1) single Loc struct pins the 0x10..0x25 stack
-//   region (frame 0x40) for the func_8012F14C/func_80135260 out-params; (2) loop is a
+//   region (frame 0x40) for the guess_RotTransSVWithMatrix/func_80135260 out-params; (2) loop is a
 //   while(1) with the 6 checks &&-chained in the loop CONDITION + the "found" block AFTER
 //   the loop (fall-through) so the success path is a forward j .L8014A190 — matches the
 //   target CFG (Ghidra-C while-form); (3) the base &D_801202A0 must be RECOMPUTED inside
@@ -1446,7 +1446,7 @@ extern S16 D_8018DE8C;
 extern s32 D_80180EF0;
 extern s32 D_80126990;
 extern s32 D_80126994;
-extern u8 D_80126948[];
+extern u8 guess_g_MainCamera[];
 extern s32 func_80021174(s32 a0, s32 a1);
 
 #include "../shared/ov/func_8015094C__8e5120a6.h"

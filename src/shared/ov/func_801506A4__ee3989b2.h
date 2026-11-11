@@ -18,7 +18,7 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
         ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_80180ED8[((struct Ent_801506A4 *)arg1)->unk70]);
         break;
     case 0x32:
-        if ((*(unsigned short*)&D_80078EB4) != 0) {
+        if ((*(unsigned short*)&g_PlayerHp) != 0) {
             ((void(*)(int))func_80147324)(0x452);
             ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_80180EE0[((struct Ent_801506A4 *)arg1)->unk70], 1);
             ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_80180EE0[((struct Ent_801506A4 *)arg1)->unk70]);

@@ -67,7 +67,7 @@ s32 func_80162438(s32 _unused0) {
             D_800B5C52 = -D_800AF7BE / 2 + 0x10;
         }
         func_800242D0((s16)func_801626B8(), D_8018E910, 0x84);
-        if ((uVar2 & 0x7FFF) == (s32)(*(s16 *)&D_80078EB0)) {
+        if ((uVar2 & 0x7FFF) == (s32)(*(s16 *)&guess_g_ClockMinute)) {
             func_80162760();
         }
     }

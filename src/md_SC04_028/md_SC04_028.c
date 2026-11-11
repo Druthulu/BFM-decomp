@@ -165,7 +165,7 @@ void func_801E7F48(void) {
     extern s16 D_80126976;
     extern s16 D_80126978;
     extern s16 D_8012697A;
-    extern u8 D_80126948[];
+    extern u8 guess_g_MainCamera[];
     extern s16 D_801274E8;
     extern s16 D_801274EA;
     extern s16 D_801274EC;
@@ -180,8 +180,8 @@ void func_801E7F48(void) {
     D_80126978 = -0x50;
     D_8012697A = 0;
     func_8012A018((s32)func_801E800C, 0);
-    func_801E800C(D_80126948);
-    func_8012A094((s32)D_80126948);
+    func_801E800C(guess_g_MainCamera);
+    func_8012A094((s32)guess_g_MainCamera);
     D_801274EA = -0x82;
     D_801274E8 = 0;
     D_801274EC = -0x1B0;
@@ -208,7 +208,7 @@ void func_801E8048(s32 param_1) {
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 #define SHARED_FN func_801E8070
 #include "../shared/multi/cls_89463c3facc6.h"

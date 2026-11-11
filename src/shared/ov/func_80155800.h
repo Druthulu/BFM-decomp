@@ -3,7 +3,7 @@
 extern void func_8001382C(s32 a0, void *a1, void *a2);
 extern void func_80146DB8(s32 *a0, s32 *a1);
 extern s32 func_80146E98(s32 a0);
-extern void func_801473EC(s32 *a0);
+extern void guess_ApplyVelocity(s32 *a0);
 extern void func_80147A84(s32 arg0);
 extern u16 func_801487F4(s32 *a0);
 extern u16 func_80148800(s32 *a0);
@@ -89,7 +89,7 @@ block_22:
         ((void(*)(s16, void *, void *))func_8001382C)((s16) -(s32) ((Ent_80155800_80155800 *)arg0)->unk20->unk12, &((Ent_80155800_80155800 *)arg0)->unk234, &sp10);
         ((void(*)(void *, void *))func_80146DB8)(((Ent_80155800_80155800 *)arg0), &sp10);
         ((void(*)(void *))func_80147A84)(((Ent_80155800_80155800 *)arg0));
-        ((void(*)(void *))func_801473EC)(((Ent_80155800_80155800 *)arg0));
+        ((void(*)(void *))guess_ApplyVelocity)(((Ent_80155800_80155800 *)arg0));
     }
     if (func_80161208(((Ent_80155800_80155800 *)arg0)) == 0) {
         ((void (*)(void *, u8))func_80155FF8)(((Ent_80155800_80155800 *)arg0), ((Ent_80155800_80155800 *)arg0)->unk1AA);

@@ -36,7 +36,7 @@ extern void func_801EF998(s32 param_1);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 
 extern s32 func_801789AC(s32 a0);
@@ -137,14 +137,14 @@ s32 func_801EFD14(void) {
 
 
 
-extern s32 func_80029178(s32 arg);
-    extern void func_80029124(s32, s32);
+extern s32 guess_TestGameFlag(s32 arg);
+    extern void guess_SetGameFlag(s32, s32);
 #define SHARED_FN func_801EFD24
 #include "../shared/multi/cls_842ac2428050.h"
 #undef SHARED_FN
 
 
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern s32 func_80187890(void);
 extern s32 func_80187904(void);
 extern void func_80187960(void);
@@ -156,7 +156,7 @@ void func_801EFD60(s32 a0) {
     extern s32 D_801F0210[];
     extern s32 D_801F745C;
 
-    s32 v1 = func_80029504();
+    s32 v1 = guess_GetStoryProgress();
 
     if (v1 < 0xC8) {
         s32 v0;
@@ -256,11 +256,11 @@ void func_801EFF50(void) {
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *);
-extern void func_8001C214(s32, s32);
+extern void guess_InitModelObject(s32, s32);
 extern void func_8012A828(s32, s32);
 extern void func_8012E8E0(s32, s32);
 extern void func_80178B18(s32, s32);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 
 void func_801EFFAC(void *a0) {
     extern s32 D_801F742C;
@@ -277,7 +277,7 @@ void func_801EFFAC(void *a0) {
     if (v0 == 0) {
         func_8012CAE4(a0);
     } else {
-        func_8001C214(v0, (s32)&D_801F742C);
+        guess_InitModelObject(v0, (s32)&D_801F742C);
         ptr = ((Unkstruct_800B5CB8 *)a0)->unk68;
         *(s32 *)&D_801F7460 = 0;
         *(s16 *)(ptr + 0xC) = 0x7FFF;
@@ -286,7 +286,7 @@ void func_801EFFAC(void *a0) {
         func_8012E8E0((s32)a0, (s32)&D_801F0138);
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
         func_80178B18((s32)a0, (s32)&D_801F0168);
-        v0 = func_80029504();
+        v0 = guess_GetStoryProgress();
         *(s32 *)&D_801F745C = v0;
     }
 }

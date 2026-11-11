@@ -23,7 +23,7 @@ s32 func_8015C128(s32 param_1) {
                   (int *)(((int)param_1) + 0x234), sp20);
     ((void(*)(int, int *))func_80146DB8)(((int)param_1), sp20);
     func_80147A84(((int)param_1));
-    ((void(*)(int))func_801473EC)(((int)param_1));
+    ((void(*)(int))guess_ApplyVelocity)(((int)param_1));
     if (!(D_800B99DA & 3)) {
         ((void(*)(int, int))func_8014C010)(((int)param_1), 1);
         ((void(*)(int))func_80147324)(0x65F);
@@ -42,12 +42,12 @@ s32 func_8015C128(s32 param_1) {
             return;
         }
         if ((temp_v0 & 0x4000) && ((int(*)(int))func_80146E98)(((int)param_1)) != 0) {
-            ((void(*)(int, int))func_80147078)(((int)param_1), 4);
+            ((void(*)(int, int))guess_SetState)(((int)param_1), 4);
             ((void(*)(int))func_8015C0C4)(((int)param_1));
         }
     } else if (temp_s0 == 0) {
         D_80181914[*(u16 *)((int)param_1)](((int)param_1));
-        ((void(*)(int, int))func_80147078)(((int)param_1), 3);
+        ((void(*)(int, int))guess_SetState)(((int)param_1), 3);
         ((void(*)(int))func_8015BE94)(((int)param_1));
     }
 }

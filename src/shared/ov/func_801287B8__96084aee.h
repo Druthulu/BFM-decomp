@@ -1,11 +1,11 @@
 /* func_801287B8 — shared body (overlay slot 0x80128158, h_exact 96084aee). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_801287B8(void) {
-    func_80129CF8();
+    guess_UpdateCamera();
     func_8017849C();
-    ((void (*)(void *))func_8014FDF4)(&D_80126B58);
-    ((void (*)(void *))func_801505FC)(&D_80126B58);
-    func_801508B4(&D_80126B58);
+    ((void (*)(void *))func_8014FDF4)(&guess_g_PlayerActor);
+    ((void (*)(void *))func_801505FC)(&guess_g_PlayerActor);
+    func_801508B4(&guess_g_PlayerActor);
     func_80165E90();
     func_801627E8();
     func_80162B1C();

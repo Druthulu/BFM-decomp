@@ -4,7 +4,7 @@ extern S801563EC *func_801563EC(u16 idx);
 extern s32 func_80029B4C(s32 a0, s32 a1);
 extern s32 func_80029BC8(s32 a0, s32 a1);
 extern s32 func_80029C44(s32 a0, s32 a1);
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_8015640C(s32 a0, s32 a1);
 extern s32 rand(void);
 extern u16 D_8012693A;
@@ -32,20 +32,20 @@ u32 func_8015616C(s32 param_1, u16 param_2) {
         uVar12 = base + rand() % (uVar2 + 1);
     }
     D_8012693A = uVar5;
-    if ((u8)func_80029178(0x81)) {
+    if ((u8)guess_TestGameFlag(0x81)) {
         D_8012693A = D_8012693A << 1;
     }
     sVar11 = 0;
     if (uVar7 != 0) {
-        if ((u8)func_80029178(0x1A)) {
+        if ((u8)guess_TestGameFlag(0x1A)) {
             sVar11 = 5;
-        } else if ((u8)func_80029178(0x19)) {
+        } else if ((u8)guess_TestGameFlag(0x19)) {
             sVar11 = 4;
-        } else if ((u8)func_80029178(0x18)) {
+        } else if ((u8)guess_TestGameFlag(0x18)) {
             sVar11 = 3;
-        } else if ((u8)func_80029178(0x17)) {
+        } else if ((u8)guess_TestGameFlag(0x17)) {
             sVar11 = 2;
-        } else if ((u8)func_80029178(0x16)) {
+        } else if ((u8)guess_TestGameFlag(0x16)) {
             sVar11 = 1;
         }
     }

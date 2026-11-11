@@ -120,7 +120,7 @@ extern void func_800CB4AC();
 
 
 void func_800CB0B4(s32 param_1) {
-    extern void func_8001C214(s32 a0, s32 a1);
+    extern void guess_InitModelObject(s32 a0, s32 a1);
     extern s32 D_800CC444;
 
     s32 iVar2 = *(s32 *)(param_1 + 0x4c);
@@ -129,7 +129,7 @@ void func_800CB0B4(s32 param_1) {
     obj = ((s32 (*)(void))func_8014659C)();
     ((Unkstruct_80126B58 *)param_1)->unk20 = obj;
     if (obj != 0) {
-        func_8001C214(obj, (s32)&D_800CC444);
+        guess_InitModelObject(obj, (s32)&D_800CC444);
         *(u16 *)(obj + 0x10) = *(u16 *)(((Unkstruct_80126B58 *)iVar2)->unk20 + 0x10);
         {
             s32 prod;
@@ -339,7 +339,7 @@ s32 func_800CB61C(s32 a0, s32 a1)
 
 
 
-extern u8 D_800AF648;
+extern u8 guess_g_CameraWsMatrix;
 
 s32 func_800CB6F4(int param_1, int param_2)
 {
@@ -350,7 +350,7 @@ s32 func_800CB6F4(int param_1, int param_2)
     sp[0] = (int)((Unkstruct_80126B58 *)param_1)->unk6;
     sp[1] = (int)((Unkstruct_80126B58 *)param_1)->unkA;
     sp[2] = (int)((Unkstruct_80126B58 *)param_1)->unkE;
-    r0 = &D_800AF648;
+    r0 = &guess_g_CameraWsMatrix;
     gte_SetRotMatrix(r0);
     gte_SetTransMatrix(r0);
     gte_ldlv0(sp);

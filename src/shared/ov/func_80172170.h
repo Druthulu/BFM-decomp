@@ -3,9 +3,9 @@
 extern s32 ratan2(s32 a0, s32 a1);
 extern s32 func_80047948(s32 a0);
 extern s32 func_8004787C(s32 a0);
-extern s32 D_801151D4;
+extern s32 guess_g_ActiveCamera;
 void func_80172170(s32 a0, s32 a1) {
-    s32 base = D_801151D4;
+    s32 base = guess_g_ActiveCamera;
     s32 s0;
     s32 s1;
     s32 v1;

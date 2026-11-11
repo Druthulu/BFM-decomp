@@ -5,7 +5,7 @@ void func_8017A4AC(void) {
     u16 sp20[4];
     u16 sp28[4];
     u16 sp30[4];
-    S126B58 *w = &(*(S126B58 *)&D_80126B58);
+    S126B58 *w = &(*(S126B58 *)&guess_g_PlayerActor);
     s16 cmd;
 
     if (D_8018F908 == D_8018F90C) {

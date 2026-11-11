@@ -5,5 +5,5 @@ void func_8017CFC0(void) {
     D_80126950 = 400;
     D_8012695C = 1200;
     D_80126958 = 1200;
-    func_8017D010(&D_80126948);
+    func_8017D010(&guess_g_MainCamera);
 }

@@ -4,8 +4,8 @@ s32 func_80178D40(s32 arg0, s32 arg1)
 {
     extern void func_80179B28(s32);
     extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
-    extern void func_8012F214(void *, void *, void *);
-    extern s32 *func_8012F40C(void *, void *);
+    extern void guess_RotTransSVWithObjMatrix(void *, void *, void *);
+    extern s32 *guess_WorldToScreen(void *, void *);
     extern void func_80179D30(void *);
     extern void func_80179D78(void *);
     extern void func_80179EA0(void *);
@@ -78,7 +78,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
     SV3_80178D40 v10, v18, v20, v28, v30, v38, v40, v48;
     s32 out50[2];
     SV3_80178D40 v58, v60;
-    Actor_80178D40 *pv = &(*(Actor_80178D40*)&D_80126B58);
+    Actor_80178D40 *pv = &(*(Actor_80178D40*)&guess_g_PlayerActor);
     s32 i5b, i5c, fp5b, fp5c;
     s32 *q5b, *q5c, *p5c, *r5c;
     s16 *g = &D_8018FA80;
@@ -135,7 +135,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
         v10.vy = 0;
         v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
-        func_8012F214(((Actor_80178D40 *)arg0), &v10, &v18);
+        guess_RotTransSVWithObjMatrix(((Actor_80178D40 *)arg0), &v10, &v18);
         func_80179D30(&v18);
         (*(s16*)&D_8018FB24) = 3;
         break;
@@ -147,7 +147,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         v10.vx = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f0;
         v10.vy = 0;
         v10.vz = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f4;
-        func_8012F214(((Actor_80178D40 *)arg0), &v10, &v18);
+        guess_RotTransSVWithObjMatrix(((Actor_80178D40 *)arg0), &v10, &v18);
         v18.pad = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f6;
         func_80179D78(&v18);
         (*(s16*)&D_8018FB24) = 3;
@@ -156,7 +156,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
         v10.vy = 0;
         v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
-        func_8012F214(((Actor_80178D40 *)arg0)->unkD4, &v10, &v18);
+        guess_RotTransSVWithObjMatrix(((Actor_80178D40 *)arg0)->unkD4, &v10, &v18);
         func_80179D30(&v18);
         (*(s16*)&D_8018FB24) = 3;
         break;
@@ -360,7 +360,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         v20.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
         v20.vy = ((Actor_80178D40 *)arg0)->unkA;
         v20.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
-        func_8012F214(((Actor_80178D40 *)arg0), &v20, &v28);
+        guess_RotTransSVWithObjMatrix(((Actor_80178D40 *)arg0), &v20, &v28);
         g[5] = 0;
         g[0] = 3;
         *(SV3_80178D40 *)(g + 6) = v28;
@@ -372,7 +372,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         v30.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
         v30.vy = ((Actor_80178D40 *)arg0)->unkA;
         v30.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
-        func_8012F214(((Actor_80178D40 *)arg0), &v30, &v38);
+        guess_RotTransSVWithObjMatrix(((Actor_80178D40 *)arg0), &v30, &v38);
         g[5] = 1;
         g[0] = 3;
         *(SV3_80178D40 *)(g + 6) = v38;
@@ -525,9 +525,9 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         v48.vx = pv->unk6;
         v48.vy = pv->unkA;
         v48.vz = pv->unkE;
-        func_8012F40C(out50, &v40);
+        guess_WorldToScreen(out50, &v40);
         w1 = out50[0];
-        func_8012F40C(out50, &v48);
+        guess_WorldToScreen(out50, &v48);
         w2 = out50[0];
         (*(s16*)&D_8018FB24) = 3;
         D_8018F91C = w1;
@@ -542,9 +542,9 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         v60.vx = pv->unk6;
         v60.vy = pv->unkA;
         v60.vz = pv->unkE;
-        func_8012F40C(out50, &v58);
+        guess_WorldToScreen(out50, &v58);
         w1 = out50[0];
-        func_8012F40C(out50, &v60);
+        guess_WorldToScreen(out50, &v60);
         w2 = out50[0];
         (*(s16*)&D_8018FB24) = 3;
         D_8018F924 = w2;

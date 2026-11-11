@@ -2,7 +2,7 @@
 
 
 
-extern void func_8001C214(s32 a0, s32 a1);
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_8017F364(void);
 
 void func_8017EEEC(void *a0) {
@@ -20,7 +20,7 @@ void func_8017EEEC(void *a0) {
 
         for (i = 0; i < 0x60; i++, p += 0x10C) {
             if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x2E7 && CAST_SIGN(u16, p, 2) == 4) {
-                func_8001C214(*(s32 *)((s32)a0 + 0x20), (s32)&D_801A0774);
+                guess_InitModelObject(*(s32 *)((s32)a0 + 0x20), (s32)&D_801A0774);
                 *(u16 *)((s32)a0 + 0x5C) = 0x8800;
                 *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = 0x400;
                 *(s16 *)((s32)a0 + 0x34) = 3;
@@ -51,7 +51,7 @@ void func_8017EEEC(void *a0) {
 
         for (i = 0; i < 0x60; i++, p += 0x10C) {
             if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x2E7 && CAST_SIGN(u16, p, 2) == 4) {
-                func_8001C214(*(s32 *)((s32)a0 + 0x20), (s32)D_8019FDD4);
+                guess_InitModelObject(*(s32 *)((s32)a0 + 0x20), (s32)D_8019FDD4);
                 *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x4) |= 0x60000040;
                 *(u16 *)((s32)a0 + 0x5C) = 0x9000;
                 *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = 0x400;
@@ -359,7 +359,7 @@ loop:
 
 
 s32 func_8017F6CC(s32 a0) {
-    extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+    extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern void func_80015954(s32 a0, s32 a1);
     s32 t;
     s16 out[4];
@@ -368,7 +368,7 @@ s32 func_8017F6CC(s32 a0) {
     t = ((Unkstruct_8017EAEC_3 *)*(s32 *)(a0 + 0x204))->unk20;
     if (((Unkstruct_8017EAEC *)a0)->unk204 != 0) {
         ((Unkstruct_8017EAEC_2 *)t)->unk12 += 0x80;
-        func_8012F14C(t + 0x34, a0 + 0x20C, (s32)out);
+        guess_RotTransSVWithMatrix(t + 0x34, a0 + 0x20C, (s32)out);
         func_80015954((s32)out, a0 + 4);
     }
     t = ((Unkstruct_8017EAEC *)a0)->unk20;
@@ -442,7 +442,7 @@ void func_8017F8AC(int param_1)
 #include "common.h"
 
 extern s32 rand(void);
-extern s32 func_8012B744(void *a0, void *a1);
+extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void func_8012A828(s32 *a0, s32 a1);
 extern void func_8012B23C(void *a0);
 extern void Square0(s32 *a0, s32 *a1);
@@ -465,7 +465,7 @@ void func_8017F8F8(void *param_1) {
     Square0(&d[0], &d[0]);
 
     if (d[0] + d[2] > 0x8FFFF) {
-        ((Unkstruct_800B5CB8 *)param_1)->unkFC = func_8012B744((void *)((s32)param_1 + 4), target);
+        ((Unkstruct_800B5CB8 *)param_1)->unkFC = guess_YawToPoint((void *)((s32)param_1 + 4), target);
     } else {
         s32 t = rand() & 0x3FF;
         s32 v1 = t - 0x200;
@@ -518,7 +518,7 @@ void func_8017FA30(s32 a0) {
 
 #include "common.h"
 
-extern s32  func_8012B8E4(s32 a0, s32 a1);
+extern s32  guess_TurnStepToTarget(s32 a0, s32 a1);
 extern s32  func_8012BEE8(s32 a0);
 extern void func_8012A828(s32 *a0, s32 a1);
 extern void func_8012B178(s32 a0, s32 a1);
@@ -546,7 +546,7 @@ void func_8017FAB4(s32 a0)
     st = ((Unkstruct_800B5CB8 *)s0)->unk34;
     switch (st) {
     case 0:
-        v = func_8012B8E4(s0, 4);
+        v = guess_TurnStepToTarget(s0, 4);
         p = (unsigned short *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x12);
         *p = *p + v;
 
@@ -572,7 +572,7 @@ void func_8017FAB4(s32 a0)
         break;
     case 1:
         if (((Unkstruct_800B5CB8 *)s0)->unk1C >= 0x16) {
-            v = func_8012B8E4(s0, 6);
+            v = guess_TurnStepToTarget(s0, 6);
             p = (unsigned short *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x12);
             *p = *p + v;
         }
@@ -619,7 +619,7 @@ int param_1;
 
 void func_8017FCC0(void *a0) {
     extern s32 func_8012BEE8(s32 a0);
-    extern s32 func_8012B8E4(s32 a0, s32 a1);
+    extern s32 guess_TurnStepToTarget(s32 a0, s32 a1);
     extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
     extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
     extern void func_8012A828(s32*, s32);
@@ -638,7 +638,7 @@ void func_8017FCC0(void *a0) {
         }
         break;
     case 1:
-        ret = func_8012B8E4(base, 6);
+        ret = guess_TurnStepToTarget(base, 6);
         ptr = ((Unkstruct_800B5CB8 *)base)->unk20;
         *(u16 *)(ptr + 0x12) += ret;
         break;

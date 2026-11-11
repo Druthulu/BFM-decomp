@@ -34,7 +34,7 @@ void func_800CCBCC(s32 a0)
     extern void func_80148038(s32 a0, s32 a1);
     extern void func_80147460(s32 a0);
     extern void func_80147AD4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    extern void func_801473EC(s32 *a0);
+    extern void guess_ApplyVelocity(s32 *a0);
     extern void func_8014ED28();
     extern void func_80146D90(s32 a0);
     extern void func_8016151C(void *a0);
@@ -48,7 +48,7 @@ void func_800CCBCC(s32 a0)
     func_80148038(a0, 0x1A000);
     func_80147460(a0);
     func_80147AD4(a0, 0, 0, 0);
-    func_801473EC((s32 *)a0);
+    guess_ApplyVelocity((s32 *)a0);
     if (((s32 (*)(s32))func_8014ED28)(a0) != 0) {
         func_80146D90(a0);
     }
@@ -90,7 +90,7 @@ void func_800CCD04(void *a0) {
     extern void func_80148038(s32 a0, s32 a1);
     extern void func_80147460(s32 a0);
     extern void func_80147AD4(s32 a0, s32 a1, s32 a2, s32 a3);
-    extern void func_801473EC(s32 *a0);
+    extern void guess_ApplyVelocity(s32 *a0);
     extern void func_8014ED28(s32);
     extern void func_80146D90(s32 a0);
     extern void func_80161450(void *a0);
@@ -102,7 +102,7 @@ void func_800CCD04(void *a0) {
     func_80148038((s32)a0, 0x1A000);
     func_80147460((s32)a0);
     func_80147AD4((s32)a0, 0, 0, 0);
-    func_801473EC((s32 *)a0);
+    guess_ApplyVelocity((s32 *)a0);
     if (((int (*)(int))func_8014ED28)((s32)a0) != 0) {
         func_80146D90((s32)a0);
     }

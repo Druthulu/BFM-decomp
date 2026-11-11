@@ -3116,7 +3116,7 @@ def alias_repeated_addresses(text, tu, fn, d_):
     (`cse.c:1937-1939`, `:2107-2108`); the merged pseudo lives across a call, takes `$s0`, and every later register shifts —
     the `$a0` pin was faking the target's separate `la $a0` per call. A declaration with an asm label gets a freshly
     allocated name string (`varasm.c:479-486`), so cse treats it as a different value; the relocation still names SYM, so
-    the bytes are the target's. 136 `&D_800AF648` pin sites carry this exact shape. The alias is a class-E declaration
+    the bytes are the target's. 136 `&guess_g_CameraWsMatrix` pin sites carry this exact shape. The alias is a class-E declaration
     (deferred to the types phase by Drew's gate-1 scope decision), not an asm statement. The alias is declared `u8`: only
     its address is used, and the byte oracle judges every candidate."""
     lines = text.split("\n")
@@ -5773,15 +5773,15 @@ def selftest():
     # R26, the address alias (T7 agent c45, S103; known-true: on func_80183E3C's start text R26's "second" candidate
     # scores 0 from 38 — the agent's close, reproduced by the generator alone)
     AAF = ("void func_80100000(void) {\n"
-           "    { void *r4; r4 = &D_800AF648; func_8004914C(r4); }\n"
-           "    { void *r4; r4 = &D_800AF648; func_800491AC(r4); }\n"
+           "    { void *r4; r4 = &guess_g_CameraWsMatrix; func_8004914C(r4); }\n"
+           "    { void *r4; r4 = &guess_g_CameraWsMatrix; func_800491AC(r4); }\n"
            "}")
     a26 = dict(alias_repeated_addresses(AAF, "src/fx/a.c", "func_80100000",
                                         next(r for r in sc.scan_text(AAF, "src/fx/a.c", shared_defs=None) if r["form"] == "def")))
-    if sorted(a26) != ["alias-address D_800AF648 second"]:
+    if sorted(a26) != ["alias-address guess_g_CameraWsMatrix second"]:
         fail(f"R26 must alias the second use of a repeated address (and offer no all-later form for two uses): {sorted(a26)}")
-    elif 'extern u8 D_800AF648_b __asm__("D_800AF648");' not in a26["alias-address D_800AF648 second"] or \
-            "r4 = &D_800AF648_b;" not in a26["alias-address D_800AF648 second"]:
+    elif 'extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix");' not in a26["alias-address guess_g_CameraWsMatrix second"] or \
+            "r4 = &D_800AF648_b;" not in a26["alias-address guess_g_CameraWsMatrix second"]:
         fail(f"R26 must declare the alias and use it at the second site: {a26!r}")
 
     # every family recipe_candidates dispatches must be in ALL_FAMILIES (S103: R25 was dispatched but missing from the

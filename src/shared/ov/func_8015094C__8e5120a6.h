@@ -4,7 +4,7 @@ s32 func_8015094C(s32 param_1) {
     struct { s32 x, mid, y; s32 _pad[9]; } arg;   /* 0x30 @ 0x10 */
     S16 local;                                     /* 0x10 @ 0x40 */
     s32 pad1[4];                                    /* 0x10 @ 0x50 */
-    u8 *cam = D_80126948;
+    u8 *cam = guess_g_MainCamera;
     s32 ret;
 
     local = D_8018DE8C;

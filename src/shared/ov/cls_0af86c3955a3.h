@@ -4,6 +4,6 @@ s32 SHARED_FN(void) {
     if ((func_800167F0(0) & 0xffff) == 0) {
         return 0;
     }
-    func_80171990((u8 *)&D_80126B58);
+    func_80171990((u8 *)&guess_g_PlayerActor);
     return 1;
 }

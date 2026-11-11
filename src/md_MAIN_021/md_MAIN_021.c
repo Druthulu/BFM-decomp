@@ -66,7 +66,7 @@ void func_800CAF94(s32 arg0) {
     extern u16  D_800B99DA;
     extern s32 func_80146C3C(u8 *a0);
     extern void func_80017DC4(void *a0, void *a1);
-    extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+    extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
     extern void func_800D23D0(void *a0);
     extern void RotMatrixYXZ(void *a0, void *a1);
@@ -94,7 +94,7 @@ void func_800CAF94(s32 arg0) {
         sv[2] = 0;
         sv[0] = 0;
         sv[1] = -0x2C;
-        func_8012F14C(((Unkstruct_800CAF94_3 *)ent)->unk20 + 0x34, (s32)sv, (s32)sv);
+        guess_RotTransSVWithMatrix(((Unkstruct_800CAF94_3 *)ent)->unk20 + 0x34, (s32)sv, (s32)sv);
         q = rot;
         func_800D20C0((Pos800D20C0 *)sv, (SVECTOR_800 *)q, 5);
         q = sv;
@@ -129,7 +129,7 @@ void func_800CB0C8(s32 arg0) {
     extern s32 func_80146C3C(u8 *a0);
     extern s32  func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern void func_80017DC4(void *a0, void *a1);
-    extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+    extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
     extern void func_800D23D0(void *a0);
     extern void RotMatrixYXZ(void *a0, void *a1);
@@ -162,7 +162,7 @@ void func_800CB0C8(s32 arg0) {
             sv[2] = 0;
             sv[0] = 0;
             sv[1] = -0x2C;
-            func_8012F14C(((Unkstruct_800CB0C8_2 *)ent)->unk20 + 0x34, (s32)sv, (s32)sv);
+            guess_RotTransSVWithMatrix(((Unkstruct_800CB0C8_2 *)ent)->unk20 + 0x34, (s32)sv, (s32)sv);
             q = rot;
             func_800D20C0((Pos800D20C0 *)sv, (SVECTOR_800 *)q, 5);
             q = sv;
@@ -187,7 +187,7 @@ void func_800CB0C8(s32 arg0) {
                 blk = D_800AE620;
                 RotMatrixZ(i, &blk);
                 ApplyMatrixSV(&blk, vec, vec);
-                func_8012F14C(arg0 + 0x38, (s32)vec, (s32)vec);
+                guess_RotTransSVWithMatrix(arg0 + 0x38, (s32)vec, (s32)vec);
                 *(s16 *)(e + 6)   = vec[0];
                 *(s16 *)(e + 0xA) = vec[1];
                 *(s16 *)(e + 0xE) = vec[2];

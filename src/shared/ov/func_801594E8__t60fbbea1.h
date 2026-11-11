@@ -14,9 +14,9 @@ void func_801594E8(s32 param_1, s32 param_2)
     case -1: {
         struct { u8 a, b, c; u8 pad[5]; u8 d, e; } t;
         s32 saved;
-        t.a = func_80029178(0xB);
-        t.b = func_80029178(0xC);
-        t.c = func_80029178(0xD);
+        t.a = guess_TestGameFlag(0xB);
+        t.b = guess_TestGameFlag(0xC);
+        t.c = guess_TestGameFlag(0xD);
         t.d = func_800291B4(0x2C);
         t.e = func_800291B4(0x2D);
         saved = *(s32 *)(p + 0x4);
@@ -25,9 +25,9 @@ void func_801594E8(s32 param_1, s32 param_2)
         func_8002906C();
         func_80029094();
         func_8002941C();
-        func_80029124(0xB, t.a);
-        func_80029124(0xC, t.b);
-        func_80029124(0xD, t.c);
+        guess_SetGameFlag(0xB, t.a);
+        guess_SetGameFlag(0xC, t.b);
+        guess_SetGameFlag(0xD, t.c);
         func_800291A0(0x2C, t.d);
         func_800291A0(0x2D, t.e);
         *(s32 *)(p + 0x4) = saved;

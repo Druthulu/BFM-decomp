@@ -2,11 +2,11 @@
  * exemplar src/md_SC03_134/md_SC03_134.c:638 · rank 1/4 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(void) {
     extern void func_80029514(s32 a0);
-    extern void func_80029124(s32 a0, s32 a1);
+    extern void guess_SetGameFlag(s32 a0, s32 a1);
     extern void func_80174438(s32 a0);
     extern u8 *D_80126B10;
 
     func_80029514(0x12C);
     func_80174438((s32)D_80126B10);
-    func_80029124(0x10F, 1);
+    guess_SetGameFlag(0x10F, 1);
 }

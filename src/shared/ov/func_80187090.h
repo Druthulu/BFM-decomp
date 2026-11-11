@@ -5,7 +5,7 @@ extern s32  func_8012BA10(s32 a0, s32 a1);          /* host TU L3071 */
 extern void func_8012A828(s32 a0, void *a1);        /* host TU L2930/L3074 */
 extern void func_8002D4C8(s32 a0, s32 a1);          /* host TU L52    */
 extern s32  func_8012C658(s32 arg0, s32 arg1, s32 arg2); /* host TU L2524 */
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);  /* host TU L323   */
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);  /* host TU L323   */
 extern s32  func_8004787C(s32 a0);                  /* host TU L2198 */
 extern s32  func_80047948(s32 a0);                  /* host TU L2197 */
 extern u8 D_801E2170[];                             /* host TU L2938 */
@@ -33,7 +33,7 @@ void func_80187090(s32 a0) {
             if (*(s32 *)(a0 + 0x94) == 0x28) {
                 func_8002D4C8(0xA37, 0);
             }
-            func_8012F14C(*(s32 *)(a0 + 0x20) + 0x34, (s32)D_80190548,
+            guess_RotTransSVWithMatrix(*(s32 *)(a0 + 0x20) + 0x34, (s32)D_80190548,
                           (s32)sp10);
             t = func_8012C658(0x265, 4, a0);
             if (t != 0) {

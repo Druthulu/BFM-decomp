@@ -5,11 +5,11 @@ void func_8015C944(int param_1) {
     extern void (*D_80181914[])();
     func_80149FB0(param_1);
     func_80147AD4(param_1, 0, 0, 0);
-    ((void (*)(int))func_801473EC)(param_1);
+    ((void (*)(int))guess_ApplyVelocity)(param_1);
     ((void (*)(int))func_8014D738)(param_1);
     if (*(int *)(param_1 + 0x170) == 0) {
         (*D_80181914[*(unsigned short *)param_1])(param_1);
-        ((void (*)(int, int))func_80147078)(param_1, 0);
+        ((void (*)(int, int))guess_SetState)(param_1, 0);
         ((void (*)(int))func_80159B70)(param_1);
     } else {
         if (((int (*)(int))func_80161240)(param_1) == 0) {

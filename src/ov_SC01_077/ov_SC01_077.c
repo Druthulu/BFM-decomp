@@ -14,7 +14,7 @@ extern s32 func_8012B4B8(int param_1);                        /* match-first, ar
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
 extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
-extern s32 func_8012B8E4(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern s32 guess_TurnStepToTarget(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8015E1B8(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8015EE08(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8015F7D4(s32 a0);                        /* match-first, arity 1 */
@@ -1059,7 +1059,7 @@ extern s16 D_80187E96;
 extern unsigned short D_80115112;
 
 extern void func_8013E83C(void);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 
 void func_8013E6AC(void) {
     short i;
@@ -1071,7 +1071,7 @@ void func_8013E6AC(void) {
         *(s16 *)((char *)&D_80115148 + (i << 1)) = 0;
         D_80115140[i] = 0;
     }
-    if (!((u32)func_80029504() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
+    if (!((u32)guess_GetStoryProgress() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
         s32 *ep;
         s32 *fp;
         fp = (s32 *)&D_80115110;
@@ -1102,7 +1102,7 @@ void func_8013E6AC(void) {
 // @unstuck(P36): none — MATCH (direct u16 global reads fold to lui/lhu; scheduler hoists the D_8011511A read above the prologue, reproduced by -O2)
 
 void func_8013E83C() {
-    extern int func_80029178(int);
+    extern int guess_TestGameFlag(int);
     extern void func_8002D4C8(int, int);
     extern void func_80141C0C(int);
     extern unsigned short D_80115118;
@@ -1129,7 +1129,7 @@ void func_8013E83C() {
     }
     D_80115158 = 0x106;
 
-    if ((func_80029178(0x1c) & 0xFF) == 0) {
+    if ((guess_TestGameFlag(0x1c) & 0xFF) == 0) {
         D_801D95C8 = &D_80187B34;
         D_801D95CC = &D_80187BC0;
     } else {
@@ -1476,7 +1476,7 @@ extern u8  D_80187BB8[];
 extern u8  D_80187BD0[];
 extern u16 D_80187AD4[];
 
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 extern s16 func_8014168C(s16 a0);
 extern void func_8014AA04(s32 a0);
@@ -1530,7 +1530,7 @@ s32 func_8013F350(void) {
 
     i = 0;
     do {
-        if ((func_80029178(D_80187BB8[i]) & 0xFF) == 0) {
+        if ((guess_TestGameFlag(D_80187BB8[i]) & 0xFF) == 0) {
             break;
         }
         i = i + 1;
@@ -1541,7 +1541,7 @@ s32 func_8013F350(void) {
     case 0:
         r = ((s32 (*)(s32))func_8014168C)(0);
         rs = (s16)r;
-        if ((func_80029178(D_80187BB8[rs]) & 0xFF) != 0 && (D_8011511E & 0x40) != 0) {
+        if ((guess_TestGameFlag(D_80187BB8[rs]) & 0xFF) != 0 && (D_8011511E & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
             if (rs != 0) {
                 func_8002D4C8(0x461, 0);
@@ -1871,7 +1871,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
 
 /* func_8013FFD8 — 213 ins, double jump-table, per-location family (134 members). */
 
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 
 extern short D_80115128;
@@ -1904,7 +1904,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     case 0: {
         s16 s0 = (s16) arg1;
         if (s0 < 6) {
-            if ((((s32 (*)(u8))func_80029178)(D_80187BB8[s0]) & 0xFF) == 0) {
+            if ((((s32 (*)(u8))guess_TestGameFlag)(D_80187BB8[s0]) & 0xFF) == 0) {
                 return 1;
             }
             ret = ((s32 *)&D_80187B0C)[s0];
@@ -1941,7 +1941,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         case 2: {
             s16 s0 = (s16) arg1;
             if (s0 < 6) {
-                if ((((s32 (*)(u8))func_80029178)((*(u8 * *)&D_801D95CC)[s0]) & 0xFF) == 0) {
+                if ((((s32 (*)(u8))guess_TestGameFlag)((*(u8 * *)&D_801D95CC)[s0]) & 0xFF) == 0) {
                     return 1;
                 }
                 ret = (*(s32 * *)&D_801D95C8)[s0];
@@ -1951,7 +1951,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         case 3: {
             s16 s0 = (s16) arg1;
             if (s0 < 6) {
-                if ((((s32 (*)(u8))func_80029178)(D_80187BDC[s0]) & 0xFF) == 0) {
+                if ((((s32 (*)(u8))guess_TestGameFlag)(D_80187BDC[s0]) & 0xFF) == 0) {
                     return 1;
                 }
                 ret = ((s32 *)D_80187AF4)[s0];
@@ -2048,7 +2048,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     result = D_801117EC;
     switch (((short)param_1)) {
     case 0:
-        if (((s32(*)(s32))func_80029178)(D_80187BB8[((short)param_2)]) & 0xFF) {
+        if (((s32(*)(s32))guess_TestGameFlag)(D_80187BB8[((short)param_2)]) & 0xFF) {
             result = D_80187C0C[((short)param_2)];
         }
         break;
@@ -2068,8 +2068,8 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         case 1:
             goto case5;
         case 2:
-            if (((s32(*)(s32))func_80029178)(D_801D95CC[((short)param_2)]) & 0xFF) {
-                if (((short)param_2) == 5 && (((s32(*)(s32))func_80029178)(0x1C) & 0xFF)) {
+            if (((s32(*)(s32))guess_TestGameFlag)(D_801D95CC[((short)param_2)]) & 0xFF) {
+                if (((short)param_2) == 5 && (((s32(*)(s32))guess_TestGameFlag)(0x1C) & 0xFF)) {
                     result = D_801117B4;
                 } else {
                     result = D_80187C24[((short)param_2)];
@@ -2077,7 +2077,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
             }
             break;
         case 3:
-            if (((s32(*)(s32))func_80029178)(D_80187BDC[((short)param_2)]) & 0xFF) {
+            if (((s32(*)(s32))guess_TestGameFlag)(D_80187BDC[((short)param_2)]) & 0xFF) {
                 result = D_80187C64[((short)param_2)];
             }
             break;
@@ -2692,7 +2692,7 @@ void func_80141874(void) {
 //       gcc folds 2>=4 and drops the branch); direct-global access recomputes %hi/%lo per reference
 //       (3 fresh lui) whereas the `&`-cast pointer form CSEs the address into ONE register (2 ins short).
 //   (2) Reconcile with the TU/engine_core canonical types: D_80115158 is `u8[]` (decays -> `*(u16*)D_80115158`),
-//       D_8011515C is `u8` (halfword store -> `*(u16*)&D_8011515C`), func_80029178 is `s32(s32)`. Do not
+//       D_8011515C is `u8` (halfword store -> `*(u16*)&D_8011515C`), guess_TestGameFlag is `s32(s32)`. Do not
 //       redeclare these — the shared DEFINE macros already provide them (conflicting-types hard error).
 
 extern void func_800D24A0(int);
@@ -2712,7 +2712,7 @@ extern u8 D_80187BC8;
 
 s32 func_801418F8(void) {
     extern volatile unsigned short D_8011511A;
-    extern s32 func_80029178(s32);
+    extern s32 guess_TestGameFlag(s32);
     unsigned short t;
 
     func_800D24A0(1);
@@ -2724,7 +2724,7 @@ s32 func_801418F8(void) {
         D_8011511A = t - 3;
     }
     *(u16*)D_80115158 = 0x106;
-    if ((func_80029178(0x1C) & 0xFF) == 0) {
+    if ((guess_TestGameFlag(0x1C) & 0xFF) == 0) {
         D_801D95C8 = &D_80187B34;
         D_801D95CC = &D_80187BC0;
     } else {

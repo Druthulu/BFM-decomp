@@ -58,6 +58,7 @@ HISTORY = ("cookbook/", "phase-ends/", "docs/decision-log.md", "docs/story.md", 
            "docs/retired/", "docs/research-archive/", ".claude-state/",
            "decomp-architect/corpus/record/", "decomp-architect/corpus/cookbook/",   # verbatim kit copies of the above
            "config/names_worklist.tsv",            # 3.43's frozen worklist: placeholder names kept as frozen
+           "config/names.tsv",                     # the ledger: basis/citation quote names as at naming time (3.43 T7)
            ".run/")                                # tracked raw logs / generated census output: never hand-edited
 BUILD_INPUTS = ("src/", "include/", "config/symbols", "config/splat.", "Makefile", "config/undefined_")
 CLASSES = ("history", "rewritten", "address-key", "stale-build-input", "stale-invisible", "unclassified")
@@ -70,6 +71,7 @@ ADDRESS_KEYED = {
     "docs/duplicates.md": "dup_report lists each group's representative as `<sig name> (<vram>)`; see NAMES_FROM_VRAM",
     "docs/leverage.md": "leverage_rank lists one row per unit keyed by space:addr",
     "docs/leverage.tsv": "leverage_rank writes one row per unit keyed by space:addr",
+    "config/dedup.us.yaml": "the registry keys each group by `vram:` (and member vram); its name is the `func:`/`name:` field",
 }
 # Closed list: generated files rename_sym rewrites as text instead of printing `regenerate:` (shared with rename_sym).
 TEXT_GENERATED = {
@@ -248,7 +250,9 @@ def parse_spec(text, groups=None):
             out += [(r["old"], r["new"], r["addr"]) for r in exp]
             continue
         out.append(tuple(f[:3]))
-    return sorted(out)
+    # distinct renames only: a class row expands to one identical (old, new, addr) per member (141 for an overlay-base
+    # class), and scan() classifies every hit once per rename; the verdict and the distinct bad hits are unchanged
+    return sorted(set(out))
 
 
 def renames_from_spec(p):
@@ -495,7 +499,8 @@ def check_worklist(heads, rows, ledger, inst, names, members, complete=False):
                     if not fam or not fam.match(n):
                         why.append("%s:%08X named %s, not %s" % (i + (n, new)))
                     elif led.get((n, fa)) != tier and not any(
-                            t == tier and cn == new and i in members.get(g, ()) for g, cn, t in cls):
+                            # cn == n: a suffixed copy ledgered by its own class row (3.43 T7: guess_Vec3sDotAdd_2)
+                            t == tier and cn in (new, n) and i in members.get(g, ()) for g, cn, t in cls):
                         why.append("%s:%08X %s has no %s names.tsv row" % (i + (n, tier)))
         if why:
             more = " (+%d more)" % (len(why) - 3) if len(why) > 3 else ""

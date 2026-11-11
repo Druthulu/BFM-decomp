@@ -11,7 +11,7 @@ void func_801E29F4(void) {
     extern s16 D_80126976;
     extern s16 D_80126978;
     extern s16 D_8012697A;
-    extern u8 D_80126948[];
+    extern u8 guess_g_MainCamera[];
     extern s16 D_801274E8;
     extern s16 D_801274EA;
     extern s16 D_801274EC;
@@ -26,8 +26,8 @@ void func_801E29F4(void) {
     D_80126978 = -0x36;
     D_8012697A = 0;
     func_8012A018((s32)func_801E2AB8, 0);
-    func_801E2AB8(D_80126948);
-    func_8012A094((s32)D_80126948);
+    func_801E2AB8(guess_g_MainCamera);
+    func_8012A094((s32)guess_g_MainCamera);
     D_801274EA = -0x82;
     D_801274E8 = 0;
     D_801274EC = -0x1B0;

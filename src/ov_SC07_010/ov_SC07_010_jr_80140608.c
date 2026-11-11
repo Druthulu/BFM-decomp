@@ -70,7 +70,7 @@ extern void func_80141C04(void);
 extern void func_8013E5E8(void);
 extern void func_8013E67C(void);
 extern void func_8013E83C(void);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_8013E6AC(void);
 extern void func_800D24A0(s32 arg);
 extern void func_8013E814(void);
@@ -122,7 +122,7 @@ extern u8 D_8011515C;     /* macro-canonical (§8e) */
 extern u8  D_8018305C[];
 extern u8  D_80183074[];
 extern u16 D_80182F78[];
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 extern void func_8014AA04(s32 a0);
 extern void func_801415C0(s32 a0, s32 a1);
@@ -684,7 +684,7 @@ extern u8 D_80115158[];
 extern u8 D_8011515C;
 
 extern void func_800D24A0(s32 a0);
-extern s32  func_80029178(s32 a0);
+extern s32  guess_TestGameFlag(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 
@@ -717,7 +717,7 @@ void func_801418F8(void)
         D_8011511A = t - 3;
     }
     (*(s16 *)D_80115158) = 0x106;
-    if ((func_80029178(0x1C) & 0xFF) == 0) {
+    if ((guess_TestGameFlag(0x1C) & 0xFF) == 0) {
         D_801A6B00 = &D_80182FD8;
         D_801A6B04 = &D_80183064;
     } else {

@@ -5,7 +5,7 @@ extern s32 D_8012695C;
 extern s16 D_80126968;
 extern s16 D_8012696A;
 extern s16 D_80126978;
-extern u16 D_80126B5E;
+extern u16 guess_g_PlayerPosX;
 extern s16 D_8012696C;
 extern s16 D_80126976;
 extern s16 D_8012697A;
@@ -27,7 +27,7 @@ void func_801819F4(void) {
     D_8012696A = v0;
     v0 = -0x80;
     D_80126978 = v0;
-    v1 = D_80126B5E;
+    v1 = guess_g_PlayerPosX;
     D_8012696C = 0;
     D_80126976 = 0;
     D_8012697A = (0xC8);

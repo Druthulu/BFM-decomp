@@ -2,15 +2,15 @@
  * exemplar src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:7587 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 s32 SHARED_FN(void *a0) {
 
-    extern u16 D_80126B5E;
-    extern u16 D_80126B62;
-    extern u16 D_80126B66;
+    extern u16 guess_g_PlayerPosX;
+    extern u16 guess_g_PlayerPosY;
+    extern u16 guess_g_PlayerPosZ;
     s16 out[3];
     s16 in[3];
 
-    in[0] = D_80126B5E;
-    in[1] = D_80126B62;
-    in[2] = D_80126B66;
+    in[0] = guess_g_PlayerPosX;
+    in[1] = guess_g_PlayerPosY;
+    in[2] = guess_g_PlayerPosZ;
     func_8012F2E8((s32)a0, (s32)in, (s32)out);
     return func_8012CB64((s32)out, -0x80, 0x80, -0x60, 0);
 }

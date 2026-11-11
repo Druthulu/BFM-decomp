@@ -5,10 +5,10 @@ void func_8015EEE0(void *arg0)
     ((void (*)(void *, s32))func_80148038)(arg0, 0x10000);
     ((void (*)(void *))func_80147460)(arg0);
     ((void (*)(void *, s32, s32, s32))func_80147AD4)(arg0, 0, 0, 0x1000);
-    ((void (*)(void *))func_801473EC)(arg0);
+    ((void (*)(void *))guess_ApplyVelocity)(arg0);
     if (*(u16 *)((u8 *)arg0 + 0xB8) & 0x8000) {
         D_80181914[*(u16 *)arg0](arg0);
-        ((void (*)(void *, s32))func_80147078)(arg0, 0);
+        ((void (*)(void *, s32))guess_SetState)(arg0, 0);
         func_80159B70(arg0);
     } else {
         if (((s32 (*)(void *))func_80161418)(arg0) == 0) {

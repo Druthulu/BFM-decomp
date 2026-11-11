@@ -63,9 +63,9 @@ void func_8016DF5C(s32 param_1)
         uVar2 = ((s32(*)())rand)();
         RotMatrixY((uVar2 & 0x7f00) >> 3, &localMatrix);
         ApplyMatrixSV(&localMatrix, asStack_60, asStack_60);
-        *(s16 *)((u8 *)((void *)param_1) + 6) = D_80126B5E + asStack_60[0];
-        *(s16 *)((u8 *)((void *)param_1) + 0xa) = D_80126B62 - ((u16)uVar2 & 0x3f);
-        *(s16 *)((u8 *)((void *)param_1) + 0xe) = D_80126B66 + asStack_60[2];
+        *(s16 *)((u8 *)((void *)param_1) + 6) = guess_g_PlayerPosX + asStack_60[0];
+        *(s16 *)((u8 *)((void *)param_1) + 0xa) = guess_g_PlayerPosY - ((u16)uVar2 & 0x3f);
+        *(s16 *)((u8 *)((void *)param_1) + 0xe) = guess_g_PlayerPosZ + asStack_60[2];
         *(Blk20_8016DF5C *)((u8 *)((void *)param_1) + 0x38) = *(Blk20_8016DF5C *)((u8 *)iVar8 + 0x38);
         *(s32 *)((u8 *)((void *)param_1) + 0x2c) = 0x1000;
         *(s32 *)((u8 *)((void *)param_1) + 0x30) = 0xff;

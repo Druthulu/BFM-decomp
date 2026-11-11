@@ -4296,7 +4296,7 @@ void func_80017E68(short *arg0, int *arg1) {
 }
 
 
-extern u8 D_800AF648;
+extern u8 guess_g_CameraWsMatrix;
 extern void CompMatrix(void *, void *, void *);
 extern void func_8004914C(void *);
 extern void func_800491AC(void *);
@@ -4306,7 +4306,7 @@ void func_80017E8C(s32 arg0)
     Blk32_80017E8C m;
 
     m = *(Blk32_80017E8C *)arg0;
-    CompMatrix(&D_800AF648, &m, &m);
+    CompMatrix(&guess_g_CameraWsMatrix, &m, &m);
     func_8004914C(&m);
     func_800491AC(&m);
 }
@@ -8119,7 +8119,10 @@ void func_8001C1E4(void* a0, s32 a1) {
     func_80054514((s32)(a0 + 0x30), (s32)local_buf);
 }
 
-void func_8001C214(s32 a0, s32 a1)
+/* guess_InitModelObject: initialises a model object: state pair, a GsCOORDINATE2 at +0x30 parented to WORLD, and the TMD list a1 mapped with GsMapModelingData
+ * Confidence medium, xref chain: calls GsInitCoordinate2(0, a0+0x30) and GsGetLw (libgs, per the SLUS map), maps TMD list a1 (+0x24) with GsMapModelingData, sets +0x0 = 1, +0x2 = 0
+ * Names ledger: config/names.tsv guess_InitModelObject */
+void guess_InitModelObject(s32 a0, s32 a1)
 {
     extern void func_8001C9D0(s32 a0v);
     extern void func_80052D90(s32 a0, void *a1);
@@ -9366,7 +9369,7 @@ void func_8001DA34(s32 param_1)
 
 
 
-extern u8 D_800AF648;
+extern u8 guess_g_CameraWsMatrix;
 
 void func_8001E094(s32 arg0)
 {
@@ -9385,7 +9388,7 @@ void func_8001E094(s32 arg0)
     sc[7] = 0;
     sc[8] = ((Unkstruct_8001DA34 *)arg0)->unk1C;
 
-    g = (s32)&D_800AF648;
+    g = (s32)&guess_g_CameraWsMatrix;
 
     /* gte_SetRotMatrix(obj->mat) */
     gte_SetRotMatrix(((Unkstruct_8001DA34 *)arg0)->unk34);
@@ -9404,7 +9407,7 @@ void func_8001E094(s32 arg0)
     ((Unkstruct_8001E094_2 *)res)->unk18 = ((Unkstruct_8001E094 *)*(s32 *)(arg0 + 0x34))->unk18;
     ((Unkstruct_8001E094_2 *)res)->unk1C = ((Unkstruct_8001E094 *)*(s32 *)(arg0 + 0x34))->unk1C;
 
-    /* gte_SetRotMatrix(&D_800AF648) */
+    /* gte_SetRotMatrix(&guess_g_CameraWsMatrix) */
     gte_SetRotMatrix(g);
 
     gte_ldclmv((s32)res); gte_rtir();
@@ -9416,7 +9419,7 @@ void func_8001E094(s32 arg0)
     gte_ldclmv((s32)res + 4); gte_rtir();
     gte_stclmv((s32)res + 4);
 
-    /* gte_SetTransMatrix(&D_800AF648) */
+    /* gte_SetTransMatrix(&guess_g_CameraWsMatrix) */
     gte_SetTransMatrix(g);
 
     t = (s32)res + 0x14;
@@ -9429,7 +9432,7 @@ void func_8001E094(s32 arg0)
 }
 
 extern void func_8004978C(s16 *a0, void *a1);
-extern u8 D_800AF648;
+extern u8 guess_g_CameraWsMatrix;
 
 void func_8001E378(s32 param_1)
 {
@@ -9449,7 +9452,7 @@ void func_8001E378(s32 param_1)
     sc[7] = 0;
     sc[8] = ((Unkstruct_8001E378 *)param_1)->unk1C;
 
-    g = (s32)&D_800AF648;
+    g = (s32)&guess_g_CameraWsMatrix;
 
     gte_SetRotMatrix((s32)res);
 
@@ -9611,7 +9614,7 @@ void func_8001E7E0(u8 *arg0)
 
 /* func_8001EA14 - src/800.c (main, -O2), 371 ins.  MATCH (match_one closeness 0).
  *
- * Sprite/billboard emitter: RTPS the entity origin through the global matrix D_800AF648,
+ * Sprite/billboard emitter: RTPS the entity origin through the global matrix guess_g_CameraWsMatrix,
  * build a per-entity MATRIX from unk18/unk1A, then walk a 12-byte cell list (stride 0xC,
  * terminated by a 0xFF low byte; cells whose u16 type == 8 are skipped) emitting one
  * POLY_FT4 (0x28 bytes) per cell out of the D_800A5E60 bump allocator and linking it into
@@ -9646,10 +9649,10 @@ void func_8001E7E0(u8 *arg0)
  *     but then nothing constrains the block and the schedule is worse: 89 -> 90).
  *
  * L6. **AN INLINE-ASM "r" OPERAND THAT IS A BARE `symbol_ref` IS ALLOCATED BY *RELOAD*, NOT
- *     BY THE REGISTER ALLOCATOR.**  `gte_SetRotMatrix(&D_800AF648)` leaves
- *     `(asm_operands ... (symbol_ref "D_800AF648"))` in the RTL -- there is no pseudo at
+ *     BY THE REGISTER ALLOCATOR.**  `gte_SetRotMatrix(&guess_g_CameraWsMatrix)` leaves
+ *     `(asm_operands ... (symbol_ref "guess_g_CameraWsMatrix"))` in the RTL -- there is no pseudo at
  *     all -- so reload materialises it into a scratch register and picks `$t0`.  Assigning
- *     it to a local pointer first (`mp = &D_800AF648; gte_SetRotMatrix(mp);`) creates a real
+ *     it to a local pointer first (`mp = &guess_g_CameraWsMatrix; gte_SetRotMatrix(mp);`) creates a real
  *     pseudo, local-alloc gives it `$v0`, and all TEN mismatched instructions vanish
  *     (the `lui/addiu` pair plus the eight `lw $tN, k($v0)` inside the two macros).
  *     TELL: a residual that is "same instructions, one register wrong, and the register is a
@@ -9713,7 +9716,7 @@ void func_8001E7E0(u8 *arg0)
 
  /* 0x0C */
 
-extern u8  D_800AF648;
+extern u8  guess_g_CameraWsMatrix;
 extern u16 D_800B9A02;
 extern u8  D_800A6610[];
 extern u8 *D_800A5E60;
@@ -9758,7 +9761,7 @@ void func_8001EA14(Ent_EA14 *p)
     e = (Cell_EA14 *)p->unk20;
     fl = p->unk04;
 
-    mp = &D_800AF648;
+    mp = &guess_g_CameraWsMatrix;
     gte_SetRotMatrix(mp);
     gte_SetTransMatrix(mp);
     gte_ldv0(&p->unk08);
@@ -16266,112 +16269,112 @@ void func_80028C50(void) {
     D_800A2DD8 = GsPrstTG4NL;
 }
 
-extern s32 func_80029178(u32 arg0);
+extern s32 guess_TestGameFlag(u32 arg0);
 
 s32 func_80028D58(void) {
-    return func_80029178(0xB) & 0xFF;
+    return guess_TestGameFlag(0xB) & 0xFF;
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_80028D78(s32 a0) {
-    func_80029124(0xB, a0 & 0xFF);
+    guess_SetGameFlag(0xB, a0 & 0xFF);
 }
 
-extern s32 func_80029178(u32 arg0);
+extern s32 guess_TestGameFlag(u32 arg0);
 
 u8 func_80028D9C(void) {
-    return func_80029178(0xC);
+    return guess_TestGameFlag(0xC);
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_80028DBC(s32 a0) {
-    func_80029124(0xC, a0 & 0xFF);
+    guess_SetGameFlag(0xC, a0 & 0xFF);
 }
 
-extern s32 func_80029178(u32 arg0);
+extern s32 guess_TestGameFlag(u32 arg0);
 
 s32 func_80028DE0(void) {
-    return func_80029178(0xD) & 0xFF;
+    return guess_TestGameFlag(0xD) & 0xFF;
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_80028E00(s32 a0) {
-    func_80029124(0xD, a0 & 0xFF);
+    guess_SetGameFlag(0xD, a0 & 0xFF);
 }
 
-extern s32 func_80029178(u32 arg0);
+extern s32 guess_TestGameFlag(u32 arg0);
 
 u8 func_80028E24(void) {
-    return func_80029178(0xE);
+    return guess_TestGameFlag(0xE);
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_80028E44(s32 a0) {
-    func_80029124(0xE, a0 & 0xFF);
+    guess_SetGameFlag(0xE, a0 & 0xFF);
 }
 
-extern s32 func_80029178(u32 arg0);
+extern s32 guess_TestGameFlag(u32 arg0);
 
 u8 func_80028E68(void) {
-    return func_80029178(0xF);
+    return guess_TestGameFlag(0xF);
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_80028E88(s32 a0) {
-    func_80029124(0xF, a0 & 0xFF);
+    guess_SetGameFlag(0xF, a0 & 0xFF);
 }
 
-extern s32 func_80029178(u32 arg0);
+extern s32 guess_TestGameFlag(u32 arg0);
 
 u8 func_80028EAC(void) {
-    return func_80029178(0x10);
+    return guess_TestGameFlag(0x10);
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_80028ECC(s32 a0) {
-    func_80029124(0x10, a0 & 0xFF);
+    guess_SetGameFlag(0x10, a0 & 0xFF);
 }
 
-extern s32 func_80029178(u32 arg0);
+extern s32 guess_TestGameFlag(u32 arg0);
 
 u8 func_80028EF0(void) {
-    return func_80029178(0x11);
+    return guess_TestGameFlag(0x11);
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_80028F10(s32 a0) {
-    func_80029124(0x11, a0 & 0xFF);
+    guess_SetGameFlag(0x11, a0 & 0xFF);
 }
 
-extern s32 func_80029178(u32 arg0);
+extern s32 guess_TestGameFlag(u32 arg0);
 
 u8 func_80028F34(void) {
-    return func_80029178(0x12);
+    return guess_TestGameFlag(0x12);
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_80028F54(s32 a0) {
-    func_80029124(0x12, a0 & 0xFF);
+    guess_SetGameFlag(0x12, a0 & 0xFF);
 }
 
-extern s32 func_80029178(u32 arg0);
+extern s32 guess_TestGameFlag(u32 arg0);
 
 u8 func_80028F78(void) {
-    return func_80029178(0x13);
+    return guess_TestGameFlag(0x13);
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_80028F98(s32 a0) {
-    func_80029124(0x13, a0 & 0xFF);
+    guess_SetGameFlag(0x13, a0 & 0xFF);
 }
 
 extern s32 func_800291B4(s32);
@@ -16436,27 +16439,30 @@ void func_80029094(void) {
     func_80016714(D_800BA2B8, 0x60);
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_800290BC(void) {
-    func_80029124(0x7F, 1);
+    guess_SetGameFlag(0x7F, 1);
 }
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
 void func_800290E0(void) {
-    func_80029124(0x7F, 0);
+    guess_SetGameFlag(0x7F, 0);
 }
 
-extern s32 func_80029178(u32 arg0);
+extern s32 guess_TestGameFlag(u32 arg0);
 
 u8 func_80029104(void) {
-    return func_80029178(0x7F);
+    return guess_TestGameFlag(0x7F);
 }
 
 extern u8 D_800AE648[];
 
-void func_80029124(s32 arg0, s32 arg1) {
+/* guess_SetGameFlag: sets (arg1 != 0) or clears bit arg0 of the game flag bitset at 0x800AE648
+ * Confidence medium, code inference: sets bit arg0 of D_800AE648 when (arg1 & 0xFF) != 0, else clears it; the bitset guess_TestGameFlag reads
+ * Names ledger: config/names.tsv guess_SetGameFlag */
+void guess_SetGameFlag(s32 arg0, s32 arg1) {
     s32 idx = (u32)arg0 >> 3;
     s32 mask = 1 << (arg0 & 7);
 
@@ -16468,7 +16474,10 @@ void func_80029124(s32 arg0, s32 arg1) {
 
 extern u8 D_800AE648[];
 
-s32 func_80029178(u32 arg0) {
+/* guess_TestGameFlag: returns 1 when bit arg0 of the game flag bitset at 0x800AE648 is set
+ * Confidence medium, code inference: returns bit arg0 of D_800AE648, which opens the game flags block (docs/memory-map.md); one caller raises the HP cap to 999 when bit 0x1B is set
+ * Names ledger: config/names.tsv guess_TestGameFlag */
+s32 guess_TestGameFlag(u32 arg0) {
     u32 idx = arg0 >> 3;
     u32 bit = arg0 & 7;
     u32 m = 1 << bit;
@@ -16632,7 +16641,10 @@ void func_80029444(void) {
 }
 
 extern s32 D_80078E80;
-s32 func_80029504(void) {
+/* guess_GetStoryProgress: returns the u32 at 0x80078E80, the story progress counter (community-reported)
+ * Confidence low, community label: returns D_80078E80, `storyProgress` (u32) in docs/memory-map.md from the LiveSplit autosplitter; reported, not live-verified
+ * Names ledger: config/names.tsv guess_GetStoryProgress */
+s32 guess_GetStoryProgress(void) {
     return D_80078E80;
 }
 
@@ -16681,30 +16693,30 @@ void func_8002959C(void) {
 }
 
 
-extern void func_80029124(s32, s32);
+extern void guess_SetGameFlag(s32, s32);
 
-extern s16 D_80078EB4;
-extern u16 D_80078EB2;
+extern s16 g_PlayerHp;
+extern u16 g_PlayerHpMax;
 extern s16 D_80078EB8;
 extern u16 D_80078EB6;
 extern u8 D_80078EC0;
 extern s32 D_80078E8C;
 
 void func_800295D4(void) {
-    D_80078EB4 = 0xFA;
-    D_80078EB2 = 0xFA;
+    g_PlayerHp = 0xFA;
+    g_PlayerHpMax = 0xFA;
     D_80078EB8 = 0xFA;
     D_80078EB6 = 0xFA;
-    func_80029124(0x1E, 1);
+    guess_SetGameFlag(0x1E, 1);
 
     D_80078EC0 = 1;
-    func_80029124(0x80, 1);
+    guess_SetGameFlag(0x80, 1);
 
     D_80078E8C = 0x64;
-    func_80029124(0x82, 1);
+    guess_SetGameFlag(0x82, 1);
 
-    func_80029124(0x83, 1);
-    func_80029124(0x85, 1);
+    guess_SetGameFlag(0x83, 1);
+    guess_SetGameFlag(0x85, 1);
 }
 
 
@@ -16943,7 +16955,7 @@ s32 func_80029DB4(void) {
     s32 iVar3;
 
     iVar4 = 0x7D;
-    if ((func_80029178(0x81) & 0xFF) != 0) {
+    if ((guess_TestGameFlag(0x81) & 0xFF) != 0) {
         iVar4 = 0x96;
     }
     iVar2 = func_8002A9DC();
@@ -17009,7 +17021,7 @@ s32 func_80029EC0(s32 a0) {
 }
 
 
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern s32 D_80078F04;
 extern s32 D_80078F08;
 extern s32 D_80078F0C;
@@ -17018,7 +17030,7 @@ extern s32 func_8002A2D4(s32);
 void func_80029ED4(s32 arg0) {
     s32 v0;
 
-    if (func_80029504() < 10) {
+    if (guess_GetStoryProgress() < 10) {
         return;
     }
 
@@ -17596,10 +17608,10 @@ s32 func_8002AA00(s32 a0) {
     return -1;
 }
 
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 
 s32 func_8002AA3C(void) {
-    s32 v1 = func_80029504();
+    s32 v1 = guess_GetStoryProgress();
 
     if (v1 >= 1200) {
         return 99;

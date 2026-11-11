@@ -101,7 +101,7 @@ Pass order (relevant slice): `flow → combine → sched1 → local_alloc → gl
 
 ### RC-3 — Callee-saved ORDER permutation ($s0/$s1/$s2 assignments shuffled) — **STEERABLE**
 - **Decision point:** allocation ORDER = descending K2 priority; each takes the lowest free callee-saved (K3), pass-0/1 (K5); ties → creation order (`global.c:616 [2.8.1 pm]`).
-- **Primary lever (byte-proven, cookbook §17): `register s32 v __asm__("$16..$23")` pins on each call-crossing value**, mapped from the target `.s` (flagship func_8012B8E4, ×134). Pins short-circuit the whole priority contest.
+- **Primary lever (byte-proven, cookbook §17): `register s32 v __asm__("$16..$23")` pins on each call-crossing value**, mapped from the target `.s` (flagship guess_TurnStepToTarget, ×134). Pins short-circuit the whole priority contest.
 - **Zero-cost pre-check before pinning:** if two contenders' `.lreg` (refs, live-length) are IDENTICAL, the swap is a pure K1 tie — **swap their declaration order** instead of pinning (no `regs_explicitly_used` side effects, RC-5). If densities differ, a decl swap does nothing (verified: unequal-density micro-case is order-stable) — use pins or RC-2 range shaping.
 - **Diagnostic:** allocation order is readable directly: in the target prologue, the FIRST-allocated allocno is the one in $s0, etc. Compare with your draft's `.greg` "Register dispositions" line to see which pseudo won each hard reg.
 
@@ -187,7 +187,7 @@ All vs `func_801571C4` target, baseline draft `.run/fable/func_801571C4.c` = 11-
 - **EXP-2** `exp2_defmove.c` (def after call): 137-off; `dumps/exp2.i.greg` shows reg88 gained `in 23` ($s7) at live length 94→89 and the a3-param pseudo lost its reg (spilled; `sw $a3,0x20($sp)` in diff).
 - **EXP-3** `dumps/exp3.c` (dead `$8` pin at fn top): `.greg` "Spilling reg 8" → "Spilling reg 9"; all reload accesses moved to $t1.
 - Micro tie-probe (`dumps/tie1.c/tie2.c`): unequal-density pair is order-stable under statement swap (confirms decl-order lever only bites on exact K2 ties).
-Cited proofs from earlier sessions: func_8012B8E4 (§17 pins), func_80128ED8 (§25 tie pins), func_8012B4B8 (§17 array-decay), func_801770E0 + func_8014EA4C (RC-6 walls, `.run/toolkit/`), func_801571C4 header idioms 1-2 (`.run/fable/`).
+Cited proofs from earlier sessions: guess_TurnStepToTarget (§17 pins), func_80128ED8 (§25 tie pins), func_8012B4B8 (§17 array-decay), func_801770E0 + func_8014EA4C (RC-6 walls, `.run/toolkit/`), func_801571C4 header idioms 1-2 (`.run/fable/`).
 
 ---
 

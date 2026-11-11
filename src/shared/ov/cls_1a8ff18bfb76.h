@@ -5,10 +5,10 @@ void SHARED_FN(s32 a0) {
     s16 t;
     s32 r;
 
-    sp10[1] = D_80126B5E;
-    t = D_80126B62;
+    sp10[1] = guess_g_PlayerPosX;
+    t = guess_g_PlayerPosY;
     sp10[3] = t - 0x30;
-    sp10[5] = D_80126B66;
+    sp10[5] = guess_g_PlayerPosZ;
 
     func_8012B77C((s32)sp20, a0 + 4, (s32)sp10);
 
@@ -23,5 +23,5 @@ void SHARED_FN(s32 a0) {
     CAST_ALIAS(u16, a0, 2) = 5;
     CAST_ALIAS(u16, a0, 0x34) = 0;
     CAST_ALIAS(s32, a0, 0x1C) = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = D_80126B62 - 96;
+    ((Unkstruct_800B5CB8 *)a0)->unkFE = guess_g_PlayerPosY - 96;
 }

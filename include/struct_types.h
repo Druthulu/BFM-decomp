@@ -117,7 +117,7 @@ typedef struct {
 } Unkstruct_800B5CB8; /* size = 0x10c */
 
 typedef struct {
-    /* P37 struct map: 65397 sites in 17047 bodies; evidence {'PV': 1050, 'L': 1271, 'AT': 1, 'P': 1050, 'PTR': 1, 'FLD': 14}; at D_80126B58; resolved by tools/head_types.py (max-site split); decisions: docs/struct-map-decisions.md */
+    /* P37 struct map: 65397 sites in 17047 bodies; evidence {'PV': 1050, 'L': 1271, 'AT': 1, 'P': 1050, 'PTR': 1, 'FLD': 14}; at guess_g_PlayerActor; resolved by tools/head_types.py (max-site split); decisions: docs/struct-map-decisions.md */
     /* 0x0000 */ u16 unk0;
     /* 0x0002 */ u16 unk2;
     /* 0x0004 */ u16 unk4;
@@ -349,10 +349,10 @@ typedef struct {
     /* 0x0034 */ u16 dayCounter;    /* D_80078EAC; verified live + code (func_8014B084), memory-map 3.4 */
     /* 0x0036 */ u8 unk36;          /* D_80078EAE */
     /* 0x0037 */ u8 unk37;          /* D_80078EAF; not dayOfWeek (refuted, memory-map 3.4) */
-    /* 0x0038 */ u8 unk38;          /* D_80078EB0 low byte; s16 D_80078EB0 (524 uses) spans +0x38..+0x39: union candidate */
+    /* 0x0038 */ u8 unk38;          /* guess_g_ClockMinute low byte; s16 guess_g_ClockMinute (524 uses) spans +0x38..+0x39: union candidate */
     /* 0x0039 */ u8 hour;           /* D_80078EB1; verified live, memory-map 3.4 */
-    /* 0x003a */ u16 hp_max;        /* D_80078EB2; verified live */
-    /* 0x003c */ s16 hp_current;    /* D_80078EB4; verified live; s16 by 689 vs 135 uses */
+    /* 0x003a */ u16 hp_max;        /* g_PlayerHpMax; verified live */
+    /* 0x003c */ s16 hp_current;    /* g_PlayerHp; verified live; s16 by 689 vs 135 uses */
     /* 0x003e */ u16 bp_max;        /* D_80078EB6; verified live */
     /* 0x0040 */ s16 bp_current;    /* D_80078EB8; verified live; s16 by 12 vs 3 uses */
     /* 0x0042 */ u8 dayOfWeek;      /* D_80078EBA; verified (code, func_8014B084) */
@@ -2777,7 +2777,7 @@ typedef struct {                 /* func_801457A4 buffer (hdr) */
     u8  _CC[8];
     u32 fD4, fD8;
 } HDR;
-typedef struct {                 /* D_80126B58 */
+typedef struct {                 /* guess_g_PlayerActor */
     u8   _0[6]; u16 f6;
     u8   _8[2]; u16 fA;
     u8   _C[2]; u16 fE;

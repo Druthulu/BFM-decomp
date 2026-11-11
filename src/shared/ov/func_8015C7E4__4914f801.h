@@ -18,7 +18,7 @@ void func_8015C7E4(u16 *param_1)
             uVar2 = ((s32 (*)(u16 *))func_801487F4)(param_1);
             if (((uVar2 & 0x80) == 0) && (iVar1 = ((s32 (*)(u16 *))func_801488A8)(param_1), iVar1 == 0)) {
                 ((void (**)(u16*))D_80181160)[*param_1](param_1);
-                ((void (*)(u16 *, s32))func_80147078)(param_1, 0);
+                ((void (*)(u16 *, s32))guess_SetState)(param_1, 0);
                 ((void (*)(u16 *))func_80159B70)(param_1);
             } else {
                 iVar1 = ((s32 (*)(u16 *))func_80161240)(param_1);

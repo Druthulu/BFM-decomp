@@ -28,7 +28,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
     result = D_801117EC;
     switch (((short)param_1)) {
     case 0:
-        if (((s32(*)(s32))func_80029178)(D_80180314[((short)param_2)]) & 0xFF) {
+        if (((s32(*)(s32))guess_TestGameFlag)(D_80180314[((short)param_2)]) & 0xFF) {
             result = D_80180368[((short)param_2)];
         }
         break;
@@ -48,8 +48,8 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         case 1:
             goto case5;
         case 2:
-            if (((s32(*)(s32))func_80029178)(D_8018E7C4[((short)param_2)]) & 0xFF) {
-                if (((short)param_2) == 5 && (((s32(*)(s32))func_80029178)(0x1C) & 0xFF)) {
+            if (((s32(*)(s32))guess_TestGameFlag)(D_8018E7C4[((short)param_2)]) & 0xFF) {
+                if (((short)param_2) == 5 && (((s32(*)(s32))guess_TestGameFlag)(0x1C) & 0xFF)) {
                     result = D_801117B4;
                 } else {
                     result = D_80180380[((short)param_2)];
@@ -57,7 +57,7 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
             }
             break;
         case 3:
-            if (((s32(*)(s32))func_80029178)(D_80180338[((short)param_2)]) & 0xFF) {
+            if (((s32(*)(s32))guess_TestGameFlag)(D_80180338[((short)param_2)]) & 0xFF) {
                 result = D_801803C0[((short)param_2)];
             }
             break;

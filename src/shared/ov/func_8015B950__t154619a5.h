@@ -78,7 +78,7 @@ s32 func_8015B950(s32 arg0)
         t = *(s16 *)(arg0 + 0x2E);
         sp18[2] = t;
         D_80181160[*(u16 *)arg0]((void *)arg0);
-        ((void (*)(s32, s32))func_80147078)(arg0, 1);
+        ((void (*)(s32, s32))guess_SetState)(arg0, 1);
         ((void (*)(s32))func_8015A264)(arg0);
         t = -(((s32 (*)(s16 *, s16 *))func_80013294)(sp10, sp18) << 0x10);
         if (t < *(s32 *)(arg0 + 0x2C)) {
@@ -88,7 +88,7 @@ s32 func_8015B950(s32 arg0)
     }
     if (*(u16 *)(arg0 + 0xB8) == 0x8000) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
-        ((void (*)(s32, s32))func_80147078)(arg0, 0);
+        ((void (*)(s32, s32))guess_SetState)(arg0, 0);
         ((void (*)(s32))func_80159B70)(arg0);
         return;
     }
@@ -102,7 +102,7 @@ s32 func_8015B950(s32 arg0)
     if (D_8011F9C4 == 0) {
         goto zero;
     }
-    if (((u8)func_80029178(0x21)) != 0) {
+    if (((u8)guess_TestGameFlag(0x21)) != 0) {
         goto zero;
     }
 one:
@@ -113,7 +113,7 @@ zero:
 join:
     if (doit != 0) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
-        ((void (*)(s32, s32))func_80147078)(arg0, 0);
+        ((void (*)(s32, s32))guess_SetState)(arg0, 0);
         ((void (*)(s32))func_80159B70)(arg0);
         func_80154150(arg0, 9);
         ((void (*)(s32, s32 *))func_80146DB8)(arg0, &D_801810F4);

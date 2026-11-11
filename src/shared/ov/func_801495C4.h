@@ -1,7 +1,7 @@
 /* func_801495C4 — shared body (overlay slot 0x80128158, h_exact 53d8b268). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8014964C(s32 param_1, s32 param_2);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_8012EF70(s32, s32);
 void func_801495C4(s32 a0, s32 a1) {
     s16 in[4];
@@ -17,7 +17,7 @@ void func_801495C4(s32 a0, s32 a1) {
     pin = in;                  
     mtx = *(s32 *)(a0 + 0x20);
     m1 = buf;
-    ((void (*)(s32, void *, void *))func_8012F14C)(mtx + 0x34, pin, m1);
+    ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(mtx + 0x34, pin, m1);
     m1 = 0;
     m2 = buf;                  
     ((void (*)(void *, void *))func_8012EF70)(m2, result);

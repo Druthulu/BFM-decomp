@@ -1,6 +1,6 @@
 /* func_8016D4DC — shared body (overlay slot 0x80128158, h_exact 70c20d8b). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern void func_8016C83C(s32 a0);
 extern s32 VectorNormalSS(void *a0, void *a1);
 extern short func_8016CF04(s32 param_1, s32 param_2);
@@ -13,7 +13,7 @@ void func_8016D4DC(s32 a0) {
     s32 idx;
     if (*(u16 *)a1 != 1) {
         *(s16 *)(a0 + 2) = 3;
-        *(s32 *)(a0 + 0x34) = (s32)&D_80126B58;
+        *(s32 *)(a0 + 0x34) = (s32)&guess_g_PlayerActor;
         *(s32 *)(a0 + 0x1C) = 0x40;
         func_8016C83C(a0);
         return;

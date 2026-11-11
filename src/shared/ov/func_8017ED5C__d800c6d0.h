@@ -21,9 +21,9 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
     extern u8 D_801C3DA8[];
     extern u8 *D_801CD9A4;
     extern void *D_801CD9B0;
-    extern s32 func_80029178(s32 arg);
+    extern s32 guess_TestGameFlag(s32 arg);
     extern s32 func_800291B4(s32 arg);
-    extern s32 func_80029504(void);
+    extern s32 guess_GetStoryProgress(void);
     extern void func_80139A44(s32 a0, u16 a1);
     extern s16 func_8017F730(void);
     void *result;
@@ -41,7 +41,7 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
     switch (sel) {
     case 5:
         if (func_8017F730() != 0) {
-            t = func_80029504();
+            t = guess_GetStoryProgress();
             idx = D_801BB920[(s16)param_2];
             off = idx * 4;                                   /* [2] */
             lim = D_801BB948[idx][0];                        /* [3] */
@@ -50,7 +50,7 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
             __asm__("" : "=r"(e) : "0"(e));                  /* [5] */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers2)
             if (t < lim) {
                 if (*(s16 *)((u8 *)e + off + 2) == 0 ||
-                    (func_80029178(*(s16 *)((u8 *)e + off + 2)) & 0xFF) == 0) {
+                    (guess_TestGameFlag(*(s16 *)((u8 *)e + off + 2)) & 0xFF) == 0) {
                     idx = -1;
                 }
             }

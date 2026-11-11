@@ -20,8 +20,8 @@ void func_80130D48(s32 arg0)
     } else {
         switch (val & 0xFFFF0000) {
         case 0x10000: {
-            u32 x = D_80078EB4;
-            u32 y = D_80078EB2;
+            u32 x = g_PlayerHp;
+            u32 y = g_PlayerHpMax;
             u32 b;
             u32 a;
 

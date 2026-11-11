@@ -6,7 +6,7 @@ u8 arg1;
 {
     s32 p, ang, idx;
     u8 c;
-    p = D_801151D4;
+    p = guess_g_ActiveCamera;
     *(u8 *)(arg0 + 0xA9) = 0x41;
     ang = ratan2(*(s32 *)(p + 0x68) - *(s32 *)(p + 0x5C),
                  *(s32 *)(p + 0x70) - *(s32 *)(p + 0x64));

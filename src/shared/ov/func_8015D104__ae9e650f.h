@@ -5,7 +5,7 @@ void func_8015D104(void *arg0) {
     ((void (*)(void *))func_8014FA04)(arg0);
     if (((s32 (*)(void *))func_8014E6A0)(arg0) == 0) {
         D_80181914[*(u16 *)arg0](arg0);
-        ((void (*)(void *, s16))func_80147078)(arg0, 0);
+        ((void (*)(void *, s16))guess_SetState)(arg0, 0);
         func_80159B70(arg0);
     } else {
         ((void (*)(void *))func_801725F4)(arg0);

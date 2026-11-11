@@ -44,7 +44,7 @@ void func_800CAEC0(u8 *a0) {
 
 void func_800CAF60(void *a0) {
     extern void func_80147A84(s32 a0);
-    extern void func_801473EC(s32 *a0);
+    extern void guess_ApplyVelocity(s32 *a0);
     extern void func_80148038(s32 a0, s32 a1);
     extern void func_80147460(s32 a0);
     extern s32  func_80161418(void *a0);
@@ -52,7 +52,7 @@ void func_800CAF60(void *a0) {
 
     ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
     func_80147A84((s32)a0);
-    func_801473EC((s32 *)a0);
+    guess_ApplyVelocity((s32 *)a0);
     func_80148038((s32)a0, 0x20000);
     func_80147460((s32)a0);
     if (func_80161418(a0) == 0) {

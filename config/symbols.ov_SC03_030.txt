@@ -1,5 +1,18 @@
 // config/symbols.ov_SC03_030.txt — overlay SC03/FILE_030 local symbols (Phase 13+)
 // R13/R15: overlay-REGION ONLY (vram 0x80128158..0x801E1C48); NEVER merged into config/symbols.us.txt.
-// count=0
+// count=13
+guess_UpdateCamera               = 0x80129CF8; // func
+guess_YawToPoint                 = 0x8012B744; // func
+guess_TurnStepToTarget           = 0x8012B8E4; // func
+guess_RotTransSVWithMatrix       = 0x8012F14C; // func
+guess_RotTransSVWithObjMatrix    = 0x8012F214; // func
+guess_WorldToScreen              = 0x8012F40C; // func
+guess_Vec3sDotAdd                = 0x80134310; // func
+guess_Vec3sDotAdd_2              = 0x80134A28; // func
+guess_Vec3sDotAdd_3              = 0x80134FB8; // func
+guess_MoveImageList              = 0x80146014; // func
+guess_SetState                   = 0x80147078; // func
+guess_ApplyVelocity              = 0x801473EC; // func
+guess_GetCameraYaw               = 0x801491C4; // func
 D_801E0F18 = 0x801E0F18; // type:u8 (Phase-29 func_8016D1D8/688 buf1 base)
 D_801E0F58 = 0x801E0F58; // type:u8 (Phase-29 func_8016D1D8 buf2 base)

@@ -1103,7 +1103,7 @@ src/shared/ov/func_8012B0B4.h	func_8012B0B4	instruction	T11 parked (instruction)
 src/shared/ov/func_8012B0B4.h	func_8012B0B4	pin	T11 parked (instruction)	delever B headers1 (no lever-free attempt)	singleton(pin) wall:no-c-spelling
 src/shared/ov/func_8012B4B8.h	func_8012B4B8	launder	T11 crack G16	delever_search --try best 2/71; T11 wall reload-hardreg-across-call	singleton(launder) wall:reload-reg-choice
 src/shared/ov/func_8012B4B8.h	func_8012B4B8	pin	delever B headers1	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:lreg-priority
-src/shared/ov/func_8012B8E4.h	func_8012B8E4	pin	T11 crack W50x	delever_search --try best 25/9+32; T11 wall lreg-qty-priority	singleton(pin) wall:lreg-priority
+src/shared/ov/func_8012B8E4.h	guess_TurnStepToTarget	pin	T11 crack W50x	delever_search --try best 25/9+32; T11 wall lreg-qty-priority	singleton(pin) wall:lreg-priority
 src/shared/ov/func_8012BA10.h	func_8012BA10	keepalive	T11 crack G27x	delever_search --try best 21/34; T11 wall lreg-qty-priority	singleton(keepalive) wall:lreg-priority
 src/shared/ov/func_8012BA10.h	func_8012BA10	pin	T11 crack G27x	delever_search --try best 21/34; T11 wall lreg-qty-priority	singleton(pin) wall:lreg-priority
 src/shared/ov/func_8012BB3C.h	func_8012BB3C	keepalive	T11 crack G27x	delever_search --try best 2/44; T11 wall lreg-qty-priority	singleton(keepalive) wall:lreg-priority

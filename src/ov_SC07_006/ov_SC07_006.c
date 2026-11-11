@@ -134,7 +134,7 @@ extern void func_8014ED28(s32 _arg0);
 //   required — pin-alone folds, volatile-alone lands in v0.
 
 
-extern void func_80129CF8(void);
+extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
 extern void func_8014FDF4(struct S8014FDF4 *a0);
 extern s32 func_801505FC(s32 a0);
@@ -155,15 +155,15 @@ extern void func_801379FC(void);
 extern void func_8001212C(void);
 
 void func_801287B8(void) {
-    extern s32 D_80126B58;
+    extern s32 guess_g_PlayerActor;
     extern s32 D_801F6300;
     extern u16 D_800B99DA;
     extern u8 D_800B9A64;
-    func_80129CF8();
+    guess_UpdateCamera();
     func_8017849C();
-    ((void (*)(void *))func_8014FDF4)(&D_80126B58);
-    ((void (*)(void *))func_801505FC)(&D_80126B58);
-    func_801508B4(&D_80126B58);
+    ((void (*)(void *))func_8014FDF4)(&guess_g_PlayerActor);
+    ((void (*)(void *))func_801505FC)(&guess_g_PlayerActor);
+    func_801508B4(&guess_g_PlayerActor);
     func_80165E90();
     func_801627E8();
     func_80162B1C();
@@ -1174,7 +1174,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
 void func_8012D3AC(void) {
 }
 
-/* de-macroized: per-overlay-local decl for func_8012F40C (byte-true sig); do NOT re-macroize */
+/* de-macroized: per-overlay-local decl for guess_WorldToScreen (byte-true sig); do NOT re-macroize */
     extern s32 AddPrim(s32, void *);
     extern s32 RotTransPers(s32, s32*, s32*, s32*);
     extern void SetLineF2(void *);
@@ -1182,7 +1182,7 @@ void func_8012D3AC(void) {
     extern void func_8004914C(void *);
     extern void func_800491AC(void *);
     extern s32 D_800A651C;
-    extern u8 D_800AF648;
+    extern u8 guess_g_CameraWsMatrix;
     extern s16 D_800B9A02;
     void func_8012D3B4(s32 arg0, s32 arg1, s32 arg2) {
         s32 sp10;
@@ -1192,8 +1192,8 @@ void func_8012D3AC(void) {
         temp_v0 = func_80010A08(0x10);
         (*(s32 *)((s8*)(temp_v0)+(4))) = arg2;
         SetLineF2(temp_v0);
-        func_8004914C(&D_800AF648);
-        func_800491AC(&D_800AF648);
+        func_8004914C(&guess_g_CameraWsMatrix);
+        func_800491AC(&guess_g_CameraWsMatrix);
         temp_v0_2 = RotTransPers(arg0, temp_v0 + 8, &sp10, &sp14);
         if ((temp_v0_2 > 0) && (sp14 >= 0) && (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
             AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (temp_v0_2 * 4), temp_v0);
@@ -1201,8 +1201,8 @@ void func_8012D3AC(void) {
     }  /* dedup: shared engine-core @0x8012d3b4 (src/shared) */
 
 
-/* de-macroized: per-overlay-local decl for func_8012F40C (byte-true sig); do NOT re-macroize */
-    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+/* de-macroized: per-overlay-local decl for guess_WorldToScreen (byte-true sig); do NOT re-macroize */
+    extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
     extern s32 AddPrim(s32, void *);
     extern s32 RotTransPers(s32, s32*, s32*, s32*);
     extern void SetLineF2(void *);
@@ -1210,7 +1210,7 @@ void func_8012D3AC(void) {
     extern void func_8004914C(void *);
     extern void func_800491AC(void *);
     extern s32 D_800A651C;
-    extern u8 D_800AF648;
+    extern u8 guess_g_CameraWsMatrix;
     extern s16 D_800B9A02;
     void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         s32 sp10[2];
@@ -1219,13 +1219,13 @@ void func_8012D3AC(void) {
         s32 sp24;
         s32 temp_v0_2;
         void *temp_v0;
-        func_8012F214(arg0, arg1, (s32)sp10);
-        func_8012F214(arg0, arg2, (s32)sp18);
+        guess_RotTransSVWithObjMatrix(arg0, arg1, (s32)sp10);
+        guess_RotTransSVWithObjMatrix(arg0, arg2, (s32)sp18);
         temp_v0 = func_80010A08(0x10);
         (*(s32 *)((s8 *)(temp_v0) + (4))) = arg3;
         SetLineF2(temp_v0);
-        func_8004914C(&D_800AF648);
-        func_800491AC(&D_800AF648);
+        func_8004914C(&guess_g_CameraWsMatrix);
+        func_800491AC(&guess_g_CameraWsMatrix);
         temp_v0_2 = RotTransPers((s32)sp10, temp_v0 + 8, &sp20, &sp24);
         if ((temp_v0_2 > 0) && (sp24 >= 0) &&
             (RotTransPers((s32)sp18, temp_v0 + 0xC, &sp20, &sp24) > 0) && (sp24 >= 0)) {
@@ -1247,9 +1247,9 @@ void func_8012D5DC(void) {
 
 int func_8012D664(int arg0, int arg1, int arg2)
 {
-    extern u16 D_80126B5E;
-    extern u16 D_80126B62;
-    extern u16 D_80126B66;
+    extern u16 guess_g_PlayerPosX;
+    extern u16 guess_g_PlayerPosY;
+    extern u16 guess_g_PlayerPosZ;
     extern s32 func_800132BC(s32 a0, s32 a1);
     extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern u8 D_8018A748[];
@@ -1258,9 +1258,9 @@ int func_8012D664(int arg0, int arg1, int arg2)
     int ret;
     int t;
 
-    s[0] = (*(unsigned short *)&D_80126B5E);
-    s[1] = (*(unsigned short *)&D_80126B62) - 0x40;
-    s[2] = (*(unsigned short *)&D_80126B66);
+    s[0] = (*(unsigned short *)&guess_g_PlayerPosX);
+    s[1] = (*(unsigned short *)&guess_g_PlayerPosY) - 0x40;
+    s[2] = (*(unsigned short *)&guess_g_PlayerPosZ);
     ret = ((int (*)())func_800132BC)(arg0, s);
     t = arg1 + 0x20;
     if (ret < t * t) {
@@ -1530,18 +1530,18 @@ void func_8012E364(s32 arg0_)
 #include "../shared/ov/func_8012E57C.h"
 
 
-/* de-macroized: per-overlay-local decl for func_8012F40C (byte-true sig); do NOT re-macroize */
-    extern u8 D_800AF648;
+/* de-macroized: per-overlay-local decl for guess_WorldToScreen (byte-true sig); do NOT re-macroize */
+    extern u8 guess_g_CameraWsMatrix;
     extern void func_8004914C(void *a0);
     extern void func_800491AC(void *a0);
     extern s32 RotTransPers(s32, s32*, s32*, s32*);
     extern void func_8002D4C8(s32 a0, s32 a1);
     void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3)
     {
-    extern u8 D_800AF648_b __asm__("D_800AF648");
+    extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix");
         struct { short xy[2]; int sp14; int flag; } f;
         void *p;
-        p = &D_800AF648;
+        p = &guess_g_CameraWsMatrix;
         func_8004914C(p);
         func_800491AC(&D_800AF648_b);
         RotTransPers(param_1, (s32)f.xy, &f.sp14, &f.flag);
@@ -1551,8 +1551,8 @@ void func_8012E364(s32 arg0_)
     }  /* dedup: shared engine-core @0x8012e5cc (src/shared) */
 
 
-/* de-macroized: per-overlay-local decl for func_8012F40C (byte-true sig); do NOT re-macroize */
-    extern u8 D_800AF648;
+/* de-macroized: per-overlay-local decl for guess_WorldToScreen (byte-true sig); do NOT re-macroize */
+    extern u8 guess_g_CameraWsMatrix;
     extern void func_8004914C(void *a0);
     extern void func_800491AC(void *a0);
     extern s32 RotTransPers(s32, s32*, s32*, s32*);
@@ -1567,9 +1567,9 @@ void func_8012E364(s32 arg0_)
             f.v[0] = (short)((Unkstruct_8012E688_2 *)*(s32 *)(param_1 + 0x20))->unk48;
             f.v[1] = (short)((Unkstruct_8012E688_2 *)*(s32 *)(param_1 + 0x20))->unk4C;
             f.v[2] = (short)((Unkstruct_8012E688_2 *)*(s32 *)(param_1 + 0x20))->unk50;
-            p = &D_800AF648;
+            p = &guess_g_CameraWsMatrix;
             func_8004914C(p);
-            func_800491AC(&D_800AF648);
+            func_800491AC(&guess_g_CameraWsMatrix);
             RotTransPers((s32)f.v, (s32)f.xy, &f.sp1c, &f.flag);
             if (f.flag < 0) {
                 return;
@@ -1711,18 +1711,21 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_8004914C();
 extern void func_800491AC();
 extern s32 RotTransPers(s32 a0, s32 *a1, s32 *a2, s32 *a3);
-extern u8 D_800AF648;
+extern u8 guess_g_CameraWsMatrix;
 
-s32 *func_8012F40C(s32 *param_1, s32 param_2) {
-    extern u8 D_800AF648_b __asm__("D_800AF648");
+/* guess_WorldToScreen: projects world point param_2 to screen coordinates with the saved world-screen matrix; writes sxy (0 on a GTE error) to *param_1
+ * Confidence medium, xref chain: loads guess_g_CameraWsMatrix with SetRotMatrix/SetTransMatrix, calls RotTransPers on param_2, stores sxy (0 when flag < 0) at *param_1
+ * Names ledger: config/names.tsv guess_WorldToScreen */
+s32 *guess_WorldToScreen(s32 *param_1, s32 param_2) {
+    extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix");
     s32 sxy, p, flag;
 
     sxy = 0;
-    /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized
+    /* $a0-pinned scopes force the &guess_g_CameraWsMatrix constant to be rematerialized
        (lui/addiu) before each call instead of CSE-hoisting it into a third
        callee-saved register. */
     { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }
-    { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
+    { void *r4; r4 = &guess_g_CameraWsMatrix; func_800491AC(r4); }
     RotTransPers(param_2, &sxy, &p, &flag);
     if (flag < 0) {
         *param_1 = sxy = 0;
@@ -1738,7 +1741,7 @@ extern void func_800491AC();
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern s32 RotTransPers(s32, s32*, s32*, s32*);
 s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
-    extern u8 D_800AF648_b __asm__("D_800AF648");
+    extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix");
     s16 sv[4];
     s32 out[2];
     s32 sxy, p, flag;
@@ -1750,10 +1753,10 @@ s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
     pv = (void *)sv;
     ((void (*)(s32, void *, s32 *))RotTransSV)(param_3, pv, &out[0]);
     sxy = 0;
-    /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized
+    /* $a0-pinned scopes force the &guess_g_CameraWsMatrix constant to be rematerialized
        (lui/addiu) before each call instead of CSE-hoisting it. */
     { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }
-    { void *r4; r4 = &D_800AF648; func_800491AC(r4); }
+    { void *r4; r4 = &guess_g_CameraWsMatrix; func_800491AC(r4); }
     ((s32 (*)(void *, s32 *, s32 *, s32 *))RotTransPers)(pv, &sxy, &p, &flag);
     if (flag < 0) {
         out[0] = sxy = 0;
@@ -1999,8 +2002,8 @@ void func_80130D0C(s32 a0) {
 // @unstuck(P36): none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
 extern s32 rand(void);
 extern u8 D_80078E78[];
-extern u16 D_80078EB2;
-extern u16 D_80078EB4;
+extern u16 g_PlayerHpMax;
+extern u16 g_PlayerHp;
 extern s16 D_8018A7EC[];
 extern s16 D_8018A81C[];
 extern s16 D_8018A87C[];
@@ -2027,8 +2030,8 @@ void func_80130D48(s32 arg0)
     } else {
         switch (val & 0xFFFF0000) {
         case 0x10000: {
-            u32 x = D_80078EB4;
-            u32 y = D_80078EB2;
+            u32 x = g_PlayerHp;
+            u32 y = g_PlayerHpMax;
             u32 b;
             u32 a;
 

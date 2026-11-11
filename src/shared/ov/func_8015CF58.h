@@ -3,6 +3,6 @@
 extern void func_8015D01C();  // K&R: ? of 1 args (P37 rung D t4_HD7)
 void func_8015CF58(s32 *param_1)
 {
-    func_80147078(param_1, 0xC);
+    guess_SetState(param_1, 0xC);
     ((void (*)(s32 *))func_8015D01C)(param_1);
 }

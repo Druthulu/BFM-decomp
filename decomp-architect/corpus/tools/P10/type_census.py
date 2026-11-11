@@ -1624,7 +1624,7 @@ def write_parked(out_dir):
 # controls (R39)
 # ----------------------------------------------------------------------------------------------------------------------
 PLAYER_BLOCK = {  # docs/actor-struct.md + docs/memory-map.md §3.4 — the widths BOTH the record and the matched code agree on
-    "D_80078E8C": 4, "D_80078EB2": 2, "D_80078EB4": 2, "D_80078EB6": 2, "D_80078EB8": 2, "D_80078F08": 4, "D_80078F0C": 4}
+    "D_80078E8C": 4, "g_PlayerHpMax": 2, "g_PlayerHp": 2, "D_80078EB6": 2, "D_80078EB8": 2, "D_80078F08": 4, "D_80078F0C": 4}
 # was {"D_80078F08": 2, "D_80078F0C": 2} (actor-struct.md said s16 at +0x108/+0x10C; P37 census: code width 4; doc corrected to s32 at P38 T2)
 PLAYER_BLOCK_DOC_DISPUTED = {}   # the doc disagrees with the tree's byte-true declarations here (reported, not asserted)
 
@@ -1765,7 +1765,7 @@ struct Rec { u8 a; u16 b; s32 c; u8 d[3]; };             /* 0,2,4,8..10 -> size 
 typedef struct { s16 : 16; u16 f; } BF;                  /* a pad bitfield then a u16 -> size 4 */
 typedef struct Node { struct Node *next; s32 v; } Node;
 typedef void (*Handler)(s32);
-extern u16 D_80078EB4;
+extern u16 g_PlayerHp;
 extern s32 func_80001000(s32 a0, s16 *p);
 extern void func_80002000();
 void f1(s32 a0, s32 *b, s32 c) {
@@ -1773,8 +1773,8 @@ void f1(s32 a0, s32 *b, s32 c) {
     *(u16 *)(a0 + 0x3C) = 5;                    /* P store, param, +0x3C u16 */
     x = *(s32 *)(a0 + 0x20);                    /* P load  -> pointer field flow */
     *(s16 *)((s32)b + 0x08) += 1;               /* P rmw, inner cast */
-    *(u8 *)D_80078EB4 = 1;                      /* I store, global by value */
-    *(u32 *)&D_80078EB4 = 2;                    /* I, global by address */
+    *(u8 *)g_PlayerHp = 1;                      /* I store, global by value */
+    *(u32 *)&g_PlayerHp = 2;                    /* I, global by address */
     ((s16 *)a0)[3] = 7;                         /* X -> offset 6 */
     M2C_FIELD(a0, u8 *, 0x41) = 0;              /* M store */
     func_80001000(a0, (s16 *)(x + 0x10));       /* arg flow a0 -> P:func_80001000:0 ; A form on x */
@@ -1920,7 +1920,7 @@ def selftest():
         w = walk_file("void g(s32 a0, s32 *p, s32 *q, s32 k, s32 x) {\n    " + body + "\n}\n", rel)
         return w, check_casts_counts(w["sites"], w["raw_counts"])
     for f, pos, negs in (("P", "*(u16 *)(a0 + 4) = 1;", ("p->f = 0;", "CAST_ALIAS(u16, a0, 4) = 2;")),
-                         ("I", "*(u8 *)D_80078EB4 = 1;", ("k = (u8)x;",)),
+                         ("I", "*(u8 *)g_PlayerHp = 1;", ("k = (u8)x;",)),
                          ("X", "((s16 *)a0)[2] = 0;", ("q[k] = 0;",)),
                          ("M", "M2C_FIELD(a0, u8 *, 1) = 0;", ("CAST_ALIAS(u16, a0, 4) = 2;",))):
         checks.append((f"check-casts {f} counted", cc(pos)[1][0] == {g: int(g == f) for g in ("P", "I", "X", "M")}))
@@ -1959,7 +1959,7 @@ def selftest():
     checks.append(("check-casts all-zero OK + line", rz == 0 and lz == "check-casts: raw P=0 I=0 X=0 M=0; macros none (unbacked 0); lying=0 (ledgered 0)"))
     checks.append(("check-casts raw FAIL", check_casts_verdict(dict(z, X=1), [], {}, [], set())[0] == 1))
     # P39 T10: --residue — per form one covered site passes; uncovered three ways (no row; row without the site; RESIDUAL with no cause)
-    for f, pos in (("P", "*(u16 *)(a0 + 4) = 1;"), ("I", "*(u8 *)D_80078EB4 = 1;"), ("X", "((s16 *)a0)[2] = 0;"), ("M", "M2C_FIELD(a0, u8 *, 1) = 0;")):
+    for f, pos in (("P", "*(u16 *)(a0 + 4) = 1;"), ("I", "*(u8 *)g_PlayerHp = 1;"), ("X", "((s16 *)a0)[2] = 0;"), ("M", "M2C_FIELD(a0, u8 *, 1) = 0;")):
         w, (raw1, _) = cc(pos)
         s1 = [s for s in w["sites"] if s["form"] == f]
         e = dict(form=f, line=2, base=f"{s1[0]['bclass']}:{s1[0]['base']}", off=s1[0]["off"], verdict="RESIDUAL(GLOBAL)", cause="GLOBAL")

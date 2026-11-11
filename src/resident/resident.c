@@ -567,14 +567,14 @@ s32 func_800CF854(void) {
 }
 
 extern s16 currentLocationId;
-extern u16 D_80126B58;
+extern u16 guess_g_PlayerActor;
 extern s32 func_800CF8B4(void);
 
 s32 func_800CF864(void) {
     if (currentLocationId == 0x3069) {
         return 1;
     }
-    if (D_80126B58 == 0x1A) {
+    if (guess_g_PlayerActor == 0x1A) {
         return 1;
     }
     return func_800CF8B4();
@@ -946,8 +946,8 @@ s32 func_800CFE60(void) {
 
     extern s32 func_8002F648(void);
     extern void func_8002F620(void);
-    extern s32 func_80029504(void);
-    extern s32 func_80029178(s32);
+    extern s32 guess_GetStoryProgress(void);
+    extern s32 guess_TestGameFlag(s32);
     extern s32 func_8002F658(void);
     extern void func_800D00E4(s32 arg0);
     extern s32 CdReadRequest(void *, void *, s32, s32);
@@ -975,7 +975,7 @@ s32 func_800CFE60(void) {
         }
     }
 
-    cnt = func_80029504();
+    cnt = guess_GetStoryProgress();
 
     if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x300B && ((Unkstruct_80010178 *)base)->unkA3DE != 0) {
         val = 8;
@@ -984,7 +984,7 @@ s32 func_800CFE60(void) {
     if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x3001 && cnt < 5) {
         file = 0x37;
     }
-    if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x304E && (func_80029178(0x17) & 0xFF) != 0) {
+    if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x304E && (guess_TestGameFlag(0x17) & 0xFF) != 0) {
         file = 0x129;
         val = 0x2F;
     }
@@ -992,7 +992,7 @@ s32 func_800CFE60(void) {
         file = 0x151;
         val = 0x34;
     }
-    if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x3021 && (func_80029178(0xB9) & 0xFF) != 0) {
+    if (((Unkstruct_80010178 *)base)->unkA3D8 == 0x3021 && (guess_TestGameFlag(0xB9) & 0xFF) != 0) {
         file = 0xC1;
         val = 0x41;
     }

@@ -12,7 +12,7 @@ void func_80145934(void) {
     s32 v;
     void *p;
 
-    v = func_80029504();
+    v = guess_GetStoryProgress();
     if (v >= 0x6A4) {
         p = &aD80192964;
     } else if (v >= 0x5DC) {

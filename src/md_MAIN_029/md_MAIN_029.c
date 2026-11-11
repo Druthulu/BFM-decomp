@@ -175,11 +175,11 @@ void func_800CB2AC(void *a0)
     extern u8 D_80078EC1;
     extern u16 D_800CB4B4[];
     extern Blk20 D_800AE620;
-    extern s16 D_80126B5E;
-    extern s16 D_80126B62;
-    extern s16 D_80126B66;
+    extern s16 guess_g_PlayerPosX;
+    extern s16 guess_g_PlayerPosY;
+    extern s16 guess_g_PlayerPosZ;
     extern void RotMatrixY(s32, void *);
-    extern void func_8012F14C(s32, s32, s32);
+    extern void guess_RotTransSVWithMatrix(s32, s32, s32);
     extern s32 func_80146C3C(u8 *a0);
 
     u8 *s1;
@@ -201,11 +201,11 @@ void func_800CB2AC(void *a0)
             vec.x = 0;
             vec.y = -((Unkstruct_800CB2AC *)s1)->unk2C;
             t = ((Unkstruct_800CB2AC *)s1)->unk2C;
-            m.w[5] = D_80126B5E;
-            m.w[6] = D_80126B62 - 0x1C;
-            m.w[7] = D_80126B66;
+            m.w[5] = guess_g_PlayerPosX;
+            m.w[6] = guess_g_PlayerPosY - 0x1C;
+            m.w[7] = guess_g_PlayerPosZ;
             vec.z = t - (t >> 2);
-            func_8012F14C((s32)&m, (s32)&vec, (s32)&vec);
+            guess_RotTransSVWithMatrix((s32)&m, (s32)&vec, (s32)&vec);
             ((Unkstruct_800CB2AC *)s1)->unk6 = vec.x;
             ((Unkstruct_800CB2AC *)s1)->unkA = vec.y;
             ((Unkstruct_800CB2AC *)s1)->unkE = vec.z;

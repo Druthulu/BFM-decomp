@@ -3,7 +3,7 @@
 s32 SHARED_FN(arg0)
 s32 arg0;
 {
-    s32 *ptr = (s32 *) D_801151D4;
+    s32 *ptr = (s32 *) guess_g_ActiveCamera;
 
     ((Unkstruct_80126B58 *)arg0)->unk204 += 0x30000;
     ptr[4] -= *(s16 *) (arg0 + 0x206);

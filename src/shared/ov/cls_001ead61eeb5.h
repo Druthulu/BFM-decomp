@@ -24,7 +24,7 @@ void SHARED_FN(s32 param_1, s16 *param_2) {
     svec_in.vx = 0;
     svec_in.vy = 0;
     svec_in.vz = ((Unkstruct_8017CF48 *)param_1)->unk10;
-    ((void (*)(s32, s32, s32))func_8012F14C)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
+    ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
 
     ((Unkstruct_8017CF48 *)param_1)->unk3C = (s32)svec_out.vx;
     ((Unkstruct_8017CF48 *)param_1)->unk40 = (s32)svec_out.vy;

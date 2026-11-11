@@ -95,7 +95,7 @@ s32 arg0;
         sv = *(s32 *)(arg0 + 0x2C);
         D_80181160[*(u16 *)arg0]((void *)arg0);
         func_8014C010(arg0, 1);
-        ((void (*)(s32, s32))func_80147078)(arg0, 0);
+        ((void (*)(s32, s32))guess_SetState)(arg0, 0);
         ((void (*)(s32))func_80159B70)(arg0);
         if (func_8015ABD4(arg0, sv, min) != 0) {
             func_8015AC48(arg0);
@@ -185,7 +185,7 @@ s32 arg0;
         }
     }
 
-    ((void (*)(s32))func_801473EC)(arg0);
+    ((void (*)(s32))guess_ApplyVelocity)(arg0);
     if ((min >= *(s32 *)(arg0 + 0x2C)) && !(D_800B99DA & 7)) {
         func_8014C010(arg0, 2);
     }

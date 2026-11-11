@@ -22,7 +22,7 @@ textured/untextured tris & quads) with vertices/colors/UVs/tpage/clut.
 **Model data = the libgs TMD path IS used (the key positive finding).** Verified by real `jal` call
 sites in the disassembly — not grep-count speculation (R14):
 - `jal GsMapModelingData` (maps/relocates a **TMD** in RAM) in the EXE model subsystem —
-  `func_8001C214 / C320 / C4A4 / C5B8 / C810 / C924 / C97C` clustered at ~`0x8001C2xx–0x8001C9xx` —
+  `guess_InitModelObject / C320 / C4A4 / C5B8 / C810 / C924 / C97C` clustered at ~`0x8001C2xx–0x8001C9xx` —
   **and in ≥1 overlay** (`ov_SC02_005/func_801871E4`).
 - `jal GsLinkObject5` (link a TMD → a texture-mapped GsDOBJ) in `func_8001C320 / C5B8`.
 - ⇒ BFM's model data is **TMD (or GsMapModelingData-compatible)** — a **documented Sony format**. This

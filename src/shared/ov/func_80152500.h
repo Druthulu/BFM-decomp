@@ -4,7 +4,7 @@ extern void func_80149020(s32 *a0);
 extern void func_801525F4(int);
 extern void func_80159B3C(void *a0);
 extern void func_80147A84(s32 arg0);
-extern void func_801473EC(s32 *a0);
+extern void guess_ApplyVelocity(s32 *a0);
 extern void func_80148038(s32 a0, s32 a1);
 extern void func_80147460(s32 a0);
 extern s32 func_801535F4(void *arg0);
@@ -25,7 +25,7 @@ void func_80152500(int param_1)
         *(int *)(param_1 + 0x1c) = *(int *)(param_1 + 0x1c) + -1;
     }
     func_80147A84(param_1);
-    ((void (*)(int))func_801473EC)(param_1);
+    ((void (*)(int))guess_ApplyVelocity)(param_1);
     func_80148038(param_1, 0x8000);
     func_80147460(param_1);
     iVar1 = ((int (*)(int))func_801535F4)(param_1);

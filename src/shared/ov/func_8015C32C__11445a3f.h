@@ -54,7 +54,7 @@ void func_8015C32C(s32 arg0) {
     func_8001382C((s16)-*(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12), (void *)(arg0 + 0x234), vout);
     func_80146DB8((s32 *)arg0, vout);
     func_80147A84(arg0);
-    ((void (*)(s32))func_801473EC)(arg0);
+    ((void (*)(s32))guess_ApplyVelocity)(arg0);
     if ((D_800B99DA & 3) == 0) {
         func_8014C010(arg0, 1);
         func_80147324(0x65f);
@@ -70,17 +70,17 @@ void func_8015C32C(s32 arg0) {
         if ((uVar4 & 0x4000) == 0) {
             if (func_80146E98(arg0) != 0) {
                 D_80181914[*(u16 *)arg0]((void *)arg0);
-                func_80147078((s32 *)arg0, 0);
+                guess_SetState((s32 *)arg0, 0);
                 func_80159BE4(arg0);
             }
         } else {
-            func_80147078((s32 *)arg0, 4);
+            guess_SetState((s32 *)arg0, 4);
             func_8015C0C4(arg0);
         }
     } else {
         if (iVar2 == 0) {
             D_80181914[*(u16 *)arg0]((void *)arg0);
-            func_80147078((s32 *)arg0, 3);
+            guess_SetState((s32 *)arg0, 3);
             ((void (*)(s32))func_8015BE94)(arg0);
         }
     }

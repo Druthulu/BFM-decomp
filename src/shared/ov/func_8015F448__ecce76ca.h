@@ -62,7 +62,7 @@ void func_8015F448(s32 arg0) {
         *(u16 *)(arg0 + 0x248) = *(u16 *)(arg0 + 0xA);
         *(u16 *)(arg0 + 0x24A) = *(u16 *)(arg0 + 0xE);
         func_80147A84(arg0);
-        ((void (*)(s32))func_801473EC)(arg0);
+        ((void (*)(s32))guess_ApplyVelocity)(arg0);
         if (((s32 (*)(s32))func_8014F1F4)(arg0) != 0) {
             *(u16 *)(arg0 + 6) = *(u16 *)(arg0 + 0x246);
             *(u16 *)(arg0 + 0xA) = *(u16 *)(arg0 + 0x248);

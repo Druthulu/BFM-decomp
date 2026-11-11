@@ -3,12 +3,12 @@
 extern void *D_8011F738;
 extern s32 D_8011F73C;
 extern s32 D_8011F740;
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern void func_801718AC(void *a0);
 void func_80170DE0(u8 * _arg0)
 {
     s32 arg;
-    if (((u8 (*)(s32))func_80029178)(D_8011F738)) {
+    if (((u8 (*)(s32))guess_TestGameFlag)(D_8011F738)) {
         arg = D_8011F740;
     } else {
         arg = D_8011F73C;

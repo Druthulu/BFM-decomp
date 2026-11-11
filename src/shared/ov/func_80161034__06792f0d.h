@@ -4,6 +4,6 @@ void func_80161034(void *a0)
 {
     func_80149020(a0);
     D_80181160[*(u16 *)a0](a0);
-    func_80147078(a0, 0);
+    guess_SetState(a0, 0);
     func_80159B70(a0);
 }

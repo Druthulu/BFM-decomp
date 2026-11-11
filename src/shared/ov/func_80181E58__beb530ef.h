@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern void func_8001C214(s32 a0, s32 a1);
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern s32  func_8012C194(void);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 extern void func_8018276C(s32 a0);
@@ -32,7 +32,7 @@ void func_80181E58(void *a0)
     }
     *(u16 *)((s32)self + 0x72) |= 0x1000;
     if (*(s16 *)((s32)self + 0x70) == 0) {
-        func_8001C214(*(s32 *)((s32)self + 0x20), (s32)&D_801C6410);
+        guess_InitModelObject(*(s32 *)((s32)self + 0x20), (s32)&D_801C6410);
         *(u16 *)(*(s32 *)((s32)self + 0x20) + 0x12) = 0x400;
         obj = (void *)func_8012C194();
         *(s32 *)((s32)self + 0xCC) = (s32)obj;

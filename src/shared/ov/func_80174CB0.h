@@ -9,7 +9,7 @@ extern void func_80013F3C(s32 a0);
 extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80012558(s32 a0, s32 a1);
 extern void func_800126C4(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 s32 func_80174CB0(s32 param_1, s32 param_2)
 {
     s16 *pv = &D_80126940;
@@ -37,7 +37,7 @@ s32 func_80174CB0(s32 param_1, s32 param_2)
     vec.vx = 0;
     vec.vy = 0;
     vec.vz = (s16)*(s32 *)(param_1 + 0x10);
-    ((void (*)(s32, s32, s32))func_8012F14C)((s32)&mtx, (s32)&vec, (s32)&out);
+    ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)&mtx, (s32)&vec, (s32)&out);
     *(s32 *)(param_1 + 0x3c) = (s32)out.vx;
     *(s32 *)(param_1 + 0x40) = (s32)out.vy;
     *(s32 *)(param_1 + 0x44) = (s32)out.vz;

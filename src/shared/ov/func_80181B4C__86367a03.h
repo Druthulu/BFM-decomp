@@ -5,18 +5,18 @@ extern s32 D_8012695C;
 extern s16 D_80126968;
 extern s16 D_8012696A;
 extern s16 D_80126978;
-extern u16 D_80126B5E;
+extern u16 guess_g_PlayerPosX;
 extern s16 D_8012696C;
 extern s16 D_80126976;
 extern s16 D_8012697A;
 extern s32 D_801269E4;
 extern u8 D_801269E8;
 extern s16 D_801274E8;
-extern u8 D_80126948[];
+extern u8 guess_g_MainCamera[];
 extern void func_80181D2C(u8*);
 extern void func_8012A018(s32 a, s32 b);
 extern void func_8012A094(s32);
-extern void func_80129CF8(void);
+extern void guess_UpdateCamera(void);
 void func_80181B4C(void)
 {
     u16 v1;
@@ -25,7 +25,7 @@ void func_80181B4C(void)
     D_80126968 = 0x80;
     D_8012696A = 0x800;
     D_80126978 = -0x80;
-    v1 = D_80126B5E;
+    v1 = guess_g_PlayerPosX;
     D_8012696C = 0;
     D_80126976 = 0;
     D_8012697A = -0xC8;
@@ -34,6 +34,6 @@ void func_80181B4C(void)
     D_801274E8 = v1;
     func_8012A018((s32)func_80181D2C, 0x2);
     D_80126968 = 0x120;
-    func_8012A094(D_80126948);
-    func_80129CF8();
+    func_8012A094(guess_g_MainCamera);
+    guess_UpdateCamera();
 }

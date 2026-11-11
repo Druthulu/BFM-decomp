@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80013478(s32 a0, s32 a1);
 s32 func_8012AE00(s32 a0) {
@@ -18,7 +18,7 @@ s32 func_8012AE00(s32 a0) {
     sp18[0] = *(u16 *)(a0 + 0x6);
     sp18[1] = *(u16 *)(a0 + 0xA);
     sp18[2] = *(u16 *)(a0 + 0xE);
-    base = (s32)&D_80126B58;
+    base = (s32)&guess_g_PlayerActor;
     sp20 = *(struct V8 *)sp18;
     if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)sp10, (s32)&sp20) == 0) {
         return 0;

@@ -5,6 +5,6 @@ void func_80146360(void)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 D_80126B58;
-    D_801805B4[D_80126BA4](&D_80126B58);
+    extern s32 guess_g_PlayerActor;
+    D_801805B4[D_80126BA4](&guess_g_PlayerActor);
 }

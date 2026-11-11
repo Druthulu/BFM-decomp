@@ -7,7 +7,7 @@ void func_8015FF20(void *param_1) {
     if ((D_800AE6B0 & 0x80FFFFFF) != 0) {
         ((void (*)(void))func_8016007C)();
         D_80181914[*(u16 *)param_1](param_1);
-        ((void (*)(void *, s16))func_80147078)(param_1, 0);
+        ((void (*)(void *, s16))guess_SetState)(param_1, 0);
         func_80159B70(param_1);
         return;
     }

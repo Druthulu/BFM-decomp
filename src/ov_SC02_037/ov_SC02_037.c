@@ -132,7 +132,7 @@ extern void func_80128564(void);
 //   required — pin-alone folds, volatile-alone lands in v0.
 
 
-extern void func_80129CF8(void);
+extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
 extern void func_8014FDF4(struct S8014FDF4 *a0);
 extern s32 func_801505FC(s32 a0);
@@ -153,15 +153,15 @@ extern void func_801379FC(void);
 extern void func_8001212C(void);
 
 void func_801287B8(void) {
-    extern s32 D_80126B58;
+    extern s32 guess_g_PlayerActor;
     extern s32 D_801C9A78;
     extern u16 D_800B99DA;
     extern u8 D_800B9A64;
-    func_80129CF8();
+    guess_UpdateCamera();
     func_8017849C();
-    ((void (*)(void *))func_8014FDF4)(&D_80126B58);
-    ((void (*)(void *))func_801505FC)(&D_80126B58);
-    func_801508B4(&D_80126B58);
+    ((void (*)(void *))func_8014FDF4)(&guess_g_PlayerActor);
+    ((void (*)(void *))func_801505FC)(&guess_g_PlayerActor);
+    func_801508B4(&guess_g_PlayerActor);
     func_80165E90();
     func_801627E8();
     func_80162B1C();
@@ -1153,9 +1153,9 @@ void func_8012D5DC(void) {
 
 int func_8012D664(int arg0, int arg1, int arg2)
 {
-    extern u16 D_80126B5E;
-    extern u16 D_80126B62;
-    extern u16 D_80126B66;
+    extern u16 guess_g_PlayerPosX;
+    extern u16 guess_g_PlayerPosY;
+    extern u16 guess_g_PlayerPosZ;
     extern s32 func_800132BC(s32 a0, s32 a1);
     extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern u8 D_80183F48[];
@@ -1164,9 +1164,9 @@ int func_8012D664(int arg0, int arg1, int arg2)
     int ret;
     int t;
 
-    s[0] = (*(unsigned short *)&D_80126B5E);
-    s[1] = (*(unsigned short *)&D_80126B62) - 0x40;
-    s[2] = (*(unsigned short *)&D_80126B66);
+    s[0] = (*(unsigned short *)&guess_g_PlayerPosX);
+    s[1] = (*(unsigned short *)&guess_g_PlayerPosY) - 0x40;
+    s[2] = (*(unsigned short *)&guess_g_PlayerPosZ);
     ret = ((int (*)())func_800132BC)(arg0, s);
     t = arg1 + 0x20;
     if (ret < t * t) {
@@ -1784,8 +1784,8 @@ void func_80130D0C(void *a0) {
 
 extern s32 rand(void);
 extern u8 D_80078E78[];
-extern u16 D_80078EB2;
-extern u16 D_80078EB4;
+extern u16 g_PlayerHpMax;
+extern u16 g_PlayerHp;
 extern s16 D_80183FEC[];
 extern s16 D_8018401C[];
 extern s16 D_8018407C[];
@@ -1812,8 +1812,8 @@ void func_80130D48(s32 arg0)
     } else {
         switch (val & 0xFFFF0000) {
         case 0x10000: {
-            u32 x = D_80078EB4;
-            u32 y = D_80078EB2;
+            u32 x = g_PlayerHp;
+            u32 y = g_PlayerHpMax;
             u32 b;
             u32 a;
 

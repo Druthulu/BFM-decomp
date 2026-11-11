@@ -3,9 +3,9 @@
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 func_80146C3C(u8 *a0);
 extern s32 D_8011D030;
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosX;
+extern u16 guess_g_PlayerPosY;
+extern u16 guess_g_PlayerPosZ;
 void func_8016AA50(s32 param_1, s32 param_2) {
     short *psVar3;
     s32 iVar4;
@@ -26,8 +26,8 @@ void func_8016AA50(s32 param_1, s32 param_2) {
             ((void (*)(void))func_80146C3C)();
             ((s32 (*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(
                 0x1d, (void *)param_1,
-                (s16)D_80126B5E, (s16)((u16)D_80126B62 - 0x20),
-                (s16)D_80126B66, 7, 0);
+                (s16)guess_g_PlayerPosX, (s16)((u16)guess_g_PlayerPosY - 0x20),
+                (s16)guess_g_PlayerPosZ, 7, 0);
             return;
         }
         t = iVar4 + 1;

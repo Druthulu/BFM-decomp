@@ -12,7 +12,7 @@ void func_8015E344(u16 *param_1)
         }
         if ((param_1[0x5c] & 0x8000) != 0) {
             ((void (**)(u16*))D_80181914)[param_1[0]](param_1);
-            ((s32 (*)(u16 *, s32))func_80147078)(param_1, 0);
+            ((s32 (*)(u16 *, s32))guess_SetState)(param_1, 0);
             ((s32 (*)(u16 *))func_80159BE4)(param_1);
         }
     }

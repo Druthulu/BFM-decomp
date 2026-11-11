@@ -1,6 +1,6 @@
 /* func_8017F390 — shared body (overlay slot 0x80128158, h_exact 589360ff). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u16 D_80126B66;
+extern u16 guess_g_PlayerPosZ;
 extern s32 D_801270C8;
 extern s32 D_801270CC;
 extern s32 D_801E8008;
@@ -22,7 +22,7 @@ void func_8017F390(s32 a0)
     state = *(u16 *)(a0 + 0x34);
     switch (state) {
     case 0:
-        v0 = (s32) *(s16 *)&D_80126B66 - (s32) *(s16 *)(a0 + 0xE);
+        v0 = (s32) *(s16 *)&guess_g_PlayerPosZ - (s32) *(s16 *)(a0 + 0xE);
         if (v0 < 0) {
             v0 = -v0;
         }

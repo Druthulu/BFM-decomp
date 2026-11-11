@@ -24,7 +24,7 @@ void SHARED_FN(int param_1, short *param_2, short *param_3) {
     svec_in.vx = 0;
     svec_in.vy = 0;
     svec_in.vz = *(int *)(param_1 + 0x10);
-    ((void (*)(int, int, int))func_8012F14C)((int)&m1, (int)&svec_in, (int)&svec_out);
+    ((void (*)(int, int, int))guess_RotTransSVWithMatrix)((int)&m1, (int)&svec_in, (int)&svec_out);
 
     *(int *)(param_1 + 0x3C) = (int)svec_out.vx;
     *(int *)(param_1 + 0x40) = (int)svec_out.vy;

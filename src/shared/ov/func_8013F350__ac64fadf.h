@@ -43,7 +43,7 @@ s32 func_8013F350(void) {
 
     i = 0;
     do {
-        if ((func_80029178(D_80180314[i]) & 0xFF) == 0) {
+        if ((guess_TestGameFlag(D_80180314[i]) & 0xFF) == 0) {
             break;
         }
         i = i + 1;
@@ -54,7 +54,7 @@ s32 func_8013F350(void) {
     case 0:
         r = ((s32 (*)(s32))func_8014168C)(0);
         rs = (s16)r;
-        if ((func_80029178(D_80180314[rs]) & 0xFF) != 0 && (D_8011511E & 0x40) != 0) {
+        if ((guess_TestGameFlag(D_80180314[rs]) & 0xFF) != 0 && (D_8011511E & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
             if (rs != 0) {
                 func_8002D4C8(0x461, 0);

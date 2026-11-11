@@ -18,7 +18,7 @@ void func_80176734(s32 param_1)
     extern u8  D_800B9A13;
     extern s16 D_80126CE0;
     extern s16 D_80126D20;
-    extern s32 D_80126B58;
+    extern s32 guess_g_PlayerActor;
     extern s32 func_800183E0(s32 a0);
     extern s32  func_801619D0(void *a0);
     extern s32  func_80161A00(s32 a0);
@@ -153,16 +153,16 @@ L9C0:
     amp = 0;
     switch (*(u8 *)(cur + 0x48)) {
     case 3:
-        if (func_801619D0(&D_80126B58) != 0) amp = 0xFF;
+        if (func_801619D0(&guess_g_PlayerActor) != 0) amp = 0xFF;
         break;
     case 4:
-        if (func_80161A00((s32)&D_80126B58) != 0) amp = 0xFF;
+        if (func_80161A00((s32)&guess_g_PlayerActor) != 0) amp = 0xFF;
         break;
     case 5:
-        if (func_80161A30((s32)&D_80126B58) != 0) amp = 0xFF;
+        if (func_80161A30((s32)&guess_g_PlayerActor) != 0) amp = 0xFF;
         break;
     case 6:
-        if (func_80161A60((s32)&D_80126B58) != 0) amp = 0xBA;
+        if (func_80161A60((s32)&guess_g_PlayerActor) != 0) amp = 0xBA;
         break;
     }
 

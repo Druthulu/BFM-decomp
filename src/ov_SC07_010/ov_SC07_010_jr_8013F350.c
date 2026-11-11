@@ -71,7 +71,7 @@ extern void func_80141C04(void);
 extern void func_8013E5E8(void);
 extern void func_8013E67C(void);
 extern void func_8013E83C(void);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_8013E6AC(void);
 extern void func_800D24A0(s32 arg);
 extern void func_8013E814(void);
@@ -169,7 +169,7 @@ extern u8  D_8018305C[];
 extern u8  D_80183074[];
 extern u16 D_80182F78[];
 
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 extern s16 func_8014168C(s16 a0);
 extern void func_8014AA04(s32 a0);
@@ -223,7 +223,7 @@ s32 func_8013F350(void) {
 
     i = 0;
     do {
-        if ((func_80029178(D_8018305C[i]) & 0xFF) == 0) {
+        if ((guess_TestGameFlag(D_8018305C[i]) & 0xFF) == 0) {
             break;
         }
         i = i + 1;
@@ -234,7 +234,7 @@ s32 func_8013F350(void) {
     case 0:
         r = ((s32 (*)(s32))func_8014168C)(0);
         rs = (s16)r;
-        if ((func_80029178(D_8018305C[rs]) & 0xFF) != 0 && (D_8011511E & 0x40) != 0) {
+        if ((guess_TestGameFlag(D_8018305C[rs]) & 0xFF) != 0 && (D_8011511E & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
             if (rs != 0) {
                 func_8002D4C8(0x461, 0);
@@ -556,7 +556,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
 
 /* func_8013FFD8 — 213 ins, double jump-table, per-location family (134 members). */
 
-extern s32 func_80029178(s32 arg);
+extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 
 
@@ -589,7 +589,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     case 0: {
         s16 s0 = (s16) arg1;
         if (s0 < 6) {
-            if ((((s32 (*)(u8))func_80029178)(D_8018305C[s0]) & 0xFF) == 0) {
+            if ((((s32 (*)(u8))guess_TestGameFlag)(D_8018305C[s0]) & 0xFF) == 0) {
                 return 1;
             }
             ret = ((s32 *)&D_80182FB0)[s0];
@@ -626,7 +626,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         case 2: {
             s16 s0 = (s16) arg1;
             if (s0 < 6) {
-                if ((((s32 (*)(u8))func_80029178)((*(u8 * *)&D_801A6B04)[s0]) & 0xFF) == 0) {
+                if ((((s32 (*)(u8))guess_TestGameFlag)((*(u8 * *)&D_801A6B04)[s0]) & 0xFF) == 0) {
                     return 1;
                 }
                 ret = (*(s32 * *)&D_801A6B00)[s0];
@@ -636,7 +636,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         case 3: {
             s16 s0 = (s16) arg1;
             if (s0 < 6) {
-                if ((((s32 (*)(u8))func_80029178)(D_80183080[s0]) & 0xFF) == 0) {
+                if ((((s32 (*)(u8))guess_TestGameFlag)(D_80183080[s0]) & 0xFF) == 0) {
                     return 1;
                 }
                 ret = ((s32 *)D_80182F98)[s0];

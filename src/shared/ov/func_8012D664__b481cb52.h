@@ -8,9 +8,9 @@ int func_8012D664(int arg0, int arg1, int arg2) {
     int ret;
     int t;
 
-    s.a = (*(unsigned short*)&D_80126B5E);
-    s.b = (*(unsigned short*)&D_80126B62) - 0x40;
-    s.c = (*(unsigned short*)&D_80126B66);
+    s.a = (*(unsigned short*)&guess_g_PlayerPosX);
+    s.b = (*(unsigned short*)&guess_g_PlayerPosY) - 0x40;
+    s.c = (*(unsigned short*)&guess_g_PlayerPosZ);
     ret = ((int(*)())func_800132BC)(arg0, &s);
     t = arg1 + 0x20;
     if (ret < t * t) {

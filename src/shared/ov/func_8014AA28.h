@@ -1,6 +1,6 @@
 /* func_8014AA28 — shared body (overlay slot 0x80128158, h_exact 14044f34). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 D_80126B58;
+extern s32 guess_g_PlayerActor;
 extern u8 D_80078EC1;
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
@@ -8,7 +8,7 @@ extern s32 func_80165A20(s32 a0);
 extern void func_8014AB7C();  // K&R: 1 of 1 args (P37 rung D t4_HD7)
 extern void func_8014AC10();  // K&R: 1 of 1 args (P37 rung D t4_HD7)
 void func_8014AA28(void) {
-    s32 base = (s32)&D_80126B58;
+    s32 base = (s32)&guess_g_PlayerActor;
     u16 v1 = *(u16 *)base;
     s32 s0 = D_80078EC1;
     if ((u32)(v1 - 0x19) >= 2 && (u32)(v1 - 0x1D) >= 2) {

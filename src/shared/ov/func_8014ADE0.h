@@ -8,7 +8,7 @@ extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
 extern void func_8014BC80(s32 a0, s32 a1);
 extern void func_8014BD60(s32 a0, s32 a1);
 extern void func_8014B084(void);
-extern s32 func_80029178(s32 a0);
+extern s32 guess_TestGameFlag(s32 a0);
 void func_8014ADE0(s32 a0)
 {
     /* BLOCK-scope extern: the s32 view of the accumulator. The only file-scope decl of
@@ -43,7 +43,7 @@ void func_8014ADE0(s32 a0)
     if (((s16)(*(s16 *)(p + 0x1A) / 60) - (s16)((s16)(temp_s2 >> 16) / 60)) > 0) {
         if (func_8014B154((s32 *)a0) == 0) {
             var_a1 = 4;
-        } else if (func_80029178(0x1B) & 0xFF) {
+        } else if (guess_TestGameFlag(0x1B) & 0xFF) {
             var_a1 = 0xA;
         } else {
             var_a1 = 4;
@@ -58,7 +58,7 @@ void func_8014ADE0(s32 a0)
             }
         }
         if (func_8014B154((s32 *)a0) != 0) {
-            if (func_80029178(0x1B) & 0xFF) {
+            if (guess_TestGameFlag(0x1B) & 0xFF) {
                 func_8014BD24(a0, 8);
             } else {
                 func_8014BD60(a0, 1);

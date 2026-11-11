@@ -96,7 +96,7 @@ void func_800CAFC4(s32 a0) {
 void func_800CB038(void *a0) {
     extern s32 D_800CBD74;
     extern s32 func_8014659C(void);
-    extern void func_8001C214(s32 a0, s32 a1);
+    extern void guess_InitModelObject(s32 a0, s32 a1);
     extern void func_80149374(s32 a0, s32 a1);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146E90(s32 *a0, s32 a1);
@@ -108,7 +108,7 @@ void func_800CB038(void *a0) {
     s32 s1 = ((s32 (*)(void))func_8014659C)();
     ((Unkstruct_80126B58 *)a0)->unk20 = s1;
     if (s1 != 0) {
-        func_8001C214(s1, (s32)&D_800CBD74);
+        guess_InitModelObject(s1, (s32)&D_800CBD74);
         *(u16 *)(s1 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x12);
         func_80149374((s32)s2, (s32)a0 + 4);
         func_80146DE8((s32 *)a0, 0, -0xC0000, -0x100000);

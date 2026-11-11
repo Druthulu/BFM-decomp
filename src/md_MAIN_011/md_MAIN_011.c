@@ -101,8 +101,8 @@ void func_800CF28C(void) {
     extern void func_80011928(s32);
     extern void func_800167B8(s32);
     extern void func_80029514(s32);
-    extern s32 func_80029178(s32);
-    extern void func_80029124(s32, s32);
+    extern s32 guess_TestGameFlag(s32);
+    extern void guess_SetGameFlag(s32, s32);
     extern void func_800D04F4(void);
     extern void func_800CFBF0(void);
     extern void func_800CFB88(void);
@@ -214,7 +214,7 @@ void func_800CF28C(void) {
         }
         if ((u16)(D_800D4C9C & 0x20)) {
             sp1C = D_800D4A5C[D_800D3348].unk04;
-            func_80029124(sp1C, (u8)func_80029178(sp1C) == 0);
+            guess_SetGameFlag(sp1C, (u8)guess_TestGameFlag(sp1C) == 0);
         }
         break;
     case 9:
@@ -240,17 +240,17 @@ void func_800CF28C(void) {
         break;
     case 10:
         if ((u16)(D_800D4C9C & 0x2000)) {
-            func_80029124(0, (u8)func_80029178(0) == 0);
+            guess_SetGameFlag(0, (u8)guess_TestGameFlag(0) == 0);
         }
         break;
     case 11:
         if ((u16)(D_800D4C9C & 0x2000)) {
-            func_80029124(1, (u8)func_80029178(1) == 0);
+            guess_SetGameFlag(1, (u8)guess_TestGameFlag(1) == 0);
         }
         break;
     case 12:
         if ((u16)(D_800D4C9C & 0x2000)) {
-            func_80029124(2, (u8)func_80029178(2) == 0);
+            guess_SetGameFlag(2, (u8)guess_TestGameFlag(2) == 0);
         }
         break;
     }
@@ -468,29 +468,29 @@ const char D_800CEE54[] = "GET IN SEL";
 const u32 D_800CEE60[] = { 0x59414C50, 0x48205245, 0x45482050, 0x414E4152, 0x01000049 };
 
 void func_800D04F4(void) {
-    extern s32 func_80029504(void);
+    extern s32 guess_GetStoryProgress(void);
     extern s32 D_800D3344;
     extern s16 D_800D3348;
     extern s16 D_800D334A;
     extern S6 D_800D4A5C[];
     extern s32 func_800153CC(int, int, int, int, int, int);
     extern void func_8001534C(int, void *, int, int, int, int);
-    extern s32 func_80029178(int);
+    extern s32 guess_TestGameFlag(int);
     S6 *sp18;
 
-    D_800D3344 = func_80029504();
+    D_800D3344 = guess_GetStoryProgress();
     func_800153CC(0x11, D_800D3344, 0xC8, 0xA6, 0x44, 0);
     sp18 = &D_800D4A5C[D_800D3348];
     func_8001534C(0x12, sp18, 0x98, 0xB2, 0x43, 0);
-    func_8001534C(0x13, (func_80029178(sp18->unk04) & 0xFF) ? D_800CEE3C : D_800CEE40, 0xC8, 0xB2, 0, 0);
+    func_8001534C(0x13, (guess_TestGameFlag(sp18->unk04) & 0xFF) ? D_800CEE3C : D_800CEE40, 0xC8, 0xB2, 0, 0);
     func_800153CC(0x14, (s16)(D_800D334A / 60), 0x68, 0xBE, 0x42, 0);
     func_800153CC(0x15, (s16)(D_800D334A % 60), 0x80, 0xBE, 0x42, 0);
     func_8001534C(0x16, D_800CEE44, 0x40, 0xCA, 0x43, 0);
-    func_8001534C(0x17, (func_80029178(0) & 0xFF) ? D_800CEE40 : D_800CEE50, 0xA8, 0xCA, 0, 0);
+    func_8001534C(0x17, (guess_TestGameFlag(0) & 0xFF) ? D_800CEE40 : D_800CEE50, 0xA8, 0xCA, 0, 0);
     func_8001534C(0x18, D_800CEE54, 0x40, 0xD2, 0x43, 0);
-    func_8001534C(0x19, (func_80029178(1) & 0xFF) ? D_800CEE50 : D_800CEE40, 0xA8, 0xD2, 0, 0);
+    func_8001534C(0x19, (guess_TestGameFlag(1) & 0xFF) ? D_800CEE50 : D_800CEE40, 0xA8, 0xD2, 0, 0);
     func_8001534C(0x1B, (void *)D_800CEE60, 0x40, 0xDA, 0x43, 0);
-    func_8001534C(0x1D, (func_80029178(2) & 0xFF) ? D_800CEE50 : D_800CEE40, 0xE0, 0xDA, 0, 0);
+    func_8001534C(0x1D, (guess_TestGameFlag(2) & 0xFF) ? D_800CEE50 : D_800CEE40, 0xE0, 0xDA, 0, 0);
 }
 
 
@@ -602,7 +602,7 @@ void func_800D0BDC(void) {
     extern u16 D_800A658E;
     extern u16 D_800A6590;
     extern u16 D_800A6592;
-    extern void func_80029124(s32, s32);
+    extern void guess_SetGameFlag(s32, s32);
     extern void func_800291A0(s32, s32);
     S_md_MAIN_011_800D0BDC *p = (S_md_MAIN_011_800D0BDC *)D_80078E78;
 
@@ -655,9 +655,9 @@ void func_800D0BDC(void) {
     p->unk8C = 0;
     p->unk90 = 0x6D6;
     p->unk94 = 0x6D6;
-    func_80029124(0x7F, 1);
-    func_80029124(0x80, 1);
-    func_80029124(0x84, 1);
+    guess_SetGameFlag(0x7F, 1);
+    guess_SetGameFlag(0x80, 1);
+    guess_SetGameFlag(0x84, 1);
     func_800291A0(0x3B, 3);
     func_800291A0(0x3C, 3);
     func_800291A0(0x3D, 3);
@@ -716,7 +716,7 @@ void func_800D0BDC(void) {
 
 void func_800D1254(void) {
     extern u8 D_80078E78[];
-    extern void func_80029124(s32 a0, s32 a1);
+    extern void guess_SetGameFlag(s32 a0, s32 a1);
     extern void func_800291A0(s32 a0, s32 a1);
     extern u8 D_8010F4A6;
     extern u8 D_8010F4AE;
@@ -790,40 +790,40 @@ void func_800D1254(void) {
     p->unk8C = 0;
     p->unk90 = 0x31C4;
     p->unk94 = 0x31C4;
-    func_80029124(0x96, 1);
-    func_80029124(0xE5, 1);
-    func_80029124(0xE7, 1);
-    func_80029124(0xDE, 1);
-    func_80029124(0xEC, 1);
-    func_80029124(0xEF, 1);
-    func_80029124(0xE3, 1);
-    func_80029124(0xDF, 1);
-    func_80029124(0xF2, 1);
-    func_80029124(0xED, 1);
-    func_80029124(0x10B, 1);
-    func_80029124(0x16, 1);
-    func_80029124(0x1F, 1);
-    func_80029124(0x82, 1);
-    func_80029124(0x8A, 1);
-    func_80029124(0x8F, 1);
-    func_80029124(0x90, 1);
-    func_80029124(0x91, 1);
-    func_80029124(0x92, 1);
-    func_80029124(0x93, 1);
-    func_80029124(0x94, 1);
-    func_80029124(0x97, 1);
-    func_80029124(0x98, 1);
-    func_80029124(0xB5, 1);
+    guess_SetGameFlag(0x96, 1);
+    guess_SetGameFlag(0xE5, 1);
+    guess_SetGameFlag(0xE7, 1);
+    guess_SetGameFlag(0xDE, 1);
+    guess_SetGameFlag(0xEC, 1);
+    guess_SetGameFlag(0xEF, 1);
+    guess_SetGameFlag(0xE3, 1);
+    guess_SetGameFlag(0xDF, 1);
+    guess_SetGameFlag(0xF2, 1);
+    guess_SetGameFlag(0xED, 1);
+    guess_SetGameFlag(0x10B, 1);
+    guess_SetGameFlag(0x16, 1);
+    guess_SetGameFlag(0x1F, 1);
+    guess_SetGameFlag(0x82, 1);
+    guess_SetGameFlag(0x8A, 1);
+    guess_SetGameFlag(0x8F, 1);
+    guess_SetGameFlag(0x90, 1);
+    guess_SetGameFlag(0x91, 1);
+    guess_SetGameFlag(0x92, 1);
+    guess_SetGameFlag(0x93, 1);
+    guess_SetGameFlag(0x94, 1);
+    guess_SetGameFlag(0x97, 1);
+    guess_SetGameFlag(0x98, 1);
+    guess_SetGameFlag(0xB5, 1);
     func_800291A0(0xCD, 1);
-    func_80029124(0xF0, 1);
-    func_80029124(0x40, 1);
-    func_80029124(0x41, 1);
-    func_80029124(0x42, 1);
-    func_80029124(0x43, 1);
-    func_80029124(0x44, 1);
-    func_80029124(0x45, 1);
-    func_80029124(0x46, 1);
-    func_80029124(0x47, 1);
+    guess_SetGameFlag(0xF0, 1);
+    guess_SetGameFlag(0x40, 1);
+    guess_SetGameFlag(0x41, 1);
+    guess_SetGameFlag(0x42, 1);
+    guess_SetGameFlag(0x43, 1);
+    guess_SetGameFlag(0x44, 1);
+    guess_SetGameFlag(0x45, 1);
+    guess_SetGameFlag(0x46, 1);
+    guess_SetGameFlag(0x47, 1);
     func_800291A0(0x3B, 5);
     func_800291A0(0x3C, 3);
     func_800291A0(0x3D, 3);
@@ -879,14 +879,14 @@ void func_800D1254(void) {
     D_800A659C = D_8010F4C4;
     D_800A65D2 = D_8010F59C;
     D_800A659E = D_8010F4CC;
-    func_80029124(0x9E, 1);
+    guess_SetGameFlag(0x9E, 1);
 }
 
 
 #include "common.h"
 
 extern u8 D_80078E78[];
-extern void func_80029124(s32 a0, s32 a1);
+extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern void func_800291A0(s32 a0, s32 a1);
 extern u8 D_8010F4D6;
 extern u8 D_8010F4DE;
@@ -964,31 +964,31 @@ void func_800D1B00(void) {
     p->f90 = 0x5C44;
     p->f94 = 0x5C44;
 
-    func_80029124(0xF5, 1);
-    func_80029124(0x106, 1);
-    func_80029124(0xF8, 1);
-    func_80029124(0xFF, 1);
-    func_80029124(0xF9, 1);
-    func_80029124(0x105, 1);
-    func_80029124(0x100, 1);
-    func_80029124(0xFD, 1);
-    func_80029124(0xFE, 1);
-    func_80029124(0xFB, 1);
-    func_80029124(0xF4, 1);
-    func_80029124(0xF6, 1);
-    func_80029124(0x17, 1);
-    func_80029124(0x20, 1);
-    func_80029124(0x1E, 1);
-    func_80029124(0x83, 1);
-    func_80029124(0x85, 1);
-    func_80029124(0x86, 1);
-    func_80029124(0x87, 1);
-    func_80029124(0x8B, 1);
-    func_80029124(0xB6, 1);
-    func_80029124(0x1B, 1);
-    func_80029124(0x48, 1);
-    func_80029124(0x49, 1);
-    func_80029124(0x4B, 1);
+    guess_SetGameFlag(0xF5, 1);
+    guess_SetGameFlag(0x106, 1);
+    guess_SetGameFlag(0xF8, 1);
+    guess_SetGameFlag(0xFF, 1);
+    guess_SetGameFlag(0xF9, 1);
+    guess_SetGameFlag(0x105, 1);
+    guess_SetGameFlag(0x100, 1);
+    guess_SetGameFlag(0xFD, 1);
+    guess_SetGameFlag(0xFE, 1);
+    guess_SetGameFlag(0xFB, 1);
+    guess_SetGameFlag(0xF4, 1);
+    guess_SetGameFlag(0xF6, 1);
+    guess_SetGameFlag(0x17, 1);
+    guess_SetGameFlag(0x20, 1);
+    guess_SetGameFlag(0x1E, 1);
+    guess_SetGameFlag(0x83, 1);
+    guess_SetGameFlag(0x85, 1);
+    guess_SetGameFlag(0x86, 1);
+    guess_SetGameFlag(0x87, 1);
+    guess_SetGameFlag(0x8B, 1);
+    guess_SetGameFlag(0xB6, 1);
+    guess_SetGameFlag(0x1B, 1);
+    guess_SetGameFlag(0x48, 1);
+    guess_SetGameFlag(0x49, 1);
+    guess_SetGameFlag(0x4B, 1);
 
     func_800291A0(0x3B, 5);
     func_800291A0(0x3C, 3);
@@ -1048,17 +1048,17 @@ void func_800D1B00(void) {
     D_800A65A8 = D_8010F4F4;
     D_800A65AA = D_8010F4FC;
 
-    func_80029124(0x101, 1);
-    func_80029124(0x102, 1);
-    func_80029124(0x103, 1);
-    func_80029124(0x104, 1);
-    func_80029124(0xB3, 1);
+    guess_SetGameFlag(0x101, 1);
+    guess_SetGameFlag(0x102, 1);
+    guess_SetGameFlag(0x103, 1);
+    guess_SetGameFlag(0x104, 1);
+    guess_SetGameFlag(0xB3, 1);
 }
 
 
 
 extern u8 D_80078E78[];
-extern void func_80029124(s32 arg0, s32 arg1);
+extern void guess_SetGameFlag(s32 arg0, s32 arg1);
 extern void func_800291A0(s32 arg0, s32 arg1);
 extern u16 D_8010F504;
 extern u16 D_8010F50C;
@@ -1132,34 +1132,34 @@ void func_800D235C(void) {
     st->unk60 = 0;
     st->unk64 = 0;
     st->unk68 = 0;
-    func_80029124(0x10D, 1);
-    func_80029124(0x107, 1);
-    func_80029124(0x18, 1);
-    func_80029124(0x1D, 1);
-    func_80029124(0x21, 1);
-    func_80029124(0x81, 1);
-    func_80029124(0x8C, 1);
-    func_80029124(0xC7, 1);
-    func_80029124(0xC8, 1);
-    func_80029124(0xC9, 1);
-    func_80029124(0xCA, 1);
-    func_80029124(0xCB, 1);
-    func_80029124(0xCC, 1);
-    func_80029124(0xCD, 1);
-    func_80029124(0xCE, 1);
-    func_80029124(0xCF, 1);
-    func_80029124(0xD0, 1);
-    func_80029124(0xD1, 1);
-    func_80029124(0xD2, 1);
-    func_80029124(0xD3, 1);
-    func_80029124(0xD4, 1);
-    func_80029124(0xD5, 1);
-    func_80029124(0xD6, 1);
-    func_80029124(0xD7, 1);
-    func_80029124(0xD8, 1);
-    func_80029124(0xD9, 1);
-    func_80029124(0x9B, 1);
-    func_80029124(0x81, 1);
+    guess_SetGameFlag(0x10D, 1);
+    guess_SetGameFlag(0x107, 1);
+    guess_SetGameFlag(0x18, 1);
+    guess_SetGameFlag(0x1D, 1);
+    guess_SetGameFlag(0x21, 1);
+    guess_SetGameFlag(0x81, 1);
+    guess_SetGameFlag(0x8C, 1);
+    guess_SetGameFlag(0xC7, 1);
+    guess_SetGameFlag(0xC8, 1);
+    guess_SetGameFlag(0xC9, 1);
+    guess_SetGameFlag(0xCA, 1);
+    guess_SetGameFlag(0xCB, 1);
+    guess_SetGameFlag(0xCC, 1);
+    guess_SetGameFlag(0xCD, 1);
+    guess_SetGameFlag(0xCE, 1);
+    guess_SetGameFlag(0xCF, 1);
+    guess_SetGameFlag(0xD0, 1);
+    guess_SetGameFlag(0xD1, 1);
+    guess_SetGameFlag(0xD2, 1);
+    guess_SetGameFlag(0xD3, 1);
+    guess_SetGameFlag(0xD4, 1);
+    guess_SetGameFlag(0xD5, 1);
+    guess_SetGameFlag(0xD6, 1);
+    guess_SetGameFlag(0xD7, 1);
+    guess_SetGameFlag(0xD8, 1);
+    guess_SetGameFlag(0xD9, 1);
+    guess_SetGameFlag(0x9B, 1);
+    guess_SetGameFlag(0x81, 1);
     func_800291A0(0x3B, 9);
     func_800291A0(0x3C, 3);
     func_800291A0(0x3D, 4);
@@ -1213,19 +1213,19 @@ void func_800D235C(void) {
     D_800A65B2 = D_8010F51C;
     D_800A65B4 = D_8010F524;
     D_800A65B6 = D_8010F52C;
-    func_80029124(0xC4, 1);
-    func_80029124(0xC5, 1);
-    func_80029124(0xC6, 1);
-    func_80029124(0x56, 1);
-    func_80029124(0x57, 1);
-    func_80029124(0x58, 1);
+    guess_SetGameFlag(0xC4, 1);
+    guess_SetGameFlag(0xC5, 1);
+    guess_SetGameFlag(0xC6, 1);
+    guess_SetGameFlag(0x56, 1);
+    guess_SetGameFlag(0x57, 1);
+    guess_SetGameFlag(0x58, 1);
 }
 
 
 
 void func_800D2BC4(void) {
     extern u8 D_80078E78[];
-    extern void func_80029124(s32, s32);
+    extern void guess_SetGameFlag(s32, s32);
     extern void func_800291A0(s32, s32);
     extern u8 D_8010F536;
     extern u16 D_8010F534;
@@ -1282,20 +1282,20 @@ void func_800D2BC4(void) {
     p->unk90 = 0x9C72;
     p->unk94 = 0x9C72;
 
-    func_80029124(0x19, 1);
-    func_80029124(0x1D, 1);
-    func_80029124(0x21, 1);
-    func_80029124(0x8D, 1);
-    func_80029124(0x89, 1);
-    func_80029124(0xBD, 1);
-    func_80029124(0xBE, 1);
-    func_80029124(0xBF, 1);
-    func_80029124(0xC0, 1);
-    func_80029124(0xC1, 1);
-    func_80029124(0xC2, 1);
-    func_80029124(0xC3, 1);
-    func_80029124(0x4A, 1);
-    func_80029124(0x4C, 1);
+    guess_SetGameFlag(0x19, 1);
+    guess_SetGameFlag(0x1D, 1);
+    guess_SetGameFlag(0x21, 1);
+    guess_SetGameFlag(0x8D, 1);
+    guess_SetGameFlag(0x89, 1);
+    guess_SetGameFlag(0xBD, 1);
+    guess_SetGameFlag(0xBE, 1);
+    guess_SetGameFlag(0xBF, 1);
+    guess_SetGameFlag(0xC0, 1);
+    guess_SetGameFlag(0xC1, 1);
+    guess_SetGameFlag(0xC2, 1);
+    guess_SetGameFlag(0xC3, 1);
+    guess_SetGameFlag(0x4A, 1);
+    guess_SetGameFlag(0x4C, 1);
 
     func_800291A0(0x3B, 0xD);
     func_800291A0(0x3C, 3);
@@ -1342,6 +1342,6 @@ void func_800D2BC4(void) {
 
     D_800A65B8 = D_8010F534;
 
-    func_80029124(0xBB, 1);
+    guess_SetGameFlag(0xBB, 1);
 }
 

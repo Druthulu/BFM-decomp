@@ -28,7 +28,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     case 0: {
         s16 s0 = (s16) arg1;
         if (s0 < 6) {
-            if ((((s32 (*)(u8))func_80029178)(D_80180314[s0]) & 0xFF) == 0) {
+            if ((((s32 (*)(u8))guess_TestGameFlag)(D_80180314[s0]) & 0xFF) == 0) {
                 return 1;
             }
             ret = ((s32 *)D_80180268)[s0];
@@ -65,7 +65,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         case 2: {
             s16 s0 = (s16) arg1;
             if (s0 < 6) {
-                if ((((s32 (*)(u8))func_80029178)((*(u8 * *)&D_8018E7C4)[s0]) & 0xFF) == 0) {
+                if ((((s32 (*)(u8))guess_TestGameFlag)((*(u8 * *)&D_8018E7C4)[s0]) & 0xFF) == 0) {
                     return 1;
                 }
                 ret = (*(s32 * *)&D_8018E7C0)[s0];
@@ -75,7 +75,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         case 3: {
             s16 s0 = (s16) arg1;
             if (s0 < 6) {
-                if ((((s32 (*)(u8))func_80029178)(((u8 *)&D_80180338)[s0]) & 0xFF) == 0) {
+                if ((((s32 (*)(u8))guess_TestGameFlag)(((u8 *)&D_80180338)[s0]) & 0xFF) == 0) {
                     return 1;
                 }
                 ret = ((s32 *)&D_80180250)[s0];

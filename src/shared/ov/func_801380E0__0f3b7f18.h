@@ -4,7 +4,7 @@ s32 func_801380E0(s32 arg0) {
     extern void func_8001931C(s32);
     extern void func_8001AAD0(s32, s32);
     extern s32 func_8001B22C(void);
-    extern void func_80029124(s32, s32);
+    extern void guess_SetGameFlag(s32, s32);
     extern s32 func_800CF864(s32, s32);
     extern void func_80138AB4(s32, s32);
     extern s32 func_80138C60(s32, s32);
@@ -206,19 +206,19 @@ s32 func_801380E0(s32 arg0) {
                 break;
 
             case 16:
-                func_80029124(sub | (*(u8 *)(*p + base + 2) << 8), 1);
+                guess_SetGameFlag(sub | (*(u8 *)(*p + base + 2) << 8), 1);
                 cont = 1;
                 *p += 3;
                 break;
 
             case 17:
-                func_80029124(sub | (*(u8 *)(*p + base + 2) << 8), 0);
+                guess_SetGameFlag(sub | (*(u8 *)(*p + base + 2) << 8), 0);
                 cont = 1;
                 *p += 3;
                 break;
 
             case 18:
-                if (((u8(*)(s32, s32))func_80029178)(sub | (*(u8 *)(*p + base + 2) << 8), cmd)) {
+                if (((u8(*)(s32, s32))guess_TestGameFlag)(sub | (*(u8 *)(*p + base + 2) << 8), cmd)) {
                     q18 = *p;
                     *p = *(u8 *)(q18 + base + 3) + (q18 + 4);
                 } else {
@@ -228,7 +228,7 @@ s32 func_801380E0(s32 arg0) {
                 break;
 
             case 19:
-                if (!((u8(*)(s32, s32))func_80029178)(sub | (*(u8 *)(*p + base + 2) << 8), cmd)) {
+                if (!((u8(*)(s32, s32))guess_TestGameFlag)(sub | (*(u8 *)(*p + base + 2) << 8), cmd)) {
                     q19 = *p;
                     *p = *(u8 *)(q19 + base + 3) + (q19 + 4);
                 } else {

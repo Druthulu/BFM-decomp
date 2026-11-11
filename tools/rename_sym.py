@@ -345,7 +345,9 @@ def main():
     planned, newtexts, ntext, nrows = prepare(rows, groups, symtexts, open(names_path).read(), aliases, stamp)
     touched = {r["binary"] for r in planned}
     spec_rel = os.path.relpath(os.path.abspath(a.spec), REPO)
-    pats = [(r["old"], r["new"], rewrite_re(r["old"])) for r in planned]
+    # one pattern per distinct (old, new), first-seen order: a class row repeats its pair once per member
+    # (141 for an overlay-base class); a repeat finds nothing once the first has replaced old, so output is unchanged
+    pats = [(o, n, rewrite_re(o)) for o, n in dict.fromkeys((r["old"], r["new"]) for r in planned)]
     for r in planned:
         print("[rename_sym] %s -> %s (%s, %s) in %s" % (r["old"], r["new"], r["addr"], r["binary"], r["symfile"]))
         touched |= asm_binaries(r["old"], aliases)

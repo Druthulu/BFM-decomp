@@ -3,7 +3,7 @@
 void func_8015F9A4(void *arg0) {
     if (*(u16 *)((u8 *)arg0 + 0xB8) & 0x8000) {
         D_80181160[*(u16 *)arg0](arg0);
-        func_80147078(arg0, 0);
+        guess_SetState(arg0, 0);
         func_80159B70(arg0);
     } else {
         ((s32 (*)(void *))func_80161208)(arg0);

@@ -8,10 +8,10 @@ void func_8012A328(void)
     extern s16 D_80126940;
     extern s16 D_80126942;
     extern s16 D_80126944;
-    extern s32 D_80126B58;
+    extern s32 guess_g_PlayerActor;
     extern s16 D_80127080;
     extern s16 D_80126CAE;
-    Obj_80126B58 *p = (Obj_80126B58 *)&D_80126B58;
+    Obj_80126B58 *p = (Obj_80126B58 *)&guess_g_PlayerActor;
     s16 *q;
     s32 a, b;
     if (*(u8 *)&D_801152C0 != 0) {

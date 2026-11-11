@@ -15,7 +15,7 @@ void func_8015CA28(u16 *param_1) {
     if ((((u32 (*)(u16 *))func_801487F4)(param_1) & 0x80) != 0 || ((int (*)(u16 *))func_801488A8)(param_1) != 0) {
         if ((((int (*)(u16 *))func_80148AAC)(param_1) & 0xff) != 0) {
             ((void (*)(u16 *, int, int, int))func_80147AD4)(param_1, 0, 0, 0);
-            ((void (*)(u16 *))func_801473EC)(param_1);
+            ((void (*)(u16 *))guess_ApplyVelocity)(param_1);
         }
         if (((int (*)(u16 *))func_8014D738)(param_1) != 0) {
             ((void (*)(u16 *, void *))func_80146DB8)(param_1, &D_801818B8);
@@ -26,7 +26,7 @@ void func_8015CA28(u16 *param_1) {
             goto do161240;
     }
     ((void (**)(u16*))D_80181914)[*param_1](param_1);
-    ((void (*)(u16 *, int))func_80147078)(param_1, 0);
+    ((void (*)(u16 *, int))guess_SetState)(param_1, 0);
     ((void (*)(u16 *))func_80159B70)(param_1);
     return;
 do161240:

@@ -71,7 +71,7 @@ void func_800CAFA0(void *a0) {
     extern s32 func_80146C3C(u8 *a0);
     extern void RotMatrixY(s32, void *);
     extern s32 func_80047948(s32);
-    extern void func_8012F14C(s32, s32, s32);
+    extern void guess_RotTransSVWithMatrix(s32, s32, s32);
     extern s32 func_80128ED8(s32, s32 *);
 
     struct { s16 x, y, z; } sv;
@@ -91,7 +91,7 @@ void func_800CAFA0(void *a0) {
         sv.x = 0;
         sv.y = (func_80047948(((((Unkstruct_800CAFA0 *)a0)->unk1C & 0xF) << 8) + ((Unkstruct_800CAFA0 *)a0)->unk2C) >> 9) - 0x14;
         sv.z = -0x40;
-        func_8012F14C((s32)&m, (s32)&sv, (s32)&sv);
+        guess_RotTransSVWithMatrix((s32)&m, (s32)&sv, (s32)&sv);
         if (((Unkstruct_800CAFA0 *)a0)->unk1C == 0) {
             func_80146A6C(3, a0, sv.x, sv.y, sv.z, 0xAAAFFFA, 0xE000B800);
         } else {

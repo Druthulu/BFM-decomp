@@ -93,7 +93,7 @@ extern void func_800CF82C(void);
 extern void func_800CF840(void);
 extern u8 D_800AE6BF;
 extern s32 func_800CF854(void);
-extern u16 D_80126B58;
+extern u16 guess_g_PlayerActor;
 extern s32 func_800CF8B4(void);
 extern s32 func_800CF864(void);
 extern s32 func_800CF8CC(void);
@@ -126,7 +126,7 @@ extern void func_800D02C0(s32 arg0);
 extern s32 func_800D05E8(s32 arg0);
 extern s32 D_8012704C;
 extern s32 func_800D0588(void);
-extern s32 func_80029504(void);
+extern s32 guess_GetStoryProgress(void);
 extern void func_800D065C(void);
 extern s32 D_8011529C;
 extern void func_800D0630(void);
@@ -221,13 +221,13 @@ extern void func_8014B944(s32, s32, s32);
 extern void func_8014BC0C(s32, s32);
 extern void func_8014B2A8(void);
 extern void func_8002D4C8(s32, s32);
-extern u16 D_80126B58;
+extern u16 guess_g_PlayerActor;
 
 s32 func_800D128C(s32 arg0, s32 arg1) {
     s16 ret = 3;
     s32 flag = 1;
     s32 id = 0;
-    s32 obj = (s32)&D_80126B58;
+    s32 obj = (s32)&guess_g_PlayerActor;
     s32 val;
     /* func_8014BB24 under a second declaration: cross-jump compares call targets by the
      * symbol-name POINTER (rtx_renumbered_equal_p, jump.c:3991-3992), so case 117's call stays
@@ -711,7 +711,7 @@ dispatch:
 
 // ANALYSIS (re-derived):
 //   s0 = arg0 (struct ptr, callee-saved: live across 4 calls)
-//   func_80029124(0x119, 0)
+//   guess_SetGameFlag(0x119, 0)
 //   func_8002D4C8(4, 0x448)
 //   func_8002D4C8(4, 0x449)
 //   func_8002D4C8(4, 0x8ED)
@@ -729,12 +729,12 @@ dispatch:
 // Widths: D_800B9A10 sb => declared `s8` in resident.c (func_800D1BAC) -> COPY it ;
 //   fields +0x14/+0x15 sb/lbu => u8.
 // Return type s32 (plain addu v0,zero,zero).
-extern void func_80029124(s32 arg0, s32 arg1);
+extern void guess_SetGameFlag(s32 arg0, s32 arg1);
 extern void func_8002D4C8(s32 arg0, s32 arg1);
 extern s8 D_800B9A10;
 
 s32 func_800D1B10(u8 *arg0) {
-    func_80029124(0x119, 0);
+    guess_SetGameFlag(0x119, 0);
     func_8002D4C8(4, 0x448);
     func_8002D4C8(4, 0x449);
     func_8002D4C8(4, 0x8ED);
@@ -1052,7 +1052,7 @@ s32 func_800D1EBC(void) {
     return ret != 0;
 }
 
-extern u16 D_80078EB4;
+extern u16 g_PlayerHp;
 extern u16 D_80078EB8;
 extern s32 D_80078E8C;
 extern s32 D_8011DB14;
@@ -1060,23 +1060,23 @@ extern s32 D_8011DB1C;
 extern s32 D_80128150;
 
 void func_800D1F58(void) {
-    D_8011DB14 = D_80078EB4;
+    D_8011DB14 = g_PlayerHp;
     D_8011DB1C = D_80078EB8;
     D_80128150 = D_80078E8C;
 }
 
 /* func_800D1F90 — the inverse of the matched func_800D1F58 (resident.c:673).
  *
- *   D_80078EB4 (u16) = (u16)D_8011DB14 (s32)   -> lw v0; sh v0
+ *   g_PlayerHp (u16) = (u16)D_8011DB14 (s32)   -> lw v0; sh v0
  *   D_80078EB8 (u16) = (u16)D_8011DB1C (s32)   -> lw v1; sh v1
  *   D_80078E8C (s32) =       D_80128150 (s32)  -> lw a0; sw a0
  *
  * The three source loads are independent, so gcc's r3000 scheduler hoists all
  * three lw's ahead of the three stores (matches the asm: lw,lw,lw,sh,sh,sw).
  * Types COPIED verbatim from the matched func_800D1F58 so the load widths agree:
- * D_80078EB4/B8 are u16, the rest s32.  sh truncates the s32 source naturally.
+ * g_PlayerHp/B8 are u16, the rest s32.  sh truncates the s32 source naturally.
  */
-extern u16 D_80078EB4;
+extern u16 g_PlayerHp;
 extern u16 D_80078EB8;
 extern s32 D_80078E8C;
 extern s32 D_8011DB14;
@@ -1084,7 +1084,7 @@ extern s32 D_8011DB1C;
 extern s32 D_80128150;
 
 void func_800D1F90(void) {
-    D_80078EB4 = D_8011DB14;
+    g_PlayerHp = D_8011DB14;
     D_80078EB8 = D_8011DB1C;
     D_80078E8C = D_80128150;
 }
@@ -1101,7 +1101,7 @@ void func_800D1F90(void) {
  *    order). Pair 1's lw merges with the block-local dx qty, so it must stay un-hoisted.
  */
 void func_800D1FC8(void *arg0, int arg1) {
-    extern int D_801151D4;
+    extern int guess_g_ActiveCamera;
     extern void VectorNormalSS(void *a0, void *a1);
 
     int *g;
@@ -1109,7 +1109,7 @@ void func_800D1FC8(void *arg0, int arg1) {
     int dx, dy, dz;
     int sh, t1, t2;
 
-    g = (int *)D_801151D4;
+    g = (int *)guess_g_ActiveCamera;
 
     dx = ((Unkstruct_80126948 *)g)->unk5C - *(unsigned short *)((char *)arg0 + 6);
     v[0] = dx;
@@ -1141,11 +1141,11 @@ void func_800D1FC8(void *arg0, int arg1) {
  * arg0 (s0) = position struct {u16 x@0, y@2, z@4}.
  * arg1 (s1) = SVECTOR* {s16 vx@0, vy@2, vz@4}.
  * arg2 (s2) = shift amount (used as arg2 & 0xFFFF).
- * D_801151D4 is a POINTER global (lw a1,D_801151D4 then lw 0x5C/0x60/0x64(a1)).
+ * guess_g_ActiveCamera is a POINTER global (lw a1,guess_g_ActiveCamera then lw 0x5C/0x60/0x64(a1)).
  *
- *   dx = D_801151D4->t5C - (u16)arg0->x     (lw - lhu, in s32; sh to local[0])
- *   dy = D_801151D4->t60 - (u16)arg0->y     (sh local[1])
- *   dz = D_801151D4->t64 - (u16)arg0->z     (sh local[2])
+ *   dx = guess_g_ActiveCamera->t5C - (u16)arg0->x     (lw - lhu, in s32; sh to local[0])
+ *   dy = guess_g_ActiveCamera->t60 - (u16)arg0->y     (sh local[1])
+ *   dz = guess_g_ActiveCamera->t64 - (u16)arg0->z     (sh local[2])
  *   all three deltas are live across test1's branch (dy in a3, dz in a0) -> they
  *   are all computed BEFORE the first test, so "compute all deltas, store, then test".
  *
@@ -1164,12 +1164,12 @@ void func_800D1FC8(void *arg0, int arg1) {
 
 
 
-extern Tgt800D20C0 *D_801151D4;
+extern Tgt800D20C0 *guess_g_ActiveCamera;
 extern long VectorNormalSS(SVECTOR_800 *a, SVECTOR_800 *b);
 
 void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
     SVECTOR_800 local;
-    Tgt800D20C0 *p = D_801151D4;
+    Tgt800D20C0 *p = guess_g_ActiveCamera;
     s32 dx, dy, dz;
     s32 shift;
 

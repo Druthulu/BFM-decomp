@@ -47,18 +47,18 @@ void func_800CAEE8(void *a0) {
 void func_800CAF3C(void) {
 }
 
-extern void func_80147078(s32 *a0, s16 a1);
+extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_800CB008();  // K&R: 0 of 1 args (P37 rung D t4_D52)
 void func_800CAF44(s32 *a0) {
-    func_80147078(a0, 34);
+    guess_SetState(a0, 34);
     ((void (*)(void *))func_800CB008)(a0);
 }
 
 
-extern void func_80147078(s32 *a0, s16 a1);
+extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_800CAFAC(void *a0);
 void func_800CAF78(s32 *a0) {
-    func_80147078(a0, 34);
+    guess_SetState(a0, 34);
     func_800CAFAC(a0);
 }
 
@@ -255,7 +255,7 @@ void func_800CB3D0(void) {
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80017DF8(s16 *a0, void *a1);
 extern void func_80149350(s32 a0, s32 a1, s32 a2);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 extern u8 D_800CBCBC[];
 extern u8 D_800CBCC4[];
@@ -283,7 +283,7 @@ void func_800CB3F0(void *a0) {
     ((Unkstruct_800CB3F0 *)mat)->unk18 = ang[1];
     ((Unkstruct_800CB3F0 *)mat)->unk1C = ang[2];
 
-    func_8012F14C((s32)mat, (s32)D_800CBCC4, (s32)ang);
+    guess_RotTransSVWithMatrix((s32)mat, (s32)D_800CBCC4, (s32)ang);
     func_80015954((s32)ang, (s32)a0 + 4);
 }
 
@@ -390,9 +390,9 @@ extern void *func_801465C0(void);
 void func_800CB68C(s32 param_1)
 {
 
-    extern u16 D_80126B5E;
-    extern u16 D_80126B62;
-    extern u16 D_80126B66;
+    extern u16 guess_g_PlayerPosX;
+    extern u16 guess_g_PlayerPosY;
+    extern u16 guess_g_PlayerPosZ;
     extern void func_800CBAA4(s32);
     extern void RotMatrixY(s32 a0, void *a1);
     extern u8 D_800CBDB0;
@@ -448,9 +448,9 @@ void func_800CB68C(s32 param_1)
         uVar2 = ((s32(*)())rand)();
         RotMatrixY((uVar2 & 0x7f00) >> 3, &localMatrix);
         ApplyMatrixSV(&localMatrix, asStack_60, asStack_60);
-        ((Unkstruct_800CB68C *)param_1)->unk6 = D_80126B5E + asStack_60[0];
-        ((Unkstruct_800CB68C *)param_1)->unkA = D_80126B62 - ((u16)uVar2 & 0x3f);
-        ((Unkstruct_800CB68C *)param_1)->unkE = D_80126B66 + asStack_60[2];
+        ((Unkstruct_800CB68C *)param_1)->unk6 = guess_g_PlayerPosX + asStack_60[0];
+        ((Unkstruct_800CB68C *)param_1)->unkA = guess_g_PlayerPosY - ((u16)uVar2 & 0x3f);
+        ((Unkstruct_800CB68C *)param_1)->unkE = guess_g_PlayerPosZ + asStack_60[2];
         *(Blk20_800CB68C *)((u8 *)((void *)param_1) + 0x38) = *(Blk20_800CB68C *)((u8 *)iVar8 + 0x38);
         ((Unkstruct_800CB68C *)param_1)->unk2C = 0x1000;
         ((Unkstruct_800CB68C *)param_1)->unk30 = 0xff;

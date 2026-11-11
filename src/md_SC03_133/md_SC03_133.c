@@ -171,11 +171,11 @@ extern u16  func_80148800(s32 *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_801E2B1C(s32 param_1, s16 *param_2) {
 
-    extern s32 D_80126B58;
+    extern s32 guess_g_PlayerActor;
     extern s16 D_801E314C[];
     extern u16 D_801E3150[];
 
@@ -184,7 +184,7 @@ void func_801E2B1C(s32 param_1, s16 *param_2) {
     SVECTOR_801EDED4_801E2B1C svec_out;
     u8 t;
 
-    if (func_80148800(&D_80126B58) & 3) {
+    if (func_80148800(&guess_g_PlayerActor) & 3) {
         t = (*(u8 *)(param_1 + 5) + 1) & 1;
         *(u8 *)(param_1 + 5) = t;
         *(s32 *)(param_1 + 0xC)  = D_801E314C[t];
@@ -211,7 +211,7 @@ void func_801E2B1C(s32 param_1, s16 *param_2) {
     svec_in.vx = 0;
     svec_in.vy = 0;
     svec_in.vz = *(s32 *)(param_1 + 0x10);
-    ((void (*)(s32, s32, s32))func_8012F14C)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
+    ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
 
     *(s32 *)(param_1 + 0x3C) = (s32)svec_out.vx;
     *(s32 *)(param_1 + 0x40) = (s32)svec_out.vy;
@@ -271,8 +271,8 @@ s32 func_801E2DB8(void) {
 
 
 
-extern s32 func_80029178(s32 arg);
-    extern void func_80029124(s32, s32);
+extern s32 guess_TestGameFlag(s32 arg);
+    extern void guess_SetGameFlag(s32, s32);
 #define SHARED_FN func_801E2DC8
 #include "../shared/multi/cls_388042195473.h"
 #undef SHARED_FN
@@ -284,7 +284,7 @@ void func_801E2E04(s32 a0) {
     extern s32 D_801E3210[];
     extern s32 D_801E322C[];
 
-    s32 v1 = func_80029504();
+    s32 v1 = guess_GetStoryProgress();
 
     if (v1 < 0xC8) {
         s32 v0 = func_80184428();
@@ -355,7 +355,7 @@ void func_801E2EC0(void *a0) {
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern void func_8001C214(s32 a0, s32 a1);
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, s32 a1);
 extern s32 func_80178B18(s32 a0, s32 a1);
 
@@ -374,7 +374,7 @@ void func_801E2FF4(void *a0) {
     if (v0 == 0) {
         func_8012CAE4(a0);
     } else {
-        func_8001C214(v0, (s32)&D_801E904C);
+        guess_InitModelObject(v0, (s32)&D_801E904C);
         v1 = ((Unkstruct_800B5CB8 *)a0)->unk68;
         CAST_ALIAS(s16, (s32)a0, 0x6) = D_801E3154;
         CAST_ALIAS(s16, (s32)a0, 0xA) = D_801E3156;

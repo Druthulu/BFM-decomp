@@ -27,7 +27,7 @@ void func_8013E83C() {
     }
     D_80115158 = 0x106;
 
-    if ((((int(*)(int))func_80029178)(0x1c) & 0xFF) == 0) {
+    if ((((int(*)(int))guess_TestGameFlag)(0x1c) & 0xFF) == 0) {
         D_8018E7C0 = &D_80180290;
         D_8018E7C4 = &D_8018031C;
     } else {
