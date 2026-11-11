@@ -2503,8 +2503,8 @@ cause: 3 names (236 B, all members placeholders) bound to 3 distinct objects, no
 
 ### 516d9cbf1cfe
 names: SP18, Unkstruct_8018854C_2, Unkstruct_8018858C_2
-cause: 3 names (28 B, all members placeholders) bound to 5 distinct objects, none bound to two names: 0x80078E78, md_MAIN_011/0x800CF28C:sp18, md_MAIN_011/0x800CFDB4:sp18, ov_SC03_028/0x8018854C:a0, ov_SC03_028/0x8018858C:ptr1; full list: tools/struct_twins.py --show 516d9cbf1cfe
-- `SP18`: 3 obj — 0x80078E78, md_MAIN_011/0x800CF28C:sp18, md_MAIN_011/0x800CFDB4:sp18
+cause: 3 names (28 B, all members placeholders) bound to 5 distinct objects, none bound to two names: 0x80078E78 (guess_g_PlayerRecord), md_MAIN_011/0x800CF28C:sp18, md_MAIN_011/0x800CFDB4:sp18, ov_SC03_028/0x8018854C:a0, ov_SC03_028/0x8018858C:ptr1; full list: tools/struct_twins.py --show 516d9cbf1cfe
+- `SP18`: 3 obj — 0x80078E78 (guess_g_PlayerRecord), md_MAIN_011/0x800CF28C:sp18, md_MAIN_011/0x800CFDB4:sp18
 - `Unkstruct_8018854C_2`: 1 obj — ov_SC03_028/0x8018854C:a0
 - `Unkstruct_8018858C_2`: 1 obj — ov_SC03_028/0x8018858C:ptr1
 

@@ -17,7 +17,7 @@ Unkstruct_8016B4F8	define	Unkstruct_8016B4F8	flow-cluster	no entity evidence for
 Unkstruct_80139C7C	define	Unkstruct_80139C7C	flow-cluster	no entity evidence for an existing type; 265 bodies 5 fns; best layout match recorded by T2 only
 Unkstruct_f896d121	define	Unkstruct_8013B274	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_80130D48	residual	TYPE-SCALAR	layout	fields 1 conflicts 0 size 2
-Unkstruct_1255bbfd	define	Unkstruct_8011F888	E2-anchor	flag = &D_8011F7A8 + 0xE0 (func_80176218, func_80176734): per-field flag block, offsets parallel 80078E78 but a different entity (coincident layout, not folded)
+Unkstruct_1255bbfd	define	Unkstruct_8011F888	E2-anchor	flag = &D_8011F7A8 + 0xE0 (func_80176218, func_80176734): per-field flag block, offsets parallel 80078E78 (guess_g_PlayerRecord) but a different entity (coincident layout, not folded)
 Unkstruct_dd542e54	fold	Unkstruct_8011F7A8	E2-anchor	func_80175DA8 s = &D_8011F7F0 - 0x48 = &D_8011F7A8
 Unkstruct_f49880fd	define	Unkstruct_80135480	single-fn	no entity evidence for an existing type; 125 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_a8d34bce	define	Unkstruct_801727D0	flow-cluster	no entity evidence for an existing type; 1948 bodies 15 fns; best layout match recorded by T2 only

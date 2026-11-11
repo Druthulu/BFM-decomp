@@ -324,7 +324,7 @@ typedef struct {
 } Unkstruct_80126B58; /* size = 0x24c */
 /* head_types:end */
 
-/* Unkstruct_80078E78 — the player record at 0x80078E78 (0x98 bytes; was Blk98_80029274 in src/800.c, Blk80078E78 in
+/* Unkstruct_80078E78 — the player record at 0x80078E78 (guess_g_PlayerRecord; 0x98 bytes; was Blk98_80029274 in src/800.c, Blk80078E78 in
    src/resident/resident_jr_800D00E4.c, u8 guess_g_PlayerRecord[] in 880 TUs). Hand-written (P38 T3): field widths are the type the
    USING TUs declare for each scalar global (.run/P38/T3/player_use_widths.py); names only where docs/memory-map.md 3.4
    or docs/actor-struct.md mark the row verified. Decisions: docs/struct-map-decisions.md. */
