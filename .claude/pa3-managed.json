@@ -1,8 +1,8 @@
 {
   "files": {
     ".claude/agents/auditor.md": {
-      "base": "3.30.7",
-      "sha": "e280609f48555cbaa2e7ac971208316601b95f35b42f3a89dae0e09ec44895cb",
+      "base": "3.32.8",
+      "sha": "c03a9564cbef1948c6d510248310e26cc42f396fbb25edcc93ad7a7fc8531f14",
       "user": null
     },
     ".claude/agents/memory-curator.md": {
@@ -11,8 +11,8 @@
       "user": null
     },
     ".claude/agents/pa-claude.md": {
-      "base": "3.32.22",
-      "sha": "1ad122f8c25d3ebdeeca070620da8810e184f9f3bb838de01026ce88836fd7d2",
+      "base": "3.32.23",
+      "sha": "ccac56a55ea6871a5665c257ad0534b9e0e5dc565079c0dc5567ea821255f84a",
       "user": null
     },
     ".claude/agents/pa-coder.md": {
@@ -67,17 +67,17 @@
     },
     ".claude/skills/pa-planning/SKILL.md": {
       "base": null,
-      "sha": "a0fd1c6c0c40b92bd5bea3d48bb1a3429f229d6acb61e6a3ce5c5a5ba2ecef28",
+      "sha": "d1f77b56b8a2d890400741e7fd5ffb9e3eb493354af6f48beadf42f4b0ac0495",
       "user": null
     },
     ".claude/skills/project-architect/SKILL.md": {
       "base": null,
-      "sha": "fb6dfcfe748d7e618acd33af6a2213cf5f1144e736310ea69acfe0448f98ce3f",
+      "sha": "26cc810c59a4684e0bbf876f44f2de8b3ff32f199eefd4f7a81343bb2f4ee6c7",
       "user": null
     },
     "docs/project-architect.md": {
       "base": null,
-      "sha": "889c96689cf1778b2d23f1a20782cfbbe28a01086790db764d4cc01640ac576d",
+      "sha": "eb14b255e9990c820d6b3faba3cdd8ab9751e964780e1c099ec180332123e9e0",
       "user": null
     },
     "templates/CLAUDE.template.md": {
@@ -337,9 +337,9 @@
     }
   },
   "format": 1,
-  "git": "332b3e0a",
-  "installed": "2026-11-10T03:27:08Z",
+  "git": "ebe3097b",
+  "installed": "2026-11-12T21:39:26Z",
   "package": null,
-  "phase": "3.32.15",
-  "upstream_version": "3.32.15"
+  "phase": "3.32.16",
+  "upstream_version": "3.32.16"
 }
