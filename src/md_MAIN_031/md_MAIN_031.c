@@ -2,7 +2,7 @@
 
 void func_800CAE0C(void) {
     extern void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2);
-    extern s32 func_800183E0(s32 a0);
+    extern s32 guess_AllocRenderWorkRecord(s32 a0);
     extern u8 D_800CC09C[];
     extern u8 D_800CBF3C[];
     extern u8 D_800CBF7C[];
@@ -13,7 +13,7 @@ void func_800CAE0C(void) {
 
     func_800CAE74((void *)&D_800CC09C, (void *)&D_800CBF3C, (void *)&D_800CBF7C);
     func_800CAE74((void *)&D_800CC0DC, (void *)&D_800CBF5C, (void *)&D_800CBFA8);
-    func_800183E0((s32)&D_800CC05C);
+    guess_AllocRenderWorkRecord((s32)&D_800CC05C);
 }
 
 
@@ -26,7 +26,7 @@ void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2) {
     s32 *iter;
     s32 s;
 
-    extern s32 func_800183E0(s32 a0);
+    extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
     base = ((Unkstruct_800CAE74 *)arg1)->unkC;
     ((Unkstruct_800CAE74 *)arg1)->unk2 = ((Unkstruct_800CAE74_2 *)arg0)->unk2;
@@ -55,7 +55,7 @@ void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2) {
             z += 2;
         } while (s != 0);
     }
-    func_800183E0(arg1);
+    guess_AllocRenderWorkRecord(arg1);
 }
 
 
@@ -82,7 +82,7 @@ void func_800CAF9C(u8 *a0) {
 extern u16 D_801270C0;
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void func_801655E4(s32 a0);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
@@ -100,7 +100,7 @@ void func_800CAFE4(u8 *a0) {
     func_801655E4((s32)a0);
     func_800CAE74((void *)&D_800CC09C, (void *)&D_800CBF3C, (void *)&D_800CBF7C);
     func_800CAE74((void *)&D_800CC0DC, (void *)&D_800CBF5C, (void *)&D_800CBFA8);
-    func_800183E0((s32)&D_800CC05C);
+    guess_AllocRenderWorkRecord((s32)&D_800CC05C);
     CAST_WIDTH(u16, a0, 0x234) = 0;
     *(u16 *)(a0 + 0x236) = 0x10;
     ((Unkstruct_80126B58 *)a0)->unk238 = 0;
@@ -231,7 +231,7 @@ void func_800CB288(s32 arg0)
 
 extern u16 D_8011F9D0[];
 extern u16 D_801270C0;
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CB3B4(void) {
     u16 *p;
@@ -244,7 +244,7 @@ void func_800CB3B4(void) {
     p = D_8011F9D0;
     do {
         if (*p == w) {
-            ((void (*)(void *))func_80162CCC)((void *)p);
+            ((void (*)(void *))guess_ClearObjectAndSubObject)((void *)p);
         }
         i = i + 1;
         p = p + 0x34;
@@ -255,7 +255,7 @@ void func_800CB3B4(void) {
 void func_800CB428(void *a0) {
     extern u32 func_80029204(s32 arg0);
     extern void func_800CB5C8(void *a0, void *a1);
-    extern s32 func_800183E0(s32 a0);
+    extern s32 guess_AllocRenderWorkRecord(s32 a0);
     extern u8 D_800CC0FC[];
     extern u8 D_800CBF7C[];
     extern u8 D_800CC11C[];
@@ -315,8 +315,8 @@ loop2:
         goto loop2;
     }
 done2:
-    func_800183E0((s32)&D_800CBF3C);
-    func_800183E0((s32)&D_800CBF5C);
+    guess_AllocRenderWorkRecord((s32)&D_800CBF3C);
+    guess_AllocRenderWorkRecord((s32)&D_800CBF5C);
 }
 
 
@@ -533,7 +533,7 @@ void func_800CBCD4(u8 *s0) {
     extern s32 func_80012ABC(s32, s32, s32);
     extern void func_80162F08(s32, s32, s32, s32);
     extern void func_80013B64(s32, s32, s32);
-    extern void func_80162FC0(s32 *);
+    extern void guess_AddVelocityToPos_2(s32 *);
     extern s32 func_800CBED8(s32 *);
     extern void func_80146DE8(s32 *, s32, s32, s32);
     extern s32 rand(void);
@@ -556,7 +556,7 @@ void func_800CBCD4(u8 *s0) {
         ((Unkstruct_80126B58 *)s0)->unk10 = sp10[0];
         ((Unkstruct_80126B58 *)s0)->unk14 = sp10[1];
         ((Unkstruct_80126B58 *)s0)->unk18 = sp10[2];
-        func_80162FC0(s0);
+        guess_AddVelocityToPos_2(s0);
         func_800CBED8(s0);
         flag = ((Unkstruct_80126B58 *)s0)->unk28 >= (s32)0xFFFE0000;
         if (flag) {
@@ -605,12 +605,12 @@ void func_800CBCD4(u8 *s0) {
 }
 
 
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 /* guess_FreeObjectAndSubObject_16: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
- * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_16 */
 void guess_FreeObjectAndSubObject_16(void) {
-    func_80162CCC();
+    guess_ClearObjectAndSubObject();
 }
 
 

@@ -41,7 +41,7 @@ extern void func_8014A6A8(s32 a0);
 extern void func_8014A71C(s32 a0);
 extern void func_80172588(s32 *a0);
 extern void func_801473DC(s32 *a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 s32 func_80146128(void)
 {
     s32 base;
@@ -93,9 +93,9 @@ s32 func_80146128(void)
         func_8014A71C(base);
         ((void (*)(s32))func_80172588)(base);
         ((void (*)(s32))func_801473DC)(base);
-        ((void (*)(s32, s32))func_80015978)(base + 4, base + 0x98);
+        ((void (*)(s32, s32))guess_CopyVec3HighHalves)(base + 4, base + 0x98);
         return 1;
     }
-    ((void (*)(s32, s32))func_80015978)(base + 4, base + 0x98);
+    ((void (*)(s32, s32))guess_CopyVec3HighHalves)(base + 4, base + 0x98);
     return 0;
 }

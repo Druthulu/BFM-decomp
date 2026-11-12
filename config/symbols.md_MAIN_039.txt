@@ -1,8 +1,9 @@
 // config/symbols.md_MAIN_039.txt — module md_MAIN_039 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CAE08..0x800CC44C); NEVER merged into config/symbols.us.txt.
-// count=14
+// count=17
 
 guess_FreeObjectAndSubObject_10  = 0x800CB4AC; // func
+guess_AddVelocityToPos_5         = 0x800CBBDC; // func
 guess_StartPairSequence          = 0x80128EA8; // func
 guess_StepPairSequence           = 0x80128ED8; // func
 guess_AllocSpriteObject          = 0x801465C0; // func
@@ -16,3 +17,5 @@ guess_TickWaitTimer_2            = 0x80146E98; // func
 guess_PlaySoundUnlessSkipped     = 0x80147324; // func
 guess_TransformPosByObjMatrix    = 0x80149374; // func
 guess_SetAnimScript              = 0x80154274; // func
+guess_ClearObjectAndSubObject    = 0x80162CCC; // func
+guess_AddVelocityToPos_2         = 0x80162FC0; // func

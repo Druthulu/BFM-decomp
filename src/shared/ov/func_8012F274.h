@@ -1,6 +1,6 @@
 /* func_8012F274 — shared body (overlay slot 0x80128158, h_exact 0bfaee44). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
@@ -14,7 +14,7 @@ static inline void tail_8012F274(s32 *in, s32 e) {
 void func_8012F274(s32 a0, s32 a1) {
     s32 v[2];
     s32 p;
-    func_80015978(a1, v);
+    guess_CopyVec3HighHalves(a1, v);
     p = *(s32 *)(a0 + 0x20) + 0x34;
     SetRotMatrix((void *)p);
     SetTransMatrix((void *)p);

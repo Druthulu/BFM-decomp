@@ -6,7 +6,7 @@ s32 param_1;
     s32 var_v0;
 
     *(s32 *)(param_1 + 0x14) = *(s32 *)(param_1 + 0x14) + 0xC000;
-    ((void (*)(void))func_800D22E4)();
+    ((void (*)(void))guess_AddVelocityToPos_4)();
     var_v0 = *(s32 *)(param_1 + 0x1C) - 1;
     *(s32 *)(param_1 + 0x1C) = var_v0;
     if (var_v0 == -1) {

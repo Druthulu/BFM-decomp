@@ -1135,7 +1135,7 @@ src/shared/ov/func_80140958__8c3b3d1b.h	func_80140958	keepalive	delever B t8_rj4
 src/shared/ov/func_80140958__8c3b3d1b.h	func_80140958	pin	delever B t8_rj4	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129) wall:greg-copy-pref
 src/shared/ov/func_80140958__e2790db1.h	func_80140958	keepalive	delever B t8_rj4	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129) wall:greg-copy-pref
 src/shared/ov/func_80140958__e2790db1.h	func_80140958	pin	delever B t8_rj4	oracle DIFFERS on removal	head-class(125a1f54cf5d, n=129) wall:greg-copy-pref
-src/shared/ov/func_801415C0.h	func_801415C0	pin	T11 crack G07	delever_search --try best 40/37; T11 wall lreg-qty-order	singleton(pin) wall:lreg-priority
+src/shared/ov/func_801415C0.h	guess_SwapGameVarSlots	pin	T11 crack G07	delever_search --try best 40/37; T11 wall lreg-qty-order	singleton(pin) wall:lreg-priority
 src/shared/ov/func_80145C54.h	func_80145C54	pin	T11 crack G08	delever_search --try best 6/746	singleton(pin) wall:cse-copy-merge
 src/shared/ov/func_80146750.h	func_80146750	pin	T11 crack W48x	delever_search --try best 2/260; T11 wall cse-copy-canonical	singleton(pin) wall:cse-copy-merge
 src/shared/ov/func_8014680C.h	func_8014680C	pin	delever B headers1	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:cse-const-addr

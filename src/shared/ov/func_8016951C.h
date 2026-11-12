@@ -1,7 +1,7 @@
 /* func_8016951C — shared body (overlay slot 0x80128158, h_exact 70b8e5ac). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80169584(s32 param_1);
-extern void func_800D22E4(s32 a0);
+extern void guess_AddVelocityToPos_4(s32 a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8016951C(int param_1)
 {
@@ -10,7 +10,7 @@ void func_8016951C(int param_1)
     *(int *)(param_1 + 0x1c) = iVar1 + 1;
     if (iVar1 < 10) {
         ((void (*)(void))func_80169584)();
-        func_800D22E4(param_1);
+        guess_AddVelocityToPos_4(param_1);
         *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + 0x8000;
     } else {
         ((void (*)(int))guess_FreeSmallObject)(param_1);

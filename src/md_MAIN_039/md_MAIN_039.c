@@ -1,12 +1,12 @@
 #include "common.h"
 
-extern s32 func_800183E0(s32 *a0);
+extern s32 guess_AllocRenderWorkRecord(s32 *a0);
 void func_800CAE14(void) {
 
     extern s32 D_800CBF60;
     extern s32 D_800CBF20;
-    func_800183E0(&D_800CBF60);
-    func_800183E0(&D_800CBF20);
+    guess_AllocRenderWorkRecord(&D_800CBF60);
+    guess_AllocRenderWorkRecord(&D_800CBF20);
 }
 
 
@@ -175,7 +175,7 @@ extern void func_80012558(void *a0, s32 a1);
 extern void func_800126C4(void *a0, s32 a1);
 extern void func_800123F0(void *a0, s32 a1);
 extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, void *a4);
-extern void func_80162FC0(s32 a0);
+extern void guess_AddVelocityToPos_2(s32 a0);
 extern s32  func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163328(s32 a0);
 extern s32  func_801632F0(s32 a0);
@@ -200,7 +200,7 @@ void func_800CB228(s32 param_1) {
     func_800126C4(&m, *(s16 *)((s8 *)obj + 0x10));
     func_800123F0(&m, *(s16 *)((s8 *)obj + 0x14));
     func_80163194(param_1, 0, 0, -0x3000, &m);
-    func_80162FC0(param_1);
+    guess_AddVelocityToPos_2(param_1);
     *(Blk16X *)((s8 *)obj + 0x34) = *(Blk16X *)&m.w[0];
     *(Blk16X *)((s8 *)obj + 0x44) = *(Blk16X *)&m.w[4];
     if (guess_TickWaitTimer_2(param_1) != 0) {
@@ -249,12 +249,12 @@ void func_800CB424(void *a0)
 }
 
 
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 /* guess_FreeObjectAndSubObject_10: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
- * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_10 */
 void guess_FreeObjectAndSubObject_10(void) {
-    func_80162CCC();
+    guess_ClearObjectAndSubObject();
 }
 
 
@@ -269,7 +269,7 @@ void func_800CB4CC(void *a0)
 s32 func_800CB4D4(s32 a0) {
     extern u8 guess_g_ObjectTable[];
     extern u8 guess_g_BoxHitCenterX[];
-    extern void func_80015978(s32 a0, s32 *a1);
+    extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
     extern s32 func_8012E778(s32 a0, s32 a1);
     extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
     extern s32 func_80013328(s32 *a0, s32 *a1);
@@ -287,7 +287,7 @@ s32 func_800CB4D4(s32 a0) {
     while (p < guess_g_ObjectTable + 0x6480) {
         if (((Unkstruct_800B5CB8 *)p)->unk0 != 0x282) {
             q = p + 4;
-            func_80015978((s32)q, buf);
+            guess_CopyVec3HighHalves((s32)q, buf);
             if (func_8012E778((s32)p, 0x8C00B4) == 1) {
                 if (func_8014C308(a0, (s32)p, 0x2B, 0x40) != 0) {
                     r = func_80013328((s32 *)(a0 + 4), (s32 *)q);
@@ -459,7 +459,7 @@ void func_800CB860(s32 param_1) {
 }
 
 
-extern void func_800CBBDC(s32 a0);
+extern void guess_AddVelocityToPos_5(s32 a0);
 extern void func_800CBC40(void*, s32);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
@@ -472,7 +472,7 @@ void func_800CBAAC(s32 param_1)
     s0 = ((Unkstruct_80126B58 *)param_1)->unk20;
     guess_StepPairSequence(s0, (s32 *)(param_1 + 0x24));
     *(s8 *)(s0 + 0x27) = CAST_WIDTH(u8, param_1, 0x28) - 0x70;
-    func_800CBBDC(param_1);
+    guess_AddVelocityToPos_5(param_1);
     ((void (*)(s32, s32))func_800CBC40)(param_1, 0x30);
     if (guess_TickWaitTimer_2(param_1) != 0) {
         ((Unkstruct_80126B58 *)param_1)->unk10 >>= 2;
@@ -486,7 +486,7 @@ void func_800CBAAC(s32 param_1)
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_800CBBDC(s32 a0);
+extern void guess_AddVelocityToPos_5(s32 a0);
 extern void func_800CBC10(void*);
 extern void func_800CBC40(void*, s32);
 extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
@@ -504,14 +504,17 @@ s32 param_1;
     *(u8 *)(node + 0x27) = ((Unkstruct_800CBB54 *)p)->unk28 - 0x70;
     ((void (*)(s32, s32))func_800CBC40)((void *)p, 0x40);
     ((Unkstruct_800CBB54 *)p)->unk14 -= 0x4000;
-    func_800CBBDC(p);
+    guess_AddVelocityToPos_5(p);
     if (guess_TickWaitTimer_2(p) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(p);
     }
 }
 
 
-void func_800CBBDC(s32 a0) {
+/* guess_AddVelocityToPos_5: adds the velocity words +0x10, +0x14, +0x18 of a0 to its position words +0x4, +0x8, +0xC
+ * Confidence medium, xref chain: +0x4 += +0x10, +0x8 += +0x14, +0xC += +0x18; guess_SetVelocityXZFromLocal writes +0x10/+0x18
+ * Names ledger: config/names.tsv guess_AddVelocityToPos_5 */
+void guess_AddVelocityToPos_5(s32 a0) {
     CAST_WIDTH(s32, a0, 4) += ((Unkstruct_80126B58 *)a0)->unk10;
     CAST_WIDTH(s32, a0, 8) += ((Unkstruct_80126B58 *)a0)->unk14;
     CAST_WIDTH(s32, a0, 0xC) += ((Unkstruct_80126B58 *)a0)->unk18;

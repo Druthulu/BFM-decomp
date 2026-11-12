@@ -80,7 +80,7 @@ extern int func_801288E8(int arg0);
 extern int func_80128940(int arg0);
 extern void func_80010AE0(s32 a0);
 extern s32 func_80018450(s32 a0, s32 a1);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_80128D60(s32 a0, s32 *a1, s32 *a2);
 extern s32 func_80128DB4(s32 a0, s32 *a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
@@ -100,7 +100,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void func_8012931C(struct vec *a0);
+extern void guess_AddVelocityToPos(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 D_800B9AAE[];
@@ -172,7 +172,7 @@ extern s16 D_80127080;
 extern s16 D_801152C2;
 extern void func_8012A304(s32 a0, s32 a1);
 extern void func_8012A464(void);
-extern void func_8012A4BC(void);
+extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
 extern void func_8012A568(void (*a0)(void));
 extern void func_8012A62C(s32);
@@ -353,7 +353,7 @@ extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
 extern s32 func_8012E778(int param_1, int param_2);
 extern void guess_ShowObjectModel(u8 *a0);
-extern void func_8012E8A8(u8 *a0);
+extern void guess_HideObjectModel(u8 *a0);
 extern void func_8012E8C4(u8 *a0);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
@@ -491,9 +491,9 @@ extern void func_801330E0(void * param_1, s16 * param_2, s32 param_3);
 extern void func_80133060(u8 *a0, s32 *a1, s32 a2);
 extern void func_8013339C(short *param_1, short *param_2);
 extern s32 func_8013361C(s16 *a0, s16 *a1, s16 *a2, s16 *a3);
-extern void func_80136BC4(s32 a0);
+extern void guess_RelocateHeaderOffsets(s32 a0);
 extern void func_801336E8(void *a0, int a1, int a2);
-extern void func_80136BC4(s32);
+extern void guess_RelocateHeaderOffsets(s32);
 extern void func_8013373C(s16 arg0);
 extern s32 func_80133784(s32 arg0, void *arg1, s32 arg2);
 extern s32 func_80133CD4(int arg0, s16 * cmd, s16 * base, s32 * arr);
@@ -748,7 +748,7 @@ extern u16 D_8017F638[];
 extern s32 guess_TestGameFlag(s32 arg);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_8014AA04(s32 a0);
-extern void func_801415C0(s32 a0, s32 a1);
+extern void guess_SwapGameVarSlots(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 extern s32 func_80140608(s32 a0);
 extern void func_801407F4(void);
@@ -810,7 +810,7 @@ extern int func_80141100(int param_1);
 extern void func_800291A0(s32, s32);
 extern s32 func_800291DC(s32);
 extern void func_800291C8(s32, s32);
-extern void func_801415C0(s32 param_1, s32 param_2);
+extern void guess_SwapGameVarSlots(s32 param_1, s32 param_2);
 extern u8 D_80115149[];
 extern u8 guess_g_MenuPanelSizes[];
 extern u8 D_8011514D;
@@ -1986,13 +1986,13 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 #include "../shared/ov/func_80149350.h"
 
 
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 #include "../shared/ov/func_80149374.h"
 
 
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 #include "../shared/ov/func_801493D0.h"
@@ -2098,7 +2098,7 @@ extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 #include "../shared/ov/func_801498E0.h"
 
 
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80147364(u16 param_1, u16 param_2);
@@ -3392,7 +3392,7 @@ s32 func_8015094C(s32 param_1) {
 
 
 extern s32 func_8014FA70(s32 a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 
 #define SHARED_FN func_80150A70
 #define SHARED_SLOT D_8018F1EC

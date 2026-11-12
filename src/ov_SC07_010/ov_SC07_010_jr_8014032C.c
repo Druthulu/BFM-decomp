@@ -127,7 +127,7 @@ extern u16 D_80182F78[];
 extern s32 guess_TestGameFlag(s32 arg);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_8014AA04(s32 a0);
-extern void func_801415C0(s32 a0, s32 a1);
+extern void guess_SwapGameVarSlots(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 extern s32 func_80140608(s32 a0);
 extern void func_801407F4(void);

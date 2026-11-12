@@ -54,7 +54,7 @@ void SHARED_FN(s32 a0)
         "lw    $sp, 0($sp)\n"
         "addiu $a0, $s0, 4\n"
     "2:\n"
-        "jal   func_80015978\n"
+        "jal   guess_CopyVec3HighHalves\n"
         "addiu $a1, $s0, 136\n"
     "3:\n"
         "lw    $ra, 20($sp)\n"

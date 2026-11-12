@@ -4,11 +4,11 @@ void func_801661CC(s32 param_1)
 {
     extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
     extern s32 guess_FreeSmallObject(u8 *a0);
-    extern void func_800D22E4(s32 a0);
+    extern void guess_AddVelocityToPos_4(s32 a0);
     if (((s32 (*)(s32, s32))guess_StepPairSequence)(*(s32 *)(param_1 + 0x20), param_1 + 0x24) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
     } else {
-        func_800D22E4(param_1);
+        guess_AddVelocityToPos_4(param_1);
         *(s32 *)(param_1 + 0x10) = (*(s32 *)(param_1 + 0x10) >> 1) + (*(s32 *)(param_1 + 0x10) >> 2);
         *(s32 *)(param_1 + 0x18) = (*(s32 *)(param_1 + 0x18) >> 1) + (*(s32 *)(param_1 + 0x18) >> 2);
     }

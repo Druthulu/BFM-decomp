@@ -1,6 +1,6 @@
 // config/symbols.md_SC02_009.txt — module md_SC02_009 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x801E4C60..0x801F60E0); NEVER merged into config/symbols.us.txt.
-// count=11
+// count=12
 
 guess_StartActorSequence         = 0x8012A828; // func
 guess_ApplyAccelAndVelocity      = 0x8012AD80; // func
@@ -10,6 +10,7 @@ guess_InitActorModel             = 0x8012C354; // func
 guess_SpawnActorNoArg            = 0x8012C588; // func
 guess_SpawnActor                 = 0x8012C658; // func
 guess_FreeActorDuringSpawn       = 0x8012CAE4; // func
+guess_RelocateHeaderOffsets      = 0x80136BC4; // func
 guess_OpenTextWindow             = 0x8013767C; // func
 guess_CloseTextWindow            = 0x80139914; // func
 guess_GetTextWindowResult        = 0x801399F0; // func

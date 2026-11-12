@@ -97,7 +97,7 @@ extern void func_8014A6A8(s32 a0);
 extern void func_8014A71C(s32 a0);
 extern void func_80172588(s32 *a0);
 extern void func_801473DC(s32 *a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void (*D_801809D8[])(void *);
 extern u8 D_80126BA4;
 extern s32 D_80127098;
@@ -406,7 +406,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC(u8 * a0);
+extern void guess_ClearObjectAndSubObject(u8 * a0);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void guess_ZeroMemory(void *a0, s32 a1);
@@ -905,7 +905,7 @@ extern void func_80154ED8(s32 a0, s32 a1);
 // @unstuck(P36): none — MATCH (array-of-struct stride-8 base materialize + addu, %lo folded into addiu)
 
 extern void MoveImage(void *a0, s32 a1, s32 a2);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 extern ImgRect8 D_80180D14[];
 
@@ -914,7 +914,7 @@ void func_801550FC(s32 arg0)
     if (arg0 & 0x40000000) {
         MoveImage(&D_80180D14[arg0 & 0xFF], 0x200, 0x100);
     } else {
-        ((void (*)(void))func_800183E0)();
+        ((void (*)(void))guess_AllocRenderWorkRecord)();
     }
 }
 

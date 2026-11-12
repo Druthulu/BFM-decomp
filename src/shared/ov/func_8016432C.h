@@ -5,7 +5,7 @@ extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_801553C0(s32 a0);
 extern void func_80147364(u16 param_1, u16 param_2);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 void func_8016432C(s32 a0) {
     s32 s1 = a0;
     s32 s0 = *(s32 *)(s1 + 0x4C);
@@ -29,6 +29,6 @@ void func_8016432C(s32 a0) {
         func_801553C0(s0);
         func_80147364(4, 0x449);
         guess_PlaySoundUnlessSkipped(0x44B);
-        ((void (*)(s32))func_80162CCC)(s1);
+        ((void (*)(s32))guess_ClearObjectAndSubObject)(s1);
     }
 }

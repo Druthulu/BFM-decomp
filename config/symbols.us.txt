@@ -6,7 +6,7 @@
 //   - `D_800629D4` added: a data label in the text->data boundary region that the boot code
 //     references but splat did not auto-label (keeps the all-asm link resolving; no bytes change).
 // Durable text record of manual RE work (the .rep is gitignored).
-// count=1142
+// count=1145
 
 lzss_ringBuffer                  = 0x1F800000; // data
 start                            = 0x80010000; // func
@@ -15,8 +15,10 @@ main                             = 0x80010178; // func
 GameModeDispatch                 = 0x80010B40; // func
 DebugMenuHandler                 = 0x80011144; // func
 guess_EaseToward                 = 0x80012C6C; // func
+guess_CopyVec3HighHalves         = 0x80015978; // func
 guess_ZeroMemory                 = 0x80016714; // func
 guess_AddPolyG4                  = 0x80017758; // func
+guess_AllocRenderWorkRecord      = 0x800183E0; // func
 LzssDecodeSector                 = 0x80018730; // func
 guess_StartPadVibration          = 0x80019064; // func
 LoaderInitFileTable              = 0x8001971C; // func
@@ -30,6 +32,7 @@ ResourceGetCdLoc                 = 0x8001B788; // func
 SsGetMute                        = 0x8001BD80; // func
 guess_InitModelObject            = 0x8001C214; // func
 guess_InitModelObjectKind3       = 0x8001CA1C; // func
+guess_InitObjectKind6            = 0x8001CD9C; // func
 guess_BuildCircle12Points        = 0x800233CC; // func
 guess_SjisToGlyphCodes           = 0x80024054; // func
 SsUtReverbOff                    = 0x800285AC; // func

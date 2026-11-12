@@ -29,7 +29,7 @@ extern void func_800146B0(s32 a0);
 extern void func_80059658(s32 a0);
 extern s32 VSync(s32 a0);
 extern void func_800167B8(s32 a0);
-extern s32 func_800183E0(s32 *a0);
+extern s32 guess_AllocRenderWorkRecord(s32 *a0);
 extern void func_800116E0(void);
 extern s32 func_8001BFE8(void);
 extern void func_80011928(s32 a0);
@@ -46,7 +46,7 @@ void func_800CEE40(void) {
     func_80059658(1);
     D_800B9A18 = 0;
     func_800167B8(0);
-    func_800183E0(&D_800D3ABC);
+    guess_AllocRenderWorkRecord(&D_800D3ABC);
     D_800D3C0C = 0;
     D_800D3C10 = 0;
     func_800116E0();

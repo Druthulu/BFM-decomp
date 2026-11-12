@@ -9,7 +9,7 @@ int func_8016B834(int param_1, int param_2) {
     puVar3 = D_80182498[*(int *)(param_1 + 0x2c)];
     iVar1 = ((int (*)(void))guess_AllocSpriteObject)();
     if (iVar1 != 0) {
-        func_8001CD9C(iVar1, puVar2);
+        guess_InitObjectKind6(iVar1, puVar2);
         guess_BuildCircle12Points(puVar2, D_801824A0[param_2]);
         puVar2[0] = *(int *)((int)puVar3 + param_2 * 8);
         puVar2[1] = *(int *)((int)puVar3 + param_2 * 8 + 4);

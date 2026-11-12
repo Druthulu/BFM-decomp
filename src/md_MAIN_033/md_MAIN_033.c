@@ -2,14 +2,14 @@
 
 #include "common.h"
 
-extern s32 func_800183E0(s32 *a0);
+extern s32 guess_AllocRenderWorkRecord(s32 *a0);
 
 void func_800CAE0C(void) {
     extern s32 D_800CB964;
     extern s32 D_800CB924;
 
-    func_800183E0(&D_800CB964);
-    func_800183E0(&D_800CB924);
+    guess_AllocRenderWorkRecord(&D_800CB964);
+    guess_AllocRenderWorkRecord(&D_800CB924);
 }
 
 
@@ -147,7 +147,7 @@ void func_800CB190(void *arg0) {
     extern s32 guess_TickWaitTimer_2(s32);
     extern void func_8001382C(s32, void *, void *);
     extern s32 func_80012ABC(s32, s32, s32);
-    extern void func_80162FC0(s32 *);
+    extern void guess_AddVelocityToPos_2(s32 *);
     extern u8 D_800CB8CC;
 
     void *p;
@@ -186,7 +186,7 @@ void func_800CB190(void *arg0) {
     ((Unkstruct_80126B58 *)arg0)->unk14 = out[1];
     ((Unkstruct_80126B58 *)arg0)->unk18 = out[2];
 
-    func_80162FC0((s32 *)arg0);
+    guess_AddVelocityToPos_2((s32 *)arg0);
     if (guess_TickWaitTimer_2((s32)arg0) == 0) {
         acc = 0;
         for (i = 0; i < 3; i++) {
@@ -206,7 +206,7 @@ void func_800CB2C8(void *arg0) {
     extern void guess_NextStep(s32 *);
     extern s32 func_80012ABC(s32, s32, s32);
     extern void func_8001382C(s32, void *, void *);
-    extern void func_80162FC0(s32 *);
+    extern void guess_AddVelocityToPos_2(s32 *);
 
     void *s1;
     void *p;
@@ -234,16 +234,16 @@ void func_800CB2C8(void *arg0) {
     ((Unkstruct_80126B58 *)arg0)->unk10 = buf[0];
     ((Unkstruct_80126B58 *)arg0)->unk14 = buf[1];
     ((Unkstruct_80126B58 *)arg0)->unk18 = buf[2];
-    func_80162FC0((s32 *)arg0);
+    guess_AddVelocityToPos_2((s32 *)arg0);
 }
 
 
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 /* guess_FreeObjectAndSubObject_5: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
- * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_5 */
 void guess_FreeObjectAndSubObject_5(void) {
-    func_80162CCC();
+    guess_ClearObjectAndSubObject();
 }
 
 
@@ -260,7 +260,7 @@ void func_800CB3A4(void *arg0) {
 
 s32 func_800CB3D8(s32 arg0, s32 arg1) {
     extern void guess_RotTransSVWithMatrix(s32, s32, s32);
-    extern void func_80015978(s32, s32 *);
+    extern void guess_CopyVec3HighHalves(s32, s32 *);
     extern void func_80015954(s32, s32);
     extern s32 func_800CB4EC(s32 a0);
 
@@ -271,7 +271,7 @@ s32 func_800CB3D8(s32 arg0, s32 arg1) {
     s32 ret;
 
     ptr = CAST_SIGN(u8 *, arg0, 0x20);
-    func_80015978(arg0 + 4, out1);
+    guess_CopyVec3HighHalves(arg0 + 4, out1);
     st = *(struct S_md_MAIN_033_800CB3D8 *)((Unkstruct_800CB190 *)ptr)->unk34;
     st.f[5] = 0;
     st.f[6] = 0;

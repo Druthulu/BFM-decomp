@@ -121,7 +121,7 @@ extern s32 (*D_80181D90)();
 extern s32 D_801F6D30;
 extern void func_80010AE0(s32 a0);
 extern s32 func_80018450(s32 a0, s32 a1);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_80128D60(s32 a0, s32 *a1, s32 *a2);
 extern s32 func_80128DB4(s32 a0, s32 *a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
@@ -141,7 +141,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void func_8012931C(struct vec *a0);
+extern void guess_AddVelocityToPos(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[];
@@ -218,7 +218,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 guess_g_ActiveCamera;
 extern BigCopy D_80126DB8;
 extern BigCopy D_80114EE8;
-extern void func_8012A4BC(void);
+extern void guess_BlendToPresetCamera(void);
 extern void func_8012A62C(s32);
 extern void func_8012A5F8(void (*a0)(void), s32 a1);
 extern void func_8012A62C(s32 a0);
@@ -2119,12 +2119,12 @@ void func_8013221C(int param_1)
 extern s32 D_801F6DA0;
 extern s32 D_801F6DA4[];
 extern int D_801F6DA8;
-extern void func_80136BC4(s32 a0);
+extern void guess_RelocateHeaderOffsets(s32 a0);
 
 void func_801336E8(void *a0, int a1, int a2) {
     if (a0 != 0) {
         (*(void * *)&D_801F6DA0) = a0;
-        ((void (*)(void))func_80136BC4)();
+        ((void (*)(void))guess_RelocateHeaderOffsets)();
     }
     (*(int *)&D_801F6DA4) = a1;
     D_801F6DA8 = a2;
@@ -2135,13 +2135,13 @@ void func_801336E8(void *a0, int a1, int a2) {
 
 extern s32 D_801F6DA4[];
 extern s32 D_801F6DA0;
-extern void func_80136BC4(s32);
+extern void guess_RelocateHeaderOffsets(s32);
 
 void func_8013373C(s16 arg0) {
     s32 temp = D_801F6DA4[arg0];
     if (temp != 0) {
         D_801F6DA0 = temp;
-        func_80136BC4(temp);
+        guess_RelocateHeaderOffsets(temp);
     }
 }
 

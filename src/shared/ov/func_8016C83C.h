@@ -1,7 +1,7 @@
 /* func_8016C83C — shared body (overlay slot 0x80128158, h_exact 26450efe). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 VectorNormalSS(void *a0, void *a1);
-extern void func_800D22E4(s32 a0);
+extern void guess_AddVelocityToPos_4(s32 a0);
 extern short func_8016CF04(s32 param_1, s32 param_2);
 void func_8016C83C(s32 a0) {
     s16 d[20];
@@ -38,6 +38,6 @@ void func_8016C83C(s32 a0) {
             *(s32 *)(a0 + 0x18) = (s32)d[2] << 10;
         }
     }
-    func_800D22E4(a0);
+    guess_AddVelocityToPos_4(a0);
     func_8016CF04(a0, 1);
 }

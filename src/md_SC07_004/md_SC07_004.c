@@ -1095,7 +1095,7 @@ extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_8012B200(u8 *a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_801A4328(s32 a0);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 extern s32 D_801B6E94[0x11];
 extern u8 D_801EF9A8;
@@ -1149,8 +1149,8 @@ void func_801A1C7C(s32 s0) {
             f9 = D_8019FF8A & 0xF9F7;
             ((Unkstruct_800B5CB8 *)s0)->unk5C = t5c;
             D_8019FF8A = f9;
-            ((s32 (*)(s32 *))func_800183E0)(p);
-            ((s32 (*)(s32 *))func_800183E0)(&D_801C6644);
+            ((s32 (*)(s32 *))guess_AllocRenderWorkRecord)(p);
+            ((s32 (*)(s32 *))guess_AllocRenderWorkRecord)(&D_801C6644);
         }
         break;
     }
@@ -1860,7 +1860,7 @@ extern u8 D_801C6674;
 extern u8 D_801EF9A8;
 extern s16 D_801F8860;
 
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 void func_801A2E90(s32 a0)
 {
@@ -1877,8 +1877,8 @@ void func_801A2E90(s32 a0)
     v1 = D_8019FF8A | 0x208;
     ((Unkstruct_801A2E90 *)s0)->unk5C = v0;
     D_8019FF8A = v1;
-    func_800183E0((s32)&D_801C6614);
-    func_800183E0((s32)&D_801C6674);
+    guess_AllocRenderWorkRecord((s32)&D_801C6614);
+    guess_AllocRenderWorkRecord((s32)&D_801C6674);
     guess_StartActorSequence(s0, &D_801EF9A8);
     v2 = D_801F8860;
     ((Unkstruct_801A2E90 *)s0)->unkF8 = 0;
@@ -3644,7 +3644,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001C2C4(s32 a0);
 extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_8001CD9C(s32 a0, s32 a1);
+extern void guess_InitObjectKind6(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801A5AA0(void *a0);
 extern void func_801A5AE0(void *a0);
@@ -3717,7 +3717,7 @@ void func_801A57E8(void *a0) {
         func_801A5AE0(a0);
         v = 0x8010;
     } else {
-        func_8001CD9C(s1, (s32)D_801F8744);
+        guess_InitObjectKind6(s1, (s32)D_801F8744);
         ((Unkstruct_800B5CB8 *)a0)->unk100 = ((((Unkstruct_800B5CB8 *)a0)->unkFE * 3) << 8) & 0xFFF;
         if (((Unkstruct_800B5CB8 *)a0)->unk104 != 0) {
             func_801A5B00(a0);
@@ -4307,7 +4307,7 @@ extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_8012B200(u8 *a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_801A4328(s32 a0);
-extern s32 func_800183E0(s32);
+extern s32 guess_AllocRenderWorkRecord(s32);
 extern void func_8017F418(void);
 extern void func_801A46D4(s32 a0);
 extern s32 D_801EEAC8;
@@ -4334,8 +4334,8 @@ void func_801A6908(s32 s0) {
         f9 = D_8019FF8A & 0xF9FF;
         ((Unkstruct_800B5CB8 *)s0)->unk5C = t5c;
         D_8019FF8A = f9;
-        ((s32 (*)(s32 *))func_800183E0)(p);
-        ((s32 (*)(s32 *))func_800183E0)(&D_801C6644);
+        ((s32 (*)(s32 *))guess_AllocRenderWorkRecord)(p);
+        ((s32 (*)(s32 *))guess_AllocRenderWorkRecord)(&D_801C6644);
         func_8017F418();
         func_801A46D4(s0);
     }
@@ -4702,7 +4702,7 @@ void func_801A7184(void *arg0)
 
 #include "common.h"
 
-extern void func_8001CD9C(s32, s32);
+extern void guess_InitObjectKind6(s32, s32);
 extern u8 D_801F8744[];
 
 void func_801A7200(s32 param_1)
@@ -4713,7 +4713,7 @@ void func_801A7200(s32 param_1)
     s1 = ((Unkstruct_801A7200 *)param_1)->unk34;
     s2 = ((Unkstruct_801A7200_2 *)s1)->unkCC;
     ((Unkstruct_801A7200 *)param_1)->unk2C = 0;
-    func_8001CD9C(((Unkstruct_801A7200 *)param_1)->unk20, (s32)D_801F8744);
+    guess_InitObjectKind6(((Unkstruct_801A7200 *)param_1)->unk20, (s32)D_801F8744);
     ((Unkstruct_801A7200 *)param_1)->unk6 = ((Unkstruct_801A7200_4 *)*(s32 *)(s1 + 0x20))->unk48;
     ((Unkstruct_801A7200 *)param_1)->unkA = ((Unkstruct_801A7200_4 *)*(s32 *)(s1 + 0x20))->unk4C;
     ((Unkstruct_801A7200 *)param_1)->unkE = ((Unkstruct_801A7200_4 *)*(s32 *)(s1 + 0x20))->unk50;
@@ -4730,7 +4730,7 @@ extern u8 D_801F8744[];
 void func_801A72DC(void *a0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void func_8012931C(struct vec *a0);
+    extern void guess_AddVelocityToPos(struct vec *a0);
 
     s32 v0;
 
@@ -4740,7 +4740,7 @@ void func_801A72DC(void *a0)
         func_801292C8((u8 *)a0);
         return;
     }
-    func_8012931C((struct vec *)a0);
+    guess_AddVelocityToPos((struct vec *)a0);
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk20 =
         (s32)D_801F8744 + (*(s16 *)((s32)a0 + 0x2C) << 6);
 }
@@ -4758,7 +4758,7 @@ extern void SetTransMatrix(void *a0);
 extern void RotTransSV(s32, s32, void*);
 extern s32 func_8001D074(s32, s32);
 extern void guess_BuildCircle12Points(void *a0, unsigned short a1);
-extern void func_8001CD9C(s32, s32);
+extern void guess_InitObjectKind6(s32, s32);
 extern int func_801AF9C8(short *pos, int a1, int a2);
 extern s32 func_8012AD50(void *a0);
 
@@ -4812,7 +4812,7 @@ void func_801A7358(u8 *s2)
         guess_BuildCircle12Points(s0, 0x80);
         D_801F88B8 = s3[0];
         D_801F88BC = D_801A01E8;
-        ((void (*)(s32, void *))func_8001CD9C)(s1, s0);
+        ((void (*)(s32, void *))guess_InitObjectKind6)(s1, s0);
         *(u16 *)(s1 + 0x2C) = 0xC020;
         *(s32 *)(s1 + 4) = 0x50000000;
     }
@@ -4824,7 +4824,7 @@ void func_801A7358(u8 *s2)
         guess_BuildCircle12Points(s0, 0x60);
         D_801F88F8 = s3[1];
         D_801F88FC = D_801A01E8;
-        ((void (*)(s32, void *))func_8001CD9C)(s12, s0);
+        ((void (*)(s32, void *))guess_InitObjectKind6)(s12, s0);
         *(u16 *)(s12 + 0x2C) = 0xC020;
         *(s32 *)(s12 + 4) = 0x50000000;
     }
@@ -4836,7 +4836,7 @@ void func_801A7358(u8 *s2)
         guess_BuildCircle12Points(s0, 0xB0);
         D_801F8938 = s3[2];
         D_801F893C = s3[2];
-        ((void (*)(s32, void *))func_8001CD9C)(s13, s0);
+        ((void (*)(s32, void *))guess_InitObjectKind6)(s13, s0);
         *(u16 *)(s13 + 0x2C) = 0xC01E;
         *(s32 *)(s13 + 4) = 0x50000000;
         *(s16 *)(s13 + 0x1E) = 0xD00;
@@ -4944,7 +4944,7 @@ INCLUDE_RODATA("asm/md_SC07_004/nonmatchings/md_SC07_004", D_801A01E8);
 
 
 extern void guess_BuildCircle12Points(void *a0, unsigned short a1);
-extern void func_8001CD9C(s32, s32);
+extern void guess_InitObjectKind6(s32, s32);
 extern void func_801A7AF8(s32);
 extern void func_801A7C34(s32);
 extern void func_801A7D34(s32);
@@ -4983,7 +4983,7 @@ void func_801A788C(s32 a0) {
         guess_BuildCircle12Points(s0, 0x80);
         D_801F88B8 = D_801A01E8;
         D_801F88BC = D_801A01E8;
-        func_8001CD9C(((Unkstruct_801A788C *)a0)->unk20, (s32)s0);
+        guess_InitObjectKind6(((Unkstruct_801A788C *)a0)->unk20, (s32)s0);
         v1 = ((Unkstruct_801A788C *)a0)->unk20;
         ((Unkstruct_801A788C_2 *)v1)->unk2C = 0xC020;
         v1 = ((Unkstruct_801A788C *)a0)->unk20;
@@ -4995,7 +4995,7 @@ void func_801A788C(s32 a0) {
         guess_BuildCircle12Points(s0, 0x80);
         D_801F8978 = D_801A01EC;
         D_801F897C = D_801A01E8;
-        func_8001CD9C(((Unkstruct_801A788C *)a0)->unk20, (s32)s0);
+        guess_InitObjectKind6(((Unkstruct_801A788C *)a0)->unk20, (s32)s0);
         v1 = ((Unkstruct_801A788C *)a0)->unk20;
         ((Unkstruct_801A788C_2 *)v1)->unk2C = 0xC020;
         v1 = ((Unkstruct_801A788C *)a0)->unk20;
@@ -5023,7 +5023,7 @@ void func_801A788C(s32 a0) {
     case 6:
         s0 = &D_801F89B8;
         guess_BuildCircle12Points(s0, 0x80);
-        func_8001CD9C(((Unkstruct_801A788C *)a0)->unk20, (s32)s0);
+        guess_InitObjectKind6(((Unkstruct_801A788C *)a0)->unk20, (s32)s0);
         v1 = ((Unkstruct_801A788C *)a0)->unk20;
         ((Unkstruct_801A788C_2 *)v1)->unk2C = 0xC020;
         v1 = ((Unkstruct_801A788C *)a0)->unk20;
@@ -5035,7 +5035,7 @@ void func_801A788C(s32 a0) {
     case 7:
         s0 = &D_801F89F8;
         guess_BuildCircle12Points(s0, 0x80);
-        func_8001CD9C(((Unkstruct_801A788C *)a0)->unk20, (s32)s0);
+        guess_InitObjectKind6(((Unkstruct_801A788C *)a0)->unk20, (s32)s0);
         v1 = ((Unkstruct_801A788C *)a0)->unk20;
         ((Unkstruct_801A788C_2 *)v1)->unk2C = 0xC080;
         v1 = ((Unkstruct_801A788C *)a0)->unk20;
@@ -5179,7 +5179,7 @@ void func_801A7D18(s32 arg0) {
 
 
 extern void guess_BuildCircle12Points(void *a0, unsigned short a1);
-extern void func_8001CD9C(s32, s32);
+extern void guess_InitObjectKind6(s32, s32);
 extern Blk4_801A7358 D_801A01E8;
 
 void func_801A7D34(s32 a0) {
@@ -5191,7 +5191,7 @@ void func_801A7D34(s32 a0) {
     guess_BuildCircle12Points((void *)s1, 0x80);
     CAST_WIDTH(Blk4_801A7358, s1, 0x0) = CAST_WIDTH(Blk4_801A7358, a0, 0x30);
     *(Blk4_801A7358 *)(s1 + 0x4) = D_801A01E8;
-    func_8001CD9C(((Unkstruct_801A788C *)a0)->unk20, s1);
+    guess_InitObjectKind6(((Unkstruct_801A788C *)a0)->unk20, s1);
 
     v1 = ((Unkstruct_801A788C *)a0)->unk20;
     ((Unkstruct_801A788C_2 *)v1)->unk1E = 0xC00;
@@ -5283,7 +5283,7 @@ void func_801A7E5C(void *a0) {
 
 
 extern void guess_BuildCircle12Points(void *a0, unsigned short a1);
-extern void func_8001CD9C(s32, s32);
+extern void guess_InitObjectKind6(s32, s32);
 extern Blk4_801A7358 D_801A01E8;
 extern Blk4_801A7358 D_801F88F8;
 
@@ -5296,7 +5296,7 @@ void func_801A7F84(s32 a0) {
     guess_BuildCircle12Points((void *)buf, 0x80);
     CAST_WIDTH(Blk4_801A7358, buf, 0x0) = D_801A01E8;
     *(Blk4_801A7358 *)(buf + 0x4) = D_801A01E8;
-    func_8001CD9C(((Unkstruct_801A788C *)a0)->unk20, (s32)&D_801F88F8);
+    guess_InitObjectKind6(((Unkstruct_801A788C *)a0)->unk20, (s32)&D_801F88F8);
 
     v1 = ((Unkstruct_801A788C *)a0)->unk20;
     ((Unkstruct_801A788C_2 *)v1)->unk1A = 0x3800;
@@ -7919,7 +7919,7 @@ void func_801ABC04(void *a0) {
 void func_801ABC8C(void *a0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void func_8012931C(struct vec *a0);
+    extern void guess_AddVelocityToPos(struct vec *a0);
     extern void func_801A8B64(s32 a0, s32 a1);
 
     u16 local[3];
@@ -7931,14 +7931,14 @@ void func_801ABC8C(void *a0)
         local[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
 
         if (CAST_SIGN(s16, (s32)a0, 0x2C) == 0) {
-            func_8012931C((struct vec *)a0);
+            guess_AddVelocityToPos((struct vec *)a0);
         } else {
             void *s1 = CAST_WIDTH(void *, (s32)a0, 0x34);
 
             ((Unkstruct_800B5CB8 *)a0)->unk6 = ((Unkstruct_800B5CB8 *)a0)->unk2E;
             ((Unkstruct_800B5CB8 *)a0)->unkA = CAST_WIDTH(u16, (s32)a0, 0x30);
             ((Unkstruct_800B5CB8 *)a0)->unkE = *(u16 *)((s32)a0 + 0x32);
-            func_8012931C((struct vec *)a0);
+            guess_AddVelocityToPos((struct vec *)a0);
 
             ((Unkstruct_800B5CB8 *)a0)->unk2E = ((Unkstruct_800B5CB8 *)a0)->unk6;
             CAST_WIDTH(u16, (s32)a0, 0x30) = ((Unkstruct_800B5CB8 *)a0)->unkA;
@@ -8174,9 +8174,9 @@ extern s32 guess_StepPairSequence(s32 a0, s32 *a1);
 void func_801AC234(void *a0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void func_8012931C(struct vec *a0);
+    extern void guess_AddVelocityToPos(struct vec *a0);
 
-    func_8012931C((struct vec *)a0);
+    guess_AddVelocityToPos((struct vec *)a0);
     if (guess_StepPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)((char *)a0 + 0x24)) != 0 ||
         (CAST_SIGN(s16, (char *)a0, 0x2C) != 2 && CAST_SIGN(s16, (char *)a0, 0xA) >= -0x200)) {
         func_801292C8((u8 *)a0);
@@ -8441,7 +8441,7 @@ void func_801AC794(void *arg0) {
 
 
 
-extern void func_8001CD9C(s32, s32);
+extern void guess_InitObjectKind6(s32, s32);
 extern int rand(void);
 extern Blk4_801A7358 D_801F88B8;
 
@@ -8451,7 +8451,7 @@ void func_801AC8B8(s32 param_1)
     s32 ptr;
 
     ((Unkstruct_801AC8B8 *)param_1)->unk2C = 0;
-    func_8001CD9C(((Unkstruct_801AC8B8 *)param_1)->unk20, (s32)&D_801F88B8);
+    guess_InitObjectKind6(((Unkstruct_801AC8B8 *)param_1)->unk20, (s32)&D_801F88B8);
     ((Unkstruct_801AC8B8_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
     ((Unkstruct_801AC8B8_2 *)*(s32 *)(param_1 + 0x20))->unk2C = 0xC020;
     t = (rand() & 0x1F0) + 0x500;
@@ -8469,7 +8469,7 @@ extern Blk4_801A7358 D_801F88B8;
 void func_801AC940(s32 arg0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void func_8012931C(struct vec *a0);
+    extern void guess_AddVelocityToPos(struct vec *a0);
 
     s32 a1 = arg0;
     s32 v0;
@@ -8488,7 +8488,7 @@ void func_801AC940(s32 arg0)
         ((Unkstruct_801AC940 *)a1)->unk2C = v1;
         *(s32 *)(((Unkstruct_801AC940 *)a1)->unk20 + 0x20) = (s32)&D_801F88B8 + (v1 << 6);
     }
-    func_8012931C((struct vec *)a1);
+    guess_AddVelocityToPos((struct vec *)a1);
 }
 
 
@@ -8527,7 +8527,7 @@ void func_801AC9CC(void *arg0) {
 void func_801ACA88(void *a0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void func_8012931C(struct vec *a0);
+    extern void guess_AddVelocityToPos(struct vec *a0);
     extern void func_8017E5D4(void *a0);
     extern void func_8017E1E8(void *a0, void *a1, void *a2);
 
@@ -8542,7 +8542,7 @@ void func_801ACA88(void *a0)
         func_801292C8((u8 *)a0);
     } else {
         ((Unkstruct_800B5CB8 *)a0)->unk1C = v0 - 1;
-        func_8012931C((struct vec *)a0);
+        guess_AddVelocityToPos((struct vec *)a0);
 
         buf[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
         buf[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
@@ -8602,7 +8602,7 @@ void func_801ACB2C(void *a0)
 void func_801ACC24(void *a0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void func_8012931C(struct vec *a0);
+    extern void guess_AddVelocityToPos(struct vec *a0);
     extern void func_8017E5D4(void *a0);
     extern void func_8017E1E8(void *a0, void *a1, void *a2);
 
@@ -8620,7 +8620,7 @@ void func_801ACC24(void *a0)
     }
 
     *(s32 *)((s32)a0 + 0x1C) = v0 - 1;
-    func_8012931C((struct vec *)a0);
+    guess_AddVelocityToPos((struct vec *)a0);
 
     buf[0] = t0 = *(u16 *)((s32)a0 + 0x6);
     buf[1] = t1 = *(u16 *)((s32)a0 + 0xA);
@@ -8716,7 +8716,7 @@ extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_801ADD98(u8 *a0, volatile u8 *a1, volatile u8 *a2);
 extern s32 func_8001D074(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *a0, unsigned short a1);
-extern void func_8001CD9C(s32 a0, s32 a1);
+extern void guess_InitObjectKind6(s32 a0, s32 a1);
 extern s32 func_8012AD50(void *a0);
 
 extern u8 D_801F0C90[];
@@ -8771,7 +8771,7 @@ void func_801ACE5C(void *a0) {
         *(Blk4_md_SC07_004_801ACE5C *)p = *(Blk4_md_SC07_004_801ACE5C *)&D_801A0218;
         ((Unkstruct_800B5CB8 *)a0)->unkE0 = 0x20C;
         *(Blk4_md_SC07_004_801ACE5C *)&D_801F8D1C = *(Blk4_md_SC07_004_801ACE5C *)&D_801A021C;
-        func_8001CD9C(s1, (s32)p);
+        guess_InitObjectKind6(s1, (s32)p);
         *(u16 *)(s1 + 0x2C) = 0xC100;
         *(s32 *)(s1 + 0x4) = 0x50000000;
     }
@@ -8784,7 +8784,7 @@ void func_801ACE5C(void *a0) {
         *(Blk4_md_SC07_004_801ACE5C *)p = *(Blk4_md_SC07_004_801ACE5C *)&D_801A0220;
         ((Unkstruct_800B5CB8 *)a0)->unkE4 = 0xC02;
         *(Blk4_md_SC07_004_801ACE5C *)&D_801F8D5C = *(Blk4_md_SC07_004_801ACE5C *)&D_801A021C;
-        func_8001CD9C(s1, (s32)p);
+        guess_InitObjectKind6(s1, (s32)p);
         *(u16 *)(s1 + 0x2C) = 0xC100;
         *(s32 *)(s1 + 0x4) = 0x50000000;
     }
@@ -10281,7 +10281,7 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
 
 extern void func_801AF2EC(void *a0);
 extern void func_801AF368(void *a0);
-extern void func_8012931C(struct vec *a0);
+extern void guess_AddVelocityToPos(struct vec *a0);
 extern void func_801292C8(u8 *a0);
 
 void func_801AF1EC(void *a0) {
@@ -10292,7 +10292,7 @@ void func_801AF1EC(void *a0) {
 
     if (*(s32 *)((s32)a0 + 0x1C) != 0) {
         *(s32 *)((s32)a0 + 0x1C) -= 1;
-        func_8012931C((struct vec *)a0);
+        guess_AddVelocityToPos((struct vec *)a0);
 
         if (*(s16 *)((s32)a0 + 0x32) == 0) {
             u16 t = *(u16 *)((s32)a0 + 0xA) + 0x1000;

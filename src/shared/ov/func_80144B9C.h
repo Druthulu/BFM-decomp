@@ -93,7 +93,7 @@ extern void *func_801457A4(s32 a0);
 extern void func_80019018(void);
 extern void func_80018E78(void);
 extern void func_8002AB64(void);
-extern void func_80015978(void *a0, void *a1);
+extern void guess_CopyVec3HighHalves(void *a0, void *a1);
 extern void func_8012A1BC(void);
 extern void func_8002850C(s32 a0, s32 a1, s32 a2);
 extern void guess_SetFlatLightOrDefault(s32 a0, void *a1);
@@ -166,7 +166,7 @@ void func_80144B9C(void) {
     p10->f154 = p10->f15C = p10->f6;
     p10->f156 = p10->f15E = p10->fA;
     p10->f158 = p10->f160 = p10->fE;
-    func_80015978((void *)((s32)p10 + 4), D_80126DB0);
+    guess_CopyVec3HighHalves((void *)((s32)p10 + 4), D_80126DB0);
     D_80126DB6 = p10->f20->unk12;
     if (*(s16 *)(p + 0xA3DA) == 0x1000 &&
         (*(s16 *)(p + 0xA3DC) == 0x1000 || *(s16 *)(p + 0xA3DC) == 0x2000) && flag == 0) {

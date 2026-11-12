@@ -19,7 +19,7 @@ void func_80176734(s32 param_1)
     extern s16 D_80126CE0;
     extern s16 D_80126D20;
     extern s32 guess_g_PlayerActor;
-    extern s32 func_800183E0(s32 a0);
+    extern s32 guess_AllocRenderWorkRecord(s32 a0);
     extern s32  func_801619D0(void *a0);
     extern s32  func_80161A00(s32 a0);
     extern s32  func_80161A30(s32 a0);
@@ -80,7 +80,7 @@ void func_80176734(s32 param_1)
             } else {
                 goto Lskip;
             }
-            func_800183E0(arg);
+            guess_AllocRenderWorkRecord(arg);
         Lskip:
             if (*(u8 *)(flag + 0x48) == 5) {
                 if (*(u8 *)(cach + 0x48) == 0) *(u8 *)(flag + 0x48) = 0;
@@ -134,7 +134,7 @@ L9C0:
                 *(s16 *)(cach + 0x1E) = -0x8000;
                 arg = (s32)&D_800D4414;
             }
-            func_800183E0(arg);
+            guess_AllocRenderWorkRecord(arg);
         }
     }
 

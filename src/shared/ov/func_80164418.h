@@ -3,7 +3,7 @@
 extern s32 ratan2(s32 a0, s32 a1);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_801630C4(s32, s32, s32, s32);
-extern void func_80162FC0(s32 *a0);
+extern void guess_AddVelocityToPos_2(s32 *a0);
 extern void func_80162D88(s32 *a0);
 void func_80164418(s32 s0) {
     s16 v[6];
@@ -25,6 +25,6 @@ void func_80164418(s32 s0) {
     *(s16 *)(s1 + 0x10) = func_80012ABC(*(s16 *)(s1 + 0x10), v[4], 0x2);
     *(s16 *)(s1 + 0x12) = func_80012ABC(*(s16 *)(s1 + 0x12), v[5], 0x2);
     ((s32 (*)(s32, s32, s32, s32))func_801630C4)(s0, 0, 0, 0x8000);
-    func_80162FC0((s32 *)s0);
+    guess_AddVelocityToPos_2((s32 *)s0);
     func_80162D88((s32 *)s0);
 }

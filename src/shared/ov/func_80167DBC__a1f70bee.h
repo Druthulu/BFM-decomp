@@ -5,7 +5,7 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
     u8 *p;
     s16 i;
 
-    func_80168070(arg0, ((s16 *)arg1), ((s16 *)arg2), buf);
+    guess_SetSegmentMatrixFacingCamera(arg0, ((s16 *)arg1), ((s16 *)arg2), buf);
 
     *(s16 *)(buf + 0x3C) = 0;
     *(s16 *)(buf + 0x34) = 0;

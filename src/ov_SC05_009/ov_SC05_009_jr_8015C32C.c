@@ -97,7 +97,7 @@ extern void func_8014A6A8(s32 a0);
 extern void func_8014A71C(s32 a0);
 extern void func_80172588(s32 *a0);
 extern void func_801473DC(s32 *a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void (*D_801805B4[])(void *);
 extern u8 D_80126BA4;
 extern s32 D_80127098;
@@ -401,7 +401,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void guess_ZeroMemory(void *a0, s32 a1);
@@ -880,7 +880,7 @@ extern s16 D_80078E9E;
 extern void func_801550FC(s32 a0);
 extern void func_80154ED8(s32 a0, s32 a1);
 extern void func_80154F9C(s32 a0);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
@@ -2467,7 +2467,7 @@ void func_80161E08(s32 param_1) {
     extern void func_8001CE28(void *a0, void *a1);
     extern void func_800242D0(s32 a0, void *a1, s32 a2);
     extern void func_8001CE68(void *a0, void *a1);
-    extern int func_801620C4(void);
+    extern int guess_GetTimeUntilGameVar08(void);
     extern void func_801622C4(void);
     extern u16 guess_g_ScreenWidth;
     extern u16 guess_g_ScreenHeight;
@@ -2526,14 +2526,14 @@ void func_80161E08(s32 param_1) {
 
         if (guess_g_TargetTimeDigits == 0) {
             p = D_80195940[2] = base + 0x6618;
-            func_800242D0((s16)func_801620C4(), &D_8019598C, 0x84);
+            func_800242D0((s16)guess_GetTimeUntilGameVar08(), &D_8019598C, 0x84);
             func_8001CE68(p, &D_8019598C);
             D_800B5C74 = 1;
             guess_g_TargetTimeDigitsX = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
             guess_g_TargetTimeDigitsY = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
         }
 
-        func_800242D0((s16)func_801620C4(), &D_8019598C, 0x84);
+        func_800242D0((s16)guess_GetTimeUntilGameVar08(), &D_8019598C, 0x84);
         if ((a2 & 0x7FFF) == (s32)guess_g_ClockMinute) {
             func_801622C4();
         }
@@ -2647,7 +2647,7 @@ s32 func_80162438(s32 _unused0) {
     extern void func_8001CE28(void *, void *);
     extern void func_8001CE68(void *, void *);
     extern void func_800242D0(s32, void *, s32);
-    extern s32 func_801626B8(void);
+    extern s32 guess_GetTimeUntilGameVar12(void);
     extern void func_80162760(void);
     extern u8 D_80181630[];
     extern s32 D_80181648;
@@ -2702,13 +2702,13 @@ s32 func_80162438(s32 _unused0) {
         if (guess_g_TargetTimeDigits == 0) {
             D_80195998[2] = (s32)(base + 0x6618);
             item = base + 0x6618;
-            func_800242D0((s16)func_801626B8(), D_801959E8, 0x84);
+            func_800242D0((s16)guess_GetTimeUntilGameVar12(), D_801959E8, 0x84);
             func_8001CE68(item, D_801959E8);
             D_800B5C74 = 1;
             guess_g_TargetTimeDigitsX = -guess_g_ScreenWidth / 2 + 0xD0;
             guess_g_TargetTimeDigitsY = -guess_g_ScreenHeight / 2 + 0x10;
         }
-        func_800242D0((s16)func_801626B8(), D_801959E8, 0x84);
+        func_800242D0((s16)guess_GetTimeUntilGameVar12(), D_801959E8, 0x84);
         if ((uVar2 & 0x7FFF) == (s32)(*(s16 *)&guess_g_ClockMinute)) {
             func_80162760();
         }
@@ -2924,7 +2924,7 @@ void func_80163EC8(s32 param_1)
     extern u16 guess_g_FrameCounter;
     extern u8 func_801656D0(s32 a0, s32 a1);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80015978(s32 a0, s32 *a1);
+    extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
     extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
     Blk8 in;
     u16 out[4];
@@ -3003,7 +3003,7 @@ void func_80163EC8(s32 param_1)
         iVar7 = *((s32 *) (psVar6 + 0x184));
         if (iVar7 != 0)
         {
-            func_80015978(iVar7 + 4, (s32 *) buf);
+            guess_CopyVec3HighHalves(iVar7 + 4, (s32 *) buf);
             buf[3] = 0;
             uVar4 = func_80156370(0xe);
             func_8014C4AC(iVar7, 0xe, uVar4, buf, *((s16 *) (iVar8 + 0x12)));
@@ -3019,7 +3019,7 @@ void func_80163EC8(s32 param_1)
         iVar7 = *((s32 *) (psVar6 + 0x184));
         if (iVar7 != 0)
         {
-            func_80015978(iVar7 + 4, (s32 *) buf);
+            guess_CopyVec3HighHalves(iVar7 + 4, (s32 *) buf);
             buf[3] = 0;
             uVar4 = func_80156370(0x21);
             func_8014C4AC(iVar7, 0x21, uVar4, buf, *((s16 *) (iVar8 + 0x12)));
@@ -3883,7 +3883,7 @@ extern void (*D_80181AA0[])(void);
 #include "../shared/ov/func_80167AD8.h"
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH expected; mirrors already-matched sibling func_8016A290 (same 3-loop tail), swapping the inline matrix-setup for a func_80168070 call + constant color block.
+// @unstuck(P36): none — MATCH expected; mirrors already-matched sibling func_8016A290 (same 3-loop tail), swapping the inline matrix-setup for a guess_SetSegmentMatrixFacingCamera call + constant color block.
 
 #include "common.h"
 
@@ -3899,7 +3899,7 @@ extern void (*D_80181AA0[])(void);
 // @class: schedule
 // @unstuck(P36): none — MATCH. The between-loops f1/f2 store-swap (0x55/0x56) is fixed by writing f2's assign first, then the chained `buf[0x44] = buf[0x45] = buf[0x45] << 1;` — the chain keeps f1's read first (read order fixed by -0x12 in $v0) while emitting f2's store (0x56) ahead of the f1/f0 pair (0x55,0x54). 173/173.
 
-extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
+extern void guess_SetSegmentMatrixFacingCamera(s32 a0, s16 *a1, s16 *a2, void *a3);
 extern u16  guess_g_FrameCounter;
 extern u8   D_80181A00[];
 extern u8   D_80181A14[];
@@ -4173,7 +4173,7 @@ extern char D_80181B14[];
 #include "../shared/ov/func_80169F3C__99a1d89d.h"
 
 
-#define SHARED_FN func_80169FE0
+#define SHARED_FN guess_StepPairSequenceAndFree
 #include "../shared/multi/cls_5d5ada925fc2.h"
 #undef SHARED_FN
 

@@ -127,7 +127,7 @@ extern u16 D_80182F78[];
 extern s32 guess_TestGameFlag(s32 arg);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_8014AA04(s32 a0);
-extern void func_801415C0(s32 a0, s32 a1);
+extern void guess_SwapGameVarSlots(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 extern s32 func_80140608(s32 a0);
 extern void func_801407F4(void);
@@ -183,7 +183,7 @@ extern int func_80141100(int param_1);
 extern void func_800291A0(s32, s32);
 extern s32 func_800291DC(s32);
 extern void func_800291C8(s32, s32);
-extern void func_801415C0(s32 param_1, s32 param_2);
+extern void guess_SwapGameVarSlots(s32 param_1, s32 param_2);
 extern u8 guess_g_MenuPanelCursors[];
 extern u8 D_80115149[];
 extern u8 guess_g_MenuPanelSizes[];
@@ -461,7 +461,7 @@ extern void func_8014A6A8(s32 a0);
 extern void func_8014A71C(s32 a0);
 extern void func_80172588(s32 *a0);
 extern void func_801473DC(s32 *a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 D_80127098;
 extern s32 D_80127094;
 extern s32 D_80127090;
@@ -751,7 +751,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC(u8 * a0);
+extern void guess_ClearObjectAndSubObject(u8 * a0);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_8014AC10(s32 arg0);
@@ -1210,7 +1210,7 @@ extern void func_80154ED8(s32 a0, s32 a1);
 // @unstuck(P36): none — MATCH (array-of-struct stride-8 base materialize + addu, %lo folded into addiu)
 
 extern void MoveImage(void *a0, s32 a1, s32 a2);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 
 void func_801550FC(s32 arg0)
@@ -1220,7 +1220,7 @@ void func_801550FC(s32 arg0)
     if (arg0 & 0x40000000) {
         MoveImage(&D_80183DEC[arg0 & 0xFF], 0x200, 0x100);
     } else {
-        ((void (*)(void))func_800183E0)();
+        ((void (*)(void))guess_AllocRenderWorkRecord)();
     }
 }
 

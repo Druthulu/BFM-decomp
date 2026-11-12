@@ -2587,7 +2587,7 @@ s32 func_8015094C(s32 param_1) {
 // 3x lh short-circuit guard (6/0x88, 0xA/0x8A, 0xE/0x8C) then a 0x40000 flag guard;
 // when the flag is clear, repoints $sp into the D-cache scratchpad stack held at
 // *(0x1F8003FC), calls func_8014FA70(s0) on that stack and stashes $v0 to D_801D961C,
-// then restores $sp; finally calls func_80015978(s0+4, s0+0x88). Manipulating $sp is not
+// then restores $sp; finally calls guess_CopyVec3HighHalves(s0+4, s0+0x88). Manipulating $sp is not
 // expressible in C, so this is full inline asm (manages its own frame).
 //
 // maspsx gotcha (the lever for this fn): match_one's maspsx STRIPS each inline-asm line, so
@@ -2602,7 +2602,7 @@ s32 func_8015094C(s32 param_1) {
 #include "common.h"
 
 extern s32 func_8014FA70(s32 a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 D_801D961C;
 
 #define SHARED_FN func_80150A70

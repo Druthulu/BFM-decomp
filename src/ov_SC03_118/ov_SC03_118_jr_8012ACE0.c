@@ -1868,12 +1868,12 @@ void func_8013221C(int param_1)
 extern s32 D_801D2F58;
 extern s32 D_801D2F5C[];
 extern int D_801D2F60;
-extern void func_80136BC4(s32 a0);
+extern void guess_RelocateHeaderOffsets(s32 a0);
 
 void func_801336E8(void *a0, int a1, int a2) {
     if (a0 != 0) {
         (*(void * *)&D_801D2F58) = a0;
-        ((void (*)(void))func_80136BC4)();
+        ((void (*)(void))guess_RelocateHeaderOffsets)();
     }
     (*(int *)&D_801D2F5C) = a1;
     D_801D2F60 = a2;
@@ -1884,13 +1884,13 @@ void func_801336E8(void *a0, int a1, int a2) {
 
 extern s32 D_801D2F5C[];
 extern s32 D_801D2F58;
-extern void func_80136BC4(s32);
+extern void guess_RelocateHeaderOffsets(s32);
 
 void func_8013373C(s16 arg0) {
     s32 temp = D_801D2F5C[arg0];
     if (temp != 0) {
         D_801D2F58 = temp;
-        func_80136BC4(temp);
+        guess_RelocateHeaderOffsets(temp);
     }
 }
 

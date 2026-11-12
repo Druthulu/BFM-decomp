@@ -25,7 +25,7 @@ void SHARED_FN(s32 param_1) {
     ((Unkstruct_800B5CB8 *)q)->unk1A = h;
     ((Unkstruct_800B5CB8 *)q)->unk18 = h;
 
-    func_8012931C(param_1);
+    guess_AddVelocityToPos(param_1);
 
     if (guess_StepPairSequence((void *)q, (void *)(param_1 + 0x24)) != 0) {
         func_801292C8(param_1);

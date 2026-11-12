@@ -22,7 +22,7 @@ void func_8016C2C4(s32 param)
     v = *(s16 *)(s0 + 0x1a) + v;
     *(s16 *)(s0 + 0x1a) = v;
     *(s16 *)(s0 + 0x18) = v;
-    r = ((s32 (*)(s32, void *, void *, void *))func_8016C374)(s1, D_8018EDC4, D_8018EDCC, D_8018ED7C);
+    r = ((s32 (*)(s32, void *, void *, void *))guess_FadeOutColorPair)(s1, D_8018EDC4, D_8018EDCC, D_8018ED7C);
     if (r == 0) {
         ((void (*)(s32))guess_FreeSmallObject)(s1);
     }

@@ -724,11 +724,11 @@ void func_800CC110(s32 ot, s32 otz, s32 shift, void *prim, u32 code)
 }
 
 
-extern s32 func_800183E0(s32 *a0);
+extern s32 guess_AllocRenderWorkRecord(s32 *a0);
 void func_800CC144(void) {
 
     extern s32 D_800CCA7C;
-    func_800183E0(&D_800CCA7C);
+    guess_AllocRenderWorkRecord(&D_800CCA7C);
 }
 
 
@@ -804,7 +804,7 @@ void func_800CC298(void *a0) {
  * "Quad" block-copy idiom noted on the seed_ref twin ov_SC02_011:func_8017FB14). */
 
 extern s32 func_80146578(void);
-extern void func_8001CD9C(void *a0, void *a1);
+extern void guess_InitObjectKind6(void *a0, void *a1);
 extern void guess_BuildCircle12Points(void *a0, u16 a1);
 extern void guess_NextStep(void *a0);
 extern void guess_FreeObjectAndSubObject_19();   /* TU later defines this void(void) at line 78; call with an
@@ -812,7 +812,7 @@ extern void guess_FreeObjectAndSubObject_19();   /* TU later defines this void(v
                                  * above) avoids a 1-arg-vs-0-arg prototype conflict when this
                                  * function's INCLUDE_ASM slot (earlier in file) is replaced. */
 
-extern Quad4_800CCAD0 D_800CCAD0;   /* struct base passed to func_8001CD9C; D_800CCAD4 below is its +4 quad */
+extern Quad4_800CCAD0 D_800CCAD0;   /* struct base passed to guess_InitObjectKind6; D_800CCAD4 below is its +4 quad */
 extern Quad4_800CCAD0 D_800CCAD4;
 extern Quad4_800CCB14 D_800CCB14;
 extern u8 D_800CCB10;
@@ -829,7 +829,7 @@ void func_800CC310(void *a0)
 
     if (s1 != NULL) {
         s0 = &D_800CCAD0;
-        func_8001CD9C(s1, s0);
+        guess_InitObjectKind6(s1, s0);
         guess_BuildCircle12Points(s0, 0xC0);
 
         *(s16 *)((u8 *)s1 + 0x2C) = 1;
@@ -976,12 +976,12 @@ void func_800CC658(void *a0) {
 }
 
 
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D44)
 /* guess_FreeObjectAndSubObject_19: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
- * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_19 */
 void guess_FreeObjectAndSubObject_19(void) {
-    func_80162CCC();
+    guess_ClearObjectAndSubObject();
 }
 
 
@@ -1017,7 +1017,7 @@ void func_800CC6C4(void *a0, void *a1, void *a2, void *a3) {
 #include "common.h"
 
 
-extern void func_80015978(s32 a0, void *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, void *a1);
 extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 extern void func_80013F3C(s32 a0);
 extern void func_800123F0(s32 a0, s32 a1);
@@ -1041,7 +1041,7 @@ void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
     *(W *)((s32)a4 + 0x28) = *(W *)a2;
     *(W *)((s32)a4 + 0x2c) = *(W *)a2;
 
-    func_80015978(a0 + 4, &v1);
+    guess_CopyVec3HighHalves(a0 + 4, &v1);
     ((void (*)())guess_WorldToScreenFlag)(&v1, &v1);
     func_80013F3C((s32)&buf);
     func_800123F0((s32)&buf, CAST_SIGN(s16, (s32)a3, 6));

@@ -91,7 +91,7 @@ s32 func_8013F350(void) {
                     }
                     func_80141C0C(5);
                 } else {
-                    func_801415C0((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
+                    guess_SwapGameVarSlots((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
                     guess_g_MenuSwapSlot = 0;
                     func_80141C0C(3);
                     return 1;
@@ -100,7 +100,7 @@ s32 func_8013F350(void) {
                 if ((*(s16 *)&guess_g_MenuSwapSlot) == 0) {
                     guess_g_MenuSwapSlot = r | 0x8000;
                 } else {
-                    func_801415C0((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
+                    guess_SwapGameVarSlots((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
                     guess_g_MenuSwapSlot = 0;
                 }
                 func_80141C0C(3);

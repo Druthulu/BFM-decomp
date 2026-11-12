@@ -3,7 +3,7 @@
 void func_801336E8(void *a0, int a1, int a2) {
     if (a0 != 0) {
         (*(void * *)&D_8018E6E8) = a0;
-        ((void (*)(void))func_80136BC4)();
+        ((void (*)(void))guess_RelocateHeaderOffsets)();
     }
     (*(int *)&D_8018E6EC) = a1;
     D_8018E6F0 = a2;

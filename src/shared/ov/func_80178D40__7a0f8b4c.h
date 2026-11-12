@@ -54,7 +54,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
     extern void guess_StartActorSequence(void *, s32);
     extern s32 func_8012B8A4(void *);
     extern void guess_ShowObjectModel(void *);
-    extern void func_8012E8A8(void *);
+    extern void guess_HideObjectModel(void *);
     extern void func_8001AAD0(s32, s32);
     extern s32 D_8018F504;
     extern s32 D_8018F918;
@@ -475,7 +475,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
     }
     case 0x30:
         if (((Cmd_80178D40 *)arg1)->a.w == 0) {
-            func_8012E8A8(((Actor_80178D40 *)arg0));
+            guess_HideObjectModel(((Actor_80178D40 *)arg0));
             (*(s16*)&D_8018FB24) = 3;
         } else {
             guess_ShowObjectModel(((Actor_80178D40 *)arg0));

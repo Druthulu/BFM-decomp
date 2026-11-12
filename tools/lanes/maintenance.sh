@@ -83,7 +83,7 @@ res=json.load(open('.run/reloc_maint.out.json'))
 # — reloc AGREE says the SYMBOLS agree, shape==MATCH says the INSTRUCTIONS do; a shape-DIFF draft
 # cannot be byte-identical, so each one staged is a whole-binary build spent to learn what
 # match_one already printed. Three consecutive 0-bank passes gated 82 of these every 45 minutes.
-# Key by (binary, fn): overlays share function NAMES across binaries (func_80162CCC exists in
+# Key by (binary, fn): overlays share function NAMES across binaries (guess_ClearObjectAndSubObject exists in
 # main AND ov_MAIN_012), and an fn-keyed set stages every same-named draft when ONE agrees.
 ok={(r.get('binary'), r['fn']) for r in res
    if r.get('status') in ('AGREE','UNRESOLVED') and r.get('shape')=='MATCH'}

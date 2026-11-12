@@ -25,7 +25,7 @@ void func_8016D1D8(int param_1) {
             int pp;
             *(int *)(param_1 + 0x20) = iVar5;
             ((void (*)(void *, int))guess_BuildCircle12Points)(D_8018EE18, 0x28);
-            ((void (*)(void *, void *))func_8001CD9C)((void *)iVar5, D_8018EE18);
+            ((void (*)(void *, void *))guess_InitObjectKind6)((void *)iVar5, D_8018EE18);
             *(short *)(iVar5 + 0x1a) = 0x1400;
             *(u32 *)(iVar5 + 4) |= 0x50000000;
             pp = *(int *)(param_1 + 0x30);
@@ -49,7 +49,7 @@ void func_8016D1D8(int param_1) {
         if (iVar2 != 0) {
             *(int *)(param_1 + 0x20) = iVar2;
             ((void (*)(void *, int))guess_BuildCircle12Points)(D_8018EE58, 0x18);
-            ((void (*)(void *, void *))func_8001CD9C)((void *)iVar2, D_8018EE58);
+            ((void (*)(void *, void *))guess_InitObjectKind6)((void *)iVar2, D_8018EE58);
             *(u32 *)(iVar2 + 4) |= 0x50000000;
             *(u16 *)(param_1 + 6) = *(u16 *)(iVar5 + 6);
             *(u16 *)(param_1 + 0xa) = *(u16 *)(iVar5 + 0xa);

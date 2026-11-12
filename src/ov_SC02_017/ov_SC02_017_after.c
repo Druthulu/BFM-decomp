@@ -1995,7 +1995,7 @@ s32 func_8015094C(s32 param_1) {
 
 
 extern s32 func_8014FA70(s32 a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 D_801EE5CC;
 
 #define SHARED_FN func_80150A70

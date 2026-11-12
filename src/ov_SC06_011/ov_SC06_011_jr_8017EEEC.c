@@ -319,7 +319,7 @@ void *arg0;
 extern u8 guess_g_ObjectTable[];
 extern s32 D_801ABBD8;
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_80013328(s32 a0, s32 a1);
 extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
 
@@ -349,7 +349,7 @@ loop:
         goto loop;
     }
     ((Unkstruct_8017E6A4_2 *)arg0)->unk208 = 0;
-    func_80015978(arg0 + 4, buf);
+    guess_CopyVec3HighHalves(arg0 + 4, buf);
     func_8012F2E8(D_801ABBD8, (s32)buf, arg0 + 0x20C);
     ((Unkstruct_8017E6A4_2 *)arg0)->unk204 = D_801ABBD8;
     guess_RequestSound(0x8B0, 0);
@@ -913,7 +913,7 @@ extern s32 func_80143970(s32 a0);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern void guess_StartActorSequence(s32 *a0, s32 a1);
 extern short D_801A89A0;
-extern void func_8012E8A8(u8 *a0);
+extern void guess_HideObjectModel(u8 *a0);
 extern void func_8017F8F8(void *param_1);
 
 void func_80180360(void *a0) {
@@ -927,7 +927,7 @@ void func_80180360(void *a0) {
         if (CAST_SIGN(u16, (s32)a0, 0x70) & 0x6000) {
             ((Unkstruct_800B5CB8 *)a0)->unk2 = 6;
             guess_StartActorSequence((s32 *)a0, (s32)&D_801A89A0);
-            func_8012E8A8(a0);
+            guess_HideObjectModel(a0);
         } else {
             func_8017F8F8(a0);
         }

@@ -11,7 +11,7 @@ s32 SHARED_FN(s32 a0, s32 a1, s32 a2) {
     sp10.vy += *(u16*)(a1 + 2);
     sp10.vz += *(u16*)(a1 + 4);
 
-    func_8012931C((struct vec *)a0);
+    guess_AddVelocityToPos((struct vec *)a0);
 
     sp18.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
     sp18.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;

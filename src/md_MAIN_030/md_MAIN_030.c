@@ -2,13 +2,13 @@
 
 #include "common.h"
 
-extern s32 func_800183E0(s32 *a0);
+extern s32 guess_AllocRenderWorkRecord(s32 *a0);
 void func_800CAE0C(void) {
 
     extern s32 D_800CB4FC;
     extern s32 D_800CB4BC;
-    func_800183E0(&D_800CB4FC);
-    func_800183E0(&D_800CB4BC);
+    guess_AllocRenderWorkRecord(&D_800CB4FC);
+    guess_AllocRenderWorkRecord(&D_800CB4BC);
 }
 
 
@@ -82,7 +82,7 @@ void func_800CAFA8(void *a0) {
     extern void func_8001CC3C(void *, void *, s32, s32);
     extern void guess_StartPairSequence(void *, void *, void *);
     extern s32 guess_FreeSmallObject(u8 *a0);
-    extern void func_8001CD9C(void *, void *);
+    extern void guess_InitObjectKind6(void *, void *);
 
     s32 pad[6];
     s32 ent;
@@ -131,7 +131,7 @@ void func_800CAFA8(void *a0) {
             return;
         }
         *(s32 *)((s32)a0 + 0x34) = ent;
-        func_8001CD9C(ent, &D_800CB51C);
+        guess_InitObjectKind6(ent, &D_800CB51C);
         ((Unkstruct_800B5CB8 *)ent)->unk2C = 0x8001;
         CAST_WIDTH(s32, ent, 4) |= 0xE0000000;
     }

@@ -126,7 +126,7 @@ extern s32 (*D_8018D1B4)();
 extern s32 D_801EB868;
 extern void func_80010AE0(s32 a0);
 extern s32 func_80018450(s32 a0, s32 a1);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_80128D60(s32 a0, s32 *a1, s32 *a2);
 extern s32 func_80128DB4(s32 a0, s32 *a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
@@ -146,7 +146,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void func_8012931C(struct vec *a0);
+extern void guess_AddVelocityToPos(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[];
@@ -220,7 +220,7 @@ extern s16 D_80127080;
 extern s16 D_801152C2;
 extern void func_8012A304(s32 a0, s32 a1);
 extern s32 guess_g_ActiveCamera;
-extern void func_8012A4BC(void);
+extern void guess_BlendToPresetCamera(void);
 extern void func_8012A62C(s32);
 extern void func_8012A5F8(void (*a0)(void), s32 a1);
 extern void func_8012A62C(s32 a0);
@@ -412,7 +412,7 @@ extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
 extern void guess_ShowObjectModel(u8 *a0);
-extern void func_8012E8A8(u8 *a0);
+extern void guess_HideObjectModel(u8 *a0);
 extern void func_8012E8C4(u8 *a0);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void func_8016AA50(int, int);
@@ -570,9 +570,9 @@ extern s32 func_8013361C(s16 *a0, s16 *a1, s16 *a2, s16 *a3);
 extern s32 D_801EB8D8;
 extern s32 D_801EB8DC[];
 extern int D_801EB8E0;
-extern void func_80136BC4(s32 a0);
+extern void guess_RelocateHeaderOffsets(s32 a0);
 extern void func_801336E8(void *a0, int a1, int a2);
-extern void func_80136BC4(s32);
+extern void guess_RelocateHeaderOffsets(s32);
 extern void func_8013373C(s16 arg0);
 extern s32 func_80133784(s32 arg0, void *arg1, s32 arg2);
 extern s32 func_80133CD4(int arg0, s16 * cmd, s16 * base, s32 * arr);
@@ -963,7 +963,7 @@ extern s32 guess_GetGameVarByte(s32 arg);
 extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern void func_8014AA04(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void func_801415C0(s32 a0, s32 a1);
+extern void guess_SwapGameVarSlots(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 extern s32 func_80140608(s32 a0);
 extern void func_801407F4(void);
@@ -1060,7 +1060,7 @@ s32 func_8013F350(void) {
                     }
                     func_80141C0C(5);
                 } else {
-                    func_801415C0((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
+                    guess_SwapGameVarSlots((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
                     guess_g_MenuSwapSlot = 0;
                     func_80141C0C(3);
                     return 1;
@@ -1069,7 +1069,7 @@ s32 func_8013F350(void) {
                 if ((*(s16 *)&guess_g_MenuSwapSlot) == 0) {
                     guess_g_MenuSwapSlot = r | 0x8000;
                 } else {
-                    func_801415C0((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
+                    guess_SwapGameVarSlots((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
                     guess_g_MenuSwapSlot = 0;
                 }
                 func_80141C0C(3);

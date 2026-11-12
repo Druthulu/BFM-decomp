@@ -1454,9 +1454,9 @@ Unkstruct_ed8bbfcb	define	Unkstruct_801821DC	owner:func_801821DC	no E1/E2 eviden
 Unkstruct_f2f45e97	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8018797C pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_f6ea8157	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_800CB138 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_f810c15e	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80183FF8 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_251ec6f2	define	Unkstruct_80169FE0	owner:func_80169FE0	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 12 bodies
+Unkstruct_251ec6f2	define	Unkstruct_80169FE0	owner:guess_StepPairSequenceAndFree	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 12 bodies
 Unkstruct_5d09b9c5	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_801E2F58 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_8905aeec	define	Unkstruct_800CB7F0	owner:func_800CB7F0	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 12 bodies
+Unkstruct_8905aeec	define	Unkstruct_800CB7F0	owner:guess_StepPairSequenceAndFree	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 12 bodies
 Unkstruct_ef20b21c	define	Unkstruct_8017E62C_2	owner:func_8017E62C	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 12 bodies
 Unkstruct_033cac2e	define	Unkstruct_8017E6A4_2	owner:func_8017E6A4	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 8 bodies
 Unkstruct_d9ae9f69	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
@@ -2404,7 +2404,7 @@ Unkstruct_7345924a	define	Unkstruct_8017D620	owner:func_8017D620	no E1/E2 eviden
 Unkstruct_787a9761	define	Unkstruct_80158814_2	owner:func_80158814	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
 Unkstruct_78899093	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80178D40 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_7d2e7f66	define	Unkstruct_80142608_3	owner:func_80142608	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
-Unkstruct_80167AE0	define	Unkstruct_80168070	owner:func_80168070	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
+Unkstruct_80167AE0	define	Unkstruct_80168070	owner:guess_SetSegmentMatrixFacingCamera	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
 Unkstruct_8541aec1	define	Unkstruct_80159968_2	owner:func_80159968	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
 Unkstruct_87dbe7e7	define	Unkstruct_8017DFE4	owner:func_8017DFE4	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
 Unkstruct_983233e2	define	Unkstruct_8015E344_2	owner:func_8015E344	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies

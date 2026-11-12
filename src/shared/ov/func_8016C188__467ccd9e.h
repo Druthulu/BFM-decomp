@@ -11,9 +11,9 @@ void func_8016C188(s32 param)
     s32 t34;
 
     extern void func_80015954(s32, s32);
-    extern s32 func_8016C374(s32, s32, s32, s32);
+    extern s32 guess_FadeOutColorPair(s32, s32, s32, s32);
     extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
-    extern void func_8001CD9C(s32, void *);
+    extern void guess_InitObjectKind6(s32, void *);
     extern void guess_BuildCircle12Points(void *, unsigned short);
     extern u8 D_8018ED7C[];
     extern s16 D_8018EDC4;
@@ -39,7 +39,7 @@ void func_8016C188(s32 param)
         ((void (*)(s32, void *, void *))guess_ObjRotTransSV)(t34, buf, buf);
         ((void (*)(void *, s32))func_80015954)(buf, s1 + 4);
         s0 = D_8018ED7C;
-        ((void (*)(s32, void *))func_8001CD9C)(s2, s0);
+        ((void (*)(s32, void *))guess_InitObjectKind6)(s2, s0);
         *(s16 *)(s2 + 0x1E) = 0xCCC;
         *(s32 *)(s2 + 4) = *(s32 *)(s2 + 4) | 0x50000000;
         ((void (*)(void *, s32))guess_BuildCircle12Points)(s0, 0x80);
@@ -54,7 +54,7 @@ void func_8016C188(s32 param)
         *pBD4 = 0xC0;
         D_8018EDCE = 0xC0;
         D_8018EDD0 = 0;
-        ((s32 (*)(s32, void *, void *, void *))func_8016C374)(s1, pBCC, pBD4, s0);
+        ((s32 (*)(s32, void *, void *, void *))guess_FadeOutColorPair)(s1, pBCC, pBD4, s0);
         *(u16 *)(s1 + 2) = *(u16 *)(s1 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(s1);

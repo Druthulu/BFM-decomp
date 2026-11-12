@@ -1,7 +1,7 @@
 /* func_8014350C — shared body (overlay slot 0x80128158, h_exact f81e8c37). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8014358C();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
-extern void func_8012931C(struct vec *a0);
+extern void guess_AddVelocityToPos(struct vec *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 void func_8014350C(s32 *a0) {
@@ -9,7 +9,7 @@ void func_8014350C(s32 *a0) {
         func_8014358C();
         return;
     }
-    func_8012931C((struct vec *)a0);
+    guess_AddVelocityToPos((struct vec *)a0);
     if (guess_StepPairSequence((void *)a0[0x20 / 4], (void *)((u8 *)a0 + 0x24)) != 0) {
         func_801292C8((u8 *)a0);
         return;

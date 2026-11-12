@@ -4,7 +4,7 @@ void func_8014C6F4(u8 *a) {
     extern u8 guess_g_PlayerRecord[];
     extern s32 D_8011F9D0;
     extern s32 guess_GetPlayerControlScript(void);
-    extern void func_80015978(s32 a0, s32 *a1);
+    extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
     u8 *p = guess_g_PlayerRecord;
     u8 *e;
     u8 *lim;
@@ -35,7 +35,7 @@ void func_8014C6F4(u8 *a) {
         e = 0;
     found:
         if (e != 0) {
-            func_80015978((s32)(e + 4), (s32 *)(a + 0x15C));
+            guess_CopyVec3HighHalves((s32)(e + 4), (s32 *)(a + 0x15C));
             goto done;
         }
     }
@@ -44,7 +44,7 @@ void func_8014C6F4(u8 *a) {
     }
     src = a + 4;
 call:
-    func_80015978((s32)src, (s32 *)(a + 0x15C));
+    guess_CopyVec3HighHalves((s32)src, (s32 *)(a + 0x15C));
 done:
     *(s16 *)(a + 0x162) = 0;
 tail:

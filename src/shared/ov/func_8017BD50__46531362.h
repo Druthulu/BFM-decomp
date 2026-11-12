@@ -14,7 +14,7 @@ void func_8017BD50(int param_1)
             guess_g_StoredViewPointX = guess_g_StoredViewPointX + D_8018F99C;
             guess_g_StoredViewPointY = guess_g_StoredViewPointY + D_8018F99E;
             guess_g_StoredViewPointZ = guess_g_StoredViewPointZ + D_8018F9A0;
-            func_8012A4BC();
+            guess_BlendToPresetCamera();
         }
         D_8018FAB0 = 0;
     }

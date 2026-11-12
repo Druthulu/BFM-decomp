@@ -1,15 +1,15 @@
 #include "common.h"
 
-extern s32 func_800183E0(s32 *a0);
+extern s32 guess_AllocRenderWorkRecord(s32 *a0);
 
 void func_800CAE14(void) {
 
     extern s32 D_800CC6A4;
     extern s32 D_800CC6E4;
     extern s32 D_800CBF64;
-    func_800183E0(&D_800CC6A4);
-    func_800183E0(&D_800CC6E4);
-    func_800183E0(&D_800CBF64);
+    guess_AllocRenderWorkRecord(&D_800CC6A4);
+    guess_AllocRenderWorkRecord(&D_800CC6E4);
+    guess_AllocRenderWorkRecord(&D_800CBF64);
 }
 
 
@@ -226,7 +226,7 @@ void func_800CB300(s32 arg0) {
     extern void func_800123F0(s32 a0, s32 a1);
     extern void func_80012558(s32 a0, s32 a1);
     extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
-    extern void func_80162FC0(s32 *a0);
+    extern void guess_AddVelocityToPos_2(s32 *a0);
     extern s32 func_80163950(s32 a0);
     extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
     extern void func_80163328(s32 a0);
@@ -268,7 +268,7 @@ void func_800CB300(s32 arg0) {
     *(M16 *)(s0 + 0x44) = *(M16 *)&mat[4];
     ((Unkstruct_800CB300 *)s0)->unk2C = ((Unkstruct_800CB300 *)s0)->unk2C | 1;
     func_80163194(s1, -(((((Unkstruct_800CB300_2 *)s1)->unk50 - 0x28) << 14) / 40), 0, 0, (s32)&mat);
-    func_80162FC0((s32 *)s1);
+    guess_AddVelocityToPos_2((s32 *)s1);
     func_80163950(s1);
     hv = ((Unkstruct_800CB300 *)s0)->unk1A + 0x200;
     ((Unkstruct_800CB300 *)s0)->unk18 = ((Unkstruct_800CB300 *)s0)->unk1A = hv;
@@ -340,23 +340,23 @@ L6A8:
 
 extern void func_8016634C(void *a0);
 extern void func_80147364(u16 a0, s32 a1);
-extern void func_80162CCC(u8 * a0);
+extern void guess_ClearObjectAndSubObject(u8 * a0);
 
 void func_800CB6CC(void *a0) {
     func_8016634C(a0);
     func_80147364(4, 0x649);
-    func_80162CCC(a0);
+    guess_ClearObjectAndSubObject(a0);
 }
 
 
 #include "common.h"
 
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_80162CCC(u8 * a0);
+extern void guess_ClearObjectAndSubObject(u8 * a0);
 
 void func_800CB708(void *a0) {
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
-        func_80162CCC(a0);
+        guess_ClearObjectAndSubObject(a0);
         return;
     }
     CAST_SIGN(u16, (s32)a0, 0xA) += 2;
@@ -381,7 +381,7 @@ s32 func_800CB7B0(s32 arg0) {
     s32 t;
     s32 u;
 
-    func_80015978(arg0 + 4, &x);
+    guess_CopyVec3HighHalves(arg0 + 4, &x);
     if ((guess_WorldToScreenFlag(&x, &x) & 0xFFFFEFFF) == 0) {
         t = *(s16 *) &x;
         if (t < 0) {
@@ -577,7 +577,7 @@ void func_800CBBA0(s32 param_1) {
 void func_800CBBF8(void) {
     extern s32 D_8011F9D0[];
     extern void guess_ZeroMemory(s8 *a0, s32 a1);
-    extern void func_80162CCC(u8 * a0);
+    extern void guess_ClearObjectAndSubObject(u8 * a0);
     u8 *p;
 
     for (p = (u8 *)&(*(s32 *)D_8011F9D0); p < (u8 *)&(*(s32 *)D_8011F9D0) + 0x820; p += 0x68) {
@@ -585,7 +585,7 @@ void func_800CBBF8(void) {
             if (((Unkstruct_800CBBF8_2 *)p)->unk10 != 0) {
                 guess_ZeroMemory(CAST_SIGN(s8 *, p, 0x10), 0x38);
             }
-            ((void (*)(u8 *))func_80162CCC)(p);
+            ((void (*)(u8 *))guess_ClearObjectAndSubObject)(p);
         }
     }
 }

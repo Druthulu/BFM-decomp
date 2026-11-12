@@ -67,7 +67,7 @@ void func_801A01D4(void *a0) {
  * each call site / load side / store side was walked individually:
  *   jal guess_GetStoryProgress / guess_FreeActorDuringSpawn($a0=arg0) / guess_InitActorModel(arg0,&D_801A6874)
  *   / func_8001D0E8(*(arg0+0x20),0x7FFF,0x7FFF) / guess_StartActorSequence(arg0,&D_801F0008)
- *   / guess_UpdateActorModelMatrix(arg0) / func_8012E8A8(arg0) / guess_SpawnActorNoArg x3 (0x34C,0x351,
+ *   / guess_UpdateActorModelMatrix(arg0) / guess_HideObjectModel(arg0) / guess_SpawnActorNoArg x3 (0x34C,0x351,
  *   0x3AB) / guess_SpawnActor(0x34C,2,arg0) / rand / func_8001C97C(&D_801F436C)
  *   / func_801A2E20.   &D_801A6854 -> 0x58, &D_801A68A8 -> 0x80 of *(arg0+0x20),
  *   D_801F4360 <- rand()&0x7FFF, D_801F1344/D_801F1A5C <- (s16)2,
@@ -78,7 +78,7 @@ void func_801A01D4(void *a0) {
  * symbols (checked name by name) and has no prototype for func_801A026C, so
  * every declaration below is free-standing and nothing had to be adopted.
  * Spellings follow the card's decl_prior: modal fleet forms for guess_FreeActorDuringSpawn
- * (void*), guess_StartActorSequence (s32,void*), func_8012E8A8 (u8*), guess_InitActorModel /
+ * (void*), guess_StartActorSequence (s32,void*), guess_HideObjectModel (u8*), guess_InitActorModel /
  * guess_SpawnActorNoArg (s32,s32), guess_SpawnActor (s32,s32,s32), guess_UpdateActorModelMatrix (s32);
  * banked-DEFINITION forms for guess_GetStoryProgress (s32(void)), func_8001D0E8
  * (void(s32,s32,s32)) and func_8001C97C (void(s32*) - the def wins over the
@@ -97,7 +97,7 @@ extern s32  guess_InitActorModel(s32, s32);
 extern void func_8001D0E8(s32, s32, s32);
 extern void guess_StartActorSequence(s32, void *);
 extern void guess_UpdateActorModelMatrix(s32);
-extern void func_8012E8A8(u8 *);
+extern void guess_HideObjectModel(u8 *);
 extern s32  guess_SpawnActorNoArg(s32, s32);
 extern s32  guess_SpawnActor(s32, s32, s32);
 extern void func_8001C97C(s32 *);
@@ -149,7 +149,7 @@ void func_801A026C(s32 arg0)
     ((Unkstruct_800B5CB8 *)arg0)->unk48 = 0x30000;
     CAST_WIDTH(s32, arg0, 0x08) += 0xFD8A0000;
     guess_UpdateActorModelMatrix(arg0);
-    func_8012E8A8((u8 *)arg0);
+    guess_HideObjectModel((u8 *)arg0);
 
     ((Unkstruct_800B5CB8 *)arg0)->unkAE = -1;
     ((Unkstruct_800B5CB8 *)arg0)->unk75 = 2;
@@ -223,7 +223,7 @@ extern void func_8017BF08(void *, void *, s32, s32);
 extern void guess_FreeActor(void *);
 extern s32  guess_AllocSpriteObjectHigh(void);
 extern void guess_BuildCircle12Points(void *, u16);
-extern void func_8001CD9C(s32, void *);
+extern void guess_InitObjectKind6(s32, void *);
 extern void func_8012A568(void *);
 extern void func_8017F004(void);
 
@@ -252,7 +252,7 @@ void func_801A0524(s32 a0) {
             D_801F4320 = 0;
             D_801F4324 = 0;
             guess_BuildCircle12Points(p, 0x60);
-            func_8001CD9C(D_801F4358, p);
+            guess_InitObjectKind6(D_801F4358, p);
             ((Unkstruct_800B5CB8 *)D_801F4358)->unk2C = 0xC010;
             CAST_WIDTH(s32, D_801F4358, 4) |= 0x50000000;
         }
@@ -3571,7 +3571,7 @@ extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32  guess_AllocSpriteObjectHigh(void);
 extern void guess_BuildCircle12Points(void *a0, u16 a1);
-extern void func_8001CD9C(s32 a0, void *a1);
+extern void guess_InitObjectKind6(s32 a0, void *a1);
 extern s32  rand(void);
 
 extern u16 D_801A73D4[];
@@ -3637,7 +3637,7 @@ void func_801A5138(s32 a0) {
     D_801F448C = 0;
     D_801F4490 = 0;
     guess_BuildCircle12Points((void *)p, 0x60);
-    func_8001CD9C(s1, (void *)p);
+    guess_InitObjectKind6(s1, (void *)p);
     ((Unkstruct_800B5CB8 *)s1)->unk2C = 0xC010;
     CAST_WIDTH(s32, s1, 0x4) = CAST_WIDTH(s32, s1, 0x4) | 0x50800000;
     ((Unkstruct_800B5CB8 *)s1)->unk8 = *(u16 *)(s2 + 0x6);
@@ -3951,7 +3951,7 @@ void func_801A5A10(s32 param_1)
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
-extern void func_8012931C(void *);
+extern void guess_AddVelocityToPos(void *);
 
 #define SHARED_FN func_801A5A9C
 #include "../shared/multi/cls_9d74594f1906.h"

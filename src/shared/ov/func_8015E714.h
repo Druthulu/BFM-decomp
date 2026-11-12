@@ -1,7 +1,7 @@
 /* func_8015E714 — shared body (overlay slot 0x80128158, h_exact 288bb7ed). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
 extern void func_801553C0(s32 a0);
 extern void func_80155440(s32 *a0);
@@ -24,7 +24,7 @@ void func_8015E714(s32 *a0) {
                 *(s16 *)(s0 + 0xA) = sp20[1];
                 *(s16 *)(s0 + 0xE) = sp20[2];
             }
-            func_80015978(s0 + 0x4, (s32 *)sp18);
+            guess_CopyVec3HighHalves(s0 + 0x4, (s32 *)sp18);
             sp18[3] = 0;
             func_8014C4AC(s0, 0x1C, 0, sp18, *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12));
             *(s32 *)((s32)a0 + 0x18C) = 0;

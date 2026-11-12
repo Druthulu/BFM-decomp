@@ -5,11 +5,11 @@
  * compatible with it ("conflicting types"). A file-scope tag makes both spellings the same type. */
 struct S;
 
-extern s32 func_800183E0(s32 *a0);
+extern s32 guess_AllocRenderWorkRecord(s32 *a0);
 void func_800CAE0C(void) {
 
     extern s32 D_800CB294;
-    func_800183E0(&D_800CB294);
+    guess_AllocRenderWorkRecord(&D_800CB294);
 }
 
 

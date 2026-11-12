@@ -128,7 +128,7 @@ def extern_fn_addrs():
     file, while `func_80171A1C` alone has 1,061 references. Result: `undefined reference` at LINK
     time, 611 member-rows across 45 symbols, the largest single residue class in the sweep.
     "Not in MY sig" means "not mine", NOT "is data" — so ask the shared images too before defaulting.
-    Measured: 0x800183E0 is a function only in main's sig; 0x800D1EBC only in the resident's;
+    Measured: 0x800183E0 (guess_AllocRenderWorkRecord) is a function only in main's sig; 0x800D1EBC only in the resident's;
     0x80171A1C in 141 overlay sigs (so an md_* sibling hit the same fallthrough)."""
     out = set()
     for b in ("resident", "main"):

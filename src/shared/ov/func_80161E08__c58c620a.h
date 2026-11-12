@@ -5,7 +5,7 @@ void func_80161E08(s32 param_1) {
     extern void func_8001CE28(void *a0, void *a1);
     extern void func_800242D0(s32 a0, void *a1, s32 a2);
     extern void func_8001CE68(void *a0, void *a1);
-    extern int func_801620C4(void);
+    extern int guess_GetTimeUntilGameVar08(void);
     extern void func_801622C4(void);
     extern u16 guess_g_ScreenWidth;
     extern u16 guess_g_ScreenHeight;
@@ -64,14 +64,14 @@ void func_80161E08(s32 param_1) {
 
         if (guess_g_TargetTimeDigits == 0) {
             p = D_8018E868[2] = base + 0x6618;
-            func_800242D0((s16)func_801620C4(), &D_8018E8B4, 0x84);
+            func_800242D0((s16)guess_GetTimeUntilGameVar08(), &D_8018E8B4, 0x84);
             func_8001CE68(p, &D_8018E8B4);
             D_800B5C74 = 1;
             guess_g_TargetTimeDigitsX = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
             guess_g_TargetTimeDigitsY = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
         }
 
-        func_800242D0((s16)func_801620C4(), &D_8018E8B4, 0x84);
+        func_800242D0((s16)guess_GetTimeUntilGameVar08(), &D_8018E8B4, 0x84);
         if ((a2 & 0x7FFF) == (s32)guess_g_ClockMinute) {
             func_801622C4();
         }

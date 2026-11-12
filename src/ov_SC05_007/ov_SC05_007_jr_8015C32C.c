@@ -97,7 +97,7 @@ extern void func_8014A6A8(s32 a0);
 extern void func_8014A71C(s32 a0);
 extern void func_80172588(s32 *a0);
 extern void func_801473DC(s32 *a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void (*D_8018254C[])(void *);
 extern u8 D_80126BA4;
 extern s32 D_80127098;
@@ -401,7 +401,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void guess_ZeroMemory(void *a0, s32 a1);
@@ -880,7 +880,7 @@ extern s16 D_80078E9E;
 extern void func_801550FC(s32 a0);
 extern void func_80154ED8(s32 a0, s32 a1);
 extern void func_80154F9C(s32 a0);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
@@ -3527,7 +3527,7 @@ void func_80161E08(s32 param_1) {
     extern void func_8001CE28(void *a0, void *a1);
     extern void func_800242D0(s32 a0, void *a1, s32 a2);
     extern void func_8001CE68(void *a0, void *a1);
-    extern int func_801620C4(void);
+    extern int guess_GetTimeUntilGameVar08(void);
     extern void func_801622C4(void);
     extern u16 guess_g_ScreenWidth;
     extern u16 guess_g_ScreenHeight;
@@ -3586,14 +3586,14 @@ void func_80161E08(s32 param_1) {
 
         if (guess_g_TargetTimeDigits == 0) {
             p = D_8019BC00[2] = base + 0x6618;
-            func_800242D0((s16)func_801620C4(), &D_8019BC4C, 0x84);
+            func_800242D0((s16)guess_GetTimeUntilGameVar08(), &D_8019BC4C, 0x84);
             func_8001CE68(p, &D_8019BC4C);
             D_800B5C74 = 1;
             guess_g_TargetTimeDigitsX = -(s32)(u16)guess_g_ScreenWidth / 2 + 0xD0;
             guess_g_TargetTimeDigitsY = -(s32)(u16)guess_g_ScreenHeight / 2 + 0x10;
         }
 
-        func_800242D0((s16)func_801620C4(), &D_8019BC4C, 0x84);
+        func_800242D0((s16)guess_GetTimeUntilGameVar08(), &D_8019BC4C, 0x84);
         if ((a2 & 0x7FFF) == (s32)guess_g_ClockMinute) {
             func_801622C4();
         }
@@ -3754,7 +3754,7 @@ s32 func_80162438(s32 _unused0) {
     extern void func_8001CE28(void *, void *);
     extern void func_8001CE68(void *, void *);
     extern void func_800242D0(s32, void *, s32);
-    extern s32 func_801626B8(void);
+    extern s32 guess_GetTimeUntilGameVar12(void);
     extern void func_80162760(void);
     extern u8 D_801835C8[];
     extern s32 D_801835E0;
@@ -3809,13 +3809,13 @@ s32 func_80162438(s32 _unused0) {
         if (guess_g_TargetTimeDigits == 0) {
             D_8019BC58[2] = (s32)(base + 0x6618);
             item = base + 0x6618;
-            func_800242D0((s16)func_801626B8(), D_8019BCA8, 0x84);
+            func_800242D0((s16)guess_GetTimeUntilGameVar12(), D_8019BCA8, 0x84);
             func_8001CE68(item, D_8019BCA8);
             D_800B5C74 = 1;
             guess_g_TargetTimeDigitsX = -guess_g_ScreenWidth / 2 + 0xD0;
             guess_g_TargetTimeDigitsY = -guess_g_ScreenHeight / 2 + 0x10;
         }
-        func_800242D0((s16)func_801626B8(), D_8019BCA8, 0x84);
+        func_800242D0((s16)guess_GetTimeUntilGameVar12(), D_8019BCA8, 0x84);
         if ((uVar2 & 0x7FFF) == (s32)(*(s16 *)&guess_g_ClockMinute)) {
             func_80162760();
         }
@@ -4054,7 +4054,7 @@ void func_80163EC8(s32 param_1)
     extern u16 guess_g_FrameCounter;
     extern u8 func_801656D0(s32 a0, s32 a1);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80015978(s32 a0, s32 *a1);
+    extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
     extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
     Blk8 in;
     u16 out[4];
@@ -4133,7 +4133,7 @@ void func_80163EC8(s32 param_1)
         iVar7 = *((s32 *) (psVar6 + 0x184));
         if (iVar7 != 0)
         {
-            func_80015978(iVar7 + 4, (s32 *) buf);
+            guess_CopyVec3HighHalves(iVar7 + 4, (s32 *) buf);
             buf[3] = 0;
             uVar4 = func_80156370(0xe);
             func_8014C4AC(iVar7, 0xe, uVar4, buf, *((s16 *) (iVar8 + 0x12)));
@@ -4149,7 +4149,7 @@ void func_80163EC8(s32 param_1)
         iVar7 = *((s32 *) (psVar6 + 0x184));
         if (iVar7 != 0)
         {
-            func_80015978(iVar7 + 4, (s32 *) buf);
+            guess_CopyVec3HighHalves(iVar7 + 4, (s32 *) buf);
             buf[3] = 0;
             uVar4 = func_80156370(0x21);
             func_8014C4AC(iVar7, 0x21, uVar4, buf, *((s16 *) (iVar8 + 0x12)));
@@ -4283,11 +4283,11 @@ void func_80164930(s32 param_1) {
             Ent_80164930_80164930 *p;
             for (i = 0, lim = 0x19, p = ((Ent_80164930_80164930 *)&D_8011F9D0); i < 0x14; i++) {
                 if (p->f0 == lim && p->f50 != 0) {
-                    ((void(*)(Ent_80164930_80164930 *))func_80162CCC)(p);
+                    ((void(*)(Ent_80164930_80164930 *))guess_ClearObjectAndSubObject)(p);
                 }
                 p++;
             }
-            ((void(*)(Ent_80164930_80164930 *))func_80162CCC)((Ent_80164930_80164930 *)((int)param_1));
+            ((void(*)(Ent_80164930_80164930 *))guess_ClearObjectAndSubObject)((Ent_80164930_80164930 *)((int)param_1));
         } else {
             ((void(*)(int))func_80164ACC)(((int)param_1));
         }
@@ -5292,7 +5292,7 @@ void func_80167A9C(void *a0) {
 #include "../shared/ov/func_80167AD8.h"
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH expected; mirrors already-matched sibling func_8016A290 (same 3-loop tail), swapping the inline matrix-setup for a func_80168070 call + constant color block.
+// @unstuck(P36): none — MATCH expected; mirrors already-matched sibling func_8016A290 (same 3-loop tail), swapping the inline matrix-setup for a guess_SetSegmentMatrixFacingCamera call + constant color block.
 
 #include "common.h"
 
@@ -5301,7 +5301,7 @@ void func_80167A9C(void *a0) {
 
 
 s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
-    extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
+    extern void guess_SetSegmentMatrixFacingCamera(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
     extern void guess_AddPolyG4(void *a0, void *a1);
     extern u8 D_80183B44;
     extern u8 D_80183B58[];
@@ -5312,7 +5312,7 @@ s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     u16 t;
     s32 flags;
 
-    func_80168070(param_1, ((s16 *)param_2), ((s16 *)param_3), fr.matrix);
+    guess_SetSegmentMatrixFacingCamera(param_1, ((s16 *)param_2), ((s16 *)param_3), fr.matrix);
 
     fr.v[3].z = 0;
     fr.v[2].z = 0;
@@ -5403,7 +5403,7 @@ L3:
 // @class: schedule
 // @unstuck(P36): none — MATCH. The between-loops f1/f2 store-swap (0x55/0x56) is fixed by writing f2's assign first, then the chained `buf[0x44] = buf[0x45] = buf[0x45] << 1;` — the chain keeps f1's read first (read order fixed by -0x12 in $v0) while emitting f2's store (0x56) ahead of the f1/f0 pair (0x55,0x54). 173/173.
 
-extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
+extern void guess_SetSegmentMatrixFacingCamera(s32 a0, s16 *a1, s16 *a2, void *a3);
 extern u16  guess_g_FrameCounter;
 extern u8   D_80183998[];
 extern u8   D_801839AC[];
@@ -5413,7 +5413,7 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
     u8 *p;
     s16 i;
 
-    func_80168070(arg0, ((s16 *)arg1), ((s16 *)arg2), buf);
+    guess_SetSegmentMatrixFacingCamera(arg0, ((s16 *)arg1), ((s16 *)arg2), buf);
 
     ((Unkstruct_80167DBC *)buf)->unk3C = 0;
     ((Unkstruct_80167DBC *)buf)->unk34 = 0;
@@ -5869,7 +5869,7 @@ void func_80169F3C(int param_1)
 }
 
 
-#define SHARED_FN func_80169FE0
+#define SHARED_FN guess_StepPairSequenceAndFree
 #include "../shared/multi/cls_5d5ada925fc2.h"
 #undef SHARED_FN
 

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 extern u8 D_800CB680[];
 extern u8 D_800CB6C0[];
@@ -13,15 +13,15 @@ extern u8 D_800CB840[];
 extern u8 D_800CB640[];
 
 void func_800CAE0C(void) {
-    func_800183E0((s32)D_800CB680);
-    func_800183E0((s32)D_800CB6C0);
-    func_800183E0((s32)D_800CB700);
-    func_800183E0((s32)D_800CB740);
-    func_800183E0((s32)D_800CB780);
-    func_800183E0((s32)D_800CB7C0);
-    func_800183E0((s32)D_800CB800);
-    func_800183E0((s32)D_800CB840);
-    func_800183E0((s32)D_800CB640);
+    guess_AllocRenderWorkRecord((s32)D_800CB680);
+    guess_AllocRenderWorkRecord((s32)D_800CB6C0);
+    guess_AllocRenderWorkRecord((s32)D_800CB700);
+    guess_AllocRenderWorkRecord((s32)D_800CB740);
+    guess_AllocRenderWorkRecord((s32)D_800CB780);
+    guess_AllocRenderWorkRecord((s32)D_800CB7C0);
+    guess_AllocRenderWorkRecord((s32)D_800CB800);
+    guess_AllocRenderWorkRecord((s32)D_800CB840);
+    guess_AllocRenderWorkRecord((s32)D_800CB640);
 }
 
 
@@ -85,7 +85,7 @@ extern void guess_BuildCircle12Points(void *, u16);
 extern void *guess_AllocSpriteObject(void);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_8001CC3C(s32, void *, s32, s32);
-extern void func_8001CD9C(s32, void *);
+extern void guess_InitObjectKind6(s32, void *);
 
 void func_800CAFE0(s32 param_1) {
     s32 pad[2];
@@ -133,7 +133,7 @@ void func_800CAFE0(s32 param_1) {
         return;
     }
     *(s32 *)(param_1 + 0x34) = node2;
-    func_8001CD9C(node2, D_800CB860);
+    guess_InitObjectKind6(node2, D_800CB860);
     ((Unkstruct_800CAFE0 *)node2)->unk2C = 0xC001;
     ((Unkstruct_800CAFE0 *)node2)->unk4 |= 0xD0000000;
     ((Unkstruct_800CAFE0 *)node2)->unk8 = *(u16 *)(param_1 + 6);

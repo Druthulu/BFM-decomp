@@ -153,7 +153,7 @@ extern s32 (*D_80186B00)();
 extern s32 D_801D9480;
 extern void func_80010AE0(s32 a0);
 extern s32 func_80018450(s32 a0, s32 a1);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_80128D60(s32 a0, s32 *a1, s32 *a2);
 extern s32 func_80128DB4(s32 a0, s32 *a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
@@ -176,7 +176,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void func_8012931C(struct vec *a0);
+extern void guess_AddVelocityToPos(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[];
@@ -258,7 +258,7 @@ extern void func_8012A418(void);
 extern void func_8012A464(void);
 extern BigCopy D_80126DB8;
 extern BigCopy D_80114EE8;
-extern void func_8012A4BC(void);
+extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
 extern void func_8012A568(void (*a0)(void));
 extern void func_8012A62C(s32);
@@ -1125,7 +1125,7 @@ extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
  * that reason). No file-scope typedefs are used, so rule D is satisfied.
  */
 
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 /* RECONCILE (§17a-1/§20/§8d): this TU already declares RotTransSV and
@@ -1148,7 +1148,7 @@ static inline void tail_8012F274(s32 *in, s32 e) {
 void func_8012F274(s32 a0, s32 a1) {
     s32 v[2];
     s32 p;
-    func_80015978(a1, v);
+    guess_CopyVec3HighHalves(a1, v);
     p = *(s32 *)(a0 + 0x20) + 0x34;
     SetRotMatrix((void *)p);
     SetTransMatrix((void *)p);
@@ -2455,12 +2455,12 @@ extern s16 D_80126CB0;
 extern s32 D_801D94F0;
 extern s32 D_801D94F4[];
 extern int D_801D94F8;
-extern void func_80136BC4(s32 a0);
+extern void guess_RelocateHeaderOffsets(s32 a0);
 
 void func_801336E8(void *a0, int a1, int a2) {
     if (a0 != 0) {
         (*(void * *)&D_801D94F0) = a0;
-        ((void (*)(void))func_80136BC4)();
+        ((void (*)(void))guess_RelocateHeaderOffsets)();
     }
     (*(int *)&D_801D94F4) = a1;
     D_801D94F8 = a2;
@@ -2469,13 +2469,13 @@ void func_801336E8(void *a0, int a1, int a2) {
 
 extern s32 D_801D94F4[];
 extern s32 D_801D94F0;
-extern void func_80136BC4(s32);
+extern void guess_RelocateHeaderOffsets(s32);
 
 void func_8013373C(s16 arg0) {
     s32 temp = D_801D94F4[arg0];
     if (temp != 0) {
         D_801D94F0 = temp;
-        func_80136BC4(temp);
+        guess_RelocateHeaderOffsets(temp);
     }
 }
 

@@ -1,7 +1,7 @@
 /* func_8016AFB0 — shared body (overlay slot 0x80128158, h_exact fa06c035). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8016B234();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
-extern void func_800D22E4(s32 a0);
+extern void guess_AddVelocityToPos_4(s32 a0);
 void func_8016AFB0(s32 a0) {
     s32 s0 = a0;
     s32 s1 = *(s32 *)(s0 + 0x20);
@@ -40,7 +40,7 @@ L38:
     *(u16 *)(s0 + 0x2) = *(u16 *)(s0 + 0x2) + 1;
     goto LFC;
 L9C:
-    func_800D22E4(s0);
+    guess_AddVelocityToPos_4(s0);
     *(s32 *)(s0 + 0x14) = *(s32 *)(s0 + 0x14) + 0x18000;
 LB8:
     v0 = *(u16 *)(s0 + 0x24) - 0x8;

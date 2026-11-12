@@ -2213,7 +2213,10 @@ void func_80015954(s32 a0, s32 a1) {
     *(u16 *)(a1 + 0xA) = ((Unkstruct_80015954 *)a0)->unk4;
 }
 
-void func_80015978(s32 *a0, s32 *a1) {
+/* guess_CopyVec3HighHalves: copies the high halfwords of the three words at a0 (+0x2, +0x6, +0xA) to the s16 vector a1 (+0x0, +0x2, +0x4)
+ * Confidence high, code inference: a1[0..2] = u16 at a0 +0x2/+0x6/+0xA; func_80015954 is the reverse
+ * Names ledger: config/names.tsv guess_CopyVec3HighHalves */
+void guess_CopyVec3HighHalves(s32 *a0, s32 *a1) {
     ((Unkstruct_80015954 *)a1)->unk0 = *(u16 *)((s32)a0 + 0x2);
     ((Unkstruct_80015954 *)a1)->unk2 = *(u16 *)((s32)a0 + 0x6);
     ((Unkstruct_80015954 *)a1)->unk4 = *(u16 *)((s32)a0 + 0xA);
@@ -4470,7 +4473,10 @@ void func_80018384(void *a0, void *a1) {
 
 extern u8 guess_g_RenderWork[];
 
-s32 func_800183E0(s32 a0)
+/* guess_AllocRenderWorkRecord: claims the first free of the 0x20 records at guess_g_RenderWork +0xA1A8 (flag 0 -> 1, id = a0, +0xD = 0); returns 1, or 0 when full
+ * Confidence medium, code inference: scans rec[0..0x1F] for flag == 0, sets flag 1, id a0, d 0; func_80018450 is the twin that also stores x, y, c
+ * Names ledger: config/names.tsv guess_AllocRenderWorkRecord */
+s32 guess_AllocRenderWorkRecord(s32 a0)
 {
 
     Base *b = (Base *)guess_g_RenderWork;
@@ -8668,7 +8674,10 @@ void func_8001CD50(s32 a0, s32 a1) {
 
 extern void func_8001CF48(s32 a0);
 
-void func_8001CD9C(s32 a0, s32 a1) {
+/* guess_InitObjectKind6: resets object a0 (func_8001CF48: +0x0 = 2, scales 0x1000, colour 0x80) and makes it kind 6 (+0x2) with data a1 at +0x20
+ * Confidence medium, xref chain: func_8001CF48(a0); +0x2 = 6, +0x20 = a1; the shape of guess_InitModelObjectKind3 (+0x2 = 3); kind 6 itself not known
+ * Names ledger: config/names.tsv guess_InitObjectKind6 */
+void guess_InitObjectKind6(s32 a0, s32 a1) {
     func_8001CF48(a0);
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 6;
     ((Unkstruct_800B5CB8 *)a0)->unk20 = a1;

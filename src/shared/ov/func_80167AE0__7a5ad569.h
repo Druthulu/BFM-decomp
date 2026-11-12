@@ -1,7 +1,7 @@
 /* func_80167AE0 — shared body (overlay slot 0x80128158, h_exact 7a5ad569). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
-    extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
+    extern void guess_SetSegmentMatrixFacingCamera(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
     extern void guess_AddPolyG4(void *a0, void *a1);
     extern u8 D_80182360;
     extern u8 D_80182374[];
@@ -12,7 +12,7 @@ s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     u16 t;
     s32 flags;
 
-    func_80168070(param_1, ((s16 *)param_2), ((s16 *)param_3), fr.matrix);
+    guess_SetSegmentMatrixFacingCamera(param_1, ((s16 *)param_2), ((s16 *)param_3), fr.matrix);
 
     fr.v[3].z = 0;
     fr.v[2].z = 0;

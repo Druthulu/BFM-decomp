@@ -26,7 +26,7 @@ void func_8016B5C0(s32 param_1) {
         goto LOOP;
     }
 L984:
-    ((void (*)(s32))func_8016B984)(param_1);
+    ((void (*)(s32))guess_FreeSmallObjectAndParts)(param_1);
     return;
 LOOP:
     i = 0;

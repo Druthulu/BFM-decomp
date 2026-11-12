@@ -91,7 +91,7 @@ void func_80175DA8(param_1)
             arg = D_80182A40[base[0x48]];
         }
     }
-    func_800183E0(arg);
+    guess_AllocRenderWorkRecord(arg);
 
     {
         u8 *q2 = *(u8 **)(s + (s16)param_1 * 4 + 0x28);
@@ -120,5 +120,5 @@ void func_80175DA8(param_1)
     if (fl != 0) {
         arg = (s32)&D_800D4414;
     }
-    func_800183E0(arg);
+    guess_AllocRenderWorkRecord(arg);
 }

@@ -9,7 +9,7 @@ void SHARED_FN(s32 param_1) {
     if (guess_TickWaitTimer(param_1) == 0) {
         return;
     }
-    func_80015978(param_1 + 4, (s32 *)delta);
+    guess_CopyVec3HighHalves(param_1 + 4, (s32 *)delta);
     if (((Unkstruct_800B5CB8 *)param_1)->unkDC != 0) {
         t = rand() % 352;
         d = t;

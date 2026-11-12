@@ -1254,19 +1254,22 @@ u8 *func_800D222C(s32 arg0, s32 arg1, s32 arg2) {
 // `bnez s0,.L22C0` with the `return 0` (v0=0) in the j delay slot of the false path,
 // and the call arm inlined after (a1=s1 in the jal delay, v0=s0 the return move).
 extern void *func_801465C0(s32 arg0) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
-extern void func_8001CD9C(void *arg0, s32 arg1);
+extern void guess_InitObjectKind6(void *arg0, s32 arg1);
 
 void *func_800D2294(s32 arg0, s32 arg1) {
     void *p = func_801465C0(arg0);
     if (p) {
-        func_8001CD9C(p, arg1);
+        guess_InitObjectKind6(p, arg1);
         return p;
     }
     return 0;
 }
 
 
-void func_800D22E4(S800D22E4 *p) {
+/* guess_AddVelocityToPos_4: adds the velocity words +0x10, +0x14, +0x18 of a0 to its position words +0x4, +0x8, +0xC
+ * Confidence medium, xref chain: +0x4 += +0x10, +0x8 += +0x14, +0xC += +0x18; guess_SetVelocityXZFromLocal writes +0x10/+0x18
+ * Names ledger: config/names.tsv guess_AddVelocityToPos_4 */
+void guess_AddVelocityToPos_4(S800D22E4 *p) {
     p->f4 += p->f10;
     p->f8 += p->f14;
     p->fC += p->f18;

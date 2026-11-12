@@ -4,7 +4,7 @@ extern void (*D_8011DB28)(s32 a0);
 extern u8 D_80126DB0[];
 extern u16 D_80126DB6;
 extern void func_80015954(s32 a0, s32 a1);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
 extern s32 func_80153978(s32 a0, u16 *src);
 extern void *memcpy(void *dst, const void *src, u32 n);
@@ -16,7 +16,7 @@ s32 func_80153800(s32 a0) {
     s16 buf1[4];
     s16 buf2[4];
     if (D_8011DB28 != 0) {
-        ((void (*)(s32, s32))func_80015978)(s1 + 4, s1 + 0x88);
+        ((void (*)(s32, s32))guess_CopyVec3HighHalves)(s1 + 4, s1 + 0x88);
         memcpy((void *)(s1 + 0x90), (void *)(s1 + 0x88), 8);
 ret0:
         return 0;

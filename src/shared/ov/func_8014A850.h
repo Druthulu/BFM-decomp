@@ -1,6 +1,6 @@
 /* func_8014A850 — shared body (overlay slot 0x80128158, h_exact 962e53b5). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_80029AF4(void);
 extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
 extern u8 guess_g_ObjectTable[];
@@ -27,7 +27,7 @@ s32 func_8014A850(s32 param_1) {
                 if (((buf[2] < 0) ? -buf[2] : buf[2]) < 0x40) {
                     if (((buf[1] < 0) ? -buf[1] : buf[1]) < 0x40) {
                         *(s32 *)(param_1 + 0x18C) = e;
-                        func_80015978(param_1 + 4, (s32 *)po);
+                        guess_CopyVec3HighHalves(param_1 + 4, (s32 *)po);
                         out[3] = 0;
                         uVar2 = func_80029AF4();
                         func_8014C4AC(e, 0x1B, uVar2, po,

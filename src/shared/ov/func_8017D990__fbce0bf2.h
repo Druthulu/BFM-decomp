@@ -6,7 +6,7 @@ void func_8017D990(void *a0)
     t = *(s32 *)((s32)a0 + 0x1C);
     *(s32 *)((s32)a0 + 0x1C) = t + 1;
     if (t < 0xA) {
-        ((void (*)(void))func_800D22E4)();
+        ((void (*)(void))guess_AddVelocityToPos_4)();
         func_8017D9EC(a0);
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(a0);

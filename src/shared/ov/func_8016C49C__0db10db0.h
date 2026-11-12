@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8016C49C(s32 param_1_arg) {
     extern s32 VectorNormalSS(void *, void *);
-    extern void func_8001CD9C(s32, void *);
+    extern void guess_InitObjectKind6(s32, void *);
     extern short func_8016CF04(s32, s32);
     extern u8 D_8018EDD8[];
     extern u8 D_8018EE98;
@@ -56,7 +56,7 @@ s32 func_8016C49C(s32 param_1_arg) {
         if (iVar5b == 0) {
             return;
         }
-        func_8001CD9C(iVar5b, D_8018EDD8);
+        guess_InitObjectKind6(iVar5b, D_8018EDD8);
         *(u32 *)(iVar5b + 4) |= 0x50000000;
         uVar2 = ((int(*)())rand)();
         sv[0] = (uVar2 & 0x7f) * 8 - 0x80;

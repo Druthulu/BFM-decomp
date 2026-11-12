@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 func_800183E0(s32 *a0);
+extern s32 guess_AllocRenderWorkRecord(s32 *a0);
 void func_800CAE0C(void) {
 
     extern s32 D_800CBD48;
-    func_800183E0(&D_800CBD48);
+    guess_AllocRenderWorkRecord(&D_800CBD48);
 }
 
 
@@ -147,7 +147,7 @@ void func_800CB184(void *a0) {
 
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_80146578(void);
-extern void func_8001CD9C(void *a0, void *a1);
+extern void guess_InitObjectKind6(void *a0, void *a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void guess_NextStep(s32);
 extern void guess_FreeObjectAndSubObject_7();
@@ -174,7 +174,7 @@ void func_800CB1BC(void *a0)
 
         if (s2 != NULL) {
             s0 = &D_800CBD68;
-            func_8001CD9C(s2, s0);
+            guess_InitObjectKind6(s2, s0);
             guess_BuildCircle12Points(s0, 0x20);
 
             vtemp = *(s32 *)((u8 *)s2 + 4);
@@ -246,12 +246,12 @@ void func_800CB354(void *a0) {
 }
 
 
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D44)
 /* guess_FreeObjectAndSubObject_7: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
- * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_7 */
 void guess_FreeObjectAndSubObject_7(void) {
-    func_80162CCC();
+    guess_ClearObjectAndSubObject();
 }
 
 
@@ -510,7 +510,7 @@ void func_800CB9C0(void *a0) {
 }
 
 
-extern void func_800D22E4(s32 a0);
+extern void guess_AddVelocityToPos_4(s32 a0);
 extern void func_800CBB38(void *a0, void *a1);
 extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 void func_800CBA30(void *a0) {
@@ -518,7 +518,7 @@ void func_800CBA30(void *a0) {
     v0 = *(s32*)((s32)a0 + 0x1C) - 1;
     *(s32*)((s32)a0 + 0x1C) = v0;
     if (v0 != 0) {
-        func_800D22E4((s32)a0);
+        guess_AddVelocityToPos_4((s32)a0);
         *(s16*)((s32)a0 + 0x16) = *(u16*)((s32)a0 + 0x16) - 3;
         *(s32*)((s32)a0 + 0x30) = *(s32*)((s32)a0 + 0x30) - 0xE;
         func_800CBB38(a0, (void*)((s32)a0 + 0x38));

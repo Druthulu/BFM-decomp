@@ -1,6 +1,6 @@
 /* func_80149954 — shared body (overlay slot 0x80128158, h_exact 7921cb4a). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80147364(u16 param_1, u16 param_2);
@@ -17,7 +17,7 @@ s32 func_80149954(s32 s0) {
     }
     if ((*(u16 *)(s0 + 0xAA) & 0x90) == 0) {
         if (currentLocationId == 0x308D) {
-            func_80015978((s32)&D_80126B5C, sp10);
+            guess_CopyVec3HighHalves((s32)&D_80126B5C, sp10);
             func_8012E5CC((s32)sp10, 0x4, 0x8E0);
             return 0;
         }

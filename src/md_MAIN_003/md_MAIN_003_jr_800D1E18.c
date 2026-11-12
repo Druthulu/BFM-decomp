@@ -47,7 +47,7 @@ extern void func_800CF370(void);
 extern s8 D_800D52BC[];
 extern u16 D_800B99E6;
 extern u16 D_800B99E8;
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_800CF3A4(void);
 extern s32 D_800EC69C;
 extern void func_800599B8();

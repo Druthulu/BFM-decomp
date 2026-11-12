@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 extern s32 D_800CB3BC[];
 extern s32 D_800CB37C[];
 
 void func_800CAE0C(void) {
-    func_800183E0((s32)D_800CB3BC);
-    func_800183E0((s32)D_800CB37C);
+    guess_AllocRenderWorkRecord((s32)D_800CB3BC);
+    guess_AllocRenderWorkRecord((s32)D_800CB37C);
 }
 
 

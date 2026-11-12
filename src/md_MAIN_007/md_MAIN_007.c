@@ -36,7 +36,7 @@ void func_800CEE2C(void) {
 
 extern void func_8001C044(void);
 extern void func_80015310(void);
-extern s32 func_800183E0(void *a0);
+extern s32 guess_AllocRenderWorkRecord(void *a0);
 extern void func_800167B8(s32 a0);
 extern void func_800118AC(void);
 
@@ -50,7 +50,7 @@ void func_800CEEFC(void) {
     func_8001C044();
     func_80015310();
     D_800D1364 = 0;
-    func_800183E0(&D_800D130C);
+    guess_AllocRenderWorkRecord(&D_800D130C);
     func_800167B8(0);
     D_800B99E8 = 0;
     func_800118AC();

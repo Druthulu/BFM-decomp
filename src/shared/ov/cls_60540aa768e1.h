@@ -9,7 +9,7 @@ void SHARED_FN(s32 arg0)
     CAST_WIDTH(s32, arg0, 0x10) += CAST_WIDTH(s32, arg0, 0x2C);
     ((Unkstruct_800B5CB8 *)arg0)->unk14 += ((Unkstruct_800B5CB8 *)arg0)->unk30;
     CAST_WIDTH(s32, arg0, 0x18) += CAST_WIDTH(s32, arg0, 0x34);
-    func_8012931C((struct vec *)arg0);
+    guess_AddVelocityToPos((struct vec *)arg0);
     v = ((Unkstruct_800B5CB8 *)obj)->unk1A - 0x100;
     ((Unkstruct_800B5CB8 *)obj)->unk1A = v;
     ((Unkstruct_800B5CB8 *)obj)->unk18 = v;

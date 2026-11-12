@@ -1,15 +1,15 @@
 #include "common.h"
 
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 void func_800CAE0C(void) {
     extern s32 D_800CC0CC;
     extern s32 D_800CC10C;
     extern s32 D_800CC08C;
 
-    func_800183E0((s32) &D_800CC0CC);
-    func_800183E0((s32) &D_800CC10C);
-    func_800183E0((s32) &D_800CC08C);
+    guess_AllocRenderWorkRecord((s32) &D_800CC0CC);
+    guess_AllocRenderWorkRecord((s32) &D_800CC10C);
+    guess_AllocRenderWorkRecord((s32) &D_800CC08C);
 }
 
 
@@ -304,11 +304,11 @@ void func_800CB570(int param_1)
 
 
 extern s32 guess_g_PlayerActor[];
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern s32 func_80165A20(s32 a0);
 
 void func_800CB5A8(void) {
-    func_80162CCC();
+    guess_ClearObjectAndSubObject();
     func_80165A20((s32)&guess_g_PlayerActor);
 }
 
@@ -369,7 +369,7 @@ void func_800CB634(void *a0) {
 #include "common.h"
 
 extern void func_80162F08(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80162FC0(s32 *a0);
+extern void guess_AddVelocityToPos_2(s32 *a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_NextStep(void *a0);
 
@@ -388,7 +388,7 @@ void func_800CB708(void *arg0) {
     ((Unkstruct_80126B58 *)arg0)->unk14 = v1;
     ((Unkstruct_80126B58 *)arg0)->unk18 = a1;
 
-    func_80162FC0((s32 *)arg0);
+    guess_AddVelocityToPos_2((s32 *)arg0);
 
     if (guess_TickWaitTimer_2((s32)arg0) != 0) {
         guess_NextStep(arg0);
@@ -396,12 +396,12 @@ void func_800CB708(void *arg0) {
 }
 
 
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 /* guess_FreeObjectAndSubObject_14: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
- * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_14 */
 void guess_FreeObjectAndSubObject_14(void) {
-    func_80162CCC();
+    guess_ClearObjectAndSubObject();
 }
 
 
@@ -421,7 +421,7 @@ void func_800CB794(s32 arg0) {
         do {
             if (func_8014C308(arg0, (s32)p, 0x33, 0x4000) != 0) {
                 if (func_8014C278(arg0, (s32)p, 0xC0) != 0) {
-                    func_80015978((s32)(p + 4), (s32 *)buf);
+                    guess_CopyVec3HighHalves((s32)(p + 4), (s32 *)buf);
                     buf[3] = 0;
                     if (func_8014C3D0((void *)arg0, (s32)p, 0x33, (s32)buf) != 0) {
                         if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x219) {
@@ -461,7 +461,7 @@ void func_800CB8B4(void *arg0) {
   /* 16 bytes, align 4 */
 
 extern void func_8001CF00(s32 a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_80015954(s32 a0, s32 a1);
 extern void *guess_AllocSpriteObject(void);
 extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
@@ -510,7 +510,7 @@ void func_800CB910(s32 param_1) {
     if (p != 0) {
         func_8001CF00(p);
         *(s32 *)(p + 0x4) |= 0x80000000;
-        func_80015978(obj + 4, (s32 *)buf);
+        guess_CopyVec3HighHalves(obj + 4, (s32 *)buf);
         buf[1] -= 0x40;
         func_80015954((s32)buf, param_1 + 4);
 
@@ -613,7 +613,7 @@ void func_800CBD2C(s32 param_1) {
 
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80017DF8(s16 *a0, void *a1);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_80016EF8(void *a0, void *a1);
 
@@ -628,7 +628,7 @@ void func_800CBD54(s32 param_1, s32 *param_2)
 
     func_80017DC4((void *)(p + 0x18), &mtx);
     func_80017DF8((s16 *)(p + 0x10), &mtx);
-    func_80015978(param_1 + 4, (s32 *)buf);
+    guess_CopyVec3HighHalves(param_1 + 4, (s32 *)buf);
     func_80017E68((void *)buf, &mtx);
     func_80016EF8((void *)param_2, &mtx);
 

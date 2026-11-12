@@ -4,6 +4,6 @@ void func_8013373C(s16 arg0) {
     s32 temp = D_8018E6EC[arg0];
     if (temp != 0) {
         D_8018E6E8 = temp;
-        func_80136BC4(temp);
+        guess_RelocateHeaderOffsets(temp);
     }
 }

@@ -2365,10 +2365,10 @@ void func_80185834(s32 param_1) {
 }
 
 
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
     extern s32 D_801C4854;
     void func_80185904(void) {
-        ((void (*)(void *))func_800183E0)(&D_801C4854);
+        ((void (*)(void *))guess_AllocRenderWorkRecord)(&D_801C4854);
     }
 
 
@@ -2423,13 +2423,13 @@ extern void guess_SetWaitTimer(s32 *a0, s32 a1);
  * destination TU via engine_core.h and re-typedef'ing it would be a
  * redefinition error at bank time (§183.1). Layout/bytes are identical.
  *
- * Declarations: guess_g_PlayerActor / func_80015978 / guess_TickWaitTimer / guess_SetWaitTimer /
+ * Declarations: guess_g_PlayerActor / guess_CopyVec3HighHalves / guess_TickWaitTimer / guess_SetWaitTimer /
  * rand are copied verbatim from this TU's existing rows; func_801290DC has no
  * TU row, so the fleet-consensus u8 *(s32, u8 *) (n=1494) is used.
  */
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 extern void guess_SetWaitTimer(s32 *a0, s32 a1);
 extern s32 guess_g_PlayerActor;
@@ -2451,7 +2451,7 @@ void func_8018599C(s32 param_1)
         return;
     }
 
-    func_80015978(param_1 + 4, (s32 *)in);
+    guess_CopyVec3HighHalves(param_1 + 4, (s32 *)in);
 
     for (i = 0; i < 4; i++) {
         if (((Unkstruct_800B5CB8 *)param_1)->unkDC != 0) {
@@ -2516,7 +2516,7 @@ void func_80185B34(s32 param_1) {
 #include "common.h"
 
 extern void func_80185C0C(s32 arg0);
-extern void func_8012931C(void *a0, s32 a1);
+extern void guess_AddVelocityToPos(void *a0, s32 a1);
 extern void func_801292C8(u8 *a0);
 
 void func_80185B78(void *a0) {
@@ -2536,7 +2536,7 @@ void func_80185B78(void *a0) {
         t = ((Unkstruct_80185B78 *)s0)->unk18;
         ((Unkstruct_80185B78 *)s0)->unk18 = t;
         ((Unkstruct_80185B78 *)s0)->unk14 = ((Unkstruct_80185B78 *)s0)->unk14 + 0xC000;
-        func_8012931C(s0, t);
+        guess_AddVelocityToPos(s0, t);
         if (((Unkstruct_80185B78 *)s0)->unk2E < ((Unkstruct_80185B78 *)s0)->unkA) {
             ((Unkstruct_80185B78 *)s0)->unkA = ((Unkstruct_80185B78 *)s0)->unk2E;
             ((void (*)(u8 *))func_801292C8)((u8 *)s0);
@@ -2553,7 +2553,7 @@ void func_80185B78(void *a0) {
  * BANKING PRE-FLIGHT (dest TU: src/ov_SC01_084/ov_SC01_084_jr_8017CA80.c)
  *
  *  ALREADY IN THE TU -- DELETE MY COPIES WHEN BANKING (verified token-identical):
- *    line  119 : extern void func_80015978(s32 a0, s32 *a1);   <- adopted verbatim
+ *    line  119 : extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);   <- adopted verbatim
  *    line 2704 : gte_ldv3      line 2725 : gte_rtpt      line 2734 : gte_stsxy3
  *    line 2791 : gte_stszotz   line 2800 : gte_stflg
  *
@@ -2589,7 +2589,7 @@ void func_80185B78(void *a0) {
  * triangle fan through func_8001739C using an identity rot-matrix.
  */
 
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 /* NOTE: the shared DEFINE_func_8012EF34() spells this `void func_8012EF34(s32,s32)`.
  * This call site consumes the $v0 that leaks out of its tail call, so the draft must
  * declare an s32 return.  The destination TU declares func_8012EF34 nowhere, so there
@@ -2635,7 +2635,7 @@ void func_80185C0C(s32 arg0)
     s32 t;
     Prim_80185C0C *p = &prim;
 
-    func_80015978(arg0 + 4, (s32 *)&wpos);
+    guess_CopyVec3HighHalves(arg0 + 4, (s32 *)&wpos);
     if ((func_8012EF34((s32)&wpos, (s32)&spos) & ~0x1000) == 0) {
         gte_stszotz(&otz);
         D_8018AC5C = spos.z;

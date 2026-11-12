@@ -6,7 +6,7 @@ void func_8016B4F8(int param_1)
     int uVar2;
     int buf[2];
 
-    ((void (*)(int, void *))func_80015978)(param_1 + 4, &D_8018EC80);
+    ((void (*)(int, void *))guess_CopyVec3HighHalves)(param_1 + 4, &D_8018EC80);
     if (func_8016B9F8(param_1) == 0) {
         *(int *)(param_1 + 0x18) = 0;
         *(int *)(param_1 + 0x14) = 0;
@@ -23,7 +23,7 @@ void func_8016B4F8(int param_1)
             }
         }
     }
-    ((void (*)(int))func_8016B984)(param_1);
+    ((void (*)(int))guess_FreeSmallObjectAndParts)(param_1);
     return;
 success:
     func_8016B91C(param_1);

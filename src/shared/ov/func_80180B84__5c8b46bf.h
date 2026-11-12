@@ -3,7 +3,7 @@
 extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void guess_NextStep(void *a0);
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 extern u16 D_800DF2E0;
 extern s32 D_8018F510;
 extern s32 D_8018F56C[];
@@ -22,6 +22,6 @@ void func_80180B84(int param_1) {
         *(u16 *)(iVar1 + 0x18) = 0;
         ((void (*)(s32))guess_NextStep)(param_1);
     } else {
-        ((void (*)(s32))func_80162CCC)(param_1);
+        ((void (*)(s32))guess_ClearObjectAndSubObject)(param_1);
     }
 }

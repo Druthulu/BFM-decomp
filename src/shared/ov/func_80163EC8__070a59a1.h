@@ -6,7 +6,7 @@ void func_80163EC8(s32 param_1)
     extern u16 guess_g_FrameCounter;
     extern u8 func_801656D0(s32 a0, s32 a1);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80015978(s32 a0, s32 *a1);
+    extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
     extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
     Blk8 in;
     u16 out[4];
@@ -85,7 +85,7 @@ void func_80163EC8(s32 param_1)
         iVar7 = *((s32 *) (psVar6 + 0x184));
         if (iVar7 != 0)
         {
-            func_80015978(iVar7 + 4, (s32 *) buf);
+            guess_CopyVec3HighHalves(iVar7 + 4, (s32 *) buf);
             buf[3] = 0;
             uVar4 = func_80156370(0xe);
             func_8014C4AC(iVar7, 0xe, uVar4, buf, *((s16 *) (iVar8 + 0x12)));
@@ -101,7 +101,7 @@ void func_80163EC8(s32 param_1)
         iVar7 = *((s32 *) (psVar6 + 0x184));
         if (iVar7 != 0)
         {
-            func_80015978(iVar7 + 4, (s32 *) buf);
+            guess_CopyVec3HighHalves(iVar7 + 4, (s32 *) buf);
             buf[3] = 0;
             uVar4 = func_80156370(0x21);
             func_8014C4AC(iVar7, 0x21, uVar4, buf, *((s16 *) (iVar8 + 0x12)));

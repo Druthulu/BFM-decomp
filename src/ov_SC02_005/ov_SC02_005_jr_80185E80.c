@@ -4159,7 +4159,7 @@ void func_8018BAE4(s32 arg0) {
 }
 
 
-extern void func_8012931C(void *);
+extern void guess_AddVelocityToPos(void *);
 extern s32 guess_StepPairSequence(s32, s32*);
 extern void func_801292C8(u8*);
 
@@ -4210,12 +4210,12 @@ void func_8018BB9C(s32 param_1)
 }
 
 
-extern void func_8012931C(void *);
+extern void guess_AddVelocityToPos(void *);
 extern s32 guess_StepPairSequence(s32, s32*);
 extern void func_801292C8(u8*);
 
 void func_8018BC48(s32 a0) {
-    func_8012931C((void *)a0);
+    guess_AddVelocityToPos((void *)a0);
     if (((s32 (*)(s32, void *))guess_StepPairSequence)(((Unkstruct_8018BC48 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
         ((void (*)(s32))func_801292C8)(a0);
     } else {

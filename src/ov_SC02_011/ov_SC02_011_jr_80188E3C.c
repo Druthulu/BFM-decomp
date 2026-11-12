@@ -621,7 +621,7 @@ extern u16 D_801EB56C[];
 extern u16 D_801EB5AC[];
 extern s32 D_801EB568;
 extern u8  D_8019617C[];
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 void func_80189A50(void) {
     u32 i;
@@ -637,7 +637,7 @@ void func_80189A50(void) {
         D_801EB5AC[i] = D_8019615C[(t + i) & 0xF] | 0x8000;
     }
 
-    func_800183E0((s32)D_8019617C);
+    guess_AllocRenderWorkRecord((s32)D_8019617C);
 
     D_801EB568 += 0x100;
 }
@@ -907,7 +907,7 @@ void func_8018A1A4(void *a0) {
 }
 
 
-extern void func_8012A4BC(void);
+extern void guess_BlendToPresetCamera(void);
 #define SHARED_FN func_8018A264
 #include "../shared/ov/cls_32b112de5018.h"
 #undef SHARED_FN
@@ -1137,7 +1137,7 @@ void func_8018A72C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 
 
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
@@ -1150,7 +1150,7 @@ void func_8018A7FC(s32 a0) {
     u16 sxy[2];
     s32 pv[4];
 
-    func_80015978(a0, pv);
+    guess_CopyVec3HighHalves(a0, pv);
     SetRotMatrix(&guess_g_CameraWsMatrix);
     SetTransMatrix(&guess_g_CameraWsMatrix);
     RotTransPers((s32)pv, (s32)sxy, &pv[2], &pv[3]);
@@ -1573,12 +1573,12 @@ void func_8018ADE4(void) {
 
 
 
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_8018AE30(s32 a0);
 
 void func_8018AE08(s32 a0) {
     s32 pv[2];
-    func_80015978(a0, pv);
+    guess_CopyVec3HighHalves(a0, pv);
     func_8018AE30((s32)pv);
 }
 
@@ -1586,7 +1586,7 @@ void func_8018AE08(s32 a0) {
 
 /* func_8018AE30 — §71 sibling of func_8018A774 / func_8018AF0C (same TU): the
  * RotTransPers wrapper family.  Here the SVECTOR comes in as the parameter
- * instead of being produced by func_80015978, so pv[0..1] is free and carries
+ * instead of being produced by guess_CopyVec3HighHalves, so pv[0..1] is free and carries
  * the 4-byte word copied out of D_801E9E68 instead.
  *
  * Frame proof (0x38 = 0x10 outgoing + 0x18 var + 0x10 saved s0/s1/ra):
@@ -1677,7 +1677,7 @@ void func_8018AF24(void *a0, void *a1, s16 a2) {
 
 
 
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
@@ -1690,7 +1690,7 @@ void func_8018AF94(s32 a0) {
     u16 sxy[2];
     s32 pv[4];
 
-    func_80015978(a0, pv);
+    guess_CopyVec3HighHalves(a0, pv);
     SetRotMatrix(&guess_g_CameraWsMatrix);
     SetTransMatrix(&guess_g_CameraWsMatrix);
     RotTransPers((s32)pv, (s32)sxy, &pv[2], &pv[3]);
@@ -3556,7 +3556,7 @@ void func_8018D52C(void *a0) {
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
     ((Unkstruct_800B5CB8 *)v0)->unk10 = 0;
     ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-    func_8012E8A8((u8 *)a0);
+    guess_HideObjectModel((u8 *)a0);
     guess_StartActorSequence((s32)a0, (s32)&D_801DF69C);
 }
 
@@ -4090,7 +4090,7 @@ extern s32 func_8018E0AC();  // K&R: 0 of 1 args (P37 rung D t4_D31)
 extern void func_801292C8(u8 *a0);
 
 struct vec;
-extern void func_8012931C(struct vec *a0);
+extern void guess_AddVelocityToPos(struct vec *a0);
 
 void func_8018E014(void *a0) {
     s32 s0 = (s32)a0;
@@ -4122,7 +4122,7 @@ void func_8018E014(void *a0) {
     ptr_0x20 = *(void **)(s0 + 0x20);
     ((Unkstruct_800B5CB8 *)ptr_0x20)->unk1A += 0x100;
 
-    func_8012931C((struct vec *)s0);
+    guess_AddVelocityToPos((struct vec *)s0);
 }
 
 

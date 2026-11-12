@@ -2,7 +2,7 @@
 void SHARED_FN(u8 *a0) {
     u8 *p = CAST_SIGN(u8 *, a0, 0x20);
     ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 + 0x200;
-    func_8012931C((struct vec *)a0);
+    guess_AddVelocityToPos((struct vec *)a0);
     if (CAST_SIGN(s16, a0, 0xA) > CAST_SIGN(s16, a0, 0x36)) {
         func_801292C8(a0);
     }

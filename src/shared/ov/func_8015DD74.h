@@ -8,7 +8,7 @@ int func_8015DD74(int arg0)
     s0 = *(s32 *)(arg0 + 0x178);
     if (s0 != 0) {
         func_8014C1A0(arg0, s0);
-        func_80015978(s0 + 4, (s32 *)sp18);
+        guess_CopyVec3HighHalves(s0 + 4, (s32 *)sp18);
         sp18[3] = 0;
         func_8014C4AC(s0, 9, func_80029AAC(), sp18,
                       *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12));

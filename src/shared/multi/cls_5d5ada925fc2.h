@@ -3,6 +3,9 @@
  * rank 1 src/md_MAIN_013/md_MAIN_013.c:396 rejected by type_census --check
  * rank 3 src/shared/ov/func_80169FE0.h rejected by type_census --check
  * rank 4 src/shared/ov/func_8016DEE0.h rejected by type_census --check */
+/* guess_StepPairSequenceAndFree (0x80169FE0, md_MAIN_013 0x800CB7F0), guess_StepPairSequenceAndFree_2 (0x8016DEE0): steps the pair sequence at a0 +0x24 (table +0x20) with guess_StepPairSequence and frees a0 (guess_FreeSmallObject) when it ends
+ * Confidence medium, xref chain: if (guess_StepPairSequence(+0x20, a0 + 0x24) != 0) guess_FreeSmallObject(a0)
+ * Names ledger: config/names.tsv guess_StepPairSequenceAndFree, guess_StepPairSequenceAndFree_2 */
 void SHARED_FN(s32 a0) {
     if (((s32 (*)(void *, void *))guess_StepPairSequence)((void *)((Unkstruct_80169FE0 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(a0);

@@ -9,7 +9,7 @@ void func_8017D000(void *a0)
     *(s32 *)((s32)a0 + 0x1C) = val;
 
     if (val != -1) {
-        func_800D22E4((s32)a0);
+        guess_AddVelocityToPos_4((s32)a0);
         *(s32 *)((s32)a0 + 0x14) += 0x1A000;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)((s32)a0);

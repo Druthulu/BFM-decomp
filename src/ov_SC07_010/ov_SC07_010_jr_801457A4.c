@@ -126,7 +126,7 @@ extern u16 D_80182F78[];
 extern s32 guess_TestGameFlag(s32 arg);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_8014AA04(s32 a0);
-extern void func_801415C0(s32 a0, s32 a1);
+extern void guess_SwapGameVarSlots(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 extern s32 func_80140608(s32 a0);
 extern void func_801407F4(void);
@@ -192,7 +192,7 @@ extern int func_80141100(int param_1);
 extern void func_800291A0(s32, s32);
 extern s32 func_800291DC(s32);
 extern void func_800291C8(s32, s32);
-extern void func_801415C0(s32 param_1, s32 param_2);
+extern void guess_SwapGameVarSlots(s32 param_1, s32 param_2);
 extern u8 D_80115149[];
 extern u8 guess_g_MenuPanelSizes[];
 extern u8 D_8011514D;
@@ -352,7 +352,7 @@ extern s32 func_8012C044(s32 a0);
 extern void func_801432FC(s32 *a0);
 extern void func_80143390(s32 *a0);
 extern void func_80143458(s32 param_1);
-extern void func_8012931C(struct vec *a0);
+extern void guess_AddVelocityToPos(struct vec *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 extern void func_801433F0(s32 a0);
@@ -2743,7 +2743,7 @@ s32 func_8015094C(s32 param_1) {
 
 
 extern s32 func_8014FA70(s32 a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 
 #define SHARED_FN func_80150A70
 #define SHARED_SLOT D_801A6B54

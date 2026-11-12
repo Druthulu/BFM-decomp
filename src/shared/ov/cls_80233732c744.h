@@ -2,7 +2,7 @@
  * exemplar src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:5441 · rank 1/5 by (raw casts + !FAKE markers, lowest address): casts 6, markers 0 */
 void SHARED_FN(void *a0) {
     extern s32 guess_TickWaitTimer_2(s32 a0);
-    extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D41)
+    extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D41)
 
     s32 s1 = (s32)a0;
     u16 *s2;
@@ -31,6 +31,6 @@ void SHARED_FN(void *a0) {
     }
 
     if (((Unkstruct_80126B58 *)s2)->unk0 != 0x16) {
-        ((void (*)(s32))func_80162CCC)((s32)s1);
+        ((void (*)(s32))guess_ClearObjectAndSubObject)((s32)s1);
     }
 }

@@ -2889,7 +2889,7 @@ void func_801870D0(s32 param_1) {
 
 #include "common.h"
 
-extern void func_8001CD9C(s32, void *);
+extern void guess_InitObjectKind6(s32, void *);
 extern void guess_BuildCircle12Points(void *, u16);
 
 
@@ -2907,8 +2907,8 @@ void func_80187110(s32 a0) {
     s1 = (s32 *)a0;
     s0 = (u8 *)&D_801EB524;
 
-    // Call func_8001CD9C with field at offset 0x20 in s1, and s0
-    func_8001CD9C(s1[8], (s32 *)s0);  // 0x20 / 4 = 8
+    // Call guess_InitObjectKind6 with field at offset 0x20 in s1, and s0
+    guess_InitObjectKind6(s1[8], (s32 *)s0);  // 0x20 / 4 = 8
 
     // Call guess_BuildCircle12Points with s0 and 0x80
     guess_BuildCircle12Points(s0, 0x80);
@@ -3336,7 +3336,7 @@ void func_8018797C(s32 a0) {
 #include "common.h"
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
-extern void func_8012931C(struct vec*);
+extern void guess_AddVelocityToPos(struct vec*);
 extern void func_801292C8(u8 *a0);
 
 #define SHARED_FN func_80187CE8
@@ -3374,7 +3374,7 @@ extern s32 func_8012AD50(void *a0);
  * $2-pinned `ok2` temp: without it gcc reuses the x-temp's $v1 as the
  * destination of the second `slt` in each pair (target wants $v0 both times).
  * That single change closed the last 2-instruction REGALLOC-PERM/$v1>$v0. */
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_80187FA0(u8 *a0, u8 *a1);
 extern void func_80188034(s32 a0);
 
@@ -3404,7 +3404,7 @@ void func_80187E08(s32 param_1)
     gte_SetRotMatrix(mtx);
     gte_SetTransMatrix(mtx);
 
-    func_80015978(param_1 + 4, (s32 *)sxy);
+    guess_CopyVec3HighHalves(param_1 + 4, (s32 *)sxy);
 
     gte_ldv0(sxy);
     gte_rtps();
@@ -3475,7 +3475,7 @@ void func_80187FA0(u8 *a0, u8 *a1) {
 extern u8 D_80195FC8[];
 extern s32 guess_g_PlayerActor;
 extern u16 guess_g_PlayerPosY;
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_80013294(void *a0, void *a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
@@ -3493,7 +3493,7 @@ void func_80188034(s32 a0) {
     base = (s32)&guess_g_PlayerActor;
 
     if (((Unkstruct_80188034_2 *)s0)->unk6 != 0 && (s16)guess_g_PlayerPosY >= -0x8FF) {
-        func_80015978(base + 4, (s32 *)buf);
+        guess_CopyVec3HighHalves(base + 4, (s32 *)buf);
         buf[1] = ((Unkstruct_80188034_2 *)s0)->unk2;
         sVar1 = (s16)func_80013294((void *)buf, (void *)s0);
         if (sVar1 < 0x800) {

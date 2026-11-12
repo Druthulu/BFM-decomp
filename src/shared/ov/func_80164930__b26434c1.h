@@ -17,11 +17,11 @@ void func_80164930(s32 param_1) {
             Ent_80164930_80164930 *p;
             for (i = 0, lim = 0x19, p = ((Ent_80164930_80164930 *)&D_8011F9D0); i < 0x14; i++) {
                 if (p->f0 == lim && p->f50 != 0) {
-                    ((void(*)(Ent_80164930_80164930 *))func_80162CCC)(p);
+                    ((void(*)(Ent_80164930_80164930 *))guess_ClearObjectAndSubObject)(p);
                 }
                 p++;
             }
-            ((void(*)(Ent_80164930_80164930 *))func_80162CCC)((Ent_80164930_80164930 *)((int)param_1));
+            ((void(*)(Ent_80164930_80164930 *))guess_ClearObjectAndSubObject)((Ent_80164930_80164930 *)((int)param_1));
         } else {
             ((void(*)(int))func_80164ACC)(((int)param_1));
         }

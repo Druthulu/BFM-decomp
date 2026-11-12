@@ -1,6 +1,6 @@
 /* func_801638A0 — shared body (overlay slot 0x80128158, h_exact 3da89c76). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_80135004(s32 a0, void *a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 extern s16 guess_g_BoxHitNormalY;
@@ -11,7 +11,7 @@ s32 func_801638A0(u8 *a0, s32 a1) {
     s32 p;
     __builtin_memcpy(buf, a0 + 0x44, 8);
     p = (s32)(a0 + 4);
-    func_80015978(p, (s32 *)a1);
+    guess_CopyVec3HighHalves(p, (s32 *)a1);
     if (func_80135004(1, buf, a1) != 0) {
         func_80015954(a1, p);
         d = guess_g_BoxHitNormalY;

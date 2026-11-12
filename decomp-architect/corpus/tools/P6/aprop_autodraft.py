@@ -313,7 +313,7 @@ def dest_scope(path):
         conflicts nor rescues), while its bulk also vetoed typedefs the home TU needs;
       * the RAW home-TU text missed every declaration living inside an instantiated DEFINE_ macro
         — which is where a dedup'd caller's `extern void f(void);` actually sits, i.e. the exact
-        decl the draft must agree with (the func_80162CCC conflict was at engine_core.h:57282,
+        decl the draft must agree with (the guess_ClearObjectAndSubObject conflict was at engine_core.h:57282,
         inside a macro the TU instantiates)."""
     if path not in _DEST_CACHE:
         txt = open(path).read() if path and os.path.isfile(path) else ""
@@ -390,7 +390,7 @@ _NARROW = re.compile(r'\b(char|short|signed\s+char|unsigned\s+char|unsigned\s+sh
 def kr_definition(body, name):
     """Convert the member's ANSI definition to the K&R form when every param is promotion-safe.
 
-    WHY (P31 S59, byte-proven func_80162CCC@ov_MAIN_012 via rtu_match then the whole-binary gate).
+    WHY (P31 S59, byte-proven guess_ClearObjectAndSubObject@ov_MAIN_012 via rtu_match then the whole-binary gate).
     16 of the 117 staged drafts of the 21:04 pass carried a byte-correct body (match_one MATCH) and
     still failed the gate. The chain, measured on the real TU: the destination TU and 42 DEFINE_
     macros in engine_core.h declare the member `extern void f(void);` — the original code calls it

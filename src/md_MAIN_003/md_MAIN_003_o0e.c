@@ -47,7 +47,7 @@ extern void func_800CF370(void);
 extern s8 D_800D52BC[];
 extern u16 D_800B99E6;
 extern u16 D_800B99E8;
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_800CF3A4(void);
 extern s32 D_800EC69C;
 extern void func_800599B8();
@@ -105,7 +105,7 @@ extern void func_8001C044(void);
 extern void func_80015310(void);
 extern int func_8002D858(void);
 extern u8 D_800D93FC[];
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern s16 D_800EC894[];
 extern s32 func_800D1E18(void);
 extern s32 D_800EC8B0;
@@ -118,7 +118,7 @@ void func_800D0174(void) {
     func_8001C044();
     func_80015310();
     func_8002D858();
-    func_800183E0((s32)&D_800D93FC[0]);
+    guess_AllocRenderWorkRecord((s32)&D_800D93FC[0]);
     D_800EC894[0] = 0;
     D_800EC8B0 = func_800D1E18();
     func_800118AC();
@@ -240,8 +240,8 @@ void func_800D0440(void) {
  *     s0[0xA3E1] = 0;
  *     D_800EC890 = 0;
  *     D_800EC8A0 = 1;
- *     func_800183E0((s32)&D_800D4E6C);
- *     func_800183E0((s32)&D_800D52BC);
+ *     guess_AllocRenderWorkRecord((s32)&D_800D4E6C);
+ *     guess_AllocRenderWorkRecord((s32)&D_800D52BC);
  *     D_800EC894 = 0;
  *     D_800EC88C = -1;
  *     *(u16 *)(s0 + 0xA3B8) = 0;
@@ -256,7 +256,7 @@ void func_800D0440(void) {
 extern void func_80015310(void);
 extern void func_8001C044(void);
 extern void func_800118AC(void);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 void func_800D05B4(void) {
 
@@ -278,8 +278,8 @@ void func_800D05B4(void) {
     *(s0 + 0xA3E1) = 0;
     D_800EC890 = 0;
     D_800EC8A0 = 1;
-    func_800183E0((s32)&D_800D4E6C);
-    func_800183E0((s32)&D_800D52BC);
+    guess_AllocRenderWorkRecord((s32)&D_800D4E6C);
+    guess_AllocRenderWorkRecord((s32)&D_800D52BC);
     (D_800EC894[0]) = 0;
     (D_800EC88C[0]) = -1;
     ((Unkstruct_80010178 *)s0)->unkA3B8 = 0;
@@ -306,7 +306,7 @@ void func_800D05B4(void) {
  *
  *     register u8 *s0 = guess_g_RenderWork;   // hoisted base, never read (sec 6 idiom)
  *     func_80015310();
- *     func_800183E0((s32)&D_800D93FC);
+ *     guess_AllocRenderWorkRecord((s32)&D_800D93FC);
  *     func_800118AC();
  *
  * Immediate siblings func_800D05B4 (above) and func_800D06BC (below) are the same
@@ -318,7 +318,7 @@ void func_800D05B4(void) {
 #include "common.h"
 
 extern void func_80015310(void);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_800118AC(void);
 extern u8 guess_g_RenderWork[];
 extern u8 D_800D93FC[];
@@ -328,7 +328,7 @@ void func_800D0664(void) {
     s32 loc[2];
 
     func_80015310();
-    func_800183E0((s32)&D_800D93FC);
+    guess_AllocRenderWorkRecord((s32)&D_800D93FC);
     func_800118AC();
 }
 
@@ -565,7 +565,7 @@ void func_800D0A7C(void) {
  * Recovered C semantics for the eventual real -O0-object decomp:
  *
  *     register u8 *s0 = guess_g_RenderWork;       // sec 127 far-base hi/lo pair
- *     func_800183E0((s32)&D_800D4E6C);
+ *     guess_AllocRenderWorkRecord((s32)&D_800D4E6C);
  *     switch (D_800EC894) {               // extern s16 D_800EC894 (lh)
  *     case 0: *(u16 *)(s0 + 0xA3B6) = 1; *(u16 *)(s0 + 0xA3B8) = 2; break;
  *     case 1: *(u16 *)(s0 + 0xA3B6) = 1; *(u16 *)(s0 + 0xA3B8) = 0; break;
@@ -581,11 +581,11 @@ extern u8 guess_g_RenderWork[];
 extern s32 D_800D4E6C;
 extern s16 D_800EC894[0];
 
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 void func_800D0B1C(void) {
     register u8 *s0 = guess_g_RenderWork;
-    func_800183E0((s32)&D_800D4E6C);
+    guess_AllocRenderWorkRecord((s32)&D_800D4E6C);
     switch (D_800EC894[0]) {
     case 0:
         ((Unkstruct_80010178 *)s0)->unkA3B6 = 1;

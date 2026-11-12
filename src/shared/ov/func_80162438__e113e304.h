@@ -5,7 +5,7 @@ s32 func_80162438(s32 _unused0) {
     extern void func_8001CE28(void *, void *);
     extern void func_8001CE68(void *, void *);
     extern void func_800242D0(s32, void *, s32);
-    extern s32 func_801626B8(void);
+    extern s32 guess_GetTimeUntilGameVar12(void);
     extern void func_80162760(void);
     extern u8 D_80181DE4[];
     extern s32 D_80181DFC;
@@ -60,13 +60,13 @@ s32 func_80162438(s32 _unused0) {
         if (guess_g_TargetTimeDigits == 0) {
             D_8018E8C0[2] = (s32)(base + 0x6618);
             item = base + 0x6618;
-            func_800242D0((s16)func_801626B8(), D_8018E910, 0x84);
+            func_800242D0((s16)guess_GetTimeUntilGameVar12(), D_8018E910, 0x84);
             func_8001CE68(item, D_8018E910);
             D_800B5C74 = 1;
             guess_g_TargetTimeDigitsX = -guess_g_ScreenWidth / 2 + 0xD0;
             guess_g_TargetTimeDigitsY = -guess_g_ScreenHeight / 2 + 0x10;
         }
-        func_800242D0((s16)func_801626B8(), D_8018E910, 0x84);
+        func_800242D0((s16)guess_GetTimeUntilGameVar12(), D_8018E910, 0x84);
         if ((uVar2 & 0x7FFF) == (s32)(*(s16 *)&guess_g_ClockMinute)) {
             func_80162760();
         }

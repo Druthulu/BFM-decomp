@@ -2769,7 +2769,7 @@ def unalias_function(aname, label, calib_id, log, pool=None):
                         kr_files.add(h)
                 if bad.endswith(".h"):
                     # the short call is in a shared BODY: the declaration it sees is the INCLUDING TU's — those TUs (in the unit) go `()`
-                    # (t4_ua10: func_80162CCC/guess_UpdateAttachedPos/func_8016F0E4 — `too few arguments` at shared/ov/*.h, the header holds no
+                    # (t4_ua10: guess_ClearObjectAndSubObject/guess_UpdateAttachedPos/func_8016F0E4 — `too few arguments` at shared/ov/*.h, the header holds no
                     # declaration to respell, three tries, KEPT)
                     _, _, inc_ = recipes()
                     for t_ in inc_.get(bad, ()):

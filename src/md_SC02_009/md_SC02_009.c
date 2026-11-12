@@ -568,7 +568,7 @@ void func_801E59A4(void *a0)
 
     if (guess_InitActorModel(s1, (s32)ptr - 4) != 0) {
         guess_StartActorSequence(s1, &D_80190C0C);
-        func_80136BC4(&D_801E66C4);
+        guess_RelocateHeaderOffsets(&D_801E66C4);
 
         ((Unkstruct_801E59A4 *)s1)->unk58 = (s32)&D_801E66C4 & 0x7FFFFFFF;
         ((Unkstruct_801E59A4 *)s1)->unk5C = 0x800;

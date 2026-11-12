@@ -1,11 +1,11 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-extern s32 func_800183E0(s32 *a0);
+extern s32 guess_AllocRenderWorkRecord(s32 *a0);
 void func_800CAE0C(void) {
 
     extern s32 D_800CB85C;
-    func_800183E0(&D_800CB85C);
+    guess_AllocRenderWorkRecord(&D_800CB85C);
 }
 
 
@@ -126,7 +126,7 @@ void func_800CB028(s32 a0) {
 
 
 extern void func_80162FF4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80162FC0(s32 *a0);
+extern void guess_AddVelocityToPos_2(s32 *a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
@@ -150,7 +150,7 @@ void func_800CB118(s32 a0) {
     register s32 m __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
 
     func_80162FF4(a0, 0, 0x4000, 0);
-    func_80162FC0((s32 *) a0);
+    guess_AddVelocityToPos_2((s32 *) a0);
     if (guess_TickWaitTimer_2(a0) != 0) {
         guess_NextStep((void *) a0);
         return;
@@ -201,12 +201,12 @@ void func_800CB2B4(s32 *a0) {
 }
 
 
-extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 /* guess_FreeObjectAndSubObject_3: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
- * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_3 */
 void guess_FreeObjectAndSubObject_3(void) {
-    func_80162CCC();
+    guess_ClearObjectAndSubObject();
 }
 
 

@@ -1,15 +1,15 @@
 #include "common.h"
 
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
 void func_800CAE0C(void) {
     extern s32 D_800CC57C;
     extern s32 D_800CC5BC;
     extern s32 D_800CB93C;
 
-    func_800183E0((s32)&D_800CC57C);
-    func_800183E0((s32)&D_800CC5BC);
-    func_800183E0((s32)&D_800CB93C);
+    guess_AllocRenderWorkRecord((s32)&D_800CC57C);
+    guess_AllocRenderWorkRecord((s32)&D_800CC5BC);
+    guess_AllocRenderWorkRecord((s32)&D_800CB93C);
 }
 
 
@@ -393,7 +393,7 @@ void func_800CB6E4(void *arg0) {
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
-#define SHARED_FN func_800CB7F0
+#define SHARED_FN guess_StepPairSequenceAndFree
 #include "../shared/multi/cls_5d5ada925fc2.h"
 #undef SHARED_FN
 

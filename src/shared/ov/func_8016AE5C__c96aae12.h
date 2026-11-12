@@ -23,7 +23,7 @@ void func_8016AE5C(s32 param_1) {
         return;
     case 1:
     case 5:
-        func_800D22E4(param_1);
+        guess_AddVelocityToPos_4(param_1);
         *(s32 *)(param_1 + 0x14) += 0x18000;
     case 2:
     case 3:

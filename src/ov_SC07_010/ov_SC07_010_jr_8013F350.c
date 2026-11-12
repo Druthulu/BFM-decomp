@@ -174,7 +174,7 @@ extern s32 guess_GetGameVarByte(s32 arg);
 extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern void func_8014AA04(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void func_801415C0(s32 a0, s32 a1);
+extern void guess_SwapGameVarSlots(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 extern s32 func_80140608(s32 a0);
 extern void func_801407F4(void);
@@ -271,7 +271,7 @@ s32 func_8013F350(void) {
                     }
                     func_80141C0C(5);
                 } else {
-                    func_801415C0((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
+                    guess_SwapGameVarSlots((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
                     guess_g_MenuSwapSlot = 0;
                     func_80141C0C(3);
                     return 1;
@@ -280,7 +280,7 @@ s32 func_8013F350(void) {
                 if ((*(s16 *)&guess_g_MenuSwapSlot) == 0) {
                     guess_g_MenuSwapSlot = r | 0x8000;
                 } else {
-                    func_801415C0((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
+                    guess_SwapGameVarSlots((s16)r, (*(s16 *)&guess_g_MenuSwapSlot) & 0xF);
                     guess_g_MenuSwapSlot = 0;
                 }
                 func_80141C0C(3);

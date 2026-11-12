@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void (*D_8011DB28)(s32 a0);
 extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_80013294(void *a0, void *a1);
 extern void func_80015954(s32 a0, s32 a1);
 s32 func_801536DC(s32 param_1) {
@@ -23,7 +23,7 @@ s32 func_801536DC(s32 param_1) {
     *(s16 *)(s0 + 0xE) = t;
     if (chk != 0) {
         s2 = s0 + 4;
-        func_80015978(s2, sp10);
+        guess_CopyVec3HighHalves(s2, sp10);
         s1 = s0 + 0xA0;
         q = func_80013294(sp10, (void *)s1);
         if (q < 0x40 || *(u8 *)(s0 + 0xDE) == 0) {

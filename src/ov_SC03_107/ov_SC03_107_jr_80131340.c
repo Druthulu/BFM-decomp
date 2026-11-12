@@ -102,7 +102,7 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 extern s32 func_80128C98(s32 arg0);
 extern s32 func_80128CFC(s32 arg0);
 extern s32 func_80018450(s32 a0, s32 a1);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_80128D60(s32 a0, s32 *a1, s32 *a2);
 extern s32 func_80128DB4(s32 a0, s32 *a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
@@ -122,7 +122,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void func_8012931C(struct vec *a0);
+extern void guess_AddVelocityToPos(struct vec *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[];
@@ -211,7 +211,7 @@ extern s32 guess_g_ActiveCamera;
 extern void func_8012A418(void);
 extern Vec8 guess_g_StoredViewPointX;
 extern void func_8012A464(void);
-extern void func_8012A4BC(void);
+extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
 extern void func_8012A568(void (*a0)(void));
 extern void func_8012A62C(s32);
@@ -421,7 +421,7 @@ extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
 extern void guess_ShowObjectModel(u8 *a0);
-extern void func_8012E8A8(u8 *a0);
+extern void guess_HideObjectModel(u8 *a0);
 extern void func_8012E8C4(u8 *a0);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void func_8016AA50(int, int);
@@ -437,7 +437,7 @@ extern s32 func_8012EF34(s32 a0, s32 a1);
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_80015954(s32 a0, s32 a1);
 extern void func_8012F274(s32 a0, s32 a1);
 extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
@@ -1349,7 +1349,7 @@ void func_8013277C(void) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH
 
-extern void func_80136BC4(s32 a0);
+extern void guess_RelocateHeaderOffsets(s32 a0);
 
 void func_801336E8(void *a0, int a1, int a2) {
 
@@ -1358,7 +1358,7 @@ void func_801336E8(void *a0, int a1, int a2) {
     extern int D_8019A780;
     if (a0 != 0) {
         (*(void * *)&D_8019A778) = a0;
-        ((void (*)(void))func_80136BC4)();
+        ((void (*)(void))guess_RelocateHeaderOffsets)();
     }
     (*(int *)&D_8019A77C) = a1;
     D_8019A780 = a2;
@@ -1366,7 +1366,7 @@ void func_801336E8(void *a0, int a1, int a2) {
 
 
 extern s32 D_8019A77C[];
-void func_80136BC4(s32 a0);
+void guess_RelocateHeaderOffsets(s32 a0);
 
 void func_8013373C(int a0)
 {
@@ -1381,7 +1381,7 @@ void func_8013373C(int a0)
     iVar1 = *(s32 *)((int)D_8019A77C + a0);
     if (iVar1 != 0) {
         D_8019A778 = iVar1;
-        func_80136BC4(iVar1);
+        guess_RelocateHeaderOffsets(iVar1);
     }
 }
 

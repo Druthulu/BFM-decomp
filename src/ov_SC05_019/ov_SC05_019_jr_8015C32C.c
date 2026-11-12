@@ -97,7 +97,7 @@ extern void func_8014A6A8(s32 a0);
 extern void func_8014A71C(s32 a0);
 extern void func_80172588(s32 *a0);
 extern void func_801473DC(s32 *a0);
-extern void func_80015978(s32 a0, s32 *a1);
+extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void (*D_80180D68[])(void *);
 extern u8 D_80126BA4;
 extern s32 D_80127098;
@@ -401,7 +401,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
+extern void guess_ClearObjectAndSubObject();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void guess_ZeroMemory(void *a0, s32 a1);
@@ -880,7 +880,7 @@ extern s16 D_80078E9E;
 extern void func_801550FC(s32 a0);
 extern void func_80154ED8(s32 a0, s32 a1);
 extern void func_80154F9C(s32 a0);
-extern s32 func_800183E0(s32 a0);
+extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_801550FC(s32 arg0);
 extern s32 func_8001D150(s32, s32);
 extern void func_8001D130(int, int);
@@ -3221,7 +3221,7 @@ extern void (*D_80182254[])(void);
 #include "../shared/ov/func_80167AD8.h"
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH expected; mirrors already-matched sibling func_8016A290 (same 3-loop tail), swapping the inline matrix-setup for a func_80168070 call + constant color block.
+// @unstuck(P36): none — MATCH expected; mirrors already-matched sibling func_8016A290 (same 3-loop tail), swapping the inline matrix-setup for a guess_SetSegmentMatrixFacingCamera call + constant color block.
 
 #include "common.h"
 
@@ -3237,7 +3237,7 @@ extern void (*D_80182254[])(void);
 // @class: schedule
 // @unstuck(P36): none — MATCH. The between-loops f1/f2 store-swap (0x55/0x56) is fixed by writing f2's assign first, then the chained `buf[0x44] = buf[0x45] = buf[0x45] << 1;` — the chain keeps f1's read first (read order fixed by -0x12 in $v0) while emitting f2's store (0x56) ahead of the f1/f0 pair (0x55,0x54). 173/173.
 
-extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
+extern void guess_SetSegmentMatrixFacingCamera(s32 a0, s16 *a1, s16 *a2, void *a3);
 extern u16  guess_g_FrameCounter;
 extern u8   D_801821B4[];
 extern u8   D_801821C8[];
@@ -3446,7 +3446,7 @@ extern char D_801822C8[];
 #include "../shared/ov/func_80169F3C__a4abc210.h"
 
 
-#define SHARED_FN func_80169FE0
+#define SHARED_FN guess_StepPairSequenceAndFree
 #include "../shared/multi/cls_5d5ada925fc2.h"
 #undef SHARED_FN
 

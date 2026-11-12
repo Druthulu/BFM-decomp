@@ -5,6 +5,6 @@ void func_801550FC(s32 arg0)
     if (arg0 & 0x40000000) {
         MoveImage(&D_801808F0[arg0 & 0xFF], 0x200, 0x100);
     } else {
-        ((void (*)(void))func_800183E0)();
+        ((void (*)(void))guess_AllocRenderWorkRecord)();
     }
 }
