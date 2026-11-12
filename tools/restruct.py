@@ -1259,7 +1259,7 @@ def s_macro_rows(tu, text, rows):
     _, _, _, _, sites = file_view(tu, text)
     by_fn = collections.defaultdict(list)
     for s in sites:
-        if s.get("form") == "K" and s.get("fn"):
+        if s.get("form") == "K" and s.get("fn") and s.get("cls") != "RET-VIEW":   # 3.44 T5: a RET_AS call view, not a memory cast
             by_fn[s["fn"]].append(s)
     for row in rows:
         ks = by_fn.get(row.get("fn"))
@@ -3881,7 +3881,7 @@ def macro_carry_rows(only, latest, label, calib_id, path=None):
             if not l.startswith('{"form": "K"'):
                 continue
             s = json.loads(l)
-            if s.get("fn") and matches_only(only, s["tu"], s["fn"]):
+            if s.get("fn") and s.get("cls") != "RET-VIEW" and matches_only(only, s["tu"], s["fn"]):   # 3.44 T5: RET_AS is ledgered apart
                 by_body[(s["tu"], s["fn"])].append(s)
     rows = []
     for (tu, fn), ks in sorted(by_body.items()):

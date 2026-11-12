@@ -862,6 +862,7 @@ ALIAS_TAIL = re.compile(r'\)\s*__asm__\s*\(\s*"([^"\\]+)"\s*\)\s*;')     # `<ret
 IDENT_END = re.compile(r"([A-Za-z_]\w*)\s*$")
 RET_CH = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_ \t\n*")
 BRACE = re.compile(r"[{}]")
+RET_AS_RX = re.compile(r"\bRET_AS\s*\(")                           # RET_AS(T, fn, params) call sites (3.44 T5)
 RET_EXPR = re.compile(r"\breturn\b(?!\s*;)")
 V0_EXIT = "$v0 at exit:"
 _AC = None
@@ -1030,7 +1031,21 @@ def parse_text(rel, raw):
         aliases[n.group(1)] = m.group(1)
     decls.sort(key=lambda dc: dc["line"])
     binds = [(m.group(1), m.group(2)) for m in A.SHARED_BIND.finditer(raw)]
-    return {"defs": defs, "decls": decls, "binds": binds, "inner": inner, "aliases": aliases, "objlabels": objlabels}
+    ret_as = []                                                     # 3.44 T5: [(line, fn, T)]; a `#define RET_AS` line is no site
+    for m in RET_AS_RX.finditer(masked):
+        if ml[line(m.start()) - 1].lstrip().startswith("#"):
+            continue
+        j, d, args, a0 = m.end(), 1, [], m.end()
+        while j < len(masked) and d:
+            c = masked[j]
+            d += (c == "(") - (c == ")")
+            if (c == "," and d == 1) or d == 0:
+                args.append(" ".join(masked[a0:j].split()))
+                a0 = j + 1
+            j += 1
+        ret_as.append((line(m.start()), args[1] if len(args) == 3 else "?", args[0] if args else "?"))   # malformed: no row backs it
+    return {"defs": defs, "decls": decls, "binds": binds, "inner": inner, "aliases": aliases, "objlabels": objlabels,
+            "ret_as": ret_as}
 
 
 def _parse_file(rel):
@@ -1322,12 +1337,13 @@ def compare(jobs):
         for r in rows:
             f.write(dump(r) + "\n")
     (OUT_DIR / "compare.txt").write_text(txt)
-    return rows, txt
+    return rows, txt, parsed
 
 
 # ----------------------------------------------------------------------------------------------- check (3.44 T4)
 # Spec: docs/ops/sig-evidence.md "## Ledger (3.44 T4)". config/lying_exceptions.tsv: callee def_file kind cause task cites.
 LEDGER = "config/lying_exceptions.tsv"
+RV_LEDGER = "config/ret_view_casts.tsv"          # 3.44 T5: callee def_file view cause task cites; one row per RET_AS callee
 CITE_RE = re.compile(r"^(\S+):0x([0-9A-Fa-f]{8}) (.+)$")
 KIND_RULE = {"return": "DECL-RET"}
 
@@ -1344,8 +1360,8 @@ def load_ledger(text):
     return out
 
 
-def check_core(ledger, rows, decode):
-    """(failed, unused, unledgered, txt). decode(binary, vaddr) -> the census cite text, or None (no such image/address)."""
+def verify_cites(ledger, decode):
+    """[(callee, cite, decoded)] for each ledger cite that does not decode to itself (or a row with no cites)."""
     norm = lambda t: " ".join(t.split())
     failed = []
     for L in ledger:
@@ -1356,6 +1372,12 @@ def check_core(ledger, rows, decode):
             got = decode(m.group(1), int(m.group(2), 16)) if m else None
             if got is None or norm(got) != norm(c):
                 failed.append((L["callee"], c, got or ("unparsable" if not m else "outside every image")))
+    return failed
+
+
+def check_core(ledger, rows, decode):
+    """(failed, unused, unledgered, txt). decode(binary, vaddr) -> the census cite text, or None (no such image/address)."""
+    failed = verify_cites(ledger, decode)
     by_name = collections.defaultdict(list)
     for i, L in enumerate(ledger):
         by_name[L["callee"]].append(i)
@@ -1382,8 +1404,34 @@ def check_core(ledger, rows, decode):
     return failed, unused, unl, "\n".join(T) + "\n"
 
 
+def check_ret_views(ledger, parsed, decode):
+    """3.44 T5: (failed, unbacked, unused, wrong_def, txt) for config/ret_view_casts.tsv (load_ledger; field 2 = the view T).
+    parsed {file: parse_text|None}. A RET_AS site needs a row (fn, T); a row needs a site; def_file must define fn."""
+    failed = verify_cites(ledger, decode)
+    norm = lambda t: " ".join(t.split())
+    sites = [(f, ln, fn, T) for f, p in sorted(parsed.items()) if p for ln, fn, T in p.get("ret_as", ())]
+    defs = collections.defaultdict(set)
+    for f, p in parsed.items():
+        for d in (p or {}).get("defs", ()):
+            defs[d["name"]].add(f)
+    keys = {(L["callee"], norm(L["kind"])) for L in ledger}
+    unbacked = [x for x in sites if (x[2], norm(x[3])) not in keys]
+    used = {(x[2], norm(x[3])) for x in sites}
+    unused = [L for L in ledger if (L["callee"], norm(L["kind"])) not in used]
+    wrong = [L for L in ledger if L["def_file"] not in defs.get(L["callee"], ())]
+    T = [f"ret-view rows {len(ledger)}, cites {sum(len(L['cites']) for L in ledger)}, RET_AS sites {len(sites)}",
+         f"ret-view failed cites {len(failed)}", f"ret-view unused rows {len(unused)}",
+         f"ret-view unbacked sites {len(unbacked)}", f"ret-view wrong def_file {len(wrong)}"]
+    T += [f"  failed: {a} | {b} | {c}" for a, b, c in failed[:20]]
+    T += [f"  unused: {L['callee']} {L['def_file']} {L['kind']}" for L in unused[:20]]
+    T += [f"  unbacked: {f}:{ln} RET_AS({t}, {fn}, …)" for f, ln, fn, t in unbacked[:20]]
+    T += [f"  wrong def_file: {L['callee']} {L['def_file']} (defined in {', '.join(sorted(defs.get(L['callee'], ()))) or 'none'})"
+          for L in wrong[:20]]
+    return failed, unbacked, unused, wrong, "\n".join(T) + "\n"
+
+
 def check(jobs):
-    rows, _ = compare(jobs)
+    rows, _, parsed = compare(jobs)
     aliases, var = mk_vars()
     bins = {}
 
@@ -1397,9 +1445,11 @@ def check(jobs):
             return None
         return cite(Fleet(bins), b, va)
     failed, unused, unl, txt = check_core(load_ledger((REPO / LEDGER).read_text()), rows, decode)
+    rv = check_ret_views(load_ledger((REPO / RV_LEDGER).read_text()), parsed, decode)
+    txt += rv[4]
     (OUT_DIR / "check.txt").write_text(txt)
     print(txt, end="")
-    return 1 if failed or unused or unl else 0
+    return 1 if failed or unused or unl or any(rv[:4]) else 0
 
 
 # ----------------------------------------------------------------------------------------------- selftest
@@ -1711,6 +1761,20 @@ def selftest():
     check("--check unledgered = disagreements matched by no row",
           len(ul) == len(rows) - 2 and not any(r["name"] in ("f_ret", "f_dbl") and r["rule"] in ("DECL-RET", "ARG-OVER")
                                                for r in ul) and "unledgered disagreements" in ctxt, ctxt)
+
+    # 3.44 T5 --check ret views: RET_AS sites (comments and the common.h #define masked/skipped) need a (fn, T) row; rows need a site
+    # and fn's definition file
+    rvp = {"include/common.h": parse_text("include/common.h", "#define RET_AS(T, fn, params) ((T (*)params)(fn))\n"),
+           "src/ov/r.c": parse_text("src/ov/r.c", "u8 f_ret(void) {\n    return 1;\n}\n"),
+           "src/ov/s.c": parse_text("src/ov/s.c", "void g(void) {\n    s32 x = RET_AS(s32, f_ret, (void))();\n"
+                                    "    /* RET_AS(u8, f_ret, (void)) */\n    x += RET_AS( s16 , f_ret, (void))();\n}\n")}
+    rvl = load_ledger("\n".join(["callee\tdef_file\tview\tcause\ttask\tcites",
+                                 f"f_ret\tsrc/ov/r.c\ts32\tc\tT5\t{good}", f"f_ret\tsrc/ov/s.c\tu16\tc\tT5\t{good}", ""]))
+    rf, rub, run_, rw, rtxt = check_ret_views(rvl, rvp, dec_)
+    check("--check ret views: sites parsed, #define and comments skipped; unbacked, unused, wrong def_file found",
+          rvp["src/ov/s.c"]["ret_as"] == [(2, "f_ret", "s32"), (4, "f_ret", "s16")] and rvp["include/common.h"]["ret_as"] == []
+          and rf == [] and [(x[2], x[3]) for x in rub] == [("f_ret", "s16")] and [L["kind"] for L in run_] == ["u16"]
+          and [L["def_file"] for L in rw] == ["src/ov/s.c"] and "RET_AS sites 2" in rtxt, (rvp["src/ov/s.c"]["ret_as"], rtxt))
 
     print("selftest", "OK" if ok else "FAILED")
     return 0 if ok else 1

@@ -141,7 +141,11 @@ FORM_C = re.compile(r"\(\s*\(\s*" + TYPE_IN_CAST + r"\s*\)\s*([^()\[\]]+?)\s*\)\
 # K: a kept-cast / reinterpretation macro site (P39 T2; include/common.h): counted by name, never raw — --check-casts demands its
 # restruct ledger row (rung S, site verdict KEPT(<class>)). Not in RAW_FORMS: by_form P/I/X/M and deref_total are unchanged.
 KEPT_MACROS = {"CAST_ALIAS": "SCHED-ALIAS", "CAST_SIGN": "SIGN", "CAST_WIDTH": "WIDTH", "CAST_MISALIGNED": "MISALIGNED",
-               "CAST_NONSTRUCT": "NON-STRUCT", **{n: "REINTERP" for n in ("LOBU", "LOH", "HIH", "LOHU", "HIHU", "LOW", "LOWU")}}
+               "CAST_NONSTRUCT": "NON-STRUCT", **{n: "REINTERP" for n in ("LOBU", "LOH", "HIH", "LOHU", "HIHU", "LOW", "LOWU")},
+               "RET_AS": "RET-VIEW"}
+# RET-VIEW (3.44 T5): RET_AS(T, fn, params) views a callee's return as T — a call, not a memory cast (no base/off); a site records
+# callee=args[1], view=_norm_type(args[0]) and is backed by its config/ret_view_casts.tsv row (callee, view), never the restruct ledger.
+RET_VIEW = "RET-VIEW"
 FORM_K = re.compile(r"\b(" + "|".join(KEPT_MACROS) + r")\s*\(")
 DEFLINE_FILE = "include/common.h"          # the macros' own `#define` lines there are definitions, not sites (--check-casts drops them)
 DEFLINE_RX = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)")
@@ -382,7 +386,9 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
         rec = dict(form="K", tu=rel, fn=(d["name"] if d else None), line=ln, pos=m.start(), end=(close + 1 if inner is not None else m.end()),
                    name=name, cls=KEPT_MACROS[name], ctype=None, stars=0, base=None, bclass="other", off=0)
         args = _split_top(inner, ",") if inner is not None else []
-        if name.startswith("CAST_") and len(args) == 3:
+        if name == "RET_AS" and len(args) == 3:
+            rec.update(callee=args[1].strip(), view=_norm_type(args[0]))
+        elif name.startswith("CAST_") and len(args) == 3:
             b = parse_base(args[1])
             b["bclass"] = classify(b["bclass"], b.get("base"), d)
             k = _int(_strip_parens(args[2]))
@@ -1226,7 +1232,8 @@ def check_casts_counts(sites, raw_counts):
     deflined = collections.Counter(s["form"] for s in sites if s.get("defline"))
     check_raw = {f: raw_counts.get(f, 0) - deflined[f] for f in ("P", "I", "X", "M")}
     macro_sites = [dict(tu=s["tu"], fn=s["fn"], line=s["line"], pos=s["pos"], name=s["name"], cls=s["cls"], base=s.get("base"),
-                        bclass=s.get("bclass"), off=s.get("off")) for s in sites if s["form"] == "K" and not s.get("defline")]
+                        bclass=s.get("bclass"), off=s.get("off"), **({"callee": s.get("callee"), "view": s.get("view")} if s["cls"] == RET_VIEW else {}))
+                   for s in sites if s["form"] == "K" and not s.get("defline")]
     return check_raw, macro_sites
 
 def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
@@ -1953,6 +1960,16 @@ def selftest():
     _, (_, ks) = cc("CAST_ALIAS(u16, a0, 4) = 2;\n    LOH(x) = 1;")
     checks.append(("check-casts K sites", [(s["name"], s["cls"]) for s in ks] == [("CAST_ALIAS", "SCHED-ALIAS"), ("LOH", "REINTERP")]
                    and (ks[0]["bclass"], ks[0]["base"], ks[0]["off"]) == ("param", "a0", 4)))
+    # 3.44 T5: RET_AS is a RET-VIEW site (callee, view; no base/off), backed by a ret_view_casts row only; its common.h #define dropped
+    _, (rr, rk) = cc("x = RET_AS(s32, func_80028D9C, (void))();")
+    rvw = walk_file("#define RET_AS(T, fn, params) ((T (*)params)(fn))\n", DEFLINE_FILE)
+    zz = dict(P=0, I=0, X=0, M=0)
+    checks.append(("check-casts RET-VIEW site", rr == zz and [(s["name"], s["cls"], s["callee"], s["view"], s["base"], s["off"]) for s in rk]
+                   == [("RET_AS", "RET-VIEW", "func_80028D9C", "s32", None, 0)]
+                   and check_casts_counts(rvw["sites"], rvw["raw_counts"]) == (zz, [])
+                   and check_casts_verdict(zz, rk, {}, [], set(), ret_views={("func_80028D9C", "s32")})[0] == 0
+                   and "(unbacked 1)" in check_casts_verdict(zz, rk, {}, [], set(), ret_views={("func_80028D9C", "u8")})[1]
+                   and check_casts_verdict(zz, rk, {}, [], set(), ret_views=set())[0] == 1))
     defs_txt = ("#define CAST_ALIAS(T, p, k)      (*(T *)((p) + (k)))\n#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))\n"
                 "#define LOH(x)  (*(s16 *)&(x))\n")
     dw = walk_file(defs_txt, DEFLINE_FILE)
@@ -2064,6 +2081,23 @@ def lying_exceptions():
     return exc
 
 
+RET_VIEW_CASTS = "config/ret_view_casts.tsv"
+
+
+def ret_view_casts():
+    """{(callee, view)} — the RET_AS ledger (config/ret_view_casts.tsv, 3.44 T5): callee def_file view cause task cites."""
+    rv = set()
+    p = REPO / RET_VIEW_CASTS
+    if p.exists():
+        for ln in p.read_text().splitlines():
+            if not ln.strip() or ln.startswith("#") or ln.startswith("callee\t"):
+                continue
+            f = ln.split("\t")
+            if len(f) >= 3:
+                rv.add((f[0], _norm_type(f[2])))
+    return rv
+
+
 def check_verdict(summary, exceptions):
     """--check (P3.41 T5; the Gen-3 done-criteria, R42): (rc, line). Gates the --check-structs counts (dup classes not
     listed in docs/struct-twins.md, defs outside the canonical files less block frames, dead canon names), controls ok == n,
@@ -2087,11 +2121,17 @@ def check_verdict(summary, exceptions):
     return (1 if viol else 0), line
 
 
-def check_casts_verdict(raw_by_form, macro_sites, latest, lying_rows, exceptions, uncovered=None):
+def check_casts_verdict(raw_by_form, macro_sites, latest, lying_rows, exceptions, uncovered=None, ret_views=None):
     """(rc, line) — rc 1 iff any raw form > 0, any macro site unbacked, or any lying row not ledgered in the exceptions TSV.
-    P39 T10 (--residue): `uncovered` {form: n} — the line adds `(uncovered P=…)` and the rc tests uncovered instead of raw."""
+    P39 T10 (--residue): `uncovered` {form: n} — the line adds `(uncovered P=…)` and the rc tests uncovered instead of raw.
+    3.44 T5: a RET-VIEW site is backed only by a `ret_views` {(callee, view)} row (default: config/ret_view_casts.tsv)."""
     unbacked = 0
     for s in macro_sites:
+        if s["cls"] == RET_VIEW:
+            if ret_views is None:
+                ret_views = ret_view_casts()
+            unbacked += (s.get("callee"), s.get("view")) not in ret_views
+            continue
         row = latest.get(("S", s["tu"], s["fn"]))
         ok = False
         if row and row.get("verdict") in BACKED_S_VERDICTS:

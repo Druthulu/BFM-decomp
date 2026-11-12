@@ -241,3 +241,22 @@ or a row with no cites is a failed cite; (b) a row is used when a current disagr
 `def_file` path or `bind_tu` == def_file, rule == kind; an unmatched row is an unused row; (c) a disagreement matched by
 no row is unledgered. Prints the three counts (unledgered per rule) and the first 20 of each. Exit 1 on any failed cite,
 unused row or unledgered disagreement, else 0. Not in tools-health yet (3.44 T9).
+
+## Return views (3.44 T5)
+
+`RET_AS(T, fn, params)` (include/common.h, after `CAST_*`) is `((T (*)params)(fn))`: a call through `fn` cast to a function
+returning `T`. Rule: the one prototype of `fn` is its definition's (the C says what the callee returns); `RET_AS(T, …)` is
+written only at a call where the shipped caller read the return as `T`, measured in the census (e.g. `$v0` read unextended
+after a callee that exits `andi 0xff`). The `jal` is kept: the cast call is proven byte-identical by the build. One ledger
+row per (callee, view), with cites. A callee whose mismatch the cast cannot resolve (bytes move either way) stays in
+`config/lying_exceptions.tsv`.
+
+`config/ret_view_casts.tsv` (hand-edited config): tab-separated `callee def_file view cause task cites`, header comment in
+lying_exceptions.tsv's style; `cites` as there (the callee's exit writer and one caller read).
+
+`--check` also: (a) re-decodes every ret-view cite (same decoder, same failed-cite test); (b) finds every
+`RET_AS(T, fn, params)` site in the parsed C (comments masked; a `#define RET_AS` line is not a site); a site with no row
+(fn, T) is unbacked; (c) a row with no site is unused; (d) a row whose `def_file` is not a file defining `fn` is a wrong
+def_file. check.txt gains `ret-view rows/cites/RET_AS sites` and the four counts (first 20 of each); any nonzero exits 1.
+type_census `--check-casts` counts RET_AS as macro class `RET-VIEW` (K form, no base/off; restruct ignores it) and backs a
+site only by a row (callee, view) of this file, never the restruct ledger.
