@@ -1,6 +1,6 @@
 // config/symbols.ov_SC03_024.txt — overlay SC03/FILE_024 local symbols (Phase 13+)
 // R13/R15: overlay-REGION ONLY (vram 0x80128158..0x801C184F); NEVER merged into config/symbols.us.txt.
-// count=124
+// count=125
 guess_StartPairSequence          = 0x80128EA8; // func
 guess_StepPairSequence           = 0x80128ED8; // func
 guess_UpdateCamera               = 0x80129CF8; // func
@@ -122,6 +122,7 @@ guess_ReturnPlayerToStandingState = 0x8016EE40; // func
 guess_GetPlayerControlScript     = 0x8016F1AC; // func
 guess_SetMainCameraDefaults      = 0x801748EC; // func
 guess_IntToBcd                   = 0x801783D0; // func
+guess_ShowEneLabelAndValue       = 0x80178438; // func
 guess_CloseTextWindowIfOpen      = 0x80179B28; // func
 guess_NextStep_6                 = 0x80185458; // func
 guess_NextStep_7                 = 0x801854F4; // func
