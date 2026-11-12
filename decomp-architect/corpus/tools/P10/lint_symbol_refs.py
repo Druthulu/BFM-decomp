@@ -12,6 +12,8 @@ went undetected from Phase 21 → 23.
 This lint flags every `func_<ADDR>` token in committed src/ whose address has a CURATED (non-`func_`)
 name in the symbol files and NO `func_<ADDR>` symbol of its own — i.e. a reference splat/the linker
 can no longer resolve under that name. Run it after any symbols rename and in `make report`.
+P3.43 T9.c8: binary-scoped. A src file rename_sym maps to binaries is checked against those binaries'
+own splat symbol stacks only; unmapped files (most shared headers) keep the repo-wide check. `--selftest` = fixtures.
 
 Exit 0 = clean; exit 1 = stale refs found (printed as file:line func_<ADDR> -> curated).
 """
@@ -91,20 +93,56 @@ def strip_comments_strings(src):
     return cdecl._mask(src)
 
 
-def stale_refs(curated, autosym, sources):
+def load_binary_symbols():
+    """P3.43 T9.c8 (C0571): {binary: (curated, autosym)} over each binary's OWN splat symbol stack
+    (rename_scan.symbol_stacks(), first file in stack order names an address), so an address curated in
+    one overlay does not make another binary's func_/D_ token read stale. Proto files are never stacked."""
+    import rename_scan
+    real = {rename_scan._alias(p): p for p in _symbol_files()}
+    per_alias, out = {}, {}
+    for b, stack in rename_scan.symbol_stacks().items():
+        cur, auto = {}, set()
+        for fa in stack:
+            if fa not in real:
+                continue
+            if fa not in per_alias:
+                per_alias[fa] = list(iter_symbol_defs(open(real[fa]).read()))
+            for nm, a in per_alias[fa]:
+                if nm.lower() in ("func_" + a[2:], "d_" + a[2:]):
+                    auto.add(a)
+                else:
+                    cur.setdefault(a, nm)
+        out[b] = (cur, auto)
+    return out
+
+
+def _stale_name(a, maps, asm_labeled):
+    """-> the curated name making address `a` dangle under `maps` = [(curated, autosym)] (one per binary the
+    file is built into; stale if ANY of them has `a` curated without an auto-name), else None."""
+    if a in asm_labeled:                    # bound to a label -> resolves
+        return None
+    for curated, autosym in maps:
+        if a not in autosym and a in curated:   # renamed to a curated name, no auto-name symbol -> DANGLING
+            return curated[a]
+    return None
+
+
+def stale_refs(curated, autosym, sources, scoped=None):
     """The checker over given text (P3.42 T2: importable by tools/rename_scan.py --selftest).
-    sources = [(relpath, raw text)]; returns [(rel, line, token, curated name)] in scan order."""
+    sources = [(relpath, raw text)]; returns [(rel, line, token, curated name)] in scan order.
+    scoped (P3.43 T9.c8) = {relpath: [(curated, autosym)] per binary the file is built into}: a mapped file is
+    checked against its own binaries' stacks only; a file absent from it uses the repo-wide (curated, autosym)."""
     asm_labeled = asm_labeled_in_texts(raw for _, raw in sources)   # blind spot #3: __asm__("label") resolves the ref
+    scoped = scoped or {}
     stale = []
     for rel, raw in sources:
+        maps = scoped.get(rel) or [(curated, autosym)]
         code = strip_comments_strings(raw)
         for i, line in enumerate(code.splitlines(), 1):
             for m in re.finditer(r'\b(?:func_|D_)([0-9A-Fa-f]{6,8})\b', line):
-                a = "0x" + m.group(1).lower()
-                if a in autosym or a in asm_labeled:   # real auto-name OR bound to a label -> resolves
-                    continue
-                if a in curated:            # renamed to a curated name, no auto-name symbol -> DANGLING
-                    stale.append((rel, i, m.group(0), curated[a]))
+                nm = _stale_name("0x" + m.group(1).lower(), maps, asm_labeled)
+                if nm:                      # real auto-name OR bound to a label -> resolves; else DANGLING
+                    stale.append((rel, i, m.group(0), nm))
     # Blind spot #4 (P31 S78): the §265 verbatim `__asm__("...")` bodies. `strip_comments_strings` blanks
     # every string literal, so a renamed `func_<ADDR>` that survives INSIDE an asm body (`.ent\tfunc_X`,
     # `.end\tfunc_X`, `.globl func_X`, `jal\tfunc_X`, `func_X:`) is invisible above — and gas then dies
@@ -112,26 +150,59 @@ def stale_refs(curated, autosym, sources):
     # and do NOT rely on `\b`: the literal escape `\t` ends in the word char `t`, so `\tfunc_X` has no
     # word boundary before the token (the exact miss that produced the first S78 red build).
     for rel, raw in sources:
+        maps = scoped.get(rel) or [(curated, autosym)]
         for sm in re.finditer(r'__asm__\s*\(((?:\s*"(?:[^"\\]|\\.)*")+)\s*\)', raw):
             body = sm.group(1)
             line0 = raw.count("\n", 0, sm.start()) + 1
             for m in re.finditer(r'(?<![0-9A-Za-z_])(?:func_|D_)([0-9A-Fa-f]{6,8})(?![0-9A-Za-z_])', body):
-                a = "0x" + m.group(1).lower()
-                if a in autosym or a in asm_labeled:   # blind spot #3 applies here too (memcpy binding)
-                    continue
-                if a in curated:
-                    stale.append((rel, line0, m.group(0) + " (inside __asm__ body)", curated[a]))
+                nm = _stale_name("0x" + m.group(1).lower(), maps, asm_labeled)  # blind spot #3 applies here too
+                if nm:
+                    stale.append((rel, line0, m.group(0) + " (inside __asm__ body)", nm))
     return stale
 
 
+def file_scopes(rels):
+    """-> {rel: [(curated, autosym)]} for the src files rename_sym maps to binaries (src_binaries; shared headers via
+    dedup group members); unmapped files are left out (repo-wide check)."""
+    import rename_sym, rename_scan
+    stacks = rename_scan.symbol_stacks()
+    bins = load_binary_symbols()
+    reg = rename_sym.load_groups()[1]
+    aliases, stackers = rename_sym._aliases(), rename_sym.stackers_of(stacks)
+    out = {}
+    for rel in rels:
+        fb = sorted(b for b in rename_sym.file_binaries(rel, reg, aliases, stackers) if b in bins)
+        if fb:
+            out[rel] = [bins[b] for b in fb]
+    return out
+
+
+def selftest():
+    """P3.43 T9.c8: an overlay's name for an address must not flag another binary's auto-name token."""
+    ov = ({"0x80146ca0": "guess_NextStep"}, set())
+    other = ({}, {"0x80146ca0"})
+    src = "void f(void){\n    func_80146CA0();\n}\n"
+    srcs = [("src/sc01/a.c", src), ("src/sc02/b.c", src), ("src/shared/x.h", src)]
+    sc = {"src/sc01/a.c": [ov], "src/sc02/b.c": [other]}
+    st = stale_refs(*ov, srcs, sc)
+    assert [(s[0], s[1], s[3]) for s in st] == [("src/sc01/a.c", 2, "guess_NextStep"),
+                                                ("src/shared/x.h", 2, "guess_NextStep")], st  # unmapped: repo-wide
+    assert stale_refs(*ov, srcs[1:2], {"src/sc02/b.c": [other, ov]})[0][3] == "guess_NextStep"  # ANY binary dangles
+    assert stale_refs(*ov, srcs) == stale_refs(*ov, srcs, {})                # no scopes = today's behaviour
+    print("[lint_symbol_refs] selftest OK")
+    return 0
+
+
 def main():
+    if sys.argv[1:] == ["--selftest"]:
+        return selftest()
     curated, autosym = load_symbols()
     # Blind spot #1: src/shared/*.h (engine_core.h — 10k+ func_/D_ tokens across every overlay) was
     # never scanned, yet one dangling ref there breaks EVERY clean build at once.
     files = sorted(glob.glob(os.path.join(REPO, "src/**/*.c"), recursive=True) +
                    glob.glob(os.path.join(REPO, "src/shared/**/*.h"), recursive=True))
     sources = [(os.path.relpath(cf, REPO), open(cf, errors="replace").read()) for cf in files]
-    stale = stale_refs(curated, autosym, sources)
+    stale = stale_refs(curated, autosym, sources, file_scopes([rel for rel, _ in sources]))
     if stale:
         print(f"[lint_symbol_refs] {len(stale)} STALE func_<ADDR> ref(s) — renamed in symbols, "
               f"clean-build will FAIL (fix: rename to the curated name):")

@@ -335,6 +335,8 @@ tools-health:
 	# The fixtures self-test first; a rename's leftover mentions are scanned on demand (tools/rename_scan.py --spec|--range).
 	# P3.43 T5 citation gate: every curated (non-guess_, non-placeholder) name must have a ledger row with a citation.
 	$(VENV_PY) tools/rename_scan.py --selftest
+	# P3.43 T9.c8: lint_symbol_refs is binary-scoped (an overlay's name never flags another binary's token).
+	$(VENV_PY) tools/lint_symbol_refs.py --selftest
 	$(VENV_PY) tools/rename_scan.py --ledger --gate-citations
 	# P41 T7: config/ghidra/types/*.jsonl are DERIVED from the canonical headers (R33); stale = the rebuilt Ghidra
 	# database gets yesterday's layouts. Pure text check (~5 s), no Ghidra needed.
