@@ -4,7 +4,7 @@ extern void func_80164418();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
 extern s32 func_80013328(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 extern s32 func_80163764(s32 a0);
 void func_801642AC(s32 a0) {
@@ -13,7 +13,7 @@ void func_801642AC(s32 a0) {
     func_80164418();
     if (func_80013328(s0 + 4, s1 + 4) < 0x28 || guess_TickWaitTimer_2(s1) != 0) {
         guess_SetWaitTimer_2((s32 *)s1, 8);
-        func_80147324(0x44A);
+        guess_PlaySoundUnlessSkipped(0x44A);
         guess_NextStep((void *)s1);
     }
     func_80163764(s1);

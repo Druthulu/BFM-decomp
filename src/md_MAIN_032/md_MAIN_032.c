@@ -28,7 +28,7 @@ extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_801655E4(s32 a0);
 extern void func_80156648(s32 *a0);
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 
 void func_800CAEC0(u8 *a0) {
     guess_SetAnimScript((s32 *)a0, (s32)&D_800CB26C);
@@ -37,13 +37,13 @@ void func_800CAEC0(u8 *a0) {
     func_801655E4((s32)a0);
     func_80156648((s32 *)a0);
     a0[0x1AA] = 1;
-    func_801466F0(0x18, (s32)a0, 0, 0, 0, 0, 0, 1);
+    guess_SpawnObject(0x18, (s32)a0, 0, 0, 0, 0, 0, 1);
     a0[0x197] = a0[0x197] + 1;
 }
 
 
 void func_800CAF60(void *a0) {
-    extern void func_80147A84(s32 a0);
+    extern void guess_SetVelocityFromMoveVector(s32 a0);
     extern void guess_ApplyVelocity(s32 *a0);
     extern void guess_AddVertSpeed(s32 a0, s32 a1);
     extern void guess_ApplyVertSpeed(s32 a0);
@@ -51,7 +51,7 @@ void func_800CAF60(void *a0) {
     extern s32  func_80155FD4(s32 a0, s32 a1);
 
     ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
-    func_80147A84((s32)a0);
+    guess_SetVelocityFromMoveVector((s32)a0);
     guess_ApplyVelocity((s32 *)a0);
     guess_AddVertSpeed((s32)a0, 0x20000);
     guess_ApplyVertSpeed((s32)a0);

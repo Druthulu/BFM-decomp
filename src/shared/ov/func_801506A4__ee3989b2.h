@@ -13,24 +13,24 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
     ((struct Ent_801506A4 *)arg1)->unk5C |= 1;
     switch (mode) {
     case 0x31:
-        ((void(*)(int))func_80147324)(0x452);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
         ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_80180ED8[((struct Ent_801506A4 *)arg1)->unk70]);
         ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_80180ED8[((struct Ent_801506A4 *)arg1)->unk70]);
         break;
     case 0x32:
         if ((*(unsigned short*)&g_PlayerHp) != 0) {
-            ((void(*)(int))func_80147324)(0x452);
+            ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
             ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_80180EE0[((struct Ent_801506A4 *)arg1)->unk70], 1);
             ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_80180EE0[((struct Ent_801506A4 *)arg1)->unk70]);
         }
         break;
     case 0x33:
-        ((void(*)(int))func_80147324)(0x452);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
         func_80150820(((int)arg0), D_80180EE8[((struct Ent_801506A4 *)arg1)->unk70]);
         break;
     case 0xC5:
     case 0x27B:
-        ((void(*)(int))func_80147324)(0x452);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
         func_8015086C(((int)arg0));
         break;
     }

@@ -99,7 +99,7 @@ void func_800CB058(s32 arg0)
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void guess_NextStep(void *a0);
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-    extern void func_80147324(s32 a0);
+    extern void guess_PlaySoundUnlessSkipped(s32 a0);
     s32 s1a;
     s32 s2a;
     s32 s0a;
@@ -134,7 +134,7 @@ void func_800CB058(s32 arg0)
     guess_SetWaitTimer_2(s1a, 0x3C);
     guess_NextStep(s1a);
     func_80146A6C(0x4A, s1a, *(s16 *)(s1a + 6), *(s16 *)(s1a + 0xA), *(s16 *)(s1a + 0xE), 0, 0);
-    func_80147324(0x8EF);
+    guess_PlaySoundUnlessSkipped(0x8EF);
     return;
 fail:
     ((void (*)(s32))func_800CB384)(s1a);
@@ -142,7 +142,7 @@ fail:
 
 
 void func_800CB190(void *arg0) {
-    extern void func_80147324(s32);
+    extern void guess_PlaySoundUnlessSkipped(s32);
     extern void guess_NextStep(s32 *);
     extern s32 guess_TickWaitTimer_2(s32);
     extern void func_8001382C(s32, void *, void *);
@@ -193,7 +193,7 @@ void func_800CB190(void *arg0) {
             acc |= func_800CB3D8((s32)arg0, (s32)&D_800CB8CC + i * 8);
         }
         if (acc != 0) {
-            func_80147324(0x8F0);
+            guess_PlaySoundUnlessSkipped(0x8F0);
             guess_NextStep((s32 *)arg0);
         }
     } else {

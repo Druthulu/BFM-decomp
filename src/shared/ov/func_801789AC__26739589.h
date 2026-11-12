@@ -10,7 +10,7 @@ s32 func_801789AC(s32 arg0)
 
     switch ((s16)(D_8018FB24 - 1)) {
     case 0:
-        ret = func_801399F0(D_8018F918);
+        ret = guess_GetTextWindowResult(D_8018F918);
         D_8018F9CC = ret;
         if (ret == 0) {
             break;
@@ -18,7 +18,7 @@ s32 func_801789AC(s32 arg0)
         func_80178CBC(arg0, D_8018F500);
         break;
     case 1:
-        ret = func_801399F0(D_8018F918);
+        ret = guess_GetTextWindowResult(D_8018F918);
         D_8018F9CC = ret;
         if (ret == 0) {
             break;

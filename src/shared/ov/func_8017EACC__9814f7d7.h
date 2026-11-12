@@ -8,7 +8,7 @@ void func_8017EACC(s32 *a0) {
     func_8017EC2C((s32)a0);
 
     if ((*(u16 *)((char *)s0 + 0xB8) & 0x8000) != 0) {
-        if (func_801399F0(s0[0x198 / 4]) != 0) {
+        if (guess_GetTextWindowResult(s0[0x198 / 4]) != 0) {
             func_80139914(s0[0x198 / 4]);
             result = func_8013767C((s32)D_80183080);
             temp = *(u16 *)((char *)s0 + 0xBA);

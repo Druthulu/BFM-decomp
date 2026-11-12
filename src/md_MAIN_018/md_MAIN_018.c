@@ -67,8 +67,8 @@ void func_800CAFAC(void) {
 }
 
 void func_800CAFB4(void *arg) {
-    extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
-    func_80146994(0x23, (s32)arg, 0x8000, 0);
+    extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
+    guess_SpawnSmallObjectAtOrigin(0x23, (s32)arg, 0x8000, 0);
 }
 
 

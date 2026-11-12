@@ -200,7 +200,7 @@ def find_site(text, ov, addr):
     # S33: a function defined under the §37/§73 ASM-LABEL ALIAS is named `aF<ADDR>` in C and only
     # BINDS the real symbol via `__asm__("func_<ADDR>")`. A head regex anchored on the literal
     # `func_<ADDR>` is structurally blind to it, so find_site returned None and every caller read
-    # "not matched" — func_801466F0 (137 members / 3,288 ins) sat unreachable behind exactly this.
+    # "not matched" — guess_SpawnObject (137 members / 3,288 ins) sat unreachable behind exactly this.
     # family_remap._alias_decl_for already resolves the form (and, since S33, its WRAPPED variant);
     # reuse it rather than write a second matcher (R33 — one oracle).
     names = [s]

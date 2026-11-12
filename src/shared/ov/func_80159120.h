@@ -1,7 +1,7 @@
 /* func_80159120 — shared body (overlay slot 0x80128158, h_exact 3d32b871). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_801399F0(s32);
+extern s32 guess_GetTextWindowResult(s32);
 extern void func_80139914(s32 a0);
 extern s32 func_80029A94(s32);
 extern void func_80175454(void);
@@ -25,7 +25,7 @@ void func_80159120(s32 a0) {
     guess_GetStoryProgress();
     base = *(s32 *)(a0 + 0x20);
     *(u16 *)(base + 0x12) = (*(u16 *)(base + 0x12) + 0x16) & 0xFFF;
-    r = func_801399F0(*(s32 *)(a0 + 0x198));
+    r = guess_GetTextWindowResult(*(s32 *)(a0 + 0x198));
     if (r == 0) {
         return;
     }

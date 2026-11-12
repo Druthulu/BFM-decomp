@@ -19,20 +19,20 @@ void func_800CCB28(s32 *param_1) {
 }
 
 
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_8014B5C4(s32 *a0, s32 a1, s32 a2);
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 
 void func_800CCB78(void *a0) {
-    func_80147324(0x8E3);
+    guess_PlaySoundUnlessSkipped(0x8E3);
     func_8014B5C4((s32 *)a0, 5, 0);
-    func_801466F0(0x13, (s32)a0, 0, 0, 0, 0, 0, 0);
-    func_801466F0(0x14, (s32)a0, 0, 0, 0, 0, 0, 0);
-    func_801466F0(0x14, (s32)a0, 0, 0, 0, 1, 0, 0);
-    func_801466F0(0x14, (s32)a0, 0, 0, 0, 2, 0, 0);
-    func_801466F0(0x14, (s32)a0, 0, 0, 0, 3, 0, 0);
+    guess_SpawnObject(0x13, (s32)a0, 0, 0, 0, 0, 0, 0);
+    guess_SpawnObject(0x14, (s32)a0, 0, 0, 0, 0, 0, 0);
+    guess_SpawnObject(0x14, (s32)a0, 0, 0, 0, 1, 0, 0);
+    guess_SpawnObject(0x14, (s32)a0, 0, 0, 0, 2, 0, 0);
+    guess_SpawnObject(0x14, (s32)a0, 0, 0, 0, 3, 0, 0);
     ((Unkstruct_80126B58 *)a0)->unk1C8 = 0xFF;
     func_801599A4(a0);
     func_80159B3C(a0);
@@ -88,7 +88,7 @@ void func_800CCD50(void *a0) {
     guess_ClearMoveVector(s0);
     func_800CCDB0((s32 *)s0);
     ((Unkstruct_800CCD50 *)s0)->unk240 = 0;
-    func_80147324(0x8E4);
+    guess_PlaySoundUnlessSkipped(0x8E4);
 }
 
 
@@ -309,7 +309,7 @@ s32 func_800CD240(void *arg0) {
 extern s32 guess_IsDirectionHeld();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern void guess_ClearMoveVector(void *arg0);
 extern s32 func_80148D44(void *arg0);
-extern void func_80147AD4(void *arg0, s32 arg1, s32 arg2, s32 arg3);
+extern void guess_AddMoveVectorThenSetVelocity(void *arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void guess_ApplyVelocity(s32*);
 
 
@@ -324,7 +324,7 @@ void func_800CD288(Work_md_MAIN_046 *arg0) {
     if (guess_IsDirectionHeld() != 0) {
         guess_ClearMoveVector(arg0);
         *(s16 *) (s1 + 0x12) = func_80148D44(arg0);
-        func_80147AD4(arg0, 0, 0, -0xC000);
+        guess_AddMoveVectorThenSetVelocity(arg0, 0, 0, -0xC000);
 
         arg0->unk234 += arg0->unk10;
         arg0->unk238 += arg0->unk14;
@@ -418,7 +418,7 @@ void func_800CD494(void *a0) {
     v0 = guess_GetPadPressed((s32 *)a0);
     if (v0 & 0x90) {
         CAST_WIDTH(u16, s0, 0x240) = 0;
-        func_80147324(0x8E4);
+        guess_PlaySoundUnlessSkipped(0x8E4);
     }
     v0 = guess_GetPadHeld((s32 *)s0);
     if (v0 & 0x90) {
@@ -435,7 +435,7 @@ void func_800CD494(void *a0) {
         CAST_WIDTH(u16, s0, 0x240) = v0;
         if ((s16)v0 >= 0x1000) {
             CAST_WIDTH(u16, s0, 0x240) = 0;
-            func_80147324(0x8E4);
+            guess_PlaySoundUnlessSkipped(0x8E4);
         }
     } else {
         v0 = ((Unkstruct_80126B58 *)s0)->unk246;

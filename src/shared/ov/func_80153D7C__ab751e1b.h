@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80153D7C(s32 param_1)
 {
-    func_80147324(0x451);
+    guess_PlaySoundUnlessSkipped(0x451);
     guess_SetAnimScript((s32 *)param_1, (s32)&D_80181078);
     func_80149020((s32 *)param_1);
     *(u16 *)(param_1 + 0x244) = *(u16 *)(param_1 + 6);

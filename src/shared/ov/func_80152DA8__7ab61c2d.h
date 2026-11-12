@@ -6,7 +6,7 @@ void func_80152DA8(s32 arg0)
     func_80151204(arg0, M2C_FIELD(arg0, s16 *, 0xF2));
     func_80149020(arg0);
     guess_SetAnimScript(arg0, &D_800D5880);
-    func_80147324(0x451);
+    guess_PlaySoundUnlessSkipped(0x451);
     M2C_FIELD(arg0, s8 *, 0xDE) = 0x10;
     M2C_FIELD(arg0, s8 *, 0xDF) = 8;
     guess_SetMoveVector(arg0, &D_80181024);

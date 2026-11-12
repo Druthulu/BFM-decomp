@@ -30,9 +30,9 @@ extern void func_800CAEC0(s32 a0);
 #include "common.h"
 
 extern s32 rand(void);
-extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
-extern void func_80147324(s32);
-extern s32 func_80146994(s32, s32, s32, s32);
+extern void guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
+extern void guess_PlaySoundUnlessSkipped(s32);
+extern s32 guess_SpawnSmallObjectAtOrigin(s32, s32, s32, s32);
 extern void func_801655E4(s32);
 extern s32 func_80165910(void);
 
@@ -40,12 +40,12 @@ void func_800CAEC0(s32 a0) {
     if (func_80165910() == 0) {
         func_801655E4(a0);
     }
-    func_80146994(0x35, a0, 0, 0);
-    func_80147324(0x838);
-    func_801466F0(0xE, a0, 0, 0, 0, ((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
-    func_801466F0(0xE, a0, 0, 0, 0, -((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
-    func_801466F0(0xE, a0, 0, 0, 0, ((((rand() % 16) + 0x10) << 12) / 360), 1, 1);
-    func_801466F0(0xE, a0, 0, 0, 0, -((((rand() % 16) + 0x10) << 12) / 360), 1, 1);
+    guess_SpawnSmallObjectAtOrigin(0x35, a0, 0, 0);
+    guess_PlaySoundUnlessSkipped(0x838);
+    guess_SpawnObject(0xE, a0, 0, 0, 0, ((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
+    guess_SpawnObject(0xE, a0, 0, 0, 0, -((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
+    guess_SpawnObject(0xE, a0, 0, 0, 0, ((((rand() % 16) + 0x10) << 12) / 360), 1, 1);
+    guess_SpawnObject(0xE, a0, 0, 0, 0, -((((rand() % 16) + 0x10) << 12) / 360), 1, 1);
     *(u8 *)(a0 + 0x197) += 1;
 }
 
@@ -53,7 +53,7 @@ void func_800CAEC0(s32 a0) {
 void func_800CB0D8(s32 a0) {
     extern Struct80078E78_md_MAIN_028_800CB0D8 guess_g_PlayerRecord;
     extern s32 D_80078EC8;
-    extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
+    extern void guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
     extern s32 func_80165A20(s32);
     s32 v;
     Struct80078E78_md_MAIN_028_800CB0D8 *p;
@@ -62,16 +62,16 @@ void func_800CB0D8(s32 a0) {
     v = a0;
     p = &guess_g_PlayerRecord;
     if ((D_80078EC8 & 0x1F) == 0) {
-        func_801466F0(0xE, v, 0, 0, 0, ((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
-        func_801466F0(0xE, v, 0, 0, 0, -((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
+        guess_SpawnObject(0xE, v, 0, 0, 0, ((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
+        guess_SpawnObject(0xE, v, 0, 0, 0, -((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
     }
     if ((p->f50 & 0x3F) == 0) {
         if (rand() & 1) {
             q = ((((rand() % 16) + 0x10) << 12) / 360);
-            func_801466F0(0xE, v, 0, 0, 0, q, 1, 1);
+            guess_SpawnObject(0xE, v, 0, 0, 0, q, 1, 1);
         } else {
             q = -((((rand() % 16) + 0x10) << 12) / 360);
-            func_801466F0(0xE, v, 0, 0, 0, q, 1, 1);
+            guess_SpawnObject(0xE, v, 0, 0, 0, q, 1, 1);
         }
     }
     if (p->f50 == 0) {

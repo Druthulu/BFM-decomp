@@ -87,7 +87,7 @@ void func_800CAFEC(s32 *a0) {
     extern void guess_SetAnim(s32 a0, s32 a1);
     extern void guess_SetTexAnim(s32 *a0, s16 a1);
     extern void func_800CB13C(s32 param_1);
-    extern void func_80147324(s32 a0);
+    extern void guess_PlaySoundUnlessSkipped(s32 a0);
     extern void func_801553A8(s32 *a0);
     extern void guess_NextStep(void *a0);
 
@@ -105,7 +105,7 @@ void func_800CAFEC(s32 *a0) {
     guess_SetTexAnim(a0, 0x19);
     a0[0x234 / 4] = 0;
     func_800CB13C((s32)a0);
-    func_80147324(0x8F1);
+    guess_PlaySoundUnlessSkipped(0x8F1);
     func_801553A8(a0);
     ((void (*)(s32))guess_NextStep)((s32)a0);
 }

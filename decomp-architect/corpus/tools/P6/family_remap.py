@@ -870,7 +870,7 @@ def _def_head_at(ln, paren_idx, more=()):
     WRAPS. The old fallback answered "param list continues past this line -> an ANSI definition", which
     is false for a wrapped multi-line DECLARATION (Phase-30 S6a, defect D2):
 
-        extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
+        extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                                   s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 
     ov_SC01_077_after.c:457 is exactly that, and it was accepted as a definition head — so extract_unit
@@ -953,7 +953,7 @@ def _alias_decl_for(lines, addr):
     # S33: the matcher used to be `rx.match(ln)` PER LINE, so it was blind to a WRAPPED alias
     # declaration — the §134 multi-line class, the third tool it has surfaced in. Measured before
     # fixing (R37): 91 asm-label alias decls exist fleet-wide, the per-line form matched 90, and the
-    # single miss was func_801466F0 (137 members / 3,288 ins written off as "no matched unit"). So
+    # single miss was guess_SpawnObject (137 members / 3,288 ins written off as "no matched unit"). So
     # this is a ONE-FUNCTION fix, not the class the S6b note implied — recorded so a future session
     # does not scope against it. Match over the JOINED text and map the offset back to a line index;
     # the RETURNED index must stay the DECL's FIRST line, because extract_unit carries from there.

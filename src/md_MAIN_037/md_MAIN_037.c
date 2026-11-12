@@ -66,7 +66,7 @@ extern void func_801655E4(s32 a0);
 
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                           s32 sp4, s32 sp5, s32 sp6, s32 sp7);
 extern s32 func_80161208();  /* canonical no-proto (§17a-1) */
 
@@ -79,7 +79,7 @@ void func_800CAF94(void *a0) {
         func_80159B3C(a0);
     } else {
         if (flag & 0x4000) {
-            func_801466F0(0x1E, (s32)a0, 0, -0x40, 0, 0, 0, 0);
+            guess_SpawnObject(0x1E, (s32)a0, 0, -0x40, 0, 0, 0, 0);
         }
         func_80161208(a0);
     }
@@ -121,7 +121,7 @@ extern void func_8001CA1C(s32 a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 extern void func_800CB358(void);
 extern u32 D_800CB61C[];
@@ -141,7 +141,7 @@ void func_800CB09C(s32 a0) {
         guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         func_80146DE8((s32 *)a0, 0, 0xFFF40000, 0xFFE80000);
         guess_SetWaitTimer_2((s32 *)a0, 0x3C);
-        func_80147324(0x912);
+        guess_PlaySoundUnlessSkipped(0x912);
         guess_NextStep((void *)a0);
     } else {
         ((void (*)(s32))func_800CB358)(a0);
@@ -159,7 +159,7 @@ extern s32 func_80146578(void);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163328(void *a0);
@@ -204,7 +204,7 @@ alloc:
             func_80146A6C(0x45, a0, ((Unkstruct_80126B58 *)a0)->unk6, ((Unkstruct_80126B58 *)a0)->unkA,
                           ((Unkstruct_80126B58 *)a0)->unkE, t, 0);
         }
-        func_80147324(0x913);
+        guess_PlaySoundUnlessSkipped(0x913);
         guess_NextStep(a0);
         return;
     }

@@ -28,7 +28,7 @@ void func_80159C84(u8 *p) {
     }
     if (guess_IsConfirmPressed(p) != 0) {
         D_80181160[*(u16 *)p](p);
-        ((void (*)(u8 *))func_80149704)(p);
+        ((void (*)(u8 *))guess_EnterJumpState)(p);
         return;
     }
 
@@ -37,18 +37,18 @@ void func_80159C84(u8 *p) {
     case 1:
     case 2:
     case 6:
-        if (func_80149AA8((s32 *)p) != 0) {
+        if (guess_IsSquarePressed((s32 *)p) != 0) {
             D_80181160[*(u16 *)p](p);
-            func_80149AD4((s32 *)p);
+            guess_StartSquareAction((s32 *)p);
             return;
         }
-        if (func_80149B54((s32 *)p) != 0) {
+        if (guess_IsTrianglePressed((s32 *)p) != 0) {
             D_80181160[*(u16 *)p](p);
             if (func_8014A738(p) != 0) {
                 ((void (*)(u8 *))func_8014A830)(p);
                 return;
             }
-            func_80149BAC((s32 *)p);
+            guess_StartTriangleAction((s32 *)p);
             return;
         }
         break;
@@ -59,7 +59,7 @@ void func_80159C84(u8 *p) {
         func_80149954((s32)p);
         break;
     case 5:
-        if (func_80149A64((s32 *)p) != 0) {
+        if (guess_IsSquareOrTrianglePressed((s32 *)p) != 0) {
             D_80181160[*(u16 *)p](p);
             func_800CCCC0(p);
             return;
@@ -136,7 +136,7 @@ after_b4c:
                 func_80154190(p, 0);
                 break;
             case 3:
-                func_80147324(0x445);
+                guess_PlaySoundUnlessSkipped(0x445);
                 *(s32 *)(p + 0x234) = *(s32 *)(p + 0x234) + 1;
                 func_80155440((s32 *)p);
                 guess_SetAnim((s32)p, 3);
@@ -155,10 +155,10 @@ after_b4c:
     }
 
     if (*(s32 *)(p + 0xB4) == (s32)&D_800D49F4) {
-        func_80147A84((s32)p);
+        guess_SetVelocityFromMoveVector((s32)p);
         guess_ApplyVelocity((s32 *)p);
         if ((guess_g_FrameCounter & 3) == 0) {
-            func_8014C010((s32)p, 1);
+            guess_SpawnSmallObjectType2((s32)p, 1);
         }
     }
     if (((s32 (*)(s32))func_80161208)((s32)p) == 0) {  /* §17a-1 */

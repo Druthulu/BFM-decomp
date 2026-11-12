@@ -12,15 +12,15 @@ void func_80160534(u8 *p) {
             func_8015F00C((s32 *)p);
             return;
         }
-        if (func_80149B54((s32 *)p) != 0) {
+        if (guess_IsTrianglePressed((s32 *)p) != 0) {
             D_80181160[*(u16 *)p](p);
-            func_80149BAC((s32 *)p);
+            guess_StartTriangleAction((s32 *)p);
             return;
         }
     }
-    if (func_80149AA8((s32 *)p) != 0) {
+    if (guess_IsSquarePressed((s32 *)p) != 0) {
         D_80181160[*(u16 *)p](p);
-        func_80149AD4((s32 *)p);
+        guess_StartSquareAction((s32 *)p);
         return;
     }
     if (guess_TickWaitTimer_2((s32)p) != 0) {
@@ -39,7 +39,7 @@ void func_80160534(u8 *p) {
         *(u16 *)(*(s32 *)(p + 0x20) + 0x12) =
             ((*(u16 *)&guess_g_CameraRelativeYaw) + guess_GetCameraYaw((s32)p)) & 0xFFF;
     }
-    func_80147AD4((s32)p, *(s32 *)(p + 0x234), *(s32 *)(p + 0x238),
+    guess_AddMoveVectorThenSetVelocity((s32)p, *(s32 *)(p + 0x234), *(s32 *)(p + 0x238),
                   *(s32 *)(p + 0x23C));
     guess_ApplyVelocity((s32 *)p);
     if (((s32 (*)(s32 *))func_8014D738)((s32 *)p) != 0) {

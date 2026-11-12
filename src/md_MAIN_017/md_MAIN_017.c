@@ -28,16 +28,16 @@ extern void func_800CAEC0(void *a0);
 extern void func_801657A0(void);
 extern s32 func_80165910(s32 a0);
 extern void func_801655E4(s32 a0);
-extern void func_80147324(s32 a0);
-extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
+extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 
 void func_800CAEC0(void *a0) {
     func_801657A0();
     if (func_80165910((s32)a0) == 0) {
         func_801655E4((s32)a0);
     }
-    func_80147324(0x47C);
-    func_80146994(0x20, (s32)a0, 0x8000, 0);
+    guess_PlaySoundUnlessSkipped(0x47C);
+    guess_SpawnSmallObjectAtOrigin(0x20, (s32)a0, 0x8000, 0);
     *(u8 *)((s32)a0 + 0x197) += 1;
 }
 

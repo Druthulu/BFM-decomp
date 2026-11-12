@@ -4,7 +4,7 @@ void func_8015C944(int param_1) {
 
     extern void (*D_80181160[])();
     func_80149FB0(param_1);
-    func_80147AD4(param_1, 0, 0, 0);
+    guess_AddMoveVectorThenSetVelocity(param_1, 0, 0, 0);
     ((void (*)(int))guess_ApplyVelocity)(param_1);
     ((void (*)(int))func_8014D738)(param_1);
     if (*(int *)(param_1 + 0x170) == 0) {

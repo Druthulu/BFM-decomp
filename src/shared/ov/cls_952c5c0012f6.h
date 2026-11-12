@@ -4,7 +4,7 @@
 void SHARED_FN(void *a0)
 {
     if (((Unkstruct_8017CE14 *)a0)->unk30 == 0) {
-        func_80147324(((Unkstruct_8017CE14 *)a0)->unk2E);
+        guess_PlaySoundUnlessSkipped(((Unkstruct_8017CE14 *)a0)->unk2E);
     }
     ((Unkstruct_8017CE14 *)a0)->unk2 = ((Unkstruct_8017CE14 *)a0)->unk2 + 1;
 }

@@ -8,10 +8,10 @@ void func_80161C24(int param_1, int param_2)
 
     if ((unsigned int)param_2 < 8) {
         if (*(u8 *)(param_1 + 0xDA) != 0) {
-            func_80147324(D_8018157C[(unsigned int)param_2 * 2]);
+            guess_PlaySoundUnlessSkipped(D_8018157C[(unsigned int)param_2 * 2]);
             *(u8 *)(param_1 + 0xDA) = 0;
         } else {
-            func_80147324(D_8018157E[(unsigned int)param_2 * 2]);
+            guess_PlaySoundUnlessSkipped(D_8018157E[(unsigned int)param_2 * 2]);
             *(u8 *)(param_1 + 0xDA) = 1;
         }
     }

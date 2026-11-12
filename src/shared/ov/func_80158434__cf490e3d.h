@@ -18,7 +18,7 @@ void func_80158434(s32 param_1)
     if (*(s32 *)(param_1 + 0x234) != 0) {
         guess_AddVertSpeed(param_1, 0x10000);
         guess_ApplyVertSpeed(param_1);
-        func_80147AD4(param_1, 0, 0, 0);
+        guess_AddMoveVectorThenSetVelocity(param_1, 0, 0, 0);
         ((void (*)(s32))guess_ApplyVelocity)(param_1);
     }
     uVar1 = ((s32 (*)(s32, s32))func_801615C4)(param_1, 0);

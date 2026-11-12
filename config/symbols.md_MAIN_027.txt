@@ -1,12 +1,14 @@
 // config/symbols.md_MAIN_027.txt — module md_MAIN_027 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CAE08..0x800CC2A0); NEVER merged into config/symbols.us.txt.
-// count=10
+// count=12
 
+guess_SpawnObject                = 0x801466F0; // func
 guess_NextStep                   = 0x80146CA0; // func
 guess_ClearMoveVector            = 0x80146D90; // func
 guess_SetWaitTimer_2             = 0x80146E90; // func
 guess_TickWaitTimer_2            = 0x80146E98; // func
 guess_SetState                   = 0x80147078; // func
+guess_PlaySoundUnlessSkipped     = 0x80147324; // func
 guess_GetPadPressed              = 0x80148800; // func
 guess_IsDirectionHeld            = 0x801488A8; // func
 guess_TransformPosByObjMatrix    = 0x80149374; // func

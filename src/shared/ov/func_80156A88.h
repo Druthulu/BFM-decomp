@@ -1,6 +1,6 @@
 /* func_80156A88 — shared body (overlay slot 0x80128158, h_exact b45520c9). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s32 func_8014CA88(s32 *a0, s32 a1);
 extern s32 func_8014CA14(s32 a0, s32 a1);
 extern s32 D_801150E0[];
@@ -23,7 +23,7 @@ void func_80156A88(s32 a0, s32 a1) {
     do {
         if (*s1 & 1) {
             if (s5 != 0) {
-                func_80147324(s3 & 0xFFFF);
+                guess_PlaySoundUnlessSkipped(s3 & 0xFFFF);
             } else if (s4 != 0) {
                 func_8014CA88((s32 *)*s0, s3);
             } else {

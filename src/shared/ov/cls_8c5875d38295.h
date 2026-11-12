@@ -6,7 +6,7 @@
         u8 *s0 = (u8 *)a0;
         s32 v0;
         s32 v1;
-        v0 = func_801399F0(((Unkstruct_8017F2C4 *)s0)->unk198);
+        v0 = guess_GetTextWindowResult(((Unkstruct_8017F2C4 *)s0)->unk198);
         if (v0 != 0) {
             func_80139914(((Unkstruct_8017F2C4 *)s0)->unk198);
             v1 = s0[0x214];

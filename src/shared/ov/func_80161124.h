@@ -10,7 +10,7 @@ extern s32 func_80149184(s32 a0);
 extern void func_801553A8(s32 *a0);
 extern s32 func_801725A4(u8 *a0);
 extern s32 func_80161A60(s32 a0);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s16 guess_g_CameraRelativeYaw;
 void func_80161124(void *a0)
 {
@@ -35,6 +35,6 @@ void func_80161124(void *a0)
     func_801553A8((s32 *)self);
     func_801725A4((u8 *)self);
     if (func_80161A60((s32)self) != 0) {
-        func_80147324(0x8E1);
+        guess_PlaySoundUnlessSkipped(0x8E1);
     }
 }

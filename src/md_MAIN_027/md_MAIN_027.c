@@ -130,8 +130,8 @@ extern s32 func_80161208();
 extern s32 func_80165A20(s32 a0);
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
-extern void func_80147324(s32 a0);
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 
 void func_800CB108(s32 a0) {
@@ -140,8 +140,8 @@ void func_800CB108(s32 a0) {
     } else if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
         guess_SetAnim(a0, 0x27);
         guess_SetTexAnim(a0, 0x1F);
-        func_801466F0(0xD, a0, 0, -0x40, 0, 0, 0, 0);
-        func_80147324(0x6E2);
+        guess_SpawnObject(0xD, a0, 0, -0x40, 0, 0, 0, 0);
+        guess_PlaySoundUnlessSkipped(0x6E2);
         guess_NextStep((void *)a0);
     }
 }

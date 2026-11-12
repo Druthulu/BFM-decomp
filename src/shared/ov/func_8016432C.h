@@ -4,7 +4,7 @@ extern void func_80164418();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_801553C0(s32 a0);
 extern void func_80147364(u16 param_1, u16 param_2);
-extern void func_80147324(s32 arg0);
+extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 void func_8016432C(s32 a0) {
     s32 s1 = a0;
@@ -28,7 +28,7 @@ void func_8016432C(s32 a0) {
         *(u32 *)(s0 + 0x44) = *(u32 *)(s0 + 0x44) & 0xFFFFFFFB;
         func_801553C0(s0);
         func_80147364(4, 0x449);
-        func_80147324(0x44B);
+        guess_PlaySoundUnlessSkipped(0x44B);
         ((void (*)(s32))func_80162CCC)(s1);
     }
 }

@@ -608,9 +608,9 @@ def _split_macro_body(body):
         if s.startswith("extern"):
             # A DECLARATION MAY WRAP ACROSS CONTINUATION LINES (P30 S47, byte-witnessed):
             #     extern void aF801466F0(u16 a0, …) \
-            #         __asm__("func_801466F0"); \
+            #         __asm__("guess_SpawnObject"); \
             # Taking one line as one declaration emitted the first half as a `;`-less extern AND
-            # then treated `__asm__("func_801466F0");` as THE DEFINITION HEADER — so the proto
+            # then treated `__asm__("guess_SpawnObject");` as THE DEFINITION HEADER — so the proto
             # generator produced `extern __asm__(""); void aF801466F0(…);` in all 22 regions that
             # hoist it. Accumulate until the statement actually terminates, testing the MASKED text
             # so a `;` inside a string or comment cannot end it early.

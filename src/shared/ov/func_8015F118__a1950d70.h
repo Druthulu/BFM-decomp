@@ -13,11 +13,11 @@ void func_8015F118(void *a0) {
         if (flag & 0x4000) {
             ((void (*)(s32))func_8014AB5C)(0x19);
             ((void (*)(s32))func_8014AB5C)(0x1D);
-            func_801466F0(0x19, (s32)a0, 0, 0, 0, 0, 0, 1);
-            func_801466F0(0x19, (s32)a0, 0, 0, 0, 1, 0, 1);
-            func_801466F0(0x1D, (s32)a0, 0, 0, 0, 0, 0, 1);
+            guess_SpawnObject(0x19, (s32)a0, 0, 0, 0, 0, 0, 1);
+            guess_SpawnObject(0x19, (s32)a0, 0, 0, 0, 1, 0, 1);
+            guess_SpawnObject(0x1D, (s32)a0, 0, 0, 0, 0, 0, 1);
             func_80019064(&D_80062BE8);
-            func_80147324(0x9DA);
+            guess_PlaySoundUnlessSkipped(0x9DA);
         }
         if (((s32 (*)(s32 *))func_80161208)(a0) == 0) {
             func_80155FF8((int)a0, *(u8 *)((u8 *)a0 + 0x1AA));

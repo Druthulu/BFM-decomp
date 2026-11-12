@@ -18,17 +18,17 @@ void func_800CCB28(s32 *param_1)
 }
 
 
-extern void func_80147324(s32 a0);
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 
 void func_800CCB78(void *a0) {
-    func_80147324(0x8DF);
-    func_801466F0(0x10, (s32)a0, 0, 0, 0, 0, 0, 0);
-    func_801466F0(0x11, (s32)a0, 0, 0, 0, 0, 0, 0);
-    func_801466F0(0x11, (s32)a0, 0, 0, 0, 1, 0, 0);
-    func_801466F0(0x11, (s32)a0, 0, 0, 0, 2, 0, 0);
+    guess_PlaySoundUnlessSkipped(0x8DF);
+    guess_SpawnObject(0x10, (s32)a0, 0, 0, 0, 0, 0, 0);
+    guess_SpawnObject(0x11, (s32)a0, 0, 0, 0, 0, 0, 0);
+    guess_SpawnObject(0x11, (s32)a0, 0, 0, 0, 1, 0, 0);
+    guess_SpawnObject(0x11, (s32)a0, 0, 0, 0, 2, 0, 0);
     ((Unkstruct_80126B58 *)a0)->unk1C8 = 0xFF;
     func_801599A4(a0);
     func_80159B3C(a0);

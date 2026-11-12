@@ -247,7 +247,7 @@ audit-frontier:
 # of `'\0'`) COMPILES — the fleet stayed byte-identical — but grep treats the file as BINARY and
 # reports nothing, silently, so the file vanishes from every grep-based audit and hand-search. The
 # byte-gate is structurally blind to it (R34: correct bytes, nothing to say). Found when a
-# `grep -rn func_8013C08C src/` came back empty for a function defined right there; a templated body
+# `grep -rn guess_InitPacketModel src/` came back empty for a function defined right there; a templated body
 # had then carried the NUL into 137 overlays in this same session. Its own oracle, fail-closed.
 # P33.5 task 13.5: regenerate everything derived from config/tool_dictionary.tsv — docs/tool-index.md, the kit's
 # tools/MANIFEST.md and the verbatim corpora (decomp-architect/corpus/tools + corpus/cookbook + corpus/record, the third added

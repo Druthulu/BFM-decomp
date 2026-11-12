@@ -1916,24 +1916,24 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
     ((struct Ent_801506A4 *)arg1)->unk5C |= 1;
     switch (mode) {
     case 0x31:
-        ((void(*)(int))func_80147324)(0x452);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
         ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_8018082C[((struct Ent_801506A4 *)arg1)->unk70]);
         ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_8018082C[((struct Ent_801506A4 *)arg1)->unk70]);
         break;
     case 0x32:
         if ((*(unsigned short*)&g_PlayerHp) != 0) {
-            ((void(*)(int))func_80147324)(0x452);
+            ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
             ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_80180834[((struct Ent_801506A4 *)arg1)->unk70], 1);
             ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_80180834[((struct Ent_801506A4 *)arg1)->unk70]);
         }
         break;
     case 0x33:
-        ((void(*)(int))func_80147324)(0x452);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
         func_80150820(((int)arg0), D_8018083C[((struct Ent_801506A4 *)arg1)->unk70]);
         break;
     case 0xC5:
     case 0x27B:
-        ((void(*)(int))func_80147324)(0x452);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
         func_8015086C(((int)arg0));
         break;
     }
@@ -2209,7 +2209,7 @@ extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern s32 func_801472C8(struct S *a0);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_ClearTiltVectors(s32 *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
@@ -2230,7 +2230,7 @@ void func_801520DC(s32 arg0)
     guess_ClearStoodOnActor(arg0);
     guess_ClearTiltVectors(arg0);
     func_80146A6C(0x10, arg0, ((Unkstruct_80126B58 *)arg0)->unk6, ((Unkstruct_80126B58 *)arg0)->unkA, (s32) ((Unkstruct_80126B58 *)arg0)->unkE, 0, 0);
-    func_80147324(0x441);
+    guess_PlaySoundUnlessSkipped(0x441);
     guess_NextStep(arg0);
 }
 
@@ -2269,7 +2269,7 @@ extern void func_80149020(s32 *a0);
 extern void func_8001382C(s32 a0, void *a1, void *a2);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
-extern void func_80147324(s32 arg0);
+extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void guess_NextStep(void *a0);
 
 extern u8 guess_g_RumblePatternFade[];
@@ -2300,7 +2300,7 @@ void func_801523F4(s32 arg0)
                   s2a, s0a);
     ((void (*)(s32, s32))guess_SetMoveVector)(arg0, s0a);
     ((void (*)(s32, s32))guess_SetVertSpeed)(arg0, *(s32 *)(s2a + 0xC));
-    func_80147324(0x451);
+    guess_PlaySoundUnlessSkipped(0x451);
     ((void (*)(s32))guess_NextStep)(arg0);
     (void)pad;
 }
@@ -2338,7 +2338,7 @@ extern void (*D_80180958[])(void);
 extern void func_80019064(void *a0);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_ClearTiltVectors(s32 *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
@@ -2355,7 +2355,7 @@ void func_801528B0(s32 arg0)
     func_80151204(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     func_80149020(arg0);
     guess_SetAnimScript(arg0, &D_800D5880);
-    func_80147324(0x451);
+    guess_PlaySoundUnlessSkipped(0x451);
     ((Unkstruct_80126B58 *)arg0)->unkDE = 0x10;
     guess_SetMoveVector(arg0, &D_80180948);
     guess_SetVertSpeed(arg0, 0xFFF00000);
@@ -2403,7 +2403,7 @@ extern void (*D_80180988[])(void);
 extern void func_80019064(void *a0);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_ClearTiltVectors(s32 *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
@@ -2420,7 +2420,7 @@ void func_80152DA8(s32 arg0)
     func_80151204(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     func_80149020(arg0);
     guess_SetAnimScript(arg0, &D_800D5880);
-    func_80147324(0x451);
+    guess_PlaySoundUnlessSkipped(0x451);
     ((Unkstruct_80126B58 *)arg0)->unkDE = 0x10;
     ((Unkstruct_80126B58 *)arg0)->unkDF = 8;
     guess_SetMoveVector(arg0, &D_80180978);
@@ -2536,7 +2536,7 @@ void func_80153CCC(S80153CCC *a0) {
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (33/33)
 
-extern void func_80147324(s32 arg0);
+extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void guess_NextStep(void *a0);
@@ -2545,7 +2545,7 @@ extern u8 D_801809CC;
 
 void func_80153D7C(s32 param_1)
 {
-    func_80147324(0x451);
+    guess_PlaySoundUnlessSkipped(0x451);
     guess_SetAnimScript((s32 *)param_1, (s32)&D_801809CC);
     func_80149020((s32 *)param_1);
     CAST_ALIAS(u16, param_1, 0x244) = CAST_SIGN(u16, param_1, 6);

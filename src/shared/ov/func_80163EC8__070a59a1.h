@@ -89,7 +89,7 @@ void func_80163EC8(s32 param_1)
             buf[3] = 0;
             uVar4 = func_80156370(0xe);
             func_8014C4AC(iVar7, 0xe, uVar4, buf, *((s16 *) (iVar8 + 0x12)));
-            func_80146994(0x33, param_1, 0, iVar7);
+            guess_SpawnSmallObjectAtOrigin(0x33, param_1, 0, iVar7);
         }
     }
     else
@@ -119,7 +119,7 @@ void func_80163EC8(s32 param_1)
     }
     guess_SetWaitTimer_2((s32 *) param_1, 0x20);
     *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
-    func_80147324(0x449);
+    guess_PlaySoundUnlessSkipped(0x449);
     guess_NextStep((void *) param_1);
     guess_NextStep((void *) param_1);
     LAB_end:

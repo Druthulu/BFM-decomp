@@ -10,7 +10,7 @@ void func_80158FA4(s32 param_1)
     if (((s32 (*)(void))guess_GetPadPressed)() & 0xf0) {
         D_8018E860 = 1;
     }
-    if (func_801399F0(*(s32 *)(param_1 + 0x198)) != 0) {
+    if (guess_GetTextWindowResult(*(s32 *)(param_1 + 0x198)) != 0) {
         func_80139914(*(s32 *)(param_1 + 0x198));
         *(s32 *)(param_1 + 0x198) = 0;
         sVar1 = ((s32 (*)(s32))func_80159464)(param_1);

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u16 guess_GetPadHeld(s32 *a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 void func_80158CD8(s32 *a0) {
     s32 i = 1;
@@ -11,7 +11,7 @@ void func_80158CD8(s32 *a0) {
     }
     while (i > 0) {
         if (guess_TickWaitTimer_2((s32)a0)) {
-            func_80147324(0x453);
+            guess_PlaySoundUnlessSkipped(0x453);
             *(s32 *)((s32)a0 + 0x238) = 0x5B0000;
             guess_NextStep((void *)a0);
             i = 0;

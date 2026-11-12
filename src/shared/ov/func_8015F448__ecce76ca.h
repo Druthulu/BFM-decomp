@@ -13,7 +13,7 @@ void func_8015F448(s32 arg0) {
         (((s32 (*)(s32))guess_IsConfirmPressed)(arg0) != 0)) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
         *(u8 *)(arg0 + 0x1BE) = 0xA;
-        ((void (*)(s32))func_80149724)(arg0);
+        ((void (*)(s32))guess_EnterJumpStateAndLaunch)(arg0);
         ((void (*)(s32, s32))guess_SetVertSpeed)(arg0, 0);
         return;
     }
@@ -33,10 +33,10 @@ void func_8015F448(s32 arg0) {
     if (*(u16 *)(arg0 + 0xB8) & 0x3000) {
         if (*(u16 *)(arg0 + 0xB8) & 0x2000) {
             ((void (*)(void *, void *))func_801484B0)(sp20, sp28);
-            func_80147324(0x56D);
+            guess_PlaySoundUnlessSkipped(0x56D);
         } else {
             ((void (*)(void *, void *))func_80148534)(sp20, sp28);
-            func_80147324(0x56E);
+            guess_PlaySoundUnlessSkipped(0x56E);
         }
         ((void (*)(s32 *))func_80019064)(&(*(s32 *)&guess_g_RumblePatternShort));
         ((void (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x25, arg0, *(s16 *)(arg0 + 6),
@@ -61,7 +61,7 @@ void func_8015F448(s32 arg0) {
         *(u16 *)(arg0 + 0x246) = *(u16 *)(arg0 + 6);
         *(u16 *)(arg0 + 0x248) = *(u16 *)(arg0 + 0xA);
         *(u16 *)(arg0 + 0x24A) = *(u16 *)(arg0 + 0xE);
-        func_80147A84(arg0);
+        guess_SetVelocityFromMoveVector(arg0);
         ((void (*)(s32))guess_ApplyVelocity)(arg0);
         if (((s32 (*)(s32))func_8014F1F4)(arg0) != 0) {
             *(u16 *)(arg0 + 6) = *(u16 *)(arg0 + 0x246);
@@ -73,7 +73,7 @@ void func_8015F448(s32 arg0) {
     if (((s32 (*)(s32))func_8014FCFC)(arg0) == 0) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
         *(u8 *)(arg0 + 0x1BE) = 0xA;
-        ((void (*)(s32))func_80149724)(arg0);
+        ((void (*)(s32))guess_EnterJumpStateAndLaunch)(arg0);
         ((void (*)(s32, s32))guess_SetVertSpeed)(arg0, 0xFFE80000);
         ((void (*)(s32, s32 *))guess_SetMoveVector)(arg0, &D_8018148C);
         ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 0x10);

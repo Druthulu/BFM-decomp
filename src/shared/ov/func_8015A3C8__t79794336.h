@@ -55,14 +55,14 @@ s32 arg0;
     case 1:
     case 2:
     case 6:
-        if (((s32 (*)(s32))func_80149AA8)(arg0) != 0) {
+        if (((s32 (*)(s32))guess_IsSquarePressed)(arg0) != 0) {
             D_80181160[*(u16 *)arg0]((void *)arg0);
-            ((void (*)(s32))func_80149AD4)(arg0);
+            ((void (*)(s32))guess_StartSquareAction)(arg0);
             return;
         }
-        if (((s32 (*)(s32))func_80149B54)(arg0) != 0) {
+        if (((s32 (*)(s32))guess_IsTrianglePressed)(arg0) != 0) {
             D_80181160[*(u16 *)arg0]((void *)arg0);
-            ((void (*)(s32))func_80149BAC)(arg0);
+            ((void (*)(s32))guess_StartTriangleAction)(arg0);
             return;
         }
         break;
@@ -73,7 +73,7 @@ s32 arg0;
         ((void (*)(s32))func_80149954)(arg0);
         break;
     case 5:
-        if (((s32 (*)(s32))func_80149A64)(arg0) != 0) {
+        if (((s32 (*)(s32))guess_IsSquareOrTrianglePressed)(arg0) != 0) {
             D_80181160[*(u16 *)arg0]((void *)arg0);
             ((void (*)(s32))func_800CCCC0)(arg0);
             return;
@@ -88,13 +88,13 @@ s32 arg0;
     }
     if (((s32 (*)(s32))guess_IsConfirmPressed)(arg0) != 0) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
-        ((void (*)(s32))func_80149704)(arg0);
+        ((void (*)(s32))guess_EnterJumpState)(arg0);
         return;
     }
     if (((s32 (*)(s32))guess_IsDirectionHeld)(arg0) == 0) {
         sv = *(s32 *)(arg0 + 0x2C);
         D_80181160[*(u16 *)arg0]((void *)arg0);
-        func_8014C010(arg0, 1);
+        guess_SpawnSmallObjectType2(arg0, 1);
         ((void (*)(s32, s32))guess_SetState)(arg0, 0);
         ((void (*)(s32))func_80159B70)(arg0);
         if (func_8015ABD4(arg0, sv, min) != 0) {
@@ -110,11 +110,11 @@ s32 arg0;
             guess_SetTexAnim(arg0, 0x1C);
         }
         ((void (*)(s32, s32))guess_SetMoveVector)(arg0, (s32)&(*(s32 *)&D_801810E4));
-        func_80147AD4(arg0, 0, 0, 0);
+        guess_AddMoveVectorThenSetVelocity(arg0, 0, 0, 0);
     } else {
         switch (*(u8 *)(arg0 + 0xA9)) {
         case 0x41:
-            func_80147AD4(arg0, 0, 0, grav);
+            guess_AddMoveVectorThenSetVelocity(arg0, 0, 0, grav);
             if (*(s32 *)(arg0 + 0x23C) == 0) {
                 if (((s32 (*)(s32))guess_GetPadHeld)(arg0) & 4) {
                     if (*(s32 *)(arg0 + 0x2C) < -0x40000) {
@@ -169,7 +169,7 @@ s32 arg0;
             if (*(s32 *)(arg0 + 0x2C) >= hi) {
                 *(s32 *)(arg0 + 0x2C) = hi;
             }
-            func_80147A84(arg0);
+            guess_SetVelocityFromMoveVector(arg0);
             if (*(s32 *)(arg0 + 0x23C) == 0) {
                 lo2 = -0x94000;
                 t = *(s32 *)(arg0 + 0x2C);
@@ -187,7 +187,7 @@ s32 arg0;
 
     ((void (*)(s32))guess_ApplyVelocity)(arg0);
     if ((min >= *(s32 *)(arg0 + 0x2C)) && !(guess_g_FrameCounter & 7)) {
-        func_8014C010(arg0, 2);
+        guess_SpawnSmallObjectType2(arg0, 2);
     }
     if (((s32 (*)(s32))func_8014D738)(arg0) != 0) {
         D_80181160[*(u16 *)arg0]((void *)arg0);

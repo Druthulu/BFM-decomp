@@ -40,27 +40,27 @@ L_648:
         else
             *(unsigned char *)(((int)param_1) + 0x1aa) = 1;
         ((void(*)(int *, int))guess_SetAnimScript)((int *)((int)param_1), (int)&D_800D4C94);
-        ((void(*)(int))func_80147324)(0x400);
-        ((void(*)(unsigned short))func_80147300)(0x5f3);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x400);
+        ((void(*)(unsigned short))guess_PlaySound)(0x5f3);
         s1 = 0;
         D_8011F730 |= 3;
         guess_NextStep((void *)((int)param_1));
         goto L_7b8;
     case 2:
         ((void(*)(int *, int))guess_SetAnimScript)((int *)((int)param_1), (int)&D_800D4CE4);
-        ((void(*)(int))func_80147324)(0x446);
-        ((void(*)(unsigned short))func_80147300)(0x5f3);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x446);
+        ((void(*)(unsigned short))guess_PlaySound)(0x5f3);
         s1 = 1;
         goto L_575c;
     case 3:
         ((void(*)(int *, int))guess_SetAnimScript)((int *)((int)param_1), (int)&D_800D4D38);
-        ((void(*)(int))func_80147324)(0x400);
-        ((void(*)(unsigned short))func_80147300)(0x5f3);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x400);
+        ((void(*)(unsigned short))guess_PlaySound)(0x5f3);
         s1 = 2;
         goto L_575c;
     case 4:
         ((void(*)(int *, int))guess_SetAnimScript)((int *)((int)param_1), (int)&D_800D4D88);
-        ((void(*)(unsigned short))func_80147300)(0x5f6);
+        ((void(*)(unsigned short))guess_PlaySound)(0x5f6);
         s1 = 3;
         guess_NextStep((void *)((int)param_1));
 L_575c:
@@ -72,8 +72,8 @@ L_575c:
         uVar4 = 7;
         goto L_7b0;
     case 7:
-        ((void(*)(int))func_80147324)(0x7f);
-        ((void(*)(unsigned short))func_80147300)(0x5f4);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x7f);
+        ((void(*)(unsigned short))guess_PlaySound)(0x5f4);
         ((void(*)(int *, int))guess_SetAnimScript)((int *)((int)param_1), (int)&D_800D4E6C);
         s1 = 6;
         uVar4 = 8;
@@ -87,7 +87,7 @@ L_7b8:
     ((void(*)(int *, int))guess_SetWaitTimer_2)((int *)((int)param_1), 0);
     func_80156648((int *)((int)param_1));
     if (s1 >= 0) {
-        ((int(*)(int, int, int, int))func_80146994)(4, ((int)param_1), s1, 0);
+        ((int(*)(int, int, int, int))guess_SpawnSmallObjectAtOrigin)(4, ((int)param_1), s1, 0);
     }
     ((void(*)(int *))func_801553A8)((int *)((int)param_1));
 }

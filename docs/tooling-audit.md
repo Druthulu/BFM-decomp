@@ -311,10 +311,10 @@ strip_or_mark already does the right thing with the captured name (strip if iden
 - **evidence:** Very nearly clean — 22,470 of 22,481 candidate callee-extern lines parse (99.95%). The only gap is a WRAPPED PARAMETER LIST: the regex's param group is `([^;\n]*)`, which forbids a newline, so an extern whose params wrap across lines never matches and is therefore never stripped, never block-scope-moved, and never call-site cast — it is emitted verbatim at TU file scope.
   .run/drafts-T6b/func_80157158.c:1     extern void func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3,
   .run/drafts-recov/func_80156670.c:12  extern void func_80157158(s32 a0, u16 a1, u16 a2, s32 a3,
-  .run/drafts-ov077/func_801466B4.c:1   extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
-  .run/drafts-wave/func_8015F118.c:11   extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
+  .run/drafts-ov077/func_801466B4.c:1   extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
+  .run/drafts-wave/func_8015F118.c:11   extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
 All 11 are 7+-arg callees, i.e. the ones a drafter is most likely to line-wrap. If the TU's canonical sig for that callee differs, the verbatim extern is a `conflicting types`.
-- **blast radius:** LOST MATCHES, small. 11 draft lines across ~6 functions (func_801571C4, func_80157158, func_801466F0). Real but rare — it only bites on wide-signature callees. Worth fixing in the same pass since it is a two-character change.
+- **blast radius:** LOST MATCHES, small. 11 draft lines across ~6 functions (func_801571C4, func_80157158, guess_SpawnObject). Real but rare — it only bites on wide-signature callees. Worth fixing in the same pass since it is a two-character change.
 - **fix:** Change the param group in _FN_EXTERN_RE from `([^;\n]*)` to `([^;]*)` and add re.S is NOT needed (the class already spans lines once \n is allowed); the trailing `[ \t]*\n` anchor still terminates the match at the real end of the decl:
   _FN_EXTERN_RE = re.compile(
       r'^[ \t]*extern\s+([^;\n]*?)\b([A-Za-z_]\w*)\s*\(([^;]*)\)\s*;[ \t]*(?:/\*[^\n]*\*/)?[ \t]*\n', re.M)
@@ -1118,7 +1118,7 @@ Verdict: CONFIRMED at HIGH. Counts hold, the gap is real skips not exclusions, t
   `extern S801563EC * func_801563EC(u16 idx);` (x808 — a PROTOTYPE with a file-local return type)
   `extern uint * func_80177EA4(uint *param_1, int param_2, uint param_3, int param_4);` (x139)
   `extern SV4 D_8018F514;` (x268, 254 distinct), `extern S16 D_8018DA80;` (x134, 127 distinct), `extern B8 D_80128120[];` (x808)
-Plus 5 MULTI-LINE col-0 decls that a line-based scan can never see at all, e.g. src/ov_SC01_077/ov_SC01_077.c: `extern unsigned char D_801DA9B8, D_801DA9B9, D_801DA9BA, D_801DA9BB, D_801DA9BC,` (continues on the next line) and src/ov_SC01_077/ov_SC01_077_after.c: `extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,`.
+Plus 5 MULTI-LINE col-0 decls that a line-based scan can never see at all, e.g. src/ov_SC01_077/ov_SC01_077.c: `extern unsigned char D_801DA9B8, D_801DA9B9, D_801DA9BA, D_801DA9BB, D_801DA9BC,` (continues on the next line) and src/ov_SC01_077/ov_SC01_077_after.c: `extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,`.
 
 THE CODE CONTRADICTS ITS OWN COMMENT. jr_isolate_all.py:296-298 says: "one naming a FILE-LOCAL type is only safe once that type is carried too — which `file_scope_types()` now does, so such decls ride along after their typedef". They do NOT ride along: line 336 still ANDs `_SAFE_TYPE` in and drops them.
 

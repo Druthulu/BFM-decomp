@@ -1,5 +1,7 @@
 // config/symbols.md_MAIN_042.txt — module md_MAIN_042 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CCB1C..0x800CCD98); NEVER merged into config/symbols.us.txt.
-// count=1
+// count=3
 
+guess_SpawnSmallObjectAtOrigin   = 0x80146994; // func
+guess_PlaySoundUnlessSkipped     = 0x80147324; // func
 guess_SetAnimScript              = 0x80154274; // func

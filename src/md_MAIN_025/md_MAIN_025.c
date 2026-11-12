@@ -91,14 +91,14 @@ void func_800CB028(s32 param_1) {
 }
 
 
-extern void func_801466F0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-extern void func_80147324(s32 arg0);
+extern void guess_SpawnObject(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
+extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 
 void func_800CB068(void *a0) {
     u16 bits = ((Unkstruct_800CB068 *)a0)->unkB8;
     if (bits & 0x4000) {
-        func_801466F0(10, (s32)a0, 0, 0, 0, ((Unkstruct_800CB068 *)a0)->unkBE, 0, 0);
-        func_80147324(0x649);
+        guess_SpawnObject(10, (s32)a0, 0, 0, 0, ((Unkstruct_800CB068 *)a0)->unkBE, 0, 0);
+        guess_PlaySoundUnlessSkipped(0x649);
     } else if (bits & 0x8000) {
         ((Unkstruct_800CB068 *)a0)->unk197 += 1;
     }
@@ -240,7 +240,7 @@ void func_800CB300(s32 arg0) {
     extern s32 func_8016380C(s32 a0, s32 a1);
     extern void guess_SetWaitTimer_2(s32 *a0, s16 a1);
     extern void func_80147364(u16 a0, s32 a1);
-    extern void func_80147324(s32 arg0);
+    extern void guess_PlaySoundUnlessSkipped(s32 arg0);
     extern void guess_NextStep(void *a0);
 
     s32 mat[8];
@@ -331,7 +331,7 @@ void func_800CB300(s32 arg0) {
                   ((Unkstruct_800CB300_2 *)s1)->unkE, 0, 0);
     guess_SetWaitTimer_2((s32 *)s1, 0x1E);
     func_80147364(4, 0x649);
-    func_80147324(0x441);
+    guess_PlaySoundUnlessSkipped(0x441);
     guess_NextStep((void *)s1);
 L6A8:
     guess_NextStep((void *)s1);
@@ -370,7 +370,7 @@ void func_800CB758(void *a0) {
 
 void func_800CB760(void *a0, s16 a1) {
     if (((Unkstruct_800B5CB8 *)a0)->unk60 != a1) {
-        func_80147324((u16)a1);
+        guess_PlaySoundUnlessSkipped((u16)a1);
         ((Unkstruct_800B5CB8 *)a0)->unk60 = a1;
     }
 }

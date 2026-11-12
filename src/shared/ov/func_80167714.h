@@ -1,7 +1,7 @@
 /* func_80167714 — shared body (overlay slot 0x80128158, h_exact a7f0e3d6). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
-extern void func_80147324(s32 arg0);
+extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 rand(void);
 void func_80167714(s32 param_1) {
@@ -35,7 +35,7 @@ LAB_801677b0:
     uVar4 = *(u32 *)(param_1 + 0x2c);
     *(u32 *)(param_1 + 0x2c) = uVar4 + 1;
     if ((uVar4 & 0xf) == 0) {
-        func_80147324(0x44e);
+        guess_PlaySoundUnlessSkipped(0x44e);
     }
     src = *(s32 *)((s32)psVar7 + 0x20);
     *(Blk16 *)(param_1 + 0x38) = *(Blk16 *)(src + 0x34);

@@ -49,13 +49,13 @@ void func_800CAEE0(u8* a0)
 }
 
 
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 
 void func_800CAF4C(void *a0) {
-    func_801466F0(0x22, (s32)a0, 0, 0, 0, 0, 0, 0);
-    func_801466F0(0x22, (s32)a0, 0, 0, 0, 1, 0, 0);
+    guess_SpawnObject(0x22, (s32)a0, 0, 0, 0, 0, 0, 0);
+    guess_SpawnObject(0x22, (s32)a0, 0, 0, 0, 1, 0, 0);
     func_801599A4(a0);
     func_80159B3C(a0);
 }
@@ -117,7 +117,7 @@ void func_800CB030(s32 param_1) {
 }
 
 
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 
 void func_800CB11C(u8 *arg0) {
@@ -139,7 +139,7 @@ void func_800CB11C(u8 *arg0) {
         ((Unkstruct_80126B58 *)arg0)->unkA = cur;
         if (CAST_SIGN(s16, arg0, 0x62) == 0) {
             ((Unkstruct_80126B58 *)arg0)->unk62 = CAST_SIGN(s16, arg0, 0x62) + 1;
-            func_80147324(0x8EC);
+            guess_PlaySoundUnlessSkipped(0x8EC);
         }
 
         val = *(u16 *)(s1 + 0x1A);
@@ -179,7 +179,7 @@ extern s32 func_80012DBC(s32, s32, s32, s32);
 extern u16 guess_GetPadPressed(s32 *);
 extern s32 guess_TickWaitTimer_2(s32);
 extern void guess_SetWaitTimer_2(s32 *, s32);
-extern void func_80147324(s32);
+extern void guess_PlaySoundUnlessSkipped(s32);
 extern void guess_NextStep(void *);
 extern int rand(void);
 
@@ -220,7 +220,7 @@ void func_800CB218(void *arg0) {
         D_800CC136 = 0x80;
         *evt = 0x80;
         guess_SetWaitTimer_2((s32 *)arg0, 0);
-        func_80147324(0x8ED);
+        guess_PlaySoundUnlessSkipped(0x8ED);
         guess_NextStep(arg0);
     }
 }
@@ -229,7 +229,7 @@ void func_800CB218(void *arg0) {
 void func_800CB3B4(void *arg0) {
     extern s32 func_8004787C(s32);
     extern void guess_SetWaitTimer_2(s32 *, s32);
-    extern void func_80147324(s32);
+    extern void guess_PlaySoundUnlessSkipped(s32);
     extern void guess_NextStep(void *);
     extern s16 D_800CC134;
     extern s16 D_800CC136;
@@ -287,7 +287,7 @@ void func_800CB3B4(void *arg0) {
     func_800CB794((s32)arg0);
     guess_SetWaitTimer_2((s32 *)arg0, 0x1E);
     func_80147364(4, 0x8ED);
-    func_80147324(0x8EE);
+    guess_PlaySoundUnlessSkipped(0x8EE);
     func_801659B8();
     guess_NextStep(arg0);
 }

@@ -3,7 +3,7 @@
 void func_80161C98(int param_1, u32 param_2)
 {
     if (param_2 < 8) {
-        func_80147324(D_80181D50[param_2]);
+        guess_PlaySoundUnlessSkipped(D_80181D50[param_2]);
     }
     return;
 }

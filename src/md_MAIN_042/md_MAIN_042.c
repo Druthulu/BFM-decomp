@@ -2,9 +2,9 @@
 
 extern u8 D_800D5360[];
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
-extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80156648(s32 *a0);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_80149020(s32 *a0);
 
 void func_800CCB20(s32 a0)
@@ -23,9 +23,9 @@ void func_800CCB20(s32 a0)
     ((Unkstruct_800CCB20 *)s0)->unk248 = 0x100;
     ((Unkstruct_800CCB20 *)s0)->unk23C = 0;
     ((Unkstruct_800CCB20 *)s0)->unk244 = v1;
-    func_80146994(5, s0, 8, 0);
+    guess_SpawnSmallObjectAtOrigin(5, s0, 8, 0);
     func_80156648((s32 *)s0);
-    func_80147324(0x450);
+    guess_PlaySoundUnlessSkipped(0x450);
     func_80149020((s32 *)s0);
 }
 

@@ -3,5 +3,5 @@
  * rank 1 src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:2818 rejected by ov_SC03_102 */
 extern char D_80189BE0;
 void SHARED_FN(void) {
-    ((void (*)(void *, s32))func_8016EE40)(&D_80189BE0, 0x1000000);
+    ((void (*)(void *, s32))guess_ReturnPlayerToStandingState)(&D_80189BE0, 0x1000000);
 }

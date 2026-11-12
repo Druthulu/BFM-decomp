@@ -101,7 +101,7 @@ void func_800CB034(void *a0) {
     extern void guess_SetAnimScript(s32 *a0, s32 a1);
     extern s32 func_80148AFC(void *a0);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80147A84(s32 a0);
+    extern void guess_SetVelocityFromMoveVector(s32 a0);
     extern void guess_ApplyVelocity(s32 *a0);
     extern void guess_AddVertSpeed(s32 a0, s32 a1);
     extern void guess_ApplyVertSpeed(s32 a0);
@@ -126,7 +126,7 @@ void func_800CB034(void *a0) {
     } else {
         func_80146DE8((s32 *)s0, 0, 0, 0);
     }
-    func_80147A84(s0);
+    guess_SetVelocityFromMoveVector(s0);
     guess_ApplyVelocity((s32 *)s0);
     guess_AddVertSpeed(s0, 0x30000);
     guess_ApplyVertSpeed(s0);
@@ -160,8 +160,8 @@ s32 func_800CB17C(struct S *a0) {
     extern void func_8012A304(s32 a0, s32 a1);
     extern void guess_SetVertSpeed(s32 a0, s32 a1);
     extern void guess_SetAnimScript(s32 *a0, s32 a1);
-    extern void func_80147324(s32 a0);
-    extern void func_8014C010(s32 a0, s32 a1);
+    extern void guess_PlaySoundUnlessSkipped(s32 a0);
+    extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
     extern void guess_SaveGroundedPos(s32 a0);
     extern void func_80019064(void *a0);
     extern s32 D_800CB1F4[];
@@ -171,8 +171,8 @@ s32 func_800CB17C(struct S *a0) {
     func_8012A304(*(s16 *)(s0 + 0xA), 0x80);
     guess_SetVertSpeed(s0, 0xFFE80000);
     guess_SetAnimScript((s32 *)s0, (s32)D_800CB1F4);
-    func_80147324(0x47A);
-    func_8014C010(s0, 2);
+    guess_PlaySoundUnlessSkipped(0x47A);
+    guess_SpawnSmallObjectType2(s0, 2);
     guess_SaveGroundedPos(s0);
     func_80019064(guess_g_RumblePatternShort);
 }

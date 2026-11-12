@@ -30,15 +30,15 @@ void func_800CAEB0(void *a0) {
 
 
 extern void func_8014B2F8(void);
-extern s32 func_80146994(s32, s32, s32, s32);
-extern void func_80147324(s32 arg0);
+extern s32 guess_SpawnSmallObjectAtOrigin(s32, s32, s32, s32);
+extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 
 void func_800CAEE8(void *a0) {
     func_8014B2F8();
-    func_80146994(0x41, (s32)a0, 0, 0);
-    func_80147324(0x836);
+    guess_SpawnSmallObjectAtOrigin(0x41, (s32)a0, 0, 0);
+    guess_PlaySoundUnlessSkipped(0x836);
     func_801599A4(a0);
     func_80159B3C(a0);
 }
@@ -86,8 +86,8 @@ void func_800CAFE8(void) {
     }
 
 
-extern void func_80147324(s32 a0);
-extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
+extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C050(s32 a0, s32 a1);
 extern s32 func_8014C088(s32 a0, s32 a1);
 extern void guess_NextStep(s32 a0);
@@ -100,8 +100,8 @@ void func_800CB03C(s32 *a0) {
         do { flag = 1; } while (0);
     }
     if (!flag) {
-        func_80146994(0x41, (s32)a0, 0, 0);
-        func_80147324(0x836);
+        guess_SpawnSmallObjectAtOrigin(0x41, (s32)a0, 0, 0);
+        guess_PlaySoundUnlessSkipped(0x836);
         guess_NextStep((s32)a0);
     }
 }

@@ -29,20 +29,20 @@ extern void func_800CAEC0(void *arg0);
 void func_800CAEC0(void *arg0) {
     extern s32 func_80165910(void);
     extern void func_801655E4(s32 arg0);
-    extern void func_80147324(s32 arg0);
+    extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 
     if (func_80165910() == 0) {
         func_801655E4((s32)arg0);
-        func_80147324(0x7B8);
+        guess_PlaySoundUnlessSkipped(0x7B8);
     }
     *(u8 *)((s32)arg0 + 0x197) += 1;
 }
 
 
-extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
+extern void guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
 
 void func_800CAF10(void *arg0) {
-    func_801466F0(0xB, (s32)arg0, 0, 0, 0, 0, 0, 0);
+    guess_SpawnObject(0xB, (s32)arg0, 0, 0, 0, 0, 0, 0);
     *(u8 *)((s32)arg0 + 0xBE) = 0;
     *(u8 *)((s32)arg0 + 0x197) += 1;
 }
@@ -51,8 +51,8 @@ void func_800CAF10(void *arg0) {
 void func_800CAF68(void *arg0) {
     extern u8 guess_g_PlayerRecord[];
     extern s32 func_8014C088(s32 a0, s32 a1);
-    extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
-    extern void func_80147324(s32 arg0);
+    extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+    extern void guess_PlaySoundUnlessSkipped(s32 arg0);
     extern void func_800CB098(void *a0);
     u8 *p = guess_g_PlayerRecord;
 
@@ -60,8 +60,8 @@ void func_800CAF68(void *arg0) {
         func_800CB098(arg0);
     }
     if (*(s32 *)(p + 0x50) == 0) {
-        func_801466F0(0xB, (s32)arg0, 0, 0, 0, 1, 0, 0);
-        func_80147324(0x7DE);
+        guess_SpawnObject(0xB, (s32)arg0, 0, 0, 0, 1, 0, 0);
+        guess_PlaySoundUnlessSkipped(0x7DE);
         ((Unkstruct_800CAF68 *)arg0)->unkBE = 0;
         ((Unkstruct_800CAF68 *)arg0)->unk197 += 1;
     }
@@ -139,7 +139,7 @@ void func_800CB134(void *arg0) {
 
 void func_800CB190(void *arg0) {
     extern void func_800CB5F4(s32 a0);
-    extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
+    extern void guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
     extern void guess_SetWaitTimer_2(s32 *, s32);
     extern void guess_NextStep(void *);
     extern s32 rand();
@@ -150,11 +150,11 @@ void func_800CB190(void *arg0) {
     func_800CB5F4(arg0);
     if (((Unkstruct_80126B58 *)arg0)->unk50 == 0) {
         color = (rand() & 0xF) << 8;
-        func_801466F0(0xC, arg0, 0, 0, 0, color, 0, 0);
+        guess_SpawnObject(0xC, arg0, 0, 0, 0, color, 0, 0);
         tmp = color + 0x555;
-        func_801466F0(0xC, arg0, 0, 0, 0, tmp, 0, 0);
+        guess_SpawnObject(0xC, arg0, 0, 0, 0, tmp, 0, 0);
         tmp = color + 0xAAA;
-        func_801466F0(0xC, arg0, 0, 0, 0, tmp, 0, 0);
+        guess_SpawnObject(0xC, arg0, 0, 0, 0, tmp, 0, 0);
         guess_SetWaitTimer_2((s32 *)arg0, 8);
     } else {
         guess_SetWaitTimer_2((s32 *)arg0, 0);

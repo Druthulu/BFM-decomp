@@ -1036,7 +1036,7 @@ typedef struct {
     unsigned long z20;       /* +0x20 */
     unsigned long color;     /* +0x24 */
 } Prim_8016B6BC;
-/* S33: lifted from ov_SC01_077_after.c so func_801466F0 can propagate (the §100 draft-local-type
+/* S33: lifted from ov_SC01_077_after.c so guess_SpawnObject can propagate (the §100 draft-local-type
  * blocker). Layout read off the already-matched callee DEFINE_func_8014680C (§71 sibling-first):
  * it takes `short *` and touches +0x00/02/04/06 as halfwords and +0x08/0C/10 as words. */
 typedef struct {

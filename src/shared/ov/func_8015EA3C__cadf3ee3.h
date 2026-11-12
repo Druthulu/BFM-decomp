@@ -24,7 +24,7 @@ Lcase1:
     func_80175150(arg0);
     return;
 Lcase2:
-    func_8016EE40(*(s32 *)((u8 *)arg0 + 0x21C), 0x01000000);
+    guess_ReturnPlayerToStandingState(*(s32 *)((u8 *)arg0 + 0x21C), 0x01000000);
     return;
 Ldefault:
     if (((s32 (*)(void *))func_80149744)(arg0) != 0) {
@@ -40,14 +40,14 @@ Ldefault:
         ((void (*)(void *))func_8014A4FC)(arg0);
         return;
     }
-    if (((s32 (*)(void *))func_80149AA8)(arg0) != 0) {
+    if (((s32 (*)(void *))guess_IsSquarePressed)(arg0) != 0) {
         D_80181914[*(u16 *)arg0](arg0);
-        ((void (*)(void *))func_80149AD4)(arg0);
+        ((void (*)(void *))guess_StartSquareAction)(arg0);
         return;
     }
-    if (((s32 (*)(void *))func_80149B54)(arg0) != 0) {
+    if (((s32 (*)(void *))guess_IsTrianglePressed)(arg0) != 0) {
         D_80181914[*(u16 *)arg0](arg0);
-        ((void (*)(void *))func_80149BAC)(arg0);
+        ((void (*)(void *))guess_StartTriangleAction)(arg0);
         return;
     }
     if (func_800CF8B4() != 0) {
@@ -62,7 +62,7 @@ Ldefault:
         invec[2] = 0xFFFC0000;
         func_8001382C((s16)d, invec, outbuf);
         ((void (*)(void *, void *))guess_SetMoveVector)(arg0, outbuf);
-        ((void (*)(void *))func_80147A84)(arg0);
+        ((void (*)(void *))guess_SetVelocityFromMoveVector)(arg0);
         ((void (*)(void *))guess_ApplyVelocity)(arg0);
         ((void (*)(void *, s32))guess_SetAnim)(arg0, 0x1E);
     } else {

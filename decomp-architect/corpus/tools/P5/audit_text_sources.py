@@ -7,7 +7,7 @@ RAW NUL byte inside a character literal — the source read `== '<NUL>'` where i
 `file(1)` classified it as `data`, and **grep treats a file containing NUL as BINARY and reports
 nothing** — silently. So:
 
-  * `grep -rn func_8013C08C src/` found NOTHING, for a function that is defined right there;
+  * `grep -rn guess_InitPacketModel src/` found NOTHING, for a function that is defined right there;
   * every grep-based audit or hand-search over `src/` skipped the whole file, invisibly;
   * an investigation into "why does this family not propagate" burned real time chasing a
     phantom missing function before `file` gave it away.

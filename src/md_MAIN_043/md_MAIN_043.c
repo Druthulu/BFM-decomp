@@ -33,7 +33,7 @@ void func_800CCBCC(s32 a0)
 {
     extern void guess_AddVertSpeed(s32 a0, s32 a1);
     extern void guess_ApplyVertSpeed(s32 a0);
-    extern void func_80147AD4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    extern void guess_AddMoveVectorThenSetVelocity(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     extern void guess_ApplyVelocity(s32 *a0);
     extern void func_8014ED28();
     extern void guess_ClearMoveVector(s32 a0);
@@ -47,7 +47,7 @@ void func_800CCBCC(s32 a0)
 
     guess_AddVertSpeed(a0, 0x1A000);
     guess_ApplyVertSpeed(a0);
-    func_80147AD4(a0, 0, 0, 0);
+    guess_AddMoveVectorThenSetVelocity(a0, 0, 0, 0);
     guess_ApplyVelocity((s32 *)a0);
     if (((s32 (*)(s32))func_8014ED28)(a0) != 0) {
         guess_ClearMoveVector(a0);
@@ -89,7 +89,7 @@ void func_800CCC88(void *a0) {
 void func_800CCD04(void *a0) {
     extern void guess_AddVertSpeed(s32 a0, s32 a1);
     extern void guess_ApplyVertSpeed(s32 a0);
-    extern void func_80147AD4(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern void guess_AddMoveVectorThenSetVelocity(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void guess_ApplyVelocity(s32 *a0);
     extern void func_8014ED28(s32);
     extern void guess_ClearMoveVector(s32 a0);
@@ -101,7 +101,7 @@ void func_800CCD04(void *a0) {
 
     guess_AddVertSpeed((s32)a0, 0x1A000);
     guess_ApplyVertSpeed((s32)a0);
-    func_80147AD4((s32)a0, 0, 0, 0);
+    guess_AddMoveVectorThenSetVelocity((s32)a0, 0, 0, 0);
     guess_ApplyVelocity((s32 *)a0);
     if (((int (*)(int))func_8014ED28)((s32)a0) != 0) {
         guess_ClearMoveVector((s32)a0);
@@ -138,10 +138,10 @@ void func_800CCDC4(s32 a0)
 
 extern void func_8014B5C4(s32 *a0, s32 a1, s32 a2);
 extern void func_8013C9C4(void *a0);
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                           s32 sp5, s32 sp6, s32 sp7, s32 sp8);
-extern void func_8014C010(s32 *a0, s32 a1);
-extern void func_80147324(s32 a0);
+extern void guess_SpawnSmallObjectType2(s32 *a0, s32 a1);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s32 D_800D3414;
 
 void func_800CCE24(void *a0) {
@@ -150,9 +150,9 @@ void func_800CCE24(void *a0) {
     s0 = (s32)a0;
     func_8014B5C4((s32 *)s0, 2, 0);
     func_8013C9C4(&D_800D3414);
-    func_801466F0(5, s0, 0, 0, 0, 0, 0, 1);
-    func_8014C010((s32 *)s0, 1);
-    func_80147324(0x47D);
+    guess_SpawnObject(5, s0, 0, 0, 0, 0, 0, 1);
+    guess_SpawnSmallObjectType2((s32 *)s0, 1);
+    guess_PlaySoundUnlessSkipped(0x47D);
 }
 
 
@@ -242,9 +242,9 @@ void func_800CD31C(s32 arg0);
 
 
 void func_800CD054(void *a0) {
-    extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
+    extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                               s32 a4, s32 a5, s32 a6, s32 a7);
-    extern void func_80147324(s32 a0);
+    extern void guess_PlaySoundUnlessSkipped(s32 a0);
     extern s32 func_80012FC8(s32 a0, s32 a1, s32 a2, s32 a3);
     extern s32 guess_TickWaitTimer_2(s32 a0);
     extern void guess_NextStep(void *a0);
@@ -260,13 +260,13 @@ void func_800CD054(void *a0) {
     func_800CD258(a0, dp);
     func_800CD27C((s32)a0);
     if ((CAST_SIGN(u32, (s32)a0, 0x1C) & 7) == 0) {
-        func_801466F0(6, (s32)a0, 0, 0, 0, CAST_SIGN(s16, (s32)a0, 0x62), 0, 1);
+        guess_SpawnObject(6, (s32)a0, 0, 0, 0, CAST_SIGN(s16, (s32)a0, 0x62), 0, 1);
         w = ((Unkstruct_80126B58 *)a0)->unk62 + 1;
         ((Unkstruct_80126B58 *)a0)->unk62 = w;
         if ((s16)w >= 8) {
             ((Unkstruct_80126B58 *)a0)->unk62 = 0;
         }
-        func_80147324(0x47E);
+        guess_PlaySoundUnlessSkipped(0x47E);
     }
     v0 = func_80012FC8(*(s16 *)(s1 + 0x1A), 0x5000, 0xA, 1);
     v1 = *(u16 *)(s1 + 0x1A) + v0;

@@ -34,7 +34,7 @@ extern void func_801655E4(s32 a0);
 
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern s32 func_80161208();
 
 void func_800CAF08(void *a0) {
@@ -46,7 +46,7 @@ void func_800CAF08(void *a0) {
         func_80159B3C(a0);
     } else {
         if (flags & 0x4000) {
-            func_801466F0(0x26, (s32)a0, 0, -0x40, 0, 0, 0, 0);
+            guess_SpawnObject(0x26, (s32)a0, 0, -0x40, 0, 0, 0, 0);
         }
         func_80161208(a0);
     }
@@ -95,7 +95,7 @@ extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 extern void func_800CB338(void);
 
@@ -117,7 +117,7 @@ void func_800CB028(s32 a0) {
         func_80146DE8((s32 *)a0, 0, 0, 0xFFE80000);
         guess_SetWaitTimer_2((s32 *)a0, 0x3C);
         func_80146A6C(0x4F, (void *)a0, 0, 0, 0, 0, 0);
-        func_80147324(0x8E5);
+        guess_PlaySoundUnlessSkipped(0x8E5);
         guess_NextStep((void *)a0);
     } else {
         ((void (*)(s32))func_800CB338)(a0);
@@ -136,7 +136,7 @@ extern void func_80163328();
 extern s32 func_801632F0();
 extern void func_80013E94(void *a0, void *a1);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern u8 D_80114EB0[];
 extern u8 D_80114EC8[];
 extern s16 D_80126B18;
@@ -172,7 +172,7 @@ void func_800CB118(s32 a0) {
         func_80013E94(D_80114EB0, &sp28);
         sp28 |= 0x80000000;
         func_80146A6C(0x1F, (void *) a0, D_80126B18, D_80126B1A, D_80126B1C, sp28, 0);
-        func_80147324(0x8E6);
+        guess_PlaySoundUnlessSkipped(0x8E6);
         break;
     case 2:
     case 4:

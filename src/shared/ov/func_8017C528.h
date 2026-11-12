@@ -8,7 +8,7 @@ void func_8017C528(s32 param_1)
         func_8017C6F4(param_1, *(u8 *)(param_1 + 0x218));
         func_801542A4(param_1, &D_800D5E18);
         *(u8 *)&D_80127058 = *(u8 *)(param_1 + 0x218) + 1;
-        func_80147324(0x544);
+        guess_PlaySoundUnlessSkipped(0x544);
     } else {
         phi_v0 = *(u16 *)(param_1 + 0x20C) - 0x10;
         *(s16 *)(param_1 + 0x20C) = phi_v0;

@@ -5,14 +5,14 @@ void func_800CCB20(void) {
 
 #include "common.h"
 
-extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 
 void func_800CCB28(void *a0) {
     void *s0 = a0;
 
-    func_80146994(0x3B, (s32)s0, 0, 0);
+    guess_SpawnSmallObjectAtOrigin(0x3B, (s32)s0, 0, 0);
     *(s16 *)((s32)s0 + 0x1C8) = 0xBA;
     func_801599A4(s0);
     func_80159B3C(s0);
@@ -230,7 +230,7 @@ void func_800CD314(void *arg0) {
     extern u8 D_8011F75C[];
     extern volatile s32 D_8011F758;
     extern u8 D_800CD7A4;
-    extern void func_80147324(s32 a0);
+    extern void guess_PlaySoundUnlessSkipped(s32 a0);
     extern void func_800233CC(void *a0, u16 a1);
     extern s32 guess_FreeSmallObject(u8 *a0);
 
@@ -259,7 +259,7 @@ void func_800CD314(void *arg0) {
             ((Unkstruct_800CD314 *)s0)->unk30 = 0;
             t = ((Unkstruct_800CD314 *)s0)->unk50;
             ((Unkstruct_800CD314 *)s0)->unkA = t - 8;
-            func_80147324(0x8E2);
+            guess_PlaySoundUnlessSkipped(0x8E2);
         }
         idx = ((Unkstruct_800CD314 *)s0)->unk30;
         idx += 0x10;

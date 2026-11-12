@@ -4,7 +4,7 @@ void func_80158BB0(void *arg0) {
     if (D_8018E850 == 0) {
         D_8018E850 = 1;
     }
-    func_80147324(0x456);
+    guess_PlaySoundUnlessSkipped(0x456);
     guess_SetAnimScript(arg0, &D_800D58D8);
     guess_SetTexAnim(arg0, 0x16);
     M2C_FIELD(arg0, s32 *, 0x234) = 0xE30000;

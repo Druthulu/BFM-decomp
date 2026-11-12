@@ -8,7 +8,7 @@ void func_8017EA10(s32 *a0) {
         result = func_8013767C((s32)&D_80183058);
         s0[0x198 / 4] = result;
         guess_SetAnimScript(s0, (s32)D_80182D0C);
-        func_80147324(0x7E7);
+        guess_PlaySoundUnlessSkipped(0x7E7);
         func_80171990((u8 *)s0);
     }
 }

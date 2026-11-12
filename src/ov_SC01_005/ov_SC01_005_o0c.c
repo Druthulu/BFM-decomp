@@ -696,7 +696,7 @@ extern s32 guess_g_TextBoxes;
 extern s32 *D_80126A30;
 extern void func_80139954(void);
 extern s32 D_80126A3C;
-extern s32 func_801399F0(s32 a0);
+extern s32 guess_GetTextWindowResult(s32 a0);
 extern s32 D_80127520;
 extern void func_80139A34(s32 a0);
 extern s32 D_80127530[4];
@@ -831,7 +831,7 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
     extern s32 D_801CE028;
     extern s16 D_800B9A0E;
     extern void GsInitCoordinate2(s32 a0, void *a1);
-    extern void func_8013C08C(void *a0, s32 a1);
+    extern void guess_InitPacketModel(void *a0, s32 a1);
     s32 i;
 
     D_801CDFC0 = 0;
@@ -860,51 +860,51 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
         D_801CE028 = 0;
         break;
     case 0x43:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 1;
         break;
     case 0x44:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 2;
         break;
     case 0x45:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 3;
         break;
     case 0x46:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 4;
         break;
     case 0x47:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 5;
         break;
     case 0x48:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 6;
         break;
     case 0x49:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 9;
         break;
     case 0x4A:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 0xC;
         break;
     case 0x4B:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 0xD;
         break;
     case 0x4C:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 0xE;
         break;
     case 0x4D:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 0xF;
         break;
     case 0x4E:
-        func_8013C08C(&D_801CDFC0, a0);
+        guess_InitPacketModel(&D_801CDFC0, a0);
         D_801CE028 = 0x10;
         break;
     }

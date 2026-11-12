@@ -8,7 +8,7 @@ extern void func_8014CC28(s32 a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern void func_8014FA04(s32 a0);
-extern void func_8014C010(s32 a0, s32 a1);
+extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
 extern void func_8015BF48(s32 *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_NextStep(void *a0);
@@ -25,20 +25,20 @@ void func_80155C64(s32 a0) {
     if ((*(s32 *)(a0 + 0x34) > 0) && (((s32 (*)(s32))func_8014CC28)(a0) != 0)) {
         func_801599A4((void *)a0);
         func_80159B3C((void *)a0);
-        func_8014C010(a0, 1);
+        guess_SpawnSmallObjectType2(a0, 1);
         return;
     }
     flags = ((s32 (*)(s32))func_8014FA04)(a0);
     if (flags & 0x4000) {
         func_801599A4((void *)a0);
-        func_8014C010(a0, 1);
+        guess_SpawnSmallObjectType2(a0, 1);
         ((void (*)(void *))func_8015BF48)((void *)a0);
         return;
     }
     if (flags & 0x2000) {
         guess_SetAnimScript((s32 *)a0, (s32)&D_800D4DF4);
         guess_NextStep((void *)a0);
-        func_8014C010(a0, 1);
+        guess_SpawnSmallObjectType2(a0, 1);
         return;
     }
     ((void (*)(s32, s32))func_80155FF8)(a0, *(u8 *)(a0 + 0x1AA));

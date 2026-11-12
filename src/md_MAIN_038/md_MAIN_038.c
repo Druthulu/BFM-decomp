@@ -61,9 +61,9 @@ void func_800CAF1C(s32 *a0) {
 extern s32 func_80148E54(void *a0);
 extern s32 func_80012ABC(s16 a0, s16 a1, s32 a2);
 extern int func_80148AFC(void *a0);
-extern void func_801466F0(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
+extern void guess_SpawnObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_801655E4(void *a0);
 extern s32 func_80165624(void *a0);
 extern u8 D_800CBB84[];
@@ -89,11 +89,11 @@ void func_800CAFAC(void *a0) {
         if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x4000) {
             s32 mf = -0xF;
             s32 one = 1;
-            func_801466F0(0x1F, a0, 0, -0x18, mf, 0, 0, one);
-            func_801466F0(0x1F, a0, 0, -0x18, mf, one, 0, one);
-            func_801466F0(0x1F, a0, 0, -0x18, mf, 2, 0, one);
+            guess_SpawnObject(0x1F, a0, 0, -0x18, mf, 0, 0, one);
+            guess_SpawnObject(0x1F, a0, 0, -0x18, mf, one, 0, one);
+            guess_SpawnObject(0x1F, a0, 0, -0x18, mf, 2, 0, one);
             func_80146A6C(0x43, a0, 0, -0x18, mf, 0, 0);
-            func_80147324(0xA64);
+            guess_PlaySoundUnlessSkipped(0xA64);
             func_801655E4(a0);
         }
         if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {

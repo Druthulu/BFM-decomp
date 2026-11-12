@@ -1,6 +1,6 @@
 /* func_80157BC8 — shared body (overlay slot 0x80128158, h_exact 1769ca41). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80147AD4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+extern void guess_AddMoveVectorThenSetVelocity(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern void guess_ApplyVertSpeed(s32 a0);
@@ -8,7 +8,7 @@ extern void func_8014ED28();
 extern void guess_ClearMoveVector(s32 a0);
 extern void func_8016158C(void *a0);
 extern void func_80161D20();
-extern void func_8014C010(s32 a0, s32 a1);
+extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
 extern void func_8016706C(s32 a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
@@ -16,7 +16,7 @@ extern void func_8015BE04(s32 *a0);
 extern s32 func_801725A4(u8 *a0);
 void func_80157BC8(s32 a0) {
     s32 s1;
-    func_80147AD4(a0, 0, 0, 0x10000);
+    guess_AddMoveVectorThenSetVelocity(a0, 0, 0, 0x10000);
     guess_ApplyVelocity((s32 *)a0);
     guess_AddVertSpeed(a0, 0x1A000);
     guess_ApplyVertSpeed(a0);
@@ -26,7 +26,7 @@ void func_80157BC8(s32 a0) {
     s1 = ((s32 (*)(void *))func_8016158C)((void *)a0);
     if ((s1 & 5) != 0) {
         func_80161D20(a0, *(u16 *)(a0 + 0x16E));
-        func_8014C010(a0, 1);
+        guess_SpawnSmallObjectType2(a0, 1);
         func_8016706C(4);
         func_8016706C(5);
         func_801599A4((void *)a0);

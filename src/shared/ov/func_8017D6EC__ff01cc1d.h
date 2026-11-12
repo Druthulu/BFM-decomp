@@ -11,7 +11,7 @@ void func_8017D6EC(void *a0)
     if (t < 0x20) {
         *(u16 *)((s32)a0 + 0x2A) = *(u16 *)((s32)a0 + 0x2A) - 0x10;
     } else {
-        func_80147324(*(u16 *)((s32)a0 + 0x2C));
+        guess_PlaySoundUnlessSkipped(*(u16 *)((s32)a0 + 0x2C));
         func_80147084(sub);
         func_801472B4(sub);
         *(s32 *)((s32)a0 + 0x1C) = 0;

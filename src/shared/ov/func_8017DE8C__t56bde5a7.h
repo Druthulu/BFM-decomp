@@ -4,7 +4,7 @@ void func_8017DE8C(u8 *a0) {
     u16 flags = *(u16 *)(a0 + 0xB8);
 
     if (flags & 0x4000) {
-        func_80147324(0x445);
+        guess_PlaySoundUnlessSkipped(0x445);
         return;
     }
     if (!(flags & 0x8000)) {

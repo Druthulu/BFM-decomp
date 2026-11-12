@@ -7,7 +7,7 @@ void func_80158038(void * param)
     guess_SetTexAnim(param, 0x15);
     guess_SetMoveVector((s32 *)param, &D_80181598);
     *(s32 *)(param + 0x234) = 0;
-    func_80146994(5, param, 0xc, 0);
-    func_80147324(0x455);
+    guess_SpawnSmallObjectAtOrigin(5, param, 0xc, 0);
+    guess_PlaySoundUnlessSkipped(0x455);
     guess_NextStep((void *)param);
 }

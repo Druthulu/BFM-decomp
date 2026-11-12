@@ -32,8 +32,8 @@ extern void func_801657A0(void);
 extern s32 func_80165910(s32 a0);
 extern void func_801655E4(s32 a0);
 extern void func_8014B33C(s32 a0);
-extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80147324(s32 a0);
+extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 
 void func_800CAEC0(void *a0) {
     func_801657A0();
@@ -43,8 +43,8 @@ void func_800CAEC0(void *a0) {
     func_8014B33C((s32)a0);
     ((Unkstruct_800CAEC0 *)a0)->unk44 |= 0x100;
     ((Unkstruct_800CAEC0 *)a0)->unk1AC = 0;
-    func_80146994(0x37, (s32)a0, 0x8000, 0);
-    func_80147324(0x83F);
+    guess_SpawnSmallObjectAtOrigin(0x37, (s32)a0, 0x8000, 0);
+    guess_PlaySoundUnlessSkipped(0x83F);
     ((Unkstruct_800CAEC0 *)a0)->unk197 += 1;
 }
 

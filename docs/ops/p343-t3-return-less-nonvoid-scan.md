@@ -69,7 +69,7 @@ Format: `name defs=<n> shared=<n in headers> kinds=<k> last={bucket: copies} [fl
 - `func_8014659C` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `guess_AllocSpriteObject` defs=1 shared=1 kinds=noreturn last={'call': 1}
 - `func_801465E4` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
-- `func_80146994` defs=1 shared=1 kinds=noreturn last={'call': 1}
+- `guess_SpawnSmallObjectAtOrigin` defs=1 shared=1 kinds=noreturn last={'call': 1}
 - `func_80146AB4` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `guess_FreeSmallObject` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_8014BCEC` defs=1 shared=1 kinds=noreturn last={'block': 1}

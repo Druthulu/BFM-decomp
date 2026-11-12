@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80149020(s32 *a0);
 extern void func_80153B58(s32 *a0);
-extern void func_80147A84(s32 arg0);
+extern void guess_SetVelocityFromMoveVector(s32 arg0);
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern void guess_ApplyVertSpeed(s32 a0);
@@ -15,7 +15,7 @@ void func_80152E4C(s32 a0) {
     s32 v0;
     func_80149020((s32 *)s0);
     func_80153B58((s32 *)s0);
-    func_80147A84(s0);
+    guess_SetVelocityFromMoveVector(s0);
     guess_ApplyVelocity((s32 *)s0);
     v0 = *(u8 *)(s0 + 0xDF);
     if (v0 == 0) {

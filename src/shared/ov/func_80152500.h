@@ -3,13 +3,13 @@
 extern void func_80149020(s32 *a0);
 extern void func_801525F4(int);
 extern void func_80159B3C(void *a0);
-extern void func_80147A84(s32 arg0);
+extern void guess_SetVelocityFromMoveVector(s32 arg0);
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern void guess_ApplyVertSpeed(s32 a0);
 extern s32 func_801535F4(void *arg0);
 extern void func_8015BF48(s32 *a0);
-extern void func_8014C010(s32 a0, s32 a1);
+extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
 extern void func_80165718(s32 a0);
 void func_80152500(int param_1)
 {
@@ -24,7 +24,7 @@ void func_80152500(int param_1)
     } else {
         *(int *)(param_1 + 0x1c) = *(int *)(param_1 + 0x1c) + -1;
     }
-    func_80147A84(param_1);
+    guess_SetVelocityFromMoveVector(param_1);
     ((void (*)(int))guess_ApplyVelocity)(param_1);
     guess_AddVertSpeed(param_1, 0x8000);
     guess_ApplyVertSpeed(param_1);
@@ -41,7 +41,7 @@ LAB_801525bc:
     func_801525F4(param_1);
     ((void (*)(int))func_8015BF48)(param_1);
 LAB_801525d0:
-    func_8014C010(param_1, 1);
+    guess_SpawnSmallObjectType2(param_1, 1);
 LAB_801525d8:
     func_80165718(param_1);
     return;

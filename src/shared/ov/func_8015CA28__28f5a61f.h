@@ -9,12 +9,12 @@ void func_8015CA28(u16 *param_1) {
     if (((int (*)(u16 *))func_80161B84)(param_1) != 0) return;
     if (((int (*)(u16 *))guess_IsConfirmPressed)(param_1) != 0) {
         ((void (**)(u16*))D_80181914)[*param_1](param_1);
-        ((void (*)(u16 *))func_80149704)(param_1);
+        ((void (*)(u16 *))guess_EnterJumpState)(param_1);
         return;
     }
     if ((((u32 (*)(u16 *))guess_GetPadHeld)(param_1) & 0x80) != 0 || ((int (*)(u16 *))guess_IsDirectionHeld)(param_1) != 0) {
         if ((((int (*)(u16 *))func_80148AAC)(param_1) & 0xff) != 0) {
-            ((void (*)(u16 *, int, int, int))func_80147AD4)(param_1, 0, 0, 0);
+            ((void (*)(u16 *, int, int, int))guess_AddMoveVectorThenSetVelocity)(param_1, 0, 0, 0);
             ((void (*)(u16 *))guess_ApplyVelocity)(param_1);
         }
         if (((int (*)(u16 *))func_8014D738)(param_1) != 0) {

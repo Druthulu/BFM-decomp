@@ -4,14 +4,14 @@ extern void func_8001382C(s32 a0, void *a1, void *a2);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_ApplyVelocity(s32 *a0);
-extern void func_80147A84(s32 arg0);
+extern void guess_SetVelocityFromMoveVector(s32 arg0);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern s32 guess_IsDirectionHeld(u8 *a0);
 extern int func_80148AFC(void *a0);
 extern s32 guess_IsConfirmPressed(void *a0);
-extern void func_80149704(void);
-extern void func_80149AD4(s32 *a0);
+extern void guess_EnterJumpState(void);
+extern void guess_StartSquareAction(s32 *a0);
 extern void func_80149B14(s32 *a0);
 extern void func_80154134(u8 *a0);
 extern void func_801599A4(void *a0);
@@ -65,7 +65,7 @@ block_13:
             ((void(*)(void *))func_80148AFC)(((Ent_80155800_80155800 *)arg0));
             ((void (*)(void *))func_80155F80)(((Ent_80155800_80155800 *)arg0));
             ((void(*)(void *))func_80154134)(((Ent_80155800_80155800 *)arg0));
-            ((void(*)(void *))func_80149AD4)(((Ent_80155800_80155800 *)arg0));
+            ((void(*)(void *))guess_StartSquareAction)(((Ent_80155800_80155800 *)arg0));
             D_8011F730 |= 3;
             return;
         }
@@ -74,7 +74,7 @@ block_15:
     if ((((Ent_80155800_80155800 *)arg0)->unk1A8 == 0) && (((Ent_80155800_80155800 *)arg0)->unk1A9 != 0)) {
         if (((s32(*)(void *))guess_IsConfirmPressed)(((Ent_80155800_80155800 *)arg0)) != 0) {
             ((void(*)(void *))func_801599A4)(((Ent_80155800_80155800 *)arg0));
-            ((void(*)(void *))func_80149704)(((Ent_80155800_80155800 *)arg0));
+            ((void(*)(void *))guess_EnterJumpState)(((Ent_80155800_80155800 *)arg0));
             return;
         }
         if (!(((s32(*)(void *))guess_GetPadHeld)(((Ent_80155800_80155800 *)arg0)) & 8) && (((s32(*)(void *))guess_IsDirectionHeld)(((Ent_80155800_80155800 *)arg0)) != 0)) {
@@ -88,7 +88,7 @@ block_22:
     if (((s32(*)(void *))guess_TickWaitTimer_2)(((Ent_80155800_80155800 *)arg0)) == 0) {
         ((void(*)(s16, void *, void *))func_8001382C)((s16) -(s32) ((Ent_80155800_80155800 *)arg0)->unk20->unk12, &((Ent_80155800_80155800 *)arg0)->unk234, &sp10);
         ((void(*)(void *, void *))guess_SetMoveVector)(((Ent_80155800_80155800 *)arg0), &sp10);
-        ((void(*)(void *))func_80147A84)(((Ent_80155800_80155800 *)arg0));
+        ((void(*)(void *))guess_SetVelocityFromMoveVector)(((Ent_80155800_80155800 *)arg0));
         ((void(*)(void *))guess_ApplyVelocity)(((Ent_80155800_80155800 *)arg0));
     }
     if (func_80161208(((Ent_80155800_80155800 *)arg0)) == 0) {

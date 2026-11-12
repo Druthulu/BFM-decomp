@@ -750,15 +750,15 @@ void func_800CC1B0(void *a0) {
 
 
 extern void func_801655E4(s32 arg0);
-extern void func_801466F0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-extern void func_80147324(s32 arg0);
+extern void guess_SpawnObject(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
+extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern s32 D_80078EC8;
 
 void func_800CC1E8(s32 arg0) {
     func_801655E4(arg0);
     D_80078EC8 = 0x1C2;
-    func_801466F0(0x1A, arg0, CAST_ALIAS(s16, arg0, 6), ((Unkstruct_80126B58 *)arg0)->unkA, ((Unkstruct_80126B58 *)arg0)->unkE, 0, 0, 1);
-    func_80147324(0xA63);
+    guess_SpawnObject(0x1A, arg0, CAST_ALIAS(s16, arg0, 6), ((Unkstruct_80126B58 *)arg0)->unkA, ((Unkstruct_80126B58 *)arg0)->unkE, 0, 0, 1);
+    guess_PlaySoundUnlessSkipped(0xA63);
     ((Unkstruct_80126B58 *)arg0)->unk197 += 1;
 }
 

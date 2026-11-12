@@ -603,7 +603,7 @@ extern s32 guess_g_TextBoxes;
 extern s32 *D_80126A30;
 extern void func_80139954(void);
 extern s32 D_80126A3C;
-extern s32 func_801399F0(s32 a0);
+extern s32 guess_GetTextWindowResult(s32 a0);
 extern void func_80139A34(s32 a0);
 extern s32 D_80127530[4];
 extern void func_80139A44(s32 a0, u16 a1);

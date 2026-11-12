@@ -4,6 +4,6 @@
  * rank 3 src/shared/ov/func_8017C560.h rejected by type_census --check */
 void SHARED_FN(void *a0)
 {
-    func_80147324(((Unkstruct_8017D440 *)a0)->unk2E);
+    guess_PlaySoundUnlessSkipped(((Unkstruct_8017D440 *)a0)->unk2E);
     ((Unkstruct_8017D440 *)a0)->unk2 = ((Unkstruct_8017D440 *)a0)->unk2 + 1;
 }

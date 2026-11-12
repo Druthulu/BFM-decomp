@@ -36,9 +36,9 @@ void func_800CAEC0(u8 *a0) {
 
 extern s32 func_80161208();
 extern s32 func_800CB170(s32 a0);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 rung D t4_D44)
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern u8 D_800CC0D8[];
 extern s32 D_8011F9D0;
 
@@ -52,7 +52,7 @@ void func_800CAF08(u8 *arg0) {
     if (((Unkstruct_80126B58 *)arg0)->unkB8 != 0x8000) {
         return;
     }
-    func_80147324(0x479);
+    guess_PlaySoundUnlessSkipped(0x479);
     guess_SetAnimScript(arg0, D_800CC0D8);
     ((Unkstruct_80126B58 *)arg0)->unkBE = 0x10;
     ((Unkstruct_80126B58 *)arg0)->unk197 = ((Unkstruct_80126B58 *)arg0)->unk197 + 1;
@@ -68,11 +68,11 @@ void func_800CAF08(u8 *arg0) {
             p += 0x34;
         } while (p < (u16 *)((s32)&D_8011F9D0 + 0x820));
     }
-    func_801466F0(4, (s32)arg0, 0, -0x18, -0xF, 0, 0, 1);
-    func_801466F0(4, (s32)arg0, 0, -0x18, -0xF, 1, 0, 1);
-    func_801466F0(4, (s32)arg0, 0, -0x18, -0xF, 2, 0, 1);
-    func_801466F0(4, (s32)arg0, 0, -0x18, -0xF, 3, 0, 1);
-    func_801466F0(0xF, (s32)arg0, 0, -0x18, -0xF, 0, 0, 0);
+    guess_SpawnObject(4, (s32)arg0, 0, -0x18, -0xF, 0, 0, 1);
+    guess_SpawnObject(4, (s32)arg0, 0, -0x18, -0xF, 1, 0, 1);
+    guess_SpawnObject(4, (s32)arg0, 0, -0x18, -0xF, 2, 0, 1);
+    guess_SpawnObject(4, (s32)arg0, 0, -0x18, -0xF, 3, 0, 1);
+    guess_SpawnObject(0xF, (s32)arg0, 0, -0x18, -0xF, 0, 0, 0);
 }
 
 

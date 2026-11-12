@@ -5,7 +5,7 @@ extern void func_80151C54(s32 a0);
 extern void func_80159B3C(void *a0);
 extern s32 func_801535F4(void *arg0);
 extern void func_8015BF48(s32 *a0);
-extern void func_8014C010(s32 a0, s32 a1);
+extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
 extern void func_80165718(s32 a0);
 void func_80151B98(int param_1)
 {
@@ -29,7 +29,7 @@ LAB_80151c1c:
     func_80151C54(param_1);
     ((void (*)(int))func_8015BF48)(param_1);
 LAB_80151c30:
-    func_8014C010(param_1, 1);
+    guess_SpawnSmallObjectType2(param_1, 1);
 LAB_80151c38:
     func_80165718(param_1);
     return;

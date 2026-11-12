@@ -19,14 +19,14 @@ s32 func_8015B950(s32 arg0)
     case 1:
     case 2:
     case 6:
-        if (((s32 (*)(s32))func_80149AA8)(arg0) != 0) {
+        if (((s32 (*)(s32))guess_IsSquarePressed)(arg0) != 0) {
             D_80181160[*(u16 *)arg0]((void *)arg0);
-            ((void (*)(s32))func_80149AD4)(arg0);
+            ((void (*)(s32))guess_StartSquareAction)(arg0);
             return;
         }
-        if (((s32 (*)(s32))func_80149B54)(arg0) != 0) {
+        if (((s32 (*)(s32))guess_IsTrianglePressed)(arg0) != 0) {
             D_80181160[*(u16 *)arg0]((void *)arg0);
-            ((void (*)(s32))func_80149BAC)(arg0);
+            ((void (*)(s32))guess_StartTriangleAction)(arg0);
             return;
         }
         break;
@@ -37,7 +37,7 @@ s32 func_8015B950(s32 arg0)
         ((void (*)(s32))func_80149954)(arg0);
         break;
     case 5:
-        if (((s32 (*)(s32))func_80149A64)(arg0) != 0) {
+        if (((s32 (*)(s32))guess_IsSquareOrTrianglePressed)(arg0) != 0) {
             D_80181160[*(u16 *)arg0]((void *)arg0);
             func_800CCCC0(arg0);
             return;
@@ -56,7 +56,7 @@ s32 func_8015B950(s32 arg0)
     }
     if (((s32 (*)(s32))guess_IsConfirmPressed)(arg0) != 0) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
-        ((void (*)(s32))func_80149704)(arg0);
+        ((void (*)(s32))guess_EnterJumpState)(arg0);
         if (((u8)((s32 (*)(s32))func_80148AFC)(arg0)) == 0) {
             guess_ClearMoveVector(arg0);
         }

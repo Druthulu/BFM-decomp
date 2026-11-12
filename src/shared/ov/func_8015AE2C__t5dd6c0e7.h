@@ -56,7 +56,7 @@ s32 arg0;
                     ((void (*)(s32))func_8015B8F8)(arg0);
                     *(u32 *)(arg0 + 0x44) &= ~2;
                     if (flag != 0) {
-                        ((void (*)(s32, s32, s32, s32))func_80146994)(0x3B, arg0, 0, 0);
+                        ((void (*)(s32, s32, s32, s32))guess_SpawnSmallObjectAtOrigin)(0x3B, arg0, 0, 0);
                     }
                 }
             }
@@ -68,7 +68,7 @@ s32 arg0;
             ((void (*)(s32))func_80149954)(arg0);
             break;
         case 5:
-            if (((s32 (*)(s32))func_80149A64)(arg0) != 0) {
+            if (((s32 (*)(s32))guess_IsSquareOrTrianglePressed)(arg0) != 0) {
                 D_80181160[*(u16 *)arg0]((void *)arg0);
                 func_800CCCC0(arg0);
                 return;
@@ -137,7 +137,7 @@ s32 arg0;
                 guess_ClearMoveVector(arg0);
             }
         }
-        func_80147A84(arg0);
+        guess_SetVelocityFromMoveVector(arg0);
         ((void (*)(s32))guess_ApplyVelocity)(arg0);
         if (*(u8 *)(arg0 + 0x1C6) == 0) {
             guess_AddVertSpeed(arg0, 0x1A000);
@@ -148,7 +148,7 @@ s32 arg0;
         if ((u8)((s32 (*)(s32))func_80148AFC)(arg0)) {
             (*(u16 *)guess_g_CameraRelativeYaw) = func_80149184(arg0);
             guess_ClearMoveVector(arg0);
-            func_80147AD4(arg0, 0, 0, 0xFFFF4000);
+            guess_AddMoveVectorThenSetVelocity(arg0, 0, 0, 0xFFFF4000);
             *(s32 *)(arg0 + 0x50) += *(s32 *)(arg0 + 0x10);
             *(s32 *)(arg0 + 0x54) += *(s32 *)(arg0 + 0x14);
             *(s32 *)(arg0 + 0x58) += *(s32 *)(arg0 + 0x18);
@@ -230,7 +230,7 @@ s32 arg0;
             func_800CCB78(t);
         }
         if ((*(u16 *)(arg0 + 0x1C8) & 0x1F) == 0) {
-            ((void (*)(s32, s32, s32, s32))func_80146994)(0x3C, arg0, 0, 0);
+            ((void (*)(s32, s32, s32, s32))guess_SpawnSmallObjectAtOrigin)(0x3C, arg0, 0, 0);
         }
     }
     if (*(s32 *)(arg0 + 0x1B0) != 0) {

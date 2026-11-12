@@ -13,7 +13,7 @@ void func_8015FBE0(s32 *param_1)
         ((void (*)(s32 *, s32))guess_SetAnim)(param_1, 0x20);
         ((void (*)(s32 *, s32))guess_SetTexAnim)(param_1, 0x18);
         ((void (*)(s32, s32 *, s32, s32, s32, s32, s32))func_80146A6C)(0x16, param_1, 0, 0, 0, 0, 0);
-        func_80147324(0x44F);
+        guess_PlaySoundUnlessSkipped(0x44F);
         ((void (*)(s32 *))func_801553A8)(param_1);
         ((void (*)(s32 *))func_801553C0)(param_1);
         D_801270C0 = 2;

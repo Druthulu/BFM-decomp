@@ -32,7 +32,7 @@ void func_8015126C(u16 *p)
     extern void func_8014B944(s32 a0, s32 a1, s32 a2);
     extern void func_80146D80(s32 *a0);
     extern void guess_SetVertSpeed(s32 *a0, s32 a1);
-    extern void func_80147324(s32 arg0);
+    extern void guess_PlaySoundUnlessSkipped(s32 arg0);
     extern void func_8014BD24(s32 a0, s32 a1);
     extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
     u8  *r = guess_g_PlayerRecord;     /* $s2 */
@@ -145,7 +145,7 @@ LAB_8015152c:
         ((void (*)(void *, s32))guess_SetVertSpeed)(p, 0);
     }
     if (((s32 (*)(void *))func_80151880)(p) == 2) {
-        func_80147324(0x676);
+        guess_PlaySoundUnlessSkipped(0x676);
     }
     if (r[0x49] == 0x14) {
         ((void (*)(void *, s32))func_8014BD24)(p, 10);

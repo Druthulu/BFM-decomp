@@ -41,7 +41,7 @@ extern M2C_UNK D_800D57F4;
 
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                           s32 a4, s32 a5, s32 a6, s32 a7);
 extern s32 func_80161208();  /* canonical no-proto */
 
@@ -54,7 +54,7 @@ void func_800CAF18(void *a0) {
         func_80159B3C(a0);
     } else {
         if (flag & 0x4000) {
-            func_801466F0(0x20, (s32)a0, 0, -0x40, 0, 0, 0, 0);
+            guess_SpawnObject(0x20, (s32)a0, 0, -0x40, 0, 0, 0, 0);
         }
         if (func_80161208(a0) == 0) {
             ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
@@ -100,7 +100,7 @@ void func_800CB038(void *a0) {
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-    extern void func_80147324(s32 a0);
+    extern void guess_PlaySoundUnlessSkipped(s32 a0);
     extern void guess_NextStep(void *a0);
     extern void func_800CB3BC(void);
 
@@ -115,7 +115,7 @@ void func_800CB038(void *a0) {
         guess_SetWaitTimer_2((s32 *)a0, 100);
         memcpy((void *)((s32)a0 + 0x58), (void *)(s1 + 0x10), 8);
         ((Unkstruct_80126B58 *)a0)->unk60 = 2;
-        func_80147324(0x8F3);
+        guess_PlaySoundUnlessSkipped(0x8F3);
         guess_NextStep(a0);
     } else {
         ((void (*)(s32))func_800CB3BC)(a0);
@@ -131,7 +131,7 @@ void func_800CB114(void *a0) {
     extern s32 func_80163950(s32 a0);
     extern s32 func_801638A0(s32 a0, s32 *a1);
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-    extern void func_80147324(s32 a0);
+    extern void guess_PlaySoundUnlessSkipped(s32 a0);
     extern void guess_NextStep(void *a0);
     extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80163328(s32 a0);
@@ -177,7 +177,7 @@ void func_800CB114(void *a0) {
     goto L274;
 L250:
     guess_SetWaitTimer_2((s32 *)a0, 8);
-    func_80147324(0x8E7);
+    guess_PlaySoundUnlessSkipped(0x8E7);
     guess_NextStep(a0);
     return;
 L274:
@@ -198,7 +198,7 @@ L274:
     }
 L2CC:
     guess_SetWaitTimer_2((s32 *)a0, 8);
-    func_80147324(0x8E7);
+    guess_PlaySoundUnlessSkipped(0x8E7);
     guess_NextStep(a0);
 L2E4:
     func_80162D28((s32)a0);

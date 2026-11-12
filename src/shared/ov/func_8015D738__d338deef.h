@@ -48,7 +48,7 @@ void func_8015D738(void *arg0) {
         ((void (*)(void *, s32))guess_SetAnim)(arg0, 0x1A);
         ((void (*)(void *, void *))guess_SetMoveVector)(arg0, &D_80181134);
     }
-    ((void (*)(void *))func_80147A84)(arg0);
+    ((void (*)(void *))guess_SetVelocityFromMoveVector)(arg0);
     ((void (*)(void *))guess_ApplyVelocity)(arg0);
     s1 = *(s32 *)((char *)arg0 + 0x178);
     *(s16 *)(s1 + 6) = (s16)((s8)D_801813A4[*(s32 *)((char *)arg0 + 0x234)] + *(u16 *)(*(s32 *)(s1 + 0x78) + 0xc));

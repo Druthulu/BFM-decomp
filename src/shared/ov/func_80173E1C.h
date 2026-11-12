@@ -3,7 +3,7 @@
 extern void func_801484B0(s32 a0, s32 a1);
 extern void guess_ObjRotTransSV(s32 arg0);
 extern void func_80015954(s32 a0, s32 a1);
-extern s32 func_801399F0(s32 a0);
+extern s32 guess_GetTextWindowResult(s32 a0);
 extern void func_80139914(s32 a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_80171A1C(u8 *a0);
@@ -23,7 +23,7 @@ void func_80173E1C(s32 a0)
         func_80015954((s32)sp10, *s1 + 4);
     }
     if (*(s32 *)(s0 + 0x198) != 0) {
-        if (func_801399F0(*(s32 *)(s0 + 0x198)) == 0) {
+        if (guess_GetTextWindowResult(*(s32 *)(s0 + 0x198)) == 0) {
             return;
         }
         func_80139914(*(s32 *)(s0 + 0x198));

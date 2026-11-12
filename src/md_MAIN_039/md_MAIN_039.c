@@ -58,7 +58,7 @@ void func_800CAED8(u8 *a0) {
 
 
 extern s32 D_80062BE8;
-extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
+extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                           s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern void func_80019064(void *a0);
 extern void func_801599A4(void *a0);
@@ -74,7 +74,7 @@ void func_800CAF80(void *a0) {
         func_80159B3C(a0);
     } else {
         if (flag & 0x4000) {
-            func_801466F0(0x25, (s32)a0, 0, -0x40, 0, 1, 0, 0);
+            guess_SpawnObject(0x25, (s32)a0, 0, -0x40, 0, 1, 0, 0);
             func_80019064(&D_80062BE8);
         }
         if (func_80161208(a0) == 0) {
@@ -153,7 +153,7 @@ void func_800CB0B4(s32 param_1) {
         func_80146DE8(param_1, 0, 0, 0xFFF00000);
         func_800CB4CC((void *)param_1);
         guess_SetWaitTimer_2((s32 *)param_1, 0x28);
-        func_80147324(0x8E8);
+        guess_PlaySoundUnlessSkipped(0x8E8);
         guess_NextStep((void *)param_1);
     } else {
         ((void (*)(s32))func_800CB4AC)(param_1);
@@ -166,7 +166,7 @@ extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32  guess_TickWaitTimer_2(s32 a0);
 extern s32  func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80146C98(s32 *a0, s32 a1);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s32  func_800CB6F4();  // K&R: 1 of 2 args (P37 rung D t4_D40)
 extern void func_800CB5CC(void *a0);
 extern s32  func_800CB4D4(s32 a0);
@@ -220,7 +220,7 @@ void func_800CB228(s32 param_1) {
     case 4:
         guess_SetWaitTimer_2((s32 *)param_1, 4);
         obj[1] |= 0x80000000;
-        func_80147324(0xA7D);
+        guess_PlaySoundUnlessSkipped(0xA7D);
         guess_NextStep((void *)param_1);
         return;
     }

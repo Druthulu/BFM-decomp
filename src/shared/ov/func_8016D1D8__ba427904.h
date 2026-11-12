@@ -37,7 +37,7 @@ void func_8016D1D8(int param_1) {
             *(u16 *)(param_1 + 0x1a) = uVar1;
         }
         *(int *)(param_1 + 0x1c) = 8;
-        func_80147324(0x647);
+        guess_PlaySoundUnlessSkipped(0x647);
     } else {
         D_8018EE58[1] = 0xE0;
         D_8018EE58[2] = 0x20;

@@ -5,8 +5,8 @@ extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801585A4(s32 *a0);
 extern void func_8016706C(s32 a0);
-extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80147324(s32 a0);
+extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 void func_801582C0(void *a0) {
     s32 s0 = (s32)a0;
@@ -16,7 +16,7 @@ void func_801582C0(void *a0) {
     guess_SetTexAnim(s0, 0x15);
     func_801585A4((s32 *)s0);
     func_8016706C(5);
-    func_80146994(4, s0, 8, 0);
-    func_80147324(0x446);
+    guess_SpawnSmallObjectAtOrigin(4, s0, 8, 0);
+    guess_PlaySoundUnlessSkipped(0x446);
     guess_NextStep((void *)s0);
 }

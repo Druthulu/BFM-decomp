@@ -85,7 +85,7 @@ extern void func_801655E4(s32 a0);
 extern s32 func_800183E0(s32 a0);
 extern void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern u8 D_800CC09C[];
 extern u8 D_800CBF3C[];
 extern u8 D_800CBF7C[];
@@ -107,7 +107,7 @@ void func_800CAFE4(u8 *a0) {
     ((Unkstruct_80126B58 *)a0)->unkBE = 0;
     ((Unkstruct_80126B58 *)a0)->unkBF = 0;
     guess_SetWaitTimer_2((s32 *)a0, 0x10);
-    func_80147324(0x8EA);
+    guess_PlaySoundUnlessSkipped(0x8EA);
     ((Unkstruct_80126B58 *)a0)->unk197 = ((Unkstruct_80126B58 *)a0)->unk197 + 1;
 }
 
@@ -115,7 +115,7 @@ void func_800CAFE4(u8 *a0) {
 extern void func_800CB428();  // K&R: 3 of 1 args (P37 rung D t4_D40)
 extern void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3);
 extern void func_800CB964(void *a0, void *a1, void *a2);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 
 void func_800CB0B0(void *arg) {
     u16 sp10[3];
@@ -140,7 +140,7 @@ void func_800CB0B0(void *arg) {
         ((Unkstruct_800CB0B0 *)arg)->unk234 = cur;
         ((Unkstruct_800CB0B0 *)arg)->unk238 = temp;
         if ((s16)cur >= 0x2001) {
-            func_80147324(0x8EB);
+            guess_PlaySoundUnlessSkipped(0x8EB);
             ((Unkstruct_800CB0B0 *)arg)->unk234 = 0x2000;
         }
     } else {
@@ -158,7 +158,7 @@ void func_800CB0B0(void *arg) {
 
 
 extern u16 guess_GetPadPressed(s32 *a0);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_800CB428();  // K&R: 3 of 1 args (P37 rung D t4_D40)
 extern void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3);
 extern void func_800CB964(void *a0, void *a1, void *a2);
@@ -170,7 +170,7 @@ void func_800CB1CC(void *arg0) {
     if (guess_GetPadPressed((s32 *) arg0) & 0x20) {
         ((Unkstruct_80126B58 *)arg0)->unk238 = 0;
         ((Unkstruct_80126B58 *)arg0)->unk197 = ((Unkstruct_80126B58 *)arg0)->unk197 + 1;
-        func_80147324(0x991);
+        guess_PlaySoundUnlessSkipped(0x991);
     }
     sp10[0] = 0;
     sp10[1] = 0;

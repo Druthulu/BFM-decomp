@@ -13,7 +13,7 @@ void func_8017D428(int param_1)
     *ptr = *ptr - 0x10;
   } else {
     u16 val = *(u16 *)((char *)param_1 + 0x2C);
-    func_80147324((s32)val);
+    guess_PlaySoundUnlessSkipped((s32)val);
     func_80147084(s1);
     func_801472B4((void *)s1);
     *(s32 *)((char *)param_1 + 0x1C) = 0;

@@ -10,7 +10,7 @@ extern s32 func_80012A60(s32 a0, s32 a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_80149020(s32 *a0);
-extern void func_80147324(s32 arg0);
+extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void guess_NextStep(void *a0);
 void func_801519C8(s32 arg0) {
     s16 r;
@@ -36,7 +36,7 @@ void func_801519C8(s32 arg0) {
     }
     guess_SetTexAnim(arg0, 0x16);
     func_80149020((s32 *)arg0);
-    func_80147324(0x451);
+    guess_PlaySoundUnlessSkipped(0x451);
     de = *(u8 *)(arg0 + 0xDE);
     if (de == 2 || de == 3 || (de & 0xFF) == 0xB) {
         guess_NextStep((void *)arg0);

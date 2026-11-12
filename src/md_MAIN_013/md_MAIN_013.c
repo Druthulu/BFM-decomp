@@ -30,7 +30,7 @@ extern void func_800CAEE0(u8 *a0);
 
 extern void guess_SetAnimScript(void *a0, void *a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_801655E4(void *a0);
 extern void func_80156648(s32 *a0);
 extern void func_800CB054(void *a0);
@@ -42,7 +42,7 @@ void func_800CAEE0(u8 *a0) {
 
     guess_SetAnimScript(a0, D_800CB830);
     guess_SetTexAnim((s32)a0, 0x15);
-    func_80147324(0x477);
+    guess_PlaySoundUnlessSkipped(0x477);
     func_801655E4(a0);
     ((Unkstruct_80126B58 *)a0)->unkBE = 0;
     ((Unkstruct_80126B58 *)a0)->unkBF = 0;
@@ -121,10 +121,10 @@ void func_800CB05C(s32 a0, s32 a1) {
 
 
 void func_800CB0E8(void *a0) {
-    extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
     s32 v1;
 
-    v1 = func_80146994(0x15, (s32)a0, 0, 0);
+    v1 = guess_SpawnSmallObjectAtOrigin(0x15, (s32)a0, 0, 0);
     if (v1 != 0) {
         *(s32 *)(v1 + 0x30) = CAST_SIGN(s16, (u8 *)a0, 0x36);
     }

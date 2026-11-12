@@ -13,7 +13,7 @@ void func_8015C7E4(u16 *param_1)
         iVar1 = ((s32 (*)(u16 *))guess_IsConfirmPressed)(param_1);
         if (iVar1 != 0) {
             ((void (**)(u16*))D_80181160)[*param_1](param_1);
-            ((void (*)(u16 *))func_80149704)(param_1);
+            ((void (*)(u16 *))guess_EnterJumpState)(param_1);
         } else {
             uVar2 = ((s32 (*)(u16 *))guess_GetPadHeld)(param_1);
             if (((uVar2 & 0x80) == 0) && (iVar1 = ((s32 (*)(u16 *))guess_IsDirectionHeld)(param_1), iVar1 == 0)) {
@@ -32,7 +32,7 @@ void func_8015C7E4(u16 *param_1)
                     }
                     if ((param_1[0x5c] & 0x2000) != 0) {
                         ((void (*)(u16 *, s32))func_80161C24)(param_1, param_1[0xb7]);
-                        ((void (*)(u16 *, s32))func_8014C010)(param_1, 2);
+                        ((void (*)(u16 *, s32))guess_SpawnSmallObjectType2)(param_1, 2);
                     }
                 }
             }

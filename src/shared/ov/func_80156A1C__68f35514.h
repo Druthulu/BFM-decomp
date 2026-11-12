@@ -3,7 +3,7 @@
 void func_80156A1C(s32 param_1, s32 param_2)
 {
     if (*(unsigned char *)(param_1 + 0xDA) == 0) {
-        func_80147324(D_80180D98[D_8011520C[param_2]]);
+        guess_PlaySoundUnlessSkipped(D_80180D98[D_8011520C[param_2]]);
         *(unsigned char *)(param_1 + 0xDA) = *(unsigned char *)(param_1 + 0xDA) + 1;
     }
 }

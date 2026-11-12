@@ -10,7 +10,7 @@ void func_8015F89C(void *arg0) {
             return;
         }
     } else {
-        func_801466F0(1, arg0, 0, -0x1E, 0, 0, 0, 0);
+        guess_SpawnObject(1, arg0, 0, -0x1E, 0, 0, 0, 0);
     }
     ((s32 (*)(void *))func_80161208)(arg0);
 }

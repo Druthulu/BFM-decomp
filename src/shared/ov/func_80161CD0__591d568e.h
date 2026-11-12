@@ -7,7 +7,7 @@ void func_80161CD0(int param_1, unsigned int param_2)
     extern unsigned short D_80181D60;
     if (param_2 < 8) {
         if (func_800CF8B4() != 0) {
-            func_80147324((&D_80181D60)[param_2]);
+            guess_PlaySoundUnlessSkipped((&D_80181D60)[param_2]);
         }
     }
 }

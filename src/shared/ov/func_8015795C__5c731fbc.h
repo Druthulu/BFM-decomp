@@ -11,7 +11,7 @@ void func_8015795C(int param_1)
     if (*(int *)(param_1 + 0x2c) >= 0) {
         *(int *)(param_1 + 0x2c) = 0;
     }
-    func_80147A84(param_1);
+    guess_SetVelocityFromMoveVector(param_1);
     ((void (*)(int))guess_ApplyVelocity)(param_1);
     guess_AddVertSpeed(param_1, 0x1a000);
     guess_ApplyVertSpeed(param_1);

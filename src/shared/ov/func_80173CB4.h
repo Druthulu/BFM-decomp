@@ -5,7 +5,7 @@ extern void func_8014706C(void *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_801553A8(s32 *a0);
 extern void func_8016BADC(void *a0, s32 a1, s32 a2);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s32 func_8013767C(s32 a0);
 extern void func_80171A1C(u8 *a0);
 extern s32 guess_g_ActiveCamera;
@@ -51,7 +51,7 @@ lb8:
     *(s32 *)(s0 + 0x200) = 0x80;
     a = 0x6A6;
 ld0:
-    func_80147324(a);
+    guess_PlaySoundUnlessSkipped(a);
 ld8:
     d = D_8012750C;
     if (d != 0) {

@@ -641,7 +641,7 @@ extern u16 D_80126A08;
 extern s32 *D_80126A30;
 extern void func_80139954(void);
 extern s32 D_80126A3C;
-extern s32 func_801399F0(s32 a0);
+extern s32 guess_GetTextWindowResult(s32 a0);
 extern s32 D_80127520;
 extern void func_80139A34(s32 a0);
 extern s32 D_80127530[4];

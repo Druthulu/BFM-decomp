@@ -22,11 +22,11 @@ s32 func_8015C128(s32 param_1) {
     ((void(*)(int, int *, int *))func_8001382C)((short)(-*(unsigned short *)(*(int *)(((int)param_1) + 0x20) + 0x12)),
                   (int *)(((int)param_1) + 0x234), sp20);
     ((void(*)(int, int *))guess_SetMoveVector)(((int)param_1), sp20);
-    func_80147A84(((int)param_1));
+    guess_SetVelocityFromMoveVector(((int)param_1));
     ((void(*)(int))guess_ApplyVelocity)(((int)param_1));
     if (!(guess_g_FrameCounter & 3)) {
-        ((void(*)(int, int))func_8014C010)(((int)param_1), 1);
-        ((void(*)(int))func_80147324)(0x65F);
+        ((void(*)(int, int))guess_SpawnSmallObjectType2)(((int)param_1), 1);
+        ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x65F);
     }
     if (((int(*)(int))func_8014D738)(((int)param_1)) != 0) {
         D_80181914[*(u16 *)((int)param_1)](((int)param_1));

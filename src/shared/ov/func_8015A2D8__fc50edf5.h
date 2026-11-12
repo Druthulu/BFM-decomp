@@ -28,7 +28,7 @@ void func_8015A2D8(s32 param_1)
 LAB_8015a38c:
     *(int *)(param_1 + 0x23c) = 0;
 LAB_8015a390:
-    func_8014C010(param_1, 2);
+    guess_SpawnSmallObjectType2(param_1, 2);
     ((void (*)(int))func_801553A8)(param_1);
     ((void (*)(int))func_80172608)(param_1);
     ((void (*)(int))guess_NextStep)(param_1);

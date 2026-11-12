@@ -5,7 +5,7 @@ extern int func_80151204(int arg, int a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
-extern void func_80147324(s32 arg0);
+extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void guess_NextStep(void *a0);
 extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
@@ -30,7 +30,7 @@ void func_80151DB0(s32 param_1)
     }
     *(unsigned short *)(param_1 + 100) = 0xcc;
     ((void (*)(int))func_80149020)(param_1);
-    func_80147324(0x436);
+    guess_PlaySoundUnlessSkipped(0x436);
     ((void (*)(int))guess_NextStep)(param_1);
     ((void (*)(int))func_80172630)(param_1);
 }

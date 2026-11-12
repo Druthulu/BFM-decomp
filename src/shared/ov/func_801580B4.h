@@ -4,12 +4,12 @@ extern u8 D_800D524C[];
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern void guess_ApplyVertSpeed(s32 a0);
-extern void func_80147AD4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+extern void guess_AddMoveVectorThenSetVelocity(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void guess_ApplyVelocity(s32 *a0);
 extern s32 func_80161418(void *a0);
 extern void func_80156648(s32 *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
-extern void func_80147324(s32 a0);
+extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 extern int func_80155FF8(int arg, int a1);
 void func_801580B4(s32 a0) {
@@ -24,7 +24,7 @@ void func_801580B4(s32 a0) {
         guess_AddVertSpeed(a0, 0x10000);
         guess_ApplyVertSpeed(a0);
     }
-    func_80147AD4(a0, 0, 0, 0);
+    guess_AddMoveVectorThenSetVelocity(a0, 0, 0, 0);
     guess_ApplyVelocity((s32 *)a0);
     if (((s32 (*)(void *))func_80161418)((void *)a0) != 0) {
         return;
@@ -33,7 +33,7 @@ void func_801580B4(s32 a0) {
         func_80156648((s32 *)a0);
         *(s8 *)(a0 + 0x1AA) = 0xF;
         guess_SetAnimScript((s32 *)a0, (s32)D_800D524C);
-        func_80147324(0x455);
+        guess_PlaySoundUnlessSkipped(0x455);
         guess_NextStep((void *)a0);
     } else {
         func_80155FF8(a0, *(u8 *)(a0 + 0x1AA));

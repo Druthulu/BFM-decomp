@@ -704,7 +704,7 @@ extern u16 D_80126A08;
 extern s32 *D_80126A30;
 extern void func_80139954(void);
 extern s32 D_80126A3C;
-extern s32 func_801399F0(s32 a0);
+extern s32 guess_GetTextWindowResult(s32 a0);
 extern s32 D_80127520;
 extern void func_80139A34(s32 a0);
 extern s32 D_80127530[4];
@@ -834,7 +834,7 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
     extern s32 D_80185C78;
     extern s16 D_800B9A0E;
     extern void GsInitCoordinate2(s32 a0, void *a1);
-    extern void func_8013C08C(void*, void*);
+    extern void guess_InitPacketModel(void*, void*);
     s32 i;
 
     D_80185C10 = 0;
@@ -863,51 +863,51 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
         D_80185C78 = 0;
         break;
     case 0x43:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 1;
         break;
     case 0x44:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 2;
         break;
     case 0x45:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 3;
         break;
     case 0x46:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 4;
         break;
     case 0x47:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 5;
         break;
     case 0x48:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 6;
         break;
     case 0x49:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 9;
         break;
     case 0x4A:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 0xC;
         break;
     case 0x4B:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 0xD;
         break;
     case 0x4C:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 0xE;
         break;
     case 0x4D:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 0xF;
         break;
     case 0x4E:
-        ((void (*)(void *, s32))func_8013C08C)(&D_80185C10, a0);
+        ((void (*)(void *, s32))guess_InitPacketModel)(&D_80185C10, a0);
         D_80185C78 = 0x10;
         break;
     }

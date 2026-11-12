@@ -2,13 +2,13 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u16 guess_g_FrameCounter;
 extern s32 func_801619D0(void *a0);
-extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern u8 func_8014BF6C(void);
 extern s32 func_80151184(s32 a0, s32 a1, s32 a2);
 void func_80150BC8(s32 *a0) {
     if (func_801619D0(a0) != 0) {
         if (guess_g_FrameCounter & 0x7) {
-            func_80146994(0x34, (s32)a0, 0, 0);
+            guess_SpawnSmallObjectAtOrigin(0x34, (s32)a0, 0, 0);
         }
     } else {
         if ((func_8014BF6C() & 0xFF) == 0) {
