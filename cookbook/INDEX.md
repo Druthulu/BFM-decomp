@@ -1032,3 +1032,6 @@ C0579 | Append a trailing comment to many C declaration lines, proven comment-on
 C0580 | Mirror a phase's new names into the live Ghidra project (4 programs) and prove it | ghidra,rename,symbol,live-db,mirror | 2026-11-12 | 3.43/T14 | P3.43 T14
 C0581 | C-declaration scanners: nested-paren and multi-line externs, KR heads, backtracking | declarations,arity,census,KR,scanner | 2026-11-12 | 3.44/T1 | 3.44 T1 counts
 C0582 | A per-file walk cache must not decide the merge order: rebuild results in input order | determinism,cache,type_census,lever_census,union-find | 2026-11-12 | 3.44/T2 | -
+C0583 | lwl/lwr in an asm data-flow: rt is a full write, not a read (false $v1 return reads) | asm,dataflow,rabbitizer,sig-evidence,census | 2026-11-12 | 3.44/T3 | P3.44 T3.c1
+C0584 | Outgoing stack arguments from asm: a $sp+16 store counts only if never reloaded, below address-taken locals, contiguous | asm,arity,stack-args,sig-evidence,census | 2026-11-12 | 3.44/T3 | P3.44 T3.c1
+C0585 | Cross-image calls: a module's splat stack omits its overlay; resolve outside-stack jal targets by function start | asm,call-graph,splat,md,overlay,sig-evidence | 2026-11-12 | 3.44/T3 | P3.44 T3.c2
