@@ -13,6 +13,7 @@ Built by `tools/phaseend_index.py history` from the PhaseEnds and rebuilt at eac
 - 3.40 | 2026-11-07 | Residue lane | Phase 3.40 gave the struct types left undecided after 3.39 their single agreed definitions, and made every remaining compiler hint justify itself.
 - 3.41 | 2026-11-08 | Types validated and mirrored | Phase 3.41 made the type checks meaningful and mirrored the canonical types into Ghidra.
 - 3.42 | 2026-11-10 | Rename harness and shared-function form | Phase 3.42 built the groundwork for naming; no real name landed (that is 3.43).
+- 3.43 | 2026-11-12 | Evidence and best-guess names | Phase 3.43 named the code for the first time.
 - 4 | 2026-06-14 | Matching-build toolchain (WSL)
 - 5 | 2026-06-14 | splat config + build skeleton (all-asm byte-match)
 - 6 | 2026-06-14 | Compiler fingerprint + first matched functions
@@ -50,6 +51,14 @@ Built by `tools/phaseend_index.py history` from the PhaseEnds and rebuilt at eac
 - 37.5 | 2026-09-29 | PA3 migration | Automated migration from PA2 to PA3.
 
 ## This generation's recaps (3, newest first)
+
+### 3.43: Evidence and best-guess names (2026-11-12)
+
+Phase 3.43 named the code for the first time. All 500 worklist units are settled: 2 cited (g_PlayerHp and g_PlayerHpMax, live-RAM proven), 393 best guesses marked `guess_` with ledgered basis, confidence and evidence kind, and 105 left unnamed with a recorded reason. Most are guesses because the game has no public symbol map and 448 of the 500 had only their own code as evidence. All 1,083 inherited curated names now carry citations, most as `library symbol` checked against the PsyQ objects; 2 were demoted to guess_. tools-health now fails on any uncited name. Every named function has a three-line header comment, every guess_ datum declaration points to its ledger row, and every `// !FAKE:` marker shows its wall tag, kept in step by lever_census. Carry-overs: of 3.41's 38 return-less functions, 21 now have real returns and 19 have explanatory comments (the other 356 go to 3.44). Of the 9 expand-hardreg-var walls, 4 were kept and 5 re-tagged. Tooling: rename_sym, rename_scan and lint_symbol_refs work per binary. rename_scan's 11-hour git grep stall (many -e patterns) is fixed with joined chunked patterns and a 30-minute bound (C0575). name_dossier, map_cite_check and wall_probe were promoted to tools. The names are mirrored into the live Ghidra project, and the story, retrospective, wiki and decision log run to Phase 43.
+
+Milestone gate at f88462bafc, from a clean tree: R22 218/218 run alone; tools-health OK; rename_scan --ledger --gate-citations OK (2,171 rows, 0 uncited); --worklist --complete OK (0 undisposed); leverage_rank --check IDENTICAL; lint_symbol_refs rc 0; lever_census --check --strict --residue OK (unwalled 0); ghidra_rebuild --proof PROOF PASS for all six programs; doc_links and audit_public clean; ledger_backup done (archive commit 0a63007, unpushed).
+
+Open items: the developer pushes the archive clone and the repo; after the close Claude runs tools/ghidra_mcp_start.sh and asks the developer for /mcp; .run/3.43 (about 16 GB, including the 994 MB t14/ghidra.bak) can be deleted, with about 8 GB of disk free; type_census's struct_map counts vary between runs on an unchanged tree and need a fixed tie-break; the text-slot helpers (func_8001534C, func_800153CC, func_80015498) and func_80133784 are worth naming later; the targeted ram_probe session list (R128) is still owed to the developer.
 
 ### 3.42: Rename harness and shared-function form (2026-11-10)
 

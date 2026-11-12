@@ -68,3 +68,20 @@
 3.42 | T10 | done | milestone gate (Phase 3.42) | - | phase-3.42/tasks/T10.md | phase-3.42/logs/T10.md | -
 3.42 | T11 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.42) | - | phase-3.42/tasks/T11.md | phase-3.42/logs/T11.md | R3.42-007
 3.42 | T12 | done | phase cleanup (Phase 3.42) | - | phase-3.42/tasks/T12.md | phase-3.42/logs/T12.md | -
+3.43 | T1 | done | phase-start baselines, the frozen worklist and the names baseline | - | phase-3.43/tasks/T1.md | phase-3.43/logs/T1.md | -
+3.43 | T2 | done | rename tooling for the campaign: worklist check, ledger row history, generated outputs | - | phase-3.43/tasks/T2.md | phase-3.43/logs/T2.md | -
+3.43 | T3 | done | I4: real returns for the s32 functions with no return statement | - | phase-3.43/tasks/T3.md | phase-3.43/logs/T3.md | R3.43-003,R3.43-001
+3.43 | T4 | done | I3: second look at the 9 expand-hardreg-var wall tags | - | phase-3.43/tasks/T4.md | phase-3.43/logs/T4.md | R3.43-003,R3.43-001
+3.43 | T5 | done | citation rows for the 1,083 curated names, then the citation gate | - | phase-3.43/tasks/T5.md | phase-3.43/logs/T5.md | R3.43-004
+3.43 | T6 | done | naming evidence: outside sources recorded, a dossier per worklist unit | - | phase-3.43/tasks/T6.md | phase-3.43/logs/T6.md | R3.43-004,R3.43-005,R3.43-006
+3.43 | T7 | review | pilot naming batch and the conventions, for the developer's review | - | phase-3.43/tasks/T7.md | phase-3.43/logs/T7.md | -
+3.43 | T8 | done | name the worklist's data units | - | phase-3.43/tasks/T8.md | phase-3.43/logs/T8.md | -
+3.43 | T9 | done | name the worklist's functions, rank43 1 to 177 | - | phase-3.43/tasks/T9.md | phase-3.43/logs/T9.md | -
+3.43 | T10 | done | name the worklist's functions, rank43 178 to 321 | - | phase-3.43/tasks/T10.md | phase-3.43/logs/T10.md | -
+3.43 | T11 | done | name the worklist's functions, rank43 322 to 500 | - | phase-3.43/tasks/T11.md | phase-3.43/logs/T11.md | -
+3.43 | T12 | done | ledger-to-comment pass: each lever's wall and each guess's ledger pointer beside the code | - | phase-3.43/tasks/T12.md | phase-3.43/logs/T12.md | R3.43-001
+3.43 | T13 | done | the record: cookbook, decision log, wiki, standards, levers prose, tool index, kit corpus | - | phase-3.43/tasks/T13.md | phase-3.43/logs/T13.md | -
+3.43 | T14 | done | Ghidra mirror of the new names into the live project | - | phase-3.43/tasks/T14.md | phase-3.43/logs/T14.md | -
+3.43 | T15 | done | milestone gate (Phase 3.43) | - | phase-3.43/tasks/T15.md | phase-3.43/logs/T15.md | -
+3.43 | T16 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.43) | - | phase-3.43/tasks/T16.md | phase-3.43/logs/T16.md | R3.43-007
+3.43 | T17 | done | phase cleanup | - | phase-3.43/tasks/T17.md | phase-3.43/logs/T17.md | -
