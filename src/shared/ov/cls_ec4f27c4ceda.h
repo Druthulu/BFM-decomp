@@ -4,7 +4,7 @@ void SHARED_FN(void *arg0) {
     if (((s32 (*)(s32))func_8012BE54)((s32)arg0) <= 0x40000) {
         ((Unkstruct_800B5CB8 *)arg0)->unk2 = 9;
         func_8012B21C(arg0);
-        func_8012E88C((s32)arg0);
+        guess_ShowObjectModel((s32)arg0);
         ((Unkstruct_800B5CB8 *)arg0)->unkCC =
             ((s32 (*)(s32 *, s32))func_80143994)(arg0, 0x1000);
     }

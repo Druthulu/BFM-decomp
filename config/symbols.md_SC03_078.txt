@@ -1,8 +1,9 @@
 // config/symbols.md_SC03_078.txt — module md_SC03_078 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x801EF468..0x801F31A4); NEVER merged into config/symbols.us.txt.
-// count=4
+// count=5
 
 guess_SetMainCameraHandler       = 0x8012A018; // func
 guess_StartActorSequence         = 0x8012A828; // func
+guess_SetObjectPosAndYaw         = 0x8012E8E0; // func
 guess_RotTransSVWithMatrix       = 0x8012F14C; // func
 guess_GetPadPressed              = 0x80148800; // func

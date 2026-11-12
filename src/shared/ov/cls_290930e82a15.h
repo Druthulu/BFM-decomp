@@ -10,7 +10,7 @@ void SHARED_FN(s32 a0) {
     ((Unkstruct_800B5CB8 *)obj)->unkA = ((Unkstruct_800B5CB8 *)a0)->unkA;
     ((Unkstruct_800B5CB8 *)obj)->unkC = ((Unkstruct_800B5CB8 *)a0)->unkE;
     if ((CAST_SIGN(u32, a0, 0x1C) & 7) == 0) {
-        func_80128ED8(owner, (s32 *)(a0 + 0xD0));
+        guess_StepPairSequence(owner, (s32 *)(a0 + 0xD0));
     }
     if (guess_TickWaitTimer(a0) != 0) {
         guess_ZeroMemory((void *)owner, 0x38);

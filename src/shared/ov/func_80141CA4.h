@@ -1,8 +1,8 @@
-/* func_80141CA4 — shared body (overlay slot 0x80128158, h_exact 826f5416). ONE source: instantiated by #include at each
+/* guess_GetStoryGoalText — shared body (overlay slot 0x80128158, h_exact 826f5416). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_GetStoryProgress(void);
 extern s32 guess_TestGameFlag(s32 arg);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 extern unsigned char D_80112C04[];
 extern unsigned char D_80112C50[];
 extern unsigned char D_80112C9C[];
@@ -75,7 +75,10 @@ extern unsigned char D_80113BF0[];
 extern unsigned char D_80113C20[];
 extern unsigned char D_80113C3C[];
 extern unsigned char D_80113C7C[];
-unsigned char *func_80141CA4(void) {
+/* guess_GetStoryGoalText: returns the text of the hero's current goal, picked by guess_GetStoryProgress bands and game flags
+ * Confidence high, string: progress < 10 -> D_80112C04 'Gotta collect all of the Five Scrolls and save the Princess!!'; later bands and flags pick other goal lines
+ * Names ledger: config/names.tsv guess_GetStoryGoalText */
+unsigned char *guess_GetStoryGoalText(void) {
     s32 iVar3;
     s32 cVar1;
     iVar3 = guess_GetStoryProgress();
@@ -264,7 +267,7 @@ unsigned char *func_80141CA4(void) {
         return D_8011399C;
     }
     if (iVar3 < 0x3ac) {
-        cVar1 = func_800291B4(0x3b) & 0xff;
+        cVar1 = guess_GetGameVarByte(0x3b) & 0xff;
         if ((u32)cVar1 < 10) {
             return D_801139E8;
         }

@@ -1,7 +1,8 @@
 // config/symbols.md_MAIN_025.txt — module md_MAIN_025 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CAE08..0x800CC704); NEVER merged into config/symbols.us.txt.
-// count=9
+// count=10
 
+guess_WorldToScreenFlag          = 0x8012EFB8; // func
 guess_SpawnObject                = 0x801466F0; // func
 guess_SpawnSmallObject           = 0x80146A6C; // func
 guess_NextStep                   = 0x80146CA0; // func

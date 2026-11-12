@@ -176,7 +176,7 @@ void func_800CB1A0(s32 a0) {
 void func_800CB23C(void *a0) {
     extern u8 D_800CBE98[];
     extern s32 func_8014659C(void);
-    extern void func_8001CA1C(void *a0, void *a1);
+    extern void guess_InitModelObjectKind3(void *a0, void *a1);
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void guess_SetWaitTimer_2(s32 *a0, s16 a1);
@@ -191,7 +191,7 @@ void func_800CB23C(void *a0) {
     v0 = ((s32 (*)(void))func_8014659C)();
     ((Unkstruct_80126B58 *)a0)->unk20 = v0;
     if (v0 != 0) {
-        func_8001CA1C((void *)v0, D_800CBE98);
+        guess_InitModelObjectKind3((void *)v0, D_800CBE98);
         guess_TransformPosByObjMatrix(s1, (s32)a0 + 4);
         *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x10) = ((Unkstruct_80126B58 *)s1)->unk100;
         *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x14) = ((Unkstruct_80126B58 *)s1)->unk104;
@@ -382,7 +382,7 @@ s32 func_800CB7B0(s32 arg0) {
     s32 u;
 
     func_80015978(arg0 + 4, &x);
-    if ((func_8012EFB8(&x, &x) & 0xFFFFEFFF) == 0) {
+    if ((guess_WorldToScreenFlag(&x, &x) & 0xFFFFEFFF) == 0) {
         t = *(s16 *) &x;
         if (t < 0) {
             t = -t;

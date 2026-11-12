@@ -39,7 +39,7 @@ extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
 extern s32 func_80145CEC();
@@ -183,7 +183,7 @@ extern void func_80147628(s32 a0);
 extern void func_80147478(s32 a0);
 extern void func_801474D8(s32 *a0);
 extern void guess_ClearTiltVectors(s32 *a0);
-extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void func_800129CC(s32 a0, s32 a1);
 extern void func_80147514(s32 arg0);
 extern void func_80013F3C(s32 a0);
@@ -315,7 +315,7 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8014942C(s32 arg0);
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void func_80149544(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 extern void func_80149584(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8014964C(s32 param_1, s32 param_2);
 extern s32 guess_IsConfirmPressed(void *a0);
@@ -528,7 +528,7 @@ extern s32 D_80126B50;
 extern void func_8014C968(void);
 extern void func_8014C978(void);
 extern s32 func_8014C98C(void);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern s32 func_8014CA00(s32 a0);
 extern u16 func_8014CA70(s32 a0, s32 a1);
 extern s32 func_8014CA14(s32 a0, s32 a1);
@@ -1074,7 +1074,7 @@ extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
-extern void func_80139914(s32);
+extern void guess_CloseTextWindow(s32);
 extern s32 func_80159464(void);
 extern void func_801594E8(s32, s32);
 extern void func_80158FA4(s32 param_1);
@@ -1104,7 +1104,7 @@ extern void func_8013C938(void);
 extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
@@ -1547,7 +1547,7 @@ extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
-extern void func_80164DB0(void);
+extern void guess_FreeObjectAndSubObject(void);
 extern u8 D_801E3238;
 extern u8 D_801E3239;
 extern u8 D_801E323A;
@@ -1660,11 +1660,11 @@ extern u8 D_800D387C[];
 extern u8 D_800D3888[];
 extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
 extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
 extern void func_80166438(u8 *a0);
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_800D22E4(s32 a0);
 extern void func_801665B4(s32 *a0);
 extern void (*D_80193890[])(void);
@@ -2503,7 +2503,7 @@ extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
-extern void func_8012E8E0(s32 a0, s32 a1);
+extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_801789AC(s32 arg0);
@@ -2589,7 +2589,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern s32 guess_YawToPoint(void *a0, void *a1);
-extern s32 func_8012BE98(s32 a0, u16 *a1);
+extern s32 guess_DistSqXZToPoint(s32 a0, u16 *a1);
 extern s16 D_801E4BA8;
 extern s16 D_801E4BAA;
 extern s16 D_801E4BB4;
@@ -3256,7 +3256,7 @@ extern u8 D_80196614[];
 extern u8 D_80196620[];
 extern u8 D_80196660[];
 extern void func_8018B6E8(s32 param_1);
-extern s32 func_80128ED8(s32, s32*);
+extern s32 guess_StepPairSequence(s32, s32*);
 extern void func_801292C8(u8*);
 extern void func_8018B7A4(s32 param_1);
 extern void func_8018B7F8(s32 param_1);
@@ -3329,7 +3329,7 @@ extern void func_8018C928(int param_1);
 extern void func_8018C978(s32 arg0);
 extern void func_8018CA1C(void);
 extern void func_8018CA3C(s32 a0);
-extern void func_8001CA1C(s32 a0, s32 a1);
+extern void guess_InitModelObjectKind3(s32 a0, s32 a1);
 extern s32 D_80196910;
 extern s32 D_80196B68;
 extern s32 D_80196B58;
@@ -3377,7 +3377,7 @@ extern void func_8018D8A8(void *a0);
 extern void guess_NextStep_13(void *a0);
 extern void func_8018F414(void);
 extern void func_8018D918(void *a0);
-extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern void func_8018D964(void *a0);
 extern void func_8018D9A4(void *a0);
 extern void func_8018DA40(void *a0);
@@ -3991,7 +3991,7 @@ void func_8018F704(void) {
  * value in $v0 is taken via a cast at the call site. */
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s32 func_800CF854(void);
 
 extern s32 D_800A5E88;
@@ -4040,7 +4040,7 @@ void func_8018F72C(void *a0)
     D_800A5E94 = 0xCC;
     D_800A5E95 = 0x99;
     D_800A5E96 = 0x99;
-    func_80028620(0, s0);
+    guess_SetFlatLightOrDefault(0, s0);
 
     p1 = &s0[4];
     *p1 = 0;
@@ -4051,7 +4051,7 @@ void func_8018F72C(void *a0)
     D_800A5EA5 = 0x19;
     s1v = 0x4C;
     D_800A5EA6 = s1v;
-    func_80028620(1, p1);
+    guess_SetFlatLightOrDefault(1, p1);
 
     p2 = &s0[8];
     *p2 = 0;
@@ -4060,7 +4060,7 @@ void func_8018F72C(void *a0)
     D_800A5EB4 = s1v;
     D_800A5EB5 = s2v;
     D_800A5EB6 = 0x7F;
-    func_80028620(2, p2);
+    guess_SetFlatLightOrDefault(2, p2);
 
     if (func_800CF854()) {
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 0xA;
@@ -4070,7 +4070,7 @@ void func_8018F72C(void *a0)
 
 #include "common.h"
 
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern u8 D_80126D6C;
 extern s32 D_800A5E90;
 extern s32 D_800A5EA0;
@@ -4086,13 +4086,13 @@ void func_8018F894(void *a0) {
     s0 = (s32 *)&D_800A5E90;
     *(s16 *)((s32)a0 + 2) = 2;
     *s0 = 10;
-    func_80028620(0, (void *)((s32)s0 - 8));
+    guess_SetFlatLightOrDefault(0, (void *)((s32)s0 - 8));
 
     D_800A5EA0 = 8;
-    func_80028620(1, (void *)((s32)s0 + 8));
+    guess_SetFlatLightOrDefault(1, (void *)((s32)s0 + 8));
 
     D_800A5EB0 = -15;
-    func_80028620(2, (void *)((s32)s0 + 0x18));
+    guess_SetFlatLightOrDefault(2, (void *)((s32)s0 + 0x18));
 }
 
 
@@ -4109,7 +4109,7 @@ void func_8018F91C(s32 param_1)
 
 #include "common.h"
 
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s32 D_800A5E88;
 extern s32 D_800A5E8C;
 extern s32 D_800A5E90;
@@ -4144,11 +4144,11 @@ void func_8018F944(void *a0)
     D_800A5E94 = 0xFF;
     D_800A5E95 = 0x4C;
     D_800A5E96 = 0;
-    func_80028620(0, s0);
+    guess_SetFlatLightOrDefault(0, s0);
 
     D_800A5EA0 = -0xE;
     D_800A5EA5 = 0;
-    func_80028620(1, &s0[4]);
+    guess_SetFlatLightOrDefault(1, &s0[4]);
 
     p = &s0[8];
     *p = 0;
@@ -4157,14 +4157,14 @@ void func_8018F944(void *a0)
     D_800A5EB4 = 0xCC;
     D_800A5EB5 = 0x99;
     D_800A5EB6 = 0x99;
-    func_80028620(2, p);
+    guess_SetFlatLightOrDefault(2, p);
 }
 
 
 #include "common.h"
 
 extern s32 rand(void);
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s32 D_801270C8;
 extern s32 D_800A5E88;
 extern s32 D_800A5E90;
@@ -4186,21 +4186,21 @@ void func_8018FA34(s32 *a0)
     v0 = rand();
     D_800A5E90 = (v0 & 0x1F) - 0x14;
 
-    func_80028620(0, s0);
+    guess_SetFlatLightOrDefault(0, s0);
 
     if (D_801270C8 == 0xA) {
         *(s16 *)((u8 *)s1 + 2) = 5;
         D_800A5EA0 = 0xE;
-        func_80028620(1, (void *)((u8 *)s0 + 0x10));
+        guess_SetFlatLightOrDefault(1, (void *)((u8 *)s0 + 0x10));
         D_800A5EB0 = -0xA;
-        func_80028620(2, (void *)((u8 *)s0 + 0x20));
+        guess_SetFlatLightOrDefault(2, (void *)((u8 *)s0 + 0x20));
     }
 }
 
 
 #include "common.h"
 
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s32 D_801270C8;
 extern s32 D_800A5E88;
 extern s32 D_800A5E90;
@@ -4221,14 +4221,14 @@ void func_8018FAE0(s32 a0) {
     v0 = rand();
     D_800A5E90 = (v0 & 0x1F) - 0xC;
 
-    func_80028620(0, s0);
+    guess_SetFlatLightOrDefault(0, s0);
 
     if (D_801270C8 == 0xB) {
         *(s16 *)((u8 *)s1 + 2) = 6;
         D_800A5EA0 = -0xE;
-        func_80028620(1, (void *)((u8 *)s0 + 0x10));
+        guess_SetFlatLightOrDefault(1, (void *)((u8 *)s0 + 0x10));
         D_800A5EB0 = 0xA;
-        func_80028620(2, (void *)((u8 *)s0 + 0x20));
+        guess_SetFlatLightOrDefault(2, (void *)((u8 *)s0 + 0x20));
     }
 }
 
@@ -4236,7 +4236,7 @@ void func_8018FAE0(s32 a0) {
 #include "common.h"
 
 extern s32 rand(void);
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s32 D_801270C8;
 extern s32 D_800A5E88;
 extern s32 D_800A5E90;
@@ -4257,14 +4257,14 @@ void func_8018FB8C(void *a0) {
     tmp = rand();
     D_800A5E90 = (tmp & 0x1F) - 0x14;
 
-    func_80028620(0, s0);
+    guess_SetFlatLightOrDefault(0, s0);
 
     if (D_801270C8 == 0xC) {
         *(s16 *)((u8 *)s1 + 2) = 7;
         D_800A5EA0 = 0xE;
-        func_80028620(1, (void *)((u8 *)s0 + 0x10));
+        guess_SetFlatLightOrDefault(1, (void *)((u8 *)s0 + 0x10));
         D_800A5EB0 = -0xA;
-        func_80028620(2, (void *)((u8 *)s0 + 0x20));
+        guess_SetFlatLightOrDefault(2, (void *)((u8 *)s0 + 0x20));
     }
 }
 
@@ -4287,7 +4287,7 @@ extern s32 D_800A5E88;
 extern s32 D_800A5E90;
 extern s32 D_800A5EA0;
 extern s32 D_800A5EB0;
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern u8 D_80126D6C;
 
 void func_8018FC38(s32 a0) {
@@ -4304,15 +4304,15 @@ void func_8018FC38(s32 a0) {
     v0 = (v0 & 0x1F) - 0xC;
     D_800A5E90 = v0;
 
-    func_80028620(a0, s0);
+    guess_SetFlatLightOrDefault(a0, s0);
 
     if (D_80126D6C == 0xD) {
         *(s16*)(s1 + 0x2) = 0x8;
         D_800A5EA0 = -0xE;
-        func_80028620(1, &s0[1]);
+        guess_SetFlatLightOrDefault(1, &s0[1]);
 
         D_800A5EB0 = 0xA;
-        func_80028620(2, &s0[2]);
+        guess_SetFlatLightOrDefault(2, &s0[2]);
     }
 }
 
@@ -4320,7 +4320,7 @@ void func_8018FC38(s32 a0) {
 #include "common.h"
 
 extern s32 rand(void);
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s32 D_801270C8;
 extern s32 D_800A5E88;
 extern s32 D_800A5E8C;
@@ -4352,7 +4352,7 @@ void func_8018FCE4(void *a0)
     v0 = rand();
     D_800A5E90 = (v0 & 0x1F) - 0x14;
 
-    func_80028620(0, s0);
+    guess_SetFlatLightOrDefault(0, s0);
 
     if (D_801270C8 == 0xD) {
         *(s16 *)((u8 *)s1 + 2) = 9;
@@ -4362,11 +4362,11 @@ void func_8018FCE4(void *a0)
         D_800A5E94 = 0xCC;
         D_800A5E95 = 0x99;
         D_800A5E96 = 0x99;
-        func_80028620(0, s0);
+        guess_SetFlatLightOrDefault(0, s0);
 
         D_800A5EA0 = -8;
         D_800A5EA5 = 0x19;
-        func_80028620(1, &s0[4]);
+        guess_SetFlatLightOrDefault(1, &s0[4]);
 
         p = &s0[8];
         *p = 0;
@@ -4375,14 +4375,14 @@ void func_8018FCE4(void *a0)
         D_800A5EB4 = 0x4C;
         D_800A5EB5 = 0x33;
         D_800A5EB6 = 0x7F;
-        func_80028620(2, p);
+        guess_SetFlatLightOrDefault(2, p);
     }
 }
 
 
 #include "common.h"
 
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern u8 D_80126D6C;
 extern s32 D_800A5E90;
 extern s32 D_800A5EA0;
@@ -4394,13 +4394,13 @@ void func_8018FE18(void *a0) {
 
         *(s16 *)((s32)a0 + 0x2) = 0xA;
         *s0 = 0xA;
-        func_80028620(0, (void *)((s32)s0 - 0x8));
+        guess_SetFlatLightOrDefault(0, (void *)((s32)s0 - 0x8));
 
         D_800A5EA0 = 0x8;
-        func_80028620(1, (void *)((s32)s0 + 0x8));
+        guess_SetFlatLightOrDefault(1, (void *)((s32)s0 + 0x8));
 
         D_800A5EB0 = -0xF;
-        func_80028620(2, (void *)((s32)s0 + 0x18));
+        guess_SetFlatLightOrDefault(2, (void *)((s32)s0 + 0x18));
     }
 }
 
@@ -4428,7 +4428,7 @@ extern u8  D_800A5EB4;
 extern u8  D_800A5EB5;
 extern u8  D_800A5EB6;
 
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 
 void func_8018FEA0(void *a0)
 {
@@ -4452,7 +4452,7 @@ void func_8018FEA0(void *a0)
         D_800A5E95 = 0x66;
         s1v = 0x33;
         D_800A5E96 = s1v;
-        func_80028620(0, s0);
+        guess_SetFlatLightOrDefault(0, s0);
 
         p1 = &s0[4];
         *p1 = 0;
@@ -4462,7 +4462,7 @@ void func_8018FEA0(void *a0)
         D_800A5EA5 = 0;
         s2v = 0x4C;
         D_800A5EA6 = s2v;
-        func_80028620(1, p1);
+        guess_SetFlatLightOrDefault(1, p1);
 
         p2 = &s0[8];
         *p2 = 0;
@@ -4471,14 +4471,14 @@ void func_8018FEA0(void *a0)
         D_800A5EB4 = s2v;
         D_800A5EB5 = s1v;
         D_800A5EB6 = 0x7F;
-        func_80028620(2, p2);
+        guess_SetFlatLightOrDefault(2, p2);
     }
 }
 
 
 #include "common.h"
 
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s32 D_801270C8;
 extern u8 D_800A5E94;
 extern u8 D_800A5E96;
@@ -4498,15 +4498,15 @@ void func_8018FFC4(void *a0) {
     *(s16 *)((s32)a0 + 2) = 0xC;
     *s0 = 0xFF;
     D_800A5E96 = 0;
-    func_80028620(0, (void *)((s32)s0 - 0xC));
+    guess_SetFlatLightOrDefault(0, (void *)((s32)s0 - 0xC));
 
     D_800A5E9C = 0;
     D_800A5EA0 = -0x18;
-    func_80028620(1, (void *)((s32)s0 + 4));
+    guess_SetFlatLightOrDefault(1, (void *)((s32)s0 + 4));
 
     D_800A5EAC = 0xB;
     D_800A5EB0 = 0x1C;
-    func_80028620(2, (void *)((s32)s0 + 0x14));
+    guess_SetFlatLightOrDefault(2, (void *)((s32)s0 + 0x14));
 }
 
 

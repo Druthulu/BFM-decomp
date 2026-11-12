@@ -3,7 +3,7 @@
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32, s32);
-extern s32 func_8012C588(s32, s32);
+extern s32 guess_SpawnActorNoArg(s32, s32);
 extern void func_8018A0B4(void);
 void func_8018B0AC(void *a0) {
     s32 v0;
@@ -15,12 +15,12 @@ void func_8018B0AC(void *a0) {
         return;
     }
     guess_InitModelObject(v0, 0);
-    func_8012C588(0x13F, 0);
-    func_8012C588(0x66, 0);
-    func_8012C588(0x65, 0);
-    func_8012C588(0x14C, 0);
-    func_8012C588(0x335, 0);
-    func_8012C588(0x3D9, 0);
+    guess_SpawnActorNoArg(0x13F, 0);
+    guess_SpawnActorNoArg(0x66, 0);
+    guess_SpawnActorNoArg(0x65, 0);
+    guess_SpawnActorNoArg(0x14C, 0);
+    guess_SpawnActorNoArg(0x335, 0);
+    guess_SpawnActorNoArg(0x3D9, 0);
     val = *(u16 *)((char *)a0 + 0x72);
     *(u16 *)((char *)a0 + 0x2) = 1;
     val |= 0x1000;

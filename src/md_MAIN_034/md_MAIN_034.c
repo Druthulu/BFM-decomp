@@ -778,11 +778,11 @@ void func_800CC298(void *a0) {
 
     extern u8 D_80078EC1;
     extern void (*D_800CCA24[])(void *);
-    extern void func_800CC6A4();
+    extern void guess_FreeObjectAndSubObject_19();
     extern void func_800CC968(void *a0);
     extern void func_800CC9AC(void *a0);
     if (D_80078EC1 != 0x10) {
-        func_800CC6A4();
+        guess_FreeObjectAndSubObject_19();
     } else {
         func_800CC968(a0);
         func_800CC9AC(a0);
@@ -807,7 +807,7 @@ extern s32 func_80146578(void);
 extern void func_8001CD9C(void *a0, void *a1);
 extern void guess_BuildCircle12Points(void *a0, u16 a1);
 extern void guess_NextStep(void *a0);
-extern void func_800CC6A4();   /* TU later defines this void(void) at line 78; call with an
+extern void guess_FreeObjectAndSubObject_19();   /* TU later defines this void(void) at line 78; call with an
                                  * unspecified-arglist decl here (house style, see func_800CC1E8
                                  * above) avoids a 1-arg-vs-0-arg prototype conflict when this
                                  * function's INCLUDE_ASM slot (earlier in file) is replaced. */
@@ -856,7 +856,7 @@ void func_800CC310(void *a0)
 
         guess_NextStep(a0);
     } else {
-        func_800CC6A4(a0);
+        guess_FreeObjectAndSubObject_19(a0);
     }
 }
 
@@ -971,13 +971,16 @@ void func_800CC658(void *a0) {
     v = *(u16 *)((u8 *)v1 + 0x1E) + 0x80;
     *(u16 *)((u8 *)v1 + 0x1E) = v;
     if (v >= 0x1000) {
-        func_800CC6A4(a0);
+        guess_FreeObjectAndSubObject_19(a0);
     }
 }
 
 
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
-void func_800CC6A4(void) {
+/* guess_FreeObjectAndSubObject_19: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_19 */
+void guess_FreeObjectAndSubObject_19(void) {
     func_80162CCC();
 }
 
@@ -1015,7 +1018,7 @@ void func_800CC6C4(void *a0, void *a1, void *a2, void *a3) {
 
 
 extern void func_80015978(s32 a0, void *a1);
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 extern void func_80013F3C(s32 a0);
 extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80020F34(s32 a0, s32 a1);
@@ -1039,7 +1042,7 @@ void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
     *(W *)((s32)a4 + 0x2c) = *(W *)a2;
 
     func_80015978(a0 + 4, &v1);
-    ((void (*)())func_8012EFB8)(&v1, &v1);
+    ((void (*)())guess_WorldToScreenFlag)(&v1, &v1);
     func_80013F3C((s32)&buf);
     func_800123F0((s32)&buf, CAST_SIGN(s16, (s32)a3, 6));
 

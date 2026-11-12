@@ -17,8 +17,8 @@ void func_801594E8(s32 param_1, s32 param_2)
         t.a = guess_TestGameFlag(0xB);
         t.b = guess_TestGameFlag(0xC);
         t.c = guess_TestGameFlag(0xD);
-        t.d = func_800291B4(0x2C);
-        t.e = func_800291B4(0x2D);
+        t.d = guess_GetGameVarByte(0x2C);
+        t.e = guess_GetGameVarByte(0x2D);
         saved = *(s32 *)(p + 0x4);
         func_80029274();
         func_80029044();

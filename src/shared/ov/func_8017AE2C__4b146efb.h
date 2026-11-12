@@ -42,7 +42,7 @@ void func_8017AE2C(s32 param_1) {
                 guess_SnapActorToGround((u8 *)pv);
                 /* &D_8018FA80+0xC == &D_8018FA8C; distinct rtx defeats gcc's address-CSE
                    so BE98's arg rematerializes instead of sharing the store's reg (byte-gate). */
-                if (func_8012BE98(pv, (u16 *)((s32)&D_8018FA80 + 0xC)) < 0x101) {
+                if (guess_DistSqXZToPoint(pv, (u16 *)((s32)&D_8018FA80 + 0xC)) < 0x101) {
                     D_8018FA80 = 0;
                     D_8018FA82 = 0;
                 }
@@ -67,7 +67,7 @@ void func_8017AE2C(s32 param_1) {
         *(u16 *)(pv + 0xA) -= 8;
         guess_SnapActorToGround((u8 *)pv);
         /* see note above: distinct rtx for the same address defeats address-CSE. */
-        if (func_8012BE98(pv, (u16 *)((s32)&D_8018FA80 + 0xC)) < 0x101) {
+        if (guess_DistSqXZToPoint(pv, (u16 *)((s32)&D_8018FA80 + 0xC)) < 0x101) {
             D_8018FA80 = 0;
             D_8018FA82 = 0;
         }

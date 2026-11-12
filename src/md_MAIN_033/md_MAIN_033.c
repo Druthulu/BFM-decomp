@@ -76,12 +76,12 @@ void func_800CAFE8(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CB8BC[])(void);
     extern void func_800CB3A4(void *arg0);
-    extern void func_800CB384(void);
+    extern void guess_FreeObjectAndSubObject_5(void);
     if (D_80078EC1 == 0xb) {
         D_800CB8BC[*(u16 *)((s32)arg0 + 2)]();
         ((void (*)(s32))func_800CB3A4)(arg0);
     } else {
-        ((void (*)(s32))func_800CB384)(arg0);
+        ((void (*)(s32))guess_FreeObjectAndSubObject_5)(arg0);
     }
 }
 
@@ -92,7 +92,7 @@ void func_800CB058(s32 arg0)
     extern s32 D_800CB984;
     extern u8 D_800CB988[];
     extern s32 func_80146578(void);
-    extern void func_800CB384(void);
+    extern void guess_FreeObjectAndSubObject_5(void);
     extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
@@ -137,7 +137,7 @@ void func_800CB058(s32 arg0)
     guess_PlaySoundUnlessSkipped(0x8EF);
     return;
 fail:
-    ((void (*)(s32))func_800CB384)(s1a);
+    ((void (*)(s32))guess_FreeObjectAndSubObject_5)(s1a);
 }
 
 
@@ -239,7 +239,10 @@ void func_800CB2C8(void *arg0) {
 
 
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
-void func_800CB384(void) {
+/* guess_FreeObjectAndSubObject_5: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_5 */
+void guess_FreeObjectAndSubObject_5(void) {
     func_80162CCC();
 }
 

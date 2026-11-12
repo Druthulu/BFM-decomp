@@ -4,7 +4,7 @@ void SHARED_FN(s32 a0)
 {
     if (guess_TickWaitTimer(a0) != 0) {
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
-        func_8012E88C((u8 *)a0);
+        guess_ShowObjectModel((u8 *)a0);
         {
             s32 t = ((Unkstruct_800B5CB8 *)a0)->unkCC;
             if (t != 0) {

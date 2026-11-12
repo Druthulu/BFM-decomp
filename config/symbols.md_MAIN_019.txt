@@ -1,7 +1,9 @@
 // config/symbols.md_MAIN_019.txt — module md_MAIN_019 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CAE08..0x800CC870); NEVER merged into config/symbols.us.txt.
-// count=9
+// count=11
 
+guess_FreeObjectAndSubObject_9   = 0x800CB4A8; // func
+guess_FreeObjectAndSubObject_17  = 0x800CBF60; // func
 guess_SpawnObject                = 0x801466F0; // func
 guess_SpawnSmallObject           = 0x80146A6C; // func
 guess_NextStep                   = 0x80146CA0; // func

@@ -45,7 +45,7 @@ s32 SHARED_FN(void *arg0) {
     diff[2] = pointA[2] - pointB[2];
 
     VectorNormalSS(diff, diff);
-    func_8012F568(1, 1, CAST_WIDTH(s16, (s32)arg0, 0xDC), 0xD, (s32)pointA, (s32)diff);
+    guess_SetPlayerHit(1, 1, CAST_WIDTH(s16, (s32)arg0, 0xDC), 0xD, (s32)pointA, (s32)diff);
     return 1;
 
 ret0:

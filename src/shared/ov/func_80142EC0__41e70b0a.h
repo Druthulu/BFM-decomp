@@ -14,7 +14,7 @@ void func_80142EC0(s32 param_1) {
     if (ret == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(d);
     } else {
-        func_8001CA1C(obj, 0);
+        guess_InitModelObjectKind3(obj, 0);
         sVar2 = (s16)((*(u16 *)(d + 0x70) & 0xf) * 0x600 + 0xc00);
         *(s16 *)(obj + 0x1a) = sVar2;
         *(s16 *)(obj + 0x18) = sVar2;

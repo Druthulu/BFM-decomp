@@ -1,10 +1,10 @@
 /* func_8012EF34 — shared body (overlay slot 0x80128158, h_exact 6fa7918e). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_8012EFB8();  // K&R: 1 of 2 args (P37 unalias t4_ua1)
+extern s32 guess_WorldToScreenFlag();  // K&R: 1 of 2 args (P37 unalias t4_ua1)
 s32 func_8012EF34(s32 a0, s32 a1) {
     s32 sp10, r;
     register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_hdr1)
-    r = func_8012EFB8(a0);
+    r = guess_WorldToScreenFlag(a0);
     {
         register s32 *p __asm__("$3") = &sp10;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_hdr1)
         gte_stsz(p);

@@ -1535,7 +1535,7 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 
 extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_8016F1AC(void);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern void guess_SetGameFlag(s32, s32);
 
 #include "../shared/ov/func_8014C99C.h"

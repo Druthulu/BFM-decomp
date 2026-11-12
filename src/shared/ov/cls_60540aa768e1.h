@@ -13,7 +13,7 @@ void SHARED_FN(s32 arg0)
     v = ((Unkstruct_800B5CB8 *)obj)->unk1A - 0x100;
     ((Unkstruct_800B5CB8 *)obj)->unk1A = v;
     ((Unkstruct_800B5CB8 *)obj)->unk18 = v;
-    if (func_80128ED8(obj, (s32 *)(arg0 + 0x24)) != 0) {
+    if (guess_StepPairSequence(obj, (s32 *)(arg0 + 0x24)) != 0) {
         func_801292C8((u8 *)arg0);
     } else {
         timer = ((Unkstruct_800B5CB8 *)arg0)->unk1C;

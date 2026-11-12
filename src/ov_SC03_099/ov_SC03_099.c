@@ -168,12 +168,12 @@ void func_801287B8(void) {
 
 
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern s32 D_801BCCB4;
 extern u8 D_800AEFD0;
 
 s32 func_801288B0(void) {
-    func_8001ABBC(0, 0, &D_800AEFD0, D_801BCCB4, 0);
+    guess_RequestResourceLoad(0, 0, &D_800AEFD0, D_801BCCB4, 0);
 }
 
 
@@ -187,14 +187,14 @@ extern int D_800A2E20;
 extern int D_800AF558;
 extern int D_801BCCB4;
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int func_801288E8(int arg0)
 {
     int *p = &guess_g_CdReadList;
     *p = 0x60;
     guess_g_CdReadListDest = &D_800A2E20;
-    ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AF558, D_801BCCB4, p);
+    ((void (*)(int, int, int *, int, int *))guess_RequestResourceLoad)(0, 0, &D_800AF558, D_801BCCB4, p);
 }
 
 
@@ -203,7 +203,7 @@ int func_801288E8(int arg0)
 // @class: remat
 // @unstuck(P36): none — MATCH (pointer-var forces single materialization of &guess_g_CdReadList, reused as store base + arg5)
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern int guess_g_CdReadList;
 extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
@@ -215,7 +215,7 @@ s32 func_80128940(s32 _arg0)
     s32 *p = &guess_g_CdReadList;
     *p = 0x5E;
     guess_g_CdReadListDest = &D_800A2E20;
-    ((void (*)(s32, s32, void *, s32, void *))func_8001ABBC)(0, 0, &D_800AF560, D_801BCCB4, p);
+    ((void (*)(s32, s32, void *, s32, void *))guess_RequestResourceLoad)(0, 0, &D_800AF560, D_801BCCB4, p);
 }
 
 
@@ -230,24 +230,24 @@ extern int D_800A2E20;
 extern int D_800AECB0;
 extern s32 D_801BCCB4;
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_80128998(void)
 {
     int *p = &guess_g_CdReadList;
     *p = 13;
     guess_g_CdReadListDest = &D_800A2E20;
-    ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AECB0, D_801BCCB4, p);
+    ((void (*)(int, int, int *, int, int *))guess_RequestResourceLoad)(0, 0, &D_800AECB0, D_801BCCB4, p);
 }
 
 
 
 extern s32 D_801BCCB4;
 extern u8 D_800AECB8;
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_801289F0(void) {
-    func_8001ABBC(0, 0, &D_800AECB8, D_801BCCB4, 0);
+    guess_RequestResourceLoad(0, 0, &D_800AECB8, D_801BCCB4, 0);
 }
 
 
@@ -324,7 +324,7 @@ void func_80128AF4(void) {
 
 
 extern CdFileLoc_80128C98 cdFileLocTable[];
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128C98(s32 arg0) {
 
@@ -332,7 +332,7 @@ s32 func_80128C98(s32 arg0) {
     s16 idx = D_801836D0[arg0];
 
     if (idx >= 0) {
-        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], D_801BCCB4, 0);
+        guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[idx], D_801BCCB4, 0);
     } else {
         return 1;
     }
@@ -342,7 +342,7 @@ s32 func_80128C98(s32 arg0) {
 
 
 extern CdFileLoc cdFileLocTable[];
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128CFC(s32 arg0) {
 
@@ -350,7 +350,7 @@ s32 func_80128CFC(s32 arg0) {
     s16 idx = D_801836E0[arg0];
 
     if (idx >= 0) {
-        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], D_801BCCB4, 0);
+        guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[idx], D_801BCCB4, 0);
     } else {
         return 1;
     }

@@ -4,7 +4,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
-extern void func_8012E8E0(s32 a0, s32 a1);
+extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern s32 D_801B6418[];
 extern s32 D_801E052C[];
 void func_8018B388(s32 a0) {
@@ -17,6 +17,6 @@ void func_8018B388(s32 a0) {
     }
     guess_InitModelObject(v0, (s32)D_801B6418);
     func_8001D0E8(*(s32 *)(a0 + 0x20), 0x7FFF, 0x7FFF);
-    func_8012E8E0(a0, (s32)D_801E052C);
+    guess_SetObjectPosAndYaw(a0, (s32)D_801E052C);
     *(s16 *)(a0 + 0x2) = 1;
 }

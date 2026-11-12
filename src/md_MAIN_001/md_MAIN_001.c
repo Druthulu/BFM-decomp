@@ -154,7 +154,7 @@ void func_800CF0C4(void) {
 }
 
 
-extern s32 func_8001ABBC(s32 arg0, s32 arg1, void *arg2, s32 arg3, s32 *arg4);
+extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, void *arg2, s32 arg3, s32 *arg4);
 extern s32 D_800D3C0C;
 extern s32 guess_g_CdReadList;
 extern s32 *guess_g_CdReadListDest;
@@ -166,7 +166,7 @@ void func_800CF114(void) {
         s32 *p = &guess_g_CdReadList;
         *p = 0;
         guess_g_CdReadListDest = &D_800A2E20;
-        if (func_8001ABBC(0, 0, D_800AE840, 0, p) != 0) {
+        if (guess_RequestResourceLoad(0, 0, D_800AE840, 0, p) != 0) {
             D_800D3C0C = 1;
         }
     }

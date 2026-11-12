@@ -6,7 +6,7 @@ void *param_1;
     if ((CAST_SIGN(u16, (s32)param_1, 0x70) & 1) != 0) {
         return;
     }
-    if (func_8012BE98((s32)param_1, (u16 *)&D_80126CB4) > 0x240000) {
+    if (guess_DistSqXZToPoint((s32)param_1, (u16 *)&D_80126CB4) > 0x240000) {
         return;
     }
     ((Unkstruct_800B5CB8 *)param_1)->unk2 = 0xC;

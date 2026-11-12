@@ -40,7 +40,7 @@ extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
 extern s32 func_80145CEC();
@@ -184,7 +184,7 @@ extern void func_80147628(s32 a0);
 extern void func_80147478(s32 a0);
 extern void func_801474D8(s32 *a0);
 extern void guess_ClearTiltVectors(s32 *a0);
-extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void func_800129CC(s32 a0, s32 a1);
 extern void func_80147514(s32 arg0);
 extern void func_80013F3C(s32 a0);
@@ -316,7 +316,7 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8014942C(s32 arg0);
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void func_80149544(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 extern void func_80149584(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8014964C(s32 param_1, s32 param_2);
 extern s32 guess_IsConfirmPressed(void *a0);
@@ -530,7 +530,7 @@ extern s32 D_80126B50;
 extern void func_8014C968(void);
 extern void func_8014C978(void);
 extern s32 func_8014C98C(void);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern s32 func_8014CA00(s32 a0);
 extern u16 func_8014CA70(s32 a0, s32 a1);
 extern s32 func_8014CA14(s32 a0, s32 a1);
@@ -1077,7 +1077,7 @@ extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
-extern void func_80139914(s32);
+extern void guess_CloseTextWindow(s32);
 extern s32 func_80159464(void);
 extern void func_801594E8(s32, s32);
 extern void func_80158FA4(s32 param_1);
@@ -1107,7 +1107,7 @@ extern void func_8013C938(void);
 extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
@@ -1548,7 +1548,7 @@ extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
-extern void func_80164DB0(void);
+extern void guess_FreeObjectAndSubObject(void);
 extern u8 D_8018F078;
 extern u8 D_8018F079;
 extern u8 D_8018F07A;
@@ -1661,11 +1661,11 @@ extern u8 D_800D387C[];
 extern u8 D_800D3888[];
 extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_800D22E4(s32 a0);
 extern void func_801665B4(s32 *a0);
 extern void (*D_801821CC[])(void);
@@ -2512,7 +2512,7 @@ extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
-extern void func_8012E8E0(s32 a0, s32 a1);
+extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_801789AC(s32 arg0);
@@ -2711,7 +2711,7 @@ extern s32 * func_8017E1D4(s32 *ot, Panel_8017E978_8017E1D4 *w0, s16 idx);
  *
  * Message/portrait-table selector.  Family exemplar: the same body shape is the
  * already-banked `func_8014032C` in ov_SC03_006 (`result = guess_g_EmptyText;` default
- * + a jump table of `result = <array>` arms + the `func_800291B4(x) & 0xFF`
+ * + a jump table of `result = <array>` arms + the `guess_GetGameVarByte(x) & 0xFF`
  * ladder).  Read that function first when remapping the 4 siblings.
  *
  * JUMP TABLE (jtbl_801CC4DC, 10 entries, minval 0):
@@ -2834,7 +2834,7 @@ s32 func_8017E5B8(s32 param_1, s32 param_2) {
             s32 v;
 
             j = (s16)param_2;
-            v = func_800291B4(D_801802E4[j]) & 0xFF;
+            v = guess_GetGameVarByte(D_801802E4[j]) & 0xFF;
             if (v == 0) {
                 result = D_80112B58;
             } else if (v == 1) {
@@ -2866,7 +2866,7 @@ s32 func_8017E5B8(s32 param_1, s32 param_2) {
         break;
     case 9:
         c = D_80190244[(s16)param_2];
-        if ((func_800291B4(c + 0x62) & 0x40) != 0) {
+        if ((guess_GetGameVarByte(c + 0x62) & 0x40) != 0) {
             result = D_8018C200[c];
         }
         break;
@@ -3106,7 +3106,7 @@ s32 func_8017EB30(s32 a0, s32 a1) {
     extern u32 D_8018C658;
 
     extern s32  guess_GetStoryProgress(void);
-    extern s32  func_800291B4(s32 arg);
+    extern s32  guess_GetGameVarByte(s32 arg);
     extern void guess_RequestSound(s32 a0, s32 a1);
     extern void guess_SetGameFlag(s32 a0, s32 a1);
     extern s16  guess_GetMenuPanelCursorIndex(s16 a0);
@@ -3163,7 +3163,7 @@ s32 func_8017EB30(s32 a0, s32 a1) {
         if ((s16)a1 != 1) {
             return -1;
         }
-        if ((func_800291B4(D_80190114 + 0x62) & 0x20) != 0) {
+        if ((guess_GetGameVarByte(D_80190114 + 0x62) & 0x20) != 0) {
             goto call_45F;
         }
         D_80190110 = 2;
@@ -3187,13 +3187,13 @@ s32 func_8017EB30(s32 a0, s32 a1) {
             sel = (u32)&D_8018C520;
             goto set_sel;
         sel_094:
-            if ((func_800291B4(0x40) & 0xFF) == 0) {
+            if ((guess_GetGameVarByte(0x40) & 0xFF) == 0) {
                 goto call_45F;
             }
             sel = (u32)&D_8018C560;
             goto set_sel;
         }
-        if ((func_800291B4(D_801802E4[t]) & 0xFF) == 0) {
+        if ((guess_GetGameVarByte(D_801802E4[t]) & 0xFF) == 0) {
             goto call_45F;
         }
         if ((u32)(mode - 0x294) < 0xF0) {
@@ -3213,7 +3213,7 @@ s32 func_8017EB30(s32 a0, s32 a1) {
 
     case 6:
         if ((s16)a1 >= 3) {
-            if ((func_800291B4(0x62) & 0xFF) == 0) {
+            if ((guess_GetGameVarByte(0x62) & 0xFF) == 0) {
                 sel = (u32)&D_8018C48C;
                 goto set_sel;
             }
@@ -3236,7 +3236,7 @@ s32 func_8017EB30(s32 a0, s32 a1) {
 
     case 9:
         b = D_80190244[(s16)a1];
-        if ((func_800291B4(b + 0x62) & 0x40) == 0) {
+        if ((guess_GetGameVarByte(b + 0x62) & 0x40) == 0) {
             goto call_45F;
         }
         D_80190110 = b | 0x100;
@@ -3294,12 +3294,12 @@ s16 func_8017EF8C(void) {
     s32 result;
     s16 idx;
 
-    if ((func_800291B4(D_801802EA) & 0xFF) == 0) {
+    if ((guess_GetGameVarByte(D_801802EA) & 0xFF) == 0) {
         result = 0;
         goto end;
     }
     idx = guess_GetMenuPanelCursorIndex(1);
-    result = (func_800291B4(D_801802E4[idx]) & 0xFF) == 0;
+    result = (guess_GetGameVarByte(D_801802E4[idx]) & 0xFF) == 0;
 end:
     return result;
 }

@@ -27,7 +27,7 @@ void SHARED_FN(s32 param_1) {
 
     func_8012931C(param_1);
 
-    if (func_80128ED8((void *)q, (void *)(param_1 + 0x24)) != 0) {
+    if (guess_StepPairSequence((void *)q, (void *)(param_1 + 0x24)) != 0) {
         func_801292C8(param_1);
     }
 }

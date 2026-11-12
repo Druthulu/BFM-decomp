@@ -8,7 +8,7 @@
         s32 v1;
         v0 = guess_GetTextWindowResult(((Unkstruct_8017F2C4 *)s0)->unk198);
         if (v0 != 0) {
-            func_80139914(((Unkstruct_8017F2C4 *)s0)->unk198);
+            guess_CloseTextWindow(((Unkstruct_8017F2C4 *)s0)->unk198);
             v1 = s0[0x214];
             s0[0x4D] = (s0[0x4D]) - 1;
             s0[0x214] = v1 + 1;

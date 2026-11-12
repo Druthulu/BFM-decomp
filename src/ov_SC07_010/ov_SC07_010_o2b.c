@@ -243,7 +243,7 @@ void func_8013CB84(void) {
 
 void func_8013CF68()
 {
-    extern void func_80028620(s32 a0, void *a1);
+    extern void guess_SetFlatLightOrDefault(s32 a0, void *a1);
     extern u8 D_800A5E94[];
     extern s32 D_800A5E8C;
     extern s32 D_800A5E90;
@@ -268,20 +268,20 @@ void func_8013CF68()
     D_800A5E8C = 0x1E;
     D_800A5E90 = 0;
     base[0] = t0; D_800A5E95 = t1; D_800A5E96 = t2;
-    func_80028620(0, base - 0xC);
+    guess_SetFlatLightOrDefault(0, base - 0xC);
 
     *(s32 *)(base + 4) = 0; *(s32 *)(base + 8) = 7;
     t0 = D_801A93F3; t1 = D_801A93F4; t2 = D_801A93F5;
     *(s32 *)(base + 0xC) = 0x14;
     base[0x10] = t0; base[0x11] = t1; base[0x12] = t2;
-    func_80028620(1, base + 4);
+    guess_SetFlatLightOrDefault(1, base + 4);
 
     *(s32 *)(base + 0x14) = 0;
     t0 = D_801A93F6; t1 = D_801A93F7; t2 = D_801A93F8;
     *(s32 *)(base + 0x18) = -0x12;
     *(s32 *)(base + 0x1C) = 0;
     base[0x20] = t0; base[0x21] = t1; base[0x22] = t2;
-    func_80028620(2, base + 0x14);
+    guess_SetFlatLightOrDefault(2, base + 0x14);
 }
 
 
@@ -1145,7 +1145,7 @@ void func_8013E958()
     extern u16 D_80115124;
     extern s32 guess_g_MenuPanelSlideStep;
     extern s32 D_80183360;
-    extern void func_80139954(void);
+    extern void guess_CloseTextWindow0(void);
     extern void func_8014AA28(void);
     extern s32 func_800D0488(s32);
     extern void func_80141C0C(s32);
@@ -1156,7 +1156,7 @@ void func_8013E958()
     s16 m;
 
     D_800B9A15 = 0;
-    func_80139954();
+    guess_CloseTextWindow0();
     if (D_80078EC0 != *p) {
         func_8014AA28();
         if ((D_80078EC0 & 0x7F) != 0) {
@@ -1192,10 +1192,10 @@ extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; calle
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
-extern void func_80139954(void);
+extern void guess_CloseTextWindow0(void);
 extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_80137B80(void);
-extern unsigned char *func_80141CA4(void);
+extern unsigned char *guess_GetStoryGoalText(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8013E958(void);
 
@@ -1232,7 +1232,7 @@ void func_8013EB7C(void) {
             s32 *p130 = &guess_g_MenuHelpText;
             if (iVar4 != *p130) {
                 *p130 = iVar4;
-                func_80139954();
+                guess_CloseTextWindow0();
                 guess_OpenTextWindowCenteredAt(iVar4, (s32)&(D_8018333C[0]));
             }
         }
@@ -1241,7 +1241,7 @@ void func_8013EB7C(void) {
             (guess_g_MenuCategory[0]) = 0;
             guess_RequestSound(0x466, 0);
             if (guess_g_MenuPanel != 4) {
-                guess_OpenTextWindowCenteredAt((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)D_8018333C));
+                guess_OpenTextWindowCenteredAt((s32)((s32 (*)(void))guess_GetStoryGoalText)(), (s32)&(*(u8 *)D_8018333C));
             }
             (*(unsigned short *)&guess_g_MenuStep) -= 1;
         } else {
@@ -1259,7 +1259,7 @@ void func_8013EB7C(void) {
 
 extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_8013FAF8(s16 a0, s16 a1);
-extern unsigned char *func_80141CA4(void);
+extern unsigned char *guess_GetStoryGoalText(void);
 
 // @class: struct
 // @unstuck(P36): none — MATCH (94 ins, relocation-masked). Keys: (1) §18 array-of-STRUCT fold
@@ -1312,7 +1312,7 @@ s32 func_8013EE10() {
     old = *p;
     *p = old + 1;
     if (old >= 5) {
-        ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)func_80141CA4(), D_8018333C);
+        ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)guess_GetStoryGoalText(), D_8018333C);
         for (i = 0; i < 5; i++) {
             s32 *q = (s32 *)((char *)p - 8);
             *(s32 *)((char *)&q[i] + 0x78) = 0;
@@ -1405,7 +1405,7 @@ void func_8013EF88(void)
 // @unstuck(P36): none — MATCH expected (u16* base materialization for read+write, %lo-folded single-access globals)
 
 
-extern unsigned char *func_80141CA4(void);
+extern unsigned char *guess_GetStoryGoalText(void);
 extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 
 void func_8013F138(void) {
@@ -1418,7 +1418,7 @@ void func_8013F138(void) {
     *p += 0x10;
     if ((u16)*p >= 0x40) {
         if (guess_g_OpenMenuId == 0) {
-            ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)func_80141CA4(), D_8018333C);
+            ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)guess_GetStoryGoalText(), D_8018333C);
         }
         guess_g_MenuStep += 1;
     }

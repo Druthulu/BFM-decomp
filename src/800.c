@@ -289,7 +289,10 @@ block2:
 
 extern s32 func_80012CB8(s32 a0, s32 a1, s32 a2);
 
-s32 func_80012C6C(s32 a0, s32 a1, s32 a2)
+/* guess_EaseToward: returns a0 moved toward a1 by (a1 - a0) / a2, halving a2 up to 4 times while that step rounds to 0 (s16)
+ * Confidence high, code inference: (s16)(a0 + func_80012CB8(a0, a1, a2)); func_80012D0C: q = (a1 - a0) / d, q == 0 -> d >>= 1 (4 tries), then the whole difference
+ * Names ledger: config/names.tsv guess_EaseToward */
+s32 guess_EaseToward(s32 a0, s32 a1, s32 a2)
 {
     s32 s0 = a0;
     return (s16)(s0 + func_80012CB8((s16)s0, (s16)a1, (s16)a2));
@@ -4995,7 +4998,7 @@ void func_80018E78(void) {
 
 extern u8 D_80078D98;
 extern u8 D_80078DCA;
-extern s32 func_800291B4(s32);
+extern s32 guess_GetGameVarByte(s32);
 extern void func_800291A0(s32, s32);
 extern void func_80028D78(s32);
 
@@ -5005,7 +5008,7 @@ void func_80018E9C(s32 a0)
 
     if (a0 == (s32)&D_80078D98) {
         if (*(u16 *)&D_80078DCA & 0x100) {
-            s0 = func_800291B4(0xE2) + 1;
+            s0 = guess_GetGameVarByte(0xE2) + 1;
             if ((u32)(s0 & 0xFF) >= 0x5A) {
                 s0 = 0;
                 func_80028D78(1);
@@ -6817,15 +6820,15 @@ void func_8001AA98(void) {
 }
 
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
 s32 func_8001AAA0(s32 arg0) {
-    return func_8001ABBC(1, arg0, 0, 0, 0);
+    return guess_RequestResourceLoad(1, arg0, 0, 0, 0);
 }
 
 extern s32 D_800BA1B4;
 extern u8 D_80062C38;
-extern s32 func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
 void func_8001AAD0(s32 arg0, s32 arg1) {
     s32 idx;
@@ -6876,7 +6879,7 @@ void func_8001AAD0(s32 arg0, s32 arg1) {
         D_800BA1B4 = 0;
     }
 
-    func_8001ABBC(3, arg1, (s32)(&D_80062C38 + idx * 0x30), 0, 0);
+    guess_RequestResourceLoad(3, arg1, (s32)(&D_80062C38 + idx * 0x30), 0, 0);
 }
 
 void func_8001ABB4(void) {
@@ -6892,7 +6895,10 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_8001AE90(s32 a0, s32 a1, s32 a2);
 extern s32 func_8001ACF0(s32 arg0, s32 arg1, s32 *arg2, s32 arg3, s32 arg4);
 
-s32 func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4) {
+/* guess_RequestResourceLoad: asks the resource loader for resource a1 in mode a0 and returns 1 when it is done or accepted, 0 while the loader is busy
+ * Confidence medium, xref chain: mode 1 and a1 == resLoad_lastId or its file already loaded -> sound cue, 1; D_800BA1B4 busy -> 0 (3: func_8001AE90); else func_8001ACF0
+ * Names ledger: config/names.tsv guess_RequestResourceLoad */
+s32 guess_RequestResourceLoad(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4) {
     s16 val;
 
     if (a0 == 1) {
@@ -7525,13 +7531,13 @@ void ResourceLoadStateMachine(void) {
 #endif
 
 void func_8001B710(void) {
-    if ((func_800291B4(0x44) & 0xFF) > 1) {
+    if ((guess_GetGameVarByte(0x44) & 0xFF) > 1) {
         guess_RequestSound(0x24, 0);
     }
-    if ((func_800291B4(0x56) & 0xFF) > 1) {
+    if ((guess_GetGameVarByte(0x56) & 0xFF) > 1) {
         guess_RequestSound(0x25, 0);
     }
-    if ((func_800291B4(0x5C) & 0xFF) > 1) {
+    if ((guess_GetGameVarByte(0x5C) & 0xFF) > 1) {
         guess_RequestSound(0x26, 0);
     }
 }
@@ -8519,7 +8525,10 @@ extern void func_8001C9D0(s32 a0v);
 extern void GsInitCoordinate2(s32, void *);
 extern void GsGetLw(s32 a0, s32 a1);
 
-void func_8001CA1C(void *a0, void *a1)
+/* guess_InitModelObjectKind3: initialises model object a0 as guess_InitModelObject does but with kind 3 (+0x2) and a1 stored at +0x20, no TMD list
+ * Confidence medium, xref chain: func_8001C9D0(a0); +0x0 = 1, +0x2 = 3; GsInitCoordinate2(0, a0+0x30); GsGetLw; +0x20 = a1; kind indexes the draw table D_80063500
+ * Names ledger: config/names.tsv guess_InitModelObjectKind3 */
+void guess_InitModelObjectKind3(void *a0, void *a1)
 {
     void *s0;
     void *s1;
@@ -11363,25 +11372,25 @@ void func_80020F34(s32 a0, s32 a1)
 }
 
 
-extern void func_80028620(s32 a0, void *a1);
+extern void guess_SetFlatLightOrDefault(s32 a0, void *a1);
 
 void func_80021008(void *a0)
 {
     void *s0 = a0;
-    func_80028620(0, s0);
-    func_80028620(1, (u8 *)s0 + 0x10);
-    func_80028620(2, (u8 *)s0 + 0x20);
+    guess_SetFlatLightOrDefault(0, s0);
+    guess_SetFlatLightOrDefault(1, (u8 *)s0 + 0x10);
+    guess_SetFlatLightOrDefault(2, (u8 *)s0 + 0x20);
 }
 
 
-extern void func_80028620(s32 a0, void *a1);
+extern void guess_SetFlatLightOrDefault(s32 a0, void *a1);
 extern u8 D_800A5E88;
 
 void func_80021050(void) {
     u8 *s0 = &D_800A5E88;
-    func_80028620(0, s0);
-    func_80028620(1, s0 + 0x10);
-    func_80028620(2, s0 + 0x20);
+    guess_SetFlatLightOrDefault(0, s0);
+    guess_SetFlatLightOrDefault(1, s0 + 0x10);
+    guess_SetFlatLightOrDefault(2, s0 + 0x20);
 }
 
 extern void func_800491FC(s32 a0, s32 a1, s32 a2);
@@ -15815,7 +15824,7 @@ extern s32 D_800A5E90;
 extern u8 D_800A5E94;
 extern u8 D_800A5E95;
 extern u8 D_800A5E96;
-extern void func_80028620(s32 a0, void *a1);
+extern void guess_SetFlatLightOrDefault(s32 a0, void *a1);
 
 void func_8002823C(void) {
     s32 i;
@@ -15836,7 +15845,7 @@ void func_8002823C(void) {
         *(u8 *)((s32)&D_800A5E94 + off) = b;
         *(u8 *)((s32)&D_800A5E95 + off) = b;
         *(u8 *)((s32)&D_800A5E96 + off) = b;
-        func_80028620(i, p);
+        guess_SetFlatLightOrDefault(i, p);
         p += 0x10;
         i++;
         off += 0x10;
@@ -15852,7 +15861,7 @@ extern s32 D_800A5E90;
 extern u8 D_800A5E94;
 extern u8 D_800A5E95;
 extern u8 D_800A5E96;
-extern void func_80028620(s32 a0, void *a1);
+extern void guess_SetFlatLightOrDefault(s32 a0, void *a1);
 
 void func_80028304(s32 a0, s32 a1, s32 a2, s32 a3, u8 a4, u8 a5, u8 a6) {
     s32 offset;
@@ -15871,14 +15880,14 @@ void func_80028304(s32 a0, s32 a1, s32 a2, s32 a3, u8 a4, u8 a5, u8 a6) {
     *(u8 *)((s32)&D_800A5E95 + offset) = a5;
     *(u8 *)((s32)&D_800A5E96 + offset) = a6;
 
-    func_80028620(a0, (void *)((s32)&D_800A5E88 + offset));
+    guess_SetFlatLightOrDefault(a0, (void *)((s32)&D_800A5E88 + offset));
 }
 
 
 extern u8 D_800A5E88;
 extern s32 D_800A5E8C;
 extern s32 D_800A5E90;
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 
 void func_80028394(s32 a0, s32 a1, s32 a2, s32 a3) {
     s32 offset;
@@ -15894,11 +15903,11 @@ void func_80028394(s32 a0, s32 a1, s32 a2, s32 a3) {
     *(s32 *)((s32)&D_800A5E8C + offset) += a2;
     *(s32 *)((s32)&D_800A5E90 + offset) += a3;
 
-    func_80028620(a0, (void *)((s32)&D_800A5E88 + offset));
+    guess_SetFlatLightOrDefault(a0, (void *)((s32)&D_800A5E88 + offset));
 }
 
 
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern u8 D_800A5E94;
 extern u8 D_800A5E95;
 extern u8 D_800A5E96;
@@ -15918,7 +15927,7 @@ void func_80028428(s32 a0, s32 a1, s32 a2, s32 a3) {
     *(u8 *)((s32)&D_800A5E95 + offset) = (u8)a2;
     *(u8 *)((s32)&D_800A5E96 + offset) = (u8)a3;
 
-    func_80028620(a0, (void *)((s32)&D_800A5E88 + offset));
+    guess_SetFlatLightOrDefault(a0, (void *)((s32)&D_800A5E88 + offset));
 }
 
 extern u8 D_800A5E88;
@@ -15927,7 +15936,7 @@ extern s32 D_800A5E90;
 extern u8 D_800A5E94;
 extern u8 D_800A5E95;
 extern u8 D_800A5E96;
-extern void func_80028620(s32 a0, void *a1);
+extern void guess_SetFlatLightOrDefault(s32 a0, void *a1);
 
 void func_80028488(s32 a0) {
     s32 offset;
@@ -15946,7 +15955,7 @@ void func_80028488(s32 a0) {
     *(u8 *)((s32)&D_800A5E95 + offset) = 0;
     *(u8 *)((s32)&D_800A5E96 + offset) = 0;
 
-    func_80028620(a0, (void *)((s32)&D_800A5E88 + offset));
+    guess_SetFlatLightOrDefault(a0, (void *)((s32)&D_800A5E88 + offset));
 }
 
 extern s16 D_800AE7E0;
@@ -15969,7 +15978,7 @@ extern u8 D_800A5E94;
 extern u8 D_800A5E95;
 extern u8 D_800A5E96;
 extern u8 D_800A5E88;
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 
 void func_80028558(s32 a0, s32 a1, s32 a2, s32 a3) {
     s32 v0;
@@ -15981,7 +15990,7 @@ void func_80028558(s32 a0, s32 a1, s32 a2, s32 a3) {
     *(u8 *)((u32)&D_800A5E95 + v0) = a2;
     *(u8 *)((u32)&D_800A5E96 + v0) = a3;
 
-    func_80028620(a0, (u8 *)&D_800A5E88 + v0);
+    guess_SetFlatLightOrDefault(a0, (u8 *)&D_800A5E88 + v0);
 }
 
 extern void func_800538EC(s32 param);
@@ -16009,7 +16018,10 @@ void func_800285CC(void) {
     func_800538EC(1);
 }
 
-void func_80028620(s32 a0, void *a1) {
+/* guess_SetFlatLightOrDefault: sets flat light a0 from the 16-byte light a1 through GsSetFlatLight, using direction (0x1000, 0, 0) and black when a1's vector is 0
+ * Confidence high, xref chain: buf = *a1; vx|vy|vz == 0 -> vx = 0x1000, r = g = b = 0; func_80053328(a0, &buf), which the map places at libgs GsSetFlatLight
+ * Names ledger: config/names.tsv guess_SetFlatLightOrDefault */
+void guess_SetFlatLightOrDefault(s32 a0, void *a1) {
     struct { u32 a, b, c, d; } buf, *src = (void *)a1;
 
     buf = *src;
@@ -16395,11 +16407,11 @@ void func_80028F98(s32 a0) {
     guess_SetGameFlag(0x13, a0 & 0xFF);
 }
 
-extern s32 func_800291B4(s32);
+extern s32 guess_GetGameVarByte(s32);
 
 u8 func_80028FBC(void)
 {
-    return func_800291B4(0x2C);
+    return guess_GetGameVarByte(0x2C);
 }
 
 extern void func_800291A0(s32, s32);
@@ -16408,11 +16420,11 @@ void func_80028FDC(s32 a0) {
     func_800291A0(0x2C, a0 & 0xFF);
 }
 
-extern s32 func_800291B4(s32);
+extern s32 guess_GetGameVarByte(s32);
 
 u8 func_80029000(void)
 {
-    return func_800291B4(0x2D);
+    return guess_GetGameVarByte(0x2D);
 }
 
 extern void func_800291A0(s32, s32);
@@ -16508,7 +16520,10 @@ void func_800291A0(s32 arg0, s32 arg1) {
 }
 
 extern u8 D_800BA1B8[];
-s32 func_800291B4(s32 arg0) {
+/* guess_GetGameVarByte: returns byte a0 of the 256-byte game variable table D_800BA1B8 that the save record carries
+ * Confidence medium, code inference: return D_800BA1B8[a0]; the table is cleared by func_8002906C and copied to/from save record +0x17C (0x100 bytes)
+ * Names ledger: config/names.tsv guess_GetGameVarByte */
+s32 guess_GetGameVarByte(s32 arg0) {
     return D_800BA1B8[arg0];
 }
 
@@ -17684,14 +17699,14 @@ s32 func_8002AAB4(void) {
 }
 
 void func_8002AB64(void) {
-    extern s32 func_800291B4(s32);
+    extern s32 guess_GetGameVarByte(s32);
     extern void func_800291A0(s32, s32);
     extern void func_8002AC00(s32);
 
     u8 c;
     s16 i;
 
-    c = func_800291B4(0x2E) + 1;
+    c = guess_GetGameVarByte(0x2E) + 1;
     func_800291A0(0x2E, c);
 
     if (c == 1) {
@@ -17705,7 +17720,7 @@ void func_8002AB64(void) {
 }
 
 
-extern s32 func_800291B4(s32);
+extern s32 guess_GetGameVarByte(s32);
 extern void func_800291A0(s32, s32);
 extern u16 D_800A6588[];
 extern u8 D_8010F46E[];
@@ -17729,7 +17744,7 @@ void func_8002AC00(s32 a0)
     s3 = (s32)D_800A6588;
     __asm__("" : "=r"(s3) : "0"(s3));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
 
-    v0 = func_800291B4(arg1);
+    v0 = guess_GetGameVarByte(arg1);
     s0 = s0 & 0xFF;
 
     if (v0 & 0x80) {
@@ -17747,7 +17762,7 @@ void func_8002AC00(s32 a0)
     *(u16*)(s0 - 2) = (u16)v0;
 }
 
-extern s32 func_800291B4(s32);
+extern s32 guess_GetGameVarByte(s32);
 extern u16 D_800A6588[];
 extern u8 D_8010F46C[];
 extern u8 D_80078EBA;
@@ -17766,7 +17781,7 @@ u16 *base;
   {
     for (i = 0; i < 0x40; i++)
     {
-      t = func_800291B4(((s16) i) + 0x63) & 0xF;
+      t = guess_GetGameVarByte(((s16) i) + 0x63) & 0xF;
       if (t != 0)
       {
         r = rand() & 0x1F;
@@ -17836,7 +17851,7 @@ s32 func_8002AE60(void) {
     i = 0;
     count = 0;
     for (; i < 0x2B; i++) {
-        if (func_800291B4((s16)i + 0x63) & 0x40) {
+        if (guess_GetGameVarByte((s16)i + 0x63) & 0x40) {
             count++;
         }
     }

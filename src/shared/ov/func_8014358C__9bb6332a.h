@@ -24,7 +24,7 @@ void func_8014358C(s32 param_1)
         *(u16 *)(p + 0x18) = v;
     }
 
-    func_80128EA8(*(u32 *)(param_1 + 0x20), param_1 + 0x24,
+    guess_StartPairSequence(*(u32 *)(param_1 + 0x20), param_1 + 0x24,
                   D_80180B80[*(u16 *)(param_1 + 0x34) & 3]);
 
     *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;

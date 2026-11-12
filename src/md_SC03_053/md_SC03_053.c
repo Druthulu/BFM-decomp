@@ -80,8 +80,8 @@ void func_801EF58C(void *a0) {
     extern short D_801F0D84;
     s32 s0 = (s32)a0;
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x15;
-    func_8012E8E0((s32)a0, (s32)&D_801F0900);
-    func_8012E88C((s32)a0);
+    guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801F0900);
+    guess_ShowObjectModel((s32)a0);
     func_80187344((s32)a0);
     func_80178CBC((s32 *)a0, (s32)&D_801F0D84);
 }
@@ -99,8 +99,8 @@ void func_801EF5E4(u8 * a0)
 }
 
 
-extern void func_8012E8E0(s32, s32);
-extern void func_8012E88C(s32);
+extern void guess_SetObjectPosAndYaw(s32, s32);
+extern void guess_ShowObjectModel(s32);
 extern void func_80187344(s32);
 extern s32 guess_TestGameFlag(s32);
 extern void func_80178CBC(s32, s32);
@@ -111,8 +111,8 @@ extern short D_801F0DD0;
 void func_801EF624(void *a0) {
     s32 s0 = (s32)a0;
     ((Unkstruct_801EF624 *)s0)->unk2 = 0x1A;
-    func_8012E8E0(s0, (s32)&D_801F0900);
-    func_8012E88C(s0);
+    guess_SetObjectPosAndYaw(s0, (s32)&D_801F0900);
+    guess_ShowObjectModel(s0);
     do { func_80187344(s0); } while (0);
     if ((guess_TestGameFlag(0xEF) & 0xFF) != 0) {
         func_80178CBC(s0, (s32)&D_801F0E10);
@@ -152,8 +152,8 @@ void func_801EF6B0(void *a0) {
 }
 
 
-extern void func_8012E8E0(s32, s32);
-extern void func_8012E88C(s32);
+extern void guess_SetObjectPosAndYaw(s32, s32);
+extern void guess_ShowObjectModel(s32);
 extern void func_80187344(s32);
 extern s32 guess_TestGameFlag(s32);
 extern void func_80178CBC(s32, s32);
@@ -166,8 +166,8 @@ void func_801EF734(void *a0) {
     s32 s0 = (s32)a0;
 
     ((Unkstruct_801EF734 *)s0)->unk2 = 0x5;
-    func_8012E8E0(s0, (s32)&D_801F0900);
-    func_8012E88C(s0);
+    guess_SetObjectPosAndYaw(s0, (s32)&D_801F0900);
+    guess_ShowObjectModel(s0);
     do { func_80187344(s0); } while (0);
 
     if ((guess_TestGameFlag(0xDF) & 0xFF) != 0) {
@@ -240,8 +240,8 @@ void func_801EF904(void *a0) {
     extern short D_801F0ACC;
     s32 s0 = (s32)a0;
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 0xA;
-    func_8012E8E0((s32)a0, (s32)&D_801F0900);
-    func_8012E88C((s32)a0);
+    guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801F0900);
+    guess_ShowObjectModel((s32)a0);
     func_80187344((s32)a0);
     func_80178CBC((s32 *)a0, (s32)&D_801F0ACC);
 }

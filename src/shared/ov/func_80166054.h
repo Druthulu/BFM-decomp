@@ -6,7 +6,7 @@ void func_80166054(s32 param_1) {
     extern s32 rcos(s32 a0);
     extern void func_800D1FC8(s32 a0, s32 a1);
     extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
-    extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+    extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
     extern void func_801661CC(s32 a0);
     extern s32 guess_FreeSmallObject(u8 *a0);
     extern u8 D_800D387C[];
@@ -60,7 +60,7 @@ void func_80166054(s32 param_1) {
             *(u16 *)(v0 + 0x18) = *(u16 *)(param_1 + 0x32);
         }
         *(u16 *)(v0 + 0x1a) = *(u16 *)(v0 + 0x18);
-        func_80128EA8(v0, param_1 + 0x24, (s32)D_800D3888);
+        guess_StartPairSequence(v0, param_1 + 0x24, (s32)D_800D3888);
         func_801661CC(param_1);
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
     } else {

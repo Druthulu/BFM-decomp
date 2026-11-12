@@ -91,7 +91,7 @@ void func_800CAF80(void *a0) {
 
 extern u8 D_80078EC1;
 extern void (*D_800CBE40[])(void);
-extern void func_800CB4AC(void);
+extern void guess_FreeObjectAndSubObject_10(void);
 
 void func_800CB040(s32 a0) {
     u16 index;
@@ -105,9 +105,9 @@ void func_800CB040(s32 a0) {
         if (value < 0x401) {
             return;
         }
-        ((void (*)(s32))func_800CB4AC)(a0);
+        ((void (*)(s32))guess_FreeObjectAndSubObject_10)(a0);
     } else {
-        ((void (*)(s32))func_800CB4AC)(a0);
+        ((void (*)(s32))guess_FreeObjectAndSubObject_10)(a0);
     }
 }
 
@@ -116,7 +116,7 @@ extern s32 func_8014659C(void);
 extern void guess_NextStep(void *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
-extern void func_800CB4AC();
+extern void guess_FreeObjectAndSubObject_10();
 
 
 void func_800CB0B4(s32 param_1) {
@@ -156,7 +156,7 @@ void func_800CB0B4(s32 param_1) {
         guess_PlaySoundUnlessSkipped(0x8E8);
         guess_NextStep((void *)param_1);
     } else {
-        ((void (*)(s32))func_800CB4AC)(param_1);
+        ((void (*)(s32))guess_FreeObjectAndSubObject_10)(param_1);
     }
 }
 
@@ -250,7 +250,10 @@ void func_800CB424(void *a0)
 
 
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
-void func_800CB4AC(void) {
+/* guess_FreeObjectAndSubObject_10: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_10 */
+void guess_FreeObjectAndSubObject_10(void) {
     func_80162CCC();
 }
 
@@ -395,7 +398,7 @@ void func_800CB804(void *arg0) {
 
 extern void *guess_AllocSpriteObject();
 extern void func_8001CC3C(s32, s32, s32, s32);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void RotMatrixZYX(s32 a0, s32 a1);
@@ -423,7 +426,7 @@ void func_800CB860(s32 param_1) {
         *(u8 *)(p + 0x27) = 0x90;
         *(s16 *)(p + 0x18) = *(s16 *)(p + 0x1a) = 0x2000;
         *(s32 *)(p + 4) |= 0x50000000;
-        func_80128EA8(p, param_1 + 0x24, D_800CBE5C);
+        guess_StartPairSequence(p, param_1 + 0x24, D_800CBE5C);
 
         vel = D_800CBEE8;
         rot = D_800CBEB8[((Unkstruct_80126B58 *)param_1)->unk2C];
@@ -460,14 +463,14 @@ extern void func_800CBBDC(s32 a0);
 extern void func_800CBC40(void*, s32);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 
 void func_800CBAAC(s32 param_1)
 {
     s32 s0;
 
     s0 = ((Unkstruct_80126B58 *)param_1)->unk20;
-    func_80128ED8(s0, (s32 *)(param_1 + 0x24));
+    guess_StepPairSequence(s0, (s32 *)(param_1 + 0x24));
     *(s8 *)(s0 + 0x27) = CAST_WIDTH(u8, param_1, 0x28) - 0x70;
     func_800CBBDC(param_1);
     ((void (*)(s32, s32))func_800CBC40)(param_1, 0x30);
@@ -481,7 +484,7 @@ void func_800CBAAC(s32 param_1)
 }
 
 
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_800CBBDC(s32 a0);
 extern void func_800CBC10(void*);
@@ -497,7 +500,7 @@ s32 param_1;
     p = param_1;
     node = ((Unkstruct_800CBB54 *)p)->unk20;
     ((void (*)(s32))func_800CBC10)(param_1);
-    func_80128ED8(node, (s32 *)(p + 0x24));
+    guess_StepPairSequence(node, (s32 *)(p + 0x24));
     *(u8 *)(node + 0x27) = ((Unkstruct_800CBB54 *)p)->unk28 - 0x70;
     ((void (*)(s32, s32))func_800CBC40)((void *)p, 0x40);
     ((Unkstruct_800CBB54 *)p)->unk14 -= 0x4000;
@@ -551,7 +554,7 @@ void func_800CBC60(void *arg0) {
 extern void *guess_AllocSpriteObject(void);
 extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CBCBC(void *a0)
@@ -578,7 +581,7 @@ void func_800CBCBC(void *a0)
         CAST_WIDTH(s32, (u8 *)s0, 4) |= 0x50000000;
 
         guess_TransformPosByObjMatrix((s32)s1, (s32)((u8 *)a0 + 4));
-        func_80128EA8((s32)s0, (s32)((u8 *)a0 + 0x24), (s32)&D_800D3888);
+        guess_StartPairSequence((s32)s0, (s32)((u8 *)a0 + 0x24), (s32)&D_800D3888);
 
         *(u16 *)((u8 *)a0 + 2) = *(u16 *)((u8 *)a0 + 2) + 1;
     } else {
@@ -588,7 +591,7 @@ void func_800CBCBC(void *a0)
 
 
 extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 
 void func_800CBD90(void *arg0) {
     s32 q;
@@ -615,7 +618,7 @@ void func_800CBD90(void *arg0) {
     ((Unkstruct_800CBD90 *)q)->unk1A = h;
     ((Unkstruct_800CBD90 *)q)->unk18 = h;
 
-    if (func_80128ED8(q, (s32 *)((s32)arg0 + 0x24)) != 0) {
+    if (guess_StepPairSequence(q, (s32 *)((s32)arg0 + 0x24)) != 0) {
         ((void (*)(void *))guess_FreeSmallObject)(arg0);
     }
 }

@@ -14,7 +14,7 @@ void func_80169F3C(int param_1)
         *(char *)(iVar1 + 0x25) = 0x60;
         *(char *)(iVar1 + 0x24) = 0x60;
         *(unsigned int *)(iVar1 + 4) = *(unsigned int *)(iVar1 + 4) | 0x50000000;
-        ((void (*)(int, int, void *))func_80128EA8)(iVar1, param_1 + 0x24, D_801822C8);
+        ((void (*)(int, int, void *))guess_StartPairSequence)(iVar1, param_1 + 0x24, D_801822C8);
         *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
     } else {
         ((void (*)(int))guess_FreeSmallObject)(param_1);

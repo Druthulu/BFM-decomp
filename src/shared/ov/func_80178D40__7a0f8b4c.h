@@ -53,7 +53,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
     extern s32 func_8017BB34(void *, s32);
     extern void guess_StartActorSequence(void *, s32);
     extern s32 func_8012B8A4(void *);
-    extern void func_8012E88C(void *);
+    extern void guess_ShowObjectModel(void *);
     extern void func_8012E8A8(void *);
     extern void func_8001AAD0(s32, s32);
     extern s32 D_8018F504;
@@ -327,7 +327,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         g[3] = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x3D:
-        ((void(*)(void *, s32))func_8012E8E0)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        ((void(*)(void *, s32))guess_SetObjectPosAndYaw)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
         (*(s16*)&D_8018FB24) = 3;
         break;
     case 0x27:
@@ -478,7 +478,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
             func_8012E8A8(((Actor_80178D40 *)arg0));
             (*(s16*)&D_8018FB24) = 3;
         } else {
-            func_8012E88C(((Actor_80178D40 *)arg0));
+            guess_ShowObjectModel(((Actor_80178D40 *)arg0));
             (*(s16*)&D_8018FB24) = 3;
         }
         break;

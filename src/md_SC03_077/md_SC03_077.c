@@ -40,7 +40,7 @@ s32 func_801EF50C(s32 param_1) {
 extern void func_800D1E28(void);
 extern s32 guess_RequestSound(s32, s32);
 extern void func_8001BFD0(void);
-extern s32 func_800291B4(s32);
+extern s32 guess_GetGameVarByte(s32);
 extern s32 guess_TestGameFlag(s32);
 extern void guess_SetGameFlag(s32, s32);
 extern void func_800D0C48(s32);
@@ -50,7 +50,7 @@ s32 func_801EF558(s32 param_1) {
         func_800D1E28();
         guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        if ((func_800291B4(0xCE) & 0xFF) == 0) {
+        if ((guess_GetGameVarByte(0xCE) & 0xFF) == 0) {
             guess_RequestSound(0x1D, 0);
             func_800D0C48(1);
         } else if ((guess_TestGameFlag(0x12E) & 0xFF) == 0) {
@@ -231,7 +231,7 @@ void func_801EF998(s32 param_1) {
 
 
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 

@@ -55,7 +55,7 @@ extern void func_800CF398(void);
 extern void func_80015310(void);
 extern void func_800CF3B8(void);
 extern u8 D_800AF218;
-extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
 extern void func_800CF47C(void);
 extern u16 D_800B99FC;
 extern void (*D_800D3490[])(void);
@@ -147,7 +147,7 @@ extern s32 func_8001AAA0(s32);
 extern s32 func_800D0CE0(void);
 extern s32 func_800D0D7C(s32 arg0, s32 arg1);
 extern s16 func_800D0E30(u8 *p);
-extern s32 func_800291B4(s32 arg0);
+extern s32 guess_GetGameVarByte(s32 arg0);
 extern s32 func_800D0EC4(void);
 extern s16 D_80078EAC;
 extern void func_800291A0(s32, s32);
@@ -429,7 +429,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
 
 
 s32 func_800D1658(s32 arg0) {
-    extern s32 func_800291B4(s32 arg0);
+    extern s32 guess_GetGameVarByte(s32 arg0);
     extern void func_800291A0(int, int);
     extern void guess_RequestSound(int, int);
     extern s16 D_8010EDEC;
@@ -439,7 +439,7 @@ s32 func_800D1658(s32 arg0) {
     int slot;
 
     slot = (arg0 & 0xFF) + 0x2F;
-    id = func_800291B4(slot) & 0xFF;
+    id = guess_GetGameVarByte(slot) & 0xFF;
     if (id == 0) {
         return 0;
     }

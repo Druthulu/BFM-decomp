@@ -5,7 +5,7 @@ void func_80144364(int param_1) {
     u16 uVar2;
     s16 sVar1;
 
-    iVar3 = ((s32 (*)(void))func_8012C194)();
+    iVar3 = ((s32 (*)(void))guess_AllocSpriteObjectHigh)();
     if (iVar3 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {

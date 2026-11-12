@@ -79,7 +79,7 @@ void func_800CAFD0(void *a0) {
 
 
 
-extern void func_800CB24C(void);
+extern void guess_FreeObjectAndSubObject_2(void);
 
 void func_800CB054(void *arg0) {
 
@@ -89,7 +89,7 @@ void func_800CB054(void *arg0) {
         u16 v0 = *(u16 *)((u8 *)arg0 + 2);
         D_800CB2A8[v0]();
     } else {
-        func_800CB24C();
+        guess_FreeObjectAndSubObject_2();
     }
 }
 
@@ -101,7 +101,7 @@ extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void guess_NextStep(void *a0);
-extern void func_800CB24C(void);
+extern void guess_FreeObjectAndSubObject_2(void);
 
 void func_800CB0B0(void *arg0) {
     extern u16 D_800CC3C4;
@@ -124,7 +124,7 @@ void func_800CB0B0(void *arg0) {
         *(func_800CB0B0_Blk16 *)(s0 + 0x44) = *(func_800CB0B0_Blk16 *)(src + 0x44);
         guess_NextStep(arg0);
     } else {
-        ((void (*)(void *))func_800CB24C)(arg0);
+        ((void (*)(void *))guess_FreeObjectAndSubObject_2)(arg0);
     }
 }
 
@@ -159,7 +159,10 @@ void func_800CB188(void *arg0) {
 
 
 extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 rung D t4_D44)
-void func_800CB24C(void) {
+/* guess_FreeObjectAndSubObject_2: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_2 */
+void guess_FreeObjectAndSubObject_2(void) {
     func_80162CCC();
 }
 

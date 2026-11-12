@@ -1,8 +1,11 @@
-/* func_8012C588 — shared body (overlay slot 0x80128158, h_exact 83148c15). ONE source: instantiated by #include at each
+/* guess_SpawnActorNoArg — shared body (overlay slot 0x80128158, h_exact 83148c15). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u8 guess_g_ObjectTable[];
 extern s32 func_8012C890(s32 a0, s32 a1, s32 a2);
-s32 func_8012C588(s32 a0, s32 a1) {
+/* guess_SpawnActorNoArg: spawns an actor of type a0 (argument 0) in the first free 0x10C-byte slot after parent a1, at a1's position or the origin
+ * Confidence medium, xref chain: guess_SpawnActor's body with the argument halfword 0: record {pos, a0, 0, .., 0x7FFF}; first free slot of guess_g_ObjectTable; func_8012C890
+ * Names ledger: config/names.tsv guess_SpawnActorNoArg */
+s32 guess_SpawnActorNoArg(s32 a0, s32 a1) {
     s32 p;
     s32 end;
     s32 v0;

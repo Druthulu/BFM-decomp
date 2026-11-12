@@ -124,7 +124,7 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 
 
 
-extern void func_800CB4F8(void);
+extern void guess_FreeObjectAndSubObject_11(void);
 
 void func_800CB214(void *arg0) {
 
@@ -134,13 +134,13 @@ void func_800CB214(void *arg0) {
         u16 v0 = ((Unkstruct_800CB214 *)arg0)->unk2;
         D_800CBBC8[v0]();
     } else {
-        func_800CB4F8();
+        guess_FreeObjectAndSubObject_11();
     }
 }
 
 
 extern s32 func_8014659C(void);
-extern void func_8001CA1C(s32 a0, s32 a1);
+extern void guess_InitModelObjectKind3(s32 a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
@@ -157,7 +157,7 @@ void func_800CB270(s32 a0) {
     iVar2 = ((s32 (*)(void))func_8014659C)();
     ((Unkstruct_80126B58 *)a0)->unk20 = iVar2;
     if (iVar2 != 0) {
-        func_8001CA1C(iVar2, (s32)&D_800CBBBC);
+        guess_InitModelObjectKind3(iVar2, (s32)&D_800CBBBC);
         *(s32 *)(iVar2 + 4) |= 0x58000000;
         guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         ((Unkstruct_80126B58 *)a0)->unk60 = ((Unkstruct_80126B58 *)iVar1)->unk100;
@@ -233,7 +233,10 @@ void func_800CB360(void *arg0) {
 
 
 extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
-void func_800CB4F8(void) {
+/* guess_FreeObjectAndSubObject_11: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_11 */
+void guess_FreeObjectAndSubObject_11(void) {
     func_80162CCC();
 }
 

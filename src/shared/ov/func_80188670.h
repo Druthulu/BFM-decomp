@@ -3,12 +3,12 @@
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(int a0, int a1);
-extern s32  func_8012C194(void);
+extern s32  guess_AllocSpriteObjectHigh(void);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 extern void func_80188F80(void *a0);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32  func_8012AD50(void *a0);
-extern void func_8001CA1C(s32 a0, s32 a1);
+extern void guess_InitModelObjectKind3(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern u8 D_801E450C;
@@ -34,7 +34,7 @@ void func_80188670(void *a0)
     }
     guess_InitModelObject(h, (s32)&D_801E450C);
     *(u16 *)(*(s32 *)((s32)self + 0x20) + 0x12) = 0;
-    obj = (void *)func_8012C194();
+    obj = (void *)guess_AllocSpriteObjectHigh();
     *(s32 *)((s32)self + 0xCC) = (s32)obj;
     if (obj != 0) {
         goto L_ce4;
@@ -50,7 +50,7 @@ L_ce4:
     *(u16 *)((s32)obj + 0x12) = *(u16 *)(*(s32 *)((s32)self + 0x20) + 0x12);
     *(u32 *)((s32)obj + 4) |= 0x51000000;
     *(u8 *)((s32)obj + 0x27) = 0xED;
-    func_80128EA8((s32)obj, (s32)&D_801EAC88, (s32)&D_801918C8);
+    guess_StartPairSequence((s32)obj, (s32)&D_801EAC88, (s32)&D_801918C8);
     *(u8 *)((s32)self + 0xC0) = 1;
     *(s32 *)((s32)self + 0xBC) = (s32)&D_80191918;
     *(s32 *)((s32)self + 0x58) = (s32)&D_801918F8 | 0x40000000;
@@ -67,7 +67,7 @@ L_ce4:
     func_8012AD50(self);
     return;
 L_da8:
-    func_8001CA1C(h, 0);
+    guess_InitModelObjectKind3(h, 0);
     *(u16 *)(*(s32 *)((s32)self + 0x20) + 0x18) = 0x2C00;
     *(u16 *)(*(s32 *)((s32)self + 0x20) + 0x1A) = 0x3800;
     *(u32 *)(*(s32 *)((s32)self + 0x20) + 4) |= 0x71000000;

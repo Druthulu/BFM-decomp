@@ -21,7 +21,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8012A568(void (*a0)(void));
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 func_8012C51C(void *a0, s32 a1);
-extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 extern void func_8013C9C4(void *a0);
 extern s32 func_80147054(void *a0);
@@ -156,7 +156,7 @@ void func_8018624C(void *arg0) {
     case 9:
         tmp = guess_SpawnActor(0x14B, 0, ent);
         ((Unkstruct_8018624C *)ent)->unkCC = tmp;
-        func_8012C588(0x3BD, tmp);
+        guess_SpawnActorNoArg(0x3BD, tmp);
         ((Unkstruct_8018624C *)ent)->unk34 += 1;
         guess_RequestSound(0x72F, 0);
         break;

@@ -814,7 +814,7 @@ void func_80180098(s32 a0)
 
 
 extern s32 guess_DistSqToPlayer(s32 a0);
-extern void func_8012E88C(s32 a0);
+extern void guess_ShowObjectModel(s32 a0);
 extern void func_8017FE34(s32 a0);
 extern s32 D_801A0858;
 
@@ -822,7 +822,7 @@ void func_8018015C(void *a0) {
     s32 s0 = (s32)a0;
     s32 v0 = guess_DistSqToPlayer(s0);
     if (v0 < D_801A0858) {
-        func_8012E88C(s0);
+        guess_ShowObjectModel(s0);
         func_8017FE34(s0);
     }
 }

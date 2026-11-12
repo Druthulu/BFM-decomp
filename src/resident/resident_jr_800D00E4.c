@@ -55,7 +55,7 @@ extern void func_800CF398(void);
 extern void func_80015310(void);
 extern void func_800CF3B8(void);
 extern u8 D_800AF218;
-extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
 extern void func_800CF47C(void);
 extern u16 D_800B99FC;
 extern void (*D_800D3490[])(void);
@@ -225,7 +225,7 @@ void func_800D02C0(s32 arg0) {
  *   lw v1,D_800D3768[n] ; la v0,D_800A2E20 ; sw v0,guess_g_CdReadListDest
  *   la v0,guess_g_CdReadList ; bltz a0,.L045C ; sw v1,0(v0)      => guess_g_CdReadList = D_800D3768[n].word0
  *   lw a2,D_800D3764[n] ; sw v0,0x10(sp) ; la v0,cdFileLocTable ; a0=0 ; a1=0
- *   lw a3,D_80072C78 ; sll a2,a2,3 ; jal func_8001ABBC ; addu a2,a2,v0
+ *   lw a3,D_80072C78 ; sll a2,a2,3 ; jal guess_RequestResourceLoad ; addu a2,a2,v0
  *   .L045C: s0 = 1 ; .L0460: if (s0 != 0) func_8001B384(); return s0;
  *
  * `&guess_g_CdReadList` is materialised into $v0 once and used BOTH as the store base and as the
@@ -248,7 +248,7 @@ void func_800D02C0(s32 arg0) {
  *     compiles is §321 dial 2: define NO type, and lean on the TU's file-scope typedef
  *     and its file-scope `cdFileLocTable` decl (both sit above this splice point). That
  *     is also this file's house style (func_800D0214, func_800CFE60, func_800D0588):
- *     externs inside the body, `u8 *` as func_8001ABBC's 3rd parameter, struct-stride
+ *     externs inside the body, `u8 *` as guess_RequestResourceLoad's 3rd parameter, struct-stride
  *     indexing rather than a hand-rolled `<< 3`.
  *     Consequence: this draft CANNOT compile standalone under match_one, which only
  *     prepends common.h. Verify it with the real TU instead:
@@ -280,7 +280,7 @@ s32 func_800D02D0(s32 arg0) {
     extern s32 *guess_g_CdReadListDest;
     extern s32 D_80072C78;
     extern s32 D_800A2E20;
-    extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+    extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
     extern void func_8001B384(void);
 
     register s32 *p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
@@ -325,7 +325,7 @@ s32 func_800D02D0(s32 arg0) {
     p = &guess_g_CdReadList;
     *p = D_800D3768[arg0].word0;
     if (arg0 >= 0) {
-        ret = func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[D_800D3764[arg0].word0], D_80072C78, (s32)p);
+        ret = guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[D_800D3764[arg0].word0], D_80072C78, (s32)p);
     } else {
         ret = 1;
     }
@@ -346,7 +346,7 @@ s32 func_800D0488(s32 arg0) {
     extern s32 D_800D384C[];
     extern s32 D_80072C7C;
     extern CdFileLoc cdFileLocTable[];
-    extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+    extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
     extern void func_8001B384(void);
 
     s32 val;
@@ -371,7 +371,7 @@ s32 func_800D0488(s32 arg0) {
     *p = val;
 
     if (n >= 0) {
-        res = func_8001ABBC(z, 0, (u8 *)&cdFileLocTable[D_800D384C[n * 2]], D_80072C7C, (s32)p);
+        res = guess_RequestResourceLoad(z, 0, (u8 *)&cdFileLocTable[D_800D384C[n * 2]], D_80072C7C, (s32)p);
     } else {
         res = 1;
     }
@@ -387,29 +387,29 @@ s32 func_800D0488(s32 arg0) {
 //   a0 = currentLocationId (s16, lh -> signed); r = func_800D05E8(a0)
 //   beqz v0 -> .L800D05C4 ; (delay) a0 = 1     => fall-through is r != 0
 //     r != 0:  sw zero,0x10(sp)(5th arg); a1=r; a2=0; a3=0; a0=1
-//              result = func_8001ABBC(1, r, 0, 0, 0)
+//              result = guess_RequestResourceLoad(1, r, 0, 0, 0)
 //     r == 0:  result = 1
 //   beqz v0 -> .L800D05D8  (result==0 skips the store)
 //     D_8012704C = 0
 //
 // Branch polarity (cookbook T4): the r!=0 arm is the FALL-THROUGH, so write
 //   if (r != 0) { result = call; } else { result = 1; }
-// The `a0 = 1` (func_8001ABBC's 1st arg) is hoisted into the beqz delay slot by
+// The `a0 = 1` (guess_RequestResourceLoad's 1st arg) is hoisted into the beqz delay slot by
 // gcc -- emitting it as a plain constant arg is correct.
-// func_8001ABBC signature copied from the already-matched func_800CF47C / func_800CFDE8
-// in resident.c: s32 func_8001ABBC(s32, s32, u8 *, s32, s32). r passed as arg1 (s32).
+// guess_RequestResourceLoad signature copied from the already-matched func_800CF47C / func_800CFDE8
+// in resident.c: s32 guess_RequestResourceLoad(s32, s32, u8 *, s32, s32). r passed as arg1 (s32).
 // currentLocationId is s16 (resident.c). func_800D05E8 result reused both as the
 // `beqz` test and as arg1 -> declare it s32-returning, arg s32.
 extern s16 currentLocationId;
 extern s32 func_800D05E8(s32 arg0);
-extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
 extern s32 D_8012704C;
 
 s32 func_800D0588(void) {
     s32 r = func_800D05E8(currentLocationId);
     s32 result;
     if (r != 0) {
-        result = func_8001ABBC(1, r, 0, 0, 0);
+        result = guess_RequestResourceLoad(1, r, 0, 0, 0);
     } else {
         result = 1;
     }
@@ -899,30 +899,30 @@ s16 func_800D0E30(u8 *p) {
 }
 
 
-// func_800D0EC4 — scan func_800291B4(i) over i in [0x2F, 0x3A]; return first i whose
+// func_800D0EC4 — scan guess_GetGameVarByte(i) over i in [0x2F, 0x3A]; return first i whose
 //   (result & 0xFF) == 0, else 0.
 //
 // asm trace:
 //   s0 = 0x2F                                        => i = 0x2F
 // .L800D0ED4 (loop top):
-//   jal func_800291B4(i)                             => r = func_800291B4(i)
+//   jal guess_GetGameVarByte(i)                             => r = guess_GetGameVarByte(i)
 //   andi v0, v0, 0xFF                                => r & 0xFF   (forced andi)
 //   beqz v0, .exit / addu v0,s0,zero (delay: v0=i)   => if ((r&0xFF)==0) return i;
 //   addiu s0, s0, 1                                  => i++
 //   sltiu v0, s0, 0x3B                               => (u32)i < 0x3B   (unsigned, sltiu)
 //   bnez v0, .L800D0ED4 / addu v0,zero,zero (v0=0)   => loop while in range; fall off -> 0
 //
-// CALLEE RETURN TYPE: func_800291B4 loads a byte (lbu). To force the `andi v0,0xFF`
+// CALLEE RETURN TYPE: guess_GetGameVarByte loads a byte (lbu). To force the `andi v0,0xFF`
 // at THIS call site it MUST be declared returning a type wider than u8 (s32) with an
 // explicit `& 0xFF`; declaring it u8 would let gcc drop the andi. (Matches the proven
-// pattern: func_800291B4 reads D_800BA1B8[a0] via lbu.)
-extern s32 func_800291B4();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+// pattern: guess_GetGameVarByte reads D_800BA1B8[a0] via lbu.)
+extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
 
 s32 func_800D0EC4(void) {
     s32 i;
 
     for (i = 0x2F; (u32)i < 0x3B; i++) {
-        if ((func_800291B4(i) & 0xFF) == 0) {
+        if ((guess_GetGameVarByte(i) & 0xFF) == 0) {
             return i;
         }
     }
@@ -954,15 +954,15 @@ s32 func_800D0F4C(u8 arg0) {
 }
 
 /* func_800D0F8C - scan indices 0x2F..0x3A; return the first whose
- * (func_800291B4(i) & 0xFF) equals (arg0 & 0xFF); return 0 if none.
+ * (guess_GetGameVarByte(i) & 0xFF) equals (arg0 & 0xFF); return 0 if none.
  * Loop counter is u32 so gcc emits sltiu (unsigned range test 0x3B).
  */
-extern s32 func_800291B4();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
 
 s32 func_800D0F8C(u8 arg0) {
     u32 i;
     for (i = 0x2F; i < 0x3B; i++) {
-        if ((func_800291B4(i) & 0xFF) == arg0) {
+        if ((guess_GetGameVarByte(i) & 0xFF) == arg0) {
             return i;
         }
     }
@@ -983,7 +983,7 @@ s16 func_800D1000(s32 arg0) {
 
 // ANALYSIS: byte-for-byte structural twin of the ALREADY-MATCHED func_800D109C
 //   (src/resident/resident.c:549). asm:
-//     jal func_800291B4 (void)
+//     jal guess_GetGameVarByte (void)
 //     jal func_800D1078        ; andi a0,v0,0xff in the delay slot (arg = result & 0xff)
 //     sll v0,16 / sra v0,16    ; sign-extend the s16 result to s32
 //   The sll/sra AFTER the call means gcc did NOT prove the value already
@@ -994,11 +994,11 @@ s16 func_800D1000(s32 arg0) {
 //   cast, function returns s32. (func_800D1078 is elsewhere matched as s16(u8),
 //   but at THIS call site we must locally over-declare its return width to s32 to
 //   force the visible sign-extension -- same trick as the func_800D2EE8 twin.)
-extern s32 func_800291B4();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
 extern s32 func_800D1078(u8);
 
 s32 func_800D1028(void) {
-    return (s16)func_800D1078(func_800291B4() & 0xff);
+    return (s16)func_800D1078(guess_GetGameVarByte() & 0xff);
 }
 
 extern s32 D_8010EDE8[];
@@ -1015,14 +1015,14 @@ s32 func_800D1078(u8 arg0) {
     return *(s16 *)((u8 *)&D_8010EDEC + arg0 * 0xC);
 }
 
-// ANALYSIS: t = func_800291B4(); return (s16)func_800D10C8(t & 0xff);
+// ANALYSIS: t = guess_GetGameVarByte(); return (s16)func_800D10C8(t & 0xff);
 // andi a0,v0,0xff lands in the jal delay slot (arg to func_800D10C8).
 // sll/sra 16 => sign-extend the s16 return to s32.
-extern s32 func_800291B4();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
 extern s32 func_800D10C8(s32);
 
 s32 func_800D109C(void) {
-    return (s16)func_800D10C8(func_800291B4() & 0xff);
+    return (s16)func_800D10C8(guess_GetGameVarByte() & 0xff);
 }
 
 // ANALYSIS: direct twin of the ALREADY-MATCHED func_800D1078 (resident.c:539):
@@ -1051,7 +1051,7 @@ s32 func_800D10C8(s32 arg0) {
 //
 // asm trace per iteration:
 //   s1 = (s16)i;  s3 = s1 + 0x2F
-//   v1 = func_800291B4(s3) & 0xFF
+//   v1 = guess_GetGameVarByte(s3) & 0xFF
 //   if (v1 == 0) continue;
 //   s2 = v1 * 0xC                                       (record stride 0xC)
 //   s0 = D_8010EDF0[s2]   (lbu, record byte +0)
@@ -1079,9 +1079,9 @@ s32 func_800D10C8(s32 arg0) {
 // load -> the scheduler then fills with `sll;lh;sra` exactly. (Inlining either operand, or a
 // `s16` temp, kept the wrong order; the s32-temp-of-(s16)-cast was the unlock.)
 //
-// func_800291B4 is K&R-called with an arg (asm passes s3) though resident.c:600 prototypes it
+// guess_GetGameVarByte is K&R-called with an arg (asm passes s3) though resident.c:600 prototypes it
 // `(void)`; func_800291DC is the proven `s32 func_800291DC(s32)`.
-extern s32 func_800291B4();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
 extern s32 func_800291DC(s32);
 extern void func_800291A0(s32, s32);
 extern void func_800291C8(s32, s32);
@@ -1102,7 +1102,7 @@ void func_800D10EC(void) {
         s32 s0;
         s32 j;
 
-        v1 = func_800291B4(i + 0x2F) & 0xFF;
+        v1 = guess_GetGameVarByte(i + 0x2F) & 0xFF;
         if (v1 == 0) {
             continue;
         }
@@ -1128,7 +1128,7 @@ void func_800D10EC(void) {
 /* ANALYSIS (asm 0x9C):
  *   s1 = arg0 & 0xFF                          // andi
  *   s2 = s1 + 0x2F
- *   s0 = func_800291B4(s2) & 0xFF             // a0=s2 set before jal -> takes an arg here;
+ *   s0 = guess_GetGameVarByte(s2) & 0xFF             // a0=s2 set before jal -> takes an arg here;
  *                                             //   andi v0,0xff -> callee return WIDER than u8 (s32)
  *   if (s0 == 0) return 0;                    // bnez s0,.work / else j ret0 (v0=0)
  *   v0 = (s16)func_800291DC(s1*2 + 0x14);     // sll16/sra16 -> s16; arg = (s1<<1)+0x14
@@ -1137,13 +1137,13 @@ void func_800D10EC(void) {
  *   return r;
  *
  * D_80078EAC is loaded with `lhu` here (u16) -> declare u16 to avoid an `lh`+andi.
- * func_800291B4 takes an arg in THIS function (a0=s2 set), unlike its void use in
+ * guess_GetGameVarByte takes an arg in THIS function (a0=s2 set), unlike its void use in
  * func_800D109C -- self-contained draft, so declare it with the arg locally.
  * The first call's arg (s1*2) is materialised in the bnez delay slot; the +0x14 in
  * the func_800291DC delay slot -- the single expression (s1*2 + 0x14) reproduces both.
  */
 
-extern s32 func_800291B4();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
 extern s32 func_800291DC(s32 arg0);
 extern s16 D_80078EAC;
 extern s32 func_800D128C(s32 arg0, s32 arg1);
@@ -1152,7 +1152,7 @@ extern void func_800291A0(s32 arg0, s32 arg1);
 s32 func_800D11F0(s32 arg0) {
     s32 s1 = arg0 & 0xFF;
     s32 s2 = s1 + 0x2F;
-    s32 s0 = func_800291B4(s2) & 0xFF;
+    s32 s0 = guess_GetGameVarByte(s2) & 0xFF;
     s32 v0;
     s32 r;
 

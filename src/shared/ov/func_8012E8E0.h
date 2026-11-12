@@ -1,7 +1,10 @@
-/* func_8012E8E0 — shared body (overlay slot 0x80128158, h_exact dc672e82). ONE source: instantiated by #include at each
+/* guess_SetObjectPosAndYaw — shared body (overlay slot 0x80128158, h_exact dc672e82). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void RotMatrixZYX(s32 a0, s32 a1);
-void func_8012E8E0(s32 a0, s32 a1)
+/* guess_SetObjectPosAndYaw: places object a0 at a1's x, y, z (whole units) with y rotation a1[3], and rebuilds its model's matrix and translation
+ * Confidence medium, xref chain: +6/+A/+E = a1[0..2], +4/+8/+C = 0; model +0x12 = a1[3]; RotMatrixZYX(model+0x10, model+0x34); model +0x48.. = pos + +0x50..
+ * Names ledger: config/names.tsv guess_SetObjectPosAndYaw */
+void guess_SetObjectPosAndYaw(s32 a0, s32 a1)
 {
     s32 v1;
     s32 p;

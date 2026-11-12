@@ -5720,7 +5720,7 @@ Unkstruct_d31dceda	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80027C1
 Unkstruct_d325bdca	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80180E68 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_d35a31f4	define	Unkstruct_801A6D90	owner:func_801A6D90	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_d3d6286c	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8018A7E8 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_d477cbe6	define	Unkstruct_8001CA1C	owner:func_8001CA1C	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
+Unkstruct_d477cbe6	define	Unkstruct_8001CA1C	owner:guess_InitModelObjectKind3	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_d48eb9fe	define	Unkstruct_80181A58	owner:func_80181A58	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_d496f7bf	define	Unkstruct_801825E0	owner:func_801825E0	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_d4be35a2	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017F1C0 pruned; 0 uses fleet-wide after the t5 rung-S sweeps

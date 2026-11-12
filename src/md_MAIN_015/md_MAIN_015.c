@@ -129,7 +129,7 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 
 
 
-extern void func_800CB474(void);
+extern void guess_FreeObjectAndSubObject_8(void);
 
 void func_800CB1C0(void *arg0) {
 
@@ -139,7 +139,7 @@ void func_800CB1C0(void *arg0) {
         u16 v0 = ((Unkstruct_800CB1C0 *)arg0)->unk2;
         D_800CBB38[v0]();
     } else {
-        func_800CB474();
+        guess_FreeObjectAndSubObject_8();
     }
 }
 
@@ -240,7 +240,10 @@ void func_800CB2E0(void *arg0) {
 
 
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
-void func_800CB474(void) {
+/* guess_FreeObjectAndSubObject_8: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_8 */
+void guess_FreeObjectAndSubObject_8(void) {
     func_80162CCC();
 }
 

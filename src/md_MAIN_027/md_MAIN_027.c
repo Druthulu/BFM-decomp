@@ -642,12 +642,12 @@ after:
 
 extern u8 D_80078EC1;
 extern void (*D_800CC1C4[])();
-extern void func_800CC004();
+extern void guess_FreeObjectAndSubObject_18();
 
 void func_800CBECC(int param_1)
 {
     if (D_80078EC1 != 24) {
-        func_800CC004();
+        guess_FreeObjectAndSubObject_18();
     } else {
         D_800CC1C4[((Unkstruct_800CB270 *)param_1)->unk2]();
     }
@@ -683,7 +683,7 @@ void func_800CBF28(s32 p1)
         func_800CC024(p1);
         guess_NextStep((void *)p1);
     } else {
-        func_800CC004(p1);
+        guess_FreeObjectAndSubObject_18(p1);
     }
 }
 
@@ -695,7 +695,10 @@ void func_800CBFE4(s32 a0) {
 
 
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D41)
-void func_800CC004(void) {
+/* guess_FreeObjectAndSubObject_18: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_18 */
+void guess_FreeObjectAndSubObject_18(void) {
     func_80162CCC();
 }
 

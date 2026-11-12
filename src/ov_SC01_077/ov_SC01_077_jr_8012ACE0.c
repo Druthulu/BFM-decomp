@@ -129,7 +129,7 @@ extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
 extern void func_801379FC(void);
 extern void func_8001212C(void);
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern u8 D_800AEFD0;
 extern int guess_g_CdReadList;
 extern int *guess_g_CdReadListDest;
@@ -141,7 +141,7 @@ extern u8 D_800AF560;
 extern s32 func_80128940(s32 _arg0);
 extern int D_800AECB0;
 extern u8 D_800AECB8;
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 M2C_UNK func_80010DE0();                            /* extern */
 extern s16 D_800B9A00;
 extern M2C_UNK (*D_80186AF0)();
@@ -156,8 +156,8 @@ extern s32 func_80018450(s32 a0, s32 a1);
 extern s32 func_800183E0(s32 a0);
 extern void func_80128D60(s32 a0, s32 *a1, s32 *a2);
 extern s32 func_80128DB4(s32 a0, s32 *a1);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 M2C_UNK func_8001534C(M2C_UNK, M2C_UNK *, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 extern M2C_UNK D_801D7F94;
@@ -696,7 +696,7 @@ extern u8 D_800D3918[];
 
 
 int func_8012D664(int arg0, int arg1, int arg2) {
-    extern void func_8012F568(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
+    extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
     extern int D_80186E58;
 
     struct S8012D664_8012D664 s;
@@ -709,7 +709,7 @@ int func_8012D664(int arg0, int arg1, int arg2) {
     ret = ((int(*)())func_800132BC)(arg0, &s);
     t = arg1 + 0x20;
     if (ret < t * t) {
-        func_8012F568(1, 1, 0, arg2, arg0, &D_80186E58);
+        guess_SetPlayerHit(1, 1, 0, arg2, arg0, &D_80186E58);
         return 1;
     }
     return 0;
@@ -723,7 +723,7 @@ int func_8012D664(int arg0, int arg1, int arg2) {
 #include "../shared/ov/func_8012D714.h"
 
 
-extern void func_8012F568(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
+extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
 extern void func_8014C978(void);
 extern M2C_UNK D_80186E60;
 extern M2C_UNK D_80186E68;
@@ -731,7 +731,7 @@ extern M2C_UNK D_80186E68;
 s32 func_8012DB84(void)
 {
     func_8014C978();
-    func_8012F568(1, 0xC001, 0, 0x3E8, &D_80186E60, &D_80186E68);
+    guess_SetPlayerHit(1, 0xC001, 0, 0x3E8, &D_80186E60, &D_80186E68);
 }
 
 
@@ -1063,7 +1063,7 @@ extern void RotMatrixZYX(s32 a0, s32 a1);
 
 #include "../shared/ov/func_8012EF70.h"
 
-/* func_8012EFB8 — "Handwritten function" (GTE): RotTrans of one SVECTOR.
+/* guess_WorldToScreenFlag — "Handwritten function" (GTE): RotTrans of one SVECTOR.
  * Verbatim PsyQ inline_c.h macro bodies (same set already byte-proven in
  * ov_SC03_099_jr_8012ACE0.c func_801330E0). SetRotMatrix + SetTransMatrix both
  * take the same &guess_g_CameraWsMatrix -> gcc CSEs the address into $v0. `flag` has its
@@ -1077,13 +1077,13 @@ extern void RotMatrixZYX(s32 a0, s32 a1);
 
 
 /* §37/§124 asm-label alias: the fleet canon declares this `extern void
- * func_8012EFB8(s32 a0);` inside the DEFINE_func_* macros in
+ * guess_WorldToScreenFlag(s32 a0);` inside the DEFINE_func_* macros in
  * src/shared/engine_core.h (the one at src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c:1169
  * comes from DEFINE_func_8012EF70()).  The byte-true body returns s32 and takes
  * TWO pointers, so it conflicts on BOTH the return axis and the arity axis.
  * Aliasing the C name sidesteps both with no header edit and no codegen change.
  * This declaration MUST travel with the body. */
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 
 #include "../shared/ov/func_8012EFB8.h"
 
@@ -1558,7 +1558,7 @@ void func_80130D48(s32 arg0)
 //   (the <= polarity makes the >0x8FFF/0x33-first block the bnez'd else=L298, fall-through = 0x32-first);
 //   both AC8 tails cross-jump-merge into the shared L2AC final call. Externs aligned to the file's
 //   existing decls for gate-safety: func_80131B14(void) [file line 1486], guess_SetLocalVelocity/guess_DistSqToPlayer
-//   canonical (s32) [DEFINE macros], ((s32(*)())func_80131AC8)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
+//   canonical (s32) [DEFINE macros], ((s32(*)())guess_PlayActorSound)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
 
 
 void func_80131170(s32 p, s32 b, s32 c) {
@@ -1596,11 +1596,11 @@ tail:
         return;
     }
     if (((s32(*)(s32))guess_DistSqToPlayer)((s32)((u8 *)p)) <= 0x8FFF) {
-        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x32) != 0) return;
-        ((s32(*)())func_80131AC8)(((u8 *)p), 0x33);
+        if (((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x32) != 0) return;
+        ((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x33);
     } else {
-        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x33) != 0) return;
-        ((s32(*)())func_80131AC8)(((u8 *)p), 0x32);
+        if (((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x33) != 0) return;
+        ((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x32);
     }
 }
 

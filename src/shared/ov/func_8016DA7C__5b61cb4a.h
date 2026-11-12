@@ -14,7 +14,7 @@ void func_8016DA7C(s32 param_1)
         *(u16 *)(iVar1 + 0x18) = 0x3000;
         *(u16 *)(iVar1 + 0x1a) = 0x4000;
         *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
-        func_80128EA8(iVar1, param_1 + 0x24, (s32)&D_80181D70);
+        guess_StartPairSequence(iVar1, param_1 + 0x24, (s32)&D_80181D70);
         *(s32 *)(param_1 + 0x10) = 0;
         *(s32 *)(param_1 + 0x14) = 0xfff40000;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;

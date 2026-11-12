@@ -1,7 +1,9 @@
 // config/symbols.md_MAIN_017.txt — module md_MAIN_017 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CAE08..0x800CB3DC); NEVER merged into config/symbols.us.txt.
-// count=6
+// count=8
 
+guess_StartPairSequence          = 0x80128EA8; // func
+guess_StepPairSequence           = 0x80128ED8; // func
 guess_RotTransSVWithMatrix       = 0x8012F14C; // func
 guess_AllocSpriteObject          = 0x801465C0; // func
 guess_SpawnSmallObjectAtOrigin   = 0x80146994; // func

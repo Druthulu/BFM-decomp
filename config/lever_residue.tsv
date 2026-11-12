@@ -1094,9 +1094,9 @@ src/resident/resident_jr_800D00E4.c	func_800D0E30	pin	delever R t8_r2	oracle DIF
 src/resident/resident_jr_800D128C.c	func_800D2650	pin	T11 crack G07	delever_search --try best 9/74	singleton(pin) wall:reload-reg-choice
 src/shared/engine_prelude.h	ENGINE_SHB	asm-macro	none	shared prelude launder lever; each use ledgered per site as launder (oracle DIFFERS on removal)	asm-macro-def(launder) [3.40-agent] wall:hand-asm
 src/shared/ov/func_80128564.h	func_80128564	instruction	T11 parked (instruction)	delever A headers1 (no lever-free attempt)	singleton(instruction) wall:no-c-spelling
-src/shared/ov/func_80128ED8.h	func_80128ED8	keepalive	T11 crack WH1	delever_search --try best 10/3	singleton(keepalive) wall:combine-copy-merge
-src/shared/ov/func_80128ED8.h	func_80128ED8	launder	T11 crack WH1	delever_search --try best 10/3	singleton(launder) wall:combine-copy-merge
-src/shared/ov/func_80128ED8.h	func_80128ED8	pin	delever B headers1	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:cse-copy-merge
+src/shared/ov/func_80128ED8.h	guess_StepPairSequence	keepalive	T11 crack WH1	delever_search --try best 10/3	singleton(keepalive) wall:combine-copy-merge
+src/shared/ov/func_80128ED8.h	guess_StepPairSequence	launder	T11 crack WH1	delever_search --try best 10/3	singleton(launder) wall:combine-copy-merge
+src/shared/ov/func_80128ED8.h	guess_StepPairSequence	pin	delever B headers1	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:cse-copy-merge
 src/shared/ov/func_801298F4.h	func_801298F4	pin	delever B headers1	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:cse-copy-merge
 src/shared/ov/func_8012A860.h	func_8012A860	pin	delever R t8_r2	oracle DIFFERS on removal; T7 SCRATCH (written before read); T20 predictor	scratch-pin($4-$7) wall:cse-copy-merge
 src/shared/ov/func_8012B0B4.h	func_8012B0B4	instruction	T11 parked (instruction)	delever B headers1 (no lever-free attempt)	singleton(instruction) wall:no-c-spelling

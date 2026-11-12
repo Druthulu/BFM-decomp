@@ -82,7 +82,7 @@ void func_800CAFD4(void *arg0) {
 
 void func_800CB030(s32 param_1) {
     extern s32 func_8014659C(void);
-    extern void func_8001CA1C(void *a0, void *a1);
+    extern void guess_InitModelObjectKind3(void *a0, void *a1);
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void guess_NextStep(void *a0);
@@ -98,7 +98,7 @@ void func_800CB030(s32 param_1) {
     ((Unkstruct_80126B58 *)param_1)->unk20 = p;
 
     if (p != 0) {
-        func_8001CA1C((void *)p, (void *)((s32)&D_800CBFA0 + ((Unkstruct_80126B58 *)param_1)->unk50 * 12));
+        guess_InitModelObjectKind3((void *)p, (void *)((s32)&D_800CBFA0 + ((Unkstruct_80126B58 *)param_1)->unk50 * 12));
         *(u32 *)(p + 4) |= 0x08000000;
         guess_TransformPosByObjMatrix(obj, param_1 + 4);
         ((Unkstruct_80126B58 *)param_1)->unk60 = CAST_SIGN(u16, param_1, 0xA);
@@ -314,7 +314,7 @@ void func_800CB5A8(void) {
 
 
 
-extern void func_800CB774(void);
+extern void guess_FreeObjectAndSubObject_14(void);
 
 void func_800CB5D8(void *arg0) {
 
@@ -324,17 +324,17 @@ void func_800CB5D8(void *arg0) {
         u16 v0 = ((Unkstruct_800CAFD4 *)arg0)->unk2;
         D_800CBFD4[v0]();
     } else {
-        func_800CB774();
+        guess_FreeObjectAndSubObject_14();
     }
 }
 
 
 extern s32 func_8014659C(void);
-extern void func_8001CA1C(void *a0, void *a1);
+extern void guess_InitModelObjectKind3(void *a0, void *a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_NextStep(void *a0);
-extern void func_800CB774(void);
+extern void guess_FreeObjectAndSubObject_14(void);
 extern int rand(void);
 
  /* 12-byte entries: idx*12 addressing */
@@ -351,7 +351,7 @@ void func_800CB634(void *a0) {
     ((Unkstruct_80126B58 *)a0)->unk20 = (s32)s1;
 
     if (s1 != NULL) {
-        func_8001CA1C(s1, &D_800CBFA0[((Unkstruct_80126B58 *)a0)->unk50]);
+        guess_InitModelObjectKind3(s1, &D_800CBFA0[((Unkstruct_80126B58 *)a0)->unk50]);
 
         vx = ((rand() & 0x3f) - 0x20) << 15;
         vy = ((rand() & 0x3f) - 0x20) << 15;
@@ -361,7 +361,7 @@ void func_800CB634(void *a0) {
         guess_SetWaitTimer_2((s32 *)a0, 0x40);
         guess_NextStep(a0);
     } else {
-        ((void (*)(void *))func_800CB774)(a0);
+        ((void (*)(void *))guess_FreeObjectAndSubObject_14)(a0);
     }
 }
 
@@ -397,7 +397,10 @@ void func_800CB708(void *arg0) {
 
 
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
-void func_800CB774(void) {
+/* guess_FreeObjectAndSubObject_14: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_14 */
+void guess_FreeObjectAndSubObject_14(void) {
     func_80162CCC();
 }
 

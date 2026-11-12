@@ -1,7 +1,7 @@
 /* func_80159070 — shared body (overlay slot 0x80128158, h_exact ed5b882c). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_GetTextWindowResult(s32 a0);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern s32 guess_OpenTextWindow(s32 a0);
 extern void guess_NextStep(void *a0);
 extern u8 D_80110C94[];
@@ -16,7 +16,7 @@ void func_80159070(void *a0) {
     r = guess_GetTextWindowResult(*(s32 *)((u8 *)a0 + 0x198));
     *(s16 *)((u8 *)a0 + 0x244) = r;
     if ((s16)r != 0) {
-        func_80139914(*(s32 *)((u8 *)a0 + 0x198));
+        guess_CloseTextWindow(*(s32 *)((u8 *)a0 + 0x198));
         v = *(s16 *)((u8 *)a0 + 0x244);
         *(s32 *)((u8 *)a0 + 0x198) = 0;
         switch (v) {

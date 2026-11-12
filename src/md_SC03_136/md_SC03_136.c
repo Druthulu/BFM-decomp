@@ -40,7 +40,7 @@ s32 func_801E268C(s32 param_1) {
 extern void func_800D1E28(void);
 extern s32 guess_RequestSound(s32, s32);
 extern void func_8001BFD0(void);
-extern s32 func_800291B4(s32);
+extern s32 guess_GetGameVarByte(s32);
 extern s32 func_80029524(void);
 extern void func_800D0C48(s32);
 
@@ -204,7 +204,7 @@ void func_801E2B08(void) {
 
 
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 

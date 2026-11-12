@@ -38,7 +38,7 @@ extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
 extern s32 func_80145CEC();
@@ -180,7 +180,7 @@ extern void func_80147628(s32 a0);
 extern void func_80147478(s32 a0);
 extern void func_801474D8(s32 *a0);
 extern void guess_ClearTiltVectors(s32 *a0);
-extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void func_800129CC(s32 a0, s32 a1);
 extern void func_80147514(s32 arg0);
 extern void func_80013F3C(s32 a0);
@@ -311,7 +311,7 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8014942C(s32 arg0);
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void func_80149544(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 extern void func_80149584(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8014964C(s32 param_1, s32 param_2);
 extern s32 guess_IsConfirmPressed(void *a0);
@@ -523,7 +523,7 @@ extern s32 D_80126B50;
 extern void func_8014C968(void);
 extern void func_8014C978(void);
 extern s32 func_8014C98C(void);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern s32 func_8014CA00(s32 a0);
 extern u16 func_8014CA70(s32 a0, s32 a1);
 extern s32 func_8014CA14(s32 a0, s32 a1);
@@ -1068,7 +1068,7 @@ extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
-extern void func_80139914(s32);
+extern void guess_CloseTextWindow(s32);
 extern s32 func_80159464(void);
 extern void func_801594E8(s32, s32);
 extern void func_80158FA4(s32 param_1);
@@ -1098,7 +1098,7 @@ extern void func_8013C938(void);
 extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
@@ -1539,7 +1539,7 @@ extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
-extern void func_80164DB0(void);
+extern void guess_FreeObjectAndSubObject(void);
 extern u8 D_801CF510;
 extern u8 D_801CF511;
 extern u8 D_801CF512;
@@ -1650,11 +1650,11 @@ extern void (*D_8019471C[])(void);
 extern void func_801663FC(void *a0);
 extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_800D22E4(s32 a0);
 extern void func_801665B4(s32 *a0);
 extern void (*D_801947E4[])(void);
@@ -2502,7 +2502,7 @@ extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
-extern void func_8012E8E0(s32 a0, s32 a1);
+extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_801789AC(s32 arg0);
@@ -2721,7 +2721,7 @@ extern int rsin(int);
 extern int rcos(int);
 extern s32 func_80133784(s32, void*, s32);
 extern int func_8017F32C(int param_1, short param_2);
-extern s32  func_8012C588(s32 a0, s32 a1);
+extern s32  guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern void guess_FreeActor(void *a0);
 extern s32 func_8002A04C(s32 a0);
 extern void func_8002AC00(s32 a0);
@@ -2747,9 +2747,9 @@ extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void guess_FreeActor(void *a0);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8017FAB4(int param_1);
-extern void func_8012B1B4(void*, void*);
+extern void guess_SetVelocityXZFromLocal(void*, void*);
 extern s32 func_8012CBCC(s32 a0);
-extern s32 func_8012BE98(s32 a0, u16 *a1);
+extern s32 guess_DistSqXZToPoint(s32 a0, u16 *a1);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012BE54(s32 a0);
@@ -2773,7 +2773,7 @@ extern void func_801810CC(short *param_1);
 extern void func_801812DC(s32 a0);
 extern s32 func_80143C74(s32 a0, s32 a1);
 extern void func_80181720(s32 a0);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_8012931C(struct vec *a0);
 extern void func_801292C8(u8 *a0);
 extern int func_8012D664(int arg0, int arg1, int arg2);
@@ -3509,14 +3509,14 @@ extern void func_80185AC0(s32 a0);
 /* Sibling-search (§160g) findings, kept for the integration note:
  * - func_8018598C (same TU, ov_SC06_018_jr_8017C24C.c:7215, MATCHED/banked already) shares
  *   guess_TickWaitTimer/guess_GetAngleStepToward/guess_SetForwardVelocity/func_801860E4/func_8018626C with identical
- *   argument shapes -- confirms every extern signature below except func_8012B8A4/func_8012EFB8.
+ *   argument shapes -- confirms every extern signature below except func_8012B8A4/guess_WorldToScreenFlag.
  * - func_8018457C (same TU, :6654) uses the SAME guess_GetAngleStepToward(*(s16*)(*(s32*)(p+0x20)+0x12),
  *   *(s32*)(p+0xE8), 8) / field += pattern and the SAME guess_SetForwardVelocity(p, 0xFFF8D000) magic
  *   literal -- confirms the b608/b178 idiom byte-for-byte.
  * - func_8012B8A4 canonical decl (many matched TUs): extern s32 func_8012B8A4(s16 *a0);
- * - func_8012EFB8's byte-true body (src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c:1106) is
- *   `s32 func_8012EFB8(void *param_1, void *param_2)` -- TWO pointers, s32 return -- but the
- *   fleet-canon extern in THIS TU (line 335: `extern void func_8012EFB8(s32 a0);`, file scope,
+ * - guess_WorldToScreenFlag's byte-true body (src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c:1106) is
+ *   `s32 guess_WorldToScreenFlag(void *param_1, void *param_2)` -- TWO pointers, s32 return -- but the
+ *   fleet-canon extern in THIS TU (line 335: `extern void guess_WorldToScreenFlag(s32 a0);`, file scope,
  *   already in effect before this function) conflicts on both arity and return axis. Per §161c,
  *   do NOT add a second extern; cast the existing symbol at the call site instead.
  * - Ghidra seed at .run/ghidra_c/func_80184860.c confirms the callee set and control flow
@@ -3533,7 +3533,7 @@ extern void func_80185AC0(s32 a0);
  *   guess_SetForwardVelocity -> void(s32,s32) EXACT match (:6645/:7044/:7207).
  *   func_801860E4 -> s32(s32) EXACT match (:6646/:7045/:7208).
  *   func_8018626C -> void(s32) EXACT match (:7046/:7209).
- *   func_8012EFB8 -> declared void(s32) to match the host's loose file-scope decl (:335); the
+ *   guess_WorldToScreenFlag -> declared void(s32) to match the host's loose file-scope decl (:335); the
  *     real (void*,void*)->s32 body is invoked through a cast at the call site (§161c), so no
  *     second/conflicting extern is introduced.
  *   func_8012C098 -> void(void*) EXACT match (:5603).
@@ -3550,7 +3550,7 @@ extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_801860E4(s32 a0);
 extern void func_8018626C(s32 a0);
-extern s32 func_8012EFB8(void *param_1, void *param_2); /* loose decl, real body is (void*,void*)->s32; call via cast */
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2); /* loose decl, real body is (void*,void*)->s32; call via cast */
 extern s32 func_8012C098(void *param_1);
 
 void func_80184860(s32 a0) {
@@ -3587,7 +3587,7 @@ void func_80184860(s32 a0) {
     vecA[0] = CAST_SIGN(s16, a0, 0x6);
     vecA[1] = CAST_SIGN(s16, a0, 0xA);
     vecA[2] = CAST_SIGN(s16, a0, 0xE);
-    ((s32 (*)(void *, void *))func_8012EFB8)(vecA, vecB);
+    ((s32 (*)(void *, void *))guess_WorldToScreenFlag)(vecA, vecB);
 
     x = vecB[0];
     if (x < 0) {

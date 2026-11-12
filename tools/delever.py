@@ -5744,18 +5744,18 @@ def selftest():
             "    v0 &= 0x1F;\n"
             "    v0 -= 0x10;\n"
             "    s0[0] = v0;\n"
-            "    func_80028620(2, &s0[8]);\n"
+            "    guess_SetFlatLightOrDefault(2, &s0[8]);\n"
             "    v0 = rand();\n"
             "    v0 &= 0x1F;\n"
             "    D_800A5E90 = v0;\n"
-            "    func_80028620(1, s0 + 4);\n"
+            "    guess_SetFlatLightOrDefault(1, s0 + 4);\n"
             "}")
     d45 = dict(derived_pointer_store(DFIX, "src/fx/d.c", "func_80100000",
                                      next(r for r in sc.scan_text(DFIX, "src/fx/d.c", shared_defs=None) if r["form"] == "def")))
     if sorted(d45) != ["derived-ptr s0[8] @6"]:
         fail(f"R45 must derive a pointer for the stored-then-passed slot only (s0 + 4 has no store): {sorted(d45)}")
     elif "    s32 *p1;" not in d45["derived-ptr s0[8] @6"] or "    p1 = &s0[8];\n    *p1 = 0;" not in d45["derived-ptr s0[8] @6"] \
-            or "func_80028620(2, p1);" not in d45["derived-ptr s0[8] @6"]:
+            or "guess_SetFlatLightOrDefault(2, p1);" not in d45["derived-ptr s0[8] @6"]:
         fail(f"R45 must declare the pointer, bear it before the store, store through it and pass it: {d45!r}")
     d46 = dict(set_once_chain(DFIX, "src/fx/d.c", "func_80100000",
                               next(r for r in sc.scan_text(DFIX, "src/fx/d.c", shared_defs=None) if r["form"] == "def")))
@@ -5765,7 +5765,7 @@ def selftest():
             or "v0 -= 0x10;" in d46["set-once chain v0 @9"]:
         fail(f"R46 must delete the chain lines and write one expression: {d46!r}")
     # a chain whose temp is read after the store is refused
-    DF2 = DFIX.replace("    func_80028620(2, &s0[8]);\n", "    func_80028620(v0, &s0[8]);\n")
+    DF2 = DFIX.replace("    guess_SetFlatLightOrDefault(2, &s0[8]);\n", "    guess_SetFlatLightOrDefault(v0, &s0[8]);\n")
     if "set-once chain v0 @9" in dict(set_once_chain(DF2, "src/fx/d.c", "func_80100000",
                                                      next(r for r in sc.scan_text(DF2, "src/fx/d.c", shared_defs=None) if r["form"] == "def"))):
         fail("R46 must refuse a chain whose temp is read after the store")

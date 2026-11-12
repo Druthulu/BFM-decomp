@@ -28,6 +28,6 @@ void func_80164BDC(s32 param_1)
         func_80164DD0(param_1);
         ((void (*)(s32))guess_NextStep)(param_1);
     } else {
-        ((void (*)(s32))func_80164DB0)(param_1);
+        ((void (*)(s32))guess_FreeObjectAndSubObject)(param_1);
     }
 }

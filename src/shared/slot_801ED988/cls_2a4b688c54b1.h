@@ -8,7 +8,7 @@ s32 SHARED_FN(s32 param_1) {
         func_800D1E28();
         guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        if ((func_800291B4(0xCE) & 0xFF) == 0 &&
+        if ((guess_GetGameVarByte(0xCE) & 0xFF) == 0 &&
             (s1 - 0x384) >= 0x6E && (s1 - 0x460) >= 0x32) {
             guess_RequestSound(0x1D, 0);
             func_800D0C48(1);

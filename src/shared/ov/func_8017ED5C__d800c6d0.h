@@ -22,7 +22,7 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
     extern u8 *D_801CD9A4;
     extern void *D_801CD9B0;
     extern s32 guess_TestGameFlag(s32 arg);
-    extern s32 func_800291B4(s32 arg);
+    extern s32 guess_GetGameVarByte(s32 arg);
     extern s32 guess_GetStoryProgress(void);
     extern void func_80139A44(s32 a0, u16 a1);
     extern s16 func_8017F730(void);
@@ -69,7 +69,7 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
             s16 j;
             s32 v;
             j = (s16)param_2;
-            v = func_800291B4(D_80183478[j]) & 0xFF;
+            v = guess_GetGameVarByte(D_80183478[j]) & 0xFF;
             if (v == 0) {
                 result = D_80112B58;
             } else if (v == 1) {
@@ -101,7 +101,7 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
         break;
     case 9:
         c = D_801CD9A4[(s16)param_2];
-        if ((func_800291B4(c + 0x62) & 0x40) != 0) {
+        if ((guess_GetGameVarByte(c + 0x62) & 0x40) != 0) {
             result = D_801BB984[c];
         }
         break;

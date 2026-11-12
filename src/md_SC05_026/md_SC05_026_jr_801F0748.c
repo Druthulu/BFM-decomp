@@ -54,7 +54,7 @@ extern int func_801EFF6C(u8 *arg);
 extern s32 func_800167F0(s32 a0);
 extern s32 func_801EFFC4(void);
 extern void func_8001BFD0(void);
-extern s32 func_800291B4(s32);
+extern s32 guess_GetGameVarByte(s32);
 extern s32 guess_RequestSound(s32, s32);
 extern void func_800D0C48(s32);
 extern void func_800D1E28(void);
@@ -83,12 +83,12 @@ extern void func_801F0478(void *a0);
 extern void func_801F03B4(void);
 extern void func_801F04B4(s32 param_1);
 extern u16  guess_GetPadPressed(s32 *a0);
-extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32  guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_801F04DC(s32 param_1, s16 *param_2);
-extern s32 func_8001ABBC(u32, u32, void *, u32, u32);
+extern s32 guess_RequestResourceLoad(u32, u32, void *, u32, u32);
 extern void func_801F0714(void);
 
 
@@ -308,7 +308,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, s32 a1);
-extern void func_8012E8E0(s32 a0, s32 a1);
+extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern s32 func_80178B18(s32 a0, s32 a1);
 
 void func_801F0BB4(void *a0) {
@@ -329,7 +329,7 @@ void func_801F0BB4(void *a0) {
         *(s16 *)(ptr + 0xC) = 0x7FFF;
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
         guess_StartActorSequence((s32)a0, (s32)&D_801B9A0C);
-        func_8012E8E0((s32)a0, (s32)&D_801F1A8C);
+        guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801F1A8C);
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
         func_80178B18((s32)a0, (s32)&D_801F1ABC);
     }

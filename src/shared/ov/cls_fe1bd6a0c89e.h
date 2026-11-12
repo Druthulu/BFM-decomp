@@ -4,7 +4,7 @@ s32 SHARED_FN(s32 param_1) {
         func_800D1E28();
         guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        if ((func_800291B4(0xCE) & 0xFF) == 0) {
+        if ((guess_GetGameVarByte(0xCE) & 0xFF) == 0) {
             func_800D0C48(1);
         }
         ((Unkstruct_8017E69C *)param_1)->unk15 = ((Unkstruct_8017E69C *)param_1)->unk15 + 1;

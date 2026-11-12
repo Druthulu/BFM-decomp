@@ -39,7 +39,7 @@ extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
 extern s32 func_80145CEC();
@@ -183,7 +183,7 @@ extern void func_80147628(s32 a0);
 extern void func_80147478(s32 a0);
 extern void func_801474D8(s32 *a0);
 extern void guess_ClearTiltVectors(s32 *a0);
-extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void func_800129CC(s32 a0, s32 a1);
 extern void func_80147514(s32 arg0);
 extern void func_80013F3C(s32 a0);
@@ -314,7 +314,7 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8014942C(s32 arg0);
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void func_80149544(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 extern void func_80149584(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8014964C(s32 param_1, s32 param_2);
 extern s32 guess_IsConfirmPressed(void *a0);
@@ -528,7 +528,7 @@ extern s32 D_80126B50;
 extern void func_8014C968(void);
 extern void func_8014C978(void);
 extern s32 func_8014C98C(void);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern s32 func_8014CA00(s32 a0);
 extern u16 func_8014CA70(s32 a0, s32 a1);
 extern s32 func_8014CA14(s32 a0, s32 a1);
@@ -1074,7 +1074,7 @@ extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
-extern void func_80139914(s32);
+extern void guess_CloseTextWindow(s32);
 extern s32 func_80159464(void);
 extern void func_801594E8(s32, s32);
 extern void func_80158FA4(s32 param_1);
@@ -1104,7 +1104,7 @@ extern void func_8013C938(void);
 extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
@@ -1545,7 +1545,7 @@ extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
-extern void func_80164DB0(void);
+extern void guess_FreeObjectAndSubObject(void);
 extern u8 D_801E5CB8;
 extern u8 D_801E5CB9;
 extern u8 D_801E5CBA;
@@ -1658,11 +1658,11 @@ extern u8 D_800D387C[];
 extern u8 D_800D3888[];
 extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_800D22E4(s32 a0);
 extern void func_801665B4(s32 *a0);
 extern void (*D_801901C4[])(void);
@@ -2509,7 +2509,7 @@ extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
-extern void func_8012E8E0(s32 a0, s32 a1);
+extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_801789AC(s32 arg0);
@@ -2593,7 +2593,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern s32 guess_YawToPoint(void *a0, void *a1);
-extern s32 func_8012BE98(s32 a0, u16 *a1);
+extern s32 guess_DistSqXZToPoint(s32 a0, u16 *a1);
 extern s16 D_801E7A68;
 extern s16 D_801E7A6A;
 extern s16 D_801E7A74;
@@ -2756,7 +2756,7 @@ extern void func_8017E810(void *a0);
 extern void func_80178CBC(s32*, s32);
 extern void func_8017E84C(void * arg0);
 extern void func_8017E878(void * arg0);
-extern s32 func_8012C588(s32, s32);
+extern s32 guess_SpawnActorNoArg(s32, s32);
 extern void func_8017E99C(void *a0);
 extern s32 func_80184BAC(s32 arg0, s32 arg1);
 extern void func_8017E5A0(void *arg0);
@@ -2796,8 +2796,8 @@ extern void func_801800E0(void *a0);
 extern s32 func_8018011C(void);
 extern void func_8018015C(u8 *a0);
 extern void func_80180164(void * arg0);
-extern void func_8012E8E0(s32, s32);
-extern void func_8012E88C(s32);
+extern void guess_SetObjectPosAndYaw(s32, s32);
+extern void guess_ShowObjectModel(s32);
 extern void guess_StartActorSequence(s32 *a0, s32 a1);  /* fleet-canonical sig (TU L3775) */
 extern void func_80184C90(s32);
 extern void func_80184ED4(s32, s32, s32, s32);
@@ -2816,7 +2816,7 @@ extern s32 func_80180814(void *a0);
 extern short D_801919E0;
 extern short D_801B6614;
 extern void func_80180888(void *arg0);
-extern void func_8012E88C(s32 a0);
+extern void guess_ShowObjectModel(s32 a0);
 extern void func_80184C90(s32 a0);
 extern short D_801919E8;
 extern short D_801B9B50;
@@ -3085,7 +3085,7 @@ extern void guess_SetGameFlag(s32, s32);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80137B80(void);
 extern s32 guess_OpenTextWindowCenteredAt(s32 a0, s32 a1);
-extern void func_80139954(void);
+extern void guess_CloseTextWindow0(void);
 extern void func_80139A68(s32 a0, u16 a1);
 extern s32 guess_GetTextWindowResult(s32 a0);
 extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
@@ -3141,7 +3141,7 @@ void func_801878E8(void) {
 
             if (D_801E7700 != 0) {
                 guess_g_MenuHelpText = D_801E7700;
-                func_80139954();
+                guess_CloseTextWindow0();
                 D_801E7704 = guess_OpenTextWindowCenteredAt(D_801E7700, (s32)&D_801B9410);
             }
         }
@@ -3162,7 +3162,7 @@ void func_801878E8(void) {
                 } else if (D_801E77AC == 1) {
                     u16 *p = &guess_g_MenuStep;
                     D_801E7030 = 1;
-                    func_80139954();
+                    guess_CloseTextWindow0();
                     D_800B9A15 = 0;
                     *p = *p + 1;
                 } else {
@@ -3281,7 +3281,7 @@ void func_801878E8(void) {
 
             if (D_801E7700 != 0) {
                 guess_g_MenuHelpText = D_801E7700;
-                func_80139954();
+                guess_CloseTextWindow0();
                 D_801E7704 = guess_OpenTextWindowCenteredAt(D_801E7700, (s32)&D_801B9410);
             }
         }
@@ -3296,7 +3296,7 @@ void func_801878E8(void) {
                 func_80189540(0xF, guess_GetMenuPanelCursorIndex((s16)idx));
             }
             if (D_801E7030 != 0) {
-                func_80139954();
+                guess_CloseTextWindow0();
                 D_800B9A15 = 0;
                 guess_RequestSound(0x474, 0);
                 guess_g_MenuStep = guess_g_MenuStep + 1;
@@ -3326,7 +3326,7 @@ extern void func_8014BD24(s32 a0, s32 a1);
 extern void func_80189EA0(void);
 extern s32 func_801621CC(s32 arg0);
 extern void func_801622C4(void);
-extern void func_80139954(void);
+extern void guess_CloseTextWindow0(void);
 extern u8 D_800B9A15;
 extern u16 guess_g_MenuStep;
 extern void func_80188778(void);
@@ -3417,7 +3417,7 @@ void func_801880EC(void)
         if (D_801E7708 == 0) {
             if (func_801621CC(s2) != 0) {
                 func_801622C4();
-                func_80139954();
+                guess_CloseTextWindow0();
                 D_800B9A15 = 0;
                 guess_g_MenuStep = 4;
                 return;
@@ -3427,7 +3427,7 @@ void func_801880EC(void)
         if (D_801E7700 == 0) {
             D_801E7700 = (s32)&D_801EC970;
             guess_g_MenuHelpText = (s32)&D_801EC970;
-            func_80139954();
+            guess_CloseTextWindow0();
             D_801E7704 = guess_OpenTextWindowCenteredAt(D_801E7700, (s32)&D_801B9410);
             if (D_801E7790 != 0) {
                 ((s32 (*)(s32))func_8001AAA0)(0x16);
@@ -3895,14 +3895,14 @@ s32 *func_801889B8(s32 *ot, Panel_8017E978_801889B8 *w0, s16 idx) {
  *      the copy in $t0.  A plain `mode = arg1;` is coalesced away and arg1 keeps $a1, pushing
  *      the switch index to $t0.  `mode = arg1 + zr` is a (plus rA (reg 0)) — not a reg-reg set,
  *      so nothing merges it — and assembles to the byte-identical `addu $t0,$a1,$zero`.
- *      Finally `n = func_800291B4(c)` REUSES n as the second probe's temp: that 8th reference
+ *      Finally `n = guess_GetGameVarByte(c)` REUSES n as the second probe's temp: that 8th reference
  *      is what lifts n's allocno priority above the per-case `j` allocnos, so n gets $v1 and
  *      `j` gets $a1/$a0 instead of the other way round (the last 23-instruction residual).
  */
 
 s32 func_80188B84(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4) {
 
-    extern s32 func_800291B4(s32 arg);
+    extern s32 guess_GetGameVarByte(s32 arg);
 
     extern u8  guess_g_MenuPanelScrollTops[];
     extern u8  guess_g_MenuPanelSizes[];
@@ -3947,7 +3947,7 @@ s32 func_80188B84(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4) {
     case 8: {
         s16 v1 = (s16)arg3;
         if (v1 < 0xC) {
-            s32 t = func_800291B4(D_8018E2C8[v1]) & 0xFF;
+            s32 t = guess_GetGameVarByte(D_8018E2C8[v1]) & 0xFF;
             if (t == 0) {
                 return 1;
             }
@@ -3961,12 +3961,12 @@ s32 func_80188B84(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4) {
         if ((s16)arg3 < 6 && (s16)j < (s16)n) {
             s32 k = D_801E77B8[(s16)j];
             s32 c = k + 0x63;
-            if (k < 0 || (func_800291B4(c) & 0x40) == 0) {
+            if (k < 0 || (guess_GetGameVarByte(c) & 0x40) == 0) {
                 ret = D_801B8F08;
             } else {
                 s32 e = k + 1;
                 ret = D_8010F468[e * 2];
-                n = func_800291B4(c);
+                n = guess_GetGameVarByte(c);
                 if (n & 0x20) {
                     *arg4 = 0x804040;
                 }

@@ -5,7 +5,7 @@ s32 func_8016B9F8(s32 param_1)
     s32 buf[2];
     u32 v;
 
-    v = ((u32 (*)(s32 *, s32 *))func_8012EFB8)(&D_8018EC80, buf);
+    v = ((u32 (*)(s32 *, s32 *))guess_WorldToScreenFlag)(&D_8018EC80, buf);
     ((void (*)(s32 *, s32 *))func_80015954)(buf, (s32 *)(param_1 + 4));
     return (v & 0xffffefff) != 0;
 }

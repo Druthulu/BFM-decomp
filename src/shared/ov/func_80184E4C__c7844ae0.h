@@ -1,10 +1,10 @@
 /* func_80184E4C — shared body (overlay slot 0x80128158, h_exact c7844ae0). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_8012C194(void);
+extern s32 guess_AllocSpriteObjectHigh(void);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 s32 func_80184E4C(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
     s32 obj;
-    obj = func_8012C194();
+    obj = guess_AllocSpriteObjectHigh();
     if (obj == 0) {
         return 0;
     }

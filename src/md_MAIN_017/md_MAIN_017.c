@@ -72,7 +72,7 @@ void func_800CAFA0(void *a0) {
     extern void RotMatrixY(s32, void *);
     extern s32 rcos(s32);
     extern void guess_RotTransSVWithMatrix(s32, s32, s32);
-    extern s32 func_80128ED8(s32, s32 *);
+    extern s32 guess_StepPairSequence(s32, s32 *);
 
     struct { s16 x, y, z; } sv;
     Blk20 m;
@@ -99,7 +99,7 @@ void func_800CAFA0(void *a0) {
             ((Unkstruct_800CAFA0 *)a0)->unk6 = sv.x;
             ((Unkstruct_800CAFA0 *)a0)->unkA = sv.y;
             ((Unkstruct_800CAFA0 *)a0)->unkE = sv.z;
-            func_80128ED8((s32)s3, (s32 *)((s32)a0 + 0x24));
+            guess_StepPairSequence((s32)s3, (s32 *)((s32)a0 + 0x24));
         }
         (((Unkstruct_800CAFA0 *)a0)->unk1C)++;
     }
@@ -119,7 +119,7 @@ void func_800CB1CC(void *arg0) {
     extern void *guess_AllocSpriteObject();
     extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
     extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
-    extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+    extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
     extern u8 D_800CB324[];
     extern u8 D_800CB330[];
 
@@ -144,7 +144,7 @@ void func_800CB1CC(void *arg0) {
         ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x1C00;
         ((Unkstruct_800B5CB8 *)obj)->unk27 = 0x19;
         CAST_WIDTH(s32, obj, 4) |= 0xC0000000;
-        func_80128EA8(obj, (s32)arg0 + 0x24, (s32)D_800CB330);
+        guess_StartPairSequence(obj, (s32)arg0 + 0x24, (s32)D_800CB330);
         result = 2;
         *(s32 *)((s32)arg0 + 0x20) = obj;
     }

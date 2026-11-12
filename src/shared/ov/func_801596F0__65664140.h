@@ -36,9 +36,9 @@ s32 func_801596F0(s32 param_1) {
         func_8013CB20();
         func_8013C98C();
         func_8002850C(0x800, 0x800, 0x800);
-        func_80028620(0, &(*(u8 *)&D_80181684));
-        func_80028620(1, &(*(u8 *)&D_80181684) + 0x10);
-        func_80028620(2, &(*(u8 *)&D_80181684) + 0x20);
+        guess_SetFlatLightOrDefault(0, &(*(u8 *)&D_80181684));
+        guess_SetFlatLightOrDefault(1, &(*(u8 *)&D_80181684) + 0x10);
+        guess_SetFlatLightOrDefault(2, &(*(u8 *)&D_80181684) + 0x20);
         *(s32 *)(param_1 + 0x28) = 0xff;
         *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
     }

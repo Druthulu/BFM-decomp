@@ -3957,7 +3957,7 @@ extern u8 D_80196614[];
 extern u8 D_80196620[];
 extern u8 D_80196660[];
 
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 
 void func_8018B6E8(s32 param_1) {
     s32 temp;
@@ -3973,20 +3973,20 @@ void func_8018B6E8(s32 param_1) {
     ((Unkstruct_80126B58 *)temp)->unk34 = var;
     CAST_WIDTH(u32, temp, 4) |= 0x50000000;
     if (*(s16 *)(temp + 0x1E) != 0) {
-        func_80128EA8(temp, param_1 + 0x24, (s32)&D_80196660);
+        guess_StartPairSequence(temp, param_1 + 0x24, (s32)&D_80196660);
     } else {
-        func_80128EA8(temp, param_1 + 0x24, (s32)&D_80196620);
+        guess_StartPairSequence(temp, param_1 + 0x24, (s32)&D_80196620);
     }
     *(u16 *)(param_1 + 2) += 1;
 }
 
 
-extern s32 func_80128ED8(s32, s32*);
+extern s32 guess_StepPairSequence(s32, s32*);
 extern void func_801292C8(u8*);
 
 void func_8018B7A4(s32 param_1)
 {
-    if (func_80128ED8(((Unkstruct_800B5CB8 *)param_1)->unk20, (s32 *)(param_1 + 0x24)) != 0) {
+    if (guess_StepPairSequence(((Unkstruct_800B5CB8 *)param_1)->unk20, (s32 *)(param_1 + 0x24)) != 0) {
         if (CAST_WIDTH(s32, param_1, 0x2C) != 0) {
             *(s16 *)(CAST_WIDTH(s32, param_1, 0x2C) + 0xFC) = 1;
         }
@@ -3998,7 +3998,7 @@ void func_8018B7A4(s32 param_1)
 #include "common.h"
 
 extern u8 D_800D387C[];
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 
 void func_8018B7F8(s32 param_1)
 {
@@ -4035,7 +4035,7 @@ void func_8018B7F8(s32 param_1)
         a0 = *(s32 *)(param_1 + 0x20);
         a2 = (s32)D_801966C0;
     }
-    func_80128EA8(a0, a1, a2);
+    guess_StartPairSequence(a0, a1, a2);
 
     *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
 }
@@ -4160,7 +4160,7 @@ void func_8018BAE4(s32 arg0) {
 
 
 extern void func_8012931C(void *);
-extern s32 func_80128ED8(s32, s32*);
+extern s32 guess_StepPairSequence(s32, s32*);
 extern void func_801292C8(u8*);
 
 #define SHARED_FN func_8018BB58
@@ -4170,7 +4170,7 @@ extern void func_801292C8(u8*);
 
 #include "common.h"
 
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32 D_80196768;
 extern s32 D_80196774;
 
@@ -4202,8 +4202,8 @@ void func_8018BB9C(s32 param_1)
 
     ((Unkstruct_8018BB9C_2 *)v1)->unk18 = v0;
 
-    // func_80128EA8(*(u32*)(param_1 + 0x20), param_1 + 0x24, (s32)&D_80196774);
-    func_80128EA8(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_80196774);
+    // guess_StartPairSequence(*(u32*)(param_1 + 0x20), param_1 + 0x24, (s32)&D_80196774);
+    guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_80196774);
 
     // *(u16*)(param_1 + 0x2) = *(u16*)(param_1 + 0x2) + 1;
     ((Unkstruct_8018BB9C *)param_1)->unk2 = ((Unkstruct_8018BB9C *)param_1)->unk2 + 1;
@@ -4211,12 +4211,12 @@ void func_8018BB9C(s32 param_1)
 
 
 extern void func_8012931C(void *);
-extern s32 func_80128ED8(s32, s32*);
+extern s32 guess_StepPairSequence(s32, s32*);
 extern void func_801292C8(u8*);
 
 void func_8018BC48(s32 a0) {
     func_8012931C((void *)a0);
-    if (((s32 (*)(s32, void *))func_80128ED8)(((Unkstruct_8018BC48 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
+    if (((s32 (*)(s32, void *))guess_StepPairSequence)(((Unkstruct_8018BC48 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
         ((void (*)(s32))func_801292C8)(a0);
     } else {
         *(u8 *)(((Unkstruct_8018BC48 *)a0)->unk20 + 0x27) = ((Unkstruct_8018BC48 *)a0)->unk28 - 0x70;
@@ -4245,7 +4245,7 @@ extern s32 func_80128DB4(s32 a0, s32 *a1);
 extern u8 D_8019681C[];
 extern u8 D_80196828[];
 
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 
 void func_8018BD14(s32 param_1)
 {
@@ -4255,13 +4255,13 @@ void func_8018BD14(s32 param_1)
 
     ((Unkstruct_8018BD14_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x65;
 
-    func_80128EA8(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_80196828);
+    guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_80196828);
 
     ((Unkstruct_8018BD14 *)param_1)->unk2 = ((Unkstruct_8018BD14 *)param_1)->unk2 + 1;
 }
 
 
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8*);
 #define SHARED_FN func_8018BD90
 #include "../shared/ov/cls_c38bc40b159c.h"
@@ -4658,7 +4658,7 @@ void func_8018C598(void *a0, s32 a1, s32 a2, s32 *a3, u16 a4, u16 a5)
     s32 v0;
     s32 v1;
 
-    v0 = func_8012C588(0x7A, (s32)a0);
+    v0 = guess_SpawnActorNoArg(0x7A, (s32)a0);
     if (v0 == 0) goto L_end;
     CAST_WIDTH(Blk8, v0, 0x50) = *(Blk8 *)(a1 + 0);
     v1 = ((Unkstruct_800B5CB8 *)v0)->unk20;
@@ -4888,7 +4888,7 @@ void func_8018CA3C(s32 a0) {
  * src/ov_SC03_006/ov_SC03_006_jr_80140608.c does. */
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
-extern void func_8001CA1C(s32 a0, s32 a1);
+extern void guess_InitModelObjectKind3(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 func_8012AD50(void *a0);
 
@@ -4909,7 +4909,7 @@ void func_8018CA74(s32 d)
         guess_FreeActorDuringSpawn((void *)d);
         return;
     }
-    func_8001CA1C(obj, (s32)&D_80196910);
+    guess_InitModelObjectKind3(obj, (s32)&D_80196910);
     *(s16 *)(obj + 0x1c) = 0x2800;
     *(s16 *)(obj + 0x1a) = 0x2800;
     *(s16 *)(obj + 0x18) = 0x2800;
@@ -5619,11 +5619,11 @@ void func_8018D918(void *a0) {
 
 #include "common.h"
 
-extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 
 void func_8018D964(void *a0)
 {
-    func_8012C588(0x68, (s32)a0);
+    guess_SpawnActorNoArg(0x68, (s32)a0);
     CAST_SIGN(u16, (s32)a0, 0x2) += 1;
 }
 

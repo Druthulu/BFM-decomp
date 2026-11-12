@@ -29,7 +29,7 @@ WHAT IT REFUSES, AND WHY (these are decisions, not edits):
                        before every build, so this can never ride inside a slate: it needs its own
                        commit + rebuild + R22.
   * DEF-SIDE-RETURN    the TU prototypes the function with a different RETURN type. Adopting it
-                       usually breaks the match (measured on func_8001ABBC: `void` cost the match).
+                       usually breaks the match (measured on guess_RequestResourceLoad: `void` cost the match).
 
 Usage:
   reconcile_slate.py <slate.json> [--apply] [--max-rounds N]
@@ -144,7 +144,7 @@ def classify(drop, draft_text, tu_bodies, draft_bodies):
         # conflict used to fall through to "DEF-SIDE-RETURN" even when only the PARAMETERS
         # differed. That distinction decides whether the case is fixable: differing params yield
         # to the §176d lever (adopt the TU's types, narrow inside the body), differing RETURNS
-        # usually cost the match (measured: `void` on func_8001ABBC).
+        # usually cost the match (measured: `void` on guess_RequestResourceLoad).
         kr, kp = _parse_fnsig(kept)
         tr, tp = _parse_fnsig(this)
         if kr is not None and kr == tr and kp != tp:

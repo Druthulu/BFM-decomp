@@ -83,7 +83,7 @@ s32 func_8013F350(void) {
             pf = &guess_g_MenuPadPressed;
             if ((*pf & 0x40) != 0) {
                 if ((*(s16 *)&guess_g_MenuSwapSlot) == 0) {
-                    if ((func_800291B4(D_8018032C[(s16)r]) & 0xFF) != 0 && (*pf & 0x40) != 0) {
+                    if ((guess_GetGameVarByte(D_8018032C[(s16)r]) & 0xFF) != 0 && (*pf & 0x40) != 0) {
                         guess_g_MenuPanel = 5;
                         *(s16 *)&D_80115152 = 0;
                         func_80141C0C(3);

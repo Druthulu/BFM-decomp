@@ -1,6 +1,6 @@
 /* func_8018825C — shared body (overlay slot 0x80128158, h_exact bd445f88). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
@@ -23,7 +23,7 @@ void func_8018825C(s32 param_1) {
         *(s32 *)(param_1 + 0x4C) = 0x4000;
     }
     if (*(s16 *)(param_1 + 0xFC) != 0) {
-        entity = func_8012C588(0x3F, param_1);
+        entity = guess_SpawnActorNoArg(0x3F, param_1);
         if (entity != 0) {
             *(s16 *)(param_1 + 0xFC) = 0;
             *(u16 *)(entity + 0xE) -= 0x300;

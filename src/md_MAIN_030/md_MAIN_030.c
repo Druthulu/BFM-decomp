@@ -80,7 +80,7 @@ void func_800CAFA8(void *a0) {
     extern s32 func_80146AB4(s32, void *, s32, s32, s32, s32, s32);
     extern void *guess_AllocSpriteObject(void);
     extern void func_8001CC3C(void *, void *, s32, s32);
-    extern void func_80128EA8(void *, void *, void *);
+    extern void guess_StartPairSequence(void *, void *, void *);
     extern s32 guess_FreeSmallObject(u8 *a0);
     extern void func_8001CD9C(void *, void *);
 
@@ -117,7 +117,7 @@ void func_800CAFA8(void *a0) {
             ((Unkstruct_800B5CB8 *)ent)->unk25 = 0;
             ((Unkstruct_800B5CB8 *)ent)->unk24 = 0;
             CAST_WIDTH(s32, ent, 4) |= 0xD0000000;
-            func_80128EA8(ent, (s32)a0 + 0x24, D_800CB470);
+            guess_StartPairSequence(ent, (s32)a0 + 0x24, D_800CB470);
             *(s32 *)((s32)a0 + 0x20) = ent;
             *(s32 *)((s32)a0 + 0x34) = 0;
             *(s16 *)((s32)a0 + 2) = 2;
@@ -170,7 +170,7 @@ void func_800CB1EC(void *a0) {
     extern s16 guess_g_PlayerPosY;
     extern s16 guess_g_PlayerPosZ;
     extern void guess_ZeroMemory(void *a0, s32 a1);
-    extern s32 func_80128ED8(s32 a0, s32 *a1);
+    extern s32 guess_StepPairSequence(s32 a0, s32 *a1);
     extern void RotMatrixY(s32 a0, void *a1);
     extern s32 rcos(s32 a0);
     extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
@@ -196,7 +196,7 @@ void func_800CB1EC(void *a0) {
             ((Unkstruct_800CB1EC_2 *)s3)->unk1A -= 0x400;
         } else {
             s5 = v1 - 0x10;
-            func_80128ED8((s32)s3, (s32 *)((s32)a0 + 0x24));
+            guess_StepPairSequence((s32)s3, (s32 *)((s32)a0 + 0x24));
         }
 
         mask = 0x7FFFFFFF;

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_GetStoryProgress(void);
 extern s32 guess_GetTextWindowResult(s32);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern s32 func_80029A94(s32);
 extern void func_80175454(void);
 extern void func_801458E0(void);
@@ -29,7 +29,7 @@ void func_80159120(s32 a0) {
     if (r == 0) {
         return;
     }
-    func_80139914(*(s32 *)(a0 + 0x198));
+    guess_CloseTextWindow(*(s32 *)(a0 + 0x198));
     *(s32 *)(a0 + 0x198) = 0;
     if (r != 1) {
         if (r == 2) {

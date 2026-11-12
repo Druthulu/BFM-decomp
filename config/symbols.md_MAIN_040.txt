@@ -1,7 +1,10 @@
 // config/symbols.md_MAIN_040.txt — module md_MAIN_040 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CAE08..0x800CBD7C); NEVER merged into config/symbols.us.txt.
-// count=10
+// count=13
 
+guess_FreeObjectAndSubObject_6   = 0x800CB3BC; // func
+guess_StartPairSequence          = 0x80128EA8; // func
+guess_StepPairSequence           = 0x80128ED8; // func
 guess_AllocSpriteObject          = 0x801465C0; // func
 guess_SpawnObject                = 0x801466F0; // func
 guess_SpawnSmallObject           = 0x80146A6C; // func

@@ -13,7 +13,7 @@ void func_8013E958()
     s16 m;
 
     D_800B9A15 = 0;
-    func_80139954();
+    guess_CloseTextWindow0();
     if (D_80078EC0 != *p) {
         func_8014AA28();
         if ((D_80078EC0 & 0x7F) != 0) {

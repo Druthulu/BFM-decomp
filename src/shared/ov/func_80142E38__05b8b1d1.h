@@ -9,7 +9,7 @@ void func_80142E38(int param_1)
     if (iVar2 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
-        ((void (*)(int, void *))func_8001CA1C)(iVar2, &D_801806D0);
+        ((void (*)(int, void *))guess_InitModelObjectKind3)(iVar2, &D_801806D0);
         sVar1 = (*(unsigned short *)(param_1 + 0x70) & 0xf) * 0x600 + 0x1200;
         *(short *)(iVar2 + 0x1a) = sVar1;
         *(short *)(iVar2 + 0x18) = sVar1;

@@ -3,5 +3,5 @@
 s32 func_8012DB84(void)
 {
     func_8014C978();
-    func_8012F568(1, 0xC001, 0, 0x3E8, &D_8017F5BC, &D_8017F5C4);
+    guess_SetPlayerHit(1, 0xC001, 0, 0x3E8, &D_8017F5BC, &D_8017F5C4);
 }

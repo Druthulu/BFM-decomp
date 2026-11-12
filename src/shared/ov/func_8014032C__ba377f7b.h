@@ -68,14 +68,14 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         break;
     case 5:
     case5:
-        uVar3 = ((s32(*)(s32))func_800291B4)(D_8018032C[((short)param_2)]) & 0xFF;
+        uVar3 = ((s32(*)(s32))guess_GetGameVarByte)(D_8018032C[((short)param_2)]) & 0xFF;
         if (uVar3 != 0) {
             result = D_801803EC[uVar3];
         }
         break;
     case 3:
         if (((short)param_2) != 0) {
-            cVar1 = ((s32(*)(s32))func_800291B4)(D_8018033F[((short)param_2)]) & 0xFF;
+            cVar1 = ((s32(*)(s32))guess_GetGameVarByte)(D_8018033F[((short)param_2)]) & 0xFF;
             if (cVar1 == 0) {
                 result = D_80112B58;
             } else {

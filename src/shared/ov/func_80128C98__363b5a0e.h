@@ -6,7 +6,7 @@ s32 func_80128C98(s32 arg0) {
     s16 idx = D_8017F528[arg0];
 
     if (idx >= 0) {
-        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], D_8018D4F8, 0);
+        guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[idx], D_8018D4F8, 0);
     } else {
         return 1;
     }

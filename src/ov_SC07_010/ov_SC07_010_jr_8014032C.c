@@ -94,9 +94,9 @@ extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
 extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
-extern void func_80139954(void);
+extern void guess_CloseTextWindow0(void);
 extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
-extern unsigned char *func_80141CA4(void);
+extern unsigned char *guess_GetStoryGoalText(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
 extern u16 guess_g_MenuStep;
@@ -125,7 +125,7 @@ extern u8  D_8018305C[];
 extern u8  D_80183074[];
 extern u16 D_80182F78[];
 extern s32 guess_TestGameFlag(s32 arg);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_8014AA04(s32 a0);
 extern void func_801415C0(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
@@ -152,7 +152,7 @@ extern short guess_g_MenuCategory[0];
 extern u8 D_8018305C[];
 extern u8 D_80183074[];
 extern s32 guess_TestGameFlag(s32 arg);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 
 
 
@@ -230,14 +230,14 @@ s32 func_8014032C(s32 param_1, s32 param_2) {
         break;
     case 5:
     case5:
-        uVar3 = ((s32(*)(s32))func_800291B4)(D_80183074[((short)param_2)]) & 0xFF;
+        uVar3 = ((s32(*)(s32))guess_GetGameVarByte)(D_80183074[((short)param_2)]) & 0xFF;
         if (uVar3 != 0) {
             result = D_80183134[uVar3];
         }
         break;
     case 3:
         if (((short)param_2) != 0) {
-            cVar1 = ((s32(*)(s32))func_800291B4)(D_80183087[((short)param_2)]) & 0xFF;
+            cVar1 = ((s32(*)(s32))guess_GetGameVarByte)(D_80183087[((short)param_2)]) & 0xFF;
             if (cVar1 == 0) {
                 result = D_80112B58;
             } else {

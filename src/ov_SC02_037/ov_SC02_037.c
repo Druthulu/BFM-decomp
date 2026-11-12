@@ -190,13 +190,13 @@ void func_801287B8(void) {
 
 
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_801288B0(void) {
 
     extern s32 D_801C7200;
     extern u8 D_800AEFD0;
-    func_8001ABBC(0, 0, &D_800AEFD0, D_801C7200, 0);
+    guess_RequestResourceLoad(0, 0, &D_800AEFD0, D_801C7200, 0);
 }
 
 
@@ -205,7 +205,7 @@ s32 func_801288B0(void) {
 // @unstuck(P36): none — MATCH. &guess_g_CdReadList CSE'd once via pointer local `p` so the same reg feeds the *p=0x60 store AND arg5; writing guess_g_CdReadList=0x60 directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int func_801288E8(int arg0)
 {
@@ -218,7 +218,7 @@ int func_801288E8(int arg0)
     int *p = &guess_g_CdReadList;
     *p = 0x60;
     guess_g_CdReadListDest = &D_800A2E20;
-    ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AF558, D_801C7200, p);
+    ((void (*)(int, int, int *, int, int *))guess_RequestResourceLoad)(0, 0, &D_800AF558, D_801C7200, p);
 }
 
 
@@ -227,7 +227,7 @@ int func_801288E8(int arg0)
 // @unstuck(P36): none — MATCH. &guess_g_CdReadList CSE'd once via pointer local `p` so the same reg feeds the *p=0x5e store AND arg5; writing guess_g_CdReadList=0x5e directly would emit a 2nd address materialization (+1 ins). Mirrors matched sibling func_80128998.
 
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 int func_80128940(int arg0)
 {
@@ -240,11 +240,11 @@ int func_80128940(int arg0)
     int *p = &guess_g_CdReadList;
     *p = 0x5e;
     guess_g_CdReadListDest = &D_800A2E20;
-    ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AF560, D_801C7200, p);
+    ((void (*)(int, int, int *, int, int *))guess_RequestResourceLoad)(0, 0, &D_800AF560, D_801C7200, p);
 }
 
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_80128998(void)
 {
@@ -257,19 +257,19 @@ s32 func_80128998(void)
     int *p = &guess_g_CdReadList;
     *p = 13;
     guess_g_CdReadListDest = &D_800A2E20;
-    ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AECB0, D_801C7200, p);
+    ((void (*)(int, int, int *, int, int *))guess_RequestResourceLoad)(0, 0, &D_800AECB0, D_801C7200, p);
 }
 
 
 
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 s32 func_801289F0(void) {
 
     extern s32 D_801C7200;
     extern u8 D_800AECB8;
-    func_8001ABBC(0, 0, &D_800AECB8, D_801C7200, 0);
+    guess_RequestResourceLoad(0, 0, &D_800AECB8, D_801C7200, 0);
 }
 
 
@@ -353,7 +353,7 @@ void func_80128AF4(void) {
 
 
 extern CdFileLoc cdFileLocTable[];
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128C98(s32 arg0) {
 
@@ -362,7 +362,7 @@ s32 func_80128C98(s32 arg0) {
     s16 idx = D_80183EBC[arg0];
 
     if (idx >= 0) {
-        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], D_801C7200, 0);
+        guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[idx], D_801C7200, 0);
     } else {
         return 1;
     }
@@ -372,7 +372,7 @@ s32 func_80128C98(s32 arg0) {
 
 
 extern CdFileLoc cdFileLocTable[];
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128CFC(s32 arg0) {
 
@@ -381,7 +381,7 @@ s32 func_80128CFC(s32 arg0) {
     s16 idx = D_80183ECC[arg0];
 
     if (idx >= 0) {
-        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], D_801C7200, 0);
+        guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[idx], D_801C7200, 0);
     } else {
         return 1;
     }
@@ -1157,7 +1157,7 @@ int func_8012D664(int arg0, int arg1, int arg2)
     extern u16 guess_g_PlayerPosY;
     extern u16 guess_g_PlayerPosZ;
     extern s32 func_800132BC(s32 a0, s32 a1);
-    extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+    extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern u8 D_80183F48[];
 
     u16 s[3];
@@ -1170,7 +1170,7 @@ int func_8012D664(int arg0, int arg1, int arg2)
     ret = ((int (*)())func_800132BC)(arg0, s);
     t = arg1 + 0x20;
     if (ret < t * t) {
-        func_8012F568(1, 1, 0, arg2, arg0, &D_80183F48);
+        guess_SetPlayerHit(1, 1, 0, arg2, arg0, &D_80183F48);
         return 1;
     }
     return 0;
@@ -1182,7 +1182,7 @@ int func_8012D664(int arg0, int arg1, int arg2)
 
 
 
-extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_8014C978(void);
 
 s32 func_8012DB84(void)
@@ -1191,7 +1191,7 @@ s32 func_8012DB84(void)
     extern M2C_UNK D_80183F50;
     extern M2C_UNK D_80183F58;
     func_8014C978();
-    func_8012F568(1, 0xC001, 0, 0x3E8, &D_80183F50, &D_80183F58);
+    guess_SetPlayerHit(1, 0xC001, 0, 0x3E8, &D_80183F50, &D_80183F58);
 }
 
 
@@ -1513,13 +1513,13 @@ void func_8012E9C0(int param_1)
 
 
 /* §37/§124 asm-label alias: the fleet canon declares this `extern void
- * func_8012EFB8(s32 a0);` inside the DEFINE_func_* macros in
+ * guess_WorldToScreenFlag(s32 a0);` inside the DEFINE_func_* macros in
  * src/shared/engine_core.h (the one at src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c:1169
  * comes from DEFINE_func_8012EF70()).  The byte-true body returns s32 and takes
  * TWO pointers, so it conflicts on BOTH the return axis and the arity axis.
  * Aliasing the C name sidesteps both with no header edit and no codegen change.
  * This declaration MUST travel with the body. */
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 
 #include "../shared/ov/func_8012EFB8.h"
 
@@ -1932,7 +1932,7 @@ void func_80130D48(s32 arg0)
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern s32 guess_DistSqToPlayer(s32 a0);
 extern s32 guess_StartActorSequenceById(s32, s32);
-extern s32 func_80131AC8(void *a0);
+extern s32 guess_PlayActorSound(void *a0);
 extern void func_80131B14(void);
 
 
@@ -1942,7 +1942,7 @@ extern void func_80131B14(void);
 //   (the <= polarity makes the >0x8FFF/0x33-first block the bnez'd else=L298, fall-through = 0x32-first);
 //   both AC8 tails cross-jump-merge into the shared L2AC final call. Externs aligned to the file's
 //   existing decls for gate-safety: func_80131B14(void) [file line 1486], guess_SetLocalVelocity/guess_DistSqToPlayer
-//   canonical (s32) [DEFINE macros], ((s32(*)())func_80131AC8)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
+//   canonical (s32) [DEFINE macros], ((s32(*)())guess_PlayActorSound)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
 
 
 void func_80131170(s32 p, s32 b, s32 c) {
@@ -1980,11 +1980,11 @@ tail:
         return;
     }
     if (((s32(*)(s32))guess_DistSqToPlayer)((s32)((u8 *)p)) <= 0x8FFF) {
-        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x32) != 0) return;
-        ((s32(*)())func_80131AC8)(((u8 *)p), 0x33);
+        if (((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x32) != 0) return;
+        ((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x33);
     } else {
-        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x33) != 0) return;
-        ((s32(*)())func_80131AC8)(((u8 *)p), 0x32);
+        if (((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x33) != 0) return;
+        ((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x32);
     }
 }
 

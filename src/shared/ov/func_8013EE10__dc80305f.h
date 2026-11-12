@@ -28,7 +28,7 @@ s32 func_8013EE10() {
     old = *p;
     *p = old + 1;
     if (old >= 5) {
-        ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)func_80141CA4(), &D_801805F4);
+        ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)guess_GetStoryGoalText(), &D_801805F4);
         for (i = 0; i < 5; i++) {
             s32 *q = (s32 *)((char *)p - 8);
             *(s32 *)((char *)&q[i] + 0x78) = 0;

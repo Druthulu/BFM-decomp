@@ -7,7 +7,7 @@ void func_80144880(s32 param_1)
     s32 b;    /* $v0 */
     s32 e;
 
-    obj = ((s32 (*)(void))func_8012C194)();
+    obj = ((s32 (*)(void))guess_AllocSpriteObjectHigh)();
     if (obj == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(self);
     } else {

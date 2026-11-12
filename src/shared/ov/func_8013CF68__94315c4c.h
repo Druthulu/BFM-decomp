@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8013CF68()
 {
-    extern void func_80028620(s32 a0, void *a1);
+    extern void guess_SetFlatLightOrDefault(s32 a0, void *a1);
     extern u8 D_800A5E94[];
     extern s32 D_800A5E8C;
     extern s32 D_800A5E90;
@@ -27,18 +27,18 @@ void func_8013CF68()
     D_800A5E8C = 0x1E;
     D_800A5E90 = 0;
     base[0] = t0; D_800A5E95 = t1; D_800A5E96 = t2;
-    func_80028620(0, base - 0xC);
+    guess_SetFlatLightOrDefault(0, base - 0xC);
 
     *(s32 *)(base + 4) = 0; *(s32 *)(base + 8) = 7;
     t0 = D_8018F9D3; t1 = D_8018F9D4; t2 = D_8018F9D5;
     *(s32 *)(base + 0xC) = 0x14;
     base[0x10] = t0; base[0x11] = t1; base[0x12] = t2;
-    func_80028620(1, base + 4);
+    guess_SetFlatLightOrDefault(1, base + 4);
 
     *(s32 *)(base + 0x14) = 0;
     t0 = D_8018F9D6; t1 = D_8018F9D7; t2 = D_8018F9D8;
     *(s32 *)(base + 0x18) = -0x12;
     *(s32 *)(base + 0x1C) = 0;
     base[0x20] = t0; base[0x21] = t1; base[0x22] = t2;
-    func_80028620(2, base + 0x14);
+    guess_SetFlatLightOrDefault(2, base + 0x14);
 }

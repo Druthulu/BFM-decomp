@@ -126,7 +126,7 @@ def _binary_of(rel):
 
 def resolve_definition(name, rel, first):
     """The definition a declaration in `rel` means (P37 T4, 2026-09-12; R48): a function is identified by its DEFINITION, not its name —
-    6,419 names carry more than one body (func_800CB8A4 is `void (void)` in md_MAIN_026, `void (s32)` in md_MAIN_022, `void (void *)` in
+    6,419 names carry more than one body (func_800CB8A4 is `void (void)` in md_MAIN_026 (since named guess_FreeObjectAndSubObject_15), `void (s32)` in md_MAIN_022, `void (void *)` in
     md_MAIN_025). One fleet-wide signature -> it; else the declaring TU's own binary's definition; else main's/resident's; else None
     ("cross-binary": the TU's binary has no definition and the fleet disagrees — counted apart, never called a lie)."""
     cands = _ALL.get(name) or ([first] if first else [])

@@ -47,7 +47,7 @@ extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
 extern s32 func_80145CEC();
@@ -191,7 +191,7 @@ extern void func_80147628(s32 a0);
 extern void func_80147478(s32 a0);
 extern void func_801474D8(s32 *a0);
 extern void guess_ClearTiltVectors(s32 *a0);
-extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void func_800129CC(s32 a0, s32 a1);
 extern void func_80147514(s32 arg0);
 extern void func_80013F3C(s32 a0);
@@ -323,7 +323,7 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8014942C(s32 arg0);
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void func_80149544(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 extern void func_80149584(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8014964C(s32 param_1, s32 param_2);
 extern s32 guess_IsConfirmPressed(void *a0);
@@ -537,7 +537,7 @@ extern s32 D_80126B50;
 extern void func_8014C968(void);
 extern void func_8014C978(void);
 extern s32 func_8014C98C(void);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern s32 func_8014CA00(s32 a0);
 extern u16 func_8014CA70(s32 a0, s32 a1);
 extern s32 func_8014CA14(s32 a0, s32 a1);
@@ -1085,7 +1085,7 @@ extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
-extern void func_80139914(s32);
+extern void guess_CloseTextWindow(s32);
 extern s32 func_80159464(void);
 extern void func_801594E8(s32, s32);
 extern void func_80158FA4(s32 param_1);
@@ -1115,7 +1115,7 @@ extern void func_8013C938(void);
 extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
@@ -1556,7 +1556,7 @@ extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
-extern void func_80164DB0(void);
+extern void guess_FreeObjectAndSubObject(void);
 extern u8 D_8018F078;
 extern u8 D_8018F079;
 extern u8 D_8018F07A;
@@ -1669,11 +1669,11 @@ extern u8 D_800D387C[];
 extern u8 D_800D3888[];
 extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_800D22E4(s32 a0);
 extern void func_801665B4(s32 *a0);
 extern void (*D_801821CC[])(void);
@@ -2521,7 +2521,7 @@ extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
-extern void func_8012E8E0(s32 a0, s32 a1);
+extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_801789AC(s32 arg0);
@@ -3381,7 +3381,7 @@ void func_8017D41C(void) {
 
 /* Declarations reconciled against src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c:
  *   guess_GetStoryProgress  TU:31   (file scope, ABOVE the splice) -> same shape
- *   func_800291B4  TU:61   (file scope, ABOVE the splice) -> same shape
+ *   guess_GetGameVarByte  TU:61   (file scope, ABOVE the splice) -> same shape
  *   D_80190110     TU:3345 (file scope, ABOVE the splice) -> s16
  *   D_80115138 / guess_g_MenuPanelScrollTops  TU:3402/3403 (file scope, BELOW) -> u8 []
  *   guess_g_MenuPanelCursors / guess_g_MenuPanelSizes  TU:3759/3760 (block scope)       -> u8 []
@@ -3409,7 +3409,7 @@ void func_8017D4A4(void) {
     extern u16 D_80190120;
     extern u8  D_80190254[];
     extern s32 guess_GetStoryProgress(void);
-    extern s32 func_800291B4(s32 arg);
+    extern s32 guess_GetGameVarByte(s32 arg);
     extern void func_8017D758(void);
 
     /* COMPONENT_REF -> unconditional MEM_IN_STRUCT_P on the base store, so the
@@ -3460,7 +3460,7 @@ void func_8017D4A4(void) {
             got = 0;
             p = D_8018C180[i];
             for (j = 0; j < D_8018C178[i]; j++) {
-                if ((func_800291B4(*p++ + 0x62) & 0x40) != 0) {
+                if ((guess_GetGameVarByte(*p++ + 0x62) & 0x40) != 0) {
                     got = 1;
                     break;
                 }
@@ -3537,7 +3537,7 @@ void func_8017D4A4(void) {
  *        `addu $a0,$s2,$zero` and comes out 1 instruction short.
  *
  * Declarations reconciled against src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:
- *   func_800291B4  TU:62   (file scope, ABOVE) -> s32(s32), same shape
+ *   guess_GetGameVarByte  TU:62   (file scope, ABOVE) -> s32(s32), same shape
  *   func_8017D758  TU:3410 (block scope in func_8017DC48) -> void(void), same
  *   D_80190118 / D_80190254 / D_8018C178 / D_8018C180 -> same types as
  *     func_8017DC48's block-scoped externs
@@ -3548,7 +3548,7 @@ void func_8017D4A4(void) {
 
 void func_8017D758(void) {
     extern char *strcpy(char *, const char *);
-    extern s32   func_800291B4(s32 arg);
+    extern s32   guess_GetGameVarByte(s32 arg);
     extern u8    D_80115139;
     extern u8    D_8011514A;
     extern u8    D_8011514C;
@@ -3618,7 +3618,7 @@ void func_8017D758(void) {
                     d = D_8018BFCC[i];
                     count = n;           /* hoisted invariant: addu $s4,$a0,$0 */
                     s = D_8010F468[b][0];
-                    if ((func_800291B4(b + 0x62) & 0x40) != 0) {
+                    if ((guess_GetGameVarByte(b + 0x62) & 0x40) != 0) {
                         strcpy(d, s);
                     }
                 }
@@ -3656,7 +3656,7 @@ void func_8017D964(void) {
     extern void (*D_8018C2B8[])(void);
 
     extern s32 func_8017E5B8(s32 a0, s32 a1);
-    extern void func_80139954(void);
+    extern void guess_CloseTextWindow0(void);
     extern s32 guess_OpenTextWindowCenteredAt(s32 a0, s32 a1);
     extern void func_80137B80(void);
 
@@ -3684,7 +3684,7 @@ void func_8017D964(void) {
             p30 = &guess_g_MenuHelpText;
             if (v != *p30) {
                 *p30 = v;
-                func_80139954();
+                guess_CloseTextWindow0();
                 D_8019024C = guess_OpenTextWindowCenteredAt(v, (s32)D_8018C2B8);
             }
         }
@@ -3692,7 +3692,7 @@ void func_8017D964(void) {
     }
     rn = ret;
     if (rn < 0) {
-        func_80139954();
+        guess_CloseTextWindow0();
         D_800B9A15 = 0;
         if (rn == -1) {
             guess_RequestSound(0x474, 0);
@@ -3715,7 +3715,7 @@ void func_8017DAB4(void) {
     extern u8  D_80115138[];
     extern u16 guess_g_MenuStep;
     extern s32 func_80014ED4(s32 a0);
-    extern void func_80139954(void);
+    extern void guess_CloseTextWindow0(void);
     extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
     extern s32 func_8017EB30(s32 a0, s32 a1);
     extern void func_8017DF18(void);
@@ -3737,7 +3737,7 @@ void func_8017DAB4(void) {
                 ((s32 (*)())func_8017EB30)(0xF, guess_GetMenuPanelCursorIndex(idx));
             }
             if (D_80190110 != 0) {
-                func_80139954();
+                guess_CloseTextWindow0();
                 D_800B9A15 = 0;
                 guess_RequestSound(0x474, 0);
                 guess_g_MenuStep = guess_g_MenuStep + 1;

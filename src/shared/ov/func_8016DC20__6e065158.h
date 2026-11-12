@@ -64,8 +64,8 @@ ddb0:
         *(u16 *)(iVar2 + 0x18) = 0x3000;
         *(u8 *)(iVar2 + 0x26) = 0xff;
         *(u32 *)(iVar2 + 4) = *(u32 *)(iVar2 + 4) | 0x50000000;
-        func_80128EA8(iVar2, (s32)param_1 + 0x24, (s32)D_80182588);
-        func_80128ED8((void *)iVar2, (void *)((s32)param_1 + 0x24));
+        guess_StartPairSequence(iVar2, (s32)param_1 + 0x24, (s32)D_80182588);
+        guess_StepPairSequence((void *)iVar2, (void *)((s32)param_1 + 0x24));
         *(u16 *)((u8 *)param_1 + 2) = *(u16 *)((u8 *)param_1 + 2) + 1;
         return;
     }

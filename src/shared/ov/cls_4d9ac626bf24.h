@@ -6,7 +6,7 @@
             ((s32 (*)(void))func_800D1E28)();
             ((s32 (*)(s32, s32))guess_RequestSound)(0x1C, 0);
             ((s32 (*)(void))func_8001BFD0)();
-            if ((func_800291B4(0xCE) & 0xFF) == 0 && func_80029524() == 0) {
+            if ((guess_GetGameVarByte(0xCE) & 0xFF) == 0 && func_80029524() == 0) {
                 ((s32 (*)(s32))func_800D0C48)(1);
             }
             ((Unkstruct_8017D7F8 *)param_1)->unk15 = ((Unkstruct_8017D7F8 *)param_1)->unk15 + 1;

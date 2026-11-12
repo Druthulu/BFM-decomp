@@ -3,7 +3,7 @@
 extern s32 guess_g_ActiveCamera;
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern s32 guess_StartActorSequenceById(s32 a0, s32 a1);
-extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 void func_8012F968(s32 param_1) {
     s32 iVar3;
@@ -48,7 +48,7 @@ void func_8012F968(s32 param_1) {
                 *(s16 *)(param_1 + 0x98) = 0;
             }
         }
-        ((void (*)(s32, s32))func_8012C588)(0x289, param_1);
+        ((void (*)(s32, s32))guess_SpawnActorNoArg)(0x289, param_1);
     }
     guess_CallActorEventHandler(param_1, 0x35);
 }

@@ -20,7 +20,7 @@ Format: `name defs=<n> shared=<n in headers> kinds=<k> last={bucket: copies} [fl
 - `func_8001A9D8` defs=1 shared=0 kinds=noreturn last={'call': 1} flip
 - `func_8001AAA0` defs=1 shared=0 kinds=noreturn last={'call': 1} flip
 - `func_800CB17C` defs=1 shared=0 kinds=noreturn last={'call': 1}
-- `func_800CB600` defs=1 shared=0 kinds=noreturn last={'call': 1}
+- `guess_FreeObjectAndSubObject_13` defs=1 shared=0 kinds=noreturn last={'call': 1}
 - `func_800CB61C` defs=1 shared=0 kinds=noreturn last={'assign': 1}
 - `func_800CB658` defs=1 shared=0 kinds=noreturn last={'block': 1}
 - `func_800CB6FC` defs=1 shared=0 kinds=noreturn last={'other:} while (i < 4)': 1}
@@ -36,9 +36,9 @@ Format: `name defs=<n> shared=<n in headers> kinds=<k> last={bucket: copies} [fl
 - `func_8012AD50` defs=1 shared=1 kinds=noreturn last={'assign': 1}
 - `func_8012B4B8` defs=1 shared=1 kinds=noreturn last={'block': 1}
 - `func_8012BE54` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
-- `func_8012BE98` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
+- `guess_DistSqXZToPoint` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_8012C098` defs=1 shared=1 kinds=barereturn last={'bare': 1} flip
-- `func_8012C194` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
+- `guess_AllocSpriteObjectHigh` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `guess_AllocModelObject` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_8012CBA4` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_8012CBCC` defs=1 shared=1 kinds=noreturn last={'call': 1} flip

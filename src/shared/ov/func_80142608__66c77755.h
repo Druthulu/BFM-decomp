@@ -11,7 +11,7 @@ void func_80142608(s32 param_1)
     }
     *(s32 *)(param_1 + 0x20) = iVar1;
     if (iVar1 != 0) {
-        func_8001CA1C(iVar1, (s32)&D_80180690);
+        guess_InitModelObjectKind3(iVar1, (s32)&D_80180690);
         *(short *)(iVar1 + 0x1a) = 0x200;
         *(short *)(iVar1 + 0x18) = 0x200;
         *(short *)(param_1 + 0xfc) = 0x40;

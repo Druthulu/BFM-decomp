@@ -30,7 +30,7 @@ void func_800CCB78(void *a0) {
 
 
 extern void (*D_800CE1F4[])(s32);
-extern void func_800CCE68(void);
+extern void guess_FreeObjectAndSubObject_21(void);
 extern s32 func_801619D0(s32 a0);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
@@ -42,7 +42,7 @@ void func_800CCBE4(s32 param_1) {
     ((Unkstruct_800CCBE4_2 *)*(s32 *)(param_1 + 0x20))->unk4 &= 0x7FFFFFFF;
     ((Unkstruct_800CCBE4_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= *(s32 *)(*(s32 *)(iVar1 + 0x20) + 4) & 0x80000000;
     if (func_801619D0(iVar1) == 0) {
-        ((void (*)(s32))func_800CCE68)(param_1);
+        ((void (*)(s32))guess_FreeObjectAndSubObject_21)(param_1);
         guess_SpawnSmallObjectAtOrigin(0x3A, iVar1, 0, 0);
         guess_PlaySoundUnlessSkipped(0xA13);
     }
@@ -55,7 +55,7 @@ extern void func_8001C810(s32, void *);
 extern void func_800CCF58(arg0, arg1);
 extern void func_800CCE88(s32);
 extern void guess_NextStep(void *);
-extern void func_800CCE68();
+extern void guess_FreeObjectAndSubObject_21();
 
 void func_800CCCA0(s32 param_1) {
     s32 p1;
@@ -71,7 +71,7 @@ void func_800CCCA0(s32 param_1) {
         ((Unkstruct_800CCCA0 *)param_1)->unk60 = 0;
         ((s32 (*)(void *))guess_NextStep)(param_1);
     } else {
-        ((void (*)(s32))func_800CCE68)(param_1);
+        ((void (*)(s32))guess_FreeObjectAndSubObject_21)(param_1);
     }
 }
 
@@ -104,7 +104,7 @@ void func_800CCD2C(s32 param_1) {
 extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_800CCF58(arg0, arg1);
 extern s32 func_800CCF30(void *a0);
-extern void func_800CCE68();
+extern void guess_FreeObjectAndSubObject_21();
 extern void func_800CCE88(s32 a0);
 
 void func_800CCDB0(s32 param_1) {
@@ -125,7 +125,7 @@ void func_800CCDB0(s32 param_1) {
         return;
     }
     if (((Unkstruct_800CCDB0_2 *)s2)->unk1C8 == 0) {
-        ((void (*)(s32))func_800CCE68)(param_1);
+        ((void (*)(s32))guess_FreeObjectAndSubObject_21)(param_1);
     } else {
         ((Unkstruct_800CCDB0_2 *)s2)->unk1C8 -= 1;
         func_800CCE88(param_1);
@@ -134,7 +134,10 @@ void func_800CCDB0(s32 param_1) {
 
 
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
-void func_800CCE68(void) {
+/* guess_FreeObjectAndSubObject_21: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_21 */
+void guess_FreeObjectAndSubObject_21(void) {
     func_80162CCC();
 }
 
@@ -188,7 +191,7 @@ void func_800CCF68(s32 param_1)
 
 extern void (*D_800CE204[])(void);
 extern s32 func_801619D0(s32 a0);
-extern void func_800CD178(void);
+extern void guess_FreeObjectAndSubObject_22(void);
 
 void func_800CCFC8(s32 param_1)
 {
@@ -196,7 +199,7 @@ void func_800CCFC8(s32 param_1)
     iVar1 = ((Unkstruct_800CCFA8 *)param_1)->unk4C;
     D_800CE204[((Unkstruct_800CCFA8 *)param_1)->unk2]();
     if (func_801619D0(iVar1) == 0) {
-        ((void (*)(s32))func_800CD178)(param_1);
+        ((void (*)(s32))guess_FreeObjectAndSubObject_22)(param_1);
     }
 }
 
@@ -245,7 +248,10 @@ void func_800CD050(s32 arg0) {
 
 
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
-void func_800CD178(void) {
+/* guess_FreeObjectAndSubObject_22: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_22 */
+void guess_FreeObjectAndSubObject_22(void) {
     func_80162CCC();
 }
 

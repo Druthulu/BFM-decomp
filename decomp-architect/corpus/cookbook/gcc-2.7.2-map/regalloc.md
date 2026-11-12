@@ -107,7 +107,7 @@ Pass order (relevant slice): `flow → combine → sched1 → local_alloc → gl
 
 ### RC-4 — Copy-coalescing: a `move` vanishes into an operand, or arithmetic routes through the copy's reg — **STEERABLE**
 - **Decision point:** `local-alloc.c:1825 [2.7.2] combine_regs` tying (K8): at the dest's first set, if a source operand DIES there, they share a qty.
-- **Lever (byte-proven, cookbook §25, func_80128ED8):** (a) **pin the preserve-copy to the target's register** — a hard-reg dest can't be tied (`combine_regs` refuses hard↔hard and only *suggests* for hard↔pseudo) → the copy materializes separately, exactly where the target has it; (b) **route the dependent arithmetic through a dead, target-scratch-pinned temp** so the result lands in the target's scratch instead of the copy's reg.
+- **Lever (byte-proven, cookbook §25, guess_StepPairSequence):** (a) **pin the preserve-copy to the target's register** — a hard-reg dest can't be tied (`combine_regs` refuses hard↔hard and only *suggests* for hard↔pseudo) → the copy materializes separately, exactly where the target has it; (b) **route the dependent arithmetic through a dead, target-scratch-pinned temp** so the result lands in the target's scratch instead of the copy's reg.
 - **Un-tying without pins:** the tie needs (dest-first-set ∧ source-dies-here). Either give the source a later use (kills the REG_DEAD) or give the dest an earlier set (kills first-set). A dead second read of the source after the copy (`__asm__ volatile("" :: "r"(src))` — zero code) breaks the tie at zero cost, but counts a ref (RC-2 margin check applies).
 - **Reverse direction (target DID tie, your draft has an extra `move`):** express the two C variables as ONE (reuse the variable in place) so expand emits a single pseudo — per K8 global has no coalescing, so a cross-block "merge" can only come from a shared pseudo in the original source shape.
 
@@ -187,7 +187,7 @@ All vs `func_801571C4` target, baseline draft `.run/fable/func_801571C4.c` = 11-
 - **EXP-2** `exp2_defmove.c` (def after call): 137-off; `dumps/exp2.i.greg` shows reg88 gained `in 23` ($s7) at live length 94→89 and the a3-param pseudo lost its reg (spilled; `sw $a3,0x20($sp)` in diff).
 - **EXP-3** `dumps/exp3.c` (dead `$8` pin at fn top): `.greg` "Spilling reg 8" → "Spilling reg 9"; all reload accesses moved to $t1.
 - Micro tie-probe (`dumps/tie1.c/tie2.c`): unequal-density pair is order-stable under statement swap (confirms decl-order lever only bites on exact K2 ties).
-Cited proofs from earlier sessions: guess_TurnStepToTarget (§17 pins), func_80128ED8 (§25 tie pins), func_8012B4B8 (§17 array-decay), func_801770E0 + func_8014EA4C (RC-6 walls, `.run/toolkit/`), func_801571C4 header idioms 1-2 (`.run/fable/`).
+Cited proofs from earlier sessions: guess_TurnStepToTarget (§17 pins), guess_StepPairSequence (§25 tie pins), func_8012B4B8 (§17 array-decay), func_801770E0 + func_8014EA4C (RC-6 walls, `.run/toolkit/`), func_801571C4 header idioms 1-2 (`.run/fable/`).
 
 ---
 

@@ -13,7 +13,7 @@ s32 func_801380E0(s32 arg0) {
     extern void func_801391F0(s32, s32);
     extern s32 func_80139220(s32, s32);
     extern void func_80139788(s32);
-    extern void func_80139914(s32);
+    extern void guess_CloseTextWindow(s32);
     extern void func_80139A8C(s32);
     extern void func_80139B18(s32);
     extern s16 D_8012752C;
@@ -92,7 +92,7 @@ s32 func_801380E0(s32 arg0) {
                 *(u8 *)(arg0 + 0x20) = *(u8 *)(*p + base + 2);
                 *p += 3;
                 if (func_80138C60(arg0, cmd) == 0) {
-                    func_80139914(arg0);
+                    guess_CloseTextWindow(arg0);
                     return;
                 }
                 *(s16 *)(arg0 + 4) = 9;

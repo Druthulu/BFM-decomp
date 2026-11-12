@@ -122,7 +122,7 @@ void func_800CB108(s32 *arg0) {
 
 
 
-extern void func_800CB5D4(void);
+extern void guess_FreeObjectAndSubObject_12(void);
 
 void func_800CB134(void *arg0) {
 
@@ -132,7 +132,7 @@ void func_800CB134(void *arg0) {
         u16 v0 = ((Unkstruct_800CB134 *)arg0)->unk2;
         D_800CBB24[v0]();
     } else {
-        func_800CB5D4();
+        guess_FreeObjectAndSubObject_12();
     }
 }
 
@@ -292,7 +292,10 @@ void func_800CB470(void *arg0) {
 
 
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
-void func_800CB5D4(void) {
+/* guess_FreeObjectAndSubObject_12: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_12 */
+void guess_FreeObjectAndSubObject_12(void) {
     func_80162CCC();
 }
 
@@ -306,7 +309,7 @@ void func_800CB5F4(s32 a0) {
 
 
 
-extern void func_800CB8A4(void);
+extern void guess_FreeObjectAndSubObject_15(void);
 
 void func_800CB62C(void *arg0) {
 
@@ -316,7 +319,7 @@ void func_800CB62C(void *arg0) {
         u16 v0 = ((Unkstruct_800CB134 *)arg0)->unk2;
         D_800CBB48[v0]();
     } else {
-        func_800CB8A4();
+        guess_FreeObjectAndSubObject_15();
     }
 }
 
@@ -393,17 +396,20 @@ void func_800CB77C(void *arg0) {
 
 
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
-void func_800CB8A4(void) {
+/* guess_FreeObjectAndSubObject_15: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
+ * Confidence medium, code inference: func_80162CCC(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
+ * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_15 */
+void guess_FreeObjectAndSubObject_15(void) {
     func_80162CCC();
 }
 
 
 extern void func_80015978(s32 a0, s32 *a1);
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 
 void func_800CB8C4(void *a0, void *a1) {
     func_80015978(*(s32 *)((s32)a0 + 0x4C) + 4, (s32 *)a1);
-    func_8012EFB8(a1, a1);
+    guess_WorldToScreenFlag(a1, a1);
 }
 
 

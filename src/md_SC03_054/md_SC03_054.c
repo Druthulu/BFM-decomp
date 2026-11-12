@@ -435,7 +435,7 @@ void func_801EF6D8(s32 a0) {
 }
 
 
-extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern s32 D_801EB318;
 extern s32 D_801F1468;
@@ -444,7 +444,7 @@ void func_801F0048(s32 a0) {
     s32 v1;
     s32 v0;
 
-    func_8012C588(0x8D, a0);
+    guess_SpawnActorNoArg(0x8D, a0);
 
     v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
     v0 = (s32)&D_801EB318;

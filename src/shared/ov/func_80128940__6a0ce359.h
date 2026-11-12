@@ -5,5 +5,5 @@ s32 func_80128940(s32 _arg0)
     s32 *p = &guess_g_CdReadList;
     *p = 0x5E;
     guess_g_CdReadListDest = &D_800A2E20;
-    ((void (*)(s32, s32, void *, s32, void *))func_8001ABBC)(0, 0, &D_800AF560, D_8018D4F8, p);
+    ((void (*)(s32, s32, void *, s32, void *))guess_RequestResourceLoad)(0, 0, &D_800AF560, D_8018D4F8, p);
 }

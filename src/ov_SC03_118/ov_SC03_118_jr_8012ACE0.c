@@ -296,7 +296,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
 
 
 int func_8012D664(int arg0, int arg1, int arg2) {
-    extern void func_8012F568(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
+    extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
     extern int D_80189CA4;
 
     struct S8012D664_8012D664 s;
@@ -309,7 +309,7 @@ int func_8012D664(int arg0, int arg1, int arg2) {
     ret = ((int(*)())func_800132BC)(arg0, &s);
     t = arg1 + 0x20;
     if (ret < t * t) {
-        func_8012F568(1, 1, 0, arg2, arg0, &D_80189CA4);
+        guess_SetPlayerHit(1, 1, 0, arg2, arg0, &D_80189CA4);
         return 1;
     }
     return 0;
@@ -321,7 +321,7 @@ int func_8012D664(int arg0, int arg1, int arg2) {
 
 
 
-extern void func_8012F568(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
+extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
 extern void func_8014C978(void);
 extern M2C_UNK D_80189CAC;
 extern M2C_UNK D_80189CB4;
@@ -329,7 +329,7 @@ extern M2C_UNK D_80189CB4;
 s32 func_8012DB84(void)
 {
     func_8014C978();
-    func_8012F568(1, 0xC001, 0, 0x3E8, &D_80189CAC, &D_80189CB4);
+    guess_SetPlayerHit(1, 0xC001, 0, 0x3E8, &D_80189CAC, &D_80189CB4);
 }
 
 
@@ -634,13 +634,13 @@ extern void RotMatrixZYX(s32 a0, s32 a1);
 
 
 /* §37/§124 asm-label alias: the fleet canon declares this `extern void
- * func_8012EFB8(s32 a0);` inside the DEFINE_func_* macros in
+ * guess_WorldToScreenFlag(s32 a0);` inside the DEFINE_func_* macros in
  * src/shared/engine_core.h (the one at src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c:1169
  * comes from DEFINE_func_8012EF70()).  The byte-true body returns s32 and takes
  * TWO pointers, so it conflicts on BOTH the return axis and the arity axis.
  * Aliasing the C name sidesteps both with no header edit and no codegen change.
  * This declaration MUST travel with the body. */
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 
 #include "../shared/ov/func_8012EFB8.h"
 
@@ -1006,7 +1006,7 @@ void func_80130D48(s32 arg0)
 //   (the <= polarity makes the >0x8FFF/0x33-first block the bnez'd else=L298, fall-through = 0x32-first);
 //   both AC8 tails cross-jump-merge into the shared L2AC final call. Externs aligned to the file's
 //   existing decls for gate-safety: func_80131B14(void) [file line 1486], guess_SetLocalVelocity/guess_DistSqToPlayer
-//   canonical (s32) [DEFINE macros], ((s32(*)())func_80131AC8)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
+//   canonical (s32) [DEFINE macros], ((s32(*)())guess_PlayActorSound)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
 
 
 void func_80131170(s32 p, s32 b, s32 c) {
@@ -1044,11 +1044,11 @@ tail:
         return;
     }
     if (((s32(*)(s32))guess_DistSqToPlayer)((s32)((u8 *)p)) <= 0x8FFF) {
-        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x32) != 0) return;
-        ((s32(*)())func_80131AC8)(((u8 *)p), 0x33);
+        if (((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x32) != 0) return;
+        ((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x33);
     } else {
-        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x33) != 0) return;
-        ((s32(*)())func_80131AC8)(((u8 *)p), 0x32);
+        if (((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x33) != 0) return;
+        ((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x32);
     }
 }
 

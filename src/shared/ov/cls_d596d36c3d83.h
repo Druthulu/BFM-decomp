@@ -10,7 +10,7 @@ void SHARED_FN(s32 param_1)
 
     ((Unkstruct_80184DD8_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
 
-    func_80128EA8(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_800D3888);
+    guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_800D3888);
 
     ((Unkstruct_80184DD8 *)param_1)->unk2 = ((Unkstruct_80184DD8 *)param_1)->unk2 + 1;
 }

@@ -148,7 +148,7 @@ void func_800CB138(s32 arg0) {
     extern void ApplyMatrixSV();
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
-    extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+    extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
     extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
     s16   sp10[4];
@@ -217,7 +217,7 @@ void func_800CB138(s32 arg0) {
             CAST_WIDTH(s32, p, 0x34) = arg0 + 0x38;
             ((Unkstruct_800B5CB8 *)p)->unk1A = 0x2000;
             ((Unkstruct_800B5CB8 *)p)->unk18 = 0x2000;
-            func_80128EA8(p, arg0 + 0x24, D_800CB88C);
+            guess_StartPairSequence(p, arg0 + 0x24, D_800CB88C);
             *(s16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
         } else {
             guess_FreeSmallObject(arg0);
@@ -248,7 +248,7 @@ void func_800CB3CC(void *arg0) {
     extern void ApplyMatrixSV();
     extern void func_800D1FC8(void *arg0, int arg1);
     extern S800D21C4 * func_800D21C4(s32 arg0, s32 arg1, s32 arg2);
-    extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+    extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
     extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
     extern u8 D_800CB8FC[];
     extern u8 D_800CB8BC[];
@@ -275,7 +275,7 @@ void func_800CB3CC(void *arg0) {
         ((Unkstruct_800B5CB8 *)p)->unk1A = 0x3000;
         ((Unkstruct_800B5CB8 *)p)->unk18 = 0x3000;
         CAST_WIDTH(s32, p, 4) |= 0x50000000;
-        func_80128EA8(p, (s32)arg0 + 0x24, D_800CB8BC);
+        guess_StartPairSequence(p, (s32)arg0 + 0x24, D_800CB8BC);
         *(u16 *)((s32)arg0 + 2) = *(u16 *)((s32)arg0 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(arg0);
@@ -309,7 +309,7 @@ void func_800CB56C(s32 arg0) {
     extern void ApplyMatrixSV();
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
-    extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+    extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
     extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
     u16   vec[8];
@@ -358,7 +358,7 @@ void func_800CB56C(s32 arg0) {
     { void *q; __asm__ __volatile__("" : : : "memory"); q = &blk;  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
       RotMatrixZ(ang2, q); __asm__ __volatile__("" : "=r"(q)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
     MulMatrix0(ent, &blk, arg0 + 0x38);
-    if (func_80128ED8(obj, (s32 *)(arg0 + 0x24)) != 0) {
+    if (guess_StepPairSequence(obj, (s32 *)(arg0 + 0x24)) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(arg0);
     }
 }
@@ -391,7 +391,7 @@ void func_800CB6E4(void *arg0) {
 }
 
 
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 #define SHARED_FN func_800CB7F0
 #include "../shared/multi/cls_5d5ada925fc2.h"

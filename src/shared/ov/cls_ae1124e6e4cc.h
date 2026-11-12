@@ -25,7 +25,7 @@ void SHARED_FN(s32 a0) {
     ((Unkstruct_800B5CB8 *)s1)->unk18 = ((Unkstruct_800B5CB8 *)s1)->unk1A;
 
     if ((((Unkstruct_800B5CB8 *)a0)->unk1C & 3) == 0) {
-        func_80128ED8(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)(a0 + 0x24));
+        guess_StepPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)(a0 + 0x24));
     }
 
     ((Unkstruct_800B5CB8 *)a0)->unk1C -= 1;

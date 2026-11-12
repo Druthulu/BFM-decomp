@@ -338,12 +338,12 @@ L458:
 
 extern s32 D_80114E78;
 extern u8 D_800AF218;
-extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
 extern void func_80011C10(void);
 
 void func_800CF47C(void) {
     if (D_80114E78 != 0) {
-        if (func_8001ABBC(0, 0, &D_800AF218, 0, 0) == 0) {
+        if (guess_RequestResourceLoad(0, 0, &D_800AF218, 0, 0) == 0) {
             return;
         }
         D_80114E78 = 0;
@@ -655,7 +655,7 @@ void func_800CF94C(void) {
 //     addu a2, a2, &cdFileLocTable
 // i.e. `&cdFileLocTable[idx]` where cdFileLocTable is the PROVEN 8-byte CdFileLoc[]
 // struct array (resident.c:351-357, used byte-exact in func_800CFDE8 line 363:
-// `func_8001ABBC(2, 0, (u8 *)&cdFileLocTable[idx], 0, 0)`). The prior drafts hand-rolled
+// `guess_RequestResourceLoad(2, 0, (u8 *)&cdFileLocTable[idx], 0, 0)`). The prior drafts hand-rolled
 // `(u8*)cdFileLocTable + (D_800D3408[D_80114E74] << 3)` — the explicit `<< 3` on the
 // freshly-`lh`-loaded s16 schedules the shift/add into different registers than the
 // array-index lowering does. Use the proven struct-stride index form + the u8* 3rd param.
@@ -668,7 +668,7 @@ void func_800CF94C(void) {
 // `andi v0,0xffff; beqz` with NO explicit cast.
 //
 // case 0 (CF9D8): func_8001C0C8(); func_80015310();
-//   if (func_8001ABBC(0,0,(u8*)&cdFileLocTable[D_800D3408[D_80114E74]],0,0) != 0)
+//   if (guess_RequestResourceLoad(0,0,(u8*)&cdFileLocTable[D_800D3408[D_80114E74]],0,0) != 0)
 //     { func_800167B8(0); func_80011C10(); }
 // case 1 (CFA44): func_800CFAD0(); if (func_800167F0(0) != 0) func_80011C10();
 // case 2 (CFA70): func_800CFAD0(); v = D_800B9A00 + 1; D_800B9A00 = v;
@@ -685,7 +685,7 @@ extern u16 D_800AF7B8;
 
 extern void func_8001C0C8(void);
 extern void func_80015310(void);
-extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
 extern void func_800167B8(s32 arg0);
 extern void func_80011C10(void);
 extern void func_800CFAD0(void);
@@ -697,7 +697,7 @@ void func_800CF990(void) {
     case 0:
         func_8001C0C8();
         func_80015310();
-        if (func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[D_800D3408[D_80114E74]], 0, 0) != 0) {
+        if (guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[D_800D3408[D_80114E74]], 0, 0) != 0) {
             func_800167B8(0);
             func_80011C10();
         }
@@ -907,7 +907,7 @@ void func_800CFDA4(void) {
  * -O2 does not prove the masked value non-negative), then an 8-byte record of
  * cdFileLocTable is checked and its address passed.
  *
- * BUG IN PRIOR DRAFT: func_8001ABBC's 3rd parameter was typed `CdFileLoc *`; the
+ * BUG IN PRIOR DRAFT: guess_RequestResourceLoad's 3rd parameter was typed `CdFileLoc *`; the
  * proven convention (func_800CF47C, func_800CF3B8) declares it `u8 *`. Match that and
  * pass the record address as a u8*. Everything else (struct stride 8 -> sll 3, word0
  * != 0 check, arg vector 2,0,&rec,0,0 with the 5th on the stack) was already correct.
@@ -918,16 +918,16 @@ void func_800CFDA4(void) {
  *   sll v1, v0, 3 ; lw v0, cdFileLocTable[idx].word0
  *   beqz v0 -> exit                                  =>     rec->word0 != 0) {
  *   a0=2 ; sw zero,0x10(sp) ; a1=0 ; a2=&rec ; a3=0
- *   jal func_8001ABBC                                =>   func_8001ABBC(2,0,&rec,0,0); }
+ *   jal guess_RequestResourceLoad                                =>   guess_RequestResourceLoad(2,0,&rec,0,0); }
  */
 extern s32 D_800D34AC[];
 extern CdFileLoc cdFileLocTable[];
-extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
 
 void func_800CFDE8(s32 arg0) {
     s32 idx = D_800D34AC[arg0 & 0xFFFF0FFF] & 0xFFF;
     if (idx >= 0 && cdFileLocTable[idx].word0 != 0) {
-        func_8001ABBC(2, 0, (u8 *)&cdFileLocTable[idx], 0, 0);
+        guess_RequestResourceLoad(2, 0, (u8 *)&cdFileLocTable[idx], 0, 0);
     }
 }
 

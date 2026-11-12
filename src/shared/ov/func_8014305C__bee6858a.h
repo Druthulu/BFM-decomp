@@ -13,7 +13,7 @@ void func_8014305C(int param_1)
     if (iVar2 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(s0_param);
     } else {
-        ((void (*)(int, void *))func_8001CA1C)(s1_copy, D_801808BC);
+        ((void (*)(int, void *))guess_InitModelObjectKind3)(s1_copy, D_801808BC);
         sVar1 = (*(unsigned short *)(s0_param + 0x70) & 0xf) * 0x600 + 0xc00;
         *(short *)(s1_copy + 0x1a) = sVar1;
         *(short *)(s1_copy + 0x18) = sVar1;

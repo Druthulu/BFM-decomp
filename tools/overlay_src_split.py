@@ -171,7 +171,7 @@ def asm_label_aliases(src):
     # `_ALIAS_SCAN` — and `_mask` blanks string CONTENT, which DELETES the `;` characters inside
     # those asm strings that would otherwise have stopped the greedy `[^;{}]*`. So the scan starts
     # in the macro body and runs until the next real `;` **116 lines later**, swallowing the genuine
-    # `s32 aF8012EFB8(…) __asm__("func_8012EFB8");` on the way; `finditer` resumes past the end, so
+    # `s32 aF8012EFB8(…) __asm__("guess_WorldToScreenFlag");` on the way; `finditer` resumes past the end, so
     # the alias never enters the map and `addr_of` returns None for its definition.
     # Consequence measured: `jr_isolate_all` refused to carve ov_SC02_037 / ov_SC03_107 / ov_MAIN_012
     # (R32, correctly — it will not rewrite a file it cannot fully place), which left 121 jr

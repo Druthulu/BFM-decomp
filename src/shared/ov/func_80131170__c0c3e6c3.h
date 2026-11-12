@@ -35,10 +35,10 @@ tail:
         return;
     }
     if (((s32(*)(s32))guess_DistSqToPlayer)((s32)((u8 *)p)) <= 0x8FFF) {
-        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x32) != 0) return;
-        ((s32(*)())func_80131AC8)(((u8 *)p), 0x33);
+        if (((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x32) != 0) return;
+        ((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x33);
     } else {
-        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x33) != 0) return;
-        ((s32(*)())func_80131AC8)(((u8 *)p), 0x32);
+        if (((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x33) != 0) return;
+        ((s32(*)())guess_PlayActorSound)(((u8 *)p), 0x32);
     }
 }

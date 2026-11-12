@@ -40,14 +40,14 @@ s32 func_801EF508(s32 param_1) {
     extern void func_800D1E28(void);
     extern s32 guess_RequestSound(s32, s32);
     extern void func_8001BFD0(void);
-    extern s32 func_800291B4(s32);
+    extern s32 guess_GetGameVarByte(s32);
     extern void func_800D0C48(s32);
     s32 func_801EF554(s32 param_1) {
         if ((((Unkstruct_801EF554 *)param_1)->unk28 = ((Unkstruct_801EF554 *)param_1)->unk28 - 1) == -1) {
             func_800D1E28();
             guess_RequestSound(0x1C, 0);
             func_8001BFD0();
-            if ((func_800291B4(0xCE) & 0xFF) == 0) {
+            if ((guess_GetGameVarByte(0xCE) & 0xFF) == 0) {
                 guess_RequestSound(0x1D, 0);
                 func_800D0C48(1);
             }
@@ -229,7 +229,7 @@ void func_801EF974(s32 param_1) {
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
 
 extern u16  guess_GetPadPressed(s32 *a0);
-extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32  guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
@@ -252,14 +252,14 @@ void func_801EF99C(s32 param_1, s16 *param_2) {
         ((Unkstruct_8017D120 *)param_1)->unk2E = D_801EFFB4[((Unkstruct_8017D120 *)param_1)->unk5];
     }
 
-    CAST_WIDTH(s32, param_1, 0x8)  = (s16)func_80012C6C((s32)((Unkstruct_8017D120 *)param_1)->unk8,  (s32)((Unkstruct_8017D120 *)param_1)->unkC,  0xA);
-    ((Unkstruct_8017D120 *)param_1)->unk10 = (s16)func_80012C6C((s32)CAST_WIDTH(s16, param_1, 0x10), (s32)((Unkstruct_8017D120 *)param_1)->unk14, 0xA);
+    CAST_WIDTH(s32, param_1, 0x8)  = (s16)guess_EaseToward((s32)((Unkstruct_8017D120 *)param_1)->unk8,  (s32)((Unkstruct_8017D120 *)param_1)->unkC,  0xA);
+    ((Unkstruct_8017D120 *)param_1)->unk10 = (s16)guess_EaseToward((s32)CAST_WIDTH(s16, param_1, 0x10), (s32)((Unkstruct_8017D120 *)param_1)->unk14, 0xA);
     ((Unkstruct_8017D120 *)param_1)->unk18 = func_80012ABC((s32)((Unkstruct_8017D120 *)param_1)->unk18, (s32)((Unkstruct_8017D120 *)param_1)->unk20, 0xA);
     ((Unkstruct_8017D120 *)param_1)->unk1A = func_80012ABC((s32)((Unkstruct_8017D120 *)param_1)->unk1A, (s32)((Unkstruct_8017D120 *)param_1)->unk22, 0xA);
     ((Unkstruct_8017D120 *)param_1)->unk1C = func_80012ABC((s32)((Unkstruct_8017D120 *)param_1)->unk1C, (s32)((Unkstruct_8017D120 *)param_1)->unk24, 0xA);
-    ((Unkstruct_8017D120 *)param_1)->unk28 = func_80012C6C((s32)((Unkstruct_8017D120 *)param_1)->unk28, (s32)((Unkstruct_8017D120 *)param_1)->unk2E, 0xA);
-    ((Unkstruct_8017D120 *)param_1)->unk2A = func_80012C6C((s32)((Unkstruct_8017D120 *)param_1)->unk2A, (s32)((Unkstruct_8017D120 *)param_1)->unk30, 0xA);
-    ((Unkstruct_8017D120 *)param_1)->unk2C = func_80012C6C((s32)((Unkstruct_8017D120 *)param_1)->unk2C, (s32)((Unkstruct_8017D120 *)param_1)->unk32, 0xA);
+    ((Unkstruct_8017D120 *)param_1)->unk28 = guess_EaseToward((s32)((Unkstruct_8017D120 *)param_1)->unk28, (s32)((Unkstruct_8017D120 *)param_1)->unk2E, 0xA);
+    ((Unkstruct_8017D120 *)param_1)->unk2A = guess_EaseToward((s32)((Unkstruct_8017D120 *)param_1)->unk2A, (s32)((Unkstruct_8017D120 *)param_1)->unk30, 0xA);
+    ((Unkstruct_8017D120 *)param_1)->unk2C = guess_EaseToward((s32)((Unkstruct_8017D120 *)param_1)->unk2C, (s32)((Unkstruct_8017D120 *)param_1)->unk32, 0xA);
 
     ((Unkstruct_8017D120 *)param_1)->unk48 = (s32)((Unkstruct_8017D120 *)param_1)->unk28 + (s32)param_2[0];
     ((Unkstruct_8017D120 *)param_1)->unk4C = (s32)((Unkstruct_8017D120 *)param_1)->unk2A + (s32)param_2[1];
@@ -417,7 +417,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, s32 a1);
-extern void func_8012E8E0(s32 a0, s32 a1);
+extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern s32 func_80178B18(s32 a0, s32 a1);
 
 void func_801EFE3C(void *a0) {
@@ -438,7 +438,7 @@ void func_801EFE3C(void *a0) {
         *(s16 *)(ptr + 0xC) = 0x7FFF;
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
         guess_StartActorSequence((s32)a0, (s32)&D_801F8DB8);
-        func_8012E8E0((s32)a0, (s32)&D_801EFFB8);
+        guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801EFFB8);
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
         func_80178B18((s32)a0, (s32)&D_801EFFE8);
     }

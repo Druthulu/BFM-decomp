@@ -94,9 +94,9 @@ extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
 extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
-extern void func_80139954(void);
+extern void guess_CloseTextWindow0(void);
 extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
-extern unsigned char *func_80141CA4(void);
+extern unsigned char *guess_GetStoryGoalText(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
 extern u16 guess_g_MenuStep;
@@ -170,7 +170,7 @@ extern u8  D_80183074[];
 extern u16 D_80182F78[];
 
 extern s32 guess_TestGameFlag(s32 arg);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern void func_8014AA04(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -263,7 +263,7 @@ s32 func_8013F350(void) {
             pf = &guess_g_MenuPadPressed;
             if ((*pf & 0x40) != 0) {
                 if ((*(s16 *)&guess_g_MenuSwapSlot) == 0) {
-                    if ((func_800291B4(D_80183074[(s16)r]) & 0xFF) != 0 && (*pf & 0x40) != 0) {
+                    if ((guess_GetGameVarByte(D_80183074[(s16)r]) & 0xFF) != 0 && (*pf & 0x40) != 0) {
                         guess_g_MenuPanel = 5;
                         *(s16 *)&D_80115152 = 0;
                         func_80141C0C(3);
@@ -557,7 +557,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
 /* func_8013FFD8 — 213 ins, double jump-table, per-location family (134 members). */
 
 extern s32 guess_TestGameFlag(s32 arg);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 
 
 s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
@@ -615,7 +615,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         case 1: {
             s16 v1 = (s16) arg1;
             if (v1 < 0xC) {
-                s32 v3 = ((s32 (*)(u8, s32))func_800291B4)(((u8 *)&D_80183074)[v1], arg1) & 0xFF;
+                s32 v3 = ((s32 (*)(u8, s32))guess_GetGameVarByte)(((u8 *)&D_80183074)[v1], arg1) & 0xFF;
                 if (v3 == 0) {
                     return 1;
                 }
@@ -657,7 +657,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         if (t <= 0) {
             s16 s0 = t + D_80115143;
             if (s0 != 0) {
-                if ((((s32 (*)(u8, s32))func_800291B4)(D_80183087[s0], arg1) & 0xFF) == 0) {
+                if ((((s32 (*)(u8, s32))guess_GetGameVarByte)(D_80183087[s0], arg1) & 0xFF) == 0) {
                     *arg2 = 0x804040;
                 }
                 ret = guess_g_VillagerNames[s0];
@@ -678,7 +678,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         s16 s0 = (s16) arg1;
         if (s0 < 0x28) {
             s32 idx;
-            if ((((s32 (*)(u8, s32))func_800291B4)(D_80183088[s0], arg1) & 0xFF) == 0) {
+            if ((((s32 (*)(u8, s32))guess_GetGameVarByte)(D_80183088[s0], arg1) & 0xFF) == 0) {
                 *arg2 = 0x804040;
             }
             idx = s0 + 1;

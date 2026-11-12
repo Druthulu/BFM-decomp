@@ -131,7 +131,7 @@ extern void func_8001212C(void);
 
 
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern s32 D_8018D4F8;
 extern u8 D_800AEFD0;
 
@@ -148,7 +148,7 @@ extern int D_800A2E20;
 extern int D_800AF558;
 extern int D_8018D4F8;
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 #include "../shared/ov/func_801288E8__d532bf22.h"
 
@@ -158,7 +158,7 @@ extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 // @class: remat
 // @stuck: none — MATCH (pointer-var forces single materialization of &guess_g_CdReadList, reused as store base + arg5)
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern int guess_g_CdReadList;
 extern int *guess_g_CdReadListDest;
 extern int D_800A2E20;
@@ -179,7 +179,7 @@ extern int D_800A2E20;
 extern int D_800AECB0;
 extern s32 D_8018D4F8;
 
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 #include "../shared/ov/func_80128998__cd2af414.h"
 
@@ -187,7 +187,7 @@ extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 
 extern s32 D_8018D4F8;
 extern u8 D_800AECB8;
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 #include "../shared/ov/func_801289F0__c6f52b06.h"
 
@@ -215,7 +215,7 @@ extern s32 D_8018E678;
 
 
 extern CdFileLoc_80128C98 cdFileLocTable[];
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 #include "../shared/ov/func_80128C98__363b5a0e.h"
 
@@ -223,7 +223,7 @@ extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 
 extern CdFileLoc cdFileLocTable[];
-extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 #include "../shared/ov/func_80128CFC__120c5b53.h"
 

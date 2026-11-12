@@ -2,7 +2,7 @@
  * exemplar src/ov_SC03_013/ov_SC03_013_jr_8017C730.c:4000 · rank 2/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 1 src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:3855 rejected by ov_SC03_013 */
 s32 SHARED_FN(void) {
-    u32 x = func_800291B4(0xCE) & 0xFF;
+    u32 x = guess_GetGameVarByte(0xCE) & 0xFF;
 
     if (x == 0 || x >= 9) {
         return 1;

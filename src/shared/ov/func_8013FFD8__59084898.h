@@ -54,7 +54,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         case 1: {
             s16 v1 = (s16) arg1;
             if (v1 < 0xC) {
-                s32 v3 = ((s32 (*)(u8, s32))func_800291B4)(((u8 *)&D_8018032C)[v1], arg1) & 0xFF;
+                s32 v3 = ((s32 (*)(u8, s32))guess_GetGameVarByte)(((u8 *)&D_8018032C)[v1], arg1) & 0xFF;
                 if (v3 == 0) {
                     return 1;
                 }
@@ -96,7 +96,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         if (t <= 0) {
             s16 s0 = t + D_80115143;
             if (s0 != 0) {
-                if ((((s32 (*)(u8, s32))func_800291B4)(D_8018033F[s0], arg1) & 0xFF) == 0) {
+                if ((((s32 (*)(u8, s32))guess_GetGameVarByte)(D_8018033F[s0], arg1) & 0xFF) == 0) {
                     *arg2 = 0x804040;
                 }
                 ret = guess_g_VillagerNames[s0];
@@ -117,7 +117,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
         s16 s0 = (s16) arg1;
         if (s0 < 0x28) {
             s32 idx;
-            if ((((s32 (*)(u8, s32))func_800291B4)(((u8 *)&D_80180340)[s0], arg1) & 0xFF) == 0) {
+            if ((((s32 (*)(u8, s32))guess_GetGameVarByte)(((u8 *)&D_80180340)[s0], arg1) & 0xFF) == 0) {
                 *arg2 = 0x804040;
             }
             idx = s0 + 1;

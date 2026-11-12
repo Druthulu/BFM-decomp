@@ -2474,7 +2474,7 @@ def signature_change(callee, signature, label, calib_id, log, pool=None, body_fi
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-# rung D — the FUNCTION alias class (`s32 aF8012EFB8(param_1, param_2) __asm__("func_8012EFB8")`): a body defined under an alias C name
+# rung D — the FUNCTION alias class (`s32 aF8012EFB8(param_1, param_2) __asm__("guess_WorldToScreenFlag")`): a body defined under an alias C name
 # because the fleet's declarations of its real name lied about it. The unit puts the definition back under its real name with its
 # byte-true ANSI signature, deletes the alias prototype lines, renames every alias declaration/call, and canonicalises the real
 # name's declarations in the TUs that carry the alias — one fleet-wide job, IDENTICAL on every object or nothing written. The real

@@ -8,7 +8,7 @@ void func_80142DC4(int param_1)
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
-        ((void (*)(s32, s32))func_8001CA1C)(v0, (s32)&D_801806B4);
+        ((void (*)(s32, s32))guess_InitModelObjectKind3)(v0, (s32)&D_801806B4);
         *(short *)(v0 + 0x1a) = 0x1800;
         *(short *)(v0 + 0x18) = 0x1800;
         *(short *)(param_1 + 0xfc) = 0;

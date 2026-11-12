@@ -21,7 +21,7 @@ void func_8016BFD0(s32 a0, s32 a1, s32 a2, s32 a3, void *a4) {
     v1.x = *(u16 *)(a0 + 6);
     v1.y = *(u16 *)(a0 + 0xa);
     v1.z = *(u16 *)(a0 + 0xe);
-    ((void(*)())func_8012EFB8)(&v1, &v1);
+    ((void(*)())guess_WorldToScreenFlag)(&v1, &v1);
     ((void(*)())func_80013F3C)(&buf);
     ((void(*)())func_800123F0)(&buf, (s32)*(s16 *)(iVar5 + 0x12));
 

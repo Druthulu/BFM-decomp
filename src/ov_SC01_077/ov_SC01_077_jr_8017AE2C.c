@@ -75,7 +75,7 @@ extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
-extern s32 func_800291B4(s32 arg);
+extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
 extern s32 func_80145CEC();
@@ -219,7 +219,7 @@ extern void func_80147628(s32 a0);
 extern void func_80147478(s32 a0);
 extern void func_801474D8(s32 *a0);
 extern void guess_ClearTiltVectors(s32 *a0);
-extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void func_800129CC(s32 a0, s32 a1);
 extern void func_80147514(s32 arg0);
 extern void func_80013F3C(s32 a0);
@@ -356,7 +356,7 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8014942C(s32 arg0);
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void func_80149544(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_8012EFB8(void *param_1, void *param_2);
+extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 extern void func_80149584(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8014964C(s32 param_1, s32 param_2);
 extern s32 guess_IsConfirmPressed(void *a0);
@@ -570,7 +570,7 @@ extern s32 D_80126B50;
 extern void func_8014C968(void);
 extern void func_8014C978(void);
 extern s32 func_8014C98C(void);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern s32 func_8014CA00(s32 a0);
 extern u16 func_8014CA70(s32 a0, s32 a1);
 extern s32 func_8014CA14(s32 a0, s32 a1);
@@ -1132,7 +1132,7 @@ extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
-extern void func_80139914(s32);
+extern void guess_CloseTextWindow(s32);
 extern s32 func_80159464(void);
 extern void func_801594E8(s32, s32);
 extern void func_80158FA4(s32 param_1);
@@ -1162,7 +1162,7 @@ extern void func_8013C938(void);
 extern void func_8013CB20(void);
 extern void func_8013C98C(void);
 extern void func_8002850C(s32, s32, s32);
-extern void func_80028620(s32, void *);
+extern void guess_SetFlatLightOrDefault(s32, void *);
 extern s16 guess_g_BackgroundLayerPriority[];
 extern s16 D_800B9B00;
 extern u16 D_801270C0;
@@ -1641,7 +1641,7 @@ extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
-extern void func_80164DB0(void);
+extern void guess_FreeObjectAndSubObject(void);
 extern u8 D_801D9728;
 extern u8 D_801D9729;
 extern u8 D_801D972A;
@@ -1759,11 +1759,11 @@ extern u8 D_800D387C[];
 extern u8 D_800D3888[];
 extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
-extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
 extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
 extern void func_80166438(u8 *a0);
-extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_800D22E4(s32 a0);
 extern void func_801665B4(s32 *a0);
 extern s32 (*D_80189ACC[])();
@@ -2661,7 +2661,7 @@ extern int D_8018A360;
 extern int D_8018A36C[];
 extern void func_80178840(int param_1);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
-extern void func_8012E8E0(s32 a0, s32 a1);
+extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_801789AC(s32 arg0);
@@ -2753,7 +2753,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern s32 guess_YawToPoint(void *a0, void *a1);
-extern s32 func_8012BE98(s32 a0, u16 *a1);
+extern s32 guess_DistSqXZToPoint(s32 a0, u16 *a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
 
 extern s16 D_801DAA88;
@@ -2802,7 +2802,7 @@ void func_8017AE2C(s32 param_1) {
                 guess_SnapActorToGround((u8 *)pv);
                 /* &D_801DAA88+0xC == &D_801DAA94; distinct rtx defeats gcc's address-CSE
                    so BE98's arg rematerializes instead of sharing the store's reg (byte-gate). */
-                if (func_8012BE98(pv, (u16 *)((s32)&D_801DAA88 + 0xC)) < 0x101) {
+                if (guess_DistSqXZToPoint(pv, (u16 *)((s32)&D_801DAA88 + 0xC)) < 0x101) {
                     D_801DAA88 = 0;
                     D_801DAA8A = 0;
                 }
@@ -2827,7 +2827,7 @@ void func_8017AE2C(s32 param_1) {
         ((Unkstruct_800B5CB8 *)pv)->unkA -= 8;
         guess_SnapActorToGround((u8 *)pv);
         /* see note above: distinct rtx for the same address defeats address-CSE. */
-        if (func_8012BE98(pv, (u16 *)((s32)&D_801DAA88 + 0xC)) < 0x101) {
+        if (guess_DistSqXZToPoint(pv, (u16 *)((s32)&D_801DAA88 + 0xC)) < 0x101) {
             D_801DAA88 = 0;
             D_801DAA8A = 0;
         }
@@ -2859,12 +2859,12 @@ void func_8017B0E4(int param_1, int param_2)
     extern s16 D_801DA78E;
     extern s16 D_801DA790;
 
-    *(s32 *)(((s32)param_1) + 0x48) = (s16)func_80012C6C((s32)*(s16 *)(((s32)param_1) + 0x48), (s32)D_801DA794, (s32)((s16)param_2));
-    *(s32 *)(((s32)param_1) + 0x4C) = (s16)func_80012C6C((s32)*(s16 *)(((s32)param_1) + 0x4C), (s32)D_801DA796, (s32)((s16)param_2));
-    *(s32 *)(((s32)param_1) + 0x50) = (s16)func_80012C6C((s32)*(s16 *)(((s32)param_1) + 0x50), (s32)D_801DA798, (s32)((s16)param_2));
-    *(s32 *)(((s32)param_1) + 0x3C) = (s16)func_80012C6C((s32)*(s16 *)(((s32)param_1) + 0x3C), (s32)D_801DA78C, (s32)((s16)param_2));
-    *(s32 *)(((s32)param_1) + 0x40) = (s16)func_80012C6C((s32)*(s16 *)(((s32)param_1) + 0x40), (s32)D_801DA78E, (s32)((s16)param_2));
-    *(s32 *)(((s32)param_1) + 0x44) = (s16)func_80012C6C((s32)*(s16 *)(((s32)param_1) + 0x44), (s32)D_801DA790, (s32)((s16)param_2));
+    *(s32 *)(((s32)param_1) + 0x48) = (s16)guess_EaseToward((s32)*(s16 *)(((s32)param_1) + 0x48), (s32)D_801DA794, (s32)((s16)param_2));
+    *(s32 *)(((s32)param_1) + 0x4C) = (s16)guess_EaseToward((s32)*(s16 *)(((s32)param_1) + 0x4C), (s32)D_801DA796, (s32)((s16)param_2));
+    *(s32 *)(((s32)param_1) + 0x50) = (s16)guess_EaseToward((s32)*(s16 *)(((s32)param_1) + 0x50), (s32)D_801DA798, (s32)((s16)param_2));
+    *(s32 *)(((s32)param_1) + 0x3C) = (s16)guess_EaseToward((s32)*(s16 *)(((s32)param_1) + 0x3C), (s32)D_801DA78C, (s32)((s16)param_2));
+    *(s32 *)(((s32)param_1) + 0x40) = (s16)guess_EaseToward((s32)*(s16 *)(((s32)param_1) + 0x40), (s32)D_801DA78E, (s32)((s16)param_2));
+    *(s32 *)(((s32)param_1) + 0x44) = (s16)guess_EaseToward((s32)*(s16 *)(((s32)param_1) + 0x44), (s32)D_801DA790, (s32)((s16)param_2));
 }
 
 
@@ -4109,11 +4109,11 @@ s32 func_8017DACC(s32 a0) {
 //   and the 0x4C/0x50 stores swap (closeness 11). Denying /s pins the global load below the
 //   store, so it lands in the load-shadow of `lh 0x2C` — exactly the target schedule.
 //   Decls are the TU canon: u16 globals (s16 would be `conflicting types`), s32
-//   func_80012C6C via the (s16 (*)()) call-site cast, s32 func_8017DAEC(s32).
+//   guess_EaseToward via the (s16 (*)()) call-site cast, s32 func_8017DAEC(s32).
 
 
 
-extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80013F3C(s32 a0);
 extern void func_800123F0(s32 a0, s32 a1);
@@ -4132,14 +4132,14 @@ s32 func_8017DAEC(s32 param_1)
     s16 b5e;
     u16 b66;
 
-    *(s32 *)&s->f08 = ((s16 (*)(s32, s32, s32))func_80012C6C)(s->f08, s->f0c, 4);
-    *(s32 *)&s->f10 = ((s16 (*)(s32, s32, s32))func_80012C6C)(s->f10, s->f14, 4);
+    *(s32 *)&s->f08 = ((s16 (*)(s32, s32, s32))guess_EaseToward)(s->f08, s->f0c, 4);
+    *(s32 *)&s->f10 = ((s16 (*)(s32, s32, s32))guess_EaseToward)(s->f10, s->f14, 4);
     s->f18 = func_80012ABC(s->f18, s->f20, 4);
     s->f1a = func_80012ABC(s->f1a, s->f22, 4);
     s->f1c = func_80012ABC(s->f1c, s->f24, 4);
-    s->f28 = ((s16 (*)(s32, s32, s32))func_80012C6C)(s->f28, s->f2e, 0x10);
-    s->f2a = ((s16 (*)(s32, s32, s32))func_80012C6C)(s->f2a, s->f30, 0x10);
-    s->f2c = ((s16 (*)(s32, s32, s32))func_80012C6C)(s->f2c, s->f32, 0x10);
+    s->f28 = ((s16 (*)(s32, s32, s32))guess_EaseToward)(s->f28, s->f2e, 0x10);
+    s->f2a = ((s16 (*)(s32, s32, s32))guess_EaseToward)(s->f2a, s->f30, 0x10);
+    s->f2c = ((s16 (*)(s32, s32, s32))guess_EaseToward)(s->f2c, s->f32, 0x10);
 
     b5e = guess_g_PlayerPosX;
     b66 = guess_g_PlayerPosZ;
@@ -4293,7 +4293,7 @@ void func_8017DF5C(int param_1)
 extern s32 func_8016F410(s32 a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 guess_GetTextWindowResult(s32 a0);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern void func_80147060(u8 *a0);
 
 extern unsigned char D_8018A62C[];
@@ -4313,7 +4313,7 @@ void func_8017DFD8(int param_1) {
         ((void (*)(int, void *))guess_SetAnimScript)(param_1, &D_8018A6E4);
     }
     if (guess_GetTextWindowResult(((Unkstruct_8017DFD8 *)param_1)->unk198) != 0) {
-        func_80139914(((Unkstruct_8017DFD8 *)param_1)->unk198);
+        guess_CloseTextWindow(((Unkstruct_8017DFD8 *)param_1)->unk198);
         ((void (*)(int))func_80147060)(param_1);
         ((Unkstruct_8017DFD8 *)param_1)->unk214 = ((Unkstruct_8017DFD8 *)param_1)->unk214 + 1;
     }
@@ -4460,7 +4460,7 @@ void func_8017E350(void *arg0) {
 // @unstuck(P36): none — MATCH (early-exit guard + 2 calls + struct stores + cond byte incr)
 
 extern s32 guess_GetTextWindowResult(s32 a0);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 D_8018A5E4;
 extern s32 D_8012695C;
@@ -4468,7 +4468,7 @@ extern s32 D_8012695C;
 void func_8017E3EC(s32 param_1)
 {
     if (guess_GetTextWindowResult(((Unkstruct_8017E3EC_2 *)param_1)->unk198) != 0) {
-        ((s32 (*)(s32))func_80139914)(((Unkstruct_8017E3EC_2 *)param_1)->unk198);
+        ((s32 (*)(s32))guess_CloseTextWindow)(((Unkstruct_8017E3EC_2 *)param_1)->unk198);
         ((s32 (*)(s32, s32))guess_SetAnimScript)(param_1, (s32)&D_8018A5E4);
         D_8012695C = ((Unkstruct_8017E3EC_2 *)param_1)->unk208;
         ((Unkstruct_8017E3EC_2 *)param_1)->unk204 = 0x20;
@@ -4536,25 +4536,25 @@ void func_8017E51C(void *arg0) {
 #include "common.h"
 
 extern s32 guess_GetTextWindowResult(s32 a0);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern s32 guess_OpenTextWindow(s32 a0);
 extern u8 D_801B1848;
 
 void func_8017E604(s32 a0) {
     s32 s0 = a0;
     if (guess_GetTextWindowResult(((Unkstruct_8017E604 *)s0)->unk198) != 0) {
-        func_80139914(((Unkstruct_8017E604 *)s0)->unk198);
+        guess_CloseTextWindow(((Unkstruct_8017E604 *)s0)->unk198);
         ((Unkstruct_8017E604 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_801B1848);
         ((Unkstruct_8017E604 *)s0)->unk214 = ((Unkstruct_8017E604 *)s0)->unk214 + 1;
     }
 }
 
 extern s32 guess_GetTextWindowResult(s32 a0);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 
 void func_8017E668(u8 *a0) {
     if (guess_GetTextWindowResult(((Unkstruct_8017E668 *)a0)->unk198) != 0) {
-        func_80139914(((Unkstruct_8017E668 *)a0)->unk198);
+        guess_CloseTextWindow(((Unkstruct_8017E668 *)a0)->unk198);
         ((Unkstruct_8017E668 *)a0)->unk214 = ((Unkstruct_8017E668 *)a0)->unk214 + 1;
     }
 }
@@ -4574,13 +4574,13 @@ extern void func_80165770(void);
 // @unstuck(P36): none — MATCH (simple stub; param_1 in $s0 across calls)
 
 extern s32 guess_GetTextWindowResult(s32 a0);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern void func_80165770(void);
 
 void func_8017E6F4(s32 param_1) {
     if (guess_GetTextWindowResult(*(s32 *)(param_1 + 0x198)) != 0) {
-        func_80139914(*(s32 *)(param_1 + 0x198));
+        guess_CloseTextWindow(*(s32 *)(param_1 + 0x198));
         ((void (*)(s32))func_8016F0E4)(param_1);
         ((void (*)(s32))func_80165770)(param_1);
     }
@@ -4608,11 +4608,11 @@ void func_8017E784(void *arg0) {
 }
 
 extern s32 guess_GetTextWindowResult(s32 a0);
-extern void func_80139914(s32 a0);
+extern void guess_CloseTextWindow(s32 a0);
 
 void func_8017E7DC(u8 *a0) {
     if (guess_GetTextWindowResult(((Unkstruct_8017E668 *)a0)->unk198) != 0) {
-        func_80139914(((Unkstruct_8017E668 *)a0)->unk198);
+        guess_CloseTextWindow(((Unkstruct_8017E668 *)a0)->unk198);
         ((Unkstruct_8017E668 *)a0)->unk214 = ((Unkstruct_8017E668 *)a0)->unk214 + 1;
     }
 }
@@ -5189,13 +5189,13 @@ void func_8017F5BC(int param_1)
     return;
 }
 
-extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 
 void func_8017F694(void *arg0) {
     ((Unkstruct_8017F694_2 *)arg0)->unk2 = 3;
     M2C_FIELD(((Unkstruct_8017F694_2 *)arg0)->unk20, s16 *, 0x10) = 0x400;
     ((Unkstruct_8017F694_2 *)arg0)->unk5C = (u16) (((Unkstruct_8017F694_2 *)arg0)->unk5C | 0xCC00);
-    func_8012C588(0x25, 0);
+    guess_SpawnActorNoArg(0x25, 0);
 }
 
 extern s32 (*D_8018A904[])();

@@ -635,7 +635,7 @@ def classify():
         while i < n:
             s = lines[i].strip()
             # Phase 35 T2 — a shared body INCLUDED at its site is that function's definition in this TU (sotn's shape):
-            #     #include "../shared/ov/func_80128EA8.h"          -> defines func_80128EA8 (REAL, or EMPTY if the body is empty)
+            #     #include "../shared/ov/func_80128EA8.h"          -> defines guess_StartPairSequence (REAL, or EMPTY if the body is empty)
             #     #define SHARED_FN func_80037334 / #include ... / #undef SHARED_FN   -> defines the SHARED_FN name
             # The header's definitions are read by share_census.header_defs (masked: a macro-only header defines nothing).
             fd = _SHARED_FN_DEF.match(s)

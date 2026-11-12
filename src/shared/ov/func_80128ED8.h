@@ -1,6 +1,9 @@
-/* func_80128ED8 — shared body (overlay slot 0x80128158, h_exact e4095201). ONE source: instantiated by #include at each
+/* guess_StepPairSequence — shared body (overlay slot 0x80128158, h_exact e4095201). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 func_80128ED8(s32 param_1, s32 *param_2) {
+/* guess_StepPairSequence: advances the cursor a1 {table, index, count} one tick through 8-byte entries {u16 a, u16 b, u32 flags} and writes a, b to a0 +0x28/+0x2A
+ * Confidence medium, code inference: count--; at 0: flags & 0xC0 == 0xC0 -> end (1); & 0x80 -> index 0 else index+1; count = flags & 0x3F; a0+0x28/+0x2A = entry halves
+ * Names ledger: config/names.tsv guess_StepPairSequence */
+s32 guess_StepPairSequence(s32 param_1, s32 *param_2) {
     s32 iVar4;   /* base ptr, lives whole fn in $t0 */
     register s32 cnt   __asm__("$2");   /* decremented count in $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
     register s32 cc    __asm__("$3");   /* preserved count copy in $v1 (forces the bne-delay-slot copy) */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)

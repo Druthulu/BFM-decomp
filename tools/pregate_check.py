@@ -24,7 +24,7 @@ THE FIVE CHECKS, each earned by a real rebuild lost this session (cookbook §176
   4. CONFLICTING-EXTERN -- one symbol declared with two incompatible signatures in the final text,
      whoever contributed them (file, draft A, draft B).
   5. DEF-VS-DECL -- a function DEFINITION contradicting a prototype visible in the same file (the
-     DEF-side wall, §20 / wave law 3): `s32 func_8001ABBC(...)` under `extern void func_...`.
+     DEF-side wall, §20 / wave law 3): `s32 guess_RequestResourceLoad(...)` under `extern void func_...`.
 
 Comments are MASKED (via cdecl, the project's single masking oracle) before any use-site scan: an
 unmasked scan reported 7 phantom "used before defined" hits, all of them agents' prose.
@@ -220,7 +220,7 @@ def check_text(path, text):
             # SEVERITY CALIBRATED AGAINST THE COMPILER, not against C89 pedantry. Measured on the
             # wave-P slate that built BYTE-IDENTICAL: gcc-2.7.2 accepted `void f(void*,s32)` vs a
             # `void f(s8*,s32)` definition, and even `G3P *f(...)` vs `G4P *f(...)`. What it
-            # REJECTED was func_8001ABBC declared `void` and defined `s32` -- a void/non-void
+            # REJECTED was guess_RequestResourceLoad declared `void` and defined `s32` -- a void/non-void
             # return split. So that is the only FAIL; everything else is a WARN worth reading but
             # not worth blocking a rebuild over (R39: an over-refusal costs verified-correct work).
             # RECALIBRATED (P31 S53). The rule was "only a void/non-void split is fatal", measured on

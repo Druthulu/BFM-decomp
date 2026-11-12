@@ -9,7 +9,7 @@ s32 *a0;
 
     if ((*(u16 *)((char *)s0 + 0xB8) & 0x8000) != 0) {
         if (guess_GetTextWindowResult(s0[0x198 / 4]) != 0) {
-            func_80139914(s0[0x198 / 4]);
+            guess_CloseTextWindow(s0[0x198 / 4]);
             result = guess_OpenTextWindow((s32)D_801830B4);
             temp = *(u16 *)((char *)s0 + 0xBA);
             s0[0x198 / 4] = result;

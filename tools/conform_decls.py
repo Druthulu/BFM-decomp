@@ -71,7 +71,7 @@ def _promote(ty):
 # The fleet's typedefs (include/common.h): `int` IS `s32`, `unsigned int` IS `u32`. Comparing the
 # LITERAL return spelling therefore reports a phantom return-axis change for every decl written in
 # stock C types — and the §85 precondition below then refuses a conform that changes no return type
-# at all. Measured on func_80128ED8 (Phase 30 S47): 1,592 decl sites, return `s32` on both sides,
+# at all. Measured on guess_StepPairSequence (Phase 30 S47): 1,592 decl sites, return `s32` on both sides,
 # REFUSED because 11 sites spell it `int` and 2 omit `extern`.
 _RET_ALIAS = {"int": "s32", "signed": "s32", "signed int": "s32", "long": "s32",
               "signed long": "s32", "unsigned": "u32", "unsigned int": "u32",
@@ -404,7 +404,7 @@ def main():
         # macro-local `extern`s. Skipping it whole because it "defines" the function leaves every one
         # of those externs at the OLD spelling while all 1,514 fleet sites move to the new one — a
         # half-axis in the one file every overlay includes, i.e. the exact fleet-wide break §85 warns
-        # about. Measured on func_80128ED8: 10 stale externs survived the "axis complete" assertion.
+        # about. Measured on guess_StepPairSequence: 10 stale externs survived the "axis complete" assertion.
         # The narrow truth is that the DEFINING MACRO owns its own body — not that the file does.
         _is_engine_hdr = os.path.abspath(p) == os.path.abspath(ENGINE_HDR)
         protect = _defining_macro_span(txt, a.fn) if _is_engine_hdr else None

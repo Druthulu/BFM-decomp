@@ -4,5 +4,5 @@ void SHARED_FN(s32 *a0, s32 a1) {
     func_8012E8A8((u8 *)a0);
     ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
-    func_8012E8E0((s32)a0, a1);
+    guess_SetObjectPosAndYaw((s32)a0, a1);
 }

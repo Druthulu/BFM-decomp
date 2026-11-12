@@ -20,7 +20,7 @@ VERBATIM IS THE POINT. The draft is evidence, not a rewrite: nothing is reformat
 "cleaned up". If this file ever starts editing the body it stops being byte-truth (R33/R35).
 
 Usage:
-  tools/macro_draft.py --fn func_80128ED8 [--out .run/draft.c]     # default: .run/macro_draft_<fn>.c
+  tools/macro_draft.py --fn guess_StepPairSequence [--out .run/draft.c]     # default: .run/macro_draft_<fn>.c
 """
 import argparse, os, re, sys, textwrap
 

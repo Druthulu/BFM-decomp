@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_DistSqToPlayer(s32);
-extern s32 func_80131AC8(void *a0);
+extern s32 guess_PlayActorSound(void *a0);
 extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 void func_801300F4(s32 a0) {
@@ -22,15 +22,15 @@ void func_801300F4(s32 a0) {
         }
         r = guess_DistSqToPlayer(a0);
         if (r < 0x9000) {
-            r = ((s32 (*)(s32, s32))func_80131AC8)(a0, 0x30);
+            r = ((s32 (*)(s32, s32))guess_PlayActorSound)(a0, 0x30);
             done = 1;
             if (r != 0) goto skip;
-            ((s32 (*)(s32, s32))func_80131AC8)(a0, 0x31);
+            ((s32 (*)(s32, s32))guess_PlayActorSound)(a0, 0x31);
         } else {
-            r = ((s32 (*)(s32, s32))func_80131AC8)(a0, 0x31);
+            r = ((s32 (*)(s32, s32))guess_PlayActorSound)(a0, 0x31);
             done = 1;
             if (r != 0) goto skip;
-            ((s32 (*)(s32, s32))func_80131AC8)(a0, 0x30);
+            ((s32 (*)(s32, s32))guess_PlayActorSound)(a0, 0x30);
         }
         done = 1;
     }

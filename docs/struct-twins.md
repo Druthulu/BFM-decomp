@@ -3985,9 +3985,9 @@ cause: 2 names (228 B, all members placeholders) bound to 2 distinct objects, no
 
 ### cc89b444f3c5
 names: EntA, Ent_SC07_010_8017AE2C
-cause: 2 names (256 B, all members placeholders) bound to 4 distinct objects, none bound to two names: ov_SC07_010/0x8017E5B8:func_8012C588, ov_SC07_010/0x8017E5B8:p, ov_SC07_010/0x8017E70C:func_8012C588, ov_SC07_010/0x8017E70C:p; full list: tools/struct_twins.py --show cc89b444f3c5
-- `EntA`: 2 obj — ov_SC07_010/0x8017E5B8:func_8012C588, ov_SC07_010/0x8017E5B8:p
-- `Ent_SC07_010_8017AE2C`: 2 obj — ov_SC07_010/0x8017E70C:func_8012C588, ov_SC07_010/0x8017E70C:p
+cause: 2 names (256 B, all members placeholders) bound to 4 distinct objects, none bound to two names: ov_SC07_010/0x8017E5B8:guess_SpawnActorNoArg, ov_SC07_010/0x8017E5B8:p, ov_SC07_010/0x8017E70C:guess_SpawnActorNoArg, ov_SC07_010/0x8017E70C:p; full list: tools/struct_twins.py --show cc89b444f3c5
+- `EntA`: 2 obj — ov_SC07_010/0x8017E5B8:guess_SpawnActorNoArg, ov_SC07_010/0x8017E5B8:p
+- `Ent_SC07_010_8017AE2C`: 2 obj — ov_SC07_010/0x8017E70C:guess_SpawnActorNoArg, ov_SC07_010/0x8017E70C:p
 
 ### cdadf90297ae
 names: Unkstruct_80186594, Unkstruct_80186F78

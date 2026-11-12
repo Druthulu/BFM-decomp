@@ -87,7 +87,7 @@ Example targets (biggest-first = highest leverage; full per-fn data in `.run/wal
 - `MCOMPILE_bad-deref`: `func_80144B9C`(**770** — the Phase-15 prime target, all-134), `func_8012D714`(284)
 - `PERMUTER_CLASS`: `func_80132288`(97), `func_8013DBE4`(97), `func_80164930`(81)
 - `SIG_FIXABLE_KR`: `func_80128AF4`(72), `func_80144458`(64), `func_8017E51C`(58)
-- `LOOSE_TYPING_WALL`: `func_80141CA4`(476), `func_80140F00`(128), `func_80155150`(105)
+- `LOOSE_TYPING_WALL`: `guess_GetStoryGoalText`(476), `func_80140F00`(128), `func_80155150`(105)
 
 ## Aggregated by primary lever (this is the sequencing driver)
 
