@@ -125,7 +125,7 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
     s16 param_4;
 {
     extern u8 D_800CD6E0[];
-    extern void func_80148534(s32 a0, s32 a1);
+    extern void guess_GetPlayerFramePointsB(s32 a0, s32 a1);
     extern s32 func_80165FA4(s32 a0, s32 a1, s32 a2);
     extern void guess_ObjRotTransSV(s32 a0);
     extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -181,7 +181,7 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
     }
     }
 
-    func_80148534((s32)v10, (s32)v18);
+    guess_GetPlayerFramePointsB((s32)v10, (s32)v18);
     func_80165FA4(node, (s32)v10, (s32)v18);
     ((void (*)(s32, s32, s32))guess_ObjRotTransSV)(node, (s32)v10, (s32)v10);
     RotTransSV(v18, v18, out);

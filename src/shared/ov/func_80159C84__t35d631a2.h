@@ -23,7 +23,7 @@ void func_80159C84(u8 *p) {
     if (func_80161B84(p) != 0) {
         return;
     }
-    if (func_80161BE0(p) != 0) {
+    if (guess_TryStartCircleAction(p) != 0) {
         return;
     }
     if (guess_IsConfirmPressed(p) != 0) {
@@ -82,18 +82,18 @@ void func_80159C84(u8 *p) {
         if (*(s32 *)(p + 0x234) >= 3) {
             t = (s32)&D_800D5F44;
             if (*(s32 *)(p + 0xD0) == t) {
-                func_80154B4C(p, (s32)&D_800D5F34);
+                guess_SetTexAnimScript(p, (s32)&D_800D5F34);
                 goto after_b4c;
             }
         } else {
             t = (s32)&D_800D5F14;
             if (*(s32 *)(p + 0xD0) == t) {
-                func_80154B4C(p, (s32)&D_800D5F04);
+                guess_SetTexAnimScript(p, (s32)&D_800D5F04);
                 goto after_b4c;
             }
         }
         if ((rand() & 0xF) == 0) {
-            func_80154B4C(p, t);
+            guess_SetTexAnimScript(p, t);
         }
     }
 after_b4c:

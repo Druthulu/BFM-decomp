@@ -1,9 +1,10 @@
 // config/symbols.md_MAIN_047.txt — module md_MAIN_047 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CCB1C..0x800CD7E4); NEVER merged into config/symbols.us.txt.
-// count=5
+// count=6
 
 guess_AllocSpriteObject          = 0x801465C0; // func
 guess_SpawnSmallObjectAtOrigin   = 0x80146994; // func
 guess_FreeSmallObject            = 0x80146C3C; // func
 guess_PlaySoundUnlessSkipped     = 0x80147324; // func
+guess_GetPlayerFramePointsB      = 0x80148534; // func
 guess_ObjRotTransSV              = 0x80149350; // func

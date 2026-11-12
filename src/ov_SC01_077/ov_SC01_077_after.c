@@ -769,7 +769,7 @@ int func_80148AFC(void *a0) {
 
 #include "../shared/ov/func_80148C9C.h"
 
-/* func_80148CB4: addiu a1,-0x400; lw v0,0x20(a0); andi a1,0xFFF; sh a1,0x12(v0); ret 1
+/* guess_SetYawToAngleMinus90: addiu a1,-0x400; lw v0,0x20(a0); andi a1,0xFFF; sh a1,0x12(v0); ret 1
  * v0 = *(a0+0x20) deref; store (a1-0x400)&0xFFF as halfword at v0+0x12; return 1. */
 #include "../shared/ov/func_80148CB4.h"
 
@@ -787,7 +787,7 @@ int func_80148AFC(void *a0) {
 /* func_80148CF4: addiu a1,-0x600; lw v0,0x20(a0); andi a1,0xFFF; sh a1,0x12(v0); ret 1 */
 #include "../shared/ov/func_80148CF4.h"
 
-/* func_80148D0C: addiu a1,-0x400; lw v0,0x20(a0); andi a1,0xFFF; sh a1,0x12(v0); ret 1 */
+/* guess_SetYawToAngleMinus90_2: addiu a1,-0x400; lw v0,0x20(a0); andi a1,0xFFF; sh a1,0x12(v0); ret 1 */
 #include "../shared/ov/func_80148D0C.h"
 
 #include "../shared/ov/func_80148D24.h"
@@ -1395,7 +1395,7 @@ extern s32 func_80012A60(s32 a0, s32 a1);
 
 #include "../shared/ov/func_8014C43C.h"
 
-/* func_8014C4AC @0x8014C4AC — 47 ins, reach x138 (134 *_after.c + 4 *_jr_80140608.c)
+/* guess_PostActorEvent @0x8014C4AC — 47 ins, reach x138 (134 *_after.c + 4 *_jr_80140608.c)
  *
  * STATUS: match_one MATCH (47/47) — and MATCH *with the fleet-canonical declaration present in the
  *         same TU*, which is what the previous draft could not do.
@@ -1404,11 +1404,11 @@ extern s32 func_80012A60(s32 a0, s32 a1);
  * The blocker was the §73 RETURN axis: the byte-true def MUST return a value ($v0 is written on every
  * path — `addu $v0,$zero,$zero` x3 and `addu $v0,$t0,$zero`, and the final `sb $v1,0xC8($v0)` is based
  * on the RETURN pseudo), but `src/shared/engine_core.h` declares
- *     extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
+ *     extern void guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
  * inside 8 DEFINE_func_* macros (8014A380 / 8015E714 / 8014A1B0 / 8014C43C / 8015E5B0 / 8015DD74 /
  * 8014A850 / 801571C4).  FOUR of them are instantiated at FILE scope in ov_SC01_077_after.c itself
  * (lines 1254 / 1262 / 1368 / 1583) — all ABOVE the INCLUDE_ASM stub at 1585 — so the def collides:
- * `conflicting types for func_8014C4AC`.
+ * `conflicting types for guess_PostActorEvent`.
  *
  * MEASURED, not assumed (probes kept in .run/uc/):
  *   - p_void_naive.c  : conform the def to `void` -> compiles CLEAN (so the PARAM axis is already
@@ -1426,13 +1426,13 @@ extern s32 func_80012A60(s32 a0, s32 a1);
  * THE FIX (zero blast radius, T0, travels to all 138 siblings): the §37/§73 ASM-LABEL ALIAS — the same
  * form already banked for func_8016191C x137 and explicitly supported by family_remap's
  * `_alias_decl_for` (§124).  The definition takes a DIFFERENT C identifier — so it never binds against
- * the canonical `extern void func_8014C4AC` — and a GNU asm label binds the emitted SYMBOL:
+ * the canonical `extern void guess_PostActorEvent` — and a GNU asm label binds the emitted SYMBOL:
  *
- *     s32 aF8014C4AC(...) __asm__("func_8014C4AC");
+ *     s32 aF8014C4AC(...) __asm__("guess_PostActorEvent");
  *
- * Verified: `nm t.o` => `00000000 T func_8014C4AC` (global, correct name; no `aF8014C4AC` symbol).
+ * Verified: `nm t.o` => `00000000 T guess_PostActorEvent` (global, correct name; no `aF8014C4AC` symbol).
  * Verified compilable ALONGSIDE the conflict: .run/uc/p_alias4.c carries FOUR copies of the canonical
- * `extern void func_8014C4AC(...)` AND a caller that calls it through that prototype, above the def —
+ * `extern void guess_PostActorEvent(...)` AND a caller that calls it through that prototype, above the def —
  * MATCH (47 ins).  Verified sweep-readable: `family_remap._alias_decl_for` resolves this file to
  * ('aF8014C4AC', line 2) and `_def_head_at` accepts the K&R head, so the ×138 propagation path is the
  * standard one.  §30 #2's fleet `void`->`s32` widen of engine_core.h is therefore NOT needed and is
@@ -1462,7 +1462,7 @@ extern s32 func_80012A60(s32 a0, s32 a1);
 /* §37/§73/§124 asm-label alias: the fleet canon declares this `extern void` (engine_core.h, inside 8
  * DEFINE_func_* macros); the byte-true body must return s32.  Aliasing the C name sidesteps the
  * RETURN-axis conflict with no header edit.  This line MUST travel with the body. */
-s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("func_8014C4AC");
+s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("guess_PostActorEvent");
 
 #include "../shared/ov/func_8014C4AC.h"
 
@@ -2084,8 +2084,8 @@ extern void func_8014E48C(s32 a0);
 // purely the RETURN axis (params are already spelled canonically: s32/void*/void*).
 //
 // The return type is LOAD-BEARING here (see DECAY note below), so `void` is not an option.
-// Fix = the §37/§124 ASM-LABEL ALIAS, the same lever that banked func_8014C4AC today
-// (.run/sweep/*/func_8014C4AC.c): define the body under the C name aF8014E5B4 carrying
+// Fix = the §37/§124 ASM-LABEL ALIAS, the same lever that banked guess_PostActorEvent today
+// (.run/sweep/*/guess_PostActorEvent.c): define the body under the C name aF8014E5B4 carrying
 // __asm__("func_8014E5B4"). The emitted symbol is unchanged, the C identifier never collides
 // with the macro's extern, and NO tracked header edit is needed — the engine_core.h:13392
 // §85 return-axis widen described in the old banking note is now UNNECESSARY.
@@ -2502,13 +2502,13 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
     case 0x31:
         ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
         ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_8018877C[((struct Ent_801506A4 *)arg1)->unk70]);
-        ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_8018877C[((struct Ent_801506A4 *)arg1)->unk70]);
+        ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 3, D_8018877C[((struct Ent_801506A4 *)arg1)->unk70]);
         break;
     case 0x32:
         if ((*(unsigned short*)&g_PlayerHp) != 0) {
             ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
             ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_80188784[((struct Ent_801506A4 *)arg1)->unk70], 1);
-            ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_80188784[((struct Ent_801506A4 *)arg1)->unk70]);
+            ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 2, D_80188784[((struct Ent_801506A4 *)arg1)->unk70]);
         }
         break;
     case 0x33:

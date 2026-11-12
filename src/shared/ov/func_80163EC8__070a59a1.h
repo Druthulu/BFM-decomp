@@ -7,7 +7,7 @@ void func_80163EC8(s32 param_1)
     extern u8 func_801656D0(s32 a0, s32 a1);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
-    extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
+    extern void guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
     Blk8 in;
     u16 out[4];
     s16 buf[4];
@@ -87,8 +87,8 @@ void func_80163EC8(s32 param_1)
         {
             guess_CopyVec3HighHalves(iVar7 + 4, (s32 *) buf);
             buf[3] = 0;
-            uVar4 = func_80156370(0xe);
-            func_8014C4AC(iVar7, 0xe, uVar4, buf, *((s16 *) (iVar8 + 0x12)));
+            uVar4 = guess_RollActorEventValue(0xe);
+            guess_PostActorEvent(iVar7, 0xe, uVar4, buf, *((s16 *) (iVar8 + 0x12)));
             guess_SpawnSmallObjectAtOrigin(0x33, param_1, 0, iVar7);
         }
     }
@@ -103,8 +103,8 @@ void func_80163EC8(s32 param_1)
         {
             guess_CopyVec3HighHalves(iVar7 + 4, (s32 *) buf);
             buf[3] = 0;
-            uVar4 = func_80156370(0x21);
-            func_8014C4AC(iVar7, 0x21, uVar4, buf, *((s16 *) (iVar8 + 0x12)));
+            uVar4 = guess_RollActorEventValue(0x21);
+            guess_PostActorEvent(iVar7, 0x21, uVar4, buf, *((s16 *) (iVar8 + 0x12)));
             if (((*((s32 *) (iVar7 + 0xb4))) & 0x40000) != 0)
             {
                 func_8014AD30(param_1, (u16 *) buf, 0, *((s16 *) (iVar7 + 0x60)));

@@ -9,7 +9,7 @@ int func_8015E0D4(int a0)
         func_8014C1A0(a0, s0);
         guess_CopyVec3HighHalves(s0 + 4, (s32 *)sp18);
         sp18[3] = 0;
-        func_8014C4AC(s0, 0x11, func_80029AAC(), sp18,
+        guess_PostActorEvent(s0, 0x11, func_80029AAC(), sp18,
                       *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12));
         *(s32 *)(a0 + 0x178) = 0;
     }

@@ -4,7 +4,7 @@ extern u8 D_80062BF4[];
 extern M2C_UNK D_800D5880;
 extern s32 D_800D58AC;
 extern void guess_StartPadVibration(void *a0);
-extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
+extern void guess_SpawnSmallObjectType1DAbove(void *a0, s32 a1, s32 a2);
 extern int func_80151204(int arg, int a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
@@ -22,7 +22,7 @@ void func_801519C8(s32 arg0) {
     if (v1 != 1 && v1 == 0x11) {
         s16 v0 = *(s16 *)(arg0 + 0xF2);
         if (v0 != 0) {
-            func_8014ACE8((void *)arg0, 5, (s32)v0 & 0x7FFF);
+            guess_SpawnSmallObjectType1DAbove((void *)arg0, 5, (s32)v0 & 0x7FFF);
         }
     } else {
         func_80151204(arg0, *(s16 *)(arg0 + 0xF2));

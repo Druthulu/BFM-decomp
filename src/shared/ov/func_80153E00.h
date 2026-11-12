@@ -9,7 +9,7 @@ extern s16 D_8011DB1A;
 extern void func_80149020(s32 *a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern s32 func_8014891C(s32 a0);
-extern s32 func_80148980(u8 *a0);
+extern s32 guess_IsDownHeld(u8 *a0);
 extern s32 func_801489E8(s32 a0);
 extern s32 func_80148A48(s32 a0);
 extern void func_80153C18(void);
@@ -17,7 +17,7 @@ extern void func_8015410C(s32 a0);
 extern void func_80159B3C(void *a0);
 extern void func_80165718(s32 a0);
 extern void func_8014BC44(s32 a0, s32 a1);
-extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
+extern void guess_SpawnSmallObjectType1DAbove(void *a0, s32 a1, s32 a2);
 extern void func_8014B310(void);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -48,7 +48,7 @@ LAB_E74:
     iVar4 = func_8014891C(param_1);
     s2 = (u32)(iVar4 != 0) << 0xc;
     uVar3 = s2;
-    iVar4 = func_80148980((u8 *)param_1);
+    iVar4 = guess_IsDownHeld((u8 *)param_1);
     if (iVar4 != 0) {
         uVar3 = s2 | 0x4000;
     }
@@ -88,11 +88,11 @@ LAB_EC8:
     ((void (*)(s32))func_8014B310)(param_1);
 LAB_FA8:
     func_8014BC44(param_1, (s32)D_8011DB1A);
-    func_8014ACE8((void *)param_1, 1, (s32)D_8011DB1A);
+    guess_SpawnSmallObjectType1DAbove((void *)param_1, 1, (s32)D_8011DB1A);
     goto LAB_9C;
 LAB_FD4:
     func_8014BC44(param_1, (s32)D_8011DB1A);
-    func_8014ACE8((void *)param_1, 1, (s32)D_8011DB1A);
+    guess_SpawnSmallObjectType1DAbove((void *)param_1, 1, (s32)D_8011DB1A);
     ((void (*)(s32))func_8014B310)(param_1);
     guess_SpawnSmallObjectAtOrigin(0x42, param_1, 0, 0);
     guess_SpawnSmallObject(0x42, (void *)param_1, 0x20, 0, 0, 1, 0);

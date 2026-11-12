@@ -15,13 +15,13 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
     case 0x31:
         ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
         ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_80180724[((struct Ent_801506A4 *)arg1)->unk70]);
-        ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_80180724[((struct Ent_801506A4 *)arg1)->unk70]);
+        ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 3, D_80180724[((struct Ent_801506A4 *)arg1)->unk70]);
         break;
     case 0x32:
         if ((*(unsigned short*)&g_PlayerHp) != 0) {
             ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
             ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_8018072C[((struct Ent_801506A4 *)arg1)->unk70], 1);
-            ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_8018072C[((struct Ent_801506A4 *)arg1)->unk70]);
+            ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 2, D_8018072C[((struct Ent_801506A4 *)arg1)->unk70]);
         }
         break;
     case 0x33:

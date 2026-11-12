@@ -871,7 +871,7 @@ extern u8 D_80180704[];
 /* §37/§73/§124 asm-label alias: the fleet canon declares this `extern void` (engine_core.h, inside 8
  * DEFINE_func_* macros); the byte-true body must return s32.  Aliasing the C name sidesteps the
  * RETURN-axis conflict with no header edit.  This line MUST travel with the body. */
-s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("func_8014C4AC");
+s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("guess_PostActorEvent");
 
 #include "../shared/ov/func_8014C4AC.h"
 

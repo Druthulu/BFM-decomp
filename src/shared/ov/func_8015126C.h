@@ -34,7 +34,7 @@ void func_8015126C(u16 *p)
     extern void guess_SetVertSpeed(s32 *a0, s32 a1);
     extern void guess_PlaySoundUnlessSkipped(s32 arg0);
     extern void func_8014BD24(s32 a0, s32 a1);
-    extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
+    extern void guess_SpawnSmallObjectType1DAbove(void *a0, s32 a1, s32 a2);
     u8  *r = guess_g_PlayerRecord;     /* $s2 */
     s32 *q = &D_800AE6A8;   /* $s1 */
     register s32 sh16 __asm__("$2");                 /* $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_hdr1)
@@ -149,7 +149,7 @@ LAB_8015152c:
     }
     if (r[0x49] == 0x14) {
         ((void (*)(void *, s32))func_8014BD24)(p, 10);
-        func_8014ACE8(p, 4, 10);
+        guess_SpawnSmallObjectType1DAbove(p, 4, 10);
     }
     D_80127518 = D_80126AE4;
     v = D_80126AE4;

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80148534(s32 a0, s32 a1);
+extern void guess_GetPlayerFramePointsB(s32 a0, s32 a1);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern s32 func_801725B8(u8 *a0);
@@ -14,7 +14,7 @@ void func_8015F380(void* arg0) {
     *(s8*)((u8*)arg0 + 0x244) = 0;
     *(s8*)((u8*)arg0 + 0x245) = 0;
     ((void (*)(void*, s32))guess_SetWaitTimer_2)(arg0, 0);
-    ((void (*)(s64*, s64*))func_80148534)(&sp20, &sp28);
+    ((void (*)(s64*, s64*))guess_GetPlayerFramePointsB)(&sp20, &sp28);
     ((void (*)(s32, void*, s16, s16, s16, s32, s32))guess_SpawnSmallObject)(0x25, arg0, *(s16*)((u8*)arg0 + 0x6), (s16)(*(u16*)((u8*)arg0 + 0xA) - 0x14), *(s16*)((u8*)arg0 + 0xE), 0, 0);
     ((void (*)(s32, void*, s16, s16, s16, s32, s32))guess_SpawnSmallObject)(0x25, arg0, *(s16*)((u8*)arg0 + 0x6), (s16)(*(u16*)((u8*)arg0 + 0xA) - 0x14), *(s16*)((u8*)arg0 + 0xE), 1, 0);
     guess_PlaySoundUnlessSkipped(0x56D);

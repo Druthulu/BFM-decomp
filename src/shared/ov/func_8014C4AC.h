@@ -1,6 +1,9 @@
-/* func_8014C4AC — shared body (overlay slot 0x80128158, h_exact 41904b3e). ONE source: instantiated by #include at each
+/* guess_PostActorEvent — shared body (overlay slot 0x80128158, h_exact 41904b3e). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 aF8014C4AC() __asm__("func_8014C4AC");
+/* guess_PostActorEvent: posts event code a1 with value a2, position a3 and yaw a4 to the live actor a0 (+0x5E/+0x60/+0x7C/+0x62, pending bit +0x5C |= 1)
+ * Confidence medium, code inference: if a0 live (u16 +0 != 0) and (a1 in 9/0xA/0x11/0x29 or a0 != D_80126CD0): +0x5E = a1, +0x60 = a2, +0x62 = a4, +0x7C = *a3, +0x5C |= 1
+ * Names ledger: config/names.tsv guess_PostActorEvent */
+s32 aF8014C4AC() __asm__("guess_PostActorEvent");
 s32 aF8014C4AC(a0, a1, a2, a3, a4)
 s32 a0;
 s32 a1;

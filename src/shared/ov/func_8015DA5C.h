@@ -3,7 +3,7 @@
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern int func_8015E0D4(int);
 /* guess_SetTexAnimAndReleaseGrab: starts texture animation 0x11 and lets go of the actor linked at +0x178 (moved, sent code 0x11, link cleared)
- * Confidence low, xref chain: guess_SetTexAnim(a0, 0x11); func_8015E0D4: +0x178 actor nudged, func_8014C4AC(actor, 0x11, .., pos, yaw), +0x178 = 0
+ * Confidence low, xref chain: guess_SetTexAnim(a0, 0x11); func_8015E0D4: +0x178 actor nudged, guess_PostActorEvent(actor, 0x11, .., pos, yaw), +0x178 = 0
  * Names ledger: config/names.tsv guess_SetTexAnimAndReleaseGrab */
 void guess_SetTexAnimAndReleaseGrab(s32 a0) {
     guess_SetTexAnim(a0, 0x11);

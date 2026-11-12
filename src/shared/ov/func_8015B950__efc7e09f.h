@@ -49,9 +49,9 @@ s32 func_8015B950(s32 arg0)
         ((void (*)(s32))guess_EnterState11)(arg0);
         return;
     }
-    if (((s32 (*)(s32))func_80149744)(arg0) != 0) {
+    if (((s32 (*)(s32))guess_IsChargedSquarePressed)(arg0) != 0) {
         D_80181914[*(u16 *)arg0]((void *)arg0);
-        ((void (*)(s32))func_80149788)(arg0);
+        ((void (*)(s32))guess_StartChargedSquareAction)(arg0);
         return;
     }
     if (((s32 (*)(s32))guess_IsConfirmPressed)(arg0) != 0) {

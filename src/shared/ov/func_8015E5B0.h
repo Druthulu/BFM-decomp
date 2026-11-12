@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
-extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
+extern void guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
 void func_8015E5B0(u8 *self)
 {
     u8 *obj;
@@ -25,7 +25,7 @@ void func_8015E5B0(u8 *self)
     }
     guess_CopyVec3HighHalves((s32)(obj + 4), (s32 *)src);
     src[3] = 0;
-    func_8014C4AC((s32)obj, 0x1C, 0, src,
+    guess_PostActorEvent((s32)obj, 0x1C, 0, src,
                   *(s16 *)(*(u8 **)(self + 0x20) + 0x12));
     *(s32 *)(self + 0x18C) = 0;
 }

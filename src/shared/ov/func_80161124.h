@@ -6,7 +6,7 @@ extern void guess_ClearTiltVectors(s32 *a0);
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern s32 func_80149184(s32 a0);
+extern s32 guess_GetCameraRelativeYaw(s32 a0);
 extern void func_801553A8(s32 *a0);
 extern s32 func_801725A4(u8 *a0);
 extern s32 func_80161A60(s32 a0);
@@ -31,7 +31,7 @@ void func_80161124(void *a0)
     *(s32 *)(self + 0x5C) = 0;
     *(s32 *)(self + 0x240) = 0;
     guess_SetWaitTimer_2((s32 *)self, 4);
-    guess_g_CameraRelativeYaw = func_80149184((s32)self);
+    guess_g_CameraRelativeYaw = guess_GetCameraRelativeYaw((s32)self);
     func_801553A8((s32 *)self);
     func_801725A4((u8 *)self);
     if (func_80161A60((s32)self) != 0) {

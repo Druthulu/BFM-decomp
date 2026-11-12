@@ -3,7 +3,7 @@
 extern s32 func_80135004(s32 a0, void *a1, s32 a2);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern s32 func_8014C918(s32 a0, s32 a1);
-extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
+extern void guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
 extern u8 guess_g_ObjectTable[];
 extern u8 guess_g_BoxHitNormalX[];
 extern u8 guess_g_BoxHitCenterX[];
@@ -60,7 +60,7 @@ u32 func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7
           {
             sp18[3] = 0;
           }
-          func_8014C4AC((s32) e, a1, a2 & 0x7fff, sp18, *((s16 *) ((*((s32 *) (a0 + 0x20))) + 0x12)));
+          guess_PostActorEvent((s32) e, a1, a2 & 0x7fff, sp18, *((s16 *) ((*((s32 *) (a0 + 0x20))) + 0x12)));
           __builtin_memcpy((void *) a5, guess_g_BoxHitNormalX, 8);
           *((s32 *) a7) = (s32) e;
           __builtin_memcpy((void *) a8, guess_g_BoxHitCenterX, 8);

@@ -60,9 +60,9 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
     }
 
     if (param_3 < 2) {
-        func_801484B0((s32)v10, (s32)v18);
+        guess_GetPlayerFramePointsA((s32)v10, (s32)v18);
     } else {
-        func_80148534((s32)v10, (s32)v18);
+        guess_GetPlayerFramePointsB((s32)v10, (s32)v18);
     }
     func_80165FA4(uVar6, (s32)v10, (s32)v18);
     ((void (*)(s32, s32, s32))guess_ObjRotTransSV)(uVar6, (s32)v10, (s32)v10);

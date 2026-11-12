@@ -27,9 +27,9 @@ Lcase2:
     guess_ReturnPlayerToStandingState(*(s32 *)((u8 *)arg0 + 0x21C), 0x01000000);
     return;
 Ldefault:
-    if (((s32 (*)(void *))func_80149744)(arg0) != 0) {
+    if (((s32 (*)(void *))guess_IsChargedSquarePressed)(arg0) != 0) {
         D_80181160[*(u16 *)arg0](arg0);
-        ((void (*)(void *))func_80149788)(arg0);
+        ((void (*)(void *))guess_StartChargedSquareAction)(arg0);
         return;
     }
     if (func_80161B84(arg0) != 0) {

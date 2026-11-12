@@ -2580,7 +2580,7 @@ void func_8014C1A0(s32 arg0, s32 arg1) {
 /* §37/§73/§124 asm-label alias: the fleet canon declares this `extern void` (engine_core.h, inside 8
  * DEFINE_func_* macros); the byte-true body must return s32.  Aliasing the C name sidesteps the
  * RETURN-axis conflict with no header edit.  This line MUST travel with the body. */
-s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("func_8014C4AC");
+s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("guess_PostActorEvent");
 
 #include "../shared/ov/func_8014C4AC.h"
 
@@ -3140,8 +3140,8 @@ extern s32 func_8014D2A0(s32 arg0, void *a1, void *a2);
 extern s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 //
 // The return type is LOAD-BEARING here (see DECAY note below), so `void` is not an option.
-// Fix = the §37/§124 ASM-LABEL ALIAS, the same lever that banked func_8014C4AC today
-// (.run/sweep/*/func_8014C4AC.c): define the body under the C name aF8014E5B4 carrying
+// Fix = the §37/§124 ASM-LABEL ALIAS, the same lever that banked guess_PostActorEvent today
+// (.run/sweep/*/guess_PostActorEvent.c): define the body under the C name aF8014E5B4 carrying
 // __asm__("func_8014E5B4"). The emitted symbol is unchanged, the C identifier never collides
 // with the macro's extern, and NO tracked header edit is needed — the engine_core.h:13392
 // §85 return-axis widen described in the old banking note is now UNNECESSARY.
@@ -3382,7 +3382,7 @@ extern s32 func_801506A4(s32 arg0, s32 arg1);
 
 
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
-extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
+extern void guess_SpawnSmallObjectType1DAbove(void *a0, s32 a1, s32 a2);
 extern void func_8014ADA8(s32 a0, s32 a1);
 extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
 
@@ -3405,13 +3405,13 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
     case 0x31:
         ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
         ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_8017FFE0[((struct Ent_801506A4 *)arg1)->unk70]);
-        ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_8017FFE0[((struct Ent_801506A4 *)arg1)->unk70]);
+        ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 3, D_8017FFE0[((struct Ent_801506A4 *)arg1)->unk70]);
         break;
     case 0x32:
         if ((*(unsigned short*)&aD80078EB4) != 0) {
             ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
             ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_8017FFE8[((struct Ent_801506A4 *)arg1)->unk70], 1);
-            ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_8017FFE8[((struct Ent_801506A4 *)arg1)->unk70]);
+            ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 2, D_8017FFE8[((struct Ent_801506A4 *)arg1)->unk70]);
         }
         break;
     case 0x33:

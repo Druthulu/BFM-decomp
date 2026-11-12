@@ -24,7 +24,7 @@ s32 func_8015CD20(s32 arg0) {
     }
     temp_v0 = ((struct Ent_8015CD20 *)arg0)->unk234;
     if (temp_v0 == 0) {
-        if (((s32(*)(struct Ent_8015CD20 *))func_80148980)(((struct Ent_8015CD20 *)arg0)) != 0) {
+        if (((s32(*)(struct Ent_8015CD20 *))guess_IsDownHeld)(((struct Ent_8015CD20 *)arg0)) != 0) {
             ((void(*)(struct Ent_8015CD20 *, u8 *))guess_SetMoveVector)(((struct Ent_8015CD20 *)arg0), &D_80181AB8);
             ((void(*)(struct Ent_8015CD20 *))guess_SetVelocityFromMoveVector)(((struct Ent_8015CD20 *)arg0));
             ((void(*)(struct Ent_8015CD20 *))guess_ApplyVelocity)(((struct Ent_8015CD20 *)arg0));

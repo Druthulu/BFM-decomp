@@ -175,8 +175,8 @@ void func_800CB1F8(void *a0) {
 
     extern void func_8014C1A0(s32 arg0, s32 arg1);
     extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
-    extern u16 func_80156370(u16 a0);
-    extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
+    extern u16 guess_RollActorEventValue(u16 a0);
+    extern void guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
 
     s32 iVar1;
     u16 uVar2;
@@ -187,8 +187,8 @@ void func_800CB1F8(void *a0) {
         func_8014C1A0((s32)a0, iVar1);
         guess_CopyVec3HighHalves(iVar1 + 4, (s32 *)buf);
         buf[3] = 0;
-        uVar2 = func_80156370(0x29);
-        func_8014C4AC(iVar1, 0x29, uVar2, buf, *(s16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x12));
+        uVar2 = guess_RollActorEventValue(0x29);
+        guess_PostActorEvent(iVar1, 0x29, uVar2, buf, *(s16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x12));
         ((Unkstruct_80126B58 *)a0)->unk178 = 0;
     }
 }

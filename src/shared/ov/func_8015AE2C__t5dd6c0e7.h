@@ -114,9 +114,9 @@ s32 arg0;
     } else {
         if (*(s32 *)(arg0 + 0x34) < 0) {
             if (((s32 (*)(s32))guess_GetPadHeld)(arg0) & 0x40) {
-                func_80147814(arg0, 0xFFFF0000);
+                guess_AddVertSpeedClamped(arg0, 0xFFFF0000);
             }
-            func_80147814(arg0, 0x10000);
+            guess_AddVertSpeedClamped(arg0, 0x10000);
         }
     }
     if (func_800CF8B4() != 0) {
@@ -124,7 +124,7 @@ s32 arg0;
     }
     if (flag == 0) {
         if ((u8)((s32 (*)(s32))func_80148AFC)(arg0)) {
-            (*(u16 *)guess_g_CameraRelativeYaw) = func_80149184(arg0);
+            (*(u16 *)guess_g_CameraRelativeYaw) = guess_GetCameraRelativeYaw(arg0);
             ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 4);
             if (*(s32 *)(arg0 + 0x2C) > -0x80000) {
                 *(s32 *)(arg0 + 0x2C) = -0x80000;
@@ -146,7 +146,7 @@ s32 arg0;
     } else {
         ((void (*)(s32))func_80172644)(arg0);
         if ((u8)((s32 (*)(s32))func_80148AFC)(arg0)) {
-            (*(u16 *)guess_g_CameraRelativeYaw) = func_80149184(arg0);
+            (*(u16 *)guess_g_CameraRelativeYaw) = guess_GetCameraRelativeYaw(arg0);
             guess_ClearMoveVector(arg0);
             guess_AddMoveVectorThenSetVelocity(arg0, 0, 0, 0xFFFF4000);
             *(s32 *)(arg0 + 0x50) += *(s32 *)(arg0 + 0x10);

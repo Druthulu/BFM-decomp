@@ -104,7 +104,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     break;
                 case 14:
                     if (*arg3 == 0) {
-                        func_80154B4C((u8 *)arg0, arg0->unkB4[arg0->unkBC + 1]);
+                        guess_SetTexAnimScript((u8 *)arg0, arg0->unkB4[arg0->unkBC + 1]);
                     }
                     arg0->unkB8 = 1;
                     arg0->unkBC = arg0->unkBC + 2;

@@ -12,7 +12,7 @@ void func_80163C2C(s32 param_1) {
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void func_80147364(u16 param_1, u16 param_2);
     extern void guess_NextStep(void *a0);
-    extern u16 func_80156370(u16 param_1);
+    extern u16 guess_RollActorEventValue(u16 param_1);
     extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u16 param_5);
     extern s32 func_801632F0(void);
     extern s32 func_801632E0(void);
@@ -52,7 +52,7 @@ void func_80163C2C(s32 param_1) {
         ((void (*)(s32))guess_NextStep)(param_1);
         return;
     }
-    func_801634D8(param_1, 0xd, (u16)((s32 (*)(s32))func_80156370)(0xd), 1, 0);
+    func_801634D8(param_1, 0xd, (u16)((s32 (*)(s32))guess_RollActorEventValue)(0xd), 1, 0);
     flags = ((s32 (*)(s32))func_801632F0)(param_1);
     if ((flags & 1) != 0) {
         obj = ((s32 (*)(s32))func_801632E0)(param_1);

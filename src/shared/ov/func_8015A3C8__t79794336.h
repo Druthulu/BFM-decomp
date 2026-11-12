@@ -47,7 +47,7 @@ s32 arg0;
             return;
         }
     }
-    if (((s32 (*)(s32))func_80161BE0)(arg0) != 0) {
+    if (((s32 (*)(s32))guess_TryStartCircleAction)(arg0) != 0) {
         return;
     }
     switch (((s32 (*)(s32))func_801619A4)(arg0)) {

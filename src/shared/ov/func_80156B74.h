@@ -3,9 +3,9 @@
 void func_80156B74(s32 param_1, u32 param_2, u8 *param_3) {
     extern S8 D_80126AF0[];
     extern S8 D_801270A8;
-    extern void func_801484B0(s32 a0, s32 a1);
+    extern void guess_GetPlayerFramePointsA(s32 a0, s32 a1);
     extern void func_801484E8(s32 a0, s32 a1);
-    extern void func_80148534(s32 a0, s32 a1);
+    extern void guess_GetPlayerFramePointsB(s32 a0, s32 a1);
     extern void func_8014856C(s32 a0, s32 a1);
     extern void func_800139C8(s32 a0, void *a1, void *a2);
     extern void func_80156ECC(s32 a0, void *a1, void *a2, void *a3, void *a4);
@@ -17,7 +17,7 @@ void func_80156B74(s32 param_1, u32 param_2, u8 *param_3) {
     D_801270A8.c = 0;
     if (param_2 == 0) {
         if (*(s32 *)(v1 + 0x20) != 0) {
-            ((void (*)(void *, void *))func_801484B0)(local_28, &auStack_20);
+            ((void (*)(void *, void *))guess_GetPlayerFramePointsA)(local_28, &auStack_20);
             D_80126AF0[0].a = local_28[0];
             D_80126AF0[0].b = local_28[1];
             D_80126AF0[0].c = local_28[2];
@@ -31,7 +31,7 @@ void func_80156B74(s32 param_1, u32 param_2, u8 *param_3) {
     }
     if (param_2 != 1) goto L_not1;
     if (*(s32 *)(v1 + 0x20) != 0) {
-        ((void (*)(void *, void *))func_80148534)(local_28, &auStack_20);
+        ((void (*)(void *, void *))guess_GetPlayerFramePointsB)(local_28, &auStack_20);
         D_80126AF0[0].a = local_28[0];
         D_80126AF0[0].b = local_28[1];
         D_80126AF0[0].c = local_28[2];

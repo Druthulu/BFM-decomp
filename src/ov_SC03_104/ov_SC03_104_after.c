@@ -1162,7 +1162,7 @@ void func_8014C1A0(s32 arg0, s32 arg1) {
 /* §37/§73/§124 asm-label alias: the fleet canon declares this `extern void` (engine_core.h, inside 8
  * DEFINE_func_* macros); the byte-true body must return s32.  Aliasing the C name sidesteps the
  * RETURN-axis conflict with no header edit.  This line MUST travel with the body. */
-s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("func_8014C4AC");
+s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("guess_PostActorEvent");
 
 #include "../shared/ov/func_8014C4AC.h"
 
@@ -1918,13 +1918,13 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
     case 0x31:
         ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
         ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_8018C920[((struct Ent_801506A4 *)arg1)->unk70]);
-        ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_8018C920[((struct Ent_801506A4 *)arg1)->unk70]);
+        ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 3, D_8018C920[((struct Ent_801506A4 *)arg1)->unk70]);
         break;
     case 0x32:
         if ((*(unsigned short*)&g_PlayerHp) != 0) {
             ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
             ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_8018C928[((struct Ent_801506A4 *)arg1)->unk70], 1);
-            ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_8018C928[((struct Ent_801506A4 *)arg1)->unk70]);
+            ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 2, D_8018C928[((struct Ent_801506A4 *)arg1)->unk70]);
         }
         break;
     case 0x33:

@@ -32,10 +32,10 @@ void func_8015F448(s32 arg0) {
 
     if (*(u16 *)(arg0 + 0xB8) & 0x3000) {
         if (*(u16 *)(arg0 + 0xB8) & 0x2000) {
-            ((void (*)(void *, void *))func_801484B0)(sp20, sp28);
+            ((void (*)(void *, void *))guess_GetPlayerFramePointsA)(sp20, sp28);
             guess_PlaySoundUnlessSkipped(0x56D);
         } else {
-            ((void (*)(void *, void *))func_80148534)(sp20, sp28);
+            ((void (*)(void *, void *))guess_GetPlayerFramePointsB)(sp20, sp28);
             guess_PlaySoundUnlessSkipped(0x56E);
         }
         ((void (*)(s32 *))guess_StartPadVibration)(&(*(s32 *)&guess_g_RumblePatternShort));
@@ -51,7 +51,7 @@ void func_8015F448(s32 arg0) {
         if (*(u8 *)(arg0 + 0x245) != 0) {
             *(u8 *)(arg0 + 0x245) = 0;
             *(u16 *)(arg0 + 0xB8) = *(u16 *)(arg0 + 0xBA);
-            if (((s32 (*)(s32))func_80148980)(arg0) != 0) {
+            if (((s32 (*)(s32))guess_IsDownHeld)(arg0) != 0) {
                 ((void (*)(s32, s32 *))guess_SetMoveVector)(arg0, &D_80181C20);
             } else {
                 ((void (*)(s32, s32 *))guess_SetMoveVector)(arg0, &D_80181C30);
