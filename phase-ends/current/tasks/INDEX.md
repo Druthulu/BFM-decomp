@@ -12,3 +12,4 @@ T9 | done | name the worklist's functions, rank43 1 to 177 | - | tasks/T9.md | l
 T10 | done | name the worklist's functions, rank43 178 to 321 | - | tasks/T10.md | logs/T10.md | -
 T11 | done | name the worklist's functions, rank43 322 to 500 | - | tasks/T11.md | logs/T11.md | -
 T12 | done | ledger-to-comment pass: each lever's wall and each guess's ledger pointer beside the code | - | tasks/T12.md | logs/T12.md | R3.43-001
+T13 | done | the record: cookbook, decision log, wiki, standards, levers prose, tool index, kit corpus | - | tasks/T13.md | logs/T13.md | -

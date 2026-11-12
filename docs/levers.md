@@ -627,7 +627,8 @@ The 250 T7 "missing-parameter" rows were registers written before they are read,
 `scratch-pin($4-$7)`, each tagged by the first RTL pass where the pinned and pin-free compiles diverge (C0542; 26/26 hand
 reads agree). func_80020F34 and the ENGINE_SHB prelude are `hand-asm`. Three new walls joined the vocabulary:
 `dead-set-delete` (C0541), `expand-hardreg-var` and `greg-dead-slot`. The probe found three cracks, which were applied (R22 218/218).
-3.43 T4 re-probed the 9 `expand-hardreg-var` rows by diff content, not by the per-pass differ vector. Four keep the tag (the expand temp+copy survives combine). In three, the expand diff dies at cse and cse forwarding the arg copies is what persists (`cse-copy-merge`). In two, it dies at combine and returns at sched1 (`sched1-hoist-sink`). No pin came off (C0568).
+
+**I3's outcome: the 9 `expand-hardreg-var` rows looked at again (Phase 3.43 T4).** 3.43 T4 re-probed the 9 `expand-hardreg-var` rows by diff content, not by the per-pass differ vector. Four keep the tag (the expand temp+copy survives combine). In three, the expand diff dies at cse and cse forwarding the arg copies is what persists (`cse-copy-merge`). In two, it dies at combine and returns at sched1 (`sched1-hoist-sink`). No pin came off: every pin-free compile still differs (scores 2 to 40), so no source changed. The tag now holds 4 rows (`cse-copy-merge` 68, `sched1-hoist-sink` 30), and the wall gate stays at unwalled 0. Two lessons: tag a wall by the difference that survives to the code, read by content (C0568), and 3.40's probe canonicaliser had shown a phantom one-instruction diff after combine, which had made two rows look rtl-decisive.
 
 **Phase 3.40 close (T13, `aace727c4c`).** The 3.39 lever ledger against this phase's, every number from `lever_census`
 and `config/lever_residue.tsv`. Class A+B sites went from 3,364 to 1,853: pins 1,868 to 974 and asm 1,496 to 879, with

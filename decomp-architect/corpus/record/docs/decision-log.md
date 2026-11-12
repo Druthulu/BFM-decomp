@@ -4002,3 +4002,58 @@ is instances (functions) or referencing binaries (data). The damping is log10, n
 2-instruction stub at 726 addresses with a fan of 11,852. Every relocation is attributed to a unit or to a named
 exclusion (3,355,973 raw, 0 unattributed), and three controls agree. `tools/leverage_rank.py` writes `docs/leverage.md`
 and `docs/leverage.tsv`. 3.43's list is the top 500 by `rank43`, which covers 35.5% of unique references.
+
+## P3.43 T1-T2 (2026-11-10) — the naming list is frozen in a tracked file
+
+**Context and belief.** 3.43's list is the top 500 by `rank43`, but `leverage_rank.py` renumbers `rank43` over the units
+still unnamed on every run, so the list would change as soon as the first names landed.
+**What we decided.** T1 froze the list in `config/names_worklist.tsv` (500 rows: 343 functions, 157 data, from
+`docs/leverage.tsv` at e328006dab), a history file that neither rename tool rewrites. Each row ends as `cited`, `guess`
+or `no-evidence` (with a reason). `rename_scan.py --worklist` checks every disposed row against the symbol stacks and
+the names ledger; `--complete` also fails on an undisposed row. At T11 it read 500 rows: cited 2, guess 393,
+no-evidence 105, undisposed 0.
+
+## P3.43 T7 (2026-11-10) — cited versus guess: only a recorded source cites a name
+
+**Context and belief.** Rule 1 says a model may propose a name, never assert one. The pilot batch showed that a name
+read from an unambiguous body (a dot product) still comes from our reading, not from a record.
+**What we decided (developer, T7 review, R122).** A name is cited only when its meaning comes from a recorded source:
+a library symbol, a string the game prints, a debug-menu entry, live RAM at the G5 bar, or a community label verified to
+that bar. Every name a model words from the code is `guess_`, whatever its confidence. `guess_` is the outermost prefix
+(`guess_g_X`), so stripping it gives the confirmed name and the tools read the tier from it. A basis quotes code facts
+with their lines. Confidence and evidence kind live in the ledger. Units too trivial to name honestly stay placeholders
+(`func_80014554`, an empty body at 726 unrelated addresses, R123). The conventions are written once in
+`docs/wiki/Names-and-renames.md` and noted in `docs/gen3-standards.md` rule 1. Result over the list: 2 cited, 393 guess.
+
+## P3.43 T5 (2026-11-10) — Sony's names are cited to their library objects
+
+**Context and belief.** 1,005 of main's 1,080 inherited names sit inside linked PsyQ objects (571 are object+offset
+labels). None of rule 1's six evidence kinds covered them, so the citation gate could only pass by calling Sony's own
+names guesses.
+**What we decided (developer, plan approval, R109).** A seventh evidence kind, `library symbol`. A library name is cited
+as `<LIB>.LIB <OBJ>.OBJ <section>+0x<off> (map: build/psyq/<dir>/<OBJ>.o; nm)`, with a conflict note when the object
+names that offset differently. The 19 SDK functions the project rebuilt from C (GsTMDfast*, SpuWrite, memcpy and others)
+take the same kind, cited to a byte comparison with Sony's object in `docs/memory-map.md` (relocations masked, a
+wrong-address control unequal); this extends R109 from linked objects to byte-matched ones. The game's own inherited
+names are cited to their recorded traces and live observations; two that rested only on cheat-code lore became `guess_`.
+The `func_`/`D_` aliases through which our C reached ten linked PsyQ symbols were renamed to Sony's names (R125).
+`rename_scan --ledger --gate-citations` runs in tools-health from T5 on.
+
+## P3.43 T7 (2026-11-10) — every named function carries a three-line header comment
+
+**Context and belief.** The ledger holds the evidence, but a reader of the source sees only the name.
+**What we decided.** Directly above each definition of a named function (the shared header for a class, each private
+copy for a ledgered family, the `.c` for a single instance): line 1 the name and what it does; line 2 the confidence, the
+evidence kind and a short basis; line 3 `Names ledger: config/names.tsv <name>` (a cited name ends with
+`Citation: <citation>`). T12 gave every `guess_` datum declaration the same pointer as a trailing comment (160,465
+lines), so one grep finds both. A rename rewrites the comment with the name.
+
+## P3.43 T12 (2026-11-12) — each lever's wall is written beside the code
+
+**Context and belief.** Every kept compiler lever is excused by a residue row naming its wall (`config/lever_residue.tsv`),
+but a reader at the `// !FAKE:` marker could not see which wall keeps it.
+**What we decided.** Each residue-excused marker line ends with ` wall:<tag>` (1,846 lines, 1,850 sites), and
+`lever_census --strict --residue` compares the tags on each marker line with its excusing rows' tags as an exact set:
+no marker, no wall, a wrong wall or a stale tag fails. A re-tag or a removed row edits the marker in the same change. A
+`#define`'s marker sits on the line above it, because a comment on the define line joins the macro body's hash. The 9
+`expand-hardreg-var` rows re-probed in T4 carry their new tags (4 kept, 3 `cse-copy-merge`, 2 `sched1-hoist-sink`).

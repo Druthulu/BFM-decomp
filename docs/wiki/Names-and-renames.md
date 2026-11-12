@@ -1,7 +1,7 @@
 # Names and renames
 
-*Written at Phase 3.42 (2026-11-10), when the naming machinery was built and no name had landed yet. The names come in
-3.43.*
+*Written at Phase 3.42 (2026-11-10), when the naming machinery was built and no name had landed yet; extended at 3.43
+(2026-11-12) with the conventions, the names that landed and the worklist check.*
 
 A rename does not change a byte, so the byte gate cannot tell a finished rename from a half-finished one. The machinery
 below exists to close that gap: a ledger that records why each name is believed, a scanner that proves every mention was
@@ -70,7 +70,8 @@ for a class (the header is its one source), in each private copy for a family ke
 
 The first line is the name and what the function does. The second gives the confidence, the evidence kind and a
 shortened basis. The third points at the ledger row, which holds the full basis with its line references. A cited
-name's comment ends with `Citation: <the ledger citation>` instead. Data get no comment: their ledger row is the record.
+name's comment ends with `Citation: <the ledger citation>` instead. Data get no header comment, but every declaration of a
+`guess_` datum ends with the same pointer, `// Names ledger: config/names.tsv <name>`, so one grep finds both.
 
 **A class at several addresses.** A naming unit is one body, identified by its hash, and it can sit at several
 addresses. Each address is a different function in the original program, and only the body is shared. One name covers
@@ -81,14 +82,50 @@ function `func_80014554`, at 726 unrelated addresses, stays unnamed until each g
 use it for.
 
 A placeholder is derived from an address, so the same `func_`/`D_` token can name unrelated functions in two binaries
-that load at the same address. The rename tool rewrites a token in every file, whichever binary the file belongs to. A
-copy whose placeholder also names a different function elsewhere therefore waits until the rename can be limited to the
-binaries the copy is in. Module files (`md_*`) that call an overlay function through its placeholder get the new name in
+that load at the same address. The rename tool therefore rewrites a token only in the files of the binaries the spec
+row covers, and the scanner and the stale-reference lint judge each file against its own binaries' symbol files (since
+3.43 T9; before that, such a copy had to wait). Module files (`md_*`) that call an overlay function through its placeholder get the new name in
 their own symbol file, because at run time the call reaches the same function.
 
 **No evidence.** A unit we cannot name honestly keeps its `func_`/`D_` placeholder. Its row in
 `config/names_worklist.tsv` says `no-evidence` and gives the reason. Every row of that worklist ends as `cited`,
 `guess` or `no-evidence`.
+
+## What landed in 3.43
+
+The 3.43 naming list is the top 500 unnamed units of the leverage ranking (343 functions and 157 data), frozen at the
+start of the phase in [`config/names_worklist.tsv`](../../config/names_worklist.tsv). Freezing matters because the
+ranking renumbers itself every time a name lands. Every row ended with a disposition:
+
+| disposition | functions | data | total |
+|---|---|---|---|
+| cited | 0 | 2 | 2 |
+| guess | 285 | 108 | 393 |
+| no-evidence | 58 | 47 | 105 |
+
+The two cited names are `g_PlayerHp` and `g_PlayerHpMax`, both from live-RAM measurements recorded in
+[`docs/memory-map.md`](../memory-map.md). The 393 guesses by evidence kind: xref chain 187, string 134 (most of them one
+small "ENE" display routine copied into 62 overlays), code inference 70, community label 2 (reported, not verified). By
+confidence: medium 304, low 51, high 38. A no-evidence unit keeps its placeholder, and its row says why, for example
+`func_80014554`, an empty body at 726 unrelated addresses.
+
+Besides the list, every name the project had inherited got a cited row (1,083 names, T5), and the `func_`/`D_` aliases
+through which our C reached ten linked PsyQ symbols were renamed to Sony's names (`SetRotMatrix`, `rsin`, `GsWSMATRIX` and others).
+Two inherited names that rested only on cheat-code lore were demoted to `guess_`. The ledger now holds 2,171 rows
+(a name at several binaries or class members can have several rows): cited 1,093 (library symbol 1,033, xref chain 42,
+community label 9, live RAM 5, string 4) and guess 1,078 (xref chain 732, code inference 203, string 139, community
+label 4). A library symbol is cited to the exact SDK object and offset the build links, for example
+`LIBGTE.LIB GEO_00.OBJ .text+0x2C (map: build/psyq/libgte/GEO_00.o; nm)`.
+
+Struct types and fields were not named in 3.43; the rename tools do not handle them yet.
+
+## The worklist check
+
+`tools/rename_scan.py --worklist config/names_worklist.tsv` checks every disposed row: a `cited` or `guess` row's new
+name must be the unit's name in every binary that holds it, with a names-ledger row of that tier; a `no-evidence` row
+must keep its placeholder and give a reason. It prints the count per disposition and the undisposed count. With
+`--complete` an undisposed row fails too. At the end of 3.43 it reads 500 rows, cited 2, guess 393, no-evidence 105,
+undisposed 0, OK.
 
 ## The scanner: assert your coverage (R32)
 

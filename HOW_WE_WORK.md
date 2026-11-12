@@ -49,7 +49,7 @@ PY = /usr/bin/python3
 | genend_index | `PY tools/genend_index.py` | assemble a GenerationEnd |
 | commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes; auto-staging: `docs/ops/commit-task-autostage.md` |
 | type_census gates | `PY tools/type_census.py --check --check-structs --check-casts --residue` | `--check`: done-criteria (dup/outside/dead 0, controls 4/4, unledgered lying 0; raw casts printed, not gated); in tools-health; `--check-casts --residue`: raw P/I/X/M pass only if ledgered RESIDUAL(<cause>) per site; writes residue_census |
-| rename_sym | `PY tools/rename_sym.py --spec TSV --task T<n> [--dry-run]` | apply a rename: symbol files, live mentions, names.tsv row (validated first; re-rename rewrites it, history stamped); prints gates and regenerators |
+| rename_sym | `PY tools/rename_sym.py --spec TSV --task T<n> [--dry-run]` | apply a rename per binary: symbol files, live mentions, names.tsv row (validated first; re-rename rewrites it, history stamped); prints gates and regenerators |
 | rename_scan | `PY tools/rename_scan.py --range HEAD.. \| --spec TSV \| --ledger \| --worklist FILE [--complete]` | R32 coverage: a rename lands at 0 stale, 0 unclassified; `--ledger` checks names.tsv (tools-health); `--worklist` checks dispositions |
 | leverage_rank | `PY tools/leverage_rank.py -j 16 [--check]` | naming ranking to docs/leverage.md/.tsv; rerun after names land |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
