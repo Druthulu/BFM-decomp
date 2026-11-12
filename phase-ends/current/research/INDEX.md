@@ -1,2 +1,6 @@
 # Research reports -- this phase
 # id | task | title | tags | agent | date | lines
+R3.44-001 | phase 3.44 planner, "Signatures from evidence": which ABI facts let an asm reader count args, widths, signs, and return use. | Calling-convention facts that decide asm signature measurement (gcc 2.7.2 MIPS, project flags) | gcc-2.7.2, mips, calling-convention, signatures, phase-3.44 | retriever-code | 2026-11-12 | 39 lines
+R3.44-002 | 3.44 planner, Interfaces section (signatures from evidence) | Decl/def checking today and plug points for an asm-contract gate (3.44) | argcheck, type_census, lying_exceptions, dedup_exceptions, CAST macros, decl-rewrite tools, tools-health | retriever-code | 2026-11-12 | 64 lines
+R3.44-003 | phase 3.44 Interfaces section: what inputs exist to read all 218 binaries and find callers per function | Inputs for tools/sig_evidence.py (fleet-wide per-function callers) | binaries, makefile, splat, sig, share-census, callers | retriever-code | 2026-11-12 | 80 lines
+R3.44-004 | Digest of return-lie, return-less, and signature-fix records for planning phase 3.44 (Signatures from evidence) | Return-type lies, return-less non-void functions, signature fixes: facts for phase 3.44 | return-type,lying,lying_exceptions,argcheck,void-to-s32,return-less,I4,type_census,byte-neutral,cookbook | retriever-digest | 2026-11-12 | 53 lines

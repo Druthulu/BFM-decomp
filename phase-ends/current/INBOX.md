@@ -11,3 +11,4 @@
      or an earlier phase, or an id not in GENERATION_PLAN.md, routes now. -->
 
 - <note, correction, priority change, or question>
+- -> Gen 4 Name the text-slot helpers func_8001534C, func_800153CC, func_80015498 and the sweep test func_80133784 (3.43 T10/T11): naming them unlocks several no-evidence wrappers.
