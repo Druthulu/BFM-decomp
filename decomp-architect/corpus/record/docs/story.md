@@ -170,12 +170,12 @@ revision, old hashes in historical documents replaced by inert tokens and mapped
 would have corrupted history), proven pair by pair, and force-pushed. This document, the retrospective, the wiki and the
 tooling releases are the last block; the visibility flip waits for GitHub to purge the old objects.
 
-## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 40, 41, 42, 2026-09-08 →)
+## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 40, 41, 42, 43, 2026-09-08 →)
 
 *From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md`, `PhaseEnd_Phase37.md` and its log (`phase-ends/logs/Phase37.md`), decision log "P35",
 "P36 S99/S101/S104/S105", "P37 S106", `docs/levers.md`, `docs/readability.md`; for the migration and Phase 38, the Phase 38 plan's change
 lines, its task summaries (T1, T5, T5.1, T6, T7) and logs, and git; for Phase 39, the Phase 39 plan's change lines and its task summaries
-(T1–T11, with T7.1); for Phase 40, the Phase 40 plan's change lines and its task summaries (T1–T13, T15, T17–T21); for Phase 41, the Phase 41 plan and its task summaries (T1–T10, T13); for Phase 42, the Phase 42 plan's change lines and its task summaries (T1–T10). This chapter was advanced at the end of every session (the owner's rule,
+(T1–T11, with T7.1); for Phase 40, the Phase 40 plan's change lines and its task summaries (T1–T13, T15, T17–T21); for Phase 41, the Phase 41 plan and its task summaries (T1–T10, T13); for Phase 42, the Phase 42 plan's change lines and its task summaries (T1–T10); for Phase 43, the Phase 43 plan's change lines and its task summaries (T1–T15). This chapter was advanced at the end of every session (the owner's rule,
 2026-09-12) until the migration of 2026-09-29 dropped that duty; since 2026-09-30 it is advanced by every phase's closing work (rule R121).
 The numbers are the two Gen3 series'.*
 
@@ -560,6 +560,45 @@ the Ghidra server for the proofs; a parallel build interleaved the gate's diagno
 dry-run probe of the extract step turned out not to be dry and broke the health suite until it was re-run. What the phase leaves is
 a tree with one source for every function the bytes allow, and a rename that cannot silently miss a reference.
 
+**Phase 43 (2026-11-10 → 11-12), the first names, and what each one rests on.** Until now nearly every function and datum
+in the tree was a placeholder: `func_80148824` or `D_80078EB4`, the address and nothing else. This phase put names on the 500
+placeholders that matter most, the top of the leverage ranking (343 functions and 157 data, about a third of all unique
+references in the code), frozen in `config/names_worklist.tsv` on the first day so the list could not shift as names landed. It
+took about 47 hours and 127 commits. The rule it worked under is the project's first naming rule: every name carries evidence,
+and a model may propose a name but never assert one. So a name comes in one of two kinds. A *cited* name rests on a recorded
+source: a symbol in Sony's linked library objects, a string in the game, a chain of cross-references to something already
+known, the retail debug menu, a value watched in the running game's memory, or a community label with its provenance. A
+`guess_` name — `guess_` is the first thing in it, so no reader can mistake it — is a proposal read off the code: what the
+function does to its arguments, which tables it touches, what calls it. Its row in the names ledger (`config/names.tsv`)
+records the basis with the code lines it rests on, a confidence, and the evidence kind; the prefix comes off only when real
+evidence is recorded. Why most of the 500 are guesses: nobody has published a symbol map for this game, the cheat lists and
+forum labels cover a few dozen addresses, and of the 500, 448 had nothing to go on but the code itself. The result is 2 cited,
+393 guesses and 105 left unnamed on purpose, each with a written reason — "better to leave it unnamed than name it wrongly."
+The commonest function in the game, a two-instruction empty body at 726 addresses, is one of them.
+
+The 1,080-odd names the project already had were checked the same way first. Each got a citation row — 1,083 rows, 1,023 of
+them Sony library symbols, the rest cross-reference chains, community labels, strings and live-RAM readings — and a gate now
+fails if any name in the tree has neither a citation nor the `guess_` prefix. Two names that rested only on cheat-code lore
+and an outside client's source were demoted to guesses. What a citation row proves is narrow and useful: that someone can
+follow the name back to where it came from; it does not prove the name is right, and the ledger says which rows were seen
+in the running game. Comments followed the names: every lever site's `// !FAKE:` line now names its wall (1,850 sites), and
+160,465 declaration lines of guessed data carry a pointer to their ledger row, so the doubt travels with the code. The new
+names were mirrored into the live Ghidra database (303 functions and 149 labels over four programs, 0 failed). Two smaller
+fixes rode along: 38 functions whose return type had been flipped to `s32` in Phase 41 without a `return` got either a real
+one (21) or a comment saying what the register holds and why (19), the other 356 of the kind parked for Gen 4; and five of the
+nine lever walls tagged "expand-hardreg-var" were re-tagged on a second look.
+
+The tools needed fixing before they could carry the work. The rename tool silently did nothing for most shared classes,
+whose registry entries used a form it did not read, and it rewrote a placeholder everywhere in the repository although the
+same placeholder names different functions in different binaries; both were fixed before the function batches. The rename
+scanner then hung for eleven hours on one batch: a single `git grep` with 96 patterns over 669 MB. Run once per chunk of
+names, with a time bound that fails loudly, the same scan takes seconds. The milestone ran green on f88462bafc: all 218
+binaries identical, tools-health clean, the names ledger at 2,171 rows with 0 invalid, 0 guesses without a basis and 0 names
+uncited, the worklist fully disposed, six Ghidra proofs passing. Marks on the record: the hung scan was stopped and Windows
+restarted mid-task; three coder runs were lost to session restarts; the pilot batch stopped for the owner's review, which
+approved all seven of its conventions as recommended. What the phase leaves is a tree where every name says where it came
+from, and where a guess is labelled a guess.
+
 ## 11. By the numbers
 
 | | |
@@ -571,7 +610,7 @@ a tree with one source for every function the bytes allow, and a rename that can
 | Instructions | 13,492,113 / 13,492,113 (100.0%); distinct code 5,820,205 / 5,820,205; main game code 45,150 / 45,150 |
 | Knowledge base | the matching cookbook (§1–§501 and sub-sections, 3.5 MB), the gcc-2.7.2 codegen map, 79 decision-log entries, 73 numbered rules (+ the constitution's 25) |
 | Tooling | ≈235 Python tools, 25 shell tools, 12 Ghidra scripts — the extractor, the byte gate, the dedup engine, the family engine, the atlas, the lanes, the rewrite package |
-| **After 100 % (Gen3, snapshot at the P3.42 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35); the 3,801 cross-address groups deferred then → 3,214 shared through a name parameter, 12 twin-covered, 575 ledgered with a measured reason, and the 20 trampoline families' 133 private copies each → 0 (P3.42) · names: a names ledger, a rename tool and a scanner that asserts every reference rewritten (rule R32), and a leverage ranking whose top 500 cover 35.5 % of unique references; no name landed yet (P3.42) · levers (register pins plus asm statements): 53,234 at the P36 start → 3,730 at the P38 close → 3,364 at the P39 close → 1,853 (974 register pins + 879 asm statements) → 1,850 at the P3.42 close (971 + 879; the 3 fewer are copies collapsed into one header, where a site counts once), every survivor a row of `config/lever_residue.tsv` (1,180 rows over 1,854 sites; `docs/levers.md`) and every row walled — named with the gcc pass that makes the lever necessary, one of 34 tags in `config/lever_walls.tsv` · raw cast dereferences per form, P37 baseline → P39 close → P3.40 close: P 409,007 → 257,470 → 115,647, I 60,666 → 49,831 → 46,563, X 13,800 → 13,790 → 10,312, M 19,543 → 15,128 → 3,917 (503,016 → 336,219 → 176,439), and 172,942 at the P3.42 close (P 112,227, I 46,489, X 10,309, M 3,917), the drop again from copies collapsed into shared headers, not from new type work; every remaining site ledgered with its cause (0 uncovered); TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0, the frozen tail of 6,066 small types recorded as TYPE-BELOW-BAND (5,871 sites) · lying declarations 229 over 24 callees → 11 over 3 → 0; return-type lies (a declaration promising a different return type than the definition) 273 functions over 100,266 sites at the P3.41 start → 19 over 9,302, each a width or sign difference ledgered in `config/lying_exceptions.tsv` · 7,151 canonical types mirrored into Ghidra, six programs proved by round trip (P3.41) · 30,787 kept casts in five registered macros, all backed (20,963 at the P39 close) · 4,762 struct definitions, 4,128 of them canonical (4,748 at the P3.42 close) (1,650 at the P39 close; 7,255 at the P38 start) · the chart's lower panel |
+| **After 100 % (Gen3, snapshot at the P3.43 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35); the 3,801 cross-address groups deferred then → 3,214 shared through a name parameter, 12 twin-covered, 575 ledgered with a measured reason, and the 20 trampoline families' 133 private copies each → 0 (P3.42) · names: a names ledger, a rename tool and a scanner that asserts every reference rewritten (rule R32), and a leverage ranking whose top 500 cover 35.5 % of unique references; no name landed yet (P3.42); the top 500 placeholders → 2 cited, 393 `guess_` names with a recorded basis, 105 left unnamed with a reason; 1,083 inherited names given citation rows, 0 uncited; names ledger 2,171 rows; 303 functions and 149 labels mirrored into Ghidra (P3.43) · levers (register pins plus asm statements): 53,234 at the P36 start → 3,730 at the P38 close → 3,364 at the P39 close → 1,853 (974 register pins + 879 asm statements) → 1,850 at the P3.42 close (971 + 879; the 3 fewer are copies collapsed into one header, where a site counts once), every survivor a row of `config/lever_residue.tsv` (1,180 rows over 1,854 sites; `docs/levers.md`) and every row walled — named with the gcc pass that makes the lever necessary, one of 34 tags in `config/lever_walls.tsv` · raw cast dereferences per form, P37 baseline → P39 close → P3.40 close: P 409,007 → 257,470 → 115,647, I 60,666 → 49,831 → 46,563, X 13,800 → 13,790 → 10,312, M 19,543 → 15,128 → 3,917 (503,016 → 336,219 → 176,439), and 172,942 at the P3.42 close (P 112,227, I 46,489, X 10,309, M 3,917), the drop again from copies collapsed into shared headers, not from new type work; every remaining site ledgered with its cause (0 uncovered); TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0, the frozen tail of 6,066 small types recorded as TYPE-BELOW-BAND (5,871 sites) · lying declarations 229 over 24 callees → 11 over 3 → 0; return-type lies (a declaration promising a different return type than the definition) 273 functions over 100,266 sites at the P3.41 start → 19 over 9,302, each a width or sign difference ledgered in `config/lying_exceptions.tsv` · 7,151 canonical types mirrored into Ghidra, six programs proved by round trip (P3.41) · 30,787 kept casts in five registered macros, all backed (20,963 at the P39 close) · 4,762 struct definitions, 4,128 of them canonical (4,748 at the P3.42 close) (1,650 at the P39 close; 7,255 at the P38 start) · the chart's lower panel |
 
 *Every number above is generated or counted from the repository; the timeline behind the chart is
 [`docs/story-timeline.md`](story-timeline.md).*

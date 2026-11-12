@@ -80,3 +80,4 @@ p342-t5-2026-11-08-share-cycle-commit.md | 3.42 T5 — 2026-11-08: share_body_cy
 p342-t6c4-2026-11-09-cross-retry.md | 3.42 T6.c4 — 2026-11-09: share_body cross retry round (externs, cause parser, retry set) | 5
 p342-t7-2026-11-09-trampoline-convert.md | 3.42 T7 — 2026-11-09: trampoline-family conversion scripts (analyze.py, convert.py) archived; the 20 headers' generator | 172
 p343-t3-return-less-nonvoid-scan.md | 3.43 T3 — 2026-11-10: the 394 non-void defs with no real return at HEAD 50da691580 (method, counts, per-name list) | 403
+p343-t4-hardreg-wall-probes.md | 3.43 T4 — 2026-11-10: hard-reg pin wall probes of the 9 expand-hardreg-var rows (analysis per row, rtl diffs, C bodies, per-pass diffs); regenerate with tools/wall_probe.py | 750
