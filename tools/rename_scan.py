@@ -13,7 +13,10 @@ row in config/names.tsv (basis, confidence, evidence kind, conflict, history). T
                                                      binaries are disjoint from the rename's scope (the binaries
                                                      stacking its row's symbol file): another function; or a line
                                                      whose every strong token is qualified by an object id
-                                                     `src/<dir>/...:<token>` mapping out of scope. Passes.
+                                                     `src/<dir>/...:<token>` mapping out of scope; or a line that
+                                                     itself names another entity (_other_entity: other-kind
+                                                     placeholder, out-of-scope dedup member / lever_residue row,
+                                                     leverage.tsv row of another kind or hash). Passes.
                                   address-key        (a) the only candidate token is a share header's name
                                                      `func_<ADDR>(__x)?.h` (headers are named by vram, never
                                                      renamed); (b) a 0x / bare address in an ADDRESS_KEYED
@@ -168,11 +171,47 @@ def _qualified_out(text, s_re, scope, where):
     return bool(ms)
 
 
-def classify(hits, rename, scope=None, where=None):
+MEMBER_BIN = re.compile(r"^\s*-\s*\{\s*binary:\s*([\w.]+)\s*,")   # config/dedup.us.yaml: one member per line
+
+
+def _other_entity(path, text, s_re, kind, scope, where, hashes):
+    """Scoped renames: -> the rule ('a'..'d') by which the line itself names ANOTHER entity at the address, else None.
+    (a) every strong token is the other kind's placeholder (D_<addr> for a func rename, func_<addr> for data);
+    (b) a config/dedup.us.yaml member line whose binary is out of scope; (c) a config/lever_residue.tsv row whose src
+    path (column 1) maps out of scope; (d) a docs/leverage.tsv row, every strong token in its name column, of another
+    kind, or a func row whose hash key prefixes none of hashes() (the rename's h_exact at its address in scope;
+    empty -> no proof)."""
+    other = {"func": "D_", "data": "func_"}.get(kind)
+    ms = [m.group(0) for m in s_re.finditer(text)]
+    if other and ms and all(VRAM_NAME.fullmatch(t) and t.startswith(other) for t in ms):
+        return "a"
+    if path == "config/dedup.us.yaml":
+        m = MEMBER_BIN.match(text)
+        if m and m.group(1) not in scope:
+            return "b"
+    elif path == "config/lever_residue.tsv":
+        fb = where(text.split("\t", 1)[0])
+        if fb and not (fb & scope):
+            return "c"
+    elif path == "docs/leverage.tsv":
+        f = text.split("\t")
+        if len(f) < 6 or not kind or any(s_re.search(c) for i, c in enumerate(f) if i != 5):
+            return None
+        if f[1] in ("func", "data") and f[1] != kind:
+            return "d"
+        if kind == f[1] == "func" and hashes:
+            hs = hashes()
+            if hs and not any(h.startswith(f[2]) for h in hs):
+                return "d"
+    return None
+
+
+def classify(hits, rename, scope=None, where=None, kind=None, hashes=None):
     """hits = [(path, line, text)]; rename = (old, new, addr). Pure. -> {class: [hit]} over the hits that
     carry one of this rename's candidate forms; asserts candidates == classified. scope = the rename's binaries
     (wide spec) and where(path) -> a file's binaries (empty = unmapped): a stale (strong) hit in a mapped file
-    whose binaries are disjoint from scope is `other-binary` (the token names another function there, C0571)."""
+    whose binaries are disjoint from scope is `other-binary` (the token names another function there, C0571).
+    kind = the rename's spec kind, hashes() -> its unit's h_exact set: for _other_entity's line-level rules."""
     old, new, addr = rename
     s, w = rename_forms(old, new, addr)
     s_re, w_re = re.compile(s), (re.compile(w) if w else None)
@@ -191,17 +230,21 @@ def classify(hits, rename, scope=None, where=None):
                 c = "other-binary"
             elif _qualified_out(h[2], s_re, scope, where):
                 c = "other-binary"
+            elif _other_entity(h[0], h[2], s_re, kind, scope, where, hashes):
+                c = "other-binary"
         out[c].append(h)
     assert cand == sum(len(v) for v in out.values()), "R32: candidates != classified"
     return out
 
 
-def scan(hits, renames, scopes=None, where=None):
+def scan(hits, renames, scopes=None, where=None, kinds=None, hashes=None):
     """Pure. -> (per-rename results, grand class counts); asserts every hit belongs to some rename.
-    scopes = {rename: binaries} (wide specs) for classify's other-binary class."""
+    scopes = {rename: binaries} (wide specs) for classify's other-binary class; kinds = {rename: spec kind};
+    hashes(rename) -> its unit's h_exact set."""
     results, total, owned = [], {c: 0 for c in CLASSES}, set()
     for r in renames:
-        res = classify(hits, r, scopes.get(r) if scopes else None, where)
+        res = classify(hits, r, scopes.get(r) if scopes else None, where, (kinds or {}).get(r),
+                       (lambda r=r: hashes(r)) if hashes else None)
         for c in CLASSES:
             total[c] += len(res[c])
             owned.update(res[c])
@@ -286,11 +329,12 @@ def renames_from_diff(diff):
     return sorted(out)
 
 
-def parse_spec(text, groups=None, stackers=None, scopes=None):
+def parse_spec(text, groups=None, stackers=None, scopes=None, kinds=None):
     """Pure. old<TAB>new<TAB>addr rows, or rename_sym's wide spec (header `old<TAB>new<TAB>addr<TAB>binary...`,
     first 3 columns used; a `class:<id>` binary expands through rename_sym.expand over groups). With stackers
     (rename_sym.stackers_of) and a scopes dict, a wide row's rename also gets its binary scope in scopes:
-    {(old, new, addr): binaries stacking the row's symbol-file alias}, unioned (rename_sym.pair_scope)."""
+    {(old, new, addr): binaries stacking the row's symbol-file alias}, unioned (rename_sym.pair_scope); a kinds dict
+    gets {(old, new, addr): the row's kind column}."""
     out, wide = [], False
     for ln in text.splitlines():
         if not ln.strip() or ln.startswith("#"):
@@ -305,12 +349,16 @@ def parse_spec(text, groups=None, stackers=None, scopes=None):
             import rename_sym
             exp = rename_sym.expand([{"old": f[0], "new": f[1], "addr": "0", "binary": f[3]}], groups or {})
             out += [(r["old"], r["new"], r["addr"]) for r in exp]
+            if kinds is not None and len(f) > 4:
+                kinds.update(((r["old"], r["new"], r["addr"]), f[4]) for r in exp)
             if scopes is not None:
                 for r in exp:
                     scopes.setdefault((r["old"], r["new"], r["addr"]), set()).update(
                         rename_sym.pair_scope([r], stackers)[(r["old"], r["new"])])
             continue
         out.append(tuple(f[:3]))
+        if kinds is not None and len(f) > 4:
+            kinds[tuple(f[:3])] = f[4]
         if scopes is not None and len(f) > 3:
             import rename_sym
             scopes.setdefault(tuple(f[:3]), set()).update(
@@ -321,26 +369,40 @@ def parse_spec(text, groups=None, stackers=None, scopes=None):
 
 
 def renames_from_spec(p):
-    """-> (renames, scopes, where): scopes/where are None for a 3-column spec (no binary column)."""
+    """-> (renames, scopes, where, kinds, hashes): all but renames None for a 3-column spec (no binary column).
+    hashes(rename) -> the h_exact of every function at its address in its scope's .run/sig.<binary>.jsonl (lazy)."""
     text = open(p).read()
     if not any(ln.split("\t")[:3] == ["old", "new", "addr"] for ln in text.splitlines()):
-        return parse_spec(text), None, None
-    import rename_sym
+        return parse_spec(text), None, None, None, None
+    import json, rename_sym
     groups, reg = rename_sym.load_groups()
-    stackers, aliases, scopes = rename_sym.stackers_of(symbol_stacks()), rename_sym._aliases(), {}
-    cache = {}
+    stackers, aliases, scopes, kinds = rename_sym.stackers_of(symbol_stacks()), rename_sym._aliases(), {}, {}
+    cache, hcache = {}, {}
     def where(path):
         if path not in cache:
             cache[path] = rename_sym.file_binaries(path, reg, aliases, stackers)
         return cache[path]
-    return parse_spec(text, groups, stackers, scopes), scopes, where
+    def hashes(r):
+        if r not in hcache:
+            hs = set()
+            if re.fullmatch(r"(0[xX])?[0-9A-Fa-f]+", r[2]):
+                pat = re.compile(r'"addr":"0x0*%x"' % int(r[2], 16))
+                for b in sorted(scopes.get(r, ())):
+                    for stem in (b, "SLUS_007.26") if b == "main" else (b,):
+                        sp = os.path.join(REPO, ".run/sig.%s.jsonl" % stem)
+                        for ln in (open(sp) if os.path.exists(sp) else ()):
+                            if pat.search(ln):
+                                hs.add(json.loads(ln)["h_exact"])
+            hcache[r] = hs
+        return hcache[r]
+    return parse_spec(text, groups, stackers, scopes, kinds), scopes, where, kinds, hashes
 
 
-def run_scan(renames, rev, verbose=False, scopes=None, where=None):
+def run_scan(renames, rev, verbose=False, scopes=None, where=None, kinds=None, hashes=None):
     if not renames:
         print("[rename_scan] no renames")
         return 0
-    results, total = scan(grep_hits(renames, rev), renames, scopes, where)
+    results, total = scan(grep_hits(renames, rev), renames, scopes, where, kinds, hashes)
     print("[rename_scan] %d rename(s); %s" % (len(renames), ", ".join("%s %d" % (c, total[c]) for c in CLASSES)))
     for (old, new, addr), res in results:
         if verbose:
@@ -752,35 +814,65 @@ def selftest():
     # binary scope (C0571, R124): pair_scope from symbol stacks, scope_decide per file, the scan's other-binary class
     stk = rsy.stackers_of({"main": ["us", "us.ram"], "ov_A": ["us", "resident", "ov_A"], "ov_B": ["us", "resident", "ov_B"],
                            "resident": ["us", "resident"]})
-    sc = rsy.pair_scope([{"old": "func_80184B00", "new": "guess_Step", "binary": "ov_A"},
+    sc = rsy.pair_scope([{"old": "func_80FFFFF0", "new": "guess_Step", "binary": "ov_A"},
                          {"old": "D_80078EB4", "new": "g_Hp", "binary": "main"}], stk)
-    assert sc == {("func_80184B00", "guess_Step"): {"ov_A"}, ("D_80078EB4", "g_Hp"): {"main", "ov_A", "ov_B", "resident"}}, sc
-    P1, P2 = ("func_80184B00", "guess_Step"), ("D_80078EB4", "g_Hp")
-    hold = {"func_80184B00": {"ov_A", "ov_B"}, "D_80078EB4": {"ov_A", "main"}}
+    assert sc == {("func_80FFFFF0", "guess_Step"): {"ov_A"}, ("D_80078EB4", "g_Hp"): {"main", "ov_A", "ov_B", "resident"}}, sc
+    P1, P2 = ("func_80FFFFF0", "guess_Step"), ("D_80078EB4", "g_Hp")
+    hold = {"func_80FFFFF0": {"ov_A", "ov_B"}, "D_80078EB4": {"ov_A", "main"}}
     dec = lambda fb, prs, sco=sc: {k: v for k, v in rsy.scope_decide(fb, prs, sco, hold).items() if v}
     assert dec({"ov_A"}, [P1, P2]) == {"in": [P1, P2]}
-    assert dec({"ov_B"}, [P1, P2]) == {"out": [P1], "in": [P2]}                 # ov_B's func_80184B00 is another fn
+    assert dec({"ov_B"}, [P1, P2]) == {"out": [P1], "in": [P2]}                 # ov_B's func_80FFFFF0 is another fn
     assert dec({"ov_A", "ov_B"}, [P1]) == {"straddle": [P1]}                     # a share header over both
     assert dec(set(), [P1, P2]) == {"unscoped": [P1], "in": [P2]}               # unmapped: P1 ambiguous, P2 not
     assert dec(set(), [P1], {**sc, P1: {"ov_A", "ov_B"}}) == {"in": [P1]}
     assert rsy.file_binaries("config/symbols.us.ram.txt", [], {"ov_A"}, stk) == {"main"}
     assert rsy.file_binaries("src/ov_B/x.c", [], {"ov_A", "ov_B"}, stk) == {"ov_B"}
     assert rsy.file_binaries("include/x.h", [], {"ov_A"}, stk) == set()
-    SR, wh = ("func_80184B00", "guess_Step", "0x80184B00"), (lambda p: {"ov_B"} if "ov_B" in p else set())
-    sh = [("src/ov_A/a.c", 1, "    guess_Step(); /* func_80184B00 */"), ("src/ov_B/b.c", 2, "    func_80184B00();"),
-          ("include/x.h", 3, "void func_80184B00(void);")]
+    SR, wh = ("func_80FFFFF0", "guess_Step", "0x80FFFFF0"), (lambda p: {"ov_B"} if "ov_B" in p else set())
+    sh = [("src/ov_A/a.c", 1, "    guess_Step(); /* func_80FFFFF0 */"), ("src/ov_B/b.c", 2, "    func_80FFFFF0();"),
+          ("include/x.h", 3, "void func_80FFFFF0(void);")]
     _, t = scan(sh, [SR], {SR: {"ov_A"}}, wh)
     assert t["other-binary"] == 1 and t["stale-build-input"] == 1 and t["rewritten"] == 1, t   # unmapped stays stale
     _, t = scan(sh, [SR], {SR: {"ov_A", "ov_B"}}, wh)
     assert t["other-binary"] == 0 and t["stale-build-input"] == 2, t                           # in-scope stale is bad
     _, t = scan(sh, [SR]); assert t["other-binary"] == 0 and t["stale-build-input"] == 2, t    # 3-column: as before
-    qh = [("docs/t.md", 1, "- `S1`: 2 obj — 0x8001CC3C(arg0), src/ov_B/0x800D21C4:func_80184B00, src/ov_B/0x800D21C4:s0")]
+    qh = [("docs/t.md", 1, "- `S1`: 2 obj — 0x8001CC3C(arg0), src/ov_B/0x800D21C4:func_80FFFFF0, src/ov_B/0x800D21C4:s0")]
     _, t = scan(qh, [SR], {SR: {"ov_A"}}, wh); assert t["other-binary"] == 1, t                # object id in ov_B
     _, t = scan(qh, [SR], {SR: {"ov_A", "ov_B"}}, wh); assert t["stale-invisible"] == 1, t     # in-scope id: stale
-    qu = [("docs/t.md", 2, qh[0][2] + " func_80184B00")]
+    qu = [("docs/t.md", 2, qh[0][2] + " func_80FFFFF0")]
     _, t = scan(qu, [SR], {SR: {"ov_A"}}, wh); assert t["stale-invisible"] == 1, t             # unqualified: stale
+    # _other_entity's line-level rules (T9.c9): each passes as other-binary; each counter-case stays stale
+    hx = lambda r: {"981b4c9251c519a22d1e4cf67a36d06c000df0ba"}
+    def oe(h, kind="func", hashes=hx, r=SR):
+        _, t = scan([h], [r], {r: {"ov_A"}}, wh, {r: kind}, hashes)
+        return "other-binary" if t["other-binary"] else [c for c in BAD if t[c]][0]
+    LV = "9\t%s\t%s\t80128158\t80FFFFF0\t%s\tno\t1"
+    for h, kind, hs, want in (
+            (("docs/t.md", 1, "last={'other:D_80FFFFF0[a0]': 1}"), "func", hx, "other-binary"),        # (a)
+            (("docs/t.md", 2, "D_80FFFFF0 and func_80FFFFF0"), "func", hx, "stale-invisible"),
+            (("docs/t.md", 3, "D_80FFFFF0 only"), "data", hx, "stale-invisible"),                    # data rename: D_ is it
+            (("config/dedup.us.yaml", 4, "      - { binary: ov_B, vram: 0x80FFFFF0, name: func_80FFFFF0 }"),
+             "func", hx, "other-binary"),                                                            # (b)
+            (("config/dedup.us.yaml", 5, "      - { binary: ov_A, vram: 0x80FFFFF0, name: func_80FFFFF0 }"),
+             "func", hx, "stale-invisible"),
+            (("config/lever_residue.tsv", 6, "src/ov_B/x.c\tfunc_80FFFFF0\tpin"), "func", hx, "other-binary"),  # (c)
+            (("config/lever_residue.tsv", 7, "include/x.h\tfunc_80FFFFF0\tpin"), "func", hx, "stale-invisible"),
+            (("docs/leverage.tsv", 8, LV % ("func", "7c2da22d4126", "func_80FFFFF0")), "func", hx, "other-binary"),  # (d)
+            (("docs/leverage.tsv", 9, LV % ("func", "981b4c9251c5", "func_80FFFFF0")), "func", hx, "stale-invisible"),
+            (("docs/leverage.tsv", 10, LV % ("func", "7c2da22d4126", "func_80FFFFF0")), "func", lambda r: set(),
+             "stale-invisible"),                                                                     # no hash: no proof
+            (("docs/leverage.tsv", 11, LV % ("func", "7c2da22d4126", "func_80FFFFF0") + "\tfunc_80FFFFF0"), "func", hx,
+             "stale-invisible")):                                                                    # token off the name column
+        assert oe(h, kind, hs) == want, (h, kind, want)
+    OR = ("OldFn", "guess_Step", "0x80FFFFF0")                                                       # (d) another kind
+    assert oe(("docs/leverage.tsv", 12, LV % ("data", "80128158:80FFFFF0", "OldFn")), r=OR) == "other-binary"
+    assert oe(("docs/leverage.tsv", 13, LV % ("func", "981b4c9251c5", "OldFn")), r=OR) == "stale-invisible"
+    _, t = scan([("docs/t.md", 1, "'other:D_80FFFFF0[a0]'")], [SR], {SR: {"ov_A"}}, wh)
+    assert t["stale-invisible"] == 1, t                                                              # no kind: as before
     scs = {}
-    assert parse_spec(wide.replace("\tmain\t", "\tov_A\t"), {}, stk, scs) == [R] and scs == {R: {"ov_A"}}, scs
+    kds = {}
+    assert parse_spec(wide.replace("\tmain\t", "\tov_A\t"), {}, stk, scs, kds) == [R] and scs == {R: {"ov_A"}}, scs
+    assert kds == {R: "func"}, kds
     pl, nt = rsy.plan([dict(row, old="Later", addr="0x80050000")], {}, texts)    # curated old: replace in place
     assert nt["config/symbols.us.txt"].splitlines()[1:] == [
         "// count=2", "", "start                            = 0x80010000; // func",
@@ -952,8 +1044,8 @@ def main():
     if a.worklist:
         return run_worklist(a.worklist, a.complete)
     if a.spec:
-        renames, scopes, where = renames_from_spec(a.spec)
-        return run_scan(renames, None, a.verbose, scopes, where)
+        renames, scopes, where, kinds, hashes = renames_from_spec(a.spec)
+        return run_scan(renames, None, a.verbose, scopes, where, kinds, hashes)
     lo, _, hi = a.range.partition("..")
     return run_scan(renames_from_range(lo, hi or None), hi or None, a.verbose)
 
