@@ -1,6 +1,6 @@
 // config/symbols.ov_SC03_107.txt — location overlay ov_SC03_107 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x80128158..0x8019BD3F); NEVER merged into config/symbols.us.txt.
-// count=122
+// count=123
 
 guess_StartPairSequence          = 0x80128EA8; // func
 guess_StepPairSequence           = 0x80128ED8; // func
@@ -123,4 +123,5 @@ guess_ReturnPlayerToStandingState = 0x8016EE40; // func
 guess_GetPlayerControlScript     = 0x8016F1AC; // func
 guess_SetMainCameraDefaults      = 0x801748EC; // func
 guess_IntToBcd                   = 0x801783D0; // func
+guess_ShowEneLabelAndValue       = 0x80178438; // func
 guess_CloseTextWindowIfOpen      = 0x80179B28; // func
