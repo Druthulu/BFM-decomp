@@ -1025,3 +1025,4 @@ C0572 | A data rename breaks tools classifying by D_/func_ spelling (type_census
 C0573 | data rename: name address-only mentions before rename_scan --spec | rename,names-ledger,rename_scan,data | 2026-11-11 | 3.43/T8 | T8.c1
 C0574 | resident data used by main: name it in symbols.us.ram.txt (rename_sym binary us.ram) | rename,symbol,resident,data,rename_sym | 2026-11-11 | 3.43/T8 | T8.c6
 C0575 | git grep with many -e patterns stalls; join into one -e per chunk (rename_scan hang) | grep,performance,rename_scan,git,hang | 2026-11-11 | 3.43/T9 | T9.c4
+C0576 | md-module renames drop sig instructions unless sig-modules seeds from symbol files | rename,sig,md,makefile,tools-health,timeline | 2026-11-12 | 3.43/T9 | T9.c14

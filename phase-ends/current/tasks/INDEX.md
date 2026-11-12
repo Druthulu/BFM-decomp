@@ -8,3 +8,4 @@ T5 | done | citation rows for the 1,083 curated names, then the citation gate | 
 T6 | done | naming evidence: outside sources recorded, a dossier per worklist unit | - | tasks/T6.md | logs/T6.md | R3.43-004,R3.43-005,R3.43-006
 T7 | review | pilot naming batch and the conventions, for the developer's review | - | tasks/T7.md | logs/T7.md | -
 T8 | done | name the worklist's data units | - | tasks/T8.md | logs/T8.md | -
+T9 | done | name the worklist's functions, rank43 1 to 177 | - | tasks/T9.md | logs/T9.md | -
