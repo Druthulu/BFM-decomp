@@ -180,7 +180,12 @@ Inputs and the join:
   paths of its first rule, normalized (the .d spells `src/<B>/../shared/x.h`). Each file is parsed once.
 - Parse (comment-masked, `lc.sc.mask_text`, C0206): argcheck's DEF and KR_DEF (+ kr_params); a head inside a body is
   skipped. Declarations: a balanced-paren `extern ret name(...)`, `;`-terminated, so the nested-paren and multi-line forms
-  DECL misses are included (C0581). Returns via argcheck `norm_ret`, with an empty spelling read as `int`. SHARED_BIND
+  DECL misses are included (C0581). Returns via argcheck `norm_ret`, with an empty spelling read as `int`. Asm labels
+  (3.44 T5, C0223): a prototype `[extern] <ret> CNAME(<params>) __asm__("SYM");` is a declaration of SYM (the symbol the
+  jal targets), ret and params from the C head; it also maps CNAME -> SYM for every TU that includes the file, so a
+  definition of CNAME (aF*/ta*/`_impl`/`_body` names) is joined as SYM (`definition instances ... joined by asm
+  label`). An object label `extern T obj __asm__("S");` is no function declaration: skipped and counted (`asm-label C
+  names (per file)` line). Rows name the label; `decl_text` keeps the C spelling. SHARED_BIND
   (`#define SHARED_FN <own>` + `#include`) makes the header's SHARED_FN body `<own>`'s definition in that TU: `def_file`
   = the header holding the text, `bind_tu` = the binding TU.
 - Name to address: B's ELF symtab (`mipsel-linux-gnu-nm -S --defined-only`, absolute included; main

@@ -858,6 +858,9 @@ SHAPES = ["(void)", "() unmarked", "() K&R-marked", "nested-paren", "multi-line"
 KW = {"if", "for", "while", "switch", "return", "sizeof"}
 DECL_HEAD = re.compile(r"\bextern\s+([A-Za-z_][\w \t\n*]*?)\b([A-Za-z_]\w*)\s*\(")
 SEMI = re.compile(r"\s*;")
+ALIAS_TAIL = re.compile(r'\)\s*__asm__\s*\(\s*"([^"\\]+)"\s*\)\s*;')     # `<ret> CNAME(...) __asm__("SYM");` (C0223)
+IDENT_END = re.compile(r"([A-Za-z_]\w*)\s*$")
+RET_CH = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_ \t\n*")
 BRACE = re.compile(r"[{}]")
 RET_EXPR = re.compile(r"\breturn\b(?!\s*;)")
 V0_EXIT = "$v0 at exit:"
@@ -979,9 +982,23 @@ def parse_text(rel, raw):
         add(m, "KR", nret(masked[m.start():m.start(1)].strip()), ", ".join(types), len(names), w, va, sv)
     defs.sort(key=lambda d: d["line"])
 
-    decls = []
+    decls, aliases, objlabels = [], {}, 0
+
+    def decl(p0, p1, name, ret, params):
+        params = " ".join(params.split())
+        l0, l1 = line(p0), line(p1)
+        kr = any("// K&R:" in rl[k] for k in range(l0 - 1, min(l1, len(rl))))
+        shape = ("multi-line" if l1 > l0 else "nested-paren" if "(" in params else "(void)" if params == "void"
+                 else ("() K&R-marked" if kr else "() unmarked") if params == "" else "other")
+        decls.append({"line": l0, "name": name, "ret": nret(ret), "params": params,
+                      "arity": A.arity(params), "shape": shape, "kr": kr,
+                      "text": " ".join(" ".join(rl[l0 - 1:l1]).split())[:200]})
+
     for m in DECL_HEAD.finditer(masked):
         if m.group(2) in KW:
+            continue
+        if m.group(2) == "__asm__":                                 # `extern T obj __asm__("S");`: an object, not a function
+            objlabels += 1
             continue
         j, d = m.end(), 1
         while j < len(masked) and d:
@@ -989,17 +1006,31 @@ def parse_text(rel, raw):
             d += (c == "(") - (c == ")")
             j += 1
         if d or not SEMI.match(masked, j):
-            continue
-        params = " ".join(masked[m.end():j - 1].split())
-        l0, l1 = line(m.start()), line(j - 1)
-        kr = any("// K&R:" in rl[k] for k in range(l0 - 1, min(l1, len(rl))))
-        shape = ("multi-line" if l1 > l0 else "nested-paren" if "(" in params else "(void)" if params == "void"
-                 else ("() K&R-marked" if kr else "() unmarked") if params == "" else "other")
-        decls.append({"line": l0, "name": m.group(2), "ret": nret(m.group(1)), "params": params,
-                      "arity": A.arity(params), "shape": shape, "kr": kr,
-                      "text": " ".join(" ".join(rl[l0 - 1:l1]).split())[:200]})
+            continue                                                # an asm-label tail is taken below
+        decl(m.start(), j - 1, m.group(2), m.group(1), masked[m.end():j - 1])
+    # asm-label prototypes, `extern` or not: a declaration of SYM (the jal target), and CNAME's definition is SYM (C0223)
+    for m in ALIAS_TAIL.finditer(masked):
+        po, d = m.start(), 0
+        while po >= 0:
+            d += (masked[po] == ")") - (masked[po] == "(")
+            if d == 0:
+                break
+            po -= 1
+        n = IDENT_END.search(masked, max(0, po - 200), po) if po > 0 else None
+        if n is None or n.group(1) in KW or n.group(1).startswith("__"):
+            continue                                                # `(*fp)(...)`, `__attribute__((...))`: not a prototype
+        r = n.start(1) - 1
+        while r >= 0 and masked[r] in RET_CH:
+            r -= 1
+        if r >= 0 and masked[r] == "#":                             # a directive line above the head is not the return type
+            r = masked.find("\n", r)
+        ret = masked[r + 1:n.start(1)]
+        p0 = r + 1 + len(ret) - len(ret.lstrip())
+        decl(p0, m.start(), m.group(1), re.sub(r"\bextern\b", " ", ret), masked[po + 1:m.start()])
+        aliases[n.group(1)] = m.group(1)
+    decls.sort(key=lambda dc: dc["line"])
     binds = [(m.group(1), m.group(2)) for m in A.SHARED_BIND.finditer(raw)]
-    return {"defs": defs, "decls": decls, "binds": binds, "inner": inner}
+    return {"defs": defs, "decls": decls, "binds": binds, "inner": inner, "aliases": aliases, "objlabels": objlabels}
 
 
 def _parse_file(rel):
@@ -1079,6 +1110,10 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
     for b in sorted(tus):
         for obj, cfile, deps in tus[b]:
             dep = set(deps)
+            amap = {}                                           # CNAME -> SYM from the TU's asm-label prototypes (C0223)
+            for f in deps:
+                if parsed.get(f):
+                    amap.update(parsed[f]["aliases"])
             for f in deps:
                 P = parsed.get(f)
                 if P is None:
@@ -1086,7 +1121,8 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
                     continue
                 for d in P["defs"]:
                     if d["name"] != "SHARED_FN":
-                        dinst.setdefault((b, f, d["line"], d["name"]), {"objs": set(), "bind": None})["objs"].add(obj)
+                        dinst.setdefault((b, f, d["line"], amap.get(d["name"], d["name"])),
+                                         {"objs": set(), "bind": None})["objs"].add(obj)
                 for dc in P["decls"]:
                     cinst.setdefault((b, f, dc["line"]), set()).add(obj)
                 for own, inc in P["binds"]:
@@ -1098,7 +1134,8 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
                         continue
                     for d in parsed[hdr]["defs"]:
                         if d["name"] == "SHARED_FN":
-                            dinst.setdefault((b, hdr, d["line"], own), {"objs": set(), "bind": f})["objs"].add(obj)
+                            dinst.setdefault((b, hdr, d["line"], amap.get(own, own)),
+                                             {"objs": set(), "bind": f})["objs"].add(obj)
     defrec = {}
     for f, P in parsed.items():
         if P:
@@ -1198,7 +1235,11 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
              f"SHARED_FN bodies {sum(d['name'] == 'SHARED_FN' for _, d in ds_)}, "
              f"heads inside a body skipped {sum(parsed[f]['inner'] for f in seen_files if parsed.get(f))}")
     L.append(f"  definition instances (binary, site): {len(dinst)}, placed {cov['definitions placed']}, "
-             f"bound by SHARED_FN {sum(1 for I in dinst.values() if I['bind'])}")
+             f"bound by SHARED_FN {sum(1 for I in dinst.values() if I['bind'])}, "
+             f"joined by asm label {sum(1 for (_, f, ln, n) in dinst if defrec[(f, ln)]['name'] not in (n, 'SHARED_FN'))}")
+    L.append(f"  asm-label C names (per file): function prototypes {sum(len(parsed[f]['aliases']) for f in seen_files if parsed.get(f))} "
+             f"(declarations of the label), object declarations skipped "
+             f"{sum(parsed[f]['objlabels'] for f in seen_files if parsed.get(f))}")
     L.append("  declaration lines by shape (lines / callees / files):")
     for s in SHAPES:
         xs = [(f, dc) for f in sorted(seen_files) if parsed.get(f) for dc in parsed[f]["decls"] if dc["shape"] == s]
@@ -1628,6 +1669,29 @@ def selftest():
           "multi-line: 1 / 1 / 1" in txt, x)
     check("unplaced: file in no TU counted apart", "definition: file in no TU: 1" in txt and
           "declaration: file in no TU: 1" in txt, txt)
+
+    # 3.44 T5 asm labels (C0223): a declaration `CNAME(...) __asm__("SYM");` is SYM's; a definition of CNAME is SYM's
+    b_c = "\n".join([
+        '#include "x.h"', 'extern s32 aF1(s32 a) __asm__("f_al");', 'extern u8 aD1 __asm__("d_x");',
+        'void aF2_impl(s32 a,', '    s32 b) __asm__("f_def");', 'void f_al(s32 a) { }', 'void aF2_impl(s32 a, s32 b) { }', ''])
+    P5 = parse_text("src/ov/b.c", b_c)
+    cls5 = {("ov", O): "h_al", ("ov", O + 16): "h_def", ("ov", O + 32): "h_decoy"}
+    info5 = {h: ("unused", None, 0, None, [], True) for h in cls5.values()}
+    info5["h_def"] = ("used", "ov:0x80100014 addu", 0, None, [], True)
+    rows5, txt5 = compare_core({"src/ov/b.c": P5}, {"main": [], "ov": [("build/src/ov/b.o", "src/ov/b.c", ["src/ov/b.c"])]},
+                               {"ov": {"f_al": {O}, "f_def": {O + 16}, "aF1": {O + 32}}, "main": {}},
+                               {"main": (M, M + 0x100), "ov": (O, O + 0x100)},
+                               {"main": ["main"], "ov": ["main", "ov"]}, cls5, info5, set(), [])
+    check("asm-label declaration: named by its label, ret/params from the C head; an object label is no declaration",
+          [(d["name"], d["line"], d["ret"], d["params"], d["shape"]) for d in P5["decls"]] ==
+          [("f_al", 2, "int", "s32 a", "other"), ("f_def", 4, "void", "s32 a, s32 b", "multi-line")] and
+          P5["objlabels"] == 1 and [(r["name"], r["decl_ret"], r["def_ret"], r["vaddr"]) for r in rows5
+                                    if r["rule"] == "DECL-RET"] == [("f_al", "int", "void", hx(O))],
+          (P5["decls"], rows5))
+    check("asm-label definition: joined by its label (RET-VOID-READ def + its prototype), never by the C name",
+          sorted((r["name"], r.get("decl_file") or r["def_file"]) for r in rows5 if r["rule"] == "RET-VOID-READ") ==
+          [("f_def", "src/ov/b.c:4"), ("f_def", "src/ov/b.c:7")] and "joined by asm label 1" in txt5 and
+          "object declarations skipped 1" in txt5 and "name not in the symtab" not in txt5, (rows5, txt5))
 
     # 3.44 T4 --check: the ledger's cites decode from the image with cite(); a row is used by a matching disagreement
     fl = _fleet({"ov": (O, 0x100, ["ov"], [(O, [E.andi(V0, V0, 0xFF)] + E.ret, "f_ret")], [])})
