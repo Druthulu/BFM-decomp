@@ -2987,7 +2987,7 @@ void func_80182074(s32 p) {
                  * (temp-hoist, double-load, u32* base, s32 mask, arg-hoist,
                  * split-store, g[1] form) all produced the SAME wrong permutation,
                  * so the shape is not the lever -- pinning the base is. */
-                register s32 g __asm__("$5") = ((Unkstruct_800B5CB8 *)p)->unk20;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+                register s32 g __asm__("$5") = ((Unkstruct_800B5CB8 *)p)->unk20;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
                 *(u32 *)(g + 4) |= 0x80000000;
             }
             guess_AllocRenderWorkRecord((s32)&D_801BBFC8);

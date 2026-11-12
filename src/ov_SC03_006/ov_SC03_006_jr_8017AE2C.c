@@ -10256,7 +10256,7 @@ void func_801869CC(void *a0)
     s32            *zb;
     SVec8_8018E8A0_801869CC *src;
     SVec8_8018E8A0_801869CC *dst;
-    register s32 d __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 d __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     s32 i, j, k, base, ang, t;
     u32 col;
 
@@ -10275,7 +10275,7 @@ void func_801869CC(void *a0)
     p = (s32 *)((s32)a0 + 0xCC);
     for (i = 0, k = 0; i < ((Cnt_8018E8A0_801869CC *)a0)->f[0x84]; i++, k++, p += 3) {
         zb = (s32 *)((s32)a0 + 0xD4);
-        { register s32 c1 __asm__("$2"); register s32 c2 __asm__("$3");  // !FAKE: pin $2 — NEEDED DIFFERS; pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        { register s32 c1 __asm__("$2"); register s32 c2 __asm__("$3");  // !FAKE: pin $2 — NEEDED DIFFERS; pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
           c1 = ((Unkstruct_800B5CB8 *)a0)->unk1C; c2 = i * 4; d = c1 - c2; }
         if (d > 0x40) {
             if (i == 4) {
@@ -12261,8 +12261,8 @@ void func_8018960C(s32 a0) {
 
 
 void func_801896EC(s32 param_1) {
-    register s32 self __asm__("a1");  // !FAKE: pin a1 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 mask __asm__("a0");  // !FAKE: pin a0 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 self __asm__("a1");  // !FAKE: pin a1 — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
+    register s32 mask __asm__("a0");  // !FAKE: pin a0 — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
     s32 t;
     s32 q;
 

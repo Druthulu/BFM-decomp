@@ -3499,7 +3499,7 @@ extern s32 func_80171990(u8 *a0);
  */
 void func_8017D214(void *a0)
 {
-    register u8 *arg __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    register u8 *arg __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
     s32 wp = guess_g_ActiveCamera;
     u16 t;
 
@@ -4142,9 +4142,9 @@ void func_8017E464(s32 param_1) {
 
     s32 p;
     s32 *q;
-    register s32 *flag __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 aa __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 nn __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 *flag __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-fold
+    register s32 aa __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-fold
+    register s32 nn __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-fold
     s32 pp;
     s32 s0;
     s32 t;
@@ -4157,8 +4157,8 @@ void func_8017E464(s32 param_1) {
        both halves reusing $2/$3 -- fixes schedule and allocation together. */
     u16 b0;
     u16 e0;
-    register u16 c1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register u16 c2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u16 c1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-fold
+    register u16 c2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-fold
     u16 buf[4];
     u16 d[4];
 
@@ -4234,7 +4234,7 @@ void func_8017E464(s32 param_1) {
             t = rand();
             aa = (s32)(q + 1);
             nn = (s32)buf;
-            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:combine-copy-merge
             s0 &= 0x1F;
             s0 <<= 2;
             t = (t & 0x1F) - 0x50;
@@ -6519,7 +6519,7 @@ extern u8 guess_g_MainCamera[];
 s32 func_80182334(s32 a0v)
 {
     s32 a1;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
     u8 *a2 = guess_g_MainCamera;
     s16 v0;
     s16 v1;
@@ -6533,7 +6533,7 @@ s32 func_80182334(s32 a0v)
     if (*(s16 *)(a1 + 0xD0) < 0x28) {
         v0 = *(s16 *)(a1 + 0xD0) + 8;
     } else {
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
         v1 = *(s16 *)(a1 + 0xCE) + 2;
         d0 = *(s16 *)(a1 + 0xD0);
         cpy = d0 + zr;

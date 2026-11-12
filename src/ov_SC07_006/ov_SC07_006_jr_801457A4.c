@@ -2816,7 +2816,7 @@ extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_8014C918(s32 a0, s32 a1);
 
 s32 func_8014CF04(s32 param_1, void *param_2, void *param_3) {
-    register u8 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus2)
+    register u8 *q __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus2) wall:reload-reg-choice
     u16 *p;
     s32 r;
 

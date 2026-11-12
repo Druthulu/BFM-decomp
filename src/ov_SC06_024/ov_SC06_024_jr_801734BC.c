@@ -3645,7 +3645,7 @@ s16 y;
     c0 = yt + 1;
     c0 <<= 16;
     w = c0 | x1;
-    __asm__("" : "=r"(w) : "0"(w));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_rj2)
+    __asm__("" : "=r"(w) : "0"(w));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_rj2) wall:sched1-birth-boost
     c = v << 6;
     c |= 0x4016;
     cl = c << 16;

@@ -3342,7 +3342,7 @@ void func_80184174(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:combine-copy-merge
     volatile u16 *bidx;
     s32 t;
     u32 pv;
@@ -3953,7 +3953,7 @@ void func_80184BFC(s16 *arg0)
     void *mp;
     u16 len;
     u32 otz;
-    register u32 qt __asm__("$4");   /* §17 pin — kills the birthing boost AND  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 qt __asm__("$4");   /* §17 pin — kills the birthing boost AND  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:sched1-order
                                         keeps the $a0/$a1 pair in target order */
 
     ot = (u32 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];

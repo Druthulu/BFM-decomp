@@ -5318,7 +5318,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
         my = wy >> 16;
         wz = part->zz;
         wq = wz >> 16;
-        __asm__("" : "=r"(wq) : "0"(wq), "r"(wz));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung B t8_tus2)
+        __asm__("" : "=r"(wq) : "0"(wq), "r"(wz));  // !FAKE: launder — REFUSED launder with 2 inputs (P36 rung B t8_tus2) wall:sched2-unit-hazard
         box[0].vx = mn; box[0].vy = mny; box[0].vz = wz;
         box[1].vx = mx; box[1].vy = mny; box[1].vz = wz;
         box[2].vx = mn; box[2].vy = mny; box[2].vz = wq;
@@ -7242,7 +7242,7 @@ void func_80182614(void *a0) {
     s32 *r;
     u16 val;
 
-    __asm__("la %0, D_801AEAFC" : "=r"(p));  // !FAKE: instruction la — NEEDED DIFFERS (P36 rung B tus7)
+    __asm__("la %0, D_801AEAFC" : "=r"(p));  // !FAKE: instruction la — NEEDED DIFFERS (P36 rung B tus7) wall:no-c-spelling
     *p += 0xFFFEE000;
     if (D_801AEAFE < 0) {
         *p = 0;
@@ -10356,7 +10356,7 @@ void func_80186B70(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7) wall:combine-copy-merge
     volatile u16 *bidx;
     s32 t;
     u32 pv;

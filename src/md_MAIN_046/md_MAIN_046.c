@@ -296,7 +296,7 @@ s32 func_800CD240(void *arg0) {
     s32 s0;
 
     s0 = (s32)arg0;
-    __asm__ __volatile__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__ __volatile__("" : "=r"(s0) : "0"(s0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10) wall:dbr-delay-fill
     if (*(s16 *)(s0 + 0x1C8) != 0) {
         return 0;
     }
@@ -458,7 +458,7 @@ void func_800CD494(void *a0) {
     } else {
         rv = 0;
     }
-    __asm__ __volatile__("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ __volatile__("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-void-return
 }
 
 
@@ -469,7 +469,7 @@ extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
 
 void func_800CD5CC(void *arg0) {
-    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:expand-void-return
     s32 a0 = (s32)arg0;
     s32 found = 0;
     u8 *p = guess_g_ObjectTable;
@@ -490,7 +490,7 @@ void func_800CD5CC(void *arg0) {
         } while (p < guess_g_ObjectTable + 0x6480);
     }
     rv = found;
-    __asm__ __volatile__("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__ __volatile__("" : : "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10) wall:expand-void-return
 }
 
 

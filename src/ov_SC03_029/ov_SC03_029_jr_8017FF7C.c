@@ -3008,7 +3008,7 @@ extern u16 D_8018B8E6;
 extern u16 D_8018B8E8;
 
 void func_801804A0(s32 a0) {
-    register u16 *s2 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u16 *s2 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     s32 s3;
     s32 s4;
     u16 *s5;
@@ -4033,7 +4033,7 @@ void func_80181EA0(u8 *arg0)
                 } while (((Unkstruct_80181EA0_5 *)s0)->unk6 != 0xFF);
             }
             ((Unkstruct_80181EA0 *)arg0)->unk1C = ((Unkstruct_80181EA0 *)arg0)->unkDC;
-            __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9) wall:cse-value-forward
             ((Unkstruct_80181EA0 *)arg0)->unk1C -= 1;
         }
     }
@@ -6382,7 +6382,7 @@ void func_80184FF0(void *a0)
     s32            *zb;
     SVec8_8018E8A0_80184FF0 *src;
     SVec8_8018E8A0_80184FF0 *dst;
-    register s32 d __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 d __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     s32 i, j, k, base, ang, t;
     u32 col;
 
@@ -6401,7 +6401,7 @@ void func_80184FF0(void *a0)
     p = (s32 *)((s32)a0 + 0xCC);
     for (i = 0, k = 0; i < ((Cnt_8018E8A0_80184FF0_SC03_029_8017FF7C *)a0)->f[0x84]; i++, k++, p += 3) {
         zb = (s32 *)((s32)a0 + 0xD4);
-        { register s32 c1 __asm__("$2"); register s32 c2 __asm__("$3");  // !FAKE: pin $2 — NEEDED DIFFERS; pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        { register s32 c1 __asm__("$2"); register s32 c2 __asm__("$3");  // !FAKE: pin $2 — NEEDED DIFFERS; pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
           c1 = ((Unkstruct_800B5CB8 *)a0)->unk1C; c2 = i * 4; d = c1 - c2; }
         if (d > 0x40) {
             if (i == 4) {

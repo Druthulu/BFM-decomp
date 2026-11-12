@@ -2934,8 +2934,8 @@ void func_8017F9F4(void *a0) {
             }
         }
         for (i = 0x180; i < 0x1000; i += 0x400) {
-            __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
-            __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:loop-const-hoist
+            __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:loop-const-hoist
             p = func_8012913C(6);
             if (p != NULL) {
                 ((Unkstruct_800B5CB8 *)p)->unk6 = (u32)(rcos(i) * 3) >> 4;
@@ -3750,7 +3750,7 @@ void func_80180D38(s32 param_1) {
     extern s16 D_801C774C;
 
     s32 v0, v1;
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
     s32 dir;
 
     if (((Unkstruct_800B5CB8 *)param_1)->unkE4 > 0) {

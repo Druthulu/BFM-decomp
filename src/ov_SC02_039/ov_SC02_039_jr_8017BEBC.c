@@ -3233,8 +3233,8 @@ s32 a0p;
     s32 s2;
     s32 v0;
     s32 v1;
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
+    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
     s32 a2;
 
     s1 = a0p;
@@ -3292,7 +3292,7 @@ void func_8017DE84(void *a0)
 
         ((Unkstruct_800B5CB8 *)s0)->unkFE = mode;
         v1 = mode;
-        __asm__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(v1) : "0"(v1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10) wall:cse-const-fold
 
         if (v1 == 1)
             goto case1;
@@ -3318,7 +3318,7 @@ void func_8017DE84(void *a0)
         func_8001C810(((Unkstruct_800B5CB8 *)s0)->unk20, (s32)D_8019D81C);
         callarg0 = 0x199;
         e = ((Unkstruct_800B5CB8 *)s0)->unk20;
-        __asm__("" : "=r"(e) : "0"(e));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(e) : "0"(e));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10) wall:cse-const-fold
         argmode = 3;
 
     shared:

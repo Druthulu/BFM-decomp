@@ -2825,10 +2825,10 @@ void func_8017D4A0(s32 a0) {
     Blk8_80126940_8017D4A0 sp10;
     u8 t;
     s16 lo, hi;
-    register s16 v2E __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 y __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 cond __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s16 v32 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s16 v2E __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
+    register s32 y __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
+    register s32 cond __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
+    register s16 v32 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;

@@ -2921,7 +2921,7 @@ void func_80182788(s32 a0) {
     Blk8_80126940_8017D6D0_80182A98 sp10;
     u8 t;
     s16 v1;
-    register s16 c __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s16 c __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-priority
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
@@ -3011,7 +3011,7 @@ void func_80182968(s32 a0) {
     Blk8_80126940_8017D6D0_80182A98 sp10;
     u8 t;
     s16 v1;
-    register s16 c __asm__("$4"); /* clamp store value — target stores every bound from $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s16 c __asm__("$4"); /* clamp store value — target stores every bound from $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-priority
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;

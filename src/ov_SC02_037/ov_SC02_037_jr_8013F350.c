@@ -1714,7 +1714,7 @@ u32 mhi;
           s32 k;
           s32 t3v;
           u8 *q = ((u8 *) ot) + 0x14;
-          register s16 size __asm__("$2");  // !FAKE: pin $2 size — a hard reg is may_not_optimize (loop.c:596), so scan_loop (loop.c:649) cannot hoist the in-loop li 8 (P36 S103 c48 minimum-lever)
+          register s16 size __asm__("$2");  // !FAKE: pin $2 size — a hard reg is may_not_optimize (loop.c:596), so scan_loop (loop.c:649) cannot hoist the in-loop li 8 (P36 S103 c48 minimum-lever) wall:greg-copy-pref
           j = 0;
           k = m;
           t3v = m * 4;                  /* [L3] explicit, must sit before the 3 constants */
@@ -1762,7 +1762,7 @@ u32 w;
             }
             q += 0x14;
             ot += 5;
-            __asm__ __volatile__("" :: "r"(j));  // !FAKE: keepalive j — +3 depth-3 refs so allocno_compare (global.c:587-609) ranks j 14/76 over k 13/75 and j takes $a2 (P36 S103 c48 minimum-lever)
+            __asm__ __volatile__("" :: "r"(j));  // !FAKE: keepalive j — +3 depth-3 refs so allocno_compare (global.c:587-609) ranks j 14/76 over k 13/75 and j takes $a2 (P36 S103 c48 minimum-lever) wall:greg-copy-pref
           }
 
         }

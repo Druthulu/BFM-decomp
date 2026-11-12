@@ -2064,16 +2064,16 @@ s32 func_80135004(s32 arg0, void *p1, s32 p2) {
     extern s16 *D_8018A9A4;
     extern u16 D_801F4DD8;
 
-    register s16 *pb0 __asm__("$9");   /* D_8018A9A0 -> $t1 */  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus4)
-    register s16 *pac __asm__("$6");   /* D_8018A99C -> $a2 */  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus4)
-    register s16 *pb8 __asm__("$8");   /* D_8018A9A8 -> $t0 */  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus4)
+    register s16 *pb0 __asm__("$9");   /* D_8018A9A0 -> $t1 */  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus4) wall:lreg-priority
+    register s16 *pac __asm__("$6");   /* D_8018A99C -> $a2 */  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus4) wall:lreg-priority
+    register s16 *pb8 __asm__("$8");   /* D_8018A9A8 -> $t0 */  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus4) wall:lreg-priority
     u16 *pb4;
     u16 a, b;
     int id;
     int a1v, a2v, d94;
 
     pb0 = D_8018A9A0;
-    __asm__ __volatile__("" : : "r"(pb0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus4)
+    __asm__ __volatile__("" : : "r"(pb0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus4) wall:sched1-birth-boost
 
     a = ((Unkstruct_80135004_2 *)p2)->unk0; pac = D_8018A99C; pb0[0] = a; b = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_8018A9A8); pac[0] = b; pb8[0] = a - b;
     a = ((Unkstruct_80135004_2 *)p2)->unk2; pb0[1] = a; b = ((u16 *)p1)[1]; pac[1] = b; pb8[1] = a - b;

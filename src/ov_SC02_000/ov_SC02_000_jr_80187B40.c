@@ -3283,7 +3283,7 @@ s32 func_80188680(void *a0, s32 a1, s32 a2)
 {
     s16 f6 = *(s16 *)((s32)a0 + 6);
     u16 fE = *(u16 *)((s32)a0 + 0xE);
-    register s32 ret asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 ret asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
 
     ret = 0;
     if ((s16)a1 - 0x30 < f6) {
@@ -3464,9 +3464,9 @@ s32 func_80188A18(s32 param_1)
     extern void guess_AddVelocityToPos(struct vec *a0);
     extern void func_801292C8(u8 *a0);
 
-    register unsigned short c __asm__("$5");  // !FAKE: pin $5 c — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever)
+    register unsigned short c __asm__("$5");  // !FAKE: pin $5 c — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever) wall:lreg-priority
     int d;
-    register int g __asm__("$6");  // !FAKE: pin $6 g — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever)
+    register int g __asm__("$6");  // !FAKE: pin $6 g — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever) wall:lreg-priority
     int a;
     int e;
     ((void (*)(int))guess_AddVelocityToPos)(((int)param_1));
@@ -3994,7 +3994,7 @@ void func_80189750(s32 param_1)
     extern s16 D_801965CC;
     s32 p0;
     s32 iVar1;
-    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
 
     p0 = param_1;
     t = ((s32 (*)(void))guess_AllocModelObject)();

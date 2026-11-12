@@ -4,7 +4,7 @@ extern s32 D_8011F750;
 extern s32 D_8011F754;
 u8 *func_801468C8(s32 arg0, u8 arg1) {
     u8 *var_a2;   /* $a2 — returned base ptr  */
-    register u8 *var_v1 __asm__("$3");   /* $v1 — scan/store ptr     */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+    register u8 *var_v1 __asm__("$3");   /* $v1 — scan/store ptr     */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1) wall:sched1-order
     s32 var_t0;
     s32 var_a3;
     var_t0 = 0;

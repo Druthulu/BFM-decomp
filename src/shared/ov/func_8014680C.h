@@ -11,7 +11,7 @@ unsigned short *func_8014680C(short *param_1)
 {
     int iVar1, iVar2;
     unsigned short *psVar3;
-    register unsigned short *psVar4 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1)
+    register unsigned short *psVar4 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-const-addr
     iVar2 = 0;
     psVar4 = (unsigned short *)&(*(unsigned short *)&D_8011F9D0);
     psVar3 = psVar4;

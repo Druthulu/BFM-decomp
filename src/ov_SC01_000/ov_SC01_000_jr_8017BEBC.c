@@ -3249,7 +3249,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     extern u16 D_80182720, D_80182722, D_80182728, D_8018272A;
     extern u16 D_80182730, D_80182732;
     u8 *pkt;
-    register u8 *ob __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u8 *ob __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     u32 mlo;
     u32 c80;
     u32 cFF;
@@ -3344,7 +3344,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & mlo);
     ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)pkt;
     pkt += 0x28;
-    __asm__("" :: "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__("" :: "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
 
     *(u8 *)(pkt + 3) = 9;
     *(u8 *)(pkt + 7) = 0x2C;
@@ -3418,7 +3418,7 @@ s32 func_8017E210(s32 arg0)
 {
     u8 *p;
     u32 *q;
-    register u32 mlo __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 mlo __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-copy-pref
     u32 mhi;
     s32 frame_pad[2];
 
@@ -3531,8 +3531,8 @@ void func_8017E3A0(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4, s32 arg5)
 void func_8017E4A0(void)
 {
     u8 *p;
-    register u32 u __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    register u32 w __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 u __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-const-fold
+    register u32 w __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-const-fold
     u32 mlo;
     u32 mhi;
     u32 ent;
@@ -3549,7 +3549,7 @@ void func_8017E4A0(void)
     p = D_800A5E60;
     mhi = 0xFF000000;
     *(s8 *)(p + 3) = 5;
-    __asm__ __volatile__("li\t%0,0x64\n\tsw\t%1,4(%2)"  // !FAKE: instruction li — REFUSED instruction `li` has no C spelling in the table (P36 rung B tus10)
+    __asm__ __volatile__("li\t%0,0x64\n\tsw\t%1,4(%2)"  // !FAKE: instruction li — REFUSED instruction `li` has no C spelling in the table (P36 rung B tus10) wall:no-c-spelling
                          : "=&r"(c64)
                          : "r"(w), "r"(p)
                          : "memory");
@@ -3595,8 +3595,8 @@ void func_8017E594(s32 arg0, s32 arg1, s32 arg2, u8 arg3)
 {
     u8 *p;
     u32 *q;
-    register u32 mlo __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B tus10)
-    register u32 mhi __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 mlo __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
+    register u32 mhi __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
     s32 h0;
     s32 frame_pad[2];
 

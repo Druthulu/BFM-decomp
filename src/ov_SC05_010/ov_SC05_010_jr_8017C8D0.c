@@ -4533,7 +4533,7 @@ void func_80180AA0(short *param_1) {
     D_80192770[((Unkstruct_80180AA0 *)param_1)->unk2]();
     if (((Unkstruct_80180AA0 *)param_1)->unk0 != 0) {
         u8 *arg = (u8 *)param_1;
-        __asm__("" ::: "$4");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__("" ::: "$4");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-birth-boost
         val = (s32)*(s16 *)(*(s32 *)(((Unkstruct_80180AA0 *)arg)->unk64 + 0x20) + 0x1A) * (s32)D_80192734;
         if (val < 0) {
             val += 0xFFF;

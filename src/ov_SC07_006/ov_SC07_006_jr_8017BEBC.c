@@ -3334,7 +3334,7 @@ void func_8017D0F4(void *a0);
 
 void func_8017D040(s32 arg0) {
     s32 t;
-    register s32 tc __asm__("a1");  // !FAKE: pin a1 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 tc __asm__("a1");  // !FAKE: pin a1 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-copy-pref
     Ent8018DE64 *ptr;
 
     t = 0x190;
@@ -4589,9 +4589,9 @@ void func_80182268(s32 param_1, s32 param_2) {
     a = rand() & 0x7F;
     d = *(u16 *)(D_801BFCDC + 0x60) - 0x40;
     ((Unkstruct_800B5CB8 *)work)->unkE = ((Unkstruct_800B5CB8 *)work)->unkE - (d + a);
-    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9) wall:cse-value-forward
     ((Unkstruct_800B5CB8 *)work)->unkA = ((Unkstruct_800B5CB8 *)work)->unkA + (*(u16 *)(D_801BFCDC + 0x62) + mod);
-    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9) wall:cse-value-forward
     ((Unkstruct_800B5CB8 *)work)->unk6 = ((Unkstruct_800B5CB8 *)work)->unk6 + (*(u16 *)(D_801BFCDC + 0x64) + mod);
     CAST_WIDTH(u32, work, 0x18) = ((rand() & 0xFF) - 0x80) << 10;
     *(u16 *)(work + 0x16) = -((rand() & 3) + 4);

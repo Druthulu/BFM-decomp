@@ -763,9 +763,12 @@ def walk_file(raw, rel, is_header, global_names=None):
     # a marker on a KEPT ordinary-C fake — `do { … } while (0)` or a dead initialiser — is Drew's S104 ruling (a) and
     # sotn-decomp's STYLE.md rule: the fake stays as C and carries `// !FAKE:`. Counted apart; never an orphan, never a lever.
     cfake = [ln for ln, l in enumerate(raw_lines, start=1) if FAKE_MARK in l and C_FAKE_RX.search(l)]
+    # 3.43 T12: a marker on the line above an asm #define is that definition's (an asm-macro residue site; a comment on the
+    # #define line itself would enter the macro body and its text_hash)
+    md_lines = {m["line"] for m in mdefs}
     orphans = [ln for ln, l in enumerate(raw_lines, start=1)
                if FAKE_MARK in l and ln not in ab_lines and not (ln + 1 in ab_lines and FAKE_MARK not in raw_line(ln + 1))
-               and ln not in cfake]
+               and ln not in cfake and ln + 1 not in md_lines]
     return dict(rel=rel, sites=sites, defs=[dict(name=d["name"], line=d["line"], end=d["end"], nhash=d["nhash"], nlines=d["nlines"]) for d in defs],
                 macro_defs=mdefs, coverage=cov, live_tokens=live_tokens, roled=len(roles), unclassified=unclassified, orphan_markers=orphans,
                 cfake_markers=cfake)
@@ -1273,6 +1276,57 @@ def strict_failures(sites, mdefs, gte_header, residue_rows, header_macros=None):
     return fails, residue_hit, counts
 
 
+def wall_comment_check(sites, mdefs, gte_header, residue_rows, lines_of, header_macros=None):
+    """3.43 T12 (R3.43-001): every excused site's `// !FAKE:` marker (its line, else the line above — attribution()'s lookup)
+    carries exactly the ` wall:<tag>`s of the residue rows whose sites use that marker line; a non-excused pin/asm site's marker
+    carries none (stale). Excused sites as strict_failures takes them (ab + direct GTE + per-TU asm macro defs, matched on
+    (file, func, kind)). Returns dict(sites, markers, no_marker, no_wall, wrong_wall, stale, rc): each failure list holds
+    dict(site, expected=[tags], found=[tags])."""
+    if header_macros is None:
+        header_macros = header_macro_names(gte_header)
+    ab = [x for x in sites if x["cls"] in "AB" and x["kind"] not in NON_LEVER_KINDS and x["tu"] != gte_header]
+    direct_gte = [x for x in sites if x["cls"] == "B" and x["kind"] in ("gte", "gte-unsigned") and x["tu"] != gte_header
+                  and not (x.get("via") and x["via"] in header_macros)]
+    md = [dict(tu=m["tu"], fn=m["name"], line=m["line"], cls="B", kind="asm-macro", detail=m["kind"])
+          for m in mdefs if m["tu"] != gte_header]
+    tags = collections.defaultdict(set)
+    for r in residue_rows:
+        tags[(r["file"], r["func"], r["kind"])].update(WALL_RE.findall(r["cause"]))
+
+    def marker(x):
+        L = lines_of(x["tu"])
+        for ln in (x["line"], x["line"] - 1):
+            if 0 < ln <= len(L) and "// " + FAKE_MARK in L[ln - 1]:
+                return ln, L[ln - 1][L[ln - 1].find("// " + FAKE_MARK):]
+        return None, ""
+
+    out = dict(sites=0, markers=0, no_marker=[], no_wall=[], wrong_wall=[], stale=[])
+    req, users, text = collections.defaultdict(set), collections.defaultdict(list), {}
+    for i, x in enumerate(ab + direct_gte + md):
+        k = (x["tu"], x["fn"] or "", x["kind"])
+        if k not in tags:
+            if i < len(ab):
+                ln, txt = marker(x)
+                if ln and WALL_RE.search(txt):
+                    out["stale"].append(dict(site=x, expected=[], found=WALL_RE.findall(txt)))
+            continue
+        out["sites"] += 1
+        ln, txt = marker(x)
+        if not ln:
+            out["no_marker"].append(dict(site=x, expected=sorted(tags[k]), found=[]))
+            continue
+        req[(x["tu"], ln)].update(tags[k]); users[(x["tu"], ln)].append(x); text[(x["tu"], ln)] = txt
+    out["markers"] = len(req)
+    for key in sorted(req):
+        found, want = WALL_RE.findall(text[key]), sorted(req[key])
+        if not found:
+            out["no_wall"].extend(dict(site=x, expected=want, found=[]) for x in users[key])
+        elif sorted(found) != want:
+            out["wrong_wall"].extend(dict(site=x, expected=want, found=found) for x in users[key])
+    out["rc"] = 1 if (out["no_marker"] or out["no_wall"] or out["wrong_wall"] or out["stale"]) else 0
+    return out
+
+
 AGENT_VERDICTS = {"REFUSED", "NOTHING-USABLE", "BODY-COMPILE-ERROR", "DEFERRED-ONLY"}
 ARG_REGS = {"$4", "$5", "$6", "$7", "a0", "a1", "a2", "a3", "$a0", "$a1", "$a2", "$a3"}
 
@@ -1458,6 +1512,30 @@ def selftest():
     aby, abad = attribution([asite(1), asite(3), asite(4)], al.__getitem__)
     if aby != {"P36": 1, "PA3": 1} or [x["line"] for x in abad] != [4]:
         print(f"selftest: attribution {dict(aby)} unattributed {[x['line'] for x in abad]} (want P36 1, PA3 1, line 4 unattributed)"); ok = False
+    # 3.43 T12 wall comments: the marker carries its rows' tags — a correct tag passes; none is no-wall; another is wrong-wall;
+    # a tag on a non-excused site's marker is stale; an asm macro def's marker sits on the line above the #define
+    wf = {"src/fx/w.c": ["__asm__(\"\" : \"=r\"(x) : \"0\"(x));  // !FAKE: launder — P36 rung B t1 wall:w1",
+                         "__asm__(\"\" : \"=r\"(x) : \"0\"(x));  // !FAKE: launder — P36 rung B t1",
+                         "__asm__(\"\" : \"=r\"(x) : \"0\"(x));  // !FAKE: launder — P36 rung B t1 wall:w2",
+                         "__asm__(\"\" : \"=r\"(x) : \"0\"(x));  // !FAKE: launder — P36 rung B t1 wall:w1",
+                         "#ifndef SHB  // !FAKE: asm-macro-def wall:w3",
+                         "#define SHB(x) __asm__(\"\" : \"=r\"(x) : \"0\"(x))"]}
+    wsite = lambda ln, fn: dict(tu="src/fx/w.c", fn=fn, line=ln, cls="B", kind="launder", detail="", marked=True)
+    wrow = lambda fn, k, t: dict(row("src/fx/w.c", fn, k), cause=f"singleton({k}) wall:{t}")
+    wrows = [wrow("f1", "launder", "w1"), wrow("f2", "launder", "w1"), wrow("f3", "launder", "w1"), wrow("SHB", "asm-macro", "w3")]
+    wmd = [dict(name="SHB", kind="launder", line=6, tu="src/fx/w.c")]
+    wcc = wall_comment_check([wsite(1, "f1")], wmd, GTE_HEADER_DEFAULT, wrows, wf.__getitem__, header_macros=set())
+    if wcc["rc"] or wcc["sites"] != 2 or wcc["markers"] != 2:
+        print(f"selftest: wall comments (i) a correct tag failed {wcc}"); ok = False
+    wcc = wall_comment_check([wsite(2, "f2")], [], GTE_HEADER_DEFAULT, wrows, wf.__getitem__, header_macros=set())
+    if wcc["rc"] != 1 or len(wcc["no_wall"]) != 1 or wcc["no_wall"][0]["expected"] != ["w1"]:
+        print(f"selftest: wall comments (ii) a missing tag passed {wcc}"); ok = False
+    wcc = wall_comment_check([wsite(3, "f3")], [], GTE_HEADER_DEFAULT, wrows, wf.__getitem__, header_macros=set())
+    if wcc["rc"] != 1 or len(wcc["wrong_wall"]) != 1 or wcc["wrong_wall"][0]["found"] != ["w2"]:
+        print(f"selftest: wall comments (iii) a different tag passed {wcc}"); ok = False
+    wcc = wall_comment_check([wsite(4, "f9")], [], GTE_HEADER_DEFAULT, wrows, wf.__getitem__, header_macros=set())
+    if wcc["rc"] != 1 or len(wcc["stale"]) != 1 or wcc["sites"] != 0:
+        print(f"selftest: wall comments (iv) a stale tag passed {wcc}"); ok = False
     print(f"selftest: {'OK' if ok else 'FAIL'} — {len(r['sites'])} sites, {len(r['defs'])} defs, {len(r['macro_defs'])} asm macros")
     return ok
 
@@ -1548,6 +1626,18 @@ def main():
                 rc = 1
             if wall_bad:
                 rc = 1
+            if a.residue:
+                wcc = wall_comment_check(sites, mdefs, a.gte_header, residue_rows,
+                                         lambda tu: _lc.setdefault(tu, (REPO / tu).read_text(errors="replace").split("\n")))
+                print(f"wall comments: sites {wcc['sites']}, markers {wcc['markers']}, no-marker {len(wcc['no_marker'])}, "
+                      f"no-wall {len(wcc['no_wall'])}, wrong-wall {len(wcc['wrong_wall'])}, stale {len(wcc['stale'])} — "
+                      f"{'OK' if not wcc['rc'] else 'FAIL'}")
+                bad = [(n, e) for n in ("no_marker", "no_wall", "wrong_wall", "stale") for e in wcc[n]]
+                for n, e in bad[:10]:
+                    x = e["site"]
+                    print(f"  {n.replace('_', '-')}: {x['tu']}:{x['line']} {x['fn']} {x['kind']} expected {e['expected']} found {e['found']}")
+                if wcc["rc"]:
+                    rc = 1
         else:
             print(f"lever_census --check: {len(ab):,} pin/asm sites, {len(ab) - len(un):,} marked !FAKE, {len(un):,} UNMARKED, {attr_line} — {'OK' if not un and not unattr else 'FAIL'}")
             if un:

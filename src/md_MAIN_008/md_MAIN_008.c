@@ -91,40 +91,40 @@ void func_800CEF50(void) {
     extern s16 guess_g_DoubleBufferIndex;
     extern u8 D_800AA60C[];
 
-    register s32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 c __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
+    register s32 c __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
     u32 w;
     s32 x78;
-    register s32 m __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 m __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
     s32 f;
-    register s32 ten __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 neg __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 hundred __asm__("$11");  // !FAKE: pin $11 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 five __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 v2 __asm__("$13");  // !FAKE: pin $13 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 *p __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 pm __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 ten __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
+    register s32 neg __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
+    register s32 hundred __asm__("$11");  // !FAKE: pin $11 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
+    register s32 five __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
+    register s32 v2 __asm__("$13");  // !FAKE: pin $13 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
+    register u32 *p __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
+    register s32 pm __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
 
     v = 0xE100008A;
     v2 = 0xE100008C;
     m = 0xFF0000;
-    __asm__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
     five = 5;
-    __asm__("" : "=r"(five) : "0"(five));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : "=r"(five) : "0"(five));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
     p = (u32 *)&D_800CF10C;
     m |= 0xFFFF;
     D_800CF10F = five;
     w = *p;
-    __asm__ volatile("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ volatile("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
     hundred = 100;
-    __asm__("" : "=r"(hundred) : "0"(hundred));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : "=r"(hundred) : "0"(hundred));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
     D_800CF110 = v;
     v = -0xA0;
     neg = -0x6E;
-    __asm__("" : "=r"(neg) : "0"(neg));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : "=r"(neg) : "0"(neg));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
     c = 0x80;
     ten = 10;
-    __asm__("" : "=r"(ten) : "0"(ten));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : "=r"(ten) : "0"(ten));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
     D_800CF118 = v;
     v = 0x100;
     f = 0xF0;
@@ -163,7 +163,7 @@ void func_800CEF50(void) {
     v = *(u32 *)c;
     *p = (w & x78) | (v & m);
     v = *(u32 *)c;
-    __asm__("and %0,%1,%2" : "=r"(pm) : "r"(p), "r"(m));  // !FAKE: instruction and — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("and %0,%1,%2" : "=r"(pm) : "r"(p), "r"(m));  // !FAKE: instruction and — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
     v = (v & x78) | pm;
     p = (u32 *)&D_800CF124;
     *(u32 *)c = v;
@@ -175,7 +175,7 @@ void func_800CEF50(void) {
     v = *(u32 *)c;
     *p = (w & x78) | (v & m);
     v = *(u32 *)c;
-    __asm__("and %0,%1,%2" : "=r"(pm) : "r"(p), "r"(m));  // !FAKE: instruction and — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("and %0,%1,%2" : "=r"(pm) : "r"(p), "r"(m));  // !FAKE: instruction and — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
     v = (v & x78) | pm;
     *(u32 *)c = v;
 }

@@ -4451,7 +4451,7 @@ void func_80180BD8(s32 a0)
         v = guess_TurnStepToTarget(a0, 6);
         b178arg = D_8018861C;
         {
-            register s32 newval __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s32 newval __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-copy-pref
 
             p = (unsigned short *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12);
             newval = *p + v;

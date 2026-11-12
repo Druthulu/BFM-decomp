@@ -6,7 +6,7 @@ void func_80160C28(void *arg0)
 {
     s32 p;
     s32 q;
-    register void *a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    register void *a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
     if (func_80161208() == 0) {
         *(s32 *)((u8 *)arg0 + 0x238) += 0x1c000;
         p = *(s32 *)((u8 *)arg0 + 0x20);

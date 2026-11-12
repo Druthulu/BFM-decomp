@@ -1560,9 +1560,9 @@ void func_8012E364(s32 arg0_)
     void func_8012E688(s32 param_1, u16 param_2, u16 param_3)
     {
         struct { short v[3]; short pad; short xy[2]; int sp1c; int flag; } f;
-        register void *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        register void *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
         u16 a = param_2;
-        register u16 b __asm__("$17") = param_3;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+        register u16 b __asm__("$17") = param_3;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
         if (((Unkstruct_8012E688 *)param_1)->unk20 != 0) {
             f.v[0] = (short)((Unkstruct_8012E688_2 *)*(s32 *)(param_1 + 0x20))->unk48;
             f.v[1] = (short)((Unkstruct_8012E688_2 *)*(s32 *)(param_1 + 0x20))->unk4C;

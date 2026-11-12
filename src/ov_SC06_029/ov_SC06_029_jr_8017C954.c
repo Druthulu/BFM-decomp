@@ -5982,12 +5982,12 @@ void func_80182388(s32 a0, s32 a1)
     s32 ang;
     s32 p;
     s32 t;
-    register s32 x0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 x1 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 y0 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 x0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
+    register s32 x1 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
+    register s32 y0 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
     s32 y1;
     s32 z;
-    register s32 mtx __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 mtx __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
 
     p = ((a1 + *(s16 *)(a0 + 0x70) * 4) << 4) + (s32)D_801DFBF8;
     guess_RotTransSVWithMatrix((s32)D_801DFD94, p, (s32)sp28);
@@ -8051,25 +8051,25 @@ void func_801857A4(vtx, x, y, cx, cy, w, h, zoff, tp)
 
     FT4_801857A4 *pkt;
     u32 ot;
-    register s32 zf __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 zf __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-copy-pref
     u32 rgb;
     s32 flag;
     s32 flag2;
     s32 otz;
     s32 tpage;
     s32 uu, vv;
-    register s32 z __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 z __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-copy-pref
     u32 *otp;
-    register s32 cl __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 cl __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-copy-pref
     s32 ct;
-    register s32 oz __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 oz __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-copy-pref
     u16 su = x;
     u16 sv = y;
     s32 ww;
-    register s32 tpp __asm__("$25");  // !FAKE: pin $25 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 tpp __asm__("$25");  // !FAKE: pin $25 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-copy-pref
     s32 hh;
-    register s32 zz __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 cyy __asm__("$13");  // !FAKE: pin $13 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 zz __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-copy-pref
+    register s32 cyy __asm__("$13");  // !FAKE: pin $13 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-copy-pref
 
     rgb = 0x808080;
     cyy = cy;
@@ -8077,7 +8077,7 @@ void func_801857A4(vtx, x, y, cx, cy, w, h, zoff, tp)
     tpp = tp;
     ww = w;
     hh = h;
-    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10) wall:sched-load-delay-fill
     pkt = (FT4_801857A4 *)D_800A5E60;
     D_800A5E60 += 0x28;
     ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
@@ -8249,7 +8249,7 @@ void func_801859F4(SVec_59F4 *vtx, u32 tx, u32 ty, u32 cx, u16 cy, u8 uw,
     u8 *pkt;
     u32 ot;
     s32 i;
-    register SVec_59F4 *p __asm__("$11");   /* L1 — see header */  // !FAKE: pin $11 — NEEDED DIFFERS (P36 rung B tus10)
+    register SVec_59F4 *p __asm__("$11");   /* L1 — see header */  // !FAKE: pin $11 — NEEDED DIFFERS (P36 rung B tus10) wall:combine-copy-merge
     s32 z0, z1, zz;
     u32 tp;
     s32 u0;
@@ -8262,7 +8262,7 @@ void func_801859F4(SVec_59F4 *vtx, u32 tx, u32 ty, u32 cx, u16 cy, u8 uw,
     D_800A5E60 = pkt + 0x28;
     pkt[3] = 9;
     {
-        register u32 c0 __asm__("$4");      /* L2 — see header */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+        register u32 c0 __asm__("$4");      /* L2 — see header */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:combine-copy-merge
         c0 = 0x808080;
         ((Unkstruct_801859F4_2 *)pkt)->unk4 = c0;
     }

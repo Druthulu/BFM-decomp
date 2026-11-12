@@ -12,12 +12,12 @@ void func_801372B0(void) {
     Svec_801372B0 in;
     Svec_801372B0 out;
     Gline_801372B0 prim;
-    register u8 *mat __asm__("$23") = guess_g_RenderWork;            /* $s7 = base; +0x18 after branch */  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B headers1)
+    register u8 *mat __asm__("$23") = guess_g_RenderWork;            /* $s7 = base; +0x18 after branch */  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B headers1) wall:greg-priority
     s32 white;                       /* $s3, assigned lazily in-if */
     s16 ax;                          /* $s0 = out.vx+0x7B */
     s16 ay;                          /* $s1 = out.vx+0x75 */
     s16 bx;                          /* $s2 = out.vy-0x57 */
-    register s16 by __asm__("$20");                          /* $s4 = out.vy-0x5D */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B headers1)
+    register s16 by __asm__("$20");                          /* $s4 = out.vy-0x5D */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B headers1) wall:greg-priority
     in.vz = 0;
     in.vy = 0;
     in.vx = 0;
@@ -50,13 +50,13 @@ void func_801372B0(void) {
         bx = bx - 0x57;                                      /* $s2 = out.vy - 0x57 (in place) */
         {
         Gline_801372B0 *op = (Gline_801372B0*)&guess_g_OrderingTables[(u32)aD800B9A02 * 0x14];
-        __asm__("" : "=r"(op) : "0"(op));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
+        __asm__("" : "=r"(op) : "0"(op));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1) wall:sched1-order
         ay = ay + 0x75;                                      /* $s1 = out.vx + 0x75 (in place) */
         prim.x0 = ay; prim.y0 = by; prim.x1 = ax; prim.y1 = bx;
         aGsSortLine(&prim, op, 0);
         }
-        __asm__("" : "=r"(ax) : "0"(ax));                    /* LEVER A: 2nd set kills ax's S2   */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
-        __asm__("" : "=r"(by) : "0"(by));                    /* boost (same for by) -> by/ax/bx/ */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
+        __asm__("" : "=r"(ax) : "0"(ax));                    /* LEVER A: 2nd set kills ax's S2   */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1) wall:sched1-order
+        __asm__("" : "=r"(by) : "0"(by));                    /* boost (same for by) -> by/ax/bx/ */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1) wall:sched1-order
         prim.attr = 0;                                       /* chain/ay revert to source order  */
         prim.r = white; prim.g = 0; prim.b = 0;
         prim.x0 = ax; prim.y0 = by; prim.x1 = ay; prim.y1 = bx;

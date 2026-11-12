@@ -4343,7 +4343,7 @@ extern void (*D_80185914[])(void);
 
 void func_80180390(void) {
     s32 v1;
-    register void (**base)(void) __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register void (**base)(void) __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
     v1 = (s16)D_801F807C + 1;
     base = D_80185914;
     if (D_80185914[v1] == 0)

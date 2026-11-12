@@ -3327,7 +3327,7 @@ void func_80183098(s32 param_1) {
      * folds `cam->y` back to %hi/%lo(guess_g_PlayerPosX+4) and emits a SECOND `la`
      * instead of the target's `lh 0x4($s1)`.  Zero bytes. */
     cam = (Cam183098 *)&guess_g_PlayerPosX;
-    __asm__("" : "=r"(cam) : "0"(cam));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__("" : "=r"(cam) : "0"(cam));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
 
     CAST_WIDTH(s32, param_1, 0x4) += ((Unkstruct_80126B58 *)param_1)->unk10;
     CAST_WIDTH(s32, param_1, 0x8) += ((Unkstruct_80126B58 *)param_1)->unk14;
@@ -3497,9 +3497,9 @@ void func_8018340C(void *a0)
        D_80126950 load from being hoisted into the imul latency gap (sched1
        priority, map sched.md S3). The three pins split the one collapsed
        chain pseudo into the target's $t0/$v0/$a2 triple (local-alloc). */
-    register s32 aa __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 bb __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 cc __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 aa __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-copy-pref
+    register s32 bb __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-copy-pref
+    register s32 cc __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-copy-pref
 
     in[0] = ((Unkstruct_8018340C *)a0)->unk6;
     in[1] = ((Unkstruct_8018340C *)a0)->unkA;

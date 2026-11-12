@@ -560,11 +560,11 @@ extern s32  guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void func_801838F0(void *arg0);
 
 void func_8018353C(s32 param_1) {
-    register s32 a2val __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 a2val __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
     s32 v1val;
     s32 a3val;
     s32 v0;
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
     s32 posPtr;
     s32 out;
     s16 buf1[3];
@@ -2088,7 +2088,7 @@ extern void func_80183790(s32 a0);
 
 void func_8018528C(void *a0) {
     void *s0;
-    register unsigned short state __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register unsigned short state __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
 
     s0 = a0;
     state = ((Unkstruct_800B5CB8 *)s0)->unk34;

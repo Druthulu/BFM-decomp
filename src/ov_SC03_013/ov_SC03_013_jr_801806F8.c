@@ -2865,7 +2865,7 @@ extern s16 *D_801AD3E4;
 void func_801806F8(void *a0)
 {
     void *a1;
-    register s32 idx __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 idx __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:expand-hardreg-var
 
     a1 = a0;
 

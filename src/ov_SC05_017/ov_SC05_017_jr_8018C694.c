@@ -3495,9 +3495,9 @@ void func_8018CDB0(void) {
     for (; i < 0xC; i++) {
         s32 slot = i + 0x2F;
         s32 ret;
-        register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
         s32 t;
-        register s32 rb __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 rb __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
         s16 flags;
         s32 m;
 
@@ -3519,10 +3519,10 @@ void func_8018CDB0(void) {
                 ((s16 *)q)[-4] = 2;
                 return;
             } else {
-                register s32 sc __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-                register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+                register s32 sc __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
+                register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
                 sc = slot;
-                __asm__("" : "=r"(sc) : "0"(sc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+                __asm__("" : "=r"(sc) : "0"(sc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-argcopy-hoist
                 d = rb - 0x14;
                 *(s32 *)r = (&D_801E9CE0)[d >> 1];
                 ((void (*)(s32))func_800D0F0C)(sc);

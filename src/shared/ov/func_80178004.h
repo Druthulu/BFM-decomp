@@ -4,8 +4,8 @@ extern u32 guess_IntToBcd(s32 a0, s32 a1);
 s32 func_80178004(uint *param_1, uint param_2, int param_3)
 {
     extern short D_8011F81E;
-    register uint *p __asm__("$18");      /* $s2 running ptr */  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B headers1)
-    register uint p2  __asm__("$17");     /* $s1 param_2 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)
+    register uint *p __asm__("$18");      /* $s2 running ptr */  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
+    register uint p2  __asm__("$17");     /* $s1 param_2 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
     uint u6;     /* $s0 uVar6 */
     uint mask;     /* $a0 0xFFFFFF */
     uint c74;      /* $a1 0x74808080 */
@@ -70,10 +70,10 @@ s32 func_80178004(uint *param_1, uint param_2, int param_3)
     }
     {
         uint  uVar1;   /* $t0 */
-        register uint *q     __asm__("$4");   /* $a0 running ptr in loop */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
-        register uint *r     __asm__("$5");   /* $a1 = q + 3 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
+        register uint *q     __asm__("$4");   /* $a0 running ptr in loop */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
+        register uint *r     __asm__("$5");   /* $a1 = q + 3 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
         short iVar4;
-        register uint  uVar5 __asm__("$9");   /* $t1 */  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B headers1)
+        register uint  uVar5 __asm__("$9");   /* $t1 */  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
         uint  base6;  /* $t6 0x6D160000 */
         uint  m2;  /* $t2 0xFFFFFF */
         uint  c3b;  /* $t3 0x3000000 */
@@ -99,9 +99,9 @@ s32 func_80178004(uint *param_1, uint param_2, int param_3)
         {
         short nx;
         do {
-            register uint uVar2 __asm__("$6");  /* $a2 */  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B headers1)
-            register uint c74v  __asm__("$3");  /* $v1 0x74808080 */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
-            register uint rval  __asm__("$2");  /* $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
+            register uint uVar2 __asm__("$6");  /* $a2 */  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
+            register uint c74v  __asm__("$3");  /* $v1 0x74808080 */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
+            register uint rval  __asm__("$2");  /* $v0 */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
             uint t;
             t = (uVar1 << 16) >> 28;
             uVar2 = t;

@@ -286,16 +286,16 @@ void func_800CF3E8(void) {
     u32 tv0;
     u32 tag6;
     u32 tv1;
-    register u32 tv2 __asm__("$15");  // !FAKE: pin $15 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 tv2 __asm__("$15");  // !FAKE: pin $15 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-hardreg-reserve
     u32 tv3;
     u32 tv4;
     u32 b1a;
     u32 b1c;
     s32 c5;
-    register s32 q5 __asm__("$13");  // !FAKE: pin $13 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 mq2 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
-    register Sprt24 *pC __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register Sprt24 *p3 __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 q5 __asm__("$13");  // !FAKE: pin $13 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-hardreg-reserve
+    register u32 mq2 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-hardreg-reserve
+    register Sprt24 *pC __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-hardreg-reserve
+    register Sprt24 *p3 __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-hardreg-reserve
     Sprt24 *p5;
     Sprt24 *p6;
     u32 *ot;
@@ -535,25 +535,25 @@ s32 func_800CFC1C(u16 *param_1)
     extern s32 D_800EC69C;
 
     u8 buf[0x10];
-    register u16 *cursor __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P37 S+A t5_md_S1)
+    register u16 *cursor __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
     s32 uVar13;
-    register u16 *psVar14 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P37 S+A t5_md_S1)
+    register u16 *psVar14 __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
     s32 uVar16;
     u32 mask;
-    register u16 *puVar9 __asm__("$11");  // !FAKE: pin $11 — NEEDED DIFFERS (P37 S+A t5_md_S1)
+    register u16 *puVar9 __asm__("$11");  // !FAKE: pin $11 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
     u16 *puVar10;
     s32 iVar11;
     u16 tag;
     u32 result;
     u16 stored;
     s32 gate;
-    register u32 acc __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P37 S+A t5_md_S1)
-    register u32 uVar5 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P37 S+A t5_md_S1)
-    register u32 uVar7 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P37 S+A t5_md_S1)
+    register u32 acc __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
+    register u32 uVar5 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
+    register u32 uVar7 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
     u32 uVar1;
     u32 uVar6;
-    register u32 uVar8 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P37 S+A t5_md_S1)
-    register u32 uVar3 __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P37 S+A t5_md_S1)
+    register u32 uVar8 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
+    register u32 uVar3 __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
 
     cursor = param_1;
     uVar16 = 0;
@@ -562,7 +562,7 @@ s32 func_800CFC1C(u16 *param_1)
     if (gate) {
         return (u16 *)gate;
     }
-    __asm__ __volatile__("" : "=r"(cursor) : "0"(cursor));  // !FAKE: launder — NEEDED DIFFERS (P37 S+A t5_md_S1)
+    __asm__ __volatile__("" : "=r"(cursor) : "0"(cursor));  // !FAKE: launder — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:cse-copy-merge
     tag = *(u16 *)cursor;
     D_800EC69C = 0;
     if (tag != 0xff) {
@@ -574,16 +574,16 @@ s32 func_800CFC1C(u16 *param_1)
                 uVar13 = 0;
                 puVar10 = CAST_MISALIGNED(u16 *, psVar14, 1);
                 {
-                    register s32 boff __asm__("$2") = (s32)((s16 *)psVar14)[-1] * 2;  // !FAKE: pin $2 — NEEDED DIFFERS (P37 S+A t5_md_S1)
-                    register u16 *pi __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P37 S+A t5_md_S1)
+                    register s32 boff __asm__("$2") = (s32)((s16 *)psVar14)[-1] * 2;  // !FAKE: pin $2 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
+                    register u16 *pi __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
                     pi = (u16 *)((s32)puVar10 + boff);
-                    __asm__ __volatile__("" : "=r"(pi) : "0"(pi));  // !FAKE: launder — NEEDED DIFFERS (P37 S+A t5_md_S1)
+                    __asm__ __volatile__("" : "=r"(pi) : "0"(pi));  // !FAKE: launder — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:cse-copy-merge
                     puVar9 = pi;
                 }
                 if (0 < (s32)((s16 *)psVar14)[-1]) {
                     do {
                         u32 pix;
-                        register u32 out __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P37 S+A t5_md_S1)
+                        register u32 out __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
                         pix = (u32)*puVar9;
                         out = (u32)*puVar10;
                         uVar5 = pix & 0x1f;
@@ -600,14 +600,14 @@ s32 func_800CFC1C(u16 *param_1)
                             if (c) uVar5 = uVar5 - 1;
                         }
                         if (uVar7 != uVar8) {
-                            register s32 c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P37 S+A t5_md_S1)
+                            register s32 c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
                             uVar13 = 1;
                             if ((s32)uVar7 < (s32)uVar8) uVar7 = uVar7 + 0x20;
                             c = (s32)uVar8 < (s32)uVar7;
                             if (c) uVar7 = uVar7 - 0x20;
                         }
                         if (uVar1 != uVar3) {
-                            register s32 c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P37 S+A t5_md_S1)
+                            register s32 c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P37 S+A t5_md_S1) wall:lreg-copy-pref
                             uVar13 = 1;
                             if ((s32)uVar1 < (s32)uVar3) uVar1 = uVar1 + 0x400;
                             c = (s32)uVar3 < (s32)uVar1;
@@ -685,7 +685,7 @@ extern void func_800599B8(u16 *, u16 *);
 s32 func_800CFEB4(u16 *arg0)
 {
     u16 *s2;
-    register u16 *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
+    register u16 *s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-copy-pref
     u16 sVar1;
     s32 ret;
     s32 flag;
@@ -693,7 +693,7 @@ s32 func_800CFEB4(u16 *arg0)
     u16 buf[4];
     s32 pad[2];
 
-    __asm__("" : "=r"(s2) : "0"(arg0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : "=r"(s2) : "0"(arg0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     sVar1 = *s2;
     ret = 0;
     if (sVar1 != 0xFF) {
@@ -707,9 +707,9 @@ s32 func_800CFEB4(u16 *arg0)
                 s32 arg2;
                 s32 b;
                 s32 g;
-                register s32 r __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+                register s32 r __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-copy-pref
                 s32 x;
-                register s32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+                register s32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-copy-pref
                 s32 y;
 
                 flag = 0;

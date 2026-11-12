@@ -3141,7 +3141,7 @@ void func_8017D924(s32 arg0) {
     short sp10[3];
     short sp18[3];
     s32 temp;
-    register s32 color __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 color __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
     u16 cnt;
 
     sp10[0] = -0x100;
@@ -3190,12 +3190,12 @@ void func_8017DA50(void *arg) {
     s32 var_a0;
     s32 var_u;
     s32 var_v0;
-    register s32 var_t7 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 var_t7 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-hardreg-reserve
     s32 var_v1;
     s32 k40;
-    register s32 k50 __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 kF0 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 k100 __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 k50 __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-hardreg-reserve
+    register s32 kF0 __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-hardreg-reserve
+    register s32 k100 __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-hardreg-reserve
 
     var_v1 = ((Unkstruct_800B5CB8 *)arg)->unk1C;
     ((Unkstruct_800B5CB8 *)arg)->unk1C = var_v1 + 1;

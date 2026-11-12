@@ -3720,10 +3720,10 @@ void func_8017EFBC(u8 *a0, s32 a1) {
          * j=$a1 / p=$a3 / src=$a2 with j emitted first. Pin them. */
         s32 i;      /* $t0 */
         s32 j;      /* $a1 */
-        register u16 *dst __asm__("$10");  /* $t2 */  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B tus10)
-        register u16 *src __asm__("$6");   /* $a2 */  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
-        register u16 *p __asm__("$7");     /* $a3 */  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus10)
-        register u16 **table __asm__("$9");/* $t1 */  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus10)
+        register u16 *dst __asm__("$10");  /* $t2 */  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-priority
+        register u16 *src __asm__("$6");   /* $a2 */  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-priority
+        register u16 *p __asm__("$7");     /* $a3 */  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-priority
+        register u16 **table __asm__("$9");/* $t1 */  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-priority
         guess_ShowObjectModel(a0);
         for (i = 0, dst = D_8019F8BC, table = D_80188DEC; i < 5; i++) {
             for (j = 0, p = dst, src = *table; j < 0x10; j++) {
@@ -4987,7 +4987,7 @@ void func_80180F68(s32 a0)
 {
     {
         s32 *p;
-        register s32 two __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 two __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
 
         p = (s32 *)(CAST_SIGN(u32, (u8 *)a0, 0x20));
         two = 2;
@@ -5020,7 +5020,7 @@ void func_80180F68(s32 a0)
             }
         }
         CAST_WIDTH(s32, (u8 *)a0, 0x10) = v;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
     }
 
     ((Unkstruct_800B5CB8 *)a0)->unk14 = 0x200000;
@@ -5126,7 +5126,7 @@ void func_801810A4(s32 a0) {
              * fence stops sched1 lifting that second load above the sh, where it would overlap the
              * first load's pseudo. */
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0x600;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
             p = ((Unkstruct_800B5CB8 *)a0)->unk20;
             v = 0x1200;
         } else if (*(s32 *)(obj + 0x1C) < 0x11) {
@@ -5135,9 +5135,9 @@ void func_801810A4(s32 a0) {
              * not overlap the obj->0x1C pseudo, which also wants $v1), the second keeps the
              * `+ 0x600` below it -- target order is sll / lw / addiu. */
             v = *(s32 *)(obj + 0x1C) * 3 * 32;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
             p = ((Unkstruct_800B5CB8 *)a0)->unk20;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
             v = v + 0x600;
         } else {
             /* This arm writes its own 0x18 store and skips the shared tail; in the target it lands

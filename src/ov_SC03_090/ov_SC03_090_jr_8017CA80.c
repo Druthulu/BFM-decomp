@@ -3896,7 +3896,7 @@ void func_80181970(s32 a0) {
     Blk8_80126940_8017D6D0_80181C80 sp10;
     u8 t;
     s16 v1;
-    register s16 c __asm__("$4"); /* clamp store value — target stores every bound from $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s16 c __asm__("$4"); /* clamp store value — target stores every bound from $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
@@ -3986,7 +3986,7 @@ void func_80181B50(s32 a0) {
     Blk8_80126940_8017D6D0_80181C80 sp10;
     u8 t;
     s16 v1;
-    register s16 c __asm__("$4"); /* clamp store value — target stores every bound from $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s16 c __asm__("$4"); /* clamp store value — target stores every bound from $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
@@ -6028,7 +6028,7 @@ void func_801851B8(s32 arg0) {
     extern u8 D_801A2FC1;
     extern u8 D_801A2FC2;
     extern s32 rsin(s32 a0);
-    register u8 *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
     s32 i;
     s32 t;
 
@@ -7003,7 +7003,7 @@ void func_80186874(s32 arg0, s32 arg1) {
     } else {
         rv = 0;
     }
-    __asm__ __volatile__("" : "=r"(rv) : "0"(rv));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" : "=r"(rv) : "0"(rv));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
 }
 
 

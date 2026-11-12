@@ -2809,9 +2809,9 @@ s32 func_8017E5B8(s32 param_1, s32 param_2) {
             idx = D_8018C19C[(s16)param_2];
             off = idx * 4;                                   /* [2] */
             lim = D_8018C1C4[idx][0];                        /* [3] */
-            __asm__ __volatile__("");                        /* [4] */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("");                        /* [4] */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
             e = (s16 *)D_8018C1C4;
-            __asm__("" : "=r"(e) : "0"(e));                  /* [5] */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__("" : "=r"(e) : "0"(e));                  /* [5] */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
             if (t < lim) {
                 if (*(s16 *)((u8 *)e + off + 2) == 0 ||
                     (((s32(*)(s32))guess_TestGameFlag)(*(s16 *)((u8 *)e + off + 2)) & 0xFF) == 0) {
@@ -2990,10 +2990,10 @@ s32 *func_8017E804(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     u16 *pb;
     u16 *p;
     s32  c;
-    register s32 tv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 tv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     s32  idx2;
     s16  t;
-    register u32 c0 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 c0 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
 
     c = D_80115138[(s16)idx];
     *(u32 *)ot = 0x4000000;
@@ -3039,7 +3039,7 @@ s32 *func_8017E804(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
             j = 0;
             k = m;
             eight = 8;
-            __asm__ volatile("" :: "r"(pb), "r"(pb), "r"(pb), "r"(pb), "r"(pb));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ volatile("" :: "r"(pb), "r"(pb), "r"(pb), "r"(pb), "r"(pb));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
             pb2 = (u16 *)&guess_g_DoubleBufferIndex;
             m24 = 0xFFFFFF;
             mhi = 0xFF000000;
@@ -3070,7 +3070,7 @@ s32 *func_8017E804(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                 *(s16 *)(q - 2) = eight;
                 *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb2].ot[2] & m24);
                 {
-                    register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+                    register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
                     op = guess_g_FrontOrderingTablesOrg[*pb2].ot;
                     op[2] = (op[2] & mhi) | (((u32)ot) & m24);
                 }
@@ -3179,7 +3179,7 @@ s32 func_8017EB30(s32 a0, s32 a1) {
             goto sel_054;
         }
         if (t == 5) {
-            __asm__ ("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ ("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:flow-known-value
             if (t != 3) {
                 goto sel_094;
             }

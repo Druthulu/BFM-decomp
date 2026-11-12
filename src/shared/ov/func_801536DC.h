@@ -10,7 +10,7 @@ s32 func_801536DC(s32 param_1) {
     s32 s1;
     s32 s2;
     s32 sp10[2];
-    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B headers1) wall:greg-hardreg-reserve
     s32 q;
     if (D_8011DB28 != 0) {
         D_8011DB28(s0 + 0xA0);

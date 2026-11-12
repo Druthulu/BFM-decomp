@@ -5584,7 +5584,7 @@ void func_8018165C(s32 a0) {
             L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
             L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
             L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
-            { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:cse-const-addr
             { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
@@ -5610,7 +5610,7 @@ void func_8018165C(s32 a0) {
             L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
             L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
             L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
-            { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:cse-const-addr
             { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
             if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF

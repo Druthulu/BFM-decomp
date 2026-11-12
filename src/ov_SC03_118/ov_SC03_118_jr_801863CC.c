@@ -4428,7 +4428,7 @@ void func_80188DE4(void *a0) {
     extern u8 D_801D093C[];
     extern u8 D_801D094C[];
     extern void (*D_801D0A3C[])(void *);
-    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-hardreg-conflict
 
     if (((Unkstruct_80188DE4 *)a0)->unkFC != 0) {
         ((Unkstruct_80188DE4 *)a0)->unkFC = ((Unkstruct_80188DE4 *)a0)->unkFC - 1;
@@ -4447,7 +4447,7 @@ void func_80188DE4(void *a0) {
     ((Unkstruct_80188DE4 *)a0)->unk58 = t;
 
     t = ((Unkstruct_80188DE4 *)a0)->unk2;
-    __asm__("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-hardreg-conflict
     D_801D0A3C[t](a0);
 }
 

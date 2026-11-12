@@ -7,7 +7,7 @@ extern short currentLocationId;
 extern short D_800B99F2;
 void func_80128564(void) {
     s32 p = 0x1F8003FC;
-    __asm__ __volatile__(  // !FAKE: instruction addu — REFUSED instruction `addu` has no C spelling in the table (P36 rung A headers1)
+    __asm__ __volatile__(  // !FAKE: instruction addu — REFUSED instruction `addu` has no C spelling in the table (P36 rung A headers1) wall:no-c-spelling
         "addu  $8, %0, $zero\n"
         "sw    $sp, 0($8)\n"
         "addiu $8, $8, -4\n"

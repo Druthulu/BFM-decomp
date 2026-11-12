@@ -3824,14 +3824,14 @@ void func_80180558(s32 param_1)
     sp10 = guess_g_CameraFollowPos;
 
     {
-        register s32 lo __asm__("$4") = 0x680;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
+        register s32 lo __asm__("$4") = 0x680;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8) wall:cse-const-fold
         sp10.v[0] = 0;
         if (sp10.v[2] < 0x680) {
             sp10.v[2] = lo;
         }
     }
     {
-        register s32 lim __asm__("$4") = 0x900;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8)
+        register s32 lim __asm__("$4") = 0x900;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8) wall:cse-const-fold
         s32 hi = 0x900;
         if (hi < sp10.v[2]) {
             sp10.v[2] = lim;
@@ -3975,7 +3975,7 @@ void func_80180A38(s32 param_1)
          * below, so gcc's cross-jump pass does not re-merge the two tails
          * into one (which drops 2 instructions and swaps which arm is the
          * branch target vs. the fallthrough). LOAD-BEARING — do not remove. */
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:jump2-crossjump
     }
 
     timer = ((Unkstruct_80180A38 *)param_1)->unkE0;
@@ -4249,7 +4249,7 @@ void func_8018110C(s32 a0)
     obj = ((Unkstruct_800B5CB8 *)a0)->unk20;
     *(u16 *)(obj + 0x14) = *(u16 *)(obj + 0x14) +
         (((Unkstruct_800B5CB8 *)a0)->unk2A - *(u16 *)((u8 *)guess_g_PlayerModelPtr + 0x12));
-    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-value-forward
     ((Unkstruct_800B5CB8 *)a0)->unk2A = *(u16 *)((u8 *)guess_g_PlayerModelPtr + 0x12);
 
     if (CAST_WIDTH(s32, a0, 0x2C) == 0) {
@@ -5709,13 +5709,13 @@ void func_80183438(s32 a0) {
         v[1] = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk4C;
         v[2] = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk50;
         /* $a0-pinned scopes: rematerialise &guess_g_CameraWsMatrix (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
         { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
         RotTransPers((s32)v, (s32)&sxy, &z, &flag);
         if (flag >= 0 && (u32)((*(u16 *)&sxy + 0x9F) & 0xFFFF) < 0x13F
                       && (u32)((*((u16 *)&sxy + 1) + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                             /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
             s32 vol;
             sx = (s16)*(u16 *)&sxy;
             av = sx;

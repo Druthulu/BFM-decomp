@@ -4641,7 +4641,7 @@ void func_80184370(void *a0, void *a1)
 void func_8018478C(void *ent, void *spr, u32 *q, u32 *ot)
 {
     extern u8 *D_800A5E60;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
 
     Ft4_8018478C *poly;
     Drm_8018478C *dm;
@@ -4685,8 +4685,8 @@ void func_8018478C(void *ent, void *spr, u32 *q, u32 *ot)
         s32 t = ((x - ((tpage & 0xF) << 6)) << shift) +
                 (CAST_SIGN(u16, (s32)spr, 4) & ((1 << shift) - 1));
         su = t + zr;
-        __asm__ __volatile__("" ::"r"(t + ((Unkstruct_8018478C_2 *)spr)->unk2 - 1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
-        __asm__ __volatile__("" ::"r"(t));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("" ::"r"(t + ((Unkstruct_8018478C_2 *)spr)->unk2 - 1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
+        __asm__ __volatile__("" ::"r"(t));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
     }
     y = y & 0xFFFF;
     if (tpage & 0x10) {
@@ -4694,14 +4694,14 @@ void func_8018478C(void *ent, void *spr, u32 *q, u32 *ot)
     } else {
         sv = y + zr;
     }
-    __asm__ __volatile__("" ::"r"(sv + ((Unkstruct_8018478C_2 *)spr)->unk3 - 1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" ::"r"(sv + ((Unkstruct_8018478C_2 *)spr)->unk3 - 1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
 
     i = 1;
     uu = su;
     vv = sv;
     for (; i < 13; i += 2, poly++) {
         s32 k = (i - 1) * 4;
-        __asm__ __volatile__("" ::"r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("" ::"r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
         poly->tag.len = 9;
         poly->code = code;
         poly->tpage = tpage;
@@ -4718,7 +4718,7 @@ void func_8018478C(void *ent, void *spr, u32 *q, u32 *ot)
             poly->v3 = SR3_8018478C(vtx + k2 + 0x12) + vv;
         }
         poly->clut = clut;
-        __asm__ __volatile__("" ::"r"(i), "r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("" ::"r"(i), "r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
         poly->r0 = ((Unkstruct_80184370 *)ent)->unk24;
         poly->g0 = ((Unkstruct_80184370 *)ent)->unk25;
         poly->b0 = ((Unkstruct_80184370 *)ent)->unk26;
@@ -4762,7 +4762,7 @@ void func_8018478C(void *ent, void *spr, u32 *q, u32 *ot)
             /* Zero-byte live-range stretch: puts vtx's allocno priority
              * inside the only admissible window.  Placement is
              * load-bearing; do not move this statement. */
-            __asm__ __volatile__("" ::"r"(vtx));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("" ::"r"(vtx));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
         }
     }
 }

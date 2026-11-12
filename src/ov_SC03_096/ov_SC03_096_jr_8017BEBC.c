@@ -4608,10 +4608,10 @@ extern u8 D_80193AAC[];
 
 void func_801803D0(s16 *param_1, s32 param_2)
 {
-    register u8 *obj __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u8 *obj __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-void-return
     s32 w;
-    register s32 chn __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 rv  __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 chn __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-void-return
+    register s32 rv  __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-void-return
     s32 sub;
     s16 *uVar2;
 
@@ -4635,7 +4635,7 @@ void func_801803D0(s16 *param_1, s32 param_2)
         ((Unkstruct_800B5CB8 *)sub)->unk24 = chn;
     } else {
         rv = 0;
-        __asm__ __volatile__("" :: "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" :: "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-void-return
     }
 }
 

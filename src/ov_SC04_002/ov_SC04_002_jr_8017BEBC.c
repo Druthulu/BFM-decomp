@@ -7489,22 +7489,22 @@ s32 func_80183790(s32 arg0) {
     s32 *base = &guess_g_PlayerActor;
     s32 t;
     s32 r;
-    register s32 rr asm("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
-    register s32 z asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 rr asm("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8) wall:lreg-hardreg-conflict
+    register s32 z asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8) wall:lreg-hardreg-conflict
 
     if (((Unkstruct_800B5CB8 *)arg0)->unk74 != 0) {
-        asm volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
+        asm volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8) wall:lreg-hardreg-conflict
         return 0;
     }
     t = guess_g_PlayerPosY - 0x20;
     r = func_80183904((s16 *)arg0, (s16 *)(base + 1), 0x48);
     rr = r;
-    asm("" :: "r"(rr));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+    asm("" :: "r"(rr));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8) wall:lreg-hardreg-conflict
     if (rr == 0) {
         return 0;
     }
     z = 0;
-    asm("" :: "r"(z));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+    asm("" :: "r"(z));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8) wall:lreg-hardreg-conflict
     if (CAST_SIGN(s16, arg0, 0xA) < (s16)t) {
         return z;
     }

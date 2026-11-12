@@ -2068,7 +2068,7 @@ void func_801A293C(void *arg0)
 
     i = 0;
     s5v = (s32)sp58;
-    __asm__("addiu %0,%1,0x18" : "=r"(m) : "r"(guess_g_RenderWork));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B tus10)
+    __asm__("addiu %0,%1,0x18" : "=r"(m) : "r"(guess_g_RenderWork));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B tus10) wall:no-c-spelling
     s7 = (s32)&flag;
     fp = -0x1001;
     base = (s32)D_800A6610 + (*(u16 *)&guess_g_DoubleBufferIndex << 14);

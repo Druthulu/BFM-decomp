@@ -4956,7 +4956,7 @@ void func_8017FE0C(s32 a0) {
                * is only possible with two pseudos per value.  Sharing one variable
                * across the arms makes one global allocno = one hard register. */
     u8  x0;
-    register SC05_FBB0_Rec *e __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus8)
+    register SC05_FBB0_Rec *e __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus8) wall:cse-value-forward
 
     p = ((Unkstruct_8017FE0C *)a0)->unk2C;
 

@@ -953,7 +953,7 @@ s32 func_800CFE60(void) {
     extern s32 CdReadRequest(void *, void *, s32, s32);
 
     u8 *base;
-    register s32 mode __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 mode __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     s32 file;
     s32 val;
     s32 st;
@@ -999,7 +999,7 @@ s32 func_800CFE60(void) {
 
     if (func_8002F658() != val || mode >= 0) {
         s32 *q = &guess_g_CdReadList;
-        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__("" : "=r"(q) : "0"(q));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
         p = q;
         *p = val;
         guess_g_CdReadListDest = &D_800A2E20;

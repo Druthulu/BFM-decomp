@@ -3816,13 +3816,13 @@ void func_80187E4C(s32 a0) {
         v[1] = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk4C;
         v[2] = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk50;
         /* $a0-pinned scopes: rematerialise &guess_g_CameraWsMatrix (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
         { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
         RotTransPers((s32)v, (s32)&sxy, &z, &flag);
         if (flag >= 0 && (u32)((*(u16 *)&sxy + 0x9F) & 0xFFFF) < 0x13F
                       && (u32)((*((u16 *)&sxy + 1) + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                             /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
             s32 vol;
             sx = (s16)*(u16 *)&sxy;
             av = sx;

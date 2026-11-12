@@ -3682,7 +3682,7 @@ void func_80030F80(void)
                 } else {
                     idx = ((Unkstruct_80030CA4 *)p)->unkA;
                     dsp = sv[idx];
-                    __asm__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+                    __asm__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-value-forward
                     switch (dsp) {
                     case 3:
                         mask = tbl[((Unkstruct_80030CA4 *)p)->unkA];
@@ -5946,36 +5946,36 @@ void func_8003388C(Ent388C *arg, s32 arg1)
     B12 *b;
     u32 *p;
     s32 op;
-    register s32 c0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 c0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
     s32 c1;
-    register s32 c2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 c3 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 c2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
+    register s32 c3 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
     s32 mask;
     s32 vi;
     s32 bank;
     s32 lvl;
     s32 res;
-    register s32 base __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 sum __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 base __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
+    register s32 sum __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
     s32 t24;
     s32 tmp9;
     u32 t, t18, d, amt, res2;
-    register u32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 m __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 q __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
+    register u32 m __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
+    register u32 q __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
     u16 h;
     u32 b04;
     u16 h2;
     s32 n84;
     u32 n86;
-    register u32 x86 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 x86 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
     u8 flag;
     s32 called;
     s32 lv;
-    register u32 tv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 pr1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 pr2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 pr3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 tv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
+    register u32 pr1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
+    register u32 pr2 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
+    register u32 pr3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
     u32 i;
 
     e = arg;
@@ -7005,7 +7005,7 @@ void func_8003500C(void) {
 
         if (self[0] != 0) {
             s32 (*fn8)(void *) = *(s32 (**)(void *))(self + 8);
-            register s32 type __asm__("$2") = self[4];  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+            register s32 type __asm__("$2") = self[4];  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
 
             D_80076114 = type;
             if (fn8(self) == 0) {
@@ -7014,7 +7014,7 @@ void func_8003500C(void) {
 
             {
                 s32 (*fn1C)(s32) = *(s32 (**)(s32))(self + 0x1C);
-                register s32 type2 __asm__("$5") = self[4];  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+                register s32 type2 __asm__("$5") = self[4];  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
 
                 D_80076114 = type2;
                 if (fn1C != NULL) {

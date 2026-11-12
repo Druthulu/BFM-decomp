@@ -10,7 +10,7 @@ extern u16 D_801270C0;
 extern s32 D_8011DB08;
 void func_8017849C(void) {
     u8 *p;   /* $s1 base */
-    register u8 *q __asm__("$16");   /* $s0 = base + 0x54 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
+    register u8 *q __asm__("$16");   /* $s0 = base + 0x54 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1) wall:loop-iv
     s32 i;   /* $s2 counter */
     p = (u8 *)guess_g_ObjectTable;
     func_801787D4();
@@ -20,7 +20,7 @@ void func_8017849C(void) {
     do {
         if (*(u16 *)p != 0 &&
             (*(s16 *)&D_801270C0 == 1 || (*(u16 *)(q + 0x1E) & 0x1000) != 0)) {
-            register s32 tbl __asm__("$3"); register s32 c6c __asm__("$2");  // !FAKE: pin $3 — NEEDED DIFFERS; pin $2 — NEEDED DIFFERS (P36 rung B headers1)
+            register s32 tbl __asm__("$3"); register s32 c6c __asm__("$2");  // !FAKE: pin $3 — NEEDED DIFFERS; pin $2 — NEEDED DIFFERS (P36 rung B headers1) wall:loop-iv
             func_8017869C((s32)p);
             *(s32 *)(q - 0x1C) = *(s32 *)(q - 0x50);
             c6c = *(u8 *)(q + 0x6C);

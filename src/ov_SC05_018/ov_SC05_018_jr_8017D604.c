@@ -4603,11 +4603,11 @@ void func_80180BE0(s32 arg0, s32 arg1, s16 *arg2)
     s32 pad;
     s32 idx = arg1;
     u32 v;
-    register u32 w asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8)
+    register u32 w asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus8) wall:lreg-priority
     u32 t4;
     u32 t5;
     u8 *p;
-    register s16 *out asm("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus8)
+    register s16 *out asm("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus8) wall:lreg-priority
 
     (void)&pad;
     v = *(u32 *)(*(s32 *)(arg0 + 0x90) + (*(s32 *)(arg0 + 0x94) << 3));
@@ -4998,7 +4998,7 @@ extern void func_80172710(void);
 
 s32 func_801815AC(void *arg)
 {
-    register s32 q __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 q __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus8) wall:lreg-copy-pref
     s32 ptr;
     u16 st;
     u16 val;

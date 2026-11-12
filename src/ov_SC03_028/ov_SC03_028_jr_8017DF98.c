@@ -4139,7 +4139,7 @@ s32 func_80180A08(s32 param_1, u16 param_2)
 
 
 void func_80180AC4(s32 arg0, s32 arg1) {
-    register s32 ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:expand-void-return
     s32 a2 = arg0;
     s32 dz = ((Unkstruct_80180AC4 *)a2)->unkE - 0x3C0;
     s32 dzsq = dz * dz;
@@ -4158,7 +4158,7 @@ void func_80180AC4(s32 arg0, s32 arg1) {
     CAST_SIGN(u16, a2, 0xE) -= dz >> 5;
     ret = 1;
 out:
-    __asm__ __volatile__("" :: "r"(ret));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" :: "r"(ret));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:expand-void-return
 }
 
 
@@ -4870,7 +4870,7 @@ void func_80181EBC(s32 a0)
     s32 type;
     s32 ang;
     s32 e;
-    register s32 pv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 pv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
     s32 id;
     s32 r;
 
@@ -4887,7 +4887,7 @@ void func_80181EBC(s32 a0)
             {
                 u8 *q = &guess_g_CameraWsMatrix;
                 SetRotMatrix(q);
-                __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2)
+                __asm__ __volatile__("" : "=r"(q));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
             }
             SetTransMatrix(&guess_g_CameraWsMatrix);
             do {
@@ -4912,14 +4912,14 @@ void func_80181EBC(s32 a0)
             pv = ((Unkstruct_800B5CB8 *)a0)->unk20;
             w = ((Unkstruct_800B5CB8 *)pv)->unk12;
             r = w & 0xFFF;
-            __asm__("addu %0, %1, $zero" : "=r"(w) : "r"(r));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__("addu %0, %1, $zero" : "=r"(w) : "r"(r));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
             if (r >= 0x801) {
                 r = ratan2(CAST_SIGN(s16, a0, 0xE) - 0x3F0, -0x178 - CAST_SIGN(s16, a0, 6));
             } else {
                 r = ratan2(CAST_SIGN(s16, a0, 0xE) - 0x390, 0x178 - CAST_SIGN(s16, a0, 6));
             }
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = (r - 0x400) & 0xFFF;
-            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
             guess_UpdateActorModelMatrix(a0);
             guess_SetVelocityXZFromLocal(a0, (s32)&D_8018F9CC);
             *(s16 *)(a0 + 0x16) = -0x10;
@@ -5367,8 +5367,8 @@ void func_80182B3C(s32 a0)
     s32 pad;
     s32 p;
     s32 v;
-    register s32 w __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 w __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
+    register s32 r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
 
     (void)&pad;
     p = ((Unkstruct_800B5CB8 *)a0)->unk20;

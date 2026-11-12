@@ -2890,15 +2890,15 @@ extern void func_8017F5D0(void *a0, void *a1);
 extern u8 D_801AC130[];
 
 void func_8017F4A0(void *a0) {
-    register s32 s1 __asm__("$17") = a0;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 s1 __asm__("$17") = a0;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
     s32 s0;
     s32 s2;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register s32 a1r __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
+    register s32 a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
+    register s32 a1r __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
 
     v0 = guess_AllocSpriteObjectHigh();
-    __asm__ volatile("addu %0,%1,$0" : "=r"(s0) : "r"(v0));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ volatile("addu %0,%1,$0" : "=r"(s0) : "r"(v0));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
     s2 = (s32)&D_801AC130;
     ((Unkstruct_800B5CB8 *)s1)->unk20 = s0;
 
@@ -2907,7 +2907,7 @@ void func_8017F4A0(void *a0) {
 
         a0r = s2;
         a1r = 0x80;
-        __asm__ volatile("addiu %0,$0,0x3000" : "=r"(v0));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ volatile("addiu %0,$0,0x3000" : "=r"(v0));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
         ((Unkstruct_800B5CB8 *)s0)->unk1A = v0;
         v0 = CAST_WIDTH(s32, s0, 4);
         v0 |= 0x50000000;

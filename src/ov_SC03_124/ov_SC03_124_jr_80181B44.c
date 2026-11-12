@@ -3253,7 +3253,7 @@ s32 a0;
 s32 a1;
 {
     extern s32 D_801E1BCC[];
-    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:expand-void-return
     s32 x = D_801E1BCC[0];
     s32 y = a1;
     s32 d;
@@ -3284,7 +3284,7 @@ s32 a1;
     }
     rv = 31;
 done:
-    __asm__("" :: "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" :: "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:expand-void-return
 }
 
 

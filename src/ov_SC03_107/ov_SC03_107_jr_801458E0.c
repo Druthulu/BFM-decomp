@@ -1124,7 +1124,7 @@ void func_80145934(void) {
         p = &D_801849E0;
         /* §5a cross-jump barrier — LOAD-BEARING: keeps this D_801849E0 load from being
          * tail-merged with the v>=0x384 D_801849E0 load below (emits zero machine code). */
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus4)
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus4) wall:jump2-crossjump
     } else if (v >= 0x5DC) {
         p = &D_80184950;
     } else if (v >= 0x578) {

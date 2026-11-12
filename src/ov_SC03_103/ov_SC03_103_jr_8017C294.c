@@ -2830,7 +2830,7 @@ void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         wv = wz >> 16;
         wy = part->yy;
         mny = wy + dy;
-        __asm__ ("" : "=r"(wz) : "0"(wz));   /* zero-byte re-tie #2 — see (2) in the header */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ ("" : "=r"(wz) : "0"(wz));   /* zero-byte re-tie #2 — see (2) in the header */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
         my = (wy >> 16) + dy;
         box[0].vz = wz;
         box[1].vz = wz;
@@ -2846,7 +2846,7 @@ void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         gte_stsxy3(&sxy[0], &sxy[1], &sxy[2]);
         gte_ldv0(&box[3]);
         gte_rtps();
-        __asm__ ("" : "=r"(wz) : "0"(wz));   /* zero-byte re-tie #1 — see (2) in the header */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ ("" : "=r"(wz) : "0"(wz));   /* zero-byte re-tie #1 — see (2) in the header */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
         box[4].vx = mn; box[4].vy = my; box[4].vz = wz;
         box[5].vx = mx; box[5].vy = my; box[5].vz = wz;
         box[6].vx = mn; box[6].vy = my; box[6].vz = wv;
@@ -2861,7 +2861,7 @@ void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         gte_stszotz(&g.otz);
 
         if (lim >= g.otz) {
-            __asm__ volatile ("");   /* Deliberately in THIS block, not the loop head. */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ volatile ("");   /* Deliberately in THIS block, not the loop head. */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
             xa32 = sxy[0].vx;
             xb32 = sxy[1].vx;
             if (xb32 < xa32) { xmx1 = xa32; xmn1 = xb32; } else { xmn1 = xa32; xmx1 = xb32; }
@@ -5120,13 +5120,13 @@ void func_801813E8(s32 a0) {
         v[1] = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk4C;
         v[2] = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk50;
         /* $a0-pinned scopes: rematerialise &guess_g_CameraWsMatrix (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
         { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
         RotTransPers((s32)v, (s32)&sxy, &z, &flag);
         if (flag >= 0 && (u32)((*(u16 *)&sxy + 0x9F) & 0xFFFF) < 0x13F
                       && (u32)((*((u16 *)&sxy + 1) + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                             /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
             s32 vol;
             sx = (s16)*(u16 *)&sxy;
             av = sx;

@@ -2791,9 +2791,9 @@ s32 func_8017E590(s32 param_1, s32 param_2) {
             idx = D_801E8F50[(s16)param_2];
             off = idx * 4;                                   /* [2] */
             lim = D_801E8F78[idx][0];                        /* [3] */
-            __asm__ __volatile__("");                        /* [4] */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("");                        /* [4] */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
             e = (s16 *)D_801E8F78;
-            __asm__("" : "=r"(e) : "0"(e));                  /* [5] */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__("" : "=r"(e) : "0"(e));                  /* [5] */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
             if (t < lim) {
                 if (*(s16 *)((u8 *)e + off + 2) == 0 ||
                     (((s32(*)(s32))guess_TestGameFlag)(*(s16 *)((u8 *)e + off + 2)) & 0xFF) == 0) {
@@ -2972,10 +2972,10 @@ s32 *func_8017E7DC(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     u16 *pb;
     u16 *p;
     s32  c;
-    register s32 tv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 tv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     s32  idx2;
     s16  t;
-    register u32 c0 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 c0 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
 
     c = D_80115138[(s16)idx];
     *(u32 *)ot = 0x4000000;
@@ -3021,7 +3021,7 @@ s32 *func_8017E7DC(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
             j = 0;
             k = m;
             eight = 8;
-            __asm__ volatile("" :: "r"(pb), "r"(pb), "r"(pb), "r"(pb), "r"(pb));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ volatile("" :: "r"(pb), "r"(pb), "r"(pb), "r"(pb), "r"(pb));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
             pb2 = (u16 *)&guess_g_DoubleBufferIndex;
             m24 = 0xFFFFFF;
             mhi = 0xFF000000;
@@ -3050,7 +3050,7 @@ s32 *func_8017E7DC(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                 *(s16 *)(q - 2) = eight;
                 *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb2].ot[2] & m24);
                 {
-                    register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+                    register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
                     op = guess_g_FrontOrderingTablesOrg[*pb2].ot;
                     op[2] = (op[2] & mhi) | (((u32)ot) & m24);
                 }
@@ -3163,7 +3163,7 @@ s32 func_8017EB08(s32 a0, s32 a1) {
             goto sel_054;
         }
         if (t == 5) {
-            __asm__ ("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ ("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:flow-known-value
             if (t != 3) {
                 goto sel_094;
             }
@@ -4078,7 +4078,7 @@ s32 func_8017FFD0(s32 param_1)
     extern s32 D_801EDA4C;
     extern s32 D_801EDA6C;
 
-    register s32 ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-ret-entry-live
     s32 ptr;
     s32 i70a;
     s32 i70b;
@@ -4120,7 +4120,7 @@ s32 func_8017FFD0(s32 param_1)
                           *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0x20));
             guess_StartActorSequence(param_1, D_80182CA4);
             *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 4) = 0x80000000;
-            __asm__ volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-ret-entry-live
             ret = 0x16;
             goto STORE;
         }
@@ -4147,7 +4147,7 @@ s32 func_8017FFD0(s32 param_1)
     }
 
     i70a = ((Unkstruct_800B5CB8 *)param_1)->unk70;
-    __asm__ volatile("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ volatile("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-ret-entry-live
     i70b = CAST_ALIAS(s16, param_1, 0x70);
     D_801F32D0 = 0;
     {
@@ -4164,7 +4164,7 @@ s32 func_8017FFD0(s32 param_1)
          * It must be MERGED into the barrier, not a second asm: a separate
          * __asm__ volatile("" : : "r"(idx)) adds an insn to the sched1 stream and stays at 11.
          */
-        __asm__ volatile("" : : "r"(idx) : "memory");  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ volatile("" : : "r"(idx) : "memory");  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-ret-entry-live
         tmp1 = D_801ED5F0[idx * 2];
         tmp2 = D_801ED5EC[((Unkstruct_800B5CB8 *)param_1)->unk10A * 2];
     }

@@ -3374,8 +3374,8 @@ void func_8017FB50(s32 arg0, s32 arg1)
     v[2].vz = v[2].vz;
 
     {
-        register s32 *flag_out __asm__("$17") = (s32 *)&v[3] + 1;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
-        register s32 *p_out __asm__("$18") = (s32 *)&v[3];  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 *flag_out __asm__("$17") = (s32 *)&v[3] + 1;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
+        register s32 *p_out __asm__("$18") = (s32 *)&v[3];  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
         tmp = RotTransPers((s32)&base, (s32)((u8 *)obj + 8), p_out, flag_out);
         RotTransPers((s32)&v[0], (s32)((u8 *)obj + 0xC), p_out, flag_out);
         RotTransPers((s32)&v[1], (s32)((u8 *)obj + 0x10), p_out, flag_out);
@@ -4961,7 +4961,7 @@ void func_80181E08(s32 arg0) {
             otz = RotTransPers4(v0p, v1p, v2p, v3p,
                             &q->xy0, &q->xy1, &q->xy2, &q->xy3, pp, pf);
         } while (0);  // !FAKE: do-while
-        __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder — pass: 3.40 T11 crack G23; instrument: delever_search --try partial (29 tries)
+        __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder — pass: 3.40 T11 crack G23; instrument: delever_search --try partial (29 tries) wall:combine-copy-merge
         otz = func_801823D4(otz, -0x1A);
         AddPrim(D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].a + otz * 4, q);
         func_8012E28C(otz, zpush);
@@ -5966,9 +5966,9 @@ extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern u8 D_80189408[];
 
 void func_80183490(s32 arg0) {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
     s32 v1;
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
     s32 h;
 
     v0 = ((Unkstruct_800B5CB8 *)arg0)->unkDC;

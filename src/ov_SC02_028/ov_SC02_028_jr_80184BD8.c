@@ -4300,9 +4300,9 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 void func_801876C4(void *a0, s32 a1) {
     s32 sp10[5];
     s32 obj;
-    register s32 w __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 w __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     s32 x, y, z;
-    register s32 t __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 t __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
 
     obj = (s32)a0;
     x = D_801A9A78[a1 * 5];

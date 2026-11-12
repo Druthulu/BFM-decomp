@@ -3923,7 +3923,7 @@ extern s32 D_800A5EB0;
 void func_8017DFB8(void *a0) {
     u8 *p;
     u8 *tbl;
-    register s32 aa __asm__("$4");  // !FAKE: pin $4 — gives `aa = idx` (the second call's a0 copy) an early LUID that cse would otherwise fold away, and makes `aa = 2` the asm input in $a0 (P36 S105 f6 minimum-lever)
+    register s32 aa __asm__("$4");  // !FAKE: pin $4 — gives `aa = idx` (the second call's a0 copy) an early LUID that cse would otherwise fold away, and makes `aa = 2` the asm input in $a0 (P36 S105 f6 minimum-lever) wall:cse-copy-merge
     u8 *ab;
     s32 idx;
     s16 v[3];
@@ -3945,7 +3945,7 @@ void func_8017DFB8(void *a0) {
     aa = idx;
     ab = tbl + 8;
     x0 = v[0]; y0 = v[1]; z0 = v[2];
-    __asm__("la %0, D_800A5E88" : "=r"(p) : "r"(x0), "r"(y0), "r"(z0), "r"(ab));  // !FAKE: instruction la — cse find_best_addr (cse.c:2622) folds (plus p K) to the absolute symbol whenever p is a known constant; the dead inputs place it after the lh loads (sched1 LUID) (P36 S105 f6 minimum-lever)
+    __asm__("la %0, D_800A5E88" : "=r"(p) : "r"(x0), "r"(y0), "r"(z0), "r"(ab));  // !FAKE: instruction la — cse find_best_addr (cse.c:2622) folds (plus p K) to the absolute symbol whenever p is a known constant; the dead inputs place it after the lh loads (sched1 LUID) (P36 S105 f6 minimum-lever) wall:no-c-spelling
     ((Unkstruct_8017DFB8 *)p)->unk0 = x0;
     D_800A5E8C = y0;
     D_800A5E90 = z0;
@@ -3962,7 +3962,7 @@ void func_8017DFB8(void *a0) {
     guess_SetFlatLightOrDefault(0, p);
     guess_SetFlatLightOrDefault(1, p + 0x10);
     aa = 2;
-    __asm__("addiu %0,%1,0x20" : "=r"(p) : "0"(p), "r"(aa));  // !FAKE: instruction addiu — combine folds `p += 0x20; f(2, p)` into `addiu a1,s0,32` unless a CALL_INSN separates add and copy (combine.c:929); the "r"(aa) input orders it after `li a0,2` (P36 S105 f6 minimum-lever)
+    __asm__("addiu %0,%1,0x20" : "=r"(p) : "0"(p), "r"(aa));  // !FAKE: instruction addiu — combine folds `p += 0x20; f(2, p)` into `addiu a1,s0,32` unless a CALL_INSN separates add and copy (combine.c:929); the "r"(aa) input orders it after `li a0,2` (P36 S105 f6 minimum-lever) wall:no-c-spelling
     guess_SetFlatLightOrDefault(aa, p);
 }
 

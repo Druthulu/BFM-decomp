@@ -4904,9 +4904,9 @@ s32 func_8017EF50(s32 param_1)
     extern void guess_AddVelocityToPos(struct vec *a0);
     extern void func_801292C8(u8 *a0);
 
-    register unsigned short c __asm__("$5");  // !FAKE: pin $5 c — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever)
+    register unsigned short c __asm__("$5");  // !FAKE: pin $5 c — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever) wall:lreg-priority
     int d;
-    register int g __asm__("$6");  // !FAKE: pin $6 g — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever)
+    register int g __asm__("$6");  // !FAKE: pin $6 g — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever) wall:lreg-priority
     int a;
     int e;
     ((void (*)(int))guess_AddVelocityToPos)(((int)param_1));

@@ -96,21 +96,21 @@ s32 func_80138ED0(u8 *param_1, u32 param_2, u8 *param_3)
         s32 decoy;
         s32 c36;
         u16 tv;
-        register s32 *dp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
-        register u16 *ba __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
+        register s32 *dp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1) wall:sched1-hoist-sink
+        register u16 *ba __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1) wall:sched1-hoist-sink
         dp = guess_g_GlyphUploadsLeft;
         dcount = *dp;
         c36 = 0x24;
-        __asm__ ("" : : "r"(c36), "r"(dcount));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
+        __asm__ ("" : : "r"(c36), "r"(dcount));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
         df = c36 - dcount;
         tmp = (df << 1) + df;
         tmp = tmp << 4;
         dp = dp + 1;
         ba = (u16 *)(tmp + (u8 *)dp);
-        __asm__ ("" : "=r"(decoy) : "r"(ba));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B headers1)
-        __asm__ ("" : : "r"(decoy));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1)
+        __asm__ ("" : "=r"(decoy) : "r"(ba));  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
+        __asm__ ("" : : "r"(decoy));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
         {
-            register u16 *dst __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+            register u16 *dst __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1) wall:sched1-hoist-sink
             dst = ba;
             do {
                 tv = *src; src++;

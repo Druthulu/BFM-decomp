@@ -718,7 +718,7 @@ extern ActorFn D_80188614[];
 int func_80148AFC(void *a0) {
     s32 p = (s32)a0;
     s32 iVar5 = *(s32 *)(p + 0x20);
-    register s32 tmp __asm__("$5") = (ratan2(((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk44 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk50,  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_rj0)
+    register s32 tmp __asm__("$5") = (ratan2(((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk44 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk50,  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_rj0) wall:combine-copy-merge
                         ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk48 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk3C) - 0x400) & 0xFFF;
     u16 sVar3;
     u8 bVar1;
@@ -731,15 +731,15 @@ int func_80148AFC(void *a0) {
     case 0x53:
     case 0x73:
         {
-            register u32 bb __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_rj0)
-            register s32 c80 __asm__("$2") = 0x80;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_rj0)
+            register u32 bb __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_rj0) wall:combine-copy-merge
+            register s32 c80 __asm__("$2") = 0x80;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_rj0) wall:combine-copy-merge
             s32 lo;
-            register s32 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_rj0)
+            register s32 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_rj0) wall:combine-copy-merge
             bb = *(u16 *)(p + 0xAE);
             lo = bb & 0xFF;
             if (lo != c80 || (hi = bb >> 8) != 0x80) {
                 s32 sVar4;
-                __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7)
+                __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus7) wall:cse-value-forward
                 sVar4 = ratan2((*(u16 *)(p + 0xAE) & 0xFF) - 0x80, 0x80 - (*(u16 *)(p + 0xAE) >> 8));
                 *(u16 *)(iVar5 + 0x12) = (sVar3 + sVar4) & 0xFFF;
                 return 1;
@@ -807,7 +807,7 @@ extern s32 D_80188654[];
 
 s32 func_80148D44(void) {
     s32 ang;
-    register s32 a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_rj0)
+    register s32 a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_rj0) wall:cse-copy-merge
     s32 p;
     s32 res;
     s32 d;

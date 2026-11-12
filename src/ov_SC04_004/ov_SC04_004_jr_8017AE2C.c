@@ -6740,22 +6740,22 @@ s32 func_80181D1C(s32 arg0) {
     s32 *base = &guess_g_PlayerActor;
     s32 t;
     s32 r;
-    register s32 rr asm("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 z asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 rr asm("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7) wall:lreg-hardreg-conflict
+    register s32 z asm("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7) wall:lreg-hardreg-conflict
 
     if (((Unkstruct_800B5CB8 *)arg0)->unk74 != 0) {
-        asm volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7)
+        asm volatile("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus7) wall:lreg-hardreg-conflict
         return 0;
     }
     t = guess_g_PlayerPosY - 0x20;
     r = func_80181E90((s16 *)arg0, (s16 *)(base + 1), 0x48);
     rr = r;
-    asm("" :: "r"(rr));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
+    asm("" :: "r"(rr));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7) wall:lreg-hardreg-conflict
     if (rr == 0) {
         return 0;
     }
     z = 0;
-    asm("" :: "r"(z));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
+    asm("" :: "r"(z));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7) wall:lreg-hardreg-conflict
     if (CAST_SIGN(s16, arg0, 0xA) < (s16)t) {
         return z;
     }
@@ -7577,7 +7577,7 @@ s32 arg0;
     s32 s0;
     s32 v0;
     s32 v1;
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
     s32 a1;
     s32 a2;
     s32 a3;
@@ -7593,7 +7593,7 @@ s32 arg0;
         guess_SetVelocityXZFromLocal(s0, (void *)&D_8019DC18);
         a0 = s0;
         a1 = (s32)&D_8019DC34;
-        __asm__ __volatile__("" :: "r"(a1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" :: "r"(a1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
         v0 = 0xFFF60000;
         s0 = 4;
         ((Unkstruct_800B5CB8 *)a0)->unk14 = v0;

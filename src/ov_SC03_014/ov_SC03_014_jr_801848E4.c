@@ -3169,9 +3169,9 @@ void func_80185380(s32 param_1) {
 
             o = ((Unkstruct_80185380 *)param_1)->unk6C;
             v6 = ((Unkstruct_80185380_2 *)o)->unk6;
-            __asm__ __volatile__("" : "=r"(v6) : "0"(v6) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ __volatile__("" : "=r"(v6) : "0"(v6) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
             p10 = &D_80190048;
-            __asm__ __volatile__("" : "=r"(p10) : "0"(p10) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ __volatile__("" : "=r"(p10) : "0"(p10) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
             *p10 = v6;
 
             o = ((Unkstruct_80185380 *)param_1)->unk6C;
@@ -6687,7 +6687,7 @@ void func_8018AA98(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t17_ov_S1)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t17_ov_S1) wall:combine-copy-merge
     volatile u16 *bidx;
     s32 t;
     u32 pv;

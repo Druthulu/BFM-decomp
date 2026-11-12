@@ -4947,7 +4947,7 @@ void func_8017F13C(void) {
 void func_8017F1F0(s32 a0, s32 a1)
 {
     extern s32 D_801EEAEC[];
-    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus7) wall:expand-void-return
     s32 x = D_801EEAEC[0];
     s32 y = a1;
     s32 d;
@@ -4978,7 +4978,7 @@ void func_8017F1F0(s32 a0, s32 a1)
     }
     rv = 31;
 done:
-    __asm__("" :: "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7)
+    __asm__("" :: "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus7) wall:expand-void-return
 }
 
 

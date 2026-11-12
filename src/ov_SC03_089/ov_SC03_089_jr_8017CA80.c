@@ -6053,7 +6053,7 @@ s32 arg0;
     extern u8 D_801A3B19;
     extern u8 D_801A3B1A;
     extern s32 rsin(s32 a0);
-    register u8 *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
     s32 i;
     s32 t;
 

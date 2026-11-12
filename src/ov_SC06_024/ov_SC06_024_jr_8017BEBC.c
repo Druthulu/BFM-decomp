@@ -4446,10 +4446,10 @@ extern u16 D_8019365A;
 extern u16 D_8019365C;
 
 void func_8017FCFC(void *a0) {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     s32 v1;
     s32 key;
-    register s32 tbl __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 tbl __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     s32 st[11];
     s32 *row;
 

@@ -25,7 +25,7 @@ extern s16 D_801F8714;
 void func_801A0230(s32 a0) {
     s32 v0;
     s32 v1;
-    register s32 i __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 i __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     s32 *p;
 
     if (guess_InitActorModel(a0, (s32) &D_801AFBE4) != 0) {
@@ -2405,7 +2405,7 @@ void func_801A395C(s32 a0, s32 a1) {
             ret = 0;
         }
     }
-    __asm__ __volatile__("" :: "r"(ret));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ __volatile__("" :: "r"(ret));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:flow-unused-result
 }
 
 
@@ -2697,7 +2697,7 @@ extern u8 D_801F8744[];
 extern u8 D_801AFEF8[];
 extern s32 D_801A01B4[];
 
-__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
+__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11) wall:no-c-spelling
     ".section .rodata\n"
     "dlabel D_801A01B4\n"
     ".word 0x00000000\n"
@@ -3417,7 +3417,7 @@ void func_801A5094(void)
         vec1.vz = -(((r & 7) + 0x20) << 16);
         ApplyRotMatrixLV(&vec1, (void *)(p + 0x10));
         D_801F8747[0] = 1;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:sched2-unit-hazard
         *(s32 *)(p + 0x34) = *(s32 *)D_801F8744;
         *(s16 *)(p + 0x30) = 6;
     }
@@ -4964,7 +4964,7 @@ extern Blk4_801A7358 D_801F8938;
  * while the function was INCLUDE_ASM the word rode in on the stub. Re-emit it at the
  * stub's own emission position so the island bytes are unchanged and the symbol is
  * not dropped from the link. Same form as D_801A0214 in this TU (:6516). */
-__asm__(".section .rodata\nD_801A01EC:\n.word 0x00A06060\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
+__asm__(".section .rodata\nD_801A01EC:\n.word 0x00A06060\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11) wall:no-c-spelling
 
 void func_801A788C(s32 a0) {
     /* Block scope on purpose: md_SC07_004.c declares these four at FILE scope with
@@ -5396,7 +5396,7 @@ void func_801A80C0(void *a0) {
 }
 
 
-__asm__(".section .rodata\nD_801A0210:\n.word 0x00C0C0C0\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
+__asm__(".section .rodata\nD_801A0210:\n.word 0x00C0C0C0\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11) wall:no-c-spelling
 
 void func_801A8228(s32 a0)
 {
@@ -5819,7 +5819,7 @@ void func_801A8B64(s32 arg0, s32 arg1)
     SVec16_801A8B64 v;
     SXY_801A8B64 xy0;
     SXY_801A8B64 xy1;
-    register s32 g __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 g __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
     s32 ang;
     s32 dy, dx;
     s32 *p;
@@ -6500,7 +6500,7 @@ void func_801A9C00(void *a0) {
     if (v0 != 0) {
         func_8012C890((s32)&sp[0], v0, (s32)a0);
     } else {
-        __asm__ __volatile__("addu\t$v0,$zero,$zero");  // !FAKE: instruction addu — REFUSED instruction `addu` has no C spelling in the table (P36 rung B t8_tus2)
+        __asm__ __volatile__("addu\t$v0,$zero,$zero");  // !FAKE: instruction addu — REFUSED instruction `addu` has no C spelling in the table (P36 rung B t8_tus2) wall:no-c-spelling
     }
 }
 
@@ -7591,7 +7591,7 @@ extern void func_801A7CC8(void *a0);
 
 void func_801AB5D4(void *arg0) {
     void *s0;
-    register u8 *a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
     s32 a2;
 
     s0 = arg0;
@@ -7637,7 +7637,7 @@ extern void func_80016450(s32 a0, s32 a1);
 
 void func_801AB694(void *arg0) {
     void *s0;
-    register u8 *a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
     s32 a2;
 
     s0 = arg0;
@@ -7771,7 +7771,7 @@ extern u8 D_801A0214;
  * migrated .s and has no INCLUDE_RODATA line in the TU; while the function
  * was INCLUDE_ASM the island rode in on the stub. Re-emit it here so the
  * banked C does not drop the symbol from the link. */
-__asm__(".section .rodata\nD_801A0214:\n.word 0x00800000\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
+__asm__(".section .rodata\nD_801A0214:\n.word 0x00800000\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11) wall:no-c-spelling
 
 void func_801AB8C0(s32 s1)
 {
@@ -8708,7 +8708,7 @@ void func_801ACE20(void *a0) {
 /* §8 rodata island: D_801A0218 (0x000020E0) lives only in this function's own
    .s rodata block, so this draft owns its definition. Same __asm__ island spelling the TU
    already uses for its other single-word rodata islands. */
-__asm__(".section .rodata\nD_801A0218:\n.word 0x000020E0\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11)
+__asm__(".section .rodata\nD_801A0218:\n.word 0x000020E0\n.section .text");  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B tus11) wall:no-c-spelling
 
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
@@ -9504,13 +9504,13 @@ void func_801ADF5C(void *a0)
     {
         s32 mask;
         s16 one;
-        register s32 rv0 __asm__("$2");  // !FAKE: pin $2 rv0 — the 0x2000/0x8C/0x1E0 holder is a 3-death pseudo, global.c find_reg (global.c:945-990) hands it $a2 once the single-death locals hold $v0/$v1 (P36 S105 f3 minimum-lever)
-        register s32 rv1 __asm__("$3");  // !FAKE: pin $3 rv1 — the 0x118/D_800B9A88 holder, same global.c:945-990 contest (P36 S105 f3 minimum-lever)
-        register s32 ra1 __asm__("$5");  // !FAKE: pin $5 ra1 — keeps `ra1 = &D_801F8B18` a second SET of one pseudo (combine.c:1460 otherwise folds it into the call argument and the 0x100 load becomes a birthing insn, sched.c:2477-2490) (P36 S105 f3 minimum-lever)
+        register s32 rv0 __asm__("$2");  // !FAKE: pin $2 rv0 — the 0x2000/0x8C/0x1E0 holder is a 3-death pseudo, global.c find_reg (global.c:945-990) hands it $a2 once the single-death locals hold $v0/$v1 (P36 S105 f3 minimum-lever) wall:combine-copy-merge
+        register s32 rv1 __asm__("$3");  // !FAKE: pin $3 rv1 — the 0x118/D_800B9A88 holder, same global.c:945-990 contest (P36 S105 f3 minimum-lever) wall:combine-copy-merge
+        register s32 ra1 __asm__("$5");  // !FAKE: pin $5 ra1 — keeps `ra1 = &D_801F8B18` a second SET of one pseudo (combine.c:1460 otherwise folds it into the call argument and the 0x100 load becomes a birthing insn, sched.c:2477-2490) (P36 S105 f3 minimum-lever) wall:combine-copy-merge
 
         mask = 0xF7FFFFFF;
         one = 1;
-        __asm__ __volatile__("");  // !FAKE: barrier after one/mask — sched1 birthing boost (sched.c:2477-2544) would sink `li 1` to its first store; the target keeps it at the block top (P36 S105 f3 minimum-lever)
+        __asm__ __volatile__("");  // !FAKE: barrier after one/mask — sched1 birthing boost (sched.c:2477-2544) would sink `li 1` to its first store; the target keeps it at the block top (P36 S105 f3 minimum-lever) wall:sched1-birth-boost
         rv0 = 0x2000;
         rv1 = 0x118;
 
@@ -9526,7 +9526,7 @@ void func_801ADF5C(void *a0)
 
 
         rv1 = D_800B9A88;
-        __asm__ __volatile__("");  // !FAKE: barrier after the D_800B9A88 load — keeps the 0x8C/0x100 group below the load (sched1 hazard tie-break, sched.c:2620-2690, otherwise lifts the load and the 0x118 stores past it) (P36 S105 f3 minimum-lever)
+        __asm__ __volatile__("");  // !FAKE: barrier after the D_800B9A88 load — keeps the 0x8C/0x100 group below the load (sched1 hazard tie-break, sched.c:2620-2690, otherwise lifts the load and the 0x118 stores past it) (P36 S105 f3 minimum-lever) wall:sched1-birth-boost
         ra1 = 0x100;
 
         D_800B9AA0 = (s16)rv0;
@@ -9946,7 +9946,7 @@ extern void func_801AEAE4();  // K&R: 0 of 1 args (P37 rung D t4_D7)
 extern void func_801292C8(u8 *a0);
 
 void func_801AE908(void *a0) {
-    register s32 p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     u16 t;
 
     p = CAST_WIDTH(s32, (s32)a0, 0x34);
@@ -10227,7 +10227,7 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
 
     if ((flag & ~0x1000) == 0) {
         u8 pad1[8];             /* sp+0x90 */
-        register s32 raw __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 raw __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
         s32 d;
 
         pz = otz + 1;
@@ -10352,8 +10352,8 @@ void func_801AF368(void *a0)
     u8 *pkb;
     s32 d;
     u32 *otp;
-    register u32 tv __asm__("$3");       /* twin §137 pin */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_rj5)
-    register u32 tv2 __asm__("$4");      /* twin §137 pin */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_rj5)
+    register u32 tv __asm__("$3");       /* twin §137 pin */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_rj5) wall:sched1-hoist-sink
+    register u32 tv2 __asm__("$4");      /* twin §137 pin */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_rj5) wall:sched1-hoist-sink
 
     u8 *rotm;
 

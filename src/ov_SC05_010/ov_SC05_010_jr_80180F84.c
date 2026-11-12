@@ -3076,9 +3076,9 @@ void func_80181670(void *a0)
     s32 ret;
     s32 d;
     s32 e;
-    register s32 p __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 q __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 n __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 p __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-copy-pref
+    register s32 q __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-copy-pref
+    register s32 n __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-copy-pref
     s32 sc;
     s32 x;
     s32 y;

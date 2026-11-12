@@ -4077,7 +4077,7 @@ void func_801809A8(void) {
 void func_80180A54(void *a0, s32 a1, s32 a2)
 {
     extern u8 D_801DA130[];
-    register u32 *v0 __asm__("$2");  // !FAKE: pin $2 — the function RETURNS the slot (`void *` signature, expand_value_return stmt.c:2505; the TU's extern is `void`) (P36 S105 f9 minimum-lever)
+    register u32 *v0 __asm__("$2");  // !FAKE: pin $2 — the function RETURNS the slot (`void *` signature, expand_value_return stmt.c:2505; the TU's extern is `void`) (P36 S105 f9 minimum-lever) wall:loop-iv
     u8 *base;
     Sub_80180A54 *e;
     s32 i;
@@ -4102,7 +4102,7 @@ void func_80180A54(void *a0, s32 a1, s32 a2)
     }
     v0 = 0;
 epilogue:
-    __asm__("" : : "r"(v0));  // !FAKE: keepalive — the return value's use (flow.c insn_dead_p deletes a dead hard-reg set) (P36 S105 f9 minimum-lever)
+    __asm__("" : : "r"(v0));  // !FAKE: keepalive — the return value's use (flow.c insn_dead_p deletes a dead hard-reg set) (P36 S105 f9 minimum-lever) wall:loop-iv
     return;
 }
 
@@ -7978,9 +7978,9 @@ s32 a1;
 {
     s32 sp10[5];
     s32 obj;
-    register s32 w __asm__("$7");  // !FAKE: pin $7 — the 20-byte record copy is ONE movstrsi_internal insn in the original (mips.md:3587); its four temps are local-alloc SCRATCH qtys (v1,a0,a1,a3 around obj's a2), unreachable from scalar loads (P36 S105 f9 minimum-lever; plain C = scratch/s1.c, parked: one struct table for D_801AFBD8..E8)
+    register s32 w __asm__("$7");  // !FAKE: pin $7 — the 20-byte record copy is ONE movstrsi_internal insn in the original (mips.md:3587); its four temps are local-alloc SCRATCH qtys (v1,a0,a1,a3 around obj's a2), unreachable from scalar loads (P36 S105 f9 minimum-lever; plain C = scratch/s1.c, parked: one struct table for D_801AFBD8..E8) wall:lreg-priority
     s32 x, y, z;
-    register s32 t __asm__("$3");  // !FAKE: pin $3 — the fifth word reuses the block move's first temp (output_block_move, mips.c:2444) (P36 S105 f9 minimum-lever)
+    register s32 t __asm__("$3");  // !FAKE: pin $3 — the fifth word reuses the block move's first temp (output_block_move, mips.c:2444) (P36 S105 f9 minimum-lever) wall:lreg-priority
 
     obj = (s32)a0;
     x = D_801AFBD8[a1 * 5];

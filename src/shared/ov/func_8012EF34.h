@@ -3,10 +3,10 @@
 extern s32 guess_WorldToScreenFlag();  // K&R: 1 of 2 args (P37 unalias t4_ua1)
 s32 func_8012EF34(s32 a0, s32 a1) {
     s32 sp10, r;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_hdr1)
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_hdr1) wall:decl-change
     r = guess_WorldToScreenFlag(a0);
     {
-        register s32 *p __asm__("$3") = &sp10;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_hdr1)
+        register s32 *p __asm__("$3") = &sp10;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_hdr1) wall:decl-change
         gte_stsz(p);
     }
     v1 = sp10;

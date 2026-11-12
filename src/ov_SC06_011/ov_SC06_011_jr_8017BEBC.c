@@ -3748,12 +3748,12 @@ void func_8017E5D0(void *a0)
     s32 sx, sy;
     s32 sye;    /* single-set split of sy (see header note: §S2 birthing boost) */
     s32 d;
-    register s32 ot __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 ot __asm__("$9");  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     s32 otAddr;
     void *buf;
     s32 tpage;
     u8 *prim;
-    register s8 *fp __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s8 *fp __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     s32 i;
 
     m = *(s32 *)((s32)a0 + 0x20) + 0x34;
@@ -3821,7 +3821,7 @@ void func_8017E5D0(void *a0)
     func_8005A600((s32)buf, 0, 0, (u16)tpage, 0);
 
     {
-        register s32 t0c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 t0c __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
         t0c = (s32)((u8 *)buf + 0xC);
         prim = (u8 *)t0c;
     }

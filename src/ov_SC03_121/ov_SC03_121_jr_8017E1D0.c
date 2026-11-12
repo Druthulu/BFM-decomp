@@ -4369,7 +4369,7 @@ void func_80180E64(s32 a0) {
 
     u8 *p = guess_g_PlayerRecord;
     s16 c0;
-    register s32 f __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 f __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     s32 i0;
     s32 i1;
     s32 i2;
@@ -4421,7 +4421,7 @@ void func_80180E64(s32 a0) {
            strength-reduced pointer giv's -- that is what puts the counter in
            $a0 and the giv in $a1 (without it they swap).  Emits no bytes. */
         for (i1 = 0; i1 < 5; i1++) {
-            __asm__ __volatile__("" :: "r"(i1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ __volatile__("" :: "r"(i1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
             if (*(u16 *)(D_801AECD8[i1] + 2) == 5) {
                 f = 1;
             }

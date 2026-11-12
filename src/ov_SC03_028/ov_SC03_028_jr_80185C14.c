@@ -3103,7 +3103,7 @@ void func_80185ED4(s32 a0) {
         D_80126B96 = 0x4015;
         guess_FreeActor((void *)a0);
     } else {
-        register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
         s32 p20;
         s16 val;
         s32 rnd;
@@ -3113,7 +3113,7 @@ void func_80185ED4(s32 a0) {
             *(s16 *)(a0 + 0x16) = -8;
         }
         {
-        register s32 mask8000 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 mask8000 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
         mask8000 = s0 & 0x8000;
         if (mask8000 != 0) {
             p20 = ((Unkstruct_800B5CB8 *)a0)->unk20;
@@ -3127,7 +3127,7 @@ void func_80185ED4(s32 a0) {
             guess_SpawnActor(0x142, val, a0);
             rnd = rand();
             {
-                register s32 p20b __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+                register s32 p20b __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
 
                 p20b = ((Unkstruct_800B5CB8 *)a0)->unk20;
                 *(u16 *)(p20b + 0x12) = *(u16 *)(p20b + 0x12) + 0x600;
@@ -4015,7 +4015,7 @@ void func_8018726C(void *a0)
         ((Unkstruct_800B5CB8 *)a0)->unkE = 0x3C0;
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x24;
 
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
 
         obj = ((Unkstruct_800B5CB8 *)a0)->unk20;
         health = ((Unkstruct_800B5CB8 *)a0)->unkA;

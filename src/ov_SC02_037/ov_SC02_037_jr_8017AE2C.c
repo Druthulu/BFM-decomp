@@ -5717,9 +5717,9 @@ void func_8017EBC4(s32 param_1)
     extern s16 D_8018784C[];
     Unaligned8 sp10;
     s32 t;
-    register s32 u __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 u __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
     s32 a0;
-    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register int zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         ((Unkstruct_8017D120 *)param_1)->unk5 = (((Unkstruct_8017D120 *)param_1)->unk5 + 1) & 1;
@@ -5919,7 +5919,7 @@ extern void func_8001FC08(OBJ_8001FC08 *obj);
 
 void func_8017F2B4(s32 param_1_a0)
 {
-    register s32 param_1 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P37 S+A t4_S1)
+    register s32 param_1 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P37 S+A t4_S1) wall:cse-copy-merge
     s32 base;
     s32 diff;
     s32 quot;
@@ -5927,7 +5927,7 @@ void func_8017F2B4(s32 param_1_a0)
     u8 *p;
     s32 negc;
     u8 lo;
-    register u8 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P37 S+A t4_S1)
+    register u8 hi __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P37 S+A t4_S1) wall:cse-copy-merge
 
     param_1 = param_1_a0;
 
@@ -5941,7 +5941,7 @@ void func_8017F2B4(s32 param_1_a0)
 
         base = *(s32 *)(((Unkstruct_8017F2B4_2 *)*(s32 *)(param_1 + 0x20))->unk24 + 0x0);
         p = (u8 *)base;
-        __asm__("nop\n\taddiu %0, %1, 0x35" : "=r"(p) : "r"(p));  // !FAKE: instruction nop — REFUSED instruction `nop` has no C spelling in the table (P37 S+A t4_S1)
+        __asm__("nop\n\taddiu %0, %1, 0x35" : "=r"(p) : "r"(p));  // !FAKE: instruction nop — REFUSED instruction `nop` has no C spelling in the table (P37 S+A t4_S1) wall:no-c-spelling
         *p = val;
         p = (s32)p + 4;
         *p = val;
@@ -5959,7 +5959,7 @@ void func_8017F2B4(s32 param_1_a0)
 
         {
             s32 x = -(s32) CAST_SIGN(u16, param_1, 0xA);
-            __asm__("addu %0, %1, $0" : "=r"(negc) : "r"(x));  // !FAKE: instruction addu — NEEDED DIFFERS (P37 S+A t4_S1)
+            __asm__("addu %0, %1, $0" : "=r"(negc) : "r"(x));  // !FAKE: instruction addu — NEEDED DIFFERS (P37 S+A t4_S1) wall:no-c-spelling
             if ((s16)x > 0) {
                 negc = 0;
             }
@@ -5969,14 +5969,14 @@ void func_8017F2B4(s32 param_1_a0)
             s32 t0 = ((Unkstruct_8017F2B4 *)param_1)->unk20;
             s32 t1 = ((Unkstruct_8017F2B4_2 *)t0)->unk24;
             s32 loW, hiW;
-            __asm__ __volatile__("addu %0, %1, $0" : "=r"(loW) : "r"(negc));  // !FAKE: instruction addu — NEEDED DIFFERS (P37 S+A t4_S1)
+            __asm__ __volatile__("addu %0, %1, $0" : "=r"(loW) : "r"(negc));  // !FAKE: instruction addu — NEEDED DIFFERS (P37 S+A t4_S1) wall:no-c-spelling
             base = *(s32 *)(t1 + 0x0);
-            __asm__ __volatile__("srl %0, %1, 8" : "=r"(hiW) : "r"(negc));  // !FAKE: instruction srl — NEEDED DIFFERS (P37 S+A t4_S1)
+            __asm__ __volatile__("srl %0, %1, 8" : "=r"(hiW) : "r"(negc));  // !FAKE: instruction srl — NEEDED DIFFERS (P37 S+A t4_S1) wall:no-c-spelling
             lo = (u8)loW;
             hi = (u8)hiW;
         }
         p = (u8 *)base;
-        __asm__("addiu %0, %1, 0xCA" : "=r"(p) : "r"(p));  // !FAKE: instruction addiu — NEEDED DIFFERS (P37 S+A t4_S1)
+        __asm__("addiu %0, %1, 0xCA" : "=r"(p) : "r"(p));  // !FAKE: instruction addiu — NEEDED DIFFERS (P37 S+A t4_S1) wall:no-c-spelling
         *p = lo;
         p = (s32)p + 1;
         *p = hi;
@@ -6589,13 +6589,13 @@ void func_8017FBEC(s32 a0) {
         v[1] = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk4C;
         v[2] = ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk50;
         /* $a0-pinned scopes: rematerialise &guess_g_CameraWsMatrix (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
         { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
         RotTransPers((s32)v, (s32)&sxy, &z, &flag);
         if (flag >= 0 && (u32)((*(u16 *)&sxy + 0x9F) & 0xFFFF) < 0x13F
                       && (u32)((*((u16 *)&sxy + 1) + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                             /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
             s32 vol;
             sx = (s16)*(u16 *)&sxy;
             av = sx;

@@ -5766,7 +5766,7 @@ void func_80180480(s32 a0) {
     extern void guess_SetWaitTimer(s32 *a0, s32 a1);
     extern s32 func_8013D13C(void);
     extern s32 func_8012AD50(void *a0);
-    register s32 p __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 p __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     s32 v0;
 
     p = guess_g_ActiveCamera;
@@ -6334,7 +6334,7 @@ void func_801810F8(void *a0) {
     u32 *ot;
     u32 tmp;
     u8 *pbase;
-    register u32 lomask __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 lomask __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     u8 *obase;
 
     if (func_8017DCC8() == 0xC) {
@@ -6664,7 +6664,7 @@ void func_801817D0(s32 arg0, s32 arg1) {
     u32 *q4;
     u32 *q5;
     u32 *ot;
-    register u32 m24 __asm__("$14");  // !FAKE: pin $14 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 m24 __asm__("$14");  // !FAKE: pin $14 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     s32 i;
     u8 *pbase;
     u8 *obase;

@@ -3710,7 +3710,7 @@ extern void func_80184F18(s16 *arg0, s32 arg1, s32 arg2);
 
 void func_80184E78(s32 *param_1)
 {
-    register s16 sp18 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P37 S+A t4_S2)
+    register s16 sp18 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P37 S+A t4_S2) wall:combine-copy-merge
     s16 col;
     s32 w;
     s32 ec;
@@ -4406,7 +4406,7 @@ void func_80185944(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:combine-copy-merge
     volatile u16 *bidx;
     s32 t;
     u32 pv;

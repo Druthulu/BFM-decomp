@@ -1083,8 +1083,8 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     s16 *b8;
     s16 *b4;
     s32 r;
-    register s32 pos __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B t8_rj1)
-    register s32 a1v __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_rj1)
+    register s32 pos __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B t8_rj1) wall:lreg-copy-pref
+    register s32 a1v __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_rj1) wall:lreg-copy-pref
     s16 temp_v0;
     s16 temp_v1;
     s32 var_a3;
@@ -1095,7 +1095,7 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     s16 *b4b;
     u16 *p;
 
-    __asm__ ("" : "=r"(a1v) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_rj1)
+    __asm__ ("" : "=r"(a1v) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_rj1) wall:lreg-copy-pref
     pos = arg2;
     if (!(a1v & 1)) {
         var_t0 = (s16) arg2 - (*(s16 **)&D_801909BC)[1];
@@ -1146,7 +1146,7 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
         do { var_v0_3 = pos - 2; } while (0);  // !FAKE: do-while
     }
     b4b[1] = var_v0_3;
-    __asm__ __volatile__("" :: "r"(pos));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_rj1)
+    __asm__ __volatile__("" :: "r"(pos));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_rj1) wall:lreg-copy-pref
     (*(s16 *)guess_g_BoxHitCenterX) = (s16) ((s32) (((Unkstruct_80136824_5 *)arg0)->unk4 + ((Unkstruct_80136824_5 *)arg0)->unk6) >> 1);
     guess_g_BoxHitCenterY = (s16) ((s32) (((Unkstruct_80136824_5 *)arg0)->unk8 + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
     guess_g_BoxHitCenterZ = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 0xC) + M2C_FIELD(((void *)arg0), s16 *, 0xE)) >> 1);

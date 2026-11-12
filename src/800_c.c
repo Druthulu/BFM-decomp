@@ -64,17 +64,17 @@ extern s32  func_8003EDE8(s32, s32, s32);
 extern void func_8003D650(int a0, int a1, int a2);
 
 s32 func_80035270(s32 arg0) {
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
     u8 result[8];
     u8 param[8];
     CdlLOC loc;
     s32 flags;
-    register s32 n __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 n __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
     s32 idx;
     s32 lo;
     s16 h;
     s32 drv;
-    register s32 hi __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 hi __asm__("$20");  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
     u8 *rec;
     u8 *rec2;
     u8 b;
@@ -88,7 +88,7 @@ s32 func_80035270(s32 arg0) {
     s32 cmp;
     u8 *q;
     CdlLOC *lp;
-    register s32 sync __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 sync __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
     s32 sync5;
     s32 tmp;
     s32 inc;
@@ -1758,7 +1758,7 @@ void func_80037144(s32 idx) {
          * find_symbolic_term and the two symbols differ), so without this gcc hoists the
          * D_80065438 load above all the slot stores and permutes the head block.
          * Emits zero instructions. */
-        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-birth-boost
         D_80076244[i].unk0C = 0;
         D_80076244[i].unk0D = one;
         D_80076244[i].unk04 = idx | 0x2000;
@@ -2525,9 +2525,9 @@ void func_800383A4(a0)
     s32 i;
     s32 j;
     s32 one;
-    register s32 aa __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 aa __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
 
-    __asm__("sll %0, %1, 7\n\tsubu %0, %0, %1\n\tsll %0, %0, 2" : "=r"(aa) : "r"(a0));  // !FAKE: instruction sll — REFUSED instruction `sll` has no C spelling in the table (P36 rung B tus9)
+    __asm__("sll %0, %1, 7\n\tsubu %0, %0, %1\n\tsll %0, %0, 2" : "=r"(aa) : "r"(a0));  // !FAKE: instruction sll — REFUSED instruction `sll` has no C spelling in the table (P36 rung B tus9) wall:no-c-spelling
     base = &D_800B9CD8[aa];
     p = base + 0x1A;
     i = 0;
@@ -2647,7 +2647,7 @@ void func_80038668(s32 a0, s32 a1) {
 
 s32 func_80038698(void *arg0) {
     u8 *p;
-    register u32 len asm("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 len asm("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
     u32 hi;
     s32 div;
 
@@ -2913,7 +2913,7 @@ extern s32 func_80038FFC(s32 *);   /* §376: the definition returns s32 and take
 void func_80038A58(void)
 {
     u8 *base;
-    register u8 *p __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *p __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
     s32 i;
     s32 one;
 
@@ -2934,10 +2934,10 @@ void func_80038A58(void)
         u8 *a3;
         u8 *a2;
         s32 a1;
-        register u8 *a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+        register u8 *a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
         s32 t0;
         s32 v0;
-        register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
 
         a3 = D_800762B0;
         a2 = D_800762B4;
@@ -3039,7 +3039,7 @@ void func_80038A58(void)
             flag = 0;
             if (p[0x1E4] != 0) {
                 u16 *hp;
-                register u8 *sq __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+                register u8 *sq __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
 
                 hp = (u16 *)(base + 0x12);
                 k = 0;
@@ -3053,7 +3053,7 @@ void func_80038A58(void)
                             if (*hp < *(u16 *)(sq - 2)) {
                                 goto cont1;
                             }
-                            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+                            __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
                             *hp = *(u16 *)(sq - 2);
                         } else if (*(u16 *)(sq - 4) < cur16) {
                             *hp = cur16 - *(u16 *)(sq - 4);
@@ -3079,7 +3079,7 @@ void func_80038A58(void)
                     acc2 = D_800A4EF8 << 7;
                     acc2 *= D_800A4EE0;
                     c2 = 0;
-                    __asm__("addiu %0,%1,18" : "=r"(hp2) : "r"(base), "r"(c2));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B tus9)
+                    __asm__("addiu %0,%1,18" : "=r"(hp2) : "r"(base), "r"(c2));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
                     acc2 >>= 14;
                     do {
                         acc2 *= *hp2;
@@ -3092,7 +3092,7 @@ void func_80038A58(void)
 
                 if (flag != 0 || D_800A4F16 != 0) {
                     u8 *b;
-                    register u8 *e __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+                    register u8 *e __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
                     b = D_800C6DD0;
                     k = 0;
                     e = b + 0x5A;
@@ -3131,9 +3131,9 @@ void func_80038A58(void)
                 }
             } else if (D_800A4F16 != 0) {
                 u16 *hp3;
-                register s32 c3 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+                register s32 c3 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
                 u8 *b2;
-                register u8 *e2 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+                register u8 *e2 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
                 s32 k2;
 
                 s32 acc3;
@@ -4017,7 +4017,7 @@ void func_8003A234(func_8003A234_Ctx *a0) {
             u8 *np = p + 1;
             a0->ptr = np;
             {
-                register s32 byte __asm__("$5") = p[0];  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+                register s32 byte __asm__("$5") = p[0];  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-copy-pref
                 a0->ptr = np + byte;
             }
         }
@@ -4026,7 +4026,7 @@ void func_8003A234(func_8003A234_Ctx *a0) {
     case 0:
         a0->ptr = a2 + 2;
         {
-            register s32 b1 __asm__("$5") = a2[1];  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+            register s32 b1 __asm__("$5") = a2[1];  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-copy-pref
             if (b1 != 2) {
                 a0->unk1F9 = 1;
                 break;

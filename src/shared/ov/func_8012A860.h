@@ -4,7 +4,7 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012AAAC();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
 void func_8012A860(void *a0, int a1) {
     int v0;
-    register char *p asm("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    register char *p asm("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
     *(int *)((char *)a0 + 0x90) = a1;
     v0 = func_8012ACE0(a0);
     p = (char *)a0;

@@ -5315,11 +5315,11 @@ void func_801811E8(s32 a0) {
 
 void func_80181448(s32 arg0) {
     s32 a3;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
     s32 v0;
-    register s32 a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 a1r __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 a2r __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 a0r __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
+    register s32 a1r __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
+    register s32 a2r __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
 
     a3 = arg0;
     v1 = CAST_SIGN(u16, a3, 0x70);

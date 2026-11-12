@@ -3133,7 +3133,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8017D730(void) {
     s32 a0;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:flow-unused-result
     s32 v1;
     s32 t;
     s32 rem;
@@ -3174,11 +3174,11 @@ void func_8017D730(void) {
             v1 = 0x7F - v0;
             {
                 s32 cmp = (v1 < 0x1F);
-                __asm__ __volatile__("" :: "r"(cmp));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
+                __asm__ __volatile__("" :: "r"(cmp));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10) wall:flow-unused-result
             }
             {
-                register s32 tmp3 __asm__("$3") = 0x1F;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-                __asm__ __volatile__("" :: "r"(tmp3));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10)
+                register s32 tmp3 __asm__("$3") = 0x1F;  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10) wall:flow-unused-result
+                __asm__ __volatile__("" :: "r"(tmp3));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus10) wall:flow-unused-result
             }
             guess_RequestSound(0x407, 0);
         }

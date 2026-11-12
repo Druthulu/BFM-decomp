@@ -469,7 +469,7 @@ void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, 
     gte_rtv0tr();
     gte_stsv(L.o3);
 
-    __asm__ __volatile__("" : : "r"(twicep));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ __volatile__("" : : "r"(twicep));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-copy-pref
 
     L.q2A = 0x13F;
     L.q2E = 0x100;

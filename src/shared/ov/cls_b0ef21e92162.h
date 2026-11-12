@@ -3,11 +3,11 @@
 void SHARED_FN(arg0)
 s32 arg0;
 {
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus7) wall:sched1-hoist-sink
     s32 v0;
     s32 v1;
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7) wall:sched1-hoist-sink
+    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7) wall:sched1-hoist-sink
 
     s0 = arg0;
     v1 = func_8012CBCC(s0);

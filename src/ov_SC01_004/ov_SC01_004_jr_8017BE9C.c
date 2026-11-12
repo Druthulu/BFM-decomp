@@ -4026,7 +4026,7 @@ void func_8017DF18(void) {
     s32 *ot;
     s32 panel;
     void *label;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus8) wall:dbr-delay-fill
     s32 n;
     s32 cnt;
     s32 lim;
@@ -4074,7 +4074,7 @@ void func_8017DF18(void) {
         do { lim = cnt; } while (0);  // !FAKE: do-while
         do {
             if (*(s16 *)((u8 *)guess_g_MenuPanelSizes + ((s32)i << 1)) != 0) {   /* [1] */
-                __asm__ __volatile__("");                    /* [4] */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8)
+                __asm__ __volatile__("");                    /* [4] */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus8) wall:dbr-delay-fill
                 ot = xf8017E1D4(ot, panel, (s32)i);
             }
             i = i + 1;
@@ -4090,7 +4090,7 @@ void func_8017DF18(void) {
     guess_g_FrontOrderingTables[*pb].f4[2] =
         (guess_g_FrontOrderingTables[*pb].f4[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
     ot += 10;
-    __asm__ __volatile__("" ::: "memory");                   /* [5] store re-tie */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8)
+    __asm__ __volatile__("" ::: "memory");                   /* [5] store re-tie */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus8) wall:dbr-delay-fill
     guess_g_MenuPacketPtr = (s32)ot;
 }
 

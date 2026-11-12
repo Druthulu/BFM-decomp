@@ -3259,7 +3259,7 @@ void func_8017D9F0(param_1)
      * pins" -- these are loop/local values, never the incoming parameter, so S3 is respected). */
     s32 vVec; /* s1: RotTransSV/Pers vector ptr, then loop counter i */
     s32 vFlag; /* s2: RotTransSV/Pers flag ptr,  then grid anchor     */
-    register u8 *p0     __asm__("$16"); /* s0: guess_g_CameraWsMatrix ptr, then prim-write pointer         */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung A t8_tus2)
+    register u8 *p0     __asm__("$16"); /* s0: guess_g_CameraWsMatrix ptr, then prim-write pointer         */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung A t8_tus2) wall:loop-iv
     u8 *cur; /* s3: walking AddPrim arg (s4object+0xC, +=0x24)      */
     void *s4o; /* s4: func_80010A08(0x9C) result                       */
     s32 *ctab; /* s5: &D_80195A54 colour table                          */
@@ -3283,10 +3283,10 @@ void func_8017D9F0(param_1)
          * natural (early) priority instead. */
         void *vecAddr = &D_80195A4C;
         void *arg1;
-        __asm__ __volatile__("" : "=r"(vecAddr) : "0"(vecAddr));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A t8_tus2)
+        __asm__ __volatile__("" : "=r"(vecAddr) : "0"(vecAddr));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A t8_tus2) wall:loop-iv
         vVec = (s32)(buf + 0x10);
         arg1 = (void *)vVec;
-        __asm__ __volatile__("" : "=r"(arg1) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A t8_tus2)
+        __asm__ __volatile__("" : "=r"(arg1) : "0"(arg1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A t8_tus2) wall:loop-iv
         vFlag = (s32)(buf + 0x38);
         RotTransSV(vecAddr, arg1, (void *)vFlag);
     }
@@ -3310,7 +3310,7 @@ void func_8017D9F0(param_1)
     cy = ((Unkstruct_8017D8AC *)buf)->unk3E;
 
     {
-        register s32 t1 __asm__("$9") =  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung A t8_tus2)
+        register s32 t1 __asm__("$9") =  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung A t8_tus2) wall:loop-iv
             *(s32 *)((s8 *)&D_800A651C + (u16)guess_g_DoubleBufferIndex * 0x14);
         s6 = t1 + zcount;
     }
@@ -3339,7 +3339,7 @@ void func_8017D9F0(param_1)
     func_8005A600((s32)s4o, 0, 0, (u16)tpage, 0);
 
     {
-        register s32 t __asm__("$2") = (s32)((u8 *)s4o + 0xC);  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A t8_tus2)
+        register s32 t __asm__("$2") = (s32)((u8 *)s4o + 0xC);  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung A t8_tus2) wall:loop-iv
         cur = (u8 *)t;
         ctab = D_80195A54;
         vFlag = (s32)buf;
@@ -3387,7 +3387,7 @@ void func_8017D9F0(param_1)
 
             y2 = *(u16 *)(vFlag + D_80195A72[vVec] * 2 + 0x28);
             argA0 = s6;
-            __asm__ __volatile__("" : "=r"(argA0) : "0"(argA0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A t8_tus2)
+            __asm__ __volatile__("" : "=r"(argA0) : "0"(argA0));  // !FAKE: launder — NEEDED DIFFERS (P36 rung A t8_tus2) wall:loop-iv
             *(u16 *)(p0 - 0x8) = y2;
             argA1 = cur;
             {

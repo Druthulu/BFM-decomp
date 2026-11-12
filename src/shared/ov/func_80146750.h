@@ -10,7 +10,7 @@ extern int D_8011FA24;
 unsigned short *func_80146750(unsigned short *a0)
 {
     int a6;
-    register unsigned short *a7 __asm__("7");  // !FAKE: pin 7 — NEEDED DIFFERS (P36 rung B headers1)
+    register unsigned short *a7 __asm__("7");  // !FAKE: pin 7 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
     int a5;
     unsigned short *v1;
     unsigned short *v0;

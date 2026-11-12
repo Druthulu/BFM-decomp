@@ -7269,7 +7269,7 @@ void func_80183E68(s32 *a0, s32 a1, s32 a2) {
     s16 *q;
     u16 *p;
     s16 t;
-    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-copy-pref
 
     q = &D_80126CBA;
     if (*q == 0) {
@@ -7288,7 +7288,7 @@ void func_80183E68(s32 *a0, s32 a1, s32 a2) {
     rv = sp20;
     *a0 = rv;
     rv = (s32)a0;
-    __asm__ __volatile__("" : : "r" (rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ __volatile__("" : : "r" (rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-copy-pref
 }
 
 

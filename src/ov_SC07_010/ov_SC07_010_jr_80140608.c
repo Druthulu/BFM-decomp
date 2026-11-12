@@ -344,7 +344,7 @@ u32 mhi;
           s32 k;
           s32 t3v;
           u8 *q = ((u8 *) ot) + 0x14;
-          register s16 size __asm__("$2");  // !FAKE: pin $2 size — a hard reg is may_not_optimize (loop.c:596), so scan_loop (loop.c:649) cannot hoist the in-loop li 8 (P36 S103 c48 minimum-lever)
+          register s16 size __asm__("$2");  // !FAKE: pin $2 size — a hard reg is may_not_optimize (loop.c:596), so scan_loop (loop.c:649) cannot hoist the in-loop li 8 (P36 S103 c48 minimum-lever) wall:loop-const-hoist
           j = 0;
           k = m;
           t3v = m * 4;                  /* [L3] explicit, must sit before the 3 constants */

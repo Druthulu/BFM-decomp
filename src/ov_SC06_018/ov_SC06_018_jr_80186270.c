@@ -3547,7 +3547,7 @@ extern s32 func_80189284(void *a0, s32 a1, s32 a2);
  *     const-folds `r` to 0 on the fall-through edge and the merge comes back.) */
 s32 func_80187250(s32 p) {
     s32 buf10[2];
-    register s32 r __asm__("$2");   /* $v0 — see note 2 above */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 r __asm__("$2");   /* $v0 — see note 2 above */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-fold
 
     if ((CAST_SIGN(u32, p, 0xE0) & 1) == 0) {
         goto ret0;

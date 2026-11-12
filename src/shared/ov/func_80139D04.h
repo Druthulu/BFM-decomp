@@ -5,12 +5,12 @@ s32 func_80139D04(s32 a0, s32 a1) {
     u32 div;   /* $t1 */
     u32 acc;  /* $t2 */
     u32 cnt;   /* $a2 */
-    register u32 flag __asm__("$7");   /* $a3 */  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1)
-    register u32 param_2 __asm__("$5"); /* $a1 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
+    register u32 flag __asm__("$7");   /* $a3 */  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
+    register u32 param_2 __asm__("$5"); /* $a1 */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
     u32 q;
-    register u32 rem __asm__("$4");  /* $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    register u32 rem __asm__("$4");  /* $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
     u32 hi;  /* $v0 */
-    register u32 pm __asm__("$3");  /* $v1 */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+    register u32 pm __asm__("$3");  /* $v1 */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
     u32 dm;  /* $v0 */
     p = (u8 *)a0;
     param_2 = (u32)a1;

@@ -4314,7 +4314,7 @@ void func_8018483C(s32 a0) {
        lived one lands in $v0 and the call-crossing one in $s0 = the extra move. */
     {
         u16 *pb = &D_800B99DC;
-        __asm__("" : "=r"(pb) : "0"(pb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+        __asm__("" : "=r"(pb) : "0"(pb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10) wall:cse-const-addr
         p = pb;
     }
     r = &D_8018F078;

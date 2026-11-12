@@ -4929,13 +4929,13 @@ extern void func_801292C8(u8 *a0);
 
 void func_8017F5D8(s32 arg0)
 {
-    register s32 s1 __asm__("$17") = arg0;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 s1 __asm__("$17") = arg0;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus7) wall:sched1-hoist-sink
     s32 s0;
     s32 v0;
     s32 v1;
     s32 a0;
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 a2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7) wall:sched1-hoist-sink
+    register s32 a2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus7) wall:sched1-hoist-sink
 
     /* Load velocity components */
     v0 = ((Unkstruct_8017F5D8 *)s1)->unk10;
@@ -5362,9 +5362,9 @@ s32 func_80180054(SVec_80180054 *p, s32 dist)
     u16 best;
     u16 d1, d2;
     s32 a;
-    register s32 b __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 b __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7) wall:greg-copy-pref
     s32 xa;
-    register s32 xb __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 xb __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7) wall:greg-copy-pref
 
     best = 0xFFFF;
     gte_SetRotMatrix(guess_g_CameraWsMatrix);
@@ -5385,27 +5385,27 @@ s32 func_80180054(SVec_80180054 *p, s32 dist)
             a = sxy[1].vy;
             b = sxy[0].vy;
             xa = a;
-            __asm__("" : "=r"(xa) : "0"(xa));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+            __asm__("" : "=r"(xa) : "0"(xa));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
             if (a - b >= 0) {
                 xb = b;
-                __asm__(" " : "=r"(xb) : "0"(xb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+                __asm__(" " : "=r"(xb) : "0"(xb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
                 d1 = xa - xb;
             } else {
                 xb = b;
-                __asm__("  " : "=r"(xb) : "0"(xb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+                __asm__("  " : "=r"(xb) : "0"(xb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
                 d1 = xb - xa;
             }
             a = sxy[2].vy;
             b = sxy[0].vy;
             xa = a;
-            __asm__("   " : "=r"(xa) : "0"(xa));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+            __asm__("   " : "=r"(xa) : "0"(xa));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
             if (a - b >= 0) {
                 xb = b;
-                __asm__("    " : "=r"(xb) : "0"(xb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+                __asm__("    " : "=r"(xb) : "0"(xb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
                 d2 = xa - xb;
             } else {
                 xb = b;
-                __asm__("     " : "=r"(xb) : "0"(xb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+                __asm__("     " : "=r"(xb) : "0"(xb));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
                 d2 = xb - xa;
             }
             if (d1 > d2) {
@@ -5416,7 +5416,7 @@ s32 func_80180054(SVec_80180054 *p, s32 dist)
             }
         }
         p += 2;
-        __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7)
+        __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus7) wall:cse-copy-merge
     }
     return best;
 }

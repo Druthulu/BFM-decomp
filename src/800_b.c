@@ -286,7 +286,7 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
             u8 *m;
             u8 *p;
             m = (u8 *)&D_80075A40;
-            __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
             guess_ZeroMemory(m, 0x80);
             p = (u8 *)&D_80075A40 + ((idx + 1) << 7);
             D_80075A40 = D_80076040;
@@ -301,7 +301,7 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
             u8 *p;
             s32 cp;
             m = D_80075FC0;
-            __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+            __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
             guess_ZeroMemory(m, 0x80);
             D_80075FC0[0] = 0xFF;
             p = &D_80075FC0[0x10];

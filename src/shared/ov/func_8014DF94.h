@@ -21,14 +21,14 @@ void func_8014DF94(s32 arg0) {
     t2 = *(u16 *)(arg0 + 0xE);
     u88 = u88 - t;
     b[0] = t;
-    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
+    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1) wall:flow-unused-result
     b[0] = u88;
     b[2] = t2;
-    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
+    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1) wall:flow-unused-result
     t2 = t2 - u8C;
     u8C = u8C - t2;
     b[2] = t2;
-    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1)
+    __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B headers1) wall:flow-unused-result
     b[2] = u8C;
     if (*(s32 *)(arg0 + 0x170) == 0) {
         func_8014E284(arg0, a, b);

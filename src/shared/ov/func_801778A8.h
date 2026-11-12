@@ -2,11 +2,11 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_801778A8(int param_1, unsigned int param_2, short param_3, short param_4) {
     unsigned int uVar1;
-    register unsigned int nib __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+    register unsigned int nib __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1) wall:loop-iv
     int iVar2;
     int im1;
     int p4;
-    register char *p __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1)
+    register char *p __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B headers1) wall:loop-iv
     short iVar4;
     unsigned short uVar5;
     unsigned int mask;

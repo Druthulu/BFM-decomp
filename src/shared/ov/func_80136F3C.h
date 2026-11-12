@@ -15,15 +15,15 @@ void func_80136F3C(s32 a0, s32 a1)
         u8 g;
         u8 b;
     } line;
-    register s16 x1    __asm__("$16");               /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
-    register s16 x0    __asm__("$17");               /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1)
+    register s16 x1    __asm__("$16");               /* $s0 */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1) wall:lreg-priority
+    register s16 x0    __asm__("$17");               /* $s1 */  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B headers1) wall:lreg-priority
     u8 *base = guess_g_OrderingTables;  /* $s3 */
-    register s16 white __asm__("$20");               /* $s4 */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B headers1)
+    register s16 white __asm__("$20");               /* $s4 */  // !FAKE: pin $20 — NEEDED DIFFERS (P36 rung B headers1) wall:lreg-priority
     s16 y0;
     s16 y1;
     y0 = a1 - 3;
     x1 = a0 + 3;
-    __asm__("" : "=r"(x1) : "0"(x1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1)
+    __asm__("" : "=r"(x1) : "0"(x1));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B headers1) wall:lreg-priority
     y1 = a1 + 3;
     white = 0xFF;
     x0 = a0 - 3;

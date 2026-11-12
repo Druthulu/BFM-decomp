@@ -3975,7 +3975,7 @@ extern u8 D_801817A4[];
 extern u8 D_801817B0[];
 
 void func_8017DA30(s32 a0) {
-    register s32 ent __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 ent __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
     s32 sub;
     s32 hw;
     u32 r;
@@ -3991,14 +3991,14 @@ void func_8017DA30(s32 a0) {
         guess_StartPairSequence(sub, (s32)((u8 *)ent + 0x24), (s32)D_800D3888);
         hw = 0x2C;
     } else {
-        register s32 q __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 q __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
         s32 p;
         s32 e;
         func_8001CC3C(sub, (s32)D_801817A4, 0, 0);
         q = sub;
         p = (s32)((u8 *)ent + 0x24);
         e = (s32)D_801817B0;
-        __asm__ __volatile__("" : "=r"(q), "=r"(p), "=r"(e) : "0"(q), "1"(p), "2"(e));  // !FAKE: launder — REFUSED launder with 3 outputs (P36 rung B t8_tus2)
+        __asm__ __volatile__("" : "=r"(q), "=r"(p), "=r"(e) : "0"(q), "1"(p), "2"(e));  // !FAKE: launder — REFUSED launder with 3 outputs (P36 rung B t8_tus2) wall:sched1-argcopy-hoist
         ((Unkstruct_800B5CB8 *)q)->unk27 = 0x33;
         guess_StartPairSequence(q, p, e);
         hw = 0x1C;

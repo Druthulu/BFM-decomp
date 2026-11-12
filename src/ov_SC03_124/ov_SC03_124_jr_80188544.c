@@ -3257,7 +3257,7 @@ s32 *func_8018893C(out, src, idx, w, col)
             u16 *pb;
             /* §137/§36: m24 is a 2-insn constant, but the natural allocno order puts j/k ahead
              * of it and rotates $a2/$a3/$t0. Pinning m24 alone restores the whole rotation. */
-            register u32 m24 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+            register u32 m24 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
             u32 mhi;
             s32 vsum;
 
@@ -3289,7 +3289,7 @@ s32 *func_8018893C(out, src, idx, w, col)
                     y = D_801BC536 + 1;
                 }
                 *(s16 *)((u8 *)out + 0xA) = y;
-                __asm__("" ::: "memory");   /* keeps the y store ahead of the 0x64808080 pair */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9)
+                __asm__("" ::: "memory");   /* keeps the y store ahead of the 0x64808080 pair */  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
                 *(u32 *)out = 0x04000000;
                 *((u8 *)out + 0xC) = 0x78;
                 *(u32 *)((u8 *)out + 0x4) = 0x64808080;
@@ -3300,7 +3300,7 @@ s32 *func_8018893C(out, src, idx, w, col)
                 *(s16 *)((u8 *)out + 0x12) = eight;
                 *(u32 *)out = ((*(u32 *)out) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & m24);
                 {
-                    register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+                    register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
                     op = guess_g_FrontOrderingTablesOrg[*pb].ot;
                     op[2] = (op[2] & mhi) | (((u32)out) & m24);
                 }
@@ -3410,10 +3410,10 @@ s32 func_80188C68(s32 arg0, s16 arg1)
 
     case 12:
     {
-        register s32 f13 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 f13 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
         s32 i13;
         s32 c13;
-        register u8 *q __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register u8 *q __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
         s16 d;
         i13 = D_801E2354[arg1];
         c13 = i13 + 0x62;
@@ -3428,7 +3428,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
         }
         func_800291A0(c13, f13 | 0x40);
         func_8018654C();
-        __asm__ __volatile__("" : "=r"(q) : "0"(&D_8011514C));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" : "=r"(q) : "0"(&D_8011514C));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
         d = (s8)q[0] - (s8)q[-0xA];
         if (d >= 6) {
             q[-0xA] = q[0] - 5;
@@ -3442,7 +3442,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
 
     case 13:
     {
-        register s32 f14 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 f14 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
         s32 i14;
         s32 n14;
         s32 t14;
@@ -3450,7 +3450,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
         i14 = arg1;
         t14 = D_801E2410[i14];
         n14 = t14 + 1;
-        __asm__("" : "=r"(t14) : "0"(t14)); /* stales (plus t14 1) in cse; dead output -> deleted by flow */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__("" : "=r"(t14) : "0"(t14)); /* stales (plus t14 1) in cse; dead output -> deleted by flow */  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
         c14 = n14 + 0x62;
         f14 = ((u8 (*)(s32))guess_GetGameVarByte)(c14);
         if ((f14 & 0xF0) != 0xC0) {
@@ -3470,10 +3470,10 @@ s32 func_80188C68(s32 arg0, s16 arg1)
         s32 b10 = D_801E234C[arg1];
         s32 m10;
         s32 w10;
-        __asm__ __volatile__("" : "=r"(m10) : "0"(b10));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" : "=r"(m10) : "0"(b10));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
         if (m10 < 0x6F) {
-            register s16 slot __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
-            register s16 sraw __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s16 slot __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
+            register s16 sraw __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
             s16 val;
             s16 x;
             if (m10 == 0xA) {
@@ -3504,7 +3504,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
                 return 0;
             }
             guess_RequestSound(0x5EE, 0);
-            __asm__("addu %0,%1,$zero" : "=r"(w10) : "r"(b10));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__("addu %0,%1,$zero" : "=r"(w10) : "r"(b10));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
             func_800D0F0C(slot, w10);
             if (w10 == 0xA) {
                 func_8018654C();
@@ -3549,9 +3549,9 @@ s32 func_80188C68(s32 arg0, s16 arg1)
     {
         s32 k8;
         s32 f8;
-        register s32 g8 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
-        register s32 t8 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-        register s32 cv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 g8 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
+        register s32 t8 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
+        register s32 cv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
         s32 p8;
         u16 *c;
         if ((*(u8 *)guess_g_MenuPanelCursors) != 0) {
@@ -3566,7 +3566,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
             D_801E2358 = (s32)&D_801E4160;
             goto bad472;
         }
-        __asm__ __volatile__("" : "=r"(g8) : "0"(f8));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" : "=r"(g8) : "0"(f8));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
         t8 = g8 & 0x4000;
         if (t8 != 0) {
             p8 = ((s32 *)D_801DE7D8)[k8];
@@ -3584,8 +3584,8 @@ s32 func_80188C68(s32 arg0, s16 arg1)
 
     case 14:
     {
-        register u16 f15 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
-        register s32 t15 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register u16 f15 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
+        register s32 t15 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
         s32 c15;
         s32 k15;
         s32 n15;
@@ -3596,7 +3596,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
         t15 = f15 & 0x4000;
         if (t15 != 0) {
             s32 m15;
-            __asm__ __volatile__("" : "=r"(m15) : "0"(n15));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__ __volatile__("" : "=r"(m15) : "0"(n15));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
             guess_SetGameFlag(m15, 1);
             ((void (*)(s32))func_800D0FE0)(c15);
             D_801E1C88 = n15 - 0x1C;
@@ -3619,7 +3619,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
         Rec **pp;
         Rec *r;
         Rec **pp2;
-        register s32 dv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 dv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
         Rec **base;
         Rec *r2;
         s32 t;
@@ -3662,7 +3662,7 @@ s32 func_80188C68(s32 arg0, s16 arg1)
             goto bad472;
         }
         t = (*(Rec * volatile *)pp2)->unk8;
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
         D_801E2358 = r2->unk4;
         ((void (*)(s32))func_8017ADE8)(t);
         u = D_801E2358;
@@ -4545,9 +4545,9 @@ void func_8018A788(void) {
         s32 slot = i + 0x2F;
         s32 id = guess_GetGameVarByte(slot) & 0xFF;
         if (id != 0) {
-            register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+            register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
             s32 t;
-            register s32 rb __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+            register s32 rb __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
             s16 flags;
             s32 m;
             tmp = (id << 1) + id;
@@ -4564,10 +4564,10 @@ void func_8018A788(void) {
                     D_801E2498.field_0 = 2;
                     return;
                 } else {
-                    register s32 sc __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
-                    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+                    register s32 sc __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
+                    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
                     sc = slot;
-                    __asm__("" : "=r"(sc) : "0"(sc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+                    __asm__("" : "=r"(sc) : "0"(sc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
                     d = rb - 0x14;
                     D_801E2498.field_4 = (&D_801DE990)[d >> 1];
                     ((void (*)(s32))func_800D0F0C)(sc);

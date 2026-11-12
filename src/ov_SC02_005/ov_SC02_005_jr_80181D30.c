@@ -4434,9 +4434,9 @@ extern s32 D_801963D0;
 extern s32 *D_801D6D94;
 extern void func_801858C4();
 void func_80184358(u8 *arg0) {
-    register u8 *a0 __asm__("$4") = arg0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *a0 __asm__("$4") = arg0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     s32 v0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     v0 = ((Unkstruct_800B5CB8 *)a0)->unk5C;
     v1 = ((Unkstruct_800B5CB8 *)a0)->unk64;
     ((Unkstruct_800B5CB8 *)a0)->unk5C = v0 & 0xFFFE;
@@ -4752,7 +4752,7 @@ void func_80184828(void *a0)
             s16 newval = D_80195AF6[((Unkstruct_800B5CB8 *)a0)->unk100].f0;
 
             if (newval >= CAST_SIGN(s16, (u8 *)a0, 0xE)) {
-                __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+                __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:combine-operand-order
                 s1 = 1;
                 ((S0E_80184828 *)((u8 *)a0 + 0xE))->h = newval;
                 off = ((Unkstruct_800B5CB8 *)a0)->unk100 * 8;

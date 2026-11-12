@@ -5838,8 +5838,8 @@ void func_8017BEBC(s32 arg0)
                                              * int(K/L_mny) -> exact allocno tie -> global.c allocno_compare
                                              * falls through to creation order -> mny (created first) takes
                                              * $a2, which is what the target has. Zero bytes (#APP/#NO_APP). */
-                                            __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
-                                            __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+                                            __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
+                                            __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
                                             mny = ((XFT3 *)pkt)->y1;
                                         } else {
                                             mny = ((XFT3 *)pkt)->y0;
@@ -5894,8 +5894,8 @@ void func_8017BEBC(s32 arg0)
                                     if (tmpxy[0].vy > tmpxy[1].vy) {
                                         my = tmpxy[0].vy;
                                         /* §47 slider x2 — same tie, the FT4 arm's half of it. */
-                                        __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
-                                        __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+                                        __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
+                                        __asm__ volatile ("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
                                         mny = tmpxy[1].vy;
                                     } else {
                                         mny = tmpxy[0].vy;
@@ -6164,7 +6164,7 @@ extern void func_8017D51C(s32 *a0, s32 *a1, s32 *a2);
 
 void func_8017CF48(s32 a0) {
     s32 tp;
-    register s32 base __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 base __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
     void *ap;
     s16 buf[4];
     s32 flag, t;
@@ -6184,7 +6184,7 @@ B:
     flag = 0;
 L00C:
     ap = buf;
-    __asm__("" : "=r"(ap) : "0"(ap));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : "=r"(ap) : "0"(ap));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
     base = (s32)&D_80185FF0;
     if (func_8017D418((s16 *)ap, (s16 *)base)) goto L164;
     if (func_8017D418(buf, (s16 *)(base + 0x10))) { func_8017D51C((s32 *)a0, (s32 *)buf, (s32 *)(base + 0x10)); flag = 1; goto L174; }
@@ -6195,7 +6195,7 @@ L00C:
     if (func_8017D418(buf, (s16 *)(base + 0x60))) { func_8017D474(a0, (s32)buf, base + 0x60); flag = 1; goto L174; }
     if (func_8017D418(buf, (s16 *)(base + 0x70))) { func_8017D51C((s32 *)a0, (s32 *)buf, (s32 *)(base + 0x70)); flag = 1; goto L174; }
     ap = buf;
-    __asm__("" : "=r"(ap) : "0"(ap));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : "=r"(ap) : "0"(ap));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
     base = base + 0x80;
     if (func_8017D418((s16 *)ap, (s16 *)base)) goto L164;
     goto L174;
@@ -6217,7 +6217,7 @@ LAB:
     ((Unkstruct_8017CF48 *)a0)->unk1A = ((Unkstruct_8017CF48 *)a0)->unk22 = func_80012ABC(((Unkstruct_8017CF48 *)a0)->unk1A, CAST_SIGN(s16, a0, 0xA2), 0xA);
 LEND:
     tp = (s32)D_801274F0_8017CF48;
-    __asm__("" : "=r"(tp) : "0"(tp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__("" : "=r"(tp) : "0"(tp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
     *(Blk8_8017CF48 *)tp = *(Blk8_8017CF48 *)buf;
     t0 = func_80012F74(*(s16 *)(tp - 8), buf[0], 4, 1);
     u1 = buf[1];

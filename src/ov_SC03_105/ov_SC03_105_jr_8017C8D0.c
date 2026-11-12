@@ -4099,7 +4099,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 void func_8017FAE8(s32 a0) {
     SVec_8017FAE8 pos;
     SVec_8017FAE8 out;
-    register s32 base __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 base __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
     s32 q;
 
     pos.vx = CAST_SIGN(s16, a0, 0x6);
@@ -4131,7 +4131,7 @@ void func_8017FAE8(s32 a0) {
 
     q = out.vx * 63 / 160;
     {
-        register s32 r __asm__("$5") = base + q;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
+        register s32 r __asm__("$5") = base + q;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
         guess_RequestSound(0x72B, ((r | 0x2000) & 0xFFFF));
     }
 }

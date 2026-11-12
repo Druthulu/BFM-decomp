@@ -3609,7 +3609,7 @@ extern struct D_801D0660_s D_801D0662[];
 void func_80180ED0(s32 arg0) {
     s32 a3 = arg0;
     s32 i;
-    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10) wall:loop-iv
 
     if (((Unkstruct_80180ED0 *)a3)->unk1C != 0) {
         (((Unkstruct_80180ED0 *)a3)->unk1C)--;
@@ -4338,7 +4338,7 @@ void func_80181BA8(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:combine-copy-merge
     volatile u16 *bidx;
     s32 t;
     u32 pv;

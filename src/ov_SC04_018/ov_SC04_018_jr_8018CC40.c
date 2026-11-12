@@ -3344,9 +3344,9 @@ void func_8018CDEC(void) {
         s32 slot = i + 0x2F;
         s32 id = guess_GetGameVarByte(slot) & 0xFF;
         if (id != 0) {
-            register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+            register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
             s32 t;
-            register s32 rb __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
+            register s32 rb __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
             s16 flags;
             s32 m;
             tmp = (id << 1) + id;
@@ -3363,8 +3363,8 @@ void func_8018CDEC(void) {
                     D_801E79D8.unk00 = 2;
                     return;
                 } else {
-                    register s32 sc __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
-                    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+                    register s32 sc __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
+                    register s32 d __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
                     sc = slot;
                     do { } while (0);  // !FAKE: do-while
                     d = rb - 0x14;

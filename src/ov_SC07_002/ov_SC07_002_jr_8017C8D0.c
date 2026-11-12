@@ -2988,19 +2988,19 @@ void func_8017DC80(void)
 
     u8 *r;
     u8 *arg;
-    register u8 *c  __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u8 *c  __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-copy-pref
     u8 *va;
-    register u8 *vb __asm__("$22");  // !FAKE: pin $22 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u8 *vb __asm__("$22");  // !FAKE: pin $22 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-copy-pref
     u32 ot;
     s32 n;
-    register u32 otz __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u32 otz __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-copy-pref
     u32 mlo;   /* 0x00FFFFFF — P_TAG addr mask  */
-    register u32 mhi __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u32 mhi __asm__("$23");  // !FAKE: pin $23 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-copy-pref
 
     u32 *otp;
     PRIM_8017DC80 *poly;
-    register u8 *q __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
-    register u32 qt __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u8 *q __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-copy-pref
+    register u32 qt __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-copy-pref
     u32 ov;
     u32 tp;
     u32 w;
@@ -3011,7 +3011,7 @@ void func_8017DC80(void)
     u32 cc;
 
     arg = &guess_g_CameraWsMatrix;
-    __asm__("" : "=r"(arg) : "0"(arg));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__("" : "=r"(arg) : "0"(arg));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:jump2-crossjump
     r  = (u8 *)&D_8019B7B8;
     mlo = 0xFFFFFF;
     mhi = 0xFF000000;
@@ -3108,7 +3108,7 @@ void func_8017DC80(void)
                         ov = *otp;
                         *otp = (ov & mhi) | ((u32)poly & mlo);
 #line 900 "p.c"
-                        __asm__ ("" : "=r"(n), "=r"(otz) : "0"(n), "1"(otz));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B t8_tus2)
+                        __asm__ ("" : "=r"(n), "=r"(otz) : "0"(n), "1"(otz));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B t8_tus2) wall:jump2-crossjump
 #line 901 "p.c"
                         if (n < 4) {
                             q = (u8 *)func_80010A08(8);
@@ -3179,7 +3179,7 @@ void func_8017DC80(void)
                         ov = *otp;
                         *otp = (ov & mhi) | ((u32)poly & mlo);
 #line 900 "p.c"
-                        __asm__ ("" : "=r"(n), "=r"(otz) : "0"(n), "1"(otz));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B t8_tus2)
+                        __asm__ ("" : "=r"(n), "=r"(otz) : "0"(n), "1"(otz));  // !FAKE: launder — REFUSED launder with 2 outputs (P36 rung B t8_tus2) wall:jump2-crossjump
 #line 901 "p.c"
                         if (n < 4) {
                             q = (u8 *)func_80010A08(8);
@@ -3212,7 +3212,7 @@ extern void func_8017E37C(u8*, u8*, u8*, u8*);
 
 void func_8017E1E8(s32 arg0, s32 arg1, s32 arg2)
 {
-    register s32 off __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 off __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-const-fold
     s32 cnt;
     s32 ent = arg0;
     s32 p1 = arg1;
@@ -7264,7 +7264,7 @@ void func_801849AC(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t17_ov_S1)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t17_ov_S1) wall:combine-copy-merge
     volatile u16 *bidx;
     s32 t;
     u32 pv;
@@ -7875,7 +7875,7 @@ void func_80185434(s16 *arg0)
     void *mp;
     u16 len;
     u32 otz;
-    register u32 qt __asm__("$4");   /* §17 pin — kills the birthing boost AND  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 qt __asm__("$4");   /* §17 pin — kills the birthing boost AND  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:sched1-order
                                         keeps the $a0/$a1 pair in target order */
 
     ot = (u32 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];

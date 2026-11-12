@@ -5,7 +5,7 @@
 #define SHARED_ENGINE_PRELUDE_H
 #include "common.h"
 #include "engine_types.h"
-#ifndef ENGINE_SHB
+#ifndef ENGINE_SHB  // !FAKE: asm-macro-def(launder) — 3.43 T12 wall:hand-asm
 #define ENGINE_SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
 #endif
 #endif

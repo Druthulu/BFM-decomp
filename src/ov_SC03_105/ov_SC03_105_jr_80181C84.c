@@ -3519,7 +3519,7 @@ void func_80183174(s32 a0) {
     u16 *p = &D_801BA628;
     u16 local_10[3];
     u16 local_18[3];
-    register u16 c1 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
+    register u16 c1 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
 
     local_10[0] = *p;
     local_10[1] = D_801BA62A;
@@ -3673,12 +3673,12 @@ void func_801834A4(s32 arg0) {
     s32 j;
     s32 u;
     s32 base;
-    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
     s32 mod;
     s32 step;
     s32 obj;
     s32 half;
-    register s32 hh __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 hh __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
     s32 sign = 0;
 
     if ((guess_g_FrameCounter & 7) == 0) {
@@ -3688,7 +3688,7 @@ void func_801834A4(s32 arg0) {
             u = D_8018E894[i];
             tmp = u * 0x600 + 0x2000;
             base = tmp;
-            __asm__ ("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10)
+            __asm__ ("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
             mod = (tmp << 16) >> 18;
             step = u * 6 + 0x12;
             half = step * 2;
@@ -3912,10 +3912,10 @@ s32 func_80183A98(void *a0) {
             {
                 s32 t;
                 if ((rand() & 1) == 0) {
-                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10) wall:dbr-delay-fill
                     t = s1 - s0;
                 } else {
-                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10) wall:dbr-delay-fill
                     t = s1 + s0;
                 }
                 CAST_WIDTH(s32, (u8 *)a0, 0xF0) = t;
@@ -3933,12 +3933,12 @@ s32 func_80183A98(void *a0) {
             {
                 s32 t;
                 if ((rand() & 1) == 0) {
-                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10) wall:dbr-delay-fill
                     t = s1 - s0;
                 } else {
-                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10) wall:dbr-delay-fill
                     t = s1 + s0;
-                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10)
+                    __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus10) wall:dbr-delay-fill
                 }
                 CAST_WIDTH(s32, (u8 *)a0, 0xF0) = t;
             }
@@ -4495,8 +4495,8 @@ void func_801848A4(void *a0) {
     switch (state) {
         case 0:
         {
-            register s32 v1  __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-            register s32 a0f __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+            register s32 v1  __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
+            register s32 a0f __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
             s32 a1f;
             s32 cnt;
 
@@ -4535,8 +4535,8 @@ void func_801848A4(void *a0) {
         }
         case 2:
         {
-            register s32 v1  __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
-            register s32 a0f __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
+            register s32 v1  __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
+            register s32 a0f __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
             s32 a1f;
             s32 cnt;
 
@@ -5117,8 +5117,8 @@ s32 func_80185680(void *a0, void *a1) {
     s32 base;
     s16 cnt;
     s32 ret;
-    register s32 idx __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 idc __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 idx __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
+    register s32 idc __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
     u8 val;
     (void)&frame_pad;
 

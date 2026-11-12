@@ -2981,7 +2981,7 @@ void func_8017D3A0(s32 a0)
     u8 *p;
     s32 ot;
     s32 tp;
-    register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
 
     ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].a;
 

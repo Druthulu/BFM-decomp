@@ -5824,26 +5824,26 @@ extern s32 D_801EDA90[];
 
 void func_80181A4C(void)
 {
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
+    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     s32 a1;
     s32 a2;
-    register s32 a3 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 a3 __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     s32 t0;
     s32 t1;
-    register s32 t2 __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 t2 __asm__("$10");  // !FAKE: pin $10 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     s32 *t3;
-    register s32 *t4 __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 *t4 __asm__("$12");  // !FAKE: pin $12 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     s32 *t5;
     s32 *t6;
     s32 *t7;
     s32 i;
     s32 back;
-    register s32 *src __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 *src __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     s32 color;
     s32 *tbl;
-    register s32 *srcm12 __asm__("$21");  // !FAKE: pin $21 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 *srcm12 __asm__("$21");  // !FAKE: pin $21 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     s32 *tbl4;
     s32 *t8;
     s32 *t9;
@@ -5878,7 +5878,7 @@ void func_80181A4C(void)
                 if (*(s32 *)((char *)&D_801EDA44 + a3) == 0) {
                     v0 = 1;
                     *(s32 *)((char *)&D_801EDA44 + a3) = v0;
-                    __asm__ __volatile__("addu %0,%1,%2" : "=r"(v0) : "r"(v1), "r"(tbl));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9)
+                    __asm__ __volatile__("addu %0,%1,%2" : "=r"(v0) : "r"(v1), "r"(tbl));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
                     t3 = t1;
                     *(s32 *)((char *)&D_801EDA58 + a3) = 0;
                     *(s32 *)((char *)&D_801EDA5C + a3) = color;
@@ -5896,7 +5896,7 @@ void func_80181A4C(void)
                     v0 <<= 16;
                     v0 += color;
                     *(s32 *)((char *)&D_801EDA50 + a3) = v0;
-                    __asm__ __volatile__("lw %0,0(%3)\n\tlw %1,4(%3)\n\tlw %2,8(%3)\n\tsw %0,0(%4)\n\tsw %1,4(%4)\n\tsw %2,8(%4)"  // !FAKE: instruction lw — REFUSED instruction `lw` has no C spelling in the table (P36 rung B tus9)
+                    __asm__ __volatile__("lw %0,0(%3)\n\tlw %1,4(%3)\n\tlw %2,8(%3)\n\tsw %0,0(%4)\n\tsw %1,4(%4)\n\tsw %2,8(%4)"  // !FAKE: instruction lw — REFUSED instruction `lw` has no C spelling in the table (P36 rung B tus9) wall:no-c-spelling
                                          : "=r"(v0), "=r"(v1), "=r"(a1)
                                          : "r"(a0), "r"(t0));
                     v1 = (s32)(src - 6);

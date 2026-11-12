@@ -6530,8 +6530,8 @@ extern u8 D_80078EBA;
 extern u8 D_80078EB1;
 
 s32 func_80181EF0(void) {
-    register s32 m __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 c __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 m __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7) wall:lreg-priority
+    register s32 c __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus7) wall:lreg-priority
     m = D_80078EBA;
     c = 4;
     if (m == c) {
@@ -7692,7 +7692,7 @@ void func_80183BB0(s32 a0) {
     s32 t;
     s32 m;
     s32 q;
-    register s32 n __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 n __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
     unsigned int sp10;
 
     p = *(s32 *)(a0 + 0x20);                       /* owner's actor */

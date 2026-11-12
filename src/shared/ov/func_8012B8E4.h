@@ -7,7 +7,7 @@ extern s32 ratan2(s32 a0, s32 a1);
  * Confidence medium, code inference: yaw toward (D_80126CB4, D_80126CB8) minus the facing at +0x12 of *(a0+0x20), wrapped to +-0x800, / arg1, at least +-1; the target point is not known
  * Names ledger: config/names.tsv guess_TurnStepToTarget */
 s32 guess_TurnStepToTarget(s32 arg0, s32 arg1) {
-    register s32 d __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 d __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1) wall:lreg-priority
     s32 s1ang;
     s32 u5; s32 u6; s32 iVar4; s32 q; s32 t;
     d = arg1;

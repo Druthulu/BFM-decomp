@@ -4614,7 +4614,7 @@ void func_80185E38(s32 arg0)
     s32 ot;
     u16 bx;
     u16 by;
-    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t17_ov_S1)
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */  // !FAKE: pin $4 — NEEDED DIFFERS (P37 S+A t17_ov_S1) wall:combine-copy-merge
     volatile u16 *bidx;
     s32 t;
     u32 pv;

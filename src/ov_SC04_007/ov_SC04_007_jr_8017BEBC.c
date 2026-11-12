@@ -4658,7 +4658,7 @@ extern u8 D_80197F58[];
 void func_8017F86C(void *arg0) {
     u8 *s2 = D_80197F58;
     void *s1 = CAST_SIGN(void *, (s32)arg0, 0xCC);
-    register u16 state __asm__("$4") = ((Unkstruct_800B5CB8 *)arg0)->unk34;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register u16 state __asm__("$4") = ((Unkstruct_800B5CB8 *)arg0)->unk34;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
     s16 v0;
 
     switch (state) {
@@ -5085,7 +5085,7 @@ void func_8017FF08(void *a0, void *a1)
 void func_80180324(void *ent, void *spr, u32 *q, u32 *ot)
 {
     extern u8 *D_800A5E60;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus8)
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus8) wall:flow-unused-result
 
     Ft4_801833F0 *poly;
     Drm_801833F0 *dm;
@@ -5129,8 +5129,8 @@ void func_80180324(void *ent, void *spr, u32 *q, u32 *ot)
         s32 t = ((x - ((tpage & 0xF) << 6)) << shift) +
                 (*(u16 *)((s32)spr + 4) & ((1 << shift) - 1));
         su = t + zr;
-        __asm__ __volatile__("" ::"r"(t + *(u8 *)((s32)spr + 2) - 1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
-        __asm__ __volatile__("" ::"r"(t));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+        __asm__ __volatile__("" ::"r"(t + *(u8 *)((s32)spr + 2) - 1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8) wall:flow-unused-result
+        __asm__ __volatile__("" ::"r"(t));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8) wall:flow-unused-result
     }
     y = y & 0xFFFF;
     if (tpage & 0x10) {
@@ -5138,14 +5138,14 @@ void func_80180324(void *ent, void *spr, u32 *q, u32 *ot)
     } else {
         sv = y + zr;
     }
-    __asm__ __volatile__("" ::"r"(sv + *(u8 *)((s32)spr + 3) - 1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+    __asm__ __volatile__("" ::"r"(sv + *(u8 *)((s32)spr + 3) - 1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8) wall:flow-unused-result
 
     i = 1;
     uu = su;
     vv = sv;
     for (; i < 13; i += 2, poly++) {
         s32 k = (i - 1) * 4;
-        __asm__ __volatile__("" ::"r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+        __asm__ __volatile__("" ::"r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8) wall:flow-unused-result
         poly->tag.len = 9;
         poly->code = code;
         poly->tpage = tpage;
@@ -5162,7 +5162,7 @@ void func_80180324(void *ent, void *spr, u32 *q, u32 *ot)
             poly->v3 = SR3_801833F0(vtx + k2 + 0x12) + vv;
         }
         poly->clut = clut;
-        __asm__ __volatile__("" ::"r"(i), "r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+        __asm__ __volatile__("" ::"r"(i), "r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8) wall:flow-unused-result
         poly->r0 = ((Unkstruct_800B5CB8 *)ent)->unk24;
         poly->g0 = ((Unkstruct_800B5CB8 *)ent)->unk25;
         poly->b0 = ((Unkstruct_800B5CB8 *)ent)->unk26;
@@ -5206,7 +5206,7 @@ void func_80180324(void *ent, void *spr, u32 *q, u32 *ot)
             /* Zero-byte live-range stretch: puts vtx's allocno priority at
              * 1232, inside the (1228, 1296) window - see (2).  Placement is
              * load-bearing; do not move this statement. */
-            __asm__ __volatile__("" ::"r"(vtx));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8)
+            __asm__ __volatile__("" ::"r"(vtx));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8) wall:flow-unused-result
         }
     }
 }
@@ -7386,7 +7386,7 @@ void func_80183E80(s32 arg0) {
     s32 s0;
     s32 v0;
     s32 v1;
-    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
     s32 a1;
     s32 a2;
     s32 a3;
@@ -7402,7 +7402,7 @@ void func_80183E80(s32 arg0) {
         guess_SetVelocityXZFromLocal(s0, (void *)&D_801A1590);
         a0 = s0;
         a1 = (s32)&D_801A15AC;
-        __asm__ __volatile__("" :: "r"(a1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("" :: "r"(a1));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-argcopy-hoist
         v0 = 0xFFF60000;
         s0 = 4;
         ((Unkstruct_800B5CB8 *)a0)->unk14 = v0;

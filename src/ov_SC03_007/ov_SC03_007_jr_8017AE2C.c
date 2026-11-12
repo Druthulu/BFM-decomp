@@ -4830,9 +4830,9 @@ void func_8017EC90(a0, a1)
 s32 a0;
 s32 a1;
 {
-    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 a1v __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7)
-    register s32 p __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus7)
+    register s32 a0v __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus7) wall:expand-hardreg-var
+    register s32 a1v __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus7) wall:expand-hardreg-var
+    register s32 p __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B tus7) wall:expand-hardreg-var
     s32 vec[3];
     MTX_8017EA48 m;
     s32 d;

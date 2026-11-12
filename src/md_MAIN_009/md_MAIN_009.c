@@ -227,14 +227,14 @@ extern u16 D_800BAE22;
 void func_800CD674(s32 x, s32 y, s32 c) {
     u8 *p;
     u32 tp0 = 0xE1000086;
-    register u32 *ot __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 m24 __asm__("$9") = 0x00FFFFFF;  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 *ot __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
+    register u32 m24 __asm__("$9") = 0x00FFFFFF;  // !FAKE: pin $9 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     u32 mff = 0xFF000000;
-    register u32 tpr __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 pm __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 tpr __asm__("$17");  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
+    register u32 pm __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
     u32 pm2;
     u32 pm3;
-    register u32 otv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 otv __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
 
     p = (u8 *)D_800A71D0;
     tpr = 0xE1000087;

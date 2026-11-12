@@ -2843,8 +2843,8 @@ extern u16 D_800B99D8;
 void func_80191C50(s32 _arg0) {
     s32 arg0;
     s32 src;
-    register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_mac1)
-    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_mac1)
+    register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:lreg-priority
+    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:lreg-priority
     s32 e5;
     s32 r;
     s32 cnt;

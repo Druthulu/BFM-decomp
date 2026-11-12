@@ -6,8 +6,8 @@ s32 func_80148824(void *arg0)
     u32 t;
     s32 hi;
     s32 lo;
-    register s32 chi __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1)
-    register s32 clo __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 chi __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B headers1) wall:expand-hardreg-var
+    register s32 clo __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1) wall:expand-hardreg-var
     t = *(u16 *)((u8 *)arg0 + 0xAE);
     hi = (t >> 8) - 0x80;
     chi = hi;

@@ -20,9 +20,9 @@ extern u8 D_801905DC[];
 void func_8018655C(s32 a0) {
     s32 sp10[4];
     s32 sp20[2];
-    register s32 i __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B headers2)
+    register s32 i __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B headers2) wall:greg-priority
     s32 r;
-    register s32 t __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B headers2)
+    register s32 t __asm__("$18");  // !FAKE: pin $18 — NEEDED DIFFERS (P36 rung B headers2) wall:greg-priority
     s32 v;
     s32 w;
     v = *(s32 *)(a0 + 0x1C) - 1;

@@ -141,7 +141,7 @@ void func_800D1E9C(void *arg0) {
     s16 sp98[8];
     s32 *p;
     s32 i;
-    register s32 v0r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 v0r __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:jump2-crossjump
 
     p = (s32 *) arg0;
     D_800EC9F0 = 1;
@@ -156,7 +156,7 @@ void func_800D1E9C(void *arg0) {
         func_800468FC();
         func_8002D8D4();
         func_800D2AA0(0);
-        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+        __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:jump2-crossjump
         goto ret;
     }
     if (func_800D2704(D_800EC9A4, p) != 0) {
@@ -246,7 +246,7 @@ after:
 ret:
     func_80010A98();
     v0r = 1;
-    __asm__ __volatile__("" : : "r"(v0r));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" : : "r"(v0r));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:jump2-crossjump
 }
 
 
@@ -506,7 +506,7 @@ extern s32 CdRead2(s32 count);
 void func_800D2A24(s32 a0) {
     u8 *p;
     s32 r;
-    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:expand-void-return
 
 retry:
     p = D_800EC9E8;
@@ -523,12 +523,12 @@ retry:
         goto retry;
     }
     v0 = 0;
-    __asm__ __volatile__("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:expand-void-return
     return;
 
 ret1:
     v0 = 1;
-    __asm__ __volatile__("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:expand-void-return
     return;
 }
 
@@ -674,7 +674,7 @@ void func_800D2D44(s32 arg0) {
 
 INCLUDE_RODATA("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D1E18", D_800CEDF8);
 
-__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B t8_tus4)
+__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B t8_tus4) wall:no-c-spelling
     ".section .rodata\n"
     ".align 2\n"
     ".globl D_800CEE1C\n"
@@ -813,7 +813,7 @@ extern char D_800CEEB8[];
  * INCLUDE_ASM stub; banking the function drops them, shifting every later
  * .rodata symbol.  Carry them as a file-scope __asm__ blob at the exact
  * source position the stub occupied (this TU's own D_800CEE1C house form). */
-__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B t8_tus4)
+__asm__(  // !FAKE: instruction .section — REFUSED asm-data: a `.section` block defines data as assembly (a rodata carve, not a compiler steer) — T7 (P36 rung B t8_tus4) wall:no-c-spelling
     ".section .rodata\n"
     ".align 2\n"
     ".globl D_800CEE58\n"

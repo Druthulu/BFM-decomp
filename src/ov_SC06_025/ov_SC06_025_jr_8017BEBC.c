@@ -3324,9 +3324,9 @@ s32 func_8017DB98(s32 a0, s32 a1)
     u16 buf[8];                              /* sp+0x10 header for func_800599B8 */
     u16 *src;
     u16 *dst;
-    register u16 *bp __asm__("$3");          /* lw   $v1, 4($s0)  — record base   */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 kk __asm__("$2");           /* sll  $v0, $a0, 2  — n*4 bytes     */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register u16 *pal __asm__("$5");         /* addu $a1, $v1, $v0 — dst base     */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register u16 *bp __asm__("$3");          /* lw   $v1, 4($s0)  — record base   */  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
+    register s32 kk __asm__("$2");           /* sll  $v0, $a0, 2  — n*4 bytes     */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
+    register u16 *pal __asm__("$5");         /* addu $a1, $v1, $v0 — dst base     */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
     s32 i;
     s32 flag;
     s32 any;
@@ -3391,7 +3391,7 @@ s32 func_8017DB98(s32 a0, s32 a1)
                         i++;
                         src++;
                     } while (i < REC8017DB98->n);
-                    __asm__("" :: "r"(pal));        /* zero bytes: keeps pal live */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+                    __asm__("" :: "r"(pal));        /* zero bytes: keeps pal live */  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-hardreg-conflict
                 }
                 if (flag) {
                     func_800599B8(buf);
@@ -3416,11 +3416,11 @@ void func_8017DD80(s16 *param_1)
 {
     u16 sVar1;
     s16 uVar2;
-    register s16 *puVar3 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register s16 *puVar3 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
     s16 *puVar4;
-    register s16 *puVar7 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9)
+    register s16 *puVar7 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
     s32 iVar5;
-    register s32 iOff __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+    register s32 iOff __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
     s16 stackBuf[8];
 
     if (param_1 != (s16 *)0x0) {
@@ -3431,7 +3431,7 @@ void func_8017DD80(s16 *param_1)
                 puVar4 = *(s16 **)(param_1 + 6);
                 iOff = param_1[4] * 4;
                 puVar7 = (s16 *)((s32)puVar4 + iOff);
-                __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9)
+                __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:dbr-delay-fill
                 if (0 < param_1[4]) {
                     puVar3 = puVar7;
                     do {
@@ -3814,7 +3814,7 @@ void func_8017E4E0(void *a0)
     u8 *p;
     s32 ot;
     s32 tp;
-    register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
 
     ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].a;
 

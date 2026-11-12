@@ -235,9 +235,9 @@ void func_800CD314(void *arg0) {
     extern s32 guess_FreeSmallObject(u8 *a0);
 
 
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
     s32 t;
-    register s32 tb __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 tb __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
     s32 cnt;
     s32 p;
     s32 idx;
@@ -268,7 +268,7 @@ void func_800CD314(void *arg0) {
         ((Unkstruct_800CD314 *)s0)->unk1C = ((Unkstruct_800CD314 *)s0)->unk1C + 1;
         return;
     }
-    __asm__ __volatile__("" ::: "a0");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+    __asm__ __volatile__("" ::: "a0");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
     ((void (*)(s32))guess_FreeSmallObject)(s0);
 }
 

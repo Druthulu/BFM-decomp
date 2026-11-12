@@ -3094,7 +3094,7 @@ void func_80184E4C(s32 a0) {
     s32 t;
     s32 m;
     s32 q;
-    register s32 n __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 n __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
     unsigned int sp10;
 
     p = *(s32 *)(a0 + 0x20);                       /* owner's actor */
@@ -3365,8 +3365,8 @@ extern s16 D_801924DC[];
 void func_801854B8(s32 arg_in)
 {
     s32 arg0;
-    register s32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10)
-    register s32 var __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
+    register s32 var __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
     s32 p;
     s32 i;
 

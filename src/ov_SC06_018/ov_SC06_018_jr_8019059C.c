@@ -2787,10 +2787,10 @@ extern u16 D_800B99D8;
 void func_8019059C(s32 _arg0) {
     s32 arg0;
     s32 src;
-    register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_mac1)
+    register s32 dst __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:lreg-priority
     s32 r;
     s32 iv;
-    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_mac1)
+    register s32 tmp __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:lreg-priority
     s32 col;
     s32 n34;
     s32 sv;
@@ -3152,13 +3152,13 @@ void func_80191020(s32 a0) {
         L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
         L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
         /* $a0-pinned scopes: rematerialise &guess_g_CameraWsMatrix (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1)
+        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:cse-const-addr
         { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                         && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                        /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5"); /* |X| */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_mac1)
+            register s32 av __asm__("$5"); /* |X| */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:cse-const-addr
             s32 vol;
             sx = (s16)L.sxy[0];
             av = sx;
@@ -3167,7 +3167,7 @@ void func_80191020(s32 a0) {
             }
             vol = ((0xA0 - av) * 0x7F) / 0xA0;
             /* sched1 otherwise hoists the PAN multiply ahead of this one */
-            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1)
+            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_mac1) wall:dbr-delay-fill
             sx = (sx + 0xA0) / 0x14;
             if (sx == 0x10) {
                 sx = 0xF;

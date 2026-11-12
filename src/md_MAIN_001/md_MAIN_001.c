@@ -180,16 +180,16 @@ void func_800CF180(void)
     extern u8 D_800CF420[];
     extern u8 D_800AA60C[];
 
-    register u32 m24 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
-    register u32 mFF __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 m24 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
+    register u32 mFF __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     u32 *tb;
-    register u32 *ab __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 *ab __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     u32 *pp;
 
     m24 = 0x00FFFFFF;
     tb = (u32 *)D_800CF3F0;
     {
-        register s32 i __asm__("$2") = guess_g_DoubleBufferIndex;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
+        register s32 i __asm__("$2") = guess_g_DoubleBufferIndex;  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
         mFF = 0xFF000000;
         *(u32 *)((s32)tb + i * 24) =
             (*(u32 *)((s32)tb + i * 24) & mFF) |
@@ -234,10 +234,10 @@ void func_800CF290(void) {
 
     s32 n = guess_g_DoubleBufferIndex;
     u8 *p0;
-    register u8 *p1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *p1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
     u32 c5;
     u32 c64;
-    register u32 c7840 __asm__("$14");  // !FAKE: pin $14 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 c7840 __asm__("$14");  // !FAKE: pin $14 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
     u32 cm28;
     u32 c38;
     u32 c256;
@@ -282,7 +282,7 @@ void func_800CF290(void) {
     p1 = D_800D3B1C + w;
     q1 = (u32 *)(D_800D3B1C + w + 4);
     {
-        register u32 e1b __asm__("$8") = 0xE100008C;  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
+        register u32 e1b __asm__("$8") = 0xE100008C;  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
         p1[3] = c5;
         *q1 = e1b;
     }
@@ -302,7 +302,7 @@ void func_800CF290(void) {
 
     ot = (u32 *)(D_800AA60C + n);
     {
-        register u32 m24 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9)
+        register u32 m24 __asm__("$8");  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
         u32 mFF;
 
         m24 = 0xFFFFFF;

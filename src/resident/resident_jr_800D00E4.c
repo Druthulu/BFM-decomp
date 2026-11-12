@@ -283,7 +283,7 @@ s32 func_800D02D0(s32 arg0) {
     extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
     extern void func_8001B384(void);
 
-    register s32 *p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 *p __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
     s32 ret;
 
     arg0 = arg0 - 1;
@@ -842,7 +842,7 @@ s32 func_800D0CE0(void) {
 s32 func_800D0D7C(s32 arg0, s32 arg1) {
     extern u8 guess_g_ClockMinute;
     extern u8 D_80078EB1;
-    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
     u32 now;
     u32 r;
     s32 h;
@@ -873,9 +873,9 @@ s16 func_800D0E30(u8 *p) {
     u8 dummy[16];
     u32 hi;
     u32 lo;
-    register u32 b __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10)
-    register u32 t2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    register u32 t3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register u32 b __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
+    register u32 t2 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
+    register u32 t3 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
     u32 h;
 
     hi = (u8)(p[1] - D_80078EB1);

@@ -1319,7 +1319,7 @@ s32 *func_801F1520(s32 *out) {
         ((PTag_801F1520 *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr;
     {
         u32 *op;
-        register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
         op = guess_g_FrontOrderingTablesOrg[*pb].ot;
         v = op[2];
         v = (v & 0xFF000000) | (((u32)out) & 0xFFFFFF);

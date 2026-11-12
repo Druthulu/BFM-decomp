@@ -4,7 +4,7 @@ extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 void func_80145C54(void) {
     s32 a1;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1)
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
     s32 s0;
     a1 = guess_GetGameVarByte(0x4A) & 0xFF;
     if (a1 >= 0x20) {

@@ -5170,7 +5170,7 @@ void func_801870CC(s32 a0) {
     s32 a2;
     s32 a3;
     s32 i;
-    register s32 dst __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+    register s32 dst __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:loop-const-hoist
 
     v0 = CAST_SIGN(u16, a0, 0x70) & 0xF;
     v0 |= -0x8000;

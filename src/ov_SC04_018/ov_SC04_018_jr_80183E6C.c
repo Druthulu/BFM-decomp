@@ -3659,7 +3659,7 @@ extern u8 D_80078EB1;
 void func_80184B70(void *a0, s32 a1, s32 a2)
 {
     s32 v0;
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-copy-pref
 
     v0 = D_80078EB1;
     if (!(v0 < a1)) {

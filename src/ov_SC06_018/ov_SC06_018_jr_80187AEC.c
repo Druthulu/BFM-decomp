@@ -6090,7 +6090,7 @@ void func_8018C7A8(u16 *param_1, u16 *param_2, u8 *param_3, u32 *param_4)
 {
     u8 *p;
     u32 tag;
-    register u32 mask1 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9)
+    register u32 mask1 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     u32 mask2;
     p = func_80010A08(0x10);
     p[3] = 0x3;
@@ -6943,7 +6943,7 @@ void func_8018D870(void *arg) {
         }
 
         {
-        register s32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        register s32 t __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-value-forward
         t = *(s32 *)(p + 0xD8);
         d8 = t;
         if (t != 0) {

@@ -1416,11 +1416,11 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
     extern Env_800D2650 guess_g_FrontOrderingTablesOrg[];
     extern short guess_g_DoubleBufferIndex;
 
-    register int cw __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10)
-    register u32 s_a6 __asm__("$8") = a6;  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10)
-    register u32 code __asm__("$14");  // !FAKE: pin $14 — NEEDED DIFFERS (P36 rung B tus10)
+    register int cw __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
+    register u32 s_a6 __asm__("$8") = a6;  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
+    register u32 code __asm__("$14");  // !FAKE: pin $14 — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
     int clut;
-    register u8 bVar1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10)
+    register u8 bVar1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
     short sVar2;
 
     if (*param_2 < 0x80) {

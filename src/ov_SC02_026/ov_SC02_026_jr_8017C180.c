@@ -2942,7 +2942,7 @@ void func_8017D508(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk22 = 0x600;
         ((Unkstruct_8017CF48 *)a0)->unk24 = 0;
         ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
-        __asm__ __volatile__("");       /* §5a/§336 cross-jump barrier - LOAD-BEARING, see above */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
+        __asm__ __volatile__("");       /* §5a/§336 cross-jump barrier - LOAD-BEARING, see above */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:jump2-crossjump
         ((Unkstruct_8017CF48 *)a0)->unk30 = k;
     } else {
         ((Unkstruct_8017CF48 *)a0)->unk20 = 0x2AA;
@@ -4215,11 +4215,11 @@ void func_8017F6B0(void *a0, s32 a1) {
     sp10[3] = t3;
     t4 = *(s32 *)((char *)&D_801A5470 + off);
     sp10[4] = t4;
-    __asm__ __volatile__("" :: "r"(off));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" :: "r"(off));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     h = (u16 *)sp10;
     h[0] = h[0] + ((Unkstruct_800B5CB8 *)a0)->unk6;
     h[1] = h[1] + CAST_ALIAS(u16, (s32)a0, 0xA);
-    __asm__ __volatile__("" :: "r"(t3));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ __volatile__("" :: "r"(t3));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     h[2] = h[2] + ((Unkstruct_800B5CB8 *)a0)->unkE;
     func_8012C51C(sp10, (s32)a0);
 }
@@ -5500,7 +5500,7 @@ void func_80181688(s32 a0) {
             t = ang << 4;
         }
         {
-            register s32 av __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s32 av __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:combine-copy-merge
             av = t - 0x4000;
             guess_SetForwardVelocity(a0, av);
         }
@@ -5545,7 +5545,7 @@ void func_80181688(s32 a0) {
             t = ang << 4;
         }
         {
-            register s32 av __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s32 av __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:combine-copy-merge
             av = t - 0x4000;
             guess_SetForwardVelocity(a0, av);
         }
@@ -6734,13 +6734,13 @@ void func_801832A8(s32 a0) {
         v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
         v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
         /* $a0-pinned scopes: rematerialise &guess_g_CameraWsMatrix (lui/addiu) before EACH call */
-        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
         { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
         RotTransPers((s32)v, (s32)&sxy, &z, &flag);
         if (flag >= 0 && (u32)((*(u16 *)&sxy + 0x9F) & 0xFFFF) < 0x13F
                       && (u32)((*((u16 *)&sxy + 1) + 0x77) & 0xFFFF) < 0xEF) {
             s32 sx;                             /* screen X, then REUSED as the pan field */
-            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s32 av __asm__("$5");      /* |X| — the one pin that helped */  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
             s32 vol;
             sx = (s16)*(u16 *)&sxy;
             av = sx;
@@ -6749,7 +6749,7 @@ void func_801832A8(s32 a0) {
             }
             vol = ((0xA0 - av) * 0x7F) / 0xA0;
             /* lever 3: sched1 otherwise hoists the PAN multiply ahead of this one */
-            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-birth-boost
             sx = (sx + 0xA0) / 0x14;
             if (sx == 0x10) {
                 sx = 0xF;
@@ -6985,20 +6985,20 @@ void func_8018389C(s32 a0) {
         L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
         L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
         L.v[2] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
-        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2)
+        { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
         { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
         if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
                         && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
             s32 x = (s16)L.sxy[0];
-            register s32 ax __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2)
+            register s32 ax __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
             s32 vol;
             ax = x;
             if (x < 0) {
                 ax = -x;
             }
             vol = ((0xA0 - ax) * 0x7F) / 0xA0;
-            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2)
+            __asm__("" : "=r"(vol) : "0"(vol));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-birth-boost
             x = (x + 0xA0) / 0x14;
             if (x == 0x10) {
                 x = 0xF;

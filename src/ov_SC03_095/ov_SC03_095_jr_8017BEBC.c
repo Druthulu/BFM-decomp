@@ -4788,9 +4788,9 @@ s16 *a0;
 s32 a1;
 {
     u8 *sub;
-    register u8 *v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9)
-    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9)
+    register u8 *v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-hardreg-conflict
+    register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-hardreg-conflict
+    register s32 v1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-hardreg-conflict
 
     v0 = func_801290DC(0x44, (u8 *)a0);
     if (v0 != NULL) {
@@ -4812,7 +4812,7 @@ s32 a1;
     } else {
         v0 = NULL;
     }
-    __asm__ volatile("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9)
+    __asm__ volatile("" : : "r"(v0));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-hardreg-conflict
 }
 
 
