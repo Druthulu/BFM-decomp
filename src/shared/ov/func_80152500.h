@@ -5,8 +5,8 @@ extern void func_801525F4(int);
 extern void func_80159B3C(void *a0);
 extern void func_80147A84(s32 arg0);
 extern void guess_ApplyVelocity(s32 *a0);
-extern void func_80148038(s32 a0, s32 a1);
-extern void func_80147460(s32 a0);
+extern void guess_AddVertSpeed(s32 a0, s32 a1);
+extern void guess_ApplyVertSpeed(s32 a0);
 extern s32 func_801535F4(void *arg0);
 extern void func_8015BF48(s32 *a0);
 extern void func_8014C010(s32 a0, s32 a1);
@@ -26,8 +26,8 @@ void func_80152500(int param_1)
     }
     func_80147A84(param_1);
     ((void (*)(int))guess_ApplyVelocity)(param_1);
-    func_80148038(param_1, 0x8000);
-    func_80147460(param_1);
+    guess_AddVertSpeed(param_1, 0x8000);
+    guess_ApplyVertSpeed(param_1);
     iVar1 = ((int (*)(int))func_801535F4)(param_1);
     if (iVar1 == 1) goto LAB_801525a4;
     if (iVar1 < 2) return;

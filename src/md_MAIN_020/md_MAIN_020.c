@@ -45,7 +45,7 @@ void func_800CAEB0(void *a0) {
 void func_800CAF10(void) {
 }
 
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 
 #define SHARED_FN func_800CAF18
 #include "../shared/multi/cls_a2d5f76b80ac.h"
@@ -83,28 +83,28 @@ void func_800CAFDC(void) {
 }
 
 
-    extern void func_801474EC(void *a0);
+    extern void guess_ClearTiltVectors(void *a0);
     extern s32 func_800CB17C(struct S *a0);
     extern void func_80146CA0(void *a0);
     void func_800CAFFC(void *a0) {
-        func_801474EC(a0);
+        guess_ClearTiltVectors(a0);
         func_800CB17C((struct S *)a0);
         func_80146CA0(a0);
     }
 
 
 void func_800CB034(void *a0) {
-    extern u16 func_80148800(s32 *a0);
+    extern u16 guess_GetPadPressed(s32 *a0);
     extern s32 func_80165A20(s32 a0);
     extern void func_801599A4(void *a0);
     extern void func_80159B3C(void *a0);
-    extern void func_80154274(s32 *a0, s32 a1);
+    extern void guess_SetAnimScript(s32 *a0, s32 a1);
     extern s32 func_80148AFC(void *a0);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void func_80147A84(s32 a0);
     extern void guess_ApplyVelocity(s32 *a0);
-    extern void func_80148038(s32 a0, s32 a1);
-    extern void func_80147460(s32 a0);
+    extern void guess_AddVertSpeed(s32 a0, s32 a1);
+    extern void guess_ApplyVertSpeed(s32 a0);
     extern void func_8016151C(void *a0);
     extern s32 func_801615C4(void *a0, s32 a1);
     extern s32 D_80078EC8;
@@ -112,14 +112,14 @@ void func_800CB034(void *a0) {
 
     s32 s0 = (s32)a0;
 
-    if ((func_80148800((s32 *)a0) & 0x20) || D_80078EC8 == 0) {
+    if ((guess_GetPadPressed((s32 *)a0) & 0x20) || D_80078EC8 == 0) {
         func_80165A20(s0);
         func_801599A4((void *)s0);
         func_80159B3C((void *)s0);
         return;
     }
     if (((Unkstruct_80126B58 *)s0)->unkB8 & 0x8000) {
-        func_80154274((s32 *)s0, (s32)&D_800CB234);
+        guess_SetAnimScript((s32 *)s0, (s32)&D_800CB234);
     }
     if (func_80148AFC((void *)s0) & 0xFF) {
         func_80146DE8((s32 *)s0, 0, 0, -0x80000);
@@ -128,8 +128,8 @@ void func_800CB034(void *a0) {
     }
     func_80147A84(s0);
     guess_ApplyVelocity((s32 *)s0);
-    func_80148038(s0, 0x30000);
-    func_80147460(s0);
+    guess_AddVertSpeed(s0, 0x30000);
+    guess_ApplyVertSpeed(s0);
     if (((s32 (*)(void *))func_8016151C)((void *)s0) == 0) {
         return;
     }
@@ -140,10 +140,10 @@ void func_800CB034(void *a0) {
 
 
 extern void func_8012A2F4(s32 a0);
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 void func_800CB148(s32 a0) {
     func_8012A2F4(a0);
-    func_80154A74(a0, 0x11);
+    guess_SetTexAnim(a0, 0x11);
 }
 
 
@@ -158,8 +158,8 @@ struct S;
  * an s32 function with no `return` compiles to. 0xFFE80000 is the `lui $a1,65512` literal. */
 s32 func_800CB17C(struct S *a0) {
     extern void func_8012A304(s32 a0, s32 a1);
-    extern void func_801477E8(s32 a0, s32 a1);
-    extern void func_80154274(s32 *a0, s32 a1);
+    extern void guess_SetVertSpeed(s32 a0, s32 a1);
+    extern void guess_SetAnimScript(s32 *a0, s32 a1);
     extern void func_80147324(s32 a0);
     extern void func_8014C010(s32 a0, s32 a1);
     extern void guess_SaveGroundedPos(s32 a0);
@@ -169,8 +169,8 @@ s32 func_800CB17C(struct S *a0) {
     s32 s0 = (s32)a0;
 
     func_8012A304(*(s16 *)(s0 + 0xA), 0x80);
-    func_801477E8(s0, 0xFFE80000);
-    func_80154274((s32 *)s0, (s32)D_800CB1F4);
+    guess_SetVertSpeed(s0, 0xFFE80000);
+    guess_SetAnimScript((s32 *)s0, (s32)D_800CB1F4);
     func_80147324(0x47A);
     func_8014C010(s0, 2);
     guess_SaveGroundedPos(s0);

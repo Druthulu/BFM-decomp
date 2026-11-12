@@ -6,9 +6,9 @@ void SHARED_FN(s32 a0, s32 a1)
     MTX_80187C64 mtx;
     V32_80187C64 vec;
 
-    func_80049CAC(a0 + 0x100, (s32)&mtx);
+    RotMatrixZYX(a0 + 0x100, (s32)&mtx);
     vec.vy = 0;
     vec.vx = 0;
     vec.vz = a1;
-    func_800484EC((s32)&mtx, (s32)&vec, a0 + 0x10);
+    ApplyMatrixLV((s32)&mtx, (s32)&vec, a0 + 0x10);
 }

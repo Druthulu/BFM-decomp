@@ -14,6 +14,6 @@ s32 param_2;
     sp30[1] = 0;
     sp30[0] = 0;
     sp30[2] = param_2;
-    func_80049CAC(param_1 + 0x104, sp10);
-    func_800484EC(sp10, sp30, param_1 + 0x10);
+    RotMatrixZYX(param_1 + 0x104, sp10);
+    ApplyMatrixLV(sp10, sp30, param_1 + 0x10);
 }

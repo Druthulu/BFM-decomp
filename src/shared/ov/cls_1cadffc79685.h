@@ -4,7 +4,7 @@ void SHARED_FN(arg0)
 s32 arg0;
 {
     func_80147814(arg0, 0x10000);
-    func_80147460(arg0);
+    guess_ApplyVertSpeed(arg0);
     ((void (*)(s32, s32, s32, s32))func_80147B18)(arg0, 0, 0, 0x10000);
     guess_ApplyVelocity((s32 *)arg0);
     if (((Unkstruct_80126B58 *)arg0)->unkA >= -705) {

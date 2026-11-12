@@ -17,7 +17,7 @@ void func_8016BCC0(void *arg0) {
     if ((s16) M2C_FIELD(temp_s0, u16 *, 0x1A) >= 0x1001) {
         M2C_FIELD(temp_s0, u16 *, 0x18) = 0x1000U;
         M2C_FIELD(temp_s0, u16 *, 0x1A) = 0x1000U;
-        func_80146E90(arg0, M2C_FIELD(arg0, s32 *, 0x30));
+        guess_SetWaitTimer_2(arg0, M2C_FIELD(arg0, s32 *, 0x30));
         M2C_FIELD(arg0, u16 *, 2) = (u16) (M2C_FIELD(arg0, u16 *, 2) + 1);
     }
 }

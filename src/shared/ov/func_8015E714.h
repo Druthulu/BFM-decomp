@@ -5,7 +5,7 @@ extern void func_80015978(s32 a0, s32 *a1);
 extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
 extern void func_801553C0(s32 a0);
 extern void func_80155440(s32 *a0);
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 void func_8015E714(s32 *a0) {
     s16 sp18[4];
     s16 sp20[4];
@@ -33,6 +33,6 @@ void func_8015E714(s32 *a0) {
     func_801553C0((s32)a0);
     func_80155440(a0);
     *(s32 *)((s32)a0 + 0x44) = *(s32 *)((s32)a0 + 0x44) & -3;
-    func_80154A74((s32)a0, 0x11);
+    guess_SetTexAnim((s32)a0, 0x11);
     *(s32 *)((s32)a0 + 0x44) = *(s32 *)((s32)a0 + 0x44) & -3;
 }

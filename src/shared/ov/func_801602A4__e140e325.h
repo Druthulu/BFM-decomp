@@ -3,7 +3,7 @@
 void func_801602A4(s32 *a0) {
     if (*(u16 *)((u8 *)a0 + 0xB8) == 0x8000) {
         ((void (**)())D_80181160)[*(u16 *)a0]();
-        func_80154A74((s32)a0, 0x11);
+        guess_SetTexAnim((s32)a0, 0x11);
         ((void (*)(s32, s32))guess_SetState)((s32)a0, 0);
         func_80159B70(a0);
     } else {

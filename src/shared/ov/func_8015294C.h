@@ -6,8 +6,8 @@ extern void func_801470B4(s32 a0);
 extern void func_801470AC(s32 *a0);
 extern void func_80147A84(s32 arg0);
 extern void guess_ApplyVelocity(s32 *a0);
-extern void func_80148038(s32 a0, s32 a1);
-extern void func_80147460(s32 a0);
+extern void guess_AddVertSpeed(s32 a0, s32 a1);
+extern void guess_ApplyVertSpeed(s32 a0);
 extern s32 func_801472C8(struct S *a0);
 extern void func_8015369C(s32 a0);
 extern void func_80146CA0(void *a0);
@@ -21,8 +21,8 @@ void func_8015294C(s32 a0) {
     }
     func_80147A84(s0);
     guess_ApplyVelocity((s32 *)s0);
-    func_80148038(s0, 0x18000);
-    func_80147460(s0);
+    guess_AddVertSpeed(s0, 0x18000);
+    guess_ApplyVertSpeed(s0);
     {
         u8 v = *(u8 *)(s0 + 0xDE);
         *(u8 *)(s0 + 0xDE) = v + 0xFF;

@@ -114,12 +114,12 @@ void func_8002C410(void)
     SetMulRotMatrix(0);
     ApplyRotMatrix(0, 0);
     ApplyRotMatrixLV(0, 0);
-    func_800484EC(0, 0, 0);
+    ApplyMatrixLV(0, 0, 0);
     ApplyMatrixSV(0, 0, 0);
     ApplyTransposeMatrixLV(0, 0, 0);
     func_8004978C(0, 0);
     RotMatrixYXZ(0, 0);
-    func_80049CAC(0, 0);
+    RotMatrixZYX(0, 0);
     RotMatrixX(0, 0);
     RotMatrixY(0, 0);
     RotMatrixZ(0, 0);

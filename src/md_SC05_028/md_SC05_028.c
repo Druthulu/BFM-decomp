@@ -165,10 +165,10 @@ void func_801EDE70(void *a0) {
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
 
-extern u16  func_80148800(s32 *a0);
+extern u16  guess_GetPadPressed(s32 *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_801EDED4(s32 param_1, s16 *param_2) {
@@ -182,7 +182,7 @@ void func_801EDED4(s32 param_1, s16 *param_2) {
     SVECTOR_801EDED4_801EDED4 svec_out;
     u8 t;
 
-    if (func_80148800(&guess_g_PlayerActor) & 3) {
+    if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (*(u8 *)(param_1 + 5) + 1) & 1;
         *(u8 *)(param_1 + 5) = t;
         *(s32 *)(param_1 + 0xC)  = D_801EE3E4[t];
@@ -201,7 +201,7 @@ void func_801EDED4(s32 param_1, s16 *param_2) {
     *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)param_2[0];
     *(s32 *)(param_1 + 0x4C) = (s32)*(s16 *)(param_1 + 0x2A) + (s32)param_2[1];
     *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2C) + (s32)param_2[2];
-    func_80049CAC(param_1 + 0x18, (s32)&m1);
+    RotMatrixZYX(param_1 + 0x18, (s32)&m1);
 
     m1.t[0] = *(s16 *)(param_1 + 0x28) + param_2[0];
     m1.t[1] = *(s16 *)(param_1 + 0x2A) + param_2[1];

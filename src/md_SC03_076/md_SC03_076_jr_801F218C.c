@@ -61,10 +61,10 @@ extern void func_801F1F30(void *a0);
 extern void func_801F1E6C(void);
 extern void func_801F1F94(s32 param_1, s16 *param_2);
 extern void func_801F1F6C(s32 param_1);
-extern u16  func_80148800(s32 *a0);
+extern u16  guess_GetPadPressed(s32 *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 

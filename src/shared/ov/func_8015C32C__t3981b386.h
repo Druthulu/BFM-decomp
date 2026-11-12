@@ -9,7 +9,7 @@ void func_8015C32C(s32 arg0) {
     s32 vout[4];
 
     func_80149FB0(arg0);
-    if (((s32 (*)(s32))func_801496D4)(arg0) != 0) {
+    if (((s32 (*)(s32))guess_IsConfirmPressed)(arg0) != 0) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
         ((void (*)(s32))func_80149704)(arg0);
         return;
@@ -52,7 +52,7 @@ void func_8015C32C(s32 arg0) {
         *(s32 *)(arg0 + 0x23c) += vout[2];
     }
     func_8001382C((s16)-*(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12), (void *)(arg0 + 0x234), vout);
-    func_80146DB8((s32 *)arg0, vout);
+    guess_SetMoveVector((s32 *)arg0, vout);
     func_80147A84(arg0);
     ((void (*)(s32))guess_ApplyVelocity)(arg0);
     if ((guess_g_FrameCounter & 3) == 0) {
@@ -68,7 +68,7 @@ void func_8015C32C(s32 arg0) {
     uVar4 = ((u32 (*)(s32))func_8014F3E8)(arg0);
     if (uVar4 != 0) {
         if ((uVar4 & 0x4000) == 0) {
-            if (func_80146E98(arg0) != 0) {
+            if (guess_TickWaitTimer_2(arg0) != 0) {
                 D_80181160[*(u16 *)arg0]((void *)arg0);
                 guess_SetState((s32 *)arg0, 0);
                 func_80159BE4(arg0);

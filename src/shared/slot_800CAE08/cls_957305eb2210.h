@@ -3,7 +3,7 @@
 void SHARED_FN(u8 *a0) {
     extern M2C_UNK D_800D57F4;
 
-    func_80154274((s32 *)a0, &D_800D57F4);
+    guess_SetAnimScript((s32 *)a0, &D_800D57F4);
     func_801655E4((s32)a0);
     ((Unkstruct_80126B58 *)a0)->unk197 = ((Unkstruct_80126B58 *)a0)->unk197 + 1;
 }

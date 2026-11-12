@@ -12,6 +12,6 @@ void SHARED_FN(s32 param_1)
     ((Unkstruct_80126B58 *)param_1)->unk18 = 0;
     ((Unkstruct_80126B58 *)param_1)->unk14 = 0;
     ((Unkstruct_80126B58 *)param_1)->unk30 = CAST_SIGN(u32, param_1, 0x30) >> 8;
-    func_80146E90((s32 *)param_1, rand() & 7);
+    guess_SetWaitTimer_2((s32 *)param_1, rand() & 7);
     ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;
 }

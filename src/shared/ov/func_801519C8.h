@@ -7,8 +7,8 @@ extern void func_80019064(void *a0);
 extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
 extern int func_80151204(int arg, int a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
-extern void func_80154274(s32 *a0, s32 a1);
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_80147324(s32 arg0);
 extern void func_80146CA0(void *a0);
@@ -30,11 +30,11 @@ void func_801519C8(s32 arg0) {
     v0w = *(s32 *)(arg0 + 0x20);
     r = (s16)func_80012A60(*(s16 *)(v0w + 0x12), *(s16 *)(arg0 + 0xF4));
     if (r >= 0x401) {
-        func_80154274((s32 *)arg0, (s32)&D_800D5880);
+        guess_SetAnimScript((s32 *)arg0, (s32)&D_800D5880);
     } else {
-        func_80154274((s32 *)arg0, (s32)&D_800D58AC);
+        guess_SetAnimScript((s32 *)arg0, (s32)&D_800D58AC);
     }
-    func_80154A74(arg0, 0x16);
+    guess_SetTexAnim(arg0, 0x16);
     func_80149020((s32 *)arg0);
     func_80147324(0x451);
     de = *(u8 *)(arg0 + 0xDE);

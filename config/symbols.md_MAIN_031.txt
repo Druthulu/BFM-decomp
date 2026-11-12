@@ -1,3 +1,8 @@
 // config/symbols.md_MAIN_031.txt — module md_MAIN_031 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CAE08..0x800CC1BC); NEVER merged into config/symbols.us.txt.
-// count=0
+// count=4
+
+guess_SetWaitTimer_2             = 0x80146E90; // func
+guess_TickWaitTimer_2            = 0x80146E98; // func
+guess_GetPadPressed              = 0x80148800; // func
+guess_SetAnim                    = 0x80154150; // func

@@ -581,7 +581,7 @@ extern void func_80013F3C(void *ptr);
 extern s32 func_8004787C(s32 angle);
 extern s32 func_80047948(s32 angle);
 extern void func_8001282C(void *a0);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_800134FC(s16 param_1, s32 param_2, s32 param_3)
 {
@@ -611,7 +611,7 @@ void func_800134FC(s16 param_1, s32 param_2, s32 param_3)
     gte_lwx2_ctc2x2_lwx3_ctc2x3_3eb0(m0, m1);
 
     func_8001282C(m0);
-    func_800484EC(m0, param_2, param_3);
+    ApplyMatrixLV(m0, param_2, param_3);
 }
 
 extern void func_80013F3C(void *ptr);
@@ -667,7 +667,7 @@ extern void func_80013F3C(void *ptr);
 extern s32 func_8004787C(s32 angle);
 extern s32 func_80047948(s32 angle);
 extern void func_8001282C(void *a0);
-extern void func_800484EC();
+extern void ApplyMatrixLV();
 
 void func_8001382C(s16 angle, void *a1, void *a2)
 {
@@ -715,7 +715,7 @@ void func_8001382C(s16 angle, void *a1, void *a2)
     gte_stclmv(&matrix[2]);
 
     func_8001282C(matrix);
-    func_800484EC(matrix, a1, a2);
+    ApplyMatrixLV(matrix, a1, a2);
 }
 
 
@@ -769,7 +769,7 @@ extern void func_80013F3C(void *ptr);
 extern s32 func_8004787C(s32 angle);
 extern s32 func_80047948(s32 angle);
 extern void func_8001282C(void *a0);
-extern void func_800484EC();
+extern void ApplyMatrixLV();
 
 void func_80013B64(s32 param_1, s32 param_2, s32 param_3)
 {
@@ -810,7 +810,7 @@ void func_80013B64(s32 param_1, s32 param_2, s32 param_3)
     gte_stclmv(matp + 2);
 
     func_8001282C(matp);
-    func_800484EC(matp, param_2, param_3);
+    ApplyMatrixLV(matp, param_2, param_3);
 }
 
 
@@ -959,7 +959,7 @@ void func_80014128(void *a0, void *a1, void *a2) {
 }
 
 void func_80014148(s32 a0, s32 a1, s32 a2) {
-    func_800484EC(a0, a1, a2);
+    ApplyMatrixLV(a0, a1, a2);
 }
 
 
@@ -978,7 +978,7 @@ void func_800141AC(s32 a0, void *a1)
     B16x local;
 
     local = *(B16x *)a1;
-    func_800484EC(a0, &local, a1);
+    ApplyMatrixLV(a0, &local, a1);
 }
 
 
@@ -4285,13 +4285,13 @@ void func_80017DF8(s16 *a0, void *a1) {
 }
 
 
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void func_80048EAC(void *a0, void *a1);
 
 void func_80017E30(s32 a0, s32 a1) {
     s32 local_buf[8]; /* 0x20 bytes at sp+0x10 */
 
-    func_80049CAC(a0, (s32)local_buf);
+    RotMatrixZYX(a0, (s32)local_buf);
     func_80048EAC(local_buf, (void *)a1);
 }
 
@@ -9898,7 +9898,7 @@ void func_8001EA14(Ent_EA14 *p)
  * Sprite/billboard emitter, the direct sibling of func_8001EA14 (which sits
  * immediately above it in the TU and is already banked): build a GsCOORDINATE2
  * on the stack (flg@0x58, coord@0x5C, workm@0x7C, rotate@0x9C, super@0xA0) with
- * RotMatrixZYX/ScaleMatrix/GsGetLs (func_80049CAC / func_8004901C /
+ * RotMatrixZYX/ScaleMatrix/GsGetLs (RotMatrixZYX / func_8004901C /
  * func_800547D8), write coord+workm back to arg0+0x34/+0x54, RTPS the origin,
  * then walk a 12-byte cell list (stride 0xC, low byte 8 = skip, 0xFF = end)
  * emitting one POLY_FT4 (0x28) per cell out of the D_800A5E60 bump allocator and
@@ -9906,7 +9906,7 @@ void func_8001EA14(Ent_EA14 *p)
  *
  * SYMBOL AUDIT (SYS law 1c, done after MATCH): the 9 external symbols in this
  * file are exactly the 9 in asm/nonmatchings/800/func_8001EFE0.s, in the same
- * order -- %hi/%lo(guess_g_RenderWork), jal func_80049CAC, jal func_8004901C,
+ * order -- %hi/%lo(guess_g_RenderWork), jal RotMatrixZYX, jal func_8004901C,
  * jal func_800547D8, jal func_80021174, %hi/%lo(D_800A6610),
  * %hi/%lo(D_800A5E60) x2, %hi/%lo(D_80072784) x2, jal func_8001F730.
  *
@@ -10042,7 +10042,7 @@ extern u8 guess_g_RenderWork[];
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 extern u32 D_80072784;
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void func_8004901C(void *a0, void *a1);
 extern void func_800547D8(s32 a0, void *a1);
 extern s32 func_80021174(s32 a0, s32 a1);
@@ -10101,7 +10101,7 @@ void func_8001EFE0(s32 arg0)
         ((Unkstruct_8001EFE0 *)arg0)->unk2C &= 0xFFFE;
         c2.coord = *(MATRIX_8001EFE0 *)(arg0 + 0x34);
     } else {
-        func_80049CAC(arg0 + 0x10, (s32)&c2.coord);
+        RotMatrixZYX(arg0 + 0x10, (s32)&c2.coord);
         c2.coord.t[0] = ((Unkstruct_8001EFE0 *)arg0)->unk8;
         c2.coord.t[1] = ((Unkstruct_8001EFE0 *)arg0)->unkA;
         c2.coord.t[2] = ((Unkstruct_8001EFE0 *)arg0)->unkC;
@@ -10469,7 +10469,7 @@ void func_8001FB8C(s32 *a0, s32 *a1)
  *   (b) declares `D_80074818` / `D_80075018` at BLOCK scope inside the function.
  * Measured after the change: cc1 rc=0, exactly 4 added warnings, 0 errors, and the
  * whole-TU .text is BYTE-IDENTICAL to the all-INCLUDE_ASM build once the linker
- * resolves D_1F800020 (= 0x1F800020, per build/us/SLUS_007.26.map:4858) — no other
+ * resolves D_1F800020 (= 0x1F800020, per build/us/SLUS_007.26.map:4871) — no other
  * function in src/800.c shifts by a byte.  Nothing in src/ needs touching.
  *
  * The callee externs stay deliberately UNPROTOTYPED `f()` forms (C89-compatible
@@ -12222,7 +12222,7 @@ void func_80021D38(Obj_80021D38 *p)
 
 extern u8 guess_g_RenderWork[];
 extern u8 D_800A6610[];
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void func_8004901C(void *a0, void *a1);
 extern void func_800547D8(s32 a0, void *a1);
 extern s32 func_80021174(s32 a0, s32 a1);
@@ -12256,7 +12256,7 @@ void func_800221A8(Obj221A8 *o) {
         o->unk2C &= 0xFFFE;
         cd.coord = o->unk34;
     } else {
-        func_80049CAC((s32)o->unk10, (s32)&cd.coord);
+        RotMatrixZYX((s32)o->unk10, (s32)&cd.coord);
         cd.coord.t[0] = o->unk08;
         cd.coord.t[1] = o->unk0A;
         cd.coord.t[2] = o->unk0C;

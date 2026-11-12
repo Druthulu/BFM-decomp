@@ -3,6 +3,6 @@ void SHARED_FN(s32 a0) {
 
     extern u8 D_80188808;
     func_8014706C((void *)a0);
-    func_80154274((s32 *)a0, (s32)&D_80188808);
+    guess_SetAnimScript((s32 *)a0, (s32)&D_80188808);
     func_80171990((u8 *)a0);
 }

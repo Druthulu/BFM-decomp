@@ -143,7 +143,7 @@ extern u16 guess_g_FrameCounter;
 extern s32 func_800CB6D4(s32 a0);
 extern void func_800CB684(s32 a0, s32 a1);
 extern void func_80146CA0(void *a0);
-extern void func_80146E90(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32 rand(void);
 
 void func_800CB484(s32 *a0) {
@@ -164,7 +164,7 @@ void func_800CB484(s32 *a0) {
             return;
         }
         if (((Unkstruct_80126B58 *)a0)->unk54 != 0 && (rand() & 3) == 0) {
-            func_80146E90(a0, 0x20);
+            guess_SetWaitTimer_2(a0, 0x20);
             ((Unkstruct_80126B58 *)a0)->unk2 = 3;
         } else {
             func_800CB684((s32)a0, 0x80);
@@ -184,7 +184,7 @@ void func_800CB564(int param_1)
 
 
 extern u16 guess_g_FrameCounter;
-extern s32 func_80146E98(s32 a0);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_800CB684(s32 a0, s32 a1);
 
 void func_800CB59C(s32 a0) {
@@ -199,7 +199,7 @@ void func_800CB59C(s32 a0) {
         v = 0x140;
     }
     *(u16 *)(ptr + 0x2A) = v;
-    if (func_80146E98((s32)a0) != 0) {
+    if (guess_TickWaitTimer_2((s32)a0) != 0) {
         func_800CB684((s32)a0, 0x100);
         ((Unkstruct_80126B58 *)a0)->unk2 = 1;
     }

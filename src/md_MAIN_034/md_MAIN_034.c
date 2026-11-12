@@ -864,7 +864,7 @@ void func_800CC310(void *a0)
 
 
 extern void func_800CC6C4(void *a0, void *a1, void *a2, void *a3);
-extern void func_80146E90(void *a0, s32 a1);
+extern void guess_SetWaitTimer_2(void *a0, s32 a1);
 extern void func_80146CA0(void *a0);
 extern u8 D_800CCB10;
 extern Quad4_800CCB14 D_800CCB14;
@@ -882,7 +882,7 @@ void func_800CC424(void *a0) {
     if (*(s16 *)((u8 *)a0 + 0x5A) >= 0x1001) {
         CAST_WIDTH(u16, (u8 *)a0, 0x58) = 0x1000;
         *(u16 *)((u8 *)a0 + 0x5A) = 0x1000;
-        func_80146E90(a0, 0x20);
+        guess_SetWaitTimer_2(a0, 0x20);
         func_80146CA0(a0);
     }
 }
@@ -890,7 +890,7 @@ void func_800CC424(void *a0) {
 
 #include "common.h"
 
-extern s32 func_80146E98(s32 a0);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_80146CA0(void *a0);
 extern void func_800CC6C4(void *a0, void *a1, void *a2, void *a3);
 
@@ -905,7 +905,7 @@ void func_800CC4E8(void *a0) {
     s32 t3;
 
     s1 = CAST_SIGN(void *, (u8 *)a0, 0x20);
-    func_80146E98((s32)a0);
+    guess_TickWaitTimer_2((s32)a0);
     if (((Unkstruct_80126B58 *)a0)->unk1C < 8) {
         t1 = CAST_WIDTH(u16, (u8 *)a0, 0x58);
         t1 -= 0x100;

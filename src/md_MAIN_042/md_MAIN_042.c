@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern u8 D_800D5360[];
-extern void func_80154274(s32 *a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80156648(s32 *a0);
 extern void func_80147324(s32 a0);
@@ -14,7 +14,7 @@ void func_800CCB20(s32 a0)
     u16 v1;
 
     s0 = a0;
-    func_80154274((s32 *)s0, (s32)&D_800D5360);
+    guess_SetAnimScript((s32 *)s0, (s32)&D_800D5360);
     v0 = ((Unkstruct_800CCB20 *)s0)->unk20;
     ((Unkstruct_800CCB20 *)s0)->unk234 = 0;
     ((Unkstruct_800CCB20 *)s0)->unk238 = 0;

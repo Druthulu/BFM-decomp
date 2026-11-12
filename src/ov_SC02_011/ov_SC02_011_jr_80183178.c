@@ -3096,7 +3096,7 @@ L_end:
 extern u8 func_8014BF6C(void);
 extern void func_8012B23C(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8012BF4C(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer(s32 *a0, s32 a1);
 extern s32 func_8012AD50(void *a0);
 extern void func_80187654(u8*);
 extern void func_80187724(u8 *a0, u8 *a1);
@@ -3116,7 +3116,7 @@ void func_8018754C(s32 *a0)
     if (!(((Unkstruct_800B5CB8 *)a0)->unk70 < (result & 0xFF))) {
         func_8012B23C((s32)a0);
         func_8002D4C8(0x580, 0);
-        func_8012BF4C(a0, 0x10);
+        guess_SetWaitTimer(a0, 0x10);
         func_8012AD50((void*)a0);
     } else {
         ((void (*)(s32))func_80187654)((s32)a0);
@@ -3204,7 +3204,7 @@ extern s32 func_8012C098(void *param_1);
 extern s32 func_8012E544(s32);
 extern void func_800D0C48(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_8012BF4C(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer(s32 *a0, s32 a1);
 
 void func_80187838(void) {
     s32 *s0;
@@ -3212,7 +3212,7 @@ void func_80187838(void) {
     if (s0 != 0) {
         func_800D0C48(1);
         func_8012AD44(s0, 1);
-        func_8012BF4C(s0, 0x30);
+        guess_SetWaitTimer(s0, 0x30);
     }
 }
 

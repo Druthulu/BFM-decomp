@@ -3,9 +3,9 @@
 extern void func_80019064(void *a0);
 extern void func_80146CA0(void *a0);
 extern s32 func_801472C8(struct S *a0);
-extern void func_801474EC(s32 *a0);
+extern void guess_ClearTiltVectors(s32 *a0);
 extern void func_80149020(s32 *a0);
-extern void func_8014CBF8(void *a0);
+extern void guess_ClearStoodOnActor(void *a0);
 extern void func_80155440(s32 *a0);
 extern u8 guess_g_RumblePatternFade[];
 void func_801530E4(s32 arg0)
@@ -14,8 +14,8 @@ void func_801530E4(s32 arg0)
     func_80149020(arg0);
     func_801472C8(arg0);
     M2C_FIELD(arg0, s8 *, 0xDE) = 0x40;
-    func_8014CBF8(arg0);
-    func_801474EC(arg0);
+    guess_ClearStoodOnActor(arg0);
+    guess_ClearTiltVectors(arg0);
     func_80155440(arg0);
     func_80146CA0(arg0);
 }

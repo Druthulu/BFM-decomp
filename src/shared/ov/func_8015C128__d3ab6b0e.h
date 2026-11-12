@@ -21,7 +21,7 @@ s32 func_8015C128(s32 param_1) {
     }
     ((void(*)(int, int *, int *))func_8001382C)((short)(-*(unsigned short *)(*(int *)(((int)param_1) + 0x20) + 0x12)),
                   (int *)(((int)param_1) + 0x234), sp20);
-    ((void(*)(int, int *))func_80146DB8)(((int)param_1), sp20);
+    ((void(*)(int, int *))guess_SetMoveVector)(((int)param_1), sp20);
     func_80147A84(((int)param_1));
     ((void(*)(int))guess_ApplyVelocity)(((int)param_1));
     if (!(guess_g_FrameCounter & 3)) {
@@ -37,11 +37,11 @@ s32 func_8015C128(s32 param_1) {
     temp_v0 = ((int(*)(int))func_8014F3E8)(((int)param_1));
     if (temp_v0 != 0) {
         if ((temp_v0 & 0xFF00) != 0x4000) {
-            ((void(*)(int, int))func_80146E90)(((int)param_1), 6);
+            ((void(*)(int, int))guess_SetWaitTimer_2)(((int)param_1), 6);
             ((void(*)(int))func_80146CA0)(((int)param_1));
             return;
         }
-        if ((temp_v0 & 0x4000) && ((int(*)(int))func_80146E98)(((int)param_1)) != 0) {
+        if ((temp_v0 & 0x4000) && ((int(*)(int))guess_TickWaitTimer_2)(((int)param_1)) != 0) {
             ((void(*)(int, int))guess_SetState)(((int)param_1), 4);
             ((void(*)(int))func_8015C0C4)(((int)param_1));
         }

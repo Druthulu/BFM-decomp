@@ -56,7 +56,7 @@ void func_800CAF04(u8 *a0) {
 #include "common.h"
 
 extern M2C_UNK D_800D57F4;
-extern void func_80154274(s32 *a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_801655E4(s32 a0);
 
 #define SHARED_FN func_800CAF4C
@@ -120,7 +120,7 @@ extern s32 func_8014659C(void);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
-extern void func_80146E90(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80147324(s32 a0);
 extern void func_80146CA0(void *a0);
 extern void func_800CB358(void);
@@ -140,7 +140,7 @@ void func_800CB09C(s32 a0) {
         *(u16 *)(iVar2 + 0x12) = uVar1;
         guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         func_80146DE8((s32 *)a0, 0, 0xFFF40000, 0xFFE80000);
-        func_80146E90((s32 *)a0, 0x3C);
+        guess_SetWaitTimer_2((s32 *)a0, 0x3C);
         func_80147324(0x912);
         func_80146CA0((void *)a0);
     } else {
@@ -151,13 +151,13 @@ void func_800CB09C(s32 a0) {
 
 extern void func_80162FF4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80162FC0(void *a0);
-extern s32 func_80146E98(s32 a0);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_80163950(s32 a0);
 extern s32 func_8016380C(void *a0, s32 a1);
 extern void guess_ZeroMemory(s8 *a0, s32 a1);
 extern s32 func_80146578(void);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
-extern void func_80146E90(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80147324(s32 a0);
 extern void func_80146CA0(void *a0);
@@ -174,7 +174,7 @@ void func_800CB150(void *a0) {
 
     func_80162FF4((s32)a0, 0, 0x40000, 0);
     func_80162FC0(a0);
-    if (func_80146E98((s32)a0) != 0) {
+    if (guess_TickWaitTimer_2((s32)a0) != 0) {
         func_80146CA0(a0);
         return;
     }
@@ -199,7 +199,7 @@ alloc:
         func_8001CB6C((u8 *)t, (s32)D_800CB628, 0x1A0, 0x100);
         *(u8 *)((s32)t + 0x27) = 0x1B;
         *(u16 *)((s32)t + 0x10) = 0x400;
-        func_80146E90((s32 *)a0, 0x20);
+        guess_SetWaitTimer_2((s32 *)a0, 0x20);
         for (t = 0; t < 4; t++) {
             func_80146A6C(0x45, a0, ((Unkstruct_80126B58 *)a0)->unk6, ((Unkstruct_80126B58 *)a0)->unkA,
                           ((Unkstruct_80126B58 *)a0)->unkE, t, 0);
@@ -226,7 +226,7 @@ void func_800CB2A8(s32 a0) {
     v0 = v0 + 0x80;
     *(u16 *)(v1 + 0x1A) = v0;
     *(u16 *)(v1 + 0x18) = v0;
-    if (func_80146E98((s32)a0) != 0) {
+    if (guess_TickWaitTimer_2((s32)a0) != 0) {
         func_80146CA0((void *)a0);
     } else {
         func_800CB378(a0);

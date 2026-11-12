@@ -1,7 +1,7 @@
 /* func_801581AC — shared body (overlay slot 0x80128158, h_exact 94a631a2). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80148038(s32 a0, s32 a1);
-extern void func_80147460(s32 a0);
+extern void guess_AddVertSpeed(s32 a0, s32 a1);
+extern void guess_ApplyVertSpeed(s32 a0);
 extern void func_80147AD4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void guess_ApplyVelocity(s32 *a0);
 extern s32 func_80161418(void *a0);
@@ -12,8 +12,8 @@ void func_801581AC(s32 a0) {
     s32 reserved[4];
     (void)reserved;
     *(s32 *)(a0 + 0x44) |= 2;
-    func_80148038(a0, 0x10000);
-    func_80147460(a0);
+    guess_AddVertSpeed(a0, 0x10000);
+    guess_ApplyVertSpeed(a0);
     func_80147AD4(a0, 0, 0, 0);
     guess_ApplyVelocity((s32 *)a0);
     if (((s32 (*)(void *))func_80161418)((void *)a0) != 0) {

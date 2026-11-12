@@ -9,7 +9,7 @@ extern void func_801658DC(void);
 extern s32 func_80165A20(s32 a0);
 extern void func_80165A78(s32);
 extern void func_8014BF48(void);
-extern void func_8014CBF8(void *a0);
+extern void guess_ClearStoodOnActor(void *a0);
 extern void func_8014B160(s32 a0);
 extern void func_80149020(s32 *a0);
 extern void func_80146CA0(void *a0);
@@ -22,7 +22,7 @@ void func_80158AE4(void * a0)
     func_80165A20(a0);
     func_80165A78(a0);
     func_8014BF48();
-    func_8014CBF8((void *)a0);
+    guess_ClearStoodOnActor((void *)a0);
     func_8014B160(a0);
     func_80149020((s32 *)a0);
     *(s16 *)(a0 + 0x12E) = 0;

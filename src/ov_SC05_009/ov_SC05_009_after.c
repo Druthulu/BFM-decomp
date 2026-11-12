@@ -232,7 +232,7 @@ extern s32 func_80146B9C(void * arg0);
 
 #include "../shared/ov/func_80146DF8.h"
 
-#define SHARED_FN func_80146E90
+#define SHARED_FN guess_SetWaitTimer_2
 #include "../shared/ov/cls_b039ed440779.h"
 #undef SHARED_FN
 
@@ -1605,11 +1605,11 @@ extern s32 D_801958EC;
  * The decl below is reproduced verbatim so this file compiles the real conflict. */
 extern void func_80151664(s32 a0v);
 
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
 extern void func_801470AC(s32 *a0);
 extern void func_801472B4(void *a0);
-extern void func_801477E8(s32 *a0, s32 a1);
+extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));
                                  * a prototyped (s32) decl is `conflicting types` in this TU. Arg still
                                  * passes in $a0 under default promotions -> codegen unchanged. */
@@ -1678,13 +1678,13 @@ extern void (*D_80180808[])(void);
 extern void func_80019064(void *a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80146CA0(void *a0);
-extern void func_80146DB8(s32 *a0, s32 *a1);
+extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern s32 func_801472C8(struct S *a0);
 extern void func_80147324(s32 a0);
-extern void func_801474EC(s32 *a0);
-extern void func_801477E8(s32 *a0, s32 a1);
+extern void guess_ClearTiltVectors(s32 *a0);
+extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
-extern void func_8014CBF8(void *a0);
+extern void guess_ClearStoodOnActor(void *a0);
 extern int func_80151204(int arg, int a1);
 extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_801807F8;
@@ -1714,16 +1714,16 @@ extern void (*D_8018081C[])(void);
 // @unstuck(P36): none — MATCH (67 ins)
 
 
-extern void func_80146E90(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80019064(void *a0);
 extern int func_80151204(int arg, int a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
-extern void func_80154274(s32 *a0, s32 a1);
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_8001382C(s32 a0, void *a1, void *a2);
-extern void func_80146DB8(s32 *a0, s32 *a1);
-extern void func_801477E8(s32 *a0, s32 a1);
+extern void guess_SetMoveVector(s32 *a0, s32 *a1);
+extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80147324(s32 arg0);
 extern void func_80146CA0(void *a0);
 
@@ -1762,14 +1762,14 @@ extern void (*D_80180850[])(void);
 
 extern void func_80019064(void *a0);
 extern void func_80146CA0(void *a0);
-extern void func_80146DB8(s32 *a0, s32 *a1);
+extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void func_80147324(s32 a0);
-extern void func_801474EC(s32 *a0);
-extern void func_801477E8(s32 *a0, s32 a1);
+extern void guess_ClearTiltVectors(s32 *a0);
+extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
-extern void func_8014CBF8(void *a0);
+extern void guess_ClearStoodOnActor(void *a0);
 extern int func_80151204(int arg, int a1);
-extern void func_80154274(s32 *a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern u8 guess_g_RumblePatternFade[];
 extern M2C_UNK D_800D5880;
 extern M2C_UNK D_80180840;
@@ -1812,14 +1812,14 @@ extern void (*D_80180880[])(void);
 
 extern void func_80019064(void *a0);
 extern void func_80146CA0(void *a0);
-extern void func_80146DB8(s32 *a0, s32 *a1);
+extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void func_80147324(s32 a0);
-extern void func_801474EC(s32 *a0);
-extern void func_801477E8(s32 *a0, s32 a1);
+extern void guess_ClearTiltVectors(s32 *a0);
+extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
-extern void func_8014CBF8(void *a0);
+extern void guess_ClearStoodOnActor(void *a0);
 extern int func_80151204(int arg, int a1);
-extern void func_80154274(s32 *a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 D_80062C14;
 extern M2C_UNK D_800D5880;
 extern M2C_UNK D_80180870;
@@ -1928,7 +1928,7 @@ extern u16 D_8011F748;
 // @stuck: none — MATCH (33/33)
 
 extern void func_80147324(s32 arg0);
-extern void func_80154274(s32 *a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_80146CA0(void *a0);
 extern s16 currentLocationId;

@@ -1,15 +1,15 @@
 /* func_80155800 — shared body (overlay slot 0x80128158, h_exact ac3af9dd). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8001382C(s32 a0, void *a1, void *a2);
-extern void func_80146DB8(s32 *a0, s32 *a1);
-extern s32 func_80146E98(s32 a0);
+extern void guess_SetMoveVector(s32 *a0, s32 *a1);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_ApplyVelocity(s32 *a0);
 extern void func_80147A84(s32 arg0);
-extern u16 func_801487F4(s32 *a0);
-extern u16 func_80148800(s32 *a0);
-extern s32 func_801488A8(u8 *a0);
+extern u16 guess_GetPadHeld(s32 *a0);
+extern u16 guess_GetPadPressed(s32 *a0);
+extern s32 guess_IsDirectionHeld(u8 *a0);
 extern int func_80148AFC(void *a0);
-extern s32 func_801496D4(void *a0);
+extern s32 guess_IsConfirmPressed(void *a0);
 extern void func_80149704(void);
 extern void func_80149AD4(s32 *a0);
 extern void func_80149B14(s32 *a0);
@@ -34,7 +34,7 @@ s32 func_80155800(s32 arg0) {
         return;
     }
     ((void (*)(void *))func_80155A44)(((Ent_80155800_80155800 *)arg0));
-    if (((s32(*)(void *))func_80148800)(((Ent_80155800_80155800 *)arg0)) & 0x80) {
+    if (((s32(*)(void *))guess_GetPadPressed)(((Ent_80155800_80155800 *)arg0)) & 0x80) {
         temp_v1 = ((Ent_80155800_80155800 *)arg0)->unk1A9;
         if (temp_v1 >= 4U) {
             if (((Ent_80155800_80155800 *)arg0)->unk1C0 != 0) {
@@ -72,12 +72,12 @@ block_13:
     }
 block_15:
     if ((((Ent_80155800_80155800 *)arg0)->unk1A8 == 0) && (((Ent_80155800_80155800 *)arg0)->unk1A9 != 0)) {
-        if (((s32(*)(void *))func_801496D4)(((Ent_80155800_80155800 *)arg0)) != 0) {
+        if (((s32(*)(void *))guess_IsConfirmPressed)(((Ent_80155800_80155800 *)arg0)) != 0) {
             ((void(*)(void *))func_801599A4)(((Ent_80155800_80155800 *)arg0));
             ((void(*)(void *))func_80149704)(((Ent_80155800_80155800 *)arg0));
             return;
         }
-        if (!(((s32(*)(void *))func_801487F4)(((Ent_80155800_80155800 *)arg0)) & 8) && (((s32(*)(void *))func_801488A8)(((Ent_80155800_80155800 *)arg0)) != 0)) {
+        if (!(((s32(*)(void *))guess_GetPadHeld)(((Ent_80155800_80155800 *)arg0)) & 8) && (((s32(*)(void *))guess_IsDirectionHeld)(((Ent_80155800_80155800 *)arg0)) != 0)) {
             ((void(*)(void *))func_801599A4)(((Ent_80155800_80155800 *)arg0));
             ((void (*)(void *))func_8015A230)(((Ent_80155800_80155800 *)arg0));
             return;
@@ -85,9 +85,9 @@ block_15:
         goto block_22;
     }
 block_22:
-    if (((s32(*)(void *))func_80146E98)(((Ent_80155800_80155800 *)arg0)) == 0) {
+    if (((s32(*)(void *))guess_TickWaitTimer_2)(((Ent_80155800_80155800 *)arg0)) == 0) {
         ((void(*)(s16, void *, void *))func_8001382C)((s16) -(s32) ((Ent_80155800_80155800 *)arg0)->unk20->unk12, &((Ent_80155800_80155800 *)arg0)->unk234, &sp10);
-        ((void(*)(void *, void *))func_80146DB8)(((Ent_80155800_80155800 *)arg0), &sp10);
+        ((void(*)(void *, void *))guess_SetMoveVector)(((Ent_80155800_80155800 *)arg0), &sp10);
         ((void(*)(void *))func_80147A84)(((Ent_80155800_80155800 *)arg0));
         ((void(*)(void *))guess_ApplyVelocity)(((Ent_80155800_80155800 *)arg0));
     }

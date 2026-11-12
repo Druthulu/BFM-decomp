@@ -7,7 +7,7 @@ extern s16 D_8011DB0C;
 extern u16 D_8011F748;
 extern s16 D_8011DB1A;
 extern void func_80149020(s32 *a0);
-extern u16 func_80148800(s32 *a0);
+extern u16 guess_GetPadPressed(s32 *a0);
 extern s32 func_8014891C(s32 a0);
 extern s32 func_80148980(u8 *a0);
 extern s32 func_801489E8(s32 a0);
@@ -42,7 +42,7 @@ void func_80153E00(s32 param_1) {
     t = (u16)uVar3;
     goto LAB_EC8;
 LAB_E64:
-    uVar3 = func_80148800((s32 *)param_1) & 0xf000;
+    uVar3 = guess_GetPadPressed((s32 *)param_1) & 0xf000;
     goto LAB_EC4;
 LAB_E74:
     iVar4 = func_8014891C(param_1);

@@ -38,7 +38,7 @@ extern void func_801EDDB8(void);
 extern void func_801EDE84(void *a0);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_801EDEE8(s32 param_1, s16 *param_2);
 extern u8 func_801EE080(u32 a0);

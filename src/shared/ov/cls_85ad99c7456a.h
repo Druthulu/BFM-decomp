@@ -44,7 +44,7 @@ void SHARED_FN(int param_1)
     *(unsigned char *)(p + 0x25) = col;
     *(unsigned char *)(p + 0x24) = col;
 
-    if (func_80146E98(param_1) != 0) {
+    if (guess_TickWaitTimer_2(param_1) != 0) {
         ((void (*)(int))func_801292C8)(param_1);
     }
 }

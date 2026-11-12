@@ -6,7 +6,7 @@ void SHARED_FN(param_1)
 int param_1;
 {
     ((Unkstruct_8017ECC0_2 *)*(int *)(param_1 + 0x20))->unk10 = 0;
-    ((void (*)(int, void *))func_80154274)(param_1, &D_800D4BE0);
-    func_801477E8((s32 *)param_1, 0xFFEE0000);
+    ((void (*)(int, void *))guess_SetAnimScript)(param_1, &D_800D4BE0);
+    guess_SetVertSpeed((s32 *)param_1, 0xFFEE0000);
     func_80171990((u8 *)param_1);
 }

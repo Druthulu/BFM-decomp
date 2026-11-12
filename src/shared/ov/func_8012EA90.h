@@ -19,7 +19,7 @@ void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3)
         w = *(s32 *)p;
         buf.h[1] = (s16)(*(u8 *)(p + 1) | ((w & 0xf) << 8));
         buf.h[2] = (s16)(((w >> 0x10) & 0xff) | ((w & 0xf0) << 4));
-        func_80049CAC((s32)&buf, (s32)param_3);
+        RotMatrixZYX((s32)&buf, (s32)param_3);
         param_3[5] = *(s8 *)(p + 3);
         param_3[6] = *(s8 *)(p + 4);
         param_3[7] = *(s8 *)(p + 5);
@@ -30,7 +30,7 @@ void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3)
         buf.h[0] = *(s16 *)(q + 6);
         buf.h[1] = *(s16 *)(q + 8);
         buf.h[2] = *(s16 *)(q + 0xa);
-        func_80049CAC((s32)&buf, (s32)param_3);
+        RotMatrixZYX((s32)&buf, (s32)param_3);
         param_3[5] = *(s16 *)(q + 0);
         param_3[6] = *(s16 *)(q + 2);
         param_3[7] = *(s16 *)(q + 4);

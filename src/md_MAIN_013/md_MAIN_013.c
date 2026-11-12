@@ -28,8 +28,8 @@ extern void func_800CAEE0(u8 *a0);
 #include "../shared/slot_800CAE08/func_800CAE98.h"
 
 
-extern void func_80154274(void *a0, void *a1);
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetAnimScript(void *a0, void *a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_80147324(s32 a0);
 extern void func_801655E4(void *a0);
 extern void func_80156648(s32 *a0);
@@ -40,8 +40,8 @@ void func_800CAEE0(u8 *a0) {
     extern u8 D_800CB830[];
     extern u8 guess_g_RumblePatternShort;
 
-    func_80154274(a0, D_800CB830);
-    func_80154A74((s32)a0, 0x15);
+    guess_SetAnimScript(a0, D_800CB830);
+    guess_SetTexAnim((s32)a0, 0x15);
     func_80147324(0x477);
     func_801655E4(a0);
     ((Unkstruct_80126B58 *)a0)->unkBE = 0;
@@ -81,11 +81,11 @@ void func_800CAF68(s32 a0) {
 
 
 void func_800CB018(s32 a0) {
-    extern void func_80154A74(s32 a0, s32 a1);
+    extern void guess_SetTexAnim(s32 a0, s32 a1);
     ((Unkstruct_80126B58 *)a0)->unk1BA = 0x1000;
     ((Unkstruct_80126B58 *)a0)->unk1B8 = 0x1000;
     ((Unkstruct_80126B58 *)a0)->unk44 = ((Unkstruct_80126B58 *)a0)->unk44 & ~2;
-    func_80154A74(a0, 0x11);
+    guess_SetTexAnim(a0, 0x11);
 }
 
 

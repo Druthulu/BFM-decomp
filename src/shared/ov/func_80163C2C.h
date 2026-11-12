@@ -9,7 +9,7 @@ void func_80163C2C(s32 param_1) {
     extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
     extern void func_80162FC0(s32 *a0);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80146E90(s32 *a0, s32 a1);
+    extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void func_80147364(u16 param_1, u16 param_2);
     extern void func_80146CA0(void *a0);
     extern u16 func_80156370(u16 param_1);
@@ -46,7 +46,7 @@ void func_80163C2C(s32 param_1) {
     *(Blk16 *)(iVar3 + 0x44) = buf.hi;
     if (*(s32 *)(param_1 + 0x2c) >= 0) {
         ((void (*)(s32, s32, s32, s32))func_80146DE8)(param_1, 0, 0, 0xc0000);
-        ((void (*)(s32, s32))func_80146E90)(param_1, 0x20);
+        ((void (*)(s32, s32))guess_SetWaitTimer_2)(param_1, 0x20);
         ((void (*)(s32, s32))func_80147364)(4, 0x448);
         ((void (*)(s32))func_80146CA0)(param_1);
         ((void (*)(s32))func_80146CA0)(param_1);
@@ -75,7 +75,7 @@ void func_80163C2C(s32 param_1) {
     } else {
         if ((flags & 6) == 0) goto ret;
         ((void (*)(s32, s32, s32, s32))func_80146DE8)(param_1, 0, 0, 0xc0000);
-        ((void (*)(s32, s32))func_80146E90)(param_1, 0x20);
+        ((void (*)(s32, s32))guess_SetWaitTimer_2)(param_1, 0x20);
         ((void (*)(s32, s32))func_80147364)(4, 0x448);
         ((void (*)(s32))func_80146CA0)(param_1);
     }

@@ -7,10 +7,10 @@ void func_801520DC(s32 arg0)
     func_80149020(arg0);
     func_801472C8(arg0);
     M2C_FIELD(arg0, s8 *, 0xDE) = 0x10;
-    func_80146DB8(arg0, &D_801807F8);
-    func_801477E8(arg0, 0x40000);
-    func_8014CBF8(arg0);
-    func_801474EC(arg0);
+    guess_SetMoveVector(arg0, &D_801807F8);
+    guess_SetVertSpeed(arg0, 0x40000);
+    guess_ClearStoodOnActor(arg0);
+    guess_ClearTiltVectors(arg0);
     func_80146A6C(0x10, arg0, M2C_FIELD(arg0, s16 *, 6), M2C_FIELD(arg0, s16 *, 0xA), (s32) M2C_FIELD(arg0, s16 *, 0xE), 0, 0);
     func_80147324(0x441);
     func_80146CA0(arg0);

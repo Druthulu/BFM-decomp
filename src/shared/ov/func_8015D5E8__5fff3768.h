@@ -10,12 +10,12 @@ void func_8015D5E8(int param_1)
     if (((int (*)(int))func_80161B84)(param_1) != 0)
         return;
     if ((*(unsigned short *)(param_1 + 0xb8) & 0x4000) != 0)
-        func_80154A74(param_1, 0x17);
+        guess_SetTexAnim(param_1, 0x17);
     if (((int (*)(int))func_80161208)(param_1) != 0)
         return;
     if (*(unsigned short *)(param_1 + 0xb8) == 0x8000) {
         *(int *)(param_1 + 0x234) = *(int *)(param_1 + 0x234) + -3;
-        func_80154150(param_1, 0x1a);
+        guess_SetAnim(param_1, 0x1a);
         ((void (*)(int))func_80146CA0)(param_1);
     } else {
         iVar1 = *(int *)(param_1 + 0x178);

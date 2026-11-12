@@ -80,11 +80,11 @@ void func_800CAF9C(u8 *a0) {
 
 
 extern u16 D_801270C0;
-extern void func_80154150(s32 a0, s32 a1);
+extern void guess_SetAnim(s32 a0, s32 a1);
 extern void func_801655E4(s32 a0);
 extern s32 func_800183E0(s32 a0);
 extern void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2);
-extern void func_80146E90(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80147324(s32 a0);
 extern u8 D_800CC09C[];
 extern u8 D_800CBF3C[];
@@ -96,7 +96,7 @@ extern u8 D_800CC05C[];
 
 void func_800CAFE4(u8 *a0) {
     D_801270C0 = 2;
-    func_80154150((s32)a0, 3);
+    guess_SetAnim((s32)a0, 3);
     func_801655E4((s32)a0);
     func_800CAE74((void *)&D_800CC09C, (void *)&D_800CBF3C, (void *)&D_800CBF7C);
     func_800CAE74((void *)&D_800CC0DC, (void *)&D_800CBF5C, (void *)&D_800CBFA8);
@@ -106,7 +106,7 @@ void func_800CAFE4(u8 *a0) {
     ((Unkstruct_80126B58 *)a0)->unk238 = 0;
     ((Unkstruct_80126B58 *)a0)->unkBE = 0;
     ((Unkstruct_80126B58 *)a0)->unkBF = 0;
-    func_80146E90((s32 *)a0, 0x10);
+    guess_SetWaitTimer_2((s32 *)a0, 0x10);
     func_80147324(0x8EA);
     ((Unkstruct_80126B58 *)a0)->unk197 = ((Unkstruct_80126B58 *)a0)->unk197 + 1;
 }
@@ -157,7 +157,7 @@ void func_800CB0B0(void *arg) {
 }
 
 
-extern u16 func_80148800(s32 *a0);
+extern u16 guess_GetPadPressed(s32 *a0);
 extern void func_80147324(s32 a0);
 extern void func_800CB428();  // K&R: 3 of 1 args (P37 rung D t4_D40)
 extern void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3);
@@ -167,7 +167,7 @@ void func_800CB1CC(void *arg0) {
     u16 sp10[3];
     u16 sp18[3];
 
-    if (func_80148800((s32 *) arg0) & 0x20) {
+    if (guess_GetPadPressed((s32 *) arg0) & 0x20) {
         ((Unkstruct_80126B58 *)arg0)->unk238 = 0;
         ((Unkstruct_80126B58 *)arg0)->unk197 = ((Unkstruct_80126B58 *)arg0)->unk197 + 1;
         func_80147324(0x991);
@@ -194,7 +194,7 @@ void func_800CB288(s32 arg0)
     u16 temp2;
     u16 cur2;
 
-    if ((func_80146E98(arg0) == 0) || (!(func_80148800((s32 *) arg0) & 0x20))) {
+    if ((guess_TickWaitTimer_2(arg0) == 0) || (!(guess_GetPadPressed((s32 *) arg0) & 0x20))) {
         sp10[0] = 0;
         sp10[1] = 0;
         sp10[2] = 0;

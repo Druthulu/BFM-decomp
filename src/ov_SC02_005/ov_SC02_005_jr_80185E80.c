@@ -2338,7 +2338,7 @@ extern s32 *guess_g_PlayerModelPtr;
 extern s32 D_801965A0;
 extern void func_8012B21C(void *a0);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_80188F38(s32 a0)
@@ -2354,7 +2354,7 @@ void func_80188F38(s32 a0)
 
     p = (s32)guess_g_PlayerModelPtr;
     RotMatrixY(((Unkstruct_801463A0 *)p)->unk12, &m);
-    func_800484EC((s32)&m, (s32)&D_801965A0, self + 0x10);
+    ApplyMatrixLV((s32)&m, (s32)&D_801965A0, self + 0x10);
     func_8012AD44((s32 *)self, 3);
 }
 
@@ -2960,7 +2960,7 @@ extern s32 func_80132EF4(s32 a0, s32 a1);
 extern u8 *func_8012913C(s32 a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 
 extern Blk16_801E2F08 D_801E2F08;
@@ -2983,7 +2983,7 @@ void func_80189FC4(s32 a0) {
             ((Unkstruct_800B5CB8 *)s0)->unkA -= 0x40;
             localMat = D_800AE620;
             RotMatrixY(i << 9, &localMat);
-            func_800484EC((s32)&localMat, (s32)&blk16, (s32)(s0 + 0x10));
+            ApplyMatrixLV((s32)&localMat, (s32)&blk16, (s32)(s0 + 0x10));
         }
     }
 }
@@ -3047,7 +3047,7 @@ extern Blk16_8018A1D8 D_801E2F18;
 extern Blk20 D_800AE620;
 
 extern void RotMatrixY(s32 a0, void *a1);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern u8 *func_8018A30C(s32 a0, s32 a1);
 
 void func_8018A1D8(s32 a0)
@@ -3063,7 +3063,7 @@ void func_8018A1D8(s32 a0)
     for (i = 0; i < 8; i++) {
         localMatrix = D_800AE620;
         RotMatrixY(i << 9, &localMatrix);
-        func_800484EC((s32)&localMatrix, (s32)&fixedVec, (s32)outVec);
+        ApplyMatrixLV((s32)&localMatrix, (s32)&fixedVec, (s32)outVec);
 
         for (j = 0; j < 4; j++) {
             p = func_8018A30C(a0, j);
@@ -3159,7 +3159,7 @@ extern Blk20 D_800AE620;
 
 extern u8 *func_8012913C(s32 a0);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018A4C4(s32 a0)
 {
@@ -3189,7 +3189,7 @@ void func_8018A4C4(s32 a0)
 
             localMat = (*(Blk20_8018A4C4 *)&D_800AE620);
             RotMatrixY(i << 9, &localMat);
-            func_800484EC((s32)&localMat, (s32)&blobB, (s32)(s0 + 0x10));
+            ApplyMatrixLV((s32)&localMat, (s32)&blobB, (s32)(s0 + 0x10));
         }
     }
 }
@@ -3607,7 +3607,7 @@ extern Blk16_801E2F08 D_801E2F08;
 extern u8 *func_8012913C(s32 a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018AF58(s32 a0)
 {
@@ -3624,7 +3624,7 @@ void func_8018AF58(s32 a0)
             func_80129350((s32)p, a0);
             localMatrix = (*(Mtx8_8018AF58 *)&D_800AE620);
             RotMatrixY(i << 9, &localMatrix);
-            func_800484EC((s32)&localMatrix, (s32)&fixedVec, (s32)p + 0x10);
+            ApplyMatrixLV((s32)&localMatrix, (s32)&fixedVec, (s32)p + 0x10);
         }
     }
 }
@@ -3642,14 +3642,14 @@ void func_8018AF58(s32 a0)
 extern Blob8_8018B058 D_801E2F00;
 
 /* Vec32-shape local (matches the TU's Vec32_8018AF58 pattern): 3 x s32 +
- * pad, passed by address to func_800484EC as its translation-vector arg. */
+ * pad, passed by address to ApplyMatrixLV as its translation-vector arg. */
 
 extern u8 D_80196870[];
 
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8004978C(s16 *a0, void *a1);
 extern void func_8012B23C(s32 a0);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018B058(s32 a0)
 {
@@ -3674,7 +3674,7 @@ void func_8018B058(s32 a0)
             CAST_WIDTH(s32, s0, 0xC) = CAST_WIDTH(s32, a0, 0xC);
             func_8004978C((s16 *)&angle, &mtx);
             func_8012B23C(s0);
-            func_800484EC((s32)&mtx, (s32)&vec, s0 + 0x10);
+            ApplyMatrixLV((s32)&mtx, (s32)&vec, s0 + 0x10);
         }
         *(s16 *)&angle.b[2] += 0x200;
     }
@@ -3694,7 +3694,7 @@ extern u8 D_80196874[];
 extern void RotMatrixY(s32 a0, void *a1);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8012B23C(s32 a0);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018B16C(s32 a0, s32 a1, s32 a2)
 {
@@ -3717,7 +3717,7 @@ void func_8018B16C(s32 a0, s32 a1, s32 a2)
                 ((Unkstruct_800B5CB8 *)s0)->unkA = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C) + *(u16 *)(a2 + 2);
                 ((Unkstruct_800B5CB8 *)s0)->unkE = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50) + *(u16 *)(a2 + 4);
                 func_8012B23C(s0);
-                func_800484EC((s32)&localMatrix, (s32)(D_80196874 + i), s0 + 0x10);
+                ApplyMatrixLV((s32)&localMatrix, (s32)(D_80196874 + i), s0 + 0x10);
             }
             i += 0x10;
         } while (i < (a1 << 4));

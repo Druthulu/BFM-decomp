@@ -11,7 +11,7 @@ s32 func_8017209C(void *arg0, void *arg1, s32 arg2, s32 arg3) {
     a2p = arg2;
     ret = func_8017248C((s32)arg0, (s32)arg1);
     if (ret != 0) {
-        func_80146D90((s32)arg0);
+        guess_ClearMoveVector((s32)arg0);
         return ret;
     }
     ang = (ratan2((s32)*(s16 *)((u8 *)arg1 + 0) - (s32)*(s16 *)((u8 *)arg0 + 6),

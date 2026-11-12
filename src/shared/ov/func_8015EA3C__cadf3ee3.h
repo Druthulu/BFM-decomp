@@ -8,7 +8,7 @@ void func_8015EA3C(void *arg0) {
     s32 temp;
     s32 r;
 
-    if (!(((s32 (*)(void))func_801487F4)() & 8)) {
+    if (!(((s32 (*)(void))guess_GetPadHeld)() & 8)) {
         D_80181914[*(u16 *)arg0](arg0);
         ((void (*)(void *, s16))guess_SetState)(arg0, 0);
         func_80159B70(arg0);
@@ -61,12 +61,12 @@ Ldefault:
         invec[1] = 0;
         invec[2] = 0xFFFC0000;
         func_8001382C((s16)d, invec, outbuf);
-        ((void (*)(void *, void *))func_80146DB8)(arg0, outbuf);
+        ((void (*)(void *, void *))guess_SetMoveVector)(arg0, outbuf);
         ((void (*)(void *))func_80147A84)(arg0);
         ((void (*)(void *))guess_ApplyVelocity)(arg0);
-        ((void (*)(void *, s32))func_80154150)(arg0, 0x1E);
+        ((void (*)(void *, s32))guess_SetAnim)(arg0, 0x1E);
     } else {
-        ((void (*)(void *, s32))func_80154150)(arg0, 0x1D);
+        ((void (*)(void *, s32))guess_SetAnim)(arg0, 0x1D);
     }
     if (((s32 (*)(void *))func_8014D738)(arg0) != 0) {
         D_80181914[*(u16 *)arg0](arg0);

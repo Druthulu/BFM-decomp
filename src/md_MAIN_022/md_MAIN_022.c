@@ -78,10 +78,10 @@ void func_800CAFE8(void) {
 }
 
 
-    extern void func_80154150(s32 *a0, s16 a1);
+    extern void guess_SetAnim(s32 *a0, s16 a1);
     extern void func_80146CA0(s32);
     void func_800CB008(s32 *a0) {
-        func_80154150(a0, 0);
+        guess_SetAnim(a0, 0);
         func_80146CA0(a0);
     }
 
@@ -139,13 +139,13 @@ void func_800CB10C(void *a0) {
 
 
 void func_800CB184(void *a0) {
-    extern void func_80146E90(s32 *a0, s32 a1);
-    func_80146E90((s32 *)a0, ((Unkstruct_80126B58 *)a0)->unk50 << 2);
+    extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
+    guess_SetWaitTimer_2((s32 *)a0, ((Unkstruct_80126B58 *)a0)->unk50 << 2);
     func_80146CA0((s32)a0);
 }
 
 
-extern s32 func_80146E98(s32 a0);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_80146578(void);
 extern void func_8001CD9C(void *a0, void *a1);
 extern void func_800233CC(void *, unsigned short);
@@ -168,7 +168,7 @@ void func_800CB1BC(void *a0)
     s32 v0;
     s32 vtemp;
 
-    if (func_80146E98((s32)a0) != 0) {
+    if (guess_TickWaitTimer_2((s32)a0) != 0) {
         s2 = ((void *(*)(void))func_80146578)();
         CAST_SIGN(void *, (u8 *)a0, 0x20) = s2;
 
@@ -327,7 +327,7 @@ void func_800CB4F4(int param_1)
 
 extern void *func_800D2294(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
-extern void func_80146E90(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB550(void *a0) {
@@ -341,7 +341,7 @@ void func_800CB550(void *a0) {
     if (ptr != NULL) {
         func_800233CC(base, 0x20);
         *(s32 *)((s32)ptr + 4) |= 0x50000000;
-        func_80146E90((s32 *)a0, 8);
+        guess_SetWaitTimer_2((s32 *)a0, 8);
         ((Unkstruct_80126B58 *)a0)->unk2 = ((Unkstruct_80126B58 *)a0)->unk2 + 1;
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(a0);
@@ -349,7 +349,7 @@ void func_800CB550(void *a0) {
 }
 
 
-extern s32 func_80146E98(s32 a0);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB5E4(void *a0) {
@@ -360,7 +360,7 @@ void func_800CB5E4(void *a0) {
     v1 = ((Unkstruct_80126B58 *)a0)->unk20;
     *(u16 *)(v1 + 0x1A) = v0;
     *(u16 *)(v1 + 0x18) = v0;
-    if (func_80146E98((s32)a0) != 0) {
+    if (guess_TickWaitTimer_2((s32)a0) != 0) {
         guess_FreeSmallObject(a0);
     }
 }

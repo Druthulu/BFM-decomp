@@ -11,5 +11,5 @@ void func_8015D414(int param_1)
     *(short *)(param_1 + 0xA) = *(short *)(param_1 + 0xA) + 0x48;
     *(short *)(*(int *)(param_1 + 0x20) + 0x10) = 0;
     ((void (*)(void))func_801553C0)();
-    func_80154A74(param_1, 0x11);
+    guess_SetTexAnim(param_1, 0x11);
 }

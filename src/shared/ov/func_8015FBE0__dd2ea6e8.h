@@ -10,8 +10,8 @@ void func_8015FBE0(s32 *param_1)
         ((void (*)(s32 *))func_80159B70)(param_1);
     } else {
         D_80078EC1 = 0;
-        ((void (*)(s32 *, s32))func_80154150)(param_1, 0x20);
-        ((void (*)(s32 *, s32))func_80154A74)(param_1, 0x18);
+        ((void (*)(s32 *, s32))guess_SetAnim)(param_1, 0x20);
+        ((void (*)(s32 *, s32))guess_SetTexAnim)(param_1, 0x18);
         ((void (*)(s32, s32 *, s32, s32, s32, s32, s32))func_80146A6C)(0x16, param_1, 0, 0, 0, 0, 0);
         func_80147324(0x44F);
         ((void (*)(s32 *))func_801553A8)(param_1);

@@ -4,7 +4,7 @@ extern s32 ratan2(s32 a0, s32 a1);
 extern s32 csqrt(s32 a0);
 extern void func_80013F3C(s32 a0);
 extern void func_80012558(s32 a0, s32 a1);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012A60(s32 a0, s32 a1);
 void func_80148094(int param_1, short *param_2, int *param_3) {
     s32 s4 = *(int *)(param_1 + 0x20);
@@ -21,7 +21,7 @@ void func_80148094(int param_1, short *param_2, int *param_3) {
         bp = (s32)buf;
         func_80013F3C(bp);
         func_80012558(bp, (s32)*(short *)(s4 + 0x12));
-        func_800484EC(bp, param_1 + 0x24, (s32)out);
+        ApplyMatrixLV(bp, param_1 + 0x24, (s32)out);
         sVar1 = (s16)func_80012A60((s16)t1, (s16)(ratan2(out[2], out[0]) + 0x400));
         out[0] = *(int *)(param_1 + 0x24);
         if (out[0] < 0) out[0] = -out[0];

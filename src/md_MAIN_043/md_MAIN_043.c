@@ -1,20 +1,20 @@
 #include "common.h"
 
 void func_800CCB20(void *a0) {
-    extern void func_80154150(s32 a0, s32 a1);
+    extern void guess_SetAnim(s32 a0, s32 a1);
     extern void guess_SaveGroundedPos(u8 *a0);
-    extern void func_8014CBF8(void *a0);
-    extern void func_801474EC(s32 *a0);
+    extern void guess_ClearStoodOnActor(void *a0);
+    extern void guess_ClearTiltVectors(s32 *a0);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
-    extern void func_801477E8(s32 *a0, s32 a1);
+    extern void guess_SetVertSpeed(s32 *a0, s32 a1);
     extern s32 func_800CCEA0(void *a0);
 
-    func_80154150((s32)a0, 0xF);
+    guess_SetAnim((s32)a0, 0xF);
     guess_SaveGroundedPos((u8 *)a0);
-    func_8014CBF8(a0);
-    func_801474EC((s32 *)a0);
+    guess_ClearStoodOnActor(a0);
+    guess_ClearTiltVectors((s32 *)a0);
     func_80146DE8((s32 *)a0, 0, 0, 0);
-    func_801477E8((s32 *)a0, 0xffee0000);
+    guess_SetVertSpeed((s32 *)a0, 0xffee0000);
     func_800CCEA0(a0);
 }
 
@@ -31,32 +31,32 @@ void func_800CCB8C(void *a0) {
 
 void func_800CCBCC(s32 a0)
 {
-    extern void func_80148038(s32 a0, s32 a1);
-    extern void func_80147460(s32 a0);
+    extern void guess_AddVertSpeed(s32 a0, s32 a1);
+    extern void guess_ApplyVertSpeed(s32 a0);
     extern void func_80147AD4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     extern void guess_ApplyVelocity(s32 *a0);
     extern void func_8014ED28();
-    extern void func_80146D90(s32 a0);
+    extern void guess_ClearMoveVector(s32 a0);
     extern void func_8016151C(void *a0);
     extern s32 func_801725A4(u8 *a0);
-    extern void func_801477E8(s32 *a0, s32 a1);
-    extern void func_80154274(s32 *a0, s32 a1);
+    extern void guess_SetVertSpeed(s32 *a0, s32 a1);
+    extern void guess_SetAnimScript(s32 *a0, s32 a1);
     extern void func_80146CA0(void *a0);
     extern s32 func_800CCEAC(void *a0);
     extern u8 D_800D53C0[];
 
-    func_80148038(a0, 0x1A000);
-    func_80147460(a0);
+    guess_AddVertSpeed(a0, 0x1A000);
+    guess_ApplyVertSpeed(a0);
     func_80147AD4(a0, 0, 0, 0);
     guess_ApplyVelocity((s32 *)a0);
     if (((s32 (*)(s32))func_8014ED28)(a0) != 0) {
-        func_80146D90(a0);
+        guess_ClearMoveVector(a0);
     }
     func_8016151C((void *)a0);
     func_801725A4((u8 *)a0);
     if (((Unkstruct_80126B58 *)a0)->unk34 > 0) {
-        func_801477E8((s32 *)a0, 0x40000);
-        func_80154274((s32 *)a0, (s32)D_800D53C0);
+        guess_SetVertSpeed((s32 *)a0, 0x40000);
+        guess_SetAnimScript((s32 *)a0, (s32)D_800D53C0);
         func_80146CA0((void *)a0);
     } else {
         func_800CCEAC((void *)a0);
@@ -66,20 +66,20 @@ void func_800CCBCC(s32 a0)
 
 void func_800CCC88(void *a0) {
     extern void func_8014ED28(s32);
-    extern void func_80146D90(s32);
+    extern void guess_ClearMoveVector(s32);
     extern void func_8016151C(void *);
     extern s32 func_801725A4(u8 *);
-    extern void func_80154274(s32 *, s32);
+    extern void guess_SetAnimScript(s32 *, s32);
     extern void func_80146CA0(void *);
     extern s16 D_800D5404[];
 
     if (((int (*)(int))func_8014ED28)((s32)a0) != 0) {
-        func_80146D90((s32)a0);
+        guess_ClearMoveVector((s32)a0);
     }
     func_8016151C(a0);
     func_801725A4((u8 *)a0);
     if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
-        func_80154274((s32 *)a0, (s32)&D_800D5404);
+        guess_SetAnimScript((s32 *)a0, (s32)&D_800D5404);
         func_80146CA0(a0);
     }
     func_800CCEAC(a0);
@@ -87,29 +87,29 @@ void func_800CCC88(void *a0) {
 
 
 void func_800CCD04(void *a0) {
-    extern void func_80148038(s32 a0, s32 a1);
-    extern void func_80147460(s32 a0);
+    extern void guess_AddVertSpeed(s32 a0, s32 a1);
+    extern void guess_ApplyVertSpeed(s32 a0);
     extern void func_80147AD4(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void guess_ApplyVelocity(s32 *a0);
     extern void func_8014ED28(s32);
-    extern void func_80146D90(s32 a0);
+    extern void guess_ClearMoveVector(s32 a0);
     extern void func_80161450(void *a0);
-    extern void func_80146E90(s32 *a0, s32 a1);
+    extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void func_80146CA0(void *a0);
     extern s32 func_801725A4(u8 *a0);
     s32 s1;
 
-    func_80148038((s32)a0, 0x1A000);
-    func_80147460((s32)a0);
+    guess_AddVertSpeed((s32)a0, 0x1A000);
+    guess_ApplyVertSpeed((s32)a0);
     func_80147AD4((s32)a0, 0, 0, 0);
     guess_ApplyVelocity((s32 *)a0);
     if (((int (*)(int))func_8014ED28)((s32)a0) != 0) {
-        func_80146D90((s32)a0);
+        guess_ClearMoveVector((s32)a0);
     }
     s1 = ((int (*)(int))func_80161450)(a0);
     if ((s1 & 5) != 0) {
         func_800CCE24(a0);
-        func_80146E90((s32 *)a0, 0x10);
+        guess_SetWaitTimer_2((s32 *)a0, 0x10);
         func_80146CA0(a0);
     }
     if (s1 == 0) {
@@ -119,7 +119,7 @@ void func_800CCD04(void *a0) {
 }
 
 
-extern s32 func_80146E98(s32 arg0);
+extern s32 guess_TickWaitTimer_2(s32 arg0);
 extern void func_801599A4(void *arg0);
 extern void func_80159B3C(void *arg0);
 extern s32 func_80161208();
@@ -127,7 +127,7 @@ extern s32 func_80161208();
 void func_800CCDC4(s32 a0)
 {
     CAST_SIGN(s32, a0, 0x44) |= 2;
-    if (func_80146E98(a0) != 0) {
+    if (guess_TickWaitTimer_2(a0) != 0) {
         func_801599A4((void *)a0);
         func_80159B3C((void *)a0);
     } else {
@@ -195,7 +195,7 @@ void func_800CCF50(void *a0) {
     extern s32 func_80146578(void);
     extern void func_8001CD50(s32 a0, s32 a1);
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
-    extern void func_80146E90(s32 *a0, s32 a1);
+    extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void func_800CD1F4(void *a0, void *a1);
     extern s32 func_800CD258(void *a0, void *a1);
     extern void func_800CD27C(s32 a0);
@@ -223,7 +223,7 @@ void func_800CCF50(void *a0) {
         *(u16 *)(s0 + 0x10) = ((Unkstruct_80126B58 *)s2)->unk100;
         *(u16 *)(s0 + 0x14) = ((Unkstruct_80126B58 *)s2)->unk104;
         *(u16 *)(s0 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x12);
-        func_80146E90((s32 *)a0, 0x10);
+        guess_SetWaitTimer_2((s32 *)a0, 0x10);
         ((Unkstruct_80126B58 *)a0)->unk60 = 0;
         ((Unkstruct_80126B58 *)a0)->unk62 = 0;
         func_800CD1F4((void *)a0, (void *)s3);
@@ -246,7 +246,7 @@ void func_800CD054(void *a0) {
                               s32 a4, s32 a5, s32 a6, s32 a7);
     extern void func_80147324(s32 a0);
     extern s32 func_80012FC8(s32 a0, s32 a1, s32 a2, s32 a3);
-    extern s32 func_80146E98(s32 a0);
+    extern s32 guess_TickWaitTimer_2(s32 a0);
     extern void func_80146CA0(void *a0);
     extern u8 D_800CD704[];
     u8 *dp;
@@ -286,7 +286,7 @@ void func_800CD054(void *a0) {
         ((Unkstruct_80126B58 *)a0)->unk60 = 0;
         *(S4_800CD054 *)(dp + 4) = *(S4_800CD054 *)(dp + 0xC);
     }
-    v0 = func_80146E98((s32)a0);
+    v0 = guess_TickWaitTimer_2((s32)a0);
     if (v0 != 0) {
         func_80146CA0(a0);
     } else {
@@ -393,7 +393,7 @@ void func_800CD3C8(void *a0) {
 void func_800CD404(void *a0) {
     extern s32 func_80146578(void);
     extern void func_8001CD50(s32 a0, s32 a1);
-    extern void func_80146E90(s32 *a0, s32 a1);
+    extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void func_80146CA0(void *);
     extern void func_800CD670(s32 a0, void *a1);
     extern void func_800CD650(void);
@@ -443,7 +443,7 @@ void func_800CD404(void *a0) {
         ((Unkstruct_80126B58 *)a0)->unk60 = v;
         ((Unkstruct_80126B58 *)a0)->unkE = CAST_SIGN(u16, s2, 0xE);
         ((Unkstruct_80126B58 *)a0)->unk62 = ((Unkstruct_80126B58 *)s2)->unk1C;
-        func_80146E90((s32 *)a0, 0x20);
+        guess_SetWaitTimer_2((s32 *)a0, 0x20);
         func_800CD670(a0, (void *)s3);
         ((void (*)(void *, void *))func_800CD6D4)((void *)a0, (void *)s3);
         func_80146CA0((void *)a0);
@@ -456,7 +456,7 @@ void func_800CD404(void *a0) {
 extern void func_800CD6D4(void);
 extern s32 func_80012FC8(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8004787C(s32 a0);
-extern s32 func_80146E98(s32 a0);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_80146CA0(void *a0);
 extern u8 D_800CD764[];
 
@@ -487,7 +487,7 @@ void func_800CD57C(void *arg0) {
         adj = v1 / 0x1000;
         ((Unkstruct_80126B58 *)arg0)->unkA = ((Unkstruct_80126B58 *)arg0)->unk60 - adj;
     }
-    v0 = func_80146E98((s32)arg0);
+    v0 = guess_TickWaitTimer_2((s32)arg0);
     if (v0 != 0) {
         func_80146CA0(arg0);
     }

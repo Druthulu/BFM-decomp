@@ -929,7 +929,7 @@ void func_8012ACA0(void *arg0) {
 
 
 
-#define SHARED_FN func_8012BF4C
+#define SHARED_FN guess_SetWaitTimer
 #include "../shared/ov/cls_b039ed440779.h"
 #undef SHARED_FN
 
@@ -1374,7 +1374,7 @@ void func_8012DFCC(void) {
 #include "../shared/ov/func_8012E014.h"
 
 // @class: regalloc-order
-// @unstuck(P36): none — MATCH (81/81). Key lever: post-80049CAC pointer reload uses a SEPARATE local (mm) from the pre-call/branch pointer (m) -> gcc allocates $a0 for mm not $a1; decl order cam,bufB,bufA -> slots 0x10/0x18/0x20; u16 field reads for lhu; short s -> (int)s sign-extend = sll/sra.
+// @unstuck(P36): none — MATCH (81/81). Key lever: post-80049CAC (RotMatrixZYX) pointer reload uses a SEPARATE local (mm) from the pre-call/branch pointer (m) -> gcc allocates $a0 for mm not $a1; decl order cam,bufB,bufA -> slots 0x10/0x18/0x20; u16 field reads for lhu; short s -> (int)s sign-extend = sll/sra.
 #include "common.h"
 
 
@@ -1650,7 +1650,7 @@ void func_8012E9C0(int param_1)
 // @unstuck(P36): none — MATCH (93 ins)
 
 
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 
 /* Blk16 lifted to src/shared/engine_types.h (Phase 22). */
 

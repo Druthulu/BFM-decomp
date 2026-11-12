@@ -6,7 +6,7 @@
 //   - `D_800629D4` added: a data label in the text->data boundary region that the boot code
 //     references but splat did not auto-label (keeps the all-asm link resolving; no bytes change).
 // Durable text record of manual RE work (the .rep is gitignored).
-// count=1128
+// count=1130
 
 lzss_ringBuffer                  = 0x1F800000; // data
 start                            = 0x80010000; // func
@@ -338,6 +338,7 @@ SquareRoot12                     = 0x800480EC; // func
 MulMatrix0                       = 0x8004818C; // func
 MulRotMatrix                     = 0x8004829C; // func
 CompMatrix                       = 0x8004838C; // func
+ApplyMatrixLV                    = 0x800484EC; // func
 ApplyRotMatrix                   = 0x8004864C; // func
 PushMatrix                       = 0x8004867C; // func
 PopMatrix                        = 0x8004871C; // func
@@ -376,6 +377,7 @@ RotMatrixYXZ                     = 0x80049A1C; // func
 FGO_02_OBJ_68                    = 0x80049A84; // func
 FGO_02_OBJ_CC                    = 0x80049AE8; // func
 FGO_02_OBJ_160                   = 0x80049B7C; // func
+RotMatrixZYX                     = 0x80049CAC; // func
 FGO_03_OBJ_64                    = 0x80049D10; // func
 FGO_03_OBJ_CC                    = 0x80049D78; // func
 FGO_03_OBJ_160                   = 0x80049E0C; // func

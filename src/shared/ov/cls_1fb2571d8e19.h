@@ -2,8 +2,8 @@
  * exemplar src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:14284 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
     void SHARED_FN(void *a0) {
         if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
-            func_80154150((s32)a0, 0x27);
-            func_80154A74((s32)a0, 0x1F);
+            guess_SetAnim((s32)a0, 0x27);
+            guess_SetTexAnim((s32)a0, 0x1F);
             func_80171A1C((u8 *)a0);
             func_80174650((s32)a0);
         }

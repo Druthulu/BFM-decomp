@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80149020(s32 *a0);
 extern s32 func_80153800(s32 a0);
-extern void func_80146D90(s32 a0);
+extern void guess_ClearMoveVector(s32 a0);
 extern void func_8015327C(s32 a0);
 extern void func_80159B3C(void *a0);
 extern void func_80165718(s32 a0);
@@ -17,7 +17,7 @@ void func_80153204(s32 *a0) {
         *(u16 *)((u8 *)a0 + 0x6) = *(u16 *)((u8 *)a0 + 0x88);
         *(u16 *)((u8 *)a0 + 0xA) = *(u16 *)((u8 *)a0 + 0x8A);
         *(u16 *)((u8 *)a0 + 0xE) = *(u16 *)((u8 *)a0 + 0x8C);
-        func_80146D90((s32)a0);
+        guess_ClearMoveVector((s32)a0);
         func_8015327C((s32)a0);
         func_80159B3C((s32)a0);
         func_80165718((s32)a0);

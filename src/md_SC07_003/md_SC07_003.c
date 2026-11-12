@@ -991,7 +991,7 @@ void func_801A13A0(s32 arg0) {
 #include "common.h"
 
 extern s32 rand(void);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 func_8012C51C(void *a0, s32 a1);
 extern s16 D_801F435C;
@@ -1034,7 +1034,7 @@ void func_801A143C(s32 a0) {
             }
             /* Lever-free (P40 T10.c1): the `% 64` is written out so `t` is the in-place
                divmod temp and lands on $16 (it crosses the rand() call).  `m` holds the raw
-               rand() return in $v0; reusing `m` below as the func_800484EC arg makes `m`
+               rand() return in $v0; reusing `m` below as the ApplyMatrixLV arg makes `m`
                outlive `t`, so cse keeps `m` canonical (cse.c make_regs_eqv) and the
                bgez tests $v0 with the `t = m` copy in its delay slot, as the target. */
             m = rand();
@@ -1051,7 +1051,7 @@ void func_801A143C(s32 a0) {
             }
             vin.vx = t;
             m = *(s32 *)(a0 + 0x20) + 0x34;
-            func_800484EC(m, (s32)&vin, (s32)&vout);
+            ApplyMatrixLV(m, (s32)&vin, (s32)&vout);
 
             CAST_WIDTH(s32, obj, 0x4) += vout.vx;
             CAST_WIDTH(s32, obj, 0x8) += vout.vy;
@@ -1350,7 +1350,7 @@ extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_8012EC04(s32 a0, s32 a1, s32 *a2);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 RotMatrixX(s32 a0, void *a1);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void guess_FreeActor(void *a0);
@@ -1402,7 +1402,7 @@ void func_801A1B28(s32 arg0) {
                 vec.vx = 0;
                 vec.vz = -0xC0000;
                 RotMatrixX(0x200, &mtx);
-                func_800484EC((s32)&mtx, (s32)&vec, obj + 0x10);
+                ApplyMatrixLV((s32)&mtx, (s32)&vec, obj + 0x10);
             }
             func_8002D4C8(0xB9C, 0);
         }
@@ -2788,7 +2788,7 @@ void func_801A38E4(void *a0, void *a1, s32 a2, s32 a3, s32 a4)
 #include "common.h"
 
 extern u8 D_801A6DA8[];
-extern void func_80049CAC(SVECTOR *a0, MATRIX *a1);
+extern void RotMatrixZYX(SVECTOR *a0, MATRIX *a1);
 
 s32 func_801A3BCC(void *a0)
 {
@@ -2817,7 +2817,7 @@ s32 func_801A3BCC(void *a0)
     func_8012EA90(obj, 12, (s32 *)&src[2]);
     for (i = 0; i < 8; i++) {
         rot.vy += -D_801F435C * 18;
-        func_80049CAC(&rot, &m);
+        RotMatrixZYX(&rot, &m);
 
         gte_SetRotMatrix((s32)&m);
         gte_ldclmv((s32)&src[0]); gte_rtir();
@@ -3366,7 +3366,7 @@ void func_801A4CF4(s32 a0) {
 
 
 extern void RotMatrixY(s32 a0, void *a1);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_801A4D58(s32 a0, s32 a1)
 {
@@ -3380,7 +3380,7 @@ void func_801A4D58(s32 a0, s32 a1)
     vel[0] = 0;
     vel[2] = a1;
     RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14), &m);
-    func_800484EC((s32)&m, (s32)&vel[0], a0 + 0x10);
+    ApplyMatrixLV((s32)&m, (s32)&vel[0], a0 + 0x10);
 }
 
 

@@ -188,7 +188,7 @@ ov_SC01_000's asm, and gate via ov_SC01_000. Backward-compatible (legacy records
 **Two byte-evidenced findings redirected the fuel strategy:**
 - **The reach≥2 close=1 fuel is largely MODEL semantic-misses, not permuter fuel.** Diagnosed by the
   byte: `func_8012E27C`'s target is literally `return 1` (2 ins), but the 7B drafted `void f(void){}`
-  (the corpus's overfit empty-leaf pattern); `func_8012BF4C`/`func_8012AD64` are trivial `sw`/`sh` setters
+  (the corpus's overfit empty-leaf pattern); `guess_SetWaitTimer`/`func_8012AD64` are trivial `sw`/`sh` setters
   also drafted empty. The permuter (regalloc/schedule only) can't add a missing return/store — but a
   **corrected draft** does: banked all 3 byte-identical via the fixed per-binary gate (the concrete
   non-077-banking proof, fleet +3). So this fuel's lever is **a better draft (corpus-v3 leaf variety),
@@ -234,7 +234,7 @@ the v3 batch banked **~352 functions** (inline, byte-gated) and the propagate sw
 shared groups** (1633→1678) ×reach, taking the fleet **63.67% → 63.82%** (**+502 byte-identical
 functions**), **136/136 byte-clean** throughout, across **25 auto-committed batches**. v3 repeatedly
 banked the previously-impossible **empty-leaf/setter class** (`func_8012E27C` = `return 1`,
-`func_8012AD64`/`8012BF4C` = `sw`/`sh` setters — all drafted *empty* by v2). The modest headline %
+`func_8012AD64`/`8012BF4C` (guess_SetWaitTimer) = `sw`/`sh` setters — all drafted *empty* by v2). The modest headline %
 is the expected T9 reality (small open stubs are mostly reach-1 ×1; and the shared setters hit the
 §19/20 propagation cap, so they re-bank inline per binary rather than collapse once ×134). **The
 validated result is the pipeline itself:** a free, local, fine-tuned model now harvests the

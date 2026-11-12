@@ -20,33 +20,33 @@ void func_8015D738(void *arg0) {
         func_80159B70(arg0);
         return;
     }
-    if (((s32 (*)(void *))func_80148800)(arg0) & 0x80) {
+    if (((s32 (*)(void *))guess_GetPadPressed)(arg0) & 0x80) {
     block_808:
-        ((void (*)(void *, s32))func_80154A74)(arg0, 0x11);
+        ((void (*)(void *, s32))guess_SetTexAnim)(arg0, 0x11);
         ((void (*)(void *))func_8015DAC4)(arg0);
         return;
     }
-    if ((((s32 (*)(void *))func_80148800)(arg0) & 0x10) && ((s32 (*)(void *))func_8014BEF8)(arg0) != 0) {
-        ((void (*)(void *, s32))func_80154A74)(arg0, 0x11);
+    if ((((s32 (*)(void *))guess_GetPadPressed)(arg0) & 0x10) && ((s32 (*)(void *))func_8014BEF8)(arg0) != 0) {
+        ((void (*)(void *, s32))guess_SetTexAnim)(arg0, 0x11);
         ((void (*)(void *))func_8015DE24)(arg0);
         return;
     }
-    if ((((s32 (*)(void *))func_80148800)(arg0) & 0x20) && p[0x49] == 0xA) {
+    if ((((s32 (*)(void *))guess_GetPadPressed)(arg0) & 0x20) && p[0x49] == 0xA) {
         if (((s32 (*)(void *))func_80165624)(arg0) != 0) {
             ((void (*)(void *))func_8015DA5C)(arg0);
             ((void (*)(void *))func_8015F948)(arg0);
             return;
         }
-        ((void (*)(void *, s32))func_80154A74)(arg0, 0x11);
+        ((void (*)(void *, s32))guess_SetTexAnim)(arg0, 0x11);
         func_800CAF14(arg0);
         return;
     }
-    if (((s32 (*)(void *))func_801488A8)(arg0) != 0 && *(u16 *)(*(s32 *)((char *)arg0 + 0x178)) != 0x82) {
-        ((void (*)(void *, s32))func_80154150)(arg0, 0x1B);
-        ((void (*)(void *, void *))func_80146DB8)(arg0, &D_80181124);
+    if (((s32 (*)(void *))guess_IsDirectionHeld)(arg0) != 0 && *(u16 *)(*(s32 *)((char *)arg0 + 0x178)) != 0x82) {
+        ((void (*)(void *, s32))guess_SetAnim)(arg0, 0x1B);
+        ((void (*)(void *, void *))guess_SetMoveVector)(arg0, &D_80181124);
     } else {
-        ((void (*)(void *, s32))func_80154150)(arg0, 0x1A);
-        ((void (*)(void *, void *))func_80146DB8)(arg0, &D_80181134);
+        ((void (*)(void *, s32))guess_SetAnim)(arg0, 0x1A);
+        ((void (*)(void *, void *))guess_SetMoveVector)(arg0, &D_80181134);
     }
     ((void (*)(void *))func_80147A84)(arg0);
     ((void (*)(void *))guess_ApplyVelocity)(arg0);

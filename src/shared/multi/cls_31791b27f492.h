@@ -3,5 +3,5 @@
 s32 SHARED_FN(s32 a0)
 {
     ((Unkstruct_80126B58 *)a0)->unk44 = ((Unkstruct_80126B58 *)a0)->unk44 & ~2;
-    func_80154A74(a0, 0x11);
+    guess_SetTexAnim(a0, 0x11);
 }

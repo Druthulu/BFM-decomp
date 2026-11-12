@@ -140,7 +140,7 @@ void func_800CB134(void *arg0) {
 void func_800CB190(void *arg0) {
     extern void func_800CB5F4(s32 a0);
     extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
-    extern void func_80146E90(s32 *, s32);
+    extern void guess_SetWaitTimer_2(s32 *, s32);
     extern void func_80146CA0(void *);
     extern s32 rand();
 
@@ -155,9 +155,9 @@ void func_800CB190(void *arg0) {
         func_801466F0(0xC, arg0, 0, 0, 0, tmp, 0, 0);
         tmp = color + 0xAAA;
         func_801466F0(0xC, arg0, 0, 0, 0, tmp, 0, 0);
-        func_80146E90((s32 *)arg0, 8);
+        guess_SetWaitTimer_2((s32 *)arg0, 8);
     } else {
-        func_80146E90((s32 *)arg0, 0);
+        guess_SetWaitTimer_2((s32 *)arg0, 0);
     }
     func_80146CA0(arg0);
 }
@@ -165,7 +165,7 @@ void func_800CB190(void *arg0) {
 
 #include "common.h"
 
-extern s32 func_80146E98(s32 a0);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_80146578(void);
 extern void func_8001CD9C(int a0, void *a1);
 extern void func_800233CC(void *, unsigned short);
@@ -189,7 +189,7 @@ void func_800CB278(s32 param_1)
     s32 ivar3;
 
     base = (s32)&D_800CBBD8;
-    if (((s32 (*)(void))func_80146E98)() == 0) {
+    if (((s32 (*)(void))guess_TickWaitTimer_2)() == 0) {
         return;
     }
     ((Unkstruct_80126B58 *)param_1)->unk20 = (iVar1 = ((s32 (*)(void))func_80146578)());

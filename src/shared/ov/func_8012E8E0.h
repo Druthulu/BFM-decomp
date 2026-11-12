@@ -1,6 +1,6 @@
 /* func_8012E8E0 — shared body (overlay slot 0x80128158, h_exact dc672e82). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 void func_8012E8E0(s32 a0, s32 a1)
 {
     s32 v1;
@@ -19,7 +19,7 @@ void func_8012E8E0(s32 a0, s32 a1)
         *(s16 *)(v1 + 0x12) = *(u16 *)(a1 + 0x6);
         a1 = *(s32 *)(a0 + 0x20);
         if (a1 != 0) {
-            func_80049CAC(a1 + 0x10, a1 + 0x34);
+            RotMatrixZYX(a1 + 0x10, a1 + 0x34);
             p = *(s32 *)(a0 + 0x20);
             v = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x50);
             *(s16 *)(p + 0x8) = v;

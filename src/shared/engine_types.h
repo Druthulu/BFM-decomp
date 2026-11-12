@@ -2303,7 +2303,7 @@ struct Ent_80182420 {
     /* 0xF6 */ s16 unkF6;
 };
 struct Fr_80187368 {
-    s16 mtx[10];   /* sp+0x10, only its address is used (func_80049CAC out) */
+    s16 mtx[10];   /* sp+0x10, only its address is used (RotMatrixZYX out) */
     s32 pos[3];    /* sp+0x24 */
     s16 sv[4];     /* sp+0x30 (RotTransSV out) */
     s16 sv2[4];    /* sp+0x38 (unused, layout filler) */
@@ -3050,7 +3050,7 @@ typedef Blk20_8016DF5C Mtx8_80189E18;
 typedef MATRIX Mtx8_8018AF58;
 typedef MATRIX MtxLocal;
 typedef struct {
-    s16 a, b, c, d;    /* sp+0x20 : func_80049CAC arg0 (SV4; only a,b,c written) */
+    s16 a, b, c, d;    /* sp+0x20 : RotMatrixZYX arg0 (SV4; only a,b,c written) */
     u8 _gap1[28];      /* sp+0x28..0x44 : never referenced by an instruction */
     MtxLocal mtx;      /* sp+0x44 : MATRIX out, t[] at sp+0x58 */
     u8 _gap2[52];      /* sp+0x64..0x98 : never referenced by an instruction */

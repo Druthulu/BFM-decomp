@@ -13,7 +13,7 @@ s32 param_1;
         *(s32 *)(param_1 + 0x2C) = 0;
         *(s32 *)(param_1 + 0x10) = *(s32 *)(param_1 + 4);
         *(s32 *)(param_1 + 0x18) = *(s32 *)(param_1 + 0xC);
-        func_80146E90(param_1, 0x14);
+        guess_SetWaitTimer_2(param_1, 0x14);
         *(u16 *)(param_1 + 2) += 1;
     }
 }

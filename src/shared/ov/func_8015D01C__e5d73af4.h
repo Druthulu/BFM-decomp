@@ -12,7 +12,7 @@ void func_8015D01C(int param_1)
     unsigned short uVar1;
     unsigned short uVar5;
     short sVar3;
-    ((void (*)(int, void *)) func_80154274)(param_1, &D_800D550C);
+    ((void (*)(int, void *)) guess_SetAnimScript)(param_1, &D_800D550C);
     *((short *) ((*((int *) (param_1 + 0x20))) + 0x10)) = 0;
     iVar4 = *((short *) ((*((int *) (param_1 + 0x20))) + 0x12));
     uVar1 = *((unsigned short *) ((*((int *) ((*((int *) (param_1 + 0x180))) + 0x20))) + 0x12));

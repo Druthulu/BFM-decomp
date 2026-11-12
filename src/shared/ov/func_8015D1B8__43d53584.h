@@ -35,11 +35,11 @@ void func_8015D1B8(s32 *a0)
     }
     *(u16 *)((u8 *)a0 + 0x244) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x20) + 0x10);
 
-    if (func_80148800(a0) & 0x40) {
+    if (guess_GetPadPressed(a0) & 0x40) {
         ((void (**)(s32*))D_80181914)[*(u16 *)a0](a0);
         ((void (*)(s32 *))func_80149724)(a0);
-        func_80154274(a0, (s32)&D_800D4C14);
-        func_80146E90(a0, 0x10);
+        guess_SetAnimScript(a0, (s32)&D_800D4C14);
+        guess_SetWaitTimer_2(a0, 0x10);
         {
             u32 t = keep & 0xFFF; /* L3: unsigned value, signed guard -> bgez + srl */
             if ((s32)t < 0) {
@@ -49,8 +49,8 @@ void func_8015D1B8(s32 *a0)
             off = (t >> 9) * 8;
         }
         *p = *(s32 *)((u8 *)&D_80181AF4 + off);
-        ((void (*)(s32 *, s32))func_80146DB8)(a0, (s32)(p - 2)); /* 0x801893D8 == &D_80181B3C[-2] (no label there) */
-        func_801477E8(a0, *(s32 *)((u8 *)&D_80181AF8 + off));
+        ((void (*)(s32 *, s32))guess_SetMoveVector)(a0, (s32)(p - 2)); /* 0x801893D8 == &D_80181B3C[-2] (no label there) */
+        guess_SetVertSpeed(a0, *(s32 *)((u8 *)&D_80181AF8 + off));
         func_80147324(0x5EA);
     } else {
         ((void (*)(s32 *))func_8014FA04)(a0);

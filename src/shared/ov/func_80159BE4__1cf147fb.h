@@ -4,13 +4,13 @@ void func_80159BE4(s32 arg0)
 {
     int v;
 
-    ((void (*)(int, void *))func_80146DB8)(arg0, &D_80181878);
+    ((void (*)(int, void *))guess_SetMoveVector)(arg0, &D_80181878);
     if ((*(unsigned int *)(arg0 + 0x44) & 0x200) != 0) {
-        func_80154150(arg0, 5);
-        func_80154A74(arg0, 0x1C);
+        guess_SetAnim(arg0, 5);
+        guess_SetTexAnim(arg0, 0x1C);
     } else {
-        func_80154150(arg0, 4);
-        func_80154A74(arg0, 0x11);
+        guess_SetAnim(arg0, 4);
+        guess_SetTexAnim(arg0, 0x11);
     }
     *(int *)(arg0 + 0x234) = 0;
     *(int *)(arg0 + 0x238) = 0;

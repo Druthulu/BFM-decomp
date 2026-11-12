@@ -2380,7 +2380,7 @@ void func_8018592C(void *a0) {
 }
 
 
-extern void func_8012BF4C(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer(s32 *a0, s32 a1);
     extern s32 func_8012AD50(void *a0);
 #define SHARED_FN func_80185968
 #include "../shared/ov/cls_85117b5492a4.h"
@@ -2423,7 +2423,7 @@ extern void func_8012BF4C(s32 *a0, s32 a1);
  * destination TU via engine_core.h and re-typedef'ing it would be a
  * redefinition error at bank time (§183.1). Layout/bytes are identical.
  *
- * Declarations: guess_g_PlayerActor / func_80015978 / guess_TickWaitTimer / func_8012BF4C /
+ * Declarations: guess_g_PlayerActor / func_80015978 / guess_TickWaitTimer / guess_SetWaitTimer /
  * rand are copied verbatim from this TU's existing rows; func_801290DC has no
  * TU row, so the fleet-consensus u8 *(s32, u8 *) (n=1494) is used.
  */
@@ -2431,7 +2431,7 @@ extern void func_8012BF4C(s32 *a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_80015978(s32 a0, s32 *a1);
 extern u8 *func_801290DC(s32 a0, u8 *a1);
-extern void func_8012BF4C(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer(s32 *a0, s32 a1);
 extern s32 guess_g_PlayerActor;
 extern s32 rand(void);
 
@@ -2492,7 +2492,7 @@ void func_8018599C(s32 param_1)
     }
 
     t = rand() & 0x1F;
-    func_8012BF4C((s32 *)param_1, t + 8);
+    guess_SetWaitTimer((s32 *)param_1, t + 8);
 }
 
 

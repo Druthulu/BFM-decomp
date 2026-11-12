@@ -13,7 +13,7 @@ void func_8015C944(int param_1) {
         ((void (*)(int))func_80159B70)(param_1);
     } else {
         if (((int (*)(int))func_80161240)(param_1) == 0) {
-            if (func_80146E98(param_1) != 0) {
+            if (guess_TickWaitTimer_2(param_1) != 0) {
                 ((void (*)(int))func_80146CA0)(param_1);
             }
             if ((*(unsigned short *)(param_1 + 0xb8) & 0x2000) != 0) {

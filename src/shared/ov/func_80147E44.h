@@ -8,7 +8,7 @@ void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3) {
     extern void RotMatrixX(s32 a0, void *a1);
     extern void RotMatrixY(s32 a0, void *a1);
     extern void RotMatrixZ(s32 a0, void *a1);
-    extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+    extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
     extern s32 D_80127090;
     extern s32 D_80127094;
     extern s32 D_80127098;
@@ -32,7 +32,7 @@ void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3) {
     RotMatrixY(*(s16 *)(v + 0x12), (void *)m);
     RotMatrixX(*(s16 *)(v + 0x10), (void *)m);
     RotMatrixZ(*(s16 *)(v + 0x14), (void *)m);
-    func_800484EC((s32)m, r_a0 + 0x24, (s32)out);
+    ApplyMatrixLV((s32)m, r_a0 + 0x24, (s32)out);
     D_80127090 = out[0];
     D_80127094 = out[1];
     D_80127098 = out[2];

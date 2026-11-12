@@ -10,21 +10,21 @@ void func_8015F448(s32 arg0) {
     s32 sp28[2];
 
     if (((*(u32 *)(arg0 + 0x44) & 0x100) && (func_80149884() != 0)) ||
-        (((s32 (*)(s32))func_801496D4)(arg0) != 0)) {
+        (((s32 (*)(s32))guess_IsConfirmPressed)(arg0) != 0)) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
         *(u8 *)(arg0 + 0x1BE) = 0xA;
         ((void (*)(s32))func_80149724)(arg0);
-        ((void (*)(s32, s32))func_801477E8)(arg0, 0);
+        ((void (*)(s32, s32))guess_SetVertSpeed)(arg0, 0);
         return;
     }
 
     if (*(u8 *)(arg0 + 0x245) == 0) {
         if (*(u8 *)(arg0 + 0x244) == 0) {
-            if (((s32 (*)(s32))func_80148800)(arg0) & 0x10) {
+            if (((s32 (*)(s32))guess_GetPadPressed)(arg0) & 0x10) {
                 *(u8 *)(arg0 + 0x244) = 1;
                 *(u8 *)(arg0 + 0x245) = 1;
             }
-        } else if (((s32 (*)(s32))func_80148800)(arg0) & 0x80) {
+        } else if (((s32 (*)(s32))guess_GetPadPressed)(arg0) & 0x80) {
             *(u8 *)(arg0 + 0x244) = 0;
             *(u8 *)(arg0 + 0x245) = 1;
         }
@@ -52,9 +52,9 @@ void func_8015F448(s32 arg0) {
             *(u8 *)(arg0 + 0x245) = 0;
             *(u16 *)(arg0 + 0xB8) = *(u16 *)(arg0 + 0xBA);
             if (((s32 (*)(s32))func_80148980)(arg0) != 0) {
-                ((void (*)(s32, s32 *))func_80146DB8)(arg0, &D_8018146C);
+                ((void (*)(s32, s32 *))guess_SetMoveVector)(arg0, &D_8018146C);
             } else {
-                ((void (*)(s32, s32 *))func_80146DB8)(arg0, &D_8018147C);
+                ((void (*)(s32, s32 *))guess_SetMoveVector)(arg0, &D_8018147C);
             }
         }
     } else {
@@ -74,9 +74,9 @@ void func_8015F448(s32 arg0) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
         *(u8 *)(arg0 + 0x1BE) = 0xA;
         ((void (*)(s32))func_80149724)(arg0);
-        ((void (*)(s32, s32))func_801477E8)(arg0, 0xFFE80000);
-        ((void (*)(s32, s32 *))func_80146DB8)(arg0, &D_8018148C);
-        ((void (*)(s32, s32))func_80146E90)(arg0, 0x10);
+        ((void (*)(s32, s32))guess_SetVertSpeed)(arg0, 0xFFE80000);
+        ((void (*)(s32, s32 *))guess_SetMoveVector)(arg0, &D_8018148C);
+        ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 0x10);
         return;
     }
 

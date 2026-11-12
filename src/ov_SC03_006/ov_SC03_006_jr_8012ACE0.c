@@ -341,7 +341,7 @@ extern void func_8012ACA0(void *arg0);
 #include "../shared/ov/func_8012BF10.h"
 
 
-#define SHARED_FN func_8012BF4C
+#define SHARED_FN guess_SetWaitTimer
 #include "../shared/ov/cls_b039ed440779.h"
 #undef SHARED_FN
 
@@ -870,7 +870,7 @@ void func_8012E9C0(int param_1)
 // @unstuck(P36): none — MATCH (93 ins)
 
 
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 
 /* Blk16 lifted to src/shared/engine_types.h (Phase 22). */
 

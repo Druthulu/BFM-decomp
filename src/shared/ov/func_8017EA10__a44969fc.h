@@ -7,7 +7,7 @@ void func_8017EA10(s32 *a0) {
     if (func_8017EC2C((s32)a0) < 400) {
         result = func_8013767C((s32)&D_80183058);
         s0[0x198 / 4] = result;
-        func_80154274(s0, (s32)D_80182D0C);
+        guess_SetAnimScript(s0, (s32)D_80182D0C);
         func_80147324(0x7E7);
         func_80171990((u8 *)s0);
     }

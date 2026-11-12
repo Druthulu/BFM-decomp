@@ -26,6 +26,6 @@ u8 arg1;
     if (c != arg1) {
         return 0;
     }
-    func_80146D90(arg0);
+    guess_ClearMoveVector(arg0);
     return 1;
 }

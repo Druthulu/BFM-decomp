@@ -23,30 +23,30 @@ void func_800CAE34(void *a0) {
 
 
 extern s32 D_800CBAC0[];
-extern void func_80154274(s32 *a0, s32 a1);
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 
 void func_800CAEC0(u8 *a0) {
-    func_80154274((s32 *)a0, (s32)D_800CBAC0);
-    func_80154A74((s32)a0, 0x15);
+    guess_SetAnimScript((s32 *)a0, (s32)D_800CBAC0);
+    guess_SetTexAnim((s32)a0, 0x15);
     ((Unkstruct_80126B58 *)a0)->unk197 += 1;
 }
 
 
 extern s32 func_80161208();
-extern u16 func_801487F4(s32 *a0);
-extern void func_80154274(s32 *a0, s32 a1);
+extern u16 guess_GetPadHeld(s32 *a0);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 D_800CBB00[];
 extern s32 D_800CBAE0[];
 
 void func_800CAF0C(s32 *a0) {
     if (func_80161208() == 0) {
         if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
-            if (func_801487F4(a0) & 0x20) {
-                func_80154274(a0, (s32)D_800CBB00);
+            if (guess_GetPadHeld(a0) & 0x20) {
+                guess_SetAnimScript(a0, (s32)D_800CBB00);
                 ((Unkstruct_80126B58 *)a0)->unk197 += 1;
             } else {
-                func_80154274(a0, (s32)D_800CBAE0);
+                guess_SetAnimScript(a0, (s32)D_800CBAE0);
                 ((Unkstruct_80126B58 *)a0)->unk197 += 2;
             }
         }
@@ -65,8 +65,8 @@ extern void func_801655E4(s32 a0);
 extern u8 guess_g_RumblePatternShort;
 extern void func_80019064(void *a0);
 extern s32 func_80165624(s32 a0);
-extern u16 func_801487F4(s32 *a0);
-extern void func_80154274(s32 *a0, s32 a1);
+extern u16 guess_GetPadHeld(s32 *a0);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 D_800CBB00[];
 extern s32 D_800CBAE0[];
 
@@ -104,10 +104,10 @@ void func_800CAF9C(s32 a0) {
     }
 
     if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
-        if (func_80165624(a0) == 0 && (func_801487F4((s32 *)a0) & 0x20)) {
-            func_80154274((s32 *)a0, (s32)D_800CBB00);
+        if (func_80165624(a0) == 0 && (guess_GetPadHeld((s32 *)a0) & 0x20)) {
+            guess_SetAnimScript((s32 *)a0, (s32)D_800CBB00);
         } else {
-            func_80154274((s32 *)a0, (s32)D_800CBAE0);
+            guess_SetAnimScript((s32 *)a0, (s32)D_800CBAE0);
             ((Unkstruct_80126B58 *)a0)->unk197 += 1;
         }
     }
@@ -122,7 +122,7 @@ extern void func_80159B3C(void *a0);
 #undef SHARED_FN
 
 
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 #define SHARED_FN func_800CB190
 #include "../shared/multi/cls_31791b27f492.h"
 #undef SHARED_FN
@@ -154,7 +154,7 @@ void func_800CB21C(s32 a0) {
     extern void func_8001C2C4(s32 a0);
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80146E90(s32 *a0, s32 a1);
+    extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void func_80146CA0(void *a0);
     extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
@@ -169,7 +169,7 @@ void func_800CB21C(s32 a0) {
         *(u16 *)(iVar2 + 0x14) = ((Unkstruct_80126B58 *)iVar1)->unk104;
         *(u16 *)(iVar2 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)iVar1)->unk20 + 0x12);
         func_80146DE8((s32 *)a0, 0, 0, (s32)0xFFC00000);
-        func_80146E90((s32 *)a0, 0x10);
+        guess_SetWaitTimer_2((s32 *)a0, 0x10);
         func_80146CA0((void *)a0);
     } else {
         ((Fn)func_80162CCC)(a0);
@@ -178,7 +178,7 @@ void func_800CB21C(s32 a0) {
 
 
 void func_800CB2E0(void *arg0) {
-    extern s32 func_80146E98(s32 a0);
+    extern s32 guess_TickWaitTimer_2(s32 a0);
     extern void func_80013F3C(void *a0);
     extern void func_800126C4(s32 a0, s32 a1);
     extern void func_800123F0(s32 a0, s32 a1);
@@ -206,7 +206,7 @@ void func_800CB2E0(void *arg0) {
     a0v = arg0;
     fp = ((Unkstruct_800CB2E0 *)a0v)->unk20;
 
-    if (func_80146E98((s32)a0v)) {
+    if (guess_TickWaitTimer_2((s32)a0v)) {
         do { func_80146A6C(3, a0v, ((Unkstruct_800CB2E0 *)a0v)->unk6, ((Unkstruct_800CB2E0 *)a0v)->unkA, ((Unkstruct_800CB2E0 *)a0v)->unkE, 0, 0x80001C00); } while (0);
     } else {
         u8 *bp;

@@ -3,7 +3,7 @@
 extern s32 func_8017248C(s32 a0, s32 a1);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_80171EC8(s32 a0);
-extern void func_80146D90(s32 a0);
+extern void guess_ClearMoveVector(s32 a0);
 s32 func_80171D78(s32 a0, s32 a1)
 {
     s32 ret;
@@ -11,7 +11,7 @@ s32 func_80171D78(s32 a0, s32 a1)
     s32 p;
     ret = func_8017248C(a0, a1);
     if (ret != 0) {
-        func_80146D90(a0);
+        guess_ClearMoveVector(a0);
         return ret;
     }
     ang = ratan2(*(s16 *)(a1 + 0) - *(s16 *)(a0 + 6),

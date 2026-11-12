@@ -32,25 +32,25 @@ void func_800CAEA0(void *a0) {
 
 extern u8 D_800CBD2C[];
 void func_800CAED8(u8 *a0) {
-    func_80154274(a0, D_800CBD2C);
+    guess_SetAnimScript(a0, D_800CBD2C);
     func_800CBB70(a0);
     ((Unkstruct_80126B58 *)a0)->unkBF = 0;
     ((Unkstruct_80126B58 *)a0)->unkBE = 0;
     func_801655E4(a0);
-    func_80146E90(a0, 0x12);
+    guess_SetWaitTimer_2(a0, 0x12);
     ((Unkstruct_80126B58 *)a0)->unk197 += 1;
 }
 
 
 void func_800CAF3C(void *a0) {
-    extern s32 func_80146E98(s32 a0);
-    if (func_80146E98((s32)a0) != 0) {
+    extern s32 guess_TickWaitTimer_2(s32 a0);
+    if (guess_TickWaitTimer_2((s32)a0) != 0) {
         ((Unkstruct_80126B58 *)a0)->unk197 += 1;
     }
 }
 
 
-extern u16 func_80148800(s32 *param_1);
+extern u16 guess_GetPadPressed(s32 *param_1);
 extern void func_800CB028(s32 param_1);
 
 void func_800CAF7C(s32 *param_1)
@@ -58,7 +58,7 @@ void func_800CAF7C(s32 *param_1)
     u32 v0;
     u8 v1;
 
-    if (func_80148800(param_1) & 0x20) {
+    if (guess_GetPadPressed(param_1) & 0x20) {
         func_800CB028((s32)param_1);
     } else {
         v1 = ((Unkstruct_80126B58 *)param_1)->unkBF;
@@ -179,7 +179,7 @@ void func_800CB23C(void *a0) {
     extern void func_8001CA1C(void *a0, void *a1);
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80146E90(s32 *a0, s16 a1);
+    extern void guess_SetWaitTimer_2(s32 *a0, s16 a1);
     extern void func_80146CA0(void *a0);
     extern void func_800CB758(void *a0);
     extern void func_800CB6CC(void *a0);
@@ -197,7 +197,7 @@ void func_800CB23C(void *a0) {
         *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x14) = ((Unkstruct_80126B58 *)s1)->unk104;
         *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x12);
         func_80146DE8((s32 *)a0, 0, 0x80000, 0xFFF00000);
-        func_80146E90((s32 *)a0, 0x60);
+        guess_SetWaitTimer_2((s32 *)a0, 0x60);
         func_800CB758(a0);
         func_80146CA0(a0);
     } else {
@@ -220,7 +220,7 @@ void func_800CB300(s32 arg0) {
     extern u8 D_80114EC8[];
     extern s32 D_801151D8;
 
-    extern s32 func_80146E98(s32 a0);
+    extern s32 guess_TickWaitTimer_2(s32 a0);
     extern void func_80013F3C(void *a0);
     extern void func_800126C4(s32 a0, s32 a1);
     extern void func_800123F0(s32 a0, s32 a1);
@@ -238,7 +238,7 @@ void func_800CB300(s32 arg0) {
     extern s32 func_800CB7B0(s32 a0);
     extern void func_800CB760(void *a0, s16 a1);
     extern s32 func_8016380C(s32 a0, s32 a1);
-    extern void func_80146E90(s32 *a0, s16 a1);
+    extern void guess_SetWaitTimer_2(s32 *a0, s16 a1);
     extern void func_80147364(u16 a0, s32 a1);
     extern void func_80147324(s32 arg0);
     extern void func_80146CA0(void *a0);
@@ -257,7 +257,7 @@ void func_800CB300(s32 arg0) {
     s0 = ((Unkstruct_800CB300_2 *)s1)->unk20;
     work[0] = *(W8_md_MAIN_025_800CB300 *)D_800CAE0C;
     s2 = (s32)&work;
-    if (func_80146E98(s1) != 0) {
+    if (guess_TickWaitTimer_2(s1) != 0) {
         goto L6A8;
     }
     func_80013F3C(&mat);
@@ -329,7 +329,7 @@ void func_800CB300(s32 arg0) {
     }
     func_80146A6C(0x10, (void *)s1, ((Unkstruct_800CB300_2 *)s1)->unk6, ((Unkstruct_800CB300_2 *)s1)->unkA,
                   ((Unkstruct_800CB300_2 *)s1)->unkE, 0, 0);
-    func_80146E90((s32 *)s1, 0x1E);
+    guess_SetWaitTimer_2((s32 *)s1, 0x1E);
     func_80147364(4, 0x649);
     func_80147324(0x441);
     func_80146CA0((void *)s1);
@@ -351,11 +351,11 @@ void func_800CB6CC(void *a0) {
 
 #include "common.h"
 
-extern s32 func_80146E98(s32 a0);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_80162CCC(u8 * a0);
 
 void func_800CB708(void *a0) {
-    if (func_80146E98((s32)a0) != 0) {
+    if (guess_TickWaitTimer_2((s32)a0) != 0) {
         func_80162CCC(a0);
         return;
     }
@@ -453,14 +453,14 @@ void func_800CB8A4(void *a0) {
             func_8001CB00(s0, D_800CBF20, 0x1A0, 0x170);
             func_800CBB50(s0);
             ((Unkstruct_800CB8A4_4 *)s0)->unk18 = 0;
-            func_80146E90(s1, 6);
+            guess_SetWaitTimer_2(s1, 6);
             func_80146CA0(s1);
         }
     }
 }
 
 
-extern s32 func_80146E98(s32 a0);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_8001CBDC(s32 a0, void *a1, s32 a2, s32 a3);
 extern void func_800CBB50(void *a0);
 extern void func_80146CA0(void *a0);
@@ -473,7 +473,7 @@ void func_800CB968(void *a0) {
 
     s2 = CAST_SIGN(void *, (s32)a0, 0x20);
     s0 = CAST_SIGN(void *, (s32)a0, 0x10);
-    v0 = func_80146E98((s32)a0);
+    v0 = guess_TickWaitTimer_2((s32)a0);
     if (v0 != 0) {
         if (s0 != 0) {
             func_8001CBDC((s32)s0, D_800CBF20, 0x1A0, 0x170);
@@ -495,19 +495,19 @@ void func_800CBA14(void *a0) {
 }
 
 
-extern void func_80146E90(s32 *a0, s16 a1);
+extern void guess_SetWaitTimer_2(s32 *a0, s16 a1);
 extern void func_80146CA0(void *a0);
 void func_800CBA2C(s32 *a0) {
-    func_80146E90(a0, 8);
+    guess_SetWaitTimer_2(a0, 8);
     func_80146CA0(a0);
 }
 
 
 void func_800CBA60(void *a0) {
-    extern s32 func_80146E98(s32 a0);
+    extern s32 guess_TickWaitTimer_2(s32 a0);
     extern void func_8001CB00(s32 a0, void *a1, s32 a2, s32 a3);
     extern void func_800CBB50(void *a0);
-    extern void func_80146E90(s32 *a0, s16 a1);
+    extern void guess_SetWaitTimer_2(s32 *a0, s16 a1);
     extern void func_80146CA0(void *a0);
     extern u8 D_800CBF20[];
     void *s2;
@@ -515,13 +515,13 @@ void func_800CBA60(void *a0) {
 
     s2 = CAST_SIGN(void *, (s32)a0, 0x20);
     s0 = CAST_SIGN(void *, (s32)a0, 0x10);
-    if (func_80146E98((s32)a0) != 0) {
+    if (guess_TickWaitTimer_2((s32)a0) != 0) {
         if (s0 != 0) {
             func_8001CB00((s32)s0, D_800CBF20, 0x1A0, 0x170);
             func_800CBB50(s0);
         }
         CAST_WIDTH(s32, (s32)s2, 4) |= 0x80000000;
-        func_80146E90((s32 *)a0, 4);
+        guess_SetWaitTimer_2((s32 *)a0, 4);
         func_80146CA0(a0);
     }
 }
@@ -530,11 +530,11 @@ void func_800CBA60(void *a0) {
 void func_800CBAF4(void *a0)
 {
     s32 s0;
-    extern s32 func_80146E98(s32 a0);
+    extern s32 guess_TickWaitTimer_2(s32 a0);
     extern void func_800CBBF8();
 
     s0 = ((Unkstruct_80126B58 *)a0)->unk10;
-    if (func_80146E98((s32)a0) != 0) {
+    if (guess_TickWaitTimer_2((s32)a0) != 0) {
         func_800CBBF8();
     } else if (s0 != 0) {
         *(u16 *)((s32)s0 + 0x1A) = *(u16 *)((s32)s0 + 0x1A) - 0x400;

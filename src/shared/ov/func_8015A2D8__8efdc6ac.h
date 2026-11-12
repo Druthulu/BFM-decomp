@@ -4,27 +4,27 @@ void func_8015A2D8(s32 param_1)
 {
     unsigned char bVar1;
 
-    ((void (*)(int, int *))func_80146DB8)(param_1, &D_801810D4);
+    ((void (*)(int, int *))guess_SetMoveVector)(param_1, &D_801810D4);
     if ((*(unsigned int *)(param_1 + 0x44) & 0x200) != 0) {
-        func_80154150(param_1, 10);
-        func_80154A74(param_1, 0x1c);
+        guess_SetAnim(param_1, 10);
+        guess_SetTexAnim(param_1, 0x1c);
         *(int *)(param_1 + 0x2c) = 0xfffc0000;
         goto LAB_8015a38c;
     }
     bVar1 = *(unsigned char *)(param_1 + 0xa9);
     switch (bVar1) {
     case 0x41:
-        func_80154150(param_1, 7);
+        guess_SetAnim(param_1, 7);
         break;
     case 0x53:
     case 0x73:
-        func_80154150(param_1, 6);
+        guess_SetAnim(param_1, 6);
         break;
     default:
         *(int *)(param_1 + 0x23c) = 0;
         goto LAB_8015a390;
     }
-    func_80154A74(param_1, 0x21);
+    guess_SetTexAnim(param_1, 0x21);
 LAB_8015a38c:
     *(int *)(param_1 + 0x23c) = 0;
 LAB_8015a390:

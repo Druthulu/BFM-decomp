@@ -5,7 +5,7 @@ void func_80160D10(void *arg0) {
         D_80181160[*(u16 *)arg0](arg0);
     } else {
         if (*(s32 *)((u8 *)arg0 + 0x1AC) == 0) {
-            if ((((s32 (*)(void *))func_80148800)(arg0) & 0xF0) == 0) {
+            if ((((s32 (*)(void *))guess_GetPadPressed)(arg0) & 0xF0) == 0) {
                 goto dd0;
             }
         } else {

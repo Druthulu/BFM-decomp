@@ -5,7 +5,7 @@ void func_80151664(s32 a0v) {
     s32 v1;
 
     s0 = a0v;
-    func_80154A74(s0, 0x11);
+    guess_SetTexAnim(s0, 0x11);
     func_801553C0(s0);
     func_801470AC((s32 *)s0);
     func_801472B4((void *)s0);
@@ -19,6 +19,6 @@ void func_80151664(s32 a0v) {
     *(s16 *)(s0 + 0x60) = 0x1000;
     *(s16 *)(s0 + 0x62) = 0x1000;
     *(s16 *)(s0 + 0x64) = 0x1000;
-    func_801477E8((s32 *)s0, 0);
+    guess_SetVertSpeed((s32 *)s0, 0);
     func_80153C18(s0);
 }

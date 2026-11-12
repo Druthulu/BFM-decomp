@@ -6,13 +6,13 @@ void SHARED_FN(s32 *a0) {
     s32 v1;
     s32 tmp0;
 
-    if (func_80146E98((s32)a0) != 0) {
+    if (guess_TickWaitTimer_2((s32)a0) != 0) {
         v1 = 0x7FFFFFFF;
         tmp0 = CAST_WIDTH(s32, (s32)s1, 0x4);
         v0 = tmp0;
         v0 = v0 & v1;
         CAST_WIDTH(s32, (s32)s1, 0x4) = v0;
-        func_80146E90(a0, 0x10);
+        guess_SetWaitTimer_2(a0, 0x10);
 
         v0 = ((Unkstruct_80126B58 *)a0)->unk2;
         v0 = v0 + 1;

@@ -5,7 +5,7 @@ void func_80160534(u8 *p) {
     extern s16 guess_g_CameraRelativeYaw;
     func_80149020((s32 *)p);
     func_80149034((s32 *)p);
-    if ((D_80078EC0 & 0x7F) != 0 && (func_80148800((s32 *)p) & 0x90) != 0) {
+    if ((D_80078EC0 & 0x7F) != 0 && (guess_GetPadPressed((s32 *)p) & 0x90) != 0) {
         if (D_80078EBF == 0x80) {
             D_80181914[*(u16 *)p](p);
             guess_SetState((s32 *)p, 0x13);
@@ -23,8 +23,8 @@ void func_80160534(u8 *p) {
         func_80149AD4((s32 *)p);
         return;
     }
-    if (func_80146E98((s32)p) != 0) {
-        if ((func_801487F4((s32 *)p) & 8) != 0) {
+    if (guess_TickWaitTimer_2((s32)p) != 0) {
+        if ((guess_GetPadHeld((s32 *)p) & 8) != 0) {
             D_80181914[*(u16 *)p](p);
             guess_SetState((s32 *)p, 0x11);
             func_8015E9B8((s32 *)p);

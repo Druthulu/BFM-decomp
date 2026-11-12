@@ -11,5 +11,5 @@ void SHARED_FN(s32 a0, s32 a1)
     vel[0] = 0;
     vel[2] = a1;
     RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), &mtx);
-    func_800484EC((s32)&mtx, (s32)&vel[0], a0 + 0x10);
+    ApplyMatrixLV((s32)&mtx, (s32)&vel[0], a0 + 0x10);
 }

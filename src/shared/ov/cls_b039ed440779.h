@@ -4,6 +4,9 @@
  * rank 3 src/ov_SC01_000/ov_SC01_000_jr_8012ACE0.c:341 rejected by type_census --check
  * rank 4 src/shared/ov/func_8012BF4C.h rejected by type_census --check
  * rank 5 src/shared/ov/func_80146E90.h rejected by type_census --check */
+/* guess_SetWaitTimer (0x8012BF4C), guess_SetWaitTimer_2 (0x80146E90): sets the timer word at +0x1C to a1
+ * Confidence high, xref chain: *(a0 + 0x1C) = a1; guess_TickWaitTimer counts that word down to 0
+ * Names ledger: config/names.tsv guess_SetWaitTimer, guess_SetWaitTimer_2 */
 void SHARED_FN(s32 *a0, s32 a1) {
     ((Unkstruct_8012BF4C *)a0)->unk1C = a1;
 }

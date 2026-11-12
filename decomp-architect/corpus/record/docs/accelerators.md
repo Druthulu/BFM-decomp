@@ -912,7 +912,7 @@ still held the `cc1.err` of its last replay; reading its non-warning lines gave 
 303 rejection lines had hidden behind "Error 33". (2) **Measure a disagreement between two oracles before believing either:** the text
 oracle's 4,312 hits decomposed into twin false positives (3,495), the gate-1 deferral (380), and 38 genuine byte-variant functions —
 each a different action. (3) **A known-true control per join:** the registry repair's first cut removed 9,269 members; one control
-(`ov_SC01_004` includes `func_80146E90`) exposed the name-only match. (4) **One batch per invocation on a committed tree** turns a
+(`ov_SC01_004` includes `guess_SetWaitTimer_2`) exposed the name-only match. (4) **One batch per invocation on a committed tree** turns a
 multi-batch tool's hardest bug (stale line numbers + a restore that wipes the previous batch) into a non-event; the driver commits
 between batches. (5) **The census's per-instance forms are the registry check's C2d for free** (one cached scan, 36 s) — derive, don't
 re-parse (R33).

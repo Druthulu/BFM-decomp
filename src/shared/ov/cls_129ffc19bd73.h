@@ -29,6 +29,6 @@ void SHARED_FN(s32 param_1) {
     if (obj == 0) {
         return;
     }
-    func_8012BF4C((s32 *)param_1, (rand() & 0x7F) + 0x60);
+    guess_SetWaitTimer((s32 *)param_1, (rand() & 0x7F) + 0x60);
     ((Unkstruct_800B5CB8 *)obj)->unk2E = CAST_SIGN(u16, param_1, 0xFC);
 }

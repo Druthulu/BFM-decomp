@@ -3,7 +3,7 @@
 extern void func_80182BD0();
 extern void func_80147324(s32 a0);
 extern void func_80182CB4(s32 a0);
-extern void func_80154274(s32 *a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_80154B4C(u8 *a0, s32 a1);
 extern u8 D_8018EC34[];
 extern u8 D_8018ED10[];
@@ -24,7 +24,7 @@ void func_801829F8(s32 a0) {
     }
     if (*(u16 *)(a0 + 0xB8) == 0x8000) {
         func_80182CB4(a0);
-        func_80154274((s32 *)a0, (s32)D_8018EC34);
+        guess_SetAnimScript((s32 *)a0, (s32)D_8018EC34);
         func_80154B4C((u8 *)a0, (s32)D_8018ED10);
         *(u8 *)(a0 + 0x214) = *(u8 *)(a0 + 0x214) + 1;
     }

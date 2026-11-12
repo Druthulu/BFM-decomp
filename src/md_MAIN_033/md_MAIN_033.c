@@ -28,13 +28,13 @@ extern void func_800CAED0(u8 *a0);
 #include "../shared/slot_800CAE08/func_800CAE88__34360208.h"
 
 
-extern void func_80154274(s32 *a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_801655E4(s32 a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_800CB858;
 
 void func_800CAED0(u8 *a0) {
-    func_80154274((s32 *)a0, (s32)&D_800CB858);
+    guess_SetAnimScript((s32 *)a0, (s32)&D_800CB858);
     func_801655E4((s32)a0);
     func_80156648((s32 *)a0);
     ((Unkstruct_80126B58 *)a0)->unk1AA = 1;
@@ -96,7 +96,7 @@ void func_800CB058(s32 arg0)
     extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80146E90(s32 *a0, s32 a1);
+    extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void func_80146CA0(void *a0);
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern void func_80147324(s32 a0);
@@ -131,7 +131,7 @@ void func_800CB058(s32 arg0)
     CAST_WIDTH(s32, s0a, 0x34) = (s32)D_800CB988 + ((cnt & 7) * 32);
     guess_TransformPosByObjMatrix(p, q);
     func_80146DE8(s1a, 0, 0, -0x100000);
-    func_80146E90(s1a, 0x3C);
+    guess_SetWaitTimer_2(s1a, 0x3C);
     func_80146CA0(s1a);
     func_80146A6C(0x4A, s1a, *(s16 *)(s1a + 6), *(s16 *)(s1a + 0xA), *(s16 *)(s1a + 0xE), 0, 0);
     func_80147324(0x8EF);
@@ -144,7 +144,7 @@ fail:
 void func_800CB190(void *arg0) {
     extern void func_80147324(s32);
     extern void func_80146CA0(s32 *);
-    extern s32 func_80146E98(s32);
+    extern s32 guess_TickWaitTimer_2(s32);
     extern void func_8001382C(s32, void *, void *);
     extern s32 func_80012ABC(s32, s32, s32);
     extern void func_80162FC0(s32 *);
@@ -187,7 +187,7 @@ void func_800CB190(void *arg0) {
     ((Unkstruct_80126B58 *)arg0)->unk18 = out[2];
 
     func_80162FC0((s32 *)arg0);
-    if (func_80146E98((s32)arg0) == 0) {
+    if (guess_TickWaitTimer_2((s32)arg0) == 0) {
         acc = 0;
         for (i = 0; i < 3; i++) {
             acc |= func_800CB3D8((s32)arg0, (s32)&D_800CB8CC + i * 8);
@@ -244,13 +244,13 @@ void func_800CB384(void) {
 }
 
 
-extern void func_80049CAC(s32 arg0, s32 arg1);
+extern void RotMatrixZYX(s32 arg0, s32 arg1);
 
 void func_800CB3A4(void *arg0) {
     s32 temp_v0 = *(s32 *)((s32)arg0 + 0x20);
 
     if (temp_v0 != 0) {
-        func_80049CAC(temp_v0 + 0x10, *(s32 *)(temp_v0 + 0x34));
+        RotMatrixZYX(temp_v0 + 0x10, *(s32 *)(temp_v0 + 0x34));
     }
 }
 
@@ -400,7 +400,7 @@ void func_800CB720(void *arg0) {
 
 
 void func_800CB76C(void *arg0) {
-    extern void func_80049CAC(s32 a0, s32 a1);
+    extern void RotMatrixZYX(s32 a0, s32 a1);
     extern void func_800139C8(s32 a0, void *a1, void *a2);
     extern u8 D_800CB8FC[];
     s32 s2 = (s32)arg0;
@@ -416,7 +416,7 @@ void func_800CB76C(void *arg0) {
     s1 = ((Unkstruct_800CB76C_3 *)s3)->unk20;
     if (s0 != 0) {
         ((Unkstruct_800CB76C *)s0)->unk12 = *(u16 *)(s1 + 0x12);
-        func_80049CAC((s32)s0 + 0x10, ((Unkstruct_800CB76C *)s0)->unk34);
+        RotMatrixZYX((s32)s0 + 0x10, ((Unkstruct_800CB76C *)s0)->unk34);
         v = *(s16 *)(s1 + 0x1A);
         q = (v * 180) / 100;
         ((Unkstruct_800CB76C *)s0)->unk1A = q;

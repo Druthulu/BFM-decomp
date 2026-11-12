@@ -30,7 +30,7 @@ void func_8015FF20(void *param_1) {
         func_80165670((s32)param_1, cur);
         ((void (*)(void *))func_80165840)(param_1);
         ((void (*)(void *))func_801658DC)(param_1);
-        func_80154A74((s32)param_1, 0x11);
+        guess_SetTexAnim((s32)param_1, 0x11);
         D_801270C0 = 1;
     }
 

@@ -5,7 +5,7 @@ void SHARED_FN(s32 a0) {
     func_8014C010(a0, 2);
     if (((Unkstruct_80126B58 *)a0)->unk2C > 0) {
         ((void (*)(s32))func_8001AAA0)(0x6B);
-        func_80154150(a0, 1);
+        guess_SetAnim(a0, 1);
         func_80171A1C((u8 *)a0);
         func_80174650(a0);
     }

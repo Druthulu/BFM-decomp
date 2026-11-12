@@ -38,7 +38,7 @@ INCLUDE_ASM("asm/nonmatchings/libgs6", func_800544F8);
 
 /* GsGetLw: PsyQ libgs: computes the local-to-world matrix of a GsCOORDINATE2
  * Cited, library symbol: linked PsyQ symbol at this address (build/us/SLUS_007.26.map)
- * Names ledger: config/names.tsv GsGetLw; Citation: build/us/SLUS_007.26.map:2317 (GsGetLw, linked PsyQ libgs object) */
+ * Names ledger: config/names.tsv GsGetLw; Citation: build/us/SLUS_007.26.map:2318 (GsGetLw, linked PsyQ libgs object) */
 INCLUDE_ASM("asm/nonmatchings/libgs6", GsGetLw);
 
 INCLUDE_ASM("asm/nonmatchings/libgs6", GS_133_OBJ_30);

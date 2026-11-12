@@ -136,11 +136,11 @@ extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
 extern void func_80146D80(s32 *a0);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
-extern void func_80146D90(s32 a0);
-extern void func_80146DB8(s32 *a0, s32 *a1);
+extern void guess_ClearMoveVector(s32 a0);
+extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void func_80146DF8(s32 *a0, s32 a1, s32 a2, s32 a3, s32 t0);
-extern void func_80146E90(s32 *a0, s32 a1);
-extern s32 func_80146E98(s32 a0);
+extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
+extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_80015954(s32 a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146F58(s32 a0, s32 a1);
@@ -177,12 +177,12 @@ extern void func_80147364(u16, s32);
 extern void func_80147300(u16 arg0);
 extern void func_80147324(s32 arg0);
 extern void guess_ApplyVelocity(s32 *a0);
-extern void func_80147460(s32 a0);
+extern void guess_ApplyVertSpeed(s32 a0);
 extern void func_80147514(s32 arg0);
 extern void func_80147628(s32 a0);
 extern void func_80147478(s32 a0);
 extern void func_801474D8(s32 *a0);
-extern void func_801474EC(s32 *a0);
+extern void guess_ClearTiltVectors(s32 *a0);
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern void func_800129CC(s32 a0, s32 a1);
 extern void func_80147514(s32 arg0);
@@ -194,7 +194,7 @@ extern void func_80147718(s32 a0);
 extern void func_80147788(void *a0, s32 a1);
 extern void func_801477A8(void *a0, s32 a1);
 extern void func_801477C8(void *a0, s32 a1);
-extern void func_801477E8(s32 *a0, s32 a1);
+extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80147814(s32 a0, s32 a1);
 extern void func_80147928(int a0, int a1);
 extern void func_8014799C(int a0, int a1);
@@ -220,11 +220,11 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
-extern void func_80148038(s32 a0, s32 a1);
+extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern s32 ratan2(s32 a0, s32 a1);
 extern s32 csqrt(s32 a0);
 extern s32 func_80012A60(s32 a0, s32 a1);
@@ -244,13 +244,13 @@ extern s32 func_80014D94(s32 a0);
 extern u8 func_80014CF8(u32 a0, u32 a1);
 extern void func_800120DC(u16 *arg0, u16 *arg1);
 extern s32 func_800CF8B4();
-extern u16 func_801487F4(s32 *a0);
-extern u16 func_80148800(s32 *a0);
+extern u16 guess_GetPadHeld(s32 *a0);
+extern u16 guess_GetPadPressed(s32 *a0);
 extern u8 func_8014880C(s32 *a0);
 extern u16 func_80148818(s32 *a0);
 extern s32 func_80047D3C(s32 a0);
 extern s32 func_80148824(void *arg0);
-extern s32 func_801488A8(u8 *a0);
+extern s32 guess_IsDirectionHeld(u8 *a0);
 extern s32 func_8014891C(s32 a0);
 extern s32 func_80148980(u8 *a0);
 extern s32 func_801489E8(s32 a0);
@@ -318,7 +318,7 @@ extern void func_80149544(s32 arg0, s32 arg1, s32 arg2);
 extern s32 func_8012EFB8(void *param_1, void *param_2);
 extern void func_80149584(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8014964C(s32 param_1, s32 param_2);
-extern s32 func_801496D4(void *a0);
+extern s32 guess_IsConfirmPressed(void *a0);
 extern void func_8015AD08(void *arg0);
 extern void func_80149704(void);
 extern void func_8015ACC4(s32 *arg0);
@@ -552,7 +552,7 @@ extern s32 D_80126CDC;
 extern void func_8014CBD8(void);
 extern s16 D_80126CC4;
 extern void func_8014CBE8(void);
-extern void func_8014CBF8(void *a0);
+extern void guess_ClearStoodOnActor(void *a0);
 extern void func_8014D3E0(s32 a0);
 extern void func_8014D04C(void);
 extern void func_8014CCB4(void);
@@ -733,8 +733,8 @@ extern void func_801519C8(s32 a0);
 extern void func_80151980(s32 a0);
 extern M2C_UNK D_800D5880;
 extern s32 D_800D58AC;
-extern void func_80154274(s32 *a0, s32 a1);
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801519C8(s32 arg0);
 extern void func_80151C54(s32 a0);
 extern void func_801542DC(s32 *a0, s32 a1);
@@ -767,7 +767,7 @@ extern void func_801470B4(s32 a0);
 extern void func_8015369C(s32 a0);
 extern void func_80152194(s32 *a0);
 extern s32 func_801536DC(s32 a0);
-extern void func_8015220C(s32 a0);
+extern void guess_EaseToSavedPosThenNextStep(s32 a0);
 extern s32 func_80153800(s32 a0);
 extern void func_801522CC(s32 a0);
 extern void func_80152254(s32 *a0);
@@ -795,7 +795,7 @@ extern void func_80152868(s32 a0);
 extern M2C_UNK D_8018086C;
 extern void func_801528B0(s32 arg0);
 extern void func_8015294C(s32 a0);
-extern void func_80152A08(s32 a0);
+extern void guess_EaseToSavedPosThenNextStep_2(s32 a0);
 extern void func_80152AC8(s32 a0);
 extern void func_80152A50(s32 *a0);
 extern void (*D_80180890[])(void);
@@ -811,7 +811,7 @@ extern void func_80152D60(s32 a0);
 extern M2C_UNK D_8018089C;
 extern void func_80152DA8(s32 arg0);
 extern void func_80152E4C(s32 a0);
-extern void func_80152EFC(s32 a0);
+extern void guess_EaseToSavedPosThenNextStep_3(s32 a0);
 extern void func_80152FBC(s32 a0);
 extern void func_80152F44(s32 *a0);
 extern void (*D_801808C0[])(void);
@@ -821,7 +821,7 @@ extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
 extern void func_801530E4(s32 arg0);
 extern void func_80153150(struct S80153150 *a0);
-extern void func_801531BC(s32 a0);
+extern void guess_EaseToSavedPosThenNextStep_4(s32 a0);
 extern void func_8015327C(s32 a0);
 extern void func_80153204(s32 *a0);
 extern void (*D_801808D4[])(void);
@@ -829,7 +829,7 @@ extern void func_80153320(void *a0);
 extern void func_801533A4(s32 a0);
 extern void func_8015335C(s32 a0);
 extern void func_80153410(s32 *a0);
-extern void func_80153490(s32 a0);
+extern void guess_EaseToSavedPosThenNextStep_5(s32 a0);
 extern void func_80153550(s32 a0);
 extern void func_801534D8(s32 *a0);
 extern void (*D_8011DB28)(s32 a0);
@@ -865,7 +865,7 @@ extern void func_80153E00(s32 param_1);
 extern void func_80151664(s32 a0v);
 extern void func_80154134(u8 *a0);
 extern void func_80154190(u8 *a0, s32 a1);
-extern void func_80154150(s32 a0, s32 a1);
+extern void guess_SetAnim(s32 a0, s32 a1);
 extern void func_80154218(u8 *a0, s32 a1, s32 a2);
 extern void func_801541D8(u8 *a0, s32 a1, s32 a2);
 extern s32 func_801549F8(s32 a0, s32 a1, s32 a2);
@@ -997,12 +997,12 @@ extern u8 D_800D5128;
 extern u8 D_80180DDC;
 extern void func_801578C0(s32 param_1);
 extern void func_80147A84(int);
-extern void func_80148038(int, int);
-extern void func_80147460(int);
-extern void func_80146D90(int);
+extern void guess_AddVertSpeed(int, int);
+extern void guess_ApplyVertSpeed(int);
+extern void guess_ClearMoveVector(int);
 extern void func_80161450(void *a0);
 extern void func_80157A8C(int);
-extern void func_80154A74(int, int);
+extern void guess_SetTexAnim(int, int);
 extern unsigned char D_800D5178;
 extern unsigned char D_80180DEC;
 extern void func_8015795C(int param_1);
@@ -1188,14 +1188,14 @@ extern void func_8015ADB0(s32 arg0);
  * object emits exactly 28 B; the pad must stay in the raw post-carve data piece.
  */
 extern s32 func_80161A60(s32 a0);
-extern u16 func_801487F4(s32 *a0);
+extern u16 guess_GetPadHeld(s32 *a0);
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_801619A4(s32 *a0);
 extern s32 func_80149C08(s32 a0);
 extern void func_801577C8(s32 arg0);
 extern s32 func_8015B6F4(s32 a0);
 extern s32 func_8015B7B4(s32 a0);
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_8015B8F8(s32 *a0);
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_801498E0(s32 *a0);
@@ -1204,17 +1204,17 @@ extern s32 func_80149A64(s32 *a0);
 extern void func_800CCCC0(s32 a0);
 extern int func_80155FF8(int arg, int a1);
 extern s32 func_8015B858(u8 *a0);
-extern void func_80148038(s32 a0, s32 a1);
-extern void func_80147460(s32 a0);
+extern void guess_AddVertSpeed(s32 a0, s32 a1);
+extern void guess_ApplyVertSpeed(s32 a0);
 extern void func_80147814(s32 a0, s32 a1);
 extern s32 func_800CF8B4(void);
 extern s32 guess_GetCameraYaw(s32 a0);
 extern int func_80148AFC(void *a0);
 extern s32 func_80149184(s32 a0);
-extern void func_80146E90(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80147A30(s32 a0, s32 a1, s32 a2);
-extern s32 func_80146E98(s32 a0);
-extern void func_80146D90(s32 a0);
+extern s32 guess_TickWaitTimer_2(s32 a0);
+extern void guess_ClearMoveVector(s32 a0);
 extern void func_80147A84(s32 a0);
 extern void guess_ApplyVelocity(s32 *a0);
 extern s32 func_80172644(u8 *a0);
@@ -1222,8 +1222,8 @@ extern void func_80147AD4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_801541D8(u8 *a0, s32 a1, s32 a2);
 extern s32 func_8014C050(s32 a0, s32 a1);
 extern void func_800CCB78(s32 a0);
-extern void func_80154150(s32 a0, s32 a1);
-extern void func_80154274(s32 *a0, s32 a1);
+extern void guess_SetAnim(s32 a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 func_80161488(void *a0);
 extern void func_80146CA0(void *a0);
 extern s32 func_8014A674(s32 *a0);
@@ -1253,7 +1253,7 @@ s32 arg0;
     s32 t;
 
     flag = 0;
-    if ((func_80161A60(arg0) != 0) && (((s32 (*)(s32))func_801487F4)(arg0) & 0x40) && (((Unkstruct_80126B58 *)arg0)->unk34 >= 0)) {
+    if ((func_80161A60(arg0) != 0) && (((s32 (*)(s32))guess_GetPadHeld)(arg0) & 0x40) && (((Unkstruct_80126B58 *)arg0)->unk34 >= 0)) {
         flag = 1;
         if (((Unkstruct_80126B58 *)arg0)->unk5C == 0) {
             ((Unkstruct_80126B58 *)arg0)->unk58 = 0;
@@ -1286,7 +1286,7 @@ s32 arg0;
                 }
             } else {
                 if (((Unkstruct_80126B58 *)arg0)->unkB8 == 0x8000) {
-                    func_80154A74(arg0, 0x22);
+                    guess_SetTexAnim(arg0, 0x22);
                     ((void (*)(s32))func_8015B8F8)(arg0);
                     ((Unkstruct_80126B58 *)arg0)->unk44 &= ~2;
                     if (flag != 0) {
@@ -1328,10 +1328,10 @@ s32 arg0;
         }
     }
     if (((Unkstruct_80126B58 *)arg0)->unk1C6 != 0) {
-        if (((s32 (*)(s32))func_801487F4)(arg0) & 0x40) {
-            func_80148038(arg0, 0xFFFE6000);
+        if (((s32 (*)(s32))guess_GetPadHeld)(arg0) & 0x40) {
+            guess_AddVertSpeed(arg0, 0xFFFE6000);
         } else {
-            func_80148038(arg0, 0x1A000);
+            guess_AddVertSpeed(arg0, 0x1A000);
         }
         lim = 0x40000;
         if ((((Unkstruct_80126B58 *)arg0)->unkB4 != (s32)&D_800D4E94) &&
@@ -1344,10 +1344,10 @@ s32 arg0;
         } else if (lim < ((Unkstruct_80126B58 *)arg0)->unk34) {
             ((Unkstruct_80126B58 *)arg0)->unk34 = lim;
         }
-        func_80147460(arg0);
+        guess_ApplyVertSpeed(arg0);
     } else {
         if (((Unkstruct_80126B58 *)arg0)->unk34 < 0) {
-            if (((s32 (*)(s32))func_801487F4)(arg0) & 0x40) {
+            if (((s32 (*)(s32))guess_GetPadHeld)(arg0) & 0x40) {
                 func_80147814(arg0, 0xFFFF0000);
             }
             func_80147814(arg0, 0x10000);
@@ -1359,7 +1359,7 @@ s32 arg0;
     if (flag == 0) {
         if ((u8)((s32 (*)(s32))func_80148AFC)(arg0)) {
             (*(u16 *)&guess_g_CameraRelativeYaw) = func_80149184(arg0);
-            ((void (*)(s32, s32))func_80146E90)(arg0, 4);
+            ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 4);
             if (((Unkstruct_80126B58 *)arg0)->unk2C > -0x80000) {
                 ((Unkstruct_80126B58 *)arg0)->unk2C = -0x80000;
                 func_80147A30(arg0, -0x10000, 0xBA000);
@@ -1367,21 +1367,21 @@ s32 arg0;
                 func_80147A30(arg0, -0x1000, 0xBA000);
             }
         } else {
-            if (func_80146E98(arg0) != 0) {
-                func_80146D90(arg0);
+            if (guess_TickWaitTimer_2(arg0) != 0) {
+                guess_ClearMoveVector(arg0);
             }
         }
         func_80147A84(arg0);
         ((void (*)(s32))guess_ApplyVelocity)(arg0);
         if (((Unkstruct_80126B58 *)arg0)->unk1C6 == 0) {
-            func_80148038(arg0, 0x1A000);
-            func_80147460(arg0);
+            guess_AddVertSpeed(arg0, 0x1A000);
+            guess_ApplyVertSpeed(arg0);
         }
     } else {
         ((void (*)(s32))func_80172644)(arg0);
         if ((u8)((s32 (*)(s32))func_80148AFC)(arg0)) {
             (*(u16 *)&guess_g_CameraRelativeYaw) = func_80149184(arg0);
-            func_80146D90(arg0);
+            guess_ClearMoveVector(arg0);
             func_80147AD4(arg0, 0, 0, 0xFFFF4000);
             ((Unkstruct_80126B58 *)arg0)->unk50 += ((Unkstruct_80126B58 *)arg0)->unk10;
             ((Unkstruct_80126B58 *)arg0)->unk54 += ((Unkstruct_80126B58 *)arg0)->unk14;
@@ -1469,19 +1469,19 @@ s32 arg0;
     }
     if (((Unkstruct_80126B58 *)arg0)->unk1B0 != 0) {
         if (((Unkstruct_80126B58 *)arg0)->unk1B0 == 1) {
-            func_80154A74(arg0, 0x22);
-            func_80154150(arg0, 0xF);
+            guess_SetTexAnim(arg0, 0x22);
+            guess_SetAnim(arg0, 0xF);
         } else {
-            ((void (*)(s32, s32))func_80154274)(arg0, ((Unkstruct_80126B58 *)arg0)->unk1B4);
+            ((void (*)(s32, s32))guess_SetAnimScript)(arg0, ((Unkstruct_80126B58 *)arg0)->unk1B4);
         }
     }
     r = ((s32 (*)(s32))func_80161488)(arg0);
     if (r & 5) {
         ((Unkstruct_80126B58 *)arg0)->unk44 &= ~2;
         if (((Unkstruct_80126B58 *)arg0)->unkB4 == (s32)&D_800D4A9C) {
-            func_80154150(arg0, 0xE);
+            guess_SetAnim(arg0, 0xE);
         } else {
-            func_80154150(arg0, 0x10);
+            guess_SetAnim(arg0, 0x10);
         }
         ((void (*)(s32))func_80146CA0)(arg0);
     }
@@ -1617,20 +1617,20 @@ extern s32 func_80149CD4(s32 a0);
 extern void func_8015E880(s32*);
 extern s32 func_80149744(struct S_80149744*);
 extern void func_80149788(void);
-extern s32 func_801496D4(void*);
+extern s32 guess_IsConfirmPressed(void*);
 extern void func_80149704(void);
 extern int func_80148AFC(void*);
-extern void func_80146D90(s32 a0);
-extern void func_80154150(s32 a0, s32 a1);
+extern void guess_ClearMoveVector(s32 a0);
+extern void guess_SetAnim(s32 a0, s32 a1);
 extern void func_801541D8(u8*, s32, s32);
-extern s32 func_801488A8(u8*);
+extern s32 guess_IsDirectionHeld(u8*);
 extern void guess_SetState(s32*, s16);
 extern void func_8015A264(void*);
 extern s32 func_80013294(void*, void*);
 extern void func_80159B70(void*);
 extern s32 func_8016F1AC(void);
 extern s32 guess_TestGameFlag(s32 a0);
-extern void func_80146DB8(s32*, s32*);
+extern void guess_SetMoveVector(s32*, s32*);
 extern void func_80161CD0(s32, s32);
 extern s32 func_80161208(s32 a0);
 extern s32 func_801725A4(u8*);
@@ -1689,21 +1689,21 @@ s32 func_8015B950(s32 arg0)
         ((void (*)(s32))func_80149788)(arg0);
         return;
     }
-    if (((s32 (*)(s32))func_801496D4)(arg0) != 0) {
+    if (((s32 (*)(s32))guess_IsConfirmPressed)(arg0) != 0) {
         D_8018118C[((Unkstruct_80126B58 *)arg0)->unk0]((void *)arg0);
         ((void (*)(s32))func_80149704)(arg0);
         if (((u8)((s32 (*)(s32))func_80148AFC)(arg0)) == 0) {
-            func_80146D90(arg0);
+            guess_ClearMoveVector(arg0);
         }
         if ((CAST_WIDTH(s32, arg0, 0x24) | ((Unkstruct_80126B58 *)arg0)->unk2C) != 0) {
-            func_80154150(arg0, 0xF);
+            guess_SetAnim(arg0, 0xF);
         } else {
             ((void (*)(s32, s32, s32))func_801541D8)(arg0, 0xD, 6);
         }
         ((Unkstruct_80126B58 *)arg0)->unk238 = 1;
         return;
     }
-    if (((s32 (*)(s32))func_801488A8)(arg0) != 0) {
+    if (((s32 (*)(s32))guess_IsDirectionHeld)(arg0) != 0) {
         sp10[0] = 0;
         sp10[1] = 0;
         sp10[2] = 0;
@@ -1750,8 +1750,8 @@ join:
         D_8018118C[((Unkstruct_80126B58 *)arg0)->unk0]((void *)arg0);
         ((void (*)(s32, s32))guess_SetState)(arg0, 0);
         ((void (*)(s32))func_80159B70)(arg0);
-        func_80154150(arg0, 9);
-        ((void (*)(s32, s32 *))func_80146DB8)(arg0, &D_80181120);
+        guess_SetAnim(arg0, 9);
+        ((void (*)(s32, s32 *))guess_SetMoveVector)(arg0, &D_80181120);
         ((void (*)(s32, s32))func_80161CD0)(arg0, ((Unkstruct_80126B58 *)arg0)->unk16E);
         return;
     }
@@ -1841,7 +1841,7 @@ s32 func_8015C128(s32 param_1) {
     }
     ((void(*)(int, int *, int *))func_8001382C)((short)(-*(unsigned short *)(((Unkstruct_8015C128 *)param_1)->unk20 + 0x12)),
                   (int *)(((int)param_1) + 0x234), sp20);
-    ((void(*)(int, int *))func_80146DB8)(((int)param_1), sp20);
+    ((void(*)(int, int *))guess_SetMoveVector)(((int)param_1), sp20);
     func_80147A84(((int)param_1));
     ((void(*)(int))guess_ApplyVelocity)(((int)param_1));
     if (!(guess_g_FrameCounter & 3)) {
@@ -1857,11 +1857,11 @@ s32 func_8015C128(s32 param_1) {
     temp_v0 = ((int(*)(int))func_8014F3E8)(((int)param_1));
     if (temp_v0 != 0) {
         if ((temp_v0 & 0xFF00) != 0x4000) {
-            ((void(*)(int, int))func_80146E90)(((int)param_1), 6);
+            ((void(*)(int, int))guess_SetWaitTimer_2)(((int)param_1), 6);
             ((void(*)(int))func_80146CA0)(((int)param_1));
             return;
         }
-        if ((temp_v0 & 0x4000) && ((int(*)(int))func_80146E98)(((int)param_1)) != 0) {
+        if ((temp_v0 & 0x4000) && ((int(*)(int))guess_TickWaitTimer_2)(((int)param_1)) != 0) {
             ((void(*)(int, int))guess_SetState)(((int)param_1), 4);
             ((void(*)(int))func_8015C0C4)(((int)param_1));
         }

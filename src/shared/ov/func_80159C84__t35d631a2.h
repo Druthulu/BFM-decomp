@@ -26,7 +26,7 @@ void func_80159C84(u8 *p) {
     if (func_80161BE0(p) != 0) {
         return;
     }
-    if (func_801496D4(p) != 0) {
+    if (guess_IsConfirmPressed(p) != 0) {
         D_80181160[*(u16 *)p](p);
         ((void (*)(u8 *))func_80149704)(p);
         return;
@@ -72,7 +72,7 @@ void func_80159C84(u8 *p) {
         func_8015E880((s32 *)p);
         return;
     }
-    if (func_801488A8(p) != 0) {
+    if (guess_IsDirectionHeld(p) != 0) {
         D_80181160[*(u16 *)p](p);
         func_8015A230((s32 *)p);
         return;
@@ -109,28 +109,28 @@ after_b4c:
                 if ((*(s32 *)(p + 0x238))++ >= 4) {
                     *(s32 *)(p + 0x238) = 0;
                     *(s32 *)(p + 0x234) = *(s32 *)(p + 0x234) + 1;
-                    func_80154150((s32)p, 1);
+                    guess_SetAnim((s32)p, 1);
                     break;
                 }
-                func_80146DB8((s32 *)p, (s32 *)&D_801810C4);
+                guess_SetMoveVector((s32 *)p, (s32 *)&D_801810C4);
                 func_80154190(p, 0);
                 break;
             case 1:
                 *(s32 *)(p + 0x238) = 0;
                 *(s32 *)(p + 0x234) = *(s32 *)(p + 0x234) + 1;
-                func_80154150((s32)p, 0);
+                guess_SetAnim((s32)p, 0);
                 break;
             case 2:
                 if ((*(s32 *)(p + 0x238))++ >= 2) {
                     if ((*(u32 *)(p + 0x44) & 4) != 0) {
                         *(s32 *)(p + 0x234) = 0;
                         *(s32 *)(p + 0x238) = 0;
-                        func_80154150((s32)p, 0);
+                        guess_SetAnim((s32)p, 0);
                         break;
                     }
                     *(s32 *)(p + 0x238) = 0;
                     *(s32 *)(p + 0x234) = *(s32 *)(p + 0x234) + 1;
-                    func_80154150((s32)p, 2);
+                    guess_SetAnim((s32)p, 2);
                     break;
                 }
                 func_80154190(p, 0);
@@ -139,8 +139,8 @@ after_b4c:
                 func_80147324(0x445);
                 *(s32 *)(p + 0x234) = *(s32 *)(p + 0x234) + 1;
                 func_80155440((s32 *)p);
-                func_80154150((s32)p, 3);
-                func_80154A74((s32)p, 0x13);
+                guess_SetAnim((s32)p, 3);
+                guess_SetTexAnim((s32)p, 0x13);
                 break;
             case 4:
                 break;
@@ -148,9 +148,9 @@ after_b4c:
                 break;
             }
         } else {
-            func_80146DB8((s32 *)p, (s32 *)&D_801810C4);
-            func_80154150((s32)p, 5);
-            func_80154A74((s32)p, 0x1C);
+            guess_SetMoveVector((s32 *)p, (s32 *)&D_801810C4);
+            guess_SetAnim((s32)p, 5);
+            guess_SetTexAnim((s32)p, 0x1C);
         }
     }
 

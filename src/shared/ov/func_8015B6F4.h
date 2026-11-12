@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80149AA8(s32 *a0);
 extern void func_80156648(s32 *a0);
-extern void func_80154150(s32 a0, s32 a1);
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetAnim(s32 a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147324(s32 arg0);
 extern void func_80147300(u16 arg0);
@@ -21,11 +21,11 @@ int func_8015B6F4(int param_1)
     *(int *)(param_1 + 0x23c) = (*(int *)(param_1 + 0xb4));
     *(unsigned char *)(param_1 + 0x244) = bc;
     if (*(int *)(param_1 + 0xb4) == (int)&D_800D4A9C) {
-        func_80154150(param_1, 0xb);
+        guess_SetAnim(param_1, 0xb);
     } else {
-        func_80154150(param_1, 0xc);
+        guess_SetAnim(param_1, 0xc);
     }
-    func_80154A74(param_1, 0x22);
+    guess_SetTexAnim(param_1, 0x22);
     *(unsigned char *)(param_1 + 0xda) = 0;
     ((void (*)(int, int, int, int))func_80146994)(4, param_1, 5, 0);
     func_80147324(0x400);

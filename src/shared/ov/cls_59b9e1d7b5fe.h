@@ -16,8 +16,8 @@ void SHARED_FN(s32 p) {
     g20[1] = v;
     ((Unkstruct_80188B00 *)p)->unkFE = v;
     g20[2] = 0;
-    ((void (*)(void *, void *))func_80049CAC)(g20, buf28);
-    ((void (*)(void *, void *, s32))func_800484EC)(buf28, g10, p + 0x10);
+    ((void (*)(void *, void *))RotMatrixZYX)(g20, buf28);
+    ((void (*)(void *, void *, s32))ApplyMatrixLV)(buf28, g10, p + 0x10);
     ((Unkstruct_80188B00 *)p)->unk2 = 8;
     ((Unkstruct_80188B00 *)p)->unk1C = 0x40;
     ((void (*)(s32))func_8012B260)(p);

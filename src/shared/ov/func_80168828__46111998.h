@@ -3,7 +3,7 @@
 void func_80168828(s32 param_1)
 {
     extern void func_80017DC4(void *a0, void *a1);
-    extern void func_80049CAC(s32 a0, s32 a1);
+    extern void RotMatrixZYX(s32 a0, s32 a1);
     extern void func_800173BC(void *a0, void *a1);
     extern u16 D_8018225C[];
 
@@ -55,7 +55,7 @@ void func_80168828(s32 param_1)
     for (i = 0; i < 4; i++) {
         svec[0] = *p++;
         svec[2] = *p++;
-        ((void (*)(void *, void *))func_80049CAC)(svec, matA);
+        ((void (*)(void *, void *))RotMatrixZYX)(svec, matA);
         func_80048EAC(matB, matA);
         func_800173BC(&thing, matA);
     }

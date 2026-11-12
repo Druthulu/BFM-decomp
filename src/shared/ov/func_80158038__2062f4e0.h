@@ -3,9 +3,9 @@
 void func_80158038(void * param)
 {
     *(u8 *)(param + 0x1aa) = 0xe;
-    func_80154274((s32 *)param, (s32)&D_800D51E0);
-    func_80154A74(param, 0x15);
-    func_80146DB8((s32 *)param, &D_80181598);
+    guess_SetAnimScript((s32 *)param, (s32)&D_800D51E0);
+    guess_SetTexAnim(param, 0x15);
+    guess_SetMoveVector((s32 *)param, &D_80181598);
     *(s32 *)(param + 0x234) = 0;
     func_80146994(5, param, 0xc, 0);
     func_80147324(0x455);

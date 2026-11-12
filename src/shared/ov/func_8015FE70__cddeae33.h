@@ -12,7 +12,7 @@ void func_8015FE70(u16 *param_1)
         param_1[0x5c] = param_1[0x5d];
     }
     if ((param_1[0x5c] & 0x4000) != 0) {
-        ((void (*)(u16 *, s16))func_80154A74)(param_1, 0x11);
+        ((void (*)(u16 *, s16))guess_SetTexAnim)(param_1, 0x11);
     }
     ((void (*)(u16 *))func_80161208)(param_1);
 }

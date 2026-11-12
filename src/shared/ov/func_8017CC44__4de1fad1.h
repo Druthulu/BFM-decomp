@@ -10,7 +10,7 @@ void func_8017CC44(void *a0)
     } else {
         *(s32 *)(ptr + 4) &= 0x7FFFFFFF;
     }
-    if (func_80146E98((s32)a0)) {
+    if (guess_TickWaitTimer_2((s32)a0)) {
         func_8017DD7C();
         *(u16 *)((s32)a0 + 2) += 1;
     }

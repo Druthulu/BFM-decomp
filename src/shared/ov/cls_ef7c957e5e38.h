@@ -24,7 +24,7 @@ void SHARED_FN(s32 param) {
     v0 = ((Unkstruct_80126B58 *)param)->unk10;
     ((Unkstruct_80126B58 *)param)->unk10 = v0 + 0x20;
 
-    if (func_80146E98(param) != 0) {
+    if (guess_TickWaitTimer_2(param) != 0) {
         v0 = ((Unkstruct_80126B58 *)param)->unk2;
         ((Unkstruct_80126B58 *)param)->unk2 = v0 + 1;
     }

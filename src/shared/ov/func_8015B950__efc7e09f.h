@@ -54,21 +54,21 @@ s32 func_8015B950(s32 arg0)
         ((void (*)(s32))func_80149788)(arg0);
         return;
     }
-    if (((s32 (*)(s32))func_801496D4)(arg0) != 0) {
+    if (((s32 (*)(s32))guess_IsConfirmPressed)(arg0) != 0) {
         D_80181914[*(u16 *)arg0]((void *)arg0);
         ((void (*)(s32))func_80149704)(arg0);
         if (((u8)((s32 (*)(s32))func_80148AFC)(arg0)) == 0) {
-            func_80146D90(arg0);
+            guess_ClearMoveVector(arg0);
         }
         if ((*(s32 *)(arg0 + 0x24) | *(s32 *)(arg0 + 0x2C)) != 0) {
-            func_80154150(arg0, 0xF);
+            guess_SetAnim(arg0, 0xF);
         } else {
             ((void (*)(s32, s32, s32))func_801541D8)(arg0, 0xD, 6);
         }
         *(s32 *)(arg0 + 0x238) = 1;
         return;
     }
-    if (((s32 (*)(s32))func_801488A8)(arg0) != 0) {
+    if (((s32 (*)(s32))guess_IsDirectionHeld)(arg0) != 0) {
         sp10[0] = 0;
         sp10[1] = 0;
         sp10[2] = 0;
@@ -115,8 +115,8 @@ join:
         D_80181914[*(u16 *)arg0]((void *)arg0);
         ((void (*)(s32, s32))guess_SetState)(arg0, 0);
         ((void (*)(s32))func_80159B70)(arg0);
-        func_80154150(arg0, 9);
-        ((void (*)(s32, s32 *))func_80146DB8)(arg0, &D_801818A8);
+        guess_SetAnim(arg0, 9);
+        ((void (*)(s32, s32 *))guess_SetMoveVector)(arg0, &D_801818A8);
         ((void (*)(s32, s32))func_80161CD0)(arg0, *(u16 *)(arg0 + 0x16E));
         return;
     }

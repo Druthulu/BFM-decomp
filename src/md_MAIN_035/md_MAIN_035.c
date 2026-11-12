@@ -84,8 +84,8 @@ void func_800CAF84(int param_1)
 void func_800CAFEC(s32 *a0) {
     extern s32 guess_g_ActiveCamera;
     extern s16 func_80171AB0(s32 a0, void *a1);
-    extern void func_80154150(s32 a0, s32 a1);
-    extern void func_80154A74(s32 *a0, s16 a1);
+    extern void guess_SetAnim(s32 a0, s32 a1);
+    extern void guess_SetTexAnim(s32 *a0, s16 a1);
     extern void func_800CB13C(s32 param_1);
     extern void func_80147324(s32 a0);
     extern void func_801553A8(s32 *a0);
@@ -101,8 +101,8 @@ void func_800CAFEC(s32 *a0) {
     if (func_80171AB0((s32)a0, buf) != 0) {
         return;
     }
-    func_80154150((s32)a0, 0x1C);
-    func_80154A74(a0, 0x19);
+    guess_SetAnim((s32)a0, 0x1C);
+    guess_SetTexAnim(a0, 0x19);
     a0[0x234 / 4] = 0;
     func_800CB13C((s32)a0);
     func_80147324(0x8F1);
@@ -133,10 +133,10 @@ void func_800CB080(void *arg0) {
 }
 
 
-extern void func_80154A74(s32 *a0, s16 a1);
+extern void guess_SetTexAnim(s32 *a0, s16 a1);
 extern void func_800CB1F8(void *a0);
 void func_800CB108(s32 *a0) {
-    func_80154A74(a0, 17);
+    guess_SetTexAnim(a0, 17);
     func_800CB1F8(a0);
 }
 

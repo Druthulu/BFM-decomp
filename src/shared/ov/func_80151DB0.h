@@ -3,7 +3,7 @@
 extern void func_80019064(void *a0);
 extern int func_80151204(int arg, int a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
-extern void func_80154274(s32 *a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_80147324(s32 arg0);
 extern void func_80146CA0(void *a0);
@@ -20,11 +20,11 @@ void func_80151DB0(s32 param_1)
     sVar1 = ((short (*)(int, int))func_80012A60)((int)*(short *)(*(int *)(param_1 + 0x20) + 0x12),
                           (int)*(short *)(param_1 + 0xf4));
     if (sVar1 >= 0x401) {
-        ((void (*)(int, void *))func_80154274)(param_1, &D_800D5880);
+        ((void (*)(int, void *))guess_SetAnimScript)(param_1, &D_800D5880);
         iVar3 = *(int *)(param_1 + 0x20);
         *(unsigned short *)(iVar3 + 0x10) = (0xc00);
     } else {
-        ((void (*)(int, void *))func_80154274)(param_1, &D_800D58AC);
+        ((void (*)(int, void *))guess_SetAnimScript)(param_1, &D_800D58AC);
         iVar3 = *(int *)(param_1 + 0x20);
         *(unsigned short *)(iVar3 + 0x10) = (0x400);
     }

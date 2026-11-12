@@ -7,7 +7,7 @@ void func_80158FA4(s32 param_1)
 
     v0 = *(s32 *)(param_1 + 0x20);
     *(u16 *)(v0 + 0x12) = (*(u16 *)(v0 + 0x12) + 0x16) & 0xfff;
-    if (((s32 (*)(void))func_80148800)() & 0xf0) {
+    if (((s32 (*)(void))guess_GetPadPressed)() & 0xf0) {
         D_8018E860 = 1;
     }
     if (func_801399F0(*(s32 *)(param_1 + 0x198)) != 0) {

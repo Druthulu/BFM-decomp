@@ -3,7 +3,7 @@
 void func_80153D7C(s32 param_1)
 {
     func_80147324(0x451);
-    func_80154274((s32 *)param_1, (s32)&D_80181078);
+    guess_SetAnimScript((s32 *)param_1, (s32)&D_80181078);
     func_80149020((s32 *)param_1);
     *(u16 *)(param_1 + 0x244) = *(u16 *)(param_1 + 6);
     *(u16 *)(param_1 + 0x246) = *(u16 *)(param_1 + 10);

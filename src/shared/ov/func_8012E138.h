@@ -4,7 +4,7 @@ extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
-extern void func_80049CAC();
+extern void RotMatrixZYX();
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_8012E138(int model) {
@@ -20,7 +20,7 @@ void func_8012E138(int model) {
     m = *(int *)(model + 0x20);
     if (m != 0) {
         int mm;
-        func_80049CAC(m + 0x10, m + 0x34);
+        RotMatrixZYX(m + 0x10, m + 0x34);
         mm = *(int *)(model + 0x20);
         s = *(u16 *)(model + 6) + *(u16 *)(model + 0x50);
         *(u16 *)(mm + 8) = s;

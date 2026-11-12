@@ -1,6 +1,9 @@
-/* func_801488A8 — shared body (overlay slot 0x80128158, h_exact 0932c9ba). ONE source: instantiated by #include at each
+/* guess_IsDirectionHeld — shared body (overlay slot 0x80128158, h_exact 0932c9ba). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 func_801488A8(u8 *a0) {
+/* guess_IsDirectionHeld: returns non-zero when a direction is held: the D-pad bits for a digital pad (type 0x41), an off-centre stick for 0x53/0x73
+ * Confidence medium, xref chain: type +0xA9: 0x41 -> held +0xAA & 0xF000; 0x53/0x73 -> 1 unless the stick halfword +0xAE is 0x8080; else 0
+ * Names ledger: config/names.tsv guess_IsDirectionHeld */
+s32 guess_IsDirectionHeld(u8 *a0) {
     u8 c;
     s32 v0;
     u32 h;

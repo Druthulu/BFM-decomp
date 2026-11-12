@@ -133,7 +133,7 @@ extern s16 D_801960CE;
 extern s16 D_801960D0;
 
 extern s32 func_8018F488(s32 a0, s32 a1);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012C51C(void *a0, s32 a1);
 
 void func_801890C8(s32 a0) {
@@ -148,7 +148,7 @@ void func_801890C8(s32 a0) {
     vec[1] = D_801960CE << 8;
     vec[2] = D_801960D0 << 8;
 
-    func_800484EC(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34, (s32)vec, (s32)out);
+    ApplyMatrixLV(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34, (s32)vec, (s32)out);
 
     out[0] += CAST_SIGN(s16, a0, 0x6) << 8;
     out[1] += CAST_SIGN(s16, a0, 0xA) << 8;
@@ -975,7 +975,7 @@ void func_8018A2C0(s32 param_1)
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 extern s16 guess_g_CameraFollowPos;
@@ -1001,7 +1001,7 @@ void func_8018A438(s32 param_1) {
     *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)*p;
     *(s32 *)(param_1 + 0x4C) = (s32)*(s16 *)(param_1 + 0x2A) + (s32)D_80126942;
     *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2C) + (s32)D_80126944;
-    func_80049CAC(param_1 + 0x18, (s32)&m1);
+    RotMatrixZYX(param_1 + 0x18, (s32)&m1);
 
     m1.t[0] = *(s16 *)(param_1 + 0x28) + *p;
     m1.t[1] = *(s16 *)(param_1 + 0x2A) + D_80126942;
@@ -1033,14 +1033,14 @@ extern s32 func_8012AD50(void *a0);
 
 extern s32 guess_g_PlayerActor;
 extern s32 func_80172688(s32 *a0);
-extern void func_8012BF4C(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer(s32 *a0, s32 a1);
 extern s32 func_8012AD50(void *a0);
 void func_8018A1A4(void *a0);
 
 void func_8018A640(s32 *a0) {
     if (func_80172688(&guess_g_PlayerActor)) {
         func_8018A1A4(a0);
-        func_8012BF4C(a0, 0x20);
+        guess_SetWaitTimer(a0, 0x20);
         func_8012AD50(a0);
     }
 }
@@ -1048,7 +1048,7 @@ void func_8018A640(s32 *a0) {
 
 extern s32 guess_g_PlayerActor;
 extern s32 func_80172688(s32 *a0);
-extern void func_8012BF4C(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer(s32 *a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8018A264(void);
 
@@ -1060,7 +1060,7 @@ void func_8018A698(s32 *a0) {
         }
         return;
     }
-    func_8012BF4C(a0, 0x20);
+    guess_SetWaitTimer(a0, 0x20);
 }
 
 
@@ -3743,7 +3743,7 @@ extern Mat32_8018A390_8018FE94 D_800AE620;
 extern void func_8012B23C(s32 a0);
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012B864(s32 a0);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixY(s32 a0, void *a1);
 extern s32 func_8018DDD0(s32 a0);
 extern s32 func_8018DE30(void *a0, SVECTOR *a1);
@@ -3795,7 +3795,7 @@ body:
     do {
         pos[0] = CAST_WIDTH(s32, a0, 0x4);
         pos[2] = CAST_WIDTH(s32, a0, 0xC);
-        func_800484EC((s32)&m, (s32)vec, (s32)out);
+        ApplyMatrixLV((s32)&m, (s32)vec, (s32)out);
         pos[0] += out[0];
         pos[2] += out[2];
         sv[0] = *(u16 *)((u8 *)pos + 0x2);
@@ -4055,7 +4055,7 @@ extern u8 D_80078EAE;
 extern Mat32_8018A390_8018FE94 D_800AE620;
 
 extern void RotMatrixY(s32 a0, void *a1);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018DF44(void *a0)
 {
@@ -4079,7 +4079,7 @@ void func_8018DF44(void *a0)
 
     RotMatrixY(*(s16 *)(((Unkstruct_8018DF44 *)a0)->unk20 + 0x12), mp);
 
-    func_800484EC((s32)mp, (s32)&vec, (s32)a0 + 0x10);
+    ApplyMatrixLV((s32)mp, (s32)&vec, (s32)a0 + 0x10);
 }
 
 
@@ -4433,7 +4433,7 @@ void func_8018E5E4(s32 a0) {
 #include "common.h"
 
 extern s32 func_80047948(s32 a0);
-extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CBF4(s32);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_FreeActor(void *a0);
@@ -4453,7 +4453,7 @@ void func_8018E678(void *a0)
         vec[0] = func_80047948((((Unkstruct_800B5CB8 *)a0)->unkE0 << 6) & 0xFC0) << 8;
         vec[1] = 0;
         vec[2] = 0;
-        func_800484EC(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34, (s32)vec, (s32)out);
+        ApplyMatrixLV(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34, (s32)vec, (s32)out);
         CAST_WIDTH(s16, (s32)a0, 0x50) = out[1];
         t5 = out[5];
         ((Unkstruct_800B5CB8 *)a0)->unkE0 = ((Unkstruct_800B5CB8 *)a0)->unkE0 + 1;
@@ -4565,7 +4565,7 @@ void func_8018E780(s32 param_1)
  *   func_80047948(s32 a0)              TU:2196 verbatim  (also TU:6678)
  *   ratan2(s32, s32)                   TU:243  verbatim  (TU:519 same types)
  *   func_80017758(void *, void *)      TU:1755 verbatim  (also TU:6125)
- *   func_80049CAC(s32, s32)            TU:3113 verbatim -> call site casts,
+ *   RotMatrixZYX(s32, s32)            TU:3113 verbatim -> call site casts,
  *                                      exactly the TU's own idiom at TU:3143
  *   RotTransSV(void *, void *, void *) TU:3116 verbatim
  *   func_8012B414(int a0)              NOT declared in this TU; this is the
@@ -4585,7 +4585,7 @@ extern void guess_FreeActor(void *a0);
 extern s32  func_8004787C(s32 a0);
 extern s32  func_80047948(s32 a0);
 extern s32  ratan2(s32 a0, s32 a1);
-extern void func_80049CAC(s32 a0, s32 a1);
+extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void RotTransSV(void *a0, void *a1, void *a2);
 extern void func_80017758(void *a0, void *a1);
 
@@ -4668,7 +4668,7 @@ void func_8018E8A0(void *a0)
             rot.vy = ratan2(-mv.vz, mv.vx) - 0x400;
             break;
         }
-        ((void (*)(void *, void *))func_80049CAC)(&rot, &mtx);
+        ((void (*)(void *, void *))RotMatrixZYX)(&rot, &mtx);
 
         q = zb + k * 3;
         p[0] += mv.vx;

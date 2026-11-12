@@ -11,7 +11,7 @@ int param_1;
     } else {
         *(unsigned int *)(addr + 4) = *(unsigned int *)(addr + 4) & 0x7fffffff;
     }
-    if (func_80146E98(param_1) != 0) {
+    if (guess_TickWaitTimer_2(param_1) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
     }
 }

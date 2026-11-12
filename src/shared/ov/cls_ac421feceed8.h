@@ -26,7 +26,7 @@ void SHARED_FN(s32 p) {
     lv2 = lim2;
     if (lim2 < t2) {
         *(s16 *)(o + 0x1A) = lv2;
-        func_80146E90((s32 *)p, *(s16 *)(((Unkstruct_80126B58 *)p)->unk58 + 4));
+        guess_SetWaitTimer_2((s32 *)p, *(s16 *)(((Unkstruct_80126B58 *)p)->unk58 + 4));
         func_80146CA0((void *)p);
     }
 }

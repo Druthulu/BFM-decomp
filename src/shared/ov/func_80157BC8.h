@@ -2,10 +2,10 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80147AD4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void guess_ApplyVelocity(s32 *a0);
-extern void func_80148038(s32 a0, s32 a1);
-extern void func_80147460(s32 a0);
+extern void guess_AddVertSpeed(s32 a0, s32 a1);
+extern void guess_ApplyVertSpeed(s32 a0);
 extern void func_8014ED28();
-extern void func_80146D90(s32 a0);
+extern void guess_ClearMoveVector(s32 a0);
 extern void func_8016158C(void *a0);
 extern void func_80161D20();
 extern void func_8014C010(s32 a0, s32 a1);
@@ -18,10 +18,10 @@ void func_80157BC8(s32 a0) {
     s32 s1;
     func_80147AD4(a0, 0, 0, 0x10000);
     guess_ApplyVelocity((s32 *)a0);
-    func_80148038(a0, 0x1A000);
-    func_80147460(a0);
+    guess_AddVertSpeed(a0, 0x1A000);
+    guess_ApplyVertSpeed(a0);
     if (((s32 (*)(s32))func_8014ED28)(a0) != 0) {
-        func_80146D90(a0);
+        guess_ClearMoveVector(a0);
     }
     s1 = ((s32 (*)(void *))func_8016158C)((void *)a0);
     if ((s1 & 5) != 0) {
@@ -37,7 +37,7 @@ void func_80157BC8(s32 a0) {
     }
     if (*(s32 *)(a0 + 0x34) > 0) {
         func_801599A4((void *)a0);
-        func_80146D90(a0);
+        guess_ClearMoveVector(a0);
         func_8015BE04((s32 *)a0);
     } else {
         func_801725A4((u8 *)a0);

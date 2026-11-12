@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s16 func_80171AB0(s32 a0, void *a1);
 extern void func_8014706C(void *a0);
-extern void func_80154274(s32 *a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_801553A8(s32 *a0);
 extern void func_8016BADC(void *a0, s32 a1, s32 a2);
 extern void func_80147324(s32 a0);
@@ -29,18 +29,18 @@ void func_80173CB4(s32 a0) {
     func_8014706C((void *)s0);
     switch ((u8)(*(u8 *)&D_80126B38)) {
     case 0:
-        func_80154274((s32 *)s0, (s32)&D_800D5DA8);
+        guess_SetAnimScript((s32 *)s0, (s32)&D_800D5DA8);
         *(s32 *)(s0 + 0x200) = 0x20;
         a = 0x843;
         goto ld0;
     case 1:
-        func_80154274((s32 *)s0, (s32)&D_800D5DA8_b);
+        guess_SetAnimScript((s32 *)s0, (s32)&D_800D5DA8_b);
         goto lb8;
     case 2:
-        func_80154274((s32 *)s0, (s32)&D_800D5DA8);
+        guess_SetAnimScript((s32 *)s0, (s32)&D_800D5DA8);
         goto lb8;
     case 3:
-        func_80154274((s32 *)s0, (s32)&D_800D5DB8);
+        guess_SetAnimScript((s32 *)s0, (s32)&D_800D5DB8);
         func_801553A8((s32 *)s0);
         goto lb8;
     default:

@@ -60,7 +60,7 @@ void func_80163EC8(s32 param_1)
         }
     }
     *((s16 *) (param_1 + 0x66)) = (*((u16 *) (param_1 + 0x66))) + 0x40;
-    uVar5 = func_80148800((s32 *) psVar6);
+    uVar5 = guess_GetPadPressed((s32 *) psVar6);
     if ((uVar5 & 0x80) != 0)
     {
         *((s16 *) (param_1 + 0x66)) = 0;
@@ -117,7 +117,7 @@ void func_80163EC8(s32 param_1)
     {
         *((s32 *) (psVar6 + 0x184)) = 0;
     }
-    func_80146E90((s32 *) param_1, 0x20);
+    guess_SetWaitTimer_2((s32 *) param_1, 0x20);
     *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
     func_80147324(0x449);
     func_80146CA0((void *) param_1);

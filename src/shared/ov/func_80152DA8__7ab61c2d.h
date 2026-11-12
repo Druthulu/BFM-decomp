@@ -5,13 +5,13 @@ void func_80152DA8(s32 arg0)
     func_80019064(&D_80062C14);
     func_80151204(arg0, M2C_FIELD(arg0, s16 *, 0xF2));
     func_80149020(arg0);
-    func_80154274(arg0, &D_800D5880);
+    guess_SetAnimScript(arg0, &D_800D5880);
     func_80147324(0x451);
     M2C_FIELD(arg0, s8 *, 0xDE) = 0x10;
     M2C_FIELD(arg0, s8 *, 0xDF) = 8;
-    func_80146DB8(arg0, &D_80181024);
-    func_801477E8(arg0, 0xFFE40000);
-    func_8014CBF8(arg0);
-    func_801474EC(arg0);
+    guess_SetMoveVector(arg0, &D_80181024);
+    guess_SetVertSpeed(arg0, 0xFFE40000);
+    guess_ClearStoodOnActor(arg0);
+    guess_ClearTiltVectors(arg0);
     func_80146CA0(arg0);
 }

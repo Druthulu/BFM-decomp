@@ -1,7 +1,17 @@
 // config/symbols.md_MAIN_043.txt — module md_MAIN_043 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CCB1C..0x800CDA64); NEVER merged into config/symbols.us.txt.
-// count=3
+// count=13
 
+guess_ClearMoveVector            = 0x80146D90; // func
+guess_SetWaitTimer_2             = 0x80146E90; // func
+guess_TickWaitTimer_2            = 0x80146E98; // func
 guess_ApplyVelocity              = 0x801473EC; // func
+guess_ApplyVertSpeed             = 0x80147460; // func
+guess_ClearTiltVectors           = 0x801474EC; // func
+guess_SetVertSpeed               = 0x801477E8; // func
+guess_AddVertSpeed               = 0x80148038; // func
 guess_SaveGroundedPos            = 0x801483E8; // func
 guess_TransformPosByObjMatrix    = 0x80149374; // func
+guess_ClearStoodOnActor          = 0x8014CBF8; // func
+guess_SetAnim                    = 0x80154150; // func
+guess_SetAnimScript              = 0x80154274; // func

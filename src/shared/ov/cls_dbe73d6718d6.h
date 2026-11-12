@@ -16,7 +16,7 @@ void SHARED_FN(int param_1, short *param_2, short *param_3) {
     *(int *)(param_1 + 0x48) = (int)*(short *)(param_1 + 0x28) + (int)param_3[0];
     *(int *)(param_1 + 0x4C) = (int)*(short *)(param_1 + 0x2A) + (int)param_3[1];
     *(int *)(param_1 + 0x50) = (int)*(short *)(param_1 + 0x2C) + (int)param_3[2];
-    func_80049CAC(param_1 + 0x18, (int)&m1);
+    RotMatrixZYX(param_1 + 0x18, (int)&m1);
 
     m1.t[0] = *(short *)(param_1 + 0x28) + param_2[0];
     m1.t[1] = *(short *)(param_1 + 0x2A) + param_2[1];

@@ -19,7 +19,7 @@ s32 arg0;
     s32 t;
 
     flag = 0;
-    if ((func_80161A60(arg0) != 0) && (((s32 (*)(s32))func_801487F4)(arg0) & 0x40) && (*(s32 *)(arg0 + 0x34) >= 0)) {
+    if ((func_80161A60(arg0) != 0) && (((s32 (*)(s32))guess_GetPadHeld)(arg0) & 0x40) && (*(s32 *)(arg0 + 0x34) >= 0)) {
         flag = 1;
         if (*(s32 *)(arg0 + 0x5C) == 0) {
             *(s32 *)(arg0 + 0x58) = 0;
@@ -52,7 +52,7 @@ s32 arg0;
                 }
             } else {
                 if (*(u16 *)(arg0 + 0xB8) == 0x8000) {
-                    func_80154A74(arg0, 0x22);
+                    guess_SetTexAnim(arg0, 0x22);
                     ((void (*)(s32))func_8015B8F8)(arg0);
                     *(u32 *)(arg0 + 0x44) &= ~2;
                     if (flag != 0) {
@@ -94,10 +94,10 @@ s32 arg0;
         }
     }
     if (*(u8 *)(arg0 + 0x1C6) != 0) {
-        if (((s32 (*)(s32))func_801487F4)(arg0) & 0x40) {
-            func_80148038(arg0, 0xFFFE6000);
+        if (((s32 (*)(s32))guess_GetPadHeld)(arg0) & 0x40) {
+            guess_AddVertSpeed(arg0, 0xFFFE6000);
         } else {
-            func_80148038(arg0, 0x1A000);
+            guess_AddVertSpeed(arg0, 0x1A000);
         }
         lim = 0x40000;
         if ((*(s32 *)(arg0 + 0xB4) != (s32)&D_800D4E94) &&
@@ -110,10 +110,10 @@ s32 arg0;
         } else if (lim < *(s32 *)(arg0 + 0x34)) {
             *(s32 *)(arg0 + 0x34) = lim;
         }
-        func_80147460(arg0);
+        guess_ApplyVertSpeed(arg0);
     } else {
         if (*(s32 *)(arg0 + 0x34) < 0) {
-            if (((s32 (*)(s32))func_801487F4)(arg0) & 0x40) {
+            if (((s32 (*)(s32))guess_GetPadHeld)(arg0) & 0x40) {
                 func_80147814(arg0, 0xFFFF0000);
             }
             func_80147814(arg0, 0x10000);
@@ -125,7 +125,7 @@ s32 arg0;
     if (flag == 0) {
         if ((u8)((s32 (*)(s32))func_80148AFC)(arg0)) {
             (*(u16 *)guess_g_CameraRelativeYaw) = func_80149184(arg0);
-            ((void (*)(s32, s32))func_80146E90)(arg0, 4);
+            ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 4);
             if (*(s32 *)(arg0 + 0x2C) > -0x80000) {
                 *(s32 *)(arg0 + 0x2C) = -0x80000;
                 func_80147A30(arg0, -0x10000, 0xBA000);
@@ -133,21 +133,21 @@ s32 arg0;
                 func_80147A30(arg0, -0x1000, 0xBA000);
             }
         } else {
-            if (func_80146E98(arg0) != 0) {
-                func_80146D90(arg0);
+            if (guess_TickWaitTimer_2(arg0) != 0) {
+                guess_ClearMoveVector(arg0);
             }
         }
         func_80147A84(arg0);
         ((void (*)(s32))guess_ApplyVelocity)(arg0);
         if (*(u8 *)(arg0 + 0x1C6) == 0) {
-            func_80148038(arg0, 0x1A000);
-            func_80147460(arg0);
+            guess_AddVertSpeed(arg0, 0x1A000);
+            guess_ApplyVertSpeed(arg0);
         }
     } else {
         ((void (*)(s32))func_80172644)(arg0);
         if ((u8)((s32 (*)(s32))func_80148AFC)(arg0)) {
             (*(u16 *)guess_g_CameraRelativeYaw) = func_80149184(arg0);
-            func_80146D90(arg0);
+            guess_ClearMoveVector(arg0);
             func_80147AD4(arg0, 0, 0, 0xFFFF4000);
             *(s32 *)(arg0 + 0x50) += *(s32 *)(arg0 + 0x10);
             *(s32 *)(arg0 + 0x54) += *(s32 *)(arg0 + 0x14);
@@ -235,19 +235,19 @@ s32 arg0;
     }
     if (*(s32 *)(arg0 + 0x1B0) != 0) {
         if (*(s32 *)(arg0 + 0x1B0) == 1) {
-            func_80154A74(arg0, 0x22);
-            func_80154150(arg0, 0xF);
+            guess_SetTexAnim(arg0, 0x22);
+            guess_SetAnim(arg0, 0xF);
         } else {
-            ((void (*)(s32, s32))func_80154274)(arg0, *(s32 *)(arg0 + 0x1B4));
+            ((void (*)(s32, s32))guess_SetAnimScript)(arg0, *(s32 *)(arg0 + 0x1B4));
         }
     }
     r = ((s32 (*)(s32))func_80161488)(arg0);
     if (r & 5) {
         *(u32 *)(arg0 + 0x44) &= ~2;
         if (*(s32 *)(arg0 + 0xB4) == (s32)&D_800D4A9C) {
-            func_80154150(arg0, 0xE);
+            guess_SetAnim(arg0, 0xE);
         } else {
-            func_80154150(arg0, 0x10);
+            guess_SetAnim(arg0, 0x10);
         }
         ((void (*)(s32))func_80146CA0)(arg0);
     }

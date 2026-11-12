@@ -25,32 +25,32 @@ extern void func_800CAED0(u8 *a0);
 #include "../shared/slot_800CAE08/func_800CAE88__34360208.h"
 
 
-extern void func_80154274(s32 *a0, s32 a1);
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern u8 D_800CBB44[];
 
 void func_800CAED0(u8 *a0)
 {
-    func_80154274((s32 *)a0, (s32)D_800CBB44);
-    func_80154A74((s32)a0, 0x15);
+    guess_SetAnimScript((s32 *)a0, (s32)D_800CBB44);
+    guess_SetTexAnim((s32)a0, 0x15);
     a0[0x197] += 1;
 }
 
 
 extern s32 func_80161208();
-extern u16 func_801487F4(s32 *a0);
-extern void func_80154274(s32 *a0, s32 a1);
+extern u16 guess_GetPadHeld(s32 *a0);
+extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern u8 D_800CBB84[];
 extern u8 D_800CBB64[];
 
 void func_800CAF1C(s32 *a0) {
     if (func_80161208() == 0) {
         if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
-            if (func_801487F4(a0) & 0x20) {
-                func_80154274(a0, (s32)D_800CBB84);
+            if (guess_GetPadHeld(a0) & 0x20) {
+                guess_SetAnimScript(a0, (s32)D_800CBB84);
                 ((Unkstruct_80126B58 *)a0)->unk197 += 1;
             } else {
-                func_80154274(a0, (s32)D_800CBB64);
+                guess_SetAnimScript(a0, (s32)D_800CBB64);
                 ((Unkstruct_80126B58 *)a0)->unk197 += 2;
             }
         }
@@ -97,10 +97,10 @@ void func_800CAFAC(void *a0) {
             func_801655E4(a0);
         }
         if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
-            if (func_80165624(a0) == 0 && (func_801487F4((s32 *)a0) & 0x20)) {
-                func_80154274((s32 *)a0, (s32)D_800CBB84);
+            if (func_80165624(a0) == 0 && (guess_GetPadHeld((s32 *)a0) & 0x20)) {
+                guess_SetAnimScript((s32 *)a0, (s32)D_800CBB84);
             } else {
-                func_80154274((s32 *)a0, (s32)D_800CBB64);
+                guess_SetAnimScript((s32 *)a0, (s32)D_800CBB64);
                 ((Unkstruct_80126B58 *)a0)->unk197 += 1;
             }
         }
@@ -117,7 +117,7 @@ extern void func_80159B3C(void *a0);
 #undef SHARED_FN
 
 
-extern void func_80154A74(s32 a0, s32 a1);
+extern void guess_SetTexAnim(s32 a0, s32 a1);
 #define SHARED_FN func_800CB1E4
 #include "../shared/multi/cls_31791b27f492.h"
 #undef SHARED_FN
@@ -143,7 +143,7 @@ extern s32 func_8014659C(void);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
-extern void func_80146E90(s32 *a0, s32 a1);
+extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80146CA0(void *a0);
 
 void func_800CB270(s32 a0) {
@@ -165,7 +165,7 @@ void func_800CB270(s32 a0) {
         uVar1 = *(u16 *)(((Unkstruct_80126B58 *)iVar1)->unk20 + 0x12);
         ((Unkstruct_80126B58 *)a0)->unk64 = (uVar1 + ((Unkstruct_80126B58 *)a0)->unk50 * 0xAA - 0xAA) & 0xFFF;
         func_80146DE8((s32 *)a0, 0, 0, 0xFFC00000);
-        func_80146E90((s32 *)a0, 0x10);
+        guess_SetWaitTimer_2((s32 *)a0, 0x10);
         func_80146CA0((void *)a0);
     } else {
         func_80162CCC(a0);
@@ -177,7 +177,7 @@ void func_800CB360(void *arg0) {
     s32 unk60;
     u8 mat[0x40];
 
-    extern s32 func_80146E98(s32 a0);
+    extern s32 guess_TickWaitTimer_2(s32 a0);
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern void func_80146CA0(void *a0);
     extern void func_80013F3C(void *a0);
@@ -196,7 +196,7 @@ void func_800CB360(void *arg0) {
 
     s32 v1 = CAST_SIGN(u32, (s32)arg0, 0x20);
     *(u16 *)(v1 + 0x14) += 0x200;
-    if (func_80146E98((s32)arg0)) {
+    if (guess_TickWaitTimer_2((s32)arg0)) {
         func_80146A6C(3, arg0, ((Unkstruct_80126B58 *)arg0)->unk6, ((Unkstruct_80126B58 *)arg0)->unkA,
                       ((Unkstruct_80126B58 *)arg0)->unkE, 0, 0x1C00);
     } else {

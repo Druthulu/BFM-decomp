@@ -5,12 +5,12 @@ void func_801528B0(s32 arg0)
     func_80019064(&guess_g_RumblePatternFade);
     func_80151204(arg0, M2C_FIELD(arg0, s16 *, 0xF2));
     func_80149020(arg0);
-    func_80154274(arg0, &D_800D5880);
+    guess_SetAnimScript(arg0, &D_800D5880);
     func_80147324(0x451);
     M2C_FIELD(arg0, s8 *, 0xDE) = 0x10;
-    func_80146DB8(arg0, &D_80180FF4);
-    func_801477E8(arg0, 0xFFF00000);
-    func_8014CBF8(arg0);
-    func_801474EC(arg0);
+    guess_SetMoveVector(arg0, &D_80180FF4);
+    guess_SetVertSpeed(arg0, 0xFFF00000);
+    guess_ClearStoodOnActor(arg0);
+    guess_ClearTiltVectors(arg0);
     func_80146CA0(arg0);
 }
