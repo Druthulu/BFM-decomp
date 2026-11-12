@@ -16,7 +16,8 @@ row in config/names.tsv (basis, confidence, evidence kind, conflict, history). T
                                                      `src/<dir>/...:<token>` mapping out of scope; or a line that
                                                      itself names another entity (_other_entity: other-kind
                                                      placeholder, out-of-scope dedup member / lever_residue row,
-                                                     leverage.tsv row of another kind or hash). Passes.
+                                                     leverage.tsv row of another kind or hash, type_folds.tsv
+                                                     owner note whose target type only out-of-scope src uses). Passes.
                                   address-key        (a) the only candidate token is a share header's name
                                                      `func_<ADDR>(__x)?.h` (headers are named by vram, never
                                                      renamed); (b) a 0x / bare address in an ADDRESS_KEYED
@@ -174,13 +175,17 @@ def _qualified_out(text, s_re, scope, where):
 MEMBER_BIN = re.compile(r"^\s*-\s*\{\s*binary:\s*([\w.]+)\s*,")   # config/dedup.us.yaml: one member per line
 
 
-def _other_entity(path, text, s_re, kind, scope, where, hashes):
-    """Scoped renames: -> the rule ('a'..'d') by which the line itself names ANOTHER entity at the address, else None.
+OWNER_NOTE = "owner:"
+
+
+def _other_entity(path, text, s_re, kind, scope, where, hashes, uses=None):
+    """Scoped renames: -> the rule ('a'..'e') by which the line itself names ANOTHER entity at the address, else None.
     (a) every strong token is the other kind's placeholder (D_<addr> for a func rename, func_<addr> for data);
     (b) a config/dedup.us.yaml member line whose binary is out of scope; (c) a config/lever_residue.tsv row whose src
     path (column 1) maps out of scope; (d) a docs/leverage.tsv row, every strong token in its name column, of another
     kind, or a func row whose hash key prefixes none of hashes() (the rename's h_exact at its address in scope;
-    empty -> no proof)."""
+    empty -> no proof); (e) a config/type_folds.tsv row whose every strong token is an `owner:<token>` note and whose
+    target type (column 3) uses(type) -> src paths finds only in files mapping out of scope (no src use -> no proof)."""
     other = {"func": "D_", "data": "func_"}.get(kind)
     ms = [m.group(0) for m in s_re.finditer(text)]
     if other and ms and all(VRAM_NAME.fullmatch(t) and t.startswith(other) for t in ms):
@@ -203,15 +208,24 @@ def _other_entity(path, text, s_re, kind, scope, where, hashes):
             hs = hashes()
             if hs and not any(h.startswith(f[2]) for h in hs):
                 return "d"
+    elif path == "config/type_folds.tsv" and uses:
+        f = text.split("\t")
+        if len(f) < 3 or not ms or any(text[m.start() - len(OWNER_NOTE):m.start()] != OWNER_NOTE
+                                       for m in s_re.finditer(text)):
+            return None
+        fbs = [where(u) for u in uses(f[2])]
+        if fbs and all(fb and not (fb & scope) for fb in fbs):
+            return "e"
     return None
 
 
-def classify(hits, rename, scope=None, where=None, kind=None, hashes=None):
+def classify(hits, rename, scope=None, where=None, kind=None, hashes=None, uses=None):
     """hits = [(path, line, text)]; rename = (old, new, addr). Pure. -> {class: [hit]} over the hits that
     carry one of this rename's candidate forms; asserts candidates == classified. scope = the rename's binaries
     (wide spec) and where(path) -> a file's binaries (empty = unmapped): a stale (strong) hit in a mapped file
     whose binaries are disjoint from scope is `other-binary` (the token names another function there, C0571).
-    kind = the rename's spec kind, hashes() -> its unit's h_exact set: for _other_entity's line-level rules."""
+    kind = the rename's spec kind, hashes() -> its unit's h_exact set, uses(type) -> src paths using a type:
+    for _other_entity's line-level rules."""
     old, new, addr = rename
     s, w = rename_forms(old, new, addr)
     s_re, w_re = re.compile(s), (re.compile(w) if w else None)
@@ -230,21 +244,21 @@ def classify(hits, rename, scope=None, where=None, kind=None, hashes=None):
                 c = "other-binary"
             elif _qualified_out(h[2], s_re, scope, where):
                 c = "other-binary"
-            elif _other_entity(h[0], h[2], s_re, kind, scope, where, hashes):
+            elif _other_entity(h[0], h[2], s_re, kind, scope, where, hashes, uses):
                 c = "other-binary"
         out[c].append(h)
     assert cand == sum(len(v) for v in out.values()), "R32: candidates != classified"
     return out
 
 
-def scan(hits, renames, scopes=None, where=None, kinds=None, hashes=None):
+def scan(hits, renames, scopes=None, where=None, kinds=None, hashes=None, uses=None):
     """Pure. -> (per-rename results, grand class counts); asserts every hit belongs to some rename.
     scopes = {rename: binaries} (wide specs) for classify's other-binary class; kinds = {rename: spec kind};
-    hashes(rename) -> its unit's h_exact set."""
+    hashes(rename) -> its unit's h_exact set; uses(type) -> the src paths using a type."""
     results, total, owned = [], {c: 0 for c in CLASSES}, set()
     for r in renames:
         res = classify(hits, r, scopes.get(r) if scopes else None, where, (kinds or {}).get(r),
-                       (lambda r=r: hashes(r)) if hashes else None)
+                       (lambda r=r: hashes(r)) if hashes else None, uses)
         for c in CLASSES:
             total[c] += len(res[c])
             owned.update(res[c])
@@ -369,15 +383,16 @@ def parse_spec(text, groups=None, stackers=None, scopes=None, kinds=None):
 
 
 def renames_from_spec(p):
-    """-> (renames, scopes, where, kinds, hashes): all but renames None for a 3-column spec (no binary column).
-    hashes(rename) -> the h_exact of every function at its address in its scope's .run/sig.<binary>.jsonl (lazy)."""
+    """-> (renames, scopes, where, kinds, hashes, uses): all but renames None for a 3-column spec (no binary column).
+    hashes(rename) -> the h_exact of every function at its address in its scope's .run/sig.<binary>.jsonl (lazy);
+    uses(type) -> the src/ paths naming the type word-bounded (git grep, cached)."""
     text = open(p).read()
     if not any(ln.split("\t")[:3] == ["old", "new", "addr"] for ln in text.splitlines()):
-        return parse_spec(text), None, None, None, None
+        return parse_spec(text), None, None, None, None, None
     import json, rename_sym
     groups, reg = rename_sym.load_groups()
     stackers, aliases, scopes, kinds = rename_sym.stackers_of(symbol_stacks()), rename_sym._aliases(), {}, {}
-    cache, hcache = {}, {}
+    cache, hcache, ucache = {}, {}, {}
     def where(path):
         if path not in cache:
             cache[path] = rename_sym.file_binaries(path, reg, aliases, stackers)
@@ -395,14 +410,18 @@ def renames_from_spec(p):
                                 hs.add(json.loads(ln)["h_exact"])
             hcache[r] = hs
         return hcache[r]
-    return parse_spec(text, groups, stackers, scopes, kinds), scopes, where, kinds, hashes
+    def uses(t):
+        if t not in ucache:
+            ucache[t] = _git("grep", "-l", "-w", "-F", "-e", t, "--", "src/").split() if t else []
+        return ucache[t]
+    return parse_spec(text, groups, stackers, scopes, kinds), scopes, where, kinds, hashes, uses
 
 
-def run_scan(renames, rev, verbose=False, scopes=None, where=None, kinds=None, hashes=None):
+def run_scan(renames, rev, verbose=False, scopes=None, where=None, kinds=None, hashes=None, uses=None):
     if not renames:
         print("[rename_scan] no renames")
         return 0
-    results, total = scan(grep_hits(renames, rev), renames, scopes, where, kinds, hashes)
+    results, total = scan(grep_hits(renames, rev), renames, scopes, where, kinds, hashes, uses)
     print("[rename_scan] %d rename(s); %s" % (len(renames), ", ".join("%s %d" % (c, total[c]) for c in CLASSES)))
     for (old, new, addr), res in results:
         if verbose:
@@ -869,6 +888,14 @@ def selftest():
     assert oe(("docs/leverage.tsv", 13, LV % ("func", "981b4c9251c5", "OldFn")), r=OR) == "stale-invisible"
     _, t = scan([("docs/t.md", 1, "'other:D_80FFFFF0[a0]'")], [SR], {SR: {"ov_A"}}, wh)
     assert t["stale-invisible"] == 1, t                                                              # no kind: as before
+    us = {"T_B": ["src/ov_B/x.c"], "T_AB": ["src/ov_B/x.c", "src/ov_A/y.c"], "T_U": ["include/x.h"]}.get  # (e)
+    wa = lambda p: {"ov_B"} if "ov_B" in p else {"ov_A"} if "ov_A" in p else set()
+    tf = lambda ty, ev="owner:func_80FFFFF0": ("config/type_folds.tsv", 14, "U_1\tdefine\t%s\t%s\tnote" % (ty, ev))
+    for h, want in ((tf("T_B"), "other-binary"), (tf("T_AB"), "stale-invisible"), (tf("T_NONE"), "stale-invisible"),
+                    (tf("T_U"), "stale-invisible"),                                                  # unmapped user
+                    (tf("T_B", "func_80FFFFF0"), "stale-invisible")):                                # no owner: note
+        _, t = scan([h], [SR], {SR: {"ov_A"}}, wa, {SR: "func"}, hx, lambda ty: us(ty, []))
+        assert t[want] == 1, (h, t)
     scs = {}
     kds = {}
     assert parse_spec(wide.replace("\tmain\t", "\tov_A\t"), {}, stk, scs, kds) == [R] and scs == {R: {"ov_A"}}, scs
@@ -1044,8 +1071,8 @@ def main():
     if a.worklist:
         return run_worklist(a.worklist, a.complete)
     if a.spec:
-        renames, scopes, where, kinds, hashes = renames_from_spec(a.spec)
-        return run_scan(renames, None, a.verbose, scopes, where, kinds, hashes)
+        renames, scopes, where, kinds, hashes, uses = renames_from_spec(a.spec)
+        return run_scan(renames, None, a.verbose, scopes, where, kinds, hashes, uses)
     lo, _, hi = a.range.partition("..")
     return run_scan(renames_from_range(lo, hi or None), hi or None, a.verbose)
 
