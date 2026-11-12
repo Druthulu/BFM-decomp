@@ -9,6 +9,7 @@ unknown with a closed reason list, argument reads and site setup, width evidence
   sig_evidence.py --selftest                   # in-memory fixtures, one per rule
   sig_evidence.py --show <binary>:<vaddr>      # print the census row holding that instance
   sig_evidence.py --compare [-j N]             # C declarations/definitions vs the census -> build/sig_evidence/compare.*
+  sig_evidence.py --check [-j N]               # --compare + config/lying_exceptions.tsv cites/coverage -> check.txt; rc 1 on any gap
 """
 import argparse, array, bisect, collections, concurrent.futures, hashlib, json, os, pathlib, posixpath, re, struct, \
     subprocess, sys
@@ -1032,10 +1033,18 @@ def load_tus(aliases):
 
 def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, orphans):
     """(rows, cov). parsed {file: parse_text|None}; tus load_tus; symtab {alias: {name: {vaddr}}}; images {alias: (lo, hi)};
-    stacks {alias: [alias]}; cls_of {(alias, vaddr): h}; info {h: (verdict, cite, arity_lb, highest args.read entry, ret.tail)};
-    return_lie {h}; orphans [src files in no .d]."""
+    stacks {alias: [alias]}; cls_of {(alias, vaddr): h}; info {h: (verdict, cite, arity_lb, highest args.read entry, ret.tail,
+    produces: an exit writer other than `entry`, or no `jr $ra` exit (tail / leave only: not provably empty))}; return_lie {h}; orphans [src files in no .d]."""
     U = collections.Counter()                                   # unplaced, by (what, reason)
     cov = collections.Counter()
+    novalue = set()                                             # RET-VOID-READ classes skipped: no value produced
+
+    def void_read(base, cite, tail, produces):
+        if produces:
+            rows.append(dict(base, rule="RET-VOID-READ", cite=cite, tail=None if cite else tail))   # used by RET-FIX only
+        else:                                                   # every exit writer is `entry` (C0587)
+            cov["RET-VOID-READ skipped: no value produced (rows)"] += 1
+            novalue.add(base["h"])
     at_va = collections.defaultdict(set)
     at_own = collections.defaultdict(list)
     for (b, va), h in cls_of.items():
@@ -1111,11 +1120,11 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
         cov["definitions placed"] += 1
         h = cls_of[(b, va)]
         def_at[(b, va)].append((b, f, ln, name, d, I))
-        verdict, cite, alb, hi_read, tail = info[h]
+        verdict, cite, alb, hi_read, tail, produces = info[h]
         base = {"binary": b, "owner": b, "vaddr": hx(va), "h": h, "name": name, "def_file": f"{f}:{ln}", "bind_tu": I["bind"],
                 "def_ret": d["ret"], "kr_marked": False, "objs": sorted(I["objs"])}
         if verdict == "used" and d["ret"] == "void":
-            rows.append(dict(base, rule="RET-VOID-READ", cite=cite, tail=None if cite else tail))   # used by RET-FIX only
+            void_read(base, cite, tail, produces)
         if d["ret"] != "void" and not d["has_ret"] and not d["v0"]:
             rows.append(dict(base, rule="RET-NONE", cite=None))
         if not d["varargs"]:
@@ -1142,7 +1151,7 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
             U[("declaration", why)] += 1
             continue
         cov["declarations placed"] += 1
-        verdict, cite, alb, hi_read, tail = info[h]
+        verdict, cite, alb, hi_read, tail, produces = info[h]
         ds = [x for o in owners for x in def_at.get((o, va), [])]
         dd = None
         if not ds:
@@ -1156,7 +1165,7 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
                 "def_file": f"{dd[1]}:{dd[2]}" if dd else None, "bind_tu": dd[5]["bind"] if dd else None,
                 "def_ret": dd[4]["ret"] if dd else None}
         if dc["ret"] == "void" and verdict == "used":
-            rows.append(dict(base, rule="RET-VOID-READ", cite=cite, tail=None if cite else tail))   # used by RET-FIX only
+            void_read(base, cite, tail, produces)
         if dc["params"] == "":
             rows.append(dict(base, rule="DECL-EMPTY", cite=None))
         if dd is None:
@@ -1177,6 +1186,8 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
             U[("definition", "file in no TU")] += len(P["defs"])
             U[("declaration", "file in no TU")] += len(P["decls"])
 
+    if novalue:
+        cov["RET-VOID-READ skipped: no value produced (functions)"] = len(novalue)
     # coverage
     L = ["coverage"]
     L.append(f"  files seen (in a .d) {len(seen_files)}; parsed {sum(1 for f in seen_files if parsed.get(f))}; "
@@ -1243,7 +1254,7 @@ def compare(jobs):
             r = json.loads(ln)
             a = r["args"]
             info[r["h"]] = (r["ret"]["verdict"], r["ret"]["cite"], a["arity_lb"], max(a["read"], default=None),
-                            r["ret"]["tail"])
+                            r["ret"]["tail"], not r["exit"] or any(w != "entry" for _, ws in r["exit"] for w in ws))
             for b, va, _ in r["instances"]:
                 cls_of[(b, int(va, 16))] = r["h"]
     rl = set()
@@ -1270,8 +1281,84 @@ def compare(jobs):
         for r in rows:
             f.write(dump(r) + "\n")
     (OUT_DIR / "compare.txt").write_text(txt)
+    return rows, txt
+
+
+# ----------------------------------------------------------------------------------------------- check (3.44 T4)
+# Spec: docs/ops/sig-evidence.md "## Ledger (3.44 T4)". config/lying_exceptions.tsv: callee def_file kind cause task cites.
+LEDGER = "config/lying_exceptions.tsv"
+CITE_RE = re.compile(r"^(\S+):0x([0-9A-Fa-f]{8}) (.+)$")
+KIND_RULE = {"return": "DECL-RET"}
+
+
+def load_ledger(text):
+    """[{callee, def_file, kind, cause, task, cites [str]}] from the ledger's text; `#` lines and the header skipped."""
+    out = []
+    for ln in text.splitlines():
+        if not ln.strip() or ln.startswith("#") or ln.startswith("callee\t"):
+            continue
+        f = ln.split("\t") + [""] * 6
+        out.append({"callee": f[0], "def_file": f[1], "kind": f[2], "cause": f[3], "task": f[4],
+                    "cites": [c for c in f[5].split("; ") if c.strip()]})
+    return out
+
+
+def check_core(ledger, rows, decode):
+    """(failed, unused, unledgered, txt). decode(binary, vaddr) -> the census cite text, or None (no such image/address)."""
+    norm = lambda t: " ".join(t.split())
+    failed = []
+    for L in ledger:
+        if not L["cites"]:
+            failed.append((L["callee"], "", "no cites"))
+        for c in L["cites"]:
+            m = CITE_RE.match(c.strip())
+            got = decode(m.group(1), int(m.group(2), 16)) if m else None
+            if got is None or norm(got) != norm(c):
+                failed.append((L["callee"], c, got or ("unparsable" if not m else "outside every image")))
+    by_name = collections.defaultdict(list)
+    for i, L in enumerate(ledger):
+        by_name[L["callee"]].append(i)
+    used, unl = set(), []
+    for r in rows:
+        paths = {x for x in ((r.get("def_file") or "").rsplit(":", 1)[0], r.get("bind_tu")) if x}
+        hit = [i for i in by_name.get(r["name"], ())
+               if ledger[i]["def_file"] in paths and KIND_RULE.get(ledger[i]["kind"], ledger[i]["kind"]) == r["rule"]]
+        used.update(hit)
+        if not hit:
+            unl.append(r)
+    unused = [L for i, L in enumerate(ledger) if i not in used]
+    T = [f"ledger rows {len(ledger)}, cites {sum(len(L['cites']) for L in ledger)}",
+         f"failed cites {len(failed)}", f"unused rows {len(unused)}", f"unledgered disagreements {len(unl)}"]
+    per = collections.Counter(r["rule"] for r in unl)
+    T += [f"  {ru} {per[ru]}" for ru in RULES if per[ru]]
+    T.append("failed cites (first 20): callee | cite | decoded")
+    T += [f"  {a} | {b} | {c}" for a, b, c in failed[:20]]
+    T.append("unused rows (first 20): callee def_file kind")
+    T += [f"  {L['callee']} {L['def_file']} {L['kind']}" for L in unused[:20]]
+    T.append("unledgered (first 20): rule binary vaddr name def_file|decl_file")
+    T += [f"  {r['rule']} {r['binary']} {r['vaddr']} {r['name']} {r.get('decl_file') or r.get('def_file')}"
+          for r in unl[:20]]
+    return failed, unused, unl, "\n".join(T) + "\n"
+
+
+def check(jobs):
+    rows, _ = compare(jobs)
+    aliases, var = mk_vars()
+    bins = {}
+
+    def decode(b, va):
+        if b not in bins:
+            if b not in aliases or (b, "EXE") not in var:
+                return None
+            bins[b] = {"base": int(var[(b, "VRAM_BASE")], 16), "data": (REPO / var[(b, "EXE")]).read_bytes()}
+        B = bins[b]
+        if va % 4 or not 0 <= va - B["base"] <= len(B["data"]) - 4:
+            return None
+        return cite(Fleet(bins), b, va)
+    failed, unused, unl, txt = check_core(load_ledger((REPO / LEDGER).read_text()), rows, decode)
+    (OUT_DIR / "check.txt").write_text(txt)
     print(txt, end="")
-    return 0
+    return 1 if failed or unused or unl else 0
 
 
 # ----------------------------------------------------------------------------------------------- selftest
@@ -1486,24 +1573,25 @@ def selftest():
         '#define SHARED_FN f_ret', '#include "../shared/cls_1.h"',
         'extern void f_used(void);', 'extern s32 f_none();', 'extern s32 f_kr(); // K&R: unspecified',
         'extern s32 f_ret(void);', 'extern s32 f_ar(s32 a,', '    s32 b);', 'extern s32 f_va(s32 a);',
-        'extern void m_used(void);',
+        'extern void m_used(void);', 'extern void f_empty(void);',
         'void f_used(void) { m_used(); }',
         's32 f_none(a)', 's32 a;', '{', '    return;', '}',
         '/* $v0 at exit: 1 (li v0,1) */', 's32 f_kr(a)', 's32 a;', '{', '    m_used();', '}',
         's32 f_ar(s32 a) { return a; }', 's32 f_va(s32 a, ...) { return a; }',
-        'void f_dbl(s32 a, double d) { }', 'void f_sv(struct Foo v) { }', ''])
+        'void f_dbl(s32 a, double d) { }', 'void f_sv(struct Foo v) { }', 'void f_empty(void) { }', ''])
     parsed = {"src/ov/a.c": parse_text("src/ov/a.c", a_c),
               "src/shared/cls_1.h": parse_text("src/shared/cls_1.h", "void SHARED_FN(void) {\n}\n"),
               "src/ov/orphan.c": parse_text("src/ov/orphan.c", "extern void q(void);\nvoid q(void) { }\n")}
-    names = ["f_used", "f_none", "f_kr", "f_ret", "f_ar", "f_va", "f_dbl", "f_sv"]
+    names = ["f_used", "f_none", "f_kr", "f_ret", "f_ar", "f_va", "f_dbl", "f_sv", "f_empty"]
     symtab = {"ov": {n: {O + 16 * i} for i, n in enumerate(names)}, "main": {}}
     symtab["ov"]["m_used"] = {M}
     cls_of = {("ov", O + 16 * i): "h_" + n for i, n in enumerate(names)}
     cls_of[("main", M)] = "h_m"
-    info = {h: ("unused", None, 0, None, []) for h in cls_of.values()}
-    info["h_f_used"] = info["h_m"] = ("used", "ov:0x80100004 addu", 0, None, [])
-    info["h_f_dbl"] = ("unused", None, 5, [4, "ov:0x80100064 lw"], [])
-    info["h_f_sv"] = ("unused", None, 9, [8, "ov:0x80100074 lw"], [])
+    info = {h: ("unused", None, 0, None, [], True) for h in cls_of.values()}
+    info["h_f_used"] = info["h_m"] = ("used", "ov:0x80100004 addu", 0, None, [], True)
+    info["h_f_empty"] = ("used", "ov:0x80100004 addu", 0, None, [], False)      # every exit writer `entry` (C0587)
+    info["h_f_dbl"] = ("unused", None, 5, [4, "ov:0x80100064 lw"], [], True)
+    info["h_f_sv"] = ("unused", None, 9, [8, "ov:0x80100074 lw"], [], True)
     rows, txt = compare_core(parsed, {"main": [], "ov": [("build/src/ov/a.o", "src/ov/a.c",
                                                           ["src/ov/a.c", "src/shared/cls_1.h"])]},
                              symtab, {"main": (M, M + 0x100), "ov": (O, O + 0x100)},
@@ -1516,6 +1604,9 @@ def selftest():
           sorted((r["name"], r.get("decl_file") or "") for r in x) ==
           [("f_used", ""), ("f_used", "src/ov/a.c:3"), ("m_used", "src/ov/a.c:10")]
           and all(r["cite"] == "ov:0x80100004 addu" for r in x), x)
+    check("RET-VOID-READ skipped when every exit writer is `entry` (def + decl counted apart)",
+          "RET-VOID-READ skipped: no value produced (rows): 2" in txt and
+          "RET-VOID-READ skipped: no value produced (functions): 1" in txt, txt)
     x = R["RET-NONE"]
     check("RET-NONE bare return / no return, `$v0 at exit:` above a K&R head exempts",
           [r["name"] for r in x] == ["f_none"], x)
@@ -1538,6 +1629,25 @@ def selftest():
     check("unplaced: file in no TU counted apart", "definition: file in no TU: 1" in txt and
           "declaration: file in no TU: 1" in txt, txt)
 
+    # 3.44 T4 --check: the ledger's cites decode from the image with cite(); a row is used by a matching disagreement
+    fl = _fleet({"ov": (O, 0x100, ["ov"], [(O, [E.andi(V0, V0, 0xFF)] + E.ret, "f_ret")], [])})
+    dec_ = lambda b, va: cite(fl, b, va) if b in fl.bins and 0 <= va - O < 0x100 else None
+    good = cite(fl, "ov", O)
+    led = load_ledger("\n".join([
+        "# comment", "callee\tdef_file\tkind\tcause\ttask\tcites",
+        f"f_ret\tsrc/shared/cls_1.h\treturn\tc\tT4\t{good.replace(' ', '  ')}",
+        f"f_dbl\tsrc/ov/a.c\tARG-OVER\tc\tT4\tov:0x80100000 lui $v0, 0x1; {good}",
+        "f_gone\tsrc/ov/a.c\treturn\tc\tT4\t" + good, ""]))
+    f, un, ul, ctxt = check_core(led, rows, dec_)
+    check("--check good cite passes (whitespace-normalized), bad cite fails",
+          [(a, b) for a, b, _ in f] == [("f_dbl", "ov:0x80100000 lui $v0, 0x1")] and good.startswith("ov:0x80100000 andi"),
+          (f, good))
+    check("--check unused row (no matching disagreement), matched rows used (bind_tu / def_file path, kind -> rule)",
+          [L["callee"] for L in un] == ["f_gone"], un)
+    check("--check unledgered = disagreements matched by no row",
+          len(ul) == len(rows) - 2 and not any(r["name"] in ("f_ret", "f_dbl") and r["rule"] in ("DECL-RET", "ARG-OVER")
+                                               for r in ul) and "unledgered disagreements" in ctxt, ctxt)
+
     print("selftest", "OK" if ok else "FAILED")
     return 0 if ok else 1
 
@@ -1550,11 +1660,15 @@ def main():
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--show", metavar="BINARY:VADDR")
     ap.add_argument("--compare", action="store_true", help="C declarations/definitions vs census.jsonl (3.44 T4)")
+    ap.add_argument("--check", action="store_true", help="--compare, then the ledger's cites and coverage (3.44 T4)")
     a = ap.parse_args()
     if a.selftest:
         return selftest()
     if a.compare:
-        return compare(a.j)
+        print(compare(a.j)[1], end="")
+        return 0
+    if a.check:
+        return check(a.j)
     if a.show:
         b, v = a.show.split(":")
         v = int(v, 16)

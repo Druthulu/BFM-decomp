@@ -194,7 +194,7 @@ Rules (a row per (binary, definition site) or per (binary, declaration line)):
 
 | id | condition | cited | source |
 |---|---|---|---|
-| RET-VOID-READ | class `ret.verdict` `used` and a `void` definition (row per def) or `void` declaration (row per line) | `ret.cite` (null when `used` only through RET-FIX: `tail` given) | C0543, R3.44-001 item 4 |
+| RET-VOID-READ | class `ret.verdict` `used`, at least one census `exit` writer other than `entry` or no `exit` at all (tail/leave only) (else skipped and counted in coverage as `RET-VOID-READ skipped: no value produced` rows/functions: an empty body reads garbage, C0587), and a `void` definition (row per def) or `void` declaration (row per line) | `ret.cite` (null when `used` only through RET-FIX: `tail` given) | C0543, C0587, R3.44-001 item 4 |
 | RET-NONE | non-void definition (`void *` counts) whose masked body has no `return <expr>` and no `$v0 at exit:` comment in the body or the comment lines directly above the head | the definition | C0567 |
 | DECL-RET | declaration `norm_ret` != its definition's (all declarations, `()` included) | both spellings | C0548, C0552 |
 | DECL-EMPTY | `()` declaration; `kr_marked` when the line has `// K&R:` | the line | C0508 |
@@ -217,3 +217,22 @@ Outputs:
   definitions (sites, names, K&R heads, SHARED_FN bodies), declaration lines by shape (`(void)`, `()` unmarked, `()`
   K&R-marked, nested-paren, multi-line, other; per file line, so a header line counts once), placements, unplaced by reason,
   and src files in no .d (named).
+
+## Ledger (3.44 T4)
+
+`config/lying_exceptions.tsv` (hand-edited config): tab-separated `callee def_file kind cause task cites`; `#` lines and
+the header skipped. Fields 0-2 are the key type_census `--check` reads (type_census.py `lying_exceptions()`, share_body.py
+reads 0-2 too). `kind` `return` means DECL-RET; any other kind is a rule id above. `cites`: `<binary>:0x<vaddr> <insn>`
+items, `; `-separated, in exactly the census `cite()` text (rabbitizer, whitespace collapsed): the callee's narrowing
+exit writer(s), or where there is none the exit writer and the caller-side conversion read, plus one caller read (2-4).
+
+```
+PY tools/sig_evidence.py --check -j 16     # runs --compare, then -> build/sig_evidence/check.txt (also printed)
+```
+
+`--check`: (a) every cite is re-decoded from the extracted binary (`<alias>_EXE`, offset vaddr - `_VRAM_BASE`) with the
+census decoder and `cite()`, compared whitespace-normalized: a mismatch, an unknown binary, an address outside the image
+or a row with no cites is a failed cite; (b) a row is used when a current disagreement matches it: `name` == callee,
+`def_file` path or `bind_tu` == def_file, rule == kind; an unmatched row is an unused row; (c) a disagreement matched by
+no row is unledgered. Prints the three counts (unledgered per rule) and the first 20 of each. Exit 1 on any failed cite,
+unused row or unledgered disagreement, else 0. Not in tools-health yet (3.44 T9).
