@@ -1031,3 +1031,4 @@ C0578 | Keep a lever's wall tag in its !FAKE marker, gated against the residue r
 C0579 | Append a trailing comment to many C declaration lines, proven comment-only and census-neutral | comments,codemod,census,names-ledger,guess | 2026-11-12 | 3.43/T12 | logs/T12.c2.md
 C0580 | Mirror a phase's new names into the live Ghidra project (4 programs) and prove it | ghidra,rename,symbol,live-db,mirror | 2026-11-12 | 3.43/T14 | P3.43 T14
 C0581 | C-declaration scanners: nested-paren and multi-line externs, KR heads, backtracking | declarations,arity,census,KR,scanner | 2026-11-12 | 3.44/T1 | 3.44 T1 counts
+C0582 | A per-file walk cache must not decide the merge order: rebuild results in input order | determinism,cache,type_census,lever_census,union-find | 2026-11-12 | 3.44/T2 | -
