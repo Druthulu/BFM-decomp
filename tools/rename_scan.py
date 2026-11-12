@@ -4,7 +4,7 @@
 docs/gen3-standards.md §2 rule 1: every name carries evidence; a best guess is named `guess_<X>` with a
 row in config/names.tsv (basis, confidence, evidence kind, conflict, history). This tool keeps both halves:
 
-  --spec <tsv> | --range A..B   scan: one `git grep -n -I` over tracked text for the union of every rename's
+  --spec <tsv> | --range A..B   scan: `git grep -n -I` (one joined -e per 32 renames, wall-bounded) for the union of every rename's
                                 candidate forms (old name, func_/D_<addr>, 0x<addr>, bare <addr>); every hit
                                 gets exactly one class (R32: candidates == classified, asserted):
                                   history            path under HISTORY (dated records; never rewritten)
@@ -42,7 +42,7 @@ row in config/names.tsv (basis, confidence, evidence kind, conflict, history). T
 
 Symbol files are read through tools/lint_symbol_refs.py (iter_symbol_defs, _symbol_files): one parser.
 """
-import argparse, glob, os, re, subprocess, sys
+import argparse, glob, os, re, subprocess, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lint_symbol_refs as lsr      # the ONE symbol-file parser and the stale func_<ADDR> checker
@@ -189,19 +189,41 @@ def scan(hits, renames, scopes=None, where=None):
     return results, total
 
 
-def _git(*args):
-    p = subprocess.run(("git",) + args, cwd=REPO, capture_output=True, text=True, errors="replace")
+def _git(*args, timeout=None):
+    try:
+        p = subprocess.run(("git",) + args, cwd=REPO, capture_output=True, text=True, errors="replace",
+                           timeout=timeout)
+    except subprocess.TimeoutExpired:
+        sys.exit("[rename_scan] git %s exceeded its %d s wall-clock bound (GREP_WALL_S); "
+                 "split the spec or raise the bound" % (args[0], timeout))
     if p.returncode not in (0, 1):
         sys.exit("[rename_scan] git %s failed: %s" % (args[0], p.stderr.strip()))
     return p.stdout
 
 
+GREP_CHUNK = 32       # renames per git grep call
+GREP_WALL_S = 1800    # wall-clock bound over all of grep_hits' git grep calls
+
+
+def grep_chunks(renames, size=GREP_CHUNK):
+    """Pure. -> one ERE per chunk of `size` renames: the chunk's strong/weak forms joined into ONE alternation.
+    One -e, never one -e per form: git grep 2.43 with several -e patterns matched 669 MB / 20k files at 24 s for
+    2 patterns and >60 s for 10 (B1's 96 ran 11 CPU-h); the same alternation as one -e is 6.9 s for 96 (T9.c4)."""
+    out = []
+    for i in range(0, len(renames), size):
+        forms = []
+        for old, new, addr in renames[i:i + size]:
+            s, w = rename_forms(old, new, addr)
+            forms += [s] + ([w] if w else [])
+        out.append("|".join(forms))
+    return out
+
+
 def grep_hits(renames, rev=None):
-    pats = []
-    for old, new, addr in renames:
-        s, w = rename_forms(old, new, addr)
-        pats += ["-e", s] + (["-e", w] if w else [])
-    out = _git("grep", "-n", "-I", "-E", *pats, *([rev] if rev else []))
+    deadline, out = time.monotonic() + GREP_WALL_S, ""
+    for pat in grep_chunks(renames):
+        left = max(1, int(deadline - time.monotonic()))
+        out += _git("grep", "-n", "-I", "-E", "-e", pat, *([rev] if rev else []), timeout=left)
     hits = []
     for ln in out.splitlines():
         if rev and ln.startswith(rev + ":"):
@@ -648,6 +670,11 @@ def selftest():
           ("docs/a.md", 4, "3ABC8 and 0x003ABC8"), ("src/w.c", 5, "D_8003ABC81; x03ABC8")]
     _, t = scan([h for h in ph if h[0] != "src/w.c"], [P])
     assert t["stale-build-input"] == 2 and t["unclassified"] == 2, t
+    ch = grep_chunks([R, P, ("a_x", "b_x", "-")], size=2)                # one joined -e per chunk, same lines
+    assert len(ch) == 2 and ch[1] == r"\ba_x\b", ch
+    for h in clean + ph:
+        assert bool(re.search(ch[0], h[2])) == any(re.search(f, h[2]) for r in (R, P)
+                                                   for f in rename_forms(*r) if f), h
     try:                                                                # R32: a hit no rename owns is an error
         scan(ph, [P]); raise SystemExit("selftest: unowned hit not caught")
     except AssertionError:
