@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-11T09:36:14.577Z
+# filed through: 2026-11-12T05:13:10.714Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -130,3 +130,10 @@ R126 | 2026-11-10 | decision | in force | 3.43 T7 pilot naming batch review | Th
 R127 | 2026-11-10 | finding | in force | 3.43 T7 pilot naming batch review | T7's outputs: config/names.tsv, config/names_worklist.tsv, docs/wiki/Names-and-renames.md, and the… | .claude-state/journal/2026-11-10.md#230712-073r-claude-record
 R128 | 2026-11-11 | open | in force | Live-RAM evidence for 3.43 names | Offer the developer a targeted ram_probe session: a list of 10 to 20 one-action scenarios aimed at… | .claude-state/journal/2026-11-11/025138-009r-claude-record.md
 R129 | 2026-11-11 | open | in force | 2026-11-11 machine restart | The MCP Ghidra has been down since the 2026-11-11 restart. | .claude-state/journal/2026-11-11/025138-009r-claude-record.md
+R130 | 2026-11-11 | decision | in force | 3.43 T9 hung rename_scan and Windows restart | T9 was steered with pause: T9.c2 killed the hung git grep (pid 535141) and its rename_scan parent (… | .claude-state/journal/2026-11-11/173304-001r-claude-record.md
+R131 | 2026-11-11 | finding | in force | 3.43 T9 hung rename_scan and Windows restart | rename_scan --spec can hang indefinitely: one git grep with many combined `-E` alternation patterns… | .claude-state/journal/2026-11-11/173304-001r-claude-record.md
+R132 | 2026-11-11 | finding | in force | 3.43 T9 hung rename_scan and Windows restart | T9.c1, the binary-scoped rename_sym rewrite under R124 with rename_scan's `other-binary` class, is… | .claude-state/journal/2026-11-11/173304-001r-claude-record.md
+R133 | 2026-11-11 | open | superseded by R135 | 3.43 T9 hung rename_scan and Windows restart | T9 is stopped (blocked) for the developer's Windows restart; it resumes on his word with the scanne… | .claude-state/journal/2026-11-11/173304-001r-claude-record.md
+R134 | 2026-11-11 | open | retired by .claude-state/journal/2026-11-11/180407-004r-claude-record.md (a one-off answer about keep-warm cost, not a standing item) | 3.43 T9 hung rename_scan and Windows restart | When the developer asks about keep-warm cost, point him to the mod's spend view; Claude doesn't rea… | .claude-state/journal/2026-11-11/173304-001r-claude-record.md
+R135 | 2026-11-11 | decision | in force | 3.43 T9 hung rename_scan and Windows restart | T9 resumes with the rename_scan hang diagnosed before anything else. | .claude-state/journal/2026-11-11/180407-004r-claude-record.md
+R136 | 2026-11-11 | open | in force | 3.43 T9 hung rename_scan and Windows restart | Relay to the developer, in plain words, why the B1 spec scan hung for 11 hours, once T9 reports the… | .claude-state/journal/2026-11-11/180407-004r-claude-record.md
