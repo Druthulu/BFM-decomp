@@ -322,29 +322,29 @@ rank43	kind	key	h_exact	space	addr	name	refs	fan	binaries	owner	instances	group	
 319	func	ad15917f493f	ad15917f493f6ec84c855a97933ee19197f08ca9	80128158	801472C8	func_801472C8	305	141	141		141	E_func_801472C8	class:E_func_801472C8	no-evidence	func_801472C8	sets bit 0x2 of the u16 +0x7E and returns it; func_801472B4 clears it; no reader of the bit was found
 320	func	051402450dbb	051402450dbbf1415b119367abe18b783b1c27ed	80128158	80178438	func_80178438	960	1	1		1		ov_SC02_035	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
 321	func	240e22d54b7d	240e22d54b7dc440f2a445610ab862836daec348	80128158	80178438	func_80178438	960	1	1		1		ov_SC06_011	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
-322	func	9abc62bff884	9abc62bff884abb1ae44cc38912525c4b15a9029	80128158	80178438	func_80178438	960	1	1		1		ov_SC03_098			
-323	func	a445743a19a1	a445743a19a1f3dae47f3486a783fb6195815a3d	80128158	80178438	func_80178438	960	1	1		1		ov_SC04_003			
-324	func	f1b53329918d	f1b53329918d9b1894cc773af2d8fdd95232217c	80128158	80178438	func_80178438	960	1	1		1		ov_SC06_016			
-325	func	02e4bb20ef19	02e4bb20ef195f04d4e09c7a37c2c835a678e14d	80128158	80178438	func_80178438	959	1	1		1		ov_SC03_099			
-326	func	02e9a19600e2	02e9a19600e2b92440a9de9387c01844f33b0583	80128158	80178438	func_80178438	959	1	1		1		ov_SC03_097			
-327	func	0fa5b28b1ec3	0fa5b28b1ec3b1d08abc4e0b9dd91f43edca5f77	80128158	80178438	func_80178438	959	1	1		1		ov_SC02_026			
-328	func	8aafbc5034f8	8aafbc5034f8ba6462a95a4822bcbcdd0f0d2c9f	80128158	80178438	func_80178438	959	1	1		1		ov_SC06_010			
-329	func	9cdcbac21120	9cdcbac21120ac0879db3f88b71a695ee9b7f231	80128158	80178438	func_80178438	959	1	1		1		ov_SC04_007			
-330	func	d4261d87a4c4	d4261d87a4c45ba5eab4a607beab440dbf0b2411	80128158	80178438	func_80178438	959	1	1		1		ov_SC03_011			
+322	func	9abc62bff884	9abc62bff884abb1ae44cc38912525c4b15a9029	80128158	80178438	func_80178438	960	1	1		1		ov_SC03_098	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+323	func	a445743a19a1	a445743a19a1f3dae47f3486a783fb6195815a3d	80128158	80178438	func_80178438	960	1	1		1		ov_SC04_003	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+324	func	f1b53329918d	f1b53329918d9b1894cc773af2d8fdd95232217c	80128158	80178438	func_80178438	960	1	1		1		ov_SC06_016	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+325	func	02e4bb20ef19	02e4bb20ef195f04d4e09c7a37c2c835a678e14d	80128158	80178438	func_80178438	959	1	1		1		ov_SC03_099	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+326	func	02e9a19600e2	02e9a19600e2b92440a9de9387c01844f33b0583	80128158	80178438	func_80178438	959	1	1		1		ov_SC03_097	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+327	func	0fa5b28b1ec3	0fa5b28b1ec3b1d08abc4e0b9dd91f43edca5f77	80128158	80178438	func_80178438	959	1	1		1		ov_SC02_026	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+328	func	8aafbc5034f8	8aafbc5034f8ba6462a95a4822bcbcdd0f0d2c9f	80128158	80178438	func_80178438	959	1	1		1		ov_SC06_010	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+329	func	9cdcbac21120	9cdcbac21120ac0879db3f88b71a695ee9b7f231	80128158	80178438	func_80178438	959	1	1		1		ov_SC04_007	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+330	func	d4261d87a4c4	d4261d87a4c45ba5eab4a607beab440dbf0b2411	80128158	80178438	func_80178438	959	1	1		1		ov_SC03_011	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
 331	data	800CEDF8:80126968		800CEDF8	80126968	D_80126968	297	169	169				resident	guess	guess_g_MainCameraPitchTarget	pitch the main camera eases toward
 332	data	abs:80000000		abs	80000000	D_80000000	304	142	142				main	no-evidence	D_80000000	absolute address 0x80000000 (KSEG0 base), no use in C; any name would restate the address
-333	func	684ba7d5ecf3	684ba7d5ecf313b8dc7f1b4d0e92ce9e4b85622e	80128158	80178438	func_80178438	958	1	1		1		ov_SC02_041			
-334	func	6c18041afe3e	6c18041afe3e8fee11a24d30d2f9a350cf6b3f82	80128158	80178438	func_80178438	958	1	1		1		ov_SC04_004			
-335	func	a67c268e13cf	a67c268e13cf46016569b71cdd97670914985491	80128158	80178438	func_80178438	958	1	1		1		ov_SC03_031			
-336	func	f64a4a593a62	f64a4a593a62d9c4dc16feb3b758bcd5c7f97af9	80128158	80178438	func_80178438	958	1	1		1		ov_SC02_016			
-337	func	f6ec607d5d0f	f6ec607d5d0f392f2259bf6d26fd289791308a40	80128158	80178438	func_80178438	958	1	1		1		ov_SC03_093			
-338	func	8a9884033f88	8a9884033f888315f0834bfb38802de86a00ddd6	80128158	80178438	func_80178438	957	1	1		1		ov_SC03_117			
-339	func	8d12d03338af	8d12d03338af4ab049a1c043a8950374c0b94393	80128158	80178438	func_80178438	957	1	1		1		ov_SC06_025			
-340	func	c62da94e8d7b	c62da94e8d7b74c1b83746fafacc25ce3465269a	80128158	80178438	func_80178438	957	1	1		1		ov_SC02_037			
-341	func	cd83646eb326	cd83646eb3262eb2721ab2864a7a25e9741ab46a	80128158	80178438	func_80178438	957	1	1		1		ov_SC02_031			
-342	func	0ba8e738847b	0ba8e738847befffa578a4a2f93a5a8c2b5b37f4	80128158	80178438	func_80178438	956	1	1		1		ov_SC03_007			
-343	func	39b81e8e1229	39b81e8e12298d9c4eac1d6ce8cdfa5c3ce60015	80128158	80178438	func_80178438	956	1	1		1		ov_SC01_084			
-344	func	6901ba1c8b91	6901ba1c8b91c16af9288d39c01dd632ebf53635	80128158	80178438	func_80178438	956	1	1		1		ov_SC01_080			
+333	func	684ba7d5ecf3	684ba7d5ecf313b8dc7f1b4d0e92ce9e4b85622e	80128158	80178438	func_80178438	958	1	1		1		ov_SC02_041	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+334	func	6c18041afe3e	6c18041afe3e8fee11a24d30d2f9a350cf6b3f82	80128158	80178438	func_80178438	958	1	1		1		ov_SC04_004	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+335	func	a67c268e13cf	a67c268e13cf46016569b71cdd97670914985491	80128158	80178438	func_80178438	958	1	1		1		ov_SC03_031	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+336	func	f64a4a593a62	f64a4a593a62d9c4dc16feb3b758bcd5c7f97af9	80128158	80178438	func_80178438	958	1	1		1		ov_SC02_016	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+337	func	f6ec607d5d0f	f6ec607d5d0f392f2259bf6d26fd289791308a40	80128158	80178438	func_80178438	958	1	1		1		ov_SC03_093	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+338	func	8a9884033f88	8a9884033f888315f0834bfb38802de86a00ddd6	80128158	80178438	func_80178438	957	1	1		1		ov_SC03_117	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+339	func	8d12d03338af	8d12d03338af4ab049a1c043a8950374c0b94393	80128158	80178438	func_80178438	957	1	1		1		ov_SC06_025	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+340	func	c62da94e8d7b	c62da94e8d7b74c1b83746fafacc25ce3465269a	80128158	80178438	func_80178438	957	1	1		1		ov_SC02_037	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+341	func	cd83646eb326	cd83646eb3262eb2721ab2864a7a25e9741ab46a	80128158	80178438	func_80178438	957	1	1		1		ov_SC02_031	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+342	func	0ba8e738847b	0ba8e738847befffa578a4a2f93a5a8c2b5b37f4	80128158	80178438	func_80178438	956	1	1		1		ov_SC03_007	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+343	func	39b81e8e1229	39b81e8e12298d9c4eac1d6ce8cdfa5c3ce60015	80128158	80178438	func_80178438	956	1	1		1		ov_SC01_084	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
+344	func	6901ba1c8b91	6901ba1c8b91c16af9288d39c01dd632ebf53635	80128158	80178438	func_80178438	956	1	1		1		ov_SC01_080	guess	guess_ShowEneLabelAndValue	ENE label and decimal value on screen
 345	func	98cf5c0e9b5b	98cf5c0e9b5b4f84bca65f4a5ab3cdbd33219f85	80128158	80178438	func_80178438	956	1	1		1		ov_SC03_024			
 346	func	b32e9d4f3a90	b32e9d4f3a901f1fe2bac210519d82293b3d4ee2	80128158	80178438	func_80178438	956	1	1		1		ov_SC03_030			
 347	func	b496c541508c	b496c541508ca0a33de20d2183b06db66236d739	80128158	80178438	func_80178438	956	1	1		1		ov_SC03_094			
