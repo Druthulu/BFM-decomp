@@ -5,12 +5,12 @@ extern s32 func_8017496C(void *a0);
 extern s32 D_80126954;
 extern s32 D_80126950;
 extern s32 D_8012695C;
-extern s16 guess_g_MainCameraPitchTarget;
-extern s16 guess_g_MainCameraYawTarget;
-extern s16 guess_g_MainCameraRollTarget;
-extern s16 guess_g_MainCameraRefOffsetTargetX;
-extern s16 guess_g_MainCameraRefOffsetTargetY;
-extern s16 guess_g_MainCameraRefOffsetTargetZ;
+extern s16 guess_g_MainCameraPitchTarget; // Names ledger: config/names.tsv guess_g_MainCameraPitchTarget
+extern s16 guess_g_MainCameraYawTarget; // Names ledger: config/names.tsv guess_g_MainCameraYawTarget
+extern s16 guess_g_MainCameraRollTarget; // Names ledger: config/names.tsv guess_g_MainCameraRollTarget
+extern s16 guess_g_MainCameraRefOffsetTargetX; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetX
+extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetY
+extern s16 guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetZ
 /* guess_SetMainCameraDefaults: resets the main camera's parameters and angle/offset targets to scene defaults and installs camera handler func_8017496C
  * Confidence medium, xref chain: writes 0x1F4/0x1F4/0x384 and the pitch/yaw/roll targets 0x1C7/0x600/0 and zero offset targets, then guess_SetMainCameraHandler(func_8017496C, 0)
  * Names ledger: config/names.tsv guess_SetMainCameraDefaults */

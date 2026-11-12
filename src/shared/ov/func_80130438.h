@@ -7,7 +7,7 @@ extern void func_800CB0E8(s32 a0);
 extern s32 guess_StartActorSequenceById(s32 a0, s32 a1);
 extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern s32 *guess_g_PlayerModelPtr;
+extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 void func_80130438(s32 a0) {
     s32 flag;
     flag = 0;

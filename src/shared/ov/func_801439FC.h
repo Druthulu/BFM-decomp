@@ -4,9 +4,9 @@ extern void guess_ZeroMemory(void *a0, s32 a1);
 extern void guess_FreeActor(void *a0);
 extern s32 func_80134510(s32 arg);
 extern s32 ratan2(s32 a0, s32 a1);
-extern s16 guess_g_BoxHitNormalZ;
-extern s16 guess_g_BoxHitNormalY;
-extern u8 guess_g_BoxHitNormalX[];
+extern s16 guess_g_BoxHitNormalZ; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
+extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxHitNormalY
+extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 void func_801439FC(s32 a0) {
     s32 s1 = *(s32 *)(a0 + 0x64);
     s32 s0 = *(s32 *)(a0 + 0xCC);

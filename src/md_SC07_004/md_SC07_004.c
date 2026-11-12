@@ -1896,9 +1896,9 @@ extern void func_80132288(s32 *a0, s32 *a1, s32 a2);
 extern void func_8014CBD8(void);
 extern void func_801A3114(s32 *a0);
 
-extern s32 guess_g_PlayerActor[4];
+extern s32 guess_g_PlayerActor[4]; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern u16 D_80126CE0;
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern s16 D_801AFB90;
 extern s32 D_801AFAB8;
 extern s32 D_801BC9EC;
@@ -2004,8 +2004,8 @@ void func_801A3114(s32 *a0)
  * this function in the file: func_801A34C4 (:841), func_801A34FC (:848),
  * func_801A3594 (:875), func_801A41CC (:1329). */
 extern u16 D_8019FF8A;
-extern s16 guess_g_PlayerPosX;
-extern s16 guess_g_PlayerPosZ;
+extern s16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern s16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 extern void func_801A41CC(void);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 func_801A3594(void *a0);
@@ -2476,10 +2476,10 @@ extern s32 func_8014CB8C(void);
 extern s32 func_8017267C(s32 *a0);
 extern void ApplyRotMatrixLV(void *in, void *out);
 
-extern s16 guess_g_PlayerPosX;
-extern s16 guess_g_PlayerPosY;
-extern s16 guess_g_PlayerPosZ;
-extern s32 guess_g_PlayerActor[4];
+extern s16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern s16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+extern s16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
+extern s32 guess_g_PlayerActor[4]; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 D_801F8864;
 
 void func_801A3B18(s32 param_1)
@@ -2569,7 +2569,7 @@ extern s32 func_8017267C(s32 *a0);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 extern s32 D_801F8864;
-extern s32 guess_g_PlayerActor[4];
+extern s32 guess_g_PlayerActor[4]; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 D_80126B5C;
 extern s32 D_80126B64;
 
@@ -2928,12 +2928,12 @@ extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_801A9C00(void *a0);
 
 /* TU already declares these identically (func_801AAF8C block, this file) */
-extern s16  guess_g_PlayerPosX;
-extern s16  guess_g_PlayerPosY;
-extern s16  guess_g_PlayerPosZ;
-extern s32 *guess_g_PlayerModelPtr;
+extern s16  guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern s16  guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+extern s16  guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
+extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 extern s32 *D_80126B90;
-extern u8   guess_g_BoxHitNormalX[];
+extern u8   guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 
 void func_801A4570(void *arg0)
 {
@@ -3523,10 +3523,10 @@ extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
 
 extern Mtx32_801A90D8 D_800AE620;
-extern s16 guess_g_PlayerPosY;
-extern s32 *guess_g_PlayerModelPtr;
+extern s16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 extern s32 *D_80126B90;
-extern u8 guess_g_BoxHitNormalX[];
+extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 
 s32 func_801A54F0(s32 param_1, s32 param_2)
 {
@@ -3596,9 +3596,9 @@ extern void SetTransMatrix(void *a0);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 
 extern Mtx32_801A90D8 D_800AE620;
-extern s16 guess_g_PlayerPosX;
-extern s16 guess_g_PlayerPosY;
-extern s16 guess_g_PlayerPosZ;
+extern s16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern s16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+extern s16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 
 void func_801A5698(u8 *s2, s32 a1)
 {
@@ -3902,7 +3902,7 @@ void func_801A5E60(s32 a0, u8 *v)
 {
     extern s32 func_80010A08(s32);
     extern u8 D_800A6610[];
-    extern u16 guess_g_DoubleBufferIndex;
+    extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern u8 D_801F8744[];
     extern u8 D_801F8745[];
     extern u8 D_801F8746[];
@@ -3998,10 +3998,10 @@ extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern s32  ratan2(s32 a0, s32 a1);
 extern void CompMatrix(void *a0, void *a1, void *a2);
 
-extern s32 guess_g_MainCameraAppliedViewPointX;
-extern s32 guess_g_MainCameraAppliedViewPointY;
-extern s32 guess_g_MainCameraAppliedViewPointZ;
-extern u8  guess_g_CameraWsMatrix;
+extern s32 guess_g_MainCameraAppliedViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointX
+extern s32 guess_g_MainCameraAppliedViewPointY; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointY
+extern s32 guess_g_MainCameraAppliedViewPointZ; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointZ
+extern u8  guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 
 void func_801A6184(u8 *s2, s32 p1, s32 p2)
 {
@@ -4047,7 +4047,7 @@ void func_801A6184(u8 *s2, s32 p1, s32 p2)
 }
 
 
-extern u16 guess_g_ObjectTable[];
+extern u16 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 extern void func_801A63A8(void *arg0);
 
 void func_801A6330(void) {
@@ -4618,7 +4618,7 @@ void func_801A6F3C(s32 param_1) {
 #include "common.h"
 
 extern u16 D_8019FF8A;
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern u8 D_801F88A8[];
 extern u8 D_801F88B0[];
 extern u8 D_801F8747[];
@@ -5804,7 +5804,7 @@ void func_801A8B28(void *a0) {
 #include "common.h"
 
 /* TU already declares these exact spellings (law 2) */
-extern u8 guess_g_CameraWsMatrix;
+extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 extern s32 ratan2(s32 a0, s32 a1);
 
 /* GTE input vertex {vx,vy,vz,pad} -- own name/layout, per law 8 */
@@ -5879,9 +5879,9 @@ void func_801A8C58(s32 s2)
 }
 
 
-extern s32 guess_g_MainCameraAppliedViewPointX;
-extern s32 guess_g_MainCameraAppliedViewPointY;
-extern s32 guess_g_MainCameraAppliedViewPointZ;
+extern s32 guess_g_MainCameraAppliedViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointX
+extern s32 guess_g_MainCameraAppliedViewPointY; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointY
+extern s32 guess_g_MainCameraAppliedViewPointZ; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointZ
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void RotMatrixYXZ(void *a0, void *a1);
@@ -5934,9 +5934,9 @@ void func_801A8DCC(s32 a0, s32 a1)
 
 /* Declarations copied verbatim from this TU's existing externs
    (md_SC07_004.c:2223-2225, :2321, :4039, :4041, :4998). */
-extern s32 guess_g_MainCameraAppliedViewPointX;
-extern s32 guess_g_MainCameraAppliedViewPointY;
-extern s32 guess_g_MainCameraAppliedViewPointZ;
+extern s32 guess_g_MainCameraAppliedViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointX
+extern s32 guess_g_MainCameraAppliedViewPointY; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointY
+extern s32 guess_g_MainCameraAppliedViewPointZ; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointZ
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void func_8004978C(s16 *a0, void *a1);
@@ -6030,8 +6030,8 @@ extern int rand(void);   /* canonical: identical decl already at md_SC07_004.c:1
 extern void RotMatrixY(s32 a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void func_8012AD44(s32 *a0, s16 a1);   /* verbatim from md_SC07_004.c:866 */
-extern s16 guess_g_PlayerPosX;                        /* verbatim from md_SC07_004.c:1301 */
-extern s16 guess_g_PlayerPosZ;                        /* verbatim from md_SC07_004.c:1303 */
+extern s16 guess_g_PlayerPosX;                        /* verbatim from md_SC07_004.c:1301 */ // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern s16 guess_g_PlayerPosZ;                        /* verbatim from md_SC07_004.c:1303 */ // Names ledger: config/names.tsv guess_g_PlayerPosZ
 
 /* PsyQ MATRIX-shaped 0x20-byte template; copied whole onto the stack (house
  * style: md_MAIN_022.c:140 Blk20_800CB68C / ov_MAIN_012 func_80168664 Blk20).
@@ -6876,7 +6876,7 @@ s32 func_801AA584(s32 a0) {
 }
 
 
-extern u8 guess_g_CameraWsMatrix;
+extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
@@ -7289,10 +7289,10 @@ void func_801AADA8(s32 arg0, s32 arg1, s32 arg2)
     extern void SetRotMatrix(void *);
     extern void SetTransMatrix(void *);
     extern s32 RotTransPers(s32, s32, s32 *, s32 *);
-    extern u8 guess_g_CameraWsMatrix;
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
     extern OtBlk_8018A974_801AADA8 D_800A651C[];
-    extern u8 guess_g_OrderingTables[];
-    extern short guess_g_DoubleBufferIndex;
+    extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern void func_80016638(void *a0, s32 a1, s32 a2);
 
     s32 sp10;
@@ -7356,12 +7356,12 @@ extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
-extern s16  guess_g_PlayerPosX;
-extern s16  guess_g_PlayerPosY;
-extern s16  guess_g_PlayerPosZ;
-extern s32 *guess_g_PlayerModelPtr;
+extern s16  guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern s16  guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+extern s16  guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
+extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 extern s32 *D_80126B90;
-extern u8   guess_g_BoxHitNormalX[];
+extern u8   guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 
 s32 func_801AAF8C(SV_801AAF8C *src, SV_801AAF8C *ofs, s32 arg2)
 {
@@ -7462,11 +7462,11 @@ void func_801AB21C(s32 a0, s32 a1, s32 a2, s32 a3)
 {
     extern s32 func_80010A08(s32);
     extern void func_80016638(void *a0, s32 a1, s32 a2);
-    extern u16 guess_g_DoubleBufferIndex;
+    extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern OtBlk_8018A974_801AADA8 D_800A651C[];
-    extern u8 guess_g_OrderingTables[];
-    extern OtBlk_8018A974_801AADA8 guess_g_FrontOrderingTablesOrg[];
-    extern u8 guess_g_FrontOrderingTables[];
+    extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
+    extern OtBlk_8018A974_801AADA8 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern u8 guess_g_FrontOrderingTables[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 
     F4_801AB21C *p;
     u32 *ot;
@@ -8381,7 +8381,7 @@ extern void func_801AA160(s32 arg0, s32 arg1);
 extern void func_801AA3CC(s32 arg0);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 
 void func_801AC6C0(s32 arg0) {
     s32 s0;
@@ -10138,10 +10138,10 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
      * use for these four globals + the allocator (md_SC07_004.c:8742-8745,
      * :5723) -- a file-scope `extern u16 guess_g_DoubleBufferIndex;` would collide with the
      * `extern short` those blocks declare. */
-    extern u8 guess_g_CameraWsMatrix;
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short guess_g_DoubleBufferIndex;
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern s32 func_80010A08(s32);
 
     Mtx_801AEC38 mtx;           /* sp+0x10 */
@@ -10335,10 +10335,10 @@ void func_801AF1EC(void *a0) {
 
 void func_801AF368(void *a0)
 {
-    extern u8 guess_g_CameraWsMatrix;
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short guess_g_DoubleBufferIndex;
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern void RotMatrixZ(s32 a0, void *a1);
 
     u8 stk[0x60];                        /* sp+0x10 .. sp+0x6F */

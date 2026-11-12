@@ -48,7 +48,7 @@ void func_80180A64(s32 param_1)
 
 
 
-extern s32 guess_g_PlayerActor;
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 func_8012E544(s32 a0);
 extern void guess_StartActorSequence(s32, void *);
 extern void guess_RequestSound(s32 a0, s32 a1);

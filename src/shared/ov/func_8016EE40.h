@@ -3,7 +3,7 @@
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern void func_8016EF78(s32 a0);
-extern s32 guess_g_PlayerActor;
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 /* guess_ReturnPlayerToStandingState: calls func_8016EF78, then, unless the player's state is 0x19 or 0x1A, leaves its state and enters state 0 (standing)
  * Confidence low, xref chain: func_8016EF78(); state not 0x19/0x1A -> func_801599A4(player) (state exit table), func_80159B3C(player) (guess_SetState 0)
  * Names ledger: config/names.tsv guess_ReturnPlayerToStandingState */

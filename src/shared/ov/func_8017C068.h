@@ -1,7 +1,7 @@
 /* func_8017C068 — shared body (overlay slot 0x80128158, h_exact e4701d13). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8017C068(void) {
-    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     extern void guess_ZeroMemory(void *a0, s32 a1);
     extern void guess_FreeActor(void *a0);
     u8 *p;

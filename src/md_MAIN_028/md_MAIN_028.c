@@ -51,7 +51,7 @@ void func_800CAEC0(s32 a0) {
 
 
 void func_800CB0D8(s32 a0) {
-    extern Struct80078E78_md_MAIN_028_800CB0D8 guess_g_PlayerRecord;
+    extern Struct80078E78_md_MAIN_028_800CB0D8 guess_g_PlayerRecord; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern s32 D_80078EC8;
     extern void guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
     extern s32 func_80165A20(s32);
@@ -139,7 +139,7 @@ void func_800CB3AC(s32 a0) {
 }
 
 
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern s32 func_800CB6D4(s32 a0);
 extern void func_800CB684(s32 a0, s32 a1);
 extern void guess_NextStep(void *a0);
@@ -183,7 +183,7 @@ void func_800CB564(int param_1)
 }
 
 
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_800CB684(s32 a0, s32 a1);
 

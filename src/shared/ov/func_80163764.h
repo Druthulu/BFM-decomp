@@ -1,7 +1,7 @@
 /* func_80163764 — shared body (overlay slot 0x80128158, h_exact fa4fafa0). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
-extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 s32 func_80163764(s32 a0)
 {
     s32 counter;

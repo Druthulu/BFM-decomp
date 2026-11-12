@@ -5,8 +5,8 @@ extern s32 func_80012A60(s32 a0, s32 a1);
 extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80047D3C(s32 a0);
 extern s32 ratan2(s32 a0, s32 a1);
-extern u8 guess_g_ObjectTable[];
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 void func_80164530(s32 arg0) {
     u8 *p;
     s32 s0;

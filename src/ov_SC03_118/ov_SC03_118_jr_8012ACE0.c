@@ -854,7 +854,7 @@ void func_80130D0C(void *a0) {
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
 extern s32 rand(void);
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u16 g_PlayerHpMax;
 extern u16 g_PlayerHp;
 extern s16 D_80189D48[];
@@ -2089,9 +2089,9 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     extern s32 *D_80189F0C;
     extern s32 *D_80189F10;
     extern u16 D_801D2F68;
-    extern u8  guess_g_BoxHitNormalX[];
-    extern s16 guess_g_BoxHitNormalY;
-    extern s16 guess_g_BoxHitNormalZ;
+    extern u8  guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+    extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxHitNormalY
+    extern s16 guess_g_BoxHitNormalZ; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
     extern u16 D_801152AE;
     extern u8  D_801152B0;
     extern s32 guess_Vec3sDotAdd(Vec3s *a0, Vec3s *a1, s32 a2);

@@ -1,11 +1,11 @@
 /* func_8014EE14 — shared body (overlay slot 0x80128158, h_exact d6ee7093). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u16 guess_g_FrameCounter;
-extern u8 guess_g_ObjectTable[];
-extern s32 guess_g_BoxHitFlags;
-extern u8 guess_g_BoxHitCenterX[];
-extern s16 guess_g_BoxHitCenterZ;
-extern s16 guess_g_BoxHitNormalY;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
+extern s32 guess_g_BoxHitFlags; // Names ledger: config/names.tsv guess_g_BoxHitFlags
+extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
+extern s16 guess_g_BoxHitCenterZ; // Names ledger: config/names.tsv guess_g_BoxHitCenterZ
+extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxHitNormalY
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2)
 {

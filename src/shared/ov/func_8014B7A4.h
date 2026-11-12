@@ -3,8 +3,8 @@
 extern s32 func_8016F1C4(void);
 extern s32 guess_TestGameFlag(s32 arg);
 extern void func_8014B944(s32 a0, s32 a1, s32 a2);
-extern u8 guess_g_RenderWork[];
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern s16 currentLocationId;
 extern s32 D_80078EA4;
 void func_8014B7A4(s16 *param_1) {

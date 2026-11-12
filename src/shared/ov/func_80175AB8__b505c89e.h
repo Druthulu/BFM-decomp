@@ -4,14 +4,14 @@ void func_80175AB8(param_1)
     s16 param_1;
 {
    /* size 0x0C */
-    extern S_AF634 guess_g_PacketBufferUsed[];
-    extern S_AF634 guess_g_PacketBufferBase[];
+    extern S_AF634 guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
+    extern S_AF634 guess_g_PacketBufferBase[]; // Names ledger: config/names.tsv guess_g_PacketBufferBase
 
-    extern u8  guess_g_HudPlayerRecord;
-    extern u16 guess_g_HudHpPanelX;
-    extern u16 guess_g_HudHpPanelY;
-    extern s16 guess_g_HudGoldPanelX;
-    extern s16 guess_g_HudGoldPanelY;
+    extern u8  guess_g_HudPlayerRecord; // Names ledger: config/names.tsv guess_g_HudPlayerRecord
+    extern u16 guess_g_HudHpPanelX; // Names ledger: config/names.tsv guess_g_HudHpPanelX
+    extern u16 guess_g_HudHpPanelY; // Names ledger: config/names.tsv guess_g_HudHpPanelY
+    extern s16 guess_g_HudGoldPanelX; // Names ledger: config/names.tsv guess_g_HudGoldPanelX
+    extern s16 guess_g_HudGoldPanelY; // Names ledger: config/names.tsv guess_g_HudGoldPanelY
     extern s32 D_8011F804;
     extern u16 D_8011F80A;
     extern u16 D_8011F824;

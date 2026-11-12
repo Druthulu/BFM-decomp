@@ -55,8 +55,8 @@ extern void func_800CFB3C(u16 *arg0);
 extern s32 func_800CFC1C(u16 *param_1);
 extern void func_800599B8(u16 *, u16 *);
 extern s32 func_800CFEB4(u16 *arg0);
-extern u16 guess_g_ScreenWidth;
-extern u16 guess_g_ScreenHeight;
+extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
+extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
 extern u16 D_800AF7C0;
 extern void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);
 extern void func_80053EEC(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -90,7 +90,7 @@ extern u8 D_800AF680;
  * reproduces the target bytes regardless of the TU's compile flags. No C externs
  * shipped (link-time resolution).
  */
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void (*D_800D363C[])(void);
 
 void func_800D0100(void) {
@@ -100,7 +100,7 @@ void func_800D0100(void) {
 
 
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void func_8001C044(void);
 extern void func_80015310(void);
 extern int func_8002D858(void);
@@ -144,7 +144,7 @@ void func_800D0204(void) {
 
 
 extern s32 func_800149E0(s32 arg0);
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern s16 D_800EC894[0];
 extern void func_800167B8(s32 arg0);
@@ -191,7 +191,7 @@ void func_800D0268(void) {
 
 
 extern s32 func_800167F0(s32 arg0);
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s16 D_800EC894[0];
 extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
 extern void func_800D0D6C(void);
@@ -320,7 +320,7 @@ void func_800D05B4(void) {
 extern void func_80015310(void);
 extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_800118AC(void);
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 D_800D93FC[];
 
 void func_800D0664(void) {
@@ -367,7 +367,7 @@ void func_800D0664(void) {
 extern void func_800D12D0(void);
 extern void func_800118AC(void);
 extern s32 D_800EC890;
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_800D06BC(void) {
     register u8 *base;
@@ -421,7 +421,7 @@ extern u16 D_800EC888;
 extern s16 D_800EC894[0];
 extern s16 D_800EC898;
 extern s32 D_800EC88C[0];
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 extern void func_800D12D0(void);
 extern s32 func_800149E0(s32);
@@ -484,7 +484,7 @@ extern s16 D_800EC898;
 extern s16 D_800EC894[0];
 extern void func_800D1D14(s32, s32);
 extern void func_800118AC();
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_800D09A0(void) {
     register u8 *base = guess_g_RenderWork;
@@ -523,7 +523,7 @@ void func_800D09A0(void) {
  * (maspsx rejects hex in __asm__ strings). No C externs shipped (link-time resolution).
  */
 void func_800D0A7C(void) {
-    extern u8 guess_g_RenderWork[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
     extern s32 D_800EC890;
     extern void func_800146B0(s32 a0);
     extern void func_800118AC();
@@ -577,7 +577,7 @@ void func_800D0A7C(void) {
  * -23626, -0x5C48 = -23624, lui $at,(0x10000>>16) = lui $at,1. No C externs
  * shipped (link-time resolution, per sec 265 / sec 236-1).
  */
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 D_800D4E6C;
 extern s16 D_800EC894[0];
 

@@ -11,7 +11,7 @@
 
 /* --- round 1: names used in ov_SC02_011_jr_80188E3C.c but declared only in the parent TU --- */
 /* was: ov_SC02_011_jr_8017AE2C.c:2460 */
-extern short guess_g_DoubleBufferIndex;
+extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 /* was: ov_SC02_011_jr_8017AE2C.c:1691 */
 extern void RotMatrixYXZ(void *a0, void *a1);
 

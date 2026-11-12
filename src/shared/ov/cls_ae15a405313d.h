@@ -6,9 +6,9 @@ void *a0;
 s32 a1;
 {
     extern void Square0(s32 *a0, s32 *a1);
-    extern u16 guess_g_PlayerPosX;
-    extern u16 guess_g_PlayerPosZ;
-    extern u16 guess_g_PlayerPosY;
+    extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
+    extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
     s32 in[3];
     s32 out[3];
     s16 d;

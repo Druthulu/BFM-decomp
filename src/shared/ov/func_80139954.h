@@ -3,7 +3,7 @@
 extern void func_8013A8B0(s32 *a0);
 extern u16 D_80126A08;
 extern s16 D_801269F4;
-extern s32 guess_g_TextBoxes;
+extern s32 guess_g_TextBoxes; // Names ledger: config/names.tsv guess_g_TextBoxes
 extern s32 *D_80126A30;
 /* guess_CloseTextWindow0: frees text window record 0 of guess_g_TextBoxes as guess_CloseTextWindow frees any record
  * Confidence medium, xref chain: D_801269F4 (+4) = 0, guess_g_TextBoxes (+0) = 0; D_80126A08 (+0x18) and D_80126A30 (+0x40) -> func_8013A8B0; menu calls it before reopening

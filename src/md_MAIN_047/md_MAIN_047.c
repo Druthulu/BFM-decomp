@@ -292,7 +292,7 @@ void func_800CD494(void *a0) {
 
 
 void func_800CD4D0(void *arg0) {
-    extern s32 guess_g_SmallObjectPool;
+    extern s32 guess_g_SmallObjectPool; // Names ledger: config/names.tsv guess_g_SmallObjectPool
     extern u8 D_800CD6E0[];
     extern s32 guess_FreeSmallObject(u8 *a0);
     extern void guess_ZeroMemory(void *a0, s32 a1);

@@ -9,7 +9,7 @@ extern void func_801839C4(void *a0);
 extern void func_80183BA4();
 extern void func_80183C9C(s32 a0);
 extern void func_800D1724(s32 a0);
-extern s16 guess_g_BackgroundLayerPriority[];
+extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
 extern s16 D_801274E8;
 extern u8 D_8018EDC8[];
 extern u8 D_8018EA48[];

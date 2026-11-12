@@ -615,9 +615,9 @@ void func_801E5B0C(void) {
 extern s32 func_801439C0(void *a0);
 extern s32 func_80134510(s32 arg);
 extern s32 ratan2(s32 a0, s32 a1);
-extern s16 guess_g_BoxHitNormalZ;
-extern s16 guess_g_BoxHitNormalY;
-extern u8 guess_g_BoxHitNormalX[];
+extern s16 guess_g_BoxHitNormalZ; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
+extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxHitNormalY
+extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 
 void func_801E5B3C(s32 a0) {
     s32 s1 = ((Unkstruct_800B5CB8 *)a0)->unk64;

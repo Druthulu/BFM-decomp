@@ -14,8 +14,8 @@ void func_8012A1BC(void) {
     extern s32 D_80120294;
     extern s16 D_80120298;
     extern s32 D_80126950, D_80126954, D_80126958, D_8012695C;
-    extern Blk8 D_80126960, guess_g_MainCameraPitchTarget;
-    extern u16 D_80126970, D_80126972, D_80126974, guess_g_MainCameraRefOffsetTargetX, guess_g_MainCameraRefOffsetTargetY, guess_g_MainCameraRefOffsetTargetZ;
+    extern Blk8 D_80126960, guess_g_MainCameraPitchTarget; // Names ledger: config/names.tsv guess_g_MainCameraPitchTarget
+    extern u16 D_80126970, D_80126972, D_80126974, guess_g_MainCameraRefOffsetTargetX, guess_g_MainCameraRefOffsetTargetY, guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetX, guess_g_MainCameraRefOffsetTargetY, guess_g_MainCameraRefOffsetTargetZ
     extern s32 D_801269E4;
     extern u16 D_801269E8, D_801269EA;
     s32 r2, r3, r4, r5;

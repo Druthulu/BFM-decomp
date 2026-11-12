@@ -2,7 +2,7 @@
  * exemplar src/ov_SC07_011/ov_SC07_011_jr_8017BEBC.c:4175 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(void) {
 
-    extern s32 guess_g_PlayerActor;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     s32 t;
 
     t = func_8014C050((s32)&guess_g_PlayerActor, 0x28);

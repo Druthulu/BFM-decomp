@@ -172,8 +172,8 @@ extern s32 D_800CC130;
 extern s16 D_800CC134;
 extern s16 D_800CC136;
 extern s16 D_800CC138;
-extern u16 guess_g_FrameCounter;
-extern s32 guess_g_PlayerActor[];
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
+extern s32 guess_g_PlayerActor[]; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 rsin(s32);
 extern s32 func_80012DBC(s32, s32, s32, s32);
 extern u16 guess_GetPadPressed(s32 *);
@@ -303,7 +303,7 @@ void func_800CB570(int param_1)
 }
 
 
-extern s32 guess_g_PlayerActor[];
+extern s32 guess_g_PlayerActor[]; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern s32 func_80165A20(s32 a0);
 
@@ -406,8 +406,8 @@ void guess_FreeObjectAndSubObject_14(void) {
 
 
 void func_800CB794(s32 arg0) {
-    extern u8 guess_g_ObjectTable[];
-    extern u8 guess_g_BoxHitCenterX[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
+    extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
     extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
     extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
     extern s32 func_8014C3D0(void *a0, s32 a1, s32 a2, s32 a3);

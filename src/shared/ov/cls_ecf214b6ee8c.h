@@ -5,7 +5,7 @@
  * rank 4 src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:4787 rejected by type_census --check */
 void SHARED_FN(s32 arg0)
 {
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern s32 rsin(s32 a0);
     ((Unkstruct_80180488 *)*(s32 *)(arg0 + 0x20))->unk10 = (u32)rsin(guess_g_FrameCounter * 48) >> 5;
 }

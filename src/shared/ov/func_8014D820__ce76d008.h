@@ -3,10 +3,10 @@
 s32 func_8014D820(s32 a0, u16 *a1, u16 *a2)
 {
 
-    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     extern u8 D_80180EC8[];
-    extern u8 guess_g_BoxHitNormalX[];
-    extern s16 guess_g_BoxHitNormalZ;
+    extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+    extern s16 guess_g_BoxHitNormalZ; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
   /* BLOCK-SCOPE types — see the header note. `Ent` at file scope collides with
      src/shared/engine_types.h:434 and kills the TU's cc1 stage (exit 33). */
   typedef Unkstruct_800B5CB8 Ent;

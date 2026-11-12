@@ -15,7 +15,7 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
        sibling and the family sweeps 0/137. Body-local typedefs DO survive (PTag_80140D68 below
        is the proof), so it lives here. */
          /* 0x14 stride */
-    extern Env_800D29F8 guess_g_FrontOrderingTablesOrg[];
+    extern Env_800D29F8 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
 
 
     u32 mhi;

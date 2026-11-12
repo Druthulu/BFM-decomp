@@ -4,8 +4,8 @@ extern void func_801EF750(void);
 extern void func_801EF7DC(void);
 extern s16 func_801EF7F0(void);
 extern s32 func_801EF800(s32 a0, s32 a1);
-extern u16 guess_g_MenuFrameCounter;
-extern unsigned short guess_g_MenuStep;
+extern u16 guess_g_MenuFrameCounter; // Names ledger: config/names.tsv guess_g_MenuFrameCounter
+extern unsigned short guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern void (*D_801F3468[])(void);
 extern void func_80141C04(void);
 extern void func_801EF878(void);
@@ -322,7 +322,7 @@ extern void func_801F2970(void);
 
 s32 *func_801F2690(void) {
     extern u8 D_80078EB1;
-    extern u8 guess_g_PlayerRecord[];
+    extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern u32 D_801F3BDC;
     extern u32 D_801F3D00;
     extern s32 D_801F9DD4;

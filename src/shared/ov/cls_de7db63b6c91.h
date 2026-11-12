@@ -4,7 +4,7 @@ extern s16 func_80171AB0(s32 a0, void *a1);
 extern void func_80171A1C(u8*);
 void SHARED_FN(u8 * a0)
 {
-    extern s32 guess_g_ActiveCamera;
+    extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     s16 buf[3];
     s32 *p;
     p = (s32 *)guess_g_ActiveCamera;

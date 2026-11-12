@@ -14,9 +14,9 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     extern s32 *D_8017F81C;
     extern s32 *D_8017F820;
     extern u16 D_8018E6F8;
-    extern u8  guess_g_BoxHitNormalX[];
-    extern s16 guess_g_BoxHitNormalY;
-    extern s16 guess_g_BoxHitNormalZ;
+    extern u8  guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+    extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxHitNormalY
+    extern s16 guess_g_BoxHitNormalZ; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
     extern u16 D_801152AE;
     extern u8  D_801152B0;
     extern s32 guess_Vec3sDotAdd(Vec3s *a0, Vec3s *a1, s32 a2);

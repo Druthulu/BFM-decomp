@@ -2,7 +2,7 @@
  * exemplar src/ov_SC03_097/ov_SC03_097_jr_8017D898.c:4432 · rank 1/3 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(void) {
 
-    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     u8 *p;
     s32 i;
 

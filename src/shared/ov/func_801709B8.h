@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u8 D_800D599C[];
 extern void *D_8011F738;
-extern s32 guess_g_PlayerActor;
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern void func_80170AD8(void *a0);
 extern void func_80171904(s32 a0);
 extern void func_80170B48(int a0);

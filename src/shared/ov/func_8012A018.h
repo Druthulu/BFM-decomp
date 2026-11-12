@@ -6,6 +6,6 @@ extern s32 func_8012A048(void *a0, s32 a1, u8 a2);
  * Names ledger: config/names.tsv guess_SetMainCameraHandler */
 void guess_SetMainCameraHandler(s32 a0, s32 a1)
 {
-    extern u8 guess_g_MainCamera[];
+    extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
     func_8012A048(guess_g_MainCamera, a0, a1);
 }

@@ -151,7 +151,7 @@ void func_800CB168(void *arg0) {
     extern u16 D_80126BC8;
     extern u16 D_80126BCA;
     extern u16 D_80126BCC;
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 
     u32 *obj = (u32 *)arg0;
     s16 *pb;
@@ -229,9 +229,9 @@ void func_800CB328(void *a0) {
     extern void guess_RotTransSVWithMatrix(s32, s32, s32);
     extern void guess_ZeroMemory(s8 *, s32);
     extern s32 guess_FreeSmallObject(u8 *a0);
-    extern s16 guess_g_PlayerPosX;
-    extern s16 guess_g_PlayerPosY;
-    extern s16 guess_g_PlayerPosZ;
+    extern s16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern s16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+    extern s16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     extern u16 D_80126BC8;
     extern u16 D_80126BCA;
     extern u16 D_80126BCC;

@@ -248,13 +248,13 @@ extern s32 D_800EC690;
 extern s32 D_800EC694;
 extern s32 D_800EC68C;
 extern s16 D_800EC678;
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 D_800AA60C[];
 #define setaddr_(p, a) (((PTag_800CF3E8 *)(p))->addr = (u32)(a))
 #define getaddr_(p) ((u32)(((PTag_800CF3E8 *)(p))->addr))
 #define ADDPRIMB(ot, p) setaddr_((p), getaddr_(ot)); setaddr_((ot), (p));
 
-extern S16_800CF3E8 sD800B9A02 __asm__("guess_g_DoubleBufferIndex");
+extern S16_800CF3E8 sD800B9A02 __asm__("guess_g_DoubleBufferIndex"); // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 #define OTIDX ((fr = sD800B9A02), fr.h)
 extern Sprt24 D_800EC7C8[];
 extern Sprt24 D_800EC7F8[];
@@ -753,8 +753,8 @@ s32 func_800CFEB4(u16 *arg0)
 }
 
 
-extern u16 guess_g_ScreenWidth;
-extern u16 guess_g_ScreenHeight;
+extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
+extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
 extern u16 D_800AF7C0;
 extern void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);
 extern void func_80053EEC(s32 a0, s32 a1, s32 a2, s32 a3);

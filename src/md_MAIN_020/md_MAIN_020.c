@@ -165,7 +165,7 @@ s32 func_800CB17C(struct S *a0) {
     extern void guess_SaveGroundedPos(s32 a0);
     extern void guess_StartPadVibration(void *a0);
     extern s32 D_800CB1F4[];
-    extern u8 guess_g_RumblePatternShort[];
+    extern u8 guess_g_RumblePatternShort[]; // Names ledger: config/names.tsv guess_g_RumblePatternShort
     s32 s0 = (s32)a0;
 
     func_8012A304(*(s16 *)(s0 + 0xA), 0x80);

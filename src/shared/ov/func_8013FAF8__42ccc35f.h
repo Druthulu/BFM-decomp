@@ -3,7 +3,7 @@
 void func_8013FAF8(s16 arg0, s16 arg1) {
 
     extern Hw4    D_8011516A[];
-    extern Rec20  guess_g_FrontOrderingTables[];
+    extern Rec20  guess_g_FrontOrderingTables[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTables
     extern Blk60  D_8017F4C4[];
     extern Blk20  D_8017F7C4[];
     extern Prim4  D_8017F8C4[];

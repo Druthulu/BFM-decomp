@@ -11,8 +11,8 @@ extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_801553A8(s32 *a0);
 extern s32 guess_GetCameraRelativeYaw(s32 a0);
 extern void guess_NextStep(void *a0);
-extern u8 guess_g_RumblePatternShort;
-extern s16 guess_g_CameraRelativeYaw;
+extern u8 guess_g_RumblePatternShort; // Names ledger: config/names.tsv guess_g_RumblePatternShort
+extern s16 guess_g_CameraRelativeYaw; // Names ledger: config/names.tsv guess_g_CameraRelativeYaw
 void func_80160410(s32 * a0)
 {
     s16 angle;

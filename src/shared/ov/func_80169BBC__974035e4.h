@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80169BBC(s32 arg0) {
 
-    extern s32 guess_g_MainCameraAppliedViewPointX;
-    extern s32 guess_g_MainCameraAppliedViewPointY;
-    extern s32 guess_g_MainCameraAppliedViewPointZ;
+    extern s32 guess_g_MainCameraAppliedViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointX
+    extern s32 guess_g_MainCameraAppliedViewPointY; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointY
+    extern s32 guess_g_MainCameraAppliedViewPointZ; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointZ
     extern u16 D_801822A4[];
     extern u8 D_80182314[];
     extern u8 D_80182344[];

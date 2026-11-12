@@ -9,8 +9,8 @@ void func_8012CFA8(s32 arg0)
     extern void SetRotMatrix(void *a0);
     extern void SetTransMatrix(void *a0);
     extern s32 D_800A651C;
-    extern u8 guess_g_CameraWsMatrix;
-    extern short guess_g_DoubleBufferIndex;
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     s32 sp10;
     s32 sp14;
     s32 sp18;

@@ -6,7 +6,7 @@ extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 void func_801678F0(s32 a0) {
     s32 p;
     s32 r;

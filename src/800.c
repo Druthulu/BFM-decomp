@@ -1000,7 +1000,7 @@ void func_800141F0(void) {
     func_800142C8();
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 void func_80014238(void) {
     func_80014928();
     func_80059234(1);
@@ -1081,7 +1081,7 @@ extern u8 D_800AF7C4;
 extern u8 D_800AF7C3;
 extern u8 D_800AF7C2;
 extern u8 D_800A6610[];
-extern u8 guess_g_OrderingTables[];
+extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
 extern u8 D_800A6520[];
 extern u8 D_800A6524[];
 
@@ -1129,7 +1129,7 @@ extern void GsInitCoordinate2(s32 a0, void *a1);
 extern void func_800538EC(s32 a0);
 
 extern s32 D_80126950;
-extern u8 guess_g_RenderWork[0x300];
+extern u8 guess_g_RenderWork[0x300]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80014444(void) {
     u8 *s0;
@@ -1150,12 +1150,12 @@ void func_80014444(void) {
 
 extern void GsSetProjection(s32);
 extern void func_80053F6C();
-extern s32 guess_g_MainCameraViewPointX;
-extern s32 guess_g_MainCameraViewPointY;
-extern s32 guess_g_MainCameraViewPointZ;
-extern s32 guess_g_MainCameraRefPointX;
-extern s32 guess_g_MainCameraRefPointY;
-extern s32 guess_g_MainCameraRefPointZ;
+extern s32 guess_g_MainCameraViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraViewPointX
+extern s32 guess_g_MainCameraViewPointY; // Names ledger: config/names.tsv guess_g_MainCameraViewPointY
+extern s32 guess_g_MainCameraViewPointZ; // Names ledger: config/names.tsv guess_g_MainCameraViewPointZ
+extern s32 guess_g_MainCameraRefPointX; // Names ledger: config/names.tsv guess_g_MainCameraRefPointX
+extern s32 guess_g_MainCameraRefPointY; // Names ledger: config/names.tsv guess_g_MainCameraRefPointY
+extern s32 guess_g_MainCameraRefPointZ; // Names ledger: config/names.tsv guess_g_MainCameraRefPointZ
 extern s32 D_8012699C;
 extern s32 D_801269A0;
 
@@ -1212,8 +1212,8 @@ void func_800145EC(s32 mode) {
     extern u8 D_80062A3C[];
     extern u8 D_80062A3E[];
     extern u8 D_80062A40[];
-    extern u16 guess_g_ScreenWidth;
-    extern u16 guess_g_ScreenHeight;
+    extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
+    extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
     extern u16 D_800AF7C0;
     s32 off;
 
@@ -1247,8 +1247,8 @@ void func_800146B0(s32 mode) {
     extern u8 D_80062A3C[];
     extern u8 D_80062A3E[];
     extern u8 D_80062A40[];
-    extern u16 guess_g_ScreenWidth;
-    extern u16 guess_g_ScreenHeight;
+    extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
+    extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
     extern u16 D_800AF7C0;
     s32 off;
 
@@ -1287,9 +1287,9 @@ void func_80014774(void) {
 }
 
 
-extern u8 guess_g_RenderWork[];
-extern u16 guess_g_ScreenHeight;
-extern u16 guess_g_ScreenWidth;
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
+extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
 
 extern u16 D_800AF672;
 extern u16 D_800AF670;
@@ -1370,7 +1370,7 @@ void func_80014960(void) {
     func_80014998();
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80014998(void) {
     u8 *p;
@@ -1788,7 +1788,7 @@ extern s32 func_8001AA78(void);
 extern void func_8002F67C(void);
 extern void LoaderResetReadState(void);
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s16 D_800B9A04[];
 
 s32 func_80015144(void) {
@@ -1826,10 +1826,10 @@ extern u8 D_800B9A10;
 extern u8 D_800B9A17;
 extern u8 D_800B9A15;
 extern u8 D_800B9A16;
-extern u8 guess_g_ActiveMenu;
+extern u8 guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
 extern u8 D_80078DD2;
 extern s32 D_800A5E78;
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void func_801281D8(void);
 
 void func_80015208(void) {
@@ -1897,7 +1897,7 @@ void func_80015310(void) {
     }
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_8001534C(s32 idx, s32 a1, s16 x, s16 y, u8 arg4, u8 arg5) {
     u8 *p;
@@ -1918,7 +1918,7 @@ void func_800153A4(void *a0, s32 a1, s16 a2, s16 a3, u8 arg4, u8 arg5) {
     ((Unkstruct_800153A4 *)a0)->unkD = arg5;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 /* $v0 at exit: leftover of void func_80015424; no byte-neutral return: `return 0;` puts `move v0,zero` at +0x4C and moves `addiu sp` into the jr delay slot +0x54, main objdump */
 s32 func_800153CC(s32 arg0, s32 arg1, s16 arg2, s16 arg3, u8 arg4, u8 arg5) {
@@ -1964,9 +1964,9 @@ s16 *func_8001544C(void) {
 
 
 
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 D_800B9A11;
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 *D_800A5E60;
 extern s32 GetTPage(s32, s32, s32, s32);
 extern void func_80015608(s32, s32);
@@ -2035,8 +2035,8 @@ void func_80015498(void)
     }
 }
 
-extern u16 guess_g_ScreenWidth;
-extern u16 guess_g_ScreenHeight;
+extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
+extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
 extern u8 *D_800A5E60;
 extern s16 *func_80015908(s32 a0, s32 a1);
 
@@ -2106,8 +2106,8 @@ register u32 mask __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung 
 }
 
 
-extern u16 guess_g_ScreenWidth;
-extern u16 guess_g_ScreenHeight;
+extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
+extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
 extern u8 *D_800A5E60;
 extern u8 D_80062B78[];
 extern u32 func_80015A74(u32 param_1);
@@ -2392,7 +2392,7 @@ subtract:
  */
 
 extern s32 func_80010A08(s32 a0);
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
 void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 c5, u8 c6)
 {
@@ -2504,8 +2504,8 @@ void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 
  */
 
 extern s32 func_80010A08(s32 a0);
-extern u16 guess_g_DoubleBufferIndex;
-extern u8 guess_g_OrderingTables[];
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8)
@@ -2720,8 +2720,8 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
 
 extern s32 func_80010A08(s32);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
-extern u8 guess_g_RenderWork[];
-extern u8 guess_g_OrderingTables[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
 
 void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8)
 {
@@ -2828,8 +2828,8 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
 
 extern s32 func_80010A08(s32 a0);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
-extern u16 guess_g_DoubleBufferIndex;
-extern u8 guess_g_OrderingTables[];
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
 
 void func_80016110(void)
 {
@@ -2864,18 +2864,18 @@ void func_80016110(void)
  * compiles standalone here. File-scope externs below reproduce decls that
  * already exist in src/800.c (:553/:652/:653/:1255/:1429/:1432) purely so
  * this unit compiles alone; compatible redeclaration is warning-only. */
-extern u16 guess_g_ScreenHeight;
-extern u16 guess_g_ScreenWidth;
-extern u8 guess_g_OrderingTables[];
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
+extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
+extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern s32 func_80010A08(s32 a0);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 void func_80016224(s32 a0, s32 a1)
 {
     extern struct { s32 a; s32 b[4]; } D_800A651C[];
-    extern struct { s32 a; s32 b[4]; } guess_g_FrontOrderingTablesOrg[];
-    extern u8 guess_g_FrontOrderingTables[];
+    extern struct { s32 a; s32 b[4]; } guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern u8 guess_g_FrontOrderingTables[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 
     void *p;
     s16 xl;
@@ -3015,10 +3015,10 @@ void func_80016224(s32 a0, s32 a1)
 extern s32 func_80010A08(s32);
 extern void func_80016638(void *a0, s32 a1, s32 a2);
 
-extern u16 guess_g_DoubleBufferIndex;
-extern u8 guess_g_OrderingTables[];
-extern OtBlk_80016450 guess_g_FrontOrderingTablesOrg[];
-extern u8 guess_g_FrontOrderingTables[];
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
+extern OtBlk_80016450 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+extern u8 guess_g_FrontOrderingTables[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 
 void func_80016450(s32 a0, s32 a1)
 {
@@ -3207,7 +3207,7 @@ void func_800167B8(s32 a0) {
     func_80016224(a0, 0);
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 D_80062BA0[];
 extern s32 D_800B9A18;
 extern u16 D_800AF7CE;
@@ -3242,7 +3242,7 @@ void func_800168B4(void) {
     D_800AF7CE = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u16 D_800AF7CE;
 extern s32 D_800B9A18;
 extern u8 D_80062BA0[];
@@ -3272,7 +3272,7 @@ void func_80016940(s32 a0) {
     func_80016450(param, 0);
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 D_80062BA0[];
 extern s32 D_800B9A18;
 extern u16 D_800AF7CE;
@@ -4208,7 +4208,7 @@ void func_80017930(Src_80017930 *arg0, s32 arg1, s32 arg2)
 /* the caller's request block == engine_types.h T8016EC0C */
 
 extern s32 func_80010A08(s32 a0);
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80017B98(void *arg0)
 {
@@ -4311,7 +4311,7 @@ void func_80017E68(short *arg0, int *arg1) {
 }
 
 
-extern u8 guess_g_CameraWsMatrix;
+extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 extern void CompMatrix(void *, void *, void *);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
@@ -4334,7 +4334,7 @@ void func_80017E8C(s32 arg0)
  * OtBlk_80016450 layout; scalar rival spelling measured worse (99 ins). */
 void func_80017F14(void *a0, s32 a1, s32 a2)
 {
-    extern u16 guess_g_DoubleBufferIndex;
+    extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern struct { s32 a; s32 b[4]; } D_800A651C[];
     extern s32 func_80010A08(s32);
     extern s32 AddPrim(s32, void *);
@@ -4376,7 +4376,7 @@ extern s32 func_80010A08(s32);
 extern s32 AddPrim(s32, void *);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
 void func_80018094(void *a0, s32 a1, u32 a2_p) {
     s32 a2 = (s32)a2_p;
@@ -4404,7 +4404,7 @@ void func_80018094(void *a0, s32 a1, u32 a2_p) {
 void func_80018194(void *arg0, s32 arg1, u32 arg2)
 {
     extern s32 AddPrim(s32, void *);
-    extern u16 guess_g_DoubleBufferIndex;
+    extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern struct { s32 a; s32 b[4]; } D_800A651C[];
     void *a3;
     s32 sz;
@@ -4429,7 +4429,7 @@ void func_8001820C(void *a0, s32 a1, u32 a2)
     extern s32 AddPrim(s32, void *);
     extern s32 GetTPage(s32, s32, s32, s32);
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
-    extern u16 guess_g_DoubleBufferIndex;
+    extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern OtBlk_80016450 D_800A651C[];
 
     void *p2;
@@ -4471,7 +4471,7 @@ void func_80018384(void *a0, void *a1) {
     *a2 = (*a2 & 0xFF000000) | ((u32)a3 & 0x00FFFFFF);
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 /* guess_AllocRenderWorkRecord: claims the first free of the 0x20 records at guess_g_RenderWork +0xA1A8 (flag 0 -> 1, id = a0, +0xD = 0); returns 1, or 0 when full
  * Confidence medium, code inference: scans rec[0..0x1F] for flag == 0, sets flag 1, id a0, d 0; func_80018450 is the twin that also stores x, y, c
@@ -4501,7 +4501,7 @@ out:
 
 s32 func_80018450(void *a0, s32 a1)
 {
-    extern u8 guess_g_RenderWork[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
     Base *b = (Base *)guess_g_RenderWork;
     s32 i;
     s32 ret;
@@ -6794,7 +6794,7 @@ s32 func_8001A9D8(void) {
 
 void func_8001A9F8(s32 a0)
 {
-    extern u16 guess_g_DoubleBufferIndex;
+    extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern u8 D_800A6610[];
     extern u32 D_80063108;
     extern u32 D_80063120;
@@ -7217,8 +7217,8 @@ s32 func_8001B23C(s32 a0) {
 extern s32 D_800BA1B4;
 extern s32 resLoad_curId;
 extern s32 resLoad_result;
-extern s32 guess_g_CdReadList;
-extern s32 *guess_g_CdReadListDest;
+extern s32 guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+extern s32 *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
 extern s32 D_800A2E20;
 extern s32 D_800AEC78;
 extern s32 func_8001AE90(s32 a0, s32 a1, s32 a2);
@@ -7647,11 +7647,11 @@ extern s32 D_800747FC;
 extern s32 D_80074800;
 extern s32 D_80074804;
 extern s32 D_8007480C;
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 extern u8 D_8007BA70[];
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 extern void func_80059BFC(s32 a0, s32 a1);
 extern void func_8001BA84(void);
@@ -7820,7 +7820,7 @@ void func_8001BB60(void)
  * (the same file-scope spellings func_8001B86C and func_8001D3FC already use).
  */
 
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 
@@ -7880,7 +7880,7 @@ void func_8001BBBC(s32 a0, s32 a1, u8 a2)
  * ordering table (D_800A6610 + guess_g_DoubleBufferIndex * 0x4000).  Same idiom as the -O0
  * func_8001212C in src/boot.c. */
 
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 
@@ -8111,7 +8111,7 @@ void func_8001C00C(void) {
 #undef SHARED_FN
 
 extern void guess_ZeroMemory(void *a0, s32 a1);
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_8001C14C(void) {
     u8 *base;
@@ -8203,7 +8203,7 @@ void func_8001C320(s32 a0, s32 a1)
     extern void GsMapModelingData(u32 *p);
     extern void GsLinkObject5();
     extern void *GsPresetObject();
-    extern u8 guess_g_RenderWork[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
     extern u8 D_80063548[];
     extern u16 D_800AF7CC;
     extern s32 *D_800AF7C8;
@@ -8317,7 +8317,7 @@ void func_8001C5B8(s32 a0, s32 a1)
     extern void GsMapModelingData(unsigned long *p);
     extern void GsLinkObject5();
     extern void *GsPresetObject();
-    extern u8 guess_g_RenderWork[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
     extern u8 D_80063548[];
     extern u16 D_800AF7CC;
     extern s32 *D_800AF7C8;
@@ -8770,7 +8770,7 @@ void func_8001CFB8(void) {
     func_8001CFDC(0, 4);
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void *func_8001CFDC_impl(s32 start, s32 end) __asm__("func_8001CFDC");
 
@@ -8803,7 +8803,7 @@ void func_8001D050(void) {
     func_8001D074(0, 4);
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 s32 func_8001D074_impl(s32 arg0, s32 arg1) __asm__("func_8001D074");
 
@@ -8990,7 +8990,7 @@ void func_8001D388(void *param_1)
 
 
 extern u8 D_800A6610[];
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 *D_800A5E60;
 
 extern void func_8001D70C(s32 arg0);
@@ -9216,7 +9216,7 @@ void func_8001D8C4(s32 a0, u8 * a1_p, u8 * a2_p) {
     /* 0x0C */
 
 extern MtxDA34 D_800A63F0;
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 extern void func_8004978C(s16 *a0, void *a1);
@@ -9399,7 +9399,7 @@ void func_8001DA34(s32 param_1)
 
 
 
-extern u8 guess_g_CameraWsMatrix;
+extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 
 void func_8001E094(s32 arg0)
 {
@@ -9462,7 +9462,7 @@ void func_8001E094(s32 arg0)
 }
 
 extern void func_8004978C(s16 *a0, void *a1);
-extern u8 guess_g_CameraWsMatrix;
+extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 
 void func_8001E378(s32 param_1)
 {
@@ -9570,8 +9570,8 @@ s32 func_8001E668(s32 a0, s32 a1, GTEOutV *a2, s32 *a3)
 }
 
 
-extern u16 guess_g_DoubleBufferIndex;
-extern u8 guess_g_OrderingTables[];
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
 extern s32 func_80052460(s32 a0, s32 a1, s32 a2);
 
 void func_8001E7E0(u8 *arg0)
@@ -9746,8 +9746,8 @@ void func_8001E7E0(u8 *arg0)
 
  /* 0x0C */
 
-extern u8  guess_g_CameraWsMatrix;
-extern u16 guess_g_DoubleBufferIndex;
+extern u8  guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8  D_800A6610[];
 extern u8 *D_800A5E60;
 extern void func_8001F730(s32, void *, void *);
@@ -10062,7 +10062,7 @@ void func_8001EA14(Ent_EA14 *p)
 
 
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 extern u32 D_80072784;
@@ -10585,9 +10585,9 @@ void func_8001FB8C(s32 *a0, s32 *a1)
 
    /* 0xB0 */
 
-extern u8  guess_g_OrderingTables[];
+extern u8  guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
 extern u8  D_800A5BD0[];
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern s32 D_80062BA8;
 
 extern void func_80020DA4(s32 a0, s32 a1);
@@ -11508,7 +11508,7 @@ s32 func_80021174(s32 a0, s32 a1)
 
 
 extern u8 D_800A6610[];
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 *D_800A5E60;
 extern void func_8001D70C(s32 arg0);
 
@@ -11632,7 +11632,7 @@ void func_80021284(s32 arg0)
 
 
 extern u8 D_800A6610[];
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
 /* func_8001E094 / func_8001E378 are DEFINED in src/800.c (file-scope decls at
  * 10238/10239, bodies at 10453/10588) with these exact prototypes -- do not
@@ -12053,9 +12053,9 @@ void func_800215F4(Obj_215F4 *obj)
     /* 32 bytes */
 
 
-extern u8  guess_g_RenderWork[];
+extern u8  guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8  D_800A6610[];
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot);
 
 
@@ -12244,7 +12244,7 @@ void func_80021D38(Obj_80021D38 *p)
 
 
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 D_800A6610[];
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void func_8004901C(void *a0, void *a1);
@@ -12997,7 +12997,7 @@ void func_800234E4(void *a0, u16 a1, u16 a2) {
 
 
 extern u8 D_800A6610[];
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 *D_800A5E60;
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
@@ -13141,7 +13141,7 @@ void func_80023570(s32 arg0)
  * Declarations copied verbatim from src/800.c (S376): guess_g_DoubleBufferIndex u16,
  * D_800A5E60 u8*, D_800A6610 u8[], GetTPage/func_8005A600 as the TU spells them.
  */
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 *D_800A5E60;
 extern u8 D_800A6610[];
 extern s32 GetTPage(s32, s32, s32, s32);
@@ -13401,9 +13401,9 @@ void func_8002374C(s32 arg0)
  * Symbols audited against this target's own relocation lines (law 1c): the .s
  * carries %hi/%lo of guess_g_RenderWork, D_800A6610, guess_g_DoubleBufferIndex, D_800A5E60 and no jal.
  */
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 D_800A6610[];
-extern u16 guess_g_DoubleBufferIndex;
+extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 *D_800A5E60;
 
 
@@ -16061,7 +16061,7 @@ extern u16 D_800AF790[];
 extern u16 D_800AF794[];
 extern u16 D_800AF7A4[];
 extern u16 D_800AF7A8[];
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80028694(void) {
     u8 *s0 = guess_g_RenderWork;
@@ -16588,7 +16588,7 @@ s32 func_80029264(void) {
 
 
 extern Blk98_80029274 D_80072C84;
-extern Blk98_80029274 guess_g_PlayerRecord;
+extern Blk98_80029274 guess_g_PlayerRecord; // Names ledger: config/names.tsv guess_g_PlayerRecord
 
 void func_80029274(void) {
     Blk98_80029274 buffer;
@@ -16608,7 +16608,7 @@ void func_8002931C(s32 a0) {
 
 extern u16 D_80078E92;
 extern u8 D_80078EAE;
-extern Blk98_80029274 guess_g_PlayerRecord;
+extern Blk98_80029274 guess_g_PlayerRecord; // Names ledger: config/names.tsv guess_g_PlayerRecord
 
 void func_80029344(void) {
     s32 val;
@@ -16803,7 +16803,7 @@ s32 func_800296F8(s32 arg0) {
 
 
 
-extern Blk98_80029274 guess_g_PlayerRecord;
+extern Blk98_80029274 guess_g_PlayerRecord; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u8 D_80078F28[];
 extern u16 D_800A6588[];
 extern u8 D_800AE648[];
@@ -16848,7 +16848,7 @@ void func_800298BC(Blk36_800296F8 *arg0) {
 
 
 
-extern Blk98_80029274 guess_g_PlayerRecord;
+extern Blk98_80029274 guess_g_PlayerRecord; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u16 D_800A6588[];
 extern u8 D_800BA2B8[];
 extern u8 D_80078F28[];

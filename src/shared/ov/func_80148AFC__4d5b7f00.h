@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 int func_80148AFC(void *a0) {
 
-    extern s32 guess_g_ActiveCamera;
+    extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     extern s32 (*D_80180D70[])(void *, s32);
     s32 p = (s32)a0;
     s32 iVar5 = *(s32 *)(p + 0x20);

@@ -4,8 +4,8 @@ extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 func_80012A60(s32 a0, s32 a1);
 extern s32 ratan2(s32 a0, s32 a1);
-extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
-extern s16 guess_g_BoxHitNormalZ;
+extern u8 guess_g_BoxHitNormalX[];   /* canonical TU type (engine_core) — read via *(u16*) cast */ // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+extern s16 guess_g_BoxHitNormalZ; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
 s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3)
 {
     s32 dx;

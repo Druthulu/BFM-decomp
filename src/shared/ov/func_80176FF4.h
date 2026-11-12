@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u32 guess_IntToBcd(s32 a0, s32 a1);
 extern void func_801778A8(int param_1, unsigned int param_2, short param_3, short param_4);
-extern u16 guess_g_HudShownHp;
+extern u16 guess_g_HudShownHp; // Names ledger: config/names.tsv guess_g_HudShownHp
 extern u16 D_8011F82A;
 void func_80176FF4(s32 a0) {
     s32 v0;

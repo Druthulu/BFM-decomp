@@ -7,8 +7,8 @@ extern s32 RotTransPers(s32, s32, s32*, s32*);
  * Confidence medium, xref chain: loads guess_g_CameraWsMatrix with SetRotMatrix/SetTransMatrix, calls RotTransPers on param_2, stores sxy (0 when flag < 0) at *param_1
  * Names ledger: config/names.tsv guess_WorldToScreen */
 s32 *guess_WorldToScreen(s32 *param_1, s32 param_2) {
-    extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix");
-    extern u8 guess_g_CameraWsMatrix;
+    extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix"); // Names ledger: config/names.tsv guess_g_CameraWsMatrix
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
     s32 sxy, p, flag;
     sxy = 0;
     { void *r4; r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }

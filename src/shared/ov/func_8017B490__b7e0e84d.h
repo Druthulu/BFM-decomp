@@ -11,12 +11,12 @@ s32 func_8017B490(s32 param)
     extern u16 D_80182BB8;
     extern s16 D_8018F914;
     extern s16 D_8018FAB0;
-    extern s32 guess_g_MainCameraViewPointX;
-    extern s32 guess_g_MainCameraViewPointY;
-    extern s32 guess_g_MainCameraViewPointZ;
-    extern s32 guess_g_MainCameraRefPointX;
-    extern s32 guess_g_MainCameraRefPointY;
-    extern s32 guess_g_MainCameraRefPointZ;
+    extern s32 guess_g_MainCameraViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraViewPointX
+    extern s32 guess_g_MainCameraViewPointY; // Names ledger: config/names.tsv guess_g_MainCameraViewPointY
+    extern s32 guess_g_MainCameraViewPointZ; // Names ledger: config/names.tsv guess_g_MainCameraViewPointZ
+    extern s32 guess_g_MainCameraRefPointX; // Names ledger: config/names.tsv guess_g_MainCameraRefPointX
+    extern s32 guess_g_MainCameraRefPointY; // Names ledger: config/names.tsv guess_g_MainCameraRefPointY
+    extern s32 guess_g_MainCameraRefPointZ; // Names ledger: config/names.tsv guess_g_MainCameraRefPointZ
 
     SV4_8017B368 loc0;
     SV4_8017B368 loc1;

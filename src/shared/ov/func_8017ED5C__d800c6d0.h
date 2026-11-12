@@ -1,11 +1,11 @@
 /* func_8017ED5C — shared body (overlay slot 0x80128158, h_exact d800c6d0). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void *func_8017ED5C(s32 param_1, s32 param_2) {
-    extern u8 guess_g_EmptyText[];
+    extern u8 guess_g_EmptyText[]; // Names ledger: config/names.tsv guess_g_EmptyText
     extern u8 D_80112B58[];
     extern u8 D_80112B90[];
     extern u8 D_80112BA8[];
-    extern s32 guess_g_MenuHelpText;
+    extern s32 guess_g_MenuHelpText; // Names ledger: config/names.tsv guess_g_MenuHelpText
     extern u8 D_80183478[];
     extern u8 D_801BB920[];
     extern s16 D_801BB948[][2];

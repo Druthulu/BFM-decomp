@@ -3,12 +3,12 @@
 extern u8 D_800AE6C0;
 extern s16 D_800AE6C8;
 extern s16 D_800AE6CA;
-extern u8 guess_g_MainCamera[];
+extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
 extern s16 D_800AE6CC;
 extern s32 D_800AE6C4;
 extern s16 D_800AE6CE;
 extern u8 D_800AE6BE;
-extern s32 guess_g_CurrentEvent;
+extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
 extern u8 D_801201F8[];
 void func_80150EC4(s32 a0, s32 a1) {
     D_800AE6C0 = 1;

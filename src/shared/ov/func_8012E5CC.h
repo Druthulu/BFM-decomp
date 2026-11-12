@@ -1,13 +1,13 @@
 /* func_8012E5CC — shared body (overlay slot 0x80128158, h_exact 62ab8c1d). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u8 guess_g_CameraWsMatrix;
+extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void guess_RequestSound(s32 a0, s32 a1);
     void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3)
     {
-    extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix");
+    extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix"); // Names ledger: config/names.tsv guess_g_CameraWsMatrix
         struct { short xy[2]; int sp14; int flag; } f;
         void *p;
         p = &guess_g_CameraWsMatrix;

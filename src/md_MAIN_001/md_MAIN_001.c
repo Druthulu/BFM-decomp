@@ -156,8 +156,8 @@ void func_800CF0C4(void) {
 
 extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, void *arg2, s32 arg3, s32 *arg4);
 extern s32 D_800D3C0C;
-extern s32 guess_g_CdReadList;
-extern s32 *guess_g_CdReadListDest;
+extern s32 guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+extern s32 *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
 extern s32 D_800A2E20;
 extern u8 D_800AE840[];
 
@@ -175,7 +175,7 @@ void func_800CF114(void) {
 
 void func_800CF180(void)
 {
-    extern u16 guess_g_DoubleBufferIndex;
+    extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern u8 D_800CF3F0[];
     extern u8 D_800CF420[];
     extern u8 D_800AA60C[];
@@ -226,7 +226,7 @@ void func_800CF180(void)
 extern s32 D_800D3C10;
 
 void func_800CF290(void) {
-    extern u16 guess_g_DoubleBufferIndex;
+    extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern u8 D_800D3AEC[];
     extern u8 D_800D3B1C[];
     extern u8 D_800D3C10_b __asm__("D_800D3C10");

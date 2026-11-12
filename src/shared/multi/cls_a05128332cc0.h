@@ -5,7 +5,7 @@ void SHARED_FN(void)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern unsigned short guess_g_MenuStep;
+    extern unsigned short guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
     unsigned short *p = &guess_g_MenuStep;
     *p = *p + 1;
 }

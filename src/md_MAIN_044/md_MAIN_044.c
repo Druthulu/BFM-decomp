@@ -213,7 +213,7 @@ extern void guess_NextStep(void *a0);
     }
 
 
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern u16 guess_GetPadHeld(s32*);
 extern s32 func_80146608(s32, s32, s32, s32, s16, s32, s32, s32, s32);
 extern void guess_NextStep(void*);
@@ -308,7 +308,7 @@ void func_800CD1D4(s32 *s1) {
 }
 
 
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern s16 currentLocationId;
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_800CD57C(void *arg0);
@@ -524,7 +524,7 @@ void func_800CD848(s32 param_1) {
 
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_80135260(s32 a0, s32 a1, s32 a2, s32 a3);
-extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 
 typedef Unkstruct_800B5CB8 Ent_CD894;
 

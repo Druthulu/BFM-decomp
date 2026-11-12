@@ -5,7 +5,7 @@ extern s32 func_8002A1B4(void);
 extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 s32 func_801564B0(s32 a0) {
     s32 s0 = (s32)guess_g_PlayerRecord;
     s32 v1;

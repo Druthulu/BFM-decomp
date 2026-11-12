@@ -1,6 +1,6 @@
 /* func_801497A8 — shared body (overlay slot 0x80128158, h_exact a3d1ef66). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u8 D_80078EC1;
 extern s32 func_8014CB7C(void);
 extern s32 func_8014C088(s32 a0, s32 a1);

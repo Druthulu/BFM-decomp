@@ -6,13 +6,13 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern short guess_g_DoubleBufferIndex;
-extern u8 guess_g_MenuPacketBases[];
-extern s32 guess_g_MenuPacketPtr;
-extern u16 guess_g_MenuPanel;
-extern u16 guess_g_MenuPadPressed;
-extern unsigned short guess_g_MenuStep;
-extern s32 guess_g_MenuHelpText;
+extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+extern u8 guess_g_MenuPacketBases[]; // Names ledger: config/names.tsv guess_g_MenuPacketBases
+extern s32 guess_g_MenuPacketPtr; // Names ledger: config/names.tsv guess_g_MenuPacketPtr
+extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
+extern u16 guess_g_MenuPadPressed; // Names ledger: config/names.tsv guess_g_MenuPadPressed
+extern unsigned short guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
+extern s32 guess_g_MenuHelpText; // Names ledger: config/names.tsv guess_g_MenuHelpText
 extern s16 D_8011514C;
 extern s16 currentLocationId;
 void func_8013EA54(void) {

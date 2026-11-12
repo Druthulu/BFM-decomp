@@ -1,6 +1,6 @@
 /* guess_SpawnActor — shared body (overlay slot 0x80128158, h_exact c0654b3f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u8 guess_g_BoxHitCenterX[];
+extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
 extern s32 func_8012C890(s32 a0, s32 a1, s32 a2);
 /* guess_SpawnActor: spawns an actor of type a0 (arg a1) in the first free 0x10C-byte slot, at parent a2's position or the origin
  * Confidence medium, code inference: fills a spawn record (a2's x/y/z or 0, type a0, a1, 0x7FFF), scans 0x10C-byte slots (from a2, or end - 0x6480) for u16 0, calls func_8012C890

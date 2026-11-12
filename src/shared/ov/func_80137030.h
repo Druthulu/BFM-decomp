@@ -1,7 +1,7 @@
 /* func_80137030 — shared body (overlay slot 0x80128158, h_exact 9b08c5e5). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern short guess_g_DoubleBufferIndex;
-extern u8 guess_g_OrderingTables[];
+extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
 extern void GsSortLine(void *a0, void *a1, s32 a2);
 void func_80137030(s16 a0, s16 a1) {
     struct {

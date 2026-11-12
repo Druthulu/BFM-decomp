@@ -2,10 +2,10 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8013E5E8(void)
 {
-    extern u16 guess_g_MenuPadPressed;
-    extern u16 guess_g_MenuPadHeld;
-    extern unsigned short guess_g_MenuStep;
-    extern u16 guess_g_MenuFrameCounter;
+    extern u16 guess_g_MenuPadPressed; // Names ledger: config/names.tsv guess_g_MenuPadPressed
+    extern u16 guess_g_MenuPadHeld; // Names ledger: config/names.tsv guess_g_MenuPadHeld
+    extern unsigned short guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
+    extern u16 guess_g_MenuFrameCounter; // Names ledger: config/names.tsv guess_g_MenuFrameCounter
     extern void (*D_8017FE78[])(void);
     void (**new_var)(void);
     void (*fp)(void);

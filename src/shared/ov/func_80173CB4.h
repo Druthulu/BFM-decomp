@@ -8,7 +8,7 @@ extern void func_8016BADC(void *a0, s32 a1, s32 a2);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80171A1C(u8 *a0);
-extern s32 guess_g_ActiveCamera;
+extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern struct S80126B38 D_80126B38;
 extern u8 D_800D5DA8;
 extern u8 D_800D5DB8;

@@ -3,8 +3,8 @@
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();      /* TU-canonical (ov_SC04_018_jr_8017AE2C.c L2539/2541) */
 extern void func_80172710(void); /* TU-canonical (ov_SC04_018_jr_8017AE2C.c L2231) */
-extern u16 guess_g_PlayerPosX;
-extern u16 guess_g_PlayerPosZ;
+extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 s32 func_8018C3F0(void *a0)
 {
     s32 field;

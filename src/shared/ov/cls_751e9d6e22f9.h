@@ -2,7 +2,7 @@
  * exemplar src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c:4188 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 1, markers 0 */
 void SHARED_FN(s32 param_1) {
 
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     u16 *p = &guess_g_FrameCounter;
     s32 t;
     s32 u;

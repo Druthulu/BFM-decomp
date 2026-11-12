@@ -6,7 +6,7 @@
 s32 aF801376E8(int a0, int a1) __asm__("guess_OpenTextWindowCenteredAt");
 s32 aF801376E8(int a0, int a1)
 {
-    extern s32 guess_g_TextBoxes;
+    extern s32 guess_g_TextBoxes; // Names ledger: config/names.tsv guess_g_TextBoxes
     extern u8 D_801269FD;
     extern u16 D_80126A14[];
     extern s16 D_80126A1C;

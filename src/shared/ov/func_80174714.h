@@ -3,7 +3,7 @@
 extern s32 func_800CF8CC(void);
 extern void func_80147060(u8 *a0);
 extern s32 func_8016F0AC();
-extern s32 guess_g_PlayerActor;
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 void func_80174714(void) {
     if (func_800CF8CC() == 0) {
         func_80147060((u8 *)&guess_g_PlayerActor);

@@ -59,13 +59,13 @@ s16 func_801E7EB0(void) {
 
 void func_801E7EC0(s32 a0, s32 a1) {
     extern u8 D_800B9A15;
-    extern unsigned char guess_g_ActiveMenu;
-    extern u16 guess_g_OpenMenuId;
+    extern unsigned char guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
+    extern u16 guess_g_OpenMenuId; // Names ledger: config/names.tsv guess_g_OpenMenuId
     extern void func_801E7F38(void);
     extern s16 D_80115126;
     extern s16 D_801F218C;
     extern s16 D_801F2188[];
-    extern u16 guess_g_MenuStep;
+    extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
     extern void *D_8011DB24;
     extern s32 guess_RequestSound(s32, s32);
 
@@ -81,15 +81,15 @@ void func_801E7EC0(s32 a0, s32 a1) {
 }
 
 
-extern u16 guess_g_MenuFrameCounter;
-extern unsigned short guess_g_MenuStep;
+extern u16 guess_g_MenuFrameCounter; // Names ledger: config/names.tsv guess_g_MenuFrameCounter
+extern unsigned short guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern void (*D_801EBB38[])(void);
 extern void func_80141C04(void);
 
 void func_801E7F38(void) {
 
-    extern u16 guess_g_MenuStep;
-    extern u16 guess_g_MenuFrameCounter;
+    extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
+    extern u16 guess_g_MenuFrameCounter; // Names ledger: config/names.tsv guess_g_MenuFrameCounter
     extern void (*D_801EBB38[])(void);
     u16 i;
     i = guess_g_MenuStep;
@@ -102,7 +102,7 @@ void func_801E7F38(void) {
 extern void func_800D24A0(s32);
 extern void func_801E7FD8(void);
 extern void func_8002AF18(void);
-extern u16 guess_g_MenuStep;
+extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 
 void func_801E7F94(void) {
     u16 *p = &guess_g_MenuStep;
@@ -119,12 +119,12 @@ void func_801E7FD8(void) {
     extern s16 D_801F2188[0];
     extern s16 D_801F2184;
     extern s16 D_801F2190;
-    extern s16 guess_g_MenuTransitionTimer[];
+    extern s16 guess_g_MenuTransitionTimer[]; // Names ledger: config/names.tsv guess_g_MenuTransitionTimer
     extern s32 D_801EB918;
     extern s16 D_8011512C;
     extern void *D_801EB9B0;
     extern s16 D_80115126;
-    extern s32 guess_g_MenuHelpText[];
+    extern s32 guess_g_MenuHelpText[]; // Names ledger: config/names.tsv guess_g_MenuHelpText
     extern s32 D_80115134;
     extern u8 D_80115138[];
     extern s32 D_801EBA5C[];
@@ -183,12 +183,12 @@ void func_801E7FD8(void) {
 #undef SHARED_FN
 
 
-extern s32 guess_g_MenuPacketPtr;
-extern u8 guess_g_MenuPacketBases[];
+extern s32 guess_g_MenuPacketPtr; // Names ledger: config/names.tsv guess_g_MenuPacketPtr
+extern u8 guess_g_MenuPacketBases[]; // Names ledger: config/names.tsv guess_g_MenuPacketBases
 extern u8 D_800B9A15;
 extern s16 D_80115126;
-extern s16 guess_g_DoubleBufferIndex;
-extern unsigned short guess_g_MenuStep;
+extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+extern unsigned short guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern s16 D_801F2184;
 extern s16 D_801F2188[0];
 extern s32 D_801F2470;
@@ -264,9 +264,9 @@ extern void func_800D2624(void);
 
 void func_801E821C(void) {
 
-    extern short guess_g_DoubleBufferIndex;
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern u16 D_80115114;
-    extern u16 guess_g_MenuStep;
+    extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
     u16 v0 = (*(u16 *)&guess_g_DoubleBufferIndex);
     u16 v1 = D_80115114;
 
@@ -298,8 +298,8 @@ extern s32 D_801F2474;
 extern s32 func_80014ED4(s32);
 extern s32 func_80015018(s32);
 extern void func_8002AF18(void);
-extern u16 guess_g_MenuPanel;
-extern s16 guess_g_MenuTransitionTimer[0];
+extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
+extern s16 guess_g_MenuTransitionTimer[0]; // Names ledger: config/names.tsv guess_g_MenuTransitionTimer
 extern u8 D_801F247B[];
 extern u8 D_801F2481;
 extern void func_8002AF70(void *, s32);
@@ -567,11 +567,11 @@ Lmid:
 
 void func_801E88D0(void) {
    /* 0x14 stride */
-    extern s32 guess_g_MenuPacketPtr;
+    extern s32 guess_g_MenuPacketPtr; // Names ledger: config/names.tsv guess_g_MenuPacketPtr
     extern s16 D_8011512C;
     extern s32 D_80115134;
-    extern s16 guess_g_DoubleBufferIndex;
-    extern Env_801E9BE0 guess_g_FrontOrderingTablesOrg[];
+    extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+    extern Env_801E9BE0 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
     extern s32 *func_801E9BE0(s32 *);
     extern s32 func_801E8A80(s32, u8 *, s16);
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
@@ -672,7 +672,7 @@ extern s32 func_801E8D70(s32, s16, s16, s16, s32 *);
 
 s32 func_801E8A80(s32 ot, u8 *s, s16 c) {
 
-    extern u16 guess_g_MenuPanel;
+    extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
     extern u8  D_801EBAEC[];
     extern s32 *D_801EBA64[];
     u8  sp18[72];
@@ -753,7 +753,7 @@ s32 func_801E8A80(s32 ot, u8 *s, s16 c) {
 }
 
 
-extern u8 guess_g_MenuPanelSizes[];
+extern u8 guess_g_MenuPanelSizes[]; // Names ledger: config/names.tsv guess_g_MenuPanelSizes
 
 s32 func_801E8D70(s32 arg0, s16 arg1, s16 arg2, s16 arg3, s32 *arg4) {
     s32 ret;
@@ -791,11 +791,11 @@ void func_801E8DF4(void) {
     extern void func_8002B00C(void *);
     extern void func_801E9DF8(s32);
     extern void func_80029774(s32);
-    extern s16 guess_g_MenuTransitionTimer[0];
+    extern s16 guess_g_MenuTransitionTimer[0]; // Names ledger: config/names.tsv guess_g_MenuTransitionTimer
     extern s32 D_801EBA50;
     extern s16 D_801150D4;
     extern s32 guess_RequestSound(s32, s32);
-    extern u16 guess_g_MenuPanel;
+    extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
     extern s32 D_801F2470;
     extern u8  D_801F2481;
     extern u8  D_801F2478[];
@@ -931,8 +931,8 @@ void func_801E915C(void) {
     extern s32 D_801F2494;
     extern s32 D_801F2498;
     extern s16 D_8011512C;
-    extern s16 guess_g_MenuTransitionTimer[0];
-    extern u16 guess_g_MenuPanel;
+    extern s16 guess_g_MenuTransitionTimer[0]; // Names ledger: config/names.tsv guess_g_MenuTransitionTimer
+    extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
     extern u16 D_801150D4;
     extern s32 D_801EBA50;
     extern void *D_801EB9B0;
@@ -1282,13 +1282,13 @@ s32 *func_801E9BE0(s32 *out) {
    /* 0x14 stride */
                /* 0x20 stride */
 
-    extern Env_801E9BE0 guess_g_FrontOrderingTablesOrg[];
+    extern Env_801E9BE0 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
     extern u16 D_801EBB10[];
-    extern u16 guess_g_MenuPanel;
+    extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
     extern s32 D_80115134;      /* fixed by this TU's file-scope decl */
     extern s16 D_8011512C;
-    extern u16 guess_g_MenuFrameCounter;
-    extern s16 guess_g_DoubleBufferIndex;
+    extern u16 guess_g_MenuFrameCounter; // Names ledger: config/names.tsv guess_g_MenuFrameCounter
+    extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
@@ -1361,7 +1361,7 @@ void func_801E9DD0(void) {
  * 16-bit (`sll $a0,$a0,16 ; bnez`, no sra), so the truncation lives in the test instead. */
 void func_801E9DF8(s32 arg0) {
 
-    extern u8  guess_g_PlayerRecord[];   /* live: 152-byte block            (host TU declares this identically) */
+    extern u8  guess_g_PlayerRecord[];   /* live: 152-byte block            (host TU declares this identically) */ // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern u16 D_800A6588[];   /* live: u16[64]                                                      */
     extern u8  D_800AE648[];   /* live: u8[64]                                                       */
     extern u8  D_800BA1B8[];   /* live: u8[256]                                                      */
@@ -1588,13 +1588,13 @@ void func_801EA53C(void) {
     extern s32 D_80126950;
     extern s32 D_80126954;
     extern s32 D_8012695C;
-    extern s16 guess_g_MainCameraPitchTarget;
-    extern s16 guess_g_MainCameraYawTarget;
-    extern s16 guess_g_MainCameraRollTarget;
-    extern s16 guess_g_MainCameraRefOffsetTargetX;
-    extern s16 guess_g_MainCameraRefOffsetTargetY;
-    extern s16 guess_g_MainCameraRefOffsetTargetZ;
-    extern u8 guess_g_MainCamera[];
+    extern s16 guess_g_MainCameraPitchTarget; // Names ledger: config/names.tsv guess_g_MainCameraPitchTarget
+    extern s16 guess_g_MainCameraYawTarget; // Names ledger: config/names.tsv guess_g_MainCameraYawTarget
+    extern s16 guess_g_MainCameraRollTarget; // Names ledger: config/names.tsv guess_g_MainCameraRollTarget
+    extern s16 guess_g_MainCameraRefOffsetTargetX; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetX
+    extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetY
+    extern s16 guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetZ
+    extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
     extern s16 D_801274E8;
     extern s16 D_801274EA;
     extern s16 D_801274EC;
@@ -1644,7 +1644,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_801EA664(s32 param_1, s16 *param_2) {
 
-    extern s32 guess_g_PlayerActor;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s16 D_801EBBFC[];
     extern u16 D_801EBC00[];
 

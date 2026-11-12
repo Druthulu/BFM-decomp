@@ -3,7 +3,7 @@
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 guess_TestGameFlag(s32 arg);
 extern u8 D_800D3918[];
-extern u8 guess_g_BoxHitNormalX[];
+extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 extern s16 D_801152B0;
 extern s32 D_801152BC;
 int func_8014F74C(s32 arg0)

@@ -6,7 +6,7 @@ extern u8 D_800CFAC4[];
 extern u8 D_800CFAD4[];
 extern void (*D_800CFADC[])(void);
 extern s32 D_800D1364;
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void func_8001534C(int, void *, int, int, int, int);
 
 void func_800CEE2C(void) {
@@ -269,7 +269,7 @@ s32 func_800CF3B0(void *a0, void *a1, void *a2) {
 
 extern u8 *D_800A5E60;
 extern u32 wD_800AA60C[] __asm__("D_800AA60C");
-extern s16 guess_g_DoubleBufferIndex;
+extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
 void func_800CF408(s32 x, s32 y) {
     u8 *p;
@@ -421,7 +421,7 @@ void func_800CF408(s32 x, s32 y) {
  */
 extern u8 *D_800A5E60;
 extern u8 D_800AA60C[];
-extern s16 guess_g_DoubleBufferIndex;
+extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
 void func_800CF6D0(s32 arg0, u32 arg1) {
     u8 *p;

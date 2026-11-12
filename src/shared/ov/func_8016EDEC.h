@@ -3,7 +3,7 @@
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern void func_8016EE94(s32 a0, s32 a1);
-extern s32 guess_g_PlayerActor;
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 void func_8016EDEC(s32 _arg0, s32 _arg1, s32 _arg2)
 {
   unsigned short *new_var;

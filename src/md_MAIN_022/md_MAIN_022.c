@@ -292,7 +292,7 @@ void func_800CB3F0(void *a0) {
 
 
 void func_800CB4AC(void) {
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8 D_800CBD68;
     extern u8 D_800CBD69;
     extern u8 D_800CBD6A;
@@ -393,9 +393,9 @@ extern void *guess_AllocSpriteObject(void);
 void func_800CB68C(s32 param_1)
 {
 
-    extern u16 guess_g_PlayerPosX;
-    extern u16 guess_g_PlayerPosY;
-    extern u16 guess_g_PlayerPosZ;
+    extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+    extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     extern void func_800CBAA4(s32);
     extern void RotMatrixY(s32 a0, void *a1);
     extern u8 D_800CBDB0;

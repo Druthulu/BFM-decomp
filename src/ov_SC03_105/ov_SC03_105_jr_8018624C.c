@@ -34,8 +34,8 @@ extern void func_801871C0(void *a0, s32 a1, s32 a2);
 extern void func_801873C8(void);
 extern void func_80187434(void *a0);
 
-extern u8 guess_g_RenderWork[];
-extern s32 guess_g_PlayerActor;
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern u8 D_8018EDF4[];
 extern s16 D_8018EE00;
 extern u8 D_8018EE54[];

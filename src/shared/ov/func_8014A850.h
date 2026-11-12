@@ -3,7 +3,7 @@
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_80029AF4(void);
 extern void guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
-extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 s32 func_8014A850(s32 param_1) {
     s32 i;
     s32 cnt;

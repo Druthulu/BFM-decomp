@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80150B28(int param_1) {
 
-    extern s32 guess_g_CurrentEvent;
+    extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
     extern void (*D_80180EF4[])(void);
     u32 idx;
     u32 sub;

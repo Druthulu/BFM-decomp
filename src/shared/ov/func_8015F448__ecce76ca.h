@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8015F448(s32 arg0) {
 
-    extern u8 guess_g_RumblePatternShort;
+    extern u8 guess_g_RumblePatternShort; // Names ledger: config/names.tsv guess_g_RumblePatternShort
     extern s32 D_8018146C;
     extern s32 D_8018147C;
     extern s32 D_8018148C;

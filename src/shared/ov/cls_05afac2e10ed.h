@@ -6,7 +6,7 @@ void SHARED_FN(void *a0)
     extern void SetRotMatrix(void *);
     extern void SetTransMatrix(void *);
     extern void func_80017254(void *);
-    extern u8 guess_g_CameraWsMatrix;
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 
     s32 flag1, flag2, otz;
 

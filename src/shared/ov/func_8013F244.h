@@ -1,7 +1,7 @@
 /* func_8013F244 — shared body (overlay slot 0x80128158, h_exact d65dd63c). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u16 guess_g_MenuPanel;
-extern u16 guess_g_MenuPadPressed;
+extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
+extern u16 guess_g_MenuPadPressed; // Names ledger: config/names.tsv guess_g_MenuPadPressed
 extern void func_80141C0C(s32);
 void func_8013F244(void)
 {

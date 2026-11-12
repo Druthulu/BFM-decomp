@@ -5,9 +5,9 @@ extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine"
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
 extern u8  D_800B9A11;
-extern u8  guess_g_RenderWork[];
-extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
-extern u8  guess_g_OrderingTables[];
+extern u8  guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex"); // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+extern u8  guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
 void func_801372B0(void) {
     Svec_801372B0 in;
     Svec_801372B0 out;

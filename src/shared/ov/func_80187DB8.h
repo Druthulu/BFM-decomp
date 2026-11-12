@@ -4,7 +4,7 @@ extern s32 func_80187F30(void*, s32);
 extern s32 func_80143BDC(u16*);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_FreeActor(void *a0);
-extern u16 guess_g_PlayerPosZ;
+extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 void func_80187DB8(s32 param_1) {
     u16 sp10[3];
     *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =

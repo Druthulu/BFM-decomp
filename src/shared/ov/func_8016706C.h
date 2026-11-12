@@ -3,7 +3,7 @@
 extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
 void func_8016706C(s32 param_1)
 {
-    extern s32 guess_g_SmallObjectPool;
+    extern s32 guess_g_SmallObjectPool; // Names ledger: config/names.tsv guess_g_SmallObjectPool
     unsigned short *puVar1;
     short iVar2;
     iVar2 = 0;

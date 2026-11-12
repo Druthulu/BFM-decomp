@@ -3,9 +3,9 @@
 extern void func_800D2624(void);
 extern u8 D_800B9A15;
 extern u8 D_800B9A16;
-extern short guess_g_DoubleBufferIndex;
+extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u16 D_80115114;
-extern u16 guess_g_MenuStep;
+extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 void func_801417F8(void) {
     if (D_800B9A15 == 0 || D_800B9A16 != 0) {
         if (D_80115114 == (u16)(guess_g_DoubleBufferIndex ^ 1)) {

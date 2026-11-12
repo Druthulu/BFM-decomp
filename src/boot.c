@@ -177,7 +177,7 @@ __asm__(".text\n"
 
 
 extern u8  D_800BA118;
-extern u8  guess_g_RenderWork[];
+extern u8  guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 D_80074778;
 extern s32 D_800A2B7C;
 extern s32 D_800C7C70;
@@ -189,7 +189,7 @@ extern s32 D_800A651C;
 extern u8  D_800A6528[];
 extern u8  D_800A6610[];
 extern u8  D_800AA60C[];
-extern s32 guess_g_FrontOrderingTablesOrg;
+extern s32 guess_g_FrontOrderingTablesOrg; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
 extern s32 D_800AE7C8;
 extern u8  D_800BA0D8[];
 extern u8  D_800BA0E4[];
@@ -400,7 +400,7 @@ void func_8001096C(void) {
 
 
 extern s32 VSync(s32);
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 D_800AE810[];
 
 void func_8001099C(void) {
@@ -408,7 +408,7 @@ void func_8001099C(void) {
     D_800AE810[((Unkstruct_80010178 *)p)->unkA3D2] = VSync(1);
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 D_800A5E60;
 
 s32 func_80010A08(s32 arg0) {
@@ -449,13 +449,13 @@ s32 func_80010B10(void) {
  * keeps the struct base in a callee-saved reg with no stack spill, and the 0xA3AE
  * (>0x7FFF) member offset then assembles to the +0x10000/-0x5C52 split. */
 extern void (*gameModeHandlerTable[])(void);
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 void GameModeDispatch(void) {
     register u8 *p = guess_g_RenderWork;
     gameModeHandlerTable[((Unkstruct_80010178 *)p)->unkA3AE]();
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void func_8001C044(void);
 extern void func_80015310(void);
 extern void func_80029690(void);
@@ -503,7 +503,7 @@ void func_80010C7C(void) {
     }
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void func_800CEDFC(void);
 extern void func_8001C044(void);
 extern void func_80015310(void);
@@ -525,7 +525,7 @@ void func_80010D60(void) {
     func_80011818(5);
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void func_80011778(void);
 
 void func_80010DA0(void) {
@@ -551,7 +551,7 @@ void func_80010E48(void) {
     func_80011818(0xC);
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void guess_RequestSound(s32, s32);
 
 void func_80010E7C(void) {
@@ -561,8 +561,8 @@ void func_80010E7C(void) {
     ((Unkstruct_80010178 *)p)->unkA3D4 = 1;
 }
 
-extern s32 guess_g_CdReadList;
-extern void *guess_g_CdReadListDest;
+extern s32 guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+extern void *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
 extern u8 D_800A2E20[];
 extern u8 D_800AE848[];
 extern void *loadDestPtrTable;
@@ -572,7 +572,7 @@ extern void func_80010AE0(int);
 extern void func_80014338(void);
 extern void func_800116E0(void);
 extern void func_80011778(void);
-extern s16 guess_g_FrameCounter;
+extern s16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 
 void func_80010ED4(void) {
     guess_g_CdReadList = 0x57;
@@ -594,8 +594,8 @@ extern void func_8001C044(void);
 extern void func_80015310(void);
 extern void func_80011818(s32);
 extern void func_80029514(s32);
-extern u8 guess_g_RenderWork[];
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern s32 D_800629C8;
 
 void func_80010F80(void) {
@@ -666,7 +666,7 @@ void DebugMenuHandler(void) {
     (void)iVar1;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void func_800CEE74(void);
 extern void func_80011818(s32);
 
@@ -687,7 +687,7 @@ void func_80011220(void) {
     func_80011B7C(0);
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void func_800CEDFC(void);
 
 void func_8001125C(void) {
@@ -712,7 +712,7 @@ void func_800112C8(void) {
     }
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void func_800CEDFC(void);
 
 void func_80011320(void) {
@@ -725,7 +725,7 @@ s32 func_80011350(void) {
     return D_80074784;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 D_80074784;
 extern s32 D_8007478C;
 extern u16 D_800B99E8;
@@ -809,7 +809,7 @@ void func_80011380(void) {
     }
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void guess_RequestSound(s32, s32);
 extern void func_80011818(s32);
 
@@ -836,7 +836,7 @@ void func_800116E0(void) {
     }
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011778(void) {
     register u8 *p = guess_g_RenderWork;
@@ -851,7 +851,7 @@ void func_80011778(void) {
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011818(param_1)
 u16 param_1;
@@ -868,7 +868,7 @@ u16 param_1;
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_800118AC(void) {
     register u8 *p = guess_g_RenderWork;
@@ -880,7 +880,7 @@ void func_800118AC(void) {
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011928(u16 arg0) {
     register u8 *p = guess_g_RenderWork;
@@ -892,7 +892,7 @@ void func_80011928(u16 arg0) {
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011998(void) {
     register u8 *p = guess_g_RenderWork;
@@ -900,7 +900,7 @@ void func_80011998(void) {
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_800119F0(u16 arg0) {
     register u8 *p = guess_g_RenderWork;
@@ -908,7 +908,7 @@ void func_800119F0(u16 arg0) {
     ((Unkstruct_80010178 *)p)->unkA3BC = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011A3C(void) {
     register u8 *p = guess_g_RenderWork;
@@ -926,7 +926,7 @@ void func_80011A3C(void) {
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011ADC(void) {
     register u8 *p = guess_g_RenderWork;
@@ -941,7 +941,7 @@ void func_80011ADC(void) {
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011B7C(arg0)
     u16 arg0;
@@ -957,7 +957,7 @@ void func_80011B7C(arg0)
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011C10(void) {
     register u8 *p = guess_g_RenderWork;
@@ -972,7 +972,7 @@ void func_80011C10(void) {
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011C8C(u16 arg0) {
     register u8 *p = guess_g_RenderWork;
@@ -984,7 +984,7 @@ void func_80011C8C(u16 arg0) {
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011CFC(void) {
     register u8 *p = guess_g_RenderWork;
@@ -993,7 +993,7 @@ void func_80011CFC(void) {
     ((Unkstruct_80010178 *)p)->unkA3CE = 0;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011D54(u16 arg0) {
     register u8 *p = guess_g_RenderWork;
@@ -1020,7 +1020,7 @@ s32 func_80011DF4(void) {
     return D_80074780;
 }
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_80011E24(void) {
     extern s32 D_80074788;
@@ -1111,7 +1111,7 @@ void func_800120DC(u16 *arg0, u16 *arg1) {
  *    and 0xFFFFFF (extract) + and 0xFFFFFF (store mask) + and 0xFF000000 + or.
  */
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 D_800A5E60;
 extern u8 D_800A6610[];
 

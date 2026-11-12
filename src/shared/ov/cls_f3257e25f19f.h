@@ -2,7 +2,7 @@
  * exemplar src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:6769 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 2, markers 0 */
 s32 SHARED_FN(u8 a0, u8 a1, u8 a2, u8 a3) {
 
-    extern u8 guess_g_ClockMinute;
+    extern u8 guess_g_ClockMinute; // Names ledger: config/names.tsv guess_g_ClockMinute
     s32 pad[8];
     s32 v0, h0, l0, h1, l1, x, y;
 

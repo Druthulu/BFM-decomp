@@ -4,7 +4,7 @@ extern s32 rand(void);
 extern u8 *func_8012913C(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_FreeActor(void *a0);
-extern s32 guess_g_PlayerActor;
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 void func_80188790(s32 a0) {
     s32 kind;
     register u16 *tp __asm__("$19");  // !FAKE: pin $19 — NEEDED DIFFERS (P36 rung B headers2) wall:cse-const-addr

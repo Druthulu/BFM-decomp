@@ -33,7 +33,7 @@ extern void func_800CEFD0(void);
 extern s32 D_80114E98;
 extern s32 D_80114E9C;
 extern void (*D_800D3488[])(void);
-extern u8  guess_g_RenderWork[];
+extern u8  guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 D_800A651C[];
 extern void func_8001B85C(void);
 extern s32  func_8001B86C(s32);
@@ -93,7 +93,7 @@ extern void func_800CF82C(void);
 extern void func_800CF840(void);
 extern u8 D_800AE6BF;
 extern s32 func_800CF854(void);
-extern u16 guess_g_PlayerActor;
+extern u16 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 func_800CF8B4(void);
 extern s32 func_800CF864(void);
 extern s32 func_800CF8CC(void);
@@ -173,8 +173,8 @@ void func_800D00E4(s32 arg0) {
 
 s32 func_800D0214(s32 arg0) {
     extern s16 currentLocationId;
-    extern s32 guess_g_CdReadList;
-    extern s32 *guess_g_CdReadListDest;
+    extern s32 guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+    extern s32 *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern s32 D_800A2E20;
     extern s32 D_800D34AC[];
     extern s16 D_800D34AE[];
@@ -276,8 +276,8 @@ s32 func_800D02D0(s32 arg0) {
     extern CdFileLoc cdFileLocTable[];
     extern CdFileLoc D_800D3768[];
     extern CdFileLoc D_800D3764[];
-    extern s32 guess_g_CdReadList;
-    extern s32 *guess_g_CdReadListDest;
+    extern s32 guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+    extern s32 *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern s32 D_80072C78;
     extern s32 D_800A2E20;
     extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
@@ -339,8 +339,8 @@ s32 func_800D02D0(s32 arg0) {
 /* draft's standalone `CdFileLoc` typedef STRIPPED in-TU (§321): resident.c already
  * provides it at file scope; a second definition is `conflicting types'. Byte-neutral. */
 s32 func_800D0488(s32 arg0) {
-    extern s32 guess_g_CdReadList;
-    extern s32 *guess_g_CdReadListDest;
+    extern s32 guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+    extern s32 *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern s32 D_800A2E20;
     extern s32 D_800D3850[];
     extern s32 D_800D384C[];
@@ -527,7 +527,7 @@ extern s32 D_80127500;
 extern s32 resLoad_lastId;
 
 void func_800D06E8(void) {
-    extern Blk80078E78 guess_g_PlayerRecord;
+    extern Blk80078E78 guess_g_PlayerRecord; // Names ledger: config/names.tsv guess_g_PlayerRecord
     Blk80078E78 *p = &guess_g_PlayerRecord;
     s32 s0;
     s32 s1;
@@ -840,7 +840,7 @@ s32 func_800D0CE0(void) {
  *    compare to the else-label, which is what puts the 0x3C/0x18 arms second.
  */
 s32 func_800D0D7C(s32 arg0, s32 arg1) {
-    extern u8 guess_g_ClockMinute;
+    extern u8 guess_g_ClockMinute; // Names ledger: config/names.tsv guess_g_ClockMinute
     extern u8 D_80078EB1;
     register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus10) wall:cse-copy-merge
     u32 now;
@@ -868,7 +868,7 @@ s32 func_800D0D7C(s32 arg0, s32 arg1) {
 
 
 s16 func_800D0E30(u8 *p) {
-    extern u8 guess_g_ClockMinute;
+    extern u8 guess_g_ClockMinute; // Names ledger: config/names.tsv guess_g_ClockMinute
     extern u8 D_80078EB1;
     u8 dummy[16];
     u32 hi;
@@ -1086,7 +1086,7 @@ extern s32 func_800291DC(s32);
 extern void func_800291A0(s32, s32);
 extern void func_800291C8(s32, s32);
 
-extern Struct80078E78 guess_g_PlayerRecord;
+extern Struct80078E78 guess_g_PlayerRecord; // Names ledger: config/names.tsv guess_g_PlayerRecord
 
 extern u8 D_8010EDF0;
 extern u8 D_8010EDF1;

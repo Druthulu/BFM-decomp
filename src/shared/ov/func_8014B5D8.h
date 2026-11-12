@@ -3,7 +3,7 @@
 extern s32 func_8016F1C4(void);
 extern s32 guess_TestGameFlag(s32 a0);
 extern void func_8014BC80(s32 a0, s32 a1);
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 void func_8014B5D8(s32 s1) {
     s32 *s0 = (s32 *)guess_g_PlayerRecord;
     s32 v0;

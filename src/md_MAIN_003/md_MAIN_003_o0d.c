@@ -54,8 +54,8 @@ extern void func_800599B8();
 extern void func_800CFB3C(u16 *arg0);
 extern s32 func_800CFC1C(u16 *param_1);
 extern void func_800599B8(u16 *, u16 *);
-extern u16 guess_g_ScreenWidth;
-extern u16 guess_g_ScreenHeight;
+extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
+extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
 extern u16 D_800AF7C0;
 extern void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);
 extern void func_80053EEC(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -93,7 +93,7 @@ extern u8 D_800AF680;
  *    would emit three loads (+16 instructions).
  */
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 D_800AA60C[];
 
 extern u8  D_800EC890;

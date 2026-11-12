@@ -3,8 +3,8 @@
 void func_801418F8(void)
 {
 
-    extern s16 guess_g_MenuSwapSlot;
-    extern u8 guess_g_MenuPanelSizes[];
+    extern s16 guess_g_MenuSwapSlot; // Names ledger: config/names.tsv guess_g_MenuSwapSlot
+    extern u8 guess_g_MenuPanelSizes[]; // Names ledger: config/names.tsv guess_g_MenuPanelSizes
     extern s16 D_8011515A;
     extern u8 D_8011515C;
     extern s16 D_8011515E;

@@ -7,7 +7,7 @@ extern int func_80155FF8(int arg, int a1);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern s32 func_80161208();
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 void func_80155EA4(void *arg0) {
     s32 spill[4];  /* forces the 0x28 frame the target reserves */
     *(s32 *)((u8 *)arg0 + 0x44) |= 2;

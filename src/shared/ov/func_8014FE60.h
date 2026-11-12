@@ -1,7 +1,7 @@
 /* func_8014FE60 — shared body (overlay slot 0x80128158, h_exact 70e7a6e1). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8014FE60(void *e) {
-    extern u8 guess_g_BoxHitNormalX[];
+    extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
     extern s32 func_8014FFDC(s32 e, void *a1, void *a2);
     extern s32 func_80150150(s32 e, s32 a1);
     u16 a[4];

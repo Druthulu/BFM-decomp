@@ -120,7 +120,7 @@ extern s32 rsin(s32 a0);
 extern s32 rcos(s32 a0);
 
 void func_800CB1A0(void) {
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern s32 D_800CC580;
     extern s32 D_800CC584;
     extern s32 D_800CC588;
@@ -417,8 +417,8 @@ extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
 extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
-extern u8 guess_g_ObjectTable[];
-extern u8 guess_g_BoxHitCenterX[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
+extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
 
 void func_800CBC0C(void *a0) {
     u8 *r04;
@@ -530,7 +530,7 @@ void func_800CBE38(u8 *arg0)
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_FreeObjectAndSubObject_17();
 extern void func_800CBF80(void *a0);
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 
 void func_800CBEC0(u8 *arg0)
 {
@@ -565,7 +565,7 @@ void guess_FreeObjectAndSubObject_17(void) {
 }
 
 
-extern u16 guess_g_FrameCounter;
+extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern s32 D_800CC830;
 
 void func_800CBF80(void *a0) {

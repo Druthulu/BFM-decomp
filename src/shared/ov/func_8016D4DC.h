@@ -1,6 +1,6 @@
 /* func_8016D4DC — shared body (overlay slot 0x80128158, h_exact 70c20d8b). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 guess_g_PlayerActor;
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern void func_8016C83C(s32 a0);
 extern s32 VectorNormalSS(void *a0, void *a1);
 extern short func_8016CF04(s32 param_1, s32 param_2);

@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80176734(s32 param_1)
 {
-    extern u8  guess_g_HudState;      /* st base  ($s3) */
-    extern u8  guess_g_PlayerRecord[];    /* cur base ($s4) */
+    extern u8  guess_g_HudState;      /* st base  ($s3) */ // Names ledger: config/names.tsv guess_g_HudState
+    extern u8  guess_g_PlayerRecord[];    /* cur base ($s4) */ // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern s16 D_801152BA;
     extern u8  D_8011F7B0;      /* == *(u8 *)(st + 8), read absolutely (mixed addressing) */
     extern u8  D_80115214;
@@ -15,10 +15,10 @@ void func_80176734(s32 param_1)
     extern u8  D_800D43D4;
     extern u8  D_800D4414;
     extern u8  D_800D45D4;
-    extern u8  guess_g_ActiveMenu;
+    extern u8  guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
     extern s16 D_80126CE0;
     extern s16 D_80126D20;
-    extern s32 guess_g_PlayerActor;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s32 guess_AllocRenderWorkRecord(s32 a0);
     extern s32  func_801619D0(void *a0);
     extern s32  func_80161A00(s32 a0);

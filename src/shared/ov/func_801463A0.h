@@ -11,11 +11,11 @@ extern void func_8014B5B0(s32 *a0);
 extern void func_80161D88();
 void func_801463A0(void)
 {
-    extern s32 guess_g_PlayerActor;
-    extern s32 *guess_g_PlayerModelPtr;
-    extern u16 guess_g_PlayerPosX;
-    extern u16 guess_g_PlayerPosY;
-    extern u16 guess_g_PlayerPosZ;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
+    extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
+    extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+    extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     extern u16 D_80126C90;
     extern u16 D_80126C92;
     extern u16 D_80126C94;

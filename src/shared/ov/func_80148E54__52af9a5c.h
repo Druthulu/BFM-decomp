@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80148E54(s32 arg0) {
 
-    extern s32 guess_g_ActiveCamera;
+    extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     extern s16 (*D_80180DF0[])(s32);
     s32 tmp = (ratan2(*(s32 *)(guess_g_ActiveCamera + 0x44) - *(s32 *)(guess_g_ActiveCamera + 0x50),
                       *(s32 *)(guess_g_ActiveCamera + 0x48) - *(s32 *)(guess_g_ActiveCamera + 0x3C)) - 0x400) & 0xFFF;

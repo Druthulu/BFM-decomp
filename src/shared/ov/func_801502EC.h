@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80135D20(s32 a0, s32 a1, void *a2);
 s32 func_801502EC(s32 e, void *a1, void *a2) {
-    extern u8 guess_g_ObjectTable[];
-    extern u8 guess_g_BoxHitCenterX[];
-    extern u8 guess_g_BoxHitNormalX[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
+    extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
+    extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
     Vec8_c1 save;
     Vec8_c1 test;
     s32 found;

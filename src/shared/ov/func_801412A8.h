@@ -11,9 +11,9 @@ Prim_1412A8 * guess_DrawGaugeBar(out, a1, a2, a3, a4, a5)
     u16 a4;
     u16 a5;
 {
-    extern Env_1412A8 guess_g_FrontOrderingTablesOrg[];
-    extern short guess_g_DoubleBufferIndex;
-    extern u16 guess_g_MenuFrameCounter;
+    extern Env_1412A8 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+    extern u16 guess_g_MenuFrameCounter; // Names ledger: config/names.tsv guess_g_MenuFrameCounter
     Prim_1412A8 *p = out;
     int y = a5;
     int color = 0xF800F8;

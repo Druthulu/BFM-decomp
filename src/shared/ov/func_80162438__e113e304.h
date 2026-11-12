@@ -13,21 +13,21 @@ s32 func_80162438(s32 _unused0) {
     extern u8 D_8018E8F4[];
     extern u8 D_8018E910[];
     extern int D_8018E8C0[];
-    extern u16 guess_g_TargetTimeLabel1;
-    extern u16 guess_g_TargetTimeLabel2;
-    extern u16 guess_g_TargetTimeDigits;
-    extern u16 guess_g_ScreenWidth;
-    extern u16 guess_g_ScreenHeight;
-    extern s16 guess_g_TargetTimeLabel1X;
-    extern s16 guess_g_TargetTimeLabel1Y;
+    extern u16 guess_g_TargetTimeLabel1; // Names ledger: config/names.tsv guess_g_TargetTimeLabel1
+    extern u16 guess_g_TargetTimeLabel2; // Names ledger: config/names.tsv guess_g_TargetTimeLabel2
+    extern u16 guess_g_TargetTimeDigits; // Names ledger: config/names.tsv guess_g_TargetTimeDigits
+    extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
+    extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
+    extern s16 guess_g_TargetTimeLabel1X; // Names ledger: config/names.tsv guess_g_TargetTimeLabel1X
+    extern s16 guess_g_TargetTimeLabel1Y; // Names ledger: config/names.tsv guess_g_TargetTimeLabel1Y
     extern s16 D_800B5C04;
     extern u8 D_800B5BFF;
-    extern s16 guess_g_TargetTimeLabel2X;
-    extern s16 guess_g_TargetTimeLabel2Y;
+    extern s16 guess_g_TargetTimeLabel2X; // Names ledger: config/names.tsv guess_g_TargetTimeLabel2X
+    extern s16 guess_g_TargetTimeLabel2Y; // Names ledger: config/names.tsv guess_g_TargetTimeLabel2Y
     extern s16 D_800B5C3C;
     extern u8 D_800B5C37;
-    extern s16 guess_g_TargetTimeDigitsX;
-    extern s16 guess_g_TargetTimeDigitsY;
+    extern s16 guess_g_TargetTimeDigitsX; // Names ledger: config/names.tsv guess_g_TargetTimeDigitsX
+    extern s16 guess_g_TargetTimeDigitsY; // Names ledger: config/names.tsv guess_g_TargetTimeDigitsY
     extern s16 D_800B5C74;
 
     u32 uVar2;

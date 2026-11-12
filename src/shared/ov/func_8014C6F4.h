@@ -1,7 +1,7 @@
 /* func_8014C6F4 — shared body (overlay slot 0x80128158, h_exact 1ac65d84). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8014C6F4(u8 *a) {
-    extern u8 guess_g_PlayerRecord[];
+    extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern s32 D_8011F9D0;
     extern s32 guess_GetPlayerControlScript(void);
     extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);

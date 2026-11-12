@@ -3,9 +3,9 @@
  * rank 2 src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c:3581 rejected by type_census --check */
 s32 SHARED_FN(void *a0) {
 
-    extern u16 guess_g_PlayerPosX;
-    extern u16 guess_g_PlayerPosY;
-    extern u16 guess_g_PlayerPosZ;
+    extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+    extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     s16 out[3];
     s16 in[3];
     void *p;

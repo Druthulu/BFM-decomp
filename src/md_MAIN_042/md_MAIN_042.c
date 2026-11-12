@@ -46,7 +46,7 @@ s32 param_1;
 
 #include "common.h"
 
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern void func_800CCD60(s32);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);

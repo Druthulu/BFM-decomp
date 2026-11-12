@@ -3,7 +3,7 @@
 extern s32 func_8013914C(s32 a0, s32 a1);
 extern void func_800599B8(u16 *);
 extern u16 D_80127C0C[];
-extern s32 guess_g_GlyphUploadsLeft[];
+extern s32 guess_g_GlyphUploadsLeft[]; // Names ledger: config/names.tsv guess_g_GlyphUploadsLeft
 s32 func_80138ED0(u8 *param_1, u32 param_2, u8 *param_3)
 {
     u16 local[4];

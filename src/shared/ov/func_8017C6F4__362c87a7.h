@@ -9,7 +9,7 @@ void func_8017C6F4(s32 arg0)
     extern u8 D_8018F9C0[];
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short guess_g_DoubleBufferIndex;
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     s16 rect[4];
     DVEC2_C6F4 tmpxy[4];

@@ -5,7 +5,7 @@ s32 arg0;
 {
 
     extern void (*D_80181914[])(void *);
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern s32 D_800D5428;
     extern u8 D_80181898;
     s32 min;

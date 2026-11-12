@@ -4,9 +4,9 @@
 s32 SHARED_FN(void)
 {
 
-    extern u16 guess_g_PlayerPosX;
-    extern u16 guess_g_PlayerPosZ;
-    extern u16 guess_g_PlayerPosY[];
+    extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
+    extern u16 guess_g_PlayerPosY[]; // Names ledger: config/names.tsv guess_g_PlayerPosY
     s16 v1;
     s32 result;
 

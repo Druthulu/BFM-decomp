@@ -82,7 +82,7 @@ void func_800CAF84(int param_1)
 
 
 void func_800CAFEC(s32 *a0) {
-    extern s32 guess_g_ActiveCamera;
+    extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     extern s16 func_80171AB0(s32 a0, void *a1);
     extern void guess_SetAnim(s32 a0, s32 a1);
     extern void guess_SetTexAnim(s32 *a0, s16 a1);

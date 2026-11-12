@@ -3,9 +3,9 @@
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32, s32, s32, s32);
-extern u16 guess_g_PlayerPosX;
-extern u16 guess_g_PlayerPosY;
-extern u16 guess_g_PlayerPosZ;
+extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 extern u8 D_80126BE0[];
 void func_80132F40(s32 arg0)
 {

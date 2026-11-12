@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80138ED0(u8 *param_1, u32 param_2, u8 *param_3);
 s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2) {
-    extern s32 guess_g_GlyphUploadsLeft[];
+    extern s32 guess_g_GlyphUploadsLeft[]; // Names ledger: config/names.tsv guess_g_GlyphUploadsLeft
     extern u8 D_800D3AB4[];
     u16 *p;
     if (guess_g_GlyphUploadsLeft[0] == 0) {

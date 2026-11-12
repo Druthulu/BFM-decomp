@@ -3,7 +3,7 @@
 extern void func_80175DA8(s32 a0);
 extern void func_80175AB8(s32 a0);
 extern void func_80176144(s32 a0);
-extern short guess_g_DoubleBufferIndex;
+extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 void func_801756E4(s32 arg0) {
     s32 a = arg0;
     short *p;

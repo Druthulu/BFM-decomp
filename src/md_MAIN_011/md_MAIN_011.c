@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 extern FnEntry D_800D4C54[];
 
@@ -15,7 +15,7 @@ void func_800CEE74(void) {
 
 
 void func_800CEF00(void) {
-    extern u8 guess_g_RenderWork[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
     extern u8 D_800D31FC[];
     extern u8 D_800D31F8[];
     extern u8 D_800D3248[];
@@ -84,8 +84,8 @@ void func_800CEF00(void) {
 INCLUDE_RODATA("asm/md_MAIN_011/nonmatchings/md_MAIN_011", D_800CEDF8);
 
 void func_800CF28C(void) {
-    extern u8 guess_g_RenderWork[];
-    extern u8 guess_g_PlayerRecord[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+    extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern u8 D_800D31F8[];
     extern u8 D_800D3334[];
     extern S6 D_800D4A5C[];
@@ -327,8 +327,8 @@ void func_800CFCBC(void) {
 
 #include "common.h"
 
-extern u8 guess_g_RenderWork[];
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 
 /* rodata this function alone references (its .s carried this block; section 304: the C body must define it
  * at file scope, in address order, so the module island keeps its bytes when the .s goes away) */
@@ -425,7 +425,7 @@ void func_800CFDB4(void) {
 }
 
 
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_800D03F8(void) {
     register u8 *v0 = guess_g_RenderWork;
@@ -527,7 +527,7 @@ void func_800D0858(void) {
 
 
 void func_800D0964(void) {
-    extern u8 guess_g_PlayerRecord[];
+    extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     Gs_80078E78_init *p = (Gs_80078E78_init *)guess_g_PlayerRecord;
 
     p->unk04 = 0;
@@ -583,7 +583,7 @@ void func_800D0964(void) {
 
 
 void func_800D0BDC(void) {
-    extern u8 guess_g_PlayerRecord[];
+    extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern u8 D_8010F476;
     extern u8 D_8010F47E;
     extern u8 D_8010F486;
@@ -715,7 +715,7 @@ void func_800D0BDC(void) {
 
 
 void func_800D1254(void) {
-    extern u8 guess_g_PlayerRecord[];
+    extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern void guess_SetGameFlag(s32 a0, s32 a1);
     extern void func_800291A0(s32 a0, s32 a1);
     extern u8 D_8010F4A6;
@@ -885,7 +885,7 @@ void func_800D1254(void) {
 
 #include "common.h"
 
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern void func_800291A0(s32 a0, s32 a1);
 extern u8 D_8010F4D6;
@@ -1057,7 +1057,7 @@ void func_800D1B00(void) {
 
 
 
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern void guess_SetGameFlag(s32 arg0, s32 arg1);
 extern void func_800291A0(s32 arg0, s32 arg1);
 extern u16 D_8010F504;
@@ -1224,7 +1224,7 @@ void func_800D235C(void) {
 
 
 void func_800D2BC4(void) {
-    extern u8 guess_g_PlayerRecord[];
+    extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern void guess_SetGameFlag(s32, s32);
     extern void func_800291A0(s32, s32);
     extern u8 D_8010F536;

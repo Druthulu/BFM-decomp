@@ -61,13 +61,13 @@
 
 
 
-extern u8 guess_g_RenderWork[];
-extern u8 guess_g_PlayerActor[];
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+extern u8 guess_g_PlayerActor[]; // Names ledger: config/names.tsv guess_g_PlayerActor
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u8 D_800AE6A8[];
-extern u8 guess_g_MainCamera[];
+extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
 extern ENT D_80078E50;
-extern u8 guess_g_PlaceholderText[];
+extern u8 guess_g_PlaceholderText[]; // Names ledger: config/names.tsv guess_g_PlaceholderText
 extern u8 D_80126DB0[];
 extern u8 D_801151F0[];
 extern s32 D_8011DB14;
@@ -80,14 +80,14 @@ extern s32 D_800A5E98, D_800A5E9C, D_800A5EA0;
 extern u8  D_800A5EA4, D_800A5EA5, D_800A5EA6;
 extern s32 D_800A5EA8, D_800A5EAC, D_800A5EB0;
 extern u8  D_800A5EB4, D_800A5EB5, D_800A5EB6;
-extern s16 guess_g_BackgroundLayerPriority, D_800B9B00;
+extern s16 guess_g_BackgroundLayerPriority, D_800B9B00; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
 extern s32 D_800B9AC4, D_800B9B18, D_800B9AC8, D_800B9B1C;
 extern s16 D_800B9AB2, D_800B9B06, D_800B9AB6, D_800B9B0A;
 extern u8  D_800B9ABC, D_800B9ABD, D_800B9ABE, D_800B9B10, D_800B9B11, D_800B9B12;
 extern u8  D_800B9ABF, D_800B9AC0, D_800B9AC1, D_800B9B13, D_800B9B14, D_800B9B15;
 extern s32 D_80126728, D_8011DB08, D_80126AEC;
 extern s32 D_801274C8, D_801274CC, D_801274D0, D_801274D4, D_801270B8, D_80127520;
-extern s32 D_801151D8, D_8011DB28, guess_g_ActiveCamera;
+extern s32 D_801151D8, D_8011DB28, guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 
 extern void *func_801457A4(s32 a0);
 extern void func_80019018(void);

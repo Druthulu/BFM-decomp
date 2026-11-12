@@ -49,7 +49,7 @@ void func_800CAF10(void *arg0) {
 
 
 void func_800CAF68(void *arg0) {
-    extern u8 guess_g_PlayerRecord[];
+    extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern s32 func_8014C088(s32 a0, s32 a1);
     extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
     extern void guess_PlaySoundUnlessSkipped(s32 arg0);
@@ -414,7 +414,7 @@ void func_800CB8C4(void *a0, void *a1) {
 
 
 void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, void *twicep, s16 *angp) {
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     struct {
         s16 o1[4];
         s16 o2[4];

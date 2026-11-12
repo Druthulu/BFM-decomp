@@ -4,7 +4,7 @@ void func_8013D53C(void *arg0v) {
 
     extern Rec9 D_8017FBA8[];
     extern Rec12 D_8017FBE0[];
-    extern u8 guess_g_DayPeriod;
+    extern u8 guess_g_DayPeriod; // Names ledger: config/names.tsv guess_g_DayPeriod
     extern u8 D_8018FA70;
     extern s32 D_8018E78C;
     Cmd_8013D53C *arg0 = arg0v;

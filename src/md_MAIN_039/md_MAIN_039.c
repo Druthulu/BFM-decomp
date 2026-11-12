@@ -267,8 +267,8 @@ void func_800CB4CC(void *a0)
 #include "common.h"
 
 s32 func_800CB4D4(s32 a0) {
-    extern u8 guess_g_ObjectTable[];
-    extern u8 guess_g_BoxHitCenterX[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
+    extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
     extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
     extern s32 func_8012E778(s32 a0, s32 a1);
     extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -342,7 +342,7 @@ s32 func_800CB61C(s32 a0, s32 a1)
 
 
 
-extern u8 guess_g_CameraWsMatrix;
+extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 
 s32 func_800CB6F4(int param_1, int param_2)
 {

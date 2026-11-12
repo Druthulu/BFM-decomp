@@ -1,16 +1,16 @@
 /* func_80175308 — shared body (overlay slot 0x80128158, h_exact c722f77f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u8  guess_g_HudState;
+extern u8  guess_g_HudState; // Names ledger: config/names.tsv guess_g_HudState
 extern u8  D_8011F7A9;
 extern u8  D_8011F7AE;
-extern u16 guess_g_HudHpPanelX;
-extern u16 guess_g_HudHpPanelY;
+extern u16 guess_g_HudHpPanelX; // Names ledger: config/names.tsv guess_g_HudHpPanelX
+extern u16 guess_g_HudHpPanelY; // Names ledger: config/names.tsv guess_g_HudHpPanelY
 extern s16 D_8011F7B8;
 extern s16 D_8011F7BA;
-extern s16 guess_g_HudGoldPanelX;
-extern s16 guess_g_HudGoldPanelY;
-extern u8 guess_g_PlayerRecord[];
-extern s16 guess_g_DoubleBufferIndex;
+extern s16 guess_g_HudGoldPanelX; // Names ledger: config/names.tsv guess_g_HudGoldPanelX
+extern s16 guess_g_HudGoldPanelY; // Names ledger: config/names.tsv guess_g_HudGoldPanelY
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
+extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern void guess_ZeroMemory(void *, s32);
 extern void func_801757A0(s32);
 extern void func_800596F4(s32);

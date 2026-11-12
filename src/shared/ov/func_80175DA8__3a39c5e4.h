@@ -4,10 +4,10 @@ void func_80175DA8(param_1)
     u16 param_1;
 {
 
-    extern u8  guess_g_HudPlayerRecord;
-    extern u8  guess_g_ActiveMenu;
-    extern S_AF634 guess_g_PacketBufferUsed[];
-    extern S_AF634 guess_g_PacketBufferBase[];
+    extern u8  guess_g_HudPlayerRecord; // Names ledger: config/names.tsv guess_g_HudPlayerRecord
+    extern u8  guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
+    extern S_AF634 guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
+    extern S_AF634 guess_g_PacketBufferBase[]; // Names ledger: config/names.tsv guess_g_PacketBufferBase
     extern u16 D_80182184[];
     extern u16 D_801821D4[];
     extern u16 D_801821E0;

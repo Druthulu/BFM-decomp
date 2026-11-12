@@ -4,9 +4,9 @@ extern s32 func_80135004(s32 a0, void *a1, s32 a2);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern s32 func_8014C918(s32 a0, s32 a1);
 extern void guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
-extern u8 guess_g_ObjectTable[];
-extern u8 guess_g_BoxHitNormalX[];
-extern u8 guess_g_BoxHitCenterX[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
+extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
 u32 func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12)
 {
   s16 sp18[4];

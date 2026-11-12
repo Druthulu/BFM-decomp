@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8015EA3C(void *arg0) {
 
-    extern s16 guess_g_CameraRelativeYaw;
+    extern s16 guess_g_CameraRelativeYaw; // Names ledger: config/names.tsv guess_g_CameraRelativeYaw
     s32 invec[4];
     s32 outbuf[4];
     s32 temp;

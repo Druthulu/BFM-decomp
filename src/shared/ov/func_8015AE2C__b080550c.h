@@ -4,7 +4,7 @@ s32 func_8015AE2C(arg0)
 s32 arg0;
 {
     extern void (*D_80181914[])(void *);
-    extern s16 guess_g_CameraRelativeYaw[];
+    extern s16 guess_g_CameraRelativeYaw[]; // Names ledger: config/names.tsv guess_g_CameraRelativeYaw
     extern u8 D_800D4BE0[];
     extern s32 D_800D4E94;
     extern s32 D_800D4ED4;

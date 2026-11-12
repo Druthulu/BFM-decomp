@@ -1,9 +1,9 @@
 s32 func_80175820(void)
 {
-    extern s16 guess_g_DoubleBufferIndex;
-    extern S_AE7BC_80175820_80175820 guess_g_FrontOrderingTablesOrg[];
-    extern S_AF634_80175820_80175820 guess_g_PacketBufferUsed[];
-    extern u8 guess_g_HudState;
+    extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+    extern S_AE7BC_80175820_80175820 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern S_AF634_80175820_80175820 guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
+    extern u8 guess_g_HudState; // Names ledger: config/names.tsv guess_g_HudState
     u8 *p = (u8 *)&guess_g_HudState;
     u32 *ptr;
     u32 old;

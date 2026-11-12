@@ -8,7 +8,7 @@ void func_8017C730(s32 arg0)
     extern void func_80052E38(MATRIX2 *);
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short guess_g_DoubleBufferIndex;
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     DVECTOR2 tmpxy[4];
     SVECTOR2 box[8];

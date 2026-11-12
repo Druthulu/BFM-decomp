@@ -88,7 +88,7 @@ void func_800CEF50(void) {
     extern u16 D_800CF136;
     extern u16 D_800CF138;
     extern u16 D_800CF13A;
-    extern s16 guess_g_DoubleBufferIndex;
+    extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern u8 D_800AA60C[];
 
     register s32 v __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order

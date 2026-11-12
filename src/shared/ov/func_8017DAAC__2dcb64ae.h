@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8017DB50(void);
 extern u8 D_800B9A15;
-extern unsigned char guess_g_ActiveMenu;
-extern u16 guess_g_OpenMenuId;
-extern u16 guess_g_MenuStep;
+extern unsigned char guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
+extern u16 guess_g_OpenMenuId; // Names ledger: config/names.tsv guess_g_OpenMenuId
+extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern s16 D_80115126;
 extern s16 D_801CD878;
 extern void *D_8011DB24;

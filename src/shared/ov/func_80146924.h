@@ -1,6 +1,6 @@
 /* func_80146924 — shared body (overlay slot 0x80128158, h_exact e116ed6b). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 guess_g_SmallObjectPool;
+extern s32 guess_g_SmallObjectPool; // Names ledger: config/names.tsv guess_g_SmallObjectPool
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5) {
     s32 count = 0;

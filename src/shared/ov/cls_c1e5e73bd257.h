@@ -2,9 +2,9 @@
  * exemplar src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c:3934 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 6, markers 0 */
 s32 SHARED_FN(void *arg0) {
 
-    extern u16 guess_g_PlayerPosX;
-    extern u16 guess_g_PlayerPosY;
-    extern u16 guess_g_PlayerPosZ;
+    extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+    extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     s16 pointA[3];
     s16 pointB[3];
     s16 diff[3];

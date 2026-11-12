@@ -1,6 +1,6 @@
 /* func_80155344 — shared body (overlay slot 0x80128158, h_exact a58bff3d). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 guess_g_PlayerTmdList[];
+extern s32 guess_g_PlayerTmdList[]; // Names ledger: config/names.tsv guess_g_PlayerTmdList
 void func_80155344(s32 a0) {
     s32 *p = guess_g_PlayerTmdList;
     s32 v0 = *p;

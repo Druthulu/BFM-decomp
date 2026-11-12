@@ -5,7 +5,7 @@ extern void func_8012A908(void);
 extern void func_8017869C(s32 a0);
 extern void func_80130D0C(s32 a0);
 extern void func_8013E370(void);
-extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 extern u16 D_801270C0;
 extern s32 D_8011DB08;
 void func_8017849C(void) {

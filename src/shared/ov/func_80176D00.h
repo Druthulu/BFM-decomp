@@ -2,10 +2,10 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80178004(uint *param_1, uint param_2, int param_3);
 extern u8 D_8011F7B1;
-extern u8 guess_g_HudState;
+extern u8 guess_g_HudState; // Names ledger: config/names.tsv guess_g_HudState
 extern u16 D_80078EA6;
-extern u16 guess_g_HudHpPanelX;
-extern u16 guess_g_HudHpPanelY;
+extern u16 guess_g_HudHpPanelX; // Names ledger: config/names.tsv guess_g_HudHpPanelX
+extern u16 guess_g_HudHpPanelY; // Names ledger: config/names.tsv guess_g_HudHpPanelY
 extern s16 D_8011F81E;
 void func_80176D00(s32 a0) {
     u8 *arr = (u8 *)&guess_g_HudState;

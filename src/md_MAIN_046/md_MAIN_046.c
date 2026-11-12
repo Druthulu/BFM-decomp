@@ -462,7 +462,7 @@ void func_800CD494(void *a0) {
 }
 
 
-extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);

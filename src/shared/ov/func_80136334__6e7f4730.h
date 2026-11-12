@@ -1,11 +1,11 @@
 /* func_80136334 — shared body (overlay slot 0x80128158, h_exact 6e7f4730). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
-    extern u8 guess_g_BoxHitNormalX[];
-    extern s16 guess_g_BoxHitNormalY;
-    extern s16 guess_g_BoxHitNormalZ[];
-    extern s16 guess_g_BoxHitCenterY;
-    extern s16 guess_g_BoxHitCenterZ;
+    extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+    extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxHitNormalY
+    extern s16 guess_g_BoxHitNormalZ[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
+    extern s16 guess_g_BoxHitCenterY; // Names ledger: config/names.tsv guess_g_BoxHitCenterY
+    extern s16 guess_g_BoxHitCenterZ; // Names ledger: config/names.tsv guess_g_BoxHitCenterZ
     u16 a1v;
     s16 a2v;
     s32 n;

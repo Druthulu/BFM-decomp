@@ -9,8 +9,8 @@ extern s32 rcos(s32 a0);
 extern s32 AddPrim(s32, void *);
 void func_80144090(s32 param_1) {
     extern OtBlk D_800A651C[];
-    extern u8 guess_g_CameraWsMatrix;
-    extern short guess_g_DoubleBufferIndex;
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     void *iVar1;
     s32 iVar2;
     s32 iVar3;

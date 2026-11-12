@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_TestGameFlag(s32);
 s32 func_8014A738(void *arg0) {
-    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     Vec_8014A738 d;
     u32 i;
     Ent_801202A0 *base;

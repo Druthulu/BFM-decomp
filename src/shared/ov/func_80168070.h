@@ -8,9 +8,9 @@ extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern s32 ratan2(s32 a0, s32 a1);
-extern s32 guess_g_MainCameraAppliedViewPointX;
-extern s32 guess_g_MainCameraAppliedViewPointY;
-extern s32 guess_g_MainCameraAppliedViewPointZ;
+extern s32 guess_g_MainCameraAppliedViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointX
+extern s32 guess_g_MainCameraAppliedViewPointY; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointY
+extern s32 guess_g_MainCameraAppliedViewPointZ; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointZ
 /* guess_SetSegmentMatrixFacingCamera: builds matrix a3 for the segment a1-a2 of object a0: at the midpoint (moved toward the camera), along the segment, rolled to face the camera
  * Confidence medium, xref chain: mid via guess_ObjRotTransSV, func_800D20C0 toward camera, t = mid; dir = a2-a1 by ApplyMatrixSV, func_800D23D0 angles, RotMatrixYXZ; roll -ratan2
  * Names ledger: config/names.tsv guess_SetSegmentMatrixFacingCamera */

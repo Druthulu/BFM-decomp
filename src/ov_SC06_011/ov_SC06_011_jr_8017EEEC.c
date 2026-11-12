@@ -6,7 +6,7 @@ extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_8017F364(void);
 
 void func_8017EEEC(void *a0) {
-    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     extern void *D_80126CC8;
     extern u8 D_8019FDD4[];
     extern s16 D_801A0774;
@@ -284,7 +284,7 @@ void func_8017F4D0(void *param)
 
 
 extern s32 func_80013328(s32 a0, s32 a1);
-extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 extern void func_800D1724(s32 a0);
 extern void func_80171928(void *a0);
 
@@ -316,7 +316,7 @@ void *arg0;
 }
 
 
-extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 extern s32 D_801ABBD8;
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);

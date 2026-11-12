@@ -3,7 +3,7 @@
 extern s32 ratan2(s32 a0, s32 a1);
 extern s32 rcos(s32 a0);
 extern s32 rsin(s32 a0);
-extern s32 guess_g_ActiveCamera;
+extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 void func_80172170(s32 a0, s32 a1) {
     s32 base = guess_g_ActiveCamera;
     s32 s0;

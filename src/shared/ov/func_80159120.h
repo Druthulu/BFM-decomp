@@ -17,7 +17,7 @@ extern void func_800CF818(void);
 extern u8 D_80078E50;
 extern s32 D_80078E8C;
 extern u8 D_80110D0C[];
-extern u8 guess_g_StartPromptText[];
+extern u8 guess_g_StartPromptText[]; // Names ledger: config/names.tsv guess_g_StartPromptText
 void func_80159120(s32 a0) {
     s32 r;
     s32 v1;

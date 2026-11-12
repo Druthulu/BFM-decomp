@@ -6,8 +6,8 @@ extern s32 func_80167DBC(s32 a0, s32 a1, s32 a2);
 extern void guess_GetPlayerFramePointsB(s32 a0, s32 a1);
 extern s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
 extern s32 D_80126B9C;
-extern s32 guess_g_PlayerActor;
-extern s32 *guess_g_PlayerModelPtr;
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
+extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 void func_80165E90(void) {
     s32 s1 = (s32)&guess_g_PlayerActor;
     s32 buf1[2];

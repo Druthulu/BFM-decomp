@@ -1,9 +1,9 @@
 /* func_8012BE54 — shared body (overlay slot 0x80128158, h_exact a922d429). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_DistSqXZToPoint(s32 a0, u16 *a1);
-extern u16 guess_g_PlayerPosX;
-extern u16 guess_g_PlayerPosY;
-extern u16 guess_g_PlayerPosZ;
+extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 s32 func_8012BE54(s32 a0) {
     u16 sp[3];
     sp[0] = guess_g_PlayerPosX;

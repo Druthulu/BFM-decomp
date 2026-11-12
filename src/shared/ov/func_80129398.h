@@ -1,6 +1,6 @@
 /* func_80129398 — shared body (overlay slot 0x80128158, h_exact 25784e1d). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s16 guess_g_BackgroundLayerPriority[];
+extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
 extern s16 D_800B9AAE[];
 extern s16 D_800B9AB0[];
 extern s16 D_800B9AB2[];

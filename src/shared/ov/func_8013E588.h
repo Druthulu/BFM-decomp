@@ -3,9 +3,9 @@
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char guess_g_ActiveMenu;
-extern u16 guess_g_OpenMenuId;
-extern unsigned short guess_g_MenuStep;
+extern unsigned char guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
+extern u16 guess_g_OpenMenuId; // Names ledger: config/names.tsv guess_g_OpenMenuId
+extern unsigned short guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern void *D_8011DB24;
 void func_8013E588(void * _arg0)
 {

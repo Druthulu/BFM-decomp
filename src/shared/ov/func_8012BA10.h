@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 ratan2(s32 a0, s32 a1);
 s32 func_8012BA10(s32 arg0, s32 arg1) {
-    extern u16 guess_g_PlayerPosX;
-    extern u16 guess_g_PlayerPosZ;
+    extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     register s32 d __asm__("$16");      /* $s0 -- pinned: divisor, live across the jal */  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B headers1) wall:lreg-priority
     s32 s1ang;  /* $s1 -- pinned: ptr+0x12 angle, live across the jal */
     s32 u5; s32 u6; s32 iVar4; s32 q; s32 t;

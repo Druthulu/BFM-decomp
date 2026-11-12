@@ -3,7 +3,7 @@
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_80135004(s32 a0, void *a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
-extern s16 guess_g_BoxHitNormalY;
+extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxHitNormalY
 extern void *memcpy(void *, const void *, u32);
 s32 func_801638A0(u8 *a0, s32 a1) {
     u8 buf[8];

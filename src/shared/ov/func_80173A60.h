@@ -4,7 +4,7 @@ extern s32 func_8014C118(void*, s32, s32);
 extern void func_80174684(void *);
 extern void func_80173B4C(void*);
 void func_80173A60(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5) {
-    extern s32 guess_g_PlayerActor;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s32 D_80127508;
     extern s16 D_80126B30;
     extern struct S80126B38 D_80126B38;

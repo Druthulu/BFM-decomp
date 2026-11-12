@@ -3,7 +3,7 @@
 void func_80163EC8(s32 param_1)
 {
     extern Blk8 D_8018E120;
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8 func_801656D0(s32 a0, s32 a1);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);

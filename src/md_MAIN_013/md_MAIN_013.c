@@ -38,7 +38,7 @@ extern void guess_StartPadVibration(void *a0);
 
 void func_800CAEE0(u8 *a0) {
     extern u8 D_800CB830[];
-    extern u8 guess_g_RumblePatternShort;
+    extern u8 guess_g_RumblePatternShort; // Names ledger: config/names.tsv guess_g_RumblePatternShort
 
     guess_SetAnimScript(a0, D_800CB830);
     guess_SetTexAnim((s32)a0, 0x15);

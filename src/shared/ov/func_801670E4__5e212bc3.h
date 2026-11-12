@@ -5,9 +5,9 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     extern u8  D_801819C8[];
     extern u8  D_801819B4[];
     extern u8  D_801819DC[];
-    extern s32 guess_g_MainCameraAppliedViewPointX;
-    extern s32 guess_g_MainCameraAppliedViewPointY;
-    extern s32 guess_g_MainCameraAppliedViewPointZ;
+    extern s32 guess_g_MainCameraAppliedViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointX
+    extern s32 guess_g_MainCameraAppliedViewPointY; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointY
+    extern s32 guess_g_MainCameraAppliedViewPointZ; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointZ
     extern u16 D_80126CE0;
     Fr_801670E4 f;
     u8 *p;   /* $s2 */

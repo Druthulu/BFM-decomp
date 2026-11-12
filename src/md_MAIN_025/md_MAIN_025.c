@@ -210,7 +210,7 @@ void func_800CB300(s32 arg0) {
 
     extern u8 D_800CAE0C[];
     extern s16 D_800CBEA0;
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern s16 D_800CBEA2;
     extern u8 D_800CBEB0[];
     extern u8 D_80114EB0[];

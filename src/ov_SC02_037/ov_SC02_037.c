@@ -153,9 +153,9 @@ extern void func_801379FC(void);
 extern void func_8001212C(void);
 
 void func_801287B8(void) {
-    extern s32 guess_g_PlayerActor;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s32 D_801C9A78;
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8 D_800B9A64;
     guess_UpdateCamera();
     func_8017849C();
@@ -210,8 +210,8 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10)
 int func_801288E8(int arg0)
 {
 
-    extern int guess_g_CdReadList;
-    extern int *guess_g_CdReadListDest;
+    extern int guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+    extern int *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern int D_800A2E20;
     extern int D_800AF558;
     extern int D_801C7200;
@@ -232,8 +232,8 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10)
 int func_80128940(int arg0)
 {
 
-    extern int guess_g_CdReadList;
-    extern int *guess_g_CdReadListDest;
+    extern int guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+    extern int *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern int D_800A2E20;
     extern int D_800AF560;
     extern int D_801C7200;
@@ -248,8 +248,8 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10)
 
 s32 func_80128998(void)
 {
-    extern int guess_g_CdReadList;
-    extern int *guess_g_CdReadListDest;
+    extern int guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+    extern int *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern int D_800A2E20;
     extern int D_800AECB0;
     extern s32 D_801C7200;
@@ -471,15 +471,15 @@ void func_8012956C(void) {
     extern s32 D_801C83AC;
 
     extern s16 D_80114EE0;
-    extern u8 guess_g_BackgroundLayers;
+    extern u8 guess_g_BackgroundLayers; // Names ledger: config/names.tsv guess_g_BackgroundLayers
     extern u8 D_801C83AD[];
     extern u8 D_801C83AE[];
     extern u8 D_801C83B0[];
     extern u8 D_801C83B1[];
     extern u8 D_801C83B2[];
     extern u8 D_801C9A58;
-    extern u8 guess_g_RenderWork[];
-    extern u8 guess_g_OrderingTables[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+    extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
     s32 *sp10;
     u8 *afbase;
     s32 *sp0;
@@ -1153,9 +1153,9 @@ void func_8012D5DC(void) {
 
 int func_8012D664(int arg0, int arg1, int arg2)
 {
-    extern u16 guess_g_PlayerPosX;
-    extern u16 guess_g_PlayerPosY;
-    extern u16 guess_g_PlayerPosZ;
+    extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+    extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     extern s32 func_800132BC(s32 a0, s32 a1);
     extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern u8 D_80183F48[];
@@ -1209,7 +1209,7 @@ s32 func_8012DB84(void)
 s32 func_8012DDA4()
 {
 
-    extern u8 guess_g_BoxHitCenterX[];
+    extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
     extern Entry_8012DDA4 * D_801C83CC;
     extern Entry_8012DDA4 * D_801C83C8;
 
@@ -1237,7 +1237,7 @@ s32 func_8012DDA4()
 
 s32 func_8012DE2C(s32 a0) {
 
-    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     extern u8 * D_801C83CC;
     extern u8 * D_801C83C8;
 
@@ -1783,7 +1783,7 @@ void func_80130D0C(void *a0) {
 
 
 extern s32 rand(void);
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u16 g_PlayerHpMax;
 extern u16 g_PlayerHp;
 extern s16 D_80183FEC[];

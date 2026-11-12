@@ -634,7 +634,7 @@ extern s32 ratan2(s32, s32);
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (38 ins)
 extern s32 D_80180E30[];
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern s16 currentLocationId;
 
 #include "../shared/ov/func_80149FB0__8c634086.h"
@@ -1444,9 +1444,9 @@ extern s32 func_801506A4(s32 arg0, s32 arg1);
 
 extern S16 D_8018DE8C;
 extern s32 D_80180EF0;
-extern s32 guess_g_MainCameraRefPointX;
-extern s32 guess_g_MainCameraRefPointY;
-extern u8 guess_g_MainCamera[];
+extern s32 guess_g_MainCameraRefPointX; // Names ledger: config/names.tsv guess_g_MainCameraRefPointX
+extern s32 guess_g_MainCameraRefPointY; // Names ledger: config/names.tsv guess_g_MainCameraRefPointY
+extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
 extern s32 func_80021174(s32 a0, s32 a1);
 
 #include "../shared/ov/func_8015094C__8e5120a6.h"
@@ -1661,7 +1661,7 @@ extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void guess_ClearStoodOnActor(void *a0);
 extern int func_80151204(int arg, int a1);
-extern u8 guess_g_RumblePatternFade[];
+extern u8 guess_g_RumblePatternFade[]; // Names ledger: config/names.tsv guess_g_RumblePatternFade
 extern M2C_UNK D_80180FAC;
 
 #include "../shared/ov/func_801520DC__43573632.h"
@@ -1704,7 +1704,7 @@ extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void guess_NextStep(void *a0);
 
-extern u8 guess_g_RumblePatternFade[];
+extern u8 guess_g_RumblePatternFade[]; // Names ledger: config/names.tsv guess_g_RumblePatternFade
 extern M2C_UNK D_800D5880;
 extern s32 D_800D58AC;
 extern u8 D_80180FDC[];
@@ -1749,7 +1749,7 @@ extern void func_80149020(s32 *a0);
 extern void guess_ClearStoodOnActor(void *a0);
 extern int func_80151204(int arg, int a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
-extern u8 guess_g_RumblePatternFade[];
+extern u8 guess_g_RumblePatternFade[]; // Names ledger: config/names.tsv guess_g_RumblePatternFade
 extern M2C_UNK D_800D5880;
 extern M2C_UNK D_80180FF4;
 

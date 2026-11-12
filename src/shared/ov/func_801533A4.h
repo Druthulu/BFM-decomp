@@ -5,7 +5,7 @@ extern void guess_ClearStoodOnActor(void *a0);
 extern void guess_ClearTiltVectors(s32 *a0);
 extern void func_80155440(s32 *a0);
 extern void guess_NextStep(void *a0);
-extern u8 guess_g_RumblePatternFade[];
+extern u8 guess_g_RumblePatternFade[]; // Names ledger: config/names.tsv guess_g_RumblePatternFade
 void func_801533A4(s32 a0)
 {
     guess_StartPadVibration(guess_g_RumblePatternFade);

@@ -4,12 +4,12 @@ extern s32 func_80141C50(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
-extern short guess_g_DoubleBufferIndex;
-extern u8 guess_g_MenuPacketBases[];
-extern s32 guess_g_MenuPacketPtr;
-extern u16 guess_g_MenuPanel;
-extern u16 guess_g_MenuPadPressed;
-extern u16 guess_g_MenuStep;
+extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+extern u8 guess_g_MenuPacketBases[]; // Names ledger: config/names.tsv guess_g_MenuPacketBases
+extern s32 guess_g_MenuPacketPtr; // Names ledger: config/names.tsv guess_g_MenuPacketPtr
+extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
+extern u16 guess_g_MenuPadPressed; // Names ledger: config/names.tsv guess_g_MenuPadPressed
+extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 void func_8013ED6C(void) {
     s32 sp10[2];
     if ((s16)func_80141C50() == 0) {

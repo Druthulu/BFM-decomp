@@ -3,7 +3,7 @@
 extern s32 D_801E873C;
 extern s32 D_801E874C;
 extern s32 D_801E8010;
-extern u16 guess_g_PlayerPosZ;
+extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 extern u16 D_800B99D8;
 extern u8  D_8018B358[];
 extern void func_80185F8C(s32 a0);

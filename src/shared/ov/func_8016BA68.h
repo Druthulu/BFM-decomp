@@ -4,7 +4,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
 extern s32 func_8014C050(s32 a0, s32 a1);
 extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
 s32 func_8016BA68(s32 arg0, s32 arg1) {
-    extern s32 guess_g_PlayerActor;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     s32 temp_v0;
     temp_v0 = func_8014C050(&guess_g_PlayerActor, 0x56);
     if (temp_v0 != 0) {

@@ -3,10 +3,10 @@
 s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
     extern void ApplyMatrixSV(void *m, void *v0, void *v1);
     extern void ApplyRotMatrix(void *v0, void *v1);
-    extern u16 guess_g_BoxHitCenterY;
-    extern s16 guess_g_BoxHitCenterZ;
-    extern s16 guess_g_BoxHitNormalY;
-    extern s16 guess_g_BoxHitNormalZ;
+    extern u16 guess_g_BoxHitCenterY; // Names ledger: config/names.tsv guess_g_BoxHitCenterY
+    extern s16 guess_g_BoxHitCenterZ; // Names ledger: config/names.tsv guess_g_BoxHitCenterZ
+    extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxHitNormalY
+    extern s16 guess_g_BoxHitNormalZ; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
 
     s32 out[4];
     u16 *pb4;

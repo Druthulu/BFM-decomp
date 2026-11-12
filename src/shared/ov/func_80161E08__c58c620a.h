@@ -7,23 +7,23 @@ void func_80161E08(s32 param_1) {
     extern void func_8001CE68(void *a0, void *a1);
     extern int guess_GetTimeUntilGameVar08(void);
     extern void func_801622C4(void);
-    extern u16 guess_g_ScreenWidth;
-    extern u16 guess_g_ScreenHeight;
-    extern s16 guess_g_ClockMinute;
-    extern u16 guess_g_TargetTimeLabel1;
+    extern u16 guess_g_ScreenWidth; // Names ledger: config/names.tsv guess_g_ScreenWidth
+    extern u16 guess_g_ScreenHeight; // Names ledger: config/names.tsv guess_g_ScreenHeight
+    extern s16 guess_g_ClockMinute; // Names ledger: config/names.tsv guess_g_ClockMinute
+    extern u16 guess_g_TargetTimeLabel1; // Names ledger: config/names.tsv guess_g_TargetTimeLabel1
     extern s16 D_800B5C04;
     extern u8 D_800B5BFF;
-    extern s16 guess_g_TargetTimeLabel1X;
-    extern s16 guess_g_TargetTimeLabel1Y;
-    extern u16 guess_g_TargetTimeLabel2;
+    extern s16 guess_g_TargetTimeLabel1X; // Names ledger: config/names.tsv guess_g_TargetTimeLabel1X
+    extern s16 guess_g_TargetTimeLabel1Y; // Names ledger: config/names.tsv guess_g_TargetTimeLabel1Y
+    extern u16 guess_g_TargetTimeLabel2; // Names ledger: config/names.tsv guess_g_TargetTimeLabel2
     extern s16 D_800B5C3C;
     extern u8 D_800B5C37;
-    extern s16 guess_g_TargetTimeLabel2X;
-    extern s16 guess_g_TargetTimeLabel2Y;
-    extern u16 guess_g_TargetTimeDigits;
+    extern s16 guess_g_TargetTimeLabel2X; // Names ledger: config/names.tsv guess_g_TargetTimeLabel2X
+    extern s16 guess_g_TargetTimeLabel2Y; // Names ledger: config/names.tsv guess_g_TargetTimeLabel2Y
+    extern u16 guess_g_TargetTimeDigits; // Names ledger: config/names.tsv guess_g_TargetTimeDigits
     extern s16 D_800B5C74;
-    extern s16 guess_g_TargetTimeDigitsX;
-    extern s16 guess_g_TargetTimeDigitsY;
+    extern s16 guess_g_TargetTimeDigitsX; // Names ledger: config/names.tsv guess_g_TargetTimeDigitsX
+    extern s16 guess_g_TargetTimeDigitsY; // Names ledger: config/names.tsv guess_g_TargetTimeDigitsY
     extern u8 * D_8018E868[];
     extern u8 D_80181D80[];
     extern u8 D_80181DA0[];

@@ -155,9 +155,9 @@ extern void func_801379FC(void);
 extern void func_8001212C(void);
 
 void func_801287B8(void) {
-    extern s32 guess_g_PlayerActor;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s32 D_801C7AC8;
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8 D_800B9A64;
     guess_UpdateCamera();
     func_8017849C();
@@ -213,8 +213,8 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10)
 int func_801288E8(int arg0)
 {
 
-    extern int guess_g_CdReadList;
-    extern int *guess_g_CdReadListDest;
+    extern int guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+    extern int *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern int D_800A2E20;
     extern int D_800AF558;
     extern int D_801C5348;
@@ -236,8 +236,8 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10)
 int func_80128940(int arg0)
 {
 
-    extern int guess_g_CdReadList;
-    extern int *guess_g_CdReadListDest;
+    extern int guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+    extern int *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern int D_800A2E20;
     extern int D_800AF560;
     extern int D_801C5348;
@@ -259,8 +259,8 @@ int aF80128998(int arg0) __asm__("func_80128998");
 int aF80128998(int arg0)
 {
 
-    extern int guess_g_CdReadList;
-    extern int *guess_g_CdReadListDest;
+    extern int guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+    extern int *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern int D_800A2E20;
     extern int D_800AECB0;
     extern int D_801C5348;
@@ -481,15 +481,15 @@ void func_8012956C(void) {
     extern s32 D_801C64C4;
 
     extern s16 D_80114EE0;
-    extern u8 guess_g_BackgroundLayers;
+    extern u8 guess_g_BackgroundLayers; // Names ledger: config/names.tsv guess_g_BackgroundLayers
     extern u8 D_801C64C5[];
     extern u8 D_801C64C6[];
     extern u8 D_801C64C8[];
     extern u8 D_801C64C9[];
     extern u8 D_801C64CA[];
     extern u8 D_801C7AA8;
-    extern u8 guess_g_RenderWork[];
-    extern u8 guess_g_OrderingTables[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+    extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
     s32 *sp10;
     u8 *afbase;
     s32 *sp0;
@@ -1159,9 +1159,9 @@ void func_8012D5DC(void) {
 
 int func_8012D664(int arg0, int arg1, int arg2)
 {
-    extern u16 guess_g_PlayerPosX;
-    extern u16 guess_g_PlayerPosY;
-    extern u16 guess_g_PlayerPosZ;
+    extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+    extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     extern s32 func_800132BC(s32 a0, s32 a1);
     extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
     extern u8 D_8018326C[];
@@ -1214,7 +1214,7 @@ s32 func_8012DB84(void)
 
 s32 func_8012DDA4(void) {
 
-    extern u8 guess_g_BoxHitCenterX[];
+    extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
     extern Entry_8012DDA4 * D_801C64E4;
     extern Entry_8012DDA4 * D_801C64E0;
 
@@ -1242,7 +1242,7 @@ s32 func_8012DDA4(void) {
 
 s32 func_8012DE2C(s32 a0) {
 
-    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     extern u8 * D_801C64E4;
     extern u8 * D_801C64E0;
 
@@ -1797,7 +1797,7 @@ void func_80130D0C(s32 a0) {
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
 extern s32 rand(void);
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u16 g_PlayerHpMax;
 extern u16 g_PlayerHp;
 extern s16 D_80183310[];

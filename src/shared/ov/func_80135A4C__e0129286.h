@@ -12,7 +12,7 @@ s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
     extern u16 D_8018E6F8;
     extern s32 D_8018E6FC;
     extern s32 D_8018E71C;
-    extern u8 guess_g_BoxHitNormalX[];
+    extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
     extern u8 D_801152B0;
 
     s32 *p;

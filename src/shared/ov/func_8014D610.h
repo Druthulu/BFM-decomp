@@ -3,7 +3,7 @@
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_8014C918(s32 a0, s32 a1);
 s32 func_8014D610(s32 param_1, s32 param_2, u16 *param_3) {
-    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     u16 *psVar4;
     u8 *puVar3;
     s32 iVar2;

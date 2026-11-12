@@ -14,7 +14,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     extern u8 D_801802C0;
     extern s32 D_801802C4[];
     extern unsigned char D_801802D0;
-    extern s32 guess_g_VillagerNames[];
+    extern s32 guess_g_VillagerNames[]; // Names ledger: config/names.tsv guess_g_VillagerNames
     extern s32 D_8010EDE8[];
     extern u8  D_80115143;
     extern void * D_8018E7C4;

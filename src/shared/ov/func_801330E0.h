@@ -6,7 +6,7 @@ void func_801330E0(param_1, param_2, param_3)
     s16 *param_2;
     s16 param_3;
 {
-    extern u8 guess_g_CameraWsMatrix;
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
     s32 *m;
     s32 sxyz[4];
     s32 pos[4];

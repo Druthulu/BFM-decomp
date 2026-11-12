@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_801754A8(void) {
 
-    extern u8 guess_g_HudState;
-    extern unsigned char guess_g_ActiveMenu;
+    extern u8 guess_g_HudState; // Names ledger: config/names.tsv guess_g_HudState
+    extern unsigned char guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
     extern s32 D_80126B9C;
     extern DispatchFn D_801822B0[];
     u8 *p = &guess_g_HudState;

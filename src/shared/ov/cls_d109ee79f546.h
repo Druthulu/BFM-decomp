@@ -10,8 +10,8 @@ void SHARED_FN(s32 p)
      * §8d sub-class (b)); guess_g_CameraWsMatrix is the project-wide `extern u8` spelling. */
     extern u8 *D_800A5E60;
     extern u8 D_800A6610[];
-    extern short guess_g_DoubleBufferIndex;
-    extern u8 guess_g_CameraWsMatrix;
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 
    /* 0x20 */
 

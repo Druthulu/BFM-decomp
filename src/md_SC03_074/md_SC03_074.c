@@ -154,7 +154,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_801EF98C(s32 param_1, s16 *param_2) {
 
-    extern s32 guess_g_PlayerActor;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s16 D_801EFFE4[];
     extern u16 D_801EFFE8[];
 

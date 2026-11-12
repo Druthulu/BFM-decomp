@@ -5,7 +5,7 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 guess_g_SmallObjectPool;
+    extern s32 guess_g_SmallObjectPool; // Names ledger: config/names.tsv guess_g_SmallObjectPool
     extern unsigned char D_8018E9E0[];
 
     int t2;

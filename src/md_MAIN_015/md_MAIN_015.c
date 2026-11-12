@@ -62,7 +62,7 @@ extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp4, s32 sp5, 
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_801655E4(s32 a0);
-extern u8 guess_g_RumblePatternShort;
+extern u8 guess_g_RumblePatternShort; // Names ledger: config/names.tsv guess_g_RumblePatternShort
 extern void guess_StartPadVibration(void *a0);
 extern s32 func_80165624(s32 a0);
 extern u16 guess_GetPadHeld(s32 *a0);

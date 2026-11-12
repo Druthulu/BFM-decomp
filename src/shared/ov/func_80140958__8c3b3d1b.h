@@ -7,7 +7,7 @@ s16 n;
 {
 
     extern s16 D_8011514E;
-    extern u8 guess_g_MenuPanelSizes[];
+    extern u8 guess_g_MenuPanelSizes[]; // Names ledger: config/names.tsv guess_g_MenuPanelSizes
     extern Hw4 D_8011516A[];
     extern Prim4 D_801800E8[];
     extern Prim4 *D_801801DC[];
@@ -17,7 +17,7 @@ s16 n;
     extern s16 D_80180608[];
     extern u16 D_80180118;
     extern u16 D_8018011A;
-  extern Env_80140958 guess_g_FrontOrderingTablesOrg[];
+  extern Env_80140958 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
   Prim4 *p;
   s16 t;
   s32 c3;

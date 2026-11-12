@@ -119,7 +119,7 @@ void func_800CEFD0(void) {
     extern s32 D_80114E9C;
     extern u16 D_800B99F6;
     extern void (*D_800D3488[])(void);
-    extern u8 guess_g_RenderWork[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
     extern s32 D_800A651C;
 
     u8 *base = &(((Unkstruct_8012956C *)&guess_g_RenderWork)->unk0);
@@ -173,7 +173,7 @@ extern s32 D_80114E98;
 extern s32 D_80114E9C;
 extern u16 D_800B99F6;
 extern void (*D_800D3488[])(void);
-extern u8  guess_g_RenderWork[];
+extern u8  guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 D_800A651C[];
 extern void func_8001B85C(void);
 extern s32  func_8001B86C(s32);
@@ -229,7 +229,7 @@ loop:
  */
 extern s32 D_80114E98;
 extern u16 D_800B99F6;
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 D_800A651C[];
 extern void (*D_800D3488[])(void);
 extern void func_8001B85C(void);
@@ -311,7 +311,7 @@ extern void func_80011A3C(void);
 extern s32 D_80114E98;
 extern s32 D_80114E9C;
 extern u16 D_800B99F6;
-extern u8 guess_g_RenderWork[];
+extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern void (*D_800D3488[])(void);
 extern void func_8001B85C(void);
 extern void func_8001AF34(void);
@@ -567,7 +567,7 @@ s32 func_800CF854(void) {
 }
 
 extern s16 currentLocationId;
-extern u16 guess_g_PlayerActor;
+extern u16 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 func_800CF8B4(void);
 
 s32 func_800CF864(void) {
@@ -740,7 +740,7 @@ void func_800CFAD0(void)
     extern s16 D_80114E90;
     extern s16 D_80114E92;
     extern u8  D_800AA60C[];
-    extern u16 guess_g_DoubleBufferIndex;
+    extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     u32 *ot;
 
@@ -937,11 +937,11 @@ s32 func_800CFE60(void) {
     extern s16 currentLocationId;
     extern s32 D_800D34AC[];
     extern s16 D_800D34AE[];
-    extern u8 guess_g_RenderWork[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
     extern CdFileLoc cdFileLocTable[];
     extern void *D_80072C74;
-    extern s32 guess_g_CdReadList;
-    extern s32 *guess_g_CdReadListDest;
+    extern s32 guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
+    extern s32 *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern s32 D_800A2E20;
 
     extern s32 func_8002F648(void);

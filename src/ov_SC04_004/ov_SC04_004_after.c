@@ -142,11 +142,11 @@ s32 func_80145CEC() {
     extern void func_80165938();
     extern void func_80153C8C();
     extern void func_800290BC();
-    extern s32 guess_g_PlayerModelObject;
-    extern s32 guess_g_PlayerTmdList;
+    extern s32 guess_g_PlayerModelObject; // Names ledger: config/names.tsv guess_g_PlayerModelObject
+    extern s32 guess_g_PlayerTmdList; // Names ledger: config/names.tsv guess_g_PlayerTmdList
     extern s32 D_801152C8;
     extern s32 D_80186070;
-    extern s32 * guess_g_PlayerModelPtr[1];
+    extern s32 * guess_g_PlayerModelPtr[1]; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
     extern s32 * D_800AF7C8;
     extern s32 * D_80126B90;
     extern s16 D_80126BB8;
@@ -295,7 +295,7 @@ void func_80146360(void)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 guess_g_PlayerActor;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     D_801861B0[D_80126BA4](&guess_g_PlayerActor);
 }
 
@@ -599,7 +599,7 @@ extern s32 ratan2(s32 a0, s32 a1);
 
 int func_80148AFC(void *a0) {
 
-    extern s32 guess_g_ActiveCamera;
+    extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     extern s32 (*D_801861B8[])(void *, s32);
     s32 p = (s32)a0;
     s32 iVar5 = ((Unkstruct_80148AFC *)p)->unk20;
@@ -671,10 +671,10 @@ extern s32 ratan2(s32 a0, s32 a1);
 
 s32 func_80148D44(void) {
 
-    extern s32 guess_g_ActiveCamera;
+    extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     extern u8 D_80126C01;
     extern u16 D_80126C02;
-    extern u16 guess_g_PadLeftStick;
+    extern u16 guess_g_PadLeftStick; // Names ledger: config/names.tsv guess_g_PadLeftStick
     extern s16 (*D_801861F8[])(s32);
     s32 p = guess_g_ActiveCamera;
     s32 tmp = (ratan2(((Unkstruct_80126948 *)p)->unk44 - ((Unkstruct_80126948 *)p)->unk50,
@@ -702,7 +702,7 @@ extern s32 ratan2(s32, s32);
 
 s32 func_80148E54(s32 arg0) {
 
-    extern s32 guess_g_ActiveCamera;
+    extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     extern s16 (*D_80186238[])(s32);
     s32 tmp = (ratan2(((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk44 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk50,
                       ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk48 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk3C) - 0x400) & 0xFFF;
@@ -892,7 +892,7 @@ s32 func_80148E54(s32 arg0) {
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (38 ins)
 extern s32 D_80186278[];
-extern u8 guess_g_PlayerRecord[];
+extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern s16 currentLocationId;
 
 s32 func_80149FB0(s32 a0) {
@@ -1450,10 +1450,10 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 s32 func_8014D820(s32 a0, u16 *a1, u16 *a2)
 {
 
-    extern u8 guess_g_ObjectTable[];
+    extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     extern u8 D_80186310[];
-    extern u8 guess_g_BoxHitNormalX[];
-    extern s16 guess_g_BoxHitNormalZ;
+    extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+    extern s16 guess_g_BoxHitNormalZ; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
   /* BLOCK-SCOPE types — see the header note. `Ent` at file scope collides with
      src/shared/engine_types.h:434 and kills the TU's cc1 stage (exit 33). */
   typedef Unkstruct_800B5CB8 Ent;
@@ -1952,9 +1952,9 @@ s32 func_801506A4(s32 arg0, s32 arg1) {
 
 extern S16 D_801B1CD0;
 extern s32 D_80186338;
-extern s32 guess_g_MainCameraRefPointX;
-extern s32 guess_g_MainCameraRefPointY;
-extern u8 guess_g_MainCamera[];
+extern s32 guess_g_MainCameraRefPointX; // Names ledger: config/names.tsv guess_g_MainCameraRefPointX
+extern s32 guess_g_MainCameraRefPointY; // Names ledger: config/names.tsv guess_g_MainCameraRefPointY
+extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
 extern s32 func_80021174(s32 a0, s32 a1);
 
 s32 func_8015094C(s32 param_1) {
@@ -2012,7 +2012,7 @@ extern s32 D_801B263C;
 
 void func_80150B28(int param_1) {
 
-    extern s32 guess_g_CurrentEvent;
+    extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
     extern void (*D_8018633C[])(void);
     u32 idx;
     u32 sub;
@@ -2215,7 +2215,7 @@ extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void guess_ClearStoodOnActor(void *a0);
 extern int func_80151204(int arg, int a1);
-extern u8 guess_g_RumblePatternFade[];
+extern u8 guess_g_RumblePatternFade[]; // Names ledger: config/names.tsv guess_g_RumblePatternFade
 extern M2C_UNK D_801863F4;
 
 void func_801520DC(s32 arg0)
@@ -2272,7 +2272,7 @@ extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void guess_NextStep(void *a0);
 
-extern u8 guess_g_RumblePatternFade[];
+extern u8 guess_g_RumblePatternFade[]; // Names ledger: config/names.tsv guess_g_RumblePatternFade
 extern M2C_UNK D_800D5880;
 extern s32 D_800D58AC;
 extern u8 D_80186424[];
@@ -2345,7 +2345,7 @@ extern void func_80149020(s32 *a0);
 extern void guess_ClearStoodOnActor(void *a0);
 extern int func_80151204(int arg, int a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
-extern u8 guess_g_RumblePatternFade[];
+extern u8 guess_g_RumblePatternFade[]; // Names ledger: config/names.tsv guess_g_RumblePatternFade
 extern M2C_UNK D_800D5880;
 extern M2C_UNK D_8018643C;
 

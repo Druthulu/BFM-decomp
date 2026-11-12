@@ -45,7 +45,7 @@ extern s32 func_8013E410(void);
 extern s32 func_8013E448(s32 a0);
 extern void func_8012C724(s32 a0, s32 a1);
 extern void func_8013E370(void);
-extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 extern s32 (*D_801274D0)(s32);
 extern s32 D_801274D8;
 extern s32 D_801274DC;
@@ -58,9 +58,9 @@ extern void func_8013E558(void);
 extern s32 func_800D0EC4(void);
 extern void func_80141874(void);
 extern u8 D_800B9A15;
-extern unsigned char guess_g_ActiveMenu;
-extern u16 guess_g_OpenMenuId;
-extern unsigned short guess_g_MenuStep;
+extern unsigned char guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
+extern u16 guess_g_OpenMenuId; // Names ledger: config/names.tsv guess_g_OpenMenuId
+extern unsigned short guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern void func_8013E588(void * _arg0);
 extern void func_80029444(void);
 extern void func_801754A8(void);
@@ -83,12 +83,12 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern short guess_g_DoubleBufferIndex;
-extern u8 guess_g_MenuPacketBases[];
-extern s32 guess_g_MenuPacketPtr;
-extern u16 guess_g_MenuPanel;
-extern u16 guess_g_MenuPadPressed;
-extern s32 guess_g_MenuHelpText;
+extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+extern u8 guess_g_MenuPacketBases[]; // Names ledger: config/names.tsv guess_g_MenuPacketBases
+extern s32 guess_g_MenuPacketPtr; // Names ledger: config/names.tsv guess_g_MenuPacketPtr
+extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
+extern u16 guess_g_MenuPadPressed; // Names ledger: config/names.tsv guess_g_MenuPadPressed
+extern s32 guess_g_MenuHelpText; // Names ledger: config/names.tsv guess_g_MenuHelpText
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
@@ -99,7 +99,7 @@ extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern unsigned char *guess_GetStoryGoalText(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
-extern u16 guess_g_MenuStep;
+extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern void func_8013ED6C(void);
 extern s32 func_8013EE10();
 extern s32  func_800D0488(s16 a0);
@@ -107,7 +107,7 @@ extern void func_800D2624(void);
 extern void func_8013EF88(void);
 extern void func_8013F138(void);
 extern unsigned short D_80115114;
-extern unsigned short guess_g_MenuTransitionTimer;
+extern unsigned short guess_g_MenuTransitionTimer; // Names ledger: config/names.tsv guess_g_MenuTransitionTimer
 extern void func_8013F1BC(void);
 extern void func_80141C0C(s32);
 
@@ -150,20 +150,20 @@ extern void func_80141C0C(s32);
 // Def sig is s32(void); engine_core.h canon is `void func_8013F350(void)` and the
 // callers already cast (`((short (*)(void))func_8013F350)()`) -> def-side reconcile.
 
-extern u16 guess_g_OpenMenuId;
-extern u16 guess_g_MenuPanel;
-extern u16 guess_g_MenuPadHeld;
-extern u16 guess_g_MenuPadPressed;
+extern u16 guess_g_OpenMenuId; // Names ledger: config/names.tsv guess_g_OpenMenuId
+extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
+extern u16 guess_g_MenuPadHeld; // Names ledger: config/names.tsv guess_g_MenuPadHeld
+extern u16 guess_g_MenuPadPressed; // Names ledger: config/names.tsv guess_g_MenuPadPressed
 extern u16 D_80115120;
-extern u16 guess_g_MenuPadRepeatTimer;
-extern s16 guess_g_MenuCategory;
-extern s16 guess_g_MenuExitRequest;
-extern u16 guess_g_MenuSwapSlot;
-extern u8  guess_g_MenuPanelScrollTops[];
+extern u16 guess_g_MenuPadRepeatTimer; // Names ledger: config/names.tsv guess_g_MenuPadRepeatTimer
+extern s16 guess_g_MenuCategory; // Names ledger: config/names.tsv guess_g_MenuCategory
+extern s16 guess_g_MenuExitRequest; // Names ledger: config/names.tsv guess_g_MenuExitRequest
+extern u16 guess_g_MenuSwapSlot; // Names ledger: config/names.tsv guess_g_MenuSwapSlot
+extern u8  guess_g_MenuPanelScrollTops[]; // Names ledger: config/names.tsv guess_g_MenuPanelScrollTops
 extern s16 D_8011514C;
 extern s16 D_8011514E;
 extern u8  D_80115152;
-extern u8 guess_g_MenuPanelSizes[];   /* macro-canonical (§8e) */
+extern u8 guess_g_MenuPanelSizes[];   /* macro-canonical (§8e) */ // Names ledger: config/names.tsv guess_g_MenuPanelSizes
 extern u8 D_8011515C;     /* macro-canonical (§8e) */
 extern u8  D_8018305C[];
 extern u8  D_80183074[];
@@ -452,13 +452,13 @@ extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
 
 void func_8013FAF8(s16 arg0, s16 arg1) {
 
-    extern s32    guess_g_MenuPacketPtr;
-    extern u16    guess_g_MenuPanel;
-    extern short guess_g_MenuCategory;
+    extern s32    guess_g_MenuPacketPtr; // Names ledger: config/names.tsv guess_g_MenuPacketPtr
+    extern u16    guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
+    extern short guess_g_MenuCategory; // Names ledger: config/names.tsv guess_g_MenuCategory
     extern Hw4    D_8011516A[];
     extern u8     D_80078EC0;
-    extern short guess_g_DoubleBufferIndex;
-    extern Rec20  guess_g_FrontOrderingTables[];
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+    extern Rec20  guess_g_FrontOrderingTables[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTables
     extern Blk60  D_801829C0[];
     extern Blk20  D_80182CC0[];
     extern Prim4  D_80182DC0[];
@@ -564,7 +564,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
 
     extern u8  D_8018305C[];
     extern u8  D_80183074[];
-    extern short guess_g_MenuCategory;
+    extern short guess_g_MenuCategory; // Names ledger: config/names.tsv guess_g_MenuCategory
     extern u8  D_80183080[];
     extern u8  D_80183087[];
     extern u8  D_80183088[];
@@ -575,7 +575,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     extern u8 D_80183008;
     extern u8 D_8018300C;
     extern u8 *D_80183018;
-    extern s32 guess_g_VillagerNames[];
+    extern s32 guess_g_VillagerNames[]; // Names ledger: config/names.tsv guess_g_VillagerNames
     extern s32 D_8010EDE8[];
     extern u8  D_80115143;
     extern void * D_801A6B04;

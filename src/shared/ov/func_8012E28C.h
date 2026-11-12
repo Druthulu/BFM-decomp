@@ -5,7 +5,7 @@ extern s32 func_80010A08(s32);
 extern s32 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 extern s32 D_800A651C;
-extern s16 guess_g_DoubleBufferIndex;
+extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 void func_8012E28C(s32 arg0, s32 arg1) {
     void *temp_v0;
     s32 temp_v1;

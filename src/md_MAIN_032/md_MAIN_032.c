@@ -135,7 +135,7 @@ void func_800CB0B0(void *arg0) {
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 
 void func_800CB188(void *arg0) {
-    extern u16 guess_g_FrameCounter;
+    extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     s32 s0;
     s32 s1;
     s32 v0;

@@ -4,7 +4,7 @@ extern u8 func_8014BEF8(void);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
-extern u8 guess_g_ObjectTable[];
+extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 s32 func_8014A048(s32 param_1) {
     Loc L;
     s32 s0;

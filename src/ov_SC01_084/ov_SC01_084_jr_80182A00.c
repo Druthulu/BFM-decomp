@@ -548,9 +548,9 @@ void func_801834B8(u16 *param_1) {
  * struct at param_1+0x20" skeleton. See docs/matching-cookbook.md for the
  * general pattern. */
 
-extern u16 guess_g_PlayerPosX;
-extern u16 guess_g_PlayerPosY;
-extern u16 guess_g_PlayerPosZ;
+extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 extern u8  D_8018AB8C[];
 
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
@@ -1101,10 +1101,10 @@ void func_80183D38(void *a0) {
                  /* 0x28 */
 
 extern u16 D_801270C0;
-extern u8  guess_g_CameraWsMatrix;
+extern u8  guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 extern s32 D_80126950;
 extern s32 D_801C74D8;
-extern s16 guess_g_DoubleBufferIndex;
+extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
@@ -1206,7 +1206,7 @@ void func_80183DA4(SVec_80183DA4 *arg0) {
 
 extern void func_8012B21C(void *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern u16 guess_g_PlayerPosY;
+extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
 
 void func_80184090(void *a0) {
     u16 t;
@@ -1429,7 +1429,7 @@ extern void guess_FreeActor(void *a0);
 extern void func_8012E32C(void);
 extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_801845A0(void *a0);
-extern u16 guess_g_PlayerPosY;
+extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
 extern s16 D_801C774C;
 extern s16 D_80126CBA;
 extern s32 D_801270CC;
@@ -2432,7 +2432,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 extern void guess_SetWaitTimer(s32 *a0, s32 a1);
-extern s32 guess_g_PlayerActor;
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 rand(void);
 
 void func_8018599C(s32 param_1)
@@ -2708,7 +2708,7 @@ s32 func_80185E68(s32 a0, s32 a1) {
 }
 
 
-extern u8 guess_g_BoxHitNormalX[];
+extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 extern s32 D_801C7728;
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80017E68(void *a0, void *a1);

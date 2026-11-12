@@ -7,7 +7,7 @@ void func_8015126C(u16 *p)
     extern s32 D_801151FC;
     extern s32 D_80127518;
     extern s32 D_800AE6A8;       /* +0x8 == guess_g_CurrentEvent (s32) */
-    extern u8  guess_g_PlayerRecord[];     /* +0x49 == D_80078EC1 (u8) */
+    extern u8  guess_g_PlayerRecord[];     /* +0x49 == D_80078EC1 (u8) */ // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern s32 func_801470A0(void *a0);
     extern s32 func_8014A454(s32 a0);
     extern void func_80160368(s32 *a0);

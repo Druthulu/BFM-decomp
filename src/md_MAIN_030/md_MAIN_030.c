@@ -166,9 +166,9 @@ void func_800CB158(void *a0) {
 void func_800CB1EC(void *a0) {
     extern u8 D_80078EC1;
     extern Blk32_CB1EC D_800AE620;
-    extern s16 guess_g_PlayerPosX;
-    extern s16 guess_g_PlayerPosY;
-    extern s16 guess_g_PlayerPosZ;
+    extern s16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+    extern s16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
+    extern s16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     extern void guess_ZeroMemory(void *a0, s32 a1);
     extern s32 guess_StepPairSequence(s32 a0, s32 *a1);
     extern void RotMatrixY(s32 a0, void *a1);

@@ -5,10 +5,10 @@ void func_8012A328(void)
 {
     extern s8 D_801152C0;
     extern s16 D_801152C2;
-    extern s16 guess_g_CameraFollowPos;
+    extern s16 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
     extern s16 D_80126942;
     extern s16 D_80126944;
-    extern s32 guess_g_PlayerActor;
+    extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s16 D_80127080;
     extern s16 D_80126CAE;
     Obj_80126B58 *p = (Obj_80126B58 *)&guess_g_PlayerActor;

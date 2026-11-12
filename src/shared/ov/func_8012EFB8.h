@@ -5,7 +5,7 @@
  * Names ledger: config/names.tsv guess_WorldToScreenFlag */
 s32 guess_WorldToScreenFlag(void *param_1, void *param_2)
 {
-    extern u8 guess_g_CameraWsMatrix;
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
     s32 *m;
     s32 flag;
     m = (s32 *)&guess_g_CameraWsMatrix;

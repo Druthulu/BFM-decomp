@@ -33,7 +33,7 @@ extern void func_800CEFD0(void);
 extern s32 D_80114E98;
 extern s32 D_80114E9C;
 extern void (*D_800D3488[])(void);
-extern u8  guess_g_RenderWork[];
+extern u8  guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 D_800A651C[];
 extern void func_8001B85C(void);
 extern s32  func_8001B86C(s32);
@@ -93,7 +93,7 @@ extern void func_800CF82C(void);
 extern void func_800CF840(void);
 extern u8 D_800AE6BF;
 extern s32 func_800CF854(void);
-extern u16 guess_g_PlayerActor;
+extern u16 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 func_800CF8B4(void);
 extern s32 func_800CF864(void);
 extern s32 func_800CF8CC(void);
@@ -169,7 +169,7 @@ extern s32 func_800D10C8(s32);
 extern s32 func_800D109C(void);
 extern s16 D_8010EDEE;
 extern s32 func_800D10C8(s32 arg0);
-extern Struct80078E78 guess_g_PlayerRecord;
+extern Struct80078E78 guess_g_PlayerRecord; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u8 D_8010EDF0;
 extern u8 D_8010EDF1;
 extern void func_800D10EC(void);
@@ -221,7 +221,7 @@ extern void func_8014B944(s32, s32, s32);
 extern void func_8014BC0C(s32, s32);
 extern void func_8014B2A8(void);
 extern void guess_RequestSound(s32, s32);
-extern u16 guess_g_PlayerActor;
+extern u16 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 
 s32 func_800D128C(s32 arg0, s32 arg1) {
     s16 ret = 3;
@@ -462,7 +462,7 @@ s32 func_800D1714(void) {
     return D_80078E50;
 }
 
-extern s32 guess_g_CurrentEvent;
+extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
 void func_800D1724(s32 arg0) {
     guess_g_CurrentEvent = arg0;
 }
@@ -488,7 +488,7 @@ void func_800D1744(s32 arg0) {
  * D_800AE6A8/guess_g_CurrentEvent are s32 (setters func_800D1734/func_800D1724). The 2nd call reuses
  * a0=temp (== guess_g_CurrentEvent just stored). func_800D17B8 returns s32 (no andi after the jals).
  */
-extern s32 guess_g_CurrentEvent;
+extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
 extern s32 D_800AE6A8;
 extern s32 func_800D17B8(s32 arg0);
 
@@ -666,7 +666,7 @@ s32 func_800D19DC(void) {
 extern u8 D_80126BA6;
 extern s16 currentLocationId;
 extern s32 D_80114EA8;
-extern s32 guess_g_CurrentEvent;
+extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
 extern s32 D_800AE6A8;
 extern void func_8001BE20(void);
 extern s32 func_8001BE30(void);
@@ -843,7 +843,7 @@ s32 DsMix(void) {
 //   D_800AE6A8 = s32 (func_800D1734 stores arg0)  -> &D_800AE6A8 is a struct/array base
 //                here, fields at +8 (lw=s32) and +0x17 (sb=u8); take its address as u8*.
 //   D_800B9A0E = s16 (func_800D1764/.. stores 1/2).
-extern s32 guess_g_CurrentEvent;
+extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
 extern s32 D_800AE6A8;
 extern s16 D_800B9A0E;
 
@@ -1101,7 +1101,7 @@ void func_800D1F90(void) {
  *    order). Pair 1's lw merges with the block-local dx qty, so it must stay un-hoisted.
  */
 void func_800D1FC8(void *arg0, int arg1) {
-    extern int guess_g_ActiveCamera;
+    extern int guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     extern void VectorNormalSS(void *a0, void *a1);
 
     int *g;
@@ -1164,7 +1164,7 @@ void func_800D1FC8(void *arg0, int arg1) {
 
 
 
-extern Tgt800D20C0 *guess_g_ActiveCamera;
+extern Tgt800D20C0 *guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern long VectorNormalSS(SVECTOR_800 *a, SVECTOR_800 *b);
 
 void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
@@ -1315,7 +1315,7 @@ void func_800D2460(void) {
 }
 
 extern void guess_ZeroMemory(void *, s32);
-extern u8 guess_g_OpenMenuId[];
+extern u8 guess_g_OpenMenuId[]; // Names ledger: config/names.tsv guess_g_OpenMenuId
 extern s32 D_8012751C;
 extern s32 D_8011DB20;
 
@@ -1337,19 +1337,19 @@ void func_800D24A0(s16 arg0) {
     extern void func_80018FC8(void);
     extern void func_800596F4(s32);
     extern void guess_RequestSound(s32, s32);
-    extern u16 guess_g_DoubleBufferIndex;
-    extern u8 guess_g_ActiveMenu;
-    extern u8 guess_g_OrderingTables[];
+    extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
+    extern u8 guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
+    extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
     extern u8 D_8007BA70[];
     extern u8 D_800856B0[];
-    extern u16 guess_g_MenuStep;
-    extern u16 guess_g_MenuExitRequest;
+    extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
+    extern u16 guess_g_MenuExitRequest; // Names ledger: config/names.tsv guess_g_MenuExitRequest
     extern u16 D_80115124;
-    extern u8 guess_g_OpenMenuId[];
+    extern u8 guess_g_OpenMenuId[]; // Names ledger: config/names.tsv guess_g_OpenMenuId
     extern u16 D_80115114;
-    extern u8 *guess_g_MenuPacketBases;
+    extern u8 *guess_g_MenuPacketBases; // Names ledger: config/names.tsv guess_g_MenuPacketBases
     extern u8 *D_801151CC;
-    extern E4 guess_g_MenuPanelSlide[];
+    extern E4 guess_g_MenuPanelSlide[]; // Names ledger: config/names.tsv guess_g_MenuPanelSlide
 
     u16 i;
     u32 *src;
@@ -1394,7 +1394,7 @@ void func_800D25FC(void) {
     D_8011DB24();
 }
 
-extern u8 guess_g_ActiveMenu;
+extern u8 guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
 extern void guess_RequestSound(s32 arg0, s32 arg1);
 
 void func_800D2624(void) {
@@ -1413,8 +1413,8 @@ void func_800D2624(void) {
 
 u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int a5, u32 a6)
 {
-    extern Env_800D2650 guess_g_FrontOrderingTablesOrg[];
-    extern short guess_g_DoubleBufferIndex;
+    extern Env_800D2650 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     register int cw __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
     register u32 s_a6 __asm__("$8") = a6;  // !FAKE: pin $8 — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
@@ -1561,8 +1561,8 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
 
 u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 {
-    extern Env_800D27DC guess_g_FrontOrderingTablesOrg[];
-    extern short guess_g_DoubleBufferIndex;
+    extern Env_800D27DC guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     s16 i;
     u32 c;
@@ -1687,8 +1687,8 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 
 u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
 {
-    extern Env_800D29F8 guess_g_FrontOrderingTablesOrg[];
-    extern short guess_g_DoubleBufferIndex;
+    extern Env_800D29F8 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     u32 *q;
     PolyG4_800D29F8 *p;

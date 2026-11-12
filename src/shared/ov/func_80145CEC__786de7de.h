@@ -20,11 +20,11 @@ s32 func_80145CEC() {
     extern void func_80165938();
     extern void func_80153C8C();
     extern void func_800290BC();
-    extern s32 guess_g_PlayerModelObject;
-    extern s32 guess_g_PlayerTmdList;
+    extern s32 guess_g_PlayerModelObject; // Names ledger: config/names.tsv guess_g_PlayerModelObject
+    extern s32 guess_g_PlayerTmdList; // Names ledger: config/names.tsv guess_g_PlayerTmdList
     extern s32 D_801152C8;
     extern s32 D_80180C28;
-    extern s32 * guess_g_PlayerModelPtr[1];
+    extern s32 * guess_g_PlayerModelPtr[1]; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
     extern s32 * D_800AF7C8;
     extern s32 * D_80126B90;
     extern s16 D_80126BB8;

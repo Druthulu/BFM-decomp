@@ -3,8 +3,8 @@
 void func_8013EF88(void)
 {
 
-    extern u16 guess_g_MenuTransitionTimer;
-    extern E4  guess_g_MenuPanelSlide[];
+    extern u16 guess_g_MenuTransitionTimer; // Names ledger: config/names.tsv guess_g_MenuTransitionTimer
+    extern E4  guess_g_MenuPanelSlide[]; // Names ledger: config/names.tsv guess_g_MenuPanelSlide
     extern u16 D_80115114;
     u16 *p = &guess_g_MenuTransitionTimer;
     u16 old = *p;

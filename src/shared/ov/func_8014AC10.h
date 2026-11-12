@@ -1,7 +1,7 @@
 /* func_8014AC10 — shared body (overlay slot 0x80128158, h_exact f5d1e453). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void guess_ZeroMemory(void *a0, s32 a1);
-extern s32 guess_g_SmallObjectPool;
+extern s32 guess_g_SmallObjectPool; // Names ledger: config/names.tsv guess_g_SmallObjectPool
 void func_8014AC10(s32 arg0) {
     u8 *p;
     u8 *end;

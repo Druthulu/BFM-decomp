@@ -2,11 +2,11 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8013E83C() {
     extern void func_80141C0C(int);
-    extern unsigned short guess_g_MenuTransitionTimer;
-    extern unsigned short guess_g_MenuCategory;
-    extern unsigned short guess_g_MenuSwapSlot;
-    extern unsigned int guess_g_MenuHelpText;
-    extern unsigned short guess_g_MenuPanelSizes;
+    extern unsigned short guess_g_MenuTransitionTimer; // Names ledger: config/names.tsv guess_g_MenuTransitionTimer
+    extern unsigned short guess_g_MenuCategory; // Names ledger: config/names.tsv guess_g_MenuCategory
+    extern unsigned short guess_g_MenuSwapSlot; // Names ledger: config/names.tsv guess_g_MenuSwapSlot
+    extern unsigned int guess_g_MenuHelpText; // Names ledger: config/names.tsv guess_g_MenuHelpText
+    extern unsigned short guess_g_MenuPanelSizes; // Names ledger: config/names.tsv guess_g_MenuPanelSizes
     extern unsigned short D_8011515A;
     extern unsigned short D_8011515C;
     extern unsigned short D_8011515E;

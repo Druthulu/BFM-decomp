@@ -1,8 +1,8 @@
 /* func_801884FC — shared body (overlay slot 0x80128158, h_exact bb479f68). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80188680(void *a0, s32 a1, s32 a2);
-extern u16 guess_g_PlayerPosX;
-extern u16 guess_g_PlayerPosZ;
+extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
+extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 s32 func_801884FC(void *a0) {
     s32 v1 = *(s16 *)((s32)a0 + 0xE);
     if (v1 >= 0x334 && v1 <= 0x496) {

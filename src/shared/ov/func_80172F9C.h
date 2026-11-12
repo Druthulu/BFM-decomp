@@ -4,7 +4,7 @@ extern void func_8017303C(void *);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern s32 func_80174650(s32);
 extern u8 D_800D46E4[];
-extern s32 guess_g_PlayerActor;
+extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s16 D_80126B30;
 void func_80172F9C(void) {
     func_8017303C(D_800D46E4);

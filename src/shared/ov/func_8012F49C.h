@@ -5,8 +5,8 @@ extern void SetTransMatrix();
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
 s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
-    extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix");
-    extern u8 guess_g_CameraWsMatrix;
+    extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix"); // Names ledger: config/names.tsv guess_g_CameraWsMatrix
+    extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
     s16 sv[4];
     s32 out[2];
     s32 sxy, p, flag;

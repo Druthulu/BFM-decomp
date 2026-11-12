@@ -5,12 +5,12 @@ void func_80176218(s32 param_1)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u8 guess_g_PlayerRecord[];
+    extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 
     extern u16 D_8011F82A;
-    extern u16 guess_g_HudShownHp;
+    extern u16 guess_g_HudShownHp; // Names ledger: config/names.tsv guess_g_HudShownHp
     extern u16 D_8011F8C4;
-    extern u8  guess_g_HudState;   /* st base  ($s3) */
+    extern u8  guess_g_HudState;   /* st base  ($s3) */ // Names ledger: config/names.tsv guess_g_HudState
     extern u8  D_80182A14[];
     extern u8 *D_80182998[];
     s32 st   = (s32)&guess_g_HudState;   /* $s3 */

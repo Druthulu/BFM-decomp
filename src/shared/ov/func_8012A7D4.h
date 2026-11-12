@@ -1,6 +1,6 @@
 /* func_8012A7D4 — shared body (overlay slot 0x80128158, h_exact c6a8b031). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 guess_g_ActiveCamera;
+extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 void func_8012A7D4(void *arg0, void *arg1) {
     s32 p;
     p = guess_g_ActiveCamera;

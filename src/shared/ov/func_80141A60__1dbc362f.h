@@ -5,7 +5,7 @@ void func_80141A60(void)
 
     extern u8  D_8011514D;
     extern u8  D_8011515C;
-    extern u16 guess_g_MenuFrameCounter;
+    extern u16 guess_g_MenuFrameCounter; // Names ledger: config/names.tsv guess_g_MenuFrameCounter
     s32 iVar1;
     s32 pad[2];
     (void)&pad;   /* §36#3 frame-pad induction: force frame 0x20 (vs 0x18) */

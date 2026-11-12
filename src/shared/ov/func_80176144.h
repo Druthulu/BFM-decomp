@@ -2,11 +2,11 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80176144(s32 a0)
 {
-    extern S_AF634 guess_g_PacketBufferUsed[];
-    extern S_AF634 guess_g_PacketBufferBase[];
-    extern u8  guess_g_HudState;
-    extern s16 guess_g_HudGoldPanelX;
-    extern s16 guess_g_HudGoldPanelY;
+    extern S_AF634 guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
+    extern S_AF634 guess_g_PacketBufferBase[]; // Names ledger: config/names.tsv guess_g_PacketBufferBase
+    extern u8  guess_g_HudState; // Names ledger: config/names.tsv guess_g_HudState
+    extern s16 guess_g_HudGoldPanelX; // Names ledger: config/names.tsv guess_g_HudGoldPanelX
+    extern s16 guess_g_HudGoldPanelY; // Names ledger: config/names.tsv guess_g_HudGoldPanelY
     extern s32 func_80178004(uint *param_1, uint param_2, int param_3);
     u32 *slot;
     u32 *p;

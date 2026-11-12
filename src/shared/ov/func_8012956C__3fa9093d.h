@@ -3,15 +3,15 @@
 void func_8012956C(void) {
 
     extern s16 D_80114EE0;
-    extern u8 guess_g_BackgroundLayers;
+    extern u8 guess_g_BackgroundLayers; // Names ledger: config/names.tsv guess_g_BackgroundLayers
     extern u8 D_8018E67D[];
     extern u8 D_8018E67E[];
     extern u8 D_8018E680[];
     extern u8 D_8018E681[];
     extern u8 D_8018E682[];
     extern u8 D_8018FA98;
-    extern u8 guess_g_RenderWork[];
-    extern u8 guess_g_OrderingTables[];
+    extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
+    extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
     s32 *sp10;
     u8 *afbase;
     s32 *sp0;
