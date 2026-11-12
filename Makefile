@@ -1169,7 +1169,7 @@ ifeq ($(NO_SDK),)
 		echo "  (no $(LIBC2_ELF) — libc2 region stays asm stubs; run tools/psyq_build_libs.sh LIBC2)"
 	fi
 	if [ -d "$(LIBGTE_ELF)" ]; then
-		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) --yaml $(main_SPLAT_YAML) $(LIBGTE_ELF) $(LD_SCRIPT) $(LIBGTE_OBJDIR) $(LIBGTE_SYMS) $(LIBGTE_STUBS) 0x8004787C 0x80053AF8
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) --yaml $(main_SPLAT_YAML) $(LIBGTE_ELF) $(LD_SCRIPT) $(LIBGTE_OBJDIR) $(LIBGTE_SYMS) $(LIBGTE_STUBS) 0x8004787C 0x80053AF8  # 0x8004787C: rsin, the first libgte object
 	else
 		echo "  (no $(LIBGTE_ELF) — libgte region stays asm stubs; run tools/psyq_build_libs.sh LIBGTE)"
 	fi

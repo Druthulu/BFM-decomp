@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 func_8012BE98(s32 a0, u16 *a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 D_8018EF88[];
@@ -13,7 +13,7 @@ void func_80184B94(s32 s0) {
     s32 msg;
     *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) = (u16)guess_YawToPoint((void *)(s0 + 4), s1);
     guess_SetForwardVelocity(s0, 0xFFFA0000);
-    func_8012AD80(s0);
+    guess_ApplyAccelAndVelocity(s0);
     if (func_8012BE98(s0, s1) < 0x41) {
         s32 idx = *(u16 *)(s0 + 0x70);
         s32 tmp1;

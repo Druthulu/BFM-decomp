@@ -74,7 +74,7 @@ L1:
         fr.v[2].y = (s8)*p++;
         fr.v[3].x = (s8)*p++;
         fr.v[3].y = (s8)*p--;
-        func_80017758(fr.v, fr.mtx);
+        guess_AddPolyG4(fr.v, fr.mtx);
         t = i + 1;
         i = t + 0;
         if ((s16)t < 4) goto L1;
@@ -94,7 +94,7 @@ L2:
         fr.v[2].z = (s8)*p++;
         fr.v[3].x = (s8)*p++;
         fr.v[3].z = (s8)*p--;
-        func_80017758(fr.v, fr.mtx);
+        guess_AddPolyG4(fr.v, fr.mtx);
         if ((s16)i == 1) {
             fr.v[1].z = 0x20;
             p += 2;
@@ -115,7 +115,7 @@ L3:
         fr.v[2].z = (s8)*p++;
         fr.v[3].x = (s8)*p++;
         fr.v[3].z = (s8)*p++;
-        func_80017758(fr.v, fr.mtx);
+        guess_AddPolyG4(fr.v, fr.mtx);
         t = i + 1;
         i = t + 0;
         if ((s16)t < 2) goto L3;

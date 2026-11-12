@@ -25,7 +25,7 @@
 | 5+6 | **libapi+libcard** | 26 (800c2) + 23 (band) | 800c2 (`0x80061F38`–`0x80062888`) + the band (`0x8005CE18`–`0x8005E188`) | ~2.6k | ✅ **DONE (S79 #5): apicard region 26 objs / 7 blocks tiling the whole range** (`tools/make_apicard_used.py`, libapi **4.2** from `tools/psyq/lib421` + libcard 4.0; FIRST/PAD/PATCH/CHCLRPAD were the "game code" rows 800c2/800c2_2/800c2_3) **+ the band's 23 libapi 4.2 objects (libapi1/libapi2)** from the raw `.run/obj42/libapi42` dir, windowed. |
 | 9 | **libpad 4.2.1** | 7 / 11 | the band (`0x8005D0D8`–`0x8005FC68`) | ~11.5k | ✅ **DONE (S79 #13 found it, #5 wired it): PADENTRY PADMAIN PADCMD PADIF PADPORTD PADSEQD WAITRC2 as libpad1/libpad2** from the raw `.run/obj42/libpad421` dir (SCE's 1998-02-26 J421PD patch, `tools/psyq/lib421`). Absent: PADGUN/PADPORTM/PADSEQM/GUNHOOK (no gun, no multitap). |
 | 7+8 | **libspu+libsnd** | 63 / (38+32) | 800 sound (`0x8003A444`–`0x8004239C`) | ~24k | ✅ **DONE (combined region; S78 #3/#4): 63 objs / 12 blocks.** The two libs interleave, so linked as ONE region (`tools/make_snd_used.py` dedups + excludes 3 addresses; `gen_lib_subsegs.py` + window). **Excluded:** S_R/S_W `0x3C438`, S_GRMDT* `0x3D424` (cross-object commons — these objects have NO `.bss`, so the S78 split cannot apply), S_IH/UT_RON `0x3D94C` (false-positive, inside SSSTART). VM_F `0x3FA64` (237 ins) rejoined in S78 #4 (`snd12`, `.bss` split at `_svm_sreg_buf`). SSGM.o `0x1BD80` deferred (isolated in matched-C, 8 ins). |
-| 9 | **libgte** | 58 / 381 | 800b (`0x8004787C`–`0x5082C`) + **libgs gaps** | ~48k | ✅ **DONE (T11): 53 objs / 22 blocks linked** in 800b (subsegs via `gen_lib_subsegs.py`; integrate window 0x4787C..0x51804). **5 libgs-gap objects DEFERRED** (MTX_05/07/11/REG03/REG11 → gsgap1/2/4/5 stay stubs; gsgap2≠MTX_07 exactly so needs sub-split). |
+| 9 | **libgte** | 58 / 381 | 800b (`0x8004787C` rsin–`0x5082C`) + **libgs gaps** | ~48k | ✅ **DONE (T11): 53 objs / 22 blocks linked** in 800b (subsegs via `gen_lib_subsegs.py`; integrate window 0x4787C..0x51804). **5 libgs-gap objects DEFERRED** (MTX_05/07/11/REG03/REG11 → gsgap1/2/4/5 stay stubs; gsgap2≠MTX_07 exactly so needs sub-split). |
 
 **SKIP — zero footprint (recorded, not linked by the EXE):** `libmath` 0/48, `libc` 0/56, `libsn` 0/51 (2 tiny ambiguous). BFM links **libc2**, not libc; no libmath/libsn. (Also unbuilt/no-footprint: libcomb, libds, libgun, libsio, libtap, libpress — never converted, no symbols.)
 
@@ -33,8 +33,8 @@
 
 ```
 800   (0x800123F0–0x80043088)  game code + libsnd(SSGM @1BD80; 3D454–42374) + libspu(3A444–422E8) + libetc(4239C–43088, tail)
-libcd (0x80043088–0x8004787C)  DONE
-800b  (0x8004787C–0x80051804)  libgte(4787C–5082C, multi-block) + game-code tail
+libcd (0x80043088–0x8004787C rsin)  DONE
+800b  (0x8004787C rsin–0x80051804)  libgte(4787C–5082C, multi-block) + game-code tail
 libgs (0x8005080C–0x80057928)  DONE; gaps gsgap1/2/4/5 are actually libgte (MTX_05/07/11, REG03/11; wired S78 #3 as libgte27-30); gsgap3=GS_001 linked S78 #4 as libgs8 (six-piece `.bss` split)
 800b2 (0x80057928–0x800629DC)  game code + libgpu(58890–5Bxxx) + libc2(5C2C8–5CD98,+STRCAT 61E90) + libapi(5CE18–626B8 scattered) + libmcrd(5FC68 + 62888) + libcard(61F38–62808)
 ```

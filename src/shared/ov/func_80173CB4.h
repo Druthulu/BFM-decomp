@@ -6,7 +6,7 @@ extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_801553A8(s32 *a0);
 extern void func_8016BADC(void *a0, s32 a1, s32 a2);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80171A1C(u8 *a0);
 extern s32 guess_g_ActiveCamera;
 extern struct S80126B38 D_80126B38;
@@ -55,7 +55,7 @@ ld0:
 ld8:
     d = D_8012750C;
     if (d != 0) {
-        *(s32 *)(s0 + 0x198) = func_8013767C(d);
+        *(s32 *)(s0 + 0x198) = guess_OpenTextWindow(d);
     } else {
         *(s32 *)(s0 + 0x198) = 0;
     }

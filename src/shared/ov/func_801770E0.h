@@ -1,7 +1,7 @@
 /* func_801770E0 — shared body (overlay slot 0x80128158, h_exact bb571788). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
-extern u32 func_801783D0(s32 a0, s32 a1);
+extern u32 guess_IntToBcd(s32 a0, s32 a1);
 extern void * func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern u16 D_8011F830;
 extern u16 D_8011F82E;
@@ -23,9 +23,9 @@ u32 *func_801770E0(void *param_1, u32 param_2, s16 param_3_)
     uVar2 = ((void * (*)(void *, s32, s32))func_80177784)(uVar2, uVar5 | ((param_2 + 8) & 0xffff), 0x6e165808);
     uVar2 = ((void * (*)(void *, s32, s32))func_80177784)(uVar2, uVar5 | ((param_2 + 0x10) & 0xffff), 0x6e164060);
     u4 = ((void * (*)(void *, s32, s32))func_80177784)(uVar2, uVar5 | ((param_2 + 0x30) & 0xffff), 0x6e163858);
-    sVar1 = (s16)func_801783D0(D_8011F830, 4);
+    sVar1 = (s16)guess_IntToBcd(D_8011F830, 4);
     u5 = func_801777BC(u4, sVar1, (s32)((param_2 + 0x18) << 16) >> 16, iVar6, c3, cb8, cff);
-    sVar1 = (s16)func_801783D0(D_8011F82E, 4);
+    sVar1 = (s16)guess_IntToBcd(D_8011F82E, 4);
     puVar3 = (u32 *)func_801777BC(u5, sVar1, (s32)((param_2 + 0x38) << 16) >> 16, iVar6, c3, cb8, cff);
     dl = ((Unkstruct_8011F830 *)&D_8011F830)->h;
     { u32 v0m = ((u32)(puVar3 - 5) & 0xffffff) | 0x3000000;

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_801520DC(s32 arg0)
 {
-    func_80019064(&guess_g_RumblePatternFade);
+    guess_StartPadVibration(&guess_g_RumblePatternFade);
     func_80151204(arg0, M2C_FIELD(arg0, s16 *, 0xF2));
     func_80149020(arg0);
     func_801472C8(arg0);

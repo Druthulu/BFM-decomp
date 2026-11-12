@@ -16,7 +16,7 @@ void func_8015F118(void *a0) {
             guess_SpawnObject(0x19, (s32)a0, 0, 0, 0, 0, 0, 1);
             guess_SpawnObject(0x19, (s32)a0, 0, 0, 0, 1, 0, 1);
             guess_SpawnObject(0x1D, (s32)a0, 0, 0, 0, 0, 0, 1);
-            func_80019064(&D_80062BE8);
+            guess_StartPadVibration(&D_80062BE8);
             guess_PlaySoundUnlessSkipped(0x9DA);
         }
         if (((s32 (*)(s32 *))func_80161208)(a0) == 0) {

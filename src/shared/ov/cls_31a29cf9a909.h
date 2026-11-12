@@ -3,7 +3,7 @@
 void SHARED_FN(s32 *a0)
 {
     extern void guess_UpdateActorModelMatrix(s32 a0);
-    extern void func_8012B23C(s32 a0);
+    extern void guess_ClearVelocityAndSetGravity(s32 a0);
 
     s32 ptr;
 
@@ -14,5 +14,5 @@ void SHARED_FN(s32 *a0)
     ((Unkstruct_800B5CB8 *)ptr)->unk10 = 0;
     ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
     guess_UpdateActorModelMatrix((s32)a0);
-    func_8012B23C((s32)a0);
+    guess_ClearVelocityAndSetGravity((s32)a0);
 }

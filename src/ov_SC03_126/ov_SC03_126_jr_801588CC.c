@@ -275,18 +275,18 @@ extern s32 func_80148D24(void *a0, int a1);
 extern s32 func_80148D3C(void);
 extern s32 func_80148F60(void);
 extern s32 func_80148F68(s32 a0);
-extern s32 func_80148F74(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn(s32 a0);
 extern s32 func_80148F80(s32 a0);
 extern s32 func_80148F8C(s32 a0);
 extern s32 func_80148F98(void);
 extern s32 func_80148FA0(s32 a0);
-extern s32 func_80148FAC(s32 a0);
-extern s32 func_80148FB8(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn_2(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn(s32 a0);
 extern s32 func_80148FC4(s32 a0);
 extern s32 func_80148FD0(void);
 extern s32 func_80148FD8(void);
 extern s32 func_80148FE0(s32 a0);
-extern s32 func_80148FEC(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn_2(s32 a0);
 extern s32 func_80148FF8(s32 a0);
 extern s32 func_80149004(void);
 extern void func_8014900C(s32 *a0);
@@ -444,7 +444,7 @@ extern s32 D_80078ECC;
 extern void func_8014B33C(void);
 extern u8 D_80062BF4[];
 extern void func_8014BC80(s32 a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 D_80078E98;
 extern void func_80166244(void* arg0);
 extern void func_8014B4D4(void *a0);
@@ -1118,7 +1118,7 @@ extern s32 D_8018E85C;
 extern s32 D_801815E8[];
 
 extern int rand(void);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_80158F00__6450992e.h"
@@ -1130,7 +1130,7 @@ extern void guess_NextStep(void *a0);
 //        return). $a1 is set by sra BEFORE the beqz and stays live into the jal, so the value is used
 //        twice (branch test + arg2) — that 2nd use is what keeps the sll;sra (gcc folds sll;sra;beqz
 //        -> sll;beqz otherwise). Also: branch-polarity invert (!=0 -> 594E8 fall-through, else 767C);
-//        func_8013767C arg is &(*(u8 *)&guess_g_StartPromptText) (lui%hi+addiu%lo, not a literal). Ghidra missed the 2nd arg.
+//        guess_OpenTextWindow arg is &(*(u8 *)&guess_g_StartPromptText) (lui%hi+addiu%lo, not a literal). Ghidra missed the 2nd arg.
 
 extern s32 D_8018E860;
 extern u8 guess_g_StartPromptText[];
@@ -1141,7 +1141,7 @@ extern void func_80139914(s32);
 extern s32 func_80159464(void);
 extern void func_801594E8(s32, s32);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_80158FA4__1e7a4e71.h"

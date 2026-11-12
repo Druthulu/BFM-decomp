@@ -30,7 +30,7 @@ void func_80131B14() {
         ((void (*)(void *))func_8016AA50)(p);
         if (*(u16 *)(p + 0x82) & 1) {
             ((void (*)(void *))func_8016B428)(p);
-            ((void(*)(void *))func_80019064)(&D_8017EF84);
+            ((void(*)(void *))guess_StartPadVibration)(&D_8017EF84);
         }
     }
 
@@ -54,5 +54,5 @@ void func_80131B14() {
     }
 
     ((void (*)(void *))guess_UpdateActorModelMatrix)(p);
-    ((void (*)(void *))func_8012B23C)(p);
+    ((void (*)(void *))guess_ClearVelocityAndSetGravity)(p);
 }

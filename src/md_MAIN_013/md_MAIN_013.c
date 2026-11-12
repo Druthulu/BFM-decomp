@@ -34,7 +34,7 @@ extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_801655E4(void *a0);
 extern void func_80156648(s32 *a0);
 extern void func_800CB054(void *a0);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 
 void func_800CAEE0(u8 *a0) {
     extern u8 D_800CB830[];
@@ -49,7 +49,7 @@ void func_800CAEE0(u8 *a0) {
     func_80156648((s32 *)a0);
     ((Unkstruct_80126B58 *)a0)->unk1AA = 0;
     func_800CB054(a0);
-    func_80019064(&guess_g_RumblePatternShort);
+    guess_StartPadVibration(&guess_g_RumblePatternShort);
     ((Unkstruct_80126B58 *)a0)->unk197 = ((Unkstruct_80126B58 *)a0)->unk197 + 1;
 }
 

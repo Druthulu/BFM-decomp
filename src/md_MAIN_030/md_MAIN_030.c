@@ -144,7 +144,7 @@ void func_800CB158(void *a0) {
     extern void (*D_800CB51C[])(void);
     extern u8 D_800CB51D;
     extern u8 D_800CB51E;
-    extern void func_800233CC(void *, u16);
+    extern void guess_BuildCircle12Points(void *, u16);
     extern s32 guess_FreeSmallObject(u8 *a0);
 
     if (D_80078EC1 == 0x13) {
@@ -153,7 +153,7 @@ void func_800CB158(void *a0) {
             D_800CB51E = v;
             D_800CB51D = v;
             *(u8 *)D_800CB51C = v;
-            func_800233CC((void *)D_800CB51C, 0x24);
+            guess_BuildCircle12Points((void *)D_800CB51C, 0x24);
         }
         ((Unkstruct_800CAFA8 *)a0)->unk1C = ((Unkstruct_800CAFA8 *)a0)->unk1C + 1;
     } else {
@@ -172,7 +172,7 @@ void func_800CB1EC(void *a0) {
     extern void guess_ZeroMemory(void *a0, s32 a1);
     extern s32 func_80128ED8(s32 a0, s32 *a1);
     extern void RotMatrixY(s32 a0, void *a1);
-    extern s32 func_80047948(s32 a0);
+    extern s32 rcos(s32 a0);
     extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern s32 guess_FreeSmallObject(u8 *a0);
 
@@ -211,7 +211,7 @@ void func_800CB1EC(void *a0) {
         buf.w[6] = guess_g_PlayerPosY;
         buf.w[7] = guess_g_PlayerPosZ;
 
-        v1 = func_80047948(((s5 & 0xF) << 8) + ((Unkstruct_800CB1EC *)a0)->unk2C);
+        v1 = rcos(((s5 & 0xF) << 8) + ((Unkstruct_800CB1EC *)a0)->unk2C);
         out[1] = (v1 >> 9) - 0x30;
         out[2] = -0x50;
 

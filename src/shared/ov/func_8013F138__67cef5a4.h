@@ -5,7 +5,7 @@ void func_8013F138(void) {
     *p += 0x10;
     if ((u16)*p >= 0x40) {
         if (guess_g_OpenMenuId == 0) {
-            ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), &D_801805F4);
+            ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)func_80141CA4(), &D_801805F4);
         }
         guess_g_MenuStep += 1;
     }

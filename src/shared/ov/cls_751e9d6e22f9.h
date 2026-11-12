@@ -9,9 +9,9 @@ void SHARED_FN(s32 param_1) {
 
     ((Unkstruct_80126B58 *)param_1)->unk20E = func_80012F74(((Unkstruct_80126B58 *)param_1)->unk20E, 0, 10, 1);
     ((Unkstruct_80126B58 *)param_1)->unk12E = 1;
-    t = func_8004787C((*p & 0x3F) << 6);
+    t = rsin((*p & 0x3F) << 6);
     ((Unkstruct_80126B58 *)param_1)->unk128 = ((Unkstruct_80126B58 *)param_1)->unk20E + t / 4;
-    u = func_80047948((*p & 0x3F) << 6);
+    u = rcos((*p & 0x3F) << 6);
     ((Unkstruct_80126B58 *)param_1)->unk12C = u / 8;
     if (((Unkstruct_80126B58 *)param_1)->unk13A != 0) {
         ((Unkstruct_80126B58 *)param_1)->unk13A += *(s8 *)(param_1 + 0x20D);

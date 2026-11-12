@@ -33,7 +33,7 @@ s32 func_8016C49C(s32 param_1_arg) {
         D_8018EDD8[6] = 0;
         D_8018EDD8[5] = 0;
         D_8018EDD8[4] = 0;
-        ((void(*)(void *, s32))func_800233CC)(D_8018EDD8, 10);
+        ((void(*)(void *, s32))guess_BuildCircle12Points)(D_8018EDD8, 10);
         sv[0] = *(u16 *)(iVar5 + 6) - *(u16 *)(iVar6 + 6);
         {
             int t = *(u16 *)(iVar6 + 0xa) + 0x28;

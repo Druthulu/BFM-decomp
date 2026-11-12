@@ -282,18 +282,18 @@ extern s32 func_80148D24(void *a0, int a1);
 extern s32 func_80148D3C(void);
 extern s32 func_80148F60(void);
 extern s32 func_80148F68(s32 a0);
-extern s32 func_80148F74(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn(s32 a0);
 extern s32 func_80148F80(s32 a0);
 extern s32 func_80148F8C(s32 a0);
 extern s32 func_80148F98(void);
 extern s32 func_80148FA0(s32 a0);
-extern s32 func_80148FAC(s32 a0);
-extern s32 func_80148FB8(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn_2(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn(s32 a0);
 extern s32 func_80148FC4(s32 a0);
 extern s32 func_80148FD0(void);
 extern s32 func_80148FD8(void);
 extern s32 func_80148FE0(s32 a0);
-extern s32 func_80148FEC(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn_2(s32 a0);
 extern s32 func_80148FF8(s32 a0);
 extern s32 func_80149004(void);
 extern void func_8014900C(s32 *a0);
@@ -451,7 +451,7 @@ extern s32 D_80078ECC;
 extern void func_8014B33C(void);
 extern u8 D_80062BF4[];
 extern void func_8014BC80(s32 a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 D_80078E98;
 extern void func_80166244(void* arg0);
 extern void func_8014B4D4(void *a0);
@@ -1078,7 +1078,7 @@ extern M2C_UNK D_800D5904;
 extern void func_80158E24(s32 *a0);
 extern s32 D_80187208[];
 extern int rand(void);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
@@ -1551,7 +1551,7 @@ extern void func_80164ACC(s32 a0);
 extern void (*D_80187AA8[])(void);
 extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
 extern void func_80164DB0(void);
 extern u8 D_8019E598;
@@ -1748,7 +1748,7 @@ extern void func_801693CC(void *a0);
 extern void func_80169584(s32 param_1);
 extern void func_80169408(s32 a0);
 extern void func_8016951C(int param_1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_801696D8(s32 a0, s32 a1);
 extern void (*D_80187EBC[])(void);
@@ -2188,8 +2188,8 @@ extern s32 func_80171FFC(short *a0, short *a1, s32 a2);
 extern s32 func_80171D1C(void * a0, void * a1, s32 a2);
 extern s32 func_8017248C(s32 a0, s32 a1);
 extern s32 func_80171E08(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_80047948(s32 a0);
-extern s32 func_8004787C(s32 a0);
+extern s32 rcos(s32 a0);
+extern s32 rsin(s32 a0);
 extern void func_80172170(s32 a0, s32 a1);
 extern s32 func_8017209C(void *arg0, void *arg1, s32 arg2, s32 arg3);
 extern void func_801722CC(s32 *a0);
@@ -2474,7 +2474,7 @@ extern u16 guess_g_HudHpPanelX;
 extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
-extern u32 func_801783D0(s32 a0, s32 a1);
+extern u32 guess_IntToBcd(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
@@ -2530,7 +2530,7 @@ extern short D_801A026C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
 extern s32 func_80178D40(s32 arg0, s32 arg1);
-extern void func_80179B28(s32 a0);
+extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
 extern void func_80179D78(u16 *a0);
@@ -2978,7 +2978,7 @@ void func_8017DEC4(void *a0) {
 s32 func_8017DF24(s32 arg0)
 {
     extern s32 D_80126B60;
-    extern s32 func_80047948(s32 a0);
+    extern s32 rcos(s32 a0);
     u16 v1 = *(u16 *)(arg0 + 0x34);
     s32 v0;
 
@@ -2989,7 +2989,7 @@ s32 func_8017DF24(s32 arg0)
         if ((s16)(u16)v0 >= 0x400) {
             *(u16 *)(arg0 + 0x34) = *(u16 *)(arg0 + 0x34) + 1;
         }
-        v0 = func_80047948(*(s16 *)(arg0 + 0xFC));
+        v0 = rcos(*(s16 *)(arg0 + 0xFC));
         *(s32 *)(arg0 + 8) = *(s32 *)(arg0 + 8) - ((0x1000 - v0) << 7);
         break;
     case 1:
@@ -3569,8 +3569,8 @@ void func_8017ECE0(s32 arg0) {
             ((Unkstruct_800B5CB8 *)tmp)->unk2C = 0xC040;
         }
         var_s0 = i * 0x200;
-        a = func_8004787C(var_s0);
-        b = func_80047948(var_s0);
+        a = rsin(var_s0);
+        b = rcos(var_s0);
         ((Unkstruct_800B5CB8 *)sp1C)->unk34 = 0x2001;
         ((Unkstruct_800B5CB8 *)sp1C)->unk14 = -0x80000;
         CAST_WIDTH(s32, sp1C, 4) += a * 0x200;
@@ -3597,8 +3597,8 @@ void func_8017EDA0(s32 arg0) {
             ((Unkstruct_800B5CB8 *)tmp)->unk2C = 0xC040;
         }
         var_s0 = i * 0x80;
-        a = func_8004787C(var_s0);
-        b = func_80047948(var_s0);
+        a = rsin(var_s0);
+        b = rcos(var_s0);
         ((Unkstruct_800B5CB8 *)sp1C)->unk34 = 0x2002;
         CAST_WIDTH(s32, sp1C, 0x10) = a * 112;
         CAST_WIDTH(s32, sp1C, 0x18) = b * 112;
@@ -3776,7 +3776,7 @@ void func_8017F13C(void *a0) {
  *
  * Callee decls copied VERBATIM from the destination TU
  * (src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c):
- *   func_8001CD9C  L1816     func_800233CC  L1565     rand           L956
+ *   func_8001CD9C  L1816     guess_BuildCircle12Points  L1565     rand           L956
  *   RotMatrixZ     L4930     ApplyMatrixSV  L169      func_80184578  L4651
  *   func_80184438  definition L4579 (void (void))
  * Every DATA symbol is reached through an __asm__ label ALIAS so this
@@ -3785,7 +3785,7 @@ void func_8017F13C(void *a0) {
  * incompatible block-scope decls at L4490 and L4952).  Same assembler
  * symbol, zero declaration surface. */
 extern void func_8001CD9C(int, void *);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void RotMatrixZ(s32 a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void func_80184438(void);
@@ -3817,13 +3817,13 @@ void func_8017F154(s32 arg0) {
     ((Unkstruct_8017F154_2 *)*(s32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
     ((Unkstruct_8017F154_2 *)*(s32 *)(arg0 + 0x20))->unk2C = 0xC040;
     if (f == 0) {
-        func_800233CC(&D_8019F95C[0], 0x80);
+        guess_BuildCircle12Points(&D_8019F95C[0], 0x80);
         *(B4_8017F154 *)&D_8019F95C[0] = D_8019E28C;
         D_8019F960 = D_8019E28C;
         func_80184438();
         func_80184578((void *)0, &blk, -8);
     } else {
-        func_800233CC(&D_8019F95C[0x40], 0x10);
+        guess_BuildCircle12Points(&D_8019F95C[0x40], 0x10);
         *(B4_8017F154 *)&D_8019F95C[0x40] = D_8019E294;
         D_8019F9A0 = D_8019E28C;
         RotMatrixZ(rand() & 0xFFF, &m);
@@ -4209,7 +4209,7 @@ void func_8017FE54(void *a0) {
  * Declarations copied VERBATIM from the destination TU
  * (src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c); this function's INCLUDE_ASM sits
  * at L3576, i.e. AFTER both of these file-scope declarations:
- *   L1565  extern void func_800233CC(void *, unsigned short);
+ *   L1565  extern void guess_BuildCircle12Points(void *, unsigned short);
  *   L1816  extern void func_8001CD9C(int, void *);
  * func_801800E0 / func_801806FC are only INCLUDE_ASM'd (L3579/L3587) with no
  * declaration, so they take the fleet-modal spelling ('void', ('void*',)).
@@ -4220,7 +4220,7 @@ void func_8017FE54(void *a0) {
 
    /* 4 bytes, align 1 -> lwl/lwr + swl/swr copy */
 
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_8001CD9C(int, void *);
 extern s32 func_8012C194(void);
 extern void func_801800E0(void *a0);
@@ -4249,7 +4249,7 @@ void func_8017FE90(void *a0)
     void **pp;
     u8 *p;
 
-    func_800233CC(D_8019FA10, 0xA0);
+    guess_BuildCircle12Points(D_8019FA10, 0xA0);
     *(Blk4_8017FE90 *)D_8019FA10 = D_8019E288;
     *(Blk4_8017FE90 *)D_8019FA14 = *(Blk4_8017FE90 *)D_8019E28C;
 
@@ -4277,7 +4277,7 @@ loop:
         goto loop;
     }
 
-    func_800233CC(D_8019FA50, 0xE0);
+    guess_BuildCircle12Points(D_8019FA50, 0xE0);
     *(Blk4_8017FE90 *)D_8019FA50 = D_8019E29C;
     *(Blk4_8017FE90 *)D_8019FA54 = *(Blk4_8017FE90 *)D_8019E28C;
     obj = func_8012C194();
@@ -4291,7 +4291,7 @@ loop:
     }
 
     p = &D_8019FA50[0x40];
-    func_800233CC(p, 0xC0);
+    guess_BuildCircle12Points(p, 0xC0);
     *(Blk4_8017FE90 *)&D_8019FA50[0x40] = D_8019E29C;
     *(Blk4_8017FE90 *)D_8019FA94 = *(Blk4_8017FE90 *)D_8019E28C;
     obj = func_8012C194();
@@ -4506,7 +4506,7 @@ extern u16   D_8019FB64;    /* tick   */
 extern u8    D_8019FAD8[];  /* two 0x40-stride records */
 extern u8    D_8019E28C[];  /* 4-byte template header  */
 
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_8018048C(void *a0) {
@@ -4548,8 +4548,8 @@ void func_8018048C(void *a0) {
         n = D_8019FB64 + 1;
         D_8019FB64 = n;
         m = (n << 6) & 0xFFC0;
-        func_800233CC(p, m);
-        func_800233CC(q, m);
+        guess_BuildCircle12Points(p, m);
+        guess_BuildCircle12Points(q, m);
 
         c = ((s16)D_8019FB64 << 5) - 0x21;
         if (c > 0x100) {
@@ -4587,7 +4587,7 @@ void func_8018048C(void *a0) {
 
 
 
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern s32 func_8012C194(void);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern u8 D_8019FAD8[];
@@ -4602,7 +4602,7 @@ void func_801806FC(void *a0)
     s32 *s3 = (s32 *)((s32)s0 + (s32)s1);
     s32 *obj;
 
-    func_800233CC(s3, 0);
+    guess_BuildCircle12Points(s3, 0);
     *(Blk4_fc *)s3 = *(Blk4_fc *)D_8019E28C;
 
     s0 += 4;

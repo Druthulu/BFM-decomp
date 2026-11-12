@@ -12,7 +12,7 @@ void func_80178840(int param_1)
         s1byte = *((unsigned char *) (p + 0x5e));
         if (s1byte == 0xc)
         {
-            ((void (*)(int)) func_80019064)((int) (&D_80182ABC));
+            ((void (*)(int)) guess_StartPadVibration)((int) (&D_80182ABC));
         }
         ((void (*)(int, int)) func_80131E00)(p, D_80182AC8[s1byte]);
         p = param_1;

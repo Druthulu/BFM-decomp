@@ -1,6 +1,6 @@
 /* func_80151DB0 — shared body (overlay slot 0x80128158, h_exact 955c85ce). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern int func_80151204(int arg, int a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
@@ -15,7 +15,7 @@ void func_80151DB0(s32 param_1)
 {
     short sVar1;
     int iVar3;
-    func_80019064(&D_80062C14);
+    guess_StartPadVibration(&D_80062C14);
     ((void (*)(int, int))func_80151204)(param_1, (int)*(short *)(param_1 + 0xf2));
     sVar1 = ((short (*)(int, int))func_80012A60)((int)*(short *)(*(int *)(param_1 + 0x20) + 0x12),
                           (int)*(short *)(param_1 + 0xf4));

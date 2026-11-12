@@ -3,7 +3,7 @@
 
 extern void guess_ZeroMemory(void *a0, s32 a1);
 extern void func_8013C98C(void);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void func_8013C9C4(void * arg0);
 extern void func_8013CA14(void);
 extern void func_8013CABC(void);
@@ -92,10 +92,10 @@ extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
-extern s16 func_8014168C(s16 a0);
+extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern void func_80139954(void);
-extern s32 func_801376E8(int a0, int a1);
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern unsigned char *func_80141CA4(void);
 extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
@@ -137,9 +137,9 @@ extern void  func_80140E6C(void);
 extern void  func_80140F00(void);
 extern s32  *func_80140958(s32 *, s32, s32);
 extern int   func_80141100(int);
-extern s16   func_8014168C(s16);
+extern s16   guess_GetMenuPanelCursorIndex(s16);
 extern s32   func_8013FFD8(s16, s32, s32 *);
-extern s32 func_80024054(void *a0, void *a1);
+extern s32 guess_SjisToGlyphCodes(void *a0, void *a1);
 extern u32 *func_800D2650(s32 *, void *, s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 extern u8 *func_800D27DC(s32, s32 *, void *, s32, s32);

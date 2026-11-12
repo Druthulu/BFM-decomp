@@ -1,6 +1,6 @@
 /* func_80187060 — shared body (overlay slot 0x80128158, h_exact 71935dc1). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void guess_FreeActor(void *a0);
 void func_80187060(int param_1) {
     short v;
@@ -13,6 +13,6 @@ void func_80187060(int param_1) {
     if (v == 0) {
         ((void (*)(void))guess_FreeActor)();
     } else {
-        ((void (*)(void))func_8012AD80)();
+        ((void (*)(void))guess_ApplyAccelAndVelocity)();
     }
 }

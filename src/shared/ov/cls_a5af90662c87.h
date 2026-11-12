@@ -4,7 +4,7 @@ void SHARED_FN(s32 a0) {
     s16 val1;
     s16 val2;
 
-    func_8012AD80(a0);
+    guess_ApplyAccelAndVelocity(a0);
     s0 = (u8 *)a0;
 
     ((Unkstruct_800B5CB8 *)*(u32 *)(s0 + 0x20))->unk10 += CAST_SIGN(u16, s0, 0xFC);

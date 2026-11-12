@@ -8,7 +8,7 @@ extern void func_80175454(void);
 extern void func_801458E0(void);
 extern void func_800298BC(void *);
 extern void func_801458E8(void);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_8002992C(s32);
 extern void func_80145A2C(void);
 extern void func_80146C98(s32 *a0, s16 a1);
@@ -52,7 +52,7 @@ void func_80159120(s32 a0) {
         D_80078E8C = t / 2;
         goto L270;
     }
-    *(s32 *)(a0 + 0x198) = func_8013767C((s32)D_80110D0C);
+    *(s32 *)(a0 + 0x198) = guess_OpenTextWindow((s32)D_80110D0C);
     func_80146C98((s32 *)a0, 0xB);
     return;
 L224:
@@ -62,7 +62,7 @@ L224:
         func_80145A2C();
         goto L270;
     }
-    *(s32 *)(a0 + 0x198) = func_8013767C((s32)D_80110D0C);
+    *(s32 *)(a0 + 0x198) = guess_OpenTextWindow((s32)D_80110D0C);
     func_80146C98((s32 *)a0, 0xB);
     return;
 L270:
@@ -71,6 +71,6 @@ L270:
     func_800CF818();
     return;
 L290:
-    *(s32 *)(a0 + 0x198) = func_8013767C((s32)guess_g_StartPromptText);
+    *(s32 *)(a0 + 0x198) = guess_OpenTextWindow((s32)guess_g_StartPromptText);
     func_80146C98((s32 *)a0, 0x9);
 }

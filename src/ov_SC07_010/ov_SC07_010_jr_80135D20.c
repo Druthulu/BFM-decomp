@@ -221,7 +221,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 func_8012AD50(void * arg0);
 extern void func_8012AD64(s32 *a0, s16 a1);
 extern void func_8012AD6C(void *a0);
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void func_8012ADE4(u8 *a0);
 extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
@@ -232,8 +232,8 @@ extern s32 func_8012AE00(s32 a0);
 extern s32 func_8012AF0C(s32 a0, s32 a1);
 extern s32 func_80134510(s32 arg);
 extern s32 guess_SnapActorToGround(u8 *a0);
-extern int func_80047948(int a0);
-extern int func_8004787C(int a0);
+extern int rcos(int a0);
+extern int rsin(int a0);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
@@ -241,7 +241,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void func_8012B1B4(s32 a0, s32 a1);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B21C(void *a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012B260(u8 *a0);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
@@ -249,7 +249,7 @@ extern void RotMatrixYXZ(void *m, void *p);
 extern void func_8012B370(int a0);
 extern void func_8004978C(s16 *a0, void *a1);
 extern void func_8012B414(int a0);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern s32 ratan2(s32 x, s32 y);
@@ -487,7 +487,7 @@ extern s32 D_801A69E4;
 extern s32 func_8002A04C(s32 a0);
 extern void func_801319E0(s32 arg0);
 extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void func_8016AA50(int, int);
 extern s32 func_8016B428(int);
 extern int guess_HandleActorEventDefault(int a0, int a1);
@@ -1207,24 +1207,24 @@ extern void func_801375EC(s32 a0, s16 a1);
 //
 // ---- RECONCILE 2026-08-01 (uc2 -> uc3) ---------------------------------------------------
 // GATE ERROR was:
-//   jr_80135D20.c:1412 conflicting types for func_80137614 || :1362 previous declaration
+//   jr_80135D20.c:1412 conflicting types for guess_OpenTextWindowWithFlags || :1362 previous declaration
 // :1362 is `DEFINE_func_801375EC()`, whose expansion (src/shared/engine_core.h:2819) carries
-//   extern void func_80137614(s32 a0, s32 a1, s32 a2);
+//   extern void guess_OpenTextWindowWithFlags(s32 a0, s32 a1, s32 a2);
 // and it is instantiated two lines ABOVE this function's INCLUDE_ASM splice point (:1364).
-// :1412 is this draft's own definition.  So the conflicting symbol is func_80137614 ITSELF
+// :1412 is this draft's own definition.  So the conflicting symbol is guess_OpenTextWindowWithFlags ITSELF
 // and the axis is the §73 RETURN type: the shared header says `void`, the target ends
 // `addu $v0, $s0, $zero` and callers in other overlays consume the result
-// (ov_SC03_099_jr_80178D40.c already declares it `extern s32 func_80137614(s32,s32,s32)`),
+// (ov_SC03_099_jr_80178D40.c already declares it `extern s32 guess_OpenTextWindowWithFlags(s32,s32,s32)`),
 // so the definition MUST stay s32.  Re-voiding the definition is the decay loop: gcc-2.7.2
 // silently drops the $v0 set and you get 25/26 ins, class LENGTH-DRIFT/-1.
 //
 // ESCAPE USED: §37/§124 ASM-LABEL ALIAS (escape #2).  The definition is given a distinct C
-// identifier `aF80137614` with __asm__("func_80137614"), so it never collides with the
-// header's `extern void func_80137614` while still emitting the canonical symbol.  Zero
+// identifier `aF80137614` with __asm__("guess_OpenTextWindowWithFlags"), so it never collides with the
+// header's `extern void guess_OpenTextWindowWithFlags` while still emitting the canonical symbol.  Zero
 // header edits, zero TU edits, blast radius 0 — this replaces uc2's //@EDIT §65b de-macroize
 // of DEFINE_func_801375EC, which would have had to be repeated at all 138 sweep sites.
 // The TU already uses this exact idiom 60-odd lines below
-// (`void *aF801376E8(int a0, int a1) __asm__("func_801376E8");`), so it travels to siblings.
+// (`void *aF801376E8(int a0, int a1) __asm__("guess_OpenTextWindowCenteredAt");`), so it travels to siblings.
 // The in-TU call from func_801375EC still binds to the header's extern declaration and
 // resolves to the same symbol at link time; func_801375EC's own 10 instructions are unchanged.
 //
@@ -1249,7 +1249,7 @@ extern void func_801375EC(s32 a0, s16 a1);
 extern s32 func_801399A8(void);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 
-extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
+extern s32 guess_OpenTextWindowWithFlags(s32 a0, s32 a1, s32 a2);
 
 #include "../shared/ov/func_80137614.h"
 
@@ -1265,17 +1265,17 @@ extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
  * @unstuck(P36): none — MATCH (51 ins).
  *
  * RECONCILE (§37/§124 ASM-LABEL ALIAS) — no TU / header edit required.
- *   Gate error: ov_SC01_077_jr_80135D20.c:1415: conflicting types for `func_801376E8'
+ *   Gate error: ov_SC01_077_jr_80135D20.c:1415: conflicting types for `guess_OpenTextWindowCenteredAt'
  *               || previous declaration at :1368
  *   :1368 is DEFINE_func_801376C8(), the shared engine-core macro that carries
- *   `extern void func_801376E8(int a0, int a1);` — a VOID return. The target's last
+ *   `extern void guess_OpenTextWindowCenteredAt(int a0, int a1);` — a VOID return. The target's last
  *   pre-epilogue instruction is `addu $v0, $s1, $zero`, i.e. it RETURNS &guess_g_TextBoxes,
  *   so the definition MUST be non-void; a `void` definition makes gcc-2.7.2 merely warn
  *   and DROP the returned value, killing that instruction (LENGTH-DRIFT/-1, 50 ins).
- *   The conflict is on func_801376E8 ITSELF and is a pure RETURN-type disagreement
+ *   The conflict is on guess_OpenTextWindowCenteredAt ITSELF and is a pure RETURN-type disagreement
  *   (params already agree: int,int), so the §37/§124 alias applies verbatim:
- *   define under the C name aF801376E8 with __asm__("func_801376E8") so the C-level
- *   declaration never collides, while the emitted symbol is still func_801376E8.
+ *   define under the C name aF801376E8 with __asm__("guess_OpenTextWindowCenteredAt") so the C-level
+ *   declaration never collides, while the emitted symbol is still guess_OpenTextWindowCenteredAt.
  *   Codegen is untouched — an asm label renames the symbol, nothing else.
  *   (The earlier draft's `//@EDIT` widening of the shared extern to `void *` is a
  *   T2 fleet-shared edit; the alias is T0 draft-only. Cookbook §124: fix the reader,
@@ -1295,7 +1295,10 @@ extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 extern s32 func_80139BE0(s32);
 
-s32 aF801376E8(int a0, int a1) __asm__("func_801376E8");
+/* guess_OpenTextWindowCenteredAt: starts text a0 in record 0 of guess_g_TextBoxes (flags 0x6200) and centres the window on the point a1 when given
+ * Confidence medium, xref chain: func_801377B4(a0, 0x6200, &guess_g_TextBoxes); +0x24 = a1[0..1]; func_80139BE0; +0x30 = x + 0x28 - (w + 0x28)/2, +0x32 = y - h/2
+ * Names ledger: config/names.tsv guess_OpenTextWindowCenteredAt */
+s32 aF801376E8(int a0, int a1) __asm__("guess_OpenTextWindowCenteredAt");
 
 s32 aF801376E8(int a0, int a1)
 {

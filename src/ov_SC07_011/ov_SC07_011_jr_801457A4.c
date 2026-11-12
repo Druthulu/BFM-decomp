@@ -201,7 +201,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 func_8012AD50(void * arg0);
 extern void func_8012AD64(s32 *a0, s16 a1);
 extern void func_8012AD6C(void *a0);
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80013478(s32 a0, s32 a1);
@@ -209,8 +209,8 @@ extern s32 func_8012AE00(s32 a0);
 extern s32 func_8012AF0C(s32 a0, s32 a1);
 extern s32 func_80134510(s32 arg);
 extern s32 guess_SnapActorToGround(u8 *a0);
-extern int func_80047948(int a0);
-extern int func_8004787C(int a0);
+extern int rcos(int a0);
+extern int rsin(int a0);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
@@ -218,7 +218,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void func_8012B1B4(s32 a0, s32 a1);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B21C(void *a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012B260(u8 *a0);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
@@ -226,7 +226,7 @@ extern void RotMatrixYXZ(void *m, void *p);
 extern void func_8012B370(int a0);
 extern void func_8004978C(s16 *a0, void *a1);
 extern void func_8012B414(int a0);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern s32 ratan2(s32 x, s32 y);
@@ -535,12 +535,12 @@ extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
 extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
-extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
+extern s32 guess_OpenTextWindowWithFlags(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
 extern s32 func_801399A8(void);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
-extern s32 func_8013767C(s32 a0);
-extern s32 func_801376E8(int a0, int a1);
+extern s32 guess_OpenTextWindow(s32 a0);
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_801376C8(int a0);
 extern s32 D_80127524;
 extern s32 D_80127528;
@@ -646,7 +646,7 @@ extern void func_8013AF20(u32 *param_1, u16 *param_2, u16 *param_3, u8 *param_4)
 extern void func_8013B274(s32 a0, s32 a1, void *a2);
 extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8013AF20(u32 *param_1, u16 *param_2, u16 *param_3, u8 *param_4);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void func_8013C9C4(void * arg0);
 extern void func_8013CA14(void);
 extern void func_8013CABC(void);
@@ -717,7 +717,7 @@ extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
-extern s16 func_8014168C(s16 a0);
+extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
 extern void func_8013EB7C(void);
@@ -758,9 +758,9 @@ extern void  func_80140E6C(void);
 extern void  func_80140F00(void);
 extern s32 * func_80140958(s32 * ot, int i, int n);
 extern int   func_80141100(int);
-extern s16   func_8014168C(s16);
+extern s16   guess_GetMenuPanelCursorIndex(s16);
 extern s32   func_8013FFD8(s16, s32, s32 *);
-extern s32 func_80024054(void *a0, void *a1);
+extern s32 guess_SjisToGlyphCodes(void *a0, void *a1);
 extern u32 *func_800D2650(s32 *, void *, s32, s32, s32, s32);
 extern u8 *func_800D27DC(s32, s32 *, void *, s32, s32);
 extern u32 *func_800D29F8(s32, s32, void *, s32, s32);
@@ -780,8 +780,8 @@ extern void func_80028DBC(s32 a0);
 extern s32 * func_80140D68(s32 * out, Prim4 * src, int idx, s32 dx, int ofs);
 extern s32 * func_80140958(s32 * ot, int i, int n);
 extern s32 * func_80140D68(s32 * out, Prim4 * src, int idx, s32 dx, int ofs);
-extern int func_800D2CA8(int, int);
-extern void func_800D2D10(int, int, void *, int);
+extern int guess_IntToBcd_2(int, int);
+extern void guess_BcdToDigitCodes(int, int, void *, int);
 extern int func_80029FE4(void);
 extern s32 func_8002AAB4(void);
 extern char *strcpy(char *, const char *);
@@ -805,7 +805,7 @@ extern short func_8002A9A8(void);
 extern s32 func_8002A670(void);
 extern short func_8002A748(void);
 extern short func_8002A738(void);
-extern Prim_1412A8 *func_801412A8(int, int, int, int, int, int);
+extern Prim_1412A8 *guess_DrawGaugeBar(int, int, int, int, int, int);
 extern int func_80141100(int param_1);
 extern void func_800291A0(s32, s32);
 extern s32 func_800291DC(s32);
@@ -952,7 +952,7 @@ extern void func_8014305C(int param_1);
 extern void func_801430F4(s32 *a0);
 extern void func_80143188(s32 *a0);
 extern void func_8001CA88(int, void *);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_801431E8(s32 param_1);
 extern void func_801432FC(s32 *a0);
 extern void func_80143390(s32 *a0);
@@ -985,10 +985,10 @@ extern void func_80143E68(void *a0);
 extern void func_80143EA4(void);
 extern void func_80143EAC(void);
 extern void func_80143EB4(void);
-extern s32 func_8004787C(s32 a0);
+extern s32 rsin(s32 a0);
 extern void func_80143EBC(s32 a0);
 extern void func_80144054(void *a0);
-extern s32 func_80047948(s32 a0);
+extern s32 rcos(s32 a0);
 extern void func_80144090(s32 param_1);
 extern void func_801442F8(int param_1);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
@@ -3665,7 +3665,7 @@ void func_80152058(void *a0) {
 
 
 
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
@@ -3682,7 +3682,7 @@ void func_801520DC(s32 arg0)
 
     extern u8 guess_g_RumblePatternFade[];
     extern M2C_UNK D_801803B4;
-    func_80019064(&guess_g_RumblePatternFade);
+    guess_StartPadVibration(&guess_g_RumblePatternFade);
     func_80151204(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     func_80149020(arg0);
     func_801472C8(arg0);
@@ -3724,7 +3724,7 @@ void func_801520DC(s32 arg0)
 // @unstuck(P36): none — MATCH (67 ins)
 
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern int func_80151204(int arg, int a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
@@ -3750,7 +3750,7 @@ void func_801523F4(s32 arg0)
     s32 s2a = (s32)&D_801803E4; /* $s2 = &D_801803E4 */
 
     ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 0);
-    func_80019064(&guess_g_RumblePatternFade);
+    guess_StartPadVibration(&guess_g_RumblePatternFade);
     ((void (*)(s32, s32))func_80151204)(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     if ((s16)func_80012A60((s32)*(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x12),
                            (s32)((Unkstruct_80126B58 *)arg0)->unkF4) >= 0x401) {
@@ -3806,7 +3806,7 @@ void func_8015282C(void *a0) {
 
 
 
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
@@ -3823,7 +3823,7 @@ void func_801528B0(s32 arg0)
     extern u8 guess_g_RumblePatternFade[];
     extern M2C_UNK D_800D5880;
     extern M2C_UNK D_801803FC;
-    func_80019064(&guess_g_RumblePatternFade);
+    guess_StartPadVibration(&guess_g_RumblePatternFade);
     func_80151204(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     func_80149020(arg0);
     guess_SetAnimScript(arg0, &D_800D5880);
@@ -3881,7 +3881,7 @@ void func_80152D24(void *a0) {
 
 
 
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
@@ -3898,7 +3898,7 @@ void func_80152DA8(s32 arg0)
     extern s32 D_80062C14;
     extern M2C_UNK D_800D5880;
     extern M2C_UNK D_8018042C;
-    func_80019064(&D_80062C14);
+    guess_StartPadVibration(&D_80062C14);
     func_80151204(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     func_80149020(arg0);
     guess_SetAnimScript(arg0, &D_800D5880);
@@ -4030,7 +4030,7 @@ void func_80153320(void *a0) {
 
 // @class: struct
 // @unstuck(P36): none — MATCH (expected); dispatch-table %lo-fold via extern fn-ptr array, s0 holds param across both calls
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 
 void func_80153CCC(S80153CCC *a0) {
 
@@ -4038,7 +4038,7 @@ void func_80153CCC(S80153CCC *a0) {
     extern void (*D_801804A0[])(void *a0);
     extern s16 D_8011DB0C;
     extern u16 D_8011F748;
-    ((s32 (*)(s32))func_80019064)((s32)&D_80180478);
+    ((s32 (*)(s32))guess_StartPadVibration)((s32)&D_80180478);
     D_801804A0[a0->idx](a0);
     D_8011DB0C = 0;
     D_8011F748 = 0;

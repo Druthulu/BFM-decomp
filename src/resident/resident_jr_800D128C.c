@@ -1744,7 +1744,7 @@ u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
 }
 
 
-/* func_800D2CA8(a0, a1): pack a0 into BCD nibbles (LSD first into the low bits),
+/* guess_IntToBcd_2(a0, a1): pack a0 into BCD nibbles (LSD first into the low bits),
  * then shift the whole packed result left by a1.
  *
  * asm register model (the discriminating point — keep TWO copies of the value):
@@ -1768,7 +1768,10 @@ u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
  * `a0` is the divided value; the modulo is derived as `cur - a0*10` (matches the
  * subu order), and `result |= ...` puts result first (or t0,t0,v0; cookbook A1).
  */
-s32 func_800D2CA8(s32 a0, s32 a1) {
+/* guess_IntToBcd_2: returns a0 as packed decimal digits (one per nibble, lowest digit in bits 0-3), shifted left by a1
+ * Confidence high, code inference: while a2 >= 10: digit a2 - (a0/10)*10 is OR'ed in at shift a3, a3 += 4; the last digit closes it; returns t0 << a1
+ * Names ledger: config/names.tsv guess_IntToBcd_2 */
+s32 guess_IntToBcd_2(s32 a0, s32 a1) {
     s32 result = 0;
     s32 cur = a0;
     s32 shift = 0;
@@ -1783,7 +1786,10 @@ s32 func_800D2CA8(s32 a0, s32 a1) {
     return result << a1;
 }
 
-void func_800D2D10(val, n, dst, flag)
+/* guess_BcdToDigitCodes: writes the a1 top nibbles of a0 as halfword codes to a2 (*D_800D38D8[digit]), blanking leading zeros by a3 (index 10)
+ * Confidence medium, code inference: per nibble from bit 28: *dst++ = *D_800D38D8[d]; a3 != 0 and d == 0 so far -> index 10 (a3 < 0 keeps the last digit 0)
+ * Names ledger: config/names.tsv guess_BcdToDigitCodes */
+void guess_BcdToDigitCodes(val, n, dst, flag)
 unsigned int val;
 short n;
 unsigned short *dst;

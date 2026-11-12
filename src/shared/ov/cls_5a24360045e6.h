@@ -11,17 +11,17 @@ s32 SHARED_FN(s32 a0, s32 a1) {
     sp10.x = ((Unkstruct_800B5CB8 *)a0)->unk6;
     sp10.y = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x20;
     sp10.z = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    t = func_8004787C(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
+    t = rsin(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
     r = (s16)a1;
     sp18.y = sp10.y;
     sp18.x = sp10.x - ((t * r) >> 12);
-    t = func_80047948(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
+    t = rcos(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
     sp18.z = sp10.z - ((t * r) >> 12);
     if ((func_80133784(1, &sp10, (s32)&sp18) & 0x8000) == 0) {
-        t = func_8004787C(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
+        t = rsin(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
         sp10.x = ((Unkstruct_800B5CB8 *)a0)->unk6 - ((t * 8) >> 12);
         sp10.y = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x10;
-        t = func_80047948(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
+        t = rcos(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
         sp10.z = ((Unkstruct_800B5CB8 *)a0)->unkE - ((t * 8) >> 12);
         sp18.x = sp10.x;
         sp18.y = sp10.y + 0x20;

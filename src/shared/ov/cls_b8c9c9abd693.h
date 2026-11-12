@@ -9,7 +9,7 @@ void SHARED_FN(s32 param)
 {
     s32 base = param;
     s32 x = ((Unkstruct_80180C10 *)base)->unk1C;
-    s32 r = func_8004787C((x << 7) & 0x780);
+    s32 r = rsin((x << 7) & 0x780);
     s32 y = ((Unkstruct_80180C10 *)base)->unk34;
     s32 q = y >> 2;
     s32 prod = q * r;

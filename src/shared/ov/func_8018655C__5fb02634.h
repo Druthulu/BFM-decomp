@@ -4,11 +4,11 @@ extern void guess_FreeActor(void *a0);
 extern s32 func_8012CBCC(s32 a0);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
-extern s32 func_8004787C(s32 a0);
-extern s32 func_80047948(s32 a0);
+extern s32 rsin(s32 a0);
+extern s32 rcos(s32 a0);
 extern s32 rand(void);
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void func_8012B370(int a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern u8  D_80126B5C;
@@ -36,8 +36,8 @@ void func_8018655C(s32 a0) {
     sp10[2] = D_80126B64;
     func_8012B77C((s32)sp20, a0 + 4, (s32)sp10);
     w = sp20[0];
-    *(s16 *)(a0 + 0xFC) += func_8012B608(*(s16 *)(a0 + 0xFC), (s16)sp20[0], 0xA);
-    *(s16 *)(a0 + 0xFE) += func_8012B608(*(s16 *)(a0 + 0xFE), w >> 16, 0xA);
+    *(s16 *)(a0 + 0xFC) += guess_GetAngleStepToward(*(s16 *)(a0 + 0xFC), (s16)sp20[0], 0xA);
+    *(s16 *)(a0 + 0xFE) += guess_GetAngleStepToward(*(s16 *)(a0 + 0xFE), w >> 16, 0xA);
     *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = *(u16 *)(a0 + 0xFC);
     *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = *(u16 *)(a0 + 0xFE);
     *(s16 *)(*(s32 *)(a0 + 0x20) + 0x14) = 0;
@@ -49,9 +49,9 @@ void func_8018655C(s32 a0) {
             if (t != 0) {
                 r = rand() & 7;
                 *(s32 *)(t + 0x10) =
-                    (-func_8004787C(*(s16 *)(a0 + 0xFE) + i) * r) << 4;
+                    (-rsin(*(s16 *)(a0 + 0xFE) + i) * r) << 4;
                 *(s32 *)(t + 0x18) =
-                    (-func_80047948(*(s16 *)(a0 + 0xFE) + i) * r) << 4;
+                    (-rcos(*(s16 *)(a0 + 0xFE) + i) * r) << 4;
             }
         }
         guess_FreeActor((void *)a0);
@@ -61,9 +61,9 @@ void func_8018655C(s32 a0) {
             if (t != 0) {
                 r = rand() & 7;
                 *(s32 *)(t + 0x10) =
-                    (-func_8004787C(*(s16 *)(a0 + 0xFE) + i) * r) << 4;
+                    (-rsin(*(s16 *)(a0 + 0xFE) + i) * r) << 4;
                 *(s32 *)(t + 0x18) =
-                    (-func_80047948(*(s16 *)(a0 + 0xFE) + i) * r) << 4;
+                    (-rcos(*(s16 *)(a0 + 0xFE) + i) * r) << 4;
             }
         }
         guess_FreeActor((void *)a0);

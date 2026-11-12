@@ -116,8 +116,8 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 
 #include "common.h"
 
-extern s32 func_8004787C(s32 a0);
-extern s32 func_80047948(s32 a0);
+extern s32 rsin(s32 a0);
+extern s32 rcos(s32 a0);
 
 void func_800CB1A0(void) {
     extern u16 guess_g_FrameCounter;
@@ -143,22 +143,22 @@ void func_800CB1A0(void) {
     s32 ff;
 
     p = &guess_g_FrameCounter;
-    D_800CC580 = func_8004787C((p[0] & 7) << 9);
+    D_800CC580 = rsin((p[0] & 7) << 9);
     D_800CC584 = 0;
-    D_800CC588 = func_80047948((p[0] & 7) << 9);
+    D_800CC588 = rcos((p[0] & 7) << 9);
     ff = 0xFF;
     D_800CC58C = ff;
     D_800CC58D = 0;
     D_800CC58E = 0;
-    D_800CC590 = func_8004787C((p[0] & 7) << 9);
-    D_800CC594 = func_80047948((p[0] & 7) << 9);
+    D_800CC590 = rsin((p[0] & 7) << 9);
+    D_800CC594 = rcos((p[0] & 7) << 9);
     D_800CC598 = 0;
     D_800CC59C = 0;
     D_800CC59D = 0;
     D_800CC59E = ff;
     D_800CC5A0 = 0;
-    D_800CC5A4 = func_8004787C((p[0] & 7) << 9);
-    D_800CC5A8 = func_80047948((p[0] & 7) << 9);
+    D_800CC5A4 = rsin((p[0] & 7) << 9);
+    D_800CC5A8 = rcos((p[0] & 7) << 9);
     D_800CC5AC = ff;
     D_800CC5AD = ff;
     D_800CC5AE = ff;
@@ -281,8 +281,8 @@ void func_800CB4C8(void *arg0) {
 
 extern void func_80013F3C(void *a0);
 extern void RotMatrixZ(s32 a0, void *a1);
-extern s32 func_8004787C(s32 a0);
-extern s32 func_80047948(s32 a0);
+extern s32 rsin(s32 a0);
+extern s32 rcos(s32 a0);
 extern s32 func_800130D0(s32 a0, s32 a1, s32 a2);
 extern void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg);
 extern u8 D_800CC114[];
@@ -315,10 +315,10 @@ void func_800CB578(void *arg0) {
     ((Unkstruct_80126B58 *)arg0)->unk64 = (((Unkstruct_80126B58 *)arg0)->unk64 + 0x71) & 0xFFF;
     *(B8_CB578 *)pos = CAST_WIDTH(B8_CB578, (u8 *)arg0, 0x10);
 
-    sn = func_8004787C(CAST_SIGN(s16, (u8 *)arg0, 0x62)) / 128;
-    t = func_80047948(CAST_SIGN(s16, (u8 *)arg0, 0x60));
+    sn = rsin(CAST_SIGN(s16, (u8 *)arg0, 0x62)) / 128;
+    t = rcos(CAST_SIGN(s16, (u8 *)arg0, 0x60));
     pos[0] += (sn * t) / 4096;
-    t = func_8004787C(CAST_SIGN(s16, (u8 *)arg0, 0x60));
+    t = rsin(CAST_SIGN(s16, (u8 *)arg0, 0x60));
     pos[1] += (sn * t) / 4096;
 
     ((Unkstruct_80126B58 *)arg0)->unk60 = (((Unkstruct_80126B58 *)arg0)->unk60 + 0xE3) & 0xFFF;
@@ -363,7 +363,7 @@ void func_800CB578(void *arg0) {
 
 
 extern void func_80017DC4(void *a0, void *a1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 
 
 void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
@@ -404,7 +404,7 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
     ((Unkstruct_800CB9F8 *)mat)->unk14 = a2[5];
     ((Unkstruct_800CB9F8 *)mat)->unk18 = a2[6];
     ((Unkstruct_800CB9F8 *)mat)->unk1C = a2[7];
-    func_80017758(pa, (void *)mat);
+    guess_AddPolyG4(pa, (void *)mat);
 }
 
 
@@ -469,7 +469,7 @@ void func_800CBD68(s32 a0) {
     extern s32 D_800CC834;
     extern s32 func_80146578(void);
     extern void func_8001CD9C(s32 a0, s32 a1);
-    extern void func_800233CC(void *a0, u16 a1);
+    extern void guess_BuildCircle12Points(void *a0, u16 a1);
     extern void func_800CBF80(void *a0);
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_800D1FC8(void *a0, s32 a1);
@@ -486,7 +486,7 @@ void func_800CBD68(s32 a0) {
     ((Unkstruct_80126B58 *)a0)->unk20 = iVar2;
     if (iVar2 != 0) {
         func_8001CD9C(iVar2, (s32)ptr);
-        func_800233CC(ptr, 0x60);
+        guess_BuildCircle12Points(ptr, 0x60);
         *(u16 *)(iVar2 + 0x1A) = 0x3000;
         *(u16 *)(iVar2 + 0x18) = 0x3000;
         D_800CC834 = 0;

@@ -146,8 +146,8 @@ void func_8002C410(void)
     func_80047D3C(0);
     SquareRoot12(0);
     gteMIMefunc(0, 0, 0, 0);
-    func_80047948(0);
-    func_8004787C(0);
+    rcos(0);
+    rsin(0);
     csqrt(0);
     ratan2(0, 0);
     SsUtKeyOnV(0, 0, 0, 0, 0, 0, 0, 0);

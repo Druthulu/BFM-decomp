@@ -251,7 +251,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 func_8012AD50(void * arg0);
 extern void func_8012AD64(void *p, s16 v);
 extern void func_8012AD6C(void *a0);
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void func_8012ADE4(u8 *a0);
 extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
@@ -261,8 +261,8 @@ extern s32 func_8012AE00(s32 a0);
 extern s32 func_8012AF0C(s32 a0, s32 a1);
 extern s32 func_80134510(s32 arg);
 extern s32 guess_SnapActorToGround(u8 *a0);
-extern int func_80047948(int a0);
-extern int func_8004787C(int a0);
+extern int rcos(int a0);
+extern int rsin(int a0);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
@@ -270,7 +270,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void func_8012B1B4(s32 a0, s32 a1);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B21C(void *a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012B260(u8 *a0);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
@@ -278,7 +278,7 @@ extern void RotMatrixYXZ(void *m, void *p);
 extern void func_8012B370(int a0);
 extern void func_8004978C(s16 *a0, void *a1);
 extern void func_8012B414(int a0);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern s32 ratan2(s32 x, s32 y);
@@ -419,7 +419,7 @@ extern void func_8012E8C4(u8 *a0);
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern void func_8016AA50(int, int);
 extern s32 func_8016B428(int);
-extern void func_80019064(void *);
+extern void guess_StartPadVibration(void *);
 extern int D_80182704;
 extern void func_8012E9C0(int param_1);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -623,12 +623,12 @@ extern void func_80137178(s32 x, s32 y);
 extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
-extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
+extern s32 guess_OpenTextWindowWithFlags(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
 extern s32 func_801399A8(void);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
-extern s32 func_8013767C(s32 a0);
-extern s32 func_801376E8(int a0, int a1);
+extern s32 guess_OpenTextWindow(s32 a0);
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_801376C8(int a0);
 extern s32 D_80127524;
 extern s32 D_80127528;
@@ -885,7 +885,7 @@ extern s32 guess_g_MenuHelpText;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
-extern s16 func_8014168C(s16 a0);
+extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);
 extern short guess_g_MenuCategory;
@@ -937,7 +937,7 @@ extern void func_80141C0C(s32);
 //
 // Canonical-reconciled (§17a-1) and re-verified MATCH: guess_g_MenuSwapSlot keeps the TU's
 // `u16` canonical with `*(s16*)&` at the read sites (target needs lh), and
-// func_8014168C keeps the canonical s16(s16) decl with s32(s32) call-site casts.
+// guess_GetMenuPanelCursorIndex keeps the canonical s16(s16) decl with s32(s32) call-site casts.
 // Def sig is s32(void); engine_core.h canon is `void func_8013F350(void)` and the
 // callers already cast (`((short (*)(void))func_8013F350)()`) -> def-side reconcile.
 
@@ -962,7 +962,7 @@ extern u16 D_80183368[];
 
 extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
-extern s16 func_8014168C(s16 a0);
+extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern void func_8014AA04(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_801415C0(s32 a0, s32 a1);
@@ -1023,7 +1023,7 @@ s32 func_8013F350(void) {
 
     switch (guess_g_MenuPanel) { /* jtbl_801D8860 */
     case 0:
-        r = ((s32 (*)(s32))func_8014168C)(0);
+        r = ((s32 (*)(s32))guess_GetMenuPanelCursorIndex)(0);
         rs = (s16)r;
         if ((guess_TestGameFlag(D_8018344C[rs]) & 0xFF) != 0 && (guess_g_MenuPadPressed & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
@@ -1036,7 +1036,7 @@ s32 func_8013F350(void) {
         break;
     case 1:
         if ((guess_g_MenuPadPressed & 0x40) != 0) {
-            guess_g_MenuCategory = ((s32 (*)(s32))func_8014168C)(1) + 1;
+            guess_g_MenuCategory = ((s32 (*)(s32))guess_GetMenuPanelCursorIndex)(1) + 1;
             guess_g_MenuPanel = 2;
             func_80141C0C(3);
             return 1;
@@ -1050,7 +1050,7 @@ s32 func_8013F350(void) {
         case 0:
             break;
         case 1:
-            r = ((s32 (*)(s32))func_8014168C)(2);
+            r = ((s32 (*)(s32))guess_GetMenuPanelCursorIndex)(2);
             pf = &guess_g_MenuPadPressed;
             if ((*pf & 0x40) != 0) {
                 if ((*(s16 *)&guess_g_MenuSwapSlot) == 0) {
@@ -1199,7 +1199,7 @@ s32 func_8013F350(void) {
             }
         }
         if (guess_g_MenuPanel == 1) {
-            guess_g_MenuCategory = ((s32 (*)(s32))func_8014168C)(1) + 1;
+            guess_g_MenuCategory = ((s32 (*)(s32))guess_GetMenuPanelCursorIndex)(1) + 1;
             if ((guess_g_MenuPadPressed & 0x5000) != 0) {
                 D_8011514C = 0;
             }
@@ -1230,9 +1230,9 @@ extern void  func_80140E6C(void);
 extern void  func_80140F00(void);
 extern s32  *func_80140958(s32 *, s32, s32);
 extern int   func_80141100(int);
-extern s16   func_8014168C(s16);
+extern s16   guess_GetMenuPanelCursorIndex(s16);
 extern s32   func_8013FFD8(s16, s32, s32 *);
-extern s32 func_80024054(void *a0, void *a1);
+extern s32 guess_SjisToGlyphCodes(void *a0, void *a1);
 extern u32 *func_800D2650(s32 *, void *, s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 extern u8 *func_800D27DC(s32, s32 *, void *, s32, s32);
@@ -1293,9 +1293,9 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
                 addr = D_80183334[i];
             }
         } else {
-            addr = func_8013FFD8(2, func_8014168C(2), sp60);
+            addr = func_8013FFD8(2, guess_GetMenuPanelCursorIndex(2), sp60);
         }
-        func_80024054(addr, sp18);
+        guess_SjisToGlyphCodes(addr, sp18);
         ot = func_800D2650(ot, sp18, (s16)(p->dist + (u16)D_8011516A[i].x), p->kind, 1,
                            flag != 0 ? 0x585858 : 0x808080);
         p = D_80183314[i];
@@ -1311,7 +1311,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
                     break;
                 }
                 if (r < 0) {
-                    func_80024054(r, sp18);
+                    guess_SjisToGlyphCodes(r, sp18);
                     t = 1;
                     if (i == 0 && (D_80078EC0 & 0x7F) == j) {
                         t = 0xB6;

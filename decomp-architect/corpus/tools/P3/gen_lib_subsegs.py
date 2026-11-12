@@ -22,7 +22,7 @@ Usage:
   gen_lib_subsegs.py <elf_dir> <libbase> <gamebase> <region_vram_lo> <region_vram_hi> [win_lo win_hi]
 
 Example (libgte in the 800b region, no window):
-  gen_lib_subsegs.py .run/obj40/libgte libgte 800b 0x8004787C 0x80051804
+  gen_lib_subsegs.py .run/obj40/libgte libgte 800b 0x8004787C 0x80051804   (0x8004787C: rsin)
 """
 import os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

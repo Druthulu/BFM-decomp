@@ -279,18 +279,18 @@ extern s32 func_80148D24(void *a0, int a1);
 extern s32 func_80148D3C(void);
 extern s32 func_80148F60(void);
 extern s32 func_80148F68(s32 a0);
-extern s32 func_80148F74(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn(s32 a0);
 extern s32 func_80148F80(s32 a0);
 extern s32 func_80148F8C(s32 a0);
 extern s32 func_80148F98(void);
 extern s32 func_80148FA0(s32 a0);
-extern s32 func_80148FAC(s32 a0);
-extern s32 func_80148FB8(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn_2(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn(s32 a0);
 extern s32 func_80148FC4(s32 a0);
 extern s32 func_80148FD0(void);
 extern s32 func_80148FD8(void);
 extern s32 func_80148FE0(s32 a0);
-extern s32 func_80148FEC(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn_2(s32 a0);
 extern s32 func_80148FF8(s32 a0);
 extern s32 func_80149004(void);
 extern void func_8014900C(s32 *a0);
@@ -447,7 +447,7 @@ extern s32 D_80078ECC;
 extern void func_8014B33C(void);
 extern u8 D_80062BF4[];
 extern void func_8014BC80(s32 a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 D_80078E98;
 extern void func_80166244(void* arg0);
 extern void func_8014B4D4(void *a0);
@@ -1082,7 +1082,7 @@ extern M2C_UNK D_800D5904;
 extern void func_80158E24(s32 *a0);
 extern s32 D_80187690[];
 extern int rand(void);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
@@ -1555,7 +1555,7 @@ extern void func_80164ACC(s32 a0);
 extern void (*D_80187F30[])(void);
 extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
 extern void func_80164DB0(void);
 extern u8 D_801C4430;
@@ -1753,7 +1753,7 @@ extern void func_801693CC(void *a0);
 extern void func_80169584(s32 param_1);
 extern void func_80169408(s32 a0);
 extern void func_8016951C(int param_1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_801696D8(s32 a0, s32 a1);
 extern void (*D_80188344[])(void);
@@ -2197,8 +2197,8 @@ extern s32 func_80171FFC(short *a0, short *a1, s32 a2);
 extern s32 func_80171D1C(void * a0, void * a1, s32 a2);
 extern s32 func_8017248C(s32 a0, s32 a1);
 extern s32 func_80171E08(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_80047948(s32 a0);
-extern s32 func_8004787C(s32 a0);
+extern s32 rcos(s32 a0);
+extern s32 rsin(s32 a0);
 extern void func_80172170(s32 a0, s32 a1);
 extern s32 func_8017209C(void *arg0, void *arg1, s32 arg2, s32 arg3);
 extern void func_801722CC(s32 *a0);
@@ -2799,12 +2799,12 @@ void func_80175AB8(param_1)
 
     extern u32 *func_80176D94(void *param_1, u32 param_2, s16 param_3_);
     extern u32 *func_801770E0(void *param_1, u32 param_2, s16 param_3_);
-    extern u32  func_801783D0(s32 a0, s32 a1);
+    extern u32  guess_IntToBcd(s32 a0, s32 a1);
     extern u32 *func_80177EA4(u32 *param_1, s32 param_2, u32 param_3, s32 param_4);
     extern u32 *func_80177B5C(u32 *a0, s32 a1, s32 a2, s32 a3, s32 a4);
     extern void func_80177940(u32 *p, u32 a_, u32 b_, u32 c_);
     extern u32 *func_80178298(u32 *param_1, u8 *param_2, short param_3, short param_4);
-    extern s32 func_80024054(u8*, u8*);
+    extern s32 guess_SjisToGlyphCodes(u8*, u8*);
     extern s32  func_8005A600(s32, s32, s32, s32, s32);
 
     u8 local[24];
@@ -2825,23 +2825,23 @@ void func_80175AB8(param_1)
     *(volatile u32 *)&slot[6] = (u32)p;
     p = func_80176D94(p, (s16)(guess_g_HudHpPanelX - 0x71), (s16)(guess_g_HudHpPanelY + 0x51));
     p = func_801770E0(p, (s16)(guess_g_HudHpPanelX - 0x71), (s16)(guess_g_HudHpPanelY + 0x65));
-    t = func_801783D0(D_8011F804, 0);
+    t = guess_IntToBcd(D_8011F804, 0);
     p = func_80177EA4(p, t,
                       (s16)((*(u16 *)&guess_g_HudGoldPanelX) + 0x39), (s16)((*(u16 *)&guess_g_HudGoldPanelY) + 0x51));
-    sv = (s16)func_801783D0((D_8011F824 < 1000) ? D_8011F824 : 0x3E7, 4);
+    sv = (s16)guess_IntToBcd((D_8011F824 < 1000) ? D_8011F824 : 0x3E7, 4);
     p = func_80177B5C(p, sv, D_8011F832,
                       (s16)(((Unkstruct_80175AB8 *)arr)->unk14 + 0x39),
                       (s16)(((Unkstruct_80175AB8 *)arr)->unk16 + 0x65));
     q = (s16)D_8011F80A / 15;
     a2v = (q & 3) * 15;
-    t = func_801783D0(q >> 2, 8) + func_801783D0(a2v, 0);
+    t = guess_IntToBcd(q >> 2, 8) + guess_IntToBcd(a2v, 0);
     p = ((u32 * (*)(u32 *, s32, s32, s32))func_80177940)(
             p, (s16)t,
             (s16)(((Unkstruct_80175AB8 *)arr)->unk14 + 0x76),
             (s16)(((Unkstruct_80175AB8 *)arr)->unk16 + 0x65));
     idx = D_8011F83A & 0x7F;
     D_8011F83A = idx;
-    func_80024054(*(u8 **)((u8 *)D_80188A40 + idx * 4), local);
+    guess_SjisToGlyphCodes(*(u8 **)((u8 *)D_80188A40 + idx * 4), local);
     p = func_80178298(p, local,
                       (s16)(((Unkstruct_80175AB8 *)arr)->unk14 + 0x39),
                       (s16)(((Unkstruct_80175AB8 *)arr)->unk16 + 0x5B));
@@ -3071,11 +3071,11 @@ extern s16 g_PlayerHp[0];
 
 extern void  func_80176FF4(s32);
 extern void  func_80177340(s32);
-extern u32   func_801783D0(s32, s32);
+extern u32   guess_IntToBcd(s32, s32);
 extern void  func_80177F84(s32, s32);
 extern void func_80177DA8(u8 * p, u32 v, s32 idx);
 extern void func_80177AD4(int, unsigned int);
-extern s32   func_80024054(u8 *, u8 *);
+extern s32   guess_SjisToGlyphCodes(u8 *, u8 *);
 extern u32 *func_80178298(u32*, u8*, short, short);
 extern s32   func_8005A600(s32, s32, s32, s32, s32);
 
@@ -3194,7 +3194,7 @@ L444:
     }
 L4A8:
     {
-        u32 r = func_801783D0(((Unkstruct_80078E78 *)cach)->gold, 0);
+        u32 r = guess_IntToBcd(((Unkstruct_80078E78 *)cach)->gold, 0);
         func_80177F84(*(s32 *)(((param_1 << 16) >> 14) + st + 0x18) + 0x208, r);
     }
 L4D0:
@@ -3212,7 +3212,7 @@ L4D0:
         u16 e = 999;
         s16 r;
         if (((Unkstruct_80078E78 *)cach)->dayCounter < 1000) e = ((Unkstruct_80078E78 *)cach)->dayCounter;
-        r = (s16)func_801783D0((s16)e, 4);
+        r = (s16)guess_IntToBcd((s16)e, 4);
         func_80177DA8(*(s32 *)(((param_1 << 16) >> 14) + st + 0x18) + 0x294,
                       (s32)r, ((Unkstruct_80078E78 *)cach)->dayOfWeek);
     }
@@ -3235,8 +3235,8 @@ L558:
         else       *(s16 *)(e + 0x32A) = ((Unkstruct_8011F7A8 *)st)->unk16 + 0x65;
         {
             s32 t = (((s16)f / 15) & 3) * 15;
-            i6 = func_801783D0(((s16)f / 15) * 0x10000 >> 0x12, 8);
-            i4 = func_801783D0((t * 0x10000) >> 16, 0);
+            i6 = guess_IntToBcd(((s16)f / 15) * 0x10000 >> 0x12, 8);
+            i4 = guess_IntToBcd((t * 0x10000) >> 16, 0);
         }
         /* L2: copy temp defeats expand_binop's commutative swap; cse folds it back (see header). */
         sum = i4;
@@ -3258,7 +3258,7 @@ L63C:
         s32 s0b = ((param_1 << 16) >> 14) + st;
         u8 *arg = D_80188A40[((Unkstruct_80078E78 *)cach)->unk4A];
         u32 *p = (u32 *)(*(s32 *)(s0b + 0x18) + 900);
-        func_80024054(arg, buf);
+        guess_SjisToGlyphCodes(arg, buf);
         p = ((u32 * (*)(u32 *, u8 *, s32, s32))func_80178298)(p, buf,
                           (s16)(((Unkstruct_8011F7A8 *)st)->unk14 + 0x39),
                           (s16)(((Unkstruct_8011F7A8 *)st)->unk16 + 0x5B));
@@ -3795,7 +3795,7 @@ void func_80178438(u16 *arg0) {
 // @class: regalloc-order
 // @unstuck(P36): sll $v0,$s1,2 must be recomputed AFTER the call (target nops the delay slot)
 
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 
 
@@ -3811,7 +3811,7 @@ void func_80178840(int param_1)
         s1byte = *((unsigned char *) (p + 0x5e));
         if (s1byte == 0xc)
         {
-            ((void (*)(int)) func_80019064)((int) (&D_80188B64));
+            ((void (*)(int)) guess_StartPadVibration)((int) (&D_80188B64));
         }
         ((void (*)(int, int)) func_80131E00)(p, D_80188B70[s1byte]);
         p = param_1;

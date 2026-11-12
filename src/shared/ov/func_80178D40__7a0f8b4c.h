@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80178D40(s32 arg0, s32 arg1)
 {
-    extern void func_80179B28(s32);
-    extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
+    extern void guess_CloseTextWindowIfOpen(s32);
+    extern s32 guess_OpenTextWindowWithFlags(s32 a0, s32 a1, s32 a2);
     extern void guess_RotTransSVWithObjMatrix(void *, void *, void *);
     extern s32 *guess_WorldToScreen(void *, void *);
     extern void func_80179D30(void *);
@@ -85,33 +85,33 @@ s32 func_80178D40(s32 arg0, s32 arg1)
 
     switch (((Cmd_80178D40 *)arg1)->op) {
     case 1:
-        func_80179B28(D_8018F918);
-        D_8018F918 = func_80137614(((Cmd_80178D40 *)arg1)->a.w, D_8018F924, D_8018F928 ? 0x48 : 0x40);
+        guess_CloseTextWindowIfOpen(D_8018F918);
+        D_8018F918 = guess_OpenTextWindowWithFlags(((Cmd_80178D40 *)arg1)->a.w, D_8018F924, D_8018F928 ? 0x48 : 0x40);
         (*(s16*)&D_8018FB24) = 2;
         break;
     case 0:
-        func_80179B28(D_8018F918);
-        D_8018F918 = func_80137614(((Cmd_80178D40 *)arg1)->a.w, D_8018F91C, D_8018F920 ? 0x48 : 0x40);
+        guess_CloseTextWindowIfOpen(D_8018F918);
+        D_8018F918 = guess_OpenTextWindowWithFlags(((Cmd_80178D40 *)arg1)->a.w, D_8018F91C, D_8018F920 ? 0x48 : 0x40);
         (*(s16*)&D_8018FB24) = 1;
         break;
     case 0x45:
         ((void (*)(s32))((Cmd_80178D40 *)arg1)->a.w)(((Actor_80178D40 *)arg0));
         if (D_8018F9C8 != 0) {
-            func_80179B28(D_8018F918);
-            D_8018F918 = func_80137614(((Actor_80178D40 *)arg0)->unkDC[1], D_8018F91C, D_8018F920 ? 0x48 : 0x40);
+            guess_CloseTextWindowIfOpen(D_8018F918);
+            D_8018F918 = guess_OpenTextWindowWithFlags(((Actor_80178D40 *)arg0)->unkDC[1], D_8018F91C, D_8018F920 ? 0x48 : 0x40);
             (*(s16*)&D_8018FB24) = 1;
         } else {
             (*(s16*)&D_8018FB24) = 3;
         }
         break;
     case 0x32:
-        func_80179B28(D_8018F918);
-        D_8018F918 = func_80137614(((Actor_80178D40 *)arg0)->unkDC[((Cmd_80178D40 *)arg1)->a.w], D_8018F91C,
+        guess_CloseTextWindowIfOpen(D_8018F918);
+        D_8018F918 = guess_OpenTextWindowWithFlags(((Actor_80178D40 *)arg0)->unkDC[((Cmd_80178D40 *)arg1)->a.w], D_8018F91C,
                                    D_8018F920 ? 0x48 : 0x40);
         (*(s16*)&D_8018FB24) = 1;
         break;
     case 2:
-        func_80179B28(D_8018F918);
+        guess_CloseTextWindowIfOpen(D_8018F918);
         if (D_8018F930 != 0) {
             D_8018F500 = D_8018F930;
             D_8018F930 = 0;

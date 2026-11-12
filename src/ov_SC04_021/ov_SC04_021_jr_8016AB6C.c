@@ -277,18 +277,18 @@ extern s32 func_80148D24(void *a0, int a1);
 extern s32 func_80148D3C(void);
 extern s32 func_80148F60(void);
 extern s32 func_80148F68(s32 a0);
-extern s32 func_80148F74(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn(s32 a0);
 extern s32 func_80148F80(s32 a0);
 extern s32 func_80148F8C(s32 a0);
 extern s32 func_80148F98(void);
 extern s32 func_80148FA0(s32 a0);
-extern s32 func_80148FAC(s32 a0);
-extern s32 func_80148FB8(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn_2(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn(s32 a0);
 extern s32 func_80148FC4(s32 a0);
 extern s32 func_80148FD0(void);
 extern s32 func_80148FD8(void);
 extern s32 func_80148FE0(s32 a0);
-extern s32 func_80148FEC(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn_2(s32 a0);
 extern s32 func_80148FF8(s32 a0);
 extern s32 func_80149004(void);
 extern void func_8014900C(s32 *a0);
@@ -446,7 +446,7 @@ extern s32 D_80078ECC;
 extern void func_8014B33C(void);
 extern u8 D_80062BF4[];
 extern void func_8014BC80(s32 a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 D_80078E98;
 extern void func_80166244(void* arg0);
 extern void func_8014B4D4(void *a0);
@@ -1072,7 +1072,7 @@ extern M2C_UNK D_800D5904;
 extern void func_80158E24(s32 *a0);
 extern s32 D_801815E8[];
 extern int rand(void);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
@@ -1552,7 +1552,7 @@ extern void func_80164ACC(s32 a0);
 extern void (*D_80181E88[])(void);
 extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
 extern void func_80164DB0(void);
 extern u8 D_8018E920;
@@ -1750,7 +1750,7 @@ extern void func_801693CC(void *a0);
 extern void func_80169584(s32 param_1);
 extern void func_80169408(s32 a0);
 extern void func_8016951C(int param_1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_801696D8(s32 a0, s32 a1);
 extern void (*D_8018229C[])(void);
@@ -1820,7 +1820,7 @@ extern void func_8016AB30(void *a0);
  *   scan runs, and the only reachable way to do that is
  *       allocno_calls_crossed[p] > 0  ->  find_reg sets used1 = call_used_reg_set (global.c:906)
  *       -> AND_COMPL(hard_reg_copy_preferences, used) strips $5 -> $16 is all that's left.
- *   reg79 crossed NO call (def after func_80024054, last use before func_8001CE28), so $5 won.
+ *   reg79 crossed NO call (def after guess_SjisToGlyphCodes, last use before func_8001CE28), so $5 won.
  *   p in $a1 => the arms' copies became `move $5,$16`, cross_jump merged them to the top of
  *   the join (ahead of the a0 move), and reorg then slotted the a0 move.
  *
@@ -2001,7 +2001,7 @@ extern void func_8001739C(void *a0);
 // @unstuck(P36): none — MATCH (statement order: compute puVar2 base before puVar3 table lookup so param*0x40+base schedule into prologue, leaving the 0x2c load-delay nop)
 extern void *guess_AllocSpriteObject(void);
 extern void func_8001CD9C(int, void *);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 
 extern int *D_80182498[];
 extern unsigned short D_801824A0[];
@@ -2169,7 +2169,7 @@ extern void (*D_801824E8[])(void);
 
 
 
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern Blk20 D_800AE620;
 #include "../shared/ov/func_8016CBC0__96ab648e.h"
 
@@ -2202,7 +2202,7 @@ extern void (*D_80182504[])(void);
 
 
 extern void *guess_AllocSpriteObject(void);
-extern void func_800233CC(void*, unsigned short);
+extern void guess_BuildCircle12Points(void*, unsigned short);
 extern void func_8001CD9C(int, void*);
 extern void guess_PlaySoundUnlessSkipped(int a);
 extern int  rand(void);
@@ -2230,7 +2230,7 @@ extern void (*D_8018250C[])(void);
 
 
 extern void *guess_AllocSpriteObject(void);
-extern void func_800233CC(void*, unsigned short);
+extern void guess_BuildCircle12Points(void*, unsigned short);
 extern void func_8001CD9C(int, void *);
 
 #include "../shared/ov/func_8016D688__58157d89.h"
@@ -2316,7 +2316,7 @@ extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void *guess_AllocSpriteObject(void);
 extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D26)
 
@@ -2395,7 +2395,7 @@ typedef void (*Handler)(struct Entry_8016E95C *);
  * 1. §52a "non-coalescing delay-slot copy" + §17 zero-reg-copy (the load-bearing one).
  *    The target holds `p[0]-1` in TWO callee-saved regs: $s0 (the array index, later
  *    destroyed in place by `sll $s0,$s0,1`) and $s4 (the value stored to p[3]), created
- *    by `addu $s4,$s0,$zero` sitting in the DELAY SLOT of `jal func_800D2CA8`. A plain
+ *    by `addu $s4,$s0,$zero` sitting in the DELAY SLOT of `jal guess_IntToBcd_2`. A plain
  *    C `c = i;` is destroyed by cse.c canon_reg head-promotion (measured: 50 ins, -3),
  *    and every #APP-asm spelling of the copy is INELIGIBLE for a delay slot (measured:
  *    51 ins, -2 — tried `__asm__("":"=r"(c):"0"(i))`, a real-opcode
@@ -2416,15 +2416,15 @@ typedef void (*Handler)(struct Entry_8016E95C *);
  *    seed showed) puts the lhu chain right after `sh $v0,4($a0)` → 0.
  *
  * Data typing: D_80182614 is a WORD array (`sll $v0,$s0,2`; its element is dereferenced
- * as a buffer by func_80024054) => u8 *[]. D_8018262C is byte-indexed (`lbu`, no shift)
+ * as a buffer by guess_SjisToGlyphCodes) => u8 *[]. D_8018262C is byte-indexed (`lbu`, no shift)
  * => u8[]. D_80182630 is halfword-indexed (`sll $s0,$s0,1` + `lhu`) => u16[].
  * `*(s16 *)(p + 4) = -0xD7` emits `addiu $v0,$zero,-0xD7`; 0xFF29 as a u16 would not.
  */
 
 
-extern s32 func_800D2CA8(s32 a0, s32 a1);
-extern void func_800D2D10(s32 a0, s32 a1, void *a2, s32 a3);
-extern s32 func_80024054(void *a0, void *a1);
+extern s32 guess_IntToBcd_2(s32 a0, s32 a1);
+extern void guess_BcdToDigitCodes(s32 a0, s32 a1, void *a2, s32 a3);
+extern s32 guess_SjisToGlyphCodes(void *a0, void *a1);
 extern void func_8016EC0C(s32 a0, s32 a1);
 
 #include "../shared/ov/func_8016E9EC__286b6760.h"

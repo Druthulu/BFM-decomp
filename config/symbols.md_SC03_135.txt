@@ -1,10 +1,12 @@
 // config/symbols.md_SC03_135.txt — module md_SC03_135 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x801E25E8..0x801EADF4); NEVER merged into config/symbols.us.txt.
-// count=6
+// count=8
 
 guess_SetMainCameraHandler       = 0x8012A018; // func
 guess_StartActorSequence         = 0x8012A828; // func
 guess_AllocModelObject           = 0x8012C1B8; // func
 guess_FreeActorDuringSpawn       = 0x8012CAE4; // func
 guess_RotTransSVWithMatrix       = 0x8012F14C; // func
+guess_GetMenuPanelCursorIndex    = 0x8014168C; // func
 guess_GetPadPressed              = 0x80148800; // func
+guess_IntToBcd_4                 = 0x801E45C0; // func

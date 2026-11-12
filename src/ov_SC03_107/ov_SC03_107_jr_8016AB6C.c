@@ -2,8 +2,8 @@
 
 s32 func_8016AB6C(s32 arg0) {
 
-    extern u32 func_801783D0(s32 a0, s32 a1);
-    extern s32 func_80024054(void *a0, void *a1);
+    extern u32 guess_IntToBcd(s32 a0, s32 a1);
+    extern s32 guess_SjisToGlyphCodes(void *a0, void *a1);
     extern void func_8001CE28(void *a0, void *a1);
     extern s32 rand(void);
     extern void *guess_AllocSpriteObject(void);
@@ -25,7 +25,7 @@ s32 func_8016AB6C(s32 arg0) {
     u8 var_c2;
     Obj_8016AB6C *obj;
 
-    temp_v0 = func_801783D0(((Ent_8016AB6C *)arg0)->unk30, 0);
+    temp_v0 = guess_IntToBcd(((Ent_8016AB6C *)arg0)->unk30, 0);
     var_s0 = 3;
     var_v1 = -0x1000;
     ((Ent_8016AB6C *)arg0)->unk30 = temp_v0;
@@ -85,10 +85,10 @@ lout:
         ((Ent_8016AB6C *)arg0)->unkA = sp10.vy;
         ((Ent_8016AB6C *)arg0)->unkE = sp10.vz;
         if (((Ent_8016AB6C *)arg0)->unk2C == 6) {
-            var_s3 = ((s32(*)(void *, void *))func_80024054)(D_801855D4, D_8019ACC0) + 3;
+            var_s3 = ((s32(*)(void *, void *))guess_SjisToGlyphCodes)(D_801855D4, D_8019ACC0) + 3;
             func_8001CE28(obj, D_8019ACC0);
         } else {
-            var_s3 = ((s32(*)(void *, void *))func_80024054)(D_801855E4, D_8019ACE8) + 9;
+            var_s3 = ((s32(*)(void *, void *))guess_SjisToGlyphCodes)(D_801855E4, D_8019ACE8) + 9;
             func_8001CE28(obj, D_8019ACE8);
         }
         obj->unkE = var_s3;

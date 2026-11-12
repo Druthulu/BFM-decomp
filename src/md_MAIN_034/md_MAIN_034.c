@@ -805,7 +805,7 @@ void func_800CC298(void *a0) {
 
 extern s32 func_80146578(void);
 extern void func_8001CD9C(void *a0, void *a1);
-extern void func_800233CC(void *a0, u16 a1);
+extern void guess_BuildCircle12Points(void *a0, u16 a1);
 extern void guess_NextStep(void *a0);
 extern void func_800CC6A4();   /* TU later defines this void(void) at line 78; call with an
                                  * unspecified-arglist decl here (house style, see func_800CC1E8
@@ -830,7 +830,7 @@ void func_800CC310(void *a0)
     if (s1 != NULL) {
         s0 = &D_800CCAD0;
         func_8001CD9C(s1, s0);
-        func_800233CC(s0, 0xC0);
+        guess_BuildCircle12Points(s0, 0xC0);
 
         *(s16 *)((u8 *)s1 + 0x2C) = 1;
         *(s32 *)((u8 *)s1 + 4) |= 0x50000000;

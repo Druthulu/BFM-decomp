@@ -2,10 +2,10 @@
  * exemplar src/ov_SC03_108/ov_SC03_108_jr_8017BEBC.c:4163 · rank 1/3 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(s32 param_1)
 {
-    extern void func_8012B23C(s32 a0);
+    extern void guess_ClearVelocityAndSetGravity(s32 a0);
     extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 
-    func_8012B23C(param_1);
+    guess_ClearVelocityAndSetGravity(param_1);
     guess_SetForwardVelocity(param_1, 0xFFFD8000);
     ((Unkstruct_800B5CB8 *)param_1)->unk2 = 2;
     ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;

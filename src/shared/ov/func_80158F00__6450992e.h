@@ -9,7 +9,7 @@ void func_80158F00(int param_1) {
 
     if (gate == 0) {
         s32 r = rand();
-        *(s32 *)(param_1 + 0x198) = func_8013767C(D_801815E8[r % 0xb]);
+        *(s32 *)(param_1 + 0x198) = guess_OpenTextWindow(D_801815E8[r % 0xb]);
         ((void (*)(int))guess_NextStep)(param_1);
     }
 }

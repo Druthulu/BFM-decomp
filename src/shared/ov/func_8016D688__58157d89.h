@@ -16,7 +16,7 @@ void func_8016D688(int param_1)
     iVar2 = ((int (*)(void))guess_AllocSpriteObject)();
     if (iVar2 != 0) {
         *(int *)(param_1 + 0x20) = iVar2;
-        ((void (*)(void *, int))func_800233CC)(D_8018EE18, 0x28);
+        ((void (*)(void *, int))guess_BuildCircle12Points)(D_8018EE18, 0x28);
         func_8001CD9C(iVar2, D_8018EE18);
         *(unsigned short *)(iVar2 + 0x1a) = 0x1400;
         *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar2 + 4) | 0x50000000;

@@ -15,14 +15,14 @@ void func_8017AE2C(s32 param_1) {
             goto reset_both;
         }
         {
-            s32 r = func_8012B608(*(s16 *)(*(s32 *)(pv + 0x20) + 0x12), g[2], 6);
+            s32 r = guess_GetAngleStepToward(*(s16 *)(*(s32 *)(pv + 0x20) + 0x12), g[2], 6);
             *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) =
                 *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) + r;
         }
         return;
     case 2:
         guess_SetForwardVelocity(pv, (s32)g[4] << 8);
-        func_8012AD80(pv);
+        guess_ApplyAccelAndVelocity(pv);
         *(u16 *)(pv + 0xA) -= 8;
         guess_SnapActorToGround((u8 *)pv);
         break;
@@ -37,7 +37,7 @@ void func_8017AE2C(s32 param_1) {
                 *(s16 *)(*(s32 *)(pv + 0x20) + 0x12) =
                     guess_YawToPoint(p, &D_8018FA8C);
                 guess_SetForwardVelocity(pv, 0xFFFA0000);
-                func_8012AD80(pv);
+                guess_ApplyAccelAndVelocity(pv);
                 *(u16 *)(pv + 0xA) -= 8;
                 guess_SnapActorToGround((u8 *)pv);
                 /* &D_8018FA80+0xC == &D_8018FA8C; distinct rtx defeats gcc's address-CSE
@@ -49,7 +49,7 @@ void func_8017AE2C(s32 param_1) {
             }
             {
                 s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
-                s32 r = func_8012B608(*(s16 *)(*(s32 *)(pv + 0x20) + 0x12), t, g[3]);
+                s32 r = guess_GetAngleStepToward(*(s16 *)(*(s32 *)(pv + 0x20) + 0x12), t, g[3]);
                 *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) =
                     *(u16 *)(*(s32 *)(pv + 0x20) + 0x12) + r;
             }
@@ -63,7 +63,7 @@ void func_8017AE2C(s32 param_1) {
         *(s16 *)(*(s32 *)(pv + 0x20) + 0x12) =
             guess_YawToPoint((void *)(pv + 4), &D_8018FA8C);
         guess_SetForwardVelocity(pv, 0xFFFA0000);
-        func_8012AD80(pv);
+        guess_ApplyAccelAndVelocity(pv);
         *(u16 *)(pv + 0xA) -= 8;
         guess_SnapActorToGround((u8 *)pv);
         /* see note above: distinct rtx for the same address defeats address-CSE. */
@@ -73,7 +73,7 @@ void func_8017AE2C(s32 param_1) {
         }
         return;
     case 4:
-        func_8012AD80(pv);
+        guess_ApplyAccelAndVelocity(pv);
     }
     g[1] = (u16)g[1] - 1;
     if (g[1] > 0) {

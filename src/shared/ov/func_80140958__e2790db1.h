@@ -55,7 +55,7 @@ u32 mhi;
           }
           if (i != c3)
           {
-            t = ((s32 (*)(s16)) func_8014168C)(i) * 2;
+            t = ((s32 (*)(s16)) guess_GetMenuPanelCursorIndex)(i) * 2;
           }
           else
           {

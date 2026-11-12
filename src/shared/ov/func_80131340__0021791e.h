@@ -81,7 +81,7 @@ void func_80131340(s32 a0)
             *(s32 *)(a0 + 0x10) = 0;
         }
         if (D_8018E6A0 & 0x4000) {
-            func_8012B23C(a0);
+            guess_ClearVelocityAndSetGravity(a0);
             *(u8 *)(a0 + 0xC2) = 4;
         } else if (D_8018E6A0 & 0x2000) {
             if (guess_HandleActorEventDefault(a0, D_8018E6A0) == 1) {
@@ -115,7 +115,7 @@ void func_80131340(s32 a0)
             *(s32 *)(a0 + 0x10) = 0;
         }
         if (D_8018E6A0 & 0x4000) {
-            func_8012B23C(a0);
+            guess_ClearVelocityAndSetGravity(a0);
             *(u8 *)(a0 + 0xC2) = 4;
         } else if (D_8018E6A0 & 0x2000) {
             if (guess_HandleActorEventDefault(a0, D_8018E6A0) == 1) {
@@ -159,7 +159,7 @@ void func_80131340(s32 a0)
                 *(s32 *)(a0 + 0x10) = 0;
             }
             if (D_8018E6A0 & 0x4000) {
-                func_8012B23C(a0);
+                guess_ClearVelocityAndSetGravity(a0);
                 *(u8 *)(a0 + 0xC2) = 4;
                 break;
             } else if (D_8018E6A0 & 0x2000) {

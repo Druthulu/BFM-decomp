@@ -273,18 +273,18 @@ extern s32 func_80148D24(void *a0, int a1);
 extern s32 func_80148D3C(void);
 extern s32 func_80148F60(void);
 extern s32 func_80148F68(s32 a0);
-extern s32 func_80148F74(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn(s32 a0);
 extern s32 func_80148F80(s32 a0);
 extern s32 func_80148F8C(s32 a0);
 extern s32 func_80148F98(void);
 extern s32 func_80148FA0(s32 a0);
-extern s32 func_80148FAC(s32 a0);
-extern s32 func_80148FB8(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn_2(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn(s32 a0);
 extern s32 func_80148FC4(s32 a0);
 extern s32 func_80148FD0(void);
 extern s32 func_80148FD8(void);
 extern s32 func_80148FE0(s32 a0);
-extern s32 func_80148FEC(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn_2(s32 a0);
 extern s32 func_80148FF8(s32 a0);
 extern s32 func_80149004(void);
 extern void func_8014900C(s32 *a0);
@@ -439,7 +439,7 @@ extern s32 D_80078ECC;
 extern void func_8014B33C(void);
 extern u8 D_80062BF4[];
 extern void func_8014BC80(s32 a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 D_80078E98;
 extern void func_80166244(void* arg0);
 extern void func_8014B4D4(void *a0);
@@ -1071,7 +1071,7 @@ extern M2C_UNK D_800D5904;
 extern void func_80158E24(s32 *a0);
 extern s32 D_80180E34[];
 extern int rand(void);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
@@ -1815,7 +1815,7 @@ extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, 
 extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_8014AB5C(void);
 extern void func_80159B70(void *a0);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern s32 func_80161208(void);
 extern int func_80155FF8(int arg, int a1);
@@ -1862,7 +1862,7 @@ extern void func_8014ED28(s32 a0);
 extern void func_8014FA04(s32 a0);
 extern s32 func_801725B8(u8*);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
-extern void func_80019064(void*);
+extern void guess_StartPadVibration(void*);
 extern void func_801484B0(s32, s32);
 extern void func_80148534(s32, s32);
 
@@ -1971,7 +1971,7 @@ extern void guess_NextStep(void *a0);
 extern unsigned int D_801814BC[];
 
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_8015FD74__ad91f4fb.h"
@@ -2463,7 +2463,7 @@ extern s32 D_80181600;
 
 
 void func_80161E08(s32 param_1) {
-    extern s32 func_80024054(void *a0, void *a1);
+    extern s32 guess_SjisToGlyphCodes(void *a0, void *a1);
     extern void func_8001CE28(void *a0, void *a1);
     extern void func_800242D0(s32 a0, void *a1, s32 a2);
     extern void func_8001CE68(void *a0, void *a1);
@@ -2506,7 +2506,7 @@ void func_80161E08(s32 param_1) {
 
         if (guess_g_TargetTimeLabel1 == 0) {
             p = D_80190DA0[0] = base + 0x65A8;
-            func_80024054(&D_801815CC, &D_80190DAC);
+            guess_SjisToGlyphCodes(&D_801815CC, &D_80190DAC);
             func_8001CE28(p, &D_80190DAC);
             D_800B5C04 = 1;
             D_800B5BFF = 1;
@@ -2516,7 +2516,7 @@ void func_80161E08(s32 param_1) {
 
         if (guess_g_TargetTimeLabel2 == 0) {
             p = D_80190DA0[1] = base + 0x65E0;
-            func_80024054(&D_801815EC, &D_80190DD4);
+            guess_SjisToGlyphCodes(&D_801815EC, &D_80190DD4);
             func_8001CE28(p, &D_80190DD4);
             D_800B5C3C = 1;
             D_800B5C37 = 1;
@@ -2643,7 +2643,7 @@ extern void (*D_80181624[])(void);
 
 
 s32 func_80162438(s32 _unused0) {
-    extern s32 func_80024054(void *, void *);
+    extern s32 guess_SjisToGlyphCodes(void *, void *);
     extern void func_8001CE28(void *, void *);
     extern void func_8001CE68(void *, void *);
     extern void func_800242D0(s32, void *, s32);
@@ -2682,7 +2682,7 @@ s32 func_80162438(s32 _unused0) {
         if (guess_g_TargetTimeLabel1 == 0) {
             D_80190DF8[0] = (s32)(base + 0x65A8);
             item = base + 0x65A8;
-            func_80024054(D_80181630, D_80190E04);
+            guess_SjisToGlyphCodes(D_80181630, D_80190E04);
             func_8001CE28(item, D_80190E04);
             D_800B5C04 = 1;
             D_800B5BFF = 1;
@@ -2692,7 +2692,7 @@ s32 func_80162438(s32 _unused0) {
         if (guess_g_TargetTimeLabel2 == 0) {
             D_80190DF8[1] = (s32)(base + 0x65E0);
             item = base + 0x65E0;
-            func_80024054(((u8 *)&D_80181648), D_80190E2C);
+            guess_SjisToGlyphCodes(((u8 *)&D_80181648), D_80190E2C);
             func_8001CE28(item, D_80190E2C);
             D_800B5C3C = 1;
             D_800B5C37 = 1;
@@ -3125,7 +3125,7 @@ extern void (*D_801816D4[])(void);
 
 extern s32 func_80146578(void);
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
 extern void guess_NextStep(void *a0);
 extern void func_80164DB0(void);
@@ -3150,7 +3150,7 @@ void func_80164BDC(s32 param_1)
     *(s32 *)(param_1 + 0x20) = iVar1;
     if (iVar1 != 0) {
         func_8001CD50(iVar1, base);
-        ((void (*)(s32, s32))func_800233CC)(base, 0x60);
+        ((void (*)(s32, s32))guess_BuildCircle12Points)(base, 0x60);
         CAST_ALIAS(u32, iVar1, 4) = ((Unkstruct_80164BDC *)iVar1)->unk4 | 0x50000000;
         D_80190E59 = 0xf0;
         *(u8 *)base = 0xf0;
@@ -3537,7 +3537,7 @@ extern void (*D_80181A84[])(void);
 // the first `sb`; at `u8` the mode gate keeps it separate and the `sb` reads the copy. No levers.
 s32 func_80166690(s32 param_1, s32 param_2)
 {
-    extern void func_80017758(void *a0, void *a1);
+    extern void guess_AddPolyG4(void *a0, void *a1);
     extern Blk20 D_800AE620;
     extern u8 D_80190F18[];
 
@@ -3636,7 +3636,7 @@ s32 func_80166690(s32 param_1, s32 param_2)
                 c.c32 = t; c.c22 = t; c.c31 = t; c.c21 = t;
             }
 
-            func_80017758(&c, &blk);
+            guess_AddPolyG4(&c, &blk);
             sVar3 = sVar3 - 1;
         } while (sVar3 != -1);
     }
@@ -3838,7 +3838,7 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 

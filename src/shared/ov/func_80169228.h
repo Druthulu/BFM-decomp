@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 s32 func_80169228(s32 arg0)
 {
     u8 buf[0x60];               /* $sp+0x10 .. $sp+0x6F */
@@ -53,7 +53,7 @@ s32 func_80169228(s32 arg0)
     *(s32 *)(buf + 0x4c) = (s32)*(s16 *)(arg0 + 6);    /* 0x5C */
     *(s32 *)(buf + 0x50) = (s32)*(s16 *)(arg0 + 0xa);  /* 0x60 */
     *(s32 *)(buf + 0x54) = (s32)*(s16 *)(arg0 + 0xe);  /* 0x64 */
-    func_80017758(buf + 0x00, p);
+    guess_AddPolyG4(buf + 0x00, p);
     /* second-draw SVECTOR verts */
     *(s16 *)(buf + 0x00) = -7;   /* 0x10 */
     *(s16 *)(buf + 0x10) = 0;    /* 0x20 */
@@ -63,5 +63,5 @@ s32 func_80169228(s32 arg0)
     *(s16 *)(buf + 0x02) = 0;    /* 0x12 */
     *(s16 *)(buf + 0x0a) = 7;    /* 0x1A */
     *(s16 *)(buf + 0x12) = -7;   /* 0x22 */
-    func_80017758(buf + 0x00, p);
+    guess_AddPolyG4(buf + 0x00, p);
 }

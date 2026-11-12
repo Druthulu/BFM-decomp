@@ -70,7 +70,7 @@ void func_800CAFA0(void *a0) {
     extern s32 guess_SpawnSmallObject(s32, void *, s32, s32, s32, s32, s32);
     extern s32 guess_FreeSmallObject(u8 *a0);
     extern void RotMatrixY(s32, void *);
-    extern s32 func_80047948(s32);
+    extern s32 rcos(s32);
     extern void guess_RotTransSVWithMatrix(s32, s32, s32);
     extern s32 func_80128ED8(s32, s32 *);
 
@@ -89,7 +89,7 @@ void func_800CAFA0(void *a0) {
         m.w[6] = ((Unkstruct_800CAFA0_2 *)s2)->unkA;
         m.w[7] = ((Unkstruct_800CAFA0_2 *)s2)->unkE;
         sv.x = 0;
-        sv.y = (func_80047948(((((Unkstruct_800CAFA0 *)a0)->unk1C & 0xF) << 8) + ((Unkstruct_800CAFA0 *)a0)->unk2C) >> 9) - 0x14;
+        sv.y = (rcos(((((Unkstruct_800CAFA0 *)a0)->unk1C & 0xF) << 8) + ((Unkstruct_800CAFA0 *)a0)->unk2C) >> 9) - 0x14;
         sv.z = -0x40;
         guess_RotTransSVWithMatrix((s32)&m, (s32)&sv, (s32)&sv);
         if (((Unkstruct_800CAFA0 *)a0)->unk1C == 0) {

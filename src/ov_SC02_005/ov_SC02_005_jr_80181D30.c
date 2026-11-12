@@ -281,18 +281,18 @@ extern s32 func_80148D24(void *a0, int a1);
 extern s32 func_80148D3C(void);
 extern s32 func_80148F60(void);
 extern s32 func_80148F68(s32 a0);
-extern s32 func_80148F74(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn(s32 a0);
 extern s32 func_80148F80(s32 a0);
 extern s32 func_80148F8C(s32 a0);
 extern s32 func_80148F98(void);
 extern s32 func_80148FA0(s32 a0);
-extern s32 func_80148FAC(s32 a0);
-extern s32 func_80148FB8(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn_2(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn(s32 a0);
 extern s32 func_80148FC4(s32 a0);
 extern s32 func_80148FD0(void);
 extern s32 func_80148FD8(void);
 extern s32 func_80148FE0(s32 a0);
-extern s32 func_80148FEC(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn_2(s32 a0);
 extern s32 func_80148FF8(s32 a0);
 extern s32 func_80149004(void);
 extern void func_8014900C(s32 *a0);
@@ -449,7 +449,7 @@ extern s32 D_80078ECC;
 extern void func_8014B33C(void);
 extern u8 D_80062BF4[];
 extern void func_8014BC80(s32 a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 D_80078E98;
 extern void func_80166244(void* arg0);
 extern void func_8014B4D4(void *a0);
@@ -1076,7 +1076,7 @@ extern M2C_UNK D_800D5904;
 extern void func_80158E24(s32 *a0);
 extern s32 D_80192C50[];
 extern int rand(void);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
@@ -1551,7 +1551,7 @@ extern void func_80164ACC(s32 a0);
 extern void (*D_801934F0[])(void);
 extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
 extern void func_80164DB0(void);
 extern u8 D_801E3238;
@@ -1748,7 +1748,7 @@ extern void func_801693CC(void *a0);
 extern void func_80169584(s32 param_1);
 extern void func_80169408(s32 a0);
 extern void func_8016951C(int param_1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_801696D8(s32 a0, s32 a1);
 extern void (*D_80193904[])(void);
@@ -2190,8 +2190,8 @@ extern s32 func_80171FFC(short *a0, short *a1, s32 a2);
 extern s32 func_80171D1C(void * a0, void * a1, s32 a2);
 extern s32 func_8017248C(s32 a0, s32 a1);
 extern s32 func_80171E08(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_80047948(s32 a0);
-extern s32 func_8004787C(s32 a0);
+extern s32 rcos(s32 a0);
+extern s32 rsin(s32 a0);
 extern void func_80172170(s32 a0, s32 a1);
 extern s32 func_8017209C(void *arg0, void *arg1, s32 arg2, s32 arg3);
 extern void func_801722CC(s32 *a0);
@@ -2468,7 +2468,7 @@ extern u16 guess_g_HudHpPanelX;
 extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
-extern u32 func_801783D0(s32 a0, s32 a1);
+extern u32 guess_IntToBcd(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
@@ -2524,7 +2524,7 @@ extern short D_801E4C4C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
 extern s32 func_80178D40(s32 arg0, s32 arg1);
-extern void func_80179B28(s32 a0);
+extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
 extern void func_80179D78(u16 *a0);
@@ -2590,9 +2590,9 @@ extern s32 func_8017AD0C(s32 arg0);
 extern s32 func_8017AD0C(s32);
 extern s32 func_8017ADE8(s32 a0);
 extern s32 func_8017AE08(void);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern s32 func_8012BE98(s32 a0, u16 *a1);
@@ -2924,7 +2924,7 @@ extern s32 D_801270C8;
 extern u8 D_80195AFA[];
 extern u8 D_8019103C;
 extern void func_8018A1D8(s32 a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8013C9C4(void *a0);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern s32 func_801873FC(s32 a0);
@@ -2943,7 +2943,7 @@ s32 func_801820E4(void *arg0)
         ((Unkstruct_800B5CB8 *)arg0)->unkE8 = (CAST_SIGN(u32, (u8 *)arg0, 0xE8) & ~0x400) | 0x800;
     }
     func_8018A1D8((s32)arg0);
-    func_8012B23C((s32)arg0);
+    guess_ClearVelocityAndSetGravity((s32)arg0);
     func_8013C9C4(&D_8019103C);
     func_80186304(arg0, 0x12, 0);
     ((Unkstruct_800B5CB8 *)arg0)->unk34 = 6;
@@ -3005,10 +3005,10 @@ extern void func_801862F0(void * arg0);
     }
 
 
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 
 void func_801822B4(s32 arg0) {
-    func_8012B23C(arg0);
+    guess_ClearVelocityAndSetGravity(arg0);
     func_8017DF50();
     func_801838A8((u8 *)arg0);
 }
@@ -3020,10 +3020,10 @@ extern u16 D_801E4BBC;
 extern u8 D_80062BDC;
 extern u8 D_80195B2C[];
 
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_80183B0C(void);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_80186C0C(void *a0);
@@ -3052,7 +3052,7 @@ void func_801822EC(u8 *arg0) {
             CAST_SIGN(u32, arg0, 0xE8) &= ~0x20;
             if ((((Unkstruct_800B5CB8 *)arg0)->unk94 & 3) == 0) {
                 if (((Unkstruct_800B5CB8 *)arg0)->unk98 == 1) {
-                    func_80019064(&D_80062BDC);
+                    guess_StartPadVibration(&D_80062BDC);
                     guess_RequestSound(0x4F1, 0);
                     CAST_SIGN(u32, arg0, 0xE8) |= 0x20;
                 }
@@ -3070,7 +3070,7 @@ void func_801822EC(u8 *arg0) {
         u32 temp;
         s32 v0_val;
 
-        func_8012B23C((s32)arg0);
+        guess_ClearVelocityAndSetGravity((s32)arg0);
 
         CAST_SIGN(u32, arg0, 0xE8) |= 1;
         func_80186304(arg0, 0, 0);
@@ -3101,7 +3101,7 @@ void func_801822EC(u8 *arg0) {
 
 extern s32 func_8012CBCC(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_8018A3B4(void *a0);
@@ -3172,7 +3172,7 @@ void func_801824D0(s32 s0) {
         func_80186CA8((void *)s0);
         ((Unkstruct_800B5CB8 *)s0)->unk102 = 0xD;
     } else {
-        func_8012B23C(s0);
+        guess_ClearVelocityAndSetGravity(s0);
         ((Unkstruct_800B5CB8 *)s0)->unkE8 = CAST_SIGN(u32, s0, 0xE8) & ~1;
         func_80186F58((void *)s0);
         *(s16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0xCC))->unk20 + 0x12) = 0;
@@ -3318,7 +3318,7 @@ void func_80182918(s32 a0) {
 
 #include "common.h"
 
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_80184C20(s32 a0);
@@ -3337,7 +3337,7 @@ extern void func_8018AAAC(void);
 void func_80182998(void *arg0) {
     s32 flags;
 
-    func_8012B23C((s32)arg0);
+    guess_ClearVelocityAndSetGravity((s32)arg0);
     CAST_SIGN(u32, (s32)arg0, 0xE8) &= ~1;
     func_80186F58(arg0);
     *(s16 *)(((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)arg0)->unkCC)->unk20 + 0x12) = 0;
@@ -3374,7 +3374,7 @@ extern void func_801856E4(void);
 extern void func_8018415C(void *a0);
 extern void func_80182810(void *a0);
 extern void func_801828D8(void *arg0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80186F14(void *a0);
 extern void func_80186C0C(void *a0);
@@ -3481,7 +3481,7 @@ void func_80182A8C(s32 s0) {
                 CAST_SIGN(u32, s0, 0xE8) &= ~0x80;
                 ((Unkstruct_800B5CB8 *)s0)->unk1C = (s32)(s16)CAST_SIGN(u16, s0, 0x104);
             } else {
-                func_8012B23C(s0);
+                guess_ClearVelocityAndSetGravity(s0);
                 CAST_SIGN(u32, s0, 0xE8) |= 1;
                 func_80186304((u8 *)s0, 0, 0);
                 if (CAST_SIGN(u32, s0, 0xE8) & 0x2000) {
@@ -3503,13 +3503,13 @@ void func_80182A8C(s32 s0) {
 
 
 extern void func_80186178(s32 *a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 
 void func_80182D80(s32 arg0) {
     func_80186178((s32 *)arg0);
-    func_8012B23C(arg0);
+    guess_ClearVelocityAndSetGravity(arg0);
     func_8012AD44((s32 *)arg0, 0xC);
     func_80186304((u8 *)arg0, 0, 2);
 }
@@ -3526,7 +3526,7 @@ void func_80182DCC(void *a0) {
 
 #include "common.h"
 
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8013C9C4(void *a0);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_8018A1D8(s32 a0);
@@ -3536,7 +3536,7 @@ extern u8 D_8019103C;
 
 void func_80182E04(s32 arg0)
 {
-    func_8012B23C(arg0);
+    guess_ClearVelocityAndSetGravity(arg0);
     func_8013C9C4(&D_8019103C);
     func_80186304((u8 *)arg0, 0, 2);
     ((Unkstruct_800B5CB8 *)arg0)->unk34 = 2;
@@ -3557,7 +3557,7 @@ void func_80182E78(void *a0) {
 
 #include "common.h"
 
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80186F14(void *a0);
@@ -3575,7 +3575,7 @@ void func_80182EB0(void) {
     u32 temp;
     s32 v0_val;
 
-    func_8012B23C(s0);
+    guess_ClearVelocityAndSetGravity(s0);
 
     CAST_SIGN(u32, s0, 0xE8) |= 1;
     func_80186304((u8 *)s0, 0, 0);
@@ -3602,17 +3602,17 @@ void func_80182EB0(void) {
 }
 
 
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 
 void func_80182F78(s32 arg0)
 {
-    func_8012B23C(arg0);
+    guess_ClearVelocityAndSetGravity(arg0);
     CAST_WIDTH(s32, arg0, 0x10) = 0xFFE80000;
     ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
 }
 
 
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s16 D_801E43A8;
 extern s16 D_801E43AC;
 extern s16 D_801E43B0;
@@ -3630,7 +3630,7 @@ void func_80182FAC(s32 *s0)
     ((Unkstruct_800B5CB8 *)s0)->unk6 = var_a8;
     ((Unkstruct_800B5CB8 *)s0)->unkA = var_ac;
     ((Unkstruct_800B5CB8 *)s0)->unkE = var_b0;
-    func_8012B23C((s32)s0);
+    guess_ClearVelocityAndSetGravity((s32)s0);
 
     CAST_WIDTH(s32, (u8 *)s0, 0x10) = 0xFFE80000;
     ((Unkstruct_800B5CB8 *)s0)->unk34 = 1;
@@ -3667,7 +3667,7 @@ void func_80183074(s32 *a0) {
     ((Unkstruct_800B5CB8 *)a0)->unkE8 &= ~0x4000;
     func_8012C588(0x75, (s32)a0);
     func_80189FA4(a0);
-    func_80019064(&D_80196288);
+    guess_StartPadVibration(&D_80196288);
     guess_RequestSound(0x50D, 0);
 }
 
@@ -3731,7 +3731,7 @@ void func_801831A4(void *a0)
 
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8018415C(void *a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_80186F58(void *a0);
 extern void func_80184C20(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -3774,7 +3774,7 @@ void func_80183218(void *arg0) {
                 func_8018415C(CAST_SIGN(void *, p, 0xD4));
 
                 if (CAST_SIGN(u32, p, 0xE8) & 0x8) {
-                    func_8012B23C(p);
+                    guess_ClearVelocityAndSetGravity(p);
                     CAST_SIGN(u32, p, 0xE8) &= ~1;
                     func_80186F58((void *)p);
                     *(s16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(p + 0xCC))->unk20 + 0x12) = 0;
@@ -3801,7 +3801,7 @@ void func_80183218(void *arg0) {
                     func_80184C20(((Unkstruct_800B5CB8 *)p)->unkD0);
                     func_8018AAAC();
                     func_80186F58((void *)p);
-                    func_8012B23C(p);
+                    guess_ClearVelocityAndSetGravity(p);
                     CAST_WIDTH(s32, p, 0x18) = 0xA8000;
                     CAST_WIDTH(s16, p, 0xDC) = 2;
                     ((Unkstruct_800B5CB8 *)p)->unk14 = 0xFFF40000;
@@ -3904,7 +3904,7 @@ extern s32 D_80195B1C[];
 
 extern s32 func_8012CBF4(s32 a0);
 extern s32 func_8012CBA4(s32 a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
@@ -3937,7 +3937,7 @@ void func_80183610(u8 *arg0) {
                 func_80182F78(arg0);
             }
         } else if (CAST_SIGN(s16, arg0, 0xE) >= D_80195AE0[D_801E4BBC * 4]) {
-            func_8012B23C((s32)arg0);
+            guess_ClearVelocityAndSetGravity((s32)arg0);
             ((Unkstruct_800B5CB8 *)arg0)->unk6 = D_80195ADC[D_801E4BBC * 4];
             CAST_WIDTH(s32, arg0, 0x18) = 0x180000;
             ((s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20))[9] = 0;
@@ -3966,7 +3966,7 @@ void func_80183610(u8 *arg0) {
             ((Unkstruct_800B5CB8 *)arg0)->unkE = temp;
             CAST_ALIAS(s16, arg0, 6) = -0x80;
             arg0[0xC2]++;
-            func_8012B23C((s32)arg0);
+            guess_ClearVelocityAndSetGravity((s32)arg0);
             ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x10;
         }
         break;
@@ -4000,7 +4000,7 @@ extern void func_801827A8(void *a0);
 extern void func_80182810(void *a0);
 extern void func_801828D8(void *arg0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_80186F14(void *a0);
 
@@ -4061,7 +4061,7 @@ void func_801838A8(u8 *arg0) {
         return;
     }
 
-    func_8012B23C((s32)arg0);
+    guess_ClearVelocityAndSetGravity((s32)arg0);
     ((Unkstruct_800B5CB8 *)arg0)->unkE8 |= 1;
     func_80186304(arg0, 0, 0);
     if (((Unkstruct_800B5CB8 *)arg0)->unkE8 & 0x2000) {
@@ -4283,7 +4283,7 @@ void func_80183D90(void *arg0) {
 
 extern void func_8001C924(s32 a0, void *a1);
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
-extern void func_800233CC(void *a0, unsigned short a1);
+extern void guess_BuildCircle12Points(void *a0, unsigned short a1);
 extern void func_8001CD9C(int a0, void *a1);
 extern void func_8001D074(s32 a0, s32 a1);
 extern void func_801840E8(s32 a0);
@@ -4314,7 +4314,7 @@ void func_80183FCC(s32 param_1)
     func_80132784(param_1, ((Unkstruct_800B5CB8 *)param_1)->unk64, 0x15);
 
     s2 = &D_801E44A0;
-    func_800233CC(s2, 0x28);
+    guess_BuildCircle12Points(s2, 0x28);
 
     *(Blk4_80183FCC *)s2 = *(Blk4_80183FCC *)&D_801E2E70;
     *(Blk4_80183FCC *)&D_801E44A4 = *(Blk4_80183FCC *)&D_801E2E74;
@@ -4680,7 +4680,7 @@ void func_801846CC(void *a0)
  *     1 -> MATCH.
  *
  * Symbols: all 15 relocations spelled from the target .s.  TU-conformance checked:
- *   func_8012AD80(s32) :2610, func_8013C9C4(void*) :1308, guess_UpdateActorModelMatrix(s32) :2528,
+ *   guess_ApplyAccelAndVelocity(s32) :2610, func_8013C9C4(void*) :1308, guess_UpdateActorModelMatrix(s32) :2528,
  *   D_801270C8 s32 :2741, D_80126B96 u16 :3142 — copied verbatim.  The TU has no prior
  *   declaration of func_80184828, so the void* signature is free (no DEF-side wall).
  *   Local typedefs are address-suffixed to avoid colliding with the TU's carried decl layer.
@@ -4689,7 +4689,7 @@ void func_801846CC(void *a0)
 
 
 
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 func_80187508(s32 param_1);
 extern u16 D_80126B96;
 extern s16 D_80126B98;
@@ -4719,7 +4719,7 @@ void func_80184828(void *a0)
     local.v1.vx = ((Unkstruct_800B5CB8 *)a0)->unk3A;
     local.v1.vy = ((Unkstruct_800B5CB8 *)a0)->unk3E;
     local.v1.vz = ((Unkstruct_800B5CB8 *)a0)->unk42;
-    func_8012AD80((s32)a0);
+    guess_ApplyAccelAndVelocity((s32)a0);
     local.v2.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
     local.v2.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
     local.v2.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
@@ -4911,7 +4911,7 @@ void func_80184C20(s32 a0) {
 
 #include "common.h"
 
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern u8 D_80196414[];
 
@@ -4922,7 +4922,7 @@ s32 func_80184CA4(void *arg0)
     ((Unkstruct_800B5CB8 *)s0)->unk6 = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk48;
     ((Unkstruct_800B5CB8 *)s0)->unkA = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk4C;
     ((Unkstruct_800B5CB8 *)s0)->unkE = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk50;
-    func_8012B23C(s0);
+    guess_ClearVelocityAndSetGravity(s0);
     CAST_WIDTH(s32, s0, 0x10) = 0x00040000;
     ((Unkstruct_800B5CB8 *)s0)->unk14 = 0xFFF80000;
     CAST_WIDTH(s32, s0, 0x18) = 0xFFFC0000;

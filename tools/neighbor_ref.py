@@ -41,7 +41,7 @@ at 0/26 ("a cousin is a seeded crack, never a remap"). A neighbour is a WORKED E
 an answer to copy. `seed_ref` remains the tool for the byte-identical case.
 
     tools/neighbor_ref.py --binary ov_SC06_010 --fn func_8017BEBC
-    tools/neighbor_ref.py --binary main --fn func_80024054 --json --top 5
+    tools/neighbor_ref.py --binary main --fn guess_SjisToGlyphCodes --json --top 5
 """
 import argparse
 import json

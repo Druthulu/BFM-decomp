@@ -115,7 +115,7 @@ L444:
     }
 L4A8:
     {
-        u32 r = func_801783D0(*(s32 *)(cach + 0x14), 0);
+        u32 r = guess_IntToBcd(*(s32 *)(cach + 0x14), 0);
         func_80177F84(*(s32 *)(((param_1 << 16) >> 14) + st + 0x18) + 0x208, r);
     }
 L4D0:
@@ -133,7 +133,7 @@ L4D0:
         u16 e = 999;
         s16 r;
         if (*(u16 *)(cach + 0x34) < 1000) e = *(u16 *)(cach + 0x34);
-        r = (s16)func_801783D0((s16)e, 4);
+        r = (s16)guess_IntToBcd((s16)e, 4);
         func_80177DA8(*(s32 *)(((param_1 << 16) >> 14) + st + 0x18) + 0x294,
                       (s32)r, *(u8 *)(cach + 0x42));
     }
@@ -156,8 +156,8 @@ L558:
         else       *(s16 *)(e + 0x32A) = *(u16 *)(st + 0x16) + 0x65;
         {
             s32 t = (((s16)f / 15) & 3) * 15;
-            i6 = func_801783D0(((s16)f / 15) * 0x10000 >> 0x12, 8);
-            i4 = func_801783D0((t * 0x10000) >> 16, 0);
+            i6 = guess_IntToBcd(((s16)f / 15) * 0x10000 >> 0x12, 8);
+            i4 = guess_IntToBcd((t * 0x10000) >> 16, 0);
         }
         /* L2: copy temp defeats expand_binop's commutative swap; cse folds it back (see header). */
         sum = i4;
@@ -179,7 +179,7 @@ L63C:
         s32 s0b = ((param_1 << 16) >> 14) + st;
         u8 *arg = D_80182998[*(u8 *)(cach + 0x4A)];
         u32 *p = (u32 *)(*(s32 *)(s0b + 0x18) + 900);
-        func_80024054(arg, buf);
+        guess_SjisToGlyphCodes(arg, buf);
         p = ((u32 * (*)(u32 *, u8 *, s32, s32))func_80178298)(p, buf,
                           (s16)(*(u16 *)(st + 0x14) + 0x39),
                           (s16)(*(u16 *)(st + 0x16) + 0x5B));

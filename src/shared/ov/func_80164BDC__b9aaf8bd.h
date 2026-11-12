@@ -11,7 +11,7 @@ void func_80164BDC(s32 param_1)
     *(s32 *)(param_1 + 0x20) = iVar1;
     if (iVar1 != 0) {
         func_8001CD50(iVar1, base);
-        ((void (*)(s32, s32))func_800233CC)(base, 0x60);
+        ((void (*)(s32, s32))guess_BuildCircle12Points)(base, 0x60);
         *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
         D_8018E921 = 0xf0;
         *(u8 *)base = 0xf0;

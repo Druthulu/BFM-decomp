@@ -77,7 +77,7 @@ extern void func_800D23D0(void *a0);
 extern void func_80017E68(void *a0, void *a1);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048D9C(void *a0, void *a1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern u8 D_800CB528[];
 
 void func_800CAF84(arg0) void *arg0; {
@@ -121,7 +121,7 @@ void func_800CAF84(arg0) void *arg0; {
         prim.v[3].vx = (s8)*p++;
         prim.v[3].vy = (s8)*p++;
         p -= 2;
-        func_80017758(&prim, &m1);
+        guess_AddPolyG4(&prim, &m1);
     }
 }
 

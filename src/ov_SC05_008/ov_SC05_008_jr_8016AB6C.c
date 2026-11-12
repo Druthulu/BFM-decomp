@@ -277,18 +277,18 @@ extern s32 func_80148D24(void *a0, int a1);
 extern s32 func_80148D3C(void);
 extern s32 func_80148F60(void);
 extern s32 func_80148F68(s32 a0);
-extern s32 func_80148F74(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn(s32 a0);
 extern s32 func_80148F80(s32 a0);
 extern s32 func_80148F8C(s32 a0);
 extern s32 func_80148F98(void);
 extern s32 func_80148FA0(s32 a0);
-extern s32 func_80148FAC(s32 a0);
-extern s32 func_80148FB8(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn_2(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn(s32 a0);
 extern s32 func_80148FC4(s32 a0);
 extern s32 func_80148FD0(void);
 extern s32 func_80148FD8(void);
 extern s32 func_80148FE0(s32 a0);
-extern s32 func_80148FEC(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn_2(s32 a0);
 extern s32 func_80148FF8(s32 a0);
 extern s32 func_80149004(void);
 extern void func_8014900C(s32 *a0);
@@ -446,7 +446,7 @@ extern s32 D_80078ECC;
 extern void func_8014B33C(void);
 extern u8 D_80062BF4[];
 extern void func_8014BC80(s32 a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 D_80078E98;
 extern void func_80166244(void* arg0);
 extern void func_8014B4D4(void *a0);
@@ -1072,7 +1072,7 @@ extern M2C_UNK D_800D5904;
 extern void func_80158E24(s32 *a0);
 extern s32 D_80184D24[];
 extern int rand(void);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
@@ -1552,7 +1552,7 @@ extern void func_80164ACC(s32 a0);
 extern void (*D_801855C4[])(void);
 extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
 extern void func_80164DB0(void);
 extern u8 D_8019FFE8;
@@ -1750,7 +1750,7 @@ extern void func_801693CC(void *a0);
 extern void func_80169584(s32 param_1);
 extern void func_80169408(s32 a0);
 extern void func_8016951C(int param_1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_801696D8(s32 a0, s32 a1);
 extern void (*D_801859D8[])(void);
@@ -1820,7 +1820,7 @@ extern void func_8016AB30(void *a0);
  *   scan runs, and the only reachable way to do that is
  *       allocno_calls_crossed[p] > 0  ->  find_reg sets used1 = call_used_reg_set (global.c:906)
  *       -> AND_COMPL(hard_reg_copy_preferences, used) strips $5 -> $16 is all that's left.
- *   reg79 crossed NO call (def after func_80024054, last use before func_8001CE28), so $5 won.
+ *   reg79 crossed NO call (def after guess_SjisToGlyphCodes, last use before func_8001CE28), so $5 won.
  *   p in $a1 => the arms' copies became `move $5,$16`, cross_jump merged them to the top of
  *   the join (ahead of the a0 move), and reorg then slotted the a0 move.
  *
@@ -1891,8 +1891,8 @@ extern void func_8016AB30(void *a0);
 
 
 s32 func_8016AB6C(s32 arg0) {
-    extern u32 func_801783D0(s32 a0, s32 a1);
-    extern s32 func_80024054(u8 *a0, u8 *a1);
+    extern u32 guess_IntToBcd(s32 a0, s32 a1);
+    extern s32 guess_SjisToGlyphCodes(u8 *a0, u8 *a1);
     extern void func_8001CE28(Obj_8016AB6C *a0, u8 *a1);
     extern u8 D_80185AE0[];
     extern u8 D_80185AF0[];
@@ -1910,7 +1910,7 @@ s32 func_8016AB6C(s32 arg0) {
     u8 var_c2;
     Obj_8016AB6C *obj;
 
-    temp_v0 = func_801783D0(((Ent_8016AB6C *)arg0)->unk30, 0);
+    temp_v0 = guess_IntToBcd(((Ent_8016AB6C *)arg0)->unk30, 0);
     var_s0 = 3;
     var_v1 = -0x1000;
     ((Ent_8016AB6C *)arg0)->unk30 = temp_v0;
@@ -1970,10 +1970,10 @@ lout:
         ((Ent_8016AB6C *)arg0)->unkA = sp10.vy;
         ((Ent_8016AB6C *)arg0)->unkE = sp10.vz;
         if (((Ent_8016AB6C *)arg0)->unk2C == 6) {
-            var_s3 = func_80024054(D_80185AE0, D_801A02F8) + 3;
+            var_s3 = guess_SjisToGlyphCodes(D_80185AE0, D_801A02F8) + 3;
             func_8001CE28(obj, D_801A02F8);
         } else {
-            var_s3 = func_80024054(D_80185AF0, D_801A0320) + 9;
+            var_s3 = guess_SjisToGlyphCodes(D_80185AF0, D_801A0320) + 9;
             func_8001CE28(obj, D_801A0320);
         }
         obj->unkE = var_s3;
@@ -2282,7 +2282,7 @@ void func_8016B6BC(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
 // @unstuck(P36): none — MATCH (statement order: compute puVar2 base before puVar3 table lookup so param*0x40+base schedule into prologue, leaving the 0x2c load-delay nop)
 extern void *guess_AllocSpriteObject(void);
 extern void func_8001CD9C(int, void *);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 
 extern int *D_80185BD4[];
 extern unsigned short D_80185BDC[];
@@ -2299,7 +2299,7 @@ int func_8016B834(int param_1, int param_2) {
     iVar1 = ((int (*)(void))guess_AllocSpriteObject)();
     if (iVar1 != 0) {
         func_8001CD9C(iVar1, puVar2);
-        func_800233CC(puVar2, D_80185BDC[param_2]);
+        guess_BuildCircle12Points(puVar2, D_80185BDC[param_2]);
         puVar2[0] = *(int *)((int)puVar3 + param_2 * 8);
         puVar2[1] = *(int *)((int)puVar3 + param_2 * 8 + 4);
         *(unsigned int *)(iVar1 + 4) = *(unsigned int *)(iVar1 + 4) | 0x50040000;
@@ -2592,7 +2592,7 @@ void func_8016C188(s32 param)
     extern s32 func_8016C374(s32, s32, s32, s32);
     extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D27)
     extern void func_8001CD9C(s32, void *);
-    extern void func_800233CC(void *, unsigned short);
+    extern void guess_BuildCircle12Points(void *, unsigned short);
     extern u8 D_801A0444[];
     extern s16 D_801A048C;
     extern s16 D_801A048E;
@@ -2620,7 +2620,7 @@ void func_8016C188(s32 param)
         ((void (*)(s32, void *))func_8001CD9C)(s2, s0);
         *(s16 *)(s2 + 0x1E) = 0xCCC;
         *(s32 *)(s2 + 4) = *(s32 *)(s2 + 4) | 0x50000000;
-        ((void (*)(void *, s32))func_800233CC)(s0, 0x80);
+        ((void (*)(void *, s32))guess_BuildCircle12Points)(s0, 0x80);
         *(s16 *)(s2 + 0x1A) = 0;
         *(s16 *)(s2 + 0x18) = 0;
         ((Unkstruct_8016C188 *)s1)->unk10 = 0;
@@ -2723,7 +2723,7 @@ s32 func_8016C49C(s32 param_1_arg) {
         D_801A04A0[6] = 0;
         D_801A04A0[5] = 0;
         D_801A04A0[4] = 0;
-        ((void(*)(void *, s32))func_800233CC)(D_801A04A0, 10);
+        ((void(*)(void *, s32))guess_BuildCircle12Points)(D_801A04A0, 10);
         sv[0] = ((Unkstruct_8016C49C *)iVar5)->unk6 - *(u16 *)(iVar6 + 6);
         {
             int t = *(u16 *)(iVar6 + 0xa) + 0x28;
@@ -2842,7 +2842,7 @@ extern void (*D_80185C24[])(void);
 
 
 
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern Blk20 D_800AE620;
 short func_8016CBC0(void)
 {
@@ -2968,8 +2968,8 @@ short func_8016CBC0(void)
             p1.v[3].z = b;
             p0.v[3].z = (p1.v[2].z = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
-          func_80017758(&p0, &mtx);
-          func_80017758(&p1, &mtx);
+          guess_AddPolyG4(&p0, &mtx);
+          guess_AddPolyG4(&p1, &mtx);
           w3b = iVar3 - 1;
           iVar3 = w3b;
         }
@@ -3065,7 +3065,7 @@ void func_8016D19C(void *a0) {
 
 
 extern void *guess_AllocSpriteObject(void);
-extern void func_800233CC(void*, unsigned short);
+extern void guess_BuildCircle12Points(void*, unsigned short);
 extern void func_8001CD9C(int, void*);
 extern void guess_PlaySoundUnlessSkipped(int a);
 extern int  rand(void);
@@ -3096,7 +3096,7 @@ void func_8016D1D8(int param_1) {
         if (iVar5 != 0) {
             int pp;
             ((Unkstruct_8016D1D8 *)param_1)->unk20 = iVar5;
-            ((void (*)(void *, int))func_800233CC)(D_801A04E0, 0x28);
+            ((void (*)(void *, int))guess_BuildCircle12Points)(D_801A04E0, 0x28);
             ((void (*)(void *, void *))func_8001CD9C)((void *)iVar5, D_801A04E0);
             *(short *)(iVar5 + 0x1a) = 0x1400;
             *(u32 *)(iVar5 + 4) |= 0x50000000;
@@ -3120,7 +3120,7 @@ void func_8016D1D8(int param_1) {
         iVar2 = ((int (*)(void))guess_AllocSpriteObject)();
         if (iVar2 != 0) {
             ((Unkstruct_8016D1D8 *)param_1)->unk20 = iVar2;
-            ((void (*)(void *, int))func_800233CC)(D_801A0520, 0x18);
+            ((void (*)(void *, int))guess_BuildCircle12Points)(D_801A0520, 0x18);
             ((void (*)(void *, void *))func_8001CD9C)((void *)iVar2, D_801A0520);
             *(u32 *)(iVar2 + 4) |= 0x50000000;
             ((Unkstruct_8016D1D8 *)param_1)->unk6 = *(u16 *)(iVar5 + 6);
@@ -3166,7 +3166,7 @@ extern void (*D_80185C48[])(void);
 
 
 extern void *guess_AllocSpriteObject(void);
-extern void func_800233CC(void*, unsigned short);
+extern void guess_BuildCircle12Points(void*, unsigned short);
 extern void func_8001CD9C(int, void *);
 
 void func_8016D688(int param_1)
@@ -3185,7 +3185,7 @@ void func_8016D688(int param_1)
     iVar2 = ((int (*)(void))guess_AllocSpriteObject)();
     if (iVar2 != 0) {
         ((Unkstruct_8016D688 *)param_1)->unk20 = iVar2;
-        ((void (*)(void *, int))func_800233CC)(D_801A04E0, 0x28);
+        ((void (*)(void *, int))guess_BuildCircle12Points)(D_801A04E0, 0x28);
         func_8001CD9C(iVar2, D_801A04E0);
         *(unsigned short *)(iVar2 + 0x1a) = 0x1400;
         *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar2 + 4) | 0x50000000;
@@ -3376,7 +3376,7 @@ extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void *guess_AllocSpriteObject(void);
 extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D27)
 
@@ -3420,7 +3420,7 @@ void func_8016DF5C(s32 param_1)
         D_801A0B8E = 0;
         D_801A0B8D = 0;
         D_801A0B8C = 0;
-        ((void(*)(void *, unsigned short))func_800233CC)((void *)base, 0x40);
+        ((void(*)(void *, unsigned short))guess_BuildCircle12Points)((void *)base, 0x40);
         func_8001CD50(iNew, base);
         *(s32 *)(iNew + 0x34) = (s32)((u8 *)((void *)param_1) + 0x38);
         *(s16 *)(iNew + 0x1a) = 0;
@@ -3575,7 +3575,7 @@ s32 func_8016E95C() {
  * 1. §52a "non-coalescing delay-slot copy" + §17 zero-reg-copy (the load-bearing one).
  *    The target holds `p[0]-1` in TWO callee-saved regs: $s0 (the array index, later
  *    destroyed in place by `sll $s0,$s0,1`) and $s4 (the value stored to p[3]), created
- *    by `addu $s4,$s0,$zero` sitting in the DELAY SLOT of `jal func_800D2CA8`. A plain
+ *    by `addu $s4,$s0,$zero` sitting in the DELAY SLOT of `jal guess_IntToBcd_2`. A plain
  *    C `c = i;` is destroyed by cse.c canon_reg head-promotion (measured: 50 ins, -3),
  *    and every #APP-asm spelling of the copy is INELIGIBLE for a delay slot (measured:
  *    51 ins, -2 — tried `__asm__("":"=r"(c):"0"(i))`, a real-opcode
@@ -3596,15 +3596,15 @@ s32 func_8016E95C() {
  *    seed showed) puts the lhu chain right after `sh $v0,4($a0)` → 0.
  *
  * Data typing: D_80185D50 is a WORD array (`sll $v0,$s0,2`; its element is dereferenced
- * as a buffer by func_80024054) => u8 *[]. D_80185D68 is byte-indexed (`lbu`, no shift)
+ * as a buffer by guess_SjisToGlyphCodes) => u8 *[]. D_80185D68 is byte-indexed (`lbu`, no shift)
  * => u8[]. D_80185D6C is halfword-indexed (`sll $s0,$s0,1` + `lhu`) => u16[].
  * `*(s16 *)(p + 4) = -0xD7` emits `addiu $v0,$zero,-0xD7`; 0xFF29 as a u16 would not.
  */
 
 
-extern s32 func_800D2CA8(s32 a0, s32 a1);
-extern void func_800D2D10(s32 a0, s32 a1, void *a2, s32 a3);
-extern s32 func_80024054(void *a0, void *a1);
+extern s32 guess_IntToBcd_2(s32 a0, s32 a1);
+extern void guess_BcdToDigitCodes(s32 a0, s32 a1, void *a2, s32 a3);
+extern s32 guess_SjisToGlyphCodes(void *a0, void *a1);
 extern void func_8016EC0C(s32 a0, s32 a1);
 
 void func_8016E9EC(u8 *p)
@@ -3621,8 +3621,8 @@ void func_8016E9EC(u8 *p)
     i = p[0] - 1;
     off = D_80185D68[i];
     buf = D_80185D50[i];
-    func_800D2D10((func_800D2CA8(p[3], 0x1C)), 1, buf + off, 0);
-    func_80024054(buf, p + 8);
+    guess_BcdToDigitCodes((guess_IntToBcd_2(p[3], 0x1C)), 1, buf + off, 0);
+    guess_SjisToGlyphCodes(buf, p + 8);
     p[3] = (i + 0);
     ((Unkstruct_8016E9EC *)p)->unk4 = -0xD7;
     h = D_80185D6C[i];

@@ -4,7 +4,7 @@ extern void guess_ZeroMemory(void *a0, s32 a1);
 extern void guess_FreeActor(void *a0);
 extern s32 func_80134510(s32 arg);
 extern s32 ratan2(s32 a0, s32 a1);
-extern s32 func_8004787C(s32 a0);
+extern s32 rsin(s32 a0);
 extern s16 guess_g_BoxHitNormalZ;
 extern s16 guess_g_BoxHitNormalY;
 extern u8 guess_g_BoxHitNormalX[];
@@ -42,7 +42,7 @@ void func_80143EBC(s32 a0) {
     v0 = *(s32 *)(s1 + 0x20);
     *(s16 *)(s0 + 0x14) = -(*(u16 *)(v0 + 0x12));
     v0 = *(s32 *)(s1 + 0x20);
-    *(s16 *)(s0 + 0x18) = func_8004787C((*(u16 *)(v0 + 0x14) & 0x3FF) << 1) + 0x4000;
+    *(s16 *)(s0 + 0x18) = rsin((*(u16 *)(v0 + 0x14) & 0x3FF) << 1) + 0x4000;
     v0 = *(s32 *)(s1 + 0x20);
-    *(s16 *)(s0 + 0x1A) = func_8004787C((*(u16 *)(v0 + 0x10) & 0x3FF) << 1) + 0x4000;
+    *(s16 *)(s0 + 0x1A) = rsin((*(u16 *)(v0 + 0x10) & 0x3FF) << 1) + 0x4000;
 }

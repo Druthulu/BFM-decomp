@@ -3,7 +3,7 @@
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 func_8012CBCC(s32 a0);
 extern s32 func_801884FC(void *a0);
@@ -42,7 +42,7 @@ void func_8018825C(s32 param_1) {
     other = *(s32 *)(param_1 + 0x64);
     if (*(s16 *)(other + 0xE) - 0x80 < *(s16 *)(param_1 + 0xE)) {
         *(s16 *)(param_1 + 0x2) = 5;
-        func_8012B23C(param_1);
+        guess_ClearVelocityAndSetGravity(param_1);
         guess_StartActorSequence(param_1, &D_8018F498);
         *(s32 *)(param_1 + 0x18) = 0xFFE30000;
         *(s32 *)(param_1 + 0x14) = 0xFFE50000;

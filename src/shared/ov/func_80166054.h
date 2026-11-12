@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80166054(s32 param_1) {
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
-    extern s32 func_8004787C(s32 a0);
-    extern s32 func_80047948(s32 a0);
+    extern s32 rsin(s32 a0);
+    extern s32 rcos(s32 a0);
     extern void func_800D1FC8(s32 a0, s32 a1);
     extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
     extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
@@ -34,10 +34,10 @@ void func_80166054(s32 param_1) {
             s0 = fld & 0xfff;
             s1 = (fld >> 12) & 0xf;
         }
-        iVar2 = func_8004787C(s0);
+        iVar2 = rsin(s0);
         r0 = iVar2 << s1;
         r1 = -r0;
-        iVar3 = func_80047948(s0);
+        iVar3 = rcos(s0);
         a0 = iVar3 << s1;
         r2 = -a0;
         if (*(s32 *)(param_1 + 0x2c) == 2) {

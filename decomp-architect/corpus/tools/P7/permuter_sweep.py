@@ -12,7 +12,7 @@ this tool lives on the far side of both.  v1 said "≤4 mismatched is a permuter
 Five more runs made it **3 of 8** — a residual of 1 FAILED while a residual of 4 BANKED, so **the
 mismatch count predicts nothing**:
 
-    banked : func_80021174 (2) · func_80040DE8 (2) · func_80024054 (4)
+    banked : func_80021174 (2) · func_80040DE8 (2) · guess_SjisToGlyphCodes (4)
     failed : func_8005F290 (1) · func_80015608 (3) · func_80039DEC (3)
              func_8005F0C8 (3) · func_8005ECC0 (2)
 

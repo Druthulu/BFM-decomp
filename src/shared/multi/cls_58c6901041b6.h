@@ -52,7 +52,7 @@ void SHARED_FN(void *a0, void *a1) {
     ((Unkstruct_800CBB38 *)buf)->unk50 = *(s16 *)((s32)a0 + 0xA);
     ((Unkstruct_800CBB38 *)buf)->unk54 = *(s16 *)((s32)a0 + 0xE);
 
-    func_80017758(buf, p);
+    guess_AddPolyG4(buf, p);
 
     ((Unkstruct_800CBB38 *)buf)->unk0 = 3;
     ((Unkstruct_800CBB38 *)buf)->unk10 = 0;
@@ -63,5 +63,5 @@ void SHARED_FN(void *a0, void *a1) {
     ((Unkstruct_800CBB38 *)buf)->unk2 = 0;
     ((Unkstruct_800CBB38 *)buf)->unk12 = -7;
 
-    func_80017758(buf, p);
+    guess_AddPolyG4(buf, p);
 }

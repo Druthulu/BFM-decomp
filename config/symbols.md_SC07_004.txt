@@ -1,8 +1,9 @@
 // config/symbols.md_SC07_004.txt — module md_SC07_004 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x801A00D8..0x801F9338); NEVER merged into config/symbols.us.txt.
-// count=10
+// count=11
 
 guess_StartActorSequence         = 0x8012A828; // func
+guess_ApplyAccelAndVelocity      = 0x8012AD80; // func
 guess_SetForwardVelocity         = 0x8012B178; // func
 guess_UpdateActorModelMatrix     = 0x8012B2CC; // func
 guess_YawToPoint                 = 0x8012B744; // func

@@ -832,7 +832,7 @@ groups:
     tier: h_exact
     hash: 68f87554bbd9ed1ff5c73d0bd98e75ae090bf3be
     source: src/shared/ov/func_80148F74.h
-    func: func_80148F74
+    func: guess_AnglePlusQuarterTurn
     vram: 0x80148F74
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_80148F80
@@ -860,14 +860,14 @@ groups:
     tier: h_exact
     hash: 68f87554bbd9ed1ff5c73d0bd98e75ae090bf3be
     source: src/shared/ov/func_80148FAC.h
-    func: func_80148FAC
+    func: guess_AnglePlusQuarterTurn_2
     vram: 0x80148FAC
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_80148FB8
     tier: h_exact
     hash: 519baeec66717f14c4083151137e7c2acf8e5722
     source: src/shared/ov/func_80148FB8.h
-    func: func_80148FB8
+    func: guess_AngleMinusQuarterTurn
     vram: 0x80148FB8
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_80148FC4
@@ -888,7 +888,7 @@ groups:
     tier: h_exact
     hash: 519baeec66717f14c4083151137e7c2acf8e5722
     source: src/shared/ov/func_80148FEC.h
-    func: func_80148FEC
+    func: guess_AngleMinusQuarterTurn_2
     vram: 0x80148FEC
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_80148FF8
@@ -2505,7 +2505,7 @@ groups:
     tier: h_exact
     hash: dbbaaf68e47ba2d44ef6ce8357eb293cb79fe4da
     source: src/shared/ov/func_8012B23C.h
-    func: func_8012B23C
+    func: guess_ClearVelocityAndSetGravity
     vram: 0x8012B23C
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_8012C194
@@ -3807,7 +3807,7 @@ groups:
     tier: h_exact
     hash: 784941269e1394b33ac5e2e73a2e05cc62f2c0e3
     source: src/shared/ov/func_8014168C.h
-    func: func_8014168C
+    func: guess_GetMenuPanelCursorIndex
     vram: 0x8014168C
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_8012A048
@@ -4276,7 +4276,7 @@ groups:
     tier: h_exact
     hash: ff4181498ed98557c252a5cea013b25382e55d86
     source: src/shared/ov/func_8012AD80.h
-    func: func_8012AD80
+    func: guess_ApplyAccelAndVelocity
     vram: 0x8012AD80
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_8014891C
@@ -4311,7 +4311,7 @@ groups:
     tier: h_exact
     hash: 7933fb568904ba0dd18f5627f470b75bace7f50c
     source: src/shared/ov/func_801783D0.h
-    func: func_801783D0
+    func: guess_IntToBcd
     vram: 0x801783D0
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_8012B260
@@ -4360,7 +4360,7 @@ groups:
     tier: h_exact
     hash: 97bdbab60ebdcf86295de16b21f3da6bbab0b8ba
     source: src/shared/ov/func_8012B608.h
-    func: func_8012B608
+    func: guess_GetAngleStepToward
     vram: 0x8012B608
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_8013361C
@@ -5053,7 +5053,7 @@ groups:
     tier: h_exact
     hash: 5887ff3a7e641702e88168f5f5317fe865b7c590
     source: src/shared/ov/func_8013767C.h
-    func: func_8013767C
+    func: guess_OpenTextWindow
     vram: 0x8013767C
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_801458E8
@@ -13232,7 +13232,7 @@ groups:
     tier: h_exact
     hash: 280fa04f0709e9f1e81c3ca19b40fdb262ecce3a
     source: src/shared/ov/func_801412A8.h
-    func: func_801412A8
+    func: guess_DrawGaugeBar
     vram: 0x801412A8
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_801EF790
@@ -13337,7 +13337,7 @@ groups:
     tier: h_exact
     hash: d0c883314e834129318911cc73151f97be0ea54b
     source: src/shared/ov/func_80137614.h
-    func: func_80137614
+    func: guess_OpenTextWindowWithFlags
     vram: 0x80137614
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_8016F0E4
@@ -13435,7 +13435,7 @@ groups:
     tier: h_exact
     hash: 7529ad8f17b78ef2f57770ea07d5e53fbb501b5b
     source: src/shared/ov/func_801376E8.h
-    func: func_801376E8
+    func: guess_OpenTextWindowCenteredAt
     vram: 0x801376E8
     binaries: [ov_SC01_077, ov_SC01_005, ov_SC01_006, ov_SC03_001, ov_SC01_000, ov_SC01_001, ov_SC02_000, ov_SC02_003, ov_SC03_002, ov_SC03_006, ov_SC04_000, ov_SC04_018, ov_SC04_019, ov_SC05_000, ov_SC06_000, ov_SC07_000, ov_SC01_004, ov_SC01_008, ov_SC01_009, ov_SC01_074, ov_SC01_080, ov_SC01_084, ov_SC02_004, ov_SC02_005, ov_SC02_011, ov_SC02_015, ov_SC02_016, ov_SC02_017, ov_SC02_021, ov_SC02_026, ov_SC02_027, ov_SC02_028, ov_SC02_031, ov_SC02_035, ov_SC02_039, ov_SC02_041, ov_SC03_003, ov_SC03_007, ov_SC03_010, ov_SC03_011, ov_SC03_012, ov_SC03_013, ov_SC03_014, ov_SC03_015, ov_SC03_023, ov_SC03_024, ov_SC03_028, ov_SC03_029, ov_SC03_030, ov_SC03_031, ov_SC03_089, ov_SC03_090, ov_SC03_091, ov_SC03_092, ov_SC03_093, ov_SC03_094, ov_SC03_095, ov_SC03_096, ov_SC03_097, ov_SC03_098, ov_SC03_099, ov_SC03_100, ov_SC03_101, ov_SC03_102, ov_SC03_103, ov_SC03_104, ov_SC03_105, ov_SC03_108, ov_SC03_109, ov_SC03_110, ov_SC03_111, ov_SC03_112, ov_SC03_113, ov_SC03_114, ov_SC03_115, ov_SC03_116, ov_SC03_117, ov_SC03_118, ov_SC03_119, ov_SC03_121, ov_SC03_124, ov_SC03_125, ov_SC03_126, ov_SC04_002, ov_SC04_003, ov_SC04_004, ov_SC04_005, ov_SC04_006, ov_SC04_007, ov_SC04_008, ov_SC04_009, ov_SC04_010, ov_SC04_011, ov_SC04_012, ov_SC04_015, ov_SC04_016, ov_SC04_020, ov_SC04_021, ov_SC05_001, ov_SC05_002, ov_SC05_003, ov_SC05_004, ov_SC05_005, ov_SC05_006, ov_SC05_007, ov_SC05_008, ov_SC05_009, ov_SC05_010, ov_SC05_011, ov_SC05_017, ov_SC05_018, ov_SC05_019, ov_SC06_006, ov_SC06_008, ov_SC06_010, ov_SC06_011, ov_SC06_013, ov_SC06_014, ov_SC06_015, ov_SC06_016, ov_SC06_018, ov_SC06_020, ov_SC06_022, ov_SC06_024, ov_SC06_025, ov_SC06_027, ov_SC06_029, ov_SC06_030, ov_SC06_032, ov_SC06_033, ov_SC07_001, ov_SC07_002, ov_SC07_008, ov_SC07_009, ov_MAIN_012, ov_SC02_037, ov_SC03_107]
   - id: E_func_80175820
@@ -50273,148 +50273,148 @@ groups:
     source: src/shared/ov/cls_72ad176429c2.h
     func: SHARED_FN
     members:
-      - { binary: ov_MAIN_012, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_000, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_001, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_004, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_005, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_006, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_008, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_009, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_074, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_077, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_080, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC01_084, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_000, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_003, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_004, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_005, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_011, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_015, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_016, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_017, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_021, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_026, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_027, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_028, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_031, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_035, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_037, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_039, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC02_041, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_001, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_002, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_003, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_006, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_007, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_010, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_011, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_012, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_013, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_014, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_015, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_023, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_024, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_028, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_029, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_030, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_031, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_089, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_090, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_091, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_092, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_093, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_094, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_095, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_096, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_097, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_098, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_099, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_100, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_101, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_102, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_103, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_104, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_105, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_107, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_108, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_109, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_110, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_111, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_112, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_113, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_114, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_115, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_116, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_117, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_118, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_119, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_121, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_124, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_125, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC03_126, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_000, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_002, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_003, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_004, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_005, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_006, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_007, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_008, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_009, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_010, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_011, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_012, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_015, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_016, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_018, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_019, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_020, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC04_021, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_000, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_001, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_002, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_003, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_004, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_005, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_006, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_007, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_008, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_009, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_010, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_011, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_017, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_018, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC05_019, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_000, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_006, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_008, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_010, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_011, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_013, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_014, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_015, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_016, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_018, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_020, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_022, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_024, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_025, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_025, vram: 0x801823FC, name: func_801823FC }
-      - { binary: ov_SC06_027, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_029, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_030, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_032, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC06_033, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC07_000, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC07_001, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC07_002, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC07_006, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC07_007, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC07_008, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC07_009, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC07_010, vram: 0x80179B28, name: func_80179B28 }
-      - { binary: ov_SC07_011, vram: 0x80179B28, name: func_80179B28 }
+      - { binary: ov_MAIN_012, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_000, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_001, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_004, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_005, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_006, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_008, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_009, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_074, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_077, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_080, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC01_084, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_000, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_003, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_004, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_005, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_011, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_015, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_016, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_017, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_021, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_026, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_027, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_028, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_031, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_035, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_037, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_039, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC02_041, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_001, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_002, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_003, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_006, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_007, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_010, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_011, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_012, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_013, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_014, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_015, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_023, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_024, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_028, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_029, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_030, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_031, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_089, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_090, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_091, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_092, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_093, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_094, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_095, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_096, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_097, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_098, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_099, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_100, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_101, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_102, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_103, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_104, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_105, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_107, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_108, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_109, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_110, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_111, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_112, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_113, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_114, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_115, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_116, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_117, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_118, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_119, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_121, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_124, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_125, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC03_126, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_000, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_002, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_003, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_004, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_005, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_006, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_007, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_008, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_009, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_010, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_011, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_012, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_015, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_016, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_018, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_019, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_020, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC04_021, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_000, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_001, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_002, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_003, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_004, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_005, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_006, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_007, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_008, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_009, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_010, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_011, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_017, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_018, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC05_019, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_000, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_006, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_008, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_010, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_011, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_013, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_014, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_015, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_016, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_018, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_020, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_022, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_024, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_025, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_025, vram: 0x801823FC, name: guess_CloseTextWindowIfOpen_2 }
+      - { binary: ov_SC06_027, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_029, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_030, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_032, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC06_033, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC07_000, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC07_001, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC07_002, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC07_006, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC07_007, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC07_008, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC07_009, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC07_010, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
+      - { binary: ov_SC07_011, vram: 0x80179B28, name: guess_CloseTextWindowIfOpen }
   - id: X_389779e86bfc
     tier: h_exact
     hash: 389779e86bfcdd20f63e052f46efe291ba3c7a72

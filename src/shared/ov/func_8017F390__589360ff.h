@@ -9,7 +9,7 @@ extern char D_801A7054[];
 extern char D_8018E6B0[];
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32  guess_TickWaitTimer(s32 a0);
-extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32  guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012C098(void *a0);
@@ -49,7 +49,7 @@ void func_8017F390(s32 a0)
         *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) + 1;
         {
             s32 p20 = *(s32 *)(a0 + 0x20);
-            v0 = func_8012B608(*(s16 *)(p20 + 0x12), 0x800, 4);
+            v0 = guess_GetAngleStepToward(*(s16 *)(p20 + 0x12), 0x800, 4);
         }
         {
             s32 p20b = *(s32 *)(a0 + 0x20);

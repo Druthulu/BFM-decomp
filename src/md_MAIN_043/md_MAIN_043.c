@@ -301,16 +301,16 @@ void func_800CD1D4(void) {
 }
 
 
-extern void func_800233CC(void *arg0, u16 arg1);
+extern void guess_BuildCircle12Points(void *arg0, u16 arg1);
 
 void func_800CD1F4(void *a0, void *a1) {
     void *s0;
 
     s0 = a1;
     if (((Unkstruct_80126B58 *)a0)->unk50 == 0) {
-        func_800233CC(s0, 0x40);
+        guess_BuildCircle12Points(s0, 0x40);
     } else {
-        func_800233CC(s0, 0x30);
+        guess_BuildCircle12Points(s0, 0x30);
     }
     *(u8 *)((s32)s0 + 0) = 0;
     *(u8 *)((s32)s0 + 1) = 0;
@@ -455,7 +455,7 @@ void func_800CD404(void *a0) {
 
 extern void func_800CD6D4(void);
 extern s32 func_80012FC8(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 func_8004787C(s32 a0);
+extern s32 rsin(s32 a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_NextStep(void *a0);
 extern u8 D_800CD764[];
@@ -476,7 +476,7 @@ void func_800CD57C(void *arg0) {
     {
         s32 x;
         x = (s16)t;
-        v0 = func_8004787C(x / 10);
+        v0 = rsin(x / 10);
     }
     {
         s32 adj;
@@ -500,13 +500,13 @@ void func_800CD650(void) {
 }
 
 
-extern void func_800233CC(void *arg0, u16 arg1);
+extern void guess_BuildCircle12Points(void *arg0, u16 arg1);
 
 void func_800CD670(s32 arg0, void *arg1)
 {
     s32 t;
 
-    func_800233CC(arg1, 0x40);
+    guess_BuildCircle12Points(arg1, 0x40);
     *(u8 *)(arg1 + 0) = 0;
     *(u8 *)(arg1 + 1) = 0;
     *(u8 *)(arg1 + 2) = 0;

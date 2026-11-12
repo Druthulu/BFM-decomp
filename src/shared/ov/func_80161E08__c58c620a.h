@@ -1,7 +1,7 @@
 /* func_80161E08 — shared body (overlay slot 0x80128158, h_exact c58c620a). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80161E08(s32 param_1) {
-    extern s32 func_80024054(void *a0, void *a1);
+    extern s32 guess_SjisToGlyphCodes(void *a0, void *a1);
     extern void func_8001CE28(void *a0, void *a1);
     extern void func_800242D0(s32 a0, void *a1, s32 a2);
     extern void func_8001CE68(void *a0, void *a1);
@@ -44,7 +44,7 @@ void func_80161E08(s32 param_1) {
 
         if (guess_g_TargetTimeLabel1 == 0) {
             p = D_8018E868[0] = base + 0x65A8;
-            func_80024054(&D_80181D80, &D_8018E874);
+            guess_SjisToGlyphCodes(&D_80181D80, &D_8018E874);
             func_8001CE28(p, &D_8018E874);
             D_800B5C04 = 1;
             D_800B5BFF = 1;
@@ -54,7 +54,7 @@ void func_80161E08(s32 param_1) {
 
         if (guess_g_TargetTimeLabel2 == 0) {
             p = D_8018E868[1] = base + 0x65E0;
-            func_80024054(&D_80181DA0, &D_8018E89C);
+            guess_SjisToGlyphCodes(&D_80181DA0, &D_8018E89C);
             func_8001CE28(p, &D_8018E89C);
             D_800B5C3C = 1;
             D_800B5C37 = 1;

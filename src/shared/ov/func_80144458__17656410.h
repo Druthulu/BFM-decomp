@@ -10,9 +10,9 @@ void func_80144458(void *arg0) {
         temp_v0 = M2C_FIELD(M2C_FIELD(arg0, void **, 0x64), void **, 0x20);
         if (temp_v0 != NULL) {
             temp_s0 = (M2C_FIELD(temp_v0, s16 *, 0x12) - 0x400) & 0xFFF;
-            M2C_FIELD(arg0, s32 *, 0x10) = (s32) (func_80047948(temp_s0) * D_80180BA4 * 0x10);
-            M2C_FIELD(arg0, s32 *, 0x18) = (s32) (func_8004787C(temp_s0) * -D_80180BA4 * 0x10);
-            func_8012AD80(arg0);
+            M2C_FIELD(arg0, s32 *, 0x10) = (s32) (rcos(temp_s0) * D_80180BA4 * 0x10);
+            M2C_FIELD(arg0, s32 *, 0x18) = (s32) (rsin(temp_s0) * -D_80180BA4 * 0x10);
+            guess_ApplyAccelAndVelocity(arg0);
         }
     }
     M2C_FIELD(temp_s2, u16 *, 8) = (u16) M2C_FIELD(arg0, u16 *, 6);

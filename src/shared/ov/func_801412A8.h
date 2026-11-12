@@ -1,6 +1,9 @@
-/* func_801412A8 — shared body (overlay slot 0x80128158, h_exact 280fa04f). ONE source: instantiated by #include at each
+/* guess_DrawGaugeBar — shared body (overlay slot 0x80128158, h_exact 280fa04f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-Prim_1412A8 * func_801412A8(out, a1, a2, a3, a4, a5)
+/* guess_DrawGaugeBar: adds four TILE prims to the ordering table: a bar filled a3 / a2 of 0x5E wide at (a4, a5 + 10) on a dark back, with two edge lines
+ * Confidence medium, code inference: 4 TILE (0x60) prims at OT[2]: fill w = a3*0x5E/a2 (full, blinking colour when a1 or a2 == 0), back 0x5E, edges 0x60 at y+9/y+0xB
+ * Names ledger: config/names.tsv guess_DrawGaugeBar */
+Prim_1412A8 * guess_DrawGaugeBar(out, a1, a2, a3, a4, a5)
     Prim_1412A8 *out;
     int a1;
     int a2;

@@ -10,7 +10,7 @@ void SHARED_FN(s32 arg0)
     sp20 = ((Unkstruct_8017DE30 *)arg0)->unk20;
     temp = ((Unkstruct_8017DE30 *)arg0)->unkFC + 0x22;
     ((Unkstruct_8017DE30 *)arg0)->unkFC = temp;
-    q = func_8004787C(temp) / 0x100;
+    q = rsin(temp) / 0x100;
     ((Unkstruct_8017DE30 *)arg0)->unkA = ((Unkstruct_8017DE30 *)arg0)->unk16 + q;
     ((Unkstruct_8017DE30_2 *)sp20)->unk12 = ((Unkstruct_8017DE30_2 *)sp20)->unk12 + 8;
 }

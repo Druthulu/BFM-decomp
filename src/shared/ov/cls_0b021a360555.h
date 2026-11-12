@@ -9,7 +9,7 @@ s32 param_2;
 
     ((Unkstruct_800B5CB8 *)param_1)->unk106 =
         CAST_SIGN(u16, param_1, 0x106) +
-        func_8012B608(((Unkstruct_800B5CB8 *)param_1)->unk106, func_8012B864(param_1),
+        guess_GetAngleStepToward(((Unkstruct_800B5CB8 *)param_1)->unk106, func_8012B864(param_1),
                       ((Unkstruct_800B5CB8 *)param_1)->unkE8);
     sp30[1] = 0;
     sp30[0] = 0;

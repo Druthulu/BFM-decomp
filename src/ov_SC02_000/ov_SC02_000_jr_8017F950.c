@@ -3,9 +3,9 @@
 
 void func_8017F950(s32 arg0)
 {
-    extern void func_80019064(void *a0);
+    extern void guess_StartPadVibration(void *a0);
     extern void guess_StartActorSequence(s32 a0, void *a1);
-    extern void func_8012B23C(s32 a0);
+    extern void guess_ClearVelocityAndSetGravity(s32 a0);
     extern void guess_UpdateActorModelMatrix(s32 a0);
     extern void func_8012E9C0(s32 a0);
     extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
@@ -24,7 +24,7 @@ void func_8017F950(s32 arg0)
     St801D9204 local = D_801E6A00;
 
     if (((Unkstruct_800B5CB8 *)arg0)->unk5E == 5) {
-        func_80019064(&D_80062BDC);
+        guess_StartPadVibration(&D_80062BDC);
     }
     if (CAST_WIDTH(u16, arg0, 0x5E) == 0x1F) {
         func_80180A64(arg0);
@@ -36,7 +36,7 @@ void func_8017F950(s32 arg0)
     ((Unkstruct_800B5CB8 *)arg0)->unk5C &= 0xFFFE;
     ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = (((Unkstruct_800B5CB8 *)arg0)->unk62 + 0x800) & 0xFFF;
     guess_UpdateActorModelMatrix(arg0);
-    func_8012B23C(arg0);
+    guess_ClearVelocityAndSetGravity(arg0);
     ((Unkstruct_800B5CB8 *)arg0)->unk2 = 3;
     guess_SpawnActorType1C(arg0, 0);
     switch (((Unkstruct_800B5CB8 *)arg0)->unk5E) {

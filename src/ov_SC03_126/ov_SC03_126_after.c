@@ -1650,7 +1650,7 @@ extern void (*D_80180FBC[])(void);
 #include "../shared/ov/func_80152094.h"
 
 
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
@@ -1692,7 +1692,7 @@ void func_80152370(void *a0) {
 
 
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern int func_80151204(int arg, int a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
@@ -1739,7 +1739,7 @@ extern void (*D_80181004[])(void);
 #include "../shared/ov/func_80152868.h"
 
 
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
@@ -1791,7 +1791,7 @@ extern void (*D_80181034[])(void);
 #include "../shared/ov/func_80152D60.h"
 
 
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
@@ -1891,7 +1891,7 @@ extern void (*D_8018105C[])(void);
 
 // @class: struct
 // @stuck: none — MATCH (expected); dispatch-table %lo-fold via extern fn-ptr array, s0 holds param across both calls
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 D_80181070;
 extern void (*D_80181098[])(void *a0);
 extern s16 D_8011DB0C;

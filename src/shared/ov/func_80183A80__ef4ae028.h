@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s16 D_8018EDD0[];
 extern u8 D_801A7CB0;
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 void func_80183A80(s32 a0) {
     s16 v;
@@ -15,7 +15,7 @@ void func_80183A80(s32 a0) {
             v = -d;
         }
         if (v < 0x180) {
-            *(s32 *)(a0 + 0x198) = func_8013767C((s32)&D_801A7CB0);
+            *(s32 *)(a0 + 0x198) = guess_OpenTextWindow((s32)&D_801A7CB0);
             switch (*(u8 *)(a0 + 0x20C)) {
             case 0:
                 guess_PlaySoundUnlessSkipped(0x5A1);

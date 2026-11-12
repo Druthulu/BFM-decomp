@@ -3,7 +3,7 @@
 extern u8 D_80062BF4[];
 extern M2C_UNK D_800D5880;
 extern s32 D_800D58AC;
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
 extern int func_80151204(int arg, int a1);
 extern s32 func_80012A60(s32 a0, s32 a1);
@@ -17,7 +17,7 @@ void func_801519C8(s32 arg0) {
     u8 v1;
     u8 de;
     s32 v0w;
-    func_80019064(&D_80062BF4);
+    guess_StartPadVibration(&D_80062BF4);
     v1 = *(u8 *)(arg0 + 0xDD);
     if (v1 != 1 && v1 == 0x11) {
         s16 v0 = *(s16 *)(arg0 + 0xF2);

@@ -275,8 +275,8 @@ extern s16 func_8012A758(void);
 extern void func_80013694(s16 a0, void *a1, void *a2);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
 extern void func_80015954(void *a0, s32 a1);
-extern s32 func_8004787C(s32 a0);
-extern s32 func_80047948(s32 a0);
+extern s32 rsin(s32 a0);
+extern s32 rcos(s32 a0);
 extern u8 D_800CD6BC[];
 
 void func_800CD204(s32 arg0) {
@@ -298,12 +298,12 @@ void func_800CD204(s32 arg0) {
     t = sp10[1] - 0x20;
     sp10[1] = t + ((Unkstruct_800CD204_2 *)w)->unk4C;
     sp10[2] = sp10[2] + ((Unkstruct_800CD204_2 *)w)->unk50;
-    v1 = func_80047948(((Unkstruct_800CD204 *)arg0)->unk60);
+    v1 = rcos(((Unkstruct_800CD204 *)arg0)->unk60);
     if (v1 < 0) {
         v1 += 0x1FF;
     }
     sp10[0] = sp10[0] + (v1 >> 9);
-    v1 = func_8004787C(((Unkstruct_800CD204 *)arg0)->unk60);
+    v1 = rsin(((Unkstruct_800CD204 *)arg0)->unk60);
     if (v1 < 0) {
         v1 += 0xFF;
     }

@@ -14,7 +14,7 @@ s32 func_80140608(s32 a0) {
         if (t != 0) {
             return uVar5;
         }
-        func_80019064(&D_80062BDC);
+        guess_StartPadVibration(&D_80062BDC);
         return uVar5;
     case 1:
         func_80028E00((s16)(func_80028DE0() ^ 1));

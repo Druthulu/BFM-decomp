@@ -1,6 +1,6 @@
 /* func_80160410 — shared body (overlay slot 0x80128158, h_exact 6a51c7ff). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void func_80149020(s32 *a0);
 extern void func_80013E94(void *a0, void *a1);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -19,7 +19,7 @@ void func_80160410(s32 * a0)
     s32 m1[3];
     s32 out[12];
     u32 buf[2];
-    func_80019064((void *)&guess_g_RumblePatternShort);
+    guess_StartPadVibration((void *)&guess_g_RumblePatternShort);
     func_80149020(a0);
     {
         s32 t = (s32)(*(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12));

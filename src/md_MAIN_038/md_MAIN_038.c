@@ -368,7 +368,7 @@ void func_800CB780(s32 param_1) {
         ((Unkstruct_800CB780 *)buf)->unk14 = *p++;
         ((Unkstruct_800CB780 *)buf)->unk18 = *p++;
         ((Unkstruct_800CB780 *)buf)->unk1C = *p--;
-        func_80017758(buf, (void *)(param_1 + 0x38));
+        guess_AddPolyG4(buf, (void *)(param_1 + 0x38));
         i++;
     } while (i < 4);
 }
@@ -465,7 +465,7 @@ void func_800CBA0C(s32 param_1) {
         ((Unkstruct_800CBA0C *)buf)->unk12 = *p++;
         ((Unkstruct_800CBA0C *)buf)->unk18 = *p++;
         ((Unkstruct_800CBA0C *)buf)->unk1A = *p--;
-        func_80017758(buf, (void *)(param_1 + 0x38));
+        guess_AddPolyG4(buf, (void *)(param_1 + 0x38));
         i++;
     } while (i < 4);
 }

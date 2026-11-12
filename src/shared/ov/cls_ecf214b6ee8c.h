@@ -6,6 +6,6 @@
 void SHARED_FN(s32 arg0)
 {
     extern u16 guess_g_FrameCounter;
-    extern s32 func_8004787C(s32 a0);
-    ((Unkstruct_80180488 *)*(s32 *)(arg0 + 0x20))->unk10 = (u32)func_8004787C(guess_g_FrameCounter * 48) >> 5;
+    extern s32 rsin(s32 a0);
+    ((Unkstruct_80180488 *)*(s32 *)(arg0 + 0x20))->unk10 = (u32)rsin(guess_g_FrameCounter * 48) >> 5;
 }

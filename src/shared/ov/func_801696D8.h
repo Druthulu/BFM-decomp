@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 void func_801696D8(s32 a0, s32 a1) {
     void *arg0 = (void *)a0;
     void *arg1 = (void *)a1;
@@ -49,7 +49,7 @@ void func_801696D8(s32 a0, s32 a1) {
     *(s32 *)(buf + 0x4c) = (s32)*(s16 *)((u8 *)arg0 + 6);   /* 0x5C */
     *(s32 *)(buf + 0x50) = (s32)*(s16 *)((u8 *)arg0 + 0xa); /* 0x60 */
     *(s32 *)(buf + 0x54) = (s32)*(s16 *)((u8 *)arg0 + 0xe); /* 0x64 */
-    func_80017758(buf + 0x00, p);
+    guess_AddPolyG4(buf + 0x00, p);
     *(s16 *)(buf + 0x00) = 2;    /* 0x10 */
     *(s16 *)(buf + 0x10) = 0;    /* 0x20 */
     *(s16 *)(buf + 0x08) = 0;    /* 0x18 */
@@ -58,5 +58,5 @@ void func_801696D8(s32 a0, s32 a1) {
     *(s16 *)(buf + 0x1a) = 0;    /* 0x2A */
     *(s16 *)(buf + 0x02) = 0;    /* 0x12 */
     *(s16 *)(buf + 0x12) = -8;   /* 0x22 */
-    func_80017758(buf + 0x00, p);
+    guess_AddPolyG4(buf + 0x00, p);
 }

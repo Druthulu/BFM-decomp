@@ -23,7 +23,7 @@ void func_801431E8(s32 param_1) {
         *(u32 *)(d + 4) = *(u32 *)(d + 4) | 0x50000000;
         if (func_8012E504(param_1, 0x33) == 0) {
             *(s16 *)(param_1 + 0xfc) = 1;
-            func_800233CC(&D_8018E7C8, 0x10);
+            guess_BuildCircle12Points(&D_8018E7C8, 0x10);
             memcpy(&D_8018E7CC, buf, 4);
         } else {
             *(s16 *)(param_1 + 0xfc) = 0;

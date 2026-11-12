@@ -18,7 +18,7 @@ INCLUDE_ASM("asm/nonmatchings/libgte25", FGO_02_OBJ_160);
 
 /* RotMatrixZYX: PsyQ libgte: builds a rotation MATRIX from SVECTOR angles, applied in Z, Y, X order
  * Cited, library symbol: linked PsyQ symbol at this address (build/us/SLUS_007.26.map)
- * Names ledger: config/names.tsv RotMatrixZYX; Citation: build/us/SLUS_007.26.map:2073 (RotMatrixZYX, linked PsyQ libgte object) */
+ * Names ledger: config/names.tsv RotMatrixZYX; Citation: build/us/SLUS_007.26.map:2075 (RotMatrixZYX, linked PsyQ libgte object) */
 INCLUDE_ASM("asm/nonmatchings/libgte25", RotMatrixZYX);
 
 INCLUDE_ASM("asm/nonmatchings/libgte25", FGO_03_OBJ_64);

@@ -3,6 +3,6 @@
 void func_8015FD74(int param_1)
 {
     ((int (*)(int))guess_PlaySoundUnlessSkipped)(0x18);
-    *(int *)(param_1 + 0x198) = func_8013767C(D_80181C70[*(unsigned char *)(param_1 + 0x1a0)]);
+    *(int *)(param_1 + 0x198) = guess_OpenTextWindow(D_80181C70[*(unsigned char *)(param_1 + 0x1a0)]);
     ((int (*)(int))guess_NextStep)(param_1);
 }

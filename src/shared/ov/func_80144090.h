@@ -4,8 +4,8 @@ extern s32 func_80010A08(s32);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
-extern s32 func_8004787C(s32 a0);
-extern s32 func_80047948(s32 a0);
+extern s32 rsin(s32 a0);
+extern s32 rcos(s32 a0);
 extern s32 AddPrim(s32, void *);
 void func_80144090(s32 param_1) {
     extern OtBlk D_800A651C[];
@@ -47,13 +47,13 @@ void func_80144090(s32 param_1) {
                 *(s16 *)((u8 *)iVar1 + 8) = L.sxy[0];
                 *(s16 *)((u8 *)iVar1 + 0xa) = L.sxy[1];
             } else {
-                iVar5 = func_8004787C(iVar6);
+                iVar5 = rsin(iVar6);
                 *(s16 *)((u8 *)iVar1 + 8) = L.sxy[0] + ((iVar5 * ((*(s32 *)(param_1 + 0x1c) - 6) << 4)) >> 0xc);
-                iVar5 = func_80047948(iVar6);
+                iVar5 = rcos(iVar6);
                 *(s16 *)((u8 *)iVar1 + 0xa) = L.sxy[1] + ((iVar5 * ((*(s32 *)(param_1 + 0x1c) - 6) << 4)) >> 0xc);
             }
-            iVar3 = func_8004787C(iVar6) * (*(s32 *)(param_1 + 0x1c) << 4);
-            iVar4 = func_80047948(iVar6) * (*(s32 *)(param_1 + 0x1c) << 4);
+            iVar3 = rsin(iVar6) * (*(s32 *)(param_1 + 0x1c) << 4);
+            iVar4 = rcos(iVar6) * (*(s32 *)(param_1 + 0x1c) << 4);
             iVar6 = iVar6 + 0x100;
             *(s16 *)((u8 *)iVar1 + 0x10) = L.sxy[0] + ((iVar3 + (iVar4 >> 6)) >> 0xc);
             *(s16 *)((u8 *)iVar1 + 0x12) = L.sxy[1] + ((iVar4 + (iVar3 >> 6)) >> 0xc);

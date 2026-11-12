@@ -69,7 +69,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         f.v[2].y = (s8)*p++;
         f.v[3].x = (s8)*p++;
         f.v[3].y = (s8)*p--;
-        func_80017758(f.v, f.m1);
+        guess_AddPolyG4(f.v, f.m1);
     } while ((i = i + 1) < 4);
 
     p = D_80182168;
@@ -91,7 +91,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         f.v[2].z = (s8)*p++;
         f.v[3].x = (s8)*p++;
         f.v[3].z = (s8)*p--;
-        func_80017758(f.v, (void *)(ent + 0x38));
+        guess_AddPolyG4(f.v, (void *)(ent + 0x38));
     } while ((i = i + 1) < 4);
 
     if (*(s32 *)(ent + 0x30) > 0) {
@@ -128,7 +128,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
             f.v[2].y = (s8)*p++;
             f.v[3].x = (s8)*p++;
             f.v[3].y = (s8)*p--;
-            func_80017758(f.v, f.m1);
+            guess_AddPolyG4(f.v, f.m1);
         } while ((i = i + 1) < 8);
     }
 }

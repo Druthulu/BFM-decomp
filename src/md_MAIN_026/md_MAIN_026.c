@@ -168,7 +168,7 @@ void func_800CB190(void *arg0) {
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_80146578(void);
 extern void func_8001CD9C(int a0, void *a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void guess_NextStep(void *a0);
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
 
@@ -196,7 +196,7 @@ void func_800CB278(s32 param_1)
     ivar3 = iVar1;
     if (iVar1 != 0) {
         func_8001CD9C(iVar1, (void *)base);
-        func_800233CC((void *)base, 0x80);
+        guess_BuildCircle12Points((void *)base, 0x80);
         *(s16 *)(iVar1 + 0x18) = 0;
         *(s16 *)(iVar1 + 0x1a) = 0;
         CAST_ALIAS(s16, param_1, 0x60) = 0;

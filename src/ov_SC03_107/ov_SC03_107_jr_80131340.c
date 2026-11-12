@@ -242,7 +242,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 func_8012AD50(void * arg0);
 extern void func_8012AD64(s32 *a0, s16 a1);
 extern void func_8012AD6C(void *a0);
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void func_8012ADE4(u8 *a0);
 extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
@@ -253,8 +253,8 @@ extern s32 func_8012AE00(s32 a0);
 extern s32 func_8012AF0C(s32 a0, s32 a1);
 extern s32 func_80134510(s32 arg);
 extern s32 guess_SnapActorToGround(u8 *a0);
-extern int func_80047948(int a0);
-extern int func_8004787C(int a0);
+extern int rcos(int a0);
+extern int rsin(int a0);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
@@ -262,7 +262,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void func_8012B1B4(s32 a0, s32 a1);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B21C(void *a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012B260(u8 *a0);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
@@ -275,13 +275,13 @@ extern void RotMatrixX(int r, void *m);
 extern void RotMatrixY(int r, void *m);
 extern void RotMatrixZ(int r, void *m);
 extern s32 func_8012B4B8(int param_1);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern s32 ratan2(s32 x, s32 y);
 extern s32 guess_YawToPoint(void *a0, void *a1);
-extern s32 func_80047948(s32 a0); /* rsin-like: angle (0..0xFFF) -> 1.12 fixed */
-extern s32 func_8004787C(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed */
+extern s32 rcos(s32 a0); /* rsin-like: angle (0..0xFFF) -> 1.12 fixed */
+extern s32 rsin(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed */
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 extern s16 D_80126CB8;
 extern s16 D_80126CB4;
@@ -426,7 +426,7 @@ extern void func_8012E8C4(u8 *a0);
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern void func_8016AA50(int, int);
 extern s32 func_8016B428(s32);
-extern void func_80019064(void *);
+extern void guess_StartPadVibration(void *);
 extern void func_8012E9C0(int param_1);
 extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -605,7 +605,7 @@ extern s32 func_801312D0(s32 param_1, void *param_2);
 //   - func_80131E00: canonical takes `struct S80131E00 *` -> declared K&R no-proto here
 //     (compatible with the prototyped decl at L1250; params are promotion-safe: ptr + s32),
 //     matching the TU's own precedent `extern void guess_CallActorEventHandler();` at L1189.
-//   - func_8012B23C / func_8012CC64 / func_8012CEB0 / func_8012DBD0 / func_8012CBF4 are
+//   - guess_ClearVelocityAndSetGravity / func_8012CC64 / func_8012CEB0 / func_8012DBD0 / func_8012CBF4 are
 //     DEFINE_-instantiated ABOVE this slot — the decls here are exact-identical
 //     redeclarations (legal C), not new sigs.
 //   - guess_LookupIdValue is declared 2-arg `(int,int)`, mirroring func_801312D0's already-matched
@@ -698,7 +698,7 @@ void func_80131340(s32 a0)
             CAST_WIDTH(s32, a0, 0x10) = 0;
         }
         if (D_8019A730 & 0x4000) {
-            func_8012B23C(a0);
+            guess_ClearVelocityAndSetGravity(a0);
             ((Unkstruct_800B5CB8 *)a0)->unkC2 = 4;
         } else if (D_8019A730 & 0x2000) {
             if (((int(*)(int, int))guess_HandleActorEventDefault)(a0, D_8019A730) == 1) {
@@ -732,7 +732,7 @@ void func_80131340(s32 a0)
             CAST_WIDTH(s32, a0, 0x10) = 0;
         }
         if (D_8019A730 & 0x4000) {
-            func_8012B23C(a0);
+            guess_ClearVelocityAndSetGravity(a0);
             ((Unkstruct_800B5CB8 *)a0)->unkC2 = 4;
         } else if (D_8019A730 & 0x2000) {
             if (((int(*)(int, int))guess_HandleActorEventDefault)(a0, D_8019A730) == 1) {
@@ -776,7 +776,7 @@ void func_80131340(s32 a0)
                 CAST_WIDTH(s32, a0, 0x10) = 0;
             }
             if (D_8019A730 & 0x4000) {
-                func_8012B23C(a0);
+                guess_ClearVelocityAndSetGravity(a0);
                 ((Unkstruct_800B5CB8 *)a0)->unkC2 = 4;
                 break;
             } else if (D_8019A730 & 0x2000) {
@@ -865,8 +865,8 @@ void func_80131340(s32 a0)
 #include "../shared/ov/func_80131AC8.h"
 
 
-extern void func_80019064(void *a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_StartPadVibration(void *a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void func_8016AA50(int, int);
 extern s32 func_8016B428(s32);
@@ -876,7 +876,7 @@ extern s32 func_8016B428(s32);
 //   (ov_SC01_077_a.c L1676/L1756; callers cast to (void(*)(int)) when passing p), so the def MUST be
 //   (void) or cc1 hard-errors `conflicting types` (exit 33). §42c lever #6: capture incoming $a0 into a
 //   NORMAL pseudo (`register u8 *a0v __asm__("$4"); u8 *p = a0v;`) so p gets a callee-saved home ($s0).
-//   guess_UpdateActorModelMatrix/func_8012B23C are file-scope DEFINE'd here (split L740/L744) as void(s32) — do NOT redeclare;
+//   guess_UpdateActorModelMatrix/guess_ClearVelocityAndSetGravity are file-scope DEFINE'd here (split L740/L744) as void(s32) — do NOT redeclare;
 //   the (void(*)(void*)) cast on the bare name is byte-neutral. Body keys: e(0x5E) as s32 not u8 (kills the
 //   compare-time andi 0xff); f76 dual-width via per-access casts (lhu in the decrement, lh in the <=0 compare);
 //   the p->f20 reload split into TWO separate temps so the 2nd load takes $v0 not $v1.
@@ -910,7 +910,7 @@ void func_80131B14(void) {
         ((void (*)(void *))func_8016AA50)(p);
         if (CAST_SIGN(u16, p, 0x82) & 1) {
             ((void (*)(void *))func_8016B428)(p);
-            ((void(*)(void *))func_80019064)(&D_80182968);
+            ((void(*)(void *))guess_StartPadVibration)(&D_80182968);
         }
     }
 
@@ -934,7 +934,7 @@ void func_80131B14(void) {
     }
 
     ((void (*)(void *))guess_UpdateActorModelMatrix)(p);
-    ((void (*)(void *))func_8012B23C)(p);
+    ((void (*)(void *))guess_ClearVelocityAndSetGravity)(p);
 }
 
 

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
-    extern void func_80017758(void *a0, void *a1);
+    extern void guess_AddPolyG4(void *a0, void *a1);
     extern u8 D_80182360;
     extern u8 D_80182374[];
 
@@ -50,7 +50,7 @@ L1:
         fr.v[2].y = (s8)*p++;
         fr.v[3].x = (s8)*p++;
         fr.v[3].y = (s8)*p--;
-        func_80017758(fr.v, fr.matrix);
+        guess_AddPolyG4(fr.v, fr.matrix);
         t = i + 1;
         i = t + 0;
         if ((s16)t < 4) goto L1;
@@ -70,7 +70,7 @@ L2:
         fr.v[2].z = (s8)*p++;
         fr.v[3].x = (s8)*p++;
         fr.v[3].z = (s8)*p--;
-        func_80017758(fr.v, fr.matrix);
+        guess_AddPolyG4(fr.v, fr.matrix);
         if ((s16)i == 1) {
             fr.v[1].z = 0x20;
             p += 2;
@@ -91,7 +91,7 @@ L3:
         fr.v[2].z = (s8)*p++;
         fr.v[3].x = (s8)*p++;
         fr.v[3].z = (s8)*p++;
-        func_80017758(fr.v, fr.matrix);
+        guess_AddPolyG4(fr.v, fr.matrix);
         t = i + 1;
         i = t + 0;
         if ((s16)t < 2) goto L3;

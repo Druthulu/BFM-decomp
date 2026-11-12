@@ -52,7 +52,7 @@ s32 func_8013F350(void) {
 
     switch (guess_g_MenuPanel) { /* jtbl_801D8860 */
     case 0:
-        r = ((s32 (*)(s32))func_8014168C)(0);
+        r = ((s32 (*)(s32))guess_GetMenuPanelCursorIndex)(0);
         rs = (s16)r;
         if ((guess_TestGameFlag(D_8017FB60[rs]) & 0xFF) != 0 && (guess_g_MenuPadPressed & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
@@ -65,7 +65,7 @@ s32 func_8013F350(void) {
         break;
     case 1:
         if ((guess_g_MenuPadPressed & 0x40) != 0) {
-            guess_g_MenuCategory = ((s32 (*)(s32))func_8014168C)(1) + 1;
+            guess_g_MenuCategory = ((s32 (*)(s32))guess_GetMenuPanelCursorIndex)(1) + 1;
             guess_g_MenuPanel = 2;
             func_80141C0C(3);
             return 1;
@@ -79,7 +79,7 @@ s32 func_8013F350(void) {
         case 0:
             break;
         case 1:
-            r = ((s32 (*)(s32))func_8014168C)(2);
+            r = ((s32 (*)(s32))guess_GetMenuPanelCursorIndex)(2);
             pf = &guess_g_MenuPadPressed;
             if ((*pf & 0x40) != 0) {
                 if ((*(s16 *)&guess_g_MenuSwapSlot) == 0) {
@@ -228,7 +228,7 @@ s32 func_8013F350(void) {
             }
         }
         if (guess_g_MenuPanel == 1) {
-            guess_g_MenuCategory = ((s32 (*)(s32))func_8014168C)(1) + 1;
+            guess_g_MenuCategory = ((s32 (*)(s32))guess_GetMenuPanelCursorIndex)(1) + 1;
             if ((guess_g_MenuPadPressed & 0x5000) != 0) {
                 D_8011514C = 0;
             }

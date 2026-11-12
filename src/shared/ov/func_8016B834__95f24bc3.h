@@ -10,7 +10,7 @@ int func_8016B834(int param_1, int param_2) {
     iVar1 = ((int (*)(void))guess_AllocSpriteObject)();
     if (iVar1 != 0) {
         func_8001CD9C(iVar1, puVar2);
-        func_800233CC(puVar2, D_801824A0[param_2]);
+        guess_BuildCircle12Points(puVar2, D_801824A0[param_2]);
         puVar2[0] = *(int *)((int)puVar3 + param_2 * 8);
         puVar2[1] = *(int *)((int)puVar3 + param_2 * 8 + 4);
         *(unsigned int *)(iVar1 + 4) = *(unsigned int *)(iVar1 + 4) | 0x50040000;

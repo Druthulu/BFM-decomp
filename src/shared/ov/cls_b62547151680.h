@@ -13,17 +13,17 @@ s32 SHARED_FN(s32 param_1, s32 param_2)
     sv1.vx = ((Unkstruct_8017EC48 *)param_1)->unk6;
     sv1.vy = ((Unkstruct_8017EC48 *)param_1)->unkA + -0x20;
     sv1.vz = ((Unkstruct_8017EC48 *)param_1)->unkE;
-    iVar1 = func_8004787C(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
+    iVar1 = rsin(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
     iVar3 = (short)param_2;
     sv2.vy = sv1.vy;
     sv2.vx = sv1.vx - (short)(iVar1 * iVar3 >> 0xc);
-    iVar1 = func_80047948(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
+    iVar1 = rcos(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
     sv2.vz = sv1.vz - (short)(iVar1 * iVar3 >> 0xc);
     uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
     if ((uVar2 & 0x8000) != 0) {
-        iVar1 = func_8004787C(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
+        iVar1 = rsin(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
         ((Unkstruct_8017EC48 *)param_1)->unk6 = sv2.vx + (short)(iVar1 * iVar3 >> 0xc);
-        iVar1 = func_80047948(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
+        iVar1 = rcos(*(unsigned short *)(((Unkstruct_8017EC48 *)param_1)->unk20 + 0x12) & 0xfff);
         ((Unkstruct_8017EC48 *)param_1)->unkE = sv2.vz + (short)(iVar1 * iVar3 >> 0xc);
         return 1;
     }

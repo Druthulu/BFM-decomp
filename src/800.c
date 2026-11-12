@@ -11,8 +11,8 @@ typedef Unkstruct_80078E78 Blk98_80029274; /* P38 T3: folded onto the canonical 
       /* 0x08 */
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 
-extern s32 func_8004787C(s32 angle);
-extern s32 func_80047948(s32 angle);
+extern s32 rsin(s32 angle);
+extern s32 rcos(s32 angle);
 extern void func_8001282C(void *a0);
 
 void func_800123F0(s32 param_1, s32 param_2)
@@ -27,8 +27,8 @@ void func_800123F0(s32 param_1, s32 param_2)
     s1 = (s32)param_1;
     s0 = param_2;
 
-    sin_val = func_8004787C(s0);
-    cos_val = func_80047948(s0);
+    sin_val = rsin(s0);
+    cos_val = rcos(s0);
 
     /* Build Z-rotation matrix on stack */
     v1 = -sin_val;
@@ -47,8 +47,8 @@ void func_800123F0(s32 param_1, s32 param_2)
     func_8001282C(s1);
 }
 
-extern s32 func_8004787C(s32 angle);
-extern s32 func_80047948(s32 angle);
+extern s32 rsin(s32 angle);
+extern s32 rcos(s32 angle);
 extern void func_8001282C(void *a0);
 
 void func_80012558(s32 param_1, s32 param_2)
@@ -63,8 +63,8 @@ void func_80012558(s32 param_1, s32 param_2)
     s1 = (s32)param_1;
     s0 = param_2;
 
-    sin_val = func_8004787C(s0);
-    cos_val = func_80047948(s0);
+    sin_val = rsin(s0);
+    cos_val = rcos(s0);
 
     /* Build rotation matrix on stack */
     v1 = 0x1000;
@@ -83,8 +83,8 @@ void func_80012558(s32 param_1, s32 param_2)
     func_8001282C(s1);
 }
 
-extern s32 func_8004787C(s32 angle);
-extern s32 func_80047948(s32 angle);
+extern s32 rsin(s32 angle);
+extern s32 rcos(s32 angle);
 extern void func_8001282C(void *a0);
 
 void func_800126C4(s32 param_1, s32 param_2)
@@ -99,8 +99,8 @@ void func_800126C4(s32 param_1, s32 param_2)
     s1 = (s32)param_1;
     s0 = param_2;
 
-    sin_val = func_8004787C(s0);
-    cos_val = func_80047948(s0);
+    sin_val = rsin(s0);
+    cos_val = rcos(s0);
 
     /* Build X-rotation matrix on stack */
     v1 = 0x1000;
@@ -578,8 +578,8 @@ s32 func_80013478(void) {
 }
 
 extern void func_80013F3C(void *ptr);
-extern s32 func_8004787C(s32 angle);
-extern s32 func_80047948(s32 angle);
+extern s32 rsin(s32 angle);
+extern s32 rcos(s32 angle);
 extern void func_8001282C(void *a0);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
@@ -593,8 +593,8 @@ void func_800134FC(s16 param_1, s32 param_2, s32 param_3)
 
     func_80013F3C(m0);
 
-    sin_val = func_8004787C(param_1);
-    cos_val = func_80047948(param_1);
+    sin_val = rsin(param_1);
+    cos_val = rcos(param_1);
 
     v1 = 0x1000;
     ((Unkstruct_800134FC *)m1)->unk0 = v1;
@@ -615,8 +615,8 @@ void func_800134FC(s16 param_1, s32 param_2, s32 param_3)
 }
 
 extern void func_80013F3C(void *ptr);
-extern s32 func_8004787C(s32 angle);
-extern s32 func_80047948(s32 angle);
+extern s32 rsin(s32 angle);
+extern s32 rcos(s32 angle);
 extern void func_8001282C(void *a0);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 
@@ -631,8 +631,8 @@ void func_80013694(s16 angle, void *a1, void *a2)
     s16 *matp;
 
     func_80013F3C(matrix);
-    sin_val = func_8004787C(angle);
-    cos_val = func_80047948(angle);
+    sin_val = rsin(angle);
+    cos_val = rcos(angle);
 
     v = 0x1000;
     rot[0] = v;
@@ -664,8 +664,8 @@ void func_80013694(s16 angle, void *a1, void *a2)
 }
 
 extern void func_80013F3C(void *ptr);
-extern s32 func_8004787C(s32 angle);
-extern s32 func_80047948(s32 angle);
+extern s32 rsin(s32 angle);
+extern s32 rcos(s32 angle);
 extern void func_8001282C(void *a0);
 extern void ApplyMatrixLV();
 
@@ -679,8 +679,8 @@ void func_8001382C(s16 angle, void *a1, void *a2)
     void *rotp;
 
     func_80013F3C(matrix);
-    sin_val = func_8004787C(angle);
-    cos_val = func_80047948(angle);
+    sin_val = rsin(angle);
+    cos_val = rcos(angle);
 
     v1 = 0x1000;
     ((Unkstruct_8001382C *)rot)->unk4 = sin_val;
@@ -736,8 +736,8 @@ void func_800139C8(s16 param_1, void *param_2, void *param_3)
     MTX_139C8 rotm;
 
     func_80013F3C(&ident);
-    sin_val = func_8004787C(param_1);
-    cos_val = func_80047948(param_1);
+    sin_val = rsin(param_1);
+    cos_val = rcos(param_1);
 
     rotm.m[0][2] = sin_val;
     rotm.m[1][0] = rotm.m[0][1] = 0;
@@ -766,8 +766,8 @@ void func_800139C8(s16 param_1, void *param_2, void *param_3)
 }
 
 extern void func_80013F3C(void *ptr);
-extern s32 func_8004787C(s32 angle);
-extern s32 func_80047948(s32 angle);
+extern s32 rsin(s32 angle);
+extern s32 rcos(s32 angle);
 extern void func_8001282C(void *a0);
 extern void ApplyMatrixLV();
 
@@ -782,8 +782,8 @@ void func_80013B64(s32 param_1, s32 param_2, s32 param_3)
     s16 *matp;
 
     func_80013F3C(matrix);
-    sin_val = func_8004787C((s16)param_1);
-    cos_val = func_80047948((s16)param_1);
+    sin_val = rsin((s16)param_1);
+    cos_val = rcos((s16)param_1);
 
     v1 = -sin_val;
     rot[0] = cos_val;
@@ -829,8 +829,8 @@ void func_80013CFC(short param_1, void *param_2, void *param_3)
     s16 *matp;
 
     func_80013F3C(matrix);
-    sin_val = func_8004787C(param_1);
-    cos_val = func_80047948(param_1);
+    sin_val = rsin(param_1);
+    cos_val = rcos(param_1);
 
     v1 = -sin_val;
     ((Unkstruct_80013CFC *)rot)->unk0 = cos_val;
@@ -3910,7 +3910,10 @@ void func_80017738(void *a0, s32 a1)
     func_80017778(a0, a1, 1);
 }
 
-void func_80017758(void *a0, s32 a1)
+/* guess_AddPolyG4: builds a POLY_G4 from the quad a0 (projected with matrix a1 when non-zero) and submits it through func_80018094
+ * Confidence medium, xref chain: func_80017778(a0, a1, 0): SetPolyG4, RotTransPers4 when a1, then func_80018094 (arg2 0), the submit every prim builder of src/800.c uses
+ * Names ledger: config/names.tsv guess_AddPolyG4 */
+void guess_AddPolyG4(void *a0, s32 a1)
 {
     func_80017778(a0, a1, 0);
 }
@@ -5097,7 +5100,10 @@ extern s32 D_800747C0;
 extern u8 D_800747C4;
 extern u8 D_800747C5;
 
-void func_80019064(void *a0)
+/* guess_StartPadVibration: starts the 3-byte-step sequence a0 that func_800190AC plays into port 1's actuator bytes, unless D_800747C8 or D_800B9A64 is set
+ * Confidence medium, xref chain: D_800747C0 = a0, index 0xFF, count 0; func_800190AC copies {b0, b1} per step to D_80078DE3/DE2, port 1 +0x4B/+0x4A, which PadSetAct gets
+ * Names ledger: config/names.tsv guess_StartPadVibration */
+void guess_StartPadVibration(void *a0)
 {
     if (D_800747C8 != 0) return;
     if (D_800B9A64 != 0) return;
@@ -10469,7 +10475,7 @@ void func_8001FB8C(s32 *a0, s32 *a1)
  *   (b) declares `D_80074818` / `D_80075018` at BLOCK scope inside the function.
  * Measured after the change: cc1 rc=0, exactly 4 added warnings, 0 errors, and the
  * whole-TU .text is BYTE-IDENTICAL to the all-INCLUDE_ASM build once the linker
- * resolves D_1F800020 (= 0x1F800020, per build/us/SLUS_007.26.map:4871) — no other
+ * resolves D_1F800020 (= 0x1F800020, per build/us/SLUS_007.26.map:4873) — no other
  * function in src/800.c shifts by a byte.  Nothing in src/ needs touching.
  *
  * The callee externs stay deliberately UNPROTOTYPED `f()` forms (C89-compatible
@@ -12915,14 +12921,17 @@ void func_80023138(s32 *arg0, u8 *col, u8 *pts, u32 *ot)
 }
 
 
-extern s32 func_8004787C(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed */
-extern s32 func_80047948(s32 a0); /* rsin-like: angle (0..0xFFF) -> 1.12 fixed */
+extern s32 rsin(s32 a0); /* PsyQ libgte rsin (GEO_00.o): angle (0..0xFFF) -> 1.12 fixed; was labelled rcos-like */
+extern s32 rcos(s32 a0); /* PsyQ libgte rcos (GEO_01.o): angle (0..0xFFF) -> 1.12 fixed; was labelled rsin-like */
 
 
 
 /* Builds a 12-gon of radius a1 into the u16{x,y} table at obj+0x10:
  * quarter arc (4 pts, angle step 0x155), mirrored in y, then in x. */
-void func_800233CC(Poly12Obj *a0, u16 a1) {
+/* guess_BuildCircle12Points: fills the 12 points of a0 with a circle of radius a1, 30 degrees apart (rsin/rcos), mirroring the first quadrant
+ * Confidence high, xref chain: pts[0..3] = (rsin(i*0x155) * r >> 12, rcos(i*0x155) * r >> 12); pts[4..6], pts[7..11] mirrored in y and x
+ * Names ledger: config/names.tsv guess_BuildCircle12Points */
+void guess_BuildCircle12Points(Poly12Obj *a0, u16 a1) {
     s32 i = 0;
     s32 radius = a1;
 
@@ -12932,8 +12941,8 @@ void func_800233CC(Poly12Obj *a0, u16 a1) {
      * s1-before-s0 increment order.  An explicit pre-loop `ang = 0` statement
      * sits ahead of the LSR-inserted init instead -> 6-instruction residual. */
     for (; i < 4; i++) {
-        a0->pts[i].x = (func_8004787C(i * 0x155) * radius) >> 12;
-        a0->pts[i].y = (func_80047948(i * 0x155) * radius) >> 12;
+        a0->pts[i].x = (rsin(i * 0x155) * radius) >> 12;
+        a0->pts[i].y = (rcos(i * 0x155) * radius) >> 12;
     }
 
     for (i = 4; i < 7; i++) {
@@ -12947,22 +12956,22 @@ void func_800233CC(Poly12Obj *a0, u16 a1) {
     }
 }
 
-extern s32 func_8004787C(s32 a0);
-extern s32 func_80047948(s32 a0);
+extern s32 rsin(s32 a0);
+extern s32 rcos(s32 a0);
 
 void func_800234E4(void *a0, u16 a1, u16 a2) {
     s32 k = 0;
     s32 rad = a1;
 
-    /* Struct-free spelling of the func_800233CC sibling: the only dependencies
+    /* Struct-free spelling of the guess_BuildCircle12Points sibling: the only dependencies
      * are common.h types and the two callee externs, so the body survives any
      * splice model (whole-snippet or function-only extraction).  Addresses are
      * written as a0 + k*4 + 0x10/0x12 so LSR keeps the incoming pointer as the
      * IV base (addu s1,a0,zero) and folds the member offset into the sh
      * displacements, exactly as the struct form did. */
     while (k < 12) {
-        *(u16 *)((u8 *)a0 + k * 4 + 0x10) = (func_8004787C(a2 + k * 0x155) * rad) >> 12;
-        *(u16 *)((u8 *)a0 + k * 4 + 0x12) = (func_80047948(a2 + k * 0x155) * rad) >> 12;
+        *(u16 *)((u8 *)a0 + k * 4 + 0x10) = (rsin(a2 + k * 0x155) * rad) >> 12;
+        *(u16 *)((u8 *)a0 + k * 4 + 0x12) = (rcos(a2 + k * 0x155) * rad) >> 12;
         k++;
     }
 }
@@ -13545,7 +13554,10 @@ void func_80023BF0(s32 arg0)
 }
 
 
-s32 func_80024054(u8 *arg0, s16 *arg1)
+/* guess_SjisToGlyphCodes: converts a Shift-JIS string (lead bytes 0x81-0x83) to halfword glyph codes ending in 0xFFFF, through tables per lead byte
+ * Confidence medium, code inference: 0x81 -> D_80063818[b-0x40]; 0x82 -> D_800636D8[b-0x4F] or D_80063770[b-0x9F]; 0x83 -> D_80063770[b-0x40/0x41]+0x2000; other lead ends
+ * Names ledger: config/names.tsv guess_SjisToGlyphCodes */
+s32 guess_SjisToGlyphCodes(u8 *arg0, s16 *arg1)
 {
   extern u16 D_800636D8[];
   extern u16 D_80063818[];

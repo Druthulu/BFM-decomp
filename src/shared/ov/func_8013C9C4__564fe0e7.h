@@ -6,6 +6,6 @@ void func_8013C9C4(void * arg0)
     D_8018E764 = 0;
     D_8018E765 = 0;
     if (func_80019198() == 0) {
-        func_80019064(&D_80062BC0);
+        guess_StartPadVibration(&D_80062BC0);
     }
 }

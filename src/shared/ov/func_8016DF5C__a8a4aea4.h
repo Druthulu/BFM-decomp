@@ -37,7 +37,7 @@ void func_8016DF5C(s32 param_1)
         D_8018F4C6 = 0;
         D_8018F4C5 = 0;
         D_8018F4C4 = 0;
-        ((void(*)(void *, unsigned short))func_800233CC)((void *)base, 0x40);
+        ((void(*)(void *, unsigned short))guess_BuildCircle12Points)((void *)base, 0x40);
         func_8001CD50(iNew, base);
         *(s32 *)(iNew + 0x34) = (s32)((u8 *)((void *)param_1) + 0x38);
         *(s16 *)(iNew + 0x1a) = 0;

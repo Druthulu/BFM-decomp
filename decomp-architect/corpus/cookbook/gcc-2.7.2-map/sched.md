@@ -89,13 +89,13 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 - **Decision point:** `adjust_priority:2534` + `birthing_insn_p:2498` (pre-reload only).
 - **Kill the boost** (def sits too LATE, want it at source position): add a 2nd SET that survives cse — the §30 #3 re-tie `__asm__("" : "=r"(x) : "0"(x))` in a LATER bb, or the end-of-function dead-`volatile` `__asm__ volatile("":"=r"(x))` for spilled pseudos (both cookbook-proven). A plain C reassignment does NOT work if cse/flow can eliminate it (t5/t6 proofs).
 - **CREATE the boost** (def sits too EARLY, target has it sunk): make the value a **fresh single-set local** instead of reusing a multi-set variable.
-- **BYTE-PROVEN REAL EXEMPLAR — func_801770E0 (53→49, `exp/e3.c`):** the target fills both `jal func_801783D0` delay slots with the previous call's result save (`addu $s0,$v0,$zero`) and hoists `li $a1,4` early. The draft chained `uVar2 = f(uVar2,…)` (6 sets → no boost → the save-copy stayed at its post-call source position → `li` landed in the slot). Fix:
+- **BYTE-PROVEN REAL EXEMPLAR — func_801770E0 (53→49, `exp/e3.c`):** the target fills both `jal guess_IntToBcd` delay slots with the previous call's result save (`addu $s0,$v0,$zero`) and hoists `li $a1,4` early. The draft chained `uVar2 = f(uVar2,…)` (6 sets → no boost → the save-copy stayed at its post-call source position → `li` landed in the slot). Fix:
   ```c
   /* BEFORE (draft, slot wrong):            AFTER (matches target):        */
   uVar2 = f(uVar2, …, 0x6e163858);          u4 = f(uVar2, …, 0x6e163858);
-  sVar1 = func_801783D0(D_8011F830, 4);     sVar1 = func_801783D0(D_8011F830, 4);
+  sVar1 = guess_IntToBcd(D_8011F830, 4);     sVar1 = guess_IntToBcd(D_8011F830, 4);
   uVar2 = func_801777BC(uVar2, sVar1, …);   u5 = func_801777BC(u4, sVar1, …);
-  sVar1 = func_801783D0(D_8011F82E, 4);     sVar1 = func_801783D0(D_8011F82E, 4);
+  sVar1 = guess_IntToBcd(D_8011F82E, 4);     sVar1 = guess_IntToBcd(D_8011F82E, 4);
   puVar3 = func_801777BC(uVar2, sVar1, …);  puVar3 = func_801777BC(u5, sVar1, …);
   ```
   (`void *u4, *u5;` fresh, single-set → boost → each save sinks below the arg setup to just before the jal → dbr slots it, D1.) Dump-level proof: e0 trace `T-100: ready {85,93} → picked 93 (li)` vs t4 trace `T-6: ready {14,22} → picked 14 (move)`.

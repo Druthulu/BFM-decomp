@@ -2,8 +2,8 @@
  * exemplar src/ov_SC06_020/ov_SC06_020_jr_801803E0.c:2943 · rank 1/3 by (raw casts + !FAKE markers, lowest address): casts 2, markers 0 */
 void SHARED_FN(s32 param_1) {
     if (CAST_SIGN(u8, param_1, 0xC1) != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = func_80047948(((Unkstruct_800B5CB8 *)param_1)->unkE4 << 7) >> 5;
-        *(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x14) = func_8004787C(((Unkstruct_800B5CB8 *)param_1)->unkE4 << 7) >> 4;
+        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = rcos(((Unkstruct_800B5CB8 *)param_1)->unkE4 << 7) >> 5;
+        *(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x14) = rsin(((Unkstruct_800B5CB8 *)param_1)->unkE4 << 7) >> 4;
         func_8012B370(param_1);
         ((Unkstruct_800B5CB8 *)param_1)->unkE4 += 1;
     }

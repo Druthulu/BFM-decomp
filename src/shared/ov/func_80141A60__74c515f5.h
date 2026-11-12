@@ -20,7 +20,7 @@ void func_80141A60(void)
     if (iVar1 != 0 && iVar1 != guess_g_MenuHelpText) {
         guess_g_MenuHelpText = iVar1;
         func_80139954();
-        func_801376E8(iVar1, (int)&D_8017FE40);
+        guess_OpenTextWindowCenteredAt(iVar1, (int)&D_8017FE40);
     }
     func_80137B80();
     iVar1 = func_800D0EC4();

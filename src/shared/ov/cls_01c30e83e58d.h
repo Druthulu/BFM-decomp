@@ -20,7 +20,7 @@ void SHARED_FN(s32 a0) {
         ((Unkstruct_800B5CB8 *)a0)->unkDC = ((Unkstruct_800B5CB8 *)a0)->unkDC - 0x8000;
         w = CAST_SIGN(u16, a0, 0xFC) + 0x200;
         ((Unkstruct_800B5CB8 *)a0)->unkFC = w;
-        v = func_8004787C((s16)w);
+        v = rsin((s16)w);
         if (v < 0) {
             v = -v;
         }

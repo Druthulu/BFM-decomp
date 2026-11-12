@@ -54,7 +54,7 @@ s32 func_800CCBC0(void)
     extern u8 D_800CD6E1;
     extern u8 D_800CD6E2;
     extern u8 D_800CD6E3;
-    extern void func_80017758(void *a0, void *a1);
+    extern void guess_AddPolyG4(void *a0, void *a1);
 
     Prim_md_MAIN_047_800CCBC0 prim;
     Blk20 blk;
@@ -110,7 +110,7 @@ s32 func_800CCBC0(void)
             }
             prim.c2.r = prim.c3.r = tim;
             prim.c2.g = prim.c3.g = prim.c2.b = prim.c3.b = half;
-            func_80017758(&prim, &blk);
+            guess_AddPolyG4(&prim, &blk);
             cnt = cnt - 1;
         } while (cnt != -1);
     }
@@ -231,7 +231,7 @@ void func_800CD314(void *arg0) {
     extern volatile s32 D_8011F758;
     extern u8 D_800CD7A4;
     extern void guess_PlaySoundUnlessSkipped(s32 a0);
-    extern void func_800233CC(void *a0, u16 a1);
+    extern void guess_BuildCircle12Points(void *a0, u16 a1);
     extern s32 guess_FreeSmallObject(u8 *a0);
 
 
@@ -264,7 +264,7 @@ void func_800CD314(void *arg0) {
         idx = ((Unkstruct_800CD314 *)s0)->unk30;
         idx += 0x10;
         ((Unkstruct_800CD314 *)s0)->unk30 = idx;
-        func_800233CC((void *)&D_800CD7A4, idx);
+        guess_BuildCircle12Points((void *)&D_800CD7A4, idx);
         ((Unkstruct_800CD314 *)s0)->unk1C = ((Unkstruct_800CD314 *)s0)->unk1C + 1;
         return;
     }

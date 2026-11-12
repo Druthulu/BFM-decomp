@@ -1,6 +1,6 @@
 /* func_80169584 — shared body (overlay slot 0x80128158, h_exact c462f0a5). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 void func_80169584(s32 param_1) {
     u8 buf[0x60];   /* spans $sp+0x10 .. (named local_<0x78-off>) */
     s32 v1;
@@ -46,7 +46,7 @@ void func_80169584(s32 param_1) {
     *(s32 *)(param_1 + 0x4c) = (s32)*(s16 *)(param_1 + 0x06);
     *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x0a);
     *(s32 *)(param_1 + 0x54) = (s32)*(s16 *)(param_1 + 0x0e);
-    func_80017758(buf + 0x00, (void *)s0);
+    guess_AddPolyG4(buf + 0x00, (void *)s0);
     *(s16 *)(buf + 0x02) = 7;     /* 0x12 = local_66 */
     *(s16 *)(buf + 0x1a) = -7;    /* 0x2A = local_4e */
     *(s16 *)(buf + 0x08) = 2;     /* 0x18 = local_60 */
@@ -55,5 +55,5 @@ void func_80169584(s32 param_1) {
     *(s16 *)(buf + 0x18) = 0;     /* 0x28 = local_50 */
     *(s16 *)(buf + 0x00) = 0;     /* 0x10 = local_68 */
     *(s16 *)(buf + 0x10) = -2;    /* 0x20 = local_58 */
-    func_80017758(buf + 0x00, (void *)s0);
+    guess_AddPolyG4(buf + 0x00, (void *)s0);
 }

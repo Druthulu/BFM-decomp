@@ -236,8 +236,8 @@ void func_800CB684(s32 a0, s32 a1) {
 
 #include "common.h"
 
-extern s32 func_80047948(s32 a0);
-extern s32 func_8004787C(s32 a0);
+extern s32 rcos(s32 a0);
+extern s32 rsin(s32 a0);
 extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 ratan2(s32 a0, s32 a1);
 
@@ -251,17 +251,17 @@ s32 func_800CB6D4(s32 a0) {
 
     s1 = ((Unkstruct_80126B58 *)a0)->unk20;
 
-    v0 = func_80047948(CAST_SIGN(s16, a0, 0x64));
+    v0 = rcos(CAST_SIGN(s16, a0, 0x64));
     v1 = CAST_SIGN(s16, a0, 0x60);
     tmp[0] = (v1 * v0) / 4096;
 
     if (((Unkstruct_80126B58 *)a0)->unk54 == 0) {
         tmp[1] = 0;
-        v0 = func_8004787C(CAST_SIGN(s16, a0, 0x64));
+        v0 = rsin(CAST_SIGN(s16, a0, 0x64));
         v1 = CAST_SIGN(s16, a0, 0x62);
         tmp[2] = (v1 * v0) / 4096;
     } else {
-        v0 = func_8004787C(CAST_SIGN(s16, a0, 0x64));
+        v0 = rsin(CAST_SIGN(s16, a0, 0x64));
         v1 = CAST_SIGN(s16, a0, 0x62);
         tmp[1] = (v1 * v0) / 4096;
         tmp[2] = 0;
@@ -306,7 +306,7 @@ void func_800CB8A0(void *a0) {
     extern void func_80017E68(void *a0, void *a1);
     extern void RotMatrixYXZ(void *a0, void *a1);
     extern void func_80048D9C(void *a0, void *a1);
-    extern void func_80017758(void *a0, void *a1);
+    extern void guess_AddPolyG4(void *a0, void *a1);
     extern u8 D_800CBECC[];
 
     s16 vecA[4];
@@ -374,7 +374,7 @@ void func_800CB8A0(void *a0) {
         ((Unkstruct_800CB8A0_2 *)info)->unk18 = (s8)*tbl; tbl++;
         last = (s8)*tbl; tbl--;
         ((Unkstruct_800CB8A0_2 *)info)->unk1A = last;
-        func_80017758(info, s2vec);
+        guess_AddPolyG4(info, s2vec);
     }
 }
 

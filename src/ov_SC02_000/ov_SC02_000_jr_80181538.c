@@ -8,14 +8,14 @@ extern void func_80161CD0(s32 a0, s32 a1);
 #include "../shared/ov/func_80181538__27797037.h"
 
 
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012C098(void *param_1);
 extern void guess_FreeActor(void *a0);
 extern s32 D_801270CC;
 
 void func_801815F4(s32 param_1) {
-    ((s32 (*)(s32))func_8012AD80)(param_1);
+    ((s32 (*)(s32))guess_ApplyAccelAndVelocity)(param_1);
     if (guess_TickWaitTimer(param_1) == 0) {
         return;
     }

@@ -1018,12 +1018,12 @@ def selftest():
         "guess_ClearTbl", "guess_ClearTbl_2"]
     # registry: the vram + binaries form, YAML int vram -> hex
     gs, reg = rsy.groups_from_registry({"groups": [
-        {"id": "E_f", "func": "func_80179B28", "vram": 0x80179B28, "binaries": ["ov_A", "ov_B"]},
+        {"id": "E_f", "func": "func_80FFFFF0", "vram": 0x80FFFFF0, "binaries": ["ov_A", "ov_B"]},
         {"id": "M", "members": [{"binary": "ov_A", "vram": 0x80100000, "name": "func_80100000"}]}]})
-    assert gs["E_f"] == [{"binary": b, "vram": "0x80179B28", "name": "func_80179B28"} for b in ("ov_A", "ov_B")], gs
+    assert gs["E_f"] == [{"binary": b, "vram": "0x80FFFFF0", "name": "func_80FFFFF0"} for b in ("ov_A", "ov_B")], gs
     assert gs["M"][0]["vram"] == "0x80100000" and reg[0]["members"] == gs["E_f"], (gs, reg)
     assert [(r["old"], r["addr"], r["binary"]) for r in rsy.expand([dict(S, binary="class:E_f")], gs)] == [
-        ("func_80179B28", "0x80179B28", "ov_A"), ("func_80179B28", "0x80179B28", "ov_B")]
+        ("func_80FFFFF0", "0x80FFFFF0", "ov_A"), ("func_80FFFFF0", "0x80FFFFF0", "ov_B")]
     # rename_sym.ledger_row_rename: fn, unit and the sites[]/bases[] residue keys follow the rename; tu paths do not (C0572)
     olds = {"D_80078EB4": "g_Hp", "func_80147078": "guess_Set"}
     lrx = re.compile(r"\b(?:D_80078EB4|func_80147078)\b")

@@ -7,8 +7,8 @@ void func_80140E6C(void) {
     unsigned int uVar4;
 
     puVar1 = (*(void * *)&D_8017FA58);
-    uVar2 = func_800D2CA8(D_80078E7F, 0x18);
-    uVar3 = func_800D2CA8(D_80078E7E, 0xc);
-    uVar4 = func_800D2CA8(D_80078E7D, 0);
-    func_800D2D10(uVar2 | 0xb00000 | uVar3 | 0xb00 | uVar4, 8, puVar1, 0);
+    uVar2 = guess_IntToBcd_2(D_80078E7F, 0x18);
+    uVar3 = guess_IntToBcd_2(D_80078E7E, 0xc);
+    uVar4 = guess_IntToBcd_2(D_80078E7D, 0);
+    guess_BcdToDigitCodes(uVar2 | 0xb00000 | uVar3 | 0xb00 | uVar4, 8, puVar1, 0);
 }

@@ -4,7 +4,7 @@ void func_80173220(void * arg0)
 {
     if (M2C_FIELD(arg0, u16 *, 0xB8) & 0x4000) {
         guess_PlaySoundUnlessSkipped(0x516);
-        func_80019064(&D_801827F0);
+        guess_StartPadVibration(&D_801827F0);
     }
     if (M2C_FIELD(arg0, u16 *, 0xB8) & 0x8000) {
         func_80171A1C(arg0);

@@ -44,7 +44,7 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
         *(s16 *)(buf + 0x32) = (s8)*p++;
         *(s16 *)(buf + 0x38) = (s8)*p++;
         *(s16 *)(buf + 0x3A) = (s8)*p--;
-        func_80017758(buf + 0x20, buf);
+        guess_AddPolyG4(buf + 0x20, buf);
     }
 
     p = D_80181A14;
@@ -76,6 +76,6 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
             buf[0x41] = buf[0x44];
             buf[0x40] = buf[0x44];
         }
-        func_80017758(buf + 0x20, buf);
+        guess_AddPolyG4(buf + 0x20, buf);
     }
 }

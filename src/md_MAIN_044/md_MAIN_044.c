@@ -445,8 +445,8 @@ void func_800CD5EC(void *a0) {
 
 #include "common.h"
 
-extern s32 func_8004787C(s32 a0);
-extern s32 func_80047948(s32 a0);
+extern s32 rsin(s32 a0);
+extern s32 rcos(s32 a0);
 extern void func_80015A2C(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
@@ -461,9 +461,9 @@ void func_800CD63C(s32 a0, s32 a1)
     s32 r;
 
     t = 0x20 - ((Unkstruct_80126B58 *)a0)->unk1C;
-    r = func_8004787C(CAST_SIGN(s16, a0, 0x66));
+    r = rsin(CAST_SIGN(s16, a0, 0x66));
     sp10[0] = ((((t << 17) >> 16) * r) / 4096);
-    r = func_80047948(CAST_SIGN(s16, a0, 0x66));
+    r = rcos(CAST_SIGN(s16, a0, 0x66));
     sp10[1] = ((((t << 17) >> 16) * r) / 4096);
     sp10[2] = 0;
 
@@ -600,7 +600,7 @@ void func_800CDA44(void *a0) {
 
 
 extern void *func_800D2294(s32 a0, s32 a1);
-extern void func_800233CC(void *a0, u16 a1);
+extern void guess_BuildCircle12Points(void *a0, u16 a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32 guess_FreeSmallObject(void *a0);
 extern s32 rand(void);
@@ -617,7 +617,7 @@ void func_800CDA80(int param_1)
     ((Unkstruct_80126B58 *)param_1)->unk20 = ptr;
     if (ptr != 0) {
         r = rand();
-        func_800233CC(base, (r & 0x1F) | 0x20);
+        guess_BuildCircle12Points(base, (r & 0x1F) | 0x20);
         *(u32 *)((int)ptr + 4) |= 0x50000000;
         *(s32 *)base = ((r & 0x3F) + 0x40) << 16;
         *(s32 *)(base + 4) = 0;

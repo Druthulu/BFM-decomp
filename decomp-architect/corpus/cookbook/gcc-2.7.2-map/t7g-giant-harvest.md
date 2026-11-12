@@ -38,7 +38,7 @@ Fix: `strip_c_comments()` in make_base_c before the other passes. Immediately cr
   construction; ANY added local / register-asm dummy → 0x68 (+1 insn). So the §34 toolkit is unavailable
   → needs gdb-on-cc1 (shipped cc1's .sched/.greg dumps are empty). Permuter also can't (small space).
 
-## func_801412A8 (198) — agent CLOSE=80 (count-exact, pin-clean); permuter exhausted → FABLE5 CANDIDATE
+## guess_DrawGaugeBar (198) — agent CLOSE=80 (count-exact, pin-clean); permuter exhausted → FABLE5 CANDIDATE
 - Refutes the old "S11 CONFIRMED-INTRINSIC" flag: 110 diffs = 48 pure-schedule + 62 register; the 62
   register ARE steerable. gdb-on-cc1 (`find_free_reg`): masks/bases are LOCAL-alloc qtys in block 7
   ("9 regs to allocate" globally = the local-vs-global tell). **RC-3 pin on the highest-priority mask
@@ -283,12 +283,12 @@ dep-free insns re-floating. **Audit "RC-6 unsteerable" verdicts — check the de
   `/s`-cast struct** — `struct hs { u16 h; };` collides with the first bank's def → inline it
   `((struct { u16 h; } *)&D_x)->h`. Banked byte-identical. (Same family as the 372B0 asm-label-alias fix.)
 
-## ⛔ func_801412A8 — FABLE5 CLOSE=29 (from 80), NOT a match — allocation placement knot; stays INCLUDE_ASM
+## ⛔ guess_DrawGaugeBar — FABLE5 CLOSE=29 (from 80), NOT a match — allocation placement knot; stays INCLUDE_ASM
 Drove 80→29 (count-exact). Residual 29 = ONE placement knot (window-1's pm-and + copy float to idx 43-45;
 no dependence ceiling exists, boost unavailable reg_n_sets[$3]=5). Finish needs a pin-free reconstruction
 with the complete reuse-set (~10-20 more joint byte-gated experiments after dropping the pins) — deferred.
 Permuter reached 26 only via an ILLEGAL mutation (reads a pin before its set) — not bankable. Draft
-`.run/t7b/close/func_801412A8.c`; 48 experiments + gdb qty traces in `.run/t7b/fable/412A8/`.
+`.run/t7b/close/guess_DrawGaugeBar.c`; 48 experiments + gdb qty traces in `.run/t7b/fable/412A8/`.
 - **LEVER — the qty_compare 2500-TIE is the real root of "S3 walls" (-39):** gdb `find_free_reg`: two
   temps at EXACTLY equal `qty_compare` priority (link {3 refs/len 12}=2500 vs and-temp {2 refs/len 8}=2500)
   → tie broken by qty NUMBER = block-scan order → the loser cascades the whole $t-file rotation + store

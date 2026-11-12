@@ -275,18 +275,18 @@ extern s32 func_80148D24(void *a0, int a1);
 extern s32 func_80148D3C(void);
 extern s32 func_80148F60(void);
 extern s32 func_80148F68(s32 a0);
-extern s32 func_80148F74(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn(s32 a0);
 extern s32 func_80148F80(s32 a0);
 extern s32 func_80148F8C(s32 a0);
 extern s32 func_80148F98(void);
 extern s32 func_80148FA0(s32 a0);
-extern s32 func_80148FAC(s32 a0);
-extern s32 func_80148FB8(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn_2(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn(s32 a0);
 extern s32 func_80148FC4(s32 a0);
 extern s32 func_80148FD0(void);
 extern s32 func_80148FD8(void);
 extern s32 func_80148FE0(s32 a0);
-extern s32 func_80148FEC(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn_2(s32 a0);
 extern s32 func_80148FF8(s32 a0);
 extern s32 func_80149004(void);
 extern void func_8014900C(s32 *a0);
@@ -444,7 +444,7 @@ extern s32 D_80078ECC;
 extern void func_8014B33C(void);
 extern u8 D_80062BF4[];
 extern void func_8014BC80(s32 a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 D_80078E98;
 extern void func_80166244(void* arg0);
 extern void func_8014B4D4(void *a0);
@@ -1072,7 +1072,7 @@ extern M2C_UNK D_800D5904;
 extern void func_80158E24(s32 *a0);
 extern s32 D_80184CE8[];
 extern int rand(void);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
@@ -1545,7 +1545,7 @@ extern void func_80164ACC(s32 a0);
 extern void (*D_80185588[])(void);
 extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
 extern void func_80164DB0(void);
 extern u8 D_801F20E8;
@@ -1742,7 +1742,7 @@ extern void func_801693CC(void *a0);
 extern void func_80169584(s32 param_1);
 extern void func_80169408(s32 a0);
 extern void func_8016951C(int param_1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_801696D8(s32 a0, s32 a1);
 extern void (*D_8018599C[])(void);
@@ -2184,8 +2184,8 @@ extern s32 func_80171FFC(short *a0, short *a1, s32 a2);
 extern s32 func_80171D1C(void * a0, void * a1, s32 a2);
 extern s32 func_8017248C(s32 a0, s32 a1);
 extern s32 func_80171E08(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_80047948(s32 a0);
-extern s32 func_8004787C(s32 a0);
+extern s32 rcos(s32 a0);
+extern s32 rsin(s32 a0);
 extern void func_80172170(s32 a0, s32 a1);
 extern s32 func_8017209C(void *arg0, void *arg1, s32 arg2, s32 arg3);
 extern void func_801722CC(s32 *a0);
@@ -2470,7 +2470,7 @@ extern u16 guess_g_HudHpPanelX;
 extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
-extern u32 func_801783D0(s32 a0, s32 a1);
+extern u32 guess_IntToBcd(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
@@ -2526,7 +2526,7 @@ extern short D_801F345C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
 extern s32 func_80178D40(s32 arg0, s32 arg1);
-extern void func_80179B28(s32 a0);
+extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
 extern void func_80179D78(u16 *a0);
@@ -2675,12 +2675,12 @@ extern void func_800D2624(void);
 extern void func_8017DBB8(void);
 extern s32 func_80014ED4(s32 a0);
 extern s32 func_80015018(s32 a0);
-extern s16 func_8014168C(s16 a0);
+extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8017EB08(s32 a0, s32 a1);
 extern void func_8017D730(void);
 extern s32 func_8017DC10(void);
 extern void func_8017DEF0(void);
-extern s32 func_80024054(void *a0, void *a1);
+extern s32 guess_SjisToGlyphCodes(void *a0, void *a1);
 extern u32 *func_800D2650(s32 *, void *, s32, s32, s32, s32);
 extern u8 *func_800D27DC(s32, s32 *, void *, s32, s32);
 extern u32 *func_800D29F8(s32, s32, void *, s32, s32);
@@ -2944,8 +2944,8 @@ s32 func_8017E590(s32 param_1, s32 param_2) {
  *     compatible and the unsigned access is forced at the USE (§8d sub-class b).
  *   - guess_g_MenuFrameCounter / guess_g_MenuPanel are file-scope `extern u16` at TU:3379 / :3466 —
  *     same spelling used here.
- *   - guess_g_MenuPanelCursors / guess_g_MenuPanelSizes / func_8014168C come from DEFINE_func_8014168C()
- *     in engine_core.h:4008 (`extern u8 …[]`, `s16 func_8014168C(s16)`); that
+ *   - guess_g_MenuPanelCursors / guess_g_MenuPanelSizes / guess_GetMenuPanelCursorIndex come from DEFINE_func_8014168C()
+ *     in engine_core.h:4008 (`extern u8 …[]`, `s16 guess_GetMenuPanelCursorIndex(s16)`); that
  *     macro is NOT invoked in this TU, so these externs are the only decls and
  *     they use the canonical types.  s8 access to guess_g_MenuPanelSizes is cast at use.
  *   - D_80115138 / guess_g_MenuPanelScrollTops / D_801E8C4E / D_801E8C62 / guess_g_FrontOrderingTablesOrg have no
@@ -2954,7 +2954,7 @@ s32 func_8017E590(s32 param_1, s32 param_2) {
  *     it cannot collide at file scope.
  */
 
-extern s16 func_8014168C(s16 a0);
+extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 
 s32 *func_8017E7DC(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 
@@ -2987,7 +2987,7 @@ s32 *func_8017E7DC(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     idx2 = idx + 0;
 
     if (c < 6) {
-        t = ((s32 (*)(s32))func_8014168C)((s16)idx) * 2;
+        t = ((s32 (*)(s32))guess_GetMenuPanelCursorIndex)((s16)idx) * 2;
     } else {
         t = (guess_g_MenuPanelCursors[(s16)idx * 2] - guess_g_MenuPanelScrollTops[(s16)idx]) * 2;
     }
@@ -3093,7 +3093,7 @@ s32 func_8017EB08(s32 a0, s32 a1) {
     extern s32  func_800291B4(s32 arg);
     extern void guess_RequestSound(s32 a0, s32 a1);
     extern void guess_SetGameFlag(s32 a0, s32 a1);
-    extern s16  func_8014168C(s16 a0);
+    extern s16  guess_GetMenuPanelCursorIndex(s16 a0);
 
     s32 mode;
     s16 idx;
@@ -3211,7 +3211,7 @@ s32 func_8017EB08(s32 a0, s32 a1) {
         break;
 
     case 7:
-        r = ((s32 (*)(s32))func_8014168C)(1);
+        r = ((s32 (*)(s32))guess_GetMenuPanelCursorIndex)(1);
         if ((s16)r == 0) {
             guess_SetGameFlag(0xE8, 1);
         }
@@ -3273,12 +3273,12 @@ s32 func_8017EB08(s32 a0, s32 a1) {
 
 s16 func_8017EF64(void) {
     extern s32 func_800291B4(s32 arg);
-    extern s16 func_8014168C(s16 a0);
+    extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
     extern u8 D_80183A40[];
     extern u8 D_80183A46;
 
     if ((func_800291B4(D_80183A46) & 0xFF) != 0) {
-        return (func_800291B4(D_80183A40[func_8014168C(1)]) & 0xFF) == 0;
+        return (func_800291B4(D_80183A40[guess_GetMenuPanelCursorIndex(1)]) & 0xFF) == 0;
     }
     return 0;
 }
@@ -3396,7 +3396,7 @@ ret0:
 }
 
 
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void func_8012B1B4(s32 a0, s32 a1);
 extern void func_8012B200(u8 *a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
@@ -3429,7 +3429,7 @@ s32 a0;
     }
     ((Unkstruct_800B5CB8 *)a0)->unk1C -= 1;
     func_8012B1B4(a0, a0 + 0xDC);
-    func_8012AD80(a0);
+    guess_ApplyAccelAndVelocity(a0);
     return 1;
 }
 

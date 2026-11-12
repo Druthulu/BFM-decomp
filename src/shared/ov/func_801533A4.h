@@ -8,7 +8,7 @@ extern void guess_NextStep(void *a0);
 extern u8 guess_g_RumblePatternFade[];
 void func_801533A4(s32 a0)
 {
-    func_80019064(guess_g_RumblePatternFade);
+    guess_StartPadVibration(guess_g_RumblePatternFade);
     func_80149020(a0);
     func_801472C8((struct S *)a0);
     *((u8 *)a0 + 0xDE) = 0x40;

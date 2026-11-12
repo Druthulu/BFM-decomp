@@ -328,7 +328,7 @@ void func_800CB580(void *arg0) {
 
 extern void *guess_AllocSpriteObject(void);
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *a0, u16 a1);
+extern void guess_BuildCircle12Points(void *a0, u16 a1);
 extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CB5DC(void *arg0) {
@@ -351,7 +351,7 @@ void func_800CB5DC(void *arg0) {
     if (s1 != NULL) {
         s0 = &D_800CBA88;
         func_8001CD50((s32)s1, (s32)s0);
-        func_800233CC(s0, 0x20);
+        guess_BuildCircle12Points(s0, 0x20);
 
         *(u8 *)s0 = 0x20;
         D_800CBA89 = 0x40;

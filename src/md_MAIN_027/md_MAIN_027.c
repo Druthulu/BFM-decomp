@@ -433,7 +433,7 @@ extern s32 func_8012EF34(s32, s32);
 extern void func_80017DC4(void *, void *);
 extern s32 func_800CBA44(SV_CBA44_t *out, P2_CBA44_t *in, Base_CBA44_t *b, P2_CBA44_t *off, s32 *res, s32 *d);
 extern void func_800CBBF8(s32 *a0, s32 *a1);
-extern s32 func_80047948(s32);
+extern s32 rcos(s32);
 
 extern u8 D_800CC290[];
 extern u8 D_800CC190[];
@@ -506,7 +506,7 @@ void func_800CB82C(s32 a0, s32 a1)
         *(u16 *)((s8 *)lo + 4) = s5v;
         func_800CBBF8(plo, p);
         a1 = (void *)((s8 *)a1 + 0x18);
-        hb.hB0 = func_80047948((CAST_SIGN(s16, (s8 *)a0, 0x62)) << 8) / 1024;
+        hb.hB0 = rcos((CAST_SIGN(s16, (s8 *)a0, 0x62)) << 8) / 1024;
         ((Unkstruct_80126B58 *)a0)->unk62 = (((Unkstruct_80126B58 *)a0)->unk62 + 1) & 0xF;
         hb.hB2 = 0;
         if (func_800CBA44(out1, (P2_CBA44_t *)D_800CC1A0, (Base_CBA44_t *)a1, (P2_CBA44_t *)&hb.hB0,
@@ -658,7 +658,7 @@ extern u32 D_800CC250;
 extern u32 D_800CC254;
 extern s32 func_80146578(void);
 extern void func_8001CD04(s32, s32);
-extern void func_800233CC(s32, s32);
+extern void guess_BuildCircle12Points(s32, s32);
 extern void func_800CC024(s32 a0p);
 
 void func_800CBF28(s32 p1)
@@ -674,7 +674,7 @@ void func_800CBF28(s32 p1)
     if (v0 != 0) {
         func_8001CD04(v0, base);
         if (((Unkstruct_80126B58 *)p1)->unk50 == 0) {
-            func_800233CC(base, 0x20);
+            guess_BuildCircle12Points(base, 0x20);
             D_800CC254 = 0;
             *(u32 *)base = 0x202000;
         }
@@ -701,8 +701,8 @@ void func_800CC004(void) {
 
 
 extern void func_80015954(s32 a0, s32 a1);
-extern s32 func_80047948(s32 a0);
-extern s32 func_8004787C(s32 a0);
+extern s32 rcos(s32 a0);
+extern s32 rsin(s32 a0);
 
 void func_800CC024(s32 a0p) {
     extern u8 D_800CC290[];
@@ -735,12 +735,12 @@ void func_800CC024(s32 a0p) {
     ((Unkstruct_800CC024 *)obj)->unk60 = v + 1;
 
     if (((Unkstruct_800CC024 *)obj)->unk50 == 0) {
-        r = func_80047948(m << 7);
+        r = rcos(m << 7);
     } else {
-        r = 0x1000 - func_80047948(m << 7);
+        r = 0x1000 - rcos(m << 7);
     }
     d[0] = r / 1024;
-    d[1] = func_8004787C(ang) / 512;
+    d[1] = rsin(ang) / 512;
 
     ((Unkstruct_800CC024 *)obj)->unk6 += d[0];
     ((Unkstruct_800CC024 *)obj)->unkA += d[1];

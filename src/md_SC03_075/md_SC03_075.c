@@ -385,7 +385,7 @@ void func_801EFEA4(void *a0) {
 
 
 extern s32 func_8012BA10(s32 a0, s32 a1);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern s32 func_801789AC(s32 a0);
 extern void func_80178D18(s32 a0);
@@ -424,7 +424,7 @@ void func_801EFF54(void *param_1) {
         break;
     }
     case 2: {
-        s32 v0 = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12), 0x600, 8);
+        s32 v0 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12), 0x600, 8);
         s32 cur;
         s32 target;
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)param_1 + 0x20))->unk12 =

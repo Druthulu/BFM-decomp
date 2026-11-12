@@ -45,9 +45,9 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
                 addr = D_8017FA48[i];
             }
         } else {
-            addr = func_8013FFD8(2, func_8014168C(2), sp60);
+            addr = func_8013FFD8(2, guess_GetMenuPanelCursorIndex(2), sp60);
         }
-        func_80024054(addr, sp18);
+        guess_SjisToGlyphCodes(addr, sp18);
         ot = func_800D2650(ot, sp18, (s16)(p->dist + (u16)D_8011516A[i].x), p->kind, 1,
                            flag != 0 ? 0x585858 : 0x808080);
         p = D_8017FA28[i];
@@ -63,7 +63,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
                     break;
                 }
                 if (r < 0) {
-                    func_80024054(r, sp18);
+                    guess_SjisToGlyphCodes(r, sp18);
                     t = 1;
                     if (i == 0 && (D_80078EC0 & 0x7F) == j) {
                         t = 0xB6;

@@ -3,7 +3,7 @@
 void SHARED_FN(a0)
 void *a0;
 {
-    func_8012B23C(a0);
+    guess_ClearVelocityAndSetGravity(a0);
     ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x40;
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
     ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;

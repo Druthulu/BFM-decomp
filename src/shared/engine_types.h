@@ -2220,7 +2220,7 @@ typedef Prim_8017FB38 XPrim;
 typedef SVECTOR XSV2;
 typedef struct { u8 b[8]; } XV8;
 
-/* ---- func_801412A8 (the P30 S6 giant, 198 ins x 138) -----------------------------------------
+/* ---- guess_DrawGaugeBar (the P30 S6 giant, 198 ins x 138) -----------------------------------------
  * Lifted from ov_SC01_077.c:2742-2748 so the exemplar's matched body can PROPAGATE. Without them
  * every sibling failed with `parse error before '*'` on the definition line — a 0/137 sweep that
  * looks like a codegen wall and is really a missing type.

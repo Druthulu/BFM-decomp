@@ -279,7 +279,7 @@ s32 func_801E2D34(void) {
     extern s16 D_801EA954;
     extern s16 D_801EA958;
     extern s16 D_801EA95C;
-    extern s16 func_8014168C(s16 a0);
+    extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
     extern s32 D_801E63B0;
     extern s32 D_801E6448;
     extern s32 D_801E64E8;
@@ -315,7 +315,7 @@ s32 func_801E2D34(void) {
     flag = 0;
     pad = func_80014ED4(0);
     func_80015018(0);
-    func_8014168C(guess_g_MenuPanel);
+    guess_GetMenuPanelCursorIndex(guess_g_MenuPanel);
 
     if (pad & 0x40) {
         st = D_8011512C;
@@ -653,7 +653,7 @@ s32 func_801E3390(void) {
  */
 
 
-extern s32 func_80024054(u8 *, u8 *);
+extern s32 guess_SjisToGlyphCodes(u8 *, u8 *);
 extern u32 *func_800D2650(s32, u8 *, s16, s16, s32, s32);
 extern u8 *func_800D27DC(s32, s32, void *, s16, s32);
 extern u32 *func_800D29F8(s32, s32, void *, s16, s32);
@@ -688,7 +688,7 @@ s32 func_801E3540(s32 ot, u8 *s, s16 c) {
 
     t = ((Unkstruct_8017C120 *)s)->unk14;
     if (t < 0) {
-        func_80024054((u8 *)t, sp18);
+        guess_SjisToGlyphCodes((u8 *)t, sp18);
         ot = func_800D2650(ot, sp18, ((Unkstruct_8017C120 *)s)->unk10, ((Unkstruct_8017C120 *)s)->unk12, 1,
                            flag ? 0x585858 : 0x808080);
     } else {
@@ -721,7 +721,7 @@ s32 func_801E3540(s32 ot, u8 *s, s16 c) {
             break;
         }
         if (r < 0) {
-            func_80024054((u8 *)r, sp18);
+            guess_SjisToGlyphCodes((u8 *)r, sp18);
             if (dim2 != 0) {
                 sp78[0] = 0x585858;
             }
@@ -1103,7 +1103,7 @@ int func_801E3C1C() {
 
 
 extern char *strcpy(char *, const char *);
-extern u32 func_801E45C0(s32 a0, s32 a1);
+extern u32 guess_IntToBcd_4(s32 a0, s32 a1);
 extern void func_801E4628(val, n, dst, flag);
 
 extern void *D_801EAC58[]; /* status ptr per slot */
@@ -1153,8 +1153,8 @@ void func_801E40A8(void) {
                     if (b >= 60) {
                         b = 59;
                     }
-                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)((func_801E45C0((u16)a, 0x18) | 0xB00000) |
-                                      func_801E45C0(b, 0xC),
+                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)((guess_IntToBcd_4((u16)a, 0x18) | 0xB00000) |
+                                      guess_IntToBcd_4(b, 0xC),
                                   5, (u8 *)arr[1] + 0x12, 0);
                     break;
                 case 2:
@@ -1162,7 +1162,7 @@ void func_801E40A8(void) {
                     if (a >= 1000) {
                         a = 999;
                     }
-                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(func_801E45C0((u16)a, 0x14), 3, (u8 *)arr[2] + 8, 1);
+                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(guess_IntToBcd_4((u16)a, 0x14), 3, (u8 *)arr[2] + 8, 1);
                     n = p[0x42];
                     if (n >= 7) {
                         n = 6;
@@ -1179,8 +1179,8 @@ void func_801E40A8(void) {
                     if (b >= 0x3C) {
                         b = 0x3B;
                     }
-                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)((func_801E45C0((u16)a, 0x18) | 0xB00000) |
-                                      func_801E45C0(b, 0xC),
+                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)((guess_IntToBcd_4((u16)a, 0x18) | 0xB00000) |
+                                      guess_IntToBcd_4(b, 0xC),
                                   5, (u8 *)arr[2] + 0x18, 0);
                     break;
                 case 3:
@@ -1192,11 +1192,11 @@ void func_801E40A8(void) {
                     if (b >= 1000) {
                         b = 999;
                     }
-                    r = func_801E45C0((u16)a, 0x14);
+                    r = guess_IntToBcd_4((u16)a, 0x14);
                     if (r == 0) {
                         r = 0xD00000;
                     }
-                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(r | (func_801E45C0(b, 4) | 0xC0000), 7, (u8 *)arr[3] + 6, 1);
+                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(r | (guess_IntToBcd_4(b, 4) | 0xC0000), 7, (u8 *)arr[3] + 6, 1);
                     break;
                 case 4:
                     a = ((Unkstruct_801E40A8 *)p)->unk40;
@@ -1207,25 +1207,25 @@ void func_801E40A8(void) {
                     if (b >= 1000) {
                         b = 999;
                     }
-                    r = func_801E45C0((u16)a, 0x14);
+                    r = guess_IntToBcd_4((u16)a, 0x14);
                     if (r == 0) {
                         r = 0xD00000;
                     }
-                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(r | (func_801E45C0(b, 4) | 0xC0000), 7, (u8 *)arr[4] + 6, 1);
+                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(r | (guess_IntToBcd_4(b, 4) | 0xC0000), 7, (u8 *)arr[4] + 6, 1);
                     break;
                 case 5:
                     a = ((Unkstruct_801E40A8 *)p)->unk14;
                     if (a > 99999) {
                         a = 99999;
                     }
-                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(func_801E45C0(a, 0xC), 5, (u8 *)arr[5] + 2, 1);
+                    ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(guess_IntToBcd_4(a, 0xC), 5, (u8 *)arr[5] + 2, 1);
                     break;
                 case 6:
                     a = ((Unkstruct_801E40A8 *)p)->unkC;
                     if (a >= 0x24) {
                         a = 0x23;
                     }
-                    r = func_801E45C0((u16)a, 0x18);
+                    r = guess_IntToBcd_4((u16)a, 0x18);
                     if (r == 0) {
                         r = 0xD000000;
                     }
@@ -1250,7 +1250,10 @@ void func_801E40A8(void) {
 }
 
 
-u32 func_801E45C0(s32 a0, s32 a1) {
+/* guess_IntToBcd_4: returns a0 as packed decimal digits (one per nibble, lowest digit in bits 0-3), shifted left by a1
+ * Confidence high, code inference: while a2 >= 10: digit a2 - (a0/10)*10 is OR'ed in at shift a3, a3 += 4; the last digit closes it; returns t0 << a1
+ * Names ledger: config/names.tsv guess_IntToBcd_4 */
+u32 guess_IntToBcd_4(s32 a0, s32 a1) {
     s32 t0;
     s32 a2;
     s32 a3;

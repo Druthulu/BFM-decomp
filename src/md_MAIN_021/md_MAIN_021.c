@@ -214,7 +214,7 @@ void func_800CB378(s32 arg0) {
     extern s32 guess_FreeSmallObject(u8 *a0);
     extern void *guess_AllocSpriteObject(void);
     extern void func_8001CD50(s32 a0, s32 a1);
-    extern void func_800233CC(void *a0, u16 a1);
+    extern void guess_BuildCircle12Points(void *a0, u16 a1);
     extern u8 D_800CB558;
     extern u8 D_800CB559;
     extern u8 D_800CB55A;
@@ -240,7 +240,7 @@ void func_800CB378(s32 arg0) {
         D_800CB55D = 0;
         D_800CB55C = 0;
         a0p[0] = 0;
-        func_800233CC(a0p, 0x60);
+        guess_BuildCircle12Points(a0p, 0x60);
         ((Unkstruct_800CB378 *)arg0)->unk2 = (3);
     } else {
         s0 = ((s32 (*)(void))guess_AllocSpriteObject)();

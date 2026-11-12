@@ -4,7 +4,7 @@ extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_800D0F4C(s32 a0);
 extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
 extern void func_8014BD24(s32 a0, s32 a1);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void guess_NextStep(void *a0);
 extern u8 D_80110EC0;
 void func_80160F70(s32 a0) {
@@ -12,7 +12,7 @@ void func_80160F70(s32 a0) {
         func_800D0F4C(0xA);
         func_8014BB24(a0, 0x96, 0);
         func_8014BD24(a0, 0x96);
-        *(s32 *)(a0 + 0x198) = func_8013767C(&D_80110EC0);
+        *(s32 *)(a0 + 0x198) = guess_OpenTextWindow(&D_80110EC0);
         guess_NextStep((void *)a0);
     }
 }

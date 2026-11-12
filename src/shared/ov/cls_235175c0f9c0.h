@@ -37,7 +37,7 @@ void SHARED_FN(void *a0)
         ((Unkstruct_8018A2D0 *)a0)->unkFA = v;
     }
 
-    func_80017758((u8 *)a0 + 0xCC, &D_800AE620);
+    guess_AddPolyG4((u8 *)a0 + 0xCC, &D_800AE620);
 
     {
         s32 d = ((Unkstruct_8018A2D0 *)a0)->unk1C - 1;

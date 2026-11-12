@@ -226,7 +226,7 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 
    /* 8 bytes */
    /* 0x98 bytes -> sp+0x10 .. sp+0xA8 */
@@ -296,7 +296,7 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
         f.v[2].y = (s8)*p++;
         f.v[3].x = (s8)*p++;
         f.v[3].y = (s8)*p--;
-        func_80017758(f.v, f.m1);
+        guess_AddPolyG4(f.v, f.m1);
     } while ((i = i + 1) < 4);
 
     q = D_800CB7FC;
@@ -316,7 +316,7 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
         f.v[2].z = *q++;
         f.v[3].x = *q++;
         f.v[3].z = *q--;
-        func_80017758(f.v, (void *)(ent + 0x38));
+        guess_AddPolyG4(f.v, (void *)(ent + 0x38));
     } while ((i = i + 1) < 4);
 }
 

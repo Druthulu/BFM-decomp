@@ -3,7 +3,7 @@
 void SHARED_FN(s32 arg0) {
     s32 s0 = arg0;
     if (func_800CF8B4() != 0) {
-        func_8012AD80(s0);
+        guess_ApplyAccelAndVelocity(s0);
         if (guess_TickWaitTimer(s0) != 0) {
             *(s32 *)((s32)s0 + 0x1C) = 0x10;
             func_8012AD44((s32 *)s0, 1);

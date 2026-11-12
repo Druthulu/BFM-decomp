@@ -244,7 +244,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 func_8012AD50(void * arg0);
 extern void func_8012AD64(s32 *a0, s16 a1);
 extern void func_8012AD6C(void *a0);
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void func_8012ADE4(u8 *a0);
 extern s32 *guess_g_PlayerModelPtr;
 extern s32 *D_80126B90;
@@ -254,8 +254,8 @@ extern s32 func_8012AE00(s32 a0);
 extern s32 func_8012AF0C(s32 a0, s32 a1);
 extern s32 func_80134510(s32 arg);
 extern s32 guess_SnapActorToGround(u8 *a0);
-extern int func_80047948(int a0);
-extern int func_8004787C(int a0);
+extern int rcos(int a0);
+extern int rsin(int a0);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
@@ -263,7 +263,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void func_8012B1B4(s32 a0, s32 a1);
 extern void func_8012B200(u8 *a0);
 extern void func_8012B21C(void *a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012B260(u8 *a0);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
@@ -271,7 +271,7 @@ extern void RotMatrixYXZ(void *m, void *p);
 extern void func_8012B370(int a0);
 extern void func_8004978C(s16 *a0, void *a1);
 extern void func_8012B414(int a0);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern s32 ratan2(s32 x, s32 y);
@@ -412,7 +412,7 @@ extern void func_8012E8C4(u8 *a0);
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern void func_8016AA50(int, int);
 extern s32 func_8016B428(int);
-extern void func_80019064(void *);
+extern void guess_StartPadVibration(void *);
 extern int D_8017FF28;
 extern void func_8012E9C0(int param_1);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -616,12 +616,12 @@ extern void func_80137178(s32 x, s32 y);
 extern u8  guess_g_RenderWork[];
 extern u16 aD800B9A02 __asm__("guess_g_DoubleBufferIndex");
 extern void func_801372B0(void);
-extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
+extern s32 guess_OpenTextWindowWithFlags(s32 a0, s32 a1, s32 a2);
 extern void func_801375EC(s32 a0, s16 a1);
 extern s32 func_801399A8(void);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
-extern s32 func_8013767C(s32 a0);
-extern s32 func_801376E8(int a0, int a1);
+extern s32 guess_OpenTextWindow(s32 a0);
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_801376C8(int a0);
 extern s32 D_80127524;
 extern s32 D_80127528;
@@ -797,7 +797,7 @@ void func_8013C9C4(void * arg0)
     D_8019CA0C = 0;
     D_8019CA0D = 0;
     if (func_80019198() == 0) {
-        func_80019064(&D_80062BC0);
+        guess_StartPadVibration(&D_80062BC0);
     }
 }
 
@@ -1937,10 +1937,10 @@ loop:
 extern s32 func_80141C50(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
 extern void func_8013FAF8(s16 a0, s16 a1);
-extern s16 func_8014168C(s16 a0);
+extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern void func_80139954(void);
-extern s32 func_801376E8(int a0, int a1);
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_80137B80(void);
 extern unsigned char *func_80141CA4(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -1970,16 +1970,16 @@ void func_8013EB7C(void) {
         }
         func_8013FAF8(0, 5);
         if (guess_g_MenuPanel == 5) {
-            iVar4 = func_8014032C((2), (((short (*)(s32))func_8014168C)(2)));
+            iVar4 = func_8014032C((2), (((short (*)(s32))guess_GetMenuPanelCursorIndex)(2)));
         } else {
-            iVar4 = func_8014032C(((s16)guess_g_MenuPanel), (((short (*)(s32))func_8014168C)((s16)guess_g_MenuPanel)));
+            iVar4 = func_8014032C(((s16)guess_g_MenuPanel), (((short (*)(s32))guess_GetMenuPanelCursorIndex)((s16)guess_g_MenuPanel)));
         }
         if (iVar4 != 0) {
             s32 *p130 = &guess_g_MenuHelpText;
             if (iVar4 != *p130) {
                 *p130 = iVar4;
                 func_80139954();
-                func_801376E8(iVar4, (s32)&(D_80180F50[0]));
+                guess_OpenTextWindowCenteredAt(iVar4, (s32)&(D_80180F50[0]));
             }
         }
         func_80137B80();
@@ -1987,7 +1987,7 @@ void func_8013EB7C(void) {
             (guess_g_MenuCategory[0]) = 0;
             guess_RequestSound(0x466, 0);
             if (guess_g_MenuPanel != 4) {
-                func_801376E8((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)D_80180F50));
+                guess_OpenTextWindowCenteredAt((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)D_80180F50));
             }
             (*(unsigned short *)&guess_g_MenuStep) -= 1;
         } else {
@@ -2009,7 +2009,7 @@ extern s32 guess_g_MenuPacketPtr;
 extern s16 D_80180F4C;
 extern s16 D_80180F4E[0];
 extern unsigned char D_80180F50[0];
-extern s32 func_801376E8(int a0, int a1);
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern unsigned char *func_80141CA4(void);
 
@@ -2056,7 +2056,7 @@ s32 func_8013EE10() {
     old = *p;
     *p = old + 1;
     if (old >= 5) {
-        ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), D_80180F50);
+        ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)func_80141CA4(), D_80180F50);
         for (i = 0; i < 5; i++) {
             s32 *q = (s32 *)((char *)p - 8);
             *(s32 *)((char *)&q[i] + 0x78) = 0;
@@ -2154,14 +2154,14 @@ extern u16 guess_g_OpenMenuId;
 extern unsigned char D_80180F50[0];
 
 extern unsigned char *func_80141CA4(void);
-extern s32 func_801376E8(int a0, int a1);
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 
 void func_8013F138(void) {
     u16 *p = &guess_g_MenuTransitionTimer;
     *p += 0x10;
     if ((u16)*p >= 0x40) {
         if (guess_g_OpenMenuId == 0) {
-            ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), D_80180F50);
+            ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)func_80141CA4(), D_80180F50);
         }
         guess_g_MenuStep += 1;
     }

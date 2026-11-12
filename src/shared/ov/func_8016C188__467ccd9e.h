@@ -14,7 +14,7 @@ void func_8016C188(s32 param)
     extern s32 func_8016C374(s32, s32, s32, s32);
     extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
     extern void func_8001CD9C(s32, void *);
-    extern void func_800233CC(void *, unsigned short);
+    extern void guess_BuildCircle12Points(void *, unsigned short);
     extern u8 D_8018ED7C[];
     extern s16 D_8018EDC4;
     extern s16 D_8018EDC6;
@@ -42,7 +42,7 @@ void func_8016C188(s32 param)
         ((void (*)(s32, void *))func_8001CD9C)(s2, s0);
         *(s16 *)(s2 + 0x1E) = 0xCCC;
         *(s32 *)(s2 + 4) = *(s32 *)(s2 + 4) | 0x50000000;
-        ((void (*)(void *, s32))func_800233CC)(s0, 0x80);
+        ((void (*)(void *, s32))guess_BuildCircle12Points)(s0, 0x80);
         *(s16 *)(s2 + 0x1A) = 0;
         *(s16 *)(s2 + 0x18) = 0;
         *(s16 *)(s1 + 0x10) = 0;

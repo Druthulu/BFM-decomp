@@ -1,8 +1,8 @@
 /* func_8016AB6C — shared body (overlay slot 0x80128158, h_exact d9b480d3). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8016AB6C(s32 arg0) {
-    extern u32 func_801783D0(s32 a0, s32 a1);
-    extern s32 func_80024054(u8 *a0, u8 *a1);
+    extern u32 guess_IntToBcd(s32 a0, s32 a1);
+    extern s32 guess_SjisToGlyphCodes(u8 *a0, u8 *a1);
     extern void func_8001CE28(Obj_8016AB6C *a0, u8 *a1);
     extern u8 D_801823A4[];
     extern u8 D_801823B4[];
@@ -20,7 +20,7 @@ s32 func_8016AB6C(s32 arg0) {
     u8 var_c2;
     Obj_8016AB6C *obj;
 
-    temp_v0 = func_801783D0(((Ent_8016AB6C *)arg0)->unk30, 0);
+    temp_v0 = guess_IntToBcd(((Ent_8016AB6C *)arg0)->unk30, 0);
     var_s0 = 3;
     var_v1 = -0x1000;
     ((Ent_8016AB6C *)arg0)->unk30 = temp_v0;
@@ -80,10 +80,10 @@ lout:
         ((Ent_8016AB6C *)arg0)->unkA = sp10.vy;
         ((Ent_8016AB6C *)arg0)->unkE = sp10.vz;
         if (((Ent_8016AB6C *)arg0)->unk2C == 6) {
-            var_s3 = func_80024054(D_801823A4, D_8018EC30) + 3;
+            var_s3 = guess_SjisToGlyphCodes(D_801823A4, D_8018EC30) + 3;
             func_8001CE28(obj, D_8018EC30);
         } else {
-            var_s3 = func_80024054(D_801823B4, D_8018EC58) + 9;
+            var_s3 = guess_SjisToGlyphCodes(D_801823B4, D_8018EC58) + 9;
             func_8001CE28(obj, D_8018EC58);
         }
         obj->unkE = var_s3;

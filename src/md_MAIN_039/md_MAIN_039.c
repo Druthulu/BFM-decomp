@@ -60,7 +60,7 @@ void func_800CAED8(u8 *a0) {
 extern s32 D_80062BE8;
 extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                           s32 sp5, s32 sp6, s32 sp7, s32 sp8);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern s32 func_80161208();
@@ -75,7 +75,7 @@ void func_800CAF80(void *a0) {
     } else {
         if (flag & 0x4000) {
             guess_SpawnObject(0x25, (s32)a0, 0, -0x40, 0, 1, 0, 0);
-            func_80019064(&D_80062BE8);
+            guess_StartPadVibration(&D_80062BE8);
         }
         if (func_80161208(a0) == 0) {
             CAST_SIGN(s32, (u8 *)a0, 0x44) |= 2;

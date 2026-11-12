@@ -15,7 +15,7 @@ void SHARED_FN(s32 a0) {
 
     ((Unkstruct_801810AC *)s0)->unkC2 = 0;
     ((Unkstruct_801810AC *)s0)->unk98 = 0;
-    ((void (*)(void *))func_8012B23C)((void *)s0);
+    ((void (*)(void *))guess_ClearVelocityAndSetGravity)((void *)s0);
 
     guess_StartActorSequenceById(s0, 0x8);
     guess_RequestSound(0xA74, 0);

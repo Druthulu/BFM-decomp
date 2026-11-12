@@ -1467,7 +1467,7 @@ void func_8012E364(s32 arg0_)
 
 extern void func_8016AA50(int, int);
 extern s32 func_8016B428(int);
-extern void func_80019064(void *);
+extern void guess_StartPadVibration(void *);
 
 void func_8012E9C0(int param_1)
 {
@@ -1494,7 +1494,7 @@ void func_8012E9C0(int param_1)
         func_8016AA50(param_1, iVar1);
         if ((*(unsigned short *)(param_1 + 0x82) & 1) != 0) {
             func_8016B428(param_1);
-            func_80019064(&D_8017E9D4);
+            guess_StartPadVibration(&D_8017E9D4);
         }
     }
     return;

@@ -23,7 +23,7 @@ void func_8012E9C0(int param_1)
         func_8016AA50(param_1, iVar1);
         if ((*(unsigned short *)(param_1 + 0x82) & 1) != 0) {
             func_8016B428(param_1);
-            func_80019064(&D_8017EE18);
+            guess_StartPadVibration(&D_8017EE18);
         }
     }
     return;

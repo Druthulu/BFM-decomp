@@ -6,7 +6,7 @@
 //   - `D_800629D4` added: a data label in the text->data boundary region that the boot code
 //     references but splat did not auto-label (keeps the all-asm link resolving; no bytes change).
 // Durable text record of manual RE work (the .rep is gitignored).
-// count=1131
+// count=1137
 
 lzss_ringBuffer                  = 0x1F800000; // data
 start                            = 0x80010000; // func
@@ -15,7 +15,9 @@ main                             = 0x80010178; // func
 GameModeDispatch                 = 0x80010B40; // func
 DebugMenuHandler                 = 0x80011144; // func
 guess_ZeroMemory                 = 0x80016714; // func
+guess_AddPolyG4                  = 0x80017758; // func
 LzssDecodeSector                 = 0x80018730; // func
+guess_StartPadVibration          = 0x80019064; // func
 LoaderInitFileTable              = 0x8001971C; // func
 LoaderResetReadState             = 0x80019990; // func
 CdReadRequest                    = 0x80019A24; // func
@@ -25,6 +27,8 @@ ResourceLoadStateMachine         = 0x8001B3C4; // func
 ResourceGetCdLoc                 = 0x8001B788; // func
 SsGetMute                        = 0x8001BD80; // func
 guess_InitModelObject            = 0x8001C214; // func
+guess_BuildCircle12Points        = 0x800233CC; // func
+guess_SjisToGlyphCodes           = 0x80024054; // func
 SsUtReverbOff                    = 0x800285AC; // func
 guess_SetGameFlag                = 0x80029124; // func
 guess_TestGameFlag               = 0x80029178; // func
@@ -318,8 +322,10 @@ mem2mem                          = 0x8004768C; // func
 dma_execute                      = 0x800476C0; // func
 C_011_OBJ_A30                    = 0x8004774C; // func
 C_011_OBJ_A90                    = 0x800477AC; // func
+rsin                             = 0x8004787C; // func
 GEO_00_OBJ_2C                    = 0x800478A8; // func
 GEO_00_OBJ_C4                    = 0x80047940; // func
+rcos                             = 0x80047948; // func
 GEO_01_OBJ_98                    = 0x800479E0; // func
 csqrt_1                          = 0x800479E8; // func
 COR_05_OBJ_130                   = 0x80047B18; // func

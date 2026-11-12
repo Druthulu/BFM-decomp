@@ -7,7 +7,7 @@ extern u8 D_80062BF4[];
 extern s32 func_8016F1C4(void);
 extern void func_8014BC80(s32 a0, s32 a1);
 extern void func_8014AD30(s32 a0, u16 *a1, s32 a2, s32 a3);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 void func_8014B350(s32 a0) {
     s32 s0 = a0;
     s32 s1 = (s32)&guess_g_PlayerRecord;
@@ -36,7 +36,7 @@ void func_8014B350(s32 a0) {
             buf[1] = *(u16 *)(s0 + 0xA) - 0x20;
             buf[2] = *(u16 *)(s0 + 0xE);
             func_8014AD30(s0, buf, 6, 0);
-            func_80019064(&D_80062BF4);
+            guess_StartPadVibration(&D_80062BF4);
         }
     }
     if (*(s16 *)(s1 + 0x56) & 0x8000) {

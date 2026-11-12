@@ -148,7 +148,7 @@ void func_800CB184(void *a0) {
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_80146578(void);
 extern void func_8001CD9C(void *a0, void *a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void guess_NextStep(s32);
 extern void func_800CB3D0();
 
@@ -175,7 +175,7 @@ void func_800CB1BC(void *a0)
         if (s2 != NULL) {
             s0 = &D_800CBD68;
             func_8001CD9C(s2, s0);
-            func_800233CC(s0, 0x20);
+            guess_BuildCircle12Points(s0, 0x20);
 
             vtemp = *(s32 *)((u8 *)s2 + 4);
             *(s16 *)((u8 *)s2 + 0x1A) = 0;
@@ -326,7 +326,7 @@ void func_800CB4F4(int param_1)
 #include "common.h"
 
 extern void *func_800D2294(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
@@ -339,7 +339,7 @@ void func_800CB550(void *a0) {
     ptr = func_800D2294((s32)a0, (s32)base);
     CAST_SIGN(void *, (s32)a0, 0x20) = ptr;
     if (ptr != NULL) {
-        func_800233CC(base, 0x20);
+        guess_BuildCircle12Points(base, 0x20);
         *(s32 *)((s32)ptr + 4) |= 0x50000000;
         guess_SetWaitTimer_2((s32 *)a0, 8);
         ((Unkstruct_80126B58 *)a0)->unk2 = ((Unkstruct_80126B58 *)a0)->unk2 + 1;
@@ -384,7 +384,7 @@ void func_800CB630(void *arg0) {
 
 
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void *guess_AllocSpriteObject(void);
 
 void func_800CB68C(s32 param_1)
@@ -419,7 +419,7 @@ void func_800CB68C(s32 param_1)
         D_800CBDB6 = 0;
         D_800CBDB5 = 0;
         D_800CBDB4 = 0;
-        ((void(*)(void *, unsigned short))func_800233CC)((void *)base, 0x40);
+        ((void(*)(void *, unsigned short))guess_BuildCircle12Points)((void *)base, 0x40);
         func_8001CD50(iNew, base);
         ((Unkstruct_800CB68C_2 *)iNew)->unk34 = (s32)((u8 *)((void *)param_1) + 0x38);
         ((Unkstruct_800CB68C_2 *)iNew)->unk1A = 0;
@@ -550,7 +550,7 @@ extern void RotMatrixYXZ(void *a0, void *a1);
  *
  * LEVER 1 -- hoist-vs-remat.  t1 had `vp = buf + 0x00;` as a live pointer variable. gcc
  * kept it in a callee-saved reg (`addiu $s1,$sp,0x10` once, then `move $a0,$s1` twice);
- * the target rematerializes `addiu $a0,$sp,0x10` before EACH func_80017758 call. Deleting
+ * the target rematerializes `addiu $a0,$sp,0x10` before EACH guess_AddPolyG4 call. Deleting
  * `vp` and passing `buf` directly freed $s1, and the entire callee-saved assignment then
  * fell into place on its own -- a0->$s1, a1->$s6, consts->$s5/$s4/$s3/$s2. No
  * `register __asm__` pin (§17) and no scheduling barrier were needed: the regalloc "fight"
@@ -582,7 +582,7 @@ extern void RotMatrixYXZ(void *a0, void *a1);
 
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 
 #define SHARED_FN func_800CBB38
 #include "../shared/multi/cls_58c6901041b6.h"

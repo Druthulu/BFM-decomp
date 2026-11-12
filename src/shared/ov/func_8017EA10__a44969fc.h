@@ -5,7 +5,7 @@ void func_8017EA10(s32 *a0) {
     s32 result;
 
     if (func_8017EC2C((s32)a0) < 400) {
-        result = func_8013767C((s32)&D_80183058);
+        result = guess_OpenTextWindow((s32)&D_80183058);
         s0[0x198 / 4] = result;
         guess_SetAnimScript(s0, (s32)D_80182D0C);
         guess_PlaySoundUnlessSkipped(0x7E7);

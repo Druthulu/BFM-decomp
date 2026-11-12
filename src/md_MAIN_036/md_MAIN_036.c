@@ -174,7 +174,7 @@ extern s16 D_800CC136;
 extern s16 D_800CC138;
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_PlayerActor[];
-extern s32 func_8004787C(s32);
+extern s32 rsin(s32);
 extern s32 func_80012DBC(s32, s32, s32, s32);
 extern u16 guess_GetPadPressed(s32 *);
 extern s32 guess_TickWaitTimer_2(s32);
@@ -196,10 +196,10 @@ void func_800CB218(void *arg0) {
 
     switch (mode) {
     case 0:
-        ((Unkstruct_80126B58 *)arg0)->unk60 = (func_8004787C((guess_g_FrameCounter & 0x3F) << 6)) / 64;
+        ((Unkstruct_80126B58 *)arg0)->unk60 = (rsin((guess_g_FrameCounter & 0x3F) << 6)) / 64;
         break;
     case 1:
-        ((Unkstruct_80126B58 *)arg0)->unk60 = (func_8004787C((guess_g_FrameCounter & 0x1F) << 7)) / 32;
+        ((Unkstruct_80126B58 *)arg0)->unk60 = (rsin((guess_g_FrameCounter & 0x1F) << 7)) / 32;
         break;
     }
 
@@ -227,7 +227,7 @@ void func_800CB218(void *arg0) {
 
 
 void func_800CB3B4(void *arg0) {
-    extern s32 func_8004787C(s32);
+    extern s32 rsin(s32);
     extern void guess_SetWaitTimer_2(s32 *, s32);
     extern void guess_PlaySoundUnlessSkipped(s32);
     extern void guess_NextStep(void *);
@@ -249,11 +249,11 @@ void func_800CB3B4(void *arg0) {
 
     v0 = ((Unkstruct_80126B58 *)arg0)->unk1C;
     ((Unkstruct_80126B58 *)arg0)->unk1C = v0 + 1;
-    *(s16 *)((s32)s3 + 0x18) = func_8004787C((v0 & 7) << 9) / 32 + 0x1000;
+    *(s16 *)((s32)s3 + 0x18) = rsin((v0 & 7) << 9) / 32 + 0x1000;
 
     v0 = ((Unkstruct_80126B58 *)arg0)->unk1C;
     ((Unkstruct_80126B58 *)arg0)->unk1C = v0 + 1;
-    *(s16 *)((s32)s3 + 0x1A) = func_8004787C((v0 & 7) << 9) / 64 + 0x1000;
+    *(s16 *)((s32)s3 + 0x1A) = rsin((v0 & 7) << 9) / 64 + 0x1000;
 
     {
         s16 *evt;

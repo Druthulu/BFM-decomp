@@ -63,7 +63,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_801655E4(s32 a0);
 extern u8 guess_g_RumblePatternShort;
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 func_80165624(s32 a0);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
@@ -100,7 +100,7 @@ void func_800CAF9C(s32 a0) {
         guess_SpawnSmallObject(0xF, (void *)a0, 0, -0x18, -0xF, 0, 0);
         guess_PlaySoundUnlessSkipped(0x476);
         func_801655E4(a0);
-        func_80019064(&guess_g_RumblePatternShort);
+        guess_StartPadVibration(&guess_g_RumblePatternShort);
     }
 
     if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
@@ -344,7 +344,7 @@ void func_800CB6A4(void *arg0) {
 
 
 extern signed char D_800CBB44[];
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 
 s32 func_800CB6FC(s32 param_1) {
     unsigned char buf[0x34];
@@ -381,7 +381,7 @@ s32 func_800CB6FC(s32 param_1) {
         ((Unkstruct_800CB6FC *)buf)->unk14 = *p++;
         ((Unkstruct_800CB6FC *)buf)->unk18 = *p++;
         ((Unkstruct_800CB6FC *)buf)->unk1C = *p--;
-        func_80017758(buf, (void *)((s32)param_1 + 0x38));
+        guess_AddPolyG4(buf, (void *)((s32)param_1 + 0x38));
         i++;
     } while (i < 4);
 }
@@ -442,7 +442,7 @@ void func_800CB930(void *arg0) {
 
 
 extern signed char D_800CBB44[];
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 
 s32 func_800CB988(s32 param_1) {
     unsigned char buf[0x34];
@@ -479,7 +479,7 @@ s32 func_800CB988(s32 param_1) {
         ((Unkstruct_800CB988 *)buf)->unk12 = *p++;
         ((Unkstruct_800CB988 *)buf)->unk18 = *p++;
         ((Unkstruct_800CB988 *)buf)->unk1A = *p--;
-        func_80017758(buf, (void *)((s32)param_1 + 0x38));
+        guess_AddPolyG4(buf, (void *)((s32)param_1 + 0x38));
         i++;
     } while (i < 4);
 }

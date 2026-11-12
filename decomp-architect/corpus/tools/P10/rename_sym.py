@@ -94,7 +94,7 @@ def _addr(a):
 
 
 def _hex(v):
-    """A registry vram -> '0x%08X'. YAML reads a bare 0x80179B28 as the int 2149030696: never str() it."""
+    """A registry vram -> '0x%08X'. YAML reads a bare 0x80FFFFF0 as the int 2164260848: never str() it."""
     return "0x%08X" % (v if isinstance(v, int) else int(str(v), 16))
 
 

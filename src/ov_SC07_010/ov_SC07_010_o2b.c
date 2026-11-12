@@ -14,7 +14,7 @@ void func_8013C98C(void) {
 }
 
 
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 
 void func_8013C9C4(void * arg0)
 {
@@ -27,7 +27,7 @@ void func_8013C9C4(void * arg0)
     D_801A6AA4 = 0;
     D_801A6AA5 = 0;
     if (func_80019198() == 0) {
-        func_80019064(&D_80062BC0);
+        guess_StartPadVibration(&D_80062BC0);
     }
 }
 
@@ -1190,10 +1190,10 @@ loop:
 extern s32 func_80141C50(void);
 extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
 extern void func_8013FAF8(s16 a0, s16 a1);
-extern s16 func_8014168C(s16 a0);
+extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern void func_80139954(void);
-extern s32 func_801376E8(int a0, int a1);
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_80137B80(void);
 extern unsigned char *func_80141CA4(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -1224,16 +1224,16 @@ void func_8013EB7C(void) {
         }
         func_8013FAF8(0, 5);
         if (guess_g_MenuPanel == 5) {
-            iVar4 = func_8014032C((2), (((short (*)(s32))func_8014168C)(2)));
+            iVar4 = func_8014032C((2), (((short (*)(s32))guess_GetMenuPanelCursorIndex)(2)));
         } else {
-            iVar4 = func_8014032C(((s16)guess_g_MenuPanel), (((short (*)(s32))func_8014168C)((s16)guess_g_MenuPanel)));
+            iVar4 = func_8014032C(((s16)guess_g_MenuPanel), (((short (*)(s32))guess_GetMenuPanelCursorIndex)((s16)guess_g_MenuPanel)));
         }
         if (iVar4 != 0) {
             s32 *p130 = &guess_g_MenuHelpText;
             if (iVar4 != *p130) {
                 *p130 = iVar4;
                 func_80139954();
-                func_801376E8(iVar4, (s32)&(D_8018333C[0]));
+                guess_OpenTextWindowCenteredAt(iVar4, (s32)&(D_8018333C[0]));
             }
         }
         func_80137B80();
@@ -1241,7 +1241,7 @@ void func_8013EB7C(void) {
             (guess_g_MenuCategory[0]) = 0;
             guess_RequestSound(0x466, 0);
             if (guess_g_MenuPanel != 4) {
-                func_801376E8((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)D_8018333C));
+                guess_OpenTextWindowCenteredAt((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)D_8018333C));
             }
             (*(unsigned short *)&guess_g_MenuStep) -= 1;
         } else {
@@ -1257,7 +1257,7 @@ void func_8013EB7C(void) {
 #include "../shared/ov/func_8013ED6C.h"
 
 
-extern s32 func_801376E8(int a0, int a1);
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern unsigned char *func_80141CA4(void);
 
@@ -1312,7 +1312,7 @@ s32 func_8013EE10() {
     old = *p;
     *p = old + 1;
     if (old >= 5) {
-        ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), D_8018333C);
+        ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)func_80141CA4(), D_8018333C);
         for (i = 0; i < 5; i++) {
             s32 *q = (s32 *)((char *)p - 8);
             *(s32 *)((char *)&q[i] + 0x78) = 0;
@@ -1406,7 +1406,7 @@ void func_8013EF88(void)
 
 
 extern unsigned char *func_80141CA4(void);
-extern s32 func_801376E8(int a0, int a1);
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 
 void func_8013F138(void) {
 
@@ -1418,7 +1418,7 @@ void func_8013F138(void) {
     *p += 0x10;
     if ((u16)*p >= 0x40) {
         if (guess_g_OpenMenuId == 0) {
-            ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), D_8018333C);
+            ((void (*)(int, unsigned char *))guess_OpenTextWindowCenteredAt)((int)func_80141CA4(), D_8018333C);
         }
         guess_g_MenuStep += 1;
     }

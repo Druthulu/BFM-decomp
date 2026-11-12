@@ -124,8 +124,8 @@ short func_8016CBC0(void)
             p1.v[3].z = b;
             p0.v[3].z = (p1.v[2].z = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
-          func_80017758(&p0, &mtx);
-          func_80017758(&p1, &mtx);
+          guess_AddPolyG4(&p0, &mtx);
+          guess_AddPolyG4(&p1, &mtx);
           w3b = iVar3 - 1;
           iVar3 = w3b;
         }

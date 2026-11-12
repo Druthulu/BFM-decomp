@@ -861,7 +861,7 @@ void func_8012ACA0(void *arg0) {
  * Known-good shape reused verbatim from the shared engine-core dedup family
  * (e.g. src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c, src/shared/engine_types.h
  * Ang2_8012B77C_* bitfield struct). Callee `ratan2` is the linked/known name
- * for 0x8004CFEC (asm calls `jal ratan2` directly); func_80047948/func_8004787C
+ * for 0x8004CFEC (asm calls `jal ratan2` directly); rcos/rsin
  * match the manifest's declared signatures verbatim.
  *
  * The 4-byte destination is a PACKED PAIR of angles held entirely in ONE saved
@@ -1480,7 +1480,7 @@ extern u8 guess_g_CameraWsMatrix;
 
 extern void func_8016AA50(int, int);
 extern s32 func_8016B428(s32);
-extern void func_80019064(void *);
+extern void guess_StartPadVibration(void *);
 
 void func_8012E9C0(int param_1)
 {
@@ -1507,7 +1507,7 @@ void func_8012E9C0(int param_1)
         func_8016AA50(param_1, iVar1);
         if ((*(unsigned short *)(param_1 + 0x82) & 1) != 0) {
             ((void (*)(int))func_8016B428)(param_1);
-            func_80019064(&D_8017E6D4);
+            guess_StartPadVibration(&D_8017E6D4);
         }
     }
     return;

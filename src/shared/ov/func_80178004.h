@@ -1,6 +1,6 @@
 /* func_80178004 — shared body (overlay slot 0x80128158, h_exact e1b70e9f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern u32 func_801783D0(s32 a0, s32 a1);
+extern u32 guess_IntToBcd(s32 a0, s32 a1);
 s32 func_80178004(uint *param_1, uint param_2, int param_3)
 {
     extern short D_8011F81E;
@@ -83,7 +83,7 @@ s32 func_80178004(uint *param_1, uint param_2, int param_3)
         a0arg = 100 - (D_8011F81E * 0xa198 >> 0x10);
         {
             uint ret;
-            ret = ((uint (*)(int, int))func_801783D0)(a0arg, 4);
+            ret = ((uint (*)(int, int))guess_IntToBcd)(a0arg, 4);
             q = p;
             uVar1 = ret;
         }

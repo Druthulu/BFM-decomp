@@ -3,7 +3,7 @@
 void SHARED_FN(s32 a0) {
     s32 v;
 
-    func_8012AD80(a0);
+    guess_ApplyAccelAndVelocity(a0);
     v = ((Unkstruct_800B5CB8 *)a0)->unk14;
     if (v > 0x14000) {
         ((Unkstruct_800B5CB8 *)a0)->unk48 = -0x1400;

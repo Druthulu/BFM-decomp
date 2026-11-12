@@ -14,8 +14,8 @@ void func_8016E9EC(u8 *p)
     i = p[0] - 1;
     off = D_80181E78[i];
     buf = D_80181E60[i];
-    func_800D2D10((func_800D2CA8(p[3], 0x1C)), 1, buf + off, 0);
-    func_80024054(buf, p + 8);
+    guess_BcdToDigitCodes((guess_IntToBcd_2(p[3], 0x1C)), 1, buf + off, 0);
+    guess_SjisToGlyphCodes(buf, p + 8);
     p[3] = (i + 0);
     *(s16 *)(p + 4) = -0xD7;
     h = D_80181E7C[i];

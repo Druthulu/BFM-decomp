@@ -8,7 +8,7 @@ void SHARED_FN(s32 param) {
 
     a0 = ((Unkstruct_80126B58 *)param)->unk1C & 0x3F;
     s1 = (s32 *)(((Unkstruct_80126B58 *)param)->unk20);
-    v0 = func_8004787C(a0 << 6);
+    v0 = rsin(a0 << 6);
 
     v1 = ((Unkstruct_80126B58 *)param)->unk10;
     if (v0 < 0) {

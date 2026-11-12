@@ -14,8 +14,8 @@ s32 SHARED_FN(s32 out, s32 from, s32 to) {
     ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
     t.hi = ang;
 
-    r1 = func_80047948(ang);
-    r2 = func_8004787C(ang);
+    r1 = rcos(ang);
+    r2 = rsin(ang);
     dz = (dz * r1 + dx * r2) >> 12;
     t.lo = ratan2(dy, -dz);
 

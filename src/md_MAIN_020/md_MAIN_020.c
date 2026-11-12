@@ -163,7 +163,7 @@ s32 func_800CB17C(struct S *a0) {
     extern void guess_PlaySoundUnlessSkipped(s32 a0);
     extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
     extern void guess_SaveGroundedPos(s32 a0);
-    extern void func_80019064(void *a0);
+    extern void guess_StartPadVibration(void *a0);
     extern s32 D_800CB1F4[];
     extern u8 guess_g_RumblePatternShort[];
     s32 s0 = (s32)a0;
@@ -174,7 +174,7 @@ s32 func_800CB17C(struct S *a0) {
     guess_PlaySoundUnlessSkipped(0x47A);
     guess_SpawnSmallObjectType2(s0, 2);
     guess_SaveGroundedPos(s0);
-    func_80019064(guess_g_RumblePatternShort);
+    guess_StartPadVibration(guess_g_RumblePatternShort);
 }
 
 

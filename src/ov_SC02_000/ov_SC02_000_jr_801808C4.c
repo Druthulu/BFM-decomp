@@ -56,7 +56,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void func_801803B0(void);
 extern s32 rand(void);
@@ -155,7 +155,7 @@ void func_80180AD4(s32 param_1)
                     CAST_WIDTH(u16, param_1, 0x5e) = 0;
                     ((Unkstruct_800B5CB8 *)param_1)->unk5C = 0xaa10;
                     guess_UpdateActorModelMatrix(param_1);
-                    func_8012B23C(param_1);
+                    guess_ClearVelocityAndSetGravity(param_1);
                     guess_SetLocalVelocity(param_1, (s32)&D_8018E68C);
                     guess_StartActorSequence(param_1, &D_801A648C);
                     break;

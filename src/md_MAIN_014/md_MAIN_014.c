@@ -69,7 +69,7 @@ void func_800CAF90(void *a0) {
     extern void func_80017E68(void *a0, void *a1);
     extern void RotMatrixYXZ(void *a0, void *a1);
     extern void func_80048D9C(void *a0, void *a1);
-    extern void func_80017758(void *a0, void *a1);
+    extern void guess_AddPolyG4(void *a0, void *a1);
     extern u8 D_800CB5C8[];
 
     s16 vecA[4];
@@ -137,7 +137,7 @@ void func_800CAF90(void *a0) {
         ((Unkstruct_800CAF90_2 *)info)->unk18 = (s8)*tbl; tbl++;
         last = (s8)*tbl; tbl--;
         ((Unkstruct_800CAF90_2 *)info)->unk1A = last;
-        func_80017758(info, s2vec);
+        guess_AddPolyG4(info, s2vec);
     }
 }
 

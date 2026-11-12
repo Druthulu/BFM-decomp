@@ -13,16 +13,16 @@ void func_8013EB7C(void) {
         }
         func_8013FAF8(0, 5);
         if (guess_g_MenuPanel == 5) {
-            iVar4 = func_8014032C((2), (((short (*)(s32))func_8014168C)(2)));
+            iVar4 = func_8014032C((2), (((short (*)(s32))guess_GetMenuPanelCursorIndex)(2)));
         } else {
-            iVar4 = func_8014032C(((s16)guess_g_MenuPanel), (((short (*)(s32))func_8014168C)((s16)guess_g_MenuPanel)));
+            iVar4 = func_8014032C(((s16)guess_g_MenuPanel), (((short (*)(s32))guess_GetMenuPanelCursorIndex)((s16)guess_g_MenuPanel)));
         }
         if (iVar4 != 0) {
             s32 *p130 = &guess_g_MenuHelpText;
             if (iVar4 != *p130) {
                 *p130 = iVar4;
                 func_80139954();
-                func_801376E8(iVar4, (s32)&(*(u8 *)&D_801805F4));
+                guess_OpenTextWindowCenteredAt(iVar4, (s32)&(*(u8 *)&D_801805F4));
             }
         }
         func_80137B80();
@@ -30,7 +30,7 @@ void func_8013EB7C(void) {
             (*(s16 *)&guess_g_MenuCategory) = 0;
             guess_RequestSound(0x466, 0);
             if (guess_g_MenuPanel != 4) {
-                func_801376E8((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)&D_801805F4));
+                guess_OpenTextWindowCenteredAt((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)&D_801805F4));
             }
             (*(unsigned short *)&guess_g_MenuStep) -= 1;
         } else {

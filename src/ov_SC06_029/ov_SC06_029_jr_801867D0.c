@@ -279,18 +279,18 @@ extern s32 func_80148D24(void *a0, int a1);
 extern s32 func_80148D3C(void);
 extern s32 func_80148F60(void);
 extern s32 func_80148F68(s32 a0);
-extern s32 func_80148F74(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn(s32 a0);
 extern s32 func_80148F80(s32 a0);
 extern s32 func_80148F8C(s32 a0);
 extern s32 func_80148F98(void);
 extern s32 func_80148FA0(s32 a0);
-extern s32 func_80148FAC(s32 a0);
-extern s32 func_80148FB8(s32 a0);
+extern s32 guess_AnglePlusQuarterTurn_2(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn(s32 a0);
 extern s32 func_80148FC4(s32 a0);
 extern s32 func_80148FD0(void);
 extern s32 func_80148FD8(void);
 extern s32 func_80148FE0(s32 a0);
-extern s32 func_80148FEC(s32 a0);
+extern s32 guess_AngleMinusQuarterTurn_2(s32 a0);
 extern s32 func_80148FF8(s32 a0);
 extern s32 func_80149004(void);
 extern void func_8014900C(s32 *a0);
@@ -448,7 +448,7 @@ extern s32 D_80078ECC;
 extern void func_8014B33C(void);
 extern u8 D_80062BF4[];
 extern void func_8014BC80(s32 a0, s32 a1);
-extern void func_80019064(void *a0);
+extern void guess_StartPadVibration(void *a0);
 extern s32 D_80078E98;
 extern void func_80166244(void* arg0);
 extern void func_8014B4D4(void *a0);
@@ -1074,7 +1074,7 @@ extern M2C_UNK D_800D5904;
 extern void func_80158E24(s32 *a0);
 extern s32 D_8018E8D8[];
 extern int rand(void);
-extern s32 func_8013767C(s32 a0);
+extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_80158F00(int param_1);
 extern u8 guess_g_StartPromptText[];
 extern s32 guess_GetTextWindowResult(s32);
@@ -1547,7 +1547,7 @@ extern void func_80164ACC(s32 a0);
 extern void (*D_8018F178[])(void);
 extern void func_80164BA0(void *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
-extern void func_800233CC(void *, unsigned short);
+extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
 extern void func_80164DB0(void);
 extern u8 D_801DBB40;
@@ -1744,7 +1744,7 @@ extern void func_801693CC(void *a0);
 extern void func_80169584(s32 param_1);
 extern void func_80169408(s32 a0);
 extern void func_8016951C(int param_1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_801696D8(s32 a0, s32 a1);
 extern void (*D_8018F58C[])(void);
@@ -2186,8 +2186,8 @@ extern s32 func_80171FFC(short *a0, short *a1, s32 a2);
 extern s32 func_80171D1C(void * a0, void * a1, s32 a2);
 extern s32 func_8017248C(s32 a0, s32 a1);
 extern s32 func_80171E08(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_80047948(s32 a0);
-extern s32 func_8004787C(s32 a0);
+extern s32 rcos(s32 a0);
+extern s32 rsin(s32 a0);
 extern void func_80172170(s32 a0, s32 a1);
 extern s32 func_8017209C(void *arg0, void *arg1, s32 arg2, s32 arg3);
 extern void func_801722CC(s32 *a0);
@@ -2472,7 +2472,7 @@ extern u16 guess_g_HudHpPanelX;
 extern u16 guess_g_HudHpPanelY;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
-extern u32 func_801783D0(s32 a0, s32 a1);
+extern u32 guess_IntToBcd(s32 a0, s32 a1);
 extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern u16 guess_g_HudShownHp;
 extern u16 D_8011F82A;
@@ -2528,7 +2528,7 @@ extern short D_801E218C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
 extern s32 func_80178D40(s32 arg0, s32 arg1);
-extern void func_80179B28(s32 a0);
+extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
 extern void func_80179D78(u16 *a0);
@@ -2588,9 +2588,9 @@ extern s32 func_8017AD0C(s32 arg0);
 extern s32 func_8017AD0C(s32);
 extern s32 func_8017ADE8(s32 a0);
 extern s32 func_8017AE08(void);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern s32 func_8012BE98(s32 a0, u16 *a1);
@@ -3003,7 +3003,7 @@ extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern s32 ratan2(s32 a0, s32 a1);
-extern void func_80017758(void *a0, void *a1);
+extern void guess_AddPolyG4(void *a0, void *a1);
 extern u16 guess_g_FrameCounter;
 extern s32 guess_g_MainCameraAppliedViewPointX;
 extern s32 guess_g_MainCameraAppliedViewPointY;
@@ -3048,8 +3048,8 @@ static inline void setup_80188D90(s32 a0, void *mtx) {
 
 void func_801867D0(s32 param_1) {
     extern void func_8012E88C(u8 *a0);
-    extern void func_8012AD80(s32 a0);
-    extern void func_8012B23C(s32 a0);
+    extern void guess_ApplyAccelAndVelocity(s32 a0);
+    extern void guess_ClearVelocityAndSetGravity(s32 a0);
     extern s32 func_801789AC(s32 arg0);
     extern void func_80178D18(void);
     extern void guess_FreeActor(void *a0);
@@ -3075,11 +3075,11 @@ void func_801867D0(s32 param_1) {
         guess_RequestSound(0xBD2, 0);
         break;
     case 2:
-        func_8012AD80(D_801DFF6C);
-        func_8012AD80(D_801DFF70);
-        func_8012AD80(D_801DFF74);
-        func_8012AD80(D_801DFF80);
-        func_8012AD80(D_801DFF84);
+        guess_ApplyAccelAndVelocity(D_801DFF6C);
+        guess_ApplyAccelAndVelocity(D_801DFF70);
+        guess_ApplyAccelAndVelocity(D_801DFF74);
+        guess_ApplyAccelAndVelocity(D_801DFF80);
+        guess_ApplyAccelAndVelocity(D_801DFF84);
         break;
     case 0:
     case 3:
@@ -3088,7 +3088,7 @@ void func_801867D0(s32 param_1) {
         break;
     case 4:
         if (((Unkstruct_800B5CB8 *)D_801DFF6C)->unk98 == 0) {
-            func_8012B23C(D_801DFF6C);
+            guess_ClearVelocityAndSetGravity(D_801DFF6C);
             ((Unkstruct_800B5CB8 *)param_1)->unk34 = ((Unkstruct_800B5CB8 *)param_1)->unk34 + 1;
         }
         break;
@@ -3239,13 +3239,13 @@ void func_80186C14(void) {
 }
 
 
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 D_801DFF78;
 
 s32 func_80186C3C(s32 param_1)
 {
     s16 v;
-    func_8012AD80(D_801DFF78);
+    guess_ApplyAccelAndVelocity(D_801DFF78);
     v = *(u16 *)(param_1 + 0x10A) - 1;
     *(u16 *)(param_1 + 0x10A) = v;
     return v == 0;
@@ -3444,14 +3444,14 @@ extern void func_8018B20C(void);
 extern s32 D_801DFF70;
 extern s32 D_801DFF6C;
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 
 s32 func_801870D4(s32 arg0) {
     s32 temp;
     s32 ret;
 
     temp = func_8012B6D4((s16 *)(D_801DFF70 + 4), (s16 *)(D_801DFF6C + 4));
-    ret = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)D_801DFF70)->unk20 + 0x12), temp, 0x8);
+    ret = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)D_801DFF70)->unk20 + 0x12), temp, 0x8);
     ((Unkstruct_800B5CB8 *)*(s32 *)(D_801DFF70 + 0x20))->unk12 += ret;
     return ret == 0;
 }
@@ -3460,14 +3460,14 @@ s32 func_801870D4(s32 arg0) {
 extern s32 D_801DFF70;
 extern s32 D_801DFF7C;
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 
 s32 func_80187148(s32 arg0) {
     s32 temp;
     s32 ret;
 
     temp = func_8012B6D4((s16 *)(D_801DFF70 + 4), (s16 *)(D_801DFF7C + 4));
-    ret = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)D_801DFF70)->unk20 + 0x12), temp, 0x8);
+    ret = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)D_801DFF70)->unk20 + 0x12), temp, 0x8);
     ((Unkstruct_800B5CB8 *)*(s32 *)(D_801DFF70 + 0x20))->unk12 += ret;
     if (ret == 0) {
         *(s32 *)(arg0 + 0xD4) = D_801DFF7C;
@@ -3494,12 +3494,12 @@ s32 func_801871E8(void) {
 extern s32 D_801DFF70;
 extern u16 D_8019126C;
 extern s32 guess_YawToPoint(void *a0, void *a1);
-extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 
 s32 func_80187230(s32 arg0) {
     s32 ret;
 
-    ret = func_8012B608(*(s16 *)(((Unkstruct_800B5CB8 *)D_801DFF70)->unk20 + 0x12),
+    ret = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)D_801DFF70)->unk20 + 0x12),
                         guess_YawToPoint((void *)(D_801DFF70 + 4), &D_8019126C), 4);
     ((Unkstruct_800B5CB8 *)*(s32 *)(D_801DFF70 + 0x20))->unk12 += ret;
     if (ret == 0) {
@@ -3601,7 +3601,7 @@ extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_8012E88C(u8 *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 func_80013350(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 
@@ -3656,7 +3656,7 @@ s32 func_8018743C(void) {
     if ((n & 0xF) == 0) {
         guess_RequestSound(0xBD6, 0);
     }
-    func_8012AD80(D_801DFF88);
+    guess_ApplyAccelAndVelocity(D_801DFF88);
     if (func_80013350(D_801DFF88 + 4, D_801DFF74 + 4) >= 0x4001) {
         return 0;
     }
@@ -3685,7 +3685,7 @@ extern u16 D_80191276;
 extern u16 D_80191278;
 
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void func_8012AD80(s32 a0);
+extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void func_8013C9C4(void *a0);
 extern s32  guess_SpawnActor(s32 a0, s32 a1, s32 a2);
@@ -3708,7 +3708,7 @@ void func_80187660(s32 arg0)
         ((Unkstruct_800B5CB8 *)D_801DFF88)->unk34 = ((Unkstruct_800B5CB8 *)D_801DFF88)->unk34 + 1;
         /* fallthrough */
     case 1:
-        func_8012AD80(D_801DFF88);
+        guess_ApplyAccelAndVelocity(D_801DFF88);
         if (((Unkstruct_800B5CB8 *)D_801DFF88)->unk14 >= 0) {
             ((Unkstruct_800B5CB8 *)D_801DFF88)->unk34 = ((Unkstruct_800B5CB8 *)D_801DFF88)->unk34 + 1;
             ((Unkstruct_800B5CB8 *)*(s32 *)(D_801DFF88 + 0x20))->unk2C |= 0x10;
@@ -3940,8 +3940,8 @@ s32 func_80187CE4(void) {
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-extern s32 func_80047948(s32 a0);
-extern s32 func_8004787C(s32 a0);
+extern s32 rcos(s32 a0);
+extern s32 rsin(s32 a0);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern u8 *func_8012913C(s32 a0);
@@ -3967,8 +3967,8 @@ void func_80187D64(s32 arg0) {
             ((Unkstruct_800B5CB8 *)ent)->unk6 = vec[0];
             ((Unkstruct_800B5CB8 *)ent)->unkA = vec[1];
             ((Unkstruct_800B5CB8 *)ent)->unkE = vec[2];
-            CAST_WIDTH(s32, ent, 0x10) = func_80047948(s0) * 320;
-            CAST_WIDTH(s32, ent, 0x18) = func_8004787C(s0) * 320;
+            CAST_WIDTH(s32, ent, 0x10) = rcos(s0) * 320;
+            CAST_WIDTH(s32, ent, 0x18) = rsin(s0) * 320;
             ((Unkstruct_800B5CB8 *)ent)->unk34 = (((rand() % 3) << 12) + 0x4000) | 1;
             ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC004;
         }
@@ -4510,7 +4510,7 @@ void func_80188D90(s32 a0) {
         p.v[2].vy = *q++;
         p.v[3].vx = *q++;
         p.v[3].vy = *q--;
-        func_80017758(&p, mtx);
+        guess_AddPolyG4(&p, mtx);
     }
 
     q = D_8018F664;
@@ -4524,7 +4524,7 @@ void func_80188D90(s32 a0) {
         p.v[2].vz = *q++;
         p.v[3].vx = *q++;
         p.v[3].vz = *q--;
-        func_80017758(&p, mtx);
+        guess_AddPolyG4(&p, mtx);
         if (i == 1) {
             p.v[1].vz = 0x20;
             q += 2;
@@ -4541,7 +4541,7 @@ void func_80188D90(s32 a0) {
         p.v[2].vz = *q++;
         p.v[3].vx = *q++;
         p.v[3].vz = *q++;
-        func_80017758(&p, mtx);
+        guess_AddPolyG4(&p, mtx);
     }
 }
 
@@ -4622,7 +4622,7 @@ void func_80189244(Obj_80189244 *p) {
 /* func_80189440 - ov_SC06_029 - "25-quad ribbon/trail emitter".
  *
  * Shifts the x coordinate of a 52-entry SVECTOR strip down by one pair, feeds a
- * new head pair from a sine table (func_80047948), builds a local MATRIX from
+ * new head pair from a sine table (rcos), builds a local MATRIX from
  * D_800AE620 + RotMatrixZ, composes it with the camera matrix guess_g_CameraWsMatrix by
  * hand (three rtir column rotations + one rt on the translation vector), then
  * emits 25 gouraud quads (POLY_G4, code 0x3A) into the double-buffered OT
@@ -4631,7 +4631,7 @@ void func_80189244(Obj_80189244 *p) {
  */
 
 
-extern s32 func_80047948(s32 a0);
+extern s32 rcos(s32 a0);
 extern void RotMatrixZ(s32 r, void *m);
 
 
@@ -4672,7 +4672,7 @@ void func_80189440(s32 arg0, SV_189440 *v)
         p -= 2;
     }
 
-    j = func_80047948(v[0x34].vy);
+    j = rcos(v[0x34].vy);
     x = (v[0x34].vx * j) >> 12;
     *(u16 *)&v[0x34].vy = *(u16 *)&v[0x34].vy + *(s32 *)&v[0x35].vz;
     v[0].vx = x - *(u16 *)&v[0x35].vy;

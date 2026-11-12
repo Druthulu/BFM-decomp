@@ -6,8 +6,8 @@ extern void guess_StartActorSequence(s32 a0, void *a1);        /* host TU L2930/
 extern void guess_RequestSound(s32 a0, s32 a1);          /* host TU L52    */
 extern s32  guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2); /* host TU L2524 */
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);  /* host TU L323   */
-extern s32  func_8004787C(s32 a0);                  /* host TU L2198 */
-extern s32  func_80047948(s32 a0);                  /* host TU L2197 */
+extern s32  rsin(s32 a0);                  /* host TU L2198 */
+extern s32  rcos(s32 a0);                  /* host TU L2197 */
 extern u8 D_801E2170[];                             /* host TU L2938 */
 extern u8 D_801E2910[];
 extern u8 D_80190548[];
@@ -40,9 +40,9 @@ void func_80187090(s32 a0) {
                 *(u16 *)(*(s32 *)(t + 0x20) + 0x12) =
                     *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
                 *(s32 *)(t + 0x10) =
-                    -(func_8004787C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) << 8);
+                    -(rsin(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) << 8);
                 *(s32 *)(t + 0x18) =
-                    -(func_80047948(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) << 8);
+                    -(rcos(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) << 8);
                 *(u16 *)(t + 0x6) = sp10[0];
                 *(u16 *)(t + 0xA) = sp10[1];
                 *(u16 *)(t + 0xE) = sp10[2];

@@ -4,7 +4,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, void *a1);
-extern void func_8012B23C(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s32 func_80143970(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern u16 D_80192D94;
@@ -39,5 +39,5 @@ void func_80188028(s32 a0) {
     guess_RequestSound(0x6A9, 0);
     *(u16 *)(a0 + 2) += 1;
     func_80143970(a0);
-    func_8012B23C(a0);
+    guess_ClearVelocityAndSetGravity(a0);
 }

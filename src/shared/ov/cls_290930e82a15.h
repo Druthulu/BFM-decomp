@@ -4,7 +4,7 @@ void SHARED_FN(s32 a0) {
     s32 owner = ((Unkstruct_800B5CB8 *)a0)->unkCC;
     s32 obj;
 
-    func_8012AD80(a0);
+    guess_ApplyAccelAndVelocity(a0);
     obj = ((Unkstruct_800B5CB8 *)a0)->unkCC;
     ((Unkstruct_800B5CB8 *)obj)->unk8 = ((Unkstruct_800B5CB8 *)a0)->unk6;
     ((Unkstruct_800B5CB8 *)obj)->unkA = ((Unkstruct_800B5CB8 *)a0)->unkA;

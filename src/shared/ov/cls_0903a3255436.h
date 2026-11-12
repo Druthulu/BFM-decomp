@@ -7,6 +7,6 @@ void SHARED_FN(s32 a0) {
     if ((u16)(((Unkstruct_800B5CB8 *)a0)->unk6 - guess_g_PlayerPosX + 0x80) < 0x101 &&
         (u16)(((Unkstruct_800B5CB8 *)a0)->unkE - guess_g_PlayerPosZ + 0x80) < 0x101) {
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 4;
-        func_8012B23C(a0);
+        guess_ClearVelocityAndSetGravity(a0);
     }
 }
