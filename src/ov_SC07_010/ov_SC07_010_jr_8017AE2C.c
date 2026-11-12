@@ -153,7 +153,7 @@ extern s32 func_80028D58(void);
 extern s32 func_80028DE0(void);
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
-extern s32 func_80028D9C(void);
+extern u8 func_80028D9C(void);
 extern int guess_IntToBcd_2(int, int);
 extern void guess_BcdToDigitCodes(int, int, void *, int);
 extern int func_80029FE4(void);

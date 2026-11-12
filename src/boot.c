@@ -823,13 +823,13 @@ void func_80011680(void) {
 
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
-extern s32 func_80028D9C(void);
+extern u8 func_80028D9C(void);
 extern void guess_RequestSound(s32, s32);
 
 void func_800116E0(void) {
     guess_RequestSound(0x21, (u16)func_80028FBC());
     guess_RequestSound(0x22, (u16)func_80029000());
-    if (func_80028D9C() == 0) {
+    if (RET_AS(s32, func_80028D9C, (void))() == 0) {
         guess_RequestSound(0xC, 0);
     } else {
         guess_RequestSound(0xB, 0);

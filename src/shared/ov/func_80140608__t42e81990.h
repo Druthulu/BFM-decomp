@@ -60,7 +60,7 @@ s32 func_80140608(s32 a0) {
         guess_RequestSound(0x22, uVar4 & 0xFFFF);
         goto ret;
     case 4:
-        t = func_80028D9C() ^ 1;
+        t = RET_AS(s32, func_80028D9C, (void))() ^ 1;
         func_80028DBC(t);
         uVar3 = 0xB;
         if (t == 0) {

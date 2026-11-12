@@ -77,6 +77,11 @@ typedef s64 M2C_UNK64;
 #define CAST_MISALIGNED(T, p, k) (*(T *)((p) + (k)))
 #define CAST_NONSTRUCT(T, p, k)  (*(T *)((p) + (k)))
 
+/* Return-view macro (3.44 T5): class RET-VIEW. The shipped caller read fn's return as T, not as the one prototype's
+ * type (no PROMOTE_FUNCTION_RETURN: the caller's conversion is C-level); each site backed per callee by
+ * config/ret_view_casts.tsv (3.44 T5). Use: `RET_AS(s32, func_80028D9C, (void))()`. */
+#define RET_AS(T, fn, params) ((T (*)params)(fn))
+
 #include "gte_inline.h"   /* Phase 36 T5: the GTE coprocessor macros, one definition each */
 #include "struct_types.h" /* Phase 38 T3: the struct map's canonical layouts, one definition each, visible to every space */
 #endif /* COMMON_H */

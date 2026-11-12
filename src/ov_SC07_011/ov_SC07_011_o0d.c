@@ -763,7 +763,7 @@ extern s32 func_80028FBC(void);
 extern void func_80028FDC(s32 a0);
 extern s32 func_80029000(void);
 extern void func_80029020(s32 a0);
-extern s32 func_80028D9C(void);
+extern u8 func_80028D9C(void);
 extern void func_80028DBC(s32 a0);
 extern s32 * func_80140D68(s32 * out, Prim4 * src, int idx, s32 dx, int ofs);
 extern s32 * func_80140958(s32 * ot, int i, int n);

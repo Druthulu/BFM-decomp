@@ -835,7 +835,7 @@ extern s32 func_80028D58(void);
 extern s32 func_80028DE0(void);
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
-extern s32 func_80028D9C(void);
+extern u8 func_80028D9C(void);
 extern void func_801407F4(void);
 extern s16 guess_GetMenuPanelCursorIndex(s16);
 extern s32 * func_80140D68(s32 * out, Prim4 * src, int idx, s32 dx, int ofs);
@@ -5627,7 +5627,7 @@ void func_8017BF70(void) {
     if ((D_801853F2 = func_8017BFF8()) < 0) {
         guess_RequestSound(0x21, func_80028FBC() & 0xFFFF);
         guess_RequestSound(0x22, func_80029000() & 0xFFFF);
-        if (func_80028D9C() == 0) {
+        if (RET_AS(s32, func_80028D9C, (void))() == 0) {
             a0 = 0xC;
         } else {
             a0 = 0xB;

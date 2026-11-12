@@ -912,7 +912,7 @@ extern s32 func_80028FBC(void);
 extern void func_80028FDC(s32 a0);
 extern s32 func_80029000(void);
 extern void func_80029020(s32 a0);
-extern s32 func_80028D9C(void);
+extern u8 func_80028D9C(void);
 extern void func_80028DBC(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
@@ -939,7 +939,7 @@ extern s32 func_80028D58(void);
 extern s32 func_80028DE0(void);
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
-extern s32 func_80028D9C(void);
+extern u8 func_80028D9C(void);
 
 void func_801407F4(void)
 {
@@ -967,7 +967,7 @@ void func_801407F4(void)
     CAST_ALIAS(s16, D_8018E278, 0x18) = *D_8018E288[iVar2];
 
     puVar1 = D_8018E27C;
-    iVar2 = func_80028D9C();
+    iVar2 = RET_AS(s32, func_80028D9C, (void))();
     puVar3 = D_8018E2A8[iVar2];
     *(s16 *)(puVar1 + 0x12) = *puVar3++;
     *(s16 *)(puVar1 + 0x14) = *puVar3++;

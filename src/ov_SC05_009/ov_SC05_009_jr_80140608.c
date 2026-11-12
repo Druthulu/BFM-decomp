@@ -910,7 +910,7 @@ extern s32 func_80028FBC(void);
 extern void func_80028FDC(s32 a0);
 extern s32 func_80029000(void);
 extern void func_80029020(s32 a0);
-extern s32 func_80028D9C(void);
+extern u8 func_80028D9C(void);
 extern void func_80028DBC(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
@@ -937,7 +937,7 @@ extern s32 func_80028D58(void);
 extern s32 func_80028DE0(void);
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
-extern s32 func_80028D9C(void);
+extern u8 func_80028D9C(void);
 
 #include "../shared/ov/func_801407F4__cdfae9b4.h"
 
