@@ -1029,3 +1029,4 @@ C0576 | md-module renames drop sig instructions unless sig-modules seeds from sy
 C0577 | Decode resident game text from splat .word data for string naming evidence | naming,evidence,strings,splat,resident,guess | 2026-11-12 | 3.43/T10 | T10.c1
 C0578 | Keep a lever's wall tag in its !FAKE marker, gated against the residue row | levers,walls,residue,comments,lever-census | 2026-11-12 | 3.43/T12 | logs/T12.c1.md
 C0579 | Append a trailing comment to many C declaration lines, proven comment-only and census-neutral | comments,codemod,census,names-ledger,guess | 2026-11-12 | 3.43/T12 | logs/T12.c2.md
+C0580 | Mirror a phase's new names into the live Ghidra project (4 programs) and prove it | ghidra,rename,symbol,live-db,mirror | 2026-11-12 | 3.43/T14 | P3.43 T14
