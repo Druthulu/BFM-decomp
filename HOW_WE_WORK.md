@@ -23,7 +23,7 @@ The developer pushes; agents never do. They ratify rules at the next planner ses
 - The agent cap is his live dial; the latest word binds from the next spawn.
 - Names: a prefixed best guess beats a bare placeholder; he wants structs-as-you-go and pure C taught as rules for new projects.
 - After a Ghidra MCP restart or program switch, ask him to run `/mcp` first (`docs/ops/mcp-reconnect-after-restart.md`).
-- Post-100% story (story §10, retrospective §7, wiki, timeline) advances once per phase at the close, not per session.
+- Every phase plan ends with a docs task (rule T5): story §10, retrospective §7, wiki, timeline, each moved series and README graph, and its lessons into the day-1 guide and wiki. Once per phase, not per session.
 - Proposed rules: explain each in plain words before approval: what it requires, the incident behind it, for and against.
 
 ## Rhythm <!-- roles: planner review auditor curator -->
