@@ -2497,7 +2497,7 @@ extern uint * func_80177EA4(uint *param_1, int param_2, uint param_3, int param_
 extern void func_80177F84(s32 param_1, s32 param_2);
 extern u32 * func_80178298(u32 *param_1, u8 *param_2, short param_3, short param_4);
 extern M2C_UNK D_801F68F0;
-extern void func_80178438(u16 *arg0);
+extern void guess_ShowEneLabelAndValue(u16 *arg0);
 extern void func_801787D4(void);
 extern void func_8012A908(void);
 extern void func_8017869C(s32 a0);
