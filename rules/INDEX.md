@@ -165,3 +165,7 @@ R128 | Phase records keep the narrative axis for the retrospective | phase-end,l
 T2 | a decision batch is not done until `--residue`, `--restamp` and `--check-residue` have run on every segment it touched. | - | active | phase 3.41 plan
 
 T3 | a generated block in a hand-edited header carries a marker pair and a provenance line naming the generator and the commit it ran at. | - | active | phase 3.41 plan
+
+T4 | a lever removed by a readability edit drops its config/lever_residue.tsv row in the same commit. | - | active | phase 3.44 plan
+
+T5 | every phase plan ends with a docs task: the public record, every moved series and README graph, and the phase's lessons in the day-1 guide and wiki. | - | active | developer 2026-11-12
