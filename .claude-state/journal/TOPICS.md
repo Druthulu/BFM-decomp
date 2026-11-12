@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-12T17:54:13.443Z
+# filed through: 2026-11-12T19:28:21.343Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -152,3 +152,5 @@ R148 | 2026-11-12 | finding | in force | Phase 3.44 plan | The .run/3.43 scratch
 R149 | 2026-11-12 | decision | in force | Phase-close docs and lessons in every phase | A 3.44 task is added after T9 (before T10's snapshot). | .claude-state/journal/2026-11-12/110950-060r-claude-record.md
 R150 | 2026-11-12 | decision | in force | Phase-close docs and lessons in every phase | New rule T5: every phase plan ends with a docs task, run after the milestone gate and before the cl… | .claude-state/journal/2026-11-12/110950-060r-claude-record.md
 R151 | 2026-11-12 | decision | in force | Decomp kit alignment with PA3 | GENERATION_PLAN.md gains 3.46 Decomp kit aligned with PA3 (depends 3.45). | .claude-state/journal/2026-11-12/110950-060r-claude-record.md
+R152 | 2026-11-12 | decision | in force | Phase-close docs and lessons in every phase | Rules T4 (a removed lever drops its config/lever_residue.tsv row in the same commit) and T5 (every… | .claude-state/journal/2026-11-12/124351-066r-claude-record.md
+R153 | 2026-11-12 | finding | in force | Phase-close docs and lessons in every phase | A rule cannot be added through mcp__pa-watch__plan_edit in this project, because the mod routes the… | .claude-state/journal/2026-11-12/124351-066r-claude-record.md
