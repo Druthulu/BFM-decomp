@@ -9,3 +9,4 @@ T6 | done | naming evidence: outside sources recorded, a dossier per worklist un
 T7 | review | pilot naming batch and the conventions, for the developer's review | - | tasks/T7.md | logs/T7.md | -
 T8 | done | name the worklist's data units | - | tasks/T8.md | logs/T8.md | -
 T9 | done | name the worklist's functions, rank43 1 to 177 | - | tasks/T9.md | logs/T9.md | -
+T10 | done | name the worklist's functions, rank43 178 to 321 | - | tasks/T10.md | logs/T10.md | -
