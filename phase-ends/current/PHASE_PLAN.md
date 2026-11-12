@@ -128,3 +128,4 @@ Approved: 2026-11-12   Planner: claude-opus-5-5/medium   Plan-hash: b3e08ae18630
 - 2026-11-12 router: T3 next -> done
 - 2026-11-12 router: T4 review: T5 first extends sig_evidence --compare to asm-label aliases (__asm__ declarations and aF*/ta* definitions, C0223) and re-measures; then DECL-RET in 3 batches: func_80028D9C probe, the 18 other ledgered, the 8 new (func_80145CEC, func_80178BF8, func_8017BE60, func_80139BE0, func_8017BEBC, func_8017ED5C, func_8017F730, func_80173544)
 - 2026-11-12 router: T4 review: T6 = DECL-EMPTY in 2 batches: A unmarked () 255 names / 28,795 lines (definition prototype; marked cast where callers pass fewer), B K&R-marked 205 names / 4,937 lines (marked casts)
+- 2026-11-12 router: T4 review: T7 = RET-NONE 392 names / 8,963 defs (I5 356 + 38 SHARED_FN own names - 2): batches by census verdict used 29, unused 67 (void rung under R104), unknown 302 in 3 chunks
