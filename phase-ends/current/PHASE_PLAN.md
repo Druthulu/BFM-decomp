@@ -124,3 +124,4 @@ Approved: 2026-11-12   Planner: claude-opus-5-5/medium   Plan-hash: b3e08ae18630
 - 2026-11-12 router: T1 next -> done
 - 2026-11-12 planner: added T13 — backfill 3.43's naming lessons into the day-1 guide and wiki; a names series and README graph
 - 2026-11-12 router: T2 next -> done
+- 2026-11-12 claude: T3 question: control (4) part one accepted as measured: the census agrees with objdump on all 19 lying callees; 11 show callee narrowing, and for 8 (func_8002A27C/4C8/738/9A8, func_800167F0, func_801633A8, func_80188F10, guess_RequestSound) the bytes show a caller-side conversion instead, so their ledger cause is caller-side. The 146 functions with no sig row (main 73, resident 73; e.g. main 0x8002A26C-0x8002A28C) go to T4 as its first step: give them census rows before the bucketing.

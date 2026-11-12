@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-12T19:28:21.343Z
+# filed through: 2026-11-12T21:13:11.601Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -117,7 +117,7 @@ R113 | 2026-11-10 | finding | in force | Signatures from asm evidence | No proje
 R114 | 2026-11-10 | open | superseded by R115 | Signatures from asm evidence | How to take on asm-derived signatures. | .claude-state/journal/2026-11-10.md#124938-045r-claude-record
 R115 | 2026-11-10 | decision | in force | Signatures from asm evidence | GENERATION_PLAN.md gains 3.44 Signatures from evidence (depends 3.43); File layout becomes 3.45 and… | .claude-state/journal/2026-11-10.md#131834-049r-claude-record
 R116 | 2026-11-10 | finding | superseded by R151 | Signatures from asm evidence | Knock-ons of the renumber: the license item I2 is triaged to deferred:3.46 (its description text st… | .claude-state/journal/2026-11-10.md#131834-049r-claude-record
-R117 | 2026-11-10 | decision | in force | Modder-facing source tree (3.45 layout) | The 3.45 planner gets the developer's modder-facing goal through the inbox: overlay folders named b… | .claude-state/journal/2026-11-10.md#134138-053r-claude-record
+R117 | 2026-11-10 | decision | superseded by R154 | Modder-facing source tree (3.45 layout) | The 3.45 planner gets the developer's modder-facing goal through the inbox: overlay folders named b… | .claude-state/journal/2026-11-10.md#134138-053r-claude-record
 R118 | 2026-11-10 | finding | in force | Modder-facing source tree (3.45 layout) | Today src/ holds 136 overlay folders named by overlay id (e.g. | .claude-state/journal/2026-11-10.md#134138-053r-claude-record
 R119 | 2026-11-10 | finding | in force | Modder-facing source tree (3.45 layout) | tools/commit_task.sh commits whatever is already staged along with the explicit paths. | .claude-state/journal/2026-11-10.md#134138-053r-claude-record
 R120 | 2026-11-10 | decision | in force | Live-RAM evidence for 3.43 names | No playthrough. | .claude-state/journal/2026-11-10.md#150637-059r-claude-record
@@ -141,7 +141,7 @@ R137 | 2026-11-12 | finding | in force | 3.43 T9 hung rename_scan and Windows re
 R138 | 2026-11-12 | finding | in force | 3.43 T9 hung rename_scan and Windows restart | T9 is done. | .claude-state/journal/2026-11-12/003909-011r-claude-record.md
 R139 | 2026-11-12 | decision | in force | Phase 3.43 close | Phase 3.43 is closed with its milestone met. | .claude-state/journal/2026-11-12/102522-037r-claude-record.md
 R140 | 2026-11-12 | finding | in force | Phase 3.43 close | 3.43 results: of the 500 worklist units, 2 are cited, 393 are guess_ and 105 are no-evidence with a… | .claude-state/journal/2026-11-12/102522-037r-claude-record.md
-R141 | 2026-11-12 | open | in force | Phase 3.43 close | type_census's struct_map counts vary between runs on an unchanged tree (14373 vs 14376) and need a… | .claude-state/journal/2026-11-12/102522-037r-claude-record.md
+R141 | 2026-11-12 | open | retired by .claude-state/journal/2026-11-12/135749-072r-claude-record.md (3.44 T2 fixed type_census's struct_map tie-break: cold, warm and partial -j 8 runs all print 14376/770 with the same doc sha, and tools-health passes) | Phase 3.43 close | type_census's struct_map counts vary between runs on an unchanged tree (14373 vs 14376) and need a… | .claude-state/journal/2026-11-12/102522-037r-claude-record.md
 R142 | 2026-11-12 | open | in force | Phase 3.43 close | The text-slot helpers func_8001534C, func_800153CC and func_80015498 and the sweep test func_801337… | .claude-state/journal/2026-11-12/102522-037r-claude-record.md
 R143 | 2026-11-12 | open | retired by .claude-state/journal/2026-11-12/110950-060r-claude-record.md (.run/3.43 is already gone) | Phase 3.43 close | .run/3.43 (about 16 GB, including t14/ghidra.bak at 994 MB) can be deleted; about 8 GB of disk is f… | .claude-state/journal/2026-11-12/102522-037r-claude-record.md
 R144 | 2026-11-12 | open | in force | Phase 3.43 close | The developer pushes the repo and the archive clone (0a63007), and runs /mcp after Claude's ghidra_… | .claude-state/journal/2026-11-12/102522-037r-claude-record.md
@@ -151,6 +151,8 @@ R147 | 2026-11-12 | decision | in force | Phase 3.44 plan | New rule T4: a lever
 R148 | 2026-11-12 | finding | in force | Phase 3.44 plan | The .run/3.43 scratch folder was already removed by the phase close; free disk went to 24 GB. | .claude-state/journal/2026-11-12/110950-060r-claude-record.md
 R149 | 2026-11-12 | decision | in force | Phase-close docs and lessons in every phase | A 3.44 task is added after T9 (before T10's snapshot). | .claude-state/journal/2026-11-12/110950-060r-claude-record.md
 R150 | 2026-11-12 | decision | in force | Phase-close docs and lessons in every phase | New rule T5: every phase plan ends with a docs task, run after the milestone gate and before the cl… | .claude-state/journal/2026-11-12/110950-060r-claude-record.md
-R151 | 2026-11-12 | decision | in force | Decomp kit alignment with PA3 | GENERATION_PLAN.md gains 3.46 Decomp kit aligned with PA3 (depends 3.45). | .claude-state/journal/2026-11-12/110950-060r-claude-record.md
+R151 | 2026-11-12 | decision | superseded by R154 | Decomp kit alignment with PA3 | GENERATION_PLAN.md gains 3.46 Decomp kit aligned with PA3 (depends 3.45). | .claude-state/journal/2026-11-12/110950-060r-claude-record.md
 R152 | 2026-11-12 | decision | in force | Phase-close docs and lessons in every phase | Rules T4 (a removed lever drops its config/lever_residue.tsv row in the same commit) and T5 (every… | .claude-state/journal/2026-11-12/124351-066r-claude-record.md
 R153 | 2026-11-12 | finding | in force | Phase-close docs and lessons in every phase | A rule cannot be added through mcp__pa-watch__plan_edit in this project, because the mod routes the… | .claude-state/journal/2026-11-12/124351-066r-claude-record.md
+R154 | 2026-11-12 | decision | in force | Struct consolidation (3.45) | GENERATION_PLAN.md gains 3.45 Struct consolidation and names (depends 3.44). | .claude-state/journal/2026-11-12/135749-072r-claude-record.md
+R155 | 2026-11-12 | finding | in force | Struct consolidation (3.45) | The census's struct count is 14,376 evidence clusters explaining 169,650 of 172,948 dereference sit… | .claude-state/journal/2026-11-12/135749-072r-claude-record.md
