@@ -613,9 +613,14 @@ def census(fleet, measured, jobs):
         res = dict(zip(order, map(_work, tasks)))
 
     # address taken: aligned image words + lui/addiu|ori constants, of every binary whose stack holds the target's
+    # a reference outside every image of the referrer's stack (a module calling the overlay loaded beside it) is
+    # resolved fleet-wide by function start: at_va[va] = the classes of every row starting at va
     starts = collections.defaultdict(set)
+    at_va, owners = collections.defaultdict(set), collections.defaultdict(list)
     for b, va in cls_of:
         starts[b].add(va)
+        at_va[va].add(cls_of[(b, va)])
+        owners[va].append(b)
     allstarts = set(va for _, va in cls_of)
     taken = collections.defaultdict(set)
     for c in sorted(bins):
@@ -630,6 +635,11 @@ def census(fleet, measured, jobs):
             X |= allstarts.intersection(res[h]["consts"])
         for b in B["stack"]:
             taken[b] |= X & starts[b]
+        imgs = [(bins[b]["base"], bins[b]["base"] + len(bins[b]["data"])) for b in B["stack"]]
+        for va in X:
+            if not any(lo <= va < hi for lo, hi in imgs):
+                for b in owners[va]:
+                    taken[b].add(va)
 
     # sites, per caller instance
     S = collections.Counter()
@@ -653,19 +663,30 @@ def census(fleet, measured, jobs):
                     t = (t - rep_va + va) & M32
                 cl = [x for x in st if bins[x]["base"] <= t < bins[x]["base"] + len(bins[x]["data"])]
                 if not cl:
-                    S["sites target outside every stack image"] += 1
-                    continue
-                if len(cl) > 1:
-                    S["sites cross-binary ambiguous"] += 1
-                    for x in cl:
-                        if (x, t) in cls_of:
-                            agg[cls_of[(x, t)]]["reasons"].add("cross-binary target unresolved")
-                    continue
-                if (cl[0], t) not in cls_of:
-                    S["sites target has no sig row"] += 1
-                    continue
+                    hs = at_va.get(t)
+                    if not hs:
+                        S["sites outside stack: no sig row at target"] += 1
+                        continue
+                    if len(hs) > 1:
+                        S["sites outside stack: several classes"] += 1
+                        for g in hs:
+                            agg[g]["reasons"].add("cross-binary target unresolved")
+                        continue
+                    S["sites outside stack: one class (credited)"] += 1
+                    tc = next(iter(hs))
+                else:
+                    if len(cl) > 1:
+                        S["sites cross-binary ambiguous"] += 1
+                        for x in cl:
+                            if (x, t) in cls_of:
+                                agg[cls_of[(x, t)]]["reasons"].add("cross-binary target unresolved")
+                        continue
+                    if (cl[0], t) not in cls_of:
+                        S["sites target has no sig row"] += 1
+                        continue
+                    tc = cls_of[(cl[0], t)]
                 S["sites credited"] += 1
-                A = agg[cls_of[(cl[0], t)]]
+                A = agg[tc]
                 A["direct"] += 1
                 A["ar"].append(arity)
                 for k, wc in widths.items():
@@ -943,6 +964,21 @@ def selftest():
     by, summ = _rows(spec)
     check("cross-binary target unresolved", by["Tm"]["ret"]["verdict"] == "unknown:cross-binary target unresolved"
           and by["Tr"]["ret"]["verdict"] == "unknown:cross-binary target unresolved", (by["Tm"]["ret"], summ))
+
+    # target outside every image of the caller's stack (a module calling the overlay beside it): resolved by
+    # function start fleet-wide; one class -> credited, two classes at that start -> cross-binary for both
+    O = 0x80100000
+    md = ("md", (0x80200000, 0x100, ["main", "md"],
+                 [(0x80200000, [E.jal(O), E.nop, E.addu(t0, V0, 0)] + E.ret, "D")], []))
+    by, _ = _rows(dict([("main", (M, 0x100, ["main"], [], [])), md,
+                        ("ov", (O, 0x100, ["main", "ov"], [(O, fret(7), "Ov")], []))]))
+    check("outside stack, one class at the start: credited", by["Ov"]["ret"]["verdict"] == "used", by["Ov"]["ret"])
+    by, _ = _rows(dict([("main", (M, 0x100, ["main"], [], [])), md,
+                        ("ov", (O, 0x100, ["main", "ov"], [(O, fret(7), "Ov")], [])),
+                        ("ov2", (O, 0x100, ["main", "ov2"], [(O, fret(8), "Ov2")], []))]))
+    check("outside stack, two classes at the start: cross-binary",
+          by["Ov"]["ret"]["verdict"] == "unknown:cross-binary target unresolved" and
+          by["Ov2"]["ret"]["verdict"] == "unknown:cross-binary target unresolved", (by["Ov"]["ret"], by["Ov2"]["ret"]))
 
     # unresolved jump table with $v0 live; and a resolved one whose target reads $v0
     by, _ = one([(F, fret(1), "F"), (G, [E.jal(F), E.nop, E.jr(t0), E.nop], "G")])
