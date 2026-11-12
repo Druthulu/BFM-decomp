@@ -178,16 +178,17 @@ def file_scopes(rels):
 
 
 def selftest():
-    """P3.43 T9.c8: an overlay's name for an address must not flag another binary's auto-name token."""
-    ov = ({"0x80146ca0": "guess_NextStep"}, set())
-    other = ({}, {"0x80146ca0"})
-    src = "void f(void){\n    func_80146CA0();\n}\n"
+    """P3.43 T9.c8: an overlay's name for an address must not flag another binary's auto-name token. The fixture
+    address is outside RAM so no rename batch ever rewrites it (rename_sym rewrites tools/ for unambiguous olds)."""
+    ov = ({"0x80fffff0": "guess_Fixture"}, set())
+    other = ({}, {"0x80fffff0"})
+    src = "void f(void){\n    func_80FFFFF0();\n}\n"
     srcs = [("src/sc01/a.c", src), ("src/sc02/b.c", src), ("src/shared/x.h", src)]
     sc = {"src/sc01/a.c": [ov], "src/sc02/b.c": [other]}
     st = stale_refs(*ov, srcs, sc)
-    assert [(s[0], s[1], s[3]) for s in st] == [("src/sc01/a.c", 2, "guess_NextStep"),
-                                                ("src/shared/x.h", 2, "guess_NextStep")], st  # unmapped: repo-wide
-    assert stale_refs(*ov, srcs[1:2], {"src/sc02/b.c": [other, ov]})[0][3] == "guess_NextStep"  # ANY binary dangles
+    assert [(s[0], s[1], s[3]) for s in st] == [("src/sc01/a.c", 2, "guess_Fixture"),
+                                                ("src/shared/x.h", 2, "guess_Fixture")], st  # unmapped: repo-wide
+    assert stale_refs(*ov, srcs[1:2], {"src/sc02/b.c": [other, ov]})[0][3] == "guess_Fixture"  # ANY binary dangles
     assert stale_refs(*ov, srcs) == stale_refs(*ov, srcs, {})                # no scopes = today's behaviour
     print("[lint_symbol_refs] selftest OK")
     return 0
