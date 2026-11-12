@@ -15,3 +15,4 @@ T12 | done | ledger-to-comment pass: each lever's wall and each guess's ledger p
 T13 | done | the record: cookbook, decision log, wiki, standards, levers prose, tool index, kit corpus | - | tasks/T13.md | logs/T13.md | -
 T14 | done | Ghidra mirror of the new names into the live project | - | tasks/T14.md | logs/T14.md | -
 T15 | done | milestone gate (Phase 3.43) | - | tasks/T15.md | logs/T15.md | -
+T16 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.43) | - | tasks/T16.md | logs/T16.md | R3.43-007

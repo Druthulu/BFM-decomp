@@ -38,7 +38,7 @@ implement — and, ranked first, *"if you are not sure what something does, it i
 wrongly."* To that the project adds four rules of its own, because its code was produced by a machine at scale:
 
 1. **Every name carries evidence** — a string, a cross-reference chain, the debug menu, a live-RAM datapoint, a community
-   label with provenance — recorded the way addresses are. A model may propose a name; it may never assert one. *Phase 42 (2026-11-08 → 11-10): the machinery, before any name — a names ledger for the evidence, a rename tool, a scanner that asserts every reference rewritten, and a leverage ranking; see [Names and renames](Names-and-renames.md).*
+   label with provenance — recorded the way addresses are. A model may propose a name; it may never assert one. *Phase 42 (2026-11-08 → 11-10): the machinery, before any name — a names ledger for the evidence, a rename tool, a scanner that asserts every reference rewritten, and a leverage ranking; see [Names and renames](Names-and-renames.md). Phase 43 (2026-11-10 → 11-12): the first names — the top 500 placeholders → 2 cited, 393 `guess_` names each with a recorded basis, 105 left unnamed with a reason; the 1,083 inherited names given citation rows, and a gate that fails on any name with neither.*
 2. **Every register pin goes**, or stays with a `// !FAKE:` line naming the residual. The count is a published metric until
    it is zero — *Phase 36 (2026-09-09 → 2026-09-11): 53,234 register pins and asm statements → 4,010, every survivor marked with the
    compiler pass that needs it and the instrument that judged it; the rest is the structs phase's (see [levers.md](../levers.md) and
