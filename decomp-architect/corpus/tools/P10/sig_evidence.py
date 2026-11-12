@@ -8,8 +8,10 @@ unknown with a closed reason list, argument reads and site setup, width evidence
   sig_evidence.py [-j N] [--only alias,...]    # census -> build/sig_evidence/{census.jsonl,summary.txt}
   sig_evidence.py --selftest                   # in-memory fixtures, one per rule
   sig_evidence.py --show <binary>:<vaddr>      # print the census row holding that instance
+  sig_evidence.py --compare [-j N]             # C declarations/definitions vs the census -> build/sig_evidence/compare.*
 """
-import argparse, array, collections, hashlib, json, os, pathlib, re, struct, sys
+import argparse, array, bisect, collections, concurrent.futures, hashlib, json, os, pathlib, posixpath, re, struct, \
+    subprocess, sys
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 try:
@@ -498,6 +500,49 @@ def own_names(path):
     return {a: v[0] for a, v in names.items()}
 
 
+def elf_path(a):
+    return REPO / ("build/us/SLUS_007.26.elf" if a == "main" else f"build/{a}/{a}.elf")
+
+
+def elf_syms(a):
+    """[(vaddr, size|None, type, name)] — `mipsel-linux-gnu-nm -S --defined-only` of the alias's linked ELF (absolute included)."""
+    p = elf_path(a)
+    if not p.exists():
+        raise SystemExit(f"sig_evidence: {p.relative_to(REPO)} missing; build the fleet first (ELF symbols fill sig gaps)")
+    out = subprocess.run(["mipsel-linux-gnu-nm", "-S", "--defined-only", str(p)], capture_output=True, text=True,
+                         check=True).stdout
+    syms = []
+    for ln in out.splitlines():
+        f = ln.split()
+        if len(f) == 4:
+            syms.append((int(f[0], 16), int(f[1], 16), f[2], f[3]))
+        elif len(f) == 3:
+            syms.append((int(f[0], 16), None, f[1], f[2]))
+    return syms
+
+
+GAP_SKIP = (".L", "L8", "D_", "jtbl", "jr_")
+
+
+def gap_rows(syms, have, base, data, own):
+    """([(vaddr, nbytes, h, name)], skipped) — sized t/T function symbols inside the image with no nins>0 sig row at
+    their vaddr (the filter of .run/3.44/t3/fleetgap.py:10-14); body = the original image slice [vaddr, vaddr+size),
+    h = sha1(raw) as tools/sig_image.py:185, so equal bodies join existing classes. Unaligned or overrunning: skipped."""
+    rows, seen, skipped = [], set(have), 0
+    for va, size, t, name in sorted(syms, key=lambda s: (s[0], s[3])):
+        if t not in ("T", "t") or not size or name.startswith(GAP_SKIP) or name.endswith(".NON_MATCHING"):
+            continue
+        if not base <= va < base + len(data) or va in seen:
+            continue
+        seen.add(va)
+        if va % 4 or size % 4 or va + size > base + len(data):
+            skipped += 1
+            continue
+        raw = data[va - base:va - base + size]
+        rows.append((va, size, hashlib.sha1(raw).hexdigest(), own.get(va, name)))
+    return rows, skipped
+
+
 def load_fleet(only=None):
     aliases, var = mk_vars()
     aset = set(aliases)
@@ -517,6 +562,9 @@ def load_fleet(only=None):
             want |= set(stacks[a])
         keep = [a for a in aliases if a in want]
     bins = {}
+    with concurrent.futures.ThreadPoolExecutor(8) as ex:
+        syms = dict(zip(keep, ex.map(elf_syms, keep)))
+    gap = [0, 0]
     for a in keep:
         sigp = REPO / var[(a, "SIG")]
         if not sigp.exists():
@@ -532,9 +580,14 @@ def load_fleet(only=None):
                 continue
             va = int(r["addr"], 16)
             rows.append((va, int(r["nbytes"]), r["h_exact"], own.get(va, r.get("name", ""))))
-        bins[a] = {"base": int(var[(a, "VRAM_BASE")], 16), "data": (REPO / var[(a, "EXE")]).read_bytes(),
-                   "stack": st, "rows": rows}
-    return Fleet(bins), (set(only) if only else set(keep))
+        base, data = int(var[(a, "VRAM_BASE")], 16), (REPO / var[(a, "EXE")]).read_bytes()
+        g, sk = gap_rows(syms[a], {r[0] for r in rows}, base, data, own)     # 3.44 T4: ELF functions with no sig row
+        gap[0] += len(g)
+        gap[1] += sk
+        bins[a] = {"base": base, "data": data, "stack": st, "rows": rows + g}
+    fleet = Fleet(bins)
+    fleet.gap = tuple(gap)
+    return fleet, (set(only) if only else set(keep))
 
 
 # ----------------------------------------------------------------------------------------------- census
@@ -781,6 +834,8 @@ def census(fleet, measured, jobs):
         X["varargs_spill"] += r["varargs"] is not None
         X[f"frame {row['frame']['kind']}"] += 1
     summ = [f"classes {len(rows)}", f"instances {sum(len(r['instances']) for r in rows)}"]
+    gap = getattr(fleet, "gap", (0, 0))
+    summ += [f"instances from ELF symbols (no sig row) {gap[0]}", f"ELF symbols skipped (unaligned/overrun) {gap[1]}"]
     summ += [f"verdict {k} {V[k]}" for k in ("used", "unused", "unknown")]
     summ += [f"unknown verdict {k} {U[k]}" for k in REASONS[:8]]
     summ += [f"reason listed {k} {UA[k]}" for k in REASONS[:8]]
@@ -791,6 +846,432 @@ def census(fleet, measured, jobs):
 
 def dump(row):
     return json.dumps(row, sort_keys=True, separators=(",", ":"))
+
+
+# ----------------------------------------------------------------------------------------------- compare (3.44 T4)
+# Spec: docs/ops/sig-evidence.md "## Comparison (3.44 T4)". The C is read through argcheck's own patterns (DEF, KR_DEF +
+# kr_params, SHARED_BIND, arity, norm_ret) on comment-masked text (lc.sc.mask_text, C0206); declarations through a
+# balanced-paren `extern` parser (also the nested-paren and multi-line forms DECL misses, C0581).
+RULES = ["RET-VOID-READ", "RET-NONE", "DECL-RET", "DECL-EMPTY", "ARG-OVER", "DECL-ARITY"]
+SHAPES = ["(void)", "() unmarked", "() K&R-marked", "nested-paren", "multi-line", "other"]
+KW = {"if", "for", "while", "switch", "return", "sizeof"}
+DECL_HEAD = re.compile(r"\bextern\s+([A-Za-z_][\w \t\n*]*?)\b([A-Za-z_]\w*)\s*\(")
+SEMI = re.compile(r"\s*;")
+BRACE = re.compile(r"[{}]")
+RET_EXPR = re.compile(r"\breturn\b(?!\s*;)")
+V0_EXIT = "$v0 at exit:"
+_AC = None
+
+
+def ac():
+    global _AC
+    if _AC is None:
+        import argcheck                     # tools/ is sys.path[0]; imported only by --compare and its selftest
+        _AC = argcheck
+    return _AC
+
+
+def nret(t):
+    """argcheck.norm_ret; an empty spelling (storage class only, implicit int) is `int`."""
+    return ac().norm_ret(t) or "int"
+
+
+def split_top(p):
+    out, d, cur = [], 0, ""
+    for ch in p:
+        d += (ch in "([") - (ch in ")]")
+        if ch == "," and d == 0:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    return out + [cur]
+
+
+def param_words(params, kr_types=None):
+    """(words, varargs, struct_by_value) — the argument words a definition receives: 1 per parameter; double / long long
+    (s64, u64) take 2 from an even register; a K&R float is promoted to double. `...` and by-value structs are flagged."""
+    if kr_types is None:
+        p = " ".join(params.split())
+        if p in ("", "void"):
+            return 0, False, False
+        ps = split_top(p)
+    else:
+        ps = kr_types
+    td = ac().typedefs()
+    w, va, sv = 0, False, False
+    for x in ps:
+        x = x.strip()
+        if x == "...":
+            va = True
+            continue
+        if "*" in x or "(" in x or "[" in x:
+            w += 1
+            continue
+        toks = re.findall(r"\w+", x)
+        if kr_types is None and len(toks) > 1 and toks[-1] not in td and toks[-1] not in (
+                "int", "char", "short", "long", "unsigned", "signed", "float", "double", "void"):
+            toks = toks[:-1]                                        # the parameter's name
+        n = nret(" ".join(toks)).split()
+        if "*" in n[-1]:
+            w += 1
+        elif "struct" in n or "union" in n:
+            sv = True
+            w += 1
+        elif n == ["double"] or n.count("long") >= 2 or (kr_types is not None and n == ["float"]):
+            w += (w & 1) + 2
+        else:
+            w += 1
+    return w, va, sv
+
+
+def parse_text(rel, raw):
+    """One pass over one file: {defs, decls, binds, inner}. Lines are 1-based and match the raw file."""
+    A = ac()
+    masked = A.lc.sc.mask_text(raw)
+    rl, ml = raw.split("\n"), masked.split("\n")
+    nl = [m.start() for m in re.finditer("\n", masked)]
+    opens = [m.start() for m in re.finditer(r"\{", masked)]
+    closes = [m.start() for m in re.finditer(r"\}", masked)]
+
+    def line(pos):
+        return bisect.bisect_left(nl, pos) + 1
+
+    def body_end(i):
+        d = 0
+        for m in BRACE.finditer(masked, i):
+            d += 1 if m.group() == "{" else -1
+            if d == 0:
+                return m.start()
+        return len(masked) - 1
+
+    defs, seen, inner = [], set(), 0
+
+    def add(m, kind, ret, params, arity, words, varargs, sv):
+        nonlocal inner
+        if m.group(1) in KW or m.start(1) in seen:
+            return
+        if bisect.bisect_left(opens, m.start()) - bisect.bisect_left(closes, m.start()) > 0:
+            inner += 1                                              # a head inside a body is not a definition
+            return
+        seen.add(m.start(1))
+        b0 = m.end() - 1
+        b1 = body_end(b0)
+        l0, l1, hl = line(b0), line(b1), line(m.start())
+        v0 = any(V0_EXIT in rl[k] for k in range(l0 - 1, min(l1, len(rl))))
+        k = hl - 2
+        while not v0 and k >= 0 and rl[k].strip() and not ml[k].strip():   # comment lines directly above the head
+            v0 = V0_EXIT in rl[k]
+            k -= 1
+        defs.append({"line": line(m.start(1)), "name": m.group(1), "kind": kind, "ret": ret, "params": params,
+                     "arity": arity, "words": words, "varargs": varargs, "sv": sv,
+                     "has_ret": bool(RET_EXPR.search(masked, b0, b1 + 1)), "v0": v0})
+
+    for m in A.DEF.finditer(masked):
+        params = " ".join(m.group(2).split())
+        w, va, sv = param_words(params)
+        add(m, "DEF", nret(masked[m.start():m.start(1)].strip()), params, A.arity(params), w, va, sv)
+    for m in A.KR_DEF.finditer(masked):
+        names = [n.strip() for n in m.group(2).split(",")]
+        types = A.kr_params(names, m.group(3))
+        w, va, sv = param_words(None, types)
+        add(m, "KR", nret(masked[m.start():m.start(1)].strip()), ", ".join(types), len(names), w, va, sv)
+    defs.sort(key=lambda d: d["line"])
+
+    decls = []
+    for m in DECL_HEAD.finditer(masked):
+        if m.group(2) in KW:
+            continue
+        j, d = m.end(), 1
+        while j < len(masked) and d:
+            c = masked[j]
+            d += (c == "(") - (c == ")")
+            j += 1
+        if d or not SEMI.match(masked, j):
+            continue
+        params = " ".join(masked[m.end():j - 1].split())
+        l0, l1 = line(m.start()), line(j - 1)
+        kr = any("// K&R:" in rl[k] for k in range(l0 - 1, min(l1, len(rl))))
+        shape = ("multi-line" if l1 > l0 else "nested-paren" if "(" in params else "(void)" if params == "void"
+                 else ("() K&R-marked" if kr else "() unmarked") if params == "" else "other")
+        decls.append({"line": l0, "name": m.group(2), "ret": nret(m.group(1)), "params": params,
+                      "arity": A.arity(params), "shape": shape, "kr": kr,
+                      "text": " ".join(" ".join(rl[l0 - 1:l1]).split())[:200]})
+    binds = [(m.group(1), m.group(2)) for m in A.SHARED_BIND.finditer(raw)]
+    return {"defs": defs, "decls": decls, "binds": binds, "inner": inner}
+
+
+def _parse_file(rel):
+    try:
+        raw = (REPO / rel).read_text(errors="surrogateescape")
+    except OSError:
+        return rel, None
+    return rel, parse_text(rel, raw)
+
+
+def load_tus(aliases):
+    """{alias: [(object, c_file, [src/ and include/ deps])]} from build/src/*.d (main) and build/src/<alias>/*.d."""
+    tus = {}
+    for a in aliases:
+        d = REPO / "build" / "src" / ("" if a == "main" else a)
+        lst = []
+        for p in sorted(d.glob("*.d")):
+            head = []
+            for ln in p.read_text().splitlines():
+                head.append(ln.rstrip().rstrip("\\"))
+                if not ln.rstrip().endswith("\\"):
+                    break
+            toks = " ".join(head).split()
+            deps = list(dict.fromkeys(n for n in (posixpath.normpath(t) for t in toks[1:])   # .d spells src/<b>/../shared/
+                                      if n.startswith(("src/", "include/"))))
+            if deps:
+                lst.append((toks[0].rstrip(":"), deps[0], deps))
+        tus[a] = lst
+    return tus
+
+
+def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, orphans):
+    """(rows, cov). parsed {file: parse_text|None}; tus load_tus; symtab {alias: {name: {vaddr}}}; images {alias: (lo, hi)};
+    stacks {alias: [alias]}; cls_of {(alias, vaddr): h}; info {h: (verdict, cite, arity_lb, highest args.read entry, ret.tail)};
+    return_lie {h}; orphans [src files in no .d]."""
+    U = collections.Counter()                                   # unplaced, by (what, reason)
+    cov = collections.Counter()
+    at_va = collections.defaultdict(set)
+    at_own = collections.defaultdict(list)
+    for (b, va), h in cls_of.items():
+        at_va[va].add(h)
+        at_own[va].append(b)
+
+    def resolve(b, name):
+        ads = symtab.get(b, {}).get(name)
+        if not ads:
+            return None, "name not in the symtab"
+        if len(ads) > 1:
+            return None, "name has several addresses"
+        return next(iter(ads)), None
+
+    def place(b, va):
+        """(h, owners) or (None, reason): own image, then the splat stack order, then fleet-wide (OUTSIDE-STACK)."""
+        for x in [b] + [s for s in stacks.get(b, []) if s != b]:
+            lo, hi = images[x]
+            if lo <= va < hi:
+                h = cls_of.get((x, va))
+                return (h, [x]) if h else (None, "address in no class")
+        hs = at_va.get(va)
+        if not hs:
+            return None, "address in no class"
+        if len(hs) > 1:
+            return None, ">1 class (OUTSIDE-STACK)"
+        h = next(iter(hs))
+        return h, sorted(x for x in at_own[va] if cls_of[(x, va)] == h)
+
+    # definition and declaration instances, per binary
+    dinst, cinst = {}, {}                                       # key -> {"objs": set, "bind": c_file|None}
+    for b in sorted(tus):
+        for obj, cfile, deps in tus[b]:
+            dep = set(deps)
+            for f in deps:
+                P = parsed.get(f)
+                if P is None:
+                    U[("file", "file missing")] += 1
+                    continue
+                for d in P["defs"]:
+                    if d["name"] != "SHARED_FN":
+                        dinst.setdefault((b, f, d["line"], d["name"]), {"objs": set(), "bind": None})["objs"].add(obj)
+                for dc in P["decls"]:
+                    cinst.setdefault((b, f, dc["line"]), set()).add(obj)
+                for own, inc in P["binds"]:
+                    hdr = posixpath.normpath(posixpath.join(posixpath.dirname(f), inc))
+                    if hdr not in dep:
+                        hdr = next((x for x in deps if x.endswith("/" + inc.lstrip("./"))), None)
+                    if hdr is None or parsed.get(hdr) is None:
+                        U[("definition", "SHARED_FN header not in the TU")] += 1
+                        continue
+                    for d in parsed[hdr]["defs"]:
+                        if d["name"] == "SHARED_FN":
+                            dinst.setdefault((b, hdr, d["line"], own), {"objs": set(), "bind": f})["objs"].add(obj)
+    defrec = {}
+    for f, P in parsed.items():
+        if P:
+            for d in P["defs"]:
+                defrec[(f, d["line"])] = d
+    seen_files = {f for b in tus for _, _, deps in tus[b] for f in deps}
+
+    rows, def_at = [], collections.defaultdict(list)
+    for (b, f, ln, name), I in sorted(dinst.items()):
+        d = defrec[(f, ln)]
+        va, why = resolve(b, name)
+        if why is None and not images[b][0] <= va < images[b][1]:
+            why = "definition address outside own image"
+        if why is None and (b, va) not in cls_of:
+            why = "address in no class"
+        if why:
+            U[("definition", why)] += 1
+            continue
+        cov["definitions placed"] += 1
+        h = cls_of[(b, va)]
+        def_at[(b, va)].append((b, f, ln, name, d, I))
+        verdict, cite, alb, hi_read, tail = info[h]
+        base = {"binary": b, "owner": b, "vaddr": hx(va), "h": h, "name": name, "def_file": f"{f}:{ln}", "bind_tu": I["bind"],
+                "def_ret": d["ret"], "kr_marked": False, "objs": sorted(I["objs"])}
+        if verdict == "used" and d["ret"] == "void":
+            rows.append(dict(base, rule="RET-VOID-READ", cite=cite, tail=None if cite else tail))   # used by RET-FIX only
+        if d["ret"] != "void" and not d["has_ret"] and not d["v0"]:
+            rows.append(dict(base, rule="RET-NONE", cite=None))
+        if not d["varargs"]:
+            if d["sv"]:
+                cov["ARG-OVER skipped: struct by value"] += 1
+            elif alb > d["words"]:
+                rows.append(dict(base, rule="ARG-OVER", cite=hi_read[1] if hi_read else None, arity_lb=alb,
+                                 def_words=d["words"], def_params=d["params"]))
+
+    declrec = {}
+    for f, P in parsed.items():
+        if P:
+            for dc in P["decls"]:
+                declrec[(f, dc["line"])] = dc
+    for (b, f, ln), objs in sorted(cinst.items()):
+        dc = declrec[(f, ln)]
+        va, why = resolve(b, dc["name"])
+        h = owners = None
+        if why is None:
+            h, owners = place(b, va)
+            if h is None:
+                why = owners
+        if why:
+            U[("declaration", why)] += 1
+            continue
+        cov["declarations placed"] += 1
+        verdict, cite, alb, hi_read, tail = info[h]
+        ds = [x for o in owners for x in def_at.get((o, va), [])]
+        dd = None
+        if not ds:
+            cov["declarations placed, callee has no placed C definition"] += 1
+        elif len({(x[4]["ret"], x[4]["arity"], x[4]["varargs"]) for x in ds}) > 1:
+            cov["declarations placed, the callee's definitions disagree"] += 1
+        else:
+            dd = min(ds, key=lambda x: x[:4])
+        base = {"binary": b, "owner": ",".join(owners), "vaddr": hx(va), "h": h, "name": dc["name"], "decl_file": f"{f}:{ln}",
+                "decl_text": dc["text"], "decl_ret": dc["ret"], "kr_marked": dc["kr"], "objs": sorted(objs),
+                "def_file": f"{dd[1]}:{dd[2]}" if dd else None, "bind_tu": dd[5]["bind"] if dd else None,
+                "def_ret": dd[4]["ret"] if dd else None}
+        if dc["ret"] == "void" and verdict == "used":
+            rows.append(dict(base, rule="RET-VOID-READ", cite=cite, tail=None if cite else tail))   # used by RET-FIX only
+        if dc["params"] == "":
+            rows.append(dict(base, rule="DECL-EMPTY", cite=None))
+        if dd is None:
+            continue
+        d = dd[4]
+        if dc["ret"] != d["ret"]:
+            rows.append(dict(base, rule="DECL-RET", cite=None))
+        if dc["params"] != "":
+            bad = dc["arity"] < d["arity"] - 1 if d["varargs"] else dc["arity"] != d["arity"]
+            if bad:
+                rows.append(dict(base, rule="DECL-ARITY", cite=None, decl_args=dc["arity"],
+                                 def_args=d["arity"] - d["varargs"], def_params=d["params"]))
+
+    # files in no TU: their definitions and declarations are unplaced, never guessed
+    for f in orphans:
+        P = parsed.get(f)
+        if P:
+            U[("definition", "file in no TU")] += len(P["defs"])
+            U[("declaration", "file in no TU")] += len(P["decls"])
+
+    # coverage
+    L = ["coverage"]
+    L.append(f"  files seen (in a .d) {len(seen_files)}; parsed {sum(1 for f in seen_files if parsed.get(f))}; "
+             f"TUs {sum(len(v) for v in tus.values())}; binaries {len(tus)}")
+    ds_ = [(f, d) for f in sorted(seen_files) if parsed.get(f) for d in parsed[f]["defs"]]
+    L.append(f"  definitions: sites {len(ds_)}, names {len({d['name'] for _, d in ds_})}, "
+             f"K&R heads {sum(d['kind'] == 'KR' for _, d in ds_)} (names {len({d['name'] for _, d in ds_ if d['kind'] == 'KR'})}), "
+             f"SHARED_FN bodies {sum(d['name'] == 'SHARED_FN' for _, d in ds_)}, "
+             f"heads inside a body skipped {sum(parsed[f]['inner'] for f in seen_files if parsed.get(f))}")
+    L.append(f"  definition instances (binary, site): {len(dinst)}, placed {cov['definitions placed']}, "
+             f"bound by SHARED_FN {sum(1 for I in dinst.values() if I['bind'])}")
+    L.append("  declaration lines by shape (lines / callees / files):")
+    for s in SHAPES:
+        xs = [(f, dc) for f in sorted(seen_files) if parsed.get(f) for dc in parsed[f]["decls"] if dc["shape"] == s]
+        L.append(f"    {s}: {len(xs)} / {len({dc['name'] for _, dc in xs})} / {len({f for f, _ in xs})}")
+    L.append(f"  declaration instances (binary, line): {len(cinst)}, placed {cov['declarations placed']}")
+    for k in sorted(cov):
+        if k not in ("definitions placed", "declarations placed"):
+            L.append(f"  {k}: {cov[k]}")
+    L.append("  unplaced (instances, by reason):")
+    for (w, r), n in sorted(U.items()):
+        L.append(f"    {w}: {r}: {n}")
+    L.append(f"  src files in no .d: {len(orphans)}")
+    for f in orphans:
+        L.append(f"    {f}")
+    rows.sort(key=lambda r: (RULES.index(r["rule"]), r["binary"], r["vaddr"], r.get("def_file") or "",
+                             r.get("decl_file") or "", r["name"]))
+    # per rule
+    T = ["rule            rows  functions  names  def_sites  decl_lines  files  objects  return_lie"]
+    for ru in RULES:
+        rs = [r for r in rows if r["rule"] == ru]
+        files = {(r.get("decl_file") or r["def_file"]).rsplit(":", 1)[0] for r in rs}
+        T.append(f"{ru:<14} {len(rs):>6} {len({r['h'] for r in rs}):>10} {len({r['name'] for r in rs}):>6} "
+                 f"{len({r['def_file'] for r in rs if 'decl_file' not in r}):>10} "
+                 f"{len({r['decl_file'] for r in rs if 'decl_file' in r}):>11} {len(files):>6} "
+                 f"{len({o for r in rs for o in r['objs']}):>8} {len({r['h'] for r in rs} & return_lie):>11}")
+    for r in rows:
+        r["objects"] = len(r.pop("objs"))
+    return rows, "\n".join(T + L) + "\n"
+
+
+def compare(jobs):
+    aliases, var = mk_vars()
+    aset = set(aliases)
+    stacks = {a: yaml_stack(var[(a, "SPLAT_YAML")], aset) for a in aliases}
+    images = {}
+    for a in aliases:
+        lo = int(var[(a, "VRAM_BASE")], 16)
+        images[a] = (lo, lo + (REPO / var[(a, "EXE")]).stat().st_size)
+    with concurrent.futures.ThreadPoolExecutor(8) as ex:
+        syms = dict(zip(aliases, ex.map(elf_syms, aliases)))
+    symtab = {}
+    for a in aliases:
+        t = collections.defaultdict(set)
+        for va, size, typ, name in syms[a]:
+            t[name].add(va)
+        symtab[a] = t
+    p = OUT_DIR / "census.jsonl"
+    if not p.exists():
+        raise SystemExit("sig_evidence: build/sig_evidence/census.jsonl missing; run the census first")
+    cls_of, info = {}, {}
+    with p.open() as fh:
+        for ln in fh:
+            r = json.loads(ln)
+            a = r["args"]
+            info[r["h"]] = (r["ret"]["verdict"], r["ret"]["cite"], a["arity_lb"], max(a["read"], default=None),
+                            r["ret"]["tail"])
+            for b, va, _ in r["instances"]:
+                cls_of[(b, int(va, 16))] = r["h"]
+    rl = set()
+    for ln in (REPO / "config" / "dedup_exceptions.tsv").read_text().splitlines():
+        c = ln.split("\t")
+        if len(c) > 1 and c[1] == "RETURN-LIE":
+            rl.add(c[0])
+    tus = load_tus(aliases)
+    seen = {f for a in tus for _, _, deps in tus[a] for f in deps}
+    srcs = subprocess.run(["git", "ls-files", "src"], cwd=REPO, capture_output=True, text=True,
+                          check=True).stdout.split()
+    orphans = sorted(f for f in srcs if f.endswith((".c", ".h")) and f not in seen)
+    files = sorted(seen | set(orphans))
+    ac().typedefs()
+    if jobs > 1:
+        import multiprocessing as mp
+        with mp.get_context("fork").Pool(jobs) as pool:
+            parsed = dict(pool.imap(_parse_file, files, chunksize=8))
+    else:
+        parsed = dict(map(_parse_file, files))
+    rows, txt = compare_core(parsed, tus, symtab, images, stacks, cls_of, info, rl, orphans)
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    with open(OUT_DIR / "compare.jsonl", "w") as f:
+        for r in rows:
+            f.write(dump(r) + "\n")
+    (OUT_DIR / "compare.txt").write_text(txt)
+    print(txt, end="")
+    return 0
 
 
 # ----------------------------------------------------------------------------------------------- selftest
@@ -991,6 +1472,72 @@ def selftest():
     check("jump table resolved, target reads", by["F"]["ret"]["verdict"] == "used" and
           "jump tables resolved (classes) 1" in summ.splitlines(), (by["F"]["ret"], summ))
 
+    # 3.44 T4 gap: sized t/T ELF symbols inside the image with no sig row become instances, h = sha1 of the slice
+    data = bytes(range(64))
+    syms = [(M, 8, "T", "has_row"), (M + 8, 8, "t", "gap_f"), (M + 16, 8, "T", "D_80010010"), (M + 24, 6, "T", "odd"),
+            (M + 32, 8, "A", "abs"), (M + 0x1000, 8, "T", "outside"), (M + 40, None, "T", "nosize")]
+    g, sk = gap_rows(syms, {M}, M, data, {M + 8: "own_name"})
+    check("GAP ELF function with no sig row -> instance (sha1 of the image slice)",
+          g == [(M + 8, 8, hashlib.sha1(data[8:16]).hexdigest(), "own_name")] and sk == 1, (g, sk))
+
+    # 3.44 T4 compare: one in-memory world (ov over main), one check per rule
+    O = 0x80100000
+    a_c = "\n".join([
+        '#define SHARED_FN f_ret', '#include "../shared/cls_1.h"',
+        'extern void f_used(void);', 'extern s32 f_none();', 'extern s32 f_kr(); // K&R: unspecified',
+        'extern s32 f_ret(void);', 'extern s32 f_ar(s32 a,', '    s32 b);', 'extern s32 f_va(s32 a);',
+        'extern void m_used(void);',
+        'void f_used(void) { m_used(); }',
+        's32 f_none(a)', 's32 a;', '{', '    return;', '}',
+        '/* $v0 at exit: 1 (li v0,1) */', 's32 f_kr(a)', 's32 a;', '{', '    m_used();', '}',
+        's32 f_ar(s32 a) { return a; }', 's32 f_va(s32 a, ...) { return a; }',
+        'void f_dbl(s32 a, double d) { }', 'void f_sv(struct Foo v) { }', ''])
+    parsed = {"src/ov/a.c": parse_text("src/ov/a.c", a_c),
+              "src/shared/cls_1.h": parse_text("src/shared/cls_1.h", "void SHARED_FN(void) {\n}\n"),
+              "src/ov/orphan.c": parse_text("src/ov/orphan.c", "extern void q(void);\nvoid q(void) { }\n")}
+    names = ["f_used", "f_none", "f_kr", "f_ret", "f_ar", "f_va", "f_dbl", "f_sv"]
+    symtab = {"ov": {n: {O + 16 * i} for i, n in enumerate(names)}, "main": {}}
+    symtab["ov"]["m_used"] = {M}
+    cls_of = {("ov", O + 16 * i): "h_" + n for i, n in enumerate(names)}
+    cls_of[("main", M)] = "h_m"
+    info = {h: ("unused", None, 0, None, []) for h in cls_of.values()}
+    info["h_f_used"] = info["h_m"] = ("used", "ov:0x80100004 addu", 0, None, [])
+    info["h_f_dbl"] = ("unused", None, 5, [4, "ov:0x80100064 lw"], [])
+    info["h_f_sv"] = ("unused", None, 9, [8, "ov:0x80100074 lw"], [])
+    rows, txt = compare_core(parsed, {"main": [], "ov": [("build/src/ov/a.o", "src/ov/a.c",
+                                                          ["src/ov/a.c", "src/shared/cls_1.h"])]},
+                             symtab, {"main": (M, M + 0x100), "ov": (O, O + 0x100)},
+                             {"main": ["main"], "ov": ["main", "ov"]}, cls_of, info, {"h_f_ret"}, ["src/ov/orphan.c"])
+    R = collections.defaultdict(list)
+    for r in rows:
+        R[r["rule"]].append(r)
+    x = R["RET-VOID-READ"]
+    check("RET-VOID-READ void def + void decls of a used class, cite ret.cite",
+          sorted((r["name"], r.get("decl_file") or "") for r in x) ==
+          [("f_used", ""), ("f_used", "src/ov/a.c:3"), ("m_used", "src/ov/a.c:10")]
+          and all(r["cite"] == "ov:0x80100004 addu" for r in x), x)
+    x = R["RET-NONE"]
+    check("RET-NONE bare return / no return, `$v0 at exit:` above a K&R head exempts",
+          [r["name"] for r in x] == ["f_none"], x)
+    x = R["DECL-RET"]
+    check("DECL-RET against a SHARED_FN definition (def_file = header, bind_tu = TU)",
+          [(r["name"], r["decl_ret"], r["def_ret"], r["def_file"], r["bind_tu"]) for r in x] ==
+          [("f_ret", "int", "void", "src/shared/cls_1.h:1", "src/ov/a.c")] and
+          re.search(r"^DECL-RET\s+1\s.*\s1$", txt, re.M), (x, txt))
+    x = R["DECL-EMPTY"]
+    check("DECL-EMPTY () rows, K&R-marked flagged", sorted((r["name"], r["kr_marked"]) for r in x) ==
+          [("f_kr", True), ("f_none", False)], x)
+    x = R["ARG-OVER"]
+    check("ARG-OVER double from an even register (4 words), struct by value skipped and counted",
+          [(r["name"], r["def_words"], r["cite"]) for r in x] == [("f_dbl", 4, "ov:0x80100064 lw")] and
+          "ARG-OVER skipped: struct by value: 1" in txt, (x, txt))
+    x = R["DECL-ARITY"]
+    check("DECL-ARITY multi-line decl 2 vs def 1; varargs def only below its named count",
+          [(r["name"], r["decl_args"], r["def_args"]) for r in x] == [("f_ar", 2, 1)] and
+          "multi-line: 1 / 1 / 1" in txt, x)
+    check("unplaced: file in no TU counted apart", "definition: file in no TU: 1" in txt and
+          "declaration: file in no TU: 1" in txt, txt)
+
     print("selftest", "OK" if ok else "FAILED")
     return 0 if ok else 1
 
@@ -1002,9 +1549,12 @@ def main():
     ap.add_argument("--only", help="comma-separated aliases to measure (their stacks are loaded too)")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--show", metavar="BINARY:VADDR")
+    ap.add_argument("--compare", action="store_true", help="C declarations/definitions vs census.jsonl (3.44 T4)")
     a = ap.parse_args()
     if a.selftest:
         return selftest()
+    if a.compare:
+        return compare(a.j)
     if a.show:
         b, v = a.show.split(":")
         v = int(v, 16)

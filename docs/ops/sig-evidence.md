@@ -159,3 +159,61 @@ Known artifacts (3.44 T3 run): `frame unresolved` (2684 classes) is mostly the s
 (`$sp` = 0x1F8003FC .. `lw $sp,0($sp)`), which this rule correctly leaves unresolved; arity_lb in the hundreds comes from
 sig rows that split one function (a fragment whose epilogue reads its parent's frame, e.g. main 0x80041E64 inside
 0x80041E2C).
+
+## Comparison (3.44 T4)
+
+`--compare` sets the C beside the census: every definition and `extern` declaration in a linked TU is joined to its
+census class and checked against six rules. It reads `build/sig_evidence/census.jsonl` and needs no ROM bytes outside
+build/ (R74).
+
+```
+PY tools/sig_evidence.py --compare -j 16   # -> build/sig_evidence/{compare.jsonl,compare.txt}; two runs are byte-identical
+```
+
+Census input: the census also holds instances for linked-ELF function symbols that have no `nins` > 0 sig row (sized
+`t`/`T`, inside the image, the fleetgap filter: no `.L`/`L8`/`D_`/`jtbl`/`jr_` prefix, no `.NON_MATCHING` suffix). Body =
+the image slice `[vaddr, vaddr+size)`, h = sha1(raw) as tools/sig_image.py:185, so equal bodies join existing classes.
+Unaligned or overrunning symbols (data objects typed `t` in .text) are skipped and counted (`summary.txt`).
+
+Inputs and the join:
+- TUs: per binary B, `build/src/*.d` (main, top level) or `build/src/<B>/*.d`. A TU's files are the `src/` and `include/`
+  paths of its first rule, normalized (the .d spells `src/<B>/../shared/x.h`). Each file is parsed once.
+- Parse (comment-masked, `lc.sc.mask_text`, C0206): argcheck's DEF and KR_DEF (+ kr_params); a head inside a body is
+  skipped. Declarations: a balanced-paren `extern ret name(...)`, `;`-terminated, so the nested-paren and multi-line forms
+  DECL misses are included (C0581). Returns via argcheck `norm_ret`, with an empty spelling read as `int`. SHARED_BIND
+  (`#define SHARED_FN <own>` + `#include`) makes the header's SHARED_FN body `<own>`'s definition in that TU: `def_file`
+  = the header holding the text, `bind_tu` = the binding TU.
+- Name to address: B's ELF symtab (`mipsel-linux-gnu-nm -S --defined-only`, absolute included; main
+  build/us/SLUS_007.26.elf, others build/<B>/<B>.elf). Owner: B's own image, else the first image of B's splat stack
+  holding the address, else fleet-wide by function start (OUTSIDE-STACK, unique class only). Then the class is looked up
+  by (owner, vaddr). A definition must land in B's own image.
+- A declaration's definition = the placed definitions at (owner, vaddr). If they disagree on (ret, arity, varargs), the
+  declaration is counted apart and not compared.
+
+Rules (a row per (binary, definition site) or per (binary, declaration line)):
+
+| id | condition | cited | source |
+|---|---|---|---|
+| RET-VOID-READ | class `ret.verdict` `used` and a `void` definition (row per def) or `void` declaration (row per line) | `ret.cite` (null when `used` only through RET-FIX: `tail` given) | C0543, R3.44-001 item 4 |
+| RET-NONE | non-void definition (`void *` counts) whose masked body has no `return <expr>` and no `$v0 at exit:` comment in the body or the comment lines directly above the head | the definition | C0567 |
+| DECL-RET | declaration `norm_ret` != its definition's (all declarations, `()` included) | both spellings | C0548, C0552 |
+| DECL-EMPTY | `()` declaration; `kr_marked` when the line has `// K&R:` | the line | C0508 |
+| ARG-OVER | census `args.arity_lb` > the definition's argument words (1 per parameter; double / long long / s64 / u64 2 from an even register; K&R float = double); by-value struct skipped and counted; varargs never | `args.read` entry of the highest k | R3.44-001 items 2-3 |
+| DECL-ARITY | non-`()` declaration whose `arity()` (`(void)` = 0) != the definition's (K&R: names); varargs definition only when fewer than its named count | both arities | C0508, C0581 |
+
+Unplaced, counted by reason and never guessed: file in no TU, file missing, name not in the symtab, name has several
+addresses, definition address outside own image, address in no class, >1 class (OUTSIDE-STACK), SHARED_FN header not in
+the TU. Placed declarations whose callee has no placed C definition (INCLUDE_ASM) only feed RET-VOID-READ and DECL-EMPTY.
+Known blind spot: a by-value parameter of an anonymous-struct typedef (`typedef struct {...} SVECTOR;`) is not in
+argcheck's typedef map, so it counts as one word.
+
+Outputs:
+- `compare.jsonl`: one row per disagreement, sorted (rule, binary, vaddr, def_file, decl_file, name), keys sorted. Fields:
+  rule, binary (the C's binary), owner (the instance's binary), vaddr, h, name, def_file `path:line`, bind_tu, def_ret,
+  decl_file, decl_text, decl_ret, kr_marked, cite, objects (TUs including the file in that binary); ARG-OVER: arity_lb,
+  def_words, def_params; DECL-ARITY: decl_args, def_args, def_params; RET-VOID-READ: tail.
+- `compare.txt` (also printed): per rule rows, functions (classes), names, def sites, declaration lines, files, objects,
+  and RETURN-LIE rows of config/dedup_exceptions.tsv whose h_exact is a touched class. Then the coverage block: files, TUs,
+  definitions (sites, names, K&R heads, SHARED_FN bodies), declaration lines by shape (`(void)`, `()` unmarked, `()`
+  K&R-marked, nested-paren, multi-line, other; per file line, so a header line counts once), placements, unplaced by reason,
+  and src files in no .d (named).
