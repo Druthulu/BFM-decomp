@@ -17992,7 +17992,7 @@ groups:
     tier: h_exact
     hash: f456cbc9a3e26cdf82545a01207ebb47b2ea6166
     source: src/shared/ov/func_80178438__f456cbc9.h
-    func: func_80178438
+    func: guess_ShowEneLabelAndValue
     vram: 0x80178438
     binaries: [ov_SC03_126, ov_SC04_021, ov_SC05_019]
   - id: S_func_80155458
