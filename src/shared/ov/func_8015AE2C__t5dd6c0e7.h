@@ -249,7 +249,7 @@ s32 arg0;
         } else {
             guess_SetAnim(arg0, 0x10);
         }
-        ((void (*)(s32))func_80146CA0)(arg0);
+        ((void (*)(s32))guess_NextStep)(arg0);
     }
     if (r == 0) {
         if ((((s32 (*)(s32))func_8014A674)(arg0) != 0) && (((s32 (*)(s32))func_8014E434)(arg0) != 0)) {

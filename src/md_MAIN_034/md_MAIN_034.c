@@ -806,7 +806,7 @@ void func_800CC298(void *a0) {
 extern s32 func_80146578(void);
 extern void func_8001CD9C(void *a0, void *a1);
 extern void func_800233CC(void *a0, u16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_800CC6A4();   /* TU later defines this void(void) at line 78; call with an
                                  * unspecified-arglist decl here (house style, see func_800CC1E8
                                  * above) avoids a 1-arg-vs-0-arg prototype conflict when this
@@ -854,7 +854,7 @@ void func_800CC310(void *a0)
         D_800CCB11 = 0xFF;
         D_800CCB12 = 0xFF;
 
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     } else {
         func_800CC6A4(a0);
     }
@@ -865,7 +865,7 @@ void func_800CC310(void *a0)
 
 extern void func_800CC6C4(void *a0, void *a1, void *a2, void *a3);
 extern void guess_SetWaitTimer_2(void *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern u8 D_800CCB10;
 extern Quad4_800CCB14 D_800CCB14;
 
@@ -883,7 +883,7 @@ void func_800CC424(void *a0) {
         CAST_WIDTH(u16, (u8 *)a0, 0x58) = 0x1000;
         *(u16 *)((u8 *)a0 + 0x5A) = 0x1000;
         guess_SetWaitTimer_2(a0, 0x20);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     }
 }
 
@@ -891,7 +891,7 @@ void func_800CC424(void *a0) {
 #include "common.h"
 
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_800CC6C4(void *a0, void *a1, void *a2, void *a3);
 
 extern u8 D_800CCB10;
@@ -929,7 +929,7 @@ void func_800CC4E8(void *a0) {
             ((Unkstruct_80126B58 *)a0)->unk60 = 0;
             ((Unkstruct_800CC424 *)s1)->unk1A = 0;
             ((Unkstruct_800CC424 *)s1)->unk18 = 0;
-            func_80146CA0(a0);
+            guess_NextStep(a0);
         }
     }
 
@@ -958,7 +958,7 @@ void func_800CC5E4(void *a0) {
     if ((*(s16 *)((u8 *)a1 + 0x1A)) >= 0xC01) {
         *(u16 *)((u8 *)a1 + 0x1A) = 0xC00;
         *(u16 *)((u8 *)a1 + 0x18) = 0xC00;
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     }
 }
 

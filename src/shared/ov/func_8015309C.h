@@ -4,11 +4,11 @@ extern void func_8014E934(s32 a0);
 extern void func_8014CC28(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
 extern void func_801530E4(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_8015309C(s32 a0) {
     func_8014E934(a0);
     func_8014CC28(a0);
     func_8014F3E8(a0);
     func_801530E4(a0);
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }

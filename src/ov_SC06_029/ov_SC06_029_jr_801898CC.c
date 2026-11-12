@@ -135,7 +135,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -4319,7 +4319,7 @@ void func_8018B250(void *a0) {
 }
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80147324(s32 a0);
 extern void func_8014CC28(s32 a0);
 extern void func_8014E934(s32 _arg0);
@@ -4334,7 +4334,7 @@ void func_8018B2A8(s32 a0)
     func_8014F3E8(s0);
     func_8018B2F8(s0);
     func_80147324(0x92F);
-    func_80146CA0((void *)s0);
+    guess_NextStep((void *)s0);
 }
 
 
@@ -4346,7 +4346,7 @@ extern void guess_SetAnimScript(s32*, s32);
 extern void func_80149020(s32*);
 extern void func_8018B50C(void);
 extern s32 func_80172630(u8*);
-extern void func_80146CA0(void*);
+extern void guess_NextStep(void*);
 extern u8 D_801D729C[];
 
 void func_8018B2F8(s32 p)
@@ -4359,7 +4359,7 @@ void func_8018B2F8(s32 p)
     ((Unkstruct_80126B58 *)p)->unkDF = 0;
     func_8018B50C();
     ((void (*)(s32))func_80172630)(p);
-    ((void (*)(s32))func_80146CA0)(p);
+    ((void (*)(s32))guess_NextStep)(p);
 }
 
 
@@ -4942,7 +4942,7 @@ void func_8018BE14(s32 a0) {
     func_8014CC28(s0);
     func_8014F3E8(s0);
     func_8018BE68(s0);
-    func_80146CA0((void *)s0);
+    guess_NextStep((void *)s0);
 }
 
 
@@ -4956,7 +4956,7 @@ extern M2C_UNK D_800D5880;
 extern s32 D_800D58AC;
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_8018BE68(s32 param_1)
 {
@@ -4974,7 +4974,7 @@ void func_8018BE68(s32 param_1)
     }
     guess_SetTexAnim(param_1, 0x16);
     func_80149020((s32 *)param_1);
-    func_80146CA0((void *)param_1);
+    guess_NextStep((void *)param_1);
 }
 
 

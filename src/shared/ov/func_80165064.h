@@ -1,6 +1,6 @@
 /* func_80165064 — shared body (overlay slot 0x80128158, h_exact 9d2ae9ae). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80165124(void *a0);
 extern void func_801651B8(void *a0);
 void func_80165064(s32 *a0) {
@@ -8,7 +8,7 @@ void func_80165064(s32 *a0) {
     *(u16 *)((s32)a0 + 0x62) = v;
     if (v >= 0x100) {
         *(u16 *)((s32)a0 + 0x62) = 0xFF;
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     }
     func_80165124(a0);
     func_801651B8(a0);

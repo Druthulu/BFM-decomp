@@ -23,7 +23,7 @@ void func_8015795C(int param_1)
     if ((uVar2 & 5) != 0) {
         func_80157A8C(param_1);
         ((void (*)(int, int))guess_SetWaitTimer_2)(param_1, 8);
-        ((void (*)(int))func_80146CA0)(param_1);
+        ((void (*)(int))guess_NextStep)(param_1);
     }
     if (uVar2 == 0) {
         ((void (*)(int, int))func_80155FF8)(param_1, *(unsigned char *)(param_1 + 0x1aa));

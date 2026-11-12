@@ -132,7 +132,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -4858,11 +4858,11 @@ void func_8018B2A4(void *a0) {
 
 
 extern void func_8018B310(s32 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_8018B2E0(s32 *a0) {
     func_8018B310(a0);
-    ((s32 (*)(s32))func_80146CA0)((s32)a0);
+    ((s32 (*)(s32))guess_NextStep)((s32)a0);
 }
 
 
@@ -4875,7 +4875,7 @@ extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_80147324(s32 a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 D_80062C14;
 extern u8 D_80190E34[];
 
@@ -4888,7 +4888,7 @@ void func_8018B310(s32 *a0) {
     func_80149020(a0);
     func_80147324(0x451);
     guess_SetWaitTimer_2(a0, 0x12C);
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }
 
 
@@ -4982,10 +4982,10 @@ void func_8018B588(void *a0) {
 
 
 extern void func_8018B5F4(s32 arg0);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     void func_8018B5C4(s32 arg0) {
         func_8018B5F4(arg0);
-        ((s32 (*)(s32))func_80146CA0)(arg0);
+        ((s32 (*)(s32))guess_NextStep)(arg0);
     }
 
 
@@ -4997,7 +4997,7 @@ extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_80147324(s32 arg0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 D_80062C14;
 extern u8 D_80190E34[];
 
@@ -5015,7 +5015,7 @@ void func_8018B5F4(s32 arg0) {
     guess_SetVertSpeed(s0, 0xfff00000);
     func_80149020(s0);
     func_80147324(0x451);
-    func_80146CA0(s0);
+    guess_NextStep(s0);
 }
 
 
@@ -5043,7 +5043,7 @@ void func_8018B698(s32 *s0) {
         goto clamp;
     }
     guess_SetVertSpeed(s0, 0x40000);
-    func_80146CA0(s0);
+    guess_NextStep(s0);
     return;
 clamp:
     if (((Unkstruct_80126B58 *)s0)->unkE >= 0x240) {
@@ -5133,7 +5133,7 @@ extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_80147324(s32 a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 D_80062C14;
 extern u8 D_80190E34[];
 
@@ -5147,8 +5147,8 @@ void func_8018B900(s32 param_1) {
     func_80149020((s32 *)param_1);
     func_80147324(0x451);
     guess_SetWaitTimer_2((s32 *)param_1, 0x12C);
-    func_80146CA0((void *)param_1);
-    func_80146CA0((void *)param_1);
+    guess_NextStep((void *)param_1);
+    guess_NextStep((void *)param_1);
 }
 
 

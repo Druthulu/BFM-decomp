@@ -122,7 +122,7 @@ extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80147324(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_800CB358(void);
 extern u32 D_800CB61C[];
 
@@ -142,7 +142,7 @@ void func_800CB09C(s32 a0) {
         func_80146DE8((s32 *)a0, 0, 0xFFF40000, 0xFFE80000);
         guess_SetWaitTimer_2((s32 *)a0, 0x3C);
         func_80147324(0x912);
-        func_80146CA0((void *)a0);
+        guess_NextStep((void *)a0);
     } else {
         ((void (*)(s32))func_800CB358)(a0);
     }
@@ -160,7 +160,7 @@ extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80147324(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163328(void *a0);
 extern void func_800CB358(void);
@@ -175,7 +175,7 @@ void func_800CB150(void *a0) {
     func_80162FF4((s32)a0, 0, 0x40000, 0);
     func_80162FC0(a0);
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
-        func_80146CA0(a0);
+        guess_NextStep(a0);
         return;
     }
     flags = func_80163950((s32)a0) != 0;
@@ -205,7 +205,7 @@ alloc:
                           ((Unkstruct_80126B58 *)a0)->unkE, t, 0);
         }
         func_80147324(0x913);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
         return;
     }
     ((void (*)(s32))func_800CB358)(a0);
@@ -227,7 +227,7 @@ void func_800CB2A8(s32 a0) {
     *(u16 *)(v1 + 0x1A) = v0;
     *(u16 *)(v1 + 0x18) = v0;
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
-        func_80146CA0((void *)a0);
+        guess_NextStep((void *)a0);
     } else {
         func_800CB378(a0);
     }

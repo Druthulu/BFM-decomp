@@ -10,6 +10,6 @@ void func_801578C0(s32 param_1)
     ((void (*)(s32 *, s32))guess_SetMoveVector)((s32 *)param_1, (s32)&D_80181564);
     ((void (*)(s32, s32 *, s32, s32))func_80146994)(4, (s32 *)param_1, 7, 0);
     ((void (*)(s32, s32 *, s32, s32))func_80146994)(5, (s32 *)param_1, 9, 0);
-    ((void (*)(s32 *))func_80146CA0)((s32 *)param_1);
+    ((void (*)(s32 *))guess_NextStep)((s32 *)param_1);
     ((void (*)(s32 *))func_801725A4)((s32 *)param_1);
 }

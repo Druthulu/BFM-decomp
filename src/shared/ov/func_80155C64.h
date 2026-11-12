@@ -11,7 +11,7 @@ extern void func_8014FA04(s32 a0);
 extern void func_8014C010(s32 a0, s32 a1);
 extern void func_8015BF48(s32 *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern int func_80155FF8(int arg, int a1);
 extern s32 D_800D4DF4;
 void func_80155C64(s32 a0) {
@@ -37,7 +37,7 @@ void func_80155C64(s32 a0) {
     }
     if (flags & 0x2000) {
         guess_SetAnimScript((s32 *)a0, (s32)&D_800D4DF4);
-        func_80146CA0((void *)a0);
+        guess_NextStep((void *)a0);
         func_8014C010(a0, 1);
         return;
     }

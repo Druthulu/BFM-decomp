@@ -79,10 +79,10 @@ void func_800CAFE8(void) {
 
 
     extern void guess_SetAnim(s32 *a0, s16 a1);
-    extern void func_80146CA0(s32);
+    extern void guess_NextStep(s32);
     void func_800CB008(s32 *a0) {
         guess_SetAnim(a0, 0);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     }
 
 
@@ -90,7 +90,7 @@ extern void func_80147324(s32 a0);
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C050(s32 a0, s32 a1);
 extern s32 func_8014C088(s32 a0, s32 a1);
-extern void func_80146CA0(s32 a0);
+extern void guess_NextStep(s32 a0);
 
 void func_800CB03C(s32 *a0) {
     s32 flag;
@@ -102,7 +102,7 @@ void func_800CB03C(s32 *a0) {
     if (!flag) {
         func_80146994(0x41, (s32)a0, 0, 0);
         func_80147324(0x836);
-        func_80146CA0((s32)a0);
+        guess_NextStep((s32)a0);
     }
 }
 
@@ -141,7 +141,7 @@ void func_800CB10C(void *a0) {
 void func_800CB184(void *a0) {
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     guess_SetWaitTimer_2((s32 *)a0, ((Unkstruct_80126B58 *)a0)->unk50 << 2);
-    func_80146CA0((s32)a0);
+    guess_NextStep((s32)a0);
 }
 
 
@@ -149,7 +149,7 @@ extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_80146578(void);
 extern void func_8001CD9C(void *a0, void *a1);
 extern void func_800233CC(void *, unsigned short);
-extern void func_80146CA0(s32);
+extern void guess_NextStep(s32);
 extern void func_800CB3D0();
 
 extern u8 D_800CBD68;
@@ -199,7 +199,7 @@ void func_800CB1BC(void *a0)
             D_800CBD6E = 0x20;
             D_800CBD6F = 0;
 
-            func_80146CA0((s32)a0);
+            guess_NextStep((s32)a0);
         } else {
             func_800CB3D0(a0);
         }
@@ -207,7 +207,7 @@ void func_800CB1BC(void *a0)
 }
 
 
-extern void func_80146CA0(s32);
+extern void guess_NextStep(s32);
 
 void func_800CB2F4(void *a0) {
     void *a1;
@@ -221,12 +221,12 @@ void func_800CB2F4(void *a0) {
     if (v0 >= 0x1001) {
         *(u16 *)((s32)a1 + 0x1A) = 0x1000;
         *(u16 *)((s32)a1 + 0x18) = 0x1000;
-        func_80146CA0((s32)a0);
+        guess_NextStep((s32)a0);
     }
 }
 
 
-extern void func_80146CA0(s32);
+extern void guess_NextStep(s32);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 void func_800CB354(void *a0) {
@@ -237,7 +237,7 @@ void func_800CB354(void *a0) {
     v0 = ((Unkstruct_80126B58 *)a0)->unk62 - 0x40;
     ((Unkstruct_80126B58 *)a0)->unk62 = v0;
     if (v0 < 0) {
-        func_80146CA0((s32)a0);
+        guess_NextStep((s32)a0);
         return;
     }
     *(u16 *)((s32)v1 + 0x12) = (*(u16 *)((s32)v1 + 0x12) - 0x71) & 0xFFF;

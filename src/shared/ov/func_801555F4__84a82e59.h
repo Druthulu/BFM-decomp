@@ -44,7 +44,7 @@ L_648:
         ((void(*)(unsigned short))func_80147300)(0x5f3);
         s1 = 0;
         D_8011F730 |= 3;
-        func_80146CA0((void *)((int)param_1));
+        guess_NextStep((void *)((int)param_1));
         goto L_7b8;
     case 2:
         ((void(*)(int *, int))guess_SetAnimScript)((int *)((int)param_1), (int)&D_800D4CE4);
@@ -62,9 +62,9 @@ L_648:
         ((void(*)(int *, int))guess_SetAnimScript)((int *)((int)param_1), (int)&D_800D4D88);
         ((void(*)(unsigned short))func_80147300)(0x5f6);
         s1 = 3;
-        func_80146CA0((void *)((int)param_1));
+        guess_NextStep((void *)((int)param_1));
 L_575c:
-        func_80146CA0((void *)((int)param_1));
+        guess_NextStep((void *)((int)param_1));
         goto L_7b8;
     case 5:
         ((void(*)(int *, int))guess_SetAnimScript)((int *)((int)param_1), (int)&D_800D4E10);

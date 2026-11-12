@@ -138,7 +138,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -2716,7 +2716,7 @@ extern void func_8014E934(s32 a0);
 extern void func_8014CC28(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
 extern void func_8017CE3C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 #include "../shared/ov/func_8017CDF4__5508e978.h"
 
 
@@ -2726,7 +2726,7 @@ void func_8017CE3C(s32 param_1) {
     extern void guess_SetAnimScript(s32 *a0, s32 a1);
     extern void func_80149020(s32 *a0);
     extern s32 func_8017261C(u8 *a0);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     extern s32 D_80185B78;
 
     func_80147324(0x451);
@@ -2736,7 +2736,7 @@ void func_8017CE3C(s32 param_1) {
     CAST_ALIAS(u8, param_1, 0xDE) = 0xF0;
     ((Unkstruct_80126B58 *)param_1)->unkDF = 0;
     func_8017261C((u8 *)param_1);
-    func_80146CA0((void *)param_1);
+    guess_NextStep((void *)param_1);
 }
 
 
@@ -2873,13 +2873,13 @@ extern void func_8014E934(s32 a0);
 extern void func_8014CC28(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
 extern void func_8017D104(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_8017D0BC(s32 a0) {
     func_8014E934(a0);
     func_8014CC28(a0);
     func_8014F3E8(a0);
     func_8017D104(a0);
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }
 
 
@@ -2891,7 +2891,7 @@ void func_8017D104(s32 param_1) {
     extern void func_80149020(s32 *a0);
     extern s32 func_801472C8(struct S *a0);
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
 
     func_80147324(0x451);
     func_801511E0(param_1);
@@ -2899,7 +2899,7 @@ void func_8017D104(s32 param_1) {
     func_80149020((s32 *)param_1);
     func_801472C8((s32 *)param_1);
     guess_SetWaitTimer_2((s32 *)param_1, 0x5A);
-    func_80146CA0((void *)param_1);
+    guess_NextStep((void *)param_1);
 }
 
 
@@ -2907,7 +2907,7 @@ void func_8017D16C(void *a0) {
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
         func_80159B3C(a0);
         func_8012DB84();
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     }
 }
 

@@ -8,7 +8,7 @@ void func_80160920(unsigned short *param_1)
     } else {
         if (((int (*)(unsigned short *))func_80161208)(param_1) == 0 && param_1[0x5c] == 0x8000) {
             ((void (*)(unsigned short *, int))guess_SetAnim)(param_1, 0x25);
-            ((void (*)(unsigned short *))func_80146CA0)(param_1);
+            ((void (*)(unsigned short *))guess_NextStep)(param_1);
         }
     }
     return;

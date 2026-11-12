@@ -96,7 +96,7 @@ extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80147324(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_800CB338(void);
 
 void func_800CB028(s32 a0) {
@@ -118,7 +118,7 @@ void func_800CB028(s32 a0) {
         guess_SetWaitTimer_2((s32 *)a0, 0x3C);
         func_80146A6C(0x4F, (void *)a0, 0, 0, 0, 0, 0);
         func_80147324(0x8E5);
-        func_80146CA0((void *)a0);
+        guess_NextStep((void *)a0);
     } else {
         ((void (*)(s32))func_800CB338)(a0);
     }
@@ -130,7 +130,7 @@ extern void func_80162FC0(s32 *a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163328();
 extern s32 func_801632F0();
@@ -152,7 +152,7 @@ void func_800CB118(s32 a0) {
     func_80162FF4(a0, 0, 0x4000, 0);
     func_80162FC0((s32 *) a0);
     if (guess_TickWaitTimer_2(a0) != 0) {
-        func_80146CA0((void *) a0);
+        guess_NextStep((void *) a0);
         return;
     }
     ret = func_801638A0((u8 *) a0, (s32) sp20);
@@ -162,7 +162,7 @@ void func_800CB118(s32 a0) {
         CAST_WIDTH(s32, a0, 0x24) = 0;
     } else {
         guess_SetWaitTimer_2((s32 *) a0, 0x20);
-        func_80146CA0((void *) a0);
+        guess_NextStep((void *) a0);
         return;
     }
     func_80163408(a0, 0x2C, 0x80, 0x200);
@@ -185,14 +185,14 @@ void func_800CB118(s32 a0) {
 
 
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_800CB2B4(s32 *a0) {
     s32 *s1;
 
     s1 = (s32 *)a0[0x20 / 4];
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     } else if (a0[0x1C / 4] & 1) {
         s1[1] |= 0x80000000;
     } else {

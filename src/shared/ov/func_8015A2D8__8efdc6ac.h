@@ -31,6 +31,6 @@ LAB_8015a390:
     func_8014C010(param_1, 2);
     ((void (*)(int))func_801553A8)(param_1);
     ((void (*)(int))func_80172608)(param_1);
-    ((void (*)(int))func_80146CA0)(param_1);
+    ((void (*)(int))guess_NextStep)(param_1);
     return;
 }

@@ -26,8 +26,8 @@ void func_80163EC8(s32 param_1)
         *((s16 *) (psVar6 + 0x18a)) = 0;
         *((s16 *) (psVar6 + 0x188)) = 0;
         *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
-        func_80146CA0((void *) param_1);
-        func_80146CA0((void *) param_1);
+        guess_NextStep((void *) param_1);
+        guess_NextStep((void *) param_1);
         return;
     }
     if ((*((s16 *) ((*((s32 *) (psVar6 + 0x184))) + 0x36))) == (*((u16 *) (psVar6 + 0x194))))
@@ -38,8 +38,8 @@ void func_80163EC8(s32 param_1)
     *((s16 *) (psVar6 + 0x18a)) = 0;
     *((s16 *) (psVar6 + 0x188)) = 0;
     *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
-    func_80146CA0((void *) param_1);
-    func_80146CA0((void *) param_1);
+    guess_NextStep((void *) param_1);
+    guess_NextStep((void *) param_1);
     return;
     LAB_matched:
     *((s16 *) (psVar6 + 0x18a)) = (*((u16 *) (psVar6 + 0x18a))) + 1;
@@ -120,8 +120,8 @@ void func_80163EC8(s32 param_1)
     guess_SetWaitTimer_2((s32 *) param_1, 0x20);
     *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
     func_80147324(0x449);
-    func_80146CA0((void *) param_1);
-    func_80146CA0((void *) param_1);
+    guess_NextStep((void *) param_1);
+    guess_NextStep((void *) param_1);
     LAB_end:
     uVar4 = func_80012F74(*((s16 *) (iVar8 + 0x1a)), 0x1800, 3, 1);
 

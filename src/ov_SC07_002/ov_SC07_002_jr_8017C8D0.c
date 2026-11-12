@@ -137,7 +137,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -8143,11 +8143,11 @@ void func_80185B94(void *a0) {
 
 
 extern s32 func_80185C00(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_80185BD0(s32 arg0) {
     func_80185C00(arg0);
-    ((void (*)(s32))func_80146CA0)(arg0);
+    ((void (*)(s32))guess_NextStep)(arg0);
 }
 
 
@@ -8168,11 +8168,11 @@ s32 func_80185C00(s32 a0)
     guess_SetVertSpeed(s0, 0xFFF00000);
     func_80149020(s0);
     func_80147324(0x451);
-    func_80146CA0(s0);
+    guess_NextStep(s0);
 }
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_ApplyVertSpeed(s32 a0);
@@ -8199,7 +8199,7 @@ void func_80185C9C(s32 param_1) {
 
     if (func_801535F4((void *)param_1) == 4 || guess_TickWaitTimer_2(param_1) != 0) {
         guess_SetVertSpeed((s32 *)param_1, 0x40000);
-        func_80146CA0((void *)param_1);
+        guess_NextStep((void *)param_1);
     }
 }
 
@@ -8286,20 +8286,20 @@ extern void func_8014E934(s32 a0);
 extern void func_8014CC28(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
 extern void func_80185F4C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_80185F04(s32 a0) {
     func_8014E934(a0);
     func_8014CC28(a0);
     func_8014F3E8(a0);
     func_80185F4C(a0);
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }
 
 
 extern void func_80147324(s32 a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void (*D_80198864)(void);
 
 void func_80185F4C(s32 a0)
@@ -8312,7 +8312,7 @@ void func_80185F4C(s32 a0)
     *(u16 *)((s32)s0 + 0x244) = ((Unkstruct_800B5CB8 *)s0)->unk6;
     *(u16 *)((s32)s0 + 0x246) = ((Unkstruct_800B5CB8 *)s0)->unkA;
     *(u16 *)((s32)s0 + 0x248) = ((Unkstruct_800B5CB8 *)s0)->unkE;
-    func_80146CA0(s0);
+    guess_NextStep(s0);
 }
 
 
@@ -8328,7 +8328,7 @@ extern void func_8001382C(s32 a0, void *a1, void *a2);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80149020(s32 *a0);
 extern u8 D_801988FC[];
 extern u8 D_801989A0[];
@@ -8352,7 +8352,7 @@ void func_80185FB0(s32 param_1) {
     D_8011DB0C = 0;
     ((Unkstruct_80126B58 *)param_1)->unkDE = 3;
     guess_SetWaitTimer_2((s32 *)param_1, 0x20);
-    func_80146CA0((void *)param_1);
+    guess_NextStep((void *)param_1);
 }
 
 
@@ -8383,7 +8383,7 @@ void func_80186090(s32 param_1)
             ((Unkstruct_80126B58 *)param_1)->unkDE = CAST_SIGN(u8, param_1, 0xDE) - 1;
         } else {
             guess_SetWaitTimer_2((s32 *)param_1, 0x10);
-            func_80146CA0((void *)param_1);
+            guess_NextStep((void *)param_1);
             return;
         }
         break;

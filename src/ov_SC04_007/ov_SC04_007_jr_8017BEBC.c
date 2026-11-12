@@ -135,7 +135,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -6492,7 +6492,10 @@ void func_80182514(void *a0) {
 #undef SHARED_FN
 
 
-void func_801825AC(void *a0) {
+/* guess_NextStep_3: advances a state machine's step counter (s16 at +0x2) by one
+ * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
+ * Names ledger: config/names.tsv guess_NextStep_3 */
+void guess_NextStep_3(void *a0) {
         ((Unkstruct_801825AC *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
     }
 
@@ -8072,7 +8075,7 @@ void func_80184FB8(void *a0) {
 }
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80147324(s32 a0);
 extern void func_8014CC28(s32 a0);
 extern void func_8014E934(s32 _arg0);
@@ -8087,7 +8090,7 @@ void func_80185010(s32 a0)
     func_8014F3E8(s0);
     func_80185060(s0);
     func_80147324(0x92F);
-    func_80146CA0((void *)s0);
+    guess_NextStep((void *)s0);
 }
 
 
@@ -8096,7 +8099,7 @@ extern int func_801511E0(int arg);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern s32 func_80172630(u8 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_80185060(s32 p)
 {
@@ -8109,7 +8112,7 @@ void func_80185060(s32 p)
     ((Unkstruct_80126B58 *)p)->unkDF = 0;
     func_80185274();
     ((void (*)(u8 *))func_80172630)(p);
-    ((void (*)(void *))func_80146CA0)(p);
+    ((void (*)(void *))guess_NextStep)(p);
 }
 
 

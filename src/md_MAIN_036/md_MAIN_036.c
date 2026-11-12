@@ -85,7 +85,7 @@ void func_800CB030(s32 param_1) {
     extern void func_8001CA1C(void *a0, void *a1);
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     extern void func_800CB5A8(void);
     extern u8 D_800CBFA0[];
     extern s32 D_800CC12C;
@@ -110,7 +110,7 @@ void func_800CB030(s32 param_1) {
         }
         ((Unkstruct_80126B58 *)param_1)->unk62 = 0;
         D_800CC12C = 0x384;
-        func_80146CA0((void *)param_1);
+        guess_NextStep((void *)param_1);
     } else {
         ((void (*)(s32))func_800CB5A8)(param_1);
     }
@@ -118,7 +118,7 @@ void func_800CB030(s32 param_1) {
 
 
 extern void func_80147324(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_800CB11C(u8 *arg0) {
     u8 *s1;
@@ -148,13 +148,13 @@ void func_800CB11C(u8 *arg0) {
 
         temp = (s16)val;
         if (temp < 0xC00) {
-            func_80146CA0(arg0);
+            guess_NextStep(arg0);
         }
     }
 }
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_800CB1CC(void *arg0) {
     s32 v1 = ((Unkstruct_80126B58 *)arg0)->unk20;
@@ -162,7 +162,7 @@ void func_800CB1CC(void *arg0) {
     *(u16 *)(v1 + 0x1A) = v;
     if (v >= 0x1000) {
         *(u16 *)(v1 + 0x1A) = 0x1000;
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     }
 }
 
@@ -180,7 +180,7 @@ extern u16 guess_GetPadPressed(s32 *);
 extern s32 guess_TickWaitTimer_2(s32);
 extern void guess_SetWaitTimer_2(s32 *, s32);
 extern void func_80147324(s32);
-extern void func_80146CA0(void *);
+extern void guess_NextStep(void *);
 extern int rand(void);
 
 void func_800CB218(void *arg0) {
@@ -221,7 +221,7 @@ void func_800CB218(void *arg0) {
         *evt = 0x80;
         guess_SetWaitTimer_2((s32 *)arg0, 0);
         func_80147324(0x8ED);
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     }
 }
 
@@ -230,7 +230,7 @@ void func_800CB3B4(void *arg0) {
     extern s32 func_8004787C(s32);
     extern void guess_SetWaitTimer_2(s32 *, s32);
     extern void func_80147324(s32);
-    extern void func_80146CA0(void *);
+    extern void guess_NextStep(void *);
     extern s16 D_800CC134;
     extern s16 D_800CC136;
     extern s16 D_800CC138;
@@ -289,16 +289,16 @@ void func_800CB3B4(void *arg0) {
     func_80147364(4, 0x8ED);
     func_80147324(0x8EE);
     func_801659B8();
-    func_80146CA0(arg0);
+    guess_NextStep(arg0);
 }
 
 
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_800CB570(int param_1)
 {
     if (((int (*)(void))guess_TickWaitTimer_2)() != 0) {
-        ((void (*)(int))func_80146CA0)(param_1);
+        ((void (*)(int))guess_NextStep)(param_1);
     }
 }
 
@@ -333,7 +333,7 @@ extern s32 func_8014659C(void);
 extern void func_8001CA1C(void *a0, void *a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_800CB774(void);
 extern int rand(void);
 
@@ -359,7 +359,7 @@ void func_800CB634(void *a0) {
         func_80146DE8((s32 *)a0, vx, vz, vy);
 
         guess_SetWaitTimer_2((s32 *)a0, 0x40);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     } else {
         ((void (*)(void *))func_800CB774)(a0);
     }
@@ -371,7 +371,7 @@ void func_800CB634(void *a0) {
 extern void func_80162F08(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80162FC0(s32 *a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_800CB708(void *arg0) {
     s32 v0;
@@ -391,7 +391,7 @@ void func_800CB708(void *arg0) {
     func_80162FC0((s32 *)arg0);
 
     if (guess_TickWaitTimer_2((s32)arg0) != 0) {
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     }
 }
 

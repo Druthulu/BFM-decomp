@@ -18,6 +18,6 @@ void func_8015FBE0(s32 *param_1)
         ((void (*)(s32 *))func_801553C0)(param_1);
         D_801270C0 = 2;
         D_800B9A17 = 0;
-        ((void (*)(s32 *))func_80146CA0)(param_1);
+        ((void (*)(s32 *))guess_NextStep)(param_1);
     }
 }

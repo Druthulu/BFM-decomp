@@ -12,5 +12,5 @@ void func_80158BB0(void *arg0) {
     guess_ClearTiltVectors(arg0);
     func_801474D8(arg0);
     func_801472C8(arg0);
-    func_80146CA0(arg0);
+    guess_NextStep(arg0);
 }

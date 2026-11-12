@@ -24,6 +24,6 @@ void func_801523F4(s32 arg0)
     ((void (*)(s32, s32))guess_SetMoveVector)(arg0, s0a);
     ((void (*)(s32, s32))guess_SetVertSpeed)(arg0, *(s32 *)(s2a + 0xC));
     func_80147324(0x451);
-    ((void (*)(s32))func_80146CA0)(arg0);
+    ((void (*)(s32))guess_NextStep)(arg0);
     (void)pad;
 }

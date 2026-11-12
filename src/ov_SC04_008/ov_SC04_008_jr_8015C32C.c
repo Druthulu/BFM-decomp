@@ -128,7 +128,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -1270,7 +1270,7 @@ extern void func_80159B70(void *a0);
 extern void func_80148AAC(u8 *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80161C24(s32, s32);
 extern void func_8014C010(s32 a0, s32 a1);
 
@@ -1291,7 +1291,7 @@ extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
 extern void func_80161240(void *a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80161C24(s32, s32);
 
 
@@ -1401,7 +1401,7 @@ extern void (*D_80181160[])(void *);
 extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
 extern s32 func_801725F4(u8 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_8015D104__c9b75610.h"
 
@@ -1480,7 +1480,7 @@ extern s32 func_80161B84(void *a0);
 extern void guess_SetTexAnim(int, int);
 extern s32 func_80161208();
 extern void guess_SetAnim(int, int);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void guess_TransformPosByObjMatrix(int, int);
 
 extern unsigned char D_801813A4[];
@@ -1769,7 +1769,7 @@ extern void guess_ClearTiltVectors(s32 *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 extern int D_800D4C48;
 extern int D_80181144;
@@ -1941,7 +1941,7 @@ extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
 extern void func_80147324(s32 arg0);
 extern void func_801553A8(s32 *a0);
 extern void func_801553C0(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 
 #include "../shared/ov/func_8015FBE0__7e0b6b06.h"
@@ -1959,7 +1959,7 @@ extern void func_8016007C(s32 a0);
 extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
 extern void func_8014BFF4(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_8015FCC8__a0e69ecd.h"
 
@@ -1972,7 +1972,7 @@ extern unsigned int D_801814BC[];
 
 extern void func_80147324(s32 arg0);
 extern s32 func_8013767C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_8015FD74__ad91f4fb.h"
 
@@ -2123,7 +2123,7 @@ extern u16 guess_GetPadHeld(s32 *a0);
 extern s32 func_80161208();
 extern void func_80160A74(s32 *a0);
 extern void guess_SetAnim(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_80160920__f5fec854.h"
 
@@ -2944,8 +2944,8 @@ void func_80163EC8(s32 param_1)
         *((s16 *) (psVar6 + 0x18a)) = 0;
         *((s16 *) (psVar6 + 0x188)) = 0;
         *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
-        func_80146CA0((void *) param_1);
-        func_80146CA0((void *) param_1);
+        guess_NextStep((void *) param_1);
+        guess_NextStep((void *) param_1);
         return;
     }
     if ((*((s16 *) ((*((s32 *) (psVar6 + 0x184))) + 0x36))) == (*((u16 *) (psVar6 + 0x194))))
@@ -2956,8 +2956,8 @@ void func_80163EC8(s32 param_1)
     *((s16 *) (psVar6 + 0x18a)) = 0;
     *((s16 *) (psVar6 + 0x188)) = 0;
     *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
-    func_80146CA0((void *) param_1);
-    func_80146CA0((void *) param_1);
+    guess_NextStep((void *) param_1);
+    guess_NextStep((void *) param_1);
     return;
     LAB_matched:
     *((s16 *) (psVar6 + 0x18a)) = (*((u16 *) (psVar6 + 0x18a))) + 1;
@@ -3038,8 +3038,8 @@ void func_80163EC8(s32 param_1)
     guess_SetWaitTimer_2((s32 *) param_1, 0x20);
     *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
     func_80147324(0x449);
-    func_80146CA0((void *) param_1);
-    func_80146CA0((void *) param_1);
+    guess_NextStep((void *) param_1);
+    guess_NextStep((void *) param_1);
     LAB_end:
     uVar4 = func_80012F74(*((s16 *) (iVar8 + 0x1a)), 0x1800, 3, 1);
 
@@ -3085,7 +3085,7 @@ extern void func_80162D28(s32 *a0);
 extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_80164A74(s32 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80164930(s32 a);
 
 extern u16 D_800DF2E0;
@@ -3127,7 +3127,7 @@ extern s32 func_80146578(void);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80164DB0(void);
 
 extern u8 D_80190E58;
@@ -3165,7 +3165,7 @@ void func_80164BDC(s32 param_1)
         *(s16 *)(param_1 + 0x60) = 0x700;
         *(s16 *)(param_1 + 0x62) = -0x60;
         func_80164DD0(param_1);
-        ((void (*)(s32))func_80146CA0)(param_1);
+        ((void (*)(s32))guess_NextStep)(param_1);
     } else {
         ((void (*)(s32))func_80164DB0)(param_1);
     }
@@ -3217,7 +3217,7 @@ extern void (*D_801816E4[])(void);
 extern DStruct D_80190EA4[];
 
 extern void func_80165124(void *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_80164EE0(int param_1)
 {
@@ -3232,7 +3232,7 @@ void func_80164EE0(int param_1)
     ((Unkstruct_80164EE0 *)param_1)->unk62 = 0;
     ((void (*)(int))func_80165124)(param_1);
     ((Unkstruct_80164EE0 *)param_1)->unk66 = 0;
-    ((void (*)(int))func_80146CA0)(param_1);
+    ((void (*)(int))guess_NextStep)(param_1);
 }
 
 

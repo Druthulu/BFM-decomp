@@ -13,5 +13,5 @@ void func_80164EE0(int param_1)
     *(short *)(param_1 + 0x62) = 0;
     ((void (*)(int))func_80165124)(param_1);
     *(short *)(param_1 + 0x66) = 0;
-    ((void (*)(int))func_80146CA0)(param_1);
+    ((void (*)(int))guess_NextStep)(param_1);
 }

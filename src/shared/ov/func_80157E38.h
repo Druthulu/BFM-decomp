@@ -4,7 +4,7 @@ extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147324(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern u8 D_800D4F14[];
 void func_80157E38(void * a0)
 {
@@ -14,5 +14,5 @@ void func_80157E38(void * a0)
     func_80146994(5, (s32)a0, 0, 0);
     func_80147324(0x455);
     *(s16 *)((u8 *)a0 + 0x244) = 0;
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }

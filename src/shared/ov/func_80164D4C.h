@@ -1,7 +1,7 @@
 /* func_80164D4C — shared body (overlay slot 0x80128158, h_exact b1e906d1). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80164E40(void);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_80164D4C(void *arg0) {
     s32 a;
     s32 iVar3;
@@ -9,7 +9,7 @@ void func_80164D4C(void *arg0) {
     a = (s32)arg0;
     iVar3 = *(s32 *)(a + 0x20);
     if (((s32 (*)(void))func_80164E40)() != 0) {
-        do { func_80146CA0((void *)a); } while (0);
+        do { guess_NextStep((void *)a); } while (0);
     } else {
         sVar1 = *(s16 *)(iVar3 + 0x1a) + 0x100;
         *(s16 *)(iVar3 + 0x1a) = sVar1;

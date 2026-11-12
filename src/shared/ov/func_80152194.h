@@ -7,7 +7,7 @@ extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern void guess_ApplyVertSpeed(s32 a0);
 extern void func_801470B4(s32 a0);
 extern void func_8015369C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_80152194(s32 *a0) {
     u8 v1;
     func_80149020(a0);
@@ -20,6 +20,6 @@ void func_80152194(s32 *a0) {
     if (v1 == 0) {
         func_801470B4((s32)a0);
         func_8015369C((s32)a0);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     }
 }

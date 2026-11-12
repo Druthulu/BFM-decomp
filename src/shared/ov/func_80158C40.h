@@ -3,7 +3,7 @@
 extern u16 guess_GetPadHeld(s32 *a0);
 extern s32 func_80159404(s32 a0, s32 a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_80158C40(s32 *a0) {
     s32 n;
     s32 c;
@@ -16,7 +16,7 @@ void func_80158C40(s32 *a0) {
         func_80159404((s32)a0, c);
         if (a0[0x234 / 4] < 0) {
             guess_SetWaitTimer_2(a0, 4);
-            func_80146CA0(a0);
+            guess_NextStep(a0);
             n = 0;
         }
         n--;

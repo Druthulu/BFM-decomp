@@ -504,7 +504,7 @@ void func_800CBC14(void *arg0) {
     extern s32 func_80146578(void);
     extern void func_8001CB00(s32, void *, s32, s32);
     extern void func_80146DE8(s32 *, s32, s32, s32);
-    extern void func_80146CA0(void *);
+    extern void guess_NextStep(void *);
     extern void func_800CBEB8(void);
     extern u8 D_800CC00C;
     s32 v0;
@@ -521,7 +521,7 @@ void func_800CBC14(void *arg0) {
         *(u8 *)(v0 + 0x24) = 0x20;
         *(s32 *)(v0 + 0x4) |= 0x40000000;
         func_80146DE8((s32 *)arg0, 0, 0xFFFC0000, 0);
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     } else {
         ((void (*)(void *))func_800CBEB8)(arg0);
     }

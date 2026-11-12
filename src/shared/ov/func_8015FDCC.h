@@ -6,7 +6,7 @@ extern void func_80139914(s32 a0);
 extern s32 func_80028DE0(void);
 extern u8 func_80165700(s32 a0, s32 a1);
 extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_8015FDCC(s32 a0) {
     s32 s0 = a0;
     if (func_801399F0(*(s32 *)(s0 + 0x198)) != 0) {
@@ -19,6 +19,6 @@ void func_8015FDCC(s32 a0) {
                 func_80147324(0x989);
             }
         }
-        func_80146CA0((void *)s0);
+        guess_NextStep((void *)s0);
     }
 }

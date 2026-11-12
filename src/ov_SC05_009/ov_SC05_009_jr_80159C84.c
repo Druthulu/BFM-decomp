@@ -132,7 +132,7 @@ extern s32 func_80146B9C(void * arg0);
 extern void guess_ZeroMemory(void *a0, s32 a1);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -1252,7 +1252,7 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_8014C010(s32 a0, s32 a1);
 extern void func_801553A8(s32 *a0);
 extern s32 func_80172608(u8 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_8015A2D8__8efdc6ac.h"
 

@@ -137,7 +137,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -7019,7 +7019,7 @@ void func_80183D10(void *a0) {
 }
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80147324(s32 a0);
 extern void func_8014CC28(s32 a0);
 extern void func_8014E934(s32 _arg0);
@@ -7034,7 +7034,7 @@ void func_80183D68(s32 a0)
     func_8014F3E8(s0);
     func_80183DB8(s0);
     func_80147324(0x92F);
-    func_80146CA0((void *)s0);
+    guess_NextStep((void *)s0);
 }
 
 
@@ -7051,7 +7051,7 @@ void func_80183DB8(s32 p)
     ((Unkstruct_80126B58 *)p)->unkDF = 0;
     func_80183FCC();
     func_80172630((u8 *)p);
-    func_80146CA0((void *)p);
+    guess_NextStep((void *)p);
 }
 
 
@@ -7638,7 +7638,7 @@ void func_801848F0(s32 a0)
     func_8018494C(s0);
     func_80147324(0x92F);
     CAST_SIGN(u16, s0, 0xA) += 0x10;
-    func_80146CA0((void *)s0);
+    guess_NextStep((void *)s0);
 }
 
 
@@ -7652,7 +7652,7 @@ void func_8018494C(s32 p)
     ((Unkstruct_80126B58 *)p)->unkDE = 0x1E;
     ((Unkstruct_80126B58 *)p)->unkDF = 0;
     func_80183FCC();
-    func_80146CA0((void *)p);
+    guess_NextStep((void *)p);
 }
 
 

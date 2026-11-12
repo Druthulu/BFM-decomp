@@ -101,7 +101,7 @@ void func_800CB038(void *a0) {
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void func_80147324(s32 a0);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     extern void func_800CB3BC(void);
 
     void *s2 = *(void **)((s32)a0 + 0x4C);
@@ -116,7 +116,7 @@ void func_800CB038(void *a0) {
         memcpy((void *)((s32)a0 + 0x58), (void *)(s1 + 0x10), 8);
         ((Unkstruct_80126B58 *)a0)->unk60 = 2;
         func_80147324(0x8F3);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     } else {
         ((void (*)(s32))func_800CB3BC)(a0);
     }
@@ -132,7 +132,7 @@ void func_800CB114(void *a0) {
     extern s32 func_801638A0(s32 a0, s32 *a1);
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void func_80147324(s32 a0);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80163328(s32 a0);
     extern s32 func_801632F0(s32 a0);
@@ -178,7 +178,7 @@ void func_800CB114(void *a0) {
 L250:
     guess_SetWaitTimer_2((s32 *)a0, 8);
     func_80147324(0x8E7);
-    func_80146CA0(a0);
+    guess_NextStep(a0);
     return;
 L274:
     func_80163408((s32)a0, 0x2A, 0, 0x20);
@@ -199,7 +199,7 @@ L274:
 L2CC:
     guess_SetWaitTimer_2((s32 *)a0, 8);
     func_80147324(0x8E7);
-    func_80146CA0(a0);
+    guess_NextStep(a0);
 L2E4:
     func_80162D28((s32)a0);
 }
@@ -208,7 +208,7 @@ L2E4:
 void func_800CB304(void *a0) {
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern s32 guess_TickWaitTimer_2(s32 a0);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     extern void func_800CB3DC(void *a0);
     s32 pad[2];
     s32 var_s2;
@@ -221,7 +221,7 @@ void func_800CB304(void *a0) {
                       ((Unkstruct_80126B58 *)a0)->unkE, i, 1);
     }
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     } else {
         u16 var_v0;
         var_v0 = *(u16 *)(var_s2 + 0x1C);

@@ -1,7 +1,7 @@
 /* func_80164F44 — shared body (overlay slot 0x80128158, h_exact 7c08fd67). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80165124(void *a0);
 extern s32 func_80165140(s32 a0);
 extern void func_801651B8(void *a0);
@@ -21,7 +21,7 @@ void func_80164F44(void *arg0) {
         *(s16 *)((u8 *)arg0 + 0x2C) = 0x1000;
         *(s16 *)((u8 *)arg0 + 0x60) = 0x80;
         guess_SetWaitTimer_2((s32 *)arg0, 0xE);
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     }
     func_80165124(arg0);
     sVar3 = 2;

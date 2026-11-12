@@ -180,7 +180,7 @@ void func_800CB23C(void *a0) {
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void guess_SetWaitTimer_2(s32 *a0, s16 a1);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     extern void func_800CB758(void *a0);
     extern void func_800CB6CC(void *a0);
 
@@ -199,7 +199,7 @@ void func_800CB23C(void *a0) {
         func_80146DE8((s32 *)a0, 0, 0x80000, 0xFFF00000);
         guess_SetWaitTimer_2((s32 *)a0, 0x60);
         func_800CB758(a0);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     } else {
         func_800CB6CC(a0);
     }
@@ -241,7 +241,7 @@ void func_800CB300(s32 arg0) {
     extern void guess_SetWaitTimer_2(s32 *a0, s16 a1);
     extern void func_80147364(u16 a0, s32 a1);
     extern void func_80147324(s32 arg0);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
 
     s32 mat[8];
     W8_md_MAIN_025_800CB300 work[3];
@@ -332,9 +332,9 @@ void func_800CB300(s32 arg0) {
     guess_SetWaitTimer_2((s32 *)s1, 0x1E);
     func_80147364(4, 0x649);
     func_80147324(0x441);
-    func_80146CA0((void *)s1);
+    guess_NextStep((void *)s1);
 L6A8:
-    func_80146CA0((void *)s1);
+    guess_NextStep((void *)s1);
 }
 
 
@@ -454,7 +454,7 @@ void func_800CB8A4(void *a0) {
             func_800CBB50(s0);
             ((Unkstruct_800CB8A4_4 *)s0)->unk18 = 0;
             guess_SetWaitTimer_2(s1, 6);
-            func_80146CA0(s1);
+            guess_NextStep(s1);
         }
     }
 }
@@ -463,7 +463,7 @@ void func_800CB8A4(void *a0) {
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_8001CBDC(s32 a0, void *a1, s32 a2, s32 a3);
 extern void func_800CBB50(void *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_800CB968(void *a0) {
     extern u8 D_800CBF20[];
@@ -480,7 +480,7 @@ void func_800CB968(void *a0) {
             func_800CBB50(s0);
             CAST_WIDTH(s32, (s32)s2, 4) &= 0x7FFFFFFF;
         }
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     } else {
         if (s0 != 0) {
             ((Unkstruct_800B5CB8 *)s0)->unk18 += 0x2AA;
@@ -496,10 +496,10 @@ void func_800CBA14(void *a0) {
 
 
 extern void guess_SetWaitTimer_2(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_800CBA2C(s32 *a0) {
     guess_SetWaitTimer_2(a0, 8);
-    func_80146CA0(a0);
+    guess_NextStep(a0);
 }
 
 
@@ -508,7 +508,7 @@ void func_800CBA60(void *a0) {
     extern void func_8001CB00(s32 a0, void *a1, s32 a2, s32 a3);
     extern void func_800CBB50(void *a0);
     extern void guess_SetWaitTimer_2(s32 *a0, s16 a1);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     extern u8 D_800CBF20[];
     void *s2;
     void *s0;
@@ -522,7 +522,7 @@ void func_800CBA60(void *a0) {
         }
         CAST_WIDTH(s32, (s32)s2, 4) |= 0x80000000;
         guess_SetWaitTimer_2((s32 *)a0, 4);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     }
 }
 

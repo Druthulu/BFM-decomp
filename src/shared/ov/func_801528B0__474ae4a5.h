@@ -12,5 +12,5 @@ void func_801528B0(s32 arg0)
     guess_SetVertSpeed(arg0, 0xFFF00000);
     guess_ClearStoodOnActor(arg0);
     guess_ClearTiltVectors(arg0);
-    func_80146CA0(arg0);
+    guess_NextStep(arg0);
 }

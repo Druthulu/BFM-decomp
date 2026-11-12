@@ -19,7 +19,7 @@ void func_80158FA4(s32 param_1)
             ((void (*)(s32, s32))func_80146C98)(param_1, 0xc);
         } else {
             *(s32 *)(param_1 + 0x198) = ((s32 (*)(u8 *))func_8013767C)(&(*(u8 *)&guess_g_StartPromptText));
-            ((void (*)(s32))func_80146CA0)(param_1);
+            ((void (*)(s32))guess_NextStep)(param_1);
         }
     }
 }

@@ -3,7 +3,7 @@
 extern u16 guess_GetPadHeld(s32 *a0);
 extern s32 func_80159434(s32 a0, s32 a1);
 extern void func_80147324(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_80158D60(s32 a0) {
     s32 count;
     s32 i;
@@ -19,7 +19,7 @@ void func_80158D60(s32 a0) {
             func_80147324(0x454);
             *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0xC00;
             *(s32 *)(a0 + 0x238) = 0xFFEA0000;
-            func_80146CA0((void *)a0);
+            guess_NextStep((void *)a0);
             i = 0;
         }
     }

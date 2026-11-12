@@ -31,7 +31,7 @@ void func_80158434(s32 param_1)
     if (uVar2 == 0) goto LAB_80158528;
 LAB_80158508:
     ((void (*)(s32, s32))guess_SetAnimScript)(param_1, (s32)&D_800D533C);
-    ((void (*)(s32))func_80146CA0)(param_1);
+    ((void (*)(s32))guess_NextStep)(param_1);
     return;
 LAB_80158528:
     ((void (*)(s32, s32))func_80155FF8)(param_1, *(u8 *)(param_1 + 0x1AA));

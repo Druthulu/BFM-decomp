@@ -1200,7 +1200,7 @@ extern s32 func_80146B9C(void * arg0);
 extern u16 D_8011DA28;
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -2357,7 +2357,7 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
 extern void func_801553A8(s32 *a0);
 extern s32 func_80172590(u8 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 
 void func_80159BE4(s32 arg0)
@@ -2379,7 +2379,7 @@ void func_80159BE4(s32 arg0)
     func_801553C0(arg0);
     ((void (*)(int))func_801553A8)(arg0);
     ((void (*)(int))func_80172590)(arg0);
-    ((void (*)(int))func_80146CA0)(arg0);
+    ((void (*)(int))guess_NextStep)(arg0);
 }
 
 

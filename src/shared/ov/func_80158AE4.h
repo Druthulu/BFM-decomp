@@ -12,7 +12,7 @@ extern void func_8014BF48(void);
 extern void guess_ClearStoodOnActor(void *a0);
 extern void func_8014B160(s32 a0);
 extern void func_80149020(s32 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_80158AE4(void * a0)
 {
     guess_g_CurrentEvent = D_800AE6AC | 0x1000000;
@@ -40,5 +40,5 @@ void func_80158AE4(void * a0)
     *(s16 *)(a0 + 0xF6) = 0x1000;
     D_80078EC8 = 0;
     *(s16 *)(a0 + 0x1C8) = 0;
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }

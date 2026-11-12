@@ -38,7 +38,7 @@ s32 func_8015C128(s32 param_1) {
     if (temp_v0 != 0) {
         if ((temp_v0 & 0xFF00) != 0x4000) {
             ((void(*)(int, int))guess_SetWaitTimer_2)(((int)param_1), 6);
-            ((void(*)(int))func_80146CA0)(((int)param_1));
+            ((void(*)(int))guess_NextStep)(((int)param_1));
             return;
         }
         if ((temp_v0 & 0x4000) && ((int(*)(int))guess_TickWaitTimer_2)(((int)param_1)) != 0) {

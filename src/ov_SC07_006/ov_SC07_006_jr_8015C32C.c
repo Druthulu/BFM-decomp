@@ -1080,7 +1080,7 @@ extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -2180,7 +2180,7 @@ extern void func_80159B70(void *a0);
 extern void func_80148AAC(u8 *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80161C24(s32, s32);
 extern void func_8014C010(s32 a0, s32 a1);
 
@@ -2213,7 +2213,7 @@ void func_8015C7E4(u16 *param_1)
                         ((void (*)(u16 *))func_80148AAC)(param_1);
                         ((void (*)(u16 *, void *))guess_SetMoveVector)(param_1, &D_8018CA4C);
                         ((void (*)(u16 *, s32))guess_SetWaitTimer_2)(param_1, 0x14);
-                        ((void (*)(u16 *))func_80146CA0)(param_1);
+                        ((void (*)(u16 *))guess_NextStep)(param_1);
                     }
                     if ((param_1[0x5c] & 0x2000) != 0) {
                         ((void (*)(u16 *, s32))func_80161C24)(param_1, param_1[0xb7]);
@@ -2240,7 +2240,7 @@ extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
 extern void func_80161240(void *a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80161C24(s32, s32);
 
 
@@ -2258,7 +2258,7 @@ void func_8015C944(int param_1) {
     } else {
         if (((int (*)(int))func_80161240)(param_1) == 0) {
             if (guess_TickWaitTimer_2(param_1) != 0) {
-                ((void (*)(int))func_80146CA0)(param_1);
+                ((void (*)(int))guess_NextStep)(param_1);
             }
             if ((*(unsigned short *)(param_1 + 0xb8) & 0x2000) != 0) {
                 func_80161C24(param_1, *(unsigned short *)(param_1 + 0x16e));
@@ -2482,7 +2482,7 @@ block_13:
 
 
 extern s32 func_80012A60(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 
 // @class: regalloc-order
@@ -2520,7 +2520,7 @@ void func_8015D01C(int param_1)
     }
     *((int *) (param_1 + 0x38)) = ((int) (&D_8018CC6C)) | 0x40000000;
     ((void (*)(int)) func_801725F4)(param_1);
-    ((void (*)(int)) func_80146CA0)(param_1);
+    ((void (*)(int)) guess_NextStep)(param_1);
 }
 
 
@@ -2535,7 +2535,7 @@ extern void func_8014E6A0(void);
 extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
 extern s32 func_801725F4(u8 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_8015D104(void *arg0) {
 
@@ -2551,7 +2551,7 @@ void func_8015D104(void *arg0) {
         ((Unkstruct_80126B58 *)arg0)->unk234 = 0xFF1D0000;
         *(u16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x10) = 0x600;
         ((Unkstruct_80126B58 *)arg0)->unk244 = *(u16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x10);
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     }
 }
 
@@ -2726,7 +2726,7 @@ extern s32 func_80161B84(void *a0);
 extern void guess_SetTexAnim(int, int);
 extern s32 func_80161208();
 extern void guess_SetAnim(int, int);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void guess_TransformPosByObjMatrix(int, int);
 
 
@@ -2748,7 +2748,7 @@ void func_8015D5E8(int param_1)
     if (*(unsigned short *)(param_1 + 0xb8) == 0x8000) {
         ((Unkstruct_80126B58 *)param_1)->unk234 = ((Unkstruct_80126B58 *)param_1)->unk234 + -3;
         guess_SetAnim(param_1, 0x1a);
-        ((void (*)(int))func_80146CA0)(param_1);
+        ((void (*)(int))guess_NextStep)(param_1);
     } else {
         iVar1 = ((Unkstruct_80126B58 *)param_1)->unk178;
         if (iVar1 != 0) {
@@ -3311,7 +3311,7 @@ extern void guess_ClearTiltVectors(s32 *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 
 void func_8015EE7C(s32 param_1)
@@ -3324,7 +3324,7 @@ void func_8015EE7C(s32 param_1)
     ((int (*)(int, void *))guess_SetAnimScript)(param_1, &D_800D4C48);
     ((int (*)(int, void *))guess_SetMoveVector)(param_1, &D_8018CA8C);
     ((int (*)(int, int))guess_SetVertSpeed)(param_1, 0xFFF40000);
-    ((int (*)(int))func_80146CA0)(param_1);
+    ((int (*)(int))guess_NextStep)(param_1);
 }
 
 
@@ -3684,7 +3684,7 @@ extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
 extern void func_80147324(s32 arg0);
 extern void func_801553A8(s32 *a0);
 extern void func_801553C0(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 
 void func_8015FBE0(s32 *param_1)
@@ -3708,7 +3708,7 @@ void func_8015FBE0(s32 *param_1)
         ((void (*)(s32 *))func_801553C0)(param_1);
         D_801270C0 = 2;
         D_800B9A17 = 0;
-        ((void (*)(s32 *))func_80146CA0)(param_1);
+        ((void (*)(s32 *))guess_NextStep)(param_1);
     }
 }
 
@@ -3723,7 +3723,7 @@ extern void func_8016007C(s32 a0);
 extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
 extern void func_8014BFF4(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_8015FCC8(void *param_1) {
 
@@ -3740,7 +3740,7 @@ void func_8015FCC8(void *param_1) {
         ((Unkstruct_80126B58 *)param_1)->unkBF = 0;
         ((Unkstruct_80126B58 *)param_1)->unk1A0 = (u8)((Unkstruct_80126B58 *)param_1)->unk184;
         ((s32 (*)(void *, s32))func_8014BFF4)(param_1, 1);
-        func_80146CA0(param_1);
+        guess_NextStep(param_1);
     }
 }
 
@@ -3752,7 +3752,7 @@ void func_8015FCC8(void *param_1) {
 
 extern void func_80147324(s32 arg0);
 extern s32 func_8013767C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_8015FD74(int param_1)
 {
@@ -3760,7 +3760,7 @@ void func_8015FD74(int param_1)
     extern unsigned int D_8018CE04[];
     ((int (*)(int))func_80147324)(0x18);
     ((Unkstruct_8015FD74_2 *)param_1)->unk198 = func_8013767C(D_8018CE04[*(unsigned char *)(param_1 + 0x1a0)]);
-    ((int (*)(int))func_80146CA0)(param_1);
+    ((int (*)(int))guess_NextStep)(param_1);
 }
 
 
@@ -4049,7 +4049,7 @@ extern u16 guess_GetPadHeld(s32 *a0);
 extern s32 func_80161208();
 extern void func_80160A74(s32 *a0);
 extern void guess_SetAnim(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_80160920(unsigned short *param_1)
 {
@@ -4061,7 +4061,7 @@ void func_80160920(unsigned short *param_1)
     } else {
         if (((int (*)(unsigned short *))func_80161208)(param_1) == 0 && param_1[0x5c] == 0x8000) {
             ((void (*)(unsigned short *, int))guess_SetAnim)(param_1, 0x25);
-            ((void (*)(unsigned short *))func_80146CA0)(param_1);
+            ((void (*)(unsigned short *))guess_NextStep)(param_1);
         }
     }
     return;
@@ -5109,7 +5109,7 @@ void func_80163A58(void *a0) {
 
 
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80147324(s32 arg0);
 extern u16 guess_GetPadPressed(s32 *a0);
@@ -5145,8 +5145,8 @@ void func_80163EC8(s32 param_1)
         *((s16 *) (psVar6 + 0x18a)) = 0;
         *((s16 *) (psVar6 + 0x188)) = 0;
         *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
-        func_80146CA0((void *) param_1);
-        func_80146CA0((void *) param_1);
+        guess_NextStep((void *) param_1);
+        guess_NextStep((void *) param_1);
         return;
     }
     if ((*((s16 *) ((*((s32 *) (psVar6 + 0x184))) + 0x36))) == (*((u16 *) (psVar6 + 0x194))))
@@ -5157,8 +5157,8 @@ void func_80163EC8(s32 param_1)
     *((s16 *) (psVar6 + 0x18a)) = 0;
     *((s16 *) (psVar6 + 0x188)) = 0;
     *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
-    func_80146CA0((void *) param_1);
-    func_80146CA0((void *) param_1);
+    guess_NextStep((void *) param_1);
+    guess_NextStep((void *) param_1);
     return;
     LAB_matched:
     *((s16 *) (psVar6 + 0x18a)) = (*((u16 *) (psVar6 + 0x18a))) + 1;
@@ -5239,8 +5239,8 @@ void func_80163EC8(s32 param_1)
     guess_SetWaitTimer_2((s32 *) param_1, 0x20);
     *((s32 *) (psVar6 + 0x44)) = (*((s32 *) (psVar6 + 0x44))) & (~0x20);
     func_80147324(0x449);
-    func_80146CA0((void *) param_1);
-    func_80146CA0((void *) param_1);
+    guess_NextStep((void *) param_1);
+    guess_NextStep((void *) param_1);
     LAB_end:
     uVar4 = func_80012F74(*((s16 *) (iVar8 + 0x1a)), 0x1800, 3, 1);
 
@@ -5299,7 +5299,7 @@ void func_80164744(s32 param_1)
 extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_80164A74(s32 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80164930(s32 a);
 
 
@@ -5326,7 +5326,7 @@ void func_801647A4(int param_1) {
         ((Unkstruct_801647A4_5 *)param_1)->unk60 = 0;
         ((Unkstruct_801647A4_5 *)param_1)->unk62 = 0x200;
         ((s32 (*)(s32))func_80164A74)(param_1);
-        ((void (*)(s32))func_80146CA0)(param_1);
+        ((void (*)(s32))guess_NextStep)(param_1);
     } else {
         func_80164930(param_1);
     }
@@ -5411,7 +5411,7 @@ extern s32 func_80146578(void);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80164DB0(void);
 
 
@@ -5453,7 +5453,7 @@ void func_80164BDC(s32 param_1)
         ((Unkstruct_80164BDC_4 *)p1)->unk60 = 0x700;
         ((Unkstruct_80164BDC_4 *)p1)->unk62 = -0x60;
         func_80164DD0(p1);
-        ((void (*)(s32))func_80146CA0)(p1);
+        ((void (*)(s32))guess_NextStep)(p1);
     } else {
         ((void (*)(s32))func_80164DB0)(p1);
     }
@@ -5512,7 +5512,7 @@ void func_80164EA4(void *a0) {
   /* stride 0x10 */
 
 extern void func_80165124(void *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_80164EE0(int param_1)
 {
@@ -5529,7 +5529,7 @@ void func_80164EE0(int param_1)
     ((Unkstruct_80164EE0_2 *)param_1)->unk62 = 0;
     ((void (*)(int))func_80165124)(param_1);
     ((Unkstruct_80164EE0_2 *)param_1)->unk66 = 0;
-    ((void (*)(int))func_80146CA0)(param_1);
+    ((void (*)(int))guess_NextStep)(param_1);
 }
 
 

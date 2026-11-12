@@ -128,7 +128,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -1272,7 +1272,7 @@ extern void func_80159B70(void *a0);
 extern void func_80148AAC(u8 *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80161C24(s32, s32);
 extern void func_8014C010(s32 a0, s32 a1);
 
@@ -1293,7 +1293,7 @@ extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
 extern void func_80161240(void *a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80161C24(s32, s32);
 
 
@@ -1405,7 +1405,7 @@ extern void (*D_80181914[])(void *);
 extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
 extern s32 func_801725F4(u8 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_8015D104__ae9e650f.h"
 
@@ -1486,7 +1486,7 @@ extern s32 func_80161B84(void *a0);
 extern void guess_SetTexAnim(int, int);
 extern s32 func_80161208();
 extern void guess_SetAnim(int, int);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void guess_TransformPosByObjMatrix(int, int);
 
 extern unsigned char D_80181B58[];
@@ -1781,7 +1781,7 @@ extern void guess_ClearTiltVectors(s32 *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 extern int D_800D4C48;
 extern int D_801818F8;
@@ -1955,7 +1955,7 @@ extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
 extern void func_80147324(s32 arg0);
 extern void func_801553A8(s32 *a0);
 extern void func_801553C0(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 
 #include "../shared/ov/func_8015FBE0__dd2ea6e8.h"
@@ -1973,7 +1973,7 @@ extern void func_8016007C(s32 a0);
 extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
 extern void func_8014BFF4(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_8015FCC8__87a5e0ba.h"
 
@@ -1986,7 +1986,7 @@ extern unsigned int D_80181C70[];
 
 extern void func_80147324(s32 arg0);
 extern s32 func_8013767C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_8015FD74__012cd6bc.h"
 
@@ -2141,7 +2141,7 @@ extern u16 guess_GetPadHeld(s32 *a0);
 extern s32 func_80161208();
 extern void func_80160A74(s32 *a0);
 extern void guess_SetAnim(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_80160920__f19f7444.h"
 
@@ -2764,7 +2764,7 @@ extern void func_80162D28(s32 *a0);
 extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_80164A74(s32 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80164930(s32 a);
 
 extern u16 D_800DF2E0;
@@ -2804,7 +2804,7 @@ extern s32 func_80146578(void);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80164DD0(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80164DB0(void);
 
 extern u8 D_8018E920;
@@ -2854,7 +2854,7 @@ extern void (*D_80181E98[])(void);
 extern DStruct D_8018E96C[];
 
 extern void func_80165124(void *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_80164EE0__b6346974.h"
 

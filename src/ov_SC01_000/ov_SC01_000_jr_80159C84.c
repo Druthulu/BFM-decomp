@@ -130,7 +130,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -1365,7 +1365,7 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_8014C010(s32 a0, s32 a1);
 extern void func_801553A8(s32 *a0);
 extern s32 func_80172608(u8 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_8015A2D8(s32 param_1)
 {
@@ -1398,7 +1398,7 @@ LAB_8015a390:
     func_8014C010(param_1, 2);
     ((void (*)(int))func_801553A8)(param_1);
     ((void (*)(int))func_80172608)(param_1);
-    ((void (*)(int))func_80146CA0)(param_1);
+    ((void (*)(int))guess_NextStep)(param_1);
     return;
 }
 

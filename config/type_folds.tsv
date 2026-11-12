@@ -2413,7 +2413,7 @@ Unkstruct_a573e829	define	Unkstruct_80158F00_2	owner:func_80158F00	no E1/E2 evid
 Unkstruct_b04b87fb	define	Unkstruct_80162834_2	owner:func_80162834	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
 Unkstruct_b225024d	residual	TYPE-CANON-TWIN	layout-twin:Slot_80165140	the flat def would form a tier-1 dup class with canonical Slot_80165140; no fold (G62: layout identity is no entity evidence)
 Unkstruct_b40f9135	residual	TYPE-SCALAR	layout:one-field@0	layout class TYPE-SCALAR (struct_map record)
-Unkstruct_c4ff5264	define	Unkstruct_8018354C	owner:func_8018354C	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
+Unkstruct_c4ff5264	define	Unkstruct_8018354C	owner:guess_NextStep_4no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
 Unkstruct_e13f52c3	define	Unkstruct_8015FD74_2	owner:func_8015FD74	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
 Unkstruct_e3275e3d	define	Unkstruct_8016C998_4	owner:func_8016C998	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
 Unkstruct_e409baa3	define	Unkstruct_8016BEA0_4	owner:func_8016BEA0	no E1/E2 evidence; flat layout of the struct map record; 7 TNC sites in 7 bodies
@@ -2709,7 +2709,7 @@ Unkstruct_b6fcf193	define	Unkstruct_801813BC_2	owner:func_801813BC	no E1/E2 evid
 Unkstruct_b9d08964	residual	TYPE-CANON-TWIN	layout-twin:Ramp388C	the flat def would form a tier-1 dup class with canonical Ramp388C; no fold (G62: layout identity is no entity evidence)
 Unkstruct_be1d6afd	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_c163a638	define	Unkstruct_80156044_3	owner:func_80156044	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 3 bodies
-Unkstruct_dc4beb32	define	Unkstruct_801825AC	owner:func_801825AC	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 3 bodies
+Unkstruct_dc4beb32	define	Unkstruct_801825AC	owner:guess_NextStep_3	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 3 bodies
 Unkstruct_e168ea61	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_ee888a42	define	Unkstruct_801838EC_3	owner:func_801838EC	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 3 bodies
 Unkstruct_ef087877	define	Unkstruct_8017EA88_3	owner:func_8017EA88	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 3 bodies

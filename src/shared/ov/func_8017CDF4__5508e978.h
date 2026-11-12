@@ -5,5 +5,5 @@ void func_8017CDF4(s32 a0) {
     func_8014CC28(a0);
     func_8014F3E8(a0);
     func_8017CE3C(a0);
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }

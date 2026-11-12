@@ -130,7 +130,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -1089,7 +1089,7 @@ extern s32 func_80159464(void);
 
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 func_801472C8(struct S *a0);
 extern void func_80147324(s32 a0);
 extern void func_801474D8(s32 *a0);
@@ -1112,14 +1112,14 @@ extern s32 D_8018E850;
 
 
 // @class: other
-// @unstuck(P36): none — MATCH (signed %11 magic + word-array %lo fold; ((void (*)(int))func_80146CA0)(param_1) reuses $a0 for the 0x198 store in its jal delay slot)
+// @unstuck(P36): none — MATCH (signed %11 magic + word-array %lo fold; ((void (*)(int))guess_NextStep)(param_1) reuses $a0 for the 0x198 store in its jal delay slot)
 
 extern s32 D_8018E85C;
 extern s32 D_801815E8[];
 
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_80158F00__6450992e.h"
 
@@ -1142,7 +1142,7 @@ extern s32 func_80159464(void);
 extern void func_801594E8(s32, s32);
 extern void func_80146C98(s32 *a0, s16 a1);
 extern s32 func_8013767C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #include "../shared/ov/func_80158FA4__1e7a4e71.h"
 
@@ -1155,7 +1155,7 @@ extern void func_80146CA0(void *a0);
 
 
 extern void func_80145BF8(void);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern u8 guess_g_EventSubStep;
 extern s32 D_8018E850;
 extern s32 D_8018E858;
@@ -1316,7 +1316,7 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
 extern void func_801553A8(s32 *a0);
 extern s32 func_80172590(u8 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 extern unsigned char D_80181878;
 

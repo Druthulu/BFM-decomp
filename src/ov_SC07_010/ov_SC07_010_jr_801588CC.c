@@ -493,7 +493,7 @@ extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -1430,7 +1430,7 @@ void func_801588CC(int param_1) {
 
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 func_801472C8(struct S *a0);
 extern void func_80147324(s32 a0);
 extern void func_801474D8(s32 *a0);
@@ -1453,7 +1453,7 @@ void func_80158BB0(void *arg0) {
     guess_ClearTiltVectors(arg0);
     func_801474D8(arg0);
     func_801472C8(arg0);
-    func_80146CA0(arg0);
+    guess_NextStep(arg0);
 }
 
 
@@ -1471,12 +1471,12 @@ void func_80158BB0(void *arg0) {
 
 
 // @class: other
-// @unstuck(P36): none — MATCH (signed %11 magic + word-array %lo fold; ((void (*)(int))func_80146CA0)(param_1) reuses $a0 for the 0x198 store in its jal delay slot)
+// @unstuck(P36): none — MATCH (signed %11 magic + word-array %lo fold; ((void (*)(int))guess_NextStep)(param_1) reuses $a0 for the 0x198 store in its jal delay slot)
 
 
 extern int rand(void);
 extern s32 func_8013767C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_80158F00(int param_1) {
 
@@ -1491,7 +1491,7 @@ void func_80158F00(int param_1) {
     if (gate == 0) {
         s32 r = rand();
         ((Unkstruct_80158F00_2 *)param_1)->unk198 = func_8013767C(D_80184330[r % 0xb]);
-        ((void (*)(int))func_80146CA0)(param_1);
+        ((void (*)(int))guess_NextStep)(param_1);
     }
 }
 
@@ -1512,7 +1512,7 @@ extern s32 func_80159464(void);
 extern void func_801594E8(s32, s32);
 extern void func_80146C98(s32 *a0, s16 a1);
 extern s32 func_8013767C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_80158FA4(s32 param_1)
 {
@@ -1536,7 +1536,7 @@ void func_80158FA4(s32 param_1)
             ((void (*)(s32, s32))func_80146C98)(param_1, 0xc);
         } else {
             ((Unkstruct_80158FA4_3 *)param_1)->unk198 = ((s32 (*)(u8 *))func_8013767C)(&(*(u8 *)&guess_g_StartPromptText));
-            ((void (*)(s32))func_80146CA0)(param_1);
+            ((void (*)(s32))guess_NextStep)(param_1);
         }
     }
 }
@@ -1553,7 +1553,7 @@ void func_80158FA4(s32 param_1)
 
 
 extern void func_80145BF8(void);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_8015934C(void *arg0) {
 
@@ -1567,7 +1567,7 @@ void func_8015934C(void *arg0) {
     }
     if (D_801A6B98 != 0) {
         func_80145BF8();
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
         guess_g_EventSubStep += 1;
     }
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
@@ -1851,7 +1851,7 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
 extern void func_801553A8(s32 *a0);
 extern s32 func_80172590(u8 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 
 void func_80159BE4(s32 arg0)
@@ -1873,5 +1873,5 @@ void func_80159BE4(s32 arg0)
     func_801553C0(arg0);
     ((void (*)(int))func_801553A8)(arg0);
     ((void (*)(int))func_80172590)(arg0);
-    ((void (*)(int))func_80146CA0)(arg0);
+    ((void (*)(int))guess_NextStep)(arg0);
 }

@@ -5,7 +5,7 @@ extern void guess_SetAnim(s32 a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_80129248(s16 a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern u16 D_801270C0;
 extern u8 D_800B9A17;
 void func_80160F00(void* arg0) {
@@ -16,5 +16,5 @@ void func_80160F00(void* arg0) {
     ((void (*)(s32))func_80129248)(0);
     D_800B9A17 = 0;
     ((void (*)(void*, s32))guess_SetWaitTimer_2)(arg0, 0x10);
-    func_80146CA0(arg0);
+    guess_NextStep(arg0);
 }

@@ -9,5 +9,5 @@ void func_80158038(void * param)
     *(s32 *)(param + 0x234) = 0;
     func_80146994(5, param, 0xc, 0);
     func_80147324(0x455);
-    func_80146CA0((void *)param);
+    guess_NextStep((void *)param);
 }

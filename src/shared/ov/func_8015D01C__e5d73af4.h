@@ -31,5 +31,5 @@ void func_8015D01C(int param_1)
     }
     *((int *) (param_1 + 0x38)) = ((int) (&D_80181AD8)) | 0x40000000;
     ((void (*)(int)) func_801725F4)(param_1);
-    ((void (*)(int)) func_80146CA0)(param_1);
+    ((void (*)(int)) guess_NextStep)(param_1);
 }

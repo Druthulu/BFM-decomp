@@ -8,7 +8,7 @@ extern void func_80156648(s32 *a0);
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8014B768(s32 a0, s32 a1);
 extern void func_80147300(u16 arg0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern u8 D_800D4F14[];
 extern s32 D_8011F730;
 void func_801575E4(void *a0) {
@@ -29,5 +29,5 @@ void func_801575E4(void *a0) {
     func_8014B768((s32)a0, 0x333);
     func_80147300(0x5F3);
     D_8011F730 |= 4;
-    func_80146CA0(a0);
+    guess_NextStep(a0);
 }

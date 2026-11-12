@@ -17,7 +17,7 @@ void func_801647A4(int param_1) {
         *(u16 *)(param_1 + 0x60) = 0;
         *(u16 *)(param_1 + 0x62) = 0x200;
         ((s32 (*)(s32))func_80164A74)(param_1);
-        ((void (*)(s32))func_80146CA0)(param_1);
+        ((void (*)(s32))guess_NextStep)(param_1);
     } else {
         func_80164930(param_1);
     }

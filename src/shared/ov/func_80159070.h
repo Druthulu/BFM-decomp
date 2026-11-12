@@ -3,7 +3,7 @@
 extern s32 func_801399F0(s32 a0);
 extern void func_80139914(s32 a0);
 extern s32 func_8013767C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern u8 D_80110C94[];
 extern u8 D_80110CD4[];
 void func_80159070(void *a0) {
@@ -29,6 +29,6 @@ void func_80159070(void *a0) {
             break;
         }
         *(s32 *)((u8 *)a0 + 0x198) = func_8013767C((s32)tbl);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     }
 }

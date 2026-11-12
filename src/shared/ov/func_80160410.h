@@ -10,7 +10,7 @@ extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_801553A8(s32 *a0);
 extern s32 func_80149184(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern u8 guess_g_RumblePatternShort;
 extern s16 guess_g_CameraRelativeYaw;
 void func_80160410(s32 * a0)
@@ -48,5 +48,5 @@ void func_80160410(s32 * a0)
     guess_SetWaitTimer_2(a0, 8);
     func_801553A8(a0);
     guess_g_CameraRelativeYaw = func_80149184((s32)a0);
-    func_80146CA0(a0);
+    guess_NextStep(a0);
 }

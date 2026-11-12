@@ -9,7 +9,7 @@ extern void guess_ApplyVertSpeed(s32 a0);
 extern s32 func_801472C8(struct S *a0);
 extern void func_801470B4(s32 a0);
 extern void func_8015369C(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_80152E4C(s32 a0) {
     s32 s0 = a0;
     s32 v0;
@@ -34,6 +34,6 @@ void func_80152E4C(s32 a0) {
         func_801472C8(s0);
         func_801470B4(s0);
         func_8015369C(s0);
-        func_80146CA0((void *)s0);
+        guess_NextStep((void *)s0);
     }
 }

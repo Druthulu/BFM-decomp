@@ -7,5 +7,5 @@ void func_8015EE7C(s32 param_1)
     ((int (*)(int, void *))guess_SetAnimScript)(param_1, &D_800D4C48);
     ((int (*)(int, void *))guess_SetMoveVector)(param_1, &D_80181144);
     ((int (*)(int, int))guess_SetVertSpeed)(param_1, 0xFFF40000);
-    ((int (*)(int))func_80146CA0)(param_1);
+    ((int (*)(int))guess_NextStep)(param_1);
 }

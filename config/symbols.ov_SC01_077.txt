@@ -3,7 +3,7 @@
 // config/symbols.us.txt. Seeded in T1c from sig_image (.run/sig.ov_SC01_077.jsonl) +
 // docs/duplicates.cross.md to fix conservative splat carves (jump-table-in-rodata, §8/§11)
 // and attach stable names. The all-asm byte-match (T1b) does not depend on this file.
-// count=64
+// count=65
 
 // Phase-29 bank wave: base symbols for func_8016D1D8 / func_8016D688 (jr_8016AB6C). Each
 // accesses a small byte array whose base fell on a splat carve boundary (the LAST byte of the
@@ -43,6 +43,7 @@ guess_SpawnActorType1C           = 0x80143B6C; // func
 guess_MoveImageList              = 0x80146014; // func
 guess_AllocSpriteObject          = 0x801465C0; // func
 guess_FreeSmallObject            = 0x80146C3C; // func
+guess_NextStep                   = 0x80146CA0; // func
 guess_ClearMoveVector            = 0x80146D90; // func
 guess_SetMoveVector              = 0x80146DB8; // func
 guess_SetWaitTimer_2             = 0x80146E90; // func

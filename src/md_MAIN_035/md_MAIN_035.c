@@ -74,10 +74,10 @@ void func_800CAF84(int param_1)
 
 
     extern void func_801655E4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     void func_800CAFBC(s32 a0) {
         func_801655E4();
-        ((void (*)(s32))func_80146CA0)(a0);
+        ((void (*)(s32))guess_NextStep)(a0);
     }
 
 
@@ -89,7 +89,7 @@ void func_800CAFEC(s32 *a0) {
     extern void func_800CB13C(s32 param_1);
     extern void func_80147324(s32 a0);
     extern void func_801553A8(s32 *a0);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
 
     s16 buf[3];
     s32 *p;
@@ -107,7 +107,7 @@ void func_800CAFEC(s32 *a0) {
     func_800CB13C((s32)a0);
     func_80147324(0x8F1);
     func_801553A8(a0);
-    ((void (*)(s32))func_80146CA0)((s32)a0);
+    ((void (*)(s32))guess_NextStep)((s32)a0);
 }
 
 

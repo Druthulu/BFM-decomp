@@ -6,7 +6,7 @@ extern void func_8015DCB8(s32 a0);
 extern void func_80147300(u16 arg0);
 extern void func_801553A8(s32 *a0);
 extern void func_8014BD60(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_8015DB6C(s32 a0) {
     guess_SetAnim(a0, 0x1C);
     guess_SetTexAnim(a0, 0x19);
@@ -15,5 +15,5 @@ void func_8015DB6C(s32 a0) {
     func_80147300(0x5F5);
     func_801553A8((s32 *)a0);
     func_8014BD60(a0, 4);
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }

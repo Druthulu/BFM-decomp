@@ -113,7 +113,7 @@ void func_800CB040(s32 a0) {
 
 
 extern s32 func_8014659C(void);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_800CB4AC();
@@ -154,14 +154,14 @@ void func_800CB0B4(s32 param_1) {
         func_800CB4CC((void *)param_1);
         guess_SetWaitTimer_2((s32 *)param_1, 0x28);
         func_80147324(0x8E8);
-        func_80146CA0((void *)param_1);
+        guess_NextStep((void *)param_1);
     } else {
         ((void (*)(s32))func_800CB4AC)(param_1);
     }
 }
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32  guess_TickWaitTimer_2(s32 a0);
 extern s32  func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -205,7 +205,7 @@ void func_800CB228(s32 param_1) {
     *(Blk16X *)((s8 *)obj + 0x44) = *(Blk16X *)&m.w[4];
     if (guess_TickWaitTimer_2(param_1) != 0) {
         guess_SetWaitTimer_2((s32 *)param_1, 8);
-        func_80146CA0((void *)param_1);
+        guess_NextStep((void *)param_1);
         return;
     }
     if (((Unkstruct_80126B58 *)param_1)->unk1C == 0x27) {
@@ -221,7 +221,7 @@ void func_800CB228(s32 param_1) {
         guess_SetWaitTimer_2((s32 *)param_1, 4);
         obj[1] |= 0x80000000;
         func_80147324(0xA7D);
-        func_80146CA0((void *)param_1);
+        guess_NextStep((void *)param_1);
         return;
     }
     if ((((Unkstruct_80126B58 *)param_1)->unk1C & 1) == 0) {
@@ -231,7 +231,7 @@ void func_800CB228(s32 param_1) {
 
 
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 void func_800CB424(void *a0)
@@ -239,7 +239,7 @@ void func_800CB424(void *a0)
     s32 i;
 
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
-        func_80146CA0(a0);
+        guess_NextStep(a0);
         return;
     }
     for (i = 0; i < 4; i++) {

@@ -12,6 +12,6 @@ void func_8015D104(void *arg0) {
         *(s32 *)((u8 *)arg0 + 0x234) = 0xFF1D0000;
         *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x10) = 0x600;
         *(u16 *)((u8 *)arg0 + 0x244) = *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x10);
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     }
 }

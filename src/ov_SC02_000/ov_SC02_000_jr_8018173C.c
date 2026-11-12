@@ -131,7 +131,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -3933,7 +3933,7 @@ void func_80183D80(void *arg0) {
 /* file-scope decls already in scope at the INCLUDE_ASM site in the destination TU
  * (src/ov_SC02_000/ov_SC02_000_jr_8018173C.c), copied verbatim per §174 law 2. */
 extern s32 func_8014659C(void);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 
@@ -3962,12 +3962,12 @@ void func_80183DD8(s32 a0) {
         CAST_WIDTH(Blk16, iVar3, 0x34) = CAST_WIDTH(Blk16, iVar4, 0x34);
         CAST_WIDTH(Blk16, iVar3, 0x44) = CAST_WIDTH(Blk16, iVar4, 0x44);
         guess_SetWaitTimer_2((s32 *)a0, 0x10);
-        func_80146CA0((void *)a0);
+        guess_NextStep((void *)a0);
     }
 }
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32 guess_TickWaitTimer_2(s32 a0);
@@ -3976,7 +3976,7 @@ void func_80183EB8(void *a0) {
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
         guess_SetWaitTimer_2(a0, 0x10);
         func_80146DE8(a0, 0, 0x40000, 0);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     }
 }
 

@@ -1089,7 +1089,7 @@ extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -3699,7 +3699,7 @@ void func_80175184(s32* arg0) {
 // @class: struct
 // @unstuck(P36): none — MATCH (fn-ptr table indexed by D_80078EC0-1; param preserved in $s0 across 1st call)
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 s32 func_80175218(void * param_1)
 {
@@ -3709,7 +3709,7 @@ s32 func_80175218(void * param_1)
     s32 i = D_80078EC0 - 1;
 
     D_801865C0[i](param_1);
-    ((void (*)(s32))func_80146CA0)(param_1);
+    ((void (*)(s32))guess_NextStep)(param_1);
 }
 
 

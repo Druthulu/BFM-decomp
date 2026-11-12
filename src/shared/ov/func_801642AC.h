@@ -5,7 +5,7 @@ extern s32 func_80013328(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void func_80147324(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 func_80163764(s32 a0);
 void func_801642AC(s32 a0) {
     s32 s1 = a0;
@@ -14,7 +14,7 @@ void func_801642AC(s32 a0) {
     if (func_80013328(s0 + 4, s1 + 4) < 0x28 || guess_TickWaitTimer_2(s1) != 0) {
         guess_SetWaitTimer_2((s32 *)s1, 8);
         func_80147324(0x44A);
-        func_80146CA0((void *)s1);
+        guess_NextStep((void *)s1);
     }
     func_80163764(s1);
 }

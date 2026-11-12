@@ -3,7 +3,7 @@
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void func_801553A8(s32 *a0);
 extern void func_80155440(s32 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_801746DC(void);
 void func_8015D57C(s32 arg0)
 {
@@ -11,7 +11,7 @@ void func_8015D57C(s32 arg0)
     guess_SetAnim((s32)arg0, 0x19);
     func_801553A8(arg0);
     func_80155440(arg0);
-    func_80146CA0(arg0);
+    guess_NextStep(arg0);
     *(s32 *)((s8 *)arg0 + 0x234) = 0;
     p = *(s16 **)((s8 *)arg0 + 0x178);
     if (p != 0) {

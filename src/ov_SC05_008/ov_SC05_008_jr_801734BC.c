@@ -134,7 +134,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -2643,14 +2643,14 @@ void func_80175184(s32* arg0) {
 
 extern u8 D_80078EC0;
 extern void (*D_80186044[])(s32);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 s32 func_80175218(void * param_1)
 {
     s32 i = D_80078EC0 - 1;
 
     D_80186044[i](param_1);
-    ((void (*)(s32))func_80146CA0)(param_1);
+    ((void (*)(s32))guess_NextStep)(param_1);
 }
 
 

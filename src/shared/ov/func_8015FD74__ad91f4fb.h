@@ -4,5 +4,5 @@ void func_8015FD74(int param_1)
 {
     ((int (*)(int))func_80147324)(0x18);
     *(int *)(param_1 + 0x198) = func_8013767C(D_801814BC[*(unsigned char *)(param_1 + 0x1a0)]);
-    ((int (*)(int))func_80146CA0)(param_1);
+    ((int (*)(int))guess_NextStep)(param_1);
 }

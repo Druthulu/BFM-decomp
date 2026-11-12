@@ -4,7 +4,7 @@ extern s32 func_801472C8(struct S *a0);
 extern void guess_ClearStoodOnActor(void *a0);
 extern void guess_ClearTiltVectors(s32 *a0);
 extern void func_80155440(s32 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern u8 guess_g_RumblePatternFade[];
 void func_801533A4(s32 a0)
 {
@@ -15,5 +15,5 @@ void func_801533A4(s32 a0)
     guess_ClearStoodOnActor(a0);
     guess_ClearTiltVectors(a0);
     func_80155440(a0);
-    func_80146CA0(a0);
+    guess_NextStep(a0);
 }

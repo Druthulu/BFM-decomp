@@ -134,7 +134,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -2645,7 +2645,7 @@ extern void func_8017BEAC(void);
 extern void func_8017BEB4(void);
 extern void (*D_80196D1C[])(void);
 extern void func_8017BEBC(void *a0);
-extern void func_8017C090(void *a0);
+extern void guess_NextStep_2(void *a0);
 
 /* func_8017C24C — ov_SC01_000_after — TMD-style model renderer (952 ins, jr-function).
  * Outer loop: per-part bbox -> RTPT/RTPS projection -> g.otz + screen cull.
@@ -3094,7 +3094,7 @@ void func_8017DBFC(void *a0) {
 }
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80147324(s32 a0);
 extern void func_8014CC28(s32 a0);
 extern void func_8014E934(s32 _arg0);
@@ -3109,7 +3109,7 @@ void func_8017DC54(s32 a0)
     func_8014F3E8(s0);
     func_8017DCA4(s0);
     func_80147324(0x92F);
-    func_80146CA0((void *)s0);
+    guess_NextStep((void *)s0);
 }
 
 
@@ -3121,7 +3121,7 @@ extern s32 func_801511E0(s32 a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_8017DED8(void);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern u8 D_80196DF0[];
 
 void func_8017DCA4(s32 a0)
@@ -3136,7 +3136,7 @@ void func_8017DCA4(s32 a0)
     ((Unkstruct_80126B58 *)a0)->unkDE = 0xA;
     ((Unkstruct_80126B58 *)a0)->unkDF = 0;
     func_8017DED8();
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }
 
 

@@ -14,7 +14,7 @@ void func_8015C944(int param_1) {
     } else {
         if (((int (*)(int))func_80161240)(param_1) == 0) {
             if (guess_TickWaitTimer_2(param_1) != 0) {
-                ((void (*)(int))func_80146CA0)(param_1);
+                ((void (*)(int))guess_NextStep)(param_1);
             }
             if ((*(unsigned short *)(param_1 + 0xb8) & 0x2000) != 0) {
                 func_80161C24(param_1, *(unsigned short *)(param_1 + 0x16e));

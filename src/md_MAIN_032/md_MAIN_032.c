@@ -100,7 +100,7 @@ void func_800CB054(void *arg0) {
 extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_800CB24C(void);
 
 void func_800CB0B0(void *arg0) {
@@ -122,7 +122,7 @@ void func_800CB0B0(void *arg0) {
         src = ((Unkstruct_80126B58 *)s2)->unk20;
         *(func_800CB0B0_Blk16 *)(s0 + 0x34) = *(func_800CB0B0_Blk16 *)(src + 0x34);
         *(func_800CB0B0_Blk16 *)(s0 + 0x44) = *(func_800CB0B0_Blk16 *)(src + 0x44);
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     } else {
         ((void (*)(void *))func_800CB24C)(arg0);
     }

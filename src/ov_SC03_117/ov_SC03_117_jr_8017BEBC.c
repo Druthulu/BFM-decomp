@@ -137,7 +137,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -3156,7 +3156,7 @@ extern s32 func_8014659C(void);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_8017CFB0(s32 a0) {
 
@@ -3179,7 +3179,7 @@ void func_8017CFB0(s32 a0) {
         D_8018839C = 0x80;
         D_8018839A = 0x80;
         D_80188398 = 0x80;
-        func_80146CA0((void *)a0);
+        guess_NextStep((void *)a0);
         if (((Unkstruct_80126B58 *)a0)->unk50 == 0) {
             ((Unkstruct_800B5CB8 *)iVar2)->unk2C = ((Unkstruct_800B5CB8 *)iVar2)->unk2C | 0x10;
         }
@@ -3190,7 +3190,7 @@ void func_8017CFB0(s32 a0) {
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_8013C9C4(void * arg0);
 extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80147324(s32 a0);
 extern void func_80162FC0(s32 *a0);
 extern void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -3240,7 +3240,7 @@ void func_8017D07C(s32 a0) {
             uVar2 = 0xC5E;
         }
         func_80147324(uVar2);
-        func_80146CA0((void *)a0);
+        guess_NextStep((void *)a0);
     } else if (CAST_SIGN(s16, a0, 0x60) != 0) {
         s16 sVar2;
         sVar2 = CAST_WIDTH(u16, iVar2, 0x1c) + 0x100;
@@ -3251,7 +3251,7 @@ void func_8017D07C(s32 a0) {
 }
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 void func_8017D248(s32 a0) {
     extern u16 D_8018839C;
@@ -3264,7 +3264,7 @@ void func_8017D248(s32 a0) {
     D_8018839A = uVar1;
     D_80188398 = uVar1;
     if ((s16)uVar1 > 0x100) {
-        func_80146CA0((void *)a0);
+        guess_NextStep((void *)a0);
     }
 }
 
@@ -3304,7 +3304,7 @@ void func_8017D2A4(void) {
 
 extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D41)
 void func_8017D364(int param_1) {
 
@@ -3323,7 +3323,7 @@ void func_8017D364(int param_1) {
         ((Unkstruct_8017D364 *)iVar1)->unk1C = 0;
         ((Unkstruct_8017D364 *)iVar1)->unk1A = 0;
         ((Unkstruct_8017D364 *)iVar1)->unk18 = 0;
-        ((void (*)(s32))func_80146CA0)(param_1);
+        ((void (*)(s32))guess_NextStep)(param_1);
     } else {
         ((void (*)(s32))func_80162CCC)(param_1);
     }
@@ -3354,7 +3354,7 @@ void func_8017D364(int param_1) {
  */
 
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 
 #define SHARED_FN func_8017D414
 #include "../shared/ov/cls_ac421feceed8.h"

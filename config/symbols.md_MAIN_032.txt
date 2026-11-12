@@ -1,7 +1,8 @@
 // config/symbols.md_MAIN_032.txt — module md_MAIN_032 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CAE08..0x800CC3CC); NEVER merged into config/symbols.us.txt.
-// count=6
+// count=7
 
+guess_NextStep                   = 0x80146CA0; // func
 guess_ApplyVelocity              = 0x801473EC; // func
 guess_ApplyVertSpeed             = 0x80147460; // func
 guess_SetVertSpeed               = 0x801477E8; // func

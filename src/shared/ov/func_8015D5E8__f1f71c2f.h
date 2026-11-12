@@ -16,7 +16,7 @@ void func_8015D5E8(int param_1)
     if (*(unsigned short *)(param_1 + 0xb8) == 0x8000) {
         *(int *)(param_1 + 0x234) = *(int *)(param_1 + 0x234) + -3;
         guess_SetAnim(param_1, 0x1a);
-        ((void (*)(int))func_80146CA0)(param_1);
+        ((void (*)(int))guess_NextStep)(param_1);
     } else {
         iVar1 = *(int *)(param_1 + 0x178);
         if (iVar1 != 0) {

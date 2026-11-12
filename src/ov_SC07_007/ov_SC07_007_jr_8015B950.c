@@ -1091,7 +1091,7 @@ extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -2353,7 +2353,7 @@ void func_8015BFF4(void *a0) {
 
 
 extern void func_8001382C(s32 a0, void *a1, void *a2);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32 guess_TickWaitTimer_2(s32 a0);
@@ -2412,7 +2412,7 @@ s32 func_8015C128(s32 param_1) {
     if (temp_v0 != 0) {
         if ((temp_v0 & 0xFF00) != 0x4000) {
             ((void(*)(int, int))guess_SetWaitTimer_2)(((int)param_1), 6);
-            ((void(*)(int))func_80146CA0)(((int)param_1));
+            ((void(*)(int))guess_NextStep)(((int)param_1));
             return;
         }
         if ((temp_v0 & 0x4000) && ((int(*)(int))guess_TickWaitTimer_2)(((int)param_1)) != 0) {

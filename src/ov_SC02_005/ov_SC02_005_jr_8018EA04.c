@@ -130,7 +130,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -3369,12 +3369,12 @@ extern void func_8018D4D8(void *param_1);
 extern void func_8018D608(s32 a0);
 extern void func_8018D6B0(s32 a0);
 extern void func_8018D73C(void *a0);
-extern void func_8018D7DC(void *a0);
+extern void guess_NextStep_12(void *a0);
 extern void func_8018EA04(s32 a0);
 extern u8 D_80196BEC[];
 extern void func_8018D7F0(void *a0);
 extern void func_8018D8A8(void *a0);
-extern void func_8018D904(void *a0);
+extern void guess_NextStep_13(void *a0);
 extern void func_8018F414(void);
 extern void func_8018D918(void *a0);
 extern s32 func_8012C588(s32 a0, s32 a1);
@@ -3411,7 +3411,7 @@ extern void func_8018E234(void *a0);
 extern void func_8018E288(void *a0);
 extern void (*D_80196CC0[])(void);
 extern void func_8018E400(void *a0);
-extern void func_8018E43C(void *a0);
+extern void guess_NextStep_14(void *a0);
 extern void func_8018E6D4(void);
 extern void func_8018E6DC(void *a0);
 extern void func_8018E730(void *a0);
@@ -4695,10 +4695,10 @@ void func_8019044C(void *a0) {
 
 
 extern s32 func_801904B8(s32 arg);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     void func_80190488(s32 arg0) {
         func_801904B8(arg0);
-        ((void (*)(s32))func_80146CA0)(arg0);
+        ((void (*)(s32))guess_NextStep)(arg0);
     }
 
 
@@ -4711,7 +4711,7 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80149020(s32 *a0);
 extern void func_80147324(s32 arg0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 D_80062C14;
 extern s32 D_80196EB0;
 
@@ -4726,7 +4726,7 @@ s32 func_801904B8(s32 arg) {
     guess_SetVertSpeed(s0, 0xffe00000);
     func_80149020(s0);
     func_80147324(0x451);
-    func_80146CA0(s0);
+    guess_NextStep(s0);
 }
 
 

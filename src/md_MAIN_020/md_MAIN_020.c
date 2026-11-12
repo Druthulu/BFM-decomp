@@ -85,11 +85,11 @@ void func_800CAFDC(void) {
 
     extern void guess_ClearTiltVectors(void *a0);
     extern s32 func_800CB17C(struct S *a0);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     void func_800CAFFC(void *a0) {
         guess_ClearTiltVectors(a0);
         func_800CB17C((struct S *)a0);
-        func_80146CA0(a0);
+        guess_NextStep(a0);
     }
 
 

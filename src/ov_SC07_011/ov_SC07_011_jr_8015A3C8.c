@@ -1093,7 +1093,7 @@ extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -2387,7 +2387,7 @@ extern void func_800CCB78(s32 a0);
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 func_80161488(void *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 func_8014A674(s32 *a0);
 extern void func_8014E434(void);
 extern void func_8015CC40(s32 *a0);
@@ -2643,7 +2643,7 @@ s32 arg0;
         } else {
             guess_SetAnim(arg0, 0x10);
         }
-        ((void (*)(s32))func_80146CA0)(arg0);
+        ((void (*)(s32))guess_NextStep)(arg0);
     }
     if (r == 0) {
         if ((((s32 (*)(s32))func_8014A674)(arg0) != 0) && (((s32 (*)(s32))func_8014E434)(arg0) != 0)) {

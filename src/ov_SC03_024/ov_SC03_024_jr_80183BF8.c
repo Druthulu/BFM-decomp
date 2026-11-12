@@ -129,7 +129,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -3907,7 +3907,10 @@ void func_801853BC(void *a0) {
 }
 
 
-void func_80185458(void *a0) {
+/* guess_NextStep_6: advances a state machine's step counter (s16 at +0x2) by one
+ * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
+ * Names ledger: config/names.tsv guess_NextStep_6 */
+void guess_NextStep_6(void *a0) {
         ((Unkstruct_8018354C *)a0)->unk2 += 1;
     }
 
@@ -3937,7 +3940,10 @@ void func_801854B0(s32 a0) {
 }
 
 
-void func_801854F4(void *a0) {
+/* guess_NextStep_7: advances a state machine's step counter (s16 at +0x2) by one
+ * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
+ * Names ledger: config/names.tsv guess_NextStep_7 */
+void guess_NextStep_7(void *a0) {
         ((Unkstruct_801825AC *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
     }
 

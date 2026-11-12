@@ -17,5 +17,5 @@ void func_80159BE4(s32 arg0)
     func_801553C0(arg0);
     ((void (*)(int))func_801553A8)(arg0);
     ((void (*)(int))func_80172590)(arg0);
-    ((void (*)(int))func_80146CA0)(arg0);
+    ((void (*)(int))guess_NextStep)(arg0);
 }

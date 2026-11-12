@@ -3,7 +3,7 @@
 extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern void guess_ApplyVertSpeed(s32 a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80147324(s32 a0);
 extern s32 D_800D4DB4;
 void func_80155B9C(s32 a0) {
@@ -12,7 +12,7 @@ void func_80155B9C(s32 a0) {
     guess_ApplyVertSpeed(a0);
     if (*(s32 *)(a0 + 0x34) >= 0) {
         guess_SetAnimScript((s32 *)a0, (s32)&D_800D4DB4);
-        func_80146CA0((void *)a0);
+        guess_NextStep((void *)a0);
         func_80147324(0x447);
     }
 }

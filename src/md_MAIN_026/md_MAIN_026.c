@@ -141,7 +141,7 @@ void func_800CB190(void *arg0) {
     extern void func_800CB5F4(s32 a0);
     extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
     extern void guess_SetWaitTimer_2(s32 *, s32);
-    extern void func_80146CA0(void *);
+    extern void guess_NextStep(void *);
     extern s32 rand();
 
     s32 color;
@@ -159,7 +159,7 @@ void func_800CB190(void *arg0) {
     } else {
         guess_SetWaitTimer_2((s32 *)arg0, 0);
     }
-    func_80146CA0(arg0);
+    guess_NextStep(arg0);
 }
 
 
@@ -169,7 +169,7 @@ extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_80146578(void);
 extern void func_8001CD9C(int a0, void *a1);
 extern void func_800233CC(void *, unsigned short);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D44)
 
 extern u8 D_800CBBD8;
@@ -219,7 +219,7 @@ void func_800CB278(s32 param_1)
             D_800CBBDE = 0x80;
             *(u32 *)(ivar3 + 4) = *(u32 *)(ivar3 + 4) | 0x50000000;
         }
-        func_80146CA0((void *)param_1);
+        guess_NextStep((void *)param_1);
     } else {
         ((void (*)(s32))func_80162CCC)(param_1);
     }
@@ -249,7 +249,7 @@ void func_800CB3C0(void *arg0) {
         *(u16 *)((u8 *)s0 + 0x18) = 0x1000;
         v1 = *(void **)((u8 *)arg0 + 0x4c);
         ((Unkstruct_80126B58 *)v1)->unkBE = 1;
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     }
 }
 
@@ -257,7 +257,7 @@ void func_800CB3C0(void *arg0) {
 void func_800CB470(void *arg0) {
     extern void func_800CB5F4(s32 a0);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     extern u8 D_800CBBD8;
     extern u8 D_800CBBD9;
     extern u8 D_800CBBDA;
@@ -286,7 +286,7 @@ void func_800CB470(void *arg0) {
         }
     }
     if (*(s32 *)base == 0 && *(s32 *)&D_800CBBDC == 0) {
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     }
 }
 
@@ -321,7 +321,7 @@ void func_800CB62C(void *arg0) {
 }
 
 
-extern void func_80146CA0(void *arg0);
+extern void guess_NextStep(void *arg0);
 
 void func_800CB688(void *a0) {
     s32 v1 = -0x100;
@@ -339,11 +339,11 @@ void func_800CB688(void *a0) {
     *(u8 *)((s32)a0 + 0x5E) = 0xFF;
     *(u8 *)((s32)a0 + 0x5F) = 0;
     CAST_WIDTH(u16, (s32)a0, 0x18) = v1;
-    func_80146CA0(a0);
+    guess_NextStep(a0);
 }
 
 
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_800CB8C4(void *a0, void *a1);
 extern void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, void *twicep, s16 *angp);
 
@@ -355,7 +355,7 @@ void func_800CB6E8(void *arg0) {
     ((Unkstruct_800B5CB8 *)arg0)->unk12 = w;
     if ((s16)w >= -7) {
         CAST_ALIAS(s16, (u8 *)arg0, 0x12) = -8;
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     }
     w = CAST_WIDTH(u16, (u8 *)arg0, 0x18) + 0xB;
     CAST_WIDTH(u16, (u8 *)arg0, 0x18) = w;
@@ -367,7 +367,7 @@ void func_800CB6E8(void *arg0) {
 
 void func_800CB77C(void *arg0) {
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80146CA0(void *a0);
+    extern void guess_NextStep(void *a0);
     extern void func_800CB8C4(void *a0, void *a1);
     extern void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, void *twicep, s16 *angp);
     s16 w;
@@ -382,7 +382,7 @@ void func_800CB77C(void *arg0) {
     *(u8 *)((u8 *)arg0 + 0x5D) = func_80012F74(*(u8 *)((u8 *)arg0 + 0x5D), 0, 10, 1);
     *(u8 *)((u8 *)arg0 + 0x5E) = func_80012F74(*(u8 *)((u8 *)arg0 + 0x5E), 0, 10, 1);
     if (((Unkstruct_80126B58 *)arg0)->unk58 == 0 && ((Unkstruct_80126B58 *)arg0)->unk5C == 0) {
-        func_80146CA0(arg0);
+        guess_NextStep(arg0);
     }
     w = CAST_WIDTH(u16, (u8 *)arg0, 0x18) + 0x2D;
     CAST_WIDTH(u16, (u8 *)arg0, 0x18) = w;

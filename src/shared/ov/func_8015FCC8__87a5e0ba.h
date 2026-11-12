@@ -12,6 +12,6 @@ void func_8015FCC8(void *param_1) {
         *(u8 *)((s32)param_1 + 0xBF) = 0;
         *(u8 *)((s32)param_1 + 0x1A0) = (u8)*(s32 *)((s32)param_1 + 0x184);
         ((s32 (*)(void *, s32))func_8014BFF4)(param_1, 1);
-        func_80146CA0(param_1);
+        guess_NextStep(param_1);
     }
 }

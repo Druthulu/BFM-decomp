@@ -136,7 +136,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
 extern void func_80146C98(s32 *a0, s16 a1);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
 extern void func_80146D30(s32 a0);
@@ -3292,13 +3292,13 @@ extern void func_8014E934(s32 a0);
 extern void func_8014CC28(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
 extern void func_8017EA44(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_8017E9FC(s32 a0) {
     func_8014E934(a0);
     func_8014CC28(a0);
     func_8014F3E8(a0);
     func_8017EA44(a0);
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }
 
 
@@ -3311,7 +3311,7 @@ extern void guess_ClearTiltVectors(s32 *a0);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 D_80193F00;
 
 void func_8017EA44(s32 a0)
@@ -3341,7 +3341,7 @@ void func_8017EA44(s32 a0)
     func_80147324(0x7EB);
 
     ((void (*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(0x3F, (void *)s0, a2, a3, 0, 0, 0);
-    func_80146CA0((void *)s0);
+    guess_NextStep((void *)s0);
 }
 
 
@@ -3403,13 +3403,13 @@ extern void func_8014E934(s32 a0);
 extern void func_8014CC28(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
 extern void func_8017ECD8(s32 a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 void func_8017EC90(s32 a0) {
     func_8014E934(a0);
     func_8014CC28(a0);
     func_8014F3E8(a0);
     func_8017ECD8(a0);
-    func_80146CA0((void *)a0);
+    guess_NextStep((void *)a0);
 }
 
 
@@ -3421,7 +3421,7 @@ extern int func_801511E0(int a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
 extern s32 func_80172630(u8 *a0);
-extern void func_80146CA0(void *a0);
+extern void guess_NextStep(void *a0);
 extern s32 D_80193F30;
 
 void func_8017ECD8(s32 a0)
@@ -3440,7 +3440,7 @@ void func_8017ECD8(s32 a0)
     a3 = 0;
     ((void (*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(0x3F, (void *)s0, a2, a3, 0, 0, 0);
     func_80172630((u8 *)s0);
-    func_80146CA0((void *)s0);
+    guess_NextStep((void *)s0);
 }
 
 
@@ -13847,7 +13847,10 @@ extern s32 func_8018CF10(void);
     }
 
 
-void func_8018CF18(void *a0) {
+/* guess_NextStep_11: advances a state machine's step counter (s16 at +0x2) by one
+ * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
+ * Names ledger: config/names.tsv guess_NextStep_11 */
+void guess_NextStep_11(void *a0) {
         ((Unkstruct_8018354C *)a0)->unk2 += 1;
     }
 
