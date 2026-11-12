@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-12T05:13:10.714Z
+# filed through: 2026-11-12T07:23:32.713Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -136,4 +136,6 @@ R132 | 2026-11-11 | finding | in force | 3.43 T9 hung rename_scan and Windows re
 R133 | 2026-11-11 | open | superseded by R135 | 3.43 T9 hung rename_scan and Windows restart | T9 is stopped (blocked) for the developer's Windows restart; it resumes on his word with the scanne… | .claude-state/journal/2026-11-11/173304-001r-claude-record.md
 R134 | 2026-11-11 | open | retired by .claude-state/journal/2026-11-11/180407-004r-claude-record.md (a one-off answer about keep-warm cost, not a standing item) | 3.43 T9 hung rename_scan and Windows restart | When the developer asks about keep-warm cost, point him to the mod's spend view; Claude doesn't rea… | .claude-state/journal/2026-11-11/173304-001r-claude-record.md
 R135 | 2026-11-11 | decision | in force | 3.43 T9 hung rename_scan and Windows restart | T9 resumes with the rename_scan hang diagnosed before anything else. | .claude-state/journal/2026-11-11/180407-004r-claude-record.md
-R136 | 2026-11-11 | open | in force | 3.43 T9 hung rename_scan and Windows restart | Relay to the developer, in plain words, why the B1 spec scan hung for 11 hours, once T9 reports the… | .claude-state/journal/2026-11-11/180407-004r-claude-record.md
+R136 | 2026-11-11 | open | retired by .claude-state/journal/2026-11-12/003909-011r-claude-record.md (the hang's cause was relayed to the developer) | 3.43 T9 hung rename_scan and Windows restart | Relay to the developer, in plain words, why the B1 spec scan hung for 11 hours, once T9 reports the… | .claude-state/journal/2026-11-11/180407-004r-claude-record.md
+R137 | 2026-11-12 | finding | in force | 3.43 T9 hung rename_scan and Windows restart | Cause of the 11-hour hang: git grep 2.43 searches a whole file at once for a single pattern, but gi… | .claude-state/journal/2026-11-12/003909-011r-claude-record.md
+R138 | 2026-11-12 | finding | in force | 3.43 T9 hung rename_scan and Windows restart | T9 is done. | .claude-state/journal/2026-11-12/003909-011r-claude-record.md
