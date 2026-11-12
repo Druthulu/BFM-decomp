@@ -7,18 +7,18 @@ extern s32 D_80126E60[];
 extern s8 D_801150D6;
 extern s8 D_801152C0;
 extern u8 D_80127504;
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern void func_800144D4(void);
 void func_80129C40(s32 _arg0)
 {
-    func_80016714(((u8 *)&D_80126DB8), 0xA4);
-    func_80016714(guess_g_MainCamera, 0xA4);
-    func_80016714(((u8 *)&D_80114EE8), 0xA4);
-    func_80016714(((u8 *)&D_80114EE8) + 0xA4, 0xA4);
-    func_80016714(((u8 *)&D_80114EE8) + 0x148, 0xA4);
-    func_80016714(((u8 *)D_80126E60), 0xA4);
-    func_80016714(((u8 *)D_80126E60) + 0xA4, 0xA4);
-    func_80016714(((u8 *)D_80126E60) + 0x148, 0xA4);
+    guess_ZeroMemory(((u8 *)&D_80126DB8), 0xA4);
+    guess_ZeroMemory(guess_g_MainCamera, 0xA4);
+    guess_ZeroMemory(((u8 *)&D_80114EE8), 0xA4);
+    guess_ZeroMemory(((u8 *)&D_80114EE8) + 0xA4, 0xA4);
+    guess_ZeroMemory(((u8 *)&D_80114EE8) + 0x148, 0xA4);
+    guess_ZeroMemory(((u8 *)D_80126E60), 0xA4);
+    guess_ZeroMemory(((u8 *)D_80126E60) + 0xA4, 0xA4);
+    guess_ZeroMemory(((u8 *)D_80126E60) + 0x148, 0xA4);
     D_801150D6 = 0;
     D_801152C0 = 0;
     (*(s8 *)&D_80127504) = 0;

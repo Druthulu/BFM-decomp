@@ -25,7 +25,7 @@ void func_801E7F34(void) {
     guess_g_MainCameraRefOffsetTargetX = 0;
     guess_g_MainCameraRefOffsetTargetY = -0x36;
     guess_g_MainCameraRefOffsetTargetZ = 0;
-    func_8012A018((s32)func_801E7FF8, 0);
+    guess_SetMainCameraHandler((s32)func_801E7FF8, 0);
     func_801E7FF8(guess_g_MainCamera);
     func_8012A094((s32)guess_g_MainCamera);
     D_801274EA = -0x82;

@@ -145,7 +145,7 @@ void func_800CAF90(void *a0) {
 
 void func_800CB164(void *a0) {
     extern u8 D_80078EC1;
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern void func_800CAF90(void *a0);
 
     s32 src;
@@ -171,14 +171,14 @@ void func_800CB164(void *a0) {
             ((Unkstruct_800CAF90 *)a0)->unk2 += 1;
         }
     } else {
-        func_80146C3C(a0);
+        guess_FreeSmallObject(a0);
     }
 }
 
 
 void func_800CB254(void *a0) {
     extern u8 D_80078EC1;
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern void func_800CAF90(void *a0);
     s32 a1;
     s32 n;
@@ -204,7 +204,7 @@ void func_800CB254(void *a0) {
         *(S16_md_MAIN_014_800CB254 *)((s32)a0 + 0x48) = *(S16_md_MAIN_014_800CB254 *)(v0 + 0x44);
         func_800CAF90(a0);
     } else {
-        func_80146C3C(a0);
+        guess_FreeSmallObject(a0);
     }
 }
 
@@ -213,7 +213,7 @@ void func_800CB254(void *a0) {
 
 void func_800CB358(void *param_1) {
     extern u8 D_80078EC1;
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern void func_800CAF90(void *a0);
     s32 iVar2;
     s32 cnt;
@@ -244,14 +244,14 @@ LAB_800CB3ec:
     ((Unkstruct_800CAF90 *)param_1)->unk2 = ((Unkstruct_800CAF90 *)param_1)->unk2 + 1;
     return;
 LAB_800CB454:
-    func_80146C3C(param_1);
+    guess_FreeSmallObject(param_1);
 }
 
 
 void func_800CB470(void *a0) {
     extern u8 D_80078EC1;
     extern void func_800CAF90(void *);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     u16 uVar1;
 
     if (D_80078EC1 == 5) {
@@ -261,10 +261,10 @@ void func_800CB470(void *a0) {
             ((Unkstruct_800CAF90 *)a0)->unk50 -= 3;
             func_800CAF90(a0);
         } else {
-            func_80146C3C(a0);
+            guess_FreeSmallObject(a0);
         }
     } else {
-        func_80146C3C(a0);
+        guess_FreeSmallObject(a0);
     }
 }
 
@@ -272,7 +272,7 @@ void func_800CB470(void *a0) {
 
 extern void func_800CAF90(void *a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern s32 func_80146C3C(u8 *a0);
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern u8 D_80078EC1;
 
 void func_800CB4D8(void *a0) {
@@ -291,7 +291,7 @@ void func_800CB4D8(void *a0) {
             ((Unkstruct_800CAF90 *)a0)->unk1C = 0x18;
         }
     } else {
-        func_80146C3C(a0);
+        guess_FreeSmallObject(a0);
     }
 }
 

@@ -2,7 +2,7 @@
  * exemplar src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c:4613 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(s32 a0) {
     func_8012E8C4(a0);
-    if (func_8012BEE8(a0)) {
-        func_8012C218(a0);
+    if (guess_TickWaitTimer(a0)) {
+        guess_FreeActor(a0);
     }
 }

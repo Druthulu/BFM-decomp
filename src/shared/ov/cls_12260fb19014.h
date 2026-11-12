@@ -4,8 +4,8 @@
 void SHARED_FN(s32 a0) {
     s32 sp10[8];
 
-    func_80052D90(0, (void *)a0);
-    func_80054514(a0, (s32)sp10);
+    GsInitCoordinate2(0, (void *)a0);
+    GsGetLw(a0, (s32)sp10);
     ((Unkstruct_8017CA80 *)a0)->unk18 = 0;
     ((Unkstruct_8017CA80 *)a0)->unk1C = 0;
     ((Unkstruct_8017CA80 *)a0)->unk20 = 0;

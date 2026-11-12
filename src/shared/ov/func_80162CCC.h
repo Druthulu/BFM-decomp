@@ -12,7 +12,7 @@ void func_80162CCC(a0)
         } else {
             a1 = 0x38;
         }
-        func_80016714(p, a1);
+        guess_ZeroMemory(p, a1);
     }
-    func_80016714(s0, 0x68);
+    guess_ZeroMemory(s0, 0x68);
 }

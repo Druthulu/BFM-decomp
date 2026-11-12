@@ -127,7 +127,7 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
     extern u8 D_800CD6E0[];
     extern void func_80148534(s32 a0, s32 a1);
     extern s32 func_80165FA4(s32 a0, s32 a1, s32 a2);
-    extern void func_80149350(s32 a0);
+    extern void guess_ObjRotTransSV(s32 a0);
     extern void RotTransSV(void *a0, void *a1, void *a2);
     extern s32 VectorNormalSS(void *a0, void *a1);
 
@@ -183,7 +183,7 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
 
     func_80148534((s32)v10, (s32)v18);
     func_80165FA4(node, (s32)v10, (s32)v18);
-    ((void (*)(s32, s32, s32))func_80149350)(node, (s32)v10, (s32)v10);
+    ((void (*)(s32, s32, s32))guess_ObjRotTransSV)(node, (s32)v10, (s32)v10);
     RotTransSV(v18, v18, out);
 
     if (param_2 != 0) {
@@ -232,7 +232,7 @@ void func_800CD314(void *arg0) {
     extern u8 D_800CD7A4;
     extern void func_80147324(s32 a0);
     extern void func_800233CC(void *a0, u16 a1);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
 
 
     register s32 s0 __asm__("$16");  // !FAKE: pin $16 — NEEDED DIFFERS (P36 rung B t8_tus2)
@@ -269,7 +269,7 @@ void func_800CD314(void *arg0) {
         return;
     }
     __asm__ __volatile__("" ::: "a0");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2)
-    ((void (*)(s32))func_80146C3C)(s0);
+    ((void (*)(s32))guess_FreeSmallObject)(s0);
 }
 
 
@@ -294,8 +294,8 @@ void func_800CD494(void *a0) {
 void func_800CD4D0(void *arg0) {
     extern s32 D_8011D030;
     extern u8 D_800CD6E0[];
-    extern s32 func_80146C3C(u8 *a0);
-    extern void func_80016714(void *a0, s32 a1);
+    extern s32 guess_FreeSmallObject(u8 *a0);
+    extern void guess_ZeroMemory(void *a0, s32 a1);
 
     unsigned short *p;
     short i;
@@ -308,14 +308,14 @@ void func_800CD4D0(void *arg0) {
     do {
         if (p != (unsigned short *)arg0) {
             if (*p == k) {
-                ((void (*)(unsigned short *))func_80146C3C)(p);
+                ((void (*)(unsigned short *))guess_FreeSmallObject)(p);
             }
         }
         i = i + 1;
         p = p + 0x2C;
     } while (i < 0x1E);
 
-    func_80016714(D_800CD6E0, 0xC4);
+    guess_ZeroMemory(D_800CD6E0, 0xC4);
     func_800CCDE8(arg0, 0, 0);
     ((Unkstruct_800CCDE8 *)arg0)->unk2 = ((Unkstruct_800CCDE8 *)arg0)->unk2 + 1;
 }
@@ -323,7 +323,7 @@ void func_800CD4D0(void *arg0) {
 
 void func_800CD58C(void *arg0) {
     extern u8 D_800CD6E0[];
-    extern void func_80016714(void *a0, s32 a1);
+    extern void guess_ZeroMemory(void *a0, s32 a1);
     extern s32 func_800CCBC0(void);
 
     if (((Unkstruct_800CCDE8 *)arg0)->unk2C != 0) {
@@ -331,17 +331,17 @@ void func_800CD58C(void *arg0) {
         func_800CCBC0();
         ((Unkstruct_800CCDE8 *)arg0)->unk2C = 0;
     } else {
-        func_80016714(D_800CD6E0, 0xC4);
+        guess_ZeroMemory(D_800CD6E0, 0xC4);
         func_800CCDE8(arg0, 0, 0);
     }
 }
 
 
 void func_800CD5F8(void *arg0) {
-    extern void *func_801465C0(void);
+    extern void *guess_AllocSpriteObject(void);
     extern void func_8001CD50(s32 a0, s32 a1);
     extern void func_800CD314(void *a0);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern u8 D_800CD7A4;
     extern u8 D_800CD7A5;
     extern u8 D_800CD7A6;
@@ -352,7 +352,7 @@ void func_800CD5F8(void *arg0) {
     s32 s1;
     s32 s0;
 
-    s1 = ((s32 (*)(void))func_801465C0)();
+    s1 = ((s32 (*)(void))guess_AllocSpriteObject)();
     if (s1 != 0) {
         s0 = (s32)&D_800CD7A4;
         func_8001CD50(s1, s0);
@@ -369,7 +369,7 @@ void func_800CD5F8(void *arg0) {
         func_800CD314(arg0);
         ((Unkstruct_800CD5F8_2 *)arg0)->unk2 = ((Unkstruct_800CD5F8_2 *)arg0)->unk2 + 1;
     } else {
-        ((void (*)(void *))func_80146C3C)(arg0);
+        ((void (*)(void *))guess_FreeSmallObject)(arg0);
     }
 }
 

@@ -5,7 +5,7 @@ void SHARED_FN(u8 *a0) {
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
     ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x50;
     ((Unkstruct_800B5CB8 *)p)->unk12 = v;
-    func_8012B2CC((s32)a0);
+    guess_UpdateActorModelMatrix((s32)a0);
     func_8012B200(a0);
-    func_8012B178((s32)a0, 0xFFF00000);
+    guess_SetForwardVelocity((s32)a0, 0xFFF00000);
 }

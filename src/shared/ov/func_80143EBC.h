@@ -1,7 +1,7 @@
 /* func_80143EBC — shared body (overlay slot 0x80128158, h_exact 1f774dce). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80016714(void *a0, s32 a1);
-extern void func_8012C218(void *a0);
+extern void guess_ZeroMemory(void *a0, s32 a1);
+extern void guess_FreeActor(void *a0);
 extern s32 func_80134510(s32 arg);
 extern s32 ratan2(s32 a0, s32 a1);
 extern s32 func_8004787C(s32 a0);
@@ -17,8 +17,8 @@ void func_80143EBC(s32 a0) {
         if (a0 == 0) {
             return;
         }
-        func_80016714((void *)s0, 0x38);
-        func_8012C218((void *)a0);
+        guess_ZeroMemory((void *)s0, 0x38);
+        guess_FreeActor((void *)a0);
         return;
     }
     sp[0] = *(u16 *)(s1 + 6);

@@ -3,7 +3,7 @@
 extern s32 func_80143BDC(u16 *a0);
 extern void func_80187558(s32 arg0);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8012C218(void *a0);
+extern void guess_FreeActor(void *a0);
 void func_80186D88(void *s0) {
     void *a0;
     s16 v0, v1;
@@ -26,6 +26,6 @@ void func_80186D88(void *s0) {
         }
         func_80187558(s0);
         func_8002D4C8(0x4DC, 0);
-        func_8012C218(s0);
+        guess_FreeActor(s0);
     }
 }

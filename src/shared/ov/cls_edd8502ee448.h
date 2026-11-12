@@ -2,7 +2,7 @@
  * exemplar src/shared/ov/func_80186FDC__edd8502e.h · rank 2/2 by (raw casts + !FAKE markers, lowest address): casts 11, markers 0
  * rank 1 src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:5579 rejected by ov_SC02_000 */
 extern s32 func_8012CBCC(s32 a0);
-extern s32 func_80143B6C(s32 a0, s32 a1);
+extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 s32 SHARED_FN(s32 param_1) {
     s32 p;
     p = *(s32 *)(param_1 + 0x20);
@@ -13,7 +13,7 @@ s32 SHARED_FN(s32 param_1) {
         *(s32 *)(param_1 + 0x44) = 0;
         *(s32 *)(param_1 + 0x48) = 0x80000;
         *(s32 *)(param_1 + 0x4C) = 0;
-        func_80143B6C(param_1, 0);
+        guess_SpawnActorType1C(param_1, 0);
         *(s16 *)(param_1 + 0xFC) = 0x40;
         *(s16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
     }

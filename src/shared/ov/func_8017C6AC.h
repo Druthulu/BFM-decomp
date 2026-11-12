@@ -6,7 +6,7 @@ void func_8017C6AC(int a0) {
     do { p = *(unsigned char **)(a0 + 0x20); } while (0);
     *(int *)(a0 + 0x1C) = v0 + 1;
     if (v0 >= 0x1F) {
-        func_80146C3C();
+        guess_FreeSmallObject();
     } else {
         unsigned short hv = *(unsigned short *)(p + 0x1A) + 0x1E0;
         signed char bv = *(unsigned char *)(p + 0x26) - 3;

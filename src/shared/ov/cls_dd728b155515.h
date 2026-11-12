@@ -5,6 +5,6 @@
         if ((v0 << 16) != 0) {
             return;
         }
-        func_8012A828(a0, &D_801BC5E0);
+        guess_StartActorSequence(a0, &D_801BC5E0);
         CAST_SIGN(u16, a0, 2) += 1;
     }

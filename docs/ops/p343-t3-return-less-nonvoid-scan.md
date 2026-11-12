@@ -39,7 +39,7 @@ Format: `name defs=<n> shared=<n in headers> kinds=<k> last={bucket: copies} [fl
 - `func_8012BE98` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_8012C098` defs=1 shared=1 kinds=barereturn last={'bare': 1} flip
 - `func_8012C194` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
-- `func_8012C1B8` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
+- `guess_AllocModelObject` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_8012CBA4` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_8012CBCC` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_8012CC1C` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
@@ -67,11 +67,11 @@ Format: `name defs=<n> shared=<n in headers> kinds=<k> last={bucket: copies} [fl
 - `func_80145CEC` defs=126 shared=2 kinds=noreturn last={'block': 126}
 - `func_80146578` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_8014659C` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
-- `func_801465C0` defs=1 shared=1 kinds=noreturn last={'call': 1}
+- `guess_AllocSpriteObject` defs=1 shared=1 kinds=noreturn last={'call': 1}
 - `func_801465E4` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_80146994` defs=1 shared=1 kinds=noreturn last={'call': 1}
 - `func_80146AB4` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
-- `func_80146C3C` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
+- `guess_FreeSmallObject` defs=1 shared=1 kinds=noreturn last={'call': 1} flip
 - `func_8014BCEC` defs=1 shared=1 kinds=noreturn last={'block': 1}
 - `func_8014C43C` defs=1 shared=1 kinds=noreturn last={'call': 1}
 - `func_801506A4` defs=133 shared=2 kinds=noreturn last={'block': 133}
@@ -118,7 +118,7 @@ Format: `name defs=<n> shared=<n in headers> kinds=<k> last={bucket: copies} [fl
 - `func_8016BBE0` defs=134 shared=1 kinds=noreturn last={'block': 134}
 - `func_8016BD78` defs=134 shared=1 kinds=noreturn last={'call': 134}
 - `func_8016BEA0` defs=134 shared=1 kinds=noreturn last={'block': 134}
-- `func_8016BF50` defs=1 shared=1 kinds=noreturn last={'call': 1}
+- `guess_UpdateAttachedPos` defs=1 shared=1 kinds=noreturn last={'call': 1}
 - `func_8016C49C` defs=134 shared=1 kinds=barereturn last={'other:} while (0)': 134}
 - `func_8016DC20` defs=5 shared=0 kinds=barereturn last={'call': 5}
 - `func_8016E95C` defs=133 shared=2 kinds=noreturn last={'block': 133}

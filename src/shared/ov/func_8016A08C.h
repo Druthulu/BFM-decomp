@@ -6,7 +6,7 @@ extern void func_8016A290(s32 param_1, void *param_2, void *param_3);
 extern void func_80147324(s32 arg0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80147364(u16 param_1, u16 param_2);
-extern s32 func_80146C3C(u8 *a0);
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8016A08C(s32 param_1) {
     s32 s0;
     void *s1;
@@ -44,6 +44,6 @@ void func_8016A08C(s32 param_1) {
         }
     } else {
         ((void (*)(s32, s32))func_80147364)(4, 0x44C);
-        ((void (*)(s32))func_80146C3C)(param_1);
+        ((void (*)(s32))guess_FreeSmallObject)(param_1);
     }
 }

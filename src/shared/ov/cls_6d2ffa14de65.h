@@ -4,7 +4,7 @@ void SHARED_FN(s32 a0) {
 
     ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
     for (i = 0; i < 10; i++) {
-        if (func_8012C658(0x16F, i, a0) != 0) {
+        if (guess_SpawnActor(0x16F, i, a0) != 0) {
             (CAST_SIGN(u16, a0, 0xFC))++;
         }
     }

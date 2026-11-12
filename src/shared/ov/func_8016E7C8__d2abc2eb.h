@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
 {
-    extern void func_8004914C(void *a0);
-    extern void func_800491AC(void *a0);
+    extern void SetRotMatrix(void *a0);
+    extern void SetTransMatrix(void *a0);
     extern void RotTransSV(void *a0, void *a1, void *a2);
     extern void func_80016ED4(void *a0);
     extern SVECTOR_8016E7C8 D_80181E10[4];
@@ -21,8 +21,8 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
     m.t[0] = *(short *)(param_1 + 6);
     m.t[1] = *(short *)(param_1 + 10);
     m.t[2] = *(short *)(param_1 + 14);
-    func_8004914C(&m);
-    func_800491AC(&m);
+    SetRotMatrix(&m);
+    SetTransMatrix(&m);
     pp = &prim;
     RotTransSV(&D_80181E10[0], pp, &tmp);
     RotTransSV(&D_80181E10[1], &prim.v[1], &tmp);

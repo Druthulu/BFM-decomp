@@ -985,7 +985,7 @@ void func_800141AC(s32 a0, void *a1)
 extern void func_80059234(s32);
 extern void func_800594CC(s32);
 extern void func_80059658(s32);
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern void func_800142C8(void);
 extern u8 D_800BA118;
 
@@ -993,7 +993,7 @@ void func_800141F0(void) {
     func_80059234(0);
     func_800594CC(0);
     func_80059658(0);
-    func_80016714(&D_800BA118, 0x98);
+    guess_ZeroMemory(&D_800BA118, 0x98);
     func_800142C8();
 }
 
@@ -1003,7 +1003,7 @@ void func_80014238(void) {
     func_80059234(1);
     func_80059658(0);
     VSync(0);
-    func_80016714(&guess_g_RenderWork, 0xA444);
+    guess_ZeroMemory(&guess_g_RenderWork, 0xA444);
     func_800143AC();
     func_80014444();
     func_8001C044();
@@ -1122,7 +1122,7 @@ extern void func_800144D4(void);
 extern void func_8001455C(void);
 extern void func_8002850C(s32 a0, s32 a1, s32 a2);
 extern void func_8002823C(void);
-extern void func_80052D90(s32 a0, void *a1);
+extern void GsInitCoordinate2(s32 a0, void *a1);
 extern void func_800538EC(s32 a0);
 
 extern s32 D_80126950;
@@ -1140,12 +1140,12 @@ void func_80014444(void) {
     func_8002850C(0x800, 0x800, 0x800);
     func_8002823C();
     s0 = &guess_g_RenderWork[0];
-    func_80052D90(0, s0 + 0x1A0);
-    func_80052D90(1, s0 + 0x1F0);
+    GsInitCoordinate2(0, s0 + 0x1A0);
+    GsInitCoordinate2(1, s0 + 0x1F0);
     func_800538EC(0);
 }
 
-extern void func_80053308(s32);
+extern void GsSetProjection(s32);
 extern void func_80053F6C();
 extern s32 guess_g_MainCameraViewPointX;
 extern s32 guess_g_MainCameraViewPointY;
@@ -1161,7 +1161,7 @@ void func_800144D4(void)
     extern s32 D_80126950;
 
     D_80126950 = 300;
-    func_80053308(300);
+    GsSetProjection(300);
     guess_g_MainCameraViewPointX = 0;
     guess_g_MainCameraViewPointY = 0;
     guess_g_MainCameraViewPointZ = -300;
@@ -3091,7 +3091,10 @@ void func_800166E8(void *a0, int a1) {
  * phantom empty 16-byte stack frame here (target is frameless) — that one frame
  * prologue/epilogue is the entire residual. A decomp-permuter candidate (structural
  * permutation can flip frame allocation). See docs/matching-cookbook.md §4. */
-void func_80016714(s8 *a0, s32 a1) {
+/* guess_ZeroMemory: writes a1 zero bytes from a0: byte stores up to word alignment, then words, then the remaining bytes
+ * Confidence high, code inference: a1 < 4: a1 byte stores of 0; else byte stores to 4-byte alignment, (a1 >> 2) word stores of 0, (a1 & 3) byte stores
+ * Names ledger: config/names.tsv guess_ZeroMemory */
+void guess_ZeroMemory(s8 *a0, s32 a1) {
     s32 v1;
 
     if (a1 < 4) {
@@ -3133,7 +3136,10 @@ void func_80016714(s8 *a0, s32 a1) {
 }
 #else
 
-void func_80016714(void *ptr, s32 len) {
+/* guess_ZeroMemory: writes a1 zero bytes from a0: byte stores up to word alignment, then words, then the remaining bytes
+ * Confidence high, code inference: a1 < 4: a1 byte stores of 0; else byte stores to 4-byte alignment, (a1 >> 2) word stores of 0, (a1 & 3) byte stores
+ * Names ledger: config/names.tsv guess_ZeroMemory */
+void guess_ZeroMemory(void *ptr, s32 len) {
     unsigned char *p = (unsigned char *)ptr;
     s32 v0;
     s32 v1;
@@ -4298,8 +4304,8 @@ void func_80017E68(short *arg0, int *arg1) {
 
 extern u8 guess_g_CameraWsMatrix;
 extern void CompMatrix(void *, void *, void *);
-extern void func_8004914C(void *);
-extern void func_800491AC(void *);
+extern void SetRotMatrix(void *);
+extern void SetTransMatrix(void *);
 
 void func_80017E8C(s32 arg0)
 {
@@ -4307,8 +4313,8 @@ void func_80017E8C(s32 arg0)
 
     m = *(Blk32_80017E8C *)arg0;
     CompMatrix(&guess_g_CameraWsMatrix, &m, &m);
-    func_8004914C(&m);
-    func_800491AC(&m);
+    SetRotMatrix(&m);
+    SetTransMatrix(&m);
 }
 
 /* func_80017F14 · m12 · cache-bust resubmission of the converged body.
@@ -4778,7 +4784,7 @@ void func_80018918(void) {
     p = &D_80078D98;
     D_800AE610 = 0;
     do {
-        func_80016714(p, 0x4C);
+        guess_ZeroMemory(p, 0x4C);
         *(u32 *)(p + 4) = w;
         i++;
         p += 0x4C;
@@ -4932,7 +4938,7 @@ void func_80018C64(void *a0)
 }
 
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern void func_80018F20(s32 param_1);
 extern u8 D_80078DE4;
 
@@ -4940,7 +4946,7 @@ void func_80018CE8(u8 *p) {
     s32 i;
 
     if (p == &D_80078DE4) {
-        func_80016714(p, 0x4C);
+        guess_ZeroMemory(p, 0x4C);
         return;
     }
     switch (*p) {
@@ -4976,7 +4982,7 @@ void func_80018CE8(u8 *p) {
         func_80018F20((s32) p);
         return;
     }
-    func_80016714(p, 0x4C);
+    guess_ZeroMemory(p, 0x4C);
 }
 
 void func_80018E78(void) {
@@ -5078,11 +5084,11 @@ void func_80019028(void) {
 }
 
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern s32 D_800747C0;
 
 void func_8001903C(void) {
-    func_80016714(&D_800747C0, 8);
+    guess_ZeroMemory(&D_800747C0, 8);
 }
 
 extern s32 D_800747C8;
@@ -8086,7 +8092,7 @@ void func_8001C00C(void) {
 #include "shared/main/cls_0f46d6343b52.h"
 #undef SHARED_FN
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern u8 guess_g_RenderWork[];
 
 void func_8001C14C(void) {
@@ -8096,19 +8102,19 @@ void func_8001C14C(void) {
     base = guess_g_RenderWork;
     p = base + 0x65A8;
     while (p < base + 0x6688) {
-        func_80016714(p, 0x38);
+        guess_ZeroMemory(p, 0x38);
         p += 0x38;
     }
 
     p = base + 0x2A8;
     while (p < base + 0x4B8) {
-        func_80016714(p, 0x84);
+        guess_ZeroMemory(p, 0x84);
         p += 0x84;
     }
 }
 
 
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsGetLw(s32 a0, s32 a1);
 
 void func_8001C1E4(void* a0, s32 a1) {
     s32 local_buf[8];
@@ -8116,7 +8122,7 @@ void func_8001C1E4(void* a0, s32 a1) {
     ((Unkstruct_800B5CB8 *)a0)->unk78 = a1 + 0x30;
     ((Unkstruct_800B5CB8 *)a0)->unk30 = 0;
 
-    func_80054514((s32)(a0 + 0x30), (s32)local_buf);
+    GsGetLw((s32)(a0 + 0x30), (s32)local_buf);
 }
 
 /* guess_InitModelObject: initialises a model object: state pair, a GsCOORDINATE2 at +0x30 parented to WORLD, and the TMD list a1 mapped with GsMapModelingData
@@ -8125,8 +8131,8 @@ void func_8001C1E4(void* a0, s32 a1) {
 void guess_InitModelObject(s32 a0, s32 a1)
 {
     extern void func_8001C9D0(s32 a0v);
-    extern void func_80052D90(s32 a0, void *a1);
-    extern void func_80054514(s32 a0, s32 a1);
+    extern void GsInitCoordinate2(s32 a0, void *a1);
+    extern void GsGetLw(s32 a0, s32 a1);
     extern void GsMapModelingData(u32 *p);
     extern u8 D_80063548[];
 
@@ -8135,8 +8141,8 @@ void guess_InitModelObject(s32 a0, s32 a1)
     func_8001C9D0(a0);
     ((Unkstruct_800B5CB8 *)a0)->unk0 = 1;
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 0;
-    func_80052D90(0, (void *)(a0 + 0x30));
-    func_80054514(a0 + 0x30, (s32)&sp10[0]);
+    GsInitCoordinate2(0, (void *)(a0 + 0x30));
+    GsGetLw(a0 + 0x30, (s32)&sp10[0]);
     CAST_WIDTH(s32, a0, 0x24) = a1;
     if (a1 != 0) {
         ((Unkstruct_800B5CB8 *)a0)->unk20 = (s32)D_80063548;
@@ -8151,8 +8157,8 @@ void guess_InitModelObject(s32 a0, s32 a1)
 
 
 extern void func_8001C9D0(s32 a0v);
-extern void func_80052D90(s32 a0, void *a1);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsInitCoordinate2(s32 a0, void *a1);
+extern void GsGetLw(s32 a0, s32 a1);
 
 void func_8001C2C4(s32 a0) {
     s32 stack_buf[8];
@@ -8164,9 +8170,9 @@ void func_8001C2C4(s32 a0) {
 
     ((Unkstruct_800B5CB8 *)a0)->unk0 = 1;
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 0;
-    func_80052D90(0, s1);
+    GsInitCoordinate2(0, s1);
 
-    func_80054514((s32)s1, (s32)stack_buf);
+    GsGetLw((s32)s1, (s32)stack_buf);
 
     CAST_WIDTH(s32, a0, 0x24) = 0;
 }
@@ -8174,8 +8180,8 @@ void func_8001C2C4(s32 a0) {
 void func_8001C320(s32 a0, s32 a1)
 {
     extern void func_8001C9D0(s32 a0v);
-    extern void func_80052D90(s32 a0, void *a1);
-    extern void func_80054514(s32 a0, s32 a1);
+    extern void GsInitCoordinate2(s32 a0, void *a1);
+    extern void GsGetLw(s32 a0, s32 a1);
     extern void GsMapModelingData(u32 *p);
     extern void GsLinkObject5();
     extern void *GsPresetObject();
@@ -8194,8 +8200,8 @@ void func_8001C320(s32 a0, s32 a1)
     func_8001C9D0(a0);
     ((Unkstruct_8001C320 *)a0)->unk0 = 1;
     ((Unkstruct_8001C320 *)a0)->unk2 = 1;
-    func_80052D90(0, (void *)(a0 + 0x30));
-    func_80054514(a0 + 0x30, (s32)&sp10[0]);
+    GsInitCoordinate2(0, (void *)(a0 + 0x30));
+    GsGetLw(a0 + 0x30, (s32)&sp10[0]);
     work = (s32)guess_g_RenderWork;
     ((Unkstruct_8001C320 *)a0)->unk24 = a1;
     if (a1 != 0) {
@@ -8222,8 +8228,8 @@ void func_8001C320(s32 a0, s32 a1)
 
 
 extern void func_8001C9D0(s32 a0v);
-extern void func_80052D90(s32 a0, void *a1);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsInitCoordinate2(s32 a0, void *a1);
+extern void GsGetLw(s32 a0, s32 a1);
 
 void func_8001C448(s32 a0) {
     s32 local_10[8];
@@ -8236,8 +8242,8 @@ void func_8001C448(s32 a0) {
     ((Unkstruct_8001C448 *)s0_val)->unk0 = 1;
     ((Unkstruct_8001C448 *)s0_val)->unk2 = 1;
 
-    func_80052D90(0, (void *)s1_val);
-    func_80054514(s1_val, (s32)&local_10[0]);
+    GsInitCoordinate2(0, (void *)s1_val);
+    GsGetLw(s1_val, (s32)&local_10[0]);
 
     ((Unkstruct_8001C448 *)s0_val)->unk24 = 0;
 }
@@ -8245,8 +8251,8 @@ void func_8001C448(s32 a0) {
 void func_8001C4A4(s32 a0, u32 *a1)
 {
     extern void func_8001C9D0(s32 a0v);
-    extern void func_80052D90(s32 a0, void *a1);
-    extern void func_80054514(s32 a0, s32 a1);
+    extern void GsInitCoordinate2(s32 a0, void *a1);
+    extern void GsGetLw(s32 a0, s32 a1);
     extern void GsMapModelingData(u32 *p);
     extern u8 D_80063548[];
 
@@ -8255,8 +8261,8 @@ void func_8001C4A4(s32 a0, u32 *a1)
     func_8001C9D0(a0);
     ((Unkstruct_8001C4A4 *)a0)->unk0 = 1;
     ((Unkstruct_8001C4A4 *)a0)->unk2 = 7;
-    func_80052D90(0, (void *)(a0 + 0x30));
-    func_80054514(a0 + 0x30, (s32)&sp10[0]);
+    GsInitCoordinate2(0, (void *)(a0 + 0x30));
+    GsGetLw(a0 + 0x30, (s32)&sp10[0]);
     ((Unkstruct_8001C4A4 *)a0)->unk24 = (s32)a1;
     if (a1 != 0) {
         ((Unkstruct_8001C4A4 *)a0)->unk20 = (s32)D_80063548;
@@ -8271,8 +8277,8 @@ void func_8001C4A4(s32 a0, u32 *a1)
 
 
 extern void func_8001C9D0(s32 a0v);
-extern void func_80052D90(s32 a0, void *a1);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsInitCoordinate2(s32 a0, void *a1);
+extern void GsGetLw(s32 a0, s32 a1);
 
 void func_8001C558(s32 a0) {
     u8 local_var[32];
@@ -8280,16 +8286,16 @@ void func_8001C558(s32 a0) {
     func_8001C9D0(a0);
     ((Unkstruct_8001C558 *)a0)->unk0 = 1;
     ((Unkstruct_8001C558 *)a0)->unk2 = 7;
-    func_80052D90(0, (void *)(a0 + 0x30));
-    func_80054514((s32)(a0 + 0x30), (s32)&local_var[0]);
+    GsInitCoordinate2(0, (void *)(a0 + 0x30));
+    GsGetLw((s32)(a0 + 0x30), (s32)&local_var[0]);
     ((Unkstruct_8001C558 *)a0)->unk24 = 0;
 }
 
 void func_8001C5B8(s32 a0, s32 a1)
 {
     extern void func_8001C9D0(s32 a0v);
-    extern void func_80052D90(s32 a0, void *a1);
-    extern void func_80054514(s32 a0, s32 a1);
+    extern void GsInitCoordinate2(s32 a0, void *a1);
+    extern void GsGetLw(s32 a0, s32 a1);
     extern void GsMapModelingData(unsigned long *p);
     extern void GsLinkObject5();
     extern void *GsPresetObject();
@@ -8308,8 +8314,8 @@ void func_8001C5B8(s32 a0, s32 a1)
     func_8001C9D0(a0);
     ((Unkstruct_8001C5B8 *)a0)->unk0 = 1;
     ((Unkstruct_8001C5B8 *)a0)->unk2 = 8;
-    func_80052D90(0, (void *)(a0 + 0x30));
-    func_80054514(a0 + 0x30, (s32)&sp10[0]);
+    GsInitCoordinate2(0, (void *)(a0 + 0x30));
+    GsGetLw(a0 + 0x30, (s32)&sp10[0]);
     work = (s32)guess_g_RenderWork;
     ((Unkstruct_8001C5B8 *)a0)->unk24 = a1;
     if (a1 != 0) {
@@ -8336,8 +8342,8 @@ void func_8001C5B8(s32 a0, s32 a1)
 
 
 extern void func_8001C9D0(s32 a0v);
-extern void func_80052D90(s32 a0, void *a1);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsInitCoordinate2(s32 a0, void *a1);
+extern void GsGetLw(s32 a0, s32 a1);
 
 void func_8001C6E4(void *a0) {
     s32 sp_buf[8];
@@ -8347,16 +8353,16 @@ void func_8001C6E4(void *a0) {
     ((Unkstruct_8001C6E4 *)a0)->unk0 = 1;
     ((Unkstruct_8001C6E4 *)a0)->unk2 = 8;
 
-    func_80052D90(0, (void *)((s32)a0 + 0x30));
-    func_80054514((s32)a0 + 0x30, (s32)sp_buf);
+    GsInitCoordinate2(0, (void *)((s32)a0 + 0x30));
+    GsGetLw((s32)a0 + 0x30, (s32)sp_buf);
 
     ((Unkstruct_8001C6E4 *)a0)->unk24 = 0;
 }
 
 
 extern void func_8001C9D0(s32 a0v);
-extern void func_80052D90(s32 a0, void *a1);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsInitCoordinate2(s32 a0, void *a1);
+extern void GsGetLw(s32 a0, s32 a1);
 
 void func_8001C744(s32 a0, s32 a1) {
     char local_buf[32];
@@ -8366,16 +8372,16 @@ void func_8001C744(s32 a0, s32 a1) {
     ((Unkstruct_8001C744 *)a0)->unk0 = 1;
     ((Unkstruct_8001C744 *)a0)->unk2 = 2;
 
-    func_80052D90(0, (void *)(a0 + 0x30));
-    func_80054514(a0 + 0x30, (s32)(&local_buf[0]));
+    GsInitCoordinate2(0, (void *)(a0 + 0x30));
+    GsGetLw(a0 + 0x30, (s32)(&local_buf[0]));
 
     ((Unkstruct_8001C744 *)a0)->unk24 = a1;
 }
 
 
 extern void func_8001C9D0(s32 a0v);
-extern void func_80052D90(s32 a0, void *a1);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsInitCoordinate2(s32 a0, void *a1);
+extern void GsGetLw(s32 a0, s32 a1);
 
 void func_8001C7B0(void *arg0) {
     s32 local_s1;
@@ -8388,16 +8394,16 @@ void func_8001C7B0(void *arg0) {
     ((Unkstruct_8001C7B0 *)arg0)->unk0 = 1;
     ((Unkstruct_8001C7B0 *)arg0)->unk2 = 2;
 
-    func_80052D90(0, (void *)local_s1);
+    GsInitCoordinate2(0, (void *)local_s1);
 
-    func_80054514(local_s1, (s32)local_array);
+    GsGetLw(local_s1, (s32)local_array);
 
     ((Unkstruct_8001C7B0 *)arg0)->unk24 = 0;
 }
 
 extern void func_8001C9D0(s32 a0v);
-extern void func_80052D90(s32 a0, void *a1);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsInitCoordinate2(s32 a0, void *a1);
+extern void GsGetLw(s32 a0, s32 a1);
 extern void GsMapModelingData(unsigned long *p);
 extern u8 D_80063548[];
 
@@ -8410,8 +8416,8 @@ void func_8001C810(s32 a0, s32 *a1) {
     base = a0 + 0x30;
     ((Unkstruct_800B5CB8 *)a0)->unk0 = 1;
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 5;
-    func_80052D90(0, (void *)base);
-    func_80054514(base, (s32)local_buf);
+    GsInitCoordinate2(0, (void *)base);
+    GsGetLw(base, (s32)local_buf);
 
     CAST_WIDTH(s32, a0, 0x24) = (s32)a1;
     if (a1 != 0) {
@@ -8427,8 +8433,8 @@ void func_8001C810(s32 a0, s32 *a1) {
 
 
 extern void func_8001C9D0(s32 a0v);
-extern void func_80052D90(s32 a0, void *a1);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsInitCoordinate2(s32 a0, void *a1);
+extern void GsGetLw(s32 a0, s32 a1);
 
 void func_8001C8C4(s32 a0) {
     s32 local_10[4];
@@ -8437,8 +8443,8 @@ void func_8001C8C4(s32 a0) {
     func_8001C9D0(a0);
     ((Unkstruct_8001C8C4 *)a0)->unk0 = 1;
     ((Unkstruct_8001C8C4 *)a0)->unk2 = 5;
-    func_80052D90(0, (void *)(a0 + 0x30));
-    func_80054514(a0 + 0x30, (s32)local_10);
+    GsInitCoordinate2(0, (void *)(a0 + 0x30));
+    GsGetLw(a0 + 0x30, (s32)local_10);
     ((Unkstruct_8001C8C4 *)a0)->unk24 = 0;
 }
 
@@ -8504,8 +8510,8 @@ void func_8001C9D0(s32 a0v) {
 
 
 extern void func_8001C9D0(s32 a0v);
-extern void func_80052D90(s32, void *);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsInitCoordinate2(s32, void *);
+extern void GsGetLw(s32 a0, s32 a1);
 
 void func_8001CA1C(void *a0, void *a1)
 {
@@ -8524,15 +8530,15 @@ void func_8001CA1C(void *a0, void *a1)
     ((Unkstruct_8001CA1C *)s0)->unk0 = 1;
     ((Unkstruct_8001CA1C *)s0)->unk2 = 3;
 
-    func_80052D90(0, s1);
-    func_80054514((s32)s1, (s32)local_pad);
+    GsInitCoordinate2(0, s1);
+    GsGetLw((s32)s1, (s32)local_pad);
 
     ((Unkstruct_8001CA1C *)s0)->unk20 = (s32)s2;
 }
 
 extern void func_8001C9D0(s32 a0v);
-extern void func_80052D90(s32 a0, void *a1);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsInitCoordinate2(s32 a0, void *a1);
+extern void GsGetLw(s32 a0, s32 a1);
 
 void func_8001CA88(s32 a0, s32 a1)
 {
@@ -8547,8 +8553,8 @@ void func_8001CA88(s32 a0, s32 a1)
     ((Unkstruct_8001CA88 *)s0_val)->unk0 = 1;
     ((Unkstruct_8001CA88 *)s0_val)->unk2 = 4;
 
-    func_80052D90(0, (void *)s1_val);
-    func_80054514(s1_val, (s32)&local_10[0]);
+    GsInitCoordinate2(0, (void *)s1_val);
+    GsGetLw(s1_val, (s32)&local_10[0]);
 
     ((Unkstruct_8001CA88 *)s0_val)->unk20 = s2_val;
     ((Unkstruct_8001CA88 *)s0_val)->unk74 = 0;
@@ -16432,11 +16438,11 @@ void func_8002906C(void) {
 }
 
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern u8 D_800BA2B8[];
 
 void func_80029094(void) {
-    func_80016714(D_800BA2B8, 0x60);
+    guess_ZeroMemory(D_800BA2B8, 0x60);
 }
 
 extern void guess_SetGameFlag(s32, s32);
@@ -16521,10 +16527,10 @@ u32 func_80029204(s32 arg0) {
 
 
 extern s32 D_800AE6A8;
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 
 void func_80029218(void) {
-    func_80016714(&D_800AE6A8, 0x3C);
+    guess_ZeroMemory(&D_800AE6A8, 0x3C);
 }
 
 extern s32 D_80075838;
@@ -16608,11 +16614,11 @@ void func_80029344(void) {
 }
 
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern u16 D_800A6588[];
 
 void func_8002941C(void) {
-    func_80016714(D_800A6588, 0x2);
+    guess_ZeroMemory(D_800A6588, 0x2);
 }
 
 extern u8 D_80078E7C;
@@ -16729,7 +16735,7 @@ void func_80029664(void) {
 }
 
 void func_80029690(void) {
-    extern void func_80016714(void *a0, s32 a1);
+    extern void guess_ZeroMemory(void *a0, s32 a1);
     extern u8 D_80078F28[];
     extern s32 D_800A5E58[];
     s32 i;
@@ -16741,7 +16747,7 @@ void func_80029690(void) {
     q = D_800A5E58;
     do {
         *q = 0;
-        func_80016714(p, 0x5B8);
+        guess_ZeroMemory(p, 0x5B8);
         p += 0x2DC;
         i++;
         q++;
@@ -17872,7 +17878,7 @@ s32 func_8002AF60(void) {
 }
 
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 
 
 
@@ -17881,7 +17887,7 @@ extern u32 D_80076040;
 
 void func_8002AF70(void *a0, u32 a1) {
 
-    func_80016714(D_80075CC0, 0x300);
+    guess_ZeroMemory(D_80075CC0, 0x300);
     *(Blk2DC *)D_80075CC0 = *(Blk2DC *)a0;
     D_80076040 = a1;
 }

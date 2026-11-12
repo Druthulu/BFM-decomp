@@ -1,14 +1,14 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 
 void func_8013C98C(void) {
 
     extern s32 D_801A6AA0;
     extern s32 guess_g_MainCameraRefShakeY;
     extern s32 guess_g_MainCameraViewShakeY;
-    func_80016714(&D_801A6AA0, 8);
+    guess_ZeroMemory(&D_801A6AA0, 8);
     guess_g_MainCameraRefShakeY = 0;
     guess_g_MainCameraViewShakeY = 0;
 }

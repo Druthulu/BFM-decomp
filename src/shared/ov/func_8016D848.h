@@ -1,6 +1,6 @@
 /* func_8016D848 — shared body (overlay slot 0x80128158, h_exact cc6b91ad). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
+extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 void func_8016D848(s32 *a0) {
@@ -13,7 +13,7 @@ void func_8016D848(s32 *a0) {
     cnt = *(s32 *)((s32)a0 + 0x1C) - 1;
     *(s32 *)((s32)a0 + 0x1C) = cnt;
     if (cnt == 0) {
-        func_80146C3C();
+        guess_FreeSmallObject();
         return;
     }
     if (cnt < 4) {

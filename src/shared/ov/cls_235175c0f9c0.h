@@ -44,7 +44,7 @@ void SHARED_FN(void *a0)
 
         ((Unkstruct_8018A2D0 *)a0)->unk1C = d;
         if (d == 0) {
-            ((void (*)(void *))func_8012C218)(a0);
+            ((void (*)(void *))guess_FreeActor)(a0);
         }
     }
 }

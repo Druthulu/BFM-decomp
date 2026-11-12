@@ -4,6 +4,6 @@
     void SHARED_FN(s32 arg0) {
         s32 v0;
         if (((Unkstruct_8017EE74_2 *)*(s32 *)(arg0 + 0x64))->unk36 != ((Unkstruct_8017EE74 *)arg0)->unkFC) {
-            ((void (*)(void))func_8012C218)();
+            ((void (*)(void))guess_FreeActor)();
         }
     }

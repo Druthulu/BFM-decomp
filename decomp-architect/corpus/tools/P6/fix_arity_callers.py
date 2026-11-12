@@ -81,7 +81,7 @@ def undo_journal(path, keep):
     # occurrence — so when one (file, after) group holds entries with DIFFERENT `before` values, the
     # originals get written back to the WRONG occurrences and the file is silently corrupted while
     # this function reports full success. Byte-witnessed: engine_core.h left with 97 insertions /
-    # 97 deletions after `restored 382, kept 0, missing 0` (func_8012A828 rotated between three
+    # 97 deletions after `restored 382, kept 0, missing 0` (guess_StartActorSequence rotated between three
     # declaration sites). The occurrence->original mapping is NOT recoverable from this journal
     # format, so REFUSE rather than guess (R43): a loud refusal costs one `git checkout`, a silent
     # swap costs a corrupted FLEET-SHARED header nobody notices.

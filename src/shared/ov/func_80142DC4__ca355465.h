@@ -4,9 +4,9 @@ void func_80142DC4(int param_1)
 {
     int v0;
 
-    *(int *)(param_1 + 0x20) = v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0 = ((int (*)(void))guess_AllocModelObject)();
     if (v0 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
+        ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((void (*)(s32, s32))func_8001CA1C)(v0, (s32)&D_801806B4);
         *(short *)(v0 + 0x1a) = 0x1800;

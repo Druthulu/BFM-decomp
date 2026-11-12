@@ -1,7 +1,7 @@
 /* func_80188670 — shared body (overlay slot 0x80128158, h_exact 9b98ab28). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(int a0, int a1);
 extern s32  func_8012C194(void);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
@@ -9,7 +9,7 @@ extern void func_80188F80(void *a0);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern s32  func_8012AD50(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, void *a1);
+extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern u8 D_801E450C;
 extern u8 D_801918BC;
@@ -24,7 +24,7 @@ void func_80188670(void *a0)
     void *obj;
     s32 h;
     s32 pad[8];
-    h = ((s32 (*)(void))func_8012C1B8)();
+    h = ((s32 (*)(void))guess_AllocModelObject)();
     *(s32 *)((s32)self + 0x20) = h;
     if (h == 0) {
         goto L_fail;
@@ -40,7 +40,7 @@ void func_80188670(void *a0)
         goto L_ce4;
     }
 L_fail:
-    func_8012CAE4(self);
+    guess_FreeActorDuringSpawn(self);
     return;
 L_ce4:
     func_8001CB6C((u8 *)obj, (s32)&D_801918BC, 0x2F0, 0x138);
@@ -74,6 +74,6 @@ L_da8:
     *(s32 *)((s32)self + 0x14) = 0xFFFE0000;
     *(s32 *)((s32)self + 0x18) = 0xFFFD0000;
     *(u16 *)((s32)self + 0xFC) = 0;
-    func_8012A828((s32)self, &D_801919F4);
+    guess_StartActorSequence((s32)self, &D_801919F4);
     func_8012AD44((s32 *)self, 9);
 }

@@ -67,10 +67,10 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
             } else {
                 a1v = 0x84;
             }
-            func_80016714(obj, a1v);
+            guess_ZeroMemory(obj, a1v);
         done:;
         }
-        func_80016714(dst, 0x10C);
+        guess_ZeroMemory(dst, 0x10C);
         *(u16 *)(src + 0xA) &= 0x7FFF;
         return 0;
     }

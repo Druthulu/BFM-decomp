@@ -3,6 +3,6 @@ void SHARED_FN(s32 arg0) {
     s32 i;
 
     for (i = 0; i < 20; i++) {
-        func_8012C658(0x311, i, arg0);
+        guess_SpawnActor(0x311, i, arg0);
     }
 }

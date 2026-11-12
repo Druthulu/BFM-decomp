@@ -5,9 +5,9 @@ void func_80142E38(int param_1)
     short sVar1;
     int iVar2;
 
-    *(int *)(param_1 + 0x20) = iVar2 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = iVar2 = ((int (*)(void))guess_AllocModelObject)();
     if (iVar2 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
+        ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((void (*)(int, void *))func_8001CA1C)(iVar2, &D_801806D0);
         sVar1 = (*(unsigned short *)(param_1 + 0x70) & 0xf) * 0x600 + 0x1200;

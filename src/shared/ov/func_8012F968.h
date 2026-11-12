@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_g_ActiveCamera;
 extern s32 guess_YawToPoint(void *a0, void *a1);
-extern s32 func_80131A34(s32 a0, s32 a1);
+extern s32 guess_StartActorSequenceById(s32 a0, s32 a1);
 extern s32 func_8012C588(s32 a0, s32 a1);
-extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 void func_8012F968(s32 param_1) {
     s32 iVar3;
     s32 iVar2;
@@ -40,9 +40,9 @@ void func_8012F968(s32 param_1) {
         *(s32 *)(param_1 + 0x18) =
             ((*(s32 *)(iVar3 + 0x64) - (s32)*(s16 *)(param_1 + 0xe)) * 0x10000) / 0x1e;
         *(s16 *)(param_1 + 0x98) = 0;
-        if (func_80131A34(param_1, 0x24) == 0) {
+        if (guess_StartActorSequenceById(param_1, 0x24) == 0) {
             *(u32 *)(param_1 + 0xc4) = *(u32 *)(param_1 + 0xc4) & 0xfffffffb;
-            if (func_80131A34(param_1, 0x20) != 0) {
+            if (guess_StartActorSequenceById(param_1, 0x20) != 0) {
                 *(u32 *)(param_1 + 0xc4) = *(u32 *)(param_1 + 0xc4) | 4;
             } else {
                 *(s16 *)(param_1 + 0x98) = 0;
@@ -50,5 +50,5 @@ void func_8012F968(s32 param_1) {
         }
         ((void (*)(s32, s32))func_8012C588)(0x289, param_1);
     }
-    func_80131CA8(param_1, 0x35);
+    guess_CallActorEventHandler(param_1, 0x35);
 }

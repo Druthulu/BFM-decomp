@@ -9,7 +9,7 @@ void func_80144880(s32 param_1)
 
     obj = ((s32 (*)(void))func_8012C194)();
     if (obj == 0) {
-        ((void (*)(s32))func_8012CAE4)(self);
+        ((void (*)(s32))guess_FreeActorDuringSpawn)(self);
     } else {
         *(u16 *)(self + 0xFC) = *(u16 *)(*(s32 *)(self + 0x64) + 0x36);
         *(s32 *)(self + 0xCC) = obj;

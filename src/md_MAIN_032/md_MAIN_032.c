@@ -99,7 +99,7 @@ void func_800CB054(void *arg0) {
 
 extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146CA0(void *a0);
 extern void func_800CB24C(void);
 
@@ -118,7 +118,7 @@ void func_800CB0B0(void *arg0) {
         flag = *(s32 *)(s0 + 4);
         flag |= 0x50000000;
         *(s32 *)(s0 + 4) = flag;
-        func_80149374(s2, (s32)arg0 + 4);
+        guess_TransformPosByObjMatrix(s2, (s32)arg0 + 4);
         src = ((Unkstruct_80126B58 *)s2)->unk20;
         *(func_800CB0B0_Blk16 *)(s0 + 0x34) = *(func_800CB0B0_Blk16 *)(src + 0x34);
         *(func_800CB0B0_Blk16 *)(s0 + 0x44) = *(func_800CB0B0_Blk16 *)(src + 0x44);
@@ -132,7 +132,7 @@ void func_800CB0B0(void *arg0) {
 #include "common.h"
 
 
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 
 void func_800CB188(void *arg0) {
     extern u16 guess_g_FrameCounter;
@@ -146,7 +146,7 @@ void func_800CB188(void *arg0) {
     ((Unkstruct_800CB188 *)arg0)->unkC = 0;
     ((Unkstruct_800CB188 *)arg0)->unk8 = 0;
     ((Unkstruct_800CB188 *)arg0)->unk4 = 0;
-    func_80149374(s0, (s32)arg0 + 4);
+    guess_TransformPosByObjMatrix(s0, (s32)arg0 + 4);
     v0 = *(s32 *)(s0 + 0x20);
     *(func_800CB188_Blk16 *)(s1 + 0x34) = *(func_800CB188_Blk16 *)(v0 + 0x34);
     *(func_800CB188_Blk16 *)(s1 + 0x44) = *(func_800CB188_Blk16 *)(v0 + 0x44);

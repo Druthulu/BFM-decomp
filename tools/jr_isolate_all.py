@@ -705,7 +705,7 @@ def _file_scope_decls(items, provided=None):
           / SETTER / RETCONST macros' own definitions). In ONE translation unit a file-scope
           definition declares its function for all code below it — so a cut that moves the
           definition into an earlier region strands every later caller that took its address
-          (`func_8012B2CC undeclared`). Every overlay def has external linkage (no `static`), so
+          (`guess_UpdateActorModelMatrix undeclared`). Every overlay def has external linkage (no `static`), so
           re-declaring it in a later region is always legal.
       (4) The col-0 TYPE definitions, so a carried prototype naming a file-local type
           (`Vec3s *a0`) still parses. Returned flagged so the renderer emits types FIRST.
@@ -801,7 +801,7 @@ def _file_scope_decls(items, provided=None):
         #        calls go through a (s32,s32) fn-ptr cast, the TU's own idiom */
         # — used to be hoisted VERBATIM, opening a comment in the region's decl layer that then
         # ran on and SILENTLY ATE the next carried decls until the next `*/` (measured in
-        # ov_SC06_029_jr_801867D0.c: `extern void func_8012C218(void *a0);` and
+        # ov_SC06_029_jr_801867D0.c: `extern void guess_FreeActor(void *a0);` and
         # `extern u8 D_80190348[];` vanished into it). A dropped file-scope decl is a silent
         # byte-changer, so mask on the SAME comment-state model the parser uses (oss.comment_open_at,
         # R33): skip a line that BEGINS inside a comment, and truncate one that OPENS a comment it

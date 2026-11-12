@@ -1,7 +1,7 @@
 /* func_80173E1C — shared body (overlay slot 0x80128158, h_exact 20877d86). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_801484B0(s32 a0, s32 a1);
-extern void func_80149350(s32 arg0);
+extern void guess_ObjRotTransSV(s32 arg0);
 extern void func_80015954(s32 a0, s32 a1);
 extern s32 func_801399F0(s32 a0);
 extern void func_80139914(s32 a0);
@@ -19,7 +19,7 @@ void func_80173E1C(s32 a0)
     s0 = a0;
     if (*s1 != 0) {
         func_801484B0((s32)sp10, (s32)sp18);
-        ((void (*)(s32, s32, s32))func_80149350)(s0, (s32)sp10, (s32)sp10);
+        ((void (*)(s32, s32, s32))guess_ObjRotTransSV)(s0, (s32)sp10, (s32)sp10);
         func_80015954((s32)sp10, *s1 + 4);
     }
     if (*(s32 *)(s0 + 0x198) != 0) {

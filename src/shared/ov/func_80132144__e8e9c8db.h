@@ -6,10 +6,10 @@ s32 func_80132144(s32 param_1)
 
     int v0;
 
-    v0 = ((int (*)(void))func_8012C1B8)();
+    v0 = ((int (*)(void))guess_AllocModelObject)();
     *(int *)(((int)param_1) + 0x20) = v0;
     if (v0 == 0) {
-        ((void (*)(int))func_8012CAE4)(((int)param_1));
+        ((void (*)(int))guess_FreeActorDuringSpawn)(((int)param_1));
     } else {
         ((void(*)(int, int))guess_InitModelObject)(v0, 0);
         *(int *)(((int)param_1) + 0x58) = (int)&D_8017F7B8;

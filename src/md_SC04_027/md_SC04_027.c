@@ -1,9 +1,9 @@
 #include "common.h"
 
 void func_801E7DA4(void) {
-    extern void func_80016714(s8 *a0, s32 a1);
+    extern void guess_ZeroMemory(s8 *a0, s32 a1);
     extern u16 D_801F1D88;
-    func_80016714((s8 *)&D_801F1D88, 8);
+    guess_ZeroMemory((s8 *)&D_801F1D88, 8);
 }
 
 
@@ -1338,11 +1338,11 @@ s32 *func_801E9BE0(s32 *out) {
 }
 
 
-extern void func_80016714(s8 *a0, s32 a1);
+extern void guess_ZeroMemory(s8 *a0, s32 a1);
 extern s8 D_801F2194;
 
 void func_801E9DD0(void) {
-    func_80016714(&D_801F2194, 0x2DC);
+    guess_ZeroMemory(&D_801F2194, 0x2DC);
 }
 
 
@@ -1576,7 +1576,7 @@ void func_801EA534(void) {
 }
 
 
-extern void func_8012A018(s32 a0, s32 a1);
+extern void guess_SetMainCameraHandler(s32 a0, s32 a1);
 extern void func_8012A094(s32 a0);
 extern void func_801EA600(void *a0);
 
@@ -1605,7 +1605,7 @@ void func_801EA53C(void) {
     guess_g_MainCameraRefOffsetTargetX = 0;
     guess_g_MainCameraRefOffsetTargetY = -0x36;
     guess_g_MainCameraRefOffsetTargetZ = 0;
-    func_8012A018((s32)func_801EA600, 0);
+    guess_SetMainCameraHandler((s32)func_801EA600, 0);
     func_801EA600(guess_g_MainCamera);
     func_8012A094((s32)guess_g_MainCamera);
     D_801274EA = -0x82;

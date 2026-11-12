@@ -5,6 +5,6 @@
  * rank 4 src/shared/ov/func_8016DEE0.h rejected by type_census --check */
 void SHARED_FN(s32 a0) {
     if (((s32 (*)(void *, void *))func_80128ED8)((void *)((Unkstruct_80169FE0 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
-        ((void (*)(s32))func_80146C3C)(a0);
+        ((void (*)(s32))guess_FreeSmallObject)(a0);
     }
 }

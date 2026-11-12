@@ -29,7 +29,7 @@ void SHARED_FN(s32 a0)
     ((Unkstruct_800B5CB8 *)s0)->unk1C = v1;
     if (v1 < 0x10) {
         if (v1 == 0) {
-            func_8012C218((void *)s0);
+            guess_FreeActor((void *)s0);
         }
     }
 }

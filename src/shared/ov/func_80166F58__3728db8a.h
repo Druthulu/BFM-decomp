@@ -29,10 +29,10 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
             ((unsigned int)*puVar1 == p2 || (unsigned int)*puVar1 == p3) &&
             (!eq ||
              *(int *)(puVar1 + 0x16) == *(int *)(((unsigned short *)param_1) + 0x16))) {
-            ((void(*)(unsigned short *))func_80146C3C)(puVar1);
+            ((void(*)(unsigned short *))guess_FreeSmallObject)(puVar1);
         }
         iVar2 = iVar2 + 1;
         puVar1 = puVar1 + 0x2c;
     } while (iVar2 < 0x1e);
-    ((void(*)(void *, int))func_80016714)(&D_8018E9E0[((short)param_4) * 0xc4], 0xc4);
+    ((void(*)(void *, int))guess_ZeroMemory)(&D_8018E9E0[((short)param_4) * 0xc4], 0xc4);
 }

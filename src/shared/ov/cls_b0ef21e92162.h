@@ -33,6 +33,6 @@ s32 arg0;
     v0 = *(s32 *)(s0 + 0x1C) - 1;
     *(s32 *)(s0 + 0x1C) = v0;
     if (v0 == 0) {
-        func_8012C218((void *)s0);
+        guess_FreeActor((void *)s0);
     }
 }

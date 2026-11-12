@@ -16,8 +16,8 @@ void func_8016B234(s32 param_1) {
     s32 hh;
 
     dp = &guess_g_CameraWsMatrix;
-    func_8004914C(dp);
-    func_800491AC(dp);
+    SetRotMatrix(dp);
+    SetTransMatrix(dp);
     input[0] = *(u16 *)(param_1 + 6);
     input[1] = *(u16 *)(param_1 + 0xA);
     input[2] = *(u16 *)(param_1 + 0xE);

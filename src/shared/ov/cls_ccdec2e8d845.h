@@ -20,7 +20,7 @@ void SHARED_FN(s32 arg0) {
     p = ((Unkstruct_800B5CB8 *)arg0)->unk20;
     CAST_WIDTH(u16, p, 0x14) = 0;
     ((Unkstruct_800B5CB8 *)p)->unk10 = 0;
-    func_8012B2CC(arg0);
+    guess_UpdateActorModelMatrix(arg0);
     func_8012B23C(arg0);
     ((Unkstruct_800B5CB8 *)arg0)->unkC2 = 1;
     ((Unkstruct_800B5CB8 *)arg0)->unk98 = 0;

@@ -1,5 +1,6 @@
 // config/symbols.md_MAIN_035.txt — module md_MAIN_035 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CAE08..0x800CB2E8); NEVER merged into config/symbols.us.txt.
-// count=1
+// count=2
 
 guess_SetState                   = 0x80147078; // func
+guess_TransformPosByObjMatrix    = 0x80149374; // func

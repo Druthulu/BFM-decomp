@@ -8,6 +8,6 @@ void func_8017D0AC(int param_1)
     if ((short)uVar1 > 0) {
         func_8017D0F8(param_1);
     } else {
-        ((void (*)(int))func_80146C3C)(param_1);
+        ((void (*)(int))guess_FreeSmallObject)(param_1);
     }
 }

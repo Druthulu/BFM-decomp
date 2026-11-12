@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32  func_8012CBCC(s32 a0);                  /* host TU L3291 */
 extern s32  func_8012BA10(s32 a0, s32 a1);          /* host TU L3071 */
-extern void func_8012A828(s32 a0, void *a1);        /* host TU L2930/L3074 */
+extern void guess_StartActorSequence(s32 a0, void *a1);        /* host TU L2930/L3074 */
 extern void func_8002D4C8(s32 a0, s32 a1);          /* host TU L52    */
-extern s32  func_8012C658(s32 arg0, s32 arg1, s32 arg2); /* host TU L2524 */
+extern s32  guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2); /* host TU L2524 */
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);  /* host TU L323   */
 extern s32  func_8004787C(s32 a0);                  /* host TU L2198 */
 extern s32  func_80047948(s32 a0);                  /* host TU L2197 */
@@ -20,7 +20,7 @@ void func_80187090(s32 a0) {
         *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012BA10(a0, 4);
         if (*(u16 *)(a0 + 0x72) & 0x4000) {
             *(u16 *)(a0 + 0x34) = 1;
-            func_8012A828(a0, D_801E2910);
+            guess_StartActorSequence(a0, D_801E2910);
             func_8002D4C8(0xA82, 0);
         }
         break;
@@ -35,7 +35,7 @@ void func_80187090(s32 a0) {
             }
             guess_RotTransSVWithMatrix(*(s32 *)(a0 + 0x20) + 0x34, (s32)D_80190548,
                           (s32)sp10);
-            t = func_8012C658(0x265, 4, a0);
+            t = guess_SpawnActor(0x265, 4, a0);
             if (t != 0) {
                 *(u16 *)(*(s32 *)(t + 0x20) + 0x12) =
                     *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
@@ -59,10 +59,10 @@ void func_80187090(s32 a0) {
         if (*(u16 *)(a0 + 0x72) & 0x4000) {
             *(u16 *)(a0 + 0xFC) = 0x1E;
             *(u16 *)(a0 + 0x2) = 9;
-            func_8012A828(a0, D_801E2170);
+            guess_StartActorSequence(a0, D_801E2170);
             *(u16 *)(a0 + 0xAE) = 0x2900;
         }
         break;
     }
-    func_8012C658(0x3DE, 0, a0);
+    guess_SpawnActor(0x3DE, 0, a0);
 }

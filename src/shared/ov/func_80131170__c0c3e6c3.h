@@ -10,21 +10,21 @@ void func_80131170(s32 p, s32 b, s32 c) {
     if (((u8 *)b) == 0) {
         ((u8 *)b) = D_8017EE28;
     }
-    func_8012B14C((s32)((u8 *)p), (s32)((u8 *)b));
+    guess_SetLocalVelocity((s32)((u8 *)p), (s32)((u8 *)b));
     *(s32 *)(((u8 *)p) + 0x1C) = 0;
     if (c != 0) {
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), c) != 0) goto tail;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x24) != 0) goto tail;
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), c) != 0) goto tail;
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x24) != 0) goto tail;
         *(s32 *)(((u8 *)p) + 0xC4) &= ~4;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x20) != 0) {
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x20) != 0) {
             *(s32 *)(((u8 *)p) + 0xC4) |= 4;
         } else {
             *(s16 *)(((u8 *)p) + 0x98) = 0;
         }
     } else {
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x24) != 0) goto tail;
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x24) != 0) goto tail;
         *(s32 *)(((u8 *)p) + 0xC4) &= ~4;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x20) != 0) {
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x20) != 0) {
             *(s32 *)(((u8 *)p) + 0xC4) |= 4;
         } else {
             *(s16 *)(((u8 *)p) + 0x98) = 0;
@@ -34,7 +34,7 @@ tail:
     if (*(s16 *)(((u8 *)p) + 0x76) > 0) {
         return;
     }
-    if (((s32(*)(s32))func_8012BCCC)((s32)((u8 *)p)) <= 0x8FFF) {
+    if (((s32(*)(s32))guess_DistSqToPlayer)((s32)((u8 *)p)) <= 0x8FFF) {
         if (((s32(*)())func_80131AC8)(((u8 *)p), 0x32) != 0) return;
         ((s32(*)())func_80131AC8)(((u8 *)p), 0x33);
     } else {

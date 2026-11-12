@@ -91,7 +91,7 @@ void func_800CAF9C(s32 a0) {
 extern s32 func_8014659C(void);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern s32 D_800CBE04;
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void func_80146E90(s32 *a0, s32 a1);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -113,7 +113,7 @@ void func_800CB028(s32 a0) {
         *(u16 *)(s0 + 0x1A) = 0x2000;
         *(u16 *)(s0 + 0x18) = 0x2000;
         *(u16 *)(s0 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x12);
-        func_80149374(s2, a0 + 4);
+        guess_TransformPosByObjMatrix(s2, a0 + 4);
         func_80146DE8((s32 *)a0, 0, 0, 0xFFE80000);
         func_80146E90((s32 *)a0, 0x3C);
         func_80146A6C(0x4F, (void *)a0, 0, 0, 0, 0, 0);
@@ -211,17 +211,17 @@ void func_800CB338(void) {
 
 void func_800CB358(void *param_1) {
     extern void (*D_800CB834[])(void);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
 
     if (*(u16 *)(*(s32 *)((s32)param_1 + 0x34)) == 0x26) {
         D_800CB834[*(u16 *)((s32)param_1 + 2)]();
     } else {
-        func_80146C3C(param_1);
+        guess_FreeSmallObject(param_1);
     }
 }
 
 
-extern void func_80149350(s32);
+extern void guess_ObjRotTransSV(s32);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
@@ -271,7 +271,7 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     f.cz = arg3;
     f.col[1].g = cv;
     f.col[1].r = cv;
-    ((void (*)(s32, void *, void *))func_80149350)(node, (u8 *)&f.cx, (u8 *)&f.cx);
+    ((void (*)(s32, void *, void *))guess_ObjRotTransSV)(node, (u8 *)&f.cx, (u8 *)&f.cx);
     p = D_800CB820;
     i = 0;
 

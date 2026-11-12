@@ -7,7 +7,7 @@ int func_8016B834(int param_1, int param_2) {
 
     puVar2 = (int *)(D_8018EC88 + param_2 * 0x40);
     puVar3 = D_80182498[*(int *)(param_1 + 0x2c)];
-    iVar1 = ((int (*)(void))func_801465C0)();
+    iVar1 = ((int (*)(void))guess_AllocSpriteObject)();
     if (iVar1 != 0) {
         func_8001CD9C(iVar1, puVar2);
         func_800233CC(puVar2, D_801824A0[param_2]);

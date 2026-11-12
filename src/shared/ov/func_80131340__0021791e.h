@@ -7,11 +7,11 @@ void func_80131340(s32 a0)
      * for the dedup_propagate lift (§28-#1) and cannot collide with the TU's `M8`. */
     extern V8_80131340_0021791e D_8017F730;
     /* BLOCK-scope, mirroring the already-matched func_801312D0's decl at TU L1619: the
-     * later DEFINE_func_80131AC8() (TU L1964, AFTER this slot) redeclares func_80131CF4
+     * later DEFINE_func_80131AC8() (TU L1964, AFTER this slot) redeclares guess_LookupIdValue
      * with the stale 1-arg engine_core canonical. A file-scope `extern int
-     * func_80131CF4(int,int);` here is a HARD `conflicting types` against it (cc1 rc=33,
+     * guess_LookupIdValue(int,int);` here is a HARD `conflicting types` against it (cc1 rc=33,
      * measured); block-scope goes out of scope before that macro and compiles clean. */
-    extern s32 func_80131CF4();  // K&R: 2 of 2 args (P37 unalias t4_ua6)
+    extern s32 guess_LookupIdValue();  // K&R: 2 of 2 args (P37 unalias t4_ua6)
 
     V8_80131340_0021791e sp10;
     V8_80131340_0021791e sp18;
@@ -25,7 +25,7 @@ void func_80131340(s32 a0)
         return;
     }
 
-    temp = func_80131CF4(*(s32 *)(a0 + 0xBC), 0x2E);
+    temp = guess_LookupIdValue(*(s32 *)(a0 + 0xBC), 0x2E);
     if (temp != 0) {
         sp10.vz = 0;
         sp10.vx = 0;
@@ -35,7 +35,7 @@ void func_80131340(s32 a0)
     }
 
     if (*(s32 *)(a0 + 0x10) != 0 || *(s32 *)(a0 + 0x18) != 0) {
-        var_a1 = func_80131CF4(*(s32 *)(a0 + 0xBC), 0x19);
+        var_a1 = guess_LookupIdValue(*(s32 *)(a0 + 0xBC), 0x19);
         if (var_a1 == 0) {
             var_a1 = 0x50;
         }
@@ -84,11 +84,11 @@ void func_80131340(s32 a0)
             func_8012B23C(a0);
             *(u8 *)(a0 + 0xC2) = 4;
         } else if (D_8018E6A0 & 0x2000) {
-            if (func_80131D68(a0, D_8018E6A0) == 1) {
+            if (guess_HandleActorEventDefault(a0, D_8018E6A0) == 1) {
                 return;
             }
             *(u8 *)(a0 + 0xC2) = 2;
-            func_80143B6C(a0, 1);
+            guess_SpawnActorType1C(a0, 1);
             *(s32 *)(a0 + 0x14) = 0xFFF30000;
             *(s32 *)(a0 + 0x1C) = 0;
         } else if (D_8018E6A0 & 0x8000) {
@@ -118,10 +118,10 @@ void func_80131340(s32 a0)
             func_8012B23C(a0);
             *(u8 *)(a0 + 0xC2) = 4;
         } else if (D_8018E6A0 & 0x2000) {
-            if (func_80131D68(a0, D_8018E6A0) == 1) {
+            if (guess_HandleActorEventDefault(a0, D_8018E6A0) == 1) {
                 return;
             }
-            func_80143B6C(a0, 1);
+            guess_SpawnActorType1C(a0, 1);
             /* MUST precede the 0x1C/0xC2 stores — see the header note on the /3 block. */
             *(s32 *)(a0 + 0x14) = (-D_8018E6A4) / 3;
             *(s32 *)(a0 + 0x1C) = 0;
@@ -145,7 +145,7 @@ void func_80131340(s32 a0)
                 *(s32 *)(a0 + 0x18) = 0;
                 *(s32 *)(a0 + 0x10) = 0;
             }
-            if (func_80131D68(a0, D_8018E6A0) == 1) {
+            if (guess_HandleActorEventDefault(a0, D_8018E6A0) == 1) {
                 return;
             }
             if (!(D_8018E6A0 & 0x6000)) {
@@ -163,7 +163,7 @@ void func_80131340(s32 a0)
                 *(u8 *)(a0 + 0xC2) = 4;
                 break;
             } else if (D_8018E6A0 & 0x2000) {
-                if (func_80131D68(a0, D_8018E6A0) == 1) {
+                if (guess_HandleActorEventDefault(a0, D_8018E6A0) == 1) {
                     return;
                 }
                 *(u8 *)(a0 + 0xC3) |= 1;
@@ -173,7 +173,7 @@ void func_80131340(s32 a0)
             }
         }
         if ((*(s32 *)(a0 + 0x1C) & 3) == 3) {
-            func_80143B6C(a0, 1);
+            guess_SpawnActorType1C(a0, 1);
         }
         *(s32 *)(a0 + 0x1C) += 1;
         if (*(s32 *)(a0 + 0x1C) < 0x11) {
@@ -198,7 +198,7 @@ void func_80131340(s32 a0)
             *(s32 *)(a0 + 0x10) = 0;
         }
         if (D_8018E6A0 & 0x2000) {
-            if (func_80131D68(a0, D_8018E6A0) == 1) {
+            if (guess_HandleActorEventDefault(a0, D_8018E6A0) == 1) {
                 return;
             }
             if (*(s16 *)(a0 + 0x76) <= 0) {
@@ -208,7 +208,7 @@ void func_80131340(s32 a0)
             }
         } else {
             if ((*(s32 *)(a0 + 0x1C) & 3) == 3) {
-                func_80143B6C(a0, 1);
+                guess_SpawnActorType1C(a0, 1);
             }
             *(s32 *)(a0 + 0x1C) += 1;
             if (*(s32 *)(a0 + 0x1C) >= 0x3D) {
@@ -219,5 +219,5 @@ void func_80131340(s32 a0)
         break;
     }
 
-    func_80131CA8(a0, 0x2F);
+    guess_CallActorEventHandler(a0, 0x2F);
 }

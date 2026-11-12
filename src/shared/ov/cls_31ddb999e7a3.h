@@ -7,8 +7,8 @@ void SHARED_FN(s32 param_1) {
     v1 = ((Unkstruct_800B5CB8 *)param_1)->unk64;
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
         ((Unkstruct_800B5CB8 *)*(s32 *)(v1 + 0x20))->unk12;
-    func_8012B2CC(param_1);
-    func_8012B178(param_1, 0x20000);
+    guess_UpdateActorModelMatrix(param_1);
+    guess_SetForwardVelocity(param_1, 0x20000);
     ((Unkstruct_800B5CB8 *)param_1)->unk2 = 4;
     ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
     ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;

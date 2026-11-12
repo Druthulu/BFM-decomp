@@ -71,7 +71,7 @@ void func_80163EC8(s32 param_1)
         *((s32 *) (iVar8 + 0x48)) = *((s16 *) (param_1 + 0x58));
         *((s32 *) (iVar8 + 0x4c)) = *((s16 *) (param_1 + 0x5a));
         *((s32 *) (iVar8 + 0x50)) = *((s16 *) (param_1 + 0x5c));
-        ((void (*)(s32, s32, s32)) func_80149350)(param_1, (s32) (&in), (s32) out);
+        ((void (*)(s32, s32, s32)) guess_ObjRotTransSV)(param_1, (s32) (&in), (s32) out);
         *((s16 *) (param_1 + 0x6)) = out[0];
         *((s16 *) (param_1 + 0xa)) = out[1];
         *((s16 *) (param_1 + 0xe)) = out[2];

@@ -15,10 +15,10 @@ void SHARED_FN(s32 a0) {
     r = sp20[0];
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = r;
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = r >> 16;
-    func_8012B2CC(a0);
+    guess_UpdateActorModelMatrix(a0);
 
     func_8012B200((u8 *)a0);
-    func_8012B178(a0, 0xFFF00000);
+    guess_SetForwardVelocity(a0, 0xFFF00000);
 
     CAST_ALIAS(u16, a0, 2) = 5;
     CAST_ALIAS(u16, a0, 0x34) = 0;

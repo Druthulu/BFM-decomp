@@ -6,7 +6,7 @@ s32 p;
     if (((Unkstruct_800B5CB8 *)p)->unk1C == 0xF) {
         func_80142414(p, -0x90);
     }
-    if (func_8012BEE8(p) != 0) {
+    if (guess_TickWaitTimer(p) != 0) {
         ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
     }
 }

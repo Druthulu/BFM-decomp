@@ -1,7 +1,7 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern void func_8013C98C(void);
 extern void func_80019064(void *a0);
 extern void func_8013C9C4(void * arg0);
@@ -837,13 +837,13 @@ void func_80141C0C(s32 param_1)
 
 // @class: struct
 // @unstuck(P36): none — MATCH (58 ins). STRUCT branch reconstruction + 3 levers: (1) §3-T4 branch-polarity
-//   invert in the ==0 arm so the func_8012C218 cold path sinks to the tail; (2) *(volatile int*) on
+//   invert in the ==0 arm so the guess_FreeActor cold path sinks to the tail; (2) *(volatile int*) on
 //   the two extra param_1[0x32] reloads to defeat gcc CSE (gcc reloads via register reuse, not a store);
 //   (3) param_1[0x7e] pinned to $v1 (register __asm__("$3")) + an input-only scheduling barrier
 //   __asm__ __volatile__("" : : "r"(a)) on the 0xA read so the pinned load is anchored AFTER it in the
 //   ==0 arm (matches the load2-reused-as-$v1 ordering).
 
-extern void func_8012C218(void *a0);
+extern void guess_FreeActor(void *a0);
 
 void func_801424E4(short *param_1) {
 
@@ -875,7 +875,7 @@ void func_801424E4(short *param_1) {
                 CAST_MISALIGNED(int, param_1, 6) = ((Unkstruct_801424E4 *)iVar2)->unkC;
                 return;
             }
-            ((void (*)(short *))func_8012C218)(param_1);
+            ((void (*)(short *))guess_FreeActor)(param_1);
         }
     }
     return;
@@ -893,10 +893,10 @@ void func_801424E4(short *param_1) {
 // @class: schedule
 // @unstuck(P36): none — MATCH expected; CAE4 block fallthrough, AD50 block goto-tail
 
-extern s32 func_8012C1B8(void);
+extern s32 guess_AllocModelObject(void);
 extern s32 func_8012C1DC(s32 a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
-extern void func_8012CAE4(void *a0);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern s32 func_8012AD50(void *a0);
 
 void func_80142608(s32 param_1)
@@ -906,7 +906,7 @@ void func_80142608(s32 param_1)
     s32 iVar1;
 
     if (((Unkstruct_80142608_2 *)param_1)->unk70 != 0) {
-        iVar1 = ((s32 (*)(void))func_8012C1B8)();
+        iVar1 = ((s32 (*)(void))guess_AllocModelObject)();
     } else {
         iVar1 = func_8012C1DC(((Unkstruct_80142608_2 *)param_1)->unk64);
     }
@@ -924,7 +924,7 @@ void func_80142608(s32 param_1)
             goto ad50;
         }
     }
-    ((void (*)(s32))func_8012CAE4)(param_1);
+    ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
     return;
 ad50:
     ((Unkstruct_80142608_2 *)param_1)->unk98 = 0;
@@ -1101,8 +1101,8 @@ void func_80142C7C(void) {
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (combined store-assign `*(p)=v0=call()` keeps test/store on $v0, copy to $s0 for the else)
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_80142B2C(void *arg0);
 
@@ -1113,9 +1113,9 @@ void func_80142DC4(int param_1)
     extern int D_801833FC;
     int v0;
 
-    ((Unkstruct_80142DC4_4 *)param_1)->unk20 = v0 = ((int (*)(void))func_8012C1B8)();
+    ((Unkstruct_80142DC4_4 *)param_1)->unk20 = v0 = ((int (*)(void))guess_AllocModelObject)();
     if (v0 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
+        ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((void (*)(s32, s32))func_8001CA1C)(v0, (s32)&D_801833FC);
         ((Unkstruct_80142DC4_3 *)v0)->unk1A = 0x1800;
@@ -1130,8 +1130,8 @@ void func_80142DC4(int param_1)
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
 extern void func_80142B2C(void *arg0);
 
@@ -1143,9 +1143,9 @@ void func_80142E38(int param_1)
     short sVar1;
     int iVar2;
 
-    ((Unkstruct_80142E38_4 *)param_1)->unk20 = iVar2 = ((int (*)(void))func_8012C1B8)();
+    ((Unkstruct_80142E38_4 *)param_1)->unk20 = iVar2 = ((int (*)(void))guess_AllocModelObject)();
     if (iVar2 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
+        ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((void (*)(int, void *))func_8001CA1C)(iVar2, &D_80183418);
         sVar1 = (*(unsigned short *)(param_1 + 0x70) & 0xf) * 0x600 + 0x1200;
@@ -1161,10 +1161,10 @@ void func_80142E38(int param_1)
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, void *a1);
+extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_80142B2C(void *arg0);
 
 
@@ -1176,18 +1176,18 @@ void func_80142EC0(s32 param_1) {
     s32 ret;
     s16 sVar2;
 
-    do { ret = ((s32 (*)(void))func_8012C1B8)(); } while (0);
+    do { ret = ((s32 (*)(void))guess_AllocModelObject)(); } while (0);
     obj = ret;
     ((Unkstruct_80142EC0 *)d)->unk20 = ret;
     if (ret == 0) {
-        ((void (*)(s32))func_8012CAE4)(d);
+        ((void (*)(s32))guess_FreeActorDuringSpawn)(d);
     } else {
         func_8001CA1C(obj, 0);
         sVar2 = (s16)((((Unkstruct_80142EC0 *)d)->unk70 & 0xf) * 0x600 + 0xc00);
         ((Unkstruct_80142EC0_2 *)obj)->unk1A = sVar2;
         ((Unkstruct_80142EC0_2 *)obj)->unk18 = sVar2;
         ((Unkstruct_80142EC0 *)d)->unkFC = 0;
-        ((void (*)(s32, s32))func_8012A828)(d, D_801835E4[((Unkstruct_80142EC0 *)d)->unk70 & 0xf]);
+        ((void (*)(s32, s32))guess_StartActorSequence)(d, D_801835E4[((Unkstruct_80142EC0 *)d)->unk70 & 0xf]);
         ((void (*)(s32))func_80142B2C)(d);
     }
 }
@@ -1205,10 +1205,10 @@ void func_80142EC0(s32 param_1) {
 //         survives across func_8001CA1C while $v0 serves the pre-call store/test;
 //         store BEFORE the s1 copy so the store keeps $v0 (not the saved copy).
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, void *a1);
+extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_80142B2C(void *arg0);
 
 
@@ -1220,16 +1220,16 @@ void func_8014305C(int param_1)
     short sVar1;
     int iVar2;
 
-    ((Unkstruct_800B5CB8 *)param_1)->unk20 = iVar2 = ((int (*)(void))func_8012C1B8)();
+    ((Unkstruct_800B5CB8 *)param_1)->unk20 = iVar2 = ((int (*)(void))guess_AllocModelObject)();
     if (iVar2 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
+        ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((void (*)(int, void *))func_8001CA1C)(iVar2, D_80183604);
         sVar1 = (*(unsigned short *)(param_1 + 0x70) & 0xf) * 0x600 + 0xc00;
         *(short *)(iVar2 + 0x1a) = sVar1;
         *(short *)(iVar2 + 0x18) = sVar1;
         ((Unkstruct_800B5CB8 *)param_1)->unkFC = 0;
-        func_8012A828(param_1, D_80183664);
+        guess_StartActorSequence(param_1, D_80183664);
         ((void (*)(int))func_80142B2C)(param_1);
     }
 }
@@ -1247,8 +1247,8 @@ void func_8014305C(int param_1)
 
 extern void *memcpy(void *, const void *, u32);
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001CA88(int, void *);
 extern s32 func_8012E504(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
@@ -1267,11 +1267,11 @@ void func_801431E8(s32 param_1) {
 
     s32 d;
     memcpy(buf, &D_801A61B4, 4);
-    iVar5 = ((s32 (*)(void))func_8012C1B8)();
+    iVar5 = ((s32 (*)(void))guess_AllocModelObject)();
     d = iVar5;
     ((Unkstruct_801431E8_4 *)param_1)->unk20 = iVar5;
     if (iVar5 == 0) {
-        ((void (*)(s32))func_8012CAE4)(param_1);
+        ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((void (*)(s32, void *))func_8001CA88)(d, &D_801A6B08);
         uVar2 = ((Unkstruct_801431E8_4 *)param_1)->unk70;
@@ -1450,8 +1450,8 @@ void func_80143C98(void *a0) {
      /* size 0x0c */
 
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
-extern s32 func_8012BEE8(s32 a0);
-extern void func_8012C218(void *a0);
+extern s32 guess_TickWaitTimer(s32 a0);
+extern void guess_FreeActor(void *a0);
 
 void func_80143D28(s32 param_1) {
 
@@ -1486,8 +1486,8 @@ void func_80143D28(s32 param_1) {
     }
     ((Unkstruct_800B5CB8 *)iVar3)->unk18 = ((Unkstruct_800B5CB8 *)iVar3)->unk1A = CAST_WIDTH(s16, iVar3, 0x1c) = sVar4;
 
-    if (func_8012BEE8(param_1)) {
-        func_8012C218((void *)param_1);
+    if (guess_TickWaitTimer(param_1)) {
+        guess_FreeActor((void *)param_1);
     }
 }
 
@@ -1531,7 +1531,7 @@ void func_80144054(void *a0) {
 #include "../shared/ov/func_80144090.h"
 
 
-extern void func_8012C218(void *a0);
+extern void guess_FreeActor(void *a0);
 
 // @class: struct
 // @unstuck(P36): none — MATCH (relocation-masked match_one); fn-ptr dispatch table + 0x1c counter, sibling idiom (func_801427EC/func_80143B30)
@@ -1547,14 +1547,14 @@ void func_801442F8(int param_1)
     iVar1 = ((Unkstruct_800B5CB8 *)param_1)->unk1C + 1;
     ((Unkstruct_800B5CB8 *)param_1)->unk1C = iVar1;
     if (0x1d < iVar1) {
-        func_8012C218(param_1);
+        guess_FreeActor(param_1);
     }
 }
 
 
 
 extern s32 func_8012C194(void);
-extern void func_8012CAE4(void *a0);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 
 void func_80144364(int param_1) {
@@ -1566,7 +1566,7 @@ void func_80144364(int param_1) {
 
     iVar3 = ((s32 (*)(void))func_8012C194)();
     if (iVar3 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
+        ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         uVar2 = *(u16 *)(*(int *)(param_1 + 0x64) + 0x36);
         *(int *)(param_1 + 0xCC) = iVar3;
@@ -1592,12 +1592,12 @@ void func_80144364(int param_1) {
 
 
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_8012AD80(s32 a0);
-extern void func_8012C218(void *a0);
+extern void guess_FreeActor(void *a0);
 
 void func_80144458(void *arg0) {
 
@@ -1620,8 +1620,8 @@ void func_80144458(void *arg0) {
     ((Unkstruct_800B5CB8 *)temp_s2)->unkA = (u16) ((Unkstruct_800B5CB8 *)arg0)->unkA;
     ((Unkstruct_800B5CB8 *)temp_s2)->unkC = (u16) ((Unkstruct_800B5CB8 *)arg0)->unkE;
     if (func_80128ED8(temp_s2, arg0 + 0xD0) != 0) {
-        func_80016714(temp_s2, 0x38);
-        func_8012C218(arg0);
+        guess_ZeroMemory(temp_s2, 0x38);
+        guess_FreeActor(arg0);
     }
 }
 
@@ -1638,10 +1638,10 @@ void func_80144458(void *arg0) {
 
 // @class: struct
 // @unstuck(P36): none — MATCH (65 ins, match_one). Levers: uVar2/$2 + addr/$3 pins; split (uVar2&0xFFFFFFF) into addr then (addr|0x80000000)+8 deref; %hi/%lo of 0x80000008 via plain 0x80000000+8 (match_one masks the target's D_80000008 reloc, real bytes identical); v1/3 magic-divide; gv+fv reassoc (field-0x30 in own temp) loads field first
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, void *a1);
+extern void guess_StartActorSequence(s32 a0, void *a1);
 
 void func_8014477C(void *param_1) {
 
@@ -1654,10 +1654,10 @@ void func_8014477C(void *param_1) {
     s32 gv;
     s32 fv;
 
-    v0 = ((s32 (*)(void))func_8012C1B8)();
+    v0 = ((s32 (*)(void))guess_AllocModelObject)();
     ((Unkstruct_800B5CB8 *)param_1)->unk20 = v0;
     if (v0 == 0) {
-        func_8012CAE4(param_1);
+        guess_FreeActorDuringSpawn(param_1);
         return;
     }
     ((void (*)(s32, void *))func_8001CA1C)(v0, &D_80183900);
@@ -1673,7 +1673,7 @@ void func_8014477C(void *param_1) {
             ((Unkstruct_800B5CB8 *)param_1)->unkA = ((Unkstruct_800B5CB8 *)param_1)->unkA - 0x60;
         }
     }
-    ((void (*)(void *, void *))func_8012A828)(param_1, &D_8018390C);
+    ((void (*)(void *, void *))guess_StartActorSequence)(param_1, &D_8018390C);
     v1 = (s32)((Unkstruct_800B5CB8 *)param_1)->unk70 << 0xC;
     ((Unkstruct_800B5CB8 *)param_1)->unk2 = 1;
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)param_1 + 0x20))->unk12 = v1 / 3;
@@ -1683,7 +1683,7 @@ void func_8014477C(void *param_1) {
 
 
 extern s32 func_8012C194(void);
-extern void func_8012CAE4(void *a0);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 
 
@@ -1699,7 +1699,7 @@ void func_80144880(s32 param_1)
 
     obj = ((s32 (*)(void))func_8012C194)();
     if (obj == 0) {
-        ((void (*)(s32))func_8012CAE4)(self);
+        ((void (*)(s32))guess_FreeActorDuringSpawn)(self);
     } else {
         *(u16 *)(self + 0xFC) = *(u16 *)(*(s32 *)(self + 0x64) + 0x36);
         *(s32 *)(self + 0xCC) = obj;

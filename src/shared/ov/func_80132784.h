@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_80020F34(s32 a0, s32 a1);
-extern void func_80054514(s32 a0, s32 a1);
+extern void GsGetLw(s32 a0, s32 a1);
 void func_80132784(s32 a0, s32 a1, u32 a2)
 {
   s32 s7 = a0;
@@ -45,7 +45,7 @@ void func_80132784(s32 a0, s32 a1, u32 a2)
       {
         func_80020F34((s32) (buf + 0x04), s6 + 0x18);
       }
-      func_80054514((s32) (buf + 0x00), (s32) (buf + 0x50));
+      GsGetLw((s32) (buf + 0x00), (s32) (buf + 0x50));
       if (((s1m & 0x1000000) == 0) && (((*((u16 *) (s6 + 0x2C))) & 0x40) == 0))
       {
         s1m = s1m + ((s2v & 0xFFFF) * 0xC);

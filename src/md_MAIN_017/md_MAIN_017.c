@@ -68,7 +68,7 @@ void func_800CAFA0(void *a0) {
     extern u8 D_80078EC1;
     extern Blk20 D_800AE620;
     extern s32 func_80146A6C(s32, void *, s32, s32, s32, s32, s32);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern void RotMatrixY(s32, void *);
     extern s32 func_80047948(s32);
     extern void guess_RotTransSVWithMatrix(s32, s32, s32);
@@ -81,7 +81,7 @@ void func_800CAFA0(void *a0) {
 
     if (D_80078EC1 != 0x11) {
         func_80146A6C(3, a0, ((Unkstruct_800CAFA0 *)a0)->unk6, ((Unkstruct_800CAFA0 *)a0)->unkA, ((Unkstruct_800CAFA0 *)a0)->unkE, 0xAAAFFFA, 0xE000B400);
-        func_80146C3C(a0);
+        guess_FreeSmallObject(a0);
     } else {
         m = D_800AE620;
         RotMatrixY((((Unkstruct_800CAFA0 *)a0)->unk1C << 5) + ((Unkstruct_800CAFA0 *)a0)->unk2C, &m);
@@ -116,7 +116,7 @@ void func_800CB190(void *a0) {
 
 
 void func_800CB1CC(void *arg0) {
-    extern void *func_801465C0();
+    extern void *guess_AllocSpriteObject();
     extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
     extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
     extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
@@ -135,7 +135,7 @@ void func_800CB1CC(void *arg0) {
         *(s16 *)((s32)arg0 + 0x16) = -0x38;
         result = 1;
     } else {
-        obj = func_801465C0();
+        obj = guess_AllocSpriteObject();
         if (obj == 0) {
             return;
         }
@@ -155,13 +155,13 @@ void func_800CB1CC(void *arg0) {
 void func_800CB2CC(void *a0) {
     extern u8 D_80078EC1;
     extern void func_801493D0(s32, s32, s32);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
 
     s32 *s2 = *(s32 **)((s32)a0 + 0x34);
     if (D_80078EC1 == 0x11) {
         func_801493D0((s32)s2, (s32)a0 + 0x10, (s32)a0 + 4);
     } else {
-        func_80146C3C(a0);
+        guess_FreeSmallObject(a0);
     }
 }
 

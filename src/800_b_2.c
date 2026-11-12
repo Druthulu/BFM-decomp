@@ -75,7 +75,7 @@ extern s32 func_8006023C(s32 port, char *name, s32 mode);
 extern void func_80060404(void *buf, s32 off, s32 len);
 extern void func_800603BC(void);
 extern void func_80060AE0(s32 port, char *name, void *buf, s32 off, s32 len);
-extern void func_80016714(void *, s32);
+extern void guess_ZeroMemory(void *, s32);
 extern void func_80060614(void *buf, s32 off, s32 len);
 extern s32 func_80061114(s32 port, char *name, s32 mode);
 extern s32 func_80061524(s32);

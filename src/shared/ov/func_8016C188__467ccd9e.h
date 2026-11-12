@@ -12,7 +12,7 @@ void func_8016C188(s32 param)
 
     extern void func_80015954(s32, s32);
     extern s32 func_8016C374(s32, s32, s32, s32);
-    extern s32 func_80146C3C();  // K&R: ? of 1 args (P37 rung D t4_HD7)
+    extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
     extern void func_8001CD9C(s32, void *);
     extern void func_800233CC(void *, unsigned short);
     extern u8 D_8018ED7C[];
@@ -26,7 +26,7 @@ void func_8016C188(s32 param)
     param2 = param;
 
     s1 = param2;
-    s2 = ((s32 (*)(void))func_801465C0)();
+    s2 = ((s32 (*)(void))guess_AllocSpriteObject)();
     *(s32 *)(s1 + 0x20) = s2;
     if (s2 != 0) {
         *(u16 *)(s1 + 0x12) = *(u16 *)(s1 + 0x6);
@@ -36,7 +36,7 @@ void func_8016C188(s32 param)
         buf[0] = *(u16 *)(s1 + 0x12);
         buf[1] = *(u16 *)(s1 + 0x16);
         buf[2] = *(u16 *)(s1 + 0x1A);
-        ((void (*)(s32, void *, void *))func_80149350)(t34, buf, buf);
+        ((void (*)(s32, void *, void *))guess_ObjRotTransSV)(t34, buf, buf);
         ((void (*)(void *, s32))func_80015954)(buf, s1 + 4);
         s0 = D_8018ED7C;
         ((void (*)(s32, void *))func_8001CD9C)(s2, s0);
@@ -57,6 +57,6 @@ void func_8016C188(s32 param)
         ((s32 (*)(s32, void *, void *, void *))func_8016C374)(s1, pBCC, pBD4, s0);
         *(u16 *)(s1 + 2) = *(u16 *)(s1 + 2) + 1;
     } else {
-        ((void (*)(s32))func_80146C3C)(s1);
+        ((void (*)(s32))guess_FreeSmallObject)(s1);
     }
 }

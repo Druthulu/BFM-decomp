@@ -1,7 +1,7 @@
 /* func_801446A4 — shared body (overlay slot 0x80128158, h_exact 107c1000). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8012C194(void);
-extern void func_8012CAE4(void *a0);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern u8 D_800D3888[];
@@ -15,7 +15,7 @@ void func_801446A4(int param_1)
     s1 = param_12;
     iVar1 = ((int (*)(void))func_8012C194)();
     if (iVar1 == 0) {
-        ((void (*)(int))func_8012CAE4)(s1);
+        ((void (*)(int))guess_FreeActorDuringSpawn)(s1);
     } else {
         *(int *)(s1 + 0xcc) = iVar1;
         ((void (*)(int, int, int, int))func_8001CC3C)(iVar1, 0, 0, 0);

@@ -451,7 +451,7 @@ for g in atlas['groups']:
             # has NO positive tell in the asm -- an argument that dies at the call is allocated
             # straight into $aN, so the prescribed procedure is a two-arity A/B, i.e. an extra
             # compile per ambiguous callee. But some other TU has usually banked a caller already:
-            # func_8012BEE8 is declared ('s32', ('s32',)) in 4,674 places fleet-wide. Same story for
+            # guess_TickWaitTimer is declared ('s32', ('s32',)) in 4,674 places fleet-wide. Same story for
             # the D_ globals every CONFLICTING-EXTERN drop is about. Deterministic, zero tokens, and
             # the destination TU's own spelling is marked authoritative (wave law 2) when present.
             'decl_prior': DP.for_asm(sub, home_tu(b, fn), idx=_DPIDX, binary=b),

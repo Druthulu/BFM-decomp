@@ -146,7 +146,7 @@ void func_801E29EC(void) {
 }
 
 
-extern void func_8012A018(s32 a0, s32 a1);
+extern void guess_SetMainCameraHandler(s32 a0, s32 a1);
 extern void func_8012A094(s32 a0);
 extern void func_801E2AB8(void *a0);
 
@@ -312,7 +312,7 @@ void func_801E2E44(void *param_1) {
 
 extern s32 D_801E3004[];
 extern s32 func_80183EE4(void *a0, void *a1);
-extern void func_8012A828(s32 a0, void *a1);
+extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 D_801BF330;
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern s32 D_801E2FFC;
@@ -322,7 +322,7 @@ extern void *D_801E3084;
 void func_801E2ED8(void *param_1) {
     if (func_80183EE4(param_1, D_801E3004) != 0) {
         ((Unkstruct_800B5CB8 *)param_1)->unk2 = 1;
-        func_8012A828((s32)param_1, &D_801BF330);
+        guess_StartActorSequence((s32)param_1, &D_801BF330);
         func_8012E8E0((s32)param_1, (s32)&D_801E2FFC);
         ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
         func_80178B18((s32)param_1, (s32)&D_801E3084);

@@ -11,7 +11,9 @@ row in config/names.tsv (basis, confidence, evidence kind, conflict, history). T
                                   rewritten          the line also carries the new name
                                   other-binary       (wide spec) a strong hit in a src/ or symbol file whose
                                                      binaries are disjoint from the rename's scope (the binaries
-                                                     stacking its row's symbol file): another function. Passes.
+                                                     stacking its row's symbol file): another function; or a line
+                                                     whose every strong token is qualified by an object id
+                                                     `src/<dir>/...:<token>` mapping out of scope. Passes.
                                   address-key        (a) the only candidate token is a share header's name
                                                      `func_<ADDR>(__x)?.h` (headers are named by vram, never
                                                      renamed); (b) a 0x / bare address in an ADDRESS_KEYED
@@ -76,6 +78,8 @@ ADDRESS_KEYED = {
     "docs/leverage.md": "leverage_rank lists one row per unit keyed by space:addr",
     "docs/leverage.tsv": "leverage_rank writes one row per unit keyed by space:addr",
     "config/dedup.us.yaml": "the registry keys each group by `vram:` (and member vram); its name is the `func:`/`name:` field",
+    "docs/struct-twins.md": "## Twins is generated (struct_twins.py --write, no hand edits): objects keyed binary/vram:var, "
+                            "structs S<vram>",
 }
 # Closed list: generated files rename_sym rewrites as text instead of printing `regenerate:` (shared with rename_sym).
 TEXT_GENERATED = {
@@ -149,6 +153,21 @@ def _class_of(path, text, new_re, s_re, w_re):
     return "unclassified"
 
 
+OBJ_ID = re.compile(r"(src/[\w./-]+):$")
+
+
+def _qualified_out(text, s_re, scope, where):
+    """True when every strong token on the line is qualified by an object id `src/<dir>/...:<token>` (struct-twins)
+    whose path maps to binaries disjoint from scope; an unqualified, unmapped or in-scope occurrence -> False."""
+    ms = list(s_re.finditer(text))
+    for m in ms:
+        q = OBJ_ID.search(text, 0, m.start())
+        fb = where(q.group(1)) if q else set()
+        if not fb or (fb & scope):
+            return False
+    return bool(ms)
+
+
 def classify(hits, rename, scope=None, where=None):
     """hits = [(path, line, text)]; rename = (old, new, addr). Pure. -> {class: [hit]} over the hits that
     carry one of this rename's candidate forms; asserts candidates == classified. scope = the rename's binaries
@@ -169,6 +188,8 @@ def classify(hits, rename, scope=None, where=None):
         if scope is not None and c in ("stale-build-input", "stale-invisible"):
             fb = where(h[0])
             if fb and not (fb & scope):
+                c = "other-binary"
+            elif _qualified_out(h[2], s_re, scope, where):
                 c = "other-binary"
         out[c].append(h)
     assert cand == sum(len(v) for v in out.values()), "R32: candidates != classified"
@@ -753,6 +774,11 @@ def selftest():
     _, t = scan(sh, [SR], {SR: {"ov_A", "ov_B"}}, wh)
     assert t["other-binary"] == 0 and t["stale-build-input"] == 2, t                           # in-scope stale is bad
     _, t = scan(sh, [SR]); assert t["other-binary"] == 0 and t["stale-build-input"] == 2, t    # 3-column: as before
+    qh = [("docs/t.md", 1, "- `S1`: 2 obj — 0x8001CC3C(arg0), src/ov_B/0x800D21C4:func_80184B00, src/ov_B/0x800D21C4:s0")]
+    _, t = scan(qh, [SR], {SR: {"ov_A"}}, wh); assert t["other-binary"] == 1, t                # object id in ov_B
+    _, t = scan(qh, [SR], {SR: {"ov_A", "ov_B"}}, wh); assert t["stale-invisible"] == 1, t     # in-scope id: stale
+    qu = [("docs/t.md", 2, qh[0][2] + " func_80184B00")]
+    _, t = scan(qu, [SR], {SR: {"ov_A"}}, wh); assert t["stale-invisible"] == 1, t             # unqualified: stale
     scs = {}
     assert parse_spec(wide.replace("\tmain\t", "\tov_A\t"), {}, stk, scs) == [R] and scs == {R: {"ov_A"}}, scs
     pl, nt = rsy.plan([dict(row, old="Later", addr="0x80050000")], {}, texts)    # curated old: replace in place

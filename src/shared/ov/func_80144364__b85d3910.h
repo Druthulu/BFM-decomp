@@ -7,7 +7,7 @@ void func_80144364(int param_1) {
 
     iVar3 = ((s32 (*)(void))func_8012C194)();
     if (iVar3 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
+        ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         uVar2 = *(u16 *)(*(int *)(param_1 + 0x64) + 0x36);
         *(int *)(param_1 + 0xCC) = iVar3;

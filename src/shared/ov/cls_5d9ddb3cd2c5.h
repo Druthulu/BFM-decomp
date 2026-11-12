@@ -2,5 +2,5 @@
  * exemplar src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:4147 · rank 1/3 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(s32 arg0) {
     func_8002D59C(4, 0x64E, CAST_SIGN(u16, arg0, 0x104));
-    func_8012C218(arg0);
+    guess_FreeActor(arg0);
 }

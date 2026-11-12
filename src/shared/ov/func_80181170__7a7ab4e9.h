@@ -1,13 +1,13 @@
 /* func_80181170 — shared body (overlay slot 0x80128158, h_exact 7a7ab4e9). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
+extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
 void func_80181170(int a0) {
     int v0 = *(int *)(a0 + 0x1C);
     unsigned char *p;
     do { p = *(unsigned char **)(a0 + 0x20); } while (0);
     *(int *)(a0 + 0x1C) = v0 + 1;
     if (v0 >= 0x1F) {
-        func_80146C3C();
+        guess_FreeSmallObject();
     } else {
         unsigned short hv = *(unsigned short *)(p + 0x1A) + 0x1E0;
         signed char bv = *(unsigned char *)(p + 0x26) - 3;

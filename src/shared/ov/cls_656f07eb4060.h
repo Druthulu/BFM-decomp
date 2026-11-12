@@ -5,7 +5,7 @@
 void SHARED_FN(void *a0)
 {
     extern s32 func_8012BE54(s32 a0);
-    extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+    extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
     extern s32 rand(void);
 
     s32 e = (s32)a0;
@@ -20,7 +20,7 @@ void SHARED_FN(void *a0)
         return;
     }
 
-    o = func_8012C658(0x1EA, 0xF, e);
+    o = guess_SpawnActor(0x1EA, 0xF, e);
     r = rand() & 0x1F;
     st = *(s16 *)(e + 0x70);
     *(s32 *)(e + 0x1C) = r + 0x2D;

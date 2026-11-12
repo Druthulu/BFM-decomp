@@ -5,8 +5,8 @@ void SHARED_FN(s32 self)
     u16 scratch[4];
     s32 obj;
 
-    func_8004914C((void *)(*(s32 *)(self + 0x20) + 0x54));
-    func_800491AC((void *)(*(s32 *)(self + 0x20) + 0x54));
+    SetRotMatrix((void *)(*(s32 *)(self + 0x20) + 0x54));
+    SetTransMatrix((void *)(*(s32 *)(self + 0x20) + 0x54));
 
     sv[1] = 0;
     sv[0] = 0;

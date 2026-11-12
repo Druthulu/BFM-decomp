@@ -22,7 +22,7 @@ s32 func_8016C49C(s32 param_1_arg) {
         u16 *psVar3 = (u16 *)&D_8011D030;
         do {
             if (psVar3 != param_1 && *psVar3 == 0x30) {
-                ((void(*)(void *))func_80146C3C)(psVar3);
+                ((void(*)(void *))guess_FreeSmallObject)(psVar3);
             }
             iVar4 = iVar4 + 1;
             psVar3 = psVar3 + 0x2c;
@@ -47,11 +47,11 @@ s32 func_8016C49C(s32 param_1_arg) {
         ((void(*)(void *))func_800D23D0)(sv);
         sv[0] = 0;
         ((void(*)(void *, void *))RotMatrixYXZ)(sv, param_1 + 0x1c);
-        ((void(*)(void *, s32))func_80016714)(&D_8018EE98, 0x620);
+        ((void(*)(void *, s32))guess_ZeroMemory)(&D_8018EE98, 0x620);
         ((s32(*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(0x32, param_1, 0, 0, 0, 0, *(int *)(param_1 + 0x18));
         sVar1 = 5;
     } else {
-        int iVar5b = ((s32(*)())func_801465C0)();
+        int iVar5b = ((s32(*)())guess_AllocSpriteObject)();
         u32 uVar2;
         if (iVar5b == 0) {
             return;

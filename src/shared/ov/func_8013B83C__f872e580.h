@@ -10,7 +10,7 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
     extern s32 D_8018FB18;
     extern s32 D_8018FB20;
     extern s16 D_800B9A0E;
-    extern void func_80052D90(s32 a0, void *a1);
+    extern void GsInitCoordinate2(s32 a0, void *a1);
     extern void func_8013C08C(void *a0, s32 a1);
     s32 i;
 
@@ -18,7 +18,7 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
     D_8018FAA4 = 0;
     D_8018FAA0 = 0;
     D_8018FA9C = 0;
-    func_80052D90(0, &D_8018FAC8);
+    GsInitCoordinate2(0, &D_8018FAC8);
     if (a0 == 0) {
         return;
     }

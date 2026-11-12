@@ -125,7 +125,7 @@ void func_800CCDC8(s32 *param_1)
         func_800CCEB8(param_1);
         return;
     }
-    func_801483E8(param_1);
+    guess_SaveGroundedPos(param_1);
     CAST_SIGN(s32, (u8 *)param_1, 0x44) |= 0x1000;
 }
 
@@ -776,7 +776,7 @@ void func_800CDD34(s32 param_1)
 
 extern s32 func_80146578(void);
 extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void func_80146E90(s32 *a0, s32 a1);
 extern void func_80146CA0(void *a0);
@@ -798,7 +798,7 @@ void func_800CDD9C(s32 param_1) {
         func_8001CC3C(iVar2, D_800CE068, 0x200, 0x100);
         *(u8 *)(iVar2 + 0x27) = 8;
         *(u32 *)(iVar2 + 4) = *(u32 *)(iVar2 + 4) | 0x50000000;
-        func_80149374(iVar1, param_1 + 4);
+        guess_TransformPosByObjMatrix(iVar1, param_1 + 4);
         d = D_800CE8D4;
         x = *(u16 *)(((Unkstruct_80126B58 *)iVar1)->unk20 + 0x10);
         *(u16 *)(iVar2 + 0x12) = d;

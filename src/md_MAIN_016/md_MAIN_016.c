@@ -52,7 +52,7 @@ void func_800CAF20(void) {
 }
 
 
-extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CAF28(void *arg0) {
 
@@ -62,7 +62,7 @@ void func_800CAF28(void *arg0) {
         u16 v0 = *(u16 *)((u8 *)arg0 + 2);
         D_800CB53C[v0]();
     } else {
-        func_80146C3C();
+        guess_FreeSmallObject();
     }
 }
 
@@ -239,7 +239,7 @@ void func_800CB400(void *a0)
         ((Unkstruct_800CB400 *)a0)->unk50 -= 2;
         func_800CAF84();
     } else {
-        func_80146C3C();
+        guess_FreeSmallObject();
     }
 }
 

@@ -70,7 +70,7 @@ extern s32 func_8006023C(s32 port, char *name, s32 mode);
 extern void func_80060404(void *buf, s32 off, s32 len);
 extern void func_800603BC(void);
 extern void func_80060AE0(s32 port, char *name, void *buf, s32 off, s32 len);
-extern void func_80016714(void *, s32);
+extern void guess_ZeroMemory(void *, s32);
 extern void func_80060614(void *buf, s32 off, s32 len);
 extern s32 func_80061114(s32 port, char *name, s32 mode);
 extern s32 func_80061524(s32);
@@ -216,7 +216,7 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
                 *(Blk128u *)&D_80075840[0x100] = *(Blk128u *)&D_80063AEC[0xEC];
                 *(Blk128u *)&D_80075840[0x180] = *(Blk128u *)&D_80063AEC[0x1AC];
                 func_80060AE0(D_800760B0, D_80072DFC, D_80075840, 0, 0x200);
-                func_80016714(&D_80075A40, 0x280);
+                guess_ZeroMemory(&D_80075A40, 0x280);
                 D_800760AC++;
                 break;
             case 1:
@@ -287,10 +287,10 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
             u8 *p;
             m = (u8 *)&D_80075A40;
             __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-            func_80016714(m, 0x80);
+            guess_ZeroMemory(m, 0x80);
             p = (u8 *)&D_80075A40 + ((idx + 1) << 7);
             D_80075A40 = D_80076040;
-            func_80016714(p, 0x80);
+            guess_ZeroMemory(p, 0x80);
             func_80060614(p, (idx + 5) << 7, 0x80);
             D_800760AC++;
             break;
@@ -302,7 +302,7 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
             s32 cp;
             m = D_80075FC0;
             __asm__ __volatile__("" : "=r"(m) : "0"(m));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9)
-            func_80016714(m, 0x80);
+            guess_ZeroMemory(m, 0x80);
             D_80075FC0[0] = 0xFF;
             p = &D_80075FC0[0x10];
             *(Blk152 *)p = *(Blk152 *)&D_80075CC0[0x24];
@@ -657,7 +657,7 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
  *     subsystem from the file/overlay loader cluster (which IS drafted: CdReadStateMachine,
  *     CdReadSectorReadyCB, StreamLoadStateMachine here + the matched CdReadRequest/CdQueueBusy/…).
  *   - External helpers it calls (uncharacterised): func_800603BC (x20), func_80060614, func_8006023C,
- *     func_80060D9C, func_80060AE0, func_8005FFB4, func_8005FD58, func_80061114/524, func_80016714(bzero).
+ *     func_80060D9C, func_80060AE0, func_8005FFB4, func_8005FD58, func_80061114/524, guess_ZeroMemory(bzero).
  * Re-enable / revisit when Q#5 (save/memcard format) is studied: FIRST fix the Ghidra function
  *   boundary (make 0x8002B154 span the whole 1139 ins, or model the 3 entry points), re-decompile,
  *   characterise the func_80060xxx memcard helpers, THEN draft. A wrong faithful-looking draft here

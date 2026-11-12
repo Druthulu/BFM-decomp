@@ -10,7 +10,7 @@ void func_80162760(void)
     p = D_8018E8C0;
     do {
         int v = *p;
-        ((void (*)(int, int))func_80016714)(v, 0x38);
+        ((void (*)(int, int))guess_ZeroMemory)(v, 0x38);
         p = p + 1;
         i = i + 1;
     } while (i < 3);

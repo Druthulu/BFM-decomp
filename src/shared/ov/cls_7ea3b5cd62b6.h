@@ -4,7 +4,7 @@ void SHARED_FN(s32 a0)
     s32 v0;
     s32 v1;
 
-    if (func_8012BEE8(a0)) {
+    if (guess_TickWaitTimer(a0)) {
         if (func_8012BD14(a0) > 0x18FFF) {
             ((Unkstruct_800B5CB8 *)a0)->unk2 = 6;
             ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x20;
@@ -20,7 +20,7 @@ void SHARED_FN(s32 a0)
             v0 = ((Unkstruct_800B5CB8 *)a0)->unk68;
             v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
             ((Unkstruct_800B5CB8 *)v1)->unk12 = *(u16 *)(v0 + 0xC);
-            func_8012B2CC(a0);
+            guess_UpdateActorModelMatrix(a0);
         }
     }
 }

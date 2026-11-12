@@ -14,5 +14,5 @@ void SHARED_FN(s32 *a0)
     a0[1] = t1;
     a0[2] = t2;
     a0[3] = t3;
-    func_80149374(x, (s32)(a0 + 1));
+    guess_TransformPosByObjMatrix(x, (s32)(a0 + 1));
 }

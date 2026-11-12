@@ -1,7 +1,7 @@
 /* func_80181E58 — shared body (overlay slot 0x80128158, h_exact beb530ef). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern s32  func_8012C194(void);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
@@ -9,7 +9,7 @@ extern void func_8018276C(s32 a0);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern s32  func_8012AD50(void *a0);
 extern void func_8001CA1C(s32 a0, s32 a1);
-extern void func_8012A828(void *a0, void *a1);
+extern void guess_StartActorSequence(void *a0, void *a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern u8 D_801C6410;
 extern u8 D_8018DE14;
@@ -26,8 +26,8 @@ void func_80181E58(void *a0)
     void *a02;
     a02 = a0;
     self = a02;
-    if ((*(s32 *)((s32)self + 0x20) = ((s32 (*)(void))func_8012C1B8)()) == 0) {
-        func_8012CAE4(self);
+    if ((*(s32 *)((s32)self + 0x20) = ((s32 (*)(void))guess_AllocModelObject)()) == 0) {
+        guess_FreeActorDuringSpawn(self);
         return;
     }
     *(u16 *)((s32)self + 0x72) |= 0x1000;
@@ -37,7 +37,7 @@ void func_80181E58(void *a0)
         obj = (void *)func_8012C194();
         *(s32 *)((s32)self + 0xCC) = (s32)obj;
         if (obj == 0) {
-            func_8012CAE4(self);
+            guess_FreeActorDuringSpawn(self);
             return;
         }
         func_8001CB6C((u8 *)obj, (s32)&D_8018DE14, 0x2F0, 0x138);
@@ -75,6 +75,6 @@ void func_80181E58(void *a0)
     *(s32 *)((s32)self + 0x10) = 0xFFFD0000;
     *(s32 *)((s32)self + 0x14) = 0xFFFE0000;
     *(u16 *)((s32)self + 0xFC) = 0;
-    func_8012A828(self, &D_8018DF4C);
+    guess_StartActorSequence(self, &D_8018DF4C);
     func_8012AD44((s32 *)self, 9);
 }

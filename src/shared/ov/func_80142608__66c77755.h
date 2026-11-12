@@ -5,7 +5,7 @@ void func_80142608(s32 param_1)
     s32 iVar1;
 
     if (*(short *)(param_1 + 0x70) != 0) {
-        iVar1 = ((s32 (*)(void))func_8012C1B8)();
+        iVar1 = ((s32 (*)(void))guess_AllocModelObject)();
     } else {
         iVar1 = func_8012C1DC(*(s32 *)(param_1 + 100));
     }
@@ -23,7 +23,7 @@ void func_80142608(s32 param_1)
             goto ad50;
         }
     }
-    ((void (*)(s32))func_8012CAE4)(param_1);
+    ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
     return;
 ad50:
     *(short *)(param_1 + 0x98) = 0;

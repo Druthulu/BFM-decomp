@@ -70,7 +70,7 @@ void func_800CAF90(s32 a0) {
     extern u16 D_80126BC8;
     extern u16 D_80126BCA;
     extern u16 D_80126BCC;
-    extern void *func_801465C0();
+    extern void *guess_AllocSpriteObject();
     extern void func_800CB2AC(s32 a0);
     extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -86,7 +86,7 @@ void func_800CAF90(s32 a0) {
         return;
     }
     t = *(u32 *)(a0 + 0x30) >> 15;
-    prim = func_801465C0();
+    prim = guess_AllocSpriteObject();
     if (prim == 0) {
         return;
     }
@@ -114,7 +114,7 @@ extern s16 D_80126BC8;
 extern u16 guess_g_FrameCounter;
 
 s32 func_80146AB4(s32, void *, s32, s32, s32, s32, s32);
-s32 func_80146C3C(u8 *a0);
+s32 guess_FreeSmallObject(u8 *a0);
 void func_8002D4C8(s32, s32);
 
 void func_800CB0D0(St_md_MAIN_029 *arg0) {
@@ -164,7 +164,7 @@ void func_800CB0D0(St_md_MAIN_029 *arg0) {
         D_80126BCC = 0x1000;
         D_80126BCA = 0x1000;
         D_80126BC8 = 0x1000;
-        func_80146C3C(arg0);
+        guess_FreeSmallObject(arg0);
     }
 }
 
@@ -180,7 +180,7 @@ void func_800CB2AC(void *a0)
     extern s16 guess_g_PlayerPosZ;
     extern void RotMatrixY(s32, void *);
     extern void guess_RotTransSVWithMatrix(s32, s32, s32);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
 
     u8 *s1;
     u8 *p;
@@ -212,7 +212,7 @@ void func_800CB2AC(void *a0)
             return;
         }
     }
-    func_80146C3C(s1);
+    guess_FreeSmallObject(s1);
 }
 
 

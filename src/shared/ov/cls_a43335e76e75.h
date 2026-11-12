@@ -7,5 +7,5 @@ void SHARED_FN(void *arg0) {
             *(unsigned short *)(iVar1 + 10) = *(unsigned short *)(iVar1 + 10) & 0x7FFF;
         }
     }
-    func_8012C218(arg0);
+    guess_FreeActor(arg0);
 }

@@ -10,13 +10,13 @@ void func_80130D48(s32 arg0)
     s32 r;
     s32 ret;
 
-    val = func_80131CF4(*(s32 *)((s8 *)arg0 + 0xBC), 0x15);
+    val = guess_LookupIdValue(*(s32 *)((s8 *)arg0 + 0xBC), 0x15);
     if (val == 0) {
         return;
     }
 
     if (*(u8 *)((s8 *)arg0 + 0x5E) == 0xB) {
-        ret = func_8012C658(0x33, 0, arg0);
+        ret = guess_SpawnActor(0x33, 0, arg0);
     } else {
         switch (val & 0xFFFF0000) {
         case 0x10000: {
@@ -94,20 +94,20 @@ void func_80130D48(s32 arg0)
                     break;
                 }
             }
-            ret = func_8012C658(val, j, arg0);
+            ret = guess_SpawnActor(val, j, arg0);
             break;
         }
         case 0x20000:
-            ret = func_8012C658(0x33, 0, arg0);
+            ret = guess_SpawnActor(0x33, 0, arg0);
             break;
         case 0x30000:
-            ret = func_8012C658(0x31, 0, arg0);
+            ret = guess_SpawnActor(0x31, 0, arg0);
             break;
         case 0x40000:
-            ret = func_8012C658(0x32, 0, arg0);
+            ret = guess_SpawnActor(0x32, 0, arg0);
             break;
         case 0x50000:
-            ret = func_8012C658(0x33, 0, arg0);
+            ret = guess_SpawnActor(0x33, 0, arg0);
             break;
         case 0x60000: {
             s32 rr = rand() & 0xFF;
@@ -120,11 +120,11 @@ void func_80130D48(s32 arg0)
             if (*(u16 *)(p + 0x40) < 4U) {
                 id = 0x33;
             }
-            ret = func_8012C658(id, tbl[2], arg0);
+            ret = guess_SpawnActor(id, tbl[2], arg0);
             break;
         }
         case 0x70000:
-            ret = func_8012C658(0x27B, 0, arg0);
+            ret = guess_SpawnActor(0x27B, 0, arg0);
             break;
         default:
             return;

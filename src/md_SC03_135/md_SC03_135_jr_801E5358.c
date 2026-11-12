@@ -60,7 +60,7 @@ extern void func_801E4F30(void *a0);
 extern void func_801E4F6C(void *a0);
 extern void func_801E4F8C(u32 arg0);
 extern void func_801E4FF4(void);
-extern void func_8012A018(s32 a0, s32 a1);
+extern void guess_SetMainCameraHandler(s32 a0, s32 a1);
 extern void func_8012A094(s32 a0);
 extern void func_801E50C0(void *a0);
 extern void func_801E4FFC(void);
@@ -299,7 +299,7 @@ extern void func_801E4F30(void *a0);
 extern void func_801E4F6C(void *a0);
 extern void func_801E4F8C(u32 arg0);
 extern void func_801E4FF4(void);
-extern void func_8012A018(s32 a0, s32 a1);
+extern void guess_SetMainCameraHandler(s32 a0, s32 a1);
 extern void func_8012A094(s32 a0);
 extern void func_801E50C0(void *a0);
 extern void func_801E4FFC(void);
@@ -386,10 +386,10 @@ void func_801E56A8(s32 a0) {
 
 
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, s32 a1);
+extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern s32 func_80178B18(s32 a0, s32 a1);
 
@@ -401,16 +401,16 @@ void func_801E57C4(void *a0) {
     s32 v0;
     s32 ptr;
 
-    v0 = ((s32 (*)(void))func_8012C1B8)();
+    v0 = ((s32 (*)(void))guess_AllocModelObject)();
     ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
     if (v0 == 0) {
-        func_8012CAE4(a0);
+        guess_FreeActorDuringSpawn(a0);
     } else {
         guess_InitModelObject(v0, (s32)&D_801CEA24);
         ptr = ((Unkstruct_800B5CB8 *)a0)->unk68;
         *(s16 *)(ptr + 0xC) = 0x7FFF;
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
-        func_8012A828((s32)a0, (s32)&D_801BEAF8);
+        guess_StartActorSequence((s32)a0, (s32)&D_801BEAF8);
         func_8012E8E0((s32)a0, (s32)&D_801E669C);
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
         func_80178B18((s32)a0, (s32)&D_801E66CC);
@@ -522,10 +522,10 @@ void func_801E5A34(s32 a0, s32 a1, s32 a2) {
 
 extern s32 D_801EAC70;
 extern s32 D_801EADF0;
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 
 void func_801E5A7C(void) {
-    func_80016714(&D_801EAC70, 0x180);
+    guess_ZeroMemory(&D_801EAC70, 0x180);
     D_801EADF0 = 0;
 }
 

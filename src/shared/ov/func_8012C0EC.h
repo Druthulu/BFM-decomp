@@ -4,7 +4,7 @@ extern s32 D_801274D4;
 extern s16 D_80126CAC;
 extern s32 D_801274E0;
 extern s32 func_80013478(s32 a0, s32 a1);
-extern void func_8012C218(void *a0);
+extern void guess_FreeActor(void *a0);
 s32 func_8012C0EC(s32 a0) {
     s32 (*fp)(s32) = (s32 (*)(s32))D_801274D4;
     s32 cond;
@@ -23,6 +23,6 @@ s32 func_8012C0EC(s32 a0) {
             *(u16 *)((s32)p + 0xA) = *(u16 *)((s32)p + 0xA) & 0x7FFF;
         }
     }
-    func_8012C218((void *)a0);
+    guess_FreeActor((void *)a0);
     return 1;
 }

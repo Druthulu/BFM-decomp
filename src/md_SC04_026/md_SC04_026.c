@@ -143,7 +143,7 @@ void func_801E7F2C(void) {
 }
 
 
-extern void func_8012A018(s32 a0, s32 a1);
+extern void guess_SetMainCameraHandler(s32 a0, s32 a1);
 extern void func_8012A094(s32 a0);
 extern void func_801E7FF8(void *a0);
 
@@ -371,10 +371,10 @@ void func_801E8470(void *param_1) {
 
 
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, s32 a1);
+extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern s32 func_80178B18(s32 a0, s32 a1);
 
@@ -386,21 +386,21 @@ void func_801E85A4(void *a0) {
     s32 v0;
 
     if ((u32)(guess_GetStoryProgress() - 0x122) < 0xA) {
-        func_8012CAE4(a0);
+        guess_FreeActorDuringSpawn(a0);
         return;
     }
 
-    v0 = func_8012C1B8();
+    v0 = guess_AllocModelObject();
     ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
     if (v0 == 0) {
-        func_8012CAE4(a0);
+        guess_FreeActorDuringSpawn(a0);
     } else {
         guess_InitModelObject(v0, (s32)&D_801EEDCC);
         *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk68 + 0xC) = 0x7FFF;
         func_8012E8E0((s32)a0, (s32)&D_801E8B84);
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-        func_8012A828((s32)a0, (s32)&D_801B9B50);
+        guess_StartActorSequence((s32)a0, (s32)&D_801B9B50);
         func_80178B18((s32)a0, (s32)&D_801E8BDC);
     }
 }
@@ -409,7 +409,7 @@ void func_801E85A4(void *a0) {
 
 extern s32 func_8012BA10(s32 a0, s32 a1);
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
-extern void func_8012A828(s32 a0, s32 a1);
+extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern s32 func_801789AC(s32 a0);
 extern void func_80178D18(s32 a0);
 
@@ -429,7 +429,7 @@ void func_801E8654(void *param_1) {
         cur = ((Unkstruct_800B5CB8 *)param_1)->unk90;
         target = D_801E8D28[((Unkstruct_800B5CB8 *)param_1)->unk70];
         if (cur != target) {
-            func_8012A828((s32)param_1, target);
+            guess_StartActorSequence((s32)param_1, target);
         }
         break;
     }
@@ -442,7 +442,7 @@ void func_801E8654(void *param_1) {
         cur = ((Unkstruct_800B5CB8 *)param_1)->unk90;
         target = D_801E8D1C[((Unkstruct_800B5CB8 *)param_1)->unk70];
         if (cur != target) {
-            func_8012A828((s32)param_1, target);
+            guess_StartActorSequence((s32)param_1, target);
         }
         break;
     }
@@ -455,7 +455,7 @@ void func_801E8654(void *param_1) {
         cur = ((Unkstruct_800B5CB8 *)param_1)->unk90;
         target = D_801E8D1C[((Unkstruct_800B5CB8 *)param_1)->unk70];
         if (cur != target) {
-            func_8012A828((s32)param_1, target);
+            guess_StartActorSequence((s32)param_1, target);
         }
         break;
     }
@@ -463,7 +463,7 @@ void func_801E8654(void *param_1) {
         s32 cur = ((Unkstruct_800B5CB8 *)param_1)->unk90;
         s32 target = D_801E8D34[((Unkstruct_800B5CB8 *)param_1)->unk70];
         if (cur != target) {
-            func_8012A828((s32)param_1, target);
+            guess_StartActorSequence((s32)param_1, target);
         }
         break;
     }
@@ -480,11 +480,11 @@ void func_801E8654(void *param_1) {
 
 
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, s32 a1);
+extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern void func_8012E88C(u8 *a0);
 extern s32 func_80178B18(s32 a0, s32 a1);
@@ -503,19 +503,19 @@ void func_801E87F8(void *a0) {
     s32 target;
 
     if ((u32)(guess_GetStoryProgress() - 0x122) >= 0xA) {
-        func_8012CAE4(a0);
+        guess_FreeActorDuringSpawn(a0);
         return;
     }
 
     if (((Unkstruct_800B5CB8 *)a0)->unk70 == 0) {
-        D_801EF37C = func_8012C658(0x1C1, 1, 0);
-        D_801EF378 = func_8012C658(0x1C1, 2, 0);
+        D_801EF37C = guess_SpawnActor(0x1C1, 1, 0);
+        D_801EF378 = guess_SpawnActor(0x1C1, 2, 0);
     }
 
-    v0 = func_8012C1B8();
+    v0 = guess_AllocModelObject();
     ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
     if (v0 == 0) {
-        func_8012CAE4(a0);
+        guess_FreeActorDuringSpawn(a0);
         return;
     }
 
@@ -529,7 +529,7 @@ void func_801E87F8(void *a0) {
     cur = ((Unkstruct_800B5CB8 *)a0)->unk90;
     target = D_801E8D28[((Unkstruct_800B5CB8 *)a0)->unk70];
     if (cur != target) {
-        func_8012A828((s32)a0, target);
+        guess_StartActorSequence((s32)a0, target);
     }
 
     if (((Unkstruct_800B5CB8 *)a0)->unk70 != 0) {

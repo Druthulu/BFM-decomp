@@ -7,7 +7,7 @@ our 2.7.2; see the audit block below before following any line number.** All byt
 `.run/gccmap/proofs/`. Date: 2026-07-02, Phase 23.
 
 **Headline: the §10/§20 hoist-vs-remat class is STEERABLE (was "CONFIRMED unsteerable" since
-Phase 20). Both canonical stub exemplars now MATCH** (`func_80149374` 23 ins, `func_801493D0`
+Phase 20). Both canonical stub exemplars now MATCH** (`guess_TransformPosByObjMatrix` 23 ins, `func_801493D0`
 23 ins — reach-134 fns, ready for whole-binary integration). Lever = §2 below.
 
 > ## ⚠️ SOURCE-VERSION AUDIT (Phase 29 SESSION-23, 2026-07-28) — THIS FILE HAD THE MOST ERRORS
@@ -171,7 +171,7 @@ f3(&sp18, arg1);                                    void *q = &sp18;      /* (pl
                                                 f3(&sp18, arg1);          /* class has no valid reg -> fresh addiu */
 ```
 
-- `func_80149374` (ov_SC04_005 …/func_80149374.s): 24 ins/11 mism → **MATCH (23 ins)**.
+- `guess_TransformPosByObjMatrix` (ov_SC04_005 …/guess_TransformPosByObjMatrix.s): 24 ins/11 mism → **MATCH (23 ins)**.
   Proof: `.run/gccmap/proofs/func_80149374_remat.c`.
 - `func_801493D0` (ov_SC03_099): same recipe on `u8 buf[8]` locals → **MATCH (23 ins)**.
   Proof: `.run/gccmap/proofs/func_801493D0_remat.c`.
@@ -195,7 +195,7 @@ f3(&sp18, arg1);                                    void *q = &sp18;      /* (pl
 5. ≥3 sites: kill after every site except the last.
 
 **Class verdict:** STEERABLE. Re-test the whole "hoist"/"remat" backlog bucket (~31 verdicts,
-§20 router) with this recipe; `func_80149374`/`func_801493D0` are reach-134 and ready to bank
+§20 router) with this recipe; `guess_TransformPosByObjMatrix`/`func_801493D0` are reach-134 and ready to bank
 (leaf-proven only — run the whole-binary `gate_stage` per §30's integration note).
 
 ---

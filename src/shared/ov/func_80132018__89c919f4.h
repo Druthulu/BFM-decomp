@@ -7,10 +7,10 @@ void func_80132018(int param_1)
     extern int tbl_D_80187048[][5] __asm__("D_8017EFF0");
     int v0;
 
-    v0 = ((int (*)(void))func_8012C1B8)();
+    v0 = ((int (*)(void))guess_AllocModelObject)();
     *(int *)(param_1 + 0x20) = v0;
     if (v0 == 0) {
-        ((void (*)(int))func_8012CAE4)(param_1);
+        ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         guess_InitModelObject(v0, 0);
         *(short *)(param_1 + 0x5c) = 0x80;

@@ -5,6 +5,6 @@ void SHARED_FN(void *a0) {
     ((Unkstruct_801848CC *)*(s32 *)(a0 + 0x20))->unk18 = ((Unkstruct_801848CC *)*(s32 *)(a0 + 0x20))->unk18 + 0x200;
     ((Unkstruct_801848CC *)*(s32 *)(a0 + 0x20))->unk1A = ((Unkstruct_801848CC *)*(s32 *)(a0 + 0x20))->unk1A + -0x200;
     if (((Unkstruct_801848CC *)*(s32 *)(a0 + 0x20))->unk1A < 0x401) {
-        ((void (*)(void *))func_8012C218)(a0);
+        ((void (*)(void *))guess_FreeActor)(a0);
     }
 }

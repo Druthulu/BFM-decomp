@@ -51,7 +51,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
     extern void func_8017B940(void *);
     extern void func_8017BA3C(void *, s32);
     extern s32 func_8017BB34(void *, s32);
-    extern void func_8012A828(void *, s32);
+    extern void guess_StartActorSequence(void *, s32);
     extern s32 func_8012B8A4(void *);
     extern void func_8012E88C(void *);
     extern void func_8012E8A8(void *);
@@ -294,11 +294,11 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         (*(s16*)&D_8018FB24) = 5;
         break;
     case 0x23:
-        func_8012A828(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        guess_StartActorSequence(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
         (*(s16*)&D_8018FB24) = 3;
         break;
     case 0x31:
-        func_8012A828(((Actor_80178D40 *)arg0), ((Actor_80178D40 *)arg0)->unkDC[((Cmd_80178D40 *)arg1)->a.w]);
+        guess_StartActorSequence(((Actor_80178D40 *)arg0), ((Actor_80178D40 *)arg0)->unkDC[((Cmd_80178D40 *)arg1)->a.w]);
         (*(s16*)&D_8018FB24) = 3;
         break;
     case 0x24:

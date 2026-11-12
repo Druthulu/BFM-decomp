@@ -5,5 +5,5 @@ void SHARED_FN(s32 arg0) {
     if (((Unkstruct_800B5CB8 *)s0)->unk78 != 0) {
         func_8002A04C(s0);
     }
-    func_8012C218((void *)s0);
+    guess_FreeActor((void *)s0);
 }

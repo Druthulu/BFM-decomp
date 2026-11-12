@@ -6,5 +6,5 @@ void func_8012F828(int param_1)
     if (*(unsigned int *)(param_1 + 0xB4) & 8) {
         func_80131170(param_1, D_8017F5E8, 0xB);
     }
-    func_80131CA8(param_1, 9);
+    guess_CallActorEventHandler(param_1, 9);
 }

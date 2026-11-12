@@ -162,7 +162,7 @@ after_b4c:
         }
     }
     if (((s32 (*)(s32))func_80161208)((s32)p) == 0) {  /* §17a-1 */
-        ((void (*)(u8 *))func_801483E8)(p);
+        ((void (*)(u8 *))guess_SaveGroundedPos)(p);
         func_80172590(p);
     }
 }

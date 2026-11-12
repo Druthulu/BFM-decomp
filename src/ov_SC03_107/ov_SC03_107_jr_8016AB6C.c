@@ -6,8 +6,8 @@ s32 func_8016AB6C(s32 arg0) {
     extern s32 func_80024054(void *a0, void *a1);
     extern void func_8001CE28(void *a0, void *a1);
     extern s32 rand(void);
-    extern void *func_801465C0(void);
-    extern s32 func_80146C3C(u8 *a0);
+    extern void *guess_AllocSpriteObject(void);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
     extern u8 D_801855D4[];
     extern u8 D_8019ACC0[];
@@ -72,9 +72,9 @@ lout:
         break;
     case 6:
     case 7:
-        obj = ((Obj_8016AB6C *(*)(s32))func_801465C0)(temp_v0);
+        obj = ((Obj_8016AB6C *(*)(s32))guess_AllocSpriteObject)(temp_v0);
         if (obj == 0) {
-            ((void(*)(Ent_8016AB6C *))func_80146C3C)(((Ent_8016AB6C *)arg0));
+            ((void(*)(Ent_8016AB6C *))guess_FreeSmallObject)(((Ent_8016AB6C *)arg0));
             return;
         }
         sp10.vx = ((Ent_8016AB6C *)arg0)->unk6;

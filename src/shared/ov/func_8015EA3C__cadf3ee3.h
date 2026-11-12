@@ -75,6 +75,6 @@ Ldefault:
         return;
     }
     if (((s32 (*)(s32))func_80161208)(arg0) == 0) {  /* §17a-1 */
-        ((void (*)(void *))func_801483E8)(arg0);
+        ((void (*)(void *))guess_SaveGroundedPos)(arg0);
     }
 }

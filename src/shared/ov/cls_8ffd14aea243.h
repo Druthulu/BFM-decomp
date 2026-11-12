@@ -8,6 +8,6 @@ s32 SHARED_FN(void *a0) {
     if (v1 == v2) {
         return 0;
     }
-    ((s32 (*)(void))func_8012C218)();
+    ((s32 (*)(void))guess_FreeActor)();
     return 1;
 }

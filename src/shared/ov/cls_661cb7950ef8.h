@@ -2,7 +2,7 @@
 void SHARED_FN(u8 *a0) {
     u8 *p = CAST_SIGN(u8 *, a0, 0x20);
     CAST_WIDTH(u16, p, 0x14) = (CAST_WIDTH(u16, p, 0x14) - 0x71) & 0xFFF;
-    if (func_8012BEE8(a0) == 0) {
+    if (guess_TickWaitTimer(a0) == 0) {
         return;
     }
     *(u8 *)&D_80127058 = 0;

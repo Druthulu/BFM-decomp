@@ -53,6 +53,6 @@ void func_80131B14() {
         }
     }
 
-    ((void (*)(void *))func_8012B2CC)(p);
+    ((void (*)(void *))guess_UpdateActorModelMatrix)(p);
     ((void (*)(void *))func_8012B23C)(p);
 }

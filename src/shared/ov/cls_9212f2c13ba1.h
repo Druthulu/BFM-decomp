@@ -5,8 +5,8 @@ void SHARED_FN(void *a0)
 {
     extern s32 D_800AE620;
     extern void RotMatrixY(s32 a0, void *a1);
-    extern void func_8004914C(void *a0);
-    extern void func_800491AC(void *a0);
+    extern void SetRotMatrix(void *a0);
+    extern void SetTransMatrix(void *a0);
     extern void RotTransSV(void *a0, void *a1, void *a2);
 
     Mat32_8017E2BC m;
@@ -23,8 +23,8 @@ void SHARED_FN(void *a0)
     m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
     m.w[7] = ((Unkstruct_800B5CB8 *)a0)->unk100;
 
-    func_8004914C(mp);
-    func_800491AC(mp);
+    SetRotMatrix(mp);
+    SetTransMatrix(mp);
 
     sv.a = 0;
     sv.b = 0;

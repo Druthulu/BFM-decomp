@@ -3,12 +3,12 @@
 void SHARED_FN(void *a0) {
     extern s32 func_8017F2A0(void *a0);
     extern s32 func_801439C0(u8 *a0);
-    extern void func_8012C218(void *a0);
+    extern void guess_FreeActor(void *a0);
     u8 *p;
     if ((func_8017F2A0(a0) << 16) != 0)
         return;
     p = CAST_SIGN(u8 *, (u8 *)a0, 0xD8);
     if (p != 0)
         func_801439C0(p);
-    func_8012C218(a0);
+    guess_FreeActor(a0);
 }

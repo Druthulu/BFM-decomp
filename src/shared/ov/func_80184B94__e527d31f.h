@@ -1,7 +1,7 @@
 /* func_80184B94 — shared body (overlay slot 0x80128158, h_exact e527d31f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_YawToPoint(void *a0, void *a1);
-extern void func_8012B178(s32 a0, s32 a1);
+extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012BE98(s32 a0, u16 *a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -12,7 +12,7 @@ void func_80184B94(s32 s0) {
     s32 state;
     s32 msg;
     *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) = (u16)guess_YawToPoint((void *)(s0 + 4), s1);
-    func_8012B178(s0, 0xFFFA0000);
+    guess_SetForwardVelocity(s0, 0xFFFA0000);
     func_8012AD80(s0);
     if (func_8012BE98(s0, s1) < 0x41) {
         s32 idx = *(u16 *)(s0 + 0x70);

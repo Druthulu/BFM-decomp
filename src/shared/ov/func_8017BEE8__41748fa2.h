@@ -9,20 +9,20 @@ void func_8017BEE8() {
     obj = func_8014C050((s32)&guess_g_PlayerActor, 0x29);
     if (obj != 0) {
         if (*(s32 *)(obj + 0x34) != 0) {
-            func_80016714(*(void **)(obj + 0x34), 0x38);
+            guess_ZeroMemory(*(void **)(obj + 0x34), 0x38);
         }
         if (*(s32 *)(obj + 0x10) != 0) {
-            func_80016714(*(void **)(obj + 0x10), 0x38);
+            guess_ZeroMemory(*(void **)(obj + 0x10), 0x38);
         }
         if (*(s32 *)(obj + 0x14) != 0) {
-            func_80016714(*(void **)(obj + 0x14), 0x38);
+            guess_ZeroMemory(*(void **)(obj + 0x14), 0x38);
         }
         if (*(s32 *)(obj + 0x18) != 0) {
-            func_80016714(*(void **)(obj + 0x18), 0x38);
+            guess_ZeroMemory(*(void **)(obj + 0x18), 0x38);
         }
         if (*(s32 *)(obj + 0x1C) != 0) {
-            func_80016714(*(void **)(obj + 0x1C), 0x38);
+            guess_ZeroMemory(*(void **)(obj + 0x1C), 0x38);
         }
-        ((void (*)(void *))func_80146C3C)((void *)obj);
+        ((void (*)(void *))guess_FreeSmallObject)((void *)obj);
     }
 }

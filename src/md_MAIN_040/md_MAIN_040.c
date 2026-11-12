@@ -97,7 +97,7 @@ void func_800CB038(void *a0) {
     extern s32 D_800CBD74;
     extern s32 func_8014659C(void);
     extern void guess_InitModelObject(s32 a0, s32 a1);
-    extern void func_80149374(s32 a0, s32 a1);
+    extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146E90(s32 *a0, s32 a1);
     extern void func_80147324(s32 a0);
@@ -110,7 +110,7 @@ void func_800CB038(void *a0) {
     if (s1 != 0) {
         guess_InitModelObject(s1, (s32)&D_800CBD74);
         *(u16 *)(s1 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x12);
-        func_80149374((s32)s2, (s32)a0 + 4);
+        guess_TransformPosByObjMatrix((s32)s2, (s32)a0 + 4);
         func_80146DE8((s32 *)a0, 0, -0xC0000, -0x100000);
         func_80146E90((s32 *)a0, 100);
         memcpy((void *)((s32)a0 + 0x58), (void *)(s1 + 0x10), 8);
@@ -268,7 +268,7 @@ void func_800CB3DC(s32 a0) {
 
 
 
-extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CB488(void *arg0) {
 
@@ -278,7 +278,7 @@ void func_800CB488(void *arg0) {
         u16 v0 = *(u16 *)((u8 *)arg0 + 2);
         D_800CB948[v0]();
     } else {
-        func_80146C3C();
+        guess_FreeSmallObject();
     }
 }
 
@@ -287,13 +287,13 @@ void func_800CB488(void *arg0) {
   /* 0x20, align 4 */
      /* 0x10, align 4 -> plain lw/sw copy */
 
-extern void *func_801465C0(void);
+extern void *guess_AllocSpriteObject(void);
 extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern void func_80146E90(s32 *a0, s32 a1);
-extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern int rand(void);
 
 extern u8 D_800CB8EC[];
@@ -308,7 +308,7 @@ void func_800CB4E4(s32 param_1) {
     s32 obj;
     s32 node;
 
-    obj = ((s32 (*)(void))func_801465C0)();
+    obj = ((s32 (*)(void))guess_AllocSpriteObject)();
     ((Unkstruct_80126B58 *)param_1)->unk20 = obj;
 
     if (((Unkstruct_80126B58 *)param_1)->unk20 != 0) {
@@ -341,7 +341,7 @@ void func_800CB4E4(s32 param_1) {
         func_80146E90((s32 *)param_1, 4);
         ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;
     } else {
-        ((void (*)(s32))func_80146C3C)(param_1);
+        ((void (*)(s32))guess_FreeSmallObject)(param_1);
     }
 }
 
@@ -374,7 +374,7 @@ extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_800CB840(s32 param_1);
 extern void func_800CB8A8(void*, s16);
 extern s32 func_80146E98(s32 param_1);
-extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 extern void func_800CB874(s32 param_1);
 
 void func_800CB7B8(s32 param_1) {
@@ -390,7 +390,7 @@ void func_800CB7B8(s32 param_1) {
     ((Unkstruct_800CB7B8 *)p)->unk14 -= 0x4000;
     func_800CB840(p);
     if (func_80146E98(p) != 0) {
-        ((void (*)(s32))func_80146C3C)(p);
+        ((void (*)(s32))guess_FreeSmallObject)(p);
     }
 }
 

@@ -15,6 +15,6 @@ void SHARED_FN(s32 a0) {
     val2 = CAST_SIGN(s16, s0, 0x0A);
 
     if (val2 > val1) {
-        func_8012C218((void *)a0);
+        guess_FreeActor((void *)a0);
     }
 }

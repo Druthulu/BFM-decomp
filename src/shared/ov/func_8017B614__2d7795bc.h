@@ -35,7 +35,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
     }
     *(Blk8_8017B614 *)&D_8018F98C = *(Blk8_8017B614 *)&buf[0];
     *(Blk8_8017B614 *)&D_8018F984 = *(Blk8_8017B614 *)&buf[8];
-    func_8012A018((s32)func_8017BE60, 0);
+    guess_SetMainCameraHandler((s32)func_8017BE60, 0);
     D_8012694C[0] = 0;
     D_8018FAB0 = 1;
     D_8018F914 = 0x1E;

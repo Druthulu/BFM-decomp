@@ -19,6 +19,6 @@ void func_8017CF9C(u8 *p) {
     t = *(s32 *)(p + 0x1C);
     *(s32 *)(p + 0x1C) = t + 1;
     if (t >= 0x1E) {
-        ((void (*)(u8 *))func_80146C3C)(p);
+        ((void (*)(u8 *))guess_FreeSmallObject)(p);
     }
 }

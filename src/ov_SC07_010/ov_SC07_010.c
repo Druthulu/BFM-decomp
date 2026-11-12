@@ -991,7 +991,7 @@ void func_8012ACA0(void *arg0) {
 //   schedules store-before-sll, no extra `move`). count is s16 so `count==0` -> `sll 16;bnez`.
 //   else-block obj must be a BLOCK-LOCAL (gcc then picks $a1, not the shared if-branch $a0).
 
-extern void  func_80016714(void *a0, s32 a1);
+extern void  guess_ZeroMemory(void *a0, s32 a1);
 
 s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
 
@@ -1065,10 +1065,10 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
             } else {
                 a1v = 0x84;
             }
-            func_80016714(obj, a1v);
+            guess_ZeroMemory(obj, a1v);
         done:;
         }
-        func_80016714(dst, 0x10C);
+        guess_ZeroMemory(dst, 0x10C);
         ((Unkstruct_8012C890_4 *)src)->unkA &= 0x7FFF;
         return 0;
     }
@@ -1591,7 +1591,7 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 
 void func_8012F828(int param_1)
 {
@@ -1601,7 +1601,7 @@ void func_8012F828(int param_1)
     if (*(unsigned int *)(param_1 + 0xB4) & 8) {
         func_80131170(param_1, D_80182330, 0xB);
     }
-    func_80131CA8(param_1, 9);
+    guess_CallActorEventHandler(param_1, 9);
 }
 
 
@@ -1612,7 +1612,7 @@ void func_8012F828(int param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 
 void func_8012F8C8(int param_1)
 {
@@ -1622,7 +1622,7 @@ void func_8012F8C8(int param_1)
     if (*(unsigned int *)(param_1 + 0xB4) & 128) {
         func_80131170(param_1, D_8018233C, 0xB);
     }
-    func_80131CA8(param_1, 22);
+    guess_CallActorEventHandler(param_1, 22);
 }
 
 
@@ -1650,7 +1650,7 @@ void func_8012F8C8(int param_1)
 //   un-reorderable {li,move} schedule-steal (calls.c emits a0 first; sched2 keeps LUID; reorg swaps them).
 //   THE FIX: func_80131B14 takes ONE arg — ((void(*)(int))func_80131B14)(param_1). Then:
 //     - func_80131B14's own delay slot = `move a0,s0` (its a0 arg), and a1 is NOT live across it.
-//     - the `li a1,0x1C` in the beqz(0x100) delay slot is the TERMINAL func_80131CA8(param_1,0x1C)'s arg, which
+//     - the `li a1,0x1C` in the beqz(0x100) delay slot is the TERMINAL guess_CallActorEventHandler(param_1,0x1C)'s arg, which
 //       reorg fill_slots_from_thread shares into the delay slot for the beqz-taken (else) edge FOR FREE, because
 //       a1 is dead on the fall-through (1-arg func_80131B14 never reads a1) so there is no resource conflict.
 //   No barrier, no register pin, no schedule mutation — the correct arity makes the target schedule fall out
@@ -1658,11 +1658,11 @@ void func_8012F8C8(int param_1)
 //   re-derive the CALLEE ARITY from the asm — a spurious extra register arg that is live across the call is what
 //   blocks reorg from sharing a downstream constant into a branch delay slot.)
 
-extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131B14(void);
-extern s32 func_80131A34(s32, s32);
-extern void func_8012B14C(s32 a0, s32 a1);
+extern s32 guess_StartActorSequenceById(s32, s32);
+extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 
 void func_8012FCC4(int param_1) {
 
@@ -1671,7 +1671,7 @@ void func_8012FCC4(int param_1) {
     ((Unkstruct_800B5CB8 *)param_1)->unkC1 = 8;
     if (v1 & 2) {
         ((Unkstruct_800B5CB8 *)param_1)->unkC1 = 1;
-        func_80131CA8(param_1, 3);
+        guess_CallActorEventHandler(param_1, 3);
         return;
     }
     if (v1 & 1) {
@@ -1684,18 +1684,18 @@ void func_8012FCC4(int param_1) {
             ((void (*)(int, int))func_80131E00)(param_1, 0xC);
             return;
         }
-        if (func_80131A34(param_1, 4) != 0) {
+        if (guess_StartActorSequenceById(param_1, 4) != 0) {
             ((Unkstruct_800B5CB8 *)param_1)->unkC2 = 0;
         } else {
             ((Unkstruct_800B5CB8 *)param_1)->unk98 = 0;
             ((Unkstruct_800B5CB8 *)param_1)->unkC2 = 1;
         }
-        ((void (*)(int, void *))func_8012B14C)(param_1, &D_80182348);
+        ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_80182348);
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
-        func_80131CA8(param_1, 0x1C);
+        guess_CallActorEventHandler(param_1, 0x1C);
         return;
     }
-    func_80131CA8(param_1, 0x1C);
+    guess_CallActorEventHandler(param_1, 0x1C);
 }
 
 
@@ -1816,13 +1816,13 @@ void func_80130D48(s32 arg0)
     s32 r;
     s32 ret;
 
-    val = func_80131CF4(((Unkstruct_800B5CB8 *)arg0)->unkBC, 0x15);
+    val = guess_LookupIdValue(((Unkstruct_800B5CB8 *)arg0)->unkBC, 0x15);
     if (val == 0) {
         return;
     }
 
     if (((Unkstruct_800B5CB8 *)arg0)->unk5E == 0xB) {
-        ret = func_8012C658(0x33, 0, arg0);
+        ret = guess_SpawnActor(0x33, 0, arg0);
     } else {
         switch (val & 0xFFFF0000) {
         case 0x10000: {
@@ -1900,20 +1900,20 @@ void func_80130D48(s32 arg0)
                     break;
                 }
             }
-            ret = func_8012C658(val, j, arg0);
+            ret = guess_SpawnActor(val, j, arg0);
             break;
         }
         case 0x20000:
-            ret = func_8012C658(0x33, 0, arg0);
+            ret = guess_SpawnActor(0x33, 0, arg0);
             break;
         case 0x30000:
-            ret = func_8012C658(0x31, 0, arg0);
+            ret = guess_SpawnActor(0x31, 0, arg0);
             break;
         case 0x40000:
-            ret = func_8012C658(0x32, 0, arg0);
+            ret = guess_SpawnActor(0x32, 0, arg0);
             break;
         case 0x50000:
-            ret = func_8012C658(0x33, 0, arg0);
+            ret = guess_SpawnActor(0x33, 0, arg0);
             break;
         case 0x60000: {
             s32 rr = rand() & 0xFF;
@@ -1926,11 +1926,11 @@ void func_80130D48(s32 arg0)
             if (*(u16 *)(p + 0x40) < 4U) {
                 id = 0x33;
             }
-            ret = func_8012C658(id, tbl[2], arg0);
+            ret = guess_SpawnActor(id, tbl[2], arg0);
             break;
         }
         case 0x70000:
-            ret = func_8012C658(0x27B, 0, arg0);
+            ret = guess_SpawnActor(0x27B, 0, arg0);
             break;
         default:
             return;
@@ -1943,19 +1943,19 @@ void func_80130D48(s32 arg0)
 }
 
 
-extern void func_8012B14C(s32 a0, s32 a1);
-extern s32 func_8012BCCC(s32 a0);
-extern s32 func_80131A34(s32, s32);
+extern void guess_SetLocalVelocity(s32 a0, s32 a1);
+extern s32 guess_DistSqToPlayer(s32 a0);
+extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 func_80131AC8(void *a0);
 extern void func_80131B14(void);
 
 
 // @class: loop-guard
 // @unstuck(P36): none — MATCH (88 ins). Keys: duplicate the c!=0/c==0 bodies verbatim (gcc cross-jumps
-//   the shared "|=4;goto tail" into L240 on its own); tail dispatch as `if (((s32(*)(s32))func_8012BCCC)(p) <= 0x8FFF)`
+//   the shared "|=4;goto tail" into L240 on its own); tail dispatch as `if (((s32(*)(s32))guess_DistSqToPlayer)(p) <= 0x8FFF)`
 //   (the <= polarity makes the >0x8FFF/0x33-first block the bnez'd else=L298, fall-through = 0x32-first);
 //   both AC8 tails cross-jump-merge into the shared L2AC final call. Externs aligned to the file's
-//   existing decls for gate-safety: func_80131B14(void) [file line 1486], func_8012B14C/func_8012BCCC
+//   existing decls for gate-safety: func_80131B14(void) [file line 1486], guess_SetLocalVelocity/guess_DistSqToPlayer
 //   canonical (s32) [DEFINE macros], ((s32(*)())func_80131AC8)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
 
 
@@ -1969,21 +1969,21 @@ void func_80131170(s32 p, s32 b, s32 c) {
     if (((u8 *)b) == 0) {
         ((u8 *)b) = D_80182324;
     }
-    func_8012B14C((s32)((u8 *)p), (s32)((u8 *)b));
+    guess_SetLocalVelocity((s32)((u8 *)p), (s32)((u8 *)b));
     ((Unkstruct_800B5CB8 *)p)->unk1C = 0;
     if (c != 0) {
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), c) != 0) goto tail;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x24) != 0) goto tail;
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), c) != 0) goto tail;
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x24) != 0) goto tail;
         ((Unkstruct_800B5CB8 *)p)->unkC4 &= ~4;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x20) != 0) {
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x20) != 0) {
             ((Unkstruct_800B5CB8 *)p)->unkC4 |= 4;
         } else {
             ((Unkstruct_800B5CB8 *)p)->unk98 = 0;
         }
     } else {
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x24) != 0) goto tail;
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x24) != 0) goto tail;
         ((Unkstruct_800B5CB8 *)p)->unkC4 &= ~4;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x20) != 0) {
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x20) != 0) {
             ((Unkstruct_800B5CB8 *)p)->unkC4 |= 4;
         } else {
             ((Unkstruct_800B5CB8 *)p)->unk98 = 0;
@@ -1993,7 +1993,7 @@ tail:
     if (((Unkstruct_800B5CB8 *)p)->unk76 > 0) {
         return;
     }
-    if (((s32(*)(s32))func_8012BCCC)((s32)((u8 *)p)) <= 0x8FFF) {
+    if (((s32(*)(s32))guess_DistSqToPlayer)((s32)((u8 *)p)) <= 0x8FFF) {
         if (((s32(*)())func_80131AC8)(((u8 *)p), 0x32) != 0) return;
         ((s32(*)())func_80131AC8)(((u8 *)p), 0x33);
     } else {
@@ -2013,12 +2013,12 @@ tail:
 
 s32 func_801312D0(s32 param_1, void *param_2)
 {
-    extern int func_80131CF4(int, int);
+    extern int guess_LookupIdValue(int, int);
     extern M8 D_80182478;
 
     int iVar5;
 
-    iVar5 = func_80131CF4(((Unkstruct_801312D0_6 *)param_1)->unkBC, 0x2E);
+    iVar5 = guess_LookupIdValue(((Unkstruct_801312D0_6 *)param_1)->unkBC, 0x2E);
     if (iVar5 != 0) {
         ((Unkstruct_801312D0_3 *)param_2)->unk4 = 0;
         ((Unkstruct_801312D0_3 *)param_2)->unk0 = 0;

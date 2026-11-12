@@ -310,10 +310,10 @@ def comment_open_at(lines, start_in_block=False):
     scan latched `seen_header`, every following `;` read as a K&R parameter declaration, and one
     "construct" swallowed 15 lines of preamble up to the next real definition. Two consequences,
     both byte-relevant:
-      * parse_overlay_c anchored a `def` item on a pure DECLARATION run (`func_8012C218`, whose
+      * parse_overlay_c anchored a `def` item on a pure DECLARATION run (`guess_FreeActor`, whose
         definition is in the resident, not this TU);
       * def_proto/_proto_from_lines then rendered that run as the definition's "implied prototype",
-        emitting `extern #define CALL_80185C6C (...) extern void func_8012C218();` into the §8b
+        emitting `extern #define CALL_80185C6C (...) extern void guess_FreeActor();` into the §8b
         carried decl layer — `parse error before '#'`, which blocked five independently-MATCHed
         jr bodies from banking in ov_SC06_029 alone.
 
@@ -653,7 +653,7 @@ def _proto_from_lines(lines):
     This is the third decl source a mechanical split loses: in ONE translation unit a
     file-scope definition declares its function for all code below it, so cutting the
     definition into an earlier region strands every later caller that took its address
-    (`func_8012B2CC undeclared`). A K&R definition (`void f(a, b) s32 a; s32 b; {`) declares
+    (`guess_UpdateActorModelMatrix undeclared`). A K&R definition (`void f(a, b) s32 a; s32 b; {`) declares
     an UNPROTOTYPED function, so it must render as `extern void f();` — `(a, b)` is not a
     prototype and `(void)` would be incompatible."""
     # THE CHUNK CAN OPEN INSIDE A BLOCK COMMENT (P30 S48, byte-witnessed). Item boundaries are

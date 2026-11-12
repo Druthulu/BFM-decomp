@@ -151,7 +151,7 @@ void func_80145A2C(void) {
 
 
 s32 func_80145CEC() {
-    extern void func_80016714(void *ptr, s32 len);
+    extern void guess_ZeroMemory(void *ptr, s32 len);
     extern void func_8001C320(s32 a0, s32 a1);
     extern void func_801552F4(s32 a0);
     extern void func_80147084(s32 *a0);
@@ -198,7 +198,7 @@ s32 func_80145CEC() {
     s32 pad[2];
     (void)&pad;
 
-    func_80016714(&guess_g_PlayerActor, 0x254);
+    guess_ZeroMemory(&guess_g_PlayerActor, 0x254);
     guess_g_PlayerModelPtr[0] = (s32 *)&guess_g_PlayerModelObject;
     D_800AF7C8 = (s32 *)&D_801152C8;
     func_8001C320(&guess_g_PlayerModelObject, &guess_g_PlayerTmdList);

@@ -6,6 +6,6 @@ void func_80168B70(s32 a0) {
         func_80168BDC(a0, 9, 3, 1);
     } else {
         func_80168BDC(a0, 9, 2, 1);
-        ((void (*)(s32))func_80146C3C)(a0);
+        ((void (*)(s32))guess_FreeSmallObject)(a0);
     }
 }

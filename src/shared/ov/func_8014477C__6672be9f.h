@@ -8,10 +8,10 @@ void func_8014477C(void *param_1) {
     s32 gv;
     s32 fv;
 
-    v0 = ((s32 (*)(void))func_8012C1B8)();
+    v0 = ((s32 (*)(void))guess_AllocModelObject)();
     *(s32 *)((s32)param_1 + 0x20) = v0;
     if (v0 == 0) {
-        func_8012CAE4(param_1);
+        guess_FreeActorDuringSpawn(param_1);
         return;
     }
     ((void (*)(s32, void *))func_8001CA1C)(v0, &D_80180404);
@@ -27,7 +27,7 @@ void func_8014477C(void *param_1) {
             *(u16 *)((s32)param_1 + 0xA) = *(u16 *)((s32)param_1 + 0xA) - 0x60;
         }
     }
-    ((void (*)(void *, void *))func_8012A828)(param_1, &D_80180410);
+    ((void (*)(void *, void *))guess_StartActorSequence)(param_1, &D_80180410);
     v1 = (s32)*(s16 *)((s32)param_1 + 0x70) << 0xC;
     *(s16 *)((s32)param_1 + 0x2) = 1;
     *(s16 *)(*(s32 *)((s32)param_1 + 0x20) + 0x12) = v1 / 3;

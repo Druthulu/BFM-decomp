@@ -145,7 +145,7 @@ def _arity_breaks(decl, sym, body):
     the original code's K&R sloppiness (empty calls to functions that take args), and the seed's
     own TU spelled the callee to match; a stricter destination prototype rejects those calls, so
     the seed's spelling is the only one that compiles the body (S59: 15 fresh drafts died on
-    `too few arguments to func_80146C3C` when the destination's 2-param prototype was adopted)."""
+    `too few arguments to guess_FreeSmallObject` when the destination's 2-param prototype was adopted)."""
     if not body:
         return False
     pm = re.search(rf'\b{re.escape(sym)}\s*\(([^()]*(?:\([^()]*\)[^()]*)*)\)\s*;', decl)

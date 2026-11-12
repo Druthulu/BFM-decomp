@@ -431,8 +431,8 @@ void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, 
     L.mat[5] = *(s16 *)trns;
     L.mat[6] = *((s16 *)trns + 1);
     L.mat[7] = 0;
-    func_8004914C(L.mat);
-    func_800491AC(L.mat);
+    SetRotMatrix(L.mat);
+    SetTransMatrix(L.mat);
 
 
     L.w40 = 0x50000000;

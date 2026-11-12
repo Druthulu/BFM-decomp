@@ -4,9 +4,9 @@ void func_8016DA7C(s32 param_1)
 {
     s32 iVar1;
 
-    iVar1 = ((s32 (*)(void))func_801465C0)();
+    iVar1 = ((s32 (*)(void))guess_AllocSpriteObject)();
     if (iVar1 == 0) {
-        ((void (*)(s32))func_80146C3C)(param_1);
+        ((void (*)(s32))guess_FreeSmallObject)(param_1);
     } else {
         *(s32 *)(param_1 + 0x20) = iVar1;
         ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_80182518, 0x250, 0x100);

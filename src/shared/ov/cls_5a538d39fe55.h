@@ -16,5 +16,5 @@ void SHARED_FN(void) {
     guess_g_MainCameraRefOffsetTargetX = 0;
     guess_g_MainCameraRefOffsetTargetY = 0;
     guess_g_MainCameraRefOffsetTargetZ = 0;
-    func_8012A018((s32)func_8017DB48, 0);
+    guess_SetMainCameraHandler((s32)func_8017DB48, 0);
 }

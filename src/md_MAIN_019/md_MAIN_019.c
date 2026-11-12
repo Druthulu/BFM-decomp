@@ -216,7 +216,7 @@ void func_800CB324(s32 a0) {
 extern void func_800CB578(void *a0);
 extern s32 func_80146E98(s32 a0);
 extern void func_80015954(s32 a0, s32 a1);
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80146CA0(void *a0);
 extern void func_800CBC0C(void *a0);
@@ -228,7 +228,7 @@ void func_800CB3FC(void *arg0)
     func_800CB578(arg0);
     if (func_80146E98((s32)arg0) != 0) {
         func_80015954((s32)arg0 + 0x10, (s32)arg0 + 4);
-        func_80149374((s32)arg0, (s32)arg0 + 4);
+        guess_TransformPosByObjMatrix((s32)arg0, (s32)arg0 + 4);
         func_80146A6C(3, arg0,
                       ((Unkstruct_80126B58 *)arg0)->unk6,
                       ((Unkstruct_80126B58 *)arg0)->unkA,
@@ -250,7 +250,7 @@ void func_800CB4A8(void) {
 
 
 extern void func_80015978(s32 a0, s32 *a1);
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern u8 D_800CC5B0[];
 
 void func_800CB4C8(void *arg0) {
@@ -269,7 +269,7 @@ void func_800CB4C8(void *arg0) {
         *(Blk8 *)dst = *(Blk8 *)(s1 + 0x10);
         dst += 8;
     }
-    func_80149374(s2, s1 + 4);
+    guess_TransformPosByObjMatrix(s2, s1 + 4);
     t = ((Unkstruct_800CB4C8 *)s1)->unk50;
     ((Unkstruct_800CB4C8 *)s1)->unk60 = 0;
     ((Unkstruct_800CB4C8 *)s1)->unk64 = t << 10;
@@ -410,7 +410,7 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
 
 extern void func_80015978(s32 a0, s32 *a1);
 extern void func_80015954(s32 a0, s32 a1);
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
 extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
@@ -427,7 +427,7 @@ void func_800CBC0C(void *a0) {
     func_80015978((s32)r04, (s32 *)buf18);
     func_80015954((s32)a0 + 0x10, (s32)r04);
     ((Unkstruct_80126B58 *)a0)->unkA = 0;
-    func_80149374((s32)a0, (s32)r04);
+    guess_TransformPosByObjMatrix((s32)a0, (s32)r04);
     p = guess_g_ObjectTable;
     if (p < p + 0x6480) {
         do {
@@ -471,7 +471,7 @@ void func_800CBD68(s32 a0) {
     extern void func_8001CD9C(s32 a0, s32 a1);
     extern void func_800233CC(void *a0, u16 a1);
     extern void func_800CBF80(void *a0);
-    extern void func_80149374(s32 a0, s32 a1);
+    extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_800D1FC8(void *a0, s32 a1);
     extern void func_80146CA0(void *a0);
     extern void func_80162CCC_w19(void *a0) __asm__("func_80162CCC");
@@ -492,7 +492,7 @@ void func_800CBD68(s32 a0) {
         D_800CC834 = 0;
         func_800CBF80((void *)a0);
         *(s32 *)(iVar2 + 4) = *(s32 *)(iVar2 + 4) | 0x50000000;
-        func_80149374(iVar1, a0 + 4);
+        guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         func_800D1FC8((void *)a0, 6);
         func_80146CA0((void *)a0);
     } else {

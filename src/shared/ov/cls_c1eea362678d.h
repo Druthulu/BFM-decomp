@@ -11,7 +11,7 @@ void SHARED_FN(void *arg0) {
     }
     temp = ((Unkstruct_800B5CB8 *)arg0)->unkF8;
     if (temp != 0 && ((Unkstruct_800B5CB8 *)arg0)->unk90 != temp) {
-        ((void (*)(s32, s32))func_8012A828)((s32)arg0, temp);
+        ((void (*)(s32, s32))guess_StartActorSequence)((s32)arg0, temp);
         ((Unkstruct_800B5CB8 *)arg0)->unkF8 = 0;
     }
 }

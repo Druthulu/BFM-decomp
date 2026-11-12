@@ -44,7 +44,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.cz = arg3;
     f.col[1].g = cv;
     f.col[1].r = cv;
-    ((void (*)(s32, void *, void *))func_80149350)(node, &f.cx, &f.cx);
+    ((void (*)(s32, void *, void *))guess_ObjRotTransSV)(node, &f.cx, &f.cx);
 
     c = f.cx;
     *(s16 *)(ent + 0x06) = c;

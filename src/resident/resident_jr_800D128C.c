@@ -1211,7 +1211,7 @@ void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
  *   in the jal's delay slot in asm -> write the store AFTER the call.
  */
 
-extern void *func_801465C0(s32 arg0);
+extern void *func_801465C0(s32 arg0) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
 extern void func_8001CC3C(S800D21C4 *arg0, s32 arg1, s32 arg2, s32 arg3);
 
 S800D21C4 *func_800D21C4(s32 arg0, s32 arg1, s32 arg2) {
@@ -1237,7 +1237,7 @@ S800D21C4 *func_800D21C4(s32 arg0, s32 arg1, s32 arg2) {
 // Arg note: a0 for func_8001CB6C is the alloc result (asm `addu a0,s0,zero` in the
 // bnez delay slot) — i.e. p is its first argument.
 
-extern void *func_801465C0(s32);
+extern void *func_801465C0(s32) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
 extern void func_8001CB6C(u8 *, s32, s32, s32);
 
 u8 *func_800D222C(s32 arg0, s32 arg1, s32 arg2) {
@@ -1253,7 +1253,7 @@ u8 *func_800D222C(s32 arg0, s32 arg1, s32 arg2) {
 // MATCHED form: structure as `if (p) { call; return p; } return 0;` so gcc emits
 // `bnez s0,.L22C0` with the `return 0` (v0=0) in the j delay slot of the false path,
 // and the call arm inlined after (a1=s1 in the jal delay, v0=s0 the return move).
-extern void *func_801465C0(s32 arg0);
+extern void *func_801465C0(s32 arg0) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
 extern void func_8001CD9C(void *arg0, s32 arg1);
 
 void *func_800D2294(s32 arg0, s32 arg1) {
@@ -1311,13 +1311,13 @@ void func_800D23D0(s16 *p) {
 void func_800D2460(void) {
 }
 
-extern void func_80016714(void *, s32);
+extern void guess_ZeroMemory(void *, s32);
 extern u8 guess_g_OpenMenuId[];
 extern s32 D_8012751C;
 extern s32 D_8011DB20;
 
 void func_800D2468(void) {
-    func_80016714(guess_g_OpenMenuId, 0xC4);
+    guess_ZeroMemory(guess_g_OpenMenuId, 0xC4);
     D_8012751C = 0;
     D_8011DB20 = 0;
 }

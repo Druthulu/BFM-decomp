@@ -2,7 +2,7 @@
 
 void func_800CCB20(void *a0) {
     extern void func_80154150(s32 a0, s32 a1);
-    extern void func_801483E8(u8 *a0);
+    extern void guess_SaveGroundedPos(u8 *a0);
     extern void func_8014CBF8(void *a0);
     extern void func_801474EC(s32 *a0);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
@@ -10,7 +10,7 @@ void func_800CCB20(void *a0) {
     extern s32 func_800CCEA0(void *a0);
 
     func_80154150((s32)a0, 0xF);
-    func_801483E8((u8 *)a0);
+    guess_SaveGroundedPos((u8 *)a0);
     func_8014CBF8(a0);
     func_801474EC((s32 *)a0);
     func_80146DE8((s32 *)a0, 0, 0, 0);
@@ -194,7 +194,7 @@ void func_800CCF50(void *a0) {
 
     extern s32 func_80146578(void);
     extern void func_8001CD50(s32 a0, s32 a1);
-    extern void func_80149374(s32 a0, s32 a1);
+    extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80146E90(s32 *a0, s32 a1);
     extern void func_800CD1F4(void *a0, void *a1);
     extern s32 func_800CD258(void *a0, void *a1);
@@ -219,7 +219,7 @@ void func_800CCF50(void *a0) {
         *(s32 *)(s0 + 0x34) = (s32)&D_800CD744;
         *(s32 *)(s0 + 4) |= 0x50000000;
         *(u16 *)(s0 + 0x1C) = 0;
-        func_80149374(s2, a0 + 4);
+        guess_TransformPosByObjMatrix(s2, a0 + 4);
         *(u16 *)(s0 + 0x10) = ((Unkstruct_80126B58 *)s2)->unk100;
         *(u16 *)(s0 + 0x14) = ((Unkstruct_80126B58 *)s2)->unk104;
         *(u16 *)(s0 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x12);

@@ -3,10 +3,10 @@
 void SHARED_FN(s32 param_1)
 {
     extern void func_8012B23C(s32 a0);
-    extern void func_8012B178(s32 a0, s32 a1);
+    extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 
     func_8012B23C(param_1);
-    func_8012B178(param_1, 0xFFFD8000);
+    guess_SetForwardVelocity(param_1, 0xFFFD8000);
     ((Unkstruct_800B5CB8 *)param_1)->unk2 = 2;
     ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
     ((Unkstruct_800B5CB8 *)param_1)->unkE4 = 0x20;

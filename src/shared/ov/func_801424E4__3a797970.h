@@ -30,7 +30,7 @@ void func_801424E4(short *param_1) {
                 *(int *)(param_1 + 6) = *(int *)(iVar2 + 0xc);
                 return;
             }
-            ((void (*)(short *))func_8012C218)(param_1);
+            ((void (*)(short *))guess_FreeActor)(param_1);
         }
     }
     return;

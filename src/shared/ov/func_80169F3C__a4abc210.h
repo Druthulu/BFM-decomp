@@ -17,6 +17,6 @@ void func_80169F3C(int param_1)
         ((void (*)(int, int, void *))func_80128EA8)(iVar1, param_1 + 0x24, D_801822C8);
         *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
     } else {
-        ((void (*)(int))func_80146C3C)(param_1);
+        ((void (*)(int))guess_FreeSmallObject)(param_1);
     }
 }

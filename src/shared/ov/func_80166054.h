@@ -1,14 +1,14 @@
 /* func_80166054 — shared body (overlay slot 0x80128158, h_exact a4984404). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80166054(s32 param_1) {
-    extern void func_80149374(s32 a0, s32 a1);
+    extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern s32 func_8004787C(s32 a0);
     extern s32 func_80047948(s32 a0);
     extern void func_800D1FC8(s32 a0, s32 a1);
     extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
     extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
     extern void func_801661CC(s32 a0);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern u8 D_800D387C[];
     extern u8 D_800D3888[];
     s32 obj;
@@ -23,7 +23,7 @@ void func_80166054(s32 param_1) {
     s32 r2;
     s32 a0;
     obj = *(s32 *)(param_1 + 0x34);
-    func_80149374(obj, param_1 + 4);
+    guess_TransformPosByObjMatrix(obj, param_1 + 4);
     v1 = *(s32 *)(param_1 + 0x2c);
     if (v1 != 0) {
         s1 = 8;
@@ -64,6 +64,6 @@ void func_80166054(s32 param_1) {
         func_801661CC(param_1);
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
     } else {
-        ((void (*)(s32))func_80146C3C)(param_1);
+        ((void (*)(s32))guess_FreeSmallObject)(param_1);
     }
 }

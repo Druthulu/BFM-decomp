@@ -7,7 +7,7 @@ s32 func_8012FCC4(s32 param_1) {
     *(char *)(((int)param_1) + 0xC1) = 8;
     if (v1 & 2) {
         *(char *)(((int)param_1) + 0xC1) = 1;
-        func_80131CA8(((int)param_1), 3);
+        guess_CallActorEventHandler(((int)param_1), 3);
         return;
     }
     if (v1 & 1) {
@@ -20,16 +20,16 @@ s32 func_8012FCC4(s32 param_1) {
             ((void (*)(int, int))func_80131E00)(((int)param_1), 0xC);
             return;
         }
-        if (((s32(*)(s32, s32))func_80131A34)(((int)param_1), 4) != 0) {
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)(((int)param_1), 4) != 0) {
             *(char *)(((int)param_1) + 0xC2) = 0;
         } else {
             *(short *)(((int)param_1) + 0x98) = 0;
             *(char *)(((int)param_1) + 0xC2) = 1;
         }
-        ((void (*)(int, void *))func_8012B14C)(((int)param_1), &D_8017F600);
+        ((void (*)(int, void *))guess_SetLocalVelocity)(((int)param_1), &D_8017F600);
         *(int *)(((int)param_1) + 0x1C) = 0;
-        func_80131CA8(((int)param_1), 0x1C);
+        guess_CallActorEventHandler(((int)param_1), 0x1C);
         return;
     }
-    func_80131CA8(((int)param_1), 0x1C);
+    guess_CallActorEventHandler(((int)param_1), 0x1C);
 }

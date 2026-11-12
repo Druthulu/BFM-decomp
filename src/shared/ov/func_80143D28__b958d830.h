@@ -33,7 +33,7 @@ void func_80143D28(s32 param_1) {
     }
     *(s16 *)(iVar3 + 0x18) = *(s16 *)(iVar3 + 0x1a) = *(s16 *)(iVar3 + 0x1c) = sVar4;
 
-    if (func_8012BEE8(param_1)) {
-        func_8012C218((void *)param_1);
+    if (guess_TickWaitTimer(param_1)) {
+        guess_FreeActor((void *)param_1);
     }
 }

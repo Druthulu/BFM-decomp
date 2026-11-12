@@ -47,6 +47,6 @@ s32 func_80178BF8()
     } while (-1 < iVar2);
     D_8018F908 = 0;
     D_8018F90C = 0;
-    ((void (*)(int *, int))func_80016714)(&D_8018FA80, 0x14);
+    ((void (*)(int *, int))guess_ZeroMemory)(&D_8018FA80, 0x14);
     func_8017B1D8();
 }

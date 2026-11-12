@@ -9,7 +9,7 @@ extern s16 guess_g_MainCameraRollTarget;
 extern s16 guess_g_MainCameraRefOffsetTargetY;
 extern s16 guess_g_MainCameraRefOffsetTargetZ;
 extern u8 guess_g_MainCamera[];
-extern void func_8012A018(s32 a, s32 b);
+extern void guess_SetMainCameraHandler(s32 a, s32 b);
 extern void func_80181D2C(u8*);
 extern void func_8012A094(s32 a0);
 void func_80181820(void) {
@@ -22,7 +22,7 @@ void func_80181820(void) {
     guess_g_MainCameraRollTarget = 0;
     guess_g_MainCameraRefOffsetTargetY = -0xC8;
     guess_g_MainCameraRefOffsetTargetZ = 0;
-    func_8012A018((s32)func_80181D2C, 0);
+    guess_SetMainCameraHandler((s32)func_80181D2C, 0);
     ptr = guess_g_MainCamera;
     ((void (*)(void *))func_80181D2C)(ptr);
     func_8012A094((s32)ptr);

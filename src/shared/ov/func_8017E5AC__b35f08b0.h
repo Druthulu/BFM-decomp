@@ -9,6 +9,6 @@ void func_8017E5AC(void *a0)
         ((void (*)(void))func_800D22E4)();
         func_8017E608(a0);
     } else {
-        ((void (*)(void *))func_80146C3C)(a0);
+        ((void (*)(void *))guess_FreeSmallObject)(a0);
     }
 }

@@ -177,7 +177,7 @@ void func_800CB23C(void *a0) {
     extern u8 D_800CBE98[];
     extern s32 func_8014659C(void);
     extern void func_8001CA1C(void *a0, void *a1);
-    extern void func_80149374(s32 a0, s32 a1);
+    extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146E90(s32 *a0, s16 a1);
     extern void func_80146CA0(void *a0);
@@ -192,7 +192,7 @@ void func_800CB23C(void *a0) {
     ((Unkstruct_80126B58 *)a0)->unk20 = v0;
     if (v0 != 0) {
         func_8001CA1C((void *)v0, D_800CBE98);
-        func_80149374(s1, (s32)a0 + 4);
+        guess_TransformPosByObjMatrix(s1, (s32)a0 + 4);
         *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x10) = ((Unkstruct_80126B58 *)s1)->unk100;
         *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x14) = ((Unkstruct_80126B58 *)s1)->unk104;
         *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x12);
@@ -576,14 +576,14 @@ void func_800CBBA0(s32 param_1) {
 
 void func_800CBBF8(void) {
     extern s32 D_8011F9D0[];
-    extern void func_80016714(s8 *a0, s32 a1);
+    extern void guess_ZeroMemory(s8 *a0, s32 a1);
     extern void func_80162CCC(u8 * a0);
     u8 *p;
 
     for (p = (u8 *)&(*(s32 *)D_8011F9D0); p < (u8 *)&(*(s32 *)D_8011F9D0) + 0x820; p += 0x68) {
         if (((Unkstruct_800CBBF8_2 *)p)->unk0 == 0x27) {
             if (((Unkstruct_800CBBF8_2 *)p)->unk10 != 0) {
-                func_80016714(CAST_SIGN(s8 *, p, 0x10), 0x38);
+                guess_ZeroMemory(CAST_SIGN(s8 *, p, 0x10), 0x38);
             }
             ((void (*)(u8 *))func_80162CCC)(p);
         }

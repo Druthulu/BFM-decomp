@@ -7,18 +7,18 @@ void func_8014305C(int param_1)
     int iVar2;
     short sVar1;
 
-    do { iVar2 = ((int (*)(void))func_8012C1B8)(); } while (0);
+    do { iVar2 = ((int (*)(void))guess_AllocModelObject)(); } while (0);
     s1_copy = iVar2;
     *(int *)(s0_param + 0x20) = iVar2;
     if (iVar2 == 0) {
-        ((void (*)(int))func_8012CAE4)(s0_param);
+        ((void (*)(int))guess_FreeActorDuringSpawn)(s0_param);
     } else {
         ((void (*)(int, void *))func_8001CA1C)(s1_copy, D_801808BC);
         sVar1 = (*(unsigned short *)(s0_param + 0x70) & 0xf) * 0x600 + 0xc00;
         *(short *)(s1_copy + 0x1a) = sVar1;
         *(short *)(s1_copy + 0x18) = sVar1;
         *(short *)(s0_param + 0xfc) = 0;
-        func_8012A828(s0_param, D_8018091C);
+        guess_StartActorSequence(s0_param, D_8018091C);
         ((void (*)(int))func_80142B2C)(s0_param);
     }
 }

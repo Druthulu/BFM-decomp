@@ -8,11 +8,11 @@ void func_801431E8(s32 param_1) {
 
     s32 d;
     memcpy(buf, &D_8018DE84, 4);
-    iVar5 = ((s32 (*)(void))func_8012C1B8)();
+    iVar5 = ((s32 (*)(void))guess_AllocModelObject)();
     d = iVar5;
     *(s32 *)(param_1 + 0x20) = iVar5;
     if (iVar5 == 0) {
-        ((void (*)(s32))func_8012CAE4)(param_1);
+        ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((void (*)(s32, void *))func_8001CA88)(d, &D_8018E7C8);
         uVar2 = *(u16 *)(param_1 + 0x70);

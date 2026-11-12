@@ -2,12 +2,12 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_801312D0(s32 param_1, void *param_2)
 {
-    extern s32 func_80131CF4();  // K&R: 2 of 2 args (P37 unalias t4_ua6)
+    extern s32 guess_LookupIdValue();  // K&R: 2 of 2 args (P37 unalias t4_ua6)
     extern M8_801312D0 D_8017EF7C;
 
     int iVar5;
 
-    iVar5 = func_80131CF4(*(int *)(((int)param_1) + 0xBC), 0x2E);
+    iVar5 = guess_LookupIdValue(*(int *)(((int)param_1) + 0xBC), 0x2E);
     if (iVar5 != 0) {
         ((short *)param_2)[2] = 0;
         ((short *)param_2)[0] = 0;

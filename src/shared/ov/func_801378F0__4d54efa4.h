@@ -11,13 +11,13 @@ void func_801378F0(void) {
     s32 di;
     u8 *p;
 
-    func_80016714(D_80127520, 0xBFC);
+    guess_ZeroMemory(D_80127520, 0xBFC);
     i = 0;
     si = 0;
     p = aD801269F0;
     di = 0;
     do {
-        func_80016714(p, 0x4C);
+        guess_ZeroMemory(p, 0x4C);
         *(u16 *)&D_80126A28[di]     = *(u16 *)&D_8017F82C[si];
         *(u16 *)&D_80126A28[di + 2] = *(u16 *)&D_8017F82C[si + 2];
         *(u16 *)&D_80126A28[di + 4] = *(u16 *)&D_8017F82C[si + 4];

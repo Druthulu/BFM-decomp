@@ -8,7 +8,7 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
     extern u8 D_8017F808;
     extern u8 D_8017F80C;
         extern void func_80048EAC(void *m0, void *m1);
-    extern void func_8004914C(void *m);
+    extern void SetRotMatrix(void *m);
     extern void ApplyTransposeMatrixLV(void *m, void *in, void *out);
     extern void ApplyRotMatrixLV(void *in, void *out);
     extern void ApplyRotMatrix(void *in, void *out);
@@ -69,7 +69,7 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
             mat2.w0 = t18;
             mat2.w8 = t1A;
             mat2.h10 = t1C;
-            func_8004914C(&mat2);
+            SetRotMatrix(&mat2);
             vecin.vx = *(u16 *)(p + 4);
             vecin.vy = *(u16 *)(p + 8);
             vecin.vz = *(u16 *)(p + 0xC);

@@ -3,7 +3,7 @@
 void SHARED_FN(arg0)
 s32 arg0;
 {
-    if (func_8012BEE8(arg0) != 0) {
+    if (guess_TickWaitTimer(arg0) != 0) {
         if (((s32 (*)(s32))func_8012BE54)(arg0) <= 0x40000) {
             ((Unkstruct_800B5CB8 *)arg0)->unk2 = 2;
             ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0;

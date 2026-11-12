@@ -4,7 +4,7 @@ void SHARED_FN(void *arg0) {
 
     temp_a0 = CAST_SIGN(void *, (char *)arg0, 0xCC);
     if (temp_a0 != NULL) {
-        func_80016714(temp_a0, 0x38);
+        guess_ZeroMemory(temp_a0, 0x38);
     }
-    func_8012C218(arg0);
+    guess_FreeActor(arg0);
 }

@@ -3,7 +3,7 @@
 extern u8 D_80078EBF;
 extern void func_80147324(s32 arg0);
 extern void func_80147364(u16 param_1, u16 param_2);
-extern s32 func_80146C3C(u8 *a0);
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8016A1CC(int param_1)
 {
     int iVar1;
@@ -27,6 +27,6 @@ void func_8016A1CC(int param_1)
         }
     } else {
         ((void (*)(int, int))func_80147364)(4, 0x44c);
-        ((void (*)(int))func_80146C3C)(param_1);
+        ((void (*)(int))guess_FreeSmallObject)(param_1);
     }
 }

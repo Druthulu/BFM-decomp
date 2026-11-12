@@ -17,6 +17,6 @@ void SHARED_FN(s32 a0) {
     ((Unkstruct_801810AC *)s0)->unk98 = 0;
     ((void (*)(void *))func_8012B23C)((void *)s0);
 
-    func_80131A34(s0, 0x8);
+    guess_StartActorSequenceById(s0, 0x8);
     func_8002D4C8(0xA74, 0);
 }

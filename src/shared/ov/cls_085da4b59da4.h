@@ -2,7 +2,7 @@
  * exemplar src/ov_SC03_104/ov_SC03_104_jr_80182038.c:2987 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(s32 a0)
 {
-    if (func_8012BEE8(a0) != 0) {
+    if (guess_TickWaitTimer(a0) != 0) {
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
         func_8012E88C((u8 *)a0);
         {

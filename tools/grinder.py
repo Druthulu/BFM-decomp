@@ -67,7 +67,7 @@ BLACKLIST = f"{AUTODIR}/grinder_blacklist.json"   # fns the permuter wins but th
 # was never compiled, and the permuter's byte-match was discarded UNBUILT — which this file then recorded
 # permanently as "plumbing-bound, never re-permute". 16 of 22 were split-hosted (docs/tooling-audit.md
 # :931). The proof it was manufactured, not observed: **8 of the 22 have since MATCHED anyway**
-# (func_80131D68/80149374/8014FE60/80150528/8016BBE0/80171C64/80174684/8017F290), and the other 14 would
+# (guess_HandleActorEventDefault/guess_TransformPosByObjMatrix/8014FE60/80150528/8016BBE0/80171C64/80174684/8017F290), and the other 14 would
 # have been skipped forever on a verdict from a gate that no longer exists. harvest_verify now derives
 # each stub's home TU from the corpus oracle and splices into whichever TU holds it (:122, render()), so
 # the mechanism that manufactured these is gone.

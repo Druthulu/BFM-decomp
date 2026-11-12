@@ -160,7 +160,7 @@ void func_801EDDC0(void) {
     extern s16 D_801274E8;
     extern s16 D_801274EA;
     extern s16 D_801274EC;
-    extern void func_8012A018(s32 a0, s32 a1);
+    extern void guess_SetMainCameraHandler(s32 a0, s32 a1);
     extern void func_8012A094(s32 a0);
     extern void func_801EDE84(void *a0);
 
@@ -173,7 +173,7 @@ void func_801EDDC0(void) {
     guess_g_MainCameraRefOffsetTargetX = 0;
     guess_g_MainCameraRefOffsetTargetY = -0x50;
     guess_g_MainCameraRefOffsetTargetZ = 0;
-    func_8012A018((s32)func_801EDE84, 0);
+    guess_SetMainCameraHandler((s32)func_801EDE84, 0);
     func_801EDE84(guess_g_MainCamera);
     func_8012A094((s32)guess_g_MainCamera);
     D_801274EA = -0x82;

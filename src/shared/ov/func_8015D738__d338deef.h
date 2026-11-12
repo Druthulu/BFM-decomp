@@ -54,7 +54,7 @@ void func_8015D738(void *arg0) {
     *(s16 *)(s1 + 6) = (s16)((s8)D_801813A4[*(s32 *)((char *)arg0 + 0x234)] + *(u16 *)(*(s32 *)(s1 + 0x78) + 0xc));
     *(s16 *)(s1 + 0xa) = (s16)((s8)D_801813A4[*(s32 *)((char *)arg0 + 0x234) + 1] + *(u16 *)(*(s32 *)(s1 + 0x78) + 0xe));
     *(s16 *)(s1 + 0xe) = (s16)((s8)D_801813A4[*(s32 *)((char *)arg0 + 0x234) + 2] + *(u16 *)(*(s32 *)(s1 + 0x78) + 0x10));
-    ((void (*)(void *, void *))func_80149374)(arg0, (void *)(s1 + 4));
+    ((void (*)(void *, void *))guess_TransformPosByObjMatrix)(arg0, (void *)(s1 + 4));
     *(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) = (*(u16 *)(*(s32 *)((char *)arg0 + 0x20) + 0x12) + 0x800) & 0xFFF;
     if (((s32 (*)(void *))func_8014D738)(arg0) != 0) {
         D_80181160[*(u16 *)arg0](arg0);
@@ -63,5 +63,5 @@ void func_8015D738(void *arg0) {
         return;
     }
     if (func_80161208(arg0) != 0) return;
-    ((void (*)(void *))func_801483E8)(arg0);
+    ((void (*)(void *))guess_SaveGroundedPos)(arg0);
 }

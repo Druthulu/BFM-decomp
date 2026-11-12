@@ -82,8 +82,8 @@ extern s16 D_800CB5F4;
 extern s16 D_800CB5F6;
 extern u8 D_800D387C[];
 extern void func_800233CC(void *, u16);
-extern void *func_801465C0(void);
-extern s32 func_80146C3C(u8 *a0);
+extern void *guess_AllocSpriteObject(void);
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_8001CC3C(s32, void *, s32, s32);
 extern void func_8001CD9C(s32, void *);
 
@@ -110,9 +110,9 @@ void func_800CAFE0(s32 param_1) {
     }
     hw = *(u32 *)(param_1 + 0x30);
     sh = hw >> 15;
-    node = ((s32 (*)(void))func_801465C0)();
+    node = ((s32 (*)(void))guess_AllocSpriteObject)();
     if (node == 0) {
-        ((void (*)(s32))func_80146C3C)(param_1);
+        ((void (*)(s32))guess_FreeSmallObject)(param_1);
         return;
     }
     sext = (s32)(sh << 16);
@@ -127,9 +127,9 @@ void func_800CAFE0(s32 param_1) {
     *(s32 *)(param_1 + 0x20) = node;
     *(u16 *)(param_1 + 2) = 2;
     *(u32 *)(param_1 + 0x30) = save;
-    node2 = ((s32 (*)(void))func_801465C0)();
+    node2 = ((s32 (*)(void))guess_AllocSpriteObject)();
     if (node2 == 0) {
-        ((void (*)(s32))func_80146C3C)(param_1);
+        ((void (*)(s32))guess_FreeSmallObject)(param_1);
         return;
     }
     *(s32 *)(param_1 + 0x34) = node2;
@@ -146,7 +146,7 @@ void func_800CB168(void *arg0) {
     extern u8 D_80078EC1;
     extern s32 rand(void);
     extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern void func_8002D4C8(s32 a0, s32 a1);
     extern u16 D_80126BC8;
     extern u16 D_80126BCA;
@@ -216,7 +216,7 @@ L288:
         }
     } else {
         D_80126BC8 = D_80126BCA = D_80126BCC = 0x1000;
-        ((void (*)(s32))func_80146C3C)((s32)arg0);
+        ((void (*)(s32))guess_FreeSmallObject)((s32)arg0);
     }
 }
 
@@ -227,8 +227,8 @@ void func_800CB328(void *a0) {
     extern s32 func_80146A6C(s32, void *, s32, s32, s32, s32, s32);
     extern void RotMatrixY(s32, void *);
     extern void guess_RotTransSVWithMatrix(s32, s32, s32);
-    extern void func_80016714(s8 *, s32);
-    extern s32 func_80146C3C(u8 *a0);
+    extern void guess_ZeroMemory(s8 *, s32);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern s16 guess_g_PlayerPosX;
     extern s16 guess_g_PlayerPosY;
     extern s16 guess_g_PlayerPosZ;
@@ -296,9 +296,9 @@ void func_800CB328(void *a0) {
         }
     }
     if (pf34 != 0) {
-        func_80016714((s8 *)pf34, 0x38);
+        guess_ZeroMemory((s8 *)pf34, 0x38);
     }
-    ((void (*)(s32))func_80146C3C)((s32)obj);
+    ((void (*)(s32))guess_FreeSmallObject)((s32)obj);
 }
 
 

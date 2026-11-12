@@ -5773,8 +5773,8 @@ def selftest():
     # R26, the address alias (T7 agent c45, S103; known-true: on func_80183E3C's start text R26's "second" candidate
     # scores 0 from 38 — the agent's close, reproduced by the generator alone)
     AAF = ("void func_80100000(void) {\n"
-           "    { void *r4; r4 = &D_80100F00; func_8004914C(r4); }\n"
-           "    { void *r4; r4 = &D_80100F00; func_800491AC(r4); }\n"
+           "    { void *r4; r4 = &D_80100F00; SetRotMatrix(r4); }\n"
+           "    { void *r4; r4 = &D_80100F00; SetTransMatrix(r4); }\n"
            "}")
     a26 = dict(alias_repeated_addresses(AAF, "src/fx/a.c", "func_80100000",
                                         next(r for r in sc.scan_text(AAF, "src/fx/a.c", shared_defs=None) if r["form"] == "def")))

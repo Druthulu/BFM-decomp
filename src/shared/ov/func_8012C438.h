@@ -1,7 +1,7 @@
 /* func_8012C438 — shared body (overlay slot 0x80128158, h_exact 26de808c). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8001CFDC(s32 a, s32 b);
-extern void func_8012CAE4(void *a0);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001C810(s32 a0, s32 a1);
 extern u8 D_80078EAE;
 s32 func_8012C438(s32 a0, s32 a1) {
@@ -17,7 +17,7 @@ s32 func_8012C438(s32 a0, s32 a1) {
     if (*(s32*)(a1 + 0x4) != 0) {
         *(s32*)(a0 + 0x20) = ((s32 (*)(s32, s32))func_8001CFDC)(0x26, 0x85);
         if (*(s32*)(a0 + 0x20) == 0) {
-            func_8012CAE4((void *)a0);
+            guess_FreeActorDuringSpawn((void *)a0);
             return 0;
         }
         func_8001C810(*(s32*)(a0 + 0x20), *(s32*)(a1 + 0x4));

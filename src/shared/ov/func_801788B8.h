@@ -1,12 +1,12 @@
 /* func_801788B8 — shared body (overlay slot 0x80128158, h_exact 3555a568). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8012E8E0(s32 a0, s32 a1);
-extern void func_8012B2CC(s32 a0);
+extern void guess_UpdateActorModelMatrix(s32 a0);
 s32 func_801788B8(s32 arg0, s32 arg1) {
     s32 iVar1;
     u16 buf[4];
-    iVar1 = func_8012C658(0x83, (s32)*(s16 *)((u8 *)arg0 + 0x70), 0);
+    iVar1 = guess_SpawnActor(0x83, (s32)*(s16 *)((u8 *)arg0 + 0x70), 0);
     if (iVar1 == 0) {
         return 0;
     }
@@ -20,7 +20,7 @@ s32 func_801788B8(s32 arg0, s32 arg1) {
         buf[3] = 0;
     }
     func_8012E8E0(iVar1, (s32)buf);
-    func_8012B2CC(iVar1);
+    guess_UpdateActorModelMatrix(iVar1);
     *(s32 *)((u8 *)iVar1 + 0xDC) = arg1;
     return iVar1;
 }

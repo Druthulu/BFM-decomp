@@ -5,6 +5,6 @@ void SHARED_FN(u8 *a0) {
     ((Unkstruct_8017F04C *)a0)->unk4 = 0;
     ((Unkstruct_8017F04C *)a0)->unk8 = 0;
     ((Unkstruct_8017F04C *)a0)->unkC = 0;
-    func_80149374(((Unkstruct_8017F04C *)a0)->unk34, (s32)(a0 + 0x4));
+    guess_TransformPosByObjMatrix(((Unkstruct_8017F04C *)a0)->unk34, (s32)(a0 + 0x4));
     func_800D1FC8((s32)a0, 5);
 }

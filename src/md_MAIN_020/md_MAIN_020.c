@@ -162,7 +162,7 @@ s32 func_800CB17C(struct S *a0) {
     extern void func_80154274(s32 *a0, s32 a1);
     extern void func_80147324(s32 a0);
     extern void func_8014C010(s32 a0, s32 a1);
-    extern void func_801483E8(s32 a0);
+    extern void guess_SaveGroundedPos(s32 a0);
     extern void func_80019064(void *a0);
     extern s32 D_800CB1F4[];
     extern u8 guess_g_RumblePatternShort[];
@@ -173,7 +173,7 @@ s32 func_800CB17C(struct S *a0) {
     func_80154274((s32 *)s0, (s32)D_800CB1F4);
     func_80147324(0x47A);
     func_8014C010(s0, 2);
-    func_801483E8(s0);
+    guess_SaveGroundedPos(s0);
     func_80019064(guess_g_RumblePatternShort);
 }
 

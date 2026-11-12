@@ -3,6 +3,6 @@
 void SHARED_FN(s32 a0) {
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)(a0);
-        func_8012C218((void *)a0);
+        guess_FreeActor((void *)a0);
     }
 }

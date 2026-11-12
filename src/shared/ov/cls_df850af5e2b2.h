@@ -3,6 +3,6 @@ void SHARED_FN(void *param_1) {
     (CAST_SIGN(u16, (char *)param_1, 0xFC))++;
     func_8012AD80(param_1);
     if (((Unkstruct_800B5CB8 *)param_1)->unk98 == 0) {
-        func_8012C218(param_1);
+        guess_FreeActor(param_1);
     }
 }

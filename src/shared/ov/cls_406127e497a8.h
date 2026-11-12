@@ -5,6 +5,6 @@ void SHARED_FN(s32 a0)
 {
     if (((((Unkstruct_801819DC *)a0)->unk72 & 0x4000) != 0) || (((Unkstruct_801819DC *)a0)->unk98 == 0)) {
         ((Unkstruct_801819DC *)a0)->unk2 = ((Unkstruct_801819DC *)a0)->unk34;
-        ((void (*)(s32, s32))func_8012A828)(a0, ((Unkstruct_801819DC *)a0)->unkCC);
+        ((void (*)(s32, s32))guess_StartActorSequence)(a0, ((Unkstruct_801819DC *)a0)->unkCC);
     }
 }

@@ -21,10 +21,10 @@ void func_8017AE2C(s32 param_1) {
         }
         return;
     case 2:
-        func_8012B178(pv, (s32)g[4] << 8);
+        guess_SetForwardVelocity(pv, (s32)g[4] << 8);
         func_8012AD80(pv);
         *(u16 *)(pv + 0xA) -= 8;
-        func_8012B030((u8 *)pv);
+        guess_SnapActorToGround((u8 *)pv);
         break;
     case 3:
         if (g[1] != 0) {
@@ -36,10 +36,10 @@ void func_8017AE2C(s32 param_1) {
                 }
                 *(s16 *)(*(s32 *)(pv + 0x20) + 0x12) =
                     guess_YawToPoint(p, &D_8018FA8C);
-                func_8012B178(pv, 0xFFFA0000);
+                guess_SetForwardVelocity(pv, 0xFFFA0000);
                 func_8012AD80(pv);
                 *(u16 *)(pv + 0xA) -= 8;
-                func_8012B030((u8 *)pv);
+                guess_SnapActorToGround((u8 *)pv);
                 /* &D_8018FA80+0xC == &D_8018FA8C; distinct rtx defeats gcc's address-CSE
                    so BE98's arg rematerializes instead of sharing the store's reg (byte-gate). */
                 if (func_8012BE98(pv, (u16 *)((s32)&D_8018FA80 + 0xC)) < 0x101) {
@@ -62,10 +62,10 @@ void func_8017AE2C(s32 param_1) {
         }
         *(s16 *)(*(s32 *)(pv + 0x20) + 0x12) =
             guess_YawToPoint((void *)(pv + 4), &D_8018FA8C);
-        func_8012B178(pv, 0xFFFA0000);
+        guess_SetForwardVelocity(pv, 0xFFFA0000);
         func_8012AD80(pv);
         *(u16 *)(pv + 0xA) -= 8;
-        func_8012B030((u8 *)pv);
+        guess_SnapActorToGround((u8 *)pv);
         /* see note above: distinct rtx for the same address defeats address-CSE. */
         if (func_8012BE98(pv, (u16 *)((s32)&D_8018FA80 + 0xC)) < 0x101) {
             D_8018FA80 = 0;

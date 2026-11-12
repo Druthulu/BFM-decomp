@@ -1,6 +1,6 @@
 /* func_801EF864 — shared body (module slot 0x801EF468, h_exact 9d4f4704). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_8012A018(s32 a0, s32 a1);
+extern void guess_SetMainCameraHandler(s32 a0, s32 a1);
 extern void func_8012A094(s32 a0);
 extern void func_801EF928(void *a0);
 void func_801EF864(void) {
@@ -26,7 +26,7 @@ void func_801EF864(void) {
     guess_g_MainCameraRefOffsetTargetX = 0;
     guess_g_MainCameraRefOffsetTargetY = -0x36;
     guess_g_MainCameraRefOffsetTargetZ = 0;
-    func_8012A018((s32)func_801EF928, 0);
+    guess_SetMainCameraHandler((s32)func_801EF928, 0);
     func_801EF928(guess_g_MainCamera);
     func_8012A094((s32)guess_g_MainCamera);
     D_801274EA = -0x82;

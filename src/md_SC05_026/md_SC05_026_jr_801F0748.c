@@ -77,7 +77,7 @@ extern void func_801F02E8(void *a0);
 extern void func_801F0324(void);
 extern void func_801F0344(u32 arg0);
 extern void func_801F03AC(void);
-extern void func_8012A018(s32 a0, s32 a1);
+extern void guess_SetMainCameraHandler(s32 a0, s32 a1);
 extern void func_8012A094(s32 a0);
 extern void func_801F0478(void *a0);
 extern void func_801F03B4(void);
@@ -304,10 +304,10 @@ void func_801F0A98(s32 a0) {
 
 
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, s32 a1);
+extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern s32 func_80178B18(s32 a0, s32 a1);
 
@@ -319,16 +319,16 @@ void func_801F0BB4(void *a0) {
     s32 v0;
     s32 ptr;
 
-    v0 = ((s32 (*)(void))func_8012C1B8)();
+    v0 = ((s32 (*)(void))guess_AllocModelObject)();
     ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
     if (v0 == 0) {
-        func_8012CAE4(a0);
+        guess_FreeActorDuringSpawn(a0);
     } else {
         guess_InitModelObject(v0, (s32)&D_801F7BE4);
         ptr = ((Unkstruct_800B5CB8 *)a0)->unk68;
         *(s16 *)(ptr + 0xC) = 0x7FFF;
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
-        func_8012A828((s32)a0, (s32)&D_801B9A0C);
+        guess_StartActorSequence((s32)a0, (s32)&D_801B9A0C);
         func_8012E8E0((s32)a0, (s32)&D_801F1A8C);
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
         func_80178B18((s32)a0, (s32)&D_801F1ABC);
@@ -449,10 +449,10 @@ void func_801F0E24(s32 arg0, s32 arg1, s32 arg2) {
 
 extern s32 D_801F832C;
 extern s32 D_801F84AC;
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 
 void func_801F0E6C(void) {
-    func_80016714(&D_801F832C, 0x180);
+    guess_ZeroMemory(&D_801F832C, 0x180);
     D_801F84AC = 0;
 }
 

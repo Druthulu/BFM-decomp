@@ -26,7 +26,7 @@ THE EVIDENCE HIERARCHY, strongest first (each row is emitted with its count so t
 
 Usage:
   decl_prior.py --build                 # (re)build .run/decl_prior.json from src/**/*.c
-  decl_prior.py --query func_8012BEE8   # what the fleet says about one symbol
+  decl_prior.py --query guess_TickWaitTimer   # what the fleet says about one symbol
   decl_prior.py --for-asm <file.s> [--tu <path>]   # every symbol a target references
 """
 import argparse, collections, glob, json, os, re, sys

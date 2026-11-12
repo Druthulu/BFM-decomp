@@ -2,10 +2,10 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8012CBCC(s32 a0);
 extern s32 func_8012BA10(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, void *a1);
+extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 extern u16 D_80126B96;
 extern u8 D_801E2170[];
 extern u8 D_801E2B50[];
@@ -23,7 +23,7 @@ void func_80187300(s32 a0) {
         *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012BA10(a0, 4);
         if (*(u16 *)(a0 + 0x72) & 0x4000) {
             *(u16 *)(a0 + 0x34) = 1;
-            func_8012A828(a0, D_801E2B50);
+            guess_StartActorSequence(a0, D_801E2B50);
         }
         break;
     case 1:
@@ -43,12 +43,12 @@ void func_80187300(s32 a0) {
         break;
     case 2:
         if (*(u16 *)(a0 + 0x72) & 0x4000) {
-            func_8012A828(a0, D_801E2170);
+            guess_StartActorSequence(a0, D_801E2170);
             *(u16 *)(a0 + 0x2) = 0xA;
             *(u16 *)(a0 + 0xFC) = 4;
             *(s16 *)(a0 + 0xAE) = -1;
         }
         break;
     }
-    func_8012C658(0x3DE, 0, a0);
+    guess_SpawnActor(0x3DE, 0, a0);
 }

@@ -1,7 +1,7 @@
 /* func_8017D6CC — shared body (overlay slot 0x80128158, h_exact 86843ed5). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_800D22E4(s32 a0);
-extern s32 func_80146C3C(u8 *a0);
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_8017D728(void *a0);
 void func_8017D6CC(void *a0)
 {
@@ -12,6 +12,6 @@ void func_8017D6CC(void *a0)
         ((void (*)(void))func_800D22E4)();
         func_8017D728(a0);
     } else {
-        ((void (*)(void *))func_80146C3C)(a0);
+        ((void (*)(void *))guess_FreeSmallObject)(a0);
     }
 }

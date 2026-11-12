@@ -6,7 +6,7 @@
 //   - `D_800629D4` added: a data label in the text->data boundary region that the boot code
 //     references but splat did not auto-label (keeps the all-asm link resolving; no bytes change).
 // Durable text record of manual RE work (the .rep is gitignored).
-// count=1122
+// count=1128
 
 lzss_ringBuffer                  = 0x1F800000; // data
 start                            = 0x80010000; // func
@@ -14,6 +14,7 @@ __do_global_dtors                = 0x80010110; // func
 main                             = 0x80010178; // func
 GameModeDispatch                 = 0x80010B40; // func
 DebugMenuHandler                 = 0x80011144; // func
+guess_ZeroMemory                 = 0x80016714; // func
 LzssDecodeSector                 = 0x80018730; // func
 LoaderInitFileTable              = 0x8001971C; // func
 LoaderResetReadState             = 0x80019990; // func
@@ -346,6 +347,8 @@ CompMatrixLV                     = 0x8004891C; // func
 ApplyRotMatrixLV                 = 0x80048B6C; // func
 SetMulRotMatrix                  = 0x80048CAC; // func
 ApplyMatrixSV                    = 0x80048FBC; // func
+SetRotMatrix                     = 0x8004914C; // func
+SetTransMatrix                   = 0x800491AC; // func
 ReadGeomOffset                   = 0x800491CC; // func
 LightColor                       = 0x8004924C; // func
 DpqColorLight                    = 0x80049274; // func
@@ -484,6 +487,7 @@ GsSortClear                      = 0x80052AA0; // func
 GS_001_OBJ_5D0                   = 0x80052BAC; // func
 GsGetActiveBuff                  = 0x80052BDC; // func
 GS_002_OBJ_10C                   = 0x80052CE8; // func
+GsInitCoordinate2                = 0x80052D90; // func
 GsInitCoord2param                = 0x80052E0C; // func
 GsSetLightMatrix                 = 0x80052E68; // func
 GsMulCoord0                      = 0x80052F38; // func
@@ -492,6 +496,7 @@ GsMulCoord3                      = 0x80053050; // func  libgs MATRIX.o, verified
 print_matrix                     = 0x800530D4; // func
 print_vector                     = 0x80053144; // func
 GsMapModelingData                = 0x80053290; // func
+GsSetProjection                  = 0x80053308; // func
 GS_107_OBJ_464                   = 0x8005378C; // func
 GS_107_OBJ_4B8                   = 0x800537E0; // func
 GS_108_OBJ_6C                    = 0x80053958; // func
@@ -519,6 +524,7 @@ GS_123_OBJ_90                    = 0x80053EB8; // func
 GS_123_OBJ_A8                    = 0x80053ED0; // func
 GS_123_OBJ_BC                    = 0x80053EE4; // func
 GS_131_OBJ_4A4                   = 0x80054410; // func
+GsGetLw                          = 0x80054514; // func
 GS_133_OBJ_30                    = 0x80054544; // func
 GS_133_OBJ_224                   = 0x80054738; // func
 GS_134_OBJ_30                    = 0x80054808; // func

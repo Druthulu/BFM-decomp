@@ -78,10 +78,10 @@ void func_800CAFA8(void *a0) {
     extern u8 D_800CB470[];
     extern void func_800CB158(void *);
     extern s32 func_80146AB4(s32, void *, s32, s32, s32, s32, s32);
-    extern void *func_801465C0(void);
+    extern void *guess_AllocSpriteObject(void);
     extern void func_8001CC3C(void *, void *, s32, s32);
     extern void func_80128EA8(void *, void *, void *);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern void func_8001CD9C(void *, void *);
 
     s32 pad[6];
@@ -104,9 +104,9 @@ void func_800CAFA8(void *a0) {
         *(s16 *)((s32)a0 + 2) = 1;
     } else {
         if (ent == 0) {
-            ent = func_801465C0();
+            ent = guess_AllocSpriteObject();
             if (ent == 0) {
-                func_80146C3C(a0);
+                guess_FreeSmallObject(a0);
                 return;
             }
             func_8001CC3C(ent, D_800CB464, 0, 0);
@@ -125,9 +125,9 @@ void func_800CAFA8(void *a0) {
         if (*(s32 *)((s32)a0 + 0x34) != 0) {
             return;
         }
-        ent = func_801465C0();
+        ent = guess_AllocSpriteObject();
         if (ent == 0) {
-            func_80146C3C(a0);
+            guess_FreeSmallObject(a0);
             return;
         }
         *(s32 *)((s32)a0 + 0x34) = ent;
@@ -145,7 +145,7 @@ void func_800CB158(void *a0) {
     extern u8 D_800CB51D;
     extern u8 D_800CB51E;
     extern void func_800233CC(void *, u16);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
 
     if (D_80078EC1 == 0x13) {
         if (((Unkstruct_800CAFA8 *)a0)->unk1C < 0x10) {
@@ -157,7 +157,7 @@ void func_800CB158(void *a0) {
         }
         ((Unkstruct_800CAFA8 *)a0)->unk1C = ((Unkstruct_800CAFA8 *)a0)->unk1C + 1;
     } else {
-        func_80146C3C(a0);
+        guess_FreeSmallObject(a0);
     }
 }
 
@@ -169,12 +169,12 @@ void func_800CB1EC(void *a0) {
     extern s16 guess_g_PlayerPosX;
     extern s16 guess_g_PlayerPosY;
     extern s16 guess_g_PlayerPosZ;
-    extern void func_80016714(void *a0, s32 a1);
+    extern void guess_ZeroMemory(void *a0, s32 a1);
     extern s32 func_80128ED8(s32 a0, s32 *a1);
     extern void RotMatrixY(s32 a0, void *a1);
     extern s32 func_80047948(s32 a0);
     extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
-    extern s32 func_80146C3C(u8 *a0);
+    extern s32 guess_FreeSmallObject(u8 *a0);
 
     s16 out[3];
     Blk32_CB1EC buf;
@@ -230,9 +230,9 @@ void func_800CB1EC(void *a0) {
         ((Unkstruct_800CB1EC *)a0)->unk1C += 1;
     } else {
         if (s4 != NULL) {
-            func_80016714((void *)s4, 0x38);
+            guess_ZeroMemory((void *)s4, 0x38);
         }
-        func_80146C3C(a0);
+        guess_FreeSmallObject(a0);
     }
 }
 

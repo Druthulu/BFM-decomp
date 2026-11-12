@@ -161,7 +161,7 @@ _ROUTE = {
     # hoist-vs-remat shape (a base address kept in a callee-saved reg vs recomputed per use) is a
     # multi-instruction change, not a local mutation, and `gcc-2.7.2-map/cse_expr.md` §2 documents
     # a deterministic C recipe for it (the output-only `__asm__ __volatile__("" : "=r"(q))` kill),
-    # byte-proven on func_80149374 / func_801493D0. Measured corroboration (Phase 29 T31): BOTH
+    # byte-proven on guess_TransformPosByObjMatrix / func_801493D0. Measured corroboration (Phase 29 T31): BOTH
     # admitted ADDRESSING targets (func_80140958, func_80177B5C) plateaued under a §31-directed
     # permuter, and it was 32% of the whole permuter admission pool (18 of 56).
     # BOUNDED, and the bound is byte-tested (T31 finding 4): the §2 recipe does NOT dissolve every

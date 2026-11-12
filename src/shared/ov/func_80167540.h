@@ -32,6 +32,6 @@ shared:
             ((struct Entity_80167540 *)arg0)->unk2 = (u16) (((struct Entity_80167540 *)arg0)->unk2 + 1);
         }
     } else {
-        ((void(*)(struct Entity_80167540 *))func_80146C3C)(((struct Entity_80167540 *)arg0));
+        ((void(*)(struct Entity_80167540 *))guess_FreeSmallObject)(((struct Entity_80167540 *)arg0));
     }
 }

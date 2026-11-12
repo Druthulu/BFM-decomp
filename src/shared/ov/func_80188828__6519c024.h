@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8013CABC(void);
 extern void func_801890F8(void *a0);
-extern s32 func_8012BEE8(s32 a0);
+extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_80188A80(s32 a0);
 extern void func_801889B4(s32 a0);
 extern s32 func_801846E4(void);
@@ -35,7 +35,7 @@ void func_80188828(s32 a0) {
             D_801EAC90 = func_801846E4();
         }
     }
-    if (func_8012BEE8(self) && D_801EAC90) {
+    if (guess_TickWaitTimer(self) && D_801EAC90) {
         func_80188A80(self);
     } else {
         if (*(s32 *)(self + 0x1C) < 0x48) {

@@ -21,12 +21,12 @@ void func_8016DF5C(s32 param_1)
         s32 base;
         do {
             if (psVar6 != (u16 *)((void *)param_1) && (*psVar6 == 0x41 || *psVar6 == 0x48)) {
-                ((void (*)(void *))func_80146C3C)(psVar6);
+                ((void (*)(void *))guess_FreeSmallObject)(psVar6);
             }
             uVar7++;
             psVar6 += 0x2c;
         } while (uVar7 < 0x1e);
-        iNew = ((s32(*)())func_801465C0)();
+        iNew = ((s32(*)())guess_AllocSpriteObject)();
         if (iNew == 0) {
             return;
         }

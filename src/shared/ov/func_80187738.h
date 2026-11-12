@@ -1,10 +1,10 @@
 /* func_80187738 — shared body (overlay slot 0x80128158, h_exact 6f24f1e1). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
-extern void func_8012A828(s32 a0, void *a1);
+extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_8012B200(u8 *a0);
 extern u8 D_801E0CBC;
 extern u8 D_801E087C;
@@ -18,10 +18,10 @@ void func_80187738(s32 param_1) {
     s32 rng;
     s32 t2;
     s32 t72;
-    v0 = ((s32 (*)(void))func_8012C1B8)();
+    v0 = ((s32 (*)(void))guess_AllocModelObject)();
     *(s32 *)(param_1 + 0x20) = v0;
     if (v0 == 0) {
-        func_8012CAE4((void *)param_1);
+        guess_FreeActorDuringSpawn((void *)param_1);
         return;
     }
     a1 = &D_801E0CBC;
@@ -33,7 +33,7 @@ void func_80187738(s32 param_1) {
     }
     guess_InitModelObject(*(s32 *)(param_1 + 0x20), (s32)a1);
     func_8001D0E8(*(s32 *)(param_1 + 0x20), 0x140, 0xF0);
-    func_8012A828(param_1, &D_8018AF28);
+    guess_StartActorSequence(param_1, &D_8018AF28);
     func_8012B200((u8 *)param_1);
     *(s32 *)(param_1 + 0x18) = 0xFFDBC000;
     *(s32 *)(param_1 + 0x14) = 0xFFF40000;

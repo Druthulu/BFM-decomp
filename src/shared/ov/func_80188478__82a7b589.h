@@ -1,7 +1,7 @@
 /* func_80188478 — shared body (overlay slot 0x80128158, h_exact 82a7b589). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8012BD14(s32 a0);
-extern void func_8012A828(s32 a0, void *a1);
+extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern s32 func_8012BA10(s32 a0, s32 a1);
@@ -13,7 +13,7 @@ void func_80188478(s32 a0) {
         if (*(u16 *)(a0 + 0x34) == 1) {
             if (func_8012BD14(a0) >= 0x4001) {
                 if (*(s16 *)(a0 + 0xFC) == 0) {
-                    func_8012A828(a0, D_801E7BB8);
+                    guess_StartActorSequence(a0, D_801E7BB8);
                     *(u16 *)(a0 + 0xFC) = *(u16 *)(a0 + 0xFC) + 1;
                 }
                 *(s32 *)(a0 + 0x10) =

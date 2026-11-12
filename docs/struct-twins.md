@@ -753,7 +753,7 @@ cause: 31 names (16 B, all members placeholders) bound to 253 distinct objects, 
 ### 08944be666a1
 names: Sub8017EBC4, Sub_80181BA0, Unkstruct_8015C128_5, Unkstruct_8017D234, Unkstruct_8017D994_3, Unkstruct_8017DB64_2, Unkstruct_8017E1FC, Unkstruct_8017E298_4, Unkstruct_8017E51C_4, Unkstruct_8017E71C_2, Unkstruct_8017E9C0_2, Unkstruct_8017F344_2, Unkstruct_8017FCFC_3, Unkstruct_8017FE50_2, Unkstruct_8018001C_2, Unkstruct_80180450_5, Unkstruct_80180450_6, Unkstruct_80180574_2, Unkstruct_801809E8_2, Unkstruct_80180A9C_2, Unkstruct_80180AA4, Unkstruct_80180B90_2, Unkstruct_80180F60_2, Unkstruct_801810CC_2, Unkstruct_80181700, Unkstruct_80181750, Unkstruct_80181AC0, Unkstruct_80184CE0_2, Unkstruct_80186938_3, Unkstruct_801A3BCC_4
 cause: 30 names (20 B, all members placeholders) bound to 68 distinct objects, none bound to two names: md_SC07_003/0x801A3BCC:a0, ov_SC01_077/0x8017E298:M2C_FIELD, ov_SC01_077/0x8017E298:temp_a0, ov_SC01_077/0x8017E51C:M2C_FIELD, ov_SC01_077/0x8017E51C:temp_a0, ov_SC01_077/0x8017E9C0:M2C_FIELD, ov_SC01_077/0x8017E9C0:temp_a0, ov_SC01_077/0x80186938:arg0 …; full list: tools/struct_twins.py --show 08944be666a1
-- `Sub8017EBC4`: 2 obj — ov_SC06_029/0x8017EBC4:func_8012C1B8, ov_SC06_029/0x8017EBC4:sp
+- `Sub8017EBC4`: 2 obj — ov_SC06_029/0x8017EBC4:guess_AllocModelObject, ov_SC06_029/0x8017EBC4:sp
 - `Sub_80181BA0`: 1 obj — ov_SC04_011/0x80181BA0:p
 - `Unkstruct_8015C128_5`: 1 obj — ov_SC07_006/0x8015C128:param_1
 - `Unkstruct_8017D234`: 2 obj — ov_SC03_115/0x8017D234:v0p, ov_SC03_115/0x8017D234:v1

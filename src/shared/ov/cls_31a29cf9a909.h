@@ -2,7 +2,7 @@
  * exemplar src/ov_SC03_108/ov_SC03_108_jr_8017F83C.c:3411 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 1, markers 0 */
 void SHARED_FN(s32 *a0)
 {
-    extern void func_8012B2CC(s32 a0);
+    extern void guess_UpdateActorModelMatrix(s32 a0);
     extern void func_8012B23C(s32 a0);
 
     s32 ptr;
@@ -13,6 +13,6 @@ void SHARED_FN(s32 *a0)
     CAST_WIDTH(u16, ptr, 0x14) = 0;
     ((Unkstruct_800B5CB8 *)ptr)->unk10 = 0;
     ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
-    func_8012B2CC((s32)a0);
+    guess_UpdateActorModelMatrix((s32)a0);
     func_8012B23C((s32)a0);
 }

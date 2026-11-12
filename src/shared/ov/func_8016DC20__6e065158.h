@@ -21,7 +21,7 @@ void func_8016DC20(s16 *param_1) {
         i = i + 1;
         psVar1 = psVar1 + 0x2c;
     } while (i < 0x1e);
-    func_80149374(iVar4, (s32)param_1 + 4);
+    guess_TransformPosByObjMatrix(iVar4, (s32)param_1 + 4);
     iVar2 = func_801619D0((void *)iVar4);
     i = 0;
     if (iVar2 == 0) goto ddb0;
@@ -70,5 +70,5 @@ ddb0:
         return;
     }
 end:
-    ((void (*)(s16 *))func_80146C3C)(param_1);
+    ((void (*)(s16 *))guess_FreeSmallObject)(param_1);
 }

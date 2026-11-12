@@ -136,7 +136,7 @@ extern void func_8001D074(s32 a, s32 b);
 extern u8 *func_801291C0(void);
 extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern u8 * func_8012913C(s32 arg0);
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
@@ -163,7 +163,7 @@ extern void func_801299C8(s32 a, s32 b, s32 c);
 extern void func_8012944C(void);
 extern unsigned short D_800B99F0;
 extern void func_8012A328(void);
-extern void func_80053308(s32);
+extern void GsSetProjection(s32);
 extern s32 func_80012F74(s32, s32, s32, s32);  /* canonical s32 (engine_core); (s16)-cast the return for the sll/sra */
 extern void GsSetRefView2L(void *);
 extern s8 D_801150D6;            /* canonical (engine_core macro): s8 — access via *(u8*)& for lbu */
@@ -176,7 +176,7 @@ extern BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (
 extern u8 guess_g_RenderWork[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 GsWSMATRIX[];
 extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
-extern void func_8012A018(s32 a, s32 b);
+extern void guess_SetMainCameraHandler(s32 a, s32 b);
 extern void func_80129FF4(void);
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
@@ -230,10 +230,10 @@ extern s16 func_8012A758(void);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_8012A7D4(void *arg0, void *arg1);
 extern void func_8012AAAC(void *arg0);
-extern void func_8012A828(s32 a0, void * a1);
+extern void guess_StartActorSequence(s32 a0, void * a1);
 extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
-extern void func_8012A8B0(u8 *a0, s32 a1);
+extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
 extern u8 guess_g_ObjectTable[];
 extern u16 D_801270C0;
@@ -401,7 +401,7 @@ extern s32   D_80182A88;
 extern s16 D_801270C4;
 extern u16   D_801274E4[];
 extern s32   D_8011DB08;
-extern void  func_80016714(void *a0, s32 a1);
+extern void  guess_ZeroMemory(void *a0, s32 a1);
 
 #include "../shared/ov/func_8012C890__1bddfa15.h"
 
@@ -715,7 +715,7 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 // @class: plumbing
 // @stuck: none — MATCH (pending gate)
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern unsigned char D_8017F5E8[];
 
 #include "../shared/ov/func_8012F828__e4c10af4.h"
@@ -725,7 +725,7 @@ extern unsigned char D_8017F5E8[];
 
 
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 extern u8 D_8017F5F4[];
 
 #include "../shared/ov/func_8012F8C8__cf6e9598.h"
@@ -749,7 +749,7 @@ extern u8 D_8017F5F4[];
 //   un-reorderable {li,move} schedule-steal (calls.c emits a0 first; sched2 keeps LUID; reorg swaps them).
 //   THE FIX: func_80131B14 takes ONE arg — ((void(*)(int))func_80131B14)(param_1). Then:
 //     - func_80131B14's own delay slot = `move a0,s0` (its a0 arg), and a1 is NOT live across it.
-//     - the `li a1,0x1C` in the beqz(0x100) delay slot is the TERMINAL func_80131CA8(param_1,0x1C)'s arg, which
+//     - the `li a1,0x1C` in the beqz(0x100) delay slot is the TERMINAL guess_CallActorEventHandler(param_1,0x1C)'s arg, which
 //       reorg fill_slots_from_thread shares into the delay slot for the beqz-taken (else) edge FOR FREE, because
 //       a1 is dead on the fall-through (1-arg func_80131B14 never reads a1) so there is no resource conflict.
 //   No barrier, no register pin, no schedule mutation — the correct arity makes the target schedule fall out
@@ -842,10 +842,10 @@ extern s16 D_8017F710[];
 
 // @class: loop-guard
 // @stuck: none — MATCH (88 ins). Keys: duplicate the c!=0/c==0 bodies verbatim (gcc cross-jumps
-//   the shared "|=4;goto tail" into L240 on its own); tail dispatch as `if (((s32(*)(s32))func_8012BCCC)(p) <= 0x8FFF)`
+//   the shared "|=4;goto tail" into L240 on its own); tail dispatch as `if (((s32(*)(s32))guess_DistSqToPlayer)(p) <= 0x8FFF)`
 //   (the <= polarity makes the >0x8FFF/0x33-first block the bnez'd else=L298, fall-through = 0x32-first);
 //   both AC8 tails cross-jump-merge into the shared L2AC final call. Externs aligned to the file's
-//   existing decls for gate-safety: func_80131B14(void) [file line 1486], func_8012B14C/func_8012BCCC
+//   existing decls for gate-safety: func_80131B14(void) [file line 1486], guess_SetLocalVelocity/guess_DistSqToPlayer
 //   canonical (s32) [DEFINE macros], ((s32(*)())func_80131AC8)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
 
 
@@ -904,7 +904,7 @@ extern s16 D_8017F710[];
 //     .L80131954/.L80131964 call bodies (+8 ins). The fix is polarity, not a barrier.
 //
 // OTHER BYTE-PROVEN KEYS:
-//   - Two SEPARATE locals for the two func_80131CF4 results. Reusing one `temp` lets gcc
+//   - Two SEPARATE locals for the two guess_LookupIdValue results. Reusing one `temp` lets gcc
 //     coalesce it into $a1 for the second call and emits an extra `move a1,v0` up at the
 //     FIRST call site (+1 ins, whole-function cascade).
 //   - The /3 store block: `*(s32*)(a0+0x14) = (-D_8018E6A4)/3;` must come FIRST (before the
@@ -921,7 +921,7 @@ extern s16 D_8017F710[];
 //     it 0-arg to "explain" the nop would be wrong (canonical is 1-arg) — just call it.
 //   - `*(s32*)(a0+0x10) = *(s32*)(a0+0x10) * 15 / 16;` -> (x<<4)-x then the bgez/+0xF/sra-4
 //     signed-div-by-16 fixup. `>>4` would drop the fixup.
-//   - func_80131D68 is 2-arg here — (a0, D_8018E6A0); a1 is reloaded from the global before
+//   - guess_HandleActorEventDefault is 2-arg here — (a0, D_8018E6A0); a1 is reloaded from the global before
 //     all 5 of its call sites (the value is NOT cached in a callee reg: gcc-2.7.2's cse is
 //     extended-basic-block-local, so each join point reloads).
 //
@@ -933,25 +933,25 @@ extern s16 D_8017F710[];
 //   - func_8012CBF4 / func_8012CBA4 / func_8012CC64: canonical `void`, $v0 used -> cast.
 //   - func_80131E00: canonical takes `struct S80131E00 *` -> declared K&R no-proto here
 //     (compatible with the prototyped decl at L1250; params are promotion-safe: ptr + s32),
-//     matching the TU's own precedent `extern void func_80131CA8();` at L1189.
+//     matching the TU's own precedent `extern void guess_CallActorEventHandler();` at L1189.
 //   - func_8012B23C / func_8012CC64 / func_8012CEB0 / func_8012DBD0 / func_8012CBF4 are
 //     DEFINE_-instantiated ABOVE this slot — the decls here are exact-identical
 //     redeclarations (legal C), not new sigs.
-//   - func_80131CF4 is declared 2-arg `(int,int)`, mirroring func_801312D0's already-matched
+//   - guess_LookupIdValue is declared 2-arg `(int,int)`, mirroring func_801312D0's already-matched
 //     block-scope decl at L1619 (the engine_core canonical 1-arg form is the stale one).
 
 extern void func_801319E0(s32 a0);
 extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CC64(s32 a0, s32 a1);
-extern int func_80131D68(int, int);
-extern s32 func_80143B6C(s32 a0, s32 a1);
+extern int guess_HandleActorEventDefault(int, int);
+extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void func_8012B23C(s32 a0);
 extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
-extern s32 func_80131CA8();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
 
 extern s32 D_8018E6A0;
 extern s32 D_8018E6A4;
@@ -963,9 +963,9 @@ extern s32 D_8018E6A4;
 
 
 
-/* func_80131A34 — MATCH (37/37).
+/* guess_StartActorSequenceById — MATCH (37/37).
  * Keys:
- *  - func_80131CF4 is the TU's 2-arg canonical `(int,int)` and the SECOND arg is the
+ *  - guess_LookupIdValue is the TU's 2-arg canonical `(int,int)` and the SECOND arg is the
  *    incoming `a1` (kind). $a1 already holds it, so the call costs no arg-setup insn --
  *    but the extra arg ref is what breaks the sched2 prologue save-order tie so
  *    `sw $s0` schedules before `sw $ra` (cookbook §52a RC-3 / sched.md S7). Without it
@@ -973,10 +973,10 @@ extern s32 D_8018E6A4;
  *    the tie but OVER-frees (the `lw $a0` hoists above both saves, 3 mismatches).
  *  - Declaration is BLOCK-SCOPE on purpose, mirroring func_801312D0 (TU L1619) and
  *    func_80131340 (TU L1822): the later DEFINE_func_80131AC8() re-declares
- *    func_80131CF4 with the stale 1-arg engine_core canonical, so a file-scope 2-arg
+ *    guess_LookupIdValue with the stale 1-arg engine_core canonical, so a file-scope 2-arg
  *    decl here is a hard `conflicting types` (cc1 rc=33).
- *  - func_8012A828 is the TU's file-scope canonical (L280) `(s32, void *)`; `p` rides in
- *    $a1 from the return of func_80131CF4, so no move is emitted.
+ *  - guess_StartActorSequence is the TU's file-scope canonical (L280) `(s32, void *)`; `p` rides in
+ *    $a1 from the return of guess_LookupIdValue, so no move is emitted.
  */
 #include "../shared/ov/func_80131A34.h"
 
@@ -988,7 +988,7 @@ extern s32 D_8018E6A4;
 //   (ov_SC01_077_a.c L1676/L1756; callers cast to (void(*)(int)) when passing p), so the def MUST be
 //   (void) or cc1 hard-errors `conflicting types` (exit 33). §42c lever #6: capture incoming $a0 into a
 //   NORMAL pseudo (`register u8 *a0v __asm__("$4"); u8 *p = a0v;`) so p gets a callee-saved home ($s0).
-//   func_8012B2CC/func_8012B23C are file-scope DEFINE'd here (split L740/L744) as void(s32) — do NOT redeclare;
+//   guess_UpdateActorModelMatrix/func_8012B23C are file-scope DEFINE'd here (split L740/L744) as void(s32) — do NOT redeclare;
 //   the (void(*)(void*)) cast on the bare name is byte-neutral. Body keys: e(0x5E) as s32 not u8 (kills the
 //   compare-time andi 0xff); f76 dual-width via per-access casts (lhu in the decrement, lh in the <=0 compare);
 //   the p->f20 reload split into TWO separate temps so the 2nd load takes $v0 not $v1.
@@ -1000,29 +1000,29 @@ extern s32 D_8018E6A4;
 #include "../shared/ov/func_80131C78.h"
 
 
-/* func_80131CA8 — RECONCILE (§37/§124 asm-label alias)
+/* guess_CallActorEventHandler — RECONCILE (§37/§124 asm-label alias)
  *
  * Declaration-environment conflict, NOT a body problem:
  *   The TU's DEFINE_func_80131C78() expansion (jr_8012ACE0.c L2232) and the later
  *   DEFINE_func_80131D68() expansion (L2250) each emit the canonical
- *       extern void func_80131CA8(int a0, int a1);
+ *       extern void guess_CallActorEventHandler(int a0, int a1);
  *   (src/shared/engine_core.h, e.g. L1961/L4131). The byte-correct body is
  *   `s32 f(int)` — it disagrees on BOTH the return axis (s32 vs void) and the
  *   arity axis (1 vs 2), so it collides with the macro-emitted declaration on
  *   either side of the slot. Escape 1 (conform + cast at use) cannot apply: the
  *   conflict is on the DEFINED symbol itself.
  *
- * Fix: define under the C name aF80131CA8 with __asm__("func_80131CA8") so the
+ * Fix: define under the C name aF80131CA8 with __asm__("guess_CallActorEventHandler") so the
  * C-level name never meets the canonical declaration, while the emitted symbol
  * is unchanged. Codegen-neutral — match_one still prints MATCH (19/19).
  * This declaration MUST travel with the body.
  *
- * func_80131CF4 is declared here 1-arg s32, matching the engine_core canonical
+ * guess_LookupIdValue is declared here 1-arg s32, matching the engine_core canonical
  * at engine_core.h L6563; it does not collide anywhere in this TU (verified by
  * a full preprocess+cc1 of the spliced TU: diagnostic-free apart from
  * pre-existing warnings).
  */
-extern s32 func_80131CF4();  // K&R: 1 of 2 args (P37 unalias t4_ua6)
+extern s32 guess_LookupIdValue();  // K&R: 1 of 2 args (P37 unalias t4_ua6)
 
 
 #include "../shared/ov/func_80131CA8.h"
@@ -1030,7 +1030,7 @@ extern s32 func_80131CF4();  // K&R: 1 of 2 args (P37 unalias t4_ua6)
 
 
 
-/* func_80131CF4 — table lookup: walk (key, value) pairs; key 0xD chains to the
+/* guess_LookupIdValue — table lookup: walk (key, value) pairs; key 0xD chains to the
  * next table via value; key == wanted returns value; key 0 terminates.
  *
  * The __asm__ inside the body is a matching pin, not logic. It does two things
@@ -1043,18 +1043,18 @@ extern s32 func_80131CF4();  // K&R: 1 of 2 args (P37 unalias t4_ua6)
  * The asm body is empty, so it emits no instruction of its own.
  *
  * RECONCILE (§37/§124 asm-label alias) — the gate error was
- *   jr_8012ACE0.c:2248 conflicting types for func_80131CF4 || :2164 previous declaration
+ *   jr_8012ACE0.c:2248 conflicting types for guess_LookupIdValue || :2164 previous declaration
  * :2164 is `DEFINE_func_80131AC8()`, whose expansion (src/shared/engine_core.h:6563)
- * carries the STALE 1-arg engine-core canonical `extern s32 func_80131CF4(s32 a0);`.
+ * carries the STALE 1-arg engine-core canonical `extern s32 guess_LookupIdValue(s32 a0);`.
  * That prototype is wrong for this function (the TU's own call sites at L1780/L1903/
- * L2147 all declare and call the real 2-arg form `int func_80131CF4(int, int)`), but
+ * L2147 all declare and call the real 2-arg form `int guess_LookupIdValue(int, int)`), but
  * it is file-visible before the splice point, so a file-scope definition with the true
  * signature is a hard `conflicting types` (arity AND param type). Conforming the
  * definition to the 1-arg prototype is impossible without changing codegen, and the
  * §42 `register s32 a1 __asm__("$5")` route would still leave the param-type mismatch
  * on a0 (s32 vs s32*). So the definition is given a different C identifier and pinned
  * to the real symbol with an asm label: no declaration ever collides, the emitted
- * label is still `func_80131CF4`, and the callers' `jal func_80131CF4` binds to it.
+ * label is still `guess_LookupIdValue`, and the callers' `jal guess_LookupIdValue` binds to it.
  * Zero header edits; body byte-identical (match_one: MATCH, 29 ins).
  */
 #include "../shared/ov/func_80131CF4.h"
@@ -1105,8 +1105,8 @@ extern void (*D_8017F800[])(void);
 
 
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(int, int);
 
 /* §37 asm-label aliases: D_8017F7A0 is declared in this TU as `void (*[])(void)`
@@ -1123,8 +1123,8 @@ extern void guess_InitModelObject(int, int);
 // @class: plumbing
 // @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(int, int);
 extern int D_8017F7A8;
 
@@ -1140,8 +1140,8 @@ extern int D_8017F7A8;
 // @class: plumbing
 // @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(int, int);
 extern int D_8017F7C8;
 
@@ -1152,8 +1152,8 @@ extern int D_8017F7C8;
 // @class: plumbing
 // @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
 
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(int, int);
 extern int D_8017F7D8;
 

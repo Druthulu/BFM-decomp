@@ -10,7 +10,7 @@ void func_80163A94(s32 param_1) {
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146E90(s32 *a0, s32 a1);
     extern void func_80147324(s32 a0);
-    extern void func_80149374(int, int);
+    extern void guess_TransformPosByObjMatrix(int, int);
     s32 iVar7;
     s32 iVar1;
     s32 iVar2;
@@ -26,7 +26,7 @@ void func_80163A94(s32 param_1) {
         *(s16 *)(iVar1 + 0x1a) = 0x1800;
         *(s16 *)(iVar1 + 0x18) = 0x1800;
         *(u16 *)(iVar1 + 0x2c) = *(u16 *)(iVar1 + 0x2c) | 0x10;
-        func_80149374(iVar7, param_1 + 4);
+        guess_TransformPosByObjMatrix(iVar7, param_1 + 4);
         iVar3 = *(s32 *)(param_1 + 0x20);
         iVar2 = *(s32 *)(iVar7 + 0x20);
         *(Blk16 *)(iVar3 + 0x34) = *(Blk16 *)(iVar2 + 0x34);

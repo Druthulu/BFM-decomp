@@ -4,11 +4,11 @@
 void func_8017F950(s32 arg0)
 {
     extern void func_80019064(void *a0);
-    extern void func_8012A828(s32 a0, void *a1);
+    extern void guess_StartActorSequence(s32 a0, void *a1);
     extern void func_8012B23C(s32 a0);
-    extern void func_8012B2CC(s32 a0);
+    extern void guess_UpdateActorModelMatrix(s32 a0);
     extern void func_8012E9C0(s32 a0);
-    extern s32 func_80143B6C(s32 a0, s32 a1);
+    extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
     extern void func_8017FC9C(s32 a0);
     extern void func_8017FCB0(s32 a0);
     extern void func_8017FD2C(s32 a0);
@@ -35,10 +35,10 @@ void func_8017F950(s32 arg0)
     ((Unkstruct_800B5CB8 *)arg0)->unk76 = CAST_SIGN(u16, arg0, 0x76) - CAST_SIGN(u16, arg0, 0x60);
     ((Unkstruct_800B5CB8 *)arg0)->unk5C &= 0xFFFE;
     ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = (((Unkstruct_800B5CB8 *)arg0)->unk62 + 0x800) & 0xFFF;
-    func_8012B2CC(arg0);
+    guess_UpdateActorModelMatrix(arg0);
     func_8012B23C(arg0);
     ((Unkstruct_800B5CB8 *)arg0)->unk2 = 3;
-    func_80143B6C(arg0, 0);
+    guess_SpawnActorType1C(arg0, 0);
     switch (((Unkstruct_800B5CB8 *)arg0)->unk5E) {
     case 13:
         func_8017FC9C(arg0);
@@ -68,7 +68,7 @@ void func_8017F950(s32 arg0)
         if (((Unkstruct_800B5CB8 *)arg0)->unk76 > 0) {
             ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
             ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x10;
-            func_8012A828(arg0, D_801A681C);
+            guess_StartActorSequence(arg0, D_801A681C);
             return;
         }
         break;

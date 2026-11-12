@@ -1008,7 +1008,7 @@ void func_8012ACA0(void *arg0) {
 //   schedules store-before-sll, no extra `move`). count is s16 so `count==0` -> `sll 16;bnez`.
 //   else-block obj must be a BLOCK-LOCAL (gcc then picks $a1, not the shared if-branch $a0).
 
-extern void  func_80016714(void *a0, s32 a1);
+extern void  guess_ZeroMemory(void *a0, s32 a1);
 
 s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
 
@@ -1082,10 +1082,10 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
             } else {
                 a1v = 0x84;
             }
-            func_80016714(obj, a1v);
+            guess_ZeroMemory(obj, a1v);
         done:;
         }
-        func_80016714(dst, 0x10C);
+        guess_ZeroMemory(dst, 0x10C);
         ((Unkstruct_8012C890_4 *)src)->unkA &= 0x7FFF;
         return 0;
     }
@@ -1179,8 +1179,8 @@ void func_8012D3AC(void) {
     extern s32 RotTransPers(s32, s32*, s32*, s32*);
     extern void SetLineF2(void *);
     extern s32 func_80010A08(s32);
-    extern void func_8004914C(void *);
-    extern void func_800491AC(void *);
+    extern void SetRotMatrix(void *);
+    extern void SetTransMatrix(void *);
     extern s32 D_800A651C;
     extern u8 guess_g_CameraWsMatrix;
     extern s16 guess_g_DoubleBufferIndex;
@@ -1192,8 +1192,8 @@ void func_8012D3AC(void) {
         temp_v0 = func_80010A08(0x10);
         (*(s32 *)((s8*)(temp_v0)+(4))) = arg2;
         SetLineF2(temp_v0);
-        func_8004914C(&guess_g_CameraWsMatrix);
-        func_800491AC(&guess_g_CameraWsMatrix);
+        SetRotMatrix(&guess_g_CameraWsMatrix);
+        SetTransMatrix(&guess_g_CameraWsMatrix);
         temp_v0_2 = RotTransPers(arg0, temp_v0 + 8, &sp10, &sp14);
         if ((temp_v0_2 > 0) && (sp14 >= 0) && (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
             AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)guess_g_DoubleBufferIndex * 0x14)) + (temp_v0_2 * 4), temp_v0);
@@ -1207,8 +1207,8 @@ void func_8012D3AC(void) {
     extern s32 RotTransPers(s32, s32*, s32*, s32*);
     extern void SetLineF2(void *);
     extern s32 func_80010A08(s32);
-    extern void func_8004914C(void *);
-    extern void func_800491AC(void *);
+    extern void SetRotMatrix(void *);
+    extern void SetTransMatrix(void *);
     extern s32 D_800A651C;
     extern u8 guess_g_CameraWsMatrix;
     extern s16 guess_g_DoubleBufferIndex;
@@ -1224,8 +1224,8 @@ void func_8012D3AC(void) {
         temp_v0 = func_80010A08(0x10);
         (*(s32 *)((s8 *)(temp_v0) + (4))) = arg3;
         SetLineF2(temp_v0);
-        func_8004914C(&guess_g_CameraWsMatrix);
-        func_800491AC(&guess_g_CameraWsMatrix);
+        SetRotMatrix(&guess_g_CameraWsMatrix);
+        SetTransMatrix(&guess_g_CameraWsMatrix);
         temp_v0_2 = RotTransPers((s32)sp10, temp_v0 + 8, &sp20, &sp24);
         if ((temp_v0_2 > 0) && (sp24 >= 0) &&
             (RotTransPers((s32)sp18, temp_v0 + 0xC, &sp20, &sp24) > 0) && (sp24 >= 0)) {
@@ -1532,8 +1532,8 @@ void func_8012E364(s32 arg0_)
 
 /* de-macroized: per-overlay-local decl for guess_WorldToScreen (byte-true sig); do NOT re-macroize */
     extern u8 guess_g_CameraWsMatrix;
-    extern void func_8004914C(void *a0);
-    extern void func_800491AC(void *a0);
+    extern void SetRotMatrix(void *a0);
+    extern void SetTransMatrix(void *a0);
     extern s32 RotTransPers(s32, s32*, s32*, s32*);
     extern void func_8002D4C8(s32 a0, s32 a1);
     void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3)
@@ -1542,8 +1542,8 @@ void func_8012E364(s32 arg0_)
         struct { short xy[2]; int sp14; int flag; } f;
         void *p;
         p = &guess_g_CameraWsMatrix;
-        func_8004914C(p);
-        func_800491AC(&D_800AF648_b);
+        SetRotMatrix(p);
+        SetTransMatrix(&D_800AF648_b);
         RotTransPers(param_1, (s32)f.xy, &f.sp14, &f.flag);
         if (f.flag >= 0 && (u16)(f.xy[0] + 199) < 399 && (u16)(f.xy[1] + 0xA9) < 0x153) {
             func_8002D4C8(param_2, param_3);
@@ -1553,8 +1553,8 @@ void func_8012E364(s32 arg0_)
 
 /* de-macroized: per-overlay-local decl for guess_WorldToScreen (byte-true sig); do NOT re-macroize */
     extern u8 guess_g_CameraWsMatrix;
-    extern void func_8004914C(void *a0);
-    extern void func_800491AC(void *a0);
+    extern void SetRotMatrix(void *a0);
+    extern void SetTransMatrix(void *a0);
     extern s32 RotTransPers(s32, s32*, s32*, s32*);
     extern void func_8002D4C8(s32 a0, s32 a1);
     void func_8012E688(s32 param_1, u16 param_2, u16 param_3)
@@ -1568,8 +1568,8 @@ void func_8012E364(s32 arg0_)
             f.v[1] = (short)((Unkstruct_8012E688_2 *)*(s32 *)(param_1 + 0x20))->unk4C;
             f.v[2] = (short)((Unkstruct_8012E688_2 *)*(s32 *)(param_1 + 0x20))->unk50;
             p = &guess_g_CameraWsMatrix;
-            func_8004914C(p);
-            func_800491AC(&guess_g_CameraWsMatrix);
+            SetRotMatrix(p);
+            SetTransMatrix(&guess_g_CameraWsMatrix);
             RotTransPers((s32)f.v, (s32)f.xy, &f.sp1c, &f.flag);
             if (f.flag < 0) {
                 return;
@@ -1708,8 +1708,8 @@ extern s32 func_8012EFB8(void *param_1, void *param_2);
 // @class: remat
 // @unstuck(P36): none — MATCH
 
-extern void func_8004914C();
-extern void func_800491AC();
+extern void SetRotMatrix();
+extern void SetTransMatrix();
 extern s32 RotTransPers(s32 a0, s32 *a1, s32 *a2, s32 *a3);
 extern u8 guess_g_CameraWsMatrix;
 
@@ -1724,8 +1724,8 @@ s32 *guess_WorldToScreen(s32 *param_1, s32 param_2) {
     /* $a0-pinned scopes force the &guess_g_CameraWsMatrix constant to be rematerialized
        (lui/addiu) before each call instead of CSE-hoisting it into a third
        callee-saved register. */
-    { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }
-    { void *r4; r4 = &guess_g_CameraWsMatrix; func_800491AC(r4); }
+    { void *r4; r4 = &D_800AF648_b; SetRotMatrix(r4); }
+    { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
     RotTransPers(param_2, &sxy, &p, &flag);
     if (flag < 0) {
         *param_1 = sxy = 0;
@@ -1736,8 +1736,8 @@ s32 *guess_WorldToScreen(s32 *param_1, s32 param_2) {
 }
 
 
-extern void func_8004914C();
-extern void func_800491AC();
+extern void SetRotMatrix();
+extern void SetTransMatrix();
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern s32 RotTransPers(s32, s32*, s32*, s32*);
 s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
@@ -1748,15 +1748,15 @@ s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
     s32 m;
     void *pv;
     m = *(s32 *)(param_2 + 0x20) + 0x34;
-    ((void (*)(s32))func_8004914C)(m);
-    ((void (*)(s32))func_800491AC)(m);
+    ((void (*)(s32))SetRotMatrix)(m);
+    ((void (*)(s32))SetTransMatrix)(m);
     pv = (void *)sv;
     ((void (*)(s32, void *, s32 *))RotTransSV)(param_3, pv, &out[0]);
     sxy = 0;
     /* $a0-pinned scopes force the &guess_g_CameraWsMatrix constant to be rematerialized
        (lui/addiu) before each call instead of CSE-hoisting it. */
-    { void *r4; r4 = &D_800AF648_b; func_8004914C(r4); }
-    { void *r4; r4 = &guess_g_CameraWsMatrix; func_800491AC(r4); }
+    { void *r4; r4 = &D_800AF648_b; SetRotMatrix(r4); }
+    { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
     ((s32 (*)(void *, s32 *, s32 *, s32 *))RotTransPers)(pv, &sxy, &p, &flag);
     if (flag < 0) {
         out[0] = sxy = 0;
@@ -1787,7 +1787,7 @@ s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 
 void func_8012F828(int param_1)
 {
@@ -1797,7 +1797,7 @@ void func_8012F828(int param_1)
     if (*(unsigned int *)(param_1 + 0xB4) & 8) {
         func_80131170(param_1, D_8018A77C, 0xB);
     }
-    func_80131CA8(param_1, 9);
+    guess_CallActorEventHandler(param_1, 9);
 }
 
 
@@ -1808,7 +1808,7 @@ void func_8012F828(int param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 
 void func_8012F8C8(int param_1)
 {
@@ -1818,7 +1818,7 @@ void func_8012F8C8(int param_1)
     if (*(unsigned int *)(param_1 + 0xB4) & 128) {
         func_80131170(param_1, D_8018A788, 0xB);
     }
-    func_80131CA8(param_1, 22);
+    guess_CallActorEventHandler(param_1, 22);
 }
 
 
@@ -1846,7 +1846,7 @@ void func_8012F8C8(int param_1)
 //   un-reorderable {li,move} schedule-steal (calls.c emits a0 first; sched2 keeps LUID; reorg swaps them).
 //   THE FIX: func_80131B14 takes ONE arg — ((void(*)(int))func_80131B14)(param_1). Then:
 //     - func_80131B14's own delay slot = `move a0,s0` (its a0 arg), and a1 is NOT live across it.
-//     - the `li a1,0x1C` in the beqz(0x100) delay slot is the TERMINAL func_80131CA8(param_1,0x1C)'s arg, which
+//     - the `li a1,0x1C` in the beqz(0x100) delay slot is the TERMINAL guess_CallActorEventHandler(param_1,0x1C)'s arg, which
 //       reorg fill_slots_from_thread shares into the delay slot for the beqz-taken (else) edge FOR FREE, because
 //       a1 is dead on the fall-through (1-arg func_80131B14 never reads a1) so there is no resource conflict.
 //   No barrier, no register pin, no schedule mutation — the correct arity makes the target schedule fall out
@@ -1854,11 +1854,11 @@ void func_8012F8C8(int param_1)
 //   re-derive the CALLEE ARITY from the asm — a spurious extra register arg that is live across the call is what
 //   blocks reorg from sharing a downstream constant into a branch delay slot.)
 
-extern s32 func_80131CA8();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131B14(void);
-extern s32 func_80131A34(s32, s32);
-extern void func_8012B14C(s32 a0, s32 a1);
+extern s32 guess_StartActorSequenceById(s32, s32);
+extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 
 void func_8012FCC4(int param_1) {
 
@@ -1867,7 +1867,7 @@ void func_8012FCC4(int param_1) {
     ((Unkstruct_800B5CB8 *)param_1)->unkC1 = 8;
     if (v1 & 2) {
         ((Unkstruct_800B5CB8 *)param_1)->unkC1 = 1;
-        func_80131CA8(param_1, 3);
+        guess_CallActorEventHandler(param_1, 3);
         return;
     }
     if (v1 & 1) {
@@ -1880,18 +1880,18 @@ void func_8012FCC4(int param_1) {
             ((void (*)(int, int))func_80131E00)(param_1, 0xC);
             return;
         }
-        if (func_80131A34(param_1, 4) != 0) {
+        if (guess_StartActorSequenceById(param_1, 4) != 0) {
             ((Unkstruct_800B5CB8 *)param_1)->unkC2 = 0;
         } else {
             ((Unkstruct_800B5CB8 *)param_1)->unk98 = 0;
             ((Unkstruct_800B5CB8 *)param_1)->unkC2 = 1;
         }
-        ((void (*)(int, void *))func_8012B14C)(param_1, &D_8018A794);
+        ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_8018A794);
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
-        func_80131CA8(param_1, 0x1C);
+        guess_CallActorEventHandler(param_1, 0x1C);
         return;
     }
-    func_80131CA8(param_1, 0x1C);
+    guess_CallActorEventHandler(param_1, 0x1C);
 }
 
 
@@ -2020,13 +2020,13 @@ void func_80130D48(s32 arg0)
     s32 r;
     s32 ret;
 
-    val = func_80131CF4(((Unkstruct_800B5CB8 *)arg0)->unkBC, 0x15);
+    val = guess_LookupIdValue(((Unkstruct_800B5CB8 *)arg0)->unkBC, 0x15);
     if (val == 0) {
         return;
     }
 
     if (((Unkstruct_800B5CB8 *)arg0)->unk5E == 0xB) {
-        ret = func_8012C658(0x33, 0, arg0);
+        ret = guess_SpawnActor(0x33, 0, arg0);
     } else {
         switch (val & 0xFFFF0000) {
         case 0x10000: {
@@ -2104,20 +2104,20 @@ void func_80130D48(s32 arg0)
                     break;
                 }
             }
-            ret = func_8012C658(val, j, arg0);
+            ret = guess_SpawnActor(val, j, arg0);
             break;
         }
         case 0x20000:
-            ret = func_8012C658(0x33, 0, arg0);
+            ret = guess_SpawnActor(0x33, 0, arg0);
             break;
         case 0x30000:
-            ret = func_8012C658(0x31, 0, arg0);
+            ret = guess_SpawnActor(0x31, 0, arg0);
             break;
         case 0x40000:
-            ret = func_8012C658(0x32, 0, arg0);
+            ret = guess_SpawnActor(0x32, 0, arg0);
             break;
         case 0x50000:
-            ret = func_8012C658(0x33, 0, arg0);
+            ret = guess_SpawnActor(0x33, 0, arg0);
             break;
         case 0x60000: {
             s32 rr = rand() & 0xFF;
@@ -2130,11 +2130,11 @@ void func_80130D48(s32 arg0)
             if (*(u16 *)(p + 0x40) < 4U) {
                 id = 0x33;
             }
-            ret = func_8012C658(id, tbl[2], arg0);
+            ret = guess_SpawnActor(id, tbl[2], arg0);
             break;
         }
         case 0x70000:
-            ret = func_8012C658(0x27B, 0, arg0);
+            ret = guess_SpawnActor(0x27B, 0, arg0);
             break;
         default:
             return;
@@ -2147,19 +2147,19 @@ void func_80130D48(s32 arg0)
 }
 
 
-extern void func_8012B14C(s32 a0, s32 a1);
-extern s32 func_8012BCCC(s32 a0);
-extern s32 func_80131A34(s32, s32);
+extern void guess_SetLocalVelocity(s32 a0, s32 a1);
+extern s32 guess_DistSqToPlayer(s32 a0);
+extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 func_80131AC8(void *a0);
 extern void func_80131B14(void);
 
 
 // @class: loop-guard
 // @unstuck(P36): none — MATCH (88 ins). Keys: duplicate the c!=0/c==0 bodies verbatim (gcc cross-jumps
-//   the shared "|=4;goto tail" into L240 on its own); tail dispatch as `if (((s32(*)(s32))func_8012BCCC)(p) <= 0x8FFF)`
+//   the shared "|=4;goto tail" into L240 on its own); tail dispatch as `if (((s32(*)(s32))guess_DistSqToPlayer)(p) <= 0x8FFF)`
 //   (the <= polarity makes the >0x8FFF/0x33-first block the bnez'd else=L298, fall-through = 0x32-first);
 //   both AC8 tails cross-jump-merge into the shared L2AC final call. Externs aligned to the file's
-//   existing decls for gate-safety: func_80131B14(void) [file line 1486], func_8012B14C/func_8012BCCC
+//   existing decls for gate-safety: func_80131B14(void) [file line 1486], guess_SetLocalVelocity/guess_DistSqToPlayer
 //   canonical (s32) [DEFINE macros], ((s32(*)())func_80131AC8)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
 
 
@@ -2173,21 +2173,21 @@ void func_80131170(s32 p, s32 b, s32 c) {
     if (((u8 *)b) == 0) {
         ((u8 *)b) = D_8018A770;
     }
-    func_8012B14C((s32)((u8 *)p), (s32)((u8 *)b));
+    guess_SetLocalVelocity((s32)((u8 *)p), (s32)((u8 *)b));
     ((Unkstruct_800B5CB8 *)p)->unk1C = 0;
     if (c != 0) {
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), c) != 0) goto tail;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x24) != 0) goto tail;
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), c) != 0) goto tail;
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x24) != 0) goto tail;
         ((Unkstruct_800B5CB8 *)p)->unkC4 &= ~4;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x20) != 0) {
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x20) != 0) {
             ((Unkstruct_800B5CB8 *)p)->unkC4 |= 4;
         } else {
             ((Unkstruct_800B5CB8 *)p)->unk98 = 0;
         }
     } else {
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x24) != 0) goto tail;
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x24) != 0) goto tail;
         ((Unkstruct_800B5CB8 *)p)->unkC4 &= ~4;
-        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x20) != 0) {
+        if (((s32(*)(s32, s32))guess_StartActorSequenceById)((s32)((u8 *)p), 0x20) != 0) {
             ((Unkstruct_800B5CB8 *)p)->unkC4 |= 4;
         } else {
             ((Unkstruct_800B5CB8 *)p)->unk98 = 0;
@@ -2197,7 +2197,7 @@ tail:
     if (((Unkstruct_800B5CB8 *)p)->unk76 > 0) {
         return;
     }
-    if (((s32(*)(s32))func_8012BCCC)((s32)((u8 *)p)) <= 0x8FFF) {
+    if (((s32(*)(s32))guess_DistSqToPlayer)((s32)((u8 *)p)) <= 0x8FFF) {
         if (((s32(*)())func_80131AC8)(((u8 *)p), 0x32) != 0) return;
         ((s32(*)())func_80131AC8)(((u8 *)p), 0x33);
     } else {
@@ -2217,12 +2217,12 @@ tail:
 
 s32 func_801312D0(s32 param_1, void *param_2)
 {
-    extern int func_80131CF4(int, int);
+    extern int guess_LookupIdValue(int, int);
     extern M8 D_8018A8C4;
 
     int iVar5;
 
-    iVar5 = func_80131CF4(((Unkstruct_801312D0_6 *)param_1)->unkBC, 0x2E);
+    iVar5 = guess_LookupIdValue(((Unkstruct_801312D0_6 *)param_1)->unkBC, 0x2E);
     if (iVar5 != 0) {
         ((Unkstruct_801312D0_3 *)param_2)->unk4 = 0;
         ((Unkstruct_801312D0_3 *)param_2)->unk0 = 0;

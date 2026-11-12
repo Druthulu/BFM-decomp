@@ -1,5 +1,6 @@
 // config/symbols.md_MAIN_016.txt — module md_MAIN_016 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CAE08..0x800CB590); NEVER merged into config/symbols.us.txt.
-// count=1
+// count=2
 
 guess_RotTransSVWithMatrix       = 0x8012F14C; // func
+guess_FreeSmallObject            = 0x80146C3C; // func

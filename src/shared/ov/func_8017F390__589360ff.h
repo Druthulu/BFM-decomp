@@ -7,13 +7,13 @@ extern s32 D_801E8008;
 extern char D_801A6534[];
 extern char D_801A7054[];
 extern char D_8018E6B0[];
-extern void func_8012A828(s32 a0, void *a1);
-extern s32  func_8012BEE8(s32 a0);
+extern void guess_StartActorSequence(s32 a0, void *a1);
+extern s32  guess_TickWaitTimer(s32 a0);
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
-extern void func_8012B14C(s32 a0, s32 a1);
+extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012C098(void *a0);
-extern void func_8012C218(void *a0);
+extern void guess_FreeActor(void *a0);
 void func_8017F390(s32 a0)
 {
     u16 state;
@@ -29,7 +29,7 @@ void func_8017F390(s32 a0)
         if (v0 < 0x171) {
             t = state + 1;
             *(u16 *)(a0 + 0x34) = t;
-            func_8012A828(a0, &D_801A7054);
+            guess_StartActorSequence(a0, &D_801A7054);
             *(s32 *)(a0 + 0x1C) = 0x1E;
         }
         return;
@@ -37,12 +37,12 @@ void func_8017F390(s32 a0)
         if (*(s32 *)(a0 + 0x1C) == 0x14) {
             D_801270C8 = 1;
         }
-        if (func_8012BEE8(a0) == 0) {
+        if (guess_TickWaitTimer(a0) == 0) {
             return;
         }
         t = *(u16 *)(a0 + 0x34) + 1;
         *(u16 *)(a0 + 0x34) = t;
-        func_8012A828(a0, &D_801A6534);
+        guess_StartActorSequence(a0, &D_801A6534);
         *(s32 *)(a0 + 0x1C) = 0;
         return;
     case 2:
@@ -56,7 +56,7 @@ void func_8017F390(s32 a0)
             *(u16 *)(p20b + 0x12) = *(u16 *)(p20b + 0x12) + v0;
         }
         if (*(s32 *)(a0 + 0x1C) >= 8) {
-            func_8012B14C(a0, (s32) D_8018E6B0);
+            guess_SetLocalVelocity(a0, (s32) D_8018E6B0);
             v0 = ((s32 (*)(s32)) func_8012CBA4)(a0);
             D_801E8008 = v0;
             if (v0 == 0 || (v0 & 0x4000) != 0) {
@@ -77,11 +77,11 @@ void func_8017F390(s32 a0)
                 return;
             case 3:
             case 7:
-                func_8012C218((void *)a0);
+                guess_FreeActor((void *)a0);
                 break;
             case 4:
                 D_801270CC = D_801270CC - 1;
-                func_8012C218((void *)a0);
+                guess_FreeActor((void *)a0);
                 break;
             }
         }

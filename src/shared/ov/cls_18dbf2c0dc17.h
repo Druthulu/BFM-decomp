@@ -14,5 +14,5 @@ void SHARED_FN(s32 *a0) {
 
     ((Unkstruct_800B5CB8 *)ptr_at_20)->unk12 = val1 + val2;
 
-    func_8012B2CC(a0);
+    guess_UpdateActorModelMatrix(a0);
 }

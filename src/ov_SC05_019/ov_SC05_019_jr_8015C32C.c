@@ -110,7 +110,7 @@ extern s32 func_80146578(void);
 extern void func_8001CFDC(s32, s32);
 extern s32 func_8014659C(void);
 extern void func_8001D074(s32, s32);
-extern void *func_801465C0(void);
+extern void *guess_AllocSpriteObject(void);
 extern s32 func_801465E4(void);
 extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern s32 D_8011F9D0;
@@ -140,7 +140,7 @@ extern void func_80146DF8(s32 *a0, s32 a1, s32 a2, s32 a3, s32 t0);
 extern void func_80146E90(s32 *a0, s32 a1);
 extern s32 func_80146E98(s32 a0);
 extern void func_80015954(s32 a0, s32 a1);
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_80146F58(s32 a0, s32 a1);
 extern void func_80146EC0(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s16 func_8012A68C(void);
@@ -304,10 +304,10 @@ extern s32 guess_g_ActiveCamera;
 extern void func_80149204(s32 *a0);
 extern void func_80149210(s32 a0, s32 a1);
 extern s32 func_80149284(s32 *a0, s32 a1);
-extern void func_80149350(s32 arg0);
+extern void guess_ObjRotTransSV(s32 arg0);
 extern void func_80149290(s32 a0);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
-extern void func_80149374(s32 arg0, s32 arg1);
+extern void guess_TransformPosByObjMatrix(s32 arg0, s32 arg1);
 extern void func_801493D0(s32 param_1, s32 param_2, s32 param_3);
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8014942C(s32 arg0);
@@ -404,7 +404,7 @@ extern void func_8014AB5C(void);
 extern void func_80162CCC();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014ACC0(s32 a0, s32 a1);
 extern void func_8014AD30(s32 a0, u16 *a1, s32 a2, s32 a3);
@@ -1487,7 +1487,7 @@ extern void func_80154A74(int, int);
 extern s32 func_80161208();
 extern void func_80154150(int, int);
 extern void func_80146CA0(void *a0);
-extern void func_80149374(int, int);
+extern void guess_TransformPosByObjMatrix(int, int);
 
 extern unsigned char D_80181B58[];
 
@@ -1514,11 +1514,11 @@ extern void func_80154150(s32, s32);
 extern void func_80146DB8(s32*, s32*);
 extern void func_80147A84(s32);
 extern void guess_ApplyVelocity(s32*);
-extern void func_80149374(s32, s32);
+extern void guess_TransformPosByObjMatrix(s32, s32);
 extern void guess_SetState(s32*, s16);
 extern void func_80159B70(void *);
 extern void func_8015C714(void *);
-extern void func_801483E8();  // K&R: ? of 1 args (P37 rung D t4_D25)
+extern void guess_SaveGroundedPos();  // K&R: ? of 1 args (P37 rung D t4_D25)
 
 extern void (*D_80181914[])(void *);
 extern u8 guess_g_PlayerRecord[];
@@ -1565,7 +1565,7 @@ extern void func_8015DCB8(s32 a0);
 // @unstuck(P36): none — MATCH (proxy gate)
 
 extern s8 D_80181B94[];
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 
 #define SHARED_FN func_8015DCB8
 #include "../shared/ov/cls_3082f04213b6.h"
@@ -1612,7 +1612,7 @@ extern void func_8015E018(s32 a0);
 // @unstuck(P36): none — MATCH (proxy gate)
 
 extern s8 D_80181B94[];
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 
 #define SHARED_FN func_8015E018
 #include "../shared/ov/cls_3082f04213b6.h"
@@ -1668,7 +1668,7 @@ extern u16 D_80181BDE;
 extern u16 D_80181BE0;
 extern s32 D_80181BE4;
 
-extern void func_80149350(s32 arg0);
+extern void guess_ObjRotTransSV(s32 arg0);
 extern void func_80013E94(void *a0, void *a1);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
@@ -1748,7 +1748,7 @@ extern void func_80154150(s32, s32);
 extern void func_8014D738(void);
 extern void func_8015C714(void *a0);
 extern s32 func_80161208();  /* canonical no-proto (§17a-1) */
-extern void func_801483E8();  // K&R: ? of 1 args (P37 rung D t4_D25)
+extern void guess_SaveGroundedPos();  // K&R: ? of 1 args (P37 rung D t4_D25)
 
 extern void (*D_80181914[])(void *);
 
@@ -2489,7 +2489,7 @@ extern s32 D_80181DB4;
 // @unstuck(P36): none — MATCH (do-while scan over 3-entry global; increments placed AFTER the call so p++ schedules between load and jal, i++ into the delay slot)
 
 extern void func_800291C8(s32, s32);
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 
 extern int D_8018E868[];
 
@@ -2512,7 +2512,7 @@ extern s32 D_80181DB4;
 // @unstuck(P36): none — MATCH
 extern void guess_SetGameFlag(s32, s32);
 extern void func_800291C8(s32, s32);
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern int D_8018E868[];
 
 #include "../shared/ov/func_801622C4__994a7377.h"
@@ -2565,7 +2565,7 @@ extern void (*D_80181DD8[])(void);
 // @unstuck(P36): none — MATCH (24 ins). do-while; load+call first, then p++ and i++ AFTER the call so gcc schedules p++/arg ahead of jal and i++ into the delay slot.
 
 extern void func_800291C8(s32, s32);
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 
 extern int D_8018E8C0[];
 
@@ -2579,7 +2579,7 @@ extern int D_8018E8C0[];
 // @unstuck(P36): none — MATCH (19 ins, relocation-masked)
 //
 // Tiny dispatcher: byte count at D_8011F750 (offset 0 of a 0x58-byte ctl struct;
-// cf. func_801627C0 which calls func_80016714(&D_8011F750, 0x58)). If nonzero,
+// cf. func_801627C0 which calls guess_ZeroMemory(&D_8011F750, 0x58)). If nonzero,
 // call D_80181E1C[count - 1]() through a word-stride fn-pointer table.
 //
 // Two idioms combined to match gcc-2.7.2 -O2:
@@ -2636,7 +2636,7 @@ extern s32 D_800B5CEC;
 
 #include "../shared/ov/func_80162CC4.h"
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 #include "../shared/ov/func_80162CCC.h"
 
 
@@ -3173,7 +3173,7 @@ extern void (*D_80182238[])(void);
 
 
 
-extern void func_80149350(s32);
+extern void guess_ObjRotTransSV(s32);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
@@ -3336,9 +3336,9 @@ extern void (*D_8018227C[])(void);
 
 
 extern void func_80168BDC(s32 a0, s32 a1, s32 a2, s32 a3);
-/* Conform to the TU's canonical decl (jr_8015C32C.c:5546 `extern void func_80146C3C(void);`)
+/* Conform to the TU's canonical decl (jr_8015C32C.c:5546 `extern void guess_FreeSmallObject(void);`)
  * and cast at the use site — same escape the TU already uses at :6388. Codegen-neutral. */
-extern s32 func_80146C3C(u8 *a0);
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 #include "../shared/ov/func_80168B70.h"
 
@@ -3418,7 +3418,7 @@ extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_80048D9C(void *a0, void *a1);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
-extern s32 func_80146C3C(u8 *a0);
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 #include "../shared/ov/func_80169BBC__974035e4.h"
 
@@ -3438,7 +3438,7 @@ extern void (*D_80182358[])(void);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
-extern s32 func_80146C3C(u8 *a0);
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 extern char D_80182308[];
 extern char D_801822C8[];

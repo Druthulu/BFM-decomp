@@ -4,7 +4,7 @@ void SHARED_FN(void *a0, void *a1, s32 a2) {
     s32 i;
 
     for (i = 0; *(s16 *)((s32)a1 + i) != 0; i += 6) {
-        s32 v1 = func_8012C658(0x167, (s16)a2, (s32)a0);
+        s32 v1 = guess_SpawnActor(0x167, (s16)a2, (s32)a0);
         if (v1 != 0) {
             ((Unkstruct_800B5CB8 *)v1)->unk6 = *(u16 *)((s32)a1 + i + 0);
             ((Unkstruct_800B5CB8 *)v1)->unkA = *(u16 *)((s32)a1 + i + 2);

@@ -145,7 +145,7 @@ void func_800CB108(s32 *a0) {
 // @class: other
 // @unstuck(P36): none — MATCH (proxy gate)
 
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 
 void func_800CB13C(s32 param_1) {
 
@@ -167,7 +167,7 @@ void func_800CB13C(s32 param_1) {
     ((Unkstruct_80126B58 *)param_1)->unk234 = iVar1 + 1;
     *(s16 *)(iVar2 + 0xe) = (s16)D_800CB290[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0x10);
 
-    func_80149374(param_1, iVar2 + 4);
+    guess_TransformPosByObjMatrix(param_1, iVar2 + 4);
 }
 
 

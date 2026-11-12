@@ -1,6 +1,6 @@
 /* func_80168070 — shared body (overlay slot 0x80128158, h_exact 0d18ee0d). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80149350(s32 arg0);
+extern void guess_ObjRotTransSV(s32 arg0);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
@@ -18,7 +18,7 @@ void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4) {
     mid[0] = (param_2[0] + param_3[0]) >> 1;
     mid[1] = (param_2[1] + param_3[1]) >> 1;
     mid[2] = (param_2[2] + param_3[2]) >> 1;
-    ((void (*)(s32, void *, void *))func_80149350)(param_1, mid, mid);
+    ((void (*)(s32, void *, void *))guess_ObjRotTransSV)(param_1, mid, mid);
     func_800D20C0(mid, dir, 8);
     func_80017E68(mid, param_4);
     dir[0] = (u16)param_3[0] - (u16)param_2[0];

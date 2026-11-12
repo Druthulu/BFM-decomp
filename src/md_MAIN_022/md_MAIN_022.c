@@ -254,7 +254,7 @@ void func_800CB3D0(void) {
 
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80017DF8(s16 *a0, void *a1);
-extern void func_80149350(s32 a0, s32 a1, s32 a2);
+extern void guess_ObjRotTransSV(s32 a0, s32 a1, s32 a2);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 extern u8 D_800CBCBC[];
@@ -277,7 +277,7 @@ void func_800CB3F0(void *a0) {
 
     func_80017DC4(ang, mat);
     func_80017DF8((s16 *)(s2v + 0x10), mat);
-    func_80149350(s3v, (s32)D_800CBCBC, (s32)ang);
+    guess_ObjRotTransSV(s3v, (s32)D_800CBCBC, (s32)ang);
 
     ((Unkstruct_800CB3F0 *)mat)->unk14 = ang[0];
     ((Unkstruct_800CB3F0 *)mat)->unk18 = ang[1];
@@ -311,12 +311,12 @@ void func_800CB4AC(void) {
 
 extern u8 D_80078EC1;
 extern void (*D_800CBD0C[])();
-extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB4F4(int param_1)
 {
     if (D_80078EC1 != 4) {
-        func_80146C3C();
+        guess_FreeSmallObject();
     } else {
         D_800CBD0C[*(u16 *)(param_1 + 2)]();
     }
@@ -328,7 +328,7 @@ void func_800CB4F4(int param_1)
 extern void *func_800D2294(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
 extern void func_80146E90(s32 *a0, s32 a1);
-extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB550(void *a0) {
     extern u8 D_800CBCCC;
@@ -344,13 +344,13 @@ void func_800CB550(void *a0) {
         func_80146E90((s32 *)a0, 8);
         ((Unkstruct_80126B58 *)a0)->unk2 = ((Unkstruct_80126B58 *)a0)->unk2 + 1;
     } else {
-        ((void (*)(void *))func_80146C3C)(a0);
+        ((void (*)(void *))guess_FreeSmallObject)(a0);
     }
 }
 
 
 extern s32 func_80146E98(s32 a0);
-extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB5E4(void *a0) {
     s32 v0;
@@ -361,13 +361,13 @@ void func_800CB5E4(void *a0) {
     *(u16 *)(v1 + 0x1A) = v0;
     *(u16 *)(v1 + 0x18) = v0;
     if (func_80146E98((s32)a0) != 0) {
-        func_80146C3C(a0);
+        guess_FreeSmallObject(a0);
     }
 }
 
 
 
-extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 
 void func_800CB630(void *arg0) {
 
@@ -377,7 +377,7 @@ void func_800CB630(void *arg0) {
         u16 v0 = *(u16 *)((u8 *)arg0 + 2);
         D_800CBD14[v0]();
     } else {
-        func_80146C3C();
+        guess_FreeSmallObject();
     }
 }
 
@@ -385,7 +385,7 @@ void func_800CB630(void *arg0) {
 
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void func_800233CC(void *, unsigned short);
-extern void *func_801465C0(void);
+extern void *guess_AllocSpriteObject(void);
 
 void func_800CB68C(s32 param_1)
 {
@@ -408,7 +408,7 @@ void func_800CB68C(s32 param_1)
     if ((((Unkstruct_800CB68C *)param_1)->unk2C & 0x8000) == 0) {
         s32 iNew;
         s32 base;
-        iNew = ((s32(*)())func_801465C0)();
+        iNew = ((s32(*)())guess_AllocSpriteObject)();
         if (iNew == 0) {
             return;
         }
@@ -494,7 +494,7 @@ void func_800CB944(s32 *a0) {
 
 
 extern void func_800CBAA4(s32 a0);
-extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 void func_800CB9C0(void *a0) {
     s32 *s1 = CAST_SIGN(s32 *, (s32)a0, 0x20);
     func_800CBAA4((s32)a0);
@@ -502,14 +502,14 @@ void func_800CB9C0(void *a0) {
         ((Unkstruct_800CB8A4_2 *)s1)->unk18 -= 0x100;
         ((Unkstruct_800CB8A4_2 *)s1)->unk1A -= 0x120;
     } else {
-        ((void (*)(s32))func_80146C3C)((s32)a0);
+        ((void (*)(s32))guess_FreeSmallObject)((s32)a0);
     }
 }
 
 
 extern void func_800D22E4(s32 a0);
 extern void func_800CBB38(void *a0, void *a1);
-extern s32 func_80146C3C();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
 void func_800CBA30(void *a0) {
     s32 v0;
     v0 = *(s32*)((s32)a0 + 0x1C) - 1;
@@ -520,7 +520,7 @@ void func_800CBA30(void *a0) {
         *(s32*)((s32)a0 + 0x30) = *(s32*)((s32)a0 + 0x30) - 0xE;
         func_800CBB38(a0, (void*)((s32)a0 + 0x38));
     } else {
-        ((void (*)(void *))func_80146C3C)(a0);
+        ((void (*)(void *))guess_FreeSmallObject)(a0);
     }
 }
 

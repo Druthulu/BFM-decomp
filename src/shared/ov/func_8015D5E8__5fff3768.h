@@ -35,7 +35,7 @@ void func_8015D5E8(int param_1)
             *(short *)(iVar1 + 0xe) =
                 (short)((signed char)D_80181B58[iVar2] +
                         *(unsigned short *)(*(int *)(iVar1 + 0x78) + 0x10));
-            func_80149374(param_1, iVar1 + 4);
+            guess_TransformPosByObjMatrix(param_1, iVar1 + 4);
         }
     }
 }

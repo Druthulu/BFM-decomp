@@ -14,10 +14,10 @@ void SHARED_FN(s32 arg0) {
              * gives beqz/nop/lw -> 3 mismatches (class DELAY-SLOT). A/B-tested. */
             void *temp = CAST_SIGN(void *, arg0, 0xCC);
             if (arg0 != 0) {
-                func_8012C218(temp);
+                guess_FreeActor(temp);
             }
         }
         func_8002A04C(arg0);
-        func_8012C218((void *)arg0);
+        guess_FreeActor((void *)arg0);
     }
 }

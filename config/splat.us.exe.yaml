@@ -146,8 +146,8 @@ segments:
       - [0x3898C, c, libgte2]  # libgte block 2: 2 obj (MTX_000.o..MTX_001.o) vram 0x8004818C-0x8004838C
       - [0x38B8C, c, libgte3]  # libgte block 3: 5 obj (MTX_003.o..MTX_009.o) vram 0x8004838C-0x8004880C
       - [0x3900C, c, libgte4]  # libgte block 4: 3 obj (MTX_00B.o..MTX_01.o) vram 0x8004880C-0x80048CAC
-      - [0x394AC, c, libgte5]  # libgte block 5: 5 obj (MTX_02.o..MTX_08.o) vram 0x80048CAC-0x8004914C
-      - [0x3994C, c, libgte6]  # libgte block 6: 7 obj (MTX_09.o..REG12.o) vram 0x8004914C-0x8004923C
+      - [0x394AC, c, libgte5]  # libgte block 5: 5 obj (MTX_02.o..MTX_08.o) vram 0x80048CAC-0x8004914C (0x8004914C = SetRotMatrix)
+      - [0x3994C, c, libgte6]  # libgte block 6: 7 obj (MTX_09.o..REG12.o) vram 0x8004914C-0x8004923C (0x8004914C = SetRotMatrix)
       - [0x39A3C, c, libgte7]  # libgte block 7: 1 obj (REG13.o) vram 0x8004923C-0x8004924C
       - [0x39A4C, c, libgte24]  # libgte block 24 (S78): SMP_00.o (132 ins, exact tile) vram 0x8004924C-0x8004945C — was '800b_2'
       - [0x39C5C, c, libgte8]  # libgte block 8: 3 obj (SMP_01.o..SMP_03.o) vram 0x8004945C-0x800495EC

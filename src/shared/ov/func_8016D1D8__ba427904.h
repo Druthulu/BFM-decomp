@@ -20,7 +20,7 @@ void func_8016D1D8(int param_1) {
         D_8018EE18[6] = 0;
         D_8018EE18[5] = 0;
         D_8018EE18[4] = 0;
-        iVar5 = ((int (*)(void))func_801465C0)();
+        iVar5 = ((int (*)(void))guess_AllocSpriteObject)();
         if (iVar5 != 0) {
             int pp;
             *(int *)(param_1 + 0x20) = iVar5;
@@ -45,7 +45,7 @@ void func_8016D1D8(int param_1) {
         D_8018EE58[5] = 0;
         D_8018EE58[6] = 0;
         D_8018EE58[4] = 0;
-        iVar2 = ((int (*)(void))func_801465C0)();
+        iVar2 = ((int (*)(void))guess_AllocSpriteObject)();
         if (iVar2 != 0) {
             *(int *)(param_1 + 0x20) = iVar2;
             ((void (*)(void *, int))func_800233CC)(D_8018EE58, 0x18);

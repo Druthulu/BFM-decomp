@@ -66,7 +66,7 @@ extern s32 func_801789AC(s32 a0);
 extern s32 func_80178970(s32 a0);
 extern void func_80178D18(s32 a0);
 extern void func_80186890(s32 a0);
-extern void func_8012C218(s32 a0);
+extern void guess_FreeActor(s32 a0);
 extern s32 func_800D0F8C(s32 a0);
 extern void func_800D0CA0(s32 a0);
 extern s32 func_800D0CE0(void);
@@ -426,8 +426,8 @@ void func_801EF6D8(s32 a0) {
                 func_8002D4C8(0x13, 0);
                 func_80029514(0x46);
                 guess_SetGameFlag(0xE7, 1);
-                func_8012C218(((Unkstruct_800B5CB8 *)a0)->unkD4);
-                func_8012C218(a0);
+                guess_FreeActor(((Unkstruct_800B5CB8 *)a0)->unkD4);
+                guess_FreeActor(a0);
             }
         }
         break;
@@ -436,7 +436,7 @@ void func_801EF6D8(s32 a0) {
 
 
 extern s32 func_8012C588(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, s32 a1);
+extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern s32 D_801EB318;
 extern s32 D_801F1468;
 
@@ -450,7 +450,7 @@ void func_801F0048(s32 a0) {
     v0 = (s32)&D_801EB318;
     CAST_WIDTH(s32, v1, 0x24) = v0;
 
-    func_8012A828(a0, (s32)&D_801F1468);
+    guess_StartActorSequence(a0, (s32)&D_801F1468);
 }
 
 

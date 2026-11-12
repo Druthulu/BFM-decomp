@@ -1,5 +1,9 @@
 // config/symbols.md_SC05_026.txt — module md_SC05_026 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x801ED988..0x801F84B0); NEVER merged into config/symbols.us.txt.
-// count=1
+// count=5
 
+guess_SetMainCameraHandler       = 0x8012A018; // func
+guess_StartActorSequence         = 0x8012A828; // func
+guess_AllocModelObject           = 0x8012C1B8; // func
+guess_FreeActorDuringSpawn       = 0x8012CAE4; // func
 guess_RotTransSVWithMatrix       = 0x8012F14C; // func

@@ -1,7 +1,7 @@
 /* guess_UpdateCamera — shared body (overlay slot 0x80128158, h_exact 3602e5f8). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8012A328(void);
-extern void func_80053308(s32);
+extern void GsSetProjection(s32);
 extern s32 func_80012F74(s32, s32, s32, s32);  /* canonical s32 (engine_core); (s16)-cast the return for the sll/sra */
 extern void GsSetRefView2L(void *);
 extern s8 D_801150D6;            /* canonical (engine_core macro): s8 — access via *(u8*)& for lbu */
@@ -42,7 +42,7 @@ void guess_UpdateCamera(void)
     if (cam[0] != 0) {
         (*(void (*)(s32 *))cam[0])(cam);
     }
-    func_80053308(cam[2]);
+    GsSetProjection(cam[2]);
     if (D_80127504 != 0) {
         p1[0xf] = (s16)func_80012F74((s16)p1[0xf], (s16)cam[0xf], 2, 1);
         p1[0x10] = (s16)func_80012F74((s16)p1[0x10], (s16)cam[0x10], 2, 1);

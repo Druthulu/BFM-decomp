@@ -3,15 +3,15 @@
  * rank 1 src/ov_SC06_032/ov_SC06_032_jr_80182890.c:5786 rejected by ov_SC06_018 */
 void SHARED_FN(void *a0)
 {
-    extern void func_8004914C(void *);
-    extern void func_800491AC(void *);
+    extern void SetRotMatrix(void *);
+    extern void SetTransMatrix(void *);
     extern void func_80017254(void *);
     extern u8 guess_g_CameraWsMatrix;
 
     s32 flag1, flag2, otz;
 
-    func_8004914C(&guess_g_CameraWsMatrix);
-    func_800491AC(&guess_g_CameraWsMatrix);
+    SetRotMatrix(&guess_g_CameraWsMatrix);
+    SetTransMatrix(&guess_g_CameraWsMatrix);
 
     gte_ldv3(a0, (char *)a0 + 8, (char *)a0 + 0x10);
     gte_rtpt();

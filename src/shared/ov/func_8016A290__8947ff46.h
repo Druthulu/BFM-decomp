@@ -16,7 +16,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     fr.center.x = (*((s16 *)param_2) + *((s16 *)param_3)) >> 1;
     fr.center.y = (((s16 *)param_2)[1] + ((s16 *)param_3)[1]) >> 1;
     fr.center.z = (((s16 *)param_2)[2] + ((s16 *)param_3)[2]) >> 1;
-    ((void(*)(s32, void *, void *))func_80149350)(iVar3, &fr.center, &fr.center);
+    ((void(*)(s32, void *, void *))guess_ObjRotTransSV)(iVar3, &fr.center, &fr.center);
 
     *(u16 *)(param_1 + 0x6) = *(u16 *)&fr.center.x;
     *(u16 *)(param_1 + 0xA) = *(u16 *)&fr.center.y;

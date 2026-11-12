@@ -8,8 +8,8 @@ void SHARED_FN(s32 self)
     s32 target;
     s32 i;
 
-    func_8004914C((void *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x54));
-    func_800491AC((void *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x54));
+    SetRotMatrix((void *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x54));
+    SetTransMatrix((void *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x54));
 
     sv[1] = 0;
     sv[0] = 0;
@@ -27,7 +27,7 @@ void SHARED_FN(s32 self)
         ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk2C = 0xC008;
     }
     for (i = 0; i < 7; i++) {
-        target = func_8012C658(0x2FE, i, self);
+        target = guess_SpawnActor(0x2FE, i, self);
         if (target != 0) {
             ((Unkstruct_800B5CB8 *)target)->unk6 = sv[0];
             ((Unkstruct_800B5CB8 *)target)->unkA = sv[1];

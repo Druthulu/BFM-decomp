@@ -1,7 +1,7 @@
 /* func_801828A0 — shared body (overlay slot 0x80128158, h_exact 1dce6de4). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80182348(int);
-extern s32 func_80146C3C();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
+extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
 void func_801828A0(void *a0)
 {
     void *obj;
@@ -15,6 +15,6 @@ void func_801828A0(void *a0)
         *(s16 *)((s32)obj + 0x64) = 0x1000;
         *(s16 *)((s32)obj + 0x62) = 0x1000;
         *(s16 *)((s32)obj + 0x60) = 0x1000;
-        func_80146C3C();
+        guess_FreeSmallObject();
     }
 }

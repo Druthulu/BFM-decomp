@@ -61,6 +61,6 @@ void func_80169BBC(s32 arg0) {
         func_80128EA8(s2, arg0 + 0x24, (s32)D_80182314);
         *(u16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
     } else {
-        ((void (*)(s32))func_80146C3C)(arg0);
+        ((void (*)(s32))guess_FreeSmallObject)(arg0);
     }
 }

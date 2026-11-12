@@ -200,7 +200,7 @@ void func_800CB270(int param_1)
 extern s32 func_8014659C(void);
 extern void func_8001C2C4(s32 a0);
 extern void func_80146E90(s32 *a0, s32 a1);
-extern void func_80149374(s32 a0, s32 a1);
+extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void func_80146CA0(void *a0);
 extern void func_800CB7FC();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
@@ -226,7 +226,7 @@ void func_800CB2CC(s32 arg0) {
         *(u16 *)(s0 + 0x1C) = 0x1000;
         *(u16 *)(s0 + 0x12) = h;
         func_80146E90((s32 *)arg0, 0x20);
-        func_80149374(s2, arg0 + 4);
+        guess_TransformPosByObjMatrix(s2, arg0 + 4);
         ((Unkstruct_80126B58 *)arg0)->unk58 = (u32)&D_800CC150[0];
         ((Unkstruct_80126B58 *)arg0)->unk60 = 0;
         ((Unkstruct_80126B58 *)arg0)->unk62 = 0;

@@ -15,5 +15,5 @@ void SHARED_FN(void *a0)
         }
     }
 
-    func_8012C218(a0);
+    guess_FreeActor(a0);
 }

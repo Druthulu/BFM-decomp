@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8012CBCC(s32);
 extern void func_80131E00(struct S80131E00*, s32);
-extern s32 func_8012BEE8(s32 a0);
+extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_80131C78(s32 a0);
-extern s32 func_80131CA8();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 void func_80130C08(s32 arg0) {
     s32 flag;
     u32 cond;
@@ -17,7 +17,7 @@ void func_80130C08(s32 arg0) {
                     return;
                 }
                 if (*(u8 *)(arg0 + 0xC2) != 0) {
-                    cond = func_8012BEE8(arg0);
+                    cond = guess_TickWaitTimer(arg0);
                 } else {
                     cond = *(u16 *)(arg0 + 0x72) & 0x4000;
                 }
@@ -28,14 +28,14 @@ void func_80130C08(s32 arg0) {
                     func_80131C78(arg0);
                 }
             }
-            func_80131CA8(arg0, 5);
+            guess_CallActorEventHandler(arg0, 5);
         }
         if (!(*(u32 *)(arg0 + 0xC4) & 2)) {
             goto mode_38;
         }
     }
-    func_80131CA8(arg0, 5);
+    guess_CallActorEventHandler(arg0, 5);
     return;
 mode_38:
-    func_80131CA8(arg0, 0x38);
+    guess_CallActorEventHandler(arg0, 0x38);
 }

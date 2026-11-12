@@ -212,6 +212,6 @@ s32 arg0;
             func_80161C24(arg0, *(u16 *)(arg0 + 0x16E));
         }
         ((void (*)(s32))func_80172608)(arg0);
-        ((void (*)(s32))func_801483E8)(arg0);
+        ((void (*)(s32))guess_SaveGroundedPos)(arg0);
     }
 }

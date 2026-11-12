@@ -1974,7 +1974,7 @@ def call_arg_counts(masked, callee, decl_spans):
 
 def unit_call_counts(tu, masked, unit):
     """(counts, where): the distinct argument counts every call in the TU's COMPILATION passes to the callee — the TU's own text plus
-    every shared body it includes — and the headers the counts came from. t4_D23 read `[]` for `func_801483E8` while the 0-argument call
+    every shared body it includes — and the headers the counts came from. t4_D23 read `[]` for `guess_SaveGroundedPos` while the 0-argument call
     that made the ANSI form a COMPILE-ERROR sat in shared/ov/func_80161124.h:19: the marker said `? of 1 args` for a known count."""
     counts = set(call_arg_counts(masked, unit["callee"], [(s, e) for (s, e, *_) in unit["decls"]]))
     where = []
@@ -2769,7 +2769,7 @@ def unalias_function(aname, label, calib_id, log, pool=None):
                         kr_files.add(h)
                 if bad.endswith(".h"):
                     # the short call is in a shared BODY: the declaration it sees is the INCLUDING TU's — those TUs (in the unit) go `()`
-                    # (t4_ua10: func_80162CCC/func_8016BF50/func_8016F0E4 — `too few arguments` at shared/ov/*.h, the header holds no
+                    # (t4_ua10: func_80162CCC/guess_UpdateAttachedPos/func_8016F0E4 — `too few arguments` at shared/ov/*.h, the header holds no
                     # declaration to respell, three tries, KEPT)
                     _, _, inc_ = recipes()
                     for t_ in inc_.get(bad, ()):

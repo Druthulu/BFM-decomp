@@ -228,7 +228,7 @@ void func_801853EC(s32 arg0) {
 
 #include "common.h"
 
-extern s32 func_8012BEE8(s32 a0);
+extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_80186B08(s32 param_1);
 extern void func_80186424(s32 arg0);
 extern u16 D_801E43BC;
@@ -237,7 +237,7 @@ void func_8018548C(void *a0)
 {
     u8 flags;
 
-    if (func_8012BEE8((s32)a0) != 0) {
+    if (guess_TickWaitTimer((s32)a0) != 0) {
         ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
         CAST_WIDTH(u16, (s32)a0, 0x5E) = 0;
         func_80186B08((s32)a0);
@@ -380,7 +380,7 @@ void func_80185858(s32 arg0, void *arg1, void *arg2) {
 
 #include "common.h"
 
-extern void func_8012C218(void *a0);
+extern void guess_FreeActor(void *a0);
 extern s32 D_801E43C0;
 extern s32 D_801E43C4;
 
@@ -388,11 +388,11 @@ void func_801858C4(void) {
     s32 *ptr = &D_801E43C0;
 
     if (*ptr != 0) {
-        func_8012C218((void *)*ptr);
+        guess_FreeActor((void *)*ptr);
         *ptr = 0;
     }
     if (D_801E43C4 != 0) {
-        func_8012C218((void *)D_801E43C4);
+        guess_FreeActor((void *)D_801E43C4);
         D_801E43C4 = 0;
     }
 }

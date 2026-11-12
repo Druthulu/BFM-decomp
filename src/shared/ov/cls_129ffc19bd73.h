@@ -6,7 +6,7 @@ void SHARED_FN(s32 param_1) {
     s16 d;
     s32 obj;
 
-    if (func_8012BEE8(param_1) == 0) {
+    if (guess_TickWaitTimer(param_1) == 0) {
         return;
     }
     func_80015978(param_1 + 4, (s32 *)delta);

@@ -12,6 +12,6 @@ int param_1;
         *(unsigned int *)(addr + 4) = *(unsigned int *)(addr + 4) & 0x7fffffff;
     }
     if (func_80146E98(param_1) != 0) {
-        ((void (*)(s32))func_80146C3C)(param_1);
+        ((void (*)(s32))guess_FreeSmallObject)(param_1);
     }
 }

@@ -4,7 +4,7 @@ Every class here was measured as a real failure in the S50 autodraft runs, and e
 decidable without compiling anything. That is the whole point: a build spent to learn something a
 regex knows is a build wasted, and at ~1 min/group over ~100 groups the waste is the run.
 
-  1. ARITY DISAGREEMENT — `too few arguments to function 'func_80146C3C'`.
+  1. ARITY DISAGREEMENT — `too few arguments to function 'guess_FreeSmallObject'`.
      The destination TU already declares a callee with a different parameter count than the seed's
      body passes. Neither emitting the seed's decl (conflicting types) nor relying on the
      destination's (too few arguments) can work; the member needs a real edit.

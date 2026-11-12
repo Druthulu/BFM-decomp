@@ -1,11 +1,11 @@
 /* func_80186764 — shared body (overlay slot 0x80128158, h_exact d67a6376). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
+extern s32 guess_AllocModelObject(void);
+extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
 extern void guess_InitModelObject(s32 a0, s32 a1);
-extern void func_8012A828(s32 a0, void *a1);
+extern void guess_StartActorSequence(s32 a0, void *a1);
 extern u8 D_801DCED0;
 extern s32 D_8018F304;
 extern s32 D_801E8270;
@@ -23,10 +23,10 @@ void func_80186764(s32 param_1)
 {
     s32 v0;
     s32 s0;
-    v0 = ((s32 (*)(void))func_8012C1B8)();
+    v0 = ((s32 (*)(void))guess_AllocModelObject)();
     *(s32 *)(param_1 + 0x20) = v0;
     if (v0 == 0) {
-        ((void (*)(s32))func_8012CAE4)(param_1);
+        ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
         return;
     }
     ((void (*)(s32, void *))func_8001C810)(v0, &D_801DCED0);
@@ -45,12 +45,12 @@ void func_80186764(s32 param_1)
     D_801E827D = 0xFF;
     D_801E827E = 0xFF;
     D_801E827C = 0xFF;
-    s0 = ((s32 (*)(void))func_8012C1B8)();
+    s0 = ((s32 (*)(void))guess_AllocModelObject)();
     *(s32 *)(param_1 + 0xCC) = s0;
     ((void (*)(s32, void *))guess_InitModelObject)(s0, &D_801DD528);
     *(s32 *)(s0 + 0x20) = (*(s32 *)&D_8018AF28);
     func_8001D0E8(s0, 0xDC, 0x98);
-    ((void (*)(s32, void *))func_8012A828)(param_1, &(*(s32 *)&D_8018AF28));
+    ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &(*(s32 *)&D_8018AF28));
     *(s16 *)(param_1 + 2) = 1;
     *(u16 *)(param_1 + 0xFC) = 0x10;
     *(s32 *)(param_1 + 0xDC) = D_801270C8;

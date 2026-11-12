@@ -1,5 +1,7 @@
 // config/symbols.md_MAIN_043.txt — module md_MAIN_043 local symbols
 // R13/R15: this binary's REGION ONLY (vram 0x800CCB1C..0x800CDA64); NEVER merged into config/symbols.us.txt.
-// count=1
+// count=3
 
 guess_ApplyVelocity              = 0x801473EC; // func
+guess_SaveGroundedPos            = 0x801483E8; // func
+guess_TransformPosByObjMatrix    = 0x80149374; // func

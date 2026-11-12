@@ -3,5 +3,5 @@
 void SHARED_FN(void *a0)
 {
   s32 v0 = *((s32 *) (((s32) a0) + 0xD0));
-  ((void (*)(s32, s32))func_8012A828)(v0, *((s32 *) ((*((s32 *) ((v0 = (s32) a0) + 0xD0))) + 0x4)));
+  ((void (*)(s32, s32))guess_StartActorSequence)(v0, *((s32 *) ((*((s32 *) ((v0 = (s32) a0) + 0xD0))) + 0x4)));
 }

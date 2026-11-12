@@ -67,9 +67,9 @@ lout:
         break;
     case 6:
     case 7:
-        obj = ((Obj_8016AB6C *(*)(s32))func_801465C0)(temp_v0);
+        obj = ((Obj_8016AB6C *(*)(s32))guess_AllocSpriteObject)(temp_v0);
         if (obj == 0) {
-            ((void(*)(Ent_8016AB6C *))func_80146C3C)(((Ent_8016AB6C *)arg0));
+            ((void(*)(Ent_8016AB6C *))guess_FreeSmallObject)(((Ent_8016AB6C *)arg0));
             return;
         }
         sp10.vx = ((Ent_8016AB6C *)arg0)->unk6;

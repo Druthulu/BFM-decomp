@@ -1,7 +1,7 @@
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-extern void func_80016714(void *a0, s32 a1);
+extern void guess_ZeroMemory(void *a0, s32 a1);
 extern void func_8013C98C(void);
 extern void func_80019064(void *a0);
 extern void func_8013C9C4(void * arg0);

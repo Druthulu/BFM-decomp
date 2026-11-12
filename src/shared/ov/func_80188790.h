@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 rand(void);
 extern u8 *func_8012913C(s32 a0);
-extern s32 func_8012BEE8(s32 a0);
-extern void func_8012C218(void *a0);
+extern s32 guess_TickWaitTimer(s32 a0);
+extern void guess_FreeActor(void *a0);
 extern s32 guess_g_PlayerActor;
 void func_80188790(s32 a0) {
     s32 kind;
@@ -36,7 +36,7 @@ void func_80188790(s32 a0) {
         }
         *(u16 *)(v1 + 0x36) = tp[5] - 0x50;
     }
-    if (func_8012BEE8(a0) == 1) {
-        func_8012C218((void *)a0);
+    if (guess_TickWaitTimer(a0) == 1) {
+        guess_FreeActor((void *)a0);
     }
 }
