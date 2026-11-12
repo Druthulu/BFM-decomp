@@ -5,12 +5,12 @@ s32 SHARED_FN(int param_1)
     v0--;
     ((Unkstruct_80180F5C *)param_1)->unk28 = v0;
     if (v0 == -1) {
-        func_8002D4C8(0x1C, 0);
+        guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
+        guess_RequestSound(0x1D, 0);
         ((s32 (*)(s32))func_800D0C48)(0x1);
-        func_8002D4C8(0x4, 0x537);
-        func_8002D4C8(0x4, 0x538);
+        guess_RequestSound(0x4, 0x537);
+        guess_RequestSound(0x4, 0x538);
         func_800D1E28();
         *(unsigned char *)(param_1 + 0x15) += 1;
     }

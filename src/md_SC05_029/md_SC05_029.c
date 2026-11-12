@@ -33,7 +33,7 @@ extern void func_801EDCE0(void *arg0);
 extern void func_8001BFD0(void);
 extern s32 func_800291B4(s32);
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_8002D4C8(s32, s32);
+extern s32 guess_RequestSound(s32, s32);
 extern void func_800D0C48(s32);
 extern void func_800D1E28(void);
 

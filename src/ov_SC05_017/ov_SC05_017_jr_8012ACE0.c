@@ -65,7 +65,7 @@ extern void func_801284F0(void);
 extern void func_80146074(void);
 extern void func_8012853C(void);
 extern void func_80178608(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80011A3C(void);
 extern short currentLocationId;
 extern short D_800B99F2;

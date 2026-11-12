@@ -18,7 +18,7 @@ void SHARED_FN(s32 a0, s16 *a1, s16 a2) {
         } else {
             t = 1;
         }
-        func_80146A6C(0x25, (void *)a0, v[0], v[1], v[2], t, 0);
+        guess_SpawnSmallObject(0x25, (void *)a0, v[0], v[1], v[2], t, 0);
         i = i + 1;
     } while (i < 2);
 }

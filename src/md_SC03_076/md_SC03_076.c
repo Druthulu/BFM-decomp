@@ -68,7 +68,7 @@ s32 func_801EF800(s32 a0, s32 a1) {
     extern s16 D_801F9ABC;
     extern s16 D_801F9AB8[];
     extern void *D_8011DB24;
-    extern s32 func_8002D4C8(s32 a0, s32 a1);
+    extern s32 guess_RequestSound(s32 a0, s32 a1);
     extern void func_801EF878(void);
 
     void *func_ptr;
@@ -81,7 +81,7 @@ s32 func_801EF800(s32 a0, s32 a1) {
     D_801F9ABC = (s16)a1;
     D_801F9AB8[0] = (s16)a1;
     D_8011DB24 = func_ptr;
-    return func_8002D4C8(0x1E, 0);
+    return guess_RequestSound(0x1E, 0);
 }
 
 
@@ -306,7 +306,7 @@ s32 func_801EFBB4(void) {
     extern u8 D_801F9DAB[];
     extern u8 D_801F9DB1;
     extern void func_8002AF70(void *, u32);
-    extern s32 func_8002D4C8(s32, s32);
+    extern s32 guess_RequestSound(s32, s32);
     extern void func_801F1710(void);
     extern void func_801F1738(s32);
 
@@ -337,7 +337,7 @@ s32 func_801EFBB4(void) {
                 if (D_801F9DAB[guess_g_MenuPanel] == 1) {
                     D_801F32E0 = 0x19;
                 } else {
-                    func_8002D4C8(0x472, 0);
+                    guess_RequestSound(0x472, 0);
                     return 0;
                 }
             } else if (D_801F9DAB[guess_g_MenuPanel] == 1) {
@@ -346,7 +346,7 @@ s32 func_801EFBB4(void) {
                 D_801F32E0 = 0x19;
             }
             D_8011512C = 2;
-            func_8002D4C8(0x45D, 0);
+            guess_RequestSound(0x45D, 0);
             return 0;
         case 2:
             func_801F1710();
@@ -362,7 +362,7 @@ s32 func_801EFBB4(void) {
                 D_801F9DA0 = 1;
             }
             D_8011512C = 3;
-            func_8002D4C8(0x45D, 0);
+            guess_RequestSound(0x45D, 0);
             return 0;
         case 4:
         case 7:
@@ -381,7 +381,7 @@ s32 func_801EFBB4(void) {
             D_801F9AC0 = 1;
             D_8011512C = 0;
             *p = D_801F3248;
-            func_8002D4C8(0x45D, 0);
+            guess_RequestSound(0x45D, 0);
             return 0;
         case 5:
             goto Lload;
@@ -407,7 +407,7 @@ s32 func_801EFBB4(void) {
             /* fallthrough */
         case 1:
         Lmsg473:
-            func_8002D4C8(0x473, 0);
+            guess_RequestSound(0x473, 0);
             t = D_801F9ABC;
             sv = t;
             if (t == 0) {
@@ -427,7 +427,7 @@ s32 func_801EFBB4(void) {
                 D_801F32E0 = 0xD;
             }
             D_8011512C = 1;
-            func_8002D4C8(0x473, 0);
+            guess_RequestSound(0x473, 0);
             return 0;
         case 5:
         case 8:
@@ -435,25 +435,25 @@ s32 func_801EFBB4(void) {
                 goto Lmsg473;
             }
         Lmsg473ret1:
-            func_8002D4C8(0x473, 0);
+            guess_RequestSound(0x473, 0);
             return 1;
         case 9:
             p2 = &D_801F32E0;
             if (*p2 == 0x1D || *p2 == 0x21) {
                 if (D_801F9AC0 == 0) {
                     *p2 = 0x1A;
-                    func_8002D4C8(0x45D, 0);
+                    guess_RequestSound(0x45D, 0);
                     return 0;
                 }
                 D_801F9AB8[0] = 0;
                 D_8011512C = 0;
                 *p2 = D_801F3248;
                 func_8002AF18();
-                func_8002D4C8(0x45D, 0);
+                guess_RequestSound(0x45D, 0);
                 return 0;
             }
             *p2 = (D_801F9ABC == 1) ? 0x1D : 0x21;
-            func_8002D4C8(0x473, 0);
+            guess_RequestSound(0x473, 0);
             return 0;
         case 4:
         case 7:
@@ -473,7 +473,7 @@ s32 func_801EFBB4(void) {
         if (st == 5) {
             D_801F3380 = 0x17;
             D_8011512C = 6;
-            func_8002D4C8(0x45D, 0);
+            guess_RequestSound(0x45D, 0);
             D_801F9DA0 = 3;
             return 0;
         }
@@ -561,7 +561,7 @@ Lmid:
     }
     r = flag;
     if (r) {
-        func_8002D4C8(0x45A, 0);
+        guess_RequestSound(0x45A, 0);
     }
     return 0;
 }
@@ -794,7 +794,7 @@ s32 func_801F0734(void) {
     extern u16 guess_g_MenuPanel;
     extern s32 D_801F3380;
     extern s16 D_801150D4;
-    extern s32 func_8002D4C8(s32, s32);
+    extern s32 guess_RequestSound(s32, s32);
     extern s32 D_801F9DA0;
     extern u8  D_801F9DB1;
     extern u8  D_801F9DA8[];
@@ -829,7 +829,7 @@ s32 func_801F0734(void) {
                 guess_g_MenuTransitionTimer = 0x4B;
                 D_801F3380 = 0x15;
                 D_801150D4 = guess_g_MenuPanel;
-                func_8002D4C8(0xB3B, 0);
+                guess_RequestSound(0xB3B, 0);
             } else {
                 *p = 0;
             }
@@ -929,7 +929,7 @@ void func_801F0A9C(void) {
     extern s32 D_801F3380;
     extern s32 D_801F32E0;
     extern void func_80029774(s32 a0);
-    extern s32 func_8002D4C8(s32, s32);
+    extern s32 guess_RequestSound(s32, s32);
     extern u8 *func_8002AF48(s32 a0);
     extern s32 func_8002AF60(void);
     extern void func_801F0F28(void);
@@ -949,7 +949,7 @@ void func_801F0A9C(void) {
                     guess_g_MenuTransitionTimer = 0x4B;
                     D_801150D4 = 0;
                     D_801F3380 = 0xF;
-                    ((void (*)(s32, s32))func_8002D4C8)(0xB3B, 0);
+                    ((void (*)(s32, s32))guess_RequestSound)(0xB3B, 0);
                 } else {
                     *p = 0;
                 }
@@ -1437,17 +1437,17 @@ s32 func_801F1AC8(s32 param_1) {
 
 
     extern void func_800D1E28(void);
-    extern s32 func_8002D4C8(s32, s32);
+    extern s32 guess_RequestSound(s32, s32);
     extern void func_8001BFD0(void);
     extern s32 func_800291B4(s32);
     extern void func_800D0C48(s32);
     s32 func_801F1B1C(s32 param_1) {
         if ((((Unkstruct_801EF554 *)param_1)->unk28 = ((Unkstruct_801EF554 *)param_1)->unk28 - 1) == -1) {
             func_800D1E28();
-            func_8002D4C8(0x1C, 0);
+            guess_RequestSound(0x1C, 0);
             func_8001BFD0();
             if ((func_800291B4(0xCE) & 0xFF) == 0) {
-                func_8002D4C8(0x1D, 0);
+                guess_RequestSound(0x1D, 0);
                 func_800D0C48(1);
             }
             ((Unkstruct_801EF554 *)param_1)->unk15 = ((Unkstruct_801EF554 *)param_1)->unk15 + 1;

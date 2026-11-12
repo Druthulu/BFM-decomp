@@ -206,7 +206,7 @@ L2E4:
 
 
 void func_800CB304(void *a0) {
-    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern s32 guess_TickWaitTimer_2(s32 a0);
     extern void guess_NextStep(void *a0);
     extern void func_800CB3DC(void *a0);
@@ -217,7 +217,7 @@ void func_800CB304(void *a0) {
     if (pad == NULL) {}
     var_s2 = ((Unkstruct_80126B58 *)a0)->unk20;
     for (i = 0; i < 6; i++) {
-        func_80146A6C(0x4D, a0, ((Unkstruct_80126B58 *)a0)->unk6, ((Unkstruct_80126B58 *)a0)->unkA,
+        guess_SpawnSmallObject(0x4D, a0, ((Unkstruct_80126B58 *)a0)->unk6, ((Unkstruct_80126B58 *)a0)->unkA,
                       ((Unkstruct_80126B58 *)a0)->unkE, i, 1);
     }
     if (guess_TickWaitTimer_2((s32)a0) != 0) {

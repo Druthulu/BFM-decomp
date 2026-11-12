@@ -34,7 +34,7 @@ void func_8016C998(s32 param_1)
         if (i >= 8) {
             return;
         }
-        r = func_80146A6C(0x30, psVar7, 0, 0, 0, 0x8000, *(s32 *)(param_1 + 0x30));
+        r = guess_SpawnSmallObject(0x30, psVar7, 0, 0, 0, 0x8000, *(s32 *)(param_1 + 0x30));
         if (r == 0) {
             return;
         }

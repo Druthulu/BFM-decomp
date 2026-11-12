@@ -81,7 +81,7 @@ extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_MenuPacketBases[];
 extern s32 guess_g_MenuPacketPtr;
@@ -473,7 +473,7 @@ extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -2499,7 +2499,7 @@ void func_8015E344(u16 *param_1)
 
 extern void guess_ObjRotTransSV(s32 arg0);
 extern void func_80013E94(void *a0, void *a1);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 void func_8015E4B0(s32 param_1)
 {
@@ -2519,7 +2519,7 @@ void func_8015E4B0(s32 param_1)
         v[2] = D_80184928 + ((Unkstruct_8015E4B0_4 *)*(s32 *)(psVar1 + 0x3c))->unk10;
         ((s32 (*)(s32, s16 *, s16 *))guess_ObjRotTransSV)(param_1, &v[0], &v[0]);
         ((s32 (*)(s32 *, s32 *))func_80013E94)(&D_8018492C, &local_10);
-        ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x1f, param_1, v[0], v[1], v[2], local_10, 0);
+        ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x1f, param_1, v[0], v[1], v[2], local_10, 0);
     }
     return;
 }
@@ -2872,7 +2872,7 @@ extern u16 guess_GetPadPressed(s32*);
 extern s32 func_80148980(u8*);
 extern void func_8014F1F4(void);
 extern void func_8014FCFC(void);
-extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
+extern s32 guess_SpawnSmallObject(s32, void*, s32, s32, s32, s32, s32);
 extern void guess_SetVelocityFromMoveVector(s32 a0);
 extern void guess_ApplyVelocity(s32*);
 extern void guess_SetMoveVector(s32*, s32*);
@@ -2926,10 +2926,10 @@ void func_8015F448(s32 arg0) {
             guess_PlaySoundUnlessSkipped(0x56E);
         }
         ((void (*)(s32 *))func_80019064)(&(*(s32 *)&guess_g_RumblePatternShort));
-        ((void (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x25, arg0, ((Unkstruct_8015F448_2 *)arg0)->unk6,
+        ((void (*)(s32, s32, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x25, arg0, ((Unkstruct_8015F448_2 *)arg0)->unk6,
                       (s16)(((Unkstruct_8015F448_2 *)arg0)->unkA - 0x14),
                       ((Unkstruct_8015F448_2 *)arg0)->unkE, 0, 0);
-        ((void (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x25, arg0, ((Unkstruct_8015F448_2 *)arg0)->unk6,
+        ((void (*)(s32, s32, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x25, arg0, ((Unkstruct_8015F448_2 *)arg0)->unk6,
                       (s16)(((Unkstruct_8015F448_2 *)arg0)->unkA - 0x14),
                       ((Unkstruct_8015F448_2 *)arg0)->unkE, 1, 0);
     }
@@ -3097,7 +3097,7 @@ extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
-extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
+extern s32 guess_SpawnSmallObject(s32, void*, s32, s32, s32, s32, s32);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void func_801553A8(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -3119,7 +3119,7 @@ void func_8015FBE0(s32 *param_1)
         D_80078EC1 = 0;
         ((void (*)(s32 *, s32))guess_SetAnim)(param_1, 0x20);
         ((void (*)(s32 *, s32))guess_SetTexAnim)(param_1, 0x18);
-        ((void (*)(s32, s32 *, s32, s32, s32, s32, s32))func_80146A6C)(0x16, param_1, 0, 0, 0, 0, 0);
+        ((void (*)(s32, s32 *, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x16, param_1, 0, 0, 0, 0, 0);
         guess_PlaySoundUnlessSkipped(0x44F);
         ((void (*)(s32 *))func_801553A8)(param_1);
         ((void (*)(s32 *))func_801553C0)(param_1);
@@ -5601,7 +5601,7 @@ extern s32 guess_FreeSmallObject(u8*);
 
 void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 {
-    extern s32 D_8011D030;
+    extern s32 guess_g_SmallObjectPool;
     extern unsigned char D_801A6D20[];
 
     int t2;
@@ -5614,7 +5614,7 @@ void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
     int eq;
 
     iVar2 = 0;
-    puVar1 = ((unsigned short *)&D_8011D030);
+    puVar1 = ((unsigned short *)&guess_g_SmallObjectPool);
     t2 = (short)param_2;
     p2 = (short)t2;
     t3 = (short)param_3;
@@ -5796,7 +5796,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 }
 
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_FreeSmallObject(u8*);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 
@@ -5830,7 +5830,7 @@ extern s32 rand(void);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_FreeSmallObject(u8*);
 #include "../shared/ov/func_801678F0.h"
 
@@ -6392,7 +6392,7 @@ void func_80169B80(void *a0) {
 extern void func_800D2318();  // K&R: 0 of 1 args (P37 rung D t4_D10)
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern u8 *func_800D222C(void *a0, void *a1, s32 a2);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern s32 ratan2(s32 a0, s32 a1);
@@ -6428,14 +6428,14 @@ void func_80169BBC(s32 arg0) {
     *(u16 *)(arg0 + 6) = *(u16 *)(arg0 + 6) + (u16)vec[0];
     *(u16 *)(arg0 + 0xA) = *(u16 *)(arg0 + 0xA) + (u16)vec[1];
     *(u16 *)(arg0 + 0xE) = *(u16 *)(arg0 + 0xE) + (u16)vec[2];
-    p1 = func_80146A6C(9, (void *)arg0, *(s16 *)(arg0 + 6), *(s16 *)(arg0 + 0xA),
+    p1 = guess_SpawnSmallObject(9, (void *)arg0, *(s16 *)(arg0 + 6), *(s16 *)(arg0 + 0xA),
                        *(s16 *)(arg0 + 0xE), 0, 0);
     if (p1 != 0) {
         *(u16 *)(p1 + 0x12) = rot[0];
         *(u16 *)(p1 + 0x16) = rot[1];
         *(u16 *)(p1 + 0x1A) = rot[2];
     }
-    func_80146A6C(0xC, (void *)arg0, *(s16 *)(arg0 + 6), *(s16 *)(arg0 + 0xA),
+    guess_SpawnSmallObject(0xC, (void *)arg0, *(s16 *)(arg0 + 6), *(s16 *)(arg0 + 0xA),
                   *(s16 *)(arg0 + 0xE), 0, 0);
     s2 = func_800D222C((void *)arg0, D_8018508C, 0x17);
     if (s2 != 0) {
@@ -6468,7 +6468,7 @@ void func_80169BBC(s32 arg0) {
 
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern s32 guess_FreeSmallObject(u8*);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 #include "../shared/ov/func_80169E44.h"
 
 
@@ -6700,7 +6700,7 @@ extern s32 guess_FreeSmallObject(u8*);
 #include "../shared/ov/func_8016A8FC.h"
 
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_FreeSmallObject(u8*);
 #include "../shared/ov/func_8016AA50.h"
 

@@ -38,7 +38,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -120,10 +120,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -2718,7 +2718,7 @@ extern void func_80130740(void *a0, u16 *a1);
 extern unsigned char D_8018E78C[];
 extern void func_80180A18(int param);
 extern void guess_StartActorSequence(s32, void *);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void func_80180A64(s32 param_1);
 extern void func_8012E364(s32 arg0_);
 extern void func_80181498(void);
@@ -2829,7 +2829,7 @@ extern s32 D_800D4744;
 extern s32 D_801A7F50;
 extern s32 D_801A7FF0;
 extern void func_80182E08(void *arg0);
-extern void func_8002D4C8(s32 _arg0, s32 _arg1);
+extern void guess_RequestSound(s32 _arg0, s32 _arg1);
 extern void func_80182E84(s32 param_1);
 extern s32 func_80185E88(void);
 extern void func_80182EEC(void * a0);
@@ -3013,7 +3013,7 @@ extern void func_801860E4(void *a0);
 extern void func_8012AD80(s32 a0);
 extern void func_8018618C(s32 param_1);
 extern void func_8013BD34(s32 a0);
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern s32 D_801270D0;
 extern s32 D_8018F2F0;
 extern u8 D_800D391C[];
@@ -3709,7 +3709,7 @@ void func_80188F30(void *arg0)
 extern s32 rand(void);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_80028620(s32, void *);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern s32 func_8012B8A4(s32 a0);
 extern s32 func_800CF8B4();
 extern void guess_FreeActor(void *a0);
@@ -3781,15 +3781,15 @@ void func_80188F60(s32 self)
             }
             ((Unkstruct_800B5CB8 *)self)->unk84 = 0xF;
             if (func_800CF8B4() != 0) {
-                func_8002D4C8(0x4CF, (u16)(i | 0x1000));
+                guess_RequestSound(0x4CF, (u16)(i | 0x1000));
             } else {
-                func_8002D4C8(4, 0x4CF);
+                guess_RequestSound(4, 0x4CF);
             }
             ((Unkstruct_800B5CB8 *)self)->unkA4 = 1;
         }
     } else {
         if (((Unkstruct_800B5CB8 *)self)->unk70 != 0 && ((Unkstruct_800B5CB8 *)self)->unkA4 != 0) {
-            func_8002D4C8(4, 0x4CF);
+            guess_RequestSound(4, 0x4CF);
             ((Unkstruct_800B5CB8 *)self)->unk84 = 1;
             ((Unkstruct_800B5CB8 *)self)->unkA4 = 0;
         }
@@ -3805,7 +3805,7 @@ void func_80188F60(s32 self)
         }
     }
     if (((Unkstruct_800B5CB8 *)self)->unk70 != 0 && ((Unkstruct_800B5CB8 *)self)->unkA4 != 0 && D_800B9A0E != 0) {
-        func_8002D4C8(4, 0x4CF);
+        guess_RequestSound(4, 0x4CF);
         ((Unkstruct_800B5CB8 *)self)->unkA4 = 0;
     }
 tail:
@@ -4016,13 +4016,13 @@ void func_80189750(s32 param_1)
 extern s32 D_801E8778;
 extern s32 D_801E877C;
 extern s16 D_800B9A0E;
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_801897E8(void) {
     if (D_801E8778 == 0 && D_800B9A0E == 0) {
         D_801E877C++;
         if (D_801E877C >= 0x10) {
-            func_8002D4C8(0x106, 0);
+            guess_RequestSound(0x106, 0);
             D_801E8778 = 1;
         }
     }
@@ -4312,7 +4312,7 @@ u32 func_80189DB8(u32 param_1, u32 param_2)
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void guess_StartActorSequence(s32, void *);
 extern s32 func_8012B77C(void *, s32, void *);
 extern void guess_UpdateActorModelMatrix(s32);
@@ -4340,9 +4340,9 @@ void func_80189E58(s32 param_1) {
     }
     ((void (*)(s32, void *))guess_InitModelObject)(iVar1, &(*(u8 *)&D_801A79A4));
     if ((CAST_SIGN(u16, param_1, 0x70) & 0x1000) == 0) {
-        func_8002D4C8(0x43A, 0);
+        guess_RequestSound(0x43A, 0);
     } else {
-        func_8002D4C8(0x6D6, 0);
+        guess_RequestSound(0x6D6, 0);
     }
     guess_StartActorSequence(param_1, &D_801A777C);
     CAST_ALIAS(s16, param_1, 2) = 1;
@@ -4396,7 +4396,7 @@ void func_8018A00C(void *a0) {
 
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBF4(s32 a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_TickWaitTimer(s32 a0);
@@ -4413,7 +4413,7 @@ void func_8018A048(s32 param_1) {
 
     guess_SetLocalVelocity(s0, (s32)&D_801A7804);
     if (((s32 (*)(s32))func_8012CBF4)(s0) != 0) {
-        func_80146A6C(6, (void *)s0, CAST_SIGN(s16, s0, 0x6), CAST_SIGN(s16, s0, 0xA),
+        guess_SpawnSmallObject(6, (void *)s0, CAST_SIGN(s16, s0, 0x6), CAST_SIGN(s16, s0, 0xA),
                       CAST_SIGN(s16, s0, 0xE), 0, 0);
         v = func_80132EF4(s0, 0x22);
         if (v != 0) {

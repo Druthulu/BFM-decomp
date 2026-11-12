@@ -4,7 +4,7 @@ extern u8 guess_g_CameraWsMatrix;
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 void func_8012E688(s32 param_1, u16 param_2, u16 param_3)
 {
     struct { short v[3]; short pad; short xy[2]; int sp1c; int flag; } f;
@@ -29,5 +29,5 @@ void func_8012E688(s32 param_1, u16 param_2, u16 param_3)
             return;
         }
     }
-    func_8002D4C8(a, b);
+    guess_RequestSound(a, b);
 }

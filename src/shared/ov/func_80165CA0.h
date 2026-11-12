@@ -1,7 +1,7 @@
 /* func_80165CA0 — shared body (overlay slot 0x80128158, h_exact 0b19faae). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80165CA0(void) {
-    extern s32 D_8011D030;
+    extern s32 guess_g_SmallObjectPool;
     extern s32 D_80126728;
     s32 i;
     s32 off;
@@ -11,14 +11,14 @@ void func_80165CA0(void) {
     short v;
     short w;
     s32 t;
-    i = 0; q = &D_8011D030;
+    i = 0; q = &guess_g_SmallObjectPool;
     do {
         if (*q != 0) (*(void (**)(u16 *))((u32)*q * 4 + D_80126728))(q);
         i = i + 1; q = q + 0x2c;
     } while (i < 0x1e);
     i = 0; off = 0;
     do {
-        base = (s32)&D_8011D030; 
+        base = (s32)&guess_g_SmallObjectPool; 
         a1 = off + base;
         p = *(short **)(a1 + 0x20);
         if (p != 0) {

@@ -14,6 +14,6 @@ void SHARED_FN(s32 a0)
         ((Unkstruct_80181B14_2 *)*(s32*)(a0 + 0x20))->unk4 |= 0x8000000;
 
         ((Unkstruct_80181B14_2 *)*(s32*)(a0 + 0x20))->unk12 = 0;
-        func_8002D4C8(0xCB4, 0);
+        guess_RequestSound(0xCB4, 0);
     }
 }

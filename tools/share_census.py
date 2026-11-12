@@ -138,15 +138,16 @@ MACRO_PARAM_SITE = re.compile(r"^[ \t]*(SETTER|RETCONST|CLEAR_TBL40)\(\s*([A-Za-
 INCLUDE_LINE = re.compile(r'^[ \t]*#[ \t]*include[ \t]+"([^"]+)"', re.M)
 STUB = re.compile(r"INCLUDE_ASM\([^)]*,\s*([A-Za-z_]\w*)\s*\)")
 # the parameter list may not contain parentheses (a function-pointer parameter would surface as an unaccounted instance, loudly)
-# the label may be any identifier: after a rename `__asm__("func_80146A6C")` reads `__asm__("guess_SpawnSmallObject")` (3.43 T9.c12);
-# alias_decls() maps it back to its placeholder and drops labels that are no renamed func_ (memcpy, GsSortLine, data)
+# the label may be any identifier: after a rename `__asm__("func_<8 hex>")` reads `__asm__("guess_<Name>")` (3.43 T9.c12);
+# alias_decls() keeps a label that is a func_ placeholder or a renamed one (names.tsv) and drops the rest (memcpy, GsSortLine, data)
 ALIAS_DECL = re.compile(r"\b([A-Za-z_]\w*)\s*\([^;{}()]*\)\s*(?:__asm__|asm)\s*\(\s*\"([A-Za-z_]\w*)\"\s*\)")
 _RENAMED = None
 
 
 def alias_decls(text):
-    """[(alias ident, func_<8hex> placeholder)] of ALIAS_DECL in text; a renamed label resolves through config/names.tsv's
-    rename->placeholder map (lever_census.RENAMED, C0572), so a rename is census-neutral."""
+    """[(alias ident, emitted label)] of ALIAS_DECL in text, for a label that is a func_<8hex> placeholder or a name whose
+    config/names.tsv history starts at one (lever_census.RENAMED, C0572). The label is kept as spelled, as a def named by it
+    would be (T9.c12: mapping it to the placeholder left the restruct ledger's renamed keys unmatched, 7 P sites uncovered)."""
     global _RENAMED
     out = []
     for a, s in ALIAS_DECL.findall(text):
@@ -154,8 +155,7 @@ def alias_decls(text):
             if _RENAMED is None:
                 import lever_census                                         # lazy: lever_census imports this module
                 _RENAMED = lever_census.RENAMED
-            s = _RENAMED.get(s, "")
-            if not FUNC_RE.match(s):
+            if not FUNC_RE.match(_RENAMED.get(s, "")):
                 continue
         out.append((a, s))
     return out

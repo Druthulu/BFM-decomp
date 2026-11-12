@@ -45,7 +45,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -127,10 +127,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -2734,7 +2734,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8018A474(void *arg0);
 extern void (*D_801CD4B0[])(void);
 extern void func_8018B65C(void *a0);
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern void func_8018B998(void *a0);
 extern void func_8018C884(void);
 extern void func_8018F694(void);
@@ -2753,7 +2753,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_8018D514(s32);
 extern s32 func_8012B77C(void *, void *, void *);
 extern s32 rand(void);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void SetRotMatrix(void*);
 extern void SetTransMatrix(void*);
 extern void RotTransSV(void *, void *, void *);
@@ -2959,7 +2959,7 @@ void func_8019059C(s32 _arg0) {
         SCAN()
         ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x3C;
         ((Unkstruct_800B5CB8 *)arg0)->unk34 = ((Unkstruct_800B5CB8 *)arg0)->unk34 + 1;
-        func_8002D4C8(0x9BB, 0);
+        guess_RequestSound(0x9BB, 0);
         return;
     case 7:
         if (func_8012BE54(arg0) > 0x8FFFF) {
@@ -3017,7 +3017,7 @@ void func_8019059C(s32 _arg0) {
             ((Unkstruct_800B5CB8 *)arg0)->unk1C = tmp;
             CAST_WIDTH(u16, arg0, 0xE0) = dst;
             guess_SpawnActor(0x318, 3, arg0);
-            func_8002D4C8(0x9BC, 0);
+            guess_RequestSound(0x9BC, 0);
             return;
         }
         sv = guess_g_PlayerPosX;
@@ -3111,7 +3111,7 @@ extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 extern u8 guess_g_CameraWsMatrix;
 extern u8 D_801D1200[];
@@ -3173,7 +3173,7 @@ void func_80191020(s32 a0) {
                 sx = 0xF;
             }
             sx = sx << 8; /* in place, so reorg can steal it into the bne delay slot */
-            func_8002D4C8(0x9E5, (vol | (0x3000 | sx)) & 0xFFFF);
+            guess_RequestSound(0x9E5, (vol | (0x3000 | sx)) & 0xFFFF);
         }
         return;
 
@@ -3281,7 +3281,7 @@ void func_80191020(s32 a0) {
  *
  * INTEGRATION (52b / 161c): every callee decl below is byte-identical to the
  * host TU src/ov_SC06_018/ov_SC06_018_jr_8019059C.c where that TU declares one
- * (guess_ZeroMemory L431, func_8001CD9C L1820, func_8002D4C8 L59, guess_RotTransSVWithObjMatrix
+ * (guess_ZeroMemory L431, func_8001CD9C L1820, guess_RequestSound L59, guess_RotTransSVWithObjMatrix
  * L2653, func_80133784 L600, func_8012F038 L333, guess_FreeActor L2721,
  * func_8018F694 L2751, rand L958) -- the arguments are cast at the call sites
  * instead. func_8012C194 / guess_TickWaitTimer / func_8018F060 / func_8012D5E4 /
@@ -3313,7 +3313,7 @@ extern void guess_ZeroMemory(void *a0, s32 a1);
 extern s32  func_8012C194(void);
 extern void func_8001CD9C(int, void *);
 extern s32  guess_TickWaitTimer(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4);
 extern s32  func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
@@ -3426,7 +3426,7 @@ void func_80191320(s32 arg0) {
         if (guess_TickWaitTimer(arg0) != 0) {
             ((Unkstruct_800B5CB8 *)arg0)->unk102 = 0;
             ((Unkstruct_800B5CB8 *)arg0)->unk34 = ((Unkstruct_800B5CB8 *)arg0)->unk34 + 1;
-            func_8002D4C8(0x9B9, 0);
+            guess_RequestSound(0x9B9, 0);
         }
         break;
 
@@ -3612,7 +3612,7 @@ void func_80191A78(s32 arg0) {
             ((Unkstruct_800B5CB8 *)arg0)->unk34 = ((Unkstruct_800B5CB8 *)arg0)->unk34 + 1;
             r = ((Unkstruct_800B5CB8 *)arg0)->unkCC;
             *(u16 *)(r + 0x34) = *(u16 *)(r + 0x34) + 1;
-            func_8002D4C8(0xAD5, 0);
+            guess_RequestSound(0xAD5, 0);
         }
         break;
     case 4:

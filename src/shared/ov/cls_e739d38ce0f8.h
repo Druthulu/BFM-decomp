@@ -20,6 +20,6 @@ void SHARED_FN(s32 a0) {
                 ((Unkstruct_800B5CB8 *)q)->unk34 = (r3 % 3) * 0x1000 + 0x3000;
             }
         }
-        func_8002D4C8(0x521, 0);
+        guess_RequestSound(0x521, 0);
     }
 }

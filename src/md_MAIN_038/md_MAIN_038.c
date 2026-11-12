@@ -62,7 +62,7 @@ extern s32 func_80148E54(void *a0);
 extern s32 func_80012ABC(s16 a0, s16 a1, s32 a2);
 extern int func_80148AFC(void *a0);
 extern void guess_SpawnObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_801655E4(void *a0);
 extern s32 func_80165624(void *a0);
@@ -92,7 +92,7 @@ void func_800CAFAC(void *a0) {
             guess_SpawnObject(0x1F, a0, 0, -0x18, mf, 0, 0, one);
             guess_SpawnObject(0x1F, a0, 0, -0x18, mf, one, 0, one);
             guess_SpawnObject(0x1F, a0, 0, -0x18, mf, 2, 0, one);
-            func_80146A6C(0x43, a0, 0, -0x18, mf, 0, 0);
+            guess_SpawnSmallObject(0x43, a0, 0, -0x18, mf, 0, 0);
             guess_PlaySoundUnlessSkipped(0xA64);
             func_801655E4(a0);
         }
@@ -178,7 +178,7 @@ void func_800CB360(void *arg0) {
     u8 mat[0x40];
 
     extern s32 guess_TickWaitTimer_2(s32 a0);
-    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern void guess_NextStep(void *a0);
     extern void func_80013F3C(void *a0);
     extern void func_800126C4(void *a0, s32 a1);
@@ -197,7 +197,7 @@ void func_800CB360(void *arg0) {
     s32 v1 = CAST_SIGN(u32, (s32)arg0, 0x20);
     *(u16 *)(v1 + 0x14) += 0x200;
     if (guess_TickWaitTimer_2((s32)arg0)) {
-        func_80146A6C(3, arg0, ((Unkstruct_80126B58 *)arg0)->unk6, ((Unkstruct_80126B58 *)arg0)->unkA,
+        guess_SpawnSmallObject(3, arg0, ((Unkstruct_80126B58 *)arg0)->unk6, ((Unkstruct_80126B58 *)arg0)->unkA,
                       ((Unkstruct_80126B58 *)arg0)->unkE, 0, 0x1C00);
     } else {
         void *r16 = mat + 0x20;
@@ -226,7 +226,7 @@ void func_800CB360(void *arg0) {
             return;
         }
         unk60 |= 0x80000000;
-        func_80146A6C(id, arg0, D_80126B18[0], D_80126B18[1], D_80126B18[2], unk60, 0);
+        guess_SpawnSmallObject(id, arg0, D_80126B18[0], D_80126B18[1], D_80126B18[2], unk60, 0);
     }
     guess_NextStep(arg0);
 }
@@ -262,7 +262,7 @@ void func_800CB574(void *param_1) {
     extern void func_80017DC4(void *a0, void *a1);
     extern void RotMatrixZ(s32 a0, void *a1);
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
-    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
     extern void func_800CB780(s32 a0);
     extern s32 D_800CCA00;
@@ -302,7 +302,7 @@ void func_800CB574(void *param_1) {
         RotMatrixZ(rand() & 0xFFF, mat);
         MulMatrix0(((Unkstruct_800CB574 *)src)->unk20 + 0x34, mat, iVar2 + 0x34);
 
-        func_80146A6C(0x44, (void *)param_1,
+        guess_SpawnSmallObject(0x44, (void *)param_1,
                       *(s16 *)((s32)param_1 + 6),
                       *(s16 *)((s32)param_1 + 0xA),
                       *(s16 *)((s32)param_1 + 0xE),

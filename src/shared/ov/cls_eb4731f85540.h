@@ -3,9 +3,9 @@
  * rank 2 src/shared/ov/func_801817FC.h rejected by type_census --check */
     s32 SHARED_FN(u8 *a0) {
         if (--(((Unkstruct_8017CCF8_2 *)a0)->unk28) == -1) {
-            func_8002D4C8(0x1C, 0);
+            guess_RequestSound(0x1C, 0);
             func_8001BFD0();
-            func_8002D4C8(0x1D, 0);
+            guess_RequestSound(0x1D, 0);
             if ((guess_TestGameFlag(0xB8) & 0xFF) == 0) {
                 func_800D0C48(1);
             }

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80131B14();
 extern void func_80143CD4(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_800CB0E8(s32 a0);
 extern s32 guess_StartActorSequenceById(s32 a0, s32 a1);
 extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
@@ -17,8 +17,8 @@ void func_80130438(s32 a0) {
         func_80131B14();
         *(s32 *)(a0 + 0x1C) = 0x78;
         func_80143CD4(a0);
-        func_8002D4C8(0x47B, 0);
-        func_8002D4C8(0x478, 0);
+        guess_RequestSound(0x47B, 0);
+        guess_RequestSound(0x478, 0);
         func_800CB0E8(a0);
         if (guess_StartActorSequenceById(a0, 0x14) == 0) {
             *(s16 *)(a0 + 0x98) = 0;

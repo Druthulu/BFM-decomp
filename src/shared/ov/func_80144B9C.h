@@ -105,7 +105,7 @@ extern void func_8013B568(s32 a0);
 extern void func_800D02C0(s32 a0);
 extern void func_80011E84(s32 a0);
 extern void func_8013D3D4(s32 a0, s32 a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8005C324(void *a0, ENT *a1, s32 a2);
 extern s32 func_800CF854(void);
 extern void func_8001C14C(void);
@@ -257,7 +257,7 @@ void func_80144B9C(void) {
     calltmp = ent->f20;
     calltmp();
     func_8013D3D4(hdr->fA0, hdr->fA4);
-    func_8002D4C8(0x1E, 0);
+    guess_RequestSound(0x1E, 0);
     if (p18->f8 == 0) {
         D_80078E50 = *ent;
     }

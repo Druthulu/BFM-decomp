@@ -8,7 +8,7 @@ void *arg0;
     func_80182334(arg0);
     if (func_80182478() + 0x28 == ((Unkstruct_800B5CB8 *)sp0)->unkDC) {
         ((Unkstruct_800B5CB8 *)sp0)->unkFE = 0;
-        func_8002D4C8(0x890, 0);
+        guess_RequestSound(0x890, 0);
         func_8012AD50(sp0);
     }
 }

@@ -13,7 +13,7 @@ void func_8015E4B0(s32 param_1)
         v[2] = D_80181BE0 + *(u16 *)(*(s32 *)(psVar1 + 0x3c) + 0x10);
         ((s32 (*)(s32, s16 *, s16 *))guess_ObjRotTransSV)(param_1, &v[0], &v[0]);
         ((s32 (*)(s32 *, s32 *))func_80013E94)(&D_80181BE4, &local_10);
-        ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x1f, param_1, v[0], v[1], v[2], local_10, 0);
+        ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x1f, param_1, v[0], v[1], v[2], local_10, 0);
     }
     return;
 }

@@ -38,7 +38,7 @@ s32 func_801EF50C(s32 param_1) {
 
 
 extern void func_800D1E28(void);
-extern s32 func_8002D4C8(s32, s32);
+extern s32 guess_RequestSound(s32, s32);
 extern void func_8001BFD0(void);
 extern s32 func_800291B4(s32);
 extern s32 guess_TestGameFlag(s32);
@@ -48,14 +48,14 @@ extern void func_800D0C48(s32);
 s32 func_801EF558(s32 param_1) {
     if ((((Unkstruct_801EF558_2 *)param_1)->unk28 = ((Unkstruct_801EF558_2 *)param_1)->unk28 - 1) == -1) {
         func_800D1E28();
-        func_8002D4C8(0x1C, 0);
+        guess_RequestSound(0x1C, 0);
         func_8001BFD0();
         if ((func_800291B4(0xCE) & 0xFF) == 0) {
-            func_8002D4C8(0x1D, 0);
+            guess_RequestSound(0x1D, 0);
             func_800D0C48(1);
         } else if ((guess_TestGameFlag(0x12E) & 0xFF) == 0) {
             guess_SetGameFlag(0x12E, 1);
-            func_8002D4C8(0x1D, 0);
+            guess_RequestSound(0x1D, 0);
             func_800D0C48(1);
         }
         ((Unkstruct_801EF558_2 *)param_1)->unk15 = ((Unkstruct_801EF558_2 *)param_1)->unk15 + 1;

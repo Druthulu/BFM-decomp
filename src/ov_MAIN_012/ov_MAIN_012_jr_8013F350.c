@@ -62,7 +62,7 @@ extern void func_801284F0(void);
 extern void func_80146074(void);
 extern void func_8012853C(void);
 extern void func_80178608(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80011A3C(void);
 extern short currentLocationId;
 extern short D_800B99F2;
@@ -502,7 +502,7 @@ extern void func_801305CC(u8 *a0);
 extern s32 func_8012CBF4(s32);
 extern s32 guess_HandleActorEventDefault(s32 a0, s32 a1);
 extern void func_80130650(s32 a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
 extern s32 func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
@@ -879,7 +879,7 @@ extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 extern s16 func_8014168C(s16 a0);
 extern void func_8014AA04(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_801415C0(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 extern s32 func_80140608(s32 a0);
@@ -944,9 +944,9 @@ s32 func_8013F350(void) {
         if ((guess_TestGameFlag(D_8017F41C[rs]) & 0xFF) != 0 && (guess_g_MenuPadPressed & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
             if (rs != 0) {
-                func_8002D4C8(0x461, 0);
+                guess_RequestSound(0x461, 0);
             } else {
-                func_8002D4C8(0x460, 0);
+                guess_RequestSound(0x460, 0);
             }
         }
         break;
@@ -1532,7 +1532,7 @@ extern s32 func_80029000(void);
 extern void func_80029020(s32 a0);
 extern s32 func_80028D9C(void);
 extern void func_80028DBC(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 #include "../shared/ov/func_80140608__t42e81990.h"
 
@@ -2005,7 +2005,7 @@ void func_80141874(void) {
 //       redeclare these — the shared DEFINE macros already provide them (conflicting-types hard error).
 
 extern void func_800D24A0(int);
-extern void func_8002D4C8(int, int);
+extern void guess_RequestSound(int, int);
 extern void func_80141C0C(int);
 
 s32 func_801418F8(void) {
@@ -2058,7 +2058,7 @@ s32 func_801418F8(void) {
     guess_g_MenuCategory = 0;
     guess_g_MenuSwapSlot = 0;
     if (guess_g_OpenMenuId == 3) {
-        func_8002D4C8(0x46E, 0);
+        guess_RequestSound(0x46E, 0);
     } else {
         func_80141C0C(0);
     }
@@ -2128,7 +2128,7 @@ void func_80141C04(void) {
 extern u16 guess_g_OpenMenuId;
 extern u8 D_8017F6D4[];
 
-void func_8002D4C8(s32 a0, s32 a1);
+void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80141C0C(s32 param_1)
 {
@@ -2139,7 +2139,7 @@ void func_80141C0C(s32 param_1)
     idx = idx + guess_g_OpenMenuId;
     idx = idx << 1;
     value = *(u16 *)(&D_8017F6D4[idx]);
-    func_8002D4C8(value, 0);
+    guess_RequestSound(value, 0);
 }
 
 

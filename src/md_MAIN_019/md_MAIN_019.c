@@ -217,7 +217,7 @@ extern void func_800CB578(void *a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_80015954(s32 a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_NextStep(void *a0);
 extern void func_800CBC0C(void *a0);
 
@@ -229,7 +229,7 @@ void func_800CB3FC(void *arg0)
     if (guess_TickWaitTimer_2((s32)arg0) != 0) {
         func_80015954((s32)arg0 + 0x10, (s32)arg0 + 4);
         guess_TransformPosByObjMatrix((s32)arg0, (s32)arg0 + 4);
-        func_80146A6C(3, arg0,
+        guess_SpawnSmallObject(3, arg0,
                       ((Unkstruct_80126B58 *)arg0)->unk6,
                       ((Unkstruct_80126B58 *)arg0)->unkA,
                       ((Unkstruct_80126B58 *)arg0)->unkE,

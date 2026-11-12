@@ -348,10 +348,10 @@ void func_8002CC4C(void) {
     }
 }
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8002CCB4(void) {
-    func_8002D4C8(2, 0);
+    guess_RequestSound(2, 0);
 }
 
 extern s32 D_800A4EA4;
@@ -719,7 +719,10 @@ extern void func_80030F80(void);
 extern void func_8002D320(void);
 extern void func_80031BE0(void);
 
-void func_8002D4C8(s32 arg0, s32 arg1) {
+/* guess_RequestSound: requests sound id a0 with argument a1: dispatches by id range, then flushes pending voice keys through func_8002D320 (libsnd)
+ * Confidence medium, xref chain: the id dispatch, then func_8002D320's SpuSetKey/SpuNSetVoiceAttr flush (libsnd)
+ * Names ledger: config/names.tsv guess_RequestSound */
+void guess_RequestSound(s32 arg0, s32 arg1) {
     u8 v0;
     s8 *p;
 

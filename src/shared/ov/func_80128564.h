@@ -1,7 +1,7 @@
 /* func_80128564 — shared body (overlay slot 0x80128158, h_exact af411ba9). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80178608(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80011A3C(void);
 extern short currentLocationId;
 extern short D_800B99F2;
@@ -17,7 +17,7 @@ void func_80128564(void) {
         "lw    $sp, 0($sp)\n"
         : : "r"(p) : "$8", "memory");
     if (currentLocationId == 0x300A) {
-        func_8002D4C8(6, 0);
+        guess_RequestSound(6, 0);
     }
     func_80011A3C();
     D_800B99F2 = 1;

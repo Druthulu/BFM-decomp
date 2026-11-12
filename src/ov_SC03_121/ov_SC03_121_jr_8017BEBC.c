@@ -45,7 +45,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -127,10 +127,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -2964,7 +2964,7 @@ void func_8017D280(void *a0) {
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
@@ -3318,7 +3318,7 @@ void func_8017D8D4(s32 a0) {
 
 extern s32 func_8012CBCC(s32 a0);
 extern void guess_StartActorSequence(s32 a0, s32 a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_801726AC(s32 *a0);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
@@ -3346,7 +3346,7 @@ void func_8017DC24(s32 a0) {
         ((Unkstruct_800B5CB8 *)s0)->unkFC = iVar3;
         guess_StartActorSequence(s0, D_80185C94[iVar3]);
         if (((Unkstruct_800B5CB8 *)s0)->unk90 != (s32)&D_8018D8AC) {
-            func_8002D4C8(0x715, 0);
+            guess_RequestSound(0x715, 0);
         }
     }
 
@@ -3404,14 +3404,14 @@ LAB_8017DD78:
 LAB_8017DD80:
     ((Unkstruct_800B5CB8 *)s0)->unk2 = 7;
     guess_StartActorSequence(s0, (s32)&D_8018DB6C);
-    func_8002D4C8(0x713, 0);
+    guess_RequestSound(0x713, 0);
 }
 
 
 /* func_8017DDB4 -- ov_SC03_121, TU ov_SC03_121_jr_8017BEBC.c.   MATCH (94 ins)
  *
  * Second-pass repair of the wave-Y draft. The first pass was 93/94 with the
- * residual at index 29: the target fills func_8002D4C8's jal delay slot with
+ * residual at index 29: the target fills guess_RequestSound's jal delay slot with
  * `sh $zero, 0x34($s0)` and materialises $a1=0 BEFORE the call, while the draft
  * sank $a1=0 into the delay slot and left the store after the call.
  *
@@ -3423,7 +3423,7 @@ LAB_8017DD80:
  * The whole else-arm is that one idiom repeated:
  *     store ; call        ->  jal <callee> / sh <val>,<off>($s0)
  * exactly as `*(s16*)(s0+2) = 3` already fills guess_StartActorSequence's slot two lines up.
- * Lifting `*(s16 *)(s0 + 0x34) = 0` above func_8002D4C8(0x709, 0) is the whole fix.
+ * Lifting `*(s16 *)(s0 + 0x34) = 0` above guess_RequestSound(0x709, 0) is the whole fix.
  *
  * a0 (bound to s0)   : entity pointer.
  *   +0x2  : s16 state/substate code (set to 3 on the "no hit" branch).
@@ -3431,9 +3431,9 @@ LAB_8017DD80:
  *   +0xA  : s16 position Y       (read -0x20 into the probe vector)
  *   +0xE  : s16 position Z       (rewritten on hit-test success)
  *   +0x20 : s32* -> sub-object; +0x12 there is the u16 facing/angle word.
- *   +0x34 : s16 timer, cleared before the func_8002D4C8(0x709) call.
+ *   +0x34 : s16 timer, cleared before the guess_RequestSound(0x709) call.
  *
- * Decls (law 2): func_8002D4C8 / func_80133784 / func_8004787C / func_80047948
+ * Decls (law 2): guess_RequestSound / func_80133784 / func_8004787C / func_80047948
  * are copied verbatim from this TU (lines 59, 600, 2205-2206); guess_StartActorSequence
  * from line 3520.  func_8012CBCC is not declared in this TU, so the ov_SC03_121
  * binary's own unanimous spelling is used (`extern void func_8012CBCC(s32 a0);`
@@ -3452,7 +3452,7 @@ extern s32 func_8012CBCC(s32 a0);
 extern s32 func_8017D65C(s32 a0);
 extern void guess_StartActorSequence(s32, s32);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
@@ -3478,7 +3478,7 @@ void func_8017DDB4(s32 a0) {
             ((Unkstruct_800B5CB8 *)s0)->unk2 = 3;
             guess_StartActorSequence(s0, (s32)D_8018D9F4);
             ((Unkstruct_800B5CB8 *)s0)->unk34 = 0;
-            func_8002D4C8(0x709, 0);
+            guess_RequestSound(0x709, 0);
         }
     }
 

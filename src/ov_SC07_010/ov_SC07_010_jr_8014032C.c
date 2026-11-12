@@ -82,7 +82,7 @@ extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_MenuPacketBases[];
 extern s32 guess_g_MenuPacketPtr;

@@ -292,7 +292,7 @@ void func_800CD494(void *a0) {
 
 
 void func_800CD4D0(void *arg0) {
-    extern s32 D_8011D030;
+    extern s32 guess_g_SmallObjectPool;
     extern u8 D_800CD6E0[];
     extern s32 guess_FreeSmallObject(u8 *a0);
     extern void guess_ZeroMemory(void *a0, s32 a1);
@@ -303,7 +303,7 @@ void func_800CD4D0(void *arg0) {
 
     ((Unkstruct_800CCDE8 *)arg0)->unk2C = 0;
     i = 0;
-    p = (unsigned short *)&D_8011D030;
+    p = (unsigned short *)&guess_g_SmallObjectPool;
     k = 0x3B;
     do {
         if (p != (unsigned short *)arg0) {

@@ -39,7 +39,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -121,10 +121,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -2709,7 +2709,7 @@ s32 func_8016C49C(s32 param_1_arg) {
     param_1[0x14] = ((Unkstruct_8016C49C *)iVar5)->unk36;
     if ((CAST_MISALIGNED(u32, param_1, 0x16) & 0x8000) == 0) {
         short iVar4 = 0;
-        u16 *psVar3 = (u16 *)&D_8011D030;
+        u16 *psVar3 = (u16 *)&guess_g_SmallObjectPool;
         do {
             if (psVar3 != param_1 && *psVar3 == 0x30) {
                 ((void(*)(void *))guess_FreeSmallObject)(psVar3);
@@ -2738,7 +2738,7 @@ s32 func_8016C49C(s32 param_1_arg) {
         sv[0] = 0;
         ((void(*)(void *, void *))RotMatrixYXZ)(sv, param_1 + 0x1c);
         ((void(*)(void *, s32))guess_ZeroMemory)(&D_801C0E98, 0x620);
-        ((s32(*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(0x32, param_1, 0, 0, 0, 0, *(int *)(param_1 + 0x18));
+        ((s32(*)(s32, void *, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x32, param_1, 0, 0, 0, 0, *(int *)(param_1 + 0x18));
         sVar1 = 5;
     } else {
         int iVar5b = ((s32(*)())guess_AllocSpriteObject)();
@@ -2778,7 +2778,7 @@ s32 func_8016C49C(s32 param_1_arg) {
 
 
 extern short func_8016CBC0(void);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 D_80126B9C;
 
 
@@ -2816,7 +2816,7 @@ void func_8016C998(s32 param_1)
         if (i >= 8) {
             return;
         }
-        r = func_80146A6C(0x30, psVar7, 0, 0, 0, 0x8000, ((Unkstruct_8016C998 *)param_1)->unk30);
+        r = guess_SpawnSmallObject(0x30, psVar7, 0, 0, 0, 0x8000, ((Unkstruct_8016C998 *)param_1)->unk30);
         if (r == 0) {
             return;
         }
@@ -3263,11 +3263,11 @@ void func_8016DA7C(s32 param_1)
 #undef SHARED_FN
 
 
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern s32 func_801619D0(void *a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
@@ -3290,7 +3290,7 @@ void func_8016DC20(s16 *param_1) {
     s16 sp[6];
 
     i = 0;
-    psVar1 = (u16 *)&D_8011D030;
+    psVar1 = (u16 *)&guess_g_SmallObjectPool;
     iVar4 = *(s32 *)((u8 *)param_1 + 0x34);
     do {
         if ((psVar1 != (u16 *)param_1) && (*psVar1 == 0x34)) goto end;
@@ -3301,13 +3301,13 @@ void func_8016DC20(s16 *param_1) {
     iVar2 = func_801619D0((void *)iVar4);
     i = 0;
     if (iVar2 == 0) goto ddb0;
-    psVar1 = (u16 *)&D_8011D030;
+    psVar1 = (u16 *)&guess_g_SmallObjectPool;
     do {
         if (*psVar1 == 0x11) goto ddb0;
         i = i + 1;
         psVar1 = psVar1 + 0x2c;
     } while (i < 0x1e);
-    func_80146A6C(0x11, param_1, *(s16 *)((u8 *)param_1 + 6),
+    guess_SpawnSmallObject(0x11, param_1, *(s16 *)((u8 *)param_1 + 6),
                   (s16)(*(u16 *)((u8 *)param_1 + 0xa) - 8),
                   *(s16 *)((u8 *)param_1 + 0xe), 0, 0);
     sp[0] = *(u16 *)((u8 *)param_1 + 6);
@@ -3318,7 +3318,7 @@ void func_8016DC20(s16 *param_1) {
     func_800D23D0(&sp[4]);
     i = 0;
     do {
-        iVar3 = func_80146A6C(0x12, param_1, *(s16 *)(iVar4 + 6),
+        iVar3 = guess_SpawnSmallObject(0x12, param_1, *(s16 *)(iVar4 + 6),
                               *(s16 *)(iVar4 + 0xa), *(s16 *)(iVar4 + 0xe),
                               i, 0);
         if (iVar3 != 0) {
@@ -3371,7 +3371,7 @@ void func_8016DF20(void *a0) {
 
 
 extern Blk20 D_800AE620;
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern u16 guess_g_PlayerPosX;
 extern u16 guess_g_PlayerPosY;
 extern u16 guess_g_PlayerPosZ;
@@ -3399,7 +3399,7 @@ void func_8016DF5C(s32 param_1)
     iVar8 = ((Unkstruct_8016DF5C *)param_1)->unk34;
     if ((((Unkstruct_8016DF5C *)param_1)->unk2C & 0x8000) == 0) {
         unsigned short uVar7 = 0;
-        u16 *psVar6 = (u16 *)&D_8011D030;
+        u16 *psVar6 = (u16 *)&guess_g_SmallObjectPool;
         s32 iNew;
         s32 base;
         do {

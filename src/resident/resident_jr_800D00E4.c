@@ -513,7 +513,7 @@ void func_800D06CC(void) {
 
 extern s16 currentLocationId;
 extern s32 guess_GetStoryProgress(void);
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern s32 func_8001AAA0(s32 arg0);
 extern s32 D_800A2B70;
 extern s32 D_800BA0FC;
@@ -578,10 +578,10 @@ void func_800D06E8(void) {
             }
             switch (s0) {
             case 1:
-                func_8002D4C8(0x518, 0);
+                guess_RequestSound(0x518, 0);
                 break;
             case 2:
-                func_8002D4C8(0x517, 0);
+                guess_RequestSound(0x517, 0);
                 break;
             default:
                 goto sw1_end;
@@ -595,9 +595,9 @@ void func_800D06E8(void) {
             if (p->field_0x37 != D_8011529C) {
                 D_8011529C = p->field_0x37;
                 if (p->field_0x37 == 4) {
-                    func_8002D4C8(0x683, 0);
+                    guess_RequestSound(0x683, 0);
                 } else if (p->field_0x37 == 0) {
-                    func_8002D4C8(0xD, 0x683);
+                    guess_RequestSound(0xD, 0x683);
                 }
             }
             break;
@@ -608,10 +608,10 @@ void func_800D06E8(void) {
         if ((u32)D_800BA0FC >= 0x97) {
             switch (D_800A2B70) {
             case 1:
-                func_8002D4C8(0xD, 0x518);
+                guess_RequestSound(0xD, 0x518);
                 break;
             case 2:
-                func_8002D4C8(0xD, 0x517);
+                guess_RequestSound(0xD, 0x517);
                 break;
             }
             D_800A2B70 = 0;
@@ -621,7 +621,7 @@ void func_800D06E8(void) {
     case 2:
         D_801201F0 -= 1;
         if (D_801201F0 == 0) {
-            func_8002D4C8(0xD, 0x683);
+            guess_RequestSound(0xD, 0x683);
             D_80127500 = 0;
         }
         break;
@@ -670,7 +670,7 @@ sw1_end:
             D_80126AE8 = 0x3C;
             resLoad_lastId = 0;
             D_801151F8 += 1;
-            func_8002D4C8(1, 2);
+            guess_RequestSound(1, 2);
         }
         break;
     case 1:
@@ -682,7 +682,7 @@ sw1_end:
     case 2:
         switch (D_80114EA0) {
         case 0xA:
-            func_8002D4C8(0x10C, 0);
+            guess_RequestSound(0x10C, 0);
             break;
         case 0xF:
             func_8001AAA0(0xF);
@@ -691,7 +691,7 @@ sw1_end:
             func_8001AAA0(0x10);
             break;
         case 0x3C:
-            func_8002D4C8(0x13B, 0);
+            guess_RequestSound(0x13B, 0);
             break;
         }
         D_801151F8 = 0;
@@ -705,44 +705,44 @@ sw1_end:
 
 
 extern s32 resLoad_lastId;
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 
 void func_800D0C48(u16 arg0) {
-    func_8002D4C8(1, arg0);
+    guess_RequestSound(1, arg0);
     resLoad_lastId = 0;
 }
 
 // func_800D0C74: mirror of the matched func_800D0C48 idiom.
 //   andi a1, a0, 0xFFFF      -> caller arg0 is u16, zero-extended into a1
-//   jal func_8002D4C8 (delay: addiu a0,zero,1)  -> func_8002D4C8(1, arg0)
+//   jal guess_RequestSound (delay: addiu a0,zero,1)  -> guess_RequestSound(1, arg0)
 //   jal func_8001B34C (delay: nop)              -> no args
 //   return (void). The frame (sw ra) exists because of the calls.
-// FIX vs prior draft: declare func_8002D4C8 as (s32,s32) and make the CALLER's
+// FIX vs prior draft: declare guess_RequestSound as (s32,s32) and make the CALLER's
 // arg0 the u16 (the andi comes from truncating arg0 at the u16 param of THIS fn),
 // exactly like the already-matched func_800D0C48.
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern void func_8001B34C(void);
 
 void func_800D0C74(u16 arg0) {
-    func_8002D4C8(1, arg0);
+    guess_RequestSound(1, arg0);
     func_8001B34C();
 }
 
 // ANALYSIS: sibling of the matched func_800D0C48 (resident.c:378). The prior draft
-// FAILED because it called func_8002D4C8(1) with ONE arg, but the asm shows
+// FAILED because it called guess_RequestSound(1) with ONE arg, but the asm shows
 //   andi a1, a0, 0xFFFF      ; a1 = (u16)arg0  -> the 2nd argument
-//   jal  func_8002D4C8       ; a0 = 1 (delay slot)
-// i.e. func_8002D4C8(1, arg0). func_8002D4C8 is declared as (s32,s32) in resident.c.
+//   jal  guess_RequestSound       ; a0 = 1 (delay slot)
+// i.e. guess_RequestSound(1, arg0). guess_RequestSound is declared as (s32,s32) in resident.c.
 // Passing the u16 param produces the andi a1,a0,0xFFFF zero-extension automatically.
 // Then resLoad_lastId=0; D_801151F8=3; D_80127500=3 (3 materialized once in v0).
 
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern s32 resLoad_lastId;
 extern s32 D_801151F8;
 extern s32 D_80127500;
 
 void func_800D0CA0(u16 arg0) {
-    func_8002D4C8(1, arg0);
+    guess_RequestSound(1, arg0);
     resLoad_lastId = 0;
     D_801151F8 = 3;
     D_80127500 = 3;

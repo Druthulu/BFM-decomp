@@ -736,7 +736,7 @@ ResourceGetCdLoc(resId):                        /* MATCHED, byte-exact */
 ResourceLoadStateMachine:                       /* NON_MATCHING draft, logically faithful */
     fileIdx    = *(s16*)(resourceIdMap + id*6 + 0);   /* <0 => non-CD path func_80036D58 */
     streamId   = *(s16*)(resourceIdMap + id*6 + 2);   /* -> StreamLoadStateMachine param_1 */
-    postProcId = *(s16*)(resourceIdMap + id*6 + 4);   /* -> func_8002D4C8 */
+    postProcId = *(s16*)(resourceIdMap + id*6 + 4);   /* -> guess_RequestSound */
 
 StreamLoadStateMachine(param_1, loc, n):        /* NON_MATCHING draft */
     sVar1 = *(s16*)(D_80068B60 + (param_1 - 0x100) * 0x10);

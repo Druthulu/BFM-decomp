@@ -39,7 +39,7 @@ void func_8017DB3C(void *a0) {
     } else {
         D_80115214 = 4;
         D_801152BA -= 1;
-        func_8002D4C8(0x62E, 0);
+        guess_RequestSound(0x62E, 0);
         *(u16 *)s2 = 0;
         *(u16 *)(a0 + 2) += 1;
         *(s32 *)(a0 + 0x1C) = 0x28;

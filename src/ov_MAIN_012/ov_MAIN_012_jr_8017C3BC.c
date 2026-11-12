@@ -63,7 +63,7 @@ extern void func_801284F0(void);
 extern void func_80146074(void);
 extern void func_8012853C(void);
 extern void func_80178608(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80011A3C(void);
 extern short currentLocationId;
 extern short D_800B99F2;
@@ -513,7 +513,7 @@ extern void func_801305CC(u8 *a0);
 extern s32 func_8012CBF4(s32);
 extern s32 guess_HandleActorEventDefault(s32 a0, s32 a1);
 extern void func_80130650(s32 a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
 extern s32 func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
@@ -889,7 +889,7 @@ extern u8 D_800B9A16;
 extern u16 D_80115114;
 extern void func_801417F8(void);
 extern void func_800D24A0(int);
-extern void func_8002D4C8(int, int);
+extern void guess_RequestSound(int, int);
 extern void func_80141C0C(int);
 extern s32 func_801418F8(void);
 extern s32 func_8013F350(void);
@@ -898,7 +898,7 @@ extern void func_8013FAF8(s16, s16);
 extern u16 guess_g_MenuFrameCounter;
 extern void func_80141B90(void);
 extern u8 D_8017F6D4[];
-void func_8002D4C8(s32 a0, s32 a1);
+void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80141C0C(s32 param_1);
 extern s32 func_80015144(void);
 extern u16 guess_g_MenuPadHeld;
@@ -1167,7 +1167,7 @@ extern unsigned short * func_8014680C(short *param_1);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -2339,7 +2339,7 @@ extern s32 guess_IsConfirmPressed(void*);
 extern void guess_SetVertSpeed(s32*, s32);
 extern u16 guess_GetPadPressed(s32*);
 extern s32 func_80148980(u8*);
-extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
+extern s32 guess_SpawnSmallObject(s32, void*, s32, s32, s32, s32, s32);
 extern void guess_SetVelocityFromMoveVector(s32 a0);
 extern void guess_SetWaitTimer_2(s32*, s32);
 extern s32 func_801725B8(u8*);
@@ -3572,7 +3572,7 @@ extern s16 func_8014168C(s16);
 extern void func_8017DF18(void);
 extern void func_8017DF40(s32);
 extern void func_8002AF70(void *, s32);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void func_8002AF18(void);
 
 extern u16 guess_g_MenuTransitionTimer;
@@ -3619,7 +3619,7 @@ s32 func_8017C3BC(void) {
                 if (D_80185ADF[guess_g_MenuPanel] == 1) {
                     D_80182638 = 0x19;
                 } else {
-                    func_8002D4C8(0x472, 0);
+                    guess_RequestSound(0x472, 0);
                     return 0;
                 }
             } else if (D_80185ADF[guess_g_MenuPanel] == 1) {
@@ -3628,7 +3628,7 @@ s32 func_8017C3BC(void) {
                 D_80182638 = 0x19;
             }
             D_8011512C = 2;
-            func_8002D4C8(0x45D, 0);
+            guess_RequestSound(0x45D, 0);
             return 0;
         case 2:
             func_8017DF18();
@@ -3644,7 +3644,7 @@ s32 func_8017C3BC(void) {
                 D_80185AD4 = 1;
             }
             D_8011512C = 3;
-            func_8002D4C8(0x45D, 0);
+            guess_RequestSound(0x45D, 0);
             return 0;
         case 4:
         case 7:
@@ -3662,7 +3662,7 @@ s32 func_8017C3BC(void) {
             D_801857F4 = 1;
             D_8011512C = 0;
             *p = D_801825A0;
-            func_8002D4C8(0x45D, 0);
+            guess_RequestSound(0x45D, 0);
             return 0;
         case 5:
             goto Lload;
@@ -3688,7 +3688,7 @@ s32 func_8017C3BC(void) {
             /* fallthrough */
         case 1:
         Lmsg473:
-            func_8002D4C8(0x473, 0);
+            guess_RequestSound(0x473, 0);
             t = D_801857F0;
             sv = t;
             if (t == 0) {
@@ -3708,7 +3708,7 @@ s32 func_8017C3BC(void) {
                 D_80182638 = 0xD;
             }
             D_8011512C = 1;
-            func_8002D4C8(0x473, 0);
+            guess_RequestSound(0x473, 0);
             return 0;
         case 5:
         case 8:
@@ -3716,25 +3716,25 @@ s32 func_8017C3BC(void) {
                 goto Lmsg473;
             }
         Lmsg473ret1:
-            func_8002D4C8(0x473, 0);
+            guess_RequestSound(0x473, 0);
             return 1;
         case 9:
             p2 = &D_80182638;
             if (*p2 == 0x1D || *p2 == 0x21) {
                 if (D_801857F4 == 0) {
                     *p2 = 0x1A;
-                    func_8002D4C8(0x45D, 0);
+                    guess_RequestSound(0x45D, 0);
                     return 0;
                 }
                 D_801857EC = 0;
                 D_8011512C = 0;
                 *p2 = D_801825A0;
                 func_8002AF18();
-                func_8002D4C8(0x45D, 0);
+                guess_RequestSound(0x45D, 0);
                 return 0;
             }
             *p2 = (D_801857F0 == 1) ? 0x1D : 0x21;
-            func_8002D4C8(0x473, 0);
+            guess_RequestSound(0x473, 0);
             return 0;
   case 4:
         case 7:
@@ -3754,7 +3754,7 @@ s32 func_8017C3BC(void) {
         if (st == 5) {
             D_801826D8 = 0x17;
             D_8011512C = 6;
-            func_8002D4C8(0x45D, 0);
+            guess_RequestSound(0x45D, 0);
             D_80185AD4 = 3;
             return 0;
         }
@@ -3842,7 +3842,7 @@ Lmid:
     }
     r = flag;
     if (r) {
-        func_8002D4C8(0x45A, 0);
+        guess_RequestSound(0x45A, 0);
     }
     return 0;
 }

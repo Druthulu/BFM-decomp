@@ -4,5 +4,5 @@ s32 SHARED_FN(void *arg0)
 {
     CAST_WIDTH(s32, (char *)arg0, 0x10) = 0x18000;
     func_8012AD44(arg0, 2);
-    func_8002D4C8(0x675, 0);
+    guess_RequestSound(0x675, 0);
 }

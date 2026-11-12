@@ -27,17 +27,17 @@ int func_801EF47C(u8 *arg) {
 
 
     extern void func_800D1E28(void);
-    extern void func_8002D4C8(s32, s32);
+    extern void guess_RequestSound(s32, s32);
     extern void func_8001BFD0(void);
     extern s32 func_800291B4(s32);
     extern void func_800D0C48(s32);
     s32 func_801EF544(s32 param_1) {
         if ((((Unkstruct_801EF544 *)param_1)->unk28 = ((Unkstruct_801EF544 *)param_1)->unk28 - 1) == -1) {
             func_800D1E28();
-            ((s32 (*)(s32, s32))func_8002D4C8)(0x1C, 0);
+            ((s32 (*)(s32, s32))guess_RequestSound)(0x1C, 0);
             func_8001BFD0();
             if ((func_800291B4(0xCE) & 0xFF) == 0) {
-                ((s32 (*)(s32, s32))func_8002D4C8)(0x1D, 0);
+                ((s32 (*)(s32, s32))guess_RequestSound)(0x1D, 0);
                 func_800D0C48(1);
             }
             ((Unkstruct_801EF544 *)param_1)->unk15 = ((Unkstruct_801EF544 *)param_1)->unk15 + 1;
@@ -269,7 +269,7 @@ extern s32 func_8014CB1C(void);
 
 
 extern void func_8014B2A8(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 #define SHARED_FN func_801EFC80
 #include "../shared/multi/cls_4ab0fc7a4435.h"

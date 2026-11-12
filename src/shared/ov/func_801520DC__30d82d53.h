@@ -11,7 +11,7 @@ void func_801520DC(s32 arg0)
     guess_SetVertSpeed(arg0, 0x40000);
     guess_ClearStoodOnActor(arg0);
     guess_ClearTiltVectors(arg0);
-    func_80146A6C(0x10, arg0, M2C_FIELD(arg0, s16 *, 6), M2C_FIELD(arg0, s16 *, 0xA), (s32) M2C_FIELD(arg0, s16 *, 0xE), 0, 0);
+    guess_SpawnSmallObject(0x10, arg0, M2C_FIELD(arg0, s16 *, 6), M2C_FIELD(arg0, s16 *, 0xA), (s32) M2C_FIELD(arg0, s16 *, 0xE), 0, 0);
     guess_PlaySoundUnlessSkipped(0x441);
     guess_NextStep(arg0);
 }

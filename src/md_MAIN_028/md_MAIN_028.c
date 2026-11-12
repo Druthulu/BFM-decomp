@@ -501,7 +501,7 @@ void func_800CBD78(s32 param_1) {
 
 
 extern void func_800CB8A0(void *a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 void func_800CBDD0(s32 a0) {
     s32 s1;
@@ -516,7 +516,7 @@ void func_800CBDD0(s32 a0) {
     var1C = ((Unkstruct_800CB8A0 *)a0)->unk1C - 1;
     ((Unkstruct_800CB8A0 *)a0)->unk1C = var1C;
     if (var1C == -1) {
-        func_80146A6C(0x35, (void *)s1, 0, 0, 0, 0x8000, 0);
+        guess_SpawnSmallObject(0x35, (void *)s1, 0, 0, 0, 0x8000, 0);
         ((Unkstruct_800CB8A0 *)a0)->unk1C = 0x18;
     }
 }

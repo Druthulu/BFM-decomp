@@ -70,7 +70,7 @@ extern void func_801284F0(void);
 extern void func_80146074(void);
 extern void func_8012853C(void);
 extern void func_80178608(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80011A3C(void);
 extern short currentLocationId;
 extern short D_800B99F2;
@@ -495,7 +495,7 @@ extern int guess_TickWaitTimer(int);
 extern s32 guess_CallActorEventHandler(int a0);
 extern void func_80130514(int param_1);
 extern void func_801305CC(u8 *a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
 extern s32 func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
@@ -912,7 +912,7 @@ extern s32 func_80029000(void);
 extern void func_80029020(s32 a0);
 extern s32 func_80028D9C(void);
 extern void func_80028DBC(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 #include "../shared/ov/func_80140608__t42e81990.h"
 
@@ -1372,7 +1372,7 @@ extern s16 D_8017FE6A;
 
 extern void func_800D24A0(s32 a0);
 extern s32  guess_TestGameFlag(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 
 void func_801418F8(void)
@@ -1417,7 +1417,7 @@ void func_801418F8(void)
     guess_g_MenuCategory = 0;
     guess_g_MenuSwapSlot = 0;
     if (guess_g_OpenMenuId == 3) {
-        func_8002D4C8(0x46E, 0);
+        guess_RequestSound(0x46E, 0);
     } else {
         func_80141C0C(0);
     }
@@ -1497,11 +1497,11 @@ void func_80141A60(void)
 
 extern u16 guess_g_OpenMenuId;
 extern u8 D_8017FE44;
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80141C0C(s32 param_1)
 {
-    func_8002D4C8(*(u16 *)(&D_8017FE44 + (((param_1 << 16) >> 15) + (u32)guess_g_OpenMenuId) * 2), 0);
+    guess_RequestSound(*(u16 *)(&D_8017FE44 + (((param_1 << 16) >> 15) + (u32)guess_g_OpenMenuId) * 2), 0);
 }
 
 

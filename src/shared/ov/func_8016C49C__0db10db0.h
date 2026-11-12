@@ -19,7 +19,7 @@ s32 func_8016C49C(s32 param_1_arg) {
     param_1[0x14] = *(u16 *)(iVar5 + 0x36);
     if ((*(u32 *)(param_1 + 0x16) & 0x8000) == 0) {
         short iVar4 = 0;
-        u16 *psVar3 = (u16 *)&D_8011D030;
+        u16 *psVar3 = (u16 *)&guess_g_SmallObjectPool;
         do {
             if (psVar3 != param_1 && *psVar3 == 0x30) {
                 ((void(*)(void *))guess_FreeSmallObject)(psVar3);
@@ -48,7 +48,7 @@ s32 func_8016C49C(s32 param_1_arg) {
         sv[0] = 0;
         ((void(*)(void *, void *))RotMatrixYXZ)(sv, param_1 + 0x1c);
         ((void(*)(void *, s32))guess_ZeroMemory)(&D_8018EE98, 0x620);
-        ((s32(*)(s32, void *, s32, s32, s32, s32, s32))func_80146A6C)(0x32, param_1, 0, 0, 0, 0, *(int *)(param_1 + 0x18));
+        ((s32(*)(s32, void *, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x32, param_1, 0, 0, 0, 0, *(int *)(param_1 + 0x18));
         sVar1 = 5;
     } else {
         int iVar5b = ((s32(*)())guess_AllocSpriteObject)();

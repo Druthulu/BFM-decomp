@@ -81,7 +81,7 @@ extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_MenuPacketBases[];
 extern s32 guess_g_MenuPacketPtr;
@@ -783,7 +783,7 @@ void func_80146360(void)
 
 
 extern s32 func_80146AFC(void *arg0);
-void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__("func_80146A6C");
+void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__("guess_SpawnSmallObject");
 #include "../shared/ov/func_80146A6C.h"
 
 
@@ -794,7 +794,7 @@ extern s32 func_80146B9C(void * arg0);
 
 /* func_80146AFC — ASCENDING twin of the byte-proven DEFINE_func_80146B9C()
  * in src/shared/engine_core.h (cookbook §71: find the already-matched sibling first).
- * Same 0x58-stride slot table (base D_8011D030), same 7-store copy body in the same
+ * Same 0x58-stride slot table (base guess_g_SmallObjectPool), same 7-store copy body in the same
  * order, same $a2/$a1 giv pair. 80146B9C walks DOWN; this one walks UP, so the guard
  * is `p < end`, end = p + 0xA50 (30 slots x 0x58).
  *
@@ -805,19 +805,19 @@ extern s32 func_80146B9C(void * arg0);
  * banked sibling func_80146B9C already uses) restores MATCH at 40/40.
  *
  * RECONCILE (2026-08-01) — the whole-binary gate failed with
- *   ov_SC01_077_after.c:592: conflicting types for `D_8011D030' (previous decl :564)
+ *   ov_SC01_077_after.c:592: conflicting types for `guess_g_SmallObjectPool' (previous decl :564)
  * TWO file-scope collisions were present; both are fixed HERE, with NO edit to
  * src/shared/engine_core.h and NO change to the generated code (re-verified MATCH
  * after each step):
  *
- *   1. D_8011D030 (the reported one). DEFINE_func_801469C8() emits
- *      `extern s32 D_8011D030;` at FILE scope (engine_core.h:10811, above the
+ *   1. guess_g_SmallObjectPool (the reported one). DEFINE_func_801469C8() emits
+ *      `extern s32 guess_g_SmallObjectPool;` at FILE scope (engine_core.h:10811, above the
  *      `s32 func_801469C8(...) {` line), and this TU expands that macro at :564 —
 
-    extern s32 D_8011D030;
+    extern s32 guess_g_SmallObjectPool;
  *      i.e. before the splice point :570. The draft's `extern u16` therefore
  *      redeclared it incompatibly at :592. Conformed to the TU's `extern s32`.
- *      Codegen-neutral: the sole use is `(u8 *)&D_8011D030`, an address-of, so the
+ *      Codegen-neutral: the sole use is `(u8 *)&guess_g_SmallObjectPool`, an address-of, so the
  *      declared object type never reaches a load/store width (cookbook §20).
  *
  *   2. func_80146AFC ITSELF (latent, would have surfaced next). DEFINE_func_8014C010()
@@ -3017,7 +3017,7 @@ void func_80152058(void *a0) {
 
 
 extern void func_80019064(void *a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern s32 func_801472C8(struct S *a0);
@@ -3042,7 +3042,7 @@ void func_801520DC(s32 arg0)
     guess_SetVertSpeed(arg0, 0x40000);
     guess_ClearStoodOnActor(arg0);
     guess_ClearTiltVectors(arg0);
-    func_80146A6C(0x10, arg0, ((Unkstruct_80126B58 *)arg0)->unk6, ((Unkstruct_80126B58 *)arg0)->unkA, (s32) ((Unkstruct_80126B58 *)arg0)->unkE, 0, 0);
+    guess_SpawnSmallObject(0x10, arg0, ((Unkstruct_80126B58 *)arg0)->unk6, ((Unkstruct_80126B58 *)arg0)->unkA, (s32) ((Unkstruct_80126B58 *)arg0)->unkE, 0, 0);
     guess_PlaySoundUnlessSkipped(0x441);
     guess_NextStep(arg0);
 }

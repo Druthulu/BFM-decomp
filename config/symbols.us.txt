@@ -6,7 +6,7 @@
 //   - `D_800629D4` added: a data label in the text->data boundary region that the boot code
 //     references but splat did not auto-label (keeps the all-asm link resolving; no bytes change).
 // Durable text record of manual RE work (the .rep is gitignored).
-// count=1130
+// count=1131
 
 lzss_ringBuffer                  = 0x1F800000; // data
 start                            = 0x80010000; // func
@@ -29,6 +29,7 @@ SsUtReverbOff                    = 0x800285AC; // func
 guess_SetGameFlag                = 0x80029124; // func
 guess_TestGameFlag               = 0x80029178; // func
 guess_GetStoryProgress           = 0x80029504; // func
+guess_RequestSound               = 0x8002D4C8; // func
 CdQueueBusy                      = 0x80034B98; // func
 StreamLoadStateMachine           = 0x800363CC; // func
 SPU_OBJ_DC                       = 0x8003A694; // func

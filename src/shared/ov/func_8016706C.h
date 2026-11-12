@@ -3,11 +3,11 @@
 extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
 void func_8016706C(s32 param_1)
 {
-    extern s32 D_8011D030;
+    extern s32 guess_g_SmallObjectPool;
     unsigned short *puVar1;
     short iVar2;
     iVar2 = 0;
-    puVar1 = ((unsigned short *)&D_8011D030);
+    puVar1 = ((unsigned short *)&guess_g_SmallObjectPool);
     do {
         if ((unsigned int)*puVar1 == ((short)param_1)) {
             ((void(*)(unsigned short *))guess_FreeSmallObject)(puVar1);

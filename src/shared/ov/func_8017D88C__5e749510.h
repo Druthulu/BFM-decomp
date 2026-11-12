@@ -19,7 +19,7 @@ void func_8017D88C(void *a0)
         *(s16 *)((s32)obj + 0x62) = w;
         i = 0;
         do {
-            func_80146A6C(0x1B, obj, 0, 0, 0, 1, 0);
+            guess_SpawnSmallObject(0x1B, obj, 0, 0, 0, 1, 0);
             i++;
         } while (i < 3);
     } else {

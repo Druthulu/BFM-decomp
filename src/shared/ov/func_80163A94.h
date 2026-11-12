@@ -5,7 +5,7 @@ void func_80163A94(s32 param_1) {
     extern s32 D_800DE5A0;
     extern void guess_InitModelObject(s32 a0, s32 a1);
     extern s32 func_8014659C(void);
-    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern void guess_NextStep(void *a0);
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
@@ -39,7 +39,7 @@ void func_80163A94(s32 param_1) {
         *(s16 *)(param_1 + 0x64) = *(s16 *)(iVar7 + 0x104);
         guess_PlaySoundUnlessSkipped(0x448);
         guess_SetWaitTimer_2((s32 *)param_1, 0x10);
-        func_80146A6C(0xd, (void *)param_1, 0, 0, 0, 0, 0);
+        guess_SpawnSmallObject(0xd, (void *)param_1, 0, 0, 0, 0, 0);
         func_80146DE8((s32 *)param_1, 0, 0, 0xffe00000);
         guess_NextStep((void *)param_1);
     }

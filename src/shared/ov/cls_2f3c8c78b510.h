@@ -7,7 +7,7 @@ void SHARED_FN(void *a0)
 
     ((Unkstruct_8018C5E8 *)a0)->unk34 = ((Unkstruct_8018C5E8 *)a0)->unk34 + 1;
 
-    func_8002D4C8(0x7A0, 0);
+    guess_RequestSound(0x7A0, 0);
     guess_SetGameFlag(0xF6, 1);
     func_800D0F4C(0x59);
 

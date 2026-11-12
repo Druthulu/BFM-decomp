@@ -2,9 +2,9 @@
 s32 SHARED_FN(u8 *a0) {
     s32 s1 = guess_GetStoryProgress();
     if (--(((Unkstruct_8018101C *)a0)->unk28) == -1) {
-        func_8002D4C8(0x1C, 0);
+        guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
+        guess_RequestSound(0x1D, 0);
         if (s1 >= 0x2C6) {
             func_800D0C48(1);
         }

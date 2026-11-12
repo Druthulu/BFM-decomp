@@ -365,7 +365,7 @@ void func_800CB56C(s32 arg0) {
 
 
 void func_800CB6E4(void *arg0) {
-    extern s32 func_80146A6C(s32, void *, s32, s32, s32, s32, s32);
+    extern s32 guess_SpawnSmallObject(s32, void *, s32, s32, s32, s32, s32);
     extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
     u8 *a0 = *(u8 **)((s32)arg0 + 0x34);
     if (((Unkstruct_800CB6E4 *)arg0)->unk30 == ((Unkstruct_800CB6E4_2 *)a0)->unk36) {
@@ -382,7 +382,7 @@ void func_800CB6E4(void *arg0) {
     }
     if (((Unkstruct_800CB6E4 *)arg0)->unk1C < 0x18 && ((Unkstruct_800CB6E4_2 *)a0)->unk0 != 0) {
         if (((Unkstruct_800CB6E4 *)arg0)->unk1C < 0xE) {
-            func_80146A6C(0x15, arg0, 0, 0, 0, 0x8000, ((Unkstruct_800CB6E4 *)arg0)->unk1C);
+            guess_SpawnSmallObject(0x15, arg0, 0, 0, 0, 0x8000, ((Unkstruct_800CB6E4 *)arg0)->unk1C);
         }
         ((Unkstruct_800CB6E4 *)arg0)->unk1C = ((Unkstruct_800CB6E4 *)arg0)->unk1C + 1;
     } else {

@@ -3,9 +3,9 @@
 extern s32 guess_g_PlayerActor;
 extern s32 func_8014BCEC(s32 a0, s32 a1);
 extern void func_8014BD24(s32 a0, s32 a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 void SHARED_FN(void) {
     func_8014BCEC((s32)&guess_g_PlayerActor, 0x5);
     func_8014BD24((s32)&guess_g_PlayerActor, 0x270F);
-    func_8002D4C8(0xBFE, 0);
+    guess_RequestSound(0xBFE, 0);
 }

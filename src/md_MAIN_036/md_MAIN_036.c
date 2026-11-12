@@ -237,7 +237,7 @@ void func_800CB3B4(void *arg0) {
     extern void func_80147364(u16 a0, s32 a1);
     extern void func_801659B8(void);
     extern void func_801663A4(void *a0);
-    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern void func_800CB794(s32 arg0);
 
     void *s3;
@@ -277,9 +277,9 @@ void func_800CB3B4(void *arg0) {
     i = 0;
     one = 1;
     do {
-        func_80146A6C(0x46, arg0, 0, 0, 0, i, 0);
-        func_80146A6C(0x46, arg0, 0, 0, 0, i, one);
-        func_80146A6C(0x46, arg0, 0, 0, 0, i, one);
+        guess_SpawnSmallObject(0x46, arg0, 0, 0, 0, i, 0);
+        guess_SpawnSmallObject(0x46, arg0, 0, 0, 0, i, one);
+        guess_SpawnSmallObject(0x46, arg0, 0, 0, 0, i, one);
         i++;
     } while (i < 6);
 

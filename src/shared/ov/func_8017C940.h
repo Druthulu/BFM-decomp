@@ -3,7 +3,7 @@
 extern s32 func_80128CFC(u16 a0);
 extern void func_8017BEBC(s32 a0, s32 a1);
 extern s32 rand(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern u16 D_801152BA;
 extern s16 D_80115214;
 void func_8017C940(void *a0) {
@@ -37,7 +37,7 @@ void func_8017C940(void *a0) {
     } else {
         D_80115214 = 4;
         D_801152BA -= 1;
-        func_8002D4C8(0x62E, 0);
+        guess_RequestSound(0x62E, 0);
         *(u16 *)s2 = 0;
         *(u16 *)(a0 + 2) += 1;
         *(s32 *)(a0 + 0x1C) = 0x28;

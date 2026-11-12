@@ -8,9 +8,9 @@ s32 SHARED_FN(s32 a0) {
         if (v < 200 && (u32)(v - 150) < 50) {
             func_800D0C48(1);
         }
-        func_8002D4C8(0x1C, 0);
+        guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
+        guess_RequestSound(0x1D, 0);
         func_800D1E28();
         ((Unkstruct_8017EB5C *)a0)->unk15 += 1;
     }

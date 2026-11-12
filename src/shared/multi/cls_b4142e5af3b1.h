@@ -8,9 +8,9 @@ s32 SHARED_FN(Obj800D302C *arg0) {
     v = arg0->field_0x28 - 1;
     arg0->field_0x28 = v;
     if (v == -1) {
-        func_8002D4C8(0x1C, 0);
+        guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
+        guess_RequestSound(0x1D, 0);
         func_800D0C48(1);
         func_800D1E28();
         arg0->field_0x15 = arg0->field_0x15 + 1;

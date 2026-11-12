@@ -30,7 +30,7 @@ void func_80180A18(int param)
 // @unstuck(P36): none — MATCH expected (simple struct-field init + two calls, natural schedule)
 
 extern void guess_StartActorSequence(s32, void *);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern unsigned char D_801A6F44;
 
 void func_80180A64(s32 param_1)
@@ -43,7 +43,7 @@ void func_80180A64(s32 param_1)
     ((Unkstruct_800B5CB8 *)param_1)->unk98 = 0;
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C |= 0x10;
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = 0x100;
-    func_8002D4C8(0x436, 0);
+    guess_RequestSound(0x436, 0);
 }
 
 
@@ -51,7 +51,7 @@ void func_80180A64(s32 param_1)
 extern s32 guess_g_PlayerActor;
 extern s32 func_8012E544(s32 a0);
 extern void guess_StartActorSequence(s32, void *);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
@@ -108,7 +108,7 @@ void func_80180AD4(s32 param_1)
         ((Unkstruct_800B5CB8 *)param_1)->unk98 = 0;
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C |= 0x10;
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = 0x100;
-        func_8002D4C8(0x436, 0);
+        guess_RequestSound(0x436, 0);
     } else {
         switch (((Unkstruct_800B5CB8 *)param_1)->unk34) {
         case 0:

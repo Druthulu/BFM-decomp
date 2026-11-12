@@ -37,7 +37,7 @@ s32 func_80140608(s32 a0) {
             }
         }
         func_80028FDC((s16)uVar4);
-        func_8002D4C8(0x21, uVar4 & 0xFFFF);
+        guess_RequestSound(0x21, uVar4 & 0xFFFF);
         goto ret;
     case 3:
         iVar2 = func_80029000();
@@ -57,7 +57,7 @@ s32 func_80140608(s32 a0) {
             }
         }
         func_80029020((s16)uVar4);
-        func_8002D4C8(0x22, uVar4 & 0xFFFF);
+        guess_RequestSound(0x22, uVar4 & 0xFFFF);
         goto ret;
     case 4:
         t = func_80028D9C() ^ 1;
@@ -66,7 +66,7 @@ s32 func_80140608(s32 a0) {
         if (t == 0) {
             uVar3 = 0xC;
         }
-        func_8002D4C8(uVar3, 0);
+        guess_RequestSound(uVar3, 0);
         goto ret;
     default:
         goto ret;

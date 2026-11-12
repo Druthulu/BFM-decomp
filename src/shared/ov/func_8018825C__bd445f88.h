@@ -7,7 +7,7 @@ extern void func_8012B23C(s32 a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 func_8012CBCC(s32 a0);
 extern s32 func_801884FC(void *a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern u8 D_8018F498[];
 extern u8 D_8018F47C[];
 extern u8 D_801A68A4[];
@@ -47,7 +47,7 @@ void func_8018825C(s32 param_1) {
         *(s32 *)(param_1 + 0x18) = 0xFFE30000;
         *(s32 *)(param_1 + 0x14) = 0xFFE50000;
         *(s32 *)(param_1 + 0xDC) = 1;
-        func_8002D4C8(0x6AA, 0);
+        guess_RequestSound(0x6AA, 0);
         return;
     }
     func_8012CBCC(param_1);

@@ -28,7 +28,7 @@ void func_8013EB7C(void) {
         func_80137B80();
         if ((guess_g_MenuPadPressed & 0x10) != 0 && guess_g_MenuPanel < 5 && sVar1 == 0) {
             (*(s16 *)&guess_g_MenuCategory) = 0;
-            func_8002D4C8(0x466, 0);
+            guess_RequestSound(0x466, 0);
             if (guess_g_MenuPanel != 4) {
                 func_801376E8((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)&D_8017FE40));
             }

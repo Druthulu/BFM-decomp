@@ -1535,7 +1535,7 @@ void func_8012E364(s32 arg0_)
     extern void SetRotMatrix(void *a0);
     extern void SetTransMatrix(void *a0);
     extern s32 RotTransPers(s32, s32*, s32*, s32*);
-    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void guess_RequestSound(s32 a0, s32 a1);
     void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3)
     {
     extern u8 D_800AF648_b __asm__("guess_g_CameraWsMatrix");
@@ -1546,7 +1546,7 @@ void func_8012E364(s32 arg0_)
         SetTransMatrix(&D_800AF648_b);
         RotTransPers(param_1, (s32)f.xy, &f.sp14, &f.flag);
         if (f.flag >= 0 && (u16)(f.xy[0] + 199) < 399 && (u16)(f.xy[1] + 0xA9) < 0x153) {
-            func_8002D4C8(param_2, param_3);
+            guess_RequestSound(param_2, param_3);
         }
     }  /* dedup: shared engine-core @0x8012e5cc (src/shared) */
 
@@ -1556,7 +1556,7 @@ void func_8012E364(s32 arg0_)
     extern void SetRotMatrix(void *a0);
     extern void SetTransMatrix(void *a0);
     extern s32 RotTransPers(s32, s32*, s32*, s32*);
-    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void guess_RequestSound(s32 a0, s32 a1);
     void func_8012E688(s32 param_1, u16 param_2, u16 param_3)
     {
         struct { short v[3]; short pad; short xy[2]; int sp1c; int flag; } f;
@@ -1581,7 +1581,7 @@ void func_8012E364(s32 arg0_)
                 return;
             }
         }
-        func_8002D4C8(a, b);
+        guess_RequestSound(a, b);
     }  /* dedup: shared engine-core @0x8012e688 (src/shared) */
 
 

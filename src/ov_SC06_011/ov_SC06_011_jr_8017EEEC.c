@@ -186,7 +186,7 @@ s32 a0;
 
 
 extern s32 func_8017F6CC();  // K&R: 0 of 1 args (P37 rung D t4_D35)
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80171928(void *a0);
 
 void func_8017F324(void *param)
@@ -194,7 +194,7 @@ void func_8017F324(void *param)
     void *s0 = param;
 
     if (func_8017F6CC() != 0) {
-        func_8002D4C8(0x8B1, 0);
+        guess_RequestSound(0x8B1, 0);
         func_80171928(s0);
     }
 }
@@ -269,7 +269,7 @@ void func_8017F3C8(void *a0)
 
 
 extern s32 func_8017F6CC();  // K&R: 0 of 1 args (P37 rung D t4_D35)
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_80171990(u8*);
 
 void func_8017F4D0(void *param)
@@ -277,7 +277,7 @@ void func_8017F4D0(void *param)
     void *s0 = param;
 
     if (func_8017F6CC() != 0) {
-        func_8002D4C8(0x8B1, 0);
+        guess_RequestSound(0x8B1, 0);
         ((void (*)(void *))func_80171990)(s0);
     }
 }
@@ -318,7 +318,7 @@ void *arg0;
 
 extern u8 guess_g_ObjectTable[];
 extern s32 D_801ABBD8;
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_80013328(s32 a0, s32 a1);
 extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
@@ -352,7 +352,7 @@ loop:
     func_80015978(arg0 + 4, buf);
     func_8012F2E8(D_801ABBD8, (s32)buf, arg0 + 0x20C);
     ((Unkstruct_8017E6A4_2 *)arg0)->unk204 = D_801ABBD8;
-    func_8002D4C8(0x8B0, 0);
+    guess_RequestSound(0x8B0, 0);
 }
 
 
@@ -525,7 +525,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32);
 extern void func_8012ADE4(u8 *a0);
 extern s32  func_8012BD3C(s32 a0, s32 a1, s32 a2);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80142414(s32 a0, s16 a1);
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void func_8017F8F8(void *param_1);
@@ -552,7 +552,7 @@ void func_8017FAB4(s32 a0)
 
         if (((Unkstruct_800B5CB8 *)s0)->unk1C == 0xF) {
             func_80142414(s0, -0x78);
-            func_8002D4C8(0x6A9, 0);
+            guess_RequestSound(0x6A9, 0);
         }
 
         if (guess_TickWaitTimer(s0) != 0) {
@@ -731,7 +731,7 @@ void func_8017FEB4(s32 arg0) {
 
 
 
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 #define SHARED_FN func_8017FF58
 #include "../shared/ov/cls_4e9c3afddc2b.h"
 #undef SHARED_FN
@@ -739,7 +739,7 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
 
 
 
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 #define SHARED_FN func_8017FF7C
 #include "../shared/ov/cls_32c6b6a7019d.h"
 #undef SHARED_FN

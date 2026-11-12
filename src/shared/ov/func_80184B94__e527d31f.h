@@ -4,7 +4,7 @@ extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012BE98(s32 a0, u16 *a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 D_8018EF88[];
 void func_80184B94(s32 s0) {
     u16 *s1 = *(u16 **)(s0 + 0xCC);
@@ -33,7 +33,7 @@ void func_80184B94(s32 s0) {
         if (!(*(u16 *)(s0 + 0x70) & 1)) {
             state = *(s32 *)(s0 + 0x94);
             if (state == 9) {
-                func_8002D4C8(0x77E, 0);
+                guess_RequestSound(0x77E, 0);
                 state = *(s32 *)(s0 + 0x94);
             }
             if (state != 0xF) {
@@ -43,7 +43,7 @@ void func_80184B94(s32 s0) {
         } else {
             state = *(s32 *)(s0 + 0x94);
             if (state == 0xF) {
-                func_8002D4C8(0x781, 0);
+                guess_RequestSound(0x781, 0);
                 state = *(s32 *)(s0 + 0x94);
             }
             if (state != 0x1B) {
@@ -51,6 +51,6 @@ void func_80184B94(s32 s0) {
             }
             msg = 0x780;
         }
-        func_8002D4C8(msg, 0);
+        guess_RequestSound(msg, 0);
     }
 }

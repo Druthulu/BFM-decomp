@@ -2,5 +2,5 @@
  * exemplar src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c:6501 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(void) {
     func_8014B2A8();
-    ((s32 (*)(s32, s32))func_8002D4C8)(0x464, 0);
+    ((s32 (*)(s32, s32))guess_RequestSound)(0x464, 0);
 }

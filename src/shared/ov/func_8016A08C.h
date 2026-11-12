@@ -4,7 +4,7 @@ extern u8 D_80078EBF;
 extern void func_80148534(s32 a0, s32 a1);
 extern void func_8016A290(s32 param_1, void *param_2, void *param_3);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80147364(u16 param_1, u16 param_2);
 extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8016A08C(s32 param_1) {
@@ -30,7 +30,7 @@ void func_8016A08C(s32 param_1) {
                 do {
                     sVar2 = sVar2 + 1;
                 } while (sVar2 < 2);
-                ((void (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x17, param_1, (s32)*(s16 *)(param_1 + 6), (s32)*(s16 *)(param_1 + 0xA),
+                ((void (*)(s32, s32, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x17, param_1, (s32)*(s16 *)(param_1 + 6), (s32)*(s16 *)(param_1 + 0xA),
                               (s32)*(s16 *)(param_1 + 0xE), 0, 0);
             } else {
                 if (*(s16 *)(param_1 + 0x2A) == 0) {

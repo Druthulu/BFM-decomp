@@ -36,7 +36,7 @@ extern s32 func_800CFC1C(u16 *param_1);
 extern void func_800CF078(void);
 extern s32 func_800149E0(s32);
 extern s32 func_80014B10(s32);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void func_800CFE00(void);
 extern void func_800CF104(void);
 extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
@@ -145,7 +145,7 @@ void func_800D0204(void) {
 
 extern s32 func_800149E0(s32 arg0);
 extern u8 guess_g_RenderWork[];
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern s16 D_800EC894[0];
 extern void func_800167B8(s32 arg0);
 extern void func_800118AC(void);
@@ -157,13 +157,13 @@ void func_800D0268(void) {
 
     sp10 = func_800149E0(0);
     if (sp10 & 0x4000) {
-        func_8002D4C8(0x9C1, 0);
+        guess_RequestSound(0x9C1, 0);
         D_800EC894[0]++;
         if (D_800EC894[0] >= 3) {
             D_800EC894[0] = 0;
         }
     } else if (sp10 & 0x1000) {
-        func_8002D4C8(0x9C1, 0);
+        guess_RequestSound(0x9C1, 0);
         D_800EC894[0]--;
         if (D_800EC894[0] < 0) {
             D_800EC894[0] = 2;
@@ -172,7 +172,7 @@ void func_800D0268(void) {
     switch (D_800EC894[0]) {
     case 0:
         if (sp10 & 0x800) {
-            func_8002D4C8(0x9C0, 0);
+            guess_RequestSound(0x9C0, 0);
             func_800167B8(4);
             func_800118AC();
         }
@@ -180,7 +180,7 @@ void func_800D0268(void) {
     case 1:
     case 2:
         if (sp10 & 0x800) {
-            func_8002D4C8(0x9C0, 0);
+            guess_RequestSound(0x9C0, 0);
             func_800167B8(4);
             func_800118AC();
         }
@@ -425,7 +425,7 @@ extern u8 guess_g_RenderWork[];
 
 extern void func_800D12D0(void);
 extern s32 func_800149E0(s32);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void func_800167B8(s32);
 extern void func_800118AC();
 
@@ -437,14 +437,14 @@ void func_800D0740(void) {
     D_800EC888 = func_800149E0(0);
     sp10 = 0;
     if (D_800EC888 & 0x4000) {
-        func_8002D4C8(0x9C1, 0);
+        guess_RequestSound(0x9C1, 0);
         sp10 = 1;
         D_800EC894[0]++;
         if (D_800EC894[0] >= 3) {
             D_800EC894[0] = 0;
         }
     } else if (D_800EC888 & 0x1000) {
-        func_8002D4C8(0x9C1, 0);
+        guess_RequestSound(0x9C1, 0);
         sp10 = 1;
         D_800EC894[0]--;
         if (D_800EC894[0] < 0) {
@@ -455,7 +455,7 @@ void func_800D0740(void) {
     switch (D_800EC894[0]) {
     case 0:
         if (D_800EC888 & 0x800) {
-            func_8002D4C8(0x9C0, 0);
+            guess_RequestSound(0x9C0, 0);
             func_800167B8(4);
             func_800118AC();
         }
@@ -463,7 +463,7 @@ void func_800D0740(void) {
     case 1:
     case 2:
         if (D_800EC888 & 0x800) {
-            func_8002D4C8(0x9C0, 0);
+            guess_RequestSound(0x9C0, 0);
             func_800167B8(4);
             func_800118AC();
         }

@@ -3,7 +3,7 @@
 extern s32 func_8012CBCC(s32 a0);
 extern s32 func_8012BA10(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, void *a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 extern u16 D_80126B96;
@@ -28,7 +28,7 @@ void func_80187300(s32 a0) {
         break;
     case 1:
         if (*(s32 *)(a0 + 0x94) == 0xF) {
-            func_8002D4C8(0xA89, 0);
+            guess_RequestSound(0xA89, 0);
             *(u16 *)(a0 + 0x34) = 2;
             if (func_8012D5E4(a0, (s32)D_80190550, (s32)D_80190558, 0x18) == 1) {
                 D_80126B96 = 4;

@@ -10,10 +10,10 @@ void *a0;
     v0 += -1;
     ((Unkstruct_8017ED40 *)a0)->unk28 = v0;
     if (v0 == v1) {
-        func_8002D4C8(4, 0x6CA);
-        func_8002D4C8(0x1C, 0);
+        guess_RequestSound(4, 0x6CA);
+        guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
+        guess_RequestSound(0x1D, 0);
         if (func_8017FAE0() != 0) {
             func_800D0C48(1);
         }

@@ -5,9 +5,9 @@ s32 SHARED_FN(Struct800D2E6C *arg0) {
     u8 v = arg0->field_0x19;
     arg0->field_0x19 = v + 0xFF;
     if (v == 0) {
-        func_8002D4C8(0x1C, 0);
+        guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
+        guess_RequestSound(0x1D, 0);
         func_800D0C48(1);
         func_800167B8(4);
         arg0->field_0x15++;

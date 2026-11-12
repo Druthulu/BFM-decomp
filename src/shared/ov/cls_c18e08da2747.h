@@ -18,5 +18,5 @@ void SHARED_FN(s32 a0) {
     ((void (*)(void *))func_8012B23C)((void *)s0);
 
     guess_StartActorSequenceById(s0, 0x8);
-    func_8002D4C8(0xA74, 0);
+    guess_RequestSound(0xA74, 0);
 }

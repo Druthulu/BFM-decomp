@@ -1,6 +1,6 @@
 /* func_8017C69C — shared body (overlay slot 0x80128158, h_exact 930d4159). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_8017C218(int);
 void func_8017C69C(void *a0)
 {
@@ -20,7 +20,7 @@ void func_8017C69C(void *a0)
         *(s16 *)((s32)obj + 0x62) = w;
         i = 0;
         do {
-            func_80146A6C(0x1B, obj, 0, 0, 0, 1, 0);
+            guess_SpawnSmallObject(0x1B, obj, 0, 0, 0, 1, 0);
             i++;
         } while (i < 3);
     } else {

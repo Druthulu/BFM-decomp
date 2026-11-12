@@ -1,6 +1,6 @@
 /* func_80188990 — shared body (overlay slot 0x80128158, h_exact c539b69f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern s32 func_8012CBCC(s32);
 extern void func_80131C78(s32 a0);
@@ -19,11 +19,11 @@ void func_80188990(s32 a0) {
                 *(u8 *)(a0 + 0xC1) = 0;
                 *(s16 *)(a0 + 0x5E) = 0;
                 *(s32 *)(a0 + 0x1C) = 0x30;
-                func_8002D4C8(0x7DF, 0);
+                guess_RequestSound(0x7DF, 0);
                 func_800291C8(0xA, *(s16 *)(a0 + 0xFE));
                 return;
             }
-            func_8002D4C8(0x754, 0);
+            guess_RequestSound(0x754, 0);
             guess_SpawnActorType1C(a0, 1);
             *(u8 *)(a0 + 0xC2) = 1;
             *(s32 *)(a0 + 0x14) = 0xFFF30000;
@@ -47,13 +47,13 @@ void func_80188990(s32 a0) {
                 *(u8 *)(a0 + 0xC1) = 0;
                 *(s16 *)(a0 + 0x5E) = 0;
                 *(s32 *)(a0 + 0x1C) = 0x30;
-                func_8002D4C8(0x7DF, 0);
+                guess_RequestSound(0x7DF, 0);
                 func_800291C8(0xA, *(s16 *)(a0 + 0xFE));
                 return;
             }
             {
                 s32 t;
-                func_8002D4C8(0x754, 0);
+                guess_RequestSound(0x754, 0);
                 guess_SpawnActorType1C(a0, 1);
                 t = D_801D46DC;
                 *(u8 *)(a0 + 0xC2) = 2;
@@ -79,13 +79,13 @@ void func_80188990(s32 a0) {
                 *(u8 *)(a0 + 0xC1) = 0;
                 *(s16 *)(a0 + 0x5E) = 0;
                 *(s32 *)(a0 + 0x1C) = 0x30;
-                func_8002D4C8(0x7DF, 0);
+                guess_RequestSound(0x7DF, 0);
                 func_800291C8(0xA, *(s16 *)(a0 + 0xFE));
                 return;
             }
             if (!(*(u16 *)(a0 + 0x84) & 1)) {
                 *(u16 *)(a0 + 0x84) |= 1;
-                func_8002D4C8(0x754, 0);
+                guess_RequestSound(0x754, 0);
             }
             if ((*(s32 *)(a0 + 0x1C) & 3) == 3) {
                 guess_SpawnActorType1C(a0, 1);

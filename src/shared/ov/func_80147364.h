@@ -4,7 +4,7 @@ extern s16 currentLocationId;
 extern s32 guess_g_PlayerActor;
 extern void func_80015978(s32, s32*);
 extern s32 aF8012E5CC(s32, s32, s32) __asm__("func_8012E5CC");
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 void func_80147364(u16 param_1, u16 param_2)
 {
     s32 sp10[2];
@@ -13,6 +13,6 @@ void func_80147364(u16 param_1, u16 param_2)
         ((void (*)(void *, void *))func_80015978)(p + 1, sp10);
         ((void (*)(void *, s32, s32))aF8012E5CC)(sp10, param_1, param_2);
     } else {
-        func_8002D4C8(param_1, param_2);
+        guess_RequestSound(param_1, param_2);
     }
 }

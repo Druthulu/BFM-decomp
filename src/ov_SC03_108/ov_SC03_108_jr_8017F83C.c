@@ -38,7 +38,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -120,10 +120,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -2948,11 +2948,11 @@ extern s32 func_80143994(s32 *a0, s32 a1);
 
 
 /* TU decls copied verbatim: func_8004787C ov_SC03_112_jr_801817E0.c:2197,
- * func_8012EFB8 :330, func_8002D4C8 :52.  func_8012CBF4 / guess_SpawnActorType1C are
+ * func_8012EFB8 :330, guess_RequestSound :52.  func_8012CBF4 / guess_SpawnActorType1C are
  * block-scope in the neighbour func_801817E0 (:2794 / :2801) — same spelling. */
 extern s32 func_8004787C(s32 a0);
 extern s32 func_8012EFB8(void *param_1, void *param_2);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8017FD64(s32 param_1)
 {
@@ -3000,7 +3000,7 @@ void func_8017FD64(s32 param_1)
             } else if (t >= 0x80) {
                 t = 0x7F;
             }
-            func_8002D4C8(0x832, (t | 0x2000) & 0xFFFF);
+            guess_RequestSound(0x832, (t | 0x2000) & 0xFFFF);
         }
     }
 
@@ -3197,14 +3197,14 @@ TAIL:
 extern void func_80180764(s32 *a0);
 extern s32 func_801809A0(void *arg0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 D_8019E6AC;
 
 void func_801802E0(s32 *a0) {
     func_80180764(a0);
     func_801809A0((s32)a0);
     guess_StartActorSequence((s32)a0, &D_8019E6AC);
-    func_8002D4C8(0xA74, 0);
+    guess_RequestSound(0xA74, 0);
 }
 
 

@@ -12,7 +12,7 @@ u8 *a0;
         arr[0] = *(u16 *)(a0 + 6) - 0x40;
         arr[1] = *(u16 *)(a0 + 0xA) - 0x10;
         arr[2] = *(u16 *)(a0 + 0xE) + 0x10;
-        func_80146A6C(0x36, a0, (s16)arr[0], (s16)arr[1], (s16)arr[2], 0, 0);
+        guess_SpawnSmallObject(0x36, a0, (s16)arr[0], (s16)arr[1], (s16)arr[2], 0, 0);
         func_80171990(a0);
     }
 }

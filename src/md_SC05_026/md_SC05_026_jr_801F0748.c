@@ -55,7 +55,7 @@ extern s32 func_800167F0(s32 a0);
 extern s32 func_801EFFC4(void);
 extern void func_8001BFD0(void);
 extern s32 func_800291B4(s32);
-extern s32 func_8002D4C8(s32, s32);
+extern s32 guess_RequestSound(s32, s32);
 extern void func_800D0C48(s32);
 extern void func_800D1E28(void);
 extern s32 func_801F003C(s32 param_1);

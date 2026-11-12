@@ -32,7 +32,7 @@ void func_8017D140(void *a0)
         }
         i = 0;
         do {
-            func_80146A6C(0x1B, obj, 0, 0, 0, 0, 0);
+            guess_SpawnSmallObject(0x1B, obj, 0, 0, 0, 0, 0);
             i++;
         } while (i < 3);
     } else {

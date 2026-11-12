@@ -40,7 +40,7 @@ s32 func_801E7BB0(s32 param_1) {
 
 
 extern void func_800D1E28(void);
-extern s32 func_8002D4C8(s32, s32);
+extern s32 guess_RequestSound(s32, s32);
 extern void func_8001BFD0(void);
 extern s32 func_800291B4(s32);
 extern s32 func_80029524(void);

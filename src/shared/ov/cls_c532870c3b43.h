@@ -3,5 +3,5 @@ void SHARED_FN(void *arg0)
 {
     ((Unkstruct_800B5CB8 *)arg0)->unk44 = 0x4000;
     func_8012AD44((s32 *)arg0, 2);
-    func_8002D4C8(0x684, 0);
+    guess_RequestSound(0x684, 0);
 }

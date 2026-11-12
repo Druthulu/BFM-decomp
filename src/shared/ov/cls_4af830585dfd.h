@@ -2,9 +2,9 @@
  * exemplar src/shared/ov/func_8017F174__4af83058.h · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 extern void func_8014BB0C(void);
 extern void func_8014BDC8(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 void SHARED_FN(void) {
     func_8014BB0C();
     func_8014BDC8();
-    ((s32 (*)(s32, s32))func_8002D4C8)(0x45C, 0);
+    ((s32 (*)(s32, s32))guess_RequestSound)(0x45C, 0);
 }

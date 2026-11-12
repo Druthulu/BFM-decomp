@@ -25,7 +25,7 @@ void func_800CAE34(void *a0) {
 
 extern s32 func_80165910(void);
 extern void func_801655E4(s32 a0);
-extern s32 func_80146A6C(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 s32 func_800CAE8C(s32 arg0)
 {
@@ -33,7 +33,7 @@ s32 func_800CAE8C(s32 arg0)
     if (func_80165910() == 0) {
         func_801655E4(arg0);
     }
-    func_80146A6C(0x4B, arg0, 0, 0, 0, 0, 0);
+    guess_SpawnSmallObject(0x4B, arg0, 0, 0, 0, 0, 0);
     v = ((Unkstruct_800CAE8C *)arg0)->unk197 + 1;
     ((Unkstruct_800CAE8C *)arg0)->unk197 = v;
     return v;
@@ -246,7 +246,7 @@ void func_800CB400(void *a0)
 
 void func_800CB458(s32 arg0) {
     extern void func_800CAF84(void);
-    extern s32 func_80146A6C(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    extern s32 guess_SpawnSmallObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     s32 s0 = arg0;
     s32 s1;
     s32 v0;
@@ -262,7 +262,7 @@ void func_800CB458(s32 arg0) {
 
     if ((((Unkstruct_800CB458 *)s0)->unk1C -= 1) == -1) {
         id = 0x4B;
-        func_80146A6C(id, s1, 0, 0, 0, 0x8000, 0);
+        guess_SpawnSmallObject(id, s1, 0, 0, 0, 0x8000, 0);
         ((Unkstruct_800CB458 *)s0)->unk1C = 0x18;
     }
 }

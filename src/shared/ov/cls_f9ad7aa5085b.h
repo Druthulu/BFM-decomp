@@ -2,17 +2,17 @@
  * exemplar src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:2942 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:3031 rejected by type_census --check */
 s32 SHARED_FN(u8 *a0) {
-    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void guess_RequestSound(s32 a0, s32 a1);
     extern void func_8001BFD0(void);
     extern void func_800D0C48(s32 a0);
     extern void func_800D1E28(void);
     extern s32 func_8017FB74(void);
 
     if (--(((Unkstruct_8017EC68 *)a0)->unk28) == -1) {
-        func_8002D4C8(4, 0x6CA);
-        func_8002D4C8(0x1C, 0);
+        guess_RequestSound(4, 0x6CA);
+        guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
+        guess_RequestSound(0x1D, 0);
         if (func_8017FB74() != 0) {
             func_800D0C48(1);
         }

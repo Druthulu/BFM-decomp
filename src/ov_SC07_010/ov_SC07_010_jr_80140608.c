@@ -81,7 +81,7 @@ extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern u8 guess_g_MenuPacketBases[];
 extern s32 guess_g_MenuPacketPtr;
 extern u16 guess_g_MenuPanel;
@@ -163,7 +163,7 @@ extern s32 func_80029000(void);
 extern void func_80029020(s32 a0);
 extern s32 func_80028D9C(void);
 extern void func_80028DBC(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 #include "../shared/ov/func_80140608__t42e81990.h"
 
@@ -685,7 +685,7 @@ extern u8 D_8011515C;
 
 extern void func_800D24A0(s32 a0);
 extern s32  guess_TestGameFlag(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 
 void func_801418F8(void)
@@ -732,7 +732,7 @@ void func_801418F8(void)
     guess_g_MenuCategory = 0;
     guess_g_MenuSwapSlot = 0;
     if (guess_g_OpenMenuId == 3) {
-        func_8002D4C8(0x46E, 0);
+        guess_RequestSound(0x46E, 0);
     } else {
         func_80141C0C(0);
     }
@@ -811,14 +811,14 @@ void func_80141C04(void) {
 // @class: struct
 // @unstuck(P36): none — MATCH expected (indexed u16 global: (s16)param_1*2 + guess_g_OpenMenuId, *2 array stride)
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80141C0C(s32 param_1)
 {
 
     extern u16 guess_g_OpenMenuId;
     extern u8 D_80183314;
-    func_8002D4C8(*(u16 *)(&D_80183314 + (((param_1 << 16) >> 15) + (u32)guess_g_OpenMenuId) * 2), 0);
+    guess_RequestSound(*(u16 *)(&D_80183314 + (((param_1 << 16) >> 15) + (u32)guess_g_OpenMenuId) * 2), 0);
 }
 
 

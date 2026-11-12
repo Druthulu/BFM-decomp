@@ -45,7 +45,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -127,10 +127,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -3127,7 +3127,7 @@ s32 func_8017D34C(s32 a0) {
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
@@ -3157,7 +3157,7 @@ void func_8017D428(void *a0) {
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
@@ -3184,7 +3184,7 @@ void func_8017D51C(void *a0) {
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8001BFD0(void);
 extern void func_800D1E28(void);
 
@@ -3703,7 +3703,7 @@ void func_8017E108(void)
     extern void func_80139954(void);
     extern s32 func_801376E8(s32 a0, s32 a1);
     extern void func_80137B80(void);
-    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void guess_RequestSound(s32 a0, s32 a1);
 
     s32 b;
     s32 r;
@@ -3738,7 +3738,7 @@ void func_8017E108(void)
         func_80139954();
         D_800B9A15 = 0;
         if ((s16)r == -1) {
-            func_8002D4C8(0x474, 0);
+            guess_RequestSound(0x474, 0);
         }
         p12 = &guess_g_MenuStep;
         *p12 += 2;
@@ -3762,7 +3762,7 @@ void func_8017E258(void) {
     extern s16 func_8014168C(s16);
     extern s32 func_8017F2D4(s32 a0, s32 a1);
     extern void func_80139954(void);
-    extern void func_8002D4C8(s32, s32);
+    extern void guess_RequestSound(s32, s32);
     extern void func_8017E6BC(void);
     extern void func_80137B80(void);
 
@@ -3786,7 +3786,7 @@ void func_8017E258(void) {
             if (D_801CD870 != 0) {
                 func_80139954();
                 D_800B9A15 = 0;
-                func_8002D4C8(0x474, 0);
+                guess_RequestSound(0x474, 0);
                 guess_g_MenuStep++;
             } else {
                 guess_g_MenuStep--;
@@ -3819,7 +3819,7 @@ void func_8017E384(void) {
 }
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 
 extern s32 func_80014ED4(s32 a0);
@@ -3871,7 +3871,7 @@ s32 func_8017E3DC(void) {
                 return -1;
             }
         } else {
-            func_8002D4C8(0x473, 0);
+            guess_RequestSound(0x473, 0);
             *p11a = *p11a - 1;
         }
         return 0;
@@ -3942,7 +3942,7 @@ s32 func_8017E3DC(void) {
     }
 
     if (changed != 0) {
-        func_8002D4C8(0x45A, 0);
+        guess_RequestSound(0x45A, 0);
         if (guess_g_MenuPanel != 1) {
             return 0;
         }

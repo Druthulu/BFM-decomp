@@ -6,7 +6,7 @@ extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_8012B23C(s32 a0);
 extern s32 func_80143970(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern u16 D_80192D94;
 extern u16 D_80194294;
 extern u8 D_801A7164;
@@ -36,7 +36,7 @@ void func_80188028(s32 a0) {
     *(s16 *)(a0 + 0xE) = *(u16 *)(a0 + 0xE) + 0xC0;
     *(s32 *)(a0 + 0xE8) = (*p & 0x1F) + 0xE0;
     *(s32 *)(a0 + 0xE4) = 0;
-    func_8002D4C8(0x6A9, 0);
+    guess_RequestSound(0x6A9, 0);
     *(u16 *)(a0 + 2) += 1;
     func_80143970(a0);
     func_8012B23C(a0);

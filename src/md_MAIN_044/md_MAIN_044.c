@@ -174,7 +174,7 @@ void func_800CCF58(arg0, arg1) void *arg0; s16 arg1; {
 void func_800CCF68(s32 param_1)
 {
     extern s32 func_8014C088(s32 a0, s32 a1);
-    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     s32 ptr;
 
     ptr = func_8014C088(param_1, 7);
@@ -182,7 +182,7 @@ void func_800CCF68(s32 param_1)
         *(u16 *)(ptr + 0x60) = 1;
     }
     ((Unkstruct_80126B58 *)param_1)->unk1C8 = 0;
-    func_80146A6C(0x39, (void *)param_1, 0, 0, 0, 0, 0);
+    guess_SpawnSmallObject(0x39, (void *)param_1, 0, 0, 0, 0, 0);
 }
 
 
@@ -306,7 +306,7 @@ extern u16 guess_g_FrameCounter;
 extern s16 currentLocationId;
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void func_800CD57C(void *arg0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_800CD848(s32 param_1);
 extern void func_800CD780(s32 param_1);
 extern void func_800CD7A8(s32 a0, s32 a1);
@@ -336,7 +336,7 @@ void func_800CD2EC(s32 *s1) {
         if ((*(u16 *)&guess_g_FrameCounter & 3) == 0) {
             func_800CD57C(s1);
         }
-        func_80146A6C(0x26, s1, ((Unkstruct_80126B58 *)s1)->unk6, ((Unkstruct_80126B58 *)s1)->unkA,
+        guess_SpawnSmallObject(0x26, s1, ((Unkstruct_80126B58 *)s1)->unk6, ((Unkstruct_80126B58 *)s1)->unkA,
                       ((Unkstruct_80126B58 *)s1)->unkE, *(s16 *)(s2 + 0x12), 0);
         func_800CD848((s32)s1);
         func_800CD780((s32)s1);
@@ -652,7 +652,7 @@ extern void func_800D23D0(void*);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800CDDA8();
 extern s32 rand(void);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 guess_FreeSmallObject(void *a0);
 
@@ -685,7 +685,7 @@ void func_800CDBA8(s32 param_1) {
             sp30[0] = sp20[0] + ((s16)sp28[0] >> 4);
             sp30[1] = sp20[1] + ((s16)sp28[1] >> 4);
             sp30[2] = sp20[2] + ((s16)sp28[2] >> 4);
-            a0 = func_80146A6C(0x39, (void *)param_1, sp30[0], sp30[1], sp30[2],
+            a0 = guess_SpawnSmallObject(0x39, (void *)param_1, sp30[0], sp30[1], sp30[2],
                                (s0 & 0xFFF) | 0x1000, 0);
             if (a0 == 0) {
                 break;
@@ -728,7 +728,7 @@ void func_800CDDC8(void *a0) {
 extern s32 rand(void);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_FreeSmallObject(void *a0);
 extern void func_80015978(s32 a0, s32 *a1);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
@@ -764,7 +764,7 @@ void func_800CDE04(s32 param_1) {
             sp30[0] = sp20[0] + ((s16)sp28[0] >> 4);
             sp30[1] = sp20[1] + ((s16)sp28[1] >> 4);
             sp30[2] = sp20[2] + ((s16)sp28[2] >> 4);
-            e = func_80146A6C(0x3A, (void *)param_1, (s16)sp30[0], (s16)sp30[1],
+            e = guess_SpawnSmallObject(0x3A, (void *)param_1, (s16)sp30[0], (s16)sp30[1],
                               (s16)sp30[2], (r & 0xFFF) | 0x1000, 0);
             if (e == 0) break;
             *(s32 *)(e + 0x10) = (s16)sp28[0] << 8;
@@ -790,7 +790,7 @@ extern void func_80015978(s32 a0, s32 *a1);
 extern void func_800D22E4(s32 a0);
 extern s32 func_80135168(u16 a0, u16 *a1, u16 *a2);
 extern void func_80015954(s32 a0, s32 a1);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_FreeSmallObject(void *a0);
 
 void func_800CE004(s32 param_1)
@@ -816,7 +816,7 @@ void func_800CE004(s32 param_1)
         goto L_cnt;
     if (((Unkstruct_800CE004 *)param_1)->unk2C < 0x1E01)
         goto L_c3c;
-    func_80146A6C(0x11, (void *)param_1, ((Unkstruct_800CE004 *)param_1)->unk6,
+    guess_SpawnSmallObject(0x11, (void *)param_1, ((Unkstruct_800CE004 *)param_1)->unk6,
                   (s16)(((Unkstruct_800CE004 *)param_1)->unkA - 8),
                   ((Unkstruct_800CE004 *)param_1)->unkE, 0, 0);
     goto L_c3c;

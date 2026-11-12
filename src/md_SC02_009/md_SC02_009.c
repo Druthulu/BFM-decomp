@@ -590,8 +590,8 @@ void func_801E5A58(void *a0) {
         if (func_8012C588(0x56, (s32)a0) != 0) {
             CAST_WIDTH(s32, (s32)s1, 0x4) = 0x80000000;
             func_801439C0(((Unkstruct_800B5CB8 *)a0)->unkCC);
-            func_8002D4C8(0x4FF, 0);
-            func_8002D4C8(0x510, 0x105F);
+            guess_RequestSound(0x4FF, 0);
+            guess_RequestSound(0x510, 0x105F);
             ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
         }
     } else {

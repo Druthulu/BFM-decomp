@@ -7,8 +7,8 @@ void SHARED_FN(s32 arg0) {
         if (guess_TickWaitTimer(s0) != 0) {
             *(s32 *)((s32)s0 + 0x1C) = 0x10;
             func_8012AD44((s32 *)s0, 1);
-            func_8002D4C8(4, 0x6CA);
-            func_8002D4C8(0x6CC, 0);
+            guess_RequestSound(4, 0x6CA);
+            guess_RequestSound(0x6CC, 0);
         }
     }
 }

@@ -37,7 +37,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -119,10 +119,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -3396,7 +3396,7 @@ s32 *func_80189214(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
  *      So the Rec typedef + the D_801E7774 decl now live inside `case 11`.
  *      Codegen is unchanged — still MATCH at 551.
  * Every other extern in this file was diffed against the host TU: all agree
- * (func_8002D4C8/800291B4/800291A0/80189E54/800D0F8C/800D0EC4/800D0F0C/
+ * (guess_RequestSound/800291B4/800291A0/80189E54/800D0F8C/800D0EC4/800D0F0C/
  *  800D0FE0/800D128C/80029124 (guess_SetGameFlag)/80029514/8017ADE8/80139A68, D_801E7030,
  *  D_801E76FC, D_801E76F4, D_801E77B8, D_800A6586, D_8010EDEE, D_8010EDF2,
  *  D_80115126, guess_g_MenuPanelCursors, D_801E7700, D_801E3CEC, guess_g_MenuStep, D_801EC928)
@@ -3458,7 +3458,7 @@ s32 *func_80189214(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
  *   {1,2,4,6}, 3, 5, 12, 13, 14, 10, 7, 8, 15, 11   (9 + out-of-range = default)
  *
  * ---- the levers that closed this, in the order they mattered ----
- * L1 CROSS-JUMP TAIL PLACEMENT (-8 ins).  The shared `func_8002D4C8(0x472,0);
+ * L1 CROSS-JUMP TAIL PLACEMENT (-8 ins).  The shared `guess_RequestSound(0x472,0);
  *    return 0;` error tail is an EXPLICIT label (`bad472`) at the very END of
  *    the function, reached by `goto`.  gcc-2.7.2's jump.c keeps the
  *    PHYSICALLY-LAST copy of a merged tail; only a last copy that is a bare
@@ -3493,7 +3493,7 @@ s32 *func_80189214(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
  *    reload and the `->unk4` read in case 11's .L80189CFC path stops gcc's
  *    sched from hoisting `lw ...,4(...)` into the load-delay slot (that single
  *    barrier took the diff 58 -> 5).
- * L8 The `.L80189D80` tail (`func_8002D4C8(0x45D,0); guess_g_MenuStep++;`) is also
+ * L8 The `.L80189D80` tail (`guess_RequestSound(0x45D,0); guess_g_MenuStep++;`) is also
  *    an explicit label (`tail45D`) for the same reason as L1.
  *
  * ---- former tier-2 residual (SOLVED by T3-A/T3-B above) ----
@@ -3509,7 +3509,7 @@ s32 *func_80189214(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 
 
 /* ---- functions ---- */
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern s32 func_800291B4(s32);
 extern void func_800291A0(s32, s32);
 extern void func_80186E24(void);
@@ -3572,7 +3572,7 @@ s32 func_80189540(s16 arg0, s16 arg1)
         if (arg1 == 2) {
             return -1;
         }
-        func_8002D4C8(0x46F, 0);
+        guess_RequestSound(0x46F, 0);
         guess_g_MenuPanel = arg1 + 1;
         return 0;
 
@@ -3581,19 +3581,19 @@ s32 func_80189540(s16 arg0, s16 arg1)
             return -1;
         }
         guess_g_MenuPanel = 2;
-        func_8002D4C8(0x46F, 0);
+        guess_RequestSound(0x46F, 0);
         return 0;
 
     case 5:
         if (arg1 == 1) {
             D_801E7030 = 1;
-            func_8002D4C8(0x474, 0);
+            guess_RequestSound(0x474, 0);
             return -1;
         }
         if (arg1 == 3) {
             return -1;
         }
-        func_8002D4C8(0x46F, 0);
+        guess_RequestSound(0x46F, 0);
         if (arg1 != 0) {
             guess_g_MenuPanel = arg1;
         } else {
@@ -3604,7 +3604,7 @@ s32 func_80189540(s16 arg0, s16 arg1)
     case 12:
         guess_g_MenuPanel = 3;
         D_8011514E = 0;
-        func_8002D4C8(0x46F, 0);
+        guess_RequestSound(0x46F, 0);
         return 0;
 
     case 13:
@@ -3635,7 +3635,7 @@ s32 func_80189540(s16 arg0, s16 arg1)
             q[-0xA] = q[0];
         }
         func_80189E14(1);
-        func_8002D4C8(0x5EE, 0);
+        guess_RequestSound(0x5EE, 0);
         return 0;
     }
 
@@ -3660,7 +3660,7 @@ s32 func_80189540(s16 arg0, s16 arg1)
         func_80186E24();
         D_801E77B8[i14] = 0xFF;
         func_80189E14(4);
-        func_8002D4C8(0x5EE, 0);
+        guess_RequestSound(0x5EE, 0);
         return 0;
     }
 
@@ -3684,7 +3684,7 @@ s32 func_80189540(s16 arg0, s16 arg1)
             slot = sraw;
             if (sraw == 0) {
                 func_80189E14(2);
-                func_8002D4C8(0x45F, 0);
+                guess_RequestSound(0x45F, 0);
                 return 0;
             }
             x = D_801E778C;
@@ -3699,10 +3699,10 @@ s32 func_80189540(s16 arg0, s16 arg1)
             }
             if (func_80189E54(-val) != 0) {
                 func_80189E14(3);
-                func_8002D4C8(0x472, 3);
+                guess_RequestSound(0x472, 3);
                 return 0;
             }
-            func_8002D4C8(0x5EE, 0);
+            guess_RequestSound(0x5EE, 0);
             __asm__("addu %0,%1,$zero" : "=r"(w10) : "r"(b10));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2)
             func_800D0F0C(slot, w10);
             if (w10 == 0xA) {
@@ -3740,7 +3740,7 @@ s32 func_80189540(s16 arg0, s16 arg1)
             func_80186E24();
         }
         func_80189E14(4);
-        func_8002D4C8(0x5EE, 0);
+        guess_RequestSound(0x5EE, 0);
         return 0;
     }
 
@@ -3835,7 +3835,7 @@ s32 func_80189540(s16 arg0, s16 arg1)
                 D_801E7700 = (s32)&D_801EC928;
                 guess_g_MenuStep = guess_g_MenuStep + 1;
                 ((void (*)(s32, s32))func_80139A68)((s16)(arg1 + 1), 0);
-                func_8002D4C8(0x5EE, 0);
+                guess_RequestSound(0x5EE, 0);
                 return 0;
             }
             base = D_801E7774;
@@ -3873,7 +3873,7 @@ s32 func_80189540(s16 arg0, s16 arg1)
             D_801E7794 = 2;
         }
     tail45D:
-        func_8002D4C8(0x45D, 0);
+        guess_RequestSound(0x45D, 0);
         dv = guess_g_MenuStep;
         dv = dv + 1;
         guess_g_MenuStep = dv;
@@ -3883,7 +3883,7 @@ s32 func_80189540(s16 arg0, s16 arg1)
     goto done;
 
 bad472:
-    func_8002D4C8(0x472, 0);
+    guess_RequestSound(0x472, 0);
 done:
     return 0;
 }
@@ -4446,7 +4446,7 @@ extern s32 D_801E055C;
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8018AB78(void)
 {
@@ -4462,7 +4462,7 @@ void func_8018AB78(void)
         SetRotMatrix(&guess_g_CameraWsMatrix);
         SetTransMatrix(&guess_g_CameraWsMatrix);
         if (RotTransPers((s32)&D_801E055C, (s32)&sxy, &pv, &flag) <= 0 || flag < 0) {
-            func_8002D4C8(4, 0x7E6);
+            guess_RequestSound(4, 0x7E6);
         } else {
             x = *(u16 *)&sxy + 0xA0;
             *(s16 *)&sxy = x;
@@ -4483,7 +4483,7 @@ void func_8018AB78(void)
                 s32 panpart;
                 vol = ((0x23F - dist) * 127) / 576;
                 panpart = ((pan << 8) & 0xF00) | 0x3000;
-                func_8002D4C8(0x7E6, panpart | (vol & 0x7F));
+                guess_RequestSound(0x7E6, panpart | (vol & 0x7F));
             }
         }
     }
@@ -5860,7 +5860,7 @@ s32 func_8018CC04(void) {
 }
 
 
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 #define SHARED_FN func_8018CC1C
 #include "../shared/ov/cls_05626dd4e9c6.h"
 #undef SHARED_FN

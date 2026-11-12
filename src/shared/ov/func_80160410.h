@@ -3,7 +3,7 @@
 extern void func_80019064(void *a0);
 extern void func_80149020(s32 *a0);
 extern void func_80013E94(void *a0, void *a1);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void func_8001382C(s32 a0, void *a1, void *a2);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
@@ -32,7 +32,7 @@ void func_80160410(s32 * a0)
         s32 a3v = (s32)*(s16 *)((s32)a0 + 0xE2);
         s32 a5v = (s32)*(s16 *)((s32)a0 + 0xE4);
         buf[0] = v6;
-        func_80146A6C(6, a0, a2v, a3v, a5v, v6, 0);
+        guess_SpawnSmallObject(6, a0, a2v, a3v, a5v, v6, 0);
     }
     guess_PlaySoundUnlessSkipped(0x43D);
     angle = (s32)(angle << 16) >> 16;

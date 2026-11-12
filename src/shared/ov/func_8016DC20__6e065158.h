@@ -14,7 +14,7 @@ void func_8016DC20(s16 *param_1) {
     s16 sp[6];
 
     i = 0;
-    psVar1 = (u16 *)&D_8011D030;
+    psVar1 = (u16 *)&guess_g_SmallObjectPool;
     iVar4 = *(s32 *)((u8 *)param_1 + 0x34);
     do {
         if ((psVar1 != (u16 *)param_1) && (*psVar1 == 0x34)) goto end;
@@ -25,13 +25,13 @@ void func_8016DC20(s16 *param_1) {
     iVar2 = func_801619D0((void *)iVar4);
     i = 0;
     if (iVar2 == 0) goto ddb0;
-    psVar1 = (u16 *)&D_8011D030;
+    psVar1 = (u16 *)&guess_g_SmallObjectPool;
     do {
         if (*psVar1 == 0x11) goto ddb0;
         i = i + 1;
         psVar1 = psVar1 + 0x2c;
     } while (i < 0x1e);
-    func_80146A6C(0x11, param_1, *(s16 *)((u8 *)param_1 + 6),
+    guess_SpawnSmallObject(0x11, param_1, *(s16 *)((u8 *)param_1 + 6),
                   (s16)(*(u16 *)((u8 *)param_1 + 0xa) - 8),
                   *(s16 *)((u8 *)param_1 + 0xe), 0, 0);
     sp[0] = *(u16 *)((u8 *)param_1 + 6);
@@ -42,7 +42,7 @@ void func_8016DC20(s16 *param_1) {
     func_800D23D0(&sp[4]);
     i = 0;
     do {
-        iVar3 = func_80146A6C(0x12, param_1, *(s16 *)(iVar4 + 6),
+        iVar3 = guess_SpawnSmallObject(0x12, param_1, *(s16 *)(iVar4 + 6),
                               *(s16 *)(iVar4 + 0xa), *(s16 *)(iVar4 + 0xe),
                               i, 0);
         if (iVar3 != 0) {

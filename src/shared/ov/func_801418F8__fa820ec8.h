@@ -42,7 +42,7 @@ void func_801418F8(void)
     guess_g_MenuCategory = 0;
     guess_g_MenuSwapSlot = 0;
     if (guess_g_OpenMenuId == 3) {
-        func_8002D4C8(0x46E, 0);
+        guess_RequestSound(0x46E, 0);
     } else {
         func_80141C0C(0);
     }

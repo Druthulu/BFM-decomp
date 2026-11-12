@@ -10,5 +10,5 @@ void SHARED_FN(void *a0) {
     if (t > 0x1000) {
         vol -= (t - 0x1000) / 0x2700;
     }
-    func_8002D4C8(id, (vol | 0x1000) & 0xFFFF);
+    guess_RequestSound(id, (vol | 0x1000) & 0xFFFF);
 }

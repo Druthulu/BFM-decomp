@@ -1,6 +1,6 @@
 // config/symbols.ov_SC07_010.txt — overlay SC07/FILE_010 local symbols (Phase 13+)
 // R13/R15: overlay-REGION ONLY (vram 0x80128158..0x801A9547); NEVER merged into config/symbols.us.txt.
-// count=80
+// count=81
 guess_UpdateCamera               = 0x80129CF8; // func
 guess_SetMainCameraHandler       = 0x8012A018; // func
 guess_StartActorSequence         = 0x8012A828; // func
@@ -37,6 +37,7 @@ guess_MoveImageList              = 0x80146014; // func
 guess_AllocSpriteObject          = 0x801465C0; // func
 guess_SpawnObject                = 0x801466F0; // func
 guess_SpawnSmallObjectAtOrigin   = 0x80146994; // func
+guess_SpawnSmallObject           = 0x80146A6C; // func
 guess_FreeSmallObject            = 0x80146C3C; // func
 guess_NextStep                   = 0x80146CA0; // func
 guess_ClearMoveVector            = 0x80146D90; // func

@@ -4,10 +4,10 @@
 s32 SHARED_FN(s32 param_1) {
     if ((((Unkstruct_801E26BC *)param_1)->unk28 = ((Unkstruct_801E26BC *)param_1)->unk28 - 1) == -1) {
         func_800D1E28();
-        func_8002D4C8(0x1C, 0);
+        guess_RequestSound(0x1C, 0);
         func_8001BFD0();
         if ((func_800291B4(0xCE) & 0xFF) == 0 && func_80029524() == 0) {
-            func_8002D4C8(0x1D, 0);
+            guess_RequestSound(0x1D, 0);
             func_800D0C48(1);
         }
         ((Unkstruct_801E26BC *)param_1)->unk15 = ((Unkstruct_801E26BC *)param_1)->unk15 + 1;

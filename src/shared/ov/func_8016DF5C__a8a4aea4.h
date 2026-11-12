@@ -16,7 +16,7 @@ void func_8016DF5C(s32 param_1)
     iVar8 = *(s32 *)((u8 *)((void *)param_1) + 0x34);
     if ((*(u32 *)((u8 *)((void *)param_1) + 0x2c) & 0x8000) == 0) {
         unsigned short uVar7 = 0;
-        u16 *psVar6 = (u16 *)&D_8011D030;
+        u16 *psVar6 = (u16 *)&guess_g_SmallObjectPool;
         s32 iNew;
         s32 base;
         do {

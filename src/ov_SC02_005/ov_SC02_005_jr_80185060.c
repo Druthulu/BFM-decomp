@@ -192,7 +192,7 @@ extern void func_80186A04(s32 arg0);
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void func_80185060(s32 a0, s32 a1);
 extern void func_80186B08(s32 param_1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_801853EC(s32 arg0) {
     s32 s0;
@@ -221,7 +221,7 @@ void func_801853EC(s32 arg0) {
     }
 
     if (CAST_WIDTH(u16, s0, 0x5E) != 0x1D) {
-        func_8002D4C8(0x4F3, 0);
+        guess_RequestSound(0x4F3, 0);
     }
 }
 
@@ -406,7 +406,7 @@ extern u16 D_801E439C;
 extern s16 D_80195B24[];
 
 extern void func_8017BFF0(s32 a0, s32 a1, s32 a2);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_801900E0(void);
 extern void func_8018AB84(void);
 
@@ -436,7 +436,7 @@ void func_8018592C(u8 *arg0) {
 
     switch (D_801E4BBC) {
         case 1:
-            func_8002D4C8(0x11, 0);
+            guess_RequestSound(0x11, 0);
             func_801900E0();
             break;
         case 2:

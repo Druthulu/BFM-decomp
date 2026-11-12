@@ -257,12 +257,12 @@ void func_800CD0CC(s32 param_1)
 }
 
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80162CCC();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 
 void func_800CD1A8(void *arg0) {
 
-    func_80146A6C(3, arg0,
+    guess_SpawnSmallObject(3, arg0,
                   ((Unkstruct_800CD1A8 *)arg0)->unk6,
                   ((Unkstruct_800CD1A8 *)arg0)->unkA,
                   ((Unkstruct_800CD1A8 *)arg0)->unkE,

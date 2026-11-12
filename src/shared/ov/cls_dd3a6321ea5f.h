@@ -9,8 +9,8 @@ void SHARED_FN(s32 a0) {
         var_s0 = 0x6400;
     }
     if (func_8012BD14(a0) < var_s0) {
-        func_8002D4C8(0x64B, 0);
+        guess_RequestSound(0x64B, 0);
     } else {
-        func_8002D4C8(0x652, 0);
+        guess_RequestSound(0x652, 0);
     }
 }

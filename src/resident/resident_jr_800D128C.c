@@ -138,7 +138,7 @@ extern s32 D_80127050;
 extern void func_800D0694(void);
 extern void func_800D06CC(void);
 extern s32 resLoad_lastId;
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern void func_800D0C48(u16 arg0);
 extern void func_8001B34C(void);
 extern void func_800D0C74(u16 arg0);
@@ -220,7 +220,7 @@ extern void func_8014BD24(s32, s32);
 extern void func_8014B944(s32, s32, s32);
 extern void func_8014BC0C(s32, s32);
 extern void func_8014B2A8(void);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern u16 guess_g_PlayerActor;
 
 s32 func_800D128C(s32 arg0, s32 arg1) {
@@ -422,7 +422,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
     }
 
     if ((u16)id != 0) {
-        func_8002D4C8((u16)id, 0);
+        guess_RequestSound((u16)id, 0);
     }
     return flag;
 }
@@ -431,7 +431,7 @@ s32 func_800D128C(s32 arg0, s32 arg1) {
 s32 func_800D1658(s32 arg0) {
     extern s32 func_800291B4(s32 arg0);
     extern void func_800291A0(int, int);
-    extern void func_8002D4C8(int, int);
+    extern void guess_RequestSound(int, int);
     extern s16 D_8010EDEC;
     int v;
     short ret;
@@ -447,11 +447,11 @@ s32 func_800D1658(s32 arg0) {
     ret = v;
     if (v > 0 || ((u16)ret == 0x8000 && id != 0x27)) {
         func_800291A0(slot, 0);
-        func_8002D4C8(0x462, 0);
+        guess_RequestSound(0x462, 0);
         ret = 1;
     } else {
         ret = 0;
-        func_8002D4C8(0x45F, 0);
+        guess_RequestSound(0x45F, 0);
     }
     return ret;
 }
@@ -712,9 +712,9 @@ dispatch:
 // ANALYSIS (re-derived):
 //   s0 = arg0 (struct ptr, callee-saved: live across 4 calls)
 //   guess_SetGameFlag(0x119, 0)
-//   func_8002D4C8(4, 0x448)
-//   func_8002D4C8(4, 0x449)
-//   func_8002D4C8(4, 0x8ED)
+//   guess_RequestSound(4, 0x448)
+//   guess_RequestSound(4, 0x449)
+//   guess_RequestSound(4, 0x8ED)
 //   D_800B9A10 = 0                    sb  (u8)  -- STORE 1
 //   v0 = arg0->[0x14]                 lbu (u8)  -- LOAD (hoisted between store 1 & 2)
 //   arg0->[0x15] = 0                  sb  (u8)  -- STORE 2
@@ -730,14 +730,14 @@ dispatch:
 //   fields +0x14/+0x15 sb/lbu => u8.
 // Return type s32 (plain addu v0,zero,zero).
 extern void guess_SetGameFlag(s32 arg0, s32 arg1);
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern s8 D_800B9A10;
 
 s32 func_800D1B10(u8 *arg0) {
     guess_SetGameFlag(0x119, 0);
-    func_8002D4C8(4, 0x448);
-    func_8002D4C8(4, 0x449);
-    func_8002D4C8(4, 0x8ED);
+    guess_RequestSound(4, 0x448);
+    guess_RequestSound(4, 0x449);
+    guess_RequestSound(4, 0x8ED);
     D_800B9A10 = 0;
     arg0[0x15] = 0;
     arg0[0x14] = arg0[0x14] + 1;
@@ -1333,7 +1333,7 @@ void func_800D2468(void) {
 void func_800D24A0(s16 arg0) {
     extern void func_80018FC8(void);
     extern void func_800596F4(s32);
-    extern void func_8002D4C8(s32, s32);
+    extern void guess_RequestSound(s32, s32);
     extern u16 guess_g_DoubleBufferIndex;
     extern u8 guess_g_ActiveMenu;
     extern u8 guess_g_OrderingTables[];
@@ -1381,7 +1381,7 @@ void func_800D24A0(s16 arg0) {
         i++;
     } while ((s16)i < 8);
 
-    func_8002D4C8(0x14, 0);
+    guess_RequestSound(0x14, 0);
 }
 
 
@@ -1392,11 +1392,11 @@ void func_800D25FC(void) {
 }
 
 extern u8 guess_g_ActiveMenu;
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 
 void func_800D2624(void) {
     guess_g_ActiveMenu = 0;
-    func_8002D4C8(0x15, 0);
+    guess_RequestSound(0x15, 0);
 }
 
          /* 0x14 stride */
@@ -1890,7 +1890,7 @@ s32 func_800D2E20(Struct800D2E20 *a0) {
  * The decrement is written `v + 0xFF` (not `v--`) so the QImode constant is the positive
  * +0xFF gcc emits, and the branch tests the OLD value v.
  */
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern void func_8001BFD0(void);
 extern void func_800D0C48(u16 arg0);
 extern void func_800167B8(s32 arg0);
@@ -1978,9 +1978,9 @@ s32 func_800D2FEC(Struct800D2FEC *a0) {
 //                                                     delay slot -> the store ALWAYS runs)
 //   if (v0 == -1) {                                  (bne v0,-1 -> skip when != -1; the -1
 //                                                     constant is materialized in v1 first)
-//       func_8002D4C8(0x1C, 0);
+//       guess_RequestSound(0x1C, 0);
 //       func_8001BFD0();
-//       func_8002D4C8(0x1D, 0);
+//       guess_RequestSound(0x1D, 0);
 //       func_800D0C48(1);                            (one arg = 1: `addiu a0,zero,1`)
 //       func_800D1E28();
 //       field_0x15 = field_0x15 + 1;                 (lbu/addiu/sb at 0x15, u8)
@@ -1988,11 +1988,11 @@ s32 func_800D2FEC(Struct800D2FEC *a0) {
 //   return 0;                                        (addu v0,zero,zero at the shared tail)
 //
 // All callees are void/no-mask at their call sites (no `andi v0,0xffff` after any jal), so
-// no callee-return-width subtlety here. func_8002D4C8 is (s32,s32) (matches resident.c).
+// no callee-return-width subtlety here. guess_RequestSound is (s32,s32) (matches resident.c).
 // The work is in the if-body and `return 0` is the shared fall-through epilogue (.L800D3090),
 // which is exactly the branch polarity gcc picks for `if (v == -1) {...} return 0;`.
 
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void func_8001BFD0(void);
 extern void func_800D0C48(u16 arg0);
 extern void func_800D1E28(void);
@@ -2037,7 +2037,7 @@ s32 func_800D3104(Struct800D3104 *a0) {
 //   bnez v1, .L800D3184            ; if (v1 != 0) skip the work
 //     sb v0,0x19(s0)               ; (delay slot) store the wrapped value UNCONDITIONALLY
 //   ; v1 == 0 -> do the work:
-//     func_8002D4C8(0x1C, 0); func_8001BFD0(); func_8002D4C8(0x1D, 0);
+//     guess_RequestSound(0x1C, 0); func_8001BFD0(); guess_RequestSound(0x1D, 0);
 //     func_800D0C48(1); func_800167B8(4);
 //     arg0->field_0x15++           ; lbu/addiu 1/sb  (u8)
 //  .L800D3184: return 0
@@ -2049,7 +2049,7 @@ s32 func_800D3104(Struct800D3104 *a0) {
 // subtracts 1. So write `v + 0xFF` (the byte-wrapping decrement) explicitly and test
 // the OLD value `v` for the branch. Stored via sb so the byte result == v-1 mod 256.
 // func_800D0C48 is u16-arg per resident.c:440; the others match resident.c sigs.
-extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern void func_8001BFD0(void);
 extern void func_800D0C48(u16 arg0);
 extern void func_800167B8(s32 arg0);

@@ -28,14 +28,14 @@ void func_80169BBC(s32 arg0) {
     *(u16 *)(arg0 + 6) = *(u16 *)(arg0 + 6) + (u16)vec[0];
     *(u16 *)(arg0 + 0xA) = *(u16 *)(arg0 + 0xA) + (u16)vec[1];
     *(u16 *)(arg0 + 0xE) = *(u16 *)(arg0 + 0xE) + (u16)vec[2];
-    p1 = func_80146A6C(9, (void *)arg0, *(s16 *)(arg0 + 6), *(s16 *)(arg0 + 0xA),
+    p1 = guess_SpawnSmallObject(9, (void *)arg0, *(s16 *)(arg0 + 6), *(s16 *)(arg0 + 0xA),
                        *(s16 *)(arg0 + 0xE), 0, 0);
     if (p1 != 0) {
         *(u16 *)(p1 + 0x12) = rot[0];
         *(u16 *)(p1 + 0x16) = rot[1];
         *(u16 *)(p1 + 0x1A) = rot[2];
     }
-    func_80146A6C(0xC, (void *)arg0, *(s16 *)(arg0 + 6), *(s16 *)(arg0 + 0xA),
+    guess_SpawnSmallObject(0xC, (void *)arg0, *(s16 *)(arg0 + 6), *(s16 *)(arg0 + 0xA),
                   *(s16 *)(arg0 + 0xE), 0, 0);
     s2 = func_800D222C((void *)arg0, D_80182344, 0x17);
     if (s2 != 0) {

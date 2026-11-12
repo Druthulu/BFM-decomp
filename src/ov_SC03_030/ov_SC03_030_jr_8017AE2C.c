@@ -43,7 +43,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -125,10 +125,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -3309,7 +3309,7 @@ void func_8017BEBC(void *a0) {
 
 
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
@@ -3326,7 +3326,7 @@ void func_8017BEF8(s32 param_1) {
     s32 e;
     s32 node;
 
-    func_80146A6C(0x11, (void *)param_1, *(s16 *)(param_1 + 6),
+    guess_SpawnSmallObject(0x11, (void *)param_1, *(s16 *)(param_1 + 6),
                   (s16)(*(u16 *)(param_1 + 0xA) - 0x10),
                   *(s16 *)(param_1 + 0xE), 0, 0);
 
@@ -3341,7 +3341,7 @@ void func_8017BEF8(s32 param_1) {
 
     i = 0;
     do {
-        e = func_80146A6C(0x12, (void *)param_1, *(s16 *)(obj + 6),
+        e = guess_SpawnSmallObject(0x12, (void *)param_1, *(s16 *)(obj + 6),
                           *(s16 *)(obj + 0xA), *(s16 *)(obj + 0xE), i, 0);
         if (e != 0) {
             *(s16 *)(e + 0x12) = w.vx;
@@ -3903,7 +3903,7 @@ s32 func_8017D920(s32 a0) {
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
@@ -4468,13 +4468,13 @@ void func_8017E5F8(s32 param_1, s16 *param_2) {
 }
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8017E7D4();
 extern s32 D_801E1BB8;
 
 void func_8017E790(void) {
     if (D_801E1BB8 == 0) {
-        func_8002D4C8(0x5A2, 0);
+        guess_RequestSound(0x5A2, 0);
         D_801E1BB8 = 1;
     }
     ((void (*)(void))func_8017E7D4)();
@@ -4674,7 +4674,7 @@ extern void (*D_80185990)(void);
 extern void (*D_80185994)(void);
 extern u8 func_8014BF6C(void);
 extern void func_8012B23C(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_8012AD50(void *a0);
 extern void func_8017F018(s32 a0);
 extern void func_8017F0E8(u8 *a0, u8 *a1);
@@ -4696,7 +4696,7 @@ void func_8017EDD4(s32 a0) {
         CAST_WIDTH(s32, a0, 0x10) = (s32)D_8018598C;
         CAST_ALIAS(s32, a0, 0x14) = (s32)D_80185990;
         CAST_WIDTH(s32, a0, 0x18) = (s32)D_80185994;
-        func_8002D4C8(0x580, 0);
+        guess_RequestSound(0x580, 0);
         func_8012AD50((void *)a0);
     } else {
         func_8017F018(a0);
@@ -5226,53 +5226,53 @@ void func_8017FCBC(void) {
     if ((guess_g_FrameCounter & 7) == 0) {
         t = func_801801E8(D_801866AC, 0x200);
         if ((t & 0xFFFF) != 0xFFFF) {
-            func_8002D4C8(0x588, ((0x7F - ((t & 0xFFFF) * 0x50 / 512)) | 0x1000) & 0xFFFF);
+            guess_RequestSound(0x588, ((0x7F - ((t & 0xFFFF) * 0x50 / 512)) | 0x1000) & 0xFFFF);
         } else {
-            func_8002D4C8(4, 0x588);
+            guess_RequestSound(4, 0x588);
         }
     }
     if ((guess_g_FrameCounter & 7) == 0) {
         u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_8018677C, *q >> 1);
         if ((t & 0xFFFF) != 0xFFFF) {
-            func_8002D4C8(0x587, ((0x7F - ((t & 0xFFFF) * 0x50 / (*q >> 1))) | 0x1000) & 0xFFFF);
+            guess_RequestSound(0x587, ((0x7F - ((t & 0xFFFF) * 0x50 / (*q >> 1))) | 0x1000) & 0xFFFF);
         } else {
-            func_8002D4C8(4, 0x587);
+            guess_RequestSound(4, 0x587);
         }
     }
     if ((guess_g_FrameCounter & 7) == 0) {
         u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_801867BC, *q >> 1);
         if ((t & 0xFFFF) != 0xFFFF) {
-            func_8002D4C8(0x583, ((0x7F - ((t & 0xFFFF) * 0x60 / (*q >> 1))) | 0x1000) & 0xFFFF);
+            guess_RequestSound(0x583, ((0x7F - ((t & 0xFFFF) * 0x60 / (*q >> 1))) | 0x1000) & 0xFFFF);
         } else {
-            func_8002D4C8(4, 0x583);
+            guess_RequestSound(4, 0x583);
         }
     }
     if ((guess_g_FrameCounter & 7) == 0) {
         u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_801867DC, *(s16 *)q);
         if ((t & 0xFFFF) != 0xFFFF) {
-            func_8002D4C8(0x584, ((0x7F - ((t & 0xFFFF) * 0x60 / *q)) | 0x1000) & 0xFFFF);
+            guess_RequestSound(0x584, ((0x7F - ((t & 0xFFFF) * 0x60 / *q)) | 0x1000) & 0xFFFF);
         } else {
-            func_8002D4C8(4, 0x584);
+            guess_RequestSound(4, 0x584);
         }
     }
     if ((guess_g_FrameCounter & 7) == 0) {
         u16 *q = &guess_g_ScreenHeight;
         t = func_80180054(D_801867FC, *(s16 *)q);
         if ((t & 0xFFFF) != 0xFFFF) {
-            func_8002D4C8(0x585, ((0x7F - ((t & 0xFFFF) * 0x60 / *q)) | 0x1000) & 0xFFFF);
+            guess_RequestSound(0x585, ((0x7F - ((t & 0xFFFF) * 0x60 / *q)) | 0x1000) & 0xFFFF);
         } else {
-            func_8002D4C8(4, 0x585);
+            guess_RequestSound(4, 0x585);
         }
     }
     if ((guess_g_FrameCounter & 7) == 0) {
         t = func_801801E8(D_8018681C, 0x100);
         if ((t & 0xFFFF) != 0xFFFF) {
-            func_8002D4C8(0x586, ((0x7F - ((t & 0xFFFF) * 0x50 / 256)) | 0x1000) & 0xFFFF);
+            guess_RequestSound(0x586, ((0x7F - ((t & 0xFFFF) * 0x50 / 256)) | 0x1000) & 0xFFFF);
         } else {
-            func_8002D4C8(4, 0x586);
+            guess_RequestSound(4, 0x586);
         }
     }
 }
@@ -5761,7 +5761,7 @@ void func_80180960(u8 *param_1) {
         }
     }
     if (func_8012CC40((s32)param_1, (s32)D_80186950) & 0x2000) {
-        func_8002D4C8(0x581, 0);
+        guess_RequestSound(0x581, 0);
         snd = 0xF0;
         work = param_1;
         ((Unkstruct_800B5CB8 *)work)->unk1C = 0xF;
@@ -5775,7 +5775,7 @@ void func_80180960(u8 *param_1) {
 }
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern s32 func_80180B44(void *a0);
@@ -5798,7 +5798,7 @@ void func_80180A3C(s32 param_1) {
         }
     }
     if (func_8012CC40(param_1, (s32)D_80186958) & 0x2000) {
-        func_8002D4C8(0x582, 0);
+        guess_RequestSound(0x582, 0);
         ((Unkstruct_800B5CB8 *)param_1)->unk2 = 2;
         guess_SpawnActor(0xF0, 1, param_1);
     }
@@ -6151,9 +6151,9 @@ extern u8 D_80186A0C[];
 extern void func_80181708(void*);
 extern s32 guess_TickWaitTimer(s32 param_1);
 extern s32 func_80133784(s32, void*, s32);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 func_8012E778(s32 a0, s32 a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_8012BD14(s32 param_1);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, void *a4, void *a5);
 extern s32 func_80181C08(void *a0);
@@ -6199,10 +6199,10 @@ void func_801814F4(s32 param_1) {
     s1.y = ((Unkstruct_800B5CB8 *)param_1)->unkA;
     s1.z = ((Unkstruct_800B5CB8 *)param_1)->unkE;
     if ((((s32 (*)(s32, void *, void *))func_80133784)(1, &s0, &s1) & 0x6000) != 0) {
-        func_80146A6C(0x10, (void *)param_1, CAST_SIGN(s16, param_1, 6),
+        guess_SpawnSmallObject(0x10, (void *)param_1, CAST_SIGN(s16, param_1, 6),
                       CAST_SIGN(s16, param_1, 0xa), CAST_SIGN(s16, param_1, 0xe), 0, 0);
         if (func_8012E778(param_1, 0x9600aa) == 1) {
-            func_8002D4C8(0x5e3, 0);
+            guess_RequestSound(0x5e3, 0);
         }
     }
     if ((s32)func_8012BD14(param_1) < 0x901) {

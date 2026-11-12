@@ -70,7 +70,7 @@ extern void func_801284F0(void);
 extern void func_80146074(void);
 extern void func_8012853C(void);
 extern void func_80178608(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80011A3C(void);
 extern short currentLocationId;
 extern short D_800B99F2;
@@ -499,7 +499,7 @@ extern int guess_TickWaitTimer(int);
 extern s32 guess_CallActorEventHandler(int a0);
 extern void func_80130514(int param_1);
 extern void func_801305CC(u8 *a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
 extern s32 func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
@@ -965,7 +965,7 @@ extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 extern s16 func_8014168C(s16 a0);
 extern void func_8014AA04(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_801415C0(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 extern s32 func_80140608(s32 a0);
@@ -1029,9 +1029,9 @@ s32 func_8013F350(void) {
         if ((guess_TestGameFlag(D_8018556C[rs]) & 0xFF) != 0 && (guess_g_MenuPadPressed & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
             if (rs != 0) {
-                func_8002D4C8(0x461, 0);
+                guess_RequestSound(0x461, 0);
             } else {
-                func_8002D4C8(0x460, 0);
+                guess_RequestSound(0x460, 0);
             }
         }
         break;

@@ -34,5 +34,5 @@ void SHARED_FN(s32 self)
             ((Unkstruct_800B5CB8 *)target)->unkE = sv[2];
         }
     }
-    func_8002D4C8(0xAE6, 0);
+    guess_RequestSound(0xAE6, 0);
 }

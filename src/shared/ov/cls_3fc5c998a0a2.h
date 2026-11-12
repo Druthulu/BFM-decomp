@@ -6,7 +6,7 @@ void SHARED_FN(s32 a0) {
 
     if ((((Unkstruct_800B5CB8 *)a0)->unk72 & 0x4000) != 0) {
         if (func_8012E778(a0, 0x8C00B4) == 1) {
-            func_8002D4C8(0x64A, 0);
+            guess_RequestSound(0x64A, 0);
         }
     }
 }

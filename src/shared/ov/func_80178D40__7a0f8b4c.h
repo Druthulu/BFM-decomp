@@ -552,7 +552,7 @@ s32 func_80178D40(s32 arg0, s32 arg1)
         break;
     }
     case 0x41:
-        ((void(*)(s32, s32))func_8002D4C8)(((Cmd_80178D40 *)arg1)->a.uh[0], ((Cmd_80178D40 *)arg1)->a.uh[1]);
+        ((void(*)(s32, s32))guess_RequestSound)(((Cmd_80178D40 *)arg1)->a.uh[0], ((Cmd_80178D40 *)arg1)->a.uh[1]);
         (*(s16*)&D_8018FB24) = 3;
         break;
     case 0x42:

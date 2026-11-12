@@ -45,7 +45,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -126,10 +126,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -3051,7 +3051,7 @@ void func_8017BEBC(s32 arg0)
 }
 
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 #define SHARED_FN func_8017CD9C
 #include "../shared/ov/cls_17211c2c3e65.h"
@@ -3106,10 +3106,10 @@ extern void func_8017D0F8(int);
  *
  * §71 sibling-first: func_8017C69C in this same TU is the identical shape —
  * counter @0x1C, sub-object @0x34, the 0x60/0x62/0x64 halfword triple and the
- * `do { func_80146A6C(0x1B, obj, ...); } while (++i < 3);` s16 loop.
+ * `do { guess_SpawnSmallObject(0x1B, obj, ...); } while (++i < 3);` s16 loop.
  */
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_8014708C(void *arg0);
 extern s32 func_801472C8(struct S *a0);
 extern void func_8017D0F8(int);
@@ -3264,7 +3264,7 @@ extern void func_8017D0F8(int);
 
 
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_8017D0F8(int);
 
 #include "../shared/ov/func_8017D57C__11dafa5b.h"
@@ -3841,7 +3841,7 @@ void func_8017E35C(void *a0) {
 
 extern s32 func_8014BCEC(s32 a0, s32 a1);
 extern void func_8014BD24(s32 a0, s32 a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 #define SHARED_FN func_8017E398
 #include "../shared/ov/cls_c080143662be.h"
@@ -3853,7 +3853,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_80128CFC(u16 a0);
 extern void func_8017D960(s32 a0, s32 a1);
 extern s32 rand(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 
 #include "../shared/ov/func_8017E3E4.h"
@@ -3977,7 +3977,7 @@ extern void func_8017E9D0(void);
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
@@ -4001,7 +4001,7 @@ void func_8017E8F8(void *a0) {
 }
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8001BFD0(void);
 extern void func_800D1E28(void);
 
@@ -4378,7 +4378,7 @@ extern void func_8013C9C4(void *a0);
 extern int func_80178970(void);
 extern s32 func_80178B18(s32 param_1, s32 param_2);
 extern void func_80178D18(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
 
@@ -4395,7 +4395,7 @@ void func_8017F268(s32 a0) {
                 ((Unkstruct_800B5CB8 *)a0)->unkFE = 1;
                 ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x30;
                 ((Unkstruct_800B5CB8 *)a0)->unk34 = ((Unkstruct_800B5CB8 *)a0)->unk34 + 1;
-                func_8002D4C8(0xB10, 0);
+                guess_RequestSound(0xB10, 0);
             }
         }
         break;
@@ -4652,7 +4652,7 @@ void func_8017F710(s32 *a0) {
 #include "common.h"
 
 extern void func_8012AD80(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8017F88C(s32 a0);
 
@@ -4678,7 +4678,7 @@ void func_8017F744(s32 param_1)
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x18;
         ((Unkstruct_800B5CB8 *)param_1)->unk34 = ((Unkstruct_800B5CB8 *)param_1)->unk34 + 1;
         if (((Unkstruct_800B5CB8 *)param_1)->unk70 == 0) {
-            func_8002D4C8(0xB0F, 0);
+            guess_RequestSound(0xB0F, 0);
         }
         break;
 
@@ -5142,14 +5142,14 @@ void func_80180260(void *a0) {
 
 /* Callee spellings copied VERBATIM from this TU (law 2):
  *   func_80178B18 @2535/@4800, func_8016F2A8 @1946, func_8016F2EC @1948,
- *   func_8002D4C8 @59/@4802, func_8012AD44 @5060/@5182.
+ *   guess_RequestSound @59/@4802, func_8012AD44 @5060/@5182.
  * D_80189B10 is only address-taken (2nd arg of func_80178B18); spelled as a
  * dispatcher table to match the adjacent D_80189AF8 (@5329) / D_80189B18 (@5359)
  * declarations in this same TU. */
 extern s32 func_80178B18(s32 param_1, s32 param_2);
 extern void func_8016F2A8(void);
 extern void func_8016F2EC(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
 
 extern void (*D_80189B10[])(void);
@@ -5160,7 +5160,7 @@ void func_8018029C(s32 param_1) {
     func_8016F2EC();
     ((Unkstruct_800B5CB8 *)param_1)->unkFE = 0x14;
     ((Unkstruct_800B5CB8 *)param_1)->unk1C = 4;
-    func_8002D4C8(0x8FE, 0);
+    guess_RequestSound(0x8FE, 0);
     func_8012AD44((s32 *)param_1, 2);
 }
 
@@ -5173,14 +5173,14 @@ void func_8018029C(s32 param_1) {
 
 
 extern void func_80178D18(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_SetGameFlag(s32 a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 (*D_80189ACC[])();
 
 void func_80180304(s32 param_1) {
     ((void (*)(s32))func_80178D18)(param_1);
-    func_8002D4C8(0x8F9, 0);
+    guess_RequestSound(0x8F9, 0);
     guess_SetGameFlag((s32)D_80189ACC[((Unkstruct_800B5CB8 *)param_1)->unk70], 1);
     func_8012AD44((s32 *)param_1, 3);
 }
@@ -5537,7 +5537,7 @@ extern s32 func_80012A60(s32 a0, s32 a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_NextStep(void *a0);
 extern u8 D_80062BF4[];
 extern M2C_UNK D_800D5880;
@@ -5562,10 +5562,10 @@ void func_80180B70(s32 a0)
     guess_SetTexAnim(s1, 0x16);
     func_80149020((s32 *)s1);
     guess_SpawnSmallObjectAtOrigin(0x42, s1, 0, 0);
-    func_80146A6C(0x42, (void *)s1, 0x20, 0, 0, s0, 0);
-    func_80146A6C(0x42, (void *)s1, 0, 0, 0x20, s0, 0);
-    func_80146A6C(0x42, (void *)s1, -0x20, 0, 0, s0, 0);
-    func_80146A6C(0x42, (void *)s1, 0, 0, -0x20, s0, 0);
+    guess_SpawnSmallObject(0x42, (void *)s1, 0x20, 0, 0, s0, 0);
+    guess_SpawnSmallObject(0x42, (void *)s1, 0, 0, 0x20, s0, 0);
+    guess_SpawnSmallObject(0x42, (void *)s1, -0x20, 0, 0, s0, 0);
+    guess_SpawnSmallObject(0x42, (void *)s1, 0, 0, -0x20, s0, 0);
     guess_NextStep((void *)s1);
 }
 
@@ -6398,7 +6398,7 @@ void func_80182024(s32 a0) {
 
 
 extern void func_8001C924(s32 a0, void *a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_801851DC(s32 a0, u16 *a1, s16 a2);
 extern u8 D_801AABD0;
 extern u8 D_801AABE0;
@@ -6415,7 +6415,7 @@ void func_801820B0(s32 a0) {
     v2 = ((Unkstruct_801820B0 *)a0)->unk5E;
     if (v2 == 0x23) {
         ((Unkstruct_801820B0 *)a0)->unkFE = 1;
-        func_8002D4C8(0xAA1, 0);
+        guess_RequestSound(0xAA1, 0);
     } else if (v2 == 0x24) {
         arr[0] = 0;
         arr[1] = 0x10;
@@ -6665,7 +6665,7 @@ void func_801824A8(s32 a0) {
 extern void guess_StartActorSequence(s32*, s32);
 extern void func_8001C924(s32 a0, void *a1);
 extern s32 guess_DistSqToPlayer(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 
 void func_80182530(s32 param_1) {
@@ -6695,7 +6695,7 @@ void func_80182530(s32 param_1) {
     if (iVar1 <= 0x8FFF) {
         uVar2 = 0x51F;
     }
-    func_8002D4C8(uVar2, 0);
+    guess_RequestSound(uVar2, 0);
 }
 
 
@@ -6731,7 +6731,7 @@ void func_80182600(s32 a0)
 extern s32 rand(void);
 extern void func_8012B0B4(u32 *param_1, s32 param_2, s32 param_3);
 extern s32 func_80143BDC(u16 *a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 #define SHARED_FN func_801826C8
 #include "../shared/ov/cls_e25412c649dc.h"

@@ -227,7 +227,7 @@ void func_800CB2F4(void *a0) {
 
 
 extern void guess_NextStep(s32);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 void func_800CB354(void *a0) {
     void *v1;
@@ -241,7 +241,7 @@ void func_800CB354(void *a0) {
         return;
     }
     *(u16 *)((s32)v1 + 0x12) = (*(u16 *)((s32)v1 + 0x12) - 0x71) & 0xFFF;
-    func_80146A6C(0x3E, a0, ((Unkstruct_80126B58 *)a0)->unk6, ((Unkstruct_80126B58 *)a0)->unkA,
+    guess_SpawnSmallObject(0x3E, a0, ((Unkstruct_80126B58 *)a0)->unk6, ((Unkstruct_80126B58 *)a0)->unkA,
                   ((Unkstruct_80126B58 *)a0)->unkE, 0, 0);
 }
 
@@ -461,7 +461,7 @@ void func_800CB68C(s32 param_1)
 
 
 extern void func_800CBAA4(s32 a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 void func_800CB8A4(s32 a0) {
     s32 s1;
     s32 v;
@@ -470,7 +470,7 @@ void func_800CB8A4(s32 a0) {
     v = ((Unkstruct_800CB8A4 *)a0)->unk1C - 1;
     ((Unkstruct_800CB8A4 *)a0)->unk1C = v;
     if (v != 0) {
-        func_80146A6C(0x41, (void *)a0, 0, 0, 0, 0x8000, 0);
+        guess_SpawnSmallObject(0x41, (void *)a0, 0, 0, 0, 0x8000, 0);
         ((Unkstruct_800CB8A4_2 *)s1)->unk18 = ((Unkstruct_800CB8A4_2 *)s1)->unk18 + 0x100;
         ((Unkstruct_800CB8A4_2 *)s1)->unk1A = ((Unkstruct_800CB8A4_2 *)s1)->unk1A + 0x140;
         return;
@@ -481,11 +481,11 @@ void func_800CB8A4(s32 a0) {
 
 
 extern void func_800CBAA4(s32 a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 void func_800CB944(s32 *a0) {
     func_800CBAA4((s32)a0);
     if (--a0[0x1C / 4] != 0) {
-        func_80146A6C(0x41, a0, 0, 0, 0, 0x8000, 0);
+        guess_SpawnSmallObject(0x41, a0, 0, 0, 0, 0x8000, 0);
     } else {
         a0[0x1C / 4] = 0x10;
         ((Unkstruct_800CB8A4 *)a0)->unk2 += 1;

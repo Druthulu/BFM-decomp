@@ -158,7 +158,7 @@ extern void guess_ZeroMemory(s8 *a0, s32 a1);
 extern s32 func_80146578(void);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -201,7 +201,7 @@ alloc:
         *(u16 *)((s32)t + 0x10) = 0x400;
         guess_SetWaitTimer_2((s32 *)a0, 0x20);
         for (t = 0; t < 4; t++) {
-            func_80146A6C(0x45, a0, ((Unkstruct_80126B58 *)a0)->unk6, ((Unkstruct_80126B58 *)a0)->unkA,
+            guess_SpawnSmallObject(0x45, a0, ((Unkstruct_80126B58 *)a0)->unk6, ((Unkstruct_80126B58 *)a0)->unkA,
                           ((Unkstruct_80126B58 *)a0)->unkE, t, 0);
         }
         guess_PlaySoundUnlessSkipped(0x913);

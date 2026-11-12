@@ -552,12 +552,12 @@ void func_80010E48(void) {
 }
 
 extern u8 guess_g_RenderWork[];
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 
 void func_80010E7C(void) {
     register u8 *p = guess_g_RenderWork;
 
-    func_8002D4C8(2, 0);
+    guess_RequestSound(2, 0);
     ((Unkstruct_80010178 *)p)->unkA3D4 = 1;
 }
 
@@ -567,7 +567,7 @@ extern u8 D_800A2E20[];
 extern u8 D_800AE848[];
 extern void *loadDestPtrTable;
 extern int CdReadRequest(void *dst, void *src, int arg2, int arg3);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void func_80010AE0(int);
 extern void func_80014338(void);
 extern void func_800116E0(void);
@@ -578,7 +578,7 @@ void func_80010ED4(void) {
     guess_g_CdReadList = 0x57;
     guess_g_CdReadListDest = D_800A2E20;
     if (CdReadRequest(D_800AE848, loadDestPtrTable, 0, &guess_g_CdReadList) != 0) {
-        func_8002D4C8(2, 0);
+        guess_RequestSound(2, 0);
         func_80010AE0(0x3E0);
         func_80014338();
         func_800116E0();
@@ -740,7 +740,7 @@ extern void func_80029664(void);
 extern void func_80011DCC(void);
 extern void func_80011E24(void);
 extern void func_8005C4CC(s32);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void func_80011B7C(s32);
 extern void func_800118AC(void);
 extern void func_80011EB4(void);
@@ -787,7 +787,7 @@ void func_80011380(void) {
         *(p + 0xA434) = 1;
         *(p + 0xA3E0) = 0;
         ++D_80074784;
-        func_8002D4C8(0x28, 0);
+        guess_RequestSound(0x28, 0);
         func_80011B7C(0);
         func_800118AC();
         break;
@@ -810,29 +810,29 @@ void func_80011380(void) {
 }
 
 extern u8 guess_g_RenderWork[];
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void func_80011818(s32);
 
 void func_80011680(void) {
     register u8 *p = guess_g_RenderWork;
 
     *(p + 0xA434) = 0;
-    func_8002D4C8(0x29, 0);
+    guess_RequestSound(0x29, 0);
     func_80011818(5);
 }
 
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 
 void func_800116E0(void) {
-    func_8002D4C8(0x21, (u16)func_80028FBC());
-    func_8002D4C8(0x22, (u16)func_80029000());
+    guess_RequestSound(0x21, (u16)func_80028FBC());
+    guess_RequestSound(0x22, (u16)func_80029000());
     if (func_80028D9C() == 0) {
-        func_8002D4C8(0xC, 0);
+        guess_RequestSound(0xC, 0);
     } else {
-        func_8002D4C8(0xB, 0);
+        guess_RequestSound(0xB, 0);
     }
 }
 

@@ -5,5 +5,5 @@ void SHARED_FN(void *a0, s32 a1, s32 a2) {
     s16 t0 = ((Unkstruct_8017E520_5 *)a0)->unk6;
     s16 t1 = ((Unkstruct_8017E520_5 *)a0)->unkA;
     s16 t2 = ((Unkstruct_8017E520_5 *)a0)->unkE;
-    func_80146A6C(0x2B, a0, t0, t1, t2, a1, a2);
+    guess_SpawnSmallObject(0x2B, a0, t0, t1, t2, a1, a2);
 }

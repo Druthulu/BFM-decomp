@@ -8,7 +8,7 @@
 // boundaries defined via DefineFunctions.java). The resident is engine code (PsyQ 4.7 — see
 // PhaseEnd Notes), so PsyQ-signature names are sparse; the bulk are auto func_* (splat). Engine
 // functions get named in Phase 12.
-// count=75
+// count=76
 //
 // [PROTO-of-self / PsyQ-sig CANDIDATE, R13 — UNVERIFIED]: matched by ghidra_psx_ldr's PsyQ
 // signature analyzer against the 4.0 DB; the resident detects as 4.7, so confirm when the real
@@ -59,6 +59,7 @@ guess_g_CameraRelativeYaw        = 0x801152A0; // data
 guess_g_BoxHitNormalX            = 0x801152A8; // data
 guess_g_BoxHitNormalY            = 0x801152AA; // data
 guess_g_BoxHitNormalZ            = 0x801152AC; // data
+guess_g_SmallObjectPool          = 0x8011D030; // data
 guess_g_HudState                 = 0x8011F7A8; // data
 guess_g_HudHpPanelX              = 0x8011F7B4; // data
 guess_g_HudHpPanelY              = 0x8011F7B6; // data

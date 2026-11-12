@@ -147,7 +147,7 @@ void func_800CB168(void *arg0) {
     extern s32 rand(void);
     extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
     extern s32 guess_FreeSmallObject(u8 *a0);
-    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void guess_RequestSound(s32 a0, s32 a1);
     extern u16 D_80126BC8;
     extern u16 D_80126BCA;
     extern u16 D_80126BCC;
@@ -212,7 +212,7 @@ L288:
             D_80126BCA = D_80126BCA + 0x38;
         }
         if ((guess_g_FrameCounter & 0xF) == 0) {
-            func_8002D4C8(0x5FB, 0);
+            guess_RequestSound(0x5FB, 0);
         }
     } else {
         D_80126BC8 = D_80126BCA = D_80126BCC = 0x1000;
@@ -224,7 +224,7 @@ L288:
 void func_800CB328(void *a0) {
 
     extern u8 D_80078EC1;
-    extern s32 func_80146A6C(s32, void *, s32, s32, s32, s32, s32);
+    extern s32 guess_SpawnSmallObject(s32, void *, s32, s32, s32, s32, s32);
     extern void RotMatrixY(s32, void *);
     extern void guess_RotTransSVWithMatrix(s32, s32, s32);
     extern void guess_ZeroMemory(s8 *, s32);
@@ -253,7 +253,7 @@ void func_800CB328(void *a0) {
         cnt = ((Unkstruct_800CB328 *)obj)->unk2C - 4;
         ((Unkstruct_800CB328 *)obj)->unk2C = cnt;
         if ((u32)cnt < 0x1C) {
-            func_80146A6C(3, obj,
+            guess_SpawnSmallObject(3, obj,
                           CAST_SIGN(s16, (s32)obj, 0x6),
                           CAST_SIGN(s16, (s32)obj, 0xA),
                           CAST_SIGN(s16, (s32)obj, 0xE),

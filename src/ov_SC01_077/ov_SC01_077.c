@@ -1103,7 +1103,7 @@ void func_8013E6AC(void) {
 
 void func_8013E83C() {
     extern int guess_TestGameFlag(int);
-    extern void func_8002D4C8(int, int);
+    extern void guess_RequestSound(int, int);
     extern void func_80141C0C(int);
     extern unsigned short guess_g_MenuTransitionTimer;
     extern unsigned short guess_g_MenuCategory;
@@ -1146,7 +1146,7 @@ void func_8013E83C() {
     guess_g_MenuSwapSlot = 0;
 
     if (guess_g_OpenMenuId == 3) {
-        func_8002D4C8(0x46e, 0);
+        guess_RequestSound(0x46e, 0);
     } else {
         func_80141C0C(0);
     }
@@ -1214,7 +1214,7 @@ extern void func_80139954(void);
 extern s32 func_801376E8(int a0, int a1);
 extern void func_80137B80(void);
 extern unsigned char *func_80141CA4(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8013E958(void);
 
 extern short guess_g_DoubleBufferIndex;
@@ -1256,7 +1256,7 @@ void func_8013EB7C(void) {
         func_80137B80();
         if ((guess_g_MenuPadPressed & 0x10) != 0 && guess_g_MenuPanel < 5 && sVar1 == 0) {
             (*(s16 *)&guess_g_MenuCategory) = 0;
-            func_8002D4C8(0x466, 0);
+            guess_RequestSound(0x466, 0);
             if (guess_g_MenuPanel != 4) {
                 func_801376E8((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)&D_80187E98));
             }
@@ -1480,7 +1480,7 @@ extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 extern s16 func_8014168C(s16 a0);
 extern void func_8014AA04(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_801415C0(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 extern s32 func_80140608(s32 a0);
@@ -1544,9 +1544,9 @@ s32 func_8013F350(void) {
         if ((guess_TestGameFlag(D_80187BB8[rs]) & 0xFF) != 0 && (guess_g_MenuPadPressed & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
             if (rs != 0) {
-                func_8002D4C8(0x461, 0);
+                guess_RequestSound(0x461, 0);
             } else {
-                func_8002D4C8(0x460, 0);
+                guess_RequestSound(0x460, 0);
             }
         }
         break;
@@ -2135,7 +2135,7 @@ extern s32 func_80029000(void);
 extern void func_80029020(s32 a0);
 extern s32 func_80028D9C(void);
 extern void func_80028DBC(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 #include "../shared/ov/func_80140608__t42e81990.h"
 
@@ -2696,7 +2696,7 @@ void func_80141874(void) {
 //       redeclare these — the shared DEFINE macros already provide them (conflicting-types hard error).
 
 extern void func_800D24A0(int);
-extern void func_8002D4C8(int, int);
+extern void guess_RequestSound(int, int);
 extern void func_80141C0C(int);
 extern u16 D_8011515A;
 extern u16 D_8011515E;
@@ -2739,7 +2739,7 @@ s32 func_801418F8(void) {
     guess_g_MenuCategory = 0;
     guess_g_MenuSwapSlot = 0;
     if (guess_g_OpenMenuId == 3) {
-        func_8002D4C8(0x46E, 0);
+        guess_RequestSound(0x46E, 0);
     } else {
         func_80141C0C(0);
     }
@@ -2805,11 +2805,11 @@ s32 func_80141A60()
 
 extern u16 guess_g_OpenMenuId;
 extern u8 D_80187E70;
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80141C0C(s32 param_1)
 {
-    func_8002D4C8(*(u16 *)(&D_80187E70 + (((param_1 << 16) >> 15) + (u32)guess_g_OpenMenuId) * 2), 0);
+    guess_RequestSound(*(u16 *)(&D_80187E70 + (((param_1 << 16) >> 15) + (u32)guess_g_OpenMenuId) * 2), 0);
 }
 
 #include "../shared/ov/func_80141C50.h"

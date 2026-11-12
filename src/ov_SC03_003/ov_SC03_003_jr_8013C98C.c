@@ -65,7 +65,7 @@ extern void func_801284F0(void);
 extern void func_80146074(void);
 extern void func_8012853C(void);
 extern void func_80178608(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80011A3C(void);
 extern short currentLocationId;
 extern short D_800B99F2;
@@ -492,7 +492,7 @@ extern int guess_TickWaitTimer(int);
 extern s32 guess_CallActorEventHandler(int a0);
 extern void func_80130514(int param_1);
 extern void func_801305CC(u8 *a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
 extern s32 func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
@@ -1872,7 +1872,7 @@ void func_8013E83C() {
     guess_g_MenuSwapSlot = 0;
 
     if (guess_g_OpenMenuId == 3) {
-        ((void(*)(int, int))func_8002D4C8)(0x46e, 0);
+        ((void(*)(int, int))guess_RequestSound)(0x46e, 0);
     } else {
         func_80141C0C(0);
     }
@@ -1943,7 +1943,7 @@ extern void func_80139954(void);
 extern s32 func_801376E8(int a0, int a1);
 extern void func_80137B80(void);
 extern unsigned char *func_80141CA4(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8013E958(void);
 
 extern short guess_g_DoubleBufferIndex;
@@ -1985,7 +1985,7 @@ void func_8013EB7C(void) {
         func_80137B80();
         if ((guess_g_MenuPadPressed & 0x10) != 0 && guess_g_MenuPanel < 5 && sVar1 == 0) {
             (guess_g_MenuCategory[0]) = 0;
-            func_8002D4C8(0x466, 0);
+            guess_RequestSound(0x466, 0);
             if (guess_g_MenuPanel != 4) {
                 func_801376E8((s32)((s32 (*)(void))func_80141CA4)(), (s32)&(*(u8 *)D_80180640));
             }

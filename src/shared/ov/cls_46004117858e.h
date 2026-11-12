@@ -6,9 +6,9 @@ s32 SHARED_FN(s32 a0) {
 
     ((Unkstruct_8017CC48 *)a0)->unk28 = t;
     if (t == -1) {
-        func_8002D4C8(0x1C, 0);
+        guess_RequestSound(0x1C, 0);
         func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
+        guess_RequestSound(0x1D, 0);
         func_800D1E28();
         ((Unkstruct_8017CC48 *)a0)->unk15 += 1;
     }

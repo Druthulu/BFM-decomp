@@ -44,7 +44,7 @@ void func_8013E83C() {
     guess_g_MenuSwapSlot = 0;
 
     if (guess_g_OpenMenuId == 3) {
-        ((void(*)(int, int))func_8002D4C8)(0x46e, 0);
+        ((void(*)(int, int))guess_RequestSound)(0x46e, 0);
     } else {
         func_80141C0C(0);
     }

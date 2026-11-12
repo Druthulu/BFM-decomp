@@ -2,8 +2,8 @@
 void SHARED_FN(s32 *arg0) {
     func_8002AC00(8);
     if (((Unkstruct_801881F8 *)arg0)->unk5E == 0x1D) {
-        func_8002D4C8(0x440, 0);
+        guess_RequestSound(0x440, 0);
     } else {
-        func_8002D4C8(0x43F, 0);
+        guess_RequestSound(0x43F, 0);
     }
 }

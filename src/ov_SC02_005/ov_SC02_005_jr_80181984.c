@@ -38,7 +38,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -120,10 +120,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -2852,7 +2852,7 @@ extern s32 guess_g_PlayerActor;
 extern u16 D_801E4BBC;
 extern void func_80182998(void *arg0);
 extern s32 func_80185D84(void *);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern s32 guess_TickWaitTimer(s32);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_80186F58(void *);
@@ -2879,7 +2879,7 @@ void func_80181984(s32 arg0) {
             func_80185D84((void *)arg0);
         }
         if (((Unkstruct_800B5CB8 *)arg0)->unk94 == 4 && ((Unkstruct_800B5CB8 *)arg0)->unk98 == 1) {
-            func_8002D4C8(0x4F8, 0);
+            guess_RequestSound(0x4F8, 0);
         }
         if (guess_TickWaitTimer(arg0) != 0) {
             (((Unkstruct_800B5CB8 *)arg0)->unk34)++;
@@ -2897,7 +2897,7 @@ void func_80181984(s32 arg0) {
     case 2:
         if (((Unkstruct_800B5CB8 *)arg0)->unk98 == 0) {
             func_80186F9C(arg0, 0x1C);
-            func_8002D4C8(0x4F0, 0);
+            guess_RequestSound(0x4F0, 0);
             (((Unkstruct_800B5CB8 *)arg0)->unk34)++;
         }
         /* fallthrough */
@@ -2962,7 +2962,7 @@ void func_80181BE8(void *a0) {
                     }
                 }
             } else if (((Unkstruct_80181BE8 *)s0)->unk94 == 8 && v0 == 1) {
-                func_8002D4C8(0x4FD, 0);
+                guess_RequestSound(0x4FD, 0);
             }
             break;
         case 1:

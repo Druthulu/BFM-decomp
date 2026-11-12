@@ -4,7 +4,7 @@ extern u16 guess_GetPadHeld(s32 *a0);
 extern s32 func_80159434(s32 a0, s32 a1);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_NextStep(void *a0);
 extern M2C_UNK D_800D5904;
 void func_80158E24(s32 *a0) {
@@ -21,8 +21,8 @@ void func_80158E24(s32 *a0) {
             *(s16 *)(a0[0x20 / 4] + 0x10) = 0xC00;
             guess_SetAnimScript(a0, (s32)&D_800D5904);
             guess_SetTexAnim((s32)a0, 0x20);
-            func_8002D4C8(0x2A, 0);
-            func_8002D4C8(0x1C, 0);
+            guess_RequestSound(0x2A, 0);
+            guess_RequestSound(0x1C, 0);
             guess_NextStep(a0);
             n = 0;
         }

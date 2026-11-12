@@ -23,7 +23,7 @@ def sha(p):
 
 
 def main():
-    OV, ADDR = 'ov_SC07_010', 0x80146A6C     # the exact overlay+fn from tonight's breakage
+    OV, ADDR = 'ov_SC07_010', 0x80146A6C     # the exact overlay+fn from tonight's breakage (guess_SpawnSmallObject, 3.43 T9)
     files = [cp for cp, _ in dp.overlay_files(OV)]
     before = {str(p): sha(p) for p in files}
     print(f"[setup] {OV}: {len(files)} source files snapshotted")

@@ -82,7 +82,7 @@ extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_MenuPacketBases[];
 extern s32 guess_g_MenuPacketPtr;
@@ -173,7 +173,7 @@ extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_800291B4(s32 arg);
 extern s16 func_8014168C(s16 a0);
 extern void func_8014AA04(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_801415C0(s32 a0, s32 a1);
 extern void func_80141C0C(s32 a0);
 extern s32 func_80140608(s32 a0);
@@ -237,9 +237,9 @@ s32 func_8013F350(void) {
         if ((guess_TestGameFlag(D_8018305C[rs]) & 0xFF) != 0 && (guess_g_MenuPadPressed & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
             if (rs != 0) {
-                func_8002D4C8(0x461, 0);
+                guess_RequestSound(0x461, 0);
             } else {
-                func_8002D4C8(0x460, 0);
+                guess_RequestSound(0x460, 0);
             }
         }
         break;

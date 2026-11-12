@@ -2,9 +2,9 @@
 s32 SHARED_FN(s32 a0)
 {
     u8 *s0 = (u8 *)a0;
-    func_8002D4C8(0x1C, 0);
+    guess_RequestSound(0x1C, 0);
     func_8001BFD0();
-    func_8002D4C8(0x1D, 0);
+    guess_RequestSound(0x1D, 0);
     func_800D1E28();
     s0[0x15] = s0[0x15] + 1;
     return 0;

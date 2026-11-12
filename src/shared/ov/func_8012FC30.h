@@ -3,7 +3,7 @@
 extern void func_80131B14();
 extern void func_8012B23C(s32 a0);
 extern s32 guess_StartActorSequenceById(s32, s32);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
 void func_8012FC30(s32 a0) {
     *(s8 *)(a0 + 0xC1) = 0xA;
@@ -13,7 +13,7 @@ void func_8012FC30(s32 a0) {
         *(u16 *)(a0 + 0x98) = 0;
         func_8012B23C(a0);
         guess_StartActorSequenceById(a0, 8);
-        func_8002D4C8(0xA74, 0);
+        guess_RequestSound(0xA74, 0);
     }
     guess_CallActorEventHandler(a0, 0x1A);
 }

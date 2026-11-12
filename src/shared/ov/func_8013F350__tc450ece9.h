@@ -57,9 +57,9 @@ s32 func_8013F350(void) {
         if ((guess_TestGameFlag(D_8017FB60[rs]) & 0xFF) != 0 && (guess_g_MenuPadPressed & 0x40) != 0) {
             func_8014AA04((r + 1) & 0xFF);
             if (rs != 0) {
-                func_8002D4C8(0x461, 0);
+                guess_RequestSound(0x461, 0);
             } else {
-                func_8002D4C8(0x460, 0);
+                guess_RequestSound(0x460, 0);
             }
         }
         break;

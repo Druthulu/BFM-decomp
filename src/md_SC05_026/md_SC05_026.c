@@ -68,7 +68,7 @@ void func_801EDD20(s32 a0, s32 a1) {
     extern u16 guess_g_MenuStep;
     extern void *D_8011DB24;
     extern void func_801EDD98(void);
-    extern s32 func_8002D4C8(s32, s32);
+    extern s32 guess_RequestSound(s32, s32);
 
     D_800B9A15 = 1;
     guess_g_ActiveMenu = 5;
@@ -78,7 +78,7 @@ void func_801EDD20(s32 a0, s32 a1) {
     D_801F8010 = a1;
     guess_g_MenuStep = 0;
     D_8011DB24 = (void *) func_801EDD98;
-    func_8002D4C8(0x1E, 0);
+    guess_RequestSound(0x1E, 0);
 }
 
 
@@ -295,7 +295,7 @@ extern s16 func_8014168C(s16);
 extern void func_801EFC30(void);
 extern void func_801EFC58(s32);
 extern void func_8002AF70(void *, s32);
-extern s32 func_8002D4C8(s32, s32);
+extern s32 guess_RequestSound(s32, s32);
 extern void func_8002AF18(void);
 
 
@@ -335,7 +335,7 @@ s32 func_801EE0D4(void) {
                 if (D_801F8303[guess_g_MenuPanel] == 1) {
                     D_801F1838 = 0x19;
                 } else {
-                    ((void (*)(s32, s32))func_8002D4C8)(0x472, 0);
+                    ((void (*)(s32, s32))guess_RequestSound)(0x472, 0);
                     return 0;
                 }
             } else if (D_801F8303[guess_g_MenuPanel] == 1) {
@@ -344,7 +344,7 @@ s32 func_801EE0D4(void) {
                 D_801F1838 = 0x19;
             }
             D_8011512C = 2;
-            ((void (*)(s32, s32))func_8002D4C8)(0x45D, 0);
+            ((void (*)(s32, s32))guess_RequestSound)(0x45D, 0);
             return 0;
         case 2:
             func_801EFC30();
@@ -360,7 +360,7 @@ s32 func_801EE0D4(void) {
                 D_801F82F8 = 1;
             }
             D_8011512C = 3;
-            ((void (*)(s32, s32))func_8002D4C8)(0x45D, 0);
+            ((void (*)(s32, s32))guess_RequestSound)(0x45D, 0);
             return 0;
         case 4:
         case 7:
@@ -378,7 +378,7 @@ s32 func_801EE0D4(void) {
             D_801F8018 = 1;
             D_8011512C = 0;
             *p = D_801F17A0;
-            ((void (*)(s32, s32))func_8002D4C8)(0x45D, 0);
+            ((void (*)(s32, s32))guess_RequestSound)(0x45D, 0);
             return 0;
         case 5:
             goto Lload;
@@ -404,7 +404,7 @@ s32 func_801EE0D4(void) {
             /* fallthrough */
         case 1:
         Lmsg473:
-            ((void (*)(s32, s32))func_8002D4C8)(0x473, 0);
+            ((void (*)(s32, s32))guess_RequestSound)(0x473, 0);
             t = D_801F8014;
             sv = t;
             if (t == 0) {
@@ -424,7 +424,7 @@ s32 func_801EE0D4(void) {
                 D_801F1838 = 0xD;
             }
             D_8011512C = 1;
-            ((void (*)(s32, s32))func_8002D4C8)(0x473, 0);
+            ((void (*)(s32, s32))guess_RequestSound)(0x473, 0);
             return 0;
         case 5:
         case 8:
@@ -432,25 +432,25 @@ s32 func_801EE0D4(void) {
                 goto Lmsg473;
             }
         Lmsg473ret1:
-            ((void (*)(s32, s32))func_8002D4C8)(0x473, 0);
+            ((void (*)(s32, s32))guess_RequestSound)(0x473, 0);
             return 1;
         case 9:
             p2 = &D_801F1838;
             if (*p2 == 0x1D || *p2 == 0x21) {
                 if (D_801F8018 == 0) {
                     *p2 = 0x1A;
-                    ((void (*)(s32, s32))func_8002D4C8)(0x45D, 0);
+                    ((void (*)(s32, s32))guess_RequestSound)(0x45D, 0);
                     return 0;
                 }
                 (*(s16 *)&D_801F8010) = 0;
                 D_8011512C = 0;
                 *p2 = D_801F17A0;
                 ((s32 (*)(void))func_8002AF18)();
-                ((void (*)(s32, s32))func_8002D4C8)(0x45D, 0);
+                ((void (*)(s32, s32))guess_RequestSound)(0x45D, 0);
                 return 0;
             }
             *p2 = (D_801F8014 == 1) ? 0x1D : 0x21;
-            ((void (*)(s32, s32))func_8002D4C8)(0x473, 0);
+            ((void (*)(s32, s32))guess_RequestSound)(0x473, 0);
             return 0;
   case 4:
         case 7:
@@ -470,7 +470,7 @@ s32 func_801EE0D4(void) {
         if (st == 5) {
             D_801F18D8 = 0x17;
             D_8011512C = 6;
-            ((void (*)(s32, s32))func_8002D4C8)(0x45D, 0);
+            ((void (*)(s32, s32))guess_RequestSound)(0x45D, 0);
             D_801F82F8 = 3;
             return 0;
         }
@@ -558,7 +558,7 @@ Lmid:
     }
     r = flag;
     if (r) {
-        ((void (*)(s32, s32))func_8002D4C8)(0x45A, 0);
+        ((void (*)(s32, s32))guess_RequestSound)(0x45A, 0);
     }
     return 0;
 }
@@ -810,7 +810,7 @@ s32 func_801EEC54(void)
     extern void func_8002B00C(void *);
     extern void func_801EFC58(s32);
     extern void func_80029774(s32);
-    extern s32 func_8002D4C8(s32, s32);
+    extern s32 guess_RequestSound(s32, s32);
     extern u8 *func_8002AF48(s32);
     extern s32 func_8002AF60(void);
     extern void func_801EF448(void);
@@ -831,7 +831,7 @@ s32 func_801EEC54(void)
                 guess_g_MenuTransitionTimer[0] = 0x4B;
                 D_801F18D8 = 0x15;
                 D_801150D4 = guess_g_MenuPanel;
-                func_8002D4C8(0xB3B, 0);
+                guess_RequestSound(0xB3B, 0);
             } else {
                 *p = 0;
             }
@@ -936,7 +936,7 @@ void func_801EEFBC(void) {
     extern void func_80029774(s32 a0);
     extern u8 *func_8002AF48(s32 a0);
     extern s32 func_8002AF60(void);
-    extern s32 func_8002D4C8(s32 a0, s32 a1);
+    extern s32 guess_RequestSound(s32 a0, s32 a1);
     extern void func_801EF448(void);
 
     s32 ret;
@@ -954,7 +954,7 @@ void func_801EEFBC(void) {
                     guess_g_MenuTransitionTimer[0] = 0x4B;
                     D_801150D4 = 0;
                     D_801F18D8 = 0xF;
-                    func_8002D4C8(0xB3B, 0);
+                    guess_RequestSound(0xB3B, 0);
                 } else {
                     *p = 0;
                 }
@@ -1403,7 +1403,7 @@ s32 func_801EFFE8(s32 param_1) {
 extern void func_8001BFD0(void);
 extern s32 func_800291B4(s32);
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_8002D4C8(s32, s32);
+extern s32 guess_RequestSound(s32, s32);
 extern void func_800D0C48(s32);
 extern void func_800D1E28(void);
 

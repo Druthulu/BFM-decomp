@@ -39,7 +39,7 @@ extern u8 D_80078EC0;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -121,10 +121,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -3402,7 +3402,7 @@ void func_80188DC0(s32 param_1) {
 extern s32 D_801EC44C;
 extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 extern void guess_FreeActor(void *a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80188EC0(void *arg0) {
     if (CAST_SIGN(u16, D_801EC44C, 2) == 0x1F) {
@@ -3414,7 +3414,7 @@ void func_80188EC0(void *arg0) {
             guess_SpawnActor(0xCC, i * 0x200, (s32)arg0);
         }
         guess_FreeActor(arg0);
-        func_8002D4C8(0x62A, 0);
+        guess_RequestSound(0x62A, 0);
     }
 }
 
@@ -4909,7 +4909,7 @@ extern void func_8018B540(s32 a0);
 extern void func_80159B3C(void *a0);
 extern void func_8015BF48(s32 *a0);
 extern s32  guess_TickWaitTimer_2(s32 a0);
-extern s32  func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32  guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80165718(s32 a0);
 
 void func_8018B390(void *a0) {
@@ -4937,12 +4937,12 @@ void func_8018B390(void *a0) {
     case 1:
         func_8018B540(s0);
         func_80159B3C(s0);
-        func_80146A6C(2, s0, 0, 0, 0, 1, 0);
+        guess_SpawnSmallObject(2, s0, 0, 0, 0, 1, 0);
         break;
     case 2:
         func_8018B540(s0);
         func_8015BF48((s32 *)s0);
-        func_80146A6C(2, s0, 0, 0, 0, 1, 0);
+        guess_SpawnSmallObject(2, s0, 0, 0, 0, 1, 0);
         break;
     case 0:
     default:
@@ -4951,7 +4951,7 @@ void func_8018B390(void *a0) {
         }
         func_8018B540(s0);
         func_80159B3C(s0);
-        func_80146A6C(2, s0, 0, 0, 0, 1, 0);
+        guess_SpawnSmallObject(2, s0, 0, 0, 0, 1, 0);
         break;
     }
 
@@ -5062,7 +5062,7 @@ extern s32 func_801535F4(void *arg0);
 extern void func_8018B87C(s32 a0);
 extern void func_80159B3C(void *a0);
 extern void func_8015BF48(s32 *a0);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80165718(s32 a0);
 
 void func_8018B774(s32 param_1)
@@ -5097,7 +5097,7 @@ case2:
     func_8018B87C(param_1);
     func_8015BF48((s32 *)param_1);
 join:
-    func_80146A6C(2, (void *)param_1, 0, 0, 0, one, 0);
+    guess_SpawnSmallObject(2, (void *)param_1, 0, 0, 0, one, 0);
     func_80165718(param_1);
 }
 

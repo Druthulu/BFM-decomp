@@ -5,7 +5,7 @@ extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_80137B80(void);
 extern void func_8013E958(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern short guess_g_DoubleBufferIndex;
 extern u8 guess_g_MenuPacketBases[];
 extern s32 guess_g_MenuPacketPtr;
@@ -24,7 +24,7 @@ void func_8013EA54(void) {
         func_80137B80();
         if (guess_g_MenuPadPressed & 0x40) {
             if (guess_g_MenuPanel == 0 && currentLocationId == 0x308F) {
-                func_8002D4C8(0x466, 0);
+                guess_RequestSound(0x466, 0);
             } else {
                 u16 v = guess_g_MenuPanel;
                 if (v != 4) {
@@ -33,7 +33,7 @@ void func_8013EA54(void) {
                 if ((u16)(v - 1) <= 1) {
                     D_8011514C = 0;
                 }
-                func_8002D4C8(0x45D, 0);
+                guess_RequestSound(0x45D, 0);
                 guess_g_MenuStep += 1;
             }
         } else if (guess_g_MenuPadPressed & 0x810) {

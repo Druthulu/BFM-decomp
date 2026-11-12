@@ -43,7 +43,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);
 extern s32 func_800291B4(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -125,10 +125,10 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
+extern s32 guess_g_SmallObjectPool;
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern s32 func_80146B9C(void *a0);
@@ -3813,7 +3813,7 @@ void func_8017D468(void* p)
 
 extern void func_80019064(void *a0);
 extern s32 func_8016B428(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_8012B21C(void *a0);
 extern s32 rand(void);
@@ -3869,9 +3869,9 @@ void func_8017D72C(s32 arg0) {
      * `andi $v0,0xffff` instead -- the load itself is lhu either way. */
     if (--((Unkstruct_800B5CB8 *)arg0)->unk76 == 0) {
         ((Unkstruct_800B5CB8 *)arg0)->unk5C &= 0x7FFF;
-        func_8002D4C8(0x4A8, 0);
+        guess_RequestSound(0x4A8, 0);
     } else {
-        func_8002D4C8(0x4A9, 0);
+        guess_RequestSound(0x4A9, 0);
     }
     t = D_80186F8C[((Unkstruct_800B5CB8 *)arg0)->unk76];
     n = t;
@@ -4058,7 +4058,7 @@ void func_8017DBF4(void *arg0) {
 // @unstuck(P36): none — MATCH (pending byte-gate); pure store sequence, gcc -O2 schedules a0/a1 materialization
 
 extern void guess_StartActorSequence(s32 a0, void *a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80174784(void);
 extern M2C_UNK D_80183884;
 
@@ -4074,8 +4074,8 @@ void func_8017DC78(int param_1) {
     ((Unkstruct_800B5CB8 *)param_1)->unkE0 = 0x400000;
     ((Unkstruct_800B5CB8 *)param_1)->unkE4 = 0;
     *(short *)(param_1 + 0xea) = uVar1;
-    func_8002D4C8(0x49e, 0);
-    func_8002D4C8(0x4a2, 0);
+    guess_RequestSound(0x49e, 0);
+    guess_RequestSound(0x4a2, 0);
     func_80174784();
 }
 
@@ -4820,7 +4820,7 @@ s32 func_8017EDF8(s32 param_1) {
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8001BFD0(void);
 extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
@@ -5178,7 +5178,7 @@ void func_8017F638(s32 arg0) {
     extern void guess_InitModelObject(s32 a0, s32 a1);
     extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
     extern void func_800D0C48(s32 a0);
-    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void guess_RequestSound(s32 a0, s32 a1);
     extern void guess_StartActorSequence(s32 a0, void *a1);
     extern void func_801806DC(void);
 
@@ -5198,7 +5198,7 @@ void func_8017F638(s32 arg0) {
     guess_InitModelObject(CAST_ALIAS(s32, arg0, 0x20), D_801AC738);
     func_8001D0E8(((Unkstruct_800B5CB8 *)arg0)->unk20, 0x800, 0x800);
     func_800D0C48(0);
-    func_8002D4C8(0x404, 0);
+    guess_RequestSound(0x404, 0);
     guess_StartActorSequence(arg0, &D_80189CEC);
     func_801806DC();
     CAST_SIGN(u16, (s32)arg0, 2) += 1;
@@ -5287,7 +5287,7 @@ extern u8 D_80183CB4[];
 extern void func_8013C9C4(void *a0);
 extern void func_8013BD74(void *a0, void *a1);
 extern void func_8013373C(s16 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern int func_8001AAA0(s32 arg0);
 extern s32 D_801C7EE0;
 extern s32 D_80193C64;
@@ -5308,7 +5308,7 @@ void func_8017F8C0(s32 arg0) {
         *(s16 *)(arg0 + 0x100) = *(s16 *)(arg0 + 0x100) - 1;
     }
     if (--*(s16 *)(arg0 + 0x102) == 0 && *(s16 *)(arg0 + 0xFE) != 0) {
-        func_8002D4C8(0x102, 0);
+        guess_RequestSound(0x102, 0);
         *(u16 *)(arg0 + 0xFE) = 2;
     }
     D_8012718C = *(s16 *)(arg0 + 0xA);
@@ -5330,8 +5330,8 @@ void func_8017F8C0(s32 arg0) {
         func_8013BD74(&D_801C7EE0, &D_80193C64);
         func_8013373C(0);
         *(s32 *)(*(s32 *)(arg0 + 0x20) + 0x24) = 0;
-        func_8002D4C8(4, 0x404);
-        func_8002D4C8(0x405, 0);
+        guess_RequestSound(4, 0x404);
+        guess_RequestSound(0x405, 0);
         D_80127188 = 3;
         *(s32 *)(arg0 + 0xDC) = 0x34;
         *(s32 *)(arg0 + 0xE0) = 0x44;
@@ -5357,7 +5357,7 @@ void func_8017F8C0(s32 arg0) {
 }
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8017FB5C(s32 p)
 {
@@ -5369,7 +5369,7 @@ void func_8017FB5C(s32 p)
         }
         break;
     case 1:
-        func_8002D4C8(0x102, 0);
+        guess_RequestSound(0x102, 0);
         ((Unkstruct_8017FB5C *)p)->unkFE += 1;
         break;
     case 2:
@@ -7229,7 +7229,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *);
 extern void guess_InitModelObject(s32, s32);
 extern void guess_StartActorSequence(s32, void *);
-extern void func_8002D4C8(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern s32 rand(void);
 extern s16 D_80126CB4;
 extern s16 D_80126CB6;
@@ -7266,7 +7266,7 @@ void func_801824FC(s32 arg0) {
         }
         *(s32 *)(*(s32 *)(arg0 + 0x20) + 4) |= 0x80000000;
         *(s32 *)(arg0 + 0x1C) = D_8018A300;
-        func_8002D4C8(0x49F, 0);
+        guess_RequestSound(0x49F, 0);
     }
 }
 
@@ -7373,7 +7373,7 @@ void func_8018287C(s32 arg0) {
                 base[0x20] = 0xA;
             }
         }
-        func_8002D4C8(0x4A7, 0);
+        guess_RequestSound(0x4A7, 0);
         func_8012C588(0x37, arg0);
         guess_FreeActor((void *)arg0);
     }
@@ -7771,7 +7771,7 @@ extern s32 guess_g_PlayerActor;
 extern s32 func_80013328(s32 a0, s32 a1);
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_8012EFB8(void *param_1, void *param_2);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8018331C(void) {
     s16 v[4];
@@ -7817,11 +7817,11 @@ void func_8018331C(void) {
             } else if (pan > 0xF) {
                 pan = 0xF;
             }
-            func_8002D4C8(0xB1C, (u16)(vol | ((pan << 8) | 0x3000)));
+            guess_RequestSound(0xB1C, (u16)(vol | ((pan << 8) | 0x3000)));
             return;
         }
     }
-    func_8002D4C8(4, 0xB1C);
+    guess_RequestSound(4, 0xB1C);
 }
 
 

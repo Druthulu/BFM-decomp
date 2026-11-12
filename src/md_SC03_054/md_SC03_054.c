@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 guess_GetStoryProgress(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80178CBC(s32 a0, s32 a1);
 extern void func_80029514(s32 a0);
 extern void guess_SetGameFlag(s32 a0, s32 a1);
@@ -28,31 +28,31 @@ void func_801EF558(void *param_1) {
     D_801F1482 = 0;
     v0 = guess_GetStoryProgress();
     if (v0 < 0x28) {
-        func_8002D4C8(0x12, 0);
+        guess_RequestSound(0x12, 0);
         func_80178CBC((s32)param_1, (s32)&D_801F10C0);
         func_80029514(0x28);
         guess_SetGameFlag(0xE3, 1);
         ((Unkstruct_801EF558 *)param_1)->unk34 = 0;
     } else if (v0 < 0x32) {
-        func_8002D4C8(0x12, 0);
+        guess_RequestSound(0x12, 0);
         func_80178CBC((s32)param_1, (s32)&D_801F10E0);
         ((Unkstruct_801EF558 *)param_1)->unk34 = 1;
     } else if ((u8)guess_TestGameFlag(0xE4) != 0) {
-        func_8002D4C8(0x12, 0);
+        guess_RequestSound(0x12, 0);
         func_80178CBC((s32)param_1, (s32)&D_801F10F8);
         ((Unkstruct_801EF558 *)param_1)->unk34 = 5;
     } else if (v0 < 0x3C) {
-        func_8002D4C8(0x12, 0);
+        guess_RequestSound(0x12, 0);
         func_80178CBC((s32)param_1, (s32)&D_801F1118);
         ((Unkstruct_801EF558 *)param_1)->unk34 = 2;
     } else if (v0 < 0x46) {
         if (func_8018766C(0, 5) != 0) {
-            func_8002D4C8(0x12, 0);
+            guess_RequestSound(0x12, 0);
             func_80178CBC((s32)param_1, (s32)&D_801F1158);
             func_800D0F4C(0x4D);
             ((Unkstruct_801EF558 *)param_1)->unk34 = step;
         } else {
-            func_8002D4C8(0x12, 0);
+            guess_RequestSound(0x12, 0);
             func_80178CBC((s32)param_1, (s32)&D_801F1138);
             ((Unkstruct_801EF558 *)param_1)->unk34 = 2;
         }
@@ -71,7 +71,7 @@ extern s32 func_800D0F8C(s32 a0);
 extern void func_800D0CA0(s32 a0);
 extern s32 func_800D0CE0(void);
 extern s32 func_8001AAA0(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80178CBC(s32 a0, s32 a1);
 extern void func_80029514(s32 a0);
 extern void guess_SetGameFlag(s32 a0, s32 a1);
@@ -156,7 +156,7 @@ void func_801EF6D8(s32 a0) {
     case 2:
         if (func_80178970(a0)) {
             func_80178D18(a0);
-            func_8002D4C8(0x13, 0);
+            guess_RequestSound(0x13, 0);
             func_80186890(a0);
         }
         break;
@@ -213,7 +213,7 @@ void func_801EF6D8(s32 a0) {
             func_800D0CA0(1);
             p[1] = 0;
             p[0] = 2;
-            func_8002D4C8(0x13, 0);
+            guess_RequestSound(0x13, 0);
             break;
         case 2:
             if (++p[1] >= 0x1E) {
@@ -250,7 +250,7 @@ void func_801EF6D8(s32 a0) {
             func_800D0CA0(1);
             p[1] = 0;
             p[0] = 2;
-            func_8002D4C8(0x13, 0);
+            guess_RequestSound(0x13, 0);
             break;
         case 2:
             if (++p[1] >= 0x1E) {
@@ -288,7 +288,7 @@ void func_801EF6D8(s32 a0) {
             func_800D0CA0(1);
             p[1] = 0;
             p[0] = 2;
-            func_8002D4C8(0x13, 0);
+            guess_RequestSound(0x13, 0);
             break;
         case 2:
             if (++p[1] >= 0x1E) {
@@ -323,7 +323,7 @@ void func_801EF6D8(s32 a0) {
             func_800D0CA0(1);
             p[1] = 0;
             p[0] = 2;
-            func_8002D4C8(0x13, 0);
+            guess_RequestSound(0x13, 0);
             break;
         case 2:
             if (++p[1] >= 0x1E) {
@@ -359,7 +359,7 @@ void func_801EF6D8(s32 a0) {
             func_800D0CA0(1);
             p[1] = 0;
             p[0] = 2;
-            func_8002D4C8(0x13, 0);
+            guess_RequestSound(0x13, 0);
             break;
         case 2:
             if (++p[1] >= 0x1E) {
@@ -396,7 +396,7 @@ void func_801EF6D8(s32 a0) {
             func_800D0CA0(1);
             p[1] = 0;
             p[0] = 2;
-            func_8002D4C8(0x13, 0);
+            guess_RequestSound(0x13, 0);
             break;
         case 2:
             if (++p[1] >= 0x1E) {
@@ -423,7 +423,7 @@ void func_801EF6D8(s32 a0) {
         if (func_80178970(a0)) {
             if (D_801F1480 == 6) {
                 func_80178D18(a0);
-                func_8002D4C8(0x13, 0);
+                guess_RequestSound(0x13, 0);
                 func_80029514(0x46);
                 guess_SetGameFlag(0xE7, 1);
                 guess_FreeActor(((Unkstruct_800B5CB8 *)a0)->unkD4);

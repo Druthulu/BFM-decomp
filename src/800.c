@@ -1777,7 +1777,7 @@ void func_8001513C(void) {
 
 
 extern s32 CdQueueBusy(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8003500C(void);
 extern void func_8002D034(void);
 extern int VSync(int mode);
@@ -1792,7 +1792,7 @@ s32 func_80015144(void) {
     u8* base = guess_g_RenderWork;
 
     if (CdQueueBusy() != 0) {
-        func_8002D4C8(2, 0);
+        guess_RequestSound(2, 0);
 
         while (1) {
             func_8003500C();
@@ -1809,7 +1809,7 @@ s32 func_80015144(void) {
             return 0;
         }
         D_800B9A04[0] = 1;
-        func_8002D4C8(2, 0);
+        guess_RequestSound(2, 0);
     }
 
     func_8002F67C();
@@ -5216,13 +5216,13 @@ s32 func_8001923C(s32 a0)
 extern s32 D_800BA1B4;
 extern s32 D_800747E4;
 extern s32 D_800747E8;
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 
 /* stream-state reset: clears loader phase 5 */
 void func_8001931C(void) {
     if (D_800BA1B4 == 5) {
         if (D_800747E4 != 0) {
-            func_8002D4C8(0x16, 0);
+            guess_RequestSound(0x16, 0);
         }
         D_800BA1B4 = 0;
         D_800747E8 = 0;
@@ -6882,7 +6882,7 @@ extern s32 resLoad_loadedFileIdx;
 extern u8 resourceIdMap[];
 extern u8 D_8006313C;
 extern s32 D_800BA1B4;
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_8001AE90(s32 a0, s32 a1, s32 a2);
 extern s32 func_8001ACF0(s32 arg0, s32 arg1, s32 *arg2, s32 arg3, s32 arg4);
 
@@ -6896,7 +6896,7 @@ s32 func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4) {
         if (*(s16 *)(resourceIdMap + a1 * 6) == resLoad_loadedFileIdx) {
             val = *(s16 *)(&D_8006313C + a1 * 6);
             if (val != 0) {
-                func_8002D4C8((u16)val, 0);
+                guess_RequestSound((u16)val, 0);
                 resLoad_lastId = a1;
             }
             return 1;
@@ -6937,7 +6937,7 @@ extern s32 resLoad_lastId;
 extern s32 resLoad_loadedFileIdx;
 extern u8 resourceIdMap[];
 extern u8 D_8006313C;
-extern void func_8002D4C8(int arg0, int arg1);
+extern void guess_RequestSound(int arg0, int arg1);
 
 s32 func_8001ACF0(s32 arg0, s32 arg1, s32 *arg2, s32 arg3, s32 arg4) {
     D_800747F0 = arg0;
@@ -6964,7 +6964,7 @@ s32 func_8001ACF0(s32 arg0, s32 arg1, s32 *arg2, s32 arg3, s32 arg4) {
         if (*(s16 *)(resourceIdMap + arg1 * 6) == resLoad_loadedFileIdx) {
             v = *(s16 *)(&D_8006313C + arg1 * 6);
             if (v != 0) {
-                func_8002D4C8((u16)v, 0);
+                guess_RequestSound((u16)v, 0);
                 resLoad_lastId = arg1;
             }
             return 1;
@@ -7289,7 +7289,7 @@ s32 func_8001B394(s32 a0) {
 #ifdef NON_MATCHING
 extern int func_8001A114(void);
 extern void func_8001B710(void);
-extern void func_8002D4C8(int arg0, int arg1);
+extern void guess_RequestSound(int arg0, int arg1);
 extern void func_80036D58(s16);
 extern int StreamLoadStateMachine(int arg0, void *loc, int n);
 extern s32 CdQueueBusy(void);          /* defined later in this file */
@@ -7308,12 +7308,12 @@ extern s32 D_800AE6F4;
 extern s32 D_800AE70C;
 /* loads a resource by resLoad_curId via resourceIdMap; load-once cache
  * (resLoad_lastId/resLoad_loadedFileIdx). field0<0 -> non-CD path func_80036D58; else
- * ResourceGetCdLoc -> StreamLoadStateMachine -> func_8002D4C8 post-process. Polled on
+ * ResourceGetCdLoc -> StreamLoadStateMachine -> guess_RequestSound post-process. Polled on
  * resLoad_state; done flag resLoad_result. Phase 3 T3.
  * NON_MATCHING: logically faithful (Ghidra-derived), body close but not byte-exact. Residuals:
  * (1) block placement — the target lays state blocks 0->1->2->3 in order under a top beq-chain
  * dispatch (order 1,0,2,3); this nested-if emits the state-2/3 block inline. (2) frame 0x38 vs
- * 0x28 (~16B reserved locals the original keeps). (3) func_8002D4C8 arg is field2 & 0xFFFF.
+ * 0x28 (~16B reserved locals the original keeps). (3) guess_RequestSound arg is field2 & 0xFFFF.
  * A switch() risks a rodata jump table (target has none). A later structural / permuter pass. */
 void ResourceLoadStateMachine(void) {
     int result;
@@ -7339,7 +7339,7 @@ void ResourceLoadStateMachine(void) {
         }
         if (*(s16 *)(resourceIdMap + resLoad_curId * 6) == resLoad_loadedFileIdx &&
             *(s16 *)(&D_8006313C + resLoad_curId * 6) != 0) {
-            func_8002D4C8(*(s16 *)(&D_8006313C + resLoad_curId * 6), 0);
+            guess_RequestSound(*(s16 *)(&D_8006313C + resLoad_curId * 6), 0);
             resLoad_lastId = resLoad_curId;
             resLoad_result = 1;
             return;
@@ -7373,7 +7373,7 @@ done:
     if (result != 0) {
         resLoad_loadedFileIdx = *(s16 *)(resourceIdMap + resLoad_curId * 6);
         if (*(s16 *)(&D_8006313C + resLoad_curId * 6) > 0) {
-            func_8002D4C8(*(s16 *)(&D_8006313C + resLoad_curId * 6), 0);
+            guess_RequestSound(*(s16 *)(&D_8006313C + resLoad_curId * 6), 0);
             resLoad_lastId = resLoad_curId;
             if (resLoad_curId == 0x3D) {
                 func_8001B710();
@@ -7393,7 +7393,7 @@ done:
  * adopted verbatim below. See the use-site comment for how the byte match is kept despite that. */
 extern int func_8001A114(void);
 extern void func_8001B710(void);
-extern void func_8002D4C8(int arg0, int arg1);
+extern void guess_RequestSound(int arg0, int arg1);
 extern void func_80036D58(s16);
 extern int StreamLoadStateMachine(int arg0, void *loc, int n);
 extern s32 CdQueueBusy(void);
@@ -7460,7 +7460,7 @@ void ResourceLoadStateMachine(void) {
             return;
         }
         if (RES_FILE[resLoad_curId].v == resLoad_loadedFileIdx && RES_POST[resLoad_curId].v != 0) {
-            func_8002D4C8((u16)RES_POST[resLoad_curId].v, 0);
+            guess_RequestSound((u16)RES_POST[resLoad_curId].v, 0);
             resLoad_lastId = resLoad_curId;
             resLoad_result = 1;
             return;
@@ -7505,7 +7505,7 @@ void ResourceLoadStateMachine(void) {
     if (result != 0) {
         resLoad_loadedFileIdx = RES_FILE[resLoad_curId].v;
         if (RES_POST[resLoad_curId].v > 0) {
-            func_8002D4C8((u16)RES_POST[resLoad_curId].v, 0);
+            guess_RequestSound((u16)RES_POST[resLoad_curId].v, 0);
             resLoad_lastId = resLoad_curId;
             if (resLoad_curId == 0x3D) {
                 func_8001B710();
@@ -7520,13 +7520,13 @@ void ResourceLoadStateMachine(void) {
 
 void func_8001B710(void) {
     if ((func_800291B4(0x44) & 0xFF) > 1) {
-        func_8002D4C8(0x24, 0);
+        guess_RequestSound(0x24, 0);
     }
     if ((func_800291B4(0x56) & 0xFF) > 1) {
-        func_8002D4C8(0x25, 0);
+        guess_RequestSound(0x25, 0);
     }
     if ((func_800291B4(0x5C) & 0xFF) > 1) {
-        func_8002D4C8(0x26, 0);
+        guess_RequestSound(0x26, 0);
     }
 }
 
@@ -7974,7 +7974,7 @@ extern s32 D_800747E8;
 extern s32 D_800BA1B4;
 extern s32 cdReq_curSector;
 extern s32 CdQueueBusy(void);
-extern void func_8002D4C8(int arg0, int arg1);
+extern void guess_RequestSound(int arg0, int arg1);
 
 s32 func_8001BE30(void) {
     s32 state = D_800747EC;
@@ -8004,7 +8004,7 @@ L_case0:
         goto L_busy;
     }
     if (D_800747E4 != 0) {
-        func_8002D4C8(0x16, 0);
+        guess_RequestSound(0x16, 0);
     }
     D_800BA1B4 = 0;
     D_800747E8 = 0;
@@ -8014,7 +8014,7 @@ L_case0:
 
 L_busy:
     if (busy == 1 || busy == 4 || busy == 2) {
-        func_8002D4C8(0x16, 0);
+        guess_RequestSound(0x16, 0);
         D_800747EC = D_800747EC + 1;
         goto L_ret0;
     }
@@ -17097,7 +17097,7 @@ s32 func_8002A04C(s32 a0) {
 extern s32 func_8002A108();  // K&R: ? of 1 args (P37 rung D t4_D9)
 extern s32 func_8002A26C(void);
 extern void func_8016E918(s16 a0, s16 a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8002AAAC(void);
 extern u8 D_800638FA[];
 
@@ -17110,7 +17110,7 @@ s32 func_8002A088(s32 arg0) {
         off = i * 16;
         i = (i - 1) * 16;
         func_8016E918(0, *(u16 *)(D_800638FA + off) - *(u16 *)(D_800638FA + i));
-        func_8002D4C8(0xB2C, 0);
+        guess_RequestSound(0xB2C, 0);
         func_8002AAAC();
         return 1;
     }
@@ -17225,7 +17225,7 @@ s32 func_8002A2B0(void) {
 extern s32 func_8002A354(s32 arg0);
 extern s32 func_8002A4B8(void);
 extern void func_8016E918(s16 a0, s16 a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8002AAAC(void);
 extern u8 D_800638FE[];
 
@@ -17238,7 +17238,7 @@ s32 func_8002A2D4(s32 a0) {
         off = i * 16;
         i = (i - 1) * 16;
         func_8016E918(1, *(u16 *)(D_800638FE + off) - *(u16 *)(D_800638FE + i));
-        func_8002D4C8(0xB2C, 0);
+        guess_RequestSound(0xB2C, 0);
         func_8002AAAC();
         return 1;
     }
@@ -17357,7 +17357,7 @@ void func_8002A520(s32 arg0) {
 extern s32 func_8002A5C4(s32 a0);
 extern s32 func_8002A728(void);
 extern void func_8016E918(short param_1, short param_2);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8002AAAC(void);
 extern u16 D_80063902[][8];
 
@@ -17367,7 +17367,7 @@ s32 func_8002A544(s32 arg0) {
     if (func_8002A5C4(arg0) != 0) {
         idx = func_8002A728();
         func_8016E918(3, (s16) (D_80063902[idx][0] - D_80063902[idx - 1][0]));
-        func_8002D4C8(0xB2C, 0);
+        guess_RequestSound(0xB2C, 0);
         func_8002AAAC();
         return 1;
     }
@@ -17481,7 +17481,7 @@ void func_8002A790(u8 *a0)
 extern s32 func_8002A834(s32 a0);
 extern s32 func_8002A998(void);
 extern void func_8016E918(s16 a0, s16 a1);
-extern void func_8002D4C8(s32 a0, s32 a1);
+extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8002AAAC(void);
 
 
@@ -17493,7 +17493,7 @@ s32 func_8002A7B4(s32 a0) {
     if (func_8002A834(a0) != 0) {
         id = func_8002A998();
         func_8016E918(2, (s16) (D_80063906[id].value - D_80063906[id - 1].value));
-        func_8002D4C8(0xB2C, 0);
+        guess_RequestSound(0xB2C, 0);
         func_8002AAAC();
         return 1;
     }
