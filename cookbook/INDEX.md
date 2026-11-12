@@ -1026,3 +1026,4 @@ C0573 | data rename: name address-only mentions before rename_scan --spec | rena
 C0574 | resident data used by main: name it in symbols.us.ram.txt (rename_sym binary us.ram) | rename,symbol,resident,data,rename_sym | 2026-11-11 | 3.43/T8 | T8.c6
 C0575 | git grep with many -e patterns stalls; join into one -e per chunk (rename_scan hang) | grep,performance,rename_scan,git,hang | 2026-11-11 | 3.43/T9 | T9.c4
 C0576 | md-module renames drop sig instructions unless sig-modules seeds from symbol files | rename,sig,md,makefile,tools-health,timeline | 2026-11-12 | 3.43/T9 | T9.c14
+C0577 | Decode resident game text from splat .word data for string naming evidence | naming,evidence,strings,splat,resident,guess | 2026-11-12 | 3.43/T10 | T10.c1
