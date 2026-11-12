@@ -579,6 +579,8 @@ sig-main-oracle:
 # boundaries are the finer oracle; --bootstrap's linear partition GLUES adjacent functions around
 # jtbl-dispatch code, which read as 24 TRUNCATED slices in audit-corpus). Fresh-clone fallback
 # (no build yet) stays --bootstrap; the next sig-modules after a build self-heals.
+# 3.43 T9.c14: seeds are func_ symbols PLUS the module symbol file's `// func` names (a renamed module function,
+# e.g. guess_IntToBcd_7 at md_SC03_076 0x801F1440, was dropped from the sig: -26 instrs per module; was func_ only).
 MODULE_SIG_JOBS := $(foreach a,$(MODULE_BINARIES),$(a):$($(a)_EXE):$($(a)_VRAM_BASE):$($(a)_TEXT_LO))
 sig-modules:
 	# PARALLEL (P31 S70) — same rationale as sig-overlays. Each job writes only its own
@@ -590,7 +592,7 @@ sig-modules:
 	  if [ ! -f "$$f" ]; then echo "[WARN no payload] $$alias ($$f)"; exit 0; fi; \
 	  elf="build/$$alias/$$alias.elf"; \
 	  if [ -f "$$elf" ]; then \
-	    mipsel-linux-gnu-nm "$$elf" | awk -v lo=$$(($$tlo)) '"'"'$$2=="T" && $$3~"^func_" { a=strtonum("0x" $$1); if (a>=lo && a%4==0) printf "0x%X\n", a }'"'"' | sort -u > ".run/seeds.$$alias.txt"; \
+	    mipsel-linux-gnu-nm "$$elf" | awk -v lo=$$(($$tlo)) -v sf="config/symbols.$$alias.txt" '"'"'BEGIN { while ((getline l < sf) > 0) if (l ~ /\/\/ func/) { split(l, p, /[ \t=]+/); fn[p[1]] = 1 } } $$2=="T" && ($$3~"^func_" || ($$3 in fn)) { a=strtonum("0x" $$1); if (a>=lo && a%4==0) printf "0x%X\n", a }'"'"' | sort -u > ".run/seeds.$$alias.txt"; \
 	    $(VENV_PY) tools/sig_image.py --image "$$f" --vram-base "$$vram" --seeds ".run/seeds.$$alias.txt" --name "$$alias" $${tlo:+--text-lo "$$tlo"} >/dev/null 2>&1 \
 	      && echo "[ OK ] $$alias" || echo "[SIG FAIL] $$alias"; \
 	  else \
