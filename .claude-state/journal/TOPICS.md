@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-12T21:13:11.601Z
+# filed through: 2026-11-12T21:47:13.354Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -156,3 +156,5 @@ R152 | 2026-11-12 | decision | in force | Phase-close docs and lessons in every 
 R153 | 2026-11-12 | finding | in force | Phase-close docs and lessons in every phase | A rule cannot be added through mcp__pa-watch__plan_edit in this project, because the mod routes the… | .claude-state/journal/2026-11-12/124351-066r-claude-record.md
 R154 | 2026-11-12 | decision | in force | Struct consolidation (3.45) | GENERATION_PLAN.md gains 3.45 Struct consolidation and names (depends 3.44). | .claude-state/journal/2026-11-12/135749-072r-claude-record.md
 R155 | 2026-11-12 | finding | in force | Struct consolidation (3.45) | The census's struct count is 14,376 evidence clusters explaining 169,650 of 172,948 dereference sit… | .claude-state/journal/2026-11-12/135749-072r-claude-record.md
+R156 | 2026-11-12 | decision | in force | 3.44 T3 asm signature census | Control (4) part one of T3 is accepted as measured, not redefined. | .claude-state/journal/2026-11-12/150232-006r-claude-record.md
+R157 | 2026-11-12 | finding | in force | 3.44 T3 asm signature census | tools/sig_evidence.py measures 92,645 classes and 363,342 instances over all 218 binaries in about… | .claude-state/journal/2026-11-12/150232-006r-claude-record.md
