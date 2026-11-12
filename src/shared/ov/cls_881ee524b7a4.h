@@ -5,7 +5,7 @@ s32 SHARED_FN(s32 a0) {
     if (((s32 (*)(s32))func_8012BD14)(((Unkstruct_8017F01C *)a0)->unk64) >= 0x1001) {
         return 0;
     }
-    if (func_8016F1AC() != 0) {
+    if (guess_GetPlayerControlScript() != 0) {
         return 0;
     }
     ((Unkstruct_8017F01C_2 *)*(s32 *)(a0 + 0x64))->unk2 = 2;

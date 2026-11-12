@@ -67,9 +67,9 @@ void func_80159C84(u8 *p) {
         break;
     }
 
-    if (func_80149CD4((s32)p) != 0) {
+    if (guess_IsR1Held((s32)p) != 0) {
         D_80181160[*(u16 *)p](p);
-        func_8015E880((s32 *)p);
+        guess_EnterState11((s32 *)p);
         return;
     }
     if (guess_IsDirectionHeld(p) != 0) {
@@ -100,7 +100,7 @@ after_b4c:
 
     if (*(u16 *)(p + 0xB8) & 0x8000) {
         if ((*(u32 *)(p + 0x44) & 0x200) == 0) {
-            if (func_8016F1AC() != 0) {
+            if (guess_GetPlayerControlScript() != 0) {
                 *(s32 *)(p + 0x234) = 0;
                 *(s32 *)(p + 0x238) = 0;
             }

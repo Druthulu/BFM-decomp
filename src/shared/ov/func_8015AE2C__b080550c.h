@@ -222,7 +222,7 @@ s32 arg0;
                 ((void (*)(s32))guess_ApplyVelocity)(arg0);
             }
             if (!(*(u32 *)(arg0 + 0x44) & 2)) {
-                ((void (*)(s32, s32, s32))func_801541D8)(arg0, 0xF, 0x12);
+                ((void (*)(s32, s32, s32))guess_SetAnimFromIndex)(arg0, 0xF, 0x12);
             }
         }
         t = func_8014C050(arg0, 0x3B);

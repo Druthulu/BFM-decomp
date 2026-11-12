@@ -13,7 +13,7 @@ extern u8 D_801150F0[];
 extern void *memcpy(void *dst, const void *src, u32 n);
 extern void func_80146FC4(s32 a0);
 extern void func_80150A70(s32 a0);
-extern void func_80147098(s32 *a0);
+extern void guess_ClearHideRequest220(s32 *a0);
 extern void func_8014A638(s32 arg0);
 extern s32  func_80155458(s32 a0);
 extern u8 func_80029104(void);
@@ -51,7 +51,7 @@ s32 func_80146128(void)
     func_80146FC4(base);
     memcpy((void *)D_801150F0, (void *)D_80126BE0, 8);
     func_80150A70(base);
-    ((void (*)(s32))func_80147098)(base);
+    ((void (*)(s32))guess_ClearHideRequest220)(base);
     func_8014A638(base);
     D_8011F730 = 0;
     D_801152B8 = 0;

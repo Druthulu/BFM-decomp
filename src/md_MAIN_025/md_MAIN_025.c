@@ -558,7 +558,7 @@ void func_800CBB70(void *a0) {
 
 
 extern s32 func_8014C088(s32 a0, s32 a1);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 
 void func_800CBBA0(s32 param_1) {
     s32 ret;
@@ -567,7 +567,7 @@ void func_800CBBA0(s32 param_1) {
         return;
     }
     if (((Unkstruct_800CB098 *)ret)->unk2 >= 2) {
-        func_80146C98((s32 *)ret, 3);
+        guess_SetStep((s32 *)ret, 3);
     } else {
         func_800CBBF8();
     }

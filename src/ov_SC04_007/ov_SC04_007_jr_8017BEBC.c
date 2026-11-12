@@ -74,7 +74,7 @@ extern u8 D_801150F0[];
 extern void *memcpy(void *dst, const void *src, u32 n);
 extern void func_80146FC4(s32 a0);
 extern void func_80150A70(s32 a0);
-extern void func_80147098(s32 *a0);
+extern void guess_ClearHideRequest220(s32 *a0);
 extern void func_8014A638(s32 arg0);
 extern s32  func_80155458(s32 a0);
 extern u8 func_80029104(void);
@@ -134,7 +134,7 @@ extern s32 func_80146B9C(void *a0);
 extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
@@ -161,10 +161,10 @@ extern s32 func_80147054(void *a0);
 extern void func_80147060(u8 * a0);
 extern void func_8014706C(void *arg0);
 extern void guess_SetState(s32 *a0, s16 a1);
-extern void func_80147084(s32 *a0);
+extern void guess_ClearHideRequest221(s32 *a0);
 extern void func_8014708C(void *arg0);
 extern s32 func_801470A0(void *a0);
-extern void func_801470AC(s32 *a0);
+extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801470B4(s32 arg0);
 extern void func_801470C0(s32 a0);
 extern void func_80147118(s32 a0);
@@ -334,7 +334,7 @@ extern void func_80149788(void);
 extern void func_801653B8(s32 *a0);
 extern void func_80149864(void);
 extern s16 currentLocationId;
-extern s32 func_8016F1AC(void);
+extern s32 guess_GetPlayerControlScript(void);
 extern s32 func_80149884(void);
 extern void func_80160B00(s32 *arg0);
 extern void func_801498C0(void);
@@ -362,7 +362,7 @@ extern void func_801577C8(s32 arg0);
 extern void func_80149C94(void);
 extern void func_80157D20(void *param_1, s32 param_2);
 extern void func_80149CB4(void *a0, s32 a1);
-extern s32 func_80149CD4(s32 a0);
+extern s32 guess_IsR1Held(s32 a0);
 extern u8 func_8014B5B8(s32 *a0);
 extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
@@ -863,7 +863,7 @@ extern void func_80154134(u8 *a0);
 extern void func_80154190(u8 *a0, s32 a1);
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void func_80154218(u8 *a0, s32 a1, s32 a2);
-extern void func_801541D8(u8 *a0, s32 a1, s32 a2);
+extern void guess_SetAnimFromIndex(u8 *a0, s32 a1, s32 a2);
 extern s32 func_801549F8(s32 a0, s32 a1, s32 a2);
 extern void func_801542A4(s32 *a0, s32 a1);
 extern void func_801542A4(s32 *a0, s32 a1);
@@ -917,7 +917,7 @@ extern void func_8014ED28(s32 a0);
 extern int func_80155FF8(int arg, int a1);
 extern s32 D_800D4DF4;
 extern void func_80155C64(s32 a0);
-extern void func_8015E880(s32 *a0);
+extern void guess_EnterState11(s32 *a0);
 extern void func_80155D70(s32 param_1);
 extern void func_80155E30(void *a0);
 extern s32 func_80161208();
@@ -1188,7 +1188,7 @@ extern void func_8015C6A4(void);
 extern void func_8015C788(s32 a0);
 extern void func_8015C6AC(s32 *a0);
 extern void func_8015C714(void *a0);
-extern void func_8015C6E0(s32 *a0);
+extern void guess_EnterState9(s32 *a0);
 extern void (*D_801883B4[])(void);
 extern void func_8015C788(s32);
 extern void func_8015C750(s32 a0);
@@ -1238,7 +1238,7 @@ extern void guess_TransformPosByObjMatrix(int, int);
 extern unsigned char D_8018846C[];
 extern void func_8015D5E8(int param_1);
 extern int func_8015E0D4(int);
-extern void func_8015DA5C(s32 a0);
+extern void guess_SetTexAnimAndReleaseGrab(s32 a0);
 extern void func_8015DB6C(s32 a0);
 extern void func_8015DA90(s32 *a0);
 extern void func_8015DAF8(s32 *a0);
@@ -1259,7 +1259,7 @@ extern void func_8015DECC(s32);
 extern void func_8015DE94(s32 a0);
 extern void func_8015E018(s32 a0);
 extern void func_8015DF34(void *arg0);
-extern int func_8015DFE4(int a0);
+extern int guess_SetTexAnimAndReleaseGrab_2(int a0);
 extern void func_8015E018(s32 param_1);
 extern int func_8015E0D4(int a0);
 extern void func_8015E22C(s32 a0);
@@ -1776,7 +1776,7 @@ extern void func_8016B114(void *arg0);
 extern s32 func_8016B448(s32, s32);
 extern s32 func_8016BA48(s32 a0);
 extern void func_8016B3F4(s32 a0);
-extern s32 func_8016B428(s32 a0);
+extern s32 guess_RespawnSmallObjectType1E(s32 a0);
 extern void func_8016B984(void *a0);
 extern s32 func_8016B448(s32 arg0, s32 arg1);
 extern void (*D_80188D74[])(void);
@@ -3857,7 +3857,7 @@ extern void func_8017DF10(int);
  *   then either slide @0x2A down by 0x10 or run the 3-call teardown. */
 
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
-extern void func_80147084(s32 *a0);
+extern void guess_ClearHideRequest221(s32 *a0);
 extern void func_801472B4(void *a0);
 extern void func_8017DF10(int);
 
@@ -4281,7 +4281,7 @@ extern void func_80178D18(void);
 
 
 extern s32 func_8012BD14(s32);
-extern s32 func_8016F1AC(void);
+extern s32 guess_GetPlayerControlScript(void);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
 
@@ -4786,7 +4786,7 @@ void func_8017FA90(void *a0, s32 a1) {
 extern s32 func_80153CBC(void);
 extern s32 func_8017FC8C(void); /* no decl exists in the TU (INCLUDE_ASM only, line 5865);
                                  * both call sites pass no arg (nop delay slots) -> (void) */
-extern s32 func_8016F1AC(void);
+extern s32 guess_GetPlayerControlScript(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_801659A8(void);
 extern s32 func_801659CC(void);
@@ -4817,7 +4817,7 @@ s32 func_8017FB1C(s32 a0) {
             break;
         }
         /* shared tail with case 2 (.L80180D84) -- cross_jump merges the two copies */
-        if (func_8016F1AC() != 0) {
+        if (guess_GetPlayerControlScript() != 0) {
             break;
         }
         return 1;
@@ -4829,7 +4829,7 @@ s32 func_8017FB1C(s32 a0) {
         /* the `&&` short-circuit is what thread_jumps later re-points straight at
          * .L80180D20, skipping the redundant `if (s1 == 0)` re-test below. */
         if ((u16)func_8017FC8C() == 0 && s1 == 0) {
-            if (func_8016F1AC() == 0) {
+            if (guess_GetPlayerControlScript() == 0) {
                 return 1;
             }
         }
@@ -4855,7 +4855,7 @@ s32 func_8017FB1C(s32 a0) {
             }
             ((Unkstruct_800B5CB8 *)a0)->unk1C = ((Unkstruct_800B5CB8 *)a0)->unk1C + 1;
             /* shared tail with case 0 (.L80180D84) */
-            if (func_8016F1AC() != 0) {
+            if (guess_GetPlayerControlScript() != 0) {
                 break;
             }
             return 1;
@@ -6166,7 +6166,7 @@ s32 func_80181D2C(s32 arg0) {
  *   guess_g_PlayerPosZ    TU:1792 `extern u16 guess_g_PlayerPosZ;`                    <- AGREES verbatim
  *   VectorNormalSS TU:1848 `extern s32 VectorNormalSS(void *a0, void *a1);` <- AGREES verbatim
  *   func_8012B70C  TU:5546 `extern s32 func_8012B70C(s16 *a0, s16 *a1);` <- AGREES verbatim
- *   func_80149CD4  TU:381  `extern s32 func_80149CD4(s32 a0);`         <- AGREES verbatim
+ *   guess_IsR1Held  TU:381  `extern s32 guess_IsR1Held(s32 a0);`         <- AGREES verbatim
  *   RotMatrixZYX  TU:2643/3362 `extern void RotMatrixZYX(s32 a0, s32 a1);` <- AGREES verbatim
  *   ApplyMatrixLV  TU:242/3363 `extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);` <- AGREES verbatim
  *   func_801726B8  TU:2224 `extern s32 func_801726B8(s32 *a0);`        <- AGREES verbatim
@@ -6186,7 +6186,7 @@ s32 func_80181D2C(s32 arg0) {
 
 extern s32 VectorNormalSS(void *a0, void *a1);
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
-extern s32 func_80149CD4(s32 a0);
+extern s32 guess_IsR1Held(s32 a0);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 func_801726B8(s32 *a0);
@@ -6223,7 +6223,7 @@ void func_80181DE0(s32 a0) {
         s1 = *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12);
     }
 
-    if (func_80149CD4((s32)base) != 0) {
+    if (guess_IsR1Held((s32)base) != 0) {
         v1.vz = 0;
         v1.vx = 0;
         v1.vy = s1;

@@ -1139,9 +1139,9 @@ void func_80145CEC(void) {
     extern void func_8001C320(s32 a0, s32 a1);
     extern s32 guess_GetStoryProgress(void);
     extern void func_801552F4(s32 a0);
-    extern void func_80147084(s32 *a0);
-    extern void func_80147098(s32 *a0);
-    extern void func_801470AC(s32 *a0);
+    extern void guess_ClearHideRequest221(s32 *a0);
+    extern void guess_ClearHideRequest220(s32 *a0);
+    extern void guess_ClearHideRequest222(s32 *a0);
     extern void func_80149210(s32 a0, s32 a1);
     extern void func_8014BE9C();
     extern void func_8016533C();
@@ -1206,9 +1206,9 @@ void func_80145CEC(void) {
     D_80126D10 = 0x1000;
     D_80126C4E = 0x1000;
     func_801552F4(&guess_g_PlayerActor);
-    func_80147084(&guess_g_PlayerActor);
-    func_80147098(&guess_g_PlayerActor);
-    func_801470AC(&guess_g_PlayerActor);
+    guess_ClearHideRequest221(&guess_g_PlayerActor);
+    guess_ClearHideRequest220(&guess_g_PlayerActor);
+    guess_ClearHideRequest222(&guess_g_PlayerActor);
     *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x2c) = *(u16 *)((s32)guess_g_PlayerModelPtr[0] + 0x2c) | 0x50;
     func_80149210(&guess_g_PlayerActor, 8);
     func_8014BE9C();
@@ -3573,7 +3573,7 @@ extern void func_80151664(s32 a0v);
 
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
-extern void func_801470AC(s32 *a0);
+extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801472B4(void *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));

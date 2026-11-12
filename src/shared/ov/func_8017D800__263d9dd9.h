@@ -12,7 +12,7 @@ void func_8017D800(void *a0)
         *(u16 *)((s32)a0 + 0x2A) = *(u16 *)((s32)a0 + 0x2A) - 0x10;
     } else {
         guess_PlaySoundUnlessSkipped(*(u16 *)((s32)a0 + 0x2C));
-        func_80147084(sub);
+        guess_ClearHideRequest221(sub);
         func_801472B4(sub);
         *(s32 *)((s32)a0 + 0x1C) = 0;
         *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;

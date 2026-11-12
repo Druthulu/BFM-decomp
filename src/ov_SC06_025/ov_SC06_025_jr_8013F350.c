@@ -416,7 +416,7 @@ extern void func_8012E8A8(u8 *a0);
 extern void func_8012E8C4(u8 *a0);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void func_8016AA50(int, int);
-extern s32 func_8016B428(int);
+extern s32 guess_RespawnSmallObjectType1E(int);
 extern void guess_StartPadVibration(void *);
 extern int D_80184FE8;
 extern void func_8012E9C0(int param_1);

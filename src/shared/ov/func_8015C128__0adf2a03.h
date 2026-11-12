@@ -1,7 +1,7 @@
 /* func_8015C128 — shared body (overlay slot 0x80128158, h_exact 0adf2a03). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_8015C128(s32 param_1) {
-    extern void func_8015C6E0(int);
+    extern void guess_EnterState9(int);
     extern void (*D_80181914[])(int);
 
     int sp10[3];
@@ -30,7 +30,7 @@ s32 func_8015C128(s32 param_1) {
     }
     if (((int(*)(int))func_8014D738)(((int)param_1)) != 0) {
         D_80181914[*(u16 *)((int)param_1)](((int)param_1));
-        func_8015C6E0(((int)param_1));
+        guess_EnterState9(((int)param_1));
         return;
     }
     temp_s0 = ((int(*)(int))func_8014CC28)(((int)param_1));

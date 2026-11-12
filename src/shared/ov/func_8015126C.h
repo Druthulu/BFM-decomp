@@ -21,7 +21,7 @@ void func_8015126C(u16 *p)
     extern s32 func_80161A60(s32 a0);
     extern void func_801599A4(void *);
     extern void func_801607B8(s32 *a0);
-    extern void func_80147084(s32 *a0);
+    extern void guess_ClearHideRequest221(s32 *a0);
     extern s32 func_80029D3C(s32 n);
     extern s32 func_8014CB7C(void);
     extern void func_80153C9C(void);
@@ -107,7 +107,7 @@ void func_8015126C(u16 *p)
     p[0x7a] = p[0x21];
     func_801599A4(p);
     ((void (*)(void *))func_801607B8)(p);
-    ((void (*)(void *))func_80147084)(p);
+    ((void (*)(void *))guess_ClearHideRequest221)(p);
     {
         u16 t = p[0x1f];
         s16 cmp79;

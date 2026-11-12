@@ -3,7 +3,7 @@
 extern s32 guess_GetTextWindowResult(s32 a0);
 extern void guess_CloseTextWindow(s32 a0);
 extern s32 guess_OpenTextWindow(s32 a0);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 extern u8 guess_g_StartPromptText[];
 void func_801592CC(s32 *a0) {
     s32 *s0 = a0;
@@ -12,6 +12,6 @@ void func_801592CC(s32 *a0) {
     if (guess_GetTextWindowResult(s0[0x198 / 4]) != 0) {
         guess_CloseTextWindow(s0[0x198 / 4]);
         s0[0x198 / 4] = guess_OpenTextWindow((s32)guess_g_StartPromptText);
-        func_80146C98(s0, 9);
+        guess_SetStep(s0, 9);
     }
 }

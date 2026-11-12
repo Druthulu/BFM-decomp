@@ -20,7 +20,7 @@ void func_8015CA28(u16 *param_1) {
         if (((int (*)(u16 *))func_8014D738)(param_1) != 0) {
             ((void (*)(u16 *, void *))guess_SetMoveVector)(param_1, &D_80181104);
             ((void (*)(u16 *, int))guess_SetWaitTimer_2)(param_1, 0x14);
-            ((void (*)(u16 *, int))func_80146C98)(param_1, 2);
+            ((void (*)(u16 *, int))guess_SetStep)(param_1, 2);
         }
         if (*(int *)(param_1 + 0xb8) != 0)
             goto do161240;

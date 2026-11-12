@@ -425,7 +425,7 @@ extern void func_8012E8A8(u8 *a0);
 extern void func_8012E8C4(u8 *a0);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void func_8016AA50(int, int);
-extern s32 func_8016B428(s32);
+extern s32 guess_RespawnSmallObjectType1E(s32);
 extern void guess_StartPadVibration(void *);
 extern void func_8012E9C0(int param_1);
 extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
@@ -1117,7 +1117,7 @@ extern void func_801463A0();
 extern void *memcpy(void *dst, const void *src, u32 n);
 extern void func_80146FC4(s32 a0);
 extern void func_80150A70(s32 a0);
-extern void func_80147098(s32 *a0);
+extern void guess_ClearHideRequest220(s32 *a0);
 extern void func_8014A638(s32 arg0);
 extern s32  func_80155458(s32 a0);
 extern u8 func_80029104(void);
@@ -1199,7 +1199,7 @@ extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 extern s32 func_80146B9C(void * arg0);
 extern u16 D_8011DA28;
 extern s32 guess_FreeSmallObject(u8 *a0);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
@@ -1219,10 +1219,10 @@ extern s32 func_80147054(void *a0);
 extern void func_80147060(u8 * a0);
 extern void func_8014706C(void *arg0);
 extern void guess_SetState(s32 *a0, s16 a1);
-extern void func_80147084(s32 *a0);
+extern void guess_ClearHideRequest221(s32 *a0);
 extern void func_8014708C(void *arg0);
 extern s32 func_801470A0(void *a0);
-extern void func_801470AC(s32 *a0);
+extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801470B4(s32 arg0);
 extern s16 D_80126BB8;
 extern s16 D_80126BBA;
@@ -1400,7 +1400,7 @@ extern u8 func_80165658(s32 a0, s32 a1);
 extern s32 func_801497A8(s32 *a0);
 extern void func_801653B8(s32 *a0);
 extern void func_80149864(void);
-extern s32 func_8016F1AC(void);
+extern s32 guess_GetPlayerControlScript(void);
 extern s32 func_80149884(void);
 extern void func_80160B00(s32 *arg0);
 extern void func_801498C0(void);
@@ -1425,7 +1425,7 @@ extern void func_801577C8(s32 *a0);
 extern void func_80149C94(void);
 extern void func_80157D20(void *param_1, s32 param_2);
 extern void func_80149CB4(void *a0, s32 a1);
-extern s32 func_80149CD4(s32 a0);
+extern s32 guess_IsR1Held(s32 a0);
 extern u8 func_8014B5B8(s32 *a0);
 extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
@@ -1915,7 +1915,7 @@ extern void func_80154134(u8 *a0);
 extern void func_80154190(u8 *a0, s32 a1);
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void func_80154218(u8 *a0, s32 a1, s32 a2);
-extern void func_801541D8(u8 *a0, s32 a1, s32 a2);
+extern void guess_SetAnimFromIndex(u8 *a0, s32 a1, s32 a2);
 extern s32 func_801549F8(s32 a0, s32 a1, s32 a2);
 extern void func_801542A4(s32 *a0, s32 a1);
 extern void func_801542A4(s32 *a0, s32 a1);
@@ -2566,11 +2566,11 @@ void func_80158794(void) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected (3 scalar global stores + byte store + 6 calls, source order)
 
-extern void func_80147084(s32 *a0);
-extern void func_80147098(s32 *a0);
-extern void func_801470AC(s32 *a0);
+extern void guess_ClearHideRequest221(s32 *a0);
+extern void guess_ClearHideRequest220(s32 *a0);
+extern void guess_ClearHideRequest222(s32 *a0);
 extern void guess_SetState(s32 *a0, s16 a1);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 extern void func_80158880(s32 *param);
 
 void func_8015879C(s32 param_1) {
@@ -2582,11 +2582,11 @@ void func_8015879C(s32 param_1) {
     D_80184294 = 1;
     D_80184298 = 0;
     ((Unkstruct_8015879C_2 *)param_1)->unkA8 = 0;
-    ((void (*)(void))func_80147084)();
-    ((void (*)(s32))func_80147098)(param_1);
-    ((void (*)(s32))func_801470AC)(param_1);
+    ((void (*)(void))guess_ClearHideRequest221)();
+    ((void (*)(s32))guess_ClearHideRequest220)(param_1);
+    ((void (*)(s32))guess_ClearHideRequest222)(param_1);
     ((void (*)(s32, s32))guess_SetState)(param_1, 0x1a);
-    ((void (*)(s32, s32))func_80146C98)(param_1, 1);
+    ((void (*)(s32, s32))guess_SetStep)(param_1, 1);
     ((void (*)(s32))func_80158880)(param_1);
 }
 
@@ -2595,9 +2595,9 @@ void func_8015879C(s32 param_1) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH (STUB: 3 global stores + byte store + 5 calls in source order)
 
-extern void func_80147084(s32 *a0);
-extern void func_80147098(s32 *a0);
-extern void func_801470AC(s32 *a0);
+extern void guess_ClearHideRequest221(s32 *a0);
+extern void guess_ClearHideRequest220(s32 *a0);
+extern void guess_ClearHideRequest222(s32 *a0);
 extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80158880(s32 *param);
 
@@ -2610,9 +2610,9 @@ void func_80158814(void *arg0) {
     D_80184294 = 1;
     D_80184298 = 0;
     ((Unkstruct_80158814_2 *)arg0)->unkA8 = 0;
-    ((void (*)(void))func_80147084)();
-    ((void (*)(void *))func_80147098)(arg0);
-    ((void (*)(void *))func_801470AC)(arg0);
+    ((void (*)(void))guess_ClearHideRequest221)();
+    ((void (*)(void *))guess_ClearHideRequest220)(arg0);
+    ((void (*)(void *))guess_ClearHideRequest222)(arg0);
     ((void (*)(void *, s32))guess_SetState)(arg0, 0x1A);
     ((void (*)(void *))func_80158880)(arg0);
 }
@@ -2793,7 +2793,7 @@ extern s32 guess_GetTextWindowResult(s32);
 extern void guess_CloseTextWindow(s32);
 extern s32 func_80159464(void);
 extern void func_801594E8(s32, s32);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 extern s32 guess_OpenTextWindow(s32 a0);
 extern void guess_NextStep(void *a0);
 
@@ -2816,7 +2816,7 @@ void func_80158FA4(s32 param_1)
         sVar1 = ((s32 (*)(s32))func_80159464)(param_1);
         if (sVar1 != 0) {
             func_801594E8(param_1, sVar1);
-            ((void (*)(s32, s32))func_80146C98)(param_1, 0xc);
+            ((void (*)(s32, s32))guess_SetStep)(param_1, 0xc);
         } else {
             ((Unkstruct_80158FA4_3 *)param_1)->unk198 = ((s32 (*)(u8 *))guess_OpenTextWindow)(&(*(u8 *)&guess_g_StartPromptText));
             ((void (*)(s32))guess_NextStep)(param_1);

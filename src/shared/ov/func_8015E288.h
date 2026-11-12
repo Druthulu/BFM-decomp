@@ -10,7 +10,7 @@ extern void func_8015E588(void);
 extern void func_8015E4B0(s32 a0);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_NextStep(void *a0);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 void func_8015E288(s32 a0) {
     if (func_80161208() != 0) {
         return;
@@ -26,6 +26,6 @@ void func_8015E288(s32 a0) {
     }
     if (*(u16 *)(a0 + 0xB8) & 0x8000) {
         guess_SetAnimScript((s32 *)a0, (s32)D_800D5060);
-        func_80146C98((s32 *)a0, 3);
+        guess_SetStep((s32 *)a0, 3);
     }
 }

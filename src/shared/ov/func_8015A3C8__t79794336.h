@@ -81,9 +81,9 @@ s32 arg0;
         break;
     }
 
-    if (func_80149CD4(arg0) != 0) {
+    if (guess_IsR1Held(arg0) != 0) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
-        ((void (*)(s32))func_8015E880)(arg0);
+        ((void (*)(s32))guess_EnterState11)(arg0);
         return;
     }
     if (((s32 (*)(s32))guess_IsConfirmPressed)(arg0) != 0) {
@@ -142,7 +142,7 @@ s32 arg0;
                 if (t < lo1) {
                     guess_SetAnim(arg0, 8);
                 } else if (t < -0x70000) {
-                    ((void (*)(s32, s32, s32))func_801541D8)(arg0, 7, func_8015AB7C(arg0) & 0xFFFF);
+                    ((void (*)(s32, s32, s32))guess_SetAnimFromIndex)(arg0, 7, func_8015AB7C(arg0) & 0xFFFF);
                 } else {
                     guess_SetAnim(arg0, 6);
                 }
@@ -176,7 +176,7 @@ s32 arg0;
                 if (t < lo2) {
                     guess_SetAnim(arg0, 8);
                 } else if (t < -0x70000) {
-                    ((void (*)(s32, s32, s32))func_801541D8)(arg0, 7, func_8015AB7C(arg0) & 0xFFFF);
+                    ((void (*)(s32, s32, s32))guess_SetAnimFromIndex)(arg0, 7, func_8015AB7C(arg0) & 0xFFFF);
                 } else {
                     guess_SetAnim(arg0, 6);
                 }
@@ -191,7 +191,7 @@ s32 arg0;
     }
     if (((s32 (*)(s32))func_8014D738)(arg0) != 0) {
         D_80181160[*(u16 *)arg0]((void *)arg0);
-        ((void (*)(s32))func_8015C6E0)(arg0);
+        ((void (*)(s32))guess_EnterState9)(arg0);
         return;
     }
     if (((s32 (*)(s32))func_8014E934)(arg0) != 0) {

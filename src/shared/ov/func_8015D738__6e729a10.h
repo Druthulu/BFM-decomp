@@ -33,7 +33,7 @@ void func_8015D738(void *arg0) {
     }
     if ((((s32 (*)(void *))guess_GetPadPressed)(arg0) & 0x20) && p[0x49] == 0xA) {
         if (((s32 (*)(void *))func_80165624)(arg0) != 0) {
-            ((void (*)(void *))func_8015DA5C)(arg0);
+            ((void (*)(void *))guess_SetTexAnimAndReleaseGrab)(arg0);
             ((void (*)(void *))func_8015F948)(arg0);
             return;
         }

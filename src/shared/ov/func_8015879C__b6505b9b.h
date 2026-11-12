@@ -5,10 +5,10 @@ void func_8015879C(s32 param_1) {
     D_8018E85C = 1;
     D_8018E860 = 0;
     *(u8 *)(param_1 + 0xa8) = 0;
-    ((void (*)(void))func_80147084)();
-    ((void (*)(s32))func_80147098)(param_1);
-    ((void (*)(s32))func_801470AC)(param_1);
+    ((void (*)(void))guess_ClearHideRequest221)();
+    ((void (*)(s32))guess_ClearHideRequest220)(param_1);
+    ((void (*)(s32))guess_ClearHideRequest222)(param_1);
     ((void (*)(s32, s32))guess_SetState)(param_1, 0x1a);
-    ((void (*)(s32, s32))func_80146C98)(param_1, 1);
+    ((void (*)(s32, s32))guess_SetStep)(param_1, 1);
     ((void (*)(s32))func_80158880)(param_1);
 }

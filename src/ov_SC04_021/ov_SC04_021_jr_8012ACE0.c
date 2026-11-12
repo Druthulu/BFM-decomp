@@ -625,7 +625,7 @@ extern M2C_UNK D_8017F5C4;
 // @stuck: none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
 
 extern void func_8016AA50(int, int);
-extern s32 func_8016B428(int);
+extern s32 guess_RespawnSmallObjectType1E(int);
 extern void guess_StartPadVibration(void *);
 extern int D_8017F5CC;
 

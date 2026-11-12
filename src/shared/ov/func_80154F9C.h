@@ -5,20 +5,20 @@ extern s16 D_80078E96;
 extern s16 D_80078E9E;
 extern u16 D_80078EA6;
 extern u8 D_800D8D10[];
-extern s32 func_8016F1AC(void);
+extern s32 guess_GetPlayerControlScript(void);
 extern void func_801550FC(s32 a0);
 void func_80154F9C(s32 a0) {
     u8 *base = guess_g_PlayerRecord;
     if (*(s32 *)(a0 + 0xC8) & 0x1000000) {
         if ((D_80078E96 & 0x8000) || D_80078E9E < 0x10 || (s16)D_80078EA6 < 0x10) {
-            if (func_8016F1AC() == 0) {
+            if (guess_GetPlayerControlScript() == 0) {
                 return;
             }
         }
         *(s32 *)(a0 + 0xC8) = *(s32 *)(a0 + 0xC8) & 0xC0FFFFFF;
         func_801550FC(*(s32 *)(a0 + 0xC8));
     } else {
-        if ((D_80078E96 & 0x8000) && func_8016F1AC() == 0) {
+        if ((D_80078E96 & 0x8000) && guess_GetPlayerControlScript() == 0) {
             *(s32 *)(a0 + 0xC8) = *(s32 *)(a0 + 0xC8) | 0x1000000;
             func_801550FC((s32)D_800D8D10);
             return;
@@ -29,7 +29,7 @@ void func_80154F9C(s32 a0) {
         if (*(s32 *)(a0 + 0x44) & 0xC0) {
             return;
         }
-        if (func_8016F1AC() != 0) {
+        if (guess_GetPlayerControlScript() != 0) {
             return;
         }
         *(s32 *)(a0 + 0xC8) = *(s32 *)(a0 + 0xC8) | 0x1000000;

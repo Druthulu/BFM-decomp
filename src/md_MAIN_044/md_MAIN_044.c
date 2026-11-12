@@ -323,7 +323,7 @@ extern void func_800CD63C(s32 a0, s32 a1);
 extern s32 func_800CD894(void *a0);
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163328();
@@ -357,7 +357,7 @@ void func_800CD2EC(s32 *s1) {
                 func_80146DE8(s1, 0, 0xFFF40000, 0x20000);
                 guess_SetWaitTimer_2(s1, 0x10);
                 *(s32 *)(s2 + 4) |= 0x50000000;
-                func_80146C98(s1, 3);
+                guess_SetStep(s1, 3);
                 guess_PlaySoundUnlessSkipped(0x990);
                 return;
             }

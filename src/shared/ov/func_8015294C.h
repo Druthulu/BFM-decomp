@@ -3,7 +3,7 @@
 extern u16 guess_g_FrameCounter;
 extern void func_80149020(s32 *a0);
 extern void func_801470B4(s32 a0);
-extern void func_801470AC(s32 *a0);
+extern void guess_ClearHideRequest222(s32 *a0);
 extern void guess_SetVelocityFromMoveVector(s32 arg0);
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_AddVertSpeed(s32 a0, s32 a1);
@@ -17,7 +17,7 @@ void func_8015294C(s32 a0) {
     if (guess_g_FrameCounter & 1) {
         func_801470B4(s0);
     } else {
-        func_801470AC((s32 *)s0);
+        guess_ClearHideRequest222((s32 *)s0);
     }
     guess_SetVelocityFromMoveVector(s0);
     guess_ApplyVelocity((s32 *)s0);

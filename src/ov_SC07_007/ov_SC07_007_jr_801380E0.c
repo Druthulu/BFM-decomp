@@ -482,7 +482,7 @@ extern void func_801319E0(s32 arg0);
 extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
 extern void guess_StartPadVibration(void *a0);
 extern void func_8016AA50(int, int);
-extern s32 func_8016B428(int);
+extern s32 guess_RespawnSmallObjectType1E(int);
 extern int guess_HandleActorEventDefault(int a0, int a1);
 extern void func_80131E38(u8 *a0);
 extern void func_80131E7C(s32 a0);

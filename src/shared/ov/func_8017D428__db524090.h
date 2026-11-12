@@ -14,7 +14,7 @@ void func_8017D428(int param_1)
   } else {
     u16 val = *(u16 *)((char *)param_1 + 0x2C);
     guess_PlaySoundUnlessSkipped((s32)val);
-    func_80147084(s1);
+    guess_ClearHideRequest221(s1);
     func_801472B4((void *)s1);
     *(s32 *)((char *)param_1 + 0x1C) = 0;
     ptr = (u16 *)((char *)param_1 + 2);

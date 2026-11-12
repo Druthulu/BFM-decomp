@@ -44,9 +44,9 @@ s32 func_8015B950(s32 arg0)
         }
         break;
     }
-    if (func_80149CD4(arg0) != 0) {
+    if (guess_IsR1Held(arg0) != 0) {
         D_80181914[*(u16 *)arg0]((void *)arg0);
-        ((void (*)(s32))func_8015E880)(arg0);
+        ((void (*)(s32))guess_EnterState11)(arg0);
         return;
     }
     if (((s32 (*)(s32))func_80149744)(arg0) != 0) {
@@ -63,7 +63,7 @@ s32 func_8015B950(s32 arg0)
         if ((*(s32 *)(arg0 + 0x24) | *(s32 *)(arg0 + 0x2C)) != 0) {
             guess_SetAnim(arg0, 0xF);
         } else {
-            ((void (*)(s32, s32, s32))func_801541D8)(arg0, 0xD, 6);
+            ((void (*)(s32, s32, s32))guess_SetAnimFromIndex)(arg0, 0xD, 6);
         }
         *(s32 *)(arg0 + 0x238) = 1;
         return;
@@ -93,7 +93,7 @@ s32 func_8015B950(s32 arg0)
         return;
     }
     z = *(s32 *)(arg0 + 0x2C);
-    if (func_8016F1AC() != 0) {
+    if (guess_GetPlayerControlScript() != 0) {
         goto zero;
     }
     if (z <= lim) {

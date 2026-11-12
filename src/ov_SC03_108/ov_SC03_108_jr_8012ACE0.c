@@ -828,7 +828,7 @@ void func_8012E364(s32 arg0_)
 // @unstuck(P36): none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
 
 extern void func_8016AA50(int, int);
-extern s32 func_8016B428(int);
+extern s32 guess_RespawnSmallObjectType1E(int);
 extern void guess_StartPadVibration(void *);
 extern int D_80180FF4;
 
@@ -854,7 +854,7 @@ void func_8012E9C0(int param_1)
         }
         func_8016AA50(param_1, iVar1);
         if ((*(unsigned short *)(param_1 + 0x82) & 1) != 0) {
-            func_8016B428(param_1);
+            guess_RespawnSmallObjectType1E(param_1);
             guess_StartPadVibration(&D_80180FF4);
         }
     }
@@ -1709,7 +1709,7 @@ void func_80131B14() {
         }
         ((void (*)(void *))func_8016AA50)(p);
         if (CAST_SIGN(u16, p, 0x82) & 1) {
-            ((void (*)(void *))func_8016B428)(p);
+            ((void (*)(void *))guess_RespawnSmallObjectType1E)(p);
             ((void(*)(void *))guess_StartPadVibration)(&D_80181160);
         }
     }

@@ -1607,7 +1607,7 @@ extern void func_80151664(s32 a0v);
 
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
-extern void func_801470AC(s32 *a0);
+extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801472B4(void *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));

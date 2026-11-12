@@ -69,7 +69,7 @@ extern u8 D_801150F0[];
 extern void *memcpy(void *dst, const void *src, u32 n);
 extern void func_80146FC4(s32 a0);
 extern void func_80150A70(s32 a0);
-extern void func_80147098(s32 *a0);
+extern void guess_ClearHideRequest220(s32 *a0);
 extern void func_8014A638(s32 arg0);
 extern s32  func_80155458(s32 a0);
 extern u8 func_80029104(void);
@@ -129,7 +129,7 @@ extern s32 func_80146B9C(void *a0);
 extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
@@ -156,10 +156,10 @@ extern s32 func_80147054(void *a0);
 extern void func_80147060(u8 * a0);
 extern void func_8014706C(void *arg0);
 extern void guess_SetState(s32 *a0, s16 a1);
-extern void func_80147084(s32 *a0);
+extern void guess_ClearHideRequest221(s32 *a0);
 extern void func_8014708C(void *arg0);
 extern s32 func_801470A0(void *a0);
-extern void func_801470AC(s32 *a0);
+extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801470B4(s32 arg0);
 extern void func_801470C0(s32 a0);
 extern void func_80147118(s32 a0);
@@ -330,7 +330,7 @@ extern void func_80149788(void);
 extern void func_801653B8(s32 *a0);
 extern void func_80149864(void);
 extern s16 currentLocationId;
-extern s32 func_8016F1AC(void);
+extern s32 guess_GetPlayerControlScript(void);
 extern s32 func_80149884(void);
 extern void func_80160B00(s32 *arg0);
 extern void func_801498C0(void);
@@ -359,7 +359,7 @@ extern void func_801577C8(s32 arg0);
 extern void func_80149C94(void);
 extern void func_80157D20(void *param_1, s32 param_2);
 extern void func_80149CB4(void *a0, s32 a1);
-extern s32 func_80149CD4(s32 a0);
+extern s32 guess_IsR1Held(s32 a0);
 extern u8 func_8014B5B8(s32 *a0);
 extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
@@ -867,7 +867,7 @@ extern void func_80154134(u8 *a0);
 extern void func_80154190(u8 *a0, s32 a1);
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void func_80154218(u8 *a0, s32 a1, s32 a2);
-extern void func_801541D8(u8 *a0, s32 a1, s32 a2);
+extern void guess_SetAnimFromIndex(u8 *a0, s32 a1, s32 a2);
 extern s32 func_801549F8(s32 a0, s32 a1, s32 a2);
 extern void func_801542A4(s32 *a0, s32 a1);
 extern void func_801542A4(s32 *a0, s32 a1);
@@ -929,7 +929,7 @@ extern void func_8014ED28(s32 a0);
 extern int func_80155FF8(int arg, int a1);
 extern s32 D_800D4DF4;
 extern void func_80155C64(s32 a0);
-extern void func_8015E880(s32 *a0);
+extern void guess_EnterState11(s32 *a0);
 extern void func_80155D70(s32 param_1);
 extern void func_80155E30(void *a0);
 extern s32 func_80161208();
@@ -1181,12 +1181,12 @@ extern s32 func_801498E0(s32 *a0);
 extern s32 func_80149954(s32 a0);
 extern s32 guess_IsSquareOrTrianglePressed(s32 *a0);
 extern void func_800CCCC0(u8 *a0);
-extern s32 func_80149CD4(s32 a0);
-extern void func_8015E880(s32 *a0);
+extern s32 guess_IsR1Held(s32 a0);
+extern void guess_EnterState11(s32 *a0);
 extern s32 guess_IsDirectionHeld(u8 *a0);
 extern void func_8015A230(s32 *a0);
 extern void func_80154B4C(u8 *a0, s32 a1);
-extern s32 func_8016F1AC(void);
+extern s32 guess_GetPlayerControlScript(void);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void func_80154190(u8 *a0, s32 a1);
 extern void guess_SetAnim(s32 a0, s32 a1);
@@ -1267,9 +1267,9 @@ void func_80159C84(u8 *p) {
         break;
     }
 
-    if (func_80149CD4((s32)p) != 0) {
+    if (guess_IsR1Held((s32)p) != 0) {
         D_80180C94[((Unkstruct_80126B58 *)p)->unk0](p);
-        func_8015E880((s32 *)p);
+        guess_EnterState11((s32 *)p);
         return;
     }
     if (guess_IsDirectionHeld(p) != 0) {
@@ -1300,7 +1300,7 @@ after_b4c:
 
     if (((Unkstruct_80126B58 *)p)->unkB8 & 0x8000) {
         if ((((Unkstruct_80126B58 *)p)->unk44 & 0x200) == 0) {
-            if (func_8016F1AC() != 0) {
+            if (guess_GetPlayerControlScript() != 0) {
                 ((Unkstruct_80126B58 *)p)->unk234 = 0;
                 ((Unkstruct_80126B58 *)p)->unk238 = 0;
             }

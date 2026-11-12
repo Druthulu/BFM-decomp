@@ -61,7 +61,7 @@ void func_8015C32C(s32 arg0) {
     }
     if (((s32 (*)(s32))func_8014D738)(arg0) != 0) {
         D_80181914[*(u16 *)arg0]((void *)arg0);
-        ((void (*)(s32))func_8015C6E0)(arg0);
+        ((void (*)(s32))guess_EnterState9)(arg0);
         return;
     }
     iVar2 = ((s32 (*)(s32))func_8014CC28)(arg0);

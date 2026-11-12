@@ -1479,7 +1479,7 @@ extern u8 guess_g_CameraWsMatrix;
 // @unstuck(P36): none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
 
 extern void func_8016AA50(int, int);
-extern s32 func_8016B428(s32);
+extern s32 guess_RespawnSmallObjectType1E(s32);
 extern void guess_StartPadVibration(void *);
 
 void func_8012E9C0(int param_1)
@@ -1506,7 +1506,7 @@ void func_8012E9C0(int param_1)
         }
         func_8016AA50(param_1, iVar1);
         if ((*(unsigned short *)(param_1 + 0x82) & 1) != 0) {
-            ((void (*)(int))func_8016B428)(param_1);
+            ((void (*)(int))guess_RespawnSmallObjectType1E)(param_1);
             guess_StartPadVibration(&D_8017E6D4);
         }
     }

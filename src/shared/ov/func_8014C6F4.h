@@ -3,7 +3,7 @@
 void func_8014C6F4(u8 *a) {
     extern u8 guess_g_PlayerRecord[];
     extern s32 D_8011F9D0;
-    extern s32 func_8016F1AC(void);
+    extern s32 guess_GetPlayerControlScript(void);
     extern void func_80015978(s32 a0, s32 *a1);
     u8 *p = guess_g_PlayerRecord;
     u8 *e;
@@ -17,7 +17,7 @@ void func_8014C6F4(u8 *a) {
         a[0x1C3] = 0;
     }
     *(M8_8014C6F4 *)(a + 0x164) = *(M8_8014C6F4 *)(*(u8 **)(a + 0x20) + 0x10);
-    if (func_8016F1AC() != 0
+    if (guess_GetPlayerControlScript() != 0
         || (((*(u32 *)(a + 0x44) & 0x200) != 0) && a[0x1C3] == 0)) {
         *(s16 *)(a + 0x162) = 1;
         goto tail;

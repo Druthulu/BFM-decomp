@@ -1,6 +1,6 @@
 /* func_8014BDE8 — shared body (overlay slot 0x80128158, h_exact db10e052). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_8016F1AC(void);
+extern s32 guess_GetPlayerControlScript(void);
 extern s32 func_8017267C(s32 *a0);
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_80013294(void *a0, void *a1);
@@ -9,7 +9,7 @@ void func_8014BDE8(s32 a0) {
     s32 s0 = a0;
     struct B8014 sp10;
     s16 sp18[4];
-    if (func_8016F1AC() != 0) {
+    if (guess_GetPlayerControlScript() != 0) {
         return;
     }
     if (func_8017267C((s32 *)s0) != 0) {

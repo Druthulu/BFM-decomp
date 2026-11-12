@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u16 guess_GetPadHeld(s32 *a0);
 extern void func_801599A4(void *a0);
-extern void func_8015E880(s32 *a0);
+extern void guess_EnterState11(s32 *a0);
 extern void func_80159B3C(void *a0);
 extern void func_8014CC28(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
@@ -16,7 +16,7 @@ void func_80155D70(s32 param_1)
     if (*(u16 *)(param_1 + 0xB8) == 0x8000) {
         if ((((s32 (*)(void))guess_GetPadHeld)() & 0x80) != 0) {
             ((void (*)(s32))func_801599A4)(param_1);
-            ((void (*)(s32))func_8015E880)(param_1);
+            ((void (*)(s32))guess_EnterState11)(param_1);
         } else {
             ((void (*)(s32))func_801599A4)(param_1);
             ((void (*)(s32))func_80159B3C)(param_1);

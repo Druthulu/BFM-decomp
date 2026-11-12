@@ -3,7 +3,7 @@
 extern void func_8014BC44(s32 a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
-extern void func_801470AC(s32 *a0);
+extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801472B4(void *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_80153C18();
@@ -13,7 +13,7 @@ void func_801522CC(s32 a0) {
     *(u8 *)(a0 + 0xA8) = 0x20;
     guess_SetTexAnim(a0, 0x11);
     func_801553C0(a0);
-    func_801470AC((s32 *)a0);
+    guess_ClearHideRequest222((s32 *)a0);
     func_801472B4((void *)a0);
     v1 = *(s32 *)(a0 + 0x20);
     *(s16 *)(a0 + 0x3E) = 0;

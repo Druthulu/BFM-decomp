@@ -198,7 +198,7 @@ void func_801A026C(s32 arg0)
 }
 
 
-extern s32 func_8016F1AC(void);
+extern s32 guess_GetPlayerControlScript(void);
 extern s32 func_80178B18(s32 a0, s32 a1);
 
 extern s16 D_801A698C;
@@ -206,7 +206,7 @@ extern s16 D_801A698C;
 void func_801A04D4(s32 arg0) {
     s32 s0 = arg0;
 
-    if (func_8016F1AC() == 0) {
+    if (guess_GetPlayerControlScript() == 0) {
         func_80178B18((s32)s0, (s32)&D_801A698C);
         ((Unkstruct_801A04D4 *)s0)->unk2 = 2;
         ((Unkstruct_801A04D4 *)s0)->unk34 = 0;

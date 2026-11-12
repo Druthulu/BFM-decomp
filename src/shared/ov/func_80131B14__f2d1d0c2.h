@@ -29,7 +29,7 @@ void func_80131B14() {
         }
         ((void (*)(void *))func_8016AA50)(p);
         if (*(u16 *)(p + 0x82) & 1) {
-            ((void (*)(void *))func_8016B428)(p);
+            ((void (*)(void *))guess_RespawnSmallObjectType1E)(p);
             ((void(*)(void *))guess_StartPadVibration)(&D_8017F738);
         }
     }

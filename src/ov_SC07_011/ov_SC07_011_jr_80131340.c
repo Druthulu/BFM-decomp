@@ -822,7 +822,7 @@ extern void guess_StartPadVibration(void *a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void func_8016AA50(int, int);
-extern s32 func_8016B428(int);
+extern s32 guess_RespawnSmallObjectType1E(int);
 
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (89 ins). Reconcile: TU canonical decl is `void func_80131B14(void)`
@@ -862,7 +862,7 @@ void func_80131B14() {
         }
         ((void (*)(void *))func_8016AA50)(p);
         if (CAST_SIGN(u16, p, 0x82) & 1) {
-            ((void (*)(void *))func_8016B428)(p);
+            ((void (*)(void *))guess_RespawnSmallObjectType1E)(p);
             ((void(*)(void *))guess_StartPadVibration)(&D_8017EB40);
         }
     }

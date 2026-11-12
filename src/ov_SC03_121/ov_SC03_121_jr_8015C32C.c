@@ -69,7 +69,7 @@ extern u8 D_801150F0[];
 extern void *memcpy(void *dst, const void *src, u32 n);
 extern void func_80146FC4(s32 a0);
 extern void func_80150A70(s32 a0);
-extern void func_80147098(s32 *a0);
+extern void guess_ClearHideRequest220(s32 *a0);
 extern void func_8014A638(s32 arg0);
 extern s32  func_80155458(s32 a0);
 extern u8 func_80029104(void);
@@ -127,7 +127,7 @@ extern s32 func_80146B9C(void *a0);
 extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
 extern u16 D_8011DA28;
 extern s32 func_80146B9C(void * arg0);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 extern void guess_NextStep(void *a0);
 extern void func_80146CB4(void *a0);
 extern void func_80146CC8(s32 a0);
@@ -154,10 +154,10 @@ extern s32 func_80147054(void *a0);
 extern void func_80147060(u8 * a0);
 extern void func_8014706C(void *arg0);
 extern void guess_SetState(s32 *a0, s16 a1);
-extern void func_80147084(s32 *a0);
+extern void guess_ClearHideRequest221(s32 *a0);
 extern void func_8014708C(void *arg0);
 extern s32 func_801470A0(void *a0);
-extern void func_801470AC(s32 *a0);
+extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801470B4(s32 arg0);
 extern void func_801470C0(s32 a0);
 extern void func_80147118(s32 a0);
@@ -328,7 +328,7 @@ extern void func_80149788(void);
 extern void func_801653B8(s32 *a0);
 extern void func_80149864(void);
 extern s16 currentLocationId;
-extern s32 func_8016F1AC(void);
+extern s32 guess_GetPlayerControlScript(void);
 extern s32 func_80149884(void);
 extern void func_80160B00();  // K&R: ? of 1 args (P37 rung D t4_D25)
 extern void func_801498C0(void);
@@ -357,7 +357,7 @@ extern void func_801577C8(s32 arg0);
 extern void func_80149C94(void);
 extern void func_80157D20(void *param_1, s32 param_2);
 extern void func_80149CB4(void *a0, s32 a1);
-extern s32 func_80149CD4(s32 a0);
+extern s32 guess_IsR1Held(s32 a0);
 extern u8 func_8014B5B8(s32 *a0);
 extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
@@ -860,7 +860,7 @@ extern void func_80154134(u8 *a0);
 extern void func_80154190(u8 *a0, s32 a1);
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void func_80154218(u8 *a0, s32 a1, s32 a2);
-extern void func_801541D8(u8 *a0, s32 a1, s32 a2);
+extern void guess_SetAnimFromIndex(u8 *a0, s32 a1, s32 a2);
 extern s32 func_801549F8(s32 a0, s32 a1, s32 a2);
 extern void func_801542A4(s32 *a0, s32 a1);
 extern void func_801542A4(s32 *a0, s32 a1);
@@ -914,7 +914,7 @@ extern void func_8014ED28(s32 a0);
 extern int func_80155FF8(int arg, int a1);
 extern s32 D_800D4DF4;
 extern void func_80155C64(s32 a0);
-extern void func_8015E880(s32 *a0);
+extern void guess_EnterState11(s32 *a0);
 extern void func_80155D70(s32 param_1);
 extern void func_80155E30(void *a0);
 extern s32 func_80161208();
@@ -1232,7 +1232,7 @@ extern void guess_SetState(s32 *a0, s16 a1);
 extern s32 func_8015BE94(s32 *a0);
 extern void func_80159BE4(s32 a0);
 extern void func_8015C0C4(s32 a0);
-extern void func_8015C6E0(s32*);
+extern void guess_EnterState9(s32*);
 
 void func_8015C32C(s32 arg0) {
 
@@ -1295,7 +1295,7 @@ void func_8015C32C(s32 arg0) {
     }
     if (((s32 (*)(s32))func_8014D738)(arg0) != 0) {
         D_80184820[((Unkstruct_80126B58 *)arg0)->unk0]((void *)arg0);
-        ((void (*)(s32))func_8015C6E0)(arg0);
+        ((void (*)(s32))guess_EnterState9)(arg0);
         return;
     }
     iVar2 = ((s32 (*)(s32))func_8014CC28)(arg0);
@@ -1461,7 +1461,7 @@ extern void guess_ApplyVelocity(s32 *a0);
 extern void func_8014D738(void);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 extern void func_80161240(void *a0);
 extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_80159B70(void *a0);
@@ -1488,7 +1488,7 @@ void func_8015CA28(u16 *param_1) {
         if (((int (*)(u16 *))func_8014D738)(param_1) != 0) {
             ((void (*)(u16 *, void *))guess_SetMoveVector)(param_1, &D_801847C4);
             ((void (*)(u16 *, int))guess_SetWaitTimer_2)(param_1, 0x14);
-            ((void (*)(u16 *, int))func_80146C98)(param_1, 2);
+            ((void (*)(u16 *, int))guess_SetStep)(param_1, 2);
         }
         if (CAST_ALIAS(int, param_1, 0xb8) != 0)
             goto do161240;
@@ -1915,7 +1915,7 @@ extern s32 func_80161208();
 extern void guess_SetTexAnim(s32, s32);
 extern void func_8015DAC4(s32*);
 extern void func_8015DE24(s32*);
-extern void func_8015DA5C(s32);
+extern void guess_SetTexAnimAndReleaseGrab(s32);
 extern void func_8015F948(s32*);
 extern void func_800CAF14(void *);
 extern void guess_SetAnim(s32, s32);
@@ -1965,7 +1965,7 @@ void func_8015D738(void *arg0) {
     }
     if ((((s32 (*)(void *))guess_GetPadPressed)(arg0) & 0x20) && p[0x49] == 0xA) {
         if (((s32 (*)(void *))func_80165624)(arg0) != 0) {
-            ((void (*)(void *))func_8015DA5C)(arg0);
+            ((void (*)(void *))guess_SetTexAnimAndReleaseGrab)(arg0);
             ((void (*)(void *))func_8015F948)(arg0);
             return;
         }

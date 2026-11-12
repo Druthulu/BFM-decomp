@@ -11,7 +11,7 @@ extern void func_801458E8(void);
 extern s32 guess_OpenTextWindow(s32 a0);
 extern void func_8002992C(s32);
 extern void func_80145A2C(void);
-extern void func_80146C98(s32 *a0, s16 a1);
+extern void guess_SetStep(s32 *a0, s16 a1);
 extern void func_800CF804(void);
 extern void func_800CF818(void);
 extern u8 D_80078E50;
@@ -53,7 +53,7 @@ void func_80159120(s32 a0) {
         goto L270;
     }
     *(s32 *)(a0 + 0x198) = guess_OpenTextWindow((s32)D_80110D0C);
-    func_80146C98((s32 *)a0, 0xB);
+    guess_SetStep((s32 *)a0, 0xB);
     return;
 L224:
     if (func_80029A94(0) != 0) {
@@ -63,14 +63,14 @@ L224:
         goto L270;
     }
     *(s32 *)(a0 + 0x198) = guess_OpenTextWindow((s32)D_80110D0C);
-    func_80146C98((s32 *)a0, 0xB);
+    guess_SetStep((s32 *)a0, 0xB);
     return;
 L270:
-    func_80146C98((s32 *)a0, 0xC);
+    guess_SetStep((s32 *)a0, 0xC);
     func_800CF804();
     func_800CF818();
     return;
 L290:
     *(s32 *)(a0 + 0x198) = guess_OpenTextWindow((s32)guess_g_StartPromptText);
-    func_80146C98((s32 *)a0, 0x9);
+    guess_SetStep((s32 *)a0, 0x9);
 }

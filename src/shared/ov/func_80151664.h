@@ -7,7 +7,7 @@ void func_80151664(s32 a0v) {
     s0 = a0v;
     guess_SetTexAnim(s0, 0x11);
     func_801553C0(s0);
-    func_801470AC((s32 *)s0);
+    guess_ClearHideRequest222((s32 *)s0);
     func_801472B4((void *)s0);
     v1 = *(s32 *)(s0 + 0x20);
     *(s16 *)(s0 + 0x3E) = 0;
