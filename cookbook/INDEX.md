@@ -1037,3 +1037,5 @@ C0584 | Outgoing stack arguments from asm: a $sp+16 store counts only if never r
 C0585 | Cross-image calls: a module's splat stack omits its overlay; resolve outside-stack jal targets by function start | asm,call-graph,splat,md,overlay,sig-evidence | 2026-11-12 | 3.44/T3 | P3.44 T3.c2
 C0586 | Join C files to binaries through build/ .d files and the ELF symtab | declarations,census,join,symbols | 2026-11-12 | 3.44/T4 | 3.44 T4.c1 --compare
 C0587 | A body whose exits only pass entry $v0 through has no return to contradict void | return-type,census,void,delay | 2026-11-12 | 3.44/T4 | 3.44 T4 RET-VOID-READ profile
+C0588 | Asm-label prototypes declare the label: parse ') __asm__("SYM");' tails, skip object labels | declarations,asm-label,census,parser,return-type | 2026-11-12 | 3.44/T5 | 3.44 T5.c1
+C0589 | Scratch-compile a decl batch vs a HEAD baseline: make -n -B commands, exit-checked shards | bytes,scratch,compile,declarations,baseline,gate | 2026-11-12 | 3.44/T5 | 3.44 T5.c2
