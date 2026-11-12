@@ -1035,3 +1035,5 @@ C0582 | A per-file walk cache must not decide the merge order: rebuild results i
 C0583 | lwl/lwr in an asm data-flow: rt is a full write, not a read (false $v1 return reads) | asm,dataflow,rabbitizer,sig-evidence,census | 2026-11-12 | 3.44/T3 | P3.44 T3.c1
 C0584 | Outgoing stack arguments from asm: a $sp+16 store counts only if never reloaded, below address-taken locals, contiguous | asm,arity,stack-args,sig-evidence,census | 2026-11-12 | 3.44/T3 | P3.44 T3.c1
 C0585 | Cross-image calls: a module's splat stack omits its overlay; resolve outside-stack jal targets by function start | asm,call-graph,splat,md,overlay,sig-evidence | 2026-11-12 | 3.44/T3 | P3.44 T3.c2
+C0586 | Join C files to binaries through build/ .d files and the ELF symtab | declarations,census,join,symbols | 2026-11-12 | 3.44/T4 | 3.44 T4.c1 --compare
+C0587 | A body whose exits only pass entry $v0 through has no return to contradict void | return-type,census,void,delay | 2026-11-12 | 3.44/T4 | 3.44 T4 RET-VOID-READ profile
