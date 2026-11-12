@@ -1027,3 +1027,5 @@ C0574 | resident data used by main: name it in symbols.us.ram.txt (rename_sym bi
 C0575 | git grep with many -e patterns stalls; join into one -e per chunk (rename_scan hang) | grep,performance,rename_scan,git,hang | 2026-11-11 | 3.43/T9 | T9.c4
 C0576 | md-module renames drop sig instructions unless sig-modules seeds from symbol files | rename,sig,md,makefile,tools-health,timeline | 2026-11-12 | 3.43/T9 | T9.c14
 C0577 | Decode resident game text from splat .word data for string naming evidence | naming,evidence,strings,splat,resident,guess | 2026-11-12 | 3.43/T10 | T10.c1
+C0578 | Keep a lever's wall tag in its !FAKE marker, gated against the residue row | levers,walls,residue,comments,lever-census | 2026-11-12 | 3.43/T12 | logs/T12.c1.md
+C0579 | Append a trailing comment to many C declaration lines, proven comment-only and census-neutral | comments,codemod,census,names-ledger,guess | 2026-11-12 | 3.43/T12 | logs/T12.c2.md

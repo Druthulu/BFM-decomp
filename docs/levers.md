@@ -651,3 +651,14 @@ from 1,853 to 1,850 (pins 974 to 971, asm 879 unchanged; `lever_census` at `2822
 re-keyed no other lever row, and the large lever-bearing bodies were already same-address shares since Phase 35. Read a
 fall in this count that lands with a share batch as de-duplication. It is not a delever crack, and the milestone row
 for it should say so.
+
+**Where the walls are shown (Phase 3.43 T12).** Each lever's wall is now written beside the code as well as in the residue
+ledger. The `// !FAKE:` marker of every site excused by a `config/lever_residue.tsv` row ends with that row's ` wall:<tag>`,
+after the instrument text (which attribution still reads), for example
+`register s32 a0 __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink`.
+The wall's meaning is that tag's row in `config/lever_walls.tsv`. A marker for an asm `#define` sits on the line above it
+(ENGINE_SHB: `src/shared/engine_prelude.h:8`), because a comment on the `#define` line would join the macro body.
+`lever_census.py --check --strict --residue` (in `make tools-health`) keeps the comments and the ledger in step. Per marker
+line, the tags must equal those of the residue rows whose sites use it. The gate fails on a missing marker, a marker with
+no wall, a wrong wall, or a stale wall on a site no row excuses, and it prints the expected tag. When a row is re-tagged
+or removed, edit the marker in the same change. At landing: 1,850 sites on 1,846 marker lines, 0 failures (C0578).

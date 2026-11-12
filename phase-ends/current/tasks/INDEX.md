@@ -11,3 +11,4 @@ T8 | done | name the worklist's data units | - | tasks/T8.md | logs/T8.md | -
 T9 | done | name the worklist's functions, rank43 1 to 177 | - | tasks/T9.md | logs/T9.md | -
 T10 | done | name the worklist's functions, rank43 178 to 321 | - | tasks/T10.md | logs/T10.md | -
 T11 | done | name the worklist's functions, rank43 322 to 500 | - | tasks/T11.md | logs/T11.md | -
+T12 | done | ledger-to-comment pass: each lever's wall and each guess's ledger pointer beside the code | - | tasks/T12.md | logs/T12.md | R3.43-001
