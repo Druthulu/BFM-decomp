@@ -238,10 +238,10 @@ def def_head_name(inst, text):
 _TU_BINDS = {}
 
 
-def tu_binds(tu):  # T6.c3: a TU's asm-label bindings {ident: func_<addr> lower} (share_census.ALIAS_DECL), read once per run (pre-edit text)
+def tu_binds(tu):  # T6.c3: a TU's asm-label bindings {ident: func_<addr> lower} (share_census.alias_decls; renamed labels mapped back, T9.c12), read once per run (pre-edit text)
     if tu not in _TU_BINDS:
         p = REPO / tu
-        _TU_BINDS[tu] = {a: s.lower() for a, s in sc.ALIAS_DECL.findall(p.read_text(errors="surrogateescape"))} if p.exists() else {}
+        _TU_BINDS[tu] = {a: s.lower() for a, s in sc.alias_decls(p.read_text(errors="surrogateescape"))} if p.exists() else {}
     return _TU_BINDS[tu]
 
 

@@ -138,7 +138,27 @@ MACRO_PARAM_SITE = re.compile(r"^[ \t]*(SETTER|RETCONST|CLEAR_TBL40)\(\s*([A-Za-
 INCLUDE_LINE = re.compile(r'^[ \t]*#[ \t]*include[ \t]+"([^"]+)"', re.M)
 STUB = re.compile(r"INCLUDE_ASM\([^)]*,\s*([A-Za-z_]\w*)\s*\)")
 # the parameter list may not contain parentheses (a function-pointer parameter would surface as an unaccounted instance, loudly)
-ALIAS_DECL = re.compile(r"\b([A-Za-z_]\w*)\s*\([^;{}()]*\)\s*(?:__asm__|asm)\s*\(\s*\"(func_[0-9A-Fa-f]{8})\"\s*\)")
+# the label may be any identifier: after a rename `__asm__("func_80146A6C")` reads `__asm__("guess_SpawnSmallObject")` (3.43 T9.c12);
+# alias_decls() maps it back to its placeholder and drops labels that are no renamed func_ (memcpy, GsSortLine, data)
+ALIAS_DECL = re.compile(r"\b([A-Za-z_]\w*)\s*\([^;{}()]*\)\s*(?:__asm__|asm)\s*\(\s*\"([A-Za-z_]\w*)\"\s*\)")
+_RENAMED = None
+
+
+def alias_decls(text):
+    """[(alias ident, func_<8hex> placeholder)] of ALIAS_DECL in text; a renamed label resolves through config/names.tsv's
+    rename->placeholder map (lever_census.RENAMED, C0572), so a rename is census-neutral."""
+    global _RENAMED
+    out = []
+    for a, s in ALIAS_DECL.findall(text):
+        if not FUNC_RE.match(s):
+            if _RENAMED is None:
+                import lever_census                                         # lazy: lever_census imports this module
+                _RENAMED = lever_census.RENAMED
+            s = _RENAMED.get(s, "")
+            if not FUNC_RE.match(s):
+                continue
+        out.append((a, s))
+    return out
 SHARED_FN_DEF = re.compile(r"^[ \t]*#[ \t]*define[ \t]+SHARED_FN[ \t]+([A-Za-z_]\w*)", re.M)
 SHARED_FN_UNDEF = re.compile(r"^[ \t]*#[ \t]*undef[ \t]+SHARED_FN\b", re.M)
 PIN_RE = re.compile(r'register [^;]*__asm__\("\$?[a-z0-9]+"\)')
@@ -209,7 +229,7 @@ def scan_text(text, rel, shared_defs=None):
     masked = mask_text(text)
     recs = []
     line_of = lambda idx: masked.count("\n", 0, idx) + 1
-    aliases = {a: s for a, s in ALIAS_DECL.findall(masked)}             # alias ident -> real symbol
+    aliases = {a: s for a, s in alias_decls(masked)}                    # alias ident -> real symbol (placeholder)
     for m in MACRO_SITE.finditer(masked):
         recs.append(dict(form="macro", name=m.group(1), line=line_of(m.start())))
     for m in MACRO_PARAM_SITE.finditer(masked):

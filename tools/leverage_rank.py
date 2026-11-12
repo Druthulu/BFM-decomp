@@ -465,7 +465,7 @@ def scan_includes(rel):
     if "include" not in text:
         return rel, []
     masked = sc.mask_text(text)
-    aliases = dict(sc.ALIAS_DECL.findall(masked))
+    aliases = dict(sc.alias_decls(masked))
     ev = [(m.start(), 0, m.group(1)) for m in sc.SHARED_FN_DEF.finditer(masked)]
     ev += [(m.start(), 1, "") for m in sc.SHARED_FN_UNDEF.finditer(masked)]
     ev += [(m.start(), 2, m.group(1)) for m in sc.INCLUDE_LINE.finditer(masked)]
