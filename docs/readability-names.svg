@@ -1,52 +1,60 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="630" viewBox="0 0 1000 630" font-family="sans-serif">
 <rect width="1000" height="630" fill="white"/>
 <text x="500" y="20" text-anchor="middle" font-size="14" font-weight="bold">BFM-decomp — names in the matched C (from docs/readability-progress.tsv)</text>
-<text x="70" y="46" font-size="13" font-weight="bold">Function units named</text><text x="70" y="62" font-size="11" fill="#555">91,460 of 92,486 function units still placeholders (at 8bac8eee3)</text>
+<text x="70" y="46" font-size="13" font-weight="bold">Function units named</text><text x="70" y="62" font-size="11" fill="#555">91,460 of 92,486 function units still placeholders (at 6a5dfa9a2)</text>
 <line x1="70" y1="270.0" x2="980" y2="270.0" stroke="#ddd"/><text x="64" y="274.0" text-anchor="end" font-size="11" fill="#555">0</text>
 <line x1="70" y1="222.5" x2="980" y2="222.5" stroke="#ddd"/><text x="64" y="226.5" text-anchor="end" font-size="11" fill="#555">185</text>
 <line x1="70" y1="175.0" x2="980" y2="175.0" stroke="#ddd"/><text x="64" y="179.0" text-anchor="end" font-size="11" fill="#555">370</text>
 <line x1="70" y1="127.5" x2="980" y2="127.5" stroke="#ddd"/><text x="64" y="131.5" text-anchor="end" font-size="11" fill="#555">556</text>
 <line x1="70" y1="80.0" x2="980" y2="80.0" stroke="#ddd"/><text x="64" y="84.0" text-anchor="end" font-size="11" fill="#555">741</text>
 <line x1="70.0" y1="270" x2="70.0" y2="275" stroke="#888"/><text x="70.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-10 P3.42 T10</text>
-<line x1="525.0" y1="270" x2="525.0" y2="275" stroke="#888"/><text x="525.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-12 P3.43 T15</text>
-<line x1="980.0" y1="270" x2="980.0" y2="275" stroke="#888"/><text x="980.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T10</text>
-<polyline fill="none" stroke="#2ca02c" stroke-width="2" points="70.0,270.0 525.0,138.5 980.0,138.5"/>
+<line x1="373.3" y1="270" x2="373.3" y2="275" stroke="#888"/><text x="373.3" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-12 P3.43 T15</text>
+<line x1="676.7" y1="270" x2="676.7" y2="275" stroke="#888"/><text x="676.7" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T10</text>
+<line x1="980.0" y1="270" x2="980.0" y2="275" stroke="#888"/><text x="980.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T13</text>
+<polyline fill="none" stroke="#2ca02c" stroke-width="2" points="70.0,270.0 373.3,138.5 676.7,138.5 980.0,138.5"/>
 <circle cx="70.0" cy="270.0" r="3" fill="#2ca02c"/>
-<circle cx="525.0" cy="138.5" r="3" fill="#2ca02c"/>
+<circle cx="373.3" cy="138.5" r="3" fill="#2ca02c"/>
+<circle cx="676.7" cy="138.5" r="3" fill="#2ca02c"/>
 <circle cx="980.0" cy="138.5" r="3" fill="#2ca02c"/>
 <text x="730" y="46" font-size="12" fill="#2ca02c">cited (513)</text>
-<polyline fill="none" stroke="#ff7f0e" stroke-width="2" points="70.0,270.0 525.0,196.9 980.0,196.9"/>
+<polyline fill="none" stroke="#ff7f0e" stroke-width="2" points="70.0,270.0 373.3,196.9 676.7,196.9 980.0,196.9"/>
 <circle cx="70.0" cy="270.0" r="3" fill="#ff7f0e"/>
-<circle cx="525.0" cy="196.9" r="3" fill="#ff7f0e"/>
+<circle cx="373.3" cy="196.9" r="3" fill="#ff7f0e"/>
+<circle cx="676.7" cy="196.9" r="3" fill="#ff7f0e"/>
 <circle cx="980.0" cy="196.9" r="3" fill="#ff7f0e"/>
 <text x="730" y="60" font-size="12" fill="#ff7f0e">guess_ (285)</text>
-<polyline fill="none" stroke="#1f77b4" stroke-width="2" points="70.0,80.0 525.0,211.5 980.0,211.5"/>
+<polyline fill="none" stroke="#1f77b4" stroke-width="2" points="70.0,80.0 373.3,211.5 676.7,211.5 980.0,211.5"/>
 <circle cx="70.0" cy="80.0" r="3" fill="#1f77b4"/>
-<circle cx="525.0" cy="211.5" r="3" fill="#1f77b4"/>
+<circle cx="373.3" cy="211.5" r="3" fill="#1f77b4"/>
+<circle cx="676.7" cy="211.5" r="3" fill="#1f77b4"/>
 <circle cx="980.0" cy="211.5" r="3" fill="#1f77b4"/>
 <text x="730" y="74" font-size="12" fill="#1f77b4">other (outside the ledger) (228)</text>
-<text x="70" y="346" font-size="13" font-weight="bold">Data units named</text><text x="70" y="362" font-size="11" fill="#555">98,095 of 98,448 data units still placeholders (at 8bac8eee3)</text>
+<text x="70" y="346" font-size="13" font-weight="bold">Data units named</text><text x="70" y="362" font-size="11" fill="#555">98,095 of 98,448 data units still placeholders (at 6a5dfa9a2)</text>
 <line x1="70" y1="570.0" x2="980" y2="570.0" stroke="#ddd"/><text x="64" y="574.0" text-anchor="end" font-size="11" fill="#555">0</text>
 <line x1="70" y1="522.5" x2="980" y2="522.5" stroke="#ddd"/><text x="64" y="526.5" text-anchor="end" font-size="11" fill="#555">61</text>
 <line x1="70" y1="475.0" x2="980" y2="475.0" stroke="#ddd"/><text x="64" y="479.0" text-anchor="end" font-size="11" fill="#555">122</text>
 <line x1="70" y1="427.5" x2="980" y2="427.5" stroke="#ddd"/><text x="64" y="431.5" text-anchor="end" font-size="11" fill="#555">182</text>
 <line x1="70" y1="380.0" x2="980" y2="380.0" stroke="#ddd"/><text x="64" y="384.0" text-anchor="end" font-size="11" fill="#555">243</text>
 <line x1="70.0" y1="570" x2="70.0" y2="575" stroke="#888"/><text x="70.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-10 P3.42 T10</text>
-<line x1="525.0" y1="570" x2="525.0" y2="575" stroke="#888"/><text x="525.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-12 P3.43 T15</text>
-<line x1="980.0" y1="570" x2="980.0" y2="575" stroke="#888"/><text x="980.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T10</text>
-<polyline fill="none" stroke="#2ca02c" stroke-width="2" points="70.0,570.0 525.0,539.5 980.0,539.5"/>
+<line x1="373.3" y1="570" x2="373.3" y2="575" stroke="#888"/><text x="373.3" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-12 P3.43 T15</text>
+<line x1="676.7" y1="570" x2="676.7" y2="575" stroke="#888"/><text x="676.7" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T10</text>
+<line x1="980.0" y1="570" x2="980.0" y2="575" stroke="#888"/><text x="980.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T13</text>
+<polyline fill="none" stroke="#2ca02c" stroke-width="2" points="70.0,570.0 373.3,539.5 676.7,539.5 980.0,539.5"/>
 <circle cx="70.0" cy="570.0" r="3" fill="#2ca02c"/>
-<circle cx="525.0" cy="539.5" r="3" fill="#2ca02c"/>
+<circle cx="373.3" cy="539.5" r="3" fill="#2ca02c"/>
+<circle cx="676.7" cy="539.5" r="3" fill="#2ca02c"/>
 <circle cx="980.0" cy="539.5" r="3" fill="#2ca02c"/>
 <text x="730" y="346" font-size="12" fill="#2ca02c">cited (39)</text>
-<polyline fill="none" stroke="#ff7f0e" stroke-width="2" points="70.0,570.0 525.0,485.6 980.0,485.6"/>
+<polyline fill="none" stroke="#ff7f0e" stroke-width="2" points="70.0,570.0 373.3,485.6 676.7,485.6 980.0,485.6"/>
 <circle cx="70.0" cy="570.0" r="3" fill="#ff7f0e"/>
-<circle cx="525.0" cy="485.6" r="3" fill="#ff7f0e"/>
+<circle cx="373.3" cy="485.6" r="3" fill="#ff7f0e"/>
+<circle cx="676.7" cy="485.6" r="3" fill="#ff7f0e"/>
 <circle cx="980.0" cy="485.6" r="3" fill="#ff7f0e"/>
 <text x="730" y="360" font-size="12" fill="#ff7f0e">guess_ (108)</text>
-<polyline fill="none" stroke="#1f77b4" stroke-width="2" points="70.0,380.0 525.0,408.9 980.0,408.9"/>
+<polyline fill="none" stroke="#1f77b4" stroke-width="2" points="70.0,380.0 373.3,408.9 676.7,408.9 980.0,408.9"/>
 <circle cx="70.0" cy="380.0" r="3" fill="#1f77b4"/>
-<circle cx="525.0" cy="408.9" r="3" fill="#1f77b4"/>
+<circle cx="373.3" cy="408.9" r="3" fill="#1f77b4"/>
+<circle cx="676.7" cy="408.9" r="3" fill="#1f77b4"/>
 <circle cx="980.0" cy="408.9" r="3" fill="#1f77b4"/>
 <text x="730" y="374" font-size="12" fill="#1f77b4">other (outside the ledger) (206)</text>
 </svg>
