@@ -176,7 +176,7 @@ void func_800CB1F8(void *a0) {
     extern void func_8014C1A0(s32 arg0, s32 arg1);
     extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
     extern u16 guess_RollActorEventValue(u16 a0);
-    extern void guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
+    extern s32 guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
 
     s32 iVar1;
     u16 uVar2;

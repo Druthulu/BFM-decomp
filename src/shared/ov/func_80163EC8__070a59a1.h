@@ -7,7 +7,7 @@ void func_80163EC8(s32 param_1)
     extern u8 func_801656D0(s32 a0, s32 a1);
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
-    extern void guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
+    extern s32 guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
     Blk8 in;
     u16 out[4];
     s16 buf[4];

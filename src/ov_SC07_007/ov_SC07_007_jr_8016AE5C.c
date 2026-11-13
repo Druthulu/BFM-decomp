@@ -1304,7 +1304,7 @@ extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 func_80149FB0(s32 a0);
 extern u16 guess_RollActorEventValue(u16 a0);
-extern void guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
+extern s32 guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
 extern void func_8014A1B0(s32 a0, s32 a1);
 extern void func_8015D4B4(s16 *a0);
 extern void func_8014A218(void);
