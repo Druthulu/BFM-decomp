@@ -306,7 +306,12 @@ $(VENV_PY) tools/sig_evidence.py --check -j 16  # --compare + the three ledgers;
 
 It needs a built tree (the `.d` files and linked ELFs of every binary, as after R22). Green = check.txt shows 0 unledgered
 (every rule), 0 failed cites, 0 unused rows in config/lying_exceptions.tsv, and 0 unbacked / unused / wrong-def_file /
-failed-cite counts for config/ret_view_casts.tsv and config/kr_view_casts.tsv. Wall time: see "Gate cost" below.
+failed-cite counts for config/ret_view_casts.tsv and config/kr_view_casts.tsv.
+
+Gate cost (3.44 T9, measured inside tools-health, -j 16, each step under `/usr/bin/time`): selftest 0.54 s, census
+17.95 s, `--check` 67.33 s: about 86 s of a 1,291 s tools-health. Proven to bite (scratch worktree, cookbook C0601): a
+declaration retyped against its definition gives rc 1 (unledgered 1, DECL-RET); one altered ledger cite gives rc 1
+(failed cites 1); each revert gives rc 0.
 
 Ledgers at a glance (all hand-edited config, tab-separated, `#` header comment, one header line, `cites` last):
 - `config/lying_exceptions.tsv` `callee def_file kind cause task cites`: a disagreement the C keeps (kind = rule id;

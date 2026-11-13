@@ -1050,3 +1050,4 @@ C0597 | RET-VOID-READ: widen a read void callee with its declarations, tail chai
 C0598 | Arity fixes: widen def vs narrow decls, pins to params, struct-return hidden word, residue bclass keys | arity,declarations,kr-view,residue,bytes | 2026-11-13 | 3.44/T8 | 3.44 T8.c2-c3
 C0599 | Narrow over-count declarations to the def: () defs write (void), one kr row per name | arity,declarations,kr-view,bytes | 2026-11-13 | 3.44/T8 | 3.44 T8.c4
 C0600 | PsyQ library prototypes from the 4.0 SDK headers; new SDK typedef traps | psyq,declarations,library,typedef,bytes | 2026-11-13 | 3.44/T8 | 3.44 T8.c5
+C0601 | Prove a C-vs-bytes gate bites in a scratch worktree with no rebuild | worktree,gate,sig_evidence,fault-injection,check | 2026-11-13 | 3.44/T9 | P3.44 T9.c1
