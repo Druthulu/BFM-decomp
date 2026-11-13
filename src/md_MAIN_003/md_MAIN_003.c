@@ -207,7 +207,7 @@ void func_800CF300(void) {
 
 
 extern void func_800146B0(s32);
-extern void func_800118AC();
+extern void func_800118AC(void);
 extern s32 D_800B9A18;
 
 void func_800CF370(void) {

@@ -395,7 +395,7 @@ M:
 extern s32 D_801F24AC[];
 extern s32 D_801F24A8[];
 extern s32 D_801F2624;
-extern s32 func_801EADC4();
+extern s32 func_801EADC4(void);
 
 s32 func_801EAF00(void *a0) {
     s32 n;

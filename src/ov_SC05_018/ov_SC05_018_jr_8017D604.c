@@ -47,7 +47,7 @@ extern void func_80145BF8(void);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
-extern s32 func_80145CEC();
+extern s32 func_80145CEC(void);
 extern s32 guess_TestGameFlag(s32 arg);
 extern void guess_MoveImageList(s32 a0);
 extern unsigned char D_801882F4[];
@@ -60,7 +60,7 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_80146074(void);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 extern void func_8014607C(void);
 extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 extern u8 D_80078EC1;
@@ -248,7 +248,7 @@ extern u16 func_80014D68(u32 a0);
 extern s32 func_80014D94(s32 a0);
 extern u8 func_80014CF8(u32 a0, u32 a1);
 extern void func_800120DC(u16 *arg0, u16 *arg1);
-extern s32 func_800CF8B4();
+extern s32 func_800CF8B4(void);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern u8 func_8014880C(s32 *a0);
@@ -754,7 +754,7 @@ extern void func_80151ECC(struct S80151ECC *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
-extern void func_80153C18();
+extern void func_80153C18(void);
 extern void (*D_80188678[])(void);
 extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
@@ -1877,7 +1877,7 @@ extern void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3);
 extern s32 D_80115218;
 extern void func_8016E8F0(void);
 extern void func_8016E918(short param_1, short param_2);
-extern s32 func_8016E95C();
+extern s32 func_8016E95C(void);
 extern u16 D_80189CF4[];
 extern void func_8016EC0C(s32 a0, s32 a1);
 extern void func_8016EAC0(Wave *param_1);
@@ -1920,7 +1920,7 @@ extern void func_8016EE94(s32 a0, s32 a1);
 extern s32 func_8016EFC8(s32 a0, s32 a1);
 extern s32 func_8016EFA8(s32 a0);
 extern void func_8016F094(s32 *a0);
-extern s32 func_8016F0AC();
+extern s32 func_8016F0AC(void);
 extern s32 D_80189D10;
 extern void func_8016F250(void);
 extern void func_8016F288(void);
@@ -4389,7 +4389,7 @@ void func_801805E0(void)
 void func_80180644(s32 arg0)
 {
     extern void func_8017FB8C(void);
-    extern void guess_UpdateCamera();
+    extern void guess_UpdateCamera(void);
     extern void guess_HideObjectModel(u8 *arg0);
     extern s32 D_801E6748;
 
@@ -4646,7 +4646,7 @@ void func_80180D04(void *a0) {
 
 
 extern void guess_ZeroMemory(void *a0, s32 a1);
-extern void func_80181204();
+extern void func_80181204(void);
 
 extern s16 D_801E650C;
 extern s16 D_801E6514;
@@ -4663,7 +4663,7 @@ void func_80180D40(void *a0)
         *(s16 *)((s32)&D_801E650C + (i << 4)) = 1;
         *(s16 *)((s32)&D_801E6514 + (i << 4)) = i;
     }
-    func_80181204(i);
+    KR_AS(void, func_80181204)(i);
     D_801E664C = 0;
 }
 
@@ -5358,8 +5358,8 @@ void func_80181BF4(void *arg0)
 
 void func_80181CC4(void *arg0) {
     extern void func_80178CBC(s32, s32);
-    extern s32 func_80178970();
-    extern void func_80178D18();
+    extern s32 func_80178970(void);
+    extern void func_80178D18(void);
     extern void guess_SetObjectPosAndYaw(s32, s32);
     extern void guess_ShowObjectModel(s32);
     extern void guess_StartActorSequence();  // K&R: 0 of 2 args (P37 rung D t4_D22)
@@ -5408,7 +5408,7 @@ void func_80181DCC(void *arg0)
     extern int func_80178970(void);
     extern void func_80178D18(void);
     extern void func_8017FB8C(void);
-    extern void guess_UpdateCamera();
+    extern void guess_UpdateCamera(void);
     extern void guess_FreeActor(void *arg0);
     extern s32 D_8018ACBC;
 
@@ -5550,7 +5550,7 @@ void func_801820E8(void *a0)
     extern void func_8018469C(s32 *a0, s32 a1);
     extern void func_80178CBC(s32, s32);
     extern s32 func_801789AC(s32);
-    extern void func_80178D18();
+    extern void func_80178D18(void);
     extern void guess_StartActorSequence();  // K&R: 0 of 2 args (P37 rung D t4_D22)
     extern void func_80184674(s32);
     extern u8 D_8019F638[];

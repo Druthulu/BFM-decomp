@@ -6518,7 +6518,7 @@ extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_801A9EB0(void *a0);
 extern void func_801A9F5C(void *a0);
 extern void func_801A9FA8(void *a0);
-extern void func_801AA2F8();
+extern void func_801AA2F8(void);
 extern void func_801AA60C(s32 param_1, s32 param_2);
 
 void func_801A9CAC(void *a0) {

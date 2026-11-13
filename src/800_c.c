@@ -514,7 +514,7 @@ extern s32 D_800C7D30[];
 extern void func_8003D650(int a0, int a1, int a2);
 extern s32  func_8003EDE8(s32, s32, s32);
 extern void func_80036130(s32, u8 *);
-extern void func_800361CC();
+extern void func_800361CC(void);
 extern void func_8003621C(void);
 extern s32  func_80043410(void);
 extern s32  func_80043420(void);
@@ -571,7 +571,7 @@ s32 func_80035C4C(s32 arg0) {
         func_8003EDE8(0, vol & 0xFF, vol & 0xFF);
         func_8003D650(0, 1, 0);
         func_80043704(3, (u8 *)&D_800C7D30[*(s32 *)(arg0 + 0xC)]);
-        func_800361CC(func_80036130);
+        KR_AS(void, func_800361CC)(func_80036130);
         *(u8 *)(arg0 + 3) += 1;
         /* fall through */
     case 2:

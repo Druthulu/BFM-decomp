@@ -3781,7 +3781,7 @@ extern void guess_FreeActor(void *a0);
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CC40(s32 a0, s32 a1);
-extern void func_80016A5C();
+extern void func_80016A5C(void);
 
 void func_801A5674(void *arg0) {
     u16 out[4];        /* sp+0x10 */
@@ -3845,7 +3845,7 @@ void func_801A5674(void *arg0) {
         prim.v[0].y = ((Unkstruct_800B5CB8 *)e)->unkE4;
         prim.v[1].y = CAST_WIDTH(s32, e, 0xEC);
     }
-    func_80016A5C(&prim, ((Unkstruct_800B5CB8 *)e)->unk20 + 0x34);
+    KR_AS(void, func_80016A5C)(&prim, ((Unkstruct_800B5CB8 *)e)->unk20 + 0x34);
 }
 
 

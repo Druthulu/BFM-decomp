@@ -28,13 +28,13 @@ extern void func_800CAEB0(void *a0);
 
 
 extern void func_801599A4(void *a0);
-extern s32 func_80165910();
+extern s32 func_80165910(void);
 extern void func_801655E4(s32 a0);
 extern void func_8016629C(void *a0);
 void func_800CAEB0(void *a0) {
     func_801599A4(a0);
     func_800CAF6C(a0);
-    if (func_80165910(a0) == 0) {
+    if (KR_AS(s32, func_80165910)(a0) == 0) {
         func_801655E4((s32)a0);
     }
     func_8016629C(a0);

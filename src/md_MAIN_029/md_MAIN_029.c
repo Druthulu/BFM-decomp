@@ -70,7 +70,7 @@ void func_800CAF90(s32 a0) {
     extern u16 D_80126BC8;
     extern u16 D_80126BCA;
     extern u16 D_80126BCC;
-    extern void *guess_AllocSpriteObject();
+    extern void *guess_AllocSpriteObject(void);
     extern void func_800CB2AC(s32 a0);
     extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
     extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);

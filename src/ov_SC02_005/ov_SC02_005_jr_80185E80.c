@@ -4724,7 +4724,7 @@ void func_8018C6A8(void *a0)
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_FreeActor(void *a0);
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
-extern s32 func_80185D6C();
+extern s32 func_80185D6C(void);
 extern void func_8018BE88(s32 a0);
 
 /* 0x801E4918 is an 8-byte block; splat renders the +4/+5 bytes with the
@@ -4756,7 +4756,7 @@ void func_8018C758(void *a0) {
     v0 = CAST_WIDTH(s32, s0, 0x4) & 0x7FFFFFFF;
     do { CAST_WIDTH(s32, s0, 0x4) = v0; } while (0);
 
-    if (func_80185D6C(a0) != 0) {
+    if (KR_AS(s32, func_80185D6C)(a0) != 0) {
         guess_FreeActor(a0);
     } else if (guess_TickWaitTimer((s32)a0) != 0) {
         func_8018BE88((s32)a0);
@@ -6129,9 +6129,9 @@ extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
 extern void func_8018EA04(s32 a0);
 extern void func_8018F63C(void);
-extern void func_8018F664();
-extern void func_8018F68C();
-extern void func_8018F6B4();
+extern void func_8018F664(void);
+extern void func_8018F68C(void);
+extern void func_8018F6B4(void);
 extern void func_8018E7E4(s32 arg0, void * arg1, void * arg2, void * arg3, int count);
 extern u32 D_801F01D4[];
 extern u8 D_801F0220[];

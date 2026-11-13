@@ -43,7 +43,7 @@ extern void func_80145BF8(void);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
-extern s32 func_80145CEC();
+extern s32 func_80145CEC(void);
 extern s32 guess_TestGameFlag(s32 arg);
 extern void guess_MoveImageList(s32 a0);
 extern unsigned char D_8018CF2C[];
@@ -56,7 +56,7 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_80146074(void);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 extern void func_8014607C(void);
 extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 extern u8 D_80078EC1;
@@ -244,7 +244,7 @@ extern u16 func_80014D68(u32 a0);
 extern s32 func_80014D94(s32 a0);
 extern u8 func_80014CF8(u32 a0, u32 a1);
 extern void func_800120DC(u16 *arg0, u16 *arg1);
-extern s32 func_800CF8B4();
+extern s32 func_800CF8B4(void);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern u8 func_8014880C(s32 *a0);
@@ -753,7 +753,7 @@ extern void func_80151ECC(struct S80151ECC *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
-extern void func_80153C18();
+extern void func_80153C18(void);
 extern void (*D_8018D2B0[])(void);
 extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
@@ -1882,7 +1882,7 @@ extern void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3);
 extern s32 D_80115218;
 extern void func_8016E8F0(void);
 extern void func_8016E918(short param_1, short param_2);
-extern s32 func_8016E95C();
+extern s32 func_8016E95C(void);
 extern u16 D_8018E92C[];
 extern void func_8016EC0C(s32 a0, s32 a1);
 extern void func_8016EAC0(Wave *param_1);
@@ -1924,7 +1924,7 @@ extern void func_8016EE94(s32 a0, s32 a1);
 extern s32 func_8016EFC8(s32 a0, s32 a1);
 extern s32 func_8016EFA8(s32 a0);
 extern void func_8016F094(s32 *a0);
-extern s32 func_8016F0AC();
+extern s32 func_8016F0AC(void);
 extern s32 D_8018E948;
 extern void func_8016F250(void);
 extern void func_8016F288(void);
@@ -2808,8 +2808,8 @@ extern M2C_UNK D_8018F4F8;
 
 void func_80184A08(s32 a0) {
     extern s32 func_8012BD14(s32 a0);
-    extern s32 func_801842E0();
-    extern void func_8002959C();
+    extern s32 func_801842E0(void);
+    extern void func_8002959C(void);
     u16 t34;
 
     if (func_8012BD14(a0) < 0x401 || ((Unkstruct_801823B8 *)a0)->unk34 == 1 || ((Unkstruct_801823B8 *)a0)->unk34 == 2) {
@@ -2899,7 +2899,7 @@ void func_80184A08(s32 a0) {
 
 
 extern s32 func_8001AAA0(s32 arg);
-extern s32 func_8016F0AC();
+extern s32 func_8016F0AC(void);
 extern s32 func_801847EC(void);
 
 void func_80184D1C(a0)
@@ -3392,7 +3392,7 @@ void func_80185858(s32 a0) {
 }
 
 
-extern s32 func_80184028();
+extern s32 func_80184028(void);
 extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 extern void guess_RequestSound(s32 a0, s32 a1);
 
@@ -4776,7 +4776,7 @@ void func_80188168(s32 a0) {
 
 
 void func_801881CC(void *a0) {
-    extern void func_80131B14();
+    extern void func_80131B14(void);
     extern void func_80131E00(struct S80131E00 *a0, s32 a1);
     extern s32 guess_StartActorSequenceById(s32 a0, s32 a1);
     extern void func_80182D04(s32 a0, s32 a1, s32 a2);
@@ -4786,7 +4786,7 @@ void func_801881CC(void *a0) {
 
     ((Unkstruct_800B5CB8 *)a0)->unkB4 = CAST_SIGN(u32, (s32)a0, 0xB4) | 1;
     ((Unkstruct_800B5CB8 *)a0)->unkC1 = 1;
-    func_80131B14();
+    KR_AS(void, func_80131B14)();
 
     ((Unkstruct_800B5CB8 *)a0)->unkAE = -1;
     if (((Unkstruct_800B5CB8 *)a0)->unk76 <= 0) {
@@ -4898,7 +4898,7 @@ s32 a0;
 #include "../shared/ov/func_80188478__82a7b589.h"
 
 
-extern s32 func_80184028();
+extern s32 func_80184028(void);
 extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 extern void guess_RequestSound(s32 a0, s32 a1);
 
@@ -5612,13 +5612,13 @@ void func_8018973C(void) {
 }
 
 
-extern s32 func_80189110();
+extern s32 func_80189110(void);
     void func_801897A4(void) {
         func_80189110();
     }
 
 
-extern s32 func_80189110();
+extern s32 func_80189110(void);
 
 void func_801897C4(s32 param_1) {
     int ptr;

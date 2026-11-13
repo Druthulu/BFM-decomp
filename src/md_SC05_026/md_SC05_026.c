@@ -204,7 +204,7 @@ void func_801EDF80(void)
     extern s32 func_8002B0B4(s32, s32, void *);
     extern s32 func_801EEC54(void);
     extern void func_801EEFBC(void);
-    extern s32 func_801EE0D4();
+    extern s32 func_801EE0D4(void);
     extern void func_801EE730(void);
 
     u16 idx;

@@ -134,7 +134,7 @@ void func_800CB138(u8 *a0) {
 }
 
 
-extern void func_800CBBF8();
+extern void func_800CBBF8(void);
 void func_800CB180(void) {
     func_800CBBF8();
 }
@@ -413,7 +413,7 @@ epilogue:
 
 extern u8 D_80078EC1;
 extern void (*D_800CBF2C[])();
-extern void func_800CBBF8();
+extern void func_800CBBF8(void);
 
 void func_800CB848(int param_1)
 {
@@ -531,7 +531,7 @@ void func_800CBAF4(void *a0)
 {
     s32 s0;
     extern s32 guess_TickWaitTimer_2(s32 a0);
-    extern void func_800CBBF8();
+    extern void func_800CBBF8(void);
 
     s0 = ((Unkstruct_80126B58 *)a0)->unk10;
     if (guess_TickWaitTimer_2((s32)a0) != 0) {

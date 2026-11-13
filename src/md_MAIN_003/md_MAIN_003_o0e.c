@@ -42,7 +42,7 @@ extern void func_800CF104(void);
 extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
 extern void func_800CF300(void);
 extern void func_800146B0(s32);
-extern void func_800118AC();
+extern void func_800118AC(void);
 extern void func_800CF370(void);
 extern s8 D_800D52BC[];
 extern u16 D_800B99E6;
@@ -427,7 +427,7 @@ extern void func_800D12D0(void);
 extern s32 func_800149E0(s32);
 extern void guess_RequestSound(s32, s32);
 extern void func_800167B8(s32);
-extern void func_800118AC();
+extern void func_800118AC(void);
 
 void func_800D0740(void) {
     register u8 *base = guess_g_RenderWork;
@@ -483,7 +483,7 @@ extern void func_800D12D0(void);
 extern s16 D_800EC898;
 extern s16 D_800EC894[0];
 extern void func_800D1D14(s32, s32);
-extern void func_800118AC();
+extern void func_800118AC(void);
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 void func_800D09A0(void) {
@@ -526,7 +526,7 @@ void func_800D0A7C(void) {
     extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
     extern s32 D_800EC890;
     extern void func_800146B0(s32 a0);
-    extern void func_800118AC();
+    extern void func_800118AC(void);
     extern void func_800D12D0(void);
     register u8 *var_s0 = guess_g_RenderWork;
 

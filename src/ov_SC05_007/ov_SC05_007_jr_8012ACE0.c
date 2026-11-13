@@ -1263,7 +1263,7 @@ void func_80130D48(s32 arg0)
 void func_80131170(s32 p, s32 b, s32 c) {
     extern u8 D_80180DC0[];
 
-    func_80131B14();
+    KR_AS(void, func_80131B14)();
     ((Unkstruct_800B5CB8 *)p)->unkC2 = 0;
     ((Unkstruct_800B5CB8 *)p)->unkC3 = 0;
     ((Unkstruct_800B5CB8 *)p)->unk98 = 0;

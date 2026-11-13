@@ -42,7 +42,7 @@ extern void func_800CF104(void);
 extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
 extern void func_800CF300(void);
 extern void func_800146B0(s32);
-extern void func_800118AC();
+extern void func_800118AC(void);
 extern void func_800CF370(void);
 extern s8 D_800D52BC[];
 extern u16 D_800B99E6;
@@ -113,12 +113,12 @@ struct S_D2394;
 struct S_D2394B;
 extern void func_800D2394(struct S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, struct S_D2394B *a5);
 extern void func_800D2454(s32 a0, s32 a1, s32 *a2);
-extern void func_800D24D0();
+extern void func_800D24D0(void);
 extern s32 func_800D2704(s32 a0, s32 a1);
 extern void func_800D298C();  // K&R: 2 of 1 args (P37 rung D t6_D1)
 extern void func_800D2AA0(u8 *a0);
 extern void func_800D2C0C(s32 *a0, s32 a1);
-extern void func_800D2C88();
+extern void func_800D2C88(void);
 extern void func_800D2D44(s32 arg0);
 
 extern void func_800468FC(void);
@@ -322,7 +322,7 @@ extern s16 D_800EC9D6;
 extern s32 D_800EC9D8;
 extern s32 D_800EC9F0;
 extern u16 aD_800EC9BC[] __asm__("D_800EC9BC");
-extern void func_800D2C88();
+extern void func_800D2C88(void);
 extern void func_800599B8(u16 *, u16 *);
 
 void func_800D24D0(void) {
@@ -646,7 +646,7 @@ s32 func_800D2CA8(s32 a0, s32 a1) {
 }
 
 
-extern u32 func_800D3020();
+extern u32 func_800D3020(void);
 extern s32 func_800D30B8(void);
 
 s32 func_800D2CE4(s32 *a0) {
@@ -744,7 +744,7 @@ extern s32 *D_800DB674;
 extern s32 *D_800DB650;
 extern s32 *D_800DB648;
 extern s32 *D_800DB64C;
-extern u32 func_800D3020();
+extern u32 func_800D3020(void);
 
 void func_800D2EF8(s32 a0, s32 a1) {
     s32 s1;

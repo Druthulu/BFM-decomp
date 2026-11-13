@@ -54,7 +54,7 @@ extern u8 D_800B9A10;
 extern void func_80128420(void);
 extern s32 func_800D0588(void);
 extern void func_801284B8(void);
-extern void func_80175308();
+extern void func_80175308(void);
 extern void func_8016E8F0(void);
 extern void func_80175494(void);
 extern u8 D_800B9A64;
@@ -87,7 +87,7 @@ extern void func_80129010(void);
 extern void func_8013CA14(void);
 extern void func_800190AC(void);
 extern void func_8012956C(void);
-extern s32 func_8016E95C();
+extern s32 func_8016E95C(void);
 extern void func_801754A8(void);
 extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
@@ -385,7 +385,7 @@ extern s32 func_8012DB84(void);
 extern s32 func_8012DE2C(s32 a0);
 extern s32 func_8012DDA4(void);
 extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern s32 func_8012DDA4();
+extern s32 func_8012DDA4(void);
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
 extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
@@ -453,7 +453,7 @@ extern u8 D_80126C40;
 extern u16 D_80126B94;
 extern u16 D_80126B96;
 extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
-extern void func_80131B14();
+extern void func_80131B14(void);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
@@ -753,7 +753,7 @@ extern void func_8013D330(void);
 extern void func_8013D178(void);
 extern void func_8013CF68(void);
 extern void func_8013CB84(void);
-extern void func_8013CF68();
+extern void func_8013CF68(void);
 extern void func_8013D064(void);
 extern s32 func_8013D13C(void);
 extern void func_8013D164(void);
@@ -802,8 +802,8 @@ extern void func_8013E83C(void);
 extern void func_8013E6AC(void);
 extern void func_800D24A0(s32 arg);
 extern void func_8013E814(void);
-extern void func_8013E83C();
-extern void func_8013E958();
+extern void func_8013E83C(void);
+extern void func_8013E958(void);
 extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
@@ -823,7 +823,7 @@ extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
 extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern void func_8013ED6C(void);
-extern s32 func_8013EF88();
+extern s32 func_8013EF88(void);
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
@@ -892,7 +892,7 @@ extern void guess_RequestSound(int, int);
 extern void func_80141C0C(int);
 extern s32 func_801418F8(void);
 extern s32 func_8013F350(void);
-extern s32 func_80141A60();
+extern s32 func_80141A60(void);
 extern void func_8013FAF8(s16, s16);
 extern u16 guess_g_MenuFrameCounter; // Names ledger: config/names.tsv guess_g_MenuFrameCounter
 extern void func_80141B90(void);
@@ -1094,7 +1094,7 @@ extern void func_80145EE8(s32 param_1);
 extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 extern void *memcpy(void *dst, const void *src, u32 n);
 extern void func_80146FC4(s32 a0);
 extern void func_80150A70(s32 a0);
@@ -1288,7 +1288,7 @@ extern u16 func_80014D68(u32 a0);
 extern s32 func_80014D94(s32 a0);
 extern u8 func_80014CF8(u32 a0, u32 a1);
 extern void func_800120DC(u16 *arg0, u16 *arg1);
-extern s32 func_800CF8B4();
+extern s32 func_800CF8B4(void);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern u8 func_8014880C(s32 *a0);
@@ -1762,7 +1762,7 @@ extern void func_8015126C(u16 *p);
 extern void func_80151664(s32 a0v);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
-extern void func_80153C18();  /* fleet canon: K&R empty prototype — engine_core.h:75/:1682 define it (void); a prototyped (s32) decl would be `conflicting types` here, and the arg still passes in $a0 under default promotions, so codegen is unchanged. */
+extern void func_80153C18(void);  /* fleet canon: K&R empty prototype — engine_core.h:75/:1682 define it (void); a prototyped (s32) decl would be `conflicting types` here, and the arg still passes in $a0 under default promotions, so codegen is unchanged. */
 extern void func_80151664(s32 a0v);
 extern void func_80151780(s32 a0);
 extern void func_801516F0(s32 *a0);
@@ -1795,7 +1795,7 @@ extern void func_80151AE4(s32 arg0);
 extern s32 func_801535F4(void *arg0);
 extern void func_8015BF48(s32 *a0);
 extern void func_80151B98(int param_1);
-extern void func_80153C18();
+extern void func_80153C18(void);
 extern void func_80151D24(void *a0);
 extern void func_80151DB0(s32 a0);
 extern void func_80151D60(void *a0);
@@ -2065,7 +2065,7 @@ extern s32 func_801615C4(void *a0, s32 a1);
 extern void func_80158434(s32 param_1);
 extern void func_80158548(s32 param_1);
 extern void func_801585EC(u8 *a0);
-extern s32 func_80159464();
+extern s32 func_80159464(void);
 extern int func_800D0F8C(int a0);
 extern void func_8016F0E4(u8 * p);
 extern s32 func_800D0F4C(s32 a0);
@@ -5118,7 +5118,7 @@ extern s32  guess_TickWaitTimer_2(s32 a0);
 extern u16  guess_GetPadHeld(s32 *a0);
 extern void func_8015E9B8(s32 *a0);
 extern void func_80159B70(void *a0);
-extern s32  func_800CF8B4();
+extern s32  func_800CF8B4(void);
 extern s32  guess_GetCameraYaw(s32 a0);
 extern void guess_AddMoveVectorThenSetVelocity(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_ApplyVelocity(s32 *a0);
@@ -5657,7 +5657,7 @@ void func_80161C98(int param_1, u32 param_2)
 //   (post-splice :5222 with __volatile__, :5533 without). It is a warning, present with or
 //   without this draft, and it does not fail cc1.
 
-extern int func_800CF8B4();
+extern int func_800CF8B4(void);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 
 
@@ -8222,7 +8222,7 @@ void func_80168D94(int a0) {
 
 
 
-extern void func_80016A5C();
+extern void func_80016A5C(void);
 
 void func_80168F40(void *a0)
 {
@@ -8248,7 +8248,7 @@ void func_80168F40(void *a0)
     s1.f15 = 0x80;
     s2 = (*(Blk20 *)&D_800AE620);
     s1.f18 = 0x50000000;
-    func_80016A5C(&s1, &s2);
+    KR_AS(void, func_80016A5C)(&s1, &s2);
 }
 
 
@@ -8758,7 +8758,7 @@ extern void func_80048EAC(void *a0, void *a1);
 #include "../shared/ov/func_8016A890.h"
 
 
-extern void func_80016A5C();
+extern void func_80016A5C(void);
 s32 func_8016A8FC(s32 a0)
 {
 

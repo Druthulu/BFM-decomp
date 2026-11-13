@@ -88,7 +88,7 @@ void func_800CB32C(void) {
 
 extern u8 D_80078EC1;
 extern void (*D_800CBEB8[])();
-extern s32 guess_FreeObjectAndSubObject_13();
+extern s32 guess_FreeObjectAndSubObject_13(void);
 
 void func_800CB350(int param_1)
 {
@@ -109,7 +109,7 @@ extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_8014964C(s32 a0, s32 a1);
 extern void func_800CB620(s32 arg0);
 extern void guess_NextStep(void *a0);
-extern s32 guess_FreeObjectAndSubObject_13();
+extern s32 guess_FreeObjectAndSubObject_13(void);
 extern u8 D_800CBEA0[];
 extern void (*D_800CBEAC[])(void);
 
@@ -134,7 +134,7 @@ void func_800CB3AC(s32 a0) {
         func_800CB620(a0);
         guess_NextStep((void *)a0);
     } else {
-        guess_FreeObjectAndSubObject_13(a0);
+        KR_AS(s32, guess_FreeObjectAndSubObject_13)(a0);
     }
 }
 
@@ -174,7 +174,7 @@ void func_800CB484(s32 *a0) {
 
 
 extern s32 func_800CB6D4(s32 a0);
-extern s32 guess_FreeObjectAndSubObject_13();
+extern s32 guess_FreeObjectAndSubObject_13(void);
 void func_800CB564(int param_1)
 {
     if (((int (*)(void))func_800CB6D4)() != 0) {

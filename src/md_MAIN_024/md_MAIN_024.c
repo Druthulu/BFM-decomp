@@ -22,11 +22,11 @@ extern void func_800CAEB0(void *a0);
 #include "../shared/slot_800CAE08/func_800CAE78__3873a7ac.h"
 
 
-extern s32 func_80165910();
+extern s32 func_80165910(void);
 extern void func_801655E4(s32 a0);
 
 void func_800CAEB0(void *a0) {
-    if (func_80165910(a0) == 0) {
+    if (KR_AS(s32, func_80165910)(a0) == 0) {
         func_801655E4((s32)a0);
     }
     *(u8 *)((s32)a0 + 0x197) += 1;

@@ -55,7 +55,7 @@ extern void func_8001C810(s32, void *);
 extern void func_800CCF58(arg0, arg1);
 extern void func_800CCE88(s32);
 extern void guess_NextStep(void *);
-extern void guess_FreeObjectAndSubObject_21();
+extern void guess_FreeObjectAndSubObject_21(void);
 
 void func_800CCCA0(s32 param_1) {
     s32 p1;
@@ -104,7 +104,7 @@ void func_800CCD2C(s32 param_1) {
 extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_800CCF58(arg0, arg1);
 extern s32 func_800CCF30(void *a0);
-extern void guess_FreeObjectAndSubObject_21();
+extern void guess_FreeObjectAndSubObject_21(void);
 extern void func_800CCE88(s32 a0);
 
 void func_800CCDB0(s32 param_1) {
@@ -326,9 +326,9 @@ extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_SetStep(s32 *a0, s16 a1);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80163328();
-extern s32 func_801632F0();
-extern s32 func_801632E0();
+extern void func_80163328(void);
+extern s32 func_801632F0(void);
+extern s32 func_801632E0(void);
 extern void guess_NextStep(void *a0);
 
 void func_800CD2EC(s32 *s1) {
@@ -363,10 +363,10 @@ void func_800CD2EC(s32 *s1) {
             }
         }
         func_80163408((s32)s1, 0x23, 0x80, 8);
-        func_80163328(s1);
-        v0 = func_801632F0(s1);
+        KR_AS(void, func_80163328)(s1);
+        v0 = KR_AS(s32, func_801632F0)(s1);
         if ((v0 & 1) != 0) {
-            func_801632E0(s1);
+            KR_AS(s32, func_801632E0)(s1);
         } else if ((v0 & 6) == 0) {
             return;
         }
@@ -656,7 +656,7 @@ extern void RotMatrixYXZ(void *a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void func_800D23D0(void*);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
-extern void func_800CDDA8();
+extern void func_800CDDA8(void);
 extern s32 rand(void);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
@@ -709,7 +709,7 @@ void func_800CDBA8(s32 param_1) {
         RotMatrixYXZ(sp30, (void *)(param_1 + 0x38));
         ((Unkstruct_800CDBA8 *)param_1)->unk1C = 0x18;
         ((Unkstruct_800CDBA8 *)param_1)->unk2 += 1;
-        func_800CDDA8(param_1);
+        KR_AS(void, func_800CDDA8)(param_1);
     }
 }
 

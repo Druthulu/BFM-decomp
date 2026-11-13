@@ -10598,7 +10598,7 @@ extern s32 func_80020A28(s32 *a0, OBJ_80020A28 *a1, MTX_80020248 *a2, MTX_800202
 extern void func_80054AAC();
 extern s32 func_80021174(s32 a0, s32 a1);
 extern void func_80021008(void *a0);
-extern void func_80021050();
+extern void func_80021050(void);
 extern void func_8002109C(s32 a0, s16 **a1);
 extern void func_80021120();  // K&R: 2 of 1 args (P37 rung D t4_D9)
 extern void func_80056F18();
@@ -10606,7 +10606,7 @@ extern void func_80052F04();
 extern void func_80052E38();
 extern void func_80057094();
 extern void func_80055D40();
-extern void func_80027BF0();
+extern void func_80027BF0(void);
 extern void func_800243EC();  // K&R: 3 of 1 args (P37 rung D t4_D9)
 extern void func_800CAE80();
 
@@ -10781,7 +10781,7 @@ void func_8001FC08(OBJ_8001FC08 *obj)
                         func_80057094((s32)&L, (s32)otp, 0, ot);
                     } else if (mode == 1) {
                         if (fpc < 2) {
-                            func_80027BF0((s32)&L, (s32)otp, 0);
+                            KR_AS(void, func_80027BF0)((s32)&L, (s32)otp, 0);
                             fpc++;
                         } else {
                             func_80055D40((s32)&L, (s32)otp, 0, ot);
@@ -10804,7 +10804,7 @@ void func_8001FC08(OBJ_8001FC08 *obj)
     }
 
     if (spr != 0) {
-        func_80021050(spr);
+        KR_AS(void, func_80021050)(spr);
     }
 }
 
@@ -15146,9 +15146,9 @@ extern u8 *D_800A5E60;
 extern u8 * func_800273F4(TmdG3 *f, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot);
 extern void * func_800275BC(TPRIM_800275BC *prim, SVEC_800275BC *vp, void *nrm, u8 *pk, s32 n, s32 shift, u32 *ot);
 extern void * func_800277DC(void *a0, SVECTOR800277DC *a1, void *a2, u8 *a3, s32 count, s32 shift, s32 *ot);
-extern long *aF80027058() __asm__("func_80027058");
-extern long *aF80027200() __asm__("func_80027200");
-extern LineG4 *aF800279AC() __asm__("func_800279AC");
+extern long *aF80027058(char *f, s32 verts, s32 norms, long *prim, s32 count, s32 shift, s32 ot) __asm__("func_80027058");
+extern long *aF80027200(char *f, s32 verts, s32 norms, long *prim, s32 count, s32 shift, s32 ot) __asm__("func_80027200");
+extern LineG4 *aF800279AC(SrcQ *src, Vtx8 *vb, s32 unused, LineG4 *prim, s32 n, s32 shift, u32 *ot) __asm__("func_800279AC");
 
 /* The per-case `p += count * K` (rather than one shared `adv` temp assigned in every
  * arm) is LOAD-BEARING, not style.  With a shared temp the switch end-label is a real

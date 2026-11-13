@@ -49,7 +49,7 @@ extern void func_80145BF8(void);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
-extern s32 func_80145CEC();
+extern s32 func_80145CEC(void);
 extern s32 guess_TestGameFlag(s32 arg);
 extern void guess_MoveImageList(s32 a0);
 extern unsigned char D_80191DEC[];
@@ -62,7 +62,7 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_80146074(void);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 extern void func_8014607C(void);
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
@@ -249,7 +249,7 @@ extern u16 func_80014D68(u32 a0);
 extern s32 func_80014D94(s32 a0);
 extern u8 func_80014CF8(u32 a0, u32 a1);
 extern void func_800120DC(u16 *arg0, u16 *arg1);
-extern s32 func_800CF8B4();
+extern s32 func_800CF8B4(void);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern u8 func_8014880C(s32 *a0);
@@ -757,7 +757,7 @@ extern void func_80151ECC(struct S80151ECC *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
-extern void func_80153C18();
+extern void func_80153C18(void);
 extern void (*D_80192170[])(void);
 extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
@@ -1886,7 +1886,7 @@ extern void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3);
 extern s32 D_80115218;
 extern void func_8016E8F0(void);
 extern void func_8016E918(short param_1, short param_2);
-extern s32 func_8016E95C();
+extern s32 func_8016E95C(void);
 extern u16 D_801937EC[];
 extern void func_8016EC0C(s32 a0, s32 a1);
 extern void func_8016EAC0(Wave *param_1);
@@ -1929,7 +1929,7 @@ extern void func_8016EE94(s32 a0, s32 a1);
 extern s32 func_8016EFC8(s32 a0, s32 a1);
 extern s32 func_8016EFA8(s32 a0);
 extern void func_8016F094(s32 *a0);
-extern s32 func_8016F0AC();
+extern s32 func_8016F0AC(void);
 extern s32 D_80193808;
 extern void func_8016F250(void);
 extern void func_8016F288(void);
@@ -5276,9 +5276,9 @@ extern void func_80183564(s32 a0, s16 *a1);
 extern void func_80186300(s32 a0, void *a1, s32 a2);
 extern void func_80184CCC(s32 a0, s32 a1);
 extern void func_80184DB8(s32 a0);
-extern s32 func_80184F4C();
+extern s32 func_80184F4C(void);
 extern void func_80181B30(struct Ent_80181B30 *a0);
-extern void func_80184840();
+extern void func_80184840(void);
 
 void func_80181948(s32 a0) {
     s32 pad[2];
@@ -5936,7 +5936,7 @@ void func_80182630(s32 param_1)
 {
     extern s32 rand(void);
     extern void func_8018637C(s32 arg0, s32 arg1);
-    extern s32 func_8018B948();
+    extern s32 func_8018B948(void);
     extern void func_8018B9D4(void *a0, void *a1);
     extern void func_8012AD44(s32 *a0, s16 a1);
     extern s32 D_801EFC54;
@@ -5950,7 +5950,7 @@ void func_80182630(s32 param_1)
     *(u16 *)(param_1 + 0xE2) = v1;
     func_8018637C(param_1, (s32)D_80194500[(short)v1 * 3]);
     pp = &D_801EFC54;
-    obj = func_8018B948(*pp);
+    obj = KR_AS(s32, func_8018B948)(*pp);
     ((Unkstruct_800B5CB8 *)param_1)->unkD0 = obj;
     if (obj != 0) {
         func_8018B9D4(*pp, obj);
@@ -5963,7 +5963,7 @@ void func_80182630(s32 param_1)
 
 extern s32 rand(void);
 extern void func_80186300(s32 a0, void *a1, s32 a2);
-extern s32 func_8018B948();
+extern s32 func_8018B948(void);
 extern void func_8018B9D4(void *a0, void *a1);
 extern void func_8012AD44(s32 *, s16);
 extern s32 D_801EFC54;
@@ -5988,7 +5988,7 @@ void func_801826E4(s32 param_1)
     *(u16 *)(param_1 + 0xE2) = *(u16 *)(param_1 + 0xE2) | (rand() & 2);
     func_80186300(param_1, D_80194500[(short)*(u16 *)(param_1 + 0xE2) * 3], 0);
     pp = &D_801EFC54;
-    obj = func_8018B948(*pp);
+    obj = KR_AS(s32, func_8018B948)(*pp);
     ((Unkstruct_800B5CB8 *)param_1)->unkD0 = obj;
     if (obj != 0) {
         func_8018B9D4(*pp, obj);
@@ -6124,7 +6124,7 @@ L_af8:
 
 void func_80182AF8(s32 a0) {
     extern void func_80186EBC(void *a0);
-    extern void func_80184840();
+    extern void func_80184840(void);
     extern void func_80186BD8(void);
     extern void func_8018637C(s32 a0, s32 a1);
     extern void func_8012AD44(s32 *a0, s16 a1);
@@ -6145,7 +6145,7 @@ void func_80182AF8(s32 a0) {
 void func_80182B5C(void *arg0) {
     extern u8 D_80194538[];
     extern void func_8018332C(s32 a0, s32 a1);
-    extern void func_80186908();
+    extern void func_80186908(void);
     extern u16 D_801EFD40;
     extern void func_8012AD44(s32 *a0, s16 a1);
 
@@ -6407,12 +6407,12 @@ s32 func_80183010(s32 *a0) {
 
 
 
-extern void func_80186C40();
+extern void func_80186C40(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8018301C(s32 *a0)
 {
-    func_80186C40(a0);
+    KR_AS(void, func_80186C40)(a0);
     *(u16 *)((s32)a0 + 0xF2) = 0x20;
     guess_RequestSound(0x8C2, 0);
 }
@@ -9427,7 +9427,7 @@ extern s32 D_801EFD28;
 extern s32 D_801DEC6C;
 extern void func_80186110(s32 arg0);
 extern void func_8018615C(s32 a0);
-extern void func_80189A98();
+extern void func_80189A98(void);
 extern void func_8018637C(s32 a0, s32 a1);
 extern void func_801862A4(s32 a0);
 extern void func_801805D8(void);
@@ -11524,7 +11524,7 @@ void func_80189EAC(s32 arg0) {
 }
 
 
-extern void func_80189F6C();
+extern void func_80189F6C(void);
 
 void func_80189EFC(s32 arg0) {
     u16 arr[3];
@@ -11532,7 +11532,7 @@ void func_80189EFC(s32 arg0) {
     arr[0] = ((Unkstruct_800B5CB8 *)arg0)->unk6 + (rand() & 0x3F) - 0x20;
     arr[1] = ((Unkstruct_800B5CB8 *)arg0)->unkA - 0x40;
     arr[2] = ((Unkstruct_800B5CB8 *)arg0)->unkE + (rand() & 0xFF) - 0x80;
-    func_80189F6C(arg0, arr);
+    KR_AS(void, func_80189F6C)(arg0, arr);
 }
 
 
@@ -16051,7 +16051,7 @@ void func_8018F9C0(void *a0) {
 }
 
 
-extern void func_8018FC00();
+extern void func_8018FC00(void);
     void func_8018FBC0(void) {
         func_8018FC00();
     }

@@ -317,7 +317,7 @@ void func_8018550C(void *a0)
 
 
 
-extern void func_801858C4();
+extern void func_801858C4(void);
 extern void func_80185858(s32 a0, void *a1, void *a2);
 
 extern Blk8 D_801E2E9C;
@@ -340,7 +340,7 @@ void func_801856E4(void)
 
 
 
-extern void func_801858C4();
+extern void func_801858C4(void);
 extern void func_80185858(s32 a0, void *a1, void *a2);
 
 extern Blk8 D_801E2EAC;
@@ -353,7 +353,7 @@ void func_80185764(void *a0)
     Blk8 blk1;
     Blk8 blk2;
 
-    func_801858C4(a0);
+    KR_AS(void, func_801858C4)(a0);
 
     blk1 = D_801E2EAC;
     blk2 = D_801E2EB4;

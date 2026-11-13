@@ -528,7 +528,7 @@ void func_800CBE38(u8 *arg0)
 
 
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void guess_FreeObjectAndSubObject_17();
+extern void guess_FreeObjectAndSubObject_17(void);
 extern void func_800CBF80(void *a0);
 extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 
@@ -540,7 +540,7 @@ void func_800CBEC0(u8 *arg0)
 
     s1 = ((Unkstruct_80126B58 *)arg0)->unk20;
     if (guess_TickWaitTimer_2((s32)arg0) != 0) {
-        guess_FreeObjectAndSubObject_17(arg0);
+        KR_AS(void, guess_FreeObjectAndSubObject_17)(arg0);
         return;
     }
     func_800CBF80(arg0);

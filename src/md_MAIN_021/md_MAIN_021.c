@@ -22,16 +22,16 @@ extern void func_800CAEB0(void *a0);
 #include "../shared/slot_800CAE08/func_800CAE78__3873a7ac.h"
 
 
-extern void func_801657A0();
-extern s32 func_80165910();
+extern void func_801657A0(void);
+extern s32 func_80165910(void);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void func_8014B944(s32 a0, s32 a1, s32 a2);
 extern void func_801655E4(s32 a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 void func_800CAEB0(void *a0) {
-    func_801657A0(a0);
-    if (func_80165910((s32)a0) == 0) {
+    KR_AS(void, func_801657A0)(a0);
+    if (KR_AS(s32, func_80165910)((s32)a0) == 0) {
         guess_PlaySoundUnlessSkipped(0x7A3);
         func_8014B944((s32)a0, 0x100000, 1);
         func_801655E4((s32)a0);

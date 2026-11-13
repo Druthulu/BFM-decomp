@@ -116,7 +116,7 @@ extern s32 func_8014659C(void);
 extern void guess_NextStep(void *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
-extern void guess_FreeObjectAndSubObject_10();
+extern void guess_FreeObjectAndSubObject_10(void);
 
 
 void func_800CB0B4(s32 param_1) {
@@ -396,7 +396,7 @@ void func_800CB804(void *arg0) {
 
 
 
-extern void *guess_AllocSpriteObject();
+extern void *guess_AllocSpriteObject(void);
 extern void func_8001CC3C(s32, s32, s32, s32);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)

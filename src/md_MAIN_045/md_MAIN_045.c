@@ -41,7 +41,7 @@ extern s32 func_80012ABC(s32, s32, s32);
 extern void func_8014ACC0(s32, s32);
 extern s32 func_80161A00(s32 a0);
 extern void func_80147364(s32 a, s32 b);
-extern void guess_FreeObjectAndSubObject_20();
+extern void guess_FreeObjectAndSubObject_20(void);
 
 void func_800CCC54(s32 param_1)
 {
@@ -66,7 +66,7 @@ extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_800CCE80(void*);
 extern void guess_NextStep(void *a0);
-extern void guess_FreeObjectAndSubObject_20();
+extern void guess_FreeObjectAndSubObject_20(void);
 extern s32 D_800CE048;
 extern s16 D_800CE050;
 
@@ -231,8 +231,8 @@ void func_800CD010(s32 param_1)
 
 extern void func_800CD204();  // K&R: 0 of 1 args (P37 rung D t4_D40)
 extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80163328();
-extern s32 func_801632F0();
+extern void func_80163328(void);
+extern s32 func_801632F0(void);
 extern void func_8014ACC0(s32, s32);
 extern u16 D_800CD690[];
 extern u16 D_800CD692[];
@@ -253,8 +253,8 @@ void func_800CD0CC(s32 param_1)
     *(u16 *)(v1 + 0xC) = tmp;
     func_800CD204();
     func_80163408(param_1, 0x24, 0x80, 4);
-    func_80163328(param_1);
-    if (func_801632F0(param_1) & 1) {
+    KR_AS(void, func_80163328)(param_1);
+    if (KR_AS(s32, func_801632F0)(param_1) & 1) {
         func_8014ACC0(s1, 0xA);
     }
 }
@@ -382,8 +382,8 @@ extern void func_800CD5DC(s32 a0, s32 a1);
 extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void guess_AddVelocityToPos_2(s32 *a0);
 extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80163328();
-extern s32 func_801632F0();
+extern void func_80163328(void);
+extern s32 func_801632F0(void);
 extern u16 D_800CD690[];
 extern u16 D_800CD692[];
 
@@ -404,8 +404,8 @@ void func_800CD4BC(s32 arg0) {
     *(u16 *)(temp_s1 + 0x18) = *(u16 *)(temp_s1 + 0x1A) =
         *(u16 *)(temp_s1 + 0x1A) + 0x200;
     func_80163408(arg0, 0x24, 0x80, 4);
-    func_80163328(arg0);
-    func_801632F0(arg0);
+    KR_AS(void, func_80163328)(arg0);
+    KR_AS(s32, func_801632F0)(arg0);
 }
 
 

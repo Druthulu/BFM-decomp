@@ -581,7 +581,7 @@ void func_800CBC14(s32 arg0) {
 
 extern void func_800CBD2C(s32 param_1);
 extern void func_800CBEB0(s32 a0);
-extern void func_800CBF3C();
+extern void func_800CBF3C(void);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
 

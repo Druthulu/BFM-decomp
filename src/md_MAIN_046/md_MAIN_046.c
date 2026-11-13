@@ -673,7 +673,7 @@ extern s32 func_80146578(void);
 extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_NextStep(void *a0);
-extern void guess_FreeObjectAndSubObject_27();
+extern void guess_FreeObjectAndSubObject_27(void);
 extern void func_800CDBF4();  // K&R: 0 of 1 args (P37 rung D t4_D35)
 
 extern u8 D_800CE068[];

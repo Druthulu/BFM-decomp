@@ -130,18 +130,18 @@ s32 func_80145CEC() {
     extern void guess_ClearHideRequest220(s32 *a0);
     extern void guess_ClearHideRequest222(s32 *a0);
     extern void func_80149210(s32 a0, s32 a1);
-    extern void func_8014BE9C();
-    extern void func_8016533C();
-    extern void func_801627C0();
-    extern void func_80162AF4();
-    extern void func_80165C78();
+    extern void func_8014BE9C(void);
+    extern void func_8016533C(void);
+    extern void func_801627C0(void);
+    extern void func_80162AF4(void);
+    extern void func_80165C78(void);
     extern u8 * func_801468C8(s32 arg0, u8 arg1);
     extern void func_80145EE8(s32 param_1);
-    extern void func_8014C968();
-    extern void func_8014C6D0();
-    extern void func_80165938();
-    extern void func_80153C8C();
-    extern void func_800290BC();
+    extern void func_8014C968(void);
+    extern void func_8014C6D0(void);
+    extern void func_80165938(void);
+    extern void func_80153C8C(void);
+    extern void func_800290BC(void);
     extern s32 guess_g_PlayerModelObject; // Names ledger: config/names.tsv guess_g_PlayerModelObject
     extern s32 guess_g_PlayerTmdList; // Names ledger: config/names.tsv guess_g_PlayerTmdList
     extern s32 D_801152C8;
@@ -273,7 +273,7 @@ void func_80145EE8(s32 param_1)
 
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 
 #define SHARED_FN func_8014607C
 #define SHARED_SLOT D_801969B0
@@ -2135,7 +2135,7 @@ extern void func_801553C0(s32 a0);
 extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801472B4(void *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
-extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));
+extern void func_80153C18(void);  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));
                                  * a prototyped (s32) decl is `conflicting types` in this TU. Arg still
                                  * passes in $a0 under default promotions -> codegen unchanged. */
 

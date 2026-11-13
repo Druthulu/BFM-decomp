@@ -383,7 +383,7 @@ extern s32 func_8012DB84(void);
 extern s32 func_8012DE2C(s32 a0);
 extern s32 func_8012DDA4(void);
 extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern s32 func_8012DDA4();
+extern s32 func_8012DDA4(void);
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
 extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
@@ -438,7 +438,7 @@ extern u8 D_80126C40;
 extern u16 D_80126B94;
 extern u16 D_80126B96;
 extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
-extern void func_80131B14();
+extern void func_80131B14(void);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_CallActorEventHandler(int a0);
@@ -601,7 +601,7 @@ extern void func_80136C44(void);
 extern void func_80136C4C(void);
 extern void (*D_8018CB8C[])(void);
 extern void func_80136C54(void);
-extern s32 func_80136C90();
+extern s32 func_80136C90(void);
 extern void func_80136D00(void);
 extern void SetLineG2(void *);
 extern void func_80136D08(s32 arg0, s32 arg1);
@@ -623,7 +623,7 @@ extern void func_801375EC(s32 a0, s16 a1);
 extern s32 func_801399A8(void);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 extern s32 guess_OpenTextWindow(s32 a0);
-extern s32 guess_OpenTextWindowCenteredAt();
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_801376C8(int a0);
 extern s32 D_80127524;
 extern s32 D_80127528;
@@ -1942,7 +1942,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern void guess_CloseTextWindow0(void);
-extern s32 guess_OpenTextWindowCenteredAt();
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_80137B80(void);
 extern unsigned char *guess_GetStoryGoalText(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -2011,7 +2011,7 @@ extern s32 guess_g_MenuPacketPtr; // Names ledger: config/names.tsv guess_g_Menu
 extern s16 D_8018D958;
 extern s16 D_8018D95A[0];
 extern unsigned char D_8018D95C[0];
-extern s32 guess_OpenTextWindowCenteredAt();
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern unsigned char *guess_GetStoryGoalText(void);
 
@@ -2156,7 +2156,7 @@ extern u16 guess_g_OpenMenuId; // Names ledger: config/names.tsv guess_g_OpenMen
 extern unsigned char D_8018D95C[0];
 
 extern unsigned char *guess_GetStoryGoalText(void);
-extern s32 guess_OpenTextWindowCenteredAt();
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 
 void func_8013F138(void) {
     u16 *p = &guess_g_MenuTransitionTimer;

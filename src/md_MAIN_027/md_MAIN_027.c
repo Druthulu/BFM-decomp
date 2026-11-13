@@ -642,7 +642,7 @@ after:
 
 extern u8 D_80078EC1;
 extern void (*D_800CC1C4[])();
-extern void guess_FreeObjectAndSubObject_18();
+extern void guess_FreeObjectAndSubObject_18(void);
 
 void func_800CBECC(int param_1)
 {
@@ -683,7 +683,7 @@ void func_800CBF28(s32 p1)
         func_800CC024(p1);
         guess_NextStep((void *)p1);
     } else {
-        guess_FreeObjectAndSubObject_18(p1);
+        KR_AS(void, guess_FreeObjectAndSubObject_18)(p1);
     }
 }
 

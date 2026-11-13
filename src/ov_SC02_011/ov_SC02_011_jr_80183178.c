@@ -888,7 +888,7 @@ void func_8018479C(void) {
 
 
 extern void func_8012A568(void (*a0)(void));
-    extern s32 func_8018263C();
+    extern s32 func_8018263C(void);
     void func_801847C8(void) {
         ((void (*)(void *))func_8012A568)((void *)func_8018263C);
     }

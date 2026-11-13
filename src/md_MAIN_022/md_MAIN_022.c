@@ -124,16 +124,16 @@ void func_800CB104(void) {
 void func_800CB10C(void *a0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBCA8[])(void *);
-    extern void guess_FreeObjectAndSubObject_7();
+    extern void guess_FreeObjectAndSubObject_7(void);
     extern void func_800CB3F0(void *a0);
-    extern void func_800CB4AC();
+    extern void func_800CB4AC(void);
 
     if (D_80078EC1 != 4) {
-        guess_FreeObjectAndSubObject_7(a0);
+        KR_AS(void, guess_FreeObjectAndSubObject_7)(a0);
         return;
     }
     func_800CB3F0(a0);
-    func_800CB4AC(a0);
+    KR_AS(void, func_800CB4AC)(a0);
     D_800CBCA8[((Unkstruct_800CB10C *)a0)->unk2](a0);
 }
 
@@ -150,7 +150,7 @@ extern s32 func_80146578(void);
 extern void guess_InitObjectKind6(void *a0, void *a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void guess_NextStep(s32);
-extern void guess_FreeObjectAndSubObject_7();
+extern void guess_FreeObjectAndSubObject_7(void);
 
 extern u8 D_800CBD68;
 extern u8 D_800CBD69;
@@ -201,7 +201,7 @@ void func_800CB1BC(void *a0)
 
             guess_NextStep((s32)a0);
         } else {
-            guess_FreeObjectAndSubObject_7(a0);
+            KR_AS(void, guess_FreeObjectAndSubObject_7)(a0);
         }
     }
 }

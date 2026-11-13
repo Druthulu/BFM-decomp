@@ -87,7 +87,7 @@ extern unsigned char D_80180564[];
 
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 
 #define SHARED_FN func_8014607C
 #define SHARED_SLOT D_80190D40
@@ -1610,7 +1610,7 @@ extern void func_801553C0(s32 a0);
 extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801472B4(void *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
-extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));
+extern void func_80153C18(void);  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));
                                  * a prototyped (s32) decl is `conflicting types` in this TU. Arg still
                                  * passes in $a0 under default promotions -> codegen unchanged. */
 

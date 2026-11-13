@@ -42,7 +42,7 @@ extern void func_80145BF8(void);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
-extern s32 func_80145CEC();
+extern s32 func_80145CEC(void);
 extern s32 guess_TestGameFlag(s32 arg);
 extern void guess_MoveImageList(s32 a0);
 extern unsigned char D_8018EB98[];
@@ -55,7 +55,7 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_80146074(void);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 extern void func_8014607C(void);
 extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 extern u8 D_80078EC1;
@@ -241,7 +241,7 @@ extern u16 func_80014D68(u32 a0);
 extern s32 func_80014D94(s32 a0);
 extern u8 func_80014CF8(u32 a0, u32 a1);
 extern void func_800120DC(u16 *arg0, u16 *arg1);
-extern s32 func_800CF8B4();
+extern s32 func_800CF8B4(void);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern u8 func_8014880C(s32 *a0);
@@ -747,7 +747,7 @@ extern void func_80151ECC(struct S80151ECC *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
-extern void func_80153C18();
+extern void func_80153C18(void);
 extern void (*D_8018EF1C[])(void);
 extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
@@ -3001,7 +3001,7 @@ extern s32  guess_TickWaitTimer_2(s32 a0);
 extern u16  guess_GetPadHeld(s32 *a0);
 extern void func_8015E9B8(s32 *a0);
 extern void func_80159B70(void *a0);
-extern s32  func_800CF8B4();
+extern s32  func_800CF8B4(void);
 extern s32  guess_GetCameraYaw(s32 a0);
 extern void guess_AddMoveVectorThenSetVelocity(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_ApplyVelocity(s32 *a0);
@@ -3451,7 +3451,7 @@ void func_80161C98(int param_1, u32 param_2)
 //   (post-splice :5222 with __volatile__, :5533 without). It is a warning, present with or
 //   without this draft, and it does not fail cc1.
 
-extern int func_800CF8B4();
+extern int func_800CF8B4(void);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 
 

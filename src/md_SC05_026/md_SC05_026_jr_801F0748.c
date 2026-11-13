@@ -404,7 +404,7 @@ Lcont:
 }
 
 
-extern s32 func_801F0C4C();
+extern s32 func_801F0C4C(void);
 extern s32 D_801F84AC;
 extern s32 D_801F8334[][4];
 extern s32 D_801F8330[][4];

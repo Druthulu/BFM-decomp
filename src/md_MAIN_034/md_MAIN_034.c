@@ -778,7 +778,7 @@ void func_800CC298(void *a0) {
 
     extern u8 D_80078EC1;
     extern void (*D_800CCA24[])(void *);
-    extern void guess_FreeObjectAndSubObject_19();
+    extern void guess_FreeObjectAndSubObject_19(void);
     extern void func_800CC968(void *a0);
     extern void func_800CC9AC(void *a0);
     if (D_80078EC1 != 0x10) {
@@ -807,7 +807,7 @@ extern s32 func_80146578(void);
 extern void guess_InitObjectKind6(void *a0, void *a1);
 extern void guess_BuildCircle12Points(void *a0, u16 a1);
 extern void guess_NextStep(void *a0);
-extern void guess_FreeObjectAndSubObject_19();   /* TU later defines this void(void) at line 78; call with an
+extern void guess_FreeObjectAndSubObject_19(void);   /* TU later defines this void(void) at line 78; call with an
                                  * unspecified-arglist decl here (house style, see func_800CC1E8
                                  * above) avoids a 1-arg-vs-0-arg prototype conflict when this
                                  * function's INCLUDE_ASM slot (earlier in file) is replaced. */
@@ -856,7 +856,7 @@ void func_800CC310(void *a0)
 
         guess_NextStep(a0);
     } else {
-        guess_FreeObjectAndSubObject_19(a0);
+        KR_AS(void, guess_FreeObjectAndSubObject_19)(a0);
     }
 }
 
@@ -971,7 +971,7 @@ void func_800CC658(void *a0) {
     v = *(u16 *)((u8 *)v1 + 0x1E) + 0x80;
     *(u16 *)((u8 *)v1 + 0x1E) = v;
     if (v >= 0x1000) {
-        guess_FreeObjectAndSubObject_19(a0);
+        KR_AS(void, guess_FreeObjectAndSubObject_19)(a0);
     }
 }
 

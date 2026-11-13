@@ -116,7 +116,7 @@ void func_800CB190(void *a0) {
 
 
 void func_800CB1CC(void *arg0) {
-    extern void *guess_AllocSpriteObject();
+    extern void *guess_AllocSpriteObject(void);
     extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);
     extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
     extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
