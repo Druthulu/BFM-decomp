@@ -134,6 +134,7 @@
 | 2026-11-13 | P3.44 T8: signature close (from summary) | `5dea03cae` | — | — | — | — | — | — | **—** | — | — | — | — | — | — | — | — |
 | 2026-11-13 | P3.44 T10: milestone gate | `8bac8eee3` | 0 | 0 | 0 | 0 | 114919 | 459287 | **172940** | 309741 | 4749 (4124 / 593) | 2042 | 452 / 2469 | 14430 (98.1 %) | 26 | 243 | 0 / 0 |
 | 2026-11-13 | P3.44 T13: names columns | `6a5dfa9a2` | 0 | 0 | 0 | 0 | 114919 | 459287 | **172940** | 309741 | 4749 (4124 / 593) | 2042 | 452 / 2469 | 14430 (98.1 %) | 26 | 243 | 0 / 0 |
+| 2026-11-13 | P3.44 T14: signature columns | `0a42e9d40` | 0 | 0 | 0 | 0 | 114919 | 459287 | **172940** | 309741 | 4749 (4124 / 593) | 2042 | 452 / 2469 | 14430 (98.1 %) | 26 | 243 | 0 / 0 |
 
 **How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters
 than the callee's own definition. It is not a style problem: on this processor an argument travels in a
@@ -153,6 +154,7 @@ because what a caller does with the return register is a caller byte fact (C0543
 | 2026-11-12 | P3.43 T15: milestone gate | `f88462baf` | 92486 | 513 | 285 | 228 | 91460 | 98448 | 39 | 108 | 206 | 98095 |
 | 2026-11-13 | P3.44 T10: milestone gate | `8bac8eee3` | 92486 | 513 | 285 | 228 | 91460 | 98448 | 39 | 108 | 206 | 98095 |
 | 2026-11-13 | P3.44 T13: names columns | `6a5dfa9a2` | 92486 | 513 | 285 | 228 | 91460 | 98448 | 39 | 108 | 206 | 98095 |
+| 2026-11-13 | P3.44 T14: signature columns | `0a42e9d40` | 92486 | 513 | 285 | 228 | 91460 | 98448 | 39 | 108 | 206 | 98095 |
 
 **How to read the names columns.** The units come from `docs/leverage.tsv` (`docs/leverage.md`), which
 `tools/leverage_rank.py` regenerates after names land; a row whose commit has no `leverage.tsv`, or where
@@ -177,6 +179,7 @@ does not ledger; the P3.42 row predates the ledger's rows, so its *other* also h
 | 2026-11-13 | P3.44 T7: signature close (from summary) | `74f9e8181` | 106538 | 94473 | 0 | 0 | 0 | 176 | 11889 | 3122 | 25 | 263 |
 | 2026-11-13 | P3.44 T8: signature close (from summary) | `5dea03cae` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3264 | 24 | 297 |
 | 2026-11-13 | P3.44 T10: milestone gate | `8bac8eee3` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3264 | 24 | 297 |
+| 2026-11-13 | P3.44 T14: signature columns | `0a42e9d40` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3264 | 24 | 297 |
 
 **How to read the signature columns.** `tools/sig_evidence.py` measures every function's calling contract from
 the original bytes and `--check` compares it with the C's declarations and definitions; the rules are the rule
