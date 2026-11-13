@@ -4523,12 +4523,12 @@ void func_8017E064(void) {
 }
 
 
-    extern void func_8017E358();  // K&R: 0 of 1 args (P37 rung D t4_D45)
+    extern void func_8017E358(s32 param_1);
     extern void (*D_80188944[])(int);
     extern void func_80162D28(s32*);
     void func_8017E0C0(int param_1)
     {
-        func_8017E358();
+        KR_AS(void, func_8017E358)();
         D_80188944[*(unsigned short *)(param_1 + 2)](param_1);
         if (((Unkstruct_8017D300 *)param_1)->unk20 != 0) {
             ((void (*)(int))func_80162D28)(param_1);

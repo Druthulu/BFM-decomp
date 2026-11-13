@@ -2414,7 +2414,7 @@ extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 #undef SHARED_FN
 
 
-extern s32 func_8017E358();
+extern s32 func_8017E358(void);
     void func_801866E8(void) {
         func_8017E358();
     }
