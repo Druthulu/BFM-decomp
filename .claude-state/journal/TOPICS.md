@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-13T18:33:19.733Z
+# filed through: 2026-11-13T21:17:47.532Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -144,7 +144,7 @@ R140 | 2026-11-12 | finding | in force | Phase 3.43 close | 3.43 results: of the
 R141 | 2026-11-12 | open | retired by .claude-state/journal/2026-11-12.md#135749-072r-claude-record (3.44 T2 fixed type_census's struct_map tie-break: cold, warm and partial -j 8 runs all print 14376/770 with the same doc sha, and tools-health passes) | Phase 3.43 close | type_census's struct_map counts vary between runs on an unchanged tree (14373 vs 14376) and need a… | .claude-state/journal/2026-11-12.md#102522-037r-claude-record
 R142 | 2026-11-12 | open | in force | Phase 3.43 close | The text-slot helpers func_8001534C, func_800153CC and func_80015498 and the sweep test func_801337… | .claude-state/journal/2026-11-12.md#102522-037r-claude-record
 R143 | 2026-11-12 | open | retired by .claude-state/journal/2026-11-12.md#110950-060r-claude-record (.run/3.43 is already gone) | Phase 3.43 close | .run/3.43 (about 16 GB, including t14/ghidra.bak at 994 MB) can be deleted; about 8 GB of disk is f… | .claude-state/journal/2026-11-12.md#102522-037r-claude-record
-R144 | 2026-11-12 | open | in force | Phase 3.43 close | The developer pushes the repo and the archive clone (0a63007), and runs /mcp after Claude's ghidra_… | .claude-state/journal/2026-11-12.md#102522-037r-claude-record
+R144 | 2026-11-12 | open | retired by .claude-state/journal/2026-11-13/143336-063r-claude-record.md (superseded by the 3.44 close's push and /mcp item (archive commit 05feeb4)) | Phase 3.43 close | The developer pushes the repo and the archive clone (0a63007), and runs /mcp after Claude's ghidra_… | .claude-state/journal/2026-11-12.md#102522-037r-claude-record
 R145 | 2026-11-12 | decision | superseded by R146 | Phase 3.44 planning | The 3.44 brief carries R113, R115 and I5 (the 356 return-less functions, list in docs/ops/p343-t3-r… | .claude-state/journal/2026-11-12.md#102522-037r-claude-record
 R146 | 2026-11-12 | decision | in force | Phase 3.44 plan | The 3.44 plan is approved and installed. | .claude-state/journal/2026-11-12.md#110950-060r-claude-record
 R147 | 2026-11-12 | decision | in force | Phase 3.44 plan | New rule T4: a lever removed by a readability edit drops its config/lever_residue.tsv row in the sa… | .claude-state/journal/2026-11-12.md#110950-060r-claude-record
@@ -172,3 +172,9 @@ R168 | 2026-11-13 | finding | in force | 3.44 T8 remaining disagreements | A lon
 R169 | 2026-11-13 | finding | in force | 3.44 T8 remaining disagreements | T8's progress so far. | .claude-state/journal/2026-11-13/105323-049r-claude-record.md
 R170 | 2026-11-13 | decision | in force | Phase-close docs and lessons in every phase | A 3.44 task is added after T13 (deps T10, T13). | .claude-state/journal/2026-11-13/114853-052r-claude-record.md
 R171 | 2026-11-13 | finding | in force | Phase-close docs and lessons in every phase | T13, which R149 placed before T10's snapshot, did not run first. | .claude-state/journal/2026-11-13/114853-052r-claude-record.md
+R172 | 2026-11-13 | decision | in force | Phase 3.44 close | Phase 3.44 is closed with its milestone met. | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
+R173 | 2026-11-13 | finding | in force | Phase 3.44 close | 3.44 results. | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
+R174 | 2026-11-13 | open | in force | Phase 3.44 close | 88 RETURN-LIE dedup rows are cleared for sharing (phase-ends/phase-3.44/logs/T10.return_lie_rows.ts… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
+R175 | 2026-11-13 | open | in force | Phase 3.44 close | tools/lever_census.py:864-875 has the same cache-order nondeterminism T2 fixed in type_census (C058… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
+R176 | 2026-11-13 | open | in force | Phase 3.44 close | The developer pushes the repo and the archive clone (05feeb4), and runs /mcp after the restart -> t… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
+R177 | 2026-11-13 | open | in force | Phase 3.45 planning | The 3.45 planner is drafting to .run/plans/phase-3.45.md; Claude presents it with plan(kind: phase)… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
