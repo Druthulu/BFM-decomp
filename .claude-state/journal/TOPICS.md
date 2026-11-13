@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-13T01:33:46.798Z
+# filed through: 2026-11-13T08:09:17.923Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -163,3 +163,7 @@ R159 | 2026-11-12 | finding | in force | 3.44 T4 contract comparison review | T4
 R160 | 2026-11-12 | decision | in force | 3.44 T5 return-width fixes | T5 resumes from its progress note. | .claude-state/journal/2026-11-12/184921-005r-claude-record.md
 R161 | 2026-11-12 | finding | in force | 3.44 T5 return-width fixes | Once sig_evidence --compare reads asm-label aliases, DECL-RET grows from 27 names / 9,375 lines to… | .claude-state/journal/2026-11-12/184921-005r-claude-record.md
 R162 | 2026-11-12 | finding | in force | 3.44 T5 return-width fixes | A steer with pause: false is refused when the paused task has stopped (open question stop). | .claude-state/journal/2026-11-12/184921-005r-claude-record.md
+R163 | 2026-11-13 | finding | in force | 3.44 T5 return-width fixes | T5 is done. | .claude-state/journal/2026-11-13/012504-024r-claude-record.md
+R164 | 2026-11-13 | decision | in force | 3.44 T6 `()` declarations | T6.c4 finishes batch B from T6.c3's uncommitted edits. | .claude-state/journal/2026-11-13/012504-024r-claude-record.md
+R165 | 2026-11-13 | finding | in force | 3.44 T6 `()` declarations | T6 adds a KR_AS marked cast with its own ledger, config/kr_view_casts.tsv, kept apart from RET_AS s… | .claude-state/journal/2026-11-13/012504-024r-claude-record.md
+R166 | 2026-11-13 | finding | in force | 3.44 T6 `()` declarations | After a Ctrl+C, release({hold: "stopped"}) is refused until the mod has registered the stop. | .claude-state/journal/2026-11-13/012504-024r-claude-record.md
