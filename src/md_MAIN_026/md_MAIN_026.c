@@ -142,7 +142,7 @@ void func_800CB190(void *arg0) {
     extern void guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
     extern void guess_SetWaitTimer_2(s32 *, s32);
     extern void guess_NextStep(void *);
-    extern s32 rand();
+    extern s32 rand(void);
 
     s32 color;
     s32 tmp;

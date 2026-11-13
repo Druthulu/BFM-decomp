@@ -86,9 +86,9 @@ extern u16 func_8002B08C(s32 a0);
 extern u32 func_8002C320(void);
 extern s32 func_8002C3B0(s32 count, u8 *arr);
 
-extern void PushMatrix();
-extern void PopMatrix();
-extern s32 rand();
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern s32 rand(void);
 extern s32 getchar(s32 arg0);
 
 void func_8002C410(void)
@@ -129,8 +129,8 @@ void func_8002C410(void)
     CompMatrixLV(0, 0, 0);
     SetRotMatrix(0);
     SetTransMatrix(0);
-    PushMatrix(0);
-    PopMatrix(0);
+    KR_AS(void, PushMatrix)(0);
+    KR_AS(void, PopMatrix)(0);
     ReadRotMatrix(0);
     func_8004921C(0, 0);
     ReadGeomOffset(0, 0);
@@ -155,7 +155,7 @@ void func_8002C410(void)
     SsGetCurrentPoint(0, 0);
     func_8005C324(0, 0, 0);
     func_8005C2C8(0, 0);
-    rand(0);
+    KR_AS(s32, rand)(0);
     func_8005C4CC(0);
     getchar(0);
     func_8005C388(0);

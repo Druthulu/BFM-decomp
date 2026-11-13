@@ -3959,7 +3959,7 @@ extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
-extern s32  rand();
+extern s32  rand(void);
 
 void func_8017F834(void *param_1) {
     s32 v0;
@@ -4419,7 +4419,7 @@ void func_8018088C(s32 a0)
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
-extern s32 rand();
+extern s32 rand(void);
 
 void func_80180A2C(void *a0) {
     extern s32 D_80185478;

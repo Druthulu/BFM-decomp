@@ -2973,7 +2973,7 @@ extern void guess_StartActorSequence(s32 a0, void * a1);
 extern void guess_SetGameFlag(s32 arg0, s32 arg1);
 extern s32 guess_TestGameFlag(u32 arg0);
 extern s32 guess_AllocRenderWorkRecord(s32 a0);
-extern s32 rand();
+extern s32 rand(void);
 
 extern s32 D_80181928;
 extern s32 D_80181B48;
@@ -3031,7 +3031,7 @@ extern void guess_StartActorSequence(s32 a0, void * a1);
 extern void guess_SetGameFlag(s32 arg0, s32 arg1);
 extern s32 guess_TestGameFlag(u32 arg0);
 extern s32 guess_AllocRenderWorkRecord(s32 a0);
-extern s32 rand();
+extern s32 rand(void);
 
 extern s32 D_80181DE8;
 extern s32 D_80181FB8;

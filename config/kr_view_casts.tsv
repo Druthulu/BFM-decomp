@@ -62,3 +62,6 @@ guess_FreeObjectAndSubObject_17	src/md_MAIN_019/md_MAIN_019.c	KR-OVER: 1 of 1 KR
 guess_FreeObjectAndSubObject_18	src/md_MAIN_027/md_MAIN_027.c	KR-OVER: 1 of 1 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	md_MAIN_027:0x800CBFC4 addu $a0, $s0, $zero; md_MAIN_027:0x800CBFC0 jal func_800CC004
 guess_FreeObjectAndSubObject_19	src/md_MAIN_034/md_MAIN_034.c	KR-OVER: 2 of 2 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	md_MAIN_034:0x800CC404 addu $a0, $s2, $zero; md_MAIN_034:0x800CC400 jal func_800CC6A4
 guess_FreeObjectAndSubObject_7	src/md_MAIN_022/md_MAIN_022.c	KR-OVER: 2 of 2 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	md_MAIN_022:0x800CB2D4 addu $a0, $s1, $zero; md_MAIN_022:0x800CB2D0 jal func_800CB3D0
+PopMatrix	-	KR-OVER: 1 of 1 KR_AS calls; asm-only callee, prototype from the census contract; KR_AS calls pass 1 args	T6	main:0x8002C680 addu $a0, $zero, $zero; main:0x8002C684 jal func_8004871C
+PushMatrix	-	KR-OVER: 1 of 1 KR_AS calls; asm-only callee, prototype from the census contract; KR_AS calls pass 1 args	T6	main:0x8002C674 addu $a0, $zero, $zero; main:0x8002C678 jal func_8004867C
+rand	-	KR-OVER: 1 of 1 KR_AS calls; asm-only callee, prototype from the census contract; KR_AS calls pass 1 args	T6	main:0x8002C864 addu $a0, $zero, $zero; main:0x8002C868 jal func_8005C49C
