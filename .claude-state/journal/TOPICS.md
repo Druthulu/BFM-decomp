@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-12T21:47:13.354Z
+# filed through: 2026-11-13T01:33:46.798Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -158,3 +158,8 @@ R154 | 2026-11-12 | decision | in force | Struct consolidation (3.45) | GENERATI
 R155 | 2026-11-12 | finding | in force | Struct consolidation (3.45) | The census's struct count is 14,376 evidence clusters explaining 169,650 of 172,948 dereference sit… | .claude-state/journal/2026-11-12/135749-072r-claude-record.md
 R156 | 2026-11-12 | decision | in force | 3.44 T3 asm signature census | Control (4) part one of T3 is accepted as measured, not redefined. | .claude-state/journal/2026-11-12/150232-006r-claude-record.md
 R157 | 2026-11-12 | finding | in force | 3.44 T3 asm signature census | tools/sig_evidence.py measures 92,645 classes and 363,342 instances over all 218 binaries in about… | .claude-state/journal/2026-11-12/150232-006r-claude-record.md
+R158 | 2026-11-12 | decision | in force | 3.44 T4 contract comparison review | The T4 review is approved and T4 is done. | .claude-state/journal/2026-11-12/161205-016r-claude-record.md
+R159 | 2026-11-12 | finding | in force | 3.44 T4 contract comparison review | T4 filled the 146-function sig gap: 115 ELF-only instances added and 31 data symbols skipped, givin… | .claude-state/journal/2026-11-12/161205-016r-claude-record.md
+R160 | 2026-11-12 | decision | in force | 3.44 T5 return-width fixes | T5 resumes from its progress note. | .claude-state/journal/2026-11-12/184921-005r-claude-record.md
+R161 | 2026-11-12 | finding | in force | 3.44 T5 return-width fixes | Once sig_evidence --compare reads asm-label aliases, DECL-RET grows from 27 names / 9,375 lines to… | .claude-state/journal/2026-11-12/184921-005r-claude-record.md
+R162 | 2026-11-12 | finding | in force | 3.44 T5 return-width fixes | A steer with pause: false is refused when the paused task has stopped (open question stop). | .claude-state/journal/2026-11-12/184921-005r-claude-record.md
