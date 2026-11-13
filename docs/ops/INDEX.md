@@ -8,7 +8,7 @@ version-pin-summary.md | Version pin summary | 20
 69-running-a-matching-wave-see-docswave-playbookmd.md | §6.9 Running a matching wave — see `docs/wave-playbook.md` | 14
 7-session-start-ritual.md | §7 Session-start ritual | 25
 8-model-strategy-per-phase.md | §8 Model strategy per phase | 18
-tooling-inventory.md | Tooling inventory | 209
+tooling-inventory.md | Tooling inventory | 210
 backup-repository-posture-rules-r20r21-public-since-2026-09-08-phase-34.md | Backup & repository posture (rules R20/R21) — PUBLIC since 2026-09-08 (Phase 34) | 35
 disc-provenance-redump-canonical-integrity-reference.md | Disc provenance (redump — canonical integrity reference) | 15
 known-unverified-ledger-recheck-and-update-in-place.md | Known-unverified ledger (recheck and update in place) | 19
@@ -47,7 +47,7 @@ p37-s107-2026-09-12-the-rewrite-engines-full-form-the-layout-library-and-the-lin
 retired-tools-toolssunset-phase-335.md | Retired tools (`tools/sunset/`, Phase 33.5) | 198
 SETUP.preamble.md | SETUP.md — Environment Setup & Daily Operations Reference | 8
 disc-dump-location.md | disc-dump-location | 9
-gate-main-only-with-gate-main.md | gate-main-only-with-gate-main | 71
+gate-main-only-with-gate-main.md | gate-main-only-with-gate-main | 73
 mcp-renames-dont-persist-use-applysymbols.md | mcp-renames-dont-persist-use-applysymbols | 21
 ops-setup-decomp.md | extract the medium and verify against the committed manifest | 68
 wsl-disk-capped-75gb.md | wsl-disk-capped-75gb | 34
@@ -79,6 +79,6 @@ p40-t3-band-decisions.md | §P40 T3 — the 95 % TNC band and its mechanised typ
 p342-t5-2026-11-08-share-cycle-commit.md | 3.42 T5 — 2026-11-08: share_body_cycle.sh commits via commit_task.sh (TASK env), R22 uncommitted | 5
 p342-t6c4-2026-11-09-cross-retry.md | 3.42 T6.c4 — 2026-11-09: share_body cross retry round (externs, cause parser, retry set) | 5
 p342-t7-2026-11-09-trampoline-convert.md | 3.42 T7 — 2026-11-09: trampoline-family conversion scripts (analyze.py, convert.py) archived; the 20 headers' generator | 172
-p343-t3-return-less-nonvoid-scan.md | 3.43 T3 — 2026-11-10: the 394 non-void defs with no real return at HEAD 50da691580 (method, counts, per-name list) | 403
+p343-t3-return-less-nonvoid-scan.md | 3.43 T3 — 2026-11-10: the 394 non-void defs with no real return at HEAD 50da691580 (method, counts, per-name list) | 404
 p343-t4-hardreg-wall-probes.md | 3.43 T4 — 2026-11-10: hard-reg pin wall probes of the 9 expand-hardreg-var rows (analysis per row, rtl diffs, C bodies, per-pass diffs); regenerate with tools/wall_probe.py | 750
-sig-evidence.md | sig-evidence — the asm signature census and its gate (3.44 T3-T9) | 334
+sig-evidence.md | sig-evidence — the asm signature census and its gate (3.44 T3-T9) | 341

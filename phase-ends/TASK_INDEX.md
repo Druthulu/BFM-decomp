@@ -85,3 +85,17 @@
 3.43 | T15 | done | milestone gate (Phase 3.43) | - | phase-3.43/tasks/T15.md | phase-3.43/logs/T15.md | -
 3.43 | T16 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.43) | - | phase-3.43/tasks/T16.md | phase-3.43/logs/T16.md | R3.43-007
 3.43 | T17 | done | phase cleanup | - | phase-3.43/tasks/T17.md | phase-3.43/logs/T17.md | -
+3.44 | T1 | done | phase-start baselines and signature counts | - | phase-3.44/tasks/T1.md | phase-3.44/logs/T1.md | -
+3.44 | T2 | done | type_census struct_map tie-break | - | phase-3.44/tasks/T2.md | phase-3.44/logs/T2.md | R3.44-002
+3.44 | T3 | done | the asm signature census (tools/sig_evidence.py) | - | phase-3.44/tasks/T3.md | phase-3.44/logs/T3.md | -
+3.44 | T4 | review | the C comparison, the exception ledger and the measured buckets | - | phase-3.44/tasks/T4.md | phase-3.44/logs/T4.md | -
+3.44 | T5 | done | the 19 width and sign return lies: one prototype and marked casts | - | phase-3.44/tasks/T5.md | phase-3.44/logs/T5.md | R3.44-001,R3.44-002,R3.44-004
+3.44 | T6 | done | arity inconsistencies: one prototype and marked casts for `()` declarations | - | phase-3.44/tasks/T6.md | phase-3.44/logs/T6.md | R3.44-001,R3.44-002
+3.44 | T7 | done | I5: the parked non-void functions with no return | - | phase-3.44/tasks/T7.md | phase-3.44/logs/T7.md | R3.44-004,R3.43-001,R3.43-003
+3.44 | T8 | done | the remaining measured disagreements | - | phase-3.44/tasks/T8.md | phase-3.44/logs/T8.md | R3.44-002,R3.44-004
+3.44 | T9 | done | the signature gate in tools-health | - | phase-3.44/tasks/T9.md | phase-3.44/logs/T9.md | R3.44-002
+3.44 | T10 | done | milestone gate (Phase 3.44) | - | phase-3.44/tasks/T10.md | phase-3.44/logs/T10.md | -
+3.44 | T11 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.44) | - | phase-3.44/tasks/T11.md | phase-3.44/logs/T11.md | R3.44-005
+3.44 | T12 | done | phase cleanup (Phase 3.44) | - | phase-3.44/tasks/T12.md | phase-3.44/logs/T12.md | -
+3.44 | T13 | done | backfill 3.43's naming lessons into the day-1 guide and wiki; a names series and README graph | - | phase-3.44/tasks/T13.md | phase-3.44/logs/T13.md | -
+3.44 | T14 | done | a signatures series and README graph, and the day-1 prevention lesson (rule T5) | - | phase-3.44/tasks/T14.md | phase-3.44/logs/T14.md | -
