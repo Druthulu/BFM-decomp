@@ -110,7 +110,7 @@ extern CdFileLoc cdFileLocTable[];
 extern u16 D_800AF7B8;
 extern void func_800167B8(s32 arg0);
 extern void func_800CFAD0(void);
-extern u16 func_800167F0(s32 arg0);
+extern s32 func_800167F0(s32 arg0);
 extern void func_800CF990(void);
 extern s16 D_80114E70;
 extern void func_800CFBCC(u16 arg0);

@@ -350,7 +350,7 @@ void func_800CFDB4(void) {
     extern void func_800152F4(s32);
     extern void func_800167B8(s32);
     extern void func_800CFCBC(void);
-    extern u16 func_80014B10(s32);
+    extern s32 func_80014B10(s32);
     extern void func_80029514(s32);
     extern void func_80011928(s32);
     extern void func_8001534C(int, void *, int, int, int, int);
@@ -368,7 +368,7 @@ void func_800CFDB4(void) {
         *(u16 *)&v0[0xA3DA] = *(s16 *)&v0[0xA3D8] & -0x1000;
         if (sp1C != 0) {
             func_800CFCBC();
-            if (func_80014B10(0) & 0x10) {
+            if (RET_AS(u16, func_80014B10, (s32))(0) & 0x10) {
                 func_80029514(D_800D3344);
                 sp18->f1A = D_800D334A;
             }
@@ -508,7 +508,7 @@ void func_800D0858(void) {
     extern u16 D_800D4CA4;
 
     D_800D4C9C = func_800149E0(0);
-    D_800D4C98 = func_80014B10(0);
+    D_800D4C98 = RET_AS(u16, func_80014B10, (s32))(0);
     if (D_800D4C98 != 0) {
         if (D_800D4C98 == D_800D4CA0) {
             if (--D_800D4CA4 == 0) {

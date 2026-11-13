@@ -6538,7 +6538,7 @@ void func_8018127C(s32 a0) {
 }
 
 
-extern s32 func_8001311C(s32 a0, s32 a1, s32 a2);
+extern s16 func_8001311C(s32 a0, s32 a1, s32 a2);
 extern s16 D_8018C0D0;
 extern s16 D_8018C0D2;
 extern s16 D_8018C0D4;
@@ -6548,13 +6548,13 @@ void func_801812BC(void *a0)
     s32 d;
     s16 acc;
 
-    d = func_8001311C(((Unkstruct_80126B58 *)a0)->unk6, D_8018C0D0, 10);
+    d = RET_AS(s32, func_8001311C, (s32, s32, s32))(((Unkstruct_80126B58 *)a0)->unk6, D_8018C0D0, 10);
     CAST_ALIAS(u16, (s32)a0, 6) = CAST_SIGN(u16, (s32)a0, 6) + d;
     acc = d;
-    d = func_8001311C(((Unkstruct_80126B58 *)a0)->unkA, D_8018C0D2, 10);
+    d = RET_AS(s32, func_8001311C, (s32, s32, s32))(((Unkstruct_80126B58 *)a0)->unkA, D_8018C0D2, 10);
     CAST_ALIAS(u16, (s32)a0, 10) = CAST_SIGN(u16, (s32)a0, 10) + d;
     acc = acc | d;
-    d = func_8001311C(((Unkstruct_80126B58 *)a0)->unkE, D_8018C0D4, 10);
+    d = RET_AS(s32, func_8001311C, (s32, s32, s32))(((Unkstruct_80126B58 *)a0)->unkE, D_8018C0D4, 10);
     ((Unkstruct_80126B58 *)a0)->unkE = CAST_SIGN(u16, (s32)a0, 14) + d;
     acc = acc | d;
     if (acc == 0) {

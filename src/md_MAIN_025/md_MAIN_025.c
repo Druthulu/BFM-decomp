@@ -230,7 +230,7 @@ void func_800CB300(s32 arg0) {
     extern s32 func_80163950(s32 a0);
     extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
     extern void func_80163328(s32 a0);
-    extern u32 func_801633A8(s32 a0);
+    extern s32 func_801633A8(s32 a0);
     extern void guess_StartPadVibration(void *a0);
     extern void func_80013E94(void *a0, void *a1);
     extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -281,7 +281,7 @@ void func_800CB300(s32 arg0) {
     D_800CBEA2 = -0x20 - bit;
     func_8016345C(s1, 0x26, 0, 0x8000, s2);
     func_80163328(s1);
-    switch (func_801633A8(s1)) {
+    switch (RET_AS(u32, func_801633A8, (s32))(s1)) {
     case 1:
         guess_StartPadVibration(D_800CBEB0);
         func_80013E94(D_80114EB0, &work[2]);

@@ -79,7 +79,7 @@ extern u8 D_801F3630[];
 extern u8 D_801F3648[];
 extern s32 func_801789AC(u8 *a0);
 extern void func_80178CBC(u8 *a0, u8 *a1);
-extern s16 func_80188F10(void);
+extern s32 func_80188F10(void);
 extern void func_80188F20(s32 a0);
 extern void func_80174438(s32 a0);
 extern void func_801EF6E4(void);
@@ -106,7 +106,7 @@ void func_801F218C(u8 *a0) {
     case 1:
         break;
     case 2:
-        if (func_80188F10() != 0) {
+        if (RET_AS(s16, func_80188F10, (void))() != 0) {
             func_801EF6E4();
             ((Unkstruct_801F218C *)a0)->unk34 = 4;
         } else {

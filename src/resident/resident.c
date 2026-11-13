@@ -689,7 +689,7 @@ extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32
 extern void func_800167B8(s32 arg0);
 extern void func_80011C10(void);
 extern void func_800CFAD0(void);
-extern u16 func_800167F0(s32 arg0);
+extern s32 func_800167F0(s32 arg0);
 extern void func_80011B7C(s32 arg0);
 
 void func_800CF990(void) {
@@ -704,7 +704,7 @@ void func_800CF990(void) {
         break;
     case 1:
         func_800CFAD0();
-        if (func_800167F0(0) != 0) {
+        if (RET_AS(u16, func_800167F0, (s32))(0) != 0) {
             func_80011C10();
         }
         break;

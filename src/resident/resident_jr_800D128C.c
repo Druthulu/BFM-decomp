@@ -110,7 +110,7 @@ extern CdFileLoc cdFileLocTable[];
 extern u16 D_800AF7B8;
 extern void func_800167B8(s32 arg0);
 extern void func_800CFAD0(void);
-extern u16 func_800167F0(s32 arg0);
+extern s32 func_800167F0(s32 arg0);
 extern void func_800CF990(void);
 extern s16 D_80114E70;
 extern void func_800CFBCC(u16 arg0);
@@ -1023,7 +1023,7 @@ extern u16 D_80078E50;
 extern s32 func_800CFC5C(s32);
 extern s32 func_800CFD68(s32);
 extern s32 func_800168C4(s32);
-extern u16 func_800167F0(s32);
+extern s32 func_800167F0(s32);
 
 s32 func_800D1EBC(void) {
     s32 state;
@@ -1858,7 +1858,7 @@ s32 func_800D2DAC(u8 *arg0) {
 // func_800167F0 returning **u16** with NO cast and `!= 0`; gcc still emits the
 // andi 0xffff as the natural zero-extend of the u16 return before the sltu. Copy
 // that exact form; only the arg changes from 4 to 0.
-extern u16 func_800167F0(s32 arg0);
+extern s32 func_800167F0(s32 arg0);
 
 #define SHARED_FN func_800D2DFC
 #include "../shared/multi/cls_511a8b68802b.h"
@@ -1916,7 +1916,7 @@ extern void func_800167B8(s32 arg0);
 // andi 0xffff is the natural zero-extend of the return) and writes `!= 0`
 // (sltu zero,v0 = "0 < v0" = v0 != 0). The prior draft declared it s32 and
 // added an explicit (u16) cast; copy the proven u16-return form instead.
-extern u16 func_800167F0(s32 arg0);
+extern s32 func_800167F0(s32 arg0);
 
 #define SHARED_FN func_800D2EE8
 #include "../shared/multi/cls_25c5aa9bdbfa.h"
@@ -1948,7 +1948,7 @@ s32 func_800D2F48(u8 *arg0) {
 // is the NATURAL zero-extend of the u16 return value (no explicit (u16) cast), and
 // `!= 0` lowers to `sltu v0,zero,v0` (0 < v0). With an s32 return + explicit cast, gcc
 // schedules the andi differently / can drop it. Copy the twins verbatim.
-extern u16 func_800167F0(s32 arg0);
+extern s32 func_800167F0(s32 arg0);
 
 #define SHARED_FN func_800D2F8C
 #include "../shared/multi/cls_511a8b68802b.h"
@@ -2068,7 +2068,7 @@ extern void func_800167B8(s32 arg0);
 #include "../shared/resident/cls_aff61055f3bb.h"
 #undef SHARED_FN
 
-extern u16 func_800167F0(s32 arg0);
+extern s32 func_800167F0(s32 arg0);
 
 #define SHARED_FN func_800D319C
 #include "../shared/multi/cls_25c5aa9bdbfa.h"
