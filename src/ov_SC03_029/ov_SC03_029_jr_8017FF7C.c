@@ -2858,7 +2858,7 @@ void func_801800D0(s32 a0)
 
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8002AC00(s32 a0);
-extern s32 func_8002A04C();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_8002A04C(s32 a0);
 extern void func_80180250(void *a0);
 
 void func_801801AC(s32 a0) {
@@ -5756,7 +5756,7 @@ found:
  * are not declared anywhere in this TU, so declared fresh matching the
  * twin's proven-banked spelling. */
 
-extern s32 func_8002A04C();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_8002A04C(s32 a0);
 extern void func_8002AC00(s32 a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 func_801439C0(s32 a0);
@@ -5768,7 +5768,7 @@ void func_80184344(s32 a0) {
     u16 v1;
 
     if (((Unkstruct_800B5CB8 *)a0)->unk100 == 0) {
-        func_8002A04C();
+        KR_AS(s32, func_8002A04C)();
     }
 
     if (CAST_SIGN(u8, a0, 0xC1) == 0xE) {

@@ -73,10 +73,10 @@ void func_800CAF84(int param_1)
 }
 
 
-    extern void func_801655E4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+    extern void func_801655E4(s32 a0);
     extern void guess_NextStep(void *a0);
     void func_800CAFBC(s32 a0) {
-        func_801655E4();
+        KR_AS(void, func_801655E4)();
         ((void (*)(s32))guess_NextStep)(a0);
     }
 

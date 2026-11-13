@@ -3664,9 +3664,9 @@ void func_8017E394(void *a0) {
 }
 
 
-extern void func_8017E3F0();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017E3F0(s32 param_1);
     void func_8017E3D0(void) {
-        func_8017E3F0();
+        KR_AS(void, func_8017E3F0)();
     }
 
 
@@ -4319,7 +4319,7 @@ extern void (*D_80185460[])(void);
 #include "common.h"
 
 extern u8 *func_8012913C(s32 a0);
-extern void func_8017F370();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017F370(s32 arg0);
 extern void func_801292C8(u8 *a0);
 extern void guess_AddVelocityToPos(void *);
 extern s32 D_801269B4;
@@ -4329,7 +4329,7 @@ void func_8017F27C(s32 a0) {
     u8 *v0;
 
     if (*(u16 *)(s0 + 0x2) == 0) {
-        func_8017F370();
+        KR_AS(void, func_8017F370)();
         *(u16 *)(s0 + 0x2) = *(u16 *)(s0 + 0x2) + 1;
         return;
     }

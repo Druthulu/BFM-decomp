@@ -70,7 +70,7 @@ void func_800CAF68(void *arg0) {
 
 extern s32 func_8014C088(s32 a0, s32 a1);
 extern s32 func_80165A20(s32 a0);
-extern void func_800CB108();  // K&R: 0/1 of 1 args (P37 rung D t4_D34)
+extern void func_800CB108(s32 *arg0);
 
 void func_800CB010(void *arg0) {
     if (func_8014C088((s32)arg0, 0xB) == 0) {
@@ -82,9 +82,9 @@ void func_800CB010(void *arg0) {
 }
 
 
-extern void func_800CB108();  // K&R: 0/1 of 1 args (P37 rung D t4_D34)
+extern void func_800CB108(s32 *arg0);
 void func_800CB078(void) {
-    func_800CB108();
+    KR_AS(void, func_800CB108)();
 }
 
 
@@ -170,7 +170,7 @@ extern s32 func_80146578(void);
 extern void guess_InitObjectKind6(int a0, void *a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void guess_NextStep(void *a0);
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D44)
+extern void guess_ClearObjectAndSubObject(u8 *);
 
 extern u8 D_800CBBD8;
 extern u8 D_800CBBD9;
@@ -291,12 +291,12 @@ void func_800CB470(void *arg0) {
 }
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D44)
+extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_12: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_12 */
 void guess_FreeObjectAndSubObject_12(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
 }
 
 
@@ -395,12 +395,12 @@ void func_800CB77C(void *arg0) {
 }
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D44)
+extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_15: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_15 */
 void guess_FreeObjectAndSubObject_15(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
 }
 
 

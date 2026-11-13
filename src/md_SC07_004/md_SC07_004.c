@@ -6840,9 +6840,9 @@ s32 func_801AA4EC(s32 param_1, s32 param_2)
 void func_801AA540(void *arg0) {
     extern u16 D_80126B96;
     extern s16 D_80126B98;
-    extern s32 func_801AA584();  // K&R: 0 of 1 args (P37 rung D t4_D7)
+    extern s32 func_801AA584(s32 a0);
 
-    if (func_801AA584()) {
+    if (KR_AS(s32, func_801AA584)()) {
         D_80126B98 = 100;
         D_80126B96 |= 0x4000;
     }
@@ -9942,7 +9942,7 @@ void func_801AE8B0(s32 a0) {
 
 
 extern void func_801ADA10(s32 a0);
-extern void func_801AEAE4();  // K&R: 0 of 1 args (P37 rung D t4_D7)
+extern void func_801AEAE4(void *a0);
 extern void func_801292C8(u8 *a0);
 
 void func_801AE908(void *a0) {
@@ -9959,7 +9959,7 @@ void func_801AE908(void *a0) {
             func_801ADA10(a0);
         }
     } else {
-        func_801AEAE4();
+        KR_AS(void, func_801AEAE4)();
         func_801292C8((u8 *)a0);
     }
 }

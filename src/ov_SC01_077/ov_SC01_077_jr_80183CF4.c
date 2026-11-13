@@ -3066,14 +3066,14 @@ extern void func_8012E4C8(s32);
 extern void func_80183A70(s32 arg0);
 extern void func_80183AA8(int param_1);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 extern void func_80183BAC(s32 param_1);
 
 // @class: struct
 // @unstuck(P36): none — MATCH (clean switch + jtbl; orchestrator owns jtbl/rodata migration)
 
 extern void func_80130D48(s32 a0);
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 extern void guess_FreeActor(void *a0);
 extern s32 D_801270CC;
 
@@ -3395,7 +3395,7 @@ void func_801843C0(int param_1)
 #include "../shared/ov/cls_98ab17e54d84.h"
 #undef SHARED_FN
 
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 
 #define SHARED_FN func_8018448C
 #include "../shared/ov/cls_6e914334a7ab.h"
@@ -3635,7 +3635,7 @@ void func_80184A00(s32 param_1) {
 
 extern s32 guess_DistSqToPlayer(s32 a0);
 extern s32 func_8012C044(s32 a0);
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 
 void func_80184A68(s32 param_1)
 {
@@ -3670,7 +3670,7 @@ void func_80184AEC(s32 arg0) {
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_801845EC(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012C044(s32 a0);
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 
 void func_80184B24(s32 param_1)
 {

@@ -1945,7 +1945,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -3656,7 +3656,7 @@ void func_8017E97C(void *a0) {
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_80013294(void *a0, void *a1);
 extern s32 func_8014C168(s32 *a0, s32 a1);
-extern void func_8017EDF8();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+extern void func_8017EDF8(s32 param_1, s32 param_2);
 extern Blk8 D_801274E8;
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 
@@ -3679,12 +3679,12 @@ void func_8017E9B8(void *a0) {
     }
     *(s32 *)((u8 *)a0 + 0x14) = res;
     D_801274E8 = buf1;
-    func_8017EDF8(a0);
+    KR_AS(void, func_8017EDF8)(a0);
 }
 
 
 extern s16 D_801E4C50;
-extern void func_8017EDF8();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+extern void func_8017EDF8(s32 param_1, s32 param_2);
 
 void func_8017EA74(void *a0) {
     func_8017EDF8(a0, &D_801E4C50);
@@ -3694,7 +3694,7 @@ void func_8017EA74(void *a0) {
 
 
 extern void func_8017EFB4(s32 param_1);
-extern void func_8017EDF8();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+extern void func_8017EDF8(s32 param_1, s32 param_2);
 extern Blk8 D_801274E8;
 
 void func_8017EA9C(void *param_1)
@@ -3709,7 +3709,7 @@ void func_8017EA9C(void *param_1)
 void func_8017EAD4(void *param_1)
 {
     extern void func_8017EFB4(s32 param_1);
-    extern void func_8017EDF8();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+    extern void func_8017EDF8(s32 param_1, s32 param_2);
     extern s32 func_8014C168(s32 *a0, s32 a1);
     extern Blk8 D_801274E8;
     extern s16 D_801274EC;
@@ -3735,7 +3735,7 @@ void func_8017EB38(s32 a0) {
     extern s16 D_801E4C50;
     extern s16 D_801E4C52;
     extern s16 D_801E4C54;
-    extern void func_8017EDF8();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+    extern void func_8017EDF8(s32 param_1, s32 param_2);
 
     s16 *p = &D_801E4C50;
     p[0] = guess_g_PlayerPosX;
@@ -3775,7 +3775,7 @@ void func_8017EB8C(void) {
 
 
 extern s32 func_8014C168(s32 *a0, s32 a1);
-extern void func_8017EDF8();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+extern void func_8017EDF8(s32 param_1, s32 param_2);
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern Blk8 D_801274E8;
 extern s16 D_801274EA;
@@ -3801,7 +3801,7 @@ void func_8017ECAC(void *param_1)
 
 
 
-extern void func_8017EDF8();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+extern void func_8017EDF8(s32 param_1, s32 param_2);
 extern Blk8 D_801274E8;
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 
@@ -3826,7 +3826,7 @@ void func_8017ED28(void *a0) {
     }
     *(s32 *)((u8 *)a0 + 0x14) = res;
     D_801274E8 = buf1;
-    func_8017EDF8(a0);
+    KR_AS(void, func_8017EDF8)(a0);
 }
 
 
@@ -4032,7 +4032,7 @@ extern void guess_CloseTextWindow(s32 a0);
 // @class: plumbing
 // @unstuck(P36): none — MATCH (param_1 survives across func_8016F0E4 → lands in $s0; passed to func_80165770)
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -4069,7 +4069,7 @@ extern s32 func_80171B4C(s32 a0, s32 a1);
 #undef SHARED_FN
 
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 #define SHARED_FN func_8017F408
 #include "../shared/multi/cls_5211f6f7586b.h"
 #undef SHARED_FN
@@ -4087,7 +4087,7 @@ void func_8017F428(void *a0) {
 
 extern Blk8 D_801E2DC0;
 extern s32 func_800CF854(void);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
 extern void func_8016F094(s32 *a0);
 extern s16 D_801E4C50;
@@ -4677,7 +4677,7 @@ void func_801802CC(s32 param_1) {
 extern s32 D_801270C8[0];
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
 extern void func_8014C6AC(void);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -4729,7 +4729,7 @@ void func_801803BC(s32 param_1) {
 
 extern s32 D_801270C8[0];
 extern void func_8014C6AC(void);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -4906,7 +4906,7 @@ void func_8018074C(s32 arg0)
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 func_8014C168(s32 *a0, s32 a1);
     extern void func_8014C6C0(void);
-    extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+    extern void func_8016F0E4(u8 *);
     extern void func_8018DEB8(s16 param_1);
     extern void func_80180C3C(void);
     extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
@@ -5003,7 +5003,7 @@ void func_801808B0(s32 param_1)
 
 
 extern void func_8014C6AC(void);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -5068,7 +5068,7 @@ void func_80180B90(u8 *a0)
 
 
 extern void func_8014C6AC(void);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 void func_80180C04(void *a0) {
     ((void (*)(void *))func_8014C6AC)(a0);
@@ -5309,12 +5309,12 @@ void func_8018118C(s32 a0) {
 
 
 extern s32 D_801270C8[0];
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_801812B4(void);
 
 void func_80181238(void) {
     if (D_801270C8[0] == 0x22) {
-        func_8016F0E4();
+        KR_AS(void, func_8016F0E4)();
         func_801812B4();
     }
 }
@@ -5478,7 +5478,7 @@ void func_801815FC(void) {
 
 
 extern void func_80147060(u8*);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 void func_8018166C(s32 a0) {
     ((void (*)(void))func_80147060)();
     ((void (*)(s32))func_8016F0E4)(a0);

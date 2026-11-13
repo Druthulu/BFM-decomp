@@ -3323,7 +3323,7 @@ void func_80183324(s32 param_1) {
 
 #include "common.h"
 
-extern void func_80181F08();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80181F08(s32 arg0);
 extern s32 D_801270D8;
 extern s16 D_8018AACC;
 extern s16 D_8018AAD0;
@@ -3347,7 +3347,7 @@ void func_80183834(s32 param_1) {
     u16 t;
 
     if ((((Unkstruct_800B5CB8 *)param_1)->unk5C & 1) != 0) {
-        func_80181F08();
+        KR_AS(void, func_80181F08)();
     }
     if ((CAST_SIGN(u16, param_1, 0x70) & 0x400) != 0 && D_801270D8 != 0 &&
         CAST_SIGN(u16, param_1, 0x2) != 0xA) {
@@ -3407,7 +3407,7 @@ void func_80183834(s32 param_1) {
 }
 
 
-extern void func_8012E364();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8012E364(s32 arg0_);
 
 #define SHARED_FN func_80183A50
 #include "../shared/ov/cls_5f67a0123204.h"

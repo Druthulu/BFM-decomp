@@ -2,6 +2,6 @@
 void SHARED_FN(s32 a0) {
 
     extern s32 D_80192270[];
-    s32 idx = func_80184DD0(a0);
+    s32 idx = KR_AS(s32, func_80184DD0)(a0);
     ((Unkstruct_80180D5C *)a0)->unkE4 = D_80192270[idx];
 }

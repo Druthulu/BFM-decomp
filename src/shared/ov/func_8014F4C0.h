@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 guess_TestGameFlag(s32 arg);
-extern int func_8014F74C();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
+extern int func_8014F74C(s32 arg0);
 extern u8 D_800D3918[];
 extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 extern s16 D_801152B0;
@@ -14,7 +14,7 @@ s32 func_8014F4C0(s32 arg0)
     u16 x6, xA, xE;
     s32 ret;
     if (*(s16 *)(arg0 + 0x146) != 0) {
-        return func_8014F74C();
+        return KR_AS(int, func_8014F74C)();
     }
     sp10.x = *(u16 *)(arg0 + 0x88);
     sp10.y = *(u16 *)(arg0 + 0x8A);

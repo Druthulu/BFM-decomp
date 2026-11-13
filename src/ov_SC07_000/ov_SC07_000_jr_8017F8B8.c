@@ -2767,7 +2767,7 @@ extern void func_8017EE38(void);
 extern u8 D_801BD0D4[];
 extern void func_8017EE40(s32 a0);
 extern void func_8017EE8C(s32 param_1);
-extern void func_8017EEC0();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern void func_8017EEC0(s32 *a0);
 extern void guess_StartActorSequence(s32 a0, void * a1);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void func_8017F044(s32 a0);
@@ -2994,7 +2994,7 @@ void func_8017FE5C(void *a0) {
 }
 
 
-extern u8 *func_801290DC();  // K&R: 1/2 of 2 args (P37 rung D t4_D22)
+extern u8 *func_801290DC(s32 a0, u8 *a1);
 
 void func_8017FE9C(void *a0) {
     struct { s16 x; s16 y; s16 z; } sp;
@@ -3175,13 +3175,13 @@ void func_801802E4(void *a0) {
 }
 
 
-extern u8 *func_801290DC();  // K&R: 1/2 of 2 args (P37 rung D t4_D22)
+extern u8 *func_801290DC(s32 a0, u8 *a1);
 
 void func_801803F0() {
     u8 *rec;
     s32 r;
 
-    rec = func_801290DC(0x22);
+    rec = KR_AS(u8 *, func_801290DC)(0x22);
     if (rec != NULL) {
         ((Unkstruct_80129010 *)rec)->unk34 = 0x4000;
         r = rand();
@@ -3424,7 +3424,7 @@ void func_80180A3C(s32 a0) {
 
 
 extern s16 D_801D0B7C;
-extern void func_8017EEC0();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern void func_8017EEC0(s32 *a0);
 void func_80180AA4(void *a0) {
     s32 a1;
     s32 v1;
@@ -3442,7 +3442,7 @@ void func_80180AA4(void *a0) {
         }
     } else {
         if (*(u16 *)&D_801D0B7C == 2) {
-            func_8017EEC0();
+            KR_AS(void, func_8017EEC0)();
         }
     }
 }

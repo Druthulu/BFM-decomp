@@ -156,7 +156,7 @@ void func_800CB21C(s32 a0) {
     extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void guess_NextStep(void *a0);
-    extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+    extern void guess_ClearObjectAndSubObject(u8 *);
 
     iVar1 = *(s32 *)(a0 + 0x4C);
     iVar2 = ((s32 (*)(void))func_8014659C)();
@@ -239,17 +239,17 @@ void func_800CB2E0(void *arg0) {
 }
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_8: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_8 */
 void guess_FreeObjectAndSubObject_8(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
 }
 
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB494(void *arg0) {
 
@@ -259,7 +259,7 @@ void func_800CB494(void *arg0) {
         u16 v0 = ((Unkstruct_800CB1C0 *)arg0)->unk2;
         D_800CBB58[v0]();
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -267,13 +267,13 @@ void func_800CB494(void *arg0) {
 void func_800CB4F0(void *arg0) {
     extern s32 func_801465E4(void);
     extern void func_8001C810(s32 a0, s32 a1);
-    extern void guess_ObjRotTransSV();  // K&R: 3 of 1 args (P37 rung D t4_D58)
+    extern void guess_ObjRotTransSV(s32 arg0);
     extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
     extern void func_80017DC4(void *a0, void *a1);
     extern void RotMatrixZ(s32 a0, void *a1);
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-    extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern s32 rand(void);
     extern s32 D_800CC870;
     extern s32 D_800636C8;
@@ -296,7 +296,7 @@ void func_800CB4F0(void *arg0) {
     sv[0] = 0;
     sv[1] = -6;
     sv[2] = *(u16 *)((char *)arg0 + 0xE) - 0x24;
-    guess_ObjRotTransSV(s3, sv, sv);
+    KR_AS(void, guess_ObjRotTransSV)(s3, sv, sv);
 
     t = ((Unkstruct_800CB4F0 *)s3)->unk20;
     *(Blk16 *)((char *)arg0 + 0x38) = *(Blk16 *)(t + 0x34);
@@ -334,14 +334,14 @@ Lend:;
 
 void func_800CB6A4(void *arg0) {
     extern s32 func_800CB6FC(s32 a0);
-    extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+    extern s32 guess_FreeSmallObject(u8 *a0);
 
     (*(s32 *)((char *)arg0 + 0x1C))++;
     if ((*(s32 *)((char *)arg0 + 0x1C)) < 2) {
         *(u32 *)((char *)arg0 + 0x30) >>= 1;
         func_800CB6FC((s32)arg0);
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -391,7 +391,7 @@ s32 func_800CB6FC(s32 param_1) {
 
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB830(void *arg0) {
 
@@ -401,7 +401,7 @@ void func_800CB830(void *arg0) {
         u16 v0 = ((Unkstruct_800CB1C0 *)arg0)->unk2;
         D_800CBB60[v0]();
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -426,7 +426,7 @@ void func_800CB88C(s32 param_1) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern s32 func_800CB988(s32 param_1);
 
 void func_800CB930(void *arg0) {
@@ -439,7 +439,7 @@ void func_800CB930(void *arg0) {
         *(u32 *)((s32)arg0 + 0x30) >>= 1;
         func_800CB988((s32)arg0);
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 

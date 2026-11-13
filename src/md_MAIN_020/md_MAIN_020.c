@@ -53,7 +53,7 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 
 
 extern void guess_SetState(s32 *a0, s16 a1);
-extern void func_800CAFFC();  // K&R: 0 of 1 args (P37 rung D t4_D55)
+extern void func_800CAFFC(void *a0);
 void func_800CAF38(s32 *a0) {
     guess_SetState(a0, 31);
     ((void (*)(void *))func_800CAFFC)(a0);
@@ -77,9 +77,9 @@ void func_800CAFA0(void *a0) {
 }
 
 
-extern void func_800CAFFC();  // K&R: 0 of 1 args (P37 rung D t4_D55)
+extern void func_800CAFFC(void *a0);
 void func_800CAFDC(void) {
-    func_800CAFFC();
+    KR_AS(void, func_800CAFFC)();
 }
 
 

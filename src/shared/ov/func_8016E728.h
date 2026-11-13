@@ -1,7 +1,7 @@
 /* func_8016E728 — shared body (overlay slot 0x80128158, h_exact 89a42c5c). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
-extern void func_8016E778();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
+extern s32 guess_FreeSmallObject(u8 *a0);
+extern void func_8016E778(int param_1);
 void func_8016E728(u8 *a0) {
     s32 v0;
     s32 v1;
@@ -10,8 +10,8 @@ void func_8016E728(u8 *a0) {
     *(u16 *)(a0 + 0x12) = v0;
     *(u16 *)(a0 + 0x16) = v1;
     if ((s16)v1 <= 0) {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     } else {
-        func_8016E778();
+        KR_AS(void, func_8016E778)();
     }
 }

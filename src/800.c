@@ -10600,14 +10600,14 @@ extern s32 func_80021174(s32 a0, s32 a1);
 extern void func_80021008(void *a0);
 extern void func_80021050(void);
 extern void func_8002109C(s32 a0, s16 **a1);
-extern void func_80021120();  // K&R: 2 of 1 args (P37 rung D t4_D9)
+extern void func_80021120(s32 *arg0);
 extern void func_80056F18();
 extern void func_80052F04();
 extern void func_80052E38();
 extern void func_80057094();
 extern void func_80055D40();
 extern void func_80027BF0(void);
-extern void func_800243EC();  // K&R: 3 of 1 args (P37 rung D t4_D9)
+extern void func_800243EC(s32 *a0);
 extern void func_800CAE80();
 
 void func_8001FC08(OBJ_8001FC08 *obj)
@@ -10723,11 +10723,11 @@ void func_8001FC08(OBJ_8001FC08 *obj)
                     if (mode == 0) {
                         func_80057094((s32)&L, (s32)otp, 0, ot);
                     } else if (mode == 5) {
-                        func_800243EC((s32)&L, (s32)otp, 0);
+                        KR_AS(void, func_800243EC)((s32)&L, (s32)otp, 0);
                     }
                 }
                 if (L.lp != 0) {
-                    func_80021120(&L.cnt, L.lp);
+                    KR_AS(void, func_80021120)(&L.cnt, L.lp);
                 }
                 list++;
                 rm++;
@@ -10789,11 +10789,11 @@ void func_8001FC08(OBJ_8001FC08 *obj)
                     } else if (mode == 6) {
                         func_800CAE80((s32)&L, (s32)otp, 0);
                     } else if (mode == 5) {
-                        func_800243EC((s32)&L, (s32)otp, 0);
+                        KR_AS(void, func_800243EC)((s32)&L, (s32)otp, 0);
                     }
                 }
                 if ((flags & 0x40) == 0 && L.lp != 0) {
-                    func_80021120(&L.cnt, L.lp);
+                    KR_AS(void, func_80021120)(&L.cnt, L.lp);
                 }
                 list++;
                 rm++;
@@ -13795,8 +13795,8 @@ void func_800242D0(s32 arg0, u16* arg1, s32 arg2) {
 
 extern s32 D_80078D88[];
 extern s32 D_800A2B78;
-extern void func_80026D64();  // K&R: 0/3 of 3 args (P37 rung D t4_D9)
-extern void func_80024448();  // K&R: 0/3 of 3 args (P37 rung D t4_D9)
+extern void func_80026D64(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80024448(int param_1, int param_2, u32 param_3);
 
 void func_800243EC(s32 *a0) {
     s32 v = *a0;
@@ -13805,9 +13805,9 @@ void func_800243EC(s32 *a0) {
     D_800A2B78 = (v >> 28) & 7;
 
     if (v & 0x40) {
-        func_80026D64();
+        KR_AS(void, func_80026D64)();
     } else {
-        func_80024448();
+        KR_AS(void, func_80024448)();
     }
 }
 
@@ -17130,7 +17130,7 @@ s32 func_8002A04C(s32 a0) {
     return 0;
 }
 
-extern s32 func_8002A108();  // K&R: ? of 1 args (P37 rung D t4_D9)
+extern s32 func_8002A108(s32 arg0);
 extern s32 func_8002A26C(void);
 extern void func_8016E918(s16 a0, s16 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -17141,7 +17141,7 @@ s32 func_8002A088(s32 arg0) {
     s32 i;
     s32 off;
 
-    if (func_8002A108() != 0) {
+    if (KR_AS(s32, func_8002A108)() != 0) {
         i = func_8002A26C();
         off = i * 16;
         i = (i - 1) * 16;

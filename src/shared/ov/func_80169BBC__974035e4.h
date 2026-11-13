@@ -16,7 +16,7 @@ void func_80169BBC(s32 arg0) {
     s32 p1;
     s32 s2;
 
-    func_800D2318();
+    KR_AS(void, func_800D2318)();
     rot[0] = *(u16 *)(arg0 + 0x12);
     rot[1] = *(u16 *)(arg0 + 0x16);
     rot[2] = 0;

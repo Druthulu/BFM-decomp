@@ -13,6 +13,6 @@ void func_8017D650(void *a0)
         *(s16 *)((s32)obj + 0x64) = 0x1000;
         *(s16 *)((s32)obj + 0x62) = 0x1000;
         *(s16 *)((s32)obj + 0x60) = 0x1000;
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }

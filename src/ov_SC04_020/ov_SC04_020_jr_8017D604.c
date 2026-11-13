@@ -5594,7 +5594,7 @@ void func_80181E40(void *a0) {
 extern s32 func_80181948(s32 a0);
 extern void func_801820E0(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern void func_801826C8();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_801826C8(s32 a0);
 
 void func_80181EBC(s32 a0) {
     s32 s0;
@@ -5636,9 +5636,9 @@ void func_80181EBC(s32 a0) {
 }
 
 
-extern void func_801826C8();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_801826C8(s32 a0);
     void func_80181F88(void) {
-        func_801826C8();
+        KR_AS(void, func_801826C8)();
     }
 
 
@@ -5647,7 +5647,7 @@ extern s32 func_80181948(s32 a0);
 extern void func_80182078(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern void func_801826C8();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_801826C8(s32 a0);
 
 void func_80181FA8(s32 a0) {
     if (func_80181948(a0) == 2) {
@@ -5675,7 +5675,7 @@ void func_80181FA8(s32 a0) {
 
 extern s16 D_801B5EFC[];
 extern s32 D_801B5EC0[][2];
-extern void func_801826C8();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_801826C8(s32 a0);
 
 void func_80182078(a0)
 s32 a0;
@@ -5691,13 +5691,13 @@ s32 a0;
         D_801B5EC0[D_801B5EFC[((Unkstruct_800B5CB8 *)a0)->unk70]][0];
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x800;
     ((Unkstruct_800B5CB8 *)a0)->unkB0 = 0;
-    func_801826C8();
+    KR_AS(void, func_801826C8)();
 }
 
 
 
 
-extern void func_801826C8();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_801826C8(s32 a0);
 
 void func_801820E0(s32 a0) {
 
@@ -5717,7 +5717,7 @@ void func_801820E0(s32 a0) {
     ((Unkstruct_800B5CB8 *)a0)->unk84 = 0;
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
     ((Unkstruct_800B5CB8 *)a0)->unkB0 = 0;
-    func_801826C8();
+    KR_AS(void, func_801826C8)();
 }
 
 
@@ -5738,7 +5738,7 @@ void func_80182154(s32 a0) {
 
 
 
-extern void func_801826C8();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_801826C8(s32 a0);
 
 void func_801821B4(s32 a0) {
 
@@ -5753,7 +5753,7 @@ void func_801821B4(s32 a0) {
     *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x24) = D_801B5EBC[D_801B5EFC[((Unkstruct_800B5CB8 *)a0)->unk70]][0];
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x800;
     ((Unkstruct_800B5CB8 *)a0)->unkB0 = 0;
-    func_801826C8();
+    KR_AS(void, func_801826C8)();
 }
 
 

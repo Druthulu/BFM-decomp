@@ -4,7 +4,7 @@ extern s32 func_8012CBCC(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_80131C78(s32 a0);
-extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 void func_8012F68C(s32 arg0) {
     s32 flag;
     u32 cond;
@@ -26,5 +26,5 @@ void func_8012F68C(s32 arg0) {
             func_80131C78(arg0);
         }
     }
-    guess_CallActorEventHandler(arg0, 5);
+    KR_AS(s32, guess_CallActorEventHandler)(arg0, 5);
 }

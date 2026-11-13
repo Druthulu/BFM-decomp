@@ -1,8 +1,8 @@
 /* func_8016B114 — shared body (overlay slot 0x80128158, h_exact 2f685822). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_8016B234();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
+extern void func_8016B234(s32 param_1);
 extern void guess_AddVelocityToPos_4(s32 a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8016B114(void *arg0)
 {
     s32 s1;
@@ -10,7 +10,7 @@ void func_8016B114(void *arg0)
     s32 cv;
     s1 = *(s32 *)((u8 *)arg0 + 0x20);
     if ((u32)*(s32 *)((u8 *)arg0 + 0x2C) < 6U) {
-        func_8016B234();
+        KR_AS(void, func_8016B234)();
     }
     state = *(u32 *)((u8 *)arg0 + 0x2C);
     switch (state) {

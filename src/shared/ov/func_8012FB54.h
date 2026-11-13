@@ -3,7 +3,7 @@
 extern void func_801319E0(s32 a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 void func_8012FB54(s32 a0) {
     s32 s0 = a0;
     s32 v1;
@@ -26,5 +26,5 @@ void func_8012FB54(s32 a0) {
             }
         }
     }
-    guess_CallActorEventHandler(s0, 0x36);
+    KR_AS(s32, guess_CallActorEventHandler)(s0, 0x36);
 }

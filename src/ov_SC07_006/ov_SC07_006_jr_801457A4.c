@@ -447,7 +447,7 @@ extern void func_801307B0(s32 a0);
 extern void func_80130858(s32 a0);
 extern void func_80130898(u8 *a0);
 extern void func_801308DC(s32 a0);
-extern void func_80166244();  // K&R: 0 of 1 args (P37 rung D t4_D31)
+extern void func_80166244(void* arg0);
 extern void func_80130974(int param_1);
 extern void func_80130A18(u8 *a0);
 extern void func_80130AC4(s32 a0);
@@ -2214,7 +2214,7 @@ extern s16 currentLocationId;
 extern void func_80144A04(s32 *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern void func_8016EDEC();  // K&R: 2 of 3 args (P37 rung D t6_D4)
+extern void func_8016EDEC(s32 _arg0, s32 _arg1, s32 _arg2);
 #include "../shared/ov/func_80149F2C.h"
 
 

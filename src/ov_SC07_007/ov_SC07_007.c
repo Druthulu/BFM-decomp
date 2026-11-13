@@ -1591,7 +1591,7 @@ extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 
 void func_8012F828(int param_1)
 {
@@ -1601,7 +1601,7 @@ void func_8012F828(int param_1)
     if (*(unsigned int *)(param_1 + 0xB4) & 8) {
         func_80131170(param_1, D_801832A0, 0xB);
     }
-    guess_CallActorEventHandler(param_1, 9);
+    KR_AS(s32, guess_CallActorEventHandler)(param_1, 9);
 }
 
 
@@ -1612,7 +1612,7 @@ void func_8012F828(int param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 
 void func_8012F8C8(int param_1)
 {
@@ -1622,7 +1622,7 @@ void func_8012F8C8(int param_1)
     if (*(unsigned int *)(param_1 + 0xB4) & 128) {
         func_80131170(param_1, D_801832AC, 0xB);
     }
-    guess_CallActorEventHandler(param_1, 22);
+    KR_AS(s32, guess_CallActorEventHandler)(param_1, 22);
 }
 
 
@@ -1658,7 +1658,7 @@ void func_8012F8C8(int param_1)
 //   re-derive the CALLEE ARITY from the asm — a spurious extra register arg that is live across the call is what
 //   blocks reorg from sharing a downstream constant into a branch delay slot.)
 
-extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131B14(void);
 extern s32 guess_StartActorSequenceById(s32, s32);
@@ -1671,7 +1671,7 @@ void func_8012FCC4(int param_1) {
     ((Unkstruct_800B5CB8 *)param_1)->unkC1 = 8;
     if (v1 & 2) {
         ((Unkstruct_800B5CB8 *)param_1)->unkC1 = 1;
-        guess_CallActorEventHandler(param_1, 3);
+        KR_AS(s32, guess_CallActorEventHandler)(param_1, 3);
         return;
     }
     if (v1 & 1) {
@@ -1692,10 +1692,10 @@ void func_8012FCC4(int param_1) {
         }
         ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_801832B8);
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
-        guess_CallActorEventHandler(param_1, 0x1C);
+        KR_AS(s32, guess_CallActorEventHandler)(param_1, 0x1C);
         return;
     }
-    guess_CallActorEventHandler(param_1, 0x1C);
+    KR_AS(s32, guess_CallActorEventHandler)(param_1, 0x1C);
 }
 
 

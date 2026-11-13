@@ -170,7 +170,7 @@ extern Rec9 D_8018744C[];
 extern u8 D_801DAA78;  /* canonical (§8d); Rec9 block-move via cast-at-use */
 
 extern void func_8013DBE4(int param_1);
-extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
+extern void func_8013D9B0(int param_1);
 extern void func_8013D330(void);
 extern void func_8013D178(void);
 extern void func_8013CF68(void);
@@ -327,7 +327,7 @@ extern s32 D_801D9598;
 extern s32 D_801D9580;
 extern s32 D_801D959C;
 extern s32 D_801D958C;
-extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
+extern void func_8013D9B0(int param_1);
 
 void func_8013D064(void)
 {
@@ -352,11 +352,11 @@ void func_8013D064(void)
     return;
 }
 
-extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
+extern void func_8013D9B0(int param_1);
 extern s32 D_801D958C;
 
 s32 func_8013D13C(void) {
-    func_8013D9B0();
+    KR_AS(void, func_8013D9B0)();
     return D_801D958C;
 }
 

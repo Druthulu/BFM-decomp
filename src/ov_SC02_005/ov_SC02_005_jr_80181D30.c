@@ -2888,12 +2888,12 @@ void func_80181FE8(void *arg0) {
 }
 
 
-extern void func_8012B21C();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern void func_8012B21C(void *a0);
 extern void func_80186178(s32*);
 extern void func_80185B38(s32 a0);
 
 void func_8018203C(s32 a0) {
-    func_8012B21C();
+    KR_AS(void, func_8012B21C)();
     if (((Unkstruct_800B5CB8 *)a0)->unkE8 & 0x2000) {
         ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x10;
     } else {
@@ -3567,7 +3567,7 @@ extern u16 D_801E4398;
 extern u16 D_801E439C;
 extern s32 D_801E43C0;
 extern s32 D_801E43C4;
-extern void func_80185764();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80185764(void *a0);
 
 void func_80182EB0(void) {
     void *a0r;
@@ -3598,7 +3598,7 @@ void func_80182EB0(void) {
     func_8017BEE8(&D_801E4398, &D_801E439C, 0, 0x60);
     D_801E43C0 = 0;
     D_801E43C4 = 0;
-    func_80185764();
+    KR_AS(void, func_80185764)();
 }
 
 

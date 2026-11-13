@@ -40,7 +40,7 @@ void func_800CAEB0(void *a0) {
 #include "common.h"
 
 extern s32 D_80078EC8;
-extern s32 func_80165A20();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 func_80165A20(s32 a0);
 
 #define SHARED_FN func_800CAF20
 #include "../shared/slot_800CAE08/cls_a794c5bff4fe.h"

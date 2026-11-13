@@ -1666,7 +1666,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1684,7 +1684,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_80188A44[])(void);
 extern void func_80167A9C(void *a0);
@@ -3118,7 +3118,7 @@ extern void func_8017D0F8(int);
 
 
 extern void func_8017D0F8(int);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017D0AC__5610933d.h"
 
 
@@ -3271,7 +3271,7 @@ extern void func_8017D0F8(int);
 
 
 extern void func_8017D0F8(int);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017D650__bfb17318.h"
 
 
@@ -3320,7 +3320,7 @@ extern int rand(void);
 
 
 extern void guess_AddVelocityToPos_4(s32 a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_8017D7F0(void *a0);
 #include "../shared/ov/func_8017D794.h"
 
@@ -5614,7 +5614,7 @@ extern u8 D_801A8440[];
 extern u8 D_801A844C[];
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void *guess_AllocSpriteObject(void);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_80180DB4(s32 param_1)
 {
@@ -5645,7 +5645,7 @@ void func_80180DB4(s32 param_1)
 
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_80180E8C(a0)
 void *a0;

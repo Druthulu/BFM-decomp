@@ -41,7 +41,7 @@ s32 func_800CAE8C(s32 arg0)
 
 
 extern s32 D_80078EC8;
-extern s32 func_80165A20();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 func_80165A20(s32 a0);
 
 #define SHARED_FN func_800CAEF4
 #include "../shared/slot_800CAE08/cls_a794c5bff4fe.h"
@@ -52,7 +52,7 @@ void func_800CAF20(void) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CAF28(void *arg0) {
 
@@ -62,7 +62,7 @@ void func_800CAF28(void *arg0) {
         u16 v0 = *(u16 *)((u8 *)arg0 + 2);
         D_800CB53C[v0]();
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -239,7 +239,7 @@ void func_800CB400(void *a0)
         ((Unkstruct_800CB400 *)a0)->unk50 -= 2;
         func_800CAF84();
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 

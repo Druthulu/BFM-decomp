@@ -1665,7 +1665,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1683,7 +1683,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_80185344[])(void);
 extern void func_80167A9C(void *a0);
@@ -3309,7 +3309,7 @@ void func_8017BE60(void *a0) {
 
 
 extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern s32 rand(void);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
@@ -3392,7 +3392,7 @@ void func_8017C0E4(void *a0) {
  * Every type disagreement is then pushed to a cast at the use site; the TU
  * already uses exactly this func-ptr-cast form for guess_FreeSmallObject at line 3374.
  * Casts emit no code -- both calls remain direct `jal`. Byte-neutral. */
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void guess_AddVelocityToPos_4(s32 a0);
 
 #include "../shared/ov/func_8017C120__c2ebbc57.h"
@@ -4002,7 +4002,7 @@ extern void func_80178D18(void);
 #undef SHARED_FN
 
 
-extern void guess_FreeActor();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern void guess_FreeActor(void *a0);
 #define SHARED_FN func_8017CF24
 #include "../shared/ov/cls_c05e46830b4f.h"
 #undef SHARED_FN
@@ -4080,7 +4080,7 @@ extern void func_8017D2F4(int);
 
 
 extern void func_8017D2F4(int);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017D2A8__83337f12.h"
 
 
@@ -4238,7 +4238,7 @@ extern void func_8017D2F4(int);
 
 
 extern void func_8017D2F4(int);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017D84C__08f9a135.h"
 
 
@@ -4287,7 +4287,7 @@ extern int rand(void);
 
 
 extern void guess_AddVelocityToPos_4(s32 a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_8017D9EC(void *a0);
 #include "../shared/ov/func_8017D990__fbce0bf2.h"
 

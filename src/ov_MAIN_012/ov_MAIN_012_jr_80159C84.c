@@ -457,7 +457,7 @@ extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_
 extern void func_80131B14(void);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 extern void func_8012F5F4(s32 arg0);
 extern void func_80131C78(s32 a0);
 extern void func_8012F68C(s32 arg0);
@@ -465,14 +465,14 @@ extern void func_8012F75C(s32 a0);
 extern s32 guess_TickWaitTimer(s32);
 extern void func_8012F7B4(s32 a0);
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 extern void func_8012F828(int param_1);
 extern void func_80131340(s32 a0);
 extern void func_8012F87C(s32 a0);
 extern void func_8012F8C8(int param_1);
 extern void func_8012F91C(s32 a0);
 extern s32 guess_StartActorSequenceById(s32 a0, s32 a1);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 extern void func_8012F968(s32 param_1);
 extern void func_801319E0(s32 a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
@@ -506,7 +506,7 @@ extern void func_80130438(s32 a0);
 extern void func_801319E0(int);
 extern int guess_HandleActorEventDefault(int, int);
 extern int guess_TickWaitTimer(int);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 extern void func_80130514(int param_1);
 extern void func_801305CC(u8 *a0);
 extern s32 func_8012CBF4(s32);
@@ -533,7 +533,7 @@ extern s32 func_801312D0(s32 param_1, void *param_2);
 extern s32 func_8002A04C(s32 a0);
 extern void func_801319E0(s32 arg0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
-extern s32 guess_LookupIdValue();  // K&R: 0/1 of 2 args (P37 unalias t4_ua6)
+extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
 extern void guess_StartPadVibration(void *a0);
 extern int guess_HandleActorEventDefault(int a0, int a1);
 extern void func_80131E38(u8 *a0);

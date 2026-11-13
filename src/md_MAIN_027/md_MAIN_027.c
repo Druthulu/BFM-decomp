@@ -45,7 +45,7 @@ void func_800CAF20(void) {
 }
 
 extern void guess_SetState(s32 *a0, s16 a1);
-extern void func_800CAFEC();  // K&R: 0 of 1 args (P37 rung D t4_D35)
+extern void func_800CAFEC(s32 *a0);
 void func_800CAF28(s32 *a0) {
     guess_SetState(a0, 32);
     ((void (*)(void *))func_800CAFEC)(a0);
@@ -69,9 +69,9 @@ void func_800CAF90(void *a0) {
 }
 
 
-extern void func_800CAFEC();  // K&R: 0 of 1 args (P37 rung D t4_D35)
+extern void func_800CAFEC(s32 *a0);
 void func_800CAFCC(void) {
-    func_800CAFEC();
+    KR_AS(void, func_800CAFEC)();
 }
 
 
@@ -185,12 +185,12 @@ void func_800CB234(void *a0) {
 
 extern u8 D_80078EC1;
 extern void (*D_800CC180[])();
-extern void func_800CB7FC();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
+extern void func_800CB7FC(s32 a0);
 
 void func_800CB270(int param_1)
 {
     if (D_80078EC1 != 24) {
-        func_800CB7FC();
+        KR_AS(void, func_800CB7FC)();
     } else {
         D_800CC180[((Unkstruct_800CB270 *)param_1)->unk2]();
     }
@@ -203,7 +203,7 @@ extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void guess_NextStep(void *a0);
-extern void func_800CB7FC();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
+extern void func_800CB7FC(s32 a0);
 
 extern u8 D_800CC150[];
 extern u8 D_800CC298[];
@@ -414,10 +414,10 @@ tail:
 }
 
 
-extern void func_801662F4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D41)
+extern void func_801662F4(void *a0);
+extern void guess_ClearObjectAndSubObject(u8 *);
 void func_800CB7FC(s32 a0) {
-    func_801662F4();
+    KR_AS(void, func_801662F4)();
     ((void (*)(s32))guess_ClearObjectAndSubObject)(a0);
 }
 
@@ -694,12 +694,12 @@ void func_800CBFE4(s32 a0) {
 }
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D41)
+extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_18: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_18 */
 void guess_FreeObjectAndSubObject_18(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
 }
 
 

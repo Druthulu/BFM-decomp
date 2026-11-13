@@ -1668,7 +1668,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1686,7 +1686,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_80181A64[])(void);
 extern void func_80167A9C(void *a0);
@@ -2704,7 +2704,7 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 
 void func_8017CDD8(s32 param_1) {
@@ -2761,7 +2761,7 @@ void func_8017CDD8(s32 param_1) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017CF9C__8592e16d.h"
 
 
@@ -2779,7 +2779,7 @@ void func_8017D030(void *a0) {
 
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern u8 D_80182480;
 
 void func_8017D06C(s32 a0) {
@@ -2804,7 +2804,7 @@ void func_8017D06C(s32 a0) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017D110__8b1b28fc.h"
 
 
@@ -3562,10 +3562,10 @@ s32 arg0;
 
 
 
-extern void func_8017D8AC();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
+extern void func_8017D8AC(s32);
     void func_8017E51C(s32 arg0) {
         s32 temp_v0;
-        func_8017D8AC();
+        KR_AS(void, func_8017D8AC)();
         temp_v0 = ((Unkstruct_8017E51C_2 *)arg0)->unk1C + 1;
         ((Unkstruct_8017E51C_2 *)arg0)->unk1C = temp_v0;
     }
@@ -3604,7 +3604,7 @@ void func_8017E5B8(s32 a0) {
 
 
 
-extern s32 func_8017E9A8();  // K&R: 0 of 1 args (P37 rung D t4_D41)
+extern s32 func_8017E9A8(s32 param_1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80171928(void *a0);
 
@@ -3612,7 +3612,7 @@ void func_8017E600(void *param)
 {
     void *s0 = param;
 
-    if (func_8017E9A8() != 0) {
+    if (KR_AS(s32, func_8017E9A8)() != 0) {
         guess_RequestSound(0x8B1, 0);
         func_80171928(s0);
     }
@@ -3680,7 +3680,7 @@ void func_8017E6A4(void *a0)
 
 
 
-extern s32 func_8017E9A8();  // K&R: 0 of 1 args (P37 rung D t4_D41)
+extern s32 func_8017E9A8(s32 param_1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_80171990(u8*);
 
@@ -3688,7 +3688,7 @@ void func_8017E7AC(void *param)
 {
     void *s0 = param;
 
-    if (func_8017E9A8() != 0) {
+    if (KR_AS(s32, func_8017E9A8)() != 0) {
         guess_RequestSound(0x8B1, 0);
         ((void (*)(void *))func_80171990)(s0);
     }

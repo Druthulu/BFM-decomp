@@ -2860,7 +2860,7 @@ extern s32 D_801A82E8;
 extern void func_80182944(void *arg0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32*, s32);
-extern void func_80182708();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern void func_80182708(s32 *a0);
 
 void func_80182284(s32 *a0) {
     ((void (*)(s32 *))func_80182708)(a0);
@@ -2870,16 +2870,16 @@ void func_80182284(s32 *a0) {
 }
 
 
-extern void func_80182708();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern void func_80182708(s32 *a0);
 extern void func_80182944(void *arg0);
 void func_801822D0(s32 a0) {
-    func_80182708();
+    KR_AS(void, func_80182708)();
     ((void (*)(s32))func_80182944)(a0);
 }
 
 
 extern s32 D_801A82E8;
-extern void func_80182708();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern void func_80182708(s32 *a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern u8 D_801A8440[];
 extern u8 D_801A8450[];
@@ -2891,7 +2891,7 @@ void func_80182300(s32 param_1) {
 
     ((Unkstruct_80182300 *)s0)->unkC2 = 0;
     ((Unkstruct_80182300 *)s0)->unkC3 = 0;
-    func_80182708();
+    KR_AS(void, func_80182708)();
     if (((Unkstruct_80182300 *)s0)->unk5E == 9 || ((Unkstruct_80182300 *)s0)->unk5E == 0x1C) {
         guess_SetLocalVelocity(s0, (s32)D_801A8440);
     } else {

@@ -3781,7 +3781,7 @@ void func_8017FE78(void *a0) {
 
 #include "common.h"
 
-extern s32 func_801805D4();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_801805D4(void *a0);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_80180398(void *a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
@@ -3822,9 +3822,9 @@ void func_8017FF48(int param_1) {
 
 
 
-extern s32 func_801805D4();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_801805D4(void *a0);
     void func_80180064(void) {
-        func_801805D4();
+        KR_AS(s32, func_801805D4)();
     }
 
 
@@ -3837,7 +3837,7 @@ extern s32 func_801805D4();  // K&R: 0 of 1 args (P37 rung D t4_D1)
  *   line   59: extern void guess_RequestSound(s32 a0, s32 a1);
  *   line   62: extern void func_800291A0(s32, s32);
  * func_8012CC40 is fleet-canonical 'void'; $v0 is used -> cast at the call site. */
-extern s32 func_801805D4();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_801805D4(void *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_800291A0(s32, s32);
 extern void guess_UpdateActorModelMatrix(s32 a0);
@@ -3912,7 +3912,7 @@ void func_80180084(s32 p) {
 }
 
 
-extern s32 func_801805D4();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_801805D4(void *a0);
 extern s32 func_80180610(void);
 extern void func_80178CBC(s32 a0, s32 a1);
 extern s32 D_8018E294[];
@@ -3933,7 +3933,7 @@ void func_80180270(void *arg0) {
 }
 
 
-extern s32 func_801805D4();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_801805D4(void *a0);
 extern s32 func_801789AC(s32 arg0);
 extern void func_80178D18(void);
 extern s32 guess_GetGameVarByte(s32 arg);
@@ -4131,7 +4131,7 @@ void func_801806C8(void *a0) {
 
 #include "common.h"
 
-extern s32 func_8018096C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_8018096C(void *a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern Rec801806C8 D_8018E344[];
 
@@ -4181,9 +4181,9 @@ void func_801807DC(int param_1)
 }
 
 
-extern s32 func_8018096C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_8018096C(void *a0);
     void func_8018094C(void) {
-        func_8018096C();
+        KR_AS(s32, func_8018096C)();
     }
 
 
@@ -5440,7 +5440,7 @@ void func_801826C4(s32 a0) {
 
 
 extern s32 guess_TestGameFlag(s32 arg);
-extern s32 func_8018287C();  // K&R: 0/1 of 1 args (P37 rung D t4_D1)
+extern s32 func_8018287C(void *param_1);
 extern s32 func_8012AD50(void *a0);
 
 void func_80182744(void *arg0) {
@@ -5455,9 +5455,9 @@ void func_80182744(void *arg0) {
 }
 
 
-extern s32 func_8018287C();  // K&R: 0/1 of 1 args (P37 rung D t4_D1)
+extern s32 func_8018287C(void *param_1);
     void func_801827A4(void) {
-        func_8018287C();
+        KR_AS(s32, func_8018287C)();
     }
 
 
@@ -7198,7 +7198,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80185AF0(s32 arg0);
 extern void func_801859C4(s32 a0);
-extern s32 func_80185B5C();   /* RETYPED P31 S54: the asm reads $a0 and sets $v0 on every exit;  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_80185B5C(s32 a0);   /* RETYPED P31 S54: the asm reads $a0 and sets $v0 on every exit;
                               * unspecified params keep every existing call site legal (C89 6.5.4.3). */
 extern void func_80185CA4(s32 a0);
 
@@ -7310,10 +7310,10 @@ extern void func_801859C4(s32);
     }
 
 
-extern s32 func_80185B5C();   /* RETYPED P31 S54: the asm reads $a0 and sets $v0 on every exit;  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_80185B5C(s32 a0);   /* RETYPED P31 S54: the asm reads $a0 and sets $v0 on every exit;
                               * unspecified params keep every existing call site legal (C89 6.5.4.3). */
     void func_80185300(void) {
-        func_80185B5C();
+        KR_AS(s32, func_80185B5C)();
     }
 
 
@@ -7345,7 +7345,7 @@ extern s32 func_80185B5C();   /* RETYPED P31 S54: the asm reads $a0 and sets $v0
 
 
 extern void func_801859C4(s32 a0);
-extern s32 func_80185B5C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_80185B5C(s32 a0);
 
 void func_80185364(s32 a0) {
     if (((Unkstruct_800B5CB8 *)a0)->unk1C == ((Unkstruct_800B5CB8 *)a0)->unk1C / 5 * 5) {
@@ -7389,7 +7389,7 @@ void func_801853DC(s32 param_1) {
 }
 
 
-extern s32 func_80185B5C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_80185B5C(s32 a0);
 extern void func_801859C4(s32 a0);
 
 void func_80185494(s32 a0) {

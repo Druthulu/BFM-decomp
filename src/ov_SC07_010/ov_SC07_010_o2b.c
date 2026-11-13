@@ -139,7 +139,7 @@ void func_8013CB5C(void) {
 extern s16 currentLocationId;
 
 extern void func_8013DBE4(int param_1);
-extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
+extern void func_8013D9B0(int param_1);
 extern void func_8013D330(void);
 extern void func_8013D178(void);
 extern void func_8013CF68(void);
@@ -290,7 +290,7 @@ void func_8013CF68()
 // @class: schedule
 // @unstuck(P36): testing if/else-if with ==2 placed as the else (tail) block
 
-extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
+extern void func_8013D9B0(int param_1);
 
 void func_8013D064(void)
 {
@@ -322,12 +322,12 @@ void func_8013D064(void)
 
 
 
-extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
+extern void func_8013D9B0(int param_1);
 
 s32 func_8013D13C(void) {
 
     extern s32 D_801A6AC4;
-    func_8013D9B0();
+    KR_AS(void, func_8013D9B0)();
     return D_801A6AC4;
 }
 
@@ -430,7 +430,7 @@ void func_8013D330(void) {
 
 
 
-extern void func_8013D53C();  // K&R: 0 of 1 args (P37 rung D t4_D35)
+extern void func_8013D53C(void *arg0v);
 extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);
@@ -466,7 +466,7 @@ void func_8013D3D4(int param_1, int param_2)
         D_801A6AAC = D_801828D4;
         D_801A6AB0 = D_801827AC;
     }
-    func_8013D53C();
+    KR_AS(void, func_8013D53C)();
     if ((param_2 & 1) != 0) {
         if (D_801A6AE0 != 0) {
             func_8013DD68();

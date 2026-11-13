@@ -149,7 +149,7 @@ void func_800CB138(s32 arg0) {
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
-    extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+    extern s32 guess_FreeSmallObject(u8 *a0);
 
     s16   sp10[4];
     s16   sp18[4];
@@ -227,7 +227,7 @@ void func_800CB138(s32 arg0) {
 
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB370(void *arg0) {
 
@@ -237,26 +237,26 @@ void func_800CB370(void *arg0) {
         u16 v0 = ((Unkstruct_800CB370 *)arg0)->unk2;
         D_800CB908[v0]();
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
 
 void func_800CB3CC(void *arg0) {
-    extern void func_800D2318();  // K&R: 0 of 1 args (P37 rung D t4_D35)
+    extern void func_800D2318(s32 *p);
     extern void RotMatrixYXZ(void *arg0, s32 arg1);
     extern void ApplyMatrixSV();
     extern void func_800D1FC8(void *arg0, int arg1);
     extern S800D21C4 * func_800D21C4(s32 arg0, s32 arg1, s32 arg2);
     extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
-    extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern u8 D_800CB8FC[];
     extern u8 D_800CB8BC[];
     s16 sp10[8];
     s16 sp20[16];
     s32 p;
 
-    func_800D2318();
+    KR_AS(void, func_800D2318)();
     sp10[0] = *(u16 *)((s32)arg0 + 0x12);
     sp10[1] = *(u16 *)((s32)arg0 + 0x16);
     sp10[2] = 0;
@@ -284,7 +284,7 @@ void func_800CB3CC(void *arg0) {
 
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB510(void *arg0) {
 
@@ -294,7 +294,7 @@ void func_800CB510(void *arg0) {
         u16 v0 = ((Unkstruct_800CB370 *)arg0)->unk2;
         D_800CB914[v0]();
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -310,7 +310,7 @@ void func_800CB56C(s32 arg0) {
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
-    extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+    extern s32 guess_FreeSmallObject(u8 *a0);
 
     u16   vec[8];
     Blk20 blk;
@@ -366,7 +366,7 @@ void func_800CB56C(s32 arg0) {
 
 void func_800CB6E4(void *arg0) {
     extern s32 guess_SpawnSmallObject(s32, void *, s32, s32, s32, s32, s32);
-    extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+    extern s32 guess_FreeSmallObject(u8 *a0);
     u8 *a0 = *(u8 **)((s32)arg0 + 0x34);
     if (((Unkstruct_800CB6E4 *)arg0)->unk30 == ((Unkstruct_800CB6E4_2 *)a0)->unk36) {
         s16 var;
@@ -392,7 +392,7 @@ void func_800CB6E4(void *arg0) {
 
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
-extern s32 guess_FreeSmallObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #define SHARED_FN guess_StepPairSequenceAndFree
 #include "../shared/multi/cls_5d5ada925fc2.h"
 #undef SHARED_FN

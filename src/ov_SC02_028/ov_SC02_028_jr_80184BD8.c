@@ -4213,7 +4213,7 @@ extern s16 D_80126B9A;
 #undef SHARED_FN
 
 
-extern void func_80187454();  // K&R: 0/1 of 1 args (P37 unalias t4_ua2)
+extern void func_80187454(s32 arg0);
 
 s32 func_80187414(void *a0) {
     u8 *a0_byte = (u8 *)a0;
@@ -4224,7 +4224,7 @@ s32 func_80187414(void *a0) {
     if (v1 == v2) {
         return 0;
     }
-    func_80187454();
+    KR_AS(void, func_80187454)();
     return 1;
 }
 

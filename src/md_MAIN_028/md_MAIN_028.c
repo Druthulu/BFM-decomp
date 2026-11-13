@@ -206,13 +206,13 @@ void func_800CB59C(s32 a0) {
 }
 
 
-    extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D44)
+    extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_13: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_13 */
     s32 guess_FreeObjectAndSubObject_13(void)
 {
-        guess_ClearObjectAndSubObject();
+        KR_AS(void, guess_ClearObjectAndSubObject)();
     }
 
 
@@ -384,12 +384,12 @@ void func_800CB8A0(void *a0) {
 
 extern u8 D_80078EC1;
 extern void (*D_800CBEE0[])();
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CBA74(int param_1)
 {
     if (D_80078EC1 != 21) {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     } else {
         D_800CBEE0[*(u16 *)(param_1 + 2)]();
     }
@@ -497,7 +497,7 @@ void func_800CBD78(s32 param_1) {
         ((Unkstruct_800CB8A0 *)param_1)->unk50 -= 3;
         func_800CB8A0(param_1);
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 

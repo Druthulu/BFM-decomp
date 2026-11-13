@@ -2902,7 +2902,7 @@ extern void (*D_8018E288[])(void);
 extern void func_80183EE8(void);
 extern void func_80184604(s32 arg0);
 extern void func_801831E0(s32 arg0, s32 arg1);
-extern void func_80183174();  // K&R: 2 of 1 args (P37 rung D t4_D2)
+extern void func_80183174(s32 a0);
 extern s32 func_80183CA4(s32 a0);
 extern void func_80183F0C(void *a0);
 extern s32 func_80185628(s16 *a0, s16 *a1);
@@ -3019,7 +3019,7 @@ void func_801813BC(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
             guess_RequestSound(0x7A8, 0);
         }
-        func_80183174(a0, 1);
+        KR_AS(void, func_80183174)(a0, 1);
         break;
     case 6:
         if (guess_TickWaitTimer(a0) != 0) {
@@ -3027,18 +3027,18 @@ void func_801813BC(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk34 = 5;
             ((Unkstruct_800B5CB8 *)a0)->unk5C = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk78 + 2);
         }
-        func_80183174(a0, 1);
+        KR_AS(void, func_80183174)(a0, 1);
         break;
     case 7:
         if (func_80183CA4(a0) & 0x2000) {
             ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x18;
             ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
         }
-        func_80183174(a0, 1);
+        KR_AS(void, func_80183174)(a0, 1);
         break;
     case 8:
         if (guess_TickWaitTimer(a0) == 0) {
-            func_80183174(a0, 1);
+            KR_AS(void, func_80183174)(a0, 1);
             break;
         }
         ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x1E;

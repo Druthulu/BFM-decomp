@@ -1951,7 +1951,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -4955,7 +4955,7 @@ void func_8017EFDC(int param_1) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH (param_1 survives across func_8016F0E4 → lands in $s0; passed to func_80165770)
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -4995,7 +4995,7 @@ extern s32 func_80171B4C(s32 a0, s32 a1);
 #undef SHARED_FN
 
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 #define SHARED_FN func_8017F248
 #include "../shared/multi/cls_5211f6f7586b.h"
 #undef SHARED_FN
@@ -5067,7 +5067,7 @@ void func_8017F3C0(u8 *a0) {
 
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern s16 guess_g_MainCameraPitchTarget; // Names ledger: config/names.tsv guess_g_MainCameraPitchTarget
 
 void func_8017F414(s32 param_1)
@@ -7693,14 +7693,14 @@ void func_80183054(s32 arg0)
 }
 
 
-extern void func_80183278();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80183278(s32 *a0);
 extern s32 func_8012C098(void *a0);
 
 void func_801831A0(s32 a0) {
     s32 s0;
 
     s0 = a0;
-    func_80183278();
+    KR_AS(void, func_80183278)();
     if ((*(s32 *)(s0 + 0x1C) != 0) && (--*(s32 *)(s0 + 0x1C) == 0)) {
         func_8012C098((void *) s0);
     }
@@ -7727,10 +7727,10 @@ void func_801831E8(s32 arg0) {
 }
 
 
-extern void func_80183278();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80183278(s32 *a0);
     void func_80183258(s32 *a0) {
         ((Unkstruct_800B5CB8 *)a0)->unkFE = 0;
-        func_80183278();
+        KR_AS(void, func_80183278)();
     }
 
 

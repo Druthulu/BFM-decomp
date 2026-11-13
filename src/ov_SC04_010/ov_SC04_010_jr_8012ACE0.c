@@ -945,7 +945,7 @@ extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 // @class: plumbing
 // @unstuck(P36): none — MATCH (pending gate)
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 extern unsigned char D_8017E50C[];
 
 void func_8012F828(int param_1)
@@ -954,7 +954,7 @@ void func_8012F828(int param_1)
     if (*(unsigned int *)(param_1 + 0xB4) & 8) {
         func_80131170(param_1, D_8017E50C, 0xB);
     }
-    guess_CallActorEventHandler(param_1, 9);
+    KR_AS(s32, guess_CallActorEventHandler)(param_1, 9);
 }
 
 
@@ -962,7 +962,7 @@ void func_8012F828(int param_1)
 
 
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 extern u8 D_8017E518[];
 
 void func_8012F8C8(u8* arg0) {
@@ -1008,7 +1008,7 @@ s32 func_8012FCC4(s32 param_1) {
     ((Unkstruct_800B5CB8 *)param_1)->unkC1 = 8;
     if (v1 & 2) {
         ((Unkstruct_800B5CB8 *)param_1)->unkC1 = 1;
-        guess_CallActorEventHandler(((int)param_1), 3);
+        KR_AS(s32, guess_CallActorEventHandler)(((int)param_1), 3);
         return;
     }
     if (v1 & 1) {
@@ -1029,10 +1029,10 @@ s32 func_8012FCC4(s32 param_1) {
         }
         ((void (*)(int, void *))guess_SetLocalVelocity)(((int)param_1), &D_8017E524);
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0;
-        guess_CallActorEventHandler(((int)param_1), 0x1C);
+        KR_AS(s32, guess_CallActorEventHandler)(((int)param_1), 0x1C);
         return;
     }
-    guess_CallActorEventHandler(((int)param_1), 0x1C);
+    KR_AS(s32, guess_CallActorEventHandler)(((int)param_1), 0x1C);
 }
 
 
@@ -1313,7 +1313,7 @@ tail:
 
 s32 func_801312D0(s32 param_1, void *param_2)
 {
-    extern s32 guess_LookupIdValue();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
+    extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
     extern M8_801312D0 D_8017E654;
 
     int iVar5;
@@ -1418,7 +1418,7 @@ extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 
 extern s32 D_8018E280;
 extern s32 D_8018E284;
@@ -1434,7 +1434,7 @@ void func_80131340(s32 a0)
      * with the stale 1-arg engine_core canonical. A file-scope `extern int
      * guess_LookupIdValue(int,int);` here is a HARD `conflicting types` against it (cc1 rc=33,
      * measured); block-scope goes out of scope before that macro and compiles clean. */
-    extern s32 guess_LookupIdValue();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
+    extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
 
     V8_SC04_010_80131340 sp10;
     V8_SC04_010_80131340 sp18;
@@ -1642,7 +1642,7 @@ void func_80131340(s32 a0)
         break;
     }
 
-    guess_CallActorEventHandler(a0, 0x2F);
+    KR_AS(s32, guess_CallActorEventHandler)(a0, 0x2F);
 }
 
 
@@ -1764,7 +1764,7 @@ void func_80131B14() {
  * a full preprocess+cc1 of the spliced TU: diagnostic-free apart from
  * pre-existing warnings).
  */
-extern s32 guess_LookupIdValue();  // K&R: 1/2 of 2 args (P37 unalias t4_ua6)
+extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
 
 
 #include "../shared/ov/func_80131CA8.h"

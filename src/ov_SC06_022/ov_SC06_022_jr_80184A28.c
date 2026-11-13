@@ -2751,7 +2751,7 @@ extern void func_80187414(s32, void*, void*, s32);
 extern void func_801873B0(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
 extern void func_80183A20(s32 param_1);
-extern void func_801850CC();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_801850CC(s32 a0);
 extern void func_80183E3C(s32 arg0);
 
 
@@ -2979,7 +2979,7 @@ void func_80184F88(s32 a0)
 
 
 
-extern void func_801850CC();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_801850CC(s32 a0);
 extern s32 func_80185578(s32 arg0, s32 arg1);
 extern void guess_StartActorSequence(s32 a0, void * a1);
 
@@ -2991,7 +2991,7 @@ void func_8018500C(s32 param_1) {
 
     ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
     if ((CAST_SIGN(u32, param_1, 0xe0) & 8) == 0) {
-        func_801850CC();
+        KR_AS(void, func_801850CC)();
     } else {
         if ((CAST_SIGN(u32, param_1, 0xe0) & 0x20) != 0) {
             func_80185578(param_1, -0x8000);

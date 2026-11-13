@@ -2975,7 +2975,7 @@ void func_80180D6C(s32 param_1) {
 }
 
 
-extern void func_8017F950();  // K&R: 0 of 1 args (P37 rung D t4_D3)
+extern void func_8017F950(s32 arg0);
 extern s32 D_801270D8;
 extern s16 D_8018E6CC;
 extern s16 D_8018E6D0;
@@ -2999,7 +2999,7 @@ void func_8018127C(s32 param_1) {
     u16 t;
 
     if ((((Unkstruct_800B5CB8 *)param_1)->unk5C & 1) != 0) {
-        func_8017F950();
+        KR_AS(void, func_8017F950)();
     }
     if ((CAST_SIGN(u16, param_1, 0x70) & 0x400) != 0 && D_801270D8 != 0 &&
         CAST_SIGN(u16, param_1, 0x2) != 0xA) {

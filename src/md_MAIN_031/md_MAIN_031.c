@@ -112,7 +112,7 @@ void func_800CAFE4(u8 *a0) {
 }
 
 
-extern void func_800CB428();  // K&R: 3 of 1 args (P37 rung D t4_D40)
+extern void func_800CB428(void *a0);
 extern void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3);
 extern void func_800CB964(void *a0, void *a1, void *a2);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
@@ -130,7 +130,7 @@ void func_800CB0B0(void *arg) {
     sp18[0] = ((Unkstruct_800CB0B0 *)arg)->unk234;
     sp18[2] = ((Unkstruct_800CB0B0 *)arg)->unk236;
     sp18[1] = sp18[2];
-    func_800CB428(arg, sp10, sp18);
+    KR_AS(void, func_800CB428)(arg, sp10, sp18);
     func_800CB6A0(arg, sp10, sp18, 1);
     func_800CB6A0(arg, sp10, sp18, 0);
     func_800CB964(arg, sp10, sp18);
@@ -159,7 +159,7 @@ void func_800CB0B0(void *arg) {
 
 extern u16 guess_GetPadPressed(s32 *a0);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
-extern void func_800CB428();  // K&R: 3 of 1 args (P37 rung D t4_D40)
+extern void func_800CB428(void *a0);
 extern void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3);
 extern void func_800CB964(void *a0, void *a1, void *a2);
 
@@ -178,7 +178,7 @@ void func_800CB1CC(void *arg0) {
     sp18[0] = CAST_WIDTH(u16, (u8 *)arg0, 0x234);
     sp18[2] = *(u16 *)((u8 *)arg0 + 0x236);
     sp18[1] = sp18[2];
-    func_800CB428(arg0, sp10, sp18);
+    KR_AS(void, func_800CB428)(arg0, sp10, sp18);
     func_800CB6A0(arg0, sp10, sp18, 1);
     func_800CB6A0(arg0, sp10, sp18, 0);
     func_800CB964(arg0, sp10, sp18);
@@ -201,7 +201,7 @@ void func_800CB288(s32 arg0)
         sp18[0] = CAST_WIDTH(u16, arg0, 0x234);
         sp18[2] = *(u16 *) (arg0 + 0x236);
         sp18[1] = sp18[2];
-        func_800CB428(arg0, sp10, sp18);
+        KR_AS(void, func_800CB428)(arg0, sp10, sp18);
         func_800CB6A0(arg0, sp10, sp18, 1);
         func_800CB6A0(arg0, sp10, sp18, 0);
         func_800CB964(arg0, sp10, sp18);
@@ -231,7 +231,7 @@ void func_800CB288(s32 arg0)
 
 extern u16 D_8011F9D0[];
 extern u16 D_801270C0;
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject(u8 *);
 
 void func_800CB3B4(void) {
     u16 *p;
@@ -605,12 +605,12 @@ void func_800CBCD4(u8 *s0) {
 }
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_16: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_16 */
 void guess_FreeObjectAndSubObject_16(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
 }
 
 

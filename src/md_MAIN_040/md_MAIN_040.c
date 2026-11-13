@@ -234,12 +234,12 @@ void func_800CB304(void *a0) {
 }
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_6: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_6 */
 void guess_FreeObjectAndSubObject_6(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
 }
 
 
@@ -271,7 +271,7 @@ void func_800CB3DC(s32 a0) {
 
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB488(void *arg0) {
 
@@ -281,7 +281,7 @@ void func_800CB488(void *arg0) {
         u16 v0 = *(u16 *)((u8 *)arg0 + 2);
         D_800CB948[v0]();
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -296,7 +296,7 @@ extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern int rand(void);
 
 extern u8 D_800CB8EC[];
@@ -377,7 +377,7 @@ extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_6(s32 param_1);
 extern void func_800CB8A8(void*, s16);
 extern s32 guess_TickWaitTimer_2(s32 param_1);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_800CB874(s32 param_1);
 
 void func_800CB7B8(s32 param_1) {

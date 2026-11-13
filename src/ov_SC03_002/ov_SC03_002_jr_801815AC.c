@@ -3019,7 +3019,7 @@ void *arg0;
 }
 
 
-extern s32 func_80182E88();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_80182E88(void *a0);
 extern s32 func_80183158(s32 arg0, s32 arg1);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
@@ -3031,7 +3031,7 @@ s32 func_80181990(void *a0)
     s32 ptr;
     s32 ptr2;
     ptr = ((Unkstruct_80181990_2 *)obj)->unk64;
-    if (((Unkstruct_80181990 *)ptr)->unk2 == 2 && func_80182E88() != 0 && func_80183158(7, 0x15) != 0) {
+    if (((Unkstruct_80181990 *)ptr)->unk2 == 2 && KR_AS(s32, func_80182E88)() != 0 && func_80183158(7, 0x15) != 0) {
         ptr2 = ((Unkstruct_80181990_2 *)obj)->unk64;
         ((Unkstruct_80181990 *)ptr2)->unk2 = 3;
     } else {

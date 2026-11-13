@@ -4983,7 +4983,7 @@ extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_Play
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 rsin(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_80181B50();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
+extern void func_80181B50(void);
 extern void func_80181C5C(void *arg0);
 
 
@@ -5055,7 +5055,7 @@ void func_80181914(s32 *arg0)
                 if (((Unkstruct_80181914 *)p)->unk20 == 0) {
                     ((Unkstruct_80181914 *)p)->unk20 = 1;
                     if (q[0x39] < 9) {
-                        func_80181B50(p);
+                        KR_AS(void, func_80181B50)(p);
                     }
                 }
             }

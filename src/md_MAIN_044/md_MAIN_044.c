@@ -133,12 +133,12 @@ void func_800CCDB0(s32 param_1) {
 }
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D44)
+extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_21: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_21 */
 void guess_FreeObjectAndSubObject_21(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
 }
 
 
@@ -247,12 +247,12 @@ void func_800CD050(s32 arg0) {
 }
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D44)
+extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_22: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_22 */
 void guess_FreeObjectAndSubObject_22(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
 }
 
 
@@ -377,7 +377,7 @@ void func_800CD2EC(s32 *s1) {
 
 extern s16 D_800CE210[];
 extern u16 D_800CE212[];
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D44)
+extern void guess_ClearObjectAndSubObject(u8 *);
 
 void func_800CD494(void *arg0) {
     s16 idx;
@@ -398,13 +398,13 @@ void func_800CD494(void *arg0) {
         *(u16 *)(a1 + 0x18) = acc;
         *(u16 *)(a1 + 0x2A) = tv2;
     } else {
-        guess_ClearObjectAndSubObject();
+        KR_AS(void, guess_ClearObjectAndSubObject)();
     }
 }
 
 
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D44)
+extern void guess_ClearObjectAndSubObject(u8 *);
 extern void func_800CD7A8(s32 a0, s32 a1);
 extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void guess_AddVelocityToPos_2(s32 *a0);
@@ -714,9 +714,9 @@ void func_800CDBA8(s32 param_1) {
 }
 
 
-extern void func_800CE004();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
+extern void func_800CE004(s32 param_1);
 void func_800CDDA8(void) {
-    func_800CE004();
+    KR_AS(void, func_800CE004)();
 }
 
 
@@ -739,7 +739,7 @@ extern s32 guess_FreeSmallObject(void *a0);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
-extern void func_800CE004();  // K&R: 0/1 of 1 args (P37 rung D t4_D35)
+extern void func_800CE004(s32 param_1);
 
 void func_800CDE04(s32 param_1) {
     u16 sp20[4];

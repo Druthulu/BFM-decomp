@@ -3201,12 +3201,12 @@ void func_80181D7C(s32 arg0) {
 
 
 extern s16 D_8019F710;
-extern void func_8017E7D0();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern void func_8017E7D0(s32 a0);
 
 void func_80181DBC(void) {
     D_8019F710 = D_8019F710 - 1;
     if (D_8019F710 <= 0) {
-        func_8017E7D0();
+        KR_AS(void, func_8017E7D0)();
     }
 }
 
@@ -3915,7 +3915,7 @@ void func_80182C30(void *param)
 
 
 
-extern s32 func_80183020();  // K&R: ? of 1 args (P37 rung D t4_D1)
+extern s32 func_80183020(s32 s0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80171928(void *a0);
 
@@ -3923,7 +3923,7 @@ void func_80182C78(void *param)
 {
     void *s0 = param;
 
-    if (func_80183020() != 0) {
+    if (KR_AS(s32, func_80183020)() != 0) {
         guess_RequestSound(0x8B1, 0);
         func_80171928(s0);
     }
@@ -3986,7 +3986,7 @@ done:
 
 
 
-extern s32 func_80183020();  // K&R: ? of 1 args (P37 rung D t4_D1)
+extern s32 func_80183020(s32 s0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_80171990(u8*);
 
@@ -3994,7 +3994,7 @@ void func_80182E24(void *param)
 {
     void *s0 = param;
 
-    if (func_80183020() != 0) {
+    if (KR_AS(s32, func_80183020)() != 0) {
         guess_RequestSound(0x8B1, 0);
         ((void (*)(void *))func_80171990)(s0);
     }

@@ -2770,7 +2770,7 @@ extern void func_8018615C(s32 a0);
 extern void func_800599B8(void *a0, void *a1);
 extern void func_8017C068(void);
 extern void func_801808C4(s32 a0);
-extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012E544(s32 arg);
 extern void func_8002959C(void);
 extern s32 func_80178B18(s32 arg, s32 arg2);
@@ -3103,9 +3103,9 @@ void func_801867D0(s32 param_1) {
 }
 
 
-extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);
 void func_80186960(void) {
-    guess_TickWaitTimer();
+    KR_AS(s32, guess_TickWaitTimer)();
 }
 
 
@@ -4158,9 +4158,9 @@ void func_801883FC(void)
 }
 
 
-extern s32 func_8017C8E4();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern s32 func_8017C8E4(s32 arg);
     s32 func_80188470(void) {
-        return func_8017C8E4() != 0;
+        return KR_AS(s32, func_8017C8E4)() != 0;
     }
 
 

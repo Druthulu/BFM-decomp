@@ -188,10 +188,10 @@ void func_80183558(s32 a0) {
 }
 
 
-extern void func_8018452C();  // K&R: 0/1 of 1 args (P37 rung D t4_D32)
+extern void func_8018452C(s32 a0);
     void func_8018360C(short *param) {
         param[1] = 0xB;
-        func_8018452C();
+        KR_AS(void, func_8018452C)();
     }
 
 
@@ -204,7 +204,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 extern void *D_80195144;
 
 void func_80183630(s32 a0) {
-    extern s32 func_801845F4();  // K&R: 0 of 1 args (P37 rung D t4_D32)
+    extern s32 func_801845F4(s32 param_1);
     extern void func_8018487C(s32 a0);
     extern s32 func_80183954(s32 a0);
     extern s32 func_80183B30(s32 a0, s32 a1);
@@ -218,7 +218,7 @@ void func_80183630(s32 a0) {
     extern void func_8012B200(u8 *a0);
     extern void guess_ApplyAccelAndVelocity(s32 a0);
     extern void func_8012B260(u8 *a0);
-    extern void func_8018452C();  // K&R: 0/1 of 1 args (P37 rung D t4_D32)
+    extern void func_8018452C(s32 a0);
     extern s32 D_801955F0;
     extern u8 D_801F3EFC[];
     extern u8 D_801F3FA4[];
@@ -227,7 +227,7 @@ void func_80183630(s32 a0) {
     extern u8 D_80195120[];
     extern u8 D_80195184[];
 
-    if (func_801845F4() == 1) {
+    if (KR_AS(s32, func_801845F4)() == 1) {
         return;
     }
     switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
@@ -3688,12 +3688,12 @@ extern void guess_RequestSound(s32 arg0, s32 arg1);
 
 #include "common.h"
 
-extern s32 func_8002A04C();  // K&R: 0 of 1 args (P37 rung D t4_D32)
+extern s32 func_8002A04C(s32 a0);
 extern s32 func_8012C098(void *param_1);
 
 void func_801883EC(s32 a0) {
     if (*(s16 *)(a0 + 0x102) == 0) {
-        func_8002A04C();
+        KR_AS(s32, func_8002A04C)();
     }
 
     ((void (*)(s32))func_8012C098)(a0);

@@ -1658,7 +1658,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1676,7 +1676,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_8018B3CC[])(void);
 extern void func_80167A9C(void *a0);
@@ -3869,7 +3869,7 @@ extern void func_8017E22C(int);
 
 
 extern void func_8017E22C(int);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017E1E0__3e882029.h"
 
 
@@ -4027,7 +4027,7 @@ extern void func_8017E22C(int);
 
 
 extern void func_8017E22C(int);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017E784__03254837.h"
 
 
@@ -4076,7 +4076,7 @@ extern int rand(void);
 
 
 extern void guess_AddVelocityToPos_4(s32 a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_8017E924(void *a0);
 #include "../shared/ov/func_8017E8C8__72cefe48.h"
 
@@ -4186,7 +4186,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_8017F104(s32 *a0);
 extern void func_8017F120(s32 *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern s32 D_8018C048;
 
 void func_8017ECAC(s32 a0) {
@@ -4230,7 +4230,7 @@ extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern s32 func_8017F73C(void *a0);
 extern void func_8014ABF0(void);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 
 void func_8017ED68(s32 param_1) {
@@ -4343,7 +4343,7 @@ extern void func_8001CF00(s32 a0);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_80015954(s32 a0, s32 a1);
 extern void *guess_AllocSpriteObject(void);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
@@ -4447,7 +4447,7 @@ void func_8017F470(s32 param_1) {
 extern void func_8017F534(s32 arg0);
 extern void func_8017F6B8(s32 a0);
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_8017F4EC(s32 param_1) {
     func_8017F534(param_1);
@@ -5582,7 +5582,7 @@ void func_80180C8C(s32 *a0)
 
 
 
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_80180D04(s32 *param_1)
 {
     extern u8 D_801C0FF8[];
@@ -5662,7 +5662,7 @@ extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 
 
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80180E88(s32 param_1);
 
 void func_80180E38(s32 param) {

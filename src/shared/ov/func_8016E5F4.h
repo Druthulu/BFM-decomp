@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80015954(s32 a0, s32 a1);
 void func_8016E5F4(s32 arg0) {
     s32 sp10;

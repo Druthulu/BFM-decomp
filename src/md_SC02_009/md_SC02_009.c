@@ -303,7 +303,7 @@ void func_801E5338(void *a0) {
 void func_801E53A8(void *a0) {
 
     extern s32 func_801439C0(u8 *a0);
-    extern void guess_FreeActor();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+    extern void guess_FreeActor(void *a0);
     func_801439C0(CAST_SIGN(u8 *, (s32)a0, 0xCC));
     guess_FreeActor(a0);
 }
@@ -521,7 +521,7 @@ void func_801E5894(void *a0) {
 void func_801E58C0(void *a0) {
 
     extern s32 func_801439C0(u8 *a0);
-    extern void guess_FreeActor();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+    extern void guess_FreeActor(void *a0);
     if (--((Unkstruct_800B5CB8 *)a0)->unk1C == 0) {
         func_801439C0(CAST_SIGN(u8 *, (s32)a0, 0xCC));
         guess_FreeActor(a0);
@@ -601,13 +601,13 @@ void func_801E5A58(void *a0) {
 
 
 
-extern void guess_FreeActor();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern void guess_FreeActor(void *a0);
 
 void func_801E5B0C(void) {
 
     extern s32 D_801270C8;
     if (D_801270C8 == 13) {
-        guess_FreeActor();
+        KR_AS(void, guess_FreeActor)();
     }
 }
 

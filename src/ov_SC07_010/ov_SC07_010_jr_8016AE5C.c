@@ -1994,7 +1994,7 @@ extern s32 func_8016A8FC(s32 a0);
 extern void func_8016AB30(void *a0);
 
 
-extern void func_8016B234();  // K&R: ? of 1 args (P37 rung D t4_D5)
+extern void func_8016B234(s32 param_1);
 extern void guess_AddVelocityToPos_4(s32 a0);
 
 #include "../shared/ov/func_8016AE5C__te4eb1475.h"
@@ -2002,7 +2002,7 @@ extern void guess_AddVelocityToPos_4(s32 a0);
 #include "../shared/ov/func_8016AFB0.h"
 
 
-extern void func_8016B234();  // K&R: ? of 1 args (P37 rung D t4_D5)
+extern void func_8016B234(s32 param_1);
 extern void guess_AddVelocityToPos_4(s32 a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8016B114.h"
@@ -3624,7 +3624,7 @@ extern void func_80015954(s32 a0, s32 a1);
 
 
 extern s32 guess_FreeSmallObject(u8 *a0);
-extern void func_8016E778();  // K&R: 0 of 1 args (P37 rung D t4_D5)
+extern void func_8016E778(int param_1);
 void func_8016E728(u8 *a0) {
     s32 v0;
     s32 v1;
@@ -3635,7 +3635,7 @@ void func_8016E728(u8 *a0) {
     if ((s16)v1 <= 0) {
         ((void (*)(void))guess_FreeSmallObject)();
     } else {
-        func_8016E778();
+        KR_AS(void, func_8016E778)();
     }
 }
 
@@ -3948,7 +3948,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8016F094.h"
 
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 s32 aF8016F0AC(void) __asm__("func_8016F0AC");
 #include "../shared/ov/func_8016F0AC.h"

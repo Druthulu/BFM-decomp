@@ -1761,7 +1761,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1781,7 +1781,7 @@ extern s32 func_801678B4(s16 *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern s32 (*D_80189AF8[])();
 extern s32 func_80167A9C(s16 *a0);
@@ -2062,7 +2062,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -3434,7 +3434,7 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 extern u8 D_8018A508;
 
@@ -3503,7 +3503,7 @@ s32 func_8017C150(void *a0) {
 
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern u8 D_8018A514;
 
 void func_8017C18C(s32 a0) {
@@ -4322,7 +4322,7 @@ void func_8017DFD8(int param_1) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH (param_1 survives across func_8016F0E4 → lands in $s0; passed to func_80165770)
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -4363,7 +4363,7 @@ void func_8017E170(int param_1)
     return;
 }
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 
 #define SHARED_FN func_8017E1B4
 #include "../shared/multi/cls_5211f6f7586b.h"
@@ -4563,7 +4563,7 @@ void func_8017E668(u8 *a0) {
 // @unstuck(P36): none — MATCH (expected)
 
 extern void func_8017D8F0(void);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 
 #define SHARED_FN func_8017E6BC
@@ -4575,7 +4575,7 @@ extern void func_80165770(void);
 
 extern s32 guess_GetTextWindowResult(s32 a0);
 extern void guess_CloseTextWindow(s32 a0);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 
 void func_8017E6F4(s32 param_1) {
@@ -4620,7 +4620,7 @@ void func_8017E7DC(u8 *a0) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH (simple 3-call stub; param saved in $s0 across first call)
 extern void func_8017D8F0(void);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 
 #define SHARED_FN func_8017E830
@@ -4709,7 +4709,7 @@ void func_8017E9C0(void *arg0) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH (expected): param saved to $s0 across first call, passed to second
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 
 void func_8017EA2C(int param_1)
@@ -5730,11 +5730,11 @@ void func_80180590(int param_1)
 }
 
 extern s32 D_801270C8;
-extern void func_8017F714();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017F714(int param_1);
 
 void func_801806A8(void) {
     if (D_801270C8 == 1) {
-        func_8017F714();
+        KR_AS(void, func_8017F714)();
     }
 }
 

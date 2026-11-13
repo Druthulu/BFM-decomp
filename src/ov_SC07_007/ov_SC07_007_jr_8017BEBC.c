@@ -4416,7 +4416,7 @@ void func_8017E8A4(s32 a0) {
 
 #include "common.h"
 
-extern s32 func_8018152C();  // K&R: 1 of 1 args (P37 rung D t4_D1)
+extern s32 func_8018152C(s32 a0);
 extern void func_8017E234(void *a0);
 extern s32 func_80181048(void *a0, void *a1);
 extern void guess_SetWaitTimer(s32*, s32);
@@ -4432,7 +4432,7 @@ void func_8017E94C(void *a0) {
     s32 value;
     s32 comparator;
 
-    if (func_8018152C() == 0) {
+    if (KR_AS(s32, func_8018152C)() == 0) {
         return;
     }
 
@@ -6131,7 +6131,7 @@ void func_8018078C(s32 a0) {
 }
 
 
-extern s32 func_8018152C();  // K&R: 1 of 1 args (P37 rung D t4_D1)
+extern s32 func_8018152C(s32 a0);
 extern s32 func_80181048(void *a0, void *a1);
 extern s32 func_8012AD50(void *);
 extern void *D_80188098;
@@ -6561,9 +6561,9 @@ s32 func_801810CC_body(s32 a0, s32 a1, s32 a2) {
 }
 
 
-extern void func_80181140();  // K&R: 0 of 2 args (P37 rung D t4_D1)
+extern void func_80181140(s32 a0, s32 a1);
 void func_80181120(void) {
-    func_80181140();
+    KR_AS(void, func_80181140)();
 }
 
 
@@ -7110,7 +7110,7 @@ extern s32 D_801C79B0;
 
 extern void func_80181DFC(s32 arg0);
 extern s32 func_80181E28(void);
-extern void func_80181E38();  // K&R: 2 of 1 args (P37 rung D t4_D1)
+extern void func_80181E38(s32 a0);
 extern s32 func_80181E50(s32 a0, s32 a1);
 extern s32 func_80181ED4(s32 a0, s32 a1);
 
@@ -7134,8 +7134,8 @@ s32 func_80181B8C(void) {
         }
         if (p[0] <= D_801C799C) {
             D_801C79AC = p[1];
-            func_80181E38(0, D_801C79B0);
-            func_80181E38(1, D_801C79B0);
+            KR_AS(void, func_80181E38)(0, D_801C79B0);
+            KR_AS(void, func_80181E38)(1, D_801C79B0);
             D_801C79A0 = D_801C79A0 + 1;
         }
         return 0;

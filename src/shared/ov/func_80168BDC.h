@@ -1,6 +1,6 @@
 /* func_80168BDC — shared body (overlay slot 0x80128158, h_exact 0964d4c6). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_800D2318();  // K&R: 0 of 1 args (P37 rung D t4_HD4)
+extern void func_800D2318(s32 *p);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -11,7 +11,7 @@ void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
     int r;
     u16 i;     /* loop counter, survives the call -> $s1 */
     u16 tmp;    /* increment temp -> $v0 (the split-IV) */
-    func_800D2318();
+    KR_AS(void, func_800D2318)();
     vec[0] = *(short *)(param_1 + 0x12);
     vec[1] = *(short *)(param_1 + 0x16);
     vec[2] = 0;

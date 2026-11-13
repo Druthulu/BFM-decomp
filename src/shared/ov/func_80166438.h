@@ -6,7 +6,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: 1 of 1 args (P37 rung D t6_hD1)
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_80166438(u8 *a0) {
     u8 *s0;
     s32 v0;

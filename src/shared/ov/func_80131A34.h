@@ -6,7 +6,7 @@ extern void guess_StartActorSequence(s32 a0, void *a1);
  * Names ledger: config/names.tsv guess_StartActorSequenceById */
 s32 guess_StartActorSequenceById(s32 a0, s32 a1)
 {
-    extern s32 guess_LookupIdValue();  // K&R: 1 of 2 args (P37 unalias t4_ua6)
+    extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
     void *p;
     p = (void *)((int (*)(int, int))guess_LookupIdValue)(*(s32 *)(a0 + 0xBC), a1);
     if (p != 0) {

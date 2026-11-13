@@ -3325,10 +3325,10 @@ void func_8018281C(int param_1)
 #include "../shared/ov/cls_93666547fd3c.h"
 #undef SHARED_FN
 
-extern void func_80182988();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern void func_80182988(int param_1);
 
 void func_80182968(void) {
-    func_80182988();
+    KR_AS(void, func_80182988)();
 }
 
 // @class: loose-typing

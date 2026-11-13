@@ -16,7 +16,7 @@ void func_8013D3D4(int param_1, int param_2)
         D_8018E76C = D_8017FB8C;
         D_8018E770 = D_8017FA64;
     }
-    func_8013D53C();
+    KR_AS(void, func_8013D53C)();
     if ((param_2 & 1) != 0) {
         if (D_8018E7A0 != 0) {
             func_8013DD68();

@@ -4438,7 +4438,7 @@ void func_8017F7F4(s32 param_1) {
 
 
 extern s32 D_801EDA10;
-extern s32 func_80182B00();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_80182B00(s32 a0);
 
 void func_8017F830(s32 arg0) {
     if (func_80182B00(arg0) != 0 || D_801EDA10 != 0) {
@@ -4658,7 +4658,7 @@ void func_8017FD70(s32 arg0) {
 extern s32 D_80188050;
 extern s32 D_801EDA14;
 extern void guess_StartActorSequence(s32 a0, s32 a1);
-extern s32 func_80182B00();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_80182B00(s32 a0);
 
 void func_8017FDAC(s32 a0)
 {
@@ -4666,7 +4666,7 @@ void func_8017FDAC(s32 a0)
     s32 v0;
 
     s0 = a0;
-    v0 = func_80182B00();
+    v0 = KR_AS(s32, func_80182B00)();
     if ((v0 != 0) || (D_801EDA14 != 0)) {
         guess_StartActorSequence(s0, (s32)&D_80188050);
         ((Unkstruct_800B5CB8 *)s0)->unk2 = 1;
@@ -4905,13 +4905,13 @@ void func_801803A4(void *a0) {
 
 
 extern void guess_StartActorSequence(s32 a0, s32 a1);
-extern s32 func_80182B00();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_80182B00(s32 a0);
 extern s32 D_801884A8;
 extern s32 D_801EDA0C;
 
 void func_801803E0(s32 a0)
 {
-    if ((func_80182B00() != 0) || (D_801EDA0C != 0)) {
+    if ((KR_AS(s32, func_80182B00)() != 0) || (D_801EDA0C != 0)) {
         guess_StartActorSequence(a0, (s32)&D_801884A8);
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
     }
@@ -5108,7 +5108,7 @@ s32 param_1;
 
 
 extern s32 D_801EDA1C;
-extern s32 func_80182B00();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_80182B00(s32 a0);
 
 void func_80180890(s32 arg0) {
     if (func_80182B00(arg0) != 0 || D_801EDA1C != 0) {
@@ -5330,7 +5330,7 @@ s32 param_1;
 extern s32 D_801888F8;
 extern s32 D_801EDA18;
 extern void guess_StartActorSequence(s32 a0, s32 a1);
-extern s32 func_80182B00();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_80182B00(s32 a0);
 
 void func_80180E90(s32 a0)
 {
@@ -5338,7 +5338,7 @@ void func_80180E90(s32 a0)
     s32 v0;
 
     s0 = a0;
-    v0 = func_80182B00();
+    v0 = KR_AS(s32, func_80182B00)();
     if ((v0 != 0) || (D_801EDA18 != 0)) {
         guess_StartActorSequence(s0, (s32)&D_801888F8);
         ((Unkstruct_800B5CB8 *)s0)->unk2 = 1;
@@ -5437,7 +5437,7 @@ void func_80181000(s32 a0)
 
 extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern void func_80182B60(s32 *a0, s32 a1);
-extern s32 func_80182B00();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_80182B00(s32 a0);
 extern void guess_FreeActor(void *a0);
 extern s32 D_801ED9F8;
 extern s32 D_801ED9FC;
@@ -5594,7 +5594,7 @@ void func_8018150C(s32 a0)
 }
 
 
-extern s32 func_80182B00();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_80182B00(s32 a0);
 extern s32 D_801EDA08;
 
 void func_8018153C(s32 arg0) {
@@ -5642,7 +5642,7 @@ extern void guess_StartActorSequence(s32, s32);
 
 extern u8 D_80187758[];
 extern void guess_StartActorSequence(s32, s32);
-extern s32 func_80182B00();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_80182B00(s32 a0);
 
 void func_8018164C(void *a0)
 {
@@ -5660,7 +5660,7 @@ extern u8 D_80187430[];
 extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern s32 D_801ED9FC;
 extern u16 D_801877D0[];
-extern s32 func_80182B00();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_80182B00(s32 a0);
 extern s32 D_801EDA08;
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -5707,7 +5707,7 @@ void func_80181784(s32 a0) {
 
 extern s32 D_801EDA08;
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
-extern s32 func_80182B00();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_80182B00(s32 a0);
 
 void func_801817BC(int param_1)
 {

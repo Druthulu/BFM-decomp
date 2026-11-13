@@ -1653,7 +1653,7 @@ extern void (*D_801891B8[])(void *);
 extern s32 D_8011F9C4;
 extern s32 D_8018914C;
 
-extern s32 func_80161B18();  // K&R: ? of 1 args (P37 rung D t4_D26)
+extern s32 func_80161B18(void *a0);
 extern s32 func_801619A4(s32*);
 extern s32 guess_IsSquarePressed(s32*);
 extern void guess_StartSquareAction(s32*);
@@ -1694,7 +1694,7 @@ s32 func_8015B950(s32 arg0)
     s32 doit;
     s32 lim = -0xB0000;
 
-    if (func_80161B18() != 0) {
+    if (KR_AS(s32, func_80161B18)() != 0) {
         return;
     }
     switch (((s32 (*)(s32))func_801619A4)(arg0)) {

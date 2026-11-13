@@ -3319,12 +3319,12 @@ void func_8017F1C8(void *a0) {
 }
 
 
-extern s32 func_8017F264();  // K&R: ? of 1 args (P37 rung D t4_D3)
+extern s32 func_8017F264(s32 a0);
 extern u16 D_80126B96;
 extern s16 D_80126B98;
 
 void func_8017F228() {
-    if (func_8017F264() != 0) {
+    if (KR_AS(s32, func_8017F264)() != 0) {
         D_80126B96 = 0x4018;
         D_80126B98 = 0x10;
     }

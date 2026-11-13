@@ -7,7 +7,7 @@ s32 func_8012FCC4(s32 param_1) {
     *(char *)(((int)param_1) + 0xC1) = 8;
     if (v1 & 2) {
         *(char *)(((int)param_1) + 0xC1) = 1;
-        guess_CallActorEventHandler(((int)param_1), 3);
+        KR_AS(s32, guess_CallActorEventHandler)(((int)param_1), 3);
         return;
     }
     if (v1 & 1) {
@@ -28,8 +28,8 @@ s32 func_8012FCC4(s32 param_1) {
         }
         ((void (*)(int, void *))guess_SetLocalVelocity)(((int)param_1), &D_8017EE4C);
         *(int *)(((int)param_1) + 0x1C) = 0;
-        guess_CallActorEventHandler(((int)param_1), 0x1C);
+        KR_AS(s32, guess_CallActorEventHandler)(((int)param_1), 0x1C);
         return;
     }
-    guess_CallActorEventHandler(((int)param_1), 0x1C);
+    KR_AS(s32, guess_CallActorEventHandler)(((int)param_1), 0x1C);
 }

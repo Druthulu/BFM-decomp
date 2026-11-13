@@ -4239,7 +4239,7 @@ void func_8017F8CC(s32 a0)
 
 
 extern s32 D_8019C93C[];
-extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017EF54(s32);
 
 void func_8017F9FC(s32 a0)
 {
@@ -4406,16 +4406,16 @@ void func_8017FD48(void *a0) {
 }
 
 
-extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017EF54(s32);
     void func_8017FD80(s32 *param) {
         ((Unkstruct_8017FB8C_2 *)*(s32 *)((char *)param + 0x20))->unk10 = 0xE00;
-        func_8017EF54();
+        KR_AS(void, func_8017EF54)();
     }
 
 
 
 
-extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017EF54(s32);
     void func_8017FDA8(s32 arg0) {
         s32 temp_v1 = ((Unkstruct_8017FBB4 *)arg0)->unk20;
         ((Unkstruct_8017FBB4_2 *)temp_v1)->unk10 += 0x20;
@@ -4424,7 +4424,7 @@ extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&
 
 
 extern void func_80131E00(int, int);
-extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017EF54(s32);
 
 void func_8017FDDC(a0)
 s32 a0;
@@ -4435,14 +4435,14 @@ s32 a0;
         ((Unkstruct_8017FDDC *)a0)->unk2 = 1;
         ((Unkstruct_8017FDDC *)a0)->unk100 = 0x3C;
         ((Unkstruct_8017FDDC *)a0)->unk34 = 0;
-        func_8017EF54();
+        KR_AS(void, func_8017EF54)();
     }
 }
 
 
 extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32 rand(void);
-extern void func_8017EF54();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017EF54(s32);
 
 void func_8017FE28(s32 a0)
 {

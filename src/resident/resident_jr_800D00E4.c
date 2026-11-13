@@ -916,7 +916,7 @@ s16 func_800D0E30(u8 *p) {
 // at THIS call site it MUST be declared returning a type wider than u8 (s32) with an
 // explicit `& 0xFF`; declaring it u8 would let gcc drop the andi. (Matches the proven
 // pattern: guess_GetGameVarByte reads D_800BA1B8[a0] via lbu.)
-extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte(s32 arg0);
 
 s32 func_800D0EC4(void) {
     s32 i;
@@ -957,7 +957,7 @@ s32 func_800D0F4C(u8 arg0) {
  * (guess_GetGameVarByte(i) & 0xFF) equals (arg0 & 0xFF); return 0 if none.
  * Loop counter is u32 so gcc emits sltiu (unsigned range test 0x3B).
  */
-extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte(s32 arg0);
 
 s32 func_800D0F8C(u8 arg0) {
     u32 i;
@@ -994,11 +994,11 @@ s16 func_800D1000(s32 arg0) {
 //   cast, function returns s32. (func_800D1078 is elsewhere matched as s16(u8),
 //   but at THIS call site we must locally over-declare its return width to s32 to
 //   force the visible sign-extension -- same trick as the func_800D2EE8 twin.)
-extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte(s32 arg0);
 extern s32 func_800D1078(u8);
 
 s32 func_800D1028(void) {
-    return (s16)func_800D1078(guess_GetGameVarByte() & 0xff);
+    return (s16)func_800D1078(KR_AS(s32, guess_GetGameVarByte)() & 0xff);
 }
 
 extern s32 D_8010EDE8[];
@@ -1018,11 +1018,11 @@ s32 func_800D1078(u8 arg0) {
 // ANALYSIS: t = guess_GetGameVarByte(); return (s16)func_800D10C8(t & 0xff);
 // andi a0,v0,0xff lands in the jal delay slot (arg to func_800D10C8).
 // sll/sra 16 => sign-extend the s16 return to s32.
-extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte(s32 arg0);
 extern s32 func_800D10C8(s32);
 
 s32 func_800D109C(void) {
-    return (s16)func_800D10C8(guess_GetGameVarByte() & 0xff);
+    return (s16)func_800D10C8(KR_AS(s32, guess_GetGameVarByte)() & 0xff);
 }
 
 // ANALYSIS: direct twin of the ALREADY-MATCHED func_800D1078 (resident.c:539):
@@ -1081,7 +1081,7 @@ s32 func_800D10C8(s32 arg0) {
 //
 // guess_GetGameVarByte is K&R-called with an arg (asm passes s3) though resident.c:600 prototypes it
 // `(void)`; func_800291DC is the proven `s32 func_800291DC(s32)`.
-extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte(s32 arg0);
 extern s32 func_800291DC(s32);
 extern void func_800291A0(s32, s32);
 extern void func_800291C8(s32, s32);
@@ -1143,7 +1143,7 @@ void func_800D10EC(void) {
  * the func_800291DC delay slot -- the single expression (s1*2 + 0x14) reproduces both.
  */
 
-extern s32 guess_GetGameVarByte();  // K&R: 0/1 of 1 args (P37 rung D t4_D47)
+extern s32 guess_GetGameVarByte(s32 arg0);
 extern s32 func_800291DC(s32 arg0);
 extern s16 D_80078EAC;
 extern s32 func_800D128C(s32 arg0, s32 arg1);

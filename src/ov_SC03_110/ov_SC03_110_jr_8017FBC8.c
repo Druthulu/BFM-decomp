@@ -2992,7 +2992,7 @@ void func_801800F0(s32 param_1)
 }
 
 
-extern void func_80180AF0();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern void func_80180AF0(s32 *a0);
 extern void func_80131E00(s32 a0, s32 a1);
 extern void func_8012E9C0(s32 a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
@@ -3008,7 +3008,7 @@ void func_80180270(s32 param_1) {
     s16 val;
     s32 arg1;
 
-    func_80180AF0();
+    KR_AS(void, func_80180AF0)();
 
     switch (CAST_WIDTH(u16, param_1, 0x5E)) {
     case 1:
@@ -3192,7 +3192,7 @@ extern s32 D_8019BFAC;
 extern void func_80180D2C(void *arg0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32*, s32);
-extern void func_80180AF0();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern void func_80180AF0(s32 *a0);
 
 void func_8018066C(s32 *a0) {
     ((void (*)(s32 *))func_80180AF0)(a0);
@@ -3202,10 +3202,10 @@ void func_8018066C(s32 *a0) {
 }
 
 
-extern void func_80180AF0();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern void func_80180AF0(s32 *a0);
 extern void func_80180D2C(void *arg0);
 void func_801806B8(s32 a0) {
-    func_80180AF0();
+    KR_AS(void, func_80180AF0)();
     ((void (*)(s32))func_80180D2C)(a0);
 }
 
@@ -3216,12 +3216,12 @@ extern s32 D_8019C114;
 extern s32 D_8019BFAC;
 extern void guess_StartActorSequence(s32 *a0, s32 a1);
 extern void func_80180D2C(void *arg0);
-extern void func_80180AF0();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern void func_80180AF0(s32 *a0);
 
 void func_801806E8(s32 param_1) {
     ((Unkstruct_800B5CB8 *)param_1)->unkC2 = 0;
     ((Unkstruct_800B5CB8 *)param_1)->unkC3 = 0;
-    func_80180AF0();
+    KR_AS(void, func_80180AF0)();
 
     if (CAST_WIDTH(u16, param_1, 0x5E) == 9 || CAST_WIDTH(u16, param_1, 0x5E) == 0x1C) {
         guess_SetLocalVelocity(param_1, (s32)&D_8019C104);

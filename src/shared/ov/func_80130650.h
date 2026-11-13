@@ -5,7 +5,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012CBF4(s32);
 extern s32 guess_HandleActorEventDefault(s32 a0, s32 a1);
 extern void func_80131C78(s32 a0);
-extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 void func_80130650(s32 a0) {
     s32 s1;
     if (*(s32 *)(a0 + 0xB4) & 0x1000) {
@@ -29,5 +29,5 @@ void func_80130650(s32 a0) {
             func_80131C78(a0);
         }
     }
-    guess_CallActorEventHandler(a0, 0x23);
+    KR_AS(s32, guess_CallActorEventHandler)(a0, 0x23);
 }

@@ -1895,7 +1895,7 @@ void func_801431E8(s32 param_1) {
 #include "../shared/ov/func_80143390.h"
 
 
-extern void func_80143458();  // K&R: 0 of 1 args (P37 rung D t4_D29)
+extern void func_80143458(s32 param_1);
 extern void guess_AddVelocityToPos(struct vec *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
@@ -1940,7 +1940,7 @@ void func_80143458(s32 param_1)
 }
 
 
-extern void func_8014358C();  // K&R: 0 of 1 args (P37 rung D t4_D29)
+extern void func_8014358C(s32 param_1);
 extern void guess_AddVelocityToPos(struct vec *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);

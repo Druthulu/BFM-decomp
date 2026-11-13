@@ -3,7 +3,7 @@
 extern int guess_TickWaitTimer(int);
 extern void func_80166244(void* arg0);
 extern void func_801319E0(int);
-extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 void func_80130974(int param_1) {
     short sVar1;
     if ((*(unsigned int *)(param_1 + 0xb4) & 0x8000) != 0) {
@@ -19,5 +19,5 @@ void func_80130974(int param_1) {
             return;
         }
     }
-    guess_CallActorEventHandler(param_1, 0x2b);
+    KR_AS(s32, guess_CallActorEventHandler)(param_1, 0x2b);
 }

@@ -11,7 +11,7 @@ void func_80131340(s32 a0)
      * with the stale 1-arg engine_core canonical. A file-scope `extern int
      * guess_LookupIdValue(int,int);` here is a HARD `conflicting types` against it (cc1 rc=33,
      * measured); block-scope goes out of scope before that macro and compiles clean. */
-    extern s32 guess_LookupIdValue();  // K&R: 2 of 2 args (P37 unalias t4_ua6)
+    extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
 
     V8_80131340_0021791e sp10;
     V8_80131340_0021791e sp18;
@@ -219,5 +219,5 @@ void func_80131340(s32 a0)
         break;
     }
 
-    guess_CallActorEventHandler(a0, 0x2F);
+    KR_AS(s32, guess_CallActorEventHandler)(a0, 0x2F);
 }

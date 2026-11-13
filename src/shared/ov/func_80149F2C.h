@@ -3,7 +3,7 @@
 extern void func_80144A04(s32 *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern void func_8016EDEC();  // K&R: 2 of 3 args (P37 rung D t4_HD7)
+extern void func_8016EDEC(s32 _arg0, s32 _arg1, s32 _arg2);
 s32 func_80149F2C(s32 a0, s32 a1)
 {
     void *s1 = a0;
@@ -13,7 +13,7 @@ s32 func_80149F2C(s32 a0, s32 a1)
         if (s0 != 0) {
             func_801599A4(s1);
             func_80159B3C(s1);
-            func_8016EDEC((s32)s0, 0x1000000);
+            KR_AS(void, func_8016EDEC)((s32)s0, 0x1000000);
             return 1;
         }
     }

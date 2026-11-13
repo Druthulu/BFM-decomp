@@ -3103,7 +3103,7 @@ L80191000:
    and is never moved), yet the fleet-dominant spelling is `void guess_ClearVelocityAndSetGravity(s32 a0)`.  The
    K&R form (34 fleet uses) is the only one that both permits the 0-arg call AND stays
    COMPATIBLE with the prototyped form if this TU ever gains one. */
-extern void guess_ClearVelocityAndSetGravity();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void guess_SetVelocityXZFromLocal(s32 a0, s32 a1);
 extern s32 rand(void);
 extern void SetRotMatrix(void *a0);
@@ -3128,7 +3128,7 @@ void func_80191020(s32 a0) {
     if (((Unkstruct_800B5CB8 *)a0)->unkFC != *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x36)) {
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 5;
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-        guess_ClearVelocityAndSetGravity();
+        KR_AS(void, guess_ClearVelocityAndSetGravity)();
         guess_SetVelocityXZFromLocal(a0, (s32)D_801D1200);
         *(s16 *)(a0 + 0x16) = (rand() & 3) - 0x1B;
         ((Unkstruct_800B5CB8 *)a0)->unkA = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x38;

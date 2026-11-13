@@ -1,6 +1,6 @@
 /* func_8016706C — shared body (overlay slot 0x80128158, h_exact e0963a4b). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8016706C(s32 param_1)
 {
     extern s32 guess_g_SmallObjectPool; // Names ledger: config/names.tsv guess_g_SmallObjectPool

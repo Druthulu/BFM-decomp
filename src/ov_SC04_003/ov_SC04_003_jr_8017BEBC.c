@@ -3673,7 +3673,7 @@ void func_8017E498(s32 a0) {
 void func_8017E4F4(void *a0, void *a1)
 {
 
-    extern void func_8001E094();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+    extern void func_8001E094(s32 arg0);
     extern void func_8001E378(void *a0);
     extern void func_8017E910(void *a0, void *a1, u32 *a2, u32 *a3);
     extern u8 D_800A6610[];
@@ -3700,7 +3700,7 @@ void func_8017E4F4(void *a0, void *a1)
     }
 
     if (CAST_WIDTH(s32, (s32)a0, 0x34) != 0) {
-        func_8001E094();
+        KR_AS(void, func_8001E094)();
     } else {
         func_8001E378(a0);
     }

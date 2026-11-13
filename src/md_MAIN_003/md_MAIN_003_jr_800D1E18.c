@@ -115,7 +115,7 @@ extern void func_800D2394(struct S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, str
 extern void func_800D2454(s32 a0, s32 a1, s32 *a2);
 extern void func_800D24D0(void);
 extern s32 func_800D2704(s32 a0, s32 a1);
-extern void func_800D298C();  // K&R: 2 of 1 args (P37 rung D t6_D1)
+extern void func_800D298C(St *a0);
 extern void func_800D2AA0(u8 *a0);
 extern void func_800D2C0C(s32 *a0, s32 a1);
 extern void func_800D2C88(void);
@@ -200,7 +200,7 @@ void func_800D1E9C(void *arg0) {
             func_8002D8D4();
             goto after;
         }
-        func_800D298C(D_800EC9A4, 0);
+        KR_AS(void, func_800D298C)(D_800EC9A4, 0);
         VSync(0);
         i = (D_800EC9CC == 0);
         SetDefDispEnv(sp18,
@@ -626,13 +626,13 @@ void func_800D2C0C(s32 *a0, s32 a1) {
 }
 
 
-extern void func_800D2EF8();  // K&R: 0 of 2 args (P37 rung D t4_D31)
+extern void func_800D2EF8(s32 a0, s32 a1);
 void func_800D2C88(void) {
-    func_800D2EF8();
+    KR_AS(void, func_800D2EF8)();
 }
 
 
-extern u32 func_800D2F88();  // K&R: 0/2 of 0 args (P37 unalias t4_ua2)
+extern u32 func_800D2F88(void);
 extern s32 func_800D30B8(void);
 
 s32 func_800D2CA8(s32 a0, s32 a1) {
@@ -723,14 +723,14 @@ extern s32 *D_800DB63C;
 extern s32 *D_800DB640;
 extern s32 *D_800DB66C;
 extern s32 *D_800DB644;
-extern u32 func_800D2F88();  // K&R: 0/2 of 0 args (P37 unalias t4_ua2)
+extern u32 func_800D2F88(void);
 
 void func_800D2E64(s32 a0, s32 a1) {
     u32 s0;
     s32 s1;
     s1 = a0;
     s0 = (u32)a1;
-    func_800D2F88(a0, a1);
+    KR_AS(u32, func_800D2F88)(a0, a1);
     s0 = (s0 >> 5) << 16;
     *D_800DB674 |= 0x88;
     *D_800DB63C = s1 + 4;

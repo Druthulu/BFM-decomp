@@ -1669,7 +1669,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1687,7 +1687,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_801897C4[])(void);
 extern void func_80167A9C(void *a0);
@@ -3460,7 +3460,7 @@ void func_8017E640(s32 param_1)
 
  /* 0x1D0 */
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_8017E7E8(void *arg0) {
     extern GroupRec_801EB5C8_8017E640 D_8019E1B8[8];
@@ -4741,9 +4741,9 @@ void func_801808E0(s32 param_1, s32 param_2)
 }
 
 
-extern s32 func_8018094C();  // K&R: 0/1 of 1 args (P37 rung D t4_D1)
+extern s32 func_8018094C(s32 s1);
     void func_8018092C(void) {
-        func_8018094C();
+        KR_AS(s32, func_8018094C)();
     }
 
 
@@ -4771,9 +4771,9 @@ s32 func_8018094C(s32 s1)
 }
 
 
-extern s32 func_80180A2C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_80180A2C(s32 s1);
     void func_80180A0C(void) {
-        func_80180A2C();
+        KR_AS(s32, func_80180A2C)();
     }
 
 
@@ -4799,9 +4799,9 @@ s32 func_80180A2C(s32 s1) {
 }
 
 
-extern void func_80180B0C();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern void func_80180B0C(s32 s1);
 void func_80180AEC(void) {
-    func_80180B0C();
+    KR_AS(void, func_80180B0C)();
 }
 
 
@@ -4879,9 +4879,9 @@ void func_80180BEC(s32 s1) {
 }
 
 
-extern void func_80180CCC();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern void func_80180CCC(s32 s1);
 void func_80180CAC(void) {
-    func_80180CCC();
+    KR_AS(void, func_80180CCC)();
 }
 
 
@@ -4909,9 +4909,9 @@ void func_80180CCC(s32 s1) {
 }
 
 
-extern s32 func_80180DAC();  // K&R: 0/1 of 1 args (P37 rung D t4_D1)
+extern s32 func_80180DAC(s32 a0);
     void func_80180D8C(void) {
-        func_80180DAC();
+        KR_AS(s32, func_80180DAC)();
     }
 
 
@@ -5362,9 +5362,9 @@ void func_80181BD8(void)
   new_var = 0x10000;
 }
 
-extern s32 func_80128940();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern s32 func_80128940(s32 _arg0);
 void func_80181BF8(void) {
-    func_80128940();
+    KR_AS(s32, func_80128940)();
 }
 
 
@@ -8513,7 +8513,7 @@ void func_80186458(void *a0) {
 
 
 extern void *guess_AllocSpriteObject(void);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 extern void func_8001CBDC(s32 a0, s32 a1, s32 a2, s32 a3);
 
@@ -8592,7 +8592,7 @@ extern void func_801866D4(void);
     }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #define SHARED_FN func_801866B4
 #include "../shared/ov/cls_e5d62a31b595.h"
 #undef SHARED_FN

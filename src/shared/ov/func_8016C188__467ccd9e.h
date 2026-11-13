@@ -12,7 +12,7 @@ void func_8016C188(s32 param)
 
     extern void func_80015954(s32, s32);
     extern s32 guess_FadeOutColorPair(s32, s32, s32, s32);
-    extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern void guess_InitObjectKind6(s32, void *);
     extern void guess_BuildCircle12Points(void *, unsigned short);
     extern u8 D_8018ED7C[];

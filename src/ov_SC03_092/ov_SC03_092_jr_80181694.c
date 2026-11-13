@@ -4518,7 +4518,7 @@ void func_80184324(s32 param) {
 void func_80184370(void *a0, void *a1)
 {
 
-    extern void func_8001E094();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+    extern void func_8001E094(s32 arg0);
     extern void func_8001E378(void *a0);
     extern void func_8018478C(void *a0, void *a1, u32 *a2, u32 *a3);
     extern u8 D_800A6610[];
@@ -4544,7 +4544,7 @@ void func_80184370(void *a0, void *a1)
     }
 
     if (((Unkstruct_80184370 *)a0)->unk34 != 0) {
-        func_8001E094();
+        KR_AS(void, func_8001E094)();
     } else {
         func_8001E378(a0);
     }

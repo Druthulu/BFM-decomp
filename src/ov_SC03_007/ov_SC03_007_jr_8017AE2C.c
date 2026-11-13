@@ -4168,9 +4168,9 @@ void func_8017DDE4(void *a0) {
 }
 
 
-extern void func_8017DE40();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern void func_8017DE40(s32 param_1);
     void func_8017DE20(void) {
-        func_8017DE40();
+        KR_AS(void, func_8017DE40)();
     }
 
 

@@ -6,7 +6,7 @@
 s32 guess_CallActorEventHandler(a0)
     int a0;
 {
-    s32 (*fp)(int) = (s32 (*)(int))guess_LookupIdValue(*(s32 *)((u8 *)a0 + 0xBC));
+    s32 (*fp)(int) = (s32 (*)(int))KR_AS(s32, guess_LookupIdValue)(*(s32 *)((u8 *)a0 + 0xBC));
     if (fp != 0) {
         fp(a0);
         return 1;

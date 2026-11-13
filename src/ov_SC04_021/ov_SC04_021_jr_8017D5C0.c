@@ -2967,12 +2967,12 @@ extern void (*D_80182F74[])(void);
 #include "../shared/ov/func_8017EF10__9bd78543.h"
 
 
-extern void func_8017EFA0();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern void func_8017EFA0(s32 param_1);
 #include "../shared/ov/func_8017EF4C__34215dc7.h"
 
 
 
-extern void func_8017EFA0();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern void func_8017EFA0(s32 param_1);
 extern s16 D_80126942;
 extern s16 D_80126944;
 

@@ -4,7 +4,7 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern s32 guess_StartActorSequenceById(s32 a0, s32 a1);
 extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
-extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 void func_8012F968(s32 param_1) {
     s32 iVar3;
     s32 iVar2;
@@ -50,5 +50,5 @@ void func_8012F968(s32 param_1) {
         }
         ((void (*)(s32, s32))guess_SpawnActorNoArg)(0x289, param_1);
     }
-    guess_CallActorEventHandler(param_1, 0x35);
+    KR_AS(s32, guess_CallActorEventHandler)(param_1, 0x35);
 }

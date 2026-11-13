@@ -1662,7 +1662,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1680,7 +1680,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_801878FC[])(void);
 extern void func_80167A9C(void *a0);
@@ -3981,7 +3981,7 @@ void func_8017CC44(s32 a0) {
 extern int func_80178970(void);
 extern void func_80178D18(void);
 extern void guess_SetGameFlag(s32 a0, s32 a1);
-extern void guess_FreeActor();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern void guess_FreeActor(void *a0);
 
 void func_8017CD14(s32 a0)
 {
@@ -4001,7 +4001,7 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 extern s32 func_8012E778(s32 param_1, s32 param_2);
 extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 extern s32 func_801439C0(s32 a0);
-extern void guess_FreeActor();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern void guess_FreeActor(void *a0);
 
 void func_8017CD6C(s32 a0)
 {
@@ -4086,7 +4086,7 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 
 void func_8017CEE0(s32 param_1) {
@@ -4143,7 +4143,7 @@ void func_8017CEE0(s32 param_1) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8017D0A4(u8 *p) {
     u8 *q;
     s32 t;
@@ -4182,7 +4182,7 @@ void func_8017D138(void *a0) {
 
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern u8 D_80188610;
 
 void func_8017D174(s32 a0) {
@@ -4207,14 +4207,14 @@ void func_8017D174(s32 a0) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8017D218(int a0) {
     int v0 = ((Unkstruct_8017C6CC *)a0)->unk1C;
     unsigned char *p;
     do { p = *(unsigned char **)(a0 + 0x20); } while (0);
     ((Unkstruct_8017C6CC *)a0)->unk1C = v0 + 1;
     if (v0 >= 0x1F) {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     } else {
         unsigned short hv = *(unsigned short *)(p + 0x1A) + 0x1E0;
         signed char bv = *(unsigned char *)(p + 0x26) - 3;
@@ -4877,7 +4877,7 @@ extern void func_80178D18(void);
 #undef SHARED_FN
 
 
-extern void guess_FreeActor();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern void guess_FreeActor(void *a0);
 #define SHARED_FN func_8017E020
 #include "../shared/ov/cls_c05e46830b4f.h"
 #undef SHARED_FN
@@ -5042,7 +5042,7 @@ void func_8017E23C(void *a0)
 
 
 extern void func_8017E3F0(int);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8017E3A4(int param_1)
 {
     unsigned short uVar1;
@@ -5272,7 +5272,7 @@ void func_8017E874(void *a0)
 
 
 extern void func_8017E3F0(int);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8017E948(void *a0)
 {
     void *obj;
@@ -5286,7 +5286,7 @@ void func_8017E948(void *a0)
         ((Unkstruct_8017E948_2 *)obj)->unk64 = 0x1000;
         ((Unkstruct_8017E948_2 *)obj)->unk62 = 0x1000;
         ((Unkstruct_8017E948_2 *)obj)->unk60 = 0x1000;
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -5367,7 +5367,7 @@ void func_8017E9D8(void *a0)
 
 
 extern void guess_AddVelocityToPos_4(s32 a0);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_8017EAE8(void *a0);
 void func_8017EA8C(void *a0)
 {

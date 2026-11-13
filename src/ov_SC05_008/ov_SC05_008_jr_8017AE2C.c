@@ -4057,7 +4057,7 @@ void func_8017E318(void *a0) {
 
 
 extern s32 guess_AllocModelObject(void);
-extern void guess_InitModelObject();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern s32 D_8019E64C;
 extern s32 D_8019E650;
 extern s32 D_8019E654;
@@ -4133,9 +4133,9 @@ void func_8017E464(s32 param_1) {
     extern void guess_RequestSound(s32 a0, s32 a1);
     extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
     extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
-    extern void func_8017E850();  // K&R: 0 of 2 args (P37 rung D t4_D41)
+    extern void func_8017E850(s32 arg0, s32 arg1);
     extern void func_8017E6A4(s32 param_1);
-    extern void func_8017EAB0();  // K&R: 2 of 1 args (P37 rung D t4_D2)
+    extern void func_8017EAB0(s32 param_1);
     extern void func_8017EAE4(s32);
     extern void func_80182694(s32 a0, s32 a1);
     extern s32 rand(void);
@@ -4163,10 +4163,10 @@ void func_8017E464(s32 param_1) {
     u16 d[4];
 
     p = param_1;
-    func_8017E850();
+    KR_AS(void, func_8017E850)();
     func_8017E6A4(p);
-    func_8017EAB0(p, 0);
-    func_8017EAB0(p, 1);
+    KR_AS(void, func_8017EAB0)(p, 0);
+    KR_AS(void, func_8017EAB0)(p, 1);
     func_8017EAE4(p);
 
     v = ((Unkstruct_800B5CB8 *)p)->unkFC;
@@ -4464,7 +4464,7 @@ extern s32 D_801A10A0;
 extern s32 D_801A10A8;
 extern s32 D_801A10B0;
 extern s32 guess_AllocModelObject(void);
-extern void guess_InitModelObject();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 rand(void);
@@ -6479,7 +6479,7 @@ void func_80182240(void *a0, void *a1) {
 }
 
 
-extern void guess_InitModelObject();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+extern void guess_InitModelObject(s32 a0, s32 a1);
 
 void func_8018227C(void *a0, void *a1) {
     s32 v0;
@@ -6487,7 +6487,7 @@ void func_8018227C(void *a0, void *a1) {
 
     v0 = ((Unkstruct_800B5CB8 *)a0)->unk20;
     v1 = CAST_SIGN(u16 *, (s32)a0, 0xCC);
-    guess_InitModelObject(v0);
+    KR_AS(void, guess_InitModelObject)(v0);
     CAST_WIDTH(s32, v0, 0x80) = (s32)a0 + 0xCC;
     ((Unkstruct_800B5CB8 *)v0)->unk2C |= 0x80;
     CAST_WIDTH(s16, (s32)a0, 0xCC) = -0x50;
@@ -6744,7 +6744,7 @@ void func_80182758(void *a0) {
 
 
 extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void guess_InitModelObject();  // K&R: 1/2 of 2 args (P37 rung D t4_D2)
+extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern s32 rand(void);

@@ -2903,10 +2903,10 @@ s32 arg0;
 }
 
 
-extern void func_801830B4();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_801830B4(void *a0);
     void func_80183D24(s32 arg0) {
         s32 temp_v0;
-        func_801830B4();
+        KR_AS(void, func_801830B4)();
         temp_v0 = ((Unkstruct_8017E51C_2 *)arg0)->unk1C + 1;
         ((Unkstruct_8017E51C_2 *)arg0)->unk1C = temp_v0;
     }

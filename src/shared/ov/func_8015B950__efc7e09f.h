@@ -11,7 +11,7 @@ s32 func_8015B950(s32 arg0)
     s32 doit;
     s32 lim = -0xB0000;
 
-    if (func_80161B18() != 0) {
+    if (KR_AS(s32, func_80161B18)() != 0) {
         return;
     }
     switch (((s32 (*)(s32))func_801619A4)(arg0)) {

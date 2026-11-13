@@ -3465,16 +3465,16 @@ void func_8017EF5C(void *a0) {
 }
 
 
-extern s32 func_8017EFEC();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_8017EFEC(s32 param_1);
     void func_8017EF98(void) {
-        func_8017EFEC();
+        KR_AS(s32, func_8017EFEC)();
     }
 
 
 
 
 
-extern s32 func_8017EFEC();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+extern s32 func_8017EFEC(s32 param_1);
 
 void func_8017EFB8(void) {
 
@@ -3544,19 +3544,19 @@ void func_8017F1A0(void *a0) {
 }
 
 
-extern s32 func_8012AD50();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 func_8012AD50(void * arg0);
 void func_8017F1DC(void) {
 
     extern s32 D_8018FB78;
     D_8018FB78 = 0;
-    func_8012AD50();
+    KR_AS(s32, func_8012AD50)();
 }
 
 
 extern s32 func_80014C54(s32, s32, s32);
 extern s32 func_800CF8B4(void);
 extern void func_800D1724(s32 a0);
-extern s32 func_8012AD50();  // K&R: 0 of 1 args (P37 rung D t4_D23)
+extern s32 func_8012AD50(void * arg0);
 extern s32 D_8018FB78;
 
 void func_8017F204(void *arg0) {

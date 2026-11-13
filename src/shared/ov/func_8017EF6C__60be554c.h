@@ -3,5 +3,5 @@
 void func_8017EF6C(void) {
     D_80126942 = -0xC1;
     D_80126944 = 0;
-    func_8017EFA0();
+    KR_AS(s32, func_8017EFA0)();
 }

@@ -1,10 +1,10 @@
 /* func_801303A0 — shared body (overlay slot 0x80128158, h_exact 2699b517). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8012E364(s32 arg0_);
-extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 void func_801303A0(s32 a0) {
     if (*(s32 *)(a0 + 0xB4) & 0x2) {
         ((void (*)(s32))func_8012E364)(a0);
     }
-    guess_CallActorEventHandler(a0, 2);
+    KR_AS(s32, guess_CallActorEventHandler)(a0, 2);
 }

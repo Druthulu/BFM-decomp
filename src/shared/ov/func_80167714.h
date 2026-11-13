@@ -1,6 +1,6 @@
 /* func_80167714 — shared body (overlay slot 0x80128158, h_exact a7f0e3d6). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_HD7)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 rand(void);

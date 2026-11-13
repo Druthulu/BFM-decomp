@@ -3682,7 +3682,7 @@ extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_Play
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 rsin(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_8017F8C4();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
+extern void func_8017F8C4(void);
 extern void func_8017F9D0(void *arg0);
 
 /* same shape as the TU's own Ent_8017D6EC_8017F5F8 (TU:3319-3325), own name to avoid
@@ -3757,7 +3757,7 @@ void func_8017F688(s32 *arg0)
                 if (((Unkstruct_8017F688 *)p)->unk20 == 0) {
                     ((Unkstruct_8017F688 *)p)->unk20 = 1;
                     if (q[0x39] < 9) {
-                        func_8017F8C4(p);
+                        KR_AS(void, func_8017F8C4)(p);
                     }
                 }
             }

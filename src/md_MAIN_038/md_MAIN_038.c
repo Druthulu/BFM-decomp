@@ -147,7 +147,7 @@ extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_NextStep(void *a0);
 
 void func_800CB270(s32 a0) {
-    extern void guess_ClearObjectAndSubObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+    extern void guess_ClearObjectAndSubObject(u8 *);
     extern u32 D_800CBBBC[];
     s32 iVar1;
     s32 iVar2;
@@ -232,17 +232,17 @@ void func_800CB360(void *arg0) {
 }
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0/1 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_11: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_11 */
 void guess_FreeObjectAndSubObject_11(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
 }
 
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB518(void *arg0) {
 
@@ -252,7 +252,7 @@ void func_800CB518(void *arg0) {
         u16 v0 = ((Unkstruct_800CB214 *)arg0)->unk2;
         D_800CBBE8[v0]();
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -266,7 +266,7 @@ void func_800CB574(void *param_1) {
     extern void RotMatrixZ(s32 a0, void *a1);
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
     extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-    extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern void func_800CB780(s32 a0);
     extern s32 D_800CCA00;
     extern s32 D_800636C8;
@@ -321,7 +321,7 @@ void func_800CB574(void *param_1) {
 
 
 extern void func_800CB780(s32 param_1);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB728(s32 *arg0) {
     arg0[7] = arg0[7] + 1;
@@ -329,7 +329,7 @@ void func_800CB728(s32 *arg0) {
         *(u32 *)&arg0[12] >>= 1;
         func_800CB780((s32)arg0);
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -378,7 +378,7 @@ void func_800CB780(s32 param_1) {
 
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB8B4(void *arg0) {
 
@@ -388,7 +388,7 @@ void func_800CB8B4(void *arg0) {
         u16 v0 = ((Unkstruct_800CB214 *)arg0)->unk2;
         D_800CBBF0[v0]();
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -418,7 +418,7 @@ void func_800CB910(s32 param_1)
 
 
 extern void func_800CBA0C(s32 param_1);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB9B4(s32 *arg0) {
     arg0[7] = arg0[7] + 1;
@@ -426,7 +426,7 @@ void func_800CB9B4(s32 *arg0) {
         *(u32 *)&arg0[12] >>= 1;
         func_800CBA0C((s32)arg0);
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 

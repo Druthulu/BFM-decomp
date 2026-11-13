@@ -1,7 +1,7 @@
 /* guess_HandleActorEventDefault — shared body (overlay slot 0x80128158, h_exact 4640feb0). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 extern s32 func_8002A04C(s32 a0);
 extern void guess_FreeActor(void *a0);
 /* guess_HandleActorEventDefault: common reply to event a1 & 0xFF: 2/0x1B switch the object to state 0x12; 0x1A/0x1C run its 0x11 handler, else free it

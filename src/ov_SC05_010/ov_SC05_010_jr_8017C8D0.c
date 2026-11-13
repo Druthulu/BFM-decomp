@@ -413,7 +413,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D43)
+extern void guess_ClearObjectAndSubObject(u8 *);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void guess_ZeroMemory(void *a0, s32 a1);
@@ -2921,7 +2921,7 @@ void func_8017DC5C(void) {
 extern s16 D_8018C4D8;
 extern s16 D_8018C4DA;
 extern s16 D_8018C4DC;
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D43)
+extern void guess_ClearObjectAndSubObject(u8 *);
 
 void func_8017DCB8(void) {
     extern s16 D_8018C4DC;
@@ -2934,17 +2934,17 @@ void func_8017DCB8(void) {
     D_8018C4DA = sVar1;
     D_8018C4D8 = sVar1;
     if (sVar1 < -0x80) {
-        guess_ClearObjectAndSubObject();
+        KR_AS(void, guess_ClearObjectAndSubObject)();
     }
 }
 
 
-    extern void func_8017DFAC();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+    extern void func_8017DFAC(s32 param_1);
     extern void (*D_8018C524[])(int);
     extern void func_80162D28(s32*);
     void func_8017DD14(int param_1)
     {
-        func_8017DFAC();
+        KR_AS(void, func_8017DFAC)();
         D_8018C524[*(unsigned short *)(param_1 + 2)](param_1);
         if (((Unkstruct_8017D300 *)param_1)->unk20 != 0) {
             ((void (*)(int))func_80162D28)(param_1);
@@ -2955,7 +2955,7 @@ void func_8017DCB8(void) {
 extern s32 func_8014659C(void);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void guess_NextStep(void *a0);
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D43)
+extern void guess_ClearObjectAndSubObject(u8 *);
 void func_8017DD78(int param_1) {
 
     extern u16 D_800DF2E0;
@@ -3012,7 +3012,7 @@ extern void guess_NextStep(void *a0);
 
 
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D43)
+extern void guess_ClearObjectAndSubObject(u8 *);
 
 #define SHARED_FN func_8017DEEC
 #include "../shared/ov/cls_80233732c744.h"

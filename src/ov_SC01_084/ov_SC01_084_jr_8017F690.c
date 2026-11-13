@@ -2804,7 +2804,7 @@ void func_8017F7A4(s32 arg0) {
 
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
-extern void func_801292C8();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern void func_801292C8(u8 *a0);
 #define SHARED_FN func_8017F83C
 #include "../shared/ov/cls_c38bc40b159c.h"
 #undef SHARED_FN
@@ -3033,11 +3033,11 @@ void *param_1;
 #include "common.h"
 
 extern s32 D_801270D8;
-extern void func_801292C8();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern void func_801292C8(u8 *a0);
 
 void func_8017FDB0(void) {
     if (D_801270D8 > 5) {
-        func_801292C8();
+        KR_AS(void, func_801292C8)();
     }
 }
 
@@ -3068,7 +3068,7 @@ extern s16 D_80126960;
 extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 extern void func_8004974C(void *a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
-extern void func_801292C8();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern void func_801292C8(u8 *a0);
 
 void func_8017FE64(void *a0) {
     u8 *s0 = (u8 *)a0;

@@ -1655,7 +1655,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1673,7 +1673,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_8018DB8C[])(void);
 extern void func_80167A9C(void *a0);
@@ -3523,7 +3523,7 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 
 void func_8017C374(s32 param_1) {
@@ -3580,7 +3580,7 @@ void func_8017C374(s32 param_1) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017C538.h"
 
 
@@ -3598,7 +3598,7 @@ void func_8017C5CC(void *a0) {
 
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern u8 D_8018E654;
 
 void func_8017C608(s32 a0) {
@@ -3623,7 +3623,7 @@ void func_8017C608(s32 a0) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017C6AC.h"
 
 
@@ -4585,7 +4585,7 @@ void func_8017EB04(void *a0) {
 
 
 extern void func_80172710(void);
-extern s32 func_80184004();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_80184004(void *a0);
 extern s32 func_80178BF8();
 
 s32 aF80186828(void *a0) __asm__("func_8017EB84");
@@ -4602,7 +4602,7 @@ s32 aF80186828(void *a0)
         return 0;
     }
 
-    if (func_80184004() != 0) {
+    if (KR_AS(s32, func_80184004)() != 0) {
         *(u16 *)(*v0p + 0x2) = 0x3;
         func_80178BF8();
         return (s32)func_80172710;

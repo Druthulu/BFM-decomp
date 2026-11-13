@@ -1666,7 +1666,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1684,7 +1684,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_801901F0[])(void);
 extern void func_80167A9C(void *a0);
@@ -1947,7 +1947,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D41)
+extern void func_8016F0E4(u8 *);
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -3539,7 +3539,7 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 
 void func_8017C374(s32 param_1) {
@@ -3596,7 +3596,7 @@ void func_8017C374(s32 param_1) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017C538.h"
 
 
@@ -3609,7 +3609,7 @@ extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
 
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern u8 D_80190CB8;
 
 void func_8017C608(s32 a0) {
@@ -3634,7 +3634,7 @@ void func_8017C608(s32 a0) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017C6AC.h"
 
 
@@ -4046,7 +4046,7 @@ void func_8017E038(void *a0) {
 
 
 extern void func_80175414(s32 _arg0);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D41)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 #define SHARED_FN func_8017E088
 #include "../shared/ov/cls_1e05d81cacf9.h"
@@ -4060,7 +4060,7 @@ extern void func_80165770(void);
 #include "../shared/ov/func_8017E0FC__0e3d12a0.h"
 
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D41)
+extern void func_8016F0E4(u8 *);
 #define SHARED_FN func_8017E110
 #include "../shared/multi/cls_5211f6f7586b.h"
 #undef SHARED_FN
@@ -4607,7 +4607,7 @@ void func_8017ECF4(void *arg0) {
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
-extern s32 func_801848DC();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_801848DC(void *a0);
 extern s32 func_8018625C(void *);
 
 s32 func_8017EDA4(void *a0)
@@ -4887,7 +4887,7 @@ void *a0;
 extern s32 func_8012E544(s32 a0);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
-extern s32 func_801848DC();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_801848DC(void *a0);
 extern s32 func_8018625C(void *);
 
 s32 func_8017F35C(void *a0)
@@ -4928,7 +4928,7 @@ s32 func_8017F35C(void *a0)
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
-extern s32 func_801848DC();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_801848DC(void *a0);
 
 s32 func_8017F418(void *a0)
 {
@@ -5712,11 +5712,11 @@ void func_801804C8(s32 arg0) {
 }
 
 
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 extern s32 D_80191918[];
 
 void func_80180504(s32 a0) {
-    s32 idx = func_80184DD0(a0);
+    s32 idx = KR_AS(s32, func_80184DD0)(a0);
     *(s32 *)(a0 + 0xE4) = D_80191918[idx];
 }
 
@@ -5935,7 +5935,7 @@ extern void func_80184C90(s32);
 extern s32 func_801788B8(s32, s32);
 extern void func_80184CB8(s32*, s32);
 extern void guess_SetObjectPosAndYaw(s32, s32);
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 extern s32 guess_GetStoryProgress(void);
 extern s32 func_80180CC0(void*);
 extern s32 func_80180D38(void*);
@@ -6053,7 +6053,7 @@ extern s32 D_80191A04[];
 extern s32 D_801E22B4[];
 extern s32 D_801E2344[];
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 
 void func_80180C38(a0)
 void *a0;
@@ -6061,7 +6061,7 @@ void *a0;
     s32 s1;
     s32 v1;
 
-    s1 = func_80184DD0((s32)a0);
+    s1 = KR_AS(s32, func_80184DD0)((s32)a0);
     v1 = guess_GetStoryProgress();
     if (s1 == 2) {
         if (v1 < 0x276) {
@@ -6076,7 +6076,7 @@ void *a0;
 
 
 extern void func_80172710(void);
-extern s32 func_801848DC();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_801848DC(void *a0);
 extern s32 func_8018625C(void *);
 extern s32 func_80178BF8(void);
 
@@ -6115,7 +6115,7 @@ void func_80180E28(s32 a0) {
 
     s2 = a0;
     ((Unkstruct_800B5CB8 *)*(s32 *)(s2 + 0xCC))->unkB0 = 2;
-    dd = func_80184DD0(a0);
+    dd = KR_AS(s32, func_80184DD0)(a0);
     sel = guess_GetStoryProgress();
 
     if (dd == 2 && sel < 0x276) {
@@ -6180,7 +6180,7 @@ void func_80180EE8(void *a0)
 
 extern s32 guess_GetStoryProgress(void);
 extern s32 func_80184BAC(s32 arg0, s32 arg1);
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 extern void func_80180954(void *arg0);
 
 void func_80180F7C(void *arg0)
@@ -6190,7 +6190,7 @@ void func_80180F7C(void *arg0)
     s32 code;
     s32 a0val;
 
-    dd = func_80184DD0((s32)arg0);
+    dd = KR_AS(s32, func_80184DD0)((s32)arg0);
     sel = guess_GetStoryProgress();
 
     if (dd == 2 && sel < 0x276) {
@@ -6268,7 +6268,7 @@ void func_80181090(void *arg0) {
 
 extern s32 guess_GetStoryProgress(void);
 extern s32 func_80184BAC(s32 arg0, s32 arg1);
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 extern short D_801919E0;
 extern void func_80184CB8(s32*, s32);
 
@@ -6278,7 +6278,7 @@ void *arg0;
     extern s32 guess_GetStoryProgress(void);
     extern s32 func_80184BAC(s32 arg0, s32 arg1);
     extern void func_80184CB8(s32*, s32);
-    extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+    extern s32 func_80184DD0(void);
     extern short D_801919E0;
 
     void *s2 = arg0;
@@ -6290,7 +6290,7 @@ void *arg0;
 
     state = 2;
     *(s32 *)(((Unkstruct_80181124 *)s2)->unkCC + 0xB0) = state;
-    dd = func_80184DD0((s32)arg0);
+    dd = KR_AS(s32, func_80184DD0)((s32)arg0);
     sel = guess_GetStoryProgress();
 
     if (dd == state && sel < 0x276) {
@@ -6360,12 +6360,12 @@ extern void func_80178CBC(s32*, s32);
 
 
 
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 
 void func_80181364(s32 a0) {
 
     extern s32 D_80191ACC[];
-    s32 idx = func_80184DD0(a0);
+    s32 idx = KR_AS(s32, func_80184DD0)(a0);
     ((Unkstruct_80180D5C *)a0)->unkE4 = D_80191ACC[idx];
 }
 
@@ -6463,7 +6463,7 @@ void func_801814C4(void *a0)
 
 
 extern void func_80172710(void);
-extern s32 func_801848DC();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_801848DC(void *a0);
 extern s32 func_8018625C(void *);
 extern s32 func_80178BF8(void);
 
@@ -6479,7 +6479,7 @@ s32 func_80181564(void *a0)
         return 0;
     }
 
-    if (func_801848DC() == 0) {
+    if (KR_AS(s32, func_801848DC)() == 0) {
         return 0;
     }
 
@@ -6665,12 +6665,12 @@ void func_801819C8(void *arg0) {
 
 
 
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 
 void func_80181A28(s32 a0) {
 
     extern s32 D_80191B58[];
-    s32 idx = func_80184DD0(a0);
+    s32 idx = KR_AS(s32, func_80184DD0)(a0);
     ((Unkstruct_80180D5C *)a0)->unkE4 = D_80191B58[idx];
 }
 
@@ -7025,7 +7025,7 @@ extern void func_80184CB8(s32 *a0, s32 a1);
 
 
 extern s32 func_801847BC(void *a0, void *a1);
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 extern s32 guess_GetStoryProgress(void);
 extern s32 func_80184BAC(s32 arg0, s32 arg1);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
@@ -7184,7 +7184,7 @@ extern s32 D_80191C2C[];
 extern s32 D_801E2428[];
 extern s32 D_801E24BC[];
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 
 void func_801824BC(a0)
 void *a0;
@@ -7192,7 +7192,7 @@ void *a0;
     s32 s1;
     s32 v1;
 
-    s1 = func_80184DD0((s32)a0);
+    s1 = KR_AS(s32, func_80184DD0)((s32)a0);
     v1 = guess_GetStoryProgress();
     if (s1 == 2) {
         if (v1 < 0x276) {
@@ -7208,7 +7208,7 @@ void *a0;
 
 
 extern void func_80172710(void);
-extern s32 func_801848DC();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_801848DC(void *a0);
 extern s32 func_8018625C(void *);
 extern s32 func_80178BF8(void);
 
@@ -7284,14 +7284,14 @@ s32 func_801825BC(void *a0)
 
 extern s32 guess_GetStoryProgress(void);
 extern s32 func_80184BAC(s32 arg0, s32 arg1);
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 
 void func_801826AC(arg0)
 void *arg0;
 {
     extern s32 guess_GetStoryProgress(void);
     extern s32 func_80184BAC(s32 arg0, s32 arg1);
-    extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+    extern s32 func_80184DD0(void);
     extern void func_80181F70(void *);
     extern void func_801821A8(short*);
 
@@ -7304,7 +7304,7 @@ void *arg0;
 
     state = 2;
     *(s32 *)(*(s32 *)((char *)s2 + 0xCC) + 0xB0) = state;
-    dd = func_80184DD0((s32)arg0);
+    dd = KR_AS(s32, func_80184DD0)((s32)arg0);
     sel = guess_GetStoryProgress();
 
     if (dd == state && sel < 0x276) {
@@ -7367,7 +7367,7 @@ void func_8018276C(void *a0)
 
 extern s32 guess_GetStoryProgress(void);
 extern s32 func_80184BAC(s32 arg0, s32 arg1);
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 extern void func_80182120(void *arg0);
 
 void func_80182800(void *arg0)
@@ -7380,7 +7380,7 @@ void func_80182800(void *arg0)
 
     s2 = (s32)arg0;
     ((Unkstruct_800B5CB8 *)*(s32 *)(s2 + 0xCC))->unkB0 = 2;
-    dd = func_80184DD0(s2);
+    dd = KR_AS(s32, func_80184DD0)(s2);
     sel = guess_GetStoryProgress();
 
     if (dd == 2 && sel < 0x276) {
@@ -7464,7 +7464,7 @@ void func_801829AC(void *arg0) {
     extern s32 guess_GetStoryProgress(void);
     extern s32 func_80184BAC(s32 arg0, s32 arg1);
     extern void func_80184CB8(s32*, s32);
-    extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+    extern s32 func_80184DD0(void);
     extern short D_80191C08;
 
     void *s2 = arg0;
@@ -7476,7 +7476,7 @@ void func_801829AC(void *arg0) {
 
     state = 2;
     *(s32 *)(((Unkstruct_801829AC *)s2)->unkCC + 0xB0) = state;
-    dd = func_80184DD0((s32)arg0);
+    dd = KR_AS(s32, func_80184DD0)((s32)arg0);
     sel = guess_GetStoryProgress();
 
     if (dd == state && sel < 0x276) {
@@ -7618,12 +7618,12 @@ void func_80182D24(void *arg0) {
 
 
 
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 
 void func_80182D84(s32 a0) {
 
     extern s32 D_80191F38[];
-    s32 idx = func_80184DD0(a0);
+    s32 idx = KR_AS(s32, func_80184DD0)(a0);
     ((Unkstruct_80180D5C *)a0)->unkE4 = D_80191F38[idx];
 }
 
@@ -8007,23 +8007,23 @@ extern void func_80178CBC(s32*, s32);
 
 
 
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 
 void func_801834F8(s32 a0) {
 
     extern s32 D_80192054[];
-    s32 idx = func_80184DD0(a0);
+    s32 idx = KR_AS(s32, func_80184DD0)(a0);
     ((Unkstruct_80180D5C *)a0)->unkE4 = D_80192054[idx];
 }
 
 
 
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 
 void func_80183538(s32 a0) {
 
     extern s32 D_801920A8[];
-    s32 idx = func_80184DD0(a0);
+    s32 idx = KR_AS(s32, func_80184DD0)(a0);
     ((Unkstruct_80180D5C *)a0)->unkE4 = D_801920A8[idx];
 }
 
@@ -8031,7 +8031,7 @@ void func_80183538(s32 a0) {
 
 
 extern void func_80172710(void);
-extern s32 func_801848DC();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_801848DC(void *a0);
 extern s32 func_8018625C(void *);
 extern s32 func_80178BF8(void);
 
@@ -8242,12 +8242,12 @@ extern void func_80178CBC(s32 *a0, s32 a1);
 
 
 
-extern s32 func_80184DD0();  // K&R: 1 of 0 args (P37 rung D t4_D2)
+extern s32 func_80184DD0(void);
 
 void func_80183AD0(s32 a0) {
 
     extern s32 D_80192174[];
-    s32 idx = func_80184DD0(a0);
+    s32 idx = KR_AS(s32, func_80184DD0)(a0);
     ((Unkstruct_80180D5C *)a0)->unkE4 = D_80192174[idx];
 }
 

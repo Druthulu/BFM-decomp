@@ -24,7 +24,7 @@ Lcase1:
     func_80175150(arg0);
     return;
 Lcase2:
-    guess_ReturnPlayerToStandingState(*(s32 *)((u8 *)arg0 + 0x21C), 0x01000000);
+    KR_AS(void, guess_ReturnPlayerToStandingState)(*(s32 *)((u8 *)arg0 + 0x21C), 0x01000000);
     return;
 Ldefault:
     if (((s32 (*)(void *))guess_IsChargedSquarePressed)(arg0) != 0) {

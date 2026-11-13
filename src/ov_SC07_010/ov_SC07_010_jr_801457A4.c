@@ -1514,7 +1514,7 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_80144A04(s32 *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern void func_8016EDEC();  // K&R: 2 of 3 args (P37 rung D t6_D4)
+extern void func_8016EDEC(s32 _arg0, s32 _arg1, s32 _arg2);
 #include "../shared/ov/func_80149F2C.h"
 
 

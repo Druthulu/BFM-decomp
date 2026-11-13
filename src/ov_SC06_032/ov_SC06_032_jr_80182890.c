@@ -8786,7 +8786,7 @@ extern s32 D_801CA8BC[];
 extern s32 func_8012C044(s32 a0);
 extern void guess_ZeroMemory(void *a0, s32 a1);
 extern s32 func_8012C098(void *a0);
-extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
+extern void func_8018BA4C(s32);
 
 void func_8018C4F4(s32 a0)
 {
@@ -8926,16 +8926,16 @@ void func_8018C840(void *a0) {
 
 
 
-extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
+extern void func_8018BA4C(s32);
     void func_8018C878(s32 *param) {
         ((Unkstruct_8017FB8C_2 *)*(s32 *)((char *)param + 0x20))->unk10 = 0xE00;
-        func_8018BA4C();
+        KR_AS(void, func_8018BA4C)();
     }
 
 
 
 
-extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
+extern void func_8018BA4C(s32);
     void func_8018C8A0(s32 arg0) {
         s32 temp_v1 = ((Unkstruct_8017FBB4 *)arg0)->unk20;
         ((Unkstruct_8017FBB4_2 *)temp_v1)->unk10 += 0x20;
@@ -8944,7 +8944,7 @@ extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
 
 
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
+extern void func_8018BA4C(s32);
 
 void func_8018C8D4(s32 a0)
 {
@@ -8954,7 +8954,7 @@ void func_8018C8D4(s32 a0)
         ((Unkstruct_8018C8D4 *)a0)->unk2 = 1;
         ((Unkstruct_8018C8D4 *)a0)->unk100 = 0x3C;
         ((Unkstruct_8018C8D4 *)a0)->unk34 = 0;
-        func_8018BA4C();
+        KR_AS(void, func_8018BA4C)();
     }
 }
 
@@ -8962,7 +8962,7 @@ void func_8018C8D4(s32 a0)
 
 extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32 rand(void);
-extern void func_8018BA4C();  // K&R: 0/1 of 1 args (P37 unalias t4_ua8)
+extern void func_8018BA4C(s32);
 
 void func_8018C920(s32 a0)
 {

@@ -304,11 +304,11 @@ void func_800CB570(int param_1)
 
 
 extern s32 guess_g_PlayerActor[]; // Names ledger: config/names.tsv guess_g_PlayerActor
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject(u8 *);
 extern s32 func_80165A20(s32 a0);
 
 void func_800CB5A8(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
     func_80165A20((s32)&guess_g_PlayerActor);
 }
 
@@ -396,12 +396,12 @@ void func_800CB708(void *arg0) {
 }
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void guess_ClearObjectAndSubObject(u8 *);
 /* guess_FreeObjectAndSubObject_14: zeroes object a0 (0x68 bytes) and its +0x20 sub-object (0x84 bytes when that one's first halfword is 1, else 0x38)
  * Confidence medium, code inference: guess_ClearObjectAndSubObject(a0): p = +0x20; p -> guess_ZeroMemory(p, *p == 1 ? 0x84 : 0x38); guess_ZeroMemory(a0, 0x68); spawn steps call it when allocation fails
  * Names ledger: config/names.tsv guess_FreeObjectAndSubObject_14 */
 void guess_FreeObjectAndSubObject_14(void) {
-    guess_ClearObjectAndSubObject();
+    KR_AS(void, guess_ClearObjectAndSubObject)();
 }
 
 
@@ -442,14 +442,14 @@ void func_800CB794(s32 arg0) {
 
 extern u8 D_80078EC1;
 extern void (*D_800CC01C[])(void);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB8B4(void *arg0) {
     if (D_80078EC1 == 0x17) {
         u16 v0 = *(u16 *)((u8 *)arg0 + 2);
         D_800CC01C[v0]();
     } else {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     }
 }
 
@@ -464,7 +464,7 @@ extern void func_8001CF00(s32 a0);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_80015954(s32 a0, s32 a1);
 extern void *guess_AllocSpriteObject(void);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
@@ -583,7 +583,7 @@ extern void func_800CBD2C(s32 param_1);
 extern void func_800CBEB0(s32 a0);
 extern void func_800CBF3C(void);
 extern s32 guess_TickWaitTimer_2(s32 a0);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CBC90(s32 arg0) {
     u16 *rec = CAST_SIGN(u16 *, arg0, 0x20);

@@ -2721,7 +2721,7 @@ extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_80181D70(s32 param_1);
 extern void func_80181FA4(s32 param_1);
 extern void func_8001C924(s32 a0, void *a1);
-extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern s32  guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
@@ -2735,7 +2735,7 @@ extern void func_80182998(s32 param_1);
 
 
 extern s32  guess_TurnStepToTarget(s32 a0, s32 a1);
-extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32  func_8012E778(int param_1, int param_2);
 extern s32  guess_DistSqToPlayer(s32 a0);
@@ -2895,7 +2895,7 @@ void func_80182D08(s32 p)
  * guess_FreeActor/func_8001C924 copied from lines 6639-6640.)
  */
 
-extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 func_80013350(s32 a0, void *a1); /* loose proto, real TU decl (line 6647); cast at call site per §161c */
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
@@ -3004,7 +3004,7 @@ extern void func_80185878(s32 a0);
 extern void guess_RotTransSVWithObjMatrix(s32, s32, s32);
 extern s32  guess_DistSqToPlayer(s32 a0);
 extern s32  func_80187318(void *a0, s32 a1, s32 a2);
-extern s32 guess_TickWaitTimer();   /* TU-canonical: an earlier call site passes zero args */  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);   /* TU-canonical: an earlier call site passes zero args */
 
 void func_801833B4(s32 p) {
 
@@ -3052,7 +3052,7 @@ void func_801834D4(s32 p) {
     extern void guess_RotTransSVWithObjMatrix(s32, s32, s32);
     extern s32  guess_DistSqToPlayer(s32 a0);
     extern s32  func_80187318(void *a0, s32 a1, s32 a2);
-    extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+    extern s32 guess_TickWaitTimer(s32 a0);
     s32 buf10[2];
 
     ((void (*)(s32, void *, void *))guess_RotTransSVWithObjMatrix)(p, D_801BD0BC, buf10);
@@ -3087,7 +3087,7 @@ extern void guess_StartActorSequence(s32, void*);
 
 
 
-extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 guess_TurnStepToTarget(s32 a0, s32 a1);
 extern void func_80187414(s32 a0, void *a1, void *a2, s32 a3);
@@ -3118,7 +3118,7 @@ void func_8018358C(s32 p) {
     s32 e;
 
     if (((Unkstruct_800B5CB8 *)p)->unk34 == 0) {
-        if (guess_TickWaitTimer() == 0) return;
+        if (KR_AS(s32, guess_TickWaitTimer)() == 0) return;
         guess_StartActorSequence(p, D_801D4328);
         ((Unkstruct_800B5CB8 *)p)->unk34 += 1;
     }
@@ -3190,7 +3190,7 @@ void func_8018358C(s32 p) {
  * siblings' own decl blocks (same TU, same file-scope conventions).
  */
 
-extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern s32  guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
@@ -3272,7 +3272,7 @@ s32 p;
 /* holds a pointer value */
 
 extern int  rand(void);
-extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8012B0B4(unsigned int *p, int a1, int a2);
 extern s32  guess_YawToPoint(void *a0, void *a1);
 extern s32  guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
@@ -3374,7 +3374,7 @@ void func_80183A20(s32 param_1) {
  * these at file scope before this insertion point, e.g. lines 6639-6652, 7203-7213).
  */
 
-extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern s32  guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
@@ -3482,7 +3482,7 @@ extern void func_801850CC(s32 a0);
  */
 
 extern s32 func_8012BE54(s32 a0); /* host TU decl is void (§161c-style loose proto); cast at call site */
-extern s32 guess_TickWaitTimer();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012B8A4(s16 *a0);
 extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);

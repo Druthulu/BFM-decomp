@@ -4123,7 +4123,7 @@ void func_801829D8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
 
 
 extern void func_8012A418(void);
-extern void func_8012A598();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern void func_8012A598(void *a0);
 extern void guess_SetMainCameraHandler(s32 a, s32 b);
 extern void func_80182E34(void *a0);
 
@@ -4144,7 +4144,7 @@ void func_80182D54(void *a0)
     s0 = *(u8 **)(s1 + 0xDC);
 
     func_8012A418();
-    func_8012A598();
+    KR_AS(void, func_8012A598)();
 
     D_80126954 = ((Unkstruct_80182D54 *)s0)->unk0;
     D_8012695C = CAST_ALIAS(s32, s0, 4);

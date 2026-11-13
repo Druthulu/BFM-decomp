@@ -4,7 +4,7 @@ extern s32 func_8012CBF4(s32 a0);
 extern void func_801319E0(int);
 extern int guess_HandleActorEventDefault(int, int);
 extern int guess_TickWaitTimer(int);
-extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 void func_80130514(int param_1)
 {
     unsigned int uVar1;
@@ -21,11 +21,11 @@ void func_80130514(int param_1)
             if ((uVar1 & 0x2000) != 0) {
                 *(unsigned char *)(param_1 + 0xc1) = 0;
                 *(unsigned short *)(param_1 + 0x5e) = 0;
-                guess_CallActorEventHandler(param_1, 0xe);
+                KR_AS(s32, guess_CallActorEventHandler)(param_1, 0xe);
             }
         }
     }
     /* Scheduling barrier: blocks gcc-2.7.2 reorg from hoisting the join-block
        `move $a0,$s0` into the first branch's delay slot (target keeps a nop there). */
-    guess_CallActorEventHandler(param_1, 0x13);
+    KR_AS(s32, guess_CallActorEventHandler)(param_1, 0x13);
 }

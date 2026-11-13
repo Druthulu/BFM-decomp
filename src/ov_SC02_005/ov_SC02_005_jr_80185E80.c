@@ -7,7 +7,7 @@
 extern u16 D_801E4BBC;
 extern s32 D_801959E0[];
 extern s32 D_801E43A0;
-extern s32 func_801860F4();  // K&R: ? of 1 args (P37 rung D t4_D26)
+extern s32 func_801860F4(s16 *arg0);
 extern s32 func_8018AD20(s32 a0);
 extern s32 func_8018AC48(s32 a0);
 extern s32 func_80186144(void *a0, s32 a1);
@@ -34,7 +34,7 @@ s16 func_80185E80(s32 arg0) {
     var = var & 0xFF;
     switch ((s16)(var - 2)) {
     case 0:
-        if (func_801860F4(arg0, (s16)var) != 0) {
+        if (KR_AS(s32, func_801860F4)(arg0, (s16)var) != 0) {
             if (D_801E43A0 & 0x2000) {
                 var = 0;
             }

@@ -7,7 +7,7 @@ s32 func_801380E0(s32 arg0) {
     extern void guess_SetGameFlag(s32, s32);
     extern s32 func_800CF864(s32, s32);
     extern void func_80138AB4(s32, s32);
-    extern s32 func_80138C60();  // K&R: 2 of 1 args (P37 rung D t4_HD7)
+    extern s32 func_80138C60(s32 arg0);
     extern void func_80138D58(s32, s32);
     extern s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2);
     extern void func_801391F0(s32, s32);
@@ -91,7 +91,7 @@ s32 func_801380E0(s32 arg0) {
                 *(u8 *)(arg0 + 0x22) = sub;
                 *(u8 *)(arg0 + 0x20) = *(u8 *)(*p + base + 2);
                 *p += 3;
-                if (func_80138C60(arg0, cmd) == 0) {
+                if (KR_AS(s32, func_80138C60)(arg0, cmd) == 0) {
                     guess_CloseTextWindow(arg0);
                     return;
                 }

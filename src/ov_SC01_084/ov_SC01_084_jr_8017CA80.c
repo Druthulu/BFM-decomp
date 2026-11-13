@@ -3471,7 +3471,7 @@ extern s32 func_8012B77C(void *a0, s32 a1, void *a2);
 extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 
 void func_8017EA98(s32 a0) {
-    extern void func_8017ED5C();  // K&R: 0 of 1 args (P37 rung D t4_D3)
+    extern void func_8017ED5C(s32 param_1);
 
     s16 sp10[20];
     s32 i;
@@ -3479,7 +3479,7 @@ void func_8017EA98(s32 a0) {
     s32 ang;
 
     if (((Unkstruct_800B5CB8 *)a0)->unk5C & 1) {
-        func_8017ED5C();
+        KR_AS(void, func_8017ED5C)();
         return;
     }
 

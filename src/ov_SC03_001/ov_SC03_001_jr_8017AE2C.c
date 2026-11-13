@@ -1658,7 +1658,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1676,7 +1676,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_801904E8[])(void);
 extern void func_80167A9C(void *a0);
@@ -3546,7 +3546,7 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 
 void func_8017C374(s32 param_1) {
@@ -3603,7 +3603,7 @@ void func_8017C374(s32 param_1) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017C538.h"
 
 
@@ -3621,7 +3621,7 @@ void func_8017C5CC(void *a0) {
 
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern u8 D_80190FB0;
 
 void func_8017C608(s32 a0) {
@@ -3646,7 +3646,7 @@ void func_8017C608(s32 a0) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: ? of 1 args (P37 rung D t4_D23)
+extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8017C6AC.h"
 
 
@@ -4059,7 +4059,7 @@ extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_Play
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern s32 rsin(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_8017E1B4();  // K&R: 0/1 of 0 args (P37 unalias t4_ua2)
+extern void func_8017E1B4(void);
 extern void func_8017E2C0(void *arg0);
 
 void func_8017DF78(void *arg0)
@@ -4140,7 +4140,7 @@ void func_8017DF78(void *arg0)
                 if (((Unkstruct_8017DF78_3 *)p)->unk20 == 0) {
                     ((Unkstruct_8017DF78_3 *)p)->unk20 = 1;
                     if (e78[0x39] < 9) {
-                        func_8017E1B4(p);
+                        KR_AS(void, func_8017E1B4)(p);
                     }
                 }
             }
@@ -6621,7 +6621,7 @@ tail:
 
 
 extern void func_80172710(void);
-extern s32 func_8018739C();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_8018739C(void *a0);
 extern s32 func_80178BF8();
 
 
@@ -6874,7 +6874,7 @@ void func_80181B40(void *arg0) {
 
 
 extern void func_80172710(void);
-extern s32 func_8018739C();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_8018739C(void *a0);
 extern s32 func_80188D1C(void *);
 extern s32 func_80178BF8(void);
 
@@ -7073,7 +7073,7 @@ void func_80181FA0(s32 a0) {
 
 
 extern void func_80172710(void);
-extern s32 func_8018739C();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_8018739C(void *a0);
 extern s32 func_80188D1C(void *);
 extern s32 func_80178BF8(void);
 
@@ -8124,7 +8124,7 @@ void func_80183408(s32 a0) {
 
 
 extern void func_80172710(void);
-extern s32 func_8018739C();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_8018739C(void *a0);
 extern s32 func_80188D1C(void *);
 extern s32 func_80178BF8(void);
 
@@ -8849,7 +8849,7 @@ void func_80184310(s32 a0) {
 
 
 extern void func_80172710(void);
-extern s32 func_8018739C();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_8018739C(void *a0);
 extern s32 func_80188D1C(void *);
 extern s32 func_80178BF8(void);
 

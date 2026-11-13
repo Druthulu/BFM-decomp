@@ -675,7 +675,7 @@ extern void func_801653B8(s32 *a0);
 extern void func_80149864(void);
 extern s32 guess_GetPlayerControlScript(void);
 extern s32 func_80149884(void);
-extern void func_80160B00();  // K&R: ? of 1 args (P37 rung D t4_D10)
+extern void func_80160B00(s32 *arg0);
 extern void func_801498C0(void);
 extern s32 guess_IsSquarePressed(s32 *a0);
 extern s32 guess_IsTrianglePressed(s32 *a0);
@@ -737,7 +737,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void guess_ClearObjectAndSubObject();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
+extern void guess_ClearObjectAndSubObject(u8 *);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_8014AC10(s32 arg0);
@@ -2220,7 +2220,7 @@ extern void guess_TransformPosByObjMatrix(s32, s32);
 extern void guess_SetState(s32*, s16);
 extern void func_80159B70(void *);
 extern void func_8015C714(void *);
-extern void guess_SaveGroundedPos();  // K&R: 0 of 1 args (P37 rung D t4_D32)
+extern void guess_SaveGroundedPos(unsigned char *self);
 
 
 void func_8015D738(void *arg0) {
@@ -2616,7 +2616,7 @@ extern void guess_SetAnim(s32, s32);
 extern void func_8014D738(void);
 extern void func_8015C714(void *a0);
 extern s32 func_80161208();  /* canonical no-proto (§17a-1) */
-extern void guess_SaveGroundedPos();  // K&R: 0 of 1 args (P37 rung D t4_D32)
+extern void guess_SaveGroundedPos(unsigned char *self);
 
 
 void func_8015EA3C(void *arg0) {
@@ -4728,7 +4728,7 @@ void func_801647A4(int param_1) {
 #include "../shared/ov/func_80164864.h"
 
 
-extern void guess_ClearObjectAndSubObject();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
+extern void guess_ClearObjectAndSubObject(u8 *);
 extern void func_80164ACC(s32 a0);
 
 // @class: regalloc-order — wave-3 real-TU crack (§42a); cracked at Max.
@@ -6298,7 +6298,7 @@ void func_80168D58(void *a0) {
 #include "../shared/ov/func_80168D94.h"
 
 
-extern void func_80168F40();  // K&R: ? of 1 args (P37 rung D t4_D10)
+extern void func_80168F40(void *arg0);
 extern void guess_AddVelocityToPos_4(s32 a0);
 extern s32 guess_FreeSmallObject(u8*);
 #include "../shared/ov/func_80168EC4.h"
@@ -6389,7 +6389,7 @@ void func_80169B80(void *a0) {
 
 
 
-extern void func_800D2318();  // K&R: 0 of 1 args (P37 rung D t4_D10)
+extern void func_800D2318(s32 *p);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -6416,7 +6416,7 @@ void func_80169BBC(s32 arg0) {
     s32 p1;
     s32 s2;
 
-    func_800D2318();
+    KR_AS(void, func_800D2318)();
     rot[0] = *(u16 *)(arg0 + 0x12);
     rot[1] = *(u16 *)(arg0 + 0x16);
     rot[2] = 0;

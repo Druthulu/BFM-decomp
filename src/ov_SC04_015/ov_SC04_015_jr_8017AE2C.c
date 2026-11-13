@@ -1659,7 +1659,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1677,7 +1677,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_80187514[])(void);
 extern void func_80167A9C(void *a0);
@@ -1938,7 +1938,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32 param_1);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D43)
+extern void func_8016F0E4(u8 *);
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -3546,7 +3546,7 @@ extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 
 void func_8017C394(s32 param_1) {
@@ -3603,7 +3603,7 @@ void func_8017C394(s32 param_1) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8017C558(u8 *p) {
     u8 *q;
     s32 t;
@@ -3642,7 +3642,7 @@ extern void (*D_80187FF0[])(void);
 
 extern u8 *func_800D222C(s32 a0, void *a1, s32 a2);
 extern void func_8001CF30(void *a0);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern u8 D_80187FDC;
 
 void func_8017C628(s32 a0) {
@@ -3667,14 +3667,14 @@ void func_8017C628(s32 a0) {
 }
 
 
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8017C6CC(int a0) {
     int v0 = ((Unkstruct_8017C6CC *)a0)->unk1C;
     unsigned char *p;
     do { p = *(unsigned char **)(a0 + 0x20); } while (0);
     ((Unkstruct_8017C6CC *)a0)->unk1C = v0 + 1;
     if (v0 >= 0x1F) {
-        guess_FreeSmallObject();
+        KR_AS(s32, guess_FreeSmallObject)();
     } else {
         unsigned short hv = *(unsigned short *)(p + 0x1A) + 0x1E0;
         signed char bv = *(unsigned char *)(p + 0x26) - 3;
@@ -4211,10 +4211,10 @@ s32 func_8017D9B8(u8 *a0)
 }
 
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D43)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 void func_8017D9CC(s32 a0) {
-    func_8016F0E4();
+    KR_AS(void, func_8016F0E4)();
     ((void (*)(s32))func_80165770)(a0);
 }
 
@@ -7254,7 +7254,7 @@ void func_801819D0(void *a0) {
 extern s32 func_801814D8(s32 a0);
 extern void func_80181C70(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern void func_80182258();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80182258(s32 a0);
 
 void func_80181A4C(s32 a0) {
     s32 s0;
@@ -7296,9 +7296,9 @@ void func_80181A4C(s32 a0) {
 }
 
 
-extern void func_80182258();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80182258(s32 a0);
     void func_80181B18(void) {
-        func_80182258();
+        KR_AS(void, func_80182258)();
     }
 
 
@@ -7307,7 +7307,7 @@ extern s32 func_801814D8(s32 a0);
 extern void func_80181C08(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern void func_80182258();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80182258(s32 a0);
 
 void func_80181B38(s32 a0) {
     if (func_801814D8(a0) == 2) {
@@ -7333,7 +7333,7 @@ void func_80181B38(s32 a0) {
 }
 
 
-extern void func_80182258();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80182258(s32 a0);
 
 void func_80181C08(s32 a0) {
 
@@ -7347,13 +7347,13 @@ void func_80181C08(s32 a0) {
         D_801B2980[D_801B29BC[((Unkstruct_800B5CB8 *)a0)->unk70]][0];
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x800;
     ((Unkstruct_800B5CB8 *)a0)->unkB0 = 0;
-    func_80182258();
+    KR_AS(void, func_80182258)();
 }
 
 
 
 
-extern void func_80182258();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80182258(s32 a0);
 
 void func_80181C70(s32 a0) {
 
@@ -7373,7 +7373,7 @@ void func_80181C70(s32 a0) {
     ((Unkstruct_800B5CB8 *)a0)->unk84 = 0;
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
     ((Unkstruct_800B5CB8 *)a0)->unkB0 = 0;
-    func_80182258();
+    KR_AS(void, func_80182258)();
 }
 
 
@@ -7394,7 +7394,7 @@ void func_80181CE4(s32 a0) {
 
 
 
-extern void func_80182258();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80182258(s32 a0);
 
 void func_80181D44(s32 a0) {
 
@@ -7409,7 +7409,7 @@ void func_80181D44(s32 a0) {
     *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x24) = D_801B297C[D_801B29BC[((Unkstruct_800B5CB8 *)a0)->unk70]][0];
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x800;
     ((Unkstruct_800B5CB8 *)a0)->unkB0 = 0;
-    func_80182258();
+    KR_AS(void, func_80182258)();
 }
 
 

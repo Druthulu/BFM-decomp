@@ -467,9 +467,9 @@ void func_8018974C(s32 a0) {
 
 #include "common.h"
 
-extern s32 func_8002A04C();  // K&R: 0 of 1 args (P37 rung D t4_D31)
+extern s32 func_8002A04C(s32 a0);
 extern s32 func_8012CBF4(s32);
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D31)
+extern s32 func_8012C098(void *param_1);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80188554(s32 a0);
 
@@ -863,7 +863,7 @@ extern s32 D_8012704C;
 #include "common.h"
 
 extern void func_8012A418(void);
-extern void func_8012A598();  // K&R: 0 of 1 args (P37 rung D t4_D31)
+extern void func_8012A598(void *a0);
 extern void guess_SetMainCameraHandler(s32, s32);
 
 extern s32 D_80126954;
@@ -886,7 +886,7 @@ void func_8018A1A4(void *a0) {
     s0 = *(u8 **)(s1 + 0xDC);
 
     func_8012A418();
-    func_8012A598();
+    KR_AS(void, func_8012A598)();
 
     D_80126954 = *(s32 *)(void *)s0;
     D_8012695C = *(s32 *)(void *)(s0 + 4);
@@ -2202,7 +2202,7 @@ s32 func_8018BA0C(u32 a0v)
 }
 
 
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D31)
+extern s32 func_8012C098(void *param_1);
 #define SHARED_FN func_8018BAB8
 #include "../shared/ov/cls_6e914334a7ab.h"
 #undef SHARED_FN
@@ -2451,7 +2451,7 @@ s32 func_8018BF60(void *a0) {
 
 extern s32 (*D_801D6FBC[])(void);
 extern s32 func_8012C044(s32 a0);
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D31)
+extern s32 func_8012C098(void *param_1);
 
 void func_8018BFBC(u16 *s0)
 {
@@ -3888,7 +3888,7 @@ found:
 
 #include "common.h"
 
-extern s32 func_8002A04C();  // K&R: 0 of 1 args (P37 rung D t4_D31)
+extern s32 func_8002A04C(s32 a0);
 extern void func_8002AC00(s32 a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 func_801439C0(s32 a0);
@@ -3900,7 +3900,7 @@ void func_8018DBF4(s32 a0) {
     u16 v1;
 
     if (((Unkstruct_800B5CB8 *)a0)->unk100 == 0) {
-        func_8002A04C();
+        KR_AS(s32, func_8002A04C)();
     }
 
     if (CAST_SIGN(u8, a0, 0xC1) == 0xE) {
@@ -4086,7 +4086,7 @@ void func_8018DF44(void *a0)
 #include "common.h"
 
 extern u16 D_801270C0;
-extern s32 func_8018E0AC();  // K&R: 0 of 1 args (P37 rung D t4_D31)
+extern s32 func_8018E0AC(void *);
 extern void func_801292C8(u8 *a0);
 
 struct vec;
@@ -4105,7 +4105,7 @@ void func_8018E014(void *a0) {
         return;
     }
 
-    func_8018E0AC();
+    KR_AS(s32, func_8018E0AC)();
 
     do { v0 = *(u16 *)(s0 + 0x2C); } while (0);
     decremented = v0 - 1;

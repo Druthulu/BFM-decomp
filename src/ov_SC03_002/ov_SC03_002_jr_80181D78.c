@@ -4283,7 +4283,7 @@ void func_80183C10(void *a0) {
 extern s32 func_80183718(s32 a0);
 extern void func_80183EB0(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern void func_80184498();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80184498(s32 a0);
 
 void func_80183C8C(s32 a0) {
     s32 s0;
@@ -4325,9 +4325,9 @@ void func_80183C8C(s32 a0) {
 }
 
 
-extern void func_80184498();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80184498(s32 a0);
     void func_80183D58(void) {
-        func_80184498();
+        KR_AS(void, func_80184498)();
     }
 
 
@@ -4336,7 +4336,7 @@ extern s32 func_80183718(s32 a0);
 extern void func_80183E48(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern void func_80184498();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80184498(s32 a0);
 
 void func_80183D78(s32 a0) {
     if (func_80183718(a0) == 2) {
@@ -4364,7 +4364,7 @@ void func_80183D78(s32 a0) {
 
 extern s16 D_801A850C[];
 extern s32 D_801A84D0[][2];
-extern void func_80184498();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80184498(s32 a0);
 
 void func_80183E48(a0)
 s32 a0;
@@ -4380,13 +4380,13 @@ s32 a0;
         D_801A84D0[D_801A850C[((Unkstruct_800B5CB8 *)a0)->unk70]][0];
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x800;
     ((Unkstruct_800B5CB8 *)a0)->unkB0 = 0;
-    func_80184498();
+    KR_AS(void, func_80184498)();
 }
 
 
 
 
-extern void func_80184498();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80184498(s32 a0);
 
 void func_80183EB0(s32 a0) {
 
@@ -4427,7 +4427,7 @@ void func_80183F24(s32 a0) {
 
 
 
-extern void func_80184498();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80184498(s32 a0);
 
 void func_80183F84(s32 a0) {
 

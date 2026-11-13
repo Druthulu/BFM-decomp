@@ -3349,7 +3349,7 @@ extern void (*D_80184D78[])(void);
 
 /* --- host-TU-exact declarations (do not re-spell) ----------------------- */
 extern void *guess_AllocSpriteObject(void);
-extern void func_8017C234();  // K&R: ? of 1 args (P37 rung D t4_D3)
+extern void func_8017C234(s32 arg0);
 
 /* --- callees the host TU does not declare ------------------------------ */
 extern void func_8001CEC0(s32 a0, void *a1);
@@ -3441,7 +3441,7 @@ void func_8017C004(s32 arg0) {
 }
 
 
-extern void func_8017C234();  // K&R: ? of 1 args (P37 rung D t4_D3)
+extern void func_8017C234(s32 arg0);
 #include "../shared/ov/func_8017C214.h"
 
 

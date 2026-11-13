@@ -1943,7 +1943,7 @@ void func_80184EEC(s32 param_1)
 }
 
 
-extern void func_8012E364();  // K&R: 0 of 1 args (P37 rung D t4_D35)
+extern void func_8012E364(s32 arg0_);
 #define SHARED_FN func_80184F6C
 #include "../shared/ov/cls_5f67a0123204.h"
 #undef SHARED_FN

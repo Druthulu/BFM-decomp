@@ -1669,7 +1669,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D27)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_80166438(u8 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void guess_AddVelocityToPos_4(s32 a0);
@@ -1687,7 +1687,7 @@ extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D27)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_80188A44[])(void);
 extern void func_80167A9C(void *a0);
@@ -2003,7 +2003,7 @@ lout:
 
 
 
-extern void func_8016B234();  // K&R: ? of 1 args (P37 rung D t4_D8)
+extern void func_8016B234(s32 param_1);
 extern void guess_AddVelocityToPos_4(s32 a0);
 
 #include "../shared/ov/func_8016AE5C__te4eb1475.h"
@@ -2590,7 +2590,7 @@ void func_8016C188(s32 param)
 
     extern void func_80015954(s32, s32);
     extern s32 guess_FadeOutColorPair(s32, s32, s32, s32);
-    extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D27)
+    extern s32 guess_FreeSmallObject(u8 *a0);
     extern void guess_InitObjectKind6(s32, void *);
     extern void guess_BuildCircle12Points(void *, unsigned short);
     extern u8 D_801B4F6C[];
@@ -2648,7 +2648,7 @@ void func_8016C188(s32 param)
 extern void guess_ObjRotTransSV(s32 arg0);
 extern void func_80015954(s32 a0, s32 a1);
 extern s32 guess_FadeOutColorPair(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D27)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 extern u8 D_801B4FB4[];
 extern u8 D_801B4FBC[];
@@ -3227,7 +3227,7 @@ void func_8016DA30(int param_1)
 // @unstuck(P36): none — MATCH (clean if/else, one call-crossing local; bnez polarity = if(iVar1==0) fall-through)
 
 extern void *guess_AllocSpriteObject(void);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D27)
+extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 
@@ -3274,7 +3274,7 @@ extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D27)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_8016DC20(s16 *param_1) {
 
@@ -3378,7 +3378,7 @@ extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerP
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void *guess_AllocSpriteObject(void);
-extern s32 guess_FreeSmallObject();  // K&R: 0 of 1 args (P37 rung D t4_D27)
+extern s32 guess_FreeSmallObject(u8 *a0);
 
 
 

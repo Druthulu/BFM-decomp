@@ -7901,7 +7901,7 @@ s32 aF801869C0(s32 param_1) __asm__("func_801869C0");
 #undef SHARED_FN
 
 
-extern void func_80186A70();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80186A70(s32 arg0);
 
 s32 func_80186A30(void *a0) {
     u8 *a0_byte = (u8 *)a0;
@@ -7912,7 +7912,7 @@ s32 func_80186A30(void *a0) {
     if (v1 == v2) {
         return 0;
     }
-    func_80186A70();
+    KR_AS(void, func_80186A70)();
     return 1;
 }
 

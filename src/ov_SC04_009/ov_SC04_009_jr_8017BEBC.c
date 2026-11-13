@@ -2977,16 +2977,16 @@ extern void (*D_8018278C[])(void);
 #undef SHARED_FN
 
 
-extern void func_8017D5E4();  // K&R: 0/1 of 1 args (P37 unalias t4_ua2)  // K&R: 0 of 1 args (P37 rung D t4_D3)
+extern void func_8017D5E4(void *param_1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8017D5B8(void) {
-    func_8017D5E4();
+    KR_AS(void, func_8017D5E4)();
     ((s32 (*)(s32, s32))guess_RequestSound)(0xC5F, 0);
 }
 
 
-extern s32 func_8017D638();  // K&R: 0 of 1 args (P37 rung D t4_D41)
+extern s32 func_8017D638(void *a0);
 
 
 void func_8017D5E4(void *param_1)
@@ -2995,7 +2995,7 @@ void func_8017D5E4(void *param_1)
     ((Unkstruct_8017D5E4 *)param_1)->unkAE = -1;
     ((Unkstruct_8017D5E4 *)param_1)->unkC1 = 0;
     ((Unkstruct_8017D5E4 *)param_1)->unk5E = 0;
-    func_8017D638();
+    KR_AS(s32, func_8017D638)();
     (*(u16 *)(((Unkstruct_8017D5E4 *)param_1)->unk64 + 0xFE))--;
 }
 
@@ -3082,7 +3082,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001C2C4(s32 a0);
 extern s32 guess_TestGameFlag(s32 arg);
-extern void func_8017D5E4();  // K&R: 0/1 of 1 args (P37 unalias t4_ua2)  // K&R: 0 of 1 args (P37 rung D t4_D3)
+extern void func_8017D5E4(void *param_1);
 extern s32 func_8012AD50(void *a0);
 
 extern u16 D_8018277C[][4];

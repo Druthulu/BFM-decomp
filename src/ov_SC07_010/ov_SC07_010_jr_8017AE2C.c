@@ -5056,14 +5056,14 @@ void func_8017F10C(s32 a0) {
 }
 
 
-extern void func_8017F2BC();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017F2BC(s16 *arg0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_8012AD50(void *a0);
 
 void func_8017F1CC(s32 a0) {
     s32 s0 = a0;
-    func_8017F2BC();
+    KR_AS(void, func_8017F2BC)();
     if (guess_TickWaitTimer(s0) != 0) {
         guess_RequestSound(0xC14, 0);
         func_8012AD50((void *)s0);
@@ -5073,14 +5073,14 @@ void func_8017F1CC(s32 a0) {
 
 extern s32 func_8012AD50(void*);
 extern void func_8017DCB8(s32 a0);
-extern void func_8017F2BC();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017F2BC(s16 *arg0);
 
 void func_8017F214(s32 a0) {
     u8 *s0;
     u16 val16;
 
     s0 = *(u8 **)(a0 + 0x20);
-    func_8017F2BC();
+    KR_AS(void, func_8017F2BC)();
 
     val16 = ((Unkstruct_8017F214 *)s0)->unk18;
     val16 += 0x80;
@@ -5102,9 +5102,9 @@ void func_8017F214(s32 a0) {
 }
 
 
-extern void func_8017F2BC();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8017F2BC(s16 *arg0);
 void func_8017F29C(void) {
-    func_8017F2BC();
+    KR_AS(void, func_8017F2BC)();
 }
 
 

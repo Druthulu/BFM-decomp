@@ -3513,7 +3513,7 @@ void func_80182DCC(void *arg0) {
 extern u16 D_801BA628;
 extern u16 D_801BA62A;
 extern u16 D_801BA62C;
-extern void func_801831E0();  // K&R: 1 of 2 args (P37 rung D t4_D2)
+extern void func_801831E0(s32 arg0, s32 arg1);
 
 void func_80183174(s32 a0) {
     u16 *p = &D_801BA628;
@@ -3525,7 +3525,7 @@ void func_80183174(s32 a0) {
     local_10[1] = D_801BA62A;
     c1 = D_801BA62C;
     local_10[2] = c1;
-    func_801831E0(a0);
+    KR_AS(void, func_801831E0)(a0);
     local_18[0] = *p;
     local_18[1] = D_801BA62A;
     local_18[2] = D_801BA62C;
@@ -3866,7 +3866,7 @@ s32 func_80183A64(s32 *a0, s32 a1, s32 a2) {
 #include "common.h"
 
 extern s32 rand(void);
-extern s32 func_80183CA4();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern s32 func_80183CA4(s32 a0);
 extern s32 func_80183C6C(void *arg0, void *arg1);
 extern u8 D_800D3918[];
 extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
@@ -3899,7 +3899,7 @@ s32 func_80183A98(void *a0) {
         s16 x2; /* 0x12(sp) */
     } local;
 
-    flags = func_80183CA4();
+    flags = KR_AS(s32, func_80183CA4)();
     if (flags & 0x2000) {
         if ((rand() & 0xF) != 0) {
             local.x0 = (s16)(CAST_WIDTH(s32, (u8 *)a0, 0x10) >> 8);

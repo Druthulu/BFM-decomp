@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_TickWaitTimer(s32);
 extern s32 guess_StartActorSequenceById(s32, s32);
-extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 void func_8012F7B4(s32 a0) {
     if (*(s32 *)(a0 + 0xB4) & 4) {
         guess_TickWaitTimer(a0);
@@ -12,5 +12,5 @@ void func_8012F7B4(s32 a0) {
             }
         }
     }
-    guess_CallActorEventHandler(a0, 7);
+    KR_AS(s32, guess_CallActorEventHandler)(a0, 7);
 }

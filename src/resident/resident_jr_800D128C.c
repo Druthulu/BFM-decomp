@@ -1834,11 +1834,11 @@ short flag;
  * so passing the function name decays to &func_800D3238 with no cast.
  */
 extern void func_800D3238(void *arg0);
-extern void func_8016EDEC();  // K&R: 2 of 3 args (P37 rung D t4_D58)
+extern void func_8016EDEC(s32 _arg0, s32 _arg1, s32 _arg2);
 extern void func_800167B8(s32 arg0);
 
 s32 func_800D2DAC(u8 *arg0) {
-    func_8016EDEC(func_800D3238, 0x1000000);
+    KR_AS(void, func_8016EDEC)(func_800D3238, 0x1000000);
     func_800167B8(0);
     arg0[0x15]++;
     return 0;
@@ -1878,11 +1878,11 @@ extern s32 func_800167F0(s32 arg0);
 //     gcc hoists the lbu 0x15.
 
 extern void func_800D3348(u8 *arg0);
-extern void func_8016EDEC();  // K&R: 2 of 3 args (P37 rung D t4_D58)
+extern void func_8016EDEC(s32 _arg0, s32 _arg1, s32 _arg2);
 
 
 s32 func_800D2E20(Struct800D2E20 *a0) {
-    func_8016EDEC(func_800D3348, 0x1000000);
+    KR_AS(void, func_8016EDEC)(func_800D3348, 0x1000000);
     a0->field_0x19 = 0xA;
     a0->field_0x15 = a0->field_0x15 + 1;
     return 0;
@@ -2116,7 +2116,7 @@ void func_800D32D4(void *arg0) {
     }
 }
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void func_8016F0E4(u8 *);
 
 #define SHARED_FN func_800D3328
 #include "../shared/multi/cls_5211f6f7586b.h"
@@ -2132,7 +2132,7 @@ void func_800D3384(u8 *arg0) {
     *(u8 *)(arg0 + 0x214) += 1;
 }
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D58)
+extern void func_8016F0E4(u8 *);
 
 #define SHARED_FN func_800D3398
 #include "../shared/multi/cls_5211f6f7586b.h"

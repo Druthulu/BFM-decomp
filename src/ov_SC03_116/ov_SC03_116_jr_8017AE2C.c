@@ -4512,7 +4512,7 @@ void func_80181550(void *a0)
 
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
-extern void func_80181844();  // K&R: 2 of 1 args (P37 rung D t4_D2)
+extern void func_80181844(s32 *a0);
 extern void func_801818B8(void *a0);
 extern s32 func_8012AD50(void *a0);
 extern u8 D_80197B60[];
@@ -4525,7 +4525,7 @@ void func_80181580(s32 arg0) {
     ptr = D_80197B60 + (((Unkstruct_800B5CB8 *)arg0)->unk70 * 0x40);
     func_8001CD50(var_s2, (s32) ptr);
     guess_BuildCircle12Points(ptr, 0x80);
-    func_80181844(arg0, ptr);
+    KR_AS(void, func_80181844)(arg0, ptr);
     ((Unkstruct_800B5CB8 *)var_s2)->unk2C = 0xC040;
     CAST_WIDTH(s32, var_s2, 4) |= 0x50000000;
     func_801818B8(arg0);
@@ -4536,10 +4536,10 @@ void func_80181580(s32 arg0) {
 void func_80181618(s32 arg0) {
     extern u8 D_80197B60[];
     extern void guess_SetWaitTimer(s32 *a0, s32 a1);
-    extern void func_80181864();  // K&R: 0/2 of 0 args (P37 rung D t4_D2)
+    extern void func_80181864(void);
     extern s32 func_801818DC(s32 a0);
 
-    func_80181864(arg0, D_80197B60 + (((Unkstruct_800B5CB8 *)arg0)->unk70 << 6));
+    KR_AS(void, func_80181864)(arg0, D_80197B60 + (((Unkstruct_800B5CB8 *)arg0)->unk70 << 6));
     if (func_801818DC((s32)arg0) != 0) {
         guess_SetWaitTimer((s32 *)arg0, 0x1E);
         func_8012AD50(arg0);
@@ -4551,7 +4551,7 @@ void func_80181674(void *a0)
 {
     extern u8 D_80197B60[];
     extern s32 guess_TickWaitTimer(s32 a0);
-    extern void func_80181864();  // K&R: 0/2 of 0 args (P37 rung D t4_D2)
+    extern void func_80181864(void);
 
     s16 idx;
     u8 *ptr;
@@ -4561,7 +4561,7 @@ void func_80181674(void *a0)
     if (guess_TickWaitTimer((s32)a0) != 0) {
         func_8012AD50(a0);
     } else {
-        func_80181864(a0, ptr);
+        KR_AS(void, func_80181864)(a0, ptr);
     }
 }
 
@@ -4588,7 +4588,7 @@ void func_801816D8(void *a0)
 extern u8 D_80197B60[];
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
-extern void func_80181844();  // K&R: 2 of 1 args (P37 rung D t4_D2)
+extern void func_80181844(s32 *a0);
 extern s32 func_8012AD50(void *a0);
 
 void func_8018172C(s32 arg0)
@@ -4601,7 +4601,7 @@ void func_8018172C(s32 arg0)
     ((Unkstruct_800B5CB8 *)arg0)->unkE += 0x40;
     func_8001CD50(var_s2, (s32) ptr);
     guess_BuildCircle12Points(ptr, 0x80);
-    func_80181844(arg0, ptr);
+    KR_AS(void, func_80181844)(arg0, ptr);
     *(s32 *)(ptr + 0) = 0xF0;
     *(s32 *)(ptr + 4) = 0;
     ((Unkstruct_800B5CB8 *)var_s2)->unk2C = 0x8040;
@@ -4629,10 +4629,10 @@ void func_801817D8(void *a0) {
 }
 
 
-extern void func_80181864();  // K&R: 0/2 of 0 args (P37 rung D t4_D2)
+extern void func_80181864(void);
     void func_80181844(s32 *a0) {
         ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
-        func_80181864();
+        KR_AS(void, func_80181864)();
     }
 
 
@@ -5069,9 +5069,9 @@ void func_801822A0(void) {
 }
 
 
-extern void func_8013B7AC();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_8013B7AC(int a0);
     void func_8018232C(void) {
-        func_8013B7AC();
+        KR_AS(void, func_8013B7AC)();
     }
 
 

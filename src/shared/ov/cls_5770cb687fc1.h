@@ -11,7 +11,7 @@ s32 SHARED_FN(void *a0)
         return 0;
     }
 
-    if (func_801848DC() == 0) {
+    if (KR_AS(s32, func_801848DC)() == 0) {
         return 0;
     }
 

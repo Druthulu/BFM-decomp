@@ -330,7 +330,7 @@ extern void func_80149864(void);
 extern s16 currentLocationId;
 extern s32 guess_GetPlayerControlScript(void);
 extern s32 func_80149884(void);
-extern void func_80160B00();  // K&R: ? of 1 args (P37 rung D t4_D25)
+extern void func_80160B00(s32 *arg0);
 extern void func_801498C0(void);
 extern s32 guess_IsSquarePressed(s32 *a0);
 extern s32 guess_IsTrianglePressed(s32 *a0);
@@ -401,7 +401,7 @@ extern void func_8014AB7C(s32 arg0);
 extern void func_8014AC10(s32 arg0);
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void guess_ClearObjectAndSubObject();  // K&R: 0/1 of 1 args (P37 unalias t4_ua13)
+extern void guess_ClearObjectAndSubObject(u8 *);
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void guess_ZeroMemory(void *a0, s32 a1);
@@ -1518,7 +1518,7 @@ extern void guess_TransformPosByObjMatrix(s32, s32);
 extern void guess_SetState(s32*, s16);
 extern void func_80159B70(void *);
 extern void func_8015C714(void *);
-extern void guess_SaveGroundedPos();  // K&R: ? of 1 args (P37 rung D t4_D25)
+extern void guess_SaveGroundedPos(unsigned char *self);
 
 extern void (*D_80181914[])(void *);
 extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
@@ -1727,7 +1727,7 @@ extern void guess_SetState(s32*, s16);
 extern void func_80159B70(void *a0);
 extern s32 func_80149D10(s32);
 extern void func_80175150(void *a0);
-extern void guess_ReturnPlayerToStandingState();  // K&R: ? of 3 args (P37 rung D t4_D25)
+extern void guess_ReturnPlayerToStandingState(s32 _arg0, s32 _arg1, s32 _arg2);
 extern s32 guess_IsChargedSquarePressed(struct S_80149744*);
 extern void guess_StartChargedSquareAction(void);
 extern s32 func_80161B84(void *a0);
@@ -1748,7 +1748,7 @@ extern void guess_SetAnim(s32, s32);
 extern void func_8014D738(void);
 extern void func_8015C714(void *a0);
 extern s32 func_80161208();  /* canonical no-proto (§17a-1) */
-extern void guess_SaveGroundedPos();  // K&R: ? of 1 args (P37 rung D t4_D25)
+extern void guess_SaveGroundedPos(unsigned char *self);
 
 extern void (*D_80181914[])(void *);
 
@@ -3409,7 +3409,7 @@ extern void (*D_80182350[])(void);
 
 
 
-extern void func_800D2318();  // K&R: ? of 1 args (P37 rung D t4_D25)
+extern void func_800D2318(s32 *p);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);

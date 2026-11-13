@@ -911,7 +911,7 @@ extern s32 D_801A44D8;
 extern s32 D_801A44DC;
 
 extern void func_8013DBE4(int param_1);
-extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D29)
+extern void func_8013D9B0(int param_1);
 extern void func_8013D330(void);
 extern void func_8013D178(void);
 extern void func_8013CF68(void);
@@ -1084,7 +1084,7 @@ extern s32 D_801A44F0;
 extern s32 D_801A44D8;
 extern s32 D_801A44F4;
 extern s32 D_801A44E4;
-extern void func_8013D9B0();  /* §17a-1: K&R empty-args — compatible with the (int param_1) def + the 0-arg/fn-ptr-cast call sites (byte-neutral) */  // K&R: 0/1 of 1 args (P37 rung D t4_D29)
+extern void func_8013D9B0(int param_1);  /* §17a-1: K&R empty-args — compatible with the (int param_1) def + the 0-arg/fn-ptr-cast call sites (byte-neutral) */
 
 void func_8013D064(void)
 {
@@ -1112,11 +1112,11 @@ void func_8013D064(void)
 
 
 
-extern void func_8013D9B0();  /* §17a-1: K&R empty-args — compatible with the (int param_1) def + the 0-arg/fn-ptr-cast call sites (byte-neutral) */  // K&R: 0/1 of 1 args (P37 rung D t4_D29)
+extern void func_8013D9B0(int param_1);  /* §17a-1: K&R empty-args — compatible with the (int param_1) def + the 0-arg/fn-ptr-cast call sites (byte-neutral) */
 extern s32 D_801A44E4;
 
 s32 func_8013D13C(void) {
-    func_8013D9B0();
+    KR_AS(void, func_8013D9B0)();
     return D_801A44E4;
 }
 
@@ -1230,7 +1230,7 @@ extern u8 D_8017F49C[];
 extern u8 D_8017F51C[];
 extern u8 D_8017F3F4[];
 
-extern void func_8013D53C();  // K&R: 0 of 1 args (P37 rung D t4_D29)
+extern void func_8013D53C(void *arg0v);
 extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);
@@ -1251,7 +1251,7 @@ void func_8013D3D4(int param_1, int param_2)
         D_801A44CC = D_8017F51C;
         D_801A44D0 = D_8017F3F4;
     }
-    func_8013D53C();
+    KR_AS(void, func_8013D53C)();
     if ((param_2 & 1) != 0) {
         if (D_801A4500 != 0) {
             func_8013DD68();

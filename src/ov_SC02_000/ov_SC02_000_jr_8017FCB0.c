@@ -2683,7 +2683,7 @@ extern void func_8017FC9C(void *a0);
 
 
 extern s32 D_801270CC;
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 extern void guess_FreeActor(void *a0);
 
 void func_8017FCB0(void *a0) {
@@ -2696,7 +2696,7 @@ void func_8017FCB0(void *a0) {
     case 2:
     case 5:
     case 6:
-        func_8012C098();
+        KR_AS(s32, func_8012C098)();
         break;
     case 4:
         D_801270CC -= 1;
@@ -3180,7 +3180,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32  guess_TickWaitTimer(s32 a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 extern void guess_FreeActor(void *a0);
 extern s32  D_801270CC;
 extern unsigned char D_8018E724[];

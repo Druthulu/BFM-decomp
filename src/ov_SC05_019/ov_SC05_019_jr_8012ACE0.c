@@ -715,7 +715,7 @@ extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 // @class: plumbing
 // @stuck: none — MATCH (pending gate)
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 extern unsigned char D_8017F5E8[];
 
 #include "../shared/ov/func_8012F828__e4c10af4.h"
@@ -725,7 +725,7 @@ extern unsigned char D_8017F5E8[];
 
 
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 extern u8 D_8017F5F4[];
 
 #include "../shared/ov/func_8012F8C8__cf6e9598.h"
@@ -951,7 +951,7 @@ extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
-extern s32 guess_CallActorEventHandler();  // K&R: 0/1/2 of 1 args (P37 unalias t4_ua7)
+extern s32 guess_CallActorEventHandler(int);
 
 extern s32 D_8018E6A0;
 extern s32 D_8018E6A4;
@@ -1022,7 +1022,7 @@ extern s32 D_8018E6A4;
  * a full preprocess+cc1 of the spliced TU: diagnostic-free apart from
  * pre-existing warnings).
  */
-extern s32 guess_LookupIdValue();  // K&R: 1 of 2 args (P37 unalias t4_ua6)
+extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
 
 
 #include "../shared/ov/func_80131CA8.h"

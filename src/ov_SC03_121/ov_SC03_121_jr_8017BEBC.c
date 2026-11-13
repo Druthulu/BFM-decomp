@@ -3206,7 +3206,7 @@ u32 func_8017D788(s32 arg0, s16 arg1, s16 arg2) {
 
 
 
-extern void guess_ClearVelocityAndSetGravity();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s32  func_8012DBD0(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CC64(s32 a0, s32 a1);
@@ -3234,7 +3234,7 @@ void func_8017D8D4(s32 a0) {
         *(s16 *)(s0 + 0x2) = 6;
         *(s16 *)(s0 + 0x34) = 0;
         *(s16 *)(s0 + 0x10A) = 0;
-        guess_ClearVelocityAndSetGravity();
+        KR_AS(void, guess_ClearVelocityAndSetGravity)();
     }
 
     sv0.vx = 0;

@@ -130,10 +130,10 @@ s32 arg0;
 
 
 
-extern void func_8017E5D0();  // K&R: 0 of 1 args (P37 rung D t4_D35)
+extern void func_8017E5D0(void *a0);
     void func_8017F240(s32 *a0) {
         s32 *p = a0;
-        func_8017E5D0();
+        KR_AS(void, func_8017E5D0)();
         p[0x1C / 4] += 1;
     }
 
@@ -144,10 +144,10 @@ extern void func_8017E5D0();  // K&R: 0 of 1 args (P37 rung D t4_D35)
  * (&D_801A077C here vs &D_800D3AB0 there). guess_ReturnPlayerToStandingState takes (u8*, s32).
  * asm: lui/addiu a0=&D_801A077C ; jal guess_ReturnPlayerToStandingState ; lui a1=0x1000000 (delay). */
 extern u8 D_801A077C;
-extern void guess_ReturnPlayerToStandingState();  // K&R: 2 of 3 args (P37 rung D t4_D35)
+extern void guess_ReturnPlayerToStandingState(s32 _arg0, s32 _arg1, s32 _arg2);
 
 void func_8017F278(void) {
-    guess_ReturnPlayerToStandingState(&D_801A077C, 0x1000000);
+    KR_AS(void, guess_ReturnPlayerToStandingState)(&D_801A077C, 0x1000000);
 }
 
 
@@ -185,7 +185,7 @@ s32 a0;
 
 
 
-extern s32 func_8017F6CC();  // K&R: 0 of 1 args (P37 rung D t4_D35)
+extern s32 func_8017F6CC(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80171928(void *a0);
 
@@ -193,7 +193,7 @@ void func_8017F324(void *param)
 {
     void *s0 = param;
 
-    if (func_8017F6CC() != 0) {
+    if (KR_AS(s32, func_8017F6CC)() != 0) {
         guess_RequestSound(0x8B1, 0);
         func_80171928(s0);
     }
@@ -206,10 +206,10 @@ void func_8017F324(void *param)
  * (&D_801A079C here vs &D_800D3AB0 there). guess_ReturnPlayerToStandingState takes (u8*, s32).
  * asm: lui/addiu a0=&D_801A079C ; jal guess_ReturnPlayerToStandingState ; lui a1=0x1000000 (delay). */
 extern u8 D_801A079C;
-extern void guess_ReturnPlayerToStandingState();  // K&R: 2 of 3 args (P37 rung D t4_D35)
+extern void guess_ReturnPlayerToStandingState(s32 _arg0, s32 _arg1, s32 _arg2);
 
 void func_8017F364(void) {
-    guess_ReturnPlayerToStandingState(&D_801A079C, 0x1000000);
+    KR_AS(void, guess_ReturnPlayerToStandingState)(&D_801A079C, 0x1000000);
 }
 
 
@@ -268,7 +268,7 @@ void func_8017F3C8(void *a0)
 
 
 
-extern s32 func_8017F6CC();  // K&R: 0 of 1 args (P37 rung D t4_D35)
+extern s32 func_8017F6CC(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_80171990(u8*);
 
@@ -276,7 +276,7 @@ void func_8017F4D0(void *param)
 {
     void *s0 = param;
 
-    if (func_8017F6CC() != 0) {
+    if (KR_AS(s32, func_8017F6CC)() != 0) {
         guess_RequestSound(0x8B1, 0);
         ((void (*)(void *))func_80171990)(s0);
     }

@@ -2851,7 +2851,7 @@ extern void func_801819A0(s32 a0);
 extern s32 func_80181948(s32 a0);
 extern void func_801818E0(short*);
 extern void func_801819E0(int param_1);
-extern s32 func_8018739C();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_8018739C(void *a0);
 extern s32 func_80188D1C(void *);
 extern s32 func_80178BF8(void);
 extern s32 func_80181BC0(void *a0);
@@ -3164,7 +3164,7 @@ void func_801864E8(void *a0) {
 
 
 extern void func_80172710(void);
-extern s32 func_8018739C();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_8018739C(void *a0);
 extern s32 func_80188D1C(void *);
 extern s32 func_80178BF8(void);
 
@@ -3268,7 +3268,7 @@ void func_801867A8(void *a0) {
 
 
 extern void func_80172710(void);
-extern s32 func_8018739C();  // K&R: ? of 1 args (P37 rung D t4_D2)
+extern s32 func_8018739C(void *a0);
 extern s32 func_80178BF8();
 
 
@@ -3284,7 +3284,7 @@ s32 func_80186828(void *a0)
         return 0;
     }
 
-    if (func_8018739C() != 0) {
+    if (KR_AS(s32, func_8018739C)() != 0) {
         *(u16 *)(*v0p + 0x2) = 0x3;
         func_80178BF8();
         return (s32)func_80172710;

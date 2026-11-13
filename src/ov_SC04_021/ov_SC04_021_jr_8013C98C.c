@@ -847,7 +847,7 @@ extern s32 D_8018E778;
 extern s32 D_8018E77C;
 
 extern void func_8013DBE4(int param_1);
-extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D29)
+extern void func_8013D9B0(int param_1);
 extern void func_8013D330(void);
 extern void func_8013D178(void);
 extern void func_8013CF68(void);
@@ -892,14 +892,14 @@ extern s32 D_8018E790;
 extern s32 D_8018E778;
 extern s32 D_8018E794;
 extern s32 D_8018E784;
-extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D29)
+extern void func_8013D9B0(int param_1);
 
 #include "../shared/ov/func_8013D064__10bd61e3.h"
 
 
 
 
-extern void func_8013D9B0();  // K&R: 0/1 of 1 args (P37 rung D t4_D29)
+extern void func_8013D9B0(int param_1);
 extern s32 D_8018E784;
 
 #include "../shared/ov/func_8013D13C__3ffb44f9.h"
@@ -952,7 +952,7 @@ extern u8 D_8017FB0C[];
 extern u8 D_8017FB8C[];
 extern u8 D_8017FA64[];
 
-extern void func_8013D53C();  // K&R: 0 of 1 args (P37 rung D t4_D29)
+extern void func_8013D53C(void *arg0v);
 extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);

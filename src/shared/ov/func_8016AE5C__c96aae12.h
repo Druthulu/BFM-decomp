@@ -5,7 +5,7 @@ void func_8016AE5C(s32 param_1) {
 
     sp = *(s32 *)(param_1 + 0x20);
     if (*(u32 *)(param_1 + 0x2C) < 6) {
-        func_8016B234();
+        KR_AS(void, func_8016B234)();
     }
     switch (*(u32 *)(param_1 + 0x2C)) {
     case 0:

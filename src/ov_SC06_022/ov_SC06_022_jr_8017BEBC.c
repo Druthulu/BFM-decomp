@@ -4208,9 +4208,9 @@ void func_8017F414(s32 param_1)
 }
 
 
-extern s32 func_8017F0D4();  // K&R: 0 of 1 args (P37 rung D t4_D50)
+extern s32 func_8017F0D4(s32);
     void func_8017F4B0(void) {
-        func_8017F0D4();
+        KR_AS(s32, func_8017F0D4)();
     }
 
 

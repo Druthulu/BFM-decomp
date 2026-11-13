@@ -1949,7 +1949,7 @@ extern s32 func_8016F410(s32 a0);
 extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern s32 func_8016F4C4(s32 param_1);
 extern void func_8016F4F4(void);
 extern void func_801719A4(int a0, int a1);
@@ -3187,7 +3187,7 @@ void func_801825E0(s32 a0) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH (param_1 survives across func_8016F0E4 → lands in $s0; passed to func_80165770)
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 extern void func_80175414(s32 _arg0);
 
@@ -3236,7 +3236,7 @@ void func_80182744(s32 a0)
 }
 
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 #define SHARED_FN func_801827A0
 #include "../shared/multi/cls_5211f6f7586b.h"
 #undef SHARED_FN
@@ -3323,7 +3323,7 @@ void func_80182AE4(void *a0) {
 
 
 extern s32 func_8001B23C(s32 a0);
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_801599A4(void *a0);
 extern void func_801553A8(s32 *a0);
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
@@ -3580,7 +3580,7 @@ extern u8 D_80126D6C;
 
 
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
 extern void func_80183238(void *a0);
 extern void func_80175414(s32 _arg0);
@@ -3770,7 +3770,7 @@ void *arg0;
 }
 
 
-extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 rung D t4_D40)
+extern void func_8016F0E4(u8 *);
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
 extern void func_80183718(void *a0);
 
@@ -3783,7 +3783,7 @@ void func_801836C8(void *arg0) {
         ((Unkstruct_801836C8 *)arg0)->unk132 = 0;
         ((Unkstruct_801836C8 *)arg0)->unkAC = 0x40;
         ((Unkstruct_801836C8 *)arg0)->unkAA = 0x40;
-        func_8016F0E4();
+        KR_AS(void, func_8016F0E4)();
         ((void (*)(void *, s32))func_8016EDEC)((void *)func_80183718, 0xB000000);
     }
 }
@@ -4391,7 +4391,7 @@ extern u8  D_8018B37C[];
 extern u8  D_8018B358[];
 extern u8  guess_g_CameraWsMatrix[]; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 
-extern void func_80185F8C();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80185F8C(s32 a0);
 extern void func_801852E4(s32 a0);
 extern s32  func_8012DB84(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -4423,7 +4423,7 @@ void func_80184BD8(s32 p) {
     s32 c;
     s16 t;
 
-    func_80185F8C();
+    KR_AS(void, func_80185F8C)();
     func_801852E4(p);
 
     if (D_801E873C == 0) {
@@ -5565,7 +5565,7 @@ void func_80187118(s32 param_1) {
 extern u16 D_800B99DC;
 
 void func_801871B8(s32 a0) {
-    extern void func_80187480();  // K&R: 0/1 of 1 args (P37 rung D t4_D2)
+    extern void func_80187480(s32 arg0);
     if (*(s16 *)(((Unkstruct_801871B8 *)a0)->unk64 + 0xE) - 0x80 < ((Unkstruct_801871B8 *)a0)->unkE) {
         CAST_ALIAS(s32, a0, 0x18) = 0xFFDBC000;
         CAST_ALIAS(s32, a0, 0x14) = 0xFFE00000;
@@ -5573,7 +5573,7 @@ void func_801871B8(s32 a0) {
         CAST_ALIAS(s32, a0, 0x48) = 0x80000;
         CAST_ALIAS(s32, a0, 0x4C) = 0;
         ((Unkstruct_801871B8 *)a0)->unk12 = 0xF - (D_800B99DC & 0x1F);
-        func_80187480();
+        KR_AS(void, func_80187480)();
         guess_RequestSound(0x4DA, 0);
         ((Unkstruct_801871B8 *)a0)->unk2 += 1;
     }

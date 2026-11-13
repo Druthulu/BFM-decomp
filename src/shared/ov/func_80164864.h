@@ -1,6 +1,6 @@
 /* func_80164864 — shared body (overlay slot 0x80128158, h_exact de5b1632). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80164ACC();  // K&R: 0 of 1 args (P37 rung D t4_HD7)
+extern void func_80164ACC(s32 a0);
 extern void guess_NextStep(void *a0);
 void func_80164864(void *a0) {
     s32 s = (s32)a0;
@@ -19,7 +19,7 @@ void func_80164864(void *a0) {
         *(u16 *)(p + 0x1C) = v;
         *(u16 *)(p + 0x18) = v;
         *(u16 *)(p + 0x12) = w;
-        func_80164ACC();
+        KR_AS(void, func_80164ACC)();
     } else {
         limit = 0x2000;
         v = *(u16 *)(p + 0x1C) + 0x200;

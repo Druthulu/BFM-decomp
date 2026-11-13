@@ -2865,7 +2865,7 @@ extern void func_80181A5C(void *a0);
 extern void (*D_8018E4C4[])();
 extern void func_80181A98(s32 s0);
 extern void func_80181B0C(s32 a0);
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 extern void func_80181B48(s32 arg0);
 extern void (*D_8018E54C[])(void);
 extern void func_80181B80(void *a0);
@@ -3139,7 +3139,7 @@ extern s32  func_8012BC60(s16 *a0, s16 *a1);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern void func_80186100(int param_1);
-extern void func_80186124();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern void func_80186124(u8 *);
 extern void func_8018626C(s32 a0);
 extern void func_801862B8(s32 a0);
 extern void func_80186168(s32 a0);
@@ -3623,7 +3623,7 @@ void func_801874E8(s32 a0) {
 
 extern void (*D_801D61E4[])(void);
 extern s32 func_8012C044(s32 a0);
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 
 void func_801876AC(u16 *s0)
 {
@@ -3774,7 +3774,7 @@ void func_80187940(s32 arg0) {
 
 #include "common.h"
 
-extern void func_80186124();  // K&R: 0 of 1 args (P37 rung D t4_D1)
+extern void func_80186124(u8 *);
 extern s32 func_8012CBF4(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_801862B8(s32 a0);
@@ -3783,7 +3783,7 @@ void func_801879A4(s32 a0) {
     s32 ret;
 
     if (CAST_SIGN(s16, a0, 0xA) >= 0x10) {
-        func_80186124();
+        KR_AS(void, func_80186124)();
     } else {
         ret = ((s32 (*)(s32))func_8012CBF4)(a0);
         if ((ret & 0x2000) != 0) {
@@ -4027,7 +4027,7 @@ void func_80187E9C(int param_1)
 }
 
 
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 #define SHARED_FN func_80187EF8
 #include "../shared/ov/cls_6e914334a7ab.h"
 #undef SHARED_FN
@@ -4273,7 +4273,7 @@ void *a0;
 
 extern s32 (*D_801E2130[])(void);
 extern s32 func_8012C044(s32 a0);
-extern s32 func_8012C098();  // K&R: 0 of 1 args (P37 rung D t4_D22)
+extern s32 func_8012C098(void *param_1);
 
 void func_801883FC(u16 *s0)
 {
