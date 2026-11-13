@@ -1,4 +1,4 @@
-# sig-evidence — the asm signature census (3.44 T3)
+# sig-evidence — the asm signature census and its gate (3.44 T3-T9)
 
 `tools/sig_evidence.py` measures every function's calling contract from the original bytes: whether its return is
 used, how many arguments it reads and its callers set, and the width and sign evidence on each. It never reads the C
@@ -240,7 +240,7 @@ census decoder and `cite()`, compared whitespace-normalized: a mismatch, an unkn
 or a row with no cites is a failed cite; (b) a row is used when a current disagreement matches it: `name` == callee,
 `def_file` path or `bind_tu` == def_file, rule == kind; an unmatched row is an unused row; (c) a disagreement matched by
 no row is unledgered. Prints the three counts (unledgered per rule) and the first 20 of each. Exit 1 on any failed cite,
-unused row or unledgered disagreement, else 0. Not in tools-health yet (3.44 T9).
+unused row or unledgered disagreement, else 0. Gated in `make tools-health` since 3.44 T9 (see "The gate" below).
 def_file `-` (3.44 T6) = no C definition (asm-only callee): the row matches a disagreement of its callee+kind whose
 def_file is None.
 
@@ -293,3 +293,42 @@ the four counts; any nonzero exits 1. type_census `--check-casts` counts KR_AS a
 base/off; restruct ignores it) and backs a site only by a row (callee) of this file.
 def_file `-` = asm-only callee (no C definition): the def_file check passes iff no parsed file defines `fn`; type_census
 backs on callee alone, so a `-` row backs its sites there too.
+
+## The gate (3.44 T9)
+
+`make tools-health` runs, after type_census (Makefile, the `sig_evidence` lines after `type_census.py --check`):
+
+```
+$(VENV_PY) tools/sig_evidence.py --selftest     # fixtures per rule and per check outcome
+$(VENV_PY) tools/sig_evidence.py -j 16          # fresh census (make clean deletes build/sig_evidence/)
+$(VENV_PY) tools/sig_evidence.py --check -j 16  # --compare + the three ledgers; rc 1 fails tools-health
+```
+
+It needs a built tree (the `.d` files and linked ELFs of every binary, as after R22). Green = check.txt shows 0 unledgered
+(every rule), 0 failed cites, 0 unused rows in config/lying_exceptions.tsv, and 0 unbacked / unused / wrong-def_file /
+failed-cite counts for config/ret_view_casts.tsv and config/kr_view_casts.tsv. Wall time: see "Gate cost" below.
+
+Ledgers at a glance (all hand-edited config, tab-separated, `#` header comment, one header line, `cites` last):
+- `config/lying_exceptions.tsv` `callee def_file kind cause task cites`: a disagreement the C keeps (kind = rule id;
+  `return` = DECL-RET). Cause codes in use at T9 (rows): `SHARED-DECL-SPLIT` (one shared declaration serves definitions
+  that disagree; return 8, DECL-EMPTY 2,831), `DECL-EMPTY-CONFLICT` (the prototype's objects differ from HEAD; DECL-EMPTY
+  144, +136 combined with SHARED-DECL-SPLIT), `UNINIT-LOCAL` (ARG-OVER 141: an uninitialised local the compiler put in
+  `$aN`), `STRUCT-RETURN` (DECL-ARITY 4). `RET-MOVES-BYTES` (a width/sign lie whose fix moves bytes) was the P39 code;
+  no row carries it at T9.
+- `config/ret_view_casts.tsv` `callee def_file view cause task cites`: one row per `RET_AS(view, fn, …)` callee.
+- `config/kr_view_casts.tsv` `callee def_file cause task cites`: one row per `KR_AS(T, fn)` callee.
+
+How to add an exception (only after the edit ladder above failed: the definition's prototype everywhere, then a marked
+cast, each proven by scratch compile against HEAD and R22):
+1. Run `PY tools/sig_evidence.py -j 16 && PY tools/sig_evidence.py --check -j 16`; take the unledgered row from
+   `build/sig_evidence/check.txt` or `compare.jsonl` (rule, name, def_file, cite).
+2. Get the cites in the census's own text: `PY tools/sig_evidence.py --show <binary>:<vaddr>` prints the row; copy the
+   exit writer(s) from `exit` and one caller read from `ret.cite` / `args.read` exactly as printed
+   (`<binary>:0x<vaddr> <insn>`, `; `-separated, 2-4 items). Never hand-type an instruction.
+3. Append one row: `callee` = the name in the row; `def_file` = its def_file path without `:line` (a SHARED_FN binding TU
+   is accepted; `-` when there is no C definition); `kind` = the rule id (`return` for DECL-RET); `cause` = `CODE: ` plus
+   the byte evidence in one line; `task` = the task id.
+4. Re-run `--check -j 16`: rc 0. A failed cite is a mistyped or wrong-binary instruction; an unused row is a key that
+   matches no disagreement (wrong def_file or kind).
+5. A RET_AS / KR_AS site needs its row in the matching view ledger in the same commit; removing the last site of a
+   callee removes its row (else `unused`).

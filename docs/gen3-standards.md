@@ -87,6 +87,14 @@ failure modes are different:
    passes when a ledger entry `RESIDUAL(<cause>)` covers it. `M2C_FIELD` is a raw form, never a kept spelling. Each macro's byte proof (one
    kept site respelled, `make check` BYTE-IDENTICAL) is recorded in the Phase 39 T2 summary. Levers follow the same reading:
    `tools/lever_census.py --strict --residue config/lever_residue.tsv` is the gate, the residue file the ledger of what stays.
+6. **Every prototype agrees with the bytes.** **Adopted 2026-11-10 (developer, at the 3.44 plan; R115).** Every function
+   declaration and definition agrees with its contract as measured from the original machine code by the asm census
+   (`tools/sig_evidence.py`: whether callers read the return, how many arguments the body reads and callers set, width and
+   sign), or carries an exception whose cited instructions the tool re-verifies against the bytes. One prototype per
+   function (the definition's); where the shipped game called a function inconsistently, a marked cast at that call
+   (`RET_AS`, `KR_AS`) with its ledger row. The gate is `tools/sig_evidence.py --check` in `make tools-health` (3.44 T9): 0
+   unledgered disagreements, 0 failed cites, 0 unused exceptions. Rules, unknown reasons and the ledger format:
+   [`docs/ops/sig-evidence.md`](ops/sig-evidence.md).
 
 Every step is checked the only way this project checks anything: 218 binaries rebuild identical.
 
