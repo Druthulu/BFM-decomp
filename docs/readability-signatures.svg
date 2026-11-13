@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="630" viewBox="0 0 1000 630" font-family="sans-serif">
+<rect width="1000" height="630" fill="white"/>
+<text x="500" y="20" text-anchor="middle" font-size="14" font-weight="bold">BFM-decomp — call signatures vs the original bytes (from docs/readability-progress.tsv)</text>
+<text x="70" y="46" font-size="13" font-weight="bold">Unledgered signature disagreements</text><text x="70" y="62" font-size="11" fill="#555">0 unledgered at 8bac8eee3 (sig_evidence --check, by rule)</text>
+<line x1="70" y1="270.0" x2="980" y2="270.0" stroke="#ddd"/><text x="64" y="274.0" text-anchor="end" font-size="11" fill="#555">0</text>
+<line x1="70" y1="222.5" x2="980" y2="222.5" stroke="#ddd"/><text x="64" y="226.5" text-anchor="end" font-size="11" fill="#555">49,507</text>
+<line x1="70" y1="175.0" x2="980" y2="175.0" stroke="#ddd"/><text x="64" y="179.0" text-anchor="end" font-size="11" fill="#555">99,014</text>
+<line x1="70" y1="127.5" x2="980" y2="127.5" stroke="#ddd"/><text x="64" y="131.5" text-anchor="end" font-size="11" fill="#555">148,522</text>
+<line x1="70" y1="80.0" x2="980" y2="80.0" stroke="#ddd"/><text x="64" y="84.0" text-anchor="end" font-size="11" fill="#555">198,029</text>
+<line x1="70.0" y1="270" x2="70.0" y2="275" stroke="#888"/><text x="70.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-12 P3.44 T4</text>
+<line x1="252.0" y1="270" x2="252.0" y2="275" stroke="#888"/><text x="252.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-12 P3.44 T5</text>
+<line x1="434.0" y1="270" x2="434.0" y2="275" stroke="#888"/><text x="434.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T6</text>
+<line x1="616.0" y1="270" x2="616.0" y2="275" stroke="#888"/><text x="616.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T7</text>
+<line x1="798.0" y1="270" x2="798.0" y2="275" stroke="#888"/><text x="798.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T8</text>
+<line x1="980.0" y1="270" x2="980.0" y2="275" stroke="#888"/><text x="980.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T10</text>
+<polyline fill="none" stroke="#000000" stroke-width="2" points="70.0,80.0 252.0,91.9 434.0,153.2 616.0,167.8 798.0,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="80.0" r="3" fill="#000000"/>
+<circle cx="252.0" cy="91.9" r="3" fill="#000000"/>
+<circle cx="434.0" cy="153.2" r="3" fill="#000000"/>
+<circle cx="616.0" cy="167.8" r="3" fill="#000000"/>
+<circle cx="798.0" cy="270.0" r="3" fill="#000000"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#000000"/>
+<text x="730" y="46" font-size="12" fill="#000000">total (0)</text>
+<polyline fill="none" stroke="#d62728" stroke-width="2" points="70.0,165.3 252.0,179.4 434.0,179.4 616.0,179.4 798.0,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="165.3" r="3" fill="#d62728"/>
+<circle cx="252.0" cy="179.4" r="3" fill="#d62728"/>
+<circle cx="434.0" cy="179.4" r="3" fill="#d62728"/>
+<circle cx="616.0" cy="179.4" r="3" fill="#d62728"/>
+<circle cx="798.0" cy="270.0" r="3" fill="#d62728"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#d62728"/>
+<text x="730" y="60" font-size="12" fill="#d62728">RET-VOID-READ (0)</text>
+<polyline fill="none" stroke="#ff7f0e" stroke-width="2" points="70.0,255.4 252.0,255.4 434.0,255.4 616.0,270.0 798.0,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="255.4" r="3" fill="#ff7f0e"/>
+<circle cx="252.0" cy="255.4" r="3" fill="#ff7f0e"/>
+<circle cx="434.0" cy="255.4" r="3" fill="#ff7f0e"/>
+<circle cx="616.0" cy="270.0" r="3" fill="#ff7f0e"/>
+<circle cx="798.0" cy="270.0" r="3" fill="#ff7f0e"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#ff7f0e"/>
+<text x="730" y="74" font-size="12" fill="#ff7f0e">RET-NONE (0)</text>
+<polyline fill="none" stroke="#9467bd" stroke-width="2" points="70.0,269.8 252.0,270.0 434.0,270.0 616.0,270.0 798.0,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="269.8" r="3" fill="#9467bd"/>
+<circle cx="252.0" cy="270.0" r="3" fill="#9467bd"/>
+<circle cx="434.0" cy="270.0" r="3" fill="#9467bd"/>
+<circle cx="616.0" cy="270.0" r="3" fill="#9467bd"/>
+<circle cx="798.0" cy="270.0" r="3" fill="#9467bd"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#9467bd"/>
+<text x="730" y="88" font-size="12" fill="#9467bd">DECL-RET (0)</text>
+<polyline fill="none" stroke="#8c564b" stroke-width="2" points="70.0,208.9 252.0,208.7 434.0,270.0 616.0,270.0 798.0,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="208.9" r="3" fill="#8c564b"/>
+<circle cx="252.0" cy="208.7" r="3" fill="#8c564b"/>
+<circle cx="434.0" cy="270.0" r="3" fill="#8c564b"/>
+<circle cx="616.0" cy="270.0" r="3" fill="#8c564b"/>
+<circle cx="798.0" cy="270.0" r="3" fill="#8c564b"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#8c564b"/>
+<text x="730" y="102" font-size="12" fill="#8c564b">DECL-EMPTY (0)</text>
+<polyline fill="none" stroke="#e377c2" stroke-width="2" points="70.0,269.8 252.0,269.8 434.0,269.8 616.0,269.8 798.0,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="269.8" r="3" fill="#e377c2"/>
+<circle cx="252.0" cy="269.8" r="3" fill="#e377c2"/>
+<circle cx="434.0" cy="269.8" r="3" fill="#e377c2"/>
+<circle cx="616.0" cy="269.8" r="3" fill="#e377c2"/>
+<circle cx="798.0" cy="270.0" r="3" fill="#e377c2"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#e377c2"/>
+<text x="730" y="116" font-size="12" fill="#e377c2">ARG-OVER (0)</text>
+<polyline fill="none" stroke="#17becf" stroke-width="2" points="70.0,260.9 252.0,258.6 434.0,258.6 616.0,258.6 798.0,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="260.9" r="3" fill="#17becf"/>
+<circle cx="252.0" cy="258.6" r="3" fill="#17becf"/>
+<circle cx="434.0" cy="258.6" r="3" fill="#17becf"/>
+<circle cx="616.0" cy="258.6" r="3" fill="#17becf"/>
+<circle cx="798.0" cy="270.0" r="3" fill="#17becf"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#17becf"/>
+<text x="730" y="130" font-size="12" fill="#17becf">DECL-ARITY (0)</text>
+<text x="70" y="346" font-size="13" font-weight="bold">Signature ledger rows</text><text x="70" y="362" font-size="11" fill="#555">config/lying_exceptions.tsv, ret_view_casts.tsv (RET_AS), kr_view_casts.tsv (KR_AS); 0 before a ledger existed</text>
+<line x1="70" y1="570.0" x2="980" y2="570.0" stroke="#ddd"/><text x="64" y="574.0" text-anchor="end" font-size="11" fill="#555">0</text>
+<line x1="70" y1="522.5" x2="980" y2="522.5" stroke="#ddd"/><text x="64" y="526.5" text-anchor="end" font-size="11" fill="#555">816</text>
+<line x1="70" y1="475.0" x2="980" y2="475.0" stroke="#ddd"/><text x="64" y="479.0" text-anchor="end" font-size="11" fill="#555">1,632</text>
+<line x1="70" y1="427.5" x2="980" y2="427.5" stroke="#ddd"/><text x="64" y="431.5" text-anchor="end" font-size="11" fill="#555">2,448</text>
+<line x1="70" y1="380.0" x2="980" y2="380.0" stroke="#ddd"/><text x="64" y="384.0" text-anchor="end" font-size="11" fill="#555">3,264</text>
+<line x1="70.0" y1="570" x2="70.0" y2="575" stroke="#888"/><text x="70.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-12 P3.44 T4</text>
+<line x1="252.0" y1="570" x2="252.0" y2="575" stroke="#888"/><text x="252.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-12 P3.44 T5</text>
+<line x1="434.0" y1="570" x2="434.0" y2="575" stroke="#888"/><text x="434.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T6</text>
+<line x1="616.0" y1="570" x2="616.0" y2="575" stroke="#888"/><text x="616.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T7</text>
+<line x1="798.0" y1="570" x2="798.0" y2="575" stroke="#888"/><text x="798.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T8</text>
+<line x1="980.0" y1="570" x2="980.0" y2="575" stroke="#888"/><text x="980.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.44 T10</text>
+<polyline fill="none" stroke="#d62728" stroke-width="2" points="70.0,568.9 252.0,569.5 434.0,388.3 616.0,388.3 798.0,380.0 980.0,380.0"/>
+<circle cx="70.0" cy="568.9" r="3" fill="#d62728"/>
+<circle cx="252.0" cy="569.5" r="3" fill="#d62728"/>
+<circle cx="434.0" cy="388.3" r="3" fill="#d62728"/>
+<circle cx="616.0" cy="388.3" r="3" fill="#d62728"/>
+<circle cx="798.0" cy="380.0" r="3" fill="#d62728"/>
+<circle cx="980.0" cy="380.0" r="3" fill="#d62728"/>
+<text x="730" y="346" font-size="12" fill="#d62728">lying exceptions (3,264)</text>
+<polyline fill="none" stroke="#1f77b4" stroke-width="2" points="70.0,570.0 252.0,568.5 434.0,568.5 616.0,568.5 798.0,568.6 980.0,568.6"/>
+<circle cx="70.0" cy="570.0" r="3" fill="#1f77b4"/>
+<circle cx="252.0" cy="568.5" r="3" fill="#1f77b4"/>
+<circle cx="434.0" cy="568.5" r="3" fill="#1f77b4"/>
+<circle cx="616.0" cy="568.5" r="3" fill="#1f77b4"/>
+<circle cx="798.0" cy="568.6" r="3" fill="#1f77b4"/>
+<circle cx="980.0" cy="568.6" r="3" fill="#1f77b4"/>
+<text x="730" y="360" font-size="12" fill="#1f77b4">RET_AS views (24)</text>
+<polyline fill="none" stroke="#2ca02c" stroke-width="2" points="70.0,570.0 252.0,570.0 434.0,554.7 616.0,554.7 798.0,552.7 980.0,552.7"/>
+<circle cx="70.0" cy="570.0" r="3" fill="#2ca02c"/>
+<circle cx="252.0" cy="570.0" r="3" fill="#2ca02c"/>
+<circle cx="434.0" cy="554.7" r="3" fill="#2ca02c"/>
+<circle cx="616.0" cy="554.7" r="3" fill="#2ca02c"/>
+<circle cx="798.0" cy="552.7" r="3" fill="#2ca02c"/>
+<circle cx="980.0" cy="552.7" r="3" fill="#2ca02c"/>
+<text x="730" y="374" font-size="12" fill="#2ca02c">KR_AS views (297)</text>
+</svg>

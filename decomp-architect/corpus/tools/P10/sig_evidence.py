@@ -1433,6 +1433,7 @@ def check_core(ledger, rows, decode):
          f"failed cites {len(failed)}", f"unused rows {len(unused)}", f"unledgered disagreements {len(unl)}"]
     per = collections.Counter(r["rule"] for r in unl)
     T += [f"  {ru} {per[ru]}" for ru in RULES if per[ru]]
+    T.append("unledgered by rule: " + " ".join(f"{ru} {per[ru]}" for ru in RULES))   # 3.44 T14: every rule, fixed order (readability_progress)
     T.append("failed cites (first 20): callee | cite | decoded")
     T += [f"  {a} | {b} | {c}" for a, b, c in failed[:20]]
     T.append("unused rows (first 20): callee def_file kind")

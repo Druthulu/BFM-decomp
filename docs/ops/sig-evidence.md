@@ -239,7 +239,9 @@ PY tools/sig_evidence.py --check -j 16     # runs --compare, then -> build/sig_e
 census decoder and `cite()`, compared whitespace-normalized: a mismatch, an unknown binary, an address outside the image
 or a row with no cites is a failed cite; (b) a row is used when a current disagreement matches it: `name` == callee,
 `def_file` path or `bind_tu` == def_file, rule == kind; an unmatched row is an unused row; (c) a disagreement matched by
-no row is unledgered. Prints the three counts (unledgered per rule) and the first 20 of each. Exit 1 on any failed cite,
+no row is unledgered. Prints the three counts (unledgered per rule) and the first 20 of each; since 3.44 T14 also one line
+`unledgered by rule: RET-VOID-READ n RET-NONE n DECL-RET n DECL-EMPTY n ARG-OVER n DECL-ARITY n` (every rule, this order),
+which `tools/readability_progress.py --snapshot` parses. Exit 1 on any failed cite,
 unused row or unledgered disagreement, else 0. Gated in `make tools-health` since 3.44 T9 (see "The gate" below).
 def_file `-` (3.44 T6) = no C definition (asm-only callee): the row matches a disagreement of its callee+kind whose
 def_file is None.

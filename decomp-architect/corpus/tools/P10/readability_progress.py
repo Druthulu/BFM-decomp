@@ -27,6 +27,7 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 TSV = REPO / "docs" / "readability-progress.tsv"
 DOC = REPO / "docs" / "readability.md"
 SVG = REPO / "docs" / "readability-names.svg"
+SIG_SVG = REPO / "docs" / "readability-signatures.svg"
 CAST = re.compile(r"\*\s*\(\s*(?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\*+\s*\)\s*\(")
 MEMBER = re.compile(r"->[A-Za-z_]\w*|\.[A-Za-z_]\w*\s*=")
 
@@ -104,6 +105,7 @@ def counts():
     out["return_lie_fns"] = rl["functions"] if rl else ""
     out["return_lie_sites"] = rl["sites"] if rl else ""
     out.update(names_counts("HEAD"))
+    out.update(sig_counts())
     return out
 
 
@@ -164,6 +166,66 @@ def names_counts(rev):
     return out
 
 
+# P3.44 T14: signatures — sig_evidence --check's unledgered disagreements (total, then per rule in sig_evidence.RULES order) and
+# the rows of its three ledgers (lying_exceptions, the RET_AS views, the KR_AS views)
+SIG_RULES = ["RET-VOID-READ", "RET-NONE", "DECL-RET", "DECL-EMPTY", "ARG-OVER", "DECL-ARITY"]
+SIG_UNL = ["sig_unl_total"] + [f"sig_unl_{r.lower().replace('-', '_')}" for r in SIG_RULES]
+SIG_LEDGERS = [("sig_ledger_lying", "config/lying_exceptions.tsv", "ledger rows"),
+               ("sig_ledger_ret_view", "config/ret_view_casts.tsv", "ret-view rows"),
+               ("sig_ledger_kr_view", "config/kr_view_casts.tsv", "kr-view rows")]
+SIG_COLS = SIG_UNL + [c for c, _, _ in SIG_LEDGERS]
+# --backfill-sig: the unledgered counts of the P3.44 tasks that ran before these columns existed, from their task summaries (no census
+# was rerun); order SIG_UNL. The ledger columns are counted at each commit.
+SIG_BACKFILL = [
+    # tasks/T4.md Findings: per-rule rows; 19 ledgered DECL-RET names cover the rest; sum = 198,029
+    ("P3.44 T4: signature baseline (from summary)", "4c7567aa57", (198029, 109173, 15230, 219, 63718, 176, 9513)),
+    # tasks/T5.md Findings; re-measured with asm labels
+    ("P3.44 T5: signature close (from summary)", "e4132c2252", (185669, 94473, 15233, 0, 63898, 176, 11889)),
+    # tasks/T6.md; DECL-EMPTY 13,693 all ledgered
+    ("P3.44 T6: signature close (from summary)", "594b66691e", (121771, 94473, 15233, 0, 0, 176, 11889)),
+    # tasks/T7.md
+    ("P3.44 T7: signature close (from summary)", "74f9e81813", (106538, 94473, 0, 0, 0, 176, 11889)),
+    # tasks/T8.md: all ledgered, --check rc 0
+    ("P3.44 T8: signature close (from summary)", "5dea03cae7", (0, 0, 0, 0, 0, 0, 0)),
+]
+SIG_T10 = "P3.44 T10: milestone gate"      # tasks/T10.md: --check rc 0, unledgered all 0
+
+
+def sig_ledger_rows(rev):
+    """{col: rows} of the three signature ledgers at git rev `rev`, counted as sig_evidence.load_ledger does (blank, `#` and
+    header lines skipped); a ledger absent at `rev` counts 0."""
+    out = {}
+    for col, path, _ in SIG_LEDGERS:
+        s = _git("show", f"{rev}:{path}")
+        out[col] = 0 if s.returncode else sum(1 for ln in s.stdout.splitlines()
+                                               if ln.strip() and not ln.startswith("#") and not ln.startswith("callee\t"))
+    return out
+
+
+def sig_counts():
+    """P3.44 T14: the signature columns of this tree from `sig_evidence.py --check -j 16` (rc 1 accepted; the census is run first
+    when build/sig_evidence/census.jsonl is missing), parsed from build/sig_evidence/check.txt."""
+    py, se, od = str(REPO / ".venv" / "bin" / "python"), str(REPO / "tools" / "sig_evidence.py"), REPO / "build" / "sig_evidence"
+    if not (od / "census.jsonl").exists():
+        print("readability_progress: no signature census — running sig_evidence.py -j 16", file=sys.stderr)
+        if subprocess.run([py, se, "-j", "16"], cwd=REPO, stdout=subprocess.DEVNULL).returncode:
+            sys.exit("readability_progress: sig_evidence.py census failed")
+    print("readability_progress: running sig_evidence.py --check -j 16", file=sys.stderr)
+    rc = subprocess.run([py, se, "--check", "-j", "16"], cwd=REPO, stdout=subprocess.DEVNULL).returncode
+    if rc not in (0, 1):
+        sys.exit(f"readability_progress: sig_evidence.py --check rc {rc}")
+    txt = (od / "check.txt").read_text()
+    m = re.search(r"^unledgered by rule: (.*)$", txt, re.M)
+    if not m:
+        sys.exit("readability_progress: check.txt has no `unledgered by rule:` line")
+    per = dict(re.findall(r"([A-Z-]+) (\d+)", m.group(1)))
+    out = {f"sig_unl_{r.lower().replace('-', '_')}": int(per[r]) for r in SIG_RULES}
+    out["sig_unl_total"] = int(re.search(r"^unledgered disagreements (\d+)$", txt, re.M).group(1))
+    for col, _, tag in SIG_LEDGERS:
+        out[col] = int(re.search(rf"^{tag} (\d+),", txt, re.M).group(1))
+    return out
+
+
 COLS = ["date", "label", "commit", "definitions", "narrow_decls", "callees", "kr_empty", "narrow", "pinned_rows", "pinned_bodies",
         "raw_casts", "struct_members",
         # P37 columns (appended 2026-09-12; older rows carry blanks — the renderer reads by name, never by position)
@@ -176,8 +238,10 @@ COLS = ["date", "label", "commit", "definitions", "narrow_decls", "callees", "kr
         # P3.41 T13 (2026-11-07): return-type lies, functions / call sites (blank on older rows)
         "return_lie_fns", "return_lie_sites",
         # P3.44 T13 (2026-11-13): names — units of docs/leverage.tsv by tier, functions then data (blank where leverage.tsv is absent or stale)
-        *NAMES_COLS]
-HEAD = "\t".join(COLS) + "\n"
+        *NAMES_COLS,
+        # P3.44 T14 (2026-11-13): signatures — sig_evidence --check unledgered (total, per rule) and the three ledgers' rows
+        *SIG_COLS]
+HEAD ="\t".join(COLS) + "\n"
 
 
 def _rows():
@@ -244,6 +308,29 @@ def render_names_svg(rows):
     _svg_lines(SVG, "BFM-decomp — names in the matched C (from docs/readability-progress.tsv)", panels)
 
 
+def render_sig_svg(rows):
+    """P3.44 T14: the signatures graph — unledgered disagreements by rule (and the total), then the ledger rows."""
+    rows = [r for r in rows if r.get("sig_unl_total")]
+    if not rows:
+        return
+    xl = [f'{r["date"]} {r["label"].split(":")[0]}' for r in rows]
+    n = lambda c: [int(r[c]) for r in rows]
+    colors = ["#d62728", "#ff7f0e", "#9467bd", "#8c564b", "#e377c2", "#17becf"]
+    last = rows[-1]
+    panels = [{"title": "Unledgered signature disagreements",
+               "subtitle": f'{int(last["sig_unl_total"]):,} unledgered at {last["commit"][:9]} (sig_evidence --check, by rule)',
+               "xlabels": xl,
+               "series": [("total", "#000000", n("sig_unl_total"))]
+                         + [(r, c, n(k)) for r, c, k in zip(SIG_RULES, colors, SIG_UNL[1:])]},
+              {"title": "Signature ledger rows",
+               "subtitle": "config/lying_exceptions.tsv, ret_view_casts.tsv (RET_AS), kr_view_casts.tsv (KR_AS); 0 before a ledger existed",
+               "xlabels": xl,
+               "series": [("lying exceptions", "#d62728", n("sig_ledger_lying")),
+                          ("RET_AS views", "#1f77b4", n("sig_ledger_ret_view")),
+                          ("KR_AS views", "#2ca02c", n("sig_ledger_kr_view"))]}]
+    _svg_lines(SIG_SVG, "BFM-decomp — call signatures vs the original bytes (from docs/readability-progress.tsv)", panels)
+
+
 def render():
     rows = _rows()
     g = lambda r, k: r.get(k, "") or "—"
@@ -295,9 +382,30 @@ def render():
             "(a ledgered guess), and *other* are named outside the ledger. At P3.44 every *other* name is a PsyQ SDK name of",
             "the linked library objects (defined in `build/psyq` or named by its `*_externals.ld`), which the citation gate",
             "does not ledger; the P3.42 row predates the ledger's rows, so its *other* also holds names cited later.",
+            "",
+            "## Signatures",
+            "",
+            "![Call signatures vs the original bytes over time](readability-signatures.svg)",
+            "",
+            "| date | label | commit | unledgered | RET-VOID-READ | RET-NONE | DECL-RET | DECL-EMPTY | ARG-OVER | DECL-ARITY | lying ledger | `RET_AS` views | `KR_AS` views |",
+            "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
+    for r in rows:
+        if r.get("sig_unl_total"):
+            out.append(f"| {g(r,'date')} | {g(r,'label')} | `{r.get('commit', '')[:9]}` | "
+                       + " | ".join(g(r, c) for c in SIG_COLS) + " |")
+    out += ["",
+            "**How to read the signature columns.** `tools/sig_evidence.py` measures every function's calling contract from",
+            "the original bytes and `--check` compares it with the C's declarations and definitions; the rules are the rule",
+            "table of `docs/ops/sig-evidence.md`. A disagreement is *unledgered* until a row of `config/lying_exceptions.tsv`",
+            "accounts for it with byte cites; a ledgered disagreement is not counted here, whatever its rule. The ledger",
+            "columns count the rows of the three ledgers: the lying exceptions, the `RET_AS` return views",
+            "(`config/ret_view_casts.tsv`) and the `KR_AS` K&R views (`config/kr_view_casts.tsv`); a ledger that did not",
+            "exist yet at a row's commit counts as 0. The rows labeled *(from summary)* and the P3.44 T10 row's unledgered",
+            "counts come from those tasks' summaries, not from a census run; their ledger counts are read at their commits.",
             ""]
     DOC.write_text("\n".join(out) + "\n")
     render_names_svg(rows)
+    render_sig_svg(rows)
 
 
 def main():
@@ -306,8 +414,40 @@ def main():
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--backfill-names", action="store_true",
                     help="fill the names columns of every row whose names cells are blank, computed at that row's commit; renders")
+    ap.add_argument("--backfill-sig", action="store_true",
+                    help="insert the P3.44 T4-T8 signature rows (from task summaries) before the P3.44 T10 row and fill its "
+                         "signature columns; ledger columns counted at each commit; idempotent; renders")
     a = ap.parse_args()
     head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
+    if a.backfill_sig:
+        lines = [l for l in TSV.read_text().splitlines()[1:] if l.strip()]
+        labels = [l.split("\t")[1] for l in lines]
+        if SIG_T10 not in labels:
+            sys.exit(f"readability_progress --backfill-sig: no {SIG_T10!r} row")
+
+        def sig_row(vals, commit, unl):
+            vals = vals + [""] * (len(COLS) - len(vals))
+            for c, v in zip(SIG_UNL, unl):
+                vals[COLS.index(c)] = str(v)
+            for c, v in sig_ledger_rows(commit).items():
+                vals[COLS.index(c)] = str(v)
+            return "\t".join(vals)
+        ins = []
+        for label, short, unl in SIG_BACKFILL:
+            if label in labels:
+                continue
+            full = _git("rev-parse", short).stdout.strip()
+            date = _git("log", "-1", "--format=%cd", "--date=short", full).stdout.strip()
+            ins.append(sig_row([date, label, full], full, unl))
+            print(f"readability_progress: inserted {label!r} at {full[:9]}", file=sys.stderr)
+        i = labels.index(SIG_T10)
+        t10 = lines[i].split("\t")
+        lines[i] = sig_row(t10, t10[2], (0,) * len(SIG_UNL))
+        lines[i:i] = ins
+        TSV.write_text(HEAD + "".join(l + "\n" for l in lines))
+        render()
+        print(f"readability_progress --backfill-sig: {len(ins)} row(s) inserted, {SIG_T10!r} filled")
+        return 0
     if a.backfill_names:
         lines = TSV.read_text().splitlines()
         cols = lines[0].split("\t")

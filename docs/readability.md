@@ -127,6 +127,11 @@
 | 2026-11-08 | P3.41 T10: milestone gate | `f4b1fbad3` | 0 | 0 | 0 | 0 | 118347 | 471641 | **176445** | 320783 | 4762 (4128 / 605) | 2047 | 452 / 2469 | 14548 (98.1 %) | 4916 | 342 | 19 / 9302 |
 | 2026-11-10 | P3.42 T10: milestone gate | `2cb349305` | 0 | 0 | 0 | 0 | 114926 | 459260 | **172948** | 309734 | 4748 (4123 / 593) | 2042 | 452 / 2469 | 14394 (98.1 %) | 4912 | 267 | 19 / 9302 |
 | 2026-11-12 | P3.43 T15: milestone gate | `f88462baf` | 0 | 0 | 0 | 0 | 114927 | 459280 | **172948** | 309734 | 4748 (4123 / 593) | 2042 | 452 / 2469 | 14370 (98.1 %) | 4910 | 267 | 19 / 9302 |
+| 2026-11-12 | P3.44 T4: signature baseline (from summary) | `4c7567aa5` | — | — | — | — | — | — | **—** | — | — | — | — | — | — | — | — |
+| 2026-11-12 | P3.44 T5: signature close (from summary) | `e4132c225` | — | — | — | — | — | — | **—** | — | — | — | — | — | — | — | — |
+| 2026-11-13 | P3.44 T6: signature close (from summary) | `594b66691` | — | — | — | — | — | — | **—** | — | — | — | — | — | — | — | — |
+| 2026-11-13 | P3.44 T7: signature close (from summary) | `74f9e8181` | — | — | — | — | — | — | **—** | — | — | — | — | — | — | — | — |
+| 2026-11-13 | P3.44 T8: signature close (from summary) | `5dea03cae` | — | — | — | — | — | — | **—** | — | — | — | — | — | — | — | — |
 | 2026-11-13 | P3.44 T10: milestone gate | `8bac8eee3` | 0 | 0 | 0 | 0 | 114919 | 459287 | **172940** | 309741 | 4749 (4124 / 593) | 2042 | 452 / 2469 | 14430 (98.1 %) | 26 | 243 | 0 / 0 |
 | 2026-11-13 | P3.44 T13: names columns | `6a5dfa9a2` | 0 | 0 | 0 | 0 | 114919 | 459287 | **172940** | 309741 | 4749 (4124 / 593) | 2042 | 452 / 2469 | 14430 (98.1 %) | 26 | 243 | 0 / 0 |
 
@@ -159,4 +164,26 @@ Of the named units, *cited* have a `cited` row in `config/names.tsv`, *`guess_`*
 (a ledgered guess), and *other* are named outside the ledger. At P3.44 every *other* name is a PsyQ SDK name of
 the linked library objects (defined in `build/psyq` or named by its `*_externals.ld`), which the citation gate
 does not ledger; the P3.42 row predates the ledger's rows, so its *other* also holds names cited later.
+
+## Signatures
+
+![Call signatures vs the original bytes over time](readability-signatures.svg)
+
+| date | label | commit | unledgered | RET-VOID-READ | RET-NONE | DECL-RET | DECL-EMPTY | ARG-OVER | DECL-ARITY | lying ledger | `RET_AS` views | `KR_AS` views |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 2026-11-12 | P3.44 T4: signature baseline (from summary) | `4c7567aa5` | 198029 | 109173 | 15230 | 219 | 63718 | 176 | 9513 | 19 | 0 | 0 |
+| 2026-11-12 | P3.44 T5: signature close (from summary) | `e4132c225` | 185669 | 94473 | 15233 | 0 | 63898 | 176 | 11889 | 8 | 25 | 0 |
+| 2026-11-13 | P3.44 T6: signature close (from summary) | `594b66691` | 121771 | 94473 | 15233 | 0 | 0 | 176 | 11889 | 3122 | 25 | 263 |
+| 2026-11-13 | P3.44 T7: signature close (from summary) | `74f9e8181` | 106538 | 94473 | 0 | 0 | 0 | 176 | 11889 | 3122 | 25 | 263 |
+| 2026-11-13 | P3.44 T8: signature close (from summary) | `5dea03cae` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3264 | 24 | 297 |
+| 2026-11-13 | P3.44 T10: milestone gate | `8bac8eee3` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3264 | 24 | 297 |
+
+**How to read the signature columns.** `tools/sig_evidence.py` measures every function's calling contract from
+the original bytes and `--check` compares it with the C's declarations and definitions; the rules are the rule
+table of `docs/ops/sig-evidence.md`. A disagreement is *unledgered* until a row of `config/lying_exceptions.tsv`
+accounts for it with byte cites; a ledgered disagreement is not counted here, whatever its rule. The ledger
+columns count the rows of the three ledgers: the lying exceptions, the `RET_AS` return views
+(`config/ret_view_casts.tsv`) and the `KR_AS` K&R views (`config/kr_view_casts.tsv`); a ledger that did not
+exist yet at a row's commit counts as 0. The rows labeled *(from summary)* and the P3.44 T10 row's unledgered
+counts come from those tasks' summaries, not from a census run; their ledger counts are read at their commits.
 
