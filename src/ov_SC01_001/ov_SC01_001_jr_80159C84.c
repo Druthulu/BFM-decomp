@@ -1160,6 +1160,7 @@ extern void func_80159BE4(s32 arg0);
 
 /* canonical sigs (engine_core.h); arity-mismatched call sites use a fn-ptr cast (§17a-1) */
 
+/* $v0 at exit: result of 0x800CCCC0 or result of guess_EnterJumpState or result of guess_StartSquareAction or result of guess_StartTriangleAction or result of func_80149FA8 or result of func_8014A830 or result of func_8015A230 or result of guess_EnterState11 or result of func_80161208 or result of func_80161B18 or result of func_80161B84 or result of guess_TryStartCircleAction or result of func_80172590; no byte-neutral return: `return 0;` moved `bnez v0,<func_80159C84+0x530>` at +0x64, ov_SC01_001 objdump */
 s32 func_80159C84(s32 p) {
     extern s32 func_80161B18(void *a0);
     extern s32 func_80161B84(void *a0);

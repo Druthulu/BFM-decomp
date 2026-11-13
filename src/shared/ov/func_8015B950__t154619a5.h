@@ -1,5 +1,6 @@
 /* func_8015B950 — shared body (overlay slot 0x80128158, h_text 154619a5). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of 0x800CCCC0 or result of guess_StartChargedSquareAction or result of guess_StartSquareAction or result of guess_StartTriangleAction or result of func_80159B70 or result of guess_EnterState11 or result of func_80161208 or result of func_80161B18 or result of func_80161CD0 or result of func_801725A4 or addiu $v0, $zero, 0x1 at ov_SC04_008:0x8015BB98 or negu $v0, $v0 at ov_SC04_008:0x8015BC34; no byte-neutral return: `return 0;` moved `bnez v0,<func_8015B950+0x424>` at +0x20, ov_SC04_008 objdump */
 s32 func_8015B950(s32 arg0)
 {
 

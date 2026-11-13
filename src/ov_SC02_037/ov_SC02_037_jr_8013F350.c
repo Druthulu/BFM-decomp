@@ -2008,6 +2008,7 @@ extern void func_800D24A0(int);
 extern void guess_RequestSound(int, int);
 extern void func_80141C0C(int);
 
+/* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC02_037:0x80141A44; no byte-neutral return: `return 0;` moved `li v1,1` at +0x114, ov_SC02_037 objdump */
 s32 func_801418F8(void) {
 
     extern u16 guess_g_OpenMenuId; // Names ledger: config/names.tsv guess_g_OpenMenuId
@@ -2082,6 +2083,7 @@ extern s32 func_8014032C(s32 a0, s32 a1);
 
 
 
+/* $v0 at exit: result of func_800D0EC4 or addiu $v0, $v0, 0x1 at ov_SC02_037:0x80141B70; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x11C, ov_SC02_037 objdump */
 s32 func_80141A60()
 {
 

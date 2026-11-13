@@ -1,5 +1,6 @@
 /* func_8015AE2C — shared body (overlay slot 0x80128158, h_exact b080550c). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of 0x800CCCC0 or result of guess_NextStep or result of func_801577C8 or result of func_8015CC40 or result of func_8015CF8C or result of func_801725A4 or andi $v0, $s1, 0x5 at ov_SC03_126:0x8015B5D4; no byte-neutral return: `return 0;` moved `bnez s1,<func_8015AE2C+0x8b4>` at +0x7F8, ov_SC03_126 objdump */
 s32 func_8015AE2C(arg0)
 s32 arg0;
 {

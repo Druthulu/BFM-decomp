@@ -156,6 +156,7 @@ struct S;
  * the decompile. The TU declares it `s32 (struct S *)` and both callers discard the result;
  * the target sets no $v0 of its own (it falls off the end after the last jal), which is what
  * an s32 function with no `return` compiles to. 0xFFE80000 is the `lui $a1,65512` literal. */
+/* $v0 at exit: result of guess_StartPadVibration; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x64, md_MAIN_020 objdump */
 s32 func_800CB17C(struct S *a0) {
     extern void func_8012A304(s32 a0, s32 a1);
     extern void guess_SetVertSpeed(s32 a0, s32 a1);

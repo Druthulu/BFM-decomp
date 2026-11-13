@@ -21,6 +21,7 @@
  * No relocations and no symbol references at all: the function touches only its
  * arguments and the GTE.
  */
+/* $v0 at exit: addu $v0, $a3, $zero at main:0x80057B04; asm body, no C return */
 void *GsTMDfastG3GL()
 {
     __asm__ __volatile__(
@@ -171,6 +172,7 @@ void *GsTMDfastG3GL()
  * primitive's three colour words (prim+4/+8/+12) straight into the packet, and the
  * primitive/packet stride is 0x1C.
  */
+/* $v0 at exit: addu $v0, $a3, $zero at main:0x80057C6C; asm body, no C return */
 void *GsTMDfastG3GNL()
 {
     __asm__ __volatile__(
@@ -271,6 +273,7 @@ void *GsTMDfastG3GNL()
 }
 
 
+/* $v0 at exit: addu $v0, $a3, $zero at main:0x80057E70; asm body, no C return */
 void *GsTMDfastF3GL(void *prim, void *vert, void *norm, void *pkt,
                     int n, int shift, void *ot, void *work)
 {
@@ -412,6 +415,7 @@ void *GsTMDfastF3GL(void *prim, void *vert, void *norm, void *pkt,
     );
 }
 
+/* $v0 at exit: addu $v0, $a3, $zero at main:0x80057FEC; asm body, no C return */
 void *GsTMDfastF3GNL(void *prim, void *vert, void *norm, void *pkt,
                      int n, int shift, void *ot, void *work)
 {
@@ -522,6 +526,7 @@ void *GsTMDfastF3GNL(void *prim, void *vert, void *norm, void *pkt,
  * explicit $t0-$t9 usage, hand-scheduled delay slots). Not expressible as
  * compiler-generated C; encoded verbatim. gcc-2.7.2 -O2 emits no prologue for
  * this frameless body and supplies the trailing "jr $ra / nop" epilogue. */
+/* $v0 at exit: addu $v0, $a3, $zero at main:0x80058274; asm body, no C return */
 void *GsTMDfastF4GL(void)
 {
     __asm__ __volatile__(
@@ -705,6 +710,7 @@ void *GsTMDfastF4GL(void)
  *    avsz4 = 0x4B68002E -> cop2 0x168002E
  * No relocations and no symbol references: the body touches only its arguments,
  * the stack scratch pair and the GTE. */
+/* $v0 at exit: addu $v0, $a3, $zero at main:0x8005844C; asm body, no C return */
 void *GsTMDfastF4GNL()
 {
     volatile int g[2];

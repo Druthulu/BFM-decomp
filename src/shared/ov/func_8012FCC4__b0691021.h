@@ -1,5 +1,6 @@
 /* func_8012FCC4 — shared body (overlay slot 0x80128158, h_exact b0691021). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of guess_CallActorEventHandler or result of func_80131E00; no byte-neutral return: `return 0;` moved `beqz v0,<func_8012FCC4+0x3c>` at +0x20, ov_SC03_126 objdump */
 s32 func_8012FCC4(s32 param_1) {
     extern int D_8017F600;
 

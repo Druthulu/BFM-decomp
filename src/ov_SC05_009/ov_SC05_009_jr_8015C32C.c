@@ -1619,6 +1619,7 @@ extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC05_009 objdump */
 s32 func_8015E1B8(s32 a0) {
 
     extern void (*D_80181418[])(void);
@@ -2154,6 +2155,7 @@ extern void (*D_80181160[])(void*);
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC05_009 objdump */
 s32 func_80160B34(s32 a0) {
 
     extern void (*D_8018155C[])(void);

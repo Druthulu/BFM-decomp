@@ -1,5 +1,6 @@
 /* func_8015C128 — shared body (overlay slot 0x80128158, h_exact 0adf2a03). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of guess_NextStep or result of guess_TickWaitTimer_2 or result of func_8014F3E8 or result of func_8015BE94 or result of func_8015C0C4 or result of guess_EnterState9 or andi $v0, $a0, 0x4000 at ov_SC03_126:0x8015C284; no byte-neutral return: `return 0;` moved `beqz a0,<func_8015C128+0x1b0>` at +0x14C, ov_SC03_126 objdump */
 s32 func_8015C128(s32 param_1) {
     extern void guess_EnterState9(int);
     extern void (*D_80181914[])(int);

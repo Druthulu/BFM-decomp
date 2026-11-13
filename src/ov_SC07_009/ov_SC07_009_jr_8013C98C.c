@@ -2028,6 +2028,7 @@ extern unsigned char *guess_GetStoryGoalText(void);
 
 
 
+/* $v0 at exit: addiu $v0, $v1, 0x1 at ov_SC07_009:0x8013EEF4 or addiu $v0, $v0, 0x1 at ov_SC07_009:0x8013EF6C; asm body, no C return */
 s32 func_8013EE10() {
     extern E4 aD80115188[] __asm__("guess_g_MenuPanelSlideStep"); // Names ledger: config/names.tsv guess_g_MenuPanelSlideStep
     extern E4 guess_g_MenuPanelSlide[]; // Names ledger: config/names.tsv guess_g_MenuPanelSlide

@@ -1191,6 +1191,7 @@ int func_8012D664(int arg0, int arg1, int arg2)
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_8014C978(void);
 
+/* $v0 at exit: result of guess_SetPlayerHit; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x40, ov_SC07_007 objdump */
 s32 func_8012DB84(void)
 {
 

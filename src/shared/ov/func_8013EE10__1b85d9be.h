@@ -1,5 +1,6 @@
 /* func_8013EE10 — shared body (overlay slot 0x80128158, h_exact 1b85d9be). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: addiu $v0, $v1, 0x1 at ov_SC04_008:0x8013EEF4 or addiu $v0, $v0, 0x1 at ov_SC04_008:0x8013EF6C; asm body, no C return */
 s32 func_8013EE10() {
     extern E4 aD80115188[] __asm__("guess_g_MenuPanelSlideStep"); // Names ledger: config/names.tsv guess_g_MenuPanelSlideStep
     extern E4 guess_g_MenuPanelSlide[]; // Names ledger: config/names.tsv guess_g_MenuPanelSlide

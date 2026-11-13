@@ -336,6 +336,7 @@ extern s32 rand(void);
 extern void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
+/* $v0 at exit: result of 0x80146A6C or lw $v0, 0x20($s1) at md_MAIN_041:0x800CB774; no byte-neutral return: `return 0;` moved `beqz a3,<func_800CB658+0x168>` at +0x114, md_MAIN_041 objdump */
 s32 func_800CB658(s32 arg0) {
     struct Node_800CB658 *node;
     struct Entity_800CB658 *ent;

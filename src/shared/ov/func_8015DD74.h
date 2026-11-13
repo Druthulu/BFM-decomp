@@ -1,6 +1,7 @@
 /* func_8015DD74 — shared body (overlay slot 0x80128158, h_exact fa1d5e09). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
+/* $v0 at exit: result of guess_PostActorEvent or entry $v0, unset; no byte-neutral return: `return 0;` moved `beqz s0,<func_8015DD74+0x68>` at +0x1C, ov_MAIN_012 objdump */
 int func_8015DD74(int arg0)
 {
     s16 sp18[4];

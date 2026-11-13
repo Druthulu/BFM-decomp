@@ -4,6 +4,7 @@ extern Mat32 D_800AE620;
 extern void RotMatrixX(int r, void *m);
 extern void RotMatrixY(int r, void *m);
 extern void RotMatrixZ(int r, void *m);
+/* $v0 at exit: entry $v0, unset or sra $v0, $v0, 16 at ov_MAIN_012:0x8012B5E4; asm body, no C return */
 s32 func_8012B4B8(int param_1)
 {
     int self;

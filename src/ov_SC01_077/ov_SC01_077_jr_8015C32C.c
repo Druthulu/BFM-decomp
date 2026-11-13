@@ -1608,6 +1608,7 @@ extern s32 func_801725E0(u8 *a0);
 
 
 
+/* $v0 at exit: result of guess_ClearMoveVector or result of guess_SetMoveVector or result of func_80159B70 or result of func_801725E0; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x1E4, ov_SC01_077 objdump */
 s32 func_8015CD20(s32 arg0) {
     extern u8 D_8018916C;
     extern u8 D_8018935C;
@@ -2228,6 +2229,7 @@ s32 guess_PostActorEvent(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
 
 extern void (*D_80189470[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC01_077 objdump */
 s32 func_8015E1B8(s32 param_1)
 {
     D_80189470[*(u16 *)((char *)param_1 + 2)]();
@@ -2480,6 +2482,7 @@ Ldefault:
 
 extern void (*D_801894AC[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC01_077 objdump */
 s32 func_8015EE08(s32 a0) {
     D_801894AC[*(u16 *)(a0 + 2)]();
 }
@@ -2756,6 +2759,7 @@ extern void func_8015F848(s32 *a0);
 
 extern void (*D_801894F4[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC01_077 objdump */
 s32 func_8015F7D4(s32 param_1)
 {
     D_801894F4[*(u16 *)(param_1 + 2)]();
@@ -3308,6 +3312,7 @@ extern void func_80160BB4(s32 *a0);
 
 extern void (*D_801895B4[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC01_077 objdump */
 s32 func_80160B34(s32 a0)
 {
     D_801895B4[((Unkstruct_8015E1B8_2 *)a0)->unk2]();

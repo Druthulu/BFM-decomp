@@ -3,6 +3,7 @@
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
 extern void func_801553A8(s32 *a0);
+/* $v0 at exit: result of func_801553A8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x38, ov_MAIN_012 objdump */
 s32 func_8015773C(u8 * arg0)
 {
     *(s32 *)((u8 *)arg0 + 0x44) = *(s32 *)((u8 *)arg0 + 0x44) & ~2;

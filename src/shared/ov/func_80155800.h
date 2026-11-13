@@ -16,6 +16,7 @@ extern void func_80149B14(s32 *a0);
 extern void func_80154134(u8 *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
+/* $v0 at exit: result of guess_EnterJumpState or result of func_80149B14 or result of func_80155FF8 or result of func_80159B3C or result of func_8015A230 or result of func_80161208 or ori $v0, $v0, 0x3 at ov_MAIN_012:0x80155930; no byte-neutral return: `return 0;` moved `bnez v0,<func_80155800+0x234>` at +0x21C, ov_MAIN_012 objdump */
 s32 func_80155800(s32 arg0) {
     extern s32 D_8011F730;
     extern int func_80155A44(int);

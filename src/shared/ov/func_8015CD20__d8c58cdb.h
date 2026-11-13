@@ -1,5 +1,6 @@
 /* func_8015CD20 — shared body (overlay slot 0x80128158, h_exact d8c58cdb). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of guess_ClearMoveVector or result of guess_SetMoveVector or result of func_80159B70 or result of func_801725E0; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x1E4, ov_SC03_126 objdump */
 s32 func_8015CD20(s32 arg0) {
     extern void (*D_80181914[])(struct Ent_8015CD20 *);
     extern u8 D_801818C8;

@@ -1989,6 +1989,7 @@ void func_8013EB7C(void) {
 
 
 
+/* $v0 at exit: addiu $v0, $v1, 0x1 at ov_MAIN_012:0x8013EEF4 or addiu $v0, $v0, 0x1 at ov_MAIN_012:0x8013EF6C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x164, ov_MAIN_012 objdump */
 s32 func_8013EE10() {
     extern E4 guess_g_MenuPanelSlideStep[]; // Names ledger: config/names.tsv guess_g_MenuPanelSlideStep
     extern E4 guess_g_MenuPanelSlide[]; // Names ledger: config/names.tsv guess_g_MenuPanelSlide
@@ -2049,6 +2050,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 
 
 
+/* $v0 at exit: result of func_800D0488 or result of func_800D2624 or lhu $v0, 0x5118($v0) at ov_MAIN_012:0x8013F0D0 or addiu $v0, $v0, 0x1 at ov_MAIN_012:0x8013F118; no byte-neutral return: `return 0;` moved `beqz v0,<func_8013EF88+0x1a0>` at +0x138, ov_MAIN_012 objdump */
 s32 func_8013EF88() {
 
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex

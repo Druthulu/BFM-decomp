@@ -1958,6 +1958,7 @@ extern unsigned char *guess_GetStoryGoalText(void);
 
 
 
+/* $v0 at exit: addiu $v0, $v1, 0x1 at ov_SC07_011:0x8013EEF4 or addiu $v0, $v0, 0x1 at ov_SC07_011:0x8013EF6C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x164, ov_SC07_011 objdump */
 s32 func_8013EE10() {
 
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex

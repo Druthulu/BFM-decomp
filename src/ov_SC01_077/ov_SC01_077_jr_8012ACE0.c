@@ -728,6 +728,7 @@ extern void func_8014C978(void);
 extern M2C_UNK D_80186E60;
 extern M2C_UNK D_80186E68;
 
+/* $v0 at exit: result of guess_SetPlayerHit; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x40, ov_SC01_077 objdump */
 s32 func_8012DB84(void)
 {
     func_8014C978();

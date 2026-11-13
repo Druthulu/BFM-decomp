@@ -584,6 +584,7 @@ extern void func_8014C978(void);
 extern M2C_UNK D_8017EF4C;
 extern M2C_UNK D_8017EF54;
 
+/* $v0 at exit: result of guess_SetPlayerHit; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x40, ov_SC01_000 objdump */
 s32 func_8012DB84(void)
 {
     func_8014C978();
@@ -1007,6 +1008,7 @@ void func_8012F8C8(u8* arg0) {
 //   blocks reorg from sharing a downstream constant into a branch delay slot.)
 
 
+/* $v0 at exit: result of guess_CallActorEventHandler or result of func_80131E00; no byte-neutral return: `return 0;` moved `beqz v0,<func_8012FCC4+0x3c>` at +0x20, ov_SC01_000 objdump */
 s32 func_8012FCC4(s32 param_1) {
     extern int D_8017EF90;
 
@@ -1918,6 +1920,7 @@ void func_801320D8(int param_1)
 
 
 
+/* $v0 at exit: result of guess_FreeActorDuringSpawn or addiu $v0, $v0, 0x1 at ov_SC01_000:0x80132194; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x28, ov_SC01_000 objdump */
 s32 func_80132144(s32 param_1)
 {
     extern int D_8017F148;

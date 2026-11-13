@@ -2063,6 +2063,7 @@ extern void func_80161C24(s32 a0, s32 a1);
 extern s32 func_80172608(u8 *a0);
 extern void guess_SaveGroundedPos(unsigned char *self);
 
+/* $v0 at exit: result of 0x800CCCC0 or result of guess_SaveGroundedPos or result of guess_EnterJumpState or result of guess_StartSquareAction or result of guess_StartTriangleAction or result of func_80149FA8 or result of func_8014A218 or result of func_8015ABD4 or result of func_8015AC48 or result of guess_EnterState9 or result of guess_EnterState11 or result of func_80161278 or result of func_80161B18 or result of func_80161B84 or result of guess_TryStartCircleAction; no byte-neutral return: `return 0;` moved `bnez v0,<func_8015A3C8+0x794>` at +0xA4, ov_SC07_006 objdump */
 s32 func_8015A3C8(arg0)
 s32 arg0;
 {
@@ -2401,6 +2402,7 @@ extern u8 D_800D4F8C[];
 extern s32 D_800D4A9C;
 extern s32 D_800D4B48;
 
+/* $v0 at exit: result of 0x800CCCC0 or result of guess_NextStep or result of func_801577C8 or result of func_8015CC40 or result of func_8015CF8C or result of func_801725A4 or andi $v0, $s1, 0x5 at ov_SC07_006:0x8015B5D4; no byte-neutral return: `return 0;` moved `bnez s1,<func_8015AE2C+0x8b4>` at +0x7F8, ov_SC07_006 objdump */
 s32 func_8015AE2C(arg0)
 s32 arg0;
 {

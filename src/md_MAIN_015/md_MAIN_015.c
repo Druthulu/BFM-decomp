@@ -349,6 +349,7 @@ void func_800CB6A4(void *arg0) {
 extern signed char D_800CBB44[];
 extern void guess_AddPolyG4(void *a0, void *a1);
 
+/* $v0 at exit: slti $v0, $v0, 0x4 at md_MAIN_015:0x800CB808; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x114, md_MAIN_015 objdump */
 s32 func_800CB6FC(s32 param_1) {
     unsigned char buf[0x34];
     signed char *p;
@@ -447,6 +448,7 @@ void func_800CB930(void *arg0) {
 extern signed char D_800CBB44[];
 extern void guess_AddPolyG4(void *a0, void *a1);
 
+/* $v0 at exit: slti $v0, $v0, 0x4 at md_MAIN_015:0x800CBA98; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x118, md_MAIN_015 objdump */
 s32 func_800CB988(s32 param_1) {
     unsigned char buf[0x34];
     signed char *p;

@@ -1235,6 +1235,7 @@ extern void func_8014E6A0(void);
 extern void func_8015CF8C(s32 *a0);
 extern s32 func_801725A4(u8 *a0);
 
+/* $v0 at exit: result of 0x800CCCC0 or result of guess_NextStep or result of func_801577C8 or result of func_8015CC40 or result of func_8015CF8C or result of func_801725A4 or andi $v0, $s1, 0x5 at ov_SC03_109:0x8015B5D4; no byte-neutral return: `return 0;` moved `bnez s1,<func_8015AE2C+0x8b4>` at +0x7F8, ov_SC03_109 objdump */
 s32 func_8015AE2C(arg0)
 s32 arg0;
 {
@@ -1636,6 +1637,7 @@ extern void func_80161CD0(s32, s32);
 extern s32 func_80161208(s32 a0);
 extern s32 func_801725A4(u8*);
 
+/* $v0 at exit: result of 0x800CCCC0 or result of guess_StartChargedSquareAction or result of guess_StartSquareAction or result of guess_StartTriangleAction or result of func_80159B70 or result of guess_EnterState11 or result of func_80161208 or result of func_80161B18 or result of func_80161CD0 or result of func_801725A4 or addiu $v0, $zero, 0x1 at ov_SC03_109:0x8015BB98 or negu $v0, $v0 at ov_SC03_109:0x8015BC34; no byte-neutral return: `return 0;` moved `bnez v0,<func_8015B950+0x424>` at +0x20, ov_SC03_109 objdump */
 s32 func_8015B950(s32 arg0)
 {
 
@@ -1821,6 +1823,7 @@ void func_8015BFF4(void *a0) {
 
 
 
+/* $v0 at exit: result of guess_NextStep or result of guess_TickWaitTimer_2 or result of func_8014F3E8 or result of func_8015BE94 or result of func_8015C0C4 or result of guess_EnterState9 or andi $v0, $a0, 0x4000 at ov_SC03_109:0x8015C284; no byte-neutral return: `return 0;` moved `beqz a0,<func_8015C128+0x1b0>` at +0x14C, ov_SC03_109 objdump */
 s32 func_8015C128(s32 param_1) {
     extern void guess_EnterState9(int);
     extern void (*D_801809E8[])(int);

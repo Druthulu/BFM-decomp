@@ -1,6 +1,7 @@
 /* func_80155FF8 — shared body (overlay slot 0x80128158, h_exact 58790e2d). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80156044(int arg, int a1);
+/* $v0 at exit: result of func_80156044; asm body, no C return */
 int func_80155FF8(int arg, int a1) {
     __asm__ __volatile__(
         ".set noreorder\n"

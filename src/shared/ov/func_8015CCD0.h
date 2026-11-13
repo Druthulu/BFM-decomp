@@ -4,6 +4,7 @@ extern void guess_SetAnim(s32 a0, s32 a1);
 extern s32 func_801725E0(u8 *a0);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void guess_NextStep(void *a0);
+/* $v0 at exit: result of guess_NextStep; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x3C, ov_MAIN_012 objdump */
 s32 func_8015CCD0(s32 param_1)
 {
     guess_SetAnim(param_1, 0x14);

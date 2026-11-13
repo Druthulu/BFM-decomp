@@ -1288,6 +1288,7 @@ void func_8013EB7C(void) {
 
 
 
+/* $v0 at exit: addiu $v0, $v1, 0x1 at ov_SC01_077:0x8013EEF4 or addiu $v0, $v0, 0x1 at ov_SC01_077:0x8013EF6C; asm body, no C return */
 s32 func_8013EE10() {
     extern E4 aD80115188[] __asm__("guess_g_MenuPanelSlideStep"); // Names ledger: config/names.tsv guess_g_MenuPanelSlideStep
     extern E4 guess_g_MenuPanelSlide[]; // Names ledger: config/names.tsv guess_g_MenuPanelSlide
@@ -1335,6 +1336,7 @@ s32 func_8013EE10() {
 
 
 
+/* $v0 at exit: result of func_800D0488 or result of func_800D2624 or lhu $v0, 0x5118($v0) at ov_SC01_077:0x8013F0D0 or addiu $v0, $v0, 0x1 at ov_SC01_077:0x8013F118; no byte-neutral return: `return 0;` moved `beqz v0,<func_8013EF88+0x1a0>` at +0x138, ov_SC01_077 objdump */
 s32 func_8013EF88() {
     extern int func_800D0488(int);
     extern void func_800D2624(void);
@@ -2710,6 +2712,7 @@ extern u8 D_80187B4C;
 extern u8 D_80187BC0;
 extern u8 D_80187BC8;
 
+/* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC01_077:0x80141A44; no byte-neutral return: `return 0;` moved `li v1,1` at +0x114, ov_SC01_077 objdump */
 s32 func_801418F8(void) {
     extern volatile unsigned short guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
     extern s32 guess_TestGameFlag(s32);
@@ -2754,6 +2757,7 @@ s32 func_801418F8(void) {
 
 
 
+/* $v0 at exit: result of func_800D0EC4 or addiu $v0, $v0, 0x1 at ov_SC01_077:0x80141B70; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x11C, ov_SC01_077 objdump */
 s32 func_80141A60()
 {
     int v;

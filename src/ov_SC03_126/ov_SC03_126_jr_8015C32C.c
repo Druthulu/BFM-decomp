@@ -1763,6 +1763,7 @@ extern void (*D_80181914[])(void *);
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_126 objdump */
 s32 func_8015EE08(s32 a0) {
 
     extern void (*D_80181C08[])(void);
@@ -1887,6 +1888,7 @@ extern void guess_GetPlayerFramePointsB(s32, s32);
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_126 objdump */
 s32 func_8015F7D4(s32 a0) {
 
     extern void (*D_80181C50[])(void);

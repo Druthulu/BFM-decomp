@@ -1221,6 +1221,7 @@ void func_80136C54(void)
 // @unstuck(P36): none — MATCH (28 ins). 10-byte 1-aligned struct copy (S10_80136C90{char s[10]}) from global D_801A8954 into a stack buffer, then func_8001534C(0,&buf,0x78,0x10,0,0). gcc emits the block move as 2 unaligned words (lwl/lwr+swl/swr) + 2 bytes (lb/sb).
 
 
+/* $v0 at exit: result of func_8001534C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x64, ov_SC07_001 objdump */
 s32 func_80136C90()
 {
     extern void func_8001534C(int, void *, int, int, int, int);

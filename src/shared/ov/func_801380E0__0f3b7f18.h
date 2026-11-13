@@ -1,5 +1,6 @@
 /* func_801380E0 — shared body (overlay slot 0x80128158, h_exact 0f3b7f18). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of guess_CloseTextWindow or result of func_80139B18 or addiu $v0, $zero, 0xD at ov_SC03_126:0x8013812C or addiu $v0, $zero, 0xA at ov_SC03_126:0x80138750; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x6B0, ov_SC03_126 objdump */
 s32 func_801380E0(s32 arg0) {
     extern void func_8001931C(s32);
     extern void func_8001AAD0(s32, s32);

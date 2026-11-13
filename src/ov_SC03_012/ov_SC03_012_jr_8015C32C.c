@@ -1542,6 +1542,7 @@ do161240:
 
 
 
+/* $v0 at exit: result of guess_ClearMoveVector or result of guess_SetMoveVector or result of func_80159B70 or result of func_801725E0; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x1E4, ov_SC03_012 objdump */
 s32 func_8015CD20(s32 arg0) {
     extern void (*D_801807E4[])(struct Ent_8015CD20 *);
     extern u8 D_80180798;
@@ -1833,6 +1834,7 @@ void func_8015D414(int param_1)
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_012 objdump */
 s32 func_8015D4E8(s16 *a0) {
 
     extern void (*D_80180A1C[])(void);
@@ -2128,6 +2130,7 @@ extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_012 objdump */
 s32 func_8015E1B8(s32 a0) {
 
     extern void (*D_80180A9C[])(void);
@@ -2384,6 +2387,7 @@ Ldefault:
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_012 objdump */
 s32 func_8015EE08(s32 a0) {
 
     extern void (*D_80180AD8[])(void);
@@ -2641,6 +2645,7 @@ void func_8015F448(s32 arg0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_012 objdump */
 s32 func_8015F7D4(s32 a0) {
 
     extern void (*D_80180B20[])(void);
