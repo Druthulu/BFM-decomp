@@ -1,4 +1,4 @@
-s32 func_801758FC(void)
+void func_801758FC(void)
 {
     extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern S_AE7BC_801758FC guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg

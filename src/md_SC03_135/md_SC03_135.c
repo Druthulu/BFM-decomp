@@ -554,7 +554,7 @@ Lmid:
 }
 
 
-s32 func_801E3390(void) {
+void func_801E3390(void) {
     extern s32 *func_801E46A0(s32 *);
     extern s32 func_801E3540(s32, u8 *, s16);
     extern s32 func_8005A600(s32, s32, s32, s32, s32);

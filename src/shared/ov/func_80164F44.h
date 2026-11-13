@@ -3,7 +3,7 @@
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_NextStep(void *a0);
 extern void func_80165124(void *a0);
-extern s32 func_80165140(s32 a0);
+extern void func_80165140(s32 a0);
 extern void func_801651B8(void *a0);
 void func_80164F44(void *arg0) {
     s32 iVar4;

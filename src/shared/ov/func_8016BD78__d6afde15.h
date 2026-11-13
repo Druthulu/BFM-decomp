@@ -3,7 +3,7 @@
 /* $v0 at exit: result of func_8016BFA8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x110, ov_SC03_126 objdump */
 s32 func_8016BD78(s32 param_1)
 {
-    extern s32 guess_UpdateAttachedPos(s32 param);
+    extern void guess_UpdateAttachedPos(s32 param);
     extern u8 D_8018EDBD;
     extern u8 D_8018EDBE;
     extern u8 D_8018EDC1;

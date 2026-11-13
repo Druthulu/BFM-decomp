@@ -2633,7 +2633,7 @@ extern s32 func_801504D8(u16*);
 #include "../shared/ov/func_80150528.h"
 
 
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 #include "../shared/ov/func_801505FC.h"
 
 
@@ -2644,7 +2644,7 @@ extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
 
 
 
-s32 func_801506A4(s32 arg0, s32 arg1)
+void func_801506A4(s32 arg0, s32 arg1)
 {
 
     extern s16 g_PlayerHp;

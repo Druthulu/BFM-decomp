@@ -1,6 +1,6 @@
 /* func_801699D0 — shared body (overlay slot 0x80128158, h_exact 03cde581). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_80169A4C(s32 a0, s32 a1);
+extern void func_80169A4C(s32 a0, s32 a1);
 extern void guess_AddVelocityToPos_4(s32 a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 void func_801699D0(void *arg0) {

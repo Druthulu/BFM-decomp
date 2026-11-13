@@ -460,7 +460,7 @@ extern s32 guess_HandleActorEventDefault(s32 a0, s32 a1);
 extern void func_80130650(s32 a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
-extern s32 func_801312D0(s32 a0, void *a1);
+extern void func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
 extern void func_80130858(s32 a0);
 extern void func_80130898(u8 *a0);
@@ -473,7 +473,7 @@ extern int  guess_StartActorSequenceById(int a0, int a1);
 extern void func_80130AF0(int param_1);
 extern void func_80130D0C(s32 a0);
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_801312D0(s32 param_1, void *param_2);
+extern void func_801312D0(s32 param_1, void *param_2);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 D_801C64E8;
 extern s32 D_801C64EC;
@@ -536,7 +536,7 @@ extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s16 func_80135480(void*, s32, s16*, s16*);
 extern s32 func_80135EB0(void *arg0, s32 arg1_);
-extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 D_801C6544;
 extern s32 D_801C6564;
 extern s32 func_80135D20(s32 arg0, s32 arg1, u16 *arg2);
@@ -577,7 +577,7 @@ extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 extern s32 guess_OpenTextWindow(s32 a0);
 extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_801376C8(int a0);
-extern s32 func_80139BE0(s32);
+extern void func_80139BE0(s32);
 extern s32 aF801376E8(int a0, int a1);
 extern s32 D_80127524;
 extern s32 D_80127528;
@@ -692,7 +692,7 @@ void func_80138BE0(int p)
 #include "../shared/ov/func_80138C30.h"
 
 
-extern s32 func_80139BE0(s32);
+extern void func_80139BE0(s32);
 
 s32 func_80138C60(s32 arg0)
 {
@@ -889,7 +889,7 @@ void func_801397B0(s32 arg0)
  * unprovable"), §17 (pins/barriers).
  */
 
-s32 func_80139BE0(int param_1)
+void func_80139BE0(int param_1)
 {
 
     extern unsigned char D_801834FC[];

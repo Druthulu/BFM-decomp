@@ -87,7 +87,7 @@ extern void func_80129010(void);
 extern void func_8013CA14(void);
 extern void func_800190AC(void);
 extern void func_8012956C(void);
-extern s32 func_8016E95C(void);
+extern void func_8016E95C(void);
 extern void func_801754A8(void);
 extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
@@ -513,7 +513,7 @@ extern s32 guess_HandleActorEventDefault(s32 a0, s32 a1);
 extern void func_80130650(s32 a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
-extern s32 func_801312D0(s32 a0, void *a1);
+extern void func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
 extern void func_80130858(s32 a0);
 extern void func_80130898(u8 *a0);
@@ -528,7 +528,7 @@ extern s32 func_8012CBCC(s32);
 extern void func_80131E00(struct S80131E00*, s32);
 extern void func_80130C08(s32 arg0);
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_801312D0(s32 param_1, void *param_2);
+extern void func_801312D0(s32 param_1, void *param_2);
 
 
 
@@ -2250,7 +2250,7 @@ s32 func_80135260(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     extern s16 func_80135480(void*, s32, s16*, s16*);
     extern s32 func_80135EB0(void *arg0, s32 arg1_);
-    extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
     extern u16 * D_8018419C;
     extern u16 * D_801841A0;
     extern u16 * D_801841A8;
@@ -2503,7 +2503,7 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 extern s16 func_80135480(void*, s32, s16*, s16*);
 extern s32 func_80135EB0(void *arg0, s32 arg1_);
 extern int func_80134A74(int, s16, s16, int);
-extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
 
 extern u8 D_8018419C;
 extern u8 D_801841A0;

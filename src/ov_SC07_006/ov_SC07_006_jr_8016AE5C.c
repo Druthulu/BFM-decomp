@@ -455,7 +455,7 @@ extern s32 guess_HandleActorEventDefault(s32 a0, s32 a1);
 extern void func_80130650(s32 a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
-extern s32 func_801312D0(s32 a0, void *a1);
+extern void func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
 extern void func_80130858(s32 a0);
 extern void func_80130898(u8 *a0);
@@ -468,7 +468,7 @@ extern int  guess_StartActorSequenceById(int a0, int a1);
 extern void func_80130AF0(int param_1);
 extern void func_80130D0C(s32 a0);
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_801312D0(s32 param_1, void *param_2);
+extern void func_801312D0(s32 param_1, void *param_2);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 D_801F4D80;
 extern s32 D_801F4D84;
@@ -528,7 +528,7 @@ extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 extern s32 func_80136334(void *arg0, s32 arg1, s32 arg2);
 extern s32 func_801365B8(void *arg0, s32 arg1, s32 arg2);
 extern s32 func_80136824(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80136C3C(void);
 extern void func_80136C1C(void);
 extern void func_80136C44(void);
@@ -1537,7 +1537,7 @@ extern s32 func_80150460(s32 a, s32 b);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
-extern s32 func_801506A4(s32 a0, s32 a1);
+extern void func_801506A4(s32 a0, s32 a1);
 extern s32 func_801505FC(s32 a0);
 extern void func_80150820(s32 a0, s32 a1);
 extern void func_8015086C(int param_1);
@@ -2421,13 +2421,13 @@ extern void func_80164D4C(void *arg0);
 extern void func_80164EA4(void *a0);
 extern void func_80165124(void *a0);
 extern void func_80164EE0(int param_1);
-extern s32 func_80165140(s32 a0);
+extern void func_80165140(s32 a0);
 extern void func_801651B8(void *a0);
 extern void func_80164F44(void *arg0);
 extern void func_80165024(void *a0);
 extern void func_80165064(s32 *a0);
 extern void func_801650C4(s32 *a0);
-extern s32 func_80165140(s32 param_1);
+extern void func_80165140(s32 param_1);
 extern void func_80165240(void *param_1, void *param_2, void *param_3);
 extern void func_801651B8(void * param_1);
 extern void func_80016ED4(void *a0);
@@ -2491,9 +2491,9 @@ extern void func_80165C78(void);
 extern s32 D_80126728;
 extern void func_80165CA0(void);
 extern void func_80165E2C(u16 *arg0);
-extern s32 func_80165FA4(s32 a0, s32 a1, s32 a2);
-extern s32 func_80167DBC(s32 a0, s32 a1, s32 a2);
-extern s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
+extern void func_80165FA4(s32 a0, s32 a1, s32 a2);
+extern void func_80167DBC(s32 a0, s32 a1, s32 a2);
+extern void func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
 extern void func_80165E90(void);
 extern void func_80166018(void *a0);
 extern void func_80166244(void* arg0);
@@ -2517,19 +2517,19 @@ extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern s32 func_801670E4(s32, s32, s32, s32);
+extern void func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+extern void func_801670E4(s32, s32, s32, s32);
 extern s32 func_80167540(s32 arg0);
 extern void func_801678B4(void *a0);
-extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void func_80167A9C(void *a0);
 extern void func_80167AD8(void);
-extern s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
+extern void func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
 extern int guess_TestGameFlag(int);
 extern void guess_SetSegmentMatrixFacingCamera(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
-extern s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
 extern void func_80166F58(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_801681FC(s32 param_1);
 extern void func_80168430(s32 param_1);
@@ -2547,12 +2547,12 @@ extern void func_80168AE4(s32 a0);
 extern void func_80168D58(void *a0);
 extern void func_80168F40(void *arg0);
 extern void func_8016901C(void *a0);
-extern s32 func_80169228(s32 arg0);
+extern void func_80169228(s32 arg0);
 extern void func_801693CC(void *a0);
 extern void func_80169584(s32 param_1);
 extern void func_801696D8(s32 a0, s32 a1);
 extern void func_80169830(void *a0);
-extern s32 func_80169A4C(s32 a0, s32 a1);
+extern void func_80169A4C(s32 a0, s32 a1);
 extern void func_80169B80(void *a0);
 extern void func_80169F00(void *a0);
 extern void func_8016A020(void *a0);
@@ -2560,7 +2560,7 @@ extern void func_8016A05C(void *a0);
 extern void func_8016A290(s32 param_1, void *param_2, void *param_3);
 extern void func_8016A700(void *a0);
 extern void func_80016A5C(void);
-extern s32 func_8016A8FC(s32 a0);
+extern void func_8016A8FC(s32 a0);
 extern void func_8016AB30(void *a0);
 
 
@@ -2942,7 +2942,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 /* $v0 at exit: result of guess_FreeSmallObject or addiu $v0, $v0, 0x1 at ov_SC07_006:0x8016BC94; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xC8, ov_SC07_006 objdump */
 s32 func_8016BBE0(s32 param_1) {
     extern void func_8016BF34(void *a0);
-    extern s32 guess_UpdateAttachedPos(s32 param);
+    extern void guess_UpdateAttachedPos(s32 param);
     extern void func_8001CF00(s32);
     extern M2C_UNK D_801F549C;
     extern u8 D_801F549D;
@@ -3009,7 +3009,7 @@ extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
     }
 
 
-extern s32 guess_UpdateAttachedPos(s32 param);
+extern void guess_UpdateAttachedPos(s32 param);
 extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 // @class: struct
@@ -3059,7 +3059,7 @@ s32 func_8016BD78(s32 param_1)
 
 
 extern s32 guess_FreeSmallObject(u8 *a0);
-extern s32 guess_UpdateAttachedPos(s32 param);
+extern void guess_UpdateAttachedPos(s32 param);
 extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 
@@ -3098,7 +3098,7 @@ s32 func_8016BEA0(s32 param_1)
 extern void guess_ObjRotTransSV(s32 arg0);
 extern void func_80015954(s32 a0, s32 a1);
 
-s32 aF8016BF50(s32 param) __asm__("guess_UpdateAttachedPos");
+void aF8016BF50(s32 param) __asm__("guess_UpdateAttachedPos");
 #include "../shared/ov/func_8016BF50.h"
 
 
@@ -4282,7 +4282,7 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
 typedef void (*Handler)(Entry_tag *);
 
 
-s32 func_8016E95C() {
+void func_8016E95C() {
 
     extern s32 D_80115218;
     extern Handler D_8018D7D8[];

@@ -1,6 +1,7 @@
 /* func_8017AD0C — shared body (overlay slot 0x80128158, h_exact ef683a34). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void MoveImage(void *a0, s32 a1, s32 a2);
+/* $v0 at exit: result of MoveImage; no caller reads $v0 (census unused); void failed to compile: void value not ignored as it ought to be */
 s32 func_8017AD0C(s32 arg0)
 {
     Rect rect;

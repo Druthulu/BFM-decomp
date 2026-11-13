@@ -3,7 +3,7 @@
 /* $v0 at exit: result of guess_FreeSmallObject or addiu $v0, $v0, 0x1 at ov_SC03_126:0x8016BC94; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xC8, ov_SC03_126 objdump */
 s32 func_8016BBE0(s32 param_1) {
     extern void func_8016BF34(void *a0);
-    extern s32 guess_UpdateAttachedPos(s32 param);
+    extern void guess_UpdateAttachedPos(s32 param);
     extern void func_8001CF00(s32);
     extern M2C_UNK D_8018EDBC;
     extern u8 D_8018EDBD;

@@ -97,7 +97,7 @@ extern void func_80129010(void);
 extern void func_8013CA14(void);
 extern void func_800190AC(void);
 extern void func_8012956C(void);
-extern s32 func_8016E95C(void);
+extern void func_8016E95C(void);
 extern void func_801754A8(void);
 extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
@@ -508,7 +508,7 @@ extern s32 guess_HandleActorEventDefault(s32 a0, s32 a1);
 extern void func_80130650(s32 a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
-extern s32 func_801312D0(s32 a0, void *a1);
+extern void func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
 extern void func_80130858(s32 a0);
 extern void func_80130898(u8 *a0);
@@ -532,7 +532,7 @@ extern s16 D_8017EF3C[];
 extern s16 D_8017EF5C[];
 extern void func_80130D48(s32 arg0);
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_801312D0(s32 param_1, void *param_2);
+extern void func_801312D0(s32 param_1, void *param_2);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 D_80195778;
 extern s32 D_8019577C;
@@ -652,7 +652,7 @@ extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s16 func_80135480(void*, s32, s16*, s16*);
 extern s32 func_80135EB0(void *arg0, s32 arg1_);
 extern s32 func_801345F8(s32 arg);
-extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 D_801957D4;
 extern s32 D_801957F4;
 
@@ -956,7 +956,7 @@ extern s32 guess_OpenTextWindowWithFlags(s32 a0, s32 a1, s32 a2);
 
 
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
-extern s32 func_80139BE0(s32 a0);
+extern void func_80139BE0(s32 a0);
 
 s32 aF801376E8(int a0, int a1) __asm__("guess_OpenTextWindowCenteredAt");
 

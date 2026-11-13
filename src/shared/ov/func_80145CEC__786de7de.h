@@ -1,5 +1,6 @@
 /* func_80145CEC — shared body (overlay slot 0x80128158, h_exact 786de7de). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of func_800290BC or sltiu $v0, $v0, 0xA at ov_SC03_126:0x80145EC0; no caller reads $v0 (census unused); void blocked: src/shared/ov/func_80128420.h also declares it for ov_MAIN_012 (+6 binaries) */
 s32 func_80145CEC() {
     extern void guess_ZeroMemory(void *ptr, s32 len);
     extern void func_8001C320(s32 a0, s32 a1);

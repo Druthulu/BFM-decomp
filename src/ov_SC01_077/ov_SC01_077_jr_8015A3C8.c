@@ -11,15 +11,15 @@
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
 extern void func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8012B4B8(int param_1);                        /* match-first, arity 1 */
-extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
-extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
-extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
+extern void func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
+extern void func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern void func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
 extern s32 guess_TurnStepToTarget(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8015E1B8(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8015EE08(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8015F7D4(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_80160B34(s32 a0);                        /* match-first, arity 1 */
-extern s32 func_80165140(s32 a0);                        /* match-first, arity 1 */
+extern void func_80165140(s32 a0);                        /* match-first, arity 1 */
 extern void func_80161CD0(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_80175268(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8017EC7C(s32 a0);                        /* match-first, arity 1 */
@@ -27,8 +27,8 @@ extern s32 func_801809BC(s32 a0, s32 a1);                /* match-first, arity 2
 extern s32 func_8012DE2C(s32 a0);                        /* derive-decl, arity 1 */
 extern s32 func_8012DDA4(void);                          /* derive-decl, arity 0 */
 extern s32 func_801759D8(void);                          /* derive-decl, arity 0 */
-extern s32 func_80175820(void);                          /* derive-decl, arity 0 */
-extern s32 func_801758FC(void);                          /* derive-decl, arity 0 */
+extern void func_80175820(void);                          /* derive-decl, arity 0 */
+extern void func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
 struct S;
 extern void func_801458E0(void);
@@ -669,9 +669,9 @@ extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
-extern s32 func_801506A4(s32 a0, s32 a1);
+extern void func_801506A4(s32 a0, s32 a1);
 extern s32 func_801505FC(s32 a0);
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 extern void func_80150820(s32 a0, s32 a1);
 extern void func_8015086C(int param_1);
 extern s32 func_801508B4(s32 a0);

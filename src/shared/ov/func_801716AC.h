@@ -4,7 +4,7 @@ extern s32 func_80012FC8(s32 a0, s32 a1, s32 a2, s32 a3);
 extern u8 D_800A5E94;
 extern u8 D_800A5E95;
 extern u8 D_800A5E96;
-s32 func_801716AC(s32 a0, void * a1, s32 * a2)
+void func_801716AC(s32 a0, void * a1, s32 * a2)
 {
     s32 d;
     s32 p;

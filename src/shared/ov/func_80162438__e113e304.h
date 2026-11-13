@@ -1,5 +1,6 @@
 /* func_80162438 — shared body (overlay slot 0x80128158, h_exact e113e304). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of func_80162760 or andi $v0, $s3, 0x8000 at ov_SC03_126:0x80162464 or andi $v0, $s3, 0x7FFF at ov_SC03_126:0x80162684; no caller reads $v0 (census unused); void failed to compile: void value not ignored as it ought to be */
 s32 func_80162438(s32 _unused0) {
     extern s32 guess_SjisToGlyphCodes(void *, void *);
     extern void func_8001CE28(void *, void *);

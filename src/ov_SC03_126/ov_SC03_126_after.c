@@ -1424,7 +1424,7 @@ extern s32 func_801504D8(u16 *a0);
 
 #include "../shared/ov/func_80150528.h"
 
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 #include "../shared/ov/func_801505FC.h"
 
 

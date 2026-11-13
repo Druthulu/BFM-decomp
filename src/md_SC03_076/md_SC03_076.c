@@ -783,6 +783,7 @@ s32 func_801F06B0(s32 a0, s16 a1, s16 a2, s16 a3, s32 *p) {
 }
 
 
+/* $v0 at exit: result of func_801F0F28 or addiu $v0, $zero, 0x4B at md_SC03_076:0x801F0818 or addiu $v0, $zero, 0x4 at md_SC03_076:0x801F0850 or addiu $v0, $zero, 0xA at md_SC03_076:0x801F085C or lbu $v0, -0x624F($v0) at md_SC03_076:0x801F0874 or sll $v0, $v1, 2 at md_SC03_076:0x801F08D4 or lw $v0, -0x9AC($at) at md_SC03_076:0x801F08E0 or addiu $v0, $zero, 0x8 at md_SC03_076:0x801F0928; no caller reads $v0 (census unused); void moved `beq v1,v0,<func_801F0734+0x340>` at +0x120 in func_801F0734, md_SC03_076 objdump */
 s32 func_801F0734(void) {
     extern s32 D_801F9DB8;
     extern s16 D_8011512C;

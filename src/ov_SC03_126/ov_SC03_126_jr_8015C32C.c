@@ -630,9 +630,9 @@ extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
-extern s32 func_801506A4(s32 a0, s32 a1);
+extern void func_801506A4(s32 a0, s32 a1);
 extern s32 func_801505FC(s32 a0);
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 extern void func_80150820(s32 a0, s32 a1);
 extern void func_8015086C(int param_1);
 extern s32 func_801508B4(s32 a0);
@@ -3251,7 +3251,7 @@ extern u8   D_801821C8[];
 
 
 extern s32 guess_TestGameFlag(s32 arg);
-extern s32 func_80166F58(s32, s32, s32, s32);
+extern void func_80166F58(s32, s32, s32, s32);
 
 #include "../shared/ov/func_801681FC__9cf18f49.h"
 
@@ -3263,7 +3263,7 @@ extern s32 func_80166F58(s32, s32, s32, s32);
 #include "../shared/ov/func_801683D8.h"
 
 
-extern s32 func_80166F58(s32, s32, s32, s32);
+extern void func_80166F58(s32, s32, s32, s32);
 
 #include "../shared/ov/func_80168430__64c1a81e.h"
 

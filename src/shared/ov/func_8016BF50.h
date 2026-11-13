@@ -5,7 +5,7 @@ extern void func_80015954(s32 a0, s32 a1);
 /* guess_UpdateAttachedPos: places an object at its local offset (+0x12/+0x16/+0x1A) transformed by the model matrix of its parent (*(a0 + 0x34))
  * Confidence medium, xref chain: buf = halfwords +0x12/+0x16/+0x1A; guess_ObjRotTransSV(*(a0 + 0x34), buf, buf); func_80015954 stores buf into the position +4/+8/+C
  * Names ledger: config/names.tsv guess_UpdateAttachedPos */
-s32 guess_UpdateAttachedPos(s32 param)
+void guess_UpdateAttachedPos(s32 param)
 {
     u16 buf[3];
     s32 arg;

@@ -11,15 +11,15 @@
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
 extern void func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8012B4B8(int param_1);                        /* match-first, arity 1 */
-extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
-extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
-extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
+extern void func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
+extern void func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern void func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
 extern s32 guess_TurnStepToTarget(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8015E1B8(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8015EE08(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8015F7D4(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_80160B34(s32 a0);                        /* match-first, arity 1 */
-extern s32 func_80165140(s32 a0);                        /* match-first, arity 1 */
+extern void func_80165140(s32 a0);                        /* match-first, arity 1 */
 extern void func_80161CD0(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_80175268(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8017EC7C(s32 a0);                        /* match-first, arity 1 */
@@ -27,8 +27,8 @@ extern s32 func_801809BC(s32 a0, s32 a1);                /* match-first, arity 2
 extern s32 func_8012DE2C(s32 a0);                        /* derive-decl, arity 1 */
 extern s32 func_8012DDA4(void);                          /* derive-decl, arity 0 */
 extern s32 func_801759D8(void);                          /* derive-decl, arity 0 */
-extern s32 func_80175820(void);                          /* derive-decl, arity 0 */
-extern s32 func_801758FC(void);                          /* derive-decl, arity 0 */
+extern void func_80175820(void);                          /* derive-decl, arity 0 */
+extern void func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
 
 /* func_801457A4 (@0x801457A4) is an -O0 function; its def was moved to ov_SC01_077_o0b.c (the -O0
@@ -150,6 +150,7 @@ void func_80145A2C(void) {
 
 
 
+/* $v0 at exit: result of func_800290BC or sltiu $v0, $v0, 0xA at ov_SC01_077:0x80145EC0; no caller reads $v0 (census unused); void blocked: src/shared/ov/func_80128420.h also declares it for ov_MAIN_012 (+6 binaries) */
 s32 func_80145CEC() {
     extern void guess_ZeroMemory(void *ptr, s32 len);
     extern void func_8001C320(s32 a0, s32 a1);
@@ -2482,12 +2483,12 @@ extern s32 func_801504D8(u16 *a0);
 
 #include "../shared/ov/func_80150528.h"
 
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 #include "../shared/ov/func_801505FC.h"
 
 
 
-s32 func_801506A4(s32 arg0, s32 arg1) {
+void func_801506A4(s32 arg0, s32 arg1) {
     extern void func_80150820(int, unsigned short);
     extern void func_8015086C(int);
     extern unsigned short D_8018877C[];

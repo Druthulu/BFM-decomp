@@ -642,9 +642,9 @@ extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
-extern s32 func_801506A4(s32 a0, s32 a1);
+extern void func_801506A4(s32 a0, s32 a1);
 extern s32 func_801505FC(s32 a0);
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 extern void func_80150820(s32 a0, s32 a1);
 extern void func_8015086C(int param_1);
 extern s32 func_801508B4(s32 a0);
@@ -1570,13 +1570,13 @@ extern void (*D_801816A8[])(void);
 extern void func_80164EA4(void *a0);
 extern void func_80165124(void *a0);
 extern void func_80164EE0(int param_1);
-extern s32 func_80165140(s32 a0);
+extern void func_80165140(s32 a0);
 extern void func_801651B8(void *a0);
 extern void func_80164F44(void *arg0);
 extern void func_80165024(void *a0);
 extern void func_80165064(s32 *a0);
 extern void func_801650C4(s32 *a0);
-extern s32 func_80165140(s32 param_1);
+extern void func_80165140(s32 param_1);
 extern void func_80165240(s32 a0, s32 a1, s32 a2);
 extern s32 D_80193808;
 extern void func_801651B8(void * param_1);
@@ -1645,12 +1645,12 @@ extern void func_80165BFC(void *a0);
 extern void func_80165C78(void);
 extern M2C_UNK D_80192FD8;
 extern void func_80165E2C(u16 *arg0);
-extern s32 func_80165FA4(s32 a0, s32 a1, s32 a2);
-extern s32 func_80167DBC(s32 a0, s32 a1, s32 a2);
-extern s32 func_80167AE0(s32 a0, s32 a1, s32 a2);
+extern void func_80165FA4(s32 a0, s32 a1, s32 a2);
+extern void func_80167DBC(s32 a0, s32 a1, s32 a2);
+extern void func_80167AE0(s32 a0, s32 a1, s32 a2);
 extern void func_80165E90(void);
 extern void func_80020F34(s32 a0, s32 a1);
-extern s32 func_80165FA4(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80165FA4(s32 arg0, s32 arg1, s32 arg2);
 extern void (*D_80181968[])(void);
 extern void func_80166018(void *a0);
 extern void func_80166054(s32 arg0);
@@ -1679,23 +1679,23 @@ extern void (*D_80181A48[])(void);
 extern void func_80166654(void *a0);
 extern s32 func_80166690(s32 param_1, s32 param_2);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
-extern s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
+extern void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern s32 func_80167540(s32 arg0);
 extern void (*D_80181A58[])(void);
 extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_80181A64[])(void);
 extern void func_80167A9C(void *a0);
 extern void func_80167AD8(void);
-extern s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
+extern void func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
 extern void guess_SetSegmentMatrixFacingCamera(s32 a0, s16 *a1, s16 *a2, void *a3);
 extern u8   D_801819C4[];
 extern u8   D_801819D8[];
-extern s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
@@ -1741,7 +1741,7 @@ extern void func_80168F40(void *arg0);
 extern void (*D_80181A9C[])(void);
 extern void func_8016901C(void *a0);
 extern void func_80169058(s32 a0);
-extern s32 func_80169228(s32 arg0);
+extern void func_80169228(s32 arg0);
 extern void func_801691B8(void *a0);
 extern void (*D_80181AA4[])(void);
 extern void func_801693CC(void *a0);
@@ -1754,7 +1754,7 @@ extern void func_801696D8(s32 a0, s32 a1);
 extern void (*D_80181AAC[])(void);
 extern void func_80169830(void *a0);
 extern void func_8016986C(s32 a0);
-extern s32 func_80169A4C(s32 a0, s32 a1);
+extern void func_80169A4C(s32 a0, s32 a1);
 extern void func_801699D0(void *arg0);
 extern void (*D_80181B60[])(void);
 extern void func_80169B80(void *a0);
@@ -1775,7 +1775,7 @@ extern void func_8016A290(s32 param_1, void *param_2, void *param_3);
 extern void (*D_80181BAC[])(void);
 extern void func_8016A700(void *a0);
 extern s32 func_8016A73C(s32 arg0);
-extern s32 func_8016A8FC(s32 a0);
+extern void func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
 extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
 extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
@@ -1888,7 +1888,7 @@ extern void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3);
 extern s32 D_80115218;
 extern void func_8016E8F0(void);
 extern void func_8016E918(short param_1, short param_2);
-extern s32 func_8016E95C(void);
+extern void func_8016E95C(void);
 extern u16 D_80181E48[];
 extern void func_8016EC0C(s32 a0, s32 a1);
 extern void func_8016EAC0(Wave *param_1);
@@ -1928,7 +1928,7 @@ extern s32 D_80127070;
 extern s32 D_80127074;
 extern s16 D_80126D20;
 extern void func_8016EE94(s32 a0, s32 a1);
-extern s32 func_8016EFC8(s32 a0, s32 a1);
+extern void func_8016EFC8(s32 a0, s32 a1);
 extern s32 func_8016EFA8(s32 a0);
 extern void func_8016F094(s32 *a0);
 extern s32 func_8016F0AC(void);
@@ -2155,12 +2155,12 @@ extern void (*D_80181FF8[])(void);
 extern void func_801714E4(void *a0);
 extern void func_8017162C(void *a0);
 extern void func_80171520(s32 a0);
-extern s32 func_801716AC(s32 a0, void *a1, s32 *a2);
+extern void func_801716AC(s32 a0, void *a1, s32 *a2);
 extern s32 func_80012FC8(s32 a0, s32 a1, s32 a2, s32 a3);
 extern u8 D_800A5E94;
 extern u8 D_800A5E95;
 extern u8 D_800A5E96;
-extern s32 func_801716AC(s32 a0, void * a1, s32 * a2);
+extern void func_801716AC(s32 a0, void * a1, s32 * a2);
 extern void func_800D0FE0(int a0);
 extern void func_801717A0(void *a0);
 extern void func_8013E588(void *a0);
@@ -2448,8 +2448,8 @@ extern u8 D_8011F7AE;
 extern void func_80175414(s32 _arg0);
 extern void func_80175494(void);
 extern void (*D_80182280[])();
-extern s32 func_801758FC(void);
-extern s32 func_80175820(void);
+extern void func_801758FC(void);
+extern void func_80175820(void);
 extern s32 func_801759D8(void);
 extern void func_8017553C(s32 *param);
 extern void func_801757A0(s32 a0);
@@ -2527,12 +2527,12 @@ extern int func_80178970(void);
 extern s32 func_80178B18(s32 param_1, s32 param_2);
 extern s32 func_80178B70(s32 param_1, s32 param_2);
 extern void func_80178BB8(s32 a0, s32 a1);
-extern s32 func_80178BF8();
+extern void func_80178BF8();
 extern s32 D_801943A8;
 extern short D_801949FC;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern s32 func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(s32 arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2749,7 +2749,7 @@ void func_8017B1D8(void) {
 // $16 pin + in-place re-tie keeps param_2 in $a1 until the >=0xB branch, then $s0 for loads.
 
 
-s32 func_8017B238(s32 param_1, s32 param_2)
+void func_8017B238(s32 param_1, s32 param_2)
 {
     extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
     extern void func_8017BE60(void *a0);
@@ -2891,7 +2891,7 @@ s32 func_8017B490(s32 param)
 
 
 
-s32 func_8017B614(s32 param_1, s32 param_2)
+void func_8017B614(s32 param_1, s32 param_2)
 {
     extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
     extern void guess_UpdateCamera(void);
@@ -3146,7 +3146,7 @@ void func_8017BA3C(s32 param_1, s32 param_2)
 
 
 
-s32 func_8017BB34(s32 param_1, s32 param_2)
+void func_8017BB34(s32 param_1, s32 param_2)
 {
     SV4_8017BB34 v0;            /* sp+0x10 : RotMatrixZYX arg0 */
     MTX_8017BB34 mtx;           /* sp+0x18 : MATRIX_L48, t[] at sp+0x2c */

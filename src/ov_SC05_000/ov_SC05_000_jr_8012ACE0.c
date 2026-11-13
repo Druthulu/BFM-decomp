@@ -94,7 +94,7 @@ extern void func_80129010(void);
 extern void func_8013CA14(void);
 extern void func_800190AC(void);
 extern void func_8012956C(void);
-extern s32 func_8016E95C(void);
+extern void func_8016E95C(void);
 extern void func_801754A8(void);
 extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
@@ -1315,7 +1315,7 @@ tail:
    /* size 8, alignment 1 -> unaligned copy */
 
 
-s32 func_801312D0(s32 param_1, void *param_2)
+void func_801312D0(s32 param_1, void *param_2)
 {
     extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
     extern M8_801312D0 D_8017E744;
@@ -3001,7 +3001,7 @@ int func_80135168(u16 arg0, u16 *p1, u16 *p2)
  */
 extern s16 func_80135480(void*, s32, s16*, s16*);
 extern s32 func_80135EB0(void *arg0, s32 arg1_);
-extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
 extern int func_80134A74(int, s16, s16, int);
 
 s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3)

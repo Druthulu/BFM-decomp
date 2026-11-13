@@ -4,6 +4,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
 extern s32 func_8014C050(s32 a0, s32 a1);
 extern void guess_FreeSmallObjectAndParts(void *a0);
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
+/* $v0 at exit: result of guess_SpawnSmallObject; no caller reads $v0 (census unused); void failed to compile: void value not ignored as it ought to be */
 s32 func_8016B448(s32 arg0, s32 arg1)
 {
     s32 temp_v0;

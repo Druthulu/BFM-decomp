@@ -22,7 +22,7 @@ extern s32 D_80127074;
 extern u8 D_800B9A17;
 extern s16 D_80126D20;
 extern s32 D_80126D50;
-s32 func_8016EFC8(s32 a0, s32 a1)
+void func_8016EFC8(s32 a0, s32 a1)
 {
     s32 v1;
     s32 m;

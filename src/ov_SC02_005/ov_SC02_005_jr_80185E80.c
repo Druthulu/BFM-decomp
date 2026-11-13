@@ -1535,7 +1535,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern u16 D_801E4BBC;
 
-extern s32 func_80184CA4(void *arg0);
+extern void func_80184CA4(void *arg0);
 extern void func_801856E4(void);
 
 void func_80187E18(u8 *arg0) {

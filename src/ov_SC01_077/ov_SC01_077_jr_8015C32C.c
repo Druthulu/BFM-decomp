@@ -11,15 +11,15 @@
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
 extern void func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8012B4B8(int param_1);                        /* match-first, arity 1 */
-extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
-extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
-extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
+extern void func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
+extern void func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern void func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
 extern s32 guess_TurnStepToTarget(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8015E1B8(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8015EE08(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8015F7D4(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_80160B34(s32 a0);                        /* match-first, arity 1 */
-extern s32 func_80165140(s32 a0);                        /* match-first, arity 1 */
+extern void func_80165140(s32 a0);                        /* match-first, arity 1 */
 extern void func_80161CD0(int param_1, unsigned int param_2);                /* match-first, arity 2 */
 extern s32 func_80175268(s32 a0);                        /* match-first, arity 1 */
 extern s32 func_8017EC7C(s32 a0);                        /* match-first, arity 1 */
@@ -27,8 +27,8 @@ extern s32 func_801809BC(s32 a0, s32 a1);                /* match-first, arity 2
 extern s32 func_8012DE2C(s32 a0);                        /* derive-decl, arity 1 */
 extern s32 func_8012DDA4(void);                          /* derive-decl, arity 0 */
 extern s32 func_801759D8(void);                          /* derive-decl, arity 0 */
-extern s32 func_80175820(void);                          /* derive-decl, arity 0 */
-extern s32 func_801758FC(void);                          /* derive-decl, arity 0 */
+extern void func_80175820(void);                          /* derive-decl, arity 0 */
+extern void func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
 struct S;
 struct Obj;
@@ -667,9 +667,9 @@ extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
-extern s32 func_801506A4(s32 a0, s32 a1);
+extern void func_801506A4(s32 a0, s32 a1);
 extern s32 func_801505FC(s32 a0);
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 extern void func_80150820(s32 a0, s32 a1);
 extern void func_8015086C(int param_1);
 extern s32 func_801508B4(s32 a0);
@@ -3936,6 +3936,7 @@ void func_80162330(void *a0) {
 
 
 
+/* $v0 at exit: result of func_80162760 or andi $v0, $s3, 0x8000 at ov_SC01_077:0x80162464 or andi $v0, $s3, 0x7FFF at ov_SC01_077:0x80162684; no caller reads $v0 (census unused); void failed to compile: void value not ignored as it ought to be */
 s32 func_80162438(s32 _unused0) {
     extern s32 guess_SjisToGlyphCodes(void *, void *);
     extern void func_8001CE28(void *, void *);
@@ -4722,7 +4723,7 @@ void func_80164EE0(int param_1)
 
 
 
-s32 func_80165140(s32 param_1) {
+void func_80165140(s32 param_1) {
     extern Slot D_801D9768[8];
 
     int i;
@@ -5356,7 +5357,7 @@ extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 
 
-s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     extern u8  D_80189A20[];
     extern u8  D_80189A0C[];
@@ -5547,7 +5548,7 @@ s32 func_80167A9C(s16 *a0) {
 
 
 
-s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
+void func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     extern void guess_SetSegmentMatrixFacingCamera(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
     extern void guess_AddPolyG4(void *a0, void *a1);
     extern u8 D_80189C04;
@@ -5653,7 +5654,7 @@ extern u16  guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_Fram
 extern u8   D_80189A58[];
 extern u8   D_80189A6C[];
 
-s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
+void func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
     u8 buf[0x54];
     u8 *p;
     s16 i;

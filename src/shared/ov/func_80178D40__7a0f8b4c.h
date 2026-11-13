@@ -1,6 +1,6 @@
 /* func_80178D40 — shared body (overlay slot 0x80128158, h_exact 7a0f8b4c). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 func_80178D40(s32 arg0, s32 arg1)
+void func_80178D40(s32 arg0, s32 arg1)
 {
     extern void guess_CloseTextWindowIfOpen(s32);
     extern s32 guess_OpenTextWindowWithFlags(s32 a0, s32 a1, s32 a2);
@@ -43,14 +43,14 @@ s32 func_80178D40(s32 arg0, s32 arg1)
     extern s32 func_8017A3B0(void);
     extern int func_8017A3D8(void);
     extern s32 func_8017AD0C(s32);
-    extern s32 func_8017B238(void *, s32);
-    extern s32 func_8017B614(void *, s32);
+    extern void func_8017B238(void *, s32);
+    extern void func_8017B614(void *, s32);
     extern void func_8017B7A8(void *);
     extern void func_8017B824(void);
     extern void func_8017B880(void);
     extern void func_8017B940(void *);
     extern void func_8017BA3C(void *, s32);
-    extern s32 func_8017BB34(void *, s32);
+    extern void func_8017BB34(void *, s32);
     extern void guess_StartActorSequence(void *, s32);
     extern s32 func_8012B8A4(void *);
     extern void guess_ShowObjectModel(void *);

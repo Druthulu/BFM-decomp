@@ -1,6 +1,6 @@
 /* func_80167DBC — shared body (overlay slot 0x80128158, h_exact a1f70bee). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
+void func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
     u8 buf[0x54];
     u8 *p;
     s16 i;

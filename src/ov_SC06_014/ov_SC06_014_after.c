@@ -122,6 +122,7 @@ void func_80145A2C(void) {
 
 
 
+/* $v0 at exit: result of func_800290BC or sltiu $v0, $v0, 0xA at ov_SC06_014:0x80145EC0; no caller reads $v0 (census unused); void blocked: src/shared/ov/func_80128420.h also declares it for ov_MAIN_012 (+6 binaries) */
 s32 func_80145CEC() {
     extern void guess_ZeroMemory(void *ptr, s32 len);
     extern void func_8001C320(s32 a0, s32 a1);
@@ -1898,12 +1899,12 @@ extern s32 func_801504D8(u16 *a0);
 
 #include "../shared/ov/func_80150528.h"
 
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 #include "../shared/ov/func_801505FC.h"
 
 
 
-s32 func_801506A4(s32 arg0, s32 arg1) {
+void func_801506A4(s32 arg0, s32 arg1) {
     extern void func_80150820(int, unsigned short);
     extern void func_8015086C(int);
     extern unsigned short D_80181B90[];

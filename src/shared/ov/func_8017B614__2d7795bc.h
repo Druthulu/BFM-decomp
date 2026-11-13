@@ -1,6 +1,6 @@
 /* func_8017B614 — shared body (overlay slot 0x80128158, h_exact 2d7795bc). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 func_8017B614(s32 param_1, s32 param_2)
+void func_8017B614(s32 param_1, s32 param_2)
 {
     extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
     extern void guess_UpdateCamera(void);

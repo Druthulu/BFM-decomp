@@ -313,7 +313,7 @@ void func_800CB5CC(void *a0) {
 }
 
 
-s32 func_800CB61C(s32 a0, s32 a1)
+void func_800CB61C(s32 a0, s32 a1)
 {
     extern u8 D_800CAE0C[8];
     extern s32 func_8014C5FC(s32, s32, void *);

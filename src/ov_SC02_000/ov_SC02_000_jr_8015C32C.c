@@ -630,9 +630,9 @@ extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
-extern s32 func_801506A4(s32 a0, s32 a1);
+extern void func_801506A4(s32 a0, s32 a1);
 extern s32 func_801505FC(s32 a0);
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 extern void func_80150820(s32 a0, s32 a1);
 extern void func_8015086C(int param_1);
 extern s32 func_801508B4(s32 a0);
@@ -3754,6 +3754,7 @@ void func_80162330(void *a0) {
 
 
 
+/* $v0 at exit: result of func_80162760 or andi $v0, $s3, 0x8000 at ov_SC02_000:0x80162464 or andi $v0, $s3, 0x7FFF at ov_SC02_000:0x80162684; no caller reads $v0 (census unused); void failed to compile: void value not ignored as it ought to be */
 s32 func_80162438(s32 _unused0) {
     extern s32 guess_SjisToGlyphCodes(void *, void *);
     extern void func_8001CE28(void *, void *);
@@ -4463,7 +4464,7 @@ void func_80164EE0(int param_1)
 
 
 
-s32 func_80165140(s32 param_1) {
+void func_80165140(s32 param_1) {
     extern Slot_80165140 D_801E6FB0[8];
 
     int i;
@@ -4685,6 +4686,7 @@ u8 func_80165700(s32 a0, s32 a1) {
 
 
 
+/* $v0 at exit: result of an indirect call; no caller reads $v0 (census unused); void blocked: src/shared/ov/func_801554B8.h also declares it for ov_SC01_077 */
 s32 func_801659DC(u8 *a0) {
 
     extern void (*D_8018D9D8[])(void);
@@ -5061,7 +5063,7 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
 //   param_3's sign-ext (last ordering swap); param_1/param_4 left natural (arg-order saves).
 
 
-s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
+void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
@@ -5126,7 +5128,7 @@ extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 
 
-s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     extern u8  D_8018DB00[];
     extern u8  D_8018DAEC[];
@@ -5305,7 +5307,7 @@ void func_80167A9C(void *a0) {
 
 
 
-s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
+void func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     extern void guess_SetSegmentMatrixFacingCamera(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
     extern void guess_AddPolyG4(void *a0, void *a1);
     extern u8 D_8018DCE4;
@@ -5413,7 +5415,7 @@ extern u16  guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_Fram
 extern u8   D_8018DB38[];
 extern u8   D_8018DB4C[];
 
-s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
+void func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
     u8 buf[0x54];
     u8 *p;
     s16 i;
@@ -5498,7 +5500,7 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
 
 
 extern s32 guess_TestGameFlag(s32 arg);
-extern s32 func_80166F58(s32, s32, s32, s32);
+extern void func_80166F58(s32, s32, s32, s32);
 
 void func_801681FC(s32 param_1) {
 
@@ -5527,7 +5529,7 @@ void func_801681FC(s32 param_1) {
 #include "../shared/ov/func_801683D8.h"
 
 
-extern s32 func_80166F58(s32, s32, s32, s32);
+extern void func_80166F58(s32, s32, s32, s32);
 
 void func_80168430(s32 param_1) {
 

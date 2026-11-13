@@ -1,6 +1,6 @@
 /* func_80166F58 — shared body (overlay slot 0x80128158, h_exact 3728db8a). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
+void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.

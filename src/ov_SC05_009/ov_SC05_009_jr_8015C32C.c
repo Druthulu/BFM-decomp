@@ -630,9 +630,9 @@ extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
-extern s32 func_801506A4(s32 a0, s32 a1);
+extern void func_801506A4(s32 a0, s32 a1);
 extern s32 func_801505FC(s32 a0);
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 extern void func_80150820(s32 a0, s32 a1);
 extern void func_8015086C(int param_1);
 extern s32 func_801508B4(s32 a0);
@@ -2644,6 +2644,7 @@ extern void (*D_80181624[])(void);
 
 
 
+/* $v0 at exit: result of func_80162760 or andi $v0, $s3, 0x8000 at ov_SC05_009:0x80162464 or andi $v0, $s3, 0x7FFF at ov_SC05_009:0x80162684; no caller reads $v0 (census unused); void failed to compile: void value not ignored as it ought to be */
 s32 func_80162438(s32 _unused0) {
     extern s32 guess_SjisToGlyphCodes(void *, void *);
     extern void func_8001CE28(void *, void *);
@@ -3261,7 +3262,7 @@ void func_80164EE0(int param_1)
 
 
 
-s32 func_80165140(s32 param_1) {
+void func_80165140(s32 param_1) {
     extern Slot_80165140 D_80195A38[8];
 
     int i;
@@ -3780,7 +3781,7 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
 //   param_3's sign-ext (last ordering swap); param_1/param_4 left natural (arg-order saves).
 
 
-s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
+void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
@@ -3913,7 +3914,7 @@ extern u8   D_80181A14[];
 
 
 extern s32 guess_TestGameFlag(s32 arg);
-extern s32 func_80166F58(s32, s32, s32, s32);
+extern void func_80166F58(s32, s32, s32, s32);
 
 #include "../shared/ov/func_801681FC__c1c085b2.h"
 
@@ -3925,7 +3926,7 @@ extern s32 func_80166F58(s32, s32, s32, s32);
 #include "../shared/ov/func_801683D8.h"
 
 
-extern s32 func_80166F58(s32, s32, s32, s32);
+extern void func_80166F58(s32, s32, s32, s32);
 
 #include "../shared/ov/func_80168430__9905ba29.h"
 

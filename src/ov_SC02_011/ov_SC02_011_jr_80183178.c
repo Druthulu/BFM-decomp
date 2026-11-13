@@ -2014,7 +2014,7 @@ extern void func_8013CABC(void);
 extern void func_80186728(void *a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_80186070(s32 a0);
-extern s32 func_80185FA0(s32 param_1);
+extern void func_80185FA0(s32 param_1);
 extern int func_80178970(void);
 extern s32 func_80188114(void);
 extern s32 D_801EB520;
@@ -2067,7 +2067,7 @@ void func_80185E20(s32 a0) {
 extern u16 D_800B99D8;
 extern s32 func_80132EF4(s32 a0, s32 a1);
 
-s32 func_80185FA0(s32 param_1)
+void func_80185FA0(s32 param_1)
 {
     s32 q;
     s32 iVar5;

@@ -1,10 +1,10 @@
 /* func_80165E90 — shared body (overlay slot 0x80128158, h_exact 3b09d941). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void guess_GetPlayerFramePointsA(s32 a0, s32 a1);
-extern s32 func_80165FA4(s32 a0, s32 a1, s32 a2);
-extern s32 func_80167DBC(s32 a0, s32 a1, s32 a2);
+extern void func_80165FA4(s32 a0, s32 a1, s32 a2);
+extern void func_80167DBC(s32 a0, s32 a1, s32 a2);
 extern void guess_GetPlayerFramePointsB(s32 a0, s32 a1);
-extern s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
+extern void func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
 extern s32 D_80126B9C;
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr

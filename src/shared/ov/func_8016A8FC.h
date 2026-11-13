@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80016A5C(void);
 extern Blk20 D_800AE620;
-s32 func_8016A8FC(s32 a0)
+void func_8016A8FC(s32 a0)
 {
     Prim p;
     int ptr;

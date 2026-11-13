@@ -467,7 +467,7 @@ extern s32 guess_HandleActorEventDefault(s32 a0, s32 a1);
 extern void func_80130650(s32 a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
-extern s32 func_801312D0(s32 a0, void *a1);
+extern void func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
 extern void func_80130858(s32 a0);
 extern void func_80130898(u8 *a0);
@@ -480,7 +480,7 @@ extern int  guess_StartActorSequenceById(int a0, int a1);
 extern void func_80130AF0(int param_1);
 extern void func_80130D0C(s32 a0);
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_801312D0(s32 param_1, void *param_2);
+extern void func_801312D0(s32 param_1, void *param_2);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 D_801A69E0;
 extern s32 D_801A69E4;
@@ -579,7 +579,7 @@ extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s16 func_80135480(void*, s32, s16*, s16*);
 extern s32 func_80135EB0(void *arg0, s32 arg1_);
 extern s32 func_801345F8(s32 arg);
-extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 D_801A6A3C;
 extern s32 D_801A6A5C;
 
@@ -1098,7 +1098,7 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
 
 
 
-s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
+void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
 
     extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
     extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
@@ -1294,7 +1294,7 @@ extern s32 guess_OpenTextWindowWithFlags(s32 a0, s32 a1, s32 a2);
 
 
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
-extern s32 func_80139BE0(s32);
+extern void func_80139BE0(s32);
 
 /* guess_OpenTextWindowCenteredAt: starts text a0 in record 0 of guess_g_TextBoxes (flags 0x6200) and centres the window on the point a1 when given
  * Confidence medium, xref chain: func_801377B4(a0, 0x6200, &guess_g_TextBoxes); +0x24 = a1[0..1]; func_80139BE0; +0x30 = x + 0x28 - (w + 0x28)/2, +0x32 = y - h/2

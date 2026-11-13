@@ -3,7 +3,7 @@
 extern Blk20 D_800AE620;
 extern s32  RotMatrixX(s32 a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 void func_80168664(void *arg0) {
     s32 iVar3;
     void *blk;

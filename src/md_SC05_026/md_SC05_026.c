@@ -787,6 +787,7 @@ end:
 }
 
 
+/* $v0 at exit: result of func_801EF448 or addiu $v0, $zero, 0x4B at md_SC05_026:0x801EED38 or addiu $v0, $zero, 0x4 at md_SC05_026:0x801EED70 or addiu $v0, $zero, 0xA at md_SC05_026:0x801EED7C or lbu $v0, -0x7CF7($v0) at md_SC05_026:0x801EED94 or sll $v0, $v1, 2 at md_SC05_026:0x801EEDF4 or lw $v0, -0x248C($at) at md_SC05_026:0x801EEE00 or addiu $v0, $zero, 0x8 at md_SC05_026:0x801EEE48; no caller reads $v0 (census unused); void moved `beq v1,v0,<func_801EEC54+0x340>` at +0x120 in func_801EEC54, md_SC05_026 objdump */
 s32 func_801EEC54(void)
 {
     extern s32 D_801F8310;

@@ -636,9 +636,9 @@ extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150480(s32 _arg0);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
-extern s32 func_801506A4(s32 a0, s32 a1);
+extern void func_801506A4(s32 a0, s32 a1);
 extern s32 func_801505FC(s32 a0);
-extern s32 func_801506A4(s32 arg0, s32 arg1);
+extern void func_801506A4(s32 arg0, s32 arg1);
 extern void func_80150820(s32 a0, s32 a1);
 extern void func_8015086C(int param_1);
 extern s32 func_801508B4(s32 a0);
@@ -1572,13 +1572,13 @@ extern void (*D_801870F0[])(void);
 extern void func_80164EA4(void *a0);
 extern void func_80165124(void *a0);
 extern void func_80164EE0(int param_1);
-extern s32 func_80165140(s32 a0);
+extern void func_80165140(s32 a0);
 extern void func_801651B8(void *a0);
 extern void func_80164F44(void *arg0);
 extern void func_80165024(void *a0);
 extern void func_80165064(s32 *a0);
 extern void func_801650C4(s32 *a0);
-extern s32 func_80165140(s32 param_1);
+extern void func_80165140(s32 param_1);
 extern void func_80165240(s32 a0, s32 a1, s32 a2);
 extern s32 D_801BD880;
 extern void func_801651B8(void * param_1);
@@ -1647,12 +1647,12 @@ extern void func_80165BFC(void *a0);
 extern void func_80165C78(void);
 extern M2C_UNK D_801BD020;
 extern void func_80165E2C(u16 *arg0);
-extern s32 func_80165FA4(s32 a0, s32 a1, s32 a2);
-extern s32 func_80167DBC(s32 a0, s32 a1, s32 a2);
-extern s32 func_80167AE0(s32 a0, s32 a1, s32 a2);
+extern void func_80165FA4(s32 a0, s32 a1, s32 a2);
+extern void func_80167DBC(s32 a0, s32 a1, s32 a2);
+extern void func_80167AE0(s32 a0, s32 a1, s32 a2);
 extern void func_80165E90(void);
 extern void func_80020F34(s32 a0, s32 a1);
-extern s32 func_80165FA4(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80165FA4(s32 arg0, s32 arg1, s32 arg2);
 extern void (*D_801873B0[])(void);
 extern void func_80166018(void *a0);
 extern void func_80166054(s32 arg0);
@@ -1681,23 +1681,23 @@ extern void (*D_80187490[])(void);
 extern void func_80166654(void *a0);
 extern s32 func_80166690(s32 param_1, s32 param_2);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
-extern s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
+extern void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern s32 func_80167540(s32 arg0);
 extern void (*D_801874A0[])(void);
 extern void func_801678B4(void *a0);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void func_801678F0(s32 a0);
 extern void (*D_801874AC[])(void);
 extern void func_80167A9C(void *a0);
 extern void func_80167AD8(void);
-extern s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
+extern void func_80167AE0(s32 param_1, s32 param_2, s32 param_3);
 extern void guess_SetSegmentMatrixFacingCamera(s32 a0, s16 *a1, s16 *a2, void *a3);
 extern u8   D_8018740C[];
 extern u8   D_80187420[];
-extern s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80167DBC(s32 arg0, s32 arg1, s32 arg2);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_80017E68(void *a0, void *a1);
 extern void func_800D23D0(void *a0);
@@ -1744,7 +1744,7 @@ extern void func_80168F40(void *arg0);
 extern void (*D_801874E4[])(void);
 extern void func_8016901C(void *a0);
 extern void func_80169058(s32 a0);
-extern s32 func_80169228(s32 arg0);
+extern void func_80169228(s32 arg0);
 extern void func_801691B8(void *a0);
 extern void (*D_801874EC[])(void);
 extern void func_801693CC(void *a0);
@@ -1757,7 +1757,7 @@ extern void func_801696D8(s32 a0, s32 a1);
 extern void (*D_801874F4[])(void);
 extern void func_80169830(void *a0);
 extern void func_8016986C(s32 a0);
-extern s32 func_80169A4C(s32 a0, s32 a1);
+extern void func_80169A4C(s32 a0, s32 a1);
 extern void func_801699D0(void *arg0);
 extern void (*D_801875A8[])(void);
 extern void func_80169B80(void *a0);
@@ -1778,7 +1778,7 @@ extern void func_8016A290(s32 param_1, void *param_2, void *param_3);
 extern void (*D_801875F4[])(void);
 extern void func_8016A700(void *a0);
 extern s32 func_8016A73C(s32 arg0);
-extern s32 func_8016A8FC(s32 a0);
+extern void func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
 extern void func_80016A5C(void);
 extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
@@ -2361,7 +2361,7 @@ void func_8016BBA4(void *a0) {
 /* $v0 at exit: result of guess_FreeSmallObject or addiu $v0, $v0, 0x1 at ov_SC02_035:0x8016BC94; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xC8, ov_SC02_035 objdump */
 s32 func_8016BBE0(s32 param_1) {
     extern void func_8016BF34(void *a0);
-    extern s32 guess_UpdateAttachedPos(s32 param);
+    extern void guess_UpdateAttachedPos(s32 param);
     extern void func_8001CF00(s32);
     extern M2C_UNK D_801BDCDC;
     extern u8 D_801BDCDD;
@@ -2437,7 +2437,7 @@ void func_8016BCC0(void *arg0) {
 /* $v0 at exit: result of func_8016BFA8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x110, ov_SC02_035 objdump */
 s32 func_8016BD78(s32 param_1)
 {
-    extern s32 guess_UpdateAttachedPos(s32 param);
+    extern void guess_UpdateAttachedPos(s32 param);
     extern u8 D_801BDCDD;
     extern u8 D_801BDCDE;
     extern u8 D_801BDCE1;
@@ -2479,7 +2479,7 @@ s32 func_8016BD78(s32 param_1)
 /* $v0 at exit: result of guess_FreeSmallObject or lh $v0, 0x1A($s0) at ov_SC02_035:0x8016BF04; no byte-neutral return: `return 0;` moved `bgez v0,<func_8016BEA0+0x80>` at +0x6C, ov_SC02_035 objdump */
 s32 func_8016BEA0(s32 param_1)
 {
-    extern s32 guess_UpdateAttachedPos(s32 param);
+    extern void guess_UpdateAttachedPos(s32 param);
 
     int iVar2;
     unsigned short uVar1;
@@ -3559,7 +3559,7 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
 typedef void (*Handler)(struct Entry_8016E95C *);
 
 
-s32 func_8016E95C() {
+void func_8016E95C() {
     extern Handler D_8018789C[];
 
     struct Entry_8016E95C *p;

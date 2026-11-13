@@ -3,7 +3,7 @@
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern void guess_AddPolyG4(void *a0, void *a1);
-s32 func_80169228(s32 arg0)
+void func_80169228(s32 arg0)
 {
     u8 buf[0x60];               /* $sp+0x10 .. $sp+0x6F */
     u8 *p;   /* $sp+0x48 (matrix, a1 to the calls) -> $s0 */

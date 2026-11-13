@@ -1,6 +1,6 @@
 /* func_80136A94 — shared body (overlay slot 0x80128158, h_exact 71c439bf). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
+void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
     extern void ApplyMatrixSV(void *m, void *v0, void *v1);
     extern void ApplyRotMatrix(void *v0, void *v1);
     extern u16 guess_g_BoxHitCenterY; // Names ledger: config/names.tsv guess_g_BoxHitCenterY

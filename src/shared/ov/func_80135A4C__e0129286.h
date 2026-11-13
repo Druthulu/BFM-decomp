@@ -3,7 +3,7 @@
 s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
     extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4);
     extern s32 func_80135EB0(void *arg0, s32 arg1_);
-    extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
     extern s32 func_80133AB0(s16, s16, s16, s32);
     extern u8 D_8017F808;
     extern u8 D_8017F80C;

@@ -456,7 +456,7 @@ extern s32 guess_HandleActorEventDefault(s32 a0, s32 a1);
 extern void func_80130650(s32 a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80130740(void *a0, u16 *a1);
-extern s32 func_801312D0(s32 a0, void *a1);
+extern void func_801312D0(s32 a0, void *a1);
 extern void func_801307B0(s32 a0);
 extern void func_80130858(s32 a0);
 extern void func_80130898(u8 *a0);
@@ -469,7 +469,7 @@ extern int  guess_StartActorSequenceById(int a0, int a1);
 extern void func_80130AF0(int param_1);
 extern void func_80130D0C(s32 a0);
 extern void func_80131170(s32 p, s32 b, s32 c);
-extern s32 func_801312D0(s32 param_1, void *param_2);
+extern void func_801312D0(s32 param_1, void *param_2);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 D_801F4D80;
 extern s32 D_801F4D84;
@@ -529,7 +529,7 @@ extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 extern s32 func_80136334(void *arg0, s32 arg1, s32 arg2);
 extern s32 func_801365B8(void *arg0, s32 arg1, s32 arg2);
 extern s32 func_80136824(s32 arg0, s32 arg1, s32 arg2);
-extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80136C3C(void);
 extern void func_80136C1C(void);
 extern void func_80136C44(void);
@@ -1532,7 +1532,7 @@ extern s32 func_80150460(s32 a, s32 b);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
 extern s32 func_801504D8(u16 *a0);
 extern s32 func_80150528(void *arg0, void *arg1, void *arg2);
-extern s32 func_801506A4(s32 a0, s32 a1);
+extern void func_801506A4(s32 a0, s32 a1);
 extern s32 func_801505FC(s32 a0);
 extern void func_80150820(s32 a0, s32 a1);
 extern void func_8015086C(int param_1);
@@ -4771,6 +4771,7 @@ extern s32 func_800291DC(s32);
 
 
 
+/* $v0 at exit: result of func_80162760 or andi $v0, $s3, 0x8000 at ov_SC07_006:0x80162464 or andi $v0, $s3, 0x7FFF at ov_SC07_006:0x80162684; no caller reads $v0 (census unused); void failed to compile: void value not ignored as it ought to be */
 s32 func_80162438(s32 _unused0) {
     extern s16 guess_g_ClockMinute[0]; // Names ledger: config/names.tsv guess_g_ClockMinute
     extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
@@ -5567,7 +5568,7 @@ void func_80164EE0(int param_1)
 
 
 
-s32 func_80165140(s32 param_1) {
+void func_80165140(s32 param_1) {
     extern Slot D_801F5040[8];
 
     int i;
@@ -5820,6 +5821,7 @@ u8 func_80165700(s32 a0, s32 a1) {
 
 
 
+/* $v0 at exit: result of an indirect call; no caller reads $v0 (census unused); void blocked: src/shared/ov/func_801554B8.h also declares it for ov_SC01_077 */
 s32 func_801659DC(u8 *a0) {
 
     extern void (*D_8018D1E8[])(void);
@@ -5911,7 +5913,7 @@ void func_80165E2C(u16 *arg0) {
 extern void func_80013F3C(s32 a0);
 extern void func_80020F34(s32 a0, s32 a1);
 extern void ApplyMatrixSV(void*, Svec_801372B0*, Svec_801372B0*);
-s32 func_80165FA4(s32 arg0, s32 arg1, s32 arg2) {
+void func_80165FA4(s32 arg0, s32 arg1, s32 arg2) {
     s32 buf[8];
     func_80013F3C((s32)buf);
     func_80020F34((s32)buf, ((Unkstruct_80165FA4_2 *)arg0)->unk20 + 0x18);
@@ -6100,7 +6102,7 @@ s32 func_80166690(s32 param_1, s32 param_2)
 extern void guess_GetPlayerFramePointsA(s32 a0, s32 a1);
 extern void guess_GetPlayerFramePointsB(s32 a0, s32 a1);
 extern void guess_ObjRotTransSV(s32 arg0);
-extern s32 func_80165FA4(s32 a0, s32 a1, s32 a2);
+extern void func_80165FA4(s32 a0, s32 a1, s32 a2);
 
 /* func_80166994 — trail/afterimage ring recorder (0xC4-stride Trail records at D_801F50C0).
  * param_2: 0=init, 1=advance(record), 2=fadeout; param_3: trail index (s16); param_4: divisor (s16).
@@ -6292,7 +6294,7 @@ extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 
 
-s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     extern u8  D_8018D310[];
     extern u8  D_8018D2FC[];
@@ -6431,7 +6433,7 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 #include "common.h"
 
 extern int rand(void);
-extern s32 func_801670E4(s32, s32, s32, s32);
+extern void func_801670E4(s32, s32, s32, s32);
 extern s32 guess_SpawnSmallObject(s32, void*, s32, s32, s32, s32, s32);
 extern s32 guess_FreeSmallObject(u8 *a0);
 
@@ -6447,7 +6449,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
-extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 rand(void);
 #include "../shared/ov/func_80167714.h"
 
@@ -6468,7 +6470,7 @@ extern s32 rand(void);
 extern s32 rand(void);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
-extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
@@ -6492,7 +6494,7 @@ extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_Frame
 
 
 
-s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
+void func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     extern void guess_SetSegmentMatrixFacingCamera(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
     extern void guess_AddPolyG4(void *a0, void *a1);
     extern u8 D_8018D4F4;
@@ -6599,7 +6601,7 @@ extern int guess_TestGameFlag(int);
 
 extern void guess_SetSegmentMatrixFacingCamera(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
 
-s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
+void func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
 
     extern u16  guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8   D_8018D348[];
@@ -7118,7 +7120,7 @@ void func_80169058(s32 a0) {
 }
 
 
-extern s32 func_80169228(s32 arg0);
+extern void func_80169228(s32 arg0);
 extern void guess_AddVelocityToPos_4(s32 a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_801691B8.h"
@@ -7263,7 +7265,7 @@ void func_8016986C(s32 a0) {
 }
 
 
-extern s32 func_80169A4C(s32 a0, s32 a1);
+extern void func_80169A4C(s32 a0, s32 a1);
 extern void guess_AddVelocityToPos_4(s32 a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_801699D0.h"
@@ -7582,7 +7584,7 @@ extern void func_80048EAC(void *a0, void *a1);
 #include "../shared/ov/func_8016A73C.h"
 
 
-extern s32 func_8016A8FC(s32 a0);
+extern void func_8016A8FC(s32 a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
 #include "../shared/ov/func_8016A890.h"
 

@@ -3,7 +3,7 @@
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80048EAC(void *a0, void *a1);
 extern void guess_AddPolyG4(void *a0, void *a1);
-s32 func_80169A4C(s32 a0, s32 a1) {
+void func_80169A4C(s32 a0, s32 a1) {
     void *arg0 = (void *)a0;
     void *arg1 = (void *)a1;
     u8 buf[0x5C];               /* spans $sp+0x10 .. $sp+0x6B */
