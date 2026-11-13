@@ -446,6 +446,7 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
 # ----------------------------------------------------------------------------------------------------------------------
 NAME = r"[A-Za-z_]\w*"
 EXTERN_FN = re.compile(r"\bextern\s+([A-Za-z_][\w \t*]*?)\b(" + NAME + r")\s*\(([^;{)]*)\)\s*(__asm__\s*\(\s*\"(\w+)\"\s*\))?\s*;")
+FN_ASM_ALIAS = re.compile(r"\b(" + NAME + r")\s*\([^;{)]*\)\s*__asm__\s*\(\s*\"(\w+)\"\s*\)\s*;")
 EXTERN_DATA = re.compile(r"\bextern\s+([A-Za-z_][\w \t*]*?)\b(" + NAME + r")\s*((?:\[[^\]]*\])*)\s*(__asm__\s*\(\s*\"(\w+)\"\s*\))?\s*;")
 BUILTIN = re.compile(r"__builtin_(\w+)")
 ATTR_USE = re.compile(r"__attribute__\s*\(\(\s*(\w+)")
@@ -635,7 +636,13 @@ def walk_file(raw, rel):
     definitions, aliases_td, fwd = find_definitions(masked, rel, span_of_line, line_of)
     fndefs, extern_fns, extern_data, asm_aliases, builtins, attrs, flows, params_of = find_decls_and_flows(masked, rel, defs, span_of_line, line_of)
     sites, raw_counts = find_sites(masked, rel, span_of_line, line_of, params_of)
-    if rel == DEFLINE_FILE:            # P39 T2: a macro's own `#define` line (kept-cast set, M2C_FIELD) is a definition, not a site
+    # 3.44 T5.c6: a RET_AS fn that is an asm-label function alias in this file (`[extern] T CNAME(params) __asm__("SYM");`,
+    # C0223/C0588) names the label SYM (raw text: masking blanks the string; object labels have no parens and stay out)
+    fn_alias = {m.group(1): m.group(2) for m in FN_ASM_ALIAS.finditer(raw)}
+    for s in sites:
+        if s["form"] == "K" and s.get("callee") in fn_alias:
+            s["callee"] = fn_alias[s["callee"]]
+    if rel == DEFLINE_FILE:           # P39 T2: a macro's own `#define` line (kept-cast set, M2C_FIELD) is a definition, not a site
         deflines = {i + 1 for i, ln in enumerate(raw.split("\n"))
                     if (mdl := DEFLINE_RX.match(ln)) and (mdl.group(1) in KEPT_MACROS or mdl.group(1) == "M2C_FIELD")}
         for s in sites:
@@ -1970,6 +1977,10 @@ def selftest():
                    and check_casts_verdict(zz, rk, {}, [], set(), ret_views={("func_80028D9C", "s32")})[0] == 0
                    and "(unbacked 1)" in check_casts_verdict(zz, rk, {}, [], set(), ret_views={("func_80028D9C", "u8")})[1]
                    and check_casts_verdict(zz, rk, {}, [], set(), ret_views=set())[0] == 1))
+    # 3.44 T5.c6: an asm-label function alias site names the label; an object label (no parens) does not remap
+    _, (_, rka) = cc('extern u16 xa(void) __asm__("func_8001");\n    extern u8 xb __asm__("D_8002");\n'
+                     "    x = RET_AS(s32, xa, (void))();\n    x = RET_AS(s32, xb, (void))();")
+    checks.append(("check-casts RET-VIEW alias site names the label", [s["callee"] for s in rka] == ["func_8001", "xb"]))
     defs_txt = ("#define CAST_ALIAS(T, p, k)      (*(T *)((p) + (k)))\n#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))\n"
                 "#define LOH(x)  (*(s16 *)&(x))\n")
     dw = walk_file(defs_txt, DEFLINE_FILE)
