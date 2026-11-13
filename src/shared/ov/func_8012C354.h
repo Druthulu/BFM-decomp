@@ -1,6 +1,6 @@
 /* guess_InitActorModel — shared body (overlay slot 0x80128158, h_exact c3abcfd9). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_8001CFDC(s32 a, s32 b);
+extern void *func_8001CFDC(s32 a, s32 b);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern u8 D_80078EAE;

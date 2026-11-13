@@ -270,7 +270,7 @@ extern void guess_FreeActor(void *a0);
 extern s32 func_8012C098(void *param_1);
 extern s32 func_8012C0EC(s32 a0);
 extern s32 guess_AllocSpriteObjectHigh(void);
-extern void func_8001CFDC(s32 a, s32 b);
+extern void *func_8001CFDC(s32 a, s32 b);
 extern s32 guess_AllocModelObject(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);

@@ -471,7 +471,7 @@ extern void func_80146534(void);
 extern s32 func_8001D074(s32 a0, s32 a1);
 extern void func_80146554(void);
 extern s32 func_80146578(void);
-extern void func_8001CFDC(s32, s32);
+extern void *func_8001CFDC(s32, s32);
 extern s32 func_8014659C(void);
 extern s32 func_8001D074(s32, s32);
 extern void *guess_AllocSpriteObject(void);

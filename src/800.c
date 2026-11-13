@@ -8764,7 +8764,7 @@ void func_8001CF48(s32 a0) {
     ((Unkstruct_800B5CB8 *)a0)->unk2C = 0;
 }
 
-extern void func_8001CFDC(s32 a0, s32 a1);
+extern void *func_8001CFDC(s32 a0, s32 a1);
 
 void func_8001CFB8(void) {
     func_8001CFDC(0, 4);

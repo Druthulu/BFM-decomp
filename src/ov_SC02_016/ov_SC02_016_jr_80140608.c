@@ -317,7 +317,7 @@ extern s32 D_801274D4;
 extern s32 D_801274E0;
 extern s32 func_8012C044(s32 a0);
 extern s32 guess_AllocSpriteObjectHigh(void);
-extern void func_8001CFDC(s32 a, s32 b);
+extern void *func_8001CFDC(s32 a, s32 b);
 extern s32 guess_AllocModelObject(void);
 extern u8 D_800B3DF0[];
 extern s32 func_8012C1DC(s32 a0);
