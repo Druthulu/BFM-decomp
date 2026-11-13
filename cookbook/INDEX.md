@@ -1043,3 +1043,4 @@ C0590 | Normalize .d dep paths (src/<b>/../shared) before matching edited header
 C0591 | Import venv-re-exec tools only under .venv; type_census --check-casts needs --residue | tools,venv,sig_evidence,type_census,gate | 2026-11-12 | 3.44/T5 | -
 C0592 | Return-type lies: one prototype = definition's; RET_AS(T,fn,params) marks shipped caller views | declarations,return-type,lying,bytes,macro,ret-view | 2026-11-12 | 3.44/T5 | -
 C0593 | Asm-label definitions are invisible to name-keyed tools; registering them unmasks hidden arity rows | asm-label,declarations,argcheck,arity,return-type,tools | 2026-11-12 | 3.44/T5 | -
+C0594 | KR_AS unprototyped view: one prototype for () callees, marked short/over calls | declarations,arity,k-and-r,macro,kr-view,bytes | 2026-11-12 | 3.44/T6 | 3.44 T6.c1
