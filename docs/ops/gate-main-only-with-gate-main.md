@@ -15,6 +15,8 @@ still not byte-identical. All 11 re-gated individually: **11 of 11 REJECTED**.
 **How to apply:**
 * Any main draft → `gate_main.py`. Run `--assert-baseline` first; it is cheap and it separates "my
   draft is wrong" from "the tree was already red".
+* A byte-neutral batch across many TUs (declarations, shared headers) → `tools/scratch_cmp.py` first:
+  scratch-compiles every object the edit touches at HEAD and in the tree, cmp; exit 0 = 0 differ, 0 fail (C0589).
 * **Count banks from the SOURCE** (the `INCLUDE_ASM` stub is gone), never from the tool's slate.
   `gate_main` printed "BANKED 5 of 6" when 4 had applied — `len(good)` is *what we decided to keep*,
   not *what was substituted*. Fixed, but the principle is general: this was the 4th tool in one

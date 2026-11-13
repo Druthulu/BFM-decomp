@@ -33,6 +33,18 @@ byte-match baseline  →  pin the compiler by evidence  →  honest corpus censu
    set even when the result is dropped, and that moves the register allocation (func_80139BE0 changed bytes in 129
    binaries, 3.41 T4.c1; cookbook C0547). Keep the honest declaration, and where it is load-bearing keep a cast at the
    call that reproduces the original's codegen, recorded as an exception with its byte evidence.
+4. **Measure each prototype from the assembly, never from the C.** A byte-identical build does not prove a signature:
+   gcc accepts a lying declaration, and a `()` or K&R one checks nothing, so a matched tree can still disagree with
+   itself about what a function takes and returns. The measurement is two reads of the original bytes. Does any caller
+   read `$v0` after the call before writing it? And which argument registers and stack slots does the callee read
+   before writing them, and which do its callers set? Each answer cites its instruction. Where a call reaches only
+   through a pointer or its result reaches a tail position, the answer is `unknown`, with that reason. Read the width
+   evidence with care. Under gcc-2.7.2 on MIPS, `PROMOTE_FUNCTION_ARGS` and `PROMOTE_FUNCTION_RETURN` are undefined, so
+   the ABI never widens a value across a call. An `andi 0xff`, an `sll`/`sra` pair or an `lbu` next to a call is a
+   conversion the C wrote, in the callee or in the caller. It supports a narrow type but does not prove one, and eight
+   of BFM's 19 "callee narrows its return" exceptions turned out to be the caller converting (3.44 T3). BFM built
+   this census only in Gen3 (3.44, `tools/sig_evidence.py`), when it found about 198,000 disagreements over some
+   1,500 functions in a tree that had matched for two months. Build it while the first functions match, and gate on it.
 
 ## Phase 1 — the honest census, with tools that assert their coverage
 
