@@ -1052,3 +1052,4 @@ C0599 | Narrow over-count declarations to the def: () defs write (void), one kr 
 C0600 | PsyQ library prototypes from the 4.0 SDK headers; new SDK typedef traps | psyq,declarations,library,typedef,bytes | 2026-11-13 | 3.44/T8 | 3.44 T8.c5
 C0601 | Prove a C-vs-bytes gate bites in a scratch worktree with no rebuild | worktree,gate,sig_evidence,fault-injection,check | 2026-11-13 | 3.44/T9 | P3.44 T9.c1
 C0602 | tool_dictionary phase column: roadmap ids P1-P10 or PROJECT-ONLY, never P3.44 | kit-corpus,tool_dictionary,tools-health | 2026-11-13 | 3.44/T12 | 3.44 T12.c1
+C0603 | Old tool vs new tool on the same inputs: split a generated-doc diff into change and input drift | generated-docs,leverage,neutrality,drift,check | 2026-11-13 | 3.45/T1 | -

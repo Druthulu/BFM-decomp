@@ -402,6 +402,8 @@ def render():
             "(`config/ret_view_casts.tsv`) and the `KR_AS` K&R views (`config/kr_view_casts.tsv`); a ledger that did not",
             "exist yet at a row's commit counts as 0. The rows labeled *(from summary)* and the P3.44 T10 row's unledgered",
             "counts come from those tasks' summaries, not from a census run; their ledger counts are read at their commits.",
+            "To snapshot after a clean R22 (`make clean` empties `build/`), regenerate the signature census first:",
+            "`tools/sig_evidence.py -j 16` (about 1 min), then `--snapshot` (P3.44-1).",
             ""]
     DOC.write_text("\n".join(out) + "\n")
     render_names_svg(rows)
