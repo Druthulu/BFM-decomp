@@ -3789,11 +3789,11 @@ void func_8017EE30(void) {
 
 
 void func_8017EE98(s32 arg0) {
-    extern s32 func_8017F01C(s32 a0);
+    extern s32 func_8017F01C(void);
     extern s32 func_8012C098(void *a0);
     extern void (*D_80183D40[])(s32);
 
-    if (func_8017F01C(arg0) != 0) {
+    if (KR_AS(s32, func_8017F01C)(arg0) != 0) {
         func_8012C098((void *)arg0);
         return;
     }

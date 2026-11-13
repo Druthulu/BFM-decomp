@@ -3589,11 +3589,11 @@ void func_8017F220(void *a0) {
 
 
 void func_8017F254(s32 a0) {
-    extern void func_8017F2BC(void *a0);
+    extern void func_8017F2BC(void);
     extern u8 D_8018A8D4[];
     extern void func_8017FB8C(void);
     s32 s0 = a0;
-    func_8017F2BC(a0);
+    KR_AS(void, func_8017F2BC)(a0);
     func_80147060((u8 *)s0);
     guess_ClearHideRequest221((s32 *)s0);
     func_801472B4((void *)s0);

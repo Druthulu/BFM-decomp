@@ -2699,7 +2699,7 @@ extern void (*D_8018DA1C[])(void);
 extern void func_8017F344(void *a0);
 extern void func_8017F49C(void);
 extern M2C_UNK D_8018DA14;
-extern void func_8017F4A4(s32 a0);
+extern void func_8017F4A4(void);
 extern s32 func_8017F4E8(void);
 
 /* func_8017FB84 — ov_SC01_000_after — TMD-style model renderer (952 ins, jr-function).

@@ -2664,7 +2664,7 @@ extern s32 func_80182084(void);
 extern s32 func_800D1EBC(void);
 extern void func_801820EC(void);
 extern M2C_UNK D_801906C4;
-extern void func_8018210C(void *arg0);
+extern void func_8018210C(void);
 extern void func_80182134(void);
 extern void (*D_801906DC[])(void);
 extern void func_8018215C(u8 *a0);

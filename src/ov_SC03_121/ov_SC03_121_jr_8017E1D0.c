@@ -2674,7 +2674,7 @@ extern void func_8001BFD0(void);
 extern void func_800D1E28(void);
 extern s32 func_8017D2D8(u8 *a0);
 extern s32 func_800D1EBC(void);
-extern void func_8017D354(void *a0);
+extern void func_8017D354(void);
 extern void func_8017D39C(void);
 extern void guess_SetMainCameraHandler(s32 a0, s32 a1);
 extern void func_8012A094(s32 a0);

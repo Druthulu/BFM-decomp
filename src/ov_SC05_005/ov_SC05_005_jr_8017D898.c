@@ -2667,7 +2667,7 @@ extern void func_8017C7C4(void *a0);
 extern void (*D_80185F98[])(void);
 extern void func_8017D47C(void *a0);
 extern void guess_FreeActor(void *a0);
-extern void func_8017D824(void *param_1);
+extern void func_8017D824(void);
 
 /* func_8017D898 — ov_SC01_000_after — TMD-style model renderer (952 ins, jr-function).
  * Outer loop: per-part bbox -> RTPT/RTPS projection -> g.otz + screen cull.

@@ -2749,7 +2749,7 @@ extern void func_801802C8(u8 *a0, u8 *a1);
 extern void func_80180154(s32 param_1);
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 extern void guess_RequestSound(s32 arg0, s32 arg1);
-extern void func_801804D4(void *a0);
+extern void func_801804D4(void);
 extern s32 func_8002A04C(s32 a0);
 extern s32 func_8012C098(void *a0);
 extern void func_801804F8(int param_1);

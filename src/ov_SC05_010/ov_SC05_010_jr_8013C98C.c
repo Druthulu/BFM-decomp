@@ -709,7 +709,7 @@ extern void func_80139DF4(s32 a0);
 extern void func_80139E84(s32 a0);
 extern void func_80139F0C(s32 a0);
 extern void func_80139FBC(struct obj *a0);
-extern s32 func_8001B22C(void *a0);
+extern s32 func_8001B22C(void);
 extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
 extern void func_8013A164(struct S8013A164 *a0);
@@ -765,7 +765,7 @@ extern s32 func_80160B34(s32 a0);                        /* match-first, arity 1
 extern void func_80165140(s32 a0);                        /* match-first, arity 1 */
 extern void func_80161CD0(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_80175268(s32 a0);                        /* match-first, arity 1 */
-extern s32 func_8017EC7C(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_8017EC7C(void);                        /* match-first, arity 1 */
 extern s32 func_801809BC(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8012DE2C(s32 a0);                        /* derive-decl, arity 1 */
 extern s32 func_8012DDA4(void);                          /* derive-decl, arity 0 */

@@ -139,10 +139,10 @@ void func_800CB034(void *a0) {
 }
 
 
-extern void func_8012A2F4(s32 a0);
+extern void func_8012A2F4(void);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 void func_800CB148(s32 a0) {
-    func_8012A2F4(a0);
+    KR_AS(void, func_8012A2F4)(a0);
     guess_SetTexAnim(a0, 0x11);
 }
 

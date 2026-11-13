@@ -2673,7 +2673,7 @@ extern void func_8001BFD0(void);
 extern void func_800D1E28(void);
 extern s32 func_8017D38C(u8 *a0);
 extern s32 func_800D1EBC(void);
-extern void func_8017D408(int param_1);
+extern void func_8017D408(void);
 extern void (*D_80185EC0[])(void);
 extern void func_8017D428(void *a0);
 extern s32 func_8017D464(u8 *a0);
@@ -2682,7 +2682,7 @@ extern void func_8017D4FC(void);
 extern void (*D_80185ECC[])(void);
 extern void func_8017D51C(void *a0);
 extern s32 func_8017D558(s32 a0);
-extern s32 func_8017D5CC(void *a0);
+extern s32 func_8017D5CC(void);
 extern void (*D_80185EF8[])(void);
 extern void func_8017D7A4(void *a0);
 extern void func_8017D808(s32 param_1, s16 *param_2);
@@ -2699,7 +2699,7 @@ extern void (*D_801BBA40[])(void);
 extern void func_8017DB50(void);
 extern void func_8017DC48(void);
 extern void func_8017DEFC(void);
-extern void func_8017E0EC(void *arg0);
+extern void func_8017E0EC(void);
 extern u16 D_80115114;
 extern void func_800D2624(void);
 extern void func_8017E384(void);
@@ -3283,7 +3283,7 @@ extern B16_SC01_005_8017ED5C D_800A5E88, D_800A5E98, D_800A5EA8;
 extern B16_SC01_005_8017ED5C D_801CE030, D_801CE040, D_801CE050;
 
 s32 func_8017F9F8(s32 a0in) {
-    extern s32 func_8017D9A0(void *);
+    extern s32 func_8017D9A0(void);
     extern void func_8013C964(void);
     extern s32 guess_GetGameVarByte(s32);
     extern s32 func_8001AAA0(s32 arg0);
@@ -3294,7 +3294,7 @@ s32 func_8017F9F8(s32 a0in) {
 
     a0 = a0in;
     *(s16 *)(((Unkstruct_8017F9F8 *)a0)->unkD4 + 0xFC) = 0;
-    if (((Unkstruct_8017F9F8 *)a0)->unkFE == 0 && func_8017D9A0((void *)a0) != 0) {
+    if (((Unkstruct_8017F9F8 *)a0)->unkFE == 0 && KR_AS(s32, func_8017D9A0)((void *)a0) != 0) {
         ((Unkstruct_8017F9F8 *)a0)->unkFE = 1;
     }
     if (((Unkstruct_8017F9F8 *)a0)->unk10A >= 0x31) {

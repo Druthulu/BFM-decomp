@@ -2654,7 +2654,7 @@ extern void func_8001BFD0(void);
 extern void func_800D1E28(void);
 extern s32 func_8017CE60(u8 *a0);
 extern s32 func_800D1EBC(void);
-extern void func_8017CEDC(u8 *a0);
+extern void func_8017CEDC(void);
 extern void (*D_801863C8[])(void);
 extern void func_8017CEFC(void *a0);
 extern s32 func_8017CF38(s32 a0);

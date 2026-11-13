@@ -631,7 +631,7 @@ extern void func_80139DF4(s32 a0);
 extern void func_80139E84(s32 a0);
 extern void func_80139F0C(s32 a0);
 extern void func_80139FBC(struct obj *a0);
-extern s32 func_8001B22C(void *a0);
+extern s32 func_8001B22C(void);
 extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
 extern void func_8013A164(struct S8013A164 *a0);

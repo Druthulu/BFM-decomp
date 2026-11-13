@@ -2656,7 +2656,7 @@ extern void func_8017C8D0(s32 arg0);
 extern void (*D_8018C498[])(void);
 extern void func_8017D7B0(void *a0);
 extern void func_8017D908(void *a0);
-extern void func_8017D910(void *a0);
+extern void func_8017D910(void);
 extern s32 D_8018C490;
 extern s32 func_8017D938(void);
 extern s32 func_8017D954(void);
@@ -2670,10 +2670,10 @@ extern void (*D_80192260[])(void);
 extern void func_8017E6C4(void *a0);
 extern s32 func_800167F0(s32 arg);
 extern void func_800CFBCC(s32 arg);
-extern s32 func_8017E7BC(void *a0);
+extern s32 func_8017E7BC(void);
 extern s32 D_8019226C;
-extern void func_8017E7F4(s32 a0);
-extern void func_8017E81C(void *a0);
+extern void func_8017E7F4(void);
+extern void func_8017E81C(void);
 extern void func_8017E844(s32 a0);
 extern void func_8012A100(s8 a0);
 extern void func_8017E9B4(void);
@@ -5009,7 +5009,7 @@ void func_80187D00(s32 *a0) {
 }
 
 
-extern s32 func_8017EC7C(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_8017EC7C(void);                        /* match-first, arity 1 */
 extern void func_80149020(s32 *a0);
 extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void guess_NextStep(void *a0);
@@ -5021,7 +5021,7 @@ void func_80187D70(s32 a0)
     extern s16 D_801C3D14;
     s16 *sp0 = &D_801C3D10;
 
-    *sp0 = func_8017EC7C(a0);
+    *sp0 = KR_AS(s32, func_8017EC7C)(a0);
     func_80149020((s32 *)a0);
     CAST_ALIAS(s16, a0, 0x6) = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unk6, *sp0, 8);
     CAST_ALIAS(s16, a0, 0xA) = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unkA, D_801C3D12, 8);

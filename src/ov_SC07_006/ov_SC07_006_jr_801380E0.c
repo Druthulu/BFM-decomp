@@ -617,7 +617,7 @@ extern void func_80137DD4(s32 ent, u8 *arg, u8 *work);
 s32 func_801380E0(s32 arg0) {
     extern void func_8001931C(void);
     extern void func_8001AAD0(s32, s32);
-    extern s32 func_8001B22C(void*);
+    extern s32 func_8001B22C(void);
     extern void guess_SetGameFlag(s32, s32);
     extern s32 func_800CF864(s32, s32);
     extern void func_80138AB4(s32 a0, s32 arg1);
