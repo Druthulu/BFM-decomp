@@ -20,7 +20,7 @@ s32 func_80140608(s32 a0) {
         func_80028E00((s16)(func_80028DE0() ^ 1));
         return uVar5;
     case 2:
-        iVar2 = func_80028FBC();
+        iVar2 = RET_AS(s32, func_80028FBC, (void))();
         if (guess_g_MenuPadPressed & 0x8000) {
             iVar2 = iVar2 - 1;
             uVar4 = iVar2 + 0;
@@ -40,7 +40,7 @@ s32 func_80140608(s32 a0) {
         guess_RequestSound(0x21, uVar4 & 0xFFFF);
         goto ret;
     case 3:
-        iVar2 = func_80029000();
+        iVar2 = RET_AS(s32, func_80029000, (void))();
         if (guess_g_MenuPadPressed & 0x8000) {
             iVar2 = iVar2 - 1;
             uVar4 = iVar2 + 0;

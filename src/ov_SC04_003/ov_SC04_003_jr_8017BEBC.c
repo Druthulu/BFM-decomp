@@ -42,8 +42,8 @@ extern void func_80029514(s32);
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 D_80078EC0;
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
-extern s32 func_80028FBC(void);
-extern s32 func_80029000(void);
+extern u8 func_80028FBC(void);
+extern u8 func_80029000(void);
 extern u8 func_80028D9C(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80145BF8(void);

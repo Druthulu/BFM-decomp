@@ -1527,9 +1527,9 @@ extern void func_80028D78(s32 a0);
 extern void guess_StartPadVibration(void *a0);
 extern s32 func_80028DE0(void);
 extern void func_80028E00(s32 a0);
-extern s32 func_80028FBC(void);
+extern u8 func_80028FBC(void);
 extern void func_80028FDC(s32 a0);
-extern s32 func_80029000(void);
+extern u8 func_80029000(void);
 extern void func_80029020(s32 a0);
 extern u8 func_80028D9C(void);
 extern void func_80028DBC(s32 a0);
@@ -1548,8 +1548,8 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 extern s32 func_80028D58(void);
 extern s32 func_80028DE0(void);
-extern s32 func_80028FBC(void);
-extern s32 func_80029000(void);
+extern u8 func_80028FBC(void);
+extern u8 func_80029000(void);
 extern u8 func_80028D9C(void);
 
 void func_801407F4(void)
@@ -1581,9 +1581,9 @@ void func_801407F4(void)
     *(s16 *)(puVar1 + 0x18) = *puVar3++;
     *(s16 *)(puVar1 + 0x1a) = *puVar3++;
 
-    iVar2 = func_80028FBC();
+    iVar2 = RET_AS(s32, func_80028FBC, (void))();
     *(s16 *)(D_80183508 + 0x18) = *D_8018351C[iVar2];
-    iVar2 = func_80029000();
+    iVar2 = RET_AS(s32, func_80029000, (void))();
     CAST_ALIAS(s16, D_8018350C, 0x18) = *D_8018351C[iVar2];
 
     puVar1 = D_80183510;

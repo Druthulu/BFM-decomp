@@ -20,9 +20,9 @@ void func_801407F4(void)
     *(s16 *)(puVar1 + 0x18) = *puVar3++;
     *(s16 *)(puVar1 + 0x1a) = *puVar3++;
 
-    iVar2 = func_80028FBC();
+    iVar2 = RET_AS(s32, func_80028FBC, (void))();
     *(s16 *)(D_8017FB24 + 0x18) = *D_8017FB38[iVar2];
-    iVar2 = func_80029000();
+    iVar2 = RET_AS(s32, func_80029000, (void))();
     *(s16 *)(D_8017FB28 + 0x18) = *D_8017FB38[iVar2];
 
     puVar1 = D_8017FB2C;
