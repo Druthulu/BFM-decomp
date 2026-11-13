@@ -10,3 +10,4 @@ T7 | done | I5: the parked non-void functions with no return | - | tasks/T7.md |
 T8 | done | the remaining measured disagreements | - | tasks/T8.md | logs/T8.md | R3.44-002,R3.44-004
 T9 | done | the signature gate in tools-health | - | tasks/T9.md | logs/T9.md | R3.44-002
 T10 | done | milestone gate (Phase 3.44) | - | tasks/T10.md | logs/T10.md | -
+T11 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.44) | - | tasks/T11.md | logs/T11.md | R3.44-005

@@ -170,12 +170,12 @@ revision, old hashes in historical documents replaced by inert tokens and mapped
 would have corrupted history), proven pair by pair, and force-pushed. This document, the retrospective, the wiki and the
 tooling releases are the last block; the visibility flip waits for GitHub to purge the old objects.
 
-## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 40, 41, 42, 43, 2026-09-08 →)
+## 10. After 100 %: making the code say what it means (Gen3 — Phases 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 2026-09-08 →)
 
 *From `PhaseEnd_Phase35.md`, `PhaseEnd_Phase36.md`, `PhaseEnd_Phase37.md` and its log (`phase-ends/logs/Phase37.md`), decision log "P35",
 "P36 S99/S101/S104/S105", "P37 S106", `docs/levers.md`, `docs/readability.md`; for the migration and Phase 38, the Phase 38 plan's change
 lines, its task summaries (T1, T5, T5.1, T6, T7) and logs, and git; for Phase 39, the Phase 39 plan's change lines and its task summaries
-(T1–T11, with T7.1); for Phase 40, the Phase 40 plan's change lines and its task summaries (T1–T13, T15, T17–T21); for Phase 41, the Phase 41 plan and its task summaries (T1–T10, T13); for Phase 42, the Phase 42 plan's change lines and its task summaries (T1–T10); for Phase 43, the Phase 43 plan's change lines and its task summaries (T1–T15). This chapter was advanced at the end of every session (the owner's rule,
+(T1–T11, with T7.1); for Phase 40, the Phase 40 plan's change lines and its task summaries (T1–T13, T15, T17–T21); for Phase 41, the Phase 41 plan and its task summaries (T1–T10, T13); for Phase 42, the Phase 42 plan's change lines and its task summaries (T1–T10); for Phase 43, the Phase 43 plan's change lines and its task summaries (T1–T15); for Phase 44, the Phase 44 plan's change lines and its task summaries (T1–T10). This chapter was advanced at the end of every session (the owner's rule,
 2026-09-12) until the migration of 2026-09-29 dropped that duty; since 2026-09-30 it is advanced by every phase's closing work (rule R121).
 The numbers are the two Gen3 series'.*
 
@@ -599,6 +599,51 @@ restarted mid-task; three coder runs were lost to session restarts; the pilot ba
 approved all seven of its conventions as recommended. What the phase leaves is a tree where every name says where it came
 from, and where a guess is labelled a guess.
 
+**Phase 44 (2026-11-12 → 11-13), signatures from the bytes.** A function's *signature* is its calling contract: what it
+returns, and how many arguments it takes. The C states one at the definition and again at every declaration, and in this
+tree those statements had never been checked against anything but each other. Byte-matching does not check them. gcc
+2.7.2 compiles a call through a wrong declaration without complaint, and a declaration with empty parentheses `()`
+promises nothing at all. Nearly every file carried its own copies of its callees' declarations, so the same function
+could be declared three different ways in three files and every one of them still compile to the original bytes. A
+modder who trusted a prototype could be misled, and nothing in the build would say so.
+
+The phase therefore measured the signatures from the one witness that cannot be wrong, the original machine code. A
+*signature census* is a tool, `tools/sig_evidence.py`, that reads every function in all 218 binaries and asks two
+questions of the bytes. First, does any caller read the return register `$v0` after the call before overwriting it? If
+so, the function returns something that is used. Second, which argument registers and stack slots does the function
+read before writing them, and how many do its callers set? Functions with identical bytes are measured once, as a class:
+92,716 classes over 363,457 copies, in about twenty seconds. Each answer cites the instruction that proves it, as
+`<binary>:<address> <instruction>`. Where the bytes cannot settle the question the answer is `unknown`, with the reason
+named. The commonest reason is that the function is only ever called through a pointer, so no call site can be credited
+with the read. `unknown` is not a gap in the tool; it is the honest answer. At the close 11,345 classes are `used`,
+18,026 `unused` and 63,345 `unknown`. Writing the rules came first, with gcc's own source for each: in particular, this
+compiler never widens or narrows a value at a call, so an `andi 0xff` beside a call is a conversion some C wrote, and it
+supports a byte type without proving one. That rule caught the phase's first surprise. Eight of the nineteen known
+"callee narrows its return" exceptions were really the caller converting the value.
+
+Compared with the C, the census found 198,029 disagreements over about 1,500 functions, in six kinds. Some declarations
+promised a different return width than the definition, and counting through the assembler-label aliases grew that list
+from 27 functions to 116. There were `()` declarations, definitions declared to return a value that had no `return`
+(the 356 that Phase 43 parked), `void` functions whose result callers read, and declarations listing more arguments than
+the definition took. Each kind was fixed in its own batch, every batch byte-identical on all 218 binaries. Every
+declaration now carries its definition's one prototype. Where the shipped game itself was inconsistent (a caller read a
+byte-returning function's whole register, or called a function with fewer arguments than it reads), the call keeps that
+behaviour through a small marked cast, `RET_AS` (1,502 calls) or `KR_AS` (2,247), each backed by a ledger row with cited
+instructions. Return-less functions got a real `return` where the value was already in `$v0` (693 definitions), became
+`void` where no caller looks (1,924), or got a comment saying what `$v0` holds (6,349). Sony's library functions are now
+declared as Sony's own headers declare them. What could not take one prototype without moving bytes, mostly a shared
+header serving overlays whose copies disagree, is ledgered: 3,264 rows. A gate in tools-health re-decodes every cite
+from the game's bytes, so neither a retyped declaration nor a stale cite can pass. Proven on a scratch tree, it costs
+about a minute and a half of a twenty-minute run.
+
+The milestone ran green on 8bac8eee31: 218 of 218 binaries identical, the signature gate at 0 unledgered, 0 failed cites
+and 0 unused rows, tools-health clean, six Ghidra proofs passing. It took about 26 hours, 119 commits and 25 coder runs.
+Marks on the record: a coder run was cancelled by accident mid-batch with about 1,100 files edited, and the next one
+audited and recompiled all of its work before committing any; another died on an API error after three commits; one
+reached its context limit mid-batch and handed off; one batch was paused by a session restart. What the phase leaves is
+a tree whose prototypes a modder can trust, because each one either agrees with the machine code or says, with the
+instruction, why it does not.
+
 ## 11. By the numbers
 
 | | |
@@ -610,7 +655,7 @@ from, and where a guess is labelled a guess.
 | Instructions | 13,492,113 / 13,492,113 (100.0%); distinct code 5,820,205 / 5,820,205; main game code 45,150 / 45,150 |
 | Knowledge base | the matching cookbook (§1–§501 and sub-sections, 3.5 MB), the gcc-2.7.2 codegen map, 79 decision-log entries, 73 numbered rules (+ the constitution's 25) |
 | Tooling | ≈235 Python tools, 25 shell tools, 12 Ghidra scripts — the extractor, the byte gate, the dedup engine, the family engine, the atlas, the lanes, the rewrite package |
-| **After 100 % (Gen3, snapshot at the P3.43 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35); the 3,801 cross-address groups deferred then → 3,214 shared through a name parameter, 12 twin-covered, 575 ledgered with a measured reason, and the 20 trampoline families' 133 private copies each → 0 (P3.42) · names: a names ledger, a rename tool and a scanner that asserts every reference rewritten (rule R32), and a leverage ranking whose top 500 cover 35.5 % of unique references; no name landed yet (P3.42); the top 500 placeholders → 2 cited, 393 `guess_` names with a recorded basis, 105 left unnamed with a reason; 1,083 inherited names given citation rows, 0 uncited; names ledger 2,171 rows; 303 functions and 149 labels mirrored into Ghidra (P3.43) · levers (register pins plus asm statements): 53,234 at the P36 start → 3,730 at the P38 close → 3,364 at the P39 close → 1,853 (974 register pins + 879 asm statements) → 1,850 at the P3.42 close (971 + 879; the 3 fewer are copies collapsed into one header, where a site counts once), every survivor a row of `config/lever_residue.tsv` (1,180 rows over 1,854 sites; `docs/levers.md`) and every row walled — named with the gcc pass that makes the lever necessary, one of 34 tags in `config/lever_walls.tsv` · raw cast dereferences per form, P37 baseline → P39 close → P3.40 close: P 409,007 → 257,470 → 115,647, I 60,666 → 49,831 → 46,563, X 13,800 → 13,790 → 10,312, M 19,543 → 15,128 → 3,917 (503,016 → 336,219 → 176,439), and 172,942 at the P3.42 close (P 112,227, I 46,489, X 10,309, M 3,917), the drop again from copies collapsed into shared headers, not from new type work; every remaining site ledgered with its cause (0 uncovered); TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0, the frozen tail of 6,066 small types recorded as TYPE-BELOW-BAND (5,871 sites) · lying declarations 229 over 24 callees → 11 over 3 → 0; return-type lies (a declaration promising a different return type than the definition) 273 functions over 100,266 sites at the P3.41 start → 19 over 9,302, each a width or sign difference ledgered in `config/lying_exceptions.tsv` · 7,151 canonical types mirrored into Ghidra, six programs proved by round trip (P3.41) · 30,787 kept casts in five registered macros, all backed (20,963 at the P39 close) · 4,762 struct definitions, 4,128 of them canonical (4,748 at the P3.42 close) (1,650 at the P39 close; 7,255 at the P38 start) · the chart's lower panel |
+| **After 100 % (Gen3, snapshot at the P3.44 close)** | dedup: 0 macro bodies, 3,175 shared headers, one source per unique function (P35); the 3,801 cross-address groups deferred then → 3,214 shared through a name parameter, 12 twin-covered, 575 ledgered with a measured reason, and the 20 trampoline families' 133 private copies each → 0 (P3.42) · names: a names ledger, a rename tool and a scanner that asserts every reference rewritten (rule R32), and a leverage ranking whose top 500 cover 35.5 % of unique references; no name landed yet (P3.42); the top 500 placeholders → 2 cited, 393 `guess_` names with a recorded basis, 105 left unnamed with a reason; 1,083 inherited names given citation rows, 0 uncited; names ledger 2,171 rows; 303 functions and 149 labels mirrored into Ghidra (P3.43) · levers (register pins plus asm statements): 53,234 at the P36 start → 3,730 at the P38 close → 3,364 at the P39 close → 1,853 (974 register pins + 879 asm statements) → 1,850 at the P3.42 close (971 + 879; the 3 fewer are copies collapsed into one header, where a site counts once), every survivor a row of `config/lever_residue.tsv` (1,180 rows over 1,854 sites; `docs/levers.md`) and every row walled — named with the gcc pass that makes the lever necessary, one of 34 tags in `config/lever_walls.tsv` · raw cast dereferences per form, P37 baseline → P39 close → P3.40 close: P 409,007 → 257,470 → 115,647, I 60,666 → 49,831 → 46,563, X 13,800 → 13,790 → 10,312, M 19,543 → 15,128 → 3,917 (503,016 → 336,219 → 176,439), and 172,942 at the P3.42 close (P 112,227, I 46,489, X 10,309, M 3,917), the drop again from copies collapsed into shared headers, not from new type work; every remaining site ledgered with its cause (0 uncovered); TYPE-NOT-CANONICAL (a cast on a struct type with no canonical definition) 291,819 → 0, the frozen tail of 6,066 small types recorded as TYPE-BELOW-BAND (5,871 sites) · lying declarations 229 over 24 callees → 11 over 3 → 0; return-type lies (a declaration promising a different return type than the definition) 273 functions over 100,266 sites at the P3.41 start → 19 over 9,302, each a width or sign difference ledgered in `config/lying_exceptions.tsv` (P3.41) → 0 (P3.44) · signatures (P3.44): every function class in the 218 binaries (92,716 classes over 363,457 copies) measured from the bytes, its return used 11,345, unused 18,026, unknown with a named reason 63,345; the C's disagreements with that measure 198,029 → 0 unledgered, with 1,502 `RET_AS` and 2,247 `KR_AS` marked view casts and 3,264 exception rows, every cite re-checked against the bytes in tools-health; K&R-marked `()` declarations 4,910 → 26 · 7,151 canonical types mirrored into Ghidra, six programs proved by round trip (P3.41) · 30,787 kept casts in five registered macros, all backed (20,963 at the P39 close) · 4,762 struct definitions, 4,128 of them canonical (4,748 at the P3.42 close) (1,650 at the P39 close; 7,255 at the P38 start) · the chart's lower panel |
 
 *Every number above is generated or counted from the repository; the timeline behind the chart is
 [`docs/story-timeline.md`](story-timeline.md).*

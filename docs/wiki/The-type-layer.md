@@ -50,10 +50,73 @@ recorded in one of three places:
   family for a value read at another width or sign. A macro site is honest only with its ledger row.
   `M2C_FIELD`, the decompiler's own macro, is a raw form and never a kept spelling.
 - **[`config/lying_exceptions.tsv`](../../config/lying_exceptions.tsv)** holds the lying declarations that stay. Each
-  row is keyed by callee, definition file and kind (`arity` or `return`), and its cause column records the instruction
-  that moves when the lie is removed.
+  row is keyed by callee, definition file and kind, and its cause column records the instruction that moves when the
+  lie is removed. Since Phase 3.44 the kind is a signature rule and each row also carries instruction cites that a tool
+  re-checks against the game's bytes (next section).
 
 The rules for the macros and the residue are in [`docs/gen3-standards.md`](../gen3-standards.md).
+
+## Function signatures: what the census says
+
+A byte-identical build does not prove a prototype. gcc compiles a call through a wrong declaration without complaint,
+and a declaration with empty parentheses `()` checks nothing at all. So in Phase 3.44 every prototype in the tree was
+measured against the original machine code, the one source that cannot be wrong about it.
+[`tools/sig_evidence.py`](../../tools/sig_evidence.py) reads every function in all 218 binaries and records the calling
+contract the shipped code actually used, with the instruction that proves each answer. Functions with identical bytes
+are measured once, as a class: 92,716 classes over 363,457 copies. Every function's definition and declarations now
+agree with that contract, or the disagreement is ledgered with its cited instructions. The full rules are in
+[`docs/ops/sig-evidence.md`](../ops/sig-evidence.md).
+
+**The return verdict.** Each class gets one of three verdicts on whether its return value matters:
+
+- `used` (11,345 classes at the Phase 3.44 close): at least one caller reads the return register `$v0` after the call
+  before overwriting it. The row cites that read, for example an `andi $v0,$v0,0xff` or a store of `$v0`. The function
+  really returns something, and its prototype must not be `void`.
+- `unused` (18,026): every call site is known, and none reads `$v0`. The function may be `void`, but declaring it
+  `void` is a byte question too, because a declaration can change register allocation in the caller.
+- `unknown` (63,345): the bytes cannot settle it, and the row names the reason. That is not a failure of the tool; it
+  is the honest answer. The commonest reasons are `indirect call` (the function is only reached through a pointer, so
+  no call site can be credited with the read, 39,473 classes), `no callers` (8,837), `tail position unresolved` (the
+  result is passed on as its caller's own return, whose use is itself unknown, 7,098) and `address taken` (direct
+  callers ignore it, but a pointer call elsewhere might not, 6,287). For an `unknown` function the prototype follows
+  the definition's C, and a modder should not assume the return is dead.
+
+The census also records how many arguments the function reads (from its own reads of `$a0`-`$a3` and of the stack
+slots above its frame), how many its callers set, and any width or sign evidence. One caution about width: under this
+compiler the calling convention never widens or narrows a value at a call. An `andi 0xff` or an `lbu` next to a call is
+a conversion that some C wrote, either in the callee or in the caller, so it supports a byte type but does not prove
+one.
+
+**Regenerating it.** The census needs a built tree, as after `make check-all`, and writes to `build/sig_evidence/`,
+which is never committed because it holds instruction text from the game:
+
+```
+python3 tools/sig_evidence.py -j 16              # the census (about 20 s): census.jsonl, summary.txt
+python3 tools/sig_evidence.py --show main:0x80028D9C   # the row for one function
+python3 tools/sig_evidence.py --check -j 16      # compare with the C and verify the ledgers (about a minute)
+```
+
+`make tools-health` runs all three, so a declaration retyped against its definition, or a ledger cite that no longer
+matches the bytes, fails the health check.
+
+**Reading a ledgered exception.** A few places in the C deliberately keep what the shipped game did when the original
+code was inconsistent with itself. They live in three files, each row carrying `cites` as
+`<binary>:<address> <instruction>`, which `--check` re-decodes from the game's bytes:
+
+- [`config/lying_exceptions.tsv`](../../config/lying_exceptions.tsv): `callee def_file kind cause task cites`. A
+  declaration that still disagrees with its definition. `kind` names the rule (`return` for a return type, `DECL-EMPTY`
+  for a `()` declaration, `ARG-OVER`, `DECL-ARITY`), and `cause` says why it stays: `SHARED-DECL-SPLIT` means one
+  declaration in a shared header serves copies whose definitions disagree, so no single prototype fits;
+  `DECL-EMPTY-CONFLICT` means giving the declaration its prototype changed the compiled code.
+- [`config/ret_view_casts.tsv`](../../config/ret_view_casts.tsv): one row per `RET_AS(T, fn, params)` view. The
+  function keeps its one prototype, but at these calls the shipped caller read the result as another type `T` (for
+  example, the whole register after a callee that returns a byte), so the call is written through a marked cast.
+- [`config/kr_view_casts.tsv`](../../config/kr_view_casts.tsv): one row per function called through `KR_AS(T, fn)`,
+  where the original called it with fewer arguments than it reads.
+
+To check a row by hand, open the game's disassembly at each cited address. The instruction there should be the one
+quoted, and the cause should explain it. A call written `RET_AS` or `KR_AS` is not a mistake to tidy up: removing it
+changes the bytes.
 
 ## The Ghidra mirror
 
@@ -69,5 +132,5 @@ output. The steps are on [Ghidra rebuild from text](Ghidra-rebuild-from-text.md#
 ## Where the gates run
 
 `make tools-health` runs `type_census.py --check --check-structs --check-casts --residue` as one call, together with
-`ghidra_types.py --check`. The Ghidra proof needs Ghidra and the extracted programs, so it runs on demand rather than
+`ghidra_types.py --check`, and then the signature census and its `--check`. The Ghidra proof needs Ghidra and the extracted programs, so it runs on demand rather than
 in the health check. See [Verification and progress](Verification-and-progress.md).
