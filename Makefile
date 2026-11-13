@@ -315,6 +315,11 @@ tools-health:
 	$(VENV_PY) tools/lever_census.py --check --strict --residue config/lever_residue.tsv -j 16 --quiet
 	$(VENV_PY) tools/type_census.py --selftest
 	$(VENV_PY) tools/type_census.py --check --check-structs --check-casts --residue -j 16 --quiet
+	# 3.44 T9: sig_evidence — every C declaration agrees with the asm-measured contract or has a cited ledger row
+	# (docs/ops/sig-evidence.md "The gate"). Fresh census first: make clean deletes build/sig_evidence/.
+	/usr/bin/time -f 'sig_evidence --selftest: %e s' $(VENV_PY) tools/sig_evidence.py --selftest
+	/usr/bin/time -f 'sig_evidence census: %e s' $(VENV_PY) tools/sig_evidence.py -j 16
+	/usr/bin/time -f 'sig_evidence --check: %e s' $(VENV_PY) tools/sig_evidence.py --check -j 16
 	$(MAKE) --no-print-directory report BINARY=main
 	# AFTER report (which regenerates the digest), so this asserts the freshly-written digest agrees
 	# with the tree — and, on a tree whose digest was committed stale, says so instead of staying green.
