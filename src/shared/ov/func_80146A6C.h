@@ -3,8 +3,9 @@
 /* guess_SpawnSmallObject: starts a small object of kind a0 at x/y/z a2/a3/a4 with parameter words a1, a5, a6 in the 0x58-byte array guess_g_SmallObjectPool
  * Confidence medium, xref chain: packs {a0, a2, a3, a4, a1, a5, a6} and calls func_80146AFC: first free 0x58-byte record of guess_g_SmallObjectPool; kinds run through D_80126728
  * Names ledger: config/names.tsv guess_SpawnSmallObject */
-void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__("guess_SpawnSmallObject");
-void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
+s32 aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__("guess_SpawnSmallObject");
+/* $v0 at exit: func_80146AFC's result, the tail call's (census exit `call 0x80146AFC`; callers read it full 1024, md_MAIN_021:0x800CB200 addu $s0, $v0, $zero) */
+s32 aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
 {
     u8 sp[0x18];
     *(s16 *)(sp + 0x0) = a0;

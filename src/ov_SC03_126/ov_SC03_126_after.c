@@ -149,7 +149,7 @@ extern u8 D_80126BA4;
 #include "../shared/ov/func_801469C8.h"
 
 extern s32 func_80146AFC(void *arg0);
-void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__("guess_SpawnSmallObject");
+s32 aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__("guess_SpawnSmallObject");
 #include "../shared/ov/func_80146A6C.h"
 
 

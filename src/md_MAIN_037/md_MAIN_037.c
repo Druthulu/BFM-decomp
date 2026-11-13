@@ -158,7 +158,7 @@ extern void guess_ZeroMemory(s8 *a0, s32 a1);
 extern s32 func_80146578(void);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
