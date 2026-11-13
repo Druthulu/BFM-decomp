@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-13T21:17:47.532Z
+# filed through: 2026-11-13T21:51:25.779Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -175,6 +175,10 @@ R171 | 2026-11-13 | finding | in force | Phase-close docs and lessons in every p
 R172 | 2026-11-13 | decision | in force | Phase 3.44 close | Phase 3.44 is closed with its milestone met. | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
 R173 | 2026-11-13 | finding | in force | Phase 3.44 close | 3.44 results. | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
 R174 | 2026-11-13 | open | in force | Phase 3.44 close | 88 RETURN-LIE dedup rows are cleared for sharing (phase-ends/phase-3.44/logs/T10.return_lie_rows.ts… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
-R175 | 2026-11-13 | open | in force | Phase 3.44 close | tools/lever_census.py:864-875 has the same cache-order nondeterminism T2 fixed in type_census (C058… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
+R175 | 2026-11-13 | open | retired by .claude-state/journal/2026-11-13/150656-069r-claude-record.md (the lever_census fix is planned as 3.45 T4) | Phase 3.44 close | tools/lever_census.py:864-875 has the same cache-order nondeterminism T2 fixed in type_census (C058… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
 R176 | 2026-11-13 | open | in force | Phase 3.44 close | The developer pushes the repo and the archive clone (05feeb4), and runs /mcp after the restart -> t… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
-R177 | 2026-11-13 | open | in force | Phase 3.45 planning | The 3.45 planner is drafting to .run/plans/phase-3.45.md; Claude presents it with plan(kind: phase)… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
+R177 | 2026-11-13 | open | superseded by R178 | Phase 3.45 planning | The 3.45 planner is drafting to .run/plans/phase-3.45.md; Claude presents it with plan(kind: phase)… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
+R178 | 2026-11-13 | decision | in force | Phase 3.45 planning | The 3.45 plan is approved and installed. | .claude-state/journal/2026-11-13/150656-069r-claude-record.md
+R179 | 2026-11-13 | decision | in force | Phase 3.45 planning | T8 adds a DECL-PARAM rule to sig_evidence: a declaration's struct parameter must name its definitio… | .claude-state/journal/2026-11-13/150656-069r-claude-record.md
+R180 | 2026-11-13 | finding | in force | Phase 3.45 planning | 3.44's signature gate cannot see parameter types. | .claude-state/journal/2026-11-13/150656-069r-claude-record.md
+R181 | 2026-11-13 | finding | in force | Phase 3.45 planning | The 3.45 plan's shape. | .claude-state/journal/2026-11-13/150656-069r-claude-record.md
