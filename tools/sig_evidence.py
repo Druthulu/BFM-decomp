@@ -862,7 +862,7 @@ ALIAS_TAIL = re.compile(r'\)\s*__asm__\s*\(\s*"([^"\\]+)"\s*\)\s*;')     # `<ret
 IDENT_END = re.compile(r"([A-Za-z_]\w*)\s*$")
 RET_CH = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_ \t\n*")
 BRACE = re.compile(r"[{}]")
-RET_AS_RX = re.compile(r"\bRET_AS\s*\(")                           # RET_AS(T, fn, params) call sites (3.44 T5)
+RET_AS_RX = re.compile(r"\b(RET_AS|KR_AS)\s*\(")                   # RET_AS(T, fn, params) (3.44 T5), KR_AS(T, fn) (T6) sites
 RET_EXPR = re.compile(r"\breturn\b(?!\s*;)")
 V0_EXIT = "$v0 at exit:"
 _AC = None
@@ -1031,7 +1031,7 @@ def parse_text(rel, raw):
         aliases[n.group(1)] = m.group(1)
     decls.sort(key=lambda dc: dc["line"])
     binds = [(m.group(1), m.group(2)) for m in A.SHARED_BIND.finditer(raw)]
-    ret_as = []                                                     # 3.44 T5: [(line, fn, T)]; a `#define RET_AS` line is no site
+    ret_as, kr_as = [], []                                          # 3.44 T5/T6: [(line, fn, T)]; a `#define` line is no site
     for m in RET_AS_RX.finditer(masked):
         if ml[line(m.start()) - 1].lstrip().startswith("#"):
             continue
@@ -1043,9 +1043,10 @@ def parse_text(rel, raw):
                 args.append(" ".join(masked[a0:j].split()))
                 a0 = j + 1
             j += 1
-        ret_as.append((line(m.start()), args[1] if len(args) == 3 else "?", args[0] if args else "?"))   # malformed: no row backs it
+        want, out = (3, ret_as) if m.group(1) == "RET_AS" else (2, kr_as)
+        out.append((line(m.start()), args[1] if len(args) == want else "?", args[0] if args else "?"))   # malformed: no row backs it
     return {"defs": defs, "decls": decls, "binds": binds, "inner": inner, "aliases": aliases, "objlabels": objlabels,
-            "ret_as": ret_as}
+            "ret_as": ret_as, "kr_as": kr_as}
 
 
 def _parse_file(rel):
@@ -1344,6 +1345,7 @@ def compare(jobs):
 # Spec: docs/ops/sig-evidence.md "## Ledger (3.44 T4)". config/lying_exceptions.tsv: callee def_file kind cause task cites.
 LEDGER = "config/lying_exceptions.tsv"
 RV_LEDGER = "config/ret_view_casts.tsv"          # 3.44 T5: callee def_file view cause task cites; one row per RET_AS callee
+KV_LEDGER = "config/kr_view_casts.tsv"           # 3.44 T6: callee def_file cause task cites; one row per KR_AS callee
 CITE_RE = re.compile(r"^(\S+):0x([0-9A-Fa-f]{8}) (.+)$")
 KIND_RULE = {"return": "DECL-RET"}
 
@@ -1404,15 +1406,24 @@ def check_core(ledger, rows, decode):
     return failed, unused, unl, "\n".join(T) + "\n"
 
 
-def check_ret_views(ledger, parsed, decode):
+def load_kr_ledger(text):
+    """3.44 T6: config/kr_view_casts.tsv (callee def_file cause task cites) as load_ledger rows with kind ""."""
+    return [dict(L, kind="", cause=L["kind"], task=L["cause"], cites=[c for c in L["task"].split("; ") if c.strip()])
+            for L in load_ledger(text)]
+
+
+def check_ret_views(ledger, parsed, decode, kr=False):
     """3.44 T5: (failed, unbacked, unused, wrong_def, txt) for config/ret_view_casts.tsv (load_ledger; field 2 = the view T).
     parsed {file: parse_text|None}. A RET_AS site needs a row (fn, T); a row needs a site; def_file must define fn.
     A site's fn that is an asm-label alias in its file names the label (C0223); a `#define SHARED_FN own` + `#include`
-    bind defines own in the binding file (T5.c5)."""
+    bind defines own in the binding file (T5.c5).
+    3.44 T6 kr=True: config/kr_view_casts.tsv (load_kr_ledger) against the KR_AS sites, keyed on fn alone (T is the
+    definition's return; the def_file test pins the row to the definition)."""
     failed = verify_cites(ledger, decode)
-    norm = lambda t: " ".join(t.split())
+    norm = (lambda t: "") if kr else (lambda t: " ".join(t.split()))
+    tag, mac = ("kr-view", "KR_AS") if kr else ("ret-view", "RET_AS")
     sites = [(f, ln, p.get("aliases", {}).get(fn, fn), T) for f, p in sorted(parsed.items()) if p
-             for ln, fn, T in p.get("ret_as", ())]
+             for ln, fn, T in p.get("kr_as" if kr else "ret_as", ())]
     defs = collections.defaultdict(set)
     for f, p in parsed.items():
         for d in (p or {}).get("defs", ()):
@@ -1427,12 +1438,12 @@ def check_ret_views(ledger, parsed, decode):
     used = {(x[2], norm(x[3])) for x in sites}
     unused = [L for L in ledger if (L["callee"], norm(L["kind"])) not in used]
     wrong = [L for L in ledger if L["def_file"] not in defs.get(L["callee"], ())]
-    T = [f"ret-view rows {len(ledger)}, cites {sum(len(L['cites']) for L in ledger)}, RET_AS sites {len(sites)}",
-         f"ret-view failed cites {len(failed)}", f"ret-view unused rows {len(unused)}",
-         f"ret-view unbacked sites {len(unbacked)}", f"ret-view wrong def_file {len(wrong)}"]
+    T = [f"{tag} rows {len(ledger)}, cites {sum(len(L['cites']) for L in ledger)}, {mac} sites {len(sites)}",
+         f"{tag} failed cites {len(failed)}", f"{tag} unused rows {len(unused)}",
+         f"{tag} unbacked sites {len(unbacked)}", f"{tag} wrong def_file {len(wrong)}"]
     T += [f"  failed: {a} | {b} | {c}" for a, b, c in failed[:20]]
     T += [f"  unused: {L['callee']} {L['def_file']} {L['kind']}" for L in unused[:20]]
-    T += [f"  unbacked: {f}:{ln} RET_AS({t}, {fn}, …)" for f, ln, fn, t in unbacked[:20]]
+    T += [f"  unbacked: {f}:{ln} {mac}({t}, {fn}{'' if kr else ', …'})" for f, ln, fn, t in unbacked[:20]]
     T += [f"  wrong def_file: {L['callee']} {L['def_file']} (defined in {', '.join(sorted(defs.get(L['callee'], ()))) or 'none'})"
           for L in wrong[:20]]
     return failed, unbacked, unused, wrong, "\n".join(T) + "\n"
@@ -1454,10 +1465,11 @@ def check(jobs):
         return cite(Fleet(bins), b, va)
     failed, unused, unl, txt = check_core(load_ledger((REPO / LEDGER).read_text()), rows, decode)
     rv = check_ret_views(load_ledger((REPO / RV_LEDGER).read_text()), parsed, decode)
-    txt += rv[4]
+    kv = check_ret_views(load_kr_ledger((REPO / KV_LEDGER).read_text()), parsed, decode, kr=True)
+    txt += rv[4] + kv[4]
     (OUT_DIR / "check.txt").write_text(txt)
     print(txt, end="")
-    return 1 if failed or unused or unl or any(rv[:4]) else 0
+    return 1 if failed or unused or unl or any(rv[:4]) or any(kv[:4]) else 0
 
 
 # ----------------------------------------------------------------------------------------------- selftest
@@ -1795,6 +1807,20 @@ def selftest():
     check("--check ret views: a SHARED_FN bind defines its name in the binding file; an asm-label alias site names the label "
           "and an aliased body defines it",
           rf2 == [] and rub2 == [] and run2 == [] and rw2 == [], rtxt2)
+    # 3.44 T6 --check kr views: KR_AS(T, fn) sites (comments and the #define skipped) need a (fn) row of kr_view_casts.tsv
+    # (5 fields, no view); rows need a site and fn's definition file; a bad cite fails; an alias site names the label
+    kvp = {"include/common.h": parse_text("include/common.h", "#define KR_AS(T, fn) ((T (*)())(fn))\n"),
+           "src/ov/r.c": parse_text("src/ov/r.c", "void f_kr(s32 a, s32 b) {\n}\nvoid f_k2(s32 a) {\n}\n"),
+           "src/ov/s.c": parse_text("src/ov/s.c", 'void ka(void) __asm__("f_k2");\nvoid g(void) {\n    KR_AS(void, f_kr)(1);\n'
+                                    "    /* KR_AS(void, f_zz)(1); */\n    KR_AS(void, ka)();\n    KR_AS(s32, f_zz)();\n}\n")}
+    kvl = load_kr_ledger("\n".join(["callee\tdef_file\tcause\ttask\tcites", f"f_kr\tsrc/ov/r.c\tc\tT6\t{good}",
+                                    f"f_k2\tsrc/ov/r.c\tc\tT6\t{good}", f"f_k3\tsrc/ov/s.c\tc\tT6\tmain:0x80010000 nop", ""]))
+    kf, kub, kun, kw, ktxt = check_ret_views(kvl, kvp, dec_, kr=True)
+    check("--check kr views: sites parsed (alias names the label); unbacked, unused, wrong def_file, failed cite found",
+          kvp["src/ov/s.c"]["kr_as"] == [(3, "f_kr", "void"), (5, "ka", "void"), (6, "f_zz", "s32")]
+          and kvp["src/ov/s.c"]["ret_as"] == [] and kvp["include/common.h"]["kr_as"] == [] and kvl[0]["cites"] == [good]
+          and [x[0] for x in kf] == ["f_k3"] and [x[2] for x in kub] == ["f_zz"] and [L["callee"] for L in kun] == ["f_k3"]
+          and [L["callee"] for L in kw] == ["f_k3"] and "kr-view rows 3, cites 3, KR_AS sites 3" in ktxt, (kvp["src/ov/s.c"]["kr_as"], ktxt))
 
     print("selftest", "OK" if ok else "FAILED")
     return 0 if ok else 1

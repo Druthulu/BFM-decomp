@@ -82,6 +82,12 @@ typedef s64 M2C_UNK64;
  * config/ret_view_casts.tsv (3.44 T5). Use: `RET_AS(s32, func_80028D9C, (void))()`. */
 #define RET_AS(T, fn, params) ((T (*)params)(fn))
 
+/* Unprototyped-view macro (3.44 T6): class KR-VIEW. The shipped caller passed fewer arguments than fn reads (a K&R call);
+ * fn's one prototype is its definition's, so the short call goes through an unprototyped view returning T = the
+ * definition's return type; each site backed per callee by config/kr_view_casts.tsv (3.44 T6).
+ * Use: `KR_AS(void, func_80162CCC)(a0)`. */
+#define KR_AS(T, fn) ((T (*)())(fn))
+
 #include "gte_inline.h"   /* Phase 36 T5: the GTE coprocessor macros, one definition each */
 #include "struct_types.h" /* Phase 38 T3: the struct map's canonical layouts, one definition each, visible to every space */
 #endif /* COMMON_H */

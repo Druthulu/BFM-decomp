@@ -142,10 +142,13 @@ FORM_C = re.compile(r"\(\s*\(\s*" + TYPE_IN_CAST + r"\s*\)\s*([^()\[\]]+?)\s*\)\
 # restruct ledger row (rung S, site verdict KEPT(<class>)). Not in RAW_FORMS: by_form P/I/X/M and deref_total are unchanged.
 KEPT_MACROS = {"CAST_ALIAS": "SCHED-ALIAS", "CAST_SIGN": "SIGN", "CAST_WIDTH": "WIDTH", "CAST_MISALIGNED": "MISALIGNED",
                "CAST_NONSTRUCT": "NON-STRUCT", **{n: "REINTERP" for n in ("LOBU", "LOH", "HIH", "LOHU", "HIHU", "LOW", "LOWU")},
-               "RET_AS": "RET-VIEW"}
+               "RET_AS": "RET-VIEW", "KR_AS": "KR-VIEW"}
 # RET-VIEW (3.44 T5): RET_AS(T, fn, params) views a callee's return as T — a call, not a memory cast (no base/off); a site records
 # callee=args[1], view=_norm_type(args[0]) and is backed by its config/ret_view_casts.tsv row (callee, view), never the restruct ledger.
 RET_VIEW = "RET-VIEW"
+# KR-VIEW (3.44 T6): KR_AS(T, fn) calls fn through an unprototyped view returning T (a shipped short call) — a call like RET-VIEW;
+# a site records callee=args[1], view=_norm_type(args[0]) and is backed only by its config/kr_view_casts.tsv row (callee).
+KR_VIEW = "KR-VIEW"
 FORM_K = re.compile(r"\b(" + "|".join(KEPT_MACROS) + r")\s*\(")
 DEFLINE_FILE = "include/common.h"          # the macros' own `#define` lines there are definitions, not sites (--check-casts drops them)
 DEFLINE_RX = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)")
@@ -387,6 +390,8 @@ def find_sites(masked, rel, span_of_line, line_of, params_of):
                    name=name, cls=KEPT_MACROS[name], ctype=None, stars=0, base=None, bclass="other", off=0)
         args = _split_top(inner, ",") if inner is not None else []
         if name == "RET_AS" and len(args) == 3:
+            rec.update(callee=args[1].strip(), view=_norm_type(args[0]))
+        elif name == "KR_AS" and len(args) == 2:
             rec.update(callee=args[1].strip(), view=_norm_type(args[0]))
         elif name.startswith("CAST_") and len(args) == 3:
             b = parse_base(args[1])
@@ -1239,7 +1244,7 @@ def check_casts_counts(sites, raw_counts):
     deflined = collections.Counter(s["form"] for s in sites if s.get("defline"))
     check_raw = {f: raw_counts.get(f, 0) - deflined[f] for f in ("P", "I", "X", "M")}
     macro_sites = [dict(tu=s["tu"], fn=s["fn"], line=s["line"], pos=s["pos"], name=s["name"], cls=s["cls"], base=s.get("base"),
-                        bclass=s.get("bclass"), off=s.get("off"), **({"callee": s.get("callee"), "view": s.get("view")} if s["cls"] == RET_VIEW else {}))
+                        bclass=s.get("bclass"), off=s.get("off"), **({"callee": s.get("callee"), "view": s.get("view")} if s["cls"] in (RET_VIEW, KR_VIEW) else {}))
                    for s in sites if s["form"] == "K" and not s.get("defline")]
     return check_raw, macro_sites
 
@@ -1981,6 +1986,16 @@ def selftest():
     _, (_, rka) = cc('extern u16 xa(void) __asm__("func_8001");\n    extern u8 xb __asm__("D_8002");\n'
                      "    x = RET_AS(s32, xa, (void))();\n    x = RET_AS(s32, xb, (void))();")
     checks.append(("check-casts RET-VIEW alias site names the label", [s["callee"] for s in rka] == ["func_8001", "xb"]))
+    # 3.44 T6: KR_AS is a KR-VIEW site (callee, view), backed by a kr_view_casts row (callee) only; alias names the label; #define dropped
+    _, (kr_, kk) = cc('extern void ka() __asm__("func_8003");\n    KR_AS(void, func_8002)(1);\n    KR_AS(void, ka)();')
+    kvw = walk_file("#define KR_AS(T, fn) ((T (*)())(fn))\n", DEFLINE_FILE)
+    checks.append(("check-casts KR-VIEW site", kr_ == zz and [(s["name"], s["cls"], s["callee"], s["view"], s["base"]) for s in kk]
+                   == [("KR_AS", "KR-VIEW", "func_8002", "void", None), ("KR_AS", "KR-VIEW", "func_8003", "void", None)]
+                   and check_casts_counts(kvw["sites"], kvw["raw_counts"]) == (zz, [])
+                   and check_casts_verdict(zz, kk, {}, [], set(), kr_views={"func_8002", "func_8003"})[0] == 0
+                   and "(unbacked 1)" in check_casts_verdict(zz, kk, {}, [], set(), kr_views={"func_8002"})[1]
+                   and check_casts_verdict(zz, kk, {}, [], set(), ret_views={("func_8002", "void"), ("func_8003", "void")},
+                                           kr_views=set())[0] == 1))
     defs_txt = ("#define CAST_ALIAS(T, p, k)      (*(T *)((p) + (k)))\n#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))\n"
                 "#define LOH(x)  (*(s16 *)&(x))\n")
     dw = walk_file(defs_txt, DEFLINE_FILE)
@@ -2109,6 +2124,21 @@ def ret_view_casts():
     return rv
 
 
+KR_VIEW_CASTS = "config/kr_view_casts.tsv"
+
+
+def kr_view_casts():
+    """{callee} — the KR_AS ledger (config/kr_view_casts.tsv, 3.44 T6): callee def_file cause task cites."""
+    kv = set()
+    p = REPO / KR_VIEW_CASTS
+    if p.exists():
+        for ln in p.read_text().splitlines():
+            if not ln.strip() or ln.startswith("#") or ln.startswith("callee\t"):
+                continue
+            kv.add(ln.split("\t")[0])
+    return kv
+
+
 def check_verdict(summary, exceptions):
     """--check (P3.41 T5; the Gen-3 done-criteria, R42): (rc, line). Gates the --check-structs counts (dup classes not
     listed in docs/struct-twins.md, defs outside the canonical files less block frames, dead canon names), controls ok == n,
@@ -2132,16 +2162,22 @@ def check_verdict(summary, exceptions):
     return (1 if viol else 0), line
 
 
-def check_casts_verdict(raw_by_form, macro_sites, latest, lying_rows, exceptions, uncovered=None, ret_views=None):
+def check_casts_verdict(raw_by_form, macro_sites, latest, lying_rows, exceptions, uncovered=None, ret_views=None, kr_views=None):
     """(rc, line) — rc 1 iff any raw form > 0, any macro site unbacked, or any lying row not ledgered in the exceptions TSV.
     P39 T10 (--residue): `uncovered` {form: n} — the line adds `(uncovered P=…)` and the rc tests uncovered instead of raw.
-    3.44 T5: a RET-VIEW site is backed only by a `ret_views` {(callee, view)} row (default: config/ret_view_casts.tsv)."""
+    3.44 T5: a RET-VIEW site is backed only by a `ret_views` {(callee, view)} row (default: config/ret_view_casts.tsv).
+    3.44 T6: a KR-VIEW site only by a `kr_views` {callee} row (default: config/kr_view_casts.tsv)."""
     unbacked = 0
     for s in macro_sites:
         if s["cls"] == RET_VIEW:
             if ret_views is None:
                 ret_views = ret_view_casts()
             unbacked += (s.get("callee"), s.get("view")) not in ret_views
+            continue
+        if s["cls"] == KR_VIEW:
+            if kr_views is None:
+                kr_views = kr_view_casts()
+            unbacked += s.get("callee") not in kr_views
             continue
         row = latest.get(("S", s["tu"], s["fn"]))
         ok = False

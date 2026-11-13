@@ -270,3 +270,22 @@ lying_exceptions.tsv's style; `cites` as there (the callee's exit writer and one
 def_file. check.txt gains `ret-view rows/cites/RET_AS sites` and the four counts (first 20 of each); any nonzero exits 1.
 type_census `--check-casts` counts RET_AS as macro class `RET-VIEW` (K form, no base/off; restruct ignores it) and backs a
 site only by a row (callee, view) of this file, never the restruct ledger.
+
+## Unprototyped views (3.44 T6)
+
+`KR_AS(T, fn)` (include/common.h, after `RET_AS`) is `((T (*)())(fn))`: a call through `fn` cast to an unprototyped function
+returning `T`, where `T` is the definition's return type. Rule: every `()` declaration of `fn` takes its one prototype (the
+definition's; an asm-label `CNAME(…) __asm__("SYM")` line keeps its label); a call whose shipped caller passed fewer
+arguments than the callee reads (census `args.read` / `args.arity_lb`) is written `KR_AS(T, fn)(args)`, so it stays the
+K&R call it was. One ledger row per callee, with cites; proven byte-identical per object by scratch compile vs HEAD (C0589).
+A callee whose objects still differ keeps its `()` declarations and gets a lying_exceptions row instead.
+
+`config/kr_view_casts.tsv` (hand-edited config): tab-separated `callee def_file cause task cites` (no view column: `T` is
+pinned by the definition), header comment in ret_view_casts.tsv's style; `cites` = the callee's read of the missing
+argument register or slot and one short caller's `jal`.
+
+`--check` also runs the ret-view checks over it (shared code, `check_ret_views(kr=True)`): cites re-decoded; every `KR_AS`
+site (comments masked, `#define` lines skipped, asm-label aliases name the label) needs a row for `fn`; a row with no site is
+unused; a row whose `def_file` does not define `fn` is a wrong def_file. check.txt gains `kr-view rows/cites/KR_AS sites` and
+the four counts; any nonzero exits 1. type_census `--check-casts` counts KR_AS as macro class `KR-VIEW` (K form, no
+base/off; restruct ignores it) and backs a site only by a row (callee) of this file.
