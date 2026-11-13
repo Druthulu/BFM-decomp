@@ -9,5 +9,5 @@ s32 SHARED_FN(s32 arg0, s32 arg1, s32 arg2)
 
     guess_RotTransSVWithObjMatrix(arg0, arg1, &a);
     guess_RotTransSVWithObjMatrix(arg0, arg2, &b);
-    func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&a, (s32)&b);
+    return func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&a, (s32)&b);
 }

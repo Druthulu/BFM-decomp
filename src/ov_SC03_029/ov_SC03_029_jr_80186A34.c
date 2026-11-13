@@ -3515,7 +3515,7 @@ s32 func_80187118(s32 a0, s32 a1)
         *(u16 *)(rotIn + 4) = riz;
     }
 
-    func_8012CEB0((s32)&rotIn[0], (s32)&rotOut[0], 0);
+    return func_8012CEB0((s32)&rotIn[0], (s32)&rotOut[0], 0);
 }
 
 

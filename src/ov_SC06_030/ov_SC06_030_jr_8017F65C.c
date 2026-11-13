@@ -3604,7 +3604,7 @@ s32 func_80180C44(s32 arg0)
 extern s32 func_8001AAA0(s32 arg);
     s32 func_80180C5C(void)
 {
-        func_8001AAA0(0x6F);
+        return func_8001AAA0(0x6F);
     }
 
 

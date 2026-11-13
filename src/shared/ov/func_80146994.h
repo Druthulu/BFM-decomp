@@ -6,5 +6,5 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
  * Names ledger: config/names.tsv guess_SpawnSmallObjectAtOrigin */
 s32 guess_SpawnSmallObjectAtOrigin(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    guess_SpawnSmallObject(arg0 & 0xFFFF, (void *)arg1, 0, 0, 0, arg2, arg3);
+    return guess_SpawnSmallObject(arg0 & 0xFFFF, (void *)arg1, 0, 0, 0, arg2, arg3);
 }

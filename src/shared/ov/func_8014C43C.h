@@ -6,5 +6,5 @@ s32 func_8014C43C(void * a0, s32 a1, s32 a2, s32 a3, s16 a4)
 {
     u16 v0;
     v0 = guess_RollActorEventValue((u16)a2);
-    guess_PostActorEvent(a1, a2, v0 & 0xFFFF, a3, (s16)a4);
+    return guess_PostActorEvent(a1, a2, v0 & 0xFFFF, a3, (s16)a4);
 }

@@ -5,5 +5,5 @@ extern s32 func_8001D074(s32, s32);
  * Confidence low, xref chain: func_8001D074(0x16, 0x3E): first 0x38-byte record at guess_g_RenderWork + 0x65A8 + i * 0x38 whose u16 at +0 is 0
  * Names ledger: config/names.tsv guess_AllocSpriteObject */
 void *guess_AllocSpriteObject(void) {
-    func_8001D074(0x16, 0x3E);
+    return (void *)func_8001D074(0x16, 0x3E);
 }

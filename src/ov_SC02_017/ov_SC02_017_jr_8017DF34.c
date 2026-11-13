@@ -3322,7 +3322,7 @@ s32 func_8017F474(void *a0)
 {
     extern struct { void *f0; void *f1; } D_8018E194[];
     extern s32 func_8017209C(void *arg0, void *arg1, s32 arg2, s32 arg3);
-    func_8017209C(a0, &D_8018E194[((Unkstruct_80126B58 *)a0)->unk210], 0x80, 0xA);
+    return func_8017209C(a0, &D_8018E194[((Unkstruct_80126B58 *)a0)->unk210], 0x80, 0xA);
 }
 
 

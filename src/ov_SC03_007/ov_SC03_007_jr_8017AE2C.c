@@ -4897,11 +4897,11 @@ extern s32 guess_DistSqToPlayer(s32 a0);
 
 s32 func_8017EE50(s32 arg0)
 {
-    if (func_8017EF68() != 1) {
-        guess_DistSqToPlayer(arg0);
+    s32 r; if (func_8017EF68() != 1) {
+        r = guess_DistSqToPlayer(arg0);
     } else {
-        func_8012BC60((void *)(arg0 + 4), (void *)(D_801270C8[0] + 4));
-    }
+        r = func_8012BC60((void *)(arg0 + 4), (void *)(D_801270C8[0] + 4));
+    } return r;
 }
 
 
@@ -4911,16 +4911,16 @@ extern s32 guess_YawToPoint(void *a0, void *a1);
 extern s32 func_8012B864(s32 a0);
 
 s32 func_8017EEA4(s32 a0) {
-    s16 buf[3];
+    s16 buf[3]; s32 r;
 
     if (func_8017EF68() != 1) {
-        func_8012B864(a0);
+        r = func_8012B864(a0);
     } else {
         buf[0] = *(u16 *)(D_801270C8[0] + 0x6);
         buf[1] = *(u16 *)(D_801270C8[0] + 0xA);
         buf[2] = *(u16 *)(D_801270C8[0] + 0xE);
-        guess_YawToPoint((void *)(a0 + 4), buf);
-    }
+        r = guess_YawToPoint((void *)(a0 + 4), buf);
+    } return r;
 }
 
 
@@ -5915,16 +5915,16 @@ extern s32 func_8012B864(s32 a0);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 
 s32 func_801803DC(s32 a0) {
-    s16 buf[3];
+    s16 buf[3]; s32 r;
 
     if (func_80180AF4() != 1) {
-        func_8012B864(a0);
+        r = func_8012B864(a0);
     } else {
         buf[0] = *(u16 *)(D_801270C8[0] + 0x6);
         buf[1] = *(u16 *)(D_801270C8[0] + 0xA);
         buf[2] = *(u16 *)(D_801270C8[0] + 0xE);
-        guess_YawToPoint((void *)(a0 + 4), buf);
-    }
+        r = guess_YawToPoint((void *)(a0 + 4), buf);
+    } return r;
 }
 
 

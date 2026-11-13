@@ -3200,7 +3200,7 @@ void func_8018430C(s32 a0) {
 
 extern s32 func_80143994(s32 arg0, s32 arg1);
 s32 func_801843D8(void *a0) {
-    *(s16 *)func_80143994((s32)a0, 0x3FFF) = 0x93;
+    s32 r = func_80143994((s32)a0, 0x3FFF); *(s16 *)r = 0x93; return r;
 }
 
 

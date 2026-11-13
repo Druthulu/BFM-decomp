@@ -7339,7 +7339,7 @@ s32 func_80182888(void)
 
     *p = 0x51;
     guess_g_CdReadListDest = &D_800A2E20;
-    guess_RequestResourceLoad(0, 0, D_800AF410, 0, (u32)p);
+    return guess_RequestResourceLoad(0, 0, D_800AF410, 0, (u32)p);
 }
 
 

@@ -7588,7 +7588,7 @@ extern CdFileLoc cdFileLocTable[];
 extern s16 D_801887C4[];
 
 s32 func_8018283C(s32 param_1) {
-    guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[D_801887C4[param_1]], 0, 0);
+    return guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[D_801887C4[param_1]], 0, 0);
 }
 
 

@@ -173,7 +173,7 @@ extern s32 D_801C91C4;
 extern u8 D_800AEFD0;
 
 s32 func_801288B0(void) {
-    guess_RequestResourceLoad(0, 0, &D_800AEFD0, D_801C91C4, 0);
+    return guess_RequestResourceLoad(0, 0, &D_800AEFD0, D_801C91C4, 0);
 }
 
 
@@ -194,7 +194,7 @@ int func_801288E8(int arg0)
     int *p = &guess_g_CdReadList;
     *p = 0x60;
     guess_g_CdReadListDest = &D_800A2E20;
-    ((void (*)(int, int, int *, int, int *))guess_RequestResourceLoad)(0, 0, &D_800AF558, D_801C91C4, p);
+    return ((int (*)(int, int, int *, int, int *))guess_RequestResourceLoad)(0, 0, &D_800AF558, D_801C91C4, p);
 }
 
 
@@ -215,7 +215,7 @@ s32 func_80128940(s32 _arg0)
     s32 *p = &guess_g_CdReadList;
     *p = 0x5E;
     guess_g_CdReadListDest = &D_800A2E20;
-    ((void (*)(s32, s32, void *, s32, void *))guess_RequestResourceLoad)(0, 0, &D_800AF560, D_801C91C4, p);
+    return ((int (*)(s32, s32, void *, s32, void *))guess_RequestResourceLoad)(0, 0, &D_800AF560, D_801C91C4, p);
 }
 
 
@@ -237,7 +237,7 @@ s32 func_80128998(void)
     int *p = &guess_g_CdReadList;
     *p = 13;
     guess_g_CdReadListDest = &D_800A2E20;
-    ((void (*)(int, int, int *, int, int *))guess_RequestResourceLoad)(0, 0, &D_800AECB0, D_801C91C4, p);
+    return ((int (*)(int, int, int *, int, int *))guess_RequestResourceLoad)(0, 0, &D_800AECB0, D_801C91C4, p);
 }
 
 
@@ -247,7 +247,7 @@ extern u8 D_800AECB8;
 extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_801289F0(void) {
-    guess_RequestResourceLoad(0, 0, &D_800AECB8, D_801C91C4, 0);
+    return guess_RequestResourceLoad(0, 0, &D_800AECB8, D_801C91C4, 0);
 }
 
 

@@ -889,7 +889,7 @@ extern s32 D_800D34AC[];
 extern s32 func_800191D4(s32 arg0);
 
 s32 func_800CFD68(s32 arg0) {
-    func_800191D4(D_800D34AC[arg0 & 0xFFFF0FFF] & 0xFFF);
+    return func_800191D4(D_800D34AC[arg0 & 0xFFFF0FFF] & 0xFFF);
 }
 
 extern s16 currentLocationId;
