@@ -62,7 +62,10 @@ crack compounds from match #1; without it, every match is worth ×1.
   return-type lies over 100,266 sites that an arity-only check had passed. Compare return types as well as arity. A
   repair is a unit (definition, declarations, callers), and under gcc-2.7.2 a `void` to `int` declaration can still
   move bytes when the result is dropped (func_80139BE0, 3.41 T4.c1; cookbook C0547): where it is load-bearing, keep a
-  cast at the call and record the exception.
+  cast at the call and record the exception. Better still, never let the debt start: gate every banked function on an
+  asm signature check from the first match, ban `()` and K&R declarations, and write every call the shipped game made
+  through another view as a marked, ledgered cast ([chapter 03](03-bootstrap-order.md), Phase 0 item 4). BFM retrofitted
+  this in 3.44, against 198,029 disagreements.
 - **A propagated name is a claim in every copy.** Placeholder names are per binary, so a rename touches only the
   binaries whose row it covers. A name is cited only from a recorded source, and every model-worded name is a marked
   guess with its basis in the ledger. [Chapter 03](03-bootstrap-order.md), Phase 0 item 5, gives the day-1 setup.

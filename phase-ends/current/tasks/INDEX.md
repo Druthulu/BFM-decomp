@@ -13,3 +13,4 @@ T10 | done | milestone gate (Phase 3.44) | - | tasks/T10.md | logs/T10.md | -
 T11 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.44) | - | tasks/T11.md | logs/T11.md | R3.44-005
 T12 | done | phase cleanup (Phase 3.44) | - | tasks/T12.md | logs/T12.md | -
 T13 | done | backfill 3.43's naming lessons into the day-1 guide and wiki; a names series and README graph | - | tasks/T13.md | logs/T13.md | -
+T14 | done | a signatures series and README graph, and the day-1 prevention lesson (rule T5) | - | tasks/T14.md | logs/T14.md | -

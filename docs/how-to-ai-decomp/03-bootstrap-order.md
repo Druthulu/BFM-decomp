@@ -45,6 +45,17 @@ byte-match baseline  →  pin the compiler by evidence  →  honest corpus censu
    of BFM's 19 "callee narrows its return" exceptions turned out to be the caller converting (3.44 T3). BFM built
    this census only in Gen3 (3.44, `tools/sig_evidence.py`), when it found about 198,000 disagreements over some
    1,500 functions in a tree that had matched for two months. Build it while the first functions match, and gate on it.
+   **Preventing that debt from day 1 takes four rules, all in place before the first matched function is banked.**
+   (a) Keep one shared prototype header that every file includes, and give each function exactly one prototype there,
+   its definition's. (b) Run the asm signature check as a gate from the first matched function: every declaration and
+   definition agrees with the measured contract, or it has an exception whose cited instructions the gate re-reads from
+   the bytes. (c) Ban `()` and K&R declarations outright. They check nothing, so every caller's mistake compiles. (d) Where
+   the shipped game really called a function through another view (its callers read the return as a different width,
+   or passed fewer or more arguments than it takes), write that call through a marked cast macro and record it in a
+   ledger with its cites. Never leave it as a second prototype. BFM wrote these as `RET_AS(T, fn, params)` and
+   `KR_AS(T, fn)`, backed by `config/ret_view_casts.tsv` and `config/kr_view_casts.tsv`. Retrofitting all four took
+   BFM four tasks (3.44 T5-T8) and about 200,000 edited declaration lines. The series is the signatures graph in
+   [`docs/readability.md`](../readability.md).
 5. **Keep a names ledger from the first match, and scope the rename tool to one binary before the first rename.** A
    name is a claim about the game, so every name the tree carries needs its evidence on record. Use one row per name,
    giving its tier, basis, confidence and evidence kind, checked by a tool in the health suite. A name is *cited* only
@@ -146,6 +157,8 @@ and stops the waste; it does not shrink the hard half.** Sell it as that and it 
 
 1. Byte-exact build triple by evidence; whole-binary hash check in the build; an all-assembly green baseline; one
    shared prototype header every file includes, with a declaration checker that compares return types as well as arity;
+   the asm signature check gating from the first matched function, `()` and K&R declarations banned, and every view
+   cast marked and ledgered with its cites;
    a names ledger checked in the health suite (cited from a recorded source, or a marked guess with its basis), a
    rename tool scoped to one binary, and a wall-clock bound on every scan.
 2. The local per-function oracle, **stating its blind spots in its own output**.
