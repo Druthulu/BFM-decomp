@@ -1046,3 +1046,4 @@ C0593 | Asm-label definitions are invisible to name-keyed tools; registering the
 C0594 | KR_AS unprototyped view: one prototype for () callees, marked short/over calls | declarations,arity,k-and-r,macro,kr-view,bytes | 2026-11-12 | 3.44/T6 | 3.44 T6.c1
 C0595 | Return-less defs at scale: driver loop, cast-view tail returns, if/else single return, census join traps | return-type,return,bytes,scratch,census | 2026-11-13 | 3.44/T7 | 3.44 T7.c1
 C0596 | Voiding an unused-return function fleet-wide: joined units over shared decls, compile-error fallback, traps | return-type,void,declarations,bytes,scratch | 2026-11-13 | 3.44/T7 | 3.44 T7.c3
+C0597 | RET-VOID-READ: widen a read void callee with its declarations, tail chains, trampolines | return-type,void,declarations,bytes,shared | 2026-11-13 | 3.44/T8 | 3.44 T8.c1
