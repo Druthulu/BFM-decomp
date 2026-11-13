@@ -11,3 +11,4 @@ T8 | done | the remaining measured disagreements | - | tasks/T8.md | logs/T8.md 
 T9 | done | the signature gate in tools-health | - | tasks/T9.md | logs/T9.md | R3.44-002
 T10 | done | milestone gate (Phase 3.44) | - | tasks/T10.md | logs/T10.md | -
 T11 | done | phase-close docs: story, retrospective, wiki, README (Phase 3.44) | - | tasks/T11.md | logs/T11.md | R3.44-005
+T12 | done | phase cleanup (Phase 3.44) | - | tasks/T12.md | logs/T12.md | -
