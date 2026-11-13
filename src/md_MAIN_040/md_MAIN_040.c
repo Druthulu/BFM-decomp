@@ -43,7 +43,7 @@ extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                           s32 a4, s32 a5, s32 a6, s32 a7);
-extern s32 func_80161208();  /* canonical no-proto */
+extern s32 func_80161208(void *a0);  /* canonical no-proto */
 
 void func_800CAF18(void *a0) {
     u16 flag;

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void guess_AddMoveVectorThenSetVelocity(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_ApplyVelocity(s32 *a0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern void func_8016706C(s32 a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void guess_NextStep(void *a0);

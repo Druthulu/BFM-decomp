@@ -77,7 +77,7 @@ void func_800CAFCC(void) {
 
 void func_800CAFEC(s32 *a0) {
     s32 *v1;
-    extern s32 func_80161208();
+    extern s32 func_80161208(void *a0);
     extern s32 func_80165A20(s32);
     extern void func_801553A8(s32 *a0);
     extern void func_80155440(s32 *a0);
@@ -100,7 +100,7 @@ void func_800CAFEC(s32 *a0) {
 }
 
 
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern s32 func_80165A20(s32 a0);
 extern void guess_NextStep(void *a0);
 
@@ -126,7 +126,7 @@ void func_800CB06C(void *arg0) {
 }
 
 
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern s32 func_80165A20(s32 a0);
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
@@ -135,7 +135,7 @@ extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_NextStep(void *a0);
 
 void func_800CB108(s32 a0) {
-    if (func_80161208()) {
+    if (KR_AS(s32, func_80161208)()) {
         func_80165A20(a0);
     } else if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
         guess_SetAnim(a0, 0x27);
@@ -149,7 +149,7 @@ void func_800CB108(s32 a0) {
 
 #include "common.h"
 
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern s32 func_80165A20(s32 a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern void func_8012A62C(s32 a0);

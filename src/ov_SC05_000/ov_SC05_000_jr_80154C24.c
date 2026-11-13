@@ -1095,7 +1095,7 @@ S801563EC *func_801563EC(u16 idx) {
 // Codegen shape: a counter in $a0, a byte cursor $a1 walking D_80126AF0 by 8, a word cursor
 // $v1 walking D_801151E0 by 4; the `addu $v0,$a1,$zero` return value sits in the bnez delay
 // slot, and the loop fallthrough re-zeroes $v0 for the not-found return.
-s32 aF80156600(void) __asm__("func_80156600");
+s32 aF80156600(void* _arg0) __asm__("func_80156600");
 
 #include "../shared/ov/func_80156600.h"
 

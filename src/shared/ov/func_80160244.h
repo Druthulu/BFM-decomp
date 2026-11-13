@@ -3,7 +3,7 @@
 extern void guess_SetAnim(s32 a0, s32 a1);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void guess_NextStep(void *a0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 void func_80160244(s32 *a0) {
     if (*(u16 *)((u8 *)a0 + 0xB8) == 0x8000) {
         guess_SetAnim((s32)a0, 0x23);

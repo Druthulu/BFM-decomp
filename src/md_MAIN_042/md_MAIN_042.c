@@ -50,7 +50,7 @@ extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_Play
 extern void func_800CCD60(s32);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern s32 func_80155FB0(s32 a0, s32 a1);
 
 void func_800CCBF0(u8 *a0) {

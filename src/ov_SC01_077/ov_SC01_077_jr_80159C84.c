@@ -959,7 +959,7 @@ extern void func_801555F4(void *);
 extern void func_801555BC(void *a0);
 extern s32 func_80155800(s32 arg0);
 extern int func_80155A44(int param_1);
-extern int func_80161208();
+extern int func_80161208(void *a0);
 extern u8 D_800D4DA8[];
 extern void func_80155B20(s32 *a0);
 extern s32 D_800D4DB4;
@@ -972,10 +972,10 @@ extern s32 D_800D4DF4;
 extern void func_80155C64(s32 a0);
 extern void guess_EnterState11(s32 *a0);
 extern void func_80155D70(s32 param_1);
-extern s32 func_80161208(void);
+extern s32 func_80161208(void *a0);
 void func_80155E30(void *a0);
 extern void func_80155E30(void *a0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern void func_80155EA4(void *arg0);
 extern void func_80155F58(void);
 extern s32 func_80155F80(s32 a0);
@@ -1038,7 +1038,7 @@ extern void func_80157580(s32 arg0);
 extern u8 D_800D4F14[];
 extern void func_801599A4(void *a0);   /* canonical: void(*)(void *) */
 extern void func_80159B3C(void *a0);   /* canonical: void(*)(void *) */
-extern s32 func_80161208(void);        /* canonical: s32(*)(void) — call-site cast to pass arg0 */
+extern s32 func_80161208(void *a0);        /* canonical: s32(*)(void) — call-site cast to pass arg0 */
 extern void func_801576A8(void *arg0);
 extern s32 func_8015773C(u8 *a0);
 extern s32 func_8015771C(u8 *a0);
@@ -1251,7 +1251,7 @@ extern void guess_SetTexAnim(s32 a0, s32 a1);
 extern void guess_SetVelocityFromMoveVector(s32 a0);
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern void guess_SaveGroundedPos(unsigned char *self);
 extern s32 func_80172590(u8 *a0);
 

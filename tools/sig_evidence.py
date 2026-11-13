@@ -1436,6 +1436,7 @@ def check_ret_views(ledger, parsed, decode, kr=False):
             hdr = parsed.get(posixpath.normpath(posixpath.join(posixpath.dirname(f), inc)))
             if hdr and any(d["name"] == "SHARED_FN" for d in hdr["defs"]):
                 defs[own].add(f)
+                defs[p["aliases"].get(own, own)].add(f)              # 3.44 T8: `#define SHARED_FN aF…` + its asm label
     keys = {(L["callee"], norm(L["kind"])) for L in ledger}
     unbacked = [x for x in sites if (x[2], norm(x[3])) not in keys]
     used = {(x[2], norm(x[3])) for x in sites}

@@ -1,6 +1,6 @@
 /* func_80158344 — shared body (overlay slot 0x80128158, h_exact 46109ea7). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern s32 func_801585AC(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
@@ -15,7 +15,7 @@ extern u8 D_800D52E8[];
 void func_80158344(s32 *a0) {
     s32 spill[4];
     *(s32 *)((s32)a0 + 0x44) |= 2;
-    if (func_80161208() == 0) {
+    if (KR_AS(s32, func_80161208)() == 0) {
         if (func_801585AC(a0) != 0) {
             func_80156648(a0);
             *(s8 *)((s32)a0 + 0x1AA) = 0x11;

@@ -1,13 +1,13 @@
 /* func_80160C28 — shared body (overlay slot 0x80128158, h_exact c58d9ce0). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern void guess_NextStep(void *a0);
 void func_80160C28(void *arg0)
 {
     s32 p;
     s32 q;
     register void *a __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1) wall:cse-copy-merge
-    if (func_80161208() == 0) {
+    if (KR_AS(s32, func_80161208)() == 0) {
         *(s32 *)((u8 *)arg0 + 0x238) += 0x1c000;
         p = *(s32 *)((u8 *)arg0 + 0x20);
         *(u16 *)((u8 *)p + 0x10) =

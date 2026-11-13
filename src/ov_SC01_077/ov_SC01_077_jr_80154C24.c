@@ -1045,7 +1045,7 @@ extern void (*D_8018898C[])(void *);
 
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern s32 func_80161208(void);
+extern s32 func_80161208(void *a0);
 extern int func_80155FF8(int arg, int a1);
 
 void func_80155E30(void *a0);
@@ -1171,7 +1171,7 @@ S801563EC *func_801563EC(u16 idx) {
 // Codegen shape: a counter in $a0, a byte cursor $a1 walking D_80126AF0 by 8, a word cursor
 // $v1 walking D_801151E0 by 4; the `addu $v0,$a1,$zero` return value sits in the bnez delay
 // slot, and the loop fallthrough re-zeroes $v0 for the not-found return.
-s32 aF80156600(void) __asm__("func_80156600");
+s32 aF80156600(void* _arg0) __asm__("func_80156600");
 
 #include "../shared/ov/func_80156600.h"
 
@@ -1248,7 +1248,7 @@ void func_80157544(void *a0)
 
 extern void func_801599A4(void *a0);   /* canonical: void(*)(void *) */
 extern void func_80159B3C(void *a0);   /* canonical: void(*)(void *) */
-extern s32 func_80161208(void);        /* canonical: s32(*)(void) — call-site cast to pass arg0 */
+extern s32 func_80161208(void *a0);        /* canonical: s32(*)(void) — call-site cast to pass arg0 */
 #include "../shared/ov/func_801576A8.h"
 
 #include "../shared/ov/func_8015771C.h"

@@ -54,7 +54,7 @@ void func_800CAEE0(u8 *a0) {
 }
 
 
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern void func_800CB05C(s32 a0, s32 a1);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
@@ -62,7 +62,7 @@ extern s32 func_80155FD4(s32 a0, s32 a1);
 
 void func_800CAF68(s32 a0) {
     ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
-    if (func_80161208() != 0) {
+    if (KR_AS(s32, func_80161208)() != 0) {
         return;
     }
     if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x2000) {

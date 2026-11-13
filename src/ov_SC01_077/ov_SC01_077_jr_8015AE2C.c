@@ -951,7 +951,7 @@ extern void func_801555F4(void *);
 extern void func_801555BC(void *a0);
 extern s32 func_80155800(s32 arg0);
 extern int func_80155A44(int param_1);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern u8 D_800D4DA8[];
 extern void func_80155B20(s32 *a0);
 extern s32 D_800D4DB4;
@@ -964,10 +964,10 @@ extern s32 D_800D4DF4;
 extern void func_80155C64(s32 a0);
 extern void guess_EnterState11(s32 *a0);
 extern void func_80155D70(s32 param_1);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 void func_80155E30(void *a0);
 extern void func_80155E30(void *a0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern void func_80155EA4(void *arg0);
 extern void func_80155F58(void);
 extern s32 func_80155F80(s32 a0);
@@ -1028,7 +1028,7 @@ extern void func_80157580(s32 arg0);
 extern u8 D_800D4F14[];
 extern void func_801599A4(void *a0);   /* canonical: void(*)(void *) */
 extern void func_80159B3C(void *a0);   /* canonical: void(*)(void *) */
-extern s32 func_80161208();        /* canonical: s32(*)(void) — call-site cast to pass arg0 */
+extern s32 func_80161208(void *a0);        /* canonical: s32(*)(void) — call-site cast to pass arg0 */
 extern void func_801576A8(void *arg0);
 extern s32 func_8015773C(u8 *a0);
 extern s32 func_8015771C(u8 *a0);
@@ -1683,7 +1683,7 @@ extern s32 guess_GetPlayerControlScript(void);
 extern s32 guess_TestGameFlag(s32 a0);
 extern void guess_SetMoveVector(s32*, s32*);
 extern void func_80161CD0(s32, s32);
-extern s32 func_80161208(s32 a0);
+extern s32 func_80161208(void *a0);
 extern s32 func_801725A4(u8*);
 
 /* $v0 at exit: result of 0x800CCCC0 or result of guess_StartChargedSquareAction or result of guess_StartSquareAction or result of guess_StartTriangleAction or result of func_80159B70 or result of guess_EnterState11 or result of func_80161208 or result of func_80161B18 or result of func_80161CD0 or result of func_801725A4 or addiu $v0, $zero, 0x1 at ov_SC01_077:0x8015BB98 or negu $v0, $v0 at ov_SC01_077:0x8015BC34; no byte-neutral return: `return 0;` moved `bnez v0,<func_8015B950+0x424>` at +0x20, ov_SC01_077 objdump */

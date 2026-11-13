@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern u8 D_800D5098[];
 extern u8 D_800D5060[];
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern s32 func_8014A850(s32 a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern void func_8015E40C(s32 a0);
@@ -12,7 +12,7 @@ extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_NextStep(void *a0);
 extern void guess_SetStep(s32 *a0, s16 a1);
 void func_8015E288(s32 a0) {
-    if (func_80161208() != 0) {
+    if (KR_AS(s32, func_80161208)() != 0) {
         return;
     }
     if (func_8014A850(a0) != 0) {

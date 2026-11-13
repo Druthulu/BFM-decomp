@@ -115,7 +115,7 @@ extern void func_800CB1F8(void *a0);
 extern void func_800CB13C(s32 param_1);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 
 void func_800CB080(void *arg0) {
     if (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x4000) {

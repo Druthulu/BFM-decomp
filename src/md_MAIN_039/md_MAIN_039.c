@@ -63,7 +63,7 @@ extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
 extern void guess_StartPadVibration(void *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 
 void func_800CAF80(void *a0) {
     u16 flag;

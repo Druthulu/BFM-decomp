@@ -34,7 +34,7 @@ void func_800CAEC0(u8 *a0) {
 }
 
 
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern s32 func_800CB170(s32 a0);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_ClearObjectAndSubObject(u8 *);
@@ -45,7 +45,7 @@ extern s32 D_8011F9D0;
 void func_800CAF08(u8 *arg0) {
     u16 *p;
 
-    if (func_80161208() != 0) {
+    if (KR_AS(s32, func_80161208)() != 0) {
         func_800CB170((s32)arg0);
         return;
     }
@@ -79,7 +79,7 @@ void func_800CAF08(u8 *arg0) {
 void func_800CB0C8(void *a0) {
     extern s32 D_800CC580;
     extern void func_800CB1A0(void);
-    extern s32 func_80161208();
+    extern s32 func_80161208(void *a0);
     extern void func_80165A78(s32 a0);
     extern void func_80159B3C(void *a0);
     extern s32 func_800CB170(s32 a0);

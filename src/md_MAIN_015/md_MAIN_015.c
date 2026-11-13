@@ -33,14 +33,14 @@ void func_800CAEC0(u8 *a0) {
 }
 
 
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 D_800CBB00[];
 extern s32 D_800CBAE0[];
 
 void func_800CAF0C(s32 *a0) {
-    if (func_80161208() == 0) {
+    if (KR_AS(s32, func_80161208)() == 0) {
         if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
             if (guess_GetPadHeld(a0) & 0x20) {
                 guess_SetAnimScript(a0, (s32)D_800CBB00);
@@ -54,7 +54,7 @@ void func_800CAF0C(s32 *a0) {
 }
 
 
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern s32 func_80148E54(void *a0);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern int func_80148AFC(void *a0);
@@ -77,7 +77,7 @@ void func_800CAF9C(s32 a0) {
 
     p = ((Unkstruct_80126B58 *)a0)->unk20;
     ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
-    if (func_80161208() != 0) {
+    if (KR_AS(s32, func_80161208)() != 0) {
         return;
     }
 
@@ -114,7 +114,7 @@ void func_800CAF9C(s32 a0) {
 }
 
 
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 #define SHARED_FN func_800CB140

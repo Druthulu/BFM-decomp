@@ -902,7 +902,7 @@ extern s32 func_80161104(void);
 extern void func_801555F4(void *);
 extern void func_801555BC(void *a0);
 extern int func_80155A44(int param_1);
-extern int func_80161208();
+extern int func_80161208(void *a0);
 extern u8 D_800D4DA8[];
 extern void func_80155B20(s32 *a0);
 extern s32 D_800D4DB4;
@@ -916,7 +916,7 @@ extern void func_80155C64(s32 a0);
 extern void guess_EnterState11(s32 *a0);
 extern void func_80155D70(s32 param_1);
 extern void func_80155E30(void *a0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern void func_80155EA4(void *arg0);
 extern void func_80155F58(void);
 extern s32 func_80155F80(s32 a0);
@@ -1310,7 +1310,7 @@ extern void func_8015F048(s32 a0);
 extern void func_8015F080(s32 a0);
 extern s32 D_80062BE8;
 extern s32 guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
-extern s32 func_80161208(void);
+extern s32 func_80161208(void *a0);
 extern void func_8015F118(void *a0);
 extern void func_8015F260(s32 *a0);
 extern void func_8015F380(void* arg0);
@@ -2752,7 +2752,7 @@ extern void func_8017F400(short *param);
 extern void func_8017F42C(s32 a0);
 extern void func_801849B8(s32*, s32);
 extern void func_8017F53C(void * arg0);
-extern s32 func_801845DC(void);
+extern s32 func_801845DC(void *a0);
 extern s32 func_80185F5C(void *a0);
 extern void func_80178BF8(void);
 extern s32 func_8017F650(void *a0);
@@ -3169,7 +3169,7 @@ void func_8018305C(void *arg0) {
 extern s32 func_8012BD14(s32 a0);
 extern void func_80178BF8();
 extern void func_80172710(void);
-extern s32 func_801845DC(void);
+extern s32 func_801845DC(void *a0);
 
 s32 func_80183100(void *a0)
 {
@@ -3207,7 +3207,7 @@ s32 func_80183100(void *a0)
 extern s32 func_8012BD14(s32 a0);
 extern void func_80178BF8();
 extern void func_80172710(void);
-extern s32 func_801845DC(void);
+extern s32 func_801845DC(void *a0);
 extern s32 func_80185F5C(void *a0);
 
 s32 func_801831C8(void *a0)
@@ -3938,7 +3938,7 @@ void func_80184054(void *arg0) {
 extern s32 func_8012BD14(s32 a0);
 extern void func_80178BF8();
 extern void func_80172710(void);
-extern s32 func_801845DC(void);
+extern s32 func_801845DC(void *a0);
 extern s32 func_80185F5C(void *a0);
 
 
@@ -4093,7 +4093,7 @@ void func_80184360(void *arg0) {
 extern s32 func_8012E544(s32 a0);
 extern void func_80178BF8();
 extern void func_80172710(void);
-extern s32 func_801845DC(void);
+extern s32 func_801845DC(void *a0);
 extern s32 func_80185F5C(void *a0);
 
 /* NAME COLLISION (same shape as aF801840DC at L3970 of this TU):
@@ -4926,7 +4926,7 @@ void func_80185364(void *a0) {
 extern s32 func_80184E6C(s32 a0);
 extern void func_80185604(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern void func_80185BEC(void);
+extern void func_80185BEC(s32 a0);
 
 void func_801853E0(s32 a0) {
     s32 s0;
@@ -4968,9 +4968,9 @@ void func_801853E0(s32 a0) {
 }
 
 
-extern void func_80185BEC(void);
+extern void func_80185BEC(s32 a0);
     void func_801854AC(void) {
-        func_80185BEC();
+        KR_AS(void, func_80185BEC)();
     }
 
 
@@ -4979,7 +4979,7 @@ extern s32 func_80184E6C(s32 a0);
 extern void func_8018559C(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern void func_80185BEC(void);
+extern void func_80185BEC(s32 a0);
 
 void func_801854CC(s32 a0) {
     if (func_80184E6C(a0) == 2) {
@@ -5005,7 +5005,7 @@ void func_801854CC(s32 a0) {
 }
 
 
-extern void func_80185BEC(void);
+extern void func_80185BEC(s32 a0);
 
 void func_8018559C(s32 a0) {
 
@@ -5025,7 +5025,7 @@ void func_8018559C(s32 a0) {
 
 
 
-extern void func_80185BEC(void);
+extern void func_80185BEC(s32 a0);
 
 void func_80185604(s32 a0) {
 
@@ -5045,7 +5045,7 @@ void func_80185604(s32 a0) {
     ((Unkstruct_800B5CB8 *)a0)->unk84 = 0;
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
     ((Unkstruct_800B5CB8 *)a0)->unkB0 = 0;
-    func_80185BEC();
+    KR_AS(void, func_80185BEC)();
 }
 
 
@@ -5066,7 +5066,7 @@ void func_80185678(s32 a0) {
 
 
 
-extern void func_80185BEC(void);
+extern void func_80185BEC(s32 a0);
 
 void func_801856D8(s32 a0) {
 
@@ -5081,7 +5081,7 @@ void func_801856D8(s32 a0) {
     *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x24) = D_801B8704[D_801B8744[((Unkstruct_800B5CB8 *)a0)->unk70]][0];
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x800;
     ((Unkstruct_800B5CB8 *)a0)->unkB0 = 0;
-    func_80185BEC();
+    KR_AS(void, func_80185BEC)();
 }
 
 

@@ -902,7 +902,7 @@ extern s32 func_80161104(void);
 extern void func_801555F4(void *);
 extern void func_801555BC(void *a0);
 extern int func_80155A44(int param_1);
-extern int func_80161208();
+extern int func_80161208(void *a0);
 extern u8 D_800D4DA8[];
 extern void func_80155B20(s32 *a0);
 extern s32 D_800D4DB4;
@@ -916,7 +916,7 @@ extern void func_80155C64(s32 a0);
 extern void guess_EnterState11(s32 *a0);
 extern void func_80155D70(s32 param_1);
 extern void func_80155E30(void *a0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern void func_80155EA4(void *arg0);
 extern void func_80155F58(void);
 extern s32 func_80155F80(s32 a0);
@@ -1310,7 +1310,7 @@ extern void func_8015F048(s32 a0);
 extern void func_8015F080(s32 a0);
 extern s32 D_80062BE8;
 extern s32 guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
-extern s32 func_80161208(void);
+extern s32 func_80161208(void *a0);
 extern void func_8015F118(void *a0);
 extern void func_8015F260(s32 *a0);
 extern void func_8015F380(void* arg0);
@@ -2796,7 +2796,7 @@ extern void func_8017F53C(void * arg0);
 extern s32 func_8012E544(s32 arg0);
 extern s32 func_8017F650(void *a0);
 extern void func_8017F58C(void *a0);
-extern s32 func_801845DC(void);
+extern s32 func_801845DC(void *a0);
 extern s32 func_80185F5C(void *a0);
 extern void func_80178BF8(void);
 extern void func_8017F6C8(void *arg0);
@@ -3216,7 +3216,7 @@ void func_80180EFC(s32 a0) {
 
 
 extern void func_80172710(void);
-extern s32 func_801845DC(void);
+extern s32 func_801845DC(void *a0);
 extern s32 func_80185F5C(void *a0);
 extern void func_80178BF8(void);
 
@@ -3975,7 +3975,7 @@ void func_80181D50(void *a0) {
 
 
 extern void func_80172710(void);
-extern s32 func_801845DC(void);
+extern s32 func_801845DC(void *a0);
 extern s32 func_80185F5C(void *a0);
 extern void func_80178BF8(void);
 
@@ -3986,7 +3986,7 @@ s32 func_80181E0C(void *a0)
     void *s0 = a0;
 
     if (*(u16 *)(((Unkstruct_80181E0C *)s0)->unk64 + 2) == 2) {
-        if (func_801845DC() != 0) {
+        if (KR_AS(s32, func_801845DC)() != 0) {
             if (func_80185F5C(((Unkstruct_80181E0C *)s0)->unk64) == 0) {
                 *(u16 *)(((Unkstruct_80181E0C *)s0)->unk64 + 2) += 1;
                 func_80178BF8();

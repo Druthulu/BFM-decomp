@@ -122,7 +122,7 @@ void func_800CCD04(void *a0) {
 extern s32 guess_TickWaitTimer_2(s32 arg0);
 extern void func_801599A4(void *arg0);
 extern void func_80159B3C(void *arg0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 
 void func_800CCDC4(s32 a0)
 {

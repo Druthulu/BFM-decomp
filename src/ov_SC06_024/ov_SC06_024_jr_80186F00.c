@@ -901,7 +901,7 @@ extern s32 func_80161104(void);
 extern void func_801555F4(void *);
 extern void func_801555BC(void *a0);
 extern int func_80155A44(int param_1);
-extern int func_80161208();
+extern int func_80161208(void *a0);
 extern u8 D_800D4DA8[];
 extern void func_80155B20(s32 *a0);
 extern s32 D_800D4DB4;
@@ -915,7 +915,7 @@ extern void func_80155C64(s32 a0);
 extern void guess_EnterState11(s32 *a0);
 extern void func_80155D70(s32 param_1);
 extern void func_80155E30(void *a0);
-extern s32 func_80161208();
+extern s32 func_80161208(void *a0);
 extern void func_80155EA4(void *arg0);
 extern void func_80155F58(void);
 extern s32 func_80155F80(s32 a0);
@@ -1309,7 +1309,7 @@ extern void func_8015F048(s32 a0);
 extern void func_8015F080(s32 a0);
 extern s32 D_80062BE8;
 extern s32 guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
-extern s32 func_80161208(void);
+extern s32 func_80161208(void *a0);
 extern void func_8015F118(void *a0);
 extern void func_8015F260(s32 *a0);
 extern void func_8015F380(void* arg0);
@@ -7370,7 +7370,7 @@ void aF8017EF54(s32 a0)
     extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
     extern u8   guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
     extern u8   D_800AF648_b __asm__("guess_g_CameraWsMatrix"); // Names ledger: config/names.tsv guess_g_CameraWsMatrix
-    extern void func_8018DEC0(void);
+    extern void func_8018DEC0(void *param_1);
     struct {
         s16 v[3];    /* sp+0x10 */
         s16 pad1;    /* sp+0x16 */
@@ -7421,7 +7421,7 @@ extern s32  rand(void);
 extern s32  VectorNormalSS(void *a0, void *a1);
 extern s32  guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern u8 * func_8012913C(s32 arg0);
-extern void func_8018DEC0(void);
+extern void func_8018DEC0(void *param_1);
 
 void func_8018E240(s32 a0)
 {
@@ -7823,7 +7823,7 @@ extern s32 D_801DC7CC[];
 extern s32 func_8012C044(s32 a0);
 extern void guess_ZeroMemory(void *a0, s32 a1);
 extern s32 func_8012C098(void *a0);
-extern void func_8018E094(void);
+extern void func_8018E094(s32 a0);
 
 void func_8018EB3C(s32 a0)
 {
@@ -7978,7 +7978,7 @@ void func_8018EE00(s32 a0)
 
 
 extern void guess_RequestSound(s32 arg0, s32 arg1);
-extern void func_8018DEC0(void);
+extern void func_8018DEC0(void *param_1);
 
 void func_8018EE88(void *a0) {
     guess_RequestSound(0xB32, 0);
@@ -7986,23 +7986,23 @@ void func_8018EE88(void *a0) {
 }
 
 
-extern void func_8018E094(void);
+extern void func_8018E094(s32 a0);
     void func_8018EEC0(s32 *param_1) {
         ((Unkstruct_8018C9E8 *)*(int *)((char *)param_1 + 0x20))->unk10 = 0xe00;
         ((void (*)(void))func_8018E094)();
     }
 
 
-extern void func_8018E094(void);
+extern void func_8018E094(s32 a0);
     void func_8018EEE8(s32 arg0) {
         s32 temp_v1 = *(s32 *)(arg0 + 0x20);
         *(u16 *)(temp_v1 + 0x10) += 0x20;
-        func_8018E094();
+        KR_AS(void, func_8018E094)();
     }
 
 
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern void func_8018E094(void);
+extern void func_8018E094(s32 a0);
 
 void func_8018EF1C(void *a0) {
     if (((Unkstruct_8018EF1C *)a0)->unk76 < 0) {
@@ -8011,7 +8011,7 @@ void func_8018EF1C(void *a0) {
         ((Unkstruct_8018EF1C *)a0)->unk2 = 1;
         ((Unkstruct_8018EF1C *)a0)->unk100 = 0x3C;
         ((Unkstruct_8018EF1C *)a0)->unk34 = 0;
-        func_8018E094();
+        KR_AS(void, func_8018E094)();
     }
 }
 
@@ -8019,7 +8019,7 @@ void func_8018EF1C(void *a0) {
 
 extern s32 func_80143C74(s32 a0, s32 a1);
 extern s32 rand(void);
-extern void func_8018E094(void);
+extern void func_8018E094(s32 a0);
 
 void func_8018EF68(s32 a0)
 {
@@ -8042,7 +8042,7 @@ void func_8018EF68(s32 a0)
 }
 
 
-extern void func_8018DEC0(void);
+extern void func_8018DEC0(void *param_1);
     void func_8018F054(s32 *a0) {
         ((Unkstruct_8018F054 *)a0)->unk10 = ((Unkstruct_8018F054 *)a0)->unk10 >> 1;
         ((Unkstruct_8018F054 *)a0)->unk18 = ((Unkstruct_8018F054 *)a0)->unk18 >> 1;
@@ -8050,7 +8050,7 @@ extern void func_8018DEC0(void);
     }
 
 
-extern void func_8018DEC0(void);
+extern void func_8018DEC0(void *param_1);
     void func_8018F088(u8 *param_1) {
         param_1[0xC1] = 0xC;
         *(int *)(param_1 + 0x1C) = 0x3C;
@@ -8063,7 +8063,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 func_8012CBF4(s32 a0);
 extern void func_80131C78(s32 a0);
-extern void func_8018DEC0(void);
+extern void func_8018DEC0(void *param_1);
 
 void func_8018F0B4(s32 a0) {
     if (CAST_SIGN(s16, a0, 0xA) >= 0x10) {

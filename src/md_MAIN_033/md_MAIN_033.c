@@ -45,7 +45,7 @@ void func_800CAED0(u8 *a0) {
 void func_800CAF24(void *a0) {
     extern void func_801599A4(void *a0);
     extern void func_80159B3C(void *a0);
-    extern s32 func_80161208();
+    extern s32 func_80161208(void *a0);
     extern s32 func_80155FF8(s32 a0, s32 a1);
     extern s32 func_80146608(s32 a0, s32 a1, s32 a2, s32 a3, s16 a4, s32 a5, s32 a6, s32 a7, s32 a8);
     u16 flag;
