@@ -20,7 +20,9 @@ A missing input is a loud exit 2, never a silent empty class.
 - Name -> address: each binary's ELF symtab (sig_evidence.elf_syms). An object is (owner, vaddr): owner = the first
   image holding vaddr in the binary's own-then-stack order (sig_evidence place()); main-resident addresses are one
   object fleet-wide, overlay addresses are one object per overlay image. A name not in the symtab, or with several
-  addresses, is unplaced and counted by reason.
+  addresses, is unplaced and counted by reason. A data address past an image's file bytes (main's bss symbols are
+  absolute in the ELF) belongs to the nearest image below it in that order (C0604). Unplaced counts are reported per
+  binary instance and per unique site (a header extern unused by a binary is absent from its symtab).
 - Function identity: (owner, vaddr) as above; the definition is placed by the same join (sig_evidence compare_core's
   def_at); h_exact from the sig row at (owner, vaddr). Empty bodies (nins 0) carry no h_exact identity.
 - Type identity: a spelling (`T`, `struct T`, `union T`, a plain alias typedef) resolves to one inventory key
@@ -29,7 +31,14 @@ A missing input is a loud exit 2, never a silent empty class.
 ## Link endpoints
 A link joins two different inventory keys seen at the same pointer depth (`A *` with `B *`, `A` with `B`, `A **` with
 `B **`; an array decays one level). A void, scalar, char or u8 pointer side is never an endpoint: no link passes
-through it (no transitive flow through an untyped slot).
+through it, except through its effective type (below).
+
+## Effective type of an untyped slot (T2.c2)
+A parameter whose declared type is void *, a scalar or a char/u8 pointer has effective type M when its own function
+dereferences it (>= 1 access) and every typed use of it is M: a cast view `((M *)p)->f`, `*(M *)p`, or a whole
+assignment to a single-source local of type M (`M *m = (M *)p;`, `m = p`). A call passing a value of type A into it
+links A~M, sub-kind `arg-eff` (cites: the call, the parameter, one typed use). Two or more struct types on one slot:
+a `poly` slot, listed, its links refused (a dispatcher). A global's effective type is class 1's global-view.
 
 ## The four evidence classes
 1. global: one object (owner, vaddr) declared or defined with type A in one file and B in another (`extern A D_x;`,
@@ -46,8 +55,9 @@ through it (no transitive flow through an untyped slot).
    - hub: a slot (callee parameter, return, member, global) whose linked types conflict among themselves at an
      accessed offset (width), or that links >= HUB_K = 4 types while its own accesses touch <= HUB_OFFS = 2 offsets
      (a pool, list or header helper). Every link through a hub is refused; the hub is listed with its types.
-   - view: `((B *)a)->f` with a bound to A at a dereference is counted, not linked (a cast spelling may be a
-     codegen lever, C0507; T2's review decides whether views become evidence).
+   - view: `((B *)a)->f` with a bound to A at a dereference. Not a link under the default policy (a cast spelling
+     may be a codegen lever, C0507); policy `views` admits it as sub-kind `view` under every guard, the hub test
+     taking the view type as the slot (a type viewed from >= HUB_K types through <= HUB_OFFS offsets is a header hub).
 3. body: one h_exact class (nins >= MIN_BODY_INS = 10) whose placed C copies type the same slot (parameter i, return,
    a local of the same name) with A in one copy and B in another. Cite: h_exact[:12] + both copies file:line.
    Smaller classes are refused as `tiny-body` (coincident short bodies are look-alikes).
@@ -55,8 +65,16 @@ through it (no transitive flow through an untyped slot).
    `x[i].f`, member chains resolved through the definitions, x bound to the type) gives (offset, width, sign) from the
    definition's layout (tc.Resolver) with one access cite. In byte-matched C the declared member type equals the
    original load or store (R22). Unaccessed members are layout, not evidence: listed, never in conflict.
-   Conflict between two types at an accessed offset: different widths, partially overlapping ranges, or (1- and
-   2-byte members) different signs. Stores and 4-byte accesses carry no sign evidence.
+   Conflict between two types at an accessed offset: disjoint width sets at the offset, a partial overlap the same
+   side does not also cover at that offset (a union's own members never conflict), or disjoint 1- and 2-byte load
+   signs. Stores and 4-byte accesses carry no sign evidence.
+   Hub own accesses: a parameter slot's are the offsets accessed through it in its definitions, a global's those
+   through its name; a return or member slot has none (so >= HUB_K types on one is always a hub).
+
+## Policies (T2.c2)
+`--policy typed` (classes 1-3 typed slots), `effective` (typed + `arg-eff`; the default for `--propose`), `views`
+(effective + local views). One run computes all three; the summary and the report project each (components by band,
+folded, apart, no-evidence); `--propose` writes the ledger from the chosen one.
 
 ## Size verdict
 A type's size is load-bearing when one of these is cited: `sizeof(T)` / `sizeof(*p)` with p: T *; an array of T
