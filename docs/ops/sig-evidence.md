@@ -241,6 +241,8 @@ or a row with no cites is a failed cite; (b) a row is used when a current disagr
 `def_file` path or `bind_tu` == def_file, rule == kind; an unmatched row is an unused row; (c) a disagreement matched by
 no row is unledgered. Prints the three counts (unledgered per rule) and the first 20 of each. Exit 1 on any failed cite,
 unused row or unledgered disagreement, else 0. Not in tools-health yet (3.44 T9).
+def_file `-` (3.44 T6) = no C definition (asm-only callee): the row matches a disagreement of its callee+kind whose
+def_file is None.
 
 ## Return views (3.44 T5)
 
@@ -289,3 +291,5 @@ site (comments masked, `#define` lines skipped, asm-label aliases name the label
 unused; a row whose `def_file` does not define `fn` is a wrong def_file. check.txt gains `kr-view rows/cites/KR_AS sites` and
 the four counts; any nonzero exits 1. type_census `--check-casts` counts KR_AS as macro class `KR-VIEW` (K form, no
 base/off; restruct ignores it) and backs a site only by a row (callee) of this file.
+def_file `-` = asm-only callee (no C definition): the def_file check passes iff no parsed file defines `fn`; type_census
+backs on callee alone, so a `-` row backs its sites there too.

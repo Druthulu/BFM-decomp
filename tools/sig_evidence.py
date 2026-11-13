@@ -1378,7 +1378,8 @@ def verify_cites(ledger, decode):
 
 
 def check_core(ledger, rows, decode):
-    """(failed, unused, unledgered, txt). decode(binary, vaddr) -> the census cite text, or None (no such image/address)."""
+    """(failed, unused, unledgered, txt). decode(binary, vaddr) -> the census cite text, or None (no such image/address).
+    A row with def_file `-` (3.44 T6) matches a disagreement of its callee+kind whose def_file is None (no C definition)."""
     failed = verify_cites(ledger, decode)
     by_name = collections.defaultdict(list)
     for i, L in enumerate(ledger):
@@ -1386,6 +1387,8 @@ def check_core(ledger, rows, decode):
     used, unl = set(), []
     for r in rows:
         paths = {x for x in ((r.get("def_file") or "").rsplit(":", 1)[0], r.get("bind_tu")) if x}
+        if not r.get("def_file"):
+            paths.add("-")                                       # 3.44 T6: def_file `-` = no C definition (asm-only callee)
         hit = [i for i in by_name.get(r["name"], ())
                if ledger[i]["def_file"] in paths and KIND_RULE.get(ledger[i]["kind"], ledger[i]["kind"]) == r["rule"]]
         used.update(hit)
@@ -1418,7 +1421,7 @@ def check_ret_views(ledger, parsed, decode, kr=False):
     A site's fn that is an asm-label alias in its file names the label (C0223); a `#define SHARED_FN own` + `#include`
     bind defines own in the binding file (T5.c5).
     3.44 T6 kr=True: config/kr_view_casts.tsv (load_kr_ledger) against the KR_AS sites, keyed on fn alone (T is the
-    definition's return; the def_file test pins the row to the definition)."""
+    definition's return; the def_file test pins the row to the definition). def_file `-`: right iff no parsed file defines fn."""
     failed = verify_cites(ledger, decode)
     norm = (lambda t: "") if kr else (lambda t: " ".join(t.split()))
     tag, mac = ("kr-view", "KR_AS") if kr else ("ret-view", "RET_AS")
@@ -1437,7 +1440,8 @@ def check_ret_views(ledger, parsed, decode, kr=False):
     unbacked = [x for x in sites if (x[2], norm(x[3])) not in keys]
     used = {(x[2], norm(x[3])) for x in sites}
     unused = [L for L in ledger if (L["callee"], norm(L["kind"])) not in used]
-    wrong = [L for L in ledger if L["def_file"] not in defs.get(L["callee"], ())]
+    wrong = [L for L in ledger if (bool(defs.get(L["callee"])) if L["def_file"] == "-"     # 3.44 T6: `-` = no C definition
+                                   else L["def_file"] not in defs.get(L["callee"], ()))]
     T = [f"{tag} rows {len(ledger)}, cites {sum(len(L['cites']) for L in ledger)}, {mac} sites {len(sites)}",
          f"{tag} failed cites {len(failed)}", f"{tag} unused rows {len(unused)}",
          f"{tag} unbacked sites {len(unbacked)}", f"{tag} wrong def_file {len(wrong)}"]
@@ -1821,6 +1825,23 @@ def selftest():
           and kvp["src/ov/s.c"]["ret_as"] == [] and kvp["include/common.h"]["kr_as"] == [] and kvl[0]["cites"] == [good]
           and [x[0] for x in kf] == ["f_k3"] and [x[2] for x in kub] == ["f_zz"] and [L["callee"] for L in kun] == ["f_k3"]
           and [L["callee"] for L in kw] == ["f_k3"] and "kr-view rows 3, cites 3, KR_AS sites 3" in ktxt, (kvp["src/ov/s.c"]["kr_as"], ktxt))
+    # 3.44 T6 def_file `-` (no C definition): a lying row matches only a disagreement of its callee+kind with def_file None;
+    # a kr row is right iff no parsed file defines fn
+    drows = [{"rule": "DECL-EMPTY", "binary": "ov", "vaddr": "0x80100000", "name": "f_asm", "def_file": None, "bind_tu": None,
+              "decl_file": "src/ov/a.c:1"},
+             {"rule": "DECL-EMPTY", "binary": "ov", "vaddr": "0x80100010", "name": "f_asm", "def_file": "src/ov/b.c:4",
+              "bind_tu": None, "decl_file": "src/ov/b.c:1"}]
+    dled = load_ledger("\n".join(["callee\tdef_file\tkind\tcause\ttask\tcites", f"f_asm\t-\tDECL-EMPTY\tc\tT6\t{good}",
+                                  f"f_asm\t-\tARG-OVER\tc\tT6\t{good}", ""]))
+    df_, dun, dul, _ = check_core(dled, drows, dec_)
+    check("--check ledger def_file `-` matches a def_file-None disagreement of callee+kind only",
+          df_ == [] and [L["kind"] for L in dun] == ["ARG-OVER"] and [r["vaddr"] for r in dul] == ["0x80100010"], (dun, dul))
+    kvp3 = dict(kvp, **{"src/ov/t.c": parse_text("src/ov/t.c", "void h(void) {\n    KR_AS(void, f_asm)(1);\n"
+                                                 "    KR_AS(void, f_kr)();\n}\n")})
+    kvl3 = load_kr_ledger("\n".join(["callee\tdef_file\tcause\ttask\tcites", f"f_asm\t-\tc\tT6\t{good}",
+                                     f"f_kr\t-\tc\tT6\t{good}", ""]))
+    kw3 = check_ret_views(kvl3, kvp3, dec_, kr=True)[3]
+    check("--check kr views: def_file `-` right iff no parsed file defines fn", [L["callee"] for L in kw3] == ["f_kr"], kw3)
 
     print("selftest", "OK" if ok else "FAILED")
     return 0 if ok else 1
