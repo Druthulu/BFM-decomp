@@ -63,6 +63,9 @@ crack compounds from match #1; without it, every match is worth ×1.
   repair is a unit (definition, declarations, callers), and under gcc-2.7.2 a `void` to `int` declaration can still
   move bytes when the result is dropped (func_80139BE0, 3.41 T4.c1; cookbook C0547): where it is load-bearing, keep a
   cast at the call and record the exception.
+- **A propagated name is a claim in every copy.** Placeholder names are per binary, so a rename touches only the
+  binaries whose row it covers. A name is cited only from a recorded source, and every model-worded name is a marked
+  guess with its basis in the ledger. [Chapter 03](03-bootstrap-order.md), Phase 0 item 5, gives the day-1 setup.
 - **Key by integer address, never by name** (R48); a carve's state belongs to its binary (R60); a blanket commit of
   another lane's mid-gate tree is a race, not a backup (R59).
 - **A newly-discovered binary is not real until every consumer knows it** — signature set, family map, dedup registry,

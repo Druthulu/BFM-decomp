@@ -137,3 +137,24 @@ binary, only inferred from consistent base+offset+width evidence, so this figure
 A *return-type lie* is a declaration whose return type differs from the definition's; the calls still match
 because what a caller does with the return register is a caller byte fact (C0543), not the callee's type.
 
+## Names
+
+![Names in the matched C over time](readability-names.svg)
+
+| date | label | commit | function units | cited | `guess_` | other | placeholder | data units | cited | `guess_` | other | placeholder |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 2026-11-10 | P3.42 T10: milestone gate | `2cb349305` | 92486 | 0 | 0 | 741 | 91745 | 98363 | 0 | 0 | 243 | 98120 |
+| 2026-11-12 | P3.43 T15: milestone gate | `f88462baf` | 92486 | 513 | 285 | 228 | 91460 | 98448 | 39 | 108 | 206 | 98095 |
+| 2026-11-13 | P3.44 T10: milestone gate | `8bac8eee3` | 92486 | 513 | 285 | 228 | 91460 | 98448 | 39 | 108 | 206 | 98095 |
+
+**How to read the names columns.** The units come from `docs/leverage.tsv` (`docs/leverage.md`), which
+`tools/leverage_rank.py` regenerates after names land; a row whose commit has no `leverage.tsv`, or where
+`config/names.tsv` or a `config/symbols*.txt` changed after it was regenerated, leaves these columns blank.
+A *function unit* is one distinct function body (one `h_exact`) fleet-wide, or a raw function target with no
+signature row; a *data unit* is one (address space, address). A placeholder is per binary, so one unit may cover
+many binaries; `named partial` counts as *placeholder* (some binary still uses the placeholder name).
+Of the named units, *cited* have a `cited` row in `config/names.tsv`, *`guess_`* carry the `guess_` prefix
+(a ledgered guess), and *other* are named outside the ledger. At P3.44 every *other* name is a PsyQ SDK name of
+the linked library objects (defined in `build/psyq` or named by its `*_externals.ld`), which the citation gate
+does not ledger; the P3.42 row predates the ledger's rows, so its *other* also holds names cited later.
+

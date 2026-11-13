@@ -45,6 +45,21 @@ byte-match baseline  →  pin the compiler by evidence  →  honest corpus censu
    of BFM's 19 "callee narrows its return" exceptions turned out to be the caller converting (3.44 T3). BFM built
    this census only in Gen3 (3.44, `tools/sig_evidence.py`), when it found about 198,000 disagreements over some
    1,500 functions in a tree that had matched for two months. Build it while the first functions match, and gate on it.
+5. **Keep a names ledger from the first match, and scope the rename tool to one binary before the first rename.** A
+   name is a claim about the game, so every name the tree carries needs its evidence on record. Use one row per name,
+   giving its tier, basis, confidence and evidence kind, checked by a tool in the health suite. A name is *cited* only
+   from a recorded source: a library symbol, a string in the image, a cross-reference chain, a value seen in the running
+   game, or a community label with its link. Every name a model words is a *guess*. Mark it as one in the name itself
+   (BFM writes `guess_UpdateCamera`, so dropping the prefix confirms it), with its row saying what the code shows and
+   at which lines. BFM started its ledger only at Gen3 (3.43). By then 1,083 inherited names had to be traced back to
+   their sources, and two of them turned out to rest on cheat-code lore and an outside client, so they were demoted to
+   guesses. Placeholder names (`func_<addr>`, `D_<addr>`) are per binary: in BFM the same address names different
+   functions in different overlays, so a repository-wide rewrite renames the wrong ones (cookbook C0571). Every scan
+   over the tree also needs a wall-clock bound, with its patterns joined into one expression per chunk. BFM's rename
+   scanner ran one `git grep` with 96 separate patterns over 669 MB and hung for eleven hours. Chunked and bounded, it
+   takes seconds (C0575). Finally, count how many names have any outside evidence before planning a naming phase. In
+   BFM, 448 of the first 500 targets had only the code to go on, so the honest plan expects mostly guesses. The full
+   conventions are in the wiki's [Names and renames](../wiki/Names-and-renames.md#naming-conventions) page.
 
 ## Phase 1 — the honest census, with tools that assert their coverage
 
@@ -130,7 +145,9 @@ and stops the waste; it does not shrink the hard half.** Sell it as that and it 
 ## A checklist for a new project
 
 1. Byte-exact build triple by evidence; whole-binary hash check in the build; an all-assembly green baseline; one
-   shared prototype header every file includes, with a declaration checker that compares return types as well as arity.
+   shared prototype header every file includes, with a declaration checker that compares return types as well as arity;
+   a names ledger checked in the health suite (cited from a recorded source, or a marked guess with its basis), a
+   rename tool scoped to one binary, and a wall-clock bound on every scan.
 2. The local per-function oracle, **stating its blind spots in its own output**.
 3. The differential-oracle harness (two paths per question, on a schedule) and coverage assertions in every scanner.
 4. The census: duplication, families, reach × size, the unique tail — with a known-true case checked first.

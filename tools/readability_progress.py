@@ -26,6 +26,7 @@ import argcheck
 REPO = pathlib.Path(__file__).resolve().parent.parent
 TSV = REPO / "docs" / "readability-progress.tsv"
 DOC = REPO / "docs" / "readability.md"
+SVG = REPO / "docs" / "readability-names.svg"
 CAST = re.compile(r"\*\s*\(\s*(?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\*+\s*\)\s*\(")
 MEMBER = re.compile(r"->[A-Za-z_]\w*|\.[A-Za-z_]\w*\s*=")
 
@@ -102,6 +103,64 @@ def counts():
     rl = ts.get("decls", {}).get("return_lies")
     out["return_lie_fns"] = rl["functions"] if rl else ""
     out["return_lie_sites"] = rl["sites"] if rl else ""
+    out.update(names_counts("HEAD"))
+    return out
+
+
+NAMES_COLS = [f"names_{k}_{c}" for k in ("fn", "data") for c in ("units", "cited", "guess", "other", "placeholder")]
+
+
+def _git(*args):
+    return subprocess.run(["git", *args], cwd=REPO, capture_output=True, text=True)
+
+
+def names_counts(rev):
+    """P3.44 T13: the names columns at git rev `rev` from docs/leverage.tsv (the units) and config/names.tsv (the tiers).
+    Per unit: placeholder if named != yes (partial = some binary still uses the placeholder); else guess if the name starts
+    `guess_`; else cited if the ledger has that name at tier cited; else other (named outside the ledger: SDK names).
+    Blank (stderr says why) when the rev has no leverage.tsv, or names/symbols changed after leverage.tsv was regenerated."""
+    blank = {k: "" for k in NAMES_COLS}
+    lev = _git("show", f"{rev}:docs/leverage.tsv")
+    if lev.returncode:
+        print(f"readability_progress: no docs/leverage.tsv at {rev[:9]} — names columns blank", file=sys.stderr)
+        return blank
+    paths = ["config/names.tsv", "config/symbols*.txt"]
+    last = _git("rev-list", "-1", rev, "--", "docs/leverage.tsv").stdout.strip()
+    later = _git("rev-list", f"{last}..{rev}", "--", *paths).stdout.split()
+    dirty = _git("status", "--porcelain", "--", *paths, "docs/leverage.tsv").stdout.strip() if rev == "HEAD" else ""
+    if later or dirty:
+        why = f"{len(later)} commit(s) after {last[:9]}" if later else "uncommitted edits"
+        print(f"readability_progress: docs/leverage.tsv is stale at {rev[:9]} ({why} touch names/symbols — rerun "
+              "tools/leverage_rank.py) — names columns blank", file=sys.stderr)
+        return blank
+    cited = set()
+    hdr = None
+    for ln in _git("show", f"{rev}:config/names.tsv").stdout.splitlines():
+        if not ln.strip() or ln.startswith("#"):
+            continue
+        v = ln.split("\t")
+        if hdr is None:
+            hdr = {c: i for i, c in enumerate(v)}
+            continue
+        if v[hdr["tier"]] == "cited":
+            cited.add(v[hdr["name"]])
+    out = {k: 0 for k in NAMES_COLS}
+    lines = lev.stdout.splitlines()
+    h = {c: i for i, c in enumerate(lines[0].split("\t"))}
+    for ln in lines[1:]:
+        if not ln.strip():
+            continue
+        v = ln.split("\t")
+        k = {"func": "fn", "data": "data"}[v[h["kind"]]]
+        nm = v[h["name"]]
+        tier = ("placeholder" if v[h["named"]] != "yes" else "guess" if nm.startswith("guess_")
+                else "cited" if nm in cited else "other")
+        out[f"names_{k}_units"] += 1
+        out[f"names_{k}_{tier}"] += 1
+    for k in ("fn", "data"):
+        parts = sum(out[f"names_{k}_{c}"] for c in ("cited", "guess", "other", "placeholder"))
+        if parts != out[f"names_{k}_units"]:
+            sys.exit(f"readability_progress: names {k} at {rev[:9]}: tiers sum {parts} != units {out[f'names_{k}_units']}")
     return out
 
 
@@ -115,7 +174,9 @@ COLS = ["date", "label", "commit", "definitions", "narrow_decls", "callees", "kr
         # P3.40 T12 (2026-11-06): the cast gate's uncovered sites, summed over the four forms (blank on older rows)
         "uncovered",
         # P3.41 T13 (2026-11-07): return-type lies, functions / call sites (blank on older rows)
-        "return_lie_fns", "return_lie_sites"]
+        "return_lie_fns", "return_lie_sites",
+        # P3.44 T13 (2026-11-13): names — units of docs/leverage.tsv by tier, functions then data (blank where leverage.tsv is absent or stale)
+        *NAMES_COLS]
 HEAD = "\t".join(COLS) + "\n"
 
 
@@ -127,6 +188,60 @@ def _rows():
         vals = l.rstrip("\n").split("\t")
         rows.append({c: (vals[i] if i < len(vals) else "") for i, c in enumerate(cols)})
     return rows
+
+
+def _esc(s):
+    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def _svg_lines(path, title, panels):
+    """Write a stacked-panel line graph. panels: [{"title", "subtitle", "xlabels": [str], "series": [(label, color, [num])]}];
+    x = evenly spaced points (one per row), linear y from 0. Deterministic: same input, same bytes."""
+    W, PH, L, R, T, B = 1000, 300, 70, 20, 50, 60
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{30 + PH * len(panels)}" '
+           f'viewBox="0 0 {W} {30 + PH * len(panels)}" font-family="sans-serif">',
+           f'<rect width="{W}" height="{30 + PH * len(panels)}" fill="white"/>',
+           f'<text x="{W / 2:.0f}" y="20" text-anchor="middle" font-size="14" font-weight="bold">{_esc(title)}</text>']
+    for pi, p in enumerate(panels):
+        top = 30 + pi * PH
+        n = len(p["xlabels"])
+        x = lambda i: L + (W - L - R) * (0.5 if n == 1 else i / (n - 1))
+        vmax = max([v for _, _, vs in p["series"] for v in vs] + [1])
+        y = lambda v: top + T + (1 - v / vmax) * (PH - T - B)
+        out.append(f'<text x="{L}" y="{top + 16}" font-size="13" font-weight="bold">{_esc(p["title"])}</text>'
+                   f'<text x="{L}" y="{top + 32}" font-size="11" fill="#555">{_esc(p["subtitle"])}</text>')
+        for q in range(5):
+            v = vmax * q / 4
+            out.append(f'<line x1="{L}" y1="{y(v):.1f}" x2="{W - R}" y2="{y(v):.1f}" stroke="#ddd"/>'
+                       f'<text x="{L - 6}" y="{y(v) + 4:.1f}" text-anchor="end" font-size="11" fill="#555">{v:,.0f}</text>')
+        for i, lab in enumerate(p["xlabels"]):
+            out.append(f'<line x1="{x(i):.1f}" y1="{top + PH - B}" x2="{x(i):.1f}" y2="{top + PH - B + 5}" stroke="#888"/>'
+                       f'<text x="{x(i):.1f}" y="{top + PH - B + 18}" text-anchor="middle" font-size="10" fill="#333">{_esc(lab)}</text>')
+        for si, (lab, color, vs) in enumerate(p["series"]):
+            pts = [(x(i), y(v)) for i, v in enumerate(vs)]
+            out.append(f'<polyline fill="none" stroke="{color}" stroke-width="2" points="{" ".join(f"{a:.1f},{b:.1f}" for a, b in pts)}"/>')
+            out += [f'<circle cx="{a:.1f}" cy="{b:.1f}" r="3" fill="{color}"/>' for a, b in pts]
+            out.append(f'<text x="{W - R - 250}" y="{top + 16 + 14 * si}" font-size="12" fill="{color}">{_esc(lab)} ({vs[-1]:,})</text>')
+    out.append("</svg>")
+    path.write_text("\n".join(out) + "\n")
+
+
+def render_names_svg(rows):
+    rows = [r for r in rows if r.get("names_fn_units")]
+    if not rows:
+        return
+    xl = [f'{r["date"]} {r["label"].split(":")[0]}' for r in rows]
+    panels = []
+    for k, what in (("fn", "function"), ("data", "data")):
+        n = lambda c: [int(r[f"names_{k}_{c}"]) for r in rows]
+        last = rows[-1]
+        panels.append({"title": f"{what.capitalize()} units named",
+                       "subtitle": f'{int(last[f"names_{k}_placeholder"]):,} of {int(last[f"names_{k}_units"]):,} {what} units '
+                                   f'still placeholders (at {last["commit"][:9]})',
+                       "xlabels": xl,
+                       "series": [("cited", "#2ca02c", n("cited")), ("guess_", "#ff7f0e", n("guess")),
+                                  ("other (outside the ledger)", "#1f77b4", n("other"))]})
+    _svg_lines(SVG, "BFM-decomp — names in the matched C (from docs/readability-progress.tsv)", panels)
 
 
 def render():
@@ -157,16 +272,62 @@ def render():
             "binary, only inferred from consistent base+offset+width evidence, so this figure falls as that work lands.",
             "A *return-type lie* is a declaration whose return type differs from the definition's; the calls still match",
             "because what a caller does with the return register is a caller byte fact (C0543), not the callee's type.",
+            "",
+            "## Names",
+            "",
+            "![Names in the matched C over time](readability-names.svg)",
+            "",
+            "| date | label | commit | function units | cited | `guess_` | other | placeholder | data units | cited | `guess_` | other | placeholder |",
+            "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
+    for r in rows:
+        if r.get("names_fn_units"):
+            out.append(f"| {g(r,'date')} | {g(r,'label')} | `{r.get('commit', '')[:9]}` | "
+                       + " | ".join(g(r, f"names_{k}_{c}") for k in ("fn", "data")
+                                    for c in ("units", "cited", "guess", "other", "placeholder")) + " |")
+    out += ["",
+            "**How to read the names columns.** The units come from `docs/leverage.tsv` (`docs/leverage.md`), which",
+            "`tools/leverage_rank.py` regenerates after names land; a row whose commit has no `leverage.tsv`, or where",
+            "`config/names.tsv` or a `config/symbols*.txt` changed after it was regenerated, leaves these columns blank.",
+            "A *function unit* is one distinct function body (one `h_exact`) fleet-wide, or a raw function target with no",
+            "signature row; a *data unit* is one (address space, address). A placeholder is per binary, so one unit may cover",
+            "many binaries; `named partial` counts as *placeholder* (some binary still uses the placeholder name).",
+            "Of the named units, *cited* have a `cited` row in `config/names.tsv`, *`guess_`* carry the `guess_` prefix",
+            "(a ledgered guess), and *other* are named outside the ledger. At P3.44 every *other* name is a PsyQ SDK name of",
+            "the linked library objects (defined in `build/psyq` or named by its `*_externals.ld`), which the citation gate",
+            "does not ledger; the P3.42 row predates the ledger's rows, so its *other* also holds names cited later.",
             ""]
     DOC.write_text("\n".join(out) + "\n")
+    render_names_svg(rows)
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--snapshot", metavar="LABEL")
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--backfill-names", action="store_true",
+                    help="fill the names columns of every row whose names cells are blank, computed at that row's commit; renders")
     a = ap.parse_args()
     head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
+    if a.backfill_names:
+        lines = TSV.read_text().splitlines()
+        cols = lines[0].split("\t")
+        new, filled = [], 0
+        for l in lines[1:]:
+            vals = l.split("\t")
+            r = {c: (vals[i] if i < len(vals) else "") for i, c in enumerate(cols)}
+            if l.strip() and not any(r.get(k) for k in NAMES_COLS):
+                nc = names_counts(r["commit"])
+                if any(str(v) for v in nc.values()):
+                    vals += [""] * (len(COLS) - len(vals))
+                    for k in NAMES_COLS:
+                        vals[COLS.index(k)] = str(nc[k])
+                    l, filled = "\t".join(vals), filled + 1
+                    print(f"readability_progress: backfilled {r['label']!r} at {r['commit'][:9]}", file=sys.stderr)
+            new.append(l)
+        TSV.write_text(HEAD + "".join(l + "\n" for l in new))
+        render()
+        print(f"readability_progress --backfill-names: {filled} row(s) filled")
+        return 0
     if a.check:
         if not TSV.exists():
             print("readability_progress --check: no series yet")
