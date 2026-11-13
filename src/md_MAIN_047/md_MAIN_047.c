@@ -126,7 +126,7 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
 {
     extern u8 D_800CD6E0[];
     extern void guess_GetPlayerFramePointsB(s32 a0, s32 a1);
-    extern s32 func_80165FA4(s32 a0, s32 a1, s32 a2);
+    extern void func_80165FA4(s32 a0, s32 a1, s32 a2);
     extern void guess_ObjRotTransSV(s32 a0);
     extern void RotTransSV(void *a0, void *a1, void *a2);
     extern s32 VectorNormalSS(void *a0, void *a1);

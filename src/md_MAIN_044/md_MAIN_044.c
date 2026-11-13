@@ -791,7 +791,7 @@ void func_800CDE04(s32 param_1) {
 }
 
 
-extern s32 func_80169A4C(s32 a0, s32 a1);
+extern void func_80169A4C(s32 a0, s32 a1);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void guess_AddVelocityToPos_4(s32 a0);
 extern s32 func_80135168(u16 a0, u16 *a1, u16 *a2);
