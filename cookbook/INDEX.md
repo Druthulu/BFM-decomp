@@ -1041,3 +1041,4 @@ C0588 | Asm-label prototypes declare the label: parse ') __asm__("SYM");' tails,
 C0589 | Scratch-compile a decl batch vs a HEAD baseline: make -n -B commands, exit-checked shards | bytes,scratch,compile,declarations,baseline,gate | 2026-11-12 | 3.44/T5 | 3.44 T5.c2
 C0590 | Normalize .d dep paths (src/<b>/../shared) before matching edited headers | bytes,scratch,compile,dependencies,headers | 2026-11-12 | 3.44/T5 | -
 C0591 | Import venv-re-exec tools only under .venv; type_census --check-casts needs --residue | tools,venv,sig_evidence,type_census,gate | 2026-11-12 | 3.44/T5 | -
+C0592 | Return-type lies: one prototype = definition's; RET_AS(T,fn,params) marks shipped caller views | declarations,return-type,lying,bytes,macro,ret-view | 2026-11-12 | 3.44/T5 | -

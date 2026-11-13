@@ -251,6 +251,16 @@ after a callee that exits `andi 0xff`). The `jal` is kept: the cast call is prov
 row per (callee, view), with cites. A callee whose mismatch the cast cannot resolve (bytes move either way) stays in
 `config/lying_exceptions.tsv`.
 
+Ladder per callee (3.44 T5, C0592): (1) every declaration, asm-label alias prototypes included, takes the definition's
+type; (2) an object that then differs or fails to compile gets `RET_AS(<old declared type>, …)` at its calls (value calls;
+a discarded call only if the object still differs, cause `RET-VIEW-REGALLOC`); (3) a `void` definition whose callers read
+`$v0` (RET-VOID-READ) is widened to the declarations' type with a `/* $v0 at exit: … */` comment above the head, unless
+that turns its many `void` declarations into new DECL-RET rows; (4) else a lying_exceptions row. `SHARED-DECL-SPLIT`: one
+declaration in a shared header serves per-overlay definitions that disagree; no single type fits, so the row stays.
+A `RET_AS` on an asm-label alias `CNAME` (`… CNAME(…) __asm__("SYM");` in the same file) names `SYM`; a SHARED_FN bind
+(`#define SHARED_FN own` + `#include`) defines `own` in the binding file, so a row's def_file may be that file (both in
+sig_evidence `--check` and type_census `--check-casts`).
+
 `config/ret_view_casts.tsv` (hand-edited config): tab-separated `callee def_file view cause task cites`, header comment in
 lying_exceptions.tsv's style; `cites` as there (the callee's exit writer and one caller read).
 
