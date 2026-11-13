@@ -109,12 +109,12 @@ extern s32 D_80127098;
 extern s32 D_80127094;
 extern s32 D_80127090;
 extern void func_80146534(void);
-extern void func_8001D074(s32 a0, s32 a1);
+extern s32 func_8001D074(s32 a0, s32 a1);
 extern void func_80146554(void);
 extern s32 func_80146578(void);
 extern void func_8001CFDC(s32, s32);
 extern s32 func_8014659C(void);
-extern void func_8001D074(s32, s32);
+extern s32 func_8001D074(s32, s32);
 extern void *guess_AllocSpriteObject(void);
 extern s32 func_801465E4(void);
 extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
@@ -6694,7 +6694,7 @@ void func_80182654(s32 param_1)
 
 
 extern u8 *func_801291C0(void);
-extern void func_8001D074(s32 a0, s32 a1);
+extern s32 func_8001D074(s32 a0, s32 a1);
 extern void func_8001CF00(s32 a0);
 extern void func_8001CFDC(s32 a0, s32 a1);
 extern void func_8001C2C4(s32 a0);

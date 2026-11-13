@@ -130,7 +130,7 @@ extern s16 D_8011DB30;
 extern s32 D_80126AEC;
 extern u8 *func_8012913C(s32 a0);
 extern u8 * func_801290DC(s32 a0, u8 *a1);
-extern void func_8001D074(s32 a, s32 b);
+extern s32 func_8001D074(s32 a, s32 b);
 extern u8 *func_801291C0(void);
 extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern u8 * func_8012913C(s32 arg0);

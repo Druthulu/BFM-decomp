@@ -8797,7 +8797,7 @@ void *func_8001CFDC_impl(s32 start, s32 end) {
     return 0;
 }
 
-extern void func_8001D074(s32 a, s32 b);
+extern s32 func_8001D074(s32 a, s32 b);
 
 void func_8001D050(void) {
     func_8001D074(0, 4);
