@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-13T17:37:59.787Z
+# filed through: 2026-11-13T18:33:19.733Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -170,3 +170,5 @@ R166 | 2026-11-13 | finding | in force | 3.44 T6 `()` declarations | After a Ctr
 R167 | 2026-11-13 | decision | in force | 3.44 T7 no-return functions | T7 was resumed once after its expert failed with no stated cause, by releasing the stopped hold. | .claude-state/journal/2026-11-13/042624-032r-claude-record.md
 R168 | 2026-11-13 | finding | in force | 3.44 T8 remaining disagreements | A long elapsed time on a background shell in the Claude Code UI is not proof that a process is runn… | .claude-state/journal/2026-11-13/105323-049r-claude-record.md
 R169 | 2026-11-13 | finding | in force | 3.44 T8 remaining disagreements | T8's progress so far. | .claude-state/journal/2026-11-13/105323-049r-claude-record.md
+R170 | 2026-11-13 | decision | in force | Phase-close docs and lessons in every phase | A 3.44 task is added after T13 (deps T10, T13). | .claude-state/journal/2026-11-13/114853-052r-claude-record.md
+R171 | 2026-11-13 | finding | in force | Phase-close docs and lessons in every phase | T13, which R149 placed before T10's snapshot, did not run first. | .claude-state/journal/2026-11-13/114853-052r-claude-record.md
