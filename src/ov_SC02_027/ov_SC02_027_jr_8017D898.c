@@ -3513,6 +3513,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 extern void func_8013B7F4(void *a0, int a1);
 
+/* $v0 at exit: result of func_8013B7F4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC02_027 objdump */
 int func_8017FAB0(int param_1)
 {
 
@@ -3615,6 +3616,7 @@ extern s32 guess_TestGameFlag(s32 arg);
 extern void func_8017FED4(void*, s32);
 extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
+/* $v0 at exit: addiu $v0, $zero, 0x1 at ov_SC02_027:0x8017FCC4 or addiu $v0, $v0, 0x1 at ov_SC02_027:0x8017FD54 or addiu $v0, $v0, -0x1 at ov_SC02_027:0x8017FE60 or andi $v0, $v0, 0xF at ov_SC02_027:0x8017FEB4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x20, ov_SC02_027 objdump */
 s32 func_8017FCAC(void)
 {
     switch (D_801DA9B4) {
@@ -5031,6 +5033,7 @@ void func_8018218C(void *a0) {
 }
 
 
+/* $v0 at exit: result of an indirect call or lw $v0, 0xDC($a0) at ov_SC02_026:0x8017DD8C or lw $v0, 0xC($v0) at ov_SC02_026:0x8017DD9C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x34, ov_SC02_027 objdump */
 s32 func_80182204(u8 *a0)
 {
     s32 *p;
@@ -7587,6 +7590,7 @@ void func_80186248(void *a0) {
 
 extern s32 func_8012C098(void *param_1);
 
+/* $v0 at exit: result of func_8012C098 or lhu $v0, 0x88($s0) at ov_SC02_027:0x8018630C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x34, ov_SC02_027 objdump */
 s32 func_801862A8(s32 arg0)
 {
     s32 temp;

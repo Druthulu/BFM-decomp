@@ -7,6 +7,7 @@ extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32, s32, s32);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
+/* $v0 at exit: lh $v0, 0x3C($sp) at ov_MAIN_012:0x80174B44; no byte-neutral return: `return 0;` moved `lh v1,60(sp)` at +0x17C, ov_MAIN_012 objdump */
 s32 func_801749C8(s32 param_1)
 {
     Buf_c1 buf;

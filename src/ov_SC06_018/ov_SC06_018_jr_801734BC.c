@@ -2441,6 +2441,7 @@ s32 func_801742A4(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC06_018 objdump */
 s32 func_80174384(void *a0) {
 
     extern void (*D_80196C20[])(void);
@@ -2458,6 +2459,7 @@ s32 func_80174384(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC06_018 objdump */
 s32 func_80174474(void *a0) {
 
     extern void (*D_80196C2C[])(void);
@@ -2513,6 +2515,7 @@ s32 func_80174474(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC06_018 objdump */
 s32 func_801747CC(void *a0) {
 
     extern void (*D_80196C38[])(void);
@@ -2530,6 +2533,7 @@ s32 func_801747CC(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC06_018 objdump */
 s32 func_80174888(void *a0) {
 
     extern void (*D_80196C40[])(void);
@@ -2545,6 +2549,7 @@ s32 func_80174888(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC06_018 objdump */
 s32 func_8017496C(void *a0) {
 
     extern void (*D_80196C48[])(void);
@@ -2582,6 +2587,7 @@ extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerP
 extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
 extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 
+/* $v0 at exit: lh $v0, 0x3C($sp) at ov_MAIN_012:0x80174B44; no byte-neutral return: `return 0;` moved `lh v1,60(sp)` at +0x17C, ov_SC06_018 objdump */
 s32 func_801749C8(s32 param_1)
 {
     MTX_801749C8 mtx;     /* sp+0x10 */
@@ -2662,6 +2668,7 @@ extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80012558(s32 a0, s32 a1);
 extern void func_800126C4(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
+/* $v0 at exit: lh $v0, 0x3C($sp) at ov_MAIN_012:0x80174E74; no byte-neutral return: `return 0;` moved `lh v1,60(sp)` at +0x1C4, ov_SC06_018 objdump */
 s32 func_80174CB0(s32 param_1, s32 param_2)
 {
 
@@ -2710,6 +2717,7 @@ s32 func_80174CB0(s32 param_1, s32 param_2)
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC06_018 objdump */
 s32 func_80174F28(void *a0) {
 
     extern void (*D_80196C54[])(void);
@@ -2755,6 +2763,7 @@ extern u8 D_80078EC0;
 extern void (*D_80196C64[])(s32);
 extern void guess_NextStep(void *a0);
 
+/* $v0 at exit: result of guess_NextStep; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x3C, ov_SC06_018 objdump */
 s32 func_80175218(void * param_1)
 {
     s32 i = D_80078EC0 - 1;
@@ -2767,6 +2776,7 @@ s32 func_80175218(void * param_1)
 
 extern u8 D_80078EC0;
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x48, ov_SC06_018 objdump */
 s32 func_80175268(s32 param_1)
 {
 

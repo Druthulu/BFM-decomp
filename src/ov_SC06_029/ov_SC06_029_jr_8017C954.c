@@ -3751,6 +3751,7 @@ extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv
 extern s16 guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetZ
 extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
 
+/* $v0 at exit: result of func_8017E800; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x7C, ov_SC06_029 objdump */
 s32 func_8017E6E0(s32 a0) {
     D_80126954 = 0x190;
     D_8012695C = 0x640;
@@ -5835,6 +5836,7 @@ extern s32 D_801DFDC8[];
  * is exactly the target's two-induction-variable shape.  A second explicit
  * `cur = p + 4` source variable makes gcc build a THIRD iv ($s2+6). */
 
+/* $v0 at exit: slti $v0, $s4, 0x4 at ov_SC06_029:0x80182300; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x514, ov_SC06_029 objdump */
 s32 func_80181DF8(s32 param_1)
 {
     /* Frame is 0x58: 0x10 outgoing args + 0x28 locals + 7 saved regs.  `pos`

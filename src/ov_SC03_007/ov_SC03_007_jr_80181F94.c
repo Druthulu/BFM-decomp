@@ -3194,6 +3194,7 @@ void func_80182468(s32 a0) {
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void D_801CAB58;
 
+/* $v0 at exit: addiu $v0, $zero, 0xA at ov_SC03_007:0x801824D4; no byte-neutral return: `return 10;` moved `sw v0,28(s0)` at +0x30, ov_SC03_007 objdump */
 s32 func_801824A8(s32 s0)
 {
     ((Unkstruct_800B5CB8 *)s0)->unk2 = 3;

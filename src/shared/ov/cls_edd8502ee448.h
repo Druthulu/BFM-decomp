@@ -3,6 +3,7 @@
  * rank 1 src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:5579 rejected by ov_SC02_000 */
 extern s32 func_8012CBCC(s32 a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
+/* $v0 at exit: result of func_8012CBCC or addiu $v0, $v0, 0x1 at ov_SC02_000:0x80187044; no byte-neutral return: `return 0;` moved `lui v0,0xffe8` at +0x30, ov_SC02_000 objdump */
 s32 SHARED_FN(s32 param_1) {
     s32 p;
     p = *(s32 *)(param_1 + 0x20);

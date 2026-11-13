@@ -2645,6 +2645,7 @@ s32 func_801789AC(s32 arg0)
 
 
 
+/* $v0 at exit: result of func_80178CBC; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x40, ov_SC05_000 objdump */
 s32 func_80178B18(s32 param_1, s32 param_2)
 {
     extern s32 func_80178BF8(void);
@@ -2664,6 +2665,7 @@ s32 func_80178B18(s32 param_1, s32 param_2)
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (pending verify)
 
+/* $v0 at exit: result of func_80178CBC; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC05_000 objdump */
 s32 func_80178B70(s32 param_1, s32 param_2)
 {
     extern s32 func_80178BF8(void);

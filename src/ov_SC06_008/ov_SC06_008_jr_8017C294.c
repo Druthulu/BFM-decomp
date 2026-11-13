@@ -4776,6 +4776,7 @@ extern s32 func_80134510(s32 arg);
 
 
 
+/* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC06_008:0x8018078C; no byte-neutral return: `return 0;` moved `lhu v1,2(s3)` at +0x20C, ov_SC06_008 objdump */
 s32 func_80180578(s32 param_1) {
 
     extern M2C_UNK D_80185B40;
@@ -4855,6 +4856,7 @@ extern void guess_FreeActor(void *a0);
 //   emits lbu;sll24;sra24;sh; (5) else-branch zero-byte asm barrier forces `addu $a0,$s1,$0` (else gcc
 //   reuses the still-live incoming $a0 with a nop delay slot).
 
+/* $v0 at exit: result of guess_FreeActor or ori $v0, $v0, 0x1 at ov_SC06_008:0x80180A24; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x27C, ov_SC06_008 objdump */
 s32 func_801807BC(s32 param_1) {
 
     extern signed char D_8019E6F0[];
@@ -8105,6 +8107,7 @@ void func_80185274(void *arg0) {
 
 
 extern void guess_FreeActor(void *a0);
+/* $v0 at exit: result of guess_FreeActor; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x20, ov_SC06_008 objdump */
     s32 func_80185394(void * arg0)
     {
         ((Unkstruct_8017E420 *)arg0)->unk2 = 2;

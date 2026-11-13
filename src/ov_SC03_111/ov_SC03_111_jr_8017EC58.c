@@ -5781,6 +5781,7 @@ void func_80184380(void *arg0) {
 
 
 extern void guess_FreeActor(void *a0);
+/* $v0 at exit: result of guess_FreeActor; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x20, ov_SC03_111 objdump */
     s32 func_801844A0(void *arg0) {
         ((Unkstruct_801844A0 *)arg0)->unk2 = 2;
         ((void (*)(s32 *))guess_FreeActor)(*(s32 **)((char *)arg0 + 0xcc));

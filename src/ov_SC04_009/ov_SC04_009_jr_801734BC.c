@@ -2435,6 +2435,7 @@ void func_80173B4C(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC04_009 objdump */
 s32 func_80174384(void *a0) {
 
     extern void (*D_8018213C[])(void);
@@ -2452,6 +2453,7 @@ s32 func_80174384(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC04_009 objdump */
 s32 func_80174474(void *a0) {
 
     extern void (*D_80182148[])(void);
@@ -2507,6 +2509,7 @@ s32 func_80174474(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC04_009 objdump */
 s32 func_801747CC(void *a0) {
 
     extern void (*D_80182154[])(void);
@@ -2524,6 +2527,7 @@ s32 func_801747CC(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC04_009 objdump */
 s32 func_80174888(void *a0) {
 
     extern void (*D_8018215C[])(void);
@@ -2539,6 +2543,7 @@ s32 func_80174888(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC04_009 objdump */
 s32 func_8017496C(void *a0) {
 
     extern void (*D_80182164[])(void);
@@ -2602,6 +2607,7 @@ void func_80174BF4(void * arg0)
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC04_009 objdump */
 s32 func_80174F28(void *a0) {
 
     extern void (*D_80182170[])(void);
@@ -2647,6 +2653,7 @@ extern u8 D_80078EC0;
 extern void (*D_80182180[])(s32);
 extern void guess_NextStep(void *a0);
 
+/* $v0 at exit: result of guess_NextStep; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x3C, ov_SC04_009 objdump */
 s32 func_80175218(void * param_1)
 {
     s32 i = D_80078EC0 - 1;
@@ -2659,6 +2666,7 @@ s32 func_80175218(void * param_1)
 
 extern u8 D_80078EC0;
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x48, ov_SC04_009 objdump */
 s32 func_80175268(s32 param_1)
 {
 

@@ -775,6 +775,7 @@ extern u8 *func_8002AF48(s32);
 extern s32  func_8002AF60(void);
 extern void func_801E40A8(void);
 
+/* $v0 at exit: result of func_801E40A8 or addiu $v0, $zero, 0x4B at md_SC03_135:0x801E3998 or addiu $v0, $zero, 0x4 at md_SC03_135:0x801E39D0 or addiu $v0, $zero, 0xA at md_SC03_135:0x801E39DC or lbu $v0, -0x53B3($v0) at md_SC03_135:0x801E39F4 or sll $v0, $v1, 2 at md_SC03_135:0x801E3A54 or lw $v0, 0x27D4($at) at md_SC03_135:0x801E3A60 or addiu $v0, $zero, 0x8 at md_SC03_135:0x801E3AA8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x338, md_SC03_135 objdump */
 s32 func_801E38B4(void)
 {
     extern s32 D_801EAC54;
@@ -938,6 +939,7 @@ s32 func_801E38B4(void)
  *   - D_801E64E8 declared s32 (its stores are sw despite s16 fleet majority).
  *   - D_801EAC44 tu-verbatim u16[] accessed via (u8*) cast (byte copy loop).
  */
+/* $v0 at exit: result of func_801E40A8 or sltiu $v0, $v0, 0x2 at md_SC03_135:0x801E3D74 or lbu $v0, -0x53B3($v0) at md_SC03_135:0x801E3D8C or sll $v0, $v1, 2 at md_SC03_135:0x801E3DEC or lw $v0, 0x27FC($at) at md_SC03_135:0x801E3DF8 or addiu $v0, $zero, 0x5 at md_SC03_135:0x801E3E50 or addiu $v0, $zero, 0x8 at md_SC03_135:0x801E3E60; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x45C, md_SC03_135 objdump */
 int func_801E3C1C() {
     extern s32 D_801EAC54;
     extern u32 D_801EAC3C;

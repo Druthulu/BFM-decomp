@@ -4976,6 +4976,7 @@ extern void guess_SetObjectPosAndYaw(s32, s32);
 extern short D_801CC330;
 extern s32 D_8018AA24;
 
+/* $v0 at exit: result of guess_SetObjectPosAndYaw; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x3C, ov_SC05_018 objdump */
 s32 func_80181520(void *arg0) {
     s32 s0 = (s32)arg0;
     ((Unkstruct_800B5CB8 *)s0)->unk2 = 2;

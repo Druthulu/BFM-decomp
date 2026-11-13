@@ -3494,6 +3494,7 @@ extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
+/* $v0 at exit: lh $v0, 0x3C($sp) at ov_SC02_011:0x8018A5C0; no byte-neutral return: `return 0;` moved `lh v1,60(sp)` at +0x188, ov_SC03_003 objdump */
 s32 func_8017EFEC(s32 param_1)
 {
     MATRIX m1;

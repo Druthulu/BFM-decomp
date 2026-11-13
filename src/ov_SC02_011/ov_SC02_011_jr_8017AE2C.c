@@ -2786,6 +2786,7 @@ s32 func_8017B238(s32 param_1, s32 param_2)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1 at ov_SC02_011:0x8017B464; no byte-neutral return: `return 1;` moved `li v0,1` at +0x108, ov_SC02_011 objdump */
 s32 func_8017B368(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -2822,6 +2823,7 @@ s32 func_8017B368(s32 param)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1E at ov_SC02_011:0x8017B5C0; no byte-neutral return: `return 30;` moved `li v0,30` at +0x13C, ov_SC02_011 objdump */
 s32 func_8017B490(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -3023,6 +3025,7 @@ void func_8017B880(void)
 
 
 
+/* $v0 at exit: lwr $v0, 0x8($a0) at ov_SC02_011:0x8017B91C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x54, ov_SC02_011 objdump */
 s32 func_8017B8E8(s32 src) {
     (*(S8_8017B8E8 *)&D_801EB184) = ((S8_8017B8E8 *)src)[0];
     (*(S8_8017B8E8 *)&D_801EB17C) = ((S8_8017B8E8 *)src)[1];
@@ -4969,6 +4972,7 @@ extern void func_80178D18(void);
 extern void func_80174684(void *);
 extern void func_8017E380(void *);
 
+/* $v0 at exit: result of func_80174684; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x1C, ov_SC02_011 objdump */
 s32 func_8017E358(void)
 {
     func_80174684((void *)func_8017E380);
@@ -7620,6 +7624,7 @@ extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv
 extern s16 guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetZ
 extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
 
+/* $v0 at exit: result of func_801826D8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x88, ov_SC02_011 objdump */
 s32 func_801823EC(s32 a0) {
     D_80126954 = 0x190;
     D_80126950 = 0x190;
@@ -7737,6 +7742,7 @@ extern s16 guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv
 
 extern void func_801826D8(void *a0);
 
+/* $v0 at exit: result of func_801826D8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x88, ov_SC02_011 objdump */
 s32 func_8018263C(void)
 {
     D_80126954 = 0x1F4;

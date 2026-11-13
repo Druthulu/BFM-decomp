@@ -3857,6 +3857,7 @@ s32 func_80184ED8(s32 a0, s32 a1) {
 
 
 
+/* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC01_077:0x8018511C; asm body, no C return */
 s32 func_80184F08(s32 param_1) {
     extern s32 guess_InitActorModel(s32 a0, s32 a1);
     extern void RotMatrixZ(s32, void *);
@@ -3943,6 +3944,7 @@ s32 func_80184F08(s32 param_1) {
 //   reuses the still-live incoming $a0 with a nop delay slot).
 extern signed char D_80199178[];
 
+/* $v0 at exit: result of guess_FreeActor or ori $v0, $v0, 0x1 at ov_SC01_077:0x801853B4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x27C, ov_SC01_077 objdump */
 s32 func_8018514C(s32 param_1) {
     int self = ((int)param_1);
     int iVar6;

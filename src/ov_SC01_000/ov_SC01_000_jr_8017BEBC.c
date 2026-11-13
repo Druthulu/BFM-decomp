@@ -3414,6 +3414,7 @@ extern u8 *D_800A5E60;
 extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 D_800AA608[];
 
+/* $v0 at exit: or $v0, $v0, $a3 at ov_SC01_000:0x8017E384; asm body, no C return */
 s32 func_8017E210(s32 arg0)
 {
     u8 *p;

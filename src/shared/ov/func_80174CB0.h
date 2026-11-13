@@ -10,6 +10,7 @@ extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80012558(s32 a0, s32 a1);
 extern void func_800126C4(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
+/* $v0 at exit: lh $v0, 0x3C($sp) at ov_MAIN_012:0x80174E74; no byte-neutral return: `return 0;` moved `lh v1,60(sp)` at +0x1C4, ov_MAIN_012 objdump */
 s32 func_80174CB0(s32 param_1, s32 param_2)
 {
     s16 *pv = &guess_g_CameraFollowPos;

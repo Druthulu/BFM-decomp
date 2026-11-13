@@ -4033,6 +4033,7 @@ extern void guess_ShowObjectModel(s32);
 extern void func_80184990(s32);
 extern void func_80184BD4(s32, s32, s32, s32);
 
+/* $v0 at exit: result of func_80184BD4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x4C, ov_SC05_017 objdump */
 s32 func_80181F00(s32 a0)
 {
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 3;

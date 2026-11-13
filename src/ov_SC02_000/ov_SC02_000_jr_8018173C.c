@@ -2918,6 +2918,7 @@ extern void func_80012558(s32 a0, s32 a1);
 extern void func_800126C4(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
+/* $v0 at exit: lh $v0, 0x3C($sp) at ov_SC02_000:0x80182030; no byte-neutral return: `return 0;` moved `lh v1,60(sp)` at +0x1C0, ov_SC02_000 objdump */
 s32 func_80181E70(s32 param_1, s32 param_2, s32 param_3)
 {
     Mtx_8017DECC mtx;
@@ -5775,6 +5776,7 @@ void func_801876FC(void *a0) {
 
 extern s32 func_8012CBCC(s32 a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
+/* $v0 at exit: result of func_8012CBCC or addiu $v0, $v0, 0x1 at ov_SC02_000:0x801878B4; no byte-neutral return: `return 0;` moved `lui v0,0xffe8` at +0x48, ov_SC02_000 objdump */
 s32 func_80187834(s32 param_1) {
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 + 0x100;

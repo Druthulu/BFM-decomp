@@ -2794,6 +2794,7 @@ s32 func_8017B238(s32 param_1, s32 param_2)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1 at ov_SC03_007:0x8017B464; no byte-neutral return: `return 1;` moved `li v0,1` at +0x108, ov_SC03_007 objdump */
 s32 func_8017B368(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -2830,6 +2831,7 @@ s32 func_8017B368(s32 param)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1E at ov_SC03_007:0x8017B5C0; no byte-neutral return: `return 30;` moved `li v0,30` at +0x13C, ov_SC03_007 objdump */
 s32 func_8017B490(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -3028,6 +3030,7 @@ void func_8017B880(void)
 
 
 
+/* $v0 at exit: lwr $v0, 0x8($a0) at ov_SC03_007:0x8017B91C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x54, ov_SC03_007 objdump */
 s32 func_8017B8E8(s32 src) {
     (*(S8_8017B8E8 *)&D_801E9CAC) = ((S8_8017B8E8 *)src)[0];
     (*(S8_8017B8E8 *)&D_801E9CA4) = ((S8_8017B8E8 *)src)[1];
@@ -6184,6 +6187,7 @@ void func_80180990(void *a0) {
 
 extern s32 guess_TickWaitTimer(s32 arg);
 
+/* $v0 at exit: result of guess_TickWaitTimer or addiu $v0, $zero, 0x2 at ov_SC03_007:0x80180A3C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x44, ov_SC03_007 objdump */
 s32 func_80180A00(void *arg0) {
     if (guess_TickWaitTimer((s32)arg0)) {
         func_80180A58(0, (u8 *)arg0 + 0xFD);

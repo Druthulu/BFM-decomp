@@ -1,5 +1,6 @@
 /* func_80178B70 — shared body (overlay slot 0x80128158, h_exact bfd16ca2). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of func_80178CBC; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_126 objdump */
 s32 func_80178B70(s32 param_1, s32 param_2)
 {
     extern s32 func_80178BF8();

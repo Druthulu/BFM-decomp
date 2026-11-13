@@ -2941,6 +2941,7 @@ s32 func_8017B238(s32 param_1, s32 param_2)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1 at ov_SC01_077:0x8017B464; no byte-neutral return: `return 1;` moved `li v0,1` at +0x108, ov_SC01_077 objdump */
 s32 func_8017B368(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -2974,6 +2975,7 @@ s32 func_8017B368(s32 param)
 }
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1E at ov_SC01_077:0x8017B5C0; no byte-neutral return: `return 30;` moved `li v0,30` at +0x13C, ov_SC01_077 objdump */
 s32 func_8017B490(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -3167,6 +3169,7 @@ void func_8017B880(void)
 
 
 
+/* $v0 at exit: lwr $v0, 0x8($a0) at ov_SC01_077:0x8017B91C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x54, ov_SC01_077 objdump */
 s32 func_8017B8E8(s32 src) {
     (*(S8_8017B8E8 *)&D_801DA794) = ((S8_8017B8E8 *)src)[0];
     (*(S8_8017B8E8 *)&D_801DA78C) = ((S8_8017B8E8 *)src)[1];
@@ -4022,6 +4025,7 @@ extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv
 extern s16 guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetZ
 extern u8 D_801B1DAC;
 
+/* $v0 at exit: result of func_80174E9C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x80, ov_SC01_077 objdump */
 M2C_UNK func_8017D900(void)
 {
     D_80126950 = 0x1F4;
@@ -4125,6 +4129,7 @@ extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerP
 extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
 extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 
+/* $v0 at exit: lh $v0, 0x3C($sp) at ov_SC01_077:0x8017DC88; no byte-neutral return: `return 0;` moved `lh v1,60(sp)` at +0x19C, ov_SC01_077 objdump */
 s32 func_8017DAEC(s32 param_1)
 {
     St_8017DAEC *s = (St_8017DAEC *)param_1;
@@ -4899,6 +4904,7 @@ void func_8017EEC0(s32 param_1) {
 }
 
 
+/* $v0 at exit: result of func_801292C8 or addiu $v0, $zero, 0x10 at ov_SC01_077:0x8017EFCC or negu $v0, $v0 at ov_SC01_077:0x8017EFEC; asm body, no C return */
 s32 func_8017EF50(s32 param_1)
 {
     extern void guess_AddVelocityToPos(struct vec *a0);

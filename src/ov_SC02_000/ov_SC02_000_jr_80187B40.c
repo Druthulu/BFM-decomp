@@ -3251,6 +3251,7 @@ void func_80188414(void *a0) {
 
 
 extern void guess_FreeActor(void*);
+/* $v0 at exit: result of guess_FreeActor or addiu $v0, $v0, -0x1 at ov_SC02_000:0x80188494; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x28, ov_SC02_000 objdump */
     s32 func_80188484(s32 arg0) {
         ((Unkstruct_80188484 *)arg0)->unkDC -= 1;
         if (((Unkstruct_80188484 *)arg0)->unkDC == 0) {
@@ -3459,6 +3460,7 @@ void func_801888F4(void *arg0)
 
 
 
+/* $v0 at exit: result of func_801292C8 or addiu $v0, $zero, 0x10 at ov_SC02_000:0x80188A94 or negu $v0, $v0 at ov_SC02_000:0x80188AB4; asm body, no C return */
 s32 func_80188A18(s32 param_1)
 {
     extern void guess_AddVelocityToPos(struct vec *a0);
@@ -4704,6 +4706,7 @@ extern s32 func_80134510(s32 arg);
 
 
 
+/* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC02_000:0x8018A8A4; no byte-neutral return: `return 0;` moved `lhu v1,2(s3)` at +0x20C, ov_SC02_000 objdump */
 s32 func_8018A690(s32 param_1) {
 
     extern M2C_UNK D_8018AF28[0];
@@ -4783,6 +4786,7 @@ extern void guess_FreeActor(void *a0);
 //   emits lbu;sll24;sra24;sh; (5) else-branch zero-byte asm barrier forces `addu $a0,$s1,$0` (else gcc
 //   reuses the still-live incoming $a0 with a nop delay slot).
 
+/* $v0 at exit: result of guess_FreeActor or ori $v0, $v0, 0x1 at ov_SC02_000:0x8018AB3C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x27C, ov_SC02_000 objdump */
 s32 func_8018A8D4(s32 param_1) {
 
     extern signed char D_801A7ADC[];

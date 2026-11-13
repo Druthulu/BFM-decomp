@@ -4236,7 +4236,7 @@ void func_8018BCA4(s32 param_1)
 
 extern s32 func_80128DB4(s32 a0, s32 *a1);
     s32 func_8018BCEC(void *a0) {
-        ((void (*)(void *, void *))func_80128DB4)(*(void **)((char *)a0 + 0x20), (void *)((char *)a0 + 0x24));
+        return ((int (*)(void *, void *))func_80128DB4)(*(void **)((char *)a0 + 0x20), (void *)((char *)a0 + 0x24));
     }
 
 

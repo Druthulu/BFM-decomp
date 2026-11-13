@@ -3628,6 +3628,7 @@ void func_80185C60(void *a0) {
 extern short D_801C37E8;
 extern void guess_StartActorSequence(s32, s32);
 
+/* $v0 at exit: result of guess_StartActorSequence; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC03_001 objdump */
 s32 func_80185C9C(a0)
 void *a0;
 {

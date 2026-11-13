@@ -4294,6 +4294,7 @@ void func_80180830(void) {
 
 extern void func_80174684(void *);
     extern void func_80180860(void *a0);
+/* $v0 at exit: result of func_80174684; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x1C, ov_SC03_024 objdump */
     s32 func_80180838(void)
 {
         func_80174684((void *)func_80180860);
@@ -5733,6 +5734,7 @@ void func_80182838(s32 *a0) {
 
 extern u8 D_801C135D;
 
+/* $v0 at exit: addiu $v0, $v1, 0x4 at ov_SC03_024:0x8018285C or addiu $v0, $v0, 0x6 at ov_SC03_024:0x8018286C; no byte-neutral return: `return 0;` moved `beqz v0,<func_80182844+0x3c>` at +0x14, ov_SC03_024 objdump */
 s32 func_80182844(void)
 {
     u8 *p;

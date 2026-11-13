@@ -5339,6 +5339,7 @@ extern u8 D_801EAC94;
 extern u8 D_801EAC95;
 extern u8 D_801EAC96;
 
+/* $v0 at exit: addiu $v0, $v1, 0x4 at ov_SC03_014:0x80189128 or addiu $v0, $v0, 0x8 at ov_SC03_014:0x80189140; no byte-neutral return: `return 0;` moved `beqz v0,<func_80189110+0x4c>` at +0x14, ov_SC03_014 objdump */
 s32 func_80189110(void)
 {
     u8 *p = &D_801EAC94;
@@ -5939,6 +5940,7 @@ void func_80189DC8(void *arg0) {
 
 
 extern void guess_FreeActor(void *a0);
+/* $v0 at exit: result of guess_FreeActor; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x20, ov_SC03_014 objdump */
     s32 func_80189EE8(void * arg0)
     {
         ((Unkstruct_8017E420 *)arg0)->unk2 = 2;

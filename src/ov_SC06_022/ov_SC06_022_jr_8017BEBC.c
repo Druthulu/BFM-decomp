@@ -4043,6 +4043,7 @@ extern s32 func_8017F30C(s32 a0);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_80129374(s32 arg0, s32 arg1);
 
+/* $v0 at exit: result of func_8017F30C or slti $v0, $v0, 0x401 at ov_SC06_022:0x8017F130 or addiu $v0, $v0, 0x6B96 at ov_SC06_022:0x8017F190; no byte-neutral return: `return 0;` moved `beqz v0,<func_8017F0D4+0xd8>` at +0x60, ov_SC06_022 objdump */
 s32 func_8017F0D4(param_1)
     s32 param_1;
 {

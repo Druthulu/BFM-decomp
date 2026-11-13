@@ -2950,6 +2950,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 extern void func_8013B7F4(void *a0, int a1);
 
+/* $v0 at exit: result of func_8013B7F4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC03_099 objdump */
 int func_8017D4FC(int param_1)
 {
 
@@ -2976,6 +2977,7 @@ extern s32 D_801BF3D4;
 extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_8017D688(void *a0, s32 a1);
 
+/* $v0 at exit: addiu $v0, $zero, 0x1 at ov_SC03_099:0x8017D560 or addiu $v0, $v0, -0x1 at ov_SC03_099:0x8017D618 or andi $v0, $v0, 0xF at ov_SC03_099:0x8017D66C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x130, ov_SC03_099 objdump */
 s32 func_8017D54C(void)
 {
     switch (D_801BF3D4) {

@@ -2920,6 +2920,7 @@ extern s32 AddPrim(s32 a0, void *a1);
 extern s32 D_800A651C;
 extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
+/* $v0 at exit: result of func_80010A08 or result of AddPrim; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x14C, ov_SC06_030 objdump */
 s32 func_8017DE08(s32 a0)
 {
     u8 *p;

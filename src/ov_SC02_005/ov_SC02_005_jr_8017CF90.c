@@ -4628,6 +4628,7 @@ void func_8018016C(s32 a0) {
 }
 
 
+/* $v0 at exit: addiu $v0, $v0, -0x1 at ov_SC02_005:0x801801F4 or addiu $v0, $v0, 0x1 at ov_SC02_005:0x80180218; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x44, ov_SC02_005 objdump */
 s32 func_801801DC(void *a0) {
     extern void func_80190408(void);
     extern void func_8012A100(s8 a0);

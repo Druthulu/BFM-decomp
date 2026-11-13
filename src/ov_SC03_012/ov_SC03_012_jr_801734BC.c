@@ -2525,6 +2525,7 @@ s32 func_801742A4(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_012 objdump */
 s32 func_80174888(void *a0) {
 
     extern void (*D_801817B4[])(void);
@@ -2540,6 +2541,7 @@ s32 func_80174888(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_012 objdump */
 s32 func_8017496C(void *a0) {
 
     extern void (*D_801817BC[])(void);
@@ -2603,6 +2605,7 @@ void func_80174BF4(void * arg0)
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_012 objdump */
 s32 func_80174F28(void *a0) {
 
     extern void (*D_801817C8[])(void);
@@ -2648,6 +2651,7 @@ extern u8 D_80078EC0;
 extern void (*D_801817D8[])(s32);
 extern void guess_NextStep(void *a0);
 
+/* $v0 at exit: result of guess_NextStep; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x3C, ov_SC03_012 objdump */
 s32 func_80175218(void * param_1)
 {
     s32 i = D_80078EC0 - 1;
@@ -2660,6 +2664,7 @@ s32 func_80175218(void * param_1)
 
 extern u8 D_80078EC0;
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x48, ov_SC03_012 objdump */
 s32 func_80175268(s32 param_1)
 {
 

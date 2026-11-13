@@ -4023,6 +4023,7 @@ extern s32 func_80171990(u8*);
 
 
 extern void func_80171928(void *a0);
+/* $v0 at exit: result of func_80171928 or slti $v0, $v0, -0x7A2 at ov_SC04_011:0x8017FCB8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x28, ov_SC04_011 objdump */
     s32 func_8017FCA8(s32 arg0) {
         if (*(s16 *)(arg0 + 0xa) >= -0x7a2) {
             ((void (*)(void))func_80171928)();
@@ -7065,6 +7066,7 @@ extern void RotMatrixY(s32 a0, void *a1);
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern s32 ratan2(s32 a0, s32 a1);
 
+/* $v0 at exit: andi $v0, $v0, 0xFFF at ov_SC04_011:0x80183B84; no byte-neutral return: `return 0;` moved `andi v1,v0,0xfff` at +0xE4, ov_SC04_011 objdump */
 s32 func_80183A28(u8 *a0) {
     Mtx32_80183A28 m;
     s16 out[4];
@@ -10638,6 +10640,7 @@ void func_801888B8(u8 *a0)
 }
 
 
+/* $v0 at exit: result of func_8012DEB8 or lh $v0, 0x106($s0) at ov_SC04_011:0x80188A88 or addiu $v0, $v0, 0x1 at ov_SC04_011:0x80188AA4; no byte-neutral return: `return 0;` moved `li v0,24` at +0x48, ov_SC04_011 objdump */
 s32 func_80188A30(s32 a0) {
     extern u16 D_80194814;
     extern u16 D_80194816;

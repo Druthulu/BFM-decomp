@@ -3502,6 +3502,7 @@ extern s32 D_8019E6FC;
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 rsin(s32 a0);
 
+/* $v0 at exit: lw $v0, 0xD0($s1) at ov_SC03_108:0x801809B8 or addiu $v0, $v0, 0x455 at ov_SC03_108:0x80180A5C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xC8, ov_SC03_108 objdump */
 s32 func_801809A0(void *arg0)
 {
     s32 v0;

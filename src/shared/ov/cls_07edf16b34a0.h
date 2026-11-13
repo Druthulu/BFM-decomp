@@ -2,5 +2,5 @@
  * exemplar src/ov_SC03_109/ov_SC03_109_jr_8017C180.c:3401 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/ov_SC04_000/ov_SC04_000_jr_801818E8.c:3856 rejected by type_census --check */
     s32 SHARED_FN(s32 arg0) {
-        ((void (*)(s32))func_800296F8)(((Unkstruct_8017E188 *)arg0)->unkDC);
+        return ((int (*)(s32))func_800296F8)(((Unkstruct_8017E188 *)arg0)->unkDC);
     }

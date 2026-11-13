@@ -4613,6 +4613,7 @@ void func_8018738C(s32 a0) {
 
 
 extern void guess_FreeActor(void*);
+/* $v0 at exit: result of guess_FreeActor or addiu $v0, $v0, -0x1 at ov_SC05_010:0x80187414; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x28, ov_SC05_010 objdump */
     s32 func_80187404(s32 arg0) {
         ((Unkstruct_8017FC8C *)arg0)->unk1C -= 1;
         if (((Unkstruct_8017FC8C *)arg0)->unk1C == 0) {
@@ -5081,6 +5082,7 @@ extern void guess_NextStep(void *a0);
 extern s32 D_80062C14;
 extern M2C_UNK D_800D5904;
 
+/* $v0 at exit: result of guess_NextStep; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x70, ov_SC05_010 objdump */
 s32 func_80187F48(s32 arg0)
 {
     guess_StartPadVibration(&D_80062C14);

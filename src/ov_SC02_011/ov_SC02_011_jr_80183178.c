@@ -2436,6 +2436,7 @@ void func_80186734(void *a0) {
     }
 
 
+/* $v0 at exit: addiu $v0, $v1, 0x4 at ov_SC02_011:0x80186758 or addiu $v0, $v0, 0x4 at ov_SC02_011:0x80186770; no byte-neutral return: `return 0;` moved `beqz v0,<func_80186740+0x4c>` at +0x14, ov_SC02_011 objdump */
 s32 func_80186740(void)
 {
 

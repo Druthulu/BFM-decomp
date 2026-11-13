@@ -3205,6 +3205,7 @@ void func_8017D8C8(s32 param_1, s16 *param_2, s32 param_3) {
 
 extern void func_8013B7F4(void *a0, int a1);
 
+/* $v0 at exit: result of func_8013B7F4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC06_025 objdump */
 int func_8017DAF0(int param_1)
 {
 

@@ -2797,6 +2797,7 @@ s32 func_8017B238(s32 param_1, s32 param_2)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1 at ov_SC01_080:0x8017B464; no byte-neutral return: `return 1;` moved `li v0,1` at +0x108, ov_SC01_080 objdump */
 s32 func_8017B368(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -2833,6 +2834,7 @@ s32 func_8017B368(s32 param)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1E at ov_SC01_080:0x8017B5C0; no byte-neutral return: `return 30;` moved `li v0,30` at +0x13C, ov_SC01_080 objdump */
 s32 func_8017B490(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -3031,6 +3033,7 @@ void func_8017B880(void)
 
 
 
+/* $v0 at exit: lwr $v0, 0x8($a0) at ov_SC01_080:0x8017B91C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x54, ov_SC01_080 objdump */
 s32 func_8017B8E8(s32 src) {
     (*(S8_8017B8E8 *)&D_801C5A04) = ((S8_8017B8E8 *)src)[0];
     (*(S8_8017B8E8 *)&D_801C59FC) = ((S8_8017B8E8 *)src)[1];
@@ -4741,6 +4744,7 @@ extern s32 ratan2(s32 a0, s32 a1);
 extern s16 D_800B9AB8[];
 extern s16 D_800B9ABA[];
 
+/* $v0 at exit: ori $v0, $zero, 0xFFEC at ov_SC01_080:0x8017ECEC; no byte-neutral return: `return 65516;` moved `sll v1,v0,0x2` at +0x84, ov_SC01_080 objdump */
 s32 func_8017EC48(s32 param_1) {
     s32 v1[3];
     s32 v2[3];

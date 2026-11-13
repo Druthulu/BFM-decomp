@@ -3571,6 +3571,7 @@ void func_8017F728(void *a0) {
 extern u16 D_801860C4[];
 extern s32 D_800AE620[];
 
+/* $v0 at exit: result of 0x800484EC; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xE4, ov_SC03_031 objdump */
 s32 func_8017F860(void* a0)
 {
     Mat32 mat;

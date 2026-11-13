@@ -4861,6 +4861,7 @@ extern s32 func_80134510(s32 arg);
 
 
 
+/* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC03_121:0x80181E2C; no byte-neutral return: `return 0;` moved `lhu v1,2(s3)` at +0x20C, ov_SC03_121 objdump */
 s32 func_80181C18(s32 param_1) {
 
     extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
@@ -4940,6 +4941,7 @@ extern void guess_FreeActor(void *a0);
 //   emits lbu;sll24;sra24;sh; (5) else-branch zero-byte asm barrier forces `addu $a0,$s1,$0` (else gcc
 //   reuses the still-live incoming $a0 with a nop delay slot).
 
+/* $v0 at exit: result of guess_FreeActor or ori $v0, $v0, 0x1 at ov_SC03_121:0x801820C4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x27C, ov_SC03_121 objdump */
 s32 func_80181E5C(s32 param_1) {
 
     extern signed char D_801ABC6C[];

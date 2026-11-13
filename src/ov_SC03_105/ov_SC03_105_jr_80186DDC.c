@@ -4043,6 +4043,7 @@ extern s32 D_801BCA48;
  * is the mirror of the emission order (sh 4,2,0 / sh 1A,18 / sb 20A,209,208).
  * The D_801BCA48 fetch must be a named local hoisted ABOVE the RGB stores —
  * that is what puts its lui/lw ahead of the `addiu 0x80` (§208). */
+/* $v0 at exit: addiu $v0, $v0, 0x80 at ov_SC03_105:0x80188AD8 or addiu $v0, $v0, 0x60 at ov_SC03_105:0x80188B2C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xB8, ov_SC03_105 objdump */
 s32 func_80188A94(s32 a0) {
     s16 *p;
     s32 t;

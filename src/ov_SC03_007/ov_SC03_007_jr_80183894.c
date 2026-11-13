@@ -4310,6 +4310,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
  * hard-errors twice (conflicting types, then too-few-arguments), so the incoming
  * $a0 is captured into a normal pseudo instead — the copy gets a callee-saved
  * home ($s0), which is exactly what the target prologue does. */
+/* $v0 at exit: result of func_80185E3C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x250, ov_SC03_007 objdump */
 s32 func_80185230(void) {
     s32 a0v;
     s32 arg0 = a0v;

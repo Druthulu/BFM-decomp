@@ -5500,6 +5500,7 @@ extern u8 D_8018E61C[];
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_8012B260(u8 *a0);
 
+/* $v0 at exit: result of func_8012B260; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xA8, ov_SC02_017 objdump */
 s32 func_8018287C(void *param_1)
 {
     s32 s0 = (s32)param_1;

@@ -3910,6 +3910,7 @@ void func_80186C2C(void *a0) {
 extern s32 func_8002A04C(s32 a0);
 extern s32 func_8012C098(void *param_1);
 
+/* $v0 at exit: result of func_8012C098 or lhu $v0, 0x88($s0) at ov_SC02_028:0x80186CF0; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x34, ov_SC02_028 objdump */
 s32 func_80186C8C(s32 arg0)
 {
     s32 temp;

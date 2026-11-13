@@ -2962,6 +2962,7 @@ s32 func_8017B238(s32 param_1, s32 param_2)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1 at ov_SC06_010:0x8017B464; no byte-neutral return: `return 1;` moved `li v0,1` at +0x108, ov_SC06_010 objdump */
 s32 func_8017B368(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -2998,6 +2999,7 @@ s32 func_8017B368(s32 param)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1E at ov_SC06_010:0x8017B5C0; no byte-neutral return: `return 30;` moved `li v0,30` at +0x13C, ov_SC06_010 objdump */
 s32 func_8017B490(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -3199,6 +3201,7 @@ void func_8017B880(void)
 
 
 
+/* $v0 at exit: lwr $v0, 0x8($a0) at ov_SC06_010:0x8017B91C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x54, ov_SC06_010 objdump */
 s32 func_8017B8E8(s32 src) {
     (*(S8_8017B8E8 *)&D_801B1FFC) = ((S8_8017B8E8 *)src)[0];
     (*(S8_8017B8E8 *)&D_801B1FF4) = ((S8_8017B8E8 *)src)[1];
@@ -6283,6 +6286,7 @@ extern s32 func_8017F098(s32);
 extern void RotMatrixZYX(s32, s32);
 extern void func_8017CAD4(s32*, s32*, s32);
 
+/* $v0 at exit: result of func_8017CAD4 or addiu $v0, $zero, 0x1 at ov_SC06_010:0x80180AA4 or addiu $v0, $v0, 0x700 at ov_SC06_010:0x80180DE4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC06_010 objdump */
 s32 func_80180A88(void)
 {
     switch (D_801B2BF4) {
@@ -7596,6 +7600,7 @@ extern s32 func_80134510(s32 arg);
 
 
 
+/* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC06_010:0x80182C40; no byte-neutral return: `return 0;` moved `lhu v1,2(s3)` at +0x20C, ov_SC06_010 objdump */
 s32 func_80182A2C(s32 param_1) {
 
     extern M2C_UNK D_80186D1C;
@@ -7675,6 +7680,7 @@ extern void guess_FreeActor(void *a0);
 //   emits lbu;sll24;sra24;sh; (5) else-branch zero-byte asm barrier forces `addu $a0,$s1,$0` (else gcc
 //   reuses the still-live incoming $a0 with a nop delay slot).
 
+/* $v0 at exit: result of guess_FreeActor or ori $v0, $v0, 0x1 at ov_SC06_010:0x80182ED8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x27C, ov_SC06_010 objdump */
 s32 func_80182C70(s32 param_1) {
 
     extern signed char D_801A69E4[];
@@ -9972,6 +9978,7 @@ void func_80186450(void *arg0) {
 
 
 extern void guess_FreeActor(void *a0);
+/* $v0 at exit: result of guess_FreeActor; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x20, ov_SC06_010 objdump */
     s32 func_80186570(void * arg0)
     {
         ((Unkstruct_8017E420 *)arg0)->unk2 = 2;

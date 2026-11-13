@@ -4263,6 +4263,7 @@ void func_8017FDB8(s32 a0) {
 
 extern void func_80016EF8(void *a0, void *a1);
 
+/* $v0 at exit: result of func_80016EF8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xA0, ov_SC03_105 objdump */
 s32 func_8017FEA8(void *a0)
 {
     struct {

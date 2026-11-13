@@ -3941,6 +3941,7 @@ void func_80181D64(void) {
 
 extern void func_8013B7F4(void *a0, int a1);
 
+/* $v0 at exit: result of func_8013B7F4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC03_089 objdump */
 int func_80181D6C(int param_1)
 {
 

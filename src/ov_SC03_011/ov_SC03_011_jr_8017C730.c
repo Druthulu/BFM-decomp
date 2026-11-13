@@ -4917,6 +4917,7 @@ extern Blk8_801800F8 D_801A0E64;
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 
+/* $v0 at exit: lhu $v0, 0x12($v0) at ov_SC03_011:0x80180180; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x94, ov_SC03_011 objdump */
 s32 func_801800F8(s32 *a0)
 {
     Blk8_801800F8 buf;

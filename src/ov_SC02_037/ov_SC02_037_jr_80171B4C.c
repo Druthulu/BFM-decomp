@@ -3706,6 +3706,7 @@ void func_80174354(void) {
 
 extern void (*D_80187258[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_80174384(void* a0)
 {
     D_80187258[((Unkstruct_80174384 *)a0)->unk214]();
@@ -3726,6 +3727,7 @@ void func_80174430(void) {
 
 extern void (*D_80187264[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_80174474(void* a0)
 {
     D_80187264[((Unkstruct_80174384 *)a0)->unk214]();
@@ -3797,6 +3799,7 @@ void func_80174524(void) {
 #undef SHARED_FN
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_801747CC(void *a0) {
 
     extern void (*D_80187270[])(void);
@@ -3818,6 +3821,7 @@ void func_8017481C(void) {
 
 extern void (*D_80187278[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_80174888(void *a0)
 {
     D_80187278[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3833,6 +3837,7 @@ void func_801748E4(void) {
 #include "../shared/ov/func_801748EC.h"
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_8017496C(void *a0) {
 
     extern void (*D_80187280[])(void);
@@ -3904,6 +3909,7 @@ void func_80174BF4(void * arg0)
 #include "../shared/ov/func_80174EF0.h"
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_80174F28(void* arg0)
 {
     extern void (*D_8018728C[])();
@@ -3955,6 +3961,7 @@ void func_80175184(s32* arg0) {
 
 extern void guess_NextStep(void *a0);
 
+/* $v0 at exit: result of guess_NextStep; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x3C, ov_SC02_037 objdump */
 s32 func_80175218(void * param_1)
 {
 
@@ -3969,6 +3976,7 @@ s32 func_80175218(void * param_1)
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x48, ov_SC02_037 objdump */
 s32 func_80175268(s32 param_1)
 {
 

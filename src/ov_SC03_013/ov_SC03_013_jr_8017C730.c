@@ -3056,6 +3056,7 @@ extern void func_800D1724(s32 a0);
 extern void func_80171928(void *a0);
 extern void (*D_80184A94[])(void);
 
+/* $v0 at exit: result of func_80171928; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x2C, ov_SC03_013 objdump */
 s32 func_8017E080(s32 arg0) {
     s32 s0 = arg0;
 

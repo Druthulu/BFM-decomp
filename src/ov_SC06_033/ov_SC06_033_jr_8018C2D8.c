@@ -3732,6 +3732,7 @@ void func_8018CD5C(s32 a0) {
 
 
 
+/* $v0 at exit: result of guess_FreeActor or lwr $v0, 0x0($a1) at ov_SC06_033:0x8018D75C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x714, ov_SC06_033 objdump */
 s32 func_8018D05C(s32 arg0) {
     extern s32 guess_AllocSpriteObjectHigh(void);
     extern void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4);

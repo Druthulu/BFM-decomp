@@ -3099,6 +3099,7 @@ extern void func_800D1724(s32 a0);
 extern void func_80171928(void *a0);
 extern u8 D_80183A5C;
 
+/* $v0 at exit: result of func_80171928; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x2C, ov_SC03_010 objdump */
 s32 func_8017DD44(s32 a0) {
     func_8017EE30();
     func_800D1724((s32)&D_80183A5C);

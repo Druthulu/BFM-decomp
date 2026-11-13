@@ -3602,6 +3602,7 @@ void func_80180020(void) {
  * arguments behind a no-prototype decl -- a file-scope prototype turns that
  * call into a hard `too few arguments` error and fails the whole-binary gate
  * even though this function itself is byte-identical. */
+/* $v0 at exit: result of guess_SetGameFlag; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x68, ov_SC06_025 objdump */
 s32 func_80180284(void *arg0)
 {
     extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);

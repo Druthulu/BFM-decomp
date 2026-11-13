@@ -1,5 +1,6 @@
 /* func_8017B490 — shared body (overlay slot 0x80128158, h_exact b7e0e84d). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: addiu $v0, $zero, 0x1E at ov_SC03_126:0x8017B5C0; no byte-neutral return: `return 30;` moved `li v0,30` at +0x13C, ov_SC03_126 objdump */
 s32 func_8017B490(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);

@@ -4048,6 +4048,7 @@ void func_8017E268(s32 a0) {
 
 extern void func_8017D288(void);
 
+/* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC07_007:0x8017E2D4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC07_007 objdump */
 s32 func_8017E2B8(void *arg0)
 {
     func_8017D288();
@@ -4219,6 +4220,7 @@ void func_8017E59C(void) {
 }
 
 
+/* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC07_007:0x8017E5CC; no byte-neutral return: `return 0;` moved `sh v0,4(a0)` at +0x10, ov_SC07_007 objdump */
 s32 func_8017E5C0(void * arg0)
 {
     ((Unkstruct_8017E5C0 *)arg0)->unk8 = 0;
@@ -6770,6 +6772,7 @@ extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_Player
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern s16 func_80181614(s32 param_1, s32 param_2);
 
+/* $v0 at exit: result of func_80181614; no byte-neutral return: `return func_80181614(...);` moved `sll v0,v0,0x10` at +0x48, ov_SC07_007 objdump */
 s32 func_801815B8(s32 arg0, s32 arg1) {
     s16 *ptr;
     s16 var;

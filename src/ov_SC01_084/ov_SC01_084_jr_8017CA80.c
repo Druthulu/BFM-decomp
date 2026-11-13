@@ -2982,6 +2982,7 @@ extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerP
 /* not present in the destination TU; sibling TU ov_SC01_084_jr_801789AC.c spells it this way */
 extern s32 func_80012ABC(s32, s32, s32);
 
+/* $v0 at exit: lh $v0, 0x3C($sp) at ov_SC01_084:0x8017E09C; no byte-neutral return: `return 0;` moved `lh v1,60(sp)` at +0x1D0, ov_SC01_084 objdump */
 s32 func_8017DECC(s32 param_1, s32 param_2)
 {
     Mtx_8017DECC mtx;    /* sp+0x10 */

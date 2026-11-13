@@ -2963,6 +2963,7 @@ void func_8017D3E4(s32 self, s16 *pos) {
 
 extern void func_8013B7F4(void *a0, int a1);
 
+/* $v0 at exit: result of func_8013B7F4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC04_006 objdump */
 int func_8017D584(int param_1)
 {
 
@@ -3597,6 +3598,7 @@ void func_8017E300(void *arg0) {
 
 
 extern void guess_FreeActor(void *a0);
+/* $v0 at exit: result of guess_FreeActor; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x20, ov_SC04_006 objdump */
     s32 func_8017E420(void * arg0)
     {
         ((Unkstruct_8017E420 *)arg0)->unk2 = 2;

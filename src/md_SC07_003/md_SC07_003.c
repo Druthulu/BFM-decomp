@@ -1709,6 +1709,7 @@ s32 func_801A2318(s32 arg0) {
 
 
 extern void guess_ApplyAccelAndVelocity(s32 a0);
+/* $v0 at exit: result of 0x8012AD80; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x18, md_SC07_003 objdump */
     s32 func_801A2384(s32 arg0) {
         ((void (*)(s32))guess_ApplyAccelAndVelocity)(*(s32 *)(arg0 + 0xd8));
     }

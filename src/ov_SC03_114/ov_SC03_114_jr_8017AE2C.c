@@ -3030,6 +3030,7 @@ void func_8017B880(void)
 
 
 
+/* $v0 at exit: lwr $v0, 0x8($a0) at ov_SC03_114:0x8017B91C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x54, ov_SC03_114 objdump */
 s32 func_8017B8E8(s32 src) {
     (*(S8_8017B8E8 *)&D_801A964C) = ((S8_8017B8E8 *)src)[0];
     (*(S8_8017B8E8 *)&D_801A9644) = ((S8_8017B8E8 *)src)[1];

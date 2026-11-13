@@ -3211,6 +3211,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 extern void func_8013B7F4(void *a0, int a1);
 
+/* $v0 at exit: result of func_8013B7F4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC06_011 objdump */
 int func_8017DA88(int param_1)
 {
 
@@ -3326,6 +3327,7 @@ extern s32 AddPrim(s32 a0, void *a1);
 extern s32 D_800A651C;
 extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
+/* $v0 at exit: result of func_80010A08 or result of AddPrim; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x14C, ov_SC06_011 objdump */
 s32 func_8017DE14(s32 a0)
 {
     u8 *p;

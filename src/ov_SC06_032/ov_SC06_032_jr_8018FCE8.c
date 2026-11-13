@@ -3054,6 +3054,7 @@ extern void func_8018F3E4(void);
 
 
 
+/* $v0 at exit: result of guess_InitActorModel or addiu $v0, $zero, 0x3 at ov_SC06_032:0x801902B8; no byte-neutral return: `return 0;` moved `beqz v0,<func_8018FCE8+0x5e0>` at +0x30, ov_SC06_032 objdump */
 s32 func_8018FCE8(s32 arg0) {
     extern Blip_8018F694 D_801D0DC0[];
     extern Blk4_8018FF98_8018FCE8 D_801CF0E8[];

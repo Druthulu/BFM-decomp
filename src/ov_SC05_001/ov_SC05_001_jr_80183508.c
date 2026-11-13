@@ -3645,6 +3645,7 @@ extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 rsin(s32 a0);
 
 
+/* $v0 at exit: lw $v0, 0xD0($s1) at ov_SC05_001:0x80184684 or addiu $v0, $v0, 0x455 at ov_SC05_001:0x80184728; no byte-neutral return: `return 0;` moved `beqz v0,<func_8018466C+0xcc>` at +0x24, ov_SC05_001 objdump */
 s32 func_8018466C(void *arg0)
 {
     s32 s1 = (s32)arg0;
@@ -4216,6 +4217,7 @@ void func_801854C8(void *arg0) {
 
 
 extern void guess_FreeActor(void *a0);
+/* $v0 at exit: result of guess_FreeActor; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x20, ov_SC05_001 objdump */
     s32 func_801855E8(void * arg0)
     {
         ((Unkstruct_8017E420 *)arg0)->unk2 = 2;

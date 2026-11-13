@@ -2860,6 +2860,7 @@ void func_80181F68(void *a0) {
 
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 
+/* $v0 at exit: addiu $v0, $zero, 0x1 at ov_SC02_005:0x80181F8C; no byte-neutral return: `return 1;` moved `li v0,1` at +0x24, ov_SC02_005 objdump */
 s32 func_80181F70(void *arg0)
 {
     func_80186304((u8 *)arg0, 0x10, 0);
@@ -2907,6 +2908,7 @@ void func_8018203C(s32 a0) {
 
 extern void func_8018622C(MainStruct *a0);
 
+/* $v0 at exit: addiu $v0, $zero, 0x5 at ov_SC02_005:0x801820C8; no byte-neutral return: `return 5;` moved `li v0,5` at +0x38, ov_SC02_005 objdump */
 s32 func_80182098(void *a0)
 {
     func_8018622C(a0);
@@ -2932,6 +2934,7 @@ extern u16 D_80126B96;
 extern s16 D_80126B98;
 extern void guess_RequestSound(s32 a0, s32 a1);
 
+/* $v0 at exit: result of guess_RequestSound; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xD0, ov_SC02_005 objdump */
 s32 func_801820E4(void *arg0)
 {
     s16 idx;
@@ -3701,6 +3704,7 @@ void func_80183160(void *a0) {
 extern s32 D_801270C8;
 extern void func_8002AB64(void);
 
+/* $v0 at exit: result of func_8002AB64; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC02_005 objdump */
 s32 func_80183174(void *arg0) {
     D_801270C8 = 0x22;
     *(s16 *)((s32)arg0 + 0x34) = 7;

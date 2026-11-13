@@ -4296,6 +4296,7 @@ extern void guess_SetMainCameraHandler(s32 a0, s32 a1);
 extern void func_8012A62C(s32 a0);
 extern void func_8017FB48(void *a0);
 
+/* $v0 at exit: result of func_8012A62C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xA0, ov_SC07_002 objdump */
 s32 func_8017FA94(void)
 {
     u8 *s0;
@@ -4748,6 +4749,7 @@ extern s32 func_8018094C(s32 s1);
 
 
 
+/* $v0 at exit: result of func_80181394; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xA8, ov_SC07_002 objdump */
 s32 func_8018094C(s32 s1)
 {
     extern s16 guess_g_CameraFollowPos[4]; // Names ledger: config/names.tsv guess_g_CameraFollowPos
@@ -4777,6 +4779,7 @@ extern s32 func_80180A2C(s32 s1);
     }
 
 
+/* $v0 at exit: result of func_80181394; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xA8, ov_SC07_002 objdump */
 s32 func_80180A2C(s32 s1) {
     extern s16 guess_g_CameraFollowPos[4]; // Names ledger: config/names.tsv guess_g_CameraFollowPos
     extern s32 func_8012E544(s32 a0);
@@ -4919,6 +4922,7 @@ extern s32 func_80180DAC(s32 a0);
 extern s16 guess_g_CameraFollowPos[4]; // Names ledger: config/names.tsv guess_g_CameraFollowPos
 extern void func_80180F7C(s32 a0, void *a1);
 
+/* $v0 at exit: result of func_80180F7C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x1B0, ov_SC07_002 objdump */
 s32 func_80180DAC(s32 a0)
 {
     Pos cur;
@@ -8151,6 +8155,7 @@ void func_80185BD0(s32 arg0) {
 }
 
 
+/* $v0 at exit: result of guess_NextStep; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x88, ov_SC07_002 objdump */
 s32 func_80185C00(s32 a0)
 {
     extern s32 D_80062C14;

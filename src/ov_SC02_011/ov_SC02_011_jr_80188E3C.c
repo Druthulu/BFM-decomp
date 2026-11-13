@@ -2436,6 +2436,7 @@ void func_8018BF4C(void *a0) {
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void D_801DEB58;
 
+/* $v0 at exit: addiu $v0, $zero, 0x3C at ov_SC02_011:0x8018BF90; no byte-neutral return: `return 60;` moved `sw v0,28(s0)` at +0x34, ov_SC02_011 objdump */
 s32 func_8018BF60(void *a0) {
     u16 v;
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 3;
@@ -4923,6 +4924,7 @@ void func_8018EF34(void *arg0) {
 
 
 extern void guess_FreeActor(void *a0);
+/* $v0 at exit: result of guess_FreeActor; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x20, ov_SC02_011 objdump */
     s32 func_8018F054(void * arg0)
     {
         ((Unkstruct_8017E420 *)arg0)->unk2 = 2;
@@ -5158,6 +5160,7 @@ extern s32 func_80134510(s32 arg);
 
 
 
+/* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC02_011:0x8018F6CC; no byte-neutral return: `return 0;` moved `lhu v1,2(s3)` at +0x20C, ov_SC02_011 objdump */
 s32 func_8018F4B8(s32 param_1) {
 
     extern M2C_UNK D_8019105C;
@@ -5237,6 +5240,7 @@ extern void guess_FreeActor(void *a0);
 //   emits lbu;sll24;sra24;sh; (5) else-branch zero-byte asm barrier forces `addu $a0,$s1,$0` (else gcc
 //   reuses the still-live incoming $a0 with a nop delay slot).
 
+/* $v0 at exit: result of guess_FreeActor or ori $v0, $v0, 0x1 at ov_SC02_011:0x8018F964; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x27C, ov_SC02_011 objdump */
 s32 func_8018F6FC(s32 param_1) {
 
     extern signed char D_801E3AD0[];

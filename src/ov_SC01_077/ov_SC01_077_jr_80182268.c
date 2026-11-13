@@ -3377,6 +3377,7 @@ void func_801829E0(int param_1)
 
 
 
+/* $v0 at exit: result of guess_StartActorSequence or result of guess_TickWaitTimer or result of func_80182988 or result of func_801829E0 or result of func_8018301C or slti $v0, $v1, 0x2 at ov_SC01_077:0x80182AD4 or addiu $v0, $zero, 0x2 at ov_SC01_077:0x80182AF0 or andi $v0, $v0, 0x4000 at ov_SC01_077:0x80182B0C or slt $v0, $v0, $s0 at ov_SC01_077:0x80182B34 or addiu $v0, $zero, 0x1E at ov_SC01_077:0x80182C2C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xC0, ov_SC01_077 objdump */
 s32 func_80182A24(s32 arg0) {
     extern s32 func_8012E544(s32 a0);
     extern void func_8018301C(s32 a0);

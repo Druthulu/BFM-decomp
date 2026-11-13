@@ -3640,6 +3640,7 @@ void func_80174354(void) {
 #include "../shared/ov/func_8017435C.h"
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_MAIN_012 objdump */
 s32 func_80174384(void* a0)
 {
 
@@ -3662,6 +3663,7 @@ void func_80174430(void) {
 
 extern void (*D_801819D8[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_MAIN_012 objdump */
 s32 func_80174474(void* a0)
 {
     D_801819D8[((Unkstruct_80174384 *)a0)->unk214]();
@@ -3733,6 +3735,7 @@ void func_80174524(void) {
 #undef SHARED_FN
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_MAIN_012 objdump */
 s32 func_801747CC(void* a0)
 {
 
@@ -3772,6 +3775,7 @@ void func_801748E4(void) {
 
 extern void (*D_801819F4[])(void *a0);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_MAIN_012 objdump */
 s32 func_8017496C(void *a0)
 {
     D_801819F4[*(u8 *)((s32)a0 + 4)](a0);
@@ -3844,6 +3848,7 @@ void func_80174BF4(void * arg0)
 
 extern void (*D_80181A00[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_MAIN_012 objdump */
 s32 func_80174F28(void* a0)
 {
     D_80181A00[*(u8 *)((s32)a0 + 0x4)]();
@@ -3894,6 +3899,7 @@ void func_80175184(s32* arg0) {
 
 extern void guess_NextStep(void *a0);
 
+/* $v0 at exit: result of guess_NextStep; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x3C, ov_MAIN_012 objdump */
 s32 func_80175218(void * param_1)
 {
 
@@ -3908,6 +3914,7 @@ s32 func_80175218(void * param_1)
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x48, ov_MAIN_012 objdump */
 s32 func_80175268(s32 param_1)
 {
 

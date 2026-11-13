@@ -2924,6 +2924,7 @@ void func_8017D79C(int param_1)
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_800178EC(s32 a0);
 
+/* $v0 at exit: result of func_800178EC; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x110, ov_SC06_020 objdump */
 s32 func_8017D918(obj, mode, a2, a3, a4, a5)
 s32 obj;
 s32 mode;

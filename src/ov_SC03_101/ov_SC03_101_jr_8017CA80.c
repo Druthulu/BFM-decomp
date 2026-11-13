@@ -3054,6 +3054,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 extern void func_8013B7F4(void *a0, int a1);
 
+/* $v0 at exit: result of func_8013B7F4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC03_101 objdump */
 int func_8017E30C(int param_1)
 {
 
@@ -3080,6 +3081,7 @@ extern s32 D_8019E19C;
 extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void func_8017E498(void *a0, s32 a1);
 
+/* $v0 at exit: addiu $v0, $zero, 0x1 at ov_SC03_101:0x8017E370 or addiu $v0, $v0, -0x1 at ov_SC03_101:0x8017E428 or andi $v0, $v0, 0xF at ov_SC03_101:0x8017E47C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x130, ov_SC03_101 objdump */
 s32 func_8017E35C(void)
 {
     switch (D_8019E19C) {
@@ -4484,6 +4486,7 @@ void func_80180918(s32 a0) {
 
 extern void func_801330E0(void *arg0, s16 *arg1, s32 arg2);
 
+/* $v0 at exit: result of func_801330E0 or entry $v0, unset; no byte-neutral return: `return 0;` moved `beqz v1,<func_8018095C+0x48>` at +0x10, ov_SC03_101 objdump */
 s32 func_8018095C(void *a0)
 {
     void *v1 = ((Unkstruct_8018095C *)a0)->unkCC;

@@ -3162,6 +3162,7 @@ void func_801804C0(s32 param)
 }
 
 
+/* $v0 at exit: result of guess_StartActorSequence or lh $v0, 0x70($s0) at ov_SC03_092:0x80180550; no byte-neutral return: `return 0;` moved `beqz v0,<func_8018052C+0x48>` at +0x2C, ov_SC03_092 objdump */
 s32 func_8018052C(void *param)
 {
     extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
@@ -3587,6 +3588,7 @@ void func_80180E50(s32 arg0) {
 
 
 
+/* $v0 at exit: result of an indirect call or lw $v0, 0xDC($a0) at ov_SC02_026:0x8017DD8C or lw $v0, 0xC($v0) at ov_SC02_026:0x8017DD9C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x34, ov_SC03_092 objdump */
 s32 func_80180EC8(u8 *a0)
 {
     s32 *p;

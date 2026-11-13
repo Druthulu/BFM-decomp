@@ -3135,6 +3135,7 @@ extern s16 D_80126B3C;
 extern s16 D_80126B38;
 extern void func_80174684(void *a0);
 
+/* $v0 at exit: result of func_80174684; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x38, ov_SC03_115 objdump */
 s32 func_8017D058(void)
 {
     extern void func_8017D09C(void *a0);

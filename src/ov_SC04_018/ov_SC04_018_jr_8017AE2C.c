@@ -2794,6 +2794,7 @@ s32 func_8017B238(s32 param_1, s32 param_2)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1 at ov_SC04_018:0x8017B464; no byte-neutral return: `return 1;` moved `li v0,1` at +0x108, ov_SC04_018 objdump */
 s32 func_8017B368(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -2830,6 +2831,7 @@ s32 func_8017B368(s32 param)
 
 
 
+/* $v0 at exit: addiu $v0, $zero, 0x1E at ov_SC04_018:0x8017B5C0; no byte-neutral return: `return 30;` moved `li v0,30` at +0x13C, ov_SC04_018 objdump */
 s32 func_8017B490(s32 param)
 {
     extern void func_8017BA3C(s32 param_1, s32 param_2);
@@ -3031,6 +3033,7 @@ void func_8017B880(void)
 
 
 
+/* $v0 at exit: lwr $v0, 0x8($a0) at ov_SC04_018:0x8017B91C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x54, ov_SC04_018 objdump */
 s32 func_8017B8E8(s32 src) {
     (*(S8_8017B8E8 *)&D_801E6D24) = ((S8_8017B8E8 *)src)[0];
     (*(S8_8017B8E8 *)&D_801E6D1C) = ((S8_8017B8E8 *)src)[1];
@@ -8212,6 +8215,7 @@ extern void guess_ShowObjectModel(s32);
 extern void func_80184C90(s32);
 extern void func_80184ED4(s32, s32, s32, s32);
 
+/* $v0 at exit: result of func_80184ED4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x4C, ov_SC04_018 objdump */
 s32 func_801839A8(s32 a0)
 {
     ((Unkstruct_800B5CB8 *)a0)->unk2 = 3;

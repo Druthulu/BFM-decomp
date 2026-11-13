@@ -3321,6 +3321,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 extern void func_8013B7F4(void *a0, int a1);
 
+/* $v0 at exit: result of func_8013B7F4; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_SC03_097 objdump */
 int func_8017F6D4(int param_1)
 {
 
@@ -3892,6 +3893,7 @@ void func_801803B8(s32 a0) {
 
 extern void func_801330E0(void *, s16 *, s32);
 
+/* $v0 at exit: result of func_801330E0 or entry $v0, unset; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x48, ov_SC03_097 objdump */
 s32 func_801803FC(s32 a0) {
     s32 v1;
 

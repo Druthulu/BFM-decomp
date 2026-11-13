@@ -4715,6 +4715,7 @@ extern void guess_NextStep(void *a0);
 extern s32 D_80062C14;
 extern s32 D_80196EB0;
 
+/* $v0 at exit: result of guess_NextStep; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x6C, ov_SC02_005 objdump */
 s32 func_801904B8(s32 arg) {
     s32 *s0 = (s32 *)arg;
 

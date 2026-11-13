@@ -1,3 +1,4 @@
+/* $v0 at exit: lbu $v0, -0x84F($v0) at ov_MAIN_012:0x801759DC or addu $v0, $v0, $a0 at ov_MAIN_012:0x80175AA0; no byte-neutral return: `return 0;` moved `bnez v0,<func_801759D8+0xdc>` at +0x10, ov_MAIN_012 objdump */
 s32 func_801759D8(void)
 {
     extern u8 D_8011F7B1;
