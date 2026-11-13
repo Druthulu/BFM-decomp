@@ -2761,11 +2761,9 @@ extern s32 D_801ADB78;
 extern s32 D_8018B6A8;
 extern s32 D_801D9740;
 
-void func_8017FF7C(void) {
+void func_8017FF7C(s32 a0in) {
     s32 arg0;
-    s32 a0in;
     s32 var;
-
     arg0 = a0in;
     ((Unkstruct_800B5CB8 *)arg0)->unk5C &= 0xFFFE;
     switch (CAST_WIDTH(u16, arg0, 0x5E)) {
@@ -5217,7 +5215,7 @@ void func_801838EC(void *a0)
 #undef SHARED_FN
 
 
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern u8 D_801C81BC[];
 
@@ -5236,7 +5234,7 @@ void func_80183968(void *a0) {
         ((Unkstruct_800B5CB8 *)v1)->unk18 = 0x1000;
     }
 
-    KR_AS(void, func_80131B14)(s0);
+    func_80131B14(s0);
     guess_StartActorSequence(s0, D_801C81BC);
 }
 

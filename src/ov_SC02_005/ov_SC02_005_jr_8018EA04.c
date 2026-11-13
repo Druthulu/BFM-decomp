@@ -2830,7 +2830,7 @@ extern u16 D_801E439C;
 extern s32 D_801E43C0;
 extern s32 D_801E43C4;
 extern void func_80185764(void *a0);
-extern void func_80182EB0(void);
+extern void func_80182EB0(void *a0r);
 extern void func_80182F78(s32 arg0);
 extern s16 D_801E43AC;
 extern void func_80182FAC(s32 *s0);

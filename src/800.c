@@ -555,24 +555,20 @@ s32 func_800133E4(s16 *a0, s16 *a1) {
 }
 
 
-extern s32 func_80013478(void);
+extern s32 func_80013478(s16 *a0, s16 *a1);
 extern s32 func_80047D3C(s32 a0);
 
 s32 func_80013450(s32 arg0) {
-    s32 result = func_80013478();
+    s32 result = KR_AS(s32, func_80013478)();
     return func_80047D3C(result);
 }
 
-s32 func_80013478(void) {
-    s16 *a0;
-    s16 *a1;
+s32 func_80013478(s16 *a0, s16 *a1) {
     s32 diff[3];
     s32 result[3];
-
     diff[0] = a0[1] - a1[0];
     diff[1] = a0[3] - a1[1];
     diff[2] = a0[5] - a1[2];
-
     gte_ldlvl(diff);
     gte_sqr_a07d();
     gte_stlvnl(result);
@@ -16178,12 +16174,12 @@ extern void GsTMDfastTG4NL(void);
 extern void GsTMDfastTNG4(void);
 extern void * GsTMDfastF3GL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work);
 extern void * GsTMDfastF3GNL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work);
-extern void *GsTMDfastG3GL(void);
-extern void *GsTMDfastG3GNL(void);
-extern void *GsTMDfastF4GL(void);
-extern void *GsTMDfastF4GNL(void);
-extern void GsTMDfastG4GL(void);
-extern void GsTMDfastG4GNL(void);
+extern void *GsTMDfastG3GL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work);
+extern void *GsTMDfastG3GNL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work);
+extern void *GsTMDfastF4GL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work);
+extern void *GsTMDfastF4GNL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work);
+extern void GsTMDfastG4GL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work);
+extern void GsTMDfastG4GNL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work);
 
 extern GsTMDfastFn D_800A2BC0;
 extern GsTMDfastFn D_800A2BC8;

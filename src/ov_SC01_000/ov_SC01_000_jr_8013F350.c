@@ -443,7 +443,7 @@ extern u8 D_80126C40;
 extern u16 D_80126B94;
 extern u16 D_80126B96;
 extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_CallActorEventHandler(int a0);

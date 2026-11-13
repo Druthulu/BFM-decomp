@@ -3572,12 +3572,10 @@ extern s32 D_801E43C0;
 extern s32 D_801E43C4;
 extern void func_80185764(void *a0);
 
-void func_80182EB0(void) {
-    void *a0r;
+void func_80182EB0(void *a0r) {
     s32 s0 = (s32)a0r;
     u32 temp;
     s32 v0_val;
-
     guess_ClearVelocityAndSetGravity(s0);
 
     CAST_SIGN(u32, s0, 0xE8) |= 1;

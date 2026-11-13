@@ -1667,7 +1667,7 @@ void func_8012F8C8(int param_1)
 
 extern s32 guess_CallActorEventHandler(int);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 
@@ -1950,7 +1950,7 @@ extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern s32 guess_DistSqToPlayer(s32 a0);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_PlayActorSound(void *a0);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 
 
 // @class: loop-guard

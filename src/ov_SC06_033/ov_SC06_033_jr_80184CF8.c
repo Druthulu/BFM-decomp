@@ -3023,7 +3023,7 @@ extern s32 D_801AFA00;
 extern u8 D_801C758C[];
 extern void guess_StartActorSequence(s32 a0, void * a1);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern s32 func_80185F6C(s32 a0, s32 a1);
 
 void func_8018515C(s32 *a0) {
@@ -3058,7 +3058,7 @@ extern void func_8012B370(int a0);
 
 extern s32 D_801AFA40[];
 extern void guess_StartActorSequence(s32 a0, void * a1);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 
 void func_80185288(s32 *a0) {
     s32 s0 = a0;
@@ -3112,7 +3112,7 @@ void func_801853B0(s32 *a0)
     extern s32 D_801AFB90;
     extern s32 D_801AFBA0;
     extern void guess_SetLocalVelocity(s32 a0, s32 a1);
-    extern void func_80131B14(void);
+    extern void func_80131B14(u8 *a0v);
 
     s32 s0 = (s32)a0;
 

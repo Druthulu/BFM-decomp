@@ -5668,13 +5668,11 @@ void func_80182464(void *a0) {
     }
 
 
-void func_8018247C(void)
+void func_8018247C(s32 a0)
 {
-    s32 a0;
     s32 a1;
     u16 v0;
     u16 v1;
-
     a1 = ((Unkstruct_8018247C *)a0)->unkD0;
     if (a1 != 0) {
         ((Unkstruct_8018247C_2 *)a1)->unk8 = ((Unkstruct_8018247C *)a0)->unk6;
@@ -5682,12 +5680,12 @@ void func_8018247C(void)
         v1 = ((Unkstruct_8018247C *)a0)->unk52;
         ((Unkstruct_8018247C_2 *)a1)->unkA = v0 + v1;
         ((Unkstruct_8018247C_2 *)a1)->unkC = ((Unkstruct_8018247C *)a0)->unkE;
-        ((Unkstruct_8018247C_2 *)a1)->unk10 = ((Unkstruct_8018247C_3 *)*(s32 *)(a0 + 0x20))->unk10;
-        ((Unkstruct_8018247C_2 *)a1)->unk12 = ((Unkstruct_8018247C_3 *)*(s32 *)(a0 + 0x20))->unk12;
-        ((Unkstruct_8018247C_2 *)a1)->unk14 = ((Unkstruct_8018247C_3 *)*(s32 *)(a0 + 0x20))->unk14;
-        ((Unkstruct_8018247C_2 *)a1)->unk18 = ((Unkstruct_8018247C_3 *)*(s32 *)(a0 + 0x20))->unk18;
-        ((Unkstruct_8018247C_2 *)a1)->unk1A = ((Unkstruct_8018247C_3 *)*(s32 *)(a0 + 0x20))->unk1A;
-        ((Unkstruct_8018247C_2 *)a1)->unk1C = ((Unkstruct_8018247C_3 *)*(s32 *)(a0 + 0x20))->unk1C;
+        ((Unkstruct_8018247C_2 *)a1)->unk10 = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk10;
+        ((Unkstruct_8018247C_2 *)a1)->unk12 = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk12;
+        ((Unkstruct_8018247C_2 *)a1)->unk14 = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk14;
+        ((Unkstruct_8018247C_2 *)a1)->unk18 = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk18;
+        ((Unkstruct_8018247C_2 *)a1)->unk1A = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk1A;
+        ((Unkstruct_8018247C_2 *)a1)->unk1C = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk1C;
     }
 }
 
@@ -6062,7 +6060,7 @@ void func_80182C68(s32 a0)
 }
 
 
-extern void func_8018247C(void);
+extern void func_8018247C(s32 a0);
 extern void func_80182270(void *a0);
 extern void func_8018241C(void *a0);
 extern void func_80182538(s32 param_1);
@@ -6073,7 +6071,7 @@ extern u16 D_8019FF8A;
 void func_80182D50(void *a0) {
     u8 *p = *(u8 **)((s32)a0 + 0x20);
     *(u16 *)(p + 0x12) = *(u16 *)(p + 0x12) - 0x20;
-    func_8018247C();
+    KR_AS(void, func_8018247C)();
     if (((Unkstruct_80181FE8 *)a0)->unk70 == 0) {
         func_80182270(a0);
     }
@@ -6089,7 +6087,7 @@ void func_80182D50(void *a0) {
 
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_80182038(s32 param_1);
-extern void func_8018247C(void);
+extern void func_8018247C(s32 a0);
 
 void func_80182DF0(s32 arg0) {
 

@@ -2827,7 +2827,7 @@ extern void func_8018642C(void *a0);
 extern s32 func_8012C098(void *param_1);
 extern void func_80186548(s32 a0);
 extern void func_80186628(s32 a0);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern s32 guess_StartActorSequenceById(s32 a0, s32 a1);
 extern void func_80186700(s32 a0);
 extern s32 func_80153BD8(s32 arg);

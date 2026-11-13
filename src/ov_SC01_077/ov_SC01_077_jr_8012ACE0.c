@@ -1194,7 +1194,7 @@ struct S80131E00;
 #include "../shared/ov/func_8012F68C.h"
 
 
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern s32 guess_CallActorEventHandler(int);
 
 #include "../shared/ov/func_8012F75C.h"
@@ -1266,7 +1266,7 @@ void func_8012F8C8(u8* arg0) {
 
 extern s32 guess_CallActorEventHandler(int);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern int  D_80186EA4;
@@ -1989,10 +1989,8 @@ void func_80131340(s32 a0)
 //   compare-time andi 0xff); f76 dual-width via per-access casts (lhu in the decrement, lh in the <=0 compare);
 //   the p->f20 reload split into TWO separate temps so the 2nd load takes $v0 not $v1.
 
-void func_80131B14(void) {
-    u8 *a0v;
+void func_80131B14(u8 *a0v) {
     u8 *p = a0v;
-
     extern void func_8002A520(void *);
     extern void func_8002A790(void *);
     extern u8 D_80186FDC;

@@ -22,7 +22,7 @@
  * arguments and the GTE.
  */
 /* $v0 at exit: addu $v0, $a3, $zero at main:0x80057B04; asm body, no C return */
-void *GsTMDfastG3GL()
+void *GsTMDfastG3GL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work)
 {
     __asm__ __volatile__(
         ".set\tnoreorder\n"
@@ -173,7 +173,7 @@ void *GsTMDfastG3GL()
  * primitive/packet stride is 0x1C.
  */
 /* $v0 at exit: addu $v0, $a3, $zero at main:0x80057C6C; asm body, no C return */
-void *GsTMDfastG3GNL()
+void *GsTMDfastG3GNL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work)
 {
     __asm__ __volatile__(
         ".set\tnoreorder\n"
@@ -527,7 +527,7 @@ void *GsTMDfastF3GNL(void *prim, void *vert, void *norm, void *pkt,
  * compiler-generated C; encoded verbatim. gcc-2.7.2 -O2 emits no prologue for
  * this frameless body and supplies the trailing "jr $ra / nop" epilogue. */
 /* $v0 at exit: addu $v0, $a3, $zero at main:0x80058274; asm body, no C return */
-void *GsTMDfastF4GL(void)
+void *GsTMDfastF4GL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work)
 {
     __asm__ __volatile__(
         ".word 0x27BDFFF8\n"
@@ -711,7 +711,7 @@ void *GsTMDfastF4GL(void)
  * No relocations and no symbol references: the body touches only its arguments,
  * the stack scratch pair and the GTE. */
 /* $v0 at exit: addu $v0, $a3, $zero at main:0x8005844C; asm body, no C return */
-void *GsTMDfastF4GNL()
+void *GsTMDfastF4GNL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work)
 {
     volatile int g[2];
 
@@ -874,7 +874,7 @@ void *GsTMDfastF4GNL()
  *     (ot_base + ((otz >> shift) << 2)), then four NCCS colour passes writing
  *     the packet, and link the packet into the OT.
  */
-void GsTMDfastG4GL(void)
+void GsTMDfastG4GL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work)
 {
     __asm__ __volatile__(
         ".set\tnoreorder\n"
@@ -1042,7 +1042,7 @@ void GsTMDfastG4GL(void)
         : : : "memory");
 }
 
-void GsTMDfastG4GNL(void)
+void GsTMDfastG4GNL(void *prim, void *vert, void *norm, void *pkt, int n, int shift, void *ot, void *work)
 {
     __asm__ __volatile__(
         ".set\tnoreorder\n"

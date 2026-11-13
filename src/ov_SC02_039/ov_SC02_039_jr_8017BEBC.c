@@ -2824,7 +2824,7 @@ extern s32 rsin(s32 a0);
 extern s32 rcos(s32 a0);
 extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8017D2B8(s32 param_1, s32 param_2, s16 *param_3);
-extern s32 func_8017D484(u8 *param_1, s16 *param_2, s16 *param_3);
+extern s32 func_8017D484(u8 *param_1, s16 *param_2, s16 *param_3, u32 a3);
 
 void func_8017D110(s32 param_1)
 {
@@ -2855,7 +2855,7 @@ void func_8017D110(s32 param_1)
     sp18.v[2] = sp10.v[2] - sh;
     sp18.v[1] = sp10.v[1];
 
-    *(s16 *)(param_1 + 0xA0) = func_8017D484(&D_80182B7C, sp10.v, sp18.v);
+    *(s16 *)(param_1 + 0xA0) = KR_AS(s32, func_8017D484)(&D_80182B7C, sp10.v, sp18.v);
 
     if (sp10.v[1] > 0) {
         sp10.v[1] = 0;

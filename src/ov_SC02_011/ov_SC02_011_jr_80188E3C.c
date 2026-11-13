@@ -3373,7 +3373,7 @@ extern s32 func_8012B864(s32 a0);
 
 extern s32 D_801E3018;
 extern void guess_StartActorSequence(s32 a0, void *a1);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 
 void func_8018D218(s32 s0) {
     s32 a0;
@@ -3388,7 +3388,7 @@ void func_8018D218(s32 s0) {
         *(u16 *)(v1 + 0x1A) = 0x1000;
         *(u16 *)(v1 + 0x18) = 0x1000;
     }
-    KR_AS(void, func_80131B14)(s0);
+    func_80131B14(s0);
     guess_StartActorSequence(s0, (void *)&D_801E3018);
 }
 

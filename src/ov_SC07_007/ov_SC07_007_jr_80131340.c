@@ -400,7 +400,7 @@ extern u8 D_80126C40;
 extern u16 D_80126B94;
 extern u16 D_80126B96;
 extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_CallActorEventHandler(int);
@@ -425,7 +425,7 @@ extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void func_8012FB54(s32 a0);
 extern void func_8012FC30(s32 a0);
 extern void func_8012FCA4(int a0);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void func_8012FCC4(int param_1);
 extern void func_8012FDA8(int param_1);
 extern void func_80131170(s32 p, s32 b, s32 c);
@@ -834,10 +834,8 @@ extern s32 guess_RespawnSmallObjectType1E(int);
 //   compare-time andi 0xff); f76 dual-width via per-access casts (lhu in the decrement, lh in the <=0 compare);
 //   the p->f20 reload split into TWO separate temps so the 2nd load takes $v0 not $v1.
 
-void func_80131B14() {
-    u8 *a0v;
+void func_80131B14(u8 *a0v) {
     u8 *p = a0v;
-
     extern void func_8002A520(void *);
     extern void func_8002A790(void *);
     extern u8 D_801833F0;

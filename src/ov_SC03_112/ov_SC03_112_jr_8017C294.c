@@ -3156,7 +3156,7 @@ extern Unk_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv g
 extern u16 guess_GetPadPressed(s32 *a0);
 extern s32 rsin(s32 a0);
 extern s32 rcos(s32 a0);
-extern s32 func_8017E4B4(u8 *a0, s16 *a1, s16 *a2);
+extern s32 func_8017E4B4(u8 *param_1, s16 *param_2, s16 *param_3, u32 a3);
 extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8017E2E8(s32 a0, s32 a1, s16 *a2);
 
@@ -3181,7 +3181,7 @@ void func_8017E160(s32 param_1) {
     vec[0] = pos.f0 - rsin(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) / 128;
     vec[2] = pos.f2 - rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) / 128;
     vec[1] = pos.f1;
-    h = func_8017E4B4(D_801895D0, (s16 *)&pos, vec);
+    h = KR_AS(s32, func_8017E4B4)(D_801895D0, (s16 *)&pos, vec);
     /* the D_801ACE50 read must precede the 0xA0 store in the RTL stream:
        it is what puts the store last in the block, so reorg fills the
        jal's delay slot with it instead of `addiu $a3,1` (cookbook §176-A). */
@@ -3299,9 +3299,7 @@ extern u32 func_8017E70C(s16 *param_1, s16 *param_2, s16 *param_3);
 extern u32 func_8017E7C4(s16 *param_1, s16 *param_2, s16 *param_3);
 extern s32 ratan2(s32 a0, s32 a1);
 
-s32 func_8017E4B4(u8 *param_1, s16 *param_2, s16 *param_3) {
-    u32 a3;
-
+s32 func_8017E4B4(u8 *param_1, s16 *param_2, s16 *param_3, u32 a3) {
     while (1) {
         switch (param_1[0]) {
             case 0:

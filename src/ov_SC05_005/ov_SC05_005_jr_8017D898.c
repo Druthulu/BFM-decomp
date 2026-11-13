@@ -2864,7 +2864,7 @@ extern u16  guess_GetPadPressed(s32 *a0);
 extern s32  rsin(s32 a0);
 extern s32  rcos(s32 a0);
 extern s32  func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32  func_8017EE64(u8 *param_1, s16 *param_2, s16 *param_3);
+extern s32  func_8017EE64(u8 *param_1, s16 *param_2, s16 *param_3, u32 a3);
 extern void func_8017EC98(s32 param_1, s32 param_2, s16 *param_3);
 extern s32  guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 
@@ -2902,7 +2902,7 @@ void func_8017EAEC(s32 a0) {
     sp18.v[0] = sp10.v[0] - rsin(((s16 *)base[8])[9]) / 128;
     sp18.v[2] = sp10.v[2] - rcos(((s16 *)base[8])[9]) / 128;
     sp18.v[1] = sp10.v[1];
-    r = func_8017EE64(D_80186058, sp10.v, sp18.v);
+    r = KR_AS(s32, func_8017EE64)(D_80186058, sp10.v, sp18.v);
     /* §286: the store must ride the jal's delay slot -- see header. */
     D_801B1EB8 = func_80012DBC(D_801B1EB8, (s16)r, 4, (*(s16 *)(a0 + 0xA0) = r, 1));
     func_8017EC98(a0, D_801B1EB8, sp10.v);
@@ -2955,9 +2955,7 @@ extern u32 func_8017F0AC(s16 *param_1, s16 *param_2, s16 *param_3);
 extern u32 func_8017F164(s16 *param_1, s16 *param_2, s16 *param_3);
 extern s32 ratan2(s32 a0, s32 a1);
 
-s32 func_8017EE64(u8 *param_1, s16 *param_2, s16 *param_3) {
-    u32 a3;
-
+s32 func_8017EE64(u8 *param_1, s16 *param_2, s16 *param_3, u32 a3) {
     while (1) {
         switch (param_1[0]) {
             case 0:

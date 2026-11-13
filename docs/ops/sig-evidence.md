@@ -203,7 +203,7 @@ Rules (a row per (binary, definition site) or per (binary, declaration line)):
 | RET-NONE | non-void definition (`void *` counts) whose masked body has no `return <expr>` and no `$v0 at exit:` comment in the body or the comment lines directly above the head | the definition | C0567 |
 | DECL-RET | declaration `norm_ret` != its definition's (all declarations, `()` included) | both spellings | C0548, C0552 |
 | DECL-EMPTY | `()` declaration; `kr_marked` when the line has `// K&R:` | the line | C0508 |
-| ARG-OVER | census `args.arity_lb` > the definition's argument words (1 per parameter; double / long long / s64 / u64 2 from an even register; K&R float = double); by-value struct skipped and counted; varargs never | `args.read` entry of the highest k | R3.44-001 items 2-3 |
+| ARG-OVER | census `args.arity_lb` > the definition's argument words (1 per parameter; double / long long / s64 / u64 2 from an even register; K&R float = double; a struct / union returned by value adds 1 hidden word first, the $a0 return slot, pcc struct return R3.44-001 calls.c:919-921); by-value struct parameter skipped and counted; varargs never | `args.read` entry of the highest k | R3.44-001 items 2-3 |
 | DECL-ARITY | non-`()` declaration whose `arity()` (`(void)` = 0) != the definition's (K&R: names); varargs definition only when fewer than its named count | both arities | C0508, C0581 |
 
 Unplaced, counted by reason and never guessed: file in no TU, file missing, name not in the symtab, name has several

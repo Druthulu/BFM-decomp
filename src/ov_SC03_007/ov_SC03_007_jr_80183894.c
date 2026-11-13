@@ -4311,8 +4311,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
  * $a0 is captured into a normal pseudo instead — the copy gets a callee-saved
  * home ($s0), which is exactly what the target prologue does. */
 /* $v0 at exit: result of func_80185E3C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x250, ov_SC03_007 objdump */
-s32 func_80185230(void) {
-    s32 a0v;
+s32 func_80185230(s32 a0v) {
     s32 arg0 = a0v;
     s32 g1;
     s32 g2;
@@ -4321,7 +4320,6 @@ s32 func_80185230(void) {
     s32 c1;
     s32 c2;
     s16 i;
-
     if (CAST_SIGN(u16, arg0, 2) == 0xC) {
         g1 = *(s32 *)&D_80126B5C;
         g2 = D_80126B64;
@@ -5231,9 +5229,9 @@ void func_80186584(s32 a0) {
 }
 
 
-extern s32 func_80185230(void);
+extern s32 func_80185230(s32 a0v);
     void func_8018667C(void) {
-        func_80185230();
+        KR_AS(s32, func_80185230)();
     }
 
 

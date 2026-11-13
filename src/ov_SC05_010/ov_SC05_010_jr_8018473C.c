@@ -3814,7 +3814,7 @@ extern s32 func_8017ECE4(s32 arg0);
     }
 
 
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void func_80143CD4(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_800CB0E8(s32 a0);

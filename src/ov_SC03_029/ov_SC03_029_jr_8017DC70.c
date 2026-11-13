@@ -3655,11 +3655,11 @@ extern void (*D_8018B754[])(void *);
 extern void (*D_8018B768[])(void *);
 
 void func_8017FC50(void *param_1) {
-    extern void func_8017FF7C(void);
+    extern void func_8017FF7C(s32 a0in);
     extern void func_801800D0(s32 a0);
 
     if (((Unkstruct_8017FC50 *)param_1)->unk5C & 1) {
-        func_8017FF7C();
+        KR_AS(void, func_8017FF7C)();
     }
     func_801800D0(param_1);
     if (((Unkstruct_8017FC50 *)param_1)->unk34 == 0) {

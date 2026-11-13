@@ -4539,10 +4539,10 @@ void func_80181580(s32 arg0) {
 void func_80181618(s32 arg0) {
     extern u8 D_80197B60[];
     extern void guess_SetWaitTimer(s32 *a0, s32 a1);
-    extern void func_80181864(void);
+    extern void func_80181864(void *a0, s32 *a1);
     extern s32 func_801818DC(s32 a0);
 
-    KR_AS(void, func_80181864)(arg0, D_80197B60 + (((Unkstruct_800B5CB8 *)arg0)->unk70 << 6));
+    func_80181864(arg0, D_80197B60 + (((Unkstruct_800B5CB8 *)arg0)->unk70 << 6));
     if (func_801818DC((s32)arg0) != 0) {
         guess_SetWaitTimer((s32 *)arg0, 0x1E);
         func_8012AD50(arg0);
@@ -4554,7 +4554,7 @@ void func_80181674(void *a0)
 {
     extern u8 D_80197B60[];
     extern s32 guess_TickWaitTimer(s32 a0);
-    extern void func_80181864(void);
+    extern void func_80181864(void *a0, s32 *a1);
 
     s16 idx;
     u8 *ptr;
@@ -4564,7 +4564,7 @@ void func_80181674(void *a0)
     if (guess_TickWaitTimer((s32)a0) != 0) {
         func_8012AD50(a0);
     } else {
-        KR_AS(void, func_80181864)(a0, ptr);
+        func_80181864(a0, ptr);
     }
 }
 
@@ -4632,10 +4632,10 @@ void func_801817D8(void *a0) {
 }
 
 
-extern void func_80181864(void);
+extern void func_80181864(void *a0, s32 *a1);
     void func_80181844(s32 *a0) {
         ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
-        func_80181864();
+        KR_AS(void, func_80181864)();
     }
 
 
@@ -4664,13 +4664,10 @@ extern void func_80181864(void);
 
 extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 
-void func_80181864(void)
+void func_80181864(void *a0, s32 *a1)
 {
-    void *a0;
-    void *a1;
     s32 v1;
-
-    v1 = CAST_SIGN(s16, (s32)a0, 0xFC);
+    v1 = (s16)((Unkstruct_80181864_3 *)a0)->unkFC;
     if (guess_g_FrameCounter & 1) {
         v1 -= 4;
     }
@@ -4679,11 +4676,10 @@ void func_80181864(void)
     } else if (v1 >= 0x100) {
         v1 = 0xFF;
     }
-    *(s32 *)((s32)a1 + 0) = v1;
-    *(s32 *)((s32)a1 + 4) = 0;
+    a1[0] = v1;
+    a1[1] = 0;
     ((Unkstruct_80181864_3 *)a0)->unkFC = ((Unkstruct_80181864_3 *)a0)->unkFC + 4;
 }
-
 
 extern s32 func_801818DC(s32 a0);
     void func_801818B8(void *a0) {

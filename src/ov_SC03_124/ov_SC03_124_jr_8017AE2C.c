@@ -5177,7 +5177,7 @@ void func_8017F63C(void *s1) {
 
 #include "common.h"
 
-void func_8017F768(void) {
+void func_8017F768(s32 a0v) {
     extern s16 D_8018FBD4[];
     extern s32 D_8018FBDC;
     extern s32 D_8018FBCC;
@@ -5188,12 +5188,10 @@ void func_8017F768(void) {
      * it with no args, so the definition MUST keep the (void) signature; the real incoming
      * argument is read off $a0 with a register pin (§42/§73 PARAMS axis) and copied into an
      * ordinary local so it lands in $s1 across the two calls. */
-    s32 a0v;
     s32 param_1 = a0v;
     struct { s16 a, b, c, d; } buf;
     s16 *p;
     s32 term;
-
     D_8018FBDC = D_8018FBDC + 1;
     if (D_8018FBD4[0] != -1) {
         term = -1;
@@ -5359,9 +5357,9 @@ void func_8017FB04(s32 arg0)
 }
 
 
-extern void func_8017F768(void);
+extern void func_8017F768(s32 a0v);
 void func_8017FB54(void) {
-    func_8017F768();
+    KR_AS(void, func_8017F768)();
 }
 
 

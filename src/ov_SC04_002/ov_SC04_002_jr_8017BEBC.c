@@ -6551,7 +6551,7 @@ void func_801823BC(s32 arg0) {
 
 #include "common.h"
 
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);

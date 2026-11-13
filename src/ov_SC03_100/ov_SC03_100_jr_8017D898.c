@@ -5298,7 +5298,7 @@ void func_801827AC(s32 a0) {
 
 
 
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void guess_ClearVelocityAndSetGravity(void *a0);
 extern s32 guess_StartActorSequenceById(s32 a0, s32 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);

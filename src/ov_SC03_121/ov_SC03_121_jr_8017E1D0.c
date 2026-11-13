@@ -3535,7 +3535,7 @@ struct S80131E00;
 
 extern s32 D_801151FC;
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern unsigned short D_8018DE2C[];
@@ -3568,7 +3568,7 @@ TARGET1:
     ((Unkstruct_8017F998 *)s0)->unk76 = 0x3E8;
     return;
 TARGET2:
-    KR_AS(void, func_80131B14)(s0);
+    func_80131B14(s0);
     guess_StartActorSequence(s0, (s32)D_8018DE2C);
     guess_RequestSound(0xA99, 0);
 }
@@ -3616,7 +3616,7 @@ void func_8017FA84(s32 a0) {
 }
 
 
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);

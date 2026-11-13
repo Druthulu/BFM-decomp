@@ -1580,11 +1580,11 @@ extern s32 func_8012CBF4(s32 a0);
 
 
 extern s32 D_801270C8[0];
-extern void func_80182EB0(void);
+extern void func_80182EB0(void *a0r);
 
 void func_80187F58(void) {
     if (D_801270C8[0] == 22) {
-        func_80182EB0();
+        KR_AS(void, func_80182EB0)();
     }
 }
 
@@ -1595,7 +1595,7 @@ void func_80187F88(void) {
 
 
 extern s32 func_8012CBF4(s32 a0);
-    extern void func_80182EB0(void);
+    extern void func_80182EB0(void *a0r);
     void func_80187F90(void *a0) {
         if ((((s32 (*)(s32))func_8012CBF4)((s32)a0) & 0x2000) != 0) {
             ((void (*)(s32))func_80182EB0)((s32)a0);

@@ -893,18 +893,50 @@ def split_top(p):
     return out + [cur]
 
 
-def param_words(params, kr_types=None):
+_AGG = None
+
+
+def ret_words(ret):
+    """1 when a definition returns a struct / union by value, else 0: gcc 2.x returns it in memory (pcc struct return,
+    R3.44-001 calls.c:919-921) and the caller passes the return slot as a hidden pointer in $a0, ahead of the parameters.
+    A canonical-header `typedef struct|union {...} Name;` without a tag counts (argcheck.typedefs keys tagged ones only)."""
+    global _AGG
+    if _AGG is None:
+        _AGG = set()
+        for h in ac().TYPEDEF_HEADERS:
+            try:
+                m = ac().lc.sc.mask_text((ac().REPO / h).read_text(errors="surrogateescape"))
+            except OSError:
+                continue
+            for t in re.finditer(r"\btypedef\s+(?:struct|union)\s*\{", m):
+                d, j = 0, t.end() - 1
+                while j < len(m):
+                    d += (m[j] == "{") - (m[j] == "}")
+                    if d == 0:
+                        break
+                    j += 1
+                k = m.find(";", j)
+                if k > 0:
+                    _AGG.update(p.strip() for p in m[j + 1:k].split(",") if re.fullmatch(r"\s*\w+\s*", p))
+    n = nret(ret).split()
+    if "*" in "".join(n):
+        return 0
+    return int("struct" in n or "union" in n or (len(n) == 1 and n[0] in _AGG))
+
+
+def param_words(params, kr_types=None, hidden=0):
     """(words, varargs, struct_by_value) — the argument words a definition receives: 1 per parameter; double / long long
-    (s64, u64) take 2 from an even register; a K&R float is promoted to double. `...` and by-value structs are flagged."""
+    (s64, u64) take 2 from an even register; a K&R float is promoted to double. `...` and by-value structs are flagged.
+    `hidden` words come first (ret_words: a struct-return slot in $a0)."""
     if kr_types is None:
         p = " ".join(params.split())
         if p in ("", "void"):
-            return 0, False, False
+            return hidden, False, False
         ps = split_top(p)
     else:
         ps = kr_types
     td = ac().typedefs()
-    w, va, sv = 0, False, False
+    w, va, sv = hidden, False, False
     for x in ps:
         x = x.strip()
         if x == "...":
@@ -974,13 +1006,15 @@ def parse_text(rel, raw):
 
     for m in A.DEF.finditer(masked):
         params = " ".join(m.group(2).split())
-        w, va, sv = param_words(params)
-        add(m, "DEF", nret(masked[m.start():m.start(1)].strip()), params, A.arity(params), w, va, sv)
+        ret = masked[m.start():m.start(1)].strip()
+        w, va, sv = param_words(params, hidden=ret_words(ret))
+        add(m, "DEF", nret(ret), params, A.arity(params), w, va, sv)
     for m in A.KR_DEF.finditer(masked):
         names = [n.strip() for n in m.group(2).split(",")]
         types = A.kr_params(names, m.group(3))
-        w, va, sv = param_words(None, types)
-        add(m, "KR", nret(masked[m.start():m.start(1)].strip()), ", ".join(types), len(names), w, va, sv)
+        ret = masked[m.start():m.start(1)].strip()
+        w, va, sv = param_words(None, types, hidden=ret_words(ret))
+        add(m, "KR", nret(ret), ", ".join(types), len(names), w, va, sv)
     defs.sort(key=lambda d: d["line"])
 
     decls, aliases, objlabels = [], {}, 0
@@ -1738,6 +1772,10 @@ def selftest():
     check("ARG-OVER double from an even register (4 words), struct by value skipped and counted",
           [(r["name"], r["def_words"], r["cite"]) for r in x] == [("f_dbl", 4, "ov:0x80100064 lw")] and
           "ARG-OVER skipped: struct by value: 1" in txt, (x, txt))
+    sr = parse_text("src/ov/sr.c", "struct S { int a; };\nstruct S f_s(int a, int b) { }\nW4_8018020C f_w(s32 a) { }\n"
+                    "struct S *f_p(int a) { }\nunion U f_d(double d) { }\nstruct S f_k(a)\nint a;\n{ }\n")["defs"]
+    check("ARG-OVER words: a struct/union return (tagged or anonymous typedef) takes a hidden $a0 slot; a pointer does not",
+          [(d["name"], d["words"]) for d in sr] == [("f_s", 3), ("f_w", 2), ("f_p", 1), ("f_d", 4), ("f_k", 2)], sr)
     x = R["DECL-ARITY"]
     check("DECL-ARITY multi-line decl 2 vs def 1; varargs def only below its named count",
           [(r["name"], r["decl_args"], r["def_args"]) for r in x] == [("f_ar", 2, 1)] and

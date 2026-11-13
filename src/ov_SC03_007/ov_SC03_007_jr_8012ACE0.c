@@ -1682,12 +1682,10 @@ void func_80131340(s32 a0)
 //   compare-time andi 0xff); f76 dual-width via per-access casts (lhu in the decrement, lh in the <=0 compare);
 //   the p->f20 reload split into TWO separate temps so the 2nd load takes $v0 not $v1.
 
-void func_80131B14() {
+void func_80131B14(u8 *a0v) {
     extern void func_8002A520(void *);
     extern void func_8002A790(void *);
     extern u8 D_80187898;
-
-    u8 *a0v;
     u8 *p = a0v;
 
 

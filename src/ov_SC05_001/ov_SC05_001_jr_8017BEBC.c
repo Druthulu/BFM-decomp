@@ -4103,7 +4103,7 @@ extern s16 D_8018970C[];
 
 struct ZnRec;                      /* DEFINED below in this TU — do not redefine */
 extern s16 D_80189680[];
-extern s32 func_8017EE08(struct ZnRec *param_1, s16 *param_2, s16 *param_3);
+extern s32 func_8017EE08(struct ZnRec *param_1, s16 *param_2, s16 *param_3, u32 a3);
 
 extern s16 D_801B5E28;
 extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -4138,7 +4138,7 @@ void func_8017EAEC(s32 param_1)
     dest[2] = local1.v[2] - (s16)(iVar4 >> 7);
     dest[1] = local1.v[1];
 
-    msg = func_8017EE08((struct ZnRec *)D_80189680, (s16 *)&local1, dest);
+    msg = KR_AS(s32, func_8017EE08)((struct ZnRec *)D_80189680, (s16 *)&local1, dest);
 
     D_801B5E28 = func_80012DBC(D_801B5E28, msg, 4, (*(s16 *)(param_1 + 0xA0) = msg, 1));
     func_8017EC3C(param_1, D_801B5E28, (s16 *)&local1);
@@ -4192,9 +4192,7 @@ extern u32 func_8017F0F8(s16 *param_1, s16 *param_2, s16 *param_3);
 extern s32 ratan2(s32 a0, s32 a1);
 
 
-s32 func_8017EE08(struct ZnRec *param_1, s16 *param_2, s16 *param_3) {
-    u32 a3;
-
+s32 func_8017EE08(struct ZnRec *param_1, s16 *param_2, s16 *param_3, u32 a3) {
     while (1) {
         switch (param_1->kind) {
         case 0:

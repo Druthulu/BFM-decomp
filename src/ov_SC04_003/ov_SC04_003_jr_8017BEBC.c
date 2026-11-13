@@ -4365,7 +4365,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void func_80130088(void *a0);
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 
 void func_8017F954(void *a0) {
     s32 s0 = (s32)a0;

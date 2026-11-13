@@ -3,8 +3,7 @@
 extern u32 func_8017D5F4(s16 *param_1, s16 *param_2, s16 *param_3);
 extern u32 func_8017D6AC(s16 *param_1, s16 *param_2, s16 *param_3);
 extern s32 ratan2(s32 a0, s32 a1);
-s32 func_8017D484(u8 *param_1, s16 *param_2, s16 *param_3) {
-    u32 a3;
+s32 func_8017D484(u8 *param_1, s16 *param_2, s16 *param_3, u32 a3) {
     while (1) {
         switch (param_1[0]) {
         case 0:

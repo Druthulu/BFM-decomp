@@ -3089,7 +3089,7 @@ void func_80186270(s32 a0) {
 }
 
 
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, void * a1);
 extern s32 func_801874E4(s32 a0, s32 a1);
@@ -3122,7 +3122,7 @@ void func_80186738(s32 param_1) {
 #undef SHARED_FN
 
 
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void guess_StartActorSequence(s32 a0, void * a1);
 extern s32 D_801B521C;
 

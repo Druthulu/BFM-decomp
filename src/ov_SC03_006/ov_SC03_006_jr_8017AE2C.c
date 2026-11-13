@@ -9121,7 +9121,7 @@ void func_801852C8(void *a0)
 #undef SHARED_FN
 
 
-extern void func_80131B14(void);
+extern void func_80131B14(u8 *a0v);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 D_801C93D4;
 
@@ -9138,7 +9138,7 @@ void func_80185344(s32 s0) {
         *(u16 *)(v1 + 0x1A) = 0x1000;
         *(u16 *)(v1 + 0x18) = 0x1000;
     }
-    KR_AS(void, func_80131B14)(s0);
+    func_80131B14(s0);
     guess_StartActorSequence(s0, (void *)&D_801C93D4);
 }
 
