@@ -1047,3 +1047,4 @@ C0594 | KR_AS unprototyped view: one prototype for () callees, marked short/over
 C0595 | Return-less defs at scale: driver loop, cast-view tail returns, if/else single return, census join traps | return-type,return,bytes,scratch,census | 2026-11-13 | 3.44/T7 | 3.44 T7.c1
 C0596 | Voiding an unused-return function fleet-wide: joined units over shared decls, compile-error fallback, traps | return-type,void,declarations,bytes,scratch | 2026-11-13 | 3.44/T7 | 3.44 T7.c3
 C0597 | RET-VOID-READ: widen a read void callee with its declarations, tail chains, trampolines | return-type,void,declarations,bytes,shared | 2026-11-13 | 3.44/T8 | 3.44 T8.c1
+C0598 | Arity fixes: widen def vs narrow decls, pins to params, struct-return hidden word, residue bclass keys | arity,declarations,kr-view,residue,bytes | 2026-11-13 | 3.44/T8 | 3.44 T8.c2-c3
