@@ -6,7 +6,7 @@ extern u16 func_80014D68(u32 a0);
 extern s32 func_80014D94(s32 a0);
 extern u8 func_80014CF8(u32 a0, u32 a1);
 extern void func_800120DC(u16 *arg0, u16 *arg1);
-extern s32 func_800CF8B4();
+extern s32 func_800CF8B4(void);
 void func_80148648(s32 a0, s32 a1) {
     s32 v;
     if (D_800B9A64 == 0) {

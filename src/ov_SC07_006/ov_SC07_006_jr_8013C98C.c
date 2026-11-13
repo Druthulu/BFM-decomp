@@ -48,13 +48,13 @@ extern void func_8013C98C(void);
 extern void func_80129C40(s32 a0);
 extern void func_800D0630(void);
 extern void func_80145CEC(void);
-extern void func_80144B9C();
+extern void func_80144B9C(void);
 extern u8 D_800B9A17;
 extern u8 D_800B9A10;
 extern void func_80128420(void);
 extern s32 func_800D0588(void);
 extern void func_801284B8(void);
-extern void func_80175308();
+extern void func_80175308(void);
 extern void func_8016E8F0(void);
 extern void func_80175494(void);
 extern u8 D_800B9A64;
@@ -131,7 +131,7 @@ extern s8 D_801152C0;
 extern u8 D_80127504;
 extern void func_800144D4(void);
 extern void func_80129C40(s32 _arg0);
-extern void func_8012A328();
+extern void func_8012A328(void);
 extern void GsSetProjection(s32);
 extern s32 func_80012F74(s32, s32, s32, s32);  /* canonical s32 (engine_core); (s16)-cast the return for the sll/sra */
 extern void GsSetRefView2L(void *);
@@ -399,7 +399,7 @@ extern u8 D_80126C40;
 extern u16 D_80126B94;
 extern u16 D_80126B96;
 extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
-extern void func_80131B14();
+extern void func_80131B14(void);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_CallActorEventHandler(int a0);
@@ -1116,7 +1116,7 @@ void func_8013D330(void) {
 
 
 extern void func_8013D53C();  // K&R: 0 of 1 args (P37 rung D t4_D29)
-extern void func_8013DD68();
+extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);
 
@@ -1445,7 +1445,7 @@ void func_8013D9B0(int param_1)
 //   sites; the merged form emits one slti + unconditional store and diverges.
 
 
-extern void func_8013DD68();
+extern void func_8013DD68(void);
 
 void func_8013DBE4(int param_1)
 {
@@ -1890,7 +1890,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern void guess_CloseTextWindow0(void);
-extern s32 guess_OpenTextWindowCenteredAt();
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_80137B80(void);
 extern unsigned char *guess_GetStoryGoalText(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -1954,7 +1954,7 @@ void func_8013EB7C(void) {
 #include "../shared/ov/func_8013ED6C.h"
 
 
-extern s32 guess_OpenTextWindowCenteredAt();
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern unsigned char *guess_GetStoryGoalText(void);
 
@@ -2103,7 +2103,7 @@ void func_8013EF88(void)
 
 
 extern unsigned char *guess_GetStoryGoalText(void);
-extern s32 guess_OpenTextWindowCenteredAt();
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 
 void func_8013F138(void) {
 

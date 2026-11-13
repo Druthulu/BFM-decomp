@@ -6,7 +6,7 @@ extern void func_801553C0(s32 a0);
 extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801472B4(void *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
-extern void func_80153C18();
+extern void func_80153C18(void);
 void func_80152C80(s32* a0)
 {
     s32 s0 = a0;
@@ -26,5 +26,5 @@ void func_80152C80(s32* a0)
     *(s16 *)(s0 + 0x62) = 0x1000;
     *(s16 *)(s0 + 0x64) = 0x1000;
     guess_SetVertSpeed((s32 *)s0, 0);
-    func_80153C18(s0);
+    KR_AS(void, func_80153C18)(s0);
 }

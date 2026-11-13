@@ -43,7 +43,7 @@ extern void func_80145BF8(void);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
 extern void func_80145C54(void);
-extern s32 func_80145CEC();
+extern s32 func_80145CEC(void);
 extern s32 guess_TestGameFlag(s32 arg);
 extern void guess_MoveImageList(s32 a0);
 extern unsigned char D_80186A1C[];
@@ -56,7 +56,7 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_80146074(void);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 extern void func_8014607C(void);
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
@@ -242,7 +242,7 @@ extern u16 func_80014D68(u32 a0);
 extern s32 func_80014D94(s32 a0);
 extern u8 func_80014CF8(u32 a0, u32 a1);
 extern void func_800120DC(u16 *arg0, u16 *arg1);
-extern s32 func_800CF8B4();
+extern s32 func_800CF8B4(void);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern u8 func_8014880C(s32 *a0);
@@ -749,7 +749,7 @@ extern void func_80151ECC(struct S80151ECC *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
-extern void func_80153C18();
+extern void func_80153C18(void);
 extern void (*D_80186DA0[])(void);
 extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
@@ -1875,7 +1875,7 @@ extern void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3);
 extern s32 D_80115218;
 extern void func_8016E8F0(void);
 extern void func_8016E918(short param_1, short param_2);
-extern s32 func_8016E95C();
+extern s32 func_8016E95C(void);
 extern u16 D_8018841C[];
 extern void func_8016EC0C(s32 a0, s32 a1);
 extern void func_8016EAC0(Wave *param_1);
@@ -1918,7 +1918,7 @@ extern void func_8016EE94(s32 a0, s32 a1);
 extern s32 func_8016EFC8(s32 a0, s32 a1);
 extern s32 func_8016EFA8(s32 a0);
 extern void func_8016F094(s32 *a0);
-extern s32 func_8016F0AC();
+extern s32 func_8016F0AC(void);
 extern s32 D_80188438;
 extern void func_8016F250(void);
 extern void func_8016F288(void);
@@ -2915,13 +2915,13 @@ extern s32 D_8019EA0C;
 extern u8 D_801B6598[];
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
-extern void func_80131B14();
+extern void func_80131B14(void);
 extern s32 func_80181654(s32 a0, s32 a1);
 
 void func_80180844(s32 *a0) {
     s32 s0 = a0;
     s32 pad[2];
-    func_80131B14();
+    KR_AS(void, func_80131B14)();
     guess_SetLocalVelocity(s0, (s32)&D_8019EA0C);
     ((Unkstruct_800B5CB8 *)s0)->unk34 = 0;
     CAST_SIGN(u32, s0, 0xE0) |= 0x8;
@@ -2945,7 +2945,7 @@ void func_801808A8(u8 *a0) {
 #undef SHARED_FN
 
 
-extern void func_80131B14();
+extern void func_80131B14(void);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern s32 D_8019EA4C;
 
@@ -2953,7 +2953,7 @@ void func_80180970(s32 param_1) {
     s32 s0 = param_1;
     u16 idx;
 
-    func_80131B14();
+    KR_AS(void, func_80131B14)();
     idx = CAST_SIGN(u16, s0, 0x70);
     *(s16 *)(s0 + 0x52) = -0x30;
     guess_StartActorSequence(s0, (&D_8019EA4C)[idx & 0xF]);
@@ -3009,7 +3009,7 @@ s32 func_80180A98(s32 *a0)
     ((Unkstruct_80180A98 *)s0)->unkC2 = 0;
     ((Unkstruct_80180A98 *)s0)->unkC3 = 0;
     ((Unkstruct_80180A98 *)s0)->unk1C = 0;
-    func_80131B14();
+    KR_AS(void, func_80131B14)();
     if ((((Unkstruct_80180A98 *)s0)->unk5E == 9) || (((Unkstruct_80180A98 *)s0)->unk5E == 0x1C)) {
         guess_SetLocalVelocity(s0, (s32)&D_8019EB9C);
     } else {

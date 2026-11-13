@@ -11,7 +11,7 @@ void SHARED_FN(s32 a0) {
 
     ((Unkstruct_801810AC *)s0)->unk100 = v0;
     ((Unkstruct_801810AC *)s0)->unk60 = v1;
-    func_80131B14();
+    KR_AS(void, func_80131B14)();
 
     ((Unkstruct_801810AC *)s0)->unkC2 = 0;
     ((Unkstruct_801810AC *)s0)->unk98 = 0;

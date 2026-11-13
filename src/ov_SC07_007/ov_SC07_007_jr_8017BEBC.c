@@ -403,7 +403,7 @@ extern u8 D_80126C40;
 extern u16 D_80126B94;
 extern u16 D_80126B96;
 extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
-extern void func_80131B14();
+extern void func_80131B14(void);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_CallActorEventHandler(int a0);
@@ -674,7 +674,7 @@ extern void func_8013CABC(void);
 extern void func_8013CAE8(void);
 extern void func_8013CB20(void);
 extern void func_8013CB5C(void);
-extern void func_8013CF68();
+extern void func_8013CF68(void);
 extern void func_8013D9B0(int param_1);
 extern void func_8013D064(void);
 extern s32 func_8013D13C(void);
@@ -724,8 +724,8 @@ extern void func_8013E83C(void);
 extern void func_8013E6AC(void);
 extern void func_800D24A0(s32 arg);
 extern void func_8013E814(void);
-extern void func_8013E83C();
-extern void func_8013E958();
+extern void func_8013E83C(void);
+extern void func_8013E958(void);
 extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
@@ -744,7 +744,7 @@ extern unsigned char *guess_GetStoryGoalText(void);
 extern void func_8013EB7C(void);
 extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern void func_8013ED6C(void);
-extern s32 func_8013EE10();
+extern s32 func_8013EE10(void);
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
@@ -994,7 +994,7 @@ extern void func_80145EE8(s32 param_1);
 extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
@@ -1175,7 +1175,7 @@ extern u16 func_80014D68(u32 a0);
 extern s32 func_80014D94(s32 a0);
 extern u8 func_80014CF8(u32 a0, u32 a1);
 extern void func_800120DC(u16 *arg0, u16 *arg1);
-extern s32 func_800CF8B4();
+extern s32 func_800CF8B4(void);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern u8 func_8014880C(s32 *a0);
@@ -1629,7 +1629,7 @@ extern void func_80151ECC(struct S80151ECC *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
-extern void func_80153C18();
+extern void func_80153C18(void);
 extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
@@ -2454,7 +2454,7 @@ extern void func_80169F00(void *a0);
 extern void func_8016A020(void *a0);
 extern void func_8016A05C(void *a0);
 extern void func_8016A700(void *a0);
-extern void func_80016A5C();
+extern void func_80016A5C(void);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016AB30(void *a0);
 extern void func_8016B234(s32 param_1);
@@ -2975,7 +2975,7 @@ extern void func_80174674(void);
 extern void func_80174684(void* a0);
 extern void func_801746A4(void);
 extern s32 func_800CF8CC(void);
-extern s32 func_8016F0AC();
+extern s32 func_8016F0AC(void);
 extern void func_80174714(void);
 extern s32 func_80174754(void);
 extern s16 func_80174764(void);
@@ -3613,7 +3613,7 @@ void func_8017D648(void *a0) {
 #include "common.h"
 
 extern void func_8017DAE8(void *a0, void *a1);
-extern void func_8017DF04();
+extern void func_8017DF04(void);
 extern void func_8017DC20(void *a0, void *a1, void *a2);
 extern u8 D_801274E8[];
 extern void (*D_80186A00[])(void);
@@ -3637,7 +3637,7 @@ void func_8017D684(s32 a0) {
 
 extern void func_8017DAE8(void*, void*);
 extern void func_8017DD6C(s32, s16 *);
-extern void func_8017DF04();
+extern void func_8017DF04(void);
 extern Blk8 D_801274F0;
 
 #define SHARED_FN func_8017D744
@@ -3653,7 +3653,7 @@ extern Blk8 D_801274F0;
 
 
 extern void func_8017DAE8(void*, void*);
-extern void func_8017DF04();
+extern void func_8017DF04(void);
 extern void func_8017DD6C(s32 a0, s16 *a1);
 extern Blk8 D_801274F0;
 
@@ -3664,7 +3664,7 @@ extern Blk8 D_801274F0;
 
 #include "common.h"
 
-extern void func_8017DF04();
+extern void func_8017DF04(void);
 extern void func_8017DC20(void *a0, void *a1, void *a2);
 extern u8 D_801274E8[];
 extern void (*D_80186A08[])(void);
@@ -3676,7 +3676,7 @@ void func_8017D86C(void *a0) {
 
     *(Blk8 *)s1 = *(Blk8 *)D_80186A08;
 
-    func_8017DF04(a0);
+    KR_AS(void, func_8017DF04)(a0);
     func_8017DC20(a0, s1, s1 + 8);
 }
 
@@ -3684,7 +3684,7 @@ void func_8017D86C(void *a0) {
 extern Blk8 D_801274F0;
 extern void func_8017DAE8(void *a0, void *a1);
 extern void func_8017DC20(void *a0, void *a1, void *a2);
-extern void func_8017DF04();
+extern void func_8017DF04(void);
 
 #define SHARED_FN func_8017D8E0
 #include "../shared/ov/cls_0f2253abe035.h"
@@ -3697,7 +3697,7 @@ extern void func_8017DF04();
 
 extern Blk8 D_801274F0;
 extern void func_8017DAE8(void*, void*);
-extern void func_8017DF04();
+extern void func_8017DF04(void);
 extern void func_8017DC20(void*, void*, void*);
 
 #define SHARED_FN func_8017D978
@@ -3716,7 +3716,7 @@ extern void func_8017DC20(void*, void*, void*);
 
 
 extern void func_8017DAE8(void *a0, void *a1);
-extern void func_8017DF04();
+extern void func_8017DF04(void);
 extern void func_8017DC20(void *a0, void *a1, void *a2);
 extern Blk8 D_801274F0;
 
@@ -3727,13 +3727,13 @@ extern Blk8 D_801274F0;
 
 #include "common.h"
 
-extern void func_8017DF04();
+extern void func_8017DF04(void);
 extern void func_8017DC20(void *a0, void *a1, void *a2);
 extern void (*D_80186A10[])(void);
 extern void (*D_80186A18[])(void);
 
 void func_8017DAA8(void *a0) {
-    func_8017DF04(a0);
+    KR_AS(void, func_8017DF04)(a0);
     func_8017DC20(a0, D_80186A10, D_80186A18);
 }
 
@@ -3904,7 +3904,7 @@ s32 func_8017DF74(s32 a0, s32 a1)
 extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_8002AE60(void);
 extern s32 func_80014C54(s32 a0, s32 a1, s32 a2);
-extern s32 func_800CF8B4();
+extern s32 func_800CF8B4(void);
 extern void func_800D1724(s32 a0);
 extern s16 func_8012A758(void);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
@@ -4133,13 +4133,13 @@ void func_8017E400(s32 arg0) {
 
 void func_8017E424(s32 s0) {
     extern void guess_ZeroMemory(void *ptr, s32 len);
-    extern void func_80181120();
+    extern void func_80181120(void);
     s32 s1;
 
     if (((Unkstruct_8017E424 *)s0)->unk8 == 0) {
         s1 = ((Unkstruct_8017E424 *)s0)->unk10;
         if (((Unkstruct_8017E424_2 *)s1)->unk0 != 0) {
-            func_80181120(0, ((Unkstruct_8017E424_2 *)s1)->unk0);
+            KR_AS(void, func_80181120)(0, ((Unkstruct_8017E424_2 *)s1)->unk0);
             ((Unkstruct_8017E424 *)s0)->unk8 = ((Unkstruct_8017E424_2 *)s1)->unk4;
             ((Unkstruct_8017E424 *)s0)->unk10 = ((Unkstruct_8017E424 *)s0)->unk10 + 8;
         } else {
@@ -4252,7 +4252,7 @@ void func_8017E608(s32 arg0) {
 
 
 extern s32 func_80181334(s32 a0, s32 a1);
-extern void func_80181120();
+extern void func_80181120(void);
 extern s32 D_801884EC[];
 
 void func_8017E634(void *arg0) {
@@ -4274,7 +4274,7 @@ void func_8017E634(void *arg0) {
         if (((Unkstruct_8017E634 *)arg0)->unkE == 0) {
             CAST_ALIAS(s16, arg0, 10) = -1;
         } else {
-            func_80181120(0, *(s32 *)entry);
+            KR_AS(void, func_80181120)(0, *(s32 *)entry);
             ((Unkstruct_8017E634 *)arg0)->unkA += 1;
         }
         break;
@@ -5880,7 +5880,7 @@ void func_801803A8(s32 a0)
 }
 
 
-extern s16 func_80181614();
+extern s16 func_80181614(s32 param_1, s32 param_2);
 extern s32 func_80180FA4(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012AD50(void *arg0);
 extern void (*D_80187AE8)();
@@ -6087,7 +6087,7 @@ extern s32 func_801815B8(s32, s32);
 extern s32 func_80180FA4(s32 a0, s32 a1, s32 a2);
 extern s32 func_80181334(s32, s32);
 extern s32 func_80181048(void *a0, void *a1);
-extern void func_80180F54();
+extern void func_80180F54(void);
 extern void func_80181524(s32 *, s32);
 extern s32 func_8012AD50(void *);
 
@@ -6768,7 +6768,7 @@ ret1:
 
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
-extern s16 func_80181614();
+extern s16 func_80181614(s32 param_1, s32 param_2);
 
 s32 func_801815B8(s32 arg0, s32 arg1) {
     s16 *ptr;

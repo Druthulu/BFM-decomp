@@ -17,7 +17,7 @@ extern void func_8013D330(void);
 extern void func_8013D178(void);
 extern void func_8013CF68(void);
 extern void func_8013CB84(void);
-extern void func_8013CF68();
+extern void func_8013CF68(void);
 extern void func_8013D064(void);
 extern s32 func_8013D13C(void);
 extern void func_8013D164(void);
@@ -80,8 +80,8 @@ extern s32 guess_GetStoryProgress(void);
 extern void func_8013E6AC(void);
 extern void func_800D24A0(s32 arg);
 extern void func_8013E814(void);
-extern void func_8013E83C();
-extern void func_8013E958();
+extern void func_8013E83C(void);
+extern void func_8013E958(void);
 extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
@@ -106,7 +106,7 @@ extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
 extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern void func_8013ED6C(void);
-extern s32 func_8013EE10();
+extern s32 func_8013EE10(void);
 extern s32  func_800D0488(s16 a0);
 extern void func_800D2624(void);
 extern void func_8013EF88(void);

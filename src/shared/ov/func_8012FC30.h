@@ -1,6 +1,6 @@
 /* func_8012FC30 — shared body (overlay slot 0x80128158, h_exact 5e7855f1). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80131B14();
+extern void func_80131B14(void);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -8,7 +8,7 @@ extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_u
 void func_8012FC30(s32 a0) {
     *(s8 *)(a0 + 0xC1) = 0xA;
     if (*(s32 *)(a0 + 0xB4) & 0x400) {
-        func_80131B14();
+        KR_AS(void, func_80131B14)();
         *(s8 *)(a0 + 0xC2) = 0;
         *(u16 *)(a0 + 0x98) = 0;
         guess_ClearVelocityAndSetGravity(a0);

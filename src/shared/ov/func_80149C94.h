@@ -2,5 +2,5 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_801577C8();
 void func_80149C94(void) {
-    func_801577C8();
+    KR_AS(void, func_801577C8)();
 }

@@ -1,6 +1,6 @@
 /* func_80130438 — shared body (overlay slot 0x80128158, h_exact 5d57e32b). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80131B14();
+extern void func_80131B14(void);
 extern void func_80143CD4(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_800CB0E8(s32 a0);
@@ -14,7 +14,7 @@ void func_80130438(s32 a0) {
     *(u8 *)(a0 + 0xC1) = 6;
     if ((*(u32 *)(a0 + 0xB4) & 0x40) != 0) {
         flag = 1;
-        func_80131B14();
+        KR_AS(void, func_80131B14)();
         *(s32 *)(a0 + 0x1C) = 0x78;
         func_80143CD4(a0);
         guess_RequestSound(0x47B, 0);

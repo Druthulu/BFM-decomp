@@ -1,6 +1,6 @@
 /* func_80158638 — shared body (overlay slot 0x80128158, h_exact 6a497e0f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 func_80159464();
+extern s32 func_80159464(void);
 extern s32 func_8014C98C(void);
 extern int func_800D0F8C(int a0);
 extern void func_801599A4(void *a0);
@@ -38,7 +38,7 @@ void func_80158638(void *a0) {
     if (*(u16 *)&g_PlayerHp != 0) {
         return;
     }
-    if (((s16)func_80159464(a0) <= 0 || (s16)func_80159464(a0) >= 6) &&
+    if (((s16)KR_AS(s32, func_80159464)(a0) <= 0 || (s16)KR_AS(s32, func_80159464)(a0) >= 6) &&
         func_8014C98C() == 0 && func_800D0F8C(0xA) != 0) {
         func_801599A4(a0);
         ((void (*)(void *))func_8016F0E4)(a0);

@@ -634,13 +634,13 @@ s32 func_800D1938(S800D1938 *arg0) {
 
 s32 func_800D1984(u8 *arg0)
 {
-    extern s32 func_800D19DC();
+    extern s32 func_800D19DC(void);
     s32 (*fp)(u8 *);
 
     fp = *(s32 (**)(u8 *)) (arg0 + 0xC);
     if (fp(arg0) != 0) {
         arg0[0x14]++;
-        return func_800D19DC(arg0);
+        return KR_AS(s32, func_800D19DC)(arg0);
     }
     return 0;
 }
@@ -786,13 +786,13 @@ s32 func_800D1B10(u8 *arg0) {
  * and still emits the $a0 argument setup.
  */
 s32 func_800D1B80(u8 *arg0) {
-    extern s32 DsMix();
+    extern s32 DsMix(void);
     s32 (*fp)(u8 *);
 
     fp = *(s32 (**)(u8 *)) (arg0 + 0xC);
     if (fp(arg0) != 0) {
         arg0[0x14]++;
-        return DsMix(arg0);
+        return KR_AS(s32, DsMix)(arg0);
     }
     return 0;
 }

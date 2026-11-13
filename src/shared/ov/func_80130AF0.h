@@ -1,7 +1,7 @@
 /* func_80130AF0 — shared body (overlay slot 0x80128158, h_exact 8e41f83f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_80131B14();
+extern void func_80131B14(void);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern int  guess_StartActorSequenceById(int a0, int a1);
 extern s32 guess_CallActorEventHandler();  // K&R: 2 of 1 args (P37 unalias t4_ua7)

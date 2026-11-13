@@ -17,7 +17,7 @@ extern void func_8013D330(void);
 extern void func_8013D178(void);
 extern void func_8013CF68(void);
 extern void func_8013CB84(void);
-extern void func_8013CF68();
+extern void func_8013CF68(void);
 extern void func_8013D064(void);
 extern s32 func_8013D13C(void);
 extern void func_8013D164(void);
@@ -74,8 +74,8 @@ extern s32 guess_GetStoryProgress(void);
 extern void func_8013E6AC(void);
 extern void func_800D24A0(s32 arg);
 extern void func_8013E814(void);
-extern void func_8013E83C();
-extern void func_8013E958();
+extern void func_8013E83C(void);
+extern void func_8013E958(void);
 extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
@@ -100,7 +100,7 @@ extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
 extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern void func_8013ED6C(void);
-extern s32 func_8013EE10();
+extern s32 func_8013EE10(void);
 extern s32  func_800D0488(s16 a0);
 extern void func_800D2624(void);
 extern void func_8013EF88(void);
@@ -412,7 +412,7 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_80146074(void);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 extern void func_8014607C(void);
 extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 extern s32 D_80078EC8;
@@ -594,7 +594,7 @@ extern u16 func_80014D68(u32 a0);
 extern s32 func_80014D94(s32 a0);
 extern u8 func_80014CF8(u32 a0, u32 a1);
 extern void func_800120DC(u16 *arg0, u16 *arg1);
-extern s32 func_800CF8B4();
+extern s32 func_800CF8B4(void);
 extern u16 guess_GetPadHeld(s32 *a0);
 extern u16 guess_GetPadPressed(s32 *a0);
 extern u8 func_8014880C(s32 *a0);
@@ -1060,7 +1060,7 @@ extern void func_80151ECC(struct S80151ECC *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
-extern void func_80153C18();
+extern void func_80153C18(void);
 extern void func_80152058(void *a0);
 extern void func_801520DC(s32 a0);
 extern void func_80152094(s32 a0);
@@ -3369,7 +3369,7 @@ extern s32  guess_TickWaitTimer_2(s32 a0);
 extern u16  guess_GetPadHeld(s32 *a0);
 extern void func_8015E9B8(s32 *a0);
 extern void func_80159B70(void *a0);
-extern s32  func_800CF8B4();
+extern s32  func_800CF8B4(void);
 extern s32  guess_GetCameraYaw(s32 a0);
 extern void guess_AddMoveVectorThenSetVelocity(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_ApplyVelocity(s32 *a0);
@@ -3871,7 +3871,7 @@ void func_80161C98(int param_1, u32 param_2)
 //   (post-splice :5222 with __volatile__, :5533 without). It is a warning, present with or
 //   without this draft, and it does not fail cc1.
 
-extern int func_800CF8B4();
+extern int func_800CF8B4(void);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 
 

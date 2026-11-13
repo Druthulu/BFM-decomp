@@ -48,13 +48,13 @@ extern void func_8013C98C(void);
 extern void func_80129C40(s32 a0);
 extern void func_800D0630(void);
 extern void func_80145CEC(void);
-extern void func_80144B9C();
+extern void func_80144B9C(void);
 extern u8 D_800B9A17;
 extern u8 D_800B9A10;
 extern void func_80128420(void);
 extern s32 func_800D0588(void);
 extern void func_801284B8(void);
-extern void func_80175308();
+extern void func_80175308(void);
 extern void func_8016E8F0(void);
 extern void func_80175494(void);
 extern u8 D_800B9A64;
@@ -126,7 +126,7 @@ extern s8 D_801152C0;
 extern u8 D_80127504;
 extern void func_800144D4(void);
 extern void func_80129C40(s32 _arg0);
-extern void func_8012A328();
+extern void func_8012A328(void);
 extern void GsSetProjection(s32);
 extern s32 func_80012F74(s32, s32, s32, s32);  /* canonical s32 (engine_core); (s16)-cast the return for the sll/sra */
 extern void GsSetRefView2L(void *);
@@ -382,7 +382,7 @@ extern u8 D_80126C40;
 extern u16 D_80126B94;
 extern u16 D_80126B96;
 extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
-extern void func_80131B14();
+extern void func_80131B14(void);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_CallActorEventHandler(int a0);
@@ -544,7 +544,7 @@ extern void func_801375EC(s32 a0, s16 a1);
 extern s32 func_801399A8(void);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 extern s32 guess_OpenTextWindow(s32 a0);
-extern s32 guess_OpenTextWindowCenteredAt();
+extern s32 guess_OpenTextWindowCenteredAt(int a0, int a1);
 extern void func_801376C8(int a0);
 extern s32 D_80127524;
 extern s32 D_80127528;
@@ -655,7 +655,7 @@ extern void func_8013CABC(void);
 extern void func_8013CAE8(void);
 extern void func_8013CB20(void);
 extern void func_8013CB5C(void);
-extern void func_8013CF68();
+extern void func_8013CF68(void);
 extern void func_8013D9B0(int param_1);
 extern void func_8013D064(void);
 extern s32 func_8013D13C(void);
@@ -663,7 +663,7 @@ extern void func_8013D164(void);
 extern void func_8013D178(void);
 extern void func_8013D330(void);
 extern void func_8013D53C(void *arg0v);
-extern void func_8013DD68();
+extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);
 extern void func_8013D3D4(int param_1, int param_2);
@@ -705,8 +705,8 @@ extern void func_8013E83C(void);
 extern void func_8013E6AC(void);
 extern void func_800D24A0(s32 arg);
 extern void func_8013E814(void);
-extern void func_8013E83C();
-extern void func_8013E958();
+extern void func_8013E83C(void);
+extern void func_8013E958(void);
 extern s32 func_80141C50(void);
 extern void func_8013F244(void);
 extern void func_8013FAF8(s16 a0, s16 a1);
@@ -726,7 +726,7 @@ extern void func_8013EB7C(void);
 extern s32 func_8013F350(void); /* §30#2 widened (discarding caller) */
 extern u16 guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
 extern void func_8013ED6C(void);
-extern s32 func_8013EE10();
+extern s32 func_8013EE10(void);
 extern void func_8013F138(void);
 extern void func_800D2624(void);
 extern unsigned short D_80115114;
@@ -1152,18 +1152,18 @@ void func_80145CEC(void) {
     extern void guess_ClearHideRequest220(s32 *a0);
     extern void guess_ClearHideRequest222(s32 *a0);
     extern void func_80149210(s32 a0, s32 a1);
-    extern void func_8014BE9C();
-    extern void func_8016533C();
-    extern void func_801627C0();
-    extern void func_80162AF4();
-    extern void func_80165C78();
+    extern void func_8014BE9C(void);
+    extern void func_8016533C(void);
+    extern void func_801627C0(void);
+    extern void func_80162AF4(void);
+    extern void func_80165C78(void);
     extern u8 * func_801468C8(s32 arg0, u8 arg1);
     extern void func_80145EE8(s32 param_1);
-    extern void func_8014C968();
-    extern void func_8014C6D0();
-    extern void func_80165938();
-    extern void func_80153C8C();
-    extern void func_800290BC();
+    extern void func_8014C968(void);
+    extern void func_8014C6D0(void);
+    extern void func_80165938(void);
+    extern void func_80153C8C(void);
+    extern void func_800290BC(void);
     extern s32 guess_g_PlayerModelObject; // Names ledger: config/names.tsv guess_g_PlayerModelObject
     extern s32 guess_g_PlayerTmdList; // Names ledger: config/names.tsv guess_g_PlayerTmdList
     extern s32 D_801152C8;
@@ -1299,7 +1299,7 @@ void func_80146074(void) {
 
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0();
+extern void func_801463A0(void);
 
 #define SHARED_FN func_8014607C
 #define SHARED_SLOT D_801F4EE8
@@ -3835,7 +3835,7 @@ extern void func_801553C0(s32 a0);
 extern void guess_ClearHideRequest222(s32 *a0);
 extern void func_801472B4(void *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
-extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));
+extern void func_80153C18(void);  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));
                                  * a prototyped (s32) decl is `conflicting types` in this TU. Arg still
                                  * passes in $a0 under default promotions -> codegen unchanged. */
 

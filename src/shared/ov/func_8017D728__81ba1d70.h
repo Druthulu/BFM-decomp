@@ -46,5 +46,5 @@ void func_8017D728(void *a0)
     }
     mtx = aD800AE620;
     prim.tag = 0x50000000;
-    aFunc80016A5C(&prim, &mtx);
+    KR_AS(void, aFunc80016A5C)(&prim, &mtx);
 }

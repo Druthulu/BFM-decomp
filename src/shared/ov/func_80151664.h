@@ -20,5 +20,5 @@ void func_80151664(s32 a0v) {
     *(s16 *)(s0 + 0x62) = 0x1000;
     *(s16 *)(s0 + 0x64) = 0x1000;
     guess_SetVertSpeed((s32 *)s0, 0);
-    func_80153C18(s0);
+    KR_AS(void, func_80153C18)(s0);
 }
