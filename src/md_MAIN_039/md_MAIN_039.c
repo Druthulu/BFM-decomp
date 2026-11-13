@@ -58,7 +58,7 @@ void func_800CAED8(u8 *a0) {
 
 
 extern s32 D_80062BE8;
-extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
+extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                           s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern void guess_StartPadVibration(void *a0);
 extern void func_801599A4(void *a0);

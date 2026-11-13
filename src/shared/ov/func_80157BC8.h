@@ -4,9 +4,9 @@ extern void guess_AddMoveVectorThenSetVelocity(s32 arg0, s32 arg1, s32 arg2, s32
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern void guess_ApplyVertSpeed(s32 a0);
-extern void func_8014ED28();
+extern s32 func_8014ED28();
 extern void guess_ClearMoveVector(s32 a0);
-extern void func_8016158C(void *a0);
+extern s32 func_8016158C(void *a0);
 extern void func_80161D20();
 extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
 extern void func_8016706C(s32 a0);

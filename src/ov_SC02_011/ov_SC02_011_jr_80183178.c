@@ -1106,7 +1106,7 @@ void func_80184C0C(s32 param_1) {
 
 
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
-extern void func_80185098(s32 a0, s32 a1);
+extern s32 func_80185098(s32 a0, s32 a1);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern u8 D_801957EC[];
 
@@ -1138,7 +1138,7 @@ extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerP
 extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 extern u8 D_801957EC[];
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
-extern void func_80185098(s32 a0, s32 a1);
+extern s32 func_80185098(s32 a0, s32 a1);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
 
@@ -1182,7 +1182,7 @@ extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_Pl
 extern s32 *D_80126B90;
 extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 
-extern void func_80185098(s32 a0, s32 a1);
+extern s32 func_80185098(s32 a0, s32 a1);
 extern s32 func_8012CBCC(s32 a0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -1230,7 +1230,7 @@ void func_80184E00(s32 param_1)
 
 
 extern u8 D_801957DC;
-extern void func_80185098(s32 a0, s32 a1);
+extern s32 func_80185098(s32 a0, s32 a1);
 extern s32 func_8012CBCC(s32 a0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);

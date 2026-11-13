@@ -8,8 +8,8 @@
 #define SHARED_STR_(x) #x
 #define SHARED_STR(x) SHARED_STR_(x)
 #endif
-
-void SHARED_FN(void)
+/* $v0 at exit: lw $v0 of SHARED_SLOT (the trampolined callee's stored result); asm body, no C return */
+s32 SHARED_FN(void)
 {
     __asm__ __volatile__(
         ".set noreorder\n"

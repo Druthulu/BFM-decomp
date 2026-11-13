@@ -1,7 +1,7 @@
 /* func_8015309C — shared body (overlay slot 0x80128158, h_exact 99649d20). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_8014E934(s32 a0);
-extern void func_8014CC28(s32 a0);
+extern s32 func_8014E934(s32 a0);
+extern s32 func_8014CC28(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
 extern void func_801530E4(s32 a0);
 extern void guess_NextStep(void *a0);

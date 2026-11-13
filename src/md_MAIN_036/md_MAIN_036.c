@@ -49,7 +49,7 @@ void func_800CAEE0(u8* a0)
 }
 
 
-extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
+extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 

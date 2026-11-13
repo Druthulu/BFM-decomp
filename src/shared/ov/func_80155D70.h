@@ -4,7 +4,7 @@ extern u16 guess_GetPadHeld(s32 *a0);
 extern void func_801599A4(void *a0);
 extern void guess_EnterState11(s32 *a0);
 extern void func_80159B3C(void *a0);
-extern void func_8014CC28(s32 a0);
+extern s32 func_8014CC28(s32 a0);
 extern s32 func_8014F3E8(s32 a0);
 extern void func_8015BDD0(s32 *a0);
 void func_80155D70(s32 param_1)

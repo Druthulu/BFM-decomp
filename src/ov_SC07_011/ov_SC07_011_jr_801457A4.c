@@ -69,12 +69,12 @@ extern short D_800B99F2;
 extern void func_80128564(void);
 extern u8 D_800B9A11;
 extern void func_801285D4(void);
-extern void func_800D18DC(void);
+extern s32 func_800D18DC(void);
 extern void func_8014607C(void);
 extern void func_801287B8(void);
 extern void func_80029444(void);
 extern void func_800D1754(void);
-extern void func_8014ED28(s32 _arg0);
+extern s32 func_8014ED28(s32 _arg0);
 extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern int func_801288E8(int arg0);
 extern int func_80128940(int arg0);
@@ -362,7 +362,7 @@ extern s32 func_8002A4FC(s32 a0);
 extern s32 func_8012EECC(s32 a0);
 extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 extern s32 func_8012EF34(s32 a0, s32 a1);
-extern void func_8012EF70(s32 a0, s32 a1);
+extern s32 func_8012EF70(s32 a0, s32 a1);
 extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);
@@ -1003,7 +1003,7 @@ extern void func_8014477C(void *param_1);
 extern void func_80144880(s32 param_1);
 extern void func_80144988(s32 a0);
 extern void func_801449C8(void *a0);
-extern void func_80144A04(s32 *a0);
+extern s32 func_80144A04(s32 *a0);
 extern void func_80144A2C(void *a0);
 extern void func_80144A68(s32 *a0);
 extern void func_80144A90(void);
@@ -2011,7 +2011,7 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 
 
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
-extern void func_8012EF70(s32 a0, s32 a1);
+extern s32 func_8012EF70(s32 a0, s32 a1);
 #include "../shared/ov/func_80149544.h"
 
 
@@ -2153,7 +2153,7 @@ extern s16 currentLocationId;
 #include "../shared/ov/func_80149E94.h"
 
 
-extern void func_80144A04(s32 *a0);
+extern s32 func_80144A04(s32 *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern void func_8016EDEC(s32 _arg0, s32 _arg1, s32 _arg2);
@@ -2661,7 +2661,7 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 
 
 
-extern void func_8014CD0C(u8 *a0);
+extern s32 func_8014CD0C(u8 *a0);
 
 #define SHARED_FN func_8014CCB4
 #define SHARED_SLOT D_8018F1E8
@@ -2679,7 +2679,7 @@ extern void func_8014CD0C(u8 *a0);
 
 
 
-extern void func_8014D0A4(s32);
+extern s32 func_8014D0A4(s32);
 
 #define SHARED_FN func_8014D04C
 #define SHARED_SLOT D_8018F1E8
@@ -2700,7 +2700,7 @@ extern void func_8014D0A4(s32);
 
 
 
-extern void func_8014D438(s32);
+extern s32 func_8014D438(s32);
 
 #define SHARED_FN func_8014D3E0
 #define SHARED_SLOT D_8018F1E8
@@ -2719,7 +2719,7 @@ extern void func_8014D438(s32);
 
 
 
-extern void func_8014D790(s32);
+extern s32 func_8014D790(s32);
 
 #define SHARED_FN func_8014D738
 #define SHARED_SLOT D_8018F1E8
@@ -3036,7 +3036,7 @@ a0v = a0;
 
 
 
-extern void func_8014DF94(s32);
+extern s32 func_8014DF94(s32);
 
 #define SHARED_FN func_8014DF3C
 #define SHARED_SLOT D_8018F1E8
@@ -3054,7 +3054,7 @@ extern void func_8014DF94(s32);
 #include "../shared/ov/func_8014E284.h"
 
 
-extern void func_8014E48C(s32);
+extern s32 func_8014E48C(s32);
 
 #define SHARED_FN func_8014E434
 #define SHARED_SLOT D_8018F1E8
@@ -3112,7 +3112,7 @@ extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 
 
 
-extern void func_8014E6F8(struct SubE6F8*);
+extern s32 func_8014E6F8(struct SubE6F8*);
 
 #define SHARED_FN func_8014E6A0
 #define SHARED_SLOT D_8018F1E8

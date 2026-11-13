@@ -72,7 +72,7 @@ extern short D_800B99F2;
 extern void func_80128564(void);
 extern u8 D_800B9A11;
 extern void func_801285D4(void);
-extern void func_800D18DC(void);
+extern s32 func_800D18DC(void);
 extern void func_8014607C(void);
 extern void func_801287B8(void);
 extern s32 D_801C4B7C;

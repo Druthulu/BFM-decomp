@@ -73,7 +73,7 @@ extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_801E531C(void);
 extern s32 guess_RequestResourceLoad(u32, u32, void *, u32, u32);
-extern void func_801E5324(void);
+extern s32 func_801E5324(void);
 
 
 
@@ -312,7 +312,7 @@ extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_801E531C(void);
 extern s32 guess_RequestResourceLoad(u32, u32, void *, u32, u32);
-extern void func_801E5324(void);
+extern s32 func_801E5324(void);
 
 extern s32 guess_GetStoryProgress(void);
 extern s32 guess_TestGameFlag(s32 arg);

@@ -38,7 +38,7 @@ extern s32 func_80161208();
 extern s32 func_800CB170(s32 a0);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_ClearObjectAndSubObject(u8 *);
-extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern u8 D_800CC0D8[];
 extern s32 D_8011F9D0;
 

@@ -353,7 +353,7 @@ void func_80146360(void)
 
 #include "../shared/ov/func_80146608.h"
 
-extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 
 #include "../shared/ov/func_801466B4.h"
 
@@ -1581,7 +1581,7 @@ extern void guess_SetGameFlag(s32, s32);
 // @unstuck(P36): fully-handwritten scratchpad-stack-switch sequencer (manipulates $sp) — modeled on the byte-proven DEFINE_func_80128678 inline-asm precedent
 #include "common.h"
 
-extern void func_8014CD0C(u8 *a0);
+extern s32 func_8014CD0C(u8 *a0);
 
 #define SHARED_FN func_8014CCB4
 #define SHARED_SLOT D_801D9618
@@ -1626,7 +1626,7 @@ extern void func_8014CD0C(u8 *a0);
 // @unstuck(P36): none — MATCH (22 ins; handwritten scratchpad-stack-switch via *(0x1F8003FC); modeled on byte-proven sibling func_8014CCB4; omit explicit jal-delay nop — maspsx auto-inserts it)
 #include "common.h"
 
-extern void func_8014D0A4(s32 a0);
+extern s32 func_8014D0A4(s32 a0);
 
 #define SHARED_FN func_8014D04C
 #define SHARED_SLOT D_801D9618
@@ -1664,7 +1664,7 @@ extern void func_8014D0A4(s32 a0);
 // @unstuck(P36): none — MATCH (22 ins; handwritten scratchpad-stack-switch trampoline via *(0x1F8003FC); mechanical remap of byte-proven sibling func_8014D04C in this same overlay — same D_801D9618 stash, callee swapped to func_8014D438; omit explicit jal-delay nop, maspsx auto-inserts it)
 #include "common.h"
 
-extern void func_8014D438(s32 a0);
+extern s32 func_8014D438(s32 a0);
 
 #define SHARED_FN func_8014D3E0
 #define SHARED_SLOT D_801D9618
@@ -1685,7 +1685,7 @@ extern void func_8014D438(s32 a0);
 // @unstuck(P36): none — MATCH (handwritten scratchpad-stack-switch sequencer manipulating $sp; modeled on byte-proven func_8014CCB4. KEY: maspsx auto-fills the jal delay slot with a nop, so DO NOT write an explicit nop after `jal func_8014D790` — put `lui $at,%hi(D_801D9618)` directly after the jal and maspsx's auto-nop becomes the delay slot, yielding jal/nop/lui exactly as target)
 #include "common.h"
 
-extern void func_8014D790(s32 a0);
+extern s32 func_8014D790(s32 a0);
 
 #define SHARED_FN func_8014D738
 #define SHARED_SLOT D_801D9618
@@ -1994,7 +1994,7 @@ a0v = a0;
 // @unstuck(P36): none — MATCH (fully-handwritten scratchpad-stack-switch sequencer; byte-proven sibling DEFINE precedent func_8014CCB4, same idiom, only the jal target differs)
 #include "common.h"
 
-extern void func_8014DF94(s32 arg0);
+extern s32 func_8014DF94(s32 arg0);
 
 #define SHARED_FN func_8014DF3C
 #define SHARED_SLOT D_801D9618
@@ -2058,7 +2058,7 @@ extern void func_8014DF94(s32 arg0);
 // @unstuck(P36): none — MATCH (hand-written scratchpad-stack-switch trampoline; inline-asm precedent func_8014CCB4, byte-proven)
 #include "common.h"
 
-extern void func_8014E48C(s32 a0);
+extern s32 func_8014E48C(s32 a0);
 
 #define SHARED_FN func_8014E434
 #define SHARED_SLOT D_801D9618
@@ -2154,7 +2154,7 @@ extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 // @unstuck(P36): none — MATCH (handwritten scratchpad-stack-switch; exact sibling of byte-proven func_8014CCB4, only the jal callee differs)
 #include "common.h"
 
-extern void func_8014E6F8(struct SubE6F8 *a0);
+extern s32 func_8014E6F8(struct SubE6F8 *a0);
 
 #define SHARED_FN func_8014E6A0
 #define SHARED_SLOT D_801D9618
@@ -3104,10 +3104,10 @@ struct S;
 
 #include "common.h"
 
-void func_8014ED28(s32 a0);
+s32 func_8014ED28(s32 a0);
 void guess_ClearMoveVector(s32 a0);
-void func_8014CC28(s32 a0);
-void func_8014FA04(s32 a0);
+s32 func_8014CC28(s32 a0);
+s32 func_8014FA04(s32 a0);
 
 #include "../shared/ov/func_801535F4.h"
 

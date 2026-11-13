@@ -414,7 +414,7 @@ extern void func_8014477C(void *param_1);
 extern void func_80144880(s32 param_1);
 extern void func_80144988(s32 a0);
 extern void func_801449C8(void *a0);
-extern void func_80144A04(s32 *a0);
+extern s32 func_80144A04(s32 *a0);
 extern void func_80144A2C(void *a0);
 extern void func_80144A68(s32 *a0);
 extern void func_80144A90(void);
@@ -1511,7 +1511,7 @@ extern void func_8012F038(int param_1, short *param_2, short *param_3);
 #include "../shared/ov/func_80149E94.h"
 
 
-extern void func_80144A04(s32 *a0);
+extern s32 func_80144A04(s32 *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern void func_8016EDEC(s32 _arg0, s32 _arg1, s32 _arg2);
@@ -2015,7 +2015,7 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 
 
 
-extern void func_8014CD0C(u8 *a0);
+extern s32 func_8014CD0C(u8 *a0);
 
 #define SHARED_FN func_8014CCB4
 #define SHARED_SLOT D_801A6B50
@@ -2033,7 +2033,7 @@ extern void func_8014CD0C(u8 *a0);
 
 
 
-extern void func_8014D0A4(s32);
+extern s32 func_8014D0A4(s32);
 
 #define SHARED_FN func_8014D04C
 #define SHARED_SLOT D_801A6B50
@@ -2054,7 +2054,7 @@ extern void func_8014D0A4(s32);
 
 
 
-extern void func_8014D438(s32);
+extern s32 func_8014D438(s32);
 
 #define SHARED_FN func_8014D3E0
 #define SHARED_SLOT D_801A6B50
@@ -2073,7 +2073,7 @@ extern void func_8014D438(s32);
 
 
 
-extern void func_8014D790(s32);
+extern s32 func_8014D790(s32);
 
 #define SHARED_FN func_8014D738
 #define SHARED_SLOT D_801A6B50
@@ -2382,7 +2382,7 @@ a0v = a0;
 
 
 
-extern void func_8014DF94(s32);
+extern s32 func_8014DF94(s32);
 
 #define SHARED_FN func_8014DF3C
 #define SHARED_SLOT D_801A6B50
@@ -2400,7 +2400,7 @@ extern void func_8014DF94(s32);
 #include "../shared/ov/func_8014E284.h"
 
 
-extern void func_8014E48C(s32);
+extern s32 func_8014E48C(s32);
 
 #define SHARED_FN func_8014E434
 #define SHARED_SLOT D_801A6B50
@@ -2458,7 +2458,7 @@ extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 
 
 
-extern void func_8014E6F8(struct SubE6F8*);
+extern s32 func_8014E6F8(struct SubE6F8*);
 
 #define SHARED_FN func_8014E6A0
 #define SHARED_SLOT D_801A6B50

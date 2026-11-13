@@ -91,7 +91,7 @@ void func_800CB028(s32 param_1) {
 }
 
 
-extern void guess_SpawnObject(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
+extern s32 guess_SpawnObject(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 
 void func_800CB068(void *a0) {

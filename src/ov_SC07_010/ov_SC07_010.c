@@ -79,7 +79,7 @@ void func_80128288(void) {
 
 
 
-extern void func_800D18DC(void);
+extern s32 func_800D18DC(void);
 extern void func_8014607C(void);
 extern void func_801287B8(void);
 extern void func_80011A3C(void);
@@ -97,7 +97,7 @@ extern void func_80011A3C(void);
 extern void func_80128564(void);
 extern void func_801287B8(void);
 extern void func_8014607C(void);
-extern void func_8014ED28(s32 _arg0);
+extern s32 func_8014ED28(s32 _arg0);
 
 // @class: other
 // @unstuck(P36): none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper w/ branch)

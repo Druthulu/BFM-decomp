@@ -112,7 +112,7 @@ extern u8 D_800EC9FC[];
 struct S_D2394;
 struct S_D2394B;
 extern void func_800D2394(struct S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, struct S_D2394B *a5);
-extern void func_800D2454(s32 a0, s32 a1, s32 *a2);
+extern s32 func_800D2454(s32 a0, s32 a1, s32 *a2);
 extern void func_800D24D0(void);
 extern s32 func_800D2704(s32 a0, s32 a1);
 extern void func_800D298C(St *a0);
@@ -293,14 +293,14 @@ extern void func_800D2D44(s32 arg0);
 extern void StSetRing(s32 a0, s32 a1);
 extern void StSetStream(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern s32 D_800D946C;
-extern void func_800D2A24(s32 a0);
+extern s32 func_800D2A24(s32 a0);
 
-void func_800D2454(s32 a0, s32 a1, s32 *a2) {
+s32 func_800D2454(s32 a0, s32 a1, s32 *a2) {
     func_800D2AA0(0);
     func_800D2D44(a1);
     StSetRing(D_800D946C, 0x20);
     StSetStream(a2[1], a2[2], -1, 0, 0);
-    func_800D2A24(a0);
+    return func_800D2A24(a0);
 }
 
 
@@ -503,7 +503,8 @@ extern s32 CdRead2(s32 count);
  * register-pin + asm barrier directly in the `if` block bloats it and flips
  * beqz/bnez (byte-verified: NEAR closeness 10 vs this MATCH closeness 0).
  */
-void func_800D2A24(s32 a0) {
+/* $v0 at exit: addu $v0, $zero, $zero at md_MAIN_003:0x800D2A78 or addiu $v0, $zero, 0x1 at md_MAIN_003:0x800D2A84; asm body, no C return */
+s32 func_800D2A24(s32 a0) {
     u8 *p;
     s32 r;
     register s32 v0 __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:expand-void-return

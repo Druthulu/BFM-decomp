@@ -802,7 +802,7 @@ extern void func_801A41CC(void);
 extern void func_801A417C(s32 arg0);
 extern void func_801A4328(s32 a0);
 extern void func_801A5414(s32 param_1);
-extern void func_801A5654(s32 param_1, s16 param_2, s32 param_3);
+extern s32 func_801A5654(s32 param_1, s16 param_2, s32 param_3);
 extern void func_801A5698(u8 *s2, s32 a1);
 extern void func_801A6330(void);
 extern s32 func_8012B8A4(s16 *a0);
@@ -997,7 +997,7 @@ extern void func_80184DB0(s32 a0, void *a1, s32 a2);
 extern void func_801A3B08(s32 a0);
 extern void func_801A3EEC(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void func_801A395C(s32 a0, s32 a1);
+extern s32 func_801A395C(s32 a0, s32 a1);
 extern void func_801A1C38(s32 a0);
 extern s32 func_801A861C(s32 a0, s16 a1);
 extern void func_801A8DCC(s32 a0, s32 a1);
@@ -1087,7 +1087,7 @@ void func_801A1C38(s32 a0) {
 
 #include "common.h"
 
-extern void func_801A395C(s32 a0, s32 a1);
+extern s32 func_801A395C(s32 a0, s32 a1);
 extern void func_8013240C(s32 a0);
 extern void func_8001C924(s32 a0, void *a1);
 extern void func_8012A860(void *a0, int a1);
@@ -1470,7 +1470,7 @@ extern void guess_ApplyAccelAndVelocity(s32 a0);           /* :915  */
 extern s32 func_801A3594(void *a0);          /* :916  */
 extern void func_801A3744(s32 a0);           /* :457  */
 extern s32 func_801A3798(s32 a0, s32 a1);    /* :3036 */
-extern void func_801A395C(s32 a0, s32 a1);   /* :380 — real sig returns s32, cast at the call (:3006 house idiom) */
+extern s32 func_801A395C(s32 a0, s32 a1);   /* :380 — real sig returns s32, cast at the call (:3006 house idiom) */
 extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);    /* :6    */
 extern void func_80184C70(void);             /* :375  */
 extern void func_80184DB0(s32 a0, void *a1, s32 a2); /* :376 */
@@ -2282,7 +2282,7 @@ void func_801A3744(s32 a0) {
 
 #include "common.h"
 
-extern void func_801A395C(s32 a0, s32 a1);
+extern s32 func_801A395C(s32 a0, s32 a1);
 extern void func_8013240C(s32 a0);
 extern void func_8001C924(s32 a0, void *a1);
 extern void func_8012A860(void *a0, int a1);
@@ -2378,7 +2378,8 @@ s32 func_801A3798(s32 s0, s32 arg1) {
 
 #include "common.h"
 
-void func_801A395C(s32 a0, s32 a1) {
+/* $v0 at exit: addiu $v0, $zero, 0x1 at md_SC07_004:0x801A397C or addu $v0, $zero, $zero at md_SC07_004:0x801A39B8; asm body, no C return */
+s32 func_801A395C(s32 a0, s32 a1) {
     s32 ret;
     s16 cur;
     s16 t;
@@ -3568,7 +3569,8 @@ s32 func_801A54F0(s32 param_1, s32 param_2)
 
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 
-void func_801A5654(s32 param_1, s16 param_2, s32 param_3) {
+/* $v0 at exit: result of 0x8012C658; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, md_SC07_004 objdump */
+s32 func_801A5654(s32 param_1, s16 param_2, s32 param_3) {
     s32 v0;
 
     v0 = guess_SpawnActor(0x339, param_3, param_1);
@@ -4255,7 +4257,7 @@ void func_801A66DC(s32 a0) {
  * discards the value, so widening void->s32 there is byte-neutral.
  * TU EDIT NEEDED: change line 56 to `extern void func_801A395C(s32 a0, s32 a1);`
  */
-extern void func_801A395C(s32 a0, s32 a1);
+extern s32 func_801A395C(s32 a0, s32 a1);
 
 extern u16 D_8019FF8A;
 extern s16 D_801F8714;

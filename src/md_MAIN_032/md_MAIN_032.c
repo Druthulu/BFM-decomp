@@ -28,7 +28,7 @@ extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
 extern void func_801655E4(s32 a0);
 extern void func_80156648(s32 *a0);
-extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 
 void func_800CAEC0(u8 *a0) {
     guess_SetAnimScript((s32 *)a0, (s32)&D_800CB26C);

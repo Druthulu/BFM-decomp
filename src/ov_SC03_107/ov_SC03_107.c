@@ -80,7 +80,7 @@ extern s32 func_80128998(void);
 
 
 
-extern void func_800D18DC(void);
+extern s32 func_800D18DC(void);
 extern void func_8014607C(void);
 extern void func_801287B8(void);
 extern void func_80011A3C(void);

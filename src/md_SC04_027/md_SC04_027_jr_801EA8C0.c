@@ -96,7 +96,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_801EA664(s32 param_1, s16 *param_2);
 extern u8 func_801EA85C(u32 a0);
 extern s32 guess_RequestResourceLoad(u32, u32, void *, u32, u32);
-extern void func_801EA88C(void);
+extern s32 func_801EA88C(void);
 
 
 #include "common.h"

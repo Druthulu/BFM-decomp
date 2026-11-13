@@ -21,7 +21,7 @@ void func_800CCB28(s32 *param_1) {
 
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_8014B5C4(s32 *a0, s32 a1, s32 a2);
-extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
+extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 
@@ -142,9 +142,9 @@ void func_800CCEB8(void *arg0) {
 
 extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern void guess_ApplyVertSpeed(s32 a0);
-extern void func_800CD494(void *a0);
-extern void func_800CD5CC(void *a0);
-extern void func_8016151C(void *a0);
+extern s32 func_800CD494(void *a0);
+extern s32 func_800CD5CC(void *a0);
+extern s32 func_8016151C(void *a0);
 
 void func_800CCEEC(void *arg0) {
     s32 v1;
@@ -193,9 +193,9 @@ extern void func_80147F50(s32 a0);
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern void guess_ApplyVertSpeed(s32 a0);
-extern void func_800CD494(void *a0);
-extern void func_800CD5CC(void *a0);
-extern void func_8016151C(void *a0);
+extern s32 func_800CD494(void *a0);
+extern s32 func_800CD5CC(void *a0);
+extern s32 func_8016151C(void *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_NextStep(void *a0);
 extern s16 D_801152B0;
@@ -234,8 +234,8 @@ void func_800CCFDC(void *arg0) {
 extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F50(s32 a0);
 extern void guess_ApplyVelocity(s32 *a0);
-extern void func_800CD494(void *a0);
-extern void func_800CD5CC(void *a0);
+extern s32 func_800CD494(void *a0);
+extern s32 func_800CD5CC(void *a0);
 extern s32 func_801612B8(void *a0, s32 a1);
 extern s32 guess_TickWaitTimer_2(s32 a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
@@ -405,7 +405,8 @@ void func_800CD288(Work_md_MAIN_046 *arg0) {
 
 extern void func_800CDA14(s32 a0);
 
-void func_800CD494(void *a0) {
+/* $v0 at exit: addu $v0, $zero, $zero at md_MAIN_046:0x800CD59C or addiu $v0, $zero, 0x1 at md_MAIN_046:0x800CD5B0; asm body, no C return */
+s32 func_800CD494(void *a0) {
     s32 rv;
     s32 s0;
     s32 s1;
@@ -468,7 +469,8 @@ extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
 
-void func_800CD5CC(void *arg0) {
+/* $v0 at exit: addu $v0, $s2, $zero at md_MAIN_046:0x800CD67C; asm body, no C return */
+s32 func_800CD5CC(void *arg0) {
     register s32 rv __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:expand-void-return
     s32 a0 = (s32)arg0;
     s32 found = 0;

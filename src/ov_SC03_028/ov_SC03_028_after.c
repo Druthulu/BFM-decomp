@@ -1276,7 +1276,7 @@ s16 func_8014C5D0(s32 a0, s32 a1) {
 #include "../shared/ov/func_8014CC28.h"
 
 
-extern void func_8014CD0C(u8 *a0);
+extern s32 func_8014CD0C(u8 *a0);
 
 #define SHARED_FN func_8014CCB4
 #define SHARED_SLOT D_801EA340
@@ -1293,7 +1293,7 @@ extern void func_8014CD0C(u8 *a0);
 
 
 
-extern void func_8014D0A4(s32 a0);
+extern s32 func_8014D0A4(s32 a0);
 
 #define SHARED_FN func_8014D04C
 #define SHARED_SLOT D_801EA340
@@ -1313,7 +1313,7 @@ extern void func_8014D0A4(s32 a0);
 
 
 
-extern void func_8014D438(s32 a0);
+extern s32 func_8014D438(s32 a0);
 
 #define SHARED_FN func_8014D3E0
 #define SHARED_SLOT D_801EA340
@@ -1331,7 +1331,7 @@ extern void func_8014D438(s32 a0);
 
 
 
-extern void func_8014D790(s32 a0);
+extern s32 func_8014D790(s32 a0);
 
 #define SHARED_FN func_8014D738
 #define SHARED_SLOT D_801EA340
@@ -1639,7 +1639,7 @@ a0v = a0;
 
 
 
-extern void func_8014DF94(s32 arg0);
+extern s32 func_8014DF94(s32 arg0);
 
 #define SHARED_FN func_8014DF3C
 #define SHARED_SLOT D_801EA340
@@ -1655,7 +1655,7 @@ extern void func_8014DF94(s32 arg0);
 #include "../shared/ov/func_8014E284.h"
 
 
-extern void func_8014E48C(s32 a0);
+extern s32 func_8014E48C(s32 a0);
 
 #define SHARED_FN func_8014E434
 #define SHARED_SLOT D_801EA340
@@ -1711,7 +1711,7 @@ extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 
 
 
-extern void func_8014E6F8(struct SubE6F8 *a0);
+extern s32 func_8014E6F8(struct SubE6F8 *a0);
 
 #define SHARED_FN func_8014E6A0
 #define SHARED_SLOT D_801EA340

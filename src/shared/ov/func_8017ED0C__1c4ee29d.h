@@ -3,7 +3,7 @@
 void func_8017ED0C(s32 self) {
     extern void guess_AddVertSpeed(s32 a0, s32 a1);
     extern void guess_ApplyVertSpeed(s32 a0);
-    extern void func_80161450(void *a0);
+    extern s32 func_80161450(void *a0);
     extern void func_80147060(u8 *a0);
     extern void func_80171928(void *a0);
 

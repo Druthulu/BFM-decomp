@@ -750,7 +750,7 @@ void func_800CC1B0(void *a0) {
 
 
 extern void func_801655E4(s32 arg0);
-extern void guess_SpawnObject(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
+extern s32 guess_SpawnObject(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern s32 D_80078EC8;
 

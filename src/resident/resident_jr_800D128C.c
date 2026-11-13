@@ -592,7 +592,8 @@ extern u8 D_800AE6BC;
 extern FnTbl3 D_801141BC;
 extern s32 D_800AE6A8;
 
-void func_800D18DC(void) {
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x50, resident objdump */
+s32 func_800D18DC(void) {
     u8 idx = D_800AE6BC;
     FnTbl3 local = D_801141BC;
     local.fn[idx](&D_800AE6A8);
@@ -1102,7 +1103,7 @@ void func_800D1F90(void) {
  */
 void func_800D1FC8(void *arg0, int arg1) {
     extern int guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
-    extern void VectorNormalSS(void *a0, void *a1);
+    extern s32 VectorNormalSS(void *a0, void *a1);
 
     int *g;
     short v[4];

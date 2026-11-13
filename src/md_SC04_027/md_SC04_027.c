@@ -1482,7 +1482,7 @@ void func_801EA29C(void *a0) {
 s32 func_801EA2D8(void *a0) {
 
     extern void (*D_801EBB58[])(void);
-    extern void func_801EA88C(void);
+    extern s32 func_801EA88C(void);
     extern s32 D_801F249C;
 
     if (((s32 (*)(void))D_801EBB58[*(u8 *)((s32)a0 + 0x15)])() != 0 && D_801F249C != 0) {
@@ -1704,8 +1704,8 @@ u8 func_801EA85C(u32 a0) {
 
 extern s32 guess_RequestResourceLoad(u32, u32, void *, u32, u32);
 
-void func_801EA88C(void) {
+s32 func_801EA88C(void) {
 
     extern u8 D_800AF040[];
-    guess_RequestResourceLoad(0, 0, D_800AF040, 0, 0);
+    return guess_RequestResourceLoad(0, 0, D_800AF040, 0, 0);
 }

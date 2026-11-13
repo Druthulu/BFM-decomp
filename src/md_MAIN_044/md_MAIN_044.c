@@ -16,7 +16,7 @@ void func_800CCB28(s32 param_1) {
 
 
 extern void func_8014B5C4(s32 *a0, s32 a1, s32 a2);
-extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 

@@ -39,7 +39,7 @@ void func_800CAEC0(void *arg0) {
 }
 
 
-extern void guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
+extern s32 guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
 
 void func_800CAF10(void *arg0) {
     guess_SpawnObject(0xB, (s32)arg0, 0, 0, 0, 0, 0, 0);
@@ -51,7 +51,7 @@ void func_800CAF10(void *arg0) {
 void func_800CAF68(void *arg0) {
     extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern s32 func_8014C088(s32 a0, s32 a1);
-    extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+    extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
     extern void guess_PlaySoundUnlessSkipped(s32 arg0);
     extern void func_800CB098(void *a0);
     u8 *p = guess_g_PlayerRecord;
@@ -139,7 +139,7 @@ void func_800CB134(void *arg0) {
 
 void func_800CB190(void *arg0) {
     extern void func_800CB5F4(s32 a0);
-    extern void guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
+    extern s32 guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
     extern void guess_SetWaitTimer_2(s32 *, s32);
     extern void guess_NextStep(void *);
     extern s32 rand(void);

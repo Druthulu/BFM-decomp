@@ -105,7 +105,7 @@ void func_800CB034(void *a0) {
     extern void guess_ApplyVelocity(s32 *a0);
     extern void guess_AddVertSpeed(s32 a0, s32 a1);
     extern void guess_ApplyVertSpeed(s32 a0);
-    extern void func_8016151C(void *a0);
+    extern s32 func_8016151C(void *a0);
     extern s32 func_801615C4(void *a0, s32 a1);
     extern s32 D_80078EC8;
     extern s32 D_800CB234[];

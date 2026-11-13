@@ -1,6 +1,6 @@
 /* func_80149F2C — shared body (overlay slot 0x80128158, h_exact 6d45bcfe). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void func_80144A04(s32 *a0);
+extern s32 func_80144A04(s32 *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern void func_8016EDEC(s32 _arg0, s32 _arg1, s32 _arg2);

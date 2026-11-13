@@ -37,7 +37,7 @@ void func_800CCBCC(s32 a0)
     extern void guess_ApplyVelocity(s32 *a0);
     extern void func_8014ED28();
     extern void guess_ClearMoveVector(s32 a0);
-    extern void func_8016151C(void *a0);
+    extern s32 func_8016151C(void *a0);
     extern s32 func_801725A4(u8 *a0);
     extern void guess_SetVertSpeed(s32 *a0, s32 a1);
     extern void guess_SetAnimScript(s32 *a0, s32 a1);
@@ -67,7 +67,7 @@ void func_800CCBCC(s32 a0)
 void func_800CCC88(void *a0) {
     extern void func_8014ED28(s32);
     extern void guess_ClearMoveVector(s32);
-    extern void func_8016151C(void *);
+    extern s32 func_8016151C(void *);
     extern s32 func_801725A4(u8 *);
     extern void guess_SetAnimScript(s32 *, s32);
     extern void guess_NextStep(void *);
@@ -93,7 +93,7 @@ void func_800CCD04(void *a0) {
     extern void guess_ApplyVelocity(s32 *a0);
     extern void func_8014ED28(s32);
     extern void guess_ClearMoveVector(s32 a0);
-    extern void func_80161450(void *a0);
+    extern s32 func_80161450(void *a0);
     extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
     extern void guess_NextStep(void *a0);
     extern s32 func_801725A4(u8 *a0);
@@ -138,7 +138,7 @@ void func_800CCDC4(s32 a0)
 
 extern void func_8014B5C4(s32 *a0, s32 a1, s32 a2);
 extern void func_8013C9C4(void *a0);
-extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
+extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                           s32 sp5, s32 sp6, s32 sp7, s32 sp8);
 extern void guess_SpawnSmallObjectType2(s32 *a0, s32 a1);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
@@ -242,7 +242,7 @@ void func_800CD31C(s32 arg0);
 
 
 void func_800CD054(void *a0) {
-    extern void guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
+    extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3,
                               s32 a4, s32 a5, s32 a6, s32 a7);
     extern void guess_PlaySoundUnlessSkipped(s32 a0);
     extern s32 func_80012FC8(s32 a0, s32 a1, s32 a2, s32 a3);

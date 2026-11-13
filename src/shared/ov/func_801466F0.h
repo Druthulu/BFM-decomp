@@ -5,7 +5,7 @@ extern u16 *func_8014680C(short *param_1);
 /* guess_SpawnObject: packs kind a0, parameter a1, x/y/z and two words into a record and starts an object in the 0x68-byte array D_8011F9D0 (slots 8-19, or 0-7 when the last argument is 0)
  * Confidence medium, xref chain: rec {kind, x, y, z, a1, sp6, sp7}; sp8 ? func_80146750 (slots 8..19) : func_8014680C (slots 0..7); each takes the first record with u16 +0 == 0
  * Names ledger: config/names.tsv guess_SpawnObject */
-void guess_SpawnObject(a0, a1, a2, a3, sp5, sp6, sp7, sp8)
+s32 guess_SpawnObject(a0, a1, a2, a3, sp5, sp6, sp7, sp8)
     u16 a0;
     s32 a1;
     u16 a2;
@@ -15,6 +15,7 @@ void guess_SpawnObject(a0, a1, a2, a3, sp5, sp6, sp7, sp8)
     s32 sp7;
     s32 sp8;
 {
+    u16 *r;
     Rec801466F0 rec;
     rec.x = a0;
     rec.vx = a1;
@@ -24,8 +25,9 @@ void guess_SpawnObject(a0, a1, a2, a3, sp5, sp6, sp7, sp8)
     rec.vy = sp6;
     rec.vz = sp7;
     if (sp8 != 0) {
-        func_80146750((u16 *)&rec);
+        r = func_80146750((u16 *)&rec);
     } else {
-        func_8014680C((short *)&rec);
+        r = func_8014680C((short *)&rec);
     }
+    return (s32)r;
 }

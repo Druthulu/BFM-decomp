@@ -420,7 +420,7 @@ extern void func_8014477C(void *param_1);
 extern void func_80144880(s32 param_1);
 extern void func_80144988(s32 a0);
 extern void func_801449C8(void *a0);
-extern void func_80144A04(s32 *a0);
+extern s32 func_80144A04(s32 *a0);
 extern void func_80144A2C(void *a0);
 extern void func_80144A68(s32 *a0);
 extern void func_80144A90(void);

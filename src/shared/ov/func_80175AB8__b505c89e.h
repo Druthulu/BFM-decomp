@@ -24,7 +24,7 @@ void func_80175AB8(param_1)
     extern u32  guess_IntToBcd(s32 a0, s32 a1);
     extern u32 *func_80177EA4(u32 *param_1, s32 param_2, u32 param_3, s32 param_4);
     extern u32 *func_80177B5C(u32 *a0, s32 a1, s32 a2, s32 a3, s32 a4);
-    extern void func_80177940(u32 *p, u32 a_, u32 b_, u32 c_);
+    extern u32 *func_80177940(u32 *p, u32 a_, u32 b_, u32 c_);
     extern u32 *func_80178298(u32 *param_1, u8 *param_2, short param_3, short param_4);
     extern s32 guess_SjisToGlyphCodes(u8*, u8*);
     extern s32  func_8005A600(s32, s32, s32, s32, s32);

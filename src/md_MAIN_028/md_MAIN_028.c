@@ -30,7 +30,7 @@ extern void func_800CAEC0(s32 a0);
 #include "common.h"
 
 extern s32 rand(void);
-extern void guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
+extern s32 guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
 extern void guess_PlaySoundUnlessSkipped(s32);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32, s32, s32, s32);
 extern void func_801655E4(s32);
@@ -53,7 +53,7 @@ void func_800CAEC0(s32 a0) {
 void func_800CB0D8(s32 a0) {
     extern Struct80078E78_md_MAIN_028_800CB0D8 guess_g_PlayerRecord; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern s32 D_80078EC8;
-    extern void guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
+    extern s32 guess_SpawnObject(s32, s32, s32, s32, s32, s32, s32, s32);
     extern s32 func_80165A20(s32);
     s32 v;
     Struct80078E78_md_MAIN_028_800CB0D8 *p;

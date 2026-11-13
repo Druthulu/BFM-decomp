@@ -61,7 +61,7 @@ void func_800CAF1C(s32 *a0) {
 extern s32 func_80148E54(void *a0);
 extern s32 func_80012ABC(s16 a0, s16 a1, s32 a2);
 extern int func_80148AFC(void *a0);
-extern void guess_SpawnObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
+extern s32 guess_SpawnObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_801655E4(void *a0);

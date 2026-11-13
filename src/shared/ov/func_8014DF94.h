@@ -2,7 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
-void func_8014DF94(s32 arg0) {
+/* $v0 at exit: result of func_8014E048 or result of func_8014E284; asm body, no C return */
+s32 func_8014DF94(s32 arg0) {
     s16 a[3];
     s16 b[3];
     s32 u88;

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8014964C(s32 param_1, s32 param_2);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
-extern void func_8012EF70(s32, s32);
+extern s32 func_8012EF70(s32, s32);
 void func_801495C4(s32 a0, s32 a1) {
     s16 in[4];
     s16 result[4];
