@@ -35,6 +35,23 @@ Usage:
   tools/struct_twins.py [--census-dir DIR]          dry run: SEPARATE/SHARED/SDK/UNBOUND counts + the SHARED list
   tools/struct_twins.py --write                     regenerate only the `## Twins` section of docs/struct-twins.md
   tools/struct_twins.py --show <lhash>              every name's full object list (with struct_map clusters)
+  tools/struct_twins.py --inventory [--out FILE]    one row per struct/union definition of the canonical type files and
+                                                    include/psyq/ (default .run/3.45/t1/struct_inventory.tsv); prints the denominators
+  tools/struct_twins.py --dispositions [--check] [--ledger PATH]
+                                                    write/refresh config/struct_dispositions.tsv (one row per placeholder; new rows
+                                                    `undisposed`, existing dispositions kept); --check: counts, FAIL (exit 1) on a
+                                                    missing, duplicate or unknown row
+
+Inventory (3.45 T1): one type = one definition record (enum skipped); names = typedef names + tag + the plain
+`typedef struct X Y;` aliases resolving to it; key = first typedef name, else tag, else `<anon>@file:line` (a repeated key gets
+`@file:line`). class: PsyQ (defined in include/psyq/, or a PSYQ name whose layout hash is psyq_layouts()'), ledgered (a
+config/names.tsv `type` row names it), else placeholder. block: the generated region holding the line (head_types markers,
+restruct band / drift markers, the hand-copied head_types region from its `/* --- T2 (P3.40) canonical definitions` comment to
+the next marker), else `-`. Users: tus/binaries = the src/ and include/ files outside the canonical ones whose comment-stripped
+tokens name it (binary_of); globals/params/returns/locals = G/P/R/L object keys of scan_all over every inventoried name; h_exact
+= distinct function identities among its L/P keys; access_sites (lexical) = `ident->` / `ident.` occurrences of each L/P-bound
+identifier inside the top-level brace span of its binding line (a definition's header: the span opening within 8 lines below),
+and of each G-bound identifier in the binding's whole file, each (file, span, ident) counted once.
 """
 import argparse
 import collections
@@ -47,6 +64,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 import type_census as tc   # noqa: E402
+from struct_layout import UNK_RX, PAD_RX   # noqa: E402  (3.45 T1: the inventory's unk / pad field counts)
 CENSUS_DEFAULT = tc.OUT_DIR_DEFAULT   # 3.41 T2: the gate dir, read from type_census (was a stale ".run/P38/census" literal)
 TWINS_DOC = REPO / "docs" / "struct-twins.md"
 MAX_CITES = 8
@@ -132,6 +150,205 @@ def psyq_layouts():
             if lay:
                 out[tc.layout_hash(lay)] |= own
     return out
+
+
+INVENTORY_DEFAULT = ".run/3.45/t1/struct_inventory.tsv"
+LEDGER = REPO / "config" / "struct_dispositions.tsv"
+DISPOSITIONS = ("undisposed", "fold", "apart", "no-evidence")
+LEDGER_COLS = ("key", "kind", "file_line", "size", "disposition", "target", "evidence", "reason")
+LEDGER_HEAD = """# config/struct_dispositions.tsv: the struct disposition ledger (Phase 3.45 T1). One row per placeholder struct/union
+# definition of the canonical type files (tools/struct_twins.py --inventory, class placeholder), keyed by its inventory key.
+# disposition (closed list): undisposed (not judged yet) | fold (fold into `target`; `evidence` cites the shared object) |
+#   apart (kept apart; `evidence` cites what separates it) | no-evidence (no binding or use to judge by; `reason` says why).
+# Written by tools/struct_twins.py --dispositions (new rows undisposed, dispositions kept, kind/file_line/size refreshed);
+# checked by tools/struct_twins.py --dispositions --check (FAIL on a missing, duplicate or unknown row). Tab-separated, by key.
+"""
+INV_COLS = ("key", "names", "tag", "kind", "size", "fields_total", "unk", "pad", "named", "file:line", "block", "class", "tus",
+            "binaries", "h_exact", "access_sites", "globals", "params", "returns", "locals")
+HAND_COPIED = "/* --- T2 (P3.40) canonical definitions"   # head_types output copied into struct_types.h by hand (no end marker)
+
+
+def blocks_of(lines):
+    """(pure) [(first line, last line, block)] of the generated regions in one header's lines (1-based)"""
+    import head_types as ht
+    import restruct as rs
+    out = []
+    for b, e, nm in ((ht.C_BEGIN, ht.C_END, "head_types"), (rs.T3_BEGIN, rs.T3_END, "restruct-band"),
+                     (rs.T17_BEGIN, rs.T17_END, "restruct-drift")):
+        s = next((i for i, ln in enumerate(lines, 1) if b in ln), None)
+        if s:
+            out.append((s, next((i for i, ln in enumerate(lines[s:], s + 1) if e in ln), len(lines)), nm))
+    s = next((i for i, ln in enumerate(lines, 1) if ln.startswith(HAND_COPIED)), None)
+    if s:
+        out.append((s, min([b0 - 1 for b0, _, _ in out if b0 > s] or [len(lines)]), "head_types-hand"))
+    return out
+
+
+def inventory_defs():
+    """the inventory rows without users: every struct/union definition of the canonical files and include/psyq/"""
+    files = list(dict.fromkeys(list(tc.CANON_HEADERS) + sorted(str(p.relative_to(REPO)) for p in (REPO / "include").rglob("*.h"))))
+    defs, tds, blocks = [], [], {}
+    for rel in files:     # resolution sees every header psyq_layouts() walks; rows come from the canonical files and include/psyq/
+        raw = (REPO / rel).read_text(errors="replace")
+        r = tc.walk_file(raw, rel)
+        defs += r["definitions"]
+        tds += r["typedef_aliases"]
+        blocks[rel] = blocks_of(raw.splitlines())
+    g = {}
+    for d in defs:
+        for nm in d["names"] + ([d["tag"]] if d["tag"] else []):
+            g.setdefault(nm, d)
+    for a in tds:
+        g.setdefault(a["name"], dict(kind="alias", alias_of=a["alias_of"], alias_stars=a["alias_stars"], alias_dims=a["alias_dims"]))
+    alias = {a["name"]: a for a in tds}
+    extra = collections.defaultdict(list)
+    for a in tds:
+        nm = a["name"]
+        for _ in range(8):
+            x = alias.get(nm)
+            if not x or x["alias_stars"] or x["alias_dims"] or x.get("fnptr"):
+                break
+            nm = re.sub(r"^(?:struct|union)\s+", "", x["alias_of"])
+        d = g.get(nm)
+        if nm != a["name"] and d is not None and d.get("kind") in ("struct", "union"):
+            extra[id(d)].append(a["name"])
+    ledg = {p[0] for p in (ln.split("\t") for ln in (REPO / "config" / "names.tsv").read_text().splitlines() if not ln.startswith("#"))
+            if len(p) > 1 and p[1] == "type"}
+    psyq, res, rows, seen = psyq_layouts(), tc.Resolver(g), [], set()
+    for d in defs:
+        if d["kind"] == "enum" or not (d["file"] in tc.CANON_HEADERS or d["file"].startswith("include/psyq/")):
+            continue
+        nms = list(dict.fromkeys(d["names"] + ([d["tag"]] if d["tag"] else []) + extra[id(d)]))
+        key = d["names"][0] if d["names"] else d["tag"] or f"<anon>@{d['file']}:{d['line']}"
+        if key in seen:
+            key = f"{key}@{d['file']}:{d['line']}"
+        seen.add(key)
+        lay = res.layout_of_fields(d["fields"], d["kind"], packed=("packed" in d["attrs"]))
+        fn = [f.get("name") or "" for f in d["fields"]]
+        unk, pad = sum(1 for f in fn if UNK_RX.match(f)), sum(1 for f in fn if PAD_RX.match(f))
+        klass = ("PsyQ" if d["file"].startswith("include/psyq/") or (set(nms) & PSYQ and lay and tc.layout_hash(lay) in psyq)
+                 else "ledgered" if set(nms) & ledg else "placeholder")
+        rows.append(dict(key=key, names=nms, tag=d["tag"] or "-", kind=d["kind"], size=lay[0] if lay else "?", fields_total=len(fn),
+                         unk=unk, pad=pad, named=len(fn) - unk - pad, file_line=f"{d['file']}:{d['line']}",
+                         block=next((nm for b0, b1, nm in blocks[d["file"]] if b0 <= d["line"] <= b1), "-"), klass=klass))
+    return rows
+
+
+def inventory_users(rows):
+    """add tus, binaries, h_exact, access_sites, globals, params, returns, locals to each row (method: the module docstring)"""
+    wanted = {nm for r in rows for nm in r["names"]}
+    bind = scan_all(wanted)
+    canon, tus, src = set(tc.CANON_HEADERS), collections.defaultdict(set), {}
+    for p in sorted(p for dd in ("src", "include") for p in (REPO / dd).rglob("*") if p.suffix in (".c", ".h") and p.is_file()):
+        rel = str(p.relative_to(REPO))
+        if rel in canon or p.name.startswith(".cdecl"):
+            continue
+        for nm in set(re.findall(r"[A-Za-z_]\w*", COMMENT.sub(" ", p.read_text(errors="replace")))) & wanted:
+            tus[nm].add(rel)
+
+    def text_of(rel):     # (comment-stripped text, its lines, top-level brace spans as (first line, last line, start, end))
+        if rel not in src:
+            t = COMMENT.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), (REPO / rel).read_text(errors="replace"))
+            spans, depth, s = [], 0, 0
+            for m in re.finditer(r"[{}]", t):
+                if m.group(0) == "{":
+                    depth, s = depth + 1, (m.start() if depth == 0 else s)
+                elif depth:
+                    depth -= 1
+                    if not depth:
+                        spans.append((t.count("\n", 0, s) + 1, t.count("\n", 0, m.end()) + 1, s, m.end()))
+            src[rel] = (t, t.split("\n"), spans)
+        return src[rel]
+    memo = {}
+
+    def acc(rel, span, ident):
+        if (rel, span, ident) not in memo:
+            t = text_of(rel)[0]
+            t = t[span[2]:span[3]] if span else t
+            memo[(rel, span, ident)] = len(re.findall(r"(?<![\w.>])" + re.escape(ident) + r"\s*(?:->|\.(?!\.))", t))
+        return memo[(rel, span, ident)]
+    for r in rows:
+        objs = {k: e for nm in r["names"] for k, e in bind.get(nm, {}).items()}
+        sites = set()
+        for k, (ci, wh) in objs.items():
+            if k[0] not in ("L", "P", "G"):
+                continue
+            for w in wh:
+                rel, ln = w.rsplit(":", 1)
+                ln = int(ln)
+                if k[0] == "G":
+                    sites.add((rel, None, k[-1]))
+                    continue
+                t, lines, spans = text_of(rel)
+                sp = next((s for s in spans if s[0] <= ln <= s[1]), None) or next((s for s in spans if 0 < s[0] - ln <= 8), None)
+                if k[0] == "L":
+                    ident = k[-1]
+                else:
+                    m = re.search(r"\b(?:" + "|".join(map(re.escape, r["names"])) + r")\b[\s*]*(?:(?:const|volatile)\b[\s*]*)*([A-Za-z_]\w*)",
+                                  lines[ln - 1] if ln <= len(lines) else "")
+                    ident = m.group(1) if m else None
+                if sp and ident:
+                    sites.add((rel, sp, ident))
+        users = {rel for nm in r["names"] for rel in tus.get(nm, ())}
+        r.update(tus=len(users), binaries=len({binary_of(u) for u in users}),
+                 h_exact=len({k[1] for k in objs if k[0] in ("L", "P") and str(k[1]).startswith("F:")}),
+                 access_sites=sum(acc(*s) for s in sites), **{c: sum(1 for k in objs if k[0] == x) for c, x in
+                                                              (("globals", "G"), ("params", "P"), ("returns", "R"), ("locals", "L"))})
+
+
+def inventory(out):
+    rows = inventory_defs()
+    inventory_users(rows)
+    out = REPO / out
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with open(out, "w") as fh:
+        fh.write("\t".join(INV_COLS) + "\n")
+        for r in sorted(rows, key=lambda r: r["key"]):
+            fh.write("\t".join(str(",".join(r["names"]) if c == "names" else r["file_line"] if c == "file:line"
+                                   else r["klass"] if c == "class" else r[c]) for c in INV_COLS) + "\n")
+    ph = [r for r in rows if r["klass"] == "placeholder"]
+    fk = collections.Counter((r["file_line"].rsplit(":", 1)[0] if not r["file_line"].startswith("include/psyq/") else "include/psyq/",
+                              r["kind"]) for r in rows)
+    cl = collections.Counter(r["klass"] for r in rows)
+    used = sum(1 for r in ph if r["tus"] or r["globals"] or r["params"] or r["returns"] or r["locals"])
+    print(f"struct_twins --inventory: {len(rows)} definitions -> {out.relative_to(REPO)}")
+    print("  by file x kind: " + " · ".join(f"{f} {k} {n}" for (f, k), n in sorted(fk.items())))
+    print(f"  by class: PsyQ {cl['PsyQ']} · ledgered {cl['ledgered']} · placeholder {cl['placeholder']}")
+    print(f"  placeholders {len(ph)} · with users {used} · without users {len(ph) - used}")
+    print(f"  unresolved sizes {sum(1 for r in rows if r['size'] == '?')} (placeholders {sum(1 for r in ph if r['size'] == '?')})"
+          f" · repeated keys disambiguated {sum(1 for r in rows if '@' in r['key'] and not r['key'].startswith('<anon>'))}")
+
+
+def dispositions(ledger, check):
+    """write/refresh the ledger, or (check) count it and FAIL on a missing, duplicate or unknown row"""
+    ph = {r["key"]: r for r in inventory_defs() if r["klass"] == "placeholder"}
+    have, dup, bad = {}, [], []
+    for ln in (ledger.read_text().splitlines() if ledger.exists() else ()):
+        if ln.startswith("#") or not ln.strip() or ln.startswith("key\t"):
+            continue
+        p = ln.split("\t")
+        if len(p) != len(LEDGER_COLS) or p[4] not in DISPOSITIONS:
+            bad.append(ln.split("\t")[0])
+        (dup if p[0] in have else []).append(p[0])
+        have.setdefault(p[0], dict(zip(LEDGER_COLS, p)))
+    if check:
+        miss, unk = sorted(set(ph) - set(have)), sorted(set(have) - set(ph))
+        cnt = collections.Counter(e.get("disposition") for e in have.values())
+        print(f"struct_twins --dispositions --check: placeholders {len(ph)} · undisposed {cnt['undisposed']} · rows {len(have) + len(dup)}"
+              f" · " + " · ".join(f"{d} {cnt[d]}" for d in DISPOSITIONS[1:]))
+        for what, ks in (("missing", miss), ("duplicate", dup), ("unknown key", unk), ("malformed / unknown disposition", bad)):
+            if ks:
+                print(f"  FAIL {what}: {len(ks)} ({', '.join(ks[:8])}{' …' if len(ks) > 8 else ''})")
+        sys.exit(1 if miss or dup or unk or bad else 0)
+    kept = {k: e for k, e in have.items() if k not in ph and e.get("disposition") != "undisposed"}
+    lines = [LEDGER_HEAD.rstrip("\n"), "\t".join(LEDGER_COLS)]
+    for k in sorted(set(ph) | set(kept)):
+        r, e = ph.get(k), have.get(k) or {}
+        lines.append("\t".join([k, r["kind"] if r else e["kind"], r["file_line"] if r else e["file_line"], str(r["size"]) if r else e["size"],
+                                e.get("disposition", "undisposed")] + [e.get(c) or "-" for c in ("target", "evidence", "reason")]))
+    ledger.write_text("\n".join(lines) + "\n")
+    print(f"struct_twins --dispositions: {len(ph)} placeholders -> {ledger.relative_to(REPO) if ledger.is_relative_to(REPO) else ledger}"
+          f" · new {len(set(ph) - set(have))} · kept stale (disposed, no longer a placeholder) {len(kept)}")
 
 
 def binary_of(rel):
@@ -499,7 +716,16 @@ def main():
     ap.add_argument("--census-dir", default=CENSUS_DEFAULT, help="census dir holding dup_gating.tsv and type_census.json (default: type_census OUT_DIR_DEFAULT, %(default)s)")
     ap.add_argument("--write", action="store_true", help="regenerate the `## Twins` section of docs/struct-twins.md")
     ap.add_argument("--show", metavar="LHASH", help="every name's objects for one class")
+    ap.add_argument("--inventory", action="store_true", help="one row per struct/union definition; prints the denominators")
+    ap.add_argument("--out", default=INVENTORY_DEFAULT, help="--inventory output TSV (default %(default)s)")
+    ap.add_argument("--dispositions", action="store_true", help="write/refresh config/struct_dispositions.tsv")
+    ap.add_argument("--check", action="store_true", help="with --dispositions: count the ledger, exit 1 on a missing/duplicate/unknown row")
+    ap.add_argument("--ledger", default=str(LEDGER), help="with --dispositions: the ledger path (default %(default)s)")
     a = ap.parse_args()
+    if a.inventory:
+        return inventory(a.out)
+    if a.dispositions:
+        return dispositions(Path(a.ledger).resolve(), a.check)
     census = REPO / a.census_dir
     classes = collect(census)
     if a.show:

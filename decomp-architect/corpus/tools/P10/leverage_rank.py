@@ -19,8 +19,11 @@ Struct ownership (.run/P37/census struct_map.json + sites.jsonl, refused when st
 own(d) = sum over struct types T held by data unit d of reach(T) / holders(T); reach = distinct h_exact of the bodies
 of T's sites (headers through every include site and its SHARED_FN); holders = data units of T's global/gaddr sites
 and globals_at/globals_ptr. score = (refs + own) * (1 + log10(fan)).
-Writes docs/leverage.tsv and docs/leverage.md. `--check` recomputes in memory (controls included: the .md records
-their verdicts) and byte-compares both (exit 1 on any difference). Usage: leverage_rank.py [-j N] [--check]
+Types by reach: reach per canonical definition (type_census.CANON_HEADERS + include/psyq/**/*.h): a site maps through
+the canonical names in its ctype and its struct_map type via config/type_folds.tsv (define|fold -> target, residual ->
+none); written to docs/leverage-types.tsv (rank, type, file:line, reach, sites, holders) and a top 50 in the .md.
+Writes docs/leverage.tsv, docs/leverage.md and docs/leverage-types.tsv. `--check` recomputes in memory (controls
+included: the .md records their verdicts) and byte-compares all three (exit 1 on any difference). Usage: leverage_rank.py [-j N] [--check]
 """
 import argparse, bisect, collections, json, math, os, re, struct, subprocess, sys
 from concurrent.futures import ThreadPoolExecutor
@@ -37,6 +40,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OBJDUMP = "mipsel-linux-gnu-objdump"
 OUT_TSV = os.path.join(REPO, "docs", "leverage.tsv")
 OUT_MD = os.path.join(REPO, "docs", "leverage.md")
+OUT_TYPES = os.path.join(REPO, "docs", "leverage-types.tsv")
 CENSUS = os.path.join(".run", "P37", "census")    # tools/type_census.py --sites default out dir
 TEXT_SECS = {".text"}
 DATA_SECS = {".data", ".rodata", ".sdata", ".sbss", ".bss"}
@@ -484,6 +488,37 @@ def scan_includes(rel):
     return rel, out
 
 
+def canon_types():
+    """-> (name -> definition key (file, line), key -> primary name, map_type -> (action, target)): every definition in
+    type_census.CANON_HEADERS + include/psyq/**/*.h (names, tag, plain typedef aliases; first definition of a name wins)."""
+    import type_census as tc
+    files = list(tc.CANON_HEADERS) + sorted(os.path.relpath(os.path.join(dp, f), REPO) for dp, _d, fs in
+                                            os.walk(os.path.join(REPO, "include", "psyq")) for f in fs if f.endswith(".h"))
+    defs, tds = [], []
+    for rel in files:
+        r = tc.walk_file(open(os.path.join(REPO, rel), errors="replace").read(), rel)
+        defs += r["definitions"]
+        tds += r["typedef_aliases"]
+    n2k, kname = {}, {}
+    for d in defs:
+        nms = d["names"] + ([d["tag"]] if d["tag"] else [])
+        if nms:
+            kname[(d["file"], d["line"])] = nms[0]
+            for nm in nms:
+                n2k.setdefault(nm, (d["file"], d["line"]))
+    for _ in range(4):                       # typedef chains: `typedef struct Foo Bar;`, `typedef Bar Baz;`
+        for a in tds:
+            tgt = re.sub(r"^(struct|union|enum)\s+", "", a["alias_of"])
+            if not a["alias_stars"] and not a["alias_dims"] and tgt in n2k:
+                n2k.setdefault(a["name"], n2k[tgt])
+    folds = {}
+    for ln in open(os.path.join(REPO, "config", "type_folds.tsv")):
+        p = ln.rstrip("\n").split("\t")
+        if len(p) >= 3 and not ln.startswith(("#", "map_type\t")):
+            folds[p[0]] = (p[1], p[2])
+    return n2k, kname, folds
+
+
 def ownership(aliases, dirs, data_set, jobs):
     """own(d) = sum over struct types T held by data unit d of reach(T) / holders(T). -> (own, owner, info)."""
     sm = json.load(open(os.path.join(REPO, CENSUS, "struct_map.json")))
@@ -584,6 +619,18 @@ def ownership(aliases, dirs, data_set, jobs):
     name_als = collections.defaultdict(set)      # global/gaddr base name -> aliases of its sites
     unmapped = collections.Counter()
     nsites = typed = 0
+    n2k, kname, folds = canon_types()
+
+    def fold_key(t):
+        """struct_map type -> (canonical key or None, cause)"""
+        act, tgt = folds.get(t, ("none", t))
+        if act == "residual":
+            return None, "residual " + tgt
+        if tgt in n2k:
+            return n2k[tgt], None
+        return None, ("no fold row" if act == "none" else act) + ", target not canonical"
+    ctyped, cunm, cmapped = 0, collections.Counter(), []
+    chold = collections.defaultdict(set)         # canonical key -> {(name, aliases)}
     with open(os.path.join(REPO, CENSUS, "sites.jsonl")) as f:
         for ln in f:
             nsites += 1
@@ -594,12 +641,25 @@ def ownership(aliases, dirs, data_set, jobs):
             m = UNK.search(r.get("ctype") or "")
             if m and m.group(1) in types:
                 ts.add(m.group(1))
+            ck = {n2k[w] for w in re.findall(r"[A-Za-z_]\w*", r.get("ctype") or "") if w in n2k}
+            if r.get("type"):
+                k, why = fold_key(r["type"])
+                if k:
+                    ck.add(k)
+                elif not ck:
+                    cunm[why] += 1
+            if ck or r.get("type"):
+                ctyped += 1
+            if ck:
+                cmapped.append((r["tu"], r["fn"], r["header"], ck))
             hb = r["bclass"] in ("global", "gaddr") and r.get("base")
             if not ts and not hb:
                 continue
             als = tuple(site_aliases(r))
             if hb:
                 name_als[r["base"]].update(als)
+                for k in ck:
+                    chold[k].add((r["base"], als))
             if not ts:
                 continue
             typed += 1
@@ -662,8 +722,34 @@ def ownership(aliases, dirs, data_set, jobs):
                  "types with reach and holders": sum(1 for T in holders if reach[T]),
                  "holder names resolved": len(resolved), "holder names unresolved": len(set(unres) - resolved),
                  "data units owning": len(own), "own total": round(sum(own.values()), 3)})
-    unres = {n: w for n, w in unres.items() if n not in resolved}
-    return own, owner, {"head": sm["head"], "info": info, "unmapped": unmapped, "unresolved": unres}
+    unres_out = {n: w for n, w in unres.items() if n not in resolved}
+    # reach per canonical definition (after the ownership numbers are final: bodies_of/hunits memoize and count)
+    hiu = info["header include sites unresolved"]
+    creach, csites, cnobody = collections.defaultdict(set), collections.Counter(), collections.Counter()
+    for tu, fn, hd, ks in cmapped:
+        bs = bodies_of(tu, fn, hd)
+        for k in ks:
+            csites[k] += 1
+            if not isinstance(bs, str):
+                creach[k] |= bs
+        if isinstance(bs, str):
+            cnobody[bs] += 1
+    info["header include sites unresolved"] = hiu
+    for T in hold_names:
+        k = fold_key(T)[0]
+        if k:
+            chold[k] |= hold_names[T]
+    trows = []
+    for k, nm in kname.items():
+        hs = set()
+        for n, als in sorted(chold.get(k, ())):
+            hs |= hunits(n, als)
+        trows.append((-len(creach[k]), nm, "%s:%d" % k, csites[k], len(hs)))
+    trows.sort()
+    tinfo = {"sites typed": ctyped, "sites mapped": len(cmapped), "definitions": len(kname),
+             "types with reach": sum(1 for k in kname if creach[k]), "unmapped": cunm, "no body": cnobody}
+    return own, owner, {"head": sm["head"], "info": info, "unmapped": unmapped, "unresolved": unres_out,
+                        "types": [(i + 1, nm, fl, -nr, ns, nh) for i, (nr, nm, fl, ns, nh) in enumerate(trows)], "tinfo": tinfo}
 
 
 def render_md(rows, kinds, total_refs, raw, attributed, hi16, excl, stats, oinfo, report, nbins, all_objs, placed):
@@ -746,6 +832,18 @@ def render_md(rows, kinds, total_refs, raw, attributed, hi16, excl, stats, oinfo
     for r in rows[:50]:
         L.append(f"| {r['rank']} | {r['kind']} | {r['key']} | {r['name']} | {r['named']} | {r['refs']} | {r['own']:.3f} | "
                  f"{r['fan']} | {r['score']:.3f} | {r['owner']} |")
+    ti = oinfo["tinfo"]
+    L += ["", "## Types by reach", "",
+          "Reach per canonical definition (`type_census.CANON_HEADERS` + `include/psyq/**/*.h`; names, tags and typedef "
+          "aliases resolve to one definition): a site maps through the canonical names in its `ctype` and through its "
+          "struct_map `type` via `config/type_folds.tsv` (define/fold -> target; residual -> none; no row -> itself) when "
+          "the target is canonical. Full table: `docs/leverage-types.tsv` (sorted -reach, then name).", "",
+          f"- Sites typed (a `type` or a canonical name in `ctype`): {ti['sites typed']}; mapped to a canonical type: "
+          f"{ti['sites mapped']}; mapped sites with no body: {sum(ti['no body'].values())}.",
+          "- Unmapped by cause: " + (", ".join(f"{k} {v}" for k, v in sorted(ti["unmapped"].items())) or "none") + ".",
+          f"- Types with reach: {ti['types with reach']} of {ti['definitions']} canonical definitions.", "",
+          "| rank | type | file:line | reach | sites | holders |", "|---:|---|---|---:|---:|---:|"]
+    L += [f"| {rk} | {nm} | {fl} | {nr} | {ns} | {nh} |" for rk, nm, fl, nr, ns, nh in oinfo["types"][:50]]
     L += ["", "## Known limits",
           "- Param-typed structs credit no unit: a type seen only through parameters and locals has reach but no holder.",
           "- Slot-space conflation: overlays sharing a VRAM base share one space, so `data` and `raw:` units at the same slot "
@@ -969,16 +1067,20 @@ def main():
     say(f"  controls {passed}/3 PASS")
     print("\n".join(out))
     md = render_md(rows, kinds, total_refs, raw, attributed, hi16, excl, stats, oinfo, out, len(aliases), all_objs, placed)
+    ttsv = "rank\ttype\tfile_line\treach\tsites\tholders\n" + "".join(
+        "\t".join(map(str, t)) + "\n" for t in oinfo["types"])
     if args.check:
-        diffs = [p for p, txt in ((OUT_TSV, tsv), (OUT_MD, md))
+        diffs = [p for p, txt in ((OUT_TSV, tsv), (OUT_MD, md), (OUT_TYPES, ttsv))
                  if (open(p).read() if os.path.exists(p) else None) != txt]
-        print("  --check docs/leverage.tsv docs/leverage.md: " + ("IDENTICAL" if not diffs else
+        print("  --check docs/leverage.tsv docs/leverage.md docs/leverage-types.tsv: " + ("IDENTICAL" if not diffs else
                                                                    "DIFFERS " + " ".join(os.path.relpath(p, REPO) for p in diffs)))
         return 0 if ok and passed == 3 and not diffs else 1
     if ok and passed == 3:
         open(OUT_TSV, "w").write(tsv)
         open(OUT_MD, "w").write(md)
-        print(f"  wrote docs/leverage.tsv ({len(rows)} rows) and docs/leverage.md")
+        open(OUT_TYPES, "w").write(ttsv)
+        print(f"  wrote docs/leverage.tsv ({len(rows)} rows), docs/leverage.md and docs/leverage-types.tsv "
+              f"({len(oinfo['types'])} rows)")
     return 0 if ok and passed == 3 else 1
 
 if __name__ == "__main__":
