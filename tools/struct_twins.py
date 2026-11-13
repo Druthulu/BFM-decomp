@@ -41,6 +41,14 @@ Usage:
                                                     write/refresh config/struct_dispositions.tsv (one row per placeholder; new rows
                                                     `undisposed`, existing dispositions kept); --check: counts, FAIL (exit 1) on a
                                                     missing, duplicate or unknown row
+  tools/struct_twins.py --links [--out-dir DIR] [-j N]
+                                                    the merge-evidence census (3.45 T2; method docs/ops/p345-t2-struct-merge-evidence.md):
+                                                    links (global / body / pointer), refusals, widths, size facts, hubs, components,
+                                                    DECL-PARAM -> DIR (default .run/3.45/t2) {links,refused,widths,sizes,hubs,components,
+                                                    decl_param}.tsv; sorted summary on stdout. Needs a built tree (build/**/*.d, the ELFs)
+                                                    and fresh build/sig_evidence/census.jsonl + .run/sig.<alias>.jsonl: exit 2 otherwise
+  tools/struct_twins.py --selftest                  the --links fixtures on a synthetic tree (own symtab, .d map, sig rows); exit 0 iff all pass
+  (--links / --selftest import sig_evidence, which needs rabbitizer: the tool re-execs itself under .venv/bin/python when missing)
 
 Inventory (3.45 T1): one type = one definition record (enum skipped); names = typedef names + tag + the plain
 `typedef struct X Y;` aliases resolving to it; key = first typedef name, else tag, else `<anon>@file:line` (a repeated key gets
@@ -54,9 +62,11 @@ identifier inside the top-level brace span of its binding line (a definition's h
 and of each G-bound identifier in the binding's whole file, each (file, span, ident) counted once.
 """
 import argparse
+import bisect
 import collections
 import hashlib
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -65,6 +75,8 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 import type_census as tc   # noqa: E402
 from struct_layout import UNK_RX, PAD_RX   # noqa: E402  (3.45 T1: the inventory's unk / pad field counts)
+from struct_layout import field_offsets, scalar_of   # noqa: E402  (3.45 T2 --links: member offsets and widths)
+se = None   # sig_evidence (3.45 T2 --links: the .d / ELF / placement join), imported by need_se(): it needs rabbitizer (.venv)
 CENSUS_DEFAULT = tc.OUT_DIR_DEFAULT   # 3.41 T2: the gate dir, read from type_census (was a stale ".run/P38/census" literal)
 TWINS_DOC = REPO / "docs" / "struct-twins.md"
 MAX_CITES = 8
@@ -184,12 +196,14 @@ def blocks_of(lines):
     return out
 
 
-def inventory_defs():
-    """the inventory rows without users: every struct/union definition of the canonical files and include/psyq/"""
-    files = list(dict.fromkeys(list(tc.CANON_HEADERS) + sorted(str(p.relative_to(REPO)) for p in (REPO / "include").rglob("*.h"))))
+def type_universe(texts=None):
+    """dict(defs, tds, blocks, g): the definitions, alias typedefs and generated blocks of the canonical files and include/ (or
+    of `texts` {rel: raw}, the --selftest tree), and g: name -> definition / alias record (the Resolver's map)"""
+    files = (sorted(texts) if texts is not None else
+             list(dict.fromkeys(list(tc.CANON_HEADERS) + sorted(str(p.relative_to(REPO)) for p in (REPO / "include").rglob("*.h")))))
     defs, tds, blocks = [], [], {}
     for rel in files:     # resolution sees every header psyq_layouts() walks; rows come from the canonical files and include/psyq/
-        raw = (REPO / rel).read_text(errors="replace")
+        raw = texts[rel] if texts is not None else (REPO / rel).read_text(errors="replace")
         r = tc.walk_file(raw, rel)
         defs += r["definitions"]
         tds += r["typedef_aliases"]
@@ -200,6 +214,14 @@ def inventory_defs():
             g.setdefault(nm, d)
     for a in tds:
         g.setdefault(a["name"], dict(kind="alias", alias_of=a["alias_of"], alias_stars=a["alias_stars"], alias_dims=a["alias_dims"]))
+    return dict(defs=defs, tds=tds, blocks=blocks, g=g)
+
+
+def inventory_defs(u=None):
+    """the inventory rows without users: every struct/union definition of the canonical files and include/psyq/ (each row
+    carries its definition record as `def`, for --links)"""
+    u = u or type_universe()
+    defs, tds, blocks, g = u["defs"], u["tds"], u["blocks"], u["g"]
     alias = {a["name"]: a for a in tds}
     extra = collections.defaultdict(list)
     for a in tds:
@@ -230,7 +252,7 @@ def inventory_defs():
                  else "ledgered" if set(nms) & ledg else "placeholder")
         rows.append(dict(key=key, names=nms, tag=d["tag"] or "-", kind=d["kind"], size=lay[0] if lay else "?", fields_total=len(fn),
                          unk=unk, pad=pad, named=len(fn) - unk - pad, file_line=f"{d['file']}:{d['line']}",
-                         block=next((nm for b0, b1, nm in blocks[d["file"]] if b0 <= d["line"] <= b1), "-"), klass=klass))
+                         block=next((nm for b0, b1, nm in blocks[d["file"]] if b0 <= d["line"] <= b1), "-"), klass=klass, **{"def": d}))
     return rows
 
 
@@ -367,8 +389,9 @@ def addr_of(fn):
     return "0x" + m.group(1).upper() if m else fn
 
 
-def scan_file(rel, text, wanted, sink):
-    """append (name, key, cite, where) for every binding of a wanted name in one file"""
+def scan_file(rel, text, wanted, sink, detail=None):
+    """append (name, key, cite, where) for every binding of a wanted name in one file; `detail` (3.45 T2 --links), when given,
+    maps a declaration's or cast's sink index to dict(form decl|cast, ident, stars, arr, ext, amp, line, fn)"""
     text = COMMENT.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
     # a macro whose body names a wanted type: each use of the macro inside a function is a use (U) of that type
     macros = {}
@@ -493,6 +516,9 @@ def scan_file(rel, text, wanted, sink):
             while m < n and (toks[m] in ("&", "*", "(", ")") or toks[m] in CTYPES):
                 m += 1
             op = toks[m] if m < n else ""
+            if detail is not None and (DSYM.match(op) or fn and re.match(r"[A-Za-z_]\w*$", op)):
+                detail[len(sink)] = dict(form="cast", ident=op, stars=stars, arr=False, ext=False, amp="&" in toks[j + 1:m],
+                                         line=lines[i], fn=fn, tail=tuple(toks[m + 1:m + 4]))
             if DSYM.match(op):
                 sink.append((t, ("G", op), "0x" + op[2:].upper(), where))
             elif fn and re.match(r"[A-Za-z_]\w*$", op):
@@ -502,6 +528,9 @@ def scan_file(rel, text, wanted, sink):
         if re.match(r"[A-Za-z_]\w*$", nxt) and nxt not in KEYWORDS:  # declaration N [*]ident
             after = toks[j + 1] if j + 1 < n else ""
             in_params = [p for p in parens if p[0]]
+            if detail is not None:
+                detail[len(sink)] = dict(form="decl", ident=nxt, stars=stars, arr=after == "[", ext="extern" in toks[stmt:i],
+                                         amp=False, line=lines[i], fn=fn)
             if after == "(" and not in_params:                         # N *fn(...): the return
                 sink.append((t, ("R", binary, nxt), f"{addr_of(nxt)}(ret)", where))
             elif in_params:
@@ -711,6 +740,1076 @@ def write(classes):
     return [s for s in secs if s[1]], [c for c, s in secs if not s]
 
 
+# ------------------------------------------------------------------------------------------------------------ --links (3.45 T2)
+# Method: docs/ops/p345-t2-struct-merge-evidence.md, sections "Joins" through "Components", "DECL-PARAM", "Selftest fixtures".
+LINKS_DIR = ".run/3.45/t2"
+HUB_K = 4             # a slot linking >= HUB_K types ...
+HUB_OFFS = 2          # ... while its own accesses touch <= HUB_OFFS offsets is a hub (a pool, list or header helper)
+MIN_BODY_INS = 10     # body class: h_exact classes below this many instructions are coincident look-alikes (tiny-body)
+POINTER_SUBS = ("decl", "arg", "ret", "ret-of", "assign", "field", "store-global")
+LINK_ORDER = [("global", "global"), ("global", "global-view"), ("body", "body")] + [("pointer", s) for s in POINTER_SUBS]
+ID = r"[A-Za-z_]\w*"
+TQUAL = {"const", "volatile", "struct", "union", "register", "static", "extern"}
+IDX = r"(?:\s*\[[^\[\]]*\])"
+CHAIN_RX = re.compile(r"(?<![\w.>\])])(&\s*)?(" + ID + r")(" + IDX + r"?)((?:\s*(?:->|\.(?![.\d]))\s*" + ID + IDX + r"*)+)")
+STEP_RX = re.compile(r"\s*(->|\.)\s*(" + ID + r")(" + IDX + r"*)")
+IDXS_RX = re.compile(r"\[([^\[\]]*)\]")
+STORE_RX = re.compile(r"\s*(?:(?:[-+*/%&|^]|<<|>>)?=(?!=)|\+\+|--)")
+LOAD_PRE = re.compile(r"(?<![\w.>])(" + ID + r")\s*=\s*(?:\(\s*(?:struct\s+|union\s+)?" + ID + r"\s*\**\s*\)\s*)?$")
+STORE_POST = re.compile(r"\s*=(?!=)\s*(?:\(\s*(?:struct\s+|union\s+)?" + ID + r"\s*\**\s*\)\s*)?(" + ID + r")\s*;")
+SIZEOF_RX = re.compile(r"\bsizeof\s*\(\s*(?:(struct|union)\s+)?(\*\s*)?(" + ID + r")\s*(\[\s*0\s*\])?\s*\)")
+PINC_RX = re.compile(r"(?<![\w.>])(" + ID + r")\s*(\+\+|--|[-+]=)|(\+\+|--)\s*(" + ID + r")(?!\s*(?:->|\.|\[))")
+PADD_RX = re.compile(r"(?<![\w.>])(" + ID + r")\s*([-+])(?![-+=>])\s*(?=[\w(])")
+PIDX_RX = re.compile(r"(?<![\w.>])(" + ID + r")\s*\[\s*([^\[\]]*?)\s*\]")
+VIEW_RX = re.compile(r"\(\s*\(\s*(?:struct\s+|union\s+)?(" + ID + r")\s*\*\s*\)\s*(" + ID + r")\s*\)\s*(?:->|\[)")
+COPY_RX = re.compile(r"\*\s*(" + ID + r")\s*=(?!=)\s*\*\s*(" + ID + r")\s*;")
+DEREF_RX = re.compile(r"\*\s*(" + ID + r")\b(?!\s*\()")
+LIT_RX = re.compile(r"^(0x[0-9A-Fa-f]+|\d+)[uUlL]*$")
+_LWANTED = set()
+
+
+def need_se():
+    """import sig_evidence for --links / --selftest; without rabbitizer it would re-exec ITSELF under .venv (with our argv), so
+    re-exec this tool there first, as sig_evidence does"""
+    global se
+    if se is None:
+        try:
+            import rabbitizer   # noqa: F401
+        except ImportError:
+            venv = REPO / ".venv" / "bin" / "python"
+            if os.environ.get("STRUCT_TWINS_REEXEC") or not venv.exists():
+                raise
+            os.environ["STRUCT_TWINS_REEXEC"] = "1"
+            os.execv(str(venv), [str(venv), str(Path(__file__).resolve()), *sys.argv[1:]])
+        import sig_evidence
+        se = sig_evidence
+    return se
+
+
+def _blank(text):
+    """comments and strings blanked, directive lines (with continuations) emptied; newlines kept"""
+    text = COMMENT.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
+    return re.sub(r"(?m)^[ \t]*#(?:.*\\\n)*.*$", lambda m: "\n" * m.group(0).count("\n"), text)
+
+
+def lex_events(text):
+    """(pure) the lexical facts of one file: (kind, line, ...) with A access chains, Z sizeof, I pointer arithmetic, V view
+    casts, C `*a = *b` copies, D unary dereferences; identifiers unresolved (phase 2 binds them)"""
+    t = _blank(text)
+    nl = [m.start() for m in re.finditer("\n", t)]
+
+    def line(pos):
+        return bisect.bisect_right(nl, pos - 1) + 1 if nl else 1
+    ev = []
+    for m in CHAIN_RX.finditer(t):
+        steps = tuple((s.group(1), s.group(2), tuple(x.strip() for x in IDXS_RX.findall(s.group(3))))
+                      for s in STEP_RX.finditer(m.group(4)))
+        pre = t[max(0, m.start() - 160):m.start()]
+        store = bool(STORE_RX.match(t, m.end())) or pre.rstrip().endswith(("++", "--"))
+        ctx = None
+        if not store and not m.group(1) and re.match(r"\s*;", t[m.end():m.end() + 8]):
+            mp = LOAD_PRE.search(pre)
+            if mp:
+                ctx = ("L", mp.group(1))
+        elif store and not m.group(1):
+            ms = STORE_POST.match(t, m.end())
+            if ms:
+                ctx = ("S", ms.group(1))
+        bidx = tuple(x.strip() for x in IDXS_RX.findall(m.group(3)))
+        ev.append(("A", line(m.start(2)), bool(m.group(1)), m.group(2), bidx, steps, store, ctx))
+    for m in SIZEOF_RX.finditer(t):
+        ev.append(("Z", line(m.start()), bool(m.group(1)), bool(m.group(2)), m.group(3), bool(m.group(4))))
+    for m in PINC_RX.finditer(t):
+        ev.append(("I", line(m.start()), m.group(1) or m.group(4), m.group(2) or m.group(3)))
+    for m in PADD_RX.finditer(t):
+        ev.append(("I", line(m.start()), m.group(1), m.group(2)))
+    for m in PIDX_RX.finditer(t):
+        if m.group(2) != "0" and m.group(2):
+            ev.append(("I", line(m.start()), m.group(1), "[" + m.group(2) + "]"))
+    for m in VIEW_RX.finditer(t):
+        ev.append(("V", line(m.start()), m.group(1), m.group(2)))
+    for m in COPY_RX.finditer(t):
+        ev.append(("C", line(m.start()), m.group(1), m.group(2)))
+    for m in DEREF_RX.finditer(t):
+        k = m.start() - 1
+        while k >= 0 and t[k] in " \t\n":
+            k -= 1
+        if k < 0 or not (t[k].isalnum() or t[k] in "_)]"):
+            ev.append(("D", line(m.start()), m.group(1)))
+    return ev
+
+
+def _links_scan(job):
+    """worker: (rel, binds, events) — scan_file's declaration/cast bindings of the inventory names, and lex_events"""
+    rel, text = job
+    if text is None:
+        text = (REPO / rel).read_text(errors="replace")
+    if not set(re.findall(r"[A-Za-z_]\w*", text)) & _LWANTED:
+        return rel, [], lex_events(text)
+    sink, det = [], {}
+    scan_file(rel, text, _LWANTED, sink, det)
+    binds = []
+    for ix, dd in sorted(det.items()):
+        nm, key = sink[ix][0], sink[ix][1]
+        whole = dd.get("tail", (")",))[:1] in ((")",), (";",), (",",), ("=",)) or dd.get("tail", ())[:3] == ("[", "0", "]")
+        binds.append((nm, key[0], key[2] if key[0] == "P" else None, key[3] if key[0] == "P" else None, dd["form"], dd["ident"],
+                      dd["stars"], dd["arr"], dd["ext"], dd["amp"] and whole, dd["line"], dd["fn"]))
+    return rel, binds, lex_events(text)
+
+
+class LTypes:
+    """inventory-key resolution of type spellings, and member layouts (tc.Resolver over the type universe)"""
+    def __init__(self, rows, u):
+        self.row = {r["key"]: r for r in rows}
+        n2k = collections.defaultdict(set)
+        for r in rows:
+            for nm in r["names"]:
+                n2k[nm].add(r["key"])
+        self.key_of = {nm: min(ks) for nm, ks in n2k.items() if len(ks) == 1}
+        self.ambiguous = sorted(nm for nm, ks in n2k.items() if len(ks) > 1)
+        self.g = u["g"]
+        self.res = tc.Resolver(u["g"])
+        self._mem = {}
+
+    def spell(self, text):
+        """(key, depth) of a type spelling naming an inventory type (`T`, `struct T *`, `const T *a[2]`), else None"""
+        ids = [x for x in re.findall(ID, text or "") if x not in TQUAL]
+        k = self.key_of.get(ids[0]) if ids else None
+        return (k, text.count("*") + text.count("[")) if k else None
+
+    def kind(self, text):
+        """`struct` (an inventory type), `other` (void, a scalar, an unresolved name) or None (a function pointer)"""
+        return None if "(" in (text or "") else "struct" if self.spell(text) else "other"
+
+    def members(self, d):
+        if id(d) not in self._mem:
+            offs = dict(field_offsets(self.res, d))
+            self._mem[id(d)] = {f["name"]: (offs[f["name"]], f) for f in d["fields"] if f.get("name") in offs}
+        return self._mem[id(d)]
+
+    def desc(self, f):
+        """a member's type: dict(key, d (aggregate record or None), stars, dims, sc (width, sign) or None, es element size)"""
+        stars, dims = f["stars"], list(f.get("dims") or [])
+        if f.get("nested"):
+            nd = f["nested"]
+            lay = self.res.layout_of_fields(nd["fields"], nd["kind"]) if nd["kind"] != "enum" else (4, 4, [])
+            return dict(key=None, d=nd if nd["kind"] != "enum" else None, stars=stars, dims=dims,
+                        sc=(4, "s") if nd["kind"] == "enum" else None, es=lay[0] if lay else None)
+        ids = [x for x in re.findall(ID, f["type"]) if x not in TQUAL]
+        key = self.key_of.get(ids[0]) if ids else None
+        d = self.row[key]["def"] if key else None
+        if d is None and ids and self.g.get(ids[0], {}).get("kind") in ("struct", "union"):
+            d = self.g[ids[0]]
+        sc = scalar_of(f["type"]) if not stars else None
+        lay = self.res.layout(f["type"], stars, [])
+        return dict(key=key, d=d, stars=stars, dims=dims, sc=sc if sc and sc[0] else None, es=lay[0] if lay else None)
+
+    def chain(self, key, steps):
+        """walk `->`/`.` steps from a value of inventory type `key` -> (records [(key, off, width, sign, field)], leaf desc) or
+        (None, why); offsets accumulate along embedded members and restart at each pointer step"""
+        path = [[key, self.row[key]["def"], 0, 0]]          # [type key, record, offset (None: unknown), first step]
+        last, recs = None, []
+        for si, (op, name, idxs) in enumerate(steps):
+            if si:
+                if op == "->":
+                    if not (last["stars"] == 1 and not last["dims"]) or last["d"] is None:
+                        return None, "-> through a non-pointer member"
+                    path = [[last["key"], last["d"], 0, si]]
+                else:
+                    if last["stars"] or last["dims"] or last["d"] is None:
+                        return None, ". on a non-aggregate member"
+                    path.append([last["key"], last["d"], 0, si])
+            m = self.members(path[-1][1]).get(name)
+            if m is None:
+                return None, "member not in the definition"
+            off, f = m
+            for p in path:
+                p[2] = None if p[2] is None else p[2] + off
+            last = self.desc(f)
+            for ix in idxs:
+                if last["dims"]:
+                    n = 1
+                    for dd in last["dims"][1:]:
+                        n *= dd or 0
+                    lit = LIT_RX.match(ix)
+                    for p in path:
+                        p[2] = None if p[2] is None or not lit or last["es"] is None else p[2] + int(lit.group(1), 0) * n * last["es"]
+                    last = dict(last, dims=last["dims"][1:])
+                elif last["stars"]:
+                    path = [[last["key"], last["d"], 0, si + 1]]
+                    last = dict(last, stars=last["stars"] - 1)
+                    if last["d"] is None and last["sc"] is None:
+                        return None, "index through an unknown pointee"
+                else:
+                    return None, "index on a scalar member"
+        if last["stars"] and not last["dims"]:
+            w, sg = 4, "p"
+        elif last["dims"] or last["sc"] is None:
+            return [], last                                 # an array (decays) or an aggregate: no width access
+        else:
+            w, sg = last["sc"]
+        names = [s[1] for s in steps]
+        for k, rec, off, s0 in path:
+            if k and off is not None:
+                recs.append((k, off, w, sg, ".".join(names[s0:])))
+        return recs, last
+
+
+def _cite_va(owner, va):
+    return f"{owner}/0x{va:08X}"
+
+
+def links_build(S):
+    """the census of S (see links()) -> dict of tables and summary lines; pure over S"""
+    T = S["types"]
+    rows = T.row
+    U = collections.Counter()                                # unplaced (what, why)
+    refused, cand = [], []                                   # dict(cls, sub, a, b, cite_a, cite_b, reason, slot)
+    # ---- the fleet join: file -> binaries / visible files; functions; globals
+    tus, J, images, stacks = S["tus"], S["join"], S["images"], S["stacks"]
+    file_bins, vis = collections.defaultdict(set), {}
+    for a in sorted(tus):
+        for obj, cfile, deps in tus[a]:
+            for f in deps:
+                file_bins[f].add(a)
+                if f != cfile:
+                    vis.setdefault(f, deps)
+            vis[cfile] = deps
+    own_sym = S["own_sym"]                                   # alias -> {(name, va)} the alias's ELF defines (not absolute)
+    gobj_memo = {}
+
+    def global_obj(b, name):
+        if (b, name) not in gobj_memo:
+            gobj_memo[(b, name)] = _global_obj(b, name)
+        return gobj_memo[(b, name)]
+
+    def _global_obj(b, name):
+        va, why = J["resolve"](b, name)
+        if why:
+            return None, why
+        for x in [b] + [s for s in stacks.get(b, []) if s != b]:
+            if (name, va) in own_sym.get(x, ()):
+                return (x, va), None
+        for x in [b] + [s for s in stacks.get(b, []) if s != b]:
+            if images[x][0] <= va < images[x][1]:
+                return (x, va), None
+        below = [(images[x][0], x) for x in [b] + stacks.get(b, []) if images[x][0] <= va]
+        if below:                                            # past every image's file bytes: the bss of the nearest image below
+            return (max(below)[1], va), None
+        return None, "address below every image of the stack"
+    callee_memo = {}
+
+    def callee_defs(rel, name):
+        """[(owner, va, def_at entry)] per binary of rel, or [] with U counted by reason"""
+        if (rel, name) not in callee_memo:
+            out, whys = {}, []
+            for b in sorted(file_bins.get(rel, ())):
+                va, why = J["resolve"](b, name)
+                if not why:
+                    h, owners = J["place"](b, va)
+                    why = owners if h is None else None
+                if not why:
+                    ds = [x for o in owners for x in J["def_at"].get((o, va), [])]
+                    if not ds:
+                        why = "callee has no placed C definition"
+                    else:
+                        dd = min(ds, key=lambda x: x[:4])
+                        out.setdefault((owners[0], va, dd[1], dd[2]), (owners[0], va, dd))
+                if why:
+                    whys.append(why)
+            if not file_bins.get(rel):
+                whys.append("file in no TU")
+            callee_memo[(rel, name)] = (sorted(out.values(), key=lambda x: (x[0], x[1], x[2][1], x[2][2])),
+                                        sorted(set(whys)))
+        return callee_memo[(rel, name)]
+    # ---- function spans (census fndefs) and the bindings (scan_file's declarations and casts)
+    spans = {}
+    for rel, r in S["walk"].items():
+        spans[rel] = sorted((f["line"], f["fn_end"], f["fn"], f) for f in r["fndefs"])
+    span_starts = {rel: [s[0] for s in v] for rel, v in spans.items()}
+
+    def span_at(rel, ln):
+        st = span_starts.get(rel)
+        if not st:
+            return None
+        i = bisect.bisect_right(st, ln) - 1
+        return spans[rel][i] if i >= 0 and spans[rel][i][1] >= ln else None
+    fb = collections.defaultdict(dict)                      # (rel, fline) -> ident -> (key, depth, cite, kind) | None (ambiguous)
+    filebind = collections.defaultdict(lambda: collections.defaultdict(list))   # rel -> name -> [(key, depth, cite)]
+    gdecl = []                                              # (rel, line, name, key, stars, form)
+    size_f = collections.defaultdict(dict)                  # key -> {fact kind: cite}
+
+    def size_fact(k, kind, cite):
+        size_f[k].setdefault(kind, cite)
+
+    def put(fk, ident, val):
+        cur = fb[fk].get(ident, val)
+        fb[fk][ident] = val if cur is not None and cur[:2] == val[:2] else None
+    for rel, binds in S["binds"]:
+        for nm, kk, pfn, pidx, form, ident, stars, arr, ext, amp, ln, fn in binds:
+            key = T.key_of.get(nm)
+            if not key:
+                continue
+            cite = f"{rel}:{ln}"
+            sp = span_at(rel, ln)
+            depth = stars + (1 if arr else 0)
+            if form == "cast":
+                if kk == "G" and amp:                       # `(B *)&D_x` on the object itself (not `&D_x[k]`, `&D_x + k`)
+                    gdecl.append((rel, ln, ident, key, stars - 1, "cast"))
+                continue
+            if kk == "P":
+                if sp and sp[2] == pfn and ln < sp[0] + 12 and fn is None:
+                    put((rel, sp[0]), ident, (key, depth, cite, "param", pidx))
+                    if depth == 0:
+                        size_fact(key, "by-value parameter", cite)
+                continue
+            if kk == "L" and sp:
+                put((rel, sp[0]), ident, (key, depth, cite, "local", None))
+                if arr and not stars:
+                    size_fact(key, "array", cite)
+                elif depth == 0:
+                    size_fact(key, "by-value local", cite)
+            elif kk == "G":
+                gdecl.append((rel, ln, ident, key, stars, "decl"))
+                if sp:
+                    put((rel, sp[0]), ident, (key, depth, cite, "global", None))
+                else:
+                    filebind[rel][ident].append((key, depth, cite))
+                if arr and not stars:
+                    size_fact(key, "array", cite)
+                elif depth == 0 and not ext:
+                    size_fact(key, "defined global by value", cite)
+    file_memo = {}
+
+    def bind_of(rel, fline, ident):
+        """(key, depth, cite, kind, param index) of an identifier in a function (or at file scope), or None"""
+        if fline is not None and ident in fb.get((rel, fline), {}):
+            return fb[(rel, fline)][ident]
+        if (rel, ident) not in file_memo:
+            c = sorted({(k, d, ci) for f in vis.get(rel, [rel]) for k, d, ci in filebind.get(f, {}).get(ident, ())},
+                       key=lambda x: x[2])
+            file_memo[(rel, ident)] = ((c[0][0], c[0][1], c[0][2], "global", None)
+                                       if c and len({x[:2] for x in c}) == 1 else None)
+        return file_memo[(rel, ident)]
+    # members declared as arrays of a type (load-bearing size)
+    for k in sorted(rows):
+        d = rows[k]["def"]
+        for f in d["fields"]:
+            ks = T.key_of.get(next((x for x in re.findall(ID, f["type"]) if x not in TQUAL), ""))
+            if ks and f.get("dims") and not f["stars"]:
+                size_fact(ks, "member array", f"{rows[k]['file_line']} ({k}.{f['name']})")
+    # ---- lexical events -> widths, own accesses, dereferences, size facts, views, field flows
+    wm = collections.defaultdict(dict)                      # key -> off -> w -> [field, cite, {sign: cite}]
+    own_offs = collections.defaultdict(set)                 # slot -> first-level offsets accessed through it
+    deref = set()                                           # (rel, fline, ident) dereferenced in its function
+    views, fflows = [], []
+    ACC = collections.Counter()
+    PF = collections.Counter()                               # pointer flows with a struct-bound side, by outcome
+    for rel, events in S["events"]:
+        for ev in events:
+            sp = span_at(rel, ev[1])
+            fl = sp[0] if sp else None
+            cite = f"{rel}:{ev[1]}"
+            if ev[0] == "A":
+                _, ln, amp, base, bidx, steps, store, ctx = ev
+                if fl is not None and (steps[0][0] == "->" or bidx):
+                    deref.add((rel, fl, base))
+                b = bind_of(rel, fl, base)
+                if not b:
+                    continue
+                depth = b[1] - len(bidx)
+                if bidx and depth >= 0:
+                    lit = LIT_RX.match(bidx[-1])
+                    if not lit or int(lit.group(1), 0):
+                        size_fact(b[0], "pointer arithmetic", cite)
+                if (steps[0][0] == "->") != (depth == 1) or depth not in (0, 1):
+                    ACC["depth mismatch"] += 1
+                    continue
+                recs, leaf = T.chain(b[0], steps)
+                if recs is None:
+                    ACC[leaf] += 1
+                    continue
+                ACC["resolved"] += 1
+                for k, off, w, sg, fld in recs:
+                    e = wm[k].setdefault(off, {}).setdefault(w, [fld, cite, {}])
+                    if not store and not amp and w <= 2 and sg in ("s", "u"):
+                        e[2].setdefault(sg, cite)
+                first = T.members(rows[b[0]]["def"]).get(steps[0][1])
+                if first and b[3] in ("param", "global"):
+                    own_offs[("param", rel, fl, base) if b[3] == "param" else ("global", base)].add(first[0])
+                if leaf.get("key") and not leaf["stars"] and not leaf["dims"] and (store or ctx):
+                    size_fact(leaf["key"], "member copied whole", cite)
+                if ctx and leaf.get("key") and not leaf["dims"] and fl is not None:
+                    hk, hp = (recs[-1][0], recs[-1][4]) if recs else (b[0], ".".join(s[1] for s in steps))
+                    fflows.append((rel, fl, ln, ctx, leaf["key"], leaf["stars"], hk, hp, base, ".".join(s[1] for s in steps)))
+            elif ev[0] == "Z":
+                _, ln, kw, star, name, idx0 = ev
+                k = T.key_of.get(name) if not star and not idx0 else None
+                if k and (kw or not bind_of(rel, fl, name)):
+                    size_fact(k, "sizeof", cite)
+                    continue
+                b = bind_of(rel, fl, name)
+                if b and b[1] == (1 if star or idx0 else 0):
+                    size_fact(b[0], "sizeof", cite)
+            elif ev[0] == "I":
+                b = bind_of(rel, fl, ev[2])
+                if b and b[1] == 1:
+                    size_fact(b[0], "pointer arithmetic", cite)
+                if fl is not None and ev[3].startswith("["):
+                    deref.add((rel, fl, ev[2]))
+            elif ev[0] == "C":
+                for x in ev[2:]:
+                    b = bind_of(rel, fl, x)
+                    if b and b[1] == 1:
+                        size_fact(b[0], "copy", cite)
+                if fl is not None:
+                    deref.update({(rel, fl, ev[2]), (rel, fl, ev[3])})
+            elif ev[0] == "D":
+                if fl is not None:
+                    deref.add((rel, fl, ev[2]))
+            elif ev[0] == "V":
+                vb, b = T.key_of.get(ev[2]), bind_of(rel, fl, ev[3])
+                if fl is not None:
+                    deref.add((rel, fl, ev[3]))
+                if vb and b and b[1] == 1 and b[0] != vb:
+                    views.append(dict(cls="pointer", sub="view", a=b[0], b=vb, cite_a=f"{b[2]} ({ev[3]})",
+                                      cite_b=f"{cite} (({ev[2]} *){ev[3]})", reason="view", slot=None))
+    for rel, r in S["walk"].items():                         # raw cast sites on a parameter dereference it too
+        for s in r["sites"]:
+            if s.get("bclass") == "param" and s.get("fn") and s.get("base"):
+                sp = span_at(rel, s["line"])
+                if sp:
+                    deref.add((rel, sp[0], s["base"]))
+    # ---- placed functions: definitions by (file, line), the census span of a sig_evidence definition
+    def_pl = collections.defaultdict(list)                  # (file, name) -> [(b, va)]
+    for b, va, h, f, ln, name, d, I in J["defs"]:
+        def_pl[(f, d["name"])].append((b, va))
+
+    def ptype(d, i):
+        ps = [p for p in se.split_top(d["params"]) if p.strip() and p.strip() != "..."] if d["params"] not in ("", "void") else []
+        return ps[i].strip() if i < len(ps) else None
+    # ---- class global: one object declared with two types
+    objs = collections.defaultdict(dict)                     # (owner, va) -> (key, stars, form) -> first cite
+    for rel, ln, name, key, stars, form in sorted(gdecl):
+        if not file_bins.get(rel):
+            U[("global", "file in no TU")] += 1
+            refused.append(dict(cls="global", sub="global", a=key, b="-", cite_a=f"{rel}:{ln} ({name})", cite_b="-",
+                                reason="unplaced:file in no TU", slot=None))
+            continue
+        whys = collections.Counter()
+        for b in sorted(file_bins[rel]):
+            o, why = global_obj(b, name)
+            if why:
+                whys[why] += 1
+                continue
+            objs[o].setdefault((key, stars, form), f"{rel}:{ln}")
+        for why, n in sorted(whys.items()):
+            U[("global", why)] += 1
+            refused.append(dict(cls="global", sub="global", a=key, b="-", cite_a=f"{rel}:{ln} ({name})", cite_b=f"{n} binaries",
+                                reason="unplaced:" + why, slot=None))
+    for o in sorted(objs):
+        ent = sorted(objs[o].items(), key=lambda kv: (kv[1], kv[0]))
+        seen = set()
+        for i, ((ka, sa, fa), ca) in enumerate(ent):
+            for (kb, sb, fbm), cb in ent[i + 1:]:
+                if ka == kb or sa != sb or (min(ka, kb), max(ka, kb), "cast" in (fa, fbm)) in seen:
+                    continue
+                seen.add((min(ka, kb), max(ka, kb), "cast" in (fa, fbm)))
+                cand.append(dict(cls="global", sub="global-view" if "cast" in (fa, fbm) else "global", a=ka, b=kb,
+                                 cite_a=f"{_cite_va(*o)} {ca}", cite_b=f"{_cite_va(*o)} {cb}", slot=("global",) + o))
+    # ---- class body: one h_exact class typing one slot with two types
+    groups = collections.defaultdict(dict)
+    for b, va, h, f, ln, name, d, I in J["defs"]:
+        sr = S["sig"].get((b, va))
+        if not sr or not sr[1]:
+            U[("body", "no sig row (or nins 0) at the definition's address")] += 1
+            continue
+        groups[sr[0]].setdefault((f, ln), (b, va, d, sr[1]))
+    for hx_ in sorted(groups):
+        cps = groups[hx_]
+        if len(cps) < 2:
+            continue
+        slots = collections.defaultdict(list)                # slot -> [(key, depth, cite)]
+        for (f, ln), (b, va, d, nins) in sorted(cps.items()):
+            base = f"{hx_[:12]} {_cite_va(b, va)} {f}:{ln}"
+            ps = [p for p in se.split_top(d["params"]) if p.strip() and p.strip() != "..."] if d["params"] not in ("", "void") else []
+            for i, p in enumerate(ps):
+                s = T.spell(p) if "(" not in p else None
+                if s:
+                    slots[f"arg{i}"].append((s[0], s[1], base))
+            s = T.spell(d["ret"])
+            if s:
+                slots["ret"].append((s[0], s[1], base))
+            sp = span_at(f, ln)
+            for ident, v in sorted((fb.get((f, sp[0]), {}) if sp else {}).items()):
+                if v and v[3] == "local":
+                    slots[f"local {ident}"].append((v[0], v[1], f"{base} ({v[2]})"))
+        nins = min(v[3] for v in cps.values())
+        for sl_ in sorted(slots):
+            first = {}
+            for k, dep, ci in slots[sl_]:
+                first.setdefault((k, dep), ci)
+            ks = sorted(first)
+            for i, (ka, da) in enumerate(ks):
+                for kb, db in ks[i + 1:]:
+                    if da != db or ka == kb:
+                        continue
+                    L = dict(cls="body", sub="body", a=ka, b=kb, cite_a=f"{first[(ka, da)]} {sl_}", cite_b=f"{first[(kb, db)]} {sl_}",
+                             slot=("body", hx_, sl_))
+                    if nins < MIN_BODY_INS:
+                        refused.append(dict(L, reason="tiny-body"))
+                    else:
+                        cand.append(L)
+    # ---- class pointer: flows (census, with lines), member flows, declarations vs definitions
+    src_of = collections.defaultdict(set)
+    for rel, r in S["walk"].items():
+        for f in r["flows"]:
+            if f["kind"] in ("assign", "assign&", "ret-of", "field"):
+                sp = span_at(rel, f["line"])
+                if sp:
+                    src_of[(rel, sp[0], f["dst"])].add((f["kind"], f.get("src") or f.get("callee") or f"{f.get('base')}+{f.get('off')}"))
+    for rel, fl, ln, ctx, mk, ms, hk, hp, base, path in fflows:
+        if ctx[0] == "L":
+            src_of[(rel, fl, ctx[1])].add(("member", f"{base}.{path}"))
+
+    def multi(rel, fl, dst, b):
+        return b[3] != "global" and len(src_of.get((rel, fl, dst), ())) > 1
+
+    def ptr(sub, a, b, cite_a, cite_b, slot, why=None):
+        L = dict(cls="pointer", sub=sub, a=a, b=b, cite_a=cite_a, cite_b=cite_b, slot=slot)
+        (refused.append(dict(L, reason=why)) if why else cand.append(L))
+
+    def unplaced(sub, a, cite_a, name, whys):
+        for w in whys:
+            U[("callee", w)] += 1
+            refused.append(dict(cls="pointer", sub=sub, a=a, b="-", cite_a=cite_a, cite_b=name, reason="unplaced:" + w, slot=None))
+    for rel in sorted(S["walk"]):
+        for f in S["walk"][rel]["flows"]:
+            sp = span_at(rel, f["line"])
+            if not sp or sp[2] != f["fn"]:
+                continue
+            fl, cite = sp[0], f"{rel}:{f['line']}"
+            k = f["kind"]
+            if k in ("arg", "arg&"):
+                b = bind_of(rel, fl, f["src"])
+                if not b:
+                    continue
+                da = b[1] + (k == "arg&")
+                ca = f"{cite} ({'&' if k == 'arg&' else ''}{f['src']}: {b[2]})"
+                defs, whys = callee_defs(rel, f["callee"])
+                if not defs:
+                    unplaced("arg", b[0], ca, f["callee"], whys)
+                for owner, va, dd in defs:
+                    p = ptype(dd[4], f["i"])
+                    s = T.spell(p) if p and "(" not in p else None
+                    PF[("arg", "parameter not an inventory type" if not s else "depth differs" if s[1] != da
+                        else "same type" if s[0] == b[0] else "two types")] += 1
+                    if not s or s[1] != da or s[0] == b[0]:
+                        continue
+                    csp = span_at(dd[1], dd[2])
+                    pn = csp[3]["pnames"][f["i"]] if csp and f["i"] < len(csp[3]["pnames"]) else None
+                    conduit = not (csp and pn and (dd[1], csp[0], pn) in deref)
+                    ptr("arg", b[0], s[0], ca, f"{_cite_va(owner, va)} {dd[1]}:{dd[2]} arg{f['i']}",
+                        ("param", owner, va, f["i"]), "conduit" if conduit else None)
+            elif k in ("assign", "assign&"):
+                bd, bs = bind_of(rel, fl, f["dst"]), bind_of(rel, fl, f["src"])
+                if not bd or not bs:
+                    continue
+                ds = bs[1] + (k == "assign&")
+                PF[("assign", "depth differs" if bd[1] != ds else "same type" if bd[0] == bs[0] else "two types")] += 1
+                if bd[1] == 0 and ds == 0 and bd[0] == bs[0]:
+                    size_fact(bd[0], "copy", cite)
+                if bd[1] != ds or bd[0] == bs[0]:
+                    continue
+                ca = f"{cite} ({'&' if k == 'assign&' else ''}{f['src']}: {bs[2]})"
+                if bd[3] == "global":
+                    o = next((x for x in (global_obj(b_, f["dst"])[0] for b_ in sorted(file_bins.get(rel, ()))) if x), None)
+                    ptr("store-global", bs[0], bd[0], ca, f"{_cite_va(*o) if o else f['dst']} {bd[2]}",
+                        ("global",) + (o or ()) + (f["dst"],))
+                else:
+                    ptr("assign", bs[0], bd[0], ca, f"{cite} ({f['dst']}: {bd[2]})", None,
+                        "multisource" if multi(rel, fl, f["dst"], bd) else None)
+            elif k == "ret-of":
+                bd = bind_of(rel, fl, f["dst"])
+                if not bd:
+                    continue
+                cd = f"{cite} ({f['dst']}: {bd[2]})"
+                defs, whys = callee_defs(rel, f["callee"])
+                if not defs:
+                    unplaced("ret-of", bd[0], cd, f["callee"], whys)
+                for owner, va, dd in defs:
+                    s = T.spell(dd[4]["ret"])
+                    PF[("ret-of", "return not an inventory type" if not s else "depth differs" if s[1] != bd[1]
+                        else "same type" if s[0] == bd[0] else "two types")] += 1
+                    if not s or s[1] != bd[1] or s[0] == bd[0]:
+                        continue
+                    ptr("ret-of", s[0], bd[0], f"{_cite_va(owner, va)} {dd[1]}:{dd[2]} ret", cd, ("ret", owner, va),
+                        "multisource" if multi(rel, fl, f["dst"], bd) else None)
+            elif k == "return":
+                bs = bind_of(rel, fl, f["src"])
+                s = T.spell(sp[3]["ret"])
+                if not bs or not s or s[1] != bs[1] or s[0] == bs[0]:
+                    continue
+                pl = sorted(def_pl.get((rel, sp[2]), ()))
+                slot = ("ret",) + pl[0] if pl else ("ret", rel, sp[2])
+                ptr("ret", bs[0], s[0], f"{cite} ({f['src']}: {bs[2]})",
+                    f"{_cite_va(*pl[0]) + ' ' if pl else ''}{rel}:{sp[0]} ret", slot)
+    for rel, fl, ln, ctx, mk, ms, hk, hp, base, path in fflows:
+        b = bind_of(rel, fl, ctx[1])
+        if b:
+            PF[("field", "depth differs" if b[1] != ms else "same type" if b[0] == mk else "two types")] += 1
+        if not b or b[1] != ms or b[0] == mk:
+            continue
+        cm = f"{rel}:{ln} ({base} {path}: {mk}{' ' + '*' * ms if ms else ''}, member {hk}.{hp} {T.row[hk]['file_line']})"
+        if ctx[0] == "L":
+            ptr("field", mk, b[0], cm, f"{rel}:{ln} ({ctx[1]}: {b[2]})", ("member", hk, hp),
+                "multisource" if multi(rel, fl, ctx[1], b) else None)
+        else:
+            ptr("field", b[0], mk, f"{rel}:{ln} ({ctx[1]}: {b[2]})", cm, ("member", hk, hp))
+    # declarations vs their placed definitions: the decl links and DECL-PARAM
+    dp, dp_apart = [], collections.Counter()
+    for b, f, ln, dc, objs_, va, h, owners, dd in J["decls"]:
+        if dd is None:
+            continue
+        d = dd[4]
+        dps = [p for p in se.split_top(dc["params"]) if p.strip() and p.strip() != "..."] if dc["params"] not in ("", "void") else []
+        fps = [p for p in se.split_top(d["params"]) if p.strip() and p.strip() != "..."] if d["params"] not in ("", "void") else []
+        cdecl, cdef = f"{_cite_va(owners[0], va)} {f}:{ln}", f"{_cite_va(owners[0], va)} {dd[1]}:{dd[2]}"
+        for i in range(min(len(dps), len(fps))):
+            kd, kf = T.kind(dps[i]), T.kind(fps[i])
+            if kd is None or kf is None:
+                continue
+            if kd != kf:
+                dp_apart["struct vs void/scalar"] += 1
+                continue
+            if kd != "struct":
+                continue
+            sd, sf = T.spell(dps[i]), T.spell(fps[i])
+            PF[("decl", "parameter, same type" if sd[0] == sf[0] else "parameter, two types")] += 1
+            if sd[0] == sf[0]:
+                continue
+            dp.append(dict(name=dc["name"], obj=_cite_va(owners[0], va), i=i, decl=f"{f}:{ln}", decl_t=" ".join(dps[i].split()),
+                           defn=f"{dd[1]}:{dd[2]}", def_t=" ".join(fps[i].split()), a=sd[0], b=sf[0], depth=(sd[1], sf[1])))
+            if sd[1] == sf[1]:
+                ptr("decl", sd[0], sf[0], f"{cdecl} arg{i}", f"{cdef} arg{i}", ("param", owners[0], va, i))
+        PF[("decl", "placed with a definition")] += 1
+        sd, sf = T.spell(dc["ret"]), T.spell(d["ret"])
+        if sd and sf and sd[1] == sf[1] and sd[0] != sf[0]:
+            ptr("decl", sd[0], sf[0], f"{cdecl} ret", f"{cdef} ret", ("ret", owners[0], va))
+    # ---- dedup, then the hub guard over the surviving pointer links
+    def lkey(L):
+        return (LINK_ORDER.index((L["cls"], L["sub"])) if (L["cls"], L["sub"]) in LINK_ORDER else 99, L["cite_a"], L["cite_b"], L["a"], L["b"])
+    cand = sorted({lkey(L): L for L in cand}.values(), key=lkey)
+    refused = sorted({lkey(L) + (L["reason"],): L for L in refused + views}.values(), key=lambda L: lkey(L) + (L["reason"],))
+    by_slot = collections.defaultdict(list)
+    for L in cand:
+        if L["cls"] == "pointer" and L["slot"]:
+            by_slot[L["slot"]].append(L)
+    hubs, hub_slots = [], set()
+    for slot in sorted(by_slot, key=str):
+        ts = sorted({L["a"] for L in by_slot[slot]} | {L["b"] for L in by_slot[slot]})
+        conf = None
+        for i, x in enumerate(ts):
+            for y in ts[i + 1:]:
+                c = width_conflict(type_map(wm, x), type_map(wm, y))
+                if c:
+                    conf = (x, y, c)
+                    break
+            if conf:
+                break
+        oo = (own_offs_param(own_offs, slot, J, span_at) if slot[0] == "param" else
+              own_offs.get(("global", slot[-1]), set()) if slot[0] == "global" else set())
+        if conf or (len(ts) >= HUB_K and len(oo) <= HUB_OFFS):
+            hub_slots.add(slot)
+            hubs.append(dict(slot=slot, types=ts, why=(f"width conflict {conf[0]}/{conf[1]} at 0x{conf[2][0]:X}" if conf else
+                                                       f"{len(ts)} types, own accesses at {len(oo)} offsets"),
+                             cites=sorted({L["cite_b"] if L["sub"] not in ("ret-of",) else L["cite_a"] for L in by_slot[slot]})[:3]))
+    acc_links = []
+    for L in cand:
+        if L["cls"] == "pointer" and L["slot"] in hub_slots:
+            refused.append(dict(L, reason="hub"))
+        else:
+            acc_links.append(L)
+    # ---- components: union-find in LINK_ORDER, width maps and size facts merged per union
+    comp = {k: dict(members=[k], wm=type_map(wm, k), ext=type_extent(wm, k),
+                    lb=({rows[k]["size"]: (k, *sorted(size_f[k].items())[0])} if size_f.get(k) else {})) for k in sorted(rows)}
+    parent = {k: k for k in rows}
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+    accepted = []
+    for L in acc_links:
+        ra, rb = find(L["a"]), find(L["b"])
+        if ra == rb:
+            accepted.append(L)
+            continue
+        A, B = comp[ra], comp[rb]
+        c = width_conflict(A["wm"], B["wm"])
+        if c:
+            refused.append(dict(L, reason="conflict", detail=f"0x{c[0]:X}: {c[1]} vs {c[2]}"))
+            continue
+        v = size_veto(A, B)
+        if v:
+            refused.append(dict(L, reason="size", detail=v))
+            continue
+        if ra > rb:
+            ra, rb, A, B = rb, ra, B, A
+        parent[rb] = ra
+        A["members"] = sorted(A["members"] + B["members"])
+        for off, ws in B["wm"].items():
+            for w, e in ws.items():
+                cur = A["wm"].setdefault(off, {}).setdefault(w, [e[0], e[1], {}, e[3]])
+                for sg, ci in e[2].items():
+                    cur[2].setdefault(sg, ci)
+        for sz, e in B["lb"].items():
+            A["lb"].setdefault(sz, e)
+        if B["ext"] and (not A["ext"] or B["ext"][0] > A["ext"][0]):
+            A["ext"] = B["ext"]
+        del comp[rb]
+        accepted.append(L)
+    refused.sort(key=lambda L: lkey(L) + (L["reason"],))
+    return dict(T=T, U=U, accepted=accepted, refused=refused, hubs=hubs, comp=comp, find=find, wm=wm, size_f=size_f, dp=dp,
+                dp_apart=dp_apart, ACC=ACC, PF=PF, J=J)
+
+
+def own_offs_param(own_offs, slot, J, span_at):
+    """first-level offsets a callee parameter slot (param, owner, va, i) is accessed at in its own body(ies)"""
+    out = set()
+    for e in J["def_at"].get((slot[1], slot[2]), ()):
+        sp = span_at(e[1], e[2])
+        if sp and slot[3] < len(sp[3]["pnames"]):
+            out |= own_offs.get(("param", e[1], sp[0], sp[3]["pnames"][slot[3]]), set())
+    return out
+
+
+def type_map(wm, k):
+    """a type's accessed-width map as a component map: off -> w -> [field, cite, {sign: cite}, key]"""
+    return {off: {w: [e[0], e[1], dict(e[2]), k] for w, e in ws.items()} for off, ws in wm.get(k, {}).items()}
+
+
+def type_extent(wm, k):
+    ends = [(off + w, e[1]) for off, ws in wm.get(k, {}).items() for w, e in ws.items()]
+    return max(ends) if ends else None
+
+
+def width_conflict(ma, mb):
+    """(off, cite a, cite b) of the first conflict between two accessed-width maps (different widths at one offset, a partial
+    overlap, or 1-/2-byte loads of different signs), else None"""
+    if not ma or not mb:
+        return None
+    oa, ob = sorted(ma), sorted(mb)
+    for off in oa:
+        if off in mb:
+            wa, wb = ma[off], mb[off]
+            if not set(wa) & set(wb):
+                x, y = wa[min(wa)], wb[min(wb)]
+                return off, f"{x[3]}.{x[0]} {min(wa)}B {x[1]}", f"{y[3]}.{y[0]} {min(wb)}B {y[1]}"
+            for w in sorted(set(wa) & set(wb)):
+                sa, sb = wa[w][2], wb[w][2]
+                if sa and sb and not set(sa) & set(sb):
+                    x, y = wa[w], wb[w]
+                    return off, f"{x[3]}.{x[0]} {min(sa)} {sa[min(sa)]}", f"{y[3]}.{y[0]} {min(sb)} {sb[min(sb)]}"
+    for m1, m2, o2, flip in ((ma, mb, ob, False), (mb, ma, oa, True)):
+        for off in sorted(m1):
+            for w in sorted(m1[off]):
+                i = bisect.bisect_right(o2, off)
+                while i < len(o2) and o2[i] < off + w:
+                    if o2[i] not in m1:
+                        x, y = m1[off][w], m2[o2[i]][min(m2[o2[i]])]
+                        cx, cy = f"{x[3]}.{x[0]} {w}B@0x{off:X} {x[1]}", f"{y[3]}.{y[0]} {min(m2[o2[i]])}B@0x{o2[i]:X} {y[1]}"
+                        return (o2[i], cy, cx) if flip else (off, cx, cy)
+                    i += 1
+    return None
+
+
+def size_veto(A, B):
+    """the size veto of merging two components, or None: two load-bearing sizes, or an accessed extent past one"""
+    lb = dict(A["lb"])
+    for sz, e in B["lb"].items():
+        lb.setdefault(sz, e)
+    if len(lb) > 1:
+        (s1, e1), (s2, e2) = sorted(lb.items())[:2]
+        return f"load-bearing {e1[0]} {s1}B ({e1[1]} {e1[2]}) vs {e2[0]} {s2}B ({e2[1]} {e2[2]})"
+    if lb:
+        sz, e = next(iter(lb.items()))
+        for x in (A["ext"], B["ext"]):
+            if x and isinstance(sz, int) and x[0] > sz:
+                return f"access to 0x{x[0]:X} ({x[1]}) past load-bearing {e[0]} {sz}B ({e[1]} {e[2]})"
+    return None
+
+
+def _fl_key(fl):
+    f, _, ln = fl.rpartition(":")
+    return (f, int(ln) if ln.isdigit() else 0)
+
+
+def links_render(R, reach):
+    """(summary lines, {tsv name: text}) of one links_build result; deterministic"""
+    T, rows, comp, find = R["T"], R["T"].row, R["comp"], R["find"]
+    tsv = {}
+
+    def table(name, head, recs):
+        tsv[name] = "\t".join(head) + "\n" + "".join("\t".join(str(x).replace("\t", " ") for x in r) + "\n" for r in recs)
+    table("links.tsv", ("class", "sub", "A", "B", "cite_A", "cite_B"),
+          [(L["cls"], L["sub"], L["a"], L["b"], L["cite_a"], L["cite_b"]) for L in R["accepted"]])
+    table("refused.tsv", ("reason", "class", "sub", "A", "B", "cite_A", "cite_B", "detail"),
+          [(L["reason"], L["cls"], L["sub"], L["a"], L["b"], L["cite_a"], L["cite_b"], L.get("detail", "-")) for L in R["refused"]])
+    table("widths.tsv", ("type", "offset", "width", "sign", "field", "cite"),
+          [(k, f"0x{off:X}", w, "".join(sorted(e[2])) or "-", e[0], e[1]) for k in sorted(R["wm"]) for off in sorted(R["wm"][k])
+           for w, e in sorted(R["wm"][k][off].items())])
+    table("sizes.tsv", ("type", "kind", "cite"), [(k, kind, ci) for k in sorted(R["size_f"]) for kind, ci in sorted(R["size_f"][k].items())])
+    table("hubs.tsv", ("slot", "types", "why", "cites"),
+          [("/".join(str(x) if not isinstance(x, int) or x < 0x1000 else f"0x{x:08X}" for x in h["slot"]), ",".join(h["types"]), h["why"],
+            " | ".join(h["cites"])) for h in R["hubs"]])
+    # components: numbered by size (desc), then first member
+    touch = collections.defaultdict(collections.Counter)
+    for L in R["refused"]:
+        for k in {L["a"], L["b"]} & set(rows):
+            touch[find(k)][L["reason"].split(":")[0]] += 1
+    cs = sorted(comp.items(), key=lambda kv: (-len(kv[1]["members"]), kv[0]))
+    crow, cid = [], {}
+    for n, (root, c) in enumerate(cs, 1):
+        cid[root] = f"C{n}"
+        ms = c["members"]
+        tgt = min(ms, key=lambda k: (rows[k]["klass"] != "PsyQ", rows[k]["klass"] != "ledgered", -reach.get(k, 0), _fl_key(rows[k]["file_line"])))
+        sz = next(iter(c["lb"])) if c["lb"] else max((rows[k]["size"] for k in ms if isinstance(rows[k]["size"], int)), default="?")
+        lay = " ".join(f"0x{off:X}:{w}{''.join(sorted(e[2])) or '-'}:{e[3]}.{e[0]}@{e[1]}" for off in sorted(c["wm"]) for w, e in sorted(c["wm"][off].items()))
+        crow.append((f"C{n}", ",".join(ms), tgt, sz, lay or "-", ",".join(f"{r}:{x}" for r, x in sorted(touch[root].items())) or "-"))
+    table("components.tsv", ("component", "members", "target", "merged_size", "merged_layout", "refused_touching"), crow)
+    resolved = {}
+    for d in R["dp"]:
+        if find(d["a"]) == find(d["b"]):
+            resolved[id(d)] = "yes"
+        else:
+            r = next((L["reason"] for L in R["refused"] if L["sub"] == "decl" and {L["a"], L["b"]} == {d["a"], d["b"]}
+                      and L["cite_a"].endswith(f"{d['decl']} arg{d['i']}")), None)
+            resolved[id(d)] = (f"no: link refused ({r})" if r else "no: pointer depths differ" if d["depth"][0] != d["depth"][1]
+                               else "no: different components")
+    table("decl_param.tsv", ("name", "object", "i", "decl", "decl_type", "def", "def_type", "resolved"),
+          [(d["name"], d["obj"], d["i"], d["decl"], d["decl_t"], d["defn"], d["def_t"], resolved[id(d)])
+           for d in sorted(R["dp"], key=lambda d: (d["name"], d["obj"], d["i"], d["decl"]))])
+    # summary
+    S_ = [f"struct_twins --links: {len(rows)} inventory types (placeholder {sum(1 for r in rows.values() if r['klass'] == 'placeholder')})"
+          f" · HUB_K {HUB_K} · HUB_OFFS {HUB_OFFS} · MIN_BODY_INS {MIN_BODY_INS}"]
+    S_.append(f"links accepted {len(R['accepted'])} (class/sub-kind: links, distinct types)")
+    for cl, sub in LINK_ORDER:
+        xs = [L for L in R["accepted"] if (L["cls"], L["sub"]) == (cl, sub)]
+        S_.append(f"  {cl}/{sub}: {len(xs)} links, {len({k for L in xs for k in (L['a'], L['b'])})} types")
+    rc = collections.Counter(L["reason"].split(":")[0] for L in R["refused"])
+    S_.append("refused by reason: " + " · ".join(f"{r} {n}" for r, n in sorted(rc.items())))
+    S_.append("unplaced by reason:")
+    for (w, r), n in sorted(R["U"].items()):
+        S_.append(f"  {w}: {r}: {n}")
+    for w, r in sorted(R["J"]["U"].items()):
+        S_.append(f"  {w[0]} (join): {w[1]}: {r}")
+    bands = collections.Counter(next(b for b, lo in (("21+", 21), ("6-20", 6), ("3-5", 3), ("2", 2), ("1", 1)) if len(c["members"]) >= lo)
+                                for c in comp.values())
+    S_.append("components by size band: " + " · ".join(f"{b} {bands[b]}" for b in ("1", "2", "3-5", "6-20", "21+")))
+    S_.append("largest 10:")
+    for r in crow[:10]:
+        ms = r[1].split(",")
+        S_.append(f"  {r[0]}: {len(ms)} types · target {r[2]} · size {r[3]} · {','.join(ms[:6])}{' …' if len(ms) > 6 else ''}")
+    dp = R["dp"]
+    S_.append(f"DECL-PARAM: rows {len(dp)} · names {len({d['name'] for d in dp})} · declaration lines {len({d['decl'] for d in dp})}"
+              f" · resolved by components {sum(1 for d in dp if resolved[id(d)] == 'yes')} · struct vs void/scalar (apart) "
+              f"{R['dp_apart']['struct vs void/scalar']}")
+    S_.append("member accesses: " + " · ".join(f"{k} {n}" for k, n in sorted(R["ACC"].items())))
+    S_.append("pointer flows with a struct-bound side (placed): " + " · ".join(f"{k}/{o} {n}" for (k, o), n in sorted(R["PF"].items())))
+    S_.append(f"hubs {len(R['hubs'])} · width-map types {len(R['wm'])} · types with a load-bearing size {len(R['size_f'])}")
+    return S_, tsv
+
+
+def links_inputs(jobs):
+    """S for links_build from the built tree; exit 2 naming a missing input"""
+    global _LWANTED
+    aliases, var = se.mk_vars()
+    need = [se.OUT_DIR / "census.jsonl"]
+    for a in aliases:
+        need += [se.elf_path(a), REPO / var[(a, "SIG")]]
+        dd = REPO / "build" / "src" / ("" if a == "main" else a)
+        if not any(dd.glob("*.d")):
+            need.append(dd / "*.d")
+    miss = [p for p in need if "*" in p.name or not p.exists()]
+    if miss:
+        print(f"struct_twins --links: missing input {miss[0].relative_to(REPO)} (+{len(miss) - 1} more); build the fleet and run "
+              f"tools/sig_evidence.py -j 16 first", file=sys.stderr)
+        sys.exit(2)
+    newest = max(se.elf_path(a).stat().st_mtime for a in aliases)
+    if (se.OUT_DIR / "census.jsonl").stat().st_mtime < newest:
+        print("struct_twins --links: build/sig_evidence/census.jsonl is older than the linked ELFs; run tools/sig_evidence.py -j 16",
+              file=sys.stderr)
+        sys.exit(2)
+    parsed, tus, symtab, images, stacks, cls_of, info, rl, orphans = se.compare_inputs(jobs)
+    J = se.join_fns(parsed, tus, symtab, images, stacks, cls_of)
+    import concurrent.futures
+    with concurrent.futures.ThreadPoolExecutor(8) as ex:
+        syms = dict(zip(aliases, ex.map(se.elf_syms, aliases)))
+    own_sym = {a: {(nm, va) for va, _, t, nm in syms[a] if t not in "Aa"} for a in aliases}
+    sig = {}
+    for a in aliases:
+        for ln in (REPO / var[(a, "SIG")]).read_text().splitlines():
+            if ln.strip():
+                r = json.loads(ln)
+                if r.get("src") != "IMPORTED":
+                    sig.setdefault((a, int(r["addr"], 16)), (r["h_exact"], int(r.get("nins") or 0)))
+    u = type_universe()
+    rows = inventory_defs(u)
+    types = LTypes(rows, u)
+    walk = tc.walk_all(jobs)["results"]
+    files = sorted(str(p.relative_to(REPO)) for d in ("src", "include") for p in (REPO / d).rglob("*")
+                   if p.suffix in (".c", ".h") and p.is_file() and not p.name.startswith(".cdecl"))
+    _LWANTED = set(types.key_of) | set(types.ambiguous)
+    import multiprocessing as mp
+    with mp.get_context("fork").Pool(jobs) as pool:
+        scanned = list(pool.imap(_links_scan, [(f, None) for f in files], chunksize=16))
+    return dict(types=types, tus=tus, join=J, images=images, stacks=stacks, own_sym=own_sym, sig=sig,
+                walk={k: v for k, v in walk.items() if v}, binds=[(r, b) for r, b, _ in scanned], events=[(r, e) for r, _, e in scanned])
+
+
+def load_reach(T):
+    out = {}
+    p = REPO / "docs" / "leverage-types.tsv"
+    for ln in p.read_text().splitlines()[1:]:
+        c = ln.split("\t")
+        k = T.key_of.get(c[1]) if len(c) > 3 else None
+        if k and c[3].isdigit():
+            out[k] = max(out.get(k, 0), int(c[3]))
+    return out
+
+
+def links(out_dir, jobs):
+    import time
+    t0 = time.time()
+    S = links_inputs(jobs)
+    R = links_build(S)
+    summ, tsv = links_render(R, load_reach(S["types"]))
+    out = REPO / out_dir
+    out.mkdir(parents=True, exist_ok=True)
+    for name, text in sorted(tsv.items()):
+        (out / name).write_text(text)
+    print("\n".join(summ))
+    print(f"(tables -> {out.relative_to(REPO) if out.is_relative_to(REPO) else out}: {', '.join(sorted(tsv))})")
+    print(f"runtime {time.time() - t0:.0f} s", file=sys.stderr)
+
+
+# --selftest: the method doc's fixtures on a synthetic tree (its own symtab, .d map, sig rows)
+ST_HDR = """typedef struct LookA { s32 a; s16 b; } LookA;
+typedef struct LookB { s32 a; s16 b; } LookB;
+typedef struct GA { s32 a; s32 b; } GA;
+typedef struct GB { s32 a; s32 b; s32 c; } GB;
+typedef struct OA { s32 a; } OA;
+typedef struct OB { s16 a; } OB;
+typedef struct PA { s32 a; } PA;
+typedef struct PB { s32 a; s32 b; } PB;
+typedef struct WA { u16 x; } WA;
+typedef struct WB { u32 x; } WB;
+typedef struct HubT { s32 tag; } HubT;
+typedef struct H1 { s32 a; } H1;
+typedef struct H2 { s32 a; } H2;
+typedef struct H3 { s32 a; } H3;
+typedef struct H4 { s32 a; } H4;
+"""
+ST_MAIN = """#include "struct_types.h"
+extern GA D_80018000;
+extern WA D_80018100;
+s32 useLookA(LookA *p) { return p->a + p->b; }
+s32 readWA(void) { s32 v; v = D_80018100.x; return v; }
+void hubfn(HubT *p) { p->tag = 1; }
+void c1(H1 *x) { hubfn(x); }
+void c2(H2 *x) { hubfn(x); }
+void c3(H3 *x) { hubfn(x); }
+void c4(H4 *x) { hubfn(x); }
+"""
+ST_OVA = """#include "struct_types.h"
+extern GB D_80018000;
+extern WB D_80018100;
+extern OA D_80108000;
+s32 useLookB(LookB *p) { return p->a + p->b; }
+s32 readWB(void) { s32 v; v = D_80018100.x; return v; }
+s32 readOA(void) { return D_80108000.a; }
+"""
+ST_OVB = """#include "struct_types.h"
+extern OB D_80108000;
+void takeP(PB *p) { p->a = 0; }
+void callP(PA *q) { takeP(q); }
+s32 readOB(void) { return D_80108000.a; }
+"""
+
+
+def links_selftest_S():
+    global _LWANTED
+    hdr = tc.CANON_HEADERS[-1]
+    files = {hdr: ST_HDR, "src/main.c": ST_MAIN,
+             "src/ov_A/a.c": ST_OVA, "src/ov_B/b.c": ST_OVB}
+    u = type_universe({hdr: ST_HDR})
+    rows = inventory_defs(u)
+    types = LTypes(rows, u)
+    tus = {"main": [("build/src/main.o", "src/main.c", ["src/main.c", hdr])],
+           "ov_A": [("build/src/ov_A/a.o", "src/ov_A/a.c", ["src/ov_A/a.c", hdr])],
+           "ov_B": [("build/src/ov_B/b.o", "src/ov_B/b.c", ["src/ov_B/b.c", hdr])]}
+    images = {"main": (0x80010000, 0x80020000), "ov_A": (0x80100000, 0x80110000), "ov_B": (0x80100000, 0x80110000)}
+    stacks = {"main": ["main"], "ov_A": ["main", "ov_A"], "ov_B": ["main", "ov_B"]}
+    fns = {"main": ["useLookA", "readWA", "hubfn", "c1", "c2", "c3", "c4"], "ov_A": ["useLookB", "readWB", "readOA"],
+           "ov_B": ["takeP", "callP", "readOB"]}
+    syms, cls_of, sig, own_sym = {}, {}, {}, {}
+    for a, names in fns.items():
+        t = collections.defaultdict(set)
+        own_sym[a] = set()
+        for i, nm in enumerate(names):
+            va = images[a][0] + 0x100 * (i + 1)
+            t[nm].add(va)
+            cls_of[(a, va)] = f"{a}{nm}".ljust(40, "0")
+            sig[(a, va)] = (cls_of[(a, va)], 12)
+            own_sym[a].add((nm, va))
+        syms[a] = t
+    for a in ("main", "ov_A"):                                # D_80018000/D_80018100: main's data, absolute in ov_A's ELF
+        for nm in ("D_80018000", "D_80018100"):
+            syms[a][nm].add(int(nm[2:], 16))
+    own_sym["main"] |= {("D_80018000", 0x80018000), ("D_80018100", 0x80018100)}
+    for a in ("ov_A", "ov_B"):                                # D_80108000: one address, two overlay images
+        syms[a]["D_80108000"].add(0x80108000)
+        own_sym[a].add(("D_80108000", 0x80108000))
+    parsed = {f: se.parse_text(f, txt) for f, txt in files.items()}
+    J = se.join_fns(parsed, tus, syms, images, stacks, cls_of)
+    _LWANTED = set(types.key_of) | set(types.ambiguous)
+    scanned = [_links_scan((f, files[f])) for f in sorted(files)]
+    walk = {f: tc.walk_file(files[f], f) for f in sorted(files)}
+    return dict(types=types, tus=tus, join=J, images=images, stacks=stacks, own_sym=own_sym, sig=sig, walk=walk,
+                binds=[(r, b) for r, b, _ in scanned], events=[(r, e) for r, _, e in scanned])
+
+
+def links_selftest():
+    outs, R = [], None
+    for _ in range(2):
+        R = links_build(links_selftest_S())
+        outs.append(links_render(R, {}))
+    acc = {(L["cls"], frozenset((L["a"], L["b"]))) for L in R["accepted"]}
+    ref = {(L["reason"], frozenset((L["a"], L["b"]))) for L in R["refused"]}
+    f = R["find"]
+    hub_types = {frozenset(("HubT", h)) for h in ("H1", "H2", "H3", "H4")}
+    cases = [
+        ("look-alike pair (equal layouts and widths, no link) stays unlinked",
+         f("LookA") != f("LookB") and not any(frozenset(("LookA", "LookB")) == p for _, p in acc)),
+        ("shared-global pair links (class global)", ("global", frozenset(("GA", "GB"))) in acc and f("GA") == f("GB")),
+        ("same address in two overlay images does not link", f("OA") != f("OB") and not any(frozenset(("OA", "OB")) == p for _, p in acc | ref)),
+        ("pointer-flow pair (arg into a dereferenced parameter) links (class pointer)",
+         ("pointer", frozenset(("PA", "PB"))) in acc and f("PA") == f("PB")),
+        ("width conflict (u16 vs u32 at one offset) refuses the fold; both stay apart",
+         ("conflict", frozenset(("WA", "WB"))) in ref and f("WA") != f("WB")),
+        ("hub slot refuses its links", all(("hub", p) in ref for p in hub_types) and not any(p in hub_types for _, p in acc)
+         and any(h["slot"][0] == "param" for h in R["hubs"])),
+        ("two runs print identical output", outs[0] == outs[1]),
+    ]
+    for name, ok in cases:
+        print(f"{'PASS' if ok else 'FAIL'} {name}")
+    bad = sum(1 for _, ok in cases if not ok)
+    print(f"struct_twins --selftest: {len(cases) - bad}/{len(cases)} pass")
+    return 1 if bad else 0
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--census-dir", default=CENSUS_DEFAULT, help="census dir holding dup_gating.tsv and type_census.json (default: type_census OUT_DIR_DEFAULT, %(default)s)")
@@ -721,7 +1820,17 @@ def main():
     ap.add_argument("--dispositions", action="store_true", help="write/refresh config/struct_dispositions.tsv")
     ap.add_argument("--check", action="store_true", help="with --dispositions: count the ledger, exit 1 on a missing/duplicate/unknown row")
     ap.add_argument("--ledger", default=str(LEDGER), help="with --dispositions: the ledger path (default %(default)s)")
+    ap.add_argument("--links", action="store_true", help="the merge-evidence census (docs/ops/p345-t2-struct-merge-evidence.md)")
+    ap.add_argument("--out-dir", default=LINKS_DIR, help="with --links: the tables' directory (default %(default)s)")
+    ap.add_argument("-j", type=int, default=16, help="with --links: worker processes (default %(default)s)")
+    ap.add_argument("--selftest", action="store_true", help="the --links fixtures on a synthetic tree; exit 0 only if all pass")
     a = ap.parse_args()
+    if a.selftest or a.links:
+        need_se()
+    if a.selftest:
+        return links_selftest()
+    if a.links:
+        return links(a.out_dir, a.j)
     if a.inventory:
         return inventory(a.out)
     if a.dispositions:
@@ -767,4 +1876,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

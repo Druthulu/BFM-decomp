@@ -1112,20 +1112,12 @@ def load_tus(aliases):
     return tus
 
 
-def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, orphans):
-    """(rows, cov). parsed {file: parse_text|None}; tus load_tus; symtab {alias: {name: {vaddr}}}; images {alias: (lo, hi)};
-    stacks {alias: [alias]}; cls_of {(alias, vaddr): h}; info {h: (verdict, cite, arity_lb, highest args.read entry, ret.tail,
-    produces: an exit writer other than `entry`, or no `jr $ra` exit (tail / leave only: not provably empty))}; return_lie {h}; orphans [src files in no .d]."""
+def join_fns(parsed, tus, symtab, images, stacks, cls_of):
+    """The placement join of compare_core (3.45 T2: shared with struct_twins.py --links). dict(U, cov, resolve, place, dinst,
+    cinst, defrec, def_at, defs [(b, va, h, f, ln, name, d, I)], decls [(b, f, ln, dc, objs, va, h, owners, dd)]); defs in sorted
+    dinst order, decls in sorted cinst order; dd = the callee's placed definition (def_at entry) or None."""
     U = collections.Counter()                                   # unplaced, by (what, reason)
     cov = collections.Counter()
-    novalue = set()                                             # RET-VOID-READ classes skipped: no value produced
-
-    def void_read(base, cite, tail, produces):
-        if produces:
-            rows.append(dict(base, rule="RET-VOID-READ", cite=cite, tail=None if cite else tail))   # used by RET-FIX only
-        else:                                                   # every exit writer is `entry` (C0587)
-            cov["RET-VOID-READ skipped: no value produced (rows)"] += 1
-            novalue.add(base["h"])
     at_va = collections.defaultdict(set)
     at_own = collections.defaultdict(list)
     for (b, va), h in cls_of.items():
@@ -1191,9 +1183,7 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
         if P:
             for d in P["defs"]:
                 defrec[(f, d["line"])] = d
-    seen_files = {f for b in tus for _, _, deps in tus[b] for f in deps}
-
-    rows, def_at = [], collections.defaultdict(list)
+    defs, def_at = [], collections.defaultdict(list)
     for (b, f, ln, name), I in sorted(dinst.items()):
         d = defrec[(f, ln)]
         va, why = resolve(b, name)
@@ -1207,6 +1197,56 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
         cov["definitions placed"] += 1
         h = cls_of[(b, va)]
         def_at[(b, va)].append((b, f, ln, name, d, I))
+        defs.append((b, va, h, f, ln, name, d, I))
+
+    declrec = {}
+    for f, P in parsed.items():
+        if P:
+            for dc in P["decls"]:
+                declrec[(f, dc["line"])] = dc
+    decls = []
+    for (b, f, ln), objs in sorted(cinst.items()):
+        dc = declrec[(f, ln)]
+        va, why = resolve(b, dc["name"])
+        h = owners = None
+        if why is None:
+            h, owners = place(b, va)
+            if h is None:
+                why = owners
+        if why:
+            U[("declaration", why)] += 1
+            continue
+        cov["declarations placed"] += 1
+        ds = [x for o in owners for x in def_at.get((o, va), [])]
+        dd = None
+        if not ds:
+            cov["declarations placed, callee has no placed C definition"] += 1
+        elif len({(x[4]["ret"], x[4]["arity"], x[4]["varargs"]) for x in ds}) > 1:
+            cov["declarations placed, the callee's definitions disagree"] += 1
+        else:
+            dd = min(ds, key=lambda x: x[:4])
+        decls.append((b, f, ln, dc, objs, va, h, owners, dd))
+    return dict(U=U, cov=cov, resolve=resolve, place=place, dinst=dinst, cinst=cinst, defrec=defrec, def_at=def_at, defs=defs, decls=decls)
+
+
+def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, orphans):
+    """(rows, cov). parsed {file: parse_text|None}; tus load_tus; symtab {alias: {name: {vaddr}}}; images {alias: (lo, hi)};
+    stacks {alias: [alias]}; cls_of {(alias, vaddr): h}; info {h: (verdict, cite, arity_lb, highest args.read entry, ret.tail,
+    produces: an exit writer other than `entry`, or no `jr $ra` exit (tail / leave only: not provably empty))}; return_lie {h}; orphans [src files in no .d]."""
+    J = join_fns(parsed, tus, symtab, images, stacks, cls_of)
+    U, cov, dinst, cinst, defrec = J["U"], J["cov"], J["dinst"], J["cinst"], J["defrec"]
+    novalue = set()                                             # RET-VOID-READ classes skipped: no value produced
+
+    def void_read(base, cite, tail, produces):
+        if produces:
+            rows.append(dict(base, rule="RET-VOID-READ", cite=cite, tail=None if cite else tail))   # used by RET-FIX only
+        else:                                                   # every exit writer is `entry` (C0587)
+            cov["RET-VOID-READ skipped: no value produced (rows)"] += 1
+            novalue.add(base["h"])
+    seen_files = {f for b in tus for _, _, deps in tus[b] for f in deps}
+
+    rows = []
+    for b, va, h, f, ln, name, d, I in J["defs"]:
         verdict, cite, alb, hi_read, tail, produces = info[h]
         base = {"binary": b, "owner": b, "vaddr": hx(va), "h": h, "name": name, "def_file": f"{f}:{ln}", "bind_tu": I["bind"],
                 "def_ret": d["ret"], "kr_marked": False, "objs": sorted(I["objs"])}
@@ -1221,33 +1261,9 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
                 rows.append(dict(base, rule="ARG-OVER", cite=hi_read[1] if hi_read else None, arity_lb=alb,
                                  def_words=d["words"], def_params=d["params"]))
 
-    declrec = {}
-    for f, P in parsed.items():
-        if P:
-            for dc in P["decls"]:
-                declrec[(f, dc["line"])] = dc
-    for (b, f, ln), objs in sorted(cinst.items()):
-        dc = declrec[(f, ln)]
-        va, why = resolve(b, dc["name"])
-        h = owners = None
-        if why is None:
-            h, owners = place(b, va)
-            if h is None:
-                why = owners
-        if why:
-            U[("declaration", why)] += 1
-            continue
-        cov["declarations placed"] += 1
+    for b, f, ln, dc, objs, va, h, owners, dd in J["decls"]:
         verdict, cite, alb, hi_read, tail, produces = info[h]
-        ds = [x for o in owners for x in def_at.get((o, va), [])]
-        dd = None
-        if not ds:
-            cov["declarations placed, callee has no placed C definition"] += 1
-        elif len({(x[4]["ret"], x[4]["arity"], x[4]["varargs"]) for x in ds}) > 1:
-            cov["declarations placed, the callee's definitions disagree"] += 1
-        else:
-            dd = min(ds, key=lambda x: x[:4])
-        base = {"binary": b, "owner": ",".join(owners), "vaddr": hx(va), "h": h, "name": dc["name"], "decl_file": f"{f}:{ln}",
+        base ={"binary": b, "owner": ",".join(owners), "vaddr": hx(va), "h": h, "name": dc["name"], "decl_file": f"{f}:{ln}",
                 "decl_text": dc["text"], "decl_ret": dc["ret"], "kr_marked": dc["kr"], "objs": sorted(objs),
                 "def_file": f"{dd[1]}:{dd[2]}" if dd else None, "bind_tu": dd[5]["bind"] if dd else None,
                 "def_ret": dd[4]["ret"] if dd else None}
@@ -1320,7 +1336,9 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
     return rows, "\n".join(T + L) + "\n"
 
 
-def compare(jobs):
+def compare_inputs(jobs):
+    """compare_core's inputs (3.45 T2: shared with struct_twins.py --links): (parsed, tus, symtab, images, stacks, cls_of,
+    info, return_lie, orphans), as compare_core's signature."""
     aliases, var = mk_vars()
     aset = set(aliases)
     stacks = {a: yaml_stack(var[(a, "SPLAT_YAML")], aset) for a in aliases}
@@ -1366,6 +1384,11 @@ def compare(jobs):
             parsed = dict(pool.imap(_parse_file, files, chunksize=8))
     else:
         parsed = dict(map(_parse_file, files))
+    return parsed, tus, symtab, images, stacks, cls_of, info, rl, orphans
+
+
+def compare(jobs):
+    parsed, tus, symtab, images, stacks, cls_of, info, rl, orphans = compare_inputs(jobs)
     rows, txt = compare_core(parsed, tus, symtab, images, stacks, cls_of, info, rl, orphans)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     with open(OUT_DIR / "compare.jsonl", "w") as f:

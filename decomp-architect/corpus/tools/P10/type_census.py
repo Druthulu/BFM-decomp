@@ -36,6 +36,7 @@ USAGE
 Outputs: <out-dir>/type_census.json, type_census.txt, struct_map.json, sites.jsonl (--sites), docs/struct-map.md (rendered).
 """
 import argparse
+import bisect
 import collections
 import hashlib
 import json
@@ -546,6 +547,7 @@ def find_decls_and_flows(masked, rel, defs, span_of_line, line_of):
         s1 = line_starts[d["end"]] - 1 if d["end"] < len(line_starts) else len(masked)
         body = masked[s0:s1]
         fn = d["name"]
+        lno = lambda pos, s0=s0: bisect.bisect_right(line_starts, s0 + pos)   # 3.45 T2: a flow's file line (struct_twins --links cites)
         for m in CALL.finditer(body):
             callee = m.group(1)
             if callee in KEYWORDS or callee == fn and m.start() < body.find("{"):
@@ -558,22 +560,22 @@ def find_decls_and_flows(masked, rel, defs, span_of_line, line_of):
                 a2 = _strip_parens(a)
                 a2 = re.sub(r"^\(\s*(?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\**\s*\)\s*", "", a2)     # drop a leading cast
                 if IDENT.match(a2) and a2 not in SCALARS:
-                    flows.append(dict(tu=rel, fn=fn, kind="arg", src=a2, callee=callee, i=i))
+                    flows.append(dict(tu=rel, fn=fn, kind="arg", src=a2, callee=callee, i=i, line=lno(m.start())))
                 elif re.match(r"^&\s*(D_80[0-9A-Fa-f]{6})$", lc.placeholder_text(a2)):
-                    flows.append(dict(tu=rel, fn=fn, kind="arg&", src=a2[1:].strip(), callee=callee, i=i))
+                    flows.append(dict(tu=rel, fn=fn, kind="arg&", src=a2[1:].strip(), callee=callee, i=i, line=lno(m.start())))
         for m in ASSIGN.finditer(body):
             lhs, rhs = m.group(1), _strip_parens(m.group(2))
             if lhs in KEYWORDS:
                 continue
             rhs2 = re.sub(r"^\(\s*(?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\**\s*\)\s*", "", rhs)
             if IDENT.match(rhs2) and rhs2 not in SCALARS:
-                flows.append(dict(tu=rel, fn=fn, kind="assign", dst=lhs, src=rhs2))
+                flows.append(dict(tu=rel, fn=fn, kind="assign", dst=lhs, src=rhs2, line=lno(m.start(1))))
             elif re.match(r"^&\s*(D_80[0-9A-Fa-f]{6})$", lc.placeholder_text(rhs2)):
-                flows.append(dict(tu=rel, fn=fn, kind="assign&", dst=lhs, src=rhs2[1:].strip()))
+                flows.append(dict(tu=rel, fn=fn, kind="assign&", dst=lhs, src=rhs2[1:].strip(), line=lno(m.start(1))))
             else:
                 mc = re.match(r"^(" + NAME + r")\s*\((.*)\)$", rhs2, re.S)
                 if mc and mc.group(1) not in KEYWORDS:
-                    flows.append(dict(tu=rel, fn=fn, kind="ret-of", dst=lhs, callee=mc.group(1)))
+                    flows.append(dict(tu=rel, fn=fn, kind="ret-of", dst=lhs, callee=mc.group(1), line=lno(m.start(1))))
                     continue
                 # a pointer field read: `x = *(T *)(base + k)` / M2C_FIELD(base, T *, k) / ((T*)base)[i]
                 mp = FORM_P.match(rhs2) or FORM_M.match(rhs2)
@@ -586,18 +588,19 @@ def find_decls_and_flows(masked, rel, defs, span_of_line, line_of):
                             k = _int(_strip_parens(args[2]))
                             if b.get("base") and k is not None and b["bclass"] != "other":
                                 flows.append(dict(tu=rel, fn=fn, kind="field", dst=lhs, base=b["base"], bclass=b["bclass"],
-                                                  off=(b.get("off") or 0) + k))
+                                                  off=(b.get("off") or 0) + k, line=lno(m.start(1))))
                     else:
                         inner, _ = _paren_body(rhs2, rhs2.find("(", rhs2.find(")")))
                         if inner is not None:
                             b = parse_base(inner)
                             if b.get("base") and b["bclass"] not in ("other", "nested") and b.get("index") is None:
-                                flows.append(dict(tu=rel, fn=fn, kind="field", dst=lhs, base=b["base"], bclass=b["bclass"], off=b.get("off") or 0))
+                                flows.append(dict(tu=rel, fn=fn, kind="field", dst=lhs, base=b["base"], bclass=b["bclass"], off=b.get("off") or 0,
+                                                  line=lno(m.start(1))))
         for m in RETURN.finditer(body):
             v = _strip_parens(m.group(1))
             v = re.sub(r"^\(\s*(?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\**\s*\)\s*", "", v)
             if IDENT.match(v) and v not in SCALARS and v not in ("NULL",):
-                flows.append(dict(tu=rel, fn=fn, kind="return", src=v))
+                flows.append(dict(tu=rel, fn=fn, kind="return", src=v, line=lno(m.start())))
     return fndefs, extern_fns, extern_data, aliases, builtins, attrs, flows, params_of
 
 # ----------------------------------------------------------------------------------------------------------------------
