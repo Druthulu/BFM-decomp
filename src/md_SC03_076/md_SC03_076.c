@@ -68,7 +68,7 @@ s32 func_801EF800(s32 a0, s32 a1) {
     extern s16 D_801F9ABC;
     extern s16 D_801F9AB8[];
     extern void *D_8011DB24;
-    extern s32 guess_RequestSound(s32 a0, s32 a1);
+    extern void guess_RequestSound(s32 a0, s32 a1);
     extern void func_801EF878(void);
 
     void *func_ptr;
@@ -81,7 +81,7 @@ s32 func_801EF800(s32 a0, s32 a1) {
     D_801F9ABC = (s16)a1;
     D_801F9AB8[0] = (s16)a1;
     D_8011DB24 = func_ptr;
-    return guess_RequestSound(0x1E, 0);
+    return RET_AS(s32, guess_RequestSound, (s32, s32))(0x1E, 0);
 }
 
 
@@ -306,7 +306,7 @@ s32 func_801EFBB4(void) {
     extern u8 D_801F9DAB[];
     extern u8 D_801F9DB1;
     extern void func_8002AF70(void *, u32);
-    extern s32 guess_RequestSound(s32, s32);
+    extern void guess_RequestSound(s32, s32);
     extern void func_801F1710(void);
     extern void func_801F1738(s32);
 
@@ -794,7 +794,7 @@ s32 func_801F0734(void) {
     extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
     extern s32 D_801F3380;
     extern s16 D_801150D4;
-    extern s32 guess_RequestSound(s32, s32);
+    extern void guess_RequestSound(s32, s32);
     extern s32 D_801F9DA0;
     extern u8  D_801F9DB1;
     extern u8  D_801F9DA8[];
@@ -929,7 +929,7 @@ void func_801F0A9C(void) {
     extern s32 D_801F3380;
     extern s32 D_801F32E0;
     extern void func_80029774(s32 a0);
-    extern s32 guess_RequestSound(s32, s32);
+    extern void guess_RequestSound(s32, s32);
     extern u8 *func_8002AF48(s32 a0);
     extern s32 func_8002AF60(void);
     extern void func_801F0F28(void);
@@ -1440,7 +1440,7 @@ s32 func_801F1AC8(s32 param_1) {
 
 
     extern void func_800D1E28(void);
-    extern s32 guess_RequestSound(s32, s32);
+    extern void guess_RequestSound(s32, s32);
     extern void func_8001BFD0(void);
     extern s32 guess_GetGameVarByte(s32);
     extern void func_800D0C48(s32);

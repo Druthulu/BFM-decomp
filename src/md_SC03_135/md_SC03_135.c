@@ -69,7 +69,7 @@ void func_801E2980(s32 arg0, s32 arg1)
     extern unsigned short guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
     extern void *D_8011DB24;
     extern void func_801E29F8(void);
-    extern s32 guess_RequestSound(s32, s32);
+    extern void guess_RequestSound(s32, s32);
 
     D_800B9A15 = 1;
     guess_g_ActiveMenu = 5;
@@ -294,7 +294,7 @@ s32 func_801E2D34(void) {
     extern u8 D_801EAC47[];
     extern u8 D_801EAC4D;
     extern void func_8002AF70(void *, s32);
-    extern s32 guess_RequestSound(s32, s32);
+    extern void guess_RequestSound(s32, s32);
     extern void func_801E4890(void);
     extern void func_801E48B8(s32);
 
@@ -770,7 +770,7 @@ s32 func_801E3830(s32 arg0, s16 arg1, s16 arg2, s16 arg3, s32 *arg4) {
 extern void func_8002B00C(void *);
 extern void func_801E48B8(s32);
 extern void func_80029774(s32);
-extern s32 guess_RequestSound(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern u8 *func_8002AF48(s32);
 extern s32  func_8002AF60(void);
 extern void func_801E40A8(void);
@@ -957,7 +957,7 @@ int func_801E3C1C() {
     extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
     extern u16 D_801150D4;
     extern void func_80029774(s32 a0);
-    extern s32 guess_RequestSound(s32 a0, s32 a1);
+    extern void guess_RequestSound(s32 a0, s32 a1);
     extern u8 *func_8002AF48(s32 a0);
     extern s32 func_8002AF60(void);
     extern void func_801E40A8(void);
@@ -1469,7 +1469,7 @@ s32 func_801E4C48(s32 param_1) {
 
 
 extern void func_800D1E28(void);
-extern s32 guess_RequestSound(s32, s32);
+extern void guess_RequestSound(s32, s32);
 extern void func_8001BFD0(void);
 extern s32 guess_GetGameVarByte(s32);
 extern s32 func_80029524(void);
