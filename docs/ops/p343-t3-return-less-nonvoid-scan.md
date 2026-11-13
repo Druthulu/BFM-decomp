@@ -4,6 +4,7 @@ Method (.run/3.43/t3/scan.py, scratch; re-derive from this line): over `git ls-f
 
 Totals: 394 names, 9,009 definition sites (noreturn 358 names / 7,645 sites; barereturn 29 / 1,357; both kinds across copies 7). 67 names have 110-140 overlay copies (~8,600 sites); 311 single-def; 61 defined only in src/shared or include headers. `SHARED_FN` = the def name inside share_body cls_*.h headers (146 sites).
 Cross-check: commit 112c3e4eb9 (3.41 T4.c2) flipped 38 names / 39 defs `void` -> non-void; all 38 are here (marked `flip`); 3.41 T4 reported 37. 3.43 T3 fixed the 38 (see phase-ends/phase-3.43/tasks/T3.md once archived); the other 356 are parked for Gen 4 (INBOX).
+Outcome 2026-11-13 (3.44 T7): all 356 resolved at every copy (sig_evidence --compare RET-NONE 0): byte-neutral returns, `void` where no caller reads $v0, else a `$v0 at exit:` comment; counts per rung in phase-ends/current/tasks/T7.md (archived with 3.44); cookbook C0595, C0596.
 
 Format: `name defs=<n> shared=<n in headers> kinds=<k> last={bucket: copies} [flip]`.
 

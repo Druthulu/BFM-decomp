@@ -1044,3 +1044,5 @@ C0591 | Import venv-re-exec tools only under .venv; type_census --check-casts ne
 C0592 | Return-type lies: one prototype = definition's; RET_AS(T,fn,params) marks shipped caller views | declarations,return-type,lying,bytes,macro,ret-view | 2026-11-12 | 3.44/T5 | -
 C0593 | Asm-label definitions are invisible to name-keyed tools; registering them unmasks hidden arity rows | asm-label,declarations,argcheck,arity,return-type,tools | 2026-11-12 | 3.44/T5 | -
 C0594 | KR_AS unprototyped view: one prototype for () callees, marked short/over calls | declarations,arity,k-and-r,macro,kr-view,bytes | 2026-11-12 | 3.44/T6 | 3.44 T6.c1
+C0595 | Return-less defs at scale: driver loop, cast-view tail returns, if/else single return, census join traps | return-type,return,bytes,scratch,census | 2026-11-13 | 3.44/T7 | 3.44 T7.c1
+C0596 | Voiding an unused-return function fleet-wide: joined units over shared decls, compile-error fallback, traps | return-type,void,declarations,bytes,scratch | 2026-11-13 | 3.44/T7 | 3.44 T7.c3
