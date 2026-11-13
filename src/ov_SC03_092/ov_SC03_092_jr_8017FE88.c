@@ -955,14 +955,14 @@ extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
 extern unsigned short D_80186FD4[];
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -1503,12 +1503,12 @@ extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163234(s32 a0);
 extern s32 D_80115100;
-extern s32 func_801632E0(void);
+extern s32 func_801632E0(s32 arg0);
 extern s32 D_80115200;
-extern s32 func_801632F0(void);
+extern s32 func_801632F0(void *arg0);
 extern u16 D_80126B18[];
-extern void func_80163328(void);
-extern s32 func_801633A8(void);
+extern void func_80163328(s32 arg0);
+extern s32 func_801633A8(s32 arg0);
 extern s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5);
 extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
@@ -2632,7 +2632,7 @@ extern s16 D_801B2E48;
 extern s16 D_801B2E3C;
 extern s16 D_801B2E3E;
 extern s16 D_801B2E40;
-extern void func_8017B7A8(void);
+extern void func_8017B7A8(void *arg0);
 extern s16 D_801B2E5C;
 extern s16 D_801B2E5E;
 extern s16 D_801B2E60;
@@ -2645,7 +2645,7 @@ extern s32 func_8017B8E8(s32 src);
 extern short D_801B2E54;
 extern short D_801B2E56;
 extern short D_801B2E58;
-extern void func_8017B940(void);
+extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
@@ -2732,7 +2732,7 @@ extern s32 func_80171990(u8*);
 extern void func_8014708C(void*);
 extern s32 func_801472C8(struct S*);
 extern void func_8014706C(void*);
-extern void func_8017DD9C(void);
+extern void func_8017DD9C(s32 arg0);
 extern void func_8017DD54(s32 a0);
 extern void func_8017DDA4(s32 arg0);
 extern s32 func_8014C050(s32 arg0, s32 arg1);
@@ -2821,7 +2821,7 @@ extern void func_8017F508(void *a0);
 extern void func_8017F544(s32 param_1);
 extern void func_8017F29C(void *arg0);
 extern void func_8017F5B8(s32 a0);
-extern void func_8017F5F8(void);
+extern void func_8017F5F8(void *arg0);
 extern void func_8017F600(s32 arg0);
 extern void func_8017F704(s32 arg0);
 extern void func_8017F7FC(s32 arg0);
@@ -3024,7 +3024,7 @@ s32 func_80180150(void *a0) {
 }
 
 
-void func_801801EC(void) {
+void func_801801EC(int arg0) {
 }
 
 
@@ -3253,7 +3253,7 @@ void func_8018066C(void *a0)
 extern s32 guess_g_MainCameraAppliedViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointX
 extern s32 guess_g_MainCameraAppliedViewPointY; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointY
 extern s32 guess_g_MainCameraAppliedViewPointZ; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointZ
-extern s32 func_80013450();
+extern s32 func_80013450(s32 arg0);
 extern void guess_HideObjectModel(u8 *a0);
 extern void guess_ShowObjectModel(u8 *a0);
 
@@ -3294,7 +3294,7 @@ extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_Objec
 extern s32 guess_g_MainCameraAppliedViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointX
 extern s32 guess_g_MainCameraAppliedViewPointY; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointY
 extern s32 guess_g_MainCameraAppliedViewPointZ; // Names ledger: config/names.tsv guess_g_MainCameraAppliedViewPointZ
-extern s32 func_80013450();
+extern s32 func_80013450(s32 arg0);
 extern void guess_HideObjectModel(u8 *a0);
 extern void guess_ShowObjectModel(u8 *a0);
 
@@ -3702,7 +3702,7 @@ void func_80181124(void *a0) {
 void func_80181160(void) {
 }
 
-void func_80181168(void) {
+void func_80181168(void *arg0) {
 }
 
 extern void guess_FreeActor(void *a0);

@@ -1,6 +1,6 @@
 /* func_8017B7A8 — shared body (overlay slot 0x80128158, h_exact ce4e45fe). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-void func_8017B7A8(void)
+void func_8017B7A8(void *arg0)
 {
     D_8012694C = 1;
     D_8018F914 = 0;

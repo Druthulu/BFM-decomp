@@ -288,8 +288,8 @@ s32 func_800CB3D8(s32 arg0, s32 arg1) {
 
 s32 func_800CB4EC(s32 a0) {
     extern s32 func_80163408(s32 a1, s32 a2, s32 a3, s32 a4);
-    extern void func_80163328(void);
-    extern s32 func_801632F0(void);
+    extern void func_80163328(s32 arg0);
+    extern s32 func_801632F0(void *arg0);
     extern void func_80013E94(void *a1, void *a2);
     extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     extern s16 D_80126B18[];
@@ -301,8 +301,8 @@ s32 func_800CB4EC(s32 a0) {
     s32 ret;
 
     func_80163408(a0, 0x28, 0, 0x1000);
-    KR_AS(void, func_80163328)(a0);
-    if (KR_AS(s32, func_801632F0)(a0) == 0) {
+    func_80163328(a0);
+    if (func_801632F0(a0) == 0) {
         ret = 0;
     } else {
         func_80013E94(&D_80114EB0, &sp20);

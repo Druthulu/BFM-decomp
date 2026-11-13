@@ -50,7 +50,7 @@ extern void func_801E9DD0(void);
 extern void func_801E9DF8(s32 arg0);
 extern void func_8014B00C(s32 arg0);
 extern void func_80029344(void);
-extern void func_801EA0E4(void);
+extern void func_801EA0E4(s32 arg0);
 extern u8 D_801EBBAC[];
 void func_800167B8(int);
 void func_80175414(s32 _arg0);
@@ -260,7 +260,7 @@ extern void guess_SetGameFlag(s32, s32);
 
 extern s32 guess_GetStoryProgress(void);
 extern s32 guess_TestGameFlag(s32);
-extern s32 func_80184D00(void);
+extern s32 func_80184D00(s32 arg0);
 extern s32 func_80184DD0(void);
 extern s32 func_80184E44(void);
 extern void func_80184EA0(void);
@@ -287,7 +287,7 @@ void func_801EAC10(s32 a0) {
             }
         }
         if (v0 != 0) {
-            ((Unkstruct_801EAC10 *)a0)->unkE4 = D_801EBCBC[func_80184D00()];
+            ((Unkstruct_801EAC10 *)a0)->unkE4 = D_801EBCBC[KR_AS(s32, func_80184D00)()];
         } else if ((u32)guess_GetStoryProgress() < 0x12C) {
             ((Unkstruct_801EAC10 *)a0)->unkE4 = (s32)&D_801EC35C;
         } else {

@@ -5,7 +5,7 @@ extern B8 D_80128120[];
 extern B8 D_80128138[];
 extern S8 D_80126AF0[];
 extern u8 D_80126730[];
-void func_80156848(s32 param_1, s32 param_2) {
+void func_80156848(s32 param_1, s32 param_2, s32 arg2) {
     extern s32 D_801151E0[];
     extern u8 D_80126730[];
     extern S8 D_80126AF0[];

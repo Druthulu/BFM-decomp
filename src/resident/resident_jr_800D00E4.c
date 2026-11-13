@@ -92,10 +92,10 @@ extern void func_800CF818(void);
 extern void func_800CF82C(void);
 extern void func_800CF840(void);
 extern u8 D_800AE6BF;
-extern s32 func_800CF854(void);
+extern s32 func_800CF854(s32 arg0);
 extern u16 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 func_800CF8B4(void);
-extern s32 func_800CF864(void);
+extern s32 func_800CF864(s32 arg0, s32 arg1);
 extern s32 func_800CF8CC(void);
 extern s32 func_800D1714(void);
 extern void func_800CFDE8(s32 arg0);

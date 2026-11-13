@@ -3,7 +3,7 @@
 extern s32 D_80115100;
 extern u16 D_80126B18[];
 extern s32 D_80115200;
-void func_80163328(void) {
+void func_80163328(s32 arg0) {
     u32 i;
     s32 *table;
     u16 *src;

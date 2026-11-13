@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80188F08(void);
 extern void func_8016F094(s32 *a0);
-extern s32 func_800CF854(void);
+extern s32 func_800CF854(s32 arg0);
 extern void func_800D1744(s32 *a0);
 extern void func_80183B64(s32 a0);
 extern void func_80181CE0(void);
@@ -15,7 +15,7 @@ void func_80183754(s32 *a0) {
     s32 v0;
     ((void (*)(s32 *))func_80188F08)(a0);
     func_8016F094(a0);
-    v0 = func_800CF854();
+    v0 = KR_AS(s32, func_800CF854)();
     if (v0 != 0) {
         *(s32 *)((s32)a0 + 0x204) = 1;
     } else {

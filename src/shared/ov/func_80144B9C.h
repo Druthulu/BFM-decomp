@@ -107,7 +107,7 @@ extern void func_80011E84(s32 a0);
 extern void func_8013D3D4(s32 a0, s32 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8005C324(void *a0, ENT *a1, s32 a2);
-extern s32 func_800CF854(void);
+extern s32 func_800CF854(s32 arg0);
 extern void func_8001C14C(void);
 extern void func_8012A110(void);
 
@@ -263,7 +263,7 @@ void func_80144B9C(void) {
     }
     p18->f4 = (s32)&D_80078E50;
     p18->f8 = p18->f8 & 0x7F000000;
-    if (func_800CF854() != 0) {
+    if (KR_AS(s32, func_800CF854)() != 0) {
         func_8001C14C();
         func_8012A110();
     }

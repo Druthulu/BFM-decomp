@@ -949,14 +949,14 @@ extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
 extern unsigned short D_8018D718[];
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -1498,12 +1498,12 @@ extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163234(s32 a0);
 extern s32 D_80115100;
-extern s32 func_801632E0(void);
+extern s32 func_801632E0(s32 arg0);
 extern s32 D_80115200;
-extern s32 func_801632F0(void);
+extern s32 func_801632F0(void *arg0);
 extern u16 D_80126B18[];
-extern void func_80163328(void);
-extern s32 func_801633A8(void);
+extern void func_80163328(s32 arg0);
+extern s32 func_801633A8(s32 arg0);
 extern s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5);
 extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
@@ -2612,7 +2612,7 @@ extern s16 D_801D2E08;
 extern s16 D_801D2DFC;
 extern s16 D_801D2DFE;
 extern s16 D_801D2E00;
-extern void func_8017B7A8(void);
+extern void func_8017B7A8(void *arg0);
 extern s16 D_801D2E1C;
 extern s16 D_801D2E1E;
 extern s16 D_801D2E20;
@@ -2625,7 +2625,7 @@ extern s32 func_8017B8E8(s32 src);
 extern short D_801D2E14;
 extern short D_801D2E16;
 extern short D_801D2E18;
-extern void func_8017B940(void);
+extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
@@ -4456,7 +4456,7 @@ void func_8018107C(s32 arg0) {
 }
 
 
-void func_801810C8(void) {
+void func_801810C8(s32 arg0) {
 }
 
 extern s32 D_801A4CB0;
@@ -5051,7 +5051,7 @@ s32 arg0;
 #undef SHARED_FN
 
 
-void func_80181ED4(void) {
+void func_80181ED4(s32 arg0) {
 }
 
 #include "common.h"

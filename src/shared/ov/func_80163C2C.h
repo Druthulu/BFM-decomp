@@ -14,8 +14,8 @@ void func_80163C2C(s32 param_1) {
     extern void guess_NextStep(void *a0);
     extern u16 guess_RollActorEventValue(u16 param_1);
     extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u16 param_5);
-    extern s32 func_801632F0(void);
-    extern s32 func_801632E0(void);
+    extern s32 func_801632F0(void *arg0);
+    extern s32 func_801632E0(s32 arg0);
     extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
     extern void func_80015954(s32 a0, s32 a1);
     extern s32 func_80146AB4(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6);

@@ -946,14 +946,14 @@ extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
 extern unsigned short D_80188C08[];
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -1493,12 +1493,12 @@ extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163234(s32 a0);
 extern s32 D_80115100;
-extern s32 func_801632E0(void);
+extern s32 func_801632E0(s32 arg0);
 extern s32 D_80115200;
-extern s32 func_801632F0(void);
+extern s32 func_801632F0(void *arg0);
 extern u16 D_80126B18[];
-extern void func_80163328(void);
-extern s32 func_801633A8(void);
+extern void func_80163328(s32 arg0);
+extern s32 func_801633A8(s32 arg0);
 extern s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5);
 extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
@@ -2603,7 +2603,7 @@ extern s16 D_801E62C0;
 extern s16 D_801E62B4;
 extern s16 D_801E62B6;
 extern s16 D_801E62B8;
-extern void func_8017B7A8(void);
+extern void func_8017B7A8(void *arg0);
 extern s16 D_801E62D4;
 extern s16 D_801E62D6;
 extern s16 D_801E62D8;
@@ -2616,7 +2616,7 @@ extern s32 func_8017B8E8(s32 src);
 extern short D_801E62CC;
 extern short D_801E62CE;
 extern short D_801E62D0;
-extern void func_8017B940(void);
+extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
@@ -4298,7 +4298,7 @@ void func_80180220(s32 arg0, s32 arg1)
 }
 
 
-extern void func_801812FC(void);
+extern void func_801812FC(s32 arg0);
 extern void func_80180644(s32 a0);
 extern void func_801813E8(s32 a0);
 extern void func_80181324(void);
@@ -4416,7 +4416,7 @@ void func_8018069C(s32 a0) {
     extern void guess_FreeActorDuringSpawn(void *a0);
     extern void guess_InitModelObject(s32, s32);
     extern void func_8001D0E8(s32, s32, s32);
-    extern void func_801812FC(void);
+    extern void func_801812FC(s32 arg0);
 
     s32 s1;
     s32 t;
@@ -4892,7 +4892,7 @@ s32 func_80181294(u16 a0, s32 a1) {
 
 
 extern void guess_StartActorSequence(s32 a0, void * a1);
-void func_801812FC(void) {
+void func_801812FC(s32 arg0) {
 
     extern s16 D_801E6508;
     KR_AS(void, guess_StartActorSequence)();
@@ -4942,7 +4942,7 @@ void func_801813E8(s32 arg0) {
 void func_80181474(s32 *a0) {
     extern void func_801808AC(s32 arg0);
     extern void func_8018083C(s32);
-    extern void func_801812FC(void);
+    extern void func_801812FC(s32 arg0);
     extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
     extern u16 D_8018A960[];
     extern s32 D_801BBAB8[];
@@ -4967,7 +4967,7 @@ void func_80181474(s32 *a0) {
 }
 
 
-void func_80181518(void) {
+void func_80181518(s32 arg0) {
 }
 
 extern void guess_ShowObjectModel(s32);
@@ -6173,7 +6173,7 @@ s32 a0;
 }
 
 
-void func_80183228(void) {
+void func_80183228(void *arg0) {
 }
 
 
@@ -6219,7 +6219,7 @@ void func_8018326C(void *arg0) {
 
 extern s32 rsin(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void func_80183538(void);
+extern void func_80183538(s32 arg0);
 extern void func_80183644(void *arg0);
 
 void func_801832FC(void *arg0)
@@ -6324,7 +6324,7 @@ extern void func_80183588(void *arg0);
 
 
 
-void func_80183538(void) {
+void func_80183538(s32 arg0) {
 
     extern Ent_8017D6EC D_801E6658[];
     s32 i = 0;
@@ -7233,7 +7233,7 @@ void func_80184510(void *a0) {
 }
 
 
-void func_8018454C(void) {
+void func_8018454C(s32 arg0) {
 }
 
 
@@ -7558,13 +7558,13 @@ void func_80184BD4(void) {
 void func_80184BDC(void) {
 }
 
-void func_80184BE4(void) {
+void func_80184BE4(void *arg0) {
 }
 
-void func_80184BEC(void) {
+void func_80184BEC(s32 arg0) {
 }
 
-void func_80184BF4(void) {
+void func_80184BF4(void *arg0) {
 }
 
 

@@ -562,7 +562,7 @@ void func_800CF840(void) {
 }
 
 extern u8 D_800AE6BF;
-s32 func_800CF854(void) {
+s32 func_800CF854(s32 arg0) {
     return D_800AE6BF != 0;
 }
 
@@ -570,7 +570,7 @@ extern s16 currentLocationId;
 extern u16 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 func_800CF8B4(void);
 
-s32 func_800CF864(void) {
+s32 func_800CF864(s32 arg0, s32 arg1) {
     if (currentLocationId == 0x3069) {
         return 1;
     }

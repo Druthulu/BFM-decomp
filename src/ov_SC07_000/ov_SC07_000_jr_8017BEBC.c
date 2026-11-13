@@ -953,14 +953,14 @@ extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
 extern unsigned short D_80184950[];
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -1502,12 +1502,12 @@ extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163234(s32 a0);
 extern s32 D_80115100;
-extern s32 func_801632E0(void);
+extern s32 func_801632E0(s32 arg0);
 extern s32 D_80115200;
-extern s32 func_801632F0(void);
+extern s32 func_801632F0(void *arg0);
 extern u16 D_80126B18[];
-extern void func_80163328(void);
-extern s32 func_801633A8(void);
+extern void func_80163328(s32 arg0);
+extern s32 func_801633A8(s32 arg0);
 extern s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5);
 extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
@@ -2625,7 +2625,7 @@ extern s16 D_801CFAC8;
 extern s16 D_801CFABC;
 extern s16 D_801CFABE;
 extern s16 D_801CFAC0;
-extern void func_8017B7A8(void);
+extern void func_8017B7A8(void *arg0);
 extern s16 D_801CFADC;
 extern s16 D_801CFADE;
 extern s16 D_801CFAE0;
@@ -2638,7 +2638,7 @@ extern s32 func_8017B8E8(s32 src);
 extern short D_801CFAD4;
 extern short D_801CFAD6;
 extern short D_801CFAD8;
-extern void func_8017B940(void);
+extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
@@ -3355,7 +3355,7 @@ void func_8017DF94(s32 arg0, s16 *arg1, s32 arg2) {
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
-void func_8017DFFC(void)
+void func_8017DFFC(void *arg0)
 {
   int new_var;
   ((void (*)(s32, s32)) func_8012AD44)(new_var, 2);
@@ -3851,7 +3851,7 @@ extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
 extern u32 D_80186250[];
 extern s32 D_801B0A20;
 extern u16 D_801D0BB8;
-extern void func_8017DFFC(void);
+extern void func_8017DFFC(void *arg0);
 extern void func_80180440(s32 arg0);
 
 void func_8017EC00(s32 a0) {
@@ -3879,5 +3879,5 @@ void func_8017EC00(s32 a0) {
 }
 
 
-void func_8017ECAC(void) {
+void func_8017ECAC(void *arg0) {
 }

@@ -257,7 +257,7 @@ void guess_FreeObjectAndSubObject_7(void) {
 
 extern void func_80017DC4(void *a0, void *a1);
 extern void func_80017DF8(s16 *a0, void *a1);
-extern void guess_ObjRotTransSV(s32 a0, s32 a1, s32 a2);
+extern void guess_ObjRotTransSV(s32 arg0);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 extern u8 D_800CBCBC[];
@@ -280,7 +280,7 @@ void func_800CB3F0(void *a0) {
 
     func_80017DC4(ang, mat);
     func_80017DF8((s16 *)(s2v + 0x10), mat);
-    guess_ObjRotTransSV(s3v, (s32)D_800CBCBC, (s32)ang);
+    KR_AS(void, guess_ObjRotTransSV)(s3v, (s32)D_800CBCBC, (s32)ang);
 
     ((Unkstruct_800CB3F0 *)mat)->unk14 = ang[0];
     ((Unkstruct_800CB3F0 *)mat)->unk18 = ang[1];

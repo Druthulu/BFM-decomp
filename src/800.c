@@ -533,7 +533,7 @@ s32 func_80013350(s32 *a0, s32 *a1) {
 
 extern s32 func_80047D3C(s32 a0);
 
-s32 func_800133BC(void) {
+s32 func_800133BC(s32 arg0, s32 arg1) {
     s32 result = func_800133E4();
     return func_80047D3C(result);
 }
@@ -558,7 +558,7 @@ s32 func_800133E4(s16 *a0, s16 *a1) {
 extern s32 func_80013478(void);
 extern s32 func_80047D3C(s32 a0);
 
-s32 func_80013450(void) {
+s32 func_80013450(s32 arg0) {
     s32 result = func_80013478();
     return func_80047D3C(result);
 }
@@ -3238,7 +3238,7 @@ s32 func_800167F0(s32 arg0) {
 }
 
 extern u16 D_800AF7CE;
-void func_800168B4(void) {
+void func_800168B4(int arg0) {
     D_800AF7CE = 0;
 }
 
@@ -3307,7 +3307,7 @@ void func_80016A3C(void *arg0)
     func_80016A7C(arg0, 0);
 }
 
-void func_80016A5C(void) {
+void func_80016A5C(void *arg0, void *arg1) {
     func_80016A7C();
 }
 
@@ -3680,7 +3680,7 @@ void func_80017254(void *arg0)
     func_80017294(arg0, 0);
 }
 
-void func_80017274(void)
+void func_80017274(s32 arg0, s32 arg1)
 {
     func_80017294();
 }
@@ -3754,7 +3754,7 @@ void func_8001739C(void *arg0)
     func_800173DC(arg0, 0);
 }
 
-void func_800173BC(void)
+void func_800173BC(void *arg0, void *arg1)
 {
     func_800173DC();
 }
@@ -6822,7 +6822,7 @@ void func_8001AA88(s32 arg0) {
     cdReq_curSector = arg0;
 }
 
-void func_8001AA98(void) {
+void func_8001AA98(void *arg0) {
 }
 
 
@@ -7659,7 +7659,7 @@ extern void func_80059FC0(u8 *a0);
 extern void func_8001BB60(void);
 extern s32 func_8001BADC(s32 a0, s32 a1);
 
-s32 func_8001B86C(void)
+s32 func_8001B86C(s32 arg0)
 {
     /* block scope: src/800.c declares D_800A651C as OtBlk_80016450[] inside
      * func_80015D4C, so the byte view has to stay local too. */

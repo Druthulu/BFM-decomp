@@ -345,7 +345,7 @@ extern s16 D_80126B98;
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern int func_8012D664(int arg0, int arg1, int arg2);
-extern s32 func_8012D624(s32 a0);
+extern s32 func_8012D624(s32 a0, s32 arg1, s32 arg2);
 extern s32 func_8012D714(s32 param_1, u32 param_2);
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_8014C978(void);
@@ -600,7 +600,7 @@ extern s16 D_80127540[4];
 extern s32 func_80139D04(s32 a0, s32 a1);
 extern s32 func_80138DE0(s32 a0, s32 a1, s32 a2);
 extern void func_80139B18(s32 a0);
-extern void func_80138AB4(s32 a0);
+extern void func_80138AB4(s32 a0, s32 arg1);
 extern void func_80138C30(void *a0);
 extern void func_8013A9F8(s32 a0, s32 a1);
 extern void func_80138D58(s32 a0, u16 a1);
@@ -611,7 +611,7 @@ extern u16 D_80127C0C[];
 extern s32 guess_g_GlyphUploadsLeft[]; // Names ledger: config/names.tsv guess_g_GlyphUploadsLeft
 extern s32 func_80138ED0(u8 *param_1, u32 param_2, u8 *param_3);
 extern s32 func_80139220(s32 a0);
-extern void func_801391F0(void *a0);
+extern void func_801391F0(void *a0, s32 arg1);
 extern void func_801392C8(void *a0);
 extern void func_801395D4(void *);
 extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -622,7 +622,7 @@ extern void func_80139634(void *a0);
 extern void func_80139680(s32 arg0, u8 * arg1);
 extern void func_8001931C(void);
 extern s16 D_8012752C;
-extern void func_80139788(void);
+extern void func_80139788(s32 arg0);
 extern void GsSortSprite(void *a0, u8 *a1, s32 a2);
 extern void func_801397B0(s32 arg0);
 extern void func_8013A8B0(s32 *a0);
@@ -1831,7 +1831,7 @@ extern u16 guess_RollActorEventValue(u16 param_1);
 extern S801563EC * func_801563EC(u16 idx);
 extern s32 func_801564B0(s32 a0);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
@@ -1841,7 +1841,7 @@ extern B8 D_80128120[];
 extern B8 D_80128138[];
 extern S8 D_80126AF0[];
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern void func_80156A1C(s32 param_1, s32 param_2);
 extern s32 D_801150E0[];
 extern void func_80156A88(s32 a0, s32 a1);
@@ -2298,7 +2298,7 @@ extern void func_80161C98(int param_1, u32 param_2);
 extern void func_80161E08(s32);
 extern s32 func_80162438(s32);
 extern void func_800D1734(void *);
-extern void func_80161D88(void);
+extern void func_80161D88(s32 arg0);
 extern void func_80161E08(s32 param_1);
 extern int func_800291DC(int);
 extern s16 func_800D0E30(void *a0);
@@ -2344,12 +2344,12 @@ extern void guess_AddVelocityToPos_2(s32 *a0);
 extern void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163234(s32 a0);
 extern s32 D_80115100;
-extern s32 func_801632E0(void);
+extern s32 func_801632E0(s32 arg0);
 extern s32 D_80115200;
-extern s32 func_801632F0(void);
+extern s32 func_801632F0(void *arg0);
 extern u16 D_80126B18[];
-extern void func_80163328(void);
-extern s32 func_801633A8(void);
+extern void func_80163328(s32 arg0);
+extern s32 func_801633A8(s32 arg0);
 extern s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5);
 extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
@@ -2522,7 +2522,7 @@ extern void func_80169F00(void *a0);
 extern void func_8016A020(void *a0);
 extern void func_8016A05C(void *a0);
 extern void func_8016A700(void *a0);
-extern void func_80016A5C(void);
+extern void func_80016A5C(void *arg0, void *arg1);
 extern void func_8016A8FC(s32 a0);
 extern void func_8016AB30(void *a0);
 extern void func_8016B234(s32 param_1);
@@ -3595,7 +3595,7 @@ void func_8017B614(s32 param_1, s32 param_2)
 
 
 
-void func_8017B7A8(void)
+void func_8017B7A8(void *arg0)
 {
 
     extern s32 guess_g_StoredRefPointX; // Names ledger: config/names.tsv guess_g_StoredRefPointX
@@ -3694,7 +3694,7 @@ s32 func_8017B8E8(s32 src) {
 
 
 
-void func_8017B940(void)
+void func_8017B940(void *arg0)
 {
 
     extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX

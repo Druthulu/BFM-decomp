@@ -2,7 +2,6 @@
 callee	def_file	cause	task	cites
 func_8017E358	src/ov_SC02_031/ov_SC02_031_jr_8017AE2C.c	KR-VIEW: def void (s32) via SHARED_FN bind of src/shared/ov/cls_71b73fe196bb.h; callee reads $a0 (census arity_lb 1, read [0]); shipped caller func_8017E0C0 passes 0 args (its own $a0 flows through); 1 call KR_AS(void, …)	T6	ov_SC02_031:0x8017E358 lw $v1, 0x4C($a0); ov_SC02_031:0x8017E0CC jal func_8017E358
 DsMix	src/resident/resident_jr_800D128C.c	KR-OVER: 1 of 1 KR_AS calls; def s32 (void); KR_AS calls pass 1 args	T6	resident:0x800D1BA4 addu $a0, $s0, $zero; resident:0x800D1BBC jal func_800D1BD8
-func_800133BC	src/800.c	KR-OVER: 1 of 1 KR_AS calls; def s32 (void); KR_AS calls pass 2 args	T6	ov_SC06_024:0x8017EBBC addu $a1, $s2, $zero; ov_SC06_024:0x8017EBB8 jal func_800133BC
 func_80016A5C	src/800.c	KR-OVER: 7 of 7 KR_AS calls; def void (void); KR_AS calls pass 2 args	T6	md_SC07_003:0x801A5844 addiu $a1, $a1, 0x34; md_SC07_003:0x801A5840 jal func_80016A5C
 func_80021050	src/800.c	KR-OVER: 1 of 1 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	main:0x80020208 lw $a0, 0xD0($sp); main:0x8002020C jal func_80021050
 func_80027BF0	src/800.c	KR-OVER: 1 of 1 KR_AS calls; def void (void); KR_AS calls pass 3 args	T6	main:0x80020164 addu $a2, $zero, $zero; main:0x80020160 jal func_80027BF0
@@ -14,14 +13,8 @@ func_80131B14	src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c	KR-SHORT: 165 of 165 KR_
 func_80153C18	src/shared/ov/func_80153C18.h	KR-OVER: 11 of 11 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	ov_SC01_077:0x801516D8 addu $a0, $s0, $zero; ov_SC01_077:0x801516D4 jal func_80153C18
 func_801577C8	src/ov_MAIN_012/ov_MAIN_012_jr_801555F4.c	KR-SHORT: 1 of 1 KR_AS calls; def void (int | s32 | s32*); KR_AS calls pass 0 args	T6	ov_SC01_077:0x801577D0 addu $s0, $a0, $zero; ov_SC01_077:0x80149C9C jal func_801577C8
 func_80159464	src/ov_MAIN_012/ov_MAIN_012_jr_801555F4.c	KR-OVER: 2 of 2 KR_AS calls; def s32 (void); KR_AS calls pass 1 args	T6	ov_SC01_077:0x801586B4 addu $a0, $s0, $zero; ov_SC01_077:0x801586B0 jal func_80159464
-func_80161D88	src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c	KR-OVER: 1 of 1 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	ov_SC01_077:0x80146518 addu $a0, $s1, $zero; ov_SC01_077:0x80146514 jal func_80161D88
-func_801632E0	src/shared/ov/func_801632E0.h	KR-OVER: 1 of 1 KR_AS calls; def s32 (void); KR_AS calls pass 1 args	T6	md_MAIN_044:0x800CD45C addu $a0, $s1, $zero; md_MAIN_044:0x800CD458 jal func_801632E0
-func_801632F0	src/shared/ov/func_801632F0.h	KR-OVER: 6 of 6 KR_AS calls; def s32 (void); KR_AS calls pass 1 args	T6	md_MAIN_015:0x800CB3A4 addu $a0, $s1, $zero; md_MAIN_015:0x800CB3A0 jal func_801632F0
-func_80163328	src/shared/ov/func_80163328.h	KR-OVER: 6 of 6 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	md_MAIN_015:0x800CB39C addu $a0, $s1, $zero; md_MAIN_015:0x800CB398 jal func_80163328
 func_801657A0	src/shared/ov/func_801657A0.h	KR-OVER: 1 of 1 KR_AS calls; def void (void); KR_AS calls pass 1 args; over passthrough: caller func_800CAEB0 leaves its own incoming $a0 unwritten at the jal	T6	md_MAIN_021:0x800CAEBC jal func_801657A0
-func_80165910	src/shared/ov/func_80165910.h	KR-OVER: 4 of 4 KR_AS calls; def s32 (void); KR_AS calls pass 1 args	T6	md_MAIN_020:0x800CAED0 addu $a0, $s0, $zero; md_MAIN_020:0x800CAECC jal func_80165910
 func_8016F0AC	src/shared/ov/func_8016F0AC.h	KR-OVER: 2 of 2 KR_AS calls; def s32 (void); KR_AS calls pass 1 args; over passthrough: caller func_801747AC leaves its own incoming $a0 unwritten at the jal	T6	ov_SC01_077:0x801747B4 jal func_8016F0AC
-func_8017C338	src/shared/ov/func_8017C338__76785405.h	KR-OVER: 1 of 1 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	ov_SC01_005:0x8017C2DC addu $a0, $s0, $zero; ov_SC01_005:0x8017C2D8 jal func_8017C338
 func_8017D4C4	src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c	KR-OVER: 1 of 1 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	ov_SC03_007:0x8017D4AC addu $a0, $s0, $zero; ov_SC03_007:0x8017D4A8 jal func_8017D4C4
 func_8017DDE0	src/ov_SC05_009/ov_SC05_009_jr_8017BEBC.c	KR-OVER: 1 of 1 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	ov_SC05_009:0x8017DDC8 addu $a0, $s0, $zero; ov_SC05_009:0x8017DDC4 jal func_8017DDE0
 func_8017DE70	src/ov_SC05_007/ov_SC05_007_jr_8017BEBC.c	KR-OVER: 1 of 1 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	ov_SC05_007:0x8017DE58 addu $a0, $s0, $zero; ov_SC05_007:0x8017DE54 jal func_8017DE70
@@ -47,8 +40,6 @@ func_80181E98	src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c	KR-OVER: 1 of 1 KR_AS ca
 func_80182898	src/ov_SC03_104/ov_SC03_104_jr_80182038.c	KR-OVER: 3 of 3 KR_AS calls; def s32 (void); KR_AS calls pass 1 args	T6	ov_SC03_104:0x80181DE0 addu $a0, $s0, $zero; ov_SC03_104:0x80181DDC jal func_80182898
 func_80182968	src/ov_SC01_077/ov_SC01_077_jr_80182268.c	KR-OVER: 3 of 3 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	ov_SC01_077:0x80180BF4 addu $a0, $s0, $zero; ov_SC01_077:0x80180BF0 jal func_80182968
 func_801843DC	src/ov_SC03_105/ov_SC03_105_jr_80181C84.c	KR-OVER: 2 of 2 KR_AS calls; def void (void); KR_AS calls pass 1 args	T6	ov_SC03_105:0x80182148 addu $a0, $s1, $zero; ov_SC03_105:0x80182144 jal func_801843DC
-func_80184A04	src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c	KR-OVER: 3 of 3 KR_AS calls; def s32 (void); KR_AS calls pass 1 args	T6	ov_SC03_090:0x80183F4C addu $a0, $s0, $zero; ov_SC03_090:0x80183F48 jal func_80184A04
-func_80184D28	src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c	KR-OVER: 3 of 3 KR_AS calls; def s32 (void); KR_AS calls pass 1 args	T6	ov_SC03_089:0x80184270 addu $a0, $s0, $zero; ov_SC03_089:0x8018426C jal func_80184D28
 func_801858AC	src/ov_SC03_091/ov_SC03_091_jr_8018326C.c	KR-OVER: 3 of 3 KR_AS calls; def s32 (void); KR_AS calls pass 1 args	T6	ov_SC03_091:0x80184DF4 addu $a0, $s0, $zero; ov_SC03_091:0x80184DF0 jal func_801858AC
 func_801858C4	src/ov_SC02_005/ov_SC02_005_jr_80185060.c	KR-OVER: 3 of 3 KR_AS calls; def void (void); KR_AS calls pass 1 args; over passthrough: caller func_80184358 leaves its own incoming $a0 unwritten at the jal	T6	ov_SC02_005:0x8018439C jal func_801858C4
 func_80185D6C	src/ov_SC02_005/ov_SC02_005_jr_80185060.c	KR-OVER: 1 of 1 KR_AS calls; def s32 (void); KR_AS calls pass 1 args; over passthrough: caller func_8018C758 leaves its own incoming $a0 unwritten at the jal	T6	ov_SC02_005:0x8018C780 jal func_80185D6C
@@ -256,7 +247,6 @@ guess_GetGameVarByte	src/800.c	KR-SHORT: 2 of 2 KR_AS calls; def s32 (s32 arg0);
 guess_InitModelObject	src/800.c	KR-SHORT: 1 of 1 KR_AS calls; def void (s32 a0, s32 a1); KR_AS calls pass 1 args	T6	main:0x8001C224 addu $s1, $a1, $zero; ov_SC05_008:0x8018229C jal func_8001C214
 guess_IsDirectionHeld	src/shared/ov/func_801488A8.h	KR-SHORT: 1 of 1 KR_AS calls; def s32 (u8 *a0); KR_AS calls pass 0 args	T6	ov_MAIN_012:0x801488A8 lbu $v1, 0xA9($a0); md_MAIN_046:0x800CD2A0 jal func_801488A8
 guess_LookupIdValue	src/shared/ov/func_80131CF4.h	KR-SHORT: 2 of 2 KR_AS calls; def s32 (s32 *a0, s32 a1); KR_AS calls pass 1 args	T6	ov_MAIN_012:0x80131D40 beq $v0, $a1, . + 4 + (-0x10 << 2); ov_SC01_077:0x80131AD8 jal func_80131CF4
-guess_ObjRotTransSV	src/shared/ov/func_80149350.h	KR-OVER: 1 of 1 KR_AS calls; def void (s32 arg0); KR_AS calls pass 3 args	T6	md_MAIN_015:0x800CB56C addu $a2, $a1, $zero; md_MAIN_015:0x800CB574 jal func_80149350
 guess_ReturnPlayerToStandingState	src/shared/ov/func_8016EE40.h	KR-SHORT-UNREAD: 128 of 128 KR_AS calls; def void (s32 _arg0, s32 _arg1, s32 _arg2); KR_AS calls pass 2 args	T6	ov_SC01_000:0x8015EB08 jal func_8016EE40
 guess_SaveGroundedPos	src/shared/ov/func_801483E8.h	KR-SHORT: 1 of 1 KR_AS calls; def void (unsigned char *self); KR_AS calls pass 0 args	T6	ov_MAIN_012:0x801483F0 addu $s0, $a0, $zero; ov_SC01_077:0x80161134 jal func_801483E8
 guess_ShowObjectModel	src/shared/ov/func_8012E88C.h	KR-SHORT: 1 of 1 KR_AS calls; def void (u8 *a0); KR_AS calls pass 0 args	T6	ov_MAIN_012:0x8012E88C lw $a0, 0x20($a0); ov_SC06_025:0x801835D0 jal func_8012E88C
@@ -273,3 +263,21 @@ func_801889AC	src/ov_SC03_001/ov_SC03_001_jr_80188830.c	KR-SHORT: 4 of 4 KR_AS c
 func_8018BBBC	src/ov_SC06_022/ov_SC06_022_jr_80184A28.c	KR-SHORT: 1 of 1 KR_AS calls; def void (s32 a0); KR_AS calls pass 0 args	T8	ov_SC06_022:0x8018BBC4 addu $s0, $a0, $zero; ov_SC06_022:0x8018CA78 jal func_8018BBBC
 func_8018E094	src/ov_SC06_024/ov_SC06_024_jr_80186F00.c	KR-SHORT: 2 of 2 KR_AS calls; def void (s32 a0); KR_AS calls pass 0 args	T8	ov_SC06_024:0x8018E09C addu $s0, $a0, $zero; ov_SC06_024:0x8018EF04 jal func_8018E094
 func_8018F6EC	src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c	KR-SHORT: 3 of 3 KR_AS calls; def void (s32 a0); KR_AS calls pass 0 args	T8	ov_SC06_033:0x8018F6F4 addu $s0, $a0, $zero; ov_SC06_033:0x80190528 jal func_8018F6EC
+func_8001931C	src/800.c	KR-OVER: 3 of 3 KR_AS calls; def void (void); KR_AS calls pass 1 args	T8	ov_SC03_126:0x80138454 lw $a0, 0x8($s1); ov_SC03_126:0x80138468 jal func_8001931C
+func_800CF854	src/resident/resident.c	KR-SHORT-UNREAD: 7 of 7 KR_AS calls; def s32 (s32 arg0); KR_AS calls pass 0 args	T8	ov_SC02_000:0x80183770 jal func_800CF854
+func_8013240C	src/shared/ov/func_8013240C.h	KR-OVER: 1 of 1 KR_AS calls; def void (s32 a0); KR_AS calls pass 3 args	T8	ov_SC02_005:0x8018442C addiu $a2, $zero, 0x15; ov_SC02_005:0x80184438 jal func_8013240C
+func_80139220	src/shared/ov/func_80139220.h	KR-OVER: 3 of 3 KR_AS calls; def s32 (s32 a0); KR_AS calls pass 2 args; over passthrough: caller func_801380E0 leaves its own incoming $a1 unwritten at the jal	T8	ov_SC03_126:0x801381F8 jal func_80139220
+func_80139788	src/shared/ov/func_80139788.h	KR-SHORT-UNREAD: 1 of 1 KR_AS calls; def void (s32 arg0); KR_AS calls pass 0 args	T8	ov_SC01_077:0x8013A054 jal func_80139788
+func_801465C0	-	KR-OVER: 3 of 3 KR_AS calls; def (C body named guess_AllocSpriteObject, src/shared/ov/func_801465C0.h) void * (void); KR_AS calls pass 1 args; over passthrough: caller func_800D21C4 leaves its own incoming $a0 unwritten at the jal	T8	resident:0x800D21DC jal func_801465C0
+func_8014B33C	src/shared/ov/func_8014B33C.h	KR-OVER: 1 of 1 KR_AS calls; def void (void); KR_AS calls pass 1 args	T8	md_MAIN_030:0x800CAEF0 addu $a0, $s0, $zero; md_MAIN_030:0x800CAEEC jal func_8014B33C
+func_80165910	src/shared/ov/func_80165910.h	KR-OVER: 7 of 7 KR_AS calls; def s32 (void); KR_AS calls pass 1 args	T8	md_MAIN_020:0x800CAED0 addu $a0, $s0, $zero; md_MAIN_020:0x800CAECC jal func_80165910
+func_8017D8DC	src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c	KR-SHORT-UNREAD: 2 of 2 KR_AS calls; def void (s32 arg0); KR_AS calls pass 0 args	T8	ov_SC01_077:0x8017E314 jal func_8017D8DC
+func_801818DC	src/ov_SC03_097/ov_SC03_097_jr_8017D898.c	KR-SHORT-UNREAD: 2 of 2 KR_AS calls; def void (void *arg0); KR_AS calls pass 0 args	T8	ov_SC03_097:0x8017FFF8 jal func_801818DC
+func_8018291C	src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c	KR-SHORT-UNREAD: 2 of 2 KR_AS calls; def void (s32 arg0); KR_AS calls pass 0 args	T8	ov_SC03_118:0x80182FB4 jal func_8018291C
+func_80184428	src/ov_SC03_124/ov_SC03_124_jr_80181B44.c	KR-SHORT-UNREAD: 2 of 2 KR_AS calls; def s32 (s32 arg0); KR_AS calls pass 0 args	T8	md_SC03_135:0x801E5714 jal func_80184428
+func_80184A00	src/ov_SC05_017/ov_SC05_017_jr_80182A74.c	KR-SHORT-UNREAD: 6 of 6 KR_AS calls; def s32 (s32 arg0); KR_AS calls pass 0 args	T8	ov_SC05_017:0x8018B2B4 jal func_80184A00
+func_80184D00	src/ov_SC04_018/ov_SC04_018_jr_80183E6C.c	KR-SHORT-UNREAD: 9 of 9 KR_AS calls; def s32 (s32 arg0); KR_AS calls pass 0 args	T8	md_SC04_027:0x801EAC7C jal func_80184D00
+func_8018615C	src/ov_SC06_029/ov_SC06_029_jr_8017C954.c	KR-SHORT-UNREAD: 1 of 1 KR_AS calls; def void (s32 arg0); KR_AS calls pass 0 args	T8	ov_SC06_029:0x8018097C jal func_8018615C
+func_80189F64	src/ov_SC02_005/ov_SC02_005_jr_80185E80.c	KR-SHORT-UNREAD: 1 of 1 KR_AS calls; def void (void *_arg0); KR_AS calls pass 0 args	T8	ov_SC02_005:0x801850F4 jal func_80189F64
+guess_AddVelocityToPos	src/shared/ov/func_8012931C.h	KR-OVER: 3 of 3 KR_AS calls; def void (struct vec *a0); KR_AS calls pass 2 args	T8	ov_SC02_015:0x8017DB78 lw $a1, 0x18($s0); ov_SC02_015:0x8017DB94 jal func_8012931C
+guess_ObjRotTransSV	src/shared/ov/func_80149350.h	KR-OVER: 2 of 2 KR_AS calls; def void (s32 arg0); KR_AS calls pass 3 args	T8	md_MAIN_015:0x800CB56C addu $a2, $a1, $zero; md_MAIN_015:0x800CB574 jal func_80149350

@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 /* $v0 at exit: result of guess_CloseTextWindow or result of func_80139B18 or addiu $v0, $zero, 0xD at ov_SC01_000:0x8013812C or addiu $v0, $zero, 0xA at ov_SC01_000:0x80138750; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x6B0, ov_SC01_000 objdump */
 s32 func_801380E0(s32 arg0) {
-    extern void func_8001931C(s32);
+    extern void func_8001931C(void);
     extern void func_8001AAD0(s32, s32);
     extern s32 func_8001B22C(void);
     extern void guess_SetGameFlag(s32, s32);
@@ -12,7 +12,7 @@ s32 func_801380E0(s32 arg0) {
     extern void func_80138D58(s32, s32);
     extern s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2);
     extern void func_801391F0(s32, s32);
-    extern s32 func_80139220(s32, s32);
+    extern s32 func_80139220(s32 a0);
     extern void func_80139788(s32);
     extern void guess_CloseTextWindow(s32);
     extern void func_80139A8C(s32);
@@ -63,7 +63,7 @@ s32 func_801380E0(s32 arg0) {
         } else if (cmd != 0) {
             switch (cmd) {
             case 10:
-                func_80139220(arg0, cmd);
+                KR_AS(s32, func_80139220)(arg0, cmd);
                 *p += 1;
                 *(s32 *)(arg0 + 8) = *(s32 *)(arg0 + 8) & ~0x80000;
                 break;
@@ -159,7 +159,7 @@ s32 func_801380E0(s32 arg0) {
                         if (func_8001B22C() == 0) {
                             f = *(s32 *)(arg0 + 8);
                             if (f & 1) {
-                                func_8001931C(f);
+                                KR_AS(void, func_8001931C)(f);
                             } else {
                                 *(s32 *)(arg0 + 8) = (f & ~0x10000) | 0x20020;
                                 func_80139788(f);

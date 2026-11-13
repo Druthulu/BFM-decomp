@@ -947,14 +947,14 @@ extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
 extern unsigned short D_8018DD5C[];
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -1496,12 +1496,12 @@ extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163234(s32 a0);
 extern s32 D_80115100;
-extern s32 func_801632E0(void);
+extern s32 func_801632E0(s32 arg0);
 extern s32 D_80115200;
-extern s32 func_801632F0(void);
+extern s32 func_801632F0(void *arg0);
 extern u16 D_80126B18[];
-extern void func_80163328(void);
-extern s32 func_801633A8(void);
+extern void func_80163328(s32 arg0);
+extern s32 func_801633A8(s32 arg0);
 extern s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5);
 extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
@@ -2610,7 +2610,7 @@ extern s16 D_801CBBB0;
 extern s16 D_801CBBA4;
 extern s16 D_801CBBA6;
 extern s16 D_801CBBA8;
-extern void func_8017B7A8(void);
+extern void func_8017B7A8(void *arg0);
 extern s16 D_801CBBC4;
 extern s16 D_801CBBC6;
 extern s16 D_801CBBC8;
@@ -2623,7 +2623,7 @@ extern s32 func_8017B8E8(s32 src);
 extern short D_801CBBBC;
 extern short D_801CBBBE;
 extern short D_801CBBC0;
-extern void func_8017B940(void);
+extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
@@ -4079,7 +4079,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 #undef SHARED_FN
 
 
-void func_80181EC8(void) {
+void func_80181EC8(int arg0) {
 }
 
 extern void func_8013B7F4(void *a0, int a1);
@@ -5203,7 +5203,7 @@ void func_80183EC4(s32 a0)
     extern void guess_SetForwardVelocity(s32 a0, s32 a1);
     extern s32 func_8012CBF4(s32 a0);
     extern s32  guess_TickWaitTimer(s32 a0);
-    extern s32  func_80184A04(void);
+    extern s32  func_80184A04(s32 arg0);
     extern s32  func_80184958(s32 a0);
     extern s32 func_8012BE54(s32 a0);
 
@@ -5221,7 +5221,7 @@ void func_80183EC4(s32 a0)
     guess_SetForwardVelocity(a0, ((Unkstruct_800B5CB8 *)a0)->unkE0);
     func_8012CBF4(a0);
     if (guess_TickWaitTimer(a0)) {
-        if (KR_AS(s32, func_80184A04)(a0) != 1) {
+        if (func_80184A04(a0) != 1) {
             if (func_80184958(a0) == 1) {
                 if (((s32 (*)(s32))func_8012BE54)(a0) <= 0x8000) {
                     ((Unkstruct_800B5CB8 *)a0)->unk2 = 8;
@@ -5250,10 +5250,10 @@ void func_8018400C(s32 a0) {
 void func_80184060(s32 a0)
 {
     extern s32 func_8012BE54(s32 a0);
-    extern s32  func_80184A04(void);
+    extern s32  func_80184A04(s32 arg0);
     extern s16  D_80126CBA;
 
-    if (((s32 (*)(s32))func_8012BE54)(a0) <= 0x40000 && D_80126CBA == 0 && KR_AS(s32, func_80184A04)(a0) == 0) {
+    if (((s32 (*)(s32))func_8012BE54)(a0) <= 0x40000 && D_80126CBA == 0 && func_80184A04(a0) == 0) {
         *(s16 *)(a0 + 0x2) = 5;
     }
 }
@@ -5651,13 +5651,13 @@ s32 * func_80184888(s32 *a0, s32 a1, s32 a2)
     s16 *q;
     u16 *p;
     s16 t;
-    extern s32 func_80184A04(void);
+    extern s32 func_80184A04(s32 arg0);
     extern s16 D_80126CBA;
     extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 
     q = &D_80126CBA;
     if (*q == 0) {
-        if (KR_AS(s32, func_80184A04)(a1)) {
+        if (func_80184A04(a1)) {
             p = (u16 *)(a1 + 0x88);
             ((Unkstruct_800B5CB8 *)a1)->unkDC = 1;
         } else {
@@ -5706,7 +5706,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 
 extern u8 D_80078EC1[0];
-    s32 func_80184A04(void) {
+    s32 func_80184A04(s32 arg0) {
         return D_80078EC1[0] == 0x15;
     }
 

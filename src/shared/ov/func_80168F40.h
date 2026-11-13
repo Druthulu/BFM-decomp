@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_80168F40(void *arg0) {
     extern Blk20 D_800AE620;
-    extern void func_80016A5C(void);
+    extern void func_80016A5C(void *arg0, void *arg1);
     struct A a;
     struct B b;
     a.unk00 = *(u16 *)((u8 *)arg0 + 0x10);
@@ -19,5 +19,5 @@ void func_80168F40(void *arg0) {
     a.unk15 = 0x80;
     *(Bv *)&b = *(Bv *)&D_800AE620;
     a.unk18 = 0x50000000;
-    KR_AS(void, func_80016A5C)(&a, &b);
+    func_80016A5C(&a, &b);
 }

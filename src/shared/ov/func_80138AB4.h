@@ -4,7 +4,7 @@ extern s16 D_80127540[4];
 extern s32 func_80139D04(s32 a0, s32 a1);
 extern s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2);
 extern void func_80139B18(s32 a0);
-void func_80138AB4(s32 a0) {
+void func_80138AB4(s32 a0, s32 arg1) {
     u8 sp10[8];
     s32 s0 = a0;
     s32 s1;

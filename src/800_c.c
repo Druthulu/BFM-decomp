@@ -3710,7 +3710,7 @@ loop:
     if (i < 0x10) goto loop;
 }
 
-void func_80039C5C(s32 *param_1) {
+void func_80039C5C(s32 *param_1, s32 arg1) {
     *param_1 += 2;
 }
 
@@ -3893,7 +3893,7 @@ void func_8003A098(A098Ctx *arg0, s16 arg1) {
     arg0->rec[arg1].b0 = *v1;
 }
 
-void func_8003A0D0(s32 *arg0) {
+void func_8003A0D0(s32 *arg0, s32 arg1) {
     (*arg0)++;
 }
 

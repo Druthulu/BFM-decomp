@@ -25,13 +25,13 @@ extern void func_800CAEC0(s32 a0);
 
 extern void func_801599A4(void *a0);
 extern void func_800CAF5C(s32 *a0);
-extern s32 func_80165910(s32 a0);
+extern s32 func_80165910(void);
 extern void func_801655E4(s32 a0);
 
 void func_800CAEC0(s32 a0) {
     func_801599A4((void *)a0);
     func_800CAF5C((s32 *)a0);
-    if (func_80165910(a0) == 0) {
+    if (KR_AS(s32, func_80165910)(a0) == 0) {
         func_801655E4(a0);
     }
     ((Unkstruct_80126B58 *)a0)->unk197 += 1;

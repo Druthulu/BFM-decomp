@@ -1234,7 +1234,7 @@ extern u16 guess_RollActorEventValue(u16 param_1);
 extern S801563EC * func_801563EC(u16 idx);
 extern s32 func_801564B0(s32 a0);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
@@ -1244,7 +1244,7 @@ extern B8 D_80128120[];
 extern B8 D_80128138[];
 extern S8 D_80126AF0[];
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern void func_80156A1C(s32 param_1, s32 param_2);
 extern s32 D_801150E0[];
 extern void func_80156A88(s32 a0, s32 a1);
@@ -3921,7 +3921,7 @@ extern s32 guess_TestGameFlag(s32 arg);
 extern void guess_SetGameFlag(s32, s32);
 extern void func_800D1734(void *);
 
-void func_80161D88(void) {
+void func_80161D88(s32 arg0) {
 
     extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
     extern s32 D_800AE6A8;

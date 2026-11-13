@@ -937,14 +937,14 @@ extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
 extern unsigned short D_8018F4AC[];
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -1483,12 +1483,12 @@ extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163234(s32 a0);
 extern s32 D_80115100;
-extern s32 func_801632E0(void);
+extern s32 func_801632E0(s32 arg0);
 extern s32 D_80115200;
-extern s32 func_801632F0(void);
+extern s32 func_801632F0(void *arg0);
 extern u16 D_80126B18[];
-extern void func_80163328(void);
-extern s32 func_801633A8(void);
+extern void func_80163328(s32 arg0);
+extern s32 func_801633A8(s32 arg0);
 extern s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5);
 extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
@@ -2600,7 +2600,7 @@ extern s16 D_801ECB80;
 extern s16 D_801ECB74;
 extern s16 D_801ECB76;
 extern s16 D_801ECB78;
-extern void func_8017B7A8(void);
+extern void func_8017B7A8(void *arg0);
 extern s16 D_801ECB94;
 extern s16 D_801ECB96;
 extern s16 D_801ECB98;
@@ -2613,7 +2613,7 @@ extern s32 func_8017B8E8(s32 src);
 extern short D_801ECB8C;
 extern short D_801ECB8E;
 extern short D_801ECB90;
-extern void func_8017B940(void);
+extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
@@ -2899,7 +2899,7 @@ extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern void func_80184928(void *a0, s32 a1);
 extern void func_801849B0(void *a0);
 extern void guess_HideObjectModel(u8 *a0);
-extern s32 func_80184A00(void);
+extern s32 func_80184A00(s32 arg0);
 extern s32 func_80184A5C(void);
 extern s32 func_80184AD0(void);
 extern void func_80029514(s32 arg);
@@ -4732,13 +4732,13 @@ void func_8018B270(void *a0) {
 }
 
 
-extern s32 func_80184A00(void);
+extern s32 func_80184A00(s32 arg0);
 extern s32 func_80184B44(void);
 extern s32 func_801848AC(s32 arg0, s32 arg1);
 extern u8 D_80078EBA;
 
 s32 func_8018B2AC(void) {
-    if (func_80184A00() == 3) {
+    if (KR_AS(s32, func_80184A00)() == 3) {
         return 1;
     }
     if ((((s32 (*)(void))func_80184B44)() == 1) || (D_80078EBA == 2)) {
@@ -5002,7 +5002,7 @@ void func_8018B7E4(void *a0) {
 extern u8 D_80078EBA;
 extern s32 func_801848AC(s32 arg0, s32 arg1);
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_80184A00(void);
+extern s32 func_80184A00(s32 arg0);
 extern s32 func_80184B44(void);
 
 s32 func_8018B850(void) {
@@ -5022,7 +5022,7 @@ s32 func_8018B850(void) {
 
     v1 = guess_GetStoryProgress();
     if (v1 < 0xC8) {
-        v1 = func_80184A00();
+        v1 = KR_AS(s32, func_80184A00)();
         if (v1 < 0) {
             return v1;
         }
@@ -5144,7 +5144,7 @@ void func_8018BB74(s32 s0) {
     extern s32 D_801E68B4[];
 
     if (guess_GetStoryProgress() < 0xC8) {
-        *(s32 *)(s0 + 0xE4) = D_801E68A0[func_80184A00()];
+        *(s32 *)(s0 + 0xE4) = D_801E68A0[KR_AS(s32, func_80184A00)()];
     } else {
         *(s32 *)(s0 + 0xE4) = D_801E68B4[func_80184AD0()];
     }
@@ -5334,7 +5334,7 @@ extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32, s32);
 extern s32 guess_GetStoryProgress(void);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
-extern s32 func_80184A00(void);
+extern s32 func_80184A00(s32 arg0);
 extern s32 func_801848AC(s32 arg0, s32 arg1);
 extern void func_801849B8(s32*, s32);
 
@@ -5445,7 +5445,7 @@ extern void func_80172710(void);
 
 
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_80184A00(void);
+extern s32 func_80184A00(s32 arg0);
 extern s32 func_80184B44(void);
 extern s32 func_801848AC(s32 arg0, s32 arg1);
 extern void func_8018BF4C(void *);
@@ -5455,7 +5455,7 @@ void func_8018C194(void *a0) {
     s32 v0;
 
     if (v1 < 0xC8) {
-        v0 = func_80184A00();
+        v0 = KR_AS(s32, func_80184A00)();
         v1 = 3;
         if (v0 == v1) goto call_func_8018BF4C;
         goto call_func_801848AC;
@@ -5482,7 +5482,7 @@ call_func_8018BF4C:
 
 
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_80184A00(void);
+extern s32 func_80184A00(s32 arg0);
 extern s32 func_80184B44(void);
 extern s32 func_801848AC(s32 arg0, s32 arg1);
 extern void func_801849B8(s32*, s32);
@@ -5495,7 +5495,7 @@ void func_8018C218(void *a0) {
     s32 v0;
 
     if (v1 < 0xC8) {
-        v0 = func_80184A00();
+        v0 = KR_AS(s32, func_80184A00)();
         v1 = 3;
         if (v0 == v1) {
             return;

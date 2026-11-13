@@ -58,7 +58,7 @@ extern s32 func_8012CBA4(s32 a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
-extern void func_801803B0(void);
+extern void func_801803B0(int arg0);
 extern s32 rand(void);
 extern s16 D_8018E794;
 extern s16 D_8018E796;

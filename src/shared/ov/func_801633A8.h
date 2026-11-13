@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 D_80115100;
 extern s32 D_80115200;
-s32 func_801633A8(void) {
+s32 func_801633A8(s32 arg0) {
     s32 *p = &D_80115100;
     s32 *q = &D_80115200;
     s32 i;

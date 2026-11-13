@@ -373,7 +373,7 @@ extern s16 D_80126B98;
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern int func_8012D664(int arg0, int arg1, int arg2);
-extern s32 func_8012D624(s32 a0);
+extern s32 func_8012D624(s32 a0, s32 arg1, s32 arg2);
 extern int func_8012D664(int arg0, int arg1, int arg2);
 extern s32 func_8012D714(s32 param_1, u32 param_2);
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
@@ -730,7 +730,7 @@ void func_80138BE0(int p)
 
 extern void func_80139BE0(s32);
 
-s32 func_80138C60(s32 arg0)
+s32 func_80138C60(s32 arg0, s32 arg1)
 {
     extern Q_80138C60 D_801938F4[];
     u16 t;

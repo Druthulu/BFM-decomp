@@ -5,7 +5,7 @@
 #include "common.h"
 
 extern void func_80187280(s32 a0, s32 a1);
-extern void func_80189F64(void);
+extern void func_80189F64(void *_arg0);
 extern void func_801876B0(s32 arg0);
 extern void func_80187664(s32 arg0);
 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -29,7 +29,7 @@ void func_80185060(s32 a0, s32 a1)
     switch ((s16)(CAST_SIGN(u16, a0, 0x70) - 3)) {
     case 0:
         *(u32 *)(((Unkstruct_800B5CB8 *)a0)->unkCC + 0xE8) |= 0x2000;
-        func_80189F64();
+        KR_AS(void, func_80189F64)();
         flag = 1;
         break;
     case 5:

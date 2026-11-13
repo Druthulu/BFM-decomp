@@ -92,10 +92,10 @@ extern void func_800CF818(void);
 extern void func_800CF82C(void);
 extern void func_800CF840(void);
 extern u8 D_800AE6BF;
-extern s32 func_800CF854(void);
+extern s32 func_800CF854(s32 arg0);
 extern u16 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 func_800CF8B4(void);
-extern s32 func_800CF864(void);
+extern s32 func_800CF864(s32 arg0, s32 arg1);
 extern s32 func_800CF8CC(void);
 extern s32 func_800D1714(void);
 extern void func_800CFDE8(s32 arg0);
@@ -1212,11 +1212,11 @@ void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
  *   in the jal's delay slot in asm -> write the store AFTER the call.
  */
 
-extern void *func_801465C0(s32 arg0) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
+extern void *func_801465C0(void) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
 extern void func_8001CC3C(S800D21C4 *arg0, s32 arg1, s32 arg2, s32 arg3);
 
 S800D21C4 *func_800D21C4(s32 arg0, s32 arg1, s32 arg2) {
-    S800D21C4 *s0 = (S800D21C4 *)func_801465C0(arg0);
+    S800D21C4 *s0 = (S800D21C4 *)KR_AS(void *, func_801465C0)(arg0);
     if (s0 != 0) {
         func_8001CC3C(s0, arg1, 0, 0);
         s0->f27 = arg2;
@@ -1238,11 +1238,11 @@ S800D21C4 *func_800D21C4(s32 arg0, s32 arg1, s32 arg2) {
 // Arg note: a0 for func_8001CB6C is the alloc result (asm `addu a0,s0,zero` in the
 // bnez delay slot) — i.e. p is its first argument.
 
-extern void *func_801465C0(s32) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
+extern void *func_801465C0(void) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
 extern void func_8001CB6C(u8 *, s32, s32, s32);
 
 u8 *func_800D222C(s32 arg0, s32 arg1, s32 arg2) {
-    u8 *p = func_801465C0(arg0);
+    u8 *p = KR_AS(void *, func_801465C0)(arg0);
     if (p != 0) {
         func_8001CB6C(p, arg1, 0, 0);
         p[0x27] = arg2;
@@ -1254,11 +1254,11 @@ u8 *func_800D222C(s32 arg0, s32 arg1, s32 arg2) {
 // MATCHED form: structure as `if (p) { call; return p; } return 0;` so gcc emits
 // `bnez s0,.L22C0` with the `return 0` (v0=0) in the j delay slot of the false path,
 // and the call arm inlined after (a1=s1 in the jal delay, v0=s0 the return move).
-extern void *func_801465C0(s32 arg0) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
+extern void *func_801465C0(void) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
 extern void guess_InitObjectKind6(void *arg0, s32 arg1);
 
 void *func_800D2294(s32 arg0, s32 arg1) {
-    void *p = func_801465C0(arg0);
+    void *p = KR_AS(void *, func_801465C0)(arg0);
     if (p) {
         guess_InitObjectKind6(p, arg1);
         return p;

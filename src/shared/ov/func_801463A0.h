@@ -57,5 +57,5 @@ void func_801463A0(void)
     func_801508F8((s32)&guess_g_PlayerActor);
     D_80126C9E = 0;
     func_8014B5B0(&guess_g_PlayerActor);
-    KR_AS(void, func_80161D88)((s32)&guess_g_PlayerActor);
+    func_80161D88((s32)&guess_g_PlayerActor);
 }

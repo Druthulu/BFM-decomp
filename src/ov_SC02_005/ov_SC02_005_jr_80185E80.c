@@ -1847,7 +1847,7 @@ void func_80188404(void *a0)
 #include "common.h"
 
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
-extern void func_8013240C(s32 a0, s32 a1, u32 a2);
+extern void func_8013240C(s32 a0);
 extern s32 D_801E44E0;
 
 void func_801884C8(s32 a0) {
@@ -1858,7 +1858,7 @@ void func_801884C8(s32 a0) {
 
 #include "common.h"
 
-extern void func_8013240C(s32 a0, s32 a1, u32 a2);
+extern void func_8013240C(s32 a0);
 extern void func_80183FCC(s32 param_1);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
@@ -2938,7 +2938,7 @@ extern s32 func_80132EF4(s32 a0, s32 a1);
 
 
 extern u8 *func_8012913C(s32 a0);
-    void func_80189F64(void) {
+    void func_80189F64(void *_arg0) {
         ((void (*)(s32))func_8012913C)(0x15);
     }
 

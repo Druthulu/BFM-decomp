@@ -191,7 +191,7 @@ void func_80183558(s32 a0) {
 extern void func_8018452C(s32 a0);
     void func_8018360C(short *param) {
         param[1] = 0xB;
-        KR_AS(void, func_8018452C)();
+        KR_AS(s32, func_8018452C)();
     }
 
 

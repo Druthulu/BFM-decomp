@@ -945,14 +945,14 @@ extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
 extern unsigned short D_80192BB4[];
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -1495,12 +1495,12 @@ extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163234(s32 a0);
 extern s32 D_80115100;
-extern s32 func_801632E0(void);
+extern s32 func_801632E0(s32 arg0);
 extern s32 D_80115200;
-extern s32 func_801632F0(void);
+extern s32 func_801632F0(void *arg0);
 extern u16 D_80126B18[];
-extern void func_80163328(void);
-extern s32 func_801633A8(void);
+extern void func_80163328(s32 arg0);
+extern s32 func_801633A8(s32 arg0);
 extern s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5);
 extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
@@ -2619,7 +2619,7 @@ extern s16 D_801E42A8;
 extern s16 D_801E429C;
 extern s16 D_801E429E;
 extern s16 D_801E42A0;
-extern void func_8017B7A8(void);
+extern void func_8017B7A8(void *arg0);
 extern s16 D_801E42BC;
 extern s16 D_801E42BE;
 extern s16 D_801E42C0;
@@ -2632,7 +2632,7 @@ extern s32 func_8017B8E8(s32 src);
 extern short D_801E42B4;
 extern short D_801E42B6;
 extern short D_801E42B8;
-extern void func_8017B940(void);
+extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
@@ -4000,7 +4000,7 @@ extern void func_80171B44(s32 *a0);
 
 
 extern s32 func_80171B4C(s32 a0, s32 a1);
-extern s32 func_800CF854(void);
+extern s32 func_800CF854(s32 arg0);
 extern void guess_SetAnimScript(s32 *a0, s32 a1);
 extern s32 guess_OpenTextWindow(s32 a0);
 extern u8 D_800D5A34[];
@@ -4008,7 +4008,7 @@ extern u8 D_800D5A34[];
 void func_8017F244(int param_1)
 {
     if (func_80171B4C(param_1, 0x1E) != 0) {
-        if (func_800CF854() != 0) {
+        if (KR_AS(s32, func_800CF854)() != 0) {
             *(unsigned char *)(param_1 + 0x214) = 3;
         } else {
             guess_SetAnimScript((s32 *)param_1, (s32)&D_800D5A34);
@@ -4086,7 +4086,7 @@ void func_8017F428(void *a0) {
 
 
 extern Blk8 D_801E2DC0;
-extern s32 func_800CF854(void);
+extern s32 func_800CF854(s32 arg0);
 extern void func_8016F0E4(u8 *);
 extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
 extern void func_8016F094(s32 *a0);
@@ -4100,7 +4100,7 @@ void func_8017F464(void *a0)
     Blk8 buffer;
 
     buffer = D_801E2DC0;
-    if (func_800CF854() != 0) {
+    if (KR_AS(s32, func_800CF854)() != 0) {
         ((void (*)(void *))func_8016F0E4)(a0);
         ((void (*)(void *, s32))func_8016EDEC)(func_80180380, 0x1000000);
     } else {

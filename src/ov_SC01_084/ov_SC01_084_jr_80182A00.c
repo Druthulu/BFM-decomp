@@ -2516,7 +2516,7 @@ void func_80185B34(s32 param_1) {
 #include "common.h"
 
 extern void func_80185C0C(s32 arg0);
-extern void guess_AddVelocityToPos(void *a0, s32 a1);
+extern void guess_AddVelocityToPos(struct vec *a0);
 extern void func_801292C8(u8 *a0);
 
 void func_80185B78(void *a0) {
@@ -2536,7 +2536,7 @@ void func_80185B78(void *a0) {
         t = ((Unkstruct_80185B78 *)s0)->unk18;
         ((Unkstruct_80185B78 *)s0)->unk18 = t;
         ((Unkstruct_80185B78 *)s0)->unk14 = ((Unkstruct_80185B78 *)s0)->unk14 + 0xC000;
-        guess_AddVelocityToPos(s0, t);
+        KR_AS(void, guess_AddVelocityToPos)(s0, t);
         if (((Unkstruct_80185B78 *)s0)->unk2E < ((Unkstruct_80185B78 *)s0)->unkA) {
             ((Unkstruct_80185B78 *)s0)->unkA = ((Unkstruct_80185B78 *)s0)->unk2E;
             ((void (*)(u8 *))func_801292C8)((u8 *)s0);

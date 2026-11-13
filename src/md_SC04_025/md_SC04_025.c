@@ -274,7 +274,7 @@ extern s32 guess_TestGameFlag(s32 arg);
 
 
 extern s32 guess_GetStoryProgress(void);
-extern s32 func_80184D00(void);
+extern s32 func_80184D00(s32 arg0);
 extern s32 func_80184DD0(void);
 extern s32 func_80184E44(void);
 extern void func_80184EA0(void);
@@ -288,7 +288,7 @@ void func_801E836C(s32 a0) {
     s32 v1 = guess_GetStoryProgress();
 
     if (v1 < 0xC8) {
-        s32 v0 = func_80184D00();
+        s32 v0 = KR_AS(s32, func_80184D00)();
         ((Unkstruct_801E2E04 *)a0)->unkE4 = D_801E8764[v0];
     } else if (v1 < 0x384) {
         if ((u32)(v1 - 0x136) < 0x122) {

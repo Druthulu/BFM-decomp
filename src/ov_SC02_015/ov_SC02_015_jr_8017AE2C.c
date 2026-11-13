@@ -950,14 +950,14 @@ extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
 extern unsigned short D_80180518[];
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -1499,12 +1499,12 @@ extern void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4);
 extern void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80163234(s32 a0);
 extern s32 D_80115100;
-extern s32 func_801632E0(void);
+extern s32 func_801632E0(s32 arg0);
 extern s32 D_80115200;
-extern s32 func_801632F0(void);
+extern s32 func_801632F0(void *arg0);
 extern u16 D_80126B18[];
-extern void func_80163328(void);
-extern s32 func_801633A8(void);
+extern void func_80163328(s32 arg0);
+extern s32 func_801633A8(s32 arg0);
 extern s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5);
 extern s32 func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4);
@@ -2960,7 +2960,7 @@ extern s16 D_801902FC;
 extern s16 D_801902FE;
 extern s16 D_80190300;
 
-void func_8017B7A8(void)
+void func_8017B7A8(void *arg0)
 {
     D_8012694C = 1;
     D_8019028C = 0;
@@ -3069,7 +3069,7 @@ extern s16 D_801902FC;
 extern s16 D_801902FE;
 extern s16 D_80190300;
 
-void func_8017B940(void)
+void func_8017B940(void *arg0)
 {
     s32 buf[3];
 
@@ -3710,7 +3710,7 @@ extern void (*D_80181D94[])(void);
 
 
 extern void func_8017DC24(s32);
-extern void guess_AddVelocityToPos(void *a0, s32 a1);
+extern void guess_AddVelocityToPos(struct vec *a0);
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 extern s32 D_80181D90;
 
@@ -3728,7 +3728,7 @@ void func_8017DB60(void *a0) {
     t = *(volatile s32 *)(s0 + 0x18);
     CAST_WIDTH(s32, s0, 0x18) = t;
     ((Unkstruct_800B5CB8 *)s0)->unk14 = ((Unkstruct_800B5CB8 *)s0)->unk14 + 0xC000;
-    guess_AddVelocityToPos(s0, t);
+    KR_AS(void, guess_AddVelocityToPos)(s0, t);
     if (CAST_SIGN(s16, s0, 0x2E) < CAST_SIGN(s16, s0, 0xA)) {
         ((Unkstruct_800B5CB8 *)s0)->unkA = CAST_SIGN(s16, s0, 0x2E);
         guess_CopyVec3HighHalves((s32)s0 + 4, &x);

@@ -988,7 +988,7 @@ extern s32 func_8002A400(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A8E0(void);
 extern s32 D_801151E0[];
-extern s32 func_801565C0(void);
+extern s32 func_801565C0(s32 arg0);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
@@ -1000,7 +1000,7 @@ extern B8 D_80128120[];
 extern B8 D_80128138[];
 extern S8 D_80126AF0[];
 extern u8 D_80126730[];
-extern void func_80156848(s32 param_1, s32 param_2);
+extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
 extern unsigned short D_80188DF0[];
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -5957,7 +5957,7 @@ s32 func_80168D58(s16 *a0) {
 
 #include "common.h"
 
-extern void func_80016A5C(void);
+extern void func_80016A5C(void *arg0, void *arg1);
 extern Blk20 D_800AE620;
 
 /* First stack record: sp+0x10 .. sp+0x28 (struct-relative offsets). Mixed widths;

@@ -326,9 +326,9 @@ extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern void guess_SetStep(s32 *a0, s16 a1);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s32 func_80163408(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80163328(void);
-extern s32 func_801632F0(void);
-extern s32 func_801632E0(void);
+extern void func_80163328(s32 arg0);
+extern s32 func_801632F0(void *arg0);
+extern s32 func_801632E0(s32 arg0);
 extern void guess_NextStep(void *a0);
 
 void func_800CD2EC(s32 *s1) {
@@ -363,10 +363,10 @@ void func_800CD2EC(s32 *s1) {
             }
         }
         func_80163408((s32)s1, 0x23, 0x80, 8);
-        KR_AS(void, func_80163328)(s1);
-        v0 = KR_AS(s32, func_801632F0)(s1);
+        func_80163328(s1);
+        v0 = func_801632F0(s1);
         if ((v0 & 1) != 0) {
-            KR_AS(s32, func_801632E0)(s1);
+            func_801632E0(s1);
         } else if ((v0 & 6) == 0) {
             return;
         }

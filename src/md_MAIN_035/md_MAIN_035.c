@@ -63,7 +63,7 @@ void func_800CAF48(void *a0) {
 }
 
 
-extern s32 func_80161104(s32 a0);
+extern s32 func_80161104(void);
 extern void func_800CAFBC(s32 a0);
 void func_800CAF84(int param_1)
 {
