@@ -1,5 +1,6 @@
 /* func_8016AB6C — shared body (overlay slot 0x80128158, h_exact d9b480d3). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of guess_FreeSmallObject or addiu $v0, $v0, 0x1 at ov_SC03_126:0x8016AE34; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x2A4, ov_SC03_126 objdump */
 s32 func_8016AB6C(s32 arg0) {
     extern u32 guess_IntToBcd(s32 a0, s32 a1);
     extern s32 guess_SjisToGlyphCodes(u8 *a0, u8 *a1);

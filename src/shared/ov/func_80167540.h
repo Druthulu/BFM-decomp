@@ -1,5 +1,6 @@
 /* func_80167540 — shared body (overlay slot 0x80128158, h_exact 145695c0). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of guess_FreeSmallObject or andi $v0, $v0, 0x20 at ov_MAIN_012:0x801676D4 or addiu $v0, $v0, 0x1 at ov_MAIN_012:0x801676E8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x1BC, ov_MAIN_012 objdump */
 s32 func_80167540(s32 arg0) {
 
     struct Node_80167540 *node;

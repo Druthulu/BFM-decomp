@@ -3036,6 +3036,7 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC07_011 objdump */
 s32 func_801727D0(void *a0) {
 
     extern void (*D_80181C00[])(void);
@@ -3057,6 +3058,7 @@ void func_8017288C(void) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC07_011 objdump */
 s32 func_801728E4(void *a0) {
 
     extern void (*D_80181C0C[])(void);
@@ -3078,6 +3080,7 @@ void func_801729A8(void) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC07_011 objdump */
 s32 func_801729F0(void *a0) {
 
     extern void (*D_80181C18[])(void);
@@ -3102,6 +3105,7 @@ void func_80172B0C(void) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC07_011 objdump */
 s32 func_80172B44(void *a0) {
 
     extern void (*D_80181C28[])(void);
@@ -3301,6 +3305,7 @@ void func_801736A8(void) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC07_011 objdump */
 s32 func_801736FC(void *a0) {
 
     extern void (*D_80181C78[])(void);
@@ -3322,6 +3327,7 @@ void func_801737B0(void) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC07_011 objdump */
 s32 func_801737E8(void *a0) {
 
     extern void (*D_80181C84[])(void);
@@ -3343,6 +3349,7 @@ void func_801738D4(void) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC07_011 objdump */
 s32 func_8017390C(void *a0) {
 
     extern void (*D_80181C90[])(void);
@@ -3418,6 +3425,7 @@ void func_80174274(void) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC07_011 objdump */
 s32 func_801742A4(void *a0) {
 
     extern void (*D_80181CC0[])(void);

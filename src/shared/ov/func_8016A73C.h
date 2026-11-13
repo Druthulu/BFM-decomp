@@ -1,5 +1,6 @@
 /* func_8016A73C — shared body (overlay slot 0x80128158, h_exact 02a5d43c). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: sra $v0, $v0, 16 at ov_MAIN_012:0x8016A86C; no byte-neutral return: `return 0;` moved `lhu v1,10(s0)` at +0xEC, ov_MAIN_012 objdump */
 s32 func_8016A73C(s32 arg0) {
     int sp10[8];
     short v[3];   /* sp30, sp32, sp34 */

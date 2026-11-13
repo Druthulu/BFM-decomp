@@ -3295,6 +3295,7 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 
 extern int (*D_8018718C[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_801727D0(void *a0)
 {
     D_8018718C[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3315,6 +3316,7 @@ void func_8017288C(void) {
 
 extern void (*D_80187198[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_801728E4(void *a0)
 {
     D_80187198[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3335,6 +3337,7 @@ void func_801729A8(void) {
 
 extern void (*D_801871A4[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_801729F0(void *a0)
 {
     D_801871A4[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3356,6 +3359,7 @@ void func_80172B0C(void) {
 #include "../shared/ov/func_80172B14.h"
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_80172B44(void *a0)
 {
 
@@ -3397,6 +3401,7 @@ void func_80172D60(void) {
 #include "../shared/ov/func_80172D68.h"
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_80172DAC(void *a0)
 {
     extern void (*D_801871CC[])(void);
@@ -3437,6 +3442,7 @@ void func_80172E8C(void) {
 #include "../shared/ov/func_8017303C.h"
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_80173078(void *a0)
 {
     extern void (*D_801871D8[])(void);
@@ -3458,6 +3464,7 @@ void func_8017316C(void) {
 
 extern void (*D_801871E4[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_8017319C(void *a0)
 {
     D_801871E4[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3560,6 +3567,7 @@ void func_801736A8(void) {
 #include "../shared/ov/func_801736B0.h"
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_801736FC(void *a0) {
 
     extern void (*D_80187204[])(void);
@@ -3581,6 +3589,7 @@ void func_801737B0(void) {
 
 extern void (*D_80187210[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_801737E8(void *a0)
 {
     D_80187210[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3599,6 +3608,7 @@ void func_801738D4(void) {
 #include "../shared/ov/func_801738DC.h"
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_8017390C(void *a0)
 {
 
@@ -3675,6 +3685,7 @@ void func_80174274(void) {
 
 extern void (*D_8018724C[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC02_037 objdump */
 s32 func_801742A4(void *a0)
 {
     D_8018724C[((Unkstruct_801727D0_2 *)a0)->unk214]();

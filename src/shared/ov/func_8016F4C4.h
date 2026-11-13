@@ -2,6 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
+/* $v0 at exit: result of func_80165770; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x1C, ov_MAIN_012 objdump */
 s32 func_8016F4C4(s32 param_1)
 {
     KR_AS(void, func_8016F0E4)();

@@ -3251,6 +3251,7 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 
 extern void (*D_80185A28[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_801727D0(void *a0)
 {
     D_80185A28[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3271,6 +3272,7 @@ void func_8017288C(void) {
 
 extern void (*D_80185A34[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_801728E4(void *a0)
 {
     D_80185A34[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3291,6 +3293,7 @@ void func_801729A8(void) {
 
 extern void (*D_80185A40[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_801729F0(void *a0)
 {
     D_80185A40[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3354,6 +3357,7 @@ void func_80172D60(void) {
 
 extern void (*D_80185A68[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_80172DAC(void *a0)
 {
     D_80185A68[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3395,6 +3399,7 @@ void func_80172E8C(void) {
 
 extern void (*D_80185A74[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_80173078(void *a0)
 {
     D_80185A74[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3513,6 +3518,7 @@ void func_801736A8(void) {
 
 extern void (*D_80185AA0[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_801736FC(void *a0)
 {
     D_80185AA0[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3552,6 +3558,7 @@ void func_801738D4(void) {
 
 extern void (*D_80185AB8[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_8017390C(void *a0)
 {
     D_80185AB8[((Unkstruct_801727D0_2 *)a0)->unk214]();
@@ -3626,6 +3633,7 @@ void func_80174274(void) {
 
 extern void (*D_80185AE8[])(void);
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_801742A4(void *a0)
 {
     D_80185AE8[((Unkstruct_801727D0_2 *)a0)->unk214]();

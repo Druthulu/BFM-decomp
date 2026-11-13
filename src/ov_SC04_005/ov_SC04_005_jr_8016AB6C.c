@@ -1890,6 +1890,7 @@ extern void func_8016AB30(void *a0);
 
 
 
+/* $v0 at exit: result of guess_FreeSmallObject or addiu $v0, $v0, 0x1 at ov_SC04_005:0x8016AE34; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x2A4, ov_SC04_005 objdump */
 s32 func_8016AB6C(s32 arg0) {
     extern u32 guess_IntToBcd(s32 a0, s32 a1);
     extern s32 guess_SjisToGlyphCodes(u8 *a0, u8 *a1);
@@ -2356,6 +2357,7 @@ void func_8016BBA4(void *a0) {
 
 
 
+/* $v0 at exit: result of guess_FreeSmallObject or addiu $v0, $v0, 0x1 at ov_SC04_005:0x8016BC94; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xC8, ov_SC04_005 objdump */
 s32 func_8016BBE0(s32 param_1) {
     extern void func_8016BF34(void *a0);
     extern s32 guess_UpdateAttachedPos(s32 param);
@@ -2431,6 +2433,7 @@ void func_8016BCC0(void *arg0) {
 
 
 
+/* $v0 at exit: result of func_8016BFA8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x110, ov_SC04_005 objdump */
 s32 func_8016BD78(s32 param_1)
 {
     extern s32 guess_UpdateAttachedPos(s32 param);
@@ -2472,6 +2475,7 @@ s32 func_8016BD78(s32 param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH
 
+/* $v0 at exit: result of guess_FreeSmallObject or lh $v0, 0x1A($s0) at ov_SC04_005:0x8016BF04; no byte-neutral return: `return 0;` moved `bgez v0,<func_8016BEA0+0x80>` at +0x6C, ov_SC04_005 objdump */
 s32 func_8016BEA0(s32 param_1)
 {
     extern s32 guess_UpdateAttachedPos(s32 param);
@@ -2690,6 +2694,7 @@ void func_8016C2C4(s32 param)
 
 
 
+/* $v0 at exit: result of guess_AllocSpriteObject or addiu $v0, $zero, 0x5 at ov_SC04_005:0x8016C648 or addiu $v0, $v0, 0x1 at ov_SC04_005:0x8016C71C; no byte-neutral return: `return 0;` moved `beqz s2,<func_8016C49C+0x28c>` at +0x1BC, ov_SC04_005 objdump */
 s32 func_8016C49C(s32 param_1_arg) {
     extern s32 VectorNormalSS(void *, void *);
     extern void guess_InitObjectKind6(s32, void *);

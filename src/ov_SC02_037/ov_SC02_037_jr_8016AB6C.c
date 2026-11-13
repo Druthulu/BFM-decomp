@@ -2831,6 +2831,7 @@ extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void func_8016AB30(void *a0);
 
 
+/* $v0 at exit: result of guess_FreeSmallObject or addiu $v0, $v0, 0x1 at ov_SC02_037:0x8016AE34; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x2A4, ov_SC02_037 objdump */
 s32 func_8016AB6C(s32 arg0) {
 
     extern u32 guess_IntToBcd(s32 a0, s32 a1);

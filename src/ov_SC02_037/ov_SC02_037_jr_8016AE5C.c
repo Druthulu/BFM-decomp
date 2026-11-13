@@ -3167,6 +3167,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 
 
 
+/* $v0 at exit: result of guess_FreeSmallObject or addiu $v0, $v0, 0x1 at ov_SC02_037:0x8016BC94; no byte-neutral return: `return 0;` moved `move v0,zero` at +0xC8, ov_SC02_037 objdump */
 s32 func_8016BBE0(s32 param_1) {
     extern void func_8016BF34(void *a0);
     extern s32 guess_UpdateAttachedPos(s32 param);
@@ -3246,6 +3247,7 @@ extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
 
 
 
+/* $v0 at exit: result of func_8016BFA8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x110, ov_SC02_037 objdump */
 s32 func_8016BD78(s32 param_1)
 {
 
@@ -3293,6 +3295,7 @@ extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
 // @class: plumbing
 // @unstuck(P36): none — MATCH
 
+/* $v0 at exit: result of guess_FreeSmallObject or lh $v0, 0x1A($s0) at ov_SC02_037:0x8016BF04; no byte-neutral return: `return 0;` moved `bgez v0,<func_8016BEA0+0x80>` at +0x6C, ov_SC02_037 objdump */
 s32 func_8016BEA0(s32 param_1)
 {
 
@@ -3530,6 +3533,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 
 
 
+/* $v0 at exit: result of guess_AllocSpriteObject or addiu $v0, $zero, 0x5 at ov_SC02_037:0x8016C648 or addiu $v0, $v0, 0x1 at ov_SC02_037:0x8016C71C; no byte-neutral return: `return 0;` moved `beqz s2,<func_8016C49C+0x28c>` at +0x1BC, ov_SC02_037 objdump */
 s32 func_8016C49C(s32 param_1_arg) {
     extern s32 VectorNormalSS(void *, void *);
     extern void guess_InitObjectKind6(s32, void *);
@@ -4189,6 +4193,7 @@ extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 extern s32 func_801619D0(void *a0);
 
 
+/* $v0 at exit: result of guess_FreeSmallObject or addiu $v0, $v0, 0x1 at ov_SC02_037:0x8016DE70; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x264, ov_SC02_037 objdump */
 s32 func_8016DC20(s32 param_1) {
 
     extern s32  guess_g_SmallObjectPool; // Names ledger: config/names.tsv guess_g_SmallObjectPool

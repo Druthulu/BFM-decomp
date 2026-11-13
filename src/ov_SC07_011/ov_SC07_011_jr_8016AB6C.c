@@ -1,5 +1,6 @@
 #include "common.h"
 
+/* $v0 at exit: result of guess_FreeSmallObject or addiu $v0, $v0, 0x1 at ov_SC07_011:0x8016AE34; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x2A4, ov_SC07_011 objdump */
 s32 func_8016AB6C(s32 arg0) {
 
     extern u32 guess_IntToBcd(s32 a0, s32 a1);

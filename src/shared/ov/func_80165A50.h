@@ -4,6 +4,7 @@ extern u8 D_80078EC1;
 extern u8 D_80078EC2;
 extern u8 D_80078EC3;
 extern s8 D_80078EC4;
+/* $v0 at exit: entry $v0, unset; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, ov_MAIN_012 objdump */
 s32 func_80165A50(s32 _arg0)
 {
     D_80078EC1 = 0;

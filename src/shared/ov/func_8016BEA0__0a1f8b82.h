@@ -1,5 +1,6 @@
 /* func_8016BEA0 — shared body (overlay slot 0x80128158, h_exact 0a1f8b82). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of guess_FreeSmallObject or lh $v0, 0x1A($s0) at ov_SC03_126:0x8016BF04; no byte-neutral return: `return 0;` moved `bgez v0,<func_8016BEA0+0x80>` at +0x6C, ov_SC03_126 objdump */
 s32 func_8016BEA0(s32 param_1)
 {
     extern s32 guess_UpdateAttachedPos(s32 param);

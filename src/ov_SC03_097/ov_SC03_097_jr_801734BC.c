@@ -2330,6 +2330,7 @@ void func_80173544(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_097 objdump */
 s32 func_801736FC(void *a0) {
 
     extern void (*D_8018948C[])(void);
@@ -2417,6 +2418,7 @@ void func_80173B4C(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_097 objdump */
 s32 func_801742A4(void *a0) {
 
     extern void (*D_801894D4[])(void);

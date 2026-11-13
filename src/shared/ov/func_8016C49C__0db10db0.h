@@ -1,5 +1,6 @@
 /* func_8016C49C — shared body (overlay slot 0x80128158, h_exact 0db10db0). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
+/* $v0 at exit: result of guess_AllocSpriteObject or addiu $v0, $zero, 0x5 at ov_SC03_126:0x8016C648 or addiu $v0, $v0, 0x1 at ov_SC03_126:0x8016C71C; no byte-neutral return: `return 0;` moved `beqz s2,<func_8016C49C+0x28c>` at +0x1BC, ov_SC03_126 objdump */
 s32 func_8016C49C(s32 param_1_arg) {
     extern s32 VectorNormalSS(void *, void *);
     extern void guess_InitObjectKind6(s32, void *);

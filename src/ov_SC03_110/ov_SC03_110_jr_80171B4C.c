@@ -2317,6 +2317,7 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_110 objdump */
 s32 func_801727D0(void *a0) {
 
     extern void (*D_801852EC[])(void);
@@ -2334,6 +2335,7 @@ s32 func_801727D0(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_110 objdump */
 s32 func_801728E4(void *a0) {
 
     extern void (*D_801852F8[])(void);
@@ -2351,6 +2353,7 @@ s32 func_801728E4(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_110 objdump */
 s32 func_801729F0(void *a0) {
 
     extern void (*D_80185304[])(void);
@@ -2370,6 +2373,7 @@ s32 func_801729F0(void *a0) {
 
 
 
+/* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_110 objdump */
 s32 func_80172B44(void *a0) {
 
     extern void (*D_80185314[])(void);
