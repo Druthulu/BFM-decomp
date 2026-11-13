@@ -580,7 +580,7 @@ extern void func_80013F3C(void *ptr);
 extern s32 rsin(s32 angle);
 extern s32 rcos(s32 angle);
 extern void func_8001282C(void *a0);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_800134FC(s16 param_1, s32 param_2, s32 param_3)
 {
@@ -666,7 +666,7 @@ extern void func_80013F3C(void *ptr);
 extern s32 rsin(s32 angle);
 extern s32 rcos(s32 angle);
 extern void func_8001282C(void *a0);
-extern void ApplyMatrixLV();
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8001382C(s16 angle, void *a1, void *a2)
 {
@@ -768,7 +768,7 @@ extern void func_80013F3C(void *ptr);
 extern s32 rsin(s32 angle);
 extern s32 rcos(s32 angle);
 extern void func_8001282C(void *a0);
-extern void ApplyMatrixLV();
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_80013B64(s32 param_1, s32 param_2, s32 param_3)
 {
@@ -1301,7 +1301,7 @@ extern u8 D_800AF6DC;
 extern u8 D_800AF680;
 
 extern void *func_80058A4C(void *env, s32 x, s32 y, s32 w, s32 h);
-extern void *SetDefDispEnv(void *env, s32 x, s32 y, s32 w, s32 h);
+extern DISPENV *SetDefDispEnv(void *env, s32 x, s32 y, s32 w, s32 h);
 extern void func_80014960(void);
 
 void func_800147B8(void) {
@@ -1964,7 +1964,7 @@ extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_
 extern u8 D_800B9A11;
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 *D_800A5E60;
-extern s32 GetTPage(s32, s32, s32, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
 extern void func_80015608(s32, s32);
 extern void func_80015760(Obj_80015760 *obj, s32 *ot);
 
@@ -3477,7 +3477,7 @@ extern void func_80017E8C(s32);
 extern s32 RotTransPers3(void *v0, void *v1, void *v2,
                           s32 *sxy0, s32 *sxy1, s32 *sxy2,
                           s32 *p, s32 *flag);
-extern s32 GetTPage(s32, s32, s32, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
 extern s32 GetClut(s32, s32);
 extern void func_80018194(void *, s32, u32);
 
@@ -3555,7 +3555,7 @@ void func_80016EF8(void *arg0, s32 arg1)
 extern s32 func_80010A08(s32);
 extern void SetPolyFT4(FT4_16F18 *);
 extern void func_80017E8C(s32);
-extern s32 GetTPage(s32, s32, s32, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
 extern s32 GetClut(s32, s32);
 extern void func_80018194(void *, s32, u32);
 
@@ -3837,7 +3837,7 @@ void func_8001751C(s32 *arg0, s32 arg1)
     extern s32 func_80010A08(s32);
     extern void SetPolyGT3(void *arg0);
     extern void func_80017E8C(s32);
-    extern s32 GetTPage(s32, s32, s32, s32);
+    extern u16 GetTPage(s32, s32, s32, s32);
     extern s32 GetClut(s32, s32);
     extern void func_80018194(void *, s32, u32);
 
@@ -4017,7 +4017,7 @@ void func_80017910(void *a0, s32 a1) {
 extern s32 func_80010A08(s32 size);
 extern void SetPolyGT4(void *p);
 extern void func_80017E8C(s32 arg0);
-extern s32 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
+extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
 extern s32 GetClut(s32 x, s32 y);
 extern void func_8001820C(void *p, s32 otz, u32 flags);
 extern void func_80018194(void *p, s32 otz, u32 flags);
@@ -4290,7 +4290,7 @@ void func_80017DF8(s16 *a0, void *a1) {
 }
 
 
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void func_80048EAC(void *a0, void *a1);
 
 void func_80017E30(s32 a0, s32 a1) {
@@ -4334,7 +4334,7 @@ void func_80017F14(void *a0, s32 a1, s32 a2)
     extern struct { s32 a; s32 b[4]; } D_800A651C[];
     extern s32 func_80010A08(s32);
     extern s32 AddPrim(s32, void *);
-    extern s32 GetTPage(s32, s32, s32, s32);
+    extern u16 GetTPage(s32, s32, s32, s32);
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
     void *p2;
@@ -4370,7 +4370,7 @@ void func_80017F14(void *a0, s32 a1, s32 a2)
 
 extern s32 func_80010A08(s32);
 extern s32 AddPrim(s32, void *);
-extern s32 GetTPage(s32, s32, s32, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
@@ -4423,7 +4423,7 @@ void func_8001820C(void *a0, s32 a1, u32 a2)
 {
     extern s32 func_80010A08(s32);
     extern s32 AddPrim(s32, void *);
-    extern s32 GetTPage(s32, s32, s32, s32);
+    extern u16 GetTPage(s32, s32, s32, s32);
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
     extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern OtBlk_80016450 D_800A651C[];
@@ -4778,7 +4778,7 @@ s32 LzssDecodeSector(u8 *src) {
 extern u8 D_80078D98;
 extern u32 D_800AE610;
 extern u8 D_80078DA0;
-extern void ResetCallback(void);
+extern s32 ResetCallback(void);
 extern void PadInitDirect(void *a0, void *a1);
 extern void PadStartCom(void);
 
@@ -5966,7 +5966,7 @@ setDefault:
 
 extern s32   func_800435CC(s32 mode, void *buf, void *param);  /* CdControl        */
 extern s32   func_8004355C(s32 mode, u8 *result);             /* CdSync           */
-extern void *CdReadyCallback(void *func);                       /* CdReadyCallback  */
+extern CdlCB CdReadyCallback(void *func);                       /* CdReadyCallback  */
 extern void  func_800434BC(void);                             /* CdFlush          */
 extern void CdReadSectorReadyCB(u8);   /* §376: def takes u8; only ever passed BY ADDRESS */
 extern s32   func_8002FD14(s32, s32);
@@ -7950,14 +7950,14 @@ s32 SsGetMute(void) {
 
 extern void func_8002CCD8(void);
 extern void func_800596F4(s32);
-extern void DrawSyncCallback(s32);
+extern unsigned long DrawSyncCallback(s32);
 extern void func_80059234(s32);
 extern void func_80059658(s32);
 extern int VSync(int mode);
 extern void PadStopCom(void);
 extern void StopRCnt(void);
 extern void func_80043300(void);
-extern void ResetCallback(void);
+extern s32 ResetCallback(void);
 extern void StopCallback(void);
 
 void func_8001BDA0(void) {
@@ -10062,7 +10062,7 @@ extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_Render
 extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 extern u32 D_80072784;
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void func_8004901C(void *a0, void *a1);
 extern void func_800547D8(s32 a0, void *a1);
 extern s32 func_80021174(s32 a0, s32 a1);
@@ -12242,7 +12242,7 @@ void func_80021D38(Obj_80021D38 *p)
 
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u8 D_800A6610[];
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void func_8004901C(void *a0, void *a1);
 extern void func_800547D8(s32 a0, void *a1);
 extern s32 func_80021174(s32 a0, s32 a1);
@@ -12995,7 +12995,7 @@ void func_800234E4(void *a0, u16 a1, u16 a2) {
 extern u8 D_800A6610[];
 extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 *D_800A5E60;
-extern s32 GetTPage(s32, s32, s32, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
 void func_80023570(s32 arg0)
@@ -13140,7 +13140,7 @@ void func_80023570(s32 arg0)
 extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 *D_800A5E60;
 extern u8 D_800A6610[];
-extern s32 GetTPage(s32, s32, s32, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
 void func_8002374C(s32 arg0)

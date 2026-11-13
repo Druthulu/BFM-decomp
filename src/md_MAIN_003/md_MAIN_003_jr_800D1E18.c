@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libcd.h" /* CdlFILE: CdSearchFile returns the PsyQ 4.0 LIBCD.H type (3.44 T8.c5) */
 
 extern void (*D_800D3598[])(void);
 extern void func_800CEED0(void);
@@ -73,7 +74,7 @@ extern D_800D942C_entry D_800D942C[];
 extern u8 D_800EC9FC[];
 
 extern s32 func_8001BFA0(void);
-extern s32 CdSearchFile(void *fp, void *name);
+extern CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
 
 s32 func_800D1E18(void) {
     return CdSearchFile(D_800EC9FC, (void *) D_800D942C[func_8001BFA0()].unk00) != 0;
@@ -133,7 +134,7 @@ extern void func_80059658(s32 a0);
 extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
 extern void func_80059FC0(u8 *a0);
 extern s32 VSync(s32 a0);
-extern void *SetDefDispEnv(void *a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern DISPENV *SetDefDispEnv(void *a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
 void func_800D1E9C(void *arg0) {
     s32 sp18[30];

@@ -226,7 +226,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -3088,7 +3088,7 @@ void func_8017B940(void *arg0)
 // @unstuck(P36): none — MATCH (62 ins)
 
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -4059,7 +4059,7 @@ extern short D_80126944;
 extern unsigned short guess_GetPadPressed(int *a0);
 extern int guess_EaseToward(int a0, int a1, int a2);
 extern int func_80012ABC(int a0, int a1, int a2);
-extern void RotMatrixZYX(int a0, int a1);
+extern MATRIX *RotMatrixZYX(int a0, int a1);
 extern void guess_RotTransSVWithMatrix(int a0, int a1, int a2);
 
 void func_8017DBC4(int param_1, short *param_2) {

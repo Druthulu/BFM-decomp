@@ -226,7 +226,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -2628,7 +2628,7 @@ extern short D_801EECE6;
 extern short D_801EECE8;
 extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -3650,8 +3650,8 @@ extern void func_80015954(s32 a0, s32 a1);
 extern void *guess_AllocSpriteObject(void);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void RotMatrixZYX(s32 a0, s32 a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern int rand(void);
 
 
@@ -4379,7 +4379,7 @@ void func_80180320(s32 param_1) {
 
 extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_801803D8(s32 param_1, s16 *param_2) {
@@ -6696,7 +6696,7 @@ extern s32 aFC4C[] __asm__("D_801EFC4C");
 extern void func_801852BC(s32 a0);
 extern void func_801853D0(s32 a0);
 extern void func_80185648(u32 a0);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80183BF0(s32 a0);
 /* §183 SIGNATURE-cast-at-call: the TU DEFINES `s32 func_801836D4(void *, void *)` (L4677). */
 extern s32 func_801836D4(void *a0, void *a1);
@@ -6984,7 +6984,7 @@ void func_80183880(s32 a0)
     extern void func_801852BC(s32);
     extern void func_801853D0(s32);
     extern void func_80185648(u32 a0);
-    extern void ApplyMatrixLV(s32, s32, s32);
+    extern VECTOR *ApplyMatrixLV(s32, s32, s32);
     extern void func_80183BF0(s32);
     extern void func_80185960(s32, u16 *, s32);
 
@@ -7282,7 +7282,7 @@ extern s32 D_801EFC54;
    same assembler symbol, private type, zero declaration surface. */
 extern Blk32_80183F10 aAE620_80183F10[1] __asm__("D_800AE620");
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 /* §183 SIGNATURE-cast-at-call: the TU DEFINES
    `void func_8018B0B0(void *, void *, void *, u32)` (L7630); adopt it and cast. */
 extern void func_8018B0B0(void *a0, void *a1, void *a2, u32 a3);
@@ -8204,7 +8204,7 @@ void func_80185214(s32 a0)
    L6390) -- so this array view can never collide with the file's spelling. Same assembler
    symbol, zero declaration surface. */
 extern s32 aFC4C[] __asm__("D_801EFC4C");
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 
 
 void func_801852BC(s32 id)
@@ -8234,7 +8234,7 @@ extern s32 aFC4C[] __asm__("D_801EFC4C");
 extern u8 D_80194724[];
 extern u8 D_80194725[];
 
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 
 
 
@@ -8298,7 +8298,7 @@ void func_80185648(u32 a0)
     extern s32 aFC4C[] __asm__("D_801EFC4C");
     extern u8 D_80194724[];
     extern u8 D_80194723[];
-    extern void RotMatrixZYX(s32, s32);
+    extern MATRIX *RotMatrixZYX(s32, s32);
     extern void func_80184BAC(void *a0, void *a1);
     extern void func_801858DC(void *);
 
@@ -11621,7 +11621,7 @@ void func_8018A0E0(s32 arg0)
     extern u8 D_80194A68[];
     extern void RotMatrixZ(s32 a0, void *a1);
     extern s32 func_80132EF4(s32 a0, s32 a1);
-    extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+    extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
     Mtx_8018A0E0 m;     /* sp+0x10 */
     s32 i;              /* s0 */
@@ -15882,7 +15882,7 @@ extern u8 *func_801290DC(s32 a0, u8 *a1);
 void func_8018F734(s16 *arg0)
 {
     extern u8 D_800A6610[];
-    extern void RotMatrixZYX(s32 a0, s32 a1);
+    extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
     extern s32 func_80010A08(s32);
     extern void func_80017E8C(void *);
     extern s32 RotTransPers4(void *, void *, void *, void *,

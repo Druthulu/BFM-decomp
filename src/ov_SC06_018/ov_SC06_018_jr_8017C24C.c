@@ -227,7 +227,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -2625,7 +2625,7 @@ extern short D_801D4EFE;
 extern short D_801D4F00;
 extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -2897,7 +2897,7 @@ void func_8017D4DC(s32 arg0) {
 
 extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 #define SHARED_FN func_8017D648
@@ -5501,8 +5501,8 @@ void func_801811DC(s32 a0) {
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 rsin(s32 a0);
 extern s32 rcos(s32 a0);
-extern void SetRotMatrix();
-extern void SetTransMatrix();
+extern void SetRotMatrix(void *a0);
+extern void SetTransMatrix(void *a0);
 extern u8 * func_8012913C(s32 arg0);
 extern void guess_StartActorSequence(s32 a0, void * a1);
 
@@ -8051,8 +8051,8 @@ extern s32 guess_TurnStepToTarget(s32 a0, s32 a1);
 extern void func_80189380(s32 a0, void *a1, void *a2, s32 a3);
 extern s32 func_8018931C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s32 func_80132EF4(s32 a0, s32 a1);
-extern void RotMatrixZYX(s32, s32);
-extern void ApplyMatrixLV(s32, s32, s32);
+extern MATRIX *RotMatrixZYX(s32, s32);
+extern VECTOR *ApplyMatrixLV(s32, s32, s32);
 extern s32 func_80189E60(s32 arg0, u16 arg1);
 extern void guess_RotTransSVWithObjMatrix(s32, s32, s32);
 extern s32 guess_DistSqToPlayer(s32 a0);

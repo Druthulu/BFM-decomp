@@ -26,6 +26,9 @@ typedef struct {
     char   name[16]; /* +0x08  file name            */
 } CdlFILE;
 
+/* libcd callback (LIBCD.H:155, PsyQ 4.0): the CdReadyCallback/CdSyncCallback/CdReadCallback return type. */
+typedef void (*CdlCB)(u8, u8 *);
+
 /* libcd prototypes (symbols in config/symbols.us.txt). */
 extern CdlFILE *CdSearchFile(CdlFILE *fp, char *name); /* 0x80045374 */
 extern int      CdPosToInt(CdlLOC *p);                 /* 0x80043B1C */

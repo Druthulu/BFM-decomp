@@ -1,6 +1,6 @@
 /* func_8012EC04 — shared body (overlay slot 0x80128158, h_exact 32bb75a9). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3)
 {
     struct { s16 h[8]; } buf;

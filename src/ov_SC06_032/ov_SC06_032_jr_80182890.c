@@ -217,7 +217,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -2607,7 +2607,7 @@ extern short D_801D04CE;
 extern short D_801D04D0;
 extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -2731,8 +2731,8 @@ extern s32 guess_TickWaitTimer(s32 a0);   /* TU-canonical: an earlier call site 
 extern void func_801800C4(s32 p);
 extern void func_80184124(s32 a0, void *a1, void *a2, s32 a3);
 extern s32 func_80132EF4(s32 a0, s32 a1);
-extern void RotMatrixZYX(s32, s32);
-extern void ApplyMatrixLV(s32, s32, s32);
+extern MATRIX *RotMatrixZYX(s32, s32);
+extern VECTOR *ApplyMatrixLV(s32, s32, s32);
 extern void func_8018029C(s32 p);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8012B0B4(unsigned int *p, int a1, int a2);
@@ -3428,8 +3428,8 @@ void func_80183454(s32 param_1) {
 
 
 
-extern void RotMatrixZYX(s32, s32);
-extern void ApplyMatrixLV(s32, s32, s32);
+extern MATRIX *RotMatrixZYX(s32, s32);
+extern VECTOR *ApplyMatrixLV(s32, s32, s32);
 extern void func_8012B260(u8 *a0);
 
 #define SHARED_FN func_801838A4
@@ -3520,7 +3520,7 @@ void func_80183940(s32 param_1)
     extern u8   guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
     extern SVEC_80183940 D_801A6964[];
 
-    extern void RotMatrixZYX(s32 a0, s32 a1);
+    extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
     extern void RotTransSV(void *a0, void *a1, void *a2);
     extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
@@ -3746,8 +3746,8 @@ s32 func_80183BB4(Ent_80188E10_80183BB4 *self, s32 arg1, s32 arg2, s32 arg3, u16
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_8012B0B4(unsigned int *p, int a1, int a2);
-extern void RotMatrixZYX(s32, s32);
-extern void ApplyMatrixLV(s32, s32, s32);
+extern MATRIX *RotMatrixZYX(s32, s32);
+extern VECTOR *ApplyMatrixLV(s32, s32, s32);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern s32 func_80184C04(s32 arg0, u16 arg1);
 extern s32 rand(void);
@@ -5041,7 +5041,7 @@ void func_80185EAC(s32 param_1)
 
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_80185F4C(s32 a0, s32 a1, s32 a2, s32 a3)
 {
@@ -5136,7 +5136,7 @@ void func_8018603C(s32 param_1)
 
 extern s32 func_8012B8A4(s16 *a0);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32, s32, s32);
+extern VECTOR *ApplyMatrixLV(s32, s32, s32);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 rand(void);
 
@@ -5738,7 +5738,7 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
 extern s32 ratan2(s32 a0, s32 a1);
 extern s32 rcos(s32 a0);
 extern s32 rsin(s32 a0);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
 
 extern u8 D_801BEF7C[];
@@ -6848,8 +6848,8 @@ void func_80188F1C(s32 a0) {
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 rsin(s32 a0);
 extern s32 rcos(s32 a0);
-extern void SetRotMatrix();
-extern void SetTransMatrix();
+extern void SetRotMatrix(void *a0);
+extern void SetTransMatrix(void *a0);
 extern u8 * func_8012913C(s32 arg0);
 extern void guess_StartActorSequence(s32 a0, void * a1);
 

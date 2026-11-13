@@ -4,7 +4,7 @@ extern s32 ratan2(s32 a0, s32 a1);
 extern s32 csqrt(s32 a0);
 extern void func_80013F3C(s32 a0);
 extern void func_80012558(s32 a0, s32 a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012A60(s32 a0, s32 a1);
 void func_80148094(int param_1, short *param_2, int *param_3) {
     s32 s4 = *(int *)(param_1 + 0x20);

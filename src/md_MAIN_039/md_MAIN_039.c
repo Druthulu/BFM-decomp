@@ -401,8 +401,8 @@ extern void func_8001CC3C(s32, s32, s32, s32);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void RotMatrixZYX(s32 a0, s32 a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern int rand(void);
 
 extern SV D_800CBE50[];

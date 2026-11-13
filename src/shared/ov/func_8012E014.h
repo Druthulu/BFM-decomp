@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);
 extern void func_8012F1A4(s32 *a0, s32 a1, s32 *a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 void func_8012E014(s32 a0) {
     /* asm-label alias (cookbook § "BANKING PATTERNS": `extern u16 X __asm__("D_x")`).
      * The TU already carries `extern u8 D_80126B5C;` from DEFINE_func_8012BD14()/

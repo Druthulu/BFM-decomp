@@ -991,7 +991,7 @@ void func_801A13A0(s32 arg0) {
 #include "common.h"
 
 extern s32 rand(void);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 func_8012C51C(void *a0, s32 a1);
 extern s16 D_801F435C;
@@ -1350,7 +1350,7 @@ extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_8012EC04(s32 a0, s32 a1, s32 *a2);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 RotMatrixX(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void guess_FreeActor(void *a0);
@@ -2789,7 +2789,7 @@ void func_801A38E4(void *a0, void *a1, s32 a2, s32 a3, s32 a4)
 #include "common.h"
 
 extern u8 D_801A6DA8[];
-extern void RotMatrixZYX(SVECTOR *a0, MATRIX *a1);
+extern MATRIX *RotMatrixZYX(SVECTOR *a0, MATRIX *a1);
 
 s32 func_801A3BCC(void *a0)
 {
@@ -3367,7 +3367,7 @@ void func_801A4CF4(s32 a0) {
 
 
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_801A4D58(s32 a0, s32 a1)
 {

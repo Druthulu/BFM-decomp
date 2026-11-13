@@ -247,7 +247,7 @@ void guess_FreeObjectAndSubObject_5(void) {
 }
 
 
-extern void RotMatrixZYX(s32 arg0, s32 arg1);
+extern MATRIX *RotMatrixZYX(s32 arg0, s32 arg1);
 
 void func_800CB3A4(void *arg0) {
     s32 temp_v0 = *(s32 *)((s32)arg0 + 0x20);
@@ -403,7 +403,7 @@ void func_800CB720(void *arg0) {
 
 
 void func_800CB76C(void *arg0) {
-    extern void RotMatrixZYX(s32 a0, s32 a1);
+    extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
     extern void func_800139C8(s32 a0, void *a1, void *a2);
     extern u8 D_800CB8FC[];
     s32 s2 = (s32)arg0;

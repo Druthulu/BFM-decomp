@@ -222,7 +222,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -2631,7 +2631,7 @@ extern short D_801B9626;
 extern short D_801B9628;
 extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -3264,8 +3264,8 @@ void func_801824CC(a0, a1, a2, a3, mask)
 
 extern s32  rand(void);
 extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
-extern void RotMatrixZYX(s32 a0, s32 a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern u8   D_800D3918[];
 extern u8   D_8018E4DC[];
 extern u8   D_8018E47C[];
@@ -4857,7 +4857,7 @@ void func_80184F5C(s32 arg0) {
  * merging into the TU (kept here only so this draft compiles standalone). */
 
 
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 
 void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3)
 {

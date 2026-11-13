@@ -1463,7 +1463,7 @@ extern void func_801A34C4(s32 a0);           /* :80   */
 extern void func_801A34FC(s32 arg0, u16 *arg1); /* :924 */
 extern s32 guess_YawToPoint(void *a0, void *a1);   /* :919 */
 extern void RotMatrixY(s32 a0, void *a1);       /* :921 */
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2); /* :923 */
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2); /* :923 */
 extern s32 rsin(s32 a0);            /* :1132 */
 extern void func_801A3624(s32 a0, u16 *a1, s32 a2); /* :146 */
 extern void guess_ApplyAccelAndVelocity(s32 a0);           /* :915  */
@@ -2015,7 +2015,7 @@ extern s32 guess_YawToPoint(void *a0, void *a1);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void RotMatrixY(s32 a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_801A34FC(s32 arg0, u16 *arg1);
 
 void func_801A3180(s32 arg0, s32 arg1) {
@@ -2567,7 +2567,7 @@ extern void RotMatrixY(s32 a0, void *a1);
 extern s32 func_8012BE54(s32 a0);
 extern s32 func_8012B8A4(s16 *a0);
 extern s32 func_8017267C(s32 *a0);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 extern s32 D_801F8864;
 extern s32 guess_g_PlayerActor[4]; // Names ledger: config/names.tsv guess_g_PlayerActor
@@ -5727,7 +5727,7 @@ void func_801A8954(void *a0) {
 
 void func_801A8990(void *a0)
 {
-    extern void RotMatrixZYX(s32 a0, s32 a1);
+    extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
     extern void SetRotMatrix(void *a0);
     extern void SetTransMatrix(void *a0);
     extern s32 rsin(s32 a0);
@@ -5887,7 +5887,7 @@ extern s32 guess_g_MainCameraAppliedViewPointZ; // Names ledger: config/names.ts
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void RotMatrixYXZ(void *a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 
 void func_801A8CE0(s32 a0, s16 a1, s32 a2, s32 a3)
@@ -5942,7 +5942,7 @@ extern s32 guess_g_MainCameraAppliedViewPointZ; // Names ledger: config/names.ts
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void func_8004978C(s16 *a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 /* Local stack aggregates; suffixed names per this TU's house style
    (cf. Struct801AD7EC_Local / Blk8_801AD914 above). */
@@ -6411,7 +6411,7 @@ extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 extern Mtx32_801A90D8 D_800AE620;
 extern s32 D_801B0738;
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_801A99A4(s32 a0)
 {
@@ -6647,7 +6647,7 @@ void func_801A9FC8(void *a0) {
 
 extern Mtx32_801A90D8 D_800AE620;
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_801AA004(void *arg0, void *arg1)
 {
@@ -6947,7 +6947,7 @@ void func_801AA7A8(void *a0) {
  * this function precedes that typedef in the source file. */
 
 extern void SetRotMatrix(void *a0);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void func_8004978C(s16 *a0, void *a1);
 extern void ApplyRotMatrix(void *a0, void *a1);
 extern void ApplyRotMatrixLV(void *a0, void *a1);
@@ -7171,7 +7171,7 @@ void func_801AAB28(SV4_801AAB28 *a0, SV4_801AAB28 *a1, s32 a2)
 
 void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
 {
-    extern void RotMatrixZYX(s32 a0, s32 a1);
+    extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
     extern void func_801AADA8(s32 a0, s32 a1, s32 a2);
 
     MTX_801AACD4 mtx;    /* sp+0x10 */
@@ -7351,7 +7351,7 @@ s32 func_801AAF34(s32 a0, s32 a1, s16 a2)
 extern s32  ratan2(s32 a0, s32 a1);
 extern s32  rcos(s32 a0);
 extern s32  rsin(s32 a0);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
@@ -9108,7 +9108,7 @@ void func_801AD6C4(void *a0) {
 
 extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern void func_8012B414(s32 a0);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_801AD700(void *a0)
 {
@@ -9197,7 +9197,7 @@ extern void guess_UpdateActorModelMatrix(s32 a0);
  * existing decl at md_SC07_004.c:353. */
 extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 /* atlas fleet: ('s32', ('s32','s32','s32')) n=3554 */
-extern void ApplyMatrixLV(s32, s32, s32);
+extern VECTOR *ApplyMatrixLV(s32, s32, s32);
 
 /* 8-byte, 2-byte-aligned struct -> emit_block_move lwl/lwr + swl/swr (cookbook §48-C2,
  * same idiom as func_801A6AD0 above in this TU). */
@@ -9317,7 +9317,7 @@ void func_801ADBB0(s32 x, s32 y, s32 z)
    SV_801AAF8C / MTX_801AAF8C (see func_801AAF8C) */
 
 extern int rand(void);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
@@ -10065,7 +10065,7 @@ void func_801AEB04(s32 a0, s16 a1, s32 a2, s32 a3) {
 extern U16x4 D_801F8EA0[];
 extern u16 D_801F8EA2;
 extern u16 D_801F8EA4;
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void func_80020F34(s32 a0, s32 a1);
 extern void func_801AEC38(s32 a0, s32 a1, s32 a2);
 

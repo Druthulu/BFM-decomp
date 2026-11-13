@@ -1108,7 +1108,7 @@ extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_
 
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
-extern s32  GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern u16 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32  GetClut(s32 a0, s32 a1);
 extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern s32 func_80010A08(s32 a0);
@@ -1260,7 +1260,7 @@ extern void (*D_8018AC10[])(void);
 
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
-extern s32  GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern u16 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32  GetClut(s32 a0, s32 a1);
 extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern s32 func_80010A08(s32 a0);

@@ -750,7 +750,7 @@ void func_80036130(s32 a0, u8 *a1) {
 
 extern void *streamLoad_savedReadyCB;
 extern u8 streamLoad_cbActive;
-extern void *CdReadyCallback(void *func);
+extern CdlCB CdReadyCallback(void *func);
 
 void func_800361CC(void) {
     if (streamLoad_cbActive == 0) {
@@ -762,7 +762,7 @@ void func_800361CC(void) {
 }
 
 
-extern void *CdReadyCallback(void *func);
+extern CdlCB CdReadyCallback(void *func);
 extern void *streamLoad_savedReadyCB;
 extern u8    streamLoad_cbActive;
 
@@ -776,7 +776,7 @@ void func_8003621C(void) {
 
 extern void func_80037334(void);
 extern void func_800434BC(void);
-extern void *CdReadyCallback(void *);
+extern CdlCB CdReadyCallback(void *);
 extern int  func_800435CC(s32, void *, void *);
 extern s32 func_8004355C(s32 mode, u8 *result);   /* §376: adopt the TU's spelling verbatim */
 extern void func_800415A8(s32);
@@ -1091,7 +1091,7 @@ int StreamLoadStateMachine(int param_1, void *param_2, int param_3) {  /* param_
 
 extern void func_80037334(void);
 extern void func_800434BC(void);
-extern void *CdReadyCallback(void *);                /* CdReadyCallback; §376: keep the TU's void spelling */
+extern CdlCB CdReadyCallback(void *);                /* CdReadyCallback; §376: keep the TU's void spelling */
 extern int  func_800435CC(s32, void *, void *);   /* CdControl  */
 extern s32  func_8004355C(s32 mode, u8 *result);  /* CdSync     */
 

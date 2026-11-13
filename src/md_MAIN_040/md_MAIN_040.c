@@ -293,8 +293,8 @@ void func_800CB488(void *arg0) {
 extern void *guess_AllocSpriteObject(void);
 extern void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern int rand(void);

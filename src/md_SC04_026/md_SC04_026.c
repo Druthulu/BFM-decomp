@@ -168,7 +168,7 @@ void func_801E7FF8(void *a0) {
 extern u16  guess_GetPadPressed(s32 *a0);
 extern s32  guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_801E805C(s32 param_1, s16 *param_2) {

@@ -4,7 +4,7 @@ extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerP
 extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
 extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 extern void func_8012F038(int param_1, short *param_2, short *param_3);
-extern void RotMatrixZYX();
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_8012E138(int model) {

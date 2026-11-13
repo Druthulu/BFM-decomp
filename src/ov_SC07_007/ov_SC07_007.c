@@ -1508,7 +1508,7 @@ void func_8012E9C0(int param_1)
 // @unstuck(P36): none — MATCH (93 ins)
 
 
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 
 /* Blk16 lifted to src/shared/engine_types.h (Phase 22). */
 

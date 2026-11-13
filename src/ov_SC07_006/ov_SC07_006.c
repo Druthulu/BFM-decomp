@@ -1651,7 +1651,7 @@ void func_8012E9C0(int param_1)
 // @unstuck(P36): none — MATCH (93 ins)
 
 
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 
 /* Blk16 lifted to src/shared/engine_types.h (Phase 22). */
 
@@ -1709,8 +1709,8 @@ extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 // @class: remat
 // @unstuck(P36): none — MATCH
 
-extern void SetRotMatrix();
-extern void SetTransMatrix();
+extern void SetRotMatrix(void *a0);
+extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32 a0, s32 *a1, s32 *a2, s32 *a3);
 extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 
@@ -1737,8 +1737,8 @@ s32 *guess_WorldToScreen(s32 *param_1, s32 param_2) {
 }
 
 
-extern void SetRotMatrix();
-extern void SetTransMatrix();
+extern void SetRotMatrix(void *a0);
+extern void SetTransMatrix(void *a0);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern s32 RotTransPers(s32, s32*, s32*, s32*);
 s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {

@@ -232,7 +232,7 @@ extern s32 guess_SnapActorToGround(u8 *a0);
 extern int rcos(int a0);
 extern int rsin(int a0);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void guess_SetVelocityXZFromLocal(s32 a0, s32 a1);
@@ -240,7 +240,7 @@ extern void func_8012B200(u8 *a0);
 extern void func_8012B21C(void *a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012B260(u8 *a0);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void RotMatrixYXZ(void *m, void *p);
 extern void func_8012B370(int a0);
@@ -363,7 +363,7 @@ extern void func_8012E138(int model);
 extern s32 func_8012DFD4(u8 *a0);
 extern s32 func_8012E27C(void);
 extern void func_8012E284(void);
-extern s32 GetTPage(s32, s32, s32, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 extern void func_8012E28C(s32 arg0, s32 arg1);
 extern void SetRotMatrix(void *a0);
@@ -499,7 +499,7 @@ extern void func_801320D8(int param_1);
 extern void func_80132144(int param_1);
 extern void func_801321B0(int param_1);
 extern void func_8013221C(int param_1);
-extern void func_8005C324(int dst, int src, int n) __asm__("memcpy"); /* Phase-24: 0x8005C324 is named memcpy for overlays (whale needs it); keep the non-builtin C name here (else built-in codegen), emit via asm-label */
+extern void *func_8005C324(int dst, int src, int n) __asm__("memcpy"); /* Phase-24: 0x8005C324 is named memcpy for overlays (whale needs it); keep the non-builtin C name here (else built-in codegen), emit via asm-label */
 extern void func_801325B8(int a0, int a1, int a2, int a3, int a4);
 extern void func_80132288(int *param_1, int *param_2, int param_3);
 extern void func_801325B8(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
@@ -614,7 +614,7 @@ extern s32 func_80139220(s32 a0);
 extern void func_801391F0(void *a0, s32 arg1);
 extern void func_801392C8(void *a0);
 extern void func_801395D4(void *);
-extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern u16 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80052460(s32 a0, s32 a1, s32 a2);
 extern void func_801392FC(s32 arg0, s32 arg1, u8 *arg2);
 extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
@@ -3743,7 +3743,7 @@ void func_8017B940(void *arg0)
 // @unstuck(P36): none — MATCH (62 ins)
 
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(s32, s32, void*);
@@ -3789,7 +3789,7 @@ void func_8017BA3C(s32 param_1, s32 param_2)
 
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 
 
 

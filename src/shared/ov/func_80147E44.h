@@ -8,7 +8,7 @@ void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3) {
     extern void RotMatrixX(s32 a0, void *a1);
     extern void RotMatrixY(s32 a0, void *a1);
     extern void RotMatrixZ(s32 a0, void *a1);
-    extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+    extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
     extern s32 D_80127090;
     extern s32 D_80127094;
     extern s32 D_80127098;

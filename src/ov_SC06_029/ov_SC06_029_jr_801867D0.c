@@ -224,7 +224,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -2635,7 +2635,7 @@ extern short D_801DCBBE;
 extern short D_801DCBC0;
 extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -3597,8 +3597,8 @@ extern s16 D_80191254[];
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012B77C(s32 out, s32 from, s32 to);
-extern void RotMatrixZYX(s32 a0, s32 a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_ShowObjectModel(u8 *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
@@ -3797,7 +3797,7 @@ extern Vec_80187A04 D_8019217C;
 
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 s32 func_80187A04(void)
@@ -3999,7 +3999,7 @@ extern s32 D_801DFF6C;
 extern void func_801885C0(s32 *a0, s32 *a1);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void RotMatrixY(s32 r, void *m);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 func_80013478(s32 a0, s32 a1);
 
 s32 func_80187E84(s32 arg) {
@@ -4088,7 +4088,7 @@ extern u16 D_8019126E;
 extern u16 D_80191270;
 extern Rec12 D_8019219C[];
 
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 guess_YawToPoint(void *a0, void *a1);
 extern void RotMatrixY(s32 a0, void *a1);
 extern s32 func_80013478(s32 a0, s32 a1);
@@ -4229,7 +4229,7 @@ void func_801885C0(s32 *a0, s32 *a1)
 #include "common.h"
 
 extern s16 D_801DFFDC;
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018865C(void)
 {

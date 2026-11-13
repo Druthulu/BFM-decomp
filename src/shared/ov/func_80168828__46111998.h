@@ -3,7 +3,7 @@
 void func_80168828(s32 param_1)
 {
     extern void func_80017DC4(void *a0, void *a1);
-    extern void RotMatrixZYX(s32 a0, s32 a1);
+    extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
     extern void func_800173BC(void *a0, void *a1);
     extern u16 D_8018225C[];
 

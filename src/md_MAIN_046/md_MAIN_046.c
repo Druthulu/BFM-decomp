@@ -721,7 +721,7 @@ void guess_FreeObjectAndSubObject_27(void) {
 }
 
 
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void ApplyMatrixSV(void *m0, void *m1, void *m2);
 extern void func_80015954(s32 a0, s32 a1);
 extern s16 D_800CE0B8[4];

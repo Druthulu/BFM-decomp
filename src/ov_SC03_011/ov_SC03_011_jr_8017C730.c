@@ -228,7 +228,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -2632,7 +2632,7 @@ extern short D_801A21B6;
 extern short D_801A21B8;
 extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -3683,7 +3683,7 @@ extern void func_8017E3F0(s32 param_1);
 /* TU-verified declarations (src/ov_SC03_011/ov_SC03_011_jr_8017C730.c) */
 extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 
 /* not present in the destination TU; fleet-modal spelling (555 occurrences) */
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
@@ -4141,7 +4141,7 @@ extern Rec_8017ECD4 D_801853A8[];
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_AddVelocityToPos(void *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
@@ -4359,8 +4359,8 @@ void func_8017F27C(s32 a0) {
 #include "common.h"
 
 extern s32 ratan2(s32 a0, s32 a1);
-extern void RotMatrixZYX(s32 a0, s32 a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 /* Local stack-frame shapes declared under this function's own address (law 1b).
  * sp+0x10: 0x20-byte matrix block, filled by RotMatrixZYX, consumed by ApplyMatrixLV.

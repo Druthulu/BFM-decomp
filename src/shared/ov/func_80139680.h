@@ -1,6 +1,6 @@
 /* func_80139680 — shared body (overlay slot 0x80128158, h_exact 9c5025b7). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern u16 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80052460(s32 a0, s32 a1, s32 a2);
 void func_80139680(s32 arg0, u8 * arg1)
 {

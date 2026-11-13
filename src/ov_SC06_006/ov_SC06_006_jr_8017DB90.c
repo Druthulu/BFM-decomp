@@ -222,7 +222,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -2628,7 +2628,7 @@ extern short D_801F8056;
 extern short D_801F8058;
 extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -2684,7 +2684,7 @@ extern void func_8017D278(s32 param_1, s16 *param_2);
 extern void func_8017D1D8(s32 a0);
 extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);         /* src TU:204 */
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);        /* src TU:329 */
-extern void RotMatrixZYX(s32 a0, s32 a1);                /* src TU:2651 */
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);                /* src TU:2651 */
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern s32 D_801F8AEC;
 extern void func_8017D400(void);
@@ -3974,7 +3974,7 @@ extern s16 D_801F824A;
 extern s16 D_801F824C;
 extern s32 D_801F8090;
 extern s32 D_80186394;
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void func_80020F34(s32 a0, s32 a1);
 extern void func_8017FA2C(s32 param_1, s16 *param_2, s16 *param_3);
 

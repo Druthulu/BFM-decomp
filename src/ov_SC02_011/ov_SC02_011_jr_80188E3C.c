@@ -133,7 +133,7 @@ extern s16 D_801960CE;
 extern s16 D_801960D0;
 
 extern s32 func_8018F488(s32 a0, s32 a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012C51C(void *a0, s32 a1);
 
 void func_801890C8(s32 a0) {
@@ -975,7 +975,7 @@ void func_8018A2C0(s32 param_1)
 
 extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 extern s16 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
@@ -3744,7 +3744,7 @@ extern Mat32_8018A390_8018FE94 D_800AE620;
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012B864(s32 a0);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void RotMatrixY(s32 a0, void *a1);
 extern s32 func_8018DDD0(s32 a0);
 extern s32 func_8018DE30(void *a0, SVECTOR *a1);
@@ -4056,7 +4056,7 @@ extern u8 D_80078EAE;
 extern Mat32_8018A390_8018FE94 D_800AE620;
 
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018DF44(void *a0)
 {
@@ -4434,7 +4434,7 @@ void func_8018E5E4(s32 a0) {
 #include "common.h"
 
 extern s32 rcos(s32 a0);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CBF4(s32);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_FreeActor(void *a0);
@@ -4586,7 +4586,7 @@ extern void guess_FreeActor(void *a0);
 extern s32  rsin(s32 a0);
 extern s32  rcos(s32 a0);
 extern s32  ratan2(s32 a0, s32 a1);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void RotTransSV(void *a0, void *a1, void *a2);
 extern void guess_AddPolyG4(void *a0, void *a1);
 

@@ -1,7 +1,7 @@
 /* guess_WorldToScreen — shared body (overlay slot 0x80128158, h_exact d63a10fa). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void SetRotMatrix();
-extern void SetTransMatrix();
+extern void SetRotMatrix(void *a0);
+extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32, s32, s32*, s32*);
 /* guess_WorldToScreen: projects world point param_2 to screen coordinates with the saved world-screen matrix; writes sxy (0 on a GTE error) to *param_1
  * Confidence medium, xref chain: loads guess_g_CameraWsMatrix with SetRotMatrix/SetTransMatrix, calls RotTransPers on param_2, stores sxy (0 when flag < 0) at *param_1

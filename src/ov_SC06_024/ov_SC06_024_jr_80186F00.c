@@ -218,7 +218,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -2616,7 +2616,7 @@ extern short D_801E10FE;
 extern short D_801E1100;
 extern void func_8017B940(void *arg0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -3501,8 +3501,8 @@ void func_80187ECC(void *a0) {
     extern s32 guess_AllocModelObject(void);
     extern void guess_FreeActorDuringSpawn(void *a0);
     extern void guess_InitModelObject(s32 a0, s32 a1);
-    extern void RotMatrixZYX(s32 a0, s32 a1);
-    extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+    extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
+    extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
     extern s32 rand(void);
     extern s32 D_801BC468[];
     extern u8 D_811BC480[];
@@ -4244,8 +4244,8 @@ void func_80188C1C(s32 param_1) {
 
 
 
-extern void RotMatrixZYX(s32, s32);
-extern void ApplyMatrixLV(s32, s32, s32);
+extern MATRIX *RotMatrixZYX(s32, s32);
+extern VECTOR *ApplyMatrixLV(s32, s32, s32);
 extern void func_8012B260(u8 *a0);
 
 #define SHARED_FN func_8018906C
@@ -4262,7 +4262,7 @@ extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_FreeActor(void *a0);
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
@@ -4487,8 +4487,8 @@ s32 func_8018937C(Ent_80188E10_8018937C *self, s32 arg1, s32 arg2, s32 arg3, u16
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_8012B0B4(unsigned int *p, int a1, int a2);
-extern void RotMatrixZYX(s32, s32);
-extern void ApplyMatrixLV(s32, s32, s32);
+extern MATRIX *RotMatrixZYX(s32, s32);
+extern VECTOR *ApplyMatrixLV(s32, s32, s32);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern s32 func_8018A3CC(s32 arg0, u16 arg1);
 extern s32 rand(void);
@@ -5814,8 +5814,8 @@ void func_8018B564(s32 a0) {
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 rsin(s32 a0);
 extern s32 rcos(s32 a0);
-extern void SetRotMatrix();
-extern void SetTransMatrix();
+extern void SetRotMatrix(void *a0);
+extern void SetTransMatrix(void *a0);
 extern u8 * func_8012913C(s32 arg0);
 extern void guess_StartActorSequence(s32 a0, void * a1);
 

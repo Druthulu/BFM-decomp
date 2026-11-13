@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 AddPrim(s32, void *);
 extern s32 func_80010A08(s32);
-extern s32 GetTPage(s32, s32, s32, s32);
+extern u16 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 extern s32 D_800A651C;
 extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex

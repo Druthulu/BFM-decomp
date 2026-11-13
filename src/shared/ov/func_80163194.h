@@ -6,7 +6,7 @@ extern s32 aD_80127098 __asm__("D_80127098");
 extern void func_80162F60(s32 arg0, s32 arg1);
 extern void func_80162F80(s32 arg0, s32 arg1);
 extern void func_80162FA0(s32 arg0, s32 arg1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80146D30(s32 a0);
 void func_80163194(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4) {
     s32 pad[4];

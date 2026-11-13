@@ -224,7 +224,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -3086,7 +3086,7 @@ void func_8017B940(void *arg0)
 // @unstuck(P36): none — MATCH (62 ins)
 
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -4808,7 +4808,7 @@ void func_8017ECE4(s32 a0) {
 
 extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 #define SHARED_FN func_8017ED84
@@ -5086,8 +5086,8 @@ extern void func_80015954(s32 a0, s32 a1);
 extern void *guess_AllocSpriteObject(void);
 extern s32 guess_FreeSmallObject(u8 *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
-extern void RotMatrixZYX(s32 a0, s32 a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern int rand(void);
 
 
@@ -6157,7 +6157,7 @@ void func_80180F74(s32 target, u16 *cur, s32 step)
 #include "common.h"
 
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_8012C51C(void *a0, s32 a1);
 
@@ -6702,7 +6702,7 @@ void func_80181BD4(s32 a0)
 {
     extern MTX8L_80181BD4 aD800AE620 __asm__("D_800AE620");
     extern void RotMatrixY(s32 a0, void *a1);
-    extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+    extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
     extern void guess_RequestSound(s32 a0, s32 a1);
     extern void func_8012AD44(s32 *a0, s16 a1);
     MTX8L_80181BD4 m;

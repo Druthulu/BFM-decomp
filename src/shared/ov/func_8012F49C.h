@@ -1,7 +1,7 @@
 /* func_8012F49C — shared body (overlay slot 0x80128158, h_exact c9866fcb). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void SetRotMatrix();
-extern void SetTransMatrix();
+extern void SetRotMatrix(void *a0);
+extern void SetTransMatrix(void *a0);
 extern void RotTransSV(s32 a0, s32 a1, void *a2);
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
 s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) {

@@ -2338,7 +2338,7 @@ extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_Pl
 extern s32 D_801965A0;
 extern void func_8012B21C(void *a0);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_80188F38(s32 a0)
@@ -2960,7 +2960,7 @@ extern s32 func_80132EF4(s32 a0, s32 a1);
 extern u8 *func_8012913C(s32 a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 
 extern Blk16_801E2F08 D_801E2F08;
@@ -3047,7 +3047,7 @@ extern Blk16_8018A1D8 D_801E2F18;
 extern Blk20 D_800AE620;
 
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern u8 *func_8018A30C(s32 a0, s32 a1);
 
 void func_8018A1D8(s32 a0)
@@ -3159,7 +3159,7 @@ extern Blk20 D_800AE620;
 
 extern u8 *func_8012913C(s32 a0);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018A4C4(s32 a0)
 {
@@ -3607,7 +3607,7 @@ extern Blk16_801E2F08 D_801E2F08;
 extern u8 *func_8012913C(s32 a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018AF58(s32 a0)
 {
@@ -3649,7 +3649,7 @@ extern u8 D_80196870[];
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8004978C(s16 *a0, void *a1);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018B058(s32 a0)
 {
@@ -3694,7 +3694,7 @@ extern u8 D_80196874[];
 extern void RotMatrixY(s32 a0, void *a1);
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_8018B16C(s32 a0, s32 a1, s32 a2)
 {

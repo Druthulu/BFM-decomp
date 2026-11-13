@@ -423,7 +423,7 @@ s32 func_80010A08(s32 arg0) {
     return old;
 }
 
-extern void DrawSyncCallback(void (*func)(void));
+extern unsigned long DrawSyncCallback(void (*func)(void));
 extern void func_80042610(void (*func)(void));
 extern void func_8001099C(void);
 extern void func_8001096C(void);

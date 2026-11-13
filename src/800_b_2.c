@@ -1531,7 +1531,7 @@ void func_8002E138(s32 a0, s32 a1, s32 a2) {
 }
 
 extern u8 D_800A4F19;
-extern void CdMix(u8 *);
+extern s32 CdMix(u8 *);
 
 void func_8002E5BC(void) {
     u8 sp10[4];
@@ -1545,7 +1545,7 @@ void func_8002E5BC(void) {
 }
 
 extern u8 D_800A4F19;
-extern void CdMix(u8 *);
+extern s32 CdMix(u8 *);
 
 void func_8002E5F8(void) {
     u8 sp10[4];

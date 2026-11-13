@@ -1,6 +1,6 @@
 /* guess_UpdateActorModelMatrix — shared body (overlay slot 0x80128158, h_exact bda8e42f). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 /* guess_UpdateActorModelMatrix: rebuilds object a0's model matrix: rotation from the model's +0x10 angles, translation = position + offset (+0x50..+0x54)
  * Confidence high, xref chain: RotMatrixZYX (libgte RotMatrixZYX per the SLUS map)(model + 0x10, model + 0x34); model +0x8.. and +0x48.. = +6/+A/+E + +0x50/+0x52/+0x54
  * Names ledger: config/names.tsv guess_UpdateActorModelMatrix */

@@ -111,7 +111,7 @@ void func_800CEFD0(void) {
     extern s32 func_8001B86C(s32);
     extern void func_80011B7C(s32);
     extern void func_800596F4(s32);
-    extern void VSync(s32);
+    extern s32 VSync(s32);
     extern void func_80059CF4(s32);
     extern void func_8001AF34(void);
 
@@ -179,7 +179,7 @@ extern void func_8001B85C(void);
 extern s32  func_8001B86C(s32);
 extern void func_80011B7C(s32);
 extern void func_800596F4(s32);
-extern void VSync(s32);
+extern s32 VSync(s32);
 extern s32  func_80059CF4(s32);
 extern void func_8001AF34(void);
 
@@ -234,7 +234,7 @@ extern s32 D_800A651C[];
 extern void (*D_800D3488[])(void);
 extern void func_8001B85C(void);
 extern void func_80128158(void);
-extern void VSync(s32 arg0);
+extern s32 VSync(s32 arg0);
 extern void func_8001AF34(void);
 extern void func_80011B7C(s32 arg0);
 extern void func_800596F4(s32 arg0);
@@ -317,7 +317,7 @@ extern void func_8001B85C(void);
 extern void func_8001AF34(void);
 extern void func_80015310(void);
 extern void func_80011B7C(s32 arg0);
-extern void VSync(s32 arg0);
+extern s32 VSync(s32 arg0);
 
 void func_800CF3B8(void) {
     u8 *p = guess_g_RenderWork;

@@ -256,7 +256,7 @@ extern void func_80147B5C(s32 arg0, void *arg1);
 extern void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147DC0(s32 a0, s32 a1);
 extern void func_80147D38(s32 a0, s32 a1, s32 a2, s32 a3, void * a4);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void func_80147E44(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80147F78(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80147F50(s32 arg0);
@@ -2547,7 +2547,7 @@ extern s32 (*D_8018A190[])(void *);
 extern s32 func_801749C8(s32);
 extern s32 func_801749A8(s32 a0);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern s32 func_801749C8(s32 param_1);
 extern void func_80174BBC(void *a0);
 extern void func_8012A0E0(void);
@@ -3230,7 +3230,7 @@ void func_8017B940(void *arg0)
 // @unstuck(P36): none — MATCH (62 ins)
 
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixZYX(s32 a0, s32 a1);
+extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -4808,7 +4808,7 @@ s32 func_8017EC40(s16 *a0) {
 
 extern s32 rand(void);
 extern void RotMatrixY(s32 a0, void *a1);
-extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
+extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern Blk20 D_800AE620;
 
 /* $v0 at exit: vec[2] (`lw v0,24(sp)`, stored to unk30); no byte-neutral return: `return vec[2];` inserts `lw v0,24(sp)` at +0xB8 (+1 insn); `return ->unk30;` swaps s0/s1 from +0x8, ov_SC01_077 objdump */
@@ -5379,7 +5379,7 @@ extern void SetTransMatrix(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern s32 func_8017F7E8(s32 a0);
 extern s32 func_80010A08(s32 a0);
-extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern u16 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern s32 AddPrim(s32 a0, void *a1);
 
