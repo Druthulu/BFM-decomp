@@ -2977,7 +2977,7 @@ extern s32 guess_InitActorModel(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32, void*);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 
-extern void func_8017D698(void);
+extern s32 func_8017D698(void);
 
 void func_8017D5B4(s32 a0) {
 
@@ -5805,7 +5805,7 @@ extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 /* not declared anywhere in the TU */
-extern void func_80182048(s32 arg0);
+extern s32 func_80182048(s32 arg0);
 
 void func_8018199C(void *a0) {
 

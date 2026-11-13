@@ -5030,7 +5030,7 @@ extern u16 D_8018E55C[];
 extern s16 D_8018E560[];
 extern s32 func_80181E5C(void *a0);
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_8018209C(void *a0);
+extern s32 func_8018209C(void *a0);
 
 void func_80181CF0(void *a0)
 {
@@ -5052,7 +5052,7 @@ void func_80181CF0(void *a0)
 
 extern s32 rand(void);
 extern void func_8012E014(s32 a0);
-extern void func_80181E98(u8 *a0);
+extern s32 func_80181E98(u8 *a0);
 extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 
 void func_80181D80(s32 s0) {

@@ -15146,9 +15146,9 @@ extern u8 *D_800A5E60;
 extern u8 * func_800273F4(TmdG3 *f, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot);
 extern void * func_800275BC(TPRIM_800275BC *prim, SVEC_800275BC *vp, void *nrm, u8 *pk, s32 n, s32 shift, u32 *ot);
 extern void * func_800277DC(void *a0, SVECTOR800277DC *a1, void *a2, u8 *a3, s32 count, s32 shift, s32 *ot);
-extern u8 *aF80027058() __asm__("func_80027058");
-extern u8 *aF80027200() __asm__("func_80027200");
-extern u8 *aF800279AC() __asm__("func_800279AC");
+extern long *aF80027058() __asm__("func_80027058");
+extern long *aF80027200() __asm__("func_80027200");
+extern LineG4 *aF800279AC() __asm__("func_800279AC");
 
 /* The per-case `p += count * K` (rather than one shared `adv` temp assigned in every
  * arm) is LOAD-BEARING, not style.  With a shared temp the switch end-label is a real

@@ -6604,7 +6604,7 @@ void aF8017EF54(s32 a0)
     extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
     extern u8   guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
     extern u8   D_800AF648_b __asm__("guess_g_CameraWsMatrix"); // Names ledger: config/names.tsv guess_g_CameraWsMatrix
-    extern s32 func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+    extern void func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
     struct {
         s16 v[3];    /* sp+0x10 */
         s16 pad1;    /* sp+0x16 */
@@ -6655,7 +6655,7 @@ extern s32  rand(void);
 extern s32  VectorNormalSS(void *a0, void *a1);
 extern s32  guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern u8 * func_8012913C(s32 arg0);
-extern s32 func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
 void func_801815B4(s32 a0)
 {
@@ -7217,7 +7217,7 @@ s32 a0;
 
 
 extern void guess_RequestSound(s32 arg0, s32 arg1);
-extern s32 func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
 
 void func_801821FC(void *a0) {
     guess_RequestSound(0xB32, 0);
@@ -7283,7 +7283,7 @@ void func_801822DC(s32 a0)
 }
 
 
-extern s32 func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
     void func_801823C8(s32 *param) {
         param[0x10 / sizeof(s32)] >>= 1;
         param[0x18 / sizeof(s32)] >>= 1;
@@ -7291,7 +7291,7 @@ extern s32 func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
     }
 
 
-extern s32 func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+extern void func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
     void func_801823FC(u8 *param_1) {
         param_1[0xC1] = 0xC;
         ((Unkstruct_8017FD54_2 *)param_1)->unk1C = 0x3C;
@@ -7305,7 +7305,7 @@ void func_80182428(s32 a0)
     extern s32 guess_TickWaitTimer(s32 a0);
     extern s32 func_8012CBF4(s32 a0);
     extern void func_80131C78(s32 a0);
-    extern s32 func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
+    extern void func_80181234();  // K&R: 0 of 1 args (P37 rung D t4_D2)
     s16 field_a;
     s32 result;
 
@@ -9804,7 +9804,7 @@ extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_StartActorSequence(s32 a0, void * a1);
 /* not declared anywhere in the TU */
-extern void func_801868AC(s32 param_1);
+extern s32 func_801868AC(s32 param_1);
 
 void func_80186200(void *a0) {
 

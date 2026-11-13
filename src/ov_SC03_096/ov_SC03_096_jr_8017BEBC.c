@@ -4151,7 +4151,7 @@ extern s32 rand(void);
 extern void func_801800D0(s32 a0, s32 a1);
 extern s32 func_8012CBF4(s32 a0);
 extern void func_801803D0(s16 *a0, s32 a1);
-extern void func_8018001C(s32 a0);
+extern s32 func_8018001C(s32 a0);
 
 void func_8017F864(s32 a0) {
     s16 sp10[3];

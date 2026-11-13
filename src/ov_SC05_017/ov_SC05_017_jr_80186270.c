@@ -2934,7 +2934,7 @@ extern void func_801851C4(s32 a0);
 extern void func_80185A70(void *a0);
 extern void func_80185364(void *a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern s32 func_80185BEC(void);
+extern void func_80185BEC(void);
 extern void func_801853E0(s32 a0);
 extern void func_801854AC(void);
 extern s32 guess_TickWaitTimer(s32 a0);
@@ -3577,7 +3577,7 @@ void func_801874B0(void) {
     extern s32 guess_g_MenuPacketBases[]; // Names ledger: config/names.tsv guess_g_MenuPacketBases
     extern u16 xf02 __asm__("guess_g_DoubleBufferIndex"); // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern s16 xa __asm__("guess_g_MenuPanel"); // Names ledger: config/names.tsv guess_g_MenuPanel
-    extern s32 xf168c(s32 a0) __asm__("guess_GetMenuPanelCursorIndex");
+    extern s16 xf168c(s32 a0) __asm__("guess_GetMenuPanelCursorIndex");
     extern u8  D_80115138[];
     extern s32 D_801ED560;
     extern s32 guess_g_MenuHelpText; // Names ledger: config/names.tsv guess_g_MenuHelpText
@@ -3606,7 +3606,7 @@ void func_801874B0(void) {
     guess_g_MenuPacketPtr = ((s32 *)guess_g_MenuPacketBases)[xf02];
     ret = func_80188128();
     func_80188478();
-    r2 = xf168c(xa);
+    r2 = RET_AS(s32, xf168c, (s32))(xa);
     b = D_80115138[guess_g_MenuPanel];
     if (D_801ED560 == 0) {
         v = func_80188B1C(b, (s16)r2);

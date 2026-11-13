@@ -4111,7 +4111,7 @@ extern void func_801849B0(void *a0);
 extern void func_80184BD4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_801849B8(s32 *a0, s32 a1);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
-extern void func_80182318();
+extern s32 func_80182318();
 
 void func_80182084(void *a0) {
 

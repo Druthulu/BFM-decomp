@@ -3759,7 +3759,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern s32 func_8017EA70(s32 arg0);
 extern void func_8017E998(s32 arg0);
-extern void func_8017EADC(s32);
+extern s32 func_8017EADC(s32);
 extern void func_8017EC14(s32 a0);
 
 void func_8017DFB0(s32 a0) {
@@ -3875,7 +3875,7 @@ void func_8017E220(s32 a0) {
 
 
 extern s32 guess_TickWaitTimer(s32 arg);
-    extern void func_8017EADC(s32 arg);
+    extern s32 func_8017EADC(s32 arg);
     void func_8017E264(s32 arg0) {
         if (!guess_TickWaitTimer(arg0)) {
             func_8017EADC(arg0);
@@ -3902,7 +3902,7 @@ void func_8017E2C4(void *a0) {
 
 
 extern void func_8017E998(s32 arg0);
-extern void func_8017EADC(s32);
+extern s32 func_8017EADC(s32);
 
 void func_8017E2F4(s32 arg0) {
     if (((Unkstruct_800B5CB8 *)arg0)->unk1C == ((Unkstruct_800B5CB8 *)arg0)->unk1C / 5 * 5) {
@@ -3948,7 +3948,7 @@ void func_8017E380(s32 arg0) {
 
 
 extern void func_8017E998(s32 arg0);
-extern void func_8017EADC(s32);
+extern s32 func_8017EADC(s32);
 
 void func_8017E438(s32 a0) {
     s32 v1;
@@ -4904,7 +4904,7 @@ extern s32 func_8012B77C(s32 out, s32 from, s32 to);
 s32 *func_8017FC5C(s32 *a0, s32 a1, s32 a2) {
 
     extern s16 D_80126CBA;
-    extern void fV(s32 out, s32 from, s32 to) __asm__("func_8012B77C");
+    extern s32 fV(s32 out, s32 from, s32 to) __asm__("func_8012B77C");
     s32 sp10[4];
     s32 sp20;
     s16 *q;
@@ -4924,7 +4924,7 @@ s32 *func_8017FC5C(s32 *a0, s32 a1, s32 a2) {
     *(s16 *)((s32)sp10 + 0x6) = t;
     *(s16 *)(a1 + 0x100) = t;
     *(s16 *)((s32)sp10 + 0xA) = p[2] + CAST_SIGN(u16, a2, 4);
-    fV((s32)&sp20, a1 + 4, (s32)sp10);
+    RET_AS(void, fV, (s32, s32, s32))((s32)&sp20, a1 + 4, (s32)sp10);
     *a0 = sp20;
     return a0;
 }

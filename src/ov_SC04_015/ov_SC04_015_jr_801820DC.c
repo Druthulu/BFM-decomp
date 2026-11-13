@@ -4002,7 +4002,7 @@ void func_801837C4(void)
 
 extern s32 D_801C4180;
 extern s32 D_801C9238;
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 void func_80183920(void) {
     D_801C9238 = &D_801C4180;
@@ -4013,7 +4013,7 @@ void func_80183920(void) {
 
 extern s32 D_801C41B8;
 extern s32 D_801C9238;
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 void func_80183954(void) {
     D_801C9238 = &D_801C41B8;
@@ -4024,7 +4024,7 @@ void func_80183954(void) {
 
 extern s32 D_801C41F0;
 extern s32 D_801C9238;
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 void func_80183988(void) {
     D_801C9238 = &D_801C41F0;
@@ -4035,7 +4035,7 @@ void func_80183988(void) {
 
 extern s32 D_801C4218;
 extern s32 D_801C9238;
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 void func_801839BC(void) {
     D_801C9238 = &D_801C4218;
@@ -4045,7 +4045,7 @@ void func_801839BC(void) {
 
 extern s32 D_801C4250;
 extern s32 D_801C9238;
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 void func_801839F0(void) {
     D_801C9238 = &D_801C4250;
@@ -4076,7 +4076,7 @@ s32 func_80183A24(void) {
 
 extern s32 D_801C42C8;
 extern s32 D_801C9238;
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 void func_80183A98(void) {
     D_801C9238 = &D_801C42C8;
@@ -4087,7 +4087,7 @@ void func_80183A98(void) {
 
 
 extern s32 guess_GetStoryProgress(void);
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 s32 func_80183ACC(void) {
 
@@ -4102,7 +4102,7 @@ s32 func_80183ACC(void) {
 }
 
 
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 extern s32 D_801C4320;
 extern s32 D_801C9238;
 
@@ -4115,7 +4115,7 @@ void func_80183B18(void) {
 
 extern s32 D_801C4370;
 extern s32 D_801C9238;
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 void func_80183B4C(void) {
     D_801C9238 = &D_801C4370;
@@ -4126,7 +4126,7 @@ void func_80183B4C(void) {
 
 extern s32 D_801C43D0;
 extern s32 D_801C9238;
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 void func_80183B80(void) {
     D_801C9238 = &D_801C43D0;
@@ -4137,7 +4137,7 @@ void func_80183B80(void) {
 
 
 extern s32 guess_GetStoryProgress(void);
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 s32 func_80183BB4(void) {
 
@@ -4154,7 +4154,7 @@ s32 func_80183BB4(void) {
 
 extern s32 D_801C4418;
 extern s32 D_801C9238;
-extern void func_80182DB4(s32 arg0, s32 arg1);
+extern s32 func_80182DB4(s32 arg0, s32 arg1);
 
 void func_80183C00(void) {
     D_801C9238 = &D_801C4418;

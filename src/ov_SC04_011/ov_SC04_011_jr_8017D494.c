@@ -4513,7 +4513,7 @@ void func_801806B8(void *arg0)
 }
 
 
-extern void func_801833D4(int a0, int a1);
+extern s32 func_801833D4(int a0, int a1);
 extern s32 func_80183A28(u8 *a0);
 extern s32 guess_TickWaitTimer(u8 *a0);
 void func_80180714(u8 *a0) {
@@ -4524,7 +4524,7 @@ void func_80180714(u8 *a0) {
 
 
 extern s32 func_80183A28(u8 *a0);
-extern void func_801833D4(int a0, int a1);
+extern s32 func_801833D4(int a0, int a1);
 
 s32 func_80180750(u8 *a0) {
     if (((s32 (*)(int, int))func_801833D4)((int)a0, -0x40) != 0) {
@@ -4596,7 +4596,7 @@ void func_801808EC(void *arg0)
 }
 
 
-extern void func_801833D4(int a0, int a1);
+extern s32 func_801833D4(int a0, int a1);
 extern s32 func_80183A28(u8 *a0);
 
 s32 func_80180930(u8 *a0) {
@@ -4706,7 +4706,7 @@ extern void func_80183880(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer(u8 *a0);
 extern void func_80183564(s32 a0, s16 *a1);
-extern void func_801833D4(int a0, int a1);
+extern s32 func_801833D4(int a0, int a1);
 extern s32 func_80183A28(u8 *a0);
 extern void func_80180E80(u8 *self);
 extern void func_80183BAC(u8 *a0);
@@ -4850,7 +4850,7 @@ void func_80180E80(u8 *self) {
 }
 
 
-extern void func_801833D4(int a0, int a1);
+extern s32 func_801833D4(int a0, int a1);
 extern s32 func_80183A28(u8 *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80183564(s32 a0, s16 *a1);
@@ -4977,7 +4977,7 @@ extern s16 D_801944A8[][4];
 /* §183 SIGNATURE-cast-at-call: the TU declares `extern void func_801833D4(int, int);`
    (L4269/L4328) and recovers the s32 result with a call-site function-pointer cast
    (its own idiom at L4362). Same here. */
-extern void func_801833D4(int a0, int a1);
+extern s32 func_801833D4(int a0, int a1);
 extern s32 func_80183A28(u8 *a0);
 extern void func_80181390(s32 a0);
 extern void func_80183564(s32 a0, s16 *a1);
@@ -5076,7 +5076,7 @@ void func_801813FC(s32 s0)
     extern u8 D_801944B8[];
     extern u8 D_801944C8[];
     extern u8 D_80190B88[];
-    extern void func_801833D4(int a0, int a1);
+    extern s32 func_801833D4(int a0, int a1);
     extern s32 func_80183A28(u8*);
     extern void guess_RequestSound(s32 a0, s32 a1);
     extern s32 func_8012BE54(s32 a0);
@@ -5253,7 +5253,7 @@ void func_80181868(u8 *self) {
  *   line 4505: extern u16  D_801EFD40;
  * func_801833D4's s32 result is recovered with a call-site cast (§37 lever)
  * so the TU's `void` spelling is preserved byte-neutrally. */
-extern void func_801833D4(int a0, int a1);
+extern s32 func_801833D4(int a0, int a1);
 extern s32 func_80183A28(u8 *a0);
 extern void func_8013C9C4(void *a0);
 extern u16 D_801EFD40;
@@ -5701,7 +5701,7 @@ extern void func_80185960(s32 target, u16 *cur, s32 step);
 extern s32 func_80184F4C(void);
 /* §183 SIGNATURE-cast-at-call: batch-wide spelling is (s32, void *, s32). */
 extern void func_80186300(s32 a0, void *a1, s32 a2);
-extern void func_80188560(s32 a0, s32 a1);
+extern s32 func_80188560(s32 a0, s32 a1);
 extern void func_80185F1C(void);
 extern void func_80185214(s32 a0);
 extern void func_80184DB8(s32 a0);
@@ -6163,7 +6163,7 @@ void func_80182B5C(void *arg0) {
    `extern void func_801833D4(int a0, int a1);` at file scope -- but this call site needs the
    return value. Match the existing decl exactly, then use the file's own established cast-call
    idiom (see func_801805D8 / func_801805F8 in the same TU) to call it as if it returned s32. */
-extern void func_801833D4(int a0, int a1);
+extern s32 func_801833D4(int a0, int a1);
 extern s32 func_80183A28(u8 *a0);
 /* §183 SIGNATURE-cast-at-call: batch-wide spelling is (s32, s16 *). */
 extern void func_80183564(s32 a0, s16 *a1);
@@ -6696,7 +6696,7 @@ extern void func_801852BC(s32 a0);
 extern void func_801853D0(s32 a0);
 extern void func_80185648(u32 a0);
 extern void ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
-extern s32 func_80183BF0(s32 a0);
+extern void func_80183BF0(s32 a0);
 /* §183 SIGNATURE-cast-at-call: the TU DEFINES `s32 func_801836D4(void *, void *)` (L4677). */
 extern s32 func_801836D4(void *a0, void *a1);
 extern void func_80185960(s32 target, u16 *cur, s32 step);
@@ -6984,7 +6984,7 @@ void func_80183880(s32 a0)
     extern void func_801853D0(s32);
     extern void func_80185648(u32 a0);
     extern void ApplyMatrixLV(s32, s32, s32);
-    extern s32 func_80183BF0(s32);
+    extern void func_80183BF0(s32);
     extern void func_80185960(s32, u16 *, s32);
 
     u16 idx;

@@ -4201,7 +4201,7 @@ extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_StartActorSequence(s32*, s32);
 /* not declared anywhere in the TU */
-extern void func_801800E4(param_1);
+extern s32 func_801800E4(param_1);
 
 void func_8017FA38(void *a0) {
 

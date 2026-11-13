@@ -3602,7 +3602,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern s32 func_8017F020(s32 arg0);
 extern void func_8017EF48(s32 arg0);
-extern void func_8017F08C(s32);
+extern s32 func_8017F08C(s32);
 extern void func_8017F1C4(s32 a0);
 
 void func_8017E560(s32 a0) {
@@ -3719,7 +3719,7 @@ s32 a0;
 
 
 extern s32 guess_TickWaitTimer(s32 arg);
-    extern void func_8017F08C(s32 arg);
+    extern s32 func_8017F08C(s32 arg);
     void func_8017E814(s32 arg0) {
         if (!guess_TickWaitTimer(arg0)) {
             func_8017F08C(arg0);
@@ -3746,7 +3746,7 @@ void func_8017E874(void *a0) {
 
 
 extern void func_8017EF48(s32 arg0);
-extern void func_8017F08C(s32);
+extern s32 func_8017F08C(s32);
 
 void func_8017E8A4(s32 arg0) {
     if (((Unkstruct_800B5CB8 *)arg0)->unk1C == ((Unkstruct_800B5CB8 *)arg0)->unk1C / 5 * 5) {
@@ -3798,7 +3798,7 @@ void func_8017E930(s32 a0) {
 
 
 extern void func_8017EF48(s32 arg0);
-extern void func_8017F08C(s32);
+extern s32 func_8017F08C(s32);
 
 void func_8017E9E8(s32 a0) {
     s32 v1;

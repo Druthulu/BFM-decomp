@@ -4481,7 +4481,7 @@ void func_8017E9F0(s32 a0) {
 extern s32 func_80180FA4(s32 a0, s32 a1, s32 a2);
 extern s32 func_80181384(s32, s32);
 extern s32 func_8018107C(s32 a0, s32 a1, s32 a2);
-extern void func_801810CC(s32, s32, s32);
+extern s32 func_801810CC(s32, s32, s32);
 extern s32 func_80181280(s32 a0);
 extern void func_80180F94(s32 a0);
 extern s32 func_8012AD50(void*);
@@ -4555,7 +4555,7 @@ void func_8017EB34(s32 a0) {
 #include "common.h"
 
 extern s32 func_80180FA4(s32 a0, s32 a1, s32 a2);
-extern void func_801810CC(s32, s32, s32);
+extern s32 func_801810CC(s32, s32, s32);
 extern s32 func_80181280(s32 a0);
 extern s32 func_80181048(void *a0, void *a1);
 extern void func_80181120(void);
@@ -4653,7 +4653,7 @@ void func_8017ED18(s32 a0) {
 
 #include "common.h"
 
-extern void func_801810CC(s32, s32, s32);
+extern s32 func_801810CC(s32, s32, s32);
 extern s32 func_80180FA4(s32 a0, s32 a1, s32 a2);
 extern s32 func_80181280(s32 a0);
 extern void func_80180F94(s32 a0);
@@ -5880,7 +5880,7 @@ void func_801803A8(s32 a0)
 }
 
 
-extern void func_80181614();
+extern s16 func_80181614();
 extern s32 func_80180FA4(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012AD50(void *arg0);
 extern void (*D_80187AE8)();
@@ -6531,7 +6531,7 @@ s32 func_80181048(void *a0, void *a1)
 }
 
 
-extern void func_801810CC(s32, s32, s32);
+extern s32 func_801810CC(s32, s32, s32);
 extern void func_801813A8(s32, s32);
 
 s32 func_8018107C(s32 a0, s32 a1, s32 a2) {
@@ -6768,7 +6768,7 @@ ret1:
 
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
-extern void func_80181614();
+extern s16 func_80181614();
 
 s32 func_801815B8(s32 arg0, s32 arg1) {
     s16 *ptr;

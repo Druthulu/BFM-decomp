@@ -4926,7 +4926,7 @@ void func_80185364(void *a0) {
 extern s32 func_80184E6C(s32 a0);
 extern void func_80185604(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern s32 func_80185BEC(void);
+extern void func_80185BEC(void);
 
 void func_801853E0(s32 a0) {
     s32 s0;
@@ -4968,7 +4968,7 @@ void func_801853E0(s32 a0) {
 }
 
 
-extern s32 func_80185BEC(void);
+extern void func_80185BEC(void);
     void func_801854AC(void) {
         func_80185BEC();
     }
@@ -4979,7 +4979,7 @@ extern s32 func_80184E6C(s32 a0);
 extern void func_8018559C(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern s32 func_80185BEC(void);
+extern void func_80185BEC(void);
 
 void func_801854CC(s32 a0) {
     if (func_80184E6C(a0) == 2) {
@@ -5005,7 +5005,7 @@ void func_801854CC(s32 a0) {
 }
 
 
-extern s32 func_80185BEC(void);
+extern void func_80185BEC(void);
 
 void func_8018559C(s32 a0) {
 
@@ -5025,7 +5025,7 @@ void func_8018559C(s32 a0) {
 
 
 
-extern s32 func_80185BEC(void);
+extern void func_80185BEC(void);
 
 void func_80185604(s32 a0) {
 
@@ -5066,7 +5066,7 @@ void func_80185678(s32 a0) {
 
 
 
-extern s32 func_80185BEC(void);
+extern void func_80185BEC(void);
 
 void func_801856D8(s32 a0) {
 

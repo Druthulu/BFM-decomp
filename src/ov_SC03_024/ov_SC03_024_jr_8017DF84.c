@@ -5709,7 +5709,7 @@ extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 #undef SHARED_FN
 
 
-extern s32 func_8017BEBC(void);
+extern void func_8017BEBC(void);
 #define SHARED_FN func_801827EC
 #include "../shared/ov/cls_bf5a11ea814e.h"
 #undef SHARED_FN

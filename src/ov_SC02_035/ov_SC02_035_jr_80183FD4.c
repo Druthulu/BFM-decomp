@@ -2737,7 +2737,7 @@ extern void func_8012ADE4(u8 *a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern void func_8018023C(s32 a0);
-extern void func_8018016C(s32 a0, s32 a1);
+extern s32 func_8018016C(s32 a0, s32 a1);
 extern void func_8017F4DC(s32 a0);
 extern void func_8017F874(s32 arg0);
 extern s32 func_8012BE54(s32 a0);

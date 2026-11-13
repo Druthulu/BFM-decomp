@@ -2877,17 +2877,17 @@ extern void func_80181C58(s32 arg0);
 extern u16 D_8018E55C[];
 extern s16 D_8018E560[];
 extern s32 func_80181E5C(void *a0);
-extern void func_8018209C(void *a0);
+extern s32 func_8018209C(void *a0);
 extern void func_80181CF0(void *a0);
 extern void func_8012E014(s32 a0);
-extern void func_80181E98(u8 *a0);
+extern s32 func_80181E98(u8 *a0);
 extern void func_80181D80(s32 s0);
 extern s32 func_80181E98_impl(void *arg);
 extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 extern u8 D_8018E56C[];
 extern s32 func_80013478(s32 a0, s32 a1);
 extern u8 D_80126B5C;
-extern void func_8018209C(void *arg0);
+extern s32 func_8018209C(void *arg0);
 extern void (*D_8018E5C4[])(void);
 extern void func_801822A0(void *a0);
 extern u8 D_8018E574[];
@@ -4649,7 +4649,7 @@ extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 /* not declared anywhere in the TU */
-extern void func_8018925C(void);
+extern s32 func_8018925C(void);
 
 void func_80188BB0(void *a0) {
 

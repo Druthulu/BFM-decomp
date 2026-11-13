@@ -4563,7 +4563,7 @@ extern void func_801843E0(s32 *a0, s32 a1);
 extern s32 func_801788B8(s32 a0, s32 a1);
 
 void func_8017EB04(void *a0) {
-    extern void func_8017EB84(void *a0);
+    extern s32 func_8017EB84(void *a0);
     extern short D_8018F038;
     extern u16 D_8018F040[];
     void *s0 = a0;
@@ -6740,7 +6740,7 @@ extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 guess_GetStoryProgress(void);
 extern s32 guess_TestGameFlag(s32 arg);
-extern void func_80181A1C(void *arg0);
+extern s32 func_80181A1C(void *arg0);
 
 void func_80181870(void *arg0) {
 

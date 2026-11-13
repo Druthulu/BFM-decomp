@@ -3699,7 +3699,7 @@ void func_8017E108(void)
     extern s32 func_8017E3DC(void);
     extern void func_8017E6BC(void);
     extern s16 guess_GetMenuPanelCursorIndex(s16 a0);
-    extern s32 func_8017ED5C(s32 a0, s32 a1);
+    extern void *func_8017ED5C(s32 a0, s32 a1);
     extern void guess_CloseTextWindow0(void);
     extern s32 guess_OpenTextWindowCenteredAt(s32 a0, s32 a1);
     extern void func_80137B80(void);
@@ -4062,7 +4062,7 @@ void func_8017E6BC(void) {
     extern u8 *func_800D27DC(s32, s32 *, void *, s32, s32);
     extern s32  func_8013AB54(s32, s32, s32, s32);
     extern s32  func_8005A600(s32, s32, s32, s32, s32);
-    extern s16  xf8017EF8C(void) __asm__("func_8017F730");
+    extern s32  xf8017EF8C(void) __asm__("func_8017F730");
     extern s32 *xf8017E1D4(s32 *, s32, s32) __asm__("func_8017E978");
 
     s32 *ot;
@@ -4089,7 +4089,7 @@ void func_8017E6BC(void) {
                 (D_801CD9A8 != (u32)&D_801C3C94) &&
                 (D_801CD9A8 != (u32)&D_801C3CD4) &&
                 (D_801CD9A8 != (u32)&D_801C3D20) &&
-                (xf8017EF8C() == 0)) {
+                (RET_AS(s16, xf8017EF8C, (void))() == 0)) {
                 label = &D_801BB2F0;
             }
         }

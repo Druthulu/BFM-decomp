@@ -4654,7 +4654,7 @@ void func_801807C4(void *a0)
  * `extern void func_8012EF70(s32 a0, s32 a1);`, but the byte-true body returns a
  * value that this function tests.  Aliasing the C name sidesteps the return-axis
  * conflict with no header edit and no codegen change. */
-extern s32 aF8012EF70(s32 a0, void *a1) __asm__("func_8012EF70");
+extern void aF8012EF70(s32 a0, void *a1) __asm__("func_8012EF70");
 
    /* 4 bytes -> lwl/lwr + swl/swr copy */
    /* stride 0x14 */
@@ -4678,8 +4678,8 @@ void func_80180894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 dx, dy;
     s32 z;
 
-    if ((aF8012EF70(arg0, &r1) & ~0x1000) == 0 &&
-        (aF8012EF70(arg1, &r2) & ~0x1000) == 0) {
+    if ((RET_AS(s32, aF8012EF70, (s32, void *))(arg0, &r1) & ~0x1000) == 0 &&
+        (RET_AS(s32, aF8012EF70, (s32, void *))(arg1, &r2) & ~0x1000) == 0) {
         dy = ((r2.vy - r1.vy) * arg2) >> 12;
         dx = ((r2.vx - r1.vx) * arg2) >> 12;
         z = r1.vz;

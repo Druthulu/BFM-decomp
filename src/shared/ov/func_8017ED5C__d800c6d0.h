@@ -25,7 +25,7 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
     extern s32 guess_GetGameVarByte(s32 arg);
     extern s32 guess_GetStoryProgress(void);
     extern void func_80139A44(s32 a0, u16 a1);
-    extern s16 func_8017F730(void);
+    extern s32 func_8017F730(void);
     void *result;
     s16 sel;
     s16 idx;
@@ -40,7 +40,7 @@ void *func_8017ED5C(s32 param_1, s32 param_2) {
     sel = param_1 - 1;
     switch (sel) {
     case 5:
-        if (func_8017F730() != 0) {
+        if (RET_AS(s16, func_8017F730, (void))() != 0) {
             t = guess_GetStoryProgress();
             idx = D_801BB920[(s16)param_2];
             off = idx * 4;                                   /* [2] */

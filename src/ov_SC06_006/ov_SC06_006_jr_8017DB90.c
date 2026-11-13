@@ -3523,7 +3523,7 @@ u32 func_8017ED24(u32 param_1, u32 param_2)
  */
 extern s32 rand(void);
 extern void func_8017F4C0(void *a0, u16 a1, s32 a2);
-extern void aF8017ED24(void *, s32) __asm__("func_8017ED24");
+extern u32 aF8017ED24(void *, s32) __asm__("func_8017ED24");
 extern void func_8017F258(u8 *q);
 extern u8 D_80185FA0_recs[] __asm__("D_80185FA0");
 extern u8 D_80185F94[];
@@ -3540,9 +3540,9 @@ void func_8017EEA4(void *arg)
     (((Unkstruct_8017EEA4 *)arg)->unk6)++;
     rec = &D_80185FA0_recs[((Unkstruct_8017EEA4 *)arg)->unk4C * 20];
     func_8017F4C0(work, ((Unkstruct_8017EEA4_2 *)rec)->unk2, (u16)((rand() & 0x7F) - 0x3F));
-    aF8017ED24(&t1, ((Unkstruct_8017EEA4_2 *)rec)->unkC);
+    RET_AS(void, aF8017ED24, (void *, s32))(&t1, ((Unkstruct_8017EEA4_2 *)rec)->unkC);
     *(Blk4 *)((u8 *)arg + 0xC) = t1;
-    aF8017ED24(&t2, ((Unkstruct_8017EEA4_2 *)rec)->unk10);
+    RET_AS(void, aF8017ED24, (void *, s32))(&t2, ((Unkstruct_8017EEA4_2 *)rec)->unk10);
     *(Blk4 *)((u8 *)arg + 0x10) = t2;
     *(Blk8 *)(*(u8 **)((u8 *)arg + 8) + 8) = *(Blk8 *)D_80185F94;
 

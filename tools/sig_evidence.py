@@ -1417,6 +1417,7 @@ def check_ret_views(ledger, parsed, decode):
     for f, p in parsed.items():
         for d in (p or {}).get("defs", ()):
             defs[d["name"]].add(f)
+            defs[p["aliases"].get(d["name"], d["name"])].add(f)    # `T cname(...) __asm__("label");` + cname's body defines label
         for own, inc in (p or {}).get("binds", ()):
             hdr = parsed.get(posixpath.normpath(posixpath.join(posixpath.dirname(f), inc)))
             if hdr and any(d["name"] == "SHARED_FN" for d in hdr["defs"]):
@@ -1786,9 +1787,13 @@ def selftest():
             "src/shared/h.h": parse_text("src/shared/h.h", "u8 SHARED_FN(void) {\n    return 1;\n}\n"),
             "src/a.c": parse_text("src/a.c", 'void g(void) {\n    extern u8 xa(void) __asm__("f_sh");\n'
                                   "    s32 x = RET_AS(s32, xa, (void))();\n}\n")}
-    rvl2 = load_ledger("\n".join(["callee\tdef_file\tview\tcause\ttask\tcites", f"f_sh\tsrc/b.c\ts32\tc\tT5\t{good}", ""]))
+    rvp2["src/c.c"] = parse_text("src/c.c", 'void cx(void) __asm__("f_al");\nvoid cx(void) {\n}\n'
+                                 "void h(void) {\n    s32 y = RET_AS(s32, f_al, (void))();\n}\n")
+    rvl2 = load_ledger("\n".join(["callee\tdef_file\tview\tcause\ttask\tcites", f"f_sh\tsrc/b.c\ts32\tc\tT5\t{good}",
+                                  f"f_al\tsrc/c.c\ts32\tc\tT5\t{good}", ""]))
     rf2, rub2, run2, rw2, rtxt2 = check_ret_views(rvl2, rvp2, dec_)
-    check("--check ret views: a SHARED_FN bind defines its name in the binding file; an asm-label alias site names the label",
+    check("--check ret views: a SHARED_FN bind defines its name in the binding file; an asm-label alias site names the label "
+          "and an aliased body defines it",
           rf2 == [] and rub2 == [] and run2 == [] and rw2 == [], rtxt2)
 
     print("selftest", "OK" if ok else "FAILED")

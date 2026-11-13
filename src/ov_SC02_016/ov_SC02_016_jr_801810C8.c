@@ -2771,7 +2771,7 @@ extern void func_8012ADE4(u8 *a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern void func_80180B30(s32 a0);
-extern void func_8018035C(void *a0);
+extern s32 func_8018035C(void *a0);
 extern void func_8018096C(short*);
 extern void (*D_80188618)(void *);
 extern void func_80180828(s32 a0);
@@ -2810,7 +2810,7 @@ extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 extern void func_8012ADE4(u8*);
-extern void func_8018035C(void*);
+extern s32 func_8018035C(void*);
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern s32  guess_TickWaitTimer(s32 a0);
@@ -4340,7 +4340,7 @@ extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_StartActorSequence(s32, s32);
 /* not declared anywhere in the TU */
-extern void func_801839A0(void);
+extern s32 func_801839A0(void);
 
 void func_801832F4(void *a0) {
 

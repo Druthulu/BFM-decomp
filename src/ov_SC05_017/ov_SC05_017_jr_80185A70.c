@@ -2935,7 +2935,7 @@ extern void func_801851C4(s32 a0);
 extern void func_80185A70(void *a0);
 extern void func_80185364(void *a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern s32 func_80185BEC(void);
+extern void func_80185BEC(void);
 extern void func_801853E0(s32 a0);
 extern void func_801854AC(void);
 extern s32 guess_TickWaitTimer(s32 a0);

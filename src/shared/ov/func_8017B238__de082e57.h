@@ -3,7 +3,7 @@
 s32 func_8017B238(s32 param_1, s32 param_2)
 {
     extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-    extern s32 func_8017BE60(void *a0);
+    extern void func_8017BE60(void *a0);
     extern u8 D_80182BB8[];
     extern s16 D_8018F98C;
     extern s16 D_8018F984;

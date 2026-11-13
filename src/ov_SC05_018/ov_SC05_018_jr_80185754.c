@@ -3549,7 +3549,7 @@ extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 guess_GetStoryProgress(void);
 extern s32 guess_TestGameFlag(s32 arg);
-extern void func_80186614(void);
+extern s32 func_80186614(void);
 
 void func_80186468(void *arg0) {
 

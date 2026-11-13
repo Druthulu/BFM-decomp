@@ -4797,9 +4797,9 @@ void func_8018AF9C(void *a0) {
 }
 
 
-extern s32 func_8018B1DC(void);
+extern void func_8018B1DC(void);
     s32 func_8018B19C(void) {
-        return func_8018B1DC();
+        return RET_AS(s32, func_8018B1DC, (void))();
     }
 
 

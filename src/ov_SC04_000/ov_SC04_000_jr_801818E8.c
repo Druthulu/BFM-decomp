@@ -2802,7 +2802,7 @@ extern void func_80180738(void *a0);
 extern void func_8018079C(s32 a0);
 extern void (*D_8019D328[])(void);
 extern void func_801807DC(void *a0);
-extern void func_80180EC4(s32 a0);
+extern s32 func_80180EC4(s32 a0);
 extern void func_80180818(void *a0);
 extern s32 func_801808EC(void *a0);
 extern void func_80180914(s32 a0);
@@ -3718,7 +3718,7 @@ extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern void guess_StartActorSequence(s32, s32);
-extern void func_801830E4(void *arg0);
+extern s32 func_801830E4(void *arg0);
 
 
 void func_80182DE8(s32 param_1) {

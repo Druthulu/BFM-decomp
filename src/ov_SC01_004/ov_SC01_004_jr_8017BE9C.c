@@ -3645,7 +3645,7 @@ void func_8017D964(void) {
     extern u16 xf02 __asm__("guess_g_DoubleBufferIndex"); // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern s16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
     extern u16 xb __asm__("guess_g_MenuPanel"); // Names ledger: config/names.tsv guess_g_MenuPanel
-    extern s32 xf168c(s32 a0) __asm__("guess_GetMenuPanelCursorIndex");
+    extern s16 xf168c(s32 a0) __asm__("guess_GetMenuPanelCursorIndex");
     extern s16 D_80115126;
     extern u8  D_80115138[];
     extern u32 D_80190248;
@@ -3672,7 +3672,7 @@ void func_8017D964(void) {
     guess_g_MenuPacketPtr = ((s32 *)guess_g_MenuPacketBases)[xf02];
     ret = func_8017DC38();
     func_8017DF18();
-    r2 = xf168c(guess_g_MenuPanel);
+    r2 = RET_AS(s32, xf168c, (s32))(guess_g_MenuPanel);
     b = D_80115138[xb];
     if (D_80115126 != 4) {
         if (D_80190248 == 0) {

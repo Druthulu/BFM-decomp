@@ -3013,7 +3013,7 @@ extern void func_801854C4(s32 a0);
 extern void func_80185D70(void *a0);
 extern void func_80185664(void *a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern s32 func_80185EEC(void);
+extern void func_80185EEC(void);
 extern void func_801856E0(s32 a0);
 extern void func_801857AC(void *a0);
 extern void func_801857CC(s32 a0);

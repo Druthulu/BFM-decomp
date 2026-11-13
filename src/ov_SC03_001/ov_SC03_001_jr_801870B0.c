@@ -3015,7 +3015,7 @@ extern void func_80186A84(void);
 extern s32 func_80186D18(void);
 extern void guess_UpdateActorModelMatrix(s32 arg);
 extern void func_80186D7C(void *arg0);
-extern void func_80186F88(void);
+extern s32 func_80186F88(void);
 extern void func_80186DDC(void *arg0);
 extern void (*D_801C063C[])(void);
 extern void func_80186F4C(void *a0);
@@ -3914,7 +3914,7 @@ void func_80188124(void *a0) {
 extern s32 func_80187C2C(s32 a0);
 extern void func_801883C4(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern s32 func_801889AC(void);
+extern void func_801889AC(void);
 
 void func_801881A0(s32 a0) {
     s32 s0;
@@ -3956,7 +3956,7 @@ void func_801881A0(s32 a0) {
 }
 
 
-extern s32 func_801889AC(void);
+extern void func_801889AC(void);
     void func_8018826C(void) {
         func_801889AC();
     }
@@ -3967,7 +3967,7 @@ extern s32 func_80187C2C(s32 a0);
 extern void func_8018835C(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
-extern s32 func_801889AC(void);
+extern void func_801889AC(void);
 
 void func_8018828C(s32 a0) {
     if (func_80187C2C(a0) == 2) {
@@ -3995,7 +3995,7 @@ void func_8018828C(s32 a0) {
 
 extern s16 D_801C0B68[];
 extern s32 D_801C0B2C[][2];
-extern s32 func_801889AC(void);
+extern void func_801889AC(void);
 
 void func_8018835C(a0)
 s32 a0;
@@ -4017,7 +4017,7 @@ s32 a0;
 
 
 
-extern s32 func_801889AC(void);
+extern void func_801889AC(void);
 
 void func_801883C4(s32 a0) {
 
@@ -4058,7 +4058,7 @@ void func_80188438(s32 a0) {
 
 
 
-extern s32 func_801889AC(void);
+extern void func_801889AC(void);
 
 void func_80188498(s32 a0) {
 

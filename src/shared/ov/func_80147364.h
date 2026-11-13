@@ -3,7 +3,7 @@
 extern s16 currentLocationId;
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern void guess_CopyVec3HighHalves(s32, s32*);
-extern s32 aF8012E5CC(s32, s32, s32) __asm__("func_8012E5CC");
+extern void aF8012E5CC(s32, s32, s32) __asm__("func_8012E5CC");
 extern void guess_RequestSound(s32 a0, s32 a1);
 void func_80147364(u16 param_1, u16 param_2)
 {

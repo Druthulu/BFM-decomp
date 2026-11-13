@@ -10401,7 +10401,7 @@ extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 /* not declared anywhere in the TU */
-extern void func_801874BC(s32 param_1);
+extern s32 func_801874BC(s32 param_1);
 
 void func_80186E10(void *a0) {
 
@@ -10849,7 +10849,7 @@ extern s32 D_801C9EEC[];
 extern s32 D_801CAE68;
 extern s32 D_801F7730;
 extern void func_80132288(s32 *param_1, s32 *param_2, s32 param_3);
-extern void func_801888A8(s32 a0, s32 a1);
+extern s32 func_801888A8(s32 a0, s32 a1);
 
 void func_801876E4(s32 a0) {
     CAST_ALIAS(s16, a0, 2) = 2;
@@ -10880,7 +10880,7 @@ void func_80187778(s32 a0) {
 
 #include "common.h"
 
-extern void func_801888A8(s32, s32);
+extern s32 func_801888A8(s32, s32);
 extern s32 rand(void);
 extern void func_80132288(s32 *param_1, s32 *param_2, s32 param_3);
 extern s32 func_80188C18(void *a0);
@@ -10988,7 +10988,7 @@ extern s32  guess_TickWaitTimer(s32 a0);
 extern void func_80132288(int *param_1, int *param_2, int param_3);
 extern void func_8013240C(s32 a0);
 extern s32  func_801887B0(s32 a0);
-extern void func_801888A8(s32 a0, s32 a1);
+extern s32 func_801888A8(s32 a0, s32 a1);
 extern void func_8018893C(s32 arg0);
 extern s32  func_80188A94(s32 a0);
 extern void func_80188AF4(s32, s32);
@@ -11053,7 +11053,7 @@ void func_80187A9C(s32 obj) {
 
 void func_80187C94(s32 a0) {
     extern void func_80132288(s32 *param_1, s32 *param_2, s32 param_3);
-    extern void func_801888A8(s32 a0, s32 a1);
+    extern s32 func_801888A8(s32 a0, s32 a1);
     extern s32 D_801F7730;
     extern s32 D_801CAE68;
     extern s32 D_801C9F44[];
@@ -11126,7 +11126,7 @@ extern s32 D_801CA0E4;
 extern s32 D_801CA1A4;
 
 extern void func_80132288(int *param_1, int *param_2, int param_3);
-extern void func_801888A8(s32 a0, s32 a1);
+extern s32 func_801888A8(s32 a0, s32 a1);
 extern s32 func_8012B864(s32 a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
@@ -11557,7 +11557,7 @@ merge2:
 
 
 extern void func_80132288(s32 *param_1, s32 *param_2, s32 param_3);
-extern void func_801888A8(s32 a0, s32 a1);
+extern s32 func_801888A8(s32 a0, s32 a1);
 extern s32 D_801F7730;
 extern s32 D_801CAE68;
 extern s32 D_801C9FD4[];
@@ -12750,8 +12750,8 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8018A4B4(s32 param_1);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
-extern void func_8018A5C4(s32 a0);
-extern void func_8018A6F4(s32 a0);
+extern s32 func_8018A5C4(s32 a0);
+extern s32 func_8018A6F4(s32 a0);
 extern void func_8018A384(s16 *a0);
 extern void func_8018A598(void *a0);
 extern s32 func_8018A698(s32 a0);
@@ -13137,8 +13137,8 @@ extern s32 func_8012C044(s32 a0);
 
 extern s32 func_8018A698(s32 a0);
 extern void func_8018A4B4(s32 param_1);
-extern void func_8018A5C4(s32 a0);
-extern void func_8018A6F4(s32 a0);
+extern s32 func_8018A5C4(s32 a0);
+extern s32 func_8018A6F4(s32 a0);
 extern void func_8018A484(short *a0);
 extern void func_8018A624(s32 arg0);
 
@@ -13204,8 +13204,8 @@ extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void func_8018A484(short *a0);
 extern void func_8018A598(void *a0);
-extern void func_8018A5C4(s32 a0);
-extern void func_8018A6F4(s32 a0);
+extern s32 func_8018A5C4(s32 a0);
+extern s32 func_8018A6F4(s32 a0);
 extern s32 D_801F7740;
 
 void func_8018AAE4(s32 a0)

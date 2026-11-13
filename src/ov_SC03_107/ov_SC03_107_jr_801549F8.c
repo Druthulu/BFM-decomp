@@ -1245,7 +1245,7 @@ extern void func_80147364(u16 param_1, u16 param_2);
 extern void guess_PlaySound(u16 arg0);
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void guess_CopyVec3HighHalves(s32, s32*);
-extern s32 aF8012E5CC(s32, s32, s32) __asm__("func_8012E5CC");
+extern void aF8012E5CC(s32, s32, s32) __asm__("func_8012E5CC");
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_ApplyVertSpeed(s32 a0);
 extern void func_80147514(s32 arg0);

@@ -3950,7 +3950,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 
 extern void func_8016F0E4();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 extern void func_80165770(void);
-void aF8016F0AC(void) __asm__("func_8016F0AC");
+s32 aF8016F0AC(void) __asm__("func_8016F0AC");
 #include "../shared/ov/func_8016F0AC.h"
 
 

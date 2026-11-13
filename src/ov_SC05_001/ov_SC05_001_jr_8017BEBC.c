@@ -6245,7 +6245,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern s32 func_801827A0(s32 a0);
 extern void func_801826C8(s32 a0);
-extern void func_8018280C(s32);
+extern s32 func_8018280C(s32);
 extern void func_80182944(s32 a0);
 
 void func_80181CE0(s32 a0) {
@@ -6361,7 +6361,7 @@ void func_80181F50(s32 a0) {
 
 
 extern s32 guess_TickWaitTimer(s32 arg);
-    extern void func_8018280C(s32 arg);
+    extern s32 func_8018280C(s32 arg);
     void func_80181F94(s32 arg0) {
         if (!guess_TickWaitTimer(arg0)) {
             func_8018280C(arg0);
@@ -6428,7 +6428,7 @@ void func_801820B0(s32 a0) {
 #include "common.h"
 
 extern void func_801826C8(s32 a0);
-extern void func_8018280C(s32 arg);
+extern s32 func_8018280C(s32 arg);
 
 void func_80182168(s32 a0) {
     s32 v1;

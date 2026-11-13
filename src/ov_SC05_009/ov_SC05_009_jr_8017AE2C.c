@@ -2752,7 +2752,7 @@ void func_8017B1D8(void) {
 s32 func_8017B238(s32 param_1, s32 param_2)
 {
     extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-    extern s32 func_8017BE60(void *a0);
+    extern void func_8017BE60(void *a0);
     extern u8 D_80182404[];
     extern s16 D_80196A64;
     extern s16 D_80196A5C;
@@ -2893,7 +2893,7 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 {
     extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
     extern void guess_UpdateCamera(void);
-    extern s32 func_8017BE60(void *a0);
+    extern void func_8017BE60(void *a0);
     extern u8 D_80182404[];
     extern s16 D_80196A64;
     extern s16 D_80196A66;

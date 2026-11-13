@@ -5459,7 +5459,7 @@ s32 func_80181E78(void) {
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();
 extern void func_80172710(void);
-extern void func_801842C0(void *a0);
+extern s32 func_801842C0(void *a0);
 extern s32 func_80184828(void);
 extern void func_80182018(s16 *a0);
 
@@ -5745,7 +5745,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_InitModelObject(s32, s32);
 extern void guess_StartActorSequence();  // K&R: 0 of 2 args (P37 rung D t4_D22)
 extern s32  func_801788B8(s32 arg0, s32 arg1);
-extern void func_80182774(void);
+extern s32 func_80182774(void);
 
 void func_801825C8(void *arg0) {
 

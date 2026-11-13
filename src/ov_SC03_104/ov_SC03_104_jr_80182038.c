@@ -3508,7 +3508,7 @@ void func_8018312C(s32 a0)
 extern s32  guess_TickWaitTimer(s32 a0);
 extern s32 rsin(s32 a0);
 extern void guess_FreeActor(void *a0);
-extern void func_80183318(s32 a0);
+extern s32 func_80183318(s32 a0);
 
 void func_801831E8(s32 ent) {
     s32 t;
@@ -3553,7 +3553,7 @@ void func_801831E8(s32 ent) {
 
 
 
-extern void func_80183318(s32 a0);
+extern s32 func_80183318(s32 a0);
 
 s32 func_80185484_body(s32 a0) __asm__("func_80183318");
 

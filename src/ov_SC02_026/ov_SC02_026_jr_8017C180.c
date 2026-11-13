@@ -5464,7 +5464,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 guess_SnapActorToGround(u8 *a0);
 extern s32 rand(void);
 extern void func_801823E8(s32 a0);
-extern void func_80182318(s32 a0, s32 a1);
+extern s32 func_80182318(s32 a0, s32 a1);
 extern s32 D_801AC2CC[];
 
 void func_80181688(s32 a0) {

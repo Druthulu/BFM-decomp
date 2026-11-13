@@ -2782,7 +2782,7 @@ extern void func_8018156C(void *a0);
 extern s32 func_801817AC(void);
 extern void func_80181810(void * arg0);
 extern void guess_InitModelObject(s32, s32);
-extern void func_80181A1C(void *arg0);
+extern s32 func_80181A1C(void *arg0);
 extern void func_80181870(void *arg0);
 extern void (*D_801901D0[])(void);
 extern void func_801819E0(void *a0);

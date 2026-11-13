@@ -2785,7 +2785,7 @@ extern void func_8018156C(void *a0);
 extern s32 func_801817AC(void);
 extern void func_80181810(void * arg0);
 extern void guess_InitModelObject(s32, s32);
-extern void func_80181A1C(void *arg0);
+extern s32 func_80181A1C(void *arg0);
 extern void func_80181870(void *arg0);
 extern void (*D_801901D0[])(void);
 extern void func_801819E0(void *a0);
@@ -3584,7 +3584,7 @@ void func_80186ED8(void) {
     extern s32 guess_g_MenuPacketBases[]; // Names ledger: config/names.tsv guess_g_MenuPacketBases
     extern u16 xf02 __asm__("guess_g_DoubleBufferIndex"); // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern s16 xa __asm__("guess_g_MenuPanel"); // Names ledger: config/names.tsv guess_g_MenuPanel
-    extern s32 xf168c(s32 a0) __asm__("guess_GetMenuPanelCursorIndex");
+    extern s16 xf168c(s32 a0) __asm__("guess_GetMenuPanelCursorIndex");
     extern u8  D_80115138[];
     extern s32 D_801E2358;
     extern s32 guess_g_MenuHelpText; // Names ledger: config/names.tsv guess_g_MenuHelpText
@@ -3614,7 +3614,7 @@ void func_80186ED8(void) {
     guess_g_MenuPacketPtr = ((s32 *)guess_g_MenuPacketBases)[xf02];
     ret = func_80187B50();
     func_80187EA0();
-    r2 = xf168c(xa);
+    r2 = RET_AS(s32, xf168c, (s32))(xa);
     b = D_80115138[guess_g_MenuPanel];
     if (D_801E2358 == 0) {
         v = func_80188544(b, (s16)r2);
