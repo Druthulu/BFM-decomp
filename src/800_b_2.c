@@ -3010,7 +3010,7 @@ extern u8    D_8006AEF4;
 
 /* not declared anywhere in src/800_b.c */
 extern s32 (*D_8006AA14[])(void);
-extern s32   SsVabOpenHeadSticky();
+extern s32   SsVabOpenHeadSticky(s32 arg0, s32 arg1, s32 arg2);
 
 extern s32 func_800301A4(void);
 extern void func_80031A98(void);

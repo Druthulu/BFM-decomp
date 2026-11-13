@@ -143,7 +143,7 @@ void func_800CB138(s32 arg0) {
     extern u8 *func_800D222C(s32 a0, s32 a1, s32 a2);
     extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
     extern void func_800D23D0(void *a0);
-    extern void RotMatrixYXZ();
+    extern void RotMatrixYXZ(void *arg0, s32 arg1);
     extern void RotMatrixZ(s32 a0, void *a1);
     extern void ApplyMatrixSV();
     extern void MulMatrix0(s32 a0, void *a1, s32 a2);
@@ -244,7 +244,7 @@ void func_800CB370(void *arg0) {
 
 void func_800CB3CC(void *arg0) {
     extern void func_800D2318();  // K&R: 0 of 1 args (P37 rung D t4_D35)
-    extern void RotMatrixYXZ();
+    extern void RotMatrixYXZ(void *arg0, s32 arg1);
     extern void ApplyMatrixSV();
     extern void func_800D1FC8(void *arg0, int arg1);
     extern S800D21C4 * func_800D21C4(s32 arg0, s32 arg1, s32 arg2);

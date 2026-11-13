@@ -1,7 +1,7 @@
 /* func_801325B8 — shared body (overlay slot 0x80128158, h_exact 8fd22bf4). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void *memcpy(void *, const void *, u32);
-extern void gteMIMefunc();
+extern void gteMIMefunc(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_801325B8(int dst, int src, int m0, int mm, int arg5)
 {
     register int p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B headers1) wall:greg-copy-pref

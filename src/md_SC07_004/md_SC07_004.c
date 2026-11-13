@@ -5692,7 +5692,7 @@ void func_801A8884(s32 *a0) {
 }
 
 
-extern void VectorNormal();
+extern void VectorNormal(void *arg0, void *arg1);
 extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_801A88AC(void *arg0)

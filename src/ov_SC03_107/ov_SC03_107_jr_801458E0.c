@@ -543,7 +543,7 @@ extern void func_801325B8(int a0, int a1, int a2, int a3, int a4);
 extern void func_80132288(int *param_1, int *param_2, int param_3);
 extern void func_801325B8(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void func_8013240C(s32 a0);
-extern void gteMIMefunc();
+extern void gteMIMefunc(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_801325B8(int dst, int src, int m0, int mm, int arg5);
 extern void func_8013277C(void);
 extern void func_80020F34(s32 a0, s32 a1);

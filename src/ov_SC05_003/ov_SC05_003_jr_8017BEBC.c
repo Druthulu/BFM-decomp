@@ -627,7 +627,7 @@ extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
 extern s32 D_801AB7B4;
 extern void func_8014FA04(s32 a0);
-extern s32 func_8014FBC0();
+extern s32 func_8014FBC0(void);
 extern s32 func_8014FC18(u8 *self);
 extern int func_8014FD54(int param_1);
 extern void func_8014FCFC(void);
@@ -5425,7 +5425,7 @@ extern u16 D_801270C0;
 extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
 extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
 extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
-extern void VectorNormal();
+extern void VectorNormal(void *arg0, void *arg1);
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
 s32 func_80181720(void *arg0) {

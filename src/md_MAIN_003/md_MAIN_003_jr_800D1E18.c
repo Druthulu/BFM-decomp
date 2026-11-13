@@ -291,7 +291,7 @@ void func_800D2394(S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, S_D2394B *a5) {
 extern void func_800D2AA0(u8 *a0);
 extern void func_800D2D44(s32 arg0);
 extern void StSetRing(s32 a0, s32 a1);
-extern void StSetStream();
+extern void StSetStream(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern s32 D_800D946C;
 extern void func_800D2A24(s32 a0);
 

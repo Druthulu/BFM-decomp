@@ -89,7 +89,7 @@ extern s32 func_8002C3B0(s32 count, u8 *arr);
 extern void PushMatrix();
 extern void PopMatrix();
 extern s32 rand();
-extern s32 getchar();
+extern s32 getchar(s32 arg0);
 
 void func_8002C410(void)
 {

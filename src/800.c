@@ -3839,7 +3839,7 @@ void func_800174FC(void)
 void func_8001751C(s32 *arg0, s32 arg1)
 {
     extern s32 func_80010A08(s32);
-    extern void SetPolyGT3();
+    extern void SetPolyGT3(void *arg0);
     extern void func_80017E8C(s32);
     extern s32 GetTPage(s32, s32, s32, s32);
     extern s32 GetClut(s32, s32);
@@ -8201,8 +8201,8 @@ void func_8001C320(s32 a0, s32 a1)
     extern void GsInitCoordinate2(s32 a0, void *a1);
     extern void GsGetLw(s32 a0, s32 a1);
     extern void GsMapModelingData(u32 *p);
-    extern void GsLinkObject5();
-    extern void *GsPresetObject();
+    extern void GsLinkObject5(s32 arg0, s32 arg1, s32 arg2);
+    extern void *GsPresetObject(s32 arg0, s32 arg1);
     extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
     extern u8 D_80063548[];
     extern u16 D_800AF7CC;
@@ -8315,8 +8315,8 @@ void func_8001C5B8(s32 a0, s32 a1)
     extern void GsInitCoordinate2(s32 a0, void *a1);
     extern void GsGetLw(s32 a0, s32 a1);
     extern void GsMapModelingData(unsigned long *p);
-    extern void GsLinkObject5();
-    extern void *GsPresetObject();
+    extern void GsLinkObject5(s32 arg0, s32 arg1, s32 arg2);
+    extern void *GsPresetObject(s32 arg0, s32 arg1);
     extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
     extern u8 D_80063548[];
     extern u16 D_800AF7CC;
@@ -16255,22 +16255,22 @@ void func_80028A48(void)
 }
 
 
-extern void *GsPrstF3L();
-extern void *GsPrstF3NL();
-extern void *GsPrstG3L();
-extern void *GsPrstG3NL();
-extern void *GsPrstTF3L();
-extern void *GsPrstTF3NL();
-extern void *GsPrstTG3L();
-extern void *GsPrstTG3NL();
-extern void *GsPrstF4L();
-extern void *GsPrstF4NL();
-extern void *GsPrstG4L();
-extern void *GsPrstG4NL();
-extern void *GsPrstTF4L();
-extern void *GsPrstTF4NL();
-extern void *GsPrstTG4L();
-extern void *GsPrstTG4NL();
+extern void *GsPrstF3L(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstF3NL(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstG3L(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstG3NL(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstTF3L(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstTF3NL(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstTG3L(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstTG3NL(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstF4L(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstF4NL(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstG4L(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstG4NL(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstTF4L(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstTF4NL(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstTG4L(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+extern void *GsPrstTG4NL(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 
 extern void *D_800A2CF0;
 extern void *D_800A2CF8;
