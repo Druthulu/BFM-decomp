@@ -36158,6 +36158,6 @@ typedef struct { u16 x; u16 y; u32 pad; } Tex_26514_t;
 
 /* PsyQ 4.0 libgpu DISPENV (tools/reference/psyq-sdk/PSX/INCLUDE/LIBGPU.H:342-348), the SetDefDispEnv return type (3.44 T8.c5).
  * disp/screen are RECTs, spelled inline: RECT lives in src/shared/engine_types.h, which not every space includes. */
-typedef struct { struct { s16 x, y, w, h; } disp, screen; u8 isinter, isrgb24, pad0, pad1; } DISPENV;
+typedef struct { struct { s16 x, y, w, h; } disp, screen; u8 isinter, isrgb24, pad12, pad13; } DISPENV; /* PsyQ pad0, pad1 (offset names, G62) */
 
 #endif /* STRUCT_TYPES_H */
