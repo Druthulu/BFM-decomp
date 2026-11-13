@@ -4,7 +4,9 @@ The transferable part of this project: thirteen chapters on running a byte-exact
 at the close of BFM-decomp for whoever runs the next one — any console, any compiler, any game. They are distilled from
 records kept *as it happened* (the decision log, the PhaseEnds, the accelerators ledger, the wave playbook, the
 retrospective), and every number is a BFM measurement given with its denominator, so you can calibrate rather than copy.
-Start with [chapter 00](../how-to-ai-decomp/00-README.md).
+Start with [chapter 00](../how-to-ai-decomp/00-README.md). The Gen3 day-1 lessons are in chapter 03's Phase 0: one
+shared prototype header, prototypes measured from the assembly, and a names ledger with a rename tool scoped to one
+binary (item 5; the conventions are in [Names and renames](Names-and-renames.md#naming-conventions)).
 
 | | Chapter | One line |
 |---|---|---|

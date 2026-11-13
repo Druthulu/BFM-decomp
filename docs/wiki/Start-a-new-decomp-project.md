@@ -115,7 +115,12 @@ fact that a new project does at draft or bank time, gated the same way a match i
    touches is a declared, typed symbol, and a width or signedness is proven by the bytes — the one place a type moves bytes
    (DK-65: types are a *banking* lever and a *width* lever, not a codegen lever; this project measured the codegen half
    correctly and underweighted the other).
-4. **Names carry evidence, recorded per name**, on the same ladder as addresses.
+4. **Names carry evidence, recorded per name**, on the same ladder as addresses. Keep a names ledger from the first
+   match: a name is cited only from a recorded source, and every model-worded name is a marked guess with its basis,
+   confidence and evidence kind ([Naming conventions](Names-and-renames.md#naming-conventions)). Scope the rename tool
+   to one binary before the first rename, put a time bound on every scan, and count the names with outside evidence
+   before planning a naming phase. The how-to's [chapter 03](../how-to-ai-decomp/03-bootstrap-order.md), Phase 0 item 5,
+   says why.
 5. **Formatting is installed with the first C file:** the community style guide's formatter and a `make format` target.
 6. **File layout follows the game's systems, with unit boundaries decided at segmentation time** from the build's forced
    boundaries — not by the carving tool, and not by archaeology about the original file layout.
