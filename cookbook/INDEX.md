@@ -1042,3 +1042,4 @@ C0589 | Scratch-compile a decl batch vs a HEAD baseline: make -n -B commands, ex
 C0590 | Normalize .d dep paths (src/<b>/../shared) before matching edited headers | bytes,scratch,compile,dependencies,headers | 2026-11-12 | 3.44/T5 | -
 C0591 | Import venv-re-exec tools only under .venv; type_census --check-casts needs --residue | tools,venv,sig_evidence,type_census,gate | 2026-11-12 | 3.44/T5 | -
 C0592 | Return-type lies: one prototype = definition's; RET_AS(T,fn,params) marks shipped caller views | declarations,return-type,lying,bytes,macro,ret-view | 2026-11-12 | 3.44/T5 | -
+C0593 | Asm-label definitions are invisible to name-keyed tools; registering them unmasks hidden arity rows | asm-label,declarations,argcheck,arity,return-type,tools | 2026-11-12 | 3.44/T5 | -
