@@ -1039,3 +1039,5 @@ C0586 | Join C files to binaries through build/ .d files and the ELF symtab | de
 C0587 | A body whose exits only pass entry $v0 through has no return to contradict void | return-type,census,void,delay | 2026-11-12 | 3.44/T4 | 3.44 T4 RET-VOID-READ profile
 C0588 | Asm-label prototypes declare the label: parse ') __asm__("SYM");' tails, skip object labels | declarations,asm-label,census,parser,return-type | 2026-11-12 | 3.44/T5 | 3.44 T5.c1
 C0589 | Scratch-compile a decl batch vs a HEAD baseline: make -n -B commands, exit-checked shards | bytes,scratch,compile,declarations,baseline,gate | 2026-11-12 | 3.44/T5 | 3.44 T5.c2
+C0590 | Normalize .d dep paths (src/<b>/../shared) before matching edited headers | bytes,scratch,compile,dependencies,headers | 2026-11-12 | 3.44/T5 | -
+C0591 | Import venv-re-exec tools only under .venv; type_census --check-casts needs --residue | tools,venv,sig_evidence,type_census,gate | 2026-11-12 | 3.44/T5 | -
