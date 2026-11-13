@@ -71,7 +71,7 @@ RET = re.compile(r"^([A-Za-z_][\w \t*]*?)\b" + NAME + r"\s*\(")
 def definitions():
     """{name: (arity, params, where, ret)} from every DEFINITION in the tree. The return type comes with it because the
     CAST route — the one that stays body-only at either scope — needs the whole signature, not just the arity."""
-    out, binds = {}, []
+    out, binds, aliases = {}, [], []
     _ALL.clear()
     for f in sorted(list((REPO / "src").glob("**/*.c")) + list((REPO / "src" / "shared").glob("**/*.h"))):
         rel = str(f.relative_to(REPO))
@@ -101,6 +101,13 @@ def definitions():
             out.setdefault(name, (len(names), ", ".join(ptypes), rel, head or "int"))
             if (len(names), ", ".join(ptypes), rel) not in {(a_, p_, r_) for (a_, p_, r_, _) in _ALL[name]}:
                 _ALL[name].append((len(names), ", ".join(ptypes), rel, head or "int"))   # every definition, per binary (R48)
+        # 3.44 T5.c7: `<ret> CNAME(<params>) __asm__("SYM");` + a CNAME body in this file = a definition of SYM in this binary
+        # (func_80188250_body -> func_8018035C); without it SYM's callers here resolve to another binary's body. Kept in
+        # _ALIAS, read by resolve_definition_ret only: fed to resolve_definition too it surfaces 7,701 new arity rows
+        # (5,784+1,639 func_80161208 alone; 106 if limited to SYMs with another body) — a scope for a later task. Scanned on
+        # the masked text: share_census.mask_text keeps string literals (the label) and blanks comments and dead blocks.
+        # Registered after the SHARED_FN binds below (aF801848DC -> func_801842C0 has its body via a cross header).
+        aliases += [(m.group(1), m.group(2), rel) for m in FN_ASM_ALIAS.finditer(masked) if m.group(1) != m.group(2)]
         for m in SHARED_BIND.finditer(txt):
             binds.append((m.group(1), str((f.parent / m.group(2)).resolve().relative_to(REPO)), rel))
     # 3.42 T4.c2: a cross header (C0557) defines SHARED_FN; each `#define SHARED_FN <own>` / `#include` site is <own>'s definition
@@ -110,13 +117,20 @@ def definitions():
             if d[2] == hdr:
                 out.setdefault(own, (d[0], d[1], rel, d[3]))
                 _ALL[own].append((d[0], d[1], rel, d[3]))
+    _ALIAS.clear()
+    for cname, sym, rel in aliases:
+        for d in [d for d in _ALL.get(cname, []) if d[2] == rel]:
+            if d not in _ALIAS[sym]:
+                _ALIAS[sym].append(d)
     return out
 
 
 SHARED_BIND = re.compile(r'^#define SHARED_FN (\w+)\s*\n#include "([^"]+)"', re.M)
+FN_ASM_ALIAS = re.compile(r"\b(" + NAME + r")\s*\([^;{)]*\)\s*__asm__\s*\(\s*\"(\w+)\"\s*\)\s*;")   # = type_census's (b70efb06e0)
 
 
 _ALL = collections.defaultdict(list)     # {name: [every definition]} — filled by definitions(); the per-TU resolver reads it
+_ALIAS = collections.defaultdict(list)   # {SYM: [asm-label alias bodies]} — resolve_definition_ret only (T5.c7)
 
 
 def _binary_of(rel):
@@ -149,7 +163,7 @@ def resolve_definition(name, rel, first):
 def resolve_definition_ret(name, rel, first):
     """resolve_definition with the RETURN type in the fleet signature set (P41 T3): one fleet-wide (arity, params, norm(ret))
     -> it; else the declaring TU's own binary's; else main's/resident's; else None (cross-binary)."""
-    cands = _ALL.get(name) or ([first] if first else [])
+    cands = (_ALL.get(name, []) + _ALIAS.get(name, [])) or ([first] if first else [])
     if not cands:
         return None
     if len({(c[0], c[1], norm_ret(c[3])) for c in cands}) == 1:
