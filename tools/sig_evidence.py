@@ -1406,14 +1406,21 @@ def check_core(ledger, rows, decode):
 
 def check_ret_views(ledger, parsed, decode):
     """3.44 T5: (failed, unbacked, unused, wrong_def, txt) for config/ret_view_casts.tsv (load_ledger; field 2 = the view T).
-    parsed {file: parse_text|None}. A RET_AS site needs a row (fn, T); a row needs a site; def_file must define fn."""
+    parsed {file: parse_text|None}. A RET_AS site needs a row (fn, T); a row needs a site; def_file must define fn.
+    A site's fn that is an asm-label alias in its file names the label (C0223); a `#define SHARED_FN own` + `#include`
+    bind defines own in the binding file (T5.c5)."""
     failed = verify_cites(ledger, decode)
     norm = lambda t: " ".join(t.split())
-    sites = [(f, ln, fn, T) for f, p in sorted(parsed.items()) if p for ln, fn, T in p.get("ret_as", ())]
+    sites = [(f, ln, p.get("aliases", {}).get(fn, fn), T) for f, p in sorted(parsed.items()) if p
+             for ln, fn, T in p.get("ret_as", ())]
     defs = collections.defaultdict(set)
     for f, p in parsed.items():
         for d in (p or {}).get("defs", ()):
             defs[d["name"]].add(f)
+        for own, inc in (p or {}).get("binds", ()):
+            hdr = parsed.get(posixpath.normpath(posixpath.join(posixpath.dirname(f), inc)))
+            if hdr and any(d["name"] == "SHARED_FN" for d in hdr["defs"]):
+                defs[own].add(f)
     keys = {(L["callee"], norm(L["kind"])) for L in ledger}
     unbacked = [x for x in sites if (x[2], norm(x[3])) not in keys]
     used = {(x[2], norm(x[3])) for x in sites}
@@ -1775,6 +1782,14 @@ def selftest():
           rvp["src/ov/s.c"]["ret_as"] == [(2, "f_ret", "s32"), (4, "f_ret", "s16")] and rvp["include/common.h"]["ret_as"] == []
           and rf == [] and [(x[2], x[3]) for x in rub] == [("f_ret", "s16")] and [L["kind"] for L in run_] == ["u16"]
           and [L["def_file"] for L in rw] == ["src/ov/s.c"] and "RET_AS sites 2" in rtxt, (rvp["src/ov/s.c"]["ret_as"], rtxt))
+    rvp2 = {"src/b.c": parse_text("src/b.c", '#define SHARED_FN f_sh\n#include "shared/h.h"\n'),
+            "src/shared/h.h": parse_text("src/shared/h.h", "u8 SHARED_FN(void) {\n    return 1;\n}\n"),
+            "src/a.c": parse_text("src/a.c", 'void g(void) {\n    extern u8 xa(void) __asm__("f_sh");\n'
+                                  "    s32 x = RET_AS(s32, xa, (void))();\n}\n")}
+    rvl2 = load_ledger("\n".join(["callee\tdef_file\tview\tcause\ttask\tcites", f"f_sh\tsrc/b.c\ts32\tc\tT5\t{good}", ""]))
+    rf2, rub2, run2, rw2, rtxt2 = check_ret_views(rvl2, rvp2, dec_)
+    check("--check ret views: a SHARED_FN bind defines its name in the binding file; an asm-label alias site names the label",
+          rf2 == [] and rub2 == [] and run2 == [] and rw2 == [], rtxt2)
 
     print("selftest", "OK" if ok else "FAILED")
     return 0 if ok else 1
