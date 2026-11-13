@@ -1266,17 +1266,17 @@ extern unsigned short D_80183216;
 extern unsigned short D_8018321A;
 
 extern s32 func_8002A1B4(void);
-extern short func_8002A28C(void);
-extern short func_8002A27C(void);
+extern s32 func_8002A28C(void);
+extern s32 func_8002A27C(void);
 extern s32 func_8002A400(void);
-extern short func_8002A4D8(void);
-extern short func_8002A4C8(void);
+extern s32 func_8002A4D8(void);
+extern s32 func_8002A4C8(void);
 extern s32 func_8002A8E0(void);
-extern short func_8002A9B8(void);
-extern short func_8002A9A8(void);
+extern s32 func_8002A9B8(void);
+extern s32 func_8002A9A8(void);
 extern s32 func_8002A670(void);
-extern short func_8002A748(void);
-extern short func_8002A738(void);
+extern s32 func_8002A748(void);
+extern s32 func_8002A738(void);
 extern Prim_1412A8 * guess_DrawGaugeBar(Prim_1412A8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
 
 int func_80141100(int param_1)
@@ -1287,13 +1287,13 @@ int func_80141100(int param_1)
     if (guess_g_MenuCategory == 0) {
         iVar7 = D_80115172 + 0x31;
         sVar1 = D_8018320E;
-        param_1 = guess_DrawGaugeBar(param_1, ((short (*)(void))func_8002A1B4)(), func_8002A28C(), func_8002A27C(), (short)iVar7, (int)sVar1);
+        param_1 = guess_DrawGaugeBar(param_1, ((short (*)(void))func_8002A1B4)(), RET_AS(short, func_8002A28C, (void))(), RET_AS(short, func_8002A27C, (void))(), (short)iVar7, (int)sVar1);
         sVar1 = D_80183212;
-        param_1 = guess_DrawGaugeBar(param_1, ((short (*)(void))func_8002A400)(), func_8002A4D8(), func_8002A4C8(), (short)iVar7, (int)sVar1);
+        param_1 = guess_DrawGaugeBar(param_1, ((short (*)(void))func_8002A400)(), RET_AS(short, func_8002A4D8, (void))(), RET_AS(short, func_8002A4C8, (void))(), (short)iVar7, (int)sVar1);
         sVar1 = D_80183216;
-        param_1 = guess_DrawGaugeBar(param_1, ((short (*)(void))func_8002A8E0)(), func_8002A9B8(), func_8002A9A8(), (short)iVar7, (int)sVar1);
+        param_1 = guess_DrawGaugeBar(param_1, ((short (*)(void))func_8002A8E0)(), RET_AS(short, func_8002A9B8, (void))(), RET_AS(short, func_8002A9A8, (void))(), (short)iVar7, (int)sVar1);
         sVar1 = D_8018321A;
-        param_1 = guess_DrawGaugeBar(param_1, ((short (*)(void))func_8002A670)(), func_8002A748(), func_8002A738(), (short)iVar7, (int)sVar1);
+        param_1 = guess_DrawGaugeBar(param_1, ((short (*)(void))func_8002A670)(), RET_AS(short, func_8002A748, (void))(), RET_AS(short, func_8002A738, (void))(), (short)iVar7, (int)sVar1);
     }
     return param_1;
 }
