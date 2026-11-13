@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-13T11:10:50.590Z
+# filed through: 2026-11-13T17:37:59.787Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -168,3 +168,5 @@ R164 | 2026-11-13 | decision | in force | 3.44 T6 `()` declarations | T6.c4 fini
 R165 | 2026-11-13 | finding | in force | 3.44 T6 `()` declarations | T6 adds a KR_AS marked cast with its own ledger, config/kr_view_casts.tsv, kept apart from RET_AS s… | .claude-state/journal/2026-11-13/012504-024r-claude-record.md
 R166 | 2026-11-13 | finding | in force | 3.44 T6 `()` declarations | After a Ctrl+C, release({hold: "stopped"}) is refused until the mod has registered the stop. | .claude-state/journal/2026-11-13/012504-024r-claude-record.md
 R167 | 2026-11-13 | decision | in force | 3.44 T7 no-return functions | T7 was resumed once after its expert failed with no stated cause, by releasing the stopped hold. | .claude-state/journal/2026-11-13/042624-032r-claude-record.md
+R168 | 2026-11-13 | finding | in force | 3.44 T8 remaining disagreements | A long elapsed time on a background shell in the Claude Code UI is not proof that a process is runn… | .claude-state/journal/2026-11-13/105323-049r-claude-record.md
+R169 | 2026-11-13 | finding | in force | 3.44 T8 remaining disagreements | T8's progress so far. | .claude-state/journal/2026-11-13/105323-049r-claude-record.md
