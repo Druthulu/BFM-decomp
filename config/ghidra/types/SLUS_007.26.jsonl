@@ -2041,8 +2041,6 @@
 {"k":"type","kind":"typedef","path":"/bfm/SV4x","base":"/bfm/SV4x_80180ACC"}
 {"k":"type","kind":"struct","path":"/bfm/SV4x_80180ACC","size":8,"packed":false,"fields":[{"off":0,"len":2,"name":"a","type":"/bfm/s16","comment":null},{"off":2,"len":2,"name":"b","type":"/bfm/s16","comment":null},{"off":4,"len":2,"name":"c","type":"/bfm/s16","comment":null},{"off":6,"len":2,"name":"d","type":"/bfm/s16","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/SV4x_80183E2C","base":"/bfm/SV4x_80180ACC"}
-{"k":"type","kind":"struct","path":"/bfm/SV4x_80184754","size":8,"packed":false,"fields":[{"off":0,"len":2,"name":"a","type":"/bfm/s16","comment":null},{"off":2,"len":2,"name":"b","type":"/bfm/s16","comment":null},{"off":4,"len":2,"name":"c","type":"/bfm/s16","comment":null},{"off":6,"len":2,"name":"d","type":"/bfm/s16","comment":null}]}
-{"k":"type","kind":"struct","path":"/bfm/SV4x_80184B30","size":8,"packed":false,"fields":[{"off":0,"len":2,"name":"a","type":"/bfm/s16","comment":null},{"off":2,"len":2,"name":"b","type":"/bfm/s16","comment":null},{"off":4,"len":2,"name":"c","type":"/bfm/s16","comment":null},{"off":6,"len":2,"name":"d","type":"/bfm/s16","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/SV4x_80184B30_801829C4","size":8,"packed":false,"fields":[{"off":0,"len":2,"name":"a","type":"/bfm/s16","comment":null},{"off":2,"len":2,"name":"b","type":"/bfm/s16","comment":null},{"off":4,"len":2,"name":"c","type":"/bfm/s16","comment":null},{"off":6,"len":2,"name":"d","type":"/bfm/s16","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/SV4x_80184B30_80184E54","base":"/bfm/SV4x_80184B30_801829C4"}
 {"k":"type","kind":"typedef","path":"/bfm/SV4x_80184B30_801859D8","base":"/bfm/SV4x_80184B30_801829C4"}

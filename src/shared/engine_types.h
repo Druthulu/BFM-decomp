@@ -3606,8 +3606,6 @@ typedef struct { s16 a, b, c, d; } SV4_FC6C;
 typedef struct { s16 a, b, c, d; } SV4x_80180ACC;
 typedef SV4x_80180ACC SV4x;
 typedef SV4x_80180ACC SV4x_80183E2C;
-typedef struct { s16 a, b, c, d; } SV4x_80184754;
-typedef struct { s16 a, b, c, d; } SV4x_80184B30;
 typedef struct { s16 a, b, c, d; } SV4x_80184B30_801829C4;
 typedef SV4x_80184B30_801829C4 SV4x_80184B30_80184E54;
 typedef SV4x_80184B30_801829C4 SV4x_80184B30_801859D8;

@@ -5802,8 +5802,8 @@ void func_80184B30(void *a0)
     func_80184E84(s0);
 
     ((Unkstruct_80126B58 *)*(s32 *)(s0 + 0x20))->unk20 = ((Unkstruct_80126B58 *)*(s32 *)(s1 + 0x20))->unk20;
-    do { *(SV4x_80184B30 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x10) = *(SV4x_80184B30 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x10); } while (0);
-    *(SV4x_80184B30 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x18) = *(SV4x_80184B30 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x18);
+    do { *(SVECTOR *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x10) = *(SVECTOR *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x10); } while (0);
+    *(SVECTOR *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x18) = *(SVECTOR *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x18);
     *(s16 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x2C) = *(s16 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x2C) | 0x20;
     *(s32 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x4) = *(s32 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x4);
 }

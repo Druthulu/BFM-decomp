@@ -6832,8 +6832,8 @@ void func_80184754(void *a0)
         CAST_WIDTH(s32, (s32)a0, 0x4) = *(s32 *)(s1 + 0x4);
         CAST_WIDTH(s32, (s32)a0, 0x8) = *(s32 *)(s1 + 0x8);
         CAST_WIDTH(s32, (s32)a0, 0xC) = *(s32 *)(s1 + 0xC);
-        *(SV4x_80184754 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x10) = *(SV4x_80184754 *)(*(s32 *)(s1 + 0x20) + 0x10);
-        *(SV4x_80184754 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x18) = *(SV4x_80184754 *)(*(s32 *)(s1 + 0x20) + 0x18);
+        *(SVECTOR *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x10) = *(SVECTOR *)(*(s32 *)(s1 + 0x20) + 0x10);
+        *(SVECTOR *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x18) = *(SVECTOR *)(*(s32 *)(s1 + 0x20) + 0x18);
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk2C = *(u16 *)(*(s32 *)(s1 + 0x20) + 0x2C);
         *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x4) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x4);
         func_8013240C((s32)&D_801EFA68);
