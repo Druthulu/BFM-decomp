@@ -1991,7 +1991,9 @@ def links_build(S):
     BV["untyped locals with an effective type"] = sum(1 for e in effl.values() if e["acc"] and len(e["types"]) == 1)
     BV["untyped locals declared (eff-flow candidates)"] = len(effl)
     return dict(T=T, U=U, US=US, P=P, wm=wm, size_f=size_f, dp=dp, dp_apart=dp_apart, ACC=ACC, PF=PF, J=J, own=own, noev=noev,
-                eff=eff, poly=poly, BV=BV)
+                eff=eff, poly=poly, BV=BV,
+                # 3.45 T14 (--sources): the census's resolvers, reused per cast source
+                span_at=span_at, bind_of=bind_of, callee_defs=callee_defs, ptype=ptype, eside=eside, effl=effl, vis=vis)
 
 
 def untyped_param(p, T):
@@ -2538,6 +2540,532 @@ def links(out_dir, jobs, propose=None, report=None):
     print(f"runtime {time.time() - t0:.0f} s", file=sys.stderr)
 
 
+# --sources (3.45 T14): every cast by its pointer source, its flows, candidate parents, families, the cast-view metric
+#   (method: docs/ops/p345-t14-source-census.md). Built on links_inputs() + links_build(); tables under SOURCES_DIR.
+SOURCES_DIR = ".run/3.45/t14"
+SRC_FORMS = ("C", "P", "I", "X", "M")
+LOCAL_KINDS = ("param-copy", "ret-of", "field", "global", "arith")
+FIT_CAP = 5
+KLASS_RANK = {"PsyQ": 0, "ledgered": 1, "placeholder": 2}
+FAM_BUCKETS = ((1, 1), (2, 2), (3, 5), (6, 20), (21, 100), (101, 10 ** 9))
+PCAST_TAIL = re.compile(r"\(\s*(?:const\s+)?(?:struct\s+|union\s+)?[A-Za-z_]\w*[\s*]*\*\s*\)\s*\(?\s*$")   # `(T *)` / `(T *)(` before x
+M2C_TAIL = re.compile(r"M2C_FIELD\s*\(\s*$")
+LEAD_CAST = re.compile(r"^\(\s*(?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\**\s*\)\s*")
+RHS_CV = re.compile(r"^\(\s*\(\s*(?:struct\s+|union\s+)?([A-Za-z_]\w*)\s*\*\s*\)\s*([A-Za-z_]\w*)\s*\)\s*->\s*([A-Za-z_]\w*)$")
+RHS_ARROW = re.compile(r"^([A-Za-z_]\w*)\s*->\s*([A-Za-z_]\w*)$")
+RHS_PP = re.compile(r"^\*\s*\(\s*(?:struct\s+|union\s+)?([A-Za-z_]\w*)\s*\*\s*\*\s*\)")
+RHS_MPP = re.compile(r"^M2C_FIELD\s*\(.*,\s*(?:struct\s+|union\s+)?([A-Za-z_]\w*)\s*\*\s*\*\s*,", re.S)
+RHS_CALL = re.compile(r"^([A-Za-z_]\w*)\s*\(.*\)$", re.S)
+RHS_ADDR = re.compile(r"^&\s*([A-Za-z_]\w*)(?:\s*\[[^\]]*\])?$")
+RHS_ARITH = re.compile(r"[\w)\]]\s*(?:[-+](?![->=+])|<<|>>|[&|](?![&|=]))\s*[\w(*&]")
+POST_SKIP = re.compile(r"\s*(?:->|\[|\.(?!\.)|=(?!=))")
+POST_RMW = re.compile(r"\s*(?:\+\+|--|[-+*/%&|^]=|<<=|>>=)")
+POST_CMP = re.compile(r"\s*(==|!=|<=|>=|<(?!<)|>(?!>))\s*(\w*)")
+POST_ARITH = re.compile(r"\s*(?:[-+*/%&|^](?![-+>=&|])|<<|>>)")
+PRE_CMP = re.compile(r"(?:==|!=|<=|>=|[^-<]<|[^->]>)\s*$")
+PRE_NULLCMP = re.compile(r"\b(?:0|NULL|0x0)\s*(?:==|!=)\s*$")
+PRE_ARITH = re.compile(r"[\w)\]]\s*(?:[-+*/%&|^]|<<|>>)\s*$")
+
+
+def region_of(rel):
+    """(pure) the region of a file: shared, main+resident, md_*, ov_MAIN, ov_SC0N, header (include/), other"""
+    p = rel.split("/")
+    if p[0] == "include":
+        return "header"
+    if p[0] != "src" or len(p) < 2:
+        return "other"
+    if len(p) == 2 or p[1] == "resident":
+        return "main+resident"
+    if p[1] == "shared":
+        return "shared"
+    if p[1].startswith("md_"):
+        return "md_*"
+    if p[1].startswith("ov_MAIN"):
+        return "ov_MAIN"
+    m = re.match(r"ov_(SC0\d)", p[1])
+    return "ov_" + m.group(1) if m else "other"
+
+
+def _uf(parent, x):
+    while parent.setdefault(x, x) != x:
+        parent[x] = parent[parent[x]]
+        x = parent[x]
+    return x
+
+
+def sources_build(S, R):
+    """(pure over S, R) the source census: dict(sites, src, K, unpl, cand, fam, fam_of); deterministic"""
+    T, rows = R["T"], R["T"].row
+    span_at, bind_of, callee_defs, ptype, eside, vis = R["span_at"], R["bind_of"], R["callee_defs"], R["ptype"], R["eside"], R["vis"]
+    walk = S["walk"]
+    deck = collections.defaultdict(set)                      # (rel, fline) -> scalar / void locals declared there (U events)
+    for rel, events in S["events"]:
+        for ev in events:
+            if ev[0] == "U":
+                sp = span_at(rel, ev[1])
+                if sp:
+                    deck[(rel, sp[0])].add(ev[2])
+    ext = collections.defaultdict(set)                       # rel -> file-scope extern data names
+    for rel, r in walk.items():
+        for e in r.get("extern_data", ()):
+            if e.get("scope") == "file":
+                ext[rel].add(e["name"])
+    ext_memo = {}
+
+    def ext_vis(rel):
+        if rel not in ext_memo:
+            ext_memo[rel] = set().union(*[ext.get(f, set()) for f in vis.get(rel, [rel])], ext.get(rel, set()))
+        return ext_memo[rel]
+    # ---- sites -> sources
+    sites, src = [], {}
+    K, unpl = collections.Counter(), collections.Counter()
+    for rel in sorted(walk):
+        for s in walk[rel]["sites"]:
+            form = s.get("form")
+            if form == "K":
+                K[s.get("name") or "?"] += 1
+                continue
+            if form not in SRC_FORMS:
+                continue
+            sp = span_at(rel, s["line"]) if s.get("fn") else None
+            fl = sp[0] if sp and sp[2] == s["fn"] else None
+            bc, base = s.get("bclass"), s.get("base")
+            ident = None
+            if bc in ("param", "local") and base and fl is not None:
+                kind, sid, ident = bc, f"{rel}:{s['fn']}:{base}", base
+                if bc == "local":
+                    b = bind_of(rel, fl, base)
+                    if (b and b[3] == "global") or (not b and base not in deck[(rel, fl)] and base in ext_vis(rel)):
+                        kind, sid, ident = "global", f"{base}@{binary_of(rel)}", None
+            elif bc in ("global", "gaddr") and base:
+                kind, sid = "global", f"{'&' if bc == 'gaddr' else ''}{base}@{binary_of(rel)}"
+            else:
+                kind = "field" if bc in ("nested", "member") else "arith"
+                if fl is None:
+                    unpl["file scope (no function)" if not s.get("fn") else "function not in the census spans"] += 1
+                elif not base:
+                    unpl[f"no base ({s.get('text') or bc})" if s.get("text") == "UNBALANCED" else f"bclass {bc}, no base"] += 1
+                sid = f"{rel}:{s.get('fn') or '-'}:{_clean(s.get('text') or base or '-')}"
+            sk = T.spell(s.get("ctype"))
+            typ = sk[0] if sk and sk[1] == 1 else "-"
+            boff = s.get("off") or 0
+            off, w, sg, macc = boff, s.get("width"), s.get("sign"), None
+            if form == "C":
+                w, sg = None, None
+                m = T.members(rows[typ]["def"]).get(s.get("member")) if typ != "-" else None
+                if m:
+                    ds = T.desc(m[1])
+                    w, sg = (4, "p") if ds["stars"] and not ds["dims"] else ds["sc"] if ds["sc"] and not ds["dims"] else (None, "agg")
+                    off += m[0]
+                    macc = (m[0], w)
+            x = dict(region=region_of(rel), form=form, src=sid, ctype=s.get("ctype") or "-", type=typ, off=off, boff=boff,
+                     width=w, sign=sg, rel=rel, line=s["line"], macc=macc)
+            sites.append(x)
+            e = src.setdefault(sid, dict(kind=kind, rel=rel, fl=fl, ident=ident, fn=s.get("fn"), sites=[], flows=[], nc={}, bc=bc,
+                                         rels=set()))
+            e["sites"].append(x)
+            e["rels"].add(rel)
+    # ---- flows
+    want = {(e["rel"], e["fl"], e["ident"]): sid for sid, e in src.items() if e["ident"]}
+    pfns = {e["fn"] for e in src.values() if e["kind"] == "param"}
+    out_f, by_callee = collections.defaultdict(list), collections.defaultdict(list)
+    for rel in sorted(walk):
+        for f in walk[rel]["flows"]:
+            if f["kind"] not in ("arg", "arg&", "assign", "return"):
+                continue
+            sp = span_at(rel, f["line"])
+            if not sp or sp[2] != f["fn"]:
+                continue
+            if f["kind"] != "arg&" and (rel, sp[0], f["src"]) in want:
+                out_f[(rel, sp[0], f["src"])].append(f)
+            if f["kind"] in ("arg", "arg&") and f["callee"] in pfns:
+                by_callee[f["callee"]].append((rel, sp[0], f))
+    incoming = collections.defaultdict(list)                 # (def file, fline, i) -> [(caller rel, fline, flow)]
+    for callee in sorted(by_callee):
+        for crel, cfl, f in by_callee[callee]:
+            tg = set()
+            for owner, va, dd in callee_defs(crel, callee)[0]:
+                csp = span_at(dd[1], dd[2])
+                if csp:
+                    tg.add((dd[1], csp[0]))
+            for dfile, dfl in sorted(tg):
+                incoming[(dfile, dfl, f["i"])].append((crel, cfl, f))
+
+    def val_type(rel, fl, ident, amp=False):
+        b = bind_of(rel, fl, ident)
+        if b:
+            d = b[1] + amp
+            return (b[0], "decl") if d == 1 else ("-", f"depth {d}")
+        es = eside(rel, fl, ident, "") if not amp and fl is not None else None
+        if es:
+            return (es[0][0][0], "eff") if not es[1] else ("-", "poly")
+        return ("-", "untyped")
+
+    def flow(e, kind, peer, typ, how, cite):
+        e["flows"].append(dict(kind=kind, peer=_clean(peer)[:60], type=typ, how=how, cite=cite))
+
+    def noncast(e, what, cite):
+        e["nc"].setdefault(what, cite)
+
+    def rhs_flow(rel, fl, rhs):
+        """(sub-kind, type, how, peer) of an assignment's right-hand side"""
+        r = LEAD_CAST.sub("", tc._strip_parens(rhs.strip()))
+        m = RHS_CV.match(r)
+        if m:
+            k = T.key_of.get(m.group(1))
+            mm = T.members(rows[k]["def"]).get(m.group(3)) if k else None
+            ds = T.desc(mm[1]) if mm else None
+            return "field", (ds["key"] if ds and ds["key"] and ds["stars"] == 1 and not ds["dims"] else "-"), "decl", r
+        m = RHS_ARROW.match(r)
+        if m:
+            b = bind_of(rel, fl, m.group(1))
+            mm = T.members(rows[b[0]]["def"]).get(m.group(2)) if b and b[1] == 1 else None
+            ds = T.desc(mm[1]) if mm else None
+            return "field", (ds["key"] if ds and ds["key"] and ds["stars"] == 1 and not ds["dims"] else "-"), "decl", r
+        m = RHS_PP.match(r) or RHS_MPP.match(r)
+        if m:
+            return "field", T.key_of.get(m.group(1)) or "-", "decl", r
+        m = RHS_ADDR.match(r)
+        if m:
+            t, how = val_type(rel, fl, m.group(1), True)
+            return "global", t, how, r
+        if re.fullmatch(ID, r):
+            b = bind_of(rel, fl, r)
+            sp = span_at(rel, fl) if fl is not None else None
+            sub = ("param-copy" if sp and r in sp[3]["pnames"] else "global" if (b and b[3] == "global") or tc._ph(r).startswith("D_")
+                   else "local")
+            t, how = val_type(rel, fl, r)
+            return sub, t, how, r
+        m = RHS_CALL.match(r)
+        if m and m.group(1) not in tc.KEYWORDS:
+            ts = sorted({s[0] for _, _, dd in callee_defs(rel, m.group(1))[0] for s in [T.spell(dd[4]["ret"])] if s and s[1] == 1})
+            return "ret-of", ts[0] if len(ts) == 1 else "-", "decl" if len(ts) == 1 else ("conflict" if ts else "untyped"), m.group(1)
+        if RHS_ARITH.search(r):
+            return "arith", "-", "-", r
+        return "other", "-", "-", r
+    for sid in sorted(src):
+        e = src[sid]
+        if e["kind"] == "global":
+            nm = sid.split("@")[0]
+            amp = nm.startswith("&")
+            for rel in sorted(e["rels"]):
+                b = bind_of(rel, None, nm.lstrip("&"))
+                if b and b[1] + amp == 1:
+                    flow(e, "decl", nm, b[0], "decl", b[2])
+            continue
+        if not e["ident"]:
+            continue
+        rel, fl, x = e["rel"], e["fl"], e["ident"]
+        b = bind_of(rel, fl, x)
+        if b and b[3] in ("param", "local") and b[1] == 1:
+            flow(e, "decl", x, b[0], "decl", b[2])
+        sp = span_at(rel, fl)
+        if e["kind"] == "param" and sp and x in sp[3]["pnames"]:
+            i = sp[3]["pnames"].index(x)
+            for crel, cfl, f in incoming.get((rel, fl, i), ()):
+                t, how = val_type(crel, cfl, f["src"], f["kind"] == "arg&")
+                flow(e, "arg-in", f"{f['fn']}({'&' if f['kind'] == 'arg&' else ''}{f['src']})", t, how, f"{crel}:{f['line']}")
+        for f in out_f.get((rel, fl, x), ()):
+            cite = f"{rel}:{f['line']}"
+            if f["kind"] == "arg":
+                defs = callee_defs(rel, f["callee"])[0]
+                if not defs:
+                    flow(e, "arg-out", f"{f['callee']}#{f['i']}", "-", "unplaced", cite)
+                    noncast(e, "untyped-arg", f"{cite} {f['callee']} (unplaced)")
+                seen = set()
+                for owner, va, dd in defs:
+                    if (dd[1], dd[2]) in seen:
+                        continue
+                    seen.add((dd[1], dd[2]))
+                    p = ptype(dd[4], f["i"])
+                    s = T.spell(p) if p and "(" not in p else None
+                    if s:
+                        flow(e, "arg-out", f"{f['callee']}#{f['i']}", s[0] if s[1] == 1 else "-", "decl" if s[1] == 1 else f"depth {s[1]}", cite)
+                        continue
+                    csp = span_at(dd[1], dd[2])
+                    pn = csp[3]["pnames"][f["i"]] if csp and f["i"] < len(csp[3]["pnames"]) else None
+                    es = eside(dd[1], csp[0], pn, "") if p and untyped_param(p, T) and pn else None
+                    if es and not es[1]:
+                        flow(e, "arg-out", f"{f['callee']}#{f['i']}", es[0][0][0], "eff", cite)
+                    else:
+                        flow(e, "arg-out", f"{f['callee']}#{f['i']}", "-", "poly" if es else "untyped", cite)
+                        noncast(e, "untyped-arg", f"{cite} {f['callee']}#{f['i']}{' (poly slot)' if es else ''}")
+            elif f["kind"] == "assign" and f["dst"] != x:
+                t, how = val_type(rel, fl, f["dst"])
+                flow(e, "assign-out", f["dst"], t, how, cite)
+            elif f["kind"] == "return" and sp:
+                s = T.spell(sp[3]["ret"])
+                flow(e, "return", sp[2], s[0] if s and s[1] == 1 else "-", "decl" if s and s[1] == 1 else "untyped", cite)
+    # ---- a local's assignments and every param / local's non-cast uses, from the function's blanked text
+    by_rel = collections.defaultdict(list)
+    for sid, e in src.items():
+        if e["ident"]:
+            by_rel[e["rel"]].append(sid)
+    for rel in sorted(by_rel):
+        lines = _blank(S["read"](rel)).split("\n")
+        bodies = {}
+        for sid in sorted(by_rel[rel]):
+            e = src[sid]
+            fl, x = e["fl"], e["ident"]
+            sp = span_at(rel, fl)
+            if not sp:
+                continue
+            if fl not in bodies:
+                t = "\n".join(lines[sp[0] - 1:sp[1]])
+                bodies[fl] = (t, max(t.find("{"), 0))
+            t, i0 = bodies[fl]
+            lno = lambda pos, t=t, fl=fl: fl + t.count("\n", 0, pos)
+            if e["kind"] == "local":
+                subs = set()
+                for m in re.finditer(r"(?<![\w.>=!<])" + re.escape(x) + r"\s*=(?!=)\s*([^;]+);", t[i0:]):
+                    sub, typ, how, peer = rhs_flow(rel, fl, m.group(1))
+                    flow(e, "assign-in:" + sub, peer, typ, how, f"{rel}:{lno(i0 + m.start())}")
+                    subs.add(sub)
+                k = sorted(subs - {"local", "other"})
+                e["kind"] = k[0] if len(k) == 1 else "mixed" if k else "local"
+            for m in re.finditer(r"(?<![\w.>])" + re.escape(x) + r"\b", t[i0:]):
+                a, b_ = i0 + m.start(), i0 + m.end()
+                pre, post = t[max(0, a - 80):a], t[b_:b_ + 40]
+                if PCAST_TAIL.search(pre) or M2C_TAIL.search(pre):
+                    continue
+                cite = f"{rel}:{lno(a)}"
+                if POST_RMW.match(post):
+                    noncast(e, "arith", cite)
+                    continue
+                if POST_SKIP.match(post):
+                    continue
+                mc = POST_CMP.match(post)
+                if mc:
+                    if mc.group(2) not in ("0", "NULL", "0x0"):
+                        noncast(e, "compare", cite)
+                    continue
+                if POST_ARITH.match(post):
+                    noncast(e, "arith", cite)
+                elif PRE_CMP.search(pre) and not PRE_NULLCMP.search(pre):
+                    noncast(e, "compare", cite)
+                elif PRE_ARITH.search(pre) and not re.search(r"\b(?:return|case|sizeof)\s*[-+*&]\s*$", pre):
+                    noncast(e, "arith", cite)
+    # ---- verdicts
+    for sid, e in src.items():
+        ct = sorted({x["type"] for x in e["sites"] if x["type"] != "-"})
+        ft = sorted({f["type"] for f in e["flows"] if f["type"] != "-"})
+        rs_ = []
+        if len(ct) > 1:
+            rs_.append(f"{len(ct)} cast types")
+        if len(ft) > 1:
+            rs_.append(f"conflicting flows ({'/'.join(ft[:4])}{' …' if len(ft) > 4 else ''})")
+        if not ct and len(ft) != 1:
+            rs_.append("raw casts only, no flow type")
+        for w in sorted(e["nc"]):
+            rs_.append(f"non-cast {w} {e['nc'][w]}")
+        e.update(ct=ct, ft=ft, reasons=rs_, verdict="judgment" if rs_ else "mechanical", region=e["sites"][0]["region"])
+    # ---- candidate parents per placeholder
+    lv = {}
+    for k in sorted(rows):
+        d = rows[k]["def"]
+        lay = T.res.layout_of_fields(d["fields"], d["kind"], packed=("packed" in d["attrs"]))
+        lv[k] = frozenset(lay[2]) if lay and lay[2] else frozenset()
+    index = collections.defaultdict(set)
+    for k, ls in lv.items():
+        for leaf in ls:
+            index[leaf].add(k)
+    srcs_of, acc, ks = collections.defaultdict(set), collections.defaultdict(set), collections.defaultdict(set)
+    for sid, e in src.items():
+        for x in e["sites"]:
+            if x["type"] != "-":
+                srcs_of[x["type"]].add(sid)
+                ks[x["type"]].add(x["boff"])
+                if x["macc"] and x["macc"][1]:
+                    acc[x["type"]].add(x["macc"])
+    for k, offs in R["wm"].items():
+        for off, ws in offs.items():
+            for w in ws:
+                acc[k].add((off, w))
+    cand = {}
+    for P in sorted(k for k in srcs_of if rows[k]["klass"] == "placeholder"):
+        al = sorted(leaf for leaf in lv.get(P, ()) if (leaf[0], leaf[1]) in acc[P])
+        cocast = sorted({t for sid in srcs_of[P] for t in src[sid]["ct"]} - {P})
+        fp, fk = collections.Counter(), {}
+        for sid in sorted(srcs_of[P]):
+            kk = min(x["boff"] for x in src[sid]["sites"] if x["type"] == P)
+            for t in src[sid]["ft"]:
+                if t != P:
+                    fp[t] += 1
+                    fk[t] = min(fk.get(t, kk), kk)
+
+        def fits(A, k):
+            return bool(al) and all((o + k, w, s) in lv.get(A, ()) for o, w, s in al)
+
+        def score(A):
+            return f"{len(al) / len(lv[A]):.3f}" if lv.get(A) else "-"
+        out = [(A, fk[A], "flow", score(A) if fits(A, fk[A]) else "nofit", fp[A]) for A in sorted(fp, key=lambda a: (-fp[a], a))]
+        fit, nfit = [], 0
+        if al:
+            nf = rows[P]["fields_total"]
+            for k in sorted(ks[P] | {0}):
+                sets = sorted((index.get((o + k, w, s), set()) for o, w, s in al), key=len)
+                got = set.intersection(*sets) if sets else set()
+                for A in sorted(got):
+                    if A == P or A in fp or (rows[A]["klass"] == "placeholder" and rows[A]["fields_total"] <= nf):
+                        continue
+                    fit.append((k != 0, -len(al) / len(lv[A]), KLASS_RANK.get(rows[A]["klass"], 3), A, k))
+            best = {}
+            for f_ in sorted(fit):
+                best.setdefault(f_[3], f_)
+            nfit = len(best)
+            out += [(A, k, "fit", score(A), 0) for _, _, _, A, k in sorted(best.values())[:FIT_CAP]]
+        cand[P] = dict(srcs=sorted(srcs_of[P]), cocast=cocast, cands=out, nfit=nfit, acc=len(al))
+    # ---- families: types co-cast on one source or joined by its flows
+    par = {}
+    for sid in sorted(src):
+        ts = src[sid]["ct"] + src[sid]["ft"]
+        for t in ts[1:]:
+            ra, rb = _uf(par, ts[0]), _uf(par, t)
+            if ra != rb:
+                par[max(ra, rb)] = min(ra, rb)
+        if ts:
+            _uf(par, ts[0])
+    groups = collections.defaultdict(set)
+    for t in sorted(par):
+        groups[_uf(par, t)].add(t)
+    fam, fam_of = [], {}
+    for i, g in enumerate(sorted(groups.values(), key=lambda g: (-len(g), min(g)))):
+        fid = f"F{i + 1:05d}"
+        for t in g:
+            fam_of[t] = fid
+        fam.append(dict(id=fid, types=sorted(g), srcs=[], reg=collections.Counter()))
+    fam_ix = {f["id"]: f for f in fam}
+    for sid in sorted(src):
+        ts = src[sid]["ct"] + src[sid]["ft"]
+        if ts:
+            f = fam_ix[fam_of[ts[0]]]
+            f["srcs"].append(sid)
+            for x in src[sid]["sites"]:
+                f["reg"][x["region"]] += 1
+    return dict(sites=sites, src=src, K=K, unpl=unpl, cand=cand, fam=fam, fam_of=fam_of)
+
+
+def sources_projection(T, ledger_rows):
+    """(placeholders, fold rows, twin non-representatives, value-shape non-representatives, left) after T7's projected folds"""
+    import struct_layout as sl
+    rows = T.row
+    ph = sorted(k for k, r in rows.items() if r["klass"] == "placeholder")
+    fold = {k for k in ph if (ledger_rows.get(k) or {}).get("disposition") == "fold"}
+    left = [k for k in ph if k not in fold]
+    lay = {}
+    for k in left:
+        d = rows[k]["def"]
+        lay[k] = T.res.layout_of_fields(d["fields"], d["kind"], packed=("packed" in d["attrs"]))
+    twins = collections.defaultdict(list)
+    for k in left:
+        if lay[k] and lay[k][2] and rows[k]["fields_total"] - rows[k]["pad"] >= 3:
+            twins[sl.layout_hash(lay[k])].append(k)
+    tw = {k for g in twins.values() if len(g) > 1 for k in sorted(g)[1:]}
+    left = [k for k in left if k not in tw]
+
+    def dense(L):
+        if not L or not L[2] or L[0] > 32 or L[0] <= 0:
+            return False
+        end = 0
+        for o, w, _ in sorted(L[2]):
+            if o > end:
+                return False
+            end = max(end, o + w)
+        return end >= L[0]
+    vals = collections.defaultdict(list)
+    for k in left:
+        if dense(lay[k]):
+            vals[sl.layout_hash(lay[k])].append(k)
+    vs = {k for g in vals.values() if len(g) > 1 for k in sorted(g)[1:]}
+    return len(ph), len(fold), len(tw), len(vs), len(left) - len(vs)
+
+
+def sources_render(SR, walk_sites, latest, proj):
+    """(summary lines, {tsv name: text}) of one sources_build result; deterministic"""
+    import restruct as rs
+    sites, src = SR["sites"], SR["src"]
+    C = lambda key: collections.Counter(key(x) for x in sites)
+    byf, byr, byt = C(lambda x: x["form"]), C(lambda x: x["region"]), C(lambda x: x["ctype"])
+    byk = collections.Counter(src[x["src"]]["kind"] for x in sites)
+    srk = collections.Counter(e["kind"] for e in src.values())
+    cov, unc = rs.residue_match(latest, walk_sites, forms=("P", "X", "I", "M"))
+    ver = collections.Counter(e["verdict"] for e in src.values())
+    why = collections.Counter("2+ cast types" if r.split(" ")[0].isdigit() else "conflicting flows" if r.startswith("conflicting")
+                              else "raw only" if r.startswith("raw") else " ".join(r.split(" ")[:2])
+                              for e in src.values() for r in e["reasons"])
+    blab = [f"{a}" if a == b else f"{a}-{b}" if b < 10 ** 9 else f"{a}+" for a, b in FAM_BUCKETS]
+    fb = collections.Counter(next(lb for lb, (a, b) in zip(blab, FAM_BUCKETS) if a <= len(f["types"]) <= b) for f in SR["fam"])
+    fmt = lambda c, keys=None: " · ".join(f"{k} {c[k]}" for k in (keys or sorted(c, key=lambda k: (-c[k], k))))
+    top = sorted(byt, key=lambda k: (-byt[k], k))[:50]
+    L = [f"struct_twins --sources: {len(sites)} cast sites ({fmt(byf, list(SRC_FORMS))}) · {len(src)} sources · "
+         f"K (kept-cast macro) {sum(SR['K'].values())} apart",
+         f"  by source kind (sites): {fmt(byk)}",
+         f"  sources by kind: {fmt(srk)}",
+         f"  by region: {fmt(byr)}",
+         "  by target type (top 50):"]
+    L += ["    " + " · ".join(f"{k} {byt[k]}" for k in top[i:i + 10]) for i in range(0, len(top), 10)]
+    L += [f"  K sites by macro: {fmt(SR['K']) or '-'}",
+          f"  raw sites P/X/I/M: {len(cov) + len(unc)} · covered RESIDUAL {len(cov)} · uncovered {len(unc)}",
+          f"  sources: mechanical {ver['mechanical']} · judgment {ver['judgment']} (reasons: {fmt(why) or '-'})",
+          f"  families: {len(SR['fam'])} ({' · '.join(f'size {k} {fb[k]}' for k in blab)})"
+          + (f"; largest {SR['fam'][0]['id']} {len(SR['fam'][0]['types'])} types, {sum(SR['fam'][0]['reg'].values())} casts" if SR["fam"] else ""),
+          f"  candidates: {len(SR['cand'])} cast placeholders · with a flow parent {sum(1 for c in SR['cand'].values() if any(x[2] == 'flow' for x in c['cands']))}"
+          f" · fit only {sum(1 for c in SR['cand'].values() if c['cands'] and c['cands'][0][2] == 'fit')}"
+          f" · none {sum(1 for c in SR['cand'].values() if not c['cands'])}",
+          f"  sites the source key could not place in a function: {fmt(SR['unpl']) or '-'}"]
+    if proj:
+        n, fo, tw, vs, left = proj
+        L.append(f"  types left to trace after T7 (projection): placeholders {n} - fold {fo} - twin non-representatives {tw}"
+                 f" - value-shape non-representatives {vs} = {left}")
+    tsv = {}
+
+    def table(name, head, recs):
+        tsv[name] = "\t".join(head) + "\n" + "".join("\t".join(_clean(c) for c in r) + "\n" for r in recs)
+    table("casts.tsv", ("region", "form", "source", "kind", "ctype", "type", "off", "width", "sign", "cite"),
+          [(x["region"], x["form"], x["src"], src[x["src"]]["kind"], x["ctype"], x["type"], f"0x{x['off']:X}", x["width"] or "-",
+            x["sign"] or "-", f"{x['rel']}:{x['line']}")
+           for x in sorted(sites, key=lambda x: (x["rel"], x["line"], x["form"], x["ctype"], x["src"], x["off"]))])
+
+    def fsum(e):
+        c = collections.Counter(f"{f['kind']}={f['type']}" for f in e["flows"])
+        return " ".join(f"{k}x{c[k]}" for k in sorted(c)) or "-"
+    table("sources.tsv", ("source", "kind", "region", "types", "n_casts", "verdict", "reasons", "flows"),
+          [(sid, e["kind"], e["region"], ";".join(e["ct"]) or "-", len(e["sites"]), e["verdict"], "; ".join(e["reasons"]) or "-", fsum(e))
+           for sid, e in sorted(src.items())])
+    table("flows.tsv", ("source", "flow", "peer", "type", "how", "cite"),
+          sorted((sid, f["kind"], f["peer"], f["type"], f["how"], f["cite"]) for sid, e in src.items() for f in e["flows"]))
+    table("types.tsv", ("placeholder", "n_sources", "sources", "cocast", "accessed_leaves", "candidates", "fits_total"),
+          [(P, len(c["srcs"]), "; ".join(c["srcs"][:5]) + (f" (+{len(c['srcs']) - 5})" if len(c["srcs"]) > 5 else ""),
+            ";".join(c["cocast"][:10]) + (f" (+{len(c['cocast']) - 10})" if len(c["cocast"]) > 10 else "") or "-", c["acc"],
+            "; ".join(f"{A} 0x{k:X} {b} {s}" + (f" x{n}" if b == "flow" else "") for A, k, b, s, n in c["cands"]) or "-", c["nfit"])
+           for P, c in sorted(SR["cand"].items())])
+    table("families.tsv", ("family", "size", "types", "n_sources", "casts_by_region"),
+          [(f["id"], len(f["types"]), ";".join(f["types"][:40]) + (f" (+{len(f['types']) - 40})" if len(f["types"]) > 40 else ""),
+            len(f["srcs"]), " ".join(f"{r}:{f['reg'][r]}" for r in sorted(f["reg"])) or "-") for f in SR["fam"]])
+    return L, tsv
+
+
+def sources(out_dir, jobs, check=False):
+    import time
+    import restruct as rs
+    t0 = time.time()
+    S = links_inputs(jobs)
+    R = links_build(S)
+    SR = sources_build(S, R)
+    walk_sites = [s for rel in sorted(S["walk"]) for s in S["walk"][rel]["sites"]]
+    proj = sources_projection(R["T"], ledger_read(LEDGER)[0])
+    L, tsv = sources_render(SR, walk_sites, rs.ledger_latest(rs.load_ledger()), proj)
+    print("\n".join(L))
+    if not check:
+        out = REPO / out_dir
+        out.mkdir(parents=True, exist_ok=True)
+        for name, text in sorted(tsv.items()):
+            (out / name).write_text(text)
+        print(f"(tables -> {out.relative_to(REPO) if out.is_relative_to(REPO) else out}: {', '.join(sorted(tsv))})")
+    print(f"runtime {time.time() - t0:.0f} s", file=sys.stderr)
+    return 0
+
+
 # --selftest: the method doc's fixtures on a synthetic tree (its own symtab, .d map, sig rows)
 ST_HDR = """typedef struct LookA { s32 a; s16 b; } LookA;
 typedef struct LookB { s32 a; s16 b; } LookB;
@@ -2580,6 +3108,11 @@ typedef struct CS3 { s32 a; } CS3;
 typedef struct CS4 { s32 a; } CS4;
 typedef struct BWA { u16 x; } BWA;
 typedef struct BWB { u32 x; } BWB;
+typedef struct MV { s32 a; s32 b; } MV;
+typedef struct MP { s32 a; s32 b; s32 c; } MP;
+typedef struct SV { u8 pad[8]; s16 y; } SV;
+typedef struct SA { s32 a; s32 b; s16 c; s16 d; } SA;
+typedef struct SB { s32 x; s32 z; s16 y; } SB;
 """
 ST_MAIN = """#include "struct_types.h"
 extern GA D_80018000;
@@ -2610,6 +3143,9 @@ void k2(HQ2 *x) { x->x = 2; ht2(x); }
 void k3(HQ3 *x) { x->a = 3; ht3(x); }
 void k4(HQ4 *x) { x->a = 4; ht4(x); }
 void func_80011900(void) { ((BWA *)getp())->x = 1; }
+void mtake(void *p) { ((MV *)p)->b = 1; }
+void mcall(MP *q) { mtake(q); }
+s32 svr(SA *a) { return ((SV *)a)->y; }
 """
 ST_OVA = """#include "struct_types.h"
 extern GB D_80018000;
@@ -2652,7 +3188,7 @@ def links_selftest_S():
     stacks = {"main": ["main"], "ov_A": ["main", "ov_A"], "ov_B": ["main", "ov_B"]}
     fns = {"main": ["useLookA", "readWA", "hubfn", "c1", "c2", "c3", "c4", "effTake", "effCall", "polyTake", "polyCall", "viewer",
                     "func_80010D00", "func_80010E00", "efTake", "efCall", "ht1", "ht2", "ht3", "ht4", "k1", "k2", "k3", "k4",
-                    "func_80011900"],
+                    "func_80011900", "mtake", "mcall", "svr"],
            "ov_A": ["useLookB", "readWB", "readOA", "func_80100400", "func_80100500", "cpy", "ca1", "ca2", "func_80100900"],
            "ov_B": ["takeP", "callP", "readOB", "cpy", "cb1", "cb2"]}
     syms, cls_of, sig, own_sym = {}, {}, {}, {}
@@ -2689,9 +3225,11 @@ def links_selftest_S():
 def links_selftest():
     outs, R = [], None
     for _ in range(2):
-        R = links_build(links_selftest_S())
+        S_ = links_selftest_S()
+        R = links_build(S_)
         rr = links_render(R, {})
-        outs.append((rr[:3], links_report(R, rr[3], "selftest")))
+        SR = sources_build(S_, R)                            # 3.45 T14 --sources on the same tree
+        outs.append((rr[:3], links_report(R, rr[3], "selftest"), sources_render(SR, [], {}, None)))
     Q = R["P"]["effective"]
     acc = {(L["cls"], frozenset((L["a"], L["b"]))) for L in Q["accepted"]}
     ref = {(L["reason"], frozenset((L["a"], L["b"]))) for L in Q["refused"]}
@@ -2738,6 +3276,15 @@ def links_selftest():
          and all(ft("CS") == ft(c) for c in ("CS1", "CS2", "CS3", "CS4")) and f("CS") != f("CS1")),
         ("cast-only types linked by body-view, conflicting (u16 vs u32) only through view accesses: the fold is refused",
          ("conflict", frozenset(("BWA", "BWB"))) in ref and f("BWA") != f("BWB")),
+        ("sources: a parameter cast to one type, fed by a typed caller, is mechanical; its candidate is the caller's type by flow",
+         SR["src"].get("src/main.c:mtake:p", {}).get("verdict") == "mechanical"
+         and (SR["cand"].get("MV") or {}).get("cands", [("",) * 3])[0][:3] == ("MP", 0, "flow")),
+        ("sources: a source cast to two types is judgment",
+         SR["src"].get("src/main.c:polyTake:p", {}).get("verdict") == "judgment"
+         and "2 cast types" in SR["src"]["src/main.c:polyTake:p"]["reasons"]),
+        ("sources: a sparse view ranks the parent its flow names above a layout look-alike that fits",
+         (SR["cand"].get("SV") or {}).get("cands", [("",) * 3])[0][:3] == ("SA", 0, "flow")
+         and any(c[0] == "SB" and c[2] == "fit" for c in SR["cand"]["SV"]["cands"][1:])),
         ("two runs print identical output", outs[0] == outs[1]),
     ]
     for name, ok in cases:
@@ -2755,23 +3302,28 @@ def main():
     ap.add_argument("--inventory", action="store_true", help="one row per struct/union definition; prints the denominators")
     ap.add_argument("--out", default=INVENTORY_DEFAULT, help="--inventory output TSV (default %(default)s)")
     ap.add_argument("--dispositions", action="store_true", help="write/refresh config/struct_dispositions.tsv")
-    ap.add_argument("--check", action="store_true", help="with --dispositions: count the ledger, exit 1 on a missing/duplicate/unknown row")
+    ap.add_argument("--check", action="store_true", help="with --dispositions: count the ledger, exit 1 on a missing/duplicate/unknown row; "
+                    "with --sources: print the cast-view metric only (no tables), exit 0")
     ap.add_argument("--ledger", default=str(LEDGER), help="with --dispositions: the ledger path (default %(default)s)")
     ap.add_argument("--links", action="store_true", help="the merge-evidence census (docs/ops/p345-t2-struct-merge-evidence.md)")
-    ap.add_argument("--out-dir", default=LINKS_DIR, help="with --links: the tables' directory (default %(default)s)")
-    ap.add_argument("-j", type=int, default=16, help="with --links: worker processes (default %(default)s)")
+    ap.add_argument("--sources", action="store_true", help="the source census: every cast by its pointer source, flows, candidate "
+                    "parents, families, the cast-view metric (docs/ops/p345-t14-source-census.md)")
+    ap.add_argument("--out-dir", default=None, help=f"with --links / --sources: the tables' directory (default {LINKS_DIR} / {SOURCES_DIR})")
+    ap.add_argument("-j", type=int, default=16, help="with --links / --sources: worker processes (default %(default)s)")
     ap.add_argument("--propose", action="store_true", help="with --links: write the chosen policy's proposals into the ledger")
     ap.add_argument("--report", nargs="?", const=REPORT_DEFAULT, metavar="PATH",
                     help="with --links: write the generated merge report (default %(const)s)")
     ap.add_argument("--policy", choices=POLICIES, default="effective", help="with --propose: the policy (default %(default)s)")
     ap.add_argument("--selftest", action="store_true", help="the --links fixtures on a synthetic tree; exit 0 only if all pass")
     a = ap.parse_args()
-    if a.selftest or a.links:
+    if a.selftest or a.links or a.sources:
         need_se()
     if a.selftest:
         return links_selftest()
+    if a.sources:
+        return sources(a.out_dir or SOURCES_DIR, a.j, a.check)
     if a.links:
-        return links(a.out_dir, a.j, a.policy if a.propose else None, a.report)
+        return links(a.out_dir or LINKS_DIR, a.j, a.policy if a.propose else None, a.report)
     if a.inventory:
         return inventory(a.out)
     if a.dispositions:
