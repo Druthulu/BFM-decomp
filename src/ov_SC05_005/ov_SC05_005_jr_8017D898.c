@@ -4819,19 +4819,19 @@ void func_80181D08(void *arg0) {
     } sp;
     s32 var;
 
-    var = (((Unkstruct_80181D08 *)arg0)->unk1C)++;
-    if ((var % (s32)((Unkstruct_80181D08 *)arg0)->unkFC) != 0) {
+    var = (((Unkstruct_80181C00_2 *)arg0)->unk1C)++;
+    if ((var % (s32)((Unkstruct_80181C00_2 *)arg0)->unkFC) != 0) {
         return;
     }
     if (((s32 (*)(s32))func_8012BE54)((s32)arg0) <= 0x240000) {
-        sp.u06 = ((Unkstruct_80181D08 *)arg0)->unk6;
-        sp.u0A = ((Unkstruct_80181D08 *)arg0)->unkA;
-        sp.u0E = ((Unkstruct_80181D08 *)arg0)->unkE;
+        sp.u06 = ((Unkstruct_80181C00_2 *)arg0)->unk6;
+        sp.u0A = ((Unkstruct_80181C00_2 *)arg0)->unkA;
+        sp.u0E = ((Unkstruct_80181C00_2 *)arg0)->unkE;
         sp.unk16 = 0x1FB;
-        sp.u70 = ((Unkstruct_80181D08 *)arg0)->unk70;
+        sp.u70 = ((Unkstruct_80181C00_2 *)arg0)->unk70;
         sp.zero1A = 0;
-        sp.unk1E = *(u16 *)(((Unkstruct_80181D08 *)arg0)->unk68 + 0xC);
-        sp.unk20 = ((Unkstruct_80181D08 *)arg0)->unkDC;
+        sp.unk1E = *(u16 *)(((Unkstruct_80181C00_2 *)arg0)->unk68 + 0xC);
+        sp.unk20 = ((Unkstruct_80181C00_2 *)arg0)->unkDC;
         sp.unk1C = 0x7FFF;
         func_8012C51C(&sp, (s32)arg0);
     }
