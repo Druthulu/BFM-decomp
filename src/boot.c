@@ -765,7 +765,7 @@ extern void func_800D1724(s32);
  * MATCH 192/192 and rtu_match MATCH in src/boot.c (--o0). Semantics: (i*2+1)*2-2 == i*4. */
 void func_80011380(void) {
     register u8 *p = guess_g_RenderWork;
-    Unk *q = (Unk *)&D_800AE6A8;
+    Dst *q = (Dst *)&D_800AE6A8;
 
     switch (((Unkstruct_80010178 *)p)->unkA3B4) {
     case 0:
@@ -776,7 +776,7 @@ void func_80011380(void) {
         }
         ((Unkstruct_80010178 *)p)->unkA3D8 = D_800629D4[D_80074784];
         ((Unkstruct_80010178 *)p)->unkA3DA = (u16)D_800629D4[D_80074784] & 0xF000;
-        q->unk16 = D_800629D6[(D_80074784 * 2 + 1) * 2 - 2];
+        q->b16 = D_800629D6[(D_80074784 * 2 + 1) * 2 - 2];
         D_8007478C = D_800629E8[D_80074784];
         if (D_80074784 == 0) {
             func_80029664();

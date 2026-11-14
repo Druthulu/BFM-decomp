@@ -1626,13 +1626,14 @@ typedef DispSlot_800184F0 DispSlot_800184F0_80014588;
 typedef struct { u32 addr : 24; u32 len : 8; u32 code0; } DrMode_80021284;
 typedef struct { u32 addr : 24; u32 len : 8; u32 code; } DrTpage;
 typedef struct {
-    u8  pad0[8];
-    s32 w8;
-    u8  pad_C[10];
-    u8  b16;
-    u8  pad17[2];
-    u8  b19;
-} Dst;
+    /* 0x0000 */ u8 pad0[0x8];
+    /* 0x0008 */ s32 w8;
+    /* 0x000c */ u8 padC[0xa];
+    /* 0x0016 */ u8 b16;
+    /* 0x0017 */ u8 pad17[0x2];
+    /* 0x0019 */ u8 b19;
+    /* 0x001a */ u8 pad1A[0x2];
+} Dst; /* size = 0x1c */
 typedef struct {
     /* 0x00 */ u16 unk00;
     /* 0x02 */ u16 unk02;
@@ -2541,10 +2542,6 @@ typedef union {
     u16 h[2];
 } UV16D78;
 typedef UV16D78 UV16F18;
-typedef struct {
-    u8 pad00[0x16];
-    u8 unk16;
-} Unk;
 typedef Unkstruct_8017D2A4 Unkstruct_800A46D2;
 typedef V16F18 V0_80017294;
 typedef struct {
