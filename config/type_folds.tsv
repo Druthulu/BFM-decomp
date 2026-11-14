@@ -5008,7 +5008,7 @@ Unkstruct_1e459d0e	define	Unkstruct_80183314	owner:func_80183314	no E1/E2 eviden
 Unkstruct_1e73a90f	define	Unkstruct_80015A08	owner:func_80015A08	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_1e7ff09e	define	Unkstruct_8017FD14_2	owner:func_8017FD14	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_1e931b08	define	Unkstruct_801810F0	owner:func_801810F0	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
-Unkstruct_1ead41ab	define	Unkstruct_80185B04_2	owner:func_80185B04	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
+Unkstruct_1ead41ab	define	Unkstruct_801859B4	owner:func_80185B04	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_1eecbccb	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_20348837	define	Unkstruct_80181BBC	owner:func_80181BBC	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_206ec375	define	Unkstruct_8017F7F4	owner:func_8017F7F4	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies

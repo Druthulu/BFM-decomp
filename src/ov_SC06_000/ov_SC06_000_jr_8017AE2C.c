@@ -9456,7 +9456,7 @@ void func_80185B04(void *a0, void *a1)
     b.a = *(QB_80185B04 *)((s8 *)a1 + 8);
     b.b = *(QB_80185B04 *)((s8 *)a1 + 0x10);
     b.d = 0;
-    b.c = ((Unkstruct_80185B04_2 *)a1)->unk18;
+    b.c = ((Unkstruct_801859B4 *)a1)->unk18;
     b.e = 0x50000000;
     aFunc80016A5C(&b, mb.m[0]);
 }
