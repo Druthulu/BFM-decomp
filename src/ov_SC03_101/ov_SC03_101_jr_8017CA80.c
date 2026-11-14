@@ -4494,9 +4494,9 @@ s32 func_8018095C(void *a0)
     if (v1 == NULL) {
         return;
     }
-    ((Unkstruct_8018095C_2 *)v1)->unk8 = ((Unkstruct_801803FC *)a0)->unk6;
-    ((Unkstruct_8018095C_2 *)v1)->unkA = ((Unkstruct_801803FC *)a0)->unkA;
-    ((Unkstruct_8018095C_2 *)v1)->unkC = ((Unkstruct_801803FC *)a0)->unkE;
+    ((Unkstruct_801803FC_2 *)v1)->unk8 = ((Unkstruct_801803FC *)a0)->unk6;
+    ((Unkstruct_801803FC_2 *)v1)->unkA = ((Unkstruct_801803FC *)a0)->unkA;
+    ((Unkstruct_801803FC_2 *)v1)->unkC = ((Unkstruct_801803FC *)a0)->unkE;
     dest = (s16 *)((s32)v1 + 0x8);
     func_801330E0(dest, dest, -0x100);
 }
