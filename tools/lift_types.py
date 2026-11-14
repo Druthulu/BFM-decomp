@@ -819,7 +819,7 @@ def census_move(tsv, batch, apply, jobs, excl_path, excl_out):
 # ======================================================================================================================
 SDK_HDRS = ("tools/reference/psyq-sdk/PSX/INCLUDE/LIBGTE.H", "tools/reference/psyq-sdk/PSX/INCLUDE/LIBGPU.H")
 SDK_SCALARS = {"u_char": "u8", "u_short": "u16", "u_long": "u32", "u_int": "u32"}
-GEN_BLOCK = ("/* head_types:begin */", "/* head_types:end */")
+GEN_BLOCK = ("/* head_types:begin */", "/* head_types:end */")   # P3.45 T6: markers retired (provenance line); no marker -> gen False
 NOMEMBER_RX = re.compile(r"^(.+?):(\d+): (?:structure|union) has no member named `(\w+)'", re.M)
 
 

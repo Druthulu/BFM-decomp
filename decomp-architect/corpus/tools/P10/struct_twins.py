@@ -39,7 +39,7 @@ Usage:
                                                     include/psyq/ (default .run/3.45/t1/struct_inventory.tsv); prints the denominators
   tools/struct_twins.py --dispositions [--check] [--ledger PATH]
                                                     write/refresh config/struct_dispositions.tsv (one row per placeholder; new rows
-                                                    `undisposed`, existing dispositions kept); --check: counts per disposition and class,
+                                                    `undisposed`, existing dispositions kept); --check: counts per disposition and class, finished vs pending,
                                                     FAIL (exit 1) on a missing, duplicate or unknown row or a column rule (LEDGER_HEAD)
   tools/struct_twins.py --links [--out-dir DIR] [-j N] [--propose [--policy typed|effective|views]] [--report [PATH]]
                                                     the merge-evidence census (3.45 T2; method docs/ops/p345-t2-struct-merge-evidence.md):
@@ -63,7 +63,7 @@ Inventory (3.45 T1): one type = one definition record (enum skipped); names = ty
 `@file:line`). class: PsyQ (defined in include/psyq/, or a PSYQ name whose layout hash is psyq_layouts()'), ledgered (a
 config/names.tsv `type` row names it), else placeholder. block: the generated region holding the line (head_types markers,
 restruct band / drift markers, the hand-copied head_types region from its `/* --- T2 (P3.40) canonical definitions` comment to
-the next marker), else `-`. Users: tus/binaries = the src/ and include/ files outside the canonical ones whose comment-stripped
+the next marker; since P3.45 T6 a `/* provenance (<block>): ` line, to the next column-0 comment), else `-`. Users: tus/binaries = the src/ and include/ files outside the canonical ones whose comment-stripped
 tokens name it (binary_of); globals/params/returns/locals = G/P/R/L object keys of scan_all over every inventoried name; h_exact
 = distinct function identities among its L/P keys; access_sites (lexical) = `ident->` / `ident.` occurrences of each L/P-bound
 identifier inside the top-level brace span of its binding line (a definition's header: the span opening within 8 lines below),
@@ -174,37 +174,61 @@ def psyq_layouts():
 
 INVENTORY_DEFAULT = ".run/3.45/t1/struct_inventory.tsv"
 LEDGER = REPO / "config" / "struct_dispositions.tsv"
-DISPOSITIONS = ("undisposed", "fold", "apart", "no-evidence")
+FINISHES = ("fold", "absorb", "survivor", "wall")          # P3.45 T6 (DW4): the consolidation list; a fold/absorb finishes once applied:
+PENDING = ("apart", "no-evidence", "undisposed")
+DISPOSITIONS = ("undisposed",) + FINISHES + PENDING[:2]
 LEDGER_COLS = ("key", "kind", "file_line", "size", "disposition", "target", "class", "evidence", "reason")   # class: T2.c2
-CLASSES = {"undisposed": ("-",), "fold": ("global", "pointer", "body"), "apart": ("own", "conflict", "size", "hub"), "no-evidence": ("-",)}
+CLASSES = {"undisposed": ("-",), "fold": ("link", "twin", "value"), "absorb": ("offset", "variant"),
+           "survivor": ("global", "static", "element", "alloc", "member", "sdk"), "wall": ("fold", "absorb", "retype"),
+           "apart": ("own", "conflict", "size", "hub"), "no-evidence": ("-",)}
+LINK_SUBS = ("global", "pointer", "body")                  # a fold link's evidence class, the prefix of its evidence (`C30 global: …`)
+LINK_EV_RX = re.compile(r"^C\d+ (global|pointer|body): \S")
+LHASH_RX = re.compile(r"(?:^|\s)lhash:[0-9a-f]{12}(?:\s|$)")   # twin evidence: struct_layout.layout_hash ...
+FIELDS_RX = re.compile(r"(?:^|\s)fields:(\d+)(?:\s|$)")        # ... and its non-pad field count (>= 3)
+SHAPE_RX = re.compile(r"(?:^|\s)shape:\S")                    # value evidence: the dense small shape
+OFFSET_RX = re.compile(r"\+0x[0-9A-Fa-f]+")                    # absorb offset: the view's offset inside its parent
+MEMBER_RX = re.compile(r"(?:^|\s)member:[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*")   # absorb variant: the member path inside the parent
+WALL_RX = (re.compile(r"(?:^|\s)residual:[A-Z][A-Z0-9-]*"), re.compile(r"(?:^|\s)attempt1:\S"), re.compile(r"(?:^|\s)attempt2:\S"))
 APPLIED_RX = re.compile(r"(?:^|\s)applied:\S+$")    # a disposition applied by a later task (T7): never rewritten by --propose
 CITE_RX = re.compile(r"0x[0-9A-Fa-f]{8}|[\w./-]+\.[ch]:\d+")   # an address or a file:line (apart evidence)
-LEDGER_HEAD = """# config/struct_dispositions.tsv: the struct disposition ledger (Phase 3.45 T1; `class` T2.c2). One row per placeholder struct/union
-# definition of the canonical type files (tools/struct_twins.py --inventory, class placeholder), keyed by its inventory key.
-# disposition (closed list): undisposed (not judged yet) | fold (fold into `target`; `evidence` cites the shared object) |
-#   apart (kept apart; `evidence` cites what separates it) | no-evidence (no binding or use to judge by; `reason` says why).
-# class (closed list per disposition): fold global|pointer|body (the evidence class of the link that admitted it; T2.c3: a
-#   body-view link is class body, an eff-flow link class pointer) |
-#   apart own|conflict|size|hub (its own objects, or the refusal that keeps it apart) | no-evidence and undisposed `-`.
+LEDGER_HEAD = """# config/struct_dispositions.tsv: the struct disposition ledger (Phase 3.45 T1; `class` T2.c2; consolidation list T6). One row per
+# placeholder struct/union definition of the canonical type files (tools/struct_twins.py --inventory, class placeholder), by inventory key.
+# disposition (closed list, P3.45 T6): finishes fold | absorb | survivor | wall (a fold or absorb finishes once its reason ends in
+#   ` applied:<commit>`); pending apart | no-evidence | undisposed.
+#   fold: fold into `target` (a ledger key or a PsyQ/ledgered type); class link (a T2 link; evidence `C<n> <global|pointer|body>: `
+#     + the cites), twin (exact layout; evidence `lhash:<12 hex> fields:<n>`, n >= 3 non-pad fields) or value (a dense small shape;
+#     evidence `shape:<shape>`). absorb: a view absorbed into its parent `target`; class offset (evidence `+0x<off>`) or variant
+#     (evidence `member:<path>`), plus the pointer source's address or file:line. survivor: a real root type; class
+#     global|static|element|alloc|member|sdk; evidence cites the object (address or file:line). wall: refused after its second
+#     attempt; class fold|absorb|retype; evidence the object (address or file:line) and `+0x<off>`; reason `residual:<CLASS>
+#     attempt1:<…> attempt2:<…>`. apart (kept apart; class own|conflict|size|hub; evidence an address or file:line).
+#     no-evidence (no binding or use to judge by; `reason` says why). undisposed (not judged yet). no-evidence/undisposed class `-`.
 # Proposals: tools/struct_twins.py --links --propose [--policy typed|effective|views] (default effective; method
-#   docs/ops/p345-t2-struct-merge-evidence.md) rewrites disposition..reason of every row on each run; fold and component-target
-#   evidence starts `C<n>: ` (the run's component). A row whose reason ends in ` applied:<commit>` (the commit that applied it,
-#   T7) is never rewritten.
+#   docs/ops/p345-t2-struct-merge-evidence.md) rewrites disposition..reason of each row it judges: folds as class link, evidence
+#   `C<n> <sub>: `; component targets apart own `C<n>: `. Never rewritten: a row whose reason ends in ` applied:<commit>`, a fold
+#   twin|value, an absorb, a survivor, a wall.
 # Written by tools/struct_twins.py --dispositions (new rows undisposed, dispositions kept, kind/file_line/size refreshed);
 # checked by tools/struct_twins.py --dispositions --check (FAIL on a missing, duplicate or unknown row, a class outside its
-#   closed list, a fold whose target is not a ledger key or a PsyQ/ledgered type, an apart without an address or file:line in
-#   its evidence, a no-evidence without a reason). Tab-separated, by key.
+#   closed list, a row breaking its disposition's rule above; prints finished vs pending). Tab-separated, by key.
 """
 INV_COLS = ("key", "names", "tag", "kind", "size", "fields_total", "unk", "pad", "named", "file:line", "block", "class", "tus",
             "binaries", "h_exact", "access_sites", "globals", "params", "returns", "locals")
 HAND_COPIED = "/* --- T2 (P3.40) canonical definitions"   # head_types output copied into struct_types.h by hand (no end marker)
+# P3.45 T6: the generators are retired; each marker pair of include/struct_types.h became one provenance line naming its block.
+# A provenance block runs from that line to the line before the next column-0 comment (none sits inside a block), else EOF.
+PROVENANCE_RX = re.compile(r"^/\* provenance \((head_types|head_types-hand|restruct-band|restruct-drift)\): ")
 
 
 def blocks_of(lines):
-    """(pure) [(first line, last line, block)] of the generated regions in one header's lines (1-based)"""
+    """(pure) [(first line, last line, block)] of the generated (or, since P3.45 T6, provenance-marked) regions in one header's
+    lines (1-based)"""
     import head_types as ht
     import restruct as rs
     out = []
+    for s, ln in enumerate(lines, 1):
+        m = PROVENANCE_RX.match(ln)
+        if m:
+            out.append((s, next((i - 1 for i, x in enumerate(lines[s:], s + 1) if x.startswith("/*")), len(lines)), m.group(1)))
     for b, e, nm in ((ht.C_BEGIN, ht.C_END, "head_types"), (rs.T3_BEGIN, rs.T3_END, "restruct-band"),
                      (rs.T17_BEGIN, rs.T17_END, "restruct-drift")):
         s = next((i for i, ln in enumerate(lines, 1) if b in ln), None)
@@ -377,6 +401,12 @@ def ledger_read(ledger):
     return have, dup, bad
 
 
+def link_sub(v):
+    """(pure) a fold proposal's / row's link evidence class (global|pointer|body): its evidence prefix `C<n> <sub>: `, else its class"""
+    m = LINK_EV_RX.match(v[3] if isinstance(v, (tuple, list)) else v.get("evidence") or "")
+    return m.group(1) if m else (v[2] if isinstance(v, (tuple, list)) else v.get("class"))
+
+
 def ledger_problems(have, keys_ok):
     """(pure) [(what, [keys])] of the rows breaking the column rules (LEDGER_HEAD)"""
     out = collections.defaultdict(list)
@@ -386,8 +416,25 @@ def ledger_problems(have, keys_ok):
             continue
         if e.get("class") not in CLASSES[d]:
             out[f"class outside the closed list of {d}"].append(k)
+        c, ev, rs = e.get("class"), e.get("evidence") or "-", e.get("reason") or "-"
         if d == "fold" and (e.get("target") in (None, "", "-", k) or e["target"] not in keys_ok):
             out["fold without a ledger / PsyQ / ledgered target"].append(k)
+        if d == "fold" and ev == "-":
+            out["fold without evidence"].append(k)
+        if d == "fold" and c == "twin" and not (LHASH_RX.search(ev) and int((FIELDS_RX.search(ev) or [0, 0])[1]) >= 3):
+            out["fold twin without lhash:<12 hex> and fields:<n >= 3> in evidence"].append(k)
+        if d == "fold" and c == "value" and not SHAPE_RX.search(ev):
+            out["fold value without shape: in evidence"].append(k)
+        if d == "absorb" and (e.get("target") in (None, "", "-", k) or e["target"] not in keys_ok):
+            out["absorb without a ledger / PsyQ / ledgered parent target"].append(k)
+        if d == "absorb" and not ((OFFSET_RX if c == "offset" else MEMBER_RX).search(ev) and CITE_RX.search(ev)):
+            out["absorb without +0x<off> (offset) or member:<path> (variant) and a pointer-source cite in evidence"].append(k)
+        if d == "survivor" and not CITE_RX.search(ev):
+            out["survivor without the object's address or file:line in evidence"].append(k)
+        if d == "wall" and not (CITE_RX.search(ev) and OFFSET_RX.search(ev)):
+            out["wall without object (address or file:line) and +0x<off> in evidence"].append(k)
+        if d == "wall" and not all(r.search(rs) for r in WALL_RX):
+            out["wall without residual:<CLASS> attempt1: attempt2: in reason"].append(k)
         if d == "apart" and not CITE_RX.search(e.get("evidence") or ""):
             out["apart without an address or file:line in evidence"].append(k)
         if d == "no-evidence" and (e.get("reason") or "-") == "-":
@@ -397,14 +444,16 @@ def ledger_problems(have, keys_ok):
 
 def ledger_write(ledger, ph, have, props=None):
     """write the ledger: one row per placeholder (ph {key: inventory row}) plus the disposed stale rows; props {key: (disposition,
-    target, class, evidence, reason)} replaces a row's judgement unless its reason carries the applied marker -> (new, kept, applied)"""
+    target, class, evidence, reason)} replaces a row's judgement unless it is protected (its reason carries the applied marker, or
+    it is a fold twin|value, an absorb, a survivor or a wall: judgements --propose never makes; P3.45 T6) -> (new, kept, protected)"""
     kept = {k: e for k, e in have.items() if k not in ph and e.get("disposition") != "undisposed"}
     lines, applied = [LEDGER_HEAD.rstrip("\n"), "\t".join(LEDGER_COLS)], 0
     for k in sorted(set(ph) | set(kept)):
         r, e = ph.get(k), have.get(k) or {}
         vals = [e.get("disposition", "undisposed")] + [e.get(c) or "-" for c in ("target", "class", "evidence", "reason")]
         if props and k in props:
-            if APPLIED_RX.search(e.get("reason") or ""):
+            if APPLIED_RX.search(e.get("reason") or "") or e.get("disposition") in ("absorb", "survivor", "wall") or (
+                    e.get("disposition") == "fold" and e.get("class") in ("twin", "value")):
                 applied += 1
             else:
                 vals = list(props[k])
@@ -439,6 +488,8 @@ def dispositions(ledger, check):
                  else "walls" if d == "wall" else "pending"] += 1
         print(f"  consolidation: placeholders {len(ph)} · folded link {cons['link']} · twin {cons['twin']} · value {cons['value']}"
               f" · absorbed {cons['absorbed']} · survivors {cons['survivors']} · walls {cons['walls']} · pending {cons['pending']}")
+        print(f"  finished {len(ph) - cons['pending']} (applied fold/absorb, survivor, wall) · pending {cons['pending']}"
+              f" (apart, no-evidence, undisposed, unapplied fold/absorb)")
         for what, ks in (("missing", miss), ("duplicate", dup), ("unknown key", unk), ("malformed / unknown disposition", bad)) + tuple(prob):
             if ks:
                 print(f"  FAIL {what}: {len(ks)} ({', '.join(ks[:8])}{' …' if len(ks) > 8 else ''})")
@@ -2171,7 +2222,7 @@ def links_render(R, reach, twins=None):
             ms = comp[root]["members"]
             if len(ms) > 1 and k != tgt[root]:
                 L = admit[k]
-                pp[k] = ("fold", tgt[root], L["cls"], f"{cid[root]}: {L['cite_a']} | {L['cite_b']}", f"{L['sub']} link {L['a']}~{L['b']}")
+                pp[k] = ("fold", tgt[root], "link", f"{cid[root]} {L['cls']}: {L['cite_a']} | {L['cite_b']}", f"{L['sub']} link {L['a']}~{L['b']}")
             elif len(ms) > 1:
                 ev = R["own"].get(k) or f"{admit[k]['cite_a']} | {admit[k]['cite_b']}"
                 pp[k] = ("apart", "-", "own", f"{cid[root]}: {ev}", f"target of {cid[root]} ({len(ms)} types)")
@@ -2317,7 +2368,7 @@ def links_report(R, X, head):
         pp = C[p]["pp"]
         sv[p] = collections.Counter(v[0] for v in pp.values())
         sv[p].update(f"apart/{v[2]}" for v in pp.values() if v[0] == "apart")
-        sv[p].update(f"fold/{v[2]}" for v in pp.values() if v[0] == "fold")
+        sv[p].update(f"fold/{link_sub(v)}" for v in pp.values() if v[0] == "fold")
         sv[p].update(f"no-evidence: {nek(v[4])}" for v in pp.values() if v[0] == "no-evidence")
     grid("Projected survivors (placeholders)", ["fold"] + sorted(k for k in set().union(*sv.values()) if k.startswith("fold/"))
          + ["apart"] + sorted(k for k in set().union(*sv.values()) if k.startswith("apart/"))
@@ -2448,7 +2499,7 @@ def links_report(R, X, head):
             continue
         r = find(k)
         n = len(comp[r]["members"])
-        b = "B4" if n >= 21 else "B3" if n >= 6 else "B1" if pp[k][2] in ("global", "body") else "B2"
+        b = "B4" if n >= 21 else "B3" if n >= 6 else "B1" if link_sub(pp[k]) in ("global", "body") else "B2"
         bt[b][r].append(k)
     o.extend(["## Candidate fold batches (policy effective; mechanical)", "",
               "B1 class global+body folds in components of 2-5 · B2 pointer folds in 2-5 · B3 components 6-20 · B4 each 21+ component "
@@ -2541,7 +2592,7 @@ def links(out_dir, jobs, propose=None, report=None):
         new, kept, applied = ledger_write(LEDGER, ph, have, props[propose])
         cnt = collections.Counter(v[0] for v in props[propose].values())
         print(f"--propose (policy {propose}): {len(ph)} placeholders -> {LEDGER.relative_to(REPO)} · "
-              + " · ".join(f"{d} {cnt[d]}" for d in DISPOSITIONS[1:]) + f" · applied kept {applied} · new {new} · stale kept {kept}")
+              + " · ".join(f"{d} {cnt[d]}" for d in DISPOSITIONS[1:]) + f" · protected kept {applied} · new {new} · stale kept {kept}")
     if report:
         import subprocess
         head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip() or "unknown"
@@ -3396,9 +3447,45 @@ def links_selftest():
     hub_types = {frozenset(("HubT", h)) for h in ("H1", "H2", "H3", "H4")}
     sub = {pol: {(L["sub"], frozenset((L["a"], L["b"]))) for L in R["P"][pol]["accepted"]} for pol in POLICIES}
     fv, ft = R["P"]["views"]["find"], R["P"]["typed"]["find"]
-    planted = {"X1": dict(key="X1", disposition="fold", target="-", **{"class": "pointer"}, evidence="C1: src/a.c:1 | src/a.c:2", reason="arg link"),
-               "X2": dict(key="X2", disposition="fold", target="X1", **{"class": "pointer"}, evidence="C1: src/a.c:1 | src/a.c:2", reason="arg link")}
+    planted = {"X1": dict(key="X1", disposition="fold", target="-", **{"class": "link"}, evidence="C1 pointer: src/a.c:1 | src/a.c:2", reason="arg link"),
+               "X2": dict(key="X2", disposition="fold", target="X1", **{"class": "link"}, evidence="C1 pointer: src/a.c:1 | src/a.c:2", reason="arg link")}
     prob = dict(ledger_problems(planted, set(planted)))
+    # P3.45 T6: the consolidation closed list, one good and one bad row per check (each bad row breaks exactly its own rule)
+    def row(d, tg, c, ev, rs="-"):
+        return dict(disposition=d, target=tg, evidence=ev, reason=rs, **{"class": c})
+    cl = {"P": row("fold", "-", "link", "-"),
+          "FL": row("fold", "P", "link", "C2 global: main/0x80001000 src/a.c:3 | src/b.c:4"),
+          "FE": row("fold", "P", "link", "-"),
+          "FT": row("fold", "P", "twin", "lhash:0123456789ab fields:3"), "FT2": row("fold", "P", "twin", "lhash:0123456789ab fields:2"),
+          "FV": row("fold", "P", "value", "shape:u16[4]"), "FV2": row("fold", "P", "value", "u16[4]"),
+          "FG": row("fold", "P", "global", "C2: src/a.c:3"),
+          "AO": row("absorb", "P", "offset", "+0x10 src/a.c:9 (p)"), "AO2": row("absorb", "P", "offset", "src/a.c:9 (p)"),
+          "AV": row("absorb", "P", "variant", "member:u.v src/a.c:9 (p)"), "AV2": row("absorb", "P", "variant", "member:u.v (p)"),
+          "AT": row("absorb", "-", "offset", "+0x10 src/a.c:9 (p)"),
+          "SV": row("survivor", "-", "global", "main/0x80002000 (g)"), "SV2": row("survivor", "-", "global", "a global"),
+          "WA": row("wall", "-", "fold", "src/a.c:9 +0x4", "residual:TYPE-UNION attempt1:c1 attempt2:c2"),
+          "WA2": row("wall", "-", "fold", "src/a.c:9", "residual:TYPE-UNION attempt1:c1 attempt2:c2"),
+          "WA3": row("wall", "-", "retype", "src/a.c:9 +0x4", "residual:TYPE-UNION attempt1:c1")}
+    cprob = dict(ledger_problems(cl, set(cl)))
+    want = {"fold without a ledger / PsyQ / ledgered target": ["P"], "fold without evidence": ["FE", "P"],
+            "fold twin without lhash:<12 hex> and fields:<n >= 3> in evidence": ["FT2"], "fold value without shape: in evidence": ["FV2"],
+            "class outside the closed list of fold": ["FG"],
+            "absorb without +0x<off> (offset) or member:<path> (variant) and a pointer-source cite in evidence": ["AO2", "AV2"],
+            "absorb without a ledger / PsyQ / ledgered parent target": ["AT"],
+            "survivor without the object's address or file:line in evidence": ["SV2"],
+            "wall without object (address or file:line) and +0x<off> in evidence": ["WA2"],
+            "wall without residual:<CLASS> attempt1: attempt2: in reason": ["WA3"]}
+    prov = ["/* x */", "/* provenance (restruct-band): r ran at abc; generator retired P3.45 T6; hand-edited since */", "typedef struct {",
+            "    /* 0x0 */ u8 unk0;", "} A; /* size = 0x1 */", "typedef A B;", "", "/* provenance (head_types): h */", "typedef int C;",
+            "/* hand */", "typedef int D;"]
+    import shutil
+    pl = REPO / ".run" / "3.45" / "struct_twins_selftest" / "ledger.tsv"     # removed below
+    pl.parent.mkdir(parents=True, exist_ok=True)
+    have_p = {k: dict(e, key=k, kind="struct", file_line="a.h:1", size="4") for k, e in cl.items() if k in ("FL", "FT", "AO", "SV", "WA")}
+    have_p["AP"] = dict(row("fold", "P", "link", "C9 body: src/a.c:1", "x applied:abc1234"), key="AP", kind="struct", file_line="a.h:1", size="4")
+    _, _, nprot = ledger_write(pl, {}, have_p, {k: ("apart", "-", "own", "src/a.c:1", "re-proposed") for k in have_p})
+    after, _, _ = ledger_read(pl)
+    shutil.rmtree(pl.parent)
     cases = [
         ("look-alike pair (equal layouts and widths, no link) stays unlinked",
          f("LookA") != f("LookB") and not any(frozenset(("LookA", "LookB")) == p for _, p in acc)),
@@ -3425,6 +3512,15 @@ def links_selftest():
          ("eff-flow", frozenset(("EFA", "EFB"))) in sub["effective"] and f("EFA") == f("EFB") and ft("EFA") != ft("EFB")),
         ("a planted ledger check fails on a fold without target (and passes the same fold with one)",
          prob.get("fold without a ledger / PsyQ / ledgered target") == ["X1"] and len(prob) == 1),
+        ("closed list (P3.45 T6): each fold / absorb / survivor / wall rule fails exactly its planted bad rows",
+         cprob == want or print(cprob)),
+        ("--propose never rewrites applied:, fold twin|value, absorb, survivor, wall; it rewrites a fold link",
+         nprot == 5 and after["FL"]["disposition"] == "apart" and all(after[k]["disposition"] == cl.get(k, have_p[k])["disposition"]
+                                                                       for k in ("FT", "AO", "SV", "WA", "AP"))),
+        ("blocks_of: a provenance line opens its block, which ends before the next column-0 comment",
+         blocks_of(prov) == [(2, 7, "restruct-band"), (8, 9, "head_types")]),
+        ("link_sub reads the sub-class back from the evidence prefix", link_sub(cl["FL"]) == "global"
+         and link_sub(("fold", "P", "link", "C3 body: x", "-")) == "body"),
         ("hub type: >= HUB_K pointer partners, two conflicting: its pointer links refused, its global link kept (effective)",
          all(("hub-type", frozenset(("HT", q))) in ref for q in ("HQ1", "HQ2", "HQ3", "HQ4")) and ("global", frozenset(("HT", "HG"))) in acc
          and f("HT") == f("HG") and f("HT") != f("HQ3") and any(h["type"] == "HT" for h in Q["htypes"])

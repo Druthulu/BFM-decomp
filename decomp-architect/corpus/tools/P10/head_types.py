@@ -6,6 +6,9 @@ For each --type, read the record from the struct map (.run/P37/census/struct_map
 maximising the summed site count by weighted interval scheduling), render the typedef with struct_layout.render_struct, and
 write the per-offset decision record. --header / --decisions rewrite only the text between the marker lines; a missing file is
 created with its hand-written skeleton. Flat structs only (the rewriter spells flat members; no unions, no nesting).
+Retired for include/struct_types.h (P3.45 T6): its head_types block (last written at 1a65f29eb1, P3.39 T3.c6) and the hand-copied
+T2 region are hand-edited since, each marked by one `/* provenance (<block>): … */` line; --header / --add-pads refuse that path
+(exit 2). Other --header paths (a scratch per-type header) still work.
 
   .venv/bin/python tools/head_types.py [--type NAME ...] [--map PATH] [--header PATH] [--decisions PATH] [--selftest]
   .venv/bin/python tools/head_types.py --header PATH --add-pads CANDIDATES.json   # additive: pad splits only (P39 T3.c6)
@@ -24,6 +27,7 @@ DEFAULT_TYPES = ("Unkstruct_800B5CB8", "Unkstruct_80126B58")
 SIGN_ORDER = {"s": 0, "u": 1, "p": 2}
 C_BEGIN, C_END = "/* head_types:begin */", "/* head_types:end */"
 MD_BEGIN, MD_END = "<!-- head_types:begin -->", "<!-- head_types:end -->"
+RETIRED_HEADER = REPO / "include" / "struct_types.h"     # P3.45 T6: --header / --add-pads refuse it (rc 2)
 
 C_SKELETON = f"""/* include/struct_types.h — the struct map's canonical layouts (P38 T3). One definition per type, visible to every space through common.h. Generated block below is written by tools/head_types.py from .run/P37/census/struct_map.json; hand-written text outside the markers survives regeneration. Naming law G62: Unkstruct_<addr>, unkHEX fields, 0xNN offset comments. */
 #ifndef STRUCT_TYPES_H
@@ -286,6 +290,11 @@ def main():
     a =ap.parse_args()
     if a.selftest:
         return selftest()
+    hp = a.header and (REPO / a.header if not pathlib.Path(a.header).is_absolute() else pathlib.Path(a.header)).resolve()
+    if hp and hp == RETIRED_HEADER.resolve():
+        print(f"head_types: REFUSED: {a.header} is include/struct_types.h — generator retired P3.45 T6 (its head_types block is "
+              "hand-edited since; see its provenance line); --header/--add-pads write only other headers", file=sys.stderr)
+        return 2
     if a.add_pads:
         if not a.header:
             sys.exit("head_types: --add-pads needs --header")

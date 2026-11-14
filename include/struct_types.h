@@ -1,8 +1,8 @@
-/* include/struct_types.h — the struct map's canonical layouts (P38 T3). One definition per type, visible to every space through common.h. Generated block below is written by tools/head_types.py from .run/P37/census/struct_map.json; hand-written text outside the markers survives regeneration. Naming law G62: Unkstruct_<addr>, unkHEX fields, 0xNN offset comments. */
+/* include/struct_types.h — the struct map's canonical layouts (P38 T3). One definition per type, visible to every space through common.h. Hand-edited throughout: the formerly generated blocks each open with one `provenance (<block>):` comment line (generators retired P3.45 T6). Naming law G62: Unkstruct_<addr>, unkHEX fields, 0xNN offset comments. */
 #ifndef STRUCT_TYPES_H
 #define STRUCT_TYPES_H
 
-/* head_types:begin */
+/* provenance (head_types): tools/head_types.py --header (was the head_types marker block, from .run/P37/census/struct_map.json), last ran at 1a65f29eb1 (P3.39 T3.c6, --add-pads); generator retired P3.45 T6; hand-edited since */
 typedef struct {
     /* P37 struct map: 107580 sites in 11184 bodies; evidence {'PV': 4724, 'L': 9203, 'PTR': 9757, 'AT': 266, 'P': 4724, 'R': 86, 'FLD': 119}; at D_800B5CB8,D_800D3888,D_80181448; resolved by tools/head_types.py (max-site split); decisions: docs/struct-map-decisions.md */
     /* 0x0000 */ u16 unk0;
@@ -322,7 +322,6 @@ typedef struct {
     /* 0x0248 */ u16 unk248;
     /* 0x024a */ s16 unk24A;
 } Unkstruct_80126B58; /* size = 0x24c */
-/* head_types:end */
 
 /* Unkstruct_80078E78 — the player record at 0x80078E78 (guess_g_PlayerRecord; 0x98 bytes; was Blk98_80029274 in src/800.c, Blk80078E78 in
    src/resident/resident_jr_800D00E4.c, u8 guess_g_PlayerRecord[] in 880 TUs). Hand-written (P38 T3): field widths are the type the
@@ -2886,10 +2885,7 @@ typedef Unkstruct_8017D2A4 W16;
 typedef E4 W32;
 typedef struct { u8  v; } W8;
 
-/* --- T2 (P3.40) canonical definitions: one per `define` target of config/type_folds.tsv, flat max-site layout from
-   .run/P37/census/struct_map.json, renamed to the target. Generator: tools/head_types.py --type <map type>
-   --map .run/P37/census/struct_map.json --header .run/P40/t2/per/<map type>.h
-   --decisions .run/P40/t2/per/<map type>.md, one run per type (hand-copied; outside the head_types markers). Order: by name. --- */
+/* provenance (head_types-hand): T2 (P3.40) canonical definitions, one per `define` target of config/type_folds.tsv, flat max-site layout renamed to the target, by tools/head_types.py --type <map type> --map .run/P37/census/struct_map.json --header .run/P40/t2/per/<map type>.h, one run per type, hand-copied at 504802c32e (P3.40 T2.c2); order: by name; generator retired P3.45 T6; hand-edited since */
 typedef struct {
     /* Unkstruct_8011F7A8: P37 struct map 1742 sites in 270 bodies; evidence {'L': 18, 'AT': 1}; type_folds.tsv evidence E2-anchor; P3.40 T2 */
     /* 0x0000 */ u8 pad0[0x7];
@@ -3753,7 +3749,7 @@ typedef struct {
     /* 0x00a2 */ s16 unkA2;
 } Unkstruct_8017D120; /* size = 0xa4 */
 
-/* T3 (P3.40) band defs:begin — restruct.py --decide-band --write; generated, ordered by band rank */
+/* provenance (restruct-band): T3 (P3.40) band defs by tools/restruct.py --decide-band --write, ordered by band rank, last ran at 3cf41bbd60 (P3.40 T3.c3, --ranks 1835-6676); generator retired P3.45 T6; hand-edited since */
 typedef struct {
     /* Unkstruct_36c327cf: P3.40 T3 band rank 5; 762 TNC sites in 127 bodies; struct map 762 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0x14];
@@ -35539,9 +35535,8 @@ typedef struct {
     /* 0x0000 */ u8 pad0[0x1e];
     /* 0x001e */ u16 unk1E;
 } Unkstruct_800CB0C8_3; /* size = 0x20 */
-/* T3 band defs:end */
 
-/* T17 (P3.40) drift defs:begin — restruct.py --decide-band --ranks drift --write; generated, ordered by drift rank */
+/* provenance (restruct-drift): T17 (P3.40) drift defs by tools/restruct.py --decide-band --ranks drift --write, ordered by drift rank, last ran at 4771a92d03 (P3.40 T17.c6); generator retired P3.45 T6; hand-edited since */
 typedef struct {
     /* Unkstruct_8a49cd6b: P3.40 T17 drift rank 1; 5 TNC sites in 1 bodies; struct map 5 sites; restruct.py --decide-band */
     /* 0x0000 */ u16 unk0;
@@ -36109,7 +36104,6 @@ typedef struct {
     /* 0x0000 */ u8 pad0[0x76];
     /* 0x0076 */ s16 unk76;
 } Unkstruct_8017ED28; /* size = 0x78 */
-/* T17 drift defs:end */
 
 /* --- lift_types.py --census (P38 T5.1.c2, batch all) --- */
 typedef struct { u32 tag; u32 code; } DM_249F0_t;

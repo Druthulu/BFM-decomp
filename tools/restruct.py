@@ -4419,7 +4419,7 @@ def apply_batch(a):
 
 # ----------------------------------------------------------------------------------------------------------------------
 # P3.40 T3: the TNC band — frozen once (--freeze-band -> config/tnc_band.tsv), then a mechanised fold|residual|define decision per band
-# type (--decide-band; rules: docs/ops/p40-t3-band-decisions.md). Rows go to config/type_folds.tsv, define defs to include/struct_types.h.
+# type (--decide-band; rules: docs/ops/p40-t3-band-decisions.md). Rows go to config/type_folds.tsv, define defs to include/struct_types.h (--write retired P3.45 T6: rc 2).
 # ----------------------------------------------------------------------------------------------------------------------
 TNC_BAND_FILE = REPO / "config" / "tnc_band.tsv"
 BAND_PCT = 95
@@ -4749,8 +4749,14 @@ def single_site_defines(ds_, rows):
 def decide_band_cmd(a):
     """--decide-band --ranks A-B|tail|drift [--write]: dry run prints counts + writes .run/P40/t3/decide_<ranks>.tsv (drift:
     .run/P40/t17/); --write appends the rows to config/type_folds.tsv (one `# T3` / `# T17 drift` block) and the define typedefs to
-    include/struct_types.h (drift: its own T17 marker block). drift refuses --write (rc 2) above DRIFT_MAX_SINGLE single-site defines."""
+    include/struct_types.h (drift: its own T17 marker block). drift refuses --write (rc 2) above DRIFT_MAX_SINGLE single-site defines.
+    P3.45 T6: the generator is retired (its marker blocks are provenance lines, hand-edited since): --write refuses (rc 2) before
+    reading or writing anything; the dry run is unchanged."""
     global _folds
+    if a.write:
+        print("restruct --decide-band: REFUSED --write: generator retired P3.45 T6 (include/struct_types.h's band/drift blocks are "
+              "hand-edited since; see their provenance lines) — nothing written")
+        return 2
     band, band_n = load_band()
     smap, folds = struct_map(), type_folds()
     drift = a.ranks == "drift"
@@ -6328,10 +6334,10 @@ def main():
     ap.add_argument("--freeze-band", action="store_true", help="P3.40 T3: write config/tnc_band.tsv once (every TNC map type ranked; the 95 %% band "
                     "cutoff; totals must equal the census's residue_census.json tnc)")
     ap.add_argument("--decide-band", action="store_true", help="P3.40 T3: decide fold|residual|define for the band rows of --ranks without a "
-                    "type_folds row (dry run: counts + .run/P40/t3/decide_<ranks>.tsv; --write appends type_folds.tsv + struct_types.h)")
+                    "type_folds row (dry run: counts + .run/P40/t3/decide_<ranks>.tsv; --write: retired P3.45 T6, rc 2)")
     ap.add_argument("--ranks", help="--decide-band: A-B (band ranks), tail (residual TYPE-BELOW-BAND rows) or drift (P3.40 T17: TNC types "
                     "in no tnc_band.tsv row and no type_folds row; --write refused above 500 single-site defines)")
-    ap.add_argument("--write", action="store_true", help="--decide-band: append the decisions (default: dry run)")
+    ap.add_argument("--write", action="store_true", help="--decide-band: append the decisions (default: dry run); retired P3.45 T6: refused, rc 2")
     ap.add_argument("--check-residue", action="store_true", help="census sites of --forms (--only, default ov_*) not covered PER SITE by a RESIDUAL(<cause>) entry "
                     "(same form, normalised base, off; one entry per site) of their body's latest rung-S row; exit 1 if any")
     ap.add_argument("--forms", default=None, help="--residue/--restamp/--check-residue: raw census forms, comma list of P,I,X,M (default P,X); "
