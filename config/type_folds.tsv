@@ -4345,7 +4345,7 @@ Unkstruct_801701C8	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_801701C
 Unkstruct_80172170	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80172170 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_80172ACC	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80172ACC pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_80173824	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017385C pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_80176D94	residual	TYPE-CANON-TWIN	layout-twin:Blk16_8018A8B8	the flat def would form a tier-1 dup class with canonical Blk16_8018A8B8; no fold (G62: layout identity is no entity evidence)
+Unkstruct_80176D94	residual	TYPE-CANON-TWIN	layout-twin:Prim_1412A8	the flat def would form a tier-1 dup class with canonical Prim_1412A8; no fold (G62: layout identity is no entity evidence)
 Unkstruct_80177784	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80177784 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_8017BB34	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017BB34_4 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_8017BEBC	residual	TYPE-SCALAR	layout:one-field@0	layout class TYPE-SCALAR (struct_map record)

@@ -811,7 +811,7 @@ extern s32 func_8002A9A8(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A748(void);
 extern s32 func_8002A738(void);
-extern Blk16_8018A8B8 *guess_DrawGaugeBar(int, int, int, int, int, int);
+extern Prim_1412A8 *guess_DrawGaugeBar(int, int, int, int, int, int);
 extern int func_80141100(int param_1);
 extern void func_800291A0(s32, s32);
 extern s32 func_800291DC(s32);

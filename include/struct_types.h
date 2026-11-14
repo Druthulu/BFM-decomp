@@ -396,7 +396,8 @@ typedef struct {
     u8 c[8];
 } Blk8_801867AC;
 typedef Blk8_801867AC Blk8;
-typedef Blk16_8018A8B8 Blk16;
+typedef struct { u32 tag; u32 w1; u32 w2; u32 w3; } Prim_1412A8;
+typedef Prim_1412A8 Blk16;
 typedef struct { s32 vpx, vpy, vpz, vrx, vry, vrz, rz, super; } RView;
 typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
 typedef Blk20_8016DF5C Blk32;
@@ -531,7 +532,7 @@ typedef struct {
     unsigned int len : 8;
 } PrimTag;
 typedef PrimTag PTag;
-typedef Blk16_8018A8B8 St801D9204;
+typedef Prim_1412A8 St801D9204;
 typedef E4 Unkstruct_801151D0;
 typedef struct {
     /* 0x0000 */ s32 vx;
@@ -1457,7 +1458,7 @@ typedef struct {
     u8 pad04[0x16];
     A098Rec rec[1];
 } A098Ctx;
-typedef Blk16_8018A8B8 B16x;
+typedef Prim_1412A8 B16x;
 typedef struct { u8 b0, b1, b2, b3; } BYTES_800CFAD0;
 typedef struct {
     u32 a, b, c;

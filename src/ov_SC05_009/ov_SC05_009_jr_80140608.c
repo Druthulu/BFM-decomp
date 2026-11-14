@@ -1056,7 +1056,7 @@ extern s32 func_8002A9A8(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A748(void);
 extern s32 func_8002A738(void);
-extern Blk16_8018A8B8 * guess_DrawGaugeBar(Blk16_8018A8B8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
+extern Prim_1412A8 * guess_DrawGaugeBar(Prim_1412A8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
 
 #include "../shared/ov/func_80141100__110c9682.h"
 
