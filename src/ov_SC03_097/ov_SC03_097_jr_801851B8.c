@@ -3225,7 +3225,7 @@ extern void func_8014ADA8(s32 a0, s32 a1);
     extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     void func_80185AA0(s32 arg0) {
         s32 temp_v0 = ((Unkstruct_80180C14_2 *)arg0)->unkDC;
-        ((void (*)(void *, s32))func_8014ADA8)((void *)&guess_g_PlayerActor, ((Unkstruct_80180C14 *)temp_v0)->unkC);
+        ((void (*)(void *, s32))func_8014ADA8)((void *)&guess_g_PlayerActor, ((Unkstruct_8017E270_2 *)temp_v0)->unkC);
     }
 
 
